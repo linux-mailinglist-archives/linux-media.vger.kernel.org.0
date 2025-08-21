@@ -1,94 +1,66 @@
-Return-Path: <linux-media+bounces-40495-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40496-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8795BB2E84A
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 00:47:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 498C3B2E942
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 02:10:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 259391CC2948
-	for <lists+linux-media@lfdr.de>; Wed, 20 Aug 2025 22:47:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 09E745E2D23
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 00:10:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97CD12DAFAF;
-	Wed, 20 Aug 2025 22:46:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F266376C61;
+	Thu, 21 Aug 2025 00:10:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k8wJLVc1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SG//Vw4f"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B17D2D63E8
-	for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 22:46:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6930C3FB1B;
+	Thu, 21 Aug 2025 00:10:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755730016; cv=none; b=QFAjxSz4rEsMvszmAWn1xmapbe6hNIOkN/RdZL9SjviSP+ML+sZJCy2ACe6FrSWvibRezDUgRW204sleZ1jlpp3SX1WyGW4AN2e8U4lTzfmqZM2MfkNR4LrCCMC2NAds2mum9+0wdUKNwWSwUHnoK9p6S1klL3rntPcjeuKLocg=
+	t=1755735012; cv=none; b=fkhQAj0AlDJ8KjzAZNWwggyU1zBt3oblaiamxzZamB2calDD6YK8brRBKrQx36ASW+2GTNPun60CknE6OtaoJUOEkanuY0DJwLUgRsNTbHhdzmm3k0JNPpN9vOhJCW+rS1iKwWTiT1HBNRqlmded6pjT4ODiAjMx3Nt0g7YxIQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755730016; c=relaxed/simple;
-	bh=nyxSzy6UEDF17Psx4F15fAyaMy1I11yFaPEYQv22Q74=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=taDAEHvGNr8D5VJesPU7ua3lpFs5mkphkcf1dkRIJ0rJhDKq/1e7DQgaLH6OL1sRbLriMGk4F7gPGFJVE/JdE0jqeNkmgJ5Z8gaes3AJFWUAhc8OI0ffuU5i7/auzfKliju1NvVA71mFPiJIzUeM+6psorzYuH7rjpoj/+Khl84=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k8wJLVc1; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-55ce522ffb7so15214e87.1
-        for <linux-media@vger.kernel.org>; Wed, 20 Aug 2025 15:46:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755730011; x=1756334811; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4nWOJMO8xIRESxshnURmi98+JULGLkCoaGaIsn0LuQk=;
-        b=k8wJLVc18XyiGWS3tjdPX9q1hXYFNjVC2IF2lJ8DyBTK66tLppP9dMTOkYH2iE5iFy
-         xhMDSgMDdCauRTe6EIPKG7tAjNM4kxpsUVSVa9cxz+QJJfJ0DlhyEMTCGI9AlZlI8spx
-         +fxkk53A4hSHij7pk/p45xTnFreEQsEw+88QOGVTNzNb9xTteeGoDBhjle10XGdYC/h6
-         Xfxs1hmIUIqQpQopoWjWXQzaIjv+SYi9Cr63HL4pZZtiImJwSii7W2h40zvRBPkO6YxU
-         kCdFxLF3O8tU5WHT5IPR/wmQ+Ug0yFEZtKBIvuqGPzmFSt6OoD6VDmIWxU5JLznpVo9E
-         ZSng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755730011; x=1756334811;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4nWOJMO8xIRESxshnURmi98+JULGLkCoaGaIsn0LuQk=;
-        b=H/klgPTMRKav2EXZ7KNR4AaI7W4XGeJ2/7Kn9zEjBncVdbxt2Ful0pDaMVaBbb4I2o
-         rumljC3OxKai6ciVdhNTM1TvgSf9pAS1R64Pz87/AyNEj4wPiHkcTmIr0na7Xn4V4yZg
-         znuMJHCtmBvfVaz6B7EVkhfpXexWsIzI5ZC5Fna+3d4b6ZBM02wsFT9+dU/lBJ+gqwBx
-         kocrTAi5K5zqB2p5fGh7fzPjbjiUz3DZc6fMulnGD6HrGs5spp8XrjYLyhx9XpSgNaTp
-         EHauMveWVkSPSXqtxdUjR0aA3dB4byJes27X/jH5my9THi1CvtHCkqciI0OHbyyUmXoR
-         q00A==
-X-Forwarded-Encrypted: i=1; AJvYcCU1fmv8pcdAO8nLx4hYzC1e5Fkw0V2f/tU2FgjK3lLt+d23vCdXQ9GsCxYBuCYzJscgBAd6jp8glYaPZg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxxzmQg3rGavSD4WjJE/IPrshWwyG0ECtRnMtL85mrdED2NX5B4
-	/IJTfrlD0t2xkM9KtQ3DObMDqYrtz/IFn86f7KYals3rRWQYebsljA6kFmB/vXRL9B0=
-X-Gm-Gg: ASbGncuFV3iqCR9RoX9ABVPsTwRyhRstRMP2Ty85N//Wus1OrqScpGzNvcaF1vyl47v
-	Fg7Hj1gs9VzZcxGd0nreDQ5dw30VfLCu99i+0anu4GpD37Rh5PV8tgaHp0UgkHI26IoHrso7Sll
-	Z4X810hgqH08GkdowpsFtWDMg8Q8sXU1Km8ZdvlirNmYDYG+WM6Gtk1XSAFHdXxbcTp3EFNlZMj
-	5d8994+ffykyCl4FefRaZpHPCuF+cMN1T4AFeamOgnDRnHhXzN+3l6UylDvatPg7xTIOvfN5/nt
-	NUDlrMLkE5ar/tP/WqWZjRWYKxlZg9MLiFLNVdL1/drC6FVS2FUG0CBjHs1R9Eef3l9DGLj1X44
-	K37LNAZQ+DSc0Vft19ZxapgikSNZo3vOnyOIFkmU7HXlM8BBLe4BudyhVcEFMcplYXzaZ5vY=
-X-Google-Smtp-Source: AGHT+IHY/ctklFDDdtjIzRGYMP8bAn2H4rYc2/eLu8zMKOebjhK7Rb0i/FVZLSWAfpiPdYTLMp2/DA==
-X-Received: by 2002:a05:6512:3c82:b0:55b:8038:ffb9 with SMTP id 2adb3069b0e04-55e0d502211mr83739e87.2.1755730011223;
-        Wed, 20 Aug 2025 15:46:51 -0700 (PDT)
-Received: from thyme.local (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55cef3ccdfesm2841413e87.91.2025.08.20.15.46.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 20 Aug 2025 15:46:50 -0700 (PDT)
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	s=arc-20240116; t=1755735012; c=relaxed/simple;
+	bh=8ClzBERjiu/dcdsv4dci9I660kzzTd9ObtnQJZj6cP0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lX7GsxFjV0cqXytO2E5kxAMHj8fMPlDvYXveIKDBUHTsOA4rTxeOkg1W2E82YQaixKRwvgLMcgKP6i2rc87I32M7NzmPJTMMrDOg50NDiUoaHstqlZXtLXU3XtsQmcLBSMtmNCzg6ZzIwu9HYA2lAy22bAiBF4QncGv2aN5G9go=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SG//Vw4f; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 52B171026;
+	Thu, 21 Aug 2025 02:09:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755734949;
+	bh=8ClzBERjiu/dcdsv4dci9I660kzzTd9ObtnQJZj6cP0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=SG//Vw4f7pTlBq2sQTDb6r5nhjllRmCn5/QKhcu5ggQMOcaDzpSS2l7VnIUEwKMjW
+	 ZazqAHsngmIRZbWnEfzgj46tmXOp8XXNjZtTWjL+rLvigmY/MgIvVnaTJEBL9qGoY8
+	 ZQXxN4w5PNm+Zcfcw1D/AT7yuGMPbeSoXsieD2SU=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-media@vger.kernel.org
+Cc: Isaac Scott <isaac.scott@ideasonboard.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
-	Tarang Raval <tarang.raval@siliconsignals.io>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org
-Subject: [PATCH 2/2] media: i2c: Add OmniVision OG0VE1B camera sensor
-Date: Thu, 21 Aug 2025 01:46:46 +0300
-Message-ID: <20250820224646.130270-3-vladimir.zapolskiy@linaro.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250820224646.130270-1-vladimir.zapolskiy@linaro.org>
-References: <20250820224646.130270-1-vladimir.zapolskiy@linaro.org>
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v2 00/12] media: imx-mipi-csis: Cleanups and debugging improvements
+Date: Thu, 21 Aug 2025 03:09:32 +0300
+Message-ID: <20250821000944.27849-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.49.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -97,936 +69,71 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-OmniVision OG0VE1B is a monochrome image sensor, which produces frames in
-8/10-bit raw output format and supports 640x480, 400x400, 200x200 and
-100x100 output image resolution modes.
+Hello,
 
-Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
----
- MAINTAINERS                 |   8 +
- drivers/media/i2c/Kconfig   |  10 +
- drivers/media/i2c/Makefile  |   1 +
- drivers/media/i2c/og0ve1b.c | 858 ++++++++++++++++++++++++++++++++++++
- 4 files changed, 877 insertions(+)
- create mode 100644 drivers/media/i2c/og0ve1b.c
+This patch series bring a few miscellaneous improvements to the
+imx-mipi-csis driver, and in particular improves the debugging
+infrastructure.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index fe168477caa4..e8d64e54b290 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -18581,6 +18581,14 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/media/i2c/ovti,og01a1b.yaml
- F:	drivers/media/i2c/og01a1b.c
- 
-+OMNIVISION OG0VE1B SENSOR DRIVER
-+M:	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+T:	git git://linuxtv.org/media_tree.git
-+F:	Documentation/devicetree/bindings/media/i2c/ovti,og0ve1b.yaml
-+F:	drivers/media/i2c/og0ve1b.c
-+
- OMNIVISION OV01A10 SENSOR DRIVER
- M:	Bingbu Cao <bingbu.cao@intel.com>
- L:	linux-media@vger.kernel.org
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 1f5a3082ead9..eb46aa2b0af2 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -340,6 +340,16 @@ config VIDEO_OG01A1B
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called og01a1b.
- 
-+config VIDEO_OG0VE1B
-+	tristate "OmniVision OG0VE1B sensor support"
-+	select V4L2_CCI_I2C
-+	help
-+	  This is a Video4Linux2 sensor driver for the OmniVision
-+	  OG0VE1B camera.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called og0ve1b.
-+
- config VIDEO_OV01A10
- 	tristate "OmniVision OV01A10 sensor support"
- 	help
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index 5873d29433ee..ac80d85f18b1 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -81,6 +81,7 @@ obj-$(CONFIG_VIDEO_MT9V011) += mt9v011.o
- obj-$(CONFIG_VIDEO_MT9V032) += mt9v032.o
- obj-$(CONFIG_VIDEO_MT9V111) += mt9v111.o
- obj-$(CONFIG_VIDEO_OG01A1B) += og01a1b.o
-+obj-$(CONFIG_VIDEO_OG0VE1B) += og0ve1b.o
- obj-$(CONFIG_VIDEO_OV01A10) += ov01a10.o
- obj-$(CONFIG_VIDEO_OV02A10) += ov02a10.o
- obj-$(CONFIG_VIDEO_OV02C10) += ov02c10.o
-diff --git a/drivers/media/i2c/og0ve1b.c b/drivers/media/i2c/og0ve1b.c
-new file mode 100644
-index 000000000000..4cea9bf545de
---- /dev/null
-+++ b/drivers/media/i2c/og0ve1b.c
-@@ -0,0 +1,858 @@
-+// SPDX-License-Identifier: GPL-2.0
-+// Copyright (c) 2024-2025 Linaro Ltd
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
-+#include <media/v4l2-cci.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
-+
-+#define OG0VE1B_LINK_FREQ_500MHZ	500000000ULL
-+#define OG0VE1B_MCLK_FREQ_24MHZ		24000000
-+
-+#define OG0VE1B_REG_CHIP_ID		CCI_REG24(0x300a)
-+#define OG0VE1B_CHIP_ID			0xc75645
-+
-+#define OG0VE1B_REG_MODE_SELECT		CCI_REG8(0x0100)
-+#define OG0VE1B_MODE_STANDBY		0x00
-+#define OG0VE1B_MODE_STREAMING		0x01
-+
-+#define OG0VE1B_REG_SOFTWARE_RST	CCI_REG8(0x0103)
-+#define OG0VE1B_SOFTWARE_RST		0x01
-+
-+/* Exposure controls from sensor */
-+#define OG0VE1B_REG_EXPOSURE		CCI_REG24(0x3500)
-+#define OG0VE1B_EXPOSURE_MIN		1
-+#define OG0VE1B_EXPOSURE_MAX_MARGIN	14
-+#define OG0VE1B_EXPOSURE_STEP		1
-+#define OG0VE1B_EXPOSURE_DEFAULT	554
-+
-+/* Analogue gain controls from sensor */
-+#define OG0VE1B_REG_ANALOGUE_GAIN	CCI_REG16(0x350a)
-+#define OG0VE1B_ANALOGUE_GAIN_MIN	1
-+#define OG0VE1B_ANALOGUE_GAIN_MAX	0x1ff
-+#define OG0VE1B_ANALOGUE_GAIN_STEP	1
-+#define OG0VE1B_ANALOGUE_GAIN_DEFAULT	0x10
-+
-+/* Test pattern */
-+#define OG0VE1B_REG_PRE_ISP		CCI_REG8(0x5e00)
-+#define OG0VE1B_TEST_PATTERN_ENABLE	BIT(7)
-+
-+#define to_og0ve1b(_sd)			container_of(_sd, struct og0ve1b, sd)
-+
-+struct og0ve1b_reg_list {
-+	const struct cci_reg_sequence *regs;
-+	unsigned int num_regs;
-+};
-+
-+struct og0ve1b_mode {
-+	u32 width;	/* Frame width in pixels */
-+	u32 height;	/* Frame height in pixels */
-+	u32 hts;	/* Horizontal timing size */
-+	u32 vts;	/* Default vertical timing size */
-+	u32 bpp;	/* Bits per pixel */
-+
-+	const struct og0ve1b_reg_list reg_list;	/* Sensor register setting */
-+};
-+
-+static const s64 og0ve1b_link_freq_menu[] = {
-+	OG0VE1B_LINK_FREQ_500MHZ,
-+};
-+
-+static const char * const og0ve1b_test_pattern_menu[] = {
-+	"Disabled",
-+	"Vertical Colour Bars",
-+};
-+
-+static const struct cci_reg_sequence og0ve1b_640x480_120fps_mode[] = {
-+	{ CCI_REG8(0x30a0), 0x02 },
-+	{ CCI_REG8(0x30a1), 0x00 },
-+	{ CCI_REG8(0x30a2), 0x48 },
-+	{ CCI_REG8(0x30a3), 0x34 },
-+	{ CCI_REG8(0x30a4), 0xf7 },
-+	{ CCI_REG8(0x30a5), 0x00 },
-+	{ CCI_REG8(0x3082), 0x32 },
-+	{ CCI_REG8(0x3083), 0x01 },
-+	{ CCI_REG8(0x301c), 0xf0 },
-+	{ CCI_REG8(0x301e), 0x0b },
-+	{ CCI_REG8(0x3106), 0x10 },
-+	{ CCI_REG8(0x3708), 0x77 },
-+	{ CCI_REG8(0x3709), 0xf8 },
-+	{ CCI_REG8(0x3717), 0x00 },
-+	{ CCI_REG8(0x3782), 0x00 },
-+	{ CCI_REG8(0x3783), 0x47 },
-+	{ CCI_REG8(0x37a2), 0x00 },
-+	{ CCI_REG8(0x3503), 0x07 },
-+	{ CCI_REG8(0x3509), 0x10 },
-+	{ CCI_REG8(0x3600), 0x83 },
-+	{ CCI_REG8(0x3601), 0x21 },
-+	{ CCI_REG8(0x3602), 0xf1 },
-+	{ CCI_REG8(0x360a), 0x18 },
-+	{ CCI_REG8(0x360e), 0xb3 },
-+	{ CCI_REG8(0x3613), 0x20 },
-+	{ CCI_REG8(0x366a), 0x78 },
-+	{ CCI_REG8(0x3706), 0x63 },
-+	{ CCI_REG8(0x3713), 0x00 },
-+	{ CCI_REG8(0x3716), 0xb0 },
-+	{ CCI_REG8(0x37a1), 0x38 },
-+	{ CCI_REG8(0x3800), 0x00 },
-+	{ CCI_REG8(0x3801), 0x04 },
-+	{ CCI_REG8(0x3802), 0x00 },
-+	{ CCI_REG8(0x3803), 0x04 },
-+	{ CCI_REG8(0x3804), 0x02 },
-+	{ CCI_REG8(0x3805), 0x8b },
-+	{ CCI_REG8(0x3806), 0x01 },
-+	{ CCI_REG8(0x3807), 0xeb },
-+	{ CCI_REG8(0x3808), 0x02 },	/* output width */
-+	{ CCI_REG8(0x3809), 0x80 },
-+	{ CCI_REG8(0x380a), 0x01 },	/* output height */
-+	{ CCI_REG8(0x380b), 0xe0 },
-+	{ CCI_REG8(0x380c), 0x03 },	/* horizontal timing size */
-+	{ CCI_REG8(0x380d), 0x18 },
-+	{ CCI_REG8(0x380e), 0x02 },	/* vertical timing size */
-+	{ CCI_REG8(0x380f), 0x38 },
-+	{ CCI_REG8(0x3811), 0x04 },
-+	{ CCI_REG8(0x3813), 0x04 },
-+	{ CCI_REG8(0x3814), 0x11 },
-+	{ CCI_REG8(0x3815), 0x11 },
-+	{ CCI_REG8(0x3820), 0x00 },
-+	{ CCI_REG8(0x3821), 0x00 },
-+	{ CCI_REG8(0x3823), 0x04 },
-+	{ CCI_REG8(0x382a), 0x00 },
-+	{ CCI_REG8(0x382b), 0x03 },
-+	{ CCI_REG8(0x3840), 0x00 },
-+	{ CCI_REG8(0x389e), 0x00 },
-+	{ CCI_REG8(0x3c05), 0x08 },
-+	{ CCI_REG8(0x3c26), 0x02 },
-+	{ CCI_REG8(0x3c27), 0xc0 },
-+	{ CCI_REG8(0x3c28), 0x00 },
-+	{ CCI_REG8(0x3c29), 0x40 },
-+	{ CCI_REG8(0x3c2c), 0x00 },
-+	{ CCI_REG8(0x3c2d), 0x50 },
-+	{ CCI_REG8(0x3c2e), 0x02 },
-+	{ CCI_REG8(0x3c2f), 0x66 },
-+	{ CCI_REG8(0x3c33), 0x08 },
-+	{ CCI_REG8(0x3c35), 0x00 },
-+	{ CCI_REG8(0x3c36), 0x00 },
-+	{ CCI_REG8(0x3c37), 0x00 },
-+	{ CCI_REG8(0x3f52), 0x9b },
-+	{ CCI_REG8(0x4001), 0x42 },
-+	{ CCI_REG8(0x4004), 0x08 },
-+	{ CCI_REG8(0x4005), 0x00 },
-+	{ CCI_REG8(0x4007), 0x28 },
-+	{ CCI_REG8(0x4009), 0x40 },
-+	{ CCI_REG8(0x4307), 0x30 },
-+	{ CCI_REG8(0x4500), 0x80 },
-+	{ CCI_REG8(0x4501), 0x02 },
-+	{ CCI_REG8(0x4502), 0x47 },
-+	{ CCI_REG8(0x4504), 0x7f },
-+	{ CCI_REG8(0x4601), 0x48 },
-+	{ CCI_REG8(0x4800), 0x64 },
-+	{ CCI_REG8(0x4801), 0x0f },
-+	{ CCI_REG8(0x4806), 0x2f },
-+	{ CCI_REG8(0x4819), 0xaa },
-+	{ CCI_REG8(0x4823), 0x3e },
-+	{ CCI_REG8(0x5000), 0x85 },
-+	{ CCI_REG8(0x5e00), 0x0c },
-+	{ CCI_REG8(0x3899), 0x09 },
-+	{ CCI_REG8(0x4f00), 0x64 },
-+	{ CCI_REG8(0x4f02), 0x0a },
-+	{ CCI_REG8(0x4f05), 0x0e },
-+	{ CCI_REG8(0x4f06), 0x11 },
-+	{ CCI_REG8(0x4f08), 0x0b },
-+	{ CCI_REG8(0x4f0a), 0xc4 },
-+	{ CCI_REG8(0x4f20), 0x1f },
-+	{ CCI_REG8(0x4f25), 0x10 },
-+	{ CCI_REG8(0x3016), 0x10 },
-+	{ CCI_REG8(0x3017), 0x00 },
-+	{ CCI_REG8(0x3018), 0x00 },
-+	{ CCI_REG8(0x3019), 0x00 },
-+	{ CCI_REG8(0x301a), 0x00 },
-+	{ CCI_REG8(0x301b), 0x00 },
-+	{ CCI_REG8(0x301c), 0x72 },
-+	{ CCI_REG8(0x3037), 0x40 },
-+	{ CCI_REG8(0x4f2c), 0x00 },
-+	{ CCI_REG8(0x4f21), 0x00 },
-+	{ CCI_REG8(0x4f23), 0x00 },
-+	{ CCI_REG8(0x4f2a), 0x00 },
-+	{ CCI_REG8(0x3665), 0xe7 },
-+	{ CCI_REG8(0x3668), 0x48 },
-+	{ CCI_REG8(0x3671), 0x3c },
-+	{ CCI_REG8(0x389a), 0x02 },
-+	{ CCI_REG8(0x389b), 0x00 },
-+	{ CCI_REG8(0x303c), 0xa0 },
-+	{ CCI_REG8(0x300f), 0xf0 },
-+	{ CCI_REG8(0x304b), 0x0f },
-+	{ CCI_REG8(0x3662), 0x24 },
-+	{ CCI_REG8(0x3006), 0x40 },
-+	{ CCI_REG8(0x4f26), 0x45 },
-+	{ CCI_REG8(0x3607), 0x34 },
-+	{ CCI_REG8(0x3608), 0x01 },
-+	{ CCI_REG8(0x360a), 0x0c },
-+	{ CCI_REG8(0x360b), 0x86 },
-+	{ CCI_REG8(0x360c), 0xcc },
-+	{ CCI_REG8(0x3013), 0x00 },
-+	{ CCI_REG8(0x3083), 0x02 },
-+	{ CCI_REG8(0x3084), 0x12 },
-+	{ CCI_REG8(0x4601), 0x38 },
-+	{ CCI_REG8(0x366f), 0x3a },
-+	{ CCI_REG8(0x3713), 0x19 },
-+	{ CCI_REG8(0x37a2), 0x00 },
-+	{ CCI_REG8(0x3f43), 0x27 },
-+	{ CCI_REG8(0x3f45), 0x27 },
-+	{ CCI_REG8(0x3f47), 0x32 },
-+	{ CCI_REG8(0x3f49), 0x3e },
-+	{ CCI_REG8(0x3f4b), 0x20 },
-+	{ CCI_REG8(0x3f4d), 0x30 },
-+	{ CCI_REG8(0x4300), 0x3f },
-+	{ CCI_REG8(0x4009), 0x10 },
-+	{ CCI_REG8(0x3f02), 0x68 },
-+	{ CCI_REG8(0x3700), 0x8c },
-+	{ CCI_REG8(0x370b), 0x7e },
-+	{ CCI_REG8(0x3f47), 0x35 },
-+};
-+
-+static const struct og0ve1b_mode supported_modes[] = {
-+	{
-+		.width = 640,
-+		.height = 480,
-+		.hts = 792,
-+		.vts = 568,
-+		.bpp = 8,
-+		.reg_list = {
-+			.regs = og0ve1b_640x480_120fps_mode,
-+			.num_regs = ARRAY_SIZE(og0ve1b_640x480_120fps_mode),
-+		},
-+	},
-+};
-+
-+struct og0ve1b {
-+	struct device *dev;
-+	struct regmap *regmap;
-+	struct clk *xvclk;
-+	struct gpio_desc *reset_gpio;
-+	struct regulator *avdd;
-+	struct regulator *dovdd;
-+	struct regulator *dvdd;
-+
-+	struct v4l2_subdev sd;
-+	struct media_pad pad;
-+
-+	struct v4l2_ctrl_handler ctrl_handler;
-+
-+	/* Saved register value */
-+	u64 pre_isp;
-+};
-+
-+static int og0ve1b_enable_test_pattern(struct og0ve1b *og0ve1b, u32 pattern)
-+{
-+	u64 val = og0ve1b->pre_isp;
-+
-+	if (pattern)
-+		val |= OG0VE1B_TEST_PATTERN_ENABLE;
-+	else
-+		val &= ~OG0VE1B_TEST_PATTERN_ENABLE;
-+
-+	return cci_write(og0ve1b->regmap, OG0VE1B_REG_PRE_ISP, val, NULL);
-+}
-+
-+static int og0ve1b_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct og0ve1b *og0ve1b = container_of(ctrl->handler, struct og0ve1b,
-+					       ctrl_handler);
-+	int ret;
-+
-+	/* V4L2 controls are applied, when sensor is powered up for streaming */
-+	if (!pm_runtime_get_if_active(og0ve1b->dev))
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_ANALOGUE_GAIN:
-+		ret = cci_write(og0ve1b->regmap, OG0VE1B_REG_ANALOGUE_GAIN,
-+				ctrl->val, NULL);
-+		break;
-+	case V4L2_CID_EXPOSURE:
-+		ret = cci_write(og0ve1b->regmap, OG0VE1B_REG_EXPOSURE,
-+				ctrl->val << 4, NULL);
-+		break;
-+	case V4L2_CID_TEST_PATTERN:
-+		ret = og0ve1b_enable_test_pattern(og0ve1b, ctrl->val);
-+		break;
-+	default:
-+		ret = -EINVAL;
-+		break;
-+	}
-+
-+	pm_runtime_put(og0ve1b->dev);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_ctrl_ops og0ve1b_ctrl_ops = {
-+	.s_ctrl = og0ve1b_set_ctrl,
-+};
-+
-+static int og0ve1b_init_controls(struct og0ve1b *og0ve1b)
-+{
-+	struct v4l2_ctrl_handler *ctrl_hdlr = &og0ve1b->ctrl_handler;
-+	const struct og0ve1b_mode *mode = &supported_modes[0];
-+	struct v4l2_fwnode_device_properties props;
-+	s64 exposure_max, pixel_rate, h_blank;
-+	struct v4l2_ctrl *ctrl;
-+	int ret;
-+
-+	v4l2_ctrl_handler_init(ctrl_hdlr, 9);
-+
-+	ctrl = v4l2_ctrl_new_int_menu(ctrl_hdlr, &og0ve1b_ctrl_ops,
-+				      V4L2_CID_LINK_FREQ,
-+				      ARRAY_SIZE(og0ve1b_link_freq_menu) - 1,
-+				      0, og0ve1b_link_freq_menu);
-+	if (ctrl)
-+		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	pixel_rate = og0ve1b_link_freq_menu[0] / mode->bpp;
-+	v4l2_ctrl_new_std(ctrl_hdlr, &og0ve1b_ctrl_ops, V4L2_CID_PIXEL_RATE,
-+			  0, pixel_rate, 1, pixel_rate);
-+
-+	h_blank = mode->hts - mode->width;
-+	ctrl = v4l2_ctrl_new_std(ctrl_hdlr, &og0ve1b_ctrl_ops, V4L2_CID_HBLANK,
-+				 h_blank, h_blank, 1, h_blank);
-+	if (ctrl)
-+		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	ctrl = v4l2_ctrl_new_std(ctrl_hdlr, &og0ve1b_ctrl_ops, V4L2_CID_VBLANK,
-+				 mode->vts - mode->height,
-+				 mode->vts - mode->height, 1,
-+				 mode->vts - mode->height);
-+	if (ctrl)
-+		ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	v4l2_ctrl_new_std(ctrl_hdlr, &og0ve1b_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
-+			  OG0VE1B_ANALOGUE_GAIN_MIN, OG0VE1B_ANALOGUE_GAIN_MAX,
-+			  OG0VE1B_ANALOGUE_GAIN_STEP,
-+			  OG0VE1B_ANALOGUE_GAIN_DEFAULT);
-+
-+	exposure_max = (mode->vts - OG0VE1B_EXPOSURE_MAX_MARGIN);
-+	v4l2_ctrl_new_std(ctrl_hdlr, &og0ve1b_ctrl_ops,
-+			  V4L2_CID_EXPOSURE,
-+			  OG0VE1B_EXPOSURE_MIN, exposure_max,
-+			  OG0VE1B_EXPOSURE_STEP,
-+			  OG0VE1B_EXPOSURE_DEFAULT);
-+
-+	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &og0ve1b_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(og0ve1b_test_pattern_menu) - 1,
-+				     0, 0, og0ve1b_test_pattern_menu);
-+
-+	if (ctrl_hdlr->error)
-+		return ctrl_hdlr->error;
-+
-+	ret = v4l2_fwnode_device_parse(og0ve1b->dev, &props);
-+	if (ret)
-+		goto error_free_hdlr;
-+
-+	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &og0ve1b_ctrl_ops,
-+					      &props);
-+	if (ret)
-+		goto error_free_hdlr;
-+
-+	og0ve1b->sd.ctrl_handler = ctrl_hdlr;
-+
-+	return 0;
-+
-+error_free_hdlr:
-+	v4l2_ctrl_handler_free(ctrl_hdlr);
-+
-+	return ret;
-+}
-+
-+static void og0ve1b_update_pad_format(const struct og0ve1b_mode *mode,
-+				      struct v4l2_mbus_framefmt *fmt)
-+{
-+	fmt->code = MEDIA_BUS_FMT_Y8_1X8;
-+	fmt->width = mode->width;
-+	fmt->height = mode->height;
-+	fmt->field = V4L2_FIELD_NONE;
-+	fmt->colorspace = V4L2_COLORSPACE_RAW;
-+	fmt->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
-+	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
-+	fmt->xfer_func = V4L2_XFER_FUNC_NONE;
-+}
-+
-+static int og0ve1b_enable_streams(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state, u32 pad,
-+				  u64 streams_mask)
-+{
-+	const struct og0ve1b_reg_list *reg_list = &supported_modes[0].reg_list;
-+	struct og0ve1b *og0ve1b = to_og0ve1b(sd);
-+	int ret;
-+
-+	ret = pm_runtime_resume_and_get(og0ve1b->dev);
-+	if (ret)
-+		return ret;
-+
-+	/* Skip a step of explicit entering into the standby mode */
-+	ret = cci_write(og0ve1b->regmap, OG0VE1B_REG_SOFTWARE_RST,
-+			OG0VE1B_SOFTWARE_RST, NULL);
-+	if (ret) {
-+		dev_err(og0ve1b->dev, "failed to software reset: %d\n", ret);
-+		goto error;
-+	}
-+
-+	ret = cci_multi_reg_write(og0ve1b->regmap, reg_list->regs,
-+				  reg_list->num_regs, NULL);
-+	if (ret) {
-+		dev_err(og0ve1b->dev, "failed to set mode: %d\n", ret);
-+		goto error;
-+	}
-+
-+	ret = __v4l2_ctrl_handler_setup(og0ve1b->sd.ctrl_handler);
-+	if (ret)
-+		goto error;
-+
-+	ret = cci_write(og0ve1b->regmap, OG0VE1B_REG_MODE_SELECT,
-+			OG0VE1B_MODE_STREAMING, NULL);
-+	if (ret) {
-+		dev_err(og0ve1b->dev, "failed to start streaming: %d\n", ret);
-+		goto error;
-+	}
-+
-+	return 0;
-+
-+error:
-+	pm_runtime_put_autosuspend(og0ve1b->dev);
-+
-+	return ret;
-+}
-+
-+static int og0ve1b_disable_streams(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *state, u32 pad,
-+				   u64 streams_mask)
-+{
-+	struct og0ve1b *og0ve1b = to_og0ve1b(sd);
-+	int ret;
-+
-+	ret = cci_write(og0ve1b->regmap, OG0VE1B_REG_MODE_SELECT,
-+			OG0VE1B_MODE_STANDBY, NULL);
-+	if (ret)
-+		dev_err(og0ve1b->dev, "failed to stop streaming: %d\n", ret);
-+
-+	pm_runtime_put_autosuspend(og0ve1b->dev);
-+
-+	return ret;
-+}
-+
-+static int og0ve1b_set_pad_format(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *state,
-+				  struct v4l2_subdev_format *fmt)
-+{
-+	struct v4l2_mbus_framefmt *format;
-+	const struct og0ve1b_mode *mode;
-+
-+	format = v4l2_subdev_state_get_format(state, 0);
-+
-+	mode = v4l2_find_nearest_size(supported_modes,
-+				      ARRAY_SIZE(supported_modes),
-+				      width, height,
-+				      fmt->format.width,
-+				      fmt->format.height);
-+
-+	og0ve1b_update_pad_format(mode, &fmt->format);
-+	*format = fmt->format;
-+
-+	return 0;
-+}
-+
-+static int og0ve1b_enum_mbus_code(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_state *sd_state,
-+				  struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	if (code->index > 0)
-+		return -EINVAL;
-+
-+	code->code = MEDIA_BUS_FMT_Y8_1X8;
-+
-+	return 0;
-+}
-+
-+static int og0ve1b_enum_frame_size(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *sd_state,
-+				   struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	if (fse->index >= ARRAY_SIZE(supported_modes))
-+		return -EINVAL;
-+
-+	if (fse->code != MEDIA_BUS_FMT_Y8_1X8)
-+		return -EINVAL;
-+
-+	fse->min_width = supported_modes[fse->index].width;
-+	fse->max_width = fse->min_width;
-+	fse->min_height = supported_modes[fse->index].height;
-+	fse->max_height = fse->min_height;
-+
-+	return 0;
-+}
-+
-+static int og0ve1b_init_state(struct v4l2_subdev *sd,
-+			      struct v4l2_subdev_state *state)
-+{
-+	struct v4l2_subdev_format fmt = {
-+		.which = V4L2_SUBDEV_FORMAT_TRY,
-+		.pad = 0,
-+		.format = {
-+			.code = MEDIA_BUS_FMT_Y8_1X8,
-+			.width = supported_modes[0].width,
-+			.height = supported_modes[0].height,
-+		},
-+	};
-+
-+	og0ve1b_set_pad_format(sd, state, &fmt);
-+
-+	return 0;
-+}
-+
-+static const struct v4l2_subdev_video_ops og0ve1b_video_ops = {
-+	.s_stream = v4l2_subdev_s_stream_helper,
-+};
-+
-+static const struct v4l2_subdev_pad_ops og0ve1b_pad_ops = {
-+	.set_fmt = og0ve1b_set_pad_format,
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.enum_mbus_code = og0ve1b_enum_mbus_code,
-+	.enum_frame_size = og0ve1b_enum_frame_size,
-+	.enable_streams = og0ve1b_enable_streams,
-+	.disable_streams = og0ve1b_disable_streams,
-+};
-+
-+static const struct v4l2_subdev_ops og0ve1b_subdev_ops = {
-+	.video = &og0ve1b_video_ops,
-+	.pad = &og0ve1b_pad_ops,
-+};
-+
-+static const struct v4l2_subdev_internal_ops og0ve1b_internal_ops = {
-+	.init_state = og0ve1b_init_state,
-+};
-+
-+static const struct media_entity_operations og0ve1b_subdev_entity_ops = {
-+	.link_validate = v4l2_subdev_link_validate,
-+};
-+
-+static int og0ve1b_identify_module(struct og0ve1b *og0ve1b)
-+{
-+	u64 val;
-+	int ret;
-+
-+	ret = cci_read(og0ve1b->regmap, OG0VE1B_REG_CHIP_ID, &val, NULL);
-+	if (ret) {
-+		dev_err(og0ve1b->dev, "failed to read chip id: %d\n", ret);
-+		return ret;
-+	}
-+
-+	if (val != OG0VE1B_CHIP_ID) {
-+		dev_err(og0ve1b->dev, "chip id mismatch: %x!=%llx\n",
-+			OG0VE1B_CHIP_ID, val);
-+		return -ENODEV;
-+	}
-+
-+	ret = cci_read(og0ve1b->regmap, OG0VE1B_REG_PRE_ISP,
-+		       &og0ve1b->pre_isp, NULL);
-+	if (ret)
-+		dev_err(og0ve1b->dev, "failed to read pre_isp: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static int og0ve1b_check_hwcfg(struct og0ve1b *og0ve1b)
-+{
-+	struct fwnode_handle *fwnode = dev_fwnode(og0ve1b->dev), *ep;
-+	struct v4l2_fwnode_endpoint bus_cfg = {
-+		.bus_type = V4L2_MBUS_CSI2_DPHY,
-+	};
-+	unsigned long freq_bitmap;
-+	int ret;
-+
-+	if (!fwnode)
-+		return -ENODEV;
-+
-+	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
-+	if (!ep)
-+		return -EINVAL;
-+
-+	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-+	fwnode_handle_put(ep);
-+	if (ret)
-+		return ret;
-+
-+	ret = v4l2_link_freq_to_bitmap(og0ve1b->dev,
-+				       bus_cfg.link_frequencies,
-+				       bus_cfg.nr_of_link_frequencies,
-+				       og0ve1b_link_freq_menu,
-+				       ARRAY_SIZE(og0ve1b_link_freq_menu),
-+				       &freq_bitmap);
-+
-+	v4l2_fwnode_endpoint_free(&bus_cfg);
-+
-+	return ret;
-+}
-+
-+static int og0ve1b_power_on(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct og0ve1b *og0ve1b = to_og0ve1b(sd);
-+	int ret;
-+
-+	if (og0ve1b->avdd) {
-+		ret = regulator_enable(og0ve1b->avdd);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	if (og0ve1b->dovdd) {
-+		ret = regulator_enable(og0ve1b->dovdd);
-+		if (ret)
-+			goto avdd_disable;
-+	}
-+
-+	if (og0ve1b->dvdd) {
-+		ret = regulator_enable(og0ve1b->dvdd);
-+		if (ret)
-+			goto dovdd_disable;
-+	}
-+
-+	gpiod_set_value_cansleep(og0ve1b->reset_gpio, 0);
-+	usleep_range(10 * USEC_PER_MSEC, 15 * USEC_PER_MSEC);
-+
-+	ret = clk_prepare_enable(og0ve1b->xvclk);
-+	if (ret)
-+		goto reset_gpio;
-+
-+	return 0;
-+
-+reset_gpio:
-+	gpiod_set_value_cansleep(og0ve1b->reset_gpio, 1);
-+
-+	if (og0ve1b->dvdd)
-+		regulator_disable(og0ve1b->dvdd);
-+dovdd_disable:
-+	if (og0ve1b->dovdd)
-+		regulator_disable(og0ve1b->dovdd);
-+avdd_disable:
-+	if (og0ve1b->avdd)
-+		regulator_disable(og0ve1b->avdd);
-+
-+	return ret;
-+}
-+
-+static int og0ve1b_power_off(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct og0ve1b *og0ve1b = to_og0ve1b(sd);
-+
-+	clk_disable_unprepare(og0ve1b->xvclk);
-+
-+	gpiod_set_value_cansleep(og0ve1b->reset_gpio, 1);
-+
-+	if (og0ve1b->dvdd)
-+		regulator_disable(og0ve1b->dvdd);
-+
-+	if (og0ve1b->dovdd)
-+		regulator_disable(og0ve1b->dovdd);
-+
-+	if (og0ve1b->avdd)
-+		regulator_disable(og0ve1b->avdd);
-+
-+	return 0;
-+}
-+
-+static int og0ve1b_probe(struct i2c_client *client)
-+{
-+	struct og0ve1b *og0ve1b;
-+	unsigned long freq;
-+	int ret;
-+
-+	og0ve1b = devm_kzalloc(&client->dev, sizeof(*og0ve1b), GFP_KERNEL);
-+	if (!og0ve1b)
-+		return -ENOMEM;
-+
-+	og0ve1b->dev = &client->dev;
-+
-+	v4l2_i2c_subdev_init(&og0ve1b->sd, client, &og0ve1b_subdev_ops);
-+	og0ve1b->sd.dev = og0ve1b->dev;
-+
-+	og0ve1b->regmap = devm_cci_regmap_init_i2c(client, 16);
-+	if (IS_ERR(og0ve1b->regmap))
-+		return dev_err_probe(og0ve1b->dev, PTR_ERR(og0ve1b->regmap),
-+				     "failed to init CCI\n");
-+
-+	og0ve1b->xvclk = devm_v4l2_sensor_clk_get(og0ve1b->dev, NULL);
-+	if (IS_ERR(og0ve1b->xvclk))
-+		return dev_err_probe(og0ve1b->dev, PTR_ERR(og0ve1b->xvclk),
-+				     "failed to get XVCLK clock\n");
-+
-+	freq = clk_get_rate(og0ve1b->xvclk);
-+	if (freq && freq != OG0VE1B_MCLK_FREQ_24MHZ)
-+		return dev_err_probe(og0ve1b->dev, -EINVAL,
-+				     "XVCLK clock frequency %lu is not supported\n",
-+				     freq);
-+
-+	ret = og0ve1b_check_hwcfg(og0ve1b);
-+	if (ret)
-+		return dev_err_probe(og0ve1b->dev, ret,
-+				     "failed to check HW configuration\n");
-+
-+	og0ve1b->reset_gpio = devm_gpiod_get_optional(og0ve1b->dev, "reset",
-+						      GPIOD_OUT_HIGH);
-+	if (IS_ERR(og0ve1b->reset_gpio))
-+		return dev_err_probe(og0ve1b->dev, PTR_ERR(og0ve1b->reset_gpio),
-+				     "cannot get reset GPIO\n");
-+
-+	og0ve1b->avdd = devm_regulator_get_optional(og0ve1b->dev, "avdd");
-+	if (IS_ERR(og0ve1b->avdd)) {
-+		ret = PTR_ERR(og0ve1b->avdd);
-+		if (ret != -ENODEV)
-+			return dev_err_probe(og0ve1b->dev, ret,
-+					     "Failed to get avdd regulator\n");
-+
-+		og0ve1b->avdd = NULL;
-+	}
-+
-+	og0ve1b->dovdd = devm_regulator_get_optional(og0ve1b->dev, "dovdd");
-+	if (IS_ERR(og0ve1b->dovdd)) {
-+		ret = PTR_ERR(og0ve1b->dovdd);
-+		if (ret != -ENODEV)
-+			return dev_err_probe(og0ve1b->dev, ret,
-+					     "Failed to get dovdd regulator\n");
-+
-+		og0ve1b->dovdd = NULL;
-+	}
-+
-+	og0ve1b->dvdd = devm_regulator_get_optional(og0ve1b->dev, "dvdd");
-+	if (IS_ERR(og0ve1b->dvdd)) {
-+		ret = PTR_ERR(og0ve1b->dvdd);
-+		if (ret != -ENODEV)
-+			return dev_err_probe(og0ve1b->dev, ret,
-+					     "Failed to get dvdd regulator\n");
-+
-+		og0ve1b->dvdd = NULL;
-+	}
-+
-+	/* The sensor must be powered on to read the CHIP_ID register */
-+	ret = og0ve1b_power_on(og0ve1b->dev);
-+	if (ret)
-+		return ret;
-+
-+	ret = og0ve1b_identify_module(og0ve1b);
-+	if (ret) {
-+		dev_err_probe(og0ve1b->dev, ret, "failed to find sensor\n");
-+		goto power_off;
-+	}
-+
-+	ret = og0ve1b_init_controls(og0ve1b);
-+	if (ret) {
-+		dev_err_probe(og0ve1b->dev, ret, "failed to init controls\n");
-+		goto power_off;
-+	}
-+
-+	og0ve1b->sd.state_lock = og0ve1b->ctrl_handler.lock;
-+	og0ve1b->sd.internal_ops = &og0ve1b_internal_ops;
-+	og0ve1b->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	og0ve1b->sd.entity.ops = &og0ve1b_subdev_entity_ops;
-+	og0ve1b->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+	og0ve1b->pad.flags = MEDIA_PAD_FL_SOURCE;
-+
-+	ret = media_entity_pads_init(&og0ve1b->sd.entity, 1, &og0ve1b->pad);
-+	if (ret) {
-+		dev_err_probe(og0ve1b->dev, ret,
-+			      "failed to init media entity pads\n");
-+		goto v4l2_ctrl_handler_free;
-+	}
-+
-+	ret = v4l2_subdev_init_finalize(&og0ve1b->sd);
-+	if (ret < 0) {
-+		dev_err_probe(og0ve1b->dev, ret,
-+			      "failed to init media entity pads\n");
-+		goto media_entity_cleanup;
-+	}
-+
-+	pm_runtime_set_active(og0ve1b->dev);
-+	pm_runtime_enable(og0ve1b->dev);
-+
-+	ret = v4l2_async_register_subdev_sensor(&og0ve1b->sd);
-+	if (ret < 0) {
-+		dev_err_probe(og0ve1b->dev, ret,
-+			      "failed to register V4L2 subdev\n");
-+		goto subdev_cleanup;
-+	}
-+
-+	/* Enable runtime PM and turn off the device */
-+	pm_runtime_idle(og0ve1b->dev);
-+	pm_runtime_set_autosuspend_delay(og0ve1b->dev, 1000);
-+	pm_runtime_use_autosuspend(og0ve1b->dev);
-+
-+	return 0;
-+
-+subdev_cleanup:
-+	v4l2_subdev_cleanup(&og0ve1b->sd);
-+	pm_runtime_disable(og0ve1b->dev);
-+	pm_runtime_set_suspended(og0ve1b->dev);
-+
-+media_entity_cleanup:
-+	media_entity_cleanup(&og0ve1b->sd.entity);
-+
-+v4l2_ctrl_handler_free:
-+	v4l2_ctrl_handler_free(og0ve1b->sd.ctrl_handler);
-+
-+power_off:
-+	og0ve1b_power_off(og0ve1b->dev);
-+
-+	return ret;
-+}
-+
-+static void og0ve1b_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct og0ve1b *og0ve1b = to_og0ve1b(sd);
-+
-+	v4l2_async_unregister_subdev(sd);
-+	v4l2_subdev_cleanup(sd);
-+	media_entity_cleanup(&sd->entity);
-+	v4l2_ctrl_handler_free(sd->ctrl_handler);
-+	pm_runtime_disable(og0ve1b->dev);
-+
-+	if (!pm_runtime_status_suspended(og0ve1b->dev)) {
-+		og0ve1b_power_off(og0ve1b->dev);
-+		pm_runtime_set_suspended(og0ve1b->dev);
-+	}
-+}
-+
-+static const struct dev_pm_ops og0ve1b_pm_ops = {
-+	SET_RUNTIME_PM_OPS(og0ve1b_power_off, og0ve1b_power_on, NULL)
-+};
-+
-+static const struct of_device_id og0ve1b_of_match[] = {
-+	{ .compatible = "ovti,og0ve1b" },
-+	{ /* sentinel */ }
-+};
-+MODULE_DEVICE_TABLE(of, og0ve1b_of_match);
-+
-+static struct i2c_driver og0ve1b_i2c_driver = {
-+	.driver = {
-+		.name = "og0ve1b",
-+		.pm = &og0ve1b_pm_ops,
-+		.of_match_table = og0ve1b_of_match,
-+	},
-+	.probe = og0ve1b_probe,
-+	.remove = og0ve1b_remove,
-+};
-+
-+module_i2c_driver(og0ve1b_i2c_driver);
-+
-+MODULE_AUTHOR("Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>");
-+MODULE_DESCRIPTION("OmniVision OG0VE1B sensor driver");
-+MODULE_LICENSE("GPL");
+Patch 01/12 starts by making the v4l2_get_link_freq() function accept a
+const media_pad argument. This conflicts with [1], I don't mind rebasing
+on top of it. Sakari, if you plan to get that patch merged soon, feel
+free to take 01/12 too.
+
+The next three patches, 02/12 to 04/12, are small cleanups. They are new
+in this version of the series. Patch 05/12 then aligns the code with the
+reference manual for register field names, increasing readability of the
+driver when read alongside the hardware documentation. Patch 06/12 fixes
+a small alignment issue in register dumps, and patch 07/12 logs per-lane
+start of transmission error instead of supporting the first data lane
+only, easing debugging of D-PHY issues.
+
+The next two patches deprecate the clock-frequency DT property, which
+shouldn't have been added in the first place. Patch 08/12 improves
+handling of the clock frequency in the driver, and patch 09/12
+deprecates the property in the DT bindings. The driver still supports
+the property to ensure backward compatibility.
+
+The last three patches introduce support for multiple output channels
+and wire it up in the debugging infrastructure. The CSIS IP core
+supports up to 4 output channels, with the number of instantiated
+channels being a property of the SoC integration. So far, only the
+i.MX8MP is known to have multiple output channels. Patch 10/12 adds a
+corresponding DT property, and patch 11/12 adds initial support for that
+property in the driver, and uses it to dump per-channel registers and
+event counters. Finally, patch 12/12 sets the property in the i.MX8MP
+DT.
+
+[1] https://lore.kernel.org/linux-media/20250819094533.2335-3-sakari.ailus@linux.intel.com
+
+Laurent Pinchart (12):
+  media: v4l2-common: Constify media_pad argument to
+    v4l2_get_link_freq()
+  media: imx-mipi-csis: Simplify access to source pad
+  media: imx-mipi-csis: Standardize const keyword placement
+  media: imx-mipi-csis: Shorten name of subdev state variables
+  media: imx-mipi-csis: Rename register macros to match reference manual
+  media: imx-mipi-csis: Fix field alignment in register dump
+  media: imx-mipi-csis: Log per-lane start of transmission errors
+  media: imx-mipi-csis: Only set clock rate when specified in DT
+  dt-bindings: media: nxp,imx-mipi-csi2: Mark clock-frequency as
+    deprecated
+  dt-bindings: media: nxp,imx-mipi-csi2: Add fsl,num-channels property
+  media: imx-mipi-csis: Initial support for multiple output channels
+  arm64: dts: imx8mp: Specify the number of channels for CSI-2 receivers
+
+ .../bindings/media/nxp,imx-mipi-csi2.yaml     |  18 +-
+ arch/arm64/boot/dts/freescale/imx8mp.dtsi     |   2 +
+ drivers/media/platform/nxp/imx-mipi-csis.c    | 348 +++++++++++-------
+ drivers/media/v4l2-core/v4l2-common.c         |   2 +-
+ include/media/v4l2-common.h                   |   3 +-
+ 5 files changed, 230 insertions(+), 143 deletions(-)
+
+
+base-commit: a75b8d198c55e9eb5feb6f6e155496305caba2dc
 -- 
-2.49.0
+Regards,
+
+Laurent Pinchart
 
 
