@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-40571-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40572-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98CF8B2F87B
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 14:44:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB90CB2F883
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 14:45:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 60303AC4AD1
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 12:43:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 91F1C60401A
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 12:44:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 434AF32277F;
-	Thu, 21 Aug 2025 12:41:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E852E311C29;
+	Thu, 21 Aug 2025 12:42:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="K+dJIJQf"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="vD47oEj6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BE9B322765
-	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 12:41:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E616B311C12
+	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 12:42:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755780083; cv=none; b=ixnWBcYN8vQoODHFFy8uQ8MzqP1FTZuijDfLBW7Jc8eCNyrppTshbg0dAm9+131BtD8BJbo3yHaKj3K1Ekcbw4ZglPtONfuCmjBNCCGpHV4B/g/2kvHPojR/PyC7EE8l4q+G6u+jz4yB70Hu+bWLDleQ4pzuHOBT4owF+bg9l/A=
+	t=1755780134; cv=none; b=ffkOTBKXzoBDHmNM+s09r3YEX8xPJRpCQCxZjCwQ853PdmFnJrgKB7lC/UvgASKM3a/v8bHTBoGVtnjaP+rQqUbmVRsnLdxc+rHj3V8BfsvxxUH3sWx1Rn/oRMWlUOal1Wjp8e1CyQ+BpZOwp2iYeKsocNRwJrI0Pu/W8NpurII=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755780083; c=relaxed/simple;
-	bh=c3ToNwqDDuULk30ffxLvTFPn+y7HhJ7ngN5mIJAlygQ=;
+	s=arc-20240116; t=1755780134; c=relaxed/simple;
+	bh=NWGLoJYy2SHirvTpYESs2GWCBpV+Y5iYmGsOGUpauHQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=E9+J8U0WLY6xYizORPWnAa6qKnF3bVaKkmHKUVrFLeyIgxHEUJ9YAGK8lq+0iKEfBS7DQXv4hTsRRMSlLPIzjA64tTcL3JE8qgKdj0tSHTgUD5xx1XLqfoOoZYTBEdxNYCQ8hGqrB+SyLIx/OP2cyJp7l7osIjByngHsnH/8pKE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=K+dJIJQf; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jm85gzz/E00IwADYMmy5eR7IAzLx4Gc1HbHLo1jSPEt7jsmwc9tTbqhgBE0wIC2/+3P4sCEytdmk8rdqQ0/1YG6nora8RYhwzLZA5ZDCmHzNEUR8WlhoqKCsDPWrIl/W7/1BwlFbzpLcMLgAx5Iu3qdAcuBBuPYta1VbH0ueqlA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=vD47oEj6; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5FEF4EFF;
-	Thu, 21 Aug 2025 14:40:20 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 498A0EFF;
+	Thu, 21 Aug 2025 14:41:12 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755780020;
-	bh=c3ToNwqDDuULk30ffxLvTFPn+y7HhJ7ngN5mIJAlygQ=;
+	s=mail; t=1755780072;
+	bh=NWGLoJYy2SHirvTpYESs2GWCBpV+Y5iYmGsOGUpauHQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K+dJIJQfZEc4NTPyvawN+WrpDIJa0aeZ+e/QYWvXIJf5ME4oe7hybQG2aihHmp9gP
-	 z32gmv3MNgLMzBd1BykHrsX3T9rdQ3Mvcr7pvWrBYaEO+cKzJi2sju49S7TK4eoGc4
-	 8RnQC6IbrzxwkdDUywe6q6zE7jg5/2VyYE1aTxZk=
-Date: Thu, 21 Aug 2025 15:40:56 +0300
+	b=vD47oEj6lyT3PciTHc26QElU3cq8tg/y79J13cLsWU8dc2+CffBCNCisypQbyX2Pl
+	 SjQwijBEG4V21t/C66N/r0FriiEn6lufejBocwOcYdZxFmH7VG6j7pyCprnFGCsfnS
+	 rP3Rc2cai4RoVuiOQLn2m2o4LxSbHQjuyHOUyH1s=
+Date: Thu, 21 Aug 2025 15:41:48 +0300
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, Keke Li <keke.li@amlogic.com>,
@@ -52,11 +52,10 @@ Cc: linux-media@vger.kernel.org, Keke Li <keke.li@amlogic.com>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
 	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
 	Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v3 3/3] media: v4l2-common: Update v4l2_get_link_freq()
- documentation
-Message-ID: <20250821124056.GD8865@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 0/3] Drop control handler argument support for
+ v4l2_get_link_freq()
+Message-ID: <20250821124148.GE8865@pendragon.ideasonboard.com>
 References: <20250821121207.552993-1-sakari.ailus@linux.intel.com>
- <20250821121207.552993-4-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,56 +64,44 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250821121207.552993-4-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250821121207.552993-1-sakari.ailus@linux.intel.com>
 
-Hi Sakari,
-
-Thank you for the patch.
-
-On Thu, Aug 21, 2025 at 03:12:07PM +0300, Sakari Ailus wrote:
-> Document that v4l2_get_link_freq() obtains the link frequency primarily
-> by calling the get_mbus_config sub-device pad operation.
+On Thu, Aug 21, 2025 at 03:12:04PM +0300, Sakari Ailus wrote:
+> Hi folks,
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  include/media/v4l2-common.h | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+> This set removes the workaround from v4l2_get_link_freq() that allowed
+> calling it on a control handler. The Amlogic c3-mipi-csi2 driver is
+> converted in the process as well.
 > 
-> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> index ab0ce8e605c3..c387deffbdd0 100644
-> --- a/include/media/v4l2-common.h
-> +++ b/include/media/v4l2-common.h
-> @@ -567,9 +567,11 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
->   *	 times two on D-PHY, 1 on parallel. 0 otherwise.
->   *
->   * This function is intended for obtaining the link frequency from the
-> - * transmitter sub-device's pad. It returns the link rate, either from the
-> - * V4L2_CID_LINK_FREQ control implemented by the transmitter, or value
-> - * calculated based on the V4L2_CID_PIXEL_RATE implemented by the transmitter.
-> + * transmitter sub-device's @pad. It returns the link rate, primarily obtained
-> + * through the get_mbus_config sub-device pad operation or secondarily through
-> + * either from the V4L2_CID_LINK_FREQ control implemented by the transmitter, or
+> As a result there's also no definition of v4l2_get_link_freq() without
+> CONFIG_MEDIA_CONTROLLER but that should be fine now. The Amlogic patch is
+> untested.
 
-"through either from" should be either "through either" or "either
-from".
+Could you please cherry-pick
+https://lore.kernel.org/linux-media/20250821000944.27849-2-laurent.pinchart@ideasonboard.com/
+and include it in this series ?
 
-> + * value calculated based on the V4L2_CID_PIXEL_RATE implemented by the
-> + * transmitter.
-
-I think this can be clarified further:
-
- * This function obtains and returns the link frequency from the transmitter
- * sub-device's pad. The link frequency is retrieved using the get_mbus_config
- * sub-device pad operation. If this fails, the function falls back to obtaining
- * the frequency either directly from the V4L2_CID_LINK_FREQ control if
- * implemented by the transmitter, or by calculating it from the pixel rate
- * obtained from the V4L2_CID_PIXEL_RATE control.
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
->   *
->   * Return:
->   * * >0: Link frequency
+> since v2:
+> 
+> - Improve documentation for v4l2_get_link_freq(), aligning it to the
+>   removal of control handler argument support.
+> 
+> - Add a patch to mention the primary source of the link frequency is the
+>   get_mbus_config pad operation.
+> 
+> since v1:
+> 
+> - Remove redundant src_pad argument from c3_mipi_csi_start_stream().
+> 
+> Sakari Ailus (3):
+>   media: amlogic: c3-mipi-csi2: Call v4l2_get_link_freq() on source pad
+>   media: v4l2-common: Drop the workaround from v4l2_get_link_freq()
+>   media: v4l2-common: Update v4l2_get_link_freq() documentation
+> 
+>  .../amlogic/c3/mipi-csi2/c3-mipi-csi2.c       |  7 +++---
+>  drivers/media/v4l2-core/v4l2-common.c         | 17 ++++++-------
+>  include/media/v4l2-common.h                   | 25 ++++++-------------
+>  3 files changed, 19 insertions(+), 30 deletions(-)
 
 -- 
 Regards,
