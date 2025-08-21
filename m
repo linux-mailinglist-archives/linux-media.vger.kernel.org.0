@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-40505-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40506-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 269F7B2E95B
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 02:12:20 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDCF3B2E950
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 02:10:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B62CD1C8847D
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 00:11:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AAFDD7AABC8
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 00:09:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDB285FEE6;
-	Thu, 21 Aug 2025 00:10:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B111617B505;
+	Thu, 21 Aug 2025 00:10:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lcd8Q8tD"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BdgFHiYc"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD3F51B040D;
-	Thu, 21 Aug 2025 00:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA60E15ADB4;
+	Thu, 21 Aug 2025 00:10:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755735027; cv=none; b=MffIGmOE6JEAfT86Ulu3SEbvAN/jMvkOZQiCZ6WXVQFrDJ1IuKOPQedhQwizkU4JElS/p75+C5n1/6jUlmw/+QTygaaWMFYsHuMMEptrfTPB9FioSGhcDDbYGcUMpwSWQAX8BRre81naXLL6VgT/Z8W2tDrqXh7rb2UerNqRe3o=
+	t=1755735028; cv=none; b=Nd0C1tgPkE8R9OCpkCkIMTtZcxMZsSSfpNsipm0rqRGr22DzFmmTLX7CtNFdJBnzy3N01VnbsONokeT7INKGjDCsEqiiXfnBDmyJJ7N5M24rLJzxe86lAauxOB/MrUdE5tusQw9aWA63gJFxyX5sN+XrPLst5nGYsGiJ/eidv4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755735027; c=relaxed/simple;
-	bh=eKEUI54IDPaYYjYBrflIcSGc/aI6u58J52rbZqG2dDU=;
+	s=arc-20240116; t=1755735028; c=relaxed/simple;
+	bh=th2PRuCatd86a+Pytbui/3QBHsiPNEur1r522M2FuVM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aoA4XQDU4KiStG7e6sHEUE9mq0ZsWzATlnQyMkzieAw9GSJzmrke5qvqHL9Wyaad+he+lubuISknK4Ag/VOzCi+CjcnH3dROFGlNcSWaDKWp/gHTZErSTKnUs2xSLQl4o8Gq1v+Z3MNPddN5g32/dqgoSmzxt1hx776TCaS0nG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lcd8Q8tD; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=gGA8mdtDcYHK3iEFRpiZcGJOSLtrbeTPCCy5evvguKx5Q7gFzUVKq0QAKdTkAfeRxkKzNuysVmQ09ONGaCVkrZIPKF2opwLT52YdBo8tpt/FShFVcyThrt118yHqQ+ujC4/3pqb6x8XFAK8jr/wnIVj0ZFnJUzX3Ap78LiHStzY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BdgFHiYc; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9210316D7;
-	Thu, 21 Aug 2025 02:09:23 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 273FB1026;
+	Thu, 21 Aug 2025 02:09:25 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755734963;
-	bh=eKEUI54IDPaYYjYBrflIcSGc/aI6u58J52rbZqG2dDU=;
+	s=mail; t=1755734965;
+	bh=th2PRuCatd86a+Pytbui/3QBHsiPNEur1r522M2FuVM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lcd8Q8tDmghg/w5V9kyxxcl7tMwV+lPY84gNStOoW8jOR5KCmwRSb4omUJ5k9ak5d
-	 qlRo3IJKMRxsXjsZ5ll6Kq4AxY98HQbGDWhXnr6Xtxkp359TgS+LQtiuBCOZ9vB3BZ
-	 nct5w3WM1b3v0FVBzZ7rg5umkR2l757QM6w5s5ag=
+	b=BdgFHiYcLLWr1Cy99ndodj3Kjn/XQzuCTdbwqkOhADNJdTCpagEqAV/wp68QJ+CkQ
+	 FBbxhw2tcSQ9GX2pmUe9Yb1Wp8aR1PKPNnI2VBFVQHSuQP5n5yJfPb2RJDQ7EZdtrv
+	 X23JqWYQX/+Fz9930kNNzFUPs2X00WJqb9FIi9Rg=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Isaac Scott <isaac.scott@ideasonboard.com>,
@@ -58,9 +58,9 @@ Cc: Isaac Scott <isaac.scott@ideasonboard.com>,
 	devicetree@vger.kernel.org,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v2 09/12] dt-bindings: media: nxp,imx-mipi-csi2: Mark clock-frequency as deprecated
-Date: Thu, 21 Aug 2025 03:09:41 +0300
-Message-ID: <20250821000944.27849-10-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 10/12] dt-bindings: media: nxp,imx-mipi-csi2: Add fsl,num-channels property
+Date: Thu, 21 Aug 2025 03:09:42 +0300
+Message-ID: <20250821000944.27849-11-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250821000944.27849-1-laurent.pinchart@ideasonboard.com>
 References: <20250821000944.27849-1-laurent.pinchart@ideasonboard.com>
@@ -72,59 +72,48 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Usage of the clock-frequency property, which is already optional, is
-discouraged in favour of using assigned-clock-rates (and
-assigned-clock-parents where needed). Mark the property as deprecated,
-and update the examples accordingly.
+The CSI-2 receiver can be instantiated with up to four output channels.
+This is an integration-specific property, specify the number of
+instantiated channels through a new fsl,num-channels property. The
+property is optional, and defaults to 1 as only one channel is currently
+supported by drivers.
+
+Using the compatible string to infer the number of channels has been
+considered, but multiple instances of the same CSIS in the same SoC
+could conceptually be synthesized with a different number of channels.
+An explicit property is therefore more appropriate.
+
+The only known SoC to have more than one channel is the i.MX8MP. As the
+binding examples do not cover that SoC, don't update them.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
 Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 ---
- .../devicetree/bindings/media/nxp,imx-mipi-csi2.yaml  | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+Changes since v1:
+
+- Expand commit message
+---
+ .../devicetree/bindings/media/nxp,imx-mipi-csi2.yaml       | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
 diff --git a/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-index 03a23a26c4f3..db4889bf881e 100644
+index db4889bf881e..41ad5b84eaeb 100644
 --- a/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
 +++ b/Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
-@@ -66,6 +66,7 @@ properties:
-   clock-frequency:
-     description: The desired external clock ("wrap") frequency, in Hz
+@@ -68,6 +68,13 @@ properties:
      default: 166000000
-+    deprecated: true
+     deprecated: true
  
++  fsl,num-channels:
++    $ref: /schemas/types.yaml#/definitions/uint32
++    description: Number of output channels
++    minimum: 1
++    maximum: 4
++    default: 1
++
    ports:
      $ref: /schemas/graph.yaml#/properties/ports
-@@ -147,7 +148,9 @@ examples:
-                  <&clks IMX7D_MIPI_CSI_ROOT_CLK>,
-                  <&clks IMX7D_MIPI_DPHY_ROOT_CLK>;
-         clock-names = "pclk", "wrap", "phy";
--        clock-frequency = <166000000>;
-+
-+        assigned-clocks = <&clks IMX7D_MIPI_CSI_ROOT_CLK>;
-+        assigned-clock-rates = <166000000>;
  
-         power-domains = <&pgc_mipi_phy>;
-         phy-supply = <&reg_1p0d>;
-@@ -185,12 +188,16 @@ examples:
-         compatible = "fsl,imx8mm-mipi-csi2";
-         reg = <0x32e30000 0x1000>;
-         interrupts = <GIC_SPI 17 IRQ_TYPE_LEVEL_HIGH>;
--        clock-frequency = <333000000>;
-+
-         clocks = <&clk IMX8MM_CLK_DISP_APB_ROOT>,
-                  <&clk IMX8MM_CLK_CSI1_ROOT>,
-                  <&clk IMX8MM_CLK_CSI1_PHY_REF>,
-                  <&clk IMX8MM_CLK_DISP_AXI_ROOT>;
-         clock-names = "pclk", "wrap", "phy", "axi";
-+
-+        assigned-clocks = <&clk IMX8MM_CLK_CSI1_ROOT>;
-+        assigned-clock-rates = <250000000>;
-+
-         power-domains = <&mipi_pd>;
- 
-         ports {
 -- 
 Regards,
 
