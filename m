@@ -1,126 +1,146 @@
-Return-Path: <linux-media+bounces-40598-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40599-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A99B2FA9F
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 15:37:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E686B2FAB2
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 15:40:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C21A2601D33
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 13:32:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F4C7AE31B1
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 13:33:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 078AE343D94;
-	Thu, 21 Aug 2025 13:29:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AB8833471E;
+	Thu, 21 Aug 2025 13:31:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="sbWEZzS9";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="Ej46kqb5"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XBQYfpXk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B52DD34165C;
-	Thu, 21 Aug 2025 13:29:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 134681F8676
+	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 13:30:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755782987; cv=none; b=s5lFQj/px0K6kVUsorqqfGHiU6iwwe/Jwz4iOfuefz2RWCeuUEAoDzrAunaCxM77gjS0g/W7ztASRbqVvAfg0Uwav64DlPiM+tOdIMuEclcZ/abDfkXe8Wvn7oiUdwhwEW5ks6ZMlUgYCq40Qr0y5EzvjaVrjerQLtImLWswr3o=
+	t=1755783060; cv=none; b=hsI3jaKXL7QHEGq2rfd1nZj2NdnKy0Tkbgo2HvbHHI+Th3KLAJVfWQLc47Va4E7pcfwVoR3Nls4yvlJM6hoPLSF7QiewyEanQgR8cS/CaOP/8RtjTVRcJ6RNXIjQDFbpGir6nSM23STM9X2/AWnuS51khHfyKXtiISWZl5JQC0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755782987; c=relaxed/simple;
-	bh=lRNEtqcrtlw74Q5TFa9XsODgun9hFWArZJOwnOWoo2E=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=FjhLpSUkGudlOaPcR4q48N6lrhSzbU55fDpOLB9sXMHfY2606h60QEbnwULvMDLEmUSr7rDSsJxnni4NmAKY/XNqo3Qo8o+TsERDXsemQagMogcVA/y+YuF4FFrFLDoEYssg1n/Bgbg1XGA/9i+Ysp9DuiiQ0oTRWuzHAJ9betY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=sbWEZzS9; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=Ej46kqb5; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
-From: =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1755782983;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/IFfXb2Gts/wINwWBJRkteFrwzlStBGHf9GvRYuutbo=;
-	b=sbWEZzS9RpijCcTfWGULdNkOaitzT7INtDE+7XhR76hdc3RdH7lQe3J0T+0slwNnrUSJS7
-	TDP7BuP8pXIcqbq5n7fxBRfaw2kPQjYbD5lXkh/tdmlUMGCbuVL+KspzwYkfRNigqgURYx
-	hNq+qHTkoJysQe2PwIlscKD8js5IUolD2/wYCU0sGmZagCgtQ92/9Kp/TzNVs78vysanYA
-	iHCsYcktO58z+mBvDR8egjaXjnCs+t3Pkm7S2V9C6Qq8KV4kooeDooSaJ1HA5nbo8jRqCW
-	S2W5r5QkPsO6AK2fho514PoA+zfwrUD++MTZ3U1f/mDA0SqHRdNrplLkfwGvkA==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1755782983;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/IFfXb2Gts/wINwWBJRkteFrwzlStBGHf9GvRYuutbo=;
-	b=Ej46kqb5WCNAosfV2HN79ixwnaFLactfkbLvZsHJCyzAJ2P1Y24yz0l2D6XhrKcOBjJwFz
-	Cn0mdygi2Gc9MGCg==
-Date: Thu, 21 Aug 2025 15:28:16 +0200
-Subject: [PATCH v2 9/9] hrtimer: Reorder branches in
- hrtimer_clockid_to_base()
+	s=arc-20240116; t=1755783060; c=relaxed/simple;
+	bh=eiO2jSr42FdAo6ZLoWDCDMaHQL6TDCgyNzXtNG/tTHs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=INKm6iyKr0mIjSOe3Fll3V24lWArkzwNkP8t1oqJb5B2S6XAqK79WD/9WiYYWtYg6UrxfOfcKAXjUbXf3YeZ+MGTrqXP/gRsNZxu8XWwauJ24eTVkhyqYxYvQey3yHp+YRc8Ga6ytqWzg6Fzy8rIRjnOvwFqXG1tB84f6vv+PXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XBQYfpXk; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1755783059; x=1787319059;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eiO2jSr42FdAo6ZLoWDCDMaHQL6TDCgyNzXtNG/tTHs=;
+  b=XBQYfpXkc4TjaprjPljkRb/BS2CFJAub4bGMiRuZc9AC7RI3Sj+rL76O
+   NcgApMYAc3bBESzdK6eZDJB1klW73qDUI7iu8GJRHQ7QbGFRIv3bd9UKh
+   AjmxRmaMes/2o2cPwGiZX77rmYd1vxwXV3lCN2V+VF6/D19PMxOlntN6B
+   ttC+AaoLmE8Bj3akKLw/XaJH4xzIBu2rPVVu96bjyte7msgNk7/9ThuIc
+   WGTSYs3Yfn5XmSJjY2jIBEGinZcfJxaDj8FbQ6KG7BuyuzWf/gNfuwOgx
+   ADUHhv41PZvM7/pgZuWnRn0poLhzDMysyjG5f6yvzuX8WaXPJDf7bih40
+   Q==;
+X-CSE-ConnectionGUID: FpdYzm/vRl6ws/B96ADM6Q==
+X-CSE-MsgGUID: whEqDWmWTaSzY0ALIoyaYQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="75656134"
+X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
+   d="scan'208";a="75656134"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 06:30:58 -0700
+X-CSE-ConnectionGUID: LLyNO8qhQkC2ddAhRXrMfw==
+X-CSE-MsgGUID: MclZFYiMRQGHL0xvCbxMwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
+   d="scan'208";a="173750523"
+Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.237])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 06:30:55 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id C398111FC36;
+	Thu, 21 Aug 2025 16:30:52 +0300 (EEST)
+Date: Thu, 21 Aug 2025 16:30:52 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Keke Li <keke.li@amlogic.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Jonas Karlman <jonas@kwiboo.se>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
+	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Subject: Re: [PATCH v2 0/3] Drop control handler argument support for
+ v4l2_get_link_freq()
+Message-ID: <aKcfjNOvUqlSJ_IH@kekkonen.localdomain>
+References: <20250821121207.552993-1-sakari.ailus@linux.intel.com>
+ <20250821124148.GE8865@pendragon.ideasonboard.com>
+ <aKcXdDDxzsNZ2Bq2@kekkonen.localdomain>
+ <20250821130125.GF8865@pendragon.ideasonboard.com>
+ <aKcd9DtPXy7j7yYQ@kekkonen.localdomain>
+ <20250821132709.GA1484@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-Message-Id: <20250821-hrtimer-cleanup-get_time-v2-9-3ae822e5bfbd@linutronix.de>
-References: <20250821-hrtimer-cleanup-get_time-v2-0-3ae822e5bfbd@linutronix.de>
-In-Reply-To: <20250821-hrtimer-cleanup-get_time-v2-0-3ae822e5bfbd@linutronix.de>
-To: Anna-Maria Behnsen <anna-maria@linutronix.de>, 
- Frederic Weisbecker <frederic@kernel.org>, 
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
- Peter Zijlstra <peterz@infradead.org>, Juri Lelli <juri.lelli@redhat.com>, 
- Vincent Guittot <vincent.guittot@linaro.org>, 
- Dietmar Eggemann <dietmar.eggemann@arm.com>, 
- Steven Rostedt <rostedt@goodmis.org>, Ben Segall <bsegall@google.com>, 
- Mel Gorman <mgorman@suse.de>, Valentin Schneider <vschneid@redhat.com>, 
- Matt Wu <wuqiang.matt@bytedance.com>, 
- Andrew Morton <akpm@linux-foundation.org>, Jaroslav Kysela <perex@perex.cz>, 
- Takashi Iwai <tiwai@suse.com>, Sean Young <sean@mess.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-sound@vger.kernel.org, 
- linux-media@vger.kernel.org, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1755782976; l=898;
- i=thomas.weissschuh@linutronix.de; s=20240209; h=from:subject:message-id;
- bh=lRNEtqcrtlw74Q5TFa9XsODgun9hFWArZJOwnOWoo2E=;
- b=vqkNbf2HDc9MrwNYTlgNZcaXjPwKmO8nzmctb1RJqQ7MWtSVWXM+JlSG1p27AZCkXGbENtHUi
- pzFWlcUBNJbA9pAFtazbmHpBdCfoY1IMbm5HzMzCgTDf4tSQdjuFN7Q
-X-Developer-Key: i=thomas.weissschuh@linutronix.de; a=ed25519;
- pk=pfvxvpFUDJV2h2nY0FidLUml22uGLSjByFbM6aqQQws=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250821132709.GA1484@pendragon.ideasonboard.com>
 
-Align the ordering to the one used for hrtimer_bases.
+Hi Laurent,
 
-Signed-off-by: Thomas Weißschuh <thomas.weissschuh@linutronix.de>
+On Thu, Aug 21, 2025 at 04:27:09PM +0300, Laurent Pinchart wrote:
+> On Thu, Aug 21, 2025 at 04:24:04PM +0300, Sakari Ailus wrote:
+> > On Thu, Aug 21, 2025 at 04:01:25PM +0300, Laurent Pinchart wrote:
+> > > On Thu, Aug 21, 2025 at 03:56:20PM +0300, Sakari Ailus wrote:
+> > > > On Thu, Aug 21, 2025 at 03:41:48PM +0300, Laurent Pinchart wrote:
+> > > > > On Thu, Aug 21, 2025 at 03:12:04PM +0300, Sakari Ailus wrote:
+> > > > > > Hi folks,
+> > > > > > 
+> > > > > > This set removes the workaround from v4l2_get_link_freq() that allowed
+> > > > > > calling it on a control handler. The Amlogic c3-mipi-csi2 driver is
+> > > > > > converted in the process as well.
+> > > > > > 
+> > > > > > As a result there's also no definition of v4l2_get_link_freq() without
+> > > > > > CONFIG_MEDIA_CONTROLLER but that should be fine now. The Amlogic patch is
+> > > > > > untested.
+> > > > > 
+> > > > > Could you please cherry-pick
+> > > > > https://lore.kernel.org/linux-media/20250821000944.27849-2-laurent.pinchart@ideasonboard.com/
+> > > > > and include it in this series ?
+> > > > 
+> > > > If a pad is const, I'd expect the container sub-device would be, too. I'll
+> > > > see if anything breaks if media_entity_to_v4l2_subdev() would switch to use
+> > > > container_of_const().
+> > > 
+> > > pad->entity will still not be const, so media_entity_to_v4l2_subdev()
+> > > will return a non-const pointer anyway.
+> > 
+> > It may be technically correct but const suggests the argument (and what is
+> > referred from that) is const henceforth, but that's not the case.
+> 
+> Yes, and that's why I'm adding a const here. The function retrieves the
+> link frequency, it should not change the state of the pad, entity or
+> subdev. That's the meaning conveyed by the API change. Internally, due
+> to the nature of the C language, we go from a const struct media_pad to
+> a non-const sturct media_entity. That's fine, it's inside the
+> v4l2_get_link_freq() function, and it means the function must simply be
+> careful not to break the API contract. It doesn't change the nature of
+> the contract.
 
----
-v2: New patch
----
- kernel/time/hrtimer.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I'd like to have a third opinion here. Hans?
 
-diff --git a/kernel/time/hrtimer.c b/kernel/time/hrtimer.c
-index fedd1d793f6cdf8923cc8a6707ff793f36b77f26..f383df28c5325919b4d22df383d7fb286ea05874 100644
---- a/kernel/time/hrtimer.c
-+++ b/kernel/time/hrtimer.c
-@@ -1567,10 +1567,10 @@ u64 hrtimer_next_event_without(const struct hrtimer *exclude)
- static inline int hrtimer_clockid_to_base(clockid_t clock_id)
- {
- 	switch (clock_id) {
--	case CLOCK_REALTIME:
--		return HRTIMER_BASE_REALTIME;
- 	case CLOCK_MONOTONIC:
- 		return HRTIMER_BASE_MONOTONIC;
-+	case CLOCK_REALTIME:
-+		return HRTIMER_BASE_REALTIME;
- 	case CLOCK_BOOTTIME:
- 		return HRTIMER_BASE_BOOTTIME;
- 	case CLOCK_TAI:
+> 
+> > I simply wouldn't change this. 
+> 
 
 -- 
-2.50.1
+Regards,
 
+Sakari Ailus
 
