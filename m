@@ -1,192 +1,176 @@
-Return-Path: <linux-media+bounces-40530-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40531-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C14FB2F00F
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 09:48:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22E77B2F04E
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 09:59:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09B02188F31D
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 07:48:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B26713BF003
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 07:57:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3AF82C21E1;
-	Thu, 21 Aug 2025 07:47:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 70B292E9EA7;
+	Thu, 21 Aug 2025 07:56:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gCFbQl1u"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dA7PoDtW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 201852745E
-	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 07:47:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 576EA2E92D6;
+	Thu, 21 Aug 2025 07:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755762466; cv=none; b=OfRQEhzrQLrjYZClZPLu7tMKY6gqRHojrwdA29+N59jwcFxlLyQN90WoCrivUH7XDfvQBRBYYLyWFb11vBv9wxQRq3aR1FqAAqN//DZxxW6ErrKU0HDFro+ItRYjBuJ+wTon0ShMK0IXJLG+TEZ2eCFHERj373TmWB+4y5dfDyk=
+	t=1755763006; cv=none; b=cxRS/HQ++0CS9evm4tIgprf1XMiUpAW8XC3zmW3Au3i6v6h9SHEuJI5Xa6Zi2Zo+KDqTtvymdnLz9uyqW82hSHWUBFxF+LiUm/ot+bi6op1tTuaujd/HbrKYF/BrFrsp6hugNO2YDgIKrRs+/IQBbBnc1I/ef+yyP1jjDQ+oVVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755762466; c=relaxed/simple;
-	bh=AxJ2TDZtOitzG91I3RpJaL2KpradpMlq2bGRan6szCQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Zl3sE8CaLPep2B2fxgQAnWX3CLjsS/9RnWTGJX/rWJ3fA4UqO842UDqe4IdX2AwY6S1+oo6Ues4/0FFky0OWEIB/iKdHmGmD0bF6sBme3L+aWvVFDjhR/W0OCPG4xtSnMmZ3b717LCQqFeJ0VzfIzK/1TO1g/shCNee1RIGUOfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gCFbQl1u; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-55ce522ffb7so20255e87.1
-        for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 00:47:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755762461; x=1756367261; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qgH76P00G/bIkPFE7bS4eV8p4bXQP5M6n3WGp0XZrBQ=;
-        b=gCFbQl1utgbeR4uCWE0iM+nE8Sxc9gGgriRDBd1zRLzb9GnR5Onqx4P3AnUN+e/JN7
-         8mtdSTY0hFiAKjEY9HNfxr733EIrX0QSo7yUvAS3eLu1wC1+tyzP7UsKSo5yuJX2k90D
-         oHaUWAk+0jmAT3DPLqFXlLF23H2hEit+Rn9N3Pv3IV2BCTUKnPixr8TcMqm0Vne1HKT0
-         o/pdEpknWF+2h6ozBK1wC9oL/S4JVNN+PTrC2NyMljqSUVGJCwlXJzBdbTDzaEfTJ2dR
-         In/QHmS4KjknZO2NiI48yQh7c7siSSBRwY4SFY8oqY1+W9M5wbbcKtn/4htyUi3NHJaW
-         RyoA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755762461; x=1756367261;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qgH76P00G/bIkPFE7bS4eV8p4bXQP5M6n3WGp0XZrBQ=;
-        b=h8IMHVIH0Yl1OWApyY0zFyK1baSeEyOp3Y3oh5YuwH7f3m280Yw1U1Ep/29hQvEKXs
-         vaBSqDVvLX9AhJkq9BC+AKTjffSLq1RxkHkQZhmyMr8XHKj8WyEBqyYqZbH7vopKVVoi
-         F+j4rlJ7tapbniJu4TeBPbdwctr5c2vDcXvywdqMlQC4H7+2l0gJO+yoocJAN7M19eoV
-         5qKPk26sqb6m6iUyD5q47Vr0qnGlganS1TlA+FEigezoqGjMocuWgU5aBQHWcjAdV2IC
-         WVsZ2Dbb9HryZibSh5a4T3P8BYyXDpbaJrQf5rrWLVMTckJu3Gdc3FZZg8PxqyK14z99
-         SoQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUxnT3mxA+v0P2ANouDKmqdSBAm9BDc7JdCCOQgJHMOTrxUw3Zv0G76tdPLpty+aJR79o3Q6eKxtD8tfg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxuSIwKgwuaK8jZHYnj/w8pka0IBznx1eFw+VqOMoK2mj8WkzvU
-	XoTzMiLEUwFzl9/sj+ALZZ2Xkly+kII7nsX2Orq+dMtIjf8k7OL//6gR6kP1bBtIsrE=
-X-Gm-Gg: ASbGnctyXXZgLo+K5TtaDT0wzGB2mOtMJoZ9dqdybZ0gcRK7pUXAhE3AdhJ2jg3x2W8
-	oJRjp99zEUIl9u4n+0nEMiLKud3Mnlm+yNDJI+KUC8EVnidHuBleRAzQR2Ho/POHt/bj8rC3W03
-	MLlhRlYeMg8kSiJ55UDyCUtuuE9ClfFV+IcWNkNy+PZCWAWV1ogwuAz8sEADQplWX2zFnglHCFh
-	VvCMDOiQgQgo2dNuZrbgtrHGHkPlwF6OfBOau7pP28stkfWfG+9pYBiVrm3GoBaFW4E/VqgcPC+
-	GQGyFVYOZM0TFmJmmwbgWqlqRhzm7U2Skivbb0EnKETJ/671QON5KX8Usi2gTkph22MVF/BGTYF
-	posv9y4y6HCX3ymfNQdqScS5vcBwaVzRYjO+mIXfAEumcwCRE3vPenBMeXE+MbW+dtxooVvVd5Q
-	bP
-X-Google-Smtp-Source: AGHT+IGe+7uS7RYKae7BOVmFeb7wHfZZDf3EoEj50AZSKt5dmwgo5Ldl24C8ieywq3QH/jx5hd6lzA==
-X-Received: by 2002:a2e:bc10:0:b0:334:1db:486d with SMTP id 38308e7fff4ca-33549e15764mr2045001fa.2.1755762461144;
-        Thu, 21 Aug 2025 00:47:41 -0700 (PDT)
-Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3340a43a37bsm30318741fa.21.2025.08.21.00.47.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 21 Aug 2025 00:47:40 -0700 (PDT)
-Message-ID: <cace08f6-0bc3-4e24-a6dc-02b145ad1051@linaro.org>
-Date: Thu, 21 Aug 2025 10:47:24 +0300
+	s=arc-20240116; t=1755763006; c=relaxed/simple;
+	bh=XoCpPVB5wOAtJ7m6MaTrQOLr2oFV7hOj0Lum1iwDtxU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=YaxTW0HMiq2Z8AqTZ/dYnUNLNH58SJd9s8k9bCgakNrGnTElx04rVrekJc79hkzodeb9R6qv+5aYPEh/tnX0NV6L3AHdAbb7k+3nR3m/WafteQK+2Fixmg+I7/7xgjcLhquZCXNY4A8LUluFyAOfQqKG9HC77BoYJ9yz0wvIpTM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dA7PoDtW; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57L7kSve020839;
+	Thu, 21 Aug 2025 07:56:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	qIJ8sGJ241dgJr/7UiTgj7Fpjrs1hEGq9F6pHGgt3Mg=; b=dA7PoDtWgU0xFjOG
+	d1uVW3s1BqkUAISUghRkRi2mtmRJVHeNXPDshgFAnuggnwV90pD55bD5TCkt1W5S
+	S4JK6zPggVFIvtgIZasunmhuOuY+KlQ2tYSb+RsTBxbqTmfoZCs3X+MPFBUWGZcD
+	RrDBGrzAkVismrg9uAOmXavjjLaw7i1yDijMkqqSJ4SsDW1e4sR4k2qYEu9eGvdi
+	9sa57WmEEN0xh9+vGSj/smYB2aVp8OBeHe3fZ2Kj9elm+eS3xfQ6xIqUFG92FEzX
+	MilW5j6q98xUFVAkBIA7dl1EzwIgzpXWKXRbdvzxjYDAAQa8qIz18YYZV9db16Ee
+	lUNeGg==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n5294hdt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 Aug 2025 07:56:39 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57L7uc3N020678
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 Aug 2025 07:56:38 GMT
+Received: from [10.216.5.63] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 21 Aug
+ 2025 00:56:34 -0700
+Message-ID: <f104c9d8-16ae-64c6-4494-49981ef950ea@quicinc.com>
+Date: Thu, 21 Aug 2025 13:26:31 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: i2c: Add OmniVision OG0VE1B camera sensor
-To: Tarang Raval <tarang.raval@siliconsignals.io>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- Hans Verkuil <hverkuil@kernel.org>
-References: <20250820224646.130270-1-vladimir.zapolskiy@linaro.org>
- <20250820224646.130270-3-vladimir.zapolskiy@linaro.org>
- <PN3P287MB1829A6077AC67BBBDD30327E8B32A@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3 00/26] Enable H.264/H.265 encoder support and fixes in
+ iris driver common code
 Content-Language: en-US
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <PN3P287MB1829A6077AC67BBBDD30327E8B32A@PN3P287MB1829.INDP287.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Neil Armstrong
+	<neil.armstrong@linaro.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        "Bryan
+ O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        "Vedang
+ Nagar" <quic_vnagar@quicinc.com>,
+        Hans Verkuil <hverkuil@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Renjiang Han <quic_renjiang@quicinc.com>,
+        Wangao Wang <quic_wangaow@quicinc.com>
+References: <20250820-iris-video-encoder-v3-0-80ab0ba58b3d@quicinc.com>
+ <9584a286-7d8a-48b0-a65c-7a37ced78ac6@linaro.org>
+ <38d56655-cfea-ef3d-46ff-a77d81e35297@quicinc.com>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <38d56655-cfea-ef3d-46ff-a77d81e35297@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: coqtGhz_i8faQO0kYJcT4v4KLTBE27P-
+X-Proofpoint-ORIG-GUID: coqtGhz_i8faQO0kYJcT4v4KLTBE27P-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfX62ksjgec8+4J
+ a0yg17uHEBxaLJhqkjCEzhR2UXrHS+/L3Eov4e5edOys/wcd/JKZWa0XpBamJ41fvIMyjrT1WnA
+ RqB2c4lhKqZUWfy4Ji3dVSCQGs7hg2nIloWHWiVBXNtxFy8cMGmdJCQPFl/BwZ5QDyKfokYELBV
+ TIt8edelrg+6BuLe+I2oRVv1D48LGV6gnvJMlhEiOM8gwGJWAjqhNUoN3n7IyObKPvod/PhsBO9
+ 4/bTlFoRTwD8r7XddEN7EMiFsVBfz67q6CE8lxR7MdtV2WcYSjyTfwBqE0Sda/hLUJWJTYbgTUT
+ +P3Mq5SVyw/o6iAJfgB1MZghfhjjoexK3Yz7OvCC6EsD4gGXquiYSgYYipsyuXQ+qe725AzJYRV
+ mYynnLpxgyUqG0DaZ1u6aAkblh21Cw==
+X-Authority-Analysis: v=2.4 cv=SPkblOvH c=1 sm=1 tr=0 ts=68a6d137 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10
+ a=s6u6a83h0psUokLNlGwA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-21_01,2025-08-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 priorityscore=1501 bulkscore=0 spamscore=0 phishscore=0
+ impostorscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1011
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
 
-Hi Tarang.
 
-On 8/21/25 09:52, Tarang Raval wrote:
-> Hi Vladimir,
+On 8/21/2025 12:51 PM, Dikshita Agarwal wrote:
+>> The change occurs around Aug 14 2024, So I checked the downstream driver
+>> and I found that fixes the encoding:
+>> ===========================><=================================================
+>> --- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+>> @@ -863,9 +863,18 @@ static inline
+>>  u32 size_vpss_line_buf(u32 num_vpp_pipes_enc, u32 frame_height_coded,
+>>                        u32 frame_width_coded)
+>>  {
+>> -       return ALIGN(((((((8192) >> 2) << 5) * (num_vpp_pipes_enc)) + 64) +
+>> -                     (((((max_t(u32, (frame_width_coded),
+>> -                                (frame_height_coded)) + 3) >> 2) << 5) +
+>> 256) * 16)), 256);
+>> +       u32 vpss_4tap_top = 0, vpss_4tap_left = 0, vpss_div2_top = 0,
+>> vpss_div2_left = 0, vpss_top_lb = 0, vpss_left_lb = 0, size_left = 0,
+>> size_top = 0;
+>> +
+>> +       vpss_4tap_top = ((((max_t(u32, frame_width_coded,
+>> frame_height_coded) * 2) + 3) >> 2) << 4) + 256;
+>> +       vpss_4tap_left = (((8192 + 3) >> 2) << 5) + 64;
+>> +       vpss_div2_top = (((max_t(u32,frame_width_coded, frame_height_coded)
+>> + 3) >> 2) << 4) + 256;
+>> +       vpss_div2_left = ((((max_t(u32, frame_width_coded,
+>> frame_height_coded)* 2) + 3) >> 2) << 5) + 64;
+>> +       vpss_top_lb = (frame_width_coded + 1) << 3;
+>> +       vpss_left_lb = (frame_height_coded << 3) * num_vpp_pipes_enc;
+>> +       size_left = (vpss_4tap_left + vpss_div2_left) * 2 * num_vpp_pipes_enc;
+>> +       size_top = (vpss_4tap_top + vpss_div2_top) * 2;
+>> +
+>> +       return ALIGN(size_left + size_top + vpss_top_lb + vpss_left_lb,
+>> DMA_ALIGNMENT);
+>>  }
+> Seems this calculation is different for iris3 and iris33, hence you see
+> this issue on SM8650.
 > 
->> OmniVision OG0VE1B is a monochrome image sensor, which produces frames in
->> 8/10-bit raw output format and supports 640x480, 400x400, 200x200 and
->> 100x100 output image resolution modes.
->>   
->> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->> ---
->>   MAINTAINERS                 |   8 +
->>   drivers/media/i2c/Kconfig   |  10 +
->>   drivers/media/i2c/Makefile  |   1 +
->>   drivers/media/i2c/og0ve1b.c | 858 ++++++++++++++++++++++++++++++++++++
->>   4 files changed, 877 insertions(+)
->>   create mode 100644 drivers/media/i2c/og0ve1b.c
->>   
+> Updating this calculation in common code will increase the buffer size with
+> from ~400KB to ~2.2 MBs (for 640x480) and even more for higher resolution.
 > 
-> ...
-> 
->> +static const struct cci_reg_sequence og0ve1b_640x480_120fps_mode[] = {
->> +       { CCI_REG8(0x30a0), 0x02 },
->> +       { CCI_REG8(0x30a1), 0x00 },
->> +       { CCI_REG8(0x30a2), 0x48 },
->> +       { CCI_REG8(0x30a3), 0x34 },
->> +       { CCI_REG8(0x30a4), 0xf7 },
->> +       { CCI_REG8(0x30a5), 0x00 },
->> +       { CCI_REG8(0x3082), 0x32 },
->> +       { CCI_REG8(0x3083), 0x01 },
->> +       { CCI_REG8(0x301c), 0xf0 },
->> +       { CCI_REG8(0x301e), 0x0b },
->> +       { CCI_REG8(0x3106), 0x10 },
->> +       { CCI_REG8(0x3708), 0x77 },
->> +       { CCI_REG8(0x3709), 0xf8 },
->> +       { CCI_REG8(0x3717), 0x00 },
->> +       { CCI_REG8(0x3782), 0x00 },
->> +       { CCI_REG8(0x3783), 0x47 },
->> +       { CCI_REG8(0x37a2), 0x00 },
->> +       { CCI_REG8(0x3503), 0x07 },
->> +       { CCI_REG8(0x3509), 0x10 },
->> +       { CCI_REG8(0x3600), 0x83 },
->> +       { CCI_REG8(0x3601), 0x21 },
->> +       { CCI_REG8(0x3602), 0xf1 },
->> +       { CCI_REG8(0x360a), 0x18 },
->> +       { CCI_REG8(0x360e), 0xb3 },
->> +       { CCI_REG8(0x3613), 0x20 },
->> +       { CCI_REG8(0x366a), 0x78 },
->> +       { CCI_REG8(0x3706), 0x63 },
->> +       { CCI_REG8(0x3713), 0x00 },
->> +       { CCI_REG8(0x3716), 0xb0 },
->> +       { CCI_REG8(0x37a1), 0x38 },
->> +       { CCI_REG8(0x3800), 0x00 },
->> +       { CCI_REG8(0x3801), 0x04 },
->> +       { CCI_REG8(0x3802), 0x00 },
->> +       { CCI_REG8(0x3803), 0x04 },
->> +       { CCI_REG8(0x3804), 0x02 },
->> +       { CCI_REG8(0x3805), 0x8b },
->> +       { CCI_REG8(0x3806), 0x01 },
->> +       { CCI_REG8(0x3807), 0xeb },
->> +       { CCI_REG8(0x3808), 0x02 },     /* output width */
->> +       { CCI_REG8(0x3809), 0x80 },
->> +       { CCI_REG8(0x380a), 0x01 },     /* output height */
->> +       { CCI_REG8(0x380b), 0xe0 },
->> +       { CCI_REG8(0x380c), 0x03 },     /* horizontal timing size */
->> +       { CCI_REG8(0x380d), 0x18 },
->> +       { CCI_REG8(0x380e), 0x02 },     /* vertical timing size */
-> 
-> Do you have the datasheet for this sensor?
-> 
+> @vikash, pls comment if we should update in common code or have this
+> implemented specific for iris33 separately using some ops.
 
-I don't have the datasheet for this sensor, unfortunately.
+increasing 1.8 MBs for VGA and assuming it grows further for higher resolution,
+i would recommend to separate it out for line buffer alone.
 
-> If so, it would be better to divide this array into two parts.
-> Currently, all of these registers are not related to the mode.
-> One part should be for common registers, and the other for
-> mode-related registers.
-> 
+Neil,
+We are doing something similar as a preparation for enabling an upcoming SOC,
+maybe let me share the pseudo code offline with you. When you add encode support
+for SM8650, you can raise that change to extend the line buffer calculation for
+iris33.
 
-I agree, unfortunatey I have no option even to trace another mode
-configuration sequence, of course some of the register values could
-be guessed, but on practice it tends to be too tiresome.
-
-Thank yo for review!
-
--- 
-Best wishes,
-Vladimir
+Regards,
+Vikash
 
