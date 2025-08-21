@@ -1,130 +1,122 @@
-Return-Path: <linux-media+bounces-40558-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40559-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 353CCB2F75C
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 14:00:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BB0CB2F772
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 14:03:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B408EAA451C
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 11:57:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9572DAA7A82
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 12:01:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 349BF30FF09;
-	Thu, 21 Aug 2025 11:56:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0E772749EA;
+	Thu, 21 Aug 2025 12:01:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VM7mxTvl"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Tnx74/4z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com [209.85.208.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-202.mailbox.org (mout-p-202.mailbox.org [80.241.56.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75E4E2E0929
-	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 11:56:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9983B28C869
+	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 12:01:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755777400; cv=none; b=QvIMlXF0VSu+inzR0erO+Cw9xc5hqmdzyWhLERqeAsE7ratDuSySOVde2rGSN6kMXcB3HgmqkaI6dOo6zUrb9KwfQze7Y6Qv2zPVsg+ffIiMNY0obG2dpSszdhrakcKYORhzrCIqgQjnKApne7JlhO12b4T/dB79TlEbFq9IJPY=
+	t=1755777681; cv=none; b=bP66tujlJr58QHG+5ORIaSjgGL7to6p6ZhyQCieKzMZj+mK603hkpE8bWDpsoDbsCJdi6bfVherFpKePdR6pab6Ow8sFJG4JbMzlXEw+T4V1aLLWbgm6k2JbJYQP0Sem2yyg/BmHhvsE0WdeO5Nvu1b5IZZ8L2K1O/X/YMLfGnI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755777400; c=relaxed/simple;
-	bh=uf6vS3Gl2AuJ7xqaJiaRJedxS56Xesptizd08sfMens=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=usc8p9XtumkvzduJsqLUvNsEPEBvpLC2F3fgR0F3M6YJTBtX2bFIz1jXn/h56DqaFpOT3V3DO+g3Eu3O5CyCxLd2BPDad/V2tFWDrpZJY14E9YCiKgg/QJkLUlTknV/WLgJAhMwXW7MBaJP3Cbavw1divFpGxe3C2yCvoaSZxKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VM7mxTvl; arc=none smtp.client-ip=209.85.208.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-333f92cb94eso7828741fa.3
-        for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 04:56:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755777395; x=1756382195; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NTRZmz9b45Hl2bTm1apFpY/NlVi3bfWcm6ULUt78zN4=;
-        b=VM7mxTvljui9g3lu39TOLUk1ZV6pCMH8OG9CoturI99lwEeKkgCehLIJXnFI4/vOQc
-         Xfv7eVzvCp7gInSOBUAbKzyCXFHGSOueTtC3cCcSR7wiAwxx2tGtLVVhGe/kiivOKwFp
-         IQXHPxpy+J7zMIWq4oHb1H8j55i5msEMt2S8QlNV+wlIqPKD353nNI5w2rEqAAQ6olKV
-         SDdC+kFjxAF46YbZJLE2f73+tl5D39nhSS/SUjUPFsFENoN6BuEwradO09gEt8+gTHUW
-         euEgTAZc7VOvIBaJPDt6XMqfceDOhVrWPWLB8QEyrZvVj7LXb8plg7+C3LdG5v9SVrka
-         bj6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755777395; x=1756382195;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NTRZmz9b45Hl2bTm1apFpY/NlVi3bfWcm6ULUt78zN4=;
-        b=ioPfOTEpKbgSxIQCPZi0z6jGJjDXQ6/Bdqy5kvtKgOQVSG9cBMmWyY2m+7KSFIeR4l
-         loQnYvaF7YVnb9GghLtr0sz+TFS38BcByU5YtTjEUF0gljzOjrcyMKtNClykm3qec/cU
-         slXTiBsvOWSvOhRZMtVpw/Ucm0Dc24eFmC+u5kl3jFDLG6OroB8tfyM4UVZHljExl6eq
-         3spnIvXm02HJrAvPBLcU2kDXeIoWJNDZpHeUEUXmHJzZYA2HgnRvkmBRHDE8dJ+KwtYt
-         3TmmfxnUklw9a7058YX/Vej+vI2bcKHwPUlq0aWeGQ4oDZUSeS9YZufeL3d9ReHrJkDa
-         2OZA==
-X-Forwarded-Encrypted: i=1; AJvYcCWWzYM16zJP9O/W/tgVv0c7Q+96wuhcYSDNoUbj1jsxJdSdP/L70ReWIuTV2xRvPKQm5Z/swxEwqR4V/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwGztLh7y3S79qatLyIjQ5B08cL+JwbrY+PR3m6K42FodxinsAT
-	FUN+FijRvby1W/AKwQmIfmbk4lxkNNQKEla0SIe2VglQjuhppVmt4ySwyorgBUinKLKzHh/UPz4
-	KtL0bkAm2LOcVmVhP9yfe/V5HvrX0Ne7A7MpNMAqu4Q==
-X-Gm-Gg: ASbGnctjY0pWdftskhuoFyfD4SIshDjSndF4tdvi72Im7OCRwilk/i8VX/kZg2ha69/
-	G0b1wk0bZPUvGNC+N1BvFOIUvACx9qgv05BPK0NIrcNXi3rR1hBSSId0WUn2sc0l1/WdnnCafme
-	1rdIGaHVUnQ7yPlWgGLZT3hNYyVzf+vXzaB3z/3KFETKxiRnJo/cze6Zph86JFJtZouLnn0eMkp
-	w08p1k=
-X-Google-Smtp-Source: AGHT+IHLNT7GNgIK+Yc1AUKtRsJ+Pu3qxvF99KQLgmBORucS0GzpXEZZoUCuuB+z9QVIQwaQ+MKKQAluSVZweFngFeU=
-X-Received: by 2002:a05:651c:54a:b0:332:57b8:92eb with SMTP id
- 38308e7fff4ca-33549e7e81dmr7293611fa.10.1755777395492; Thu, 21 Aug 2025
- 04:56:35 -0700 (PDT)
+	s=arc-20240116; t=1755777681; c=relaxed/simple;
+	bh=K91enrdlaRyOiHHk6YgLklg4R6P7um0xtlczo6zTzts=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gcyuwmlUqoaUeTD2XIDehvzEwY3a082tEIAphMPDGS1NyorAVDFNAJ5DngH1lMiR+Qi4/F14nzB/dF+RBSA1wadL+afMYNW4ETb4AQbPZeCal2mmS0zXovOK6rQ2Io7BONVcgMrQiYFZzK0uEWtmei6envpKwnPBaYmk9BvbPQg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Tnx74/4z; arc=none smtp.client-ip=80.241.56.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-202.mailbox.org (Postfix) with ESMTPS id 4c723J0yFNz9tSH;
+	Thu, 21 Aug 2025 14:01:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1755777676;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=+Us2CEKzb/LZYmkMd3REl+O/jRJoz5l7mOxNvoiHYNQ=;
+	b=Tnx74/4zhxlKHa8xBZEEmYRlW05meeTn2fdl8UfYK9X7ZUPQUyppNEtMfvlyGnEmBf0NvC
+	4w+8i+N1i4L3AoI/a/BcrywVmEqgzaWe0fgB/3yy6xN77fJv4JGuQJ95qZsWItLXOwVQ2I
+	9J/2y1u1cXz826JgG0tP5gHQKjsCQO/Hq9it1YKEseUHFhucKdp+Tbu9gJLa6Gi3pdVpiv
+	+xWlSojWNBaLYTx+goWOnRBfa0eJim/pxBW3NPYgvmS0ncKqwy7lHQtIYfAwswdWvcp4Xg
+	U/15aAHsns+wCjna/G8PwJFJ8+sri32ItbsEbjTQTR8720ACaclvLbvtTFgKTw==
+Message-ID: <b1a39526-92c6-4fff-9376-0354bf2f8ff2@mailbox.org>
+Date: Thu, 21 Aug 2025 14:01:13 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com> <20250820171302.324142-14-ariel.dalessandro@collabora.com>
-In-Reply-To: <20250820171302.324142-14-ariel.dalessandro@collabora.com>
-From: Linus Walleij <linus.walleij@linaro.org>
-Date: Thu, 21 Aug 2025 13:56:24 +0200
-X-Gm-Features: Ac12FXxjp4iK3cFyWU_S6p_GaEq9BIq8dd_UPbgZlXscJTvrfMnMiNgyqvjOGHs
-Message-ID: <CACRpkdbpKqKyebADj0xPFq3g0biPh-vm4d6C3sd8r0URyfyYRg@mail.gmail.com>
-Subject: Re: [PATCH v1 13/14] dt-bindings: input/touchscreen: Convert MELFAS
- MIP4 Touchscreen to YAML
-To: "Ariel D'Alessandro" <ariel.dalessandro@collabora.com>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch, 
-	andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com, 
-	broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com, 
-	conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com, 
-	edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com, 
-	jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com, 
-	krzk+dt@kernel.org, kuba@kernel.org, 
-	kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com, 
-	louisalexis.eyraud@collabora.com, maarten.lankhorst@linux.intel.com, 
-	matthias.bgg@gmail.com, mchehab@kernel.org, minghsiu.tsai@mediatek.com, 
-	mripard@kernel.org, p.zabel@pengutronix.de, pabeni@redhat.com, 
-	robh@kernel.org, sean.wang@kernel.org, simona@ffwll.ch, 
-	support.opensource@diasemi.com, tiffany.lin@mediatek.com, tzimmermann@suse.de, 
-	yunfei.dong@mediatek.com, devicetree@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org, 
-	linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org, 
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org, 
-	linux-sound@vger.kernel.org, netdev@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] media: imx-jpeg: Add support for descriptor allocation
+ from SRAM
+To: "Ming Qian(OSS)" <ming.qian@oss.nxp.com>, linux-media@vger.kernel.org
+Cc: Fabio Estevam <festevam@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mirela Rabulea <mirela.rabulea@nxp.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+References: <20250820163046.209917-1-marek.vasut@mailbox.org>
+ <8d38e622-a743-41f9-81e6-d8608e3c60ec@oss.nxp.com>
+ <83a65b18-76e8-4ad4-9d4d-c1ef68d3d181@mailbox.org>
+ <6f6a149e-846a-45ca-b516-09482c87ea1a@oss.nxp.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <6f6a149e-846a-45ca-b516-09482c87ea1a@oss.nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 67766e4211117622b8f
+X-MBO-RS-META: 57yjiim1r1b9ka3azn4618hr575chnsd
 
-Hi Ariel,
+On 8/21/25 11:42 AM, Ming Qian(OSS) wrote:
 
-thanks for your patch!
+Hello Ming,
 
-On Wed, Aug 20, 2025 at 7:17=E2=80=AFPM Ariel D'Alessandro
-<ariel.dalessandro@collabora.com> wrote:
+>>> Using sram instead of dram only improves timing, but doesn't 
+>>> completely circumvent the hardware bug
+>> Does it make sense to upstream this patch anyway ?
+> 
+> I think this patch is helpful.
+> 
+> But so far, we don't have any SRAM resources for jpeg.
+> The i.MX95 does have sram, but it is very limited, and it has been
+> assigned to arm_scmi and VPU.
 
-> +  ce-gpios:
-> +    description: GPIO connected to the CE (chip enable) pin of the chip
-> +    maxItems: 1
+I found out the SM can work fine with only 192 kiB of SRAM instead of 
+256 kiB of SRAM. That frees up 64 kiB of SRAM for NS world. Each JPEG IP 
+needs 20544 Bytes for descriptors, which fits into those freed up 64 kiB 
+of SRAM.
 
-Mention that this should always have the flag GPIO_ACTIVE_HIGH
-as this is required by the hardware.
+The alternative would be to handle those AXI read errors and restart the 
+encoding. I always observe these errors in the CONFIG phase of encoding. 
+Do you happen to have any details of this issue you could share ? Do you 
+know whether the problem occurs only during CONFIG phase, or also during 
+image read phase ?
 
-Unfortunately we have no YAML syntax for enforcing flags :/
+If the problem occurs only during CONFIG phase of encoding, it would be 
+easy to retrigger the CONFIG I think. If the problem occurs also during 
+image read, that might need some more creative fix.
 
-With that fix:
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> This patch makes the jpeg can support SRAM. Maybe in some scenarios, we
+> can assign the SRAM to jpeg instead of VPU.
+> 
+> So for me, I welcome this patch.
 
-Yours,
-Linus Walleij
+Thank you
+
+-- 
+Best regards,
+Marek Vasut
 
