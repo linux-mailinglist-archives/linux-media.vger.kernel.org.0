@@ -1,259 +1,339 @@
-Return-Path: <linux-media+bounces-40640-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40641-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BB61B30005
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 18:30:03 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0FFEB3001E
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 18:33:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 32F047B0A73
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 16:28:28 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A1925C1109
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 16:31:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 221952DECB9;
-	Thu, 21 Aug 2025 16:29:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCB582DECC2;
+	Thu, 21 Aug 2025 16:30:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="gqDZeuO/"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="taL2TKZM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69FEE2D027F
-	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 16:29:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C0CF27510E;
+	Thu, 21 Aug 2025 16:30:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755793790; cv=none; b=qpztYqfNKqAWix2WXXUG5AwLALLLIQFgQUcUxk2CNG39cwk94rhuqH0nOuhOBa9TZvKMUizjfOO0RLZcQTYE/d+6q80HHtx7bRquUUy6+EMttZPcDotwlcp4CVkLXYhLVRlHQi265mjuTAB6iSBUDLUmBXpnZttPX6LCkbj6raw=
+	t=1755793853; cv=none; b=r+hhEFWWbqs7CgODRaKseeRv7n4dqx5OZ127UJDr0hTDwDKkZBfJ6Rx79GKay4bYOquqJiBtAPvs47BARiTqH698xzCSS4AuSn4YtKBDiMAjM+hsFF2ijrUfQ6nysjQjLhXyhAzgzmePtRqc2JJmu/PdcH1VpMCwGl5qOmPJ9GQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755793790; c=relaxed/simple;
-	bh=/tbXBa6r0uSu+NPSmXQFYhFY4TeDHvKdeP7yIapjbxU=;
+	s=arc-20240116; t=1755793853; c=relaxed/simple;
+	bh=DybIH97wxyFrWaVoyca351mEX4CtxWYW6vGgJXt/2jE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AnZt/TlYDWRbneatFEYZFMC8DXPLR32EWIY8aafJR3Xcm+7VJQk2wxlMPAvvnqT6ZHPpP6R8RXNIjy2W5lUb9wCpZxbtoGNmoZ40ishp4XPZi5Hue0LzXBf2+89B/57EYE1ds6aMzz6Ymq/WdPrOnirfrazPI32WwySYV4+MII8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=gqDZeuO/; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57L9bD0T007125
-	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 16:29:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=zIhKFueIyr4p/yFGjoDpxYA4
-	IzoEZUqKsKS0QB3Gip8=; b=gqDZeuO/ilYuppctcwwO5szg9iQ/C7BbwZfK15xn
-	m0e6SqLB4lHcjMOIGXfvwxLAqO7lvJOftrIxqwRvG+NizFhk2p1639VdEoXeOJ6Z
-	Vl+8QnMjfKyqM3lMiE3LmsYMQuomxMcutivszXLLB76ZveRioNXJy21eKp3rPizx
-	VrUZ3rtxp4bC5QMsHZXiN/JuJXaKplsSQgqcjx3JCrDDHOhqteFSwRUD/h3TnhKB
-	0H3+FlLLaPkbMoM2PUHuPARZtDdDiBe5Tncjhb7JlWOrbNNA3bovvbbRV6PLyqoN
-	1tpq11IPpyEl7Q3ruLhzFAUIvVxyeEuU6VQImJdKYSJZwg==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n5296540-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 16:29:47 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-2445806b18aso15022665ad.1
-        for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 09:29:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755793787; x=1756398587;
-        h=in-reply-to:content-disposition:mime-version:references
-         :mail-followup-to:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zIhKFueIyr4p/yFGjoDpxYA4IzoEZUqKsKS0QB3Gip8=;
-        b=Fm1IJYiNVBJi5dvy3T4p9N1pOi7XgFDa+rhsUrCBW59u+I9gB+/+palOK8RNWOEkFA
-         f8soVP+RpLbjtTFgotnr2Ea5ULoYXwnZ6UtpcIaEIFrcLP9jSj+XUSA8pMK5b6ttyigz
-         9hJWDTDKexTtDbLglY1x5FSAxsagSG9+w/smN1u+ssNuQO2WG+iUV2ytUouPAEHpJw6x
-         as9yoIttaKqQ//njCMeWCZPlgrzaSx9ziVFoKH0WWDzTxIyWv2w7prjLQydod+9iefMU
-         0352t5fQY4ul1FiHtkMrPYm36cfvEyyQ1oNfzwFbpHxqh84TgyZFChd+aajdha2yNIBY
-         yd9w==
-X-Forwarded-Encrypted: i=1; AJvYcCUFc3TLcDCkrYcUBYN1+UwTarYSEYSui3FlxLmzQt/sjZTTMXnWYntA1MEojLUXi7rqzz6o+PRst8hymQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YztgTa4vauRF0WI1pIEmBrdTB0wvIFEqPKQDGC45FcY6CbVTinl
-	JAUErU13P1JsshH5vUDLCxHqxJhNVxHDKw4NM6YBRqpcWbO1kHPe4Ijc8iV8/39u7JWn/N+Q5hM
-	MCdLsTxqpgBx64Q/BKV9G1k9Ok5r9HPYuPHnGaGZJzxIat679FFG4zjlqfmdMBi4Xww==
-X-Gm-Gg: ASbGncv5TMlZ4m4c1DYKTqCuHkLLNPT+w1zkMDH6B/0j7CQj7K5laAc0VXMz+OeKaLZ
-	mDl8ONKk61PXM12QGKc0dy6a/kEA3hSW7OWnppNj24g0VtyXcwWRmAMCwcVoEBJuvbGvfkslgpD
-	2WtQwzB74wRUSJbHb9O3Yo+h2/hXd8vOlrY/4gV0MRFo8oB4s3OkiTjcUSxBS0CdHZMLq62l8rS
-	7f1txhESwzaTtF/Ta5azs79VihAUMcQHkPXA+durx4/PobF+cWr+dZI1lLIB7KcQrybTEzap5qk
-	LZ8wM5QPvDP8ni0F3CDUjYZqKmONvR6hWWQHjDQSoSReVFA1A1+CGa1GNEabv3/TB58=
-X-Received: by 2002:a17:902:ebc7:b0:240:3ef:e17d with SMTP id d9443c01a7336-245fedd4260mr47644435ad.40.1755793786770;
-        Thu, 21 Aug 2025 09:29:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFztsB+0vyvGfd9GpFN/m6bhvsalSkka7TFzQDwuhyvsOAKhMpUjb0k8uC05DSbFLMBUCGz9Q==
-X-Received: by 2002:a17:902:ebc7:b0:240:3ef:e17d with SMTP id d9443c01a7336-245fedd4260mr47643755ad.40.1755793786041;
-        Thu, 21 Aug 2025 09:29:46 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245ed4e9bc2sm59691575ad.113.2025.08.21.09.29.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 21 Aug 2025 09:29:45 -0700 (PDT)
-Date: Thu, 21 Aug 2025 21:59:39 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH v2 04/11] firmware: qcom_scm: Simplify
- qcom_scm_pas_init_image()
-Message-ID: <20250821162939.6s5hjsc36bmelmvl@hu-mojha-hyd.qualcomm.com>
-Mail-Followup-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Vikash Garodia <quic_vgarodia@quicinc.com>,
-	Dikshita Agarwal <quic_dikshita@quicinc.com>,
+	 Content-Type:Content-Disposition:In-Reply-To; b=YA+cZJe2hVavDJygiZlTqHvblRBgfULKlTrmfNtjUqlEU+a10BtGrJdKSBK7U8qUaq8YXBajQKOlmygB3tcTE4qstPY8h6jUc02pikvmo+AesOreXoZ4NhftfXMLmYgqLTiRk6VzzeAnXk2U9yJ2grd/AB4UOe2MHxa6PElE7Io=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=taL2TKZM; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D37FE250;
+	Thu, 21 Aug 2025 18:29:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755793790;
+	bh=DybIH97wxyFrWaVoyca351mEX4CtxWYW6vGgJXt/2jE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=taL2TKZMwaPfZvu4Fwbe5D3AaohYPihTfYr+STon/G6hCmtrK9TXM6SIQJ2i7db2Q
+	 4GLIFcfIw5yzEazmidXD7CtJPQxxdAuanRRdeF6sDZBWDRKtC8rUQdYYJFZHEnl57w
+	 m/dEhKys8DKcxqYZkIe32yyPSn+18yzbwjWkJ9VE=
+Date: Thu, 21 Aug 2025 19:30:25 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: linux-media@vger.kernel.org, Isaac Scott <isaac.scott@ideasonboard.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Mathieu Poirier <mathieu.poirier@linaro.org>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
-References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
- <20250819165447.4149674-5-mukesh.ojha@oss.qualcomm.com>
- <10d91d9d-b6d6-4a83-a697-909f97abc503@linaro.org>
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v2 11/12] media: imx-mipi-csis: Initial support for
+ multiple output channels
+Message-ID: <20250821163025.GB29629@pendragon.ideasonboard.com>
+References: <20250821000944.27849-1-laurent.pinchart@ideasonboard.com>
+ <20250821000944.27849-12-laurent.pinchart@ideasonboard.com>
+ <aKdBu9AQfwxl8b4I@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <10d91d9d-b6d6-4a83-a697-909f97abc503@linaro.org>
-X-Authority-Analysis: v=2.4 cv=ZJKOWX7b c=1 sm=1 tr=0 ts=68a7497b cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=kj9zAlcOel0A:10 a=2OwXVqhp2XgA:10 a=EUspDBNiAAAA:8 a=KKAkSRfTAAAA:8
- a=oHMyjcGywICXLiFiIg0A:9 a=CjuIK1q_8ugA:10 a=324X-CrmTo6CU4MGRt3R:22
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: qd9VSCWLfB7NYgp8e-VMUAO_NemqbrSS
-X-Proofpoint-GUID: qd9VSCWLfB7NYgp8e-VMUAO_NemqbrSS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfXy3jxj+edZmyE
- sFWFIQ63cWKGQ1XkxoOheF+c8KmWAa1xXup1r/zrxk/sTX/T+zB5WlznYdB01b+ixvhf+CSE9iN
- Ia+yxyGc0/K3rOTiGKljBa8uxfCKm8EG4Iz7pFmoE2f46OZXzo0m7oS3G/2feW7YheoaNosYFBx
- 1sZbjsm1Za/FUEVr/fKse9xQecEZXETYEurh5mjyXcIwXLtP9V9ysoZAvQfiSeZfq6Brl3c2sgq
- A63wO2J3TgytdnLKIMGvdeCFEzv3mRhB0IeBp3ouuDCFcXQruyGD/cXB3CLJ0zQ0XjOq2/8phne
- dsYpkSnPzcDxfuJgyRxhfke6K+qtCNHtYRTqrPQzxdw+XiJTH3yDaGyA5WvBtiEDDbO9fPNiaOg
- wWdDrbN/LueYidOsAQqABuylFOIWoQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-21_03,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 priorityscore=1501 malwarescore=0 adultscore=0 suspectscore=0
- lowpriorityscore=0 impostorscore=0 phishscore=0 clxscore=1015 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
+In-Reply-To: <aKdBu9AQfwxl8b4I@lizhi-Precision-Tower-5810>
 
-On Thu, Aug 21, 2025 at 03:36:26PM +0100, Bryan O'Donoghue wrote:
-> On 19/08/2025 17:54, Mukesh Ojha wrote:
-> > Simplify qcom_scm_pas_init_image() by making the memory
-> > allocation, copy and free work in a separate function
-> > then the actual SMC call.
-> 
-> then is temporal
-> than is disjunctive
-> 
-> you mean than here, not then.
-
-Thanks, its a typo.
-
-> 
-> > 
-> > Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+On Thu, Aug 21, 2025 at 11:56:43AM -0400, Frank Li wrote:
+> On Thu, Aug 21, 2025 at 03:09:43AM +0300, Laurent Pinchart wrote:
+> > Some CSIS instances feature more than one output channel. Update
+> > register macros accordingly, parse the number of channels from the
+> > device tree, and update register dumps and event counters to log
+> > per-channel data.
+> >
+> > Support for routing virtual channels and data types to output channels
+> > through the subdev internal routing API will come later.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > > ---
-> >   drivers/firmware/qcom/qcom_scm.c | 59 ++++++++++++++++++--------------
-> >   1 file changed, 34 insertions(+), 25 deletions(-)
-> > 
-> > diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
-> > index 9a5b34f5bacb..7827699e277c 100644
-> > --- a/drivers/firmware/qcom/qcom_scm.c
-> > +++ b/drivers/firmware/qcom/qcom_scm.c
-> > @@ -584,6 +584,38 @@ void *qcom_scm_pas_ctx_init(struct device *dev, u32 peripheral, phys_addr_t mem_
-> >   }
-> >   EXPORT_SYMBOL_GPL(qcom_scm_pas_ctx_init);
-> > +static int __qcom_scm_pas_init_image(u32 peripheral, dma_addr_t mdata_phys,
-> > +				     void *metadata, size_t size,
-> > +				     struct qcom_scm_res *res)
+> > Changes since v1:
+> >
+> > - Update more per-channel registers
+> > - Update commit message
+> > ---
+> >  drivers/media/platform/nxp/imx-mipi-csis.c | 239 +++++++++++++--------
+> >  1 file changed, 152 insertions(+), 87 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+> > index 83ba68a20bd1..b1136336a57f 100644
+> > --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> > +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> > @@ -54,7 +54,7 @@
+> >
+> ...
+> >
+> > +	{ false, 0, MIPI_CSIS_INT_SRC_FRAME_START(0),		"Frame Start 0" },
+> > +	{ false, 1, MIPI_CSIS_INT_SRC_FRAME_START(1),		"Frame Start 1" },
+> > +	{ false, 2, MIPI_CSIS_INT_SRC_FRAME_START(2),		"Frame Start 2" },
+> > +	{ false, 3, MIPI_CSIS_INT_SRC_FRAME_START(3),		"Frame Start 3" },
+> > +	{ false, 0, MIPI_CSIS_INT_SRC_FRAME_END(0),		"Frame End 0" },
+> > +	{ false, 1, MIPI_CSIS_INT_SRC_FRAME_END(1),		"Frame End 1" },
+> > +	{ false, 2, MIPI_CSIS_INT_SRC_FRAME_END(2),		"Frame End 2" },
+> > +	{ false, 3, MIPI_CSIS_INT_SRC_FRAME_END(3),		"Frame End 3" },
+> > +	{ true, 0, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_FALL(0),	"VSYNC Falling Edge 0" },
+> > +	{ true, 1, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_FALL(1),	"VSYNC Falling Edge 1" },
+> > +	{ true, 2, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_FALL(2),	"VSYNC Falling Edge 2" },
+> > +	{ true, 3, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_FALL(3),	"VSYNC Falling Edge 3" },
+> > +	{ true, 0, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_RISE(0),	"VSYNC Rising Edge 0" },
+> > +	{ true, 1, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_RISE(1),	"VSYNC Rising Edge 1" },
+> > +	{ true, 2, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_RISE(2),	"VSYNC Rising Edge 2" },
+> > +	{ true, 3, MIPI_CSIS_DBG_INTR_SRC_CAM_VSYNC_RISE(3),	"VSYNC Rising Edge 3" },
+> >  };
+> >
+> > -#define MIPI_CSIS_NUM_EVENTS ARRAY_SIZE(mipi_csis_events)
+> > +#define MIPI_CSIS_NUM_EVENTS		ARRAY_SIZE(mipi_csis_events)
+> 
+> unneccesary change for this patch
+
+It's meant to have the same alignment as the next line.
+
+> > +#define MIPI_CSIS_NUM_ERROR_EVENTS	(MIPI_CSIS_NUM_EVENTS - 20)
+> >
+> >  enum mipi_csis_clk {
+> >  	MIPI_CSIS_CLK_PCLK,
+> > @@ -300,7 +334,9 @@ struct mipi_csis_device {
+> >  	struct clk_bulk_data *clks;
+> >  	struct reset_control *mrst;
+> >  	struct regulator *mipi_phy_regulator;
+> > +
+> >  	const struct mipi_csis_info *info;
+> > +	unsigned int num_channels;
+> >
+> >  	struct v4l2_subdev sd;
+> >  	struct media_pad pads[CSIS_PADS_NUM];
+> > @@ -655,8 +691,8 @@ static void mipi_csis_set_params(struct mipi_csis_device *csis,
+> >  			MIPI_CSIS_ISP_SYNC_VSYNC_EINTV(0));
+> >
+> >  	val = mipi_csis_read(csis, MIPI_CSIS_CLK_CTRL);
+> > -	val |= MIPI_CSIS_CLK_CTRL_WCLK_SRC;
+> > -	val |= MIPI_CSIS_CLK_CTRL_CLKGATE_TRAIL_CH0(15);
+> > +	val |= MIPI_CSIS_CLK_CTRL_WCLK_SRC(0);
+> > +	val |= MIPI_CSIS_CLK_CTRL_CLKGATE_TRAIL(0, 15);
+> >  	val &= ~MIPI_CSIS_CLK_CTRL_CLKGATE_EN_MSK;
+> >  	mipi_csis_write(csis, MIPI_CSIS_CLK_CTRL, val);
+> >
+> > @@ -673,7 +709,7 @@ static void mipi_csis_set_params(struct mipi_csis_device *csis,
+> >  	/* Update the shadow register. */
+> >  	val = mipi_csis_read(csis, MIPI_CSIS_CMN_CTRL);
+> >  	mipi_csis_write(csis, MIPI_CSIS_CMN_CTRL,
+> > -			val | MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW |
+> > +			val | MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW(0) |
+> >  			MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW_CTRL);
+> >  }
+> >
+> > @@ -764,16 +800,19 @@ static irqreturn_t mipi_csis_irq_handler(int irq, void *dev_id)
+> >
+> >  	/* Update the event/error counters */
+> >  	if ((status & MIPI_CSIS_INT_SRC_ERRORS) || csis->debug.enable) {
+> > -		for (i = 0; i < MIPI_CSIS_NUM_EVENTS; i++) {
+> > +		for (i = 0; i < ARRAY_SIZE(csis->events); i++) {
+> 
+> This is nice change, but I think it is not related with this patch. May
+> need sperate patch.
+
+I think a separate patch just for this one-line change would be
+overkill. Given that this patch touches event reporting, I'd rather keep
+this here.
+
+> >  			struct mipi_csis_event *event = &csis->events[i];
+> >
+> > +			if (event->channel >= csis->num_channels)
+> > +				continue;
+> > +
+> >  			if ((!event->debug && (status & event->mask)) ||
+> >  			    (event->debug && (dbg_status & event->mask)))
+> >  				event->counter++;
+> >  		}
+> >  	}
+> >
+> > -	if (status & MIPI_CSIS_INT_SRC_FRAME_START)
+> > +	if (status & MIPI_CSIS_INT_SRC_FRAME_START(0))
+> >  		mipi_csis_queue_event_sof(csis);
+> >
+> >  	spin_unlock_irqrestore(&csis->slock, flags);
+> > @@ -850,7 +889,7 @@ static void mipi_csis_clear_counters(struct mipi_csis_device *csis)
+> >  static void mipi_csis_log_counters(struct mipi_csis_device *csis, bool non_errors)
+> >  {
+> >  	unsigned int num_events = non_errors ? MIPI_CSIS_NUM_EVENTS
+> > -				: MIPI_CSIS_NUM_EVENTS - 8;
+> > +				: MIPI_CSIS_NUM_ERROR_EVENTS;
+> 
+> I think old code logic is strange. err events is not last trail of events
+> array. when non_errors false, only last 8 events have not logs.
+
+The error events are at the beginning of the array, and before this
+change there was 8 non-error events at the end. The code would log
+either all events, or just the error events (all minus the last 8).
+
+> 
+> And I found all place call mipi_csis_log_counters(, true) in whole driver.
+
+Indeed. I wonder why. Looking at the code, I think we should only log
+non-error counters when csis->debug.enable is set. That's a candidate
+for a separate patch.
+
+> >  	unsigned int counters[MIPI_CSIS_NUM_EVENTS];
+> >  	unsigned long flags;
+> >  	unsigned int i;
+> > @@ -861,45 +900,67 @@ static void mipi_csis_log_counters(struct mipi_csis_device *csis, bool non_error
+> >  	spin_unlock_irqrestore(&csis->slock, flags);
+> >
+> >  	for (i = 0; i < num_events; ++i) {
+> > +		const struct mipi_csis_event *event = &csis->events[i];
+> > +
+> > +		if (event->channel >= csis->num_channels)
+> > +			continue;
+> > +
+> >  		if (counters[i] > 0 || csis->debug.enable)
+> >  			dev_info(csis->dev, "%s events: %d\n",
+> > -				 csis->events[i].name,
+> > -				 counters[i]);
+> > +				 event->name, counters[i]);
+> >  	}
+> >  }
+> >
+> > +struct mipi_csis_reg_info {
+> > +	u32 addr;
+> > +	unsigned int offset;
+> > +	const char * const name;
+> > +};
+> > +
+> > +static void mipi_csis_dump_channel_reg(struct mipi_csis_device *csis,
+> > +				       const struct mipi_csis_reg_info *reg,
+> > +				       unsigned int channel)
 > > +{
-> > +	int ret;
-> > +	struct qcom_scm_desc desc = {
-> > +		.svc = QCOM_SCM_SVC_PIL,
-> > +		.cmd = QCOM_SCM_PIL_PAS_INIT_IMAGE,
-> > +		.arginfo = QCOM_SCM_ARGS(2, QCOM_SCM_VAL, QCOM_SCM_RW),
-> > +		.args[0] = peripheral,
-> > +		.owner = ARM_SMCCC_OWNER_SIP,
-> > +	};
-> 
-> A minor detail but please reverse christmas tree your defintions and try to
-> make int ret come last.
-
-Sure.
-
-> 
-> > +
-> > +	ret = qcom_scm_clk_enable();
-> > +	if (ret)
-> > +		return ret;
-> > +
-> > +	ret = qcom_scm_bw_enable();
-> > +	if (ret)
-> > +		goto disable_clk;
-> > +
-> > +	desc.args[1] = mdata_phys;
-> > +
-> > +	ret = qcom_scm_call(__scm->dev, &desc, res);
-> > +	qcom_scm_bw_disable();
-> > +
-> > +disable_clk:
-> > +	qcom_scm_clk_disable();
-> > +
-> > +	return ret;
+> > +	dev_info(csis->dev, "%16s%u: 0x%08x\n", reg->name, channel,
+> > +		 mipi_csis_read(csis, reg->addr + channel * reg->offset));
 > > +}
 > > +
-> >   /**
-> >    * qcom_scm_pas_init_image() - Initialize peripheral authentication service
-> >    *			       state machine for a given peripheral, using the
-> > @@ -604,17 +636,10 @@ EXPORT_SYMBOL_GPL(qcom_scm_pas_ctx_init);
-> >   int qcom_scm_pas_init_image(u32 peripheral, const void *metadata, size_t size,
-> >   			    struct qcom_scm_pas_metadata *ctx)
-> >   {
-> > +	struct qcom_scm_res res;
-> >   	dma_addr_t mdata_phys;
-> >   	void *mdata_buf;
-> >   	int ret;
-> > -	struct qcom_scm_desc desc = {
-> > -		.svc = QCOM_SCM_SVC_PIL,
-> > -		.cmd = QCOM_SCM_PIL_PAS_INIT_IMAGE,
-> > -		.arginfo = QCOM_SCM_ARGS(2, QCOM_SCM_VAL, QCOM_SCM_RW),
-> > -		.args[0] = peripheral,
-> > -		.owner = ARM_SMCCC_OWNER_SIP,
-> > -	};
-> > -	struct qcom_scm_res res;
-> >   	/*
-> >   	 * During the scm call memory protection will be enabled for the meta
-> > @@ -635,23 +660,7 @@ int qcom_scm_pas_init_image(u32 peripheral, const void *metadata, size_t size,
-> >   	memcpy(mdata_buf, metadata, size);
-> > -	ret = qcom_scm_clk_enable();
-> > -	if (ret)
-> > -		goto out;
+> >  static int mipi_csis_dump_regs(struct mipi_csis_device *csis)
+> >  {
+> > -	static const struct {
+> > -		u32 offset;
+> > -		const char * const name;
+> > -	} registers[] = {
+> > -		{ MIPI_CSIS_CMN_CTRL, "CMN_CTRL" },
+> > -		{ MIPI_CSIS_CLK_CTRL, "CLK_CTRL" },
+> > -		{ MIPI_CSIS_INT_MSK, "INT_MSK" },
+> > -		{ MIPI_CSIS_DPHY_STATUS, "DPHY_STATUS" },
+> > -		{ MIPI_CSIS_DPHY_CMN_CTRL, "DPHY_CMN_CTRL" },
+> > -		{ MIPI_CSIS_DPHY_SCTRL_L, "DPHY_SCTRL_L" },
+> > -		{ MIPI_CSIS_DPHY_SCTRL_H, "DPHY_SCTRL_H" },
+> > -		{ MIPI_CSIS_ISP_CONFIG_CH(0), "ISP_CONFIG_CH0" },
+> > -		{ MIPI_CSIS_ISP_RESOL_CH(0), "ISP_RESOL_CH0" },
+> > -		{ MIPI_CSIS_SDW_CONFIG_CH(0), "SDW_CONFIG_CH0" },
+> > -		{ MIPI_CSIS_SDW_RESOL_CH(0), "SDW_RESOL_CH0" },
+> > -		{ MIPI_CSIS_DBG_CTRL, "DBG_CTRL" },
+> > -		{ MIPI_CSIS_FRAME_COUNTER_CH(0), "FRAME_COUNTER_CH0" },
+> > +	static const struct mipi_csis_reg_info common_registers[] = {
+> > +		{ MIPI_CSIS_CMN_CTRL, 0, "CMN_CTRL" },
+> > +		{ MIPI_CSIS_CLK_CTRL, 0, "CLK_CTRL" },
+> > +		{ MIPI_CSIS_INT_MSK, 0, "INT_MSK" },
+> > +		{ MIPI_CSIS_DPHY_STATUS, 0, "DPHY_STATUS" },
+> > +		{ MIPI_CSIS_DPHY_CMN_CTRL, 0, "DPHY_CMN_CTRL" },
+> > +		{ MIPI_CSIS_DPHY_SCTRL_L, 0, "DPHY_SCTRL_L" },
+> > +		{ MIPI_CSIS_DPHY_SCTRL_H, 0, "DPHY_SCTRL_H" },
+> > +		{ MIPI_CSIS_DBG_CTRL, 0, "DBG_CTRL" },
+> > +	};
+> > +	static const struct mipi_csis_reg_info channel_registers[] = {
+> > +		{ MIPI_CSIS_ISP_CONFIG_CH(0), 0x10, "ISP_CONFIG_CH" },
+> > +		{ MIPI_CSIS_ISP_RESOL_CH(0), 0x10, "ISP_RESOL_CH" },
+> > +		{ MIPI_CSIS_SDW_CONFIG_CH(0), 0x10, "SDW_CONFIG_CH" },
+> > +		{ MIPI_CSIS_SDW_RESOL_CH(0), 0x10, "SDW_RESOL_CH" },
+> > +		{ MIPI_CSIS_FRAME_COUNTER_CH(0), 4, "FRAME_COUNTER_CH" },
+> >  	};
 > > -
-> > -	ret = qcom_scm_bw_enable();
-> > -	if (ret)
-> > -		goto disable_clk;
-> > -
-> > -	desc.args[1] = mdata_phys;
-> > -
-> > -	ret = qcom_scm_call(__scm->dev, &desc, &res);
-> > -	qcom_scm_bw_disable();
-> > -
-> > -disable_clk:
-> > -	qcom_scm_clk_disable();
-> > -
-> > -out:
-> > +	ret = __qcom_scm_pas_init_image(peripheral, mdata_phys, mdata_buf, size, &res);
-> >   	if (ret < 0 || !ctx) {
-> >   		dma_free_coherent(__scm->dev, size, mdata_buf, mdata_phys);
-> >   	} else if (ctx) {
-> 
-> With those changes.
-> 
-> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> > -	unsigned int i;
+> > -	u32 cfg;
+> >
+> >  	if (!pm_runtime_get_if_in_use(csis->dev))
+> >  		return 0;
+> >
+> >  	dev_info(csis->dev, "--- REGISTERS ---\n");
+> >
+> > -	for (i = 0; i < ARRAY_SIZE(registers); i++) {
+> > -		cfg = mipi_csis_read(csis, registers[i].offset);
+> > -		dev_info(csis->dev, "%17s: 0x%08x\n", registers[i].name, cfg);
+> > +	for (unsigned int i = 0; i < ARRAY_SIZE(common_registers); i++) {
+> > +		const struct mipi_csis_reg_info *reg = &common_registers[i];
+> > +
+> > +		dev_info(csis->dev, "%17s: 0x%08x\n", reg->name,
+> > +			 mipi_csis_read(csis, reg->addr));
+> > +	}
+> > +
+> > +	for (unsigned int chan = 0; chan < csis->num_channels; chan++) {
+> > +		for (unsigned int i = 0; i < ARRAY_SIZE(channel_registers); ++i)
+> > +			mipi_csis_dump_channel_reg(csis, &channel_registers[i],
+> > +						   chan);
+> >  	}
+> >
+> >  	pm_runtime_put(csis->dev);
+> > @@ -1422,6 +1483,12 @@ static int mipi_csis_parse_dt(struct mipi_csis_device *csis)
+> >
+> >  	of_property_read_u32(node, "clock-frequency", &csis->clk_frequency);
+> >
+> > +	csis->num_channels = 1;
+> > +	of_property_read_u32(node, "fsl,num-channels", &csis->num_channels);
+> > +	if (csis->num_channels < 1 || csis->num_channels > MIPI_CSIS_MAX_CHANNELS)
+> > +		return dev_err_probe(csis->dev, -EINVAL,
+> > +				     "Invalid fsl,num-channels value\n");
+> > +
+> >  	return 0;
+> >  }
+> >
+> > @@ -1445,10 +1512,8 @@ static int mipi_csis_probe(struct platform_device *pdev)
+> >
+> >  	/* Parse DT properties. */
+> >  	ret = mipi_csis_parse_dt(csis);
+> > -	if (ret < 0) {
+> > -		dev_err(dev, "Failed to parse device tree: %d\n", ret);
+> > +	if (ret < 0)
+> >  		return ret;
+> > -	}
+> >
+> >  	/* Acquire resources. */
+> >  	csis->regs = devm_platform_ioremap_resource(pdev, 0);
 
 -- 
--Mukesh Ojha
+Regards,
+
+Laurent Pinchart
 
