@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-40574-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40575-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B338B2F93D
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 15:03:34 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 80300B2F910
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 14:58:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D3D7188AE0E
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 12:58:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5CC787B2791
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 12:56:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1859321F5B;
-	Thu, 21 Aug 2025 12:56:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4AAA236CDE1;
+	Thu, 21 Aug 2025 12:57:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g2hNV+FA"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Wog2UHRt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8555319844
-	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 12:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DFE62C859
+	for <linux-media@vger.kernel.org>; Thu, 21 Aug 2025 12:57:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755780988; cv=none; b=mKZpx9lrzUjuTv9/V7YbaDWth7J4LHosoDELJvke6CKt1rfdMcMNz83hLH/cEkoMeeMWxKt1GbNm4egCeH12UlaxAwPQ1JPjz7kk0wEiyNf31WXusEUA3qpnuIKzqhQd+KwtwkOaVDXNcOFgj4tDNYt56eiSdGxhLHFy+lifK70=
+	t=1755781078; cv=none; b=VmGMRs//1UeU/td6q5dsvD9ddNCDZDJE3arq7ZscOD21L+QaqwfQOx4L4p3qa36hAD4xl12mpiX/B5mBjunM+LbH1SrtFAaqUZ5qFpEkCVAOTndw+ufGDi+ePbWnKELaFJAWKme5/48TqYyybeFH924tLEDQQXMMMNIV0UROeEU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755780988; c=relaxed/simple;
-	bh=r7WTt2oFZ6/U8vtnEMTYt1LusCx+1FVPffkuABu99c4=;
+	s=arc-20240116; t=1755781078; c=relaxed/simple;
+	bh=oJoFilf4WCry/mSUgNHo0CNOoHVGrnaKInZAijlTXuk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QuLF1fP1OEMsGuEXjjTPa7KgB3LwSVAGXC8KB8JMAKhY4aEVZxVd6PHUNYA1hbD/0jMnw8yrK9OpzhDrAs+tA51jaZJiBjxHA2d/hMN8WjkLIjQz630EW3KIsBDnm2Lpb93ZV4l46cSn2OE6U9jsqmwlE7MFp58ineJd84RTsQc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g2hNV+FA; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=VrEO0B9JfTJrpobFMdWdiOCH1GAyJyTMtw6DsYaPC6c1aOdJDkBTyXCV5xSQbLlst4tHYKCyjxZB1f0IX/ke9DSUTTdh6WkqKKoXnT8fM6c+IAUDX663BE+EDf0G0GzmXTiWUux+bADul6sCw6224RQnWyP+SUfhTOGukd5uGag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Wog2UHRt; arc=none smtp.client-ip=198.175.65.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1755780987; x=1787316987;
+  t=1755781078; x=1787317078;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=r7WTt2oFZ6/U8vtnEMTYt1LusCx+1FVPffkuABu99c4=;
-  b=g2hNV+FAQJhUSSjAW6PBQPQ8hTwgbU/EqLmXVsBAYYGGjS746iQ0lQwH
-   brGYBFvU5xWmIrcoAeCXtDcDs578AxspXLHFTzgnCSkROTCaGMpIjlxee
-   tp37DZxYrthnbttQTB7FrI5G9nF0a6BdpKZu+JR8dbSQsC9NwTB3f9a1w
-   POqphz5W83uW8QWRuJZLbhJW0P1Mo7HfRmpp/cacGnJUy877cbhLq1Nqr
-   hsD/5Qx2w71rnzqobWlims5LnVLZZN73U8OFZkJj72JF1L1jw5LPM/YWr
-   h5yaiToLElbyhjp/Y4r6kpkwLY6DOWc+PljBdB8bue4XRIrcbAZMPXSPT
+  bh=oJoFilf4WCry/mSUgNHo0CNOoHVGrnaKInZAijlTXuk=;
+  b=Wog2UHRtvcXu6prSITnKf9S/sJooQ4cVFaSVsjZE7GrrKkspUzxtsGWQ
+   Y+xu3aDJvqN4rYni1ADCrgUey4tyhgZbSfUEsMeprgYlyUfDOLcLvFubR
+   4qJY00LfCAzB0UjFRwFFU10VWpCxfT+taRCJPyW4Yms8ecEhcbOVhjlMA
+   Rkq1lV1Zg6t8dYwGUaEk5aIonjRvjy++9xtopA8aSelt+crgkiFXp95xT
+   NjYYidStyh6zV7j0qvj38lB8uHt0lETxo5bEGdHH1m2KtrpH56mVcy0oP
+   EbaubYTH0t+n/RVbVs45p596oUpn39ta0j1QjrIP7is9uMeP9JbddDzP5
    A==;
-X-CSE-ConnectionGUID: MPdwvNNmSoa4JccNwm95vw==
-X-CSE-MsgGUID: LjkLTkkFRU6BnA0f+nj0Aw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="68664801"
+X-CSE-ConnectionGUID: gz1s0N1hS/mUpDCMAhyz+A==
+X-CSE-MsgGUID: 6ccCBl3yT56EfXdSDXAJ7w==
+X-IronPort-AV: E=McAfee;i="6800,10657,11529"; a="80665883"
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="68664801"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 05:56:26 -0700
-X-CSE-ConnectionGUID: BHCAlmlITB+1B1S9U+x37A==
-X-CSE-MsgGUID: nQiMiZ7ES16BAcBfzT1Vug==
+   d="scan'208";a="80665883"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 05:57:57 -0700
+X-CSE-ConnectionGUID: Av07Q+HGT8GapvwLvzSw3A==
+X-CSE-MsgGUID: K+sbPHFqSiy+khrPqr8CMw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,306,1747724400"; 
-   d="scan'208";a="172823505"
+   d="scan'208";a="205585556"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.237])
-  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 05:56:24 -0700
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Aug 2025 05:57:54 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 8BAFB11FC36;
-	Thu, 21 Aug 2025 15:56:20 +0300 (EEST)
-Date: Thu, 21 Aug 2025 15:56:20 +0300
+	by kekkonen.fi.intel.com (Postfix) with SMTP id AD91611FC36;
+	Thu, 21 Aug 2025 15:57:51 +0300 (EEST)
+Date: Thu, 21 Aug 2025 15:57:51 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -73,11 +73,12 @@ Cc: linux-media@vger.kernel.org, Keke Li <keke.li@amlogic.com>,
 	Mehdi Djait <mehdi.djait@linux.intel.com>,
 	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
 	Niklas =?iso-8859-1?Q?S=F6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: Re: [PATCH v2 0/3] Drop control handler argument support for
- v4l2_get_link_freq()
-Message-ID: <aKcXdDDxzsNZ2Bq2@kekkonen.localdomain>
+Subject: Re: [PATCH v3 3/3] media: v4l2-common: Update v4l2_get_link_freq()
+ documentation
+Message-ID: <aKcXz7BomAQo_gnS@kekkonen.localdomain>
 References: <20250821121207.552993-1-sakari.ailus@linux.intel.com>
- <20250821124148.GE8865@pendragon.ideasonboard.com>
+ <20250821121207.552993-4-sakari.ailus@linux.intel.com>
+ <20250821124056.GD8865@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,32 +87,58 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250821124148.GE8865@pendragon.ideasonboard.com>
+In-Reply-To: <20250821124056.GD8865@pendragon.ideasonboard.com>
 
 Hi Laurent,
 
-On Thu, Aug 21, 2025 at 03:41:48PM +0300, Laurent Pinchart wrote:
-> On Thu, Aug 21, 2025 at 03:12:04PM +0300, Sakari Ailus wrote:
-> > Hi folks,
-> > 
-> > This set removes the workaround from v4l2_get_link_freq() that allowed
-> > calling it on a control handler. The Amlogic c3-mipi-csi2 driver is
-> > converted in the process as well.
-> > 
-> > As a result there's also no definition of v4l2_get_link_freq() without
-> > CONFIG_MEDIA_CONTROLLER but that should be fine now. The Amlogic patch is
-> > untested.
+On Thu, Aug 21, 2025 at 03:40:56PM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> Could you please cherry-pick
-> https://lore.kernel.org/linux-media/20250821000944.27849-2-laurent.pinchart@ideasonboard.com/
-> and include it in this series ?
+> Thank you for the patch.
+> 
+> On Thu, Aug 21, 2025 at 03:12:07PM +0300, Sakari Ailus wrote:
+> > Document that v4l2_get_link_freq() obtains the link frequency primarily
+> > by calling the get_mbus_config sub-device pad operation.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  include/media/v4l2-common.h | 8 +++++---
+> >  1 file changed, 5 insertions(+), 3 deletions(-)
+> > 
+> > diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+> > index ab0ce8e605c3..c387deffbdd0 100644
+> > --- a/include/media/v4l2-common.h
+> > +++ b/include/media/v4l2-common.h
+> > @@ -567,9 +567,11 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
+> >   *	 times two on D-PHY, 1 on parallel. 0 otherwise.
+> >   *
+> >   * This function is intended for obtaining the link frequency from the
+> > - * transmitter sub-device's pad. It returns the link rate, either from the
+> > - * V4L2_CID_LINK_FREQ control implemented by the transmitter, or value
+> > - * calculated based on the V4L2_CID_PIXEL_RATE implemented by the transmitter.
+> > + * transmitter sub-device's @pad. It returns the link rate, primarily obtained
+> > + * through the get_mbus_config sub-device pad operation or secondarily through
+> > + * either from the V4L2_CID_LINK_FREQ control implemented by the transmitter, or
+> 
+> "through either from" should be either "through either" or "either
+> from".
+> 
+> > + * value calculated based on the V4L2_CID_PIXEL_RATE implemented by the
+> > + * transmitter.
+> 
+> I think this can be clarified further:
+> 
+>  * This function obtains and returns the link frequency from the transmitter
+>  * sub-device's pad. The link frequency is retrieved using the get_mbus_config
+>  * sub-device pad operation. If this fails, the function falls back to obtaining
+>  * the frequency either directly from the V4L2_CID_LINK_FREQ control if
+>  * implemented by the transmitter, or by calculating it from the pixel rate
+>  * obtained from the V4L2_CID_PIXEL_RATE control.
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-If a pad is const, I'd expect the container sub-device would be, too. I'll
-see if anything breaks if media_entity_to_v4l2_subdev() would switch to use
-container_of_const().
+Thanks. I'll use the text in v4.
 
 -- 
-Regards,
-
 Sakari Ailus
 
