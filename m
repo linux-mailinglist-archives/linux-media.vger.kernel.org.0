@@ -1,143 +1,215 @@
-Return-Path: <linux-media+bounces-40553-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40554-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A83FB2F59D
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 12:49:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCCD9B2F5B1
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 12:55:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B35A37A5866
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 10:47:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A2A25600F1E
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 10:55:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B39E8308F08;
-	Thu, 21 Aug 2025 10:49:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8B683093B5;
+	Thu, 21 Aug 2025 10:55:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="kvtVQWY4"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="S0ArPM2i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADD93307AD5;
-	Thu, 21 Aug 2025 10:49:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D307136358;
+	Thu, 21 Aug 2025 10:55:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755773352; cv=none; b=JB7TnT99V9L1b6b1/w/H5TJru9nhFkE95cW10Tbh1vL/KDq8ESrU/KsnFtjrlDY+f5fRxT2lfxvBoX1sIqwVt0Wu19++8V3HCyJEOfo5SB0UmfugJmtbxtkxcLBrJzAG8mQA/fP0yEUiFektcpMZ+tiFEnm1AiH9y0ch3F4DbN0=
+	t=1755773705; cv=none; b=kFnDW6OtKICyr3GBryF94kdZyVpzKZ4xAIVYEmKEJ/stMD9xMYG/QnvBTNG+8eAB7FV9lwkzwdS0/XWsKdXsPqbwLSQwsmxIko0uYkDvhQrZJw2Feg0RJ8PeiFsI7qDWDdSBCVnbouhQClk97dRag6HUxe0pdoVah0jA/t+O9hY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755773352; c=relaxed/simple;
-	bh=rG5esXl5MyyU9ccbkRzn255OdRwlFHNiQdQoQp112nU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=rVOdyLNEHUyZjwcVKgkqePmyzga3zY1yQ73Mq22IxFJD02z7RU03CKsNr5jDGXPP3gE6uuoRHsWba1G2ySUCI29LDlu7ypEKSrT7ugt7+lSGJUc5HAdKjRNROewVa9gtN291uflANujAN8UJ2jzC+nsrYT+Mnl3uzTXOnSYsqXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=kvtVQWY4; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57LAmFE23352350;
-	Thu, 21 Aug 2025 05:48:15 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1755773295;
-	bh=ZdcQq0ODeLvFcyZ8c1y1bdz85c9KQB/TPqgiMZRTnJo=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=kvtVQWY40B45uP1NmaZBuN+EuM78tEdP7xLQ47B+vp4LKGI78Io5SaBPkCqJ+Z+wV
-	 W8nk7I5i+I3rRLA8ddtPkKMkx9rO/yrAOGXKsHUHmjnGXGEX2mXXHw6gFAdzq63b5a
-	 +RcjA8x5Rb48WrKrmNNPxDoweF4ily0EFQPOIJTE=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57LAmFl81899798
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 21 Aug 2025 05:48:15 -0500
-Received: from DLEE103.ent.ti.com (157.170.170.33) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 21
- Aug 2025 05:48:14 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE103.ent.ti.com
- (157.170.170.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Thu, 21 Aug 2025 05:48:14 -0500
-Received: from [10.24.69.13] (meghana-pc.dhcp.ti.com [10.24.69.13] (may be forged))
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57LAm7OG2038086;
-	Thu, 21 Aug 2025 05:48:08 -0500
-Message-ID: <d2015724-416b-4222-aa85-88c0c5f9160c@ti.com>
-Date: Thu, 21 Aug 2025 16:18:07 +0530
+	s=arc-20240116; t=1755773705; c=relaxed/simple;
+	bh=EzZGFVJmGW+nLEFTqfxEyqxomlQCZpDbIDjo2NvlZ+s=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=Lhg7iURdd8wjS7IBY8+KYzeHM4sh/bbN/OK3dYYsQtM3RwqbT8QM8Q/PJlzo29ovNzK1s4rHg5rJ0NkrLLWpWSI0k+ZN1msRKdcNKcp6M9FnE0FZtSL70ONceoX0H4F9ieM6HB14NJDVNwXc479D0mwx1vikQGSrgHBAqZKKtpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=S0ArPM2i; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57L9bH2V012873;
+	Thu, 21 Aug 2025 10:54:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=YdZ/G40cAkUHSdTe/eyASm
+	AyBduCslpZKVJTTY+tP4M=; b=S0ArPM2iUh8QqbAuKyc5VOVcr7VLn4wtP8eFjD
+	S3B9H2dDEp1yYSUpb9GK9zOjB1LjsiwXika19nudMsWxCy1JWWfbMNEijSuDg6pt
+	AGKXY8RYp8aaMGclBejTblMMqDacffYzLqwRCWa9qDTzacetJUb+phznTBHnC1qY
+	IR8PWs6aa6gSNez+yvrEIDgFuVbbomAkD1UgstAXn8KOC+WGm/X4COawtZ1HzWu6
+	UVEXe2Sfq1SG+jq8hTaDuuzZVp2KAAfM5SrLCdNs/h83tXsRDPnnfXhQ3OmI9615
+	NfHb3bWD63+4e43gP6yeqLM4U1DX83Y6lTPBu0B6xHmKiHFg==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ngt8ax2p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 Aug 2025 10:54:57 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57LAsudN013038
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 21 Aug 2025 10:54:56 GMT
+Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Thu, 21 Aug 2025 03:54:53 -0700
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Date: Thu, 21 Aug 2025 16:24:38 +0530
+Subject: [PATCH v3] media: iris: vpu3x: Add MNoC low power handshake during
+ hardware power-off
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 5/6] net: ti: icssg-prueth: Add AF_XDP zero copy
- for RX
-To: Jakub Kicinski <kuba@kernel.org>
-CC: <namcao@linutronix.de>, <jacob.e.keller@intel.com>,
-        <christian.koenig@amd.com>, <sumit.semwal@linaro.org>,
-        <sdf@fomichev.me>, <john.fastabend@gmail.com>, <hawk@kernel.org>,
-        <daniel@iogearbox.net>, <ast@kernel.org>, <pabeni@redhat.com>,
-        <edumazet@google.com>, <davem@davemloft.net>, <andrew+netdev@lunn.ch>,
-        <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
-        <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>,
-        Vignesh Raghavendra
-	<vigneshr@ti.com>,
-        Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
-References: <20250818112424.3068643-1-m-malladi@ti.com>
- <20250818112424.3068643-6-m-malladi@ti.com>
- <20250819073558.2c996b6d@kernel.org>
-Content-Language: en-US
-From: Meghana Malladi <m-malladi@ti.com>
-In-Reply-To: <20250819073558.2c996b6d@kernel.org>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Message-ID: <20250821-sm8650-power-sequence-fix-v3-1-645816ba3826@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAO36pmgC/43NTQ6CMBCG4auQrq3pj0XqynsYF2UYpAtaaKVqC
+ He3sNKNcfl+yTwzk4jBYiSnYiYBk43WuxxyVxDojLshtU1uIphQrOKCxr4qFaODf2CgEccJHSB
+ t7ZPWRhstmK6ElCTfDwHzvNmXa+7OxrsPr+1V4uv6j5o45dQojsdWa1AlnMfJgnWwB9+T1U3i0
+ 5K/LJEtjQ1rQcBBQf1tLcvyBklB7LoQAQAA
+X-Change-ID: 20250812-sm8650-power-sequence-fix-ba9a92098233
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Dikshita Agarwal
+	<quic_dikshita@quicinc.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        "Bryan
+ O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755773693; l=3678;
+ i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
+ bh=EzZGFVJmGW+nLEFTqfxEyqxomlQCZpDbIDjo2NvlZ+s=;
+ b=gaZveh7v0DrlbkFZsrjK5QSwjPaS4n1EZxiiYs/fe0P57Oq2tsZklQylQLwpQ5mE9+65dZJNq
+ jToP3xfSyaOCGjkW6ErJD7Tm4voAfpDKdp+PNGX0SL9BFQlHA+eb09v
+X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
+ pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDEzNCBTYWx0ZWRfX7OWL//U6X+Ac
+ nkn5bUzj0iabW8XJ/tLr258uBFlznFDaantQlm5jyqzaIWO1tXX1YpCrz9X5f5sPHzbird2cV6X
+ P3v7ms3aro86HaU5SQ9cPx29zZYU0Qf0PTEAC/oh/4zDBjZXCemBkbhGobLj9QNNqr9uAB0rwVL
+ 8WNxURWMXw0maGZnn83yyJqR6VRNWutCsRgR/DiQVwNlyAt9djiNZqr45za35zswAqo10T+uL8l
+ L30ZaLLqahZEc6+M2JeSB7ZSa1jE4ffWdmOTt5KDIsVXqNeAOziUTJts2YAB9uxBRjXREQjnAdj
+ sF8rn2cE4rwvka4zJ/9brIjh+5vomFQaaV1/t3g01FblU6AvJ6+0MdqmaP21SlJqblopQcTFhLW
+ TYYgl/QHZsnrPK/N2KdcGC8hxfjUiA==
+X-Authority-Analysis: v=2.4 cv=c/fygR9l c=1 sm=1 tr=0 ts=68a6fb01 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=4jNVkGc5x75itkM4wVYA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-GUID: rxSfK1VWe23yg0zefp-t1u00R3sY9vX9
+X-Proofpoint-ORIG-GUID: rxSfK1VWe23yg0zefp-t1u00R3sY9vX9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-21_02,2025-08-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 adultscore=0 priorityscore=1501 bulkscore=0 lowpriorityscore=0
+ phishscore=0 spamscore=0 impostorscore=0 clxscore=1015 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200134
 
-Hi Jakub,
+Add the missing write to AON_WRAPPER_MVP_NOC_LPI_CONTROL before
+reading the LPI status register. Introduce a handshake loop to ensure
+MNoC enters low power mode reliably during VPU3 hardware power-off with
+timeout handling.
 
-On 8/19/25 20:05, Jakub Kicinski wrote:
-> On Mon, 18 Aug 2025 16:54:23 +0530 Meghana Malladi wrote:
->> @@ -1332,6 +1350,13 @@ static int prueth_xsk_wakeup(struct net_device *ndev, u32 qid, u32 flags)
->>   		}
->>   	}
->>   
->> +	if (flags & XDP_WAKEUP_RX) {
->> +		if (!napi_if_scheduled_mark_missed(&emac->napi_rx)) {
->> +			if (likely(napi_schedule_prep(&emac->napi_rx)))
->> +				__napi_schedule(&emac->napi_rx);
->> +		}
->> +	}
->> +
->>   	return 0;
-> 
-> I suspect this series is generated against old source or there's
-> another conflicting series in flight, because git ends up applying
-> this chunk to prueth_xsk_pool_disable() :S
-> 
+Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
+Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
+Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+---
+Changes in v3:
+- Fixed the loop to capture the  success of the last power-on command (Bryan)
+- Link to v2: https://lore.kernel.org/r/20250813-sm8650-power-sequence-fix-v2-1-9ed0fc2c45cb@quicinc.com
 
-That's interesting. I have directly applied these patches locally on the 
-tip of net-next (62a2b3502573 "net: openvswitch: Use for_each_cpu() 
-where appropriate") And everything gets applied cleanly and I couldn't 
-reproduce the issue you mentioned above. Can you tell me on top of which 
-commit you tried applying this series ? Or I wonder if this happened 
-because I posted this series from my net tree instead of net-next. Does 
-it make sense to re-post the same patches from net-next tree ?
+Changes in v2:
+- Restructured loop for readability (Jorge)
+- Used defines for bits (Konrad, Jorge)
+- Used udelay for short waits (Konrad)
+- Link to v1: https://lore.kernel.org/r/20250812-sm8650-power-sequence-fix-v1-1-a51e7f99c56c@quicinc.com
+---
+ drivers/media/platform/qcom/iris/iris_vpu3x.c | 32 +++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-> Before you proceed with AF_XDP could you make this driver build under
-> COMPILE_TEST on x86? This is very easy to miss, luckily we got an off
-> list report but its pure luck. And obviously much more effort for the
-> maintainers to investigate than if it was caught by the CI.
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu3x.c b/drivers/media/platform/qcom/iris/iris_vpu3x.c
+index 9b7c9a1495ee2f51c60b1142b2ed4680ff798f0a..bfc52eb04ed0e1c88efe74a8d27bb95e8a0ca331 100644
+--- a/drivers/media/platform/qcom/iris/iris_vpu3x.c
++++ b/drivers/media/platform/qcom/iris/iris_vpu3x.c
+@@ -19,6 +19,9 @@
+ #define WRAPPER_IRIS_CPU_NOC_LPI_CONTROL	(WRAPPER_BASE_OFFS + 0x5C)
+ #define REQ_POWER_DOWN_PREP			BIT(0)
+ #define WRAPPER_IRIS_CPU_NOC_LPI_STATUS		(WRAPPER_BASE_OFFS + 0x60)
++#define NOC_LPI_STATUS_DONE			BIT(0) /* Indicates the NOC handshake is complete */
++#define NOC_LPI_STATUS_DENY			BIT(1) /* Indicates the NOC handshake is denied */
++#define NOC_LPI_STATUS_ACTIVE		BIT(2) /* Indicates the NOC is active */
+ #define WRAPPER_CORE_CLOCK_CONFIG		(WRAPPER_BASE_OFFS + 0x88)
+ #define CORE_CLK_RUN				0x0
+ 
+@@ -109,7 +112,9 @@ static void iris_vpu3_power_off_hardware(struct iris_core *core)
+ 
+ static void iris_vpu33_power_off_hardware(struct iris_core *core)
+ {
++	bool handshake_done = false, handshake_busy = false;
+ 	u32 reg_val = 0, value, i;
++	u32 count = 0;
+ 	int ret;
+ 
+ 	if (iris_vpu3x_hw_power_collapsed(core))
+@@ -128,13 +133,36 @@ static void iris_vpu33_power_off_hardware(struct iris_core *core)
+ 			goto disable_power;
+ 	}
+ 
++	/* Retry up to 1000 times as recommended by hardware documentation */
++	do {
++		/* set MNoC to low power */
++		writel(REQ_POWER_DOWN_PREP, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
++
++		udelay(15);
++
++		value = readl(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS);
++
++		handshake_done = value & NOC_LPI_STATUS_DONE;
++		handshake_busy = value & (NOC_LPI_STATUS_DENY | NOC_LPI_STATUS_ACTIVE);
++
++		if (handshake_done || !handshake_busy)
++			break;
++
++		writel(0, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
++
++		udelay(15);
++
++	} while (++count < 1000);
++
++	if (!handshake_done && handshake_busy)
++		dev_err(core->dev, "LPI handshake timeout\n");
++
+ 	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS,
+ 				 reg_val, reg_val & BIT(0), 200, 2000);
+ 	if (ret)
+ 		goto disable_power;
+ 
+-	/* set MNoC to low power, set PD_NOC_QREQ (bit 0) */
+-	writel(BIT(0), core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
++	writel(0, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
+ 
+ 	writel(CORE_BRIDGE_SW_RESET | CORE_BRIDGE_HW_RESET_DISABLE,
+ 	       core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
 
-I have tried what you have suggested and these are the logs for the 
-same: 
-https://gist.github.com/MeghanaMalladiTI/8a3f64773d96e58aec48aca78c1bc98c
+---
+base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
+change-id: 20250812-sm8650-power-sequence-fix-ba9a92098233
 
-ICSSG driver as a module has been compiled without any errors but 
-encountered few linking errors due to some missing symbols from another 
-module (CONFIG_TI_K3_UDMA). I included this module in the next iteration 
-and tried compiling but facing some build failures, logs: 
-https://gist.github.com/MeghanaMalladiTI/f7ed3958b5ab2b2be479151254015ff0
-
-I think it is safe to assume ICSSG as a driver build on x86 doesn't have 
-build regressions, thoughts ? Also is this something which needs to be 
-done by us everytime we are posting some feature upstream or does Kernel 
-CI take care of it ?
+Best regards,
+-- 
+Dikshita Agarwal <quic_dikshita@quicinc.com>
 
 
