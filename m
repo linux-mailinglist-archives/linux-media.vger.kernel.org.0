@@ -1,64 +1,49 @@
-Return-Path: <linux-media+bounces-40638-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40639-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05D00B2FFA6
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 18:08:50 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18256B2FFA0
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 18:07:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D760567CCE
-	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 16:01:02 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A23B3B6469E
+	for <lists+linux-media@lfdr.de>; Thu, 21 Aug 2025 16:05:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A89B021CC43;
-	Thu, 21 Aug 2025 16:00:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC4A02BCF4C;
+	Thu, 21 Aug 2025 16:06:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="JJtRUkAO"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="pFfDnDKm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (mail-northeuropeazon11010051.outbound.protection.outlook.com [52.101.84.51])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E2A0202F65;
-	Thu, 21 Aug 2025 16:00:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.84.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755792054; cv=fail; b=VU1yenNlldpb/4El/3qBOF06MpnFauaHtBJSTBbgRqenmrz/2qIGaXSwlCdmwaxrSqy8YbrFmP6rEjHRp0A9/gV1xeznbvq/4XGzIzP2AFaFHf1yoyzHCdIMtoKKK2igidzpDEs7q+T1lmss2ehjnhR19HnECoKdBqAuKlLCw1g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755792054; c=relaxed/simple;
-	bh=29TRS10nH2qkDa4ItFgh05PW2RnB+W/aCGD4BwW18hg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=ndX28/TR+D6+aAQdB89jYfrgYzc3L3bXe4eAmmLIPJ0THNZWcDcRevudGMPYbewSjy6Xap3LZir84vqGja01mO7veiFoKW7GXo+AGNa7xhqTDv+ZiDPOk1iTCO0Qe4F0vh0cvivKBCTeM+pRobZynlqntQiPcqe8l+5ozNy/A+E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=JJtRUkAO; arc=fail smtp.client-ip=52.101.84.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F9vyu3Vw/eOERsf9b236XizYr3m+8qUuufl5GOl2h6s5W8LwYR5A8QbXg3HP7eeK5yOx53bOkPuE241wQN9p4IfSX5JwOSvdaBhS8Qez0HfD182eqEDHIRXv4Bsnv1N9cMId34FSSCsYZ2XjOBBcpuNXBn2K9cb7bsCEnojzju3l+HQ/e3mSJLN2PjxMq/KWxQafZMsJHF+DjX160VuwouTCx1RxfEjkcMUaMz3vhEkzSU3WpTlNv4rBkNjvLhYpTp6XUuDkQiSgEhzr7hf2c4J9EXbqAuFbR8vmdZBFPsnHE8YOeD8u9Tg9CYkGbxBEJemO9Sw5TtEhgJ//uUF0xg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5uPLqxvV5Jk2wh9pfwGyBs1AVkDoVcGNxGvTBExDgvs=;
- b=fk4chymOryRCl87NwG00UnP5LKgcolUieh56gSSWjX9Fb/A18bCt/E0VXhpQ0U/yyWbe9Sb7e1ekC6G0LRDMPncbjU96tI3Byo5WhKg49lgiaRYfBJ7NogKAX6v47ZPtRIRR4uiugvxuQjh+GrTdAFnd7Dg8rGAL7hg6FSxnjJRfQuVzjqqVX1D7uCWxH8q+6mbIpU2BgneV/6eX1B5cuuMQStiMOXli5fZAFUKropvNhQqsRpFewGJORjzwxWRYh48PcbWpeQNlod4qT4GTzto/gdx6UM8EzFaL2ZbidqF2ae0RkT4GHt32N+eE+GbRNFdnGuj30qTu7syeTLXOEQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5uPLqxvV5Jk2wh9pfwGyBs1AVkDoVcGNxGvTBExDgvs=;
- b=JJtRUkAOPj1c+OS4CSVVmhJH6geSHsAuKqQ8d6TE8EdWzozNwJw5kycon5qUeIgERZKRnfQQr1cbLPzXJKbDNZPxiLeetazOgAggdoRnCVWS4gLvlcT4V8k4JWVpTcqLlluYkk5h/+WfnwXzst3TTnNyVlLNVAMRRUjTNwFxqhqRNiSf4d/1FS6LN+iwC2L41WSR1zyWGSXwdk+JI+I2EMonIM6NsZfI7pmeR6XDaXxwxbXiMgPxM23WzC4XsNCwPsVy/x5qzLIzyYKQqNMz9O6gzmHZMfcP0TSk+V9jP3EVQqpwLtZLnACT6PBxn1VWhYPU8iyTl2CKlMqsbGGEFA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
- by DU4PR04MB11029.eurprd04.prod.outlook.com (2603:10a6:10:590::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.14; Thu, 21 Aug
- 2025 16:00:49 +0000
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::e81:b393:ebc5:bc3d]) by DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::e81:b393:ebc5:bc3d%5]) with mapi id 15.20.9052.012; Thu, 21 Aug 2025
- 16:00:49 +0000
-Date: Thu, 21 Aug 2025 12:00:39 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337282D4B61;
+	Thu, 21 Aug 2025 16:06:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755792401; cv=none; b=iHTbI5KBXawZhJYQJkGo/pex7gjMQJQXZ4+NqL8S4WpKM+PguSCAyUcuWwbK6y4+8oGWF3Y8br6qoDPLQcDhGV8qe2ixlmaBR+1kzKsFJKtu3d7oL1Q9/GuFyx95I4gbd/kw0IQDxBb6sp+uNDBaR13Xq4BFHfdSJ4vcEVOrdhY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755792401; c=relaxed/simple;
+	bh=reNOgaI66JpG7BCmaKX/JcvTZ2uK0khXqFeK3NpfnDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mTyV9fSs1A6BiXDOeN6l7dH3vJ8qm13/5MWp0Dya99Dmeo+Iw0d/BoYArRbJwcZ50/w1P0vl8rBNat+vfgxeh9WLbnTb7o29UKGbOmNRkpAtBAKQwUL596F7djXgyCgaas5sNWn3/cFl7Sn0UZzbe/HTj1h//tSfKQhEp2Tu8No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=pFfDnDKm; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A6157C78;
+	Thu, 21 Aug 2025 18:05:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1755792337;
+	bh=reNOgaI66JpG7BCmaKX/JcvTZ2uK0khXqFeK3NpfnDQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=pFfDnDKmTxUVEqUGHNPN0kzSTpwjHEJtAD/4LerCKHwLoRSdRSlxa7oi0G8IOm3JK
+	 B4lPhsBNxAv0fzDABC79KW8xpRLeh0s+capxkmRedX0aqwDj1jy7mOOUmiD/vdoO1y
+	 3km2CpAPWVjOehJoS+ta2BSEXfVAC3+/4TZLHWe0=
+Date: Thu, 21 Aug 2025 19:06:13 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Frank Li <Frank.li@nxp.com>
 Cc: linux-media@vger.kernel.org, Isaac Scott <isaac.scott@ideasonboard.com>,
 	Rui Miguel Silva <rmfrfs@gmail.com>,
 	Martin Kepplinger <martink@posteo.de>,
@@ -71,142 +56,87 @@ Cc: linux-media@vger.kernel.org, Isaac Scott <isaac.scott@ideasonboard.com>,
 	Pengutronix Kernel Team <kernel@pengutronix.de>,
 	Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org,
 	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 12/12] arm64: dts: imx8mp: Specify the number of
- channels for CSI-2 receivers
-Message-ID: <aKdCp9INuUeQVFbV@lizhi-Precision-Tower-5810>
+Subject: Re: [PATCH v2 05/12] media: imx-mipi-csis: Rename register macros to
+ match reference manual
+Message-ID: <20250821160613.GA29629@pendragon.ideasonboard.com>
 References: <20250821000944.27849-1-laurent.pinchart@ideasonboard.com>
- <20250821000944.27849-13-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250821000944.27849-13-laurent.pinchart@ideasonboard.com>
-X-ClientProxiedBy: SJ2PR07CA0019.namprd07.prod.outlook.com
- (2603:10b6:a03:505::21) To DB9PR04MB9626.eurprd04.prod.outlook.com
- (2603:10a6:10:309::18)
+ <20250821000944.27849-6-laurent.pinchart@ideasonboard.com>
+ <aKc6gzH5nyAeusu3@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR04MB9626:EE_|DU4PR04MB11029:EE_
-X-MS-Office365-Filtering-Correlation-Id: 33280424-e2ea-49b4-7d42-08dde0cbe54e
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|19092799006|7416014|52116014|376014|38350700014|7053199007;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?uDbj64vIUBBtKnyiOFrnW8fNgwpmc+hXpOtteo7qtV8FrwhzsDJ/nXX5mc43?=
- =?us-ascii?Q?PZSOQoscQHI+8ZrqMq0nJBMsNlfvuOYUu6hmhxsLXC1/kU9mgkuTTf1xXAlx?=
- =?us-ascii?Q?Yn8H/tRO9P5r6fSi/oJ4IXMXVPmKgKpyCuRurRbvzpmo8EZZzjfGQCAWy5/t?=
- =?us-ascii?Q?mIw0A6heRGjUmD/MNZrAScHtWwFnrlExaEd7TDlck/LTRyEqgtNaHH0fXHjl?=
- =?us-ascii?Q?OjZ58jvehPbhUwq0ysSSBppa1SM8zhI1tPkvAvVoK0n89Y3TXI+evSolYErX?=
- =?us-ascii?Q?i5idJvKDApUkU4StQmISb/sAAuMgRVprvvzku63l98dVvEMcMQ2Q12Go3rlF?=
- =?us-ascii?Q?JvKd0KRfh9C8ciSmPrzvlWTIIUa37UONouPXiqi4cd177eerEhbTyIH8xJb0?=
- =?us-ascii?Q?zh0rWYyylKyeOT/QfE4BNRAV6zHhYvKd/MIxmFusRXfHvBNdcxN2HemhQJZt?=
- =?us-ascii?Q?YG/ifqJdCVFcuYA4F5J4h+ag6YgjuPKwN3tafp6JlWg6KDRtitqLIFfl6kR8?=
- =?us-ascii?Q?eQeig6fb74j1DjeT84YwAL1IJdFXFFZVbeQztjyJvKzJyICDkPFolq5LgjvY?=
- =?us-ascii?Q?QZ2uqk6M9Xw55kwZE9s1bBOboDRwIozdKyz/6QUfg7ny5ucdQmRX4GXcMGbA?=
- =?us-ascii?Q?iK8PvwUsQDfgq/ry1JRMUgcaC+iGw5eE0oK29T2o+avv7nNP90z7uaCitxLz?=
- =?us-ascii?Q?rQR2mInaGTtz2OVhKuKVv4xCc3eBl302ffbMuEYjd1EE9wEmJIQsXD+ZLnHF?=
- =?us-ascii?Q?KWRo+g8QEz2cmZo7nUPogbeSLe79zpUmvemc8FZjwbVPTwc4rH2VUmS90KBH?=
- =?us-ascii?Q?hJhuQEi+pQpACoiF1pUROqSBA8RhE2yPLu+j17eEwLBq6Vy5uhEEWx++skwi?=
- =?us-ascii?Q?ajmyW1qu+jFo1sH6q3PBhLbmctQy0Qov8zRj3dpnzi7OMPR1OObvpqBzkNEF?=
- =?us-ascii?Q?R7HxSXxnEk2nO83M/oH9jo2y4hWRrx9LOeyG8ZGQeQ9X/eilgQT5W5PYsPR6?=
- =?us-ascii?Q?oWCr6oETspFcK3W1fgdd7inGFPNskYkbhYiRziKe6VPIgJ/KcclWhxy5IrQy?=
- =?us-ascii?Q?8hhiMYz8GrQH0+kNKr+zonEMyhuouZi7DVkeA2c/93PhENE5AdUZQrLvyPID?=
- =?us-ascii?Q?+jNzaPYRxocUirt89nwttLRg19o6YfLAhJJ3bEGpU8D1ShlsVLKD2RJkC/f/?=
- =?us-ascii?Q?ppnvK2TVsSLEO2NyMExNNWSBVpSiqlb6IdYqIbUb9o7zCNrbqQ8ZOytBCkoW?=
- =?us-ascii?Q?VVq+F3zpsachhJtCCickbdTZxDvzLBUHLEHhSxxe1toROB4JlxTkU+wj1GH9?=
- =?us-ascii?Q?MhDY0EcwAc7Apzx036bk6XsPkoX5uvqiThqaXZmsBXtBX7053ufAvX42i8T7?=
- =?us-ascii?Q?/o905ByzftyxCLaEezuK8W7hOAFe/4Ddl156et0KR1JRWgiPYm+lYyCPrPLM?=
- =?us-ascii?Q?te+7bUishpqs3J+nYZLFGAVT34T+QPNzKMNG+fW4aGw1dLYomt2Nvw=3D=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9626.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(7416014)(52116014)(376014)(38350700014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?lxu9ybFYhNEdAeS4oayzHEFm/Ym0MQe9bauURSZ7jnmLev+zXHOOmsiY2Nym?=
- =?us-ascii?Q?dkoFtbWJeElQxamTH/XA52DlU2wHIBnqkT3DOd912cxSAQkO8Zir35zoH8n6?=
- =?us-ascii?Q?+10m3a3BxHt0bPPMIW2Qc9N55N84CdtWUtsZbZMNJ85t/W43GHby5uJF9ck7?=
- =?us-ascii?Q?/4sKOxXGM2KNjOq7HLZY8Vo/F4jf2tLIMt/Zb3HwdJ202dipBeid7lyiiSS0?=
- =?us-ascii?Q?nR+q2/1JXuPtVOjj5dBJJ0zgmaQnhiLK0vcVuGnRANy7pmyNJkGGkNiNiMDC?=
- =?us-ascii?Q?X7OVER5ZJ3v/15Nt3+04MKznvY6Hyph6fcbiUCMS88emMrggV7O4/4zrhBHo?=
- =?us-ascii?Q?11GwILcA/SxpedSV3QzqTAFGs5cu+YkhqOqa8rm7T7NhVvCQt1hcPBoUQ2J9?=
- =?us-ascii?Q?N1lbcAi1mG62EplyJ1gWlyr2OHuJHeXAzCzziXQjA2Q2XFPnCW0gUfjshduF?=
- =?us-ascii?Q?cRXE8vdtsv0THUrIsEBych6caqAm8/ua+mVxijufV8b7Qh0t1r+FvXOTicky?=
- =?us-ascii?Q?sUTcfI2Oz3Pc1fdjK3qq8/3LxGgkvBNL9u46EVKneoTvVSuKys+LWEFHGGv6?=
- =?us-ascii?Q?OWHqs43OQhJTauaLGCsVAuFbjIpjwCkYSmvWcZRyVlTAjqkREra/LcT4OQ6D?=
- =?us-ascii?Q?P/SxJ5KtnOz795YralLhxEv+xo/ASyp9hOcpwUwxC163ld3449qI48sRiiEC?=
- =?us-ascii?Q?BIU0XKGcNtsGer+VMDVmrG/nvsEYP6kVChLMjjQUdHycsjgQhXYol/VHtlBK?=
- =?us-ascii?Q?eGd91WiW7VuL5MnMPcNWNeOT6RpP4nYtiMIH3HiLEvYPEcBNZPoKKz+2joa9?=
- =?us-ascii?Q?BiTSUivlQBiky4nFOTlBShQ/8Bi86jY5k3LViErfqsFeSd1Wwr8BBFI48Kti?=
- =?us-ascii?Q?YtcB+5vkNadtwTaVk9Q2P0ftwDPSTCOs5+TWL2bvrWXqehYKrD+2hzwDEuP2?=
- =?us-ascii?Q?eT5OA7EPnUR02/0OLZYcLr6tB+8kirFyHZs4bjp8ovW/aUPJf3mcgnt5n8Cp?=
- =?us-ascii?Q?fVVkzXTOBkQw1Oi+JsDujkTuzS7NY5f3PRJOvz3A5S1VX6FqY1CUN4gT0u36?=
- =?us-ascii?Q?HHKqIbGMzKkfS1UlUBPJ94tqMIDw81RlwP4ZLDlAvEAyYwnbG9wa/HkwP6Ni?=
- =?us-ascii?Q?Ta7UvoVcZfutJeWrb7vdOK3GofkqFOIx+R6Jk0c/htsXYnE1ZWotzCzwoS+g?=
- =?us-ascii?Q?No36/6ZYyjTRGpoj7EVnj2z2YbOWY4467lVK8AQsZ1+jG3F0dJlDhmcj8KId?=
- =?us-ascii?Q?X7jkaOIk4I4MuCd4RryQ9QK4nwVtUfIukHWIRTALQfrjIpqvX5kqFOnCdAU0?=
- =?us-ascii?Q?5a1JblNCMmIfp19JNQqKiiD+NFHmQJ8lTFVM8wNXBhb8cVkINr/tZs4OdZBu?=
- =?us-ascii?Q?pvENG2DzfAGUvAp/4ygSbNeguoMzDqUxLG+hQq3mBgk8EfmQcsaAm2aut9zh?=
- =?us-ascii?Q?5i6VKjidfKDYNITJmov9n2CdgX/tCqZFwtpy5UqIQPiq0k89PpgFtVQE8I8u?=
- =?us-ascii?Q?lxoZXLpK9q6y1kKMkdhifD5O97NbeO/nlaygVlOQH7EZRf8prsblDOFQ1zDK?=
- =?us-ascii?Q?3yPgjWqyI5Tj1a6eq4sWMI+SjqpININBMX221vyr?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 33280424-e2ea-49b4-7d42-08dde0cbe54e
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9626.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2025 16:00:48.9303
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cQvnRpM+v8JNEzqPQuDG48tLh+7GW6evtQ8SxsBlmBGzC/M2BLZKoqVF+ZT8pFIBgpMtDM04jCfXd+eHf54Jiw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB11029
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aKc6gzH5nyAeusu3@lizhi-Precision-Tower-5810>
 
-On Thu, Aug 21, 2025 at 03:09:44AM +0300, Laurent Pinchart wrote:
-> The CSI-2 receivers in the i.MX8MP have 3 output channels. Specify this
-> in the device tree, to enable support for more than one channel in
-> drivers.
+Hi Frank,
 
-dt descript hardware, not driver
+On Thu, Aug 21, 2025 at 11:25:55AM -0400, Frank Li wrote:
+> On Thu, Aug 21, 2025 at 03:09:37AM +0300, Laurent Pinchart wrote:
+> > The CSIS driver uses register macro names that do not match the
+> > reference manual of the i.MX7[DS] and i.MX8M[MNP] SoCs in which the CSIS
+> > is integrated. Rename them to match the documentation, making the code
+> > easier to read alongside the reference manuals.
+> >
+> > One of the misnamed register fields is MIPI_CSIS_INT_SRC_ERR_UNKNOWN,
+> > which led to the corresponding event being logged as "Unknown Error".
+> > The correct register field name is MIPI_CSIS_INT_SRC_ERR_ID, documented
+> > as "Unknown ID error". Update the event description accordingly.
+> >
+> > While at it, also replace a few *_OFFSET macros with parametric macros
+> > for consistency, and add the missing MIPI_CSIS_ISP_RESOL_VRESOL and
+> > MIPI_CSIS_ISP_RESOL_HRESOL register field macros.
+> >
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  drivers/media/platform/nxp/imx-mipi-csis.c | 69 +++++++++++-----------
+> >  1 file changed, 36 insertions(+), 33 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+> > index 894d12fef519..1ca327e6be00 100644
+> > --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> > +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> > @@ -55,13 +55,13 @@
+> >  /* CSIS common control */
+> >  #define MIPI_CSIS_CMN_CTRL			0x04
+> >  #define MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW	BIT(16)
+> > -#define MIPI_CSIS_CMN_CTRL_INTER_MODE		BIT(10)
+> > +#define MIPI_CSIS_CMN_CTRL_INTERLEAVE_MODE_NONE	(0 << 10)
+> > +#define MIPI_CSIS_CMN_CTRL_INTERLEAVE_MODE_DT	(1 << 10)
+> 
+> BIT(10)?
 
-Specify this to reflect actual hardware feature.
+INTERLAVE_MODE is a 2-bit field. I'm working on a series that add
+support for the VC interleave mode, which has value 2. I'll however drop
+this change and keep BIT(10) for now, as the commit message doesn't
+explain why this has been modified.
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> > +#define MIPI_CSIS_CMN_CTRL_LANE_NUMBER(n)	((n) << 8)
+> > +#define MIPI_CSIS_CMN_CTRL_LANE_NUMBER_MASK	(3 << 8)
+> 
+> GEN_MASK() is better here, And below other registers.
 
-Frank
+It is, but I wanted this patch to focus on the renames. I actually have
+a patch in my branch to switch to GENMASK for all masks, I will add it
+to the next version of this series.
 
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> index bb24dba7338e..1e52840078df 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> @@ -1764,6 +1764,7 @@ mipi_csi_0: csi@32e40000 {
->  				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_250M>,
->  							 <&clk IMX8MP_CLK_24M>;
->  				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_1>;
-> +				fsl,num-channels = <3>;
->  				status = "disabled";
->
->  				ports {
-> @@ -1799,6 +1800,7 @@ mipi_csi_1: csi@32e50000 {
->  				assigned-clock-parents = <&clk IMX8MP_SYS_PLL2_250M>,
->  							 <&clk IMX8MP_CLK_24M>;
->  				power-domains = <&media_blk_ctrl IMX8MP_MEDIABLK_PD_MIPI_CSI2_2>;
-> +				fsl,num-channels = <3>;
->  				status = "disabled";
->
->  				ports {
-> --
-> Regards,
->
-> Laurent Pinchart
->
+> >  #define MIPI_CSIS_CMN_CTRL_UPDATE_SHADOW_CTRL	BIT(2)
+> > -#define MIPI_CSIS_CMN_CTRL_RESET		BIT(1)
+> > -#define MIPI_CSIS_CMN_CTRL_ENABLE		BIT(0)
+> > -
+> > -#define MIPI_CSIS_CMN_CTRL_LANE_NR_OFFSET	8
+> > -#define MIPI_CSIS_CMN_CTRL_LANE_NR_MASK		(3 << 8)
+> > +#define MIPI_CSIS_CMN_CTRL_SW_RESET		BIT(1)
+> > +#define MIPI_CSIS_CMN_CTRL_CSI_EN		BIT(0)
+> >
+> >  /* CSIS clock control */
+> ...
+
+-- 
+Regards,
+
+Laurent Pinchart
 
