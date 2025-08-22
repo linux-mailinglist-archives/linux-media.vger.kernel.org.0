@@ -1,137 +1,99 @@
-Return-Path: <linux-media+bounces-40788-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40789-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A3DEB31F65
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 17:49:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C9153B31FCF
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 17:58:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7267BB47E0C
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 15:42:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0FFB3B60E31
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 15:51:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0FE833CE8A;
-	Fri, 22 Aug 2025 15:35:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 512D1246779;
+	Fri, 22 Aug 2025 15:50:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zh5dA6AW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NLkvEcDi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD63F27F170;
-	Fri, 22 Aug 2025 15:35:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EE1F2206AF;
+	Fri, 22 Aug 2025 15:50:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755876934; cv=none; b=F+bfRWg8qU7j1BqccT6WRCnr9oVaOPOo3ZhZo1YOCoZT37VkeRgkNudVPwPYkMMj6pG9iNB2c8r4sVN92+HBWZ1boo6cIngWbMl1XobutJnrDk5z7ylkl8ySSMOxWFPSEsDCVEsYlEjpiRxRsx7DBlIKk0HEGFwH2yc+47Sv4t4=
+	t=1755877844; cv=none; b=Yzq2lBJ/UVwrI/ZobCaz7qfVXVxWzoXr4hpgzPTuJqvFlFBn16ntMKsCx6NdCcVRFLrk+4tHkYQRD0u5sGh+gELIvTdkTx2CWiBiwhMJkiDAEgD22WCchUzxkSN+/cxDhRAu6GZD/KEYRURLkoL5GTcWtlj1BpYUAdeAZdc6Zds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755876934; c=relaxed/simple;
-	bh=7HIBoM6YPKh/LTGarj653O1hKfmtF9V78V7iZvI1uqo=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=BilbVy1khhjNcV1uLsD5y9kbg94ncEaLiHUCnsCM4S5r6BtLipScPIGDwjWxIBgkA6fxQIp1odZJ3krp/vve8cDA3+bJi/jRo0aU2Lt6KTfUO+dbNvehH8WAAMw7EdeUd9HPb+bpYw0rRsqx5XLXgqXrEd1pmYccQAzuJci1yCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zh5dA6AW; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-32326e5f0bfso1854756a91.3;
-        Fri, 22 Aug 2025 08:35:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755876932; x=1756481732; darn=vger.kernel.org;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7HIBoM6YPKh/LTGarj653O1hKfmtF9V78V7iZvI1uqo=;
-        b=Zh5dA6AWvN39QdTl8fQsvFHBnMxuCNa1C84BKlcnh06LY7uWCQoHghXcMJBOfA3r20
-         HRFdPuEPqPqzXd0j98LfWz7IqyKFA0ClZ1feGN90KT1DP1fiOLU+nzA2Fd5Jr1l6b1Bf
-         x52NGn9Jj+TNJ99ipMhJMP0/2BKyVFjspSV4xi0dfoJz7w/x3wGP0j8L3XAhFf8qDtIC
-         fhZAwX80NGDYIqY7KxL27USOYU0htb5uuZIKpjz/BJcsh8tXr4S4LLN5iDWfTd4/aL3Q
-         x1cz4RiIe0z2eJUHY4wgf2L862xqM9vRC/30QnGVhhBXcfn123XYj48mzmvq/W8JH1Il
-         fk4Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755876932; x=1756481732;
-        h=to:references:message-id:content-transfer-encoding:cc:date
-         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7HIBoM6YPKh/LTGarj653O1hKfmtF9V78V7iZvI1uqo=;
-        b=KaFec29iGiBN2SThEnw3O5MMhX2v3+aFxNaTzQY96saJBYQb1zhbNPbymdV+wGH8Wh
-         2Fczdx4xlOLtjRcxiF/3Q1lUI3149ZvLdGg+DsqZC1hb47/FaPORC2mlm80mGZni4/nX
-         L705NsJCDK99p0obDkFw6Xf0rIXTpY7jNmpPcM/JlQPww7sLi04HxEM+X/uqe4gMgPUh
-         Odj1vbA1alfvrYH2iwzvo+7vlw7NgxmiMm4ys9niWeuZ21UtAR617h1tqTfyGYyACZXT
-         A+B+liFfIVFyywrSuVJV4tQe3WcUaDMxFgqU5qLhyjb4myLvMe5mT1NPjhK9pZIpAsD1
-         MiWA==
-X-Forwarded-Encrypted: i=1; AJvYcCV81JkKugHaBFwg3gPEt79uipXXd7wSNEnPMIQsM4tVLffLB/zMnyhaZb33RQaFO9mYlWpi+eps/iMSRDE=@vger.kernel.org, AJvYcCWIzDeWq6SH1sSFB3yoAlO+YeUyo8MRaAx2uBpxmSwaTTmWYKzO+tsZVbqrMmybd7HEd8Xgtpm+tuEaxgY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMTAwtXqJ6Ev4Q2Jibuft2btDR2wTzPM3CPT0rMp05joI8ommh
-	P4HM77V2hTV/WgyHpi8Hs9R2r67tsHXuZSp2CdPBJSGhUf0YW0Yk8H7RQbp+xQ==
-X-Gm-Gg: ASbGncs8TKalCVaNB6mKQXt/dVidg8ALsSfBqcOP3pRJvbqYjzf9h+XQgmi2nZRC4PT
-	4KNvYKpQzn7vP2yrwucu9BKGTvqihCe9RFVkAyxHAYurZNX3xn4p9sC5xZEbTvlpw9d3wPJUiI9
-	82ySSSLy7Qgoco35Gaja/D/drp1fYP+TbbyBvMwr0WY/PTzCla3RwFeUqW27BrMd3V6GdLt71Qq
-	b6Mn8k+x6TLR4fY80OwJaI/EweKsu0aXOOLQPBs3mRFLCU1h/JByoKD/pbu/82xUznVXyKTiP1H
-	dwj/2LbsXiM7JSFZF2dxhSBQG+n+Q2KfYKEsSvH6GmbqKsnDGL4jkQ/NybtvI0qKNPv7uLC+1PL
-	Jy+qUrhhc51AzFkPOLIkM4A8VWtxki/WoBRQir+Qeota0Ls6mBVw=
-X-Google-Smtp-Source: AGHT+IGhRlCu4au45nKNxRrdnkIkZJOf54sg/xTNdaAquWR0Lsp29n+ssVOdGi5ldxjhXFuAdv8PzA==
-X-Received: by 2002:a17:90b:2b4c:b0:323:7e7f:b8f3 with SMTP id 98e67ed59e1d1-32518b80c13mr4814351a91.36.1755876931976;
-        Fri, 22 Aug 2025 08:35:31 -0700 (PDT)
-Received: from smtpclient.apple ([2804:7f1:c242:a307:7992:d717:bc22:e8df])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3254aa6478esm213274a91.21.2025.08.22.08.35.29
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Fri, 22 Aug 2025 08:35:31 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	s=arc-20240116; t=1755877844; c=relaxed/simple;
+	bh=PRjr1oyN1prDBOKUZ34iupM5Ee2Kn6LvfPBZpedTizo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SpfLAFT+/6liDRh8alUoNZrdd0PzRhA2I1IwO7NpHbZ15t2vR/4qbIoDZiqqJRmddB1owjO+2q3aK1whcbq/gFk6v1zYWbnWsHUiydAI50zHBlWlzjNIZBEejv7r4PgB0R7rer+xjmeaTX3P60YWt55mpb8E1TLmi2qCXJlofXA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NLkvEcDi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13BF9C4CEED;
+	Fri, 22 Aug 2025 15:50:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755877844;
+	bh=PRjr1oyN1prDBOKUZ34iupM5Ee2Kn6LvfPBZpedTizo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NLkvEcDi7va6d8wofQYB7lrrIzy/EqQpNAQJUXQsL0j3e4syTR+r96SoHaJ3jAtJR
+	 7ZckKnr3dczWN36y3PWZAxXyGK69AGZvU7vIBerBELyyjgoLDbNNAcCkA8nodPxDjG
+	 o1EdFfnjI81c9N6hD5URN/3efElktMnJn31DHEJ4tSXKO/4iuxY9Zquzh9Lsue3hJv
+	 Q28Oexi2b1PJzAUXESiyT7HeH2V0N8GEeoQZVSqffF15OnUhUTMiLeyN1JcqQQOYJK
+	 1CcJOJM3mQhb74Hc88k0wxqQw9O3jxOtLRx8iGcXvDWmSZ17ssaR/zBJ0ECkedrAtH
+	 kWisP7d7d+0oQ==
+Date: Fri, 22 Aug 2025 10:50:42 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, mripard@kernel.org, mchehab@kernel.org,
+	airlied@gmail.com, amergnat@baylibre.com,
+	linux-sound@vger.kernel.org, p.zabel@pengutronix.de,
+	linux-gpio@vger.kernel.org, matthias.bgg@gmail.com,
+	kyrie.wu@mediatek.corp-partner.google.com,
+	linux-input@vger.kernel.org, kuba@kernel.org, conor+dt@kernel.org,
+	linux-mediatek@lists.infradead.org, yunfei.dong@mediatek.com,
+	kernel@collabora.com, lgirdwood@gmail.com,
+	minghsiu.tsai@mediatek.com, edumazet@google.com,
+	jmassot@collabora.com, simona@ffwll.ch,
+	louisalexis.eyraud@collabora.com, support.opensource@diasemi.com,
+	chunkuang.hu@kernel.org, andrew-ct.chen@mediatek.com,
+	dmitry.torokhov@gmail.com, andrew+netdev@lunn.ch,
+	tzimmermann@suse.de, maarten.lankhorst@linux.intel.com,
+	jeesw@melfas.com, broonie@kernel.org, davem@davemloft.net,
+	houlong.wei@mediatek.com, flora.fu@mediatek.com, pabeni@redhat.com,
+	linux-clk@vger.kernel.org, netdev@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	dri-devel@lists.freedesktop.org,
+	angelogioacchino.delregno@collabora.com, sean.wang@kernel.org,
+	tiffany.lin@mediatek.com, ck.hu@mediatek.com, krzk+dt@kernel.org,
+	linus.walleij@linaro.org
+Subject: Re: [PATCH v1 12/14] dt-bindings: soc: mediatek: pwrap: Add
+ power-domains property
+Message-ID: <175587784167.3865517.1055280782148729337.robh@kernel.org>
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-13-ariel.dalessandro@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH] media: vidtv: fix to initialize local pointers upon
- transfer of memory ownership
-From: Daniel Almeida <dwlsalmeida@gmail.com>
-In-Reply-To: <CAO9qdTH=7qdR2KGQiAeKu11g8T9pPjYN0zjarLGGW_EPQ_nZ3w@mail.gmail.com>
-Date: Fri, 22 Aug 2025 12:35:18 -0300
-Cc: mchehab@kernel.org,
- linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- syzbot+1d9c0edea5907af239e0@syzkaller.appspotmail.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <31DCB1A0-22E8-4CBB-99B3-9392EB10CE13@gmail.com>
-References: <20250822065849.1145572-1-aha310510@gmail.com>
- <7FD2157E-6F0B-40E0-9984-7485845DAC51@gmail.com>
- <CAO9qdTH=7qdR2KGQiAeKu11g8T9pPjYN0zjarLGGW_EPQ_nZ3w@mail.gmail.com>
-To: Jeongjun Park <aha310510@gmail.com>
-X-Mailer: Apple Mail (2.3826.700.81)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250820171302.324142-13-ariel.dalessandro@collabora.com>
 
-[=E2=80=A6]
 
->>> --
->>=20
->> The patch itself is ok, thanks a lot, however:
->>=20
->>> media: vidtv: fix to initialize local pointers upon transfer of =
-memory ownership
->>=20
->> Can you please use imperative voice here? i.e.:
->>=20
->> "media: vidtv: initialize local pointers upon transfer of memory =
-ownership=E2=80=9D
->=20
-> If I do that, the patch subject will change. Should I just change the
-> subject and send it to you, or should I also send it with the v2 tag
-> included?
+On Wed, 20 Aug 2025 14:13:00 -0300, Ariel D'Alessandro wrote:
+> Currently, the DT bindings for Mediatek PMIC Wrapper is missing the
+> power-domains property, which is used in the MT8173 E1 evaluation board
+> as it needs USB power domain.
+> 
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> ---
+>  .../bindings/soc/mediatek/mediatek,pwrap.yaml     | 15 +++++++++++++++
+>  1 file changed, 15 insertions(+)
+> 
 
-Just change the subject and send it to the list with the v2 tag.
-
-Also, I just realize that you should rewrite this further: =E2=80=9CSet =
-local
-pointers to NULL upon transfer of memory ownership=E2=80=9D or something =
-around
-these lines.
-
-=E2=80=94 Daniel
-
->=20
->>=20
->> =E2=80=94 Daniel
->=20
-> Regards,
-> Jeongjun Park
-
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
 
