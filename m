@@ -1,505 +1,436 @@
-Return-Path: <linux-media+bounces-40753-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40754-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39741B31652
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 13:30:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA6EB316D0
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 14:02:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 16F9A7B2425
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 11:28:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D6094620C2D
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 12:02:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A08ED2ED858;
-	Fri, 22 Aug 2025 11:29:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 654DC2FA0FA;
+	Fri, 22 Aug 2025 12:02:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="OcFnfp0e"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="VcljSDg6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9380D2D249A
-	for <linux-media@vger.kernel.org>; Fri, 22 Aug 2025 11:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952C617B402
+	for <linux-media@vger.kernel.org>; Fri, 22 Aug 2025 12:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755862162; cv=none; b=G+5suUI7eLOnk9t5Ya21NlIts9Vwqj4lcezGYUuzV4osI833D1ix0a/LZinRHs0X+v+lkgx2Tj1808Rpj31VbA6IZva4/6y6yMyDyXQC6gM5TBmymZhEWDmGZvhhHA5pH3U2drnCsQKBsizaGMecNi5qB77jfcKar4vu7swsJp4=
+	t=1755864141; cv=none; b=q+B+2q60lveSVzh/7/LF79wA/q6xMtoIfX+rWcIlKTxaTZylH4ewYWNviHc65lL42QErfJ3fCmlglUQ5PljES0MmtnVftdAlzpNrhLLWWTaubwD1QRN6GvxplDkMBOyWsDNW68QZfgh+dpc/7dIiKbmluuEpbVZNdfHyCOpfdJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755862162; c=relaxed/simple;
-	bh=C+lqR0HkRUBGgaSfBAcjhhRPMbhXWt++FyTLzpB89RI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XyPKyBjJwKxNk+5mzvbcRL5I+MKdH9zQZq2f1sqaTZJXrr1T8ed97T7iViIQy7kINXFuiwOfD1OXwNq/59gdL6Rq6dMWPMxVzFI19Ni9BOOG8H6/gkFaGlkV/cOHYwqdrpCOn34pvv5z9LxlIQce1sahX4YUkSNZN5lR8Y8P9kw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=OcFnfp0e; arc=none smtp.client-ip=209.85.221.45
+	s=arc-20240116; t=1755864141; c=relaxed/simple;
+	bh=hmsFha62hBYxNEmWQE2a9XRWH3IZz4cwWzWGkhDYQzc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=ka0eP8cyNpJICmd8c2vb+gzyXUtKKnMrP7iUVU98etJdJV2RthhfA6q4D25cxp9qcoeYcRrPhBkpJUl2ToUoEA29PpNHkEwnBAOBgBOjyHyFKPCf+DvLqajJT6U1NXQx+RvlrggkDMceCeI60uinCwI+UfM1YacUPt6frflJi7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=VcljSDg6; arc=none smtp.client-ip=209.85.128.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3b9edf504e6so1279739f8f.3
-        for <linux-media@vger.kernel.org>; Fri, 22 Aug 2025 04:29:19 -0700 (PDT)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45a20c51c40so16609665e9.3
+        for <linux-media@vger.kernel.org>; Fri, 22 Aug 2025 05:02:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755862158; x=1756466958; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:reply-to:user-agent
-         :mime-version:date:message-id:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=9D6xpqFKe/fhFvlzy44zqZK5O4fAv56YRQp3bWProX4=;
-        b=OcFnfp0eFAxvyJv1Z+dXwZz5mayvuWlnn736tIPENwVuiH6o6bzGsPu0LLN3k3xfCJ
-         Nxh4ilGrT7njcsa9fNHUYDCB14aDNon922fE5CAZ9ufNJcxKYwsbppHZsPImrPu8Y+yt
-         Reb3BIO8BR0vHgCmtgvHW6nNA8M+sF6hoqWSbg6/61WB+0wQZCvrlxKqKuGV+Y2hhrNi
-         tzj9QJSaODqq/y1gXmrDf5Xj9hyv3J9pjEaLTD1S+ghphpgDtcBmXm9Uf6dFH5uLKND3
-         BjRHmiX5vDQutoU/Cb2ezD/Q0qY8ird3ZScIoexONdU7Tdqx5hl+3+fOYKtMK9WqYc+C
-         /YGQ==
+        d=linaro.org; s=google; t=1755864136; x=1756468936; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=8SWI9DLP5lStpnCjpTkxBn8nTBRDdls4+/CPBAumrqk=;
+        b=VcljSDg6BnWlwsB+FGhsr+W8tbUYtad0qSheSAaBGsTHBWyb07eOCUfqUt3aYlLGfc
+         tcj9UBXLpTQl3Z0NRoYnk3DEuAUcawV/VjJQZR0tjOzd7Y7t0Cjz3oBpNaB4M3ou92uc
+         aQAffZa2RHSqC1nx38VzPK2mQotxMHRlDDPBcmH0cbhsrmyRvUE3dFi04dppMUQ8l1If
+         x9Daqj1jUqM7RGOv5MsmVGDx2EFgCYUL1+nbakS27t7v3gTe/Am5waWClVn6bSgVMz5+
+         Q0SwRC2R/SMrpTlGM3PHnvTDhs9O97MIA9NdyryI8ifJAWa1x9N+IdMykL8v3z3tHxUh
+         FkKw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755862158; x=1756466958;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:reply-to:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=9D6xpqFKe/fhFvlzy44zqZK5O4fAv56YRQp3bWProX4=;
-        b=L7/XUj3COrz/LhVamRy+Q22xt9MaVMWqwSdeTrAKZSLQcAYpOs0ku1Y+9hrfAZq3D7
-         0iiMhcAJU/8FaPRvDVMCnwZ2/pBeBQFHGKcmgbqW+ibVZXZgQEo4Hj82FPd+lwXbaKjs
-         cor0M5CMLQ3z5SIZvcBwpuPjgJp1dyd82n78ndopQFPLP18B45PQ2w9pDKJmJj1G1P7S
-         F2VsfA/OW6Q8feioQKOM119SgZKW0nxE8FI0TmJ1QowG8IDj81paOvqLowpWetTHQppV
-         tv52eYjLCdCOgdYUfgnyhUZZZZkOHmQarVI+AuRSzhPdLiQWpMrIBV96egyrR15WhcRi
-         jkTg==
-X-Gm-Message-State: AOJu0Yy2Z8ZIvBhdAEjioB0SaZzwN+iftt+CrB7hhQjZwITdrUbi+PHE
-	f0KqcJrZ9qAx5+f9VyCmFbIkqTbpBKHzqbxqWASuJS0rN7riHJOv2kB1F0b20eanJM0=
-X-Gm-Gg: ASbGncvYMolIPNNVfjvStspKOwEBg8mFV36F7mqqx44GUxvAeBKIMfA2bn8eaj40eV4
-	pYA2iPp1Hd+V5ppIId4FqjjFXkFIBwFORzsihGLHKLPMGnBjG0WylUCrlqRne2mImbUKicsQQhA
-	44b0FOVTK3IirfOsgcAOqiq/KS9FK/S5P7xlGprfdfAxVFU+Y5QrsYLoN765kXL3Ksqj5Rnuxg0
-	dhPExBnoRjdkftxDZMr1NRgTIvKHb1O7ayoqjgwrfaSNZfVdhfB47ZvJL9+jSzaZofp37o//jno
-	xOgwJYWfzVEN7wCZISukAOKp7lNah3UEjiv/X6QZLhB1Kq5mG/NpY+Wc9XQBKglG7F2hKB6UTTk
-	Pph8lCcoqZ0fWrL/l1/1udd9KbNgxt06oUwaAiAW9SZPD0eqkX/tJxXg09BcJVOjSJTfqhd/DTK
-	c=
-X-Google-Smtp-Source: AGHT+IHJoTvbZoFiRTcR9uW6rHjlZ3bocX8wh1q+ygy7EhpEF8ZS5kuVFE62MjOg5+uYAbP66n4f7A==
-X-Received: by 2002:a05:6000:310d:b0:3c3:d82c:2295 with SMTP id ffacd0b85a97d-3c5dad0fdbamr2176755f8f.24.1755862157720;
-        Fri, 22 Aug 2025 04:29:17 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:3d9:2080:3dd7:7361:c101:6a77? ([2a01:e0a:3d9:2080:3dd7:7361:c101:6a77])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c074e38d65sm15356395f8f.27.2025.08.22.04.29.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Aug 2025 04:29:17 -0700 (PDT)
-Message-ID: <7e734644-15d7-4a47-a98e-7f6c5a50697d@linaro.org>
-Date: Fri, 22 Aug 2025 13:29:16 +0200
+        d=1e100.net; s=20230601; t=1755864136; x=1756468936;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=8SWI9DLP5lStpnCjpTkxBn8nTBRDdls4+/CPBAumrqk=;
+        b=iXtkcpPf52q43IiRoicRw6rvZlsf0u9eZSKwjQPPtZIaRXKfgWeUsRIqViifLZkhKz
+         5TryJUbpKd/el7h9UaU/4C2AqWAGINEOyn7LOnHvS/l00n4VWIYhM/NVDE60MtPh5jtY
+         zwqN+gY4aHtp13NIq5upyy+WlebFdWhH3PR9LzXXMG+ywDsyGeMdoRTH366ZokCwM+8l
+         8hf8LFKL+7D7h3q+I5NAFfL4j3RIeH05HZ43i8X4AMGXiG17/cTZUJ+T2gqFNva7evq/
+         qA27pRiz1BOxHHdBZZ3BqTpfKGL+urOMtmE/chNoWGIwCiYmBd+SD763m+6V5Uldvu2c
+         Qw3A==
+X-Gm-Message-State: AOJu0YxAeS6I7TSgNmWII2GPj60f6IhUIXRFYwgbjaPxuPoXllFO/b4Y
+	VjSi6wc/v6LlSuF+1mxHJ9Sykn9+QVafOOA3ZkufBSFRYnWcij8+5XI3beHE/lyiYXg=
+X-Gm-Gg: ASbGncsIBLlTgKuxXRPWyG67v/btlm2ZQtiWp/5yTphLrRNIbGHp6q9TGoa7C6+j8B8
+	CkHSz1Srnhlr8jqRqBxX0/mm3bu8TVdAOQrMJikbyB9rLh8LSw9jRFurfBuXdnp3DM5zQ/6Czzq
+	V1iS+dYg5rLDdyqnnKYb+HTgVQlqbrg4qNxssnkA2+aLOOuy130jb+D/CwEdo+SwYWJjtsnuOEq
+	E2Hxd+aVBU3Vp+82ysAoBPj5XUDHKw96Gk2wdj7Pbe4PmSLC/4uvqIqyAlmp9yonjHpYobZxjzs
+	W8lomTu0kuAIfk//aGnVWBPoi6h9bjJFkhFYC2JXwC22lIX3tORogPA/fTyjMx2NetjkA95gilS
+	slNQuN3yrVdrFYvgBJTFi08BE2pVTD/X8YjqNjZARpkc=
+X-Google-Smtp-Source: AGHT+IH83B7ODFHyYMcRtllawZ/lAAKJpqszR+2hPDA2zmKCFTwOE62vwh3/S58f0KI5rcPBHd6VVg==
+X-Received: by 2002:a05:600c:1912:b0:453:8bc7:5cbb with SMTP id 5b1f17b1804b1-45b517d2885mr23835645e9.25.1755864135688;
+        Fri, 22 Aug 2025 05:02:15 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:8261:5fff:fe11:bdda])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b50e2fb15sm36836465e9.12.2025.08.22.05.02.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Aug 2025 05:02:14 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Date: Fri, 22 Aug 2025 14:02:10 +0200
+Subject: [PATCH] media: iris: add VPU33 specific encoding buffer
+ calculation
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
-Subject: Re: [PATCH v3 00/26] Enable H.264/H.265 encoder support and fixes in
- iris driver common code
-To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Stefan Schmidt <stefan.schmidt@linaro.org>,
- Vedang Nagar <quic_vnagar@quicinc.com>, Hans Verkuil <hverkuil@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, Renjiang Han <quic_renjiang@quicinc.com>,
- Wangao Wang <quic_wangaow@quicinc.com>
-References: <20250820-iris-video-encoder-v3-0-80ab0ba58b3d@quicinc.com>
-From: Neil Armstrong <neil.armstrong@linaro.org>
-Content-Language: en-US, fr
-Autocrypt: addr=neil.armstrong@linaro.org; keydata=
- xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
- OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
- Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
- YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
- GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
- UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
- GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
- yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
- QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
- SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
- 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
- Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
- oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
- M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
- 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
- KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
- 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
- QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
-Organization: Linaro
-In-Reply-To: <20250820-iris-video-encoder-v3-0-80ab0ba58b3d@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250822-topic-sm8x50-iris-encoder-v3-hevc-debug-v1-1-633d904ff7d3@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAEJcqGgC/x3NywrCMBBG4Vcps3YgF4vBVxEXmvxtZ2FSMjYUS
+ t/d4PLbnHOQogqU7sNBFU1USu6wl4Hi8sozWFI3OeNGE5zjb1klsn7CPhqWKsrIsSRUbp4XtMg
+ J721ma+zNT9fgAzz12loxyf4/PZ7n+QO9hskIeQAAAA==
+X-Change-ID: 20250822-topic-sm8x50-iris-encoder-v3-hevc-debug-10173f4838e3
+To: Vikash Garodia <quic_vgarodia@quicinc.com>, 
+ Dikshita Agarwal <quic_dikshita@quicinc.com>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=14244;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=hmsFha62hBYxNEmWQE2a9XRWH3IZz4cwWzWGkhDYQzc=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBoqFxFuAG85JO+w/yQnIH5DAQjGs5Anai9Nbhl9DEj
+ bo9bW8iJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaKhcRQAKCRB33NvayMhJ0S4rEA
+ C2AIq8pfqC150XrD7K1L/9Px7X3KTEN97Enuqy2Xh1YHbYQQLsFUH0CdkXN+U36TptNO91aDPs+vJg
+ Qq1FjBFHqo1mDwlWBDxjhPV9F8ull7pEnau0uzV5fi3DtIp8VwLDLrSPSTKZ+bBp5bB7TUXr/59b0I
+ NOcvwRnCSY3TQInBBQl+MPC5G0fwEk0QK33sVo7WJV7N6HMvmOp/ArbWLEp/vIL8QmcKsNjPmd83fQ
+ ijSb7NNBGOMR/W3pbSh2SUrnzQr6v/mLtDke0x+kdqVf+NGr5kod25Zx3XRfAcBxK6MXhJmgEy/5RR
+ E3BbeggmeWn7jLwZ1lL0527Bg7KHS82HTt+2dIuyezqevmnvjoEC92Zz0w6IdzmF+H4ME7DRX9c/vt
+ pOxKshhVtle5/Ed+UYUKY78eeEgl3oRZKPDmmrBHu5E69XeieBTtX1KAvrI6S78CU2wTLrI+tcbcn4
+ qDMBy/nYGsC6XDGakjbGpl8TdHgfed6vbMIVEOK4x0C1LgNtuUFS9ZiBGx/T8QvFZMZc/81W6rxISr
+ De9nFfb4dS7xHBS3hmO2Q/NmBP8QkYJMcgDCofZJeDsDyLA5c0ZO0d6fNTD/giUudpCCoTbcASJ2rP
+ /9zPSkMvco/HXygpW1GU79Ha1id9rAtqWEuIl+bqZrPKMHIwCBucw5LTW0Tg==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-On 20/08/2025 11:07, Dikshita Agarwal wrote:
-> Hi All,
-> 
-> This patch series adds support for H.264 and H.265 encoder in iris
-> driver and includes a few fixes and cleanup in the common code that were
-> identified during encoder bring-up process.
-> 
-> The changes include:
-> - Enabling support for H.264 and H.265 encoding.
-> - Fixes and improvements in shared componenets used by both encoder and
-> decoder paths.
-> - Ensuring compatibility and stability with the existing decoder flow.
-> 
-> Changes in v3:
-> - Fixed the log when destroying the interanl buffers (Jorge)
-> - Updated commit text with issue details in patch 05/25 (Krzysztof)
-> - Added a patch to simplify conditional logic in stop handling for hfi gen1 (Bryan)
-> - Reduced duplicate code while registering video devices (Bryan)
-> - Added a fix for try fmt handling in decoder (Self)
-> - Fixed the value of max core mbps for qcs8300 (Vikash)
-> - Simplied the frame rate handling in driver by using non q16 format and
-> converted to q16 when setting to firmware (Vikash)
-> - Fixed the issue with bitstream resolution setting to firmware (Neil)
-> - Addressed other review comments (Vikash, Bryan)
-> - Link to v2: https://lore.kernel.org/r/20250813-iris-video-encoder-v2-0-c725ff673078@quicinc.com
-> 
-> Changes in v2:
-> - Fixed sparse/coccinnelle issues.
-> - Fixed the kernel doc warning.
-> - Removed unsupported PEAK_BITRATE property from SM8250.
-> - Dropped patch 04/25 to fix quality issue with encoder.
-> - Enhanced command handling for encoder to allow start/stop commands.
-> - Expanded rate control condition checks to include additional rate
->    control types for HFI Gen2.
-> - Updated default value to MAX_QP for all caps related to max QP settings.
-> - Add support for INPUT/OUTPUT_BUF_HOST_MAX_COUNT caps for encoder.
-> - Link to v1: https://lore.kernel.org/r/20250704-iris-video-encoder-v1-0-b6ce24e273cf@quicinc.com
-> 
-> All patches have been tested with v4l2-compliance, v4l2-ctl and
-> Gstreamer on SM8250 and SM8550 for encoder, at the same time ensured
-> that the existing decoder functionality remains uneffected.
-> 
-> Commands used for V4l2-ctl validation:
-> 
-> v4l2-ctl --verbose --set-fmt-video-out=width=1280,height=720,pixelformat=NV12
-> --set-selection-output target=crop,top=0,left=0,width=1280,height=720
-> --set-fmt-video=pixelformat=H264 --stream-mmap --stream-out-mmap
-> --stream-from=/media/cyclists_1280x720_92frames.yuv
-> --stream-to=/tmp/cyclists_1280x720_92frames.h264 -d /dev/video1
-> 
-> v4l2-ctl --verbose --set-fmt-video-out=width=1280,height=720,pixelformat=NV12
-> --set-selection-output target=crop,top=0,left=0,width=1280,height=720
-> --set-fmt-video=pixelformat=HEVC --stream-mmap --stream-out-mmap
-> --stream-from=/media/cyclists_1280x720_92frames.yuv
-> --stream-to=/tmp/cyclists_1280x720_92frames.hevc -d /dev/video1
-> 
-> Commands used for GST validation:
-> 
-> gst-launch-1.0 -v filesrc location=/media/cyclists_1280x720_92frames.yuv !
-> rawvideoparse format=nv12 width=1280 height=720 framerate=30/1 ! v4l2h264enc
-> capture-io-mode=4 output-io-mode=4 ! filesink sync=true
-> location=/tmp/gst_cyclists_1280x720_92frames.h264
-> 
-> gst-launch-1.0 -v filesrc location=/media/cyclists_1280x720_92frames.yuv !
-> rawvideoparse format=nv12 width=1280 height=720 framerate=30/1 ! v4l2h265enc
-> capture-io-mode=4 output-io-mode=4 ! filesink sync=true
-> location=/tmp/gst_cyclists_1280x720_92frames.hevc
-> 
-> The result of v4l2-compliance on SM8550:
-> v4l2-compliance 1.29.0-5270, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: dc947661089e 2024-11-11 10:25:38
-> 
-> Compliance test for iris_driver device /dev/video1:
-> 
-> Driver Info:
->          Driver name      : iris_driver
->          Card type        : Iris Encoder
->          Bus info         : platform:aa00000.video-codec
->          Driver version   : 6.16.0
->          Capabilities     : 0x84204000
->                  Video Memory-to-Memory Multiplanar
->                  Streaming
->                  Extended Pix Format
->                  Device Capabilities
->          Device Caps      : 0x04204000
->                  Video Memory-to-Memory Multiplanar
->                  Streaming
->                  Extended Pix Format
->          Detected Stateful Encoder
-> 
-> Required ioctls:
->          test VIDIOC_QUERYCAP: OK
->          test invalid ioctls: OK
-> 
-> Allow for multiple opens:
->          test second /dev/video1 open: OK
->          test VIDIOC_QUERYCAP: OK
->          test VIDIOC_G/S_PRIORITY: OK
->          test for unlimited opens: OK
-> 
-> Debug ioctls:
->          test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->          test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->          test VIDIOC_ENUMAUDIO: OK (Not Supported)
->          test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->          test VIDIOC_G/S_AUDIO: OK (Not Supported)
->          Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->          test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->          Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->          test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->          test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->          test VIDIOC_QUERYCTRL: OK
->          test VIDIOC_G/S_CTRL: OK
->          test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->          Standard Controls: 37 Private Controls: 0
-> 
-> Format ioctls:
->          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->          test VIDIOC_G/S_PARM: OK
->          test VIDIOC_G_FBUF: OK (Not Supported)
->          test VIDIOC_G_FMT: OK
->          test VIDIOC_TRY_FMT: OK
->          test VIDIOC_S_FMT: OK
->          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->          test Cropping: OK
->          test Composing: OK (Not Supported)
->          test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
->          test VIDIOC_(TRY_)ENCODER_CMD: OK
->          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->          test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
->          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->          test CREATE_BUFS maximum buffers: OK
->          test VIDIOC_REMOVE_BUFS: OK
->          test VIDIOC_EXPBUF: OK
->          test Requests: OK (Not Supported)
->          test blocking wait: OK
-> 
-> Test input 0:
-> 
-> Streaming ioctls:
->          test read/write: OK (Not Supported)
->          Video Capture Multiplanar: Captured 61 buffers
->          test MMAP (select, REQBUFS): OK
->          Video Capture Multiplanar: Captured 61 buffers
->          test MMAP (epoll, REQBUFS): OK
->          Video Capture Multiplanar: Captured 61 buffers
->          test MMAP (select, CREATE_BUFS): OK
->          Video Capture Multiplanar: Captured 61 buffers
->          test MMAP (epoll, CREATE_BUFS): OK
->          test USERPTR (select): OK (Not Supported)
->          test DMABUF: Cannot test, specify --expbuf-device
-> 
-> Total for iris_driver device /dev/video1: 54, Succeeded: 54, Failed: 0, Warnings: 0
-> 
-> The result of v4l2-compliance on SM8250:
-> v4l2-compliance 1.29.0-5270, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: dc947661089e 2024-11-11 10:25:38
-> 
-> Compliance test for iris_driver device /dev/video1:
-> 
-> Driver Info:
->          Driver name      : iris_driver
->          Card type        : Iris Encoder
->          Bus info         : platform:aa00000.video-codec
->          Driver version   : 6.16.0
->          Capabilities     : 0x84204000
->                  Video Memory-to-Memory Multiplanar
->                  Streaming
->                  Extended Pix Format
->                  Device Capabilities
->          Device Caps      : 0x04204000
->                  Video Memory-to-Memory Multiplanar
->                  Streaming
->                  Extended Pix Format
->          Detected Stateful Encoder
-> 
-> Required ioctls:
->          test VIDIOC_QUERYCAP: OK
->          test invalid ioctls: OK
-> 
-> Allow for multiple opens:
->          test second /dev/video1 open: OK
->          test VIDIOC_QUERYCAP: OK
->          test VIDIOC_G/S_PRIORITY: OK
->          test for unlimited opens: OK
-> 
-> Debug ioctls:
->          test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->          test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
->          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->          test VIDIOC_ENUMAUDIO: OK (Not Supported)
->          test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
->          test VIDIOC_G/S_AUDIO: OK (Not Supported)
->          Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
->          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->          test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->          Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
->          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->          test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->          test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
->          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->          test VIDIOC_QUERYCTRL: OK
->          test VIDIOC_G/S_CTRL: OK
->          test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->          Standard Controls: 19 Private Controls: 0
-> 
-> Format ioctls:
->          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->          test VIDIOC_G/S_PARM: OK
->          test VIDIOC_G_FBUF: OK (Not Supported)
->          test VIDIOC_G_FMT: OK
->          test VIDIOC_TRY_FMT: OK
->          test VIDIOC_S_FMT: OK
->          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->          test Cropping: OK
->          test Composing: OK (Not Supported)
->          test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
->          test VIDIOC_(TRY_)ENCODER_CMD: OK
->          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->          test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
->          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->          test CREATE_BUFS maximum buffers: OK
->          test VIDIOC_REMOVE_BUFS: OK
->          test VIDIOC_EXPBUF: OK
->          test Requests: OK (Not Supported)
->          test blocking wait: OK
-> 
-> Test input 0:
-> 
-> Streaming ioctls:
->          test read/write: OK (Not Supported)
->          Video Capture Multiplanar: Captured 61 buffers
->          test MMAP (select, REQBUFS): OK
->          Video Capture Multiplanar: Captured 61 buffers
->          test MMAP (epoll, REQBUFS): OK
->          Video Capture Multiplanar: Captured 61 buffers
->          test MMAP (select, CREATE_BUFS): OK
->          Video Capture Multiplanar: Captured 61 buffers
->          test MMAP (epoll, CREATE_BUFS): OK
->          test USERPTR (select): OK (Not Supported)
->          test DMABUF: Cannot test, specify --expbuf-device
-> 
-> Total for iris_driver device /dev/video1: 54, Succeeded: 54, Failed: 0, Warnings: 0
-> 
-> Looking forward to your review and feedback.
-> 
-> Thanks,
-> Dikshita
-> 
-> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
-> ---
-> Dikshita Agarwal (26):
->        media: iris: Fix buffer count reporting in internal buffer check
->        media: iris: Report unreleased PERSIST buffers on session close
->        media: iris: Fix memory leak by freeing untracked persist buffer
->        media: iris: Fix port streaming handling
->        media: iris: Allow substate transition to load resources during output streaming
->        media: iris: Always destroy internal buffers on firmware release response
->        media: iris: Update vbuf flags before v4l2_m2m_buf_done
->        media: iris: Simplify session stop logic by relying on vb2 checks
->        media: iris: Allow stop on firmware only if start was issued.
->        media: iris: Send dummy buffer address for all codecs during drain
->        media: iris: Fix missing LAST flag handling during drain
->        media: iris: Fix format check for CAPTURE plane in try_fmt
->        media: iris: Add support for video encoder device
->        media: iris: Initialize and deinitialize encoder instance structure
->        media: iris: Add support for ENUM_FMT, S/G/TRY_FMT encoder
->        media: iris: Add support for ENUM_FRAMESIZES/FRAMEINTERVALS for encoder
->        media: iris: Add support for VIDIOC_QUERYCAP for encoder video device
->        media: iris: Add encoder support for V4L2 event subscription
->        media: iris: Add support for G/S_SELECTION for encoder video device
->        media: iris: Add support for G/S_PARM for encoder video device
->        media: iris: Add platform-specific capabilities for encoder video device
->        media: iris: Add V4L2 streaming support for encoder video device
->        media: iris: Set platform capabilities to firmware for encoder video device
->        media: iris: Allocate and queue internal buffers for encoder video device
->        media: iris: Add support for buffer management ioctls for encoder device
->        media: iris: Add support for drain sequence in encoder video device
-> 
->   drivers/media/platform/qcom/iris/Makefile          |   5 +-
->   drivers/media/platform/qcom/iris/iris_buffer.c     | 220 ++++--
->   drivers/media/platform/qcom/iris/iris_buffer.h     |   7 +-
->   drivers/media/platform/qcom/iris/iris_common.c     | 232 ++++++
->   drivers/media/platform/qcom/iris/iris_common.h     |  18 +
->   drivers/media/platform/qcom/iris/iris_core.h       |  20 +-
->   drivers/media/platform/qcom/iris/iris_ctrls.c      | 675 +++++++++++++++-
->   drivers/media/platform/qcom/iris/iris_ctrls.h      |  15 +
->   drivers/media/platform/qcom/iris/iris_hfi_common.h |   2 +-
->   .../platform/qcom/iris/iris_hfi_gen1_command.c     | 480 +++++++++---
->   .../platform/qcom/iris/iris_hfi_gen1_defines.h     | 112 ++-
->   .../platform/qcom/iris/iris_hfi_gen1_response.c    |  60 +-
->   .../platform/qcom/iris/iris_hfi_gen2_command.c     | 359 ++++++---
->   .../platform/qcom/iris/iris_hfi_gen2_defines.h     |  44 +-
->   .../platform/qcom/iris/iris_hfi_gen2_response.c    |  46 +-
->   drivers/media/platform/qcom/iris/iris_instance.h   |  24 +
->   .../platform/qcom/iris/iris_platform_common.h      |  74 +-
->   .../media/platform/qcom/iris/iris_platform_gen2.c  | 522 ++++++++++++-
->   .../platform/qcom/iris/iris_platform_qcs8300.h     | 352 ++++++++-
->   .../platform/qcom/iris/iris_platform_sm8250.c      | 234 +++++-
->   drivers/media/platform/qcom/iris/iris_probe.c      |  33 +-
->   drivers/media/platform/qcom/iris/iris_state.c      |   9 +-
->   drivers/media/platform/qcom/iris/iris_state.h      |   1 +
->   drivers/media/platform/qcom/iris/iris_utils.c      |  36 +
->   drivers/media/platform/qcom/iris/iris_utils.h      |   2 +
->   drivers/media/platform/qcom/iris/iris_vb2.c        |  58 +-
->   drivers/media/platform/qcom/iris/iris_vdec.c       | 251 +-----
->   drivers/media/platform/qcom/iris/iris_vdec.h       |  13 +-
->   drivers/media/platform/qcom/iris/iris_venc.c       | 579 ++++++++++++++
->   drivers/media/platform/qcom/iris/iris_venc.h       |  27 +
->   drivers/media/platform/qcom/iris/iris_vidc.c       | 299 +++++++-
->   drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 847 ++++++++++++++++++++-
->   drivers/media/platform/qcom/iris/iris_vpu_buffer.h |  20 +
->   33 files changed, 4964 insertions(+), 712 deletions(-)
-> ---
-> base-commit: a75b8d198c55e9eb5feb6f6e155496305caba2dc
-> change-id: 20250704-iris-video-encoder-b193350b487a
-> 
-> Best regards,
+The VPU33 found in the SM8650 Platform requires some slighly different
+buffer calculation for encoding to allow working with the latest
+firwware uploaded on linux-firmware at [1].
 
-Thanks !
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=ece445af91bbee49bf0d8b23c2b99b596ae6eac7
 
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8550-HDK
-Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
+Suggested-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+[2] https://lore.kernel.org/all/20250820-iris-video-encoder-v3-0-80ab0ba58b3d@quicinc.com/
+---
+ drivers/media/platform/qcom/iris/iris_buffer.c     |   2 +-
+ .../platform/qcom/iris/iris_hfi_gen1_command.c     |   2 +-
+ .../platform/qcom/iris/iris_platform_common.h      |   2 +
+ .../media/platform/qcom/iris/iris_platform_gen2.c  |   4 +
+ .../platform/qcom/iris/iris_platform_sm8250.c      |   2 +
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 118 ++++++++++++++++++++-
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.h |   4 +-
+ 7 files changed, 127 insertions(+), 7 deletions(-)
 
-It still requires some sm8650 specific buffer calculations tweaks
-to support new firmwares and HEVC for encoding, but I'll post that in
-a second time. The core is functional for H264 on older firmwares.
+diff --git a/drivers/media/platform/qcom/iris/iris_buffer.c b/drivers/media/platform/qcom/iris/iris_buffer.c
+index 8891a297d384b018b3cc8313ad6416db6317798b..c0900038e7defccf7de3cb60e17c71e36a0e8ead 100644
+--- a/drivers/media/platform/qcom/iris/iris_buffer.c
++++ b/drivers/media/platform/qcom/iris/iris_buffer.c
+@@ -284,7 +284,7 @@ static void iris_fill_internal_buf_info(struct iris_inst *inst,
+ {
+ 	struct iris_buffers *buffers = &inst->buffers[buffer_type];
+ 
+-	buffers->size = iris_vpu_buf_size(inst, buffer_type);
++	buffers->size = inst->core->iris_platform_data->get_vpu_buffer_size(inst, buffer_type);
+ 	buffers->min_count = iris_vpu_buf_count(inst, buffer_type);
+ }
+ 
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+index 29cf392ca2566da286ea3e928ce4a22c2e970cc8..e1788c266bb1080921f17248fd5ee60156b3143d 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+@@ -911,7 +911,7 @@ static int iris_hfi_gen1_set_bufsize(struct iris_inst *inst, u32 plane)
+ 
+ 	if (iris_split_mode_enabled(inst)) {
+ 		bufsz.type = HFI_BUFFER_OUTPUT;
+-		bufsz.size = iris_vpu_buf_size(inst, BUF_DPB);
++		bufsz.size = inst->core->iris_platform_data->get_vpu_buffer_size(inst, BUF_DPB);
+ 
+ 		ret = hfi_gen1_set_property(inst, ptype, &bufsz, sizeof(bufsz));
+ 		if (ret)
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+index 96fa7b1bb592441e85664da408ea4ba42c9a15b5..7057c4cd1a9ebefa02c855014e5f19993da58e38 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_common.h
++++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+@@ -7,6 +7,7 @@
+ #define __IRIS_PLATFORM_COMMON_H__
+ 
+ #include <linux/bits.h>
++#include "iris_buffer.h"
+ 
+ struct iris_core;
+ struct iris_inst;
+@@ -189,6 +190,7 @@ struct iris_platform_data {
+ 	void (*init_hfi_command_ops)(struct iris_core *core);
+ 	void (*init_hfi_response_ops)(struct iris_core *core);
+ 	struct iris_inst *(*get_instance)(void);
++	u32 (*get_vpu_buffer_size)(struct iris_inst *inst, enum iris_buffer_type buffer_type);
+ 	const struct vpu_ops *vpu_ops;
+ 	void (*set_preset_registers)(struct iris_core *core);
+ 	const struct icc_info *icc_tbl;
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+index cf4b92f534b272a0a1ac2a0e7bb9316501374332..78a04e76de7c00703b84bd3c1c6e9a884ee7cebe 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
++++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+@@ -8,6 +8,7 @@
+ #include "iris_hfi_gen2.h"
+ #include "iris_hfi_gen2_defines.h"
+ #include "iris_platform_common.h"
++#include "iris_vpu_buffer.h"
+ #include "iris_vpu_common.h"
+ 
+ #include "iris_platform_qcs8300.h"
+@@ -738,6 +739,7 @@ struct iris_platform_data sm8550_data = {
+ 	.get_instance = iris_hfi_gen2_get_instance,
+ 	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
+ 	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
++	.get_vpu_buffer_size = iris_vpu_buf_size,
+ 	.vpu_ops = &iris_vpu3_ops,
+ 	.set_preset_registers = iris_set_sm8550_preset_registers,
+ 	.icc_tbl = sm8550_icc_table,
+@@ -827,6 +829,7 @@ struct iris_platform_data sm8650_data = {
+ 	.get_instance = iris_hfi_gen2_get_instance,
+ 	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
+ 	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
++	.get_vpu_buffer_size = iris_vpu33x_buf_size,
+ 	.vpu_ops = &iris_vpu33_ops,
+ 	.set_preset_registers = iris_set_sm8550_preset_registers,
+ 	.icc_tbl = sm8550_icc_table,
+@@ -916,6 +919,7 @@ struct iris_platform_data qcs8300_data = {
+ 	.get_instance = iris_hfi_gen2_get_instance,
+ 	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
+ 	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
++	.get_vpu_buffer_size = iris_vpu_buf_size,
+ 	.vpu_ops = &iris_vpu3_ops,
+ 	.set_preset_registers = iris_set_sm8550_preset_registers,
+ 	.icc_tbl = sm8550_icc_table,
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+index 978d0130d43b5f6febb65430a9bbe3932e8f24df..16486284f8acccf6a95a27f6003e885226e28f4d 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
++++ b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+@@ -9,6 +9,7 @@
+ #include "iris_resources.h"
+ #include "iris_hfi_gen1.h"
+ #include "iris_hfi_gen1_defines.h"
++#include "iris_vpu_buffer.h"
+ #include "iris_vpu_common.h"
+ 
+ #define BITRATE_MIN		32000
+@@ -317,6 +318,7 @@ struct iris_platform_data sm8250_data = {
+ 	.get_instance = iris_hfi_gen1_get_instance,
+ 	.init_hfi_command_ops = &iris_hfi_gen1_command_ops_init,
+ 	.init_hfi_response_ops = iris_hfi_gen1_response_ops_init,
++	.get_vpu_buffer_size = iris_vpu_buf_size,
+ 	.vpu_ops = &iris_vpu2_ops,
+ 	.set_preset_registers = iris_set_sm8250_preset_registers,
+ 	.icc_tbl = sm8250_icc_table,
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+index 7337d8d33715810669399d9f86b864d0eb002897..5658acf371506d1190e885986d362b2731b0660e 100644
+--- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
++++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+@@ -867,6 +867,34 @@ u32 size_vpss_line_buf(u32 num_vpp_pipes_enc, u32 frame_height_coded,
+ 		      (((((max_t(u32, (frame_width_coded),
+ 				 (frame_height_coded)) + 3) >> 2) << 5) + 256) * 16)), 256);
+ }
++static inline
++u32 size_vpss_line_buf_vpu33x(u32 num_vpp_pipes_enc, u32 frame_height_coded,
++			      u32 frame_width_coded)
++{
++	u32 vpss_4tap_top = 0, vpss_4tap_left = 0, vpss_div2_top = 0;
++	u32 vpss_div2_left = 0, vpss_top_lb = 0, vpss_left_lb = 0;
++	u32 size_left = 0, size_top = 0;
++
++	vpss_4tap_top = (max_t(u32, frame_width_coded, frame_height_coded) * 2) + 3;
++	vpss_4tap_top >>= 2;
++	vpss_4tap_top <<= 4;
++	vpss_4tap_top += 256;
++	vpss_4tap_left = (((8192 + 3) >> 2) << 5) + 64;
++	vpss_div2_top = max_t(u32, frame_width_coded, frame_height_coded) + 3;
++	vpss_div2_top >>= 2;
++	vpss_div2_top <<= 4;
++	vpss_div2_top += 256;
++	vpss_div2_left = (max_t(u32, frame_width_coded, frame_height_coded) * 2) + 3;
++	vpss_div2_left >>= 2;
++	vpss_div2_left <<= 5;
++	vpss_div2_left += 64;
++	vpss_top_lb = (frame_width_coded + 1) << 3;
++	vpss_left_lb = (frame_height_coded << 3) * num_vpp_pipes_enc;
++	size_left = (vpss_4tap_left + vpss_div2_left) * 2 * num_vpp_pipes_enc;
++	size_top = (vpss_4tap_top + vpss_div2_top) * 2;
++
++	return ALIGN(size_left + size_top + vpss_top_lb + vpss_left_lb, DMA_ALIGNMENT);
++}
+ 
+ static inline
+ u32 size_top_line_buf_first_stg_sao(u32 frame_width_coded)
+@@ -975,9 +1003,17 @@ static u32 iris_vpu_enc_non_comv_size(struct iris_inst *inst)
+ 				       lcu_size, HFI_CODEC_ENCODE_AVC);
+ }
+ 
++static u32 iris_vpu33x_enc_non_comv_size(struct iris_inst *inst)
++{
++	if (inst->codec == V4L2_PIX_FMT_HEVC)
++		return iris_vpu_enc_non_comv_size(inst) + SIZE_ONE_SLICE_BUF;
++
++	return iris_vpu_enc_non_comv_size(inst);
++}
++
+ static inline
+-u32 hfi_buffer_line_enc(u32 frame_width, u32 frame_height, bool is_ten_bit,
+-			u32 num_vpp_pipes_enc, u32 lcu_size, u32 standard)
++u32 hfi_buffer_line_enc_base(u32 frame_width, u32 frame_height, bool is_ten_bit,
++			     u32 num_vpp_pipes_enc, u32 lcu_size, u32 standard)
+ {
+ 	u32 width_in_lcus = ((frame_width) + (lcu_size) - 1) / (lcu_size);
+ 	u32 height_in_lcus = ((frame_height) + (lcu_size) - 1) / (lcu_size);
+@@ -1017,10 +1053,38 @@ u32 hfi_buffer_line_enc(u32 frame_width, u32 frame_height, bool is_ten_bit,
+ 		line_buff_recon_pix_size +
+ 		size_left_linebuff_ctrl_fe(frame_height_coded, num_vpp_pipes_enc) +
+ 		size_line_buf_sde(frame_width_coded) +
+-		size_vpss_line_buf(num_vpp_pipes_enc, frame_height_coded, frame_width_coded) +
+ 		size_top_line_buf_first_stg_sao(frame_width_coded);
+ }
+ 
++static inline
++u32 hfi_buffer_line_enc(u32 frame_width, u32 frame_height, bool is_ten_bit,
++			u32 num_vpp_pipes_enc, u32 lcu_size, u32 standard)
++{
++	u32 width_in_lcus = ((frame_width) + (lcu_size) - 1) / (lcu_size);
++	u32 height_in_lcus = ((frame_height) + (lcu_size) - 1) / (lcu_size);
++	u32 frame_height_coded = height_in_lcus * (lcu_size);
++	u32 frame_width_coded = width_in_lcus * (lcu_size);
++
++	return hfi_buffer_line_enc_base(frame_width, frame_height, is_ten_bit,
++					num_vpp_pipes_enc, lcu_size, standard) +
++		size_vpss_line_buf(num_vpp_pipes_enc, frame_height_coded, frame_width_coded);
++}
++
++static inline
++u32 hfi_buffer_line_enc_vpu33x(u32 frame_width, u32 frame_height, bool is_ten_bit,
++			       u32 num_vpp_pipes_enc, u32 lcu_size, u32 standard)
++{
++	u32 width_in_lcus = ((frame_width) + (lcu_size) - 1) / (lcu_size);
++	u32 height_in_lcus = ((frame_height) + (lcu_size) - 1) / (lcu_size);
++	u32 frame_height_coded = height_in_lcus * (lcu_size);
++	u32 frame_width_coded = width_in_lcus * (lcu_size);
++
++	return hfi_buffer_line_enc_base(frame_width, frame_height, is_ten_bit,
++					num_vpp_pipes_enc, lcu_size, standard) +
++		size_vpss_line_buf_vpu33x(num_vpp_pipes_enc, frame_height_coded,
++					  frame_width_coded);
++}
++
+ static u32 iris_vpu_enc_line_size(struct iris_inst *inst)
+ {
+ 	u32 num_vpp_pipes = inst->core->iris_platform_data->num_vpp_pipe;
+@@ -1039,6 +1103,24 @@ static u32 iris_vpu_enc_line_size(struct iris_inst *inst)
+ 				   lcu_size, HFI_CODEC_ENCODE_AVC);
+ }
+ 
++static u32 iris_vpu33x_enc_line_size(struct iris_inst *inst)
++{
++	u32 num_vpp_pipes = inst->core->iris_platform_data->num_vpp_pipe;
++	struct v4l2_format *f = inst->fmt_dst;
++	u32 height = f->fmt.pix_mp.height;
++	u32 width = f->fmt.pix_mp.width;
++	u32 lcu_size = 16;
++
++	if (inst->codec == V4L2_PIX_FMT_HEVC) {
++		lcu_size = 32;
++		return hfi_buffer_line_enc_vpu33x(width, height, 0, num_vpp_pipes,
++						  lcu_size, HFI_CODEC_ENCODE_HEVC);
++	}
++
++	return hfi_buffer_line_enc_vpu33x(width, height, 0, num_vpp_pipes,
++					  lcu_size, HFI_CODEC_ENCODE_AVC);
++}
++
+ static inline
+ u32 hfi_buffer_dpb_enc(u32 frame_width, u32 frame_height, bool is_ten_bit)
+ {
+@@ -1386,7 +1468,7 @@ struct iris_vpu_buf_type_handle {
+ 	u32 (*handle)(struct iris_inst *inst);
+ };
+ 
+-int iris_vpu_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type)
++u32 iris_vpu_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type)
+ {
+ 	const struct iris_vpu_buf_type_handle *buf_type_handle_arr = NULL;
+ 	u32 size = 0, buf_type_handle_size = 0, i;
+@@ -1430,6 +1512,34 @@ int iris_vpu_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type)
+ 	return size;
+ }
+ 
++u32 iris_vpu33x_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type)
++{
++	u32 size = 0, i;
++
++	static const struct iris_vpu_buf_type_handle enc_internal_buf_type_handle[] = {
++		{BUF_BIN,         iris_vpu_enc_bin_size         },
++		{BUF_COMV,        iris_vpu_enc_comv_size        },
++		{BUF_NON_COMV,    iris_vpu33x_enc_non_comv_size },
++		{BUF_LINE,        iris_vpu33x_enc_line_size     },
++		{BUF_ARP,         iris_vpu_enc_arp_size         },
++		{BUF_VPSS,        iris_vpu_enc_vpss_size        },
++		{BUF_SCRATCH_1,   iris_vpu_enc_scratch1_size    },
++		{BUF_SCRATCH_2,   iris_vpu_enc_scratch2_size    },
++	};
++
++	if (inst->domain == DECODER)
++		return iris_vpu_buf_size(inst, buffer_type);
++
++	for (i = 0; i < ARRAY_SIZE(enc_internal_buf_type_handle); i++) {
++		if (enc_internal_buf_type_handle[i].type == buffer_type) {
++			size = enc_internal_buf_type_handle[i].handle(inst);
++			break;
++		}
++	}
++
++	return size;
++}
++
+ static u32 internal_buffer_count(struct iris_inst *inst,
+ 				 enum iris_buffer_type buffer_type)
+ {
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.h b/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+index 1ff1b07ecbaa85345ca948affeb1c4a1c55e36b0..e4fd1fcf2dbf25e69d55599a8fd4ad775f9e6575 100644
+--- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
++++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+@@ -41,6 +41,7 @@ struct iris_inst;
+ #define SIZE_SLIST_BUF_H265 (BIT(10))
+ #define H265_DISPLAY_BUF_SIZE (3072)
+ #define H265_NUM_FRM_INFO (48)
++#define SIZE_ONE_SLICE_BUF 256
+ 
+ #define VP9_NUM_FRAME_INFO_BUF 32
+ #define VP9_NUM_PROBABILITY_TABLE_BUF (VP9_NUM_FRAME_INFO_BUF + 4)
+@@ -145,7 +146,8 @@ static inline u32 size_h264d_qp(u32 frame_width, u32 frame_height)
+ 	return DIV_ROUND_UP(frame_width, 64) * DIV_ROUND_UP(frame_height, 64) * 128;
+ }
+ 
+-int iris_vpu_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type);
++u32 iris_vpu_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type);
++u32 iris_vpu33x_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type);
+ int iris_vpu_buf_count(struct iris_inst *inst, enum iris_buffer_type buffer_type);
+ 
+ #endif
 
-Neil
+---
+base-commit: 3390731fe7686441519f59d7599962e0abbca7d6
+change-id: 20250822-topic-sm8x50-iris-encoder-v3-hevc-debug-10173f4838e3
+
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
+
 
