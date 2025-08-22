@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-40697-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40699-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 576F1B30A57
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 02:28:40 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5707EB30A62
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 02:29:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16B473B5658
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 00:28:39 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A934FB624E1
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 00:27:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2836718DB1C;
-	Fri, 22 Aug 2025 00:28:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F06916FC3;
+	Fri, 22 Aug 2025 00:28:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LgoOF8xm"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dMogZGY/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 211CE1096F;
-	Fri, 22 Aug 2025 00:28:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22D11B808;
+	Fri, 22 Aug 2025 00:28:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755822492; cv=none; b=WUnZpmso0IOGL9oXKeYk0ThRG1NkWq10oYcngOKKxwr4hStnkjsfTMBOkzBo5jIi2NxYonqj8iueUSy4B8oRW0hd5QESJ+54SEZbN4f90t0GEVgFfbBqzTkzyxXJStgE5NbFO3h8HsSmzplbUkK0ZKqMMBtJPnrCWsLCdrAgAok=
+	t=1755822496; cv=none; b=YXAIdqGUFdeAlZA7mn6ZuqXuEvH6XFMY2VSMu8xiF2Zfrq6g/z37Ts4eu4r+y8EtsHNNLcOKYiWMYh/eJLUUY4frJSbn0aowJP17Xl8DKxtp5RG4bl8437ac/7BeNhVTvttY/wc15d40kzGe/PvNHgYzU8xWFqB4snH1EtdIuKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755822492; c=relaxed/simple;
-	bh=+2uWvTejnO4/xaa6TvzNFbU4t/8EQu/bspQi8hgNTO8=;
+	s=arc-20240116; t=1755822496; c=relaxed/simple;
+	bh=VRTtx5007Mrf2c/UANrM//Z4d9wC/+So/3DGJzjRBKg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dMmfbmQE84EkBCXusfyrVwWvEJ+QLNbKID6Ao2d3ymWWM5xSfbarrP25sDcKJMExTN7RxkIDo1RxZtdJI7P+AVzpiL+/PJpro9tO0N0KyVDazwwr8G5KswoFFSseyRYBOUyE9VBCDphv6jRWNuOxDzjZuZo8Z1Lpl/iSND/b6C0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LgoOF8xm; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=H6P89MGUuqCR4TuqcldudihfvPqd6JwYcAot9t71fQpE6LMcauzWtwyqKCwxka5+ErganUJFh9k5+KFkX6kT9vlIp6qhDLxYBIZxLc4ag0M2m4d403wm3uw8K0Cg5hq+3whF0yvWfEuC/fftgAKzIFVdid8N8rgMPI/QonVajFw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dMogZGY/; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 91405E45;
-	Fri, 22 Aug 2025 02:27:09 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 203891F17;
+	Fri, 22 Aug 2025 02:27:11 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755822429;
-	bh=+2uWvTejnO4/xaa6TvzNFbU4t/8EQu/bspQi8hgNTO8=;
+	s=mail; t=1755822431;
+	bh=VRTtx5007Mrf2c/UANrM//Z4d9wC/+So/3DGJzjRBKg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LgoOF8xmTKrMDrwAjbKOYsxnvJwczW2j/2HxaE2Al3p1/Kto52r86mry7cEJeTzjl
-	 Ga3ej6rzjn05u/PDMss/iKmuESWjYADz43NRM/XFTtTp0XYrYRrrR23X0lWV7+guj3
-	 xuW54gMrSCjJ7hKhY/aYgxyvN7Pdw/FPjuzBUY44=
+	b=dMogZGY/nZUOaEsCRcqbzClbt8PkYZKH3PJ9WyTUDPolbwpr59ihsqHXRfmi6px3p
+	 GQp5oeySG/5RViiRA7s7fqVW0GOm3q+AD0G2RHih+L2z/KhZ51P0l1eWgSK3+tC11t
+	 gfXTl9LVG5H8oLoA1Ciu0K8+nnIH+kgUk8NGgP7E=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Conor Dooley <conor+dt@kernel.org>,
@@ -59,9 +59,9 @@ Cc: Conor Dooley <conor+dt@kernel.org>,
 	devicetree@vger.kernel.org,
 	imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org
-Subject: [PATCH v3 07/13] media: imx-mipi-csis: Fix field alignment in register dump
-Date: Fri, 22 Aug 2025 03:27:27 +0300
-Message-ID: <20250822002734.23516-8-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 08/13] media: imx-mipi-csis: Log per-lane start of transmission errors
+Date: Fri, 22 Aug 2025 03:27:28 +0300
+Message-ID: <20250822002734.23516-9-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.49.1
 In-Reply-To: <20250822002734.23516-1-laurent.pinchart@ideasonboard.com>
 References: <20250822002734.23516-1-laurent.pinchart@ideasonboard.com>
@@ -73,31 +73,41 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Commit 95a1379004cb ("media: staging: media: imx: imx7-mipi-csis: Dump
-MIPI_CSIS_FRAME_COUNTER_CH0 register") forgot to increase the maximum
-register name length, resulting in misalignment of names printed in the
-kernel log. Fix it.
+The CSIS has per-line start of transmission error interrupts. Log them
+all, instead of only the first data lane.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Alexander Stein <alexander.stein@ew.tq-group.com>
 Reviewed-by: Frank Li <Frank.Li@nxp.com>
 ---
- drivers/media/platform/nxp/imx-mipi-csis.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/nxp/imx-mipi-csis.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-index 50f6f4468f7b..346599b7a517 100644
+index 346599b7a517..77f1bf05b520 100644
 --- a/drivers/media/platform/nxp/imx-mipi-csis.c
 +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-@@ -892,7 +892,7 @@ static int mipi_csis_dump_regs(struct mipi_csis_device *csis)
+@@ -99,7 +99,7 @@
+ #define MIPI_CSIS_INT_SRC_NON_IMAGE_DATA	(0xf << 28)
+ #define MIPI_CSIS_INT_SRC_FRAME_START		BIT(24)
+ #define MIPI_CSIS_INT_SRC_FRAME_END		BIT(20)
+-#define MIPI_CSIS_INT_SRC_ERR_SOT_HS		BIT(16)
++#define MIPI_CSIS_INT_SRC_ERR_SOT_HS(n)		BIT((n) + 16)
+ #define MIPI_CSIS_INT_SRC_ERR_LOST_FS		BIT(12)
+ #define MIPI_CSIS_INT_SRC_ERR_LOST_FE		BIT(8)
+ #define MIPI_CSIS_INT_SRC_ERR_OVER		BIT(4)
+@@ -240,7 +240,10 @@ struct mipi_csis_event {
  
- 	for (i = 0; i < ARRAY_SIZE(registers); i++) {
- 		cfg = mipi_csis_read(csis, registers[i].offset);
--		dev_info(csis->dev, "%14s: 0x%08x\n", registers[i].name, cfg);
-+		dev_info(csis->dev, "%17s: 0x%08x\n", registers[i].name, cfg);
- 	}
- 
- 	pm_runtime_put(csis->dev);
+ static const struct mipi_csis_event mipi_csis_events[] = {
+ 	/* Errors */
+-	{ false, MIPI_CSIS_INT_SRC_ERR_SOT_HS,		"SOT Error" },
++	{ false, MIPI_CSIS_INT_SRC_ERR_SOT_HS(0),	"SOT 0 Error" },
++	{ false, MIPI_CSIS_INT_SRC_ERR_SOT_HS(1),	"SOT 1 Error" },
++	{ false, MIPI_CSIS_INT_SRC_ERR_SOT_HS(2),	"SOT 2 Error" },
++	{ false, MIPI_CSIS_INT_SRC_ERR_SOT_HS(3),	"SOT 3 Error" },
+ 	{ false, MIPI_CSIS_INT_SRC_ERR_LOST_FS,		"Lost Frame Start Error" },
+ 	{ false, MIPI_CSIS_INT_SRC_ERR_LOST_FE,		"Lost Frame End Error" },
+ 	{ false, MIPI_CSIS_INT_SRC_ERR_OVER,		"FIFO Overflow Error" },
 -- 
 Regards,
 
