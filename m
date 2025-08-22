@@ -1,308 +1,489 @@
-Return-Path: <linux-media+bounces-40727-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40728-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4FF2B311B5
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 10:25:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75849B311C7
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 10:29:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DA01B3B5E4B
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 08:22:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DBE75A00C67
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 08:25:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71E052EAB8E;
-	Fri, 22 Aug 2025 08:22:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EFB22EE617;
+	Fri, 22 Aug 2025 08:23:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="F7IriSGN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KJAQYtAY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D887121256B
-	for <linux-media@vger.kernel.org>; Fri, 22 Aug 2025 08:22:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747022EC54B;
+	Fri, 22 Aug 2025 08:23:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755850949; cv=none; b=K+a8jQ8cr/TEQVR4ScLCVQqiu0lVblCq7Oslx3WE6b1u0IZOdrhJD2LQH794I0rSkuXR6IEWgwFU6PpgGwhz6eIemEzGK1H0NfHw8lu1kFpW8iLl74ldmjvwwF8S5ag/VRNTIlTei/j0I6scHMwdUj1JrGMkYSyQwrSV8Zkc4NY=
+	t=1755851031; cv=none; b=XHKG7yKktNR0B9AZ6iVIT+JzqCTLe/thk/U286FZiNHzPhjWgI3dIQ2xyIJJjqFRFr6DaMP/X69cid4/WfcJuYiOmLFMIQoo3Comn8OU+aZeGoFXdcF3E14im3TB3yRksfo/bJ6ulDQVqDb3vDuvEKO+o/+9CCO8koGuWZEz2gE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755850949; c=relaxed/simple;
-	bh=wSFuJQEtqfZ1oytRi29ghlaifGfrK4PFYsjEiiTPgKw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RLqIn/T21Sk0PwFAG9uXhH5tlP+veEXfPbmK/3AjmWlPNPbYB2JihDgVJP8otogIr8ULuY9drGyAyT0RLktD0nd8faPc07PT/v3MKEu1UrnaEd7KdZev/X60WFnjeBaU0ajmPtrMw7wl1b0idc5WENjFEr5bWuLkKCtJyh6ztmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=F7IriSGN; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-55e00f938dfso269764e87.0
-        for <linux-media@vger.kernel.org>; Fri, 22 Aug 2025 01:22:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755850946; x=1756455746; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=RXucF9UGdHPxrEiNPI7ijZXyi7uTg15VZKasLKSvsIU=;
-        b=F7IriSGNGRQUT2Ox2/oAWQmQQoPmBgXZshDd5HCid0onj1aio1RIPvi2VoLzAE7tXp
-         33lZO7/a2gH/66kxoFQspSKbQ69aJhq58pM3wrfmNE6JMUXYbyc81vJPiz5RlNBaa9x8
-         Oqm2B8bFJ8p1r+AJN9d124M/8HTsjCQ9GXwlID8InLKcsy790LwGZOdlUn66x4WOQI3q
-         +ZRzcgOqVlk9CYjIVPBPj7bbu7/T5vAxIzxssxU2J9lzEF8jRyB3E7ii+/pfQm/fBWTL
-         oVKWShjvTjGa0jQhJKBdiI5uKUAULPAmuSJ022HT24/3WQEad5HMwdoyU7dsficHyxCG
-         0Mmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755850946; x=1756455746;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=RXucF9UGdHPxrEiNPI7ijZXyi7uTg15VZKasLKSvsIU=;
-        b=XSL5ZkBqhP7cyRNbcFfoFGB0hkBagwI+LBga1fSNTWuTR+xJW9+LMb2zd4nq7We7p1
-         wl7tBELh/NuwzQqrHtC10dsTPNwnswvzUAe7bg+HCOfEQ4P6n2DCiyCcw1qGD0nBlYCJ
-         Szn5c+3MlHKSAWZcCNi8wWNCg5MA17XrwcGL7n55iC2bdB1GvppgOf7IX7vaEk44nszJ
-         9KqLCbUMPNRPoEfJxzmV4zK6Qeb8IEIoybpUUjel5m3CGoIwuQ+7BFiWAmlaM3jrLabo
-         bCo1IDA5m94ynw/LnsPXQox++rumzvPEhrIjPS0DcM6erxPWyaWAsIfnpyJwlvH9KuJm
-         z5Ig==
-X-Forwarded-Encrypted: i=1; AJvYcCW53RvmY2h3J40O2NUxBVxP7pQOJFhtM2nKH+A5UQyjS2RhVOTSyOUdniKw/bF99xfLO/92Y9xAkNW1Bw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/sDJfIgNwsv3YgorSWzHI/B4ysCvGxTJkwB+IUxXFjJrpJFgJ
-	Werid2qOE4oroXUahhF7FCLdmf6L6dKqb5UjveOHHg6huXHpjvaZ2WOGmFbiw3WF3js=
-X-Gm-Gg: ASbGncseZX1Uj1jdBU4VRigg7nctO67Yd1a7w1UdAsa+DedBztKkmZ7ZMFLnoVRrUCx
-	Jz0peh0Uu2xpFMYp/kaI/le9iVvIMIkVAtb1NUhKSK2NccdVATyTgmEzUr+sSbojVPM+sJMFjJL
-	SacgfUNHmtuqKiqMDXWAn8zb44mKgTw3pizgXOefPZuFCjG666cQEfF0gk+qA2ADR5q9ck40wO5
-	3WwMX8C8ndmjcWbai2Hmqq/5o4ok5N5pHtWfniyBb5+0SAnRyCNi6ycY6yvonr4/BdkJQr2n9ZT
-	v/ck6lAic0t+8N5fGU2heMmYBAihLeH9SYGPHDqx6zue2Uo8SDr/oJzVacMXr9Hy1UGl/jBuaOX
-	XjOAS44axGJtHq/BcxpZgSse9yEozJpPjbz3QipzUg7ZD3rsqpGg8t3CrGwjTmdJqMM+O5XNDOF
-	Bp
-X-Google-Smtp-Source: AGHT+IGpgXZXed8TIdIcBY5n9kfb6hKzzrVjL/aXpieY0KpoSwWRRcW2tG4FpiZUs4rMd5UYpnMPPw==
-X-Received: by 2002:a05:6512:e94:b0:55c:c9d5:d342 with SMTP id 2adb3069b0e04-55f0ccfc3d4mr372602e87.4.1755850945934;
-        Fri, 22 Aug 2025 01:22:25 -0700 (PDT)
-Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55cef459153sm3477792e87.156.2025.08.22.01.22.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 22 Aug 2025 01:22:25 -0700 (PDT)
-Message-ID: <9c8a9dd4-416e-4cb1-930d-29e7710b42ad@linaro.org>
-Date: Fri, 22 Aug 2025 11:22:24 +0300
+	s=arc-20240116; t=1755851031; c=relaxed/simple;
+	bh=xStdEbhUZURJBaKVgmwnFQmO37zc+iQvuuZgCisM/zc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=NR7f1Q5StO89dpxE0MSQk6F4K4yPm4Xk0kbKukJPzwh29UB8WkW+MQBE9EIT4CI23OaVN1r+yeTETr+V9L1SJqMQ4B8nvaHUpCiRXUOKQSlqv7mLC4AfsGTKm+hRN/e0lXNgvN0T47t4HVFMzk/sBaIampM+8gKW8whNNBjwgqA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KJAQYtAY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9B9BC4CEF1;
+	Fri, 22 Aug 2025 08:23:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755851031;
+	bh=xStdEbhUZURJBaKVgmwnFQmO37zc+iQvuuZgCisM/zc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=KJAQYtAY9ZIP6UGY1v7Yv95cIXk3MSkYPkvvahwbTfVzUzke9mZA3c1fqX0cgxIV9
+	 8EUPiTqapRS8h/6N+DDHcKZhEoDMqXMHDOjpcjQKGT5dWI9FBimpBe+Fhh72iyTZQW
+	 hiER1OWZsORdhGc7iX+kC+39hWAryKFIGTZHRq4pX18BOtDSHuqSNWDc1h1Ol63i0X
+	 Scr9vKvaoTnedaffHtn/l8SNgIYMvfa4aSD9TwNC5FFA1GbktUqBXQnvltm8RfM0WM
+	 v/x/fx3qGLuje4k1Sqa+OU5WxXAiC/teOWs8Se0LIoFKKjLuWcqyExHIM62Grl6zCf
+	 4dbpqK9lwZL5g==
+Date: Fri, 22 Aug 2025 10:23:46 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, Hans Verkuil
+ <hverkuil@xs4all.nl>, Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCH v4 3/5] docs: media: update maintainer-entry-profile for
+ multi-committers
+Message-ID: <20250822102346.30347275@foz.lan>
+In-Reply-To: <aKcQak8k2MiCriZt@valkosipuli.retiisi.eu>
+References: <cover.1733218348.git.mchehab+huawei@kernel.org>
+	<5eed1e4a37d087f401b7bd54b793ea301e511d7e.1733218348.git.mchehab+huawei@kernel.org>
+	<aKcQak8k2MiCriZt@valkosipuli.retiisi.eu>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/2] media: i2c: Add OmniVision OV6211 image sensor
- driver
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
- Tarang Raval <tarang.raval@siliconsignals.io>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250812213024.361267-1-vladimir.zapolskiy@linaro.org>
- <20250812213024.361267-3-vladimir.zapolskiy@linaro.org>
- <aKMXy_L0eBRJRcsn@kekkonen.localdomain>
- <03690367-aff0-4128-86aa-65a6d489b6cb@linaro.org>
- <aKbkcL_j3LsdoMo4@kekkonen.localdomain>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <aKbkcL_j3LsdoMo4@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Hi Sakari.
+Em Thu, 21 Aug 2025 12:26:18 +0000
+Sakari Ailus <sakari.ailus@iki.fi> escreveu:
 
-On 8/21/25 12:18, Sakari Ailus wrote:
-> Hi Vladimir,
+> Hi Mauro,
 > 
-> On Wed, Aug 20, 2025 at 01:57:52AM +0300, Vladimir Zapolskiy wrote:
->> Hi Sakari,
->>
->> thank you so much for review. Please find a few comments below.
->>
->> On 8/18/25 15:08, Sakari Ailus wrote:
->>> Hi Vladimir,
->>>
->>> Thanks for the update.
->>>
->>> On Wed, Aug 13, 2025 at 12:30:24AM +0300, Vladimir Zapolskiy wrote:
->>>> OmniVision OV6211 is a monochrome image sensor, which produces frames in
->>>> 8/10-bit raw output format and supports 400x400, 200x200 and 100x100
->>>> output image resolution modes.
->>>>
->>>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->>
->> <snip>
->>
->>>> +static int ov6211_set_ctrl(struct v4l2_ctrl *ctrl)
->>>> +{
->>>> +	struct ov6211 *ov6211 = container_of(ctrl->handler, struct ov6211,
->>>> +					     ctrl_handler);
->>>> +	int ret;
->>>> +
->>>> +	/* V4L2 controls values will be applied only when power is already up */
->>>> +	if (!pm_runtime_get_if_in_use(ov6211->dev))
->>>
->>> I think this should be pm_runtime_get_if_active() as no writes will now
->>> take place even if the sensor is powered on.
->>
->> Ack.
->>
->>>> +		return 0;
->>>> +
->>>> +	switch (ctrl->id) {
->>>> +	case V4L2_CID_ANALOGUE_GAIN:
->>>> +		ret = cci_write(ov6211->regmap, OV6211_REG_ANALOGUE_GAIN,
->>>> +				ctrl->val, NULL);
->>>> +		break;
->>>> +	case V4L2_CID_EXPOSURE:
->>>> +		ret = cci_write(ov6211->regmap, OV6211_REG_EXPOSURE,
->>>> +				ctrl->val << 4, NULL);
->>>> +		break;
->>>> +	default:
->>>> +		ret = -EINVAL;
->>>> +		break;
->>>> +	}
->>>> +
->>>> +	pm_runtime_put(ov6211->dev);
->>>> +
->>>> +	return ret;
->>>> +}
->>>> +
->>>> +static const struct v4l2_ctrl_ops ov6211_ctrl_ops = {
->>>> +	.s_ctrl = ov6211_set_ctrl,
->>>> +};
->>>> +
->>>> +static int ov6211_init_controls(struct ov6211 *ov6211)
->>>> +{
->>>> +	struct v4l2_ctrl_handler *ctrl_hdlr = &ov6211->ctrl_handler;
->>>> +	const struct ov6211_mode *mode = &supported_modes[0];
->>>> +	struct v4l2_fwnode_device_properties props;
->>>> +	s64 exposure_max, pixel_rate, h_blank;
->>>> +	struct v4l2_ctrl *ctrl;
->>>> +	int ret;
->>>> +
->>>> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 8);
->>>> +	if (ret)
->>>> +		return ret;
->>>
->>> This check can be omitted. Up to you.
->>
->> This check I would prefer to keep, otherwise I have a feeling that under
->> ENOMEM the following code would make an attempt to insert the controls
->> data over an NULL pointer...
->>
->> I'll mock it to check it explicitly though, but I'm inclined to keep it.
+> This seems pretty good, there are some comments mostly on technicalities
+> below.
 > 
-> The control framework will handle that internally.
+> On Tue, Dec 03, 2024 at 10:35:47AM +0100, Mauro Carvalho Chehab wrote:
+> > As the media subsystem will experiment with a multi-committers model,
+> > update the Maintainer's entry profile to the new rules.
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
+> > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  .../media/maintainer-entry-profile.rst        | 241 ++++++++++++++----
+> >  1 file changed, 189 insertions(+), 52 deletions(-)
+> > 
+> > diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> > index ffc712a5f632..101f6df6374f 100644
+> > --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
+> > +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> > @@ -4,11 +4,12 @@ Media Subsystem Profile
+> >  Overview
+> >  --------
+> >  
+> > -The media subsystem covers support for a variety of devices: stream
+> > -capture, analog and digital TV streams, cameras, remote controllers, HDMI CEC
+> > -and media pipeline control.
+> > +The Linux Media Community (aka: the LinuxTV Community) covers support for a
+> > +variety of devices: stream capture, analog and digital TV streams, cameras,
+> > +remote controllers, HDMI CEC and media pipeline control.  
+> 
+> I'd make a difference here between the Media tree and the Linux Media
+> community. The drivers in the Media tree support these devices whereas the
+> community generally works on this codebase.
+> 
+> >  
+> > -It covers, mainly, the contents of those directories:
+> > +They consist of developers who work with the Linux Kernel media subsystem,
+> > +which covers, mainly, the contents of those directories:  
+> 
+> If you want to refer to the community here, I'd use that word.
+
+What about this:
+
+<text>
+The Linux Media Community (aka: the LinuxTV Community) consist of developers 
+who work with the Linux Kernel media subsystem, together with users who
+benefit from such develoment and help testing the developed code.
+
+They work on the top of the Media tree, which has code to support a    
+variety of devices: stream capture, analog and digital TV streams, cameras,
+remote controllers, HDMI CEC and media pipeline control.
+
+The Media tree is mainly responsible to be the main source of the
+code under development with the contents of those directories:
+
+  - drivers/media
+  - drivers/staging/media
+  - Documentation/admin-guide/media
+  - Documentation/driver-api/media
+  - Documentation/userspace-api/media
+  - Documentation/devicetree/bindings/media/\ [1]_
+  - include/media
+</text>
+
+> 
+> >  
+> >    - drivers/media
+> >    - drivers/staging/media
+> > @@ -27,19 +28,158 @@ It covers, mainly, the contents of those directories:
+> >  Both media userspace and Kernel APIs are documented and the documentation
+> >  must be kept in sync with the API changes. It means that all patches that
+> >  add new features to the subsystem must also bring changes to the
+> > -corresponding API files.
+> > +corresponding API documentation files.  
+> 
+> I'd drop " files" as the documentation is split between C source code files
+> and ReST nowadays.
+
+OK.
+
+> > -Due to the size and wide scope of the media subsystem, media's
+> > -maintainership model is to have sub-maintainers that have a broad
+> > -knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
+> > -task to review the patches, providing feedback to users if the patches are
+> > +Due to the size and wide scope of the media subsystem, the media's
+> > +maintainership model is to have committers that have a broad knowledge of  
+> 
+> Maintainership or maintenance?
+> 
+> s/is to have/recognises/ ?
+
+OK.
+ 
+> > +a specific aspect of the subsystem. It is the committers' task to
+> > +review the patches, providing feedback to users if the patches are
+> >  following the subsystem rules and are properly using the media kernel and
+> >  userspace APIs.
+> >  
+> > -Patches for the media subsystem must be sent to the media mailing list
+> > -at linux-media@vger.kernel.org as plain text only e-mail. Emails with
+> > -HTML will be automatically rejected by the mail server. It could be wise
+> > -to also copy the sub-maintainer(s).
+> > +Media committers
+> > +----------------
+> > +
+> > +In the media subsystem, there are experienced developers who can push
+> > +patches directly to the development tree. These developers are called
+> > +Media committers and are divided into the following categories:
+> > +
+> > +- Committers:
+> > +    contributors for one or more drivers within the media subsystem.
+> > +    They can push changes to the tree that do not affect the core or ABI.  
+> 
+> Question to Ricardo -- sorry if I already have asked this: can this be
+> enforced?
+> 
+> > +
+> > +- Core committers:
+> > +    responsible for part of the media core. They are typically
+> > +    responsible for one or more drivers within the media subsystem, but, besides
+> > +    that, they can also merge patches that change the code common to multiple
+> > +    drivers, including the kernel internal API.  
+> 
+> This doesn't say clearly whether e.g. the V4L2 or MC frameworks are
+> included or not. I think they should be and this should be mentioned. Same
+> for videobuf2.
+
+The problem of specifying what the core via frameworks, vb2, etc is that
+this would require constant maintainance. Core is everything that is not
+inside a driver for an specific driver.
+
+We called this here as "the code common to multiple drivers". For me it
+is clear, but if you have a better generic term, I'm all ears.
+
+> 
+> > +
+> > +- Subsystem maintainers:
+> > +    responsible for the subsystem as a whole, with access to the
+> > +    entire subsystem.
+> > +
+> > +    API/ABI changes are done via consensus between subsystem maintainers\ [2]_.
+> > +
+> > +    Only subsystem maintainers push changes that affect the userspace
+> > +    API/ABI. Committers may push ABI/API changes on their commits if they
+> > +    have approvals from subsystem maintainers.
+> > +
+> > +All media committers shall explicitly agree with the Kernel development process
+> > +as described at Documentation/process/index.rst and to the Kernel
+> > +development rules inside the Kernel documentation, including its code of
+> > +conduct.  
+> 
+> Is there a need to mention this? Aren't people generally expected to
+> follow the process anyway?
+
+There's a big difference between "generally expected" and "have to agree".
+The goal here is really to prevent having bad committers as we had in the
+past on our previous multicommiters model before we moved to git. If this
+ever have again, by having an explicit agreement, one cannot deny he/she
+didn't know the rules.
+
+> > +
+> > +.. [2] Everything that would break backward compatibility with existing
+> > +       non-kernel code are API/ABI changes. This includes ioctl and sysfs
+> > +       interfaces, v4l2 controls, and their behaviors.
+> > +
+> > +Media development tree
+> > +----------------------
+> > +
+> > +The main development tree used by the media subsystem is hosted at LinuxTV.org,
+> > +where we also maintain news about the subsystem, wiki pages and a patchwork
+> > +instance where we track patches though their lifetime.
+> > +
+> > +The main tree used by media developers is at:
+> > +
+> > +https://git.linuxtv.org/media.git/
+> > +
+> > +.. _Media development workflow:
+> > +
+> > +Media development workflow
+> > +++++++++++++++++++++++++++
+> > +
+> > +All changes for the media subsystem must be sent first as e-mails to the  
+> 
+> s/must/shall/ ?
+
+OK.
+
+> > +media mailing list, following the process documented at
+> > +Documentation/process/index.rst.
+> > +
+> > +It means that patches shall be submitted as plain text only via e-mail to
+> > +linux-media@vger.kernel.org (aka: LMML). While subscription is not mandatory,
+> > +you can find details about how to subscribe to it and to see its archives at:
+> > +
+> > +  https://subspace.kernel.org/vger.kernel.org.html
+> > +
+> > +Emails with HTML will be automatically rejected by the mail server.
+> > +
+> > +It could be wise to also copy the media committer(s). You should use
+> > +``scripts/get_maintainers.pl`` to identify whom else needs to be copied.
+> > +Please always copy driver's authors and maintainers.
+> > +
+> > +To minimize the chance of merge conflicts for your patch series, and make
+> > +easier to backport patches to stable Kernels, we recommend that you use the
+> > +following baseline for your patch series:
+> > +
+> > +1. Features for the next mainline release:
+> > +
+> > +   - baseline shall be media.git ``next`` branch;
+> > +
+> > +2. Bug fixes for the current mainline release:
+> > +
+> > +   - baseline shall be the latest mainline release or media.git ``fixes``
+> > +     if changes depend on a fix already merged;
+> > +
+> > +3. Bug fixes for the next mainline release:
+> > +
+> > +   - baseline shall be a prepatch release (-rcX) or media.git ``fixes``
+> > +     if changes depend on a fix already merged. It is also
+> > +     fine to use media.git ``next`` as baseline for such patches if such
+> > +     patches apply cleanly on ``fixes``.
+> > +
+> > +.. Note::
+> > +
+> > +   See https://www.kernel.org/category/releases.html for an overview
+> > +   about Kernel release types.
+> > +
+> > +Patches with fixes shall have:
+> > +
+> > +- a ``Fixes:`` tag pointing to the first commit that introduced the bug;
+> > +- when applicable, a ``Cc: stable@vger.kernel.org``.
+> > +
+> > +Patches that were fixing bugs publicly reported by someone at the
+> > +linux-media@vger.kernel.org mailing list shall have:
+> > +
+> > +- a ``Reported-by:`` tag immediately followed by a ``Closes:`` tag.
+> > +
+> > +Patches that change API shall update documentation accordingly at the
+> > +same patch series.
+> > +
+> > +See Documentation/process/index.rst for more details about e-mail submission.
+> > +
+> > +Once a patch is submitted, it may follow either one of the following
+> > +workflows:
+> > +
+> > +a. Pull request workflow: patches are handled by subsystem maintainers::
+> > +
+> > +     +-------+   +---------+   +-------+   +-----------------------+   +---------+
+> > +     |e-mail |-->|patchwork|-->|pull   |-->|maintainers merge      |-->|media.git|
+> > +     |to LMML|   |picks it |   |request|   |in media-committers.git|   +---------+
+> > +     +-------+   +---------+   +-------+   +-----------------------+
+> > +
+> > +   For this workflow, pull requests can be generated by committers,
+> > +   former committers, subsystem maintainers or by trusted long-time
+> > +   contributors. If you are not in such group, please don't submit
+> > +   pull requests, as they will not be processed.
+> > +
+> > +b. Committers' workflow: patches are handled by media committers::
+> > +
+> > +     +-------+   +---------+   +--------------------+   +-----------+   +---------+
+> > +     |e-mail |-->|patchwork|-->|committers merge at |-->|maintainers|-->|media.git|
+> > +     |to LMML|   |picks it |   |media-committers.git|   |approval   |   +---------+
+> > +     +-------+   +---------+   +--------------------+   +-----------+
+> > +
+> > +On both workflows, all patches shall be properly reviewed at
+> > +linux-media@vger.kernel.org (LMML) before being merged at media-committers.git.
+> > +
+> > +When patches are picked by patchwork and when merged at media-committers,
+> > +CI bots will check for errors and may provide e-mail feedback about
+> > +patch problems. When this happens, the patch submitter must fix them, or  
+> 
+> I'd remove the latter comma.
+
+OK.
+
+> 
+> > +explain why the errors are false positives.
+> > +
+> > +Patches will only be moved to the next stage in those two workflows if they
+> > +pass on CI or if there are false-positives in the CI reports.
+> > +
+> > +Failures during e-mail submission
+> > ++++++++++++++++++++++++++++++++++
+> >  
+> >  Media's workflow is heavily based on Patchwork, meaning that, once a patch
+> >  is submitted, the e-mail will first be accepted by the mailing list
+> > @@ -47,51 +187,49 @@ server, and, after a while, it should appear at:
+> >  
+> >     - https://patchwork.linuxtv.org/project/linux-media/list/
+> >  
+> > -If it doesn't automatically appear there after a few minutes, then
+> > +If it doesn't automatically appear there after some time [3]_, then
+> >  probably something went wrong on your submission. Please check if the
+> > -email is in plain text\ [2]_ only and if your emailer is not mangling
+> > +email is in plain text\ [4]_ only and if your emailer is not mangling
+> >  whitespaces before complaining or submitting them again.
+> >  
+> > -You can check if the mailing list server accepted your patch, by looking at:
+> > +To troubleshoot problems, you should first check if the mailing list
+> > +server has accepted your patch, by looking at:
+> >  
+> >     - https://lore.kernel.org/linux-media/
+> >  
+> > -.. [2] If your email contains HTML, the mailing list server will simply
+> > +If the patch is there and not at patchwork, it is likely that your e-mailer
+> > +mangled the patch. Patchwork internally has logic that checks if the
+> > +received e-mail contains a valid patch. Any whitespace and new line
+> > +breakages mangling the patch won't be recognized by patchwork, thus such
+> > +patch will be rejected.
+> > +
+> > +.. [3] It usually takes a few minutes for the patch to arrive, but
+> > +       the e-mail server may be busy, so it may take up to a few hours
+> > +       for a patch to be picked by patchwork.  
+> 
+> I'd just refer to "longer" in the latter case; there are no fixed time
+> limits anyway.
 > 
 
-Right, I've tested a mocked version before sending v4, and it worked
-expectedly with no issues, the check for a return value has been removed.
+OK.
 
->>
->> <snip>
->>
->>>> +
->>>> +	ret = cci_write(ov6211->regmap, OV6211_REG_MODE_SELECT,
->>>> +			OV6211_MODE_STREAMING, NULL);
->>>> +	if (ret) {
->>>> +		dev_err(ov6211->dev, "failed to start streaming: %d\n", ret);
->>>> +		goto error;
->>>> +	}
->>>> +
->>>> +	return 0;
->>>> +
->>>> +error:
->>>> +	pm_runtime_mark_last_busy(ov6211->dev);
->>>
->>> Please omit direct calls to pm_runtime_mark_last_busy(); this is now called
->>> via the runtime PM put autosuspend etc. functions.
->>>
->>
->> Ack.
->>
->> <snip>
->>
->>>> +	if (bus_cfg.nr_of_link_frequencies != 1 ||
->>>> +	    bus_cfg.link_frequencies[0] != link_freq_menu_items[0]) {
->>>
->>> Could you use v4l2_link_freq_to_bitmap()? I think it'd simplify the
->>> function and possibly error handling, too.
->>>
->>
->> Ack, let it be so.
->>
->>>> +		dev_err(ov6211->dev, "Unsupported MIPI CSI2 link frequency\n");
->>>> +		ret = -EINVAL;
->>>> +		goto error;
->>>> +	}
->>>> +
->>>> +error:
->>>> +	v4l2_fwnode_endpoint_free(&bus_cfg);
->>>> +
->>>> +	return ret;
->>>> +}
->>>> +
->>>> +static int ov6211_power_on(struct device *dev)
->>>> +{
->>>> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
->>>> +	struct ov6211 *ov6211 = to_ov6211(sd);
->>>> +	int ret;
->>>> +
->>>> +	if (ov6211->avdd) {
->>>> +		ret = regulator_enable(ov6211->avdd);
->>>> +		if (ret)
->>>> +			return ret;
->>>> +	}
->>>> +
->>>> +	if (ov6211->dovdd) {
->>>> +		ret = regulator_enable(ov6211->dovdd);
->>>> +		if (ret)
->>>> +			goto avdd_disable;
->>>> +	}
->>>> +
->>>> +	if (ov6211->dvdd) {
->>>> +		ret = regulator_enable(ov6211->dvdd);
->>>> +		if (ret)
->>>> +			goto dovdd_disable;
->>>> +	}
->>>
->>> Can you use the regulator bulk functions? Or if the order is required, add
->>> a comment about it? Otherwise someone will provide a "fix" soon afterwards.
->>> :-)
->>
->> I've already responded to a similar review comment from Krzysztof on v1,
->> here the rationale is to follow a deliberately selected model of having
->> some of regulators as optional. Moreover the "digital core" DVDD regulator
->> is truly optional, there is a working sensor configuration to omit it.
->>
->> Unfortunately so far there is no bulk regulator helper, which deals properly
->> with optional regulators, so I would prefer to keep it registered this way.
-> 
-> Won't the regulator framework provide you a dummy regulator if a given
-> regulator isn't assigned to the device in DT?
-> 
-> E.g. the CCS driver unconditionally requests regulators and fails on error.
-> It still works on ACPI platforms without any regulators (as in terms of the
-> regulator framework).
-> 
-
-You are right here, bulk version of regulator API falls back to a dummy
-regulator usage, I've tested that it works totally fine, and therefore I'll
-change to it in the next version of the driver.
-
->>>> +	gpiod_set_value_cansleep(ov6211->reset_gpio, 0);
->>>> +	usleep_range(10 * USEC_PER_MSEC, 15 * USEC_PER_MSEC);
->>>> +
->>>> +	ret = clk_prepare_enable(ov6211->xvclk);
->>>
->>> Is the clock really supposed to be enabled here, and not e.g. before
->>> lifting reset?
->>>
->>
->> The so called "gated" mode of XVCLK clock says that is should be enabled
->> after releasing XSHUTDOWN pin, so I don't see a mistake here.
->>
->> Please note, it's basically a common part with other OmniVision sensors,
->> for instance you may get a reference from OG01A1B product specification etc.
->>
->> Thank you for review. Shortly I'll send another new but very similar
->> image sensor driver acknowledging your given comments.
+> > +
+> > +.. [4] If your email contains HTML, the mailing list server will simply
+> >         drop it, without any further notice.
+> >  
+> > +.. _media-developers-gpg:
+> >  
+> > -Media maintainers
+> > -+++++++++++++++++
+> > +Authentication for pull and merge requests
+> > +++++++++++++++++++++++++++++++++++++++++++
+> >  
+> > -At the media subsystem, we have a group of senior developers that
+> > -are responsible for doing the code reviews at the drivers (also known as
+> > -sub-maintainers), and another senior developer responsible for the
+> > -subsystem as a whole. For core changes, whenever possible, multiple
+> > -media maintainers do the review.
+> > +The authenticity of developers submitting pull requests and merge requests
+> > +shall be validated by using PGP signing at some moment.
+> > +See: :ref:`kernel_org_trust_repository`.
+> >  
+> > -The media maintainers that work on specific areas of the subsystem are:
+> > +With the pull request workflow, pull requests shall use PGP-signed tags.
+> >  
+> > -- Remote Controllers (infrared):
+> > -    Sean Young <sean@mess.org>
+> > +For more details about PGP sign, please read
+> > +Documentation/process/maintainer-pgp-guide.rst.
+> >  
+> > -- HDMI CEC:
+> > -    Hans Verkuil <hverkuil@xs4all.nl>
+> > +Subsystem maintainers
+> > +---------------------
+> >  
+> > -- Media controller drivers:
+> > -    Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > -
+> > -- ISP, v4l2-async, v4l2-fwnode, v4l2-flash-led-class and Sensor drivers:
+> > -    Sakari Ailus <sakari.ailus@linux.intel.com>
+> > -
+> > -- V4L2 drivers and core V4L2 frameworks:
+> > -    Hans Verkuil <hverkuil@xs4all.nl>
+> > -
+> > -The subsystem maintainer is:
+> > -  Mauro Carvalho Chehab <mchehab@kernel.org>
+> > -
+> > -Media maintainers may delegate a patch to other media maintainers as needed.
+> > -On such case, checkpatch's ``delegate`` field indicates who's currently
+> > -responsible for reviewing a patch.
+> > +The subsystem maintainers are:
+> > +  - Mauro Carvalho Chehab <mchehab@kernel.org> and
+> > +  - Hans Verkuil <hverkuil@xs4all.nl>
+> >  
+> >  Submit Checklist Addendum
+> >  -------------------------
+> > @@ -106,18 +244,15 @@ that should be used in order to check if the drivers are properly
+> >  implementing the media APIs:
+> >  
+> >  ====================	=======================================================
+> > -Type			Tool
+> > +Type			Utility
+> >  ====================	=======================================================
+> > -V4L2 drivers\ [3]_	``v4l2-compliance``
+> > +V4L2 drivers\ [5]_	``v4l2-compliance``
+> >  V4L2 virtual drivers	``contrib/test/test-media``
+> >  CEC drivers		``cec-compliance``
+> >  ====================	=======================================================
+> >  
+> > -.. [3] The ``v4l2-compliance`` also covers the media controller usage inside
+> > -       V4L2 drivers.
+> > -
+> > -Other compilance tools are under development to check other parts of the
+> > -subsystem.
+> > +.. [5] The ``v4l2-compliance`` utility also covers the media controller usage
+> > +       inside V4L2 drivers.
+> >  
+> >  Those tests need to pass before the patches go upstream.
+> >  
+> > @@ -134,6 +269,8 @@ Where the check script is::
+> >  Be sure to not introduce new warnings on your patches without a
+> >  very good reason.
+> >  
+> > +Please see `Media development workflow`_ for e-mail submission rules.
+> > +
+> >  Style Cleanup Patches
+> >  +++++++++++++++++++++
+> >  
+> > @@ -199,7 +336,7 @@ tree between -rc6 and the next -rc1.
+> >  Please notice that the media subsystem is a high traffic one, so it
+> >  could take a while for us to be able to review your patches. Feel free
+> >  to ping if you don't get a feedback in a couple of weeks or to ask
+> > -other developers to publicly add Reviewed-by and, more importantly,
+> > +other developers to publicly add ``Reviewed-by:`` and, more importantly,
+> >  ``Tested-by:`` tags.
+> >  
+> >  Please note that we expect a detailed description for ``Tested-by:``,  
 > 
 
--- 
-Best wishes,
-Vladimir
+Thanks,
+Mauro
 
