@@ -1,163 +1,333 @@
-Return-Path: <linux-media+bounces-40778-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40779-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7214B31C2D
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 16:41:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30991B31C30
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 16:41:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6597F1D6476F
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 14:33:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C7D9BB23C62
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 14:35:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82B00340D93;
-	Fri, 22 Aug 2025 14:28:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5DB331A063;
+	Fri, 22 Aug 2025 14:32:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="H/Pbn4Bb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tmTp250i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f177.google.com (mail-pf1-f177.google.com [209.85.210.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C723074AF;
-	Fri, 22 Aug 2025 14:28:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF030313558;
+	Fri, 22 Aug 2025 14:32:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755872898; cv=none; b=P1COlEyCq3AEWy8wseaVxYfZsGfiUH23DSqGd7dxYdqb8Ih6sqhJaDXHw/rMB+siKC+nbmoEWKOZdm1WkWCITDlcPdSyforKLIMiKf3qBp6MrWyoSTCk0F+Zgr5mCcqnZbVVrBvDSolQ3q6j70Ygw2ZjMlaU4SVDBkqHMBzfVFE=
+	t=1755873155; cv=none; b=X4Cw7ljP9nJHKSiEXBugICe9GZAZud2LmVAWeUEwiH8esWev9d0UbN4gbTMQ9rz7aY58UaXRyq61Cu18rqKXd7/KwDvf6imUV8xuBYlSSMagmCtpGsFyv2NGvoMOPARACiC9SjD6xRg9DGdY2NxAg9byIka8+E2c7QGdAAE5ydk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755872898; c=relaxed/simple;
-	bh=1tcqg+Dxn0X4uN89MBchrCPxWJCJSaBOk43TU1sZj+U=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=NaqVfI4bHfqguQq6R8OqyN0MRS+A9AtS2iu5/CFA37opVDP/z/3Vx4KleSnRZ6QzSaWV42SJvBeNQiGH4icTNqpbuV0CLSWkoGThEKuO+X8iWyzMHT/g+09vbdQ3Ic2RhuBm03FdeGjH8abZRVDn3hVageIKOq1KpXH2GpfZ/aM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=H/Pbn4Bb; arc=none smtp.client-ip=209.85.210.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f177.google.com with SMTP id d2e1a72fcca58-76e2ea6ccb7so1774007b3a.2;
-        Fri, 22 Aug 2025 07:28:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755872897; x=1756477697; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=osXammeU3SWsqzx1uJUtNYkdnRdRKa69qPFYoFdS/5M=;
-        b=H/Pbn4BbW1H3zxbjKVypmCggN9kfXxKS6zK+DXpB16pNBcO2nzL/dSJwdOTxm0UZZd
-         +telOmR1v683DSosqdYiviqcF7R698v7V5YKkn+uH2K2ftwocHqZvcEpUUQBUjhXbGH+
-         aK+V6P5/dUIHw0oG/qwT4CagYSBFgV0KSHJoHxEvnQ6UCYpuvL2ByEExOvluIchqoMl7
-         K5untoKEmx13cktI5pPYuV1Vzv50HDcu9U889Hn5V216+YTuVJpYCPrY3axR3K2rIeOu
-         WdsACVulFHcLsdmurW94NQFAMmTyPj8C7g2ZiT5tzgNKhGniQhfg5YJiFDKC0KLG+mB8
-         Eojw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755872897; x=1756477697;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=osXammeU3SWsqzx1uJUtNYkdnRdRKa69qPFYoFdS/5M=;
-        b=R8ZfvINPUWNQ/rgzud2FYk4pp3rDF6moCz55KtLfFlVOpsT6cLAMEN0dQoRQ8qDOsP
-         5JES+QWqJPdll4Bdkev8qzNXp9VRQoa5bjtOnMuQTl5PsE07s4Aq4F5ILEhwArEMIZzN
-         rB7hljIsCOLejPpZMbJrAeRmcGNL5WbtxATITMtom368DCG6cuT6OmVbV7CMriJOxVm4
-         vGN+W9WjnlZB7h91azcfFcdc6yF5ZIt0dMRpGl9A+yI23Dh0a2wQj4udfGaLr4thPkkI
-         pPRkpC6YmYiB2EamdFd2qzXkIyLZKf49e9lgXhLUqX4kOSrGWLIbCQSfJA1rbyF2awCq
-         YMhg==
-X-Forwarded-Encrypted: i=1; AJvYcCWhAOaG2zMnpDG0xg/0A5RAoE2rTJ/VZD42zfkkdpbL7Oxg/tJZwKVdqQO1ToYU38uGw2rg5NqKjCoo8yA=@vger.kernel.org, AJvYcCXNGcz+Cy8f9tr6h3k1DAsLfMdkxBiYGCqX9RvzQdcaBEgn6d7IohnqujXelkmbukqc3PILl4d6oHIptPY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlXBeQ1QClG7WjaW0R6A3Kq8PBQl0CpmYWyA4Ry2K0OwtX15zo
-	zgILaX4r1SGSlShIZtgY3I6CABGjixOR/7Qn5Hbphsa3Yk2ba13TSFG3
-X-Gm-Gg: ASbGncs89KQjLBTHhxyek30zrvTgK9shX91LNmLoIeWL+sCud86bT8JqPo2nW+GMlOr
-	3XX5aNauK+NtDJdQaxJetRi/TvXKIPeyzsGoEpJFmM87G0eTsJ7LlhCbgS5WtZkkJCBZgLYi4jP
-	JMyjv/rX6w3XqtlYY1fqczyeIUZa6ZlPJ+EObxUdwSCFwm1ShT6yd1vHPnMOlPUqhqg/0IHONNL
-	sFiI0ac0xj71ZgXyfzFAKv9nbbk3bwF+dlDEEjXfqYHGuAuPE6jxGApTMVZOdQ9EpshInw/9uV4
-	hft85W4YpkyuzzFgaC0OfljLzk2HllD8lXmdYfwOCCXSuqt5/y5GvK1Ecv4M0KrUVY7QWJ0KFAO
-	MHjXIkrDznDtn0H+VeZ918L0AYBFh3F7gKrfB+zIVupq0MZcwACTUcu6s9Apt
-X-Google-Smtp-Source: AGHT+IGbI5kL0fhTgThMFQEpXgLOnVtvgW5yd4KTARcoyBOTJgFA/GfqBuCafG0fze5LZNXlqX0m6w==
-X-Received: by 2002:a05:6a20:3942:b0:243:78a:82a6 with SMTP id adf61e73a8af0-24340d93eaemr4548669637.60.1755872896610;
-        Fri, 22 Aug 2025 07:28:16 -0700 (PDT)
-Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7703ffae973sm117987b3a.12.2025.08.22.07.28.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 22 Aug 2025 07:28:16 -0700 (PDT)
-From: Jeongjun Park <aha310510@gmail.com>
-To: mchehab@kernel.org
-Cc: hverkuil@kernel.org,
-	laurent.pinchart+renesas@ideasonboard.com,
-	crope@iki.fi,
-	linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	syzbot+6ffd76b5405c006a46b7@syzkaller.appspotmail.com,
-	syzbot+f1b20958f93d2d250727@syzkaller.appspotmail.com,
-	Jeongjun Park <aha310510@gmail.com>
-Subject: [PATCH] media: hackrf: fix to not free memory after the device is registered in hackrf_probe()
-Date: Fri, 22 Aug 2025 23:27:29 +0900
-Message-Id: <20250822142729.1156816-1-aha310510@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1755873155; c=relaxed/simple;
+	bh=fQ6JfkA4FCbKZN7MdoROYxD4ht6IWPj2dmJIIpwDwY8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fcl/fybhYMbN3wod+NJKk0ioCwfNr4NS7GVYay8iRoKoI2RP5SCuGE5OTk65DU1VyUlQoUZHe1EOWBFm/A3kPEsQTPLMUPToHQ6xiiqfOxNftjwjaPfm2YBEen99SxZXd1N154iCRUwQpjDVqHdU03mIYwa3s9gJsT4MyVhsxq0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tmTp250i; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A45AC4CEED;
+	Fri, 22 Aug 2025 14:32:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1755873154;
+	bh=fQ6JfkA4FCbKZN7MdoROYxD4ht6IWPj2dmJIIpwDwY8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tmTp250ik7/lnzI7GNozFBXZWdKj8RlU+FSprtMo/rSHmOKooVdJJJAyLai3dz67C
+	 cVQA7d2HlxmGBZ8FAocASStFN2Z71ys39/OraNXeXlv8kA8dOVAtpzDlq3rkSqF65Q
+	 wIFelPvcVHswbPyr8MwqpLYPgUwzN++y/Bf3tztsyDj5Rc9u4T4DVEdNCOAlUM/BtP
+	 KgVIsk4l8acbdZ4QlOiU6Ql6yEvIGOTy/ilhGa+0PmgS1njaY62szlxDIqcL5HXSCs
+	 Zd0W2KP0eo2xsZYybsV/CbTX5G+aU0zUZ6WT4pq2y1/mCj7jPYEEXyXqSU53UDYVug
+	 TLrKHuj9XClSw==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1upSoi-0000000CDir-16pH;
+	Fri, 22 Aug 2025 16:32:32 +0200
+Date: Fri, 22 Aug 2025 16:32:32 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, 
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>, =?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>, 
+	Alex Gaynor <alex.gaynor@gmail.com>, Alice Ryhl <aliceryhl@google.com>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Boqun Feng <boqun.feng@gmail.com>, 
+	Erling Ljunggren <hljunggr@cisco.com>, Gary Guo <gary@garyguo.net>, 
+	Ricardo Ribalda <ribalda@chromium.org>, Sean Young <sean@mess.org>, Trevor Gross <tmgross@umich.edu>, 
+	Yunke Cao <yunkec@google.com>, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	rust-for-linux@vger.kernel.org
+Subject: Re: [PATCH v2 23/24] scripts: sphinx-build-wrapper: get rid of
+ uapi/media Makefile
+Message-ID: <onft5qi4qoybnv6urs4rlxqjkixvndlujyjznpfc4dj4265yfw@4blah5vnf7gh>
+References: <cover.1755872208.git.mchehab+huawei@kernel.org>
+ <5dbb257a4b283697271c9c7b8f4713857e8191c8.1755872208.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5dbb257a4b283697271c9c7b8f4713857e8191c8.1755872208.git.mchehab+huawei@kernel.org>
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-In hackrf driver, the following race condition occurs:
----
-		CPU0						CPU1
-hackrf_probe()
-  kzalloc(); // alloc hackrf_dev
-  ....
-  v4l2_device_register();
-  ....
-						open("/path/to/dev"); // open hackrf dev
-						....
-  v4l2_device_unregister();
-  ....
-  kfree(); // free hackrf_dev
-  ....
-						ioctl(fd, ...);
-						  v4l2_ioctl();
-							video_is_registered() // UAF!!
-						....
-						close(fd);
-						  v4l2_release() // UAF!!
-							hackrf_video_release()
-							  kfree(); // DFB!!
----
+On Fri, Aug 22, 2025 at 04:19:35PM +0200, Mauro Carvalho Chehab wrote:
+> Now that kernel-include directive supports parsing data
+> structs directly, we can finally get rid of the horrible hack
+> we added to support parsing media uAPI symbols.
+> 
+> As a side effect, Documentation/output doesn't have anymore
+> media auto-generated .rst files on it.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/Makefile                        |   3 +-
+>  Documentation/userspace-api/media/Makefile    |  64 --
+>  .../userspace-api/media/cec/cec-header.rst    |   5 +-
+>  .../media/{ => cec}/cec.h.rst.exceptions      |   0
+>  .../media/{ => dvb}/ca.h.rst.exceptions       |   0
+>  .../media/{ => dvb}/dmx.h.rst.exceptions      |   0
+>  .../media/{ => dvb}/frontend.h.rst.exceptions |   0
+>  .../userspace-api/media/dvb/headers.rst       |  17 +-
+>  .../media/{ => dvb}/net.h.rst.exceptions      |   0
+>  .../media/mediactl/media-header.rst           |   5 +-
+>  .../{ => mediactl}/media.h.rst.exceptions     |   0
+>  .../userspace-api/media/rc/lirc-header.rst    |   4 +-
+>  .../media/{ => rc}/lirc.h.rst.exceptions      |   0
+>  .../userspace-api/media/v4l/videodev.rst      |   4 +-
+>  .../{ => v4l}/videodev2.h.rst.exceptions      |   0
+>  scripts/sphinx-build-wrapper                  | 719 ++++++++++++++++++
+>  16 files changed, 745 insertions(+), 76 deletions(-)
+>  delete mode 100644 Documentation/userspace-api/media/Makefile
+>  rename Documentation/userspace-api/media/{ => cec}/cec.h.rst.exceptions (100%)
+>  rename Documentation/userspace-api/media/{ => dvb}/ca.h.rst.exceptions (100%)
+>  rename Documentation/userspace-api/media/{ => dvb}/dmx.h.rst.exceptions (100%)
+>  rename Documentation/userspace-api/media/{ => dvb}/frontend.h.rst.exceptions (100%)
+>  rename Documentation/userspace-api/media/{ => dvb}/net.h.rst.exceptions (100%)
+>  rename Documentation/userspace-api/media/{ => mediactl}/media.h.rst.exceptions (100%)
+>  rename Documentation/userspace-api/media/{ => rc}/lirc.h.rst.exceptions (100%)
+>  rename Documentation/userspace-api/media/{ => v4l}/videodev2.h.rst.exceptions (100%)
 
-When a V4L2 or video device is unregistered, the device node is removed so
-new open() calls are blocked.
+Heh, this is is obviously wrong:
+>  create mode 100755 scripts/sphinx-build-wrapper
 
-However, file descriptors that are already open—and any in-flight I/O—do
-not terminate immediately; they remain valid until the last reference is
-dropped and the driver’s release() is invoked.
+This patch should be, instead:
 
-Therefore, freeing device memory on the error path after hackrf_probe()
-has registered dev it will lead to a race to use-after-free vuln, since
-those already-open handles haven’t been released yet.
+From 264a1888c3d3956c26c149e88b6a42459a51cbdf Mon Sep 17 00:00:00 2001
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Date: Tue, 5 Aug 2025 11:46:33 +0200
+Subject: [PATCH v2 23/24] docs: get rid of uapi/media Makefile
 
-And since release() free memory too, race to use-after-free and 
-double-free vuln occur.
+Now that kernel-include directive supports parsing data
+structs directly, we can finally get rid of the horrible hack
+we added to support parsing media uAPI symbols.
 
-To prevent this, if device is registered from probe(), it should be
-modified to free memory only through release() rather than calling
-kfree() directly.
+As a side effect, Documentation/output doesn't have anymore
+media auto-generated .rst files on it.
 
-Reported-by: syzbot+6ffd76b5405c006a46b7@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=6ffd76b5405c006a46b7
-Reported-by: syzbot+f1b20958f93d2d250727@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=f1b20958f93d2d250727
-Fixes: 8bc4a9ed8504 ("[media] hackrf: add support for transmitter")
-Signed-off-by: Jeongjun Park <aha310510@gmail.com>
----
- drivers/media/usb/hackrf/hackrf.c | 2 ++
- 1 file changed, 2 insertions(+)
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-diff --git a/drivers/media/usb/hackrf/hackrf.c b/drivers/media/usb/hackrf/hackrf.c
-index 0b50de8775a3..d7a84422193d 100644
---- a/drivers/media/usb/hackrf/hackrf.c
-+++ b/drivers/media/usb/hackrf/hackrf.c
-@@ -1515,6 +1515,8 @@ static int hackrf_probe(struct usb_interface *intf,
- 	video_unregister_device(&dev->rx_vdev);
- err_v4l2_device_unregister:
- 	v4l2_device_unregister(&dev->v4l2_dev);
-+	dev_dbg(&intf->dev, "failed=%d\n", ret);
-+	return ret;
- err_v4l2_ctrl_handler_free_tx:
- 	v4l2_ctrl_handler_free(&dev->tx_ctrl_handler);
- err_v4l2_ctrl_handler_free_rx:
---
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 2ed334971acd..5c20c68be89a 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -87,7 +87,7 @@ loop_cmd = $(echo-cmd) $(cmd_$(1)) || exit;
+ PYTHONPYCACHEPREFIX ?= $(abspath $(BUILDDIR)/__pycache__)
+ 
+ quiet_cmd_sphinx = SPHINX  $@ --> file://$(abspath $(BUILDDIR)/$3/$4)
+-      cmd_sphinx = $(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=Documentation/userspace-api/media $2 && \
++      cmd_sphinx = \
+ 	PYTHONPYCACHEPREFIX="$(PYTHONPYCACHEPREFIX)" \
+ 	BUILDDIR=$(abspath $(BUILDDIR)) SPHINX_CONF=$(abspath $(src)/$5/$(SPHINX_CONF)) \
+ 	$(PYTHON3) $(srctree)/scripts/jobserver-exec \
+@@ -171,7 +171,6 @@ refcheckdocs:
+ 
+ cleandocs:
+ 	$(Q)rm -rf $(BUILDDIR)
+-	$(Q)$(MAKE) BUILDDIR=$(abspath $(BUILDDIR)) $(build)=Documentation/userspace-api/media clean
+ 
+ dochelp:
+ 	@echo  ' Linux kernel internal documentation in different formats from ReST:'
+diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
+deleted file mode 100644
+index accc734d045a..000000000000
+--- a/Documentation/userspace-api/media/Makefile
++++ /dev/null
+@@ -1,64 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-
+-# Rules to convert a .h file to inline RST documentation
+-
+-SRC_DIR=$(srctree)/Documentation/userspace-api/media
+-PARSER = $(srctree)/tools/docs/parse-headers.py
+-UAPI = $(srctree)/include/uapi/linux
+-KAPI = $(srctree)/include/linux
+-
+-FILES = ca.h.rst dmx.h.rst frontend.h.rst net.h.rst \
+-	videodev2.h.rst media.h.rst cec.h.rst lirc.h.rst
+-
+-TARGETS := $(addprefix $(BUILDDIR)/, $(FILES))
+-
+-gen_rst = \
+-	echo ${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions; \
+-	${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions
+-
+-quiet_gen_rst = echo '  PARSE   $(patsubst $(srctree)/%,%,$<)'; \
+-	${PARSER} $< $@ $(SRC_DIR)/$(notdir $@).exceptions
+-
+-silent_gen_rst = ${gen_rst}
+-
+-$(BUILDDIR)/ca.h.rst: ${UAPI}/dvb/ca.h ${PARSER} $(SRC_DIR)/ca.h.rst.exceptions
+-	@$($(quiet)gen_rst)
+-
+-$(BUILDDIR)/dmx.h.rst: ${UAPI}/dvb/dmx.h ${PARSER} $(SRC_DIR)/dmx.h.rst.exceptions
+-	@$($(quiet)gen_rst)
+-
+-$(BUILDDIR)/frontend.h.rst: ${UAPI}/dvb/frontend.h ${PARSER} $(SRC_DIR)/frontend.h.rst.exceptions
+-	@$($(quiet)gen_rst)
+-
+-$(BUILDDIR)/net.h.rst: ${UAPI}/dvb/net.h ${PARSER} $(SRC_DIR)/net.h.rst.exceptions
+-	@$($(quiet)gen_rst)
+-
+-$(BUILDDIR)/videodev2.h.rst: ${UAPI}/videodev2.h ${PARSER} $(SRC_DIR)/videodev2.h.rst.exceptions
+-	@$($(quiet)gen_rst)
+-
+-$(BUILDDIR)/media.h.rst: ${UAPI}/media.h ${PARSER} $(SRC_DIR)/media.h.rst.exceptions
+-	@$($(quiet)gen_rst)
+-
+-$(BUILDDIR)/cec.h.rst: ${UAPI}/cec.h ${PARSER} $(SRC_DIR)/cec.h.rst.exceptions
+-	@$($(quiet)gen_rst)
+-
+-$(BUILDDIR)/lirc.h.rst: ${UAPI}/lirc.h ${PARSER} $(SRC_DIR)/lirc.h.rst.exceptions
+-	@$($(quiet)gen_rst)
+-
+-# Media build rules
+-
+-.PHONY: all html texinfo epub xml latex
+-
+-all: $(IMGDOT) $(BUILDDIR) ${TARGETS}
+-html: all
+-texinfo: all
+-epub: all
+-xml: all
+-latex: $(IMGPDF) all
+-linkcheck:
+-
+-clean:
+-	-rm -f $(DOTTGT) $(IMGTGT) ${TARGETS} 2>/dev/null
+-
+-$(BUILDDIR):
+-	$(Q)mkdir -p $@
+diff --git a/Documentation/userspace-api/media/cec/cec-header.rst b/Documentation/userspace-api/media/cec/cec-header.rst
+index d70736ac2b1d..f67003bb8740 100644
+--- a/Documentation/userspace-api/media/cec/cec-header.rst
++++ b/Documentation/userspace-api/media/cec/cec-header.rst
+@@ -6,5 +6,6 @@
+ CEC Header File
+ ***************
+ 
+-.. kernel-include:: $BUILDDIR/cec.h.rst
+-
++.. kernel-include:: include/uapi/linux/cec.h
++    :generate-cross-refs:
++    :exception-file: cec.h.rst.exceptions
+diff --git a/Documentation/userspace-api/media/cec.h.rst.exceptions b/Documentation/userspace-api/media/cec/cec.h.rst.exceptions
+similarity index 100%
+rename from Documentation/userspace-api/media/cec.h.rst.exceptions
+rename to Documentation/userspace-api/media/cec/cec.h.rst.exceptions
+diff --git a/Documentation/userspace-api/media/ca.h.rst.exceptions b/Documentation/userspace-api/media/dvb/ca.h.rst.exceptions
+similarity index 100%
+rename from Documentation/userspace-api/media/ca.h.rst.exceptions
+rename to Documentation/userspace-api/media/dvb/ca.h.rst.exceptions
+diff --git a/Documentation/userspace-api/media/dmx.h.rst.exceptions b/Documentation/userspace-api/media/dvb/dmx.h.rst.exceptions
+similarity index 100%
+rename from Documentation/userspace-api/media/dmx.h.rst.exceptions
+rename to Documentation/userspace-api/media/dvb/dmx.h.rst.exceptions
+diff --git a/Documentation/userspace-api/media/frontend.h.rst.exceptions b/Documentation/userspace-api/media/dvb/frontend.h.rst.exceptions
+similarity index 100%
+rename from Documentation/userspace-api/media/frontend.h.rst.exceptions
+rename to Documentation/userspace-api/media/dvb/frontend.h.rst.exceptions
+diff --git a/Documentation/userspace-api/media/dvb/headers.rst b/Documentation/userspace-api/media/dvb/headers.rst
+index 88c3eb33a89e..c75f64cf21d5 100644
+--- a/Documentation/userspace-api/media/dvb/headers.rst
++++ b/Documentation/userspace-api/media/dvb/headers.rst
+@@ -7,10 +7,19 @@ Digital TV uAPI header files
+ Digital TV uAPI headers
+ ***********************
+ 
+-.. kernel-include:: $BUILDDIR/frontend.h.rst
++.. kernel-include:: include/uapi/linux/dvb/frontend.h
++    :generate-cross-refs:
++    :exception-file: frontend.h.rst.exceptions
+ 
+-.. kernel-include:: $BUILDDIR/dmx.h.rst
++.. kernel-include:: include/uapi/linux/dvb/dmx.h
++    :generate-cross-refs:
++    :exception-file: dmx.h.rst.exceptions
+ 
+-.. kernel-include:: $BUILDDIR/ca.h.rst
++.. kernel-include:: include/uapi/linux/dvb/ca.h
++    :generate-cross-refs:
++    :exception-file: ca.h.rst.exceptions
++
++.. kernel-include:: include/uapi/linux/dvb/net.h
++    :generate-cross-refs:
++    :exception-file: net.h.rst.exceptions
+ 
+-.. kernel-include:: $BUILDDIR/net.h.rst
+diff --git a/Documentation/userspace-api/media/net.h.rst.exceptions b/Documentation/userspace-api/media/dvb/net.h.rst.exceptions
+similarity index 100%
+rename from Documentation/userspace-api/media/net.h.rst.exceptions
+rename to Documentation/userspace-api/media/dvb/net.h.rst.exceptions
+diff --git a/Documentation/userspace-api/media/mediactl/media-header.rst b/Documentation/userspace-api/media/mediactl/media-header.rst
+index c674271c93f5..d561d2845f3d 100644
+--- a/Documentation/userspace-api/media/mediactl/media-header.rst
++++ b/Documentation/userspace-api/media/mediactl/media-header.rst
+@@ -6,5 +6,6 @@
+ Media Controller Header File
+ ****************************
+ 
+-.. kernel-include:: $BUILDDIR/media.h.rst
+-
++.. kernel-include:: include/uapi/linux/media.h
++    :generate-cross-refs:
++    :exception-file: media.h.rst.exceptions
+diff --git a/Documentation/userspace-api/media/media.h.rst.exceptions b/Documentation/userspace-api/media/mediactl/media.h.rst.exceptions
+similarity index 100%
+rename from Documentation/userspace-api/media/media.h.rst.exceptions
+rename to Documentation/userspace-api/media/mediactl/media.h.rst.exceptions
+diff --git a/Documentation/userspace-api/media/rc/lirc-header.rst b/Documentation/userspace-api/media/rc/lirc-header.rst
+index 54cb40b8a065..a53328327847 100644
+--- a/Documentation/userspace-api/media/rc/lirc-header.rst
++++ b/Documentation/userspace-api/media/rc/lirc-header.rst
+@@ -6,5 +6,7 @@
+ LIRC Header File
+ ****************
+ 
+-.. kernel-include:: $BUILDDIR/lirc.h.rst
++.. kernel-include:: include/uapi/linux/lirc.h
++    :generate-cross-refs:
++    :exception-file: lirc.h.rst.exceptions
+ 
+diff --git a/Documentation/userspace-api/media/lirc.h.rst.exceptions b/Documentation/userspace-api/media/rc/lirc.h.rst.exceptions
+similarity index 100%
+rename from Documentation/userspace-api/media/lirc.h.rst.exceptions
+rename to Documentation/userspace-api/media/rc/lirc.h.rst.exceptions
+diff --git a/Documentation/userspace-api/media/v4l/videodev.rst b/Documentation/userspace-api/media/v4l/videodev.rst
+index c866fec417eb..cde485bc9a5f 100644
+--- a/Documentation/userspace-api/media/v4l/videodev.rst
++++ b/Documentation/userspace-api/media/v4l/videodev.rst
+@@ -6,4 +6,6 @@
+ Video For Linux Two Header File
+ *******************************
+ 
+-.. kernel-include:: $BUILDDIR/videodev2.h.rst
++.. kernel-include:: include/uapi/linux/videodev2.h
++    :generate-cross-refs:
++    :exception-file: videodev2.h.rst.exceptions
+diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions
+similarity index 100%
+rename from Documentation/userspace-api/media/videodev2.h.rst.exceptions
+rename to Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions
 
