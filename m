@@ -1,137 +1,140 @@
-Return-Path: <linux-media+bounces-40731-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40735-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD46FB311E3
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 10:34:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED423B311EF
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 10:36:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C4BD5E3C07
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 08:34:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D0127B9BD7
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 08:34:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BDA92EBDD9;
-	Fri, 22 Aug 2025 08:33:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3D222EBDC1;
+	Fri, 22 Aug 2025 08:35:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LgnqeUP/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ap9Qbd7d"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C121F224225;
-	Fri, 22 Aug 2025 08:33:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF062E62B9;
+	Fri, 22 Aug 2025 08:35:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755851635; cv=none; b=AnTfuRPAFg1PUm66WG7i5qiSifA41X6mhNzRL3S2E1XanyO7ZIryB2D22BWDq75kibyjlfXvonPDlR+bWl3MHBZRNkUlnw26KU4u+yDJp4L3jZ8aovsfhImEFwjxlP9+o+dhvdU/S2H81LLNJ8Uuz4ZuWGgf9hA2bawGDytsOLc=
+	t=1755851748; cv=none; b=tzv8ZpnAIoeHxrDZs+3nsfhpr7/WGMGCvxbg2qEO8uXlDkN7u386w55/il6B5HSja2xBjRSJ9D/iBj8iEZQV8czhrrQiemBsUnyATvI3XPli7HsX31OFWYM1c1UAKAPRXJcmZ2ugHv6AM+xPazqrUiVIkNiFX5Yo5LXH3yAIKU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755851635; c=relaxed/simple;
-	bh=hZCILAL9RcFUhkEdhO/hcljCTbxz8sP0ZtdxheVHbzk=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=uCupCf83O7MND3YemgycjJxxFoHK9Q7EbyV00nIFT8ClHb0pIUwrEUVBwzvipass8pbrsu0qN7mU5zsb/oRmpB1QKuVFA4ilam+mafgrAcgnzeRxNSp90tXvNooimX7L8jXVSPs3PO4b9vcSmKNI764Pbq9oCnjyoHDeEzgd7Is=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LgnqeUP/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 756DFC4CEF1;
-	Fri, 22 Aug 2025 08:33:55 +0000 (UTC)
+	s=arc-20240116; t=1755851748; c=relaxed/simple;
+	bh=H9lu8IIKIr/d/6s4w/r7KFXClzR6cx39yR+Lr1+/eqI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=qXMYILWAIyjSc6z/uUlYfGaSw6w64u4IbZpoiv4oYa0xtcIIcGU4YNSpcoi+b2hJXny9SkpGPtcaxvJiOTgeUa3n9OKDKS9wEFltSGZnvUeB6TfTeAGTvp5lwBzhe0MUUazJMSo+XZOlY8bxUWM1BalI0Gc4eRkH6wnsU0ZDLZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ap9Qbd7d; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34505C4CEF1;
+	Fri, 22 Aug 2025 08:35:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755851635;
-	bh=hZCILAL9RcFUhkEdhO/hcljCTbxz8sP0ZtdxheVHbzk=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=LgnqeUP/tH8uxoHEpSWrMOANOHCB92XjslueMvKTTID9yhxJFe4RRw4YoKWZg8dcB
-	 NvK4wMXVya5Xr4gCgI4pWIPtFsR7aRSTEvrvMYB37srU5EyZDnefH/sjDpItnXJjiS
-	 eSBAiJnUbr5DTh1s54pAEFUHAym8D0apBN1svARMRv8CYWQOQUI76DJ0hVh4POSgB3
-	 COCeu6iC7OkZFp6xdtzmfCQjvZ3bMj1tu2n0y+yL2KzBJFCeIWNgBLWHBfivuppBbJ
-	 y1OdyevFl7wlurSZUREAB2ZwJ+EEOoSq2l1zchGdAzM9RrMBiplYKnp/ftX3DBjnep
-	 +3VMmaOVzFCvw==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1upNDd-0000000C1VG-35nU;
-	Fri, 22 Aug 2025 10:33:53 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH v5 5/5] docs: media: profile: make it clearer about maintainership duties
-Date: Fri, 22 Aug 2025 10:33:45 +0200
-Message-ID: <a17ca9fa81e95aff9167c6f1162b4703178c65c9.1755851331.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <cover.1755851331.git.mchehab+huawei@kernel.org>
-References: <cover.1755851331.git.mchehab+huawei@kernel.org>
+	s=k20201202; t=1755851747;
+	bh=H9lu8IIKIr/d/6s4w/r7KFXClzR6cx39yR+Lr1+/eqI=;
+	h=Date:Subject:To:References:From:In-Reply-To:From;
+	b=Ap9Qbd7dFK1GsRdJNaKHBEss6cyFnT5snS7UzKrox32sHiN7i7ib8ZF4YPk6+shXZ
+	 rglrjCuBY8tpvs2hYZ2OsikjvEHBgwPKcGMn7jS3tWAs8lQdL7HtRASihxzVnfiMM3
+	 aymY6KzRZ3A4sEEcevXncE3q3Iz/IVHSgXC6VZp2itW6p6DVVrOlvThQOIbV4CeeuR
+	 Q90iPSPDzpBckVIV8Hpyiq9FjEOAA5PU2XQ0ISQGmeqxRaSsDCSDzLVPx1oI4iCspN
+	 nQoKXJooSjNJJXRYuH4z/2zvt4tRh9YnrJva2i7bWyCVBS7Rs7668wzizUz23hLGrP
+	 Y638UglPokXvw==
+Message-ID: <a59da8d7-4e35-4af5-8b9c-96aaf1597271@kernel.org>
+Date: Fri, 22 Aug 2025 10:35:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 06/11] remoteproc: Move resource table data structure
+ to its own header
+To: Stephan Gerhold <stephan.gerhold@linaro.org>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org
+References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
+ <20250819165447.4149674-7-mukesh.ojha@oss.qualcomm.com>
+ <aKWDXySSt57tXHVP@linaro.org>
+ <20250820151822.6cmowxfsheqxfrnb@hu-mojha-hyd.qualcomm.com>
+ <20250820163250.hszey3i2gtd3o2i6@hu-mojha-hyd.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250820163250.hszey3i2gtd3o2i6@hu-mojha-hyd.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-During the review of the media committer's profile, it was noticed
-that the responsibility for timely review patches was not clear:
-such review is expected that all developers listed at MAINTAINERS
-with the "M:" tag (e.g. "maintainers" on its broad sense).
+On 20/08/2025 18:32, Mukesh Ojha wrote:
+>>
+>> -- 
+>> -Mukesh Ojha
+> 
+> Since I am not subscribed to any of the mailing lists to which this
+> series was sent, I am not receiving emails from the list. As a result,
+> your recent messages did not reach my inbox. Additionally, it seems your
+> reply inadvertently removed me from the To-list.
 
-This is orthogonal of being a media committer or not. Such duty
-is implied at:
 
-	Documentation/admin-guide/reporting-issues.rst
+You decided to remove your address from replies via "Mail-Followup-To:"
+header you introduced. It's on your email client.
 
-and at the MAINTAINERS header, when it says that even when the
-status is "odd fixes", the patches will flow in.
+Just like you will not receive this email (surprise!)...
 
-So, let make it explicit at the maintainer-entry-profile that
-maintainers need to do timely reviews.
 
-Also, while right now our focus is on granting committer rights to
-maintainers, the media-committer model may evolve in the future to
-accept other committers that don't have such duties.
-
-So, make it clear at the media-committer.rst that the duties
-related to reviewing patches from others are for the drivers
-they are maintainers as well.
-
-Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/driver-api/media/maintainer-entry-profile.rst | 5 +++++
- Documentation/driver-api/media/media-committer.rst          | 6 +++---
- 2 files changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
-index 41a1a2326bef..67a18f82f857 100644
---- a/Documentation/driver-api/media/maintainer-entry-profile.rst
-+++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-@@ -177,6 +177,11 @@ b. Committers' workflow: patches are handled by media committers::
- On both workflows, all patches shall be properly reviewed at
- linux-media@vger.kernel.org (LMML) before being merged at media-committers.git.
- 
-+Such patches will be reviewed timely by the maintainers and reviewers as
-+listed in the MAINTAINERS file. The subsystem maintainers will follow one of
-+the above workflows, e. g. they will either send a pull request or merge
-+patches directly at the media-committers tree.
-+
- When patches are picked by patchwork and when merged at media-committers,
- CI bots will check for errors and may provide e-mail feedback about
- patch problems. When this happens, the patch submitter must fix them or
-diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
-index 3d0987a8a93b..0bc038a0fdcc 100644
---- a/Documentation/driver-api/media/media-committer.rst
-+++ b/Documentation/driver-api/media/media-committer.rst
-@@ -90,9 +90,9 @@ be a part of their maintenance tasks.
- Due to that, to become a committer or a core committer, a consensus between
- all subsystem maintainers is required, as they all need to trust a developer
- well enough to be delegated the responsibility to maintain part of the code
--and to properly review patches from third parties, in a timely manner and
--keeping the status of the reviewed code at https://patchwork.linuxtv.org
--updated.
-+and to properly review patches from third parties for the drivers that they
-+maintain in a timely manner and keeping the status of the patches at
-+https://patchwork.linuxtv.org updated.
- 
- .. Note::
- 
--- 
-2.50.1
+Best regards,
+Krzysztof
 
 
