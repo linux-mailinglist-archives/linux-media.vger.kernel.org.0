@@ -1,144 +1,187 @@
-Return-Path: <linux-media+bounces-40743-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40744-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93CAFB314A2
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 12:03:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74CC8B314CC
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 12:10:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 897A8B68373
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 10:02:09 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 46AB5BA015F
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 10:08:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E640278E67;
-	Fri, 22 Aug 2025 10:03:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0F8C2D6E74;
+	Fri, 22 Aug 2025 10:09:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g7AniGXc"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FsOgEckN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAD5F1BFE00
-	for <linux-media@vger.kernel.org>; Fri, 22 Aug 2025 10:03:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8373427EFF1;
+	Fri, 22 Aug 2025 10:09:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755857015; cv=none; b=XTlEnILl3d3rRMOSApDhCJGeVF60C5HC65KJyS8/vp08N4OYGxdDkgRfkJBn2BJH1NTZMjLi/LC++5H+RuCumVDtmU94ukBmj4N9q0CBqXBNS0Wy8sWX6YFRZ1IXnUCBiTmFbP0ly0zTBL0WpdeMeLj4iTokw7i6xMPk2+qHxEY=
+	t=1755857368; cv=none; b=gA7vbq8UBPkTY2zpSSN4Rxf7aKa9Por80aOVQlgxNlylUl7C4HOR4I6HxTC/QG4gfWbqkcCoGuaJxtMMenNkmqhsy+WaGJYldViFK/LhsBe510hy5rspbrEwjfu5zdCWA+udCkFQzrNqtH73z1U+QZmwTP9mPdCFpaHxwazVOaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755857015; c=relaxed/simple;
-	bh=sUeQVDLp9gLQJYskhzIFO1Eo8besKQZVYj6z4R5KwII=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=GoyayDuYri8DCRqBAH/CR3qnCuRD434R/VWoXC2kAsrdtQaPxVsPH1uDWWukK4H+MXcSfp+dbuXByAbfaKrjARrRtEg+Dl95Ps9ZdjDfTV1+oXjW92zMlGjqqbUMSo3y+vZ1TBRq+ij5GNdezzat2cw36GSRYOcQNtVFFwZiunw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g7AniGXc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A496CC4CEED;
-	Fri, 22 Aug 2025 10:03:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755857015;
-	bh=sUeQVDLp9gLQJYskhzIFO1Eo8besKQZVYj6z4R5KwII=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=g7AniGXcuBy7sKTImvPlC9eV7GJ9noCnfejlYvZ1SLOU6Psn5nAzcZi2V6l8NP7DN
-	 lKUASE6lqxO5svxl7ZGpg4FcKS+ttG9ewFwp+tPUOkLpXjoHW76gDijJU39iyhF7rb
-	 +bVSNO2O2AonF3AjLhc71eRZEo23e3iMBC//HLv6E2bQUz1YE4eBST7KGe3bxFg7/D
-	 snnmp4dv0wDQsxl2aQdBRRTJhpWnaEtfzVDYfFQVTOQB3GOnO/ILa19kSmNq0PXHAj
-	 NpLUMLnLCNVhwR7XrvAKHzQxXTFRpgx/52Mt1JR7KVQHol+bPquNRQt5hY44Rb9Q1Q
-	 Y+bhH/P/glnkA==
-Message-ID: <7a7d411e-3baa-46eb-94e0-6d642b219580@kernel.org>
-Date: Fri, 22 Aug 2025 12:03:31 +0200
+	s=arc-20240116; t=1755857368; c=relaxed/simple;
+	bh=ApnKisNGNebujsH4TjOoku6Y51lSPQIOUWqjLdXMDt8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=VnZcGR7LKSIpqKZSxLwYtR1Bv4ndEtthABfV5RC5j2UdcR+TbgkZDzHwLzIfsTs7B2dABp19EodY95jMGgS5Z3ks/eZr7weY4YoeWF7O2evAr1GQYuB6gF15HeaOCGbePwHOXpf7dRPI/Xn6lspVaxGkRCKZ5IQXOVs0o61j40A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=FsOgEckN; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57M8UP8L030542;
+	Fri, 22 Aug 2025 10:09:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ZfYfBtQBgqusu7oF8QBoD7wvmI/2NLCPiV9zw/hh/F8=; b=FsOgEckNhLtEwpGM
+	OH+9BHg4fb4MnXWrP90X/By24fYgtLdjcA70pO69pQp1D8O3Qx0ysZmQifXDVkpX
+	3Kk9gzKEI8No0AFhYhr6uJYaTw7OIiNhKAdNzGqzH+IvwHzLBbxRUtE401JcDpdw
+	S9NSe/jjkuYbd/4Z2wRYR5+9QEjYKCvLTnbPzzwKnVET40t5ibN6/wChZ63EtVNS
+	5+ZDqXm7F9xL3HVzQJvJmsPDUj53X7aQA6dMk29VT+Kg5eqW2OZGklpwt67gN4Y8
+	KNyghd3Z/0pThIoV8EFVqwhYkZfT1ZKlajtUlSDBv1pVgAuavevbx2pMmsUC9Q1C
+	tx9/Dw==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ngtdpp4m-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 22 Aug 2025 10:09:21 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57MA9KEV025091
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 22 Aug 2025 10:09:20 GMT
+Received: from [10.204.101.215] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 22 Aug
+ 2025 03:09:16 -0700
+Message-ID: <25d44811-953c-1145-73b9-967909fc3983@quicinc.com>
+Date: Fri, 22 Aug 2025 15:39:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v2 0/3] Drop control handler argument support for
- v4l2_get_link_freq()
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, Keke Li <keke.li@amlogic.com>,
- Hans Verkuil <hverkuil@kernel.org>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Jonas Karlman <jonas@kwiboo.se>, Mehdi Djait <mehdi.djait@linux.intel.com>,
- Daniel Scally <dan.scally+renesas@ideasonboard.com>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-References: <20250821121207.552993-1-sakari.ailus@linux.intel.com>
- <20250821124148.GE8865@pendragon.ideasonboard.com>
- <aKcXdDDxzsNZ2Bq2@kekkonen.localdomain>
- <20250821130125.GF8865@pendragon.ideasonboard.com>
- <aKcd9DtPXy7j7yYQ@kekkonen.localdomain>
- <20250821132709.GA1484@pendragon.ideasonboard.com>
- <aKcfjNOvUqlSJ_IH@kekkonen.localdomain>
- <20250821134500.GB1484@pendragon.ideasonboard.com>
-Content-Language: en-US, nl
-In-Reply-To: <20250821134500.GB1484@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3 00/26] Enable H.264/H.265 encoder support and fixes in
+ iris driver common code
+Content-Language: en-US
+To: Neil Armstrong <neil.armstrong@linaro.org>,
+        Dikshita Agarwal
+	<quic_dikshita@quicinc.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        "Bryan
+ O'Donoghue" <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab
+	<mchehab@kernel.org>,
+        Stefan Schmidt <stefan.schmidt@linaro.org>,
+        "Vedang
+ Nagar" <quic_vnagar@quicinc.com>,
+        Hans Verkuil <hverkuil@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Renjiang Han <quic_renjiang@quicinc.com>,
+        Wangao Wang <quic_wangaow@quicinc.com>
+References: <20250820-iris-video-encoder-v3-0-80ab0ba58b3d@quicinc.com>
+ <9584a286-7d8a-48b0-a65c-7a37ced78ac6@linaro.org>
+ <38d56655-cfea-ef3d-46ff-a77d81e35297@quicinc.com>
+ <19f844ee-da08-4497-a4f7-c90d45554534@linaro.org>
+ <cdce193e-c055-6599-16e5-83e33123099e@quicinc.com>
+ <92f50738-571c-479c-9be8-b72c32fd8b70@linaro.org>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <92f50738-571c-479c-9be8-b72c32fd8b70@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=LexlKjfi c=1 sm=1 tr=0 ts=68a841d1 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10
+ a=zkU3BWHLZV3aoYOEUWcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-GUID: Ys5cYODcaaAkvHWVWxh614y5_You4gJX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDEzNSBTYWx0ZWRfXzNjmxdxBIoMs
+ UhL+MkkI4K7bQO3M1PnsrbOUwYQZuuRrDDZZksAJA8ckHLOqLK62T29JJdWJIa/TQrsd/PSRB7M
+ oxO412ezRUfqUuN61REJDbFvJnQp9zFE4UqH4PYZzpkgZjGkpre8KZNSO89Q+IP0C1+e+gAXCxY
+ 8aBLLyxONqPuyg1sqb7LJ0wJQmHdu09w3GpJ2bJVLKlR6SE4Phc3c/PqKnAL3kGPEhNZCmBMZzb
+ 9j7H7vpx9we5WwWJ4UwDrF014nBiFPVOaukiBKoSVS+wfp7m70KNTLSD9lRnuJj7q732jwK6Hu+
+ N3CRmvhqGOXXQ3P+tS5oKC7Nb/fxtMEqGE98XjBg/Maf2p2C3rgg3FGRMdRqzxlHSc2qCHZFnTu
+ cbtCNvZ/pS6G93vBD3GU1tpOrcysdg==
+X-Proofpoint-ORIG-GUID: Ys5cYODcaaAkvHWVWxh614y5_You4gJX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-22_03,2025-08-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0 malwarescore=0
+ spamscore=0 priorityscore=1501 suspectscore=0 clxscore=1015 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200135
 
-On 21/08/2025 15:45, Laurent Pinchart wrote:
-> On Thu, Aug 21, 2025 at 04:30:52PM +0300, Sakari Ailus wrote:
->> On Thu, Aug 21, 2025 at 04:27:09PM +0300, Laurent Pinchart wrote:
->>> On Thu, Aug 21, 2025 at 04:24:04PM +0300, Sakari Ailus wrote:
->>>> On Thu, Aug 21, 2025 at 04:01:25PM +0300, Laurent Pinchart wrote:
->>>>> On Thu, Aug 21, 2025 at 03:56:20PM +0300, Sakari Ailus wrote:
->>>>>> On Thu, Aug 21, 2025 at 03:41:48PM +0300, Laurent Pinchart wrote:
->>>>>>> On Thu, Aug 21, 2025 at 03:12:04PM +0300, Sakari Ailus wrote:
->>>>>>>> Hi folks,
->>>>>>>>
->>>>>>>> This set removes the workaround from v4l2_get_link_freq() that allowed
->>>>>>>> calling it on a control handler. The Amlogic c3-mipi-csi2 driver is
->>>>>>>> converted in the process as well.
->>>>>>>>
->>>>>>>> As a result there's also no definition of v4l2_get_link_freq() without
->>>>>>>> CONFIG_MEDIA_CONTROLLER but that should be fine now. The Amlogic patch is
->>>>>>>> untested.
->>>>>>>
->>>>>>> Could you please cherry-pick
->>>>>>> https://lore.kernel.org/linux-media/20250821000944.27849-2-laurent.pinchart@ideasonboard.com/
->>>>>>> and include it in this series ?
->>>>>>
->>>>>> If a pad is const, I'd expect the container sub-device would be, too. I'll
->>>>>> see if anything breaks if media_entity_to_v4l2_subdev() would switch to use
->>>>>> container_of_const().
->>>>>
->>>>> pad->entity will still not be const, so media_entity_to_v4l2_subdev()
->>>>> will return a non-const pointer anyway.
->>>>
->>>> It may be technically correct but const suggests the argument (and what is
->>>> referred from that) is const henceforth, but that's not the case.
->>>
->>> Yes, and that's why I'm adding a const here. The function retrieves the
->>> link frequency, it should not change the state of the pad, entity or
->>> subdev. That's the meaning conveyed by the API change. Internally, due
->>> to the nature of the C language, we go from a const struct media_pad to
->>> a non-const sturct media_entity. That's fine, it's inside the
->>> v4l2_get_link_freq() function, and it means the function must simply be
->>> careful not to break the API contract. It doesn't change the nature of
->>> the contract.
->>
->> I'd like to have a third opinion here. Hans?
-> 
-> To make things clear, what this patch does is change the API contract of
-> the v4l2_get_link_freq() to tell callers that the function won't modify
-> the state of the pad, entity or subdev. The C language doesn't fully
-> enforce that, so the compiler won't catch attempts to modify the state
-> of those objects inside the implementation of v4l2_get_link_freq().
-> 
-> It may be interesting to add helper macros to make V4L2 more
-> const-correct with enforcement through the compiler. For instance,
-> instead of accessing pad->entity directly, we would need a
-> media_pad_to_entity() macro that propagates const. That's a separate
-> effort though.
 
-For what it is worth: I've no problem with adding the const patch from
-Laurent to this series.
+On 8/22/2025 1:47 PM, Neil Armstrong wrote:
+> [  157.299604] qcom-iris aa00000.video-codec: <VFW_H:CmdDec:265e:a723e008:00>
+> SetProperty(HFI_PROP_MAX_GOP_FRAMES) --> 0x0000003b
+> [  157.311341] qcom-iris aa00000.video-codec: <VFW_H:CmdDec:265e:a723e008:00>
+> Disabling ONE_SLICE mode, tiling:0 numTile:1 CP:0 SliceDelivery:0 MultiSliceMode:0
+> [  157.325847] qcom-iris aa00000.video-codec: <VFW_H:CmdDec:265e:a723e008:00>
+> HFI_BUFFER_COMMON_INTERNAL_SCRATCH, Driver macro size = 9563648 vs FW HFI macro
+> size = 7953920 vs FW golden buffer size = 5833728
+> [  157.344542] qcom-iris aa00000.video-codec: <VFW_H:CmdDec:265e:a723e008:00>
+> HFI_BUFFER_COMMON_INTERNAL_SCRATCH_1_NON_COMV, Driver macro size = 299008 vs FW
+> HFI macro size = 299264 vs FW golden buffer size = 299264
+> [  157.363944] qcom-iris aa00000.video-codec: <VFW_E:CmdDec:265e:a723e008:00>
+> venc_c2Start(3860): Send HFI_CMD_START error response for port 1
+> [  157.376855] qcom-iris aa00000.video-codec: <VFW_E:CmdDec:265e:a723e008:00>
+> VenusVencCodecEmptyThisBuffer(6732): ETB received in wrong state!
+> [  157.389836] qcom-iris aa00000.video-codec: <VFW_E:CmdDec:265e:a723e008:00>
+> VenusVencCodecEmptyThisBuffer(6732): ETB received in wrong state!
+> [  157.402827] qcom-iris aa00000.video-codec: <VFW_E:CmdDec:265e:a723e008:00>
+> VenusVencCodecEmptyThisBuffer(6732): ETB received in wrong state!
+> [  157.415816] qcom-iris aa00000.video-codec: <VFW_E:CmdDec:265e:a723e008:00>
+> VenusVencCodecEmptyThisBuffer(6732): ETB received in wrong state!
+> [  157.428832] qcom-iris aa00000.video-codec: session error received 0x1000005:
+> unknown
+> [  157.436848] qcom-iris aa00000.video-codec: session error received 0x1000005:
+> unknown
+
+Thank you for the logs, the issue is due to driver non_comv macro size (299008)
+is less than firmware requirement (299264). Please try below fix, if that works
+for SM8650
+
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+index 558dba37dbfbc..3247ad736a17c 100644
+--- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
++++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+@@ -967,7 +967,8 @@ static u32 iris_vpu_enc_non_comv_size(struct iris_inst *inst)
+        if (inst->codec == V4L2_PIX_FMT_HEVC) {
+                lcu_size = 32;
+                return hfi_buffer_non_comv_enc(width, height, num_vpp_pipes,
+-                                              lcu_size, HFI_CODEC_ENCODE_HEVC);
++                                              lcu_size, HFI_CODEC_ENCODE_HEVC) +
++                                              SIZE_ONE_SLICE_BUF;
+        }
+
+        return hfi_buffer_non_comv_enc(width, height, num_vpp_pipes,
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+b/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+index 1ff1b07ecbaa8..94668c5b3d15f 100644
+--- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
++++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+@@ -41,6 +41,7 @@ struct iris_inst;
+#define SIZE_SLIST_BUF_H265 (BIT(10))
+#define H265_DISPLAY_BUF_SIZE (3072)
+#define H265_NUM_FRM_INFO (48)
++#define SIZE_ONE_SLICE_BUF 256
+
+#define VP9_NUM_FRAME_INFO_BUF 32
+#define VP9_NUM_PROBABILITY_TABLE_BUF (VP9_NUM_FRAME_INFO_BUF + 4)
 
 Regards,
-
-	Hans
-
-> 
->>>> I simply wouldn't change this. 
-> 
-
+Vikash
 
