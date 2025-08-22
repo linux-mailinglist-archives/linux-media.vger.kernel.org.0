@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-40735-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40736-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED423B311EF
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 10:36:01 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83399B3123D
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 10:50:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 7D0127B9BD7
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 08:34:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C0A73AC071F
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 08:47:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3D222EBDC1;
-	Fri, 22 Aug 2025 08:35:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C7F02EDD6D;
+	Fri, 22 Aug 2025 08:45:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ap9Qbd7d"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pgg1KNVp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF062E62B9;
-	Fri, 22 Aug 2025 08:35:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510102EBBA0;
+	Fri, 22 Aug 2025 08:45:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755851748; cv=none; b=tzv8ZpnAIoeHxrDZs+3nsfhpr7/WGMGCvxbg2qEO8uXlDkN7u386w55/il6B5HSja2xBjRSJ9D/iBj8iEZQV8czhrrQiemBsUnyATvI3XPli7HsX31OFWYM1c1UAKAPRXJcmZ2ugHv6AM+xPazqrUiVIkNiFX5Yo5LXH3yAIKU8=
+	t=1755852356; cv=none; b=BpzwQCLi6e8Jet0jIxrHJ2XujqtxSYLwbvdO4Q/3gxAU681HD94+X+3YVgeaZ6L05GurGlDr2EW5/fqFyYEI5vOpWDAgg3MzcUWbeoGub+QDYo627Kj6bxFthQ2I8EhZcWjkJuFReiTzEMHY0t3/dDBgcGviVCebmDS3OYsR6o4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755851748; c=relaxed/simple;
-	bh=H9lu8IIKIr/d/6s4w/r7KFXClzR6cx39yR+Lr1+/eqI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=qXMYILWAIyjSc6z/uUlYfGaSw6w64u4IbZpoiv4oYa0xtcIIcGU4YNSpcoi+b2hJXny9SkpGPtcaxvJiOTgeUa3n9OKDKS9wEFltSGZnvUeB6TfTeAGTvp5lwBzhe0MUUazJMSo+XZOlY8bxUWM1BalI0Gc4eRkH6wnsU0ZDLZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ap9Qbd7d; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34505C4CEF1;
-	Fri, 22 Aug 2025 08:35:44 +0000 (UTC)
+	s=arc-20240116; t=1755852356; c=relaxed/simple;
+	bh=HBWip7Z8RxO+48QMeuJ+BAOGDB1iVSdiaOKOS/y9a/Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=pFsG7YkQxgAZquUGJ6e5eSxuQT+fohXFNqG5kauHtYa1oeBTqduWoRIuZ3BMHCgnWtEZYfUNTM0V0z63Hu1DQLO8ZLV7aVNHYdSBAtCGUcKawLU0qDKn+tjBdVAOZqHxrp/HPT/3ML4v9kes6wKQFyMSlfnwTWHgIIKOVyzxxjM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pgg1KNVp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DC03DC4CEF1;
+	Fri, 22 Aug 2025 08:45:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755851747;
-	bh=H9lu8IIKIr/d/6s4w/r7KFXClzR6cx39yR+Lr1+/eqI=;
-	h=Date:Subject:To:References:From:In-Reply-To:From;
-	b=Ap9Qbd7dFK1GsRdJNaKHBEss6cyFnT5snS7UzKrox32sHiN7i7ib8ZF4YPk6+shXZ
-	 rglrjCuBY8tpvs2hYZ2OsikjvEHBgwPKcGMn7jS3tWAs8lQdL7HtRASihxzVnfiMM3
-	 aymY6KzRZ3A4sEEcevXncE3q3Iz/IVHSgXC6VZp2itW6p6DVVrOlvThQOIbV4CeeuR
-	 Q90iPSPDzpBckVIV8Hpyiq9FjEOAA5PU2XQ0ISQGmeqxRaSsDCSDzLVPx1oI4iCspN
-	 nQoKXJooSjNJJXRYuH4z/2zvt4tRh9YnrJva2i7bWyCVBS7Rs7668wzizUz23hLGrP
-	 Y638UglPokXvw==
-Message-ID: <a59da8d7-4e35-4af5-8b9c-96aaf1597271@kernel.org>
-Date: Fri, 22 Aug 2025 10:35:42 +0200
+	s=k20201202; t=1755852355;
+	bh=HBWip7Z8RxO+48QMeuJ+BAOGDB1iVSdiaOKOS/y9a/Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=pgg1KNVpeTtnTy8rPsYXZGc4fwb8ouA65AIMeaf/vtqbGemc+StkJvqOJVFKtE7O9
+	 Z6wIn5Q64DmzXgXUVv0T672bNv8N5uS9mivN0vDE6lFXGpCI8/j0s0BKH2cCwqcDt/
+	 j3g6rHXBIF1/MTgcMSUmdO7rgSiY9/75pBVaia73S+fE/i3Kuq5eYC1tDIbJ4K44xG
+	 Il/gXDZSj0s20AykXb+U7rOe7N5/jvIzkqjJjOkZvpwBI+7pwog2MjmTPT6/cSHHhV
+	 6Ad8tIBuwfsOQe0c5H12WXGk5v9oEbOPISqri82Lad7jqSe4obPZ5uLpydHwHp75N9
+	 MT+VoZmbq/akQ==
+Message-ID: <e18ac460-dcbb-4ac0-9c5e-3aaadf3485fd@kernel.org>
+Date: Fri, 22 Aug 2025 10:45:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,24 +50,21 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 06/11] remoteproc: Move resource table data structure
- to its own header
-To: Stephan Gerhold <stephan.gerhold@linaro.org>,
+Subject: Re: [PATCH v2 11/11] media: iris: Enable Secure PAS support with
+ IOMMU managed by Linux
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
  Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>,
  Vikash Garodia <quic_vgarodia@quicinc.com>,
  Dikshita Agarwal <quic_dikshita@quicinc.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-kernel@vger.kernel.org,
  linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
  linux-remoteproc@vger.kernel.org
 References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
- <20250819165447.4149674-7-mukesh.ojha@oss.qualcomm.com>
- <aKWDXySSt57tXHVP@linaro.org>
- <20250820151822.6cmowxfsheqxfrnb@hu-mojha-hyd.qualcomm.com>
- <20250820163250.hszey3i2gtd3o2i6@hu-mojha-hyd.qualcomm.com>
+ <20250819165447.4149674-12-mukesh.ojha@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -113,26 +110,24 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250820163250.hszey3i2gtd3o2i6@hu-mojha-hyd.qualcomm.com>
+In-Reply-To: <20250819165447.4149674-12-mukesh.ojha@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 20/08/2025 18:32, Mukesh Ojha wrote:
->>
->> -- 
->> -Mukesh Ojha
-> 
-> Since I am not subscribed to any of the mailing lists to which this
-> series was sent, I am not receiving emails from the list. As a result,
-> your recent messages did not reach my inbox. Additionally, it seems your
-> reply inadvertently removed me from the To-list.
+On 19/08/2025 18:54, Mukesh Ojha wrote:
+> +int iris_fw_init(struct iris_core *core)
+> +{
+> +	struct platform_device_info info;
+> +	struct iommu_domain *iommu_dom;
+> +	struct platform_device *pdev;
+> +	struct device_node *np;
+> +	int ret;
+> +
+> +	np = of_get_child_by_name(core->dev->of_node, "video-firmware");
 
+Undocumented ABI.
 
-You decided to remove your address from replies via "Mail-Followup-To:"
-header you introduced. It's on your email client.
-
-Just like you will not receive this email (surprise!)...
-
+If you tested your DTS, you would notice warnings.
 
 Best regards,
 Krzysztof
