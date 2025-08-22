@@ -1,91 +1,154 @@
-Return-Path: <linux-media+bounces-40729-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40730-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB644B311D2
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 10:30:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id A718EB311D5
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 10:30:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E65517219E2
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 08:27:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 647635E1677
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 08:30:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAD3E2EBB84;
-	Fri, 22 Aug 2025 08:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BF212EBB9F;
+	Fri, 22 Aug 2025 08:30:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="A7XRboeu"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Up+Vs1Ce"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FAC0216E26;
-	Fri, 22 Aug 2025 08:27:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80C5A2C11FA;
+	Fri, 22 Aug 2025 08:30:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755851264; cv=none; b=pA+nx0bj0ZfKUqCGtVecJt/y4NskJZsv/7PlXe3uPfK5GHP0I93QQBUtRYd4tyLGnEuwa16esGepOKCpvzgPoE/ZVPfPXUlRwq/pfwGsrMHDqsnLk6blawb2Wg8NMNab6f+S/gIlXvKscJP9oryys4IH8fuAdJI+ARAyD8Yrdik=
+	t=1755851433; cv=none; b=onPfCyj4KPW5tkVD1g+dhSWsH20ccnz2fmwWPz2N7tCPnwH3ZV+M34+ZkJ1TdXhYcBOwa4q2B3JaHcluMH6oYf+7jcFJ6Nrr81uc25tbmC2l54Be9Qyu5GrbGW/2ASwY1MemRVXqVuB4LBLl4scidujv++X0hC1rz3Zn4q1cGCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755851264; c=relaxed/simple;
-	bh=xl8p5VPYvNcl+VW/XpiRhhtH4vkgSJ8RnnbcuDb5Gik=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DkCahicMs5GB+fggEe7pFqtqkHNszcMTeEdBuawH94dFwWR87tR0+aT7aKwsOAFLSX1MQz1JN+8NeHsiRst19oisYKYFj4nxTG+UEFm5FEXyIUmsNVWG13tkTS3TV5OZ+9USGB0koYqGKwl4In6nSDVfgBEiBBDrrtCsi44V+As=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=A7XRboeu; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A594EC4CEF1;
-	Fri, 22 Aug 2025 08:27:42 +0000 (UTC)
+	s=arc-20240116; t=1755851433; c=relaxed/simple;
+	bh=AxK/GoCw3MHhRHI3TEY7MZkHfJclsaHmg2x1YWuJfvQ=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:References:
+	 In-Reply-To:Content-Type; b=DjtjVc/ZZDW0ksd5Apa3cLp5ZcZZxRIcCDlrBpbtT/y79lFUWCDUduQq/AG0CfXsP0DdS1zB8BrJcN2/emXE1VxTss9W2SgPoOo17fzVMFpWV74viOK7vzK7bSNHd1Wuv/5D+tZJlonSHocHQWICTexjtEHoaSxgupFNOLK0E7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Up+Vs1Ce; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75984C4CEF1;
+	Fri, 22 Aug 2025 08:30:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755851263;
-	bh=xl8p5VPYvNcl+VW/XpiRhhtH4vkgSJ8RnnbcuDb5Gik=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=A7XRboeun6o5EqDLdBkKr8yPhTOoTnQsRXlszbT7p1a6YBtGIcOfBUV2rHS+Pd2ab
-	 Gh94ACjFugZXOMNu/tQA+tUSuCoH99KpPcFXm1gcZFn73fmKkF8D7tF5F1nOoncqfX
-	 zmsicPKChwJ9oOrMl3Anlh0Qssp2BqMf50Idnw/Gwy6cdMfH/r7ZpdFHys+ks+XK3p
-	 RXqQDxEmFXuFEv44tXUU9ewHnZ5wYObgcNGc/W2ohAOyAcpQGdt9Z/f4Clmk1TiSUN
-	 J8JUDKBYklt4kjUI0/dI+oWBaRoCS1aMUx7UsoZ34a+j0zQd6JgelSb2lh11hj4l65
-	 x+PLRzY+4sVaA==
-Date: Fri, 22 Aug 2025 10:27:39 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, Hans Verkuil
- <hverkuil@xs4all.nl>, Ricardo Ribalda <ribalda@chromium.org>
-Subject: Re: [PATCH v4 4/5] docs: media: document media multi-committers
- rules and process
-Message-ID: <20250822102739.7723ada1@foz.lan>
-In-Reply-To: <aKcaQ7R1LTWRf3rd@valkosipuli.retiisi.eu>
-References: <cover.1733218348.git.mchehab+huawei@kernel.org>
-	<01acc93fd8780265ea55772ba793f3f09a43ffa7.1733218348.git.mchehab+huawei@kernel.org>
-	<aKcaQ7R1LTWRf3rd@valkosipuli.retiisi.eu>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=k20201202; t=1755851433;
+	bh=AxK/GoCw3MHhRHI3TEY7MZkHfJclsaHmg2x1YWuJfvQ=;
+	h=Date:Subject:From:To:References:In-Reply-To:From;
+	b=Up+Vs1CeNdgpnM+zWU0tUf42oBESeU7bN1ukPQbzn2FPUDX0fZ2MUNzUy+O541TGe
+	 2iu8NvKQ+BUGda2ZVhWiJ9YQFbNVE1kEKKCcZCPKwQ/OMW4hOWcqaMVwv5jBHgBYZT
+	 NMePuocVxG9jwKM6cbWze1RcfzO4imguiLtzA7adLnQXEHxC1Xybs2bvOkiHaTRBnu
+	 9XRqdUZPRzXELSn+T6ReXnswU/chlojQpblhPSo7zD3QzgzqULWrZB84FY6bhzNYnh
+	 dYjjIK9yqIgmmLZGhAAOkfwTuw/JkN7u7Ps8+3UxZgXg4aczyA/FRZDyI/ag1BzShd
+	 wGRx/zToNZrhQ==
+Message-ID: <705e0588-50be-477f-a515-089df2d9bfd2@kernel.org>
+Date: Fri, 22 Aug 2025 10:30:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 07/11] firmware: qcom_scm: Add
+ qcom_scm_pas_get_rsc_table() to get resource table
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org
+References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
+ <20250819165447.4149674-8-mukesh.ojha@oss.qualcomm.com>
+ <4a60c3d3-11fb-40fb-8686-3d83539f250b@kernel.org>
+ <20250821172043.fh6sr6w4bwyhov5q@hu-mojha-hyd.qualcomm.com>
+ <0741fed1-33d3-431d-8cf3-04b47fe80b03@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
+ cFgcqTTuNHjAvxtUG8pQgGTHAObYs6xeYJtjUH0ZX6ndJ33FJYf5V3yXqqjcZ30FgHzJCFUu
+ JMp7PSyMPzpUXfU12yfcRYVEMQrmplNZssmYhiTeVicuOOypWugZKVLGNm0IweVCaZ/DJDIH
+ gNbpvVwjcKYrx85m9cBVEBUGaQP6AT7qlVCkrf50v8bofSIyVa2xmubbAwwFA1oxoOusjPIE
+ J3iadrwpFvsZjF5uHAKS+7wHLoW9hVzOnLbX6ajk5Hf8Pb1m+VH/E8bPBNNYKkfTtypTDUCj
+ NYcd27tjnXfG+SDs/EXNUAIRefCyvaRG7oRYF3Ec+2RgQDRnmmjCjoQNbFrJvJkFHlPeHaeS
+ BosGY+XWKydnmsfY7SSnjAzLUGAFhLd/XDVpb1Een2XucPpKvt9ORF+48gy12FA5GduRLhQU
+ vK4tU7ojoem/G23PcowM1CwPurC8sAVsQb9KmwTGh7rVz3ks3w/zfGBy3+WmLg++C2Wct6nM
+ Pd8/6CBVjEWqD06/RjI2AnjIq5fSEH/BIfXXfC68nMp9BZoy3So4ZsbOlBmtAPvMYX6U8VwD
+ TNeBxJu5Ex0Izf1NV9CzC3nNaFUYOY8KfN01X5SExAoVTr09ewARAQABzSVLcnp5c3p0b2Yg
+ S296bG93c2tpIDxrcnprQGtlcm5lbC5vcmc+wsGVBBMBCgA/AhsDBgsJCAcDAgYVCAIJCgsE
+ FgIDAQIeAQIXgBYhBJvQfg4MUfjVlne3VBuTQ307QWKbBQJoF1BKBQkWlnSaAAoJEBuTQ307
+ QWKbHukP/3t4tRp/bvDnxJfmNdNVn0gv9ep3L39IntPalBFwRKytqeQkzAju0whYWg+R/rwp
+ +r2I1Fzwt7+PTjsnMFlh1AZxGDmP5MFkzVsMnfX1lGiXhYSOMP97XL6R1QSXxaWOpGNCDaUl
+ ajorB0lJDcC0q3xAdwzRConxYVhlgmTrRiD8oLlSCD5baEAt5Zw17UTNDnDGmZQKR0fqLpWy
+ 786Lm5OScb7DjEgcA2PRm17st4UQ1kF0rQHokVaotxRM74PPDB8bCsunlghJl1DRK9s1aSuN
+ hL1Pv9VD8b4dFNvCo7b4hfAANPU67W40AaaGZ3UAfmw+1MYyo4QuAZGKzaP2ukbdCD/DYnqi
+ tJy88XqWtyb4UQWKNoQqGKzlYXdKsldYqrLHGoMvj1UN9XcRtXHST/IaLn72o7j7/h/Ac5EL
+ 8lSUVIG4TYn59NyxxAXa07Wi6zjVL1U11fTnFmE29ALYQEXKBI3KUO1A3p4sQWzU7uRmbuxn
+ naUmm8RbpMcOfa9JjlXCLmQ5IP7Rr5tYZUCkZz08LIfF8UMXwH7OOEX87Y++EkAB+pzKZNNd
+ hwoXulTAgjSy+OiaLtuCys9VdXLZ3Zy314azaCU3BoWgaMV0eAW/+gprWMXQM1lrlzvwlD/k
+ whyy9wGf0AEPpLssLVt9VVxNjo6BIkt6d1pMg6mHsUEVzsFNBFVDXDQBEADNkrQYSREUL4D3
+ Gws46JEoZ9HEQOKtkrwjrzlw/tCmqVzERRPvz2Xg8n7+HRCrgqnodIYoUh5WsU84N03KlLue
+ MNsWLJBvBaubYN4JuJIdRr4dS4oyF1/fQAQPHh8Thpiz0SAZFx6iWKB7Qrz3OrGCjTPcW6ei
+ OMheesVS5hxietSmlin+SilmIAPZHx7n242u6kdHOh+/SyLImKn/dh9RzatVpUKbv34eP1wA
+ GldWsRxbf3WP9pFNObSzI/Bo3kA89Xx2rO2roC+Gq4LeHvo7ptzcLcrqaHUAcZ3CgFG88CnA
+ 6z6lBZn0WyewEcPOPdcUB2Q7D/NiUY+HDiV99rAYPJztjeTrBSTnHeSBPb+qn5ZZGQwIdUW9
+ YegxWKvXXHTwB5eMzo/RB6vffwqcnHDoe0q7VgzRRZJwpi6aMIXLfeWZ5Wrwaw2zldFuO4Dt
+ 91pFzBSOIpeMtfgb/Pfe/a1WJ/GgaIRIBE+NUqckM+3zJHGmVPqJP/h2Iwv6nw8U+7Yyl6gU
+ BLHFTg2hYnLFJI4Xjg+AX1hHFVKmvl3VBHIsBv0oDcsQWXqY+NaFahT0lRPjYtrTa1v3tem/
+ JoFzZ4B0p27K+qQCF2R96hVvuEyjzBmdq2esyE6zIqftdo4MOJho8uctOiWbwNNq2U9pPWmu
+ 4vXVFBYIGmpyNPYzRm0QPwARAQABwsF8BBgBCgAmAhsMFiEEm9B+DgxR+NWWd7dUG5NDfTtB
+ YpsFAmgXUF8FCRaWWyoACgkQG5NDfTtBYptO0w//dlXJs5/42hAXKsk+PDg3wyEFb4NpyA1v
+ qmx7SfAzk9Hf6lWwU1O6AbqNMbh6PjEwadKUk1m04S7EjdQLsj/MBSgoQtCT3MDmWUUtHZd5
+ RYIPnPq3WVB47GtuO6/u375tsxhtf7vt95QSYJwCB+ZUgo4T+FV4hquZ4AsRkbgavtIzQisg
+ Dgv76tnEv3YHV8Jn9mi/Bu0FURF+5kpdMfgo1sq6RXNQ//TVf8yFgRtTUdXxW/qHjlYURrm2
+ H4kutobVEIxiyu6m05q3e9eZB/TaMMNVORx+1kM3j7f0rwtEYUFzY1ygQfpcMDPl7pRYoJjB
+ dSsm0ZuzDaCwaxg2t8hqQJBzJCezTOIkjHUsWAK+tEbU4Z4SnNpCyM3fBqsgYdJxjyC/tWVT
+ AQ18NRLtPw7tK1rdcwCl0GFQHwSwk5pDpz1NH40e6lU+NcXSeiqkDDRkHlftKPV/dV+lQXiu
+ jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
+ zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
+ XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
+In-Reply-To: <0741fed1-33d3-431d-8cf3-04b47fe80b03@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Em Thu, 21 Aug 2025 13:08:19 +0000
-Sakari Ailus <sakari.ailus@iki.fi> escreveu:
-
-> Hi Mauro, Hans,
+On 22/08/2025 08:22, Krzysztof Kozlowski wrote:
+> On 21/08/2025 19:20, Mukesh Ojha wrote:
+>>>
+>>> Srsly, what sort of AI hallucinated slop it is?
+>>>
+>>> I think this is pretty close to proof that your submission does not meet
+>>> criteria of open source contribution.
+>>>
+>>> Did you run any of this through your legal process in Qualcomm?
+>>>
+>>> I don't trust any part of this code.
+>>
+>> I don't know what made you think that way. There could be confusion with
+>> my writing and may not have expressed the thing i wanted.
+> Commits were written by two different people, but signed only by you.
+> They have 100% different style and the other looks like taken out of
+> ChatGPT.
 > 
-> On Tue, Dec 03, 2024 at 10:35:48AM +0100, Mauro Carvalho Chehab wrote:
-> > As the media subsystem will experiment with a multi-committers model,
-> > update the Maintainer's entry profile to the new rules, and add a file
-> > documenting the process to become a committer and to maintain such
-> > rights.
-> > 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > Signed-off-by: Hans Verkuil <hverkuil@xs4all.nl>
-> > Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>  
+> Editing patches post factum is another reason.
 > 
-> Overall it looks like the review comments are fine tuning with probably
-> little effect in practice right now. Do you think you could re-spin the
-> series, taking the discussion into account?
+> Reasoning here is typical for LLM - first claim something ("static is
+> possible"), then claim another ("dynamic are always") and then connect
+> these two to create false third statement (static and dynamic are always).
+> 
+> You got three strong indications. So this is what made me think that way.
 
-I'll be re-sending the series now with your changes to 3/5. People
-may comment on the top of it in a polite way without violating the
-CoC.
+Huh, so this email was not sent to you, because of weird headers you
+have in your email client ("Mail-Followup-To:"). You were notified about
+this by Stephan and yet you ignored the problem.
 
-Thanks,
-Mauro
+Well, your call, your problem to find emails if you decide not to
+receive replies. :/
+
+Best regards,
+Krzysztof
 
