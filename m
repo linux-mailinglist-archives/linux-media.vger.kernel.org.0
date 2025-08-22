@@ -1,225 +1,206 @@
-Return-Path: <linux-media+bounces-40782-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40783-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id B3AFBB31CB8
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 16:52:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 628CFB31D63
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 17:07:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8CF23189B620
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 14:47:50 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 41B147BA6F8
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 15:05:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82B0130EF9B;
-	Fri, 22 Aug 2025 14:47:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EACED1CD208;
+	Fri, 22 Aug 2025 15:06:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="SxNqfIZ+"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="mS8tqQ7w"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011053.outbound.protection.outlook.com [52.101.70.53])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB80302747;
-	Fri, 22 Aug 2025 14:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755874041; cv=fail; b=YKF50a/3r7ZYtRErWkR4QTu3LD+2JC1ILE3MFKR87IqVvPZNJIA4p18fLvX399Vq51tt8Idod227v2zvwe3cNph5xxzdXnfk4CpHvmooXTodY04TzfZ/S2HapgL9nMLnPkqOXFQiBsto+2iSR8Uee4D3KhmSAQI2xwywVb1OJL0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755874041; c=relaxed/simple;
-	bh=j+xcVXKYPYJZyYDH7uBOzFWoFxcFoS3QFjeOwd5ai14=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=bMAdNeiUnCskL8bBeXJKVMrpTmumK2spatdxHDGHVI5ZI5uubfuapWTZG5Wi0ng4BI1WHcDqHP3vtI1s+JB+fCZfYEH8PbqoIODLWDnr3BDia3Kn38lX6rY8VlqmSL23zEvnLsbgsCC/87/zohTfQtuQ8rl+qU6/+u7y1rNkuHQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=SxNqfIZ+; arc=fail smtp.client-ip=52.101.70.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WdzE9o5UWmz6Q5OsuOmwkkL+etaKjnnTDDshVZn9DGncl8G/dz1Qyv58Nh4htZpFUVTotf9xA24EdTnkbdy7dZ7lRtCUUIW9LQggFOjBtTULiPwKJtM6sBXPWnC3fc2zsM5i3OtaZG2vf/lepaVc4HOYQc2d65AU4RyXrbsJA0wnzz/fF235h1brI1I832fQ6FbzJp8EZ6+5Xn/cK0PNI27Pcclo1HLC85tXS1aNb0x4Z6QTqtgDznlbJbAMvGx3ObzvC0wvI3AXqXQAUYYwhq212QsEB1DSFKp2efA/a/bM+d+40INOf62kGT23dV0C2NuAEL1ARJxGj1jgjFWfaQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pz9AkXLqPYOp//tVxgtmT4PxsWV2/EqqG8HRDRx9zb4=;
- b=WNFulOnG+MztxZYd1N1C9XO284jqfy77KDc47XVB1Yvqfkw/idk987uJZPQeR+aXZ3S4jv8ovxXzEIFp4EaR5eOzf9Fr5vJ4Z0kPBGq6ot4H5YeiVplmcsl+/FB+R+jX3s+DXB9nVxlypLyvy6IrieQZtdwAC9CNcvvsuCySB6sP6Pp8Wa2YCdX5ZPOd7P4U9cDpQ8QXkTEzAY4TXbHwVcRl9Wq23entyn/S/4gG6VptZzYcFvgG3/cO833O5+vRneorLc5+tjaUr7Edz+6oy777UMkBCil0cnubAQJArsv7jXU+L25IkIAy1Ok01J2FyAECvihnWfjeT5QP5Bw03g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pz9AkXLqPYOp//tVxgtmT4PxsWV2/EqqG8HRDRx9zb4=;
- b=SxNqfIZ+f4LGtzpCqhY6TE0fkC8f6PpkqL9l48WJigqkwjYF8KGzaj6OKqeMmoG9k4S3dXBDgY73tJINn+kMDhhJhLlFhBV/tI5h9Yd48wJNNNHT5TQvBOHpdfGwzE9AjBdavsxMmWbGASsO57/hSmaLKRPhQjm1IdYzBuoTLNoPtiSMGKWGueQV3UNh+JUIhdm+bO2K0mf09m+MlF5glvXYTvQKEnHbjroYgWLKQEndFh8RKP8qXIAs7hxW5F/9JtMF+tcx+1hFZ9CgC/yjlPAEr5EvYH8q387aAwKBvxx1TailgbYXQnZgwMzaM6PPQ0aiFOolrtqhfENzVY4sfA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
- by GV1PR04MB9086.eurprd04.prod.outlook.com (2603:10a6:150:21::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.12; Fri, 22 Aug
- 2025 14:47:14 +0000
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::e81:b393:ebc5:bc3d]) by DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::e81:b393:ebc5:bc3d%5]) with mapi id 15.20.9052.012; Fri, 22 Aug 2025
- 14:47:14 +0000
-Date: Fri, 22 Aug 2025 10:47:05 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>,
-	Fabio Estevam <festevam@gmail.com>,
-	Inbaraj E <inbaraj.e@samsung.com>,
-	Isaac Scott <isaac.scott@ideasonboard.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Martin Kepplinger <martink@posteo.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>, Rui Miguel Silva <rmfrfs@gmail.com>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Purism Kernel Team <kernel@puri.sm>, devicetree@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 06/13] media: imx-mipi-csis: Use GENMASK for all
- register field masks
-Message-ID: <aKiC6SB4xPnERkaF@lizhi-Precision-Tower-5810>
-References: <20250822002734.23516-1-laurent.pinchart@ideasonboard.com>
- <20250822002734.23516-7-laurent.pinchart@ideasonboard.com>
- <aKh7DmnEB2KChVol@lizhi-Precision-Tower-5810>
- <20250822144000.GA22572@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250822144000.GA22572@pendragon.ideasonboard.com>
-X-ClientProxiedBy: SJ0PR13CA0109.namprd13.prod.outlook.com
- (2603:10b6:a03:2c5::24) To DB9PR04MB9626.eurprd04.prod.outlook.com
- (2603:10a6:10:309::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7CB2188906
+	for <linux-media@vger.kernel.org>; Fri, 22 Aug 2025 15:06:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755875183; cv=none; b=Yzo4epW4So3ZllhMiLdv2MyqZRgLMlT6VdD0Hy1ca1zAcxgbBj5WrJxXFYV7M+FIVbVizJTtg1P8N+d4YTR2dVrN7bYhsO95oSh+iJ77QlI0VyCf5m7DrboN7yGDBGdxPfr2c3mRlwvVCNS5gBkI08ILuZWEN43J93Ub5JUkyG8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755875183; c=relaxed/simple;
+	bh=TaGjZVBNjqzB9wouC54FD4GU1xyQRprfFDBycdH1uMI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=sYH4Jn+RUzJrGn5YHj/RRpe6gqCCjBG7RZrOt+9iwJG2pBHgle5YqvERegMber3/WYPkjfQ3dEfx8Fh7G3i5fWaFiYPtZwapzeytc14Ixe9D1tnelbb7SXMphK7h3trDDjFdamjGYHPv+5ot9HP2hKh5feBeBDmGIGQhJc7xFJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=mS8tqQ7w; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57M8UHVs005806
+	for <linux-media@vger.kernel.org>; Fri, 22 Aug 2025 15:06:20 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=BwpqZ61LBFwlqjVSb9xTIEnN
+	VKZalQo+jXTMu0ZiAnc=; b=mS8tqQ7wS1ddBiYsTugAgpdhJo5uNPAiqiFAwwHF
+	aAayN9gBy82wTn+F1PwaTkQd7RrgRDK1Kd5ZCV3tgK16/AysfoTPfVfHJc0kTsz3
+	PpkZ9BigV0t9qWYU1fzHimnyhdwrp8EZo6F3hOU1N79GT/8Mdz5zAbVti3gQylkh
+	dt2gpohCDS73Qn1OlocDCyYzIamZQswjvt7cFq+7MUbPElhggF+bwdXDyI2y4H8y
+	Kd1hzXAc3z62iPKXYrG/VJEe3Uln0uuL2aSpkErR+7bBnqtAvtJd9jzlxgjOLyQ8
+	v86K6VZkDKPMFTHYnlmL8kqGZuF6sIPSYJrjcoyG5Nqo4g==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n5291kmu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 22 Aug 2025 15:06:20 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-244581ce388so49169825ad.2
+        for <linux-media@vger.kernel.org>; Fri, 22 Aug 2025 08:06:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1755875179; x=1756479979;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=BwpqZ61LBFwlqjVSb9xTIEnNVKZalQo+jXTMu0ZiAnc=;
+        b=XIDdUCRyePyl08bz5G3rO2gpFqjmGFJ1EGYfQLqbt6ll6BYaeIHSfZ10IvmDtoC+Ri
+         9HYF66Kl4rCXM6cgvGfHa7GHhfx/JS9uLQ1GfR9vQS7tpjP80PwWKIgkaeRSpA49xu57
+         KVnN8XncXANbULbC9Hev9s/DuSxjgUxJX6kRywoRklmL+SSL3la+BRf73wkaDxCreoA0
+         SCqNitPzfmgaAXdyD0n+zwux6ZoJjOGkpt19xc84ZbN2ABvyKbjJSfAZMT9F1ULaZpo1
+         IE5JOxbwuqzlUVw4W586hIiPaIj1xbz1O59/zRRpukkmuv47KFtDIJ9CirSD8Qu6+Dt9
+         HsmQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXAYk8I2HzV6r2DwI2Xf5H9Xyixyo5hn6drVcgDbNmIgQ3zCTCsgairPCkubqHwRiX6FGQF1NBnz1sGlg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwUzLnoemeBYRJL3+oRTY3nenxUGlLvs0vQbcoMMQJSk9eQQLQt
+	5zBynD29lKaP0gfRGrfzCXygpnEPjXU3rGNnQ3GQy5ZxYLEG7SfddstgnTxeEHabRYZg4/v7EwW
+	1CQLpKR4XWqbrgKt+QfUxvhrL8qWvTkqExGIUvMuH8sqRQwO8poQfkFonzNWBRnJOXQ==
+X-Gm-Gg: ASbGncsmaAlRwVFdRra5zMpGGNnzB3xKPyNuKZDnZiqBBPgvvOqtdkaZSudYAK8iTIt
+	aYYHhFXSjU5weLU8hASEP0fzVTnT4bOKoCR/JjbRS+VdiRLwcb+Xs4PvGx12+SKBXt2FChzjeT/
+	XjIDnsevz2LOzFkWpbDc+jO0mpXqmgbNdPQlw+qzJMPmTr/9X/N3oL7nVFJVCaNNkAB+x/ZMNeG
+	bIJLsVFYV3pntV1sVd6y8pcCgLz2ssS2tLoeRiEwHoHN4QQ1rUqyN9PtsOsDbCw+h3BTH1WD6vC
+	ex5lxWesbOqH7nAJ/D1NUlZZxcV7j1cTzot5+LyFOgNpXz0zfJANZrPjMtKyY9TM/io=
+X-Received: by 2002:a17:902:c402:b0:246:570:2d9a with SMTP id d9443c01a7336-2462efca0femr41628115ad.59.1755875179140;
+        Fri, 22 Aug 2025 08:06:19 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEBa7+NR/UqARzf3gLr4vrEuhT70rpF/eoP4nZO8thtakTCqhfzCPBBCTNxi6EQ2bmua/KKwg==
+X-Received: by 2002:a17:902:c402:b0:246:570:2d9a with SMTP id d9443c01a7336-2462efca0femr41627505ad.59.1755875178605;
+        Fri, 22 Aug 2025 08:06:18 -0700 (PDT)
+Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-245fd335ea1sm55029105ad.110.2025.08.22.08.06.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 22 Aug 2025 08:06:18 -0700 (PDT)
+Date: Fri, 22 Aug 2025 20:36:11 +0530
+From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+To: Stephan Gerhold <stephan.gerhold@linaro.org>
+Cc: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
+Subject: Re: [PATCH v2 11/11] media: iris: Enable Secure PAS support with
+ IOMMU managed by Linux
+Message-ID: <20250822150611.ryixx2qeuhyk72u3@hu-mojha-hyd.qualcomm.com>
+References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
+ <20250819165447.4149674-12-mukesh.ojha@oss.qualcomm.com>
+ <aKWLZwYVPJBABhRI@linaro.org>
+ <20250820115659.kkngraove46wemxv@hu-mojha-hyd.qualcomm.com>
+ <aKXQAoXZyR6SRPAA@linaro.org>
+ <f25b6cb4-666d-e3e1-0540-b2d7fad86407@quicinc.com>
+ <aKguXNGneBWqSMUe@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR04MB9626:EE_|GV1PR04MB9086:EE_
-X-MS-Office365-Filtering-Correlation-Id: a56cf130-667c-41eb-df48-08dde18ac889
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|19092799006|376014|52116014|7416014|1800799024|366016|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?lsk0TVfHTVHQ6KikjGrbugYWLDWh0zNcYWToRj3gKuj2s/yFPeR7TpalFSV1?=
- =?us-ascii?Q?C74uvzn47+2zU9QZKv7N4aAMjAtcJAe4yeyny2cnp1SdoZa1XgsPRQ1KhGiz?=
- =?us-ascii?Q?6AOCQ6u3usTT6Qla0//m8CpOCsVzrQy0QIX+mbKiD31QqaJT7ngDLLyZWXDS?=
- =?us-ascii?Q?/5j35htn/kCtNL44u5ojLn9yf6b9NQxbA6wFaT2r0z2fxvUCIvy+HfES1NGe?=
- =?us-ascii?Q?NNZB4RMvWcqZqlozP/lN+5eTzjkHisdYjPLCo6yAhVqAnU7J65KmM7qW7v/c?=
- =?us-ascii?Q?9lr7LgcSHPY6aNOQfVtxaOy8G/ROolHWzHTuNq1x/1FlvoFLdMBtERrotE1P?=
- =?us-ascii?Q?W6vZnFeTI45Xyd4iPDmZF81thBnYknesF2ADAsYYzi1ocHmYSl0cqF0Lqo+v?=
- =?us-ascii?Q?H4agI5Gj78r9R5psIR5IdOzhj2p/NZSD2g1sTVhm4R07GuhPG/oJojudQLIh?=
- =?us-ascii?Q?yovOW2FWGl9m3x/v1O7Q1vcub9yBA5lgyFME+tkRH5PhQVlAtUNkLp9QmZHw?=
- =?us-ascii?Q?fuiKThfJq+QsViCEKirvE1dJzOfsupsaXkUvPRNfcmorxQVuzR4VY50oSS80?=
- =?us-ascii?Q?d4xyNz0+7SGMInkQ2yfWxm9HKk6mx852Hw0nvickxZIqnzQe3kFZXOs1pxFO?=
- =?us-ascii?Q?MWpCDjXay484T1t3XUrI64w7w4kYzfyMjFaK8WtWd32IOprmCLdJIuA/X2Nf?=
- =?us-ascii?Q?4fNfbs3nIFUB2gSAi4LxyaXXFRzjn8Xe5GqQFH79DQS77n4Qr7JM6eqcK2kh?=
- =?us-ascii?Q?Hnphg8mpr/PQnI2SMr/aemDkOaJv2TRxuC8jBc182U3kEzAiIgYU9WiLPTE0?=
- =?us-ascii?Q?PmU/IjS6NKYVL7XMyVwNSQ/YKFu37KHcOD3Wak9gD7S++aiX7R5o7d+8HatX?=
- =?us-ascii?Q?GSO9Pmi3CxIpRTWnDfLwyBGsBTl7fC7FSVkV43pCrH1G4EuZ/2bnkSIL+nS1?=
- =?us-ascii?Q?R4XtTdq8wQvZa1n5TFb6gl/DVCS+WKtnJxUWDaAS0eZee1xkyw5KUb5kgguZ?=
- =?us-ascii?Q?/cwmdBoiesGqiAPGK7T2Q8XCvGJ+cWqzVEHN3T5Dyi6JEDW9okHkppCRyNQf?=
- =?us-ascii?Q?jyQNtcCf6WiGkLwB/8E5fMQkJaSLRtmLX4qe2dXnvIgYW4bZCr7i76a96BP8?=
- =?us-ascii?Q?UW1D889tfewalvH97EVLhettAQ+SgQ+VbLqBGBqAhdvKQ/MX3UH/X0cfkn3m?=
- =?us-ascii?Q?9kiJ5yO34fSg7axQzdadNpWZdPR+La8i1L+pAH/T44cBsN8Kdbz3w77FaAmW?=
- =?us-ascii?Q?jXvU1rlSD6/tK96ANqOQohvIjAaoyFv0ZpAlQX+xIjIkw5HoZ/86et6AE2WX?=
- =?us-ascii?Q?Arn6LzQTXxwhvsZT9+B63ds47ENu668XxGTtQPsYXHOE44Dbs4oAnGIlM4gC?=
- =?us-ascii?Q?cABUrkvsgQlf5vJIV+8Q+HHoCQ3bUoA+8MOlMh9gvVf2fFUqnYrT6hDatm0B?=
- =?us-ascii?Q?Z4yOXIfgCRg7eEI926ICipkTczohCqn6G0lDuEKfnatHjqIu1I3kpw=3D=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9626.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(376014)(52116014)(7416014)(1800799024)(366016)(7053199007)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?6YifSSLNjyp07m3NfZFrjvy70gskq15Jxoq3xUV9qS0jlFE+RlkTDee5PnK0?=
- =?us-ascii?Q?OZj8FCDfnmiTKEK1x9hFuJ+WUavK/L/lDUApiu5ePeIjBxcpRYfUUbYhg8td?=
- =?us-ascii?Q?7qakgDyxEzN+C8NmIOB2bQkXJMrsRDi4dILDN2lG4IsdokEPHvbmOeG4ugkG?=
- =?us-ascii?Q?kH9nbKOFePL7shOp1GBCg+Yjwbz2wEkVLJk07/uNXCU9HrSbiu//jixuCzoI?=
- =?us-ascii?Q?dqwapJ4l157orlpICPTBkkfiJaP7L/Fs9eS+S07AaEF9lhqBr8MBrWZAntdz?=
- =?us-ascii?Q?zKVHavrrDkqwyJ/H79DlXjUTNxGjJgtz4E+NkWgqddBk3fzU1noFEbxINeDR?=
- =?us-ascii?Q?HQIaAJGGHSts+l9B1HPCnsD0Y6+ujKp04IRirTjz81ESJyvk77Wt/D2HlGEj?=
- =?us-ascii?Q?PDiksbZgATU3wYYvsltzlEiZyaPDKbuLpkgf3dE6j5QJI7woEGOucVsd7Uxo?=
- =?us-ascii?Q?MgzviuNR+IJt4B3tWXxrHPCO0TrUahEZQ5rGjVpjSTSqJ6vSMK5FvxwCFYqm?=
- =?us-ascii?Q?EuyhjezcVXuOCxh8YeoQe1LkTZmiJIrsW+PE+x62eLElKVblp8BRRO910gJj?=
- =?us-ascii?Q?AFXAjj00aqQNV1uK2XsWNJB6oh9AEH+uEaYTpuDQc1LWCpQSl3ujydN/n2NZ?=
- =?us-ascii?Q?V1/WtPgSdtrz2fjTR+bh6yJl5ITlvpfyZMpbDo7XVZQ7RNCkcHdbLgwZfU4g?=
- =?us-ascii?Q?Wtxeu4AAhplQTlYliuBlhtZDuAPwLHeB1t1Ekg+YxoJopM6orAHK/cH1HscF?=
- =?us-ascii?Q?9p8JkiAPH6BTr/JoMMlgs/Rg4pj4pF6YcTWnJWt5UxohBJ4sHmKtk70Mf6wT?=
- =?us-ascii?Q?IT8hGIahduI6zLm8hFFavzJ69E1dByb+//vFYqR84gg1TnRrzCVDn+yvtVNC?=
- =?us-ascii?Q?qX2OHz5jqJNFsB0xYzrglbTc38aI2x0TRdci7jg1KcfreR8nFoTQoB8Y27ml?=
- =?us-ascii?Q?37wWe7TBBIhJ1/ML6jBEddWXUjCeu3yVMkgt00yV4q96OLE2n/Rrmbgq+g3L?=
- =?us-ascii?Q?FvR/WqkOF5Jl8DfHljMQv8F+6AHuyQfGTwu+vnUs9q3/PZUBF6QyXVbfLeXA?=
- =?us-ascii?Q?LmqGhE31JrFsca3Y6V3S03OAx9T/oM2+ESYLU9gXKbNh8tk3xOvIcpqy5Rec?=
- =?us-ascii?Q?ro+hWT35HkShHR+H6vL+tLbuLIedWmgU/hgMa92rDjn2XAwSFficBVPcE7kE?=
- =?us-ascii?Q?+wAmfEYwkOrSgU7Hy+ouX3fqqhyjAGrdY7+UqyLFqMXeEu/MjxKgiSHkL8eC?=
- =?us-ascii?Q?qwzoG0LTR0aY+AgBBrVHkFEXmUEEDNd4JEQDJD9FK8ueTXlRQxvjuvUHKJdY?=
- =?us-ascii?Q?QdfMPvRoruDcsh2p3G3codgp7JCHCEN7EWgSXo6utJAk5k+zUug9wsx7XAHQ?=
- =?us-ascii?Q?5tIVQB1LPa235Kk6rA5waPz+TE70QnvvyjjWTpM88RCCdYR+V3Z9VdPUZRBX?=
- =?us-ascii?Q?bMZfTxR/hBZDF9cxNJOpxI5Zj3Nd+DaFWYVM8H2zaeprF1CV7tDi786zVBzk?=
- =?us-ascii?Q?QropJ3o/h4KZLeoWP4zlp28W6xC8E1PhmVaAHpmWpUWKsR9svirxwMCh3v49?=
- =?us-ascii?Q?H9gZ9ltfByq37jksff4a7U6MT7rXaw6FzwlWfT1J?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a56cf130-667c-41eb-df48-08dde18ac889
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9626.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2025 14:47:14.3763
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fMXhhU3kV/yC6VPuN6tQ0yX/P/WWJPgJfvOAEo416GwSV5v9SW/PvUm4NuTq1U+iKJRTzhwB7TKt5EkIH3lEkQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR04MB9086
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aKguXNGneBWqSMUe@linaro.org>
+X-Authority-Analysis: v=2.4 cv=fpOFpF4f c=1 sm=1 tr=0 ts=68a8876c cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+ a=kj9zAlcOel0A:10 a=2OwXVqhp2XgA:10 a=QS3pIwUUYRx7lZdHfBUA:9
+ a=CjuIK1q_8ugA:10 a=uG9DUKGECoFWVXl0Dc02:22
+X-Proofpoint-GUID: 0FBfOCfgBW-yNMSQp6Qtj88SCMNhhXt3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfX7e/cqkF990gX
+ dbTOcJuvZPPsEaIa7zo8C/vrHTXYzLQR659kTqdaV5X8xXie4028E3N5T4dNTJ89Y/xtr1/RVvW
+ qlEzBmfDnQJeXkBu+SKTXZdhxh+o6jP/DSb3c+BRav+9jq/L4cJMfznWh/0njoQeM/6eieHYb0c
+ k/pMwj8Vt50svSTRaioYAri/KUwU3q/691YtJZl7wkEMSylGr9tXAkPN0o0EIAV3O7kytxhknT1
+ BBZJGQ5uxt1wmpQ5J6e/iWPhHwt39ScYL57pPdZzip3D1vNQTiU01lPzBDPIZ/qe8Ja+wjbGvx8
+ 3pWlYTyRuQl4YBkw+yjoig3f7DoaKDo0ZQjClnyMUoB155Ze+ahuVy4DPtVukTZVpVpXXcDc4O4
+ +mpsSQMo1Pj/y74UwqWPKCb3KQRMXQ==
+X-Proofpoint-ORIG-GUID: 0FBfOCfgBW-yNMSQp6Qtj88SCMNhhXt3
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-22_04,2025-08-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 priorityscore=1501 spamscore=0 clxscore=1015 adultscore=0
+ suspectscore=0 bulkscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
 
-On Fri, Aug 22, 2025 at 05:40:00PM +0300, Laurent Pinchart wrote:
-> Hi Frank,
->
-> On Fri, Aug 22, 2025 at 10:13:34AM -0400, Frank Li wrote:
-> > On Fri, Aug 22, 2025 at 03:27:26AM +0300, Laurent Pinchart wrote:
-> > > Multiple register field mask macros use GENMASK, while other define the
-> > > mask value manually. Standardize on GENMASK everywhere, as well as on
-> > > the _MASK suffix to name the macros. This improves consistency and helps
-> > > with readability.
-> > >
-> > > No functional change is intended.
-> > >
-> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > > ---
-> > >  drivers/media/platform/nxp/imx-mipi-csis.c | 12 ++++++------
-> > >  1 file changed, 6 insertions(+), 6 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-> > > index ce889c436cb1..50f6f4468f7b 100644
-> > > --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> > > +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> > > @@ -57,7 +57,7 @@
-> >
-> > ...
-> > >
-> > >  /* ISP Image Resolution register */
-> > >  #define MIPI_CSIS_ISP_RESOL_CH(n)		(0x44 + (n) * 0x10)
-> > > @@ -655,7 +655,7 @@ static void mipi_csis_set_params(struct mipi_csis_device *csis,
-> > >  	val = mipi_csis_read(csis, MIPI_CSIS_CLK_CTRL);
-> > >  	val |= MIPI_CSIS_CLK_CTRL_WCLK_SRC;
-> > >  	val |= MIPI_CSIS_CLK_CTRL_CLKGATE_TRAIL_CH0(15);
-> > > -	val &= ~MIPI_CSIS_CLK_CTRL_CLKGATE_EN_MSK;
-> > > +	val &= ~MIPI_CSIS_CLK_CTRL_CLKGATE_EN_MASK;
-> >
-> > nit: if need create new verison, I suggest add "change MSK to MASK"
-> > informaiton at commit message.
->
-> The information is there already, the commit message already states
-> "Standardize [...] on the _MASK suffix to name the macros".
+On Fri, Aug 22, 2025 at 10:46:20AM +0200, Stephan Gerhold wrote:
+> On Fri, Aug 22, 2025 at 09:56:49AM +0530, Vikash Garodia wrote:
+> > On 8/20/2025 7:09 PM, Stephan Gerhold wrote:
+> > >>>> +int iris_fw_init(struct iris_core *core)
+> > >>>> +{
+> > >>>> +	struct platform_device_info info;
+> > >>>> +	struct iommu_domain *iommu_dom;
+> > >>>> +	struct platform_device *pdev;
+> > >>>> +	struct device_node *np;
+> > >>>> +	int ret;
+> > >>>> +
+> > >>>> +	np = of_get_child_by_name(core->dev->of_node, "video-firmware");
+> > >>>> +	if (!np)
+> > >>>> +		return 0;
+> > >>> You need a dt-bindings change for this as well. This is documented only
+> > >>> for Venus.
+> > >> You are right, wanted to send device tree and binding support separately.
+> > >> But if required, will add with the series in the next version.
+> > >>
+> > > You can send device tree changes separately, but dt-binding changes
+> > > always need to come before the driver changes.
+> > 
+> > Do you mean to update the examples section[1] with the firmware subnode,
+> > something similar to venus schema[2] ?
+> > 
+> 
+> Sorry, I missed the fact that the "video-firmware" subnode is already
+> documented for iris as well through qcom,venus-common.yaml (which is
+> included for qcom,sm8550-iris). I don't think it's strictly required to
+> add every possibility to the examples of the schema, since we'll also
+> have the actual DTBs later to test this part of the schema.
+> 
+> I would recommend to extend the description of the "video-firmware" node
+> in qcom,venus-common.yaml a bit. You do use the reset functionality of
+> TrustZone, so the description there doesn't fit for your use case.
+> 
+> I think we will also have to figure out how to handle the old
+> "ChromeOS"/"non_tz" use case (that resets Iris directly with the
+> registers) vs the EL2 PAS use case (that resets Iris in TZ but still
+> handles IOMMU from Linux). Simply checking for the presence of the
+> "video-firmware" node is not enough, because that doesn't tell us if the
+> PAS support is present in TZ.
+> 
+> I have been experimenting with a similar patch that copies the "non_tz"
+> code paths from Venus into Iris. We need this to upstream the Iris DT
+> patch for X1E without regressing the community-contributed x1-el2.dtso,
+> which doesn't have functional PAS when running in EL2.
+> 
+> Perhaps we could check for __qcom_scm_is_call_available() with the new
+> QCOM_SCM_PIL_PAS_GET_RSCTABLE to choose between invoking reset via PAS
+> or directly with the registers. I don't have a device with the new
+> firmware to verify if that works.
 
-Sorry, I missed it.
+You can check QCOM_SCM_PIL_PAS_GET_RSCTABLE with __qcom_scm_is_call_available() 
+but there is a possibility that QCOM_SCM_PIL_PAS_GET_RSCTABLE SMC call will be
+used even for Gunyah. So, I believe, __qcom_scm_is_call_available() and
+video-firmware's iommu property is also important.
 
-Frank
->
-> > Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> >
-> > >  	mipi_csis_write(csis, MIPI_CSIS_CLK_CTRL, val);
-> > >
-> > >  	mipi_csis_write(csis, MIPI_CSIS_DPHY_BCTRL_L,
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> 
+> I'll try to send out my patch soon, so you can better see the context.
+
+Are you saying that you are going to send patch to support IRIS on
+x1-el2.dtso in non-secure way i.e., non-PAS way.
+
+> 
+> Thanks,
+> Stephan
+
+-- 
+-Mukesh Ojha
 
