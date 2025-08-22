@@ -1,47 +1,81 @@
-Return-Path: <linux-media+bounces-40763-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40764-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFC48B31A4E
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 15:55:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A27AB31A97
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 16:04:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A1C11AE41ED
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 13:51:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B52D1D01D57
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 14:00:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB551303CB3;
-	Fri, 22 Aug 2025 13:50:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED808308F1C;
+	Fri, 22 Aug 2025 13:57:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OvB+D9nr"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="jwvOoxx+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailout2.samsung.com (mailout2.samsung.com [203.254.224.25])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84483043CE;
-	Fri, 22 Aug 2025 13:50:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E48933074A9
+	for <linux-media@vger.kernel.org>; Fri, 22 Aug 2025 13:57:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.25
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755870636; cv=none; b=oDKSAZ3YbOMFFu0/tc3u3+rzXSGHXl+r/zRh+1mM6Z0++U25GSXblTbChdGK0lxtDvxPb78LeWQsbKyCBPiiTN3nhWljUecs2l+pKlm8uQjstwWBL0+G7Uj79339DW2v4tbm/f1o7IPdUUnJhtY5FlII1aMcpRLbohoJVDcEd10=
+	t=1755871041; cv=none; b=S91QJseFicWyKEZWaw6Ci5pCvYw2mPLNgFQ5E/ck/3tbvuFpmMqXRxmBC37kGXSON8NL0bOhPqEVmXplBAUE1uhYNIjPR0/e1pJCikOT44vtiIfSgy9yaJawPTdie0sftv52zjkAEwWusgWTh0Drib1q08YBcOtWN4xiXppMaYk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755870636; c=relaxed/simple;
-	bh=zTC9rggl0i3t5XLpEsqcM+WQni9LhEviNLZmk+YbRV4=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=CmL4m/b/EZ0OeGh0h68lI8jkuXLUh92kbnTzT8T6j7TK48fkjk1ozD4D5fUCEN+S31zrMDhX9blxPw4wkeG8nPEampue9G9EuFZSQjUUvxDe5N/Wxn2YapxXDHhwwEhmIYdMZYtD+RsiTm2k0D11RO7bnUJcUR9B+MTPYOgIObU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OvB+D9nr; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:7c3d:a283:5570:ad9a])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 269E411D5;
-	Fri, 22 Aug 2025 15:49:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1755870566;
-	bh=zTC9rggl0i3t5XLpEsqcM+WQni9LhEviNLZmk+YbRV4=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=OvB+D9nrGBSqzWfJeElOujCqVeuxE5UDvoDaJBLWCYyWtEIkC/xkY0aGB2C80d15Z
-	 RpFE/FOCNVTRYSM8bXsYqmEq/X4WAWPaL5JKpeJc8/JizCspnqhaUaJ6RdMg2i0SsP
-	 U6USyZTmJ/9KgJwp+OhpgrWi+MbX4OUCaLjX43P4=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1755871041; c=relaxed/simple;
+	bh=qYOiKaomuYF3FFz6S9PgNZ0UIWGTOlBCNi6+QRdBe8c=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=mw/YHtDsD8s+UWU0P8dC1Ml9i3lPoXSjq+W0Z90oX0jH4uQ4e55jYq9wn+E+0EZeAVbso462T9u5Ko+tcRvS8TxB2Ksxq27kqq6PmbP68MDgzfnyq10GHzCfjQB9hGMGF/sLZNROXQaYmUN5dXVjEOuW1A3Ib2BaIWBf2+C9+Do=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=jwvOoxx+; arc=none smtp.client-ip=203.254.224.25
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from epcas5p1.samsung.com (unknown [182.195.41.39])
+	by mailout2.samsung.com (KnoxPortal) with ESMTP id 20250822135717epoutp028fb4a6014c8e09306e91b766c41fa133~eG2e8omEO2740627406epoutp02K
+	for <linux-media@vger.kernel.org>; Fri, 22 Aug 2025 13:57:17 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.samsung.com 20250822135717epoutp028fb4a6014c8e09306e91b766c41fa133~eG2e8omEO2740627406epoutp02K
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1755871037;
+	bh=W4C5v6Mam7mfoOZt+/Uk2fNaLUuqcHXWmVmMPWM4nmI=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=jwvOoxx+0UkR29FGHjt3nZB44roEkqCrPy3UV4AxVKwtIX37Oul0uvkstC1WMv2Jq
+	 EVKhVqqQcxDJBxtEAtUas3cMR818eJ/xFBm1R+98ywV0zAFG1JpHKkCARpXGj0ZOLa
+	 6w0XRyIrH69pEU8cfi4QLo0K4EXFLxqOhao5xbfs=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPS id
+	20250822135716epcas5p18bd9dbea2d4c64fddf513df96cf206a8~eG2eIJ28p2289722897epcas5p1m;
+	Fri, 22 Aug 2025 13:57:16 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.87]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4c7hZg1tPyz6B9m4; Fri, 22 Aug
+	2025 13:57:15 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250822135714epcas5p1061155a3eaf18a8843e73652afbcfe52~eG2ckacBH1755517555epcas5p1I;
+	Fri, 22 Aug 2025 13:57:14 +0000 (GMT)
+Received: from FDSFTE196 (unknown [107.116.189.214]) by epsmtip1.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20250822135710epsmtip1545b9b7689f40f6c2351d8d4952539fc~eG2Y0A9DZ0796007960epsmtip1e;
+	Fri, 22 Aug 2025 13:57:10 +0000 (GMT)
+From: "Inbaraj E" <inbaraj.e@samsung.com>
+To: "'Krzysztof Kozlowski'" <krzk@kernel.org>, <mturquette@baylibre.com>,
+	<sboyd@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+	<conor+dt@kernel.org>, <s.nawrocki@samsung.com>, <s.hauer@pengutronix.de>,
+	<shawnguo@kernel.org>, <cw00.choi@samsung.com>, <rmfrfs@gmail.com>,
+	<laurent.pinchart@ideasonboard.com>, <martink@posteo.de>,
+	<mchehab@kernel.org>, <linux-fsd@tesla.com>, <will@kernel.org>,
+	<catalin.marinas@arm.com>, <pankaj.dubey@samsung.com>,
+	<shradha.t@samsung.com>, <ravi.patel@samsung.com>
+Cc: <linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <alim.akhtar@samsung.com>,
+	<linux-samsung-soc@vger.kernel.org>, <kernel@puri.sm>,
+	<kernel@pengutronix.de>, <festevam@gmail.com>,
+	<linux-media@vger.kernel.org>, <imx@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>
+In-Reply-To: <1919de68-99ea-47f7-b3d2-cae4611f9c52@kernel.org>
+Subject: RE: [PATCH v2 04/12] arm64: dts: fsd: Add CSI nodes
+Date: Fri, 22 Aug 2025 19:27:09 +0530
+Message-ID: <00d101dc136c$aa037020$fe0a5060$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -49,68 +83,81 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250821000944.27849-13-laurent.pinchart@ideasonboard.com>
-References: <20250821000944.27849-1-laurent.pinchart@ideasonboard.com> <20250821000944.27849-13-laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v2 12/12] arm64: dts: imx8mp: Specify the number of channels for CSI-2 receivers
-From: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: Isaac Scott <isaac.scott@ideasonboard.com>, Rui Miguel Silva <rmfrfs@gmail.com>, Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>, Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, Fabio Estevam <festevam@gmail.com>, devicetree@vger.kernel.org, imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org
-Date: Fri, 22 Aug 2025 15:50:22 +0200
-Message-ID: <175587062299.3267892.13323129258755005337@localhost>
-User-Agent: alot/0.12.dev8+g2c003385c862.d20250602
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQK5oFMD+tt4mLQU5V9KgVyIDaUIUQE9OnCOAxwEstACXXiXx7J94PTA
+Content-Language: en-in
+X-CMS-MailID: 20250822135714epcas5p1061155a3eaf18a8843e73652afbcfe52
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-541,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250814141019epcas5p2f957b934d5b60d4649cf9c6abd6969d5
+References: <20250814140943.22531-1-inbaraj.e@samsung.com>
+	<CGME20250814141019epcas5p2f957b934d5b60d4649cf9c6abd6969d5@epcas5p2.samsung.com>
+	<20250814140943.22531-5-inbaraj.e@samsung.com>
+	<1919de68-99ea-47f7-b3d2-cae4611f9c52@kernel.org>
 
-Hi Laurent,
 
-Thank you for the patch.=20
+Hi Krzysztof,
 
-Quoting Laurent Pinchart (2025-08-21 02:09:44)
-> The CSI-2 receivers in the i.MX8MP have 3 output channels. Specify this
-> in the device tree, to enable support for more than one channel in
-> drivers.
+Thanks for the review.
+
 >=20
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-Reviewed-by: Stefan Klug <stefan.klug@ideasonboard.com>
-Tested-by: Stefan Klug <stefan.klug@ideasonboard.com>
-
-Cheers,
-Stefan
-
-> ---
->  arch/arm64/boot/dts/freescale/imx8mp.dtsi | 2 ++
->  1 file changed, 2 insertions(+)
+> On 14/08/2025 16:09, Inbaraj E wrote:
+> > There is a csi dma and csis interface that bundles together to allow
 >=20
-> diff --git a/arch/arm64/boot/dts/freescale/imx8mp.dtsi b/arch/arm64/boot/=
-dts/freescale/imx8mp.dtsi
-> index bb24dba7338e..1e52840078df 100644
-> --- a/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> +++ b/arch/arm64/boot/dts/freescale/imx8mp.dtsi
-> @@ -1764,6 +1764,7 @@ mipi_csi_0: csi@32e40000 {
->                                 assigned-clock-parents =3D <&clk IMX8MP_S=
-YS_PLL2_250M>,
->                                                          <&clk IMX8MP_CLK=
-_24M>;
->                                 power-domains =3D <&media_blk_ctrl IMX8MP=
-_MEDIABLK_PD_MIPI_CSI2_1>;
-> +                               fsl,num-channels =3D <3>;
->                                 status =3D "disabled";
-> =20
->                                 ports {
-> @@ -1799,6 +1800,7 @@ mipi_csi_1: csi@32e50000 {
->                                 assigned-clock-parents =3D <&clk IMX8MP_S=
-YS_PLL2_250M>,
->                                                          <&clk IMX8MP_CLK=
-_24M>;
->                                 power-domains =3D <&media_blk_ctrl IMX8MP=
-_MEDIABLK_PD_MIPI_CSI2_2>;
-> +                               fsl,num-channels =3D <3>;
->                                 status =3D "disabled";
-> =20
->                                 ports {
-> --=20
-> Regards,
+> CSI DMA?
+> What is CSIS?
 >=20
-> Laurent Pinchart
+> > csi2 capture.
 >=20
->
+> CSI2?
+
+CSIS stands for Camera Serial Interface Slave.
+
+Samsung v4.3 CSIS IP bundles both the CSIS link operation and the CSIS
+DMA operation. The DMA-related operation are referred to as CSIS DMA and
+are handled by the fsd-csis driver. The link related operations are
+referred to simply as CSIS and are integrated into imx-mipi-csis driver.
+
+I'll update the commit message and commit description accordingly,
+and maintain consistency across the patches.
+
+>=20
+> >
+> > Signed-off-by: Inbaraj E <inbaraj.e=40samsung.com>
+> > ---
+> >  arch/arm64/boot/dts/tesla/fsd-evb.dts =7C  96 +++++
+> > +++ b/arch/arm64/boot/dts/tesla/fsd.dtsi
+> > =40=40 -493,6 +493,558 =40=40 clock_mfc: clock-controller=4012810000 =
+=7B
+> >  			clock-names =3D =22fin_pll=22;
+> >  		=7D;
+> >
+> > +		mipicsis0: mipi-csis=4012640000 =7B
+>=20
+> Messed ordering. See DTS coding style.
+
+I'll fix the ordering in next patchset.
+
+>=20
+> Node names should be generic. See also an explanation and list of example=
+s
+> (not exhaustive) in DT specification:
+> https://protect2.fireeye.com/v1/url?k=3Da30d23f8-c28636dd-a30ca8b7-
+> 74fe485cbff6-ee12f8a711c584c8&q=3D1&e=3Db96506d8-2d5d-4303-b9e8-
+> 0e1189db1585&u=3Dhttps%3A%2F%2Fdevicetree-
+> specification.readthedocs.io%2Fen%2Flatest%2Fchapter2-devicetree-
+> basics.html%23generic-names-recommendation
+>=20
+
+There is no generic name directly related to CSI apart from camera. That's
+why I used mipi-csis. If preferred, I can move the name to csis or simply c=
+si.
+Please let me know which one is more appropriate.
+
+Regards,
+Inbaraj E
+
 
