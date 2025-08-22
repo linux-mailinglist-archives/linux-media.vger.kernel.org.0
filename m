@@ -1,272 +1,221 @@
-Return-Path: <linux-media+bounces-40714-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40715-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 630F6B30DFA
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 07:29:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC216B30E53
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 07:54:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BF1606889C0
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 05:29:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 14EE9AC5175
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 05:53:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 338722D46C8;
-	Fri, 22 Aug 2025 05:29:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75990296BAA;
+	Fri, 22 Aug 2025 05:53:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="SviNHeyD"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="JyXKE16e"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD544B661;
-	Fri, 22 Aug 2025 05:29:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B16433AC;
+	Fri, 22 Aug 2025 05:53:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755840582; cv=none; b=cAIthSg/4N/gqR9Z5Mva725+OHfwzhVfAq9Bjnu8gAxzz5rnsgXd96kTAsrrtx6+Em9/5f/XPqNhKDSR3phO2h8VM1j2xjjWSyq9UnT9LPI1Uf0J87pndPLRp00HNHOtchQ1A/WQdVuTJm8Mgy7KtmEPIfyv+7AhfS5h60DdKBw=
+	t=1755842030; cv=none; b=brOKsvz7IaVOpPLNo5//jveTtv+kW3Ay2No3GlFPcG2FRzmW1QMLbSx1oFSObNlhI2Z5+/d8w1W8G31SRLhKJ0cEQllEGbImkcg8vT0gAKUVljyw+BBdBEeJyERezs3dtYRIY0+IvSaRX2D670qaUzSXxfvVzFzUCSjP029gEX0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755840582; c=relaxed/simple;
-	bh=34Wicx5fiqySh4vcbwHKLgw38TXxHzyUyeFT3n/7A2g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=YbvRXeoobdn+jUsWukUGFE9Ls56lzIpqyqyQWHVQ82rzlkqH8Wuaooxh9o+sdpx245XBseYeOqJYWR91GPOpdVJvzmA8icXSFRJiDDMekdoZjeSun3pmLp+GLosazL9rlPii+hd1nZA+Gb+xheB2MBOIlTMIAOOOvZBQKHBvvPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=SviNHeyD; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1755842030; c=relaxed/simple;
+	bh=c9WJsWaGNUFYZCfPMuakUC2AuRlRWNv+aDPUmdh7rBE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:To:CC; b=Ux0/BzUu0Nns3g3uLXAvkqB4venj95iLBgQro1s5NDCJirKOaw77EC6C8w2isbwHuXRbbcf6s8A5RHLne7PXZI8I5T2M34to9jHGsGltq85BjjhXffAP50snZDTJWoCTDfb1YENzqwsiMUycJrJ3kvwMBoe5XlXzJIor+NS9Q4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=JyXKE16e; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57LI94uv003022;
-	Fri, 22 Aug 2025 05:29:34 GMT
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57LI9GfE002743;
+	Fri, 22 Aug 2025 05:53:44 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	GjN8tcpqQR7ngN/208vaK7sSHrIqTJw0swa0+U/r4TQ=; b=SviNHeyDRZ51mI3i
-	EbS8NBK9fryyoe4cKQ7Ay1R9rRlMwq7PjKbQ2j6QrZ1lMNfKb9NgJLIBEzAnl+4/
-	uNWflwscJoCIIw/Ga3+vOm29N+9kFgzz7TUZ2OEgU62D+4in1MwRY8MrHuX0U7T7
-	T3f0RXcABiLFsUGYiq8Pk6r99NcKHIyKKZqVQhvQCY7I75Aauynepyx1NSF0yl+T
-	Lm39IDI3Dw3gwcTy1cj2b0loUQSE4qoYBhGGmG9ymv9qXGd4WYNSuzKFrgIxKpKb
-	3Uc08gVWwWyG96xernN09/nvYh6yQdx7+l2h4SmDasq9WdenEEArBp6fDxL7RNbD
-	ojy5Jw==
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=TivjgjuKQ4ZLa6o5fHO7TO
+	9+vNk9/33184c0LWa9Ccg=; b=JyXKE16e0OPOUvE+ui0P2dViqBuNKNL70qRlRc
+	ownKHsyZrElNYJZBlMVMXz7lEYr0OMnDd/1iOX4aHcugmgqNqp5CL5Y1iqPzU6HW
+	tOOoS3qeBZVPTT3IT/h/3oDz6oI9RF56FDCCXWguUZ/y59wFaNmIjn9jQ3aXYlSZ
+	7+BcsxWxhCt1urHqXMemVHAMOtjLYiqJ89nIKBa4+KOxUt3oGlKtFvpaKV3LIBPZ
+	hfB4UTtru6OUAfRrbFkxTu7xzO+ISWn9GLLq8btw+/upGd6eo5/je9gjZdRYucaM
+	4kcpHgv0+AKKqytZSGdXTO0DcHhtJIippNcfxoc4wGZavLrw==
 Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48n5297x0d-1
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ngtdntdn-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 22 Aug 2025 05:29:34 +0000 (GMT)
+	Fri, 22 Aug 2025 05:53:43 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57M5TXrV009617
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57M5rhs7021027
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 22 Aug 2025 05:29:33 GMT
-Received: from [10.50.10.127] (10.80.80.8) by nalasex01a.na.qualcomm.com
- (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Thu, 21 Aug
- 2025 22:29:30 -0700
-Message-ID: <567f7007-12b1-ecf9-30cc-11fe9e90af39@quicinc.com>
-Date: Fri, 22 Aug 2025 10:59:27 +0530
+	Fri, 22 Aug 2025 05:53:43 GMT
+Received: from hu-dikshita-hyd.qualcomm.com (10.80.80.8) by
+ nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Thu, 21 Aug 2025 22:53:40 -0700
+From: Dikshita Agarwal <quic_dikshita@quicinc.com>
+Date: Fri, 22 Aug 2025 11:23:30 +0530
+Subject: [PATCH v4] media: iris: vpu3x: Add MNoC low power handshake during
+ hardware power-off
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] media: iris: fix module removal if firmware download
- failed
-Content-Language: en-US
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-        Vikash Garodia
-	<quic_vgarodia@quicinc.com>,
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-ID: <20250822-sm8650-power-sequence-fix-v4-1-e3d587e1f9e6@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIANkFqGgC/43NTQ7CIBCG4asY1mJgKAiuvIdxQadTy6J/oFVje
+ nfRVY2Jcfl+yTzzYIlioMR2qweLNIUU+i5HsV4xbHx3Ih6q3AwEaGEl8NRaowUf+itFnmi8UIf
+ E63DjpXfegXAWlGL5foiU57d9OOZuQjr38f5+NcnX+o86SS6515K2tXOoDe7HS8DQ4Qb7lr3cC
+ ZaW+mVBthxVokbAQmP5bamFBfKXpbJlCm2lKb2yYD6teZ6fk5Nb/lwBAAA=
+X-Change-ID: 20250812-sm8650-power-sequence-fix-ba9a92098233
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Dikshita Agarwal
+	<quic_dikshita@quicinc.com>,
         Abhinav Kumar <abhinav.kumar@linux.dev>,
         "Bryan
  O'Donoghue" <bryan.odonoghue@linaro.org>,
         Mauro Carvalho Chehab
 	<mchehab@kernel.org>
 CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
-References: <20250820-topic-sm8x50-iris-remove-fix-v1-1-07b23a0bd8fc@linaro.org>
- <6c93b790-6d84-aec5-5b4d-2584d249f74e@quicinc.com>
- <802b5a3c-15c7-4291-8e3e-e598b5587fb8@linaro.org>
-From: Dikshita Agarwal <quic_dikshita@quicinc.com>
-In-Reply-To: <802b5a3c-15c7-4291-8e3e-e598b5587fb8@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+        <linux-kernel@vger.kernel.org>,
+        Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1755842020; l=3964;
+ i=quic_dikshita@quicinc.com; s=20240917; h=from:subject:message-id;
+ bh=c9WJsWaGNUFYZCfPMuakUC2AuRlRWNv+aDPUmdh7rBE=;
+ b=NeOlaN3mnM0k389lQxCDuvw+ghkiAUEnAnCVR5wCgUme9B5KkUjwg00l4Kq9N2OqNstN+UU1i
+ X2tLlVzNx/bCu8Af/RRevrJ7F4mmngdOeH5thzvS8t/mMHz7oR0LMuJ
+X-Developer-Key: i=quic_dikshita@quicinc.com; a=ed25519;
+ pk=EEvKY6Ar1OI5SWf44FJ1Ebo1KuQEVbbf5UNPO+UHVhM=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: RQquNLQIQSg_prhf40Tv8TcbcjvIdXml
-X-Proofpoint-ORIG-GUID: RQquNLQIQSg_prhf40Tv8TcbcjvIdXml
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDAxMyBTYWx0ZWRfX8snhT1ZZuBf8
- ngM4vdCEW8Ix/kD8GpBmDIZo+4tu0IuwDIcR4kcxxcwsm/GJB7DvTM5BbnJWrUdjfN0LwWGZdkI
- 9LB+/9Nrg//kvfv3Jd+oc+4aprBjZ0f1I3lnM/azq+TFMAUVP5EJZYzWGAasOAN3NHbIgQXZv5V
- ea4yIK0Vhp152fBMJHDof8bBobyEcw64hwnpfuZHwXDn1nO/eo0BtfTwzV4ldC4XI1/U0BmRq3G
- dt6x8G0qzmiu5eA2rKfQXWaqEqFJ79W1GuUo15LXA2lFebqvCthrBcIdU7YX73BY+k7cjHOjJWY
- tzUtDbygd67hQBbATIYGPNiq3kiMZ3fqi5ignlqozAro9nvwyS4YK0LxAYxCKqt0QWckc2JkN2q
- dSoFvgVKRqwlyo5wF0Nw5eT+BExlXw==
-X-Authority-Analysis: v=2.4 cv=SPkblOvH c=1 sm=1 tr=0 ts=68a8003e cx=c_pps
+X-Authority-Analysis: v=2.4 cv=LexlKjfi c=1 sm=1 tr=0 ts=68a805e7 cx=c_pps
  a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=KKAkSRfTAAAA:8
- a=COk6AnOGAAAA:8 a=Azs14qeiMlSh3algld4A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22 a=cPQSjfK2_nFv0Q5t_7PE:22
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=KKAkSRfTAAAA:8 a=4jNVkGc5x75itkM4wVYA:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22 a=cvBusfyB2V15izCimMoJ:22 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-GUID: 8UHiWJ3dz68tugddcvyEwb1NrBD461nX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDEzNSBTYWx0ZWRfX810tJ06RMFAi
+ PkPeJRuiFImF/BxUP8FMyoAvRZJogN2CgKEwhNSfMu0hmClwI7IPAn/1JdGs/vmAfbimSY16fMW
+ XQWpobyWgYdBMGOIzQi5uR78leIkVSr5Hp+LKpCicQY8xw1DOJY0mUpmpVGTIi/KBUm8XZ11GrC
+ Fc+roLqOQyZHgMiT3FgvqApcPb6OwNwtoSkG2RZolIeGGQGcl8Xp9Lrsf491BI8N9/vTtJ+yxBR
+ 8pyxpVUcarZR6IXvVN+NjaO9jaokrsBuY/SSX5TdU7UH2KSjzxYmArFCrkHZi81wTh8HksBbmuh
+ NP+bzxp3e0Z38ZznIq82Y4x+cr4cECnYaV16xGtVzy/Tk0srkP2pS6XRi1cpp1QvakEhLW6zc1v
+ Lu/9X2+oSOtZ9mqt/2X0LP29UuYSVA==
+X-Proofpoint-ORIG-GUID: 8UHiWJ3dz68tugddcvyEwb1NrBD461nX
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-08-22_01,2025-08-20_03,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 priorityscore=1501 bulkscore=0 spamscore=0 phishscore=0
- impostorscore=0 adultscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0 malwarescore=0
+ spamscore=0 priorityscore=1501 suspectscore=0 clxscore=1015 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200013
+ reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200135
 
+Add the missing write to AON_WRAPPER_MVP_NOC_LPI_CONTROL before
+reading the LPI status register. Introduce a handshake loop to ensure
+MNoC enters low power mode reliably during VPU3 hardware power-off with
+timeout handling.
 
+Fixes: 02083a1e00ae ("media: platform: qcom/iris: add support for vpu33")
+Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-QRD
+Tested-by: Neil Armstrong <neil.armstrong@linaro.org> # on SM8650-HDK
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+---
+Changes in v4:
+- Added fixes tag (Bryan)
+- Link to v3: https://lore.kernel.org/r/20250821-sm8650-power-sequence-fix-v3-1-645816ba3826@quicinc.com
 
-On 8/21/2025 5:57 PM, Neil Armstrong wrote:
-> On 21/08/2025 11:42, Dikshita Agarwal wrote:
->>
->>
->> On 8/20/2025 10:36 PM, Neil Armstrong wrote:
->>> Fix remove if firmware failed to load:
->>> qcom-iris aa00000.video-codec: Direct firmware load for
->>> qcom/vpu/vpu33_p4.mbn failed with error -2
->>> qcom-iris aa00000.video-codec: firmware download failed
->>> qcom-iris aa00000.video-codec: core init failed
->>>
->>> then:
->>> $ echo aa00000.video-codec > /sys/bus/platform/drivers/qcom-iris/unbind
->>>
->>> Triggers:
->>> genpd genpd:1:aa00000.video-codec: Runtime PM usage count underflow!
->>> ------------[ cut here ]------------
->>> video_cc_mvs0_clk already disabled
->>> WARNING: drivers/clk/clk.c:1206 at clk_core_disable+0xa4/0xac, CPU#1:
->>> sh/542
->>> <snip>
->>> pc : clk_core_disable+0xa4/0xac
->>> lr : clk_core_disable+0xa4/0xac
->>> <snip>
->>> Call trace:
->>>   clk_core_disable+0xa4/0xac (P)
->>>   clk_disable+0x30/0x4c
->>>   iris_disable_unprepare_clock+0x20/0x48 [qcom_iris]
->>>   iris_vpu_power_off_hw+0x48/0x58 [qcom_iris]
->>>   iris_vpu33_power_off_hardware+0x44/0x230 [qcom_iris]
->>>   iris_vpu_power_off+0x34/0x84 [qcom_iris]
->>>   iris_core_deinit+0x44/0xc8 [qcom_iris]
->>>   iris_remove+0x20/0x48 [qcom_iris]
->>>   platform_remove+0x20/0x30
->>>   device_remove+0x4c/0x80
->>> <snip>
->>> ---[ end trace 0000000000000000 ]---
->>> ------------[ cut here ]------------
->>> video_cc_mvs0_clk already unprepared
->>> WARNING: drivers/clk/clk.c:1065 at clk_core_unprepare+0xf0/0x110, CPU#2:
->>> sh/542
->>> <snip>
->>> pc : clk_core_unprepare+0xf0/0x110
->>> lr : clk_core_unprepare+0xf0/0x110
->>> <snip>
->>> Call trace:
->>>   clk_core_unprepare+0xf0/0x110 (P)
->>>   clk_unprepare+0x2c/0x44
->>>   iris_disable_unprepare_clock+0x28/0x48 [qcom_iris]
->>>   iris_vpu_power_off_hw+0x48/0x58 [qcom_iris]
->>>   iris_vpu33_power_off_hardware+0x44/0x230 [qcom_iris]
->>>   iris_vpu_power_off+0x34/0x84 [qcom_iris]
->>>   iris_core_deinit+0x44/0xc8 [qcom_iris]
->>>   iris_remove+0x20/0x48 [qcom_iris]
->>>   platform_remove+0x20/0x30
->>>   device_remove+0x4c/0x80
->>> <snip>
->>> ---[ end trace 0000000000000000 ]---
->>> genpd genpd:0:aa00000.video-codec: Runtime PM usage count underflow!
->>> ------------[ cut here ]------------
->>> gcc_video_axi0_clk already disabled
->>> WARNING: drivers/clk/clk.c:1206 at clk_core_disable+0xa4/0xac, CPU#4:
->>> sh/542
->>> <snip>
->>> pc : clk_core_disable+0xa4/0xac
->>> lr : clk_core_disable+0xa4/0xac
->>> <snip>
->>> Call trace:
->>>   clk_core_disable+0xa4/0xac (P)
->>>   clk_disable+0x30/0x4c
->>>   iris_disable_unprepare_clock+0x20/0x48 [qcom_iris]
->>>   iris_vpu33_power_off_controller+0x17c/0x428 [qcom_iris]
->>>   iris_vpu_power_off+0x48/0x84 [qcom_iris]
->>>   iris_core_deinit+0x44/0xc8 [qcom_iris]
->>>   iris_remove+0x20/0x48 [qcom_iris]
->>>   platform_remove+0x20/0x30
->>>   device_remove+0x4c/0x80
->>> <snip>
->>> ------------[ cut here ]------------
->>> gcc_video_axi0_clk already unprepared
->>> WARNING: drivers/clk/clk.c:1065 at clk_core_unprepare+0xf0/0x110, CPU#4:
->>> sh/542
->>> <snip>
->>> pc : clk_core_unprepare+0xf0/0x110
->>> lr : clk_core_unprepare+0xf0/0x110
->>> <snip>
->>> Call trace:
->>>   clk_core_unprepare+0xf0/0x110 (P)
->>>   clk_unprepare+0x2c/0x44
->>>   iris_disable_unprepare_clock+0x28/0x48 [qcom_iris]
->>>   iris_vpu33_power_off_controller+0x17c/0x428 [qcom_iris]
->>>   iris_vpu_power_off+0x48/0x84 [qcom_iris]
->>>   iris_core_deinit+0x44/0xc8 [qcom_iris]
->>>   iris_remove+0x20/0x48 [qcom_iris]
->>>   platform_remove+0x20/0x30
->>>   device_remove+0x4c/0x80
->>> <snip>
->>> ---[ end trace 0000000000000000 ]---
->>>
->>> Skip deinit if initialization never succeeded.
->>>
->>> Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
->>> ---
->>>   drivers/media/platform/qcom/iris/iris_core.c | 10 ++++++----
->>>   1 file changed, 6 insertions(+), 4 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/qcom/iris/iris_core.c
->>> b/drivers/media/platform/qcom/iris/iris_core.c
->>> index
->>> 0fa0a3b549a23877af57c9950a5892e821b9473a..8406c48d635b6eba0879396ce9f9ae2292743f09 100644
->>> --- a/drivers/media/platform/qcom/iris/iris_core.c
->>> +++ b/drivers/media/platform/qcom/iris/iris_core.c
->>> @@ -15,10 +15,12 @@ void iris_core_deinit(struct iris_core *core)
->>>       pm_runtime_resume_and_get(core->dev);
->>>         mutex_lock(&core->lock);
->>> -    iris_fw_unload(core);
->>> -    iris_vpu_power_off(core);
->>> -    iris_hfi_queues_deinit(core);
->>> -    core->state = IRIS_CORE_DEINIT;
->>> +    if (core->state != IRIS_CORE_DEINIT) {
->>> +        iris_fw_unload(core);
->>> +        iris_vpu_power_off(core);
->>> +        iris_hfi_queues_deinit(core);
->>> +        core->state = IRIS_CORE_DEINIT;
->>> +    }
->>>       mutex_unlock(&core->lock);
->>>         pm_runtime_put_sync(core->dev);
->>>
->>
->> The iris_core_deinit() API should ideally not be called when core->state is
->> in IRIS_CORE_DEINIT. Better to handle this check in the caller itself.
-> 
-> Checking core->state in iris_remove() won't be protected by the core->lock,
-> so the check and call to iris_core_deinit() should be done _after_
-> unregistering
-> the v4l2 devices to make sure there's no more users of core.
-> 
-> As you want, I think my approach is simpler and don't change the state if
-> already in deinit state.
+Changes in v3:
+- Fixed the loop to capture the  success of the last power-on command (Bryan)
+- Link to v2: https://lore.kernel.org/r/20250813-sm8650-power-sequence-fix-v2-1-9ed0fc2c45cb@quicinc.com
 
-Agree.
+Changes in v2:
+- Restructured loop for readability (Jorge)
+- Used defines for bits (Konrad, Jorge)
+- Used udelay for short waits (Konrad)
+- Link to v1: https://lore.kernel.org/r/20250812-sm8650-power-sequence-fix-v1-1-a51e7f99c56c@quicinc.com
+---
+ drivers/media/platform/qcom/iris/iris_vpu3x.c | 32 +++++++++++++++++++++++++--
+ 1 file changed, 30 insertions(+), 2 deletions(-)
 
-Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu3x.c b/drivers/media/platform/qcom/iris/iris_vpu3x.c
+index 9b7c9a1495ee2f51c60b1142b2ed4680ff798f0a..bfc52eb04ed0e1c88efe74a8d27bb95e8a0ca331 100644
+--- a/drivers/media/platform/qcom/iris/iris_vpu3x.c
++++ b/drivers/media/platform/qcom/iris/iris_vpu3x.c
+@@ -19,6 +19,9 @@
+ #define WRAPPER_IRIS_CPU_NOC_LPI_CONTROL	(WRAPPER_BASE_OFFS + 0x5C)
+ #define REQ_POWER_DOWN_PREP			BIT(0)
+ #define WRAPPER_IRIS_CPU_NOC_LPI_STATUS		(WRAPPER_BASE_OFFS + 0x60)
++#define NOC_LPI_STATUS_DONE			BIT(0) /* Indicates the NOC handshake is complete */
++#define NOC_LPI_STATUS_DENY			BIT(1) /* Indicates the NOC handshake is denied */
++#define NOC_LPI_STATUS_ACTIVE		BIT(2) /* Indicates the NOC is active */
+ #define WRAPPER_CORE_CLOCK_CONFIG		(WRAPPER_BASE_OFFS + 0x88)
+ #define CORE_CLK_RUN				0x0
+ 
+@@ -109,7 +112,9 @@ static void iris_vpu3_power_off_hardware(struct iris_core *core)
+ 
+ static void iris_vpu33_power_off_hardware(struct iris_core *core)
+ {
++	bool handshake_done = false, handshake_busy = false;
+ 	u32 reg_val = 0, value, i;
++	u32 count = 0;
+ 	int ret;
+ 
+ 	if (iris_vpu3x_hw_power_collapsed(core))
+@@ -128,13 +133,36 @@ static void iris_vpu33_power_off_hardware(struct iris_core *core)
+ 			goto disable_power;
+ 	}
+ 
++	/* Retry up to 1000 times as recommended by hardware documentation */
++	do {
++		/* set MNoC to low power */
++		writel(REQ_POWER_DOWN_PREP, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
++
++		udelay(15);
++
++		value = readl(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS);
++
++		handshake_done = value & NOC_LPI_STATUS_DONE;
++		handshake_busy = value & (NOC_LPI_STATUS_DENY | NOC_LPI_STATUS_ACTIVE);
++
++		if (handshake_done || !handshake_busy)
++			break;
++
++		writel(0, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
++
++		udelay(15);
++
++	} while (++count < 1000);
++
++	if (!handshake_done && handshake_busy)
++		dev_err(core->dev, "LPI handshake timeout\n");
++
+ 	ret = readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_LPI_STATUS,
+ 				 reg_val, reg_val & BIT(0), 200, 2000);
+ 	if (ret)
+ 		goto disable_power;
+ 
+-	/* set MNoC to low power, set PD_NOC_QREQ (bit 0) */
+-	writel(BIT(0), core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
++	writel(0, core->reg_base + AON_WRAPPER_MVP_NOC_LPI_CONTROL);
+ 
+ 	writel(CORE_BRIDGE_SW_RESET | CORE_BRIDGE_HW_RESET_DISABLE,
+ 	       core->reg_base + CPU_CS_AHB_BRIDGE_SYNC_RESET);
 
-> 
-> Neil
-> 
->>
->>> ---
->>> base-commit: 5303936d609e09665deda94eaedf26a0e5c3a087
->>> change-id: 20250820-topic-sm8x50-iris-remove-fix-76f86621d6ac
->>>
->>> Best regards,
-> 
+---
+base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
+change-id: 20250812-sm8650-power-sequence-fix-ba9a92098233
+
+Best regards,
+-- 
+Dikshita Agarwal <quic_dikshita@quicinc.com>
+
 
