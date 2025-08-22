@@ -1,177 +1,137 @@
-Return-Path: <linux-media+bounces-40787-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40788-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A88BCB31E69
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 17:26:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A3DEB31F65
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 17:49:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4C0271898DD0
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 15:20:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7267BB47E0C
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 15:42:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4310523D7D4;
-	Fri, 22 Aug 2025 15:20:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0FE833CE8A;
+	Fri, 22 Aug 2025 15:35:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YW/2WUY4"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Zh5dA6AW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 974E020B7EC;
-	Fri, 22 Aug 2025 15:20:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD63F27F170;
+	Fri, 22 Aug 2025 15:35:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755876005; cv=none; b=CpteShWfDGg87DmcXzalq3AOaixNI4kByeTidg0yhm8WQOeAXa4o7F+I2Lsa2pkRW4JMyTbYdA5hTk+mirJ1owBjTM5s8+pJYBAjn6fs7m6Cjbw1AySc++H8V/8FLa87yqKMw6EXhx7nsygiRpHHAcqAhHPCXjzeLwdJi8mWqA0=
+	t=1755876934; cv=none; b=F+bfRWg8qU7j1BqccT6WRCnr9oVaOPOo3ZhZo1YOCoZT37VkeRgkNudVPwPYkMMj6pG9iNB2c8r4sVN92+HBWZ1boo6cIngWbMl1XobutJnrDk5z7ylkl8ySSMOxWFPSEsDCVEsYlEjpiRxRsx7DBlIKk0HEGFwH2yc+47Sv4t4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755876005; c=relaxed/simple;
-	bh=JOL3FpNcW7XVkfaKqRUbAJhlY/J+/ntD61UHF/LtcUY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PqBKLLoa+qITtpvtlMhGqh9RnRUJyjE48Vvmho4xciMlAA/TBopF44MEhRwETHOKzufJp7yn2mEzHPgwHYsVZXIUEojtmkZ504cWzPxJ1IC4ZXOxskiV4NIAYA9wCCXzR1pZxTZdvJWu98PA2vT06YhmDnc61knQ3JvoXVh5d1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YW/2WUY4; arc=none smtp.client-ip=209.85.219.51
+	s=arc-20240116; t=1755876934; c=relaxed/simple;
+	bh=7HIBoM6YPKh/LTGarj653O1hKfmtF9V78V7iZvI1uqo=;
+	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
+	 Message-Id:References:To; b=BilbVy1khhjNcV1uLsD5y9kbg94ncEaLiHUCnsCM4S5r6BtLipScPIGDwjWxIBgkA6fxQIp1odZJ3krp/vve8cDA3+bJi/jRo0aU2Lt6KTfUO+dbNvehH8WAAMw7EdeUd9HPb+bpYw0rRsqx5XLXgqXrEd1pmYccQAzuJci1yCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Zh5dA6AW; arc=none smtp.client-ip=209.85.216.48
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-70ba7aa131fso26711866d6.2;
-        Fri, 22 Aug 2025 08:20:03 -0700 (PDT)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-32326e5f0bfso1854756a91.3;
+        Fri, 22 Aug 2025 08:35:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755876002; x=1756480802; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1755876932; x=1756481732; darn=vger.kernel.org;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=eg4VQPMYGnpIz2eC4DVED3WvrWoEWvClGsj9KQ0QyuQ=;
-        b=YW/2WUY4ye1VO706src3Asnl8xBCOA8uZRY3355fDU4xo6Q261uVBwj5G+ObUDeS2G
-         di+7wbFXp4REH31MwblD7rebxcLaA/uty6X7EKKejpSaaoRVSO5Y2SEwjufLAy3eihB3
-         xsvGaV47IB7yz1hsCciLvUiRfgSw2bf7Wt4gP87HjeliUxUBY35OqWonkzhy60lNhcEu
-         R+DvdtW/XHBzaEIF96SzLTR/P1jLBLSPm/VG6wZHj4Z1Bw9sEj3Cpb1lyrt18wuqCej4
-         Vm2BpkJhz6tEqy4aGjtQqwLeV02osHuyR/JIyTjQoa4ALoglGOgXDnZmez2dLmcczlkx
-         CGEg==
+        bh=7HIBoM6YPKh/LTGarj653O1hKfmtF9V78V7iZvI1uqo=;
+        b=Zh5dA6AWvN39QdTl8fQsvFHBnMxuCNa1C84BKlcnh06LY7uWCQoHghXcMJBOfA3r20
+         HRFdPuEPqPqzXd0j98LfWz7IqyKFA0ClZ1feGN90KT1DP1fiOLU+nzA2Fd5Jr1l6b1Bf
+         x52NGn9Jj+TNJ99ipMhJMP0/2BKyVFjspSV4xi0dfoJz7w/x3wGP0j8L3XAhFf8qDtIC
+         fhZAwX80NGDYIqY7KxL27USOYU0htb5uuZIKpjz/BJcsh8tXr4S4LLN5iDWfTd4/aL3Q
+         x1cz4RiIe0z2eJUHY4wgf2L862xqM9vRC/30QnGVhhBXcfn123XYj48mzmvq/W8JH1Il
+         fk4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755876002; x=1756480802;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1755876932; x=1756481732;
+        h=to:references:message-id:content-transfer-encoding:cc:date
+         :in-reply-to:from:subject:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=eg4VQPMYGnpIz2eC4DVED3WvrWoEWvClGsj9KQ0QyuQ=;
-        b=vK9xDnSwQ9iMfmLJ7+zFDi7XN6hszajseI2qIK7T3NwlmNUqPFWfwDpZerz7UuaxXt
-         MuP1Zl/U14/nH8LiJzGCxQ5AZUnTVzw64DbkVfNilmPCaDl3hWPAAoqZuhg/5fUZ1jWN
-         N+n1GeZgrdf5RYnyHphXbhDmGBCbSZPkusTCVMs6+9uodgn3YTeavgZXX6Ru778IcarV
-         Pkj8+L//22w3xZo+Hf0RYaJ3Sr7CdeqPIid3os2ZhOmj19izwF1xmf1MgYgJ7JiWW+LH
-         6sdsbz49bZ+FGKsbtps/gHz2xETYP+on1KNvEGyXAOa6nKKKcQdkrYWvG0fAQTqXrvVs
-         5V3w==
-X-Forwarded-Encrypted: i=1; AJvYcCWiMa857Xk+1qJRlB37HbVkb5JcaEPOq6A3GlOV38UoCOxRQhtEoCft6W0f3eY6usgRELwKEUbmYfynsvA=@vger.kernel.org, AJvYcCXg0F+mH4pECnHkJFbIZPAwdfqZNrgHFNA5/IpmLEnj1Kvalxw25fCJSB8p4Wg9yo04+nIgd/DRiHGKAAk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzw+im9ynlkSkLAllvlg4RmwUlxIq/H9C+peHQBnHV04tToeOJ4
-	7ognRoesR8u6F84HRLUdofVGQX7HhDjrcmtwKJNiHqrdZPH4FE0yUSZHVnVhxoca9qR4+HVW4ZA
-	Z4pFB5Il45apPWI2YiOymvnU9QDUzYeU=
-X-Gm-Gg: ASbGnctiVHGMemeLxq/wfYHdmLQGnnY1LkwRG775pAh9ChiufbZkpgMm4RGGTQPyVNQ
-	MKBPaYCyaKVCZkNXOTvA5of/K/mBaAM8S8Xvk+ROoy1YxRt+Vitm314Db1SQQI8A0Zk/tHl1ub8
-	JOx5oA5Id80xviRrch6vgc7TE+PA1rK/1CGBgVd+F32R6uvtOT46yCX+gKAZmbsK4hl+3L0kI4a
-	sMvFU6ClA==
-X-Google-Smtp-Source: AGHT+IGBu+vkrLjqW0pAir920usKcMTOQd8uGzahofHowT4Tnjo3YnmqhFKwCUt3kfJ7vGhFgxgmK/+hkj0IrYp8YpA=
-X-Received: by 2002:a05:6214:2466:b0:70d:924c:324e with SMTP id
- 6a1803df08f44-70d970b28b8mr39600846d6.14.1755876002073; Fri, 22 Aug 2025
- 08:20:02 -0700 (PDT)
+        bh=7HIBoM6YPKh/LTGarj653O1hKfmtF9V78V7iZvI1uqo=;
+        b=KaFec29iGiBN2SThEnw3O5MMhX2v3+aFxNaTzQY96saJBYQb1zhbNPbymdV+wGH8Wh
+         2Fczdx4xlOLtjRcxiF/3Q1lUI3149ZvLdGg+DsqZC1hb47/FaPORC2mlm80mGZni4/nX
+         L705NsJCDK99p0obDkFw6Xf0rIXTpY7jNmpPcM/JlQPww7sLi04HxEM+X/uqe4gMgPUh
+         Odj1vbA1alfvrYH2iwzvo+7vlw7NgxmiMm4ys9niWeuZ21UtAR617h1tqTfyGYyACZXT
+         A+B+liFfIVFyywrSuVJV4tQe3WcUaDMxFgqU5qLhyjb4myLvMe5mT1NPjhK9pZIpAsD1
+         MiWA==
+X-Forwarded-Encrypted: i=1; AJvYcCV81JkKugHaBFwg3gPEt79uipXXd7wSNEnPMIQsM4tVLffLB/zMnyhaZb33RQaFO9mYlWpi+eps/iMSRDE=@vger.kernel.org, AJvYcCWIzDeWq6SH1sSFB3yoAlO+YeUyo8MRaAx2uBpxmSwaTTmWYKzO+tsZVbqrMmybd7HEd8Xgtpm+tuEaxgY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMTAwtXqJ6Ev4Q2Jibuft2btDR2wTzPM3CPT0rMp05joI8ommh
+	P4HM77V2hTV/WgyHpi8Hs9R2r67tsHXuZSp2CdPBJSGhUf0YW0Yk8H7RQbp+xQ==
+X-Gm-Gg: ASbGncs8TKalCVaNB6mKQXt/dVidg8ALsSfBqcOP3pRJvbqYjzf9h+XQgmi2nZRC4PT
+	4KNvYKpQzn7vP2yrwucu9BKGTvqihCe9RFVkAyxHAYurZNX3xn4p9sC5xZEbTvlpw9d3wPJUiI9
+	82ySSSLy7Qgoco35Gaja/D/drp1fYP+TbbyBvMwr0WY/PTzCla3RwFeUqW27BrMd3V6GdLt71Qq
+	b6Mn8k+x6TLR4fY80OwJaI/EweKsu0aXOOLQPBs3mRFLCU1h/JByoKD/pbu/82xUznVXyKTiP1H
+	dwj/2LbsXiM7JSFZF2dxhSBQG+n+Q2KfYKEsSvH6GmbqKsnDGL4jkQ/NybtvI0qKNPv7uLC+1PL
+	Jy+qUrhhc51AzFkPOLIkM4A8VWtxki/WoBRQir+Qeota0Ls6mBVw=
+X-Google-Smtp-Source: AGHT+IGhRlCu4au45nKNxRrdnkIkZJOf54sg/xTNdaAquWR0Lsp29n+ssVOdGi5ldxjhXFuAdv8PzA==
+X-Received: by 2002:a17:90b:2b4c:b0:323:7e7f:b8f3 with SMTP id 98e67ed59e1d1-32518b80c13mr4814351a91.36.1755876931976;
+        Fri, 22 Aug 2025 08:35:31 -0700 (PDT)
+Received: from smtpclient.apple ([2804:7f1:c242:a307:7992:d717:bc22:e8df])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3254aa6478esm213274a91.21.2025.08.22.08.35.29
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 22 Aug 2025 08:35:31 -0700 (PDT)
+Content-Type: text/plain;
+	charset=utf-8
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250822065849.1145572-1-aha310510@gmail.com> <7FD2157E-6F0B-40E0-9984-7485845DAC51@gmail.com>
-In-Reply-To: <7FD2157E-6F0B-40E0-9984-7485845DAC51@gmail.com>
-From: Jeongjun Park <aha310510@gmail.com>
-Date: Sat, 23 Aug 2025 00:19:57 +0900
-X-Gm-Features: Ac12FXzJddLAYvULbOo4Rc_RE78LsHEgNPs4nfYYPQavtL_lbzpS-9tkQMZhpbM
-Message-ID: <CAO9qdTH=7qdR2KGQiAeKu11g8T9pPjYN0zjarLGGW_EPQ_nZ3w@mail.gmail.com>
+Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
 Subject: Re: [PATCH] media: vidtv: fix to initialize local pointers upon
  transfer of memory ownership
-To: Daniel Almeida <dwlsalmeida@gmail.com>
-Cc: mchehab@kernel.org, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, 
-	syzbot+1d9c0edea5907af239e0@syzkaller.appspotmail.com
-Content-Type: text/plain; charset="UTF-8"
+From: Daniel Almeida <dwlsalmeida@gmail.com>
+In-Reply-To: <CAO9qdTH=7qdR2KGQiAeKu11g8T9pPjYN0zjarLGGW_EPQ_nZ3w@mail.gmail.com>
+Date: Fri, 22 Aug 2025 12:35:18 -0300
+Cc: mchehab@kernel.org,
+ linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ syzbot+1d9c0edea5907af239e0@syzkaller.appspotmail.com
 Content-Transfer-Encoding: quoted-printable
+Message-Id: <31DCB1A0-22E8-4CBB-99B3-9392EB10CE13@gmail.com>
+References: <20250822065849.1145572-1-aha310510@gmail.com>
+ <7FD2157E-6F0B-40E0-9984-7485845DAC51@gmail.com>
+ <CAO9qdTH=7qdR2KGQiAeKu11g8T9pPjYN0zjarLGGW_EPQ_nZ3w@mail.gmail.com>
+To: Jeongjun Park <aha310510@gmail.com>
+X-Mailer: Apple Mail (2.3826.700.81)
 
-Hello Daniel,
+[=E2=80=A6]
+
+>>> --
+>>=20
+>> The patch itself is ok, thanks a lot, however:
+>>=20
+>>> media: vidtv: fix to initialize local pointers upon transfer of =
+memory ownership
+>>=20
+>> Can you please use imperative voice here? i.e.:
+>>=20
+>> "media: vidtv: initialize local pointers upon transfer of memory =
+ownership=E2=80=9D
+>=20
+> If I do that, the patch subject will change. Should I just change the
+> subject and send it to you, or should I also send it with the v2 tag
+> included?
+
+Just change the subject and send it to the list with the v2 tag.
+
+Also, I just realize that you should rewrite this further: =E2=80=9CSet =
+local
+pointers to NULL upon transfer of memory ownership=E2=80=9D or something =
+around
+these lines.
+
+=E2=80=94 Daniel
+
+>=20
+>>=20
+>> =E2=80=94 Daniel
+>=20
+> Regards,
+> Jeongjun Park
 
 
-Daniel Almeida <dwlsalmeida@gmail.com> wrote:
->
-> Hi Jeongjun,
->
-> > On 22 Aug 2025, at 03:58, Jeongjun Park <aha310510@gmail.com> wrote:
-> >
-> > vidtv_channel_si_init() transfers ownership of each object to the corre=
-ct
-> > table through functions such as vidtv_psi_*_assign().
-> >
-> > However, since it does not set the local pointer to NULL afterwards, if=
- it
-> > fails for various reasons and jumps to a place such as free_*it, memory
-> > that was freed in vidtv_psi_*_table_destroy() will be accessed and free=
-d
-> > again, resulting in use-after-free and double-free vuln.
->
-> I get what you=E2=80=99re trying to say, but what you actually wrote is h=
-ard to
-> parse, can you improve the wording here?
-
-Oops, I think I made the explanation difficult to understand and confusing.
-I'll try to rewrite it so it's as easy to understand as possible.
-
->
-> >
-> > Therefore, local pointers that have completed ownership transfer must b=
-e
-> > initialized to NULL to prevent re-access to already freed memory.
-> >
-> > Reported-by: syzbot+1d9c0edea5907af239e0@syzkaller.appspotmail.com
-> > Closes: https://syzkaller.appspot.com/bug?extid=3D1d9c0edea5907af239e0
-> > Fixes: 3be8037960bc ("media: vidtv: add error checks")
-> > Signed-off-by: Jeongjun Park <aha310510@gmail.com>
-> > ---
-> > drivers/media/test-drivers/vidtv/vidtv_channel.c | 3 +++
-> > 1 file changed, 3 insertions(+)
-> >
-> > diff --git a/drivers/media/test-drivers/vidtv/vidtv_channel.c b/drivers=
-/media/test-drivers/vidtv/vidtv_channel.c
-> > index f3023e91b3eb..3541155c6fc6 100644
-> > --- a/drivers/media/test-drivers/vidtv/vidtv_channel.c
-> > +++ b/drivers/media/test-drivers/vidtv/vidtv_channel.c
-> > @@ -461,12 +461,15 @@ int vidtv_channel_si_init(struct vidtv_mux *m)
-> >
-> > /* assemble all programs and assign to PAT */
-> > vidtv_psi_pat_program_assign(m->si.pat, programs);
-> > + programs =3D NULL;
-> >
-> > /* assemble all services and assign to SDT */
-> > vidtv_psi_sdt_service_assign(m->si.sdt, services);
-> > + services =3D NULL;
-> >
-> > /* assemble all events and assign to EIT */
-> > vidtv_psi_eit_event_assign(m->si.eit, events);
-> > + events =3D NULL;
-> >
-> > m->si.pmt_secs =3D vidtv_psi_pmt_create_sec_for_each_pat_entry(m->si.pa=
-t,
-> >     m->pcr_pid);
-> > --
->
-> The patch itself is ok, thanks a lot, however:
->
-> > media: vidtv: fix to initialize local pointers upon transfer of memory =
-ownership
->
-> Can you please use imperative voice here? i.e.:
->
-> "media: vidtv: initialize local pointers upon transfer of memory ownershi=
-p=E2=80=9D
-
-If I do that, the patch subject will change. Should I just change the
-subject and send it to you, or should I also send it with the v2 tag
-included?
-
->
-> =E2=80=94 Daniel
-
-Regards,
-Jeongjun Park
 
