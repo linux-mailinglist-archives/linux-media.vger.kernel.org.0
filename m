@@ -1,187 +1,290 @@
-Return-Path: <linux-media+bounces-40744-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40745-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74CC8B314CC
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 12:10:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D5A3B314D6
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 12:11:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 46AB5BA015F
-	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 10:08:14 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 67880BA10E2
+	for <lists+linux-media@lfdr.de>; Fri, 22 Aug 2025 10:09:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0F8C2D6E74;
-	Fri, 22 Aug 2025 10:09:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DFCA2D7DC5;
+	Fri, 22 Aug 2025 10:09:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="FsOgEckN"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="ofC3MbHg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8373427EFF1;
-	Fri, 22 Aug 2025 10:09:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755857368; cv=none; b=gA7vbq8UBPkTY2zpSSN4Rxf7aKa9Por80aOVQlgxNlylUl7C4HOR4I6HxTC/QG4gfWbqkcCoGuaJxtMMenNkmqhsy+WaGJYldViFK/LhsBe510hy5rspbrEwjfu5zdCWA+udCkFQzrNqtH73z1U+QZmwTP9mPdCFpaHxwazVOaI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755857368; c=relaxed/simple;
-	bh=ApnKisNGNebujsH4TjOoku6Y51lSPQIOUWqjLdXMDt8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=VnZcGR7LKSIpqKZSxLwYtR1Bv4ndEtthABfV5RC5j2UdcR+TbgkZDzHwLzIfsTs7B2dABp19EodY95jMGgS5Z3ks/eZr7weY4YoeWF7O2evAr1GQYuB6gF15HeaOCGbePwHOXpf7dRPI/Xn6lspVaxGkRCKZ5IQXOVs0o61j40A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=FsOgEckN; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57M8UP8L030542;
-	Fri, 22 Aug 2025 10:09:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	ZfYfBtQBgqusu7oF8QBoD7wvmI/2NLCPiV9zw/hh/F8=; b=FsOgEckNhLtEwpGM
-	OH+9BHg4fb4MnXWrP90X/By24fYgtLdjcA70pO69pQp1D8O3Qx0ysZmQifXDVkpX
-	3Kk9gzKEI8No0AFhYhr6uJYaTw7OIiNhKAdNzGqzH+IvwHzLBbxRUtE401JcDpdw
-	S9NSe/jjkuYbd/4Z2wRYR5+9QEjYKCvLTnbPzzwKnVET40t5ibN6/wChZ63EtVNS
-	5+ZDqXm7F9xL3HVzQJvJmsPDUj53X7aQA6dMk29VT+Kg5eqW2OZGklpwt67gN4Y8
-	KNyghd3Z/0pThIoV8EFVqwhYkZfT1ZKlajtUlSDBv1pVgAuavevbx2pMmsUC9Q1C
-	tx9/Dw==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ngtdpp4m-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 22 Aug 2025 10:09:21 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57MA9KEV025091
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 22 Aug 2025 10:09:20 GMT
-Received: from [10.204.101.215] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Fri, 22 Aug
- 2025 03:09:16 -0700
-Message-ID: <25d44811-953c-1145-73b9-967909fc3983@quicinc.com>
-Date: Fri, 22 Aug 2025 15:39:13 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B69242C029C;
+	Fri, 22 Aug 2025 10:09:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1755857393; cv=pass; b=hefzGCLyhQB9oAP90eoi9gskKae9/joobSIfO0NDL6FhF/5oqd9Yb4l3pUL0YoaarCln9XpHZHj4v3Uqt4zpEHDC5FWUdKb3XIEZM90Jci9tOpxgwu+lPI0D8GldXVfgoOytwo+JJi1ku9q3NvUHqQNn97sP+JaOVLTAChHkxxc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1755857393; c=relaxed/simple;
+	bh=T8ROrNDIfDuYoTbq8PfIQiVDeBf323W6pfygO8iSHAg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=AM25jgXiXoJTn+AHz+TeO70qSwpYuVr+GQgAJZYpgUabaVvpxbbKBOQKKToSeSOXOy3N8FkHZDZV4IK6aRSQUBIXveXDmvIuZwD/iNik/8GckbFcSCKggq01hYgZMCjYnfc2dH4xadfqAKI3GN7Z9JxdT0rZ4H9MlI4yTXv9aE4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=ofC3MbHg; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4c7bXC6pn8zyT0;
+	Fri, 22 Aug 2025 13:09:47 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1755857388;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Edx5eFoI2kFWMn+C2kKn3uVggSyrKKBix583FrwpuJw=;
+	b=ofC3MbHgs0pTJQUjGMOWaW3psKoScTP49kmMWNgrvjpW8YSoinaCe+J9ivejcJtMJHdCvE
+	cSSBtz/RFAHVszPDbzW9TN26qdjVvCwGfalqwmbkanvtCs5W0sZpbuaWXt1RGodrUKUU/U
+	rG35EZ+fEEI3UVbtIaKntYxfJXDBqNk=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1755857388; a=rsa-sha256; cv=none;
+	b=yjRvcgXivtm9H6dYImPIlkLwv2NE6TU7i9Q/WLQE/kvOWeadfcMJdgvWKt52h4QWTCUYe2
+	sq3/evz5M+Cahvm0/SryvR9d0jJ0WZPoGbfwBhKjY3kD9Qo8FX36FCc1WIKnkDuMdQwwrg
+	t4SkdR9ejMRXattlTjFKfB8KHxZe/Dc=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1755857388;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Edx5eFoI2kFWMn+C2kKn3uVggSyrKKBix583FrwpuJw=;
+	b=tB/YWjQJvdg0ZoWCtD50wbcEgVfZF6J7Sp9VV5KOXp1Za+TYCR7MWsyyGGTCIrcDCPNpd6
+	fdQKx6WM3PsAZqqocOXRT7WEZoTCaGvpPOQ41y93HQ7KdZmzNQftl9Mf0sND9PM2R5yuBO
+	czxXnDs4C6KssHuIHNpoWsLRdVWi+4A=
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 6F62F634C98;
+	Fri, 22 Aug 2025 13:09:47 +0300 (EEST)
+Date: Fri, 22 Aug 2025 10:09:47 +0000
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCH v4 3/5] docs: media: update maintainer-entry-profile for
+ multi-committers
+Message-ID: <aKhB6zrtRKwbAZ-s@valkosipuli.retiisi.eu>
+References: <cover.1733218348.git.mchehab+huawei@kernel.org>
+ <5eed1e4a37d087f401b7bd54b793ea301e511d7e.1733218348.git.mchehab+huawei@kernel.org>
+ <aKcQak8k2MiCriZt@valkosipuli.retiisi.eu>
+ <20250822102346.30347275@foz.lan>
+ <aKgxcWYq-WZAFwsx@valkosipuli.retiisi.eu>
+ <20250822113159.70b0339d@foz.lan>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v3 00/26] Enable H.264/H.265 encoder support and fixes in
- iris driver common code
-Content-Language: en-US
-To: Neil Armstrong <neil.armstrong@linaro.org>,
-        Dikshita Agarwal
-	<quic_dikshita@quicinc.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        "Bryan
- O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Mauro Carvalho Chehab
-	<mchehab@kernel.org>,
-        Stefan Schmidt <stefan.schmidt@linaro.org>,
-        "Vedang
- Nagar" <quic_vnagar@quicinc.com>,
-        Hans Verkuil <hverkuil@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>,
-        Renjiang Han <quic_renjiang@quicinc.com>,
-        Wangao Wang <quic_wangaow@quicinc.com>
-References: <20250820-iris-video-encoder-v3-0-80ab0ba58b3d@quicinc.com>
- <9584a286-7d8a-48b0-a65c-7a37ced78ac6@linaro.org>
- <38d56655-cfea-ef3d-46ff-a77d81e35297@quicinc.com>
- <19f844ee-da08-4497-a4f7-c90d45554534@linaro.org>
- <cdce193e-c055-6599-16e5-83e33123099e@quicinc.com>
- <92f50738-571c-479c-9be8-b72c32fd8b70@linaro.org>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <92f50738-571c-479c-9be8-b72c32fd8b70@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=LexlKjfi c=1 sm=1 tr=0 ts=68a841d1 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10
- a=zkU3BWHLZV3aoYOEUWcA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: Ys5cYODcaaAkvHWVWxh614y5_You4gJX
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIwMDEzNSBTYWx0ZWRfXzNjmxdxBIoMs
- UhL+MkkI4K7bQO3M1PnsrbOUwYQZuuRrDDZZksAJA8ckHLOqLK62T29JJdWJIa/TQrsd/PSRB7M
- oxO412ezRUfqUuN61REJDbFvJnQp9zFE4UqH4PYZzpkgZjGkpre8KZNSO89Q+IP0C1+e+gAXCxY
- 8aBLLyxONqPuyg1sqb7LJ0wJQmHdu09w3GpJ2bJVLKlR6SE4Phc3c/PqKnAL3kGPEhNZCmBMZzb
- 9j7H7vpx9we5WwWJ4UwDrF014nBiFPVOaukiBKoSVS+wfp7m70KNTLSD9lRnuJj7q732jwK6Hu+
- N3CRmvhqGOXXQ3P+tS5oKC7Nb/fxtMEqGE98XjBg/Maf2p2C3rgg3FGRMdRqzxlHSc2qCHZFnTu
- cbtCNvZ/pS6G93vBD3GU1tpOrcysdg==
-X-Proofpoint-ORIG-GUID: Ys5cYODcaaAkvHWVWxh614y5_You4gJX
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-08-22_03,2025-08-20_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0 malwarescore=0
- spamscore=0 priorityscore=1501 suspectscore=0 clxscore=1015 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2508110000 definitions=main-2508200135
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250822113159.70b0339d@foz.lan>
 
+Hi Mauro,
 
-On 8/22/2025 1:47 PM, Neil Armstrong wrote:
-> [  157.299604] qcom-iris aa00000.video-codec: <VFW_H:CmdDec:265e:a723e008:00>
-> SetProperty(HFI_PROP_MAX_GOP_FRAMES) --> 0x0000003b
-> [  157.311341] qcom-iris aa00000.video-codec: <VFW_H:CmdDec:265e:a723e008:00>
-> Disabling ONE_SLICE mode, tiling:0 numTile:1 CP:0 SliceDelivery:0 MultiSliceMode:0
-> [  157.325847] qcom-iris aa00000.video-codec: <VFW_H:CmdDec:265e:a723e008:00>
-> HFI_BUFFER_COMMON_INTERNAL_SCRATCH, Driver macro size = 9563648 vs FW HFI macro
-> size = 7953920 vs FW golden buffer size = 5833728
-> [  157.344542] qcom-iris aa00000.video-codec: <VFW_H:CmdDec:265e:a723e008:00>
-> HFI_BUFFER_COMMON_INTERNAL_SCRATCH_1_NON_COMV, Driver macro size = 299008 vs FW
-> HFI macro size = 299264 vs FW golden buffer size = 299264
-> [  157.363944] qcom-iris aa00000.video-codec: <VFW_E:CmdDec:265e:a723e008:00>
-> venc_c2Start(3860): Send HFI_CMD_START error response for port 1
-> [  157.376855] qcom-iris aa00000.video-codec: <VFW_E:CmdDec:265e:a723e008:00>
-> VenusVencCodecEmptyThisBuffer(6732): ETB received in wrong state!
-> [  157.389836] qcom-iris aa00000.video-codec: <VFW_E:CmdDec:265e:a723e008:00>
-> VenusVencCodecEmptyThisBuffer(6732): ETB received in wrong state!
-> [  157.402827] qcom-iris aa00000.video-codec: <VFW_E:CmdDec:265e:a723e008:00>
-> VenusVencCodecEmptyThisBuffer(6732): ETB received in wrong state!
-> [  157.415816] qcom-iris aa00000.video-codec: <VFW_E:CmdDec:265e:a723e008:00>
-> VenusVencCodecEmptyThisBuffer(6732): ETB received in wrong state!
-> [  157.428832] qcom-iris aa00000.video-codec: session error received 0x1000005:
-> unknown
-> [  157.436848] qcom-iris aa00000.video-codec: session error received 0x1000005:
-> unknown
+On Fri, Aug 22, 2025 at 11:31:59AM +0200, Mauro Carvalho Chehab wrote:
+> Em Fri, 22 Aug 2025 08:59:29 +0000
+> Sakari Ailus <sakari.ailus@iki.fi> escreveu:
+> 
+> > Hi Mauro,
+> > 
+> > On Fri, Aug 22, 2025 at 10:23:46AM +0200, Mauro Carvalho Chehab wrote:
+> > > Em Thu, 21 Aug 2025 12:26:18 +0000
+> > > Sakari Ailus <sakari.ailus@iki.fi> escreveu:
 
-Thank you for the logs, the issue is due to driver non_comv macro size (299008)
-is less than firmware requirement (299264). Please try below fix, if that works
-for SM8650
+...
 
-diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-index 558dba37dbfbc..3247ad736a17c 100644
---- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-+++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-@@ -967,7 +967,8 @@ static u32 iris_vpu_enc_non_comv_size(struct iris_inst *inst)
-        if (inst->codec == V4L2_PIX_FMT_HEVC) {
-                lcu_size = 32;
-                return hfi_buffer_non_comv_enc(width, height, num_vpp_pipes,
--                                              lcu_size, HFI_CODEC_ENCODE_HEVC);
-+                                              lcu_size, HFI_CODEC_ENCODE_HEVC) +
-+                                              SIZE_ONE_SLICE_BUF;
-        }
+> > > What about this:
+> > > 
+> > > <text>
+> > > The Linux Media Community (aka: the LinuxTV Community) consist of developers 
+> > > who work with the Linux Kernel media subsystem, together with users who
+> > > benefit from such develoment and help testing the developed code.  
+> > 
+> > How about, with slight modifications:
+> > 
+> > The Linux Media Community (aka: the LinuxTV Community) is formed of
+> > developers working on Linux Kernel Media Subsystem, together with users.
+> 
+> Works for me, although I prefer keep mentioning about the important
+> role that users play on help testing drivers.
 
-        return hfi_buffer_non_comv_enc(width, height, num_vpp_pipes,
-diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
-b/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
-index 1ff1b07ecbaa8..94668c5b3d15f 100644
---- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
-+++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
-@@ -41,6 +41,7 @@ struct iris_inst;
-#define SIZE_SLIST_BUF_H265 (BIT(10))
-#define H265_DISPLAY_BUF_SIZE (3072)
-#define H265_NUM_FRM_INFO (48)
-+#define SIZE_ONE_SLICE_BUF 256
+How about then:
 
-#define VP9_NUM_FRAME_INFO_BUF 32
-#define VP9_NUM_PROBABILITY_TABLE_BUF (VP9_NUM_FRAME_INFO_BUF + 4)
+The Linux Media Community (aka: the LinuxTV Community) is formed of
+developers working on Linux Kernel Media Subsystem, together with users who
+also play an important role in testing the code.
 
-Regards,
-Vikash
+> 
+> > 
+> > > 
+> > > They work on the top of the Media tree, which has code to support a    
+> > > variety of devices: stream capture, analog and digital TV streams, cameras,
+> > > remote controllers, HDMI CEC and media pipeline control.
+> > > 
+> > > The Media tree is mainly responsible to be the main source of the
+> > > code under development with the contents of those directories:
+> > > 
+> > >   - drivers/media
+> > >   - drivers/staging/media
+> > >   - Documentation/admin-guide/media
+> > >   - Documentation/driver-api/media
+> > >   - Documentation/userspace-api/media
+> > >   - Documentation/devicetree/bindings/media/\ [1]_
+> > >   - include/media
+> > > </text>
+> > >   
+> > > >   
+> > > > >  
+> > > > >    - drivers/media
+> > > > >    - drivers/staging/media
+> > > > > @@ -27,19 +28,158 @@ It covers, mainly, the contents of those directories:
+> > > > >  Both media userspace and Kernel APIs are documented and the documentation
+> > > > >  must be kept in sync with the API changes. It means that all patches that
+> > > > >  add new features to the subsystem must also bring changes to the
+> > > > > -corresponding API files.
+> > > > > +corresponding API documentation files.    
+> > > > 
+> > > > I'd drop " files" as the documentation is split between C source code files
+> > > > and ReST nowadays.  
+> > > 
+> > > OK.
+> > >   
+> > > > > -Due to the size and wide scope of the media subsystem, media's
+> > > > > -maintainership model is to have sub-maintainers that have a broad
+> > > > > -knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
+> > > > > -task to review the patches, providing feedback to users if the patches are
+> > > > > +Due to the size and wide scope of the media subsystem, the media's
+> > > > > +maintainership model is to have committers that have a broad knowledge of    
+> > > > 
+> > > > Maintainership or maintenance?
+> > > > 
+> > > > s/is to have/recognises/ ?  
+> > > 
+> > > OK.
+> > >    
+> > > > > +a specific aspect of the subsystem. It is the committers' task to
+> > > > > +review the patches, providing feedback to users if the patches are
+> > > > >  following the subsystem rules and are properly using the media kernel and
+> > > > >  userspace APIs.
+> > > > >  
+> > > > > -Patches for the media subsystem must be sent to the media mailing list
+> > > > > -at linux-media@vger.kernel.org as plain text only e-mail. Emails with
+> > > > > -HTML will be automatically rejected by the mail server. It could be wise
+> > > > > -to also copy the sub-maintainer(s).
+> > > > > +Media committers
+> > > > > +----------------
+> > > > > +
+> > > > > +In the media subsystem, there are experienced developers who can push
+> > > > > +patches directly to the development tree. These developers are called
+> > > > > +Media committers and are divided into the following categories:
+> > > > > +
+> > > > > +- Committers:
+> > > > > +    contributors for one or more drivers within the media subsystem.
+> > > > > +    They can push changes to the tree that do not affect the core or ABI.    
+> > > > 
+> > > > Question to Ricardo -- sorry if I already have asked this: can this be
+> > > > enforced?
+> > > >   
+> > > > > +
+> > > > > +- Core committers:
+> > > > > +    responsible for part of the media core. They are typically
+> > > > > +    responsible for one or more drivers within the media subsystem, but, besides
+> > > > > +    that, they can also merge patches that change the code common to multiple
+> > > > > +    drivers, including the kernel internal API.    
+> > > > 
+> > > > This doesn't say clearly whether e.g. the V4L2 or MC frameworks are
+> > > > included or not. I think they should be and this should be mentioned. Same
+> > > > for videobuf2.  
+> > > 
+> > > The problem of specifying what the core via frameworks, vb2, etc is that
+> > > this would require constant maintainance. Core is everything that is not
+> > > inside a driver for an specific driver.
+> > > 
+> > > We called this here as "the code common to multiple drivers". For me it
+> > > is clear, but if you have a better generic term, I'm all ears.  
+> > 
+> > How about:
+> > 
+> > - Core committers:
+> >     responsible for part of the Media Core, including V4L2, Media
+> >     controller, Videobuf2, CEC and DVB frameworks. They are typically
+> >     responsible for one or more drivers within the Media Subsystem, but,
+> >     besides that, they can also merge patches that change the code common
+> >     to multiple drivers, including the kernel internal API.
+> > 
+> > I think we should define Media Subsystem, Media Core and possibly Media
+> > Community in the glossary but I'd do that after merging this set.
+> 
+> You forgot remote controllers there ;-)
+> 
+> Btw, that's exactly my point: when we enumerate things, we tend to forget
+> about something, and, when new stuff gets add, we need to remember to
+> add here.
+
+The text above does not imply something isn't part of Media Core even if
+not listed. But of course Remote Controller should have been in the above
+list. Adding that results in:
+
+- Core committers:
+    responsible for part of the Media Core, including V4L2, Media
+    controller, Videobuf2, Remote Controller, CEC and DVB frameworks. They
+    are typically responsible for one or more drivers within the Media
+    Subsystem, but, besides that, they can also merge patches that change
+    the code common to multiple drivers, including the kernel internal API.
+
+> 
+> > 
+> > >   
+> > > >   
+> > > > > +
+> > > > > +- Subsystem maintainers:
+> > > > > +    responsible for the subsystem as a whole, with access to the
+> > > > > +    entire subsystem.
+> > > > > +
+> > > > > +    API/ABI changes are done via consensus between subsystem maintainers\ [2]_.
+> > > > > +
+> > > > > +    Only subsystem maintainers push changes that affect the userspace
+> > > > > +    API/ABI. Committers may push ABI/API changes on their commits if they
+> > > > > +    have approvals from subsystem maintainers.
+> > > > > +
+> > > > > +All media committers shall explicitly agree with the Kernel development process
+> > > > > +as described at Documentation/process/index.rst and to the Kernel
+> > > > > +development rules inside the Kernel documentation, including its code of
+> > > > > +conduct.    
+> > > > 
+> > > > Is there a need to mention this? Aren't people generally expected to
+> > > > follow the process anyway?  
+> > > 
+> > > There's a big difference between "generally expected" and "have to agree".
+> > > The goal here is really to prevent having bad committers as we had in the
+> > > past on our previous multicommiters model before we moved to git. If this
+> > > ever have again, by having an explicit agreement, one cannot deny he/she
+> > > didn't know the rules.  
+> > 
+> > Fair enough. Either way, enforment is discretionary so I think this is
+> > fine -- mistakes tend to happen, to everybody, at least in some extent.
+> 
+> Yeah, mistakes can happen. What we want to cover is intentional misbehavior.
+
+I agree. I hope this will remain a theoretical possibility though.
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
