@@ -1,183 +1,257 @@
-Return-Path: <linux-media+bounces-40831-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40832-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20C90B329E7
-	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 17:54:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE44B32C04
+	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 22:44:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 70F2A7BB1A6
-	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 15:52:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D79BD9E2A95
+	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 20:44:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88C9C20FAB2;
-	Sat, 23 Aug 2025 15:54:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B467E2EB854;
+	Sat, 23 Aug 2025 20:44:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ME5bT/ld"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="owJUtLPj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BF222222CA
-	for <linux-media@vger.kernel.org>; Sat, 23 Aug 2025 15:53:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FF7E2248BE
+	for <linux-media@vger.kernel.org>; Sat, 23 Aug 2025 20:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755964441; cv=none; b=eNM8/FYDhzLo8SEKlYJSPk0NTmFbuAP7uIHkFXq3dDiVLrjr6Q9rPCzDlVuL7IIfR7lueq1umzmiyV5RyBzqgXZg2QexnEMf1XsGd+krzLPXfwX1bYmhwsy2u6zYILOunp0EcWhUiqzV48/9MpuKgbs+3TnWEAduEt5jeTg7PFs=
+	t=1755981840; cv=none; b=bNENxg0bshmQAWQxhH9x3rkaXQ0C/toog91oKKnZDq/SMgppvKxzAkOcituAUJyudbhhAivCN8I3rfXfRMPVvB61h6uVU9vnRyeav63udhWc5Uj0t1y1AEZ38/hiXg5gvy0UDU5istmTw4Tom8YxsF46xIoZQVmV7G9YaqcLMGA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755964441; c=relaxed/simple;
-	bh=BEBwXHerw3ntKO8As508E0PNezsgrG0rfZYdMmUmjv8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=vEsi6hnh9h2pHRTB3KJGr3lXkCszta/Wud0GB7vDA8HDXWNg84FBbd0YeeKF2nElxjhNxzaPPE4aC40SwNLJw1l+yj+Xu9VGqrWt0YXcRYzqceuz70RLfbWxivrP54sa4KAdOGjP3Ty6fFBvxcNkdg2Ibos9Hrns0EPuqX0nnnA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ME5bT/ld; arc=none smtp.client-ip=209.85.218.52
+	s=arc-20240116; t=1755981840; c=relaxed/simple;
+	bh=0Dda5qm2OHi63pkDwgChgj6GsL0RlbZr+Dk8jL/as2k=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iOSvUJqhSgjypYGtXG9grCsaxh6Yqd/1LZkH7L9DlpObsM5CkfXOFdobdceaby5kgPCYzKoKm2kQJAEDB9gUhoIA/54AMPGMpzEK303aUshGQXOGkBfiUN5mP9KJfDYmY5N76+d9a3LxqYmxNnhWEqidBB1KCnZ1VfiO84INVpU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=owJUtLPj; arc=none smtp.client-ip=209.85.221.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-afcb7ab87ffso42584666b.3
-        for <linux-media@vger.kernel.org>; Sat, 23 Aug 2025 08:53:58 -0700 (PDT)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3c79f0a5b8bso560835f8f.1
+        for <linux-media@vger.kernel.org>; Sat, 23 Aug 2025 13:43:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1755964437; x=1756569237; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zt9xEnK/GMUK8D+qIpymS0lulZPj2RfyNpNrWhUY2cw=;
-        b=ME5bT/ldwKFVylukKYI1Mfwv5ms3nQgJoVpPdNmHrduHmfZXcwbqnmEdvi+/gLFYSP
-         bs5aQrhMuc3DIT0BCw5K1zWfY/T9EnV/R7CRFJaNBaKR8wPTtKpkm4e3LG5mDnrRyvMH
-         6XxIl/tEkYeHxiZQVWK0yWM1D6PYJydGp59arPEVlXIgQEYUp73EHMZSd96tGCcUqBY0
-         ZRdRblfGk5XGZZ3rmBWStx6b9UJtOIfR5woMlRQk2NOXlwwr7PoGyor8FZC0IHtSHKdq
-         B6FA76tknJcu3JZ2vL66BDO4F7G9Dz4MIDiAgrJHIWnH6zt/lonpPmsawCghjjKEr9pA
-         z0Sw==
+        d=linaro.org; s=google; t=1755981837; x=1756586637; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=ncOl5iwhH0rvJNuoHUdRLF2/Z5/Gu+uKD3hX+7/KMaw=;
+        b=owJUtLPjT+iy46ZcmwQBLigZcBX1+DMpNeqRqCcXMGhKbCeG3Bu6Z7XVTYglvPl1ev
+         D/SpA0gXBk1MWzCJyq6SrrFTKNs8Uqu931SJmeWRrZtLrqZ8o3EJWyCTZzyGC1fyqKng
+         1FpMqxp916FixxFPfdBDlnbtMD9+t2+zMf+aU5smXUepvBBO5jzbaSfCbaQIj89YVRrp
+         aS/J0fMeLFHuY4cDgbfQIhjS51ZnKsxfqAbxKLRb2BEj4GKubpIKTtcI5eAtlKRcnuWl
+         6QGqQ2oarvI/gH1esa8e8M8phO/26YUBe8qhLpu22rIHgKdhXMnyzq7crmbFO9vvh8OV
+         nyag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755964437; x=1756569237;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zt9xEnK/GMUK8D+qIpymS0lulZPj2RfyNpNrWhUY2cw=;
-        b=WAbtrjD0xDWvNWFfrm34f+i6pIMHiia3T3k3+en8yic4TMGtT9YfRrBtSmzGDCHTjs
-         PAzZb1FpNMI8ATfYxGupqLrDO2dVIT6m/Z9mUpKaD2OXyF4CZT5H1X7nBsW6dpnmxnl9
-         AN+9hcL+PKNgyq6LI6huxByd3m9G41PG0K6GL+hV+gnm9PJmfl/igItunxxNTelTXf8k
-         rNfqMjJ+2o7BD7E9gxrUSGv6YhDLd4fsGJtGUgWqUsHm2oEsZKn4saidVYfC9rTpnrfl
-         Tiz+/Php5IAuTI/NGWsg1q50f7GvK16tkzeL68QC+NSej/lWcFBGh0hI17bJsIlD5rYC
-         gdtA==
-X-Forwarded-Encrypted: i=1; AJvYcCWmNupKCTWbl1+tTuddEFpG2v1/UPdB+YUjVG7fOpJ6ZdF5cNv365aKjMKo11ePQZHTDzNRGPGpdISILQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwtjeVv3LgN4FXcriy5ExDl7MJPuYPhEZh9WyTsQRfZwQSwjQOa
-	5jhj6TDU/2ftSRBOUy8g9AOMqS5GaH4SK6cYx2mmSDYGD2beuOyCK8jpeA2vymZXwj+KOMu5vT5
-	L7Zwp
-X-Gm-Gg: ASbGncsD9Tb3TH8nq9p5J1D54iM39TrgxGg30cBKTq6XblKbqs/Lagl6x/OEqcON4Bt
-	W6X0uT22jrypih6MiOQUguKUVrxoFYKfTARHpU4t5dz9NK4oJNvk6CZYrPz41wk4M5GVlinLMsK
-	auxbbr5+Fy/Juh6PDHVaOPu33ZxJVxqFT1aMgkAOmRcwh+RsPcMBgZjnuoO/YmozNhdTK5NpcEY
-	rdFnzOtkXG4LujB6dDzU5Y/0FN/kyuXFJv7yF4hFuSKeSIqfh84H9svqLgsa1Oq0ip+2Zr/Mljz
-	GRvQKvX5bpmvIAz467/9PHHQvdSug4tb/un1rJJ3kBD3ZzJX+DeMNLQUQzIPVVcOxI1cS23mM7X
-	JqzVKPIMJAUDvMYwOaw10XachPi2RF6uPig==
-X-Google-Smtp-Source: AGHT+IFx1wcVLNhS6MBGIutE/EnJRngjDp/qfQ6MpvV6BFouq2K1E1mpaTjSPi2NhS8iAUEG5SPpyg==
-X-Received: by 2002:a17:907:6094:b0:af8:fc60:5008 with SMTP id a640c23a62f3a-afe28f09244mr306080366b.4.1755964437314;
-        Sat, 23 Aug 2025 08:53:57 -0700 (PDT)
-Received: from kuoka.. ([178.197.219.123])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afe4937a15asm189236566b.115.2025.08.23.08.53.55
+        d=1e100.net; s=20230601; t=1755981837; x=1756586637;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ncOl5iwhH0rvJNuoHUdRLF2/Z5/Gu+uKD3hX+7/KMaw=;
+        b=e2LX/BxhC9ihNCvvK82UnXt1mmAUY8oaZH7QQeB9sveuqav24Myvb2xVmpB8Mk36L3
+         eKKg23QG48YFzpGlNcDsbEnD64w105zaaFrCJ3ccjZao4Er5MMpLWWF2wR1ngnpyEMHM
+         aH3y12XUumOKwrIo/BUKW16DF9SBPMX6Rljh0ClDB0WaqfTnQqq/C8wls2AqK90a9KsO
+         4KCBSjsASpkawAs5sA6+Pve4LDGRDlq/zDCY35/MstsOEj94mtfftbPjESjFoZ/872NX
+         DB0Jmat8uDE3gy0q8nJii1GEQ1UtovRLg59q+XEpFx3TbLLVhdt2oOlI9gFP3r2yAM4Y
+         /8yw==
+X-Forwarded-Encrypted: i=1; AJvYcCU0O85D1Zxt06PcSkX5jW0O+ui0Jh1+RR22rIkWYXOsuqz218uJGeZtow6qbREApHEdnoXPd+nhL9Fe5w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOztLEW781SPjpEaaVWgwFznqdBVY91fQrGn7mOYB6m3tBjhUP
+	c+8xqOjXXSnFuuGQohwsIenDc4YiX1RI2GYNxXkXCMfwA9VPu2gvT9qr/reGAiXXs0I=
+X-Gm-Gg: ASbGncv8dUdEqw/TsZ4Qs5Flc2YhE/fnU3vaT1KSTdyp3RCrhY88jH9SqH6BKtIQ75Y
+	B/GqwWdsApWlgLaHjhJ7jhUS9AipI/1tWC64+0WaPfdDyHYfNk/TB5pQ8su8c8N4RzWML6P1jlB
+	XXUrC4+HzN8BjUaPMZ9qXbpzVgJVYoqPu4317d9cQ6dQ4d0UC1yuo+CE2UDyDLaRp0nXiXv4CiY
+	+NtZK27U2J7HS/exbp6upOPbUBdiywPu66Hm3u4wRXi1HDa6gjTSpC+Pz8eDoUDbpmQSIQEbBBD
+	0jFILDuT/HtWXlbDttXO+ZBUDpRaFAlC7z31B8nol4EwAEYm38oZPFydUT+5DrjFI2Sqm6+MgHB
+	qreCyrmp+xOKwXwo20g0Bwi5pChao1kGa/Vo=
+X-Google-Smtp-Source: AGHT+IGs4eKFbPlrT8Yv6hTCIpTHOphruT6aa4eb9E8LlM4kYYOYgvkuN1xHLJp/ymLK+6lCX00Jaw==
+X-Received: by 2002:a05:6000:22c4:b0:3b8:d2d1:5bfc with SMTP id ffacd0b85a97d-3c5dcdfed86mr4339314f8f.37.1755981836506;
+        Sat, 23 Aug 2025 13:43:56 -0700 (PDT)
+Received: from linaro.org ([2a02:2454:ff21:ef30:514d:30f3:c6be:a5b9])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3c711211b0esm5171237f8f.42.2025.08.23.13.43.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Aug 2025 08:53:56 -0700 (PDT)
-From: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Sat, 23 Aug 2025 13:43:55 -0700 (PDT)
+Date: Sat, 23 Aug 2025 22:43:52 +0200
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
 	Dikshita Agarwal <quic_dikshita@quicinc.com>,
-	Abhinav Kumar <abhinav.kumar@linux.dev>,
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-arm-msm@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Subject: [PATCH] media: dt-bindings: qcom,sm8550-iris: Do not reference legacy venus properties
-Date: Sat, 23 Aug 2025 17:53:50 +0200
-Message-ID: <20250823155349.22344-2-krzysztof.kozlowski@linaro.org>
-X-Mailer: git-send-email 2.48.1
+	Mathieu Poirier <mathieu.poirier@linaro.org>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-remoteproc@vger.kernel.org
+Subject: Re: [PATCH v2 11/11] media: iris: Enable Secure PAS support with
+ IOMMU managed by Linux
+Message-ID: <aKooCFoV3ZYwOMRx@linaro.org>
+References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
+ <20250819165447.4149674-12-mukesh.ojha@oss.qualcomm.com>
+ <aKWLZwYVPJBABhRI@linaro.org>
+ <20250820115659.kkngraove46wemxv@hu-mojha-hyd.qualcomm.com>
+ <aKXQAoXZyR6SRPAA@linaro.org>
+ <f25b6cb4-666d-e3e1-0540-b2d7fad86407@quicinc.com>
+ <aKguXNGneBWqSMUe@linaro.org>
+ <20250822150611.ryixx2qeuhyk72u3@hu-mojha-hyd.qualcomm.com>
+ <aKiaKwkpdKHSH9YS@linaro.org>
+ <20250822164030.6gubbs24raeg6kbx@hu-mojha-hyd.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1917; i=krzysztof.kozlowski@linaro.org;
- h=from:subject; bh=BEBwXHerw3ntKO8As508E0PNezsgrG0rfZYdMmUmjv8=;
- b=owEBbQKS/ZANAwAKAcE3ZuaGi4PXAcsmYgBoqeQNhzvYWTV96Z2wePTHgAsg+wDg0fw28p+mM
- oqvJpaQEHaJAjMEAAEKAB0WIQTd0mIoPREbIztuuKjBN2bmhouD1wUCaKnkDQAKCRDBN2bmhouD
- 14K6D/0XM7xhbbPWhNOrngsV02OIU+OD4BrFRZoMj9RvaiNDicnJQ3tq4bUf7TNBkhIdbVjQ339
- KLDDxSYa/Kbg4IPo8CNYpzNFBcgMmR0seGyjS4CPMMimCl3P73+PV2vsGdCJMSKTisPwrT/P6yh
- 6mNE295Z7uDPPKaethoNziW5KtvB0PwSWsSDPjCejD6+nfmtuYM0Iyys16+zPZmCl9MSTWUPYt8
- K+E3Z7T430XoCYi19JbevyJn+Udv0Cb8wQFLfq/eYUGF4Bt2MrEruLacnIvNBKow1hkdJ7ZJqTi
- 6U564isiBJts6WDHoSMYGubL+ha4zjbUIChF2xAYEOWxv+V681pMmO/96x7ONB6ukGICM2P3qqn
- tnwLaEfV0dXJhAarm7KQZf3t6NmB5krs2mylYyrifcfabmK0r+fN8dyLoWvoOTSRTkeVpgEtmPS
- qrvP+fdsCWW1T1a7zG0PgQNAS4S5DO1VKsSzUQ4hYjE1qDzTOgJmI1I44EabQLzLQ6TkTuGbrHr
- p2SD31IDxdh6Vjc2OKiLleXSkw0zLBJR2afj5VsDP99tq7Yk4zkAhaL+mxfTIxTbBZk/XZSdFMv
- LuuMzx+2fbZEBPHaNHSt7A9+4D2bTByfNcvl90uaic4gxWUZA7uCniWIRGfWc3jShsvo60NQase rcweX2hLXnAxytw==
-X-Developer-Key: i=krzysztof.kozlowski@linaro.org; a=openpgp; fpr=9BD07E0E0C51F8D59677B7541B93437D3B41629B
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250822164030.6gubbs24raeg6kbx@hu-mojha-hyd.qualcomm.com>
 
-The Qualcomm SoC Iris video codec is an evolution of previous Venus and
-it comes with its own Iris Linux drivers.  These new drivers were
-accepted under condition they actually improve state of afairs, instead
-of duplicating old, legacy solutions.
+On Fri, Aug 22, 2025 at 10:10:30PM +0530, Mukesh Ojha wrote:
+> On Fri, Aug 22, 2025 at 06:26:19PM +0200, Stephan Gerhold wrote:
+> > On Fri, Aug 22, 2025 at 08:36:11PM +0530, Mukesh Ojha wrote:
+> > > On Fri, Aug 22, 2025 at 10:46:20AM +0200, Stephan Gerhold wrote:
+> > > > On Fri, Aug 22, 2025 at 09:56:49AM +0530, Vikash Garodia wrote:
+> > > > > On 8/20/2025 7:09 PM, Stephan Gerhold wrote:
+> > > > > >>>> +int iris_fw_init(struct iris_core *core)
+> > > > > >>>> +{
+> > > > > >>>> +	struct platform_device_info info;
+> > > > > >>>> +	struct iommu_domain *iommu_dom;
+> > > > > >>>> +	struct platform_device *pdev;
+> > > > > >>>> +	struct device_node *np;
+> > > > > >>>> +	int ret;
+> > > > > >>>> +
+> > > > > >>>> +	np = of_get_child_by_name(core->dev->of_node, "video-firmware");
+> > > > > >>>> +	if (!np)
+> > > > > >>>> +		return 0;
+> > > > > >>> You need a dt-bindings change for this as well. This is documented only
+> > > > > >>> for Venus.
+> > > > > >> You are right, wanted to send device tree and binding support separately.
+> > > > > >> But if required, will add with the series in the next version.
+> > > > > >>
+> > > > > > You can send device tree changes separately, but dt-binding changes
+> > > > > > always need to come before the driver changes.
+> > > > > 
+> > > > > Do you mean to update the examples section[1] with the firmware subnode,
+> > > > > something similar to venus schema[2] ?
+> > > > > 
+> > > > 
+> > > > Sorry, I missed the fact that the "video-firmware" subnode is already
+> > > > documented for iris as well through qcom,venus-common.yaml (which is
+> > > > included for qcom,sm8550-iris). I don't think it's strictly required to
+> > > > add every possibility to the examples of the schema, since we'll also
+> > > > have the actual DTBs later to test this part of the schema.
+> > > > 
+> > > > I would recommend to extend the description of the "video-firmware" node
+> > > > in qcom,venus-common.yaml a bit. You do use the reset functionality of
+> > > > TrustZone, so the description there doesn't fit for your use case.
+> > > > 
+> > > > I think we will also have to figure out how to handle the old
+> > > > "ChromeOS"/"non_tz" use case (that resets Iris directly with the
+> > > > registers) vs the EL2 PAS use case (that resets Iris in TZ but still
+> > > > handles IOMMU from Linux). Simply checking for the presence of the
+> > > > "video-firmware" node is not enough, because that doesn't tell us if the
+> > > > PAS support is present in TZ.
+> > > > 
+> > > > I have been experimenting with a similar patch that copies the "non_tz"
+> > > > code paths from Venus into Iris. We need this to upstream the Iris DT
+> > > > patch for X1E without regressing the community-contributed x1-el2.dtso,
+> > > > which doesn't have functional PAS when running in EL2.
+> > > > 
+> > > > Perhaps we could check for __qcom_scm_is_call_available() with the new
+> > > > QCOM_SCM_PIL_PAS_GET_RSCTABLE to choose between invoking reset via PAS
+> > > > or directly with the registers. I don't have a device with the new
+> > > > firmware to verify if that works.
+> > > 
+> > > You can check QCOM_SCM_PIL_PAS_GET_RSCTABLE with __qcom_scm_is_call_available() 
+> > > but there is a possibility that QCOM_SCM_PIL_PAS_GET_RSCTABLE SMC call will be
+> > > used even for Gunyah. So, I believe, __qcom_scm_is_call_available() and
+> > > video-firmware's iommu property is also important.
+> > > 
+> > 
+> > Yeah, this sounds good.
+> > 
+> > > > 
+> > > > I'll try to send out my patch soon, so you can better see the context.
+> > > 
+> > > Are you saying that you are going to send patch to support IRIS on
+> > > x1-el2.dtso in non-secure way i.e., non-PAS way.
+> > > 
+> > 
+> > The background is the following: I have a pending patch to add iris to
+> > x1e80100.dtsi, but that currently breaks x1-el2.dtso. My original plan
+> > was to disable &iris in x1-el2.dtso (because the PAS way seems to be
+> > just broken), but then I saw that e.g. sc7180-el2.dtso does have working
+> > Venus with the "video-firmware" node. Copy-pasting the "no_tz"(/non-PAS)
+> > code as-is from venus into iris works just fine for x1-el2.dtso, so
+> > disabling &iris in x1-el2.dtso just because the "no_tz" code is
+> > currently missing in iris doesn't sound right.
+> > 
+> > As far as I understand the approach you use in this series does not work
+> > without the TZ changes for older platforms like X1E(?), so adding that
+> > code in iris seems to be the best way to move forward.
+> 
+> Yes, this series has dependency on firmware and will not work for older
+> platforms.
+> 
+> > 
+> > I started working on a patch for this a while ago, it just needs a bit
+> > more cleanup. I'll try to finish it up and post it so we can discuss it
+> > further. I think the IOMMU management in my patch would even work as-is
+> > for you, you would just need to toggle a boolean to use the PAS instead
+> > of accessing the registers directly.
+> 
+> Sounds like a plan.
+> Thanks, please cc me when you send the patches; So, I could test along
+> with my changes and make dependency on it.
+> 
 
-Unfortunately binding still references common parts of Venus without
-actual need and benefit.  For example Iris does not use fake
-"video-firmware" device node (fake because there is no actual device
-underlying it and it was added only to work around some Linux issues
-with IOMMU mappings).
+Krzysztof raised the concern that we shouldn't model the IOMMU specifier
+for the firmware using a "video-firmware" subnode [1], similar to the
+discussion for the "non-pixel" subnode recently [2].
 
-Stop referencing venus-common schema in the new Qualcomm Iris bindings
-and move all necessary properties, except unused "video-firmware" (no
-driver usage, no DTS).
+I mostly finished up the cleanup of my patch, but I don't see any point
+in posting it without an alternative proposal for the dt-bindings. For
+this case, I think a simple property like
 
-Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
----
- .../devicetree/bindings/media/qcom,sm8550-iris.yaml | 13 ++++++++++++-
- 1 file changed, 12 insertions(+), 1 deletion(-)
+	firmware-iommus = <&apps_smmu ...>;
 
-diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-index c79bf2101812..320227f437a1 100644
---- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-+++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-@@ -26,6 +26,9 @@ properties:
-           - qcom,sm8550-iris
-           - qcom,sm8650-iris
- 
-+  reg:
-+    maxItems: 1
-+
-   power-domains:
-     maxItems: 4
- 
-@@ -45,6 +48,12 @@ properties:
-       - const: core
-       - const: vcodec0_core
- 
-+  firmware-name:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-   interconnects:
-     maxItems: 2
- 
-@@ -69,6 +78,9 @@ properties:
- 
-   dma-coherent: true
- 
-+  memory-region:
-+    maxItems: 1
-+
-   operating-points-v2: true
- 
-   opp-table:
-@@ -85,7 +97,6 @@ required:
-   - dma-coherent
- 
- allOf:
--  - $ref: qcom,venus-common.yaml#
-   - if:
-       properties:
-         compatible:
--- 
-2.48.1
+instead of
 
+	video-firmware {
+		iommus = <&apps_smmu ...>;
+	};
+
+could perhaps work. (XYZ-iommus isn't standardized at the moment, but I
+think something like XYZ-gpios would make sense in this case. There are
+many other possible approaches as well though.)
+
+Unfortunately, I won't have enough time in the next weeks to fully
+implement and propose an alternative. I'm assuming you still have
+ongoing work for supporting the "non-pixel" IOMMU, perhaps your new
+approach can be adapted for video-firmware as well?
+
+I've pushed my current patch to a branch in case it helps. It's similar
+to yours, but it has no external dependencies except for a fix in iris
+I sent recently ("media: iris: Fix firmware reference leak and unmap
+memory after load" [3]). You could use the non-PAS use case as a basis
+to add the initial implementation in iris independent of this larger
+patch series.
+
+https://git.codelinaro.org/stephan.gerhold/linux/-/commit/1e068f5864d958ab9e807e6e3772b778cd0edea8.patch
+
+For the PAS+IOMMU use case, it should be enough to set core->use_tz to
+true, plus any changes needed for the SHM bridge (and maybe resource
+table). The IOMMU management is independent from core->use_tz.
+
+I'm also happy to add the non-PAS approach later on top of your changes,
+whatever works best for you. :)
+
+Thanks,
+Stephan
+
+[1]: https://lore.kernel.org/r/20250823155349.22344-2-krzysztof.kozlowski@linaro.org/
+[2]: https://lore.kernel.org/r/20250627-video_cb-v3-0-51e18c0ffbce@quicinc.com/T/
+[3]: https://lore.kernel.org/r/20250818-iris-firmware-leak-v1-1-1e3f9b8d31ce@linaro.org/
 
