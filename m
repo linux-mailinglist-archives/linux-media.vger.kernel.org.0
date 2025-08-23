@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-40817-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40818-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D1428B328B7
-	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 15:11:48 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 22BE8B328BB
+	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 15:15:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 936B29E0FD2
-	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 13:11:46 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CF7577A8282
+	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 13:13:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89A4D25D20D;
-	Sat, 23 Aug 2025 13:11:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74E2725F98A;
+	Sat, 23 Aug 2025 13:15:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ZiMqRRr9"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="L+z4tQyo"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE50E23D7EE
-	for <linux-media@vger.kernel.org>; Sat, 23 Aug 2025 13:11:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34DED78F58
+	for <linux-media@vger.kernel.org>; Sat, 23 Aug 2025 13:15:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755954696; cv=none; b=IV8UazEYG/gTLKyZMBe38MzDNUckfqVxkIzXOxroLjz9JOlvnAF5vx9RjFPI9S+ngT9bVSeiTK32wWd+c/r7371ztJSxcIGFY2RMllw8cyjSo7GZgZkQARQNTIofTSCmPvx5YdyCNY/tEzL1ZtwXyIZ1XLZUKXhsJOHiIik3jq0=
+	t=1755954913; cv=none; b=Zx9E4GtDwHFamj5kRNc40nF+yY5rI21ztdqakutzgJw3esVO6N1cxxVhclauweRJRcshx3m5/bNZj21nw097EtpL6q6FM2LON19WsoDSRhwfsjAWlDwfJUAN4gamaz6mpIbpQUBe5RwCzBMR77y32Mop7NSzciK59tgPJDMTLQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755954696; c=relaxed/simple;
-	bh=I8mvS0BbwcPzpAldr30b0h17KTJ3yaJ7PjTV1jAPy9k=;
+	s=arc-20240116; t=1755954913; c=relaxed/simple;
+	bh=bbAJUcd0Lj4kx5MXd/4AdzZ70uX0rPpDgcSWwiHkp7w=;
 	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
-	 Content-Type:References; b=UMyqWUPhNiiUsSXYbIVRQXxTpJ+eZDbt1Uzok/MyXv58YmxuZYB3Gm6z4S8J2ix9YWmtUM56k4Sw5XvyeNPMqEaxDE70g9luGRekc4p6LOVfRenggF+5aVGQGKuLLigZ7bjW+YMtdCOE2PZFucdlm/ZfwXuZv8ONHCVuKgaW0FI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ZiMqRRr9; arc=none smtp.client-ip=203.254.224.34
+	 Content-Type:References; b=RjLbBp56ni6EyCs+7Aek37HDV8wAc3ipD2EvEpDjnocmdt35hzbwFeit+fmd7dyr//9D6pUhAI4TuPuwqSZlRZJASm18MKWTsPt8+6De7S3N47aii4SlXpRQmBHbkBiQJ3/S9XNl6JbbeKpiUIquLXZhPYU1sb4f5MoCT5+M4+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=L+z4tQyo; arc=none smtp.client-ip=203.254.224.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250823131131epoutp0400da799addf3eb4f90e417991dcf3d95~eZ30cnKWE2404824048epoutp045
-	for <linux-media@vger.kernel.org>; Sat, 23 Aug 2025 13:11:31 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250823131131epoutp0400da799addf3eb4f90e417991dcf3d95~eZ30cnKWE2404824048epoutp045
+Received: from epcas5p3.samsung.com (unknown [182.195.41.41])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250823131509epoutp04f2121497a70c893d5e4081833bfb04ec~eZ6-IkaW-2991929919epoutp04D
+	for <linux-media@vger.kernel.org>; Sat, 23 Aug 2025 13:15:09 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250823131509epoutp04f2121497a70c893d5e4081833bfb04ec~eZ6-IkaW-2991929919epoutp04D
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1755954691;
-	bh=WiQTdOzmRl4diLSEyaAVQbrK02Hybw4ffhxcVsTNGiM=;
+	s=mail20170921; t=1755954909;
+	bh=bbAJUcd0Lj4kx5MXd/4AdzZ70uX0rPpDgcSWwiHkp7w=;
 	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=ZiMqRRr9uH/lN4Q0d1TmeATkDKmMvkmfWkes2vqRPPQPWuDbIsAjeH+h2NqYGgfeI
-	 qoLXZBflMVx3FF0jlGENgEUoGMeA3g1JPmIZOnkN4xx+/NQ1UqCfYTAVIm6fbMR99B
-	 dmH6gzHILcfJAwowyIjlUGDKraQBpeKCUmxmrGqY=
-Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
-	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
-	20250823131130epcas5p43f11088842c7f9b7f44340b05f222777~eZ3zBWwHU3181231812epcas5p4i;
-	Sat, 23 Aug 2025 13:11:30 +0000 (GMT)
-Received: from epcas5p1.samsung.com (unknown [182.195.38.94]) by
-	epsnrtp03.localdomain (Postfix) with ESMTP id 4c8HWP28gCz3hhT3; Sat, 23 Aug
-	2025 13:11:29 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
-	20250823131128epcas5p3d9a44a02d9295f8c614cf2e14d7c5e50~eZ3xYVpFR0066200662epcas5p3g;
-	Sat, 23 Aug 2025 13:11:28 +0000 (GMT)
-Received: from FDSFTE196 (unknown [107.116.189.214]) by epsmtip2.samsung.com
+	b=L+z4tQyogOIgpq7CHKr23bqBSKOZ/LhsoKG4HLfKi1UOiEAZ8F6k2bukM06XX46U8
+	 Y7VAxZgSjG+7oErH0sK9PwYvL4K6qApSvt6gY6C8oCQz3f/Gad2BeTQ3NeRKN3rLEx
+	 xrqf79XqscWMqrvuWOY6btZG2TGkr0HSA8zwuD4E=
+Received: from epsnrtp01.localdomain (unknown [182.195.42.153]) by
+	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
+	20250823131508epcas5p2aaf5d4d729045a14d3146dfccb43a917~eZ69_4JnV0380703807epcas5p2G;
+	Sat, 23 Aug 2025 13:15:08 +0000 (GMT)
+Received: from epcas5p3.samsung.com (unknown [182.195.38.89]) by
+	epsnrtp01.localdomain (Postfix) with ESMTP id 4c8Hbb1kFtz6B9m5; Sat, 23 Aug
+	2025 13:15:07 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
+	20250823131505epcas5p1dfafdab973b7e1a7dc609e20b9762f92~eZ67vrRKB1219212192epcas5p1j;
+	Sat, 23 Aug 2025 13:15:05 +0000 (GMT)
+Received: from FDSFTE196 (unknown [107.116.189.214]) by epsmtip1.samsung.com
 	(KnoxPortal) with ESMTPA id
-	20250823131124epsmtip2695fc1d2c6e33945577f3e502b3c925b~eZ3tq6noF1099010990epsmtip2h;
-	Sat, 23 Aug 2025 13:11:24 +0000 (GMT)
+	20250823131501epsmtip19f76be1bbffaa71da10a7c36455d69f8~eZ64BzDho1729417294epsmtip1_;
+	Sat, 23 Aug 2025 13:15:01 +0000 (GMT)
 From: "Inbaraj E" <inbaraj.e@samsung.com>
 To: "'Laurent Pinchart'" <laurent.pinchart@ideasonboard.com>
 Cc: <mturquette@baylibre.com>, <sboyd@kernel.org>, <robh@kernel.org>,
@@ -72,11 +72,11 @@ Cc: <mturquette@baylibre.com>, <sboyd@kernel.org>, <robh@kernel.org>,
 	<kernel@pengutronix.de>, <festevam@gmail.com>,
 	<linux-media@vger.kernel.org>, <imx@lists.linux.dev>,
 	<linux-arm-kernel@lists.infradead.org>
-In-Reply-To: <20250818092133.GA5862@pendragon.ideasonboard.com>
-Subject: RE: [PATCH v2 05/12] media: imx-mipi-csis: Move clk to
- mipi_csis_info structure
-Date: Sat, 23 Aug 2025 18:41:23 +0530
-Message-ID: <00e501dc142f$6fa00a10$4ee01e30$@samsung.com>
+In-Reply-To: <20250818093030.GB5862@pendragon.ideasonboard.com>
+Subject: RE: [PATCH v2 08/12] media: imx-mipi-csis: Add support to dump all
+ vc regs
+Date: Sat, 23 Aug 2025 18:45:00 +0530
+Message-ID: <00e601dc142f$f125d880$d3718980$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,54 +85,40 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQK5oFMD+tt4mLQU5V9KgVyIDaUIUQIYHCmyAlXzoNQBZbmW2rKGel0g
+Thread-Index: AQK5oFMD+tt4mLQU5V9KgVyIDaUIUQE40n8LAcQUHd4CRD4O7rKLFTGw
 Content-Language: en-in
-X-CMS-MailID: 20250823131128epcas5p3d9a44a02d9295f8c614cf2e14d7c5e50
+X-CMS-MailID: 20250823131505epcas5p1dfafdab973b7e1a7dc609e20b9762f92
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-541,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250814141025epcas5p2b226c4eaab5d60d0e95f684e2ef930f2
+X-CMS-RootMailID: 20250814141041epcas5p2b281659391a8e45c95e8db21d9867f98
 References: <20250814140943.22531-1-inbaraj.e@samsung.com>
-	<CGME20250814141025epcas5p2b226c4eaab5d60d0e95f684e2ef930f2@epcas5p2.samsung.com>
-	<20250814140943.22531-6-inbaraj.e@samsung.com>
-	<20250818092133.GA5862@pendragon.ideasonboard.com>
-
+	<CGME20250814141041epcas5p2b281659391a8e45c95e8db21d9867f98@epcas5p2.samsung.com>
+	<20250814140943.22531-9-inbaraj.e@samsung.com>
+	<20250818093030.GB5862@pendragon.ideasonboard.com>
 
 Hi Laurent,
 
 Thanks for the review.
 
 >=20
-> On Thu, Aug 14, 2025 at 07:39:36PM +0530, Inbaraj E wrote:
-> > clock names in NXP SoC's is different from the FSD SoC. Inorder to
->=20
-> s/clock/Clock/
-> s/Inorder/In order/
->=20
-I'll change in next patchset.
+> Please see =5B1=5D and in particular =5B2=5D. I would like to get that se=
+ries merged for
+> v6.18, but it's missing reviews. If you want to speed it up, you can revi=
+ew the
+> patches :-)
 
-> Is the difference really a matter of SoCs, or is it because the FSD SoC u=
-ses a
-> different version of the IP ?
->=20
-
-Yes, it is dependent on the version of the IP.  Thanks for pointing it out.=
- I'll update commit
-description accordingly.
-
-> I also suspect that the =22phy=22 clock was added by mistake, and isn't n=
-eeded in
-> NXP SoCs. Could you please check and confirm if the v3.3 and
-> v3.6.3 versions of the IP have an input PHY clock ?
-
-I don't have manuals for v3.3 and v3.6.3, So I cannot confirm  this.=20
+I'll rebase my patches on top of your changes, test and provide review comm=
+ent.
 
 >=20
-> > extend this driver to use for FSD SoC. Move the clock names to
-> > mipi_csis_info structure.
-> >
+> =5B1=5D https://lore.kernel.org/linux-media/20250608235840.23871-1-
+> laurent.pinchart=40ideasonboard.com
+> =5B2=5D https://lore.kernel.org/linux-media/20250608235840.23871-9-
+> laurent.pinchart=40ideasonboard.com/
+
 
 Regards,
 Inbaraj E
