@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-40823-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40824-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9C2BB32995
-	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 17:32:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDA61B32998
+	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 17:32:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DC2B9E53D8
-	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 15:31:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 946301B66693
+	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 15:33:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A42E1AC43A;
-	Sat, 23 Aug 2025 15:31:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5551E2E7BD8;
+	Sat, 23 Aug 2025 15:32:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H9w6QO35"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Hl2VjHYu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C32F12E8DE0;
-	Sat, 23 Aug 2025 15:31:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC7312B93;
+	Sat, 23 Aug 2025 15:32:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755963081; cv=none; b=ai4nvgFapPlQNX1PXFjLdaLTgefyn3EghF02pEXvpkOCqN++j3UwwZMK6jF/qglWjHz2AAkyONZPvvm8L9ElSkMn9X2kIZL7QM31flTGDLp7wiBb71EYMy3Nn3D93/jWtHjIpUVRgssRPr0cZ+hrLZJvi4WVLCQPX+2dlFXqzCo=
+	t=1755963149; cv=none; b=IV6cuCyXWskzWKo7Em4G7PuLpAWgmGIDH+uz0dMZ8fec6rHpSsoQRVX+1M/6/0ANG1Q8P2H6mUcfJySPCaCwEhOdkkfzxvQn6kQdqpVMyNPywA5ec4kYkTDbMC8zSDmM6ydHFxAma6x+P7m4R2YEZZsLas/WNkjIqXI1n8y8Brk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755963081; c=relaxed/simple;
-	bh=peKJlMIXpNGNRv7+CSi1rJHa22V/cNoeK8bCvQMkNoM=;
+	s=arc-20240116; t=1755963149; c=relaxed/simple;
+	bh=fklM1B52+EL3U69Opm6aUy+Ykrx4p13iOy/zFuHSE+o=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WHpBips8dDbinh5hoPestG/MgQ0/Jor8Z7iHU5oETiRjC9mt3FOarn6v1jkGo0HmmfC/0+qmpniT2l+dvJc9VKIAZHplY8Be7KDt9poWyTLGpr+uMfnOgy2E+IGopk36t1DHw4DwsANUy3KBUez8xmjSh4Z8nc1vEhbocwxCw90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H9w6QO35; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D81F0C4CEE7;
-	Sat, 23 Aug 2025 15:31:14 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=s5f9ADICIFO9lTb+GiHd6RE7nDlvcNqUKrikVMgAmMsseI+m1jKzxmrJ410Vr6no0hvHX0D29Ar6ZPPR1Gh3C/5w2dXoY2ecwPMumJGrAZdMWzN8qqHU013NlyX/rvKQf8zrOSjDARJYdrWtkr7EGYfC4czXJYewmo17oy8gASc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Hl2VjHYu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 261A2C4CEE7;
+	Sat, 23 Aug 2025 15:32:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755963081;
-	bh=peKJlMIXpNGNRv7+CSi1rJHa22V/cNoeK8bCvQMkNoM=;
+	s=k20201202; t=1755963149;
+	bh=fklM1B52+EL3U69Opm6aUy+Ykrx4p13iOy/zFuHSE+o=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=H9w6QO35mWm02RcB2Vh/AE19QzN5WdT8tKG0DRNOO5rMc7R48AdTeuGdH0JhOja27
-	 pzCtHOj75JaKlCQihl4qMtBs5JQjk5KwMK//3fkAmz87nfhRmHkNQVUVkJJ+o8kF4e
-	 0xxVyhLlt5Tb1ShoDNgL7eV7jLiXVvBtaVymIB+6zBcE7PQig+5nAb7Y6zl40HHE6b
-	 5lQaYrfi54lG6IsqEtTN9iTK4zAf7Z5L8a4Fjzz+BLBcKpbPDV6M50xaNEHIFwzS80
-	 vBV2YTcbWM9grmRMD+/6n/ZWOvkwKAfZDlGprwUlTc/4OaqZxq2zZxOOzX6qrlcSX4
-	 QJ837Gt9spZ4Q==
-Message-ID: <322df419-10fb-412c-9c3f-7493d9a58670@kernel.org>
-Date: Sat, 23 Aug 2025 17:31:13 +0200
+	b=Hl2VjHYuK4GYAKM8hy3aYRVZf+r1ekikZyatc8ECBfUaEKIvh7xpYE4vMDIN3n0c6
+	 yeYS4fiC0TR/HRP5IIartE377pbkhNIpl0HpEmrP171FT2cnBkMf54imm2fqceowB/
+	 HlGyy25y6OW4NajBJuXmHw9NFmY2T6fIlJzIpjsH493cIsAzRznEjRcr8zjFoYASVW
+	 U6oCzKFWatpLJXJzbn9m2hV9nv6TRm1neY8OAXLBCsLeDoI16cO8kNW2oyeD2G2UrT
+	 7aGNNMUp2bsH1DPVtlaWgI8BGWbknQ/RYIW7VajnRfvaH4xOmNKfReLJ8oebpEjC++
+	 ONgZo+fJmTS1g==
+Message-ID: <2eaa1303-79e6-431e-9902-356862357c9f@kernel.org>
+Date: Sat, 23 Aug 2025 17:32:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 11/12] arm64: defconfig: Enable FSD CSIS DMA driver
+Subject: Re: [PATCH v2 10/12] dt-bindings: media: fsd: Document CSIS DMA
+ controller
 To: Inbaraj E <inbaraj.e@samsung.com>, mturquette@baylibre.com,
  sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  s.nawrocki@samsung.com, s.hauer@pengutronix.de, shawnguo@kernel.org,
@@ -64,10 +65,10 @@ Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  festevam@gmail.com, linux-media@vger.kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org
 References: <20250814140943.22531-1-inbaraj.e@samsung.com>
- <CGME20250814141057epcas5p21ca33641e42164886dc1bf404237876d@epcas5p2.samsung.com>
- <20250814140943.22531-12-inbaraj.e@samsung.com>
- <1b37bc94-8f2b-4da3-be2e-4d0076672169@kernel.org>
- <00d401dc13d2$65033080$2f099180$@samsung.com>
+ <CGME20250814141051epcas5p14dccee388087372973988aeebcb872cf@epcas5p1.samsung.com>
+ <20250814140943.22531-11-inbaraj.e@samsung.com>
+ <c46c6f66-dee6-4efa-a624-de62aa705206@kernel.org>
+ <00e201dc13d7$17d2a750$4777f5f0$@samsung.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -113,25 +114,35 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <00d401dc13d2$65033080$2f099180$@samsung.com>
+In-Reply-To: <00e201dc13d7$17d2a750$4777f5f0$@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 23/08/2025 04:05, Inbaraj E wrote:
+On 23/08/2025 04:39, Inbaraj E wrote:
 > Hi Krzysztof,
 > 
 > Thanks for the review.
 > 
+>> On 14/08/2025 16:09, Inbaraj E wrote:
+>>> +
+>>> +required:
+>>> +  - compatible
+>>> +  - reg
+>>> +  - interrupts
+>>> +  - clocks
+>>> +  - clock-names
+>>> +  - iommus
+>>> +  - port
 >>
->> Tesla FSD
->>
->> You are changing defconfig for all platforms, it's not your personal or
->> company defconfig.
+>> Also, you miss here supplies (as required).
 > 
-> I noticed that Exynos and NXP driver configs are added in the defconfig.
-> Could you please clarify why I shouldn't add my driver config in defconfig?
+> According to the HW design of FSD SoC, the control to manage CSIS power is given to
+> a separate CPU where custom firmware runs. Therefore. The Linux side does not control
+> the CSIS power supplies directly and are hence not included in the device tree.
 
-No, I gave you rationale why your commit description is poor.
+Usually this still means you vote for enabling these resources, at least
+for other vendors it is like that. Unless you want to say these are
+essentially always on and CANNOT be disabled ever.
 
 Best regards,
 Krzysztof
