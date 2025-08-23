@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-40827-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40828-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C548B329B0
-	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 17:41:58 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4DC77B329AE
+	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 17:41:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4E3861B67E43
-	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 15:40:16 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 863704E2245
+	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 15:41:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B6882E8DE0;
-	Sat, 23 Aug 2025 15:39:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 763DA2E8E0F;
+	Sat, 23 Aug 2025 15:41:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q2lhz6dr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="on+jiIsZ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E19AA12B93;
-	Sat, 23 Aug 2025 15:39:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B0F12B93;
+	Sat, 23 Aug 2025 15:41:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755963585; cv=none; b=glovFChtmT7xmumPwNNkHRjq/2wsM4KSpTgNtjSxeN++Tzt8SPo9//R7w9UPmLGx9BFW/E9KdsIl/TUYW7PHBKfo1JLrM/L0cnz87vglwSQGdt+ORFikFc9ei5JXXj532UoopPkPziBwIYPKB21iITWVHN2vWAdMy64nJzcfGDs=
+	t=1755963686; cv=none; b=lBPV+G6HbbXqhHCpUbOuuZkSsDMRzWE/EyCLheY6LMboLCqhZwP3+6Zy7muPsFzhQS6SDsz2xorvdWDQy0TFoYf9qIWNri3ZZGS0rEqn+kmlPxEWO0fmoBwoCGJktTJgBvquxAOnaZxke6K8+Z5PsmoLohGjJUIOme1B3MYzy+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755963585; c=relaxed/simple;
-	bh=eCWEVQ/IDr6HBl39bDbTJnSVhaF7UusUbAAetwjFyRI=;
+	s=arc-20240116; t=1755963686; c=relaxed/simple;
+	bh=l+oY0LG5o5JPU8CPKPruiyIdSya8OG8OkT4q31h7EVw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Lca9sxHiDIUSKxzS+TidZejPSC0wP2cnRzdovGRJnu1PQry0RomTeBu4fk80N1MN+E/5CwyvFwYcI6QAYUJIiSEqYpQuPR6guqYz+cZyoi9StlDtHpiHzhRwZB8yiKCdj1WnOgJzXF9GEj2nwqDPqvt7wzVQSdQ/4EpYCJxdrq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q2lhz6dr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02549C4CEE7;
-	Sat, 23 Aug 2025 15:39:37 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=piEU8KvhIhCBtiZg55QvfBG0GJhKfiQ3Huk7PfRn4mhvTXk4VdnAIxkz2p3BwP5mDpw8fB0NikUry5EkzPuIxeuqbRrMmKHsIYsKJr/cSMftPPLkB5ZPJPHR8Pl2WYYy18il9x9YhOpHXIVV5UrCztN8AMPlUH4CypuM2p2nlRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=on+jiIsZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 593C4C4CEF4;
+	Sat, 23 Aug 2025 15:41:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755963584;
-	bh=eCWEVQ/IDr6HBl39bDbTJnSVhaF7UusUbAAetwjFyRI=;
+	s=k20201202; t=1755963686;
+	bh=l+oY0LG5o5JPU8CPKPruiyIdSya8OG8OkT4q31h7EVw=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Q2lhz6drHJ+EAZhnkvrZi1FMwLk+q78p3rpldJ6qe0h6jqFMYqCSqrUJkMkCDqwhs
-	 ajHCtO96f77lUToL/LHN71Tnuv3qiGhh+c7qZlN+5tdXqte/C/gi9JmieS/DhbPfBw
-	 YEPI7HAmtbOEoXk3Wrl8cHYdIJl5T5TRghNA36n2fEX8nc47h09JfUrLI2xmYU8EIO
-	 cXs7ky52lZ7k2MrsZMmIa/00pmuAtMKHggo7yeSOvqER/Gd9lOK32YuPUnNnXNy9sx
-	 ohKy5bLrvihQjfnYk4PoIzp+65mVKiArkJdE/XxhRyDnwdaCfUg9mzzODl5cl/1UH7
-	 2h0I6Nv7BFIhQ==
-Message-ID: <41434afa-fecd-4507-bcca-735d358ac925@kernel.org>
-Date: Sat, 23 Aug 2025 17:39:36 +0200
+	b=on+jiIsZwzyNAjUrI94d0Kv96torKKdPlRvxyy+V8SN+fGKKV3sFA33MXmuXypDzQ
+	 hBmWOmADjTS3pwwBJ35zS0K/cKnMtqbpM2VDVV9ZozL8G6/fBZ9TYyV2PmbBUYH6uZ
+	 hN5vFz4DCN553OITIQSJhOxrSz8yC5AZtaf79t3jItq/0wMrY5R9TNS7JMPjrmpYRm
+	 IsxETz79RZPHdOHqRVY9aiciiKGkoXZGnLZW590yU5yKJY4p2RSARuYyh1iCjNykQk
+	 XkdfqzkD6qUuYTdzjQDUwciKK5N6Uooenq17g6Kk3VqiqeNCKF73bRdNuMNBbYziA3
+	 sfXMpbV3eqQxQ==
+Message-ID: <46013223-5463-4164-9f61-87ea5ce2412c@kernel.org>
+Date: Sat, 23 Aug 2025 17:41:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,24 +50,23 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 04/12] arm64: dts: fsd: Add CSI nodes
-To: Inbaraj E <inbaraj.e@samsung.com>, mturquette@baylibre.com,
- sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- s.nawrocki@samsung.com, s.hauer@pengutronix.de, shawnguo@kernel.org,
- cw00.choi@samsung.com, rmfrfs@gmail.com, laurent.pinchart@ideasonboard.com,
- martink@posteo.de, mchehab@kernel.org, linux-fsd@tesla.com, will@kernel.org,
- catalin.marinas@arm.com, pankaj.dubey@samsung.com, shradha.t@samsung.com,
- ravi.patel@samsung.com
-Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, alim.akhtar@samsung.com,
- linux-samsung-soc@vger.kernel.org, kernel@puri.sm, kernel@pengutronix.de,
- festevam@gmail.com, linux-media@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org
-References: <20250814140943.22531-1-inbaraj.e@samsung.com>
- <CGME20250814141019epcas5p2f957b934d5b60d4649cf9c6abd6969d5@epcas5p2.samsung.com>
- <20250814140943.22531-5-inbaraj.e@samsung.com>
- <1919de68-99ea-47f7-b3d2-cae4611f9c52@kernel.org>
- <00d101dc136c$aa037020$fe0a5060$@samsung.com>
+Subject: Re: [PATCH v2 11/11] media: iris: Enable Secure PAS support with
+ IOMMU managed by Linux
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org
+References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
+ <20250819165447.4149674-12-mukesh.ojha@oss.qualcomm.com>
+ <e18ac460-dcbb-4ac0-9c5e-3aaadf3485fd@kernel.org>
+ <20250822151346.skwtsh5abr3tmrjz@hu-mojha-hyd.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -113,73 +112,31 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <00d101dc136c$aa037020$fe0a5060$@samsung.com>
+In-Reply-To: <20250822151346.skwtsh5abr3tmrjz@hu-mojha-hyd.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 22/08/2025 15:57, Inbaraj E wrote:
-> 
-> Hi Krzysztof,
-> 
-> Thanks for the review.
-> 
+On 22/08/2025 17:13, Mukesh Ojha wrote:
+> On Fri, Aug 22, 2025 at 10:45:50AM +0200, Krzysztof Kozlowski wrote:
+>> On 19/08/2025 18:54, Mukesh Ojha wrote:
+>>> +int iris_fw_init(struct iris_core *core)
+>>> +{
+>>> +	struct platform_device_info info;
+>>> +	struct iommu_domain *iommu_dom;
+>>> +	struct platform_device *pdev;
+>>> +	struct device_node *np;
+>>> +	int ret;
+>>> +
+>>> +	np = of_get_child_by_name(core->dev->of_node, "video-firmware");
 >>
->> On 14/08/2025 16:09, Inbaraj E wrote:
->>> There is a csi dma and csis interface that bundles together to allow
+>> Undocumented ABI.
 >>
->> CSI DMA?
->> What is CSIS?
->>
->>> csi2 capture.
->>
->> CSI2?
+>> If you tested your DTS, you would notice warnings.
 > 
-> CSIS stands for Camera Serial Interface Slave.
+> qcom,venus-common.yaml is documenting video-firmware and getting included in
+> Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
 
-Googling for "MIPI CSIS" gives me 0 results, so I still claim this is
-not a generic name.
-
-> 
-> Samsung v4.3 CSIS IP bundles both the CSIS link operation and the CSIS
-> DMA operation. The DMA-related operation are referred to as CSIS DMA and
-> are handled by the fsd-csis driver. The link related operations are
-> referred to simply as CSIS and are integrated into imx-mipi-csis driver.
-> 
-> I'll update the commit message and commit description accordingly,
-> and maintain consistency across the patches.
-> 
->>
->>>
->>> Signed-off-by: Inbaraj E <inbaraj.e@samsung.com>
->>> ---
->>>  arch/arm64/boot/dts/tesla/fsd-evb.dts |  96 +++++
->>> +++ b/arch/arm64/boot/dts/tesla/fsd.dtsi
->>> @@ -493,6 +493,558 @@ clock_mfc: clock-controller@12810000 {
->>>  			clock-names = "fin_pll";
->>>  		};
->>>
->>> +		mipicsis0: mipi-csis@12640000 {
->>
->> Messed ordering. See DTS coding style.
-> 
-> I'll fix the ordering in next patchset.
-> 
->>
->> Node names should be generic. See also an explanation and list of examples
->> (not exhaustive) in DT specification:
->> https://protect2.fireeye.com/v1/url?k=a30d23f8-c28636dd-a30ca8b7-
->> 74fe485cbff6-ee12f8a711c584c8&q=1&e=b96506d8-2d5d-4303-b9e8-
->> 0e1189db1585&u=https%3A%2F%2Fdevicetree-
->> specification.readthedocs.io%2Fen%2Flatest%2Fchapter2-devicetree-
->> basics.html%23generic-names-recommendation
->>
-> 
-> There is no generic name directly related to CSI apart from camera. That's
-> why I used mipi-csis. If preferred, I can move the name to csis or simply csi.
-> Please let me know which one is more appropriate.
-
-I don't think you really tried to solve this. How this device is called
-in all other vendors?
+Uh, why? Why does qcom keep this legacy pattern also for iris?
 
 Best regards,
 Krzysztof
