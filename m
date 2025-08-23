@@ -1,157 +1,140 @@
-Return-Path: <linux-media+bounces-40816-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40817-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78DF3B32876
-	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 14:04:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D1428B328B7
+	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 15:11:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 438B75E256D
-	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 12:04:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 936B29E0FD2
+	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 13:11:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C3CB92580F1;
-	Sat, 23 Aug 2025 12:04:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 89A4D25D20D;
+	Sat, 23 Aug 2025 13:11:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bQjPuS6r"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ZiMqRRr9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C964E214A78;
-	Sat, 23 Aug 2025 12:04:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE50E23D7EE
+	for <linux-media@vger.kernel.org>; Sat, 23 Aug 2025 13:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755950648; cv=none; b=CgwLkurPGQhG3PUAankBGhqHnrXjQDvDiRSFk8MZq6OGLyt1ug0VaBAe/It036loWnwTqSXnTgtu8jVCms9P/n5kVzotIqc88TiqEEQkbX/geQ137WKmitHJI/4iYmwG3l1fsNM5joc4oKeeIAKHWoIXXn5dV4slZIzH9h66sc8=
+	t=1755954696; cv=none; b=IV8UazEYG/gTLKyZMBe38MzDNUckfqVxkIzXOxroLjz9JOlvnAF5vx9RjFPI9S+ngT9bVSeiTK32wWd+c/r7371ztJSxcIGFY2RMllw8cyjSo7GZgZkQARQNTIofTSCmPvx5YdyCNY/tEzL1ZtwXyIZ1XLZUKXhsJOHiIik3jq0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755950648; c=relaxed/simple;
-	bh=y9QQemxhNMuU9Cg9hSjpes05Vn3CLhpEomMTRXsM1eM=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=aTgRmfowTJdy2SUdiVTOK1u0d7w8Mdhed/AQ5GvpJzvgomNZTxm2QDb21j2hBuA+daIreev3I7eOymFtUd4nyncjJ9/rcS67FAXiv7K7YzyjuvavFhOko/31f6LHm2WYj+tVD2Lw1PUhLAO03O8ZF8i0vy8AUVeHQNI1yNhrL1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bQjPuS6r; arc=none smtp.client-ip=209.85.215.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b47174c3b3fso1762287a12.2;
-        Sat, 23 Aug 2025 05:04:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1755950645; x=1756555445; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=4oONS1z7VfzwpCrdNQbfTZz4SLPX1uCJokgWYpKs+dg=;
-        b=bQjPuS6revT8lsNehEeZfEVdvPslZcM98iw0H921j9ibtiDBhvkDZfd5Y6+pqDj1J7
-         ri6Y/MVmbOrsE8eotyA1KRbyZz13DPgM3Yr7bbFoBkp3vHfexnUdTubz/qov+LA6KHe/
-         h4DlTjWkPUZ4VXljeR8Crg6gRCMrnEeO2rZBDZ3dHEPLm//Y0VfrHqqVXX4SAfGZQoCD
-         2TJBG8rAZqBH7kW/+O7hKV+6zeHliJFFC+WwFuhax+gBo36M7jyuX+iu/8E6Lgn8oMA/
-         oixB6Exs59b3w3JDZy4HMvUAeVMomT4gKkxnAL4wWHblwSd5+CYhEIhlzi8nsyhrbMjs
-         4oIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1755950645; x=1756555445;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4oONS1z7VfzwpCrdNQbfTZz4SLPX1uCJokgWYpKs+dg=;
-        b=CZ1PloRgD2Pss1YXR6Tmetukw9Gv/6ty+tffdcjmZ3R3lYsqsakx3BdOA9TuX+4x2g
-         CiEFc6v9XNXfonotUqXRp/mPpi66V20/lkYetK1P4YG9AFr+Mkz7HsFKHqMn7DTNwbyf
-         XHcC2ZtxAXEENizy9twGie4LAIX+NuB3Czb+vygyHa1GSeppRECjc/vJdWMvl8oHZb10
-         0s1hQJ7tSOnVsDi7KrSR9g2NdNCa2K5unoPQv16KLL2JiUdf//ccESFVWQS21l+3LvTC
-         p13a1eV9aza+E+KJ/SyW+k7V2VpYTaA7funAA1NujsaaD1eojEXqdq7huNDOotBgZVZt
-         bLeA==
-X-Forwarded-Encrypted: i=1; AJvYcCUCpZgCKmBvyVgkcFUrk1XonBmsRwQ1LEg/gJMnA9ss4CYof/436rmkEA803r09TSBzmtQy1iGJrOCI3tc=@vger.kernel.org, AJvYcCXe104hM86qEDcqmKEA2FXFUutYNsTLdGttJyJA6CQcaFN4DoxMeffrMzRkTpH8HnlfB2cEZQps@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywfr8zGTsSypWmZQx4bIuHVnnnkuoEDkRJCn/kHbMjKY8kxWppE
-	YPMYtXwPh4QiLfHH1fTQ/iaEXXjklq3SRMPKE0zZ3EQUeVh8JPlAGgIUcOsICJgc
-X-Gm-Gg: ASbGncspAr8s372yNU5xTf60EGN6dzeyzWFIUmDGNF4MUp2MXZUjxirVqBkPDsZFCmy
-	9JcxQRjR3XkQW0vGOA1RuGns9cUDC12H5o6ElymUcNsVFnz9EoPHEjNSO+NpnRmA/Bd30Xiy9t3
-	/3lmlaaVC1O15z595Qfak5iB8zoyV87FlnK5L15DBNKYWbZYa6BsmkU7bNBOtNgggr0HPcCFDA6
-	askhBv+qrFkWtgcfIX3l3KJqwElhTU5sN/Z7I4POwE97LBuTFLWjOsLflbj3CBJZIxiOr3OqCSU
-	MYoM5RF8gNJhGykPgaI1qYlTEH1j2zotHQRs1pG9xsOhLG9FxyPoj6YPwP4IiFlFcsOvzxCq+v3
-	BSceZmOiAvJlMUoWSld9sUYXAGZBQH9KhxsdrhSyKhUThVz4p8Q==
-X-Google-Smtp-Source: AGHT+IHxR6jm5ZmmM2ZSXvNmIZZ/hId0fVzNB7puIttkCZ9Eq7tldSOdS16bnkeJZ24C/1xXW3+LSQ==
-X-Received: by 2002:a17:902:ce81:b0:242:e0f1:f4bf with SMTP id d9443c01a7336-2462ee7b494mr81646085ad.18.1755950644926;
-        Sat, 23 Aug 2025 05:04:04 -0700 (PDT)
-Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2466885efd4sm20931775ad.69.2025.08.23.05.04.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 23 Aug 2025 05:04:04 -0700 (PDT)
-From: Jeongjun Park <aha310510@gmail.com>
-To: mchehab@kernel.org,
-	khoroshilov@ispras.ru
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+47321e8fd5a4c84088db@syzkaller.appspotmail.com,
-	Jeongjun Park <aha310510@gmail.com>
-Subject: [PATCH v2] media: as102: fix to not free memory after the device is registered in as102_usb_probe()
-Date: Sat, 23 Aug 2025 21:02:57 +0900
-Message-Id: <20250823120257.1176990-1-aha310510@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1755954696; c=relaxed/simple;
+	bh=I8mvS0BbwcPzpAldr30b0h17KTJ3yaJ7PjTV1jAPy9k=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=UMyqWUPhNiiUsSXYbIVRQXxTpJ+eZDbt1Uzok/MyXv58YmxuZYB3Gm6z4S8J2ix9YWmtUM56k4Sw5XvyeNPMqEaxDE70g9luGRekc4p6LOVfRenggF+5aVGQGKuLLigZ7bjW+YMtdCOE2PZFucdlm/ZfwXuZv8ONHCVuKgaW0FI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ZiMqRRr9; arc=none smtp.client-ip=203.254.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from epcas5p4.samsung.com (unknown [182.195.41.42])
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250823131131epoutp0400da799addf3eb4f90e417991dcf3d95~eZ30cnKWE2404824048epoutp045
+	for <linux-media@vger.kernel.org>; Sat, 23 Aug 2025 13:11:31 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250823131131epoutp0400da799addf3eb4f90e417991dcf3d95~eZ30cnKWE2404824048epoutp045
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1755954691;
+	bh=WiQTdOzmRl4diLSEyaAVQbrK02Hybw4ffhxcVsTNGiM=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=ZiMqRRr9uH/lN4Q0d1TmeATkDKmMvkmfWkes2vqRPPQPWuDbIsAjeH+h2NqYGgfeI
+	 qoLXZBflMVx3FF0jlGENgEUoGMeA3g1JPmIZOnkN4xx+/NQ1UqCfYTAVIm6fbMR99B
+	 dmH6gzHILcfJAwowyIjlUGDKraQBpeKCUmxmrGqY=
+Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPS id
+	20250823131130epcas5p43f11088842c7f9b7f44340b05f222777~eZ3zBWwHU3181231812epcas5p4i;
+	Sat, 23 Aug 2025 13:11:30 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.94]) by
+	epsnrtp03.localdomain (Postfix) with ESMTP id 4c8HWP28gCz3hhT3; Sat, 23 Aug
+	2025 13:11:29 +0000 (GMT)
+Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
+	epcas5p3.samsung.com (KnoxPortal) with ESMTPA id
+	20250823131128epcas5p3d9a44a02d9295f8c614cf2e14d7c5e50~eZ3xYVpFR0066200662epcas5p3g;
+	Sat, 23 Aug 2025 13:11:28 +0000 (GMT)
+Received: from FDSFTE196 (unknown [107.116.189.214]) by epsmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20250823131124epsmtip2695fc1d2c6e33945577f3e502b3c925b~eZ3tq6noF1099010990epsmtip2h;
+	Sat, 23 Aug 2025 13:11:24 +0000 (GMT)
+From: "Inbaraj E" <inbaraj.e@samsung.com>
+To: "'Laurent Pinchart'" <laurent.pinchart@ideasonboard.com>
+Cc: <mturquette@baylibre.com>, <sboyd@kernel.org>, <robh@kernel.org>,
+	<krzk+dt@kernel.org>, <conor+dt@kernel.org>, <krzk@kernel.org>,
+	<s.nawrocki@samsung.com>, <s.hauer@pengutronix.de>, <shawnguo@kernel.org>,
+	<cw00.choi@samsung.com>, <rmfrfs@gmail.com>, <martink@posteo.de>,
+	<mchehab@kernel.org>, <linux-fsd@tesla.com>, <will@kernel.org>,
+	<catalin.marinas@arm.com>, <pankaj.dubey@samsung.com>,
+	<shradha.t@samsung.com>, <ravi.patel@samsung.com>,
+	<linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <alim.akhtar@samsung.com>,
+	<linux-samsung-soc@vger.kernel.org>, <kernel@puri.sm>,
+	<kernel@pengutronix.de>, <festevam@gmail.com>,
+	<linux-media@vger.kernel.org>, <imx@lists.linux.dev>,
+	<linux-arm-kernel@lists.infradead.org>
+In-Reply-To: <20250818092133.GA5862@pendragon.ideasonboard.com>
+Subject: RE: [PATCH v2 05/12] media: imx-mipi-csis: Move clk to
+ mipi_csis_info structure
+Date: Sat, 23 Aug 2025 18:41:23 +0530
+Message-ID: <00e501dc142f$6fa00a10$4ee01e30$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQK5oFMD+tt4mLQU5V9KgVyIDaUIUQIYHCmyAlXzoNQBZbmW2rKGel0g
+Content-Language: en-in
+X-CMS-MailID: 20250823131128epcas5p3d9a44a02d9295f8c614cf2e14d7c5e50
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+CMS-TYPE: 105P
+cpgsPolicy: CPGSC10-541,Y
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20250814141025epcas5p2b226c4eaab5d60d0e95f684e2ef930f2
+References: <20250814140943.22531-1-inbaraj.e@samsung.com>
+	<CGME20250814141025epcas5p2b226c4eaab5d60d0e95f684e2ef930f2@epcas5p2.samsung.com>
+	<20250814140943.22531-6-inbaraj.e@samsung.com>
+	<20250818092133.GA5862@pendragon.ideasonboard.com>
 
-In as102_usb driver, the following race condition occurs:
-```
-		CPU0						CPU1
-as102_usb_probe()
-  kzalloc(); // alloc as102_dev_t
-  ....
-  usb_register_dev();
-						open("/path/to/dev"); // open as102 dev
-						....
-  usb_deregister_dev();
-  ....
-  kfree(); // free as102_dev_t
-  ....
-						close(fd);
-						  as102_release() // UAF!!
-						    as102_usb_release()
-						      kfree(); // DFB!!
-```
 
-When a USB character device registered with usb_register_dev() is later
-unregistered (via usb_deregister_dev() or disconnect), the device node is
-removed so new open() calls fail. However, file descriptors that are
-already open do not go away immediately: they remain valid until the last
-reference is dropped and the driver's .release() is invoked.
+Hi Laurent,
 
-In as102, as102_usb_probe() calls usb_register_dev() and then, on an
-error path, does usb_deregister_dev() and frees as102_dev_t right away.
-If userspace raced a successful open() before the deregistration, that
-open FD will later hit as102_release() --> as102_usb_release() and access
-or free as102_dev_t again, occur a race to use-after-free and
-double-free vuln.
+Thanks for the review.
 
-The fix is to never kfree(as102_dev_t) directly once usb_register_dev()
-has succeeded. After deregistration, defer freeing memory to .release().
+>=20
+> On Thu, Aug 14, 2025 at 07:39:36PM +0530, Inbaraj E wrote:
+> > clock names in NXP SoC's is different from the FSD SoC. Inorder to
+>=20
+> s/clock/Clock/
+> s/Inorder/In order/
+>=20
+I'll change in next patchset.
 
-In other words, let release() perform the last kfree when the final open
-FD is closed.
+> Is the difference really a matter of SoCs, or is it because the FSD SoC u=
+ses a
+> different version of the IP ?
+>=20
 
-Cc: <stable@vger.kernel.org>
-Reported-by: syzbot+47321e8fd5a4c84088db@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=47321e8fd5a4c84088db
-Fixes: cd19f7d3e39b ("[media] as102: fix leaks at failure paths in as102_usb_probe()")
-Signed-off-by: Jeongjun Park <aha310510@gmail.com>
----
-v2: Fix incorrect patch description style and CC stable mailing list
-- Link to v1: https://lore.kernel.org/all/20250822143539.1157329-1-aha310510@gmail.com/
----
- drivers/media/usb/as102/as102_usb_drv.c | 1 +
- 1 file changed, 1 insertion(+)
+Yes, it is dependent on the version of the IP.  Thanks for pointing it out.=
+ I'll update commit
+description accordingly.
 
-diff --git a/drivers/media/usb/as102/as102_usb_drv.c b/drivers/media/usb/as102/as102_usb_drv.c
-index e0ef66a522e2..abde5666b2ee 100644
---- a/drivers/media/usb/as102/as102_usb_drv.c
-+++ b/drivers/media/usb/as102/as102_usb_drv.c
-@@ -404,6 +404,7 @@ static int as102_usb_probe(struct usb_interface *intf,
- 	as102_free_usb_stream_buffer(as102_dev);
- failed_stream:
- 	usb_deregister_dev(intf, &as102_usb_class_driver);
-+	return ret;
- failed:
- 	usb_put_dev(as102_dev->bus_adap.usb_dev);
- 	usb_set_intfdata(intf, NULL);
---
+> I also suspect that the =22phy=22 clock was added by mistake, and isn't n=
+eeded in
+> NXP SoCs. Could you please check and confirm if the v3.3 and
+> v3.6.3 versions of the IP have an input PHY clock ?
+
+I don't have manuals for v3.3 and v3.6.3, So I cannot confirm  this.=20
+
+>=20
+> > extend this driver to use for FSD SoC. Move the clock names to
+> > mipi_csis_info structure.
+> >
+
+Regards,
+Inbaraj E
+
 
