@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-40825-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40826-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D0BAB3299F
-	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 17:34:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0F6B329A5
+	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 17:38:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AC09B7B5C02
-	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 15:33:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 00F449E60DB
+	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 15:38:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72A442E7F39;
-	Sat, 23 Aug 2025 15:34:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 939FF2E88AA;
+	Sat, 23 Aug 2025 15:37:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H68xi/cK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hRlwP/QW"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE445AD4B;
-	Sat, 23 Aug 2025 15:34:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D58EA155C97;
+	Sat, 23 Aug 2025 15:37:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755963283; cv=none; b=gViyC0Nqmq6wGxEPAH19A35TwAKXVA0zEmAVv9cnv/40hSW8IxoU12CxvAfbVq9MGOKMMUKpq9oO1D19x/1oKvA5UWP+6XQnt/zQKAI5XtVsO7I04MuEdjVVL/j0D/jGCFbzmMaGRsh84z3H4ZIZApg7axmg4IvFEKcOGR8uMdM=
+	t=1755963477; cv=none; b=BfiX8zGSwXqxDMOWmvQVLDjP4sycE9OmrDf3qSlDth/gACggS4OvTDSlRjJW1eloo+GDYgOIzx/Ztxfq1zo+mZBVzYRgacRFrLnCK4fyJk4XY0tpORMNvMVahh6oIcNTRCoG9xZdKvt0J9WnW/a17zqLVutOMmKNYZL7UVrc2uw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755963283; c=relaxed/simple;
-	bh=smODDh1I/z4J2Rz0rLaPqbEcVncrApWFPaGQeDaybjU=;
+	s=arc-20240116; t=1755963477; c=relaxed/simple;
+	bh=66jtfWo50Yf+QiuM7SUi4SewiNY27XCmgKtBWfLSqlU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f7dcCfm9bWsCkkeIfhKveMBZW6hn6/txU3DKPx2Ja2Dll46LXbEj9j5RTWzSt/+w7Te5D9aNxHgeqXwq9bkpcSbaEjgZLUtgKV7AcW/euLv2BMWfatqtb0gw08r5GDc18DQjuRnxWAAmVPj2rtwuWsuUpW0BxbtfvsBAndGPgb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H68xi/cK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AD388C4CEE7;
-	Sat, 23 Aug 2025 15:34:34 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=HxMUii7ucA9aQ1UgCPi0VwqGrTRQWwrC/Gka1goz+VT6SFPWTUARGzOZd/Fz49qctCtXROY2PPYQm6Fzwj6O10fWRBCy3B/uSpID0dHcyBF7Ppn1xKcp1aBbNqQ0NTTCiDcgvCMSidwK5uO42Cks9CHT2DsQN2/eU8g6RAxULmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hRlwP/QW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0C55C4CEE7;
+	Sat, 23 Aug 2025 15:37:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755963281;
-	bh=smODDh1I/z4J2Rz0rLaPqbEcVncrApWFPaGQeDaybjU=;
+	s=k20201202; t=1755963476;
+	bh=66jtfWo50Yf+QiuM7SUi4SewiNY27XCmgKtBWfLSqlU=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=H68xi/cKhBaNbSn/ZOW6Wo/FFNehEUDv98PfTVU5mUiq3GasDvK9gQkc/zhhBjaQF
-	 A8QhYjzztd/r4jKdTFaCZ3rzrMVhQkQ0SzcXzouQVQS/3rETl9+UPejA4TwEccOSBI
-	 uOl2pypBhSjXPB25TqVKpMbPZ6WQYMj2G4NqWDkbzVfTLlSqwsvrnh9fFtYrEtdwMb
-	 CDDmwCy5bVTQQDecmzm7QvinpKPBiaIQd15O3gM3uxGdMHbySOIr8SJAZLPHFqZe0X
-	 damgraVk4TVTCUU6i2Ar4RaphxfVwFUoNxHw8KnOusSyX4UGvqnfAR9YIgh5v57Drd
-	 RkfORTa2xtaZA==
-Message-ID: <4af38093-007e-4bfc-8439-0c3dc84012d8@kernel.org>
-Date: Sat, 23 Aug 2025 17:34:33 +0200
+	b=hRlwP/QWXWGTarL8Fdrt7rY9UBbedIC7J8iQ2Q2bGA7nBsTTErQRqwe8/tZuGlAn7
+	 yOL+QmL6yTQqHGdUarC7dB+qnU6QvKkoWeYE/vjrKb51vAp9Su7CWgHf2j2yV38YQ1
+	 GTQrOLgw+iO3trQIKepeWI71wqAID2ZOq1QHVs+ewKnElqSSAF6W6j9//nuSX9Es2G
+	 o5odXJoTWp9bb5Q0NtOvxI9wYkxD1Eau5zFYcBs0JoZgEBrP3trrvpyPrCFzGyqIYp
+	 t40B2PHaURU1XhEk9rRF5JvBQ8M4yXUZC7oceP8D3KyQQ/3dEoh82xq3lczPFLu1s1
+	 32gVDR4L+NMTg==
+Message-ID: <926e9bb2-cdde-4048-9ae2-159d088aa935@kernel.org>
+Date: Sat, 23 Aug 2025 17:37:47 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 12/12] media: fsd-csis: Add support for FSD CSIS DMA
+Subject: Re: [PATCH v2 03/12] dt-bindings: media: nxp: Add support for FSD SoC
 To: Inbaraj E <inbaraj.e@samsung.com>, mturquette@baylibre.com,
  sboyd@kernel.org, robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  s.nawrocki@samsung.com, s.hauer@pengutronix.de, shawnguo@kernel.org,
@@ -64,10 +64,12 @@ Cc: linux-clk@vger.kernel.org, devicetree@vger.kernel.org,
  festevam@gmail.com, linux-media@vger.kernel.org, imx@lists.linux.dev,
  linux-arm-kernel@lists.infradead.org
 References: <20250814140943.22531-1-inbaraj.e@samsung.com>
- <CGME20250814141103epcas5p14516cbe45c21d28ba9e231da99940aa1@epcas5p1.samsung.com>
- <20250814140943.22531-13-inbaraj.e@samsung.com>
- <b1f59033-12d0-4395-85f1-e296a5dbca5f@kernel.org>
- <00e301dc1424$033ed5a0$09bc80e0$@samsung.com>
+ <CGME20250814141014epcas5p410d41ede7e8ae4f3cf8db6d041d03946@epcas5p4.samsung.com>
+ <20250814140943.22531-4-inbaraj.e@samsung.com>
+ <ac9769af-9ab6-4b48-9890-ec3bcda3b180@kernel.org>
+ <00d001dc136a$36ad7230$a4085690$@samsung.com>
+ <7b7f6958-3178-4c6f-8be3-f52ef77464f7@kernel.org>
+ <00d201dc136d$1fdd6bc0$5f984340$@samsung.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -113,84 +115,40 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <00e301dc1424$033ed5a0$09bc80e0$@samsung.com>
+In-Reply-To: <00d201dc136d$1fdd6bc0$5f984340$@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 23/08/2025 13:49, Inbaraj E wrote:
+On 22/08/2025 16:00, Inbaraj E wrote:
+>> On 22/08/2025 15:39, Inbaraj E wrote:
+>>>>>
+>>>>>    power-domains:
+>>>>>      maxItems: 1
+>>>>>
+>>>>> +  samsung,syscon-csis:
+>>>>
+>>>> samsung, so not nxp. Even more confusing.
+>>>>
+>>>
+>>> I used samsung,syscon-csis because the system controller on Tesla FSD
+>>> follows Samsung's sysreg design.
 >>
->>> +
->>> +	ret = fsd_csis_clk_get(csis);
->>> +	if (ret < 0)
->>> +		return ret;
->>> +
->>> +	pm_runtime_enable(dev);
->>> +	if (!pm_runtime_enabled(dev)) {
->>
->> That's odd code. Why?
->>
->>> +		ret = fsd_csis_runtime_resume(dev);
->>
->> Even more questions why?
+>> OK, this is property for Tesla though, so please use tesla prefix.
 > 
-> If CONFIG_PM is enabled, the clocks are enabled manually in the
-> driver through fsd_csis_runtime_resume API.
-> 
-> If CONFIG_PM is enabled, the clocks are managed through the PM
-> runtime framework.
-> 
-> Can you please help me understand what wrong here?
+> Using tesla,syscon-csis results in a "prefix not found" issue when running dtbs_check
+Because you develop on ancient, 10 year old downstream kernel?
 
-I think I see such code for the first time, so wrong is doing something
-common in completely unusual way.
+You really do not try enough and this is just wasting our time.
 
-> 
->>
->>> +		if (ret < 0)
->>> +			return ret;
->>> +	}
->>> +
->>> +	platform_set_drvdata(pdev, csis);
->>> +
->>> +	ret = fsd_csis_enable_pll(csis);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	ret = fsd_csis_media_init(csis);
->>> +	if (ret)
->>> +		return ret;
->>
->> I think you miss clean up of csis->pll completely. Just use
->> devm_clk_get_enabled and convert everything here to devm.
->>
->>
-> 
-> I'll fix in next patchset.
-> 
->>> +
->>> +	ret = fsd_csis_async_register(csis);
->>> +	if (ret)
->>> +		goto err_media_cleanup;
->>> +
->>> +	return 0;
->>> +
->>> +err_media_cleanup:
->>> +	fsd_csis_media_cleanup(csis);
->>
->> Also this...
->>
-> 
-> if fsd_csis_media_init fails, the cleanup is handled internally.
+Please think and really carefully check your replies. What prefix do you
+have in compatible? This command:
+git grep tesla, | wc -l
 
-What does it mean internally?
+gives '99' results including obviously vendor prefix.
 
-> Here, cleanup is used only for fsd_csis_async_register failure.
-> 
-> can you please help me understand what is wrong here?
-
-Yeah, you leak clock resources.
-
-
+So your warning is basically impossible or your code is just broken.
+Don't just ask maintainers on every little trouble you have. You must
+debug it. Not we.
 
 Best regards,
 Krzysztof
