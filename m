@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-40828-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40829-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DC77B329AE
-	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 17:41:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30DD0B329D5
+	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 17:46:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 863704E2245
-	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 15:41:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DF1039E7192
+	for <lists+linux-media@lfdr.de>; Sat, 23 Aug 2025 15:46:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 763DA2E8E0F;
-	Sat, 23 Aug 2025 15:41:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E57421257A;
+	Sat, 23 Aug 2025 15:46:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="on+jiIsZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HNe05jh/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0B0F12B93;
-	Sat, 23 Aug 2025 15:41:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722442C15BF;
+	Sat, 23 Aug 2025 15:46:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1755963686; cv=none; b=lBPV+G6HbbXqhHCpUbOuuZkSsDMRzWE/EyCLheY6LMboLCqhZwP3+6Zy7muPsFzhQS6SDsz2xorvdWDQy0TFoYf9qIWNri3ZZGS0rEqn+kmlPxEWO0fmoBwoCGJktTJgBvquxAOnaZxke6K8+Z5PsmoLohGjJUIOme1B3MYzy+U=
+	t=1755963987; cv=none; b=Gllx27QGwVDzHueVKVPsVZW0cA9fJFsj/aRm8bvPBPufhmVYeVPkAkZvXZHRfz4jDaK+BvWubG0JdgHZ4UR+fP0sMIVkASiWXt8Yi6ReI2uYRsQiEqCCm/f3oNkdqAOYy0tux5Ssk5ejRFe0Yo/TbKD9eVXD00VoCbc4lTLe+MY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1755963686; c=relaxed/simple;
-	bh=l+oY0LG5o5JPU8CPKPruiyIdSya8OG8OkT4q31h7EVw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=piEU8KvhIhCBtiZg55QvfBG0GJhKfiQ3Huk7PfRn4mhvTXk4VdnAIxkz2p3BwP5mDpw8fB0NikUry5EkzPuIxeuqbRrMmKHsIYsKJr/cSMftPPLkB5ZPJPHR8Pl2WYYy18il9x9YhOpHXIVV5UrCztN8AMPlUH4CypuM2p2nlRE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=on+jiIsZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 593C4C4CEF4;
-	Sat, 23 Aug 2025 15:41:23 +0000 (UTC)
+	s=arc-20240116; t=1755963987; c=relaxed/simple;
+	bh=eQyyL7ybO6aHzA5ozfZURhJz0aik9E4XhrvbStktFdw=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=gxx66D2OM24rqUNLbhlE0ZT9Q77C0S/H58Plii7AmVV9Gp+acyJVNfQEPBfJf6NGMbQCWCokYTpmPt+4pQkKWNBXBP8Z/HPn2dJDlQQqMhZYaClK92U/jBygDDSIlWblIdXgoYwedrooYmK0TPj+jSU0YaebRZo+o4+Fa85xhPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HNe05jh/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14AD0C4CEE7;
+	Sat, 23 Aug 2025 15:46:23 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1755963686;
-	bh=l+oY0LG5o5JPU8CPKPruiyIdSya8OG8OkT4q31h7EVw=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=on+jiIsZwzyNAjUrI94d0Kv96torKKdPlRvxyy+V8SN+fGKKV3sFA33MXmuXypDzQ
-	 hBmWOmADjTS3pwwBJ35zS0K/cKnMtqbpM2VDVV9ZozL8G6/fBZ9TYyV2PmbBUYH6uZ
-	 hN5vFz4DCN553OITIQSJhOxrSz8yC5AZtaf79t3jItq/0wMrY5R9TNS7JMPjrmpYRm
-	 IsxETz79RZPHdOHqRVY9aiciiKGkoXZGnLZW590yU5yKJY4p2RSARuYyh1iCjNykQk
-	 XkdfqzkD6qUuYTdzjQDUwciKK5N6Uooenq17g6Kk3VqiqeNCKF73bRdNuMNBbYziA3
-	 sfXMpbV3eqQxQ==
-Message-ID: <46013223-5463-4164-9f61-87ea5ce2412c@kernel.org>
-Date: Sat, 23 Aug 2025 17:41:21 +0200
+	s=k20201202; t=1755963986;
+	bh=eQyyL7ybO6aHzA5ozfZURhJz0aik9E4XhrvbStktFdw=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=HNe05jh/zoDGwog9PqX4KTKpyFT1ULSXx3IciWCZpsheJGHdxbwr4mX7zdQepLMEN
+	 U24lMszj6XnZTOvDmI9uwAy7FSq0B0EiOFvUcTP9nzh423FzA/UEUrJ0Gd6Gd0jxKw
+	 nT8swORPjgJ+mbe8NErfUGvstuQA+/CGOGBsU8MKSN6a4r1bm9OdNqkAVxPaNpaP3m
+	 HAK8Mv8eTTcqP+bB1T+X4Rhqr3AbneNqCxJN2pQ8oftgwvFn7MvBKrv+XlmoNOgPH5
+	 D+P2/86kkerUUAHkN1RHaWqgub/oyHI0cJDKNoGAi89NtDuoG71UHQqVEPNBPFiQbl
+	 1yiKWVC8c3hZA==
+Message-ID: <538ed0a4-fbf9-47c3-bbc2-3263d869e21c@kernel.org>
+Date: Sat, 23 Aug 2025 17:46:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,6 +52,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v2 11/11] media: iris: Enable Secure PAS support with
  IOMMU managed by Linux
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
 Cc: Bjorn Andersson <andersson@kernel.org>,
  Konrad Dybcio <konradybcio@kernel.org>,
@@ -67,7 +68,7 @@ References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
  <20250819165447.4149674-12-mukesh.ojha@oss.qualcomm.com>
  <e18ac460-dcbb-4ac0-9c5e-3aaadf3485fd@kernel.org>
  <20250822151346.skwtsh5abr3tmrjz@hu-mojha-hyd.qualcomm.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <46013223-5463-4164-9f61-87ea5ce2412c@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -112,31 +113,35 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250822151346.skwtsh5abr3tmrjz@hu-mojha-hyd.qualcomm.com>
+In-Reply-To: <46013223-5463-4164-9f61-87ea5ce2412c@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 22/08/2025 17:13, Mukesh Ojha wrote:
-> On Fri, Aug 22, 2025 at 10:45:50AM +0200, Krzysztof Kozlowski wrote:
->> On 19/08/2025 18:54, Mukesh Ojha wrote:
->>> +int iris_fw_init(struct iris_core *core)
->>> +{
->>> +	struct platform_device_info info;
->>> +	struct iommu_domain *iommu_dom;
->>> +	struct platform_device *pdev;
->>> +	struct device_node *np;
->>> +	int ret;
->>> +
->>> +	np = of_get_child_by_name(core->dev->of_node, "video-firmware");
+On 23/08/2025 17:41, Krzysztof Kozlowski wrote:
+> On 22/08/2025 17:13, Mukesh Ojha wrote:
+>> On Fri, Aug 22, 2025 at 10:45:50AM +0200, Krzysztof Kozlowski wrote:
+>>> On 19/08/2025 18:54, Mukesh Ojha wrote:
+>>>> +int iris_fw_init(struct iris_core *core)
+>>>> +{
+>>>> +	struct platform_device_info info;
+>>>> +	struct iommu_domain *iommu_dom;
+>>>> +	struct platform_device *pdev;
+>>>> +	struct device_node *np;
+>>>> +	int ret;
+>>>> +
+>>>> +	np = of_get_child_by_name(core->dev->of_node, "video-firmware");
+>>>
+>>> Undocumented ABI.
+>>>
+>>> If you tested your DTS, you would notice warnings.
 >>
->> Undocumented ABI.
->>
->> If you tested your DTS, you would notice warnings.
+>> qcom,venus-common.yaml is documenting video-firmware and getting included in
+>> Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
 > 
-> qcom,venus-common.yaml is documenting video-firmware and getting included in
-> Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+> Uh, why? Why does qcom keep this legacy pattern also for iris?
 
-Uh, why? Why does qcom keep this legacy pattern also for iris?
+I will remove it btw, because it is a fake device node (not for a real
+device).
 
 Best regards,
 Krzysztof
