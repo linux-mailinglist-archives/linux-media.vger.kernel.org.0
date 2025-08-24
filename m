@@ -1,80 +1,80 @@
-Return-Path: <linux-media+bounces-40845-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40846-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E2B4B33236
-	for <lists+linux-media@lfdr.de>; Sun, 24 Aug 2025 21:05:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38EF1B33243
+	for <lists+linux-media@lfdr.de>; Sun, 24 Aug 2025 21:08:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC18E3B8372
-	for <lists+linux-media@lfdr.de>; Sun, 24 Aug 2025 19:05:03 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 15A1B207CB8
+	for <lists+linux-media@lfdr.de>; Sun, 24 Aug 2025 19:07:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 309A8230D1E;
-	Sun, 24 Aug 2025 19:04:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 631CF23AB95;
+	Sun, 24 Aug 2025 19:07:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="xt+BweIj"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="TP9v4FKl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 722D4221F00
-	for <linux-media@vger.kernel.org>; Sun, 24 Aug 2025 19:04:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78053234966
+	for <linux-media@vger.kernel.org>; Sun, 24 Aug 2025 19:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756062292; cv=none; b=bD9yBU24OaiBCBvra6BrJJHEUT+woJEFAYf1SY35awSMrDW8yh2SdRXsfM7ZYHctznIuSyjVi/jJl01zrYFruHtRF4FLX1MrjcHXSu/SPLLzOQYdianjRJMdho2YW8Lc2DiDSS9UqZATzTGFm1qQCpBjRyQMhAIhgq2SJg8G1C0=
+	t=1756062443; cv=none; b=Ox3se1oxxEq8l6P4IEMzOGA+jcbFe+OrRaRhLhohWzDe3UT/8wugkVwR3W/Bd0qGYMK16Ks8k6NRBS5UmzCu+F9FwsEtRDE7X65XuLdrMf8fDFE6655xuBNn//0es+qe0npx448yoS9OGzg4zt/Djb5UoyBSVEkSkkBaID0epkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756062292; c=relaxed/simple;
-	bh=UP+AYol+DY8UTEmT5RaSgfZsggShtTb7514fxVj9jCY=;
+	s=arc-20240116; t=1756062443; c=relaxed/simple;
+	bh=Or9relOdtZKZQi+PZvyFmONuNwHiY1OaMP7l/cQpXAE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FSglRV22jFWKJXt670jPtCBSDd8hQdUAWA0Ayq+Z5TV402PmFhObcTPtlfH0hgFsO9P85zo2LwSDJVOJnDEu8MpEoxYCuObCa3SUmOmeRlGN5Ni/jJIZpDLEWhS17XrWu6HgQHWs6zT8sGgbixnZ4kpQe7AX669RY9hfTHapZE8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=xt+BweIj; arc=none smtp.client-ip=209.85.167.45
+	 In-Reply-To:Content-Type; b=m1DVllueAwkyOpcj4FoG8md6wiOzkBX1DoiBZfXdzVgYZQfLbpNSfxrMsokoeYJJZwCRFnKcJaZxL18jYretF6xydlXw49E4faK1T6woj6UABtJAeaBVu6vFtveVWCvdr/a6HmkyW/OvWRzUiWQzRfV4PZHuemzRgu4y1fBlgpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=TP9v4FKl; arc=none smtp.client-ip=209.85.167.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-55ce52718abso291750e87.3
-        for <linux-media@vger.kernel.org>; Sun, 24 Aug 2025 12:04:50 -0700 (PDT)
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-55f34d792c4so371919e87.3
+        for <linux-media@vger.kernel.org>; Sun, 24 Aug 2025 12:07:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756062288; x=1756667088; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6yqEEUlIDSc/+3KFB8fDmfBaOKciQCNwulQzIyyj/3k=;
-        b=xt+BweIjZ9gyWWKUxS3RYMaB9pwRpO0pNpbeP7xasGsGNN3QfOMFeqP+AWSUB7CXi4
-         K97dymZmnzLNS1iLlmg2YltHWBEmCqaIgLBcKAgsh0Tnj3B5vmBdu0id3heOFTxKnvUu
-         PB6FHw5Z5s/TkvosfV4u/Ycpdtmyv6KQMOcV1tY13CT8jAY0yNG4Cp/3UTL3nuQ/+fha
-         CM2VayOWDYdmBasVIGxZNqKn+fvgHGMM5g/J1Xi/0GUVuRl8jtYo1bWQkUfBEFExf52I
-         u5CWucaLQcCI8kIZxu4dbrGLuhmzF+SFQ51k2VfN2GP0XFPZQ+PC7gE0CsvN4k1twteR
-         90Qg==
+        d=linaro.org; s=google; t=1756062439; x=1756667239; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kRFerQraihZIanmomm0IKhmbjfbkS3W8YtjfgYvp2fw=;
+        b=TP9v4FKluJ7PjmXmnDBpJalFojQEpojrdUcweMmE5jAjk3kpFGiwY3I/etMGHHC10n
+         0sUd+ic2YEfRyaE09CZoiBgS7Lmf9FsZ9sViLLUvmPVEGJcuqtLxtPopH84vhHnxem9m
+         5TGZD6cueZvMsB0i17kaGjhOly3+ymGiA+X3wADOK8YVdTCpE+QVrmBnRelYHAntuXlM
+         9G7OI8rElJLTtkUDd7s6Mnff5D+RBx3gNtcRGdbJIStzUVu9eWjjgWfUycZUF6TSrWD2
+         xF6z0PbnH254SfN6+SGFaqxGcMblbw8FvF+eBcNAE8SUYWiGSE4fZR4WfIUHnM9BPQTi
+         Z3yA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756062288; x=1756667088;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=6yqEEUlIDSc/+3KFB8fDmfBaOKciQCNwulQzIyyj/3k=;
-        b=pzQAPPcY0iJAgYxCLwR0rH1s8dxUTfEIeypY2CJ2nDTe6JsKRuibrrEo0zCOE0ij4T
-         z1uYGFpjnyBcsxi/KfLqqoLZ780Ix+nezeJ5kLkMx1Dwr0FV7hdCBB75TLMf+tWIzWy9
-         pD33l96KPFVXkZpgruZISmaJlsRtYiMeCuT+tDMw9vDrx3afjuvSkAiNRtQ/UTrGX6f2
-         A5yBz/LZ7+1bSjWCU6QgxUkfZdpMYcInNHheXYmScvuK9uFLeI4jA1whkrlj9YjViKpH
-         IXU7VaMilccaX2JA1326FfGU3yRo1yaYcv7lHpElSt9i02L5FVr3yB3npth4eC2WL7rW
-         y5fQ==
-X-Gm-Message-State: AOJu0YzHVYw9p+fj2v6OVo6lUH96CR2j6QnIb0Vo39hSXDjSlVvFTYi+
-	3vqS3oXoUZfL0Gn5JDCoUmKlss372MgYzyL8u4Ttdxy99WPXmAAdPTSj4fNCKrQMvkI=
-X-Gm-Gg: ASbGncvWFR5y1f4LmDVg3YeJlMJUTQuBu0YNek3dycvnwJmc/lEePIi/+Y+SjiYqBxl
-	Fb7hzLFNHphRO503LJNIbvHPXYN53Po6Ua/tNbHMB4rLzR2isNg7BJuoifuud3b3Cr9KesmYofE
-	HgKpzohxF1Wsz0QWoQcihe4uUnuofQwi9C/kARP7MgsdpF3MuAWmqwuffCGo9drEtJqc8FreGQi
-	F87g61VUkYPcGmfigDVDD6LVlMzZ2yJk9OPgwF7Qe4DdvM/0QEoOIFovnSByeypQjg+IXvetIf3
-	ZeVgAnKCP1R/9D5Kzmxq5oa6VjWaXGy4cS86iUT65IfMB+G//ra3fh4HI4bQtilA2hFjoRl65Uj
-	0vJaq2tWBR4VA6at1xNZpx6nFXR6S/eHrQUDhBBMMEXFFmv4NYvmRqGzdUdHMWr5k6He5KQqZ0K
-	M0
-X-Google-Smtp-Source: AGHT+IFyrm2w79r4qu/FnmHu4qBJdoxQ8tpCUb7HA7mtPlKxjeyzi9xJQ9J7AuBmZ4uek0zzq2ON9Q==
-X-Received: by 2002:a05:6512:a85:b0:553:24b4:6492 with SMTP id 2adb3069b0e04-55f0cd6ef0bmr1246189e87.5.1756062288277;
-        Sun, 24 Aug 2025 12:04:48 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756062439; x=1756667239;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kRFerQraihZIanmomm0IKhmbjfbkS3W8YtjfgYvp2fw=;
+        b=b5u9f8Vj3sjNbVTPWdveDo1aLdMXiAeNRsYAt0mPaW7Wke+5z64Hjlq1AkhGX8ijIZ
+         HCUYChMkC9UbyzSpsgGZfa+3WvFlTzqdXSATYhf7njWwYGIajNgYbnUp3+3WxpsD3hFz
+         vBDUIibqjn3eGmu6Nnh/4nusF/wuMUWERp/HIgWKfJeIjfnCCPtvQ3BlPvSLe8g+oZps
+         ZkAcgI8J1Qe7QaeRWwgjMwAQfeZphuEfh49djAv/aEYEM61wUffgeoZwuj08OURGN8c1
+         ZbuOY+4RLUtnhgqFqNICRC6WQEl1fuHlDR3E35Fyhz9ZqAuMDV829isGCEIkDNs+D24X
+         /6Jg==
+X-Gm-Message-State: AOJu0YzaWIZgrIh7fIJsoVNdlh2mku8NgEkYt2TksP1HL4tH/yt1cwor
+	EfB0ENiCK3P6abDtpU9kHVxWfFwo8tgONC4yvedNlfjY8ENp6af44eovhsWkdUmnESI=
+X-Gm-Gg: ASbGncusDu2FvOPxyEIfna9L4KhISK+S8i3mVeSruNR+uul6chK50cRmLvs8KhQ+RWb
+	cjBalQiccavEWvMbaCKYeViLzHY2Kd5/W0eIADPcd7YWAaZrvCTaJWfKQ5F/+9G7QxtVorfT1Y1
+	e03qhoMP6l1heYACck/X6DZ9sJNWce5fvL+9GzLj6iRVexbH9V0tunf2Q6r9LFmaDQy5pjRt6U2
+	37uJiuk25DLiOGgMagoRpIbU3TMt5cVuZ7PCpNv58v6YUUouB0ZdUT4edzS4F7KPt3rsdqa2cqk
+	dTgQETDUG2C9f8/3ugNTsjy4+ZgXJ5YzOLSdZnd+S+EBB4QKRLJuFi1dR1N1qyFncLAFgbe/0Rw
+	GFWV7FhoqVOU5VZD6PcIZ72Bmd6MwDSrG3ETheXeH4dP3ux33lawviLD8T6YceM0dLkqyxr73QC
+	aqZii7vZ7es/g=
+X-Google-Smtp-Source: AGHT+IH13MoxmrDQetMznYo3yow5OENe/3UHzqm8TZjVRtSQjRA+4ERWWZasIRoFRuhqFpxTrCVdqA==
+X-Received: by 2002:a05:6512:2391:b0:55f:44eb:ea92 with SMTP id 2adb3069b0e04-55f44ebec0cmr134730e87.7.1756062439301;
+        Sun, 24 Aug 2025 12:07:19 -0700 (PDT)
 Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f35c8bb4esm1204996e87.75.2025.08.24.12.04.45
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f35ca6713sm1206429e87.136.2025.08.24.12.07.16
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 24 Aug 2025 12:04:47 -0700 (PDT)
-Message-ID: <fb733991-857c-4a5b-ba20-d8bd557a4339@linaro.org>
-Date: Sun, 24 Aug 2025 22:04:45 +0300
+        Sun, 24 Aug 2025 12:07:18 -0700 (PDT)
+Message-ID: <b4221eca-7977-47b3-a563-f392d7dafb8b@linaro.org>
+Date: Sun, 24 Aug 2025 22:07:16 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,8 +82,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 19/65] media: camss: Replace .open() file operation with
- v4l2_fh_open()
+Subject: Re: [PATCH 20/65] media: camss: Remove custom .release fop()
+Content-Language: ru-RU
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Devarsh Thakkar
  <devarsht@ti.com>, Benoit Parrot <bparrot@ti.com>,
@@ -120,6 +120,8 @@ To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
  Neil Armstrong <neil.armstrong@linaro.org>,
  Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
  Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+ Nas Chung <nas.chung@chipsnmedia.com>,
+ Jackson Lee <jackson.lee@chipsnmedia.com>,
  Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
  Houlong Wei <houlong.wei@mediatek.com>,
  Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
@@ -128,10 +130,11 @@ To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
  Geert Uytterhoeven <geert+renesas@glider.be>,
  Magnus Damm <magnus.damm@gmail.com>,
  Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
- Jacob Chen <jacob-chen@iotwrt.com>, Heiko Stuebner <heiko@sntech.de>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Heiko Stuebner <heiko@sntech.de>,
  Detlev Casanova <detlev.casanova@collabora.com>,
- Krzysztof Kozlowski <krzk@kernel.org>,
- Sylwester Nawrocki <s.nawrocki@samsung.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Alim Akhtar
+ <alim.akhtar@samsung.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>,
  =?UTF-8?Q?=C5=81ukasz_Stelmach?= <l.stelmach@samsung.com>,
  Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
  Jacek Anaszewski <jacek.anaszewski@gmail.com>,
@@ -143,11 +146,11 @@ To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
  Nicolas Dufresne <nicolas.dufresne@collabora.com>,
  Benjamin Gaignard <benjamin.gaignard@collabora.com>,
  Steve Longerbeam <slongerbeam@gmail.com>, Maxime Ripard
- <mripard@kernel.org>, Paul Kocialkowski <paulk@sys-base.io>,
- =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Corentin Labbe <clabbe@baylibre.com>,
+ <mripard@kernel.org>, =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund@ragnatech.se>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>, Corentin Labbe <clabbe@baylibre.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Bingbu Cao <bingbu.cao@intel.com>,
  Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-staging@lists.linux.dev, linux-doc@vger.kernel.org,
@@ -159,26 +162,22 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  linux-rockchip@lists.infradead.org,
  linux-stm32@st-md-mailman.stormreply.com, mjpeg-users@lists.sourceforge.net
 References: <20250802-media-private-data-v1-0-eb140ddd6a9d@ideasonboard.com>
- <20250802-media-private-data-v1-19-eb140ddd6a9d@ideasonboard.com>
+ <20250802-media-private-data-v1-20-eb140ddd6a9d@ideasonboard.com>
 From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20250802-media-private-data-v1-19-eb140ddd6a9d@ideasonboard.com>
+In-Reply-To: <20250802-media-private-data-v1-20-eb140ddd6a9d@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Jacopo, Laurent,
+Hi Jacopo,
 
-thank you for the nice clean-up.
+thank you for the change!
 
 On 8/2/25 12:22, Jacopo Mondi wrote:
-> From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> The 'file->private_data' pointer is reset in the vb2_fop_release()
+> call path. For this reason a custom handler for the .release
+> file operation is not needed and the driver can use
+> vb2_fop_release() directly.
 > 
-> The custom video_open() function in the camss driver open-codes the
-> v4l2_fh_open() helper, with an additional mutex that protects the whole
-> function. Given that the function does not modify any data guarded by
-> the lock, there's no need for using the mutex and the function can be
-> replaced by v4l2_fh_open().
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
 Tested-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
