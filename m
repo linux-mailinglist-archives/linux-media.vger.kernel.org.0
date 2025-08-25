@@ -1,306 +1,177 @@
-Return-Path: <linux-media+bounces-41039-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41040-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F14D1B345DB
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 17:34:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C652DB345EA
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 17:35:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BAF582A0A0C
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 15:34:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7AB9D5E552F
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 15:35:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B63F2FD1A1;
-	Mon, 25 Aug 2025 15:34:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF48C2FCBFC;
+	Mon, 25 Aug 2025 15:35:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="EVnPlGxT"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="nh1JP5Ip"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011036.outbound.protection.outlook.com [40.107.130.36])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C80235354;
-	Mon, 25 Aug 2025 15:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756136065; cv=fail; b=QNZgp0ziWMjCJbtvLMFhLmAVksf4TD42A9zdkq9YuavG7SIJQbKJOqRZmS1mOffAFxcEMflKR974fFvfoD25NVYKDfSKz3w3ZMH6sOZYsp2rrR7d+3CSqWjfVfETSe8appyhb7OaX+/0y3G7PKg105EXC5gTxDJT0u66Vxg+s4k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756136065; c=relaxed/simple;
-	bh=w6cJmCSKRqpTb37WcxOsVRDeVP8LgORi5BGPcG2EVlQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=anrROkhvXlCAndjkmYT4PrYpEa6lT5NsRL26MOdutGB2zKCyxZaul1k5Ml0i5Rxxcq9MuM3OMxNZc0rDJ9cfDvXRXlOQ6/BGndzJ2WXXxLdc6+1iQuqKhyh0ZO1MHtXfsnE+TKkV4Ks+yaxn3WuqO+LWLa4IWLmGwrbhvF0FPaA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=EVnPlGxT; arc=fail smtp.client-ip=40.107.130.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gemx1K9n/DKb8MF2ZFtcX1XynHTUCi3wwvxmBi0XPoN3o7Z8LvaR83EPmWae+xS98tWmJ7ZqPH17XF6xLZDs+XnzUmpnd4vk/tNmuMOaK5AQVAep/vm/OlAQBZasVoDJ3zUeFywT+lvLz9k1Ja536ghDwGhB4xyuojYzgdZClshy+ncYCUucbqsd98I3aqyOLWTF8WZe53K8PG/NZHNn7mvTxItW0+wn0uhFwBg8LsxRxDzjaqWiKJwEY366y9OLXyK7/bYEP0TYY43n3aXL8EkaSWC4/lao9Y9EQ5PR/F3fF5c/uWjRArIWUp11DDryWG7+zO9awQSve44J+/niQw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pD1fM5mNexRcRDe0akAYaCMgEryR6TBOYFbY57YoMGo=;
- b=CF13BJ+P22HTEjtIgRg8h1iKpXisQ24/nX11AiGFVKhFZFVJN4WMxHIophphKpaquxhhv4pHkVzDngdk7BhTDtiyCz9wxZwie51XUj/KVSwgXMXgF7D9Vp7fBKoXmFpRKKHCPIAdCm3OPeavXL3be+txIOMehbwc5i4E4DDrgsPLTxT+I5WZBGAUmsoEmkzQvnTka8bHzxY4CfQR6F6YSxPfzkJ+pUWFRlufBf29KCjwfveM7Jd0hBRZ91D2tmq2sro6ELow01xZdNH3xDH0IgR8BpYLgs2PcZ20Ya4sIT8T5+ZznBJGcBmfy5LXOCYxjhFytne6WgRpDnZK/j614Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pD1fM5mNexRcRDe0akAYaCMgEryR6TBOYFbY57YoMGo=;
- b=EVnPlGxT1XZmJKfWaZ8Ceo7QaR0S5m02Rpjr7JGPzb1MoMHcW047TdHq9CJZ5ar1bZvozIfR+aSW/wKmOsa0Dgj4eNw5aES6bhyA3muZPUvCfJV4POfAxr2+8v5uWNls1kmgod9YqvLWX1HKyRoxTIPzzF+74c89FY9uFXOEXqbmC/h6OyiHKSJYzFxHna9ZkwVMB/RsllVLzRXqWNFrXz8sQar4qyf9NVAcugRnc1LXcVQSwJKNu5VbM5uZJrKtSN4xLfhQmPJxL1lWqbbIWgC6Pr4BshUYQ1qPNo+Zei2rz24AuooJGpjvhmV4v2RXTyStIOt4OsJNns0UuDuZMw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
- by PAXPR04MB9301.eurprd04.prod.outlook.com (2603:10a6:102:2b9::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.11; Mon, 25 Aug
- 2025 15:34:19 +0000
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::e81:b393:ebc5:bc3d]) by DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::e81:b393:ebc5:bc3d%5]) with mapi id 15.20.9073.009; Mon, 25 Aug 2025
- 15:34:19 +0000
-Date: Mon, 25 Aug 2025 11:34:10 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Guoniu Zhou <guoniu.zhou@nxp.com>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 1/4] media: dt-bindings: nxp,imx8mq-mipi-csi2: Add
- i.MX8ULP compatible string
-Message-ID: <aKyCcv6zvq4qI34d@lizhi-Precision-Tower-5810>
-References: <20250825-csi2_imx8ulp-v3-0-35885aba62bc@nxp.com>
- <20250825-csi2_imx8ulp-v3-1-35885aba62bc@nxp.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825-csi2_imx8ulp-v3-1-35885aba62bc@nxp.com>
-X-ClientProxiedBy: BYAPR01CA0032.prod.exchangelabs.com (2603:10b6:a02:80::45)
- To DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 223592FD7C6;
+	Mon, 25 Aug 2025 15:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756136100; cv=none; b=n6Yxqq9KnsI4NntuPchDWhnNVaYmm6UcIfc03dp488nlBzZYSkklLpC5TYH4Sp0oJxTBVOA4u67AcB24DP4bv9Gbweu/OI9b+f5EQldxyaHbmx9F6Hswkasp3EsVKmAiPZhZ1kcG12z3M+iP60yogTr5TdqNV7JIYer2TsfeDPA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756136100; c=relaxed/simple;
+	bh=bThs6dquw7xOvTfV6mBanPsHrJCpSJ7xtTfsAmDs7S0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eIfe4ooGjZJ9K+hnl9/CcgmKYCSqSZM6Hp6g9DMA0rHuTR2rx5xadppaul/71h6udqZIyfKBtF2h0ffZaFjAyKJ822PespOuG/+jh5RPrKhJD+gluiAWdkrd9Xn/DFeaVzmftRkwunMBvprhvR94ei7L5Rsbpy5D64hmNitoJg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=nh1JP5Ip; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1756136096;
+	bh=bThs6dquw7xOvTfV6mBanPsHrJCpSJ7xtTfsAmDs7S0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=nh1JP5Ipb1aw0DYhqo7CEv4Q6KA1OjqQs8HaXYG5vIlRq/KfMovPkB6+/j7Y/JsbZ
+	 4UDz7XYX/1JIqx2pPZoru4VmeeJCQKev5BfY+t8TePXK4/qxwYfZN2D7W1bivDxhFP
+	 1dIVl2Q1Wnd0i+VpAV1ypZ8Yr1DCrcXeUTvz47Qi3JYT6YshgDKbeuEiDj88ho1b3c
+	 App7m2Mo/CCGxQo4rS6ya24EuVRi31+DkbDkCkenjyd6DCgsmp53P0jLe73dhT3xc9
+	 W6y4ew4+JE0arVtWZYLRUb2HpCMDPtYhqDqG8eRQ/6e4urmQ3tTGBmQZ+TJq7mFb2j
+	 3NvQb9YifYtZg==
+Received: from benjamin-XPS-13-9310.. (unknown [IPv6:2a01:e0a:120:3210:f39:d9a9:8ef1:f69a])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: benjamin.gaignard)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id C23D817E05F0;
+	Mon, 25 Aug 2025 17:34:55 +0200 (CEST)
+From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+To: joro@8bytes.org,
+	will@kernel.org,
+	robin.murphy@arm.com,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	heiko@sntech.de,
+	nicolas.dufresne@collabora.com,
+	jgg@ziepe.ca,
+	p.zabel@pengutronix.de,
+	mchehab@kernel.org
+Cc: iommu@lists.linux.dev,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org,
+	kernel@collabora.com,
+	linux-media@vger.kernel.org,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Subject: [PATCH v7 0/6] Add support for Verisilicon IOMMU used by media codec blocks
+Date: Mon, 25 Aug 2025 17:34:39 +0200
+Message-ID: <20250825153450.150071-1-benjamin.gaignard@collabora.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR04MB9626:EE_|PAXPR04MB9301:EE_
-X-MS-Office365-Filtering-Correlation-Id: ac5a641c-9dd5-487c-3d18-08dde3ecdbc2
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|19092799006|376014|7416014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?e3CD2XYHr7BsGgMnibeA8p0QC5apW8AxCcS7bq1uPdk/QQnGEmRSDxK6ovJ4?=
- =?us-ascii?Q?WqFivhBPMGCOSbh6ZIFGT16QTReoz0Q1wJDmSWs6+IscyhWAXX2ya+rVHfG7?=
- =?us-ascii?Q?PZMV7hCgzohnsNxECC0zWC+3zKUr4R//gSw5B1InzLqfdtKHLJo0JXF7qRXf?=
- =?us-ascii?Q?WKPaEmAfVnNZZu0CuN+WLp02boAgkyQZkJgB0yibb88dF+t836+OBVnthJyI?=
- =?us-ascii?Q?Uz+ET0joby4leTPTgomHUJj/5IAmpNVhLrZ7yn/umzEWezDoO6yr0/ve2tCP?=
- =?us-ascii?Q?UvNtuuqq7q2LmtCPRlWq8Jt/uRO+VDc3Q8dLbF5PJtZ4LyheEtqEpUOoEww8?=
- =?us-ascii?Q?UTgaqjkAEZ2lmVqz8fyIKJ9QcjPZ3Cnm8Q7xVc8DYk4YsYgCJ4E4EF0B+Ey+?=
- =?us-ascii?Q?ih69r1SC3yw2PYm2fM/WEYvLLocOci+Fy5nC7AaXo3lFetuPr/nQ3Cp0spK+?=
- =?us-ascii?Q?gNnCXetbMBjSzhAN2VhlM3FiF3pM2937FybQ66eJTjoFOO33OTCOmvfVgUUT?=
- =?us-ascii?Q?ZiGU1B1Vm3vtsfC0im5ZtsgQTYWW8sDZjcTiyFMVkoe6DgiezSiNiBoL11aO?=
- =?us-ascii?Q?TS+q/nTHGHQRLl1Dly/4lI2ZGFV3cx2+rBfQPN+7pdknhAq5F4/ZVHQGSBMI?=
- =?us-ascii?Q?XggsbpSirQVrIR7GF4yz4OMWO6aq/Cg36DpWBjiEVC5s50KiFalpHg+KhHs1?=
- =?us-ascii?Q?NZPYyS9a5PRHtLuazZqkMs+b1Swllb41Q4xFqIKerZWI1y0q+1aW6jUjm+R8?=
- =?us-ascii?Q?lfPJfYEQP8o2v1yXzPimScrUkxl7kz5I++6PMfK/dm5Ukuopruz302BNGE+w?=
- =?us-ascii?Q?ATD5D9deH7nw0yPUmvSo80kwwcJ7YvC4Fes5/3dFjO7fiQa/kaWhjwU/ydn0?=
- =?us-ascii?Q?umNPJAo/ah7RsEydaB0mbOiQSY5WxRqMB8dpRPV0cfLwvfHvVJ4nW/QjwYH/?=
- =?us-ascii?Q?CFOQQd56m4UtuhQvnFN4G+ytqr2xuXYbY62Lz+xCzjubfRaYzviEUXOr2ET7?=
- =?us-ascii?Q?NLZwAcdFAEC/4PIkETOSXtjoAMxA2W4L1gLOnZB2fniQXf7JCgwM0r50kR79?=
- =?us-ascii?Q?ZDQ1sFtcFKhSCGjZFLOiJFyn2oq1jiXGzvCed5oSbCqvLRpR999x7DECpQTb?=
- =?us-ascii?Q?YPo+qG7g2+svwkx6Y0i9TrdwzagU9+guoIzIt+/YcNHEQLW1TmmiBSe0CJBN?=
- =?us-ascii?Q?jt6eUR3PlLwf411tHJ8gDz9cRVH4iKr6pYABvgDmICp4DzDNzug8ag4mzTsD?=
- =?us-ascii?Q?R5A5CHnlNE841lPiuN7m/OGV2GIVgE62JDFtCgnAKlqtl6Am+BTZDkJsiQ5f?=
- =?us-ascii?Q?hsaQMy5+DnBF4JoYuDTCjOCxY2kAoi72tufBmBUzeNmQVoJQQpibLioa/yOi?=
- =?us-ascii?Q?XrhkHdVbZOBGPXa2RSYxM0qBnVMHWtzi+5O0q4R+7OWTlixEZCzfJjTxZ6ba?=
- =?us-ascii?Q?0cd+SC7xHlQ=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9626.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(376014)(7416014)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?hrTGlhGG0RLIYTY+9xE0gzq8LsNeBT54ZFR+3oCOpVrSDakA33c4hUWvvbv/?=
- =?us-ascii?Q?ed6V7DRW/Y6VK/BVMns+kEg4bGGeJIV4QirEjHmD3BI2hYRYDJwfRwT+1sQT?=
- =?us-ascii?Q?ekTNuV3lAvmhA9pCeS3KPNUKSTJaAYJLdE/TSGdbRso76yjxZEWMub5M5w0/?=
- =?us-ascii?Q?zhf8kxXKb8sR86JHJwGZTvDYH5UHXPeC1Z3xbE9PFaezZw6rSRp/9gJzWNi5?=
- =?us-ascii?Q?ajuF/64XTcarUrMWSHDqQsdI2GGr6YWilFp0ebbsfYQhUxVMb8jTDxcL5d8K?=
- =?us-ascii?Q?RuEqIaj/3lDiwxJ1FqG7zuZnKJ2kxOafCZbNcOjhyGqjZmFDEkufzSbJM7VJ?=
- =?us-ascii?Q?y3a7C0pLnLNqoSvuwQpe+y7Oryt/ua12IP6avWOcvQyBzO/Wc/8WgYefHaX0?=
- =?us-ascii?Q?H04eMXgpu0UPvZhyvvXYJPBo+yTYboWnplQe9PB6sY9f8BzHLOvTK/uPvWbb?=
- =?us-ascii?Q?7IC5+Sar1vFhlIsX4V6zsfxcvSNnKkBv3mp0TYdzcX7fqk/jBVhiZ2tieW7o?=
- =?us-ascii?Q?eXXNy88xXg62RmXKIo0NVMdTvoLiodsZxFdNNKYfZritLVcQS8CxPN3QrnkI?=
- =?us-ascii?Q?EnH/oG8zJEvQPwI8L6mM8Ut7HYaigddrYHvf1JkZMKCw2egMmP+aT81SVXnT?=
- =?us-ascii?Q?Rcbf9U1Lk8XM3HY6b2/87eiVNDFfrkC5foCdQhQ0IABn8R6ymGWYoT6oCdUX?=
- =?us-ascii?Q?lYd74eIVvxP2YvTb1k5LbMuKDT8Lay+oXvRNTnSPd5lPfY0A8To4EtWSWrm2?=
- =?us-ascii?Q?5tOcbxgwxTN6z97Me3REm33c79BrLSq70LsoVJF8xFHv6I8YU0rMzeCMS+4B?=
- =?us-ascii?Q?ddlq7/yC3gb8HzKnt2NMar11CWCKOMVIvpCgU+hAk4qPbE6eqUeqsvvt/orj?=
- =?us-ascii?Q?2CTzcaFXjB8ZYeRiwXwGAgtPGYl78L/rfpjdWp5oh6oYzONKXeo2FaFvukND?=
- =?us-ascii?Q?HRf4/P+C7GvCizQvmnBZuyqNRIM0pl+xay8WQ8ToOC9zB9S4tOokr2VixFbI?=
- =?us-ascii?Q?eNamzAitJhKAjaeqFs0RMPVYIDxspStjnLNCOidZtv/OkEVZG8/YkPxiY/kc?=
- =?us-ascii?Q?DrbzOZMuT5dsh2guj+IdTmCwMQNt1bTDnDwfU+DdlVlHrBfgHOiZtoN8dEzA?=
- =?us-ascii?Q?xXsu1wi2nrTeQOyn/2AijZX2cbBX+hDCwYgVbGOWKRdbrQgmC3qWtofsiJnU?=
- =?us-ascii?Q?xqlqWXpyRJHKBd/ViYDjaAyAe1A1g2lg1sjETNDs5V68YMznENk/8SrcU6Wh?=
- =?us-ascii?Q?xqv0sgQ0dfPP1Ml8bcyK3Dj3Owz2Ufcj4Zvbdmj90GUailJq5tZA0nTHfFKF?=
- =?us-ascii?Q?gAqlGbNqhJm2lBIGENMEZ0Q1oR+GlGiQDh+AXK+DwcY65IOVxGgBbUHVe6CY?=
- =?us-ascii?Q?aydp+TDTO5/4KxffPrQTFYXmJCzczUT3U3ENhNwMWXUm9e/1IV4IVvA9g0oI?=
- =?us-ascii?Q?ZdWr84GCDmeW/w6/ZQQzTXPztJ1QHpBnmmtvCWdiOdLM3JwwoxXEJQQF27hZ?=
- =?us-ascii?Q?jx9q5V7eT14aP7U957jzP/ll3scgLzeyAqCUwCCfM1it2Aw+yqNu+atMav6P?=
- =?us-ascii?Q?Gljrl+i5yA78E/Emclo=3D?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ac5a641c-9dd5-487c-3d18-08dde3ecdbc2
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9626.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2025 15:34:19.7571
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Fn2uCqDdBtl/5D6u0L29NHAJNPVrz/Utyrgwe6U3zXsEWfsz7vxTG5YevOOK52aF+ow9wc48E4+WMzgljwjbIQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9301
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 
-On Mon, Aug 25, 2025 at 06:10:10PM +0800, Guoniu Zhou wrote:
-> The CSI-2 receiver in the i.MX8ULP is almost identical to the version
-> present in the i.MX8QXP/QM. They both include an optional Control and
-> Status Register (CSR) interface. The csr clock is the input clock for
-> its APB interface. For i.MXQXP/QM, the clock is always on when system
-                                         ^^^^
-Do you means APB clock? you need specific it.
+Hi all,
 
-> power up. For i.MX8ULP, the clock needs to be controlled by consumer.
+This patch series adds support for the Verisilicon IOMMU, which is found in front
+of hardware encoder and decoder blocks in several SoCs using Verisilicon IP. 
+A first implementation of this IOMMU is available on the Rockchip RK3588 SoC.
 
+Rockchip provides a driver for this hardware in their 6.1 kernel branch:
+https://github.com/rockchip-linux/kernel/blob/develop-6.1/drivers/iommu/rockchip-iommu-av1d.c
 
-> For i.MX8MQ, it doesn't include CSR module.
+This series includes:
+- a new binding for the Verisilicon IOMMU
+- a driver implementation
+- DT updates for RK3588
 
-About reason is enough, you can remove it.
+The driver was forward-ported from Rockchip’s 6.1 implementation, 
+the prefix was renamed to vsi for generality, and several fixes were applied.
 
-> So add a device-specific
-> compatible string for i.MX8ULP to handle the difference.
->
-> Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
-> ---
->  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml       | 40 ++++++++++++++++++++--
->  1 file changed, 38 insertions(+), 2 deletions(-)
->
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> index 3389bab266a9adbda313c8ad795b998641df12f3..0bdd419a7ea12651bd514b6570fe208a99f0d6d9 100644
-> --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> @@ -21,7 +21,9 @@ properties:
->            - fsl,imx8mq-mipi-csi2
->            - fsl,imx8qxp-mipi-csi2
->        - items:
-> -          - const: fsl,imx8qm-mipi-csi2
-> +          - enum:
-> +              - fsl,imx8qm-mipi-csi2
-> +              - fsl,imx8ulp-mipi-csi2
->            - const: fsl,imx8qxp-mipi-csi2
->
->    reg:
-> @@ -39,12 +41,16 @@ properties:
->                       clock that the RX DPHY receives.
->        - description: ui is the pixel clock (phy_ref up to 333Mhz).
->                       See the reference manual for details.
-> +      - description: csr is the APB pclk for CSR APB interface.
-> +    minItems: 3
->
->    clock-names:
->      items:
->        - const: core
->        - const: esc
->        - const: ui
-> +      - const: csr
-> +    minItems: 3
+AV1 decoding was tested using the stateless VPU driver and Fluster.
+The test results show a score of 205/239, which confirms that no regressions
+were introduced by this series.
 
-You loss the restriction for fsl,imx8qm-mipi-csi2 and fsl,imx8qxp-mipi-csi2
-previous is maxItems is 3, now become 4.
+Feedback and testing welcome.
 
-Opitons 1:
+changes in version 7:
+- fix locking issues.
+- add a patch in AV1 video decoder to manage per context iommu domain.
+- fix compilation issues when build as module.
+- remove useless "rockchip,rk3588-av1-iommu" compatible in driver code.
 
-commit message: allow other platform at add apb clock, which normally
-always on, but real reflact hardware clock's schema.
+changes in version 6:
+- rework lock schema in vsi_iommu_attach_device() so
+  it protected against concurrent invalidation.
+- flush the cache after changing of domain.
 
-The key point is
+changes in version 5:
+- change locking schema to use 2 spin_locks: one to protect vsi_domain
+  data and one to protect vsi_iommu structure.
+- make suspend/resume more robust by calling disable/enable function.
+- rebased on top of v6.16-rc5
 
-You add new compatible string, which loss clocks and clocks-name restriction
-for exised compatible string. Reviewer is not sure if it is what your
-expected or just a mistake.
+changes in version 4:
+- rename and reorder compatibles fields.
+- Kconfig dependencies
+- Fix the remarks done by Jason and Robin: locking, clocks, macros
+  probing, pm_runtime, atomic allocation.
 
-If you still have question, please ping me by team.
+changes in version 3:
+- Change compatible to "rockchip,rk3588-iommu-1.2"
+- Fix compatible in .yaml
+- Update DT and driver to use "rockchip,rk3588-iommu-1.2" compatible
+- Set CONFIG_VSI_IOMMU as module in defconfig
+- Create an identity domain for the driver
+- Fix double flush issue
+- Rework attach/detach logic
+- Simplify xlate function
+- Discover iommu device like done in ARM driver
+- Remove ARM_DMA_USE_IOMMU from Kconfig
 
-Frank
+changes in version 2:
+- Add a compatible "rockchip,rk3588-av1-iommu"
+- Fix clock-names in binding 
+- Remove "vsi_mmu" label in binding example.
+- Rework driver probe function
+- Remove double flush
+- Rework driver internal structures and avoid allocate
+  in xlate function.
+- Do not touch to VPU driver anymore (path removed)
+- Add a patch to enable the driver in arm64 defconfig
+ 
+Benjamin Gaignard (6):
+  dt-bindings: vendor-prefixes: Add Verisilicon
+  dt-bindings: iommu: verisilicon: Add binding for VSI IOMMU
+  iommu: Add verisilicon IOMMU driver
+  media: verisilicon: AV1: Restore IOMMU context before decoding a frame
+  arm64: dts: rockchip: Add verisilicon IOMMU node on RK3588
+  arm64: defconfig: enable Verisilicon IOMMU
 
->
->    power-domains:
->      maxItems: 1
-> @@ -125,19 +131,49 @@ required:
->    - ports
->
->  allOf:
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - fsl,imx8ulp-mipi-csi2
-> +    then:
-> +      properties:
-> +        reg:
-> +          minItems: 2
-> +        resets:
-> +          minItems: 2
-> +          maxItems: 2
-> +        clocks:
-> +          minItems: 4
-> +        clock-names:
-> +          minItems: 4
-> +
->    - if:
->        properties:
->          compatible:
->            contains:
->              enum:
->                - fsl,imx8qxp-mipi-csi2
-> +              - fsl,imx8qm-mipi-csi2
-> +          not:
-> +            contains:
-> +              enum:
-> +                - fsl,imx8ulp-mipi-csi2
->      then:
->        properties:
->          reg:
->            minItems: 2
->          resets:
->            maxItems: 1
+ .../bindings/iommu/verisilicon,iommu.yaml     |  71 ++
+ .../devicetree/bindings/vendor-prefixes.yaml  |   2 +
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi |  11 +
+ arch/arm64/configs/defconfig                  |   1 +
+ drivers/iommu/Kconfig                         |  11 +
+ drivers/iommu/Makefile                        |   1 +
+ drivers/iommu/vsi-iommu.c                     | 779 ++++++++++++++++++
+ drivers/media/platform/verisilicon/hantro.h   |   5 +
+ .../media/platform/verisilicon/hantro_drv.c   |  11 +
+ .../verisilicon/rockchip_vpu981_hw_av1_dec.c  |  10 +
+ 10 files changed, 902 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/iommu/verisilicon,iommu.yaml
+ create mode 100644 drivers/iommu/vsi-iommu.c
 
-options:
-	 clocks:
-           maxItems: 3
-         clock-names:
-           maxItems: 3
+-- 
+2.43.0
 
-
-> -    else:
-> +
-> +  - if:
-> +      properties:
-> +        compatible:
-> +          contains:
-> +            enum:
-> +              - fsl,imx8mq-mipi-csi2
-> +    then:
->        properties:
->          reg:
->            maxItems: 1
->
-> --
-> 2.34.1
->
 
