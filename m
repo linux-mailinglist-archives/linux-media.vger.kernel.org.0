@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-40985-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40984-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280EFB33BFD
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 11:57:39 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D754EB33BEE
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 11:56:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 273AA18850EB
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 09:56:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BA98316BFFE
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 09:56:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D14E2D837C;
-	Mon, 25 Aug 2025 09:52:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9B932E093F;
+	Mon, 25 Aug 2025 09:52:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mi1DPHAC"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fCeGUL6x"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9642E03F8
-	for <linux-media@vger.kernel.org>; Mon, 25 Aug 2025 09:51:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F2C2D837C
+	for <linux-media@vger.kernel.org>; Mon, 25 Aug 2025 09:51:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756115520; cv=none; b=h8b+a4FWXzS94If9recRiQpVxsG0Fy1UC6I4QBK4lRaA5LKsqGGxydtai4bL880z6n+52uQuD4lrY5hxT1b7hMUGa7cMJ3YTJBVKIjrUAAsGqc8IG4CSZJXNgysly5IsaYHo1TAQKxj3FciYJ2I1yeMgMFYMXvRKh16psEbMgJ8=
+	t=1756115520; cv=none; b=G4cQ1MOhrTZdzIYZ8EcW0NqaCSLMfHv5BEIqyicmJ0PEPsnyxKApiJU7BD9FaUCYqs8irBrgs0w6IUqSXjX06jZY+/2AmVw+si+fzN5tSqHAmiCVi8eWiH7IPqsELfcks4Nul/yr5GLigufh5Ing36pdn8axu7MZnbAtI2PWzi0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756115520; c=relaxed/simple;
-	bh=AtT1Lyyh8mRQLdBcLWUeA3Yf7QuPUQD7Bnr6VAPu4c0=;
+	bh=8S436cHLME9X5lL8SDTAQd0DkZvj2tX5CkXi6kKtdBE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=IATlPtEwLoXYLRIUr9+8xjY8Q7zkmJGLc09hlnNDZUIfO1BKO5AEDv7kFLWAIPgG3yXC0uQoN2xzsaE5zWqBRxqvM3iSn6UPJR3bh/u4vO7wdMnoxPTLR3HNnPCdaBRRH2uY1SXT8SdrV8WJsjV2uDesUxjV6jimxuoMeiXL6aA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mi1DPHAC; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=YunNSgTfgfoQSKe5j0kIewteKQK0/rlfvdeCRK/iMFzLlQzq82H8+NWliMJd4F+1sqpgQN9MDhJ6PCj9QC1i5wPJsBCmHWp45Jm2tRAnkQF2cfFJcOQTUAHgMyeu1I6VSLZ7TMAAHO2cBAyUhxWr/Ld2J6wl20DSGqpEyal4aBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fCeGUL6x; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756115520; x=1787651520;
+  t=1756115519; x=1787651519;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=AtT1Lyyh8mRQLdBcLWUeA3Yf7QuPUQD7Bnr6VAPu4c0=;
-  b=Mi1DPHACVuEF0eOQ2PYDxDJTfjeyPoR2cxmL8YR/3Pd8YIhf1EvkI5z1
-   Sxadbi1TSh8fNQFP2bAL1qyS8xX2N5jbqrzgeHZgx16qRylUy6884x2zZ
-   nY6PHmit9bYcFRMZ5IJG6BxvnyzwcUXFbmViHHTjwyw7GbRlouJ9mqgp+
-   Oiwn6l1Vi9WDGjR7qgZFT58/sGcb+SYzsZE4c0dRa/b1BbIAzrusvG5cC
-   1TTrOHmK+mMmPigwnCo0l0sEdtGjfZMAp+zv4yJ1i4bxfxaHpEbRhR1so
-   oGYXokpIEYLwFxdJPmd6WHRy4GqkditQxi5QBAVcxRZcszyFQKZjXab8L
-   A==;
-X-CSE-ConnectionGUID: rfm7+Pb7RLmYcbyBMLnRuQ==
-X-CSE-MsgGUID: uAf2A6HAQNmBRCsX9h/HPg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="58032426"
+  bh=8S436cHLME9X5lL8SDTAQd0DkZvj2tX5CkXi6kKtdBE=;
+  b=fCeGUL6xHrOhN6Mgv4zA1i3rcF3nZEd/TYudQqQ0A3thxrShyBEZviv/
+   IG/fT9qbjLimnGvTEjsFoC4XHBML0Or/s2A+V59sh9QV2kf6qt0mptCPk
+   84Qp5DXAjCcJtdPpUxL+mU5aNt9qyEi9stYY/KhxpnHPmVwzHwovgZIXs
+   /X/5rUHEancuGgrLjJRC0vWDaXK7Nd82/Uondhbv2X1LW0s7+cL/9b+C4
+   QcnYKaCVfkpHk1e761Ey2uhL4IPWZv8Dyn3+v4gVs7/iJ3c5MFTUN7V/0
+   fncWTNNvNNKSmq87zVQz4WbRm5JXQJE23x5wjoriqIu7bqm7DXZJSv92b
+   g==;
+X-CSE-ConnectionGUID: MTXVBzTPT+WLl8jcaTcjLQ==
+X-CSE-MsgGUID: nXnTsEsKRK+8FlEa9To+Lw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="58032414"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58032426"
+   d="scan'208";a="58032414"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 02:51:53 -0700
-X-CSE-ConnectionGUID: ql2waNXnTa21KWemxToxiQ==
-X-CSE-MsgGUID: /Kf8wUpoQBuPFTlTPSWRow==
+X-CSE-ConnectionGUID: gOxxHQahSjKj8lZpsMyKpQ==
+X-CSE-MsgGUID: SJQakbx8Qum1lOkQybQO+w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="173431142"
+   d="scan'208";a="173431138"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.7])
   by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 02:51:47 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id E4FA9122009;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id E94A812200A;
 	Mon, 25 Aug 2025 12:51:08 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1uqTr2-00000005ahi-3n1B;
+	id 1uqTr2-00000005ahn-3qZY;
 	Mon, 25 Aug 2025 12:51:08 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -96,9 +96,9 @@ Cc: hans@jjverkuil.nl,
 	Hans de Goede <hdegoede@redhat.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v11 56/66] media: ov2740: Add IMMUTABLE and STATIC route flags
-Date: Mon, 25 Aug 2025 12:50:57 +0300
-Message-ID: <20250825095107.1332313-57-sakari.ailus@linux.intel.com>
+Subject: [PATCH v11 57/66] media: i2c: imx219: Inline imx219_update_pad_format() in its caller
+Date: Mon, 25 Aug 2025 12:50:58 +0300
+Message-ID: <20250825095107.1332313-58-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
 References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
@@ -110,39 +110,72 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add immutable and static route flags to the routing table. The driver does
-not support disabling the embedded data whereas the sensor itself does.
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
+The imx219_update_pad_format() is short and called from a single place,
+in imx219_set_pad_format(). Inline the code in the caller to keep all
+format adjustments grouped in a single place and improve readability.
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Julien Massot <julien.massot@collabora.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/i2c/ov2740.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ drivers/media/i2c/imx219.c | 29 +++++++++++++----------------
+ 1 file changed, 13 insertions(+), 16 deletions(-)
 
-diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-index 2480813113cb..8a2f22a7cf1e 100644
---- a/drivers/media/i2c/ov2740.c
-+++ b/drivers/media/i2c/ov2740.c
-@@ -1235,12 +1235,16 @@ static int ov2740_init_state(struct v4l2_subdev *sd,
- 			.sink_pad = OV2740_PAD_PIXEL,
- 			.source_pad = OV2740_PAD_SOURCE,
- 			.source_stream = OV2740_STREAM_PIXEL,
--			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-+			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
-+				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE |
-+				 V4L2_SUBDEV_ROUTE_FL_STATIC,
- 		}, {
- 			.sink_pad = OV2740_PAD_META,
- 			.source_pad = OV2740_PAD_SOURCE,
- 			.source_stream = OV2740_STREAM_META,
--			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-+			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
-+				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE |
-+				 V4L2_SUBDEV_ROUTE_FL_STATIC,
- 		},
- 	};
- 	struct v4l2_subdev_krouting routing = {
+diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+index 05f0c2c69fd2..cdc56673fa5f 100644
+--- a/drivers/media/i2c/imx219.c
++++ b/drivers/media/i2c/imx219.c
+@@ -799,21 +799,6 @@ static int imx219_disable_streams(struct v4l2_subdev *sd,
+ 	return ret;
+ }
+ 
+-static void imx219_update_pad_format(struct imx219 *imx219,
+-				     const struct imx219_mode *mode,
+-				     struct v4l2_mbus_framefmt *fmt, u32 code)
+-{
+-	/* Bayer order varies with flips */
+-	fmt->code = imx219_get_format_code(imx219, code);
+-	fmt->width = mode->width;
+-	fmt->height = mode->height;
+-	fmt->field = V4L2_FIELD_NONE;
+-	fmt->colorspace = V4L2_COLORSPACE_RAW;
+-	fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
+-	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+-	fmt->xfer_func = V4L2_XFER_FUNC_NONE;
+-}
+-
+ static int imx219_enum_mbus_code(struct v4l2_subdev *sd,
+ 				 struct v4l2_subdev_state *state,
+ 				 struct v4l2_subdev_mbus_code_enum *code)
+@@ -864,12 +849,24 @@ static int imx219_set_pad_format(struct v4l2_subdev *sd,
+ 	format = v4l2_subdev_state_get_format(state, 0);
+ 	prev_line_len = format->width + imx219->hblank->val;
+ 
++	/*
++	 * Adjust the requested format to match the closest mode. The Bayer
++	 * order varies with flips.
++	 */
+ 	mode = v4l2_find_nearest_size(supported_modes,
+ 				      ARRAY_SIZE(supported_modes),
+ 				      width, height,
+ 				      fmt->format.width, fmt->format.height);
+ 
+-	imx219_update_pad_format(imx219, mode, &fmt->format, fmt->format.code);
++	fmt->format.code = imx219_get_format_code(imx219, fmt->format.code);
++	fmt->format.width = mode->width;
++	fmt->format.height = mode->height;
++	fmt->format.field = V4L2_FIELD_NONE;
++	fmt->format.colorspace = V4L2_COLORSPACE_RAW;
++	fmt->format.ycbcr_enc = V4L2_YCBCR_ENC_601;
++	fmt->format.quantization = V4L2_QUANTIZATION_FULL_RANGE;
++	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
++
+ 	*format = fmt->format;
+ 
+ 	/*
 -- 
 2.47.2
 
