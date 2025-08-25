@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-41024-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41025-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7E4EB343BC
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 16:29:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 83A22B343F9
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 16:33:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7ADE41880592
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 14:29:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 324BB5E104E
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 14:29:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF3ED2FF66E;
-	Mon, 25 Aug 2025 14:26:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA1F22FABFF;
+	Mon, 25 Aug 2025 14:26:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ihdy5JAX"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="NSlA3ktj"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 992DD2FFDFB;
-	Mon, 25 Aug 2025 14:26:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFFEB2F39B1;
+	Mon, 25 Aug 2025 14:26:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756131996; cv=none; b=X7XgB+byMl7C+XAo9bYFhqpgWGfjai1iAqe8+YdUQAzKZqyFaQ7jXl+h4pDpzNOzRFg5f8AqkuhonPNozVxlaTJRfxPozQnfyaYkUK7MuEZ6EIbu1YUxX6o1oWUhKDsHky3Ts2J8GKrzQQ+8LQ9TU87l1+UI0SlPe5NoQEmni5Q=
+	t=1756131996; cv=none; b=hz8WdZeV3QzwqdDl/XxgkcUblt44M6RgdPT8xwVbhAwgJFChLRc5LnrYs+0XoLT+DtziU6oQXK6Yhstonc1jjQyDi/5g1xapves5fI7/Weai4vJHMUyF/XXithrCO/RAN57CzOHBFL2TzrfZ/rd9snytzwq3GUNkIMbPPVsjAKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756131996; c=relaxed/simple;
-	bh=C7MAQ4YKycr7GtX1FA38foUrC9frRXdT5XOgAnFggc0=;
+	bh=oy/FqP/g+SbZhVpKS68mLdaW+1sNSe5OV359W/qnbJY=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=gF5OzWGII7QR7Jhw/Ps1N2G95rCuH1KKugvMiMr+OsN7XdZceeaNH6LQ7W4RXk9WqLmlfbB6G/jB94eB7dBBKG+aWtZ0ip3a8Wiq0ugZSWj0r8tjs45C4lm8oaJNi4Cc2EH7tysbPXmXWkfnE/y8+e+Ye5QJKgn5qFW0N3RcR0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ihdy5JAX; arc=none smtp.client-ip=198.47.19.245
+	 MIME-Version:Content-Type; b=f3YUR8ZJJNhf07u197OLJCle6LWrpyIl56TVe1jNhjHlb6v0HWTUS4Y5w0hCqHE98aLbKwYpCg+CR0zV0yXMjNngHY5VdBYW2BrzMdSWLgS2LK4K3/4Yu2ixVxPaSf+hFwG9RSeo4zN3VTrDGKXBdYbxYCwDFjuPzEj9eUQGa/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=NSlA3ktj; arc=none smtp.client-ip=198.47.23.235
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57PEPs2l826626;
-	Mon, 25 Aug 2025 09:25:54 -0500
+Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57PEQ0qD1311037;
+	Mon, 25 Aug 2025 09:26:00 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1756131954;
-	bh=hnkm1H8l/0pHNB7y0g533omvD4VuezDAj1GxcdYLa9g=;
+	s=ti-com-17Q1; t=1756131960;
+	bh=jOYAJxh0WPskVMFabb7tswjjdVmgor+qBbtpEoJsbc8=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=ihdy5JAX5jiHWaYCUEoz9ammYSaLvaRBb8nKi8DoMN40lqGGY61n7S6Z1xMrdPmEn
-	 aq0Af5RSNf3InStIbuf4IPcErblLrceDX2XBrk62MuzgRV1UTidNrERy7bi3V+A/S4
-	 2gviK3EViE+Px2Rj7MkE3g2uQudsMfRdk/JpcPP4=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
-	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57PEPsgW1644072
+	b=NSlA3ktjm6mNWU/XiBlVTIJ15xACVjq70IqivlLZN01qfa9jF0xTBkcMmNyO0GGZa
+	 b0IMZaGHtwWU5zyCD0+S0OZ0QaNf5MHlFYZm6oODuTOsPg4Jbv+qtTeNzWSQpRQoC/
+	 uiF1BQfMxd3LPwjr7xgj7mhwzx99xfPrKwKMKhJU=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57PEQ0Ne669096
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Mon, 25 Aug 2025 09:25:54 -0500
-Received: from DFLE109.ent.ti.com (10.64.6.30) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+	Mon, 25 Aug 2025 09:26:00 -0500
+Received: from DFLE108.ent.ti.com (10.64.6.29) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 25
- Aug 2025 09:25:54 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
+ Aug 2025 09:26:00 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Mon, 25 Aug 2025 09:25:54 -0500
+ Frontend Transport; Mon, 25 Aug 2025 09:26:00 -0500
 Received: from ws.dhcp.ti.com (ws.dhcp.ti.com [172.24.233.149])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57PEPN3r3747540;
-	Mon, 25 Aug 2025 09:25:48 -0500
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57PEPN3s3747540;
+	Mon, 25 Aug 2025 09:25:54 -0500
 From: Rishikesh Donadkar <r-donadkar@ti.com>
 To: <jai.luthra@linux.dev>, <laurent.pinchart@ideasonboard.com>,
         <mripard@kernel.org>
@@ -67,9 +67,9 @@ CC: <r-donadkar@ti.com>, <y-abhilashchandra@ti.com>, <devarsht@ti.com>,
         <jai.luthra@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
         <jack.zhu@starfivetech.com>, <linux-kernel@vger.kernel.org>,
         <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v5 04/14] media: ti: j721e-csi2rx: prepare SHIM code for multiple contexts
-Date: Mon, 25 Aug 2025 19:55:12 +0530
-Message-ID: <20250825142522.1826188-5-r-donadkar@ti.com>
+Subject: [PATCH v5 05/14] media: ti: j721e-csi2rx: allocate DMA channel based on context index
+Date: Mon, 25 Aug 2025 19:55:13 +0530
+Message-ID: <20250825142522.1826188-6-r-donadkar@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250825142522.1826188-1-r-donadkar@ti.com>
 References: <20250825142522.1826188-1-r-donadkar@ti.com>
@@ -85,9 +85,10 @@ X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
 From: Pratyush Yadav <p.yadav@ti.com>
 
-Currently the SHIM code to configure the context only touches the first
-context. Add support for writing to the context's registers based on the
-context index.
+With multiple contexts, there needs to be a different DMA channel for
+each context. Earlier, the DMA channel name was hard coded to "rx0" for
+the sake of simplicity. Generate the DMA channel name based on its index
+and get the channel corresponding to the context.
 
 Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
 Signed-off-by: Jai Luthra <j-luthra@ti.com>
@@ -96,65 +97,26 @@ Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
 Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
 ---
- .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-index cb52bc7afd1f..50a935494e43 100644
+index 50a935494e43..4b5e49c2244e 100644
 --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
 +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-@@ -27,7 +27,7 @@
- #define SHIM_CNTL			0x10
- #define SHIM_CNTL_PIX_RST		BIT(0)
+@@ -1042,9 +1042,11 @@ static int ti_csi2rx_init_dma(struct ti_csi2rx_ctx *ctx)
+ 	struct dma_slave_config cfg = {
+ 		.src_addr_width = DMA_SLAVE_BUSWIDTH_16_BYTES,
+ 	};
++	char name[5];
+ 	int ret;
  
--#define SHIM_DMACNTX			0x20
-+#define SHIM_DMACNTX(i)			(0x20 + ((i) * 0x20))
- #define SHIM_DMACNTX_EN			BIT(31)
- #define SHIM_DMACNTX_YUV422		GENMASK(27, 26)
- #define SHIM_DMACNTX_DUAL_PCK_CFG	BIT(24)
-@@ -38,7 +38,7 @@
- #define SHIM_DMACNTX_SIZE_16		1
- #define SHIM_DMACNTX_SIZE_32		2
+-	ctx->dma.chan = dma_request_chan(ctx->csi->dev, "rx0");
++	snprintf(name, sizeof(name), "rx%u", ctx->idx);
++	ctx->dma.chan = dma_request_chan(ctx->csi->dev, name);
+ 	if (IS_ERR(ctx->dma.chan))
+ 		return PTR_ERR(ctx->dma.chan);
  
--#define SHIM_PSI_CFG0			0x24
-+#define SHIM_PSI_CFG0(i)		(0x24 + ((i) * 0x20))
- #define SHIM_PSI_CFG0_SRC_TAG		GENMASK(15, 0)
- #define SHIM_PSI_CFG0_DST_TAG		GENMASK(31, 16)
- 
-@@ -573,11 +573,13 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
- 		break;
- 	}
- 
--	writel(reg, csi->shim + SHIM_DMACNTX);
-+	reg |= FIELD_PREP(SHIM_DMACNTX_SIZE, fmt->size);
-+
-+	writel(reg, csi->shim + SHIM_DMACNTX(ctx->idx));
- 
- 	reg = FIELD_PREP(SHIM_PSI_CFG0_SRC_TAG, 0) |
- 	      FIELD_PREP(SHIM_PSI_CFG0_DST_TAG, 0);
--	writel(reg, csi->shim + SHIM_PSI_CFG0);
-+	writel(reg, csi->shim + SHIM_PSI_CFG0(ctx->idx));
- }
- 
- static void ti_csi2rx_drain_callback(void *param)
-@@ -894,7 +896,7 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
- err_pipeline:
- 	video_device_pipeline_stop(&ctx->vdev);
- 	writel(0, csi->shim + SHIM_CNTL);
--	writel(0, csi->shim + SHIM_DMACNTX);
-+	writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
- err:
- 	ti_csi2rx_cleanup_buffers(ctx, VB2_BUF_STATE_QUEUED);
- 	return ret;
-@@ -909,7 +911,7 @@ static void ti_csi2rx_stop_streaming(struct vb2_queue *vq)
- 	video_device_pipeline_stop(&ctx->vdev);
- 
- 	writel(0, csi->shim + SHIM_CNTL);
--	writel(0, csi->shim + SHIM_DMACNTX);
-+	writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
- 
- 	ret = v4l2_subdev_call(csi->source, video, s_stream, 0);
- 	if (ret)
 -- 
 2.34.1
 
