@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-41013-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41014-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57A24B33FD2
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 14:46:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 88867B3400D
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 14:51:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B664188DE37
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 12:46:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2E25D206513
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 12:51:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72F28192B84;
-	Mon, 25 Aug 2025 12:46:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F57C1E766E;
+	Mon, 25 Aug 2025 12:50:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="V6MeUGkm"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="AMh285rd"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mailout4.samsung.com (mailout4.samsung.com [203.254.224.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B64D3634EC
-	for <linux-media@vger.kernel.org>; Mon, 25 Aug 2025 12:46:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE672219319
+	for <linux-media@vger.kernel.org>; Mon, 25 Aug 2025 12:50:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756125979; cv=none; b=DvecJHfcBy2/xaqfUy6PJi0pjBObBJ+uy2pRuI/hg2TYNIfbnc8XLdVKPiTbs17VoD6jk9m0SGujpcBfsqRS+5G+qTi5T/XsnvflRGolOz6cy0CKCfzv5xLN8cIMG+n2ZSIaJ2V0jWkPyVg6yx7JNkQQr72IhRBpT+UcD4sl6rg=
+	t=1756126257; cv=none; b=KUDfqejXDhZ7u4VEO836hZYtkV0j4+pIOzRJ/bNu3PqMRJvlY0sghsGPbX+9UyxKs14d2yZHGXxMZxCxZTLcgbI3qgnQzBpYokp5DqP3H7ttx3zuvTZ0qGukL9b1vXp06Xyo2YURrC20HGZG03JKFJWn6zcIe29WChojUznoRjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756125979; c=relaxed/simple;
-	bh=NFA7Rip9aCBxNZXcfUwWfEWkPVvY2cnDcsKyD6aZzXw=;
+	s=arc-20240116; t=1756126257; c=relaxed/simple;
+	bh=PrWQKYuTQBEonO1XwozKv/FyqCzSqcNDCkgOqZLybHY=;
 	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
-	 Content-Type:References; b=loTmRyQgG4UQe9vYrAypCCJxU7nXw8rYQw0Lksj+iRknnz9kdysNYEbLUXWeQyMGFmq7jkNWYK33V5e2wZfe+HkYL6YB3rN+hxwF4+kLOdrkhkz0HrLdnSR/X3Cbf1w1tjgIs3pIFFH5k4J/fALSohpUBi4GroLScce0IwKLhOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=V6MeUGkm; arc=none smtp.client-ip=203.254.224.34
+	 Content-Type:References; b=SFfX0ZrIRbR1cokWL5DBVw9SHYk20wpr9TvrbhfOVYaE/jAx4BXh+/hUYQFC4AI4gaZS1q15lFicffi9Zky09DpbMJusgAq6X7/PdbtZQbJZPIw2qC8GFTSpn4b318WRxE6jKlz/82rJFNnAZY5TS0trJyKsOLGhRko0VkHzW8k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=AMh285rd; arc=none smtp.client-ip=203.254.224.34
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Received: from epcas5p2.samsung.com (unknown [182.195.41.40])
-	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250825124615epoutp04982fd9bcf9fced872c099e62889c1c59~fA0VT7LPp0805708057epoutp04K
-	for <linux-media@vger.kernel.org>; Mon, 25 Aug 2025 12:46:15 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250825124615epoutp04982fd9bcf9fced872c099e62889c1c59~fA0VT7LPp0805708057epoutp04K
+	by mailout4.samsung.com (KnoxPortal) with ESMTP id 20250825125054epoutp040560563ba90d7268b0f53075a9a40e54~fA4YcDd3I0649706497epoutp04Y
+	for <linux-media@vger.kernel.org>; Mon, 25 Aug 2025 12:50:54 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout4.samsung.com 20250825125054epoutp040560563ba90d7268b0f53075a9a40e54~fA4YcDd3I0649706497epoutp04Y
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1756125976;
-	bh=B3ggiGG3zGwf6IwROz+KzPW9tQZQRZy1LRUC1d2oO7M=;
+	s=mail20170921; t=1756126254;
+	bh=IyZaAnO05abMqFNQPoye38pNw/RRf81HOUABNDFs+ow=;
 	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
-	b=V6MeUGkmsrAeOtXmXencbUG3LWQKsujjNiIvmQ0U0GcTarAlfFOtZ9oEOI5oUawEI
-	 09MZ9QmBOwb4nSuIoQXswuhngUcu/w0Tvs1f5J2we0U8PH7sf49EMNNIMTnQ4/cJmi
-	 gGp3gB6rXhx3Ar/gz8NFWoZUYyqKMEp1Msg7CUNA=
-Received: from epsnrtp03.localdomain (unknown [182.195.42.155]) by
+	b=AMh285rdmU623jHntaAR4Uc/mjZOaKCdNV28Ulz6Y8YFW4MLqPqU9eQrLry+2PA5e
+	 ful1ZrE3jAecQhBtGRFTOPZ3iCsxrDZjsbVrnFoa/JIQ4nGUsxCSoecAGP75ts7x/3
+	 3eXVslFmwYW4edJjEgHeDXPOGDpotI/AG6N10jFc=
+Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
 	epcas5p2.samsung.com (KnoxPortal) with ESMTPS id
-	20250825124614epcas5p2ae7004efd1bd437a7c96737bb944d2df~fA0T3T3Eb0139601396epcas5p2h;
-	Mon, 25 Aug 2025 12:46:14 +0000 (GMT)
-Received: from epcas5p4.samsung.com (unknown [182.195.38.93]) by
-	epsnrtp03.localdomain (Postfix) with ESMTP id 4c9VsK3Nzhz3hhT4; Mon, 25 Aug
-	2025 12:46:13 +0000 (GMT)
-Received: from epsmtip2.samsung.com (unknown [182.195.34.31]) by
-	epcas5p1.samsung.com (KnoxPortal) with ESMTPA id
-	20250825124612epcas5p1bd59a975b75029ee366a424379ad6dee~fA0SV3_FU1396413964epcas5p1g;
-	Mon, 25 Aug 2025 12:46:12 +0000 (GMT)
-Received: from FDSFTE196 (unknown [107.116.189.214]) by epsmtip2.samsung.com
+	20250825125053epcas5p294541daa3b844dd44558dd8ff6676e60~fA4XffRJ20205802058epcas5p2S;
+	Mon, 25 Aug 2025 12:50:53 +0000 (GMT)
+Received: from epcas5p1.samsung.com (unknown [182.195.38.88]) by
+	epsnrtp02.localdomain (Postfix) with ESMTP id 4c9Vyh1bXbz2SSKY; Mon, 25 Aug
+	2025 12:50:52 +0000 (GMT)
+Received: from epsmtip1.samsung.com (unknown [182.195.34.30]) by
+	epcas5p4.samsung.com (KnoxPortal) with ESMTPA id
+	20250825125051epcas5p4f1fd9b26b26e388fdeef403aa802c252~fA4V6hK7A1505115051epcas5p4O;
+	Mon, 25 Aug 2025 12:50:51 +0000 (GMT)
+Received: from FDSFTE196 (unknown [107.116.189.214]) by epsmtip1.samsung.com
 	(KnoxPortal) with ESMTPA id
-	20250825124608epsmtip2bfc35ca4c6d5c979e37d4c4cca04ef7c~fA0Oi-Efs2384823848epsmtip2R;
-	Mon, 25 Aug 2025 12:46:08 +0000 (GMT)
+	20250825125047epsmtip11752ab6f3c0ad6db5a0093669b0fc3db~fA4SKmAoD3254932549epsmtip1I;
+	Mon, 25 Aug 2025 12:50:47 +0000 (GMT)
 From: "Inbaraj E" <inbaraj.e@samsung.com>
 To: "'Krzysztof Kozlowski'" <krzk@kernel.org>, <mturquette@baylibre.com>,
 	<sboyd@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
@@ -72,10 +72,11 @@ Cc: <linux-clk@vger.kernel.org>, <devicetree@vger.kernel.org>,
 	<kernel@pengutronix.de>, <festevam@gmail.com>,
 	<linux-media@vger.kernel.org>, <imx@lists.linux.dev>,
 	<linux-arm-kernel@lists.infradead.org>
-In-Reply-To: <4af38093-007e-4bfc-8439-0c3dc84012d8@kernel.org>
-Subject: RE: [PATCH v2 12/12] media: fsd-csis: Add support for FSD CSIS DMA
-Date: Mon, 25 Aug 2025 18:16:07 +0530
-Message-ID: <016201dc15be$3d032ca0$b70985e0$@samsung.com>
+In-Reply-To: <926e9bb2-cdde-4048-9ae2-159d088aa935@kernel.org>
+Subject: RE: [PATCH v2 03/12] dt-bindings: media: nxp: Add support for FSD
+ SoC
+Date: Mon, 25 Aug 2025 18:20:46 +0530
+Message-ID: <016301dc15be$e3256300$a9702900$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -84,79 +85,49 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQK5oFMD+tt4mLQU5V9KgVyIDaUIUQLOIzgLAmiUCqAC0LEeUQJu3YaUAdjFWtWyVbegcA==
+Thread-Index: AQK5oFMD+tt4mLQU5V9KgVyIDaUIUQF6bLd9AsRKNAMBJ/ZVhAEp+FCyAvdCX9oBWhQiOgImNHTdsk/6UEA=
 Content-Language: en-in
-X-CMS-MailID: 20250825124612epcas5p1bd59a975b75029ee366a424379ad6dee
+X-CMS-MailID: 20250825125051epcas5p4f1fd9b26b26e388fdeef403aa802c252
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
 CMS-TYPE: 105P
 cpgsPolicy: CPGSC10-541,Y
 X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250814141103epcas5p14516cbe45c21d28ba9e231da99940aa1
+X-CMS-RootMailID: 20250814141014epcas5p410d41ede7e8ae4f3cf8db6d041d03946
 References: <20250814140943.22531-1-inbaraj.e@samsung.com>
-	<CGME20250814141103epcas5p14516cbe45c21d28ba9e231da99940aa1@epcas5p1.samsung.com>
-	<20250814140943.22531-13-inbaraj.e@samsung.com>
-	<b1f59033-12d0-4395-85f1-e296a5dbca5f@kernel.org>
-	<00e301dc1424$033ed5a0$09bc80e0$@samsung.com>
-	<4af38093-007e-4bfc-8439-0c3dc84012d8@kernel.org>
-
+	<CGME20250814141014epcas5p410d41ede7e8ae4f3cf8db6d041d03946@epcas5p4.samsung.com>
+	<20250814140943.22531-4-inbaraj.e@samsung.com>
+	<ac9769af-9ab6-4b48-9890-ec3bcda3b180@kernel.org>
+	<00d001dc136a$36ad7230$a4085690$@samsung.com>
+	<7b7f6958-3178-4c6f-8be3-f52ef77464f7@kernel.org>
+	<00d201dc136d$1fdd6bc0$5f984340$@samsung.com>
+	<926e9bb2-cdde-4048-9ae2-159d088aa935@kernel.org>
 
 Hi Krzysztof,
 
-> >> Even more questions why?
 > >
-> > If CONFIG_PM is enabled, the clocks are enabled manually in the driver
-> > through fsd_csis_runtime_resume API.
-> >
-> > If CONFIG_PM is enabled, the clocks are managed through the PM runtime
-> > framework.
-> >
-> > Can you please help me understand what wrong here?
+> > Using tesla,syscon-csis results in a =22prefix not found=22 issue when
+> > running dtbs_check
+> Because you develop on ancient, 10 year old downstream kernel?
 >=20
-> I think I see such code for the first time, so wrong is doing something
-> common in completely unusual way.
+> You really do not try enough and this is just wasting our time.
+>=20
+> Please think and really carefully check your replies. What prefix do you =
+have
+> in compatible? This command:
+> git grep tesla, =7C wc -l
+>=20
+> gives '99' results including obviously vendor prefix.
+>=20
+> So your warning is basically impossible or your code is just broken.
+> Don't just ask maintainers on every little trouble you have. You must deb=
+ug
+> it. Not we.
 >=20
 
-Driver should ensure a device can be also used normally when runtime
-PM is disabled. So enabling clocks manually in probe, if CONFIG_PM is
-disabled.
-
-A Couple of other drivers also doing it in same way
-drivers/media/platform/nxp/imx-mipi-csis.c and=20
-drivers/media/platform/samsung/exynos4-is/fimc-core.c
-
-> >
-> > I'll fix in next patchset.
-> >
-> >>> +
-> >>> +	ret =3D fsd_csis_async_register(csis);
-> >>> +	if (ret)
-> >>> +		goto err_media_cleanup;
-> >>> +
-> >>> +	return 0;
-> >>> +
-> >>> +err_media_cleanup:
-> >>> +	fsd_csis_media_cleanup(csis);
-> >>
-> >> Also this...
-> >>
-> >
-> > if fsd_csis_media_init fails, the cleanup is handled internally.
->=20
-> What does it mean internally?
-
-I mean that in case fsd_csis_media_init fails, the cleanup of resources is =
-handled
-Within the same function itself.
-
->=20
-> > Here, cleanup is used only for fsd_csis_async_register failure.
-> >
-> > can you please help me understand what is wrong here?
->=20
-> Yeah, you leak clock resources.
-
-I'll fix in next patchset
+Sorry, I made a mistake while  running dtbs_check. I'll use the tesla prefi=
+x in the next
+patchset
 
 Regards,
 Inbaraj E
