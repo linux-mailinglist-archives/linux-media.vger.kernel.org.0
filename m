@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-40977-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40979-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 62238B33BE2
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 11:56:05 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 839B2B33BE4
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 11:56:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4257016AEFD
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 09:56:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3E02E4817E3
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 09:56:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 18D472DFF3F;
-	Mon, 25 Aug 2025 09:51:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72E7B2E03F1;
+	Mon, 25 Aug 2025 09:51:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FzonbpGT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z9HQtrz/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 237302DF715
-	for <linux-media@vger.kernel.org>; Mon, 25 Aug 2025 09:51:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5515B2DF71F
+	for <linux-media@vger.kernel.org>; Mon, 25 Aug 2025 09:51:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756115515; cv=none; b=kAKUYm3Hp/AQ2BA1BARfx7fN8ZD6dokRWu7XJcQfFVnj8m3v7ZFSihT6xyrgQmM5kkqqZXl9h/qG6pBB1+SzSlT5GOY53Tp35EeuBLoGYvEwZZ9cIH1wrurHTDJKgco/bJy9dyzKIMEEGcb39m9aK0YZWDqAej8odLHiXNiCzCE=
+	t=1756115516; cv=none; b=BASxip/szzoTQRjAPeYKHv87Timvg0OPUe9rkBWvrsqg1t54ePUcL+Ymze6Vi2kz9T7hYDzsUl9aVx98CEjU4DChFjAl5uG8ighJ1+QRbBjNIR7eZxHMRnRvN6dmh8nH7n6dt8ZouwOaa2Iv6ClkJjyHFDAegAhU26xuCQ0a4VA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756115515; c=relaxed/simple;
-	bh=CK1ee4c6rb6Z7QwMyXH4vSmAdJ1Bxax89mgVnL1Q4sE=;
+	s=arc-20240116; t=1756115516; c=relaxed/simple;
+	bh=Eaus8bI2b93z8V6NqpCoQoHVvIXHMkPKyYb36XrIGik=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=PjtMgk95Cx3XuVlgSR4SYEdTzt1KNoZuICWpAdxR+fUR2/XgJshFGIjrmzhuyi/3T1I0rRhQ+HwgXAF2FQMxD1YQU1B1t3+KMqWTxT8J4hYjWRfD2vdtr6f1tg5x/AOuy/b89BobJpH26oC882KUZB2LWLTfXVY4tL7oA5uVp5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FzonbpGT; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=o4nh82St45PRM9jzrKae99nouSauuUsBuqRHhk6hEubnD+HX+EVdQyZAkmHaJq5Nnn6oISkrW4NeozjljijND4i0Ld2tsz3rH0WmymmAAqxpfCuThQS8CiUUCE6C+ehu/DcupBL/pm7Ekbpi2KwU7aU0OLn2aAfjmjarQcZbftw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z9HQtrz/; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756115515; x=1787651515;
+  t=1756115516; x=1787651516;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=CK1ee4c6rb6Z7QwMyXH4vSmAdJ1Bxax89mgVnL1Q4sE=;
-  b=FzonbpGT20v4GDjkF28tP3CIgl53WZuH6Eb6Z5itV7FTEbmNvKNiWtXK
-   /mgTzqbVW3ev0Ry2bE0ksUAgOcfDMuF8CFc6p6aONj3F9ZqZtOKvSWzt+
-   k6lvkz20b/ot4mKl5HZLSL59svx7NPjtEJDpPpDBDTrUAJf8THvjQIwya
-   h/HxQR+NXO31FMFi5KouNA25okLkdkg6wq4tINGQICj5PNhCxxjyEZ2Bv
-   OnUi3fI4R1+HuMQ6kBjAx08ngKkn3PzV+dhucsW/oeNLICBlfw9CAiU+E
-   bCZ4AaGuHySUr6+GLz1Kq3lxwt5s2BKN7wv+1CalV7FzCPTBMfh4YACtY
-   Q==;
-X-CSE-ConnectionGUID: HFo0ugIIRCaMLipCY4kSnQ==
-X-CSE-MsgGUID: IMJfdJQuR+qRjX4XR79fTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="58032310"
+  bh=Eaus8bI2b93z8V6NqpCoQoHVvIXHMkPKyYb36XrIGik=;
+  b=Z9HQtrz/DkHDsbizm3JGo8D8KHzZaCGOjXJT/+kHdwvK0GXesgSQ4ObE
+   FbX2IBuf/GqtSAO05tmLfGf7AXyTnVuZjmux2om9Nz89oC0Y4MfydHaKC
+   PMx8Jpmc9GGH1HSLE2LImjXtPTBnvVh44TnJo/BorcBz2yTMBnfEcu8DM
+   YDksQACig2wjpp76ctx828K2ROo30ze/+DSUV6iLxtQFQak24uVdqhnlz
+   LUGHUtdKKyx7N0JICq0igPiD2myPdWlC2HhM4LpQMaTPy8/j71DbNw/8o
+   M6UrjHvtNuCcteMK+DQbF3pUJZMn8/PnkjNQjStY51WI+t26AHz7ZGT02
+   w==;
+X-CSE-ConnectionGUID: rPfCfXHmQByopazsnuYfIg==
+X-CSE-MsgGUID: w14IqTGnR+i04hT9OupG6A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="58032331"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58032310"
+   d="scan'208";a="58032331"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 02:51:46 -0700
-X-CSE-ConnectionGUID: gJM/4YMrSret94++qpt2ug==
-X-CSE-MsgGUID: io9+kE6sSEaUG596entjqg==
+X-CSE-ConnectionGUID: 4UW+y4GyQFe6rQY8V9KUEA==
+X-CSE-MsgGUID: pjOW91K8SMGrXh4ukwe2UA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="173431097"
+   d="scan'208";a="173431102"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.7])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 02:51:38 -0700
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 02:51:39 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id DAD37122005;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id DE56D122007;
 	Mon, 25 Aug 2025 12:51:08 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1uqTr2-00000005ahU-3bkk;
+	id 1uqTr2-00000005ahY-3ft9;
 	Mon, 25 Aug 2025 12:51:08 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -96,9 +96,9 @@ Cc: hans@jjverkuil.nl,
 	Hans de Goede <hdegoede@redhat.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v11 53/66] media: Documentation: Document IMMUTABLE and STATIC route flags
-Date: Mon, 25 Aug 2025 12:50:54 +0300
-Message-ID: <20250825095107.1332313-54-sakari.ailus@linux.intel.com>
+Subject: [PATCH v11 54/66] media: uapi: v4l: subdev: Enable streams API
+Date: Mon, 25 Aug 2025 12:50:55 +0300
+Message-ID: <20250825095107.1332313-55-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
 References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
@@ -110,37 +110,87 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Include the V4L2_SUBDEV_ROUTE_FL_IMMUTABLE and V4L2_SUBDEV_ROUTE_FL_STATIC
-flags in V4L2 sub-device documentation that discusses routing.
+Remove v4l2_subdev_enable_streams_api variable that was used to easily
+enable streams API for development, and conditions that use the variable.
+
+This patch enables the streams API for V4L2 sub-device interface which
+allows transporting multiple streams on a single MC link.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- Documentation/userspace-api/media/v4l/dev-subdev.rst | 11 +++++++----
- 1 file changed, 7 insertions(+), 4 deletions(-)
+ drivers/media/v4l2-core/v4l2-subdev.c | 30 ---------------------------
+ 1 file changed, 30 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-index 684ef0844517..2e94e00978c0 100644
---- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-+++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-@@ -603,11 +603,14 @@ depending on the hardware. In all cases, however, only routes that have the
- ``V4L2_SUBDEV_ROUTE_FL_ACTIVE`` flag set are active.
+diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2-core/v4l2-subdev.c
+index 8d4c484109fb..8100a812c766 100644
+--- a/drivers/media/v4l2-core/v4l2-subdev.c
++++ b/drivers/media/v4l2-core/v4l2-subdev.c
+@@ -50,15 +50,6 @@ struct v4l2_subdev_stream_config {
+ 	struct v4l2_fract interval;
+ };
  
- Devices generating the streams may allow enabling and disabling some of the
--routes or have a fixed routing configuration. If the routes can be disabled, not
-+routes or have a fixed routing configuration. Such routes that are directly tied
-+to hardware resources are marked with ``V4L2_SUBDEV_ROUTE_FL_IMMUTABLE`` route
-+flag. Routes that are always present but can be disabled are marked with
-+``V4L2_SUBDEV_ROUTE_FL_STATIC`` flag. Static routes can be disabled by not
- declaring the routes (or declaring them without ``V4L2_SUBDEV_ROUTE_FL_ACTIVE``
--flag set) in ``VIDIOC_SUBDEV_S_ROUTING`` will disable the routes.
--``VIDIOC_SUBDEV_S_ROUTING`` will still return such routes back to the user in
--the routes array, with the ``V4L2_SUBDEV_ROUTE_FL_ACTIVE`` flag unset.
-+flag set) in ``VIDIOC_SUBDEV_S_ROUTING``. ``VIDIOC_SUBDEV_S_ROUTING`` will still
-+return such routes back to the user in the routes array, with the
-+``V4L2_SUBDEV_ROUTE_FL_ACTIVE`` flag unset.
+-#if defined(CONFIG_VIDEO_V4L2_SUBDEV_API)
+-/*
+- * The Streams API is an experimental feature. To use the Streams API, set
+- * 'v4l2_subdev_enable_streams_api' to 1 below.
+- */
+-
+-static bool v4l2_subdev_enable_streams_api;
+-#endif
+-
+ /*
+  * Maximum stream ID is 63 for now, as we use u64 bitmask to represent a set
+  * of streams.
+@@ -642,13 +633,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 				       V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+ 	int rval;
  
- Devices transporting the streams almost always have more configurability with
- respect to routing. Typically any route between the sub-device's sink and source
+-	/*
+-	 * If the streams API is not enabled, remove V4L2_SUBDEV_CAP_STREAMS.
+-	 * Remove this when the API is no longer experimental.
+-	 */
+-	if (!v4l2_subdev_enable_streams_api)
+-		streams_subdev = false;
+-
+ 	switch (cmd) {
+ 	case VIDIOC_SUBDEV_QUERYCAP: {
+ 		struct v4l2_subdev_capability *cap = arg;
+@@ -1002,9 +986,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		struct v4l2_subdev_routing *routing = arg;
+ 		struct v4l2_subdev_krouting *krouting;
+ 
+-		if (!v4l2_subdev_enable_streams_api)
+-			return -ENOIOCTLCMD;
+-
+ 		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+ 			return -ENOIOCTLCMD;
+ 
+@@ -1029,9 +1010,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 		unsigned int num_active_routes = 0;
+ 		unsigned int i;
+ 
+-		if (!v4l2_subdev_enable_streams_api)
+-			return -ENOIOCTLCMD;
+-
+ 		if (!(sd->flags & V4L2_SUBDEV_FL_STREAMS))
+ 			return -ENOIOCTLCMD;
+ 
+@@ -1122,14 +1100,6 @@ static long subdev_do_ioctl(struct file *file, unsigned int cmd, void *arg,
+ 	case VIDIOC_SUBDEV_S_CLIENT_CAP: {
+ 		struct v4l2_subdev_client_capability *client_cap = arg;
+ 
+-		/*
+-		 * Clear V4L2_SUBDEV_CLIENT_CAP_STREAMS if streams API is not
+-		 * enabled. Remove this when streams API is no longer
+-		 * experimental.
+-		 */
+-		if (!v4l2_subdev_enable_streams_api)
+-			client_cap->capabilities &= ~V4L2_SUBDEV_CLIENT_CAP_STREAMS;
+-
+ 		/* Filter out unsupported capabilities */
+ 		client_cap->capabilities &= (V4L2_SUBDEV_CLIENT_CAP_STREAMS |
+ 					     V4L2_SUBDEV_CLIENT_CAP_INTERVAL_USES_WHICH);
 -- 
 2.47.2
 
