@@ -1,569 +1,266 @@
-Return-Path: <linux-media+bounces-41017-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41018-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE9C2B3438B
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 16:24:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C411EB343DB
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 16:32:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F7B31A8322E
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 14:24:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 848A317129B
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 14:27:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E7B6304BBB;
-	Mon, 25 Aug 2025 14:19:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1354B2FD1B6;
+	Mon, 25 Aug 2025 14:26:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I6X70Mzk"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ZldJOsQ3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD76C2FDC29;
-	Mon, 25 Aug 2025 14:19:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F1E92FB983;
+	Mon, 25 Aug 2025 14:26:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756131557; cv=none; b=nUO0bke3a2hdQvd8hMYETM+rrngB8A79P0lCcvtnX4y3IJZma2hs5Cc8gCv+vT3irckspK2kvwZzbJt3VXjTSxDCmCJiUqfY40OpiuQbi/8mcad+XkHhdjZRYkUzica6tTXKTxsAn/2OVaeiePnkob/w1Ehg6gDPB/tvsnS0xyM=
+	t=1756131964; cv=none; b=WHXpbJD5wLqzeZtjrzMx/sKjeVQOFXWqdwQ1TddsfOpGuzvSD959vhmt6evoXIZta4rrdcZGI+cU6uR8aTAfIbGLYuLwIITYCI5f9Cu19fXHLWcKgyv3I0EYnUaHLFEkTB2kAP/tVaY+my1qu/tC3o0y0WlmcMhkWnmw0eCpsKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756131557; c=relaxed/simple;
-	bh=pKnzrmU2im87vPYyT9k12MpOMguymJTGkL2f1FNL7sg=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:References:
-	 In-Reply-To:Content-Type; b=UywJewusAbh4F061T5EUi/Sqv00+r7nkzU4HE9sQnSHOkELYNxpbXwQMLiGJqw9q7DJUSvegkTSmwjUa3uDUjmE/vb4kFNF8t8MhunUYgW4WvyX5KjV2BKKZ05M/yvjgJjP1tVeCwEmGXCfZF2azRaSEFkkDBkhSq2kq79yjxfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I6X70Mzk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A5AFC113D0;
-	Mon, 25 Aug 2025 14:19:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756131556;
-	bh=pKnzrmU2im87vPYyT9k12MpOMguymJTGkL2f1FNL7sg=;
-	h=Date:From:Subject:To:References:In-Reply-To:From;
-	b=I6X70Mzk68dV74OLkQLI7EOv+MkAHb8W7Qzih4xxEwqbyJYuPGLeiZcV1HHTC8Qrv
-	 LOFFEO6/Da+cZbXzWGsDamho+Hkc6fCQMj6pg+D4Zxagg1Eu8paKvEnPeXWxL1rgjP
-	 41cqHVFs6Tl9SjxaI/ZmPXtryD1XxcNDkpoq+q/hIoMN1LwHp3B10QqRcCknFClo6C
-	 1wjbQmcZO6bdWBX04t35TErbPHsSevhDFV3c7ZDZr/QyqotWQX9ziwd28gfTzo5bkQ
-	 lAP0cP2FOUTFOT7AqUfTsrAlCgVYTYRFQeNOIplvy+5YJOtXRwYPU79TDS8Rk8Z69E
-	 r1Mmnx7RLVdTw==
-Message-ID: <495e8ffa-c826-45ff-a3fa-ec6e406f6b2c@kernel.org>
-Date: Mon, 25 Aug 2025 16:19:12 +0200
+	s=arc-20240116; t=1756131964; c=relaxed/simple;
+	bh=+anDv4KCxAMQhb/zgI5+MkJajBqEkRpD5J1Azq9QDII=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tnYrFijAPgPx57UDsGDD5nWhHP8RFsyfAkLc7Umif094OVV879crNG6C1KWTJ+3UQvNz3hqkMIlTBhQayLONC0WKD95yuV6C0xc9l26ozw465yrVyW/4P7wqkZg81H7QOAUIDNRKtP1KN8jmbkcIctmznTjoFIFUDyHOBO0yrug=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ZldJOsQ3; arc=none smtp.client-ip=198.47.23.234
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57PEPU36831105;
+	Mon, 25 Aug 2025 09:25:30 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1756131930;
+	bh=01wni2euBTT2L905UFnK3Ynn9iHMPxWiMJx8hw6DYUM=;
+	h=From:To:CC:Subject:Date;
+	b=ZldJOsQ3pABormexsA5ofZiuYgz6s7BAqxGV8NSR+WfxM7/jgaSztqPkglvtl2kIe
+	 fQgwHpDne3574euz0doUYU8R4/SdpWp7gBFVAKAyxebmxvyMcxaf12mElkeaqt45Tk
+	 Gw/Z/qVa/gFUxtq8gh/vLjGYIySM7ZV1duiiZMyo=
+Received: from DFLE108.ent.ti.com (dfle108.ent.ti.com [10.64.6.29])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57PEPUTJ1643886
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Mon, 25 Aug 2025 09:25:30 -0500
+Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE108.ent.ti.com
+ (10.64.6.29) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 25
+ Aug 2025 09:25:29 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE101.ent.ti.com
+ (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Mon, 25 Aug 2025 09:25:29 -0500
+Received: from ws.dhcp.ti.com (ws.dhcp.ti.com [172.24.233.149])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57PEPN3n3747540;
+	Mon, 25 Aug 2025 09:25:23 -0500
+From: Rishikesh Donadkar <r-donadkar@ti.com>
+To: <jai.luthra@linux.dev>, <laurent.pinchart@ideasonboard.com>,
+        <mripard@kernel.org>
+CC: <r-donadkar@ti.com>, <y-abhilashchandra@ti.com>, <devarsht@ti.com>,
+        <vaishnav.a@ti.com>, <s-jain1@ti.com>, <vigneshr@ti.com>,
+        <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <conor+dt@kernel.org>, <sakari.ailus@linux.intel.com>,
+        <hverkuil-cisco@xs4all.nl>, <tomi.valkeinen@ideasonboard.com>,
+        <jai.luthra@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
+        <jack.zhu@starfivetech.com>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: [PATCH v5 00/14] media: cadence,ti: CSI2RX Multistream Support
+Date: Mon, 25 Aug 2025 19:55:08 +0530
+Message-ID: <20250825142522.1826188-1-r-donadkar@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v7 1/1] media: aspeed: Allow to capture from SoC display
- (GFX)
-To: Jammy Huang <jammy_huang@aspeedtech.com>, eajames@linux.ibm.com,
- mchehab@kernel.org, joel@jms.id.au, andrew@aj.id.au,
- linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
- linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
- linux-kernel@vger.kernel.org
-References: <20250603064500.94048-1-jammy_huang@aspeedtech.com>
- <20250603064500.94048-2-jammy_huang@aspeedtech.com>
-Content-Language: en-US, nl
-In-Reply-To: <20250603064500.94048-2-jammy_huang@aspeedtech.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Hi Jammy,
+This series adds multi-stream support for Cadence CSI2RX and TI CSI2RX
+SHIM drivers.
 
-Apologies for the long delay. It looks good, except for a few missing checks
-when changing inputs, see below.
+The first patch is not strictly related to multistream support
 
-On 03/06/2025 08:45, Jammy Huang wrote:
-> ASPEED BMC IC has 2 different display engines. Please find AST2600's
-> datasheet to get detailed information.
-> 
-> 1. VGA on PCIe
-> 2. SoC Display (GFX)
-> 
-> By default, video engine (VE) will capture video from VGA. This patch
-> adds an option to capture video from GFX with standard ioctl,
-> vidioc_s_input.
-> 
-> An enum, aspeed_video_input, is added for this purpose.
-> enum aspeed_video_input {
-> 	VIDEO_INPUT_VGA = 0,
-> 	VIDEO_INPUT_GFX,
-> 	VIDEO_INPUT_MAX
-> };
-> 
-> To test this feature, you will need to enable GFX first. Please refer to
-> ASPEED's SDK_User_Guide, 6.3.x Soc Display driver, for more information.
-> In your application, you will need to use v4l2 ioctl, VIDIOC_S_INPUT, as
-> below to select before start streaming.
-> 
-> int rc;
-> struct v4l2_input input;
-> 
-> input.index = VIDEO_INPUT_GFX;
-> rc = ioctl(fd, VIDIOC_S_INPUT, &input);
-> if (rc < 0)
-> {
-> 	...
-> }
-> 
-> Link: https://github.com/AspeedTech-BMC/openbmc/releases
-> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
-> ---
->  drivers/media/platform/aspeed/aspeed-video.c | 189 ++++++++++++++++---
->  include/uapi/linux/aspeed-video.h            |   7 +
->  2 files changed, 168 insertions(+), 28 deletions(-)
-> 
-> diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
-> index 54cae0da9aca..97392ceed083 100644
-> --- a/drivers/media/platform/aspeed/aspeed-video.c
-> +++ b/drivers/media/platform/aspeed/aspeed-video.c
-> @@ -4,6 +4,7 @@
->  
->  #include <linux/atomic.h>
->  #include <linux/bitfield.h>
-> +#include <linux/cleanup.h>
->  #include <linux/clk.h>
->  #include <linux/delay.h>
->  #include <linux/device.h>
-> @@ -25,6 +26,8 @@
->  #include <linux/workqueue.h>
->  #include <linux/debugfs.h>
->  #include <linux/ktime.h>
-> +#include <linux/regmap.h>
-> +#include <linux/mfd/syscon.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-dev.h>
->  #include <media/v4l2-device.h>
-> @@ -203,6 +206,25 @@
->  #define VE_MEM_RESTRICT_START		0x310
->  #define VE_MEM_RESTRICT_END		0x314
->  
-> +/* SCU's registers */
-> +#define SCU_MISC_CTRL			0xC0
-> +#define  SCU_DPLL_SOURCE		BIT(20)
-> +
-> +/* GFX's registers */
-> +#define GFX_CTRL			0x60
-> +#define  GFX_CTRL_ENABLE		BIT(0)
-> +#define  GFX_CTRL_FMT			GENMASK(9, 7)
-> +
-> +#define GFX_H_DISPLAY			0x70
-> +#define  GFX_H_DISPLAY_DE		GENMASK(28, 16)
-> +#define  GFX_H_DISPLAY_TOTAL		GENMASK(12, 0)
-> +
-> +#define GFX_V_DISPLAY			0x78
-> +#define  GFX_V_DISPLAY_DE		GENMASK(27, 16)
-> +#define  GFX_V_DISPLAY_TOTAL		GENMASK(11, 0)
-> +
-> +#define GFX_DISPLAY_ADDR		0x80
-> +
->  /*
->   * VIDEO_MODE_DETECT_DONE:	a flag raised if signal lock
->   * VIDEO_RES_CHANGE:		a flag raised if res_change work on-going
-> @@ -262,6 +284,7 @@ struct aspeed_video_perf {
->  /*
->   * struct aspeed_video - driver data
->   *
-> + * version:		holds the version of aspeed SoC
->   * res_work:		holds the delayed_work for res-detection if unlock
->   * buffers:		holds the list of buffer queued from user
->   * flags:		holds the state of video
-> @@ -273,6 +296,7 @@ struct aspeed_video_perf {
->   * yuv420:		a flag raised if JPEG subsampling is 420
->   * format:		holds the video format
->   * hq_mode:		a flag raised if HQ is enabled. Only for VIDEO_FMT_ASPEED
-> + * input:		holds the video input
->   * frame_rate:		holds the frame_rate
->   * jpeg_quality:	holds jpeq's quality (0~11)
->   * jpeg_hq_quality:	holds hq's quality (1~12) only if hq_mode enabled
-> @@ -298,6 +322,9 @@ struct aspeed_video {
->  	struct video_device vdev;
->  	struct mutex video_lock;	/* v4l2 and videobuf2 lock */
->  
-> +	struct regmap *scu;
-> +	struct regmap *gfx;
-> +	u32 version;
->  	u32 jpeg_mode;
->  	u32 comp_size_read;
->  
-> @@ -316,6 +343,7 @@ struct aspeed_video {
->  	bool yuv420;
->  	enum aspeed_video_format format;
->  	bool hq_mode;
-> +	enum aspeed_video_input input;
->  	unsigned int frame_rate;
->  	unsigned int jpeg_quality;
->  	unsigned int jpeg_hq_quality;
-> @@ -331,21 +359,25 @@ struct aspeed_video {
->  #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
->  
->  struct aspeed_video_config {
-> +	u32 version;
->  	u32 jpeg_mode;
->  	u32 comp_size_read;
->  };
->  
->  static const struct aspeed_video_config ast2400_config = {
-> +	.version = 4,
->  	.jpeg_mode = AST2400_VE_SEQ_CTRL_JPEG_MODE,
->  	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
->  };
->  
->  static const struct aspeed_video_config ast2500_config = {
-> +	.version = 5,
->  	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
->  	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
->  };
->  
->  static const struct aspeed_video_config ast2600_config = {
-> +	.version = 6,
->  	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
->  	.comp_size_read = AST2600_VE_COMP_SIZE_READ_BACK,
->  };
-> @@ -485,6 +517,7 @@ static const struct v4l2_dv_timings_cap aspeed_video_timings_cap = {
->  
->  static const char * const format_str[] = {"Standard JPEG",
->  	"Aspeed JPEG"};
-> +static const char * const input_str[] = {"HOST VGA", "BMC GFX"};
->  
->  static unsigned int debug;
->  
-> @@ -609,6 +642,14 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
->  		aspeed_video_free_buf(video, &video->bcd);
->  	}
->  
-> +	if (video->input == VIDEO_INPUT_GFX) {
-> +		u32 val;
-> +
-> +		// update input buffer address as gfx's
-> +		regmap_read(video->gfx, GFX_DISPLAY_ADDR, &val);
-> +		aspeed_video_write(video, VE_TGS_0, val);
-> +	}
-> +
->  	spin_lock_irqsave(&video->lock, flags);
->  	buf = list_first_entry_or_null(&video->buffers,
->  				       struct aspeed_video_buffer, link);
-> @@ -1026,9 +1067,23 @@ static void aspeed_video_get_timings(struct aspeed_video *v,
->  	}
->  }
->  
-> +static void aspeed_video_get_resolution_gfx(struct aspeed_video *video,
-> +					    struct v4l2_bt_timings *det)
-> +{
-> +	u32 h_val, v_val;
-> +
-> +	regmap_read(video->gfx, GFX_H_DISPLAY, &h_val);
-> +	regmap_read(video->gfx, GFX_V_DISPLAY, &v_val);
-> +
-> +	det->width = FIELD_GET(GFX_H_DISPLAY_DE, h_val) + 1;
-> +	det->height = FIELD_GET(GFX_V_DISPLAY_DE, v_val) + 1;
-> +	video->v4l2_input_status = 0;
-> +}
-> +
->  #define res_check(v) test_and_clear_bit(VIDEO_MODE_DETECT_DONE, &(v)->flags)
->  
-> -static void aspeed_video_get_resolution(struct aspeed_video *video)
-> +static void aspeed_video_get_resolution_vga(struct aspeed_video *video,
-> +					    struct v4l2_bt_timings *det)
->  {
->  	bool invalid_resolution = true;
->  	int rc;
-> @@ -1036,7 +1091,6 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
->  	u32 mds;
->  	u32 src_lr_edge;
->  	u32 src_tb_edge;
-> -	struct v4l2_bt_timings *det = &video->detected_timings;
->  
->  	det->width = MIN_WIDTH;
->  	det->height = MIN_HEIGHT;
-> @@ -1113,14 +1167,20 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
->  
->  	aspeed_video_get_timings(video, det);
->  
-> -	/*
-> -	 * Enable mode-detect watchdog, resolution-change watchdog and
-> -	 * automatic compression after frame capture.
-> -	 */
-> +	/* Enable mode-detect watchdog, resolution-change watchdog */
->  	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
->  			    VE_INTERRUPT_MODE_DETECT_WD);
-> -	aspeed_video_update(video, VE_SEQ_CTRL, 0,
-> -			    VE_SEQ_CTRL_AUTO_COMP | VE_SEQ_CTRL_EN_WATCHDOG);
-> +	aspeed_video_update(video, VE_SEQ_CTRL, 0, VE_SEQ_CTRL_EN_WATCHDOG);
-> +}
-> +
-> +static void aspeed_video_get_resolution(struct aspeed_video *video)
-> +{
-> +	struct v4l2_bt_timings *det = &video->detected_timings;
-> +
-> +	if (video->input == VIDEO_INPUT_GFX)
-> +		aspeed_video_get_resolution_gfx(video, det);
-> +	else
-> +		aspeed_video_get_resolution_vga(video, det);
->  
->  	v4l2_dbg(1, debug, &video->v4l2_dev, "Got resolution: %dx%d\n",
->  		 det->width, det->height);
-> @@ -1156,7 +1216,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->  	aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
->  
->  	/* Don't use direct mode below 1024 x 768 (irqs don't fire) */
-> -	if (size < DIRECT_FETCH_THRESHOLD) {
-> +	if (video->input == VIDEO_INPUT_VGA && size < DIRECT_FETCH_THRESHOLD) {
->  		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Sync Mode\n");
->  		aspeed_video_write(video, VE_TGS_0,
->  				   FIELD_PREP(VE_TGS_FIRST,
-> @@ -1171,10 +1231,20 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->  				    VE_CTRL_INT_DE | VE_CTRL_DIRECT_FETCH,
->  				    VE_CTRL_INT_DE);
->  	} else {
-> +		u32 ctrl, val, bpp;
-> +
->  		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Direct Mode\n");
-> +		ctrl = VE_CTRL_DIRECT_FETCH;
-> +		if (video->input == VIDEO_INPUT_GFX) {
-> +			regmap_read(video->gfx, GFX_CTRL, &val);
-> +			bpp = FIELD_GET(GFX_CTRL_FMT, val) ? 32 : 16;
-> +			if (bpp == 16)
-> +				ctrl |= VE_CTRL_INT_DE;
-> +			aspeed_video_write(video, VE_TGS_1, act->width * (bpp >> 3));
-> +		}
->  		aspeed_video_update(video, VE_CTRL,
->  				    VE_CTRL_INT_DE | VE_CTRL_DIRECT_FETCH,
-> -				    VE_CTRL_DIRECT_FETCH);
-> +				    ctrl);
->  	}
->  
->  	size *= 4;
-> @@ -1207,6 +1277,22 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
->  		aspeed_video_free_buf(video, &video->srcs[0]);
->  }
->  
-> +/*
-> + * Update relative parameters when timing changed.
-> + *
-> + * @video: the struct of aspeed_video
-> + * @timings: the new timings
-> + */
-> +static void aspeed_video_update_timings(struct aspeed_video *video, struct v4l2_bt_timings *timings)
-> +{
-> +	video->active_timings = *timings;
-> +	aspeed_video_set_resolution(video);
-> +
-> +	video->pix_fmt.width = timings->width;
-> +	video->pix_fmt.height = timings->height;
-> +	video->pix_fmt.sizeimage = video->max_compressed_size;
-> +}
-> +
->  static void aspeed_video_update_regs(struct aspeed_video *video)
->  {
->  	u8 jpeg_hq_quality = clamp((int)video->jpeg_hq_quality - 1, 0,
-> @@ -1219,6 +1305,8 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
->  	u32 ctrl = 0;
->  	u32 seq_ctrl = 0;
->  
-> +	v4l2_dbg(1, debug, &video->v4l2_dev, "input(%s)\n",
-> +		 input_str[video->input]);
->  	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n",
->  		 video->frame_rate);
->  	v4l2_dbg(1, debug, &video->v4l2_dev, "jpeg format(%s) subsample(%s)\n",
-> @@ -1234,6 +1322,9 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
->  	else
->  		aspeed_video_update(video, VE_BCD_CTRL, VE_BCD_CTRL_EN_BCD, 0);
->  
-> +	if (video->input == VIDEO_INPUT_VGA)
-> +		ctrl |= VE_CTRL_AUTO_OR_CURSOR;
-> +
->  	if (video->frame_rate)
->  		ctrl |= FIELD_PREP(VE_CTRL_FRC, video->frame_rate);
->  
-> @@ -1252,7 +1343,9 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
->  	aspeed_video_update(video, VE_SEQ_CTRL,
->  			    video->jpeg_mode | VE_SEQ_CTRL_YUV420,
->  			    seq_ctrl);
-> -	aspeed_video_update(video, VE_CTRL, VE_CTRL_FRC, ctrl);
-> +	aspeed_video_update(video, VE_CTRL,
-> +			    VE_CTRL_FRC | VE_CTRL_AUTO_OR_CURSOR |
-> +			    VE_CTRL_SOURCE, ctrl);
->  	aspeed_video_update(video, VE_COMP_CTRL,
->  			    VE_COMP_CTRL_DCT_LUM | VE_COMP_CTRL_DCT_CHR |
->  			    VE_COMP_CTRL_EN_HQ | VE_COMP_CTRL_HQ_DCT_LUM |
-> @@ -1280,6 +1373,7 @@ static void aspeed_video_init_regs(struct aspeed_video *video)
->  	aspeed_video_write(video, VE_JPEG_ADDR, video->jpeg.dma);
->  
->  	/* Set control registers */
-> +	aspeed_video_write(video, VE_SEQ_CTRL, VE_SEQ_CTRL_AUTO_COMP);
->  	aspeed_video_write(video, VE_CTRL, ctrl);
->  	aspeed_video_write(video, VE_COMP_CTRL, VE_COMP_CTRL_RSVD);
->  
-> @@ -1311,12 +1405,7 @@ static void aspeed_video_start(struct aspeed_video *video)
->  	aspeed_video_get_resolution(video);
->  
->  	/* Set timings since the device is being opened for the first time */
-> -	video->active_timings = video->detected_timings;
-> -	aspeed_video_set_resolution(video);
-> -
-> -	video->pix_fmt.width = video->active_timings.width;
-> -	video->pix_fmt.height = video->active_timings.height;
-> -	video->pix_fmt.sizeimage = video->max_compressed_size;
-> +	aspeed_video_update_timings(video, &video->detected_timings);
->  }
->  
->  static void aspeed_video_stop(struct aspeed_video *video)
-> @@ -1401,10 +1490,10 @@ static int aspeed_video_enum_input(struct file *file, void *fh,
->  {
->  	struct aspeed_video *video = video_drvdata(file);
->  
-> -	if (inp->index)
-> +	if (inp->index >= VIDEO_INPUT_MAX)
->  		return -EINVAL;
->  
-> -	strscpy(inp->name, "Host VGA capture", sizeof(inp->name));
-> +	sprintf(inp->name, "%s capture", input_str[inp->index]);
->  	inp->type = V4L2_INPUT_TYPE_CAMERA;
->  	inp->capabilities = V4L2_IN_CAP_DV_TIMINGS;
->  	inp->status = video->v4l2_input_status;
-> @@ -1414,16 +1503,47 @@ static int aspeed_video_enum_input(struct file *file, void *fh,
->  
->  static int aspeed_video_get_input(struct file *file, void *fh, unsigned int *i)
->  {
-> -	*i = 0;
-> +	struct aspeed_video *video = video_drvdata(file);
-> +
-> +	*i = video->input;
->  
->  	return 0;
->  }
->  
->  static int aspeed_video_set_input(struct file *file, void *fh, unsigned int i)
->  {
-> -	if (i)
-> +	struct aspeed_video *video = video_drvdata(file);
-> +
-> +	if (i >= VIDEO_INPUT_MAX)
->  		return -EINVAL;
->  
-> +	if (IS_ERR(video->scu)) {
-> +		v4l2_dbg(1, debug, &video->v4l2_dev, "%s: scu isn't ready for input-control\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	if (IS_ERR(video->gfx) && i == VIDEO_INPUT_GFX) {
-> +		v4l2_dbg(1, debug, &video->v4l2_dev, "%s: gfx isn't ready for GFX input\n", __func__);
-> +		return -EINVAL;
-> +	}
+PATCH 01 :    Remove word size alignment restriction on frame width
 
-This need extra checks: one to just return 0 if the new input is the same as the old one:
+PATCH 02-07:  Support multiple DMA contexts/video nodes in TI CSI2RX
+PATCH 08-09:  Use get_frame_desc to propagate virtual channel
+              information across Cadence and TI CSI-RX subdevs
+PATCH 10-11:  Use new multi-stream APIs across the drivers to support
+              multiplexed cameras from sources like UB960 (FPDLink)
+PATCH 12:     Optimize stream on by submitting all queued buffers to DMA
+PATCH 13:     Change the drain architecture to support multi-stream
+PATCH 14:     Use wait for completion barrier APIs to ensure clean
+              stream stop
 
-	if (video->input == i)
-		return 0;
+Testing for this series has been done on top of media tree with 4x IMX219
+camera modules connected to TI's AM62A using V3 Link fusion mini board.
 
-followed by a check to see if we're streaming:
+Overlay and defconfig changes for the same can be found below:
+https://github.com/RISHI27-dot/linux/commits/u/multistream_v5/
 
-	if (vb2_is_busy(&video->queue))
-		return -EBUSY;
+v4l2-compliance results:
+https://gist.github.com/Rishikesh-D/27cb682fd0e16a383552485ef899b895
 
-Changing the input will also update the format, which is not allowed while streaming.
+This patch series depends on:
+https://lore.kernel.org/all/20250811-probe_fixes-v4-0-aae22290f1d0@ideasonboard.com/#t
 
-Regards,
+---
+Changes in v5:
 
-	Hans
+# New patches in v5:
 
-> +
-> +	video->input = i;
-> +
-> +	if (video->version == 6) {
-> +		/* modify dpll source per current input */
-> +		if (video->input == VIDEO_INPUT_VGA)
-> +			regmap_update_bits(video->scu, SCU_MISC_CTRL, SCU_DPLL_SOURCE, 0);
-> +		else
-> +			regmap_update_bits(video->scu, SCU_MISC_CTRL, SCU_DPLL_SOURCE, SCU_DPLL_SOURCE);
-> +	}
-> +
-> +	aspeed_video_update_regs(video);
-> +
-> +	/* update signal status */
-> +	aspeed_video_get_resolution(video);
-> +	if (!video->v4l2_input_status)
-> +		aspeed_video_update_timings(video, &video->detected_timings);
-> +
->  	return 0;
->  }
->  
-> @@ -1527,13 +1647,7 @@ static int aspeed_video_set_dv_timings(struct file *file, void *fh,
->  	if (vb2_is_busy(&video->queue))
->  		return -EBUSY;
->  
-> -	video->active_timings = timings->bt;
-> -
-> -	aspeed_video_set_resolution(video);
-> -
-> -	video->pix_fmt.width = timings->bt.width;
-> -	video->pix_fmt.height = timings->bt.height;
-> -	video->pix_fmt.sizeimage = video->max_compressed_size;
-> +	aspeed_video_update_timings(video, &timings->bt);
->  
->  	timings->type = V4L2_DV_BT_656_1120;
->  
-> @@ -1909,6 +2023,7 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
->  	val08 = aspeed_video_read(v, VE_CTRL);
->  	if (FIELD_GET(VE_CTRL_DIRECT_FETCH, val08)) {
->  		seq_printf(s, "  %-20s:\tDirect fetch\n", "Mode");
-> +		seq_printf(s, "  %-20s:\t%s\n", "Input", input_str[v->input]);
->  		seq_printf(s, "  %-20s:\t%s\n", "VGA bpp mode",
->  			   FIELD_GET(VE_CTRL_INT_DE, val08) ? "16" : "32");
->  	} else {
-> @@ -2068,12 +2183,29 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
->  	return 0;
->  }
->  
-> +/*
-> + * Get regmap without checking res, such as clk/reset, that could lead to
-> + * conflict.
-> + */
-> +static struct regmap *aspeed_regmap_lookup(struct device_node *np, const char *property)
-> +{
-> +	struct device_node *syscon_np __free(device_node) = of_parse_phandle(np, property, 0);
-> +
-> +	if (!syscon_np)
-> +		return ERR_PTR(-ENODEV);
-> +
-> +	return device_node_to_regmap(syscon_np);
-> +}
-> +
->  static int aspeed_video_init(struct aspeed_video *video)
->  {
->  	int irq;
->  	int rc;
->  	struct device *dev = video->dev;
->  
-> +	video->scu = aspeed_regmap_lookup(dev->of_node, "aspeed,scu");
-> +	video->gfx = aspeed_regmap_lookup(dev->of_node, "aspeed,gfx");
-> +
->  	irq = irq_of_parse_and_map(dev->of_node, 0);
->  	if (!irq) {
->  		dev_err(dev, "Unable to find IRQ\n");
-> @@ -2165,6 +2297,7 @@ static int aspeed_video_probe(struct platform_device *pdev)
->  	if (!config)
->  		return -ENODEV;
->  
-> +	video->version = config->version;
->  	video->jpeg_mode = config->jpeg_mode;
->  	video->comp_size_read = config->comp_size_read;
->  
-> diff --git a/include/uapi/linux/aspeed-video.h b/include/uapi/linux/aspeed-video.h
-> index 6586a65548c4..15168e8c931e 100644
-> --- a/include/uapi/linux/aspeed-video.h
-> +++ b/include/uapi/linux/aspeed-video.h
-> @@ -8,6 +8,13 @@
->  
->  #include <linux/v4l2-controls.h>
->  
-> +/* aspeed video's input types */
-> +enum aspeed_video_input {
-> +	VIDEO_INPUT_VGA = 0,
-> +	VIDEO_INPUT_GFX,
-> +	VIDEO_INPUT_MAX
-> +};
-> +
->  #define V4L2_CID_ASPEED_HQ_MODE			(V4L2_CID_USER_ASPEED_BASE  + 1)
->  #define V4L2_CID_ASPEED_HQ_JPEG_QUALITY		(V4L2_CID_USER_ASPEED_BASE  + 2)
->  
+[PATCH v5 01/14] media: ti: j721e-csi2rx: Remove word size alignment
+[PATCH v5 14/14] media: ti: j721e-csi2rx: Wait for the last drain
+
+# Changes in patches from v4:
+
+[PATCH v4 01/12] dt-bindings: media: ti,j721e-csi2rx-shim: Support 32 dma chans
+- No change
+[PATCH v4 02/12] media: ti: j721e-csi2rx: separate out device and context
+- No change
+[PATCH v4 03/12] media: ti: j721e-csi2rx: prepare SHIM code for multiple contexts
+- No change
+[PATCH v4 04/12] media: ti: j721e-csi2rx: allocate DMA channel based on context index
+- No change
+[PATCH v4 05/12] media: ti: j721e-csi2rx: add a subdev for the core device
+- No change
+[PATCH v4 06/12] media: ti: j721e-csi2rx: get number of contexts from device tree
+- No change
+[PATCH v4 07/12] media: cadence: csi2rx: add get_frame_desc wrapper
+- No change
+[PATCH v4 08/12] media: ti: j721e-csi2rx: add support for processing virtual channels
+- No change
+[PATCH v4 09/12] media: cadence: csi2rx: add multistream support
+- No change
+[PATCH v4 10/12] media: ti: j721e-csi2rx: add multistream support
+- Serialize stream stop
+- Remove the break statement to avoid early return in the loop, as
+  reported by Sjoerd
+[PATCH v4 11/12] media: ti: j721e-csi2rx: Submit all available buffers
+- Delete the list node on DMA error to avoid kernel panic
+[PATCH v4 12/12] media: ti: j721e-csi2rx: Change the drain architecture for multistream
+- Mention about next frame after drain being bogus
+
+Link to (v4):
+  https://lore.kernel.org/all/20250514112527.1983068-1-r-donadkar@ti.com/
+
+Changes in v4:
+
+[PATCH 01/13] dt-bindings: media: ti,j721e-csi2rx-shim: Support 32 dma chans
+  - No change
+[PATCH 02/13] media: ti: j721e-csi2rx: separate out device and context
+  - Add ctx identifier in the dev_err() message
+  - No change
+[PATCH 03/13] media: ti: j721e-csi2rx: prepare SHIM code for multiple contexts
+  - Reduced the name string lenght from 32 chars to 5 chars
+[PATCH 04/13] media: ti: j721e-csi2rx: allocate DMA channel based on context index
+  - No change
+[PATCH 05/13] media: ti: j721e-csi2rx: add a subdev for the core device
+  - Add .enum_mbus_code callback
+  - Replace statically allocated struct with a global static const struct
+    v4l2_mbus_framefmt and used that in the _init_state() function
+[PATCH 06/13] media: ti: j721e-csi2rx: get number of contexts from device tree
+  - Fix the drain buffer being leaked
+  - If the shows more number of ctx than the TI_CSI2RX_MAX_CTX, return an error
+    instead of warning
+[PATCH 07/13] media: cadence: csi2rx: add get_frame_desc wrapper
+  - No change
+[PATCH 08/13] media: ti: j721e-csi2rx: add support for processing virtual channels
+  - Call ti_csi2rx_get_vc() only once on first stream start and cache the VC data in
+    the driver, use the corresponding VC in all subsequent stream starts.
+[PATCH 09/13] media: cadence: csi2rx: Use new enable stream APIs
+[PATCH 10/13] media: cadence: csi2rx: Enable multi-stream support
+  - Squash the above two patches into
+    [PATCH v4 09/12] media: cadence: csi2rx: add multistream support
+  - Use already obtained csi2rx->source_pad in enable_streams() and
+    disable_streams() call
+  - Update commit message with the reason for using a custom helper for s_stream
+    instead of v4l2_subdev_s_stream_helper()
+  - Use v4l2_get_link_freq() variant that takes pad of the source as its first
+    argument instead of the one that takes v4l2_ctrl_handler
+  - Call v4l2_get_link_freq() with bpp = 0 to prevent fallback to V4L2_CID_PIXEL_RATE
+    in multi-stream case
+  - Use lock guards to simplify error handling
+  - Call csi2rx_update_vc_select() at first stream start before enabling the controller
+[PATCH 11/13] media: ti: j721e-csi2rx: add multistream support
+  - No change
+[PATCH 12/13] media: ti: j721e-csi2rx: Submit all available buffers
+  - No change
+[PATCH 13/13] media: ti: j721e-csi2rx: Change the drain architecture for multistream
+  - Fix checkpatch warning
+  - Change commit message to give a better description of the patch
+
+Link to (v3):
+  https://lore.kernel.org/all/20250417065554.437541-1-r-donadkar@ti.com/
+
+Changes in v3:
+
+- Drop [PATCH v2 01/13] media: cadence: csi2rx: Support runtime PM from
+  v2, support for runtime PM will be added in a separate series:
+  https://lore.kernel.org/all/20250224-ti_csi_pm-v1-0-8f8c29ef646d@ideasonboard.com/
+- Change the drain architecture to prevent FIFO overflow in multistream
+  usecases.
+- With the new drain architecture, we don't need the the driver to wait
+  for userspace to start streaming on all "actively routed" video nodes
+  before starting streaming on the source. So, revert back to the capture
+  architecture where streams can be started and stopped independent
+  to each other.
+
+Link to (v2):
+  https://lore.kernel.org/r/20240627-multistream-v2-0-6ae96c54c1c3@ti.com
+
+Changes in v2:
+
+- Change the multi-camera capture architecture to be similar to that of
+  Tomi's RPi5 FE series, where the driver will wait for userspace to
+  start streaming on all "actively routed" video nodes before starting
+  streaming on the source. This simplifies things a lot from the HW
+  perspective, which might run into deadlocks due to a shared FIFO
+  between multiple DMA channels.
+
+- Drop a few fixes that were posted separately and are already merged
+- Fix dtschema warnings reported by Rob on [02/13]
+- Fix warnings for uninitialized `used_vc` variable in cdns-csi2rx.c
+- Return -EBUSY if someone updates routes for j721e-csi2rx subdev while
+  streaming
+- Only allow single-streams to be routed to the source pads (linked to
+  video nodes) of the j721e-csi2rx device
+- Squash the patches marked "SQUASH" in the v1 RFC series
+
+Link to RFC (v1):
+https://lore.kernel.org/r/20240222-multistream-v1-0-1837ed916eeb@ti.com
+
+Jai Luthra (7):
+  dt-bindings: media: ti,j721e-csi2rx-shim: Support 32 dma chans
+  media: ti: j721e-csi2rx: separate out device and context
+  media: ti: j721e-csi2rx: add a subdev for the core device
+  media: ti: j721e-csi2rx: add support for processing virtual channels
+  media: cadence: csi2rx: add multistream support
+  media: ti: j721e-csi2rx: add multistream support
+  media: ti: j721e-csi2rx: Submit all available buffers
+
+Pratyush Yadav (4):
+  media: ti: j721e-csi2rx: prepare SHIM code for multiple contexts
+  media: ti: j721e-csi2rx: allocate DMA channel based on context index
+  media: ti: j721e-csi2rx: get number of contexts from device tree
+  media: cadence: csi2rx: add get_frame_desc wrapper
+
+Rishikesh Donadkar (3):
+  media: ti: j721e-csi2rx: Remove word size alignment on frame width
+  media: ti: j721e-csi2rx: Change the drain architecture for multistream
+  media: ti: j721e-csi2rx: Wait for the last drain completion
+
+ .../bindings/media/ti,j721e-csi2rx-shim.yaml  |   39 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c  |  372 ++++--
+ .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 1002 ++++++++++++-----
+ 3 files changed, 1049 insertions(+), 364 deletions(-)
+
+-- 
+2.34.1
 
 
