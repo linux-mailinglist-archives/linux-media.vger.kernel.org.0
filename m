@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-40940-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40939-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4C3AB33BDC
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 11:55:36 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53D62B33BCF
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 11:54:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68B7D1888D0A
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 09:54:24 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0388E7B1BB8
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 09:52:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB7302D63F9;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 43FC72D6E49;
 	Mon, 25 Aug 2025 09:51:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jFx0m1hP"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HDJi/q8R"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F7E12D6409
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F7942D63F9
 	for <linux-media@vger.kernel.org>; Mon, 25 Aug 2025 09:51:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756115492; cv=none; b=akNk49vanRwtpuSrHsj8Rjjl0gZH6ZGPSKw7tV4aCYv4DL5BZX806MPPxmOBQrbWj0HcVod1ee+0f0PobD9Vs/WLZgiiFFHFxnUQHBIqzg9wS+ztSLzdpCyJ59HfyQWBron2oBk9ikgE0KkIxlh4HiYpriIzTTF7DfWGbIfoRZM=
+	t=1756115491; cv=none; b=STtT2rPQOVM1s/Ai5l9s5qWQu+D1C9nEP3OXeZs6fXPK0ftXnNyFS1gJjy2BdJyp2Ar/D5jAB01ZytE8qVndPpazk5xOlrPxwCUIoIkN2NlGa5J15bKhU+0cn6FTDlDbomVEudNdoPcnf9kGuNLUrH/mOyCYK6fZptuNak/3XE4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756115492; c=relaxed/simple;
-	bh=cn7vk6F0NixisGGgzY05u+IUQ2W+nwtuw/u8veNfIc0=;
+	s=arc-20240116; t=1756115491; c=relaxed/simple;
+	bh=AIX4SKfsq7RmqJ/CryayH51/DyNItO3x4/rUmNw8cto=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BOVL4NeeoawM1NDIOyxAQ1QgOXY22pitHNPhVGs6N+LsKnQXLujHhcZg3jNPt6itrvuvv6idZERwUQiZdk6F+qLvQk5uADrSReaw3mYaTEvO+MXWPmc8eP+7urRlk+UAnWlzYoNG+nPX/C6upI2SL7XG6g/q+bRF6k6f4FSpNpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jFx0m1hP; arc=none smtp.client-ip=192.198.163.10
+	 MIME-Version; b=ByYCyY5hrIL846pETVC8UbyUoeQy2YnBqgsVdaHaZYk/1eNPGQ9V4MzJxUQN5xC0wCVbbfHDQZTNnATOu7udTrmkZNbcIMhrLdX3tYVn5ShqKi5SG54XLE//vaHjKARIfevVYwzJQiKxXRTtxv1bOx3tbQQgNrzSU/AY+Q+i0k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HDJi/q8R; arc=none smtp.client-ip=192.198.163.10
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
@@ -36,34 +36,34 @@ DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   t=1756115490; x=1787651490;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=cn7vk6F0NixisGGgzY05u+IUQ2W+nwtuw/u8veNfIc0=;
-  b=jFx0m1hPxjob53UTxiF5nTZ19wMHZljG4284WwNMVUMtP39ABDkBX8In
-   Ye/x33eF7mpE2Ypnp15Vy1ciFA6A1w/gMMzMSY0djI9PiDXKF2E1x5a93
-   sRgL46ojj2CZI5lNnGheHrC5njg//HxxVlro387UvxJgQu0uAiXORdJXk
-   BkFQtx6W8Py+V3ibiPZMGw/gh6c0U9tx4bzFh98E5nRH4AOKpcnOxU51J
-   ZXmsKGcH3Y3aNagAaeQ56WDwmC5zwCEyp/jNxnelifJNG3qzs2c/jimaO
-   fUF5vMI2MY0+h2rycO0K0mXudV+0utLj/2X6M7bNAxZ2ZhtJjNFkEGMkZ
-   g==;
-X-CSE-ConnectionGUID: 5msnGdy7T1WdVPze1O2F+g==
-X-CSE-MsgGUID: kjbLihVETZe8TO4uNEpXgQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="69695865"
+  bh=AIX4SKfsq7RmqJ/CryayH51/DyNItO3x4/rUmNw8cto=;
+  b=HDJi/q8Rhfd/cEkaNo7r7jDXo5KuDQXutEIzQI6+1yAoltvmuata/ND0
+   id30N9ZS/7X7IoVPdB9LmN4Oj2nwRGr+xkYkRZVLFi6cKOI9DY0ckpwL2
+   V5q2pBnEsuEM7hh7prPuQg1eygvTYvpF6g18lOcaKOc19c8CBCm/Omb4l
+   8tuFyP5B4ynq44hDiazVfa8hG6UEYJs0vyR2g/VXJRsrzzcTCRXrB6a0/
+   TZIi8kGLzTSyfG9UB58Q/Pd+IR3Ew0AoGAts1Jq88w0AkSEZ/Xakdln2c
+   Zd+TdARv/TZjpyRlGTlvOErP+rIie3LRvb47CIvJui/A1aBWnk3aaEcpN
+   A==;
+X-CSE-ConnectionGUID: t8kQERxWR4Gk57xKDIKneQ==
+X-CSE-MsgGUID: aS2VkxnuTe6IQk6ozc5dRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="69695861"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="69695865"
+   d="scan'208";a="69695861"
 Received: from orviesa002.jf.intel.com ([10.64.159.142])
   by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 02:51:27 -0700
-X-CSE-ConnectionGUID: Fvnhoe+/QTyH2QoKFJgFlg==
-X-CSE-MsgGUID: uECAkQ3CS/C1I+eX2PWX8A==
+X-CSE-ConnectionGUID: 8/35+W6BQs+4peV+fZxXnw==
+X-CSE-MsgGUID: wDiol1mJTquttPrKDqvEzQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="200195429"
+   d="scan'208";a="200195426"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.7])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 02:51:19 -0700
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 02:51:20 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 3014F121F81;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 34D31121F82;
 	Mon, 25 Aug 2025 12:51:08 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1uqTr2-00000005ae0-0fHX;
+	id 1uqTr2-00000005ae5-0jFW;
 	Mon, 25 Aug 2025 12:51:08 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -96,9 +96,9 @@ Cc: hans@jjverkuil.nl,
 	Hans de Goede <hdegoede@redhat.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v11 10/66] media: ccs: Use {enable,disable}_streams operations
-Date: Mon, 25 Aug 2025 12:50:11 +0300
-Message-ID: <20250825095107.1332313-11-sakari.ailus@linux.intel.com>
+Subject: [PATCH v11 11/66] media: ccs: Track streaming state
+Date: Mon, 25 Aug 2025 12:50:12 +0300
+Message-ID: <20250825095107.1332313-12-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
 References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
@@ -110,177 +110,87 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Switch from s_stream() video op to enable_streams() and disable_streams()
-pad operations. They are preferred and required for streams support.
+With enable_streams and disable_streams, the driver for a device where
+streams are not independently started and stopped needs to maintain state
+information on streams that have been requested to be started. Do that
+now.
+
+In the future, a helper function in the framework is a desirable way to do
+this instead.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Julien Massot <julien.massot@collabora.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/i2c/ccs/ccs-core.c | 83 ++++++++++++++------------------
- 1 file changed, 36 insertions(+), 47 deletions(-)
+ drivers/media/i2c/ccs/ccs-core.c | 13 ++++++++++---
+ drivers/media/i2c/ccs/ccs.h      |  2 +-
+ 2 files changed, 11 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 6cf60e1758b4..56c9f7124b2a 100644
+index 56c9f7124b2a..bd7d2a8d23dd 100644
 --- a/drivers/media/i2c/ccs/ccs-core.c
 +++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -1711,7 +1711,7 @@ static int ccs_power_off(struct device *dev)
- }
+@@ -1763,6 +1763,11 @@ static int ccs_enable_streams(struct v4l2_subdev *subdev,
+ 	if (pad != CCS_PAD_SRC)
+ 		return -EINVAL;
  
- /* -----------------------------------------------------------------------------
-- * Video stream management
-+ * V4L2 subdev video operations
-  */
- 
- static int ccs_pm_get_init(struct ccs_sensor *sensor)
-@@ -1735,11 +1735,11 @@ static int ccs_pm_get_init(struct ccs_sensor *sensor)
- 	sensor->handler_setup_needed = false;
- 
- 	/* Restore V4L2 controls to the previously suspended device */
--	rval = v4l2_ctrl_handler_setup(&sensor->pixel_array->ctrl_handler);
-+	rval = __v4l2_ctrl_handler_setup(&sensor->pixel_array->ctrl_handler);
- 	if (rval)
- 		goto error;
- 
--	rval = v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
-+	rval = __v4l2_ctrl_handler_setup(&sensor->src->ctrl_handler);
- 	if (rval)
- 		goto error;
- 
-@@ -1751,13 +1751,21 @@ static int ccs_pm_get_init(struct ccs_sensor *sensor)
- 	return rval;
- }
- 
--static int ccs_start_streaming(struct ccs_sensor *sensor)
-+static int ccs_enable_streams(struct v4l2_subdev *subdev,
-+			      struct v4l2_subdev_state *state, u32 pad,
-+			      u64 streams_mask)
- {
-+	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
- 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
- 	unsigned int binning_mode;
- 	int rval;
- 
--	mutex_lock(&sensor->mutex);
-+	if (pad != CCS_PAD_SRC)
-+		return -EINVAL;
++	if (sensor->streaming) {
++		sensor->streaming |= streams_mask;
++		return 0;
++	}
 +
-+	rval = ccs_pm_get_init(sensor);
-+	if (rval)
-+		return rval;
- 
- 	rval = ccs_write(sensor, CSI_DATA_FORMAT,
- 			 (sensor->csi_format->width << 8) |
-@@ -1876,64 +1884,41 @@ static int ccs_start_streaming(struct ccs_sensor *sensor)
+ 	rval = ccs_pm_get_init(sensor);
+ 	if (rval)
+ 		return rval;
+@@ -1884,7 +1889,7 @@ static int ccs_enable_streams(struct v4l2_subdev *subdev,
  
  	rval = ccs_write(sensor, MODE_SELECT, CCS_MODE_SELECT_STREAMING);
  
--err_pm_put:
--	mutex_unlock(&sensor->mutex);
--
--	return rval;
--}
--
--static int ccs_stop_streaming(struct ccs_sensor *sensor)
--{
--	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
--	int rval;
-+	sensor->streaming = true;
+-	sensor->streaming = true;
++	sensor->streaming |= streams_mask;
  
--	mutex_lock(&sensor->mutex);
--	rval = ccs_write(sensor, MODE_SELECT, CCS_MODE_SELECT_SOFTWARE_STANDBY);
--	if (rval)
--		goto out;
-+	return 0;
+ 	return 0;
  
--	rval = ccs_call_quirk(sensor, post_streamoff);
--	if (rval)
--		dev_err(&client->dev, "post_streamoff quirks failed\n");
-+err_pm_put:
-+	pm_runtime_mark_last_busy(&client->dev);
-+	pm_runtime_put_autosuspend(&client->dev);
+@@ -1906,6 +1911,10 @@ static int ccs_disable_streams(struct v4l2_subdev *subdev,
+ 	if (pad != CCS_PAD_SRC)
+ 		return -EINVAL;
  
--out:
--	mutex_unlock(&sensor->mutex);
- 	return rval;
- }
- 
--/* -----------------------------------------------------------------------------
-- * V4L2 subdev video operations
-- */
--
--static int ccs_set_stream(struct v4l2_subdev *subdev, int enable)
-+static int ccs_disable_streams(struct v4l2_subdev *subdev,
-+			       struct v4l2_subdev_state *state, u32 pad,
-+			       u64 streams_mask)
- {
- 	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
- 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
- 	int rval;
- 
--	if (!enable) {
--		ccs_stop_streaming(sensor);
--		sensor->streaming = false;
--		pm_runtime_mark_last_busy(&client->dev);
--		pm_runtime_put_autosuspend(&client->dev);
--
--		return 0;
--	}
-+	if (pad != CCS_PAD_SRC)
-+		return -EINVAL;
- 
--	rval = ccs_pm_get_init(sensor);
-+	rval = ccs_write(sensor, MODE_SELECT, CCS_MODE_SELECT_SOFTWARE_STANDBY);
++	sensor->streaming &= ~streams_mask;
++	if (sensor->streaming)
++		return 0;
++
+ 	rval = ccs_write(sensor, MODE_SELECT, CCS_MODE_SELECT_SOFTWARE_STANDBY);
  	if (rval)
  		return rval;
+@@ -1914,7 +1923,6 @@ static int ccs_disable_streams(struct v4l2_subdev *subdev,
+ 	if (rval)
+ 		dev_err(&client->dev, "post_streamoff quirks failed\n");
  
--	sensor->streaming = true;
-+	rval = ccs_call_quirk(sensor, post_streamoff);
-+	if (rval)
-+		dev_err(&client->dev, "post_streamoff quirks failed\n");
+-	sensor->streaming = false;
+ 	pm_runtime_mark_last_busy(&client->dev);
+ 	pm_runtime_put_autosuspend(&client->dev);
  
--	rval = ccs_start_streaming(sensor);
--	if (rval < 0) {
--		sensor->streaming = false;
--		pm_runtime_mark_last_busy(&client->dev);
--		pm_runtime_put_autosuspend(&client->dev);
--	}
-+	sensor->streaming = false;
-+	pm_runtime_mark_last_busy(&client->dev);
-+	pm_runtime_put_autosuspend(&client->dev);
- 
--	return rval;
-+	return 0;
- }
- 
- static int ccs_pre_streamon(struct v4l2_subdev *subdev, u32 flags)
-@@ -1959,7 +1944,9 @@ static int ccs_pre_streamon(struct v4l2_subdev *subdev, u32 flags)
- 		}
+@@ -3519,7 +3527,6 @@ static int ccs_probe(struct i2c_client *client)
+ 		goto out_cleanup;
  	}
  
-+	mutex_lock(&sensor->mutex);
- 	rval = ccs_pm_get_init(sensor);
-+	mutex_unlock(&sensor->mutex);
- 	if (rval)
- 		return rval;
+-	sensor->streaming = false;
+ 	sensor->dev_init_done = true;
+ 	sensor->handler_setup_needed = true;
  
-@@ -3039,7 +3026,7 @@ static int ccs_init_state(struct v4l2_subdev *sd,
- }
+diff --git a/drivers/media/i2c/ccs/ccs.h b/drivers/media/i2c/ccs/ccs.h
+index 0726c4687f0f..518482758da6 100644
+--- a/drivers/media/i2c/ccs/ccs.h
++++ b/drivers/media/i2c/ccs/ccs.h
+@@ -238,7 +238,7 @@ struct ccs_sensor {
+ 	u16 image_start; /* image data start line */
+ 	u16 visible_pixel_start; /* start pixel of the visible image */
  
- static const struct v4l2_subdev_video_ops ccs_video_ops = {
--	.s_stream = ccs_set_stream,
-+	.s_stream = v4l2_subdev_s_stream_helper,
- 	.pre_streamon = ccs_pre_streamon,
- 	.post_streamoff = ccs_post_streamoff,
- };
-@@ -3050,6 +3037,8 @@ static const struct v4l2_subdev_pad_ops ccs_pad_ops = {
- 	.set_fmt = ccs_set_format,
- 	.get_selection = ccs_get_selection,
- 	.set_selection = ccs_set_selection,
-+	.enable_streams = ccs_enable_streams,
-+	.disable_streams = ccs_disable_streams,
- };
- 
- static const struct v4l2_subdev_sensor_ops ccs_sensor_ops = {
+-	bool streaming;
++	u8 streaming;
+ 	bool dev_init_done;
+ 	bool handler_setup_needed;
+ 	u8 compressed_min_bpp;
 -- 
 2.47.2
 
