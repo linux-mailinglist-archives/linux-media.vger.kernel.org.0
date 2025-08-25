@@ -1,104 +1,94 @@
-Return-Path: <linux-media+bounces-40904-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40905-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D614B33824
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 09:49:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F307CB33826
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 09:49:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4FD8E16CC2B
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 07:49:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F2224189F7AE
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 07:49:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BDD1028D8D9;
-	Mon, 25 Aug 2025 07:48:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1181629A303;
+	Mon, 25 Aug 2025 07:48:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="F+CZpcEH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GDVh7d5t"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-op-o12.zoho.com (sender4-op-o12.zoho.com [136.143.188.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D355C221578;
-	Mon, 25 Aug 2025 07:48:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756108119; cv=pass; b=F2pwl1kzAZsJcM97E9ZC5+jvbGcOAAp15GIuDOOzDqpPEPeGJyQlbPiE9UJJ5UXCacMjlILdFCENjxFsK5ZCqpp6bVjQy7a90KhsbqwiwCVhNw9HTqoNPr6SzaFe4WFGEBbe8qHiV9uG1AQ0YHBrbenGjspeDBGTu0UJFUmJOTY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756108119; c=relaxed/simple;
-	bh=R5WQhVv7rK8cy7Q4wz4ZKiJYZYoscvA7NtPO3IDhYFw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ouYBTlir4PXZ+pAsmXmhRwSXSEgx/vtOxBsC8cLtaLakd5iHcsOSHz8OJq8a5FvkS7d/IihkDu75RpQTHsbLl4xO8i00BbK27cSpYB7GkHz3XGKDOv+93v7tZytr+I1IUd4ZciVae/fhWEUGobp5OYUhfMhDoebXrxptzgMyXK0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=F+CZpcEH; arc=pass smtp.client-ip=136.143.188.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1756108093; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=Mif53jBa6MJhiFA3/aeaKEpanFEPOgAIH7H2ZuUdsrAtRPu/MgbOT3DP6FBY2rj6ePbMjSECj12yIiQqzo9EC3onYNcemMOPA7kexfcK9xKDYPuR6j4sRJVelnLZBLEQG0X38Apa47eBKSzmFFuNz9vrZ2uFGldXO/K346zQY/c=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1756108093; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=80dzrh8aYZfGg2XUHBNmSgUetz0wp59La7rrflIHLYk=; 
-	b=hTrQDB+vFRUoh2TzCLNct7ZH6mA+ZiLxyi08MHJ278n9kJefJSS8W0fZv6yV5vnJvzDAcQZhLzydoq1k/A5PczB6y4tbslyaC/qdgSZhpG/4L25+svqU468G3JXb+BZHKPSOMfmr/+kta3MYdiQArODPHxGvpuzc+7VGFRmUwYk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1756108093;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=80dzrh8aYZfGg2XUHBNmSgUetz0wp59La7rrflIHLYk=;
-	b=F+CZpcEHNCcVVD5E2eusUhfW3VOUS/ZWUIpDXxI5z5QeKjtOV9RCcGxyZ/bOxE14
-	x+XVoB1b6xaPLKM4peUQofBqgx8GIHy0CMMo5WJvpvX22tuJAS78545/+5x34SM4fh0
-	HU9zR45BRWmSNqHl8sXRyIGwQroD2o9wsHxVH/9U=
-Received: by mx.zohomail.com with SMTPS id 1756108090913704.2939268893988;
-	Mon, 25 Aug 2025 00:48:10 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Stephen Boyd <sboyd@kernel.org>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev
-Subject: Re: [PATCH v2 19/20] clk: sp7021: switch to FIELD_PREP_WM16 macro
-Date: Mon, 25 Aug 2025 09:48:05 +0200
-Message-ID: <2795210.mvXUDI8C0e@workhorse>
-In-Reply-To: <175340605069.3513.18204498860033427106@lazor>
-References:
- <20250623-byeword-update-v2-0-cf1fc08a2e1f@collabora.com>
- <20250623-byeword-update-v2-19-cf1fc08a2e1f@collabora.com>
- <175340605069.3513.18204498860033427106@lazor>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A328929992A;
+	Mon, 25 Aug 2025 07:48:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756108127; cv=none; b=cRkcs0yRVdZPviarddn/DOnus5nIcxp7FJctFx4rgDUr5W3yL+d8Si57fHXeckEUdUITvAq/jGXXIEGYoJNsjcReapCyTTC2OE1+Tw+7D8dL4usU6umlhe02vkAijnf4cuz92OvmiwrZEhVZVEdVp+lGVLFXx+wEZHUfT+k/4rI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756108127; c=relaxed/simple;
+	bh=KlC/BDRBi35GbQ6cB+15+6RE9SAY7uzY8/tWziQogwY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=o21KQXu6oe9J8qQ5U5HEAf4z78Xe3SvS8NrXlnyJIlAasuTI8IxLMluWK3U8/XES0e0tA/kP8i0VwtBTfCqG5B3NKqsRgpoU2fj77+wf8GzixLjJ9TXLdAw15XcUpCc6IDTRj2yZ/Rk/i6SB8AMoM1cmqwcd3ycHzMExTWh2dhY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GDVh7d5t; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756108125; x=1787644125;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=KlC/BDRBi35GbQ6cB+15+6RE9SAY7uzY8/tWziQogwY=;
+  b=GDVh7d5tes+Tzupgm8RJrRHmMaYn5xxLwtUszlimv9jpO6HQf/HhJ1Wu
+   88psvgNTUvy4oGMyKjIBj3nqFg4tPtfKs9f8z55yGxTA7WRLtQrdL3P7+
+   foyM4zqsAs7+Pz68dT+4NLCM+0qyBeJ0X6Bwg7EOS7EH5oDCM0RV+WSoJ
+   qfbg5aiiztApp1PahjLwGhwR8wI5HtMAbsvSqXhtlkHG0DkEA/bArJ6kT
+   oMxDqLBugRxuWUWnCeVz5ySPqjZH4xN78hXQ4PSMVoC7CRPYfATo3e22l
+   0drhdCWwj57N8EtDmR5JtKcnFeRXtmsp0Scfa4EqVf2fIxdTHyhkxlNFg
+   A==;
+X-CSE-ConnectionGUID: G7uPZNdYSmiqAjVfoKWWLg==
+X-CSE-MsgGUID: MkjfTMjcRQmMJ8HkVKLioQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="61956479"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61956479"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 00:48:45 -0700
+X-CSE-ConnectionGUID: bZ0n3zwOSr63XlWozeL9DQ==
+X-CSE-MsgGUID: pTbjjAmAQ8uurbToHyrlxQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="168729170"
+Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.246.15])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 00:48:42 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-kernel@vger.kernel.org, Mauro Carvalho Chehab
+ <mchehab+huawei@kernel.org>, Sean Young <sean@mess.org>,
+ linux-media@vger.kernel.org
+Subject: Re: [PATCH 00/24] better handle media headers
+In-Reply-To: <cover.1755784929.git.mchehab+huawei@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <cover.1755784929.git.mchehab+huawei@kernel.org>
+Date: Mon, 25 Aug 2025 10:48:39 +0300
+Message-ID: <0ad4fefca2855603c66d513474a687058e780931@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain
 
-On Friday, 25 July 2025 03:14:10 Central European Summer Time Stephen Boyd wrote:
-> Quoting Nicolas Frattaroli (2025-06-23 09:05:47)
-> > The sp7021 clock driver has its own shifted high word mask macro,
-> > similar to the ones many Rockchip drivers have.
-> > 
-> > Remove it, and replace instances of it with hw_bitfield.h's
-> > FIELD_PREP_WM16 macro, which does the same thing except in a common
-> > macro that also does compile-time error checking.
-> > 
-> > This was compile-tested with 32-bit ARM with Clang, no runtime tests
-> > were performed as I lack the hardware. However, I verified that fix
-> > commit 5c667d5a5a3e ("clk: sp7021: Adjust width of _m in HWM_FIELD_PREP()")
-> > is not regressed. No warning is produced.
-> 
-> Does it generate the same code before and after?
-> 
+On Thu, 21 Aug 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> Its goal is to drop one of the most ancient and ugliest hack from
+> the documentation build system.
 
-Yes, the generated machine code is exactly the same, at least with
-clang, and I'll assume it'll be the same for gcc.
+Yay! \o/
 
-Kind regards,
-Nicolas Frattaroli
+Cheers,
+Jani.
 
 
+-- 
+Jani Nikula, Intel
 
