@@ -1,81 +1,48 @@
-Return-Path: <linux-media+bounces-41016-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41017-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 322C4B34104
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 15:43:35 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE9C2B3438B
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 16:24:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DF1481645A2
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 13:43:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F7B31A8322E
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 14:24:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FB8D279337;
-	Mon, 25 Aug 2025 13:43:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E7B6304BBB;
+	Mon, 25 Aug 2025 14:19:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TCr5k46v"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I6X70Mzk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06CF923D297;
-	Mon, 25 Aug 2025 13:43:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD76C2FDC29;
+	Mon, 25 Aug 2025 14:19:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756129408; cv=none; b=gpRH0UQIJLsWNsT+mk3wi2X7VpCiN4D1jCGMhuHHAPZ6j9RabRERkowNKvFZaK8xAdEE/74Cdq44WA1RD4MrZcxsWMEuRlH2BRcQN6eYuZWPbRm4w4OnndRtttXsfrINcFFoan+hxZSMdjlu8oEOCVIDT69EM8r7ctAqzo8hnlU=
+	t=1756131557; cv=none; b=nUO0bke3a2hdQvd8hMYETM+rrngB8A79P0lCcvtnX4y3IJZma2hs5Cc8gCv+vT3irckspK2kvwZzbJt3VXjTSxDCmCJiUqfY40OpiuQbi/8mcad+XkHhdjZRYkUzica6tTXKTxsAn/2OVaeiePnkob/w1Ehg6gDPB/tvsnS0xyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756129408; c=relaxed/simple;
-	bh=hQMwXvLwmQEv1kEvo1+9eCKCllPAT+aam54JtX7RwQE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eyXcScnTu6cgE5ntPhszV9/X46z6rkI3UAfCmHaQnbr2s3j3bEHg9JCbJtjX4mtWHRJd3i5Oj3Oz+PxY9o9bI2D6Ouojh46oOBt8jPnmIt25HqfF8aJ2chxOVveO9h9OLfrpQGhpbANqQ4tVkpdMbRbOWk3SyNAd0o1psKTEjpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TCr5k46v; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-afcb732eee6so763533366b.0;
-        Mon, 25 Aug 2025 06:43:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756129405; x=1756734205; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=jAbKVYpYb9nh9ya4q0qpbx2OQpViyyQmlpd1mwtIPFY=;
-        b=TCr5k46vkdO0EJSjFFVjZxe1+IglZ9VemDdyZNgptfYQrmF90+VXp3CX2ji7Yxd8v+
-         xmo64m6HgUnqwMU352Ok0Oc5+KPgDiLimk8stgQsLjE+CGaFjrngSCZ79/uvm5jV7itS
-         BEtu4Azkb/IwpjEEVg1BEpSwAyyuxJSxVvQ3/8EQ7N93E1bykFDpDU4mYMNIud84Z05f
-         82f3Wh0X8ZYfQmzsY8upg2fPjx3Y01Nu5tVWc/CPjRT9tzROytAkMSnR5HrOX/ph+Ugf
-         llFcPhqFWpAG5I5fz2jXHTMrkIdyuqdDLXr8/AB7LuhRR8XBh/BUxwocm5LAeB03Hk+p
-         SJPA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756129405; x=1756734205;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jAbKVYpYb9nh9ya4q0qpbx2OQpViyyQmlpd1mwtIPFY=;
-        b=q4ueCMckbKzZML+aIAU5DjExwmYXmT7/xJVMF8GFbMHw4FAuwiRIq9rW2sx/e4hFjp
-         VOSX0fjdh9xLNVFaJa96p3O7qZayubI5pIsQStk7GHUv4mKkxIZX1UzV8Xb/Ged5tbvY
-         3N0X5OEjerasKChfgYE3Ox11ibKJqSaqYbuYkKWZC1kbMLwG4TpvU7JnP8wmOQSqsHfh
-         EDZc0fadS1hDPDo01nPg0qPmNjJW1dxs1OHQs/t6iPMk4TRv+/yRNfEfZkQBVLd9722P
-         rBCri1EOCEc+pHaa6YvyK9HJQVDxPKrsLK3gVKddSo/4FlG0Ku/kSiOVG3LuHtCpvZPc
-         iGbg==
-X-Forwarded-Encrypted: i=1; AJvYcCVuHT4x9IEC5uXU0DqT8kTDhK41wz4PI5I2IYV/tkUV8PgNI6VEEa3UbjR6WdqdRmB1v7lgQznJQ2jG@vger.kernel.org, AJvYcCX/iIX55n4d5u+yHV4rwZe2IcX8HyTZGKKQQuMs+SC199Nq4tLtNwLIQ7h2yjWtple4FTH1Zihkbj8Bm9o=@vger.kernel.org, AJvYcCXmIGF6BI7QjX1Bbw5zwFEGwf3Rl0gPkdjlOIUW8TzXUQZXw8lfdgAqPTjADHBW43mWaYOeA9Wep/PL2Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzj2Hkin+/6OoRpEbNxgaWLvz7sWJGnuhlB8c3pkYAuARpiV7yy
-	Yiic5LIpw1/WHi7iRWbUm2BmpkLOQydTQksKKuk0yL0EqRgLm6iJ2Rw=
-X-Gm-Gg: ASbGnctSUOHCFgdoq47Ab2ZpFbwg4xZbOGzCgPEEb/aPRes8lZzkfT6a+mZGkSpA48I
-	yROY0y8XdngOxkO61lcA/sxfgRrckuYARBoe7kzThHTjd8z1cz+/Sa9OPTIH+lMhzPe0GuXaojs
-	+OMkKoilh0Ak0QuRX8VqrHp5ZJ2lpbWrBnnwT1JjPWYBp6fEwgkpvbHDIA17p+Z4H9cbNRFL688
-	P+P5KjJOi94xbvnk9pPymSa/SGjXrcOd87MHBAKFeFSfb4M7sw10ufO8v5xGFiDtuB/x1Uy4dVX
-	YUW0Vbcd3NWW+XMrCUy70HiDi5QNbScHi2w4I9Vrb0593BTXFxYZPHuoNX89E4ro2E9ZPYKB5e6
-	1KH2lb6Kd3e5NRUxzPLAZKfEz750zLhoBxygYxxxPoHTEKhqhnYcIsw9sh2cWSFz51uWsZXqqKF
-	BXbKotB6szqw==
-X-Google-Smtp-Source: AGHT+IHLJ4qg6ex2bm+0hQ+1u00bCZ4MtkgwHM+oSFotZaHnr+IyLH+ElzkG+gFK7XgWDVfoZZ4PwA==
-X-Received: by 2002:a17:907:3e13:b0:af4:12f6:420 with SMTP id a640c23a62f3a-afe29441ab7mr1037855666b.13.1756129404949;
-        Mon, 25 Aug 2025 06:43:24 -0700 (PDT)
-Received: from [10.104.197.164] (mob-194-230-160-118.cgn.sunrise.net. [194.230.160.118])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afe70f0121bsm326761666b.55.2025.08.25.06.43.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 25 Aug 2025 06:43:24 -0700 (PDT)
-Message-ID: <eac8ce16-4e63-4092-8729-dc73b3433ece@gmail.com>
-Date: Mon, 25 Aug 2025 15:43:16 +0200
+	s=arc-20240116; t=1756131557; c=relaxed/simple;
+	bh=pKnzrmU2im87vPYyT9k12MpOMguymJTGkL2f1FNL7sg=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:References:
+	 In-Reply-To:Content-Type; b=UywJewusAbh4F061T5EUi/Sqv00+r7nkzU4HE9sQnSHOkELYNxpbXwQMLiGJqw9q7DJUSvegkTSmwjUa3uDUjmE/vb4kFNF8t8MhunUYgW4WvyX5KjV2BKKZ05M/yvjgJjP1tVeCwEmGXCfZF2azRaSEFkkDBkhSq2kq79yjxfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I6X70Mzk; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A5AFC113D0;
+	Mon, 25 Aug 2025 14:19:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756131556;
+	bh=pKnzrmU2im87vPYyT9k12MpOMguymJTGkL2f1FNL7sg=;
+	h=Date:From:Subject:To:References:In-Reply-To:From;
+	b=I6X70Mzk68dV74OLkQLI7EOv+MkAHb8W7Qzih4xxEwqbyJYuPGLeiZcV1HHTC8Qrv
+	 LOFFEO6/Da+cZbXzWGsDamho+Hkc6fCQMj6pg+D4Zxagg1Eu8paKvEnPeXWxL1rgjP
+	 41cqHVFs6Tl9SjxaI/ZmPXtryD1XxcNDkpoq+q/hIoMN1LwHp3B10QqRcCknFClo6C
+	 1wjbQmcZO6bdWBX04t35TErbPHsSevhDFV3c7ZDZr/QyqotWQX9ziwd28gfTzo5bkQ
+	 lAP0cP2FOUTFOT7AqUfTsrAlCgVYTYRFQeNOIplvy+5YJOtXRwYPU79TDS8Rk8Z69E
+	 r1Mmnx7RLVdTw==
+Message-ID: <495e8ffa-c826-45ff-a3fa-ec6e406f6b2c@kernel.org>
+Date: Mon, 25 Aug 2025 16:19:12 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,147 +50,520 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 05/11] [RFC] leds: led-class: Add devicetree support to
- led_get()
-To: Hans de Goede <hdegoede@redhat.com>, Mark Gross <markgross@kernel.org>,
- Andy Shevchenko <andy@kernel.org>, Pavel Machek <pavel@ucw.cz>,
- Lee Jones <lee@kernel.org>, Linus Walleij <linus.walleij@linaro.org>,
- Daniel Scally <djrscally@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: platform-driver-x86@vger.kernel.org, linux-leds@vger.kernel.org,
- linux-gpio@vger.kernel.org, Kate Hsuan <hpa@redhat.com>,
- Mark Pearson <markpearson@lenovo.com>, Andy Yeh <andy.yeh@intel.com>,
- Hao Yao <hao.yao@intel.com>, linux-media@vger.kernel.org,
- Andy Shevchenko <andy.shevchenko@gmail.com>, artur@madrzak.eu
-References: <20230120114524.408368-1-hdegoede@redhat.com>
- <20230120114524.408368-6-hdegoede@redhat.com>
-Content-Language: en-US
-From: Aleksandrs Vinarskis <alex.vinarskis@gmail.com>
-In-Reply-To: <20230120114524.408368-6-hdegoede@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v7 1/1] media: aspeed: Allow to capture from SoC display
+ (GFX)
+To: Jammy Huang <jammy_huang@aspeedtech.com>, eajames@linux.ibm.com,
+ mchehab@kernel.org, joel@jms.id.au, andrew@aj.id.au,
+ linux-media@vger.kernel.org, openbmc@lists.ozlabs.org,
+ linux-arm-kernel@lists.infradead.org, linux-aspeed@lists.ozlabs.org,
+ linux-kernel@vger.kernel.org
+References: <20250603064500.94048-1-jammy_huang@aspeedtech.com>
+ <20250603064500.94048-2-jammy_huang@aspeedtech.com>
+Content-Language: en-US, nl
+In-Reply-To: <20250603064500.94048-2-jammy_huang@aspeedtech.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi Jammy,
 
-On 1/20/23 12:45, Hans de Goede wrote:
-> Turn of_led_get() into a more generic __of_led_get() helper function,
-> which can lookup LEDs in devicetree by either name or index.
->
-> And use this new helper to add devicetree support to the generic
-> (non devicetree specific) [devm_]led_get() function.
->
-> This uses the standard devicetree pattern of adding a -names string array
-> to map names to the indexes for an array of resources.
->
-> Note the new led-names property for LED consumers is not added
-> to the devicetree documentation because there seems to be no
-> documentation for the leds property itself to extend it with this.
-> It seems that how LED consumers should be described is not documented
-> at all ATM.
->
-> This patch is marked as RFC because of both the missing devicetree
-> documentation and because there are no devicetree users of
-> the generic [devm_]led_get() function for now.
->
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Hans de Goede <hdegoede@redhat.com>
+Apologies for the long delay. It looks good, except for a few missing checks
+when changing inputs, see below.
 
-
-Hi,
-
-It appears this patch was marked as RFC due some missing dt-bindings and 
-not having direct DT consumers at the time, and was eventually left out. 
-With recent inflow of arm64-power laptops (Snapdragon X1E/X1P) which 
-mostly use MIPI cameras, this feature becomes more desired. I have 
-rebased this patch onto 6.17-rc2, and can confirm its (still) working as 
-expected (with respective DT changes) on Dell XPS 9345.
-
-What would be the best approach to revive this patch? For Hans to respin 
-this? Alternatively I could respin it myself keeping the original 
-authorship.
-Regarding missing dt-binding documentation, would 
-`Documentation/devicetree/bindings/leds/common.yaml` be the good place 
-for it? Afaiu it was mentioned that no  appropriate LED bindings exists 
-in this series (3yo), but this binding is ~6yo, so perhaps its not a 
-right place after all.
-
-Thank you in advance,
-Alex
-
+On 03/06/2025 08:45, Jammy Huang wrote:
+> ASPEED BMC IC has 2 different display engines. Please find AST2600's
+> datasheet to get detailed information.
+> 
+> 1. VGA on PCIe
+> 2. SoC Display (GFX)
+> 
+> By default, video engine (VE) will capture video from VGA. This patch
+> adds an option to capture video from GFX with standard ioctl,
+> vidioc_s_input.
+> 
+> An enum, aspeed_video_input, is added for this purpose.
+> enum aspeed_video_input {
+> 	VIDEO_INPUT_VGA = 0,
+> 	VIDEO_INPUT_GFX,
+> 	VIDEO_INPUT_MAX
+> };
+> 
+> To test this feature, you will need to enable GFX first. Please refer to
+> ASPEED's SDK_User_Guide, 6.3.x Soc Display driver, for more information.
+> In your application, you will need to use v4l2 ioctl, VIDIOC_S_INPUT, as
+> below to select before start streaming.
+> 
+> int rc;
+> struct v4l2_input input;
+> 
+> input.index = VIDEO_INPUT_GFX;
+> rc = ioctl(fd, VIDIOC_S_INPUT, &input);
+> if (rc < 0)
+> {
+> 	...
+> }
+> 
+> Link: https://github.com/AspeedTech-BMC/openbmc/releases
+> Signed-off-by: Jammy Huang <jammy_huang@aspeedtech.com>
 > ---
->   drivers/leds/led-class.c | 37 ++++++++++++++++++++++++++++---------
->   1 file changed, 28 insertions(+), 9 deletions(-)
->
-> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> index 0c4b8d8d2b4f..2f3af6e30208 100644
-> --- a/drivers/leds/led-class.c
-> +++ b/drivers/leds/led-class.c
-> @@ -234,19 +234,18 @@ static struct led_classdev *led_module_get(struct device *led_dev)
->   	return led_cdev;
->   }
->   
-> -/**
-> - * of_led_get() - request a LED device via the LED framework
-> - * @np: device node to get the LED device from
-> - * @index: the index of the LED
-> - *
-> - * Returns the LED device parsed from the phandle specified in the "leds"
-> - * property of a device tree node or a negative error-code on failure.
-> - */
-> -struct led_classdev *of_led_get(struct device_node *np, int index)
-> +static struct led_classdev *__of_led_get(struct device_node *np, int index,
-> +					 const char *name)
->   {
->   	struct device *led_dev;
->   	struct device_node *led_node;
->   
-> +	/*
-> +	 * For named LEDs, first look up the name in the "led-names" property.
-> +	 * If it cannot be found, then of_parse_phandle() will propagate the error.
-> +	 */
-> +	if (name)
-> +		index = of_property_match_string(np, "led-names", name);
->   	led_node = of_parse_phandle(np, "leds", index);
->   	if (!led_node)
->   		return ERR_PTR(-ENOENT);
-> @@ -256,6 +255,19 @@ struct led_classdev *of_led_get(struct device_node *np, int index)
->   
->   	return led_module_get(led_dev);
->   }
+>  drivers/media/platform/aspeed/aspeed-video.c | 189 ++++++++++++++++---
+>  include/uapi/linux/aspeed-video.h            |   7 +
+>  2 files changed, 168 insertions(+), 28 deletions(-)
+> 
+> diff --git a/drivers/media/platform/aspeed/aspeed-video.c b/drivers/media/platform/aspeed/aspeed-video.c
+> index 54cae0da9aca..97392ceed083 100644
+> --- a/drivers/media/platform/aspeed/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed/aspeed-video.c
+> @@ -4,6 +4,7 @@
+>  
+>  #include <linux/atomic.h>
+>  #include <linux/bitfield.h>
+> +#include <linux/cleanup.h>
+>  #include <linux/clk.h>
+>  #include <linux/delay.h>
+>  #include <linux/device.h>
+> @@ -25,6 +26,8 @@
+>  #include <linux/workqueue.h>
+>  #include <linux/debugfs.h>
+>  #include <linux/ktime.h>
+> +#include <linux/regmap.h>
+> +#include <linux/mfd/syscon.h>
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-dev.h>
+>  #include <media/v4l2-device.h>
+> @@ -203,6 +206,25 @@
+>  #define VE_MEM_RESTRICT_START		0x310
+>  #define VE_MEM_RESTRICT_END		0x314
+>  
+> +/* SCU's registers */
+> +#define SCU_MISC_CTRL			0xC0
+> +#define  SCU_DPLL_SOURCE		BIT(20)
 > +
-> +/**
-> + * of_led_get() - request a LED device via the LED framework
-> + * @np: device node to get the LED device from
-> + * @index: the index of the LED
-> + *
-> + * Returns the LED device parsed from the phandle specified in the "leds"
-> + * property of a device tree node or a negative error-code on failure.
-> + */
-> +struct led_classdev *of_led_get(struct device_node *np, int index)
-> +{
-> +	return __of_led_get(np, index, NULL);
-> +}
->   EXPORT_SYMBOL_GPL(of_led_get);
->   
->   /**
-> @@ -329,9 +341,16 @@ EXPORT_SYMBOL_GPL(devm_of_led_get);
->   struct led_classdev *led_get(struct device *dev, char *con_id)
->   {
->   	struct led_lookup_data *lookup;
-> +	struct led_classdev *led_cdev;
->   	const char *provider = NULL;
->   	struct device *led_dev;
->   
-> +	if (dev->of_node) {
-> +		led_cdev = __of_led_get(dev->of_node, -1, con_id);
-> +		if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) != -ENOENT)
-> +			return led_cdev;
+> +/* GFX's registers */
+> +#define GFX_CTRL			0x60
+> +#define  GFX_CTRL_ENABLE		BIT(0)
+> +#define  GFX_CTRL_FMT			GENMASK(9, 7)
+> +
+> +#define GFX_H_DISPLAY			0x70
+> +#define  GFX_H_DISPLAY_DE		GENMASK(28, 16)
+> +#define  GFX_H_DISPLAY_TOTAL		GENMASK(12, 0)
+> +
+> +#define GFX_V_DISPLAY			0x78
+> +#define  GFX_V_DISPLAY_DE		GENMASK(27, 16)
+> +#define  GFX_V_DISPLAY_TOTAL		GENMASK(11, 0)
+> +
+> +#define GFX_DISPLAY_ADDR		0x80
+> +
+>  /*
+>   * VIDEO_MODE_DETECT_DONE:	a flag raised if signal lock
+>   * VIDEO_RES_CHANGE:		a flag raised if res_change work on-going
+> @@ -262,6 +284,7 @@ struct aspeed_video_perf {
+>  /*
+>   * struct aspeed_video - driver data
+>   *
+> + * version:		holds the version of aspeed SoC
+>   * res_work:		holds the delayed_work for res-detection if unlock
+>   * buffers:		holds the list of buffer queued from user
+>   * flags:		holds the state of video
+> @@ -273,6 +296,7 @@ struct aspeed_video_perf {
+>   * yuv420:		a flag raised if JPEG subsampling is 420
+>   * format:		holds the video format
+>   * hq_mode:		a flag raised if HQ is enabled. Only for VIDEO_FMT_ASPEED
+> + * input:		holds the video input
+>   * frame_rate:		holds the frame_rate
+>   * jpeg_quality:	holds jpeq's quality (0~11)
+>   * jpeg_hq_quality:	holds hq's quality (1~12) only if hq_mode enabled
+> @@ -298,6 +322,9 @@ struct aspeed_video {
+>  	struct video_device vdev;
+>  	struct mutex video_lock;	/* v4l2 and videobuf2 lock */
+>  
+> +	struct regmap *scu;
+> +	struct regmap *gfx;
+> +	u32 version;
+>  	u32 jpeg_mode;
+>  	u32 comp_size_read;
+>  
+> @@ -316,6 +343,7 @@ struct aspeed_video {
+>  	bool yuv420;
+>  	enum aspeed_video_format format;
+>  	bool hq_mode;
+> +	enum aspeed_video_input input;
+>  	unsigned int frame_rate;
+>  	unsigned int jpeg_quality;
+>  	unsigned int jpeg_hq_quality;
+> @@ -331,21 +359,25 @@ struct aspeed_video {
+>  #define to_aspeed_video(x) container_of((x), struct aspeed_video, v4l2_dev)
+>  
+>  struct aspeed_video_config {
+> +	u32 version;
+>  	u32 jpeg_mode;
+>  	u32 comp_size_read;
+>  };
+>  
+>  static const struct aspeed_video_config ast2400_config = {
+> +	.version = 4,
+>  	.jpeg_mode = AST2400_VE_SEQ_CTRL_JPEG_MODE,
+>  	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
+>  };
+>  
+>  static const struct aspeed_video_config ast2500_config = {
+> +	.version = 5,
+>  	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
+>  	.comp_size_read = AST2400_VE_COMP_SIZE_READ_BACK,
+>  };
+>  
+>  static const struct aspeed_video_config ast2600_config = {
+> +	.version = 6,
+>  	.jpeg_mode = AST2500_VE_SEQ_CTRL_JPEG_MODE,
+>  	.comp_size_read = AST2600_VE_COMP_SIZE_READ_BACK,
+>  };
+> @@ -485,6 +517,7 @@ static const struct v4l2_dv_timings_cap aspeed_video_timings_cap = {
+>  
+>  static const char * const format_str[] = {"Standard JPEG",
+>  	"Aspeed JPEG"};
+> +static const char * const input_str[] = {"HOST VGA", "BMC GFX"};
+>  
+>  static unsigned int debug;
+>  
+> @@ -609,6 +642,14 @@ static int aspeed_video_start_frame(struct aspeed_video *video)
+>  		aspeed_video_free_buf(video, &video->bcd);
+>  	}
+>  
+> +	if (video->input == VIDEO_INPUT_GFX) {
+> +		u32 val;
+> +
+> +		// update input buffer address as gfx's
+> +		regmap_read(video->gfx, GFX_DISPLAY_ADDR, &val);
+> +		aspeed_video_write(video, VE_TGS_0, val);
 > +	}
 > +
->   	mutex_lock(&leds_lookup_lock);
->   	list_for_each_entry(lookup, &leds_lookup_list, list) {
->   		if (!strcmp(lookup->dev_id, dev_name(dev)) &&
+>  	spin_lock_irqsave(&video->lock, flags);
+>  	buf = list_first_entry_or_null(&video->buffers,
+>  				       struct aspeed_video_buffer, link);
+> @@ -1026,9 +1067,23 @@ static void aspeed_video_get_timings(struct aspeed_video *v,
+>  	}
+>  }
+>  
+> +static void aspeed_video_get_resolution_gfx(struct aspeed_video *video,
+> +					    struct v4l2_bt_timings *det)
+> +{
+> +	u32 h_val, v_val;
+> +
+> +	regmap_read(video->gfx, GFX_H_DISPLAY, &h_val);
+> +	regmap_read(video->gfx, GFX_V_DISPLAY, &v_val);
+> +
+> +	det->width = FIELD_GET(GFX_H_DISPLAY_DE, h_val) + 1;
+> +	det->height = FIELD_GET(GFX_V_DISPLAY_DE, v_val) + 1;
+> +	video->v4l2_input_status = 0;
+> +}
+> +
+>  #define res_check(v) test_and_clear_bit(VIDEO_MODE_DETECT_DONE, &(v)->flags)
+>  
+> -static void aspeed_video_get_resolution(struct aspeed_video *video)
+> +static void aspeed_video_get_resolution_vga(struct aspeed_video *video,
+> +					    struct v4l2_bt_timings *det)
+>  {
+>  	bool invalid_resolution = true;
+>  	int rc;
+> @@ -1036,7 +1091,6 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+>  	u32 mds;
+>  	u32 src_lr_edge;
+>  	u32 src_tb_edge;
+> -	struct v4l2_bt_timings *det = &video->detected_timings;
+>  
+>  	det->width = MIN_WIDTH;
+>  	det->height = MIN_HEIGHT;
+> @@ -1113,14 +1167,20 @@ static void aspeed_video_get_resolution(struct aspeed_video *video)
+>  
+>  	aspeed_video_get_timings(video, det);
+>  
+> -	/*
+> -	 * Enable mode-detect watchdog, resolution-change watchdog and
+> -	 * automatic compression after frame capture.
+> -	 */
+> +	/* Enable mode-detect watchdog, resolution-change watchdog */
+>  	aspeed_video_update(video, VE_INTERRUPT_CTRL, 0,
+>  			    VE_INTERRUPT_MODE_DETECT_WD);
+> -	aspeed_video_update(video, VE_SEQ_CTRL, 0,
+> -			    VE_SEQ_CTRL_AUTO_COMP | VE_SEQ_CTRL_EN_WATCHDOG);
+> +	aspeed_video_update(video, VE_SEQ_CTRL, 0, VE_SEQ_CTRL_EN_WATCHDOG);
+> +}
+> +
+> +static void aspeed_video_get_resolution(struct aspeed_video *video)
+> +{
+> +	struct v4l2_bt_timings *det = &video->detected_timings;
+> +
+> +	if (video->input == VIDEO_INPUT_GFX)
+> +		aspeed_video_get_resolution_gfx(video, det);
+> +	else
+> +		aspeed_video_get_resolution_vga(video, det);
+>  
+>  	v4l2_dbg(1, debug, &video->v4l2_dev, "Got resolution: %dx%d\n",
+>  		 det->width, det->height);
+> @@ -1156,7 +1216,7 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>  	aspeed_video_write(video, VE_SRC_SCANLINE_OFFSET, act->width * 4);
+>  
+>  	/* Don't use direct mode below 1024 x 768 (irqs don't fire) */
+> -	if (size < DIRECT_FETCH_THRESHOLD) {
+> +	if (video->input == VIDEO_INPUT_VGA && size < DIRECT_FETCH_THRESHOLD) {
+>  		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Sync Mode\n");
+>  		aspeed_video_write(video, VE_TGS_0,
+>  				   FIELD_PREP(VE_TGS_FIRST,
+> @@ -1171,10 +1231,20 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>  				    VE_CTRL_INT_DE | VE_CTRL_DIRECT_FETCH,
+>  				    VE_CTRL_INT_DE);
+>  	} else {
+> +		u32 ctrl, val, bpp;
+> +
+>  		v4l2_dbg(1, debug, &video->v4l2_dev, "Capture: Direct Mode\n");
+> +		ctrl = VE_CTRL_DIRECT_FETCH;
+> +		if (video->input == VIDEO_INPUT_GFX) {
+> +			regmap_read(video->gfx, GFX_CTRL, &val);
+> +			bpp = FIELD_GET(GFX_CTRL_FMT, val) ? 32 : 16;
+> +			if (bpp == 16)
+> +				ctrl |= VE_CTRL_INT_DE;
+> +			aspeed_video_write(video, VE_TGS_1, act->width * (bpp >> 3));
+> +		}
+>  		aspeed_video_update(video, VE_CTRL,
+>  				    VE_CTRL_INT_DE | VE_CTRL_DIRECT_FETCH,
+> -				    VE_CTRL_DIRECT_FETCH);
+> +				    ctrl);
+>  	}
+>  
+>  	size *= 4;
+> @@ -1207,6 +1277,22 @@ static void aspeed_video_set_resolution(struct aspeed_video *video)
+>  		aspeed_video_free_buf(video, &video->srcs[0]);
+>  }
+>  
+> +/*
+> + * Update relative parameters when timing changed.
+> + *
+> + * @video: the struct of aspeed_video
+> + * @timings: the new timings
+> + */
+> +static void aspeed_video_update_timings(struct aspeed_video *video, struct v4l2_bt_timings *timings)
+> +{
+> +	video->active_timings = *timings;
+> +	aspeed_video_set_resolution(video);
+> +
+> +	video->pix_fmt.width = timings->width;
+> +	video->pix_fmt.height = timings->height;
+> +	video->pix_fmt.sizeimage = video->max_compressed_size;
+> +}
+> +
+>  static void aspeed_video_update_regs(struct aspeed_video *video)
+>  {
+>  	u8 jpeg_hq_quality = clamp((int)video->jpeg_hq_quality - 1, 0,
+> @@ -1219,6 +1305,8 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
+>  	u32 ctrl = 0;
+>  	u32 seq_ctrl = 0;
+>  
+> +	v4l2_dbg(1, debug, &video->v4l2_dev, "input(%s)\n",
+> +		 input_str[video->input]);
+>  	v4l2_dbg(1, debug, &video->v4l2_dev, "framerate(%d)\n",
+>  		 video->frame_rate);
+>  	v4l2_dbg(1, debug, &video->v4l2_dev, "jpeg format(%s) subsample(%s)\n",
+> @@ -1234,6 +1322,9 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
+>  	else
+>  		aspeed_video_update(video, VE_BCD_CTRL, VE_BCD_CTRL_EN_BCD, 0);
+>  
+> +	if (video->input == VIDEO_INPUT_VGA)
+> +		ctrl |= VE_CTRL_AUTO_OR_CURSOR;
+> +
+>  	if (video->frame_rate)
+>  		ctrl |= FIELD_PREP(VE_CTRL_FRC, video->frame_rate);
+>  
+> @@ -1252,7 +1343,9 @@ static void aspeed_video_update_regs(struct aspeed_video *video)
+>  	aspeed_video_update(video, VE_SEQ_CTRL,
+>  			    video->jpeg_mode | VE_SEQ_CTRL_YUV420,
+>  			    seq_ctrl);
+> -	aspeed_video_update(video, VE_CTRL, VE_CTRL_FRC, ctrl);
+> +	aspeed_video_update(video, VE_CTRL,
+> +			    VE_CTRL_FRC | VE_CTRL_AUTO_OR_CURSOR |
+> +			    VE_CTRL_SOURCE, ctrl);
+>  	aspeed_video_update(video, VE_COMP_CTRL,
+>  			    VE_COMP_CTRL_DCT_LUM | VE_COMP_CTRL_DCT_CHR |
+>  			    VE_COMP_CTRL_EN_HQ | VE_COMP_CTRL_HQ_DCT_LUM |
+> @@ -1280,6 +1373,7 @@ static void aspeed_video_init_regs(struct aspeed_video *video)
+>  	aspeed_video_write(video, VE_JPEG_ADDR, video->jpeg.dma);
+>  
+>  	/* Set control registers */
+> +	aspeed_video_write(video, VE_SEQ_CTRL, VE_SEQ_CTRL_AUTO_COMP);
+>  	aspeed_video_write(video, VE_CTRL, ctrl);
+>  	aspeed_video_write(video, VE_COMP_CTRL, VE_COMP_CTRL_RSVD);
+>  
+> @@ -1311,12 +1405,7 @@ static void aspeed_video_start(struct aspeed_video *video)
+>  	aspeed_video_get_resolution(video);
+>  
+>  	/* Set timings since the device is being opened for the first time */
+> -	video->active_timings = video->detected_timings;
+> -	aspeed_video_set_resolution(video);
+> -
+> -	video->pix_fmt.width = video->active_timings.width;
+> -	video->pix_fmt.height = video->active_timings.height;
+> -	video->pix_fmt.sizeimage = video->max_compressed_size;
+> +	aspeed_video_update_timings(video, &video->detected_timings);
+>  }
+>  
+>  static void aspeed_video_stop(struct aspeed_video *video)
+> @@ -1401,10 +1490,10 @@ static int aspeed_video_enum_input(struct file *file, void *fh,
+>  {
+>  	struct aspeed_video *video = video_drvdata(file);
+>  
+> -	if (inp->index)
+> +	if (inp->index >= VIDEO_INPUT_MAX)
+>  		return -EINVAL;
+>  
+> -	strscpy(inp->name, "Host VGA capture", sizeof(inp->name));
+> +	sprintf(inp->name, "%s capture", input_str[inp->index]);
+>  	inp->type = V4L2_INPUT_TYPE_CAMERA;
+>  	inp->capabilities = V4L2_IN_CAP_DV_TIMINGS;
+>  	inp->status = video->v4l2_input_status;
+> @@ -1414,16 +1503,47 @@ static int aspeed_video_enum_input(struct file *file, void *fh,
+>  
+>  static int aspeed_video_get_input(struct file *file, void *fh, unsigned int *i)
+>  {
+> -	*i = 0;
+> +	struct aspeed_video *video = video_drvdata(file);
+> +
+> +	*i = video->input;
+>  
+>  	return 0;
+>  }
+>  
+>  static int aspeed_video_set_input(struct file *file, void *fh, unsigned int i)
+>  {
+> -	if (i)
+> +	struct aspeed_video *video = video_drvdata(file);
+> +
+> +	if (i >= VIDEO_INPUT_MAX)
+>  		return -EINVAL;
+>  
+> +	if (IS_ERR(video->scu)) {
+> +		v4l2_dbg(1, debug, &video->v4l2_dev, "%s: scu isn't ready for input-control\n", __func__);
+> +		return -EINVAL;
+> +	}
+> +
+> +	if (IS_ERR(video->gfx) && i == VIDEO_INPUT_GFX) {
+> +		v4l2_dbg(1, debug, &video->v4l2_dev, "%s: gfx isn't ready for GFX input\n", __func__);
+> +		return -EINVAL;
+> +	}
+
+This need extra checks: one to just return 0 if the new input is the same as the old one:
+
+	if (video->input == i)
+		return 0;
+
+followed by a check to see if we're streaming:
+
+	if (vb2_is_busy(&video->queue))
+		return -EBUSY;
+
+Changing the input will also update the format, which is not allowed while streaming.
+
+Regards,
+
+	Hans
+
+> +
+> +	video->input = i;
+> +
+> +	if (video->version == 6) {
+> +		/* modify dpll source per current input */
+> +		if (video->input == VIDEO_INPUT_VGA)
+> +			regmap_update_bits(video->scu, SCU_MISC_CTRL, SCU_DPLL_SOURCE, 0);
+> +		else
+> +			regmap_update_bits(video->scu, SCU_MISC_CTRL, SCU_DPLL_SOURCE, SCU_DPLL_SOURCE);
+> +	}
+> +
+> +	aspeed_video_update_regs(video);
+> +
+> +	/* update signal status */
+> +	aspeed_video_get_resolution(video);
+> +	if (!video->v4l2_input_status)
+> +		aspeed_video_update_timings(video, &video->detected_timings);
+> +
+>  	return 0;
+>  }
+>  
+> @@ -1527,13 +1647,7 @@ static int aspeed_video_set_dv_timings(struct file *file, void *fh,
+>  	if (vb2_is_busy(&video->queue))
+>  		return -EBUSY;
+>  
+> -	video->active_timings = timings->bt;
+> -
+> -	aspeed_video_set_resolution(video);
+> -
+> -	video->pix_fmt.width = timings->bt.width;
+> -	video->pix_fmt.height = timings->bt.height;
+> -	video->pix_fmt.sizeimage = video->max_compressed_size;
+> +	aspeed_video_update_timings(video, &timings->bt);
+>  
+>  	timings->type = V4L2_DV_BT_656_1120;
+>  
+> @@ -1909,6 +2023,7 @@ static int aspeed_video_debugfs_show(struct seq_file *s, void *data)
+>  	val08 = aspeed_video_read(v, VE_CTRL);
+>  	if (FIELD_GET(VE_CTRL_DIRECT_FETCH, val08)) {
+>  		seq_printf(s, "  %-20s:\tDirect fetch\n", "Mode");
+> +		seq_printf(s, "  %-20s:\t%s\n", "Input", input_str[v->input]);
+>  		seq_printf(s, "  %-20s:\t%s\n", "VGA bpp mode",
+>  			   FIELD_GET(VE_CTRL_INT_DE, val08) ? "16" : "32");
+>  	} else {
+> @@ -2068,12 +2183,29 @@ static int aspeed_video_setup_video(struct aspeed_video *video)
+>  	return 0;
+>  }
+>  
+> +/*
+> + * Get regmap without checking res, such as clk/reset, that could lead to
+> + * conflict.
+> + */
+> +static struct regmap *aspeed_regmap_lookup(struct device_node *np, const char *property)
+> +{
+> +	struct device_node *syscon_np __free(device_node) = of_parse_phandle(np, property, 0);
+> +
+> +	if (!syscon_np)
+> +		return ERR_PTR(-ENODEV);
+> +
+> +	return device_node_to_regmap(syscon_np);
+> +}
+> +
+>  static int aspeed_video_init(struct aspeed_video *video)
+>  {
+>  	int irq;
+>  	int rc;
+>  	struct device *dev = video->dev;
+>  
+> +	video->scu = aspeed_regmap_lookup(dev->of_node, "aspeed,scu");
+> +	video->gfx = aspeed_regmap_lookup(dev->of_node, "aspeed,gfx");
+> +
+>  	irq = irq_of_parse_and_map(dev->of_node, 0);
+>  	if (!irq) {
+>  		dev_err(dev, "Unable to find IRQ\n");
+> @@ -2165,6 +2297,7 @@ static int aspeed_video_probe(struct platform_device *pdev)
+>  	if (!config)
+>  		return -ENODEV;
+>  
+> +	video->version = config->version;
+>  	video->jpeg_mode = config->jpeg_mode;
+>  	video->comp_size_read = config->comp_size_read;
+>  
+> diff --git a/include/uapi/linux/aspeed-video.h b/include/uapi/linux/aspeed-video.h
+> index 6586a65548c4..15168e8c931e 100644
+> --- a/include/uapi/linux/aspeed-video.h
+> +++ b/include/uapi/linux/aspeed-video.h
+> @@ -8,6 +8,13 @@
+>  
+>  #include <linux/v4l2-controls.h>
+>  
+> +/* aspeed video's input types */
+> +enum aspeed_video_input {
+> +	VIDEO_INPUT_VGA = 0,
+> +	VIDEO_INPUT_GFX,
+> +	VIDEO_INPUT_MAX
+> +};
+> +
+>  #define V4L2_CID_ASPEED_HQ_MODE			(V4L2_CID_USER_ASPEED_BASE  + 1)
+>  #define V4L2_CID_ASPEED_HQ_JPEG_QUALITY		(V4L2_CID_USER_ASPEED_BASE  + 2)
+>  
+
 
