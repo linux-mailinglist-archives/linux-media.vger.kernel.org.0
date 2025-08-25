@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-40983-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40985-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9BE7B33BED
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 11:56:32 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 280EFB33BFD
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 11:57:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C1B2216B6BD
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 09:56:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 273AA18850EB
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 09:56:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACD0B2E093B;
-	Mon, 25 Aug 2025 09:52:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D14E2D837C;
+	Mon, 25 Aug 2025 09:52:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZSVss9rT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Mi1DPHAC"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 949AF2D8375
-	for <linux-media@vger.kernel.org>; Mon, 25 Aug 2025 09:51:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9642E03F8
+	for <linux-media@vger.kernel.org>; Mon, 25 Aug 2025 09:51:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756115520; cv=none; b=NhPe6npE4pELqiBXhDv2JLRGHqnG3uh7tzKh0zW+J0VzsyeenAgG4V6c38Xme5ZV19L2Q3nqG0BWJE/qTnQf8/z53lDr/ZCZ2PqBkEO1rePyaFHWkvf91zotxtATJkajim8tZcy5u1M5Jk1G7DMGXqteEI8G5fJ10qNba5fjGwE=
+	t=1756115520; cv=none; b=h8b+a4FWXzS94If9recRiQpVxsG0Fy1UC6I4QBK4lRaA5LKsqGGxydtai4bL880z6n+52uQuD4lrY5hxT1b7hMUGa7cMJ3YTJBVKIjrUAAsGqc8IG4CSZJXNgysly5IsaYHo1TAQKxj3FciYJ2I1yeMgMFYMXvRKh16psEbMgJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756115520; c=relaxed/simple;
-	bh=gMbV69thdrMOvhBXP6Wynrm7NAd6FOmplHSX7HtC2qo=;
+	bh=AtT1Lyyh8mRQLdBcLWUeA3Yf7QuPUQD7Bnr6VAPu4c0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=KPRGGhrk864vyLpz1v1oOBiGxtu2Oovp9hSaYN+TD8ujWw8Z1+lr/Ma/WKF754C/Ly0OfwWmA7yOuJxWUdQ9danWsh8wbaFNAX5r4TFDlu/m2vhfeHT81EtQvOTGvKhIr1Bbzip7KVv4XptL+GKiPkndWcr4ypGhhW2SCA3Qlqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZSVss9rT; arc=none smtp.client-ip=198.175.65.20
+	 MIME-Version; b=IATlPtEwLoXYLRIUr9+8xjY8Q7zkmJGLc09hlnNDZUIfO1BKO5AEDv7kFLWAIPgG3yXC0uQoN2xzsaE5zWqBRxqvM3iSn6UPJR3bh/u4vO7wdMnoxPTLR3HNnPCdaBRRH2uY1SXT8SdrV8WJsjV2uDesUxjV6jimxuoMeiXL6aA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Mi1DPHAC; arc=none smtp.client-ip=198.175.65.20
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756115519; x=1787651519;
+  t=1756115520; x=1787651520;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=gMbV69thdrMOvhBXP6Wynrm7NAd6FOmplHSX7HtC2qo=;
-  b=ZSVss9rT+HvF73wfsnH77Rnkxw0jTmQbaSiH1x26VRzjRG/WYgmV/O/w
-   6r1sY+d+hMhILo+fUrR43UWFDFauY2BSaMN97WdgWHxBtX+X4kLQXnRtU
-   owCP01ElST6a7TXKq6InTW6u6JL+aLi3h8uIZjMteyXRRbMPIQHsRYHHo
-   b2sSHAOr8indjBZBpipDqfC5Qr+3q20xT2U7ol08x8YsqgFUBXzDB/gVm
-   IjkJz+fbEqwOrmdu+pj12l0iOnMXB+kP6n+itzPBwpQFGxqKBGEHA+myX
-   lsQyB5dltDluXsnq/u4OSpGeUhH1jQgkVN8FjAmVcPz6FKQf38CAS5gGL
-   w==;
-X-CSE-ConnectionGUID: bCqASnbNSS6OsSeaz47yJQ==
-X-CSE-MsgGUID: tfHEFI+pSLmMSvBXzueHBQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="58032403"
+  bh=AtT1Lyyh8mRQLdBcLWUeA3Yf7QuPUQD7Bnr6VAPu4c0=;
+  b=Mi1DPHACVuEF0eOQ2PYDxDJTfjeyPoR2cxmL8YR/3Pd8YIhf1EvkI5z1
+   Sxadbi1TSh8fNQFP2bAL1qyS8xX2N5jbqrzgeHZgx16qRylUy6884x2zZ
+   nY6PHmit9bYcFRMZ5IJG6BxvnyzwcUXFbmViHHTjwyw7GbRlouJ9mqgp+
+   Oiwn6l1Vi9WDGjR7qgZFT58/sGcb+SYzsZE4c0dRa/b1BbIAzrusvG5cC
+   1TTrOHmK+mMmPigwnCo0l0sEdtGjfZMAp+zv4yJ1i4bxfxaHpEbRhR1so
+   oGYXokpIEYLwFxdJPmd6WHRy4GqkditQxi5QBAVcxRZcszyFQKZjXab8L
+   A==;
+X-CSE-ConnectionGUID: rfm7+Pb7RLmYcbyBMLnRuQ==
+X-CSE-MsgGUID: uAf2A6HAQNmBRCsX9h/HPg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="58032426"
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="58032403"
+   d="scan'208";a="58032426"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
   by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 02:51:53 -0700
-X-CSE-ConnectionGUID: JpoJIyRVSj2ttwO/ZfT1CQ==
-X-CSE-MsgGUID: /Xiu/kJJQCueG5MUh0HlNg==
+X-CSE-ConnectionGUID: ql2waNXnTa21KWemxToxiQ==
+X-CSE-MsgGUID: /Kf8wUpoQBuPFTlTPSWRow==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="173431136"
+   d="scan'208";a="173431142"
 Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.7])
   by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Aug 2025 02:51:47 -0700
 Received: from punajuuri.localdomain (unknown [192.168.240.130])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id E22A8122008;
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id E4FA9122009;
 	Mon, 25 Aug 2025 12:51:08 +0300 (EEST)
 Received: from sailus by punajuuri.localdomain with local (Exim 4.98.2)
 	(envelope-from <sakari.ailus@linux.intel.com>)
-	id 1uqTr2-00000005ahd-3jU3;
+	id 1uqTr2-00000005ahi-3n1B;
 	Mon, 25 Aug 2025 12:51:08 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -96,9 +96,9 @@ Cc: hans@jjverkuil.nl,
 	Hans de Goede <hdegoede@redhat.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: [PATCH v11 55/66] media: ccs: Add IMMUTABLE and STATIC route flags
-Date: Mon, 25 Aug 2025 12:50:56 +0300
-Message-ID: <20250825095107.1332313-56-sakari.ailus@linux.intel.com>
+Subject: [PATCH v11 56/66] media: ov2740: Add IMMUTABLE and STATIC route flags
+Date: Mon, 25 Aug 2025 12:50:57 +0300
+Message-ID: <20250825095107.1332313-57-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.47.2
 In-Reply-To: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
 References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
@@ -110,37 +110,37 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add immutable and static route flags to the routing table. The embedded
-data stream is always there.
+Add immutable and static route flags to the routing table. The driver does
+not support disabling the embedded data whereas the sensor itself does.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Reviewed-by: Julien Massot <julien.massot@collabora.com>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/i2c/ccs/ccs-core.c | 8 ++++++--
+ drivers/media/i2c/ov2740.c | 8 ++++++--
  1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 87a1614a020b..44e7c3a2f95a 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -3370,12 +3370,16 @@ static int ccs_src_init_state(struct v4l2_subdev *sd,
- 			.sink_pad = CCS_PAD_SINK,
- 			.source_pad = CCS_PAD_SRC,
- 			.source_stream = CCS_STREAM_PIXEL,
+diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+index 2480813113cb..8a2f22a7cf1e 100644
+--- a/drivers/media/i2c/ov2740.c
++++ b/drivers/media/i2c/ov2740.c
+@@ -1235,12 +1235,16 @@ static int ov2740_init_state(struct v4l2_subdev *sd,
+ 			.sink_pad = OV2740_PAD_PIXEL,
+ 			.source_pad = OV2740_PAD_SOURCE,
+ 			.source_stream = OV2740_STREAM_PIXEL,
 -			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
 +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
-+				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE	|
++				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE |
 +				 V4L2_SUBDEV_ROUTE_FL_STATIC,
  		}, {
- 			.sink_pad = CCS_PAD_META,
- 			.source_pad = CCS_PAD_SRC,
- 			.source_stream = CCS_STREAM_META,
+ 			.sink_pad = OV2740_PAD_META,
+ 			.source_pad = OV2740_PAD_SOURCE,
+ 			.source_stream = OV2740_STREAM_META,
 -			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
 +			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE |
-+				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE	|
++				 V4L2_SUBDEV_ROUTE_FL_IMMUTABLE |
 +				 V4L2_SUBDEV_ROUTE_FL_STATIC,
- 		}
+ 		},
  	};
  	struct v4l2_subdev_krouting routing = {
 -- 
