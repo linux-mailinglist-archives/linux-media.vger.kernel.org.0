@@ -1,150 +1,149 @@
-Return-Path: <linux-media+bounces-40856-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-40857-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BDA0B335EA
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 07:48:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBE8CB335F6
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 07:51:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B95A67A5683
-	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 05:47:14 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 183CF17A10B
+	for <lists+linux-media@lfdr.de>; Mon, 25 Aug 2025 05:51:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8797F274B35;
-	Mon, 25 Aug 2025 05:48:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8BE8026A1C4;
+	Mon, 25 Aug 2025 05:51:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aFwrdK9x"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="C9R0lY8r"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50AFAF9CB;
-	Mon, 25 Aug 2025 05:48:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BFAD23957D;
+	Mon, 25 Aug 2025 05:51:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756100920; cv=none; b=DYbYME74+Wj0vhPMY9vQfe23Ncb8S6zIMZfqkRpGsaEFzLU+lrcEuefrwlUUFW5q5YGVjfql6skaSKZDIWk+zYicwTLVUC8C/Xl0v3MQAzPUJt85BeCwZKaHSeMlSrY5LR+oxCBplkRMEf5hyprUazl2wkVuaRFoNTlsbWqoFFQ=
+	t=1756101071; cv=none; b=LkcWpcs824uYejwwTp9YC260jQF30YjlUukX5GDREn0EAkmld3iNwBCIlIu4dKGFODO7IF/w0snhb6tO/XeeWCEqtf8A2AIFK0Ar5lYBhfq3zIVu+QSZg45S1/DhX+u9THkrcfwD7K/c1OMhsv6VmPFWiTRZngpEUT5RRZyqkjU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756100920; c=relaxed/simple;
-	bh=Jau+FjbOfy7Vl+xOE9VJa+DMB+eQb+pmr32ecZWVjsU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pWwnXTdwxFWwplwfCuXazXv3KgDALG8EWtVWbDPZL8+sX9+6cVmm5rmSozpUXzKIQKWtWbw6PIcy6KquQbJh1MXVOToxVNHmZZnLwdfNNcH+k8hLBG6jv31ZIKOelr7I6lkQEKjgbcNpOsOkPEi0sYu3HUacWktJPw4SZTrSEvQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aFwrdK9x; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756100918; x=1787636918;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=Jau+FjbOfy7Vl+xOE9VJa+DMB+eQb+pmr32ecZWVjsU=;
-  b=aFwrdK9xbGYlMHfgHK3MlJd97A/7Zye/mTOtyPbjQqMM+gTzjjuqXmys
-   MukSrg7eT9ISLkt0mc9FJAUyirlkurz3Bq0gbD7Li0/9X5e+v9Hhn/rms
-   sXVvfZkFKR2F26dU58J611RlOSzWwkeVxCvqsQZ7opf6QqphqGiJlkQvs
-   uRcFBkHseyNwP/pebwNBX8cwoKGqXckunhzAsgVRQs34b59IWzgzx8Sux
-   WGhFvVqJsOwdErXP3LwdjHx3T2GW5MCoTDJzTLTMqbu5KjAxbDwKm0gIy
-   EbrLY+oRidwzdmBqT28oYg+gwx6Mt9HqheMn16A9K8oxmsaD2PKNKl64w
-   w==;
-X-CSE-ConnectionGUID: GDpoRBcHQpqU4N0qllzAJQ==
-X-CSE-MsgGUID: fD/UmzMPTh6tci5A2oVIAQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11532"; a="68900439"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="68900439"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2025 22:48:37 -0700
-X-CSE-ConnectionGUID: inir8pOrQie6HNXlUdaVng==
-X-CSE-MsgGUID: X1PuEl9VQ+qzvjbI5xM1qA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="174511206"
-Received: from vpanait-mobl.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.7])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2025 22:48:34 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 2295D12023C;
-	Mon, 25 Aug 2025 08:48:31 +0300 (EEST)
-Date: Mon, 25 Aug 2025 08:48:31 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
-Subject: Re: [PATCH v6 03/11] Documentation: uAPI: media: add
- V4L2_CID_FLASH_DURATION
-Message-ID: <aKv5LyZHoO1F3pMp@kekkonen.localdomain>
-References: <20250716-ov9282-flash-strobe-v6-0-934f12aeff33@linux.dev>
- <20250716-ov9282-flash-strobe-v6-3-934f12aeff33@linux.dev>
- <aKv3uUXf87im8ajX@kekkonen.localdomain>
+	s=arc-20240116; t=1756101071; c=relaxed/simple;
+	bh=p9FkGaGt2dClTy1vfjVHjeyhcpyoBwtZvHP4S5nm8LI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=FnhZfKzpAozXC0e3dMV4ONYDy8w5gKj8rhfTktU4wT5NZLlv5TJmYv2RMbI6Ewm1zPSVhB9lkhcZ1Wzqn3PFEh6sU8/vbg/wEQTPE5WSxte1gmUvfiQgtH7uwWUhIsRAzAn/VX6BJBeMCegKlNs+/mmfL1SzLHdiDmdHLMlDrrE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=C9R0lY8r; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57OMkRh8030501;
+	Mon, 25 Aug 2025 05:51:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	cEfU8y5W7HT8UsgICQCdUmbpKlN3r6DJ5gr7SywWICc=; b=C9R0lY8rcPp1riC8
+	e6UGbgDFNT8/yTcoQPtLnG3tlzh1tmrxu5bUc6osb0WeUoZa5M2mX8m/XTRNKBIq
+	P0OLMY54UShnPy+DxNVfqa1QK3IhEB8GctSf5dZiMqbtWaZBmgvaAJndqprls2ma
+	RXH6vuINzhTZKD1hjBupAnHzGwwl0MqvMSiwcNF8tbR/+OBX6+mKZIYHjri6WOKC
+	Se1iHRkjjl2ZGcJWgyrocdug0MwhryLduATIvsHTj2vl1T50Vu4xAqnHwRRUT9cd
+	VcAj4S19+LKgk6IbJrDkGOkvITlPyexciq4JNGa0kyCdzd8RcxipLzEjs/5HY36p
+	kWaWSw==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48q5unkv67-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 25 Aug 2025 05:51:04 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57P5p3Fn010495
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Mon, 25 Aug 2025 05:51:03 GMT
+Received: from [10.204.100.211] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.10; Sun, 24 Aug
+ 2025 22:49:59 -0700
+Message-ID: <57575209-7f03-6a00-8eed-758098d424c8@quicinc.com>
+Date: Mon, 25 Aug 2025 11:19:55 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aKv3uUXf87im8ajX@kekkonen.localdomain>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH v3 12/26] media: iris: Fix format check for CAPTURE plane
+ in try_fmt
+Content-Language: en-US
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Abhinav Kumar
+	<abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Stefan Schmidt
+	<stefan.schmidt@linaro.org>,
+        Vedang Nagar <quic_vnagar@quicinc.com>,
+        "Hans
+ Verkuil" <hverkuil@kernel.org>
+CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Renjiang Han <quic_renjiang@quicinc.com>,
+        Wangao Wang <quic_wangaow@quicinc.com>
+References: <20250820-iris-video-encoder-v3-0-80ab0ba58b3d@quicinc.com>
+ <20250820-iris-video-encoder-v3-12-80ab0ba58b3d@quicinc.com>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <20250820-iris-video-encoder-v3-12-80ab0ba58b3d@quicinc.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: e9hvuNCYhUovEyZaFxGWWDVk7d8ytxSH
+X-Proofpoint-ORIG-GUID: e9hvuNCYhUovEyZaFxGWWDVk7d8ytxSH
+X-Authority-Analysis: v=2.4 cv=JJo7s9Kb c=1 sm=1 tr=0 ts=68abf9c8 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=COk6AnOGAAAA:8
+ a=n6QUAqEghr28x03DGVoA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODIzMDAzMSBTYWx0ZWRfX9LilLRcZGqcd
+ bbIp1wk/KyKu40zTUDtUKAuGpoD8aRWn/oYxMedNrIJx8kbzlYErJJqsDaY4fnGLnKJhpRo62a3
+ d1l71ZeNaZt555e5UYKfk8Ni1JHMerHUXzKajZP+gpPItPwsafNlOCdb5WPlWXAycgMJ6pFhgAq
+ BN3zAWCLv8p0xPuaBLLxOvQkSY7QlZYeTcJs8vCxIa/6Plklk0VLJ4sZ2jE1pUjQm+wzZL4wFSp
+ zLS+WqIr/WkQ3QycpmnGo1DtGy/DHF/faVkr2vy6PhLYzBQQkrEfi/CNsz4d30D7sHVaNjk2TV4
+ 737wBUEer5trV/gcfaH0cEBIoyYsXqR2dFvPlIK/xcbOr8uy/jb+5BE4JuM362+yTej+nVfBPTr
+ oyhVdF4G
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-25_02,2025-08-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 adultscore=0 bulkscore=0 spamscore=0 impostorscore=0
+ malwarescore=0 clxscore=1015 priorityscore=1501 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508230031
 
-On Mon, Aug 25, 2025 at 08:42:19AM +0300, Sakari Ailus wrote:
-> Hi Richard,
-> 
-> Thanks for the update (and for the ping!).
-> 
-> On Wed, Jul 16, 2025 at 11:06:53AM +0200, Richard Leitner wrote:
-> > Add the new strobe_duration control to v4l uAPI documentation.
-> > 
-> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> > ---
-> >  Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst | 5 +++++
-> >  1 file changed, 5 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-> > index d22c5efb806a183a3ad67ec3e6550b002a51659a..03a58ef94be7c870f55d5a9bb09503995dbfb402 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-> > @@ -186,3 +186,8 @@ Flash Control IDs
-> >      charged before strobing. LED flashes often require a cooldown period
-> >      after strobe during which another strobe will not be possible. This
-> >      is a read-only control.
-> > +
-> > +``V4L2_CID_FLASH_DURATION (integer)``
-> > +    Duration the flash should be on when the flash LED is in flash mode
-> > +    (V4L2_FLASH_LED_MODE_FLASH). The unit should be microseconds (µs)
-> > +    if possible.
-> > 
-> 
-> I think we should add this is related to the hardware strobe.
-> 
-> How about:
-> 
-> ``V4L2_CID_FLASH_DURATION (integer)``
-> 
->     Duration of the flash strobe from the strobe source, typically a camera
->     sensor. Controlling the flash LED strobe length this way requires that the
->     flash LED driver's :ref:`flash LED mode <v4l2-cid-flash-led-mode>` is set
->     to ``V4L2_FLASH_LED_MODE_FLASH`` and :ref:`strobe source
->     <v4l2-cid-strobe-source>` is set to ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL``.
->     The unit should be microseconds (µs) if possible.
 
-Also adding a reference to V4L2_CID_FLASH_HW_STROBE_SIGNAL:
 
-``V4L2_CID_FLASH_DURATION (integer)``
-    Duration of the flash strobe from the strobe source, typically a camera
-    sensor. Controlling the flash LED strobe length this way requires that the
-    strobe source's :ref:`V4L2_CID_FLASH_HW_STROBE_SIGNAL
-    <v4l2-cid-flash-hw-strobe>` is enabled and flash LED driver's :ref:`flash
-    LED mode <v4l2-cid-flash-led-mode>` is set to ``V4L2_FLASH_LED_MODE_FLASH``
-    and :ref:`strobe source <v4l2-cid-strobe-source>` is set to
-    ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL``. The unit should be microseconds (µs)
-    if possible.
+On 8/20/2025 2:37 PM, Dikshita Agarwal wrote:
+> Previously, the format validation relied on an array of supported
+> formats, which only listed formats for the OUTPUT plane. This caused
+> failures when validating formats for the CAPTURE plane.
+> Update the check to validate against the only supported format on the
+> CAPTURE plane, which is NV12.
+> 
+> Fixes: fde6161d91bb ("media: iris: Add HEVC and VP9 formats for decoder")
+> Signed-off-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/iris/iris_vdec.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
+> index d670b51c5839d1fad54d34f373cf71d5f3973a96..0f5adaac829f2263fae9ff0fa49bb17bad2edecb 100644
+> --- a/drivers/media/platform/qcom/iris/iris_vdec.c
+> +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
+> @@ -158,7 +158,7 @@ int iris_vdec_try_fmt(struct iris_inst *inst, struct v4l2_format *f)
+>  		}
+>  		break;
+>  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+> -		if (!fmt) {
+> +		if (f->fmt.pix_mp.pixelformat != V4L2_PIX_FMT_NV12) {
+>  			f_inst = inst->fmt_dst;
+>  			f->fmt.pix_mp.pixelformat = f_inst->fmt.pix_mp.pixelformat;
+>  			f->fmt.pix_mp.width = f_inst->fmt.pix_mp.width;
+> 
 
-Similarly, the documentation for V4L2_CID_FLASH_HW_STROBE_SIGNAL should be
-amended with a reference, but the label needs to exist first. I think you
-could merge the two documentation patches to make this easier.
-
--- 
-Sakari Ailus
+Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 
