@@ -1,145 +1,144 @@
-Return-Path: <linux-media+bounces-41060-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41061-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4293EB35582
-	for <lists+linux-media@lfdr.de>; Tue, 26 Aug 2025 09:24:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA9B8B355B9
+	for <lists+linux-media@lfdr.de>; Tue, 26 Aug 2025 09:36:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 35FF04E3DAC
-	for <lists+linux-media@lfdr.de>; Tue, 26 Aug 2025 07:24:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B05F5E3355
+	for <lists+linux-media@lfdr.de>; Tue, 26 Aug 2025 07:36:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA2F92FF15B;
-	Tue, 26 Aug 2025 07:21:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EA982ECD3E;
+	Tue, 26 Aug 2025 07:36:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="bDlaKt5H"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IwLyHx4x"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B10EA2FA0F2;
-	Tue, 26 Aug 2025 07:21:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E79AB17A2E1;
+	Tue, 26 Aug 2025 07:36:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756192902; cv=none; b=XxQJNiAntclTDABPTyDl4ARRxV6hfFBRX+32PoFNOqwP2TPQRTUqFL/ilMNB4HmrTnQtlaxx0eEFWqP8PwCgbYjtOSt3ZaLMsI1UKw/8QoO7QAMvgL9M+3Mwpp9a/jz2QuQkFiDmLEfxrpAhzARxLwZOQSi3W2kpvfm86gCfw6U=
+	t=1756193764; cv=none; b=iuiaZ2qDFJxYzwFgloL7V8JlC0TA5NZLKCHJBuKSGT3jdm9zl2NUPZeFzN2xG3VOgX72d9fVDrw4laUcD6OEzzZ0CNgUHI+3CjbZZgBDXAE0D4+UoSZDGwnC4fGMWzS8VP1pzPM4q+/YDfl0FnrGBYCAujFCSYZb2mCxI14QglQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756192902; c=relaxed/simple;
-	bh=i9eZzXa6KNHsPr+uB9jBvv363QVy+ueLLm5amG82YCg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=ZQIlQF854jgrF6dpecWKgsA97JEGru2+vqy8dDXXqxuSAMkPwLIhlV/9KApNESE7QvoHR2GUXYvdj02bD1yOiCXannqQHpVzkVA4Tov2cmMre/mpa6Ln/T0n6KkZua/EuQM4wUS9rxMISdkqvTHiNJh64xcTnhT6o3HjD5x8sRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=bDlaKt5H; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1756192890;
-	bh=i9eZzXa6KNHsPr+uB9jBvv363QVy+ueLLm5amG82YCg=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=bDlaKt5HGTigVAMo8SQWZMLxSCsdTBbxy1FFve3ERMUnRaZQDtT4Su9J2DorGKRzU
-	 pYp52LtKuLHj5kr2IjHSZMfShM6j//t3R3ExXg/C89xfhEQfBuMB7vNXvPOmKikW5T
-	 PWPz6lD2yWzexSz8Voea3cndIpFqNbd/N5UZ7NKWcygCYk7po1QNuemROopvR5AsfT
-	 onja315lge7W2f/kmR+yP0YcfU/9lYqa78o/HU4BjPVRCPoKGoNzlKmArvIxzK1pu5
-	 K1erBWYyBEytD6AjooE/kg4e1EAt48+rDy1coPu76+s7Shv1lSILZcgMwBcUQrzrYf
-	 vb45ajH3RtCWA==
-Received: from 2a01cb0892f2d600c8f85cf092d4af51.ipv6.abo.wanadoo.fr (2a01cb0892F2d600c8F85cf092d4aF51.ipv6.abo.wanadoo.fr [IPv6:2a01:cb08:92f2:d600:c8f8:5cf0:92d4:af51])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: jmassot)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1F11D17E011A;
-	Tue, 26 Aug 2025 09:21:30 +0200 (CEST)
-Message-ID: <442c8ed533e01af213c5fae2dad5ad317872d4d1.camel@collabora.com>
-Subject: Re: [PATCH] media: i2c: vgxy61: Report stream using frame
- descriptors
-From: Julien Massot <julien.massot@collabora.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: kernel@collabora.com, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
- Sylvain Petinot <sylvain.petinot@foss.st.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, 	linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Tue, 26 Aug 2025 09:21:29 +0200
-In-Reply-To: <aJ7N8tAqEp5KSTGN@kekkonen.localdomain>
-References: <20250704-vgxy61-frame-desc-v1-1-0e62b9c4e260@collabora.com>
-	 <aJ7N8tAqEp5KSTGN@kekkonen.localdomain>
-Organization: Collabora Ltd.
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1756193764; c=relaxed/simple;
+	bh=o2KO6qM5slp43TEhCjAXRmlGzXDBAfE+BYRggH70ykM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UzFaMxn1J+4i6jpBsAnNwhDarU6OB1ox8YmkBoYUwTY3SyJaUIhWTqZaFBdPYV9gZ7yywjUswPtAnMo4VV2Dn1XjYaXFVdkt7HAiSBJte81iYULEbESnAvAaMQvKiXWrZlCapdGrzr8RxHZT4aXMlZdHMTfvWS/6WLROshTyw5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IwLyHx4x; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EF085C4CEF1;
+	Tue, 26 Aug 2025 07:36:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756193763;
+	bh=o2KO6qM5slp43TEhCjAXRmlGzXDBAfE+BYRggH70ykM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IwLyHx4xIpVgFZzymAoXflbPhyJvUzihZIjgw/T6WCeTmaoxD61qGu6MZvLapOeI9
+	 bl8s0QDAvD6TOEY9kGm30dih8kiDOyd5gTEDmGeMTZgDAjj4+d9HfG9P7nA6O9Ly3A
+	 nSJUI9utAtsqNoHlTOFv7ZrpZvCD/FBy+4dhGWEzncCtuL/NcZ7aAN07suchL6LNnr
+	 Q5EVJ0PU9ATpWNbTYf9MAl9SBa/gNibE7VlH28ajRHdC7uChifOFDLI1VlwIBTQQO6
+	 taFuOqZSd/71gnkOQT1uN0qxFfErhmUlRgtFCqkfwq3B1W6w6nUYEcPbQQzEMTBEEi
+	 rsluRS21+VSyg==
+Date: Tue, 26 Aug 2025 09:36:00 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Rob Herring <robh@kernel.org>, Saravana Kannan <saravanak@google.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
+	"T.J. Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, 
+	Mattijs Korpershoek <mkorpershoek@kernel.org>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	iommu@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
+ reserved region
+Message-ID: <20250826-vagabond-catfish-of-courtesy-cbfa76@houat>
+References: <20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha384;
+	protocol="application/pgp-signature"; boundary="62kahmzwo3bq6vd4"
+Content-Disposition: inline
+In-Reply-To: <20250721-dma-buf-ecc-heap-v7-0-031836e1a942@kernel.org>
 
-Hi Sakari,
 
-On Fri, 2025-08-15 at 06:04 +0000, Sakari Ailus wrote:
-> Hi Julien,
+--62kahmzwo3bq6vd4
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v7 0/5] dma-buf: heaps: Create a CMA heap for each CMA
+ reserved region
+MIME-Version: 1.0
+
+Hi,
+
+On Mon, Jul 21, 2025 at 01:17:29PM +0200, Maxime Ripard wrote:
+> Here's another attempt at supporting user-space allocations from a
+> specific carved-out reserved memory region.
 >=20
-> On Fri, Jul 04, 2025 at 11:28:24AM +0200, Julien Massot wrote:
-> > Add support for .get_frame_desc() to report CSI-2 virtual channel
-> > and data type information. This allows CSI-2 receivers to properly
-> > interpret the stream without inferring the data type from the pixel
-> > format.
-> >=20
-> > Signed-off-by: Julien Massot <julien.massot@collabora.com>
-> > ---
-> > =C2=A0drivers/media/i2c/vgxy61.c | 16 ++++++++++++++++
-> > =C2=A01 file changed, 16 insertions(+)
-> >=20
-> > diff --git a/drivers/media/i2c/vgxy61.c b/drivers/media/i2c/vgxy61.c
-> > index
-> > 5b0479f3a3c0592be430cefe5a1ab9a76812ba84..44d6c8d8fbf8d6182e42d44e129b
-> > c45945ee0da5 100644
-> > --- a/drivers/media/i2c/vgxy61.c
-> > +++ b/drivers/media/i2c/vgxy61.c
-> > @@ -1181,6 +1181,21 @@ static int vgxy61_s_stream(struct v4l2_subdev
-> > *sd, int enable)
-> > =C2=A0	return ret;
-> > =C2=A0}
-> > =C2=A0
-> > +static int vgxy61_get_frame_desc(struct v4l2_subdev *sd, unsigned int
-> > pad,
-> > +				 struct v4l2_mbus_frame_desc *fd)
-> > +{
-> > +	struct vgxy61_dev *sensor =3D to_vgxy61_dev(sd);
-> > +
-> > +	fd->type =3D V4L2_MBUS_FRAME_DESC_TYPE_CSI2;
-> > +	fd->num_entries =3D 1;
-> > +	fd->entry[0].pixelcode =3D sensor->fmt.code;
-> > +	fd->entry[0].stream =3D 0;
-> > +	fd->entry[0].bus.csi2.vc =3D 0;
-> > +	fd->entry[0].bus.csi2.dt =3D get_data_type_by_code(sensor-
-> > >fmt.code);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > =C2=A0static int vgxy61_set_fmt(struct v4l2_subdev *sd,
-> > =C2=A0			=C2=A0 struct v4l2_subdev_state *sd_state,
-> > =C2=A0			=C2=A0 struct v4l2_subdev_format *format)
-> > @@ -1402,6 +1417,7 @@ static const struct v4l2_subdev_pad_ops
-> > vgxy61_pad_ops =3D {
-> > =C2=A0	.set_fmt =3D vgxy61_set_fmt,
-> > =C2=A0	.get_selection =3D vgxy61_get_selection,
-> > =C2=A0	.enum_frame_size =3D vgxy61_enum_frame_size,
-> > +	.get_frame_desc =3D vgxy61_get_frame_desc,
-> > =C2=A0};
-> > =C2=A0
-> > =C2=A0static const struct v4l2_subdev_ops vgxy61_subdev_ops =3D {
-> >=20
+> The initial problem we were discussing was that I'm currently working on
+> a platform which has a memory layout with ECC enabled. However, enabling
+> the ECC has a number of drawbacks on that platform: lower performance,
+> increased memory usage, etc. So for things like framebuffers, the
+> trade-off isn't great and thus there's a memory region with ECC disabled
+> to allocate from for such use cases.
 >=20
-> I guess this is correct as such, but does it provide any information
-> that
-> isn't already available? I.e. I wouldn't add it just for the sake of it.
-Perhaps, I missed something. Without the get_frame_desc the CSI receiver
-have to infers the datatype based on the pixel format.
+> After a suggestion from John, I chose to first start using heap
+> allocations flags to allow for userspace to ask for a particular ECC
+> setup. This is then backed by a new heap type that runs from reserved
+> memory chunks flagged as such, and the existing DT properties to specify
+> the ECC properties.
+>=20
+> After further discussion, it was considered that flags were not the
+> right solution, and relying on the names of the heaps would be enough to
+> let userspace know the kind of buffer it deals with.
+>=20
+> Thus, even though the uAPI part of it had been dropped in this second
+> version, we still needed a driver to create heaps out of carved-out memory
+> regions. In addition to the original usecase, a similar driver can be
+> found in BSPs from most vendors, so I believe it would be a useful
+> addition to the kernel.
+>=20
+> Some extra discussion with Rob Herring [1] came to the conclusion that
+> some specific compatible for this is not great either, and as such an
+> new driver probably isn't called for either.
+>=20
+> Some other discussions we had with John [2] also dropped some hints that
+> multiple CMA heaps might be a good idea, and some vendors seem to do
+> that too.
+>=20
+> So here's another attempt that doesn't affect the device tree at all and
+> will just create a heap for every CMA reserved memory region.
+>=20
+> It also falls nicely into the current plan we have to support cgroups in
+> DRM/KMS and v4l2, which is an additional benefit.
+>=20
+> Let me know what you think,
+> Maxime
 
-I made this patch because some CSI receivers, such as the upcoming GMSL2
-framework are relying on the frame desc to update its routing table.
-So, it will only support sensors implementing the get_frame_desc function.
+Any chance we can get this merged?
 
-Regards,
-Julien
+Maxime
+
+--62kahmzwo3bq6vd4
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaK1j3AAKCRAnX84Zoj2+
+dr8DAYC4w3b6+vJlwvEBOn1/7a0Jj2WkYdqmZ4/CPbeW+2IoICJxW7R3Tce/Y5Uy
+cZTj2C4Bf1SQZXT5Lb+3MVCxCe/EWi1p8JCpJTUjOmK7iEV5xtxrSPhEA3MoFvQz
+icz9OSLPbA==
+=Xhl4
+-----END PGP SIGNATURE-----
+
+--62kahmzwo3bq6vd4--
 
