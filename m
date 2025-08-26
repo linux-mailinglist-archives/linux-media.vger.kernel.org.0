@@ -1,48 +1,63 @@
-Return-Path: <linux-media+bounces-41063-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41064-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87631B356C6
-	for <lists+linux-media@lfdr.de>; Tue, 26 Aug 2025 10:26:08 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F38B356CF
+	for <lists+linux-media@lfdr.de>; Tue, 26 Aug 2025 10:27:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C58CA684307
-	for <lists+linux-media@lfdr.de>; Tue, 26 Aug 2025 08:26:06 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E4432A09DA
+	for <lists+linux-media@lfdr.de>; Tue, 26 Aug 2025 08:27:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61D832F90F9;
-	Tue, 26 Aug 2025 08:25:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 019692F99A3;
+	Tue, 26 Aug 2025 08:27:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VouqkHhs"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="HTkjHKqg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B181A129E6E;
-	Tue, 26 Aug 2025 08:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DE7014A8B;
+	Tue, 26 Aug 2025 08:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756196758; cv=none; b=NKWb0pvwnZeLJJYFM+1Iu5zlK7We6VCJnXqurYWjo3XLcIY7QuSelz8f8OLarwfXnDhHrS88pFGgU3Xrn1TtHlbWIZv6Gto4mQsmjIoqtEHIzMStGsPntkE8rw8KrWl+E0BfyH7V8X86ZRR4NJ391y2N/H35OF3FK8zfnA61+Ok=
+	t=1756196840; cv=none; b=fvH1fNqe0fyt7MtDoPdZ5EvnXzwksIlD8aX3Vb/yw5gwlaKIM5ByywFWZw56xmyof51pujS9SAtJrjr172CK9P0Kn2A3E4IU871Wg0UX/VK1NN9apk2exzzDZ9K7AjG1+wTt/3GasUzMLr8GnUxbYx6SBKObQnIm0ior3+E96ek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756196758; c=relaxed/simple;
-	bh=154rTs/wpxQR2q7mncWfQAq/mYJvsijZEEnVetuUdok=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YDiTahKTqUQtvcXlafmC4F/np/q20W5dEsjZovxzCOZYUeZnNjdUrJzBGfUySmEs9R69bDy7t2Hf9PGekbwL2EM9KupTDgdFSlgOTnxPgEF6+MdSFdQcXSvXKbpWWbVk0yXCEWnjlLPVew16ftqSNlD0Dyj7PKjPWHEBe+F+Rag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VouqkHhs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AFFDC4CEF1;
-	Tue, 26 Aug 2025 08:25:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756196758;
-	bh=154rTs/wpxQR2q7mncWfQAq/mYJvsijZEEnVetuUdok=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VouqkHhsIoJl82Dx/r98VmKMpvZYSe/D2C0/t2PqNpALtUqQIeC4XG/+OTKbLNdtG
-	 edJXhyOUVgxqZSAUYKYJCCs6DNn/EgoGlVYzxxYiZrrGCEUgIanx+s9MfYoamjQ5w3
-	 Kl8aqeUi3A5xcprHCAVzPjdx8T8OYeFouIawlVXU64a0I+dTy7V4jtmcX0ikATnRr1
-	 wipMuNYD0etcmYGHeOlnLB29NWskrMpQDtWRjIsRhFNNm+KiPPK052x26Geq8paCAB
-	 ApuMoTXPGKh4Ps0BtFg49EOLgAQNd33AyZx4NWkUCBgp4sBgVabnGi0INTP2m+YhAI
-	 ml91zclCdrT1g==
-Message-ID: <b7869ddb-f44b-4d1f-a6c3-393a28d3cb00@kernel.org>
-Date: Tue, 26 Aug 2025 10:25:52 +0200
+	s=arc-20240116; t=1756196840; c=relaxed/simple;
+	bh=iNAbWuRYqKobddKwX1b9TKa5uBTJVXzw0AZxRaDpRvE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=OMDZExn3QXLQzArtPQNRyTfFnEF/fltS3Wna2hHLvikWo79NBXvjGre2j5o20/Sb22OECWjaSP2Y+26ysmPcEy84ZGV1j/eGQfYcXBQvrk/X1NnYVS6iRtiVpKUGZdE/kGud2INFukHq81d0P8XOl/Q7D9xtqdMlX0+AfCZByao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=HTkjHKqg; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 57Q8QYjL1490705;
+	Tue, 26 Aug 2025 03:26:35 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1756196795;
+	bh=Up+ZYBhT8QrHZf6BT7jB0PeZJcHkilAw8/OUTiwhvLA=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=HTkjHKqgBOhYCfjmgZlnluvXZdydWAd0LCYS9qOkZDbddhcqGaZ5Li0nawgQHh0Tf
+	 MKCaXbQP0nCR56AyDoY8OL+CWHYkn44k78UEaPiXPT3KwlEmySi9l2xmfYUB0jDKty
+	 qi6rZ5yco8+Bbx9qLN90tmF60xVuOw4BUR8ZfC0o=
+Received: from DLEE108.ent.ti.com (dlee108.ent.ti.com [157.170.170.38])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 57Q8QYmW2259941
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Tue, 26 Aug 2025 03:26:34 -0500
+Received: from DLEE104.ent.ti.com (157.170.170.34) by DLEE108.ent.ti.com
+ (157.170.170.38) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Tue, 26
+ Aug 2025 03:26:33 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Tue, 26 Aug 2025 03:26:33 -0500
+Received: from [10.24.68.198] (abhilash-hp.dhcp.ti.com [10.24.68.198])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 57Q8QQkQ1132570;
+	Tue, 26 Aug 2025 03:26:27 -0500
+Message-ID: <3b9f6ecc-2152-4385-bbdc-700b7eca94af@ti.com>
+Date: Tue, 26 Aug 2025 13:56:26 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,74 +65,107 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 6/6] arm64: defconfig: enable Verisilicon IOMMU
-To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, joro@8bytes.org,
- will@kernel.org, robin.murphy@arm.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, heiko@sntech.de, nicolas.dufresne@collabora.com,
- jgg@ziepe.ca, p.zabel@pengutronix.de, mchehab@kernel.org
-Cc: iommu@lists.linux.dev, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, kernel@collabora.com,
- linux-media@vger.kernel.org
-References: <20250825153450.150071-1-benjamin.gaignard@collabora.com>
- <20250825153450.150071-7-benjamin.gaignard@collabora.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH V2 2/4] Revert "media: platform: ti: Remove unused
+ vpdma_update_dma_addr"
+To: Krzysztof Kozlowski <krzk@kernel.org>, <mchehab@kernel.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>
+CC: <linux@armlinux.org.uk>, <ardb@kernel.org>, <ebiggers@kernel.org>,
+        <geert+renesas@glider.be>, <claudiu.beznea@tuxon.dev>,
+        <bparrot@ti.com>, <andre.draszik@linaro.org>,
+        <kuninori.morimoto.gx@renesas.com>,
+        <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        <heikki.krogerus@linux.intel.com>, <kory.maincent@bootlin.com>,
+        <florian.fainelli@broadcom.com>, <lumag@kernel.org>,
+        <dale@farnsworth.org>, <sbellary@baylibre.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <dagriego@biglakesoftware.com>, <u-kumar1@ti.com>
+References: <20250716111912.235157-1-y-abhilashchandra@ti.com>
+ <20250716111912.235157-3-y-abhilashchandra@ti.com>
+ <c453aadb-afd7-473c-bb39-cab1930c8baa@kernel.org>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250825153450.150071-7-benjamin.gaignard@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+From: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+In-Reply-To: <c453aadb-afd7-473c-bb39-cab1930c8baa@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
 Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On 25/08/2025 17:34, Benjamin Gaignard wrote:
-> Enable Verisilicon IOMMU used by RK3588 AV1 hardware codec.
+Hi Krzysztof,
+Thanks for the review.
 
-Qualcomm RK3588? This is defconfig for all platforms, so be specific
-which board uses it.
+On 16/07/25 19:53, Krzysztof Kozlowski wrote:
+> On 16/07/2025 13:19, Yemike Abhilash Chandra wrote:
+>> This reverts commit 9314891df119442a6ec1518b3d872c330e2bf1a1.
+>>
+>> We're adding support for TI VIP driver, so this is no longer unused.
+>>
+>> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+>> ---
+>>   drivers/media/platform/ti/vpe/vpdma.c | 32 +++++++++++++++++++++++++++
+>>   drivers/media/platform/ti/vpe/vpdma.h |  3 +++
+>>   2 files changed, 35 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/ti/vpe/vpdma.c b/drivers/media/platform/ti/vpe/vpdma.c
+>> index bb8a8bd7980c..da90d7f03f82 100644
+>> --- a/drivers/media/platform/ti/vpe/vpdma.c
+>> +++ b/drivers/media/platform/ti/vpe/vpdma.c
+>> @@ -552,6 +552,38 @@ EXPORT_SYMBOL(vpdma_submit_descs);
+>>   
+>>   static void dump_dtd(struct vpdma_dtd *dtd);
+>>   
+> 
+> 
+> Please add kerneldoc.
+> 
 
+I will add kerneldoc in v3. Thanks
 
+>> +void vpdma_update_dma_addr(struct vpdma_data *vpdma,
+>> +	struct vpdma_desc_list *list, dma_addr_t dma_addr,
+>> +	void *write_dtd, int drop, int idx)
+>> +{
+>> +	struct vpdma_dtd *dtd = list->buf.addr;
+>> +	dma_addr_t write_desc_addr;
+>> +	int offset;
+>> +
+>> +	dtd += idx;
+>> +	vpdma_unmap_desc_buf(vpdma, &list->buf);
+>> +
+>> +	dtd->start_addr = dma_addr;
+>> +
+>> +	/* Calculate write address from the offset of write_dtd from start
+>> +	 * of the list->buf
+>> +	 */
+>> +	offset = (void *)write_dtd - list->buf.addr;
+>> +	write_desc_addr = list->buf.dma_addr + offset;
+>> +
+>> +	if (drop)
+>> +		dtd->desc_write_addr = dtd_desc_write_addr(write_desc_addr,
+>> +							   1, 1, 0);
+>> +	else
+>> +		dtd->desc_write_addr = dtd_desc_write_addr(write_desc_addr,
+>> +							   1, 0, 0);
+>> +
+>> +	vpdma_map_desc_buf(vpdma, &list->buf);
+>> +
+>> +	dump_dtd(dtd);
+>> +}
+>> +EXPORT_SYMBOL(vpdma_update_dma_addr);
+> 
+> 
+> This has to be GPL
+> 
 
-Best regards,
-Krzysztof
+I will correct this in v3.
+
+Thanks and Regards
+Yemike Abhilash Chandra
+
+>> +
+>>   void vpdma_set_max_size(struct vpdma_data *vpdma, int reg_addr,
+>>   			u32 width, u32 height)
+> 
+> Best regards,
+> Krzysztof
+
 
