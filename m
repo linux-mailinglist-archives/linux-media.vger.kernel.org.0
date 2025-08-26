@@ -1,83 +1,111 @@
-Return-Path: <linux-media+bounces-41091-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41092-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23BEFB37041
-	for <lists+linux-media@lfdr.de>; Tue, 26 Aug 2025 18:29:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04AB2B372D4
+	for <lists+linux-media@lfdr.de>; Tue, 26 Aug 2025 21:05:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 39DE6188C838
-	for <lists+linux-media@lfdr.de>; Tue, 26 Aug 2025 16:29:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CE191BA335D
+	for <lists+linux-media@lfdr.de>; Tue, 26 Aug 2025 19:05:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D1D530AD14;
-	Tue, 26 Aug 2025 16:29:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EE39372890;
+	Tue, 26 Aug 2025 19:05:01 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx.gpxsee.org (mx.gpxsee.org [37.205.14.76])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E087D17C211;
-	Tue, 26 Aug 2025 16:29:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=37.205.14.76
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 484BA262FD8;
+	Tue, 26 Aug 2025 19:04:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756225749; cv=none; b=Ui30eFShS3xXmI12+VMURmxx6BVUi0usrTzCl/gkQXDcGYk/OzmSn0zNPByA902fG1mEk8aL+KpBSdypqRxc/gdnFx3zRVgdXyRwQqo4lrUCrZbodN2fne8Zkz2hau/znpkQa0TuwzuPemRqYNMLTf6xd3KmNrFY/JIR7xMrO7k=
+	t=1756235101; cv=none; b=aRBgBC1CNTjdxTpoJep/Wt6/9Zuv2EVJVntjFrInTHz/bVbZSrUJgn1hrLiXevcx0kY0n/fTiNy/7HeA9WdaGCG3ABeTojv4Bs0j8WJfVNyAtc2me50Akg0v56wDJxd8LPrQqMLv7h7zawd3W/HEU9ozEFeIsfm9t0dBePj2fyU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756225749; c=relaxed/simple;
-	bh=AAcyihQv5XLEctuNaZICT2NIJkI17KX4f1zliLxnpik=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=MUs6+2meCwdZ9p4UqHk2eGGHNoQ22QZA73oafDaZQv5KnWC/gvlwEyns0wAOl6g7rruYk4vdXJx8F8YOm3BV0JU65UXwYD7wPDiviclWWDFiHJZK3KEytnRNN/Flxd6smn9+k9gzX2trciwQHA27QeCkg9r976CusRQ7Y5LEbNc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org; spf=pass smtp.mailfrom=gpxsee.org; arc=none smtp.client-ip=37.205.14.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gpxsee.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gpxsee.org
-Received: from localhost (unknown [62.77.71.229])
-	by mx.gpxsee.org (Postfix) with ESMTPSA id E39E453EB3;
-	Tue, 26 Aug 2025 18:28:52 +0200 (CEST)
-From: tumic@gpxsee.org
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	=?UTF-8?q?Martin=20T=C5=AFma?= <martin.tuma@digiteqautomotive.com>
-Subject: [PATCH v2] media: pci: mgb4: Fix timings comparison in VIDIOC_S_DV_TIMINGS
-Date: Tue, 26 Aug 2025 18:28:29 +0200
-Message-ID: <20250826162829.4434-1-tumic@gpxsee.org>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1756235101; c=relaxed/simple;
+	bh=II0JqsbuGVguzhhbNT50RJDQj6YAb0P0l1GlrQPPsMI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L7rkwmjLNQz43rMtrRcQdGHPoopcMn28wCBEXJdBqrRYF1ZenEvA+9Ua9XqygLTImh7W0B9vbwBIXfRZHShD26VAaqjapojpz93bwSR1DLMZyhEek1onXhbZXxo8B3pMywyWSWfpnlWjEDjmmhTZZnKMBUVsW6pXBErqtmrjmUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 173541F0005A;
+	Tue, 26 Aug 2025 19:04:49 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id A0C50B01FBD; Tue, 26 Aug 2025 19:04:48 +0000 (UTC)
+X-Spam-Level: *
+Received: from shepard (unknown [192.168.1.65])
+	by laika.paulk.fr (Postfix) with ESMTP id C4DE4B01FB8;
+	Tue, 26 Aug 2025 19:04:22 +0000 (UTC)
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Paul Kocialkowski <paulk@sys-base.io>
+Subject: [PATCH] media: verisilicon: Explicitly disable all encoder ioctls for decoders
+Date: Tue, 26 Aug 2025 21:04:16 +0200
+Message-ID: <20250826190416.1287089-1-paulk@sys-base.io>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Martin Tůma <martin.tuma@digiteqautomotive.com>
+Call the dedicated v4l2_disable_ioctl helper instead of manually
+checking whether the current context is an encoder for the selection
+ioctls.
 
-Compare the whole v4l2_bt_timings struct, not just the width/height when
-setting new timings. Timings with the same resolution and different
-pixelclock can now be properly set.
-
-Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
+Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
 ---
- drivers/media/pci/mgb4/mgb4_vin.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ drivers/media/platform/verisilicon/hantro_drv.c  | 2 ++
+ drivers/media/platform/verisilicon/hantro_v4l2.c | 6 ++----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/pci/mgb4/mgb4_vin.c b/drivers/media/pci/mgb4/mgb4_vin.c
-index 989e93f67f75..42c327bc50e1 100644
---- a/drivers/media/pci/mgb4/mgb4_vin.c
-+++ b/drivers/media/pci/mgb4/mgb4_vin.c
-@@ -610,8 +610,7 @@ static int vidioc_s_dv_timings(struct file *file, void *fh,
- 	    timings->bt.height < video_timings_cap.bt.min_height ||
- 	    timings->bt.height > video_timings_cap.bt.max_height)
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index 4cc9d00fd293..6fb28a6293e7 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -916,6 +916,8 @@ static int hantro_add_func(struct hantro_dev *vpu, unsigned int funcid)
+ 		vpu->decoder = func;
+ 		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
+ 		v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
++		v4l2_disable_ioctl(vfd, VIDIOC_G_SELECTION);
++		v4l2_disable_ioctl(vfd, VIDIOC_S_SELECTION);
+ 	}
+ 
+ 	video_set_drvdata(vfd, vpu);
+diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+index 6bcd892e7bb4..fcf3bd9bcda2 100644
+--- a/drivers/media/platform/verisilicon/hantro_v4l2.c
++++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+@@ -663,8 +663,7 @@ static int vidioc_g_selection(struct file *file, void *priv,
+ 	struct hantro_ctx *ctx = file_to_ctx(file);
+ 
+ 	/* Crop only supported on source. */
+-	if (!ctx->is_encoder ||
+-	    sel->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
++	if (sel->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
  		return -EINVAL;
--	if (timings->bt.width == vindev->timings.bt.width &&
--	    timings->bt.height == vindev->timings.bt.height)
-+	if (v4l2_match_dv_timings(timings, &vindev->timings, 0, false))
- 		return 0;
- 	if (vb2_is_busy(&vindev->queue))
- 		return -EBUSY;
-
-base-commit: a75b8d198c55e9eb5feb6f6e155496305caba2dc
+ 
+ 	switch (sel->target) {
+@@ -696,8 +695,7 @@ static int vidioc_s_selection(struct file *file, void *priv,
+ 	struct vb2_queue *vq;
+ 
+ 	/* Crop only supported on source. */
+-	if (!ctx->is_encoder ||
+-	    sel->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
++	if (sel->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+ 		return -EINVAL;
+ 
+ 	/* Change not allowed if the queue is streaming. */
 -- 
-2.51.0
+2.50.1
 
 
