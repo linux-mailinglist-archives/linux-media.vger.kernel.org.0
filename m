@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-41111-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41112-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDC82B37A8C
-	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 08:38:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5D84B37A92
+	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 08:39:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C082C1B60BFB
-	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 06:39:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C75EC1B23EC5
+	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 06:40:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FA8B310784;
-	Wed, 27 Aug 2025 06:38:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61A883126C4;
+	Wed, 27 Aug 2025 06:39:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FyAKrl81"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t/Zgdu+h"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC8962D2491;
-	Wed, 27 Aug 2025 06:38:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEBC330DED7;
+	Wed, 27 Aug 2025 06:39:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756276721; cv=none; b=cjtp1aLm8PPKSpEH1GQF5hM3sWagyciecOGE2onQzvaITMj27IyW8emD7Rn82MlRhM1N5vfEEoQUDvzWDx/lK+s4bsQU1FG3UoBFC6vNl54lVlV+OTQAJvysuGkKSc65aPbEJROmiqeGsWhACEJJCWr4dwmjPKeEyvpBcFd3OvA=
+	t=1756276777; cv=none; b=Ad10A9fdMUgMn1nSSxIizD4BKkuSAU/SW5GVffZpnUUng0o5+SxZu8BmY5z9B4NRPf7keLTTzTB8c2W9xSSoDXqgYYmn8xLTm+PgqCK1bajpbahLwDqq24+jDQHN9IzcyBJq7mqtlW832biFZlaf2iktk5E+2VwyJE1ihJZQ4LE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756276721; c=relaxed/simple;
-	bh=E6lJlAUInS0Zz4cByYmPmreGqmD6Nz0mvn/LjsoUqm4=;
+	s=arc-20240116; t=1756276777; c=relaxed/simple;
+	bh=wF7DxXmMiUpG3l2HrR1TiFxT3e6vt98mMJE58cq9hWg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=TN1cz+VwuQPVgHPnhu3X3WmdsvnTXeONuk7MTgTUQsyaKxHjOzN8ZBwqzGt3jnTJ8muwXjWaK8H4EcVpTDT/WDuiJZWJ+Cj4+fBUvI6zM/mSNwD2DGV6v6U9MrK46lkKO6Flz2aneadgKxogQUX0Kb57pEeCqXyYOXOIjv3ifmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FyAKrl81; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E19FFC4CEEB;
-	Wed, 27 Aug 2025 06:38:36 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=MH2molm+sztIjw1U9eSAxGI0EtyJtPS0+j3CTfU+IYtmLNIWdw313tI+BUhydT4FINpBHL5Q36wEwb09irs4V1V3jMdPI5+LBGaO9p03WcxJGQiQEco29S0BZzv8K/LS30Wv5apzcAHOgtOpbAFuMft6jDTxdf1zM67xf0sQVqU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t/Zgdu+h; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F9DFC4CEEB;
+	Wed, 27 Aug 2025 06:39:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756276720;
-	bh=E6lJlAUInS0Zz4cByYmPmreGqmD6Nz0mvn/LjsoUqm4=;
+	s=k20201202; t=1756276777;
+	bh=wF7DxXmMiUpG3l2HrR1TiFxT3e6vt98mMJE58cq9hWg=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FyAKrl81M7Fd22mRLrZyZeCId5tlSN4YF1shlriuwJExHSEbsc/yzqbNYLG/2WFpK
-	 RHsVKjkR6tJlIS1I2T+Byfbq6RL5LTkie0nHiFzsyzovTUfGwfAyn7U3zQQqAFliEx
-	 4PrmTxnvcN/UNskeaQJEovba3g+t4+4pyV9hXgWB0AVwCphsDB85LznxVeg0P+FEPv
-	 rCC9La87ucm55g3xvLi2KnSqTwobC9Xdc4WAVV1m7Jcjj9RKkCfwEsV5+9xhDaMY9F
-	 qF/mW4Vh2i5yivtrT2cfugw+y+K3CxZ90tsJK3yfckTup3hq19tkq9Z4wy1ZheYo7G
-	 wGvyFfSR2PVNw==
-Message-ID: <99889a72-e556-4ac5-b7cf-212215ccea3b@kernel.org>
-Date: Wed, 27 Aug 2025 08:38:35 +0200
+	b=t/Zgdu+h7uj26hFkUpeLwS/FvoEpULB4DwWD+g3yd6xkrqVf3ghEIOmglP82nGQpZ
+	 QfHKCk8QNBdMn8ehcbvjyagmxvlHKb02KXnPBsjxCl85YYHu4oB26HQWMic63RaNL7
+	 XJk4GIMCBwOMN3S+RNVo5Gzndl2sWArWdpvhs0tKOgfCy1TqKqyJQy8IWMFC2BHWPU
+	 Dj2tyGw2xHqafjE7Kkd5dhWoD048KQD0KeFtucgc1uFWfDQCHeFNoFsZsfXqJ5vNcL
+	 E+1uHsZJJ9P0XykHMrEbCBCM0Tv4wwbWkOXnhJg5cv+KiZmLZj9cv+frQ4wb56tD9u
+	 qdYE/Dj/remwQ==
+Message-ID: <87a9e85d-b345-4ea7-895c-ec2328d00954@kernel.org>
+Date: Wed, 27 Aug 2025 08:39:31 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/4] arm64: dts: exynosautov920: enable support for scaler
- device
+Subject: Re: [PATCH 4/4] media: samsung: scaler: Add Kconfig and Makefile
 To: Kisung Lee <kiisung.lee@samsung.com>,
  Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
  Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
@@ -63,8 +62,8 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
  linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org
 References: <20250827044720.3751272-1-kiisung.lee@samsung.com>
- <CGME20250827045905epcas2p3a52debf186f41eef08e6d0a351d80476@epcas2p3.samsung.com>
- <20250827044720.3751272-4-kiisung.lee@samsung.com>
+ <CGME20250827045906epcas2p2198037517886df0714e24d8d908a6c57@epcas2p2.samsung.com>
+ <20250827044720.3751272-5-kiisung.lee@samsung.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -110,46 +109,28 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250827044720.3751272-4-kiisung.lee@samsung.com>
+In-Reply-To: <20250827044720.3751272-5-kiisung.lee@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 27/08/2025 06:47, Kisung Lee wrote:
-> Add the Scaler Devicetree for the Scaler present on the
-> ExynosAutoV920 SoC. The scaler provides hardware acceleration
-> for 2D scaling up/down and color space conversion processing.
+> Add Kconfig and Makefile for Scaler driver directory.
+> This will serve as the entry point for enabling and building
+> Exynosautov920 specific device drivers.
+
+
+That's not a separate commit.
+
 > 
 > Signed-off-by: Kisung Lee <kiisung.lee@samsung.com>
 > ---
->  .../arm64/boot/dts/exynos/exynosautov920.dtsi | 22 +++++++++++++++++++
->  1 file changed, 22 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/exynos/exynosautov920.dtsi b/arch/arm64/boot/dts/exynos/exynosautov920.dtsi
-> index 0fdf2062930a..e3dad683fa36 100644
-> --- a/arch/arm64/boot/dts/exynos/exynosautov920.dtsi
-> +++ b/arch/arm64/boot/dts/exynos/exynosautov920.dtsi
-> @@ -26,6 +26,7 @@ aliases {
->  		pinctrl5 = &pinctrl_hsi2ufs;
->  		pinctrl6 = &pinctrl_peric0;
->  		pinctrl7 = &pinctrl_peric1;
-> +		scaler0 = &scaler_0;
->  	};
->  
->  	arm-pmu {
-> @@ -1504,6 +1505,27 @@ timer {
->  			     <GIC_PPI 10 IRQ_TYPE_LEVEL_LOW>,
->  			     <GIC_PPI 12 IRQ_TYPE_LEVEL_LOW>;
->  	};
-> +
-> +	scaler_0: scaler@1A830000 {
-> +		compatible = "samsung,exynos5-scaler";
-> +		reg = <0x0 0x1A830000 0x0 0x3000>;
-> +		interrupts = <GIC_SPI 639 IRQ_TYPE_LEVEL_HIGH>;
-> +
-> +		mscl_qos_table = < 0 800000 800000
+>  drivers/media/platform/samsung/Kconfig  | 1 +
+>  drivers/media/platform/samsung/Makefile | 1 +
+>  2 files changed, 2 insertions(+)
 
-Nice try. NAK. Don't ever send such properties.
 
+BTW, your patchset does not pass checks required by Samsung SoC
+maintainer profile. Use the tools instead of reviewers...
 
 Best regards,
 Krzysztof
