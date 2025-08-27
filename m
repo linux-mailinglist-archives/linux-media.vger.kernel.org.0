@@ -1,189 +1,244 @@
-Return-Path: <linux-media+bounces-41207-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41208-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1524B38A75
-	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 21:49:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2250AB38D81
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 00:15:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EF1A7189C554
-	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 19:50:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0E6DF464EE2
+	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 22:14:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 20B842EF651;
-	Wed, 27 Aug 2025 19:49:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4829315793;
+	Wed, 27 Aug 2025 22:08:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="Y/8GZvKD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iugXPN0O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013022.outbound.protection.outlook.com [52.101.83.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149472857C7;
-	Wed, 27 Aug 2025 19:49:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.22
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756324181; cv=fail; b=MxUDz8SDdJRKov1mOUlcIhOTqrAtH8WymiszhxduxYu9kDhOz272ntgCozbxIyXHnfDt/7yZVrwg21CV5xiG+/FoQWJ8q/ssqGvN/7tiM6985jNtX67FbQElY0dN8kNJ68FP31CyaXxMNd4tBl3+YlWgUk/s4jY7+HWvc9EDt9g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756324181; c=relaxed/simple;
-	bh=e8owvCjM9njosaazUDt5kCb3PY54ub2bjnHSI8TOtvE=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=fsX00455mi7Qyx8I2hEqb2JqK1yEfqvtfccbhIR4Gq6F64DOdHgWm3yqQncsK3L/HSnqUfVOglIgutVms/+kHJgve+AVdzQFpItBrbrE2diTBfwPVb6nv0/71OlUDLMMxU3/AkmbGgrVAl9Cc3R/bckDnsTLMHrsdBqukbpbXr0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=Y/8GZvKD; arc=fail smtp.client-ip=52.101.83.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V+5upV+7X5hUl454yctiR4rW07q1/dL8sCuIUdlQnVtgo28iBEomL1bEtvSm/JvzaiHnQOMQNmYMVCjeWNY3mh6bcfm1s19UDPXmR+mDPCOoERcyTfvToVFpT58LehtPrmTbOZ4dv36aCbIeEKSccIr2sO3kiA8HfPUyOObRQtV6FZGaWVDID970Q7UM9ZrT6NJx/pUEJk38mfMZWVnxfsHK9mpcVfTu09h3ZxUO/91w8PUdpO/uAnzYZpaRLuHax89EwHZ+tvyiKkvmxsmZXN98RRlTiFp4S9XoTmd9EKIl7GHdhVwCp2AmwduheqqAJQyptPQilXPul1DbCzz+zg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HSyJTCE4RJm57zd9EED+vb2BQ3pk3rkTdGLpnoMVrZ0=;
- b=iK+TowJ+Fx6QhM4jKN+2WR5tmJt645zfe4JekqDkjG4f7Gx4zluVgcYlETmx599WprYICRYpk2BM9c9WQkY+RtLn781tTO4fPTynnJVnMPItl5mFx0e2jvCifKwenGnJKNX9QZ62/fvmfzjOLYiAXdRCcYrIYmYBFTS7D4ol6YIRYfQnPeQJvu1rIO4yePYSSOhf19baFsC7WtJfqYCFiUZ4HzBJnlwvwyZHfgEHDFVRG4qM+pMDxS2M6UdAiPClitwaeZ+KTRw2kOPp4PxvNLmvVKxM8HSp1gdVhGCHSrY9+X49DkPxa6Q13vn97QFQrjAERUOZpMBrmCHgSY9Q+w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HSyJTCE4RJm57zd9EED+vb2BQ3pk3rkTdGLpnoMVrZ0=;
- b=Y/8GZvKDCRX0JdbD/1Y1BtLvxi9pKk7O2RMzU8dRJi5pdssgXsRYyw/zPWs+1cojhEaI/JFwZS4lKDO8rbhstDyLvfgGs/WvCdwxbBUJOn3I/6YycHJoGrFjR/ScJ9+9vVVrQRMrlYMbnjdcLU6dk3asxR8Z/Qt4M8zXB14KHL/z2yFvxxYFZUK6efTtneqjAmWDEtuxvbXDuW2z2kSYrFQGgVdfzte4ihWbhCryYZ2UDTmIG21xPcL/Q5p2N1HAy77tv2xNdH51lCUmPBbcBVYGXuTk94lrSwCIyl64qp8EwFZtWAdNXWEiXWsi5mnu83lH39x8DlN3dmMeMacYQA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com (2603:10a6:10:309::18)
- by AM8PR04MB7828.eurprd04.prod.outlook.com (2603:10a6:20b:24e::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.14; Wed, 27 Aug
- 2025 19:49:35 +0000
-Received: from DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::e81:b393:ebc5:bc3d]) by DB9PR04MB9626.eurprd04.prod.outlook.com
- ([fe80::e81:b393:ebc5:bc3d%5]) with mapi id 15.20.9073.009; Wed, 27 Aug 2025
- 19:49:35 +0000
-From: Frank Li <Frank.Li@nxp.com>
-To: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	linux-media@vger.kernel.org (open list:OMNIVISION OV2680 SENSOR DRIVER),
-	devicetree@vger.kernel.org (open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS),
-	linux-kernel@vger.kernel.org (open list)
-Cc: imx@lists.linux.dev
-Subject: [PATCH 1/1] media: dt-bindings: ovti,ov2680: Use unevaluatedProperties for endpoint
-Date: Wed, 27 Aug 2025 15:49:18 -0400
-Message-Id: <20250827194919.82725-1-Frank.Li@nxp.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: BY5PR04CA0004.namprd04.prod.outlook.com
- (2603:10b6:a03:1d0::14) To DB9PR04MB9626.eurprd04.prod.outlook.com
- (2603:10a6:10:309::18)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E8E831578F;
+	Wed, 27 Aug 2025 22:08:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756332524; cv=none; b=A9NkZBRukhMxy2+5Mp29N7VM+y5QfeaEeOo1mSShuGg9KHXG9cbDhWapxcdLMG8/aCrG46b3Oc3HogacRj+8UWxt5gSnuNalVtiSV4tBFU794zDm+7cLmumHEwt2Xcyy6Hq4WIfXNsNRRYuvF+X18ljMtHExD4AMoYRanXXFqIs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756332524; c=relaxed/simple;
+	bh=q1no6700hSm+r3y2ZzQhTNjhasSRnDPnqRS3By0gMPk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AQWS66gpEA3c1VyHKRGIyYXZn6KY1MNNND9TQqjDMhvOrqzYRQRuE6GPGiTrHSn87lWbnWkM4YOVvzmQe8NVbELbkFoDXnXlvt+rYdJXLphlBS3Q2pny30E4um4jlbzIUgu0EvlSYggOdq1yRVLCuPCx7izK4jPFdkh1IvdWoog=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iugXPN0O; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45a1b04f8b5so1585945e9.1;
+        Wed, 27 Aug 2025 15:08:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756332521; x=1756937321; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Rl4uR1undi2hLndggsDMeomTcONpI+N6b9vCtXfnWlA=;
+        b=iugXPN0OtXh/UH7njHPnUeKcmoIT/W2XHNtu6bWRYZc0WHwWTdZxhBdoSO3CoT8k/W
+         UliFNx1m9L/rfgsmBfyXFLm4t0+HZWtSa+PPND3upd5ytJAcPAZ4rg6BGqOqxj9h9s6S
+         vorkR5S/bDagaQtMDF11iOfTi/pD4eBHbN/j2AaMlqESFxFjoKo4CdIKvlDyjPTWVVHY
+         9BUAcLjBzMCA6FgoUJzZryPo4H/in0Q5N84ZE7cDojKEcpY939r1iZNTwVlGwKi6m7rC
+         UrDSPHD1sOtd9JFTB9S20n0z74jbbEDKBso9gbnED7BKCnVJKZwo/V66FMritEdYJ5NY
+         VCiw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756332521; x=1756937321;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Rl4uR1undi2hLndggsDMeomTcONpI+N6b9vCtXfnWlA=;
+        b=n99vt69YXIKIBg8yw+oAuUcB34sCaZBMUqcDmvglZfIvVIkstkyXsK/NTiQMElA2DS
+         XJLes93pnBNlbBFKBoAskQf0C/kx3a+fUNtfh5gVvBbcWvQyaAonmtAWLaws0x6R7RQZ
+         FEFxx5L8aTdpfwRtySikGQr+q8dcEa9tJXIbRvpoLYVDZGsOCGUskHVePqpjA4ZDbriF
+         nov1qFEzDpFZjksChsMEbKkeTwkABmZVCJTfWI7RmQkHI08m+fl5d8SkpdueH+CSywc4
+         YrJDf2V3IRzR5rtyjTomYOMfINgNcDVUadN4sGcl4FvnuKWfosrvV4uOJ8nc8QNqmG/9
+         WTOA==
+X-Forwarded-Encrypted: i=1; AJvYcCVlR6sco2VDEN4xhqEdDB9lr9HsejP3/tnI/UfMhZOVUnrjApGANQ0D6e8jAyvWS0EBkCWW//ke64IrRbY=@vger.kernel.org, AJvYcCWWZqpooY43IrrBViOlzWFy3xi/rtFQekto/Hr589oHBAh81qWDSFdDCZYauOlOf+Mo+gpEW6uNzvMidQA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzyMerr+0FvPeKgKyX5N8KPlYqJMOQM2hYw1WgjhQNiGEY/REz2
+	THgGFm1jaE3dK9N9wTdzD38jx27KzH6cP6NgwbI0dICn5fr4pGTtcNWy6lTpr9GG8tBfVfcKi72
+	GgFNI+hixiT7zG/AQW4UVg8ZUv3x/s9B6uUVI8Tc=
+X-Gm-Gg: ASbGncsVYyU9mNUw0BTHcglVV6uSkmwMXfnkFZRzGdjQUFNHE3JuVX4Ou+wDFat73SG
+	zRSGpGqmLqDwnZpIx0Kn/5+SODleft6Ib2VUCMBeULxcysus3oQe/bX7xtBNDDGb5A8ioYsv3kC
+	WekN0dOPYhvkJWSh6kUvKZ1aZgPEgh3ZfmhFhlinStYz9DSfJHqklBoEFKKndEKxgGOzyC6LSmz
+	mq6w5w1da5kQbW04KM=
+X-Google-Smtp-Source: AGHT+IHjHPjGGyZmdxxy9zsVU1+WBfGSaYVs5LzepEAwe+vQXYHvA2UfJ0GV3dP8c3UvsvGDhNMX/rmBLexSRfEQayA=
+X-Received: by 2002:a5d:5f42:0:b0:3c7:ac80:6938 with SMTP id
+ ffacd0b85a97d-3c7ac8fbe53mr11897903f8f.27.1756332520540; Wed, 27 Aug 2025
+ 15:08:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB9PR04MB9626:EE_|AM8PR04MB7828:EE_
-X-MS-Office365-Filtering-Correlation-Id: e50f7e80-c262-47cf-5bd7-08dde5a2d978
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|19092799006|52116014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Tfjl6rne1qI6o7VF0DVCAejb+n410Fwmiqc358g4zSDQGvzR9KralvioyVxW?=
- =?us-ascii?Q?ZGDipPbkJ6ivppX/mlZ5UCBBCFG/8W66JslI/la3BznyahyBL3c68kBcfO5A?=
- =?us-ascii?Q?mEUWc04BhH5pF9gPdWbjrY4a+yguecpxgVWJxZ8tLqODXfdzndB2MbZBgdfG?=
- =?us-ascii?Q?yrVVC0px0irr8ORrkHlwQ82WbeOLgGl2aDunXO6W/Q8+3WvfV90/O3TO4t0H?=
- =?us-ascii?Q?RlAnZR9BrSLxiVr4qtsmR4iOhCM70id8ervLpfcii+N+LYAV2cPjLIZfW0wZ?=
- =?us-ascii?Q?bCCYbExaa9eZmMVjq46+g67VFp+qS9SL/plCyFsGLmmVxgMuI1zRue4m/s71?=
- =?us-ascii?Q?7C6PS10TQBD48u4vybjPWFMhOO29BbNqWetnhEoF1I0+Et7KX/bzP4dcyzDd?=
- =?us-ascii?Q?ubxG35lf2eycjArYTQX3iOryDeD5VKmdm8EbVDas71imHk4jd1DbTD0EX+1Q?=
- =?us-ascii?Q?RQHetmRF9MlRZEP1eiCoyjr3e8TpvyHscAOyjEIPEtNyo2pkUdH4OzDst838?=
- =?us-ascii?Q?/PcaX8CCimfkFjxrfDCDRvLDJGlw3UeGsE/fiXcfmtQHdEWv3jS7XKJko308?=
- =?us-ascii?Q?hoGg1clt57tXnjD+21S/jk33YFd2xVCxqOv9l7gegwLv+HNEiGg7/j84ttAc?=
- =?us-ascii?Q?b3GLSPhh0he7F2yfmhfi72rrlZOYci3qQSYjTzh6QB87rMilgZGiLcYLpDYJ?=
- =?us-ascii?Q?+v7rQmeSfP4omCyinMMcYJzlL1Umv8tqQ2PCGyUyYSBj4UgU3oSOU8cU5Fdy?=
- =?us-ascii?Q?r6qNZQtK5agn0VswkBjtgJV7jPT5LrC2Yl/1jHZQQLxvFOPKY8OLhgevnLy5?=
- =?us-ascii?Q?WzJVZHcvbFFod+V2b9p11ACz6+xVgTeB2K0JF4gqkBKskoJJJDAOgMrbLqfl?=
- =?us-ascii?Q?QuQmvxfLvP/Wghr9ag8jSMy4CZ0F4DIypZiYU3qSIT7gWwWWUlb4hXqMPKBt?=
- =?us-ascii?Q?XYTzb/lKDr3kDb06/p7LJF0J2bqRet8XMpy9ZNhCY5Rks0vY2ljVzYI8aiPf?=
- =?us-ascii?Q?RXwlU1/dJJNL+KOq5S4/jeJLmCcIBpvyjO92971TOVt2Lk8SuPsRdTEDZ1Yd?=
- =?us-ascii?Q?8kAWzdGtoJdM3S2X56e1E5Tx9+xXnAu5p2IY9S/tF27KKaEXOHFfJlLeXwWt?=
- =?us-ascii?Q?Y4FAR2VjbW9wEMs5uecsS+NEtwy6pG1glhK5r2ZZ6ZQaux4P3InY9e9k+mdH?=
- =?us-ascii?Q?UAKIl1ngrBcvmw1BneW+zjbHL4JDFBCLB5J74Ixc/ZDctYvIr8lQrn8C5Tm3?=
- =?us-ascii?Q?PGWm8ae/dvbql6xVQvzcqAsvAyrZl92+CnZ3P908gOzbUTOLPGkFbVmfP3Gu?=
- =?us-ascii?Q?LPk22as8SXNfNY1gvg2exQft4P0smi0on+YDSCaH0pr9OwcPb1pq9gjferBl?=
- =?us-ascii?Q?RvESYlIjbHNx2TxOEFn1j8krDaNNZF8UfKZu7BbXAzp7c0lybTkUAMTmmlbZ?=
- =?us-ascii?Q?dcQ3V5EMRcw=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB9PR04MB9626.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(19092799006)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?eSAgMLssilnalbjEHe3eDIRUkIb0erg3oQtHbw4aIUQSkrD9/dV6CML+FMpr?=
- =?us-ascii?Q?r5W+FJWeneTvtC1B5RCACC2Bevc4WqZ6EDR5sj+CwgcO2EmzBZGWkwHJweCF?=
- =?us-ascii?Q?oU5MwIcwih+UXw8CcKadAlJTqGcOn3AuEZQxUyFIddz2Zdxv9kTTJoQqHJLQ?=
- =?us-ascii?Q?WKUU7O3ntwQgobWYj7WMlqZI254i/lI4bwRm1TixIw/S5N77Cmi4Azmo0Yit?=
- =?us-ascii?Q?vkEVZEKIHIqFzoDIRqOipnfH3FZCSvZTc+Jk1tSHtygIJYqqHegM1nmTTd+C?=
- =?us-ascii?Q?fp9LbJN+qF9YhRR8k9B8l98vU17FfRjkmRWMpJkIMjrq9bNaRXRTmDiN32zZ?=
- =?us-ascii?Q?pcMS6UjNCSLZdJHkKT/4IisZryTEAhQMklJeJgVrnb8PNk8f4q3SefL21oRz?=
- =?us-ascii?Q?QnyjQHDNaiMhZcZx1/2bshkr0XE8RHH75m8OcLMDy+6Jaj3E75uGrPLSUPGt?=
- =?us-ascii?Q?C0IC4COfoYgsbF0EuFgnINGXtCab888QQiIUEAbm43t7EPzYDmFB3dNkOJX+?=
- =?us-ascii?Q?RuwD+Jcrl0b7guyI02nITkGtdrV5NlI3fjyfhapNNtnyau1WaMdHg487fbTS?=
- =?us-ascii?Q?6TysjNg6HxsxDFniEZpaz1b+GDRT8MHKfLPu+a6At5fjOhjg9EHzSQcp5+mL?=
- =?us-ascii?Q?szWfLlGuSKQ+xufm9B4c62MT24VM/P8VI9k+RkoBXeqVn+uNvS0aLXWSfjTz?=
- =?us-ascii?Q?iJfZsoPaer+KdmrCufdiPvat8FQuCP7UJorsPpJZQLJZ8I8KWtluIwx/QBh8?=
- =?us-ascii?Q?lz5FJGoBusnnannHFGZLQ8Ifaa7AdkFYh4Vy0s7S6T8bUnYEnyfcCv1EKqpG?=
- =?us-ascii?Q?heciYiUrX//OyJcVixuxP9gFLvnhBgKWuHnkJ/VBBe7ZwVLyvUImQe1jV6i/?=
- =?us-ascii?Q?iYsKJW5KU5mu9w+48rAgS1wdpq2JBGRYuJP/MieI5BMz1mJH6Z/JGkKaeNKD?=
- =?us-ascii?Q?V8717VRIzodDwERjGA6VXDsLg84FWy6zN3z463khlGquKuZHATL71Nddbi/s?=
- =?us-ascii?Q?9V95RwNPzDYH+Jn1Sg4OHCYuiZ5LHyt3wCnoblXJG0yIOOOq4nnT6lakW5K4?=
- =?us-ascii?Q?2EaZojflGjaxmBM4q+QFNxr3fxnJ0jH7SwzLaydLh/9Y++yVGm56/YR2UDDV?=
- =?us-ascii?Q?J3KDFC/CXIc/OHP+60KP4vtJEJfXpAc0YG+iNY4hTdxpQFE3YqzftP3cY4XP?=
- =?us-ascii?Q?Xl5ujrvjpH0CJxOGTqfnebIuWTi8B6pEtVorVbiEaB5ViV2IycvBJgj+wZmJ?=
- =?us-ascii?Q?3nVcKIhnRNoAxjhgKwvQ9IUFOjWgvcYeDDo9cj5dCDfKmcooh53WUHhYaUL6?=
- =?us-ascii?Q?2o69IalfDJpyAOOcwu9Y9QA3m2lUZIZ6C5lRj4FYnQy03sFYfA/LHdrPk/z5?=
- =?us-ascii?Q?x2X5Gi7PIIhMENe7uiXpc3fjIjLv4zOE7XL5d7FXoLDi692f6i+tNUOvDxYr?=
- =?us-ascii?Q?jEbRAbDdnC0J1E1UVw8CNFt5VYbbNW0z49e3Sb7RAEvwK8h+GY8RANuYiBnv?=
- =?us-ascii?Q?W+i7gLlhVKWG/VW2iFVttvqHO0+GgPuJucQ8wfzOHp8wiDhIkELriMoRHr53?=
- =?us-ascii?Q?I5RaqIGyYcnEpsWD0knnbSD3fGP4PnODQiF/vTgp?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e50f7e80-c262-47cf-5bd7-08dde5a2d978
-X-MS-Exchange-CrossTenant-AuthSource: DB9PR04MB9626.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Aug 2025 19:49:35.6515
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wztGXA98p1AgqcTmcvTia0fSyR3kYDJpnMxyv7ipI/Fnu5qZ8CrmkYvpn3MvhojyMaxwMQm6z3dB9a486zj5RA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR04MB7828
+References: <20250826-rzv2h-cru-sizes-v1-1-dbdfc54bba11@ideasonboard.com>
+In-Reply-To: <20250826-rzv2h-cru-sizes-v1-1-dbdfc54bba11@ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Wed, 27 Aug 2025 23:08:14 +0100
+X-Gm-Features: Ac12FXzHW0W80QiEkk_RbotfUxLgokkWN7UqPtPj3VdHgBx3UQZLkmIJUNj-M3k
+Message-ID: <CA+V-a8t+XXNBU2GtRmAD+QJnARcSiR13j=_hPNRc=Pw=p1QNzQ@mail.gmail.com>
+Subject: Re: [PATCH] media: rzg2l-cru: csi-2: Support RZ/V2H input sizes
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@kernel.org>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The endpoint ref to /schemas/media/video-interfaces.yaml#, so replace
-additionalProperties with unevaluatedProperties to allow use common
-properties.
+Hi Jacopo,
 
-Fix below CHECK_DTBS warnings:
-  arch/arm/boot/dts/nxp/imx/imx7s-warp.dtb: camera@36 (ovti,ov2680): port:endpoint: 'clock-lanes', 'data-lanes' do not match any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov2680.yaml
+Thank you for the patch.
 
-Signed-off-by: Frank Li <Frank.Li@nxp.com>
----
- Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Tue, Aug 26, 2025 at 11:59=E2=80=AFAM Jacopo Mondi
+<jacopo.mondi@ideasonboard.com> wrote:
+>
+> From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+>
+> The CRU version on the RZ/V2H SoC supports larger input sizes
+> (4096x4096) compared to the version on the RZ/G2L (2800x4095).
+>
+> Store the per-SoC min/max sizes in the device match info and use them
+> in place of the hardcoded ones.
+>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> ---
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  .../media/platform/renesas/rzg2l-cru/rzg2l-csi2.c  | 34 ++++++++++++++++=
+++----
+>  1 file changed, 28 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/driv=
+ers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> index 1520211e74185fea3bca85f36239254f6b4651db..96d17ae0048f9d88aa73bec91=
+6365f3dbc421882 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> @@ -101,6 +101,11 @@
+>  #define RZG2L_CSI2_MAX_WIDTH           2800
+>  #define RZG2L_CSI2_MAX_HEIGHT          4095
+>
+> +#define RZV2H_CSI2_MIN_WIDTH           320
+> +#define RZV2H_CSI2_MIN_HEIGHT          240
+> +#define RZV2H_CSI2_MAX_WIDTH           4096
+> +#define RZV2H_CSI2_MAX_HEIGHT          4096
+> +
+The changes LGTM. I'd prefer you to drop these macros and just use
+plain numbers in the rzv2h_csi2_info/rzg2l_csi2_info.
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
-index 634d3b821b8c7..ec5c40684b6bd 100644
---- a/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
-@@ -58,7 +58,7 @@ properties:
-     properties:
-       endpoint:
-         $ref: /schemas/media/video-interfaces.yaml#
--        additionalProperties: false
-+        unevaluatedProperties: false
- 
-         properties:
-           link-frequencies: true
--- 
-2.34.1
+Additionally we could also drop the
+RZG2L_CSI2_DEFAULT_WIDTH/RZG2L_CSI2_DEFAULT_HEIGHT macros too and use
+csi2->info->min_height/csi2->info->min_width in
+rzg2l_csi2_init_state().
 
+Cheers,
+Prabhakar
+
+>  #define RZG2L_CSI2_DEFAULT_WIDTH       RZG2L_CSI2_MIN_WIDTH
+>  #define RZG2L_CSI2_DEFAULT_HEIGHT      RZG2L_CSI2_MIN_HEIGHT
+>  #define RZG2L_CSI2_DEFAULT_FMT         MEDIA_BUS_FMT_UYVY8_1X16
+> @@ -137,6 +142,10 @@ struct rzg2l_csi2_info {
+>         int (*dphy_enable)(struct rzg2l_csi2 *csi2);
+>         int (*dphy_disable)(struct rzg2l_csi2 *csi2);
+>         bool has_system_clk;
+> +       unsigned int min_width;
+> +       unsigned int min_height;
+> +       unsigned int max_width;
+> +       unsigned int max_height;
+>  };
+>
+>  struct rzg2l_csi2_timings {
+> @@ -418,6 +427,10 @@ static const struct rzg2l_csi2_info rzg2l_csi2_info =
+=3D {
+>         .dphy_enable =3D rzg2l_csi2_dphy_enable,
+>         .dphy_disable =3D rzg2l_csi2_dphy_disable,
+>         .has_system_clk =3D true,
+> +       .min_width =3D RZG2L_CSI2_MIN_WIDTH,
+> +       .min_height =3D RZG2L_CSI2_MIN_HEIGHT,
+> +       .max_width =3D RZG2L_CSI2_MAX_WIDTH,
+> +       .max_height =3D RZG2L_CSI2_MAX_HEIGHT,
+>  };
+>
+>  static int rzg2l_csi2_dphy_setting(struct v4l2_subdev *sd, bool on)
+> @@ -542,6 +555,10 @@ static const struct rzg2l_csi2_info rzv2h_csi2_info =
+=3D {
+>         .dphy_enable =3D rzv2h_csi2_dphy_enable,
+>         .dphy_disable =3D rzv2h_csi2_dphy_disable,
+>         .has_system_clk =3D false,
+> +       .min_width =3D RZV2H_CSI2_MIN_WIDTH,
+> +       .min_height =3D RZV2H_CSI2_MIN_HEIGHT,
+> +       .max_width =3D RZV2H_CSI2_MAX_WIDTH,
+> +       .max_height =3D RZV2H_CSI2_MAX_HEIGHT,
+>  };
+>
+>  static int rzg2l_csi2_mipi_link_setting(struct v4l2_subdev *sd, bool on)
+> @@ -631,6 +648,7 @@ static int rzg2l_csi2_set_format(struct v4l2_subdev *=
+sd,
+>                                  struct v4l2_subdev_state *state,
+>                                  struct v4l2_subdev_format *fmt)
+>  {
+> +       struct rzg2l_csi2 *csi2 =3D sd_to_csi2(sd);
+>         struct v4l2_mbus_framefmt *src_format;
+>         struct v4l2_mbus_framefmt *sink_format;
+>
+> @@ -653,9 +671,11 @@ static int rzg2l_csi2_set_format(struct v4l2_subdev =
+*sd,
+>         sink_format->ycbcr_enc =3D fmt->format.ycbcr_enc;
+>         sink_format->quantization =3D fmt->format.quantization;
+>         sink_format->width =3D clamp_t(u32, fmt->format.width,
+> -                                    RZG2L_CSI2_MIN_WIDTH, RZG2L_CSI2_MAX=
+_WIDTH);
+> +                                    csi2->info->min_width,
+> +                                    csi2->info->max_width);
+>         sink_format->height =3D clamp_t(u32, fmt->format.height,
+> -                                     RZG2L_CSI2_MIN_HEIGHT, RZG2L_CSI2_M=
+AX_HEIGHT);
+> +                                    csi2->info->min_height,
+> +                                    csi2->info->max_height);
+>         fmt->format =3D *sink_format;
+>
+>         /* propagate format to source pad */
+> @@ -697,16 +717,18 @@ static int rzg2l_csi2_enum_frame_size(struct v4l2_s=
+ubdev *sd,
+>                                       struct v4l2_subdev_state *sd_state,
+>                                       struct v4l2_subdev_frame_size_enum =
+*fse)
+>  {
+> +       struct rzg2l_csi2 *csi2 =3D sd_to_csi2(sd);
+> +
+>         if (fse->index !=3D 0)
+>                 return -EINVAL;
+>
+>         if (!rzg2l_csi2_code_to_fmt(fse->code))
+>                 return -EINVAL;
+>
+> -       fse->min_width =3D RZG2L_CSI2_MIN_WIDTH;
+> -       fse->min_height =3D RZG2L_CSI2_MIN_HEIGHT;
+> -       fse->max_width =3D RZG2L_CSI2_MAX_WIDTH;
+> -       fse->max_height =3D RZG2L_CSI2_MAX_HEIGHT;
+> +       fse->min_width =3D csi2->info->min_width;
+> +       fse->min_height =3D csi2->info->min_height;
+> +       fse->max_width =3D csi2->info->max_width;
+> +       fse->max_height =3D csi2->info->max_height;
+>
+>         return 0;
+>  }
+>
+> ---
+> base-commit: 16428e2449ab96cce27be6ab17b750b404c76c7c
+> change-id: 20250826-rzv2h-cru-sizes-371ff5a88081
+>
+> Best regards,
+> --
+> Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>
+>
 
