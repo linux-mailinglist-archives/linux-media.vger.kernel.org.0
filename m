@@ -1,59 +1,59 @@
-Return-Path: <linux-media+bounces-41158-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41157-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15DD0B38164
-	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 13:40:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D4399B38154
+	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 13:40:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CC5E1461748
-	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 11:40:48 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 79EF7460CA1
+	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 11:40:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 615C7301014;
-	Wed, 27 Aug 2025 11:40:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE86C2FB602;
+	Wed, 27 Aug 2025 11:40:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="dl8A4zWL"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="kJel7V3c"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CEC128153A;
-	Wed, 27 Aug 2025 11:40:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E0F3217654;
+	Wed, 27 Aug 2025 11:40:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756294819; cv=none; b=up/sTjmc7pIQHh8AYF43+KnPd/eAn907G93srqtInGgMfNoSVHLLKR17exdTBvTrmOgBBQOTRaVCHsKVHeXkqT/GXCwVRLVS+kw8OaQL6/zPmmwfkUO8SdLYISDCAJjIEX86fyQg/aIm+Juf+FfuzspqEEaKiXihTuStLABdZXI=
+	t=1756294819; cv=none; b=gpmAD9+k8sui41mUt8V8F8W+B7lntkYx6fwpWf6upvO+TdEiKoeCNc0MQqsMt75AUS9ze2MM6W4gNWDfM8k7bH0YbgBt1SL6IOWuyfOUHMkfAqZ04u/TA+nSYlPvW6SuyHhTbdJGmnrqGJbayIlPVHmak4Tiamjx8fvhM+U9tDM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756294819; c=relaxed/simple;
-	bh=CXVp3Biqn4WNx4t2DOR6Ybu6eknf30HbMTCs7zItvT8=;
+	bh=1+Z1vpTfodKedizxWXoXuwjyv+KleaLfAAMzvd/UuT4=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QcSPWX4m+Ev0emHRYEcT1irVCY+ojT4PcVfXIB8PHDMugZanH0QmWoTMIse5uYzT57KDxhtsbiYV/MQ2TxkasifxlEo3E87IueB9UyvqVTianDO0e4c/8K404YE56izUlMw2BpZ/Dk1SH4Ibr5rEdgtXoWb7tKNkh3YJj49dK68=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=dl8A4zWL; arc=none smtp.client-ip=210.61.82.184
+	 MIME-Version:Content-Type; b=VrSTlTZu1ffY+G0ILGfRvbLNgeyZ2ffo1nUPt7RhSDaXt0Un/6FqP3zAQ/VuVMg44A9Ki6NOTauqO6ytNTCRi6Ezs7lIcf8WDKUx3fmm77sU+YH2mhz3vhqlJw/zi2RRvRUWf+tR4F+v4Ux9NzdsLKKNLesTWLLxZtyB+stM1rk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=kJel7V3c; arc=none smtp.client-ip=210.61.82.184
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 96868d28833a11f0b33aeb1e7f16c2b6-20250827
+X-UUID: 96a39b5c833a11f0b33aeb1e7f16c2b6-20250827
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=DTPoIaj0j466odp02KCB5hkNOemLA40opzjQokQVmLE=;
-	b=dl8A4zWLiiNTr4DElIuvKwJtOC29UHt51LxZZqqWDLH2RZbRaWJ0OAR1cqBWteiJ4XR0m1ltAPiLn6ITsXGcfMLMvgcUiMJuojaPBOPs2qky8COdyAe3mV+XnW+b+Eae8Yv669qLUdhVKKRcdjbmh9uQsEgNJFwzIqP2ssMdjGk=;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=iyCEldzk4Mz7ktOwec/w57CiVepRjvEdcwkCHofTpdY=;
+	b=kJel7V3cQiQGTuIbQVwTH1pwWNooWCDgDoXnfutJWhwyRgo3mSu+PW904VQV96eS+UNGYxs+lP5KACOBDLnZ1GSV1u9I2fZSoy0NLsqTTaFQmLVDKhSEZYuaBy4SBn9eHueaXf37LoWAj81edCZr1NlziE4YfaWVKLNCufrWsAo=;
 X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.3,REQID:9f29c164-bf59-4680-9f6f-c9ea3a9a1da5,IP:0,UR
-	L:0,TC:0,Content:100,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:100
-X-CID-META: VersionHash:f1326cf,CLOUDID:d0a59020-786d-4870-a017-e7b4f3839b3f,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102|801,TC:-5,Content:3|15|50,
-	EDM:-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OS
-	A:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-O-INFO: VERSION:1.3.3,REQID:b39ac41a-2284-4d2e-bfc5-69a7a46d2cea,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:f1326cf,CLOUDID:cea59020-786d-4870-a017-e7b4f3839b3f,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:-5,Content:0|15|50,EDM:
+	-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
+	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
 X-CID-BVR: 2,SSN|SDN
 X-CID-BAS: 2,SSN|SDN,0,_
 X-CID-FACTOR: TF_CID_SPAM_SNR
 X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 96868d28833a11f0b33aeb1e7f16c2b6-20250827
-Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw02.mediatek.com
+X-UUID: 96a39b5c833a11f0b33aeb1e7f16c2b6-20250827
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw02.mediatek.com
 	(envelope-from <jason-jh.lin@mediatek.com>)
 	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 36246290; Wed, 27 Aug 2025 19:40:10 +0800
+	with ESMTP id 98461193; Wed, 27 Aug 2025 19:40:10 +0800
 Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- MTKMBS09N2.mediatek.inc (172.21.101.94) with Microsoft SMTP Server
+ mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.1258.39; Wed, 27 Aug 2025 19:40:08 +0800
 Received: from mtksitap99.mediatek.inc (10.233.130.16) by
@@ -67,17 +67,17 @@ To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	<mchehab@kernel.org>
 CC: Matthias Brugger <matthias.bgg@gmail.com>, Nicolas Dufresne
 	<nicolas@ndufresne.ca>, Jason-JH Lin <jason-jh.lin@mediatek.com>, Nancy Lin
-	<nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, Paul-PL
- Chen <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>, Xiandong
- Wang <xiandong.wang@mediatek.com>, Sirius Wang <sirius.wang@mediatek.com>,
-	Fei Shao <fshao@chromium.org>, Chen-yu Tsai <wenst@chromium.org>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
+	<nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>, "Paul-PL
+ Chen" <paul-pl.chen@mediatek.com>, Moudy Ho <moudy.ho@mediatek.com>,
+	"Xiandong Wang" <xiandong.wang@mediatek.com>, Sirius Wang
+	<sirius.wang@mediatek.com>, Fei Shao <fshao@chromium.org>, Chen-yu Tsai
+	<wenst@chromium.org>, <Project_Global_Chrome_Upstream_Group@mediatek.com>,
 	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
 	<dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
 	<linux-arm-kernel@lists.infradead.org>, <linux-media@vger.kernel.org>
-Subject: [PATCH v7 03/20] mailbox: mtk-cmdq: Add cmdq private data to cmdq_pkt for generating instruction
-Date: Wed, 27 Aug 2025 19:37:35 +0800
-Message-ID: <20250827114006.3310175-4-jason-jh.lin@mediatek.com>
+Subject: [PATCH v7 04/20] soc: mediatek: mtk-cmdq: Add cmdq_get_mbox_priv() in cmdq_pkt_create()
+Date: Wed, 27 Aug 2025 19:37:36 +0800
+Message-ID: <20250827114006.3310175-5-jason-jh.lin@mediatek.com>
 X-Mailer: git-send-email 2.45.2
 In-Reply-To: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
 References: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
@@ -91,80 +91,27 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-MTK: N
 
-Add the cmdq_mbox_priv structure to store the private data of GCE,
-such as the shift bits of the physical address. Then, include the
-cmdq_mbox_priv structure within the cmdq_pkt structure.
-
-This allows CMDQ users to utilize the private data in cmdq_pkt to
-generate GCE instructions when needed. Additionally, having
-cmdq_mbox_priv makes it easier to expand and reference other GCE
-private data in the future.
-
-Add cmdq_get_mbox_priv() for CMDQ users to get all the private data
-into the cmdq_mbox_priv of the cmdq_pkt.
+Add cmdq_get_mbox_priv() in cmdq_pkt_create() to ensure getting private
+data before generating GCE instructions.
 
 Fixes: 0858fde496f8 ("mailbox: cmdq: variablize address shift in platform")
 Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
 ---
- drivers/mailbox/mtk-cmdq-mailbox.c       |  8 ++++++++
- include/linux/mailbox/mtk-cmdq-mailbox.h | 18 ++++++++++++++++++
- 2 files changed, 26 insertions(+)
+ drivers/soc/mediatek/mtk-cmdq-helper.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
-index a60486cbb533..6b6b0abe9c36 100644
---- a/drivers/mailbox/mtk-cmdq-mailbox.c
-+++ b/drivers/mailbox/mtk-cmdq-mailbox.c
-@@ -102,6 +102,14 @@ static inline dma_addr_t cmdq_reg_revert_addr(u32 addr, const struct gce_plat *p
- 	return ((dma_addr_t)addr << pdata->shift);
+diff --git a/drivers/soc/mediatek/mtk-cmdq-helper.c b/drivers/soc/mediatek/mtk-cmdq-helper.c
+index 455221e8de24..8feeaa320359 100644
+--- a/drivers/soc/mediatek/mtk-cmdq-helper.c
++++ b/drivers/soc/mediatek/mtk-cmdq-helper.c
+@@ -140,6 +140,7 @@ int cmdq_pkt_create(struct cmdq_client *client, struct cmdq_pkt *pkt, size_t siz
+ 	}
+ 
+ 	pkt->pa_base = dma_addr;
++	cmdq_get_mbox_priv(client->chan, &pkt->priv);
+ 
+ 	return 0;
  }
- 
-+void cmdq_get_mbox_priv(struct mbox_chan *chan, struct cmdq_mbox_priv *priv)
-+{
-+	struct cmdq *cmdq = container_of(chan->mbox, struct cmdq, mbox);
-+
-+	priv->shift_pa = cmdq->pdata->shift;
-+}
-+EXPORT_SYMBOL(cmdq_get_mbox_priv);
-+
- u8 cmdq_get_shift_pa(struct mbox_chan *chan)
- {
- 	struct cmdq *cmdq = container_of(chan->mbox, struct cmdq, mbox);
-diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
-index e1555e06e7e5..73b70be4a8a7 100644
---- a/include/linux/mailbox/mtk-cmdq-mailbox.h
-+++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
-@@ -70,13 +70,31 @@ struct cmdq_cb_data {
- 	struct cmdq_pkt		*pkt;
- };
- 
-+struct cmdq_mbox_priv {
-+	u8 shift_pa;
-+};
-+
- struct cmdq_pkt {
- 	void			*va_base;
- 	dma_addr_t		pa_base;
- 	size_t			cmd_buf_size; /* command occupied size */
- 	size_t			buf_size; /* real buffer size */
-+	struct cmdq_mbox_priv	priv; /* for generating instruction */
- };
- 
-+/**
-+ * cmdq_get_mbox_priv() - get the private data of mailbox channel
-+ * @chan: mailbox channel
-+ * @priv: pointer to store the private data of mailbox channel
-+ *
-+ * While generating the GCE instruction to command buffer, the private data
-+ * of GCE hardware may need to be referenced, such as the shift bits of
-+ * physical address.
-+ *
-+ * This function should be called before generating the GCE instruction.
-+ */
-+void cmdq_get_mbox_priv(struct mbox_chan *chan, struct cmdq_mbox_priv *priv);
-+
- /**
-  * cmdq_get_shift_pa() - get the shift bits of physical address
-  * @chan: mailbox channel
 -- 
 2.43.0
 
