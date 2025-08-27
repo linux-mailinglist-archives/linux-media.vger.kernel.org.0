@@ -1,124 +1,131 @@
-Return-Path: <linux-media+bounces-41183-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41184-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 329B7B3831E
-	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 14:58:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1356EB38320
+	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 14:59:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 665561BA3E59
-	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 12:59:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C36C468728A
+	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 12:59:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB4A6350D44;
-	Wed, 27 Aug 2025 12:58:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B25183128A2;
+	Wed, 27 Aug 2025 12:58:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mmXBkG8x"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iYzgc7Tz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3177212D83;
-	Wed, 27 Aug 2025 12:58:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07392212D83;
+	Wed, 27 Aug 2025 12:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756299501; cv=none; b=bbr9TwYOtdyoFdTSujfQc2p3f9kDHm8C7YzXYDCaDiyePoKJaY10TUJin3wmuQobPIlnpa7HrBoi69Sc43RnZwAj5UYqP2V+Y/W3lRV8rqgIhhpM+S9f/LIhyj5C4c8fGp6TUX+pwUwrYocqCw+Lr91yHCWiZf/Yhy9ZMxMRlw4=
+	t=1756299519; cv=none; b=QcdNRSAqakRsFtVyyIn1GboDZqE8MMYuNokXRsq7Izbwy0k6bFwtjq29F9/TsXhXuQxRCc+yH5aFBmozlF4DEqd98t/bOZMjaz6+b4Vt0zko7ngg0/4AqrO1uBrC2iYuTvmnfrOBTHgWdZ0t7lLqZAzixzmdNUIIqPqWEgB2W9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756299501; c=relaxed/simple;
-	bh=486NpqqtiWtw1ACm5ZWQvrWUNEI+EywJOGONBEDgqIQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZB36fHiBVFh45vjxi1MBmoq6lcKZEMrFUq1cWwTzyEpRGXsvZSCBA0UzhixHSgSNTT5X/reKhAI0rNRB7iRbW9P8hZ2UhB6X8SwkoeyIrrStlO7DmWZiwemGHwxha4BGTghMUdcmDkIr4bVKMoFr+j/cV+6c+Rh8YCRneU2Hi8o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mmXBkG8x; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-54-205.net.vodafone.it [5.90.54.205])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 57456300E;
-	Wed, 27 Aug 2025 14:57:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756299434;
-	bh=486NpqqtiWtw1ACm5ZWQvrWUNEI+EywJOGONBEDgqIQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mmXBkG8xN4p8PqvGaUKpKyxvwwfkwKs1uexbkBa3a7Og32Ojsq8ylinMu7YQjVi6A
-	 t2f1dLOIl5h5FMCw8SsIj4ribprVjwVDU4vuv9yQV+gbvhCH3+ip6CLoDLIU9T9QDM
-	 L5BGf16Ljw4P9aseppJN92+1ugbb5lb/iFbTidrw=
-Date: Wed, 27 Aug 2025 14:58:14 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Qianfeng Rong <rongqianfeng@vivo.com>
-Cc: Jacopo Mondi <jacopo@jmondi.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	"open list:MT9V111 APTINA CAMERA SENSOR" <linux-media@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH 2/5] media: i2c: mt9v111: fix incorrect type for ret
-Message-ID: <xbmwlnflzhfhapyt5dinqqsdurxgu5imlqixudopb7z32eteth@cs7hulza54e3>
-References: <20250827123916.504189-1-rongqianfeng@vivo.com>
- <20250827123916.504189-3-rongqianfeng@vivo.com>
+	s=arc-20240116; t=1756299519; c=relaxed/simple;
+	bh=5aNA4WNVqmvubIU0HkdqgATcqIRcv19aYOgpzwLUezM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VcfmMCo17DBbao9/vD2OexuRbS0uiVlN4pQY9BUCal6dNtCpDhNydzWpUFuREbR2JA7ORB7souqaMzRYO5SnqBqq/vhZlO08bMDu3mTJPp2KP58pH5kqNIx+DV+BIMjL/o6WCMkyHEkzZx75M8YrMM6jba9Byg7V2/rlB5KsSu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iYzgc7Tz; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CDB8C4CEEB;
+	Wed, 27 Aug 2025 12:58:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756299518;
+	bh=5aNA4WNVqmvubIU0HkdqgATcqIRcv19aYOgpzwLUezM=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=iYzgc7TzSMHIIAfWTOZ3hkvCC9eRsFQyXxtv+YtjoorVv+q1XZf/ILrCo/J94WvcW
+	 vlWJ2EKdo1G8TmbX+VAFXBa6L/KpfCnPKYJPGdhjXf6Xt0wsqe+AuL8bIxxbyq+PZ+
+	 kjwKUHnowGBSA3ArdI01L9IhD/g1UVmQf9yc7QooVyYKwjpjc82sGWHnvGTH3mr5U4
+	 rG7Ejj0g4b0nzbr/n+egPZM8LTQd/p44ozaPDv+e1YgqgXaMhAy+3BhU8AgztRLYin
+	 cE9f5zlKq3D+yS4/7abQIGJIjTPbknmqit3AnC8vfzUxCxuHbldQU0gCEys9D2+O6K
+	 zS/1fnsOyUFMA==
+Message-ID: <e01271e4-392b-4ab2-9608-a8e6ebecee91@kernel.org>
+Date: Wed, 27 Aug 2025 14:58:33 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250827123916.504189-3-rongqianfeng@vivo.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] media: dt-bindings: nxp,imx8-isi: Add i.MX91 ISI
+ compatible string
+To: Guoniu Zhou <guoniu.zhou@nxp.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+ Sascha Hauer <s.hauer@pengutronix.de>,
+ Pengutronix Kernel Team <kernel@pengutronix.de>,
+ Fabio Estevam <festevam@gmail.com>, Frank Li <frank.li@nxp.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, Alice Yuan <alice.yuan@nxp.com>
+References: <20250827-isi_imx93-v1-0-83e6b4b50c4d@nxp.com>
+ <20250827-isi_imx93-v1-1-83e6b4b50c4d@nxp.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250827-isi_imx93-v1-1-83e6b4b50c4d@nxp.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Qianfeng
+On 27/08/2025 11:53, Guoniu Zhou wrote:
+> From: Alice Yuan <alice.yuan@nxp.com>
+> 
+> The ISI module on i.MX91 is reused from i.MX93 and implements one channel
+> and one camera input which only can be connected to parallel camera input.
+> So needn't to select camera source like i.MX93 in gasket ops.
+> 
+> Signed-off-by: Alice Yuan <alice.yuan@nxp.com>
+> Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
 
-On Wed, Aug 27, 2025 at 08:39:10PM +0800, Qianfeng Rong wrote:
-> Change "ret" from unsigned int to int type in mt9v111_calc_frame_rate()
-> to store negative error codes or zero returned by __mt9v111_hw_reset()
-> and other functions.
->
-> Storing the negative error codes in unsigned type, doesn't cause an issue
-> at runtime but it's ugly as pants.
->
-> No effect on runtime.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-well, I'm not sure that's true.
-
-The code goes as
-
-	ret = __mt9v111_hw_reset(mt9v111);
-	if (ret == -EINVAL)
-		ret = __mt9v111_sw_reset(mt9v111);
-	if (ret)
-		return ret;
-
-And if ret is unsigned the condition ret == -EINVAL will never be met.
-
-I guess this actually fixes a bug, doesn't it ?
-
->
-> Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
-
-You can add:
-
-Cc: stable@vger.kernel.org
-Fixes: aab7ed1c3927 ("media: i2c: Add driver for Aptina MT9V111")
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Thanks
-  j
-
-
-> ---
->  drivers/media/i2c/mt9v111.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/i2c/mt9v111.c b/drivers/media/i2c/mt9v111.c
-> index 6aa80b504168..9d724a7cd2f5 100644
-> --- a/drivers/media/i2c/mt9v111.c
-> +++ b/drivers/media/i2c/mt9v111.c
-> @@ -532,8 +532,8 @@ static int mt9v111_calc_frame_rate(struct mt9v111_dev *mt9v111,
->  static int mt9v111_hw_config(struct mt9v111_dev *mt9v111)
->  {
->  	struct i2c_client *c = mt9v111->client;
-> -	unsigned int ret;
->  	u16 outfmtctrl2;
-> +	int ret;
->
->  	/* Force device reset. */
->  	ret = __mt9v111_hw_reset(mt9v111);
-> --
-> 2.34.1
->
+Best regards,
+Krzysztof
 
