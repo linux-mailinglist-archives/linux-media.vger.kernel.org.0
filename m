@@ -1,191 +1,193 @@
-Return-Path: <linux-media+bounces-41196-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41197-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22711B386E0
-	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 17:45:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BFE3B3878D
+	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 18:12:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CCA207C2EC1
-	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 15:45:27 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A5A187B8C28
+	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 16:10:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C19E72C08A1;
-	Wed, 27 Aug 2025 15:45:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rsCyzL81"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9BD333CEB3;
+	Wed, 27 Aug 2025 16:12:05 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C22BD1E519
-	for <linux-media@vger.kernel.org>; Wed, 27 Aug 2025 15:45:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74E5F20C00E;
+	Wed, 27 Aug 2025 16:12:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756309523; cv=none; b=WLIHOP+ls4yRiGpPsdPgciOmKNCw7WQNhql2ShTGXmpC0zTS8OcfUa5aMfekYDsFkPhRShMMzpuMpMZbF1fcRgKKjP/AeHH4AD/vwnjo3X7U5T+5PX/0CQeD0xQJfX9uGuEYm5vjJLDit0AbQBqaoHnnsWp4hMsCc3VcxzEElS0=
+	t=1756311125; cv=none; b=Z4JNsqeo48/K9iI1Z/PhGXfSOBrZaM18BWqvzl/+GVMWVG7EAlbVH/m9TzMWCoGDtnidspOZGtIt8Rvx1BiIkL2kwbf26MOy8ekERkQyLm1atvmIPqhgC27zZAZj5+0wmz6tVd3AUfXgxmiEdrGYGO93c/arFAu8YiB8THx3DRU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756309523; c=relaxed/simple;
-	bh=ze4D0jzJD+Jedzg65qJgJGJkofhVSjmElXrkZxmtqlU=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=DX/n5/UVQ/sz/dAMXDOKuV2KppYeflHTrP0W3n8/bYQ/o7395KWARUjEf576e8WxkmF+jP0KzSHuCC6Jui13EsyVKyYP4gJXUbg7DGOBbi+/+59BSrWW+DoBNnQJxUtIg1rwiAthlu+sJtqcRk+KkkB7RbpvW8JlZpTG50jQWwQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rsCyzL81 reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id F35EC1809;
-	Wed, 27 Aug 2025 17:44:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756309454;
-	bh=ze4D0jzJD+Jedzg65qJgJGJkofhVSjmElXrkZxmtqlU=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=rsCyzL81/WZy8lqHRF3gwP0R4/jPPEuWqD+81df/q5I1S+h/+XlC7obTGQUAfMhAY
-	 XH87feWcD7UmlqESdzs6yFTL/dqyDJah39GMKW7ycdw0lRVBNzTORbu4KU0lC96Gwb
-	 NxhCHEPzF2VGEZ1VhLnRsD3NZpBoblzKfO4qz2Io=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1756311125; c=relaxed/simple;
+	bh=i9u4ueMDOCYd4PdWvQmBlID8NKYd3eHGKqj1Gu30cYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=asDBLpUevaW6xEtzpyaJr3VkkMKY9fhNsXPn8gLvoLNEwvdLu9Pa9zs2UuNquNy3UTtmdItIdTeh6dPhBL0hFriAm8/HsvBoLXCLCCJPqtGlj9thpLW2dVO2CWCwpaAkwZHJxPwhBA3r7JKRljH52AuYBq5DQVqMkZep0I1ETZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
+Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
+	by leonov.paulk.fr (Postfix) with ESMTPS id 110751F00062;
+	Wed, 27 Aug 2025 16:11:55 +0000 (UTC)
+Received: by laika.paulk.fr (Postfix, from userid 65534)
+	id DB3ADB020DD; Wed, 27 Aug 2025 16:11:53 +0000 (UTC)
+X-Spam-Level: 
+Received: from shepard (unknown [192.168.1.1])
+	by laika.paulk.fr (Postfix) with ESMTPSA id AB57FB020D6;
+	Wed, 27 Aug 2025 16:11:52 +0000 (UTC)
+Date: Wed, 27 Aug 2025 18:11:50 +0200
+From: Paul Kocialkowski <paulk@sys-base.io>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH] media: verisilicon: Explicitly disable all encoder
+ ioctls for decoders
+Message-ID: <aK8uRrlbMWZsA88Q@shepard>
+References: <20250826190416.1287089-1-paulk@sys-base.io>
+ <ee7416c9db2128ab1a8c1bbdc7cd231da21e5b53.camel@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="C71n5l9ay7s/mv82"
+Content-Disposition: inline
+In-Reply-To: <ee7416c9db2128ab1a8c1bbdc7cd231da21e5b53.camel@collabora.com>
+
+
+--C71n5l9ay7s/mv82
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <aCsceUYURNc8_C7E@kekkonen.localdomain>
-References: <20250507081338.53614-1-sakari.ailus@linux.intel.com> <174682345593.819131.7462679299915630940@ping.linuxembedded.co.uk> <aCsceUYURNc8_C7E@kekkonen.localdomain>
-Subject: Re: [PATCH 1/1] media: dt-bindings: Add bindings for camera modules
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, Ricardo Ribalda <ribalda@chromium.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Niklas =?utf-8?q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Alain Volmat <alain.volmat@foss.st.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Daniel Almeida <daniel.almeida@collabora.com>, Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa <tfiga@chromium.org>, "Hu,               Jerry W" <jerry.w.hu@intel.com>, Steve Cho <stevecho@chromium.org>, Kevin Hilman <khilman@baylibre.com>, Paul Kocialkowski <paulk@sys-base.io>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Hans Verkuil <hverkuil@xs4all.nl>, Arthur Vinchon <arthur.vinchon@allegrodvt.com>, Marco Felsch <m.felsch@pengu
- tronix.de>, Jackson Lee <jackson.lee@chipsnmedia.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, Hans de Goede <hdegoede@redhat.com>, Jai Luthra <jai.luthra@ideasonboard.com>, Devarsh Thakkar <devarsht@ti.com>, Maxime Ripard <mripard@kernel.org>, Stefan Klug <stefan.klug@ideasonboard.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Naushir Patuck <naush@raspberrypi.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Wed, 27 Aug 2025 16:45:14 +0100
-Message-ID: <175630951460.336274.7975232635118445740@ping.linuxembedded.co.uk>
-User-Agent: alot/0.9.1
 
-Hi Sakari,
+Hi Nicolas,
 
-Following up here because I think we already need to distinguish between
-modules - presumably at the DT/overlay level.
-
-Quoting Sakari Ailus (2025-05-19 12:56:41)
-> Hi Kieran,
+On Wed 27 Aug 25, 10:30, Nicolas Dufresne wrote:
+> Hi Paul,
 >=20
-> On Fri, May 09, 2025 at 09:44:15PM +0100, Kieran Bingham wrote:
-> > Hi Sakari,
+> Le mardi 26 ao=C3=BBt 2025 =C3=A0 21:04 +0200, Paul Kocialkowski a =C3=A9=
+crit=C2=A0:
+> > Call the dedicated v4l2_disable_ioctl helper instead of manually
+> > checking whether the current context is an encoder for the selection
+> > ioctls.
 > >=20
-> > Quoting Sakari Ailus (2025-05-07 09:13:38)
-> > > Add bindings for camera modules to allow telling especially the user =
-space
-> > > which module is found in the system. Camera modules do not have a dev=
-ice
-> > > node so this is a property for the camera sensor device node. This al=
-lows
-> > > describing modules that contain a single camera sensor.
-> > >=20
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > ---
-> > > Hi all,
-> > >=20
-> > > Here's the patch to give some advance warning for the camera module
-> > > discussion. The good thing is that it's quite short.
-> > >=20
+> > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+> > ---
+> > =C2=A0drivers/media/platform/verisilicon/hantro_drv.c=C2=A0 | 2 ++
+> > =C2=A0drivers/media/platform/verisilicon/hantro_v4l2.c | 6 ++----
+> > =C2=A02 files changed, 4 insertions(+), 4 deletions(-)
 > >=20
-> > Thanks for starting this! Definitely something I would like to see a
-> > solution for indeed.
-> >=20
-> > > The intent indeed is to address the regular use case where we have a
-> > > single sensor in a camera module. For cases where we have more, we'll=
- need
-> > > something else, not based on individual properties. I believe this is
-> > > still the way to go, to address current issues and for a couple of
-> > > additional reasons:
-> > >=20
-> > > - Cameras with more than one sensor tend to be collections of camera
-> > >   modules so this is still relevant in most cases.
-> > >=20
-> > > - It's much simpler to have a single property than begin having new n=
-odes
-> > >   in DT. In practice such nodes would be a poor fit for DT generally =
-as
-> > >   they have (few or) no functions.
-> > >=20
-> > > The biggest difficulty is still in module identification. These compo=
-nents
-> > > tend to be often ignored and the best we have for a module name in th=
-at
-> > > case is random-looking string if even that. Besides DT bindings, we n=
-eed
-> > > an additional (git?) tree to describe the modules that have no proper
-> > > names but it could be also useful for those that do, for instance to
-> > > include information on lens, field of view, IR filter, photos of the
-> > > module etc. There is some overlap with what libcamera needs, too.
-> > >=20
-> >=20
-> > One aspect that jumps to my mind here - is how do we handle variations
-> > of modules?
-> >=20
-> > For instance I have two IMX335 modules from Arducam - which are
-> > otherwise identical except for different lenses with different
-> > field-of-view.
-> >=20
-> > Do we need more properties (later?) to express the different
-> > configuration options of the module?
+> > diff --git a/drivers/media/platform/verisilicon/hantro_drv.c
+> > b/drivers/media/platform/verisilicon/hantro_drv.c
+> > index 4cc9d00fd293..6fb28a6293e7 100644
+> > --- a/drivers/media/platform/verisilicon/hantro_drv.c
+> > +++ b/drivers/media/platform/verisilicon/hantro_drv.c
+> > @@ -916,6 +916,8 @@ static int hantro_add_func(struct hantro_dev *vpu,
+> > unsigned int funcid)
+> > =C2=A0		vpu->decoder =3D func;
+> > =C2=A0		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
+> > =C2=A0		v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
+> > +		v4l2_disable_ioctl(vfd, VIDIOC_G_SELECTION);
+> > +		v4l2_disable_ioctl(vfd, VIDIOC_S_SELECTION);
 >=20
-> I think I'd document these as two different modules. Arducam SKU
-> identifiers are probably best to be used as models here and I presume SKU
-> is different between your modules?
+> Disabling this IOCTL for JPEG is fine, but for VP8, H.264, HEVC, VP9 and =
+AV1, it
+> is pretty much mandatory. Otherwise your stream will advertise the padded
+> dimentions and there would be no way to tell it that what is the cropping=
+ window
+> for bitstream generation purpose.
+
+Maybe the lack of context around the patch doesn't make it clear, but this =
+is
+to disable the ioctls for decoders (not encoders), which don't need to use =
+the
+selection API. This keeps the ioctls enabled and available for all encoders.
+
+> Considering you are looking forward adding H.264 encoding, do you really =
+want
+> to apply this fix ?
+
+I am well aware that this is required to setup the crop in the coded bitstr=
+eam
+and I am definitely using it in my encoding work :)
+
+Cheers,
+
+Paul
+
 >=20
-> >=20
-> >=20
-> > At some point I would love to be able to describe a 'module' as the
-> > whole component including a VCM for instance - in a way that can be
-> > abstracted as something that could be connected to a 'port' (see [0],
-> > [1]) where it would be helpful to be able to group/abstract a movable
-> > component and identify the full camera module in a way that doesn't have
-> > to be duplicated in every platform configuration that it could be
-> > connected.
+> Nicolas
 >=20
-> This would likely require having a node for the module, too. It's a
-> heavy-weight solution compared to just a property (or a few).
->=20
-> How commonly do you swap lenses outside R&D in practice?
+> > =C2=A0	}
+> > =C2=A0
+> > =C2=A0	video_set_drvdata(vfd, vpu);
+> > diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > index 6bcd892e7bb4..fcf3bd9bcda2 100644
+> > --- a/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > +++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+> > @@ -663,8 +663,7 @@ static int vidioc_g_selection(struct file *file, vo=
+id
+> > *priv,
+> > =C2=A0	struct hantro_ctx *ctx =3D file_to_ctx(file);
+> > =C2=A0
+> > =C2=A0	/* Crop only supported on source. */
+> > -	if (!ctx->is_encoder ||
+> > -	=C2=A0=C2=A0=C2=A0 sel->type !=3D V4L2_BUF_TYPE_VIDEO_OUTPUT)
+> > +	if (sel->type !=3D V4L2_BUF_TYPE_VIDEO_OUTPUT)
+> > =C2=A0		return -EINVAL;
+> > =C2=A0
+> > =C2=A0	switch (sel->target) {
+> > @@ -696,8 +695,7 @@ static int vidioc_s_selection(struct file *file, vo=
+id
+> > *priv,
+> > =C2=A0	struct vb2_queue *vq;
+> > =C2=A0
+> > =C2=A0	/* Crop only supported on source. */
+> > -	if (!ctx->is_encoder ||
+> > -	=C2=A0=C2=A0=C2=A0 sel->type !=3D V4L2_BUF_TYPE_VIDEO_OUTPUT)
+> > +	if (sel->type !=3D V4L2_BUF_TYPE_VIDEO_OUTPUT)
+> > =C2=A0		return -EINVAL;
+> > =C2=A0
+> > =C2=A0	/* Change not allowed if the queue is streaming. */
 
-Hard to determine that - but there are already multiple instances of
-different vendor modules with the same sensor - but a different lens
-configuration. I'd like to compare these to see if the common parts
-could be de-duplciated.
-
-In [2] I've posted two more tuning files for libcamera for the IMX335
-and IMX415. Does specifying the vendor and SKU there match what you
-would expect with this? Or should we make it a direct match on the
-strings you propose below?
 
 
-[2] https://lists.libcamera.org/pipermail/libcamera-devel/2025-August/05240=
-9.html
+--=20
+Paul Kocialkowski,
 
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    enum:
-> +      - "dell,0BF122N3" # onnn,ov01a10
+Independent contractor - sys-base - https://www.sys-base.io/
+Free software developer - https://www.paulk.fr/
 
-So I guess for the Arducam modules I've posted this would be
-	"arducam,B0568"
+Expert in multimedia, graphics and embedded hardware support with Linux.
 
-(Do we expect these to be case sensitive? Or insensitive?)
+--C71n5l9ay7s/mv82
+Content-Type: application/pgp-signature; name=signature.asc
 
-> +  camera-module-casual:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum:
-> +      - 1 # st,vs6555
+-----BEGIN PGP SIGNATURE-----
 
+iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmivLkYACgkQhP3B6o/u
+lQxk1A/9ELY5RTuo/mlmxWE7Lq+eC0ax4KNowasbC3RE5o9RQ18n2yDBD1TCeXlv
+4ZAQVTjE/oBy4/tQ43FH7vt3xgMLjvZ09+XUefXvT00ITtMekW4POd+oqeEaNyWi
+jfr128LANaLTRODiDIeuufVOK9KTlcIpR7aZjA/FXgq8iOtibWzQxWBQV1JiWwTS
+fwiTRfkSYAxyIIHRBYbLh/lhorl34uDp44i4vZdmg7Dy77RVzn7zwz4al5Gsut7w
+WGWgsUPX1UDMvJ6jXEHw99JRAhR168M1VSo8zAD3iC2I8hxH7HSHaY5zZXraolEL
+8pBysbXDWNV8AjxcyIDdykgnlLqrY6fhctQA7x6cOF0ls1Z/tO7yc8YckjK/Scnw
+/cBPAxbalXEGeB+8AEIFiJAe6WE/ciyq28cm75xadkkIc9iBLw7KJD1aDVF7g9kC
+yVV0LHoeNlVBR82MsxFAzIRyPvSnjqF92gBLmFqU5tgygxMtLTse44Hvq3drlc3M
+/vcZqfdRMZFkrkcw5D1HPxirPPuF+nv2XPlF/PBOTSxexg73PpZLfzJYD5MQGNHD
+YIlhOOpmBEJLhD5kQswvACua6Av3wbeO2/nGFk9ZZuF2BHYGsRKL2gxOmqe07beG
+1WRv8r+M0hHzKYC/MnjZWgPMWnCp0J/H8WnrLktVIrlv2L/zNyM=
+=87s1
+-----END PGP SIGNATURE-----
 
-
-> >=20
-> > [0] https://www.konsulko.com/wp-content/uploads/2016/09/portable-device=
--tree-connector.pdf
-> > [1] https://lore.kernel.org/all/1464986273-12039-2-git-send-email-pante=
-lis.antoniou@konsulko.com/
->=20
-> --=20
-> Kind regards,
->=20
-> Sakari Ailus
+--C71n5l9ay7s/mv82--
 
