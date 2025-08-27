@@ -1,125 +1,141 @@
-Return-Path: <linux-media+bounces-41133-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41134-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07BABB37CF2
-	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 10:07:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 502C7B37E39
+	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 10:58:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66D223B6CFB
-	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 08:07:31 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4CC0D1898A28
+	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 08:58:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D72E232C308;
-	Wed, 27 Aug 2025 08:07:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 265CE341651;
+	Wed, 27 Aug 2025 08:57:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b="lpvZbN1v"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ebY9bhsd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from gloria.sntech.de (gloria.sntech.de [185.11.138.130])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6E4C30CDBB;
-	Wed, 27 Aug 2025 08:07:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.11.138.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F9BE242D88;
+	Wed, 27 Aug 2025 08:57:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756282034; cv=none; b=YahqCKfS2Yn9PU9kiA8aMNTzgU8fzeowaH97Qm57ljDM/MBinT5tsMhAYMPQT28I1lA/DdilCP21fcX1wM0jZkD4XcjrEqHpkUc6E3iKCTsYMyGiMJeaFZWvkIDvh2bW0F10QAm9tBb4rk4cx/g6xTHOXzWesr8PtJjOwR0csYM=
+	t=1756285074; cv=none; b=rG9bK60Z6yiEAHMvRFvRp0N0rAyyXfsV9hWmJt6f4VUOqjOJsZYxgFyqKT7rvHlqJ7sO46LP/eaJCYR2DknKydKkZ1jxzHXMMrMEW7XtEVW8FMS2S+zxyEBuLdsh2aTjtj216XhMrxYF4CNXI58LaNEb2/skkFwI+WnhNOElVPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756282034; c=relaxed/simple;
-	bh=nHn0/2tcQ6NKxDIG6MXiOpQl/j8R5Yoanaeftq4zEbE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=j6oKmw1r5jllACLrCUuvQKwS6loUciUdS5c8yU06ZEU+2cNZFMUC+IO+oG2jtrR3jt3n1S4wEWeyvgf9Nwm6DlxN0/3IZROrwj3Wd6pdwURy6xi+crd0qRcNVwy/w05JHQ0L2HkKqQVEPR/DJ3k9fkxVkCMIEtVsmGJ5lnLq9OI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de; spf=pass smtp.mailfrom=sntech.de; dkim=pass (2048-bit key) header.d=sntech.de header.i=@sntech.de header.b=lpvZbN1v; arc=none smtp.client-ip=185.11.138.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sntech.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sntech.de
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=sntech.de;
-	s=gloria202408; h=Content-Type:Content-Transfer-Encoding:MIME-Version:
-	References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Reply-To;
-	bh=nHn0/2tcQ6NKxDIG6MXiOpQl/j8R5Yoanaeftq4zEbE=; b=lpvZbN1vFE1catKAjtPmzOO25D
-	zQe3EYADcLN+u+VAb4HEmMxBKY5SafJaDYo/N6TNMFuP2oZom+6QyC/AcQGjJZbELGVRCEqd3EteB
-	Fb13EBgEXMvzyuuYrFYrMfeYHRByJKSbUcvu3E66udd77HpJJotr8ch5V7KlYoSDEMMaTt98Gcnvd
-	Wa3nuIX7IzNZjVImMGkSlLN4d6L623lauFYlOX5VWScp13JJTS9jUan+msw/NJB5G0gmicI7Kd3F9
-	PhjF5C7+pBOZ2eafUWP7tC5PQRvDdbAh3Cp2DSoY0CmCakj8e/QkSktaIWTntJgsOAU9qJ6LDboUR
-	m1ZKL4hQ==;
-Received: from [213.244.170.152] (helo=phil.localnet)
-	by gloria.sntech.de with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.94.2)
-	(envelope-from <heiko@sntech.de>)
-	id 1urBB2-0000Hv-Tf; Wed, 27 Aug 2025 10:06:40 +0200
-From: Heiko Stuebner <heiko@sntech.de>
-To: Yury Norov <yury.norov@gmail.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson <ulf.hansson@linaro.org>,
- Shreeya Patel <shreeya.patel@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Sandy Huang <hjc@rock-chips.com>,
- Andy Yan <andy.yan@rock-chips.com>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Vinod Koul <vkoul@kernel.org>, Kishon Vijay Abraham I <kishon@kernel.org>,
- Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
- Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
- Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Shawn Lin <shawn.lin@rock-chips.com>,
- Lorenzo Pieralisi <lpieralisi@kernel.org>,
- Krzysztof =?UTF-8?B?V2lsY3p5xYRza2k=?= <kwilczynski@kernel.org>,
- Manivannan Sadhasivam <mani@kernel.org>, Rob Herring <robh@kernel.org>,
- Bjorn Helgaas <bhelgaas@google.com>, Chanwoo Choi <cw00.choi@samsung.com>,
- MyungJoo Ham <myungjoo.ham@samsung.com>,
- Kyungmin Park <kyungmin.park@samsung.com>, Qin Jian <qinjian@cqplus1.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
- Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: kernel@collabora.com, linux-kernel@vger.kernel.org,
- linux-mmc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
- linux-pm@vger.kernel.org, linux-clk@vger.kernel.org, llvm@lists.linux.dev,
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Subject: Re: [PATCH v3 19/20] clk: sp7021: switch to FIELD_PREP_WM16 macro
-Date: Wed, 27 Aug 2025 10:06:39 +0200
-Message-ID: <5154190.bB369e8A3T@phil>
-In-Reply-To: <20250825-byeword-update-v3-19-947b841cdb29@collabora.com>
-References:
- <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
- <20250825-byeword-update-v3-19-947b841cdb29@collabora.com>
+	s=arc-20240116; t=1756285074; c=relaxed/simple;
+	bh=mYjxTPeHhDhT1wm55WOQFjAfq4GLac+lULuomHlutMs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=YdwGt0OuQ8SBnKCfYPhZw/TEuWAixYfcLTPBQJlU1v5xNIUSlPoiAIBj7cSRdArkqdAqlpkGTtOKB2fwROdg9C7ueFmkKpSar2kt4Sd1+Sluyjiy/rlDEs00vTypABtZVCgBuko1Z2xz3+tENfKpPSYibpNv60QPcRvvz0KyItc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ebY9bhsd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AAA60C113D0;
+	Wed, 27 Aug 2025 08:57:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756285074;
+	bh=mYjxTPeHhDhT1wm55WOQFjAfq4GLac+lULuomHlutMs=;
+	h=Date:From:To:Cc:Subject:From;
+	b=ebY9bhsdRq+pD/UVwGHl1zn9LC5UKp11mKazk597hex/O7RobaTUKVOJUCih0OF8r
+	 yB68OSjqkx0lVo4WiInWYyxnb0gPYmLvGFvbmzKMphs+yvdIaVHnIqO3TumPSsfgEo
+	 dSFoIeT/Jz5pyd2qXgG+QQJQYwmiqtSVBOMB6GuHeEXj5vN/VU3ukl22LwwFNvynu7
+	 psQw3uj7/PUyEd6sdgaFgfz4FbA8FT55fGnyblEeEzDnkRq335AP6Kjtl+/UqW/qXJ
+	 E/F1r+TbvrqICMxb2Gntn2pvt7vTf81HLA35jTYWhoehesW5ONqoHWUku4TIAUt2XH
+	 SrDmO/30YmH8Q==
+Date: Wed, 27 Aug 2025 10:57:49 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL for v6.17-rc4] media fixes
+Message-ID: <20250827105749.32f7cc29@foz.lan>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Am Montag, 25. August 2025, 10:28:39 Mitteleurop=C3=A4ische Sommerzeit schr=
-ieb Nicolas Frattaroli:
-> The sp7021 clock driver has its own shifted high word mask macro,
-> similar to the ones many Rockchip drivers have.
->=20
-> Remove it, and replace instances of it with hw_bitfield.h's
-> FIELD_PREP_WM16 macro, which does the same thing except in a common
-> macro that also does compile-time error checking.
->=20
-> This was compile-tested with 32-bit ARM with Clang, no runtime tests
-> were performed as I lack the hardware. However, I verified that fix
-> commit 5c667d5a5a3e ("clk: sp7021: Adjust width of _m in HWM_FIELD_PREP()=
-")
-> is not regressed. No warning is produced.
->=20
-> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+Hi Linus,
 
-While I have no connection with that specific piece of hardware,
-the change itself looks correct, so
+Please pull from:
 
-Reviewed-by: Heiko Stuebner <heiko@sntech.de>
+	git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git media/v6.17-2
 
+For:
+  - drop the redundant pm_runtime_mark_last_busy() on rkvdec driver;
+  - fix an error handling in probe at rkvdec driver;
+  - fix an issue affecting lt6911uxe/lt6911uxc related to CSI-2
+    GPIO pins at int3472.
 
+Regards,
+Mauro
+
+---
+
+The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
+
+  Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git tags/media/v6.17-2
+
+for you to fetch changes up to 6f6fbd9a0c5a75eee0618c1499cf73cc770b3f52:
+
+  media: Remove redundant pm_runtime_mark_last_busy() calls (2025-08-18 09:55:08 +0200)
+
+----------------------------------------------------------------
+[GIT PULL for v6.17-rc4] media fixes
+
+----------------------------------------------------------------
+Christophe JAILLET (1):
+      media: rkvdec: Fix an error handling path in rkvdec_probe()
+
+Dan Carpenter (1):
+      media: rkvdec: Fix a NULL vs IS_ERR() bug in probe()
+
+Dongcheng Yan (1):
+      platform/x86: int3472: add hpd pin support
+
+Sakari Ailus (2):
+      media: rkvdec: Remove redundant pm_runtime_mark_last_busy() calls
+      media: Remove redundant pm_runtime_mark_last_busy() calls
+
+ drivers/media/i2c/alvium-csi2.c                         |  1 -
+ drivers/media/i2c/ccs/ccs-core.c                        |  7 +------
+ drivers/media/i2c/dw9768.c                              |  1 -
+ drivers/media/i2c/gc0308.c                              |  3 ---
+ drivers/media/i2c/gc2145.c                              |  3 ---
+ drivers/media/i2c/imx219.c                              |  2 --
+ drivers/media/i2c/imx283.c                              |  3 ---
+ drivers/media/i2c/imx290.c                              |  3 ---
+ drivers/media/i2c/imx296.c                              |  1 -
+ drivers/media/i2c/imx415.c                              |  1 -
+ drivers/media/i2c/mt9m114.c                             |  6 ------
+ drivers/media/i2c/ov4689.c                              |  3 ---
+ drivers/media/i2c/ov5640.c                              |  4 ----
+ drivers/media/i2c/ov5645.c                              |  3 ---
+ drivers/media/i2c/ov64a40.c                             |  7 +------
+ drivers/media/i2c/ov8858.c                              |  2 --
+ drivers/media/i2c/st-mipid02.c                          |  2 --
+ drivers/media/i2c/tc358746.c                            |  5 -----
+ drivers/media/i2c/thp7312.c                             |  4 ----
+ drivers/media/i2c/vd55g1.c                              |  4 ----
+ drivers/media/i2c/vd56g3.c                              |  4 ----
+ drivers/media/i2c/video-i2c.c                           |  4 ----
+ .../media/platform/chips-media/wave5/wave5-vpu-dec.c    |  4 ----
+ .../media/platform/chips-media/wave5/wave5-vpu-enc.c    |  5 -----
+ drivers/media/platform/nvidia/tegra-vde/h264.c          |  2 --
+ drivers/media/platform/qcom/iris/iris_hfi_queue.c       |  1 -
+ drivers/media/platform/raspberrypi/pisp_be/pisp_be.c    |  2 --
+ drivers/media/platform/rockchip/rkvdec/rkvdec.c         | 17 +++++++++--------
+ drivers/media/platform/verisilicon/hantro_drv.c         |  1 -
+ drivers/media/rc/gpio-ir-recv.c                         |  4 +---
+ drivers/platform/x86/intel/int3472/discrete.c           |  6 ++++++
+ include/linux/platform_data/x86/int3472.h               |  1 +
+ 32 files changed, 19 insertions(+), 97 deletions(-)
 
