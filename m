@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-41184-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41185-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1356EB38320
-	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 14:59:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 602B0B3833B
+	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 15:02:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C36C468728A
-	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 12:59:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE0CD682931
+	for <lists+linux-media@lfdr.de>; Wed, 27 Aug 2025 13:02:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B25183128A2;
-	Wed, 27 Aug 2025 12:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D311D352FFB;
+	Wed, 27 Aug 2025 13:00:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iYzgc7Tz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WPRwJEcW"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07392212D83;
-	Wed, 27 Aug 2025 12:58:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27E4A352072;
+	Wed, 27 Aug 2025 13:00:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756299519; cv=none; b=QcdNRSAqakRsFtVyyIn1GboDZqE8MMYuNokXRsq7Izbwy0k6bFwtjq29F9/TsXhXuQxRCc+yH5aFBmozlF4DEqd98t/bOZMjaz6+b4Vt0zko7ngg0/4AqrO1uBrC2iYuTvmnfrOBTHgWdZ0t7lLqZAzixzmdNUIIqPqWEgB2W9I=
+	t=1756299649; cv=none; b=DvW2VjOQMcsckReucdbIw912qlHnLBkZQBVmOZ+vBjoIYP0rSiTHKZ3PNOft65RKkcCGUnm8kRnbOsd968mqSRnQSc0bIwDBTehp/JHX8ei2SZFE/Yf2iJxBMwIAZyKOqga+PGLJUCLIbvY/M3nVjw/IdKxE5tfes36yzY/SWPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756299519; c=relaxed/simple;
-	bh=5aNA4WNVqmvubIU0HkdqgATcqIRcv19aYOgpzwLUezM=;
+	s=arc-20240116; t=1756299649; c=relaxed/simple;
+	bh=on6wS0kpW2VKeRtxYhjS3E3L/SKqbk+ViXX0fMeOI0c=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VcfmMCo17DBbao9/vD2OexuRbS0uiVlN4pQY9BUCal6dNtCpDhNydzWpUFuREbR2JA7ORB7souqaMzRYO5SnqBqq/vhZlO08bMDu3mTJPp2KP58pH5kqNIx+DV+BIMjL/o6WCMkyHEkzZx75M8YrMM6jba9Byg7V2/rlB5KsSu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iYzgc7Tz; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CDB8C4CEEB;
-	Wed, 27 Aug 2025 12:58:35 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=PnRLvG33NOsvvbpVgfczhN6xv5hOtLzsXRARCfy/fjYad9u4M+Mq0pDs+8LOW+TVZKR0gtkczrq2pSixmlwC1ePpv31X4cQjMGdMn33PRSeTAQaxXwBD3KE05rsDODfACzFQiEsEOkGh+Rgz29kltheC6j5nClioXx8oY6GF7/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WPRwJEcW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD5D1C4CEEB;
+	Wed, 27 Aug 2025 13:00:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756299518;
-	bh=5aNA4WNVqmvubIU0HkdqgATcqIRcv19aYOgpzwLUezM=;
+	s=k20201202; t=1756299647;
+	bh=on6wS0kpW2VKeRtxYhjS3E3L/SKqbk+ViXX0fMeOI0c=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iYzgc7TzSMHIIAfWTOZ3hkvCC9eRsFQyXxtv+YtjoorVv+q1XZf/ILrCo/J94WvcW
-	 vlWJ2EKdo1G8TmbX+VAFXBa6L/KpfCnPKYJPGdhjXf6Xt0wsqe+AuL8bIxxbyq+PZ+
-	 kjwKUHnowGBSA3ArdI01L9IhD/g1UVmQf9yc7QooVyYKwjpjc82sGWHnvGTH3mr5U4
-	 rG7Ejj0g4b0nzbr/n+egPZM8LTQd/p44ozaPDv+e1YgqgXaMhAy+3BhU8AgztRLYin
-	 cE9f5zlKq3D+yS4/7abQIGJIjTPbknmqit3AnC8vfzUxCxuHbldQU0gCEys9D2+O6K
-	 zS/1fnsOyUFMA==
-Message-ID: <e01271e4-392b-4ab2-9608-a8e6ebecee91@kernel.org>
-Date: Wed, 27 Aug 2025 14:58:33 +0200
+	b=WPRwJEcW6HozCvqAO+Vo3auxKyvBuyeh2y9RwGFYzHXXzwbXQeXIn16u0UXs/g3o9
+	 rjo5oZV7VpnWuQfVKEZUsPIOi5iQdXJuwWgL6u0k/PwwgDoXOI+Hu3XAlNPVh41FgT
+	 NX4Uj4U0nkcR2Nwa5Et+zsOowKEEbzU2yxufDdhGwqm52PlifvBytPrRppu4+9lAsx
+	 aEXdVdYB/9sxoGGVyuzWILw0Bm0eEdMOOwdYUxR5uM1y/1f3IyAvZowEAewXMJR3E8
+	 kbtKO+FvMiqbZdGyAHvWh4s97hlS5m8oQtAwyWy0Vx/huHWMHF/MPBehT4Z8yriZbe
+	 9MNvENSG3586w==
+Message-ID: <8cd5ec7f-7e57-476e-b683-e7cbe3531ab7@kernel.org>
+Date: Wed, 27 Aug 2025 15:00:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] media: dt-bindings: nxp,imx8-isi: Add i.MX91 ISI
- compatible string
+Subject: Re: [PATCH 0/5] media: imx91: Add ISI support
 To: Guoniu Zhou <guoniu.zhou@nxp.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -64,7 +63,6 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
  linux-kernel@vger.kernel.org, Alice Yuan <alice.yuan@nxp.com>
 References: <20250827-isi_imx93-v1-0-83e6b4b50c4d@nxp.com>
- <20250827-isi_imx93-v1-1-83e6b4b50c4d@nxp.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -110,21 +108,30 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250827-isi_imx93-v1-1-83e6b4b50c4d@nxp.com>
+In-Reply-To: <20250827-isi_imx93-v1-0-83e6b4b50c4d@nxp.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 27/08/2025 11:53, Guoniu Zhou wrote:
-> From: Alice Yuan <alice.yuan@nxp.com>
+> Add ISI support for i.MX91 chip.
 > 
-> The ISI module on i.MX91 is reused from i.MX93 and implements one channel
-> and one camera input which only can be connected to parallel camera input.
-> So needn't to select camera source like i.MX93 in gasket ops.
+> The bellow patch refine code, no functions changed.
+>    media: nxp: imx8-isi: Simplify code by using helper macro
+>    media: nxp: imx8-isi: Reorder the platform data
 > 
-> Signed-off-by: Alice Yuan <alice.yuan@nxp.com>
+> The bindings and driver patch for i.MX91 ISI.
+>    media: dt-bindings: nxp,imx8-isi: Add i.MX91 ISI compatible string
+>    media: nxp: imx8-isi: Add ISI support for i.MX91
+> 
+> Add parallel camera input for i.MX93 ISI.
+>    media: nxp: imx8-isi: Add parallel camera input support
+> 
 > Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
 
-Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Nice work. I have impression that since some time NXP patchsets improved
+noticeably (not only media, in general).
+
+Good job folks! I really appreciate it.
 
 Best regards,
 Krzysztof
