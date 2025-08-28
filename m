@@ -1,171 +1,182 @@
-Return-Path: <linux-media+bounces-41256-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41257-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73F9DB3A188
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 16:25:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 59BD8B3A21C
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 16:37:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 62D4C1886C86
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 14:25:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6FA1118905A8
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 14:38:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D0D5221FA0;
-	Thu, 28 Aug 2025 14:24:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74F6E1DC9B5;
+	Thu, 28 Aug 2025 14:37:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lqlIZZOH"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="c1Shky4O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D579E219A79
-	for <linux-media@vger.kernel.org>; Thu, 28 Aug 2025 14:24:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53B5B245006;
+	Thu, 28 Aug 2025 14:37:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756391084; cv=none; b=fdWxX/3oxkgF5/KepNVSZsr/YhkvSV6qCYaXZxQP+S+r8G57rc9WoDLJq6uUaoWeRfS/2Gvh5d/Y1WNSiwuSd+Yj/Himpp0g0X9ao7ezLfPR/pO3tBKP1pNxsKUuHeQCcgVEBJ18lmdfgdxjUjLdYCfz/Twmp6Qx3fgLgi0e2zY=
+	t=1756391848; cv=none; b=QWOSOY5Cb5UpuY8i1kOuXnT2/MpplxuDsYb5CbcleQ1DkQj77/l60LvOe78sou+UtAzJhdKpo7uMC8zEjCmbZmjFYPBan1cBY/h8Uw5noWlYeNpT9wsRS/fBwB/6+vtFlKjStnIqxMZCI/L96+I8taALUpSnigzuB/3CJpsMq8g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756391084; c=relaxed/simple;
-	bh=/FUZ3GPbSoHCMLnSSqyt2z+YmIiFI7VibbClJvvxduQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=QdBA8EPRgFMGizzsYCp4kI180kUyZMMpi8gkf5f2LBNQ1IrFlAOzd7P4lWCSZWO61zMHNGyr5k6YXavyzO2XUETzzxvTk/X8OALK1Z7/svo4SFqMATOduFOOMNBgnYKJMF6sNYfYkF2qrUFytzP6Nal6p5HKsC5WfT2GDoPbvf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lqlIZZOH; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-afead3cf280so128857366b.1
-        for <linux-media@vger.kernel.org>; Thu, 28 Aug 2025 07:24:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756391081; x=1756995881; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=8zQUneuXaOfUh+xTN94Xip4u0CuKfuimGc68GwyO7co=;
-        b=lqlIZZOHTZZ4xnW5Jelr/XU2Km2WfJUvHfQi0emQxM1RN8qSYHX5ZJSsMLfCqfDnwf
-         UOMod4sjvwZpd81O/N2etmRRYaOpLPDP1SSMj2g3y82T5ufgvFnDpO7Q53z8DuKtvHI4
-         h0o2CGP+gQvZGFUgDG4JI5OEjGKt8knAARZ+NDXoIVQO1vFFb3H122Wx1o5VACwITD8y
-         txfvi2kbwdHxwJo2trD2ImvIK+G/2zkmzYfnvsJihtTkjtDT7l7Cc2tda7TcGzvh8TAv
-         TZXzzl+bRqR67i3SWJt/pbYx+4eLAMC02yPWqXuAjOs0yC1tfkGOajbCHoYP1EOAYU+/
-         RNjA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756391081; x=1756995881;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8zQUneuXaOfUh+xTN94Xip4u0CuKfuimGc68GwyO7co=;
-        b=FAEnBhnTJkfajq9mNTqv2fXs4vN8KcJsUupbRqvOkkd/TI7jyFqCBzpUY/Way/JpkL
-         0m0b7dHUZtjSOLXth32Qh4E5KfNmmz6+n5E0VPbCk817l/0PLfmNXSCkS9Pm91/ybEQT
-         kNviuWSmdLRkAohKsn99TIfEJaPQwrCEWi0Qa2O2eNqVVg2Y+ekuQmBImLo3x8/zVqq5
-         760IDAxfOzGlDI7MyqBuo14XLFbgNLFKbatKge6N3m4tG1oECFmLgZmAlEMq2ZHRDCyE
-         ON2ZJ1Ehbl+QVJ5S7wXeDSK7wPFC9ekzQ5my4bTJOs3oMoSMG+WvlqocQtkF89AVXafq
-         FUqA==
-X-Forwarded-Encrypted: i=1; AJvYcCWaQJsin6L/4tBbDwKkT+W2no31pCpv7GLk4bVEPCVIr/ijvxldraOFCsd8Z77mFDl0aevF9+hWFL0wig==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+O+qhGAIGjerj+PRZA6ycYKpcwLfBUPF+GyCc826AdMHkVORq
-	TAFPKje3yA7S2TBxMULxPbG4DLTaciJ9IY4lLMFnl+u4WguHMesFZLkKHZUn9xMED58=
-X-Gm-Gg: ASbGnctxoGih9/fBbCCkWTPEQflyvzK6OZY8RkkDezEnI5dHQrkzdzU9RI7fArfXiYb
-	k9FNzVxoRPszUJEdqoKGAQzDvQtZHiZjTk8HzgQ9BoCLNcB+BVQ0EvxZyYYpAOyn88/y+YeJGaw
-	mWc5M5uYVhHe3d/75nkku3/8GGGQCqvbGroKjFRzbdOiw96dmMS8wJZepzwOI3+hDwhvMpE5X/I
-	yaZ4AVyTxu5mTvHKDFynpT8trhlRhSWZ/D7tvCBm+VM0g9uWBTYFORs6g1bEp32+MN80aEc3GKb
-	xg28XRKXO4cemLgI8JzghwmmqbrU68OfWzT8J+U2J3eqWOjADWtMQZmCFkVtGWeV2FRwVJaJFhf
-	N76mc1nNbQseVLfofcCYlmrKqilSSo0ANGDcZ1s+hmVS+wj8QXCgVwfMbQOdO7SZQbU8JXTfcbv
-	CFKw==
-X-Google-Smtp-Source: AGHT+IF1vN7HT36zey49ZEbRrWO4fa06Ex/wR33zWhhQXlp86FpsFXiY/mB0hsHLpGg2OthL7HWsng==
-X-Received: by 2002:a17:906:478f:b0:af9:8d61:2651 with SMTP id a640c23a62f3a-afe28ec535emr1937046766b.9.1756391081186;
-        Thu, 28 Aug 2025 07:24:41 -0700 (PDT)
-Received: from [10.41.150.230] ([77.241.232.9])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afef7489f8asm44327966b.69.2025.08.28.07.24.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Aug 2025 07:24:40 -0700 (PDT)
-Message-ID: <a9c40b7d-d70d-48fb-b4a0-deb773969936@linaro.org>
-Date: Thu, 28 Aug 2025 16:24:39 +0200
+	s=arc-20240116; t=1756391848; c=relaxed/simple;
+	bh=G+AVTy1vDdnOeJbR9IhgCKJEJpxTokEnypzVLxIa0qQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=pNvY/UDGmAkWCLsXiq3TEJNYJMJZt7YEnBr0XWV8nfuCfHiz+N1zrs7lRyT3OGOuLi0jVd72CUWAdk30Ag5nmPzEAOdvqc56h0mVkXJlNjDdTaXFVCFioSxgysHXM4IiMl3wsvJozZQ6k3QlurlZmZTVb2SiaCnRrcu3US3S8S4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=c1Shky4O; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57SADvNK007072;
+	Thu, 28 Aug 2025 14:37:21 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	vM0gl45U//z8TqxpTBqBv5QW6RDnwLC97NaQbNPFhFE=; b=c1Shky4OHu2NputS
+	lfo8R/qmSu15zZL/YNqIA3krG0XT5sSSL/0mllVYm7x+G+i2crho1oMAkW8+UyhI
+	8R2r/bteP/mkyPJQXBqJ2NKHR9yxPcvboFG08I+lvI10myNK6YgrSjtCivUuHHHw
+	hQBx18z3ZeQoTmywb28J3HmPs1YhM2OZgKDr+db7NW9cm11T3Fd5RFHUegmOw5hh
+	Ck+nBh6cSAqzQzKKwZv1sapyUYdssxyIRDCUKd8jBxLKpggUtTxT3vCD2zYiDJM7
+	t+GK/afSFesaHd8DQzK2rDtUh+ex033W0qA5fikJsrzMURQrCVCy2EJV1CD39eLP
+	Bvo9Vw==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48tn67gpkc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 28 Aug 2025 14:37:21 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57SEbKSU013926
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 28 Aug 2025 14:37:21 GMT
+Received: from [10.216.32.160] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Thu, 28 Aug
+ 2025 07:37:17 -0700
+Message-ID: <8db7d699-d3f3-48cb-27c9-fb3639aeec9d@quicinc.com>
+Date: Thu, 28 Aug 2025 20:07:13 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
 Subject: Re: [PATCH] media: dt-bindings: qcom,sm8550-iris: Do not reference
  legacy venus properties
-To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, linux-arm-msm@vger.kernel.org,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250823155349.22344-2-krzysztof.kozlowski@linaro.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-In-Reply-To: <20250823155349.22344-2-krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Mukesh Ojha
+	<mukesh.ojha@oss.qualcomm.com>
+CC: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Abhinav Kumar
+	<abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250823155349.22344-2-krzysztof.kozlowski@linaro.org>
+ <20250825113734.iekrgyvctamhb5y7@hu-mojha-hyd.qualcomm.com>
+ <a3325bf1-2a3f-416a-ba2a-4fb1e9f85e61@linaro.org>
+ <05d40a3b-cc13-b704-cac7-0ecbeea0e59d@quicinc.com>
+ <46f5d11d-8bed-4d01-9151-35a24cdacfa5@linaro.org>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <46f5d11d-8bed-4d01-9151-35a24cdacfa5@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI4MDA4NSBTYWx0ZWRfXyHFTFbBVnlQi
+ Pun4m5B9Sylnu0H3Dl/eVk7AKyDSpUKymN/iH6gMdxozClUT6CWievHDgjp1EBdD7RazhJlMwet
+ fnrxMKD6HIf4Rbqj/ht9xlKKF7cbOzQIyl/D/V8Hne0WxqMkSmos+bnxs1MTEoZQxAINMHEXG0l
+ Y183ucvZ+hco6wXI8NDJshO6y5jISZ9NG/tGRG1bEVU3f0WxEZKHZGA1rm0Mu7jDp3SW0+sE21w
+ 1TlFoc3eadAvyhGu+mEGLfszoB6Ne1x/wn6EN04O19v/O6D9PR/bkJzEAvCKd5duLDpHEoYGFEh
+ kHUgJhDDU23avV3t1wUfDSY7k9JG0IE6LSorty2Y+yESukMbVcsyEYAwFclt0voIwPg8db2DWmm
+ 4GBJiFlx
+X-Proofpoint-GUID: Kqk2F3ozll6P1eQ7kCZEaAbQhssoW4pT
+X-Proofpoint-ORIG-GUID: Kqk2F3ozll6P1eQ7kCZEaAbQhssoW4pT
+X-Authority-Analysis: v=2.4 cv=P7c6hjAu c=1 sm=1 tr=0 ts=68b069a1 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10
+ a=6Nl9TJtETMbUvoDUwZAA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-28_04,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 bulkscore=0 clxscore=1015 impostorscore=0 priorityscore=1501
+ adultscore=0 phishscore=0 malwarescore=0 spamscore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508280085
 
-On 23/08/2025 17:53, Krzysztof Kozlowski wrote:
-> The Qualcomm SoC Iris video codec is an evolution of previous Venus and
-> it comes with its own Iris Linux drivers.  These new drivers were
-> accepted under condition they actually improve state of afairs, instead
-> of duplicating old, legacy solutions.
+
+On 8/28/2025 7:27 PM, Krzysztof Kozlowski wrote:
+> On 28/08/2025 15:49, Vikash Garodia wrote:
+>>>>
+>>>> Whether removing will not break any ABI as initial binding enables the IRIS
+>>>> related code to use video-firmware, now we are removing it.
+>>>> I believe, removing binding always break ABI ? or is it depend on driver
+>>>> code not using it ?
+>>>
+>>> There is no single user of this, out of tree (I briefly checked) and
+>>> in-tree, so there is no ABI impact. I am changing the documentation of
+>>> the ABI, but there is no actual ABI break because impact is 0.
+>>>
+>>
+>> My understanding here is that the interface "video-firmware" is already defined
+>> in the binding. There could be possible out-of-tree users of it, might not be
 > 
-> Unfortunately binding still references common parts of Venus without
-> actual need and benefit.  For example Iris does not use fake
-> "video-firmware" device node (fake because there is no actual device
-> underlying it and it was added only to work around some Linux issues
-> with IOMMU mappings).
+> There are no such.
 > 
-> Stop referencing venus-common schema in the new Qualcomm Iris bindings
-> and move all necessary properties, except unused "video-firmware" (no
-> driver usage, no DTS).
+>> possible for us to look into all of those out=of-tree users.
 > 
-> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> ---
->   .../devicetree/bindings/media/qcom,sm8550-iris.yaml | 13 ++++++++++++-
->   1 file changed, 12 insertions(+), 1 deletion(-)
+> We both know there are no such so you claiming "maybe not possible" is
+> quite misleading. Qualcomm does not use it and that's the only possible
+> case. We can verify it and I did verify this.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> index c79bf2101812..320227f437a1 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> @@ -26,6 +26,9 @@ properties:
->             - qcom,sm8550-iris
->             - qcom,sm8650-iris
->   
-> +  reg:
-> +    maxItems: 1
-> +
->     power-domains:
->       maxItems: 4
->   
-> @@ -45,6 +48,12 @@ properties:
->         - const: core
->         - const: vcodec0_core
->   
-> +  firmware-name:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
->     interconnects:
->       maxItems: 2
->   
-> @@ -69,6 +78,9 @@ properties:
->   
->     dma-coherent: true
->   
-> +  memory-region:
-> +    maxItems: 1
-> +
->     operating-points-v2: true
->   
->     opp-table:
-> @@ -85,7 +97,6 @@ required:
->     - dma-coherent
->   
->   allOf:
-> -  - $ref: qcom,venus-common.yaml#
->     - if:
->         properties:
->           compatible:
-Reviewed-by: Bryan O'Donoghue <bod@kernel.org>
+
+there are no such known to me either, maybe i would take this as a sufficiency
+check to drop/deprecate an interface.
+
+>> I support such cleanups, but also need to understand how this is not an ABI
+> 
+> You are just making up fake obstacles.
+> 
+> 
+>> break, just that there are no in-tree DTS user means no ABI break ?
+>> Would appreciate if you could point to any guidelines if my understanding is not
+>> correct, i am currently referring to [1]
+> 
+> There are hundreds of discussions describing this and I am not going to
+> do your homework.
+> 
+> In none of other qcom media camss/iris/venus patches affecting ABI you
+> raised that problem. Even remotely, so I cannot understand these
+> questions here differently than just spreading some sort of FUD over
+> this patch just to keep that broken video-firmware design for future users.
+
+As i said earlier, we can find alternatives to video-firmware, its fine. I am
+not bringing this discussion to support retaining video-firmware.
+
+> 
+>>> I am really sorry but it seems you ask about basics of DT, so please
+>>> first get into docs and other existing discussions.
+> 
+> Again, read the docs and existing discussions. I am not going to do your
+> homework.
+
+The doc i pointed earlier does not capture any such case, hence was requesting
+you to point any doc.
+
+> 
+> Best regards,
+> Krzysztof
 
