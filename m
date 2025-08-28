@@ -1,91 +1,80 @@
-Return-Path: <linux-media+bounces-41267-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41274-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AC3DB3A5A9
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 18:09:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC49DB3A5BB
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 18:11:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A69F5E41E5
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 16:08:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5B2921892B48
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 16:10:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CADF6298CC9;
-	Thu, 28 Aug 2025 16:08:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA8D4256C6C;
+	Thu, 28 Aug 2025 16:09:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gAJdjTK2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SuS1wiSQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB89285065;
-	Thu, 28 Aug 2025 16:08:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBC9A2522A1;
+	Thu, 28 Aug 2025 16:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756397298; cv=none; b=GaL5WQ5IUtYB0myCIoSvjXbH8sGvd+2tc+lWGA7l2QNWVTKpOMVgrLYa6SQdyPrQi527xxpygoqPJsW9dlgkTnjlYDqby7daltFe3fIGWPzuz6PlDtVL/Pp0+In2kr3UAyXuFtTS1LXXacomHZEXqv+9w97lit4V0yk8U701veo=
+	t=1756397393; cv=none; b=kIytx9bgOkeHDeQv9rGCU869bGzN572NrT8BR2sgH4GpIOvxFUmLRQgy3SWZTXykkU/mV6aN13R3dFDuoyvLTYPSy5wEvQBSS16w+V6DyWfPqdOMA/l7aGI0TXq/mpLqkpZLzwhBLB6QhaKZK6ISog+6kAr1GJRsyMAuGKIzqNM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756397298; c=relaxed/simple;
-	bh=chl2pglmKuX5THNV4UczW2DfJ8GWxqeVOVktQ94bii0=;
+	s=arc-20240116; t=1756397393; c=relaxed/simple;
+	bh=DJV4nOIO3nuYh+b58vU1ix9mpvZ2wK7fZXE/eeHyXPQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VQ0iPO2urATIExs855kEOTD9zwSXSsLJle8XRxFdrgWRsGJpzB+JLUVZzcKAj7k8tgs7AaB8chpWyl2816H3is3dsVUmAju+3Bxvv3z4F8jH0IB6UkZdONEpAu00MwmXP4gWs8YDHAk18kFW9grbsB6AUMgtR5iHCZWtvLBs+78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gAJdjTK2; arc=none smtp.client-ip=192.198.163.13
+	 Content-Type:Content-Disposition:In-Reply-To; b=PSQLVvgRatawLUPW4goV4tCen0avf/c54OFajJcJko7jP5l7cgZVwyZEcc/DYhasWE9eKjJrBF+a1arH3IsOqOrYjoy2jPlYBFJxh5XUGN7Wu1sxE8vySdCWxoJIV/l8a01iDpgzBQ0i0QYS9toICk7dWnUPB3xXiRYv6wEFifE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SuS1wiSQ; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756397297; x=1787933297;
+  t=1756397392; x=1787933392;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=chl2pglmKuX5THNV4UczW2DfJ8GWxqeVOVktQ94bii0=;
-  b=gAJdjTK2tyJp6Kma2k1Gwzx4+iEoaX0M/3jdWjpdQMnMqubZ4p5sh787
-   0VrCZPUdTjTy4wCxJjdnxFUB7nydPkaYcW6LnJVJCsFJUJqgUcIH6c4Jh
-   B3tct9fp7EbQpPuhdc9UjML68BgqpGQTBqy7O8SMvUWlqe/WW7XAd9Sdn
-   47rGfOQ7QH0LASk6pQ19nlR5FW0nGOEHAfwANf9Z8iIYBmqglX0ch5o4h
-   5y7kfa1UPL0uLVq6ffzkiFNRtjeLVn+1BzGR5Ffyfphlbm0nnoo8pcgvH
-   APY69hKJOxb4JIFOJ5CKgF7kSEkAB7LlKd7bFYVH68l/kb2hIgG2qMacZ
-   g==;
-X-CSE-ConnectionGUID: wQklFKzrR1ulYeD3orhqjg==
-X-CSE-MsgGUID: C7YqnZdMRWaslGcvh+dypA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="61306461"
-X-IronPort-AV: E=Sophos;i="6.18,220,1751266800"; 
-   d="scan'208";a="61306461"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2025 09:08:16 -0700
-X-CSE-ConnectionGUID: 6NXhRMzqTDaxYPKfnPew0g==
-X-CSE-MsgGUID: d3UIs7vBS2q49mxX4Zsurg==
+  bh=DJV4nOIO3nuYh+b58vU1ix9mpvZ2wK7fZXE/eeHyXPQ=;
+  b=SuS1wiSQUDVn9ybRjmYasxaMlod5UANlU8WtJVtqxaFP273HMyEBJpWe
+   uX+S1oVjpK+wt42JWha7BfFDs/wecSM0CXbgL+Mhk0cZ3RtlSI9ck2mPT
+   doItWajHcjj6RQmqcSY0ZVzmA3B+V5zmayuoFDyBbtC0rASG8NkuX++0B
+   8CWvvNKtfRROaJRSgLHS1oVC7u0nkglTD4FQwredWKwHSMqd981UbZ2pC
+   gppDaJjq00WQLjidirbWuCwEjJ6SvQtF25awou/DGthSgWAoSVND7dZDM
+   B6OgQu90ibBrfS1hxdCFFb3iNx3/tU3KeHd5V+ijWsAILHMqvR6IgNLRy
+   A==;
+X-CSE-ConnectionGUID: pxQA7LywQ6W0EvR6GCUs3A==
+X-CSE-MsgGUID: yT6HW2ptSkahllxQbyiZ1g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="58598950"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="58598950"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2025 09:09:51 -0700
+X-CSE-ConnectionGUID: PYb5NkQMRASt7Jce8kfFLQ==
+X-CSE-MsgGUID: 42Vi0V64S1qDo6iY6wtvYQ==
 X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,220,1751266800"; 
+   d="scan'208";a="175440381"
 Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.135])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2025 09:08:11 -0700
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2025 09:09:50 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id ABFA411F9D4;
-	Thu, 28 Aug 2025 19:08:08 +0300 (EEST)
-Date: Thu, 28 Aug 2025 19:08:08 +0300
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 305AF11F9D4;
+	Thu, 28 Aug 2025 19:09:46 +0300 (EEST)
+Date: Thu, 28 Aug 2025 19:09:46 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
-Cc: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>, Rob Herring <robh@kernel.org>,
+	Tarang Raval <tarang.raval@siliconsignals.io>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Matthias Fend <matthias.fend@emfend.at>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Jingjing Xiong <jingjing.xiong@intel.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v8 0/2] media: i2c: Add ov2735 camera sensor driver
-Message-ID: <aLB-6GsY-OiCZi9I@kekkonen.localdomain>
-References: <20250821143126.319470-1-hardevsinh.palaniya@siliconsignals.io>
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v4 0/2] media: i2c: Add OmniVision OV6211 image sensor
+ driver
+Message-ID: <aLB_SnOcAeCndNcf@kekkonen.localdomain>
+References: <20250820224541.130229-1-vladimir.zapolskiy@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -94,16 +83,23 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250821143126.319470-1-hardevsinh.palaniya@siliconsignals.io>
+In-Reply-To: <20250820224541.130229-1-vladimir.zapolskiy@linaro.org>
 
-Hi Hardev,
+Hi Vladimir,
 
-On Thu, Aug 21, 2025 at 08:01:11PM +0530, Hardevsinh Palaniya wrote:
-> The Omnivision OV2735 is a 1/2.7-Inch CMOS image sensor with an                 
-> active array size of 1920 x 1080.                                               
+On Thu, Aug 21, 2025 at 01:45:39AM +0300, Vladimir Zapolskiy wrote:
+> OmniVision OV6211 is a monochrome image sensor, which produces frames in
+> 8/10-bit raw output format and supports 400x400, 200x200 and 100x100
+> output image resolution modes.
+> 
+> At the moment the only supported resolution in the device driver is
+> 400x400@120fps (Y8).
+> 
+> The driver version is based on top media/master, which contains a new
+> devm_v4l2_sensor_clk_get() helper.
 
-Have you run v4l2-compliance on this? Could you do so and provide the
-report, please?
+Could you provide a v4l2-compliance output on this and the other driver,
+please?
 
 -- 
 Kind regards,
