@@ -1,392 +1,293 @@
-Return-Path: <linux-media+bounces-41232-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41223-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 276DAB39800
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 11:17:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73C34B3978F
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 10:56:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E308717BF70
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 09:17:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D5433B2242
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 08:56:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F100A2C15AF;
-	Thu, 28 Aug 2025 09:17:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F00CE2EB876;
+	Thu, 28 Aug 2025 08:56:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZVeDCsU7"
+	dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b="aWo8gvC7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2055.outbound.protection.outlook.com [40.107.101.55])
+Received: from TYVP286CU001.outbound.protection.outlook.com (mail-japaneastazon11011037.outbound.protection.outlook.com [52.101.125.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F06C426D4EB;
-	Thu, 28 Aug 2025 09:17:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1E551C01;
+	Thu, 28 Aug 2025 08:56:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.125.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756372669; cv=fail; b=u7JosGsWzt8NMMk+JzI0L12oMLN5pofge6BAUfloOBEsnUdrGEr0TFkpS/gwr3BFRz/ZL0UB4U60riU7xFQ8XpJbEsZECL9vyIDTZMlLtuS61pBlkQPLiJ2I6tZNf+jeem3RzvKfivI1CssEOgQiu97dFDb2sCc0XE2fVBIoL9k=
+	t=1756371370; cv=fail; b=nqc4T36lbp5IrLL3mNNhoQjkOb+Q3A6PhmL/racbXC7bCbcXesfVN7sMu5NEZ2Hr1XEBv8ZaZm6/YkkUanogKVi2LLBKgdFfBhZheEbolWIJRMe9ZqJNDxypRlISBgZWOt0zL3sT+Zc0C5DF9inNdYpliDvDrgBbXy11bWgWnBY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756372669; c=relaxed/simple;
-	bh=urtqQysZ02JmxXHaMNZYLoUPK5OsX/kpkCdn+GbEEMg=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=bLJDtpdis8DZxFoucSBwE/QiThriJ2fr0c2k3jn4thCkNbMRBACbCHR4Q2TBdIfcTcnJW0I6HNAh+tcyKgvaYNas5f8iV/h2rrsruD9mZ59sSKe+CiRx58cX2zmkFbA7eJnGnqjcZNYzOMaSnh0Mlb22Cx3kUlVJBJpCSqdpXMw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZVeDCsU7; arc=fail smtp.client-ip=40.107.101.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1756371370; c=relaxed/simple;
+	bh=ZSnYaaWu8n373/NVTdltTJGcy3cyNIJcdY9rT78a948=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=kCgpfRay1f3o+LkP3kc+1uEDJ1qYOLdxFqWek992ygo5bgQWWrlP4YTG2O76DW2HZjuyyKARSt9w0l4qJLWlkCbi+yasWRwWfCZ6NEFQrbRVQVD8061rJ3Cj5sBu8fNbcwJHMi9GVU+/Hr5/0dZZazecBpe8b4JuTJGX6jY+ZbM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com; spf=pass smtp.mailfrom=bp.renesas.com; dkim=pass (1024-bit key) header.d=bp.renesas.com header.i=@bp.renesas.com header.b=aWo8gvC7; arc=fail smtp.client-ip=52.101.125.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=bp.renesas.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bp.renesas.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Lc0nzR4q718+9FAmdaQa3RsU2xQN3NZ8Wg8f5f3S8xfTCoOQeM/kaHCubAPJTlvjQEnk3gXk1nqUXnFn1fqlEpxCjFErecCubJ5OHzgJIKs2pdQulTF/krHY+Jrxu1X6Cjv6k9FgO+dl/cXURY7C3CAQu8vE+DJrnbGFoEtvwM2Sf/Q++HgCgBr0R42RqDsuWz/ArgeNElNgNPPrEwestyFx7Dq9hwkRLVZp+Sot1p6/YxlAmMgJ06c6A2jKRWPLKtVLsYLi0rgX4O+FuGpt57fWfBwepFx3Rgco+NtqA4kQmrhDBt52sUD6OvQLt6rnbp4qQCbLcBH/tY/8NagjNw==
+ b=nm4pENc3GqF+UpVAWevIvnYT87CvPGT5W4ToR635camwlub81kfgxRYIEh4RL5hj9Dk+cnWZSsDMGuR5hZQTN8LYc48Ra1Hco+Xy6Fiuv3JMk8EfgRm+zhRBE5ZAifUBNGQm8DyRUUGnrbOdfjr82t7ZzdeGtMng6fn9HfnNlXQ+sdn8pHp2Uaiy+3f3aC7eeFRtOlZ2YDEL4zxGXMIuicEsW4yWj3txfXnwqVZctxrsOrunwlZt1+J+2/6yz6fOver3EDnb/bK5g3X9YFlX+EKcTiGKpAmGi4WdU3yrPKU/B5S7n3gSYQl2e7u5u+ou/StJ8I59c/ObEOzC46a6tg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DLxVZ3sJvbVJ7+yBPnAEUieQGTrl5VIy0BJ5vQ1cSvY=;
- b=YbQgVpWksfz+h68Cmi3XbJmimxJesGyYoyk4fR9Q/9mZuL7r9STJxEY5tKgafZc0rx/CesnplEnkz58wl3CL4a1m3PrJ4KfewiICrYiq/PrBj7qOjH53TvcKaVtioq0A39KEthl/PaAkczsRJ1JkdNJi7XC20ymZhdbAkaxr8cv5pVpm3WfuH3V29aXg6Gfcx0OQlkoKyvQ4p2oshShfVMDFeYenpGwiuky60zMZxV5AyclnowJeGfaKI9BUWCr2RvblqdG1U2wLx/f8bYV5qXlFf6ystRmnwk7xSuG6luMbQ6YOWz1yH9vBp+B8+WbJYQI4tKMux4XWAP98/kr37Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=ss65XgAEnTrpSU9hXyTNyEXe2YO+csQ5yAn4ExdPAgo=;
+ b=VvD8/5nAhlQ335WaG4SD8U0MQ+ikM/8mGIYbGlBm7cFtxv2as1q5OuDSKxaKX9dEWrI1/5PajFFzBxco1k4fxLzO/jE55eXqZ8gt1wXW5tx7U1dLGcQMxSl6r9KT2WHTskcW0UmdmdqZWXHh98pjFmCZ6lcchty27z0OUDfvP1Dzud2NxZkjwIbwbdjV/MtZlfn9hA4nKWYo+uhbxoaBds6PxG3kFej0OoWxZH4y/7icuTPtkEiyVhxgFmgMci8r0ugn84r5La7CJZ+RxlhtsgCitKfSeNb4vxCFBXslPJGBO1I9AchmqFW1loFGYNtOSaGNPWN6RR0I5unl2QeyJg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bp.renesas.com; dmarc=pass action=none
+ header.from=bp.renesas.com; dkim=pass header.d=bp.renesas.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bp.renesas.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DLxVZ3sJvbVJ7+yBPnAEUieQGTrl5VIy0BJ5vQ1cSvY=;
- b=ZVeDCsU76VExz5vdNKf6B9LTLYYbxzQi4CewcnVXkNKWFpf9qSZX6oSImfNinLBOeHeNiZWf9A73hG0pl57W/sVWSdI8MCpSs2f6K5U9TQB9CpGQjIz9ATziRiiiisr1RDxg9QgRwy7Xz/OJwfQtMkWYZCkxTzmtfobVsleAf9Q=
-Received: from CH0PR08CA0008.namprd08.prod.outlook.com (2603:10b6:610:33::13)
- by CY5PR12MB6298.namprd12.prod.outlook.com (2603:10b6:930:21::7) with
+ bh=ss65XgAEnTrpSU9hXyTNyEXe2YO+csQ5yAn4ExdPAgo=;
+ b=aWo8gvC7SYZF5IOtPFUI1oT0fj7rfkCx3/Tq69lW1LRchywhiCaHwpje2nqG95xE8u3exe06SiYPCof1pVPuM+XZ5EukFlclYaLlhWnqBbnABIOa36K9uKqkvgcEP1iSZ9reptJYK/qiYnHHGoyGGoDHm0VKkaZlVRtCNmUmbfI=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bp.renesas.com;
+Received: from TY3PR01MB11948.jpnprd01.prod.outlook.com (2603:1096:400:409::5)
+ by TY3PR01MB11005.jpnprd01.prod.outlook.com (2603:1096:400:3ad::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.15; Thu, 28 Aug
- 2025 09:17:35 +0000
-Received: from CH2PEPF000000A0.namprd02.prod.outlook.com
- (2603:10b6:610:33:cafe::f6) by CH0PR08CA0008.outlook.office365.com
- (2603:10b6:610:33::13) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9073.18 via Frontend Transport; Thu,
- 28 Aug 2025 09:17:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH2PEPF000000A0.mail.protection.outlook.com (10.167.244.26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9052.8 via Frontend Transport; Thu, 28 Aug 2025 09:17:35 +0000
-Received: from Satlexmb09.amd.com (10.181.42.218) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 28 Aug
- 2025 03:45:29 -0500
-Received: from 555e2b870847.amd.com (10.180.168.240) by satlexmb09.amd.com
- (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.10; Thu, 28 Aug
- 2025 01:45:24 -0700
-From: Bin Du <Bin.Du@amd.com>
-To: <mchehab@kernel.org>, <hverkuil@xs4all.nl>,
-	<laurent.pinchart+renesas@ideasonboard.com>, <bryan.odonoghue@linaro.org>,
-	<sakari.ailus@linux.intel.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<sultan@kerneltoast.com>
-CC: <pratap.nirujogi@amd.com>, <benjamin.chan@amd.com>, <king.li@amd.com>,
-	<gjorgji.rosikopulos@amd.com>, <Phil.Jawich@amd.com>,
-	<Dominic.Antony@amd.com>, <mario.limonciello@amd.com>,
-	<richard.gong@amd.com>, <anson.tsao@amd.com>, <bin.du@amd.com>, Bin Du
-	<Bin.Du@amd.com>
-Subject: [PATCH v3 0/7] Add AMD ISP4 driver
-Date: Thu, 28 Aug 2025 16:45:00 +0800
-Message-ID: <20250828084507.94552-1-Bin.Du@amd.com>
-X-Mailer: git-send-email 2.34.1
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.13; Thu, 28 Aug
+ 2025 08:56:01 +0000
+Received: from TY3PR01MB11948.jpnprd01.prod.outlook.com
+ ([fe80::1de5:890d:9c69:172]) by TY3PR01MB11948.jpnprd01.prod.outlook.com
+ ([fe80::1de5:890d:9c69:172%6]) with mapi id 15.20.9073.014; Thu, 28 Aug 2025
+ 08:56:01 +0000
+Date: Thu, 28 Aug 2025 10:55:48 +0200
+From: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Biju Das <biju.das.jz@bp.renesas.com>,
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Subject: Re: [PATCH] media: rzg2l-cru: csi-2: Support RZ/V2H input sizes
+Message-ID: <aLAZlDIsdVn3JWZD@tom-desktop>
+References: <20250826-rzv2h-cru-sizes-v1-1-dbdfc54bba11@ideasonboard.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250826-rzv2h-cru-sizes-v1-1-dbdfc54bba11@ideasonboard.com>
+X-ClientProxiedBy: MR1P264CA0195.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:501:57::7) To TY3PR01MB11948.jpnprd01.prod.outlook.com
+ (2603:1096:400:409::5)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To satlexmb09.amd.com
- (10.181.42.218)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF000000A0:EE_|CY5PR12MB6298:EE_
-X-MS-Office365-Filtering-Correlation-Id: 95ebf81c-804e-46fa-3eef-08dde613ba04
+X-MS-TrafficTypeDiagnostic: TY3PR01MB11948:EE_|TY3PR01MB11005:EE_
+X-MS-Office365-Filtering-Correlation-Id: 057750fe-018d-48c1-6cbb-08dde610b6b1
+X-LD-Processed: 53d82571-da19-47e4-9cb4-625a166a4a2a,ExtAddr
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|82310400026|36860700013|1800799024|13003099007;
+ BCL:0;ARA:13230040|366016|1800799024|52116014|376014|7053199007|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?U6o4IHgUzy0r73XbF0EvFdCwL5k0qMLMK7EA+1+exSy6nv2xA+QJcK6W8Eom?=
- =?us-ascii?Q?krtTIPZdW5WiqRuLCN5WqN6uaTm+lL8y+S2FIaf1p005kepu2l3BXlOjoIP9?=
- =?us-ascii?Q?KgcpXYojehO88JA2b2LY75s5U+LEQDgzA9bsbMEATxehoizhfLFd+2dnqr31?=
- =?us-ascii?Q?K+zwj9ZczjZrrnekZtGASk7lEhtlMbYA8Pwrs5eGGH8vBrofX6Sv4CrXUsgP?=
- =?us-ascii?Q?Bbm06x4rA42DY65evJsrwdYMsi/tWeidBqaJVI5mFPdTSG3zCUI443E0jSqZ?=
- =?us-ascii?Q?g8xyeMiEpr9ffVQND9IKGj251bVx9vCxla1Mkf3ndYLbW8YytiZjAGp3aU4J?=
- =?us-ascii?Q?PhRGCivmMZLHrb3mUk1YB60fWmlhy1rD8MgaWs46gTLSo92KRO0yMp01ze2s?=
- =?us-ascii?Q?2x/BwuR+fzuGpmk69hXw5CWh5CcunwUrmU29MEzhPrHXNkY2w2VqCtX5VfNQ?=
- =?us-ascii?Q?TvJeR/YUZu93+bYh1ZlEucwkixYBXirXgQPyZTVJWwf34FNtwt2S0SyYhPOk?=
- =?us-ascii?Q?AP9os9C++wX7VsRXAprSS7lNRwi8lU9QslZ6YaRJtWHztbtAhad0tNpZayvh?=
- =?us-ascii?Q?Isql6/gVdVJOLYxHQhwFMLitPr5X93r7+dG0Zs2l2IeoDcSqE51LI5ffK4R9?=
- =?us-ascii?Q?R3YiuxeCvm/E3zgcVMqe6L43lVeKOX/rEYc+yHqopxKi7rkKmH/RJOlTOs5D?=
- =?us-ascii?Q?2Q98k/8ijBn6Xy3iFjIpowXU6+aGPDXwJef+cULoHlJsY9rjaLVwN/mhCKZi?=
- =?us-ascii?Q?ljmJseKUskzdXoF7/2QuKnB4W7Q/zIQ0AZqPPV+rRmXfqgk35ISm9L1KkcBh?=
- =?us-ascii?Q?v8U5z+JSbPjnOkg1ILatKRw1fHA1dWyFHISQUwFEUNLv6JhT5jwOqPAIIKJq?=
- =?us-ascii?Q?zM42lJLcmFqCa8hjqCQIUEnZXVdmRQD8ILIqeRCQbVlkUDSBuEcvgVdgSyj6?=
- =?us-ascii?Q?yHqgNUYU5oF6A9GoHlfb8FX43+cIs+e0NGGqjy5kvN2doDwfdHsMEpKcY7N5?=
- =?us-ascii?Q?n0qJ8LKTFgJYfz8RfvsCeLASDsWD+EXlrMToeCafFnFCHYvE0Ws0Y227564k?=
- =?us-ascii?Q?ovC80BFE7c1ef90RbSEAEEs11wPvbJLzZnLmMp8LqcL6QX79/MghQB6ZgB4L?=
- =?us-ascii?Q?T9Db5I96fvhURPflVyGeMJPbJO2dOrmPSm5yYk8f8B4yodifT23+eLP1EE0G?=
- =?us-ascii?Q?84Zhe5kpghqghgNu1lf9y3U9KTJe+Xb4hf9X90gXwlc/d6mD2Zd+9vBIyJqd?=
- =?us-ascii?Q?9VN9aZNhi55i5SBPxc9rzkJfZ9kf3A0w//lKIHPGTdxPijvjbSmmXTZrtOPP?=
- =?us-ascii?Q?EnppyNUQbAfWK3preuvJLQAGFduv1J5o7bJ0fAqpI/lJgk0BBcnMnafXF9As?=
- =?us-ascii?Q?1V/oJCkeeOKWpeHxDIvWdNCXqrl0JoraTiRzdHoevZa6jMjzd8om7tb313Yj?=
- =?us-ascii?Q?hscZYy5IeMjH6kh+CFdTVQVpxPEiJc60trsE1dppHcoucvMMjizMXw=3D=3D?=
+ =?us-ascii?Q?0RwTYLwvpJE5ivmFQqhBYLMNdVPgxhVm5rtgFS+apQbxlkVuEmzEynN1uApl?=
+ =?us-ascii?Q?DuUgTOehXed/TE41yc55H9KK4Pvne0MJ+0c+P3yF1Ku4FCn8S4KxATlDXxxY?=
+ =?us-ascii?Q?VXb4fIy5Hg/NOs3NKJYnrbSr/rSbNKAxJs3P9iLedYA+Ea4kT5gEOetWhPHH?=
+ =?us-ascii?Q?sU6NcCUMkFWxvoUqJ8u9SwGWGOI1OlJpspE9jZoGXeSUYiPDlk+YI1VaaivG?=
+ =?us-ascii?Q?M2/1ek8XrzZVoSkO+usWKab1KokYUJOJ7d04SrYgHCTOYGMvwQtRgN+tIsBZ?=
+ =?us-ascii?Q?vDUIng4jrqIdcOVF50s8zNxhWX+8lur7oZNeFFge9AFcgZBnNL6doW5+PHKD?=
+ =?us-ascii?Q?2gNe9oc5/z9KGA6w3OGTIYGY1f0URZjDK2VSgHiCtFKAOJdW0PK92xnvobao?=
+ =?us-ascii?Q?0nrsokGSGLSpUqUdvGrDkN5n2qyuxM6Z1F6SVAWsSwKrBhJQI1PhJ6sf5rUL?=
+ =?us-ascii?Q?bCb1mZFSsN8yIVHv4hvi48+Rjfv7oHS8CRFKUo+e6AR5eUAVG34Uj+IQIz+e?=
+ =?us-ascii?Q?QiJNJme3cGWQKfCe9f2lsfQ3J2ghivQqz25dO9fNLjrahN1XUgsVtht+qZSu?=
+ =?us-ascii?Q?5bi1Ase5aBxtLDNGMMjBOco0WwCTtAc/Pv63Jsk9y0ayMzRFCD6rADP33F08?=
+ =?us-ascii?Q?RenQAALtMG/JobSL5yz2UZD/9+ciQf19CESNDKwAuFdV+utqWhRp0Llf+73p?=
+ =?us-ascii?Q?GC+bwBPMv/zDRifoz86liVdjds3HBe+YnQ6saJ+g2TYg2Ysh/+Ph6VLIgSYg?=
+ =?us-ascii?Q?GKI7wfJcY+qLYZANZNqW/CYx1GJ0z7F0Z0L6sc1f/TvenjQ8z8m11oeyPAqo?=
+ =?us-ascii?Q?66pOZA4GyGnQer+WgKymMAv7RS2FVZVm+ijQ/WWCufD0hKsQnklnr+8SY72D?=
+ =?us-ascii?Q?P/wuatuu4z6rWrA+lOKplgVfmPIOwOJ2ZxesCmHt6MCX3D+nSlNe3QVAIC0t?=
+ =?us-ascii?Q?hTuQaoCyQNBFbm6AxS0D0Kv04wK0oGNnzXVlg2tqEuvN9S0bSLXOzptaev2X?=
+ =?us-ascii?Q?unbKU/WoPFna5Fi11q7noyjLHJkm6IlVBIvjb6Yp3aM6FfSAmzblZGxrHuvD?=
+ =?us-ascii?Q?0INim9J10R5/o8NVxaEmvHVskIeNWUoHGV6X/ybpcewLYPqUtAydo1LQgH/B?=
+ =?us-ascii?Q?f0h7s3lRLQFcvqm0TVIHDAWA5j9rfPM+0diKsx69pJVr44ye4D1y/7YQc1G7?=
+ =?us-ascii?Q?zx4uKUymMUF8R86h+u/wB+KkRo/zzvW2sA2gKSaCfCK+JWZqQMqV57m4UXG8?=
+ =?us-ascii?Q?s5cSVgby5hPYAyvAd8lvbjVjVX/1ng8nBT+AVGoePpz64M+/Ewj7bJpE+FRJ?=
+ =?us-ascii?Q?j6RYfksYp6uU9opcA/9hpgWWOy22v5vePWHX6FrxUu4MJNH00uCvVuFGqyYc?=
+ =?us-ascii?Q?PYLLKcmPnFos6F+U7UTsj4Sg9SMQBVZJdOyDHzXP+4oxA1YwK16tiHSa9YW1?=
+ =?us-ascii?Q?CyIGciOv5D+vqqt51aHrPzxRD2yCQMDY0vZZGA3bae6ltWrCdsiWEQ=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(82310400026)(36860700013)(1800799024)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 09:17:35.5551
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB11948.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?d2xwDLQR1g+YoJZwqk3JSaKSq9Qqokveb1LgkZOzc28oRGzP5Fmsm1nQlQsq?=
+ =?us-ascii?Q?e8eYVR+MO1P9YM2IHG/8oLdIMu6n140tw9D2VUubJANgyBDOcLLvlMctNaIE?=
+ =?us-ascii?Q?rjIv+RKMV++kJuUgW7UfkAJPyvzgRizOMeTKrONaTirf6hF8hru0/K46H0V3?=
+ =?us-ascii?Q?qRkfgELkWrElxyNbBKiruy/8/jmmNwwBxztWTRqKT20QgaHG6VYMa4z56CN7?=
+ =?us-ascii?Q?zE26T2+VHJhz89316rWFIcMNDOVJLnqxRAQ2W2v43txVckK+IvEOJmmEZECl?=
+ =?us-ascii?Q?JQIgDeATkTyX5+v8R0pWRDdS4NIpPW3zQpbFkUpWLfawZ5pUAoEMImd8RLZn?=
+ =?us-ascii?Q?AufcHJHuRcuLv2jd//n7ADA4fNfZf1YMhTvXdBDvLY8Y9eWK8ufAFtnJjBuj?=
+ =?us-ascii?Q?Izo9m4NaE4bn4JWEjgoXIipNCLb3fDK/Pas3aKTD6Bdmbtn1OOahMb8DBz1F?=
+ =?us-ascii?Q?1Lf16jDf4oV5GnOXVz+6Pihj+RqX1JrKE69Zzl1ck/2aH0ZA507YTLQE73y0?=
+ =?us-ascii?Q?Ls2rEZzKd/BaL86oPaTe9YMZw8vzemAX8+mheWF4kT4eMYvX0X/Bm+L/+JOt?=
+ =?us-ascii?Q?c82usnxzJpHLcuU+8rceKEcSPjZBeEkcNGKJojFMN/RNMgIzmgdQqu3+ZnEt?=
+ =?us-ascii?Q?Yd0M5MU4axd4alEVxFPCCUZpGPX+ueOQP8Un8f4JKxqmALvJoaTRCkSr3eSg?=
+ =?us-ascii?Q?Qy4EMSNAFr1AAvVtiInW8aFVmqLtXDZezuiJFkJXrcuziI9xokX8lzVvSIW6?=
+ =?us-ascii?Q?WF6f+IbE3TYN8+ukz8a0McwJqK3oqUCUTC5tt9YjeKeT43i36dqhrNqI98aT?=
+ =?us-ascii?Q?6RiSnnC4scITbh0A+LCYHpPmLwuRSBAtBf6n+pB5a3vWn70q72Lrh2YOCTiF?=
+ =?us-ascii?Q?lgdx/1pBNFVCI/xu0CN7JNBlLeOrrAjc9tUwYHNh9+YJxNR59/zYMDvmuRIj?=
+ =?us-ascii?Q?D7BQEem9tUhcOsdsycrQhLeAEngTq2wyQEKIUC6LE6y56SdmCzyMW4snwcNO?=
+ =?us-ascii?Q?jQAoaXWMJo1NqtYwv9huj5xvduTrMxFZ0nKaG7Df1EHHdZHrR2b5b/DmytxH?=
+ =?us-ascii?Q?x/xONog3AIAZOZNyKSAM8V/VOEQvZHpqs9GjyhJuxHnz/zMP85+zR4RlY5Oq?=
+ =?us-ascii?Q?hsB02C+Y9XwysXTPNOqpvCH1GBlUrBxSELLFA1DmRvR+DbJ9+zInHoaXZIfL?=
+ =?us-ascii?Q?NgpCHBlS8sjhp/kPsnGsPjMoFcInoI+inyKjgqRVUCMdpHDXTn5SUVlICFkE?=
+ =?us-ascii?Q?6QcycCX57TXz2t19T4//fj7ajrafzoXWG+H+cxBddJOMMg8H8TqK0EMD1cTo?=
+ =?us-ascii?Q?XUGrQ3B52Nos9jhLsOQvdDEt3L85surzI9fxZlLQYKwzmB8p6h8iDfGecnDb?=
+ =?us-ascii?Q?ywLM4E8NKBWCO0EHGB3D+oq9Xia5ysU5El4WMuK6kTMO0dYH4DAsRG6IITqc?=
+ =?us-ascii?Q?phwG0IGh5j4Kv5aZ19icyPEWvR/sETWSLhykzz38zoLmXVK6nEx+RYHbC5cY?=
+ =?us-ascii?Q?lyDGZIoTYfX5qFxGvVHvX9UM4/gHhgmPCzrdYKsQwYloBvrU1j5tO9iRNnc4?=
+ =?us-ascii?Q?JSXXMUxRsV/+xLVRw7JcKT6ZiMqf0ms0KHDm7pDbQeeFA1PUMHUkZ+Ri4ukn?=
+ =?us-ascii?Q?rQIAh07FA93ZFBC0eFZgWRs=3D?=
+X-OriginatorOrg: bp.renesas.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 057750fe-018d-48c1-6cbb-08dde610b6b1
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB11948.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 08:56:01.6904
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 95ebf81c-804e-46fa-3eef-08dde613ba04
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH2PEPF000000A0.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6298
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: OVvbKiENxbCwz38OqgR0vV+qinwFZ8r4Rf6P3kIVKw539lPdBP534KbHQE2PAQPnBxx9nCorlKx6f4yE1I/J4ceuARjbbUBYPu9g1I0SvBPs66jvqD2eEZwNgUZiSHnU
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY3PR01MB11005
 
-Hello,
+Hi Jacopo,
+Thanks for your patch!
 
-AMD ISP4 is the AMD image processing gen 4 which can be found in HP ZBook Ultra G1a 14 inch Mobile Workstation PC ( Ryzen AI Max 385)
-(https://ubuntu.com/certified/202411-36043)
-This patch series introduces the initial driver support for the AMD ISP4.
+On Tue, Aug 26, 2025 at 12:31:42PM +0200, Jacopo Mondi wrote:
+> From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> 
+> The CRU version on the RZ/V2H SoC supports larger input sizes
+> (4096x4096) compared to the version on the RZ/G2L (2800x4095).
+> 
+> Store the per-SoC min/max sizes in the device match info and use them
+> in place of the hardcoded ones.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> ---
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-Patch summary:
-- Powers up/off and initializes ISP HW
-- Configures and kicks off ISP FW
-- Interacts with APP using standard V4l2 interface by video node
-- Controls ISP HW and interacts with ISP FW to do image processing
-- Support enum/set output image format and resolution
-- Support queueing buffer from app and dequeueing ISP filled buffer to App
-- It supports libcamera ver0.2 SimplePipeline
-- It is verified on qv4l2, cheese and qcam
-- It is verified together with following patches
-	platform/x86: Add AMD ISP platform config (https://lore.kernel.org/all/20250514215623.522746-1-pratap.nirujogi@amd.com/)
-	pinctrl: amd: isp411: Add amdisp GPIO pinctrl (https://github.com/torvalds/linux/commit/e97435ab09f3ad7b6a588dd7c4e45a96699bbb4a)
-	drm/amd/amdgpu: Add GPIO resources required for amdisp (https://gitlab.freedesktop.org/agd5f/linux/-/commit/ad0f5966ed8297aa47b3184192b00b7379ae0758)
+Tested on RZ/G3E:
+Tested-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 
-AMD ISP4 Key features:
-- Processes bayer raw data from the connected sensor and output them to different YUV formats
-- Downscale input image to different output image resolution
-- Pipeline to do image processing on the input image including demosaic, denoise, 3A, etc
+Thanks & Regards,
+Tommaso
 
-----------
-
-Changes v2 -> v3:
-
-- All the dependent patches in other modules (drm/amd/amdgpu, platform/x86, pinctrl/amd) merged on upstream mainline kernel (https://github.com/torvalds/linux) v6.17.
-- Removed usage of amdgpu structs in ISP driver. Added helper functions in amdgpu accepting opaque params from ISP driver to allocate and release ISP GART buffers.
-- Moved sensor and MIPI phy control entirely into ISP FW instead of the previous hybrid approach controlling sensor from both FW and x86 (sensor driver).
-- Removed phy configuration and sensor binding as x86 (sensor driver) had relinquished the sensor control for ISP FW. With this approach the driver will be exposed as web camera like interface.
-- New FW with built-in sensor driver is submitted on upstream linux-firmware repo (https://gitlab.com/kernel-firmware/linux-firmware/).
-- Please note the new FW submitted is not directly compatible with OEM Kernel ISP4.0 (https://github.com/amd/Linux_ISP_Kernel/tree/4.0) and the previous ISP V2 patch series.
-- If intend to use the new FW, please rebuild OEM ISP4.0 Kernel with CONFIG_VIDEO_OV05C10=N and CONFIG_PINCTRL_AMDISP=Y.
-- Included critical fixes from Sultan Alsawaf branch (https://github.com/kerneltoast/kernel_x86_laptop.git) related to managing lifetime of isp buffers.
-      media: amd: isp4: Add missing refcount tracking to mmap memop
-      media: amd: isp4: Don't put or unmap the dmabuf when detaching
-      media: amd: isp4: Don't increment refcount when dmabuf export fails
-      media: amd: isp4: Fix possible use-after-free in isp4vid_vb2_put()
-      media: amd: isp4: Always export a new dmabuf from get_dmabuf memop
-      media: amd: isp4: Fix implicit dmabuf lifetime tracking
-      media: amd: isp4: Fix possible use-after-free when putting implicit dmabuf
-      media: amd: isp4: Simplify isp4vid_get_dmabuf() arguments
-      media: amd: isp4: Move up buf->vaddr check in isp4vid_get_dmabuf()
-      media: amd: isp4: Remove unused userptr memops
-      media: amd: isp4: Add missing cleanup on error in isp4vid_vb2_alloc()
-      media: amd: isp4: Release queued buffers on error in start_streaming
-- Addressed all code related upstream comments
-- Fix typo errors and other cosmetic issue.
-
-
-Changes v1 -> v2:
-
-- Fix media CI test errors and valid warnings
-- Reduce patch number in the series from 9 to 8 by merging MAINTAINERS adding patch to the first patch
-- In patch 5
-	- do modification to use remote endpoint instead of local endpoint
-	- use link frequency and port number as start phy parameter instead of extra added phy-id and phy-bit-rate property of endpoint
-
-----------
-
-It passes v4l2 compliance test, the test reports for:
-
-(a) amd_isp_capture device /dev/video0
-
-Compliance test for amd_isp_capture device /dev/video0:
--------------------------------------------------------
-
-atg@atg-HP-PV:~/bin$ ./v4l2-compliance -d /dev/video0
-v4l2-compliance 1.29.0-5348, 64 bits, 64-bit time_t
-v4l2-compliance SHA: 75e3f0e2c2cb 2025-03-17 18:12:17
-
-Compliance test for amd_isp_capture device /dev/video0:
-
-Driver Info:
-        Driver name      : amd_isp_capture
-        Card type        : amd_isp_capture
-        Bus info         : platform:amd_isp_capture
-        Driver version   : 6.14.0
-        Capabilities     : 0xa4200001
-                Video Capture
-                I/O MC
-                Streaming
-                Extended Pix Format
-                Device Capabilities
-        Device Caps      : 0x24200001
-                Video Capture
-                I/O MC
-                Streaming
-                Extended Pix Format
-Media Driver Info:
-        Driver name      : amd_isp_capture
-        Model            : amd_isp41_mdev
-        Serial           :
-        Bus info         : platform:amd_isp_capture
-        Media version    : 6.14.0
-        Hardware revision: 0x00000000 (0)
-        Driver version   : 6.14.0
-Interface Info:
-        ID               : 0x03000005
-        Type             : V4L Video
-Entity Info:
-        ID               : 0x00000003 (3)
-        Name             : Preview
-        Function         : V4L2 I/O
-        Pad 0x01000004   : 0: Sink
-          Link 0x02000007: from remote pad 0x1000002 of entity 'amd isp4' (Image Signal Processor): Data, Enabled, Immutable
-
-Required ioctls:
-        test MC information (see 'Media Driver Info' above): OK
-        test VIDIOC_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/video0 open: OK
-        test VIDIOC_QUERYCAP: OK
-        test VIDIOC_G/S_PRIORITY: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 1 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Input 0):
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-        test VIDIOC_QUERYCTRL: OK (Not Supported)
-        test VIDIOC_G/S_CTRL: OK (Not Supported)
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 0 Private Controls: 0
-
-Format ioctls (Input 0):
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-        test VIDIOC_G/S_PARM: OK
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK
-        test VIDIOC_TRY_FMT: OK
-        test VIDIOC_S_FMT: OK
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls (Input 0):
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 0):
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_REMOVE_BUFS: OK
-        test VIDIOC_EXPBUF: OK
-        test Requests: OK (Not Supported)
-        test blocking wait: OK
-
-Total for amd_isp_capture device /dev/video0: 49, Succeeded: 49, Failed: 0, Warnings: 0
-
-Please review and provide feedback.
-
-Many thanks,
-
-Bin Du (7):
-  media: platform: amd: Introduce amd isp4 capture driver
-  media: platform: amd: low level support for isp4 firmware
-  media: platform: amd: Add isp4 fw and hw interface
-  media: platform: amd: isp4 subdev and firmware loading handling added
-  media: platform: amd: isp4 video node and buffers handling added
-  media: platform: amd: isp4 debug fs logging and  more descriptive
-    errors
-  Documentation: add documentation of AMD isp 4 driver
-
- Documentation/admin-guide/media/amdisp4-1.rst |   66 +
- Documentation/admin-guide/media/amdisp4.dot   |    8 +
- .../admin-guide/media/v4l-drivers.rst         |    1 +
- MAINTAINERS                                   |   25 +
- drivers/media/platform/Kconfig                |    1 +
- drivers/media/platform/Makefile               |    1 +
- drivers/media/platform/amd/Kconfig            |    3 +
- drivers/media/platform/amd/Makefile           |    3 +
- drivers/media/platform/amd/isp4/Kconfig       |   13 +
- drivers/media/platform/amd/isp4/Makefile      |   10 +
- drivers/media/platform/amd/isp4/isp4.c        |  237 ++++
- drivers/media/platform/amd/isp4/isp4.h        |   26 +
- drivers/media/platform/amd/isp4/isp4_debug.c  |  272 ++++
- drivers/media/platform/amd/isp4/isp4_debug.h  |   41 +
- .../platform/amd/isp4/isp4_fw_cmd_resp.h      |  314 +++++
- drivers/media/platform/amd/isp4/isp4_hw_reg.h |  125 ++
- .../media/platform/amd/isp4/isp4_interface.c  |  972 +++++++++++++
- .../media/platform/amd/isp4/isp4_interface.h  |  149 ++
- drivers/media/platform/amd/isp4/isp4_subdev.c | 1198 ++++++++++++++++
- drivers/media/platform/amd/isp4/isp4_subdev.h |  133 ++
- drivers/media/platform/amd/isp4/isp4_video.c  | 1213 +++++++++++++++++
- drivers/media/platform/amd/isp4/isp4_video.h  |   87 ++
- 22 files changed, 4898 insertions(+)
- create mode 100644 Documentation/admin-guide/media/amdisp4-1.rst
- create mode 100644 Documentation/admin-guide/media/amdisp4.dot
- create mode 100644 drivers/media/platform/amd/Kconfig
- create mode 100644 drivers/media/platform/amd/Makefile
- create mode 100644 drivers/media/platform/amd/isp4/Kconfig
- create mode 100644 drivers/media/platform/amd/isp4/Makefile
- create mode 100644 drivers/media/platform/amd/isp4/isp4.c
- create mode 100644 drivers/media/platform/amd/isp4/isp4.h
- create mode 100644 drivers/media/platform/amd/isp4/isp4_debug.c
- create mode 100644 drivers/media/platform/amd/isp4/isp4_debug.h
- create mode 100644 drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
- create mode 100644 drivers/media/platform/amd/isp4/isp4_hw_reg.h
- create mode 100644 drivers/media/platform/amd/isp4/isp4_interface.c
- create mode 100644 drivers/media/platform/amd/isp4/isp4_interface.h
- create mode 100644 drivers/media/platform/amd/isp4/isp4_subdev.c
- create mode 100644 drivers/media/platform/amd/isp4/isp4_subdev.h
- create mode 100644 drivers/media/platform/amd/isp4/isp4_video.c
- create mode 100644 drivers/media/platform/amd/isp4/isp4_video.h
-
--- 
-2.34.1
-
+> ---
+>  .../media/platform/renesas/rzg2l-cru/rzg2l-csi2.c  | 34 ++++++++++++++++++----
+>  1 file changed, 28 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> index 1520211e74185fea3bca85f36239254f6b4651db..96d17ae0048f9d88aa73bec916365f3dbc421882 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> @@ -101,6 +101,11 @@
+>  #define RZG2L_CSI2_MAX_WIDTH		2800
+>  #define RZG2L_CSI2_MAX_HEIGHT		4095
+>  
+> +#define RZV2H_CSI2_MIN_WIDTH		320
+> +#define RZV2H_CSI2_MIN_HEIGHT		240
+> +#define RZV2H_CSI2_MAX_WIDTH		4096
+> +#define RZV2H_CSI2_MAX_HEIGHT		4096
+> +
+>  #define RZG2L_CSI2_DEFAULT_WIDTH	RZG2L_CSI2_MIN_WIDTH
+>  #define RZG2L_CSI2_DEFAULT_HEIGHT	RZG2L_CSI2_MIN_HEIGHT
+>  #define RZG2L_CSI2_DEFAULT_FMT		MEDIA_BUS_FMT_UYVY8_1X16
+> @@ -137,6 +142,10 @@ struct rzg2l_csi2_info {
+>  	int (*dphy_enable)(struct rzg2l_csi2 *csi2);
+>  	int (*dphy_disable)(struct rzg2l_csi2 *csi2);
+>  	bool has_system_clk;
+> +	unsigned int min_width;
+> +	unsigned int min_height;
+> +	unsigned int max_width;
+> +	unsigned int max_height;
+>  };
+>  
+>  struct rzg2l_csi2_timings {
+> @@ -418,6 +427,10 @@ static const struct rzg2l_csi2_info rzg2l_csi2_info = {
+>  	.dphy_enable = rzg2l_csi2_dphy_enable,
+>  	.dphy_disable = rzg2l_csi2_dphy_disable,
+>  	.has_system_clk = true,
+> +	.min_width = RZG2L_CSI2_MIN_WIDTH,
+> +	.min_height = RZG2L_CSI2_MIN_HEIGHT,
+> +	.max_width = RZG2L_CSI2_MAX_WIDTH,
+> +	.max_height = RZG2L_CSI2_MAX_HEIGHT,
+>  };
+>  
+>  static int rzg2l_csi2_dphy_setting(struct v4l2_subdev *sd, bool on)
+> @@ -542,6 +555,10 @@ static const struct rzg2l_csi2_info rzv2h_csi2_info = {
+>  	.dphy_enable = rzv2h_csi2_dphy_enable,
+>  	.dphy_disable = rzv2h_csi2_dphy_disable,
+>  	.has_system_clk = false,
+> +	.min_width = RZV2H_CSI2_MIN_WIDTH,
+> +	.min_height = RZV2H_CSI2_MIN_HEIGHT,
+> +	.max_width = RZV2H_CSI2_MAX_WIDTH,
+> +	.max_height = RZV2H_CSI2_MAX_HEIGHT,
+>  };
+>  
+>  static int rzg2l_csi2_mipi_link_setting(struct v4l2_subdev *sd, bool on)
+> @@ -631,6 +648,7 @@ static int rzg2l_csi2_set_format(struct v4l2_subdev *sd,
+>  				 struct v4l2_subdev_state *state,
+>  				 struct v4l2_subdev_format *fmt)
+>  {
+> +	struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
+>  	struct v4l2_mbus_framefmt *src_format;
+>  	struct v4l2_mbus_framefmt *sink_format;
+>  
+> @@ -653,9 +671,11 @@ static int rzg2l_csi2_set_format(struct v4l2_subdev *sd,
+>  	sink_format->ycbcr_enc = fmt->format.ycbcr_enc;
+>  	sink_format->quantization = fmt->format.quantization;
+>  	sink_format->width = clamp_t(u32, fmt->format.width,
+> -				     RZG2L_CSI2_MIN_WIDTH, RZG2L_CSI2_MAX_WIDTH);
+> +				     csi2->info->min_width,
+> +				     csi2->info->max_width);
+>  	sink_format->height = clamp_t(u32, fmt->format.height,
+> -				      RZG2L_CSI2_MIN_HEIGHT, RZG2L_CSI2_MAX_HEIGHT);
+> +				     csi2->info->min_height,
+> +				     csi2->info->max_height);
+>  	fmt->format = *sink_format;
+>  
+>  	/* propagate format to source pad */
+> @@ -697,16 +717,18 @@ static int rzg2l_csi2_enum_frame_size(struct v4l2_subdev *sd,
+>  				      struct v4l2_subdev_state *sd_state,
+>  				      struct v4l2_subdev_frame_size_enum *fse)
+>  {
+> +	struct rzg2l_csi2 *csi2 = sd_to_csi2(sd);
+> +
+>  	if (fse->index != 0)
+>  		return -EINVAL;
+>  
+>  	if (!rzg2l_csi2_code_to_fmt(fse->code))
+>  		return -EINVAL;
+>  
+> -	fse->min_width = RZG2L_CSI2_MIN_WIDTH;
+> -	fse->min_height = RZG2L_CSI2_MIN_HEIGHT;
+> -	fse->max_width = RZG2L_CSI2_MAX_WIDTH;
+> -	fse->max_height = RZG2L_CSI2_MAX_HEIGHT;
+> +	fse->min_width = csi2->info->min_width;
+> +	fse->min_height = csi2->info->min_height;
+> +	fse->max_width = csi2->info->max_width;
+> +	fse->max_height = csi2->info->max_height;
+>  
+>  	return 0;
+>  }
+> 
+> ---
+> base-commit: 16428e2449ab96cce27be6ab17b750b404c76c7c
+> change-id: 20250826-rzv2h-cru-sizes-371ff5a88081
+> 
+> Best regards,
+> -- 
+> Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> 
 
