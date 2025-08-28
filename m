@@ -1,71 +1,71 @@
-Return-Path: <linux-media+bounces-41264-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41266-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C75BB3A5AE
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 18:09:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE4D5B3A5B1
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 18:09:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B255B1895BB3
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 16:08:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB8841898840
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 16:08:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5196327D773;
-	Thu, 28 Aug 2025 16:08:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA62F28724A;
+	Thu, 28 Aug 2025 16:08:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="IuSu/4lB";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="SCDWaWbC"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="gb9CL1P5";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="d8+QHjT9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E97421C16E;
-	Thu, 28 Aug 2025 16:08:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5533527E7FB;
+	Thu, 28 Aug 2025 16:08:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756397293; cv=none; b=SZs5EqfgJypOXUx4LaV4nsdXgnBlNskWBRNdrsefhJj0c2SD+gI6FdvYFHDwTj2eD+eFk4TmTbwFAjKHIamaKM4pesQVIrkwbUdiHRgkX8NY/hBYZUHXdHP1QK5TRnPlimSgwpfVj8ZiGGfiNJX88yZBb8l19PMpkTyaMxoEVs4=
+	t=1756397296; cv=none; b=tp01NkJGy7Wv3e5gJ6n8QaeFTakek0WOU1qyHKhNKOvI1maS1Hh5VO5Ar4PuSZHnqNLMGQarWJIS7CS3ZwhfMvFw8xVHCaeu7qlbuRGME98qEpZT+zDxnOQJV9GotKHOxYV2LuuVEzZEr6VaAKz6MV+In0Wvh2ol5AwhtFBLv6s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756397293; c=relaxed/simple;
-	bh=Bl3SZhRSqoCS5tRDxTOOYAJVu6kppyTwN9m93wS8ClM=;
+	s=arc-20240116; t=1756397296; c=relaxed/simple;
+	bh=jnVPRNznxjDgwuNDiSyCXzcT3UR3gg3VlLLzZg+Dnqg=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=X6OodMQ6S4C5V+TIRMtRaiX46C5H70N1vjakwgrgy/MO1uSpgKhZlFs3i5dnfmG/hZtvhX+T9Cc0rQIgL863zqBLLC5AwkIeKFjxcJTC3hwstmSd2wsPAVAqrnMHkNBkDZuqTd58y8WndBmm35VwX10pVOj+Pjc/6gWOwIe+/U0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=IuSu/4lB; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=SCDWaWbC; arc=none smtp.client-ip=202.12.124.151
+	 MIME-Version:Content-Type; b=NCY8R2n6FmQPyYrEReaK82gmdiyzU8GCMNA2gqr4xjDMWmQkQ6InBcLlD13RU1tbOdQzibVqzp0K5bFIYRh7RaOrLStXm+pJgXt1xj8OhjIMZ/Rq5l/1ylLPn0E4VL5hpw0E+LC5yxR048YVVmttfwQrwNT6wmXa8+rHveBnfzE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=gb9CL1P5; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=d8+QHjT9; arc=none smtp.client-ip=202.12.124.154
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-12.internal (phl-compute-12.internal [10.202.2.52])
-	by mailfout.stl.internal (Postfix) with ESMTP id 08CEB1D00161;
-	Thu, 28 Aug 2025 12:08:11 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-12.internal (MEProxy); Thu, 28 Aug 2025 12:08:11 -0400
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 621107A01BC;
+	Thu, 28 Aug 2025 12:08:13 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-05.internal (MEProxy); Thu, 28 Aug 2025 12:08:13 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1756397290;
-	 x=1756483690; bh=j3+OWkF07y6yjk82e93qe4TzhTV25wy1lyEByeMssKg=; b=
-	IuSu/4lB7mJVxQpu6RiKn6VP1PELziOXu8xWl/TlSgjrRnYfdqXGVYZUZ9CSVQQW
-	yOunNePYBnF0bISloE6xepvhD5p5VeT65tOObxFCvRaGhdEF03eSyBiWhEZQahkA
-	4/EiIcfs4HhCK00y86OsjzeRyyGs5Vo5qcsVYWT/FCktx33Iia4PDMRWxjjh6dA6
-	TevRZVBxg05f1p7nkqmhb6CrZDpfrQJ9fynv2q44OGqPiFQBNcMA4Ue5HnPhwk0E
-	OdoyTfSBdJea94xh7CDdV6ZX0mhfRJj56PGJ0NeIE4XY41zDQjMa4KtAQ8lNjVRS
-	8l6CPFJiL1Mjn526TnfSqQ==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1756397293;
+	 x=1756483693; bh=HHaRGTVk2JXY1NoNjjdd7UT/faquBH+w5rUZ4m7wa6E=; b=
+	gb9CL1P59XArEjugFU9x7qd33uS/y6raF9jOtOEaLtCBb0jLTdCqd2Zxz7A9sh79
+	7GpzXLjbmI4lms/vum1BRKpRgf+0jVdY6TMOysuoiZyAm1u67wCb3/7oI6vAViUG
+	8VJvYfMz70TFBLnjw6/EXWRKQoK80xGeE/kAkVSmL7OPQBlqwtADOg1bIMRUzrag
+	muD2D46F4hu4LhjTWurxXy4H5+5WUcvbhv55y1ihRLfujlPBoHpFZax4Ne7qGB/y
+	fFhsofFwjZ2kX3jgm0P27DQGzu8YCmTTmLwcqItXMy4IY0zXGIZzMd09iI5IUVBx
+	3HBKfSLPZm1TAeso0HUi3w==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756397290; x=
-	1756483690; bh=j3+OWkF07y6yjk82e93qe4TzhTV25wy1lyEByeMssKg=; b=S
-	CDWaWbCixKxQRbgJLfivzTAZC8nnlKEWeqeYdfIoZPdAXnSrByOeyskh719weh1i
-	CK/TsxC0P0WbOVWZcPxTF/a2+hKB3KxMWmkPLJUE1SH2OugmzY79LO04wwa+Kkcj
-	Xjv2Utsj/NcDBes3paZYCbWtIfItSUZQ3b2Z9e2n5WVxCQk1STb0d3HSy08OoHG9
-	8GrcETJ8RXtw5E/SqyQS8n/RAudOeqsLq09sb7TJIhXQDv9bdQLK335i/H352xnd
-	tpapoGkQISgve7VUfGnnwzxPP5FOJ+NJwqgSgvcjyR7bxdd6puQQqBFdpsmyiPzH
-	/7XV2xBnYIDU9zdngneYA==
-X-ME-Sender: <xms:6n6waIsTgPyCCBacL43ssgKlLP9byhZybNyi-S6vrGTC1REjQp6ezQ>
-    <xme:6n6waKrCeUrgLyjCZKkumAAM1_XrRu-64H_kMlfFLqUPjqxw-2B8bexslmUgk7rOP
-    E6dN_V_v8q5PU9mDOo>
-X-ME-Received: <xmr:6n6waEqcLNyoIq1BR7tusNzyL_Fm9vrNGf2fczA6zohmxgvyULMzIjS0QnWNWs0LmOQTwRGmOr7fyfWICXnRSIPH3A>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedugeejucetufdoteggodetrf
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756397293; x=
+	1756483693; bh=HHaRGTVk2JXY1NoNjjdd7UT/faquBH+w5rUZ4m7wa6E=; b=d
+	8+QHjT9e3paV1eWKwr/YhJcp+Z1fnUWP4lqZ414vUBsG244D5+DTRzTTKvw+IGiL
+	H8UAsW6zttN1AuhgvDcO5+cw0bJz39e8LmCyAKsgigXA2LnEDRBfAj41ADVzUMje
+	wuwq0MgN1Ifp+HTD7uZwDniIGL1lCXp2OFxebVFBx3wb4KvnmR12Y37XtlgD4lS8
+	NapJU+adjuMxmUR/riyGR+Dn9xcf2udK8QldgOEJGIeUoczLDeSFR4yM7D5pW9Sk
+	LRkuHaQtUY0mltPf7PfiNcVC71tHWhgtJiSSLM9oJojxqUQZrX4K6qnAnk1oSwfA
+	OAgchq2sz4OEy26U9bAWg==
+X-ME-Sender: <xms:7X6waB3eI4rtrVO4l41BKojnk3NoH5iGOmRh0GcSGBfZXG9sHzFstg>
+    <xme:7X6waNQuzhtL_p2qc4mepbEMb5yQpy56oixyop0Pv7rM0fTBZkA9TVJMFbf1fhfT9
+    PqZNGIw4dHcQ0VdFDU>
+X-ME-Received: <xmr:7X6waCxmBPlE9_XAKgDL-FyPubqOMV3B2vwIa8Zr_bLQtww8WQ2TOJ1gNB8GRMdRlZ83fWmRQ64W6oIO-OvuFMlRUA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedugeeiucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
     gurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
@@ -83,14 +83,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedugeejucetufdote
     grshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvpdhr
     tghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhhtodhrvghnvghsrghssehiuggvrg
     hsohhnsghorghrugdrtghomh
-X-ME-Proxy: <xmx:6n6waBZYZJY70ACnimfMHO9r7ulE9P1vuozIN2SQcmXxYP6NGZKjIg>
-    <xmx:6n6waK8l2aqqw5HU76L4fcG4zvbeG9FE-AknTWTsMlk7DCD5lYuMvw>
-    <xmx:6n6waHkawtzpOJMz_jsl2vmjZelMk5VYzg-jdNWMI1QJA56rioQKSw>
-    <xmx:6n6waPywhsXfMYlFQA9uvFEDzxM36eIFIYhrLCnEnbAljpdrHkD7Uw>
-    <xmx:6n6waHa1aQ_moOE4YhrPdI4VSUWSZ-DQHW2GWFWz6BBUZ9fqwlk-qNT2>
+X-ME-Proxy: <xmx:7X6waFBZ_tW_99-JUpeBi0SH_dEgYsoMDKpHsq-cikXQU111OTDekA>
+    <xmx:7X6waGHH_Yl766gywDsTbFXvfL7qNYKKYvuFYsyHclGWmAE-PTitvw>
+    <xmx:7X6waEPfuDQKjoAym5_aiMD5QmZ7LjzMaOjgAfduCfI_xrqdBMzcwA>
+    <xmx:7X6waP72nYRcXJ9Gsyb_XP2WqtVfXaq5H-vcV1HGhy_ehj_8NPfhlw>
+    <xmx:7X6waJgLFnEN9QOIO1lMIH0tgAvxzj5IeNyAYr0D76tUdb-v7FFPDT3H>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 12:08:10 -0400 (EDT)
+ 28 Aug 2025 12:08:12 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Lars-Peter Clausen <lars@metafoo.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -100,9 +100,9 @@ To: Lars-Peter Clausen <lars@metafoo.de>,
 Cc: linux-renesas-soc@vger.kernel.org,
 	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
 	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Subject: [PATCH v2 04/11] media: adv7180: Use v4l2-ctrls core to handle s_ctrl locking
-Date: Thu, 28 Aug 2025 18:06:47 +0200
-Message-ID: <20250828160654.1467762-5-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 05/11] media: adv7180: Setup controls every time the device is reset
+Date: Thu, 28 Aug 2025 18:06:48 +0200
+Message-ID: <20250828160654.1467762-6-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
@@ -115,57 +115,44 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Instead of handling the state lock ourself in .s_ctrl use the v4l2-ctrls
-core to handle it for us. This will allow us later to use the unlocked
-__v4l2_ctrl_handler_setup() in initialization code where the state lock
-is already held.
+The device initialization code resets the whole device, thus the initial
+controls set at probe are lost as adv7180_init_controls() are called
+before init_device(). Additionally the controls were never restored
+after the device where reset coming back from suspend.
 
-Add a lockdep assert to demonstrate the mutex must be held when setting
-controls.
-
-There is no functional change.
+Solve this by separate the setup of the controls from the creation of
+them, and always set them up when the device is reset.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 ---
- drivers/media/i2c/adv7180.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+* Changes since v1
+- Fix spelling in commit message.
+---
+ drivers/media/i2c/adv7180.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index 9dbd33c4a30c..7b0387151c3a 100644
+index 7b0387151c3a..8409ee9acc4f 100644
 --- a/drivers/media/i2c/adv7180.c
 +++ b/drivers/media/i2c/adv7180.c
-@@ -601,11 +601,11 @@ static int adv7180_s_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	struct v4l2_subdev *sd = to_adv7180_sd(ctrl);
- 	struct adv7180_state *state = to_state(sd);
--	int ret = mutex_lock_interruptible(&state->mutex);
-+	int ret = 0;
- 	int val;
- 
--	if (ret)
--		return ret;
-+	lockdep_assert_held(&state->mutex);
-+
- 	val = ctrl->val;
- 	switch (ctrl->id) {
- 	case V4L2_CID_BRIGHTNESS:
-@@ -647,7 +647,6 @@ static int adv7180_s_ctrl(struct v4l2_ctrl *ctrl)
- 		ret = -EINVAL;
+@@ -700,7 +700,6 @@ static int adv7180_init_controls(struct adv7180_state *state)
+ 		v4l2_ctrl_handler_free(&state->ctrl_hdl);
+ 		return err;
  	}
+-	v4l2_ctrl_handler_setup(&state->ctrl_hdl);
  
--	mutex_unlock(&state->mutex);
- 	return ret;
+ 	return 0;
  }
+@@ -898,6 +897,8 @@ static int init_device(struct adv7180_state *state)
  
-@@ -668,6 +667,7 @@ static const struct v4l2_ctrl_config adv7180_ctrl_fast_switch = {
- static int adv7180_init_controls(struct adv7180_state *state)
- {
- 	v4l2_ctrl_handler_init(&state->ctrl_hdl, 4);
-+	state->ctrl_hdl.lock = &state->mutex;
+ 	adv7180_set_field_mode(state);
  
- 	v4l2_ctrl_new_std(&state->ctrl_hdl, &adv7180_ctrl_ops,
- 			  V4L2_CID_BRIGHTNESS, ADV7180_BRI_MIN,
++	__v4l2_ctrl_handler_setup(&state->ctrl_hdl);
++
+ 	/* register for interrupts */
+ 	if (state->irq > 0) {
+ 		/* config the Interrupt pin to be active low */
 -- 
 2.51.0
 
