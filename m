@@ -1,131 +1,149 @@
-Return-Path: <linux-media+bounces-41281-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41282-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E2371B3A73B
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 19:01:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3768EB3AA1C
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 20:36:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B76EE3BE104
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 17:01:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AB5D7561B41
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 18:36:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDF61335BCE;
-	Thu, 28 Aug 2025 17:00:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37C04279903;
+	Thu, 28 Aug 2025 18:36:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nMOeyPGv"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rWUAZ8QG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 925D033470B;
-	Thu, 28 Aug 2025 17:00:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC668276046
+	for <linux-media@vger.kernel.org>; Thu, 28 Aug 2025 18:36:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756400455; cv=none; b=ue18p7frdej2Z9wR1RUDQVxzdBhXTedYQpnG+oylHrOpE9BxMe27Vj40XNmiSTTFlX1PK7SwnhT5efeMLBUZ1poaFw1+99mpGnKi+jW6cN8fNbb5Fj+vhiooCtKLtF6rSsM5or5fQKLX+4lJg0IDCN91Np+nod33CNC9TtkneXQ=
+	t=1756406182; cv=none; b=iXYB7UlCIml+wwM1viUC/T3t6gSrHrNAora1cfqYQBfDoGXt9iaFsjO4Lg1QrkYZP4QLKtHcgH6ZRtBLTNGNr/A1t+EFurO7Se5Co+VE4bAM+oQxVtAbbVG5TQv2YnEnf8PqAGTIunkOgh9aDRGUoEqUEdcH7EVRpFNVsyJIWKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756400455; c=relaxed/simple;
-	bh=//O+mO239rbm+LnveaWrTvT/GmXTeux1783FhcLa9ko=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mzXZCtw0cEBspjBy0tXvcXXB5fI0XrwtNer3Sz/2zpD7amBaujTxAfUg445D8YuaOUpurIaqx2gSAknloSH7tuGgIwbv76eDQcpyr+AvhpkVDHF5d5n1wwslxWbXA2szJ6PrBJVAoqS+Ye28+nr+KuuYIU17OGeud6huGHsutfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nMOeyPGv; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45b7d485204so4964635e9.0;
-        Thu, 28 Aug 2025 10:00:53 -0700 (PDT)
+	s=arc-20240116; t=1756406182; c=relaxed/simple;
+	bh=KnS0W5Hh+l57/+HU4seoQni4gqN4R0ph3BTOOgn9K5U=;
+	h=From:Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:
+	 References:In-Reply-To; b=D1nGlyugktBxu3DrzQa+H0rE5RguDlOVj/SKpCbTSwz5vlUhmSw3RWbhC5EJblnMuqXeYB3yPkQEu6oBQwQ5KYW2WlwzsWPCkT+3fx4DUtlHaivNlN7x3DEApQe9qNGgk5xTWelSddnIpzy9UNQz00GbK05yPTJleje8Jaue1xw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rWUAZ8QG; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45b65469a5bso11715485e9.0
+        for <linux-media@vger.kernel.org>; Thu, 28 Aug 2025 11:36:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756400452; x=1757005252; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=linaro.org; s=google; t=1756406178; x=1757010978; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=FHazwvzqQleWI6O1/KTpT1C/C6a9cxsETHfJfO54AA8=;
-        b=nMOeyPGvnyNZVVElRV5QxsyYgyJfUsGul5YizIAKxyOojfc4yPo2LCGpmt2/BfULQ5
-         GUN+DakmirgNqp66CS08m6gfR+OZfEqhdHV7qWiR+q/76oxp4KIGjBHqkwehRaMu43V0
-         cp9E11I4WNbp2ZtcpRqldGZmUqisy6muJRVbSqiUTHqJe6zLIYH6XVmDOfyzt51M736T
-         ouuq5rb2zrSuIpZ/0t2z8HKrNh6vRX18loLmmYsJsKu0IknIgldotHo8Fyo8kNa8sAbu
-         4Za5gJDSztfOvSigycmfHikY2L+5fIoqLmWADlRGBjLVYqz55jcWXguBqlmgFl/dkBEM
-         sHiQ==
+        bh=plZI8iRSPLJkfX6UA1rPXxqj9r/osCRLYPnrr8iFbR4=;
+        b=rWUAZ8QGhMMvS0akYtK2z5rtavFNN4QLlRoCytrcKoUxwnowVWDAw8Ad1dvgXaKL4B
+         2MYK8frV2PEnKDtIBcSNbOfHuvi9rVvVZOxUgM441+awi5yNGoeF+WbQ6V7zsfTvlysW
+         3gECyADklaR6TOVs3JG6UJNMutfUjOzs2/yCXnGBniaWvIJq2hQqBx2wI0FsM2NO/Cgr
+         omHtjis9ZJhO/oT8l1Oi2MCjz/RVUTfExGleFFT57ihhB0LkvbpD+CoEWm0ATKWJ7pip
+         2cUFBI1nJ5wK0U1+xIxjRIMg1Xngfk6Q+/MbaK0UukpOoikVbmFXUOl3gv5cL+E1keG5
+         QrZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756400452; x=1757005252;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FHazwvzqQleWI6O1/KTpT1C/C6a9cxsETHfJfO54AA8=;
-        b=drb1gmPvbvBaaCf+FS5XImsSllijzM0/ZoTBBLn0+sZtu2yZexkw86JuvGfG3SR6ky
-         bsV0dYpdYMiZMc2EwHvLRPD6sbgkwPZlXC0Hi+GeZnZ0VS0IJO15EYdoNcD84lzJ/L5w
-         CoiNX8QSBgY52m0IrHehoUCGaqkGXiBaE92N6fnek61QDYhOCK2GC2mTDjzfA/MreaI+
-         PpD3q0w02RiVFh5oV44FIfq/SLDtwAGDtzOAIrdoi3E1PaFUIwX2O3x/B6/HRZQEHCDO
-         YC3VaoPadrzpK95+QH9ze9WjiIMAgv+5gxyxa3raQj8/KeB1mOzea+BU5doCcqoD/SOG
-         MGRA==
-X-Forwarded-Encrypted: i=1; AJvYcCW5b0ftI47O2Xa4UPshcUXYhy+jBxpugeHNPDBE8UKbe0kX7P6VGjMNyqpenFIrWcwLo3YbIOtaK1ef@vger.kernel.org, AJvYcCXV5v61KRDqgsqfWeAqKQ6KmXJTVvEHhRnTCf8qhR4UgFjF+jaormaf2TEDEfSP56PtDz/Wxbi4qXCwQBE=@vger.kernel.org, AJvYcCXXQAT7GGw5RcY+rV7qtcLgT1cLp3Dj/rFWoHu3SpWydxvLV6M05PB3T8RcvRb0+l2QEKzRvsOOE8WIkRyU@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxb4n2gKVnm8XiQHI4QWUEhy9EPtp1/tBPNkAxGDN+zcj3hII9m
-	1M7GEbctKgJval+DoGAizWezPV0y3On64064xhUtfpNJUoeXW4fYbp6QAKF96Cysy/F7EAqV5AB
-	977ymlTmO2v4mt9kvcIdf2fPouKEf5ToNUw==
-X-Gm-Gg: ASbGnctMzEAm2jTqAO9j9YuSsw+W8E4RQAxkI5vpM+W49hNaNLoR5/y8NBt5gz8n8bh
-	F0wQcXjTdlW7sW7E6vI3VSbGsvA/BNIZR0bo/J4Pm/7whB9Yp1L04UlPsJoYIRI92ZjxHd3Uwwe
-	keAZAoLJ3dsdIoXEWoWrBf4YglszZB6vZhmVm+I2MSCO8uk/SRoOVzqi1Zbvvvc0p3vf/2E9vX+
-	ycNlkZm
-X-Google-Smtp-Source: AGHT+IHokBvNBbzg8lMe6n4+kF0IcSoZohtx+/w6T1Fm720VTZmzvUQOta1qIavkEDCzL6hndg6mCNLBmIIfvncRSuo=
-X-Received: by 2002:a05:600c:1f95:b0:459:db80:c2ce with SMTP id
- 5b1f17b1804b1-45b51799428mr195134335e9.7.1756400451883; Thu, 28 Aug 2025
- 10:00:51 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1756406178; x=1757010978;
+        h=in-reply-to:references:subject:cc:to:message-id:date
+         :content-transfer-encoding:mime-version:from:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=plZI8iRSPLJkfX6UA1rPXxqj9r/osCRLYPnrr8iFbR4=;
+        b=t6m9R/e9wZkAJekQMuRQNG1+pNEux9pO+w1zeiTKzgGn375et/BEehXt7crCKGfyp1
+         9uWA836wlBbqkwiXcwoSldOWV0fQeqqwW0Y/CttzMRa2NLZLb9WdtxR0WX3YrYZv5BfT
+         1EBEqKKdziVQNmaD9KhV5hGotyjgohRS4ihUcVZeJ8CRRSjqjaFl/9MpZqJirPnGOYdW
+         b4Zymio39aQmwEAHsTod5yS9HrtbiHRNqMOv6tvdPd6Y1dyeZjr1EPi1/Uws0xdaBKhc
+         ja/OFphxXhqsE9YD7OeZ8pqsDiyqlkc1S09J7/sRXnToyyTaIul6R/lw+27R/5v7E+B/
+         9BaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVRTpY7nZY8IDtMqbo4BEcOJRuJ1ix9vFdElV8VB2I52SaXuPk133d2yTEPyt2eGuuNgf9FFTIkpBlqcg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxKl+gV2qypPzalrjtHGQjHwVpwrhSZo7cozN2gq8TTyVRS3ura
+	IbhAGuIF7uKozxRGcb5jF2nEjw1X56WkFSCI7u8rYrWsi30FkeqirOlcoA6TbQ/W2mJLuoKtUZk
+	XF0RY
+X-Gm-Gg: ASbGncuV52K8a/6JZpwwQjFAjK/4mQVHE1wh75sQT9aaU6snldaDhaCCAmQkz0bWgSS
+	8fF6Ulq/g4uMXzgB6rpUrfJTq93PtQRYlPf76Rs1JlYbtF7z2YSHNH+Wsg0j8nn6rs1UaFsQo1L
+	aOcjKY0drrLsFvDV1RZLdUlDpTK54Ip9OcvCGlsG6hc7NXUVkYEpLTCeexRhTzseYs8EvbGeIMS
+	7qruydJS/NOHciJUhe0DhBN09CyviPG9zflXdsRZBHBlW5Ad7nmVbUndXEb6LZdUCYJdE/KKrGD
+	haZQL9Mahqm565/2dEXwcFBZZxpog9IlJP0IKw6hj6Hk8OEva4TUmWDRvYU01CEFfgCD3hizkZt
+	SThifLQb408QfKz+/BtnCXFgQN2PvSBYd5u0NkBYQY3x7L6PDLZYHd9BIwRpelTELVtJl888Y
+X-Google-Smtp-Source: AGHT+IGHfFomVo9e9hFrlPBlCkmuNAzoJAz+YrbYrU3TW1g1KlnphdMtRrEL5U16asEEEUzAcjip5g==
+X-Received: by 2002:a05:600c:1f12:b0:45b:629b:dc1e with SMTP id 5b1f17b1804b1-45b72ed0730mr46781205e9.1.1756406178218;
+        Thu, 28 Aug 2025 11:36:18 -0700 (PDT)
+Received: from localhost (a95-94-245-170.cpe.netcabo.pt. [95.94.245.170])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b66cdaaa6sm56782795e9.7.2025.08.28.11.36.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 28 Aug 2025 11:36:17 -0700 (PDT)
+From: Rui Miguel Silva <rui.silva@linaro.org>
+X-Google-Original-From: "Rui Miguel Silva" <rui.silva@linaro.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250819120428.83437-1-clamor95@gmail.com> <aLB_7YS9HsfzfadI@kekkonen.localdomain>
-In-Reply-To: <aLB_7YS9HsfzfadI@kekkonen.localdomain>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Thu, 28 Aug 2025 20:00:40 +0300
-X-Gm-Features: Ac12FXwaQJQCsuHIAeBGe6_yvEK8W5uLR5UtBdqqwTPmkvqhoOH3VYvUKkJ8RUg
-Message-ID: <CAPVz0n0CB6OkKcEuCcR27f-UJiveMPD=1S3rfDkaoJZZQ=7EXw@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] media: i2c: add Sony IMX111 CMOS camera sensor driver
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Dongcheng Yan <dongcheng.yan@intel.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Jingjing Xiong <jingjing.xiong@intel.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 28 Aug 2025 19:36:17 +0100
+Message-Id: <DCEA0YL5MK30.3VV18EAGTGY5O@linaro.com>
+To: "Frank Li" <Frank.Li@nxp.com>, "Rui Miguel Silva" <rmfrfs@gmail.com>,
+ "Hans de Goede" <hansg@kernel.org>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "open list:OMNIVISION OV2680 SENSOR DRIVER" <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, "open list" <linux-kernel@vger.kernel.org>
+Cc: <imx@lists.linux.dev>
+Subject: Re: [PATCH 1/1] media: dt-bindings: ovti,ov2680: Use
+ unevaluatedProperties for endpoint
+References: <20250827194919.82725-1-Frank.Li@nxp.com>
+In-Reply-To: <20250827194919.82725-1-Frank.Li@nxp.com>
 
-=D1=87=D1=82, 28 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE 19:1=
-2 Sakari Ailus <sakari.ailus@linux.intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> Hi Svyatoslaw,
->
-> On Tue, Aug 19, 2025 at 03:04:25PM +0300, Svyatoslav Ryhel wrote:
-> > Add driver for Sony IMX111 CMOS sensor found in LG Optimus 4X and Vu
-> > smartphones.
->
-> Thanks for the set.
->
-> I wonder how would the sensor work with the CCS driver. The register layo=
-ut
-> appears to be very much aligned with that (I haven't checked whether ther=
-e
-> are MSRs that depend on the mode).
->
+Hi Frank,
+Thanks for the patch.
 
-It seems to be compatible, moreover, I have a few modules which should
-be compatible as well. If you had not answer I might never found this
-driver, maybe you, as its maintainer, could consider adding module
-names into compatible with fallback to mipi-ccs? Something like
+On Wed Aug 27, 2025 at 8:49 PM WEST, Frank Li wrote:
 
-compatible =3D  "sony,imx111", "mipi-ccs-1.0";
-
-This would allow more people find this driver by grepping their sensor
-model through source and reflect hardware installed in the device
-better.
-
-> --
-> Kind regards,
+> The endpoint ref to /schemas/media/video-interfaces.yaml#, so replace
+> additionalProperties with unevaluatedProperties to allow use common
+> properties.
 >
-> Sakari Ailus
+> Fix below CHECK_DTBS warnings:
+>   arch/arm/boot/dts/nxp/imx/imx7s-warp.dtb: camera@36 (ovti,ov2680): port=
+:endpoint: 'clock-lanes', 'data-lanes' do not match any of the regexes: '^p=
+inctrl-[0-9]+$'
+> 	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov2680.yam=
+l
+>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+
+LGTM.
+Reviewed-by: Rui Miguel Silva <rui.silva@linaro.org>
+
+Cheers,
+    Rui
+
+> ---
+>  Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml=
+ b/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
+> index 634d3b821b8c7..ec5c40684b6bd 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
+> @@ -58,7 +58,7 @@ properties:
+>      properties:
+>        endpoint:
+>          $ref: /schemas/media/video-interfaces.yaml#
+> -        additionalProperties: false
+> +        unevaluatedProperties: false
+> =20
+>          properties:
+>            link-frequencies: true
+> --=20
+> 2.34.1
+
+
+
 
