@@ -1,159 +1,227 @@
-Return-Path: <linux-media+bounces-41249-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41250-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 949DFB39EC0
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 15:25:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3DD99B39F59
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 15:49:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B5713AB66C
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 13:25:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D7D723A64AF
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 13:49:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13EF83126C4;
-	Thu, 28 Aug 2025 13:25:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3948C21E0AF;
+	Thu, 28 Aug 2025 13:49:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bAZTLsHO"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="YT3IM3+f"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4F213115B2
-	for <linux-media@vger.kernel.org>; Thu, 28 Aug 2025 13:25:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAAEF3A1D2;
+	Thu, 28 Aug 2025 13:49:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756387510; cv=none; b=rSZV58ZzcGzsWWGfavy2DbemyHouyXxYzTBOyUsLRWHDT1C68yCYUhoTqReey4ColQbr4aPNn6qcHauna6xTWoU+6hCeYv29an+TqahPeT4L37T/PTkviu07JVDOk31fsJkrY9Iuasw1+3w5QYhtdX2KaFN1FeVZ7sIIurdzlvI=
+	t=1756388973; cv=none; b=SMf+GrQklt61LmFu4PTJ0OCa6jdZqqoSLHM5TTJqtQlPwBqo/MXPYywNQae5rKUK7IddEsdhBFPdiGQdzDq+mK+dPaYEqfB82A8l6PQPRcPy7/ruCy59oMkpsCQmMDt6+5o/ZahKeyP3cdhGn7N3Gy7SdWalGhGFHWhsXfFVfPY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756387510; c=relaxed/simple;
-	bh=Hx62hC2efafCdbQDxHi2B7OiIdyW02BYTfvtgOt7YqE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kr9zpyNB9mY2prstr0z1X85g3D4LPob8QxxF/WStfl5tq23PkTnKxVbgwTWBa+ucuaR4n9lINl9cGdk4l5DuXAsdUPZebD240OZWI831hEP3A41fYI6N9Bjlr6G6wBWZX7cSEhsCFmSMDRnpiUuAvAI3FavM8xupxW0E94H/cRw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bAZTLsHO; arc=none smtp.client-ip=209.85.218.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-afcb72d5409so152589466b.0
-        for <linux-media@vger.kernel.org>; Thu, 28 Aug 2025 06:25:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756387506; x=1756992306; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=KP6GeI4QNlyVzRWNe4PL6HeP+siA3vt2wqk6FJm5c6M=;
-        b=bAZTLsHO/Ek0iJUlU9+BwBvPmcc66TMQHGAezBrvw612q33DXdmoSIsAgzm4j3dlkm
-         p7HtmNg6Lupz32URTUJBZSODp/eWybdEK3dIAHP+PkhxCRPGqZaxLRyDcOfC8/CWTNFK
-         I35rFlORfP8G4dYCd+i+oo6L7MDidxJcbJrj8aj1YfWyUODCRgbqh1Swmj94DUmhEcGa
-         OeSrPfiNxZ4Bg6pJJpW1OB8F+e2dWeoQCJGqjJlKSOcKFF8wuU07AoHV0zh50ufGqSIw
-         /9r9no2ATg2pudkbron5FcNnVhwF2WH0EPB9v8xo9cFvX7Sskm8+x1UrtHdR3yQ5k2fI
-         Yoxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756387506; x=1756992306;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KP6GeI4QNlyVzRWNe4PL6HeP+siA3vt2wqk6FJm5c6M=;
-        b=n1LvJURrgnf7/s2zG72LqD2up7B/r/y3DVjNwzuSJxrtYAEcP6/Ks/qTjWUXd5scoM
-         NpfBvfKICyBXtiIOvoX/LfR2EZ1kVP37lyz0ufgCsRwsyfBcZAbAI8jatjKPhcep3tGI
-         2/N/3DKDrHP9d5y9k6XUZ7pKiaCZhi7fnP89gJyvYRyOrR3lfzpBzD4CyLycQ0nq+tkP
-         aQzbaDhfGOmba4iQQ4eQ+O1+5ghjqNF+yPxuQ3Iy1Pyty0hymMkASGY3kGvQHo58zlSF
-         Bx1z7SDMP4tEpP3P9LijdJe8GyPRqxYcJQK8keuyENpxFb1JTLy+ADUIY8688O2UPdJz
-         YsqA==
-X-Gm-Message-State: AOJu0YwhYWzs7IRD1DRhSfISWzPESVZ1srQbCCSW0NDZWVJBb0xRApbG
-	jgJAhPuYBFa7v0WESTdSbaSVhZlcvOskOIfoRafVEMPIvIxMAdvlXU8idSJ/4QhESI4=
-X-Gm-Gg: ASbGncvoZmlv28/rOW8VJGdj1nN4N/fg64uh13mIWHAFOMnpAwD1gbjPSQ/GooLJl+k
-	m4wxe4+y20vQCwkv7+L3FqqmYmZ1MzRjSYLyEZC5TqMEJW3WWGiJiN9NxOhPiImknnQ2rVN9CTV
-	jhy9qKgGCzZ9lDwTAnmcn4e1J6jzXeW0JmcA/8cABJiIO4EDNl58E6DtN5Xov/1DbVio3pxPxfv
-	fIA6J/l5um0CJeyJinEKsXOokqQX1AstaiDNah/1xI1yJmPSuLChQYjQDcW7eAF3R79z+simgxR
-	yYvtHwk49/eAvpH+nYQg4/BB5ljPAuyLOY6OnwCtM7ktskeJsgwAe5k3f8/ABEMFxYP+fNSYaU/
-	GtywC+BIF2pUyP16dW23kge2sIjkhgnP24oysHBx4Je+jImrV74aUqga7lNMZF/v2xgtUVEEBTF
-	2HJg==
-X-Google-Smtp-Source: AGHT+IHnstlza8K9C5w6vOWcSWmYNQEhQr+qMHGXGhuf3pnVngAd6eVaQO3IZGsyPfF2zyp3aTQhtA==
-X-Received: by 2002:a17:907:968c:b0:afd:d9e4:51e7 with SMTP id a640c23a62f3a-afe296bceabmr2217290166b.63.1756387505863;
-        Thu, 28 Aug 2025 06:25:05 -0700 (PDT)
-Received: from [10.41.150.230] ([77.241.232.9])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-afe79fba62dsm926560266b.100.2025.08.28.06.25.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 28 Aug 2025 06:25:04 -0700 (PDT)
-Message-ID: <ecbde2de-d08a-4951-82a4-fb73760de73e@linaro.org>
-Date: Thu, 28 Aug 2025 15:25:03 +0200
+	s=arc-20240116; t=1756388973; c=relaxed/simple;
+	bh=ts3lX4sVajkpWMjKZR+jz9N6FmaajEQQONmx4tUzQbg=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=VM5xZXYkKH6CtfUmJLOgYC+CZrKwvv4D8712XK0oggK7lF/GFlkv4aGA77u3A3ABWin7Z+TotY6zwJclJLuTmgPVbXrMS/UnbqFH8tmtW82f15x5tgij4zU4p3/+R6PEQ75EjSvxF/6si0FuKYbEvZWbqbPC1Al4OYFSRrF16UI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=YT3IM3+f; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 57S60nUu008186;
+	Thu, 28 Aug 2025 13:49:26 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ScOdmCeZxWFAml3E7y2GsOfgjlvOHFEckFHlTVSaPjU=; b=YT3IM3+fnaAhtCjS
+	z55y5rsTKa49PrOwsQ24niBtkqkNLEcjCyEyqhk+2W5jjNrIC8sH2SkS3RMipaQY
+	VUhjO5uPaQZy/eC1fV/99C75XNmCyGUMC/lyIFvt6twnB9Fzm2OFu7BaihsfhWdX
+	CqKJL0ag+xhQQhrcMwokde8eIsnNo3KR0fUxfjs60K2RVeizAtrjgX95Hjsc3q2G
+	PAiqVpghC1kMEYsaVlASlLMZ+nyLR0DWgALePyooZQ5HFZUWZqFmZqEZvVk+KbiO
+	m4I4PagqvyhpFATTWd2eBrsfFZkQCI9Ww00BmS7G3VLPnTIzbgbKYOIu+++XrmUY
+	10aNIg==
+Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48sh8apnn4-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 28 Aug 2025 13:49:26 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 57SDnP5f008699
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 28 Aug 2025 13:49:25 GMT
+Received: from [10.216.32.160] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Thu, 28 Aug
+ 2025 06:49:21 -0700
+Message-ID: <05d40a3b-cc13-b704-cac7-0ecbeea0e59d@quicinc.com>
+Date: Thu, 28 Aug 2025 19:19:18 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 10/13] arm64: dts: rockchip: add the vip node to px30
-To: michael.riesch@collabora.com, Mehdi Djait <mehdi.djait@linux.intel.com>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- Markus Elfring <Markus.Elfring@web.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Kever Yang <kever.yang@rock-chips.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Collabora Kernel Team <kernel@collabora.com>,
- Paul Kocialkowski <paulk@sys-base.io>,
- Alexander Shiyan <eagle.alexander923@gmail.com>,
- Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, Mehdi Djait <mehdi.djait@bootlin.com>
-References: <20240220-rk3568-vicap-v10-0-62d8a7b209b4@collabora.com>
- <20240220-rk3568-vicap-v10-10-62d8a7b209b4@collabora.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] media: dt-bindings: qcom,sm8550-iris: Do not reference
+ legacy venus properties
 Content-Language: en-US
-In-Reply-To: <20240220-rk3568-vicap-v10-10-62d8a7b209b4@collabora.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>,
+        Mukesh Ojha
+	<mukesh.ojha@oss.qualcomm.com>
+CC: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Abhinav Kumar
+	<abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+References: <20250823155349.22344-2-krzysztof.kozlowski@linaro.org>
+ <20250825113734.iekrgyvctamhb5y7@hu-mojha-hyd.qualcomm.com>
+ <a3325bf1-2a3f-416a-ba2a-4fb1e9f85e61@linaro.org>
+From: Vikash Garodia <quic_vgarodia@quicinc.com>
+In-Reply-To: <a3325bf1-2a3f-416a-ba2a-4fb1e9f85e61@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Authority-Analysis: v=2.4 cv=cLDgskeN c=1 sm=1 tr=0 ts=68b05e66 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=2OwXVqhp2XgA:10 a=VwQbUJbxAAAA:8
+ a=KKAkSRfTAAAA:8 a=A2wnt1OYZSGF17uXe9IA:9 a=QEXdDO2ut3YA:10 a=nI803oanCcYA:10
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODI2MDE1MyBTYWx0ZWRfX0URI7wxdL1O2
+ 2JUx40tLVtIRBN8pbq5x/nBHzOU8DGCqFb4qNvi90Qso6z+y6Fw5nKM5XgO+ZjMaHACf50JIUwh
+ 3cATaJo0FAY9GycFqHI8qkQL5BB6t9QtuWzTSxx8IOBzlRIY/o0SS21HEz7nUVbrEI+HvI1i9Wj
+ 4WD4xjDKFm0mFPLQ73fRgu9Tpdc7lYYTAotbwqP4VtpTdL9ldWR1bdX543uqodJ432oCZZ6g+C8
+ UlsyGoKDhkcqBQM9wYlEXYDZwoZtivEhUIhjbBLGya7iZWMSeui1Crug1Uuxpxh+9oX3dEb9evf
+ yLNH5eTZxTXJH7+CUZwkrWJ629XmB20QRnWk7Yx2cH2idX7+SmHTBSR6hmOxbujlkn84wLGTrV0
+ Dc8KgSjr
+X-Proofpoint-GUID: M_iC15BxkkHxME8G0OIOxWBxYV_AP3K6
+X-Proofpoint-ORIG-GUID: M_iC15BxkkHxME8G0OIOxWBxYV_AP3K6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-08-28_04,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 malwarescore=0 spamscore=0 adultscore=0
+ impostorscore=0 suspectscore=0 priorityscore=1501 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508260153
 
-On 19/08/2025 01:26, Michael Riesch via B4 Relay wrote:
-> From: Mehdi Djait <mehdi.djait@bootlin.com>
+
+On 8/25/2025 5:32 PM, Krzysztof Kozlowski wrote:
+> On 25/08/2025 13:37, Mukesh Ojha wrote:
+>> On Sat, Aug 23, 2025 at 05:53:50PM +0200, Krzysztof Kozlowski wrote:
+>>> The Qualcomm SoC Iris video codec is an evolution of previous Venus and
+>>> it comes with its own Iris Linux drivers.  These new drivers were
+>>> accepted under condition they actually improve state of afairs, instead
+>>> of duplicating old, legacy solutions.
+>>>
+>>> Unfortunately binding still references common parts of Venus without
+>>> actual need and benefit.  For example Iris does not use fake
+>>> "video-firmware" device node (fake because there is no actual device
+>>> underlying it and it was added only to work around some Linux issues
+>>> with IOMMU mappings).
+>>>
+>>> Stop referencing venus-common schema in the new Qualcomm Iris bindings
+>>> and move all necessary properties, except unused "video-firmware" (no
+>>> driver usage, no DTS).
+>>>
+>>> Signed-off-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>> ---
+>>>  .../devicetree/bindings/media/qcom,sm8550-iris.yaml | 13 ++++++++++++-
+>>>  1 file changed, 12 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+>>> index c79bf2101812..320227f437a1 100644
+>>> --- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+>>> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
+>>> @@ -26,6 +26,9 @@ properties:
+>>>            - qcom,sm8550-iris
+>>>            - qcom,sm8650-iris
+>>>  
+>>> +  reg:
+>>> +    maxItems: 1
+>>> +
+>>>    power-domains:
+>>>      maxItems: 4
+>>>  
+>>> @@ -45,6 +48,12 @@ properties:
+>>>        - const: core
+>>>        - const: vcodec0_core
+>>>  
+>>> +  firmware-name:
+>>> +    maxItems: 1
+>>> +
+>>> +  interrupts:
+>>> +    maxItems: 1
+>>> +
+>>>    interconnects:
+>>>      maxItems: 2
+>>>  
+>>> @@ -69,6 +78,9 @@ properties:
+>>>  
+>>>    dma-coherent: true
+>>>  
+>>> +  memory-region:
+>>> +    maxItems: 1
+>>> +
+>>>    operating-points-v2: true
+>>>  
+>>>    opp-table:
+>>> @@ -85,7 +97,6 @@ required:
+>>>    - dma-coherent
+>>>  
+>>>  allOf:
+>>> -  - $ref: qcom,venus-common.yaml#
+>>>    - if:
+>>
+>> Saw your reply on 
+>> https://lore.kernel.org/lkml/59951c47-1015-4598-a885-25f8f1a27c64@kernel.org/
+>>
+>> Just trying to understand ABI here, how all of a sudden we remove a binding
+>> for a hardware just because it did not get noticed until yet that as it is
+>> not a real device and we always say device tree binding should not depend on
+>> drivers but the device but we are saying Iris does not use fake "video-firmware"
+>> device node for removal. I am a bit confused.
 > 
-> Add the device tree node for the PX30 Video Input Processor (VIP).
+> About what? What is unclear in standard DT ABI rules?
 > 
-> Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-> [added cosmetic changes]
-> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
-> ---
->   arch/arm64/boot/dts/rockchip/px30.dtsi | 12 ++++++++++++
->   1 file changed, 12 insertions(+)
+>>
+>> Whether removing will not break any ABI as initial binding enables the IRIS
+>> related code to use video-firmware, now we are removing it.
+>> I believe, removing binding always break ABI ? or is it depend on driver
+>> code not using it ?
 > 
-> diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
-> index 46f64cd33b9b..ef52879d6a73 100644
-> --- a/arch/arm64/boot/dts/rockchip/px30.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
-> @@ -1280,6 +1280,18 @@ isp_mmu: iommu@ff4a8000 {
->   		#iommu-cells = <0>;
->   	};
->   
-> +	cif: video-capture@ff490000 {
-> +		compatible = "rockchip,px30-vip";
-> +		reg = <0x0 0xff490000 0x0 0x200>;
-> +		interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-> +		clocks = <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CIF>;
-> +		clock-names = "aclk", "hclk", "pclk";
-> +		power-domains = <&power PX30_PD_VI>;
-> +		resets = <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRST_CIF_PCLKIN>;
-> +		reset-names = "axi", "ahb", "pclkin";
-> +		status = "disabled";
-> +	};
-> +
->   	qos_gmac: qos@ff518000 {
->   		compatible = "rockchip,px30-qos", "syscon";
->   		reg = <0x0 0xff518000 0x0 0x20>;
+> There is no single user of this, out of tree (I briefly checked) and
+> in-tree, so there is no ABI impact. I am changing the documentation of
+> the ABI, but there is no actual ABI break because impact is 0.
 > 
 
-Now that I look at the rockchip dtsi it appears newline scarcity is the 
-norm, you can disregard my suggestion for your example in the previous 
-patch so.
+My understanding here is that the interface "video-firmware" is already defined
+in the binding. There could be possible out-of-tree users of it, might not be
+possible for us to look into all of those out=of-tree users.
+I support such cleanups, but also need to understand how this is not an ABI
+break, just that there are no in-tree DTS user means no ABI break ?
+Would appreciate if you could point to any guidelines if my understanding is not
+correct, i am currently referring to [1]
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+[1]https://docs.kernel.org/devicetree/bindings/ABI.html
+
+Regards,
+Vikash
+
+> I am really sorry but it seems you ask about basics of DT, so please
+> first get into docs and other existing discussions.
+> 
+> Best regards,
+> Krzysztof
 
