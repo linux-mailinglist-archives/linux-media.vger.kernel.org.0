@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-41269-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41270-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B666B3A5A6
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 18:09:04 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B825B3A5B8
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 18:10:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 0B00E7B72F4
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 16:07:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BEC50188BA64
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 16:09:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71527285065;
-	Thu, 28 Aug 2025 16:08:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0CA1E2857DF;
+	Thu, 28 Aug 2025 16:08:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="MwAQkrog";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="iyKgoadd"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="rZbHaKdo";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="NIuBnZTc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
+Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BB4729A9F9;
-	Thu, 28 Aug 2025 16:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.154
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94BAE2BE64A;
+	Thu, 28 Aug 2025 16:08:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756397300; cv=none; b=onZm9LJi0MEPeIfkLroq/BNHlxVnsbJlwcP89YnZJ/H6TYYNPfOYktLvN6Y6z7fS4DABYprac0B7GK5R2irz1tF0SsLxJjVnbfpVPEz1htZ4610nmCiLGBNrApuVveiP6+y/Xr6o9+ZQ7B6mPQOTpoCq3+lz5HZOq33NTFWqS+Q=
+	t=1756397304; cv=none; b=L+p26sw8rHwlEiwmfebE9ygzMAjCxFFjkNv8BUbN2U8l6GwPd/iblLjiAsqeTDVywZEXY2vQHX18MN5COe2XxWZ/liOfkzI9SaHRniBW5yUmFeZ+dx2ac/+w2d+jdHcQNHpfaZcitGZarn3p+D1OEl9BCbrJeYXggNyM+s1+bD0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756397300; c=relaxed/simple;
-	bh=iFvauvFDgtV93tmFhoaXT7TMMdrQYPesY3GGHzj4V+k=;
+	s=arc-20240116; t=1756397304; c=relaxed/simple;
+	bh=AqoaHanpGW4lWbOBxHRiaAVksngtQGEHt9v4ZIzI3oc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SKreJjnKmzu6wZsTV3Iy8PmRUwf/+mPl3JHF0VSIuSj+h3A1KwI9o8f9HVH6IkAGUUS0aWRRLDswuSueV2uWIKVz6SSz46digZnUR0QRc9HwxaCFloKPv1Nj1OJtmqBxAAdSltzJj6QK/5D2OlVblXcL3ZAJvX8Xnz9Fe52ObLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=MwAQkrog; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=iyKgoadd; arc=none smtp.client-ip=202.12.124.154
+	 MIME-Version:Content-Type; b=Wn6dB5qJB0w5TwNAfkuTLBNxSQzdY1gXaBik1qz/0omB7DPk4DYAZziYSXj/7/K71Ew3XmeXF/QeufVYds7wTiw0ZJIZypVz1+gmKxmyHUvXBafPttGLLoDbkx1v9pfVkYiOBl9gf+rpcwSB5yVgx/9dli5g5823yJOytum26f8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=rZbHaKdo; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=NIuBnZTc; arc=none smtp.client-ip=202.12.124.151
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 1EA397A01D0;
-	Thu, 28 Aug 2025 12:08:18 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Thu, 28 Aug 2025 12:08:18 -0400
+Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
+	by mailfout.stl.internal (Postfix) with ESMTP id 9B53A1D00065;
+	Thu, 28 Aug 2025 12:08:20 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-11.internal (MEProxy); Thu, 28 Aug 2025 12:08:20 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1756397297;
-	 x=1756483697; bh=dx6wH2fSV0XysyUWX5ynvlSK+t31ryjB7eRHCIzHY9w=; b=
-	MwAQkrogI7iBxNtNFhlRtZYXzVQS1bUBgYKipgwfoEtqxtg62sorIdy4SDQFOUXE
-	xY8xPbVqEXsCZQyCYaHDZEKXjGbhRa4naLb0PoX1n5CYsH0zCzHWCTtTZ7J99SkZ
-	9A1XVCyJl7/tk/FlGS7T4bZXHSw3W119+QXcSlIpeHh8twhXFthqgTODjdSLCGWc
-	bRoKGdVF7R28yL+fFrJRjKBM7Qt8gotfNq0rEqUF4vDm7SDBVnepF5tp03VfxN/g
-	uZ8ASL8lZ95gUHnKUnrx15Q3cWcrgO3/XMUyzRUqYdyAWR/W/aiZvfBMyYhZeqK2
-	kxcZr4Mk+9yris02oGPyRg==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1756397300;
+	 x=1756483700; bh=nwVBZO/fwb3wjtODqCgG9berfTs7QHy+TZ6GRGZkrEw=; b=
+	rZbHaKdofxmGoRCLWz5lkR0d1RFTuC9BAmxjvUEeBNDWMTKY9Veq19JmKATESjbR
+	M/F97gjpOP6xj8fG4YGpmXX5sdeMJVKH9hXzlQJqvVrOt2bC6arGMbTSS4ufr8ht
+	jpyaE6/xTj7N1NP/jnrYrg5GpQ5FFWowR5K4Y6QQJo5DI+875yLhoRzrS7H1bl9s
+	2xXFgB3EWArHKbxF2ZOeXqw5JxFHQWAGvF6elY995E6BeXrwXwliB6Df52naucON
+	7fB5m5EJRRcO6GyBGiPEkIUWQJ0+WNkJiEIQiLFoDnKU5wi4Ei4YvjRHs5Z+fCN4
+	v9VTw3zusKkFBa7gM+e4DA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756397297; x=
-	1756483697; bh=dx6wH2fSV0XysyUWX5ynvlSK+t31ryjB7eRHCIzHY9w=; b=i
-	yKgoaddWYBGswAUcF1w/xz6ulPWSf06fMDRk2ThGz8mvabTs7aokP2qKr7xX2AbN
-	CLFoG+0OOXuIa69ZegxqX75gj+lNPfiEafb8Wx1fkb7QHeKNe132mh/5r9aJ4OyP
-	wLTaYwiCzmi1xsm4p5vdbETLcram2puG9aS93Z31nPAR18ROKrEqlFsAbmSt6TwV
-	Z+SOth1Dn9cZw+V6mmXOhccZiHaFSghKIjndWGV+Snsfrda1wx9XXLkqkLsh8CtN
-	U5gbq6OSXdUvdgKhFOmLIag4ouQ6VzGXH6nc7tPWdfVsfz2aLeqIp+H0yh2OMUOV
-	CKC748De7tukbhmiqdhHQ==
-X-ME-Sender: <xms:8X6waHgkpRa_pfLKxddjG_VTleyNx47kARrPwYrY-58OssCRgIxAuA>
-    <xme:8X6waH0rafkliAmShr37i7hWsrJOz98CzS119Th8g1sZVL1JmrZ-0cvkr_slmYuQm
-    d7N7I2wRzH7H_-FUiE>
-X-ME-Received: <xmr:8X6waAIyY37CRtlJIJou5zqtnEkH7QS2NVd2smKfaOkUwSxYJdpZIhUtVhaJ5YmjlQe6CFlQ37hi33bHd4H2LhrFFQ>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756397300; x=
+	1756483700; bh=nwVBZO/fwb3wjtODqCgG9berfTs7QHy+TZ6GRGZkrEw=; b=N
+	IuBnZTc7iSuFIVkT8BDmu1/sxQRDYNpeNmNNrctk670zMQUun++8nIHJazdJ14p5
+	65hVe444T9ReJ3r/H6zum+/SEkT3BBpAYzlXqgnrR7LskLgS7s5BZXBfLNTa2nZk
+	Y6P9aSFBdbF6gb8iOAFT4Ht6Zoeu6kqz6h3jjifUOx/XOhpPGnOIYZMQfbP5AYgg
+	SVRW3oKo+WLMbEEYkANgmTbgB7PpRz3ATeXTILYx4F7HrGyMqAJKuELytUtnQFX4
+	ChBGuAGXGmWpQycGMmEpzdTYouLnHX18mMISDEtQOkBy/Jj2ZB9E39XIfS7o0qIJ
+	UQHMdR/SU9duURQ9mBxHw==
+X-ME-Sender: <xms:9H6waFcZAkMH4koTbGoy547wUSPFgaDE6eFyRmfRcR0mPV9nAassAg>
+    <xme:9H6waHDIkYA5zhmfNmdAqf-bC8nlzAg-1hN08iCLdBWDaUV9WZl9RpObd4OwG5eu_
+    aj18r3Nv0V7qU8YwTc>
+X-ME-Received: <xmr:9H6waHlXtPG5z3veK5WQmxtCZ55uTflaOJsX30qKy25zvPhTUQ7p9wAspcTWxMdfBAwYlgwGjD1Dp_eScsLfmaUYfA>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedugeeiucetufdoteggodetrf
     dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
     rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
@@ -72,7 +72,7 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedugeeiucetufdote
     shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
     grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueevuedt
     fefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvghruf
-    hiiigvpedunecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
+    hiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
     uhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeejpdhmohguvgepsh
     hmthhpohhuthdprhgtphhtthhopehlrghrshesmhgvthgrfhhoohdruggvpdhrtghpthht
     ohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohephhhvvghrkhhuih
@@ -81,14 +81,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedugeeiucetufdote
     grsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgv
     shgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklh
     grshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:8X6waHxy3DjrOFNotcA7CoB6NMtf_JeLJJEydGE1z15bJP_g2GQiBA>
-    <xmx:8X6waOUhceUhbTMg_0qIDCxsYE21ACxuxWl9d2IhMa8Q2iQFbkilvg>
-    <xmx:8X6waHjqR745ZsZXBpknLmo-LjQOXLZSo7oDdOPCa3YFxD6saktFvw>
-    <xmx:8X6waODCz0ylvv8p_2kiFgHlF8ILHHflg6LauW7MC71NQ6zgYYcXhQ>
-    <xmx:8X6waE1CNlBr9MHkTrsHtv63guENTQ_7YH9NRFcP7YHSOVfBjzrdY11Z>
+X-ME-Proxy: <xmx:9H6waCdQxvVVw4YAN3zmqYO2x03JobYKU1_npsVyIvyiQ2MDutebLw>
+    <xmx:9H6waLQl0BX80cvqbr3Yj4JuOTMMR4yBaccugetXC7QjlLrLnlXjGg>
+    <xmx:9H6waJuD_LjqHOA2JHc0hHgub2HtRAzzZxvyFVwenssqnhUXizradA>
+    <xmx:9H6waMdojtNkCDnBiVEckaIx7Kt7hi4LWvsFib0eAhEf1pftVLrJjA>
+    <xmx:9H6waKB1cKVIWg-9qDDOUTcYLuY8htNGb1KiOcKzsdRm_8XlJJOr-Fn7>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 12:08:17 -0400 (EDT)
+ 28 Aug 2025 12:08:19 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Lars-Peter Clausen <lars@metafoo.de>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -97,9 +97,9 @@ To: Lars-Peter Clausen <lars@metafoo.de>,
 	linux-media@vger.kernel.org
 Cc: linux-renesas-soc@vger.kernel.org,
 	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 07/11] media: adv7180: Split device initialization and reset
-Date: Thu, 28 Aug 2025 18:06:50 +0200
-Message-ID: <20250828160654.1467762-8-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 08/11] media: adv7180: Remove the s_power callback
+Date: Thu, 28 Aug 2025 18:06:51 +0200
+Message-ID: <20250828160654.1467762-9-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
@@ -112,86 +112,105 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The two different tasks of resetting and initializing the devices, and
-configured the video formats are grouped lumped together in a single
-function. These two tasks are then only performed at probe time, or when
-resuming from suspend. Configuration of formats are then done directly
-by the IOCTL callbacks, such as .set_fmt.
+The s_power callback is used a bit oddly in adv7180, the callback
+adv7180_set_power() do not control power to the chip itself, but
+rather the power to the chips decoder.
 
-Prepare for reworking the driver to only reset the device at probe and
-resume, and configuring all video formats in .s_stream instead of in
-each IOCTL callback by splitting the two tasks in two different
-functions.
+When the decoder is powered the chip process video data, or if no video
+source is available freeruns. When the decoder is off the device i2c
+registers are still powered and the device can be configured.
 
-At this point there is no functional change.
+In the current s_power implementation the device starts to transmit
+video data as soon as it's powered, and the s_stream operation only
+tracks if s_stream have been called or not.
+
+The actual configuration of the device happens when the configuration
+IOCTLs are called. Sometimes with very odd implementations where the
+decoder have to first be power off, the device configured, and then
+unconditionally power on, see adv7180_set_pad_format() for an example.
+
+As a first step to remedy this remove the s_power callback altogether
+and instead completely initialize the device from s_stream. Future work
+will clean up the IOCTL callbacks that directly configures the device
+that is also done by init_device().
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- drivers/media/i2c/adv7180.c | 27 ++++++++++++++++++++-------
- 1 file changed, 20 insertions(+), 7 deletions(-)
+ drivers/media/i2c/adv7180.c | 43 ++++++++++++++++---------------------
+ 1 file changed, 19 insertions(+), 24 deletions(-)
 
 diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index 0bc608291df7..ecec13fee49e 100644
+index ecec13fee49e..c8b63c985b69 100644
 --- a/drivers/media/i2c/adv7180.c
 +++ b/drivers/media/i2c/adv7180.c
-@@ -878,6 +878,23 @@ static int init_device(struct adv7180_state *state)
+@@ -545,21 +545,6 @@ static void adv7180_set_reset_pin(struct adv7180_state *state, bool on)
+ 	}
+ }
  
- 	lockdep_assert_held(&state->mutex);
- 
-+	ret = adv7180_program_std(state);
-+	if (ret)
-+		return ret;
-+
-+	adv7180_set_field_mode(state);
-+
-+	__v4l2_ctrl_handler_setup(&state->ctrl_hdl);
-+
-+	return ret;
-+}
-+
-+static int adv7180_reset_device(struct adv7180_state *state)
-+{
-+	int ret;
-+
-+	lockdep_assert_held(&state->mutex);
-+
- 	adv7180_set_power_pin(state, true);
- 	adv7180_set_reset_pin(state, false);
- 
-@@ -895,14 +912,10 @@ static int init_device(struct adv7180_state *state)
- 	if (ret)
- 		return ret;
- 
--	ret = adv7180_program_std(state);
-+	ret = init_device(state);
- 	if (ret)
- 		return ret;
- 
--	adv7180_set_field_mode(state);
+-static int adv7180_s_power(struct v4l2_subdev *sd, int on)
+-{
+-	struct adv7180_state *state = to_state(sd);
+-	int ret;
 -
--	__v4l2_ctrl_handler_setup(&state->ctrl_hdl);
+-	ret = mutex_lock_interruptible(&state->mutex);
+-	if (ret)
+-		return ret;
 -
- 	/* register for interrupts */
- 	if (state->irq > 0) {
- 		/* config the Interrupt pin to be active low */
-@@ -1487,7 +1500,7 @@ static int adv7180_probe(struct i2c_client *client)
- 		goto err_free_ctrl;
+-	ret = adv7180_set_power(state, on);
+-
+-	mutex_unlock(&state->mutex);
+-	return ret;
+-}
+-
+ static const char * const test_pattern_menu[] = {
+ 	"Single color",
+ 	"Color bars",
+@@ -960,18 +945,29 @@ static int adv7180_s_stream(struct v4l2_subdev *sd, int enable)
+ 	struct adv7180_state *state = to_state(sd);
+ 	int ret;
  
- 	mutex_lock(&state->mutex);
--	ret = init_device(state);
-+	ret = adv7180_reset_device(state);
- 	mutex_unlock(&state->mutex);
+-	/* It's always safe to stop streaming, no need to take the lock */
+-	if (!enable) {
+-		state->streaming = enable;
+-		return 0;
+-	}
+-
+ 	/* Must wait until querystd released the lock */
+-	ret = mutex_lock_interruptible(&state->mutex);
++	guard(mutex)(&state->mutex);
++
++	/*
++	 * Always power off the decoder even if streaming is to be enabled, the
++	 * decoder needs to be off for the device to be configured.
++	 */
++	ret = adv7180_set_power(state, false);
  	if (ret)
- 		goto err_media_entity_cleanup;
-@@ -1573,7 +1586,7 @@ static int adv7180_resume(struct device *dev)
- 
- 	guard(mutex)(&state->mutex);
- 
--	ret = init_device(state);
-+	ret = adv7180_reset_device(state);
- 	if (ret < 0)
  		return ret;
++
++	if (enable) {
++		ret = init_device(state);
++		if (ret)
++			return ret;
++
++		ret = adv7180_set_power(state, true);
++		if (ret)
++			return ret;
++	}
++
+ 	state->streaming = enable;
+-	mutex_unlock(&state->mutex);
++
+ 	return 0;
+ }
  
+@@ -1000,7 +996,6 @@ static const struct v4l2_subdev_video_ops adv7180_video_ops = {
+ };
+ 
+ static const struct v4l2_subdev_core_ops adv7180_core_ops = {
+-	.s_power = adv7180_s_power,
+ 	.subscribe_event = adv7180_subscribe_event,
+ 	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
+ };
 -- 
 2.51.0
 
