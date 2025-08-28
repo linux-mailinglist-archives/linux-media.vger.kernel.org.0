@@ -1,186 +1,112 @@
-Return-Path: <linux-media+bounces-41273-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41267-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A9E1B3A5C0
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 18:11:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AC3DB3A5A9
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 18:09:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EE8551673D8
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 16:09:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0A69F5E41E5
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 16:08:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0361F28980F;
-	Thu, 28 Aug 2025 16:08:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CADF6298CC9;
+	Thu, 28 Aug 2025 16:08:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="YSdu8507";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gKB7u7xo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gAJdjTK2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B68E72C2374;
-	Thu, 28 Aug 2025 16:08:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.151
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB89285065;
+	Thu, 28 Aug 2025 16:08:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756397310; cv=none; b=Af91Ph4ToCYg4QmeZX6po+nl9oZPLSrzNrsGahkiELHS2j3x5wvxYVLOVOGamdbJDy2yrIYq/D+HrRBluz0KXAM+usYhZ10dPgeEZjEdXaLqLpItYQZs881xxNfNEk51MjKxpo41CXPfG6zec1l91CdNDtZa/UvTgbOEoL25Lyc=
+	t=1756397298; cv=none; b=GaL5WQ5IUtYB0myCIoSvjXbH8sGvd+2tc+lWGA7l2QNWVTKpOMVgrLYa6SQdyPrQi527xxpygoqPJsW9dlgkTnjlYDqby7daltFe3fIGWPzuz6PlDtVL/Pp0+In2kr3UAyXuFtTS1LXXacomHZEXqv+9w97lit4V0yk8U701veo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756397310; c=relaxed/simple;
-	bh=VJfn+oYYSy4ZA3gD/v34MccuM8z6wCCXGEg2ktmhxn4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=iikfyxUBb3DSCg62ezOBh95B1GY6ECYEEsRrRX3wqLDiHcWMNfDaocHLmpbWL8Vxn22uODZSomrQpb5SI51qkVh9xUWxtBP5Tvg+RjRWKmqWMzUl2BRtMIne3Yaw0iap2cnD6nkKjzTibXY7OMgnvYaJvfZez0TrKtcVV+totFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=YSdu8507; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gKB7u7xo; arc=none smtp.client-ip=202.12.124.151
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-09.internal (phl-compute-09.internal [10.202.2.49])
-	by mailfout.stl.internal (Postfix) with ESMTP id B640D1D0017C;
-	Thu, 28 Aug 2025 12:08:27 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-09.internal (MEProxy); Thu, 28 Aug 2025 12:08:27 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1756397307;
-	 x=1756483707; bh=y5BVgo3OvyYLOab0BxHeSijM5P7vg3KbiuQ4Gr8Z3eU=; b=
-	YSdu8507rv++pX1Qiyr2f5ng9/tlWhyxIiTvbutc3IMJdZ5ldan792/mD3vjfIFM
-	Y+oVCSwG+SdUObBY7TuFBHQ1XZ1zOoBb/BnDu5eCZHmjmDgjMdT7tAWIaK9TdcvO
-	RptzEQXIg38VTdOBRUXR25tW2rSxrTgXyivwazZ8GY6BZnni5TIeJgnZenEDMdEo
-	lLRyeIhcTPX+xtYU5Bct/qVb4CSqUEFhmVTs2FYGXGChoJOjjygkVkgr3NFtdnt4
-	DxSneWtCQjYjmFByT9bPkwfcMemfbSKwDx1iVrCQp5dUI1xnKRVKI2FD8sHAWR5p
-	sAHPtxunsDzO6ALWAQpT3g==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756397307; x=
-	1756483707; bh=y5BVgo3OvyYLOab0BxHeSijM5P7vg3KbiuQ4Gr8Z3eU=; b=g
-	KB7u7xoBO26MH8kn3CX5kHnBlf9XWKfO06ilGikkQaUkAZn6G69rS6e6nrHGgGz5
-	mf73sk2zhiqjR+1qEJ8zLrjTPuXAsQ2blHWnRzzajnWeAVY+DU8V28gkSIjLsz9e
-	qaCHacYwulO9+IaOz9VJsMSmWmtLq5+f+5+TMwKYl9/c9btVS4psV+56kH7G8wYs
-	1qAG6UoYTElP+sz3Vp+c1+e6WwOARp42aflujxmMgdnk7On7lIPw4uigWencG5VA
-	AzoWlDYAZjCj3drW5NiY51188g32GolnkZnHx1Ozp13OR9PEHQdVfDZDMuZ7Bcsn
-	ky14RRKySgNdins0WWQgw==
-X-ME-Sender: <xms:-36waN6KMHi9kphkQWW_3hA8GYpH2RjTRv-SMeJ4ThBMzPPnxXg6jg>
-    <xme:-36waOtoy5l7WG8N3ikSzBnmwNSkYRZ6l2lFaIhKD2y4ahnuF30cbENBdP-d2LUOU
-    TmYnLSfHjzwF7gxCwQ>
-X-ME-Received: <xmr:-36waNgt0BCua9w695w1Ms4GarpFR08YU8hDrYY22Dg4yLafoN4-m6d99GAu8ZzrQM5OO4K8jqcw4WB_9i4finWUfw>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdefgddukedugeeiucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
-    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
-    gurhephffvvefufffkofgjfhggtgfgsehtkeertdertdejnecuhfhrohhmpefpihhklhgr
-    shcuufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvsh
-    grshesrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeehiefgueevuedt
-    fefhheegkeevtdelueeukeevfeduhefhhfejfffggeffleefgeenucevlhhushhtvghruf
-    hiiigvpedvnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhl
-    uhhnugesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeejpdhmohguvgepsh
-    hmthhpohhuthdprhgtphhtthhopehlrghrshesmhgvthgrfhhoohdruggvpdhrtghpthht
-    ohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohephhhvvghrkhhuih
-    hlseigshegrghllhdrnhhlpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthhgrrhht
-    sehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehlihhnuhigqdhmvgguih
-    grsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqrhgvnhgv
-    shgrshdqshhotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehnihhklh
-    grshdrshhouggvrhhluhhnugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgv
-X-ME-Proxy: <xmx:-36waJrwzTji2JOwgSPKGZ1exMFbeLO4oMJt076NN89_tPlp_TYkaQ>
-    <xmx:-36waKvIOh599zNhEy7FrdHu4RLxvLA6nYWo0_zizq2san3NzJhQFQ>
-    <xmx:-36waMbQgYo9SlMCNci43oz0EqLDkQWDGcKENny0KN5s9W8CtlULYw>
-    <xmx:-36waBbmSDp4dsT7OkxLQRtTwdUUoZNMsrmw3gW9xz06atImbWk_PA>
-    <xmx:-36waHtdqaDubB9UxdeO4oTw4Dp0dDGFFnw9uiL-3mmy3RiRLmz_AS0u>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 28 Aug 2025 12:08:26 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Lars-Peter Clausen <lars@metafoo.de>,
+	s=arc-20240116; t=1756397298; c=relaxed/simple;
+	bh=chl2pglmKuX5THNV4UczW2DfJ8GWxqeVOVktQ94bii0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VQ0iPO2urATIExs855kEOTD9zwSXSsLJle8XRxFdrgWRsGJpzB+JLUVZzcKAj7k8tgs7AaB8chpWyl2816H3is3dsVUmAju+3Bxvv3z4F8jH0IB6UkZdONEpAu00MwmXP4gWs8YDHAk18kFW9grbsB6AUMgtR5iHCZWtvLBs+78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gAJdjTK2; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756397297; x=1787933297;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=chl2pglmKuX5THNV4UczW2DfJ8GWxqeVOVktQ94bii0=;
+  b=gAJdjTK2tyJp6Kma2k1Gwzx4+iEoaX0M/3jdWjpdQMnMqubZ4p5sh787
+   0VrCZPUdTjTy4wCxJjdnxFUB7nydPkaYcW6LnJVJCsFJUJqgUcIH6c4Jh
+   B3tct9fp7EbQpPuhdc9UjML68BgqpGQTBqy7O8SMvUWlqe/WW7XAd9Sdn
+   47rGfOQ7QH0LASk6pQ19nlR5FW0nGOEHAfwANf9Z8iIYBmqglX0ch5o4h
+   5y7kfa1UPL0uLVq6ffzkiFNRtjeLVn+1BzGR5Ffyfphlbm0nnoo8pcgvH
+   APY69hKJOxb4JIFOJ5CKgF7kSEkAB7LlKd7bFYVH68l/kb2hIgG2qMacZ
+   g==;
+X-CSE-ConnectionGUID: wQklFKzrR1ulYeD3orhqjg==
+X-CSE-MsgGUID: C7YqnZdMRWaslGcvh+dypA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11536"; a="61306461"
+X-IronPort-AV: E=Sophos;i="6.18,220,1751266800"; 
+   d="scan'208";a="61306461"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2025 09:08:16 -0700
+X-CSE-ConnectionGUID: 6NXhRMzqTDaxYPKfnPew0g==
+X-CSE-MsgGUID: d3UIs7vBS2q49mxX4Zsurg==
+X-ExtLoop1: 1
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.135])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Aug 2025 09:08:11 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id ABFA411F9D4;
+	Thu, 28 Aug 2025 19:08:08 +0300 (EEST)
+Date: Thu, 28 Aug 2025 19:08:08 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Hardevsinh Palaniya <hardevsinh.palaniya@siliconsignals.io>
+Cc: Himanshu Bhavani <himanshu.bhavani@siliconsignals.io>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Hans Verkuil <hverkuil@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org,
-	=?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 11/11] media: adv7180: Only validate format in querystd
-Date: Thu, 28 Aug 2025 18:06:54 +0200
-Message-ID: <20250828160654.1467762-12-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
+	Ricardo Ribalda <ribalda@chromium.org>,
+	Hans de Goede <hansg@kernel.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Matthias Fend <matthias.fend@emfend.at>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Jingjing Xiong <jingjing.xiong@intel.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v8 0/2] media: i2c: Add ov2735 camera sensor driver
+Message-ID: <aLB-6GsY-OiCZi9I@kekkonen.localdomain>
+References: <20250821143126.319470-1-hardevsinh.palaniya@siliconsignals.io>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250821143126.319470-1-hardevsinh.palaniya@siliconsignals.io>
 
-The .querystd callback should not program the device with the detected
-standard, it should only report the standard to user-space. User-space
-may then use .s_std to set the standard, if it wants to use it.
+Hi Hardev,
 
-All that is required of .querystd is to setup the auto detection of
-standards and report its findings.
+On Thu, Aug 21, 2025 at 08:01:11PM +0530, Hardevsinh Palaniya wrote:
+> The Omnivision OV2735 is a 1/2.7-Inch CMOS image sensor with an                 
+> active array size of 1920 x 1080.                                               
 
-While at it add some documentation on why this can't happen while
-streaming and improve the error handling using a scoped guard.
+Have you run v4l2-compliance on this? Could you do so and provide the
+report, please?
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
----
- drivers/media/i2c/adv7180.c | 37 ++++++++++++++++---------------------
- 1 file changed, 16 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index 47112b43769d..ca0bdfa9dcda 100644
---- a/drivers/media/i2c/adv7180.c
-+++ b/drivers/media/i2c/adv7180.c
-@@ -388,32 +388,27 @@ static inline struct adv7180_state *to_state(struct v4l2_subdev *sd)
- static int adv7180_querystd(struct v4l2_subdev *sd, v4l2_std_id *std)
- {
- 	struct adv7180_state *state = to_state(sd);
--	int err = mutex_lock_interruptible(&state->mutex);
--	if (err)
--		return err;
-+	int ret;
- 
--	if (state->streaming) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	guard(mutex)(&state->mutex);
- 
--	err = adv7180_set_video_standard(state,
--			ADV7180_STD_AD_PAL_BG_NTSC_J_SECAM);
--	if (err)
--		goto unlock;
-+	/*
-+	 * We can't sample the standard if the device is streaming as that would
-+	 * interfere with the capture session as the VID_SEL reg is touched.
-+	 */
-+	if (state->streaming)
-+		return -EBUSY;
- 
-+	/* Set the standard to autodetect PAL B/G/H/I/D, NTSC J or SECAM */
-+	ret = adv7180_set_video_standard(state,
-+					 ADV7180_STD_AD_PAL_BG_NTSC_J_SECAM);
-+	if (ret)
-+		return ret;
-+
-+	/* Allow some time for the autodetection to run. */
- 	msleep(100);
--	__adv7180_status(state, NULL, std);
- 
--	err = v4l2_std_to_adv7180(state->curr_norm);
--	if (err < 0)
--		goto unlock;
--
--	err = adv7180_set_video_standard(state, err);
--
--unlock:
--	mutex_unlock(&state->mutex);
--	return err;
-+	return __adv7180_status(state, NULL, std);
- }
- 
- static int adv7180_s_routing(struct v4l2_subdev *sd, u32 input,
 -- 
-2.51.0
+Kind regards,
 
+Sakari Ailus
 
