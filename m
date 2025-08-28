@@ -1,281 +1,416 @@
-Return-Path: <linux-media+bounces-41239-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41241-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7ACB0B3992A
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 12:10:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB229B3997B
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 12:19:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E0C513AE8DE
-	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 10:10:03 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 297537B9ED3
+	for <lists+linux-media@lfdr.de>; Thu, 28 Aug 2025 10:16:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B37030ACEF;
-	Thu, 28 Aug 2025 10:09:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 84AA230DED4;
+	Thu, 28 Aug 2025 10:15:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="pLPGnYrN"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="D7PydIXi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2055.outbound.protection.outlook.com [40.107.223.55])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2081.outbound.protection.outlook.com [40.107.94.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A72A7309DC1;
-	Thu, 28 Aug 2025 10:09:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8EFF309DC1;
+	Thu, 28 Aug 2025 10:15:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.81
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756375761; cv=fail; b=KXanCBZGU6Ft5DGen0zgPC92dUMuEIdoa6PGgPCUw3Xw9S/2R57WxSSypI1RvbpkJkFwOIayWUymeu3vAmRxIvgJSBfWiGbQXgyNdRMsHm3Oab2Qf++TNfXi8nfRBZuHL/Mr2RW3ITesqZLwg/vX0jNGPPfH4SsDJN10DVwfwAE=
+	t=1756376151; cv=fail; b=lDSoX4g+o+Mfre4lw5Kj+p3pwauvEEh/29wy5OYtDcsaCi1/s36BXzFkYKaIblQ9XiBz2bUu22oWERQwARrY1VoGVvkwgjZwT3UC0ZnEsf4FDtqvSXgDgB6BxjiR1R69q8dFlinCBk8vYMYfZ7krxHPs3YMB/ijhG4ObEHms1bI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756375761; c=relaxed/simple;
-	bh=LMARWefwZnW0141SQSnrQHOnI1jGVc55x5O8ZnPCWFU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=jtrsDD9rWKRZDMQbO2xV6NYCb8eUcKIRoT+MPCo9N0fnebliMaYWp3FCS2cWIvdFeTHthec1vyGm12o6M9qRIDJOc2ZnKmoJmj008U6QHKE6EU+3r/bu6Ll710fbKWTQWfFHgtUJ1H70ByZHucrabFntG6jUZJZPD9grpl1MJls=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=pLPGnYrN; arc=fail smtp.client-ip=40.107.223.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1756376151; c=relaxed/simple;
+	bh=3dMGRBzLed/GqAI6h734dvWQm1P0Kago5a2PDQITyCc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=HoaULxbUmATTDyG2A7kbYWavZ6WR1Yav890zpmL1tUYKyg+lGoORwS6ZjUQjXa39cfnC6ooaXWENWRxq0Ywvj8T8qTtRoh3zRrjGbaIJsflpRyCCX6jqA6V38DKKWd/IJp9g/HhqmhKHKQt1rc9qjY58CNIfKew/hXXuDsK0hvs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=D7PydIXi; arc=fail smtp.client-ip=40.107.94.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=myIwSxICy8zdPYJv+krnk4y6cuYv8oZK2lZe7f5k4sLQLtW1XEEtxb3TI3pVGQ61oB1pViv7HQXxSCz9kL42fKqQVMi+kUNJA44kO7XOSmOXXbdeEnHLu8lVkcwLgFQ2z37oGFs3KgQV/AXDmyMJ40Bzdl/96JqYbvTwuFY8wOTcib8E5bQfPbi6dfmLO0wcrTr48QzV2bKpm63iJ5FsviWh98pz4W9cYVM5HyxFf+W1+4N8qYuky6QRbgJUWw5Ebe/Wqs3JJ4XuxFT/NOPDefnUYOgctGvjgGnKeELWGc4Xn/4W2YDdWnyYXMfnaAYZLf/FusUjGpmU1NHRSJcZvg==
+ b=iZSFE0wy2L8c2Tw6EyioNqG45RsKkodMGlivku6nRYJufHEaH9rRJmR8CkCu6hkatwElPoJeo7KfNqcqOudOUiGqsbXeT0DgYCipkWj11s9MCPl8YiiQiiUejV1jQQqB6pNiLna/CfQSKaNYTBwajdS2VJGoD2UQFUes3hcQKuHgtZx3Kf0mgQlJ0PJZOS0VUOgHSctCLdB7DxSGc+dzTbcdtFiRmCxtoBhA6e+9NCgAsgIbLhN3osgYnqFrmsfF3I1NSnTMmtdYs9tn2QcRhRNFv653KfY/57Vkk5kfxQNw1dBTH1Zu4G5QINkLybz+aqT5f5tYYgiS0fCb40gzeg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=FciMjysrcM0xkNRE3NZgcu98zXCQcxIK3z3ZETi+j/g=;
- b=fL7v2recOsbeepjcxRRoFa3ossAD7IYrwJxI6nOXy57D00mT6/8dAGluiBMmGMmhg/SQLQNrPDE51ghS4l10m7cYEEhrwvNg07D+g8XAgfo59h9FqxJpN2DmRtNa7aOkbT4Sgr1Sr33ADEZAqr0OvQi8Qu/6G/KKDRkZB7nlxp4Mwr2sOQoaVgD75H3mJ4gSzmABo8VyTFc6jf1BZiOgLePtd/HT3c9JaN0weQsX/dm2X00XKNay01yXsCGcUrLz+Jj6w9TMmIdHaJ5I7fItAhV1g+qaF5yNon7l2sUZcMif1aqHZwPWyvJnJbrS9LKWLP3arf3IebEtirSDD1HYtw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=kernel.org smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=iiOuYtCW//x6U93G7j0jdDQRBSe4GhR5fIY6f8R23uI=;
+ b=QkQ3HsQYNobaIOs2bP8UklgszMH8gW4PS763va+s8urGvDbzhy//rQkRuxu5/4j3ZFQ9E/ZfX3b45mM9geOoaDq2rCd56HAO1eeCasXVXfrUK2ILaPK04Mum3amWKTJIQW71L+ZluJGCz+0mFXtBJDe3PGSeHN92GToJfh4goHfwZvdTtrI23yKBJxQZILzvUWh9hu79yaEhi3rUgMZ+f1WcTIAbpjbxHQ3w81KYidkq0t2waoELgFbeE7tty9jzxgYesYfWltpNie3jDH7SE2lr3tqjrOn7tJmiu/suwToXxjNBcjMsR/+falD1RRxqnUpoGM8bjwaM9rLgBZKEyw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=FciMjysrcM0xkNRE3NZgcu98zXCQcxIK3z3ZETi+j/g=;
- b=pLPGnYrNpqONcP4V5uzAHBjEqXRVHiIIOPPPWWK1PLXcK9rTht8OeifAS+8AYQ6mOjfQIEQEfLbKPLKIL59Fa7IuCgltHlCqDD6ItaSPGqaeVEL2nQnk1KU83JaBqinSaGDmdC5/7WhskkeEMkmxMlnUzYrxIRbqPsZkeubxETE=
-Received: from CH5P222CA0020.NAMP222.PROD.OUTLOOK.COM (2603:10b6:610:1ee::12)
- by SA1PR12MB9472.namprd12.prod.outlook.com (2603:10b6:806:45b::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9052.21; Thu, 28 Aug
- 2025 10:09:14 +0000
-Received: from CH1PEPF0000A349.namprd04.prod.outlook.com
- (2603:10b6:610:1ee:cafe::9) by CH5P222CA0020.outlook.office365.com
- (2603:10b6:610:1ee::12) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.9073.19 via Frontend Transport; Thu,
- 28 Aug 2025 10:09:14 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CH1PEPF0000A349.mail.protection.outlook.com (10.167.244.9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.9073.11 via Frontend Transport; Thu, 28 Aug 2025 10:09:14 +0000
-Received: from Satlexmb09.amd.com (10.181.42.218) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 28 Aug
- 2025 05:09:14 -0500
-Received: from 555e2b870847.amd.com (10.180.168.240) by satlexmb09.amd.com
- (10.181.42.218) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.10; Thu, 28 Aug
- 2025 03:09:09 -0700
-From: Bin Du <Bin.Du@amd.com>
-To: <mchehab@kernel.org>, <hverkuil@xs4all.nl>,
-	<laurent.pinchart+renesas@ideasonboard.com>, <bryan.odonoghue@linaro.org>,
-	<sakari.ailus@linux.intel.com>, <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<sultan@kerneltoast.com>
-CC: <pratap.nirujogi@amd.com>, <benjamin.chan@amd.com>, <king.li@amd.com>,
-	<gjorgji.rosikopulos@amd.com>, <Phil.Jawich@amd.com>,
-	<Dominic.Antony@amd.com>, <mario.limonciello@amd.com>,
-	<richard.gong@amd.com>, <anson.tsao@amd.com>, <bin.du@amd.com>, Bin Du
-	<Bin.Du@amd.com>, Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
-Subject: [PATCH v3 7/7] Documentation: add documentation of AMD isp 4 driver
-Date: Thu, 28 Aug 2025 18:08:11 +0800
-Message-ID: <20250828100811.95722-7-Bin.Du@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250828100811.95722-1-Bin.Du@amd.com>
-References: <20250828100811.95722-1-Bin.Du@amd.com>
+ bh=iiOuYtCW//x6U93G7j0jdDQRBSe4GhR5fIY6f8R23uI=;
+ b=D7PydIXimHcpFBIbwjIEQqUVLEAcs18pVel32vw/lCYNsf5hcvCe4cfloTNb3ghjqTqKq65NytliSHbtVVc8l5piPWbnb+3bcUOHtZul/XA9HpzzP6E2c/5ZRa3UUNIBGkHOmnq+zXClqxCZU6YmpyyKLK9f1PYojeIs3hsz+87Gc1ACF1kG+QvsH/qvBCMYhASjAyz4k4SLXoujWvWaLZOZNpDwgTc8MgiwGzd4c40Qw2lKkGNP8h+lCJf1ZgUWtTM8/letwiXZIA9c47TNrubtongyTG+2/qPXErO9bgCNIpKI/6ybuBR09djDLbGrVV/H07d4DyURedoLcuEm1g==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
+ CY5PR12MB6597.namprd12.prod.outlook.com (2603:10b6:930:43::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9052.21; Thu, 28 Aug 2025 10:15:43 +0000
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9052.019; Thu, 28 Aug 2025
+ 10:15:43 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Peter De Schrijver <pdeschrijver@nvidia.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>, linux-media@vger.kernel.org,
+ linux-tegra@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Subject:
+ Re: [PATCH v1 01/19] clk: tegra: init CSUS clock for Tegra20 and Tegra30
+Date: Thu, 28 Aug 2025 19:15:38 +0900
+Message-ID: <2263218.C4sosBPzcN@senjougahara>
+In-Reply-To:
+ <CAPVz0n2JdRXQ7oUJqXkmGO+EPZTq3t6k8HY7pWHT3eAVXj9T3w@mail.gmail.com>
+References:
+ <20250819121631.84280-1-clamor95@gmail.com> <1797126.QkHrqEjB74@senjougahara>
+ <CAPVz0n2JdRXQ7oUJqXkmGO+EPZTq3t6k8HY7pWHT3eAVXj9T3w@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TYCP286CA0241.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:456::6) To DM4PR12MB6494.namprd12.prod.outlook.com
+ (2603:10b6:8:ba::19)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To satlexmb09.amd.com
- (10.181.42.218)
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000A349:EE_|SA1PR12MB9472:EE_
-X-MS-Office365-Filtering-Correlation-Id: d19bcfe4-bd50-4b77-15a4-08dde61af137
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|CY5PR12MB6597:EE_
+X-MS-Office365-Filtering-Correlation-Id: d1976fb2-f1ad-4f55-ce66-08dde61bd89f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|376014|82310400026;
+	BCL:0;ARA:13230040|10070799003|1800799024|7416014|366016|376014|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?u9lZZuAo4IhLggKxojyuSP1P2s2LvBhpaQDJLxumN9UUmmMON02mGYZtLKMI?=
- =?us-ascii?Q?5xY2EtknM0BpzCNJ6OkULlza/bCsSBNJFIm0njhD2sTA69zFcr9ndpterBN9?=
- =?us-ascii?Q?dhhqIFBXb3o98AYqN13uZ9skuJtnN2uX6M8kWk0Es2PdUQzUSMswbwNz1LO6?=
- =?us-ascii?Q?mixvtDjYtIpsc+7XSYNXoCIJytWOFdGOCaYAKv/tRfLcXoAqmaqs7Qo0XWd0?=
- =?us-ascii?Q?6plH40CWgyZckHx6A2BmInJqtFzZzfYDc+XvmhEKbIKCNXU9hO/9g4qSAB8X?=
- =?us-ascii?Q?v3OuroaFc5UEnz/tpffss/EyRNo+H2hBTgrxlnVi/CSTnslp0tJWjgYu5Q0s?=
- =?us-ascii?Q?UdAp8kWLhtsHc5FCgt4F+XZ0KU35/WpBIQtWCxecK/Wt5Hk4S/d9ejRWuBK2?=
- =?us-ascii?Q?nImfGff5r6gA54+MKjTs3sK/RYyONBQZKd6Eu2PamoxmcGJ3HMy3jvKwSq8U?=
- =?us-ascii?Q?i1+0gakDM4CC9aQj5Olcaw6WvJOVCMzo4OSKIwDxW6l0QxUoEPC9t/+becGx?=
- =?us-ascii?Q?dR+zr8cyrNc0nQlniz7PtpJC/MVrEGyHEPaGBKBlz+lNHINHLkZBrYe83b1E?=
- =?us-ascii?Q?Li+TK8mEr8/dip+G7drpv6qW3oxUMh9CKnu72fXIXKwxsXRmLMDUf0Upe4xm?=
- =?us-ascii?Q?mADeZ7gBm0n+faN6LS3QXwfg+iAOHzWuzhZ6skmCpjd7x7NmkF9ihqFZxEDh?=
- =?us-ascii?Q?eNrA6Hsfy3U0RgtVdLN07n4rFctVAmNY409dHFUXyw4OpO7u3bQSZpFt7zHJ?=
- =?us-ascii?Q?vpt59F1NoZ9RjyIDwg2s/RLrTFcakB2B8rw6jxr8gAkVeT88kA7hRO6elQy/?=
- =?us-ascii?Q?M61L+BlqU7KT/iW9qlHoATOvx0BaR1Vv+L6RawkjMELHx3phdhKpt+rm6YaD?=
- =?us-ascii?Q?CjsqRDEXB0/CECY4tuJbmPhxCUW+nEVFp69hEW0acgAmuJWSkEK4ED9mvw9E?=
- =?us-ascii?Q?5HGfO3YouVt/OQOGK4lNFAoNjoqrJo6cPH9WJ3NY8nj+7L2Wk9u6AGSzSQjP?=
- =?us-ascii?Q?EaJtLS3Fk/P5jW/Wys3H4Uot6AZoLz6ItMvDHLg0XkS2G+8/Jhhm9fOGf1Xo?=
- =?us-ascii?Q?vM0RRR9BUBVxhB46ZY3RZD/ZOis60gYsIzFhXo7yobX+skrvrGBwT78UQ1Dr?=
- =?us-ascii?Q?MlMPoRvtYJiw/Da8D6obUwbj/gW0fBeCLye1ZN/8KJKq+U0o9eFrdJvfsJV2?=
- =?us-ascii?Q?S/+LOkYcQvGOrB7viaSImp1R6DUMz4zW8xWga2+7QgM0phfF4ToiKIUaihjq?=
- =?us-ascii?Q?DIkgFRgFczGNMaRynDkZVVrmP3BYYlpOaGmV5GG7Jmyx0DrHrj84DpwdloKr?=
- =?us-ascii?Q?pnhdHjWtFSsYaN3HrKe74VV7w2BZY7dxUpjjKpR5gZJb8gF5KBqD2AQBjnwc?=
- =?us-ascii?Q?3MH0Pp6S5B6NQaHL6blpT30sUUaANPa7pv4d5t3MPXmwv/DfCEAos90aZEdp?=
- =?us-ascii?Q?PJl9b3h7QMeE4fMFgzHCOPEKQwwJ0+9FW4Ip2cc6eWZ6dLsGs36nZv0/dhrz?=
- =?us-ascii?Q?++JGLyg3H8DpTAItvwQVF1Al/S1DSZ9lkQRP?=
+	=?utf-8?B?NWF3R0FsRkxVOGE2LzNpcDFBaE1pYkhVSGhpOVNVMkVzcU5DWUlHc3pCUlFp?=
+ =?utf-8?B?SnJwcjUzQWQ1UEdnVXBTR1dPeXF5OTJBVGNuMHJjMXhUOTY0WHlUWUdsK3VL?=
+ =?utf-8?B?aWZWQUkyeFliOXo3L1lSVjhvd3JaWWRCUDQwakU5aUhjRExsMGxoMExpY1VY?=
+ =?utf-8?B?S3p0T2dtQ091NW1iSjViTjUydCtqaVNQNG9odXgxTWsrU1JMbUdmSEpPaGpl?=
+ =?utf-8?B?bm56REtuSkE5N2ZoSm9Od01vYkoxVE9FaUFicHpJM0JVK3o2YUNLVjErR3BV?=
+ =?utf-8?B?ZkxKbUtFb05lbi9FNCtBbjVqazNrV2xTNCtaaWl1REMxaGhxVzRnWE9PSWMw?=
+ =?utf-8?B?WWoyTE9mYkRyMWZBVG16cTZyQ0FRc1pQaHd5bEhwRkxCNVF6S3lVWXRlcVha?=
+ =?utf-8?B?SVU5Ny9CMjZJWVE4bjlMN0taTTJvRE5ONENkSG1BSmk1WFhSYVdJeVIrTEtL?=
+ =?utf-8?B?akpsMEo2V3ZDeW04QTF4QVZzQWE1aEwyNVNEbFRnRHc0aElqclBwT1Fkd2RU?=
+ =?utf-8?B?dDJ5N0pselE5UXNVVTlzNDZ4TVlrK3RtWUZwZ0h2OUwvWG5KaXFoSGZxS2gv?=
+ =?utf-8?B?b1pYUHFNc3hpeWw2Q3Q5K2FvTHIvL0o1a1Z6SURJaWtuUTlwYWRXTFZ5OWJX?=
+ =?utf-8?B?SjI4OUg4NTl1OGdtZi9uSlJPa3AyWUFqQk1VQzZaYXk4ci9NMUh1YnplaHZO?=
+ =?utf-8?B?eGFQVVFCYVgycFAzczI1WC81NGpPMGdFQ3pqRnVVSkxXVlhtMWdJYXpYSTlm?=
+ =?utf-8?B?eHRMWDlhL1lINzlzalFQcFErb0JPN0cxbWtqdjhiYlVRajhCWXZ0NUNqZk9n?=
+ =?utf-8?B?WXRHVkQ5UTB6Mlhld24vZVI3Ly9Jak52MmYvQlEvTmJ1K0J6MnBQa0hlL1VW?=
+ =?utf-8?B?ZzhpYnhBYm5yZFZDUFRwQStNcFpNQ0xRQmhvekJKWVhYWWJ4ZUJXZnVNeWV4?=
+ =?utf-8?B?VjRDQUFoYzlocXN1bW56VWxETCttK3hROE5YN3ByY3Vlb2FZNlBRVXJTYmZi?=
+ =?utf-8?B?YnZwYVNrUDRqSS9ldFladEZJdndmbVI0MTM4R2YzdStJa1lsei9kdWxLbGkw?=
+ =?utf-8?B?VFpKWVZmSStMOU85N2g2L1kxS240TGxTaTk5R1NmRHdmQVFXLzc1blRnUXNk?=
+ =?utf-8?B?ei95U1A5MXAzSE5zMXAwNzFwbG42NFkyWTljVmg3SEtJNXJ4TkdtajNYTEhJ?=
+ =?utf-8?B?QkkyZHJrYlAyWkI4eGpkaVpmSUNGSFhZYU50cWZuMmQ5Z3Y4NGp4UHhYdkpk?=
+ =?utf-8?B?T2lzUm1SdUlwMzVVMlQwR3cxRHo5aFJ3RXJ5UDdzd3h6Qzh1NWttTnVPZjdU?=
+ =?utf-8?B?RGJ2WC8xU1UxMmVuMlE1c3B1TnBva21nS1o0MzVtVk1BM2tXQkNvbG5rTC9U?=
+ =?utf-8?B?NzRoV3Bkdy9HaktTdTJQbVRQSisvZDAreVE2RnZhYnltTm5Wd0VncTZlWkE3?=
+ =?utf-8?B?bHNHcW9Fa3h0eGwrbDhMY2Jjdmt0M3RGMTRYbjhnc2xLTHJGS0hzZTc1SlE2?=
+ =?utf-8?B?cnJnQzU5QW8zbzYzTnJnTUFjQUdZYVpHUStId3Awc2RWWEkyWXJRLzIzR1VZ?=
+ =?utf-8?B?M0FPbFdrMVBrOXRGMXB5TXpDSWdaSkRVeXR4dXh4VXBwR25ERFo4aGQ1UTMx?=
+ =?utf-8?B?YlJqYnZod1M1TDBJRGVpaldJM2tUQ01kam52dmxuRGNxNkNGbkRRUURUMk9h?=
+ =?utf-8?B?M0RhcG9qODhsYkg0a0VFRXRXakVId2k0cWg2YkJnQjAyeFdWOEtJZHdKOXNM?=
+ =?utf-8?B?dVNsRjdTejlVdzZIUHNKbWx0QUlJcktrWG1GVXdEcE51bXhLU0JzR0VMZkF4?=
+ =?utf-8?B?NGVSLzRYY2pFZSttSnMzVU14NWhEQTRGQm5PSFg5aGEzdkVlZmZlOVlXMklm?=
+ =?utf-8?B?b1VyMVdoZVY1VFRKbnQrL0NnaFlWb0szeWt6K2NDbFExZ3JpM2o3QUgxYlJy?=
+ =?utf-8?Q?APTyJTZUNW8=3D?=
 X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 10:09:14.6394
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6494.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(7416014)(366016)(376014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?YkUwRUhFRnBDQ3dOb245Z2k1R1BwUmFlN3VaTFRHYWRnVFErZEw4V3YvWmtY?=
+ =?utf-8?B?ZHVFMDlDeGRKcHNmM2hCWHYvbFA1U0lWamgxZllmREl2Q3N5cTdxT0tSbkpr?=
+ =?utf-8?B?bTBtWnU3NzBZYWlFMlI0RG9MenpISTlyOE1ibElaMC95OWlFVTJXaHpzOENk?=
+ =?utf-8?B?MCtDdC9qRHF6bmZ4K3ZkTktMc05waXBzbnJjT0Rxbm16S1hyNC9kcWl6UTYr?=
+ =?utf-8?B?VUl6YnFQNUVoenpMbHJuZVFRYStGc3BpZ0tqVVMydHg0czBTODlNTUp4dXBt?=
+ =?utf-8?B?RnlRUmFmRGdsc1Bod1VNSVlzRWNqeVVFVGpPWmtKTXdndENsd0k0a1pLQm5N?=
+ =?utf-8?B?cE1CNnNpZnpzeWpQbjZSVC9jYXhNVmZtenpIdE5KZ0dVcmc4c3VCY1NHa2dN?=
+ =?utf-8?B?ZGEyVGNhZ1N6SkU5UmgyZjR0bmdtekhJN0JEd0Eram5XYkR2eDNTQklKcG56?=
+ =?utf-8?B?NXZDRFZXRTJUSFVXQ0dkVGs3a2VLNlRGbU5jemhQR2dSSzFnTnhoeGwvN0hZ?=
+ =?utf-8?B?cUVxemRjcXRqRVpuOS9ONXcxR2tJRGx5U2kzVnNUSGpDYTNGUFc1QXpORlph?=
+ =?utf-8?B?ekI2Ry9rZ1RWbFFwS3dVUzRwZTNLck5KKzUxQ1ZFMHF3Qmp2RUNRVzFCZjlo?=
+ =?utf-8?B?WDg1dTk2Z1VKWEZBRHZGK0RWTGJXOFdEaStYYzIxTGk5My9iTG8vRVpNUjYr?=
+ =?utf-8?B?ZXZRNVNHd2xsT0ZDNzNqaVdrOGN0MGUvb3dzemRsZjZ0bW4yY3N4aUpiRGpZ?=
+ =?utf-8?B?TXIvQ1dLMkZYVXd5SWpnSzNUMGl2UGJzUDVyWDdyWlRyWGovazlWNjlndkQr?=
+ =?utf-8?B?VERNY2V2M1VqWEQxcFllRkI3Wi9HM2o3c25RZ1k3cGxtZjFRVnVPVnV4Ti90?=
+ =?utf-8?B?aDdlRmh1MXVOY2ZSTElqOHN3dVlTRzFmcnAwYTl3VkRSaC9WSzJiV1RWZzNv?=
+ =?utf-8?B?N3ZPK3NxNTZmeXQvSWZSNUQ5eFZEQ1Y5K2ErSEU1aDFFTVNKcnRRZStoKzgy?=
+ =?utf-8?B?YWJRT0ZyUGZ2L0hndk0xR25YNVFtbDFOc25GcXd6SXBSYmsweEovRWU1WEtz?=
+ =?utf-8?B?SVpZcTZxWnpPdFpMNURQMW5FQjVQeTQreEN6RGh1a2luVEk3ejRWWU5YMHhj?=
+ =?utf-8?B?RytibWVtR2NPaWZnaXZIMGN4NHRnak11SlBBdjArRmcvSXVUc3liMEQrZmtF?=
+ =?utf-8?B?dUlOL3R2Z3IvSFZZZUI5WEtHTkR0ZEdTRDNsa09iaVVFTkQrbzNhbzRiN2RD?=
+ =?utf-8?B?N2dNVFpFR21DTUhKS3c5YUprNnhWOTRrRFdsc3NNSmZlVVF2RzlHY1dNcUFI?=
+ =?utf-8?B?eVhBUEZCYS81L1M3aUVsZG1CaEhBWGtiMzNlK001dDh3dEdhdGRybmZadEU5?=
+ =?utf-8?B?aFNBMUZUR092UFBFaEpoeTk4VVlaY0hHVU5SZ3k4SDhtOHN6SFVRL0dvTVRu?=
+ =?utf-8?B?T3BzbTVXQW8wdUFtWVhUWXVqNGgvRWw0ZXpQUC9EdStuNGlCYjdMWTJXRjBI?=
+ =?utf-8?B?dlpwZGZWdUxTdTRDcnRxYTA2MTlhVzl2enI5V2ptZC81NjB0c2hrUHhTYXQ4?=
+ =?utf-8?B?R0dpL1Fka3hQeEpRLy9OaG9UNEFiSDBHb0lUSm9XV2Q5NTNFb3pmTUtiQVN2?=
+ =?utf-8?B?NkRxT1pkUXIramdJdll2MDkzTVNSWjY0RWxLZVFqdXNGbk5qVG1YNFQwUk9F?=
+ =?utf-8?B?YmV6ZFlKU1dicFVUYmtvRzFCKzFHVGI5Qmh1QTBuaFo4QS9CRytMVFd0eFZT?=
+ =?utf-8?B?ZzZBWHJIV1l6M2kzVzEwM0N0RmZqdjRyS1dRcy84YmRTeSsvbms5aW5CSzdv?=
+ =?utf-8?B?RThpaFg4RXYrSmFTdmFCTi9vZmp4bDIrNVBOaXVJREJTeGFtTmV3WVhOMEZ0?=
+ =?utf-8?B?Zm44MXZMWk13K1NrYnJ2WDgrUTFDZFVFVGNQalVqYkhaYmQ5VEI2MURISStk?=
+ =?utf-8?B?SGdzRnVDVWhRckdOQjRLT3N5TG5uVlBkY0paUzh2QndvajArYVdSYkNUbDlu?=
+ =?utf-8?B?aWp4aEFTaTdJZGxQRkRRdFhWUG1mZFNVbzNNNXd2eFRVeStLMHlpSjl3OVZj?=
+ =?utf-8?B?MS9oVVVZZnZpYlhISG5YNFVNbDNKNUZoVkYvNForMVFtVFRZQ0tVMi82a25V?=
+ =?utf-8?B?eUFQSlNOdmhGcFBYRDRFTGdFcnZvZWpPMVhTQXVockFrUEs1ZXdRa1ovSnp5?=
+ =?utf-8?B?TFB1dG03bzNuTVdrTlYzWFNpQU91WDVnTmt1dUNvUlNFNVhNbUhLSzd6RTJM?=
+ =?utf-8?B?cXNUTkFRVUVYd3lhVk5KRW5peTlnPT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d1976fb2-f1ad-4f55-ce66-08dde61bd89f
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2025 10:15:43.0887
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: d19bcfe4-bd50-4b77-15a4-08dde61af137
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH1PEPF0000A349.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9472
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: yRTtXsvc2qc+BfxY59Bl4XopwKzUD9aKbtvtNvJfSuuToZHuYQrfen4BdbJaieNDAJLj2xB2u2Vk9pANRRafgw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6597
 
-Add documentation for AMD isp 4 and describe the main components
+On Thursday, August 28, 2025 5:28=E2=80=AFPM Svyatoslav Ryhel wrote:
+> =D1=87=D1=82, 28 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE 11=
+:13 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > On Wednesday, August 27, 2025 7:45=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > > =D1=81=D1=80, 27 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=
+=BE 13:36 Mikko Perttunen <mperttunen@nvidia.com>=20
+=D0=BF=D0=B8=D1=88=D0=B5:
+> > > > On Wednesday, August 27, 2025 1:32=E2=80=AFPM Svyatoslav wrote:
+> > > > > 27 =D1=81=D0=B5=D1=80=D0=BF=D0=BD=D1=8F 2025=E2=80=AF=D1=80. 07:0=
+9:45 GMT+03:00, Mikko Perttunen
+> > > >=20
+> > > > <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > > > > >On Tuesday, August 19, 2025 9:16=E2=80=AFPM Svyatoslav Ryhel wro=
+te:
+> > > > > >> CSUS clock is required to be enabled on camera device
+> > > > > >> configuration
+> > > > > >> or
+> > > > > >> else camera module refuses to initiate properly.
+> > > > > >>=20
+> > > > > >> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > > >> ---
+> > > > > >>=20
+> > > > > >>  drivers/clk/tegra/clk-tegra20.c | 1 +
+> > > > > >>  drivers/clk/tegra/clk-tegra30.c | 1 +
+> > > > > >>  2 files changed, 2 insertions(+)
+> > > > > >>=20
+> > > > > >> diff --git a/drivers/clk/tegra/clk-tegra20.c
+> > > > > >> b/drivers/clk/tegra/clk-tegra20.c index
+> > > > > >> 551ef0cf0c9a..42f8150c6110
+> > > > > >> 100644
+> > > > > >> --- a/drivers/clk/tegra/clk-tegra20.c
+> > > > > >> +++ b/drivers/clk/tegra/clk-tegra20.c
+> > > > > >> @@ -1043,6 +1043,7 @@ static struct tegra_clk_init_table
+> > > > > >> init_table[]
+> > > > > >> =3D {
+> > > > > >>=20
+> > > > > >>    { TEGRA20_CLK_GR3D, TEGRA20_CLK_PLL_C, 300000000, 0 },
+> > > > > >>    { TEGRA20_CLK_VDE, TEGRA20_CLK_PLL_C, 300000000, 0 },
+> > > > > >>    { TEGRA20_CLK_PWM, TEGRA20_CLK_PLL_P, 48000000, 0 },
+> > > > > >>=20
+> > > > > >> +  { TEGRA20_CLK_CSUS, TEGRA20_CLK_CLK_MAX, 6000000, 1 },
+> > > > > >>=20
+> > > > > >>    /* must be the last entry */
+> > > > > >>    { TEGRA20_CLK_CLK_MAX, TEGRA20_CLK_CLK_MAX, 0, 0 },
+> > > > > >> =20
+> > > > > >>  };
+> > > > > >>=20
+> > > > > >> diff --git a/drivers/clk/tegra/clk-tegra30.c
+> > > > > >> b/drivers/clk/tegra/clk-tegra30.c index
+> > > > > >> 82a8cb9545eb..70e85e2949e0
+> > > > > >> 100644
+> > > > > >> --- a/drivers/clk/tegra/clk-tegra30.c
+> > > > > >> +++ b/drivers/clk/tegra/clk-tegra30.c
+> > > > > >> @@ -1237,6 +1237,7 @@ static struct tegra_clk_init_table
+> > > > > >> init_table[]
+> > > > > >> =3D {
+> > > > > >>=20
+> > > > > >>    { TEGRA30_CLK_HDA, TEGRA30_CLK_PLL_P, 102000000, 0 },
+> > > > > >>    { TEGRA30_CLK_HDA2CODEC_2X, TEGRA30_CLK_PLL_P, 48000000, 0 =
+},
+> > > > > >>    { TEGRA30_CLK_PWM, TEGRA30_CLK_PLL_P, 48000000, 0 },
+> > > > > >>=20
+> > > > > >> +  { TEGRA30_CLK_CSUS, TEGRA30_CLK_CLK_MAX, 6000000, 1 },
+> > > > > >>=20
+> > > > > >>    /* must be the last entry */
+> > > > > >>    { TEGRA30_CLK_CLK_MAX, TEGRA30_CLK_CLK_MAX, 0, 0 },
+> > > > > >> =20
+> > > > > >>  };
+> > > > > >
+> > > > > >I looked into what this clock does and it seems to be a gate for
+> > > > > >the
+> > > > > >CSUS
+> > > > > >pin, which provides an output clock for camera sensors (VI MCLK)=
+.
+> > > > > >Default
+> > > > > >source seems to be PLLC_OUT1. It would be good to note that on t=
+he
+> > > > > >commit
+> > > > > >message, as I can't find any documentation about the CSUS clock
+> > > > > >elsewhere.
+> > > > > >
+> > > > > >What is the 6MHz rate based on?
+> > > > >=20
+> > > > > 6mhz is the statistic value which I was not able to alter while
+> > > > > testing.
+> > > > > I
+> > > > > have tried 12mhz and 24mhz too but it remained 6mhz, so I left it
+> > > > > 6mhz.
+> > > > >=20
+> > > > > >Since this seems to be a clock consumed by the sensor, it seems =
+to
+> > > > > >me
+> > > > > >that
+> > > > > >rather than making it always on, we could point to it in the
+> > > > > >sensor's
+> > > > > >device tree entry.
+> > > > >=20
+> > > > > Sensor device tree uses vi_sensor as clocks source and sensor
+> > > > > drivers
+> > > > > don't
+> > > > > support multiple linked clocks.
+> > > >=20
+> > > > AIUI vi_sensor is an internal clock so the sensor cannot be receivi=
+ng
+> > > > it
+> > > > directly. Perhaps the sensor is actually connected to csus, and the
+> > > > reason
+> > > > we need to enable it is to allow the vi_sensor clock to pass throug=
+h
+> > > > the
+> > > > csus gate?
+> > > >=20
+> > > > That leaves the question of why the csus pad would be muxed to
+> > > > vi_sensor
+> > > > by
+> > > > default, but perhaps there's an explanation for that.
+> > >=20
+> > > From downstream T30 sources csus and vi_sensor are always called in
+> > > pair (6MHz csus and 24MHz for vi_sensor), naturally I assumed that
+> > > latter is used as camera reference clock since most sensors has
+> > > reference clock around 24 MHz
+> >=20
+> > It's possible that the csus pad is still outputting 24MHz. The pinmux
+> > options for the csus pad are various clocks, so it would seem logical
+> > that the clock source for the pad is one of those clocks. However, on t=
+he
+> > clock framework side, the csus clock is just a gate. What I'm confused
+> > about is that since on the clock framework side the parent of csus is
+> > currently set to clk_m, I don't know why setting the rate of csus would
+> > affect the output of the pad, given clk_m is not one of the options for
+> > the pinmux.
+> >=20
+> > It's be good to verify the register value for the csus pinmux to see wh=
+ere
+> > it thinks the clock is coming from, and then check how that matches wit=
+h
+> > what we are seeing.
+>=20
+> TRM does not provide such data, it has only register address with
+> layout for it as a plain pad control, that register has only DRVDN,
+> DRVUP, SLWR and SLWF and I don't see a way to decode clock value or
+> parent or anything similar. If you give me a method I will calculate
+> those values.
 
-Co-developed-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
-Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
-Signed-off-by: Bin Du <Bin.Du@amd.com>
----
- Documentation/admin-guide/media/amdisp4-1.rst | 66 +++++++++++++++++++
- Documentation/admin-guide/media/amdisp4.dot   |  8 +++
- .../admin-guide/media/v4l-drivers.rst         |  1 +
- MAINTAINERS                                   |  2 +
- 4 files changed, 77 insertions(+)
- create mode 100644 Documentation/admin-guide/media/amdisp4-1.rst
- create mode 100644 Documentation/admin-guide/media/amdisp4.dot
+I notice that on Tegra20, there is a mux pingroup called 'csus', which has =
+the=20
+mux options PLLC_OUT1, PLLP_OUT2, PLLP_OUT3, and VI_SENSOR_CLK (based on=20
+upstream pinctrl-tegra20.c). The TRM also says 'Enable clock to SUS pad.'=20
+about the CSUS (or SUS) clock.
 
-diff --git a/Documentation/admin-guide/media/amdisp4-1.rst b/Documentation/admin-guide/media/amdisp4-1.rst
-new file mode 100644
-index 000000000000..a5ed78912d0f
---- /dev/null
-+++ b/Documentation/admin-guide/media/amdisp4-1.rst
-@@ -0,0 +1,66 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+.. include:: <isonum.txt>
-+
-+====================================
-+AMD Image Signal Processor (amdisp4)
-+====================================
-+
-+Introduction
-+============
-+
-+This file documents the driver for the AMD ISP4 that is part of
-+AMD Ryzen AI Max 385 SoC.
-+
-+The driver is located under drivers/media/platform/amd/isp4 and uses
-+the Media-Controller API.
-+
-+Topology
-+========
-+
-+.. _amdisp4_topology_graph:
-+
-+.. kernel-figure:: amdisp4.dot
-+     :alt:   Diagram of the media pipeline topology
-+     :align: center
-+
-+
-+
-+The driver has 1 sub-device:
-+
-+- isp: used to resize and process bayer raw frames in to yuv.
-+
-+The driver has 1 video device:
-+
-+- capture video device: capture device for retrieving images.
-+
-+
-+  - ISP4 Image Signal Processing Subdevice Node
-+
-+-----------------------------------------------
-+
-+The isp4 is represented as a single V4L2 subdev, the sub-device does not
-+provide interface to the user space. The sub-device is connected to one video node
-+(isp4_capture) with immutable active link. The isp entity is connected
-+to sensor pad 0 and receives the frames using CSI-2 protocol. The sub-device is
-+also responsible to configure CSI2-2 receiver.
-+The sub-device processes bayer raw data from the connected sensor and output
-+them to different YUV formats. The isp also has scaling capabilities.
-+
-+  - isp4_capture - Frames Capture Video Node
-+
-+--------------------------------------------
-+
-+Isp4_capture is a capture device to capture frames to memory.
-+This entity is the DMA engine that write the frames to memory.
-+The entity is connected to isp4 sub-device.
-+
-+Capturing Video Frames Example
-+==============================
-+
-+.. code-block:: bash
-+
-+         # set the links
-+
-+         # start streaming:
-+         v4l2-ctl "-d" "/dev/video0" "--set-fmt-video=width=1920,height=1080,pixelformat=NV12" "--stream-mmap" "--stream-count=10"
-diff --git a/Documentation/admin-guide/media/amdisp4.dot b/Documentation/admin-guide/media/amdisp4.dot
-new file mode 100644
-index 000000000000..a4c2f0cceb30
---- /dev/null
-+++ b/Documentation/admin-guide/media/amdisp4.dot
-@@ -0,0 +1,8 @@
-+digraph board {
-+	rankdir=TB
-+	n00000001 [label="{{<port0> 0} | amd isp4\n | {<port1> 1}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n00000001:port1 -> n00000004 [style=bold]
-+	n00000004 [label="Preview\n/dev/video0", shape=box, style=filled, fillcolor=yellow]
-+	n0000000a [label="{{} | ov05c10 22-0010\n/dev/v4l-subdev0 | {<port0> 0}}", shape=Mrecord, style=filled, fillcolor=green]
-+	n0000000a:port0 -> n00000001:port0 [style=bold]
-+}
-diff --git a/Documentation/admin-guide/media/v4l-drivers.rst b/Documentation/admin-guide/media/v4l-drivers.rst
-index 3bac5165b134..6027416e5373 100644
---- a/Documentation/admin-guide/media/v4l-drivers.rst
-+++ b/Documentation/admin-guide/media/v4l-drivers.rst
-@@ -9,6 +9,7 @@ Video4Linux (V4L) driver-specific documentation
- .. toctree::
- 	:maxdepth: 2
- 
-+	amdisp4-1
- 	bttv
- 	c3-isp
- 	cafe_ccic
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7724620896e7..72ef7c77d881 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1139,6 +1139,8 @@ M:	Nirujogi Pratap <pratap.nirujogi@amd.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media.git
-+F:	Documentation/admin-guide/media/amdisp4-1.rst
-+F:	Documentation/admin-guide/media/amdisp4.dot
- F:	drivers/media/platform/amd/Kconfig
- F:	drivers/media/platform/amd/Makefile
- F:	drivers/media/platform/amd/isp4/Kconfig
--- 
-2.34.1
+On Tegra30, however, which I guess you refer to, I guess mux pingroups are=
+=20
+gone and each pin has its own mux (again looking at upstream pinctrl-
+tegra30.c). vi_mclk_pt1 is now its own mux with the options VI, VI_ALT1,=20
+VI_ALT2, VI_ALT3. The drive group for this pin is still called csus, so by=
+=20
+that name it only has the drive settings as you mention.
+
+Are you testing on Tegra20, Tegra30, or both?
+
+I've looked at some Tegra30 schematics, and they show a signal called VI_MC=
+LK=20
+being routed to CSI cameras.
+
+>=20
+> Another theory is that maybe csus is used for VIP cameras only and
+> vi_sensor is used for CSI cameras, but they both have to be on in
+> order to work correctly. Csus was removed from Tegra114 along with
+> VIP, might not be a coincidence. Moreover, T124 uses vi_sensor as
+> camera mclk source.
+
+I see the CSUS clock still on Tegra124 based on the upstream kernel. There =
+is=20
+also a CAM_MCLK pin. It seems Tegra30 has both VI_MCLK and CAM_MCLK pins,=20
+which both can output the clock. After Tegra30 there is only CAM_MCLK.
+
+Looking at L4T r21, in tegra12_clocks.c, it defines the clocks mclk and mcl=
+k2.=20
+There is a comment on mclk saying:
+
+	               .clk_num =3D 92, /* csus */
+
+whereas mclk2 is vim2_clk. These clocks are indeed defined as gates, with=20
+vi_sensor / vi_sensor2 as parent, set_rate being passed onto the parent.
+
+All of that wasn't very coherently written, but to summarize my thoughts:
+
+On Tegra30, we have
+- Pins vi_mclk and cam_mclk. Both can only source from (vi_)mclk which also=
+=20
+goes by name csus. The mclk/csus clock is a clock gate with vi_sensor as=20
+parent.
+On Tegra114 and later,
+- Same situation, but vi_mclk is gone, so instead we have cam_mclk (possibl=
+y=20
+multiple with associated mclkN and vi_sensorN clocks)
+On Tegra20,
+- The vi_mclk pin has a variety of mux options, one of which is VI_SENSOR_C=
+LK.=20
+I expect this to correspond to the same behavior as later chips, i.e. sourc=
+es=20
+from the csus(/mclk) clock, which sources from vi_sensor.
+
+>=20
+> Here is a fragment of Tegra124 clock tree (dumped from Mi pad 1)
+>=20
+>          pll_p                                 on     13  x34      408000=
+000
+> vi_sensor2                       $ off    0   3.0      136000000 mclk2   =
+ =20
+>                    $ off    0            136000000 vi_sensor             =
+ =20
+>         $ off    0   3.0      136000000 mclk                          $ o=
+ff
+>    0            136000000
+> > > > > >Cheers,
+> > > > > >Mikko
+
+
+
 
 
