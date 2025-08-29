@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-41334-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41335-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD2AFB3BD1F
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 16:06:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 96156B3BD26
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 16:07:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 97608A47651
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 14:06:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 88CBC1C87F6F
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 14:08:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A03731DDBA;
-	Fri, 29 Aug 2025 14:06:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 207F131E0EF;
+	Fri, 29 Aug 2025 14:07:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uhf2/Hoi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="j3MRbU1l"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9DC2701DC;
-	Fri, 29 Aug 2025 14:06:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75087215077;
+	Fri, 29 Aug 2025 14:07:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756476369; cv=none; b=nE838hVwasi1KB/5JrIksx8wSnVkhITmk94k0xhIjiNYx1rPogPROpZ5gastemJGCzruWXYr7LKcfIFmZFsTxW58XwyImARLb5VZg4E5RXnHaP8tWJPkFmttjhPxF5YuKfonD9JKpfDsiXsdpdFGnezJ1QZyrxMrd4aXKEiqqe0=
+	t=1756476462; cv=none; b=EMB0DTw1llcf0Dq4Sin3zvfKNDq6njfTxhcMyujhluZF6P0OiuHAxS3BHXmRjkynYnvr026VEtTjzH24mQ89zs8n1IedbvU81rtxA5QkxLkoYDOFMA5eJbQCswOC9Ui9FijveOrms3vqh1gzlFqDxr6fIYTblJifGICVV07fzqA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756476369; c=relaxed/simple;
-	bh=5hnfrxB59btF5GVW6Vc7xXSqfEVv47osUlR/KT5zvJc=;
+	s=arc-20240116; t=1756476462; c=relaxed/simple;
+	bh=ntn50gtHJC0b6s+uwh0tz+PAXnlaGmO9Hp1kmeMcwog=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MzqX9sXdnnO1vMMa9uPDK3WZ6teKM4CeKsohU48o/VBViV+mz9dJ/ojerbGrNdv/QQ5xe29bWGdeNuf9EVj1ojOQCiRI/dCKKmssgoPuan3YyGvkEtawNCQ/lOos4XoDzFSTT34I4boY2gYqkfQVmRBSrp67E70DMPdu6kZBVyk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uhf2/Hoi; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63CF0C4CEF0;
-	Fri, 29 Aug 2025 14:06:04 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=aEzzodGJ5c8+eJRhVIoaT+iykEK6Oq38T5apyI1bmbwDwLnJUYOiNEmw0SP/qAkop475hJTWXbqBRcNqrOSsyA+p/2eSvSSiFMAJ9MebbnM44pNWDeYHfEQKo7oWa7opqHKi8HCal1lwJ4Ev02tmwqchnGldux41kfhTdji8CYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=j3MRbU1l; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EFC12C4CEF0;
+	Fri, 29 Aug 2025 14:07:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756476368;
-	bh=5hnfrxB59btF5GVW6Vc7xXSqfEVv47osUlR/KT5zvJc=;
+	s=k20201202; t=1756476462;
+	bh=ntn50gtHJC0b6s+uwh0tz+PAXnlaGmO9Hp1kmeMcwog=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Uhf2/HoiXGKYEqu/pkUaMb2gMLZ+iBw5kivrOV03qQ9PCcUoxKw51pzRvZEYvJ/ab
-	 knEgYDfSXfewnVQYciMw0Mw0dVOcaC6gB85gV6iuC991zGcd2Palbsg+OFI81+InTD
-	 jcXXpoPWlB/uIrVzYh5CGlL72Os0fwEKfHZDzS09Ft8ZUR9Ee+C2WABDq9UzEwKGSR
-	 rsIPmQyUUMnidYFGTy/HXIlkXq5A3lIO0BKhqiOQvOYg2yC18ZJdiVtm59zWMQGVzd
-	 ZCqrjgLZj4cSKK8h69DA1Emr5ISXUPR9TjJlXarSrabTK8Eu0CyBDBHkom9rteQMAF
-	 +KDIdWBUpNRpA==
-Message-ID: <5502f52d-d302-4479-93b8-1da47731cf1d@kernel.org>
-Date: Fri, 29 Aug 2025 16:06:02 +0200
+	b=j3MRbU1leo4Pge1iS45yOWS4V+TrvXWbx82y0ib/1s0c50Y74MTlf+i/tBKHO0CYI
+	 0GGEcl3/Ru2+q+QkRx9ij7DfPWwtsX8W9SZ+tXeBv9uw7JSMeA5bdFpzEf8IA3pSwL
+	 FCaYjbi1BGNHrqnlrRGxpeE9nTO2obwddSfndlETN8IYxBTp13PBpU44VOk3zq+aWT
+	 tU4AhS3MEzRCM4zkbm5wFjNZBOjY9aKvM4uBvz54d6vVUgOhpV3kzHOhmeiacGPY+7
+	 GXkiReUSUxRcbblfJ1EFUSFU0hm74g0flTdYDgmzRKLEgVQ7F9XTsmgxhtHXVdsKzR
+	 Z8eZXBF+mTybQ==
+Message-ID: <6801197c-ccf7-47ea-bab6-5f567dfca418@kernel.org>
+Date: Fri, 29 Aug 2025 16:07:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,17 +50,16 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 8/9] media: chips-media: wave6: Add Wave6 control
- driver
+Subject: Re: [PATCH v3 9/9] arm64: dts: freescale: imx95: Add video codec node
 To: Nas Chung <nas.chung@chipsnmedia.com>, mchehab@kernel.org,
  hverkuil@xs4all.nl, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-imx@nxp.com,
  linux-arm-kernel@lists.infradead.org, jackson.lee@chipsnmedia.com,
- lafley.kim@chipsnmedia.com, Ming Qian <ming.qian@oss.nxp.com>
+ lafley.kim@chipsnmedia.com
 References: <20250829084649.359-1-nas.chung@chipsnmedia.com>
- <20250829084649.359-9-nas.chung@chipsnmedia.com>
+ <20250829084649.359-10-nas.chung@chipsnmedia.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,90 +105,58 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250829084649.359-9-nas.chung@chipsnmedia.com>
+In-Reply-To: <20250829084649.359-10-nas.chung@chipsnmedia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 29/08/2025 10:46, Nas Chung wrote:
+> diff --git a/arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts b/arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts
+> index 2f949a0d48d2..c9d8b78d5768 100644
+> --- a/arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts
+> +++ b/arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts
+> @@ -75,6 +75,11 @@ linux_cma: linux,cma {
+>  			linux,cma-default;
+>  			reusable;
+>  		};
 > +
-> +static void wave6_vpu_load_firmware(const struct firmware *fw, void *context)
-> +{
-> +	struct wave6_vpu_device *vpu = context;
-> +
-> +	guard(mutex)(&vpu->lock);
+> +		vpu_boot: vpu_boot@a0000000 {
 
-Why? How could this be called in parallel, before the probe?
+Follow DTS coding style.
+
+> +			reg = <0 0xa0000000 0 0x100000>;
+> +			no-map;
+> +		};
+>  	};
+>  
+>  	flexcan1_phy: can-phy0 {
+> @@ -1044,3 +1049,8 @@ &tpm6 {
+>  	pinctrl-0 = <&pinctrl_tpm6>;
+>  	status = "okay";
+>  };
+> +
+> +&vpu {
+> +	memory-region = <&vpu_boot>;
+> +	sram = <&sram1>;
+> +};
+> diff --git a/arch/arm64/boot/dts/freescale/imx95-phycore-fpsc.dtsi b/arch/arm64/boot/dts/freescale/imx95-phycore-fpsc.dtsi
+> index 7519d5bd06ba..73c84ab60dfd 100644
+> --- a/arch/arm64/boot/dts/freescale/imx95-phycore-fpsc.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx95-phycore-fpsc.dtsi
+> @@ -59,6 +59,11 @@ linux,cma {
+>  			size = <0 0x3c000000>;
+>  			linux,cma-default;
+>  		};
+> +
+> +		vpu_boot: vpu_boot@a0000000 {
+
+Same problem.
+
+> +			reg = <0 0xa0000000 0 0x100000>;
+> +			no-map;
+> +		};
+>  	};
 
 > +
-> +	if (!fw || !fw->data) {
-> +		dev_err(vpu->dev, "No firmware.\n");
-> +		return;
-> +	}
-> +
-> +	if (!vpu->fw_available)
-> +		goto exit;
-> +
-> +	if (fw->size + W6_EXTRA_CODE_BUF_SIZE > wave6_vpu_get_code_buf_size(vpu)) {
-> +		dev_err(vpu->dev, "firmware size (%ld > %zd) is too big\n",
-> +			fw->size, vpu->code_buf.size);
-> +		vpu->fw_available = false;
-> +		goto exit;
-> +	}
-> +
-> +	memcpy(vpu->code_buf.vaddr, fw->data, fw->size);
-> +
-> +	vpu->get_vpu = wave6_vpu_get;
-> +	vpu->put_vpu = wave6_vpu_put;
-> +	vpu->req_work_buffer = wave6_vpu_require_work_buffer;
-> +	of_platform_populate(vpu->dev->of_node, NULL, NULL, vpu->dev);
-> +
-> +exit:
-> +	release_firmware(fw);
-> +}
-> +
-> +static int wave6_vpu_probe(struct platform_device *pdev)
-> +{
-> +	struct device_node *np;
-> +	struct wave6_vpu_device *vpu;
-> +	const struct wave6_vpu_resource *res;
-> +	int ret;
-> +
-> +	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-> +	if (ret < 0) {
-> +		dev_err(&pdev->dev, "dma_set_mask_and_coherent failed: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	res = of_device_get_match_data(&pdev->dev);
-> +	if (!res)
-> +		return -ENODEV;
-> +
-> +	vpu = devm_kzalloc(&pdev->dev, sizeof(*vpu), GFP_KERNEL);
-> +	if (!vpu)
-> +		return -ENOMEM;
-> +
-> +	ret = devm_mutex_init(&pdev->dev, &vpu->lock);
-> +	if (ret)
-> +		return ret;
-> +
-> +	atomic_set(&vpu->core_count, 0);
-> +	INIT_LIST_HEAD(&vpu->work_buffers);
-> +	dev_set_drvdata(&pdev->dev, vpu);
-> +	vpu->dev = &pdev->dev;
-> +	vpu->res = res;
-> +	vpu->reg_base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(vpu->reg_base))
-> +		return PTR_ERR(vpu->reg_base);
-> +
-> +	ret = devm_clk_bulk_get_all(&pdev->dev, &vpu->clks);
-> +	if (ret < 0) {
-> +		dev_warn(&pdev->dev, "unable to get clocks: %d\n", ret);
-
-You need to handle deferred probe.
-
-> +		ret = 0;
-> +	}
-> +	vpu->num_clks = ret;
 Best regards,
 Krzysztof
 
