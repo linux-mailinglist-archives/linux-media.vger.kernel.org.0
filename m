@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-41332-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41333-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A4FCB3BCFE
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 15:57:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9E15B3BD11
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 16:03:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B0E2B7C11A7
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 13:57:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1E49A46550
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 14:02:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3654931AF21;
-	Fri, 29 Aug 2025 13:57:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4AB731E111;
+	Fri, 29 Aug 2025 14:02:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mJikOCLn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4+yTiGf"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7957031CA4C;
-	Fri, 29 Aug 2025 13:57:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0262931E0E6;
+	Fri, 29 Aug 2025 14:02:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756475849; cv=none; b=VC0r285W3GKOpzR4U32vYG43ZWrMSnXPE4KHQHAbSHx06M/tsnL5V5uvV4BFjOdpV6S1xM8x/yErFZyh5TDzOINbpSM0K8JhK6lwq1fva9JPvYorjfR8jnKdFMZQNhOdxVWTlGy58ztYUAzdC69LT+92dEfucGcRH5b0Cg5NKmA=
+	t=1756476163; cv=none; b=J7tvGpgliy2aVpcDu/lTt4hYWyJOt2TiOFVI9jhLnB91dH+Eafh8s4yJ5YM+PcowTxdwrk3at3G3KgLoGo2ixU0nBsCnNsy9RaYNh4C36GlLKVpL7MOMKg7xhmP08FjAv97arkfx3Lk9u5n5/ISNcBEpNYJ0/URUiBjAyRXVcPo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756475849; c=relaxed/simple;
-	bh=GAx5ojnyAU2PokUcYuAkGcyrtKpN+pheoAbeyRpyqik=;
+	s=arc-20240116; t=1756476163; c=relaxed/simple;
+	bh=rYk7kh2K0XNkrKe1b/8Qa6EV2yfNmK1OMJY9R4tVrM0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=hUYLzIXQ66vJu6tG1YKP//sdoOre4gj1PNVm28vAT/upo5ENaSXjJe5J0iPEchW5WAqhUlmpoH6RLDfuzqT//XIjtt3lnmAH5qxjiRJZW8CunePLDt9EMcDUGOYvX8WMdcM2IUFmjCmYwI2gU9eAFvLh+6PmS1GMNC25G2Bw+xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mJikOCLn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23706C4CEF0;
-	Fri, 29 Aug 2025 13:57:24 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=sJza2zRyTTt6aXG3FU5eNNgjanrKHNKBUcTGp3Pz0iRp8gIc8KnBTOz6/shk+/eX0A2ZbxEdb1MSeAItfnLSWvhu3BIn5kt7snNeSaQMyLjL/rIqRBloYRljHHPqxvjFYefgFOkw5CywwU9J9uOKbu/e5v3FE7MM349IhVp6QMI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4+yTiGf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB4E2C4CEF0;
+	Fri, 29 Aug 2025 14:02:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756475848;
-	bh=GAx5ojnyAU2PokUcYuAkGcyrtKpN+pheoAbeyRpyqik=;
+	s=k20201202; t=1756476162;
+	bh=rYk7kh2K0XNkrKe1b/8Qa6EV2yfNmK1OMJY9R4tVrM0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mJikOCLnluEdgC6BTd9BDS2cIzAcrssCcJk17sE1FShAUshCqpd1rW5mTNudfnz9t
-	 Crj3vTdHSF6bk4WzuyhkvhKCTY7yTY/EvIL/n6lGwCwKSMpJJWJAcu+9zLGrNQsL63
-	 a63l7hQWA/qi2CH2hmfT8jBUvEf2x90l1uXgljs6JLx3X/cspRfMsaIfn+4KkBgWQp
-	 E0bM1ab7rezvcbxZpYdgQaOg3j9+VctKmEajPLpAmCVxD2s8pBv06Roqo00Bv2cZYQ
-	 aWjcxLKH6Rg8ZDJlJhwpe99+vwP8CgbK6AQZvSWZHnixrK5gNauIyKlMKsRwpVSigk
-	 FiAKdYoQZywBw==
-Message-ID: <22379203-94f8-468d-a9b6-de67f8fba495@kernel.org>
-Date: Fri, 29 Aug 2025 15:57:23 +0200
+	b=H4+yTiGfnX3YWu36m9+qObMcDf+3Xd84tneLcq5ddTQ01i9fF2TsDhnVpDmHrSNJr
+	 LErQu3xvfxKgeYjxNOJl0ZRf/cgn3G+VF/4S+Cyn1unxOQUtYdPKk8XAATSLF2WGuV
+	 qyEJ+kkaZyBDyb6eoAVjRMIaHtNxzvsdTx+JCEghMUGMcoOmS5/PlzDqqTG1y0qFZX
+	 +PRyJ14/DKqxUdLoGFor5pfxYDWx7jDvrvgf0x9WksZN0UCe0FGn2SPvGZAMrQvv7X
+	 rA6y9oxen5kjMyfYhtA5AIl+/CgmyAAev/+MOCWI//D1zAbZ/BXbOpKjDFCIBFRmhW
+	 /ikGTzPPf2Ctg==
+Message-ID: <19196605-50fb-440f-9666-7502de9ddfd5@kernel.org>
+Date: Fri, 29 Aug 2025 16:02:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,17 +50,16 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/9] dt-bindings: media: nxp: Add Wave6 video codec
- device
+Subject: Re: [PATCH v3 5/9] media: chips-media: wave6: Add Wave6 core driver
 To: Nas Chung <nas.chung@chipsnmedia.com>, mchehab@kernel.org,
  hverkuil@xs4all.nl, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-imx@nxp.com,
  linux-arm-kernel@lists.infradead.org, jackson.lee@chipsnmedia.com,
- lafley.kim@chipsnmedia.com
+ lafley.kim@chipsnmedia.com, Ming Qian <ming.qian@oss.nxp.com>
 References: <20250829084649.359-1-nas.chung@chipsnmedia.com>
- <20250829084649.359-3-nas.chung@chipsnmedia.com>
+ <20250829084649.359-6-nas.chung@chipsnmedia.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,154 +105,150 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250829084649.359-3-nas.chung@chipsnmedia.com>
+In-Reply-To: <20250829084649.359-6-nas.chung@chipsnmedia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 29/08/2025 10:46, Nas Chung wrote:
-> Add documents for the Wave6 video codec on NXP i.MX SoCs.
-Pretty incomplete commit msg. Nothing explaining hardware, nothing
-documenting resolution of previous discussions (where is all this
-chip&media?).
+> This adds the core driver for the Chips&Media Wave6 video codec IP.
+
+Please do not use "This commit/patch/change", but imperative mood. See
+longer explanation here:
+https://elixir.bootlin.com/linux/v6.16/source/Documentation/process/submitting-patches.rst#L94
+
+> 
+> The core region provides the encoding and decoding capabilities of
+> the VPU and depends on the control region for firmware and shared
+> resource management.
+> 
+
 
 ...
 
+> +
+> +static int wave6_vpu_core_probe(struct platform_device *pdev)
+> +{
+> +	struct vpu_core_device *core;
+> +	const struct wave6_vpu_core_resource *res;
+> +	int ret;
+> +	int irq;
+> +
+> +	res = device_get_match_data(&pdev->dev);
+> +	if (!res) {
+> +		dev_err(&pdev->dev, "missing resource\n");
 
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - nxp,imx95-vpu
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  memory-region:
-> +    maxItems: 1
-> +
-> +  sram:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: phandle of the SRAM memory region node.
-> +
-> +  "#cooling-cells":
-> +    const: 2
-> +
-> +  "#address-cells":
-> +    const: 2
-> +
-> +  "#size-cells":
-> +    const: 2
-> +
-> +  ranges: true
-> +
-> +patternProperties:
-> +  "^video-core@[0-9a-f]+$":
-> +    type: object
+This is almost impossible condition. Not worth printing errors.
 
-Missing description.
+> +		return -EINVAL;
+> +	}
+> +
+> +	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+> +	if (ret < 0) {
+> +		dev_err(&pdev->dev, "dma_set_mask_and_coherent failed: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
+> +	if (!core)
+> +		return -ENOMEM;
+> +
+> +	ret = devm_mutex_init(&pdev->dev, &core->dev_lock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = devm_mutex_init(&pdev->dev, &core->hw_lock);
+> +	if (ret)
+> +		return ret;
+> +
+> +	init_completion(&core->irq_done);
+> +	dev_set_drvdata(&pdev->dev, core);
+> +	core->dev = &pdev->dev;
+> +	core->res = res;
+> +
+> +	if (pdev->dev.parent->driver && pdev->dev.parent->driver->name &&
+> +	    !strcmp(pdev->dev.parent->driver->name, WAVE6_VPU_PLATFORM_DRIVER_NAME))
+> +		core->vpu = dev_get_drvdata(pdev->dev.parent);
+> +
+> +	core->reg_base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(core->reg_base))
+> +		return PTR_ERR(core->reg_base);
+> +
+> +	ret = devm_clk_bulk_get_all(&pdev->dev, &core->clks);
+> +	if (ret < 0) {
+> +		dev_warn(&pdev->dev, "unable to get clocks: %d\n", ret);
 
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      compatible:
-> +        enum:
-> +          - nxp,imx95-vpu-core
+You should handle deferred probe instead.
 
-Why do you need here compatible? Can this child be anything else? Can it
-be re-used? Is it actually a separate block?
+> +		ret = 0;
+> +	}
+> +	core->num_clks = ret;
+> +
+> +	ret = v4l2_device_register(&pdev->dev, &core->v4l2_dev);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "v4l2_device_register fail: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret = wave6_vpu_init_m2m_dev(core);
+> +	if (ret)
+> +		goto err_v4l2_unregister;
+> +
+> +	irq = platform_get_irq(pdev, 0);
+> +	if (irq < 0) {
+> +		dev_err(&pdev->dev, "failed to get irq resource\n");
 
-Your example suggests that the only distinctive resource are the
-interrupt and address space and that's on the edge of calling it a
-separate device.
+Syntax is: dev_err_probe
 
-There is some tendency to call such "pseudo-cores" a separate devices in
-case of video codec bindings and experience shows these are usually
-fake. It's not the same as DP or HDMI sub-block of display pipeline.
+> +		ret = -ENXIO;
 
-That's why you should come here with strong argument what separate piece
-of hardware this is.
+Don't override error codes.
 
+> +		goto err_m2m_dev_release;
+> +	}
 > +
-> +      reg:
-> +        maxItems: 1
+> +	ret = kfifo_alloc(&core->irq_status, 16 * sizeof(int), GFP_KERNEL);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "failed to allocate fifo\n");
+> +		goto err_m2m_dev_release;
+> +	}
 > +
-> +      clocks:
-> +        maxItems: 1
+> +	ret = devm_request_threaded_irq(&pdev->dev, irq,
+> +					wave6_vpu_core_irq,
+> +					wave6_vpu_core_irq_thread,
+> +					0, "vpu_irq", core);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "fail to register interrupt handler: %d\n", ret);
+> +		goto err_kfifo_free;
+> +	}
 > +
-> +      power-domains:
-> +        maxItems: 1
+> +	core->temp_vbuf.size = ALIGN(W6_TEMPBUF_SIZE, 4096);
+> +	ret = wave6_vdi_alloc_dma(core->dev, &core->temp_vbuf);
+> +	if (ret) {
+> +		dev_err(&pdev->dev, "alloc temp of size %zu failed\n",
+> +			core->temp_vbuf.size);
+> +		goto err_kfifo_free;
+> +	}
 > +
-> +      interrupts:
-> +        maxItems: 1
+> +	core->debugfs = debugfs_lookup(WAVE6_VPU_DEBUGFS_DIR, NULL);
+> +	if (IS_ERR_OR_NULL(core->debugfs))
+> +		core->debugfs = debugfs_create_dir(WAVE6_VPU_DEBUGFS_DIR, NULL);
 > +
-> +    required:
-> +      - compatible
-> +      - reg
-> +      - clocks
-> +      - power-domains
-> +      - interrupts
+> +	pm_runtime_enable(&pdev->dev);
 > +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - power-domains
-> +  - memory-region
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/nxp,imx95-clock.h>
-> +
-> +    soc {
-> +      #address-cells = <2>;
-> +      #size-cells = <2>;
-> +
-> +      vpu: video-codec@4c4c0000 {
-
-Unused label, drop
-
-> +        compatible = "nxp,imx95-vpu";
-> +        reg = <0x0 0x4c4c0000 0x0 0x10000>;
-> +        clocks = <&vpu_blk_ctrl IMX95_CLK_VPUBLK_WAVE>;
-> +        power-domains = <&scmi_perf 10>;
-> +        memory-region = <&vpu_boot>;
-> +        sram = <&sram1>;
-> +        #cooling-cells = <2>;
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +        ranges;
-> +
-> +        vpucore0: video-core@4c480000 {
-
-None of these labels are used, drop.
-
-> +          compatible = "nxp,imx95-vpu-core";
-> +          reg = <0x0 0x4c480000 0x0 0x10000>;
-> +          clocks = <&scmi_clk 115>;
-> +          power-domains = <&scmi_devpd 21>;
-> +          interrupts = <GIC_SPI 299 IRQ_TYPE_LEVEL_HIGH>;
-> +        };
-> +
-> +        vpucore1: video-core@4c490000 {
-> +          compatible = "nxp,imx95-vpu-core";
-> +          reg = <0x0 0x4c490000 0x0 0x10000>;
-> +          clocks = <&scmi_clk 115>;
-> +          power-domains = <&scmi_devpd 21>;
-> +          interrupts = <GIC_SPI 300 IRQ_TYPE_LEVEL_HIGH>;
-> +        };
-> +
-
-
-
+> +	if (core->res->codec_types & WAVE6_IS_DEC) {
+> +		ret = wave6_vpu_dec_register_device(core);
+> +		if (ret) {
+> +			dev_err(&pdev->dev, "wave6_vpu_dec_register_device fail: %d\n", ret);
+> +			goto err_temp_vbuf_free;
+> +		}
+> +	}
+> +	if (core->res->codec_types & WAVE6_IS_ENC) {
+> +		ret = wave6_vpu_enc_register_device(core);
+> +		if (ret) {
+> +			dev_err(&pdev->dev, "wave6_vpu_enc_register_device fail: %d\n", ret);
+> +			goto err_dec_unreg;
+> +		}
+> +	}
 Best regards,
 Krzysztof
 
