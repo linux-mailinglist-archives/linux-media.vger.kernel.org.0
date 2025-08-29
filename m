@@ -1,203 +1,250 @@
-Return-Path: <linux-media+bounces-41336-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41337-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86902B3BD49
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 16:15:47 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id A3EDAB3BE5A
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 16:46:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2A0BB565ED8
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 14:15:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7E3851CC0B72
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 14:46:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 183BF31A05B;
-	Fri, 29 Aug 2025 14:15:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D083F335BB2;
+	Fri, 29 Aug 2025 14:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="go6+sYZV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from leonov.paulk.fr (leonov.paulk.fr [185.233.101.22])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AA8018D656;
-	Fri, 29 Aug 2025 14:15:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.233.101.22
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1A4E322A08
+	for <linux-media@vger.kernel.org>; Fri, 29 Aug 2025 14:42:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756476937; cv=none; b=ajhOWWhMO9KEyejzcwJp6ePz+6SLvubfJMCrcfdtG8m+BDDBT7DOMZgBaHtMSDenZgpAkG1hZlH7CuaZuzC/75Rq8YyB4HTZcg/OY3ILJLS5+BtvgoLOlvjyDrgM6u0WKUt+Y756G+stS44flx0D9zuYAiqBy7TMB9zOLSQwi78=
+	t=1756478561; cv=none; b=tijrz7KwAqdBHhYjnxX6ZeXP8RKIsIjx0S0XdKtDQS6fyr70sKE58Bwev+Z17ifSHf300N3qXa6s2nQAB0MFxojErSM04ToCn0a57QN1Hid6MRRJmDzx+68xUibn6X/wb2zfju06iSfztGdvurIUks/7cSTcP1EELj6KXnZkARA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756476937; c=relaxed/simple;
-	bh=ubOdpTzdLChd/oCTxc0FMbQiz2ebO2gOYRbSm7Wrs3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sBxs7osorpJaKYcOXJ0c5V1EURVReAKye9JcYV2JRaIBnkfQzir/SdZcVOf8BoNJQi7ooH058kuoziBMjBzQXeOe24n77d0KbjbnJ81TCQoIvYLDivyJnoCY9b0VU9wiHW0cruCZPDp4f5gWNhLaZIyshMZHVT2T9QA0SgnqEq8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io; spf=pass smtp.mailfrom=sys-base.io; arc=none smtp.client-ip=185.233.101.22
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sys-base.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sys-base.io
-Received: from laika.paulk.fr (12.234.24.109.rev.sfr.net [109.24.234.12])
-	by leonov.paulk.fr (Postfix) with ESMTPS id C128F1F0004D;
-	Fri, 29 Aug 2025 14:15:24 +0000 (UTC)
-Received: by laika.paulk.fr (Postfix, from userid 65534)
-	id 3BCB8B0236E; Fri, 29 Aug 2025 14:15:23 +0000 (UTC)
-X-Spam-Level: 
-Received: from shepard (unknown [192.168.1.1])
-	by laika.paulk.fr (Postfix) with ESMTPSA id F2616B0236D;
-	Fri, 29 Aug 2025 14:15:21 +0000 (UTC)
-Date: Fri, 29 Aug 2025 16:15:19 +0200
-From: Paul Kocialkowski <paulk@sys-base.io>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Dmitry Osipenko <digetx@gmail.com>
-Subject: Re: [PATCH v2 4/4] Documentation: media: Document
- V4L2_H264_DECODE_PARAM_FLAG_PFRAME/BFRAME
-Message-ID: <aLG19wzWBBECU6Cs@shepard>
-References: <20250824180735.765587-1-paulk@sys-base.io>
- <20250824180735.765587-5-paulk@sys-base.io>
- <5065e67544ae9255b2136a6cd73cbb9ffd08e3fb.camel@collabora.com>
+	s=arc-20240116; t=1756478561; c=relaxed/simple;
+	bh=9oYAUJVkm8HpXnbYopLGg/6pFyDK2rNxtJVJfOVOe/s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Blpk1O1hprNq+UhfczHhxL/nTOjQWxj2djlzC9wBkptfXVihlcRTzhPNlyMPytlM5RabjstC28k9bFI/dLyyeUlnjCqTdoT3peBW/w2CCUpfyTL2NRmz+jtSsPjaSK6h/arhzPXqwNMcWRBrJugE+Cuz2Mso0rq2QyiaYkbO9Dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=go6+sYZV; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-55f6d164d37so53194e87.3
+        for <linux-media@vger.kernel.org>; Fri, 29 Aug 2025 07:42:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756478557; x=1757083357; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=O83EXGRGUM7A96K+ZnLsA/lJMl7/6MjkRKOr82WuWr4=;
+        b=go6+sYZVOqg3ifF78cArxfc+j069HslIVLorjCows0hybj3mjWa6iSVK1jp5LIxT7C
+         NxKFVnMa1j9xUgBzSNJiiPS6yfYiTgYvDeZsHEWR8qYL5iGK+EzqnDLFnIHXrkaAjLV+
+         WTe0gSm9l5nwfWo2rt+GiF682ReVO2m+63nZT73TKeDfuwQNcxrRg+lWM4NrsSb8UFgc
+         hFb2KXDnZ+baCsXaaMmyh8G/grB8fMVSHeAyDA+2ZHPHgS84nwQDsJzCeXdcTb1DbCVz
+         rORU151TzGEiwPQytbzzV9JPj8hO+35Gio8ThY9o7C8t92i77AqxWQ5anon1bh2GZD0G
+         +oHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756478557; x=1757083357;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O83EXGRGUM7A96K+ZnLsA/lJMl7/6MjkRKOr82WuWr4=;
+        b=g3P0BJFybeQfobeJTS3FMTlOcURig0h3ezWDt2T99g2Hr3+exYsunMl+ATIissW6XJ
+         nBn8tq4uqC0DI7KsDdenNxJST8lPmS+VGdhegP+gZBr+D3pFQqMg+HbG5CctQgZizIMG
+         GFiR7Q6DufUXo41ibmaBEl81E8hZ+mw47IX8QKt5O1+4klqIwHkM9MBgUZh27w+jDtc4
+         Y8scERhopcCihpWOrlKTt7wzI3ENrAvobqzs1zMMzAuCNXuCe9MSG+20tpeSKHhys63X
+         geKLi4EiBL+PuiwzKlJyV9DSvyVucOP9x2vF9bkoF5s7CVlAtFZuU3tG7iD06Zc7xbft
+         BEfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUjAuV5ksR+H/xg8w9+RrJy/udCuyDullu38/vjfIOrLxsBchrDHNVhIu/HTePAEMe1nzAY4HnxnMzOfg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyvRzxZnZkai6aUB1OTP9HFIj4jxU6Gq4f7LusqaFgkJgiekyM4
+	h0PaLP3FAcGtusn/ynzQBEeyC65bsZ6yjEyJ7fmOtJbkQRooX0bmb5bLFvkDhJ2pioo=
+X-Gm-Gg: ASbGncvXaX3ub36twlGZDduhLdEsQ/cJLdeNuq5G/JWyk4h+cT7raf3fPnpGrcN/af2
+	c2yWt6vN/Ug73D/Bu8OpNazQGlplARWwAuym5g+Fv80ZbJQUeSJjaS4+Zs6QquHn4e0V4qODeDt
+	XzTKvK94l/5F7whYvhTj7qxMbcudGYo8gmMRpEABXn/xq5nF0QK9yR9vU7ZvPuTJ8eG78sG+NVI
+	7gA1wmEqrRaa8DhUrNVHAE2Gg5MlzlyHDELPIizPUyRO9EyazdhTLIOF8UUKT1+vlDxJxhuwejT
+	qUV+3V5yJf6x5CtA6pJBMslN/Q1KJXoC+v0OEABUU5Zbe3rBvNnlDmEhjryymLe9dLJHNYMxvJo
+	8p3EsyNhPUR/NlEfoFMxHpermtRWvVzEzew/u4YGlRrwpYH6HN01Q6dmo+fwPNVTYt2gLRgaeJ4
+	FeYbKi4Q==
+X-Google-Smtp-Source: AGHT+IHLaC+b9xicE+Kgqk/L00tM8keLoeo1OvVK78F3NlRQpq1rG/feN4SYfFew21sHHwFxDqsOYA==
+X-Received: by 2002:a05:6512:3dac:b0:553:252f:adf4 with SMTP id 2adb3069b0e04-55f6b23da69mr291326e87.10.1756478556608;
+        Fri, 29 Aug 2025 07:42:36 -0700 (PDT)
+Received: from thyme.local (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f678452e1sm677644e87.85.2025.08.29.07.42.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 29 Aug 2025 07:42:36 -0700 (PDT)
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Tarang Raval <tarang.raval@siliconsignals.io>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v5 0/2] media: i2c: Add OmniVision OV6211 image sensor driver
+Date: Fri, 29 Aug 2025 17:42:30 +0300
+Message-ID: <20250829144232.236709-1-vladimir.zapolskiy@linaro.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="WI4FcukOe3v7B7jt"
-Content-Disposition: inline
-In-Reply-To: <5065e67544ae9255b2136a6cd73cbb9ffd08e3fb.camel@collabora.com>
+Content-Transfer-Encoding: 8bit
 
+OmniVision OV6211 is a monochrome image sensor, which produces frames in
+8/10-bit raw output format and supports 400x400, 200x200 and 100x100
+output image resolution modes.
 
---WI4FcukOe3v7B7jt
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+At the moment the only supported resolution in the device driver is
+400x400@120fps (Y8).
 
-Hi,
+The driver version is based on top of media/master, which contains a new
+devm_v4l2_sensor_clk_get() helper.
 
-+ Adding Dmitry in the loop (whom I forgot, sorry).
+Output of v4l2-compliance tool from v4l-utils-1.20.0:
 
-Dmitry, we're discussing the precise meaning of the Tegra VDE H.264 decode
-flags that indicate PFRAME/BFRAME.
+----8<----
+v4l2-compliance SHA: not available, 64 bits, 64-bit time_t
 
-On Thu 28 Aug 25, 16:42, Nicolas Dufresne wrote:
-> Le dimanche 24 ao=C3=BBt 2025 =C3=A0 20:07 +0200, Paul Kocialkowski a =C3=
-=A9crit=C2=A0:
-> > These flags are meant for a very specific use-case, add a mention of it.
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
-> > ---
-> > =C2=A0.../userspace-api/media/v4l/ext-ctrls-codec-stateless.rst | 8 +++=
-+++--
-> > =C2=A01 file changed, 6 insertions(+), 2 deletions(-)
-> >=20
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stat=
-eless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless=
-=2Erst
-> > index 0da635691fdc..de1e3873385c 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.r=
-st
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.r=
-st
-> > @@ -618,10 +618,14 @@ Stateless Codec Control ID
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -
-> > =C2=A0=C2=A0=C2=A0=C2=A0 * - ``V4L2_H264_DECODE_PARAM_FLAG_PFRAME``
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - 0x00000008
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - All submitted slices for the frame ar=
-e P slices. This is a compability
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 flag required for decoders =
-that only support decoding such frames, but
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 should not be required for =
-slice-based decoders.
->=20
-> Seems to match the comment in Tegra driver, and related to a hardware
-> limitation. Shall we also recommend not to use this unless similar limita=
-tion
-> exists ?
+Compliance test for device /dev/v4l-subdev28:
 
-I think the flag should only be allowed for frame-based decode mode and ind=
-eed
-it would be good to say that drivers should only check this flag if they ha=
-ve
-such limitations.
+Required ioctls:
 
-Userspace on the other hand cannot really know if it will be used or not so=
- it
-should set the flags when applicable.
+Allow for multiple opens:
+	test second /dev/v4l-subdev28 open: OK
+	test for unlimited opens: OK
+	test invalid ioctls: OK
 
-> Note that mix of P and I, or, B and I, should still work on Tegra, its mi=
-xing P
-> and B that will fail since one of the reference list will be missing. At =
-least,
-> this is my understanding.
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
 
-Well the comment in the driver mandates that "frame consists of the same ty=
-pe
-slices" and "decoding of a non-uniform frames isn't supported by hardware".
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
 
-But looking at the code these statements seem exaggerated and I concur to y=
-our
-understanding that at least mixing I and P should work, since it only sets =
-up
-the L0 reference list. There's an explicit hardware flag for "B frames" that
-could have a more restrictive meaning. Maybe it also allows I frames and/or
-P frames, maybe not.
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
 
-So perhaps we could relax the definitions to an indication that the L0/L1
-reference lists will be used by the frame slices, which implicitly allows m=
-ixing
-different types of slices.
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
 
-After all it is likely that decoders in that situation just really care abo=
-ut
-having the required ref lists prepared and don't particularly need each
-slice_type to be the same. After all they're still parsing the slice header=
-s so
-they do have all the slice-specific info.
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 10 Private Controls: 0
 
-Paul
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
 
-> Nicolas
->=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0 * - ``V4L2_H264_DECODE_PARAM_FLAG_BFRAME``
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - 0x00000010
-> > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - All submitted slices for the frame ar=
-e B slices. This is a compability
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 flag required for decoders =
-that only support decoding such frames, but
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 should not be required for =
-slice-based decoders.
-> > =C2=A0
-> > =C2=A0.. raw:: latex
-> > =C2=A0
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
 
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
 
+Total for device /dev/v4l-subdev28: 41, Succeeded: 41, Failed: 0, Warnings: 0
+----8<----
 
---=20
-Paul Kocialkowski,
+Link to v4 of the OV6211 camera sensor device driver:
+- https://lore.kernel.org/all/20250820224541.130229-1-vladimir.zapolskiy@linaro.org/
 
-Independent contractor - sys-base - https://www.sys-base.io/
-Free software developer - https://www.paulk.fr/
+Changes from v4 to v5:
+* removed unnecessary explicit setting of ov6211->sd.dev (Tarang),
+* switched to regulator bulk operations (Sakari, Krzysztof),
+* minor non-function clean-ups.
 
-Expert in multimedia, graphics and embedded hardware support with Linux.
+Link to v3 of the OV6211 camera sensor device driver:
+- https://lore.kernel.org/all/20250812213024.361267-1-vladimir.zapolskiy@linaro.org/
 
---WI4FcukOe3v7B7jt
-Content-Type: application/pgp-signature; name=signature.asc
+Changes from v3 to v4:
+* v4l2_ctrl_handler_init() properly set error in handler, an early check
+  is not mandatory (Tarang, Sakari),
+* removed pm_runtime_mark_last_busy() since it's called by
+  pm_runtime_put_autosuspend() (Tarang, Sakari),
+* pm_runtime_get_if_in_use() replaced by pm_runtime_get_if_active() (Sakari),
+* use v4l2_link_freq_to_bitmap() helper function to check a link frequency
+  map (Sakari),
+* added a new test pattern control, apparently it's identical to ov7251 one.
 
------BEGIN PGP SIGNATURE-----
+Link to v2 of the OV6211 camera sensor device driver:
+- https://lore.kernel.org/all/20250729231454.242748-1-vladimir.zapolskiy@linaro.org/
 
-iQIzBAEBCgAdFiEEAbcMXZQMtj1fphLChP3B6o/ulQwFAmixtfcACgkQhP3B6o/u
-lQy/eg/+KXDBjXoFLRlMAlVItH+iqobBS+Pd19Qf6QsSKFu/hkfB+8Vj6S0KfEIZ
-RK1tVIBxrWH7fQ1cYH2Dvpe3ebQOmyLpGDbpfJFx6vtrwa6p/vk7v9xORsA6XKTT
-nC2rqnX3Kme0JrtcKgnQoSqHsh2nOXKOz3Fi8uUmkEULqF7E+YBaDtlRE2pwGUyJ
-OatXCmRvDshJXN4K0smDFDowkCxnLNMvSQv74R73fiLH1tuhNc8LbZxqaLP4dWu9
-w9RB00BKTc6RP1HXQ0HMENnicZ+Cwom6HeCYgexOn51D35TTBEPvA3gNkDoIzjXw
-DWF7aO5u8dI1ySEnuwxVyLtFS2Ct8wEgDuCP78G4KPaYGTRD46OKgdDrIW5lWnwg
-Y4TcZcOvVH/b2me/x8pRN48QCsxsDZPE4ndVFraEVFrKM7PiolP99GjtNpYd+3+j
-eJI3hrdWVV3ae4ID7DGd0P2hKjmLQ1OVsQWGiZ2SAlxYV4OtTFiimO1TGyePNmh0
-Upkrn0tJjY3uvdu0AAwccUzW3P5SOEQucZVlQTnZTBWlulPq4BWfPccIBRLl0PWg
-C1HLlcnm9YUKTyT5KKyfUIyRozFwpiqb1ji2KA/+DI8lG06+Fk0i+wjFKAVGUiZx
-OUix46k7yQcYkuWTaOEmQdrBztMicU6pCoayaDJG9XXJpzyXvPk=
-=kBOn
------END PGP SIGNATURE-----
+Changes from v2 to v3:
+* added Reviewed-by: tag to the device tree binding (Rob),
+* simplifed access to the associated struct device (Tarang),
+* ov6211_get_format() replaced by v4l2_subdev_state_get_format() (Tarang),
+* removed private .cur_mode, since just one mode is supported (Tarang),
+* removed a custom serialization mutex (Tarang),
+* set power on before registering the sensor in V4L2 (Tarang),
+* v4l2_subdev_internal_ops: replaced .open with .init_state,
+* updated signature of ov6211_update_pad_format() to generalize it and
+  to simplify adding more modes in future,
+* replaced a custom .s_stream from v4l2_subdev_video_ops by .enable_streams
+  and .disable_streams callbacks in v4l2_subdev_pad_ops,
+* add support of PM runtime autosuspend into the driver,
+* taking into account a similarity of OV6211 PLL1 configuration to
+  the known OV7251 PLL1 correct the set MIPI link frequency value.
 
---WI4FcukOe3v7B7jt--
+Link to v1 of the OV6211 camera sensor device driver:
+- https://lore.kernel.org/linux-media/20250717124001.108486-1-vladimir.zapolskiy@linaro.org/
+
+Changes from v1 to v2:
+* restrict endpoint unevaluated properties (Krzysztof),
+* changed dev_err() to dev_err_probe() whenever it's applicable (Krzysztof),
+* removed in-driver I2C operations in favour of V4L2 CCI interface (Kieran),
+* added hblank, vblank, pixel rate and rotation/orientation V4L2 to
+  the list of controls (Kieran, Dave),
+* due to unselectable data lanes property removed data_lanes handling (Dave),
+* replaced devm_clk_get_optional() with devm_v4l2_sensor_clk_get() (Dave, Mehdi),
+* minor cosmetic updates (reported error messages, goto label names etc.).
+
+Vladimir Zapolskiy (2):
+  dt-bindings: media: i2c: Add OmniVision OV6211 image sensor
+  media: i2c: Add OmniVision OV6211 image sensor driver
+
+ .../bindings/media/i2c/ovti,ov6211.yaml       |  96 +++
+ MAINTAINERS                                   |   8 +
+ drivers/media/i2c/Kconfig                     |  10 +
+ drivers/media/i2c/Makefile                    |   1 +
+ drivers/media/i2c/ov6211.c                    | 793 ++++++++++++++++++
+ 5 files changed, 908 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov6211.yaml
+ create mode 100644 drivers/media/i2c/ov6211.c
+
+-- 
+2.49.0
+
 
