@@ -1,150 +1,130 @@
-Return-Path: <linux-media+bounces-41353-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41354-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06472B3C24C
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 20:16:04 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 355F7B3C259
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 20:20:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 781B47AB740
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 18:14:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F03F94633FE
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 18:20:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DB8D338F5C;
-	Fri, 29 Aug 2025 18:15:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B21B1342C92;
+	Fri, 29 Aug 2025 18:20:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="FwcoItfW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a0W21xwK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35CE0625;
-	Fri, 29 Aug 2025 18:15:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86CDF17A309;
+	Fri, 29 Aug 2025 18:20:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756491350; cv=none; b=Mmz3BmvdxtQA2291p4696GvvPprgLJneHxgZezyfVWwagSA44FXlJ8w5tP18Bxeyim6vN0b2sqv1hiTE8vOZ/5198Pj+JnviBS0YWypbBLq8fyaUrEZs4dPooCM3myfVfgmfFlGUV+MkL0Npxk4OG5NuyNXceKfaS2TRlGwAQDY=
+	t=1756491626; cv=none; b=qb2bT5jyEBLTK+zWWcQ7OH7UL9DDnaKuYwiluvKPi8yCZGQoSsYl7/uXE5r7zBAlunxbOM0EHmEFyM+V3VPhyUG1pLxzkmv44sCIHekkUYOR7hgzKhPBAksGVD5eQft5H5vd4uv/udIoCXJ3iqkOya5l2JKu6kz86xLqyh3uQbg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756491350; c=relaxed/simple;
-	bh=1Jf8b9GL3uqx2IKuSIUNbhQaMTb4+dyoDcBhSljsSPk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=RUCY+6s5vJcY2lIJjThCTc+1x6RqeKLaOCNfVm37PTwdyUR9PbEalciBex6FxxZ/loKV2UHmaw2ro7j/zzUnkYMSYE3XoljFz1k2y+xZIM+UPiwoOZvec+3tRxYu6pg2Egm1ISZ0sLqK4I0QF+/RctImCAgU+LF2Qq6oeS+9f3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=FwcoItfW; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1756491343;
-	bh=1Jf8b9GL3uqx2IKuSIUNbhQaMTb4+dyoDcBhSljsSPk=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=FwcoItfWwici07H2uY2FEPLrw4Ppa67OAmNcytiLllA/lWrOJj+lHzblvZtbdx5f3
-	 DuTBgqKgTg+ELodI70QUk3wTgi7Ma2MhIMtKVHPtbjV8sF6eR7P6P5DjBCCZmZVeo3
-	 fqFXRjxCVxjFDDeXCA3ZuFR0hA53Rjm+s28dPuywFgI7sFWwf7kb+KNZVHm4FAXGH5
-	 Y5obQ7yGMmW523oAMj1dT5FrVtTMinTPU87dozGMCMU6rWCXvb/pXdyf33Y4ukE+fJ
-	 1P4A2llzlPTJyeuvY/imJkjTA21EFMvqWHMIVt4cUuMcy2QqL5oh8sdTEnKif109IN
-	 7qU2ccEyrfeMw==
-Received: from [IPv6:2606:6d00:11:5a76::5ac] (unknown [IPv6:2606:6d00:11:5a76::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id C021B17E01F5;
-	Fri, 29 Aug 2025 20:15:41 +0200 (CEST)
-Message-ID: <88fc40c386f2609584df72cf4951972b07f20e72.camel@collabora.com>
-Subject: Re: [PATCH v3 3/4] media: chips-media: wave5: Add WARN_ON to check
- if dec_output_info is NULL
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: "Jackson.lee" <jackson.lee@chipsnmedia.com>, mchehab@kernel.org, 
-	hverkuil-cisco@xs4all.nl, bob.beckett@collabora.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	lafley.kim@chipsnmedia.com, b-brnich@ti.com, hverkuil@xs4all.nl, 
-	nas.chung@chipsnmedia.com
-Date: Fri, 29 Aug 2025 14:15:40 -0400
-In-Reply-To: <20250623002153.51-4-jackson.lee@chipsnmedia.com>
-References: <20250623002153.51-1-jackson.lee@chipsnmedia.com>
-	 <20250623002153.51-4-jackson.lee@chipsnmedia.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-1KJsHPFrOmo8O4PcAsju"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1756491626; c=relaxed/simple;
+	bh=PzwCtuB3j9mG3oFLMLpPr0xi6ZQk8WJsFrhJAOjv3gc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sHQwgmR1b1aLcBUvq9TK3u3munNPPM8BdVwOBQfrKvgJkZwXw3AMtMtX5+bKmpkg3ZgwpnXBmwCJ2wX5HXDuZ3QVSsNlj/ID7YP2yUnnnrcZaa/VOCnR/ZqRwOObpTYoy50w+T/O7LhJpIOGhZfL7ssQ/u3pl6XMQ3/pMBGIGFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a0W21xwK; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3d17f24d42fso206529f8f.1;
+        Fri, 29 Aug 2025 11:20:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756491623; x=1757096423; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=PzwCtuB3j9mG3oFLMLpPr0xi6ZQk8WJsFrhJAOjv3gc=;
+        b=a0W21xwKT3hyVx3v3A1z7WZRVnAEiTYb61uAm2bJ2MHLVAFM6xTVi6tcKw5p8VugjT
+         NSeefMlSIcyLDB3k8Ka8dNsaIRjt4PLbmpUCw6rbjFzxdNn80LSUGPzK6Ycph5+KYrPv
+         5gwqhWIskHKhNXFInoMz7J+Z37TP/Zg9sTTtxljb+vCyRj/9EUoefsrE0uoPJYHkA43H
+         0ZwqLGY9/OgqGbJYVwShzj1f8/pASfCax7Gk0imsP5iPTfs5D4oOEGqq+kpnMtQ6qYcH
+         6SQhEtcOsKOUCAayRV1y9SBn09wyGtq6tZUUxBsRgHqa+Sk6wXuvjw8mijtf0+acrDPJ
+         XAVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756491623; x=1757096423;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=PzwCtuB3j9mG3oFLMLpPr0xi6ZQk8WJsFrhJAOjv3gc=;
+        b=oIGrWWtt+8+LcTo5DAEPRVXzH0zTbAY7sf+EQq4r1/370iLnZ5TMReVUk6Qbf1/hKz
+         XEpcFTY69vQ54wh6wvmel/WpkTyk9CRYxpEGwGMtei4l1iHYm5eLODEAdQExMwEuu2dC
+         wd8xN3T6K2XwS95Xa56OOK/Om+PZYBUenbEZHznBfqjZNxDzyp097bV79uzTWnXlJq3P
+         fn4KSjplNFhDpO2Yok7wGWvBsXn0rTA3FApWyI/yszsUhGjtQmh8GOeQB8dlnqyVmely
+         B6tp9GuBiRKZxPSR6kgHbNPbzIvaBpqckS+jrZTDfc1FtTGxXMJZ562oAdki1mwiAGZT
+         yFJg==
+X-Forwarded-Encrypted: i=1; AJvYcCWvfPh94gMVcjloCxVewjoTiLwk0fm5/HP0VMIbKqRWhUSyUlliMk6a9Z/zAbtz8knkQ0Fp8z3o0Xjz8zk=@vger.kernel.org, AJvYcCWwUwe0GBolYv0nXCEoJxZBIxZJDlhn5gt3QpwwbJqYweXVc2qC/M1UUPykn2bqVk4x/FvNjRIWgVqB3jto@vger.kernel.org, AJvYcCX5SabpitMXWGOaj4Rt46UkCtS7ggUeEN5PC/z4fiUw5CfGdiGvQuAewOqAbQWlT1/wdChxHQIZkIru@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw4CQgp6IJ0w6Pyi6yhwJ+CxAU+tMhL73ajHbVg/5Vf8+Wq8G+t
+	h/0RzJ6dZf+6sPomu1SOHCN9XN8Ts7tvF9GwxgxXkJe0XRWNBsw0EJfINX49ClsmcNz/22rgS/Y
+	GeNsKT2rbI1Z+Ou0z4UzZFyCDbZTduuw=
+X-Gm-Gg: ASbGnctgvNd1WJawVL8BnxUkCJ4/E8KgqAK/KlepYQNEEhUPeiDi/4FooxPAgFnmZyN
+	dMZgig+cZXgQFPC8CFwH1Vm2GkTP8iy1wiHwwwsqvnsnrSiD6pmMXaVhP/yf/xMAn8ay4SoGMQ3
+	WNHbEjn68eusVc16osKXYJKoncZRDkjF4BJ+pNFcJZVGjXkFQggr47M1qUoZTObj/GyGnR9jmqd
+	XWVkay+rCIaTvvT0ws=
+X-Google-Smtp-Source: AGHT+IGp5iX3PfKgYVpRfOqVAkOALMD0nOrxDBT3qa9RJ6SnTACUl9cPGngmsEDhmzMvw3wmKKZp3k6xTCxVjnmUiNU=
+X-Received: by 2002:a05:6000:238a:b0:3b9:1b9c:4e27 with SMTP id
+ ffacd0b85a97d-3c5dcc0c710mr25331314f8f.44.1756491622630; Fri, 29 Aug 2025
+ 11:20:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-
-
---=-1KJsHPFrOmo8O4PcAsju
+References: <20250819120428.83437-1-clamor95@gmail.com> <aLB_7YS9HsfzfadI@kekkonen.localdomain>
+In-Reply-To: <aLB_7YS9HsfzfadI@kekkonen.localdomain>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Fri, 29 Aug 2025 21:20:10 +0300
+X-Gm-Features: Ac12FXy_FTo1uRr7aiC4D7-9SjbNknCEpUBg22m0hD1EeHF-N9jAs7HX4hgTUuo
+Message-ID: <CAPVz0n1mXvdyzshei8Mbw7KVYCkQjziBA95ton4MKXPnPd0kbQ@mail.gmail.com>
+Subject: Re: [PATCH v1 0/2] media: i2c: add Sony IMX111 CMOS camera sensor driver
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Dongcheng Yan <dongcheng.yan@intel.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Jingjing Xiong <jingjing.xiong@intel.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le lundi 23 juin 2025 =C3=A0 09:21 +0900, Jackson.lee a =C3=A9crit=C2=A0:
-> From: Jackson Lee <jackson.lee@chipsnmedia.com>
->=20
-> The dec_output_info could be a null pointer, so WARN_ON around it
-> was added.
+=D1=87=D1=82, 28 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=BE 19:1=
+2 Sakari Ailus <sakari.ailus@linux.intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> Hi Svyatoslaw,
+>
+> On Tue, Aug 19, 2025 at 03:04:25PM +0300, Svyatoslav Ryhel wrote:
+> > Add driver for Sony IMX111 CMOS sensor found in LG Optimus 4X and Vu
+> > smartphones.
+>
+> Thanks for the set.
+>
+> I wonder how would the sensor work with the CCS driver. The register layo=
+ut
+> appears to be very much aligned with that (I haven't checked whether ther=
+e
+> are MSRs that depend on the mode).
+>
 
-I think to warrant a WARN_ON, its should be that the info should NOT be nul=
-l.
-WARN_ON should be used for driver programming issues. If this is what you m=
-ean,
-I would reword:
+After deeper testing I have found that imx111 may be nokia,smia
+compatible, at least most of general registers and CCS logic is
+applicable. Some of registers may cause issues, for example,
+"phy_ctrl_capability" =3D 0, 0x0 and some insane pll ranges. Maybe that
+can be addressed with a firmware patch idk. The trickiest part is that
+each mode requires non-standard and non-common manufacturer code
+(0x3xxx ranges). If you can explain how to address these issues, I
+would love to add imx111 and a few other modules into list of CCS
+supported devices.
 
-
-   The dec_output_info should not be a null pointer, WARN_ON around it to
-   indicates a driver issue.
-
-
-cheers,
-Nicolas
-
->=20
-> Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
-> Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
-> ---
-> =C2=A0drivers/media/platform/chips-media/wave5/wave5-vpuapi.c | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
->=20
-> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c b/dr=
-ivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> index e94d6ebc9f81..5b10f9f49b9f 100644
-> --- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
-> @@ -485,7 +485,7 @@ int wave5_vpu_dec_get_output_info(struct vpu_instance=
- *inst, struct dec_output_i
-> =C2=A0	struct vpu_device *vpu_dev =3D inst->dev;
-> =C2=A0	struct dec_output_info *disp_info;
-> =C2=A0
-> -	if (!info)
-> +	if (WARN_ON(!info))
-> =C2=A0		return -EINVAL;
-> =C2=A0
-> =C2=A0	p_dec_info =3D &inst->codec_info->dec_info;
-
---=-1KJsHPFrOmo8O4PcAsju
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaLHuTQAKCRDZQZRRKWBy
-9GzpAP4tgapGO4VZ2WT7cG88+GXpDaxwLGNmCEgoDyFDCHAKvQD/YHTcTotIX2tX
-HTbdx0bR1LxxjotFYNpXcgShSpaGEgU=
-=vn4C
------END PGP SIGNATURE-----
-
---=-1KJsHPFrOmo8O4PcAsju--
+> --
+> Kind regards,
+>
+> Sakari Ailus
 
