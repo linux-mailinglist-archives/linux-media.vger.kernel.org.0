@@ -1,87 +1,107 @@
-Return-Path: <linux-media+bounces-41316-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41317-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE82CB3B672
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 10:52:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1521FB3B6B0
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 11:06:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ADF29A04FFC
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 08:52:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 66D261C84A10
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 09:06:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE09F2DA77F;
-	Fri, 29 Aug 2025 08:50:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2EC12F3C2C;
+	Fri, 29 Aug 2025 09:05:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="O/aZtrQI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F562C11EE
-	for <linux-media@vger.kernel.org>; Fri, 29 Aug 2025 08:50:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A6F282F39D4;
+	Fri, 29 Aug 2025 09:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756457417; cv=none; b=jM4Thv1npwKS6+UAhRiyTOSQDcAAqCacT4+Wpi6IdzWEuJycPTKuJmJZYIr9SuXHx2sG/MiQg3dlBnghBV23T38Oqw2bnQaw+LSiIiqP6nrvDEZdhSYkOqjvJeV0tdTgmjotjYMBum67JKY037Zg2OEaqOvPIN77WU0lhw68deM=
+	t=1756458314; cv=none; b=VdRGq/qh9TnbtiUbJBZEa2titalBBbXxkJElbgkddrlY/n3ttI21hxw0hbNU3pUiCqdSmlrhRXpkiCAAgDLs9a87BsNYdbuq9GXNLDkH/gcY3hxoGT6f0d7zbkDwHuQbYMH/hOM86O14+lNlGfb7U6ZzhxiDPvZ7bj8iXeUZFcc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756457417; c=relaxed/simple;
-	bh=0FkEUj2lsFv78VNsrziL4rQ0LAntUHeKDO6JjSLwJvk=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=hvwg+agIUvi0RI7bUOLbZfOOD17u/CTcvpPRkp0BDxA5A/QPhwpY/WBn8JhCSawy3Xgan07dGF/AdqQvbK04J3E56YkUeyD7rsoJwTqqnX0S+bfs/x/eFZsL2IPbsoPv9j1yEY+36N6Qh4JIFqlUw6hrO8uuSHfy0tc6CeWfSHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uruo3-0001g1-MZ; Fri, 29 Aug 2025 10:49:59 +0200
-Received: from lupine.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::4e] helo=lupine)
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uruo2-002hPH-1W;
-	Fri, 29 Aug 2025 10:49:58 +0200
-Received: from pza by lupine with local (Exim 4.96)
-	(envelope-from <p.zabel@pengutronix.de>)
-	id 1uruo2-0009f3-1D;
-	Fri, 29 Aug 2025 10:49:58 +0200
-Message-ID: <a1734ee3296add23e8d61f0ed666bb46bd5717f5.camel@pengutronix.de>
-Subject: Re: [PATCH] media: verisilicon: imx8m: Use the default Hantro G1
- irq handler
-From: Philipp Zabel <p.zabel@pengutronix.de>
-To: Paul Kocialkowski <paulk@sys-base.io>, linux-media@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>
-Date: Fri, 29 Aug 2025 10:49:58 +0200
-In-Reply-To: <20250828135820.1859316-1-paulk@sys-base.io>
-References: <20250828135820.1859316-1-paulk@sys-base.io>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.46.4-2 
+	s=arc-20240116; t=1756458314; c=relaxed/simple;
+	bh=NqP+Lu0s6zMq+mXI8sKUzNzHzDIZFi7M4YhenC0/UME=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KCXAOiq9jr+u3QfMxAOnNDObk2jvH9ac/+ehlUc+Q555Xh3REG7jbjhv56Kj3rknnbjTAkKgLh/YCp0DN5W3uB8vpOU3E1AOME9TzU5zZHbVOdNPpZDsfpAtTHePbj0A9KU+uPYm/8LvKGfFICL1DkWKNujyDGVdjemmzm60hZA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=O/aZtrQI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B8A0C4CEF0;
+	Fri, 29 Aug 2025 09:05:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756458314;
+	bh=NqP+Lu0s6zMq+mXI8sKUzNzHzDIZFi7M4YhenC0/UME=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=O/aZtrQIrK+pjFscVOTtr0zXLtW3sVgAwQKVyh/R4vDZIg8NcUxEMp+RFKF6k/2kR
+	 yo4O3GYfHeB6VYvr+FM+PJiLvb4EhF+zCsadI3RYCxMF6rjgIIiJur0ndvcyGZnCS6
+	 cLd864PWBnaPYvVPHN1odrYVLkGAzDyeaLYD03hApQ0Ft26UEyy7+I6gyFa1uTzvnM
+	 nCgF8rsAw5UVSIxR6sVvrmQBd7mq+Qt0tN1YNxkPxOlD3OvSfu5OJGA/dDi4nVeiwt
+	 wGr4g1NxYhXMV3HXnHpPstcXGScCrmVBXVLYP673kxBTXdc24OoxL+VEl7I0qXu3Ww
+	 kUxe/i2pf0PjQ==
+Message-ID: <9210ea3a-970b-4cf3-8ab5-35952a9c5cf6@kernel.org>
+Date: Fri, 29 Aug 2025 10:05:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 24/26] media: iris: Allocate and queue internal buffers
+ for encoder video device
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Stefan Schmidt <stefan.schmidt@linaro.org>,
+ Vedang Nagar <quic_vnagar@quicinc.com>, Hans Verkuil <hverkuil@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Renjiang Han <quic_renjiang@quicinc.com>,
+ Wangao Wang <quic_wangaow@quicinc.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>
+References: <20250825-iris-video-encoder-v4-0-84aa2bc0a46b@quicinc.com>
+ <RkFtovt6YeFZgD2napWwptCOf-5LP3ZqNbmfbDB-Z__cCvrJA5DfFRVU1IxihkEayS3ksQp8AzL1dE9Kd7r_2Q==@protonmail.internalid>
+ <20250825-iris-video-encoder-v4-24-84aa2bc0a46b@quicinc.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20250825-iris-video-encoder-v4-24-84aa2bc0a46b@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Do, 2025-08-28 at 15:58 +0200, Paul Kocialkowski wrote:
-> The existing imx8m_vpu_g1_irq implementation is an exact copy of the
-> default hantro_g1_irq one. Switch over to it instead of keeping a
-> duplicated implementation.
->=20
-> Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+On 25/08/2025 08:00, Dikshita Agarwal wrote:
+> +static inline
+> +u32 size_enc_single_pipe(u32 rc_type, u32 bitbin_size, u32 num_vpp_pipes,
+> +			 u32 frame_width, u32 frame_height, u32 lcu_size)
+> +{
+> +	u32 size_aligned_height = ALIGN((frame_height), lcu_size);
+> +	u32 size_aligned_width = ALIGN((frame_width), lcu_size);
+> +	u32 size_single_pipe_eval = 0, sao_bin_buffer_size = 0;
+> +	u32 padded_bin_sz;
+> +
+> +	if ((size_aligned_width * size_aligned_height) > (3840 * 2160))
+> +		size_single_pipe_eval = (bitbin_size / num_vpp_pipes);
+> +	else if (num_vpp_pipes > 2)
+> +		size_single_pipe_eval = bitbin_size / 2;
+> +	else
+> +		size_single_pipe_eval = bitbin_size;
+> +
+> +	sao_bin_buffer_size = (64 * ((((frame_width) + 32) * ((frame_height) + 32)) >> 10)) + 384;
+> +	padded_bin_sz = ALIGN(size_single_pipe_eval, 256);
+> +	size_single_pipe_eval = sao_bin_buffer_size + padded_bin_sz;
+> +
+> +	return ALIGN(size_single_pipe_eval, 256);
+> +}
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+Applying your full series, this function is unused and causes a warning 
+in CI.
 
-regards
-Philipp
+Assuming tests pass for me, I'll be dropping this function in the PR and 
+you can resubmit it if/when you find a use for it.
+
+---
+bod
 
