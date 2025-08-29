@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-41333-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41334-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9E15B3BD11
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 16:03:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DD2AFB3BD1F
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 16:06:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1E49A46550
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 14:02:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 97608A47651
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 14:06:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4AB731E111;
-	Fri, 29 Aug 2025 14:02:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A03731DDBA;
+	Fri, 29 Aug 2025 14:06:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="H4+yTiGf"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Uhf2/Hoi"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0262931E0E6;
-	Fri, 29 Aug 2025 14:02:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE9DC2701DC;
+	Fri, 29 Aug 2025 14:06:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756476163; cv=none; b=J7tvGpgliy2aVpcDu/lTt4hYWyJOt2TiOFVI9jhLnB91dH+Eafh8s4yJ5YM+PcowTxdwrk3at3G3KgLoGo2ixU0nBsCnNsy9RaYNh4C36GlLKVpL7MOMKg7xhmP08FjAv97arkfx3Lk9u5n5/ISNcBEpNYJ0/URUiBjAyRXVcPo=
+	t=1756476369; cv=none; b=nE838hVwasi1KB/5JrIksx8wSnVkhITmk94k0xhIjiNYx1rPogPROpZ5gastemJGCzruWXYr7LKcfIFmZFsTxW58XwyImARLb5VZg4E5RXnHaP8tWJPkFmttjhPxF5YuKfonD9JKpfDsiXsdpdFGnezJ1QZyrxMrd4aXKEiqqe0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756476163; c=relaxed/simple;
-	bh=rYk7kh2K0XNkrKe1b/8Qa6EV2yfNmK1OMJY9R4tVrM0=;
+	s=arc-20240116; t=1756476369; c=relaxed/simple;
+	bh=5hnfrxB59btF5GVW6Vc7xXSqfEVv47osUlR/KT5zvJc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sJza2zRyTTt6aXG3FU5eNNgjanrKHNKBUcTGp3Pz0iRp8gIc8KnBTOz6/shk+/eX0A2ZbxEdb1MSeAItfnLSWvhu3BIn5kt7snNeSaQMyLjL/rIqRBloYRljHHPqxvjFYefgFOkw5CywwU9J9uOKbu/e5v3FE7MM349IhVp6QMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=H4+yTiGf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB4E2C4CEF0;
-	Fri, 29 Aug 2025 14:02:38 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=MzqX9sXdnnO1vMMa9uPDK3WZ6teKM4CeKsohU48o/VBViV+mz9dJ/ojerbGrNdv/QQ5xe29bWGdeNuf9EVj1ojOQCiRI/dCKKmssgoPuan3YyGvkEtawNCQ/lOos4XoDzFSTT34I4boY2gYqkfQVmRBSrp67E70DMPdu6kZBVyk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Uhf2/Hoi; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63CF0C4CEF0;
+	Fri, 29 Aug 2025 14:06:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756476162;
-	bh=rYk7kh2K0XNkrKe1b/8Qa6EV2yfNmK1OMJY9R4tVrM0=;
+	s=k20201202; t=1756476368;
+	bh=5hnfrxB59btF5GVW6Vc7xXSqfEVv47osUlR/KT5zvJc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=H4+yTiGfnX3YWu36m9+qObMcDf+3Xd84tneLcq5ddTQ01i9fF2TsDhnVpDmHrSNJr
-	 LErQu3xvfxKgeYjxNOJl0ZRf/cgn3G+VF/4S+Cyn1unxOQUtYdPKk8XAATSLF2WGuV
-	 qyEJ+kkaZyBDyb6eoAVjRMIaHtNxzvsdTx+JCEghMUGMcoOmS5/PlzDqqTG1y0qFZX
-	 +PRyJ14/DKqxUdLoGFor5pfxYDWx7jDvrvgf0x9WksZN0UCe0FGn2SPvGZAMrQvv7X
-	 rA6y9oxen5kjMyfYhtA5AIl+/CgmyAAev/+MOCWI//D1zAbZ/BXbOpKjDFCIBFRmhW
-	 /ikGTzPPf2Ctg==
-Message-ID: <19196605-50fb-440f-9666-7502de9ddfd5@kernel.org>
-Date: Fri, 29 Aug 2025 16:02:36 +0200
+	b=Uhf2/HoiXGKYEqu/pkUaMb2gMLZ+iBw5kivrOV03qQ9PCcUoxKw51pzRvZEYvJ/ab
+	 knEgYDfSXfewnVQYciMw0Mw0dVOcaC6gB85gV6iuC991zGcd2Palbsg+OFI81+InTD
+	 jcXXpoPWlB/uIrVzYh5CGlL72Os0fwEKfHZDzS09Ft8ZUR9Ee+C2WABDq9UzEwKGSR
+	 rsIPmQyUUMnidYFGTy/HXIlkXq5A3lIO0BKhqiOQvOYg2yC18ZJdiVtm59zWMQGVzd
+	 ZCqrjgLZj4cSKK8h69DA1Emr5ISXUPR9TjJlXarSrabTK8Eu0CyBDBHkom9rteQMAF
+	 +KDIdWBUpNRpA==
+Message-ID: <5502f52d-d302-4479-93b8-1da47731cf1d@kernel.org>
+Date: Fri, 29 Aug 2025 16:06:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,7 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 5/9] media: chips-media: wave6: Add Wave6 core driver
+Subject: Re: [PATCH v3 8/9] media: chips-media: wave6: Add Wave6 control
+ driver
 To: Nas Chung <nas.chung@chipsnmedia.com>, mchehab@kernel.org,
  hverkuil@xs4all.nl, robh@kernel.org, krzk+dt@kernel.org,
  conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de
@@ -59,7 +60,7 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, jackson.lee@chipsnmedia.com,
  lafley.kim@chipsnmedia.com, Ming Qian <ming.qian@oss.nxp.com>
 References: <20250829084649.359-1-nas.chung@chipsnmedia.com>
- <20250829084649.359-6-nas.chung@chipsnmedia.com>
+ <20250829084649.359-9-nas.chung@chipsnmedia.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -105,42 +106,53 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250829084649.359-6-nas.chung@chipsnmedia.com>
+In-Reply-To: <20250829084649.359-9-nas.chung@chipsnmedia.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 29/08/2025 10:46, Nas Chung wrote:
-> This adds the core driver for the Chips&Media Wave6 video codec IP.
-
-Please do not use "This commit/patch/change", but imperative mood. See
-longer explanation here:
-https://elixir.bootlin.com/linux/v6.16/source/Documentation/process/submitting-patches.rst#L94
-
-> 
-> The core region provides the encoding and decoding capabilities of
-> the VPU and depends on the control region for firmware and shared
-> resource management.
-> 
-
-
-...
-
 > +
-> +static int wave6_vpu_core_probe(struct platform_device *pdev)
+> +static void wave6_vpu_load_firmware(const struct firmware *fw, void *context)
 > +{
-> +	struct vpu_core_device *core;
-> +	const struct wave6_vpu_core_resource *res;
-> +	int ret;
-> +	int irq;
+> +	struct wave6_vpu_device *vpu = context;
 > +
-> +	res = device_get_match_data(&pdev->dev);
-> +	if (!res) {
-> +		dev_err(&pdev->dev, "missing resource\n");
+> +	guard(mutex)(&vpu->lock);
 
-This is almost impossible condition. Not worth printing errors.
+Why? How could this be called in parallel, before the probe?
 
-> +		return -EINVAL;
+> +
+> +	if (!fw || !fw->data) {
+> +		dev_err(vpu->dev, "No firmware.\n");
+> +		return;
 > +	}
+> +
+> +	if (!vpu->fw_available)
+> +		goto exit;
+> +
+> +	if (fw->size + W6_EXTRA_CODE_BUF_SIZE > wave6_vpu_get_code_buf_size(vpu)) {
+> +		dev_err(vpu->dev, "firmware size (%ld > %zd) is too big\n",
+> +			fw->size, vpu->code_buf.size);
+> +		vpu->fw_available = false;
+> +		goto exit;
+> +	}
+> +
+> +	memcpy(vpu->code_buf.vaddr, fw->data, fw->size);
+> +
+> +	vpu->get_vpu = wave6_vpu_get;
+> +	vpu->put_vpu = wave6_vpu_put;
+> +	vpu->req_work_buffer = wave6_vpu_require_work_buffer;
+> +	of_platform_populate(vpu->dev->of_node, NULL, NULL, vpu->dev);
+> +
+> +exit:
+> +	release_firmware(fw);
+> +}
+> +
+> +static int wave6_vpu_probe(struct platform_device *pdev)
+> +{
+> +	struct device_node *np;
+> +	struct wave6_vpu_device *vpu;
+> +	const struct wave6_vpu_resource *res;
+> +	int ret;
 > +
 > +	ret = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
 > +	if (ret < 0) {
@@ -148,107 +160,36 @@ This is almost impossible condition. Not worth printing errors.
 > +		return ret;
 > +	}
 > +
-> +	core = devm_kzalloc(&pdev->dev, sizeof(*core), GFP_KERNEL);
-> +	if (!core)
+> +	res = of_device_get_match_data(&pdev->dev);
+> +	if (!res)
+> +		return -ENODEV;
+> +
+> +	vpu = devm_kzalloc(&pdev->dev, sizeof(*vpu), GFP_KERNEL);
+> +	if (!vpu)
 > +		return -ENOMEM;
 > +
-> +	ret = devm_mutex_init(&pdev->dev, &core->dev_lock);
+> +	ret = devm_mutex_init(&pdev->dev, &vpu->lock);
 > +	if (ret)
 > +		return ret;
 > +
-> +	ret = devm_mutex_init(&pdev->dev, &core->hw_lock);
-> +	if (ret)
-> +		return ret;
+> +	atomic_set(&vpu->core_count, 0);
+> +	INIT_LIST_HEAD(&vpu->work_buffers);
+> +	dev_set_drvdata(&pdev->dev, vpu);
+> +	vpu->dev = &pdev->dev;
+> +	vpu->res = res;
+> +	vpu->reg_base = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(vpu->reg_base))
+> +		return PTR_ERR(vpu->reg_base);
 > +
-> +	init_completion(&core->irq_done);
-> +	dev_set_drvdata(&pdev->dev, core);
-> +	core->dev = &pdev->dev;
-> +	core->res = res;
-> +
-> +	if (pdev->dev.parent->driver && pdev->dev.parent->driver->name &&
-> +	    !strcmp(pdev->dev.parent->driver->name, WAVE6_VPU_PLATFORM_DRIVER_NAME))
-> +		core->vpu = dev_get_drvdata(pdev->dev.parent);
-> +
-> +	core->reg_base = devm_platform_ioremap_resource(pdev, 0);
-> +	if (IS_ERR(core->reg_base))
-> +		return PTR_ERR(core->reg_base);
-> +
-> +	ret = devm_clk_bulk_get_all(&pdev->dev, &core->clks);
+> +	ret = devm_clk_bulk_get_all(&pdev->dev, &vpu->clks);
 > +	if (ret < 0) {
 > +		dev_warn(&pdev->dev, "unable to get clocks: %d\n", ret);
 
-You should handle deferred probe instead.
+You need to handle deferred probe.
 
 > +		ret = 0;
 > +	}
-> +	core->num_clks = ret;
-> +
-> +	ret = v4l2_device_register(&pdev->dev, &core->v4l2_dev);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "v4l2_device_register fail: %d\n", ret);
-> +		return ret;
-> +	}
-> +
-> +	ret = wave6_vpu_init_m2m_dev(core);
-> +	if (ret)
-> +		goto err_v4l2_unregister;
-> +
-> +	irq = platform_get_irq(pdev, 0);
-> +	if (irq < 0) {
-> +		dev_err(&pdev->dev, "failed to get irq resource\n");
-
-Syntax is: dev_err_probe
-
-> +		ret = -ENXIO;
-
-Don't override error codes.
-
-> +		goto err_m2m_dev_release;
-> +	}
-> +
-> +	ret = kfifo_alloc(&core->irq_status, 16 * sizeof(int), GFP_KERNEL);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "failed to allocate fifo\n");
-> +		goto err_m2m_dev_release;
-> +	}
-> +
-> +	ret = devm_request_threaded_irq(&pdev->dev, irq,
-> +					wave6_vpu_core_irq,
-> +					wave6_vpu_core_irq_thread,
-> +					0, "vpu_irq", core);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "fail to register interrupt handler: %d\n", ret);
-> +		goto err_kfifo_free;
-> +	}
-> +
-> +	core->temp_vbuf.size = ALIGN(W6_TEMPBUF_SIZE, 4096);
-> +	ret = wave6_vdi_alloc_dma(core->dev, &core->temp_vbuf);
-> +	if (ret) {
-> +		dev_err(&pdev->dev, "alloc temp of size %zu failed\n",
-> +			core->temp_vbuf.size);
-> +		goto err_kfifo_free;
-> +	}
-> +
-> +	core->debugfs = debugfs_lookup(WAVE6_VPU_DEBUGFS_DIR, NULL);
-> +	if (IS_ERR_OR_NULL(core->debugfs))
-> +		core->debugfs = debugfs_create_dir(WAVE6_VPU_DEBUGFS_DIR, NULL);
-> +
-> +	pm_runtime_enable(&pdev->dev);
-> +
-> +	if (core->res->codec_types & WAVE6_IS_DEC) {
-> +		ret = wave6_vpu_dec_register_device(core);
-> +		if (ret) {
-> +			dev_err(&pdev->dev, "wave6_vpu_dec_register_device fail: %d\n", ret);
-> +			goto err_temp_vbuf_free;
-> +		}
-> +	}
-> +	if (core->res->codec_types & WAVE6_IS_ENC) {
-> +		ret = wave6_vpu_enc_register_device(core);
-> +		if (ret) {
-> +			dev_err(&pdev->dev, "wave6_vpu_enc_register_device fail: %d\n", ret);
-> +			goto err_dec_unreg;
-> +		}
-> +	}
+> +	vpu->num_clks = ret;
 Best regards,
 Krzysztof
 
