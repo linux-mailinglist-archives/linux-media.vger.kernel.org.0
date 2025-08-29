@@ -1,146 +1,133 @@
-Return-Path: <linux-media+bounces-41330-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41331-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4C17B3BB26
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 14:21:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CC301B3BBD2
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 15:01:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7069EA03902
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 12:21:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1FB1118997BF
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 13:01:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F11E7314B75;
-	Fri, 29 Aug 2025 12:21:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C8901D5ABA;
+	Fri, 29 Aug 2025 13:00:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UJCkVPum"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lIV45rRi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com [209.85.167.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F25EE3148A2
-	for <linux-media@vger.kernel.org>; Fri, 29 Aug 2025 12:21:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26BDA1891A9
+	for <linux-media@vger.kernel.org>; Fri, 29 Aug 2025 13:00:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756470066; cv=none; b=X9B8V6ehgCW7WMzW2OXUXr0kU1L1cmLfX/CYNQprzYGqqKLk5eQv7OIJZfQdLgZcDOZFIbIjXFvh8FnScgFS1+lDp+VFU4HpPmyJq9y4igfyS3uwEO8adPYXmU5lqZxDjXGljIe+g5gi3LE/Agz2h/ZBJNX9YZOpAeOyzSUjC+8=
+	t=1756472454; cv=none; b=XzPr0Ibp9MrCW7aR4KoxDShyyd72E6fJpTXx+TpCUxIhjkmt4nuAaa0/IQbm1NrhWEFUWB6CUjiyzjMjirHdp1msckWqtDWXG3fMMT3sC5BlvGrfvMU/IgoAqSkpLPvudvcgHuO/b0OftLbnEc8qeuLDTmDAzpZdomoWtqAcwuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756470066; c=relaxed/simple;
-	bh=aWDmcKQxJLeLFc2zLkg59VZBRjE8kpjJMy4W/8wPRag=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=bke7lwF2G951GWmpJnsuubjRsx/OrU2xkc80I8IHGiInf8Og9E7K/R2d21yOQj2g/jiYpsdOMVB15/TM4+ZsEpiIf1UyezvUBMNep4SKa0z+UsujhlniEEkEc2Ft2CLyiWWYKxKfcrTZV7tims3IJ2VifJLZJi8MjyjXqn5uSRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UJCkVPum; arc=none smtp.client-ip=209.85.167.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-55f6ad5146eso249919e87.0
-        for <linux-media@vger.kernel.org>; Fri, 29 Aug 2025 05:21:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1756470062; x=1757074862; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=zW4AqSEKv0kJ/6/OBgXVXAF4o8+R44pXfVrj6w3QMT8=;
-        b=UJCkVPumwxbKg8DOUW9LEQ2cD49u+20hj1tYg5PsFQ8VZ55Yml8r8tTnnQvyXyZGVl
-         PyWrZpqHv3q1g/6QL5dMI6q2mltxE2PEwLi8Ww5AXjog54ZyC+n2+2Yn82tEsajkXNJ2
-         Ky/SumRPgiEYNQTjyry2zVe+10zWc10NPEbVM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756470062; x=1757074862;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zW4AqSEKv0kJ/6/OBgXVXAF4o8+R44pXfVrj6w3QMT8=;
-        b=vKbnD8bHwVIAOF4yoKQUTrItD6MR3z627kmRMru3rLLtCTTAx0YI3T/hap6nTyyYCx
-         RoXsouDXXQrCFQ8utUCwX44Xz04s4PS1xl2yRIQ/YQqn0SNxiMS2NIdarD7x/+wW86XQ
-         5Md16kXnc/6LQ/e9/TC16kJ6ujgCAlh4wUE98D6oi3VZbkuMgmBML/K6O6mxHty37GjU
-         qHRCIcukoc136aDxohfkElmynJU4Sd6yKFCp0kT2FIqIj+Jm/aNuEm/EUHfjxTaa3ry8
-         jFb57rIk0dzwZGbudZRT/mX9l8u83daBBzRuawv0rEK/2v0Ygq+dxLdK68TAsJsv+l5G
-         170g==
-X-Gm-Message-State: AOJu0YySMxKgjufe2OvHEAaPinCPA+zdNGp2rvtHHa7AafJ9zrLpQlDx
-	nVqKpVwhc/Ut58kqWdAvEXv9KA6zDzK4sy/MlQCg4TiXWr9dRB14vnmUCLMMD3ClHJMiJHnLiTy
-	uyg0=
-X-Gm-Gg: ASbGnct2ZWGrOmYY4Txhwakl73p5IRWWQ+CEidvmFvqHIZYE1l54m5zOPqjPS4N9vHL
-	y+Nj5uBn8XAMpYZGgPKjGKcZ3xWyCvmdQQ7f8Fka25CI8maBjYGIo03qjRkD2zaOJt4DhB2tcDE
-	SBHGqj20tSwWXXJrWm3oGYVvgoc6Leh97r2Qgp+rTAj/1QJccx6oumA1FUc9eT5Hv68TPjySgY9
-	IOeS+fzKhqD1QGLAoT8v0QtzUwKZrxoupImXmH8NBKwCajn4XF7JgZ7Bo0DdHcIwqL6FHUISWBG
-	ke7eKihONiITdsEb4VTlUpeSPZCUhtS/jqgHDeephjPK2cDaTz9ymfP9jGt+cHcXgSI2KwL4BEC
-	muJSV7Q+14MDQ6bvUS2bMQG6q6nQKak2e09SVjd4T3lvS1YVlEDat/7s9cd/3UQAygk2DD0euFr
-	A=
-X-Google-Smtp-Source: AGHT+IF2QWCHbTAObS7nDBaTJMvC3i63bxSUzXfhy7g5nsIjei4FJvSWRcK9EvWQJ5ryoIHlYZkW/g==
-X-Received: by 2002:a05:6512:2282:b0:55f:4f99:f3cb with SMTP id 2adb3069b0e04-55f4f99f618mr3561895e87.15.1756470061985;
-        Fri, 29 Aug 2025 05:21:01 -0700 (PDT)
-Received: from ribalda.c.googlers.com (237.65.88.34.bc.googleusercontent.com. [34.88.65.237])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-55f676dbb6dsm600774e87.13.2025.08.29.05.21.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 29 Aug 2025 05:21:01 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 29 Aug 2025 12:21:00 +0000
-Subject: [PATCH] media: i2c: imx214: Exit early on control init errors
+	s=arc-20240116; t=1756472454; c=relaxed/simple;
+	bh=1PA2zSAPf3xSL/n3j1lrFcgMbQgvpmZQK9xLaJ4Abv0=;
+	h=Date:From:To:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hOeUZ43bl2lMwQUrEcu9JL9DKpoGHJF8aiRBFqqTOCiI/+laiv6Huwp5NG7poULErYFxIenArWXJUeo8dr9KJWweLyILU3EAGoZg/SjzO9Sj6PuqJfDOX5vjyuYV0AqHACvZzR/D7Sm/MDEHuvK9lyCbHZ5jLddmbzF/MBObKDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lIV45rRi; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (85-76-13-20-nat.elisa-mobile.fi [85.76.13.20])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B0B4F13BE;
+	Fri, 29 Aug 2025 14:59:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1756472385;
+	bh=1PA2zSAPf3xSL/n3j1lrFcgMbQgvpmZQK9xLaJ4Abv0=;
+	h=Date:From:To:Subject:From;
+	b=lIV45rRiJFYr+mey/v7nzPcUgsOg9usVmsE5YUWjY6xnXMig0ouKPnf+1DURKSDtj
+	 LnFPfz2Adi5ivA+ALEo1lwk++WlDOrUuuJ4uX8d6vKThm8uPESU4oqFdjVH1jzhupP
+	 GficAE97P7Co4TP1z3D1wDYWYNI230DMP/IUA7iY=
+Date: Fri, 29 Aug 2025 15:00:22 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Hans Verkuil <hans@jjverkuil.nl>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org, Guoniu Zhou <guoniu.zhou@nxp.com>,
+	Richard Leitner <richard.leitner@linux.dev>
+Subject: [GIT PULL FOR v6.18] NXP drivers changes
+Message-ID: <20250829130022.GA23562@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250829-imx214-smatch-v1-1-f3d1653b48e4@chromium.org>
-X-B4-Tracking: v=1; b=H4sIACubsWgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDCyNL3czcCiNDE93i3MSS5AzdZJMUIDQ3MbJIMVUC6ikoSk3LrACbFx1
- bWwsAlYcLi18AAAA=
-X-Change-ID: 20250829-imx214-smatch-c4d4d47428d5
-To: Ricardo Ribalda <ribalda@kernel.org>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 
-Now we try to initialize all the controls and at the very end check
-ctrl_hdlr->error to check if one of them has failed.
+Hi Hans, Mauro,
 
-This confuses smatch, who do not know how to track the state of
-imx214->link_freq.
+The following changes since commit 16428e2449ab96cce27be6ab17b750b404c76c7c:
 
-drivers/media/i2c/imx214.c:1109 imx214_ctrls_init() error: we previously assumed 'imx214->link_freq' could be null (see line 1017)
+  media: mc: Improve unconnected pads debugging message in link exploration (2025-08-25 15:40:44 +0200)
 
-Fix this by exiting early on control initi errors.
+are available in the Git repository at:
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
-Right now we are handling this with a quirk in media-ci, if Dan cannot
-fix smatch in a kernel cycle we should merge this patch.
----
- drivers/media/i2c/imx214.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+  https://gitlab.freedesktop.org/linux-media/users/pinchartl.git tags/next-media-nxp-20250827
 
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index 94ebe625c9e6ee0fb67fe1d89b48b2f1bf58ffc6..7da9e8fa2b622adba53fa6b544bca9859da23e3e 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -1014,8 +1014,10 @@ static int imx214_ctrls_init(struct imx214 *imx214)
- 						   V4L2_CID_LINK_FREQ,
- 						   imx214->bus_cfg.nr_of_link_frequencies - 1,
- 						   0, imx214->bus_cfg.link_frequencies);
--	if (imx214->link_freq)
--		imx214->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	if (!imx214->link_freq)
-+		goto err_init_ctrl;
-+
-+	imx214->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
- 	/*
- 	 * WARNING!
-@@ -1101,6 +1103,7 @@ static int imx214_ctrls_init(struct imx214 *imx214)
- 
- 	ret = ctrl_hdlr->error;
- 	if (ret) {
-+err_init_ctrl:
- 		v4l2_ctrl_handler_free(ctrl_hdlr);
- 		dev_err(imx214->dev, "failed to add controls: %d\n", ret);
- 		return ret;
+for you to fetch changes up to 5a5f84227c93a53f7d98f8a52b731597f1fe0ebe:
 
----
-base-commit: 16428e2449ab96cce27be6ab17b750b404c76c7c
-change-id: 20250829-imx214-smatch-c4d4d47428d5
+  media: rkisp1: Add support for multiple power domains (2025-08-29 10:35:33 +0200)
 
-Best regards,
+----------------------------------------------------------------
+NXP media drivers changes:
+
+- imx-mipi-csis initial support for multiple output channels
+- imx8-isi leaks and crash fixes
+- imx8-isi suspend/resume support
+- rkisp1 support for multiple power domains
+- Miscellaneous cleanups
+
+----------------------------------------------------------------
+Guoniu Zhou (2):
+      media: nxp: imx8-isi: Add suspend/resume support for ISI mem2mem
+      media: nxp: imx8-isi: m2m: Fix streaming cleanup on release
+
+Laurent Pinchart (20):
+      media: v4l2-common: Constify media_pad argument to v4l2_get_link_freq()
+      media: imx-mipi-csis: Simplify access to source pad
+      media: imx-mipi-csis: Standardize const keyword placement
+      media: imx-mipi-csis: Shorten name of subdev state variables
+      media: imx-mipi-csis: Rename register macros to match reference manual
+      media: imx-mipi-csis: Use GENMASK for all register field masks
+      media: imx-mipi-csis: Fix field alignment in register dump
+      media: imx-mipi-csis: Log per-lane start of transmission errors
+      media: imx-mipi-csis: Only set clock rate when specified in DT
+      dt-bindings: media: nxp,imx-mipi-csi2: Mark clock-frequency as deprecated
+      dt-bindings: media: nxp,imx-mipi-csi2: Add fsl,num-channels property
+      media: imx-mipi-csis: Initial support for multiple output channels
+      media: nxp: imx8-isi: Drop mxc_isi_video.is_streaming field
+      media: nxp: imx8-isi: Drop unused argument to mxc_isi_channel_chain()
+      media: nxp: imx8-isi: m2m: Delay power up until streamon
+      dt-bindings: media: rkisp1: Require pclk clock on i.MX8MP variant
+      dt-bindings: media: rkisp1: Add second power domain on i.MX8MP
+      media: rkisp1: Refactor clocks initialization
+      media: rkisp1: Acquire pclk clock on i.MX8MP
+      media: rkisp1: Add support for multiple power domains
+
+Richard Leitner (1):
+      media: nxp: imx8-isi: Fix streaming cleanup on release
+
+ .../bindings/media/nxp,imx-mipi-csi2.yaml          |  18 +-
+ .../devicetree/bindings/media/rockchip-isp1.yaml   |  23 +-
+ drivers/media/platform/nxp/imx-mipi-csis.c         | 353 ++++++++++++---------
+ .../media/platform/nxp/imx8-isi/imx8-isi-core.c    |   8 +
+ .../media/platform/nxp/imx8-isi/imx8-isi-core.h    |  14 +-
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c  |   2 +-
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c | 275 ++++++++--------
+ .../media/platform/nxp/imx8-isi/imx8-isi-pipe.c    |   2 +-
+ .../media/platform/nxp/imx8-isi/imx8-isi-video.c   | 156 ++++-----
+ .../media/platform/rockchip/rkisp1/rkisp1-common.h |  17 +-
+ .../media/platform/rockchip/rkisp1/rkisp1-dev.c    | 123 +++++--
+ drivers/media/v4l2-core/v4l2-common.c              |   2 +-
+ include/media/v4l2-common.h                        |   2 +-
+ 13 files changed, 567 insertions(+), 428 deletions(-)
+
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+Regards,
 
+Laurent Pinchart
 
