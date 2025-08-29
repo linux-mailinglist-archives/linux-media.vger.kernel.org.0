@@ -1,145 +1,188 @@
-Return-Path: <linux-media+bounces-41325-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41326-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C485B3B6F1
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 11:18:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB935B3B873
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 12:17:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 165FA16E56A
-	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 09:18:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5112B566ED4
+	for <lists+linux-media@lfdr.de>; Fri, 29 Aug 2025 10:17:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94A3D305052;
-	Fri, 29 Aug 2025 09:17:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="fFa2JM+k"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5E1530F926;
+	Fri, 29 Aug 2025 10:14:52 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
+Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020075.outbound.protection.outlook.com [52.101.225.75])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 044AC304973;
-	Fri, 29 Aug 2025 09:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756459063; cv=none; b=d2IL2CpukAOuy7Ljf8gIgplnKzjt7ncegV6bJh2fUolYuPy+T1qHus3C10X5p9cs/QpTVx6yAPwFeJpDrceIm5IjlHX/AVnFRqab9qWWvCK57MfBblPZRh0KOdkU5H6YTV08zJsodxQdo5hHInFnU81aKBVx0uL06lQTYKKDxcM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756459063; c=relaxed/simple;
-	bh=c/tJtF9fMiC/gfsIIeJBBc0fi/SYftvTh80Mcl8YuRU=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=G6obC1u0Dzusm4PEo+A7hXZuVDcnga1d3QgBTnkuQKbJudoD1etcp3olr/nIa09Xe2lbPNG+R/OW5pbwLVKBcUwBLqGBkVRJXUPB5WO0Oz9OygFmfmm5oV5cPTeawr6rF5KVmihmKOKebjTa9HGv84wDXhHsedHNMzwZXbXmtL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=fFa2JM+k; arc=none smtp.client-ip=210.61.82.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: fce927e084b811f0b33aeb1e7f16c2b6-20250829
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=gJ0fGW8LBFDyCYyGl0z+4IhGB806t2gObXrk4IGCHXQ=;
-	b=fFa2JM+kuvyWdCo8RZn/Zalnc6hhneVr5jLDpVU16RFt3M44Og6hXWBU9s2VMsBBuF9chpgCWhf5FZMnkGAHlu1fHFn/3qVENoKEx86Zi5L2Y2NgRUWgk56oH3v+dtOqMfsZDjvBdcMb3Plh4YraYDGjEAx5J9evsh2iZjxPbfw=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.3,REQID:73de13f5-ff43-498b-88b7-0867abf6a52a,IP:0,UR
-	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
-	elease,TS:0
-X-CID-META: VersionHash:f1326cf,CLOUDID:8e37fe6b-8443-424b-b119-dc42e68239b0,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:-5,Content:0|15|50,EDM:
-	-3,IP:nil,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,
-	AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: fce927e084b811f0b33aeb1e7f16c2b6-20250829
-Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw02.mediatek.com
-	(envelope-from <jason-jh.lin@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 1471814497; Fri, 29 Aug 2025 17:17:30 +0800
-Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
- mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Fri, 29 Aug 2025 17:17:28 +0800
-Received: from mtksitap99.mediatek.inc (10.233.130.16) by
- mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Fri, 29 Aug 2025 17:17:28 +0800
-From: Jason-JH Lin <jason-jh.lin@mediatek.com>
-To: Chun-Kuang Hu <chunkuang.hu@kernel.org>, AngeloGioacchino Del Regno
-	<angelogioacchino.delregno@collabora.com>, Jassi Brar
-	<jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>, Jason-JH Lin <jason-jh.lin@mediatek.com>,
-	Nancy Lin <nancy.lin@mediatek.com>, Singo Chang <singo.chang@mediatek.com>,
-	Paul-PL Chen <paul-pl.chen@mediatek.com>, Yongqiang Niu
-	<yongqiang.niu@mediatek.com>, Zhenxing Qin <zhenxing.qin@mediatek.com>,
-	Xiandong Wang <xiandong.wang@mediatek.com>, Sirius Wang
-	<sirius.wang@mediatek.com>, Xavier Chang <xavier.chang@mediatek.com>,
-	"Jarried Lin" <jarried.lin@mediatek.com>, Fei Shao <fshao@chromium.org>,
-	Chen-yu Tsai <wenst@chromium.org>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	<dri-devel@lists.freedesktop.org>, <linux-mediatek@lists.infradead.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-media@vger.kernel.org>
-Subject: [PATCH v2 3/3] media: platform: mtk-mdp3: Add pm_runtime support for GCE power control
-Date: Fri, 29 Aug 2025 17:16:00 +0800
-Message-ID: <20250829091727.3745415-4-jason-jh.lin@mediatek.com>
-X-Mailer: git-send-email 2.45.2
-In-Reply-To: <20250829091727.3745415-1-jason-jh.lin@mediatek.com>
-References: <20250829091727.3745415-1-jason-jh.lin@mediatek.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 109073093A8;
+	Fri, 29 Aug 2025 10:14:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.225.75
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756462492; cv=fail; b=QI/JevLSMafEh6Okf1hRv3MvhsP2gLyAP9CeUYw6RVzfNyQzNKcW6OA2mzf/7tej5TJyE1L01uEg33lBf6ASn2SXN0V6AcJHSkd3tl7BMaXvQB5xupMMkKGPgXiQrCUnxkMYIG4rG6Rvzy5p5AKxpVC8VkxR/zsOd0MlfEeRteg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756462492; c=relaxed/simple;
+	bh=iu808L3l4AhkkOIa2OlsTrocz49geZ59ysZE7J1NMv0=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=AFUqQ24NcOj6kxpk4blwgI5I9V9CzjEJmktTMSjQmMGLWw4Eqxww0YlHm5c/e3JWYNrevyl41jJKoYULjyxSub/HSsDMD1otxib3YiVV+CZud0lEjNyKMe6Kr52MGQPMiE6286r+IlEHNBXtIRFri41AMS5TH4YYv8BQV2stO9Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=fail smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=52.101.225.75
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=siliconsignals.io
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eVWWeax+LNUjZTv5KaVlDbgBp6Ey8/7jLNeIuxuAA7z6hlanLjrX7dOraBU3WdliJYSR27ttUhV1wp+KOUkuU6724BRor8HolzFmUHUvJ+CRBh2nJf2/6DkCTMbZ2jWcwEHsdMLlPZfN+LVVaGjgi7Dgncgp92PHf97S8iVoAgWif2rrBfdf71WKfyk5JwnHUOQgYdoutgQBV6bzxvS4pJG5Cn8MS0At0nDQ9u7IRQkP5T7geexckPdpB6J4DJH3V+A9CI5oOnm9h2ptYAe4yeq5TZ760lJCy5B7v2o6inU4a6ht8sS0P44xJdkrZ9971auw5a/Uv6U4uRaFZx9HVw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=g6Ll8cjgUfdMP5ve7bSzTNYipB0xfy3kyhbRcvSyYKo=;
+ b=OWIPELIkbKwE2ARl4LSG+sr91ZZBKirQ9gx7vi0dmL05uOfWfOZDl//mY1TD42JVnR/ypCKHBAfDZ4UwBlQ3Ie4HC+jYQGZF/nBIsAYE7jcGgVJBvqgxsFmlk1vnJkaYFJ7qyRVBQMTJMYailoA0RWTaMzQF1xW8px7nHkvXwm2FD1yugddSMQ5imz0MZ2Poa2f+crkKck8vWf2UbBy2foP25zxYJhJU/seZKuaGaV7lKMUss0r8eT/xi5p0JSir8sYVt/dIEBo/Dyo3x3vUSYI6/ImJIYeLkoQMjCwZH+bCUsVVfXbHa+xnTuOoaotsAEUjW/4J91UCk2F6ddTgWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
+ header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siliconsignals.io;
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:199::7)
+ by PN2P287MB2121.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:1c4::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.16; Fri, 29 Aug
+ 2025 10:14:45 +0000
+Received: from PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::58ec:81a0:9454:689f]) by PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ ([fe80::58ec:81a0:9454:689f%5]) with mapi id 15.20.9052.019; Fri, 29 Aug 2025
+ 10:14:44 +0000
+From: Tarang Raval <tarang.raval@siliconsignals.io>
+To: laurent.pinchart@ideasonboard.com
+Cc: Tarang Raval <tarang.raval@siliconsignals.io>,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] media: rkisp1: Fix enum_framesizes accepting invalid pixel formats
+Date: Fri, 29 Aug 2025 15:44:24 +0530
+Message-Id: <20250829101425.95442-1-tarang.raval@siliconsignals.io>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: PN4P287CA0034.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:26f::9) To PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:199::7)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PN3P287MB1829:EE_|PN2P287MB2121:EE_
+X-MS-Office365-Filtering-Correlation-Id: f54f8de3-6eb7-47ef-37db-08dde6e4e056
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?Lqk67NXa03KdX79nZxy/ZsZaoOZlEZLc9VkyQvKsulZvaiCa4qHlijU5r+K9?=
+ =?us-ascii?Q?DbEE2huGos7ZFrAICEc4hfn6P9yvPcXpqtuZ60bJPepdw4KKVuehAA7s8NpZ?=
+ =?us-ascii?Q?UyKP44rrEhAVXD2PyyPF83NAmzDESM8JZwPggIJNn1lm+czPZFCEv1iuQndX?=
+ =?us-ascii?Q?gdtLZsl2ILZZNcizUzLuaNYyTY2BzmYVz0oGP+EXfIQb6f5UtfWeraumui7A?=
+ =?us-ascii?Q?16LKAUzlYc0nf231scwJTDkp91Q4tJwYVibUHlSeJpLJgSLRINUL3HmcDQCr?=
+ =?us-ascii?Q?yLB7Vf2IFm3pf8IoDg41x7BOorvZC+nd5IFCwX2WixyIgDy8TOd2KIS+iMDN?=
+ =?us-ascii?Q?5ScxTD4KIcM/mWR7rsbsqoAeD7iRoXnn17gLUAzFh3OPE2rL6LBx3Ixkf2ks?=
+ =?us-ascii?Q?kLsdbu5p6QZoVKCUZ8T1k2KXPiG59CGtfanf+esP6KeqJaZASMv3mWUmj2RM?=
+ =?us-ascii?Q?Wkzn59RY9zDGDdXCQBxSzSViu2c/YQJJ+CVP9CG6j8pCDaqQCaG+AACKr0Gb?=
+ =?us-ascii?Q?TDgKKnm+kc9Ig2mJh9X5rlYOA/X78YobuvbPpyYxckF5t8l8qJTwZafajLpL?=
+ =?us-ascii?Q?rzWirl1iDUrEsxD8SA7Fb3CV9VyaCyegrPVYJdsJAO8C9plNypx6paE3gbBm?=
+ =?us-ascii?Q?4drgNNqx7UW1kbZw611TYa0WNBNtX5/N/A9sncJKsR1WBX+XxBvHlkOQ0ZuX?=
+ =?us-ascii?Q?B7URPtedSksIM0rNiz+lzxLs+EhjTLTyFg6+L4OqYxAUQ/wXsdcLpCI5Bnas?=
+ =?us-ascii?Q?YimMk9UG7Vsn9OFJQkSN2DEKWZyH/eqmKu2DmgmEGiIoIpy/CcGC2OOczuNe?=
+ =?us-ascii?Q?2Ng26YwAODR//Ui7fQ6zrazvTKyz2He19ukCc0Ienmw2gODdOOgMsQXIL8Oc?=
+ =?us-ascii?Q?WQPha92YpiTSoBnAZpwAPizyG2QRc6u2zxMVWZWQ+ZggpzWQaR9HkcSpp2WU?=
+ =?us-ascii?Q?JELEIgJnKt0/1iRtBj9AXJvx53tEVVCxEB3Vlzd6IzKZ+YzbssxZllF6CiNk?=
+ =?us-ascii?Q?L0toebC49HLnFGrCKdsNzfK7Wj1rpOmGlTfsnQtAxkrInIPZBS4yKIScbuWf?=
+ =?us-ascii?Q?tWdhFpT/i7nTzFBG5Fj9FaVxeAAcRzUKIyM5tLe6yyqldyV6cO343V7HmBuf?=
+ =?us-ascii?Q?uRe5A1NVx/MnULafr119ggZeTo8ac45ruKk4YqomcHQHCkgA9YMtMLwazqA9?=
+ =?us-ascii?Q?saCbwupNP5So3UZkYIsO4XNZlSlkqa8cJRW1AV4sYISF9p5XOgIBgcheIAhI?=
+ =?us-ascii?Q?XOGqdQ7d/Z88NZCMRsn6XEb0wPgVkDD4U95OfQNeSiEPNyRoAfZN0iSK4kET?=
+ =?us-ascii?Q?mKST4UZWP6c3P7OPkxvZNNUR/Bo6NB7VJd/ImqoAep0Evnlqj31W53UV7igL?=
+ =?us-ascii?Q?5Ck4Iu33qFwuDrAYteKib7qUqDao4JIs7SL6N11Z4W/5WReMIfGsPZcR609t?=
+ =?us-ascii?Q?4YpMQZqwShdRqZ4AUfto/zCUNZFu3lSIVWFlAkNi1hEYPZ4yhTsyzw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN3P287MB1829.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?rlw12LPPute6TzWWGQ053ECOxVcTGmq2wQfeL2pXeF3Kz9T4JnW1fGpSSFcr?=
+ =?us-ascii?Q?k8moMTNymo7TwZCcVt7svUYob6L/ojIxm4sYbJCcXq77mN/vGqO9fwqKpcUP?=
+ =?us-ascii?Q?EIGtwIZFKM0JUS43aEBzBFsk72iaAwmz7fm7tzfF+fUB/LJbZsvPQTPs8tU7?=
+ =?us-ascii?Q?4Q0vspWmjxhfIZDABqj4i9CSS0tDFyXd4isKc1539ji+TIK7TvQDRhQXiRfg?=
+ =?us-ascii?Q?AZDlLRh8jxolzA15Xpwsmhnhfy2YuVe/8SfAPcJNQ0PTLdksylMRt19ff7/n?=
+ =?us-ascii?Q?+1Ubk4mdVo4rEYMPz06xSBxNQIXKbWP3GCn6jRQXY8T4Lare/dCXodqVLgg4?=
+ =?us-ascii?Q?EeVsXf2sNUuSVpQDyjOTfjv15fTxP710Sgz6MwvnLWTXeqoQdknYlff7qr1E?=
+ =?us-ascii?Q?8ALHt05JB9CU2oy5UXf4CJWMJ2CzA+rEJ2Dt4ZmYEAlBQVk6uwJzyOKKhSAs?=
+ =?us-ascii?Q?7ahLJLXC09/nQnBMfaZ/4ZUyPKtQ5lYbuWMeQP38AGzGtok/e10j+uAMr7wP?=
+ =?us-ascii?Q?iLJJHWdv6uWBgNPfJGLFf7Jn71i59CbrW3n/ONOmy+LNaGIsnpksJUWW3clk?=
+ =?us-ascii?Q?8Pyjku/MPqfh/MmR86J+Eg/MtaRRGxcLzvooF0i22Gb1fXWI5IonWLcaeKyQ?=
+ =?us-ascii?Q?v3HzhRh7HmSdZKtiP8/NHT9sY1VzwpTBcsc4INNY3+puBGC+pSqfdB0tdDwQ?=
+ =?us-ascii?Q?JEw+u7yPaBL8nYGuNFHMDDq0TCFS/sBPT0QGXBpDw2P/Sp3YuBjnM4OdlS7n?=
+ =?us-ascii?Q?0CUj1VH7nKImirtZoSn1PCk0YJn3e6yQpUwtyGWEVSAiiAadS4k4xlDeAMic?=
+ =?us-ascii?Q?TkZLHj9Z+uxTwugYB34qOdvz/D3nmDImPO5N+cVsxO/TFqP6/NpvRKAQ+AJb?=
+ =?us-ascii?Q?E8xWEBC2s/++D3IdOODSi+7WnXct+Hr+xdKNZ4kjU47i8eVLP1AZZjE/JiQ9?=
+ =?us-ascii?Q?FjnrrhF0KYFe/Tpx1e/MD1D7+9WQmiewcgRiEG5/yxPD4pC/85mFyv/OB3oe?=
+ =?us-ascii?Q?H3SodfgEZPdx1rGLrchQoiRKnnMwxmGNKkEhgFUZyDE5+Z0diDwTvoMAdXFY?=
+ =?us-ascii?Q?reudVQfg8ez3zn9Ldn3zSXb7yUxw66BMahw1j/uF4RQCCVvO/wBG8KY1fz6F?=
+ =?us-ascii?Q?UAPFddc3HRNBRitYFD8N4llWWI2yPIY4/97u1IY0a5wO+AM9eFuWOkiIVDQp?=
+ =?us-ascii?Q?yjwMR2yDWpPnlXtzwWV81bKCb9AongRUBn9nMswejk+o8cJl7IAViSwEhm//?=
+ =?us-ascii?Q?+O1IKlvnFBeSslqDWTbxMG+tXD/dydXPQh2eJFNBwinDecfr9cWJvleVgIuI?=
+ =?us-ascii?Q?iCFJDAYXDc+C5D8IkjpSwJGNgpsTSHDcvn/ARupFXSJ9wEH9k6zQL5FflQe5?=
+ =?us-ascii?Q?Fgr+idiJHXOOg6qA9dycerQTVVnA8VDzDi3zjboGJz4B/Py2JgXufGj3/25i?=
+ =?us-ascii?Q?4na/4rIGThkcOajFGGPuPxychT9w05zD/wq5no9++sNTLpYzzG0hse8erAdO?=
+ =?us-ascii?Q?dCXHOnoejq/7jlz5vUEGkmRdoW7hI4d/HDLv3GuVJUAH3hDssLpG5fj266Yd?=
+ =?us-ascii?Q?bmTjyDOLQ3AXKAvcLRvRnkhV5NQTGOPsFSBVb7BoeQO5RqXA4gOIMV8kAlC0?=
+ =?us-ascii?Q?CQ=3D=3D?=
+X-OriginatorOrg: siliconsignals.io
+X-MS-Exchange-CrossTenant-Network-Message-Id: f54f8de3-6eb7-47ef-37db-08dde6e4e056
+X-MS-Exchange-CrossTenant-AuthSource: PN3P287MB1829.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Aug 2025 10:14:44.8499
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +9ryCb6KOhJzywsNukLxVhW5P+jN9vQEVmBty/UdOnjXALv7kTeCcwc1zuim7IbJ/pmWbKIf9ouXEOFbVbEQRe2ibTAfi2A1e8B97+D0BGg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2P287MB2121
 
-Call pm_runtime_resume_and_get() before accessing GCE hardware in
-mbox_send_message(), and invoke pm_runtime_put_autosuspend() in the
-cmdq callback to release the PM reference and start autosuspend for
-GCE. This ensures correct power management for the GCE device.
+Reject unsupported pixel formats in rkisp1_enum_framesizes() to
+fix v4l2-compliance failure.
 
-Fixes: 8afe816b0c99 ("mailbox: mtk-cmdq-mailbox: Implement Runtime PM with autosuspend")
-Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
+v4l2-compliance test failure:
+
+fail: ../utils/v4l2-compliance/v4l2-test-formats.cpp(403): Accepted framesize for invalid format
+test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: FAIL
+
+Tested on: Debix i.MX8MP Model A
+Kernel version: v6.17-rc3
+v4l2-compliance: 1.31.0-5387
+
+Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
 ---
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-index e5ccf673e152..bb7a895318af 100644
---- a/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-+++ b/drivers/media/platform/mediatek/mdp3/mtk-mdp3-cmdq.c
-@@ -6,6 +6,7 @@
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+index 6dcefd144d5a..107937b77153 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+@@ -1383,6 +1383,9 @@ static int rkisp1_enum_framesizes(struct file *file, void *fh,
+ 	};
+ 	struct rkisp1_capture *cap = video_drvdata(file);
  
- #include <linux/mailbox_controller.h>
- #include <linux/platform_device.h>
-+#include <linux/pm_runtime.h>
- #include "mtk-mdp3-cfg.h"
- #include "mtk-mdp3-cmdq.h"
- #include "mtk-mdp3-comp.h"
-@@ -521,6 +522,9 @@ static void mdp_handle_cmdq_callback(struct mbox_client *cl, void *mssg)
- 	mdp = cmd->mdp;
- 	dev = &mdp->pdev->dev;
- 
-+	pm_runtime_mark_last_busy(mdp->cmdq_clt[cmd->pp_idx]->chan->mbox->dev);
-+	pm_runtime_put_autosuspend(mdp->cmdq_clt[cmd->pp_idx]->chan->mbox->dev);
++	if (!rkisp1_find_fmt_cfg(cap, fsize->pixel_format))
++		return -EINVAL;
 +
- 	INIT_WORK(&cmd->auto_release_work, mdp_auto_release_work);
- 	if (!queue_work(mdp->clock_wq, &cmd->auto_release_work)) {
- 		struct mtk_mutex *mutex;
-@@ -702,6 +706,13 @@ int mdp_cmdq_send(struct mdp_dev *mdp, struct mdp_cmdq_param *param)
- 					   cmd[i]->pkt.pa_base, cmd[i]->pkt.cmd_buf_size,
- 					   DMA_TO_DEVICE);
+ 	if (fsize->index != 0)
+ 		return -EINVAL;
  
-+		ret = pm_runtime_resume_and_get(mdp->cmdq_clt[i]->chan->mbox->dev);
-+		if (ret < 0) {
-+			dev_err(dev, "pm_runtime_resume_and_get fail: %d!\n", ret);
-+			i = pp_used;
-+			goto err_clock_off;
-+		}
-+
- 		ret = mbox_send_message(mdp->cmdq_clt[i]->chan, &cmd[i]->pkt);
- 		if (ret < 0) {
- 			dev_err(dev, "mbox send message fail %d!\n", ret);
 -- 
-2.43.0
+2.34.1
 
 
