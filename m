@@ -1,81 +1,48 @@
-Return-Path: <linux-media+bounces-41373-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41374-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEE95B3CA92
-	for <lists+linux-media@lfdr.de>; Sat, 30 Aug 2025 13:30:07 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0486FB3CB28
+	for <lists+linux-media@lfdr.de>; Sat, 30 Aug 2025 15:21:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B8ED73AEA29
-	for <lists+linux-media@lfdr.de>; Sat, 30 Aug 2025 11:30:01 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5B7A47B586C
+	for <lists+linux-media@lfdr.de>; Sat, 30 Aug 2025 13:19:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F3D6626FD9D;
-	Sat, 30 Aug 2025 11:29:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2933527B353;
+	Sat, 30 Aug 2025 13:20:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZV9ZUe65"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KvdETUBW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE98317A300;
-	Sat, 30 Aug 2025 11:29:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B62836124;
+	Sat, 30 Aug 2025 13:20:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756553394; cv=none; b=epB9v7a9bmw0pXkagxK8gxnzxLW7TTeO/TpfzC67pNCeqodQsug1sGdyqY1IxflkdaXdVAgN9dkUkmzcA/w78SJunSydFdoPk4v1Q5YS++T9WpQh/eyGCle0OcV3lKSMhk8q4Clo4PT49SNe1OwKcYdQEofygiXLTIRKo5bltY4=
+	t=1756560035; cv=none; b=SseHhGwKIZgTqRKWIR5gf3YoMQQQdFGPZhEL8GW4xRpSRDEV5RUYQhEBMhhm1P0inc40Zsztx1rMSIs12JSH2bjfqKjdlrpY/PwjjG7z9ehyEO/u5vhI31ZiCLJokw2XbTfE2uOLvsz3pX5R5GedA1rIQA2lrOER+HAbYjgaY/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756553394; c=relaxed/simple;
-	bh=G9X+ffv/pVcjrMDC06/3UHjT65P3tPJoMxHTyYH5hdY=;
+	s=arc-20240116; t=1756560035; c=relaxed/simple;
+	bh=hKrMfwAUPKYQCz4icyI4qiIjT4FJwmWECiiJru3uuJY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=F4jfoMWSy1QA/ro7THKM/djRFEND5uJtwzTaSbzbSGdoQnVgr8SjHCZa7ZG1+32tE8oMhkXwmZTcmtTL6VpmDtrs9EKTPmuiWti1YhwXwRwCLUdW3xXne7DIR055eDWAGkX3im2oanX7+8lRd+k1wkQJkNmMP1uzbyOGJVFvZbg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZV9ZUe65; arc=none smtp.client-ip=209.85.167.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-55f6f434c96so681858e87.2;
-        Sat, 30 Aug 2025 04:29:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756553391; x=1757158191; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=v3KSsLeobgU/k77KRTAU66n9zoHgmSXJF/tcqQ0GS4Y=;
-        b=ZV9ZUe65ZgbJuLST7x2cdYGx8GW48ZnZmdZIYR//iy9WfVu0m+NqXbXhQ0Ofv5f1tj
-         cBJmxHj+ULmigyhwvBOgk/Fb4bAuLTwqVBbCXWlHOVHazSYZjgXTaf7VCQuidTL3yYvB
-         p3p+3GgcLm2AznFU8f/nIcyw/2mUToahdcajn8d25R+BEiaA+dXwFIwp3lzhuzbplsaz
-         /CPlXKMY2BxZBbsF0kqBksyyHktSYFfCbZpmNWin9PdAQiEs4C05UwxYyOiFv2Ejka/f
-         8HX1Pb5DaOWDy4R8EgpHpMe+hEEDKqL0UU1fkPzZfDGhlbsrxfYSOwhemig8i9Wo9Kup
-         NHsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756553391; x=1757158191;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=v3KSsLeobgU/k77KRTAU66n9zoHgmSXJF/tcqQ0GS4Y=;
-        b=CndFHscRYWKs0iESXCSuiyisHfTbxZRErKokrU094wrma729gAJXyAEH7ChuCezJEW
-         /n2Z8pL3MgQoXhZJ75FQUg/ZoagO1q1xEHkMj7X/C+Zfd1UyteGDwB96b+cwc9bzOJ3k
-         9ivL4vIWRDkbMmUYI9RQQ2/TpuQ2JY1R+rnjJ+hbBxcdvwQWO8RjXTY5umB7OXg/2LUJ
-         QCr4HGC7OnrAFBv6J5u4QIi8vKnzyCDifxqG9qhHam950EnKmCH9Fo/d+cN/X0WfpMG0
-         dDXsx905xd1GuddcUKvy2u3PJGgSiwMLE3JX13hB7lsgoSCUjamGcJ5uFwq90X2MNzP0
-         7Yqw==
-X-Forwarded-Encrypted: i=1; AJvYcCWWtd8CxPamauB180D7pWBw+4aYMJuM8W/M9nE9feyzdmD9Sxt9qESGPc5phD82nR9mjRDIJissOETBPsc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwaUeuWi8ajcTCWZLvSVmeotcvzq9mNQ+7M78KZvxe9kaScgDTs
-	K8xlavb16jmbDcVdSeisfqPNCXoLPypNYFkiNi4tSkFXXucjL0UYeQSecN3/slG0
-X-Gm-Gg: ASbGncsSPD2vXkE22FAq1UDmZw4OeCYlo4lpIT0r3goxNOCrulywluJ8sguhMJAtKH5
-	MvqLR05UH4f4j+R6ZG2fAPa42AKgiJCUYghFwppB50Mz4e89IxNu3G0tSDmAmOYrtrihKYBucka
-	UrHxTQA78CdKnddpV7XVW1fYQx5Dusmfa/qeLk27kcjax8InP4rFRg4YCsqDhGdZM+c11vz9U77
-	7Pdd5Sty3QBcPjDUpZOU0zYABfEwdHCT3wyg9b1BuTraxDaRo8Eo0Aouh4/vPl6qiG0tlb1Iyed
-	KETUyzOE3mlSNkOGoDj97EwpqIprq0TZNnx+aUdXtVpjr4Jucvdl3f+KXTTtB7nLhd+BCDThgLH
-	955de+k4YVk3UHdsI4tlwkIf2vfoKht2zLNybeHraMRxby2UROZu53G4c7wufOY5H1da/LHDxpA
-	==
-X-Google-Smtp-Source: AGHT+IEfnRHY68hhrQsDl3O8dbYVpHPJyZX+vMoQj9lJwxfd6v4LbPOJ0yR9HileQaNL7+lMLpTMMQ==
-X-Received: by 2002:a05:6512:660e:b0:55f:4400:f2f6 with SMTP id 2adb3069b0e04-55f70924f7bmr387952e87.42.1756553390566;
-        Sat, 30 Aug 2025 04:29:50 -0700 (PDT)
-Received: from [192.168.2.178] (109-252-159-193.dynamic.spd-mgts.ru. [109.252.159.193])
-        by smtp.googlemail.com with ESMTPSA id 2adb3069b0e04-55f677491f3sm1370847e87.58.2025.08.30.04.29.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 30 Aug 2025 04:29:50 -0700 (PDT)
-Message-ID: <11ea89d2-e4f1-4c3a-a2c7-f99170781fba@gmail.com>
-Date: Sat, 30 Aug 2025 14:29:48 +0300
+	 In-Reply-To:Content-Type; b=b2oWCzCF8BFDVJ1NTeddxBHuZ7RdUmOpVdXh6AAMi3tHduWlHMYZMDTWK5GjqEp5PRbC6Q6Krl9LjPBqrdKyLOFht3hixVVBfRIyJrl5NnV8X4frnxWp0Er9rLss3P/XyReL+pj4nfB4td35zyHhk7yuNuhqMvFlWTCGL5X0hyE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KvdETUBW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FA2AC4CEEB;
+	Sat, 30 Aug 2025 13:20:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756560035;
+	bh=hKrMfwAUPKYQCz4icyI4qiIjT4FJwmWECiiJru3uuJY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KvdETUBWxaMzzCEqgpuCMGb+Tq6nzMhPBTsovAvfAiFeCVmAjxfJPw6KFvhqM9LLE
+	 Y6xdDufB/1SrFQsKdGXVgIGh/fRo/P5feUnrEQUnQOJGhXV97hNMiLWPghVu4m1F+m
+	 ecJ/01yh3q176m5a19Xr2zUQ3Z8ZLfVUqZqXi1mjZmB+lsWXsFYsq9tDZewEwXQGZz
+	 xeDI6U97mm6lAHTsVuqOmWigpNCurHEHSsw5HIqdffce1ukp1IaF0JPOQ8zxTsSryF
+	 Q57G9BRlitl27Pttu7uqimJylLZZGEmFaRM7aJLcSlvnNae6wAJ47+MMV21C/GDcGw
+	 dhwerTq/ZvpMQ==
+Message-ID: <436efc30-5e54-43c4-9d68-88bc63d71231@kernel.org>
+Date: Sat, 30 Aug 2025 15:20:30 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,41 +50,81 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/4] Documentation: media: Document
- V4L2_H264_DECODE_PARAM_FLAG_PFRAME/BFRAME
-To: Paul Kocialkowski <paulk@sys-base.io>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
- <hverkuil@xs4all.nl>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20250824180735.765587-1-paulk@sys-base.io>
- <20250824180735.765587-5-paulk@sys-base.io>
- <5065e67544ae9255b2136a6cd73cbb9ffd08e3fb.camel@collabora.com>
- <aLG19wzWBBECU6Cs@shepard>
+Subject: Re: [PATCH v4 0/2] Pinefeat cef168 lens control board driver
+To: Aliaksandr Smirnou <asmirnou@pinefeat.co.uk>,
+ jacopo.mondi@ideasonboard.com, hverkuil@xs4all.nl, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250830111500.53169-1-asmirnou@pinefeat.co.uk>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Dmitry Osipenko <digetx@gmail.com>
-In-Reply-To: <aLG19wzWBBECU6Cs@shepard>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250830111500.53169-1-asmirnou@pinefeat.co.uk>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-29.08.2025 17:15, Paul Kocialkowski пишет:
->>> +      - All submitted slices for the frame are P slices. This is a compability
->>> +        flag required for decoders that only support decoding such frames, but
->>> +        should not be required for slice-based decoders.
->> Seems to match the comment in Tegra driver, and related to a hardware
->> limitation. Shall we also recommend not to use this unless similar limitation
->> exists ?
-> I think the flag should only be allowed for frame-based decode mode and indeed
-> it would be good to say that drivers should only check this flag if they have
-> such limitations.
+On 30/08/2025 13:14, Aliaksandr Smirnou wrote:
+> This patch series adds support for the Pinefeat adapter, which interfaces
+> Canon EF and EF-S lenses to non-Canon camera bodies. The cef168 circuit
+> control board provides an I2C interface for electronic focus and aperture
+> control. The driver integrates with the V4L2 sub-device API.
 > 
-> Userspace on the other hand cannot really know if it will be used or not so it
-> should set the flags when applicable.
+> For more information about the product, see:
+> https://github.com/pinefeat/cef168
+> 
+> Changes in v4:
 
-IIRC, Tegra dec driver doesn't support decoding frames consisting of
-multiple slices, it can only decode frames consisting of a single slice.
-Tegra dec can handle multi-slice frames using a "macroblock by
-macroblock" decoding mode with a lot of CPU processing, like classic old
-hw decoders did it, this is not supported by upstream driver.
+You already sent v4, so this makes a duplicate posting messing up with
+tools.
 
+https://lore.kernel.org/all/20250824-cuddly-cryptic-porpoise-b66b4a@kuoka/
+
+Each posting is its own version. Resending - not marked here as resend -
+would be sending the same patch.
+
+Best regards,
+Krzysztof
 
