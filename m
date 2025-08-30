@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-41374-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41375-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0486FB3CB28
-	for <lists+linux-media@lfdr.de>; Sat, 30 Aug 2025 15:21:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5E9A8B3CB2D
+	for <lists+linux-media@lfdr.de>; Sat, 30 Aug 2025 15:22:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5B7A47B586C
-	for <lists+linux-media@lfdr.de>; Sat, 30 Aug 2025 13:19:40 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B18851BA431C
+	for <lists+linux-media@lfdr.de>; Sat, 30 Aug 2025 13:22:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2933527B353;
-	Sat, 30 Aug 2025 13:20:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82B1D26F445;
+	Sat, 30 Aug 2025 13:21:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KvdETUBW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c6n4yEMB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B62836124;
-	Sat, 30 Aug 2025 13:20:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21BC22156D;
+	Sat, 30 Aug 2025 13:21:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756560035; cv=none; b=SseHhGwKIZgTqRKWIR5gf3YoMQQQdFGPZhEL8GW4xRpSRDEV5RUYQhEBMhhm1P0inc40Zsztx1rMSIs12JSH2bjfqKjdlrpY/PwjjG7z9ehyEO/u5vhI31ZiCLJokw2XbTfE2uOLvsz3pX5R5GedA1rIQA2lrOER+HAbYjgaY/E=
+	t=1756560110; cv=none; b=k4Ns6vJuupE3wuMdPsTvEuEMgITU5H4aNvwVKHHbdHRSTw6TYVjzO2E0/KyqdBaWmL5g5jT0DQVspTpPkW94NYOFDKLhe6viFUaw/cUWqZm9BxE7DFkg0Lp9SO2ZxDi9WmzRiwcgdcY+0mbBDYBsE7iT5NYWzkzIzLyjS6GaVJo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756560035; c=relaxed/simple;
-	bh=hKrMfwAUPKYQCz4icyI4qiIjT4FJwmWECiiJru3uuJY=;
+	s=arc-20240116; t=1756560110; c=relaxed/simple;
+	bh=l4IadiNZcNgKXErU6MWJI42mQuOgj2jAzFFFgUQQexM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b2oWCzCF8BFDVJ1NTeddxBHuZ7RdUmOpVdXh6AAMi3tHduWlHMYZMDTWK5GjqEp5PRbC6Q6Krl9LjPBqrdKyLOFht3hixVVBfRIyJrl5NnV8X4frnxWp0Er9rLss3P/XyReL+pj4nfB4td35zyHhk7yuNuhqMvFlWTCGL5X0hyE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KvdETUBW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4FA2AC4CEEB;
-	Sat, 30 Aug 2025 13:20:32 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=lwMJ/y2IcYcFseSFaeg/c4j9PP2eSitud76nfyRRdYnxbhMiXtMwdkPF1aIPQ990FP9d4XAoKxX2oqsZ/TYItKogrm7pI4nexd/9+1skbUjKaI4+p8uV2PDY3Z5V9KJKJAJRDX1rtJNi1T/OXDmzx8OwZEYnhqklxyheA3AmEQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c6n4yEMB; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE41DC4CEEB;
+	Sat, 30 Aug 2025 13:21:47 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756560035;
-	bh=hKrMfwAUPKYQCz4icyI4qiIjT4FJwmWECiiJru3uuJY=;
+	s=k20201202; t=1756560110;
+	bh=l4IadiNZcNgKXErU6MWJI42mQuOgj2jAzFFFgUQQexM=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KvdETUBWxaMzzCEqgpuCMGb+Tq6nzMhPBTsovAvfAiFeCVmAjxfJPw6KFvhqM9LLE
-	 Y6xdDufB/1SrFQsKdGXVgIGh/fRo/P5feUnrEQUnQOJGhXV97hNMiLWPghVu4m1F+m
-	 ecJ/01yh3q176m5a19Xr2zUQ3Z8ZLfVUqZqXi1mjZmB+lsWXsFYsq9tDZewEwXQGZz
-	 xeDI6U97mm6lAHTsVuqOmWigpNCurHEHSsw5HIqdffce1ukp1IaF0JPOQ8zxTsSryF
-	 Q57G9BRlitl27Pttu7uqimJylLZZGEmFaRM7aJLcSlvnNae6wAJ47+MMV21C/GDcGw
-	 dhwerTq/ZvpMQ==
-Message-ID: <436efc30-5e54-43c4-9d68-88bc63d71231@kernel.org>
-Date: Sat, 30 Aug 2025 15:20:30 +0200
+	b=c6n4yEMB800VvVC0+hYV/RahCO4fFuRBOYRzl5Dt49mCAJr3yEH+1Hy9DR5mKkytD
+	 ramAbQ42UMai34/wj9jgLXTaSYvPH0i/yoGRb1TUD3FUi5BZ2epPJxmFEkea/zXIs7
+	 SMy9pM++5G6iZnwGHR6ojKk9prQ5R5OpQRrIlvY2dmU1LavxJrhzYrhGpPU2aAen6D
+	 k4B8xYenuScWRc8Zmt/FIlrGne+FMexFMxs77W3JjGhJOPNWaeSN8tWDuf3HxCAY//
+	 W6UiARiZq2jsFJ/rr2bM+6RjhNy931Uq3n4bo3C6XtSHVhu5cKCCPBrGVRWehJa4yi
+	 KqoxJ6Uaq2hcA==
+Message-ID: <4eee57c0-a2fb-4fa7-bafe-e3a41c8954bd@kernel.org>
+Date: Sat, 30 Aug 2025 15:21:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,13 +50,14 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/2] Pinefeat cef168 lens control board driver
+Subject: Re: [PATCH v4 1/2] dt-bindings: Pinefeat cef168 lens control board
 To: Aliaksandr Smirnou <asmirnou@pinefeat.co.uk>,
  jacopo.mondi@ideasonboard.com, hverkuil@xs4all.nl, mchehab@kernel.org,
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org
 Cc: devicetree@vger.kernel.org, linux-media@vger.kernel.org,
  linux-kernel@vger.kernel.org
 References: <20250830111500.53169-1-asmirnou@pinefeat.co.uk>
+ <20250830111500.53169-2-asmirnou@pinefeat.co.uk>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -102,28 +103,35 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250830111500.53169-1-asmirnou@pinefeat.co.uk>
+In-Reply-To: <20250830111500.53169-2-asmirnou@pinefeat.co.uk>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 30/08/2025 13:14, Aliaksandr Smirnou wrote:
-> This patch series adds support for the Pinefeat adapter, which interfaces
-> Canon EF and EF-S lenses to non-Canon camera bodies. The cef168 circuit
-> control board provides an I2C interface for electronic focus and aperture
-> control. The driver integrates with the V4L2 sub-device API.
+> Add the Device Tree schema and examples for the Pinefeat cef168 lens
+> control board. This board interfaces Canon EF & EF-S lenses with
+> non-Canon camera bodies, enabling electronic control of focus and
+> aperture via V4L2.
 > 
-> For more information about the product, see:
-> https://github.com/pinefeat/cef168
+> Power supply is derived from fixed supplies via connector or GPIO
+> header. Therefore, the driver does not manage any regulator, so
+> representing any supply in the binding is redundant.
 > 
-> Changes in v4:
+> Signed-off-by: Aliaksandr Smirnou <asmirnou@pinefeat.co.uk>
 
-You already sent v4, so this makes a duplicate posting messing up with
-tools.
 
-https://lore.kernel.org/all/20250824-cuddly-cryptic-porpoise-b66b4a@kuoka/
+b4 diff '<20250830111500.53169-2-asmirnou@pinefeat.co.uk>'
+Grabbing thread from
+lore.kernel.org/all/20250830111500.53169-2-asmirnou@pinefeat.co.uk/t.mbox.gz
+Checking for older revisions
+Grabbing search results from lore.kernel.org
+---
+Analyzing 9 messages in the thread
+Could not find lower series to compare against.
 
-Each posting is its own version. Resending - not marked here as resend -
-would be sending the same patch.
+You are not making it easier for us.
+
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
 Best regards,
 Krzysztof
