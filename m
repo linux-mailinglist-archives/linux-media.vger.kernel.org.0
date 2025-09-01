@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-41427-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41428-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 211A1B3E1C1
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 13:37:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A7ABB3E1C6
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 13:38:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8E8A3ACE02
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 11:37:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 164371A818DD
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 11:39:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4935E31A57A;
-	Mon,  1 Sep 2025 11:36:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E59BB31A063;
+	Mon,  1 Sep 2025 11:38:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Fxy5hs7R"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rbPjjKtk"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4574F31A052
-	for <linux-media@vger.kernel.org>; Mon,  1 Sep 2025 11:36:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE7CB305E27
+	for <linux-media@vger.kernel.org>; Mon,  1 Sep 2025 11:38:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756726617; cv=none; b=d8Js9BLoJZXUNYI3HbNkYW/h/T2TA492hJWiSAOzjspIfKBa4FY3DTpnk3Oy5UGywgPueRUscm+z2cpN06IG7Rl/QX3WvdRkOkujNWWeMkfOChs/uPJFEDXkmSsCthQCXwWAJGaqnB2HZO9rVnRYLJ5HbsPZ3tN3rD/80FsNwfQ=
+	t=1756726717; cv=none; b=sLxpfXTSfA9wNcZ1MgM7fuMvT7hHLFEm7pozbL2Cgp11uhELh6yszRbIOKwvV2mv15MBsusm0x5+IYGO44OAxDDfwdWqYxnKAfaPRGEblxLVj1sjmHQIQC955cg+Vu0z8pdHbZQVP2UGVEOpAU+iOfWDsd84e3SbjrrmIYDDdtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756726617; c=relaxed/simple;
-	bh=qz76oGc1pxJ7qmSklgfATD0MCZ8dsBCmlX02MIcwc60=;
+	s=arc-20240116; t=1756726717; c=relaxed/simple;
+	bh=0AYfTlU/lV7SZPa3znZebZE88Mb25925UlmpNk/o2oI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZTvSUdb0lcnh4VEwiVZVUlOpNFACalTGNrFD5ub9/zjvfvR9OZNOCtSQaOFo+lQeNXUtSKSel6ukat9S4EkEufK73R+oSbJWtUpgDWpQvI78fn/OhMf+U3YsIeh/GbxxD6iHoOeFBk4dDgB+yLXVytQ4vH4MObJ3TQBneSweaYA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Fxy5hs7R; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=R+LbgA11IwT41dSqpryLF7BglapPLRKRnpMoyxaEvnBFYz2LtmST6B4ffPIOOyaENCBrfPqVJd25fTiR5iPp8eicwYTyzwx61ZTbuPnNiyvihomk8eXR4f1euNQV4afoWq3TAGlrqS5pcgqseZIzMoHLdQyvfSHPCX0qK7l0vTQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rbPjjKtk; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8C864E45;
-	Mon,  1 Sep 2025 13:35:47 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41C48E45;
+	Mon,  1 Sep 2025 13:37:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756726547;
-	bh=qz76oGc1pxJ7qmSklgfATD0MCZ8dsBCmlX02MIcwc60=;
+	s=mail; t=1756726647;
+	bh=0AYfTlU/lV7SZPa3znZebZE88Mb25925UlmpNk/o2oI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Fxy5hs7R4oTJjb4y4ul/iDK18dsO3VIHawWTnlhnuZ6IU36XFR/s1DmscBDWtcn38
-	 SF/o7SqMYPhDipr7lu/x5k8gduh08LZPcrH4IaH7NrLdiG96Mf9xxq9U2r7s87yUwU
-	 U0rUwI5soI3f1pgCrgSYma4eb8vlwbZSGKVRtpdA=
-Message-ID: <9d677a90-dbe0-407f-8c08-3ce57d16a46a@ideasonboard.com>
-Date: Mon, 1 Sep 2025 14:36:51 +0300
+	b=rbPjjKtkluhlqrGsopvOePfeKmGWW1uvqKb3KZ7aASTMiESIC+MYZj6vvWfOtOR/s
+	 KjahqM7H71aHERFu79mV7icquHAMtZCL0g0TijhgYwjQGFCnCkxcjokMmP9UkykB6Z
+	 6IAdi3YFlhH1HupAC/y1UNaXNC/sQvx+orlp+NVQ=
+Message-ID: <725a6806-6ff5-4e18-bdee-1cc4125b2329@ideasonboard.com>
+Date: Mon, 1 Sep 2025 14:38:31 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,12 +50,12 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] media: xilinx: vip: Fix CHECKED_RETURN warnings
+Subject: Re: [PATCH 2/3] media: xilinx: vip: Fix UNINIT warnings
 To: Anatoliy Klymenko <anatoliy.klymenko@amd.com>, linux-media@vger.kernel.org
 Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
  Vishal Sagar <vishal.sagar@amd.com>
 References: <20250827194626.3194465-1-anatoliy.klymenko@amd.com>
- <20250827194626.3194465-2-anatoliy.klymenko@amd.com>
+ <20250827194626.3194465-3-anatoliy.klymenko@amd.com>
 Content-Language: en-US
 From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
@@ -101,72 +101,45 @@ Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
  ueeIlwJl5CpT5l8RpoZXEOVtXYn8zzOJ7oGZYINRV9Pf8qKGLf3Dft7zKBP832I3PQjeok7F
  yjt+9S+KgSFSHP3Pa4E7lsSdWhSlHYNdG/czhoUkSCN09C0rEK93wxACx3vtxPLjXu6RptBw
  3dRq7n+mQChEB1am0BueV1JZaBboIL0AGlSJkm23kw==
-In-Reply-To: <20250827194626.3194465-2-anatoliy.klymenko@amd.com>
+In-Reply-To: <20250827194626.3194465-3-anatoliy.klymenko@amd.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-
-Hi,
 
 On 27/08/2025 22:46, Anatoliy Klymenko wrote:
 > From: Jeegar Patel <jeegar.patel@xilinx.com>
 > 
-> This patch fixes CHECKED_RETURN type related coverity warnings.
+> This patch fixes UNINIT type coverity warnings.
 > 
 > Warnings:
-> Calling "clk_prepare_enable" without checking return value
-> Calling "of_property_read_string" without checking return value
-
-The code change looks fine, but I don't think the subject or desc is ok.
-Don't say that this fixed a code checker warning. Say what the code does
-wrong, what are the effects, and how the patch fixes it. You can also
-mention that it was found with coverity, but that's not really relevant.
-
-In other words, the code here is a normal bug fix, you should explain it
-as you would for any other bug fix. The code checker part is irrelevant.
-
+> Event uninit_use: Using uninitialized value "vf_code".
+> Event uninit_use: Using uninitialized value "width".
+> 
 > Signed-off-by: Jeegar Patel <jeegar.patel@xilinx.com>
 > Reviewed-by: Hyun Kwon <hyun.kwon@xilinx.com>
-
-This is missing the sender's signed-off-by. Also, the people tagged in
-the patch should be in the To/Cc of the mail.
-
-These apply to the whole series.
-
- Tomi
-
 > ---
->  drivers/media/platform/xilinx/xilinx-vip.c | 12 ++++++++----
->  1 file changed, 8 insertions(+), 4 deletions(-)
+>  drivers/media/platform/xilinx/xilinx-vip.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/media/platform/xilinx/xilinx-vip.c b/drivers/media/platform/xilinx/xilinx-vip.c
-> index f1574edd2b43..0374aae160c0 100644
+> index 0374aae160c0..fa637a625126 100644
 > --- a/drivers/media/platform/xilinx/xilinx-vip.c
 > +++ b/drivers/media/platform/xilinx/xilinx-vip.c
-> @@ -117,8 +117,13 @@ const struct xvip_video_format *xvip_of_get_format(struct device_node *node)
->  	if (ret < 0)
->  		return ERR_PTR(ret);
+> @@ -104,9 +104,9 @@ EXPORT_SYMBOL_GPL(xvip_get_format_by_fourcc);
+>  const struct xvip_video_format *xvip_of_get_format(struct device_node *node)
+>  {
+>  	const char *pattern = "mono";
+> -	unsigned int vf_code;
+> +	unsigned int vf_code = 0;
+>  	unsigned int i;
+> -	u32 width;
+> +	u32 width = 0;
+>  	int ret;
 >  
-> -	if (vf_code == XVIP_VF_MONO_SENSOR)
-> -		of_property_read_string(node, "xlnx,cfa-pattern", &pattern);
-> +	if (vf_code == XVIP_VF_MONO_SENSOR) {
-> +		ret = of_property_read_string(node,
-> +					      "xlnx,cfa-pattern",
-> +					      &pattern);
-> +		if (ret < 0)
-> +			return ERR_PTR(ret);
-> +	}
->  
->  	for (i = 0; i < ARRAY_SIZE(xvip_video_formats); ++i) {
->  		const struct xvip_video_format *format = &xvip_video_formats[i];
-> @@ -216,8 +221,7 @@ int xvip_init_resources(struct xvip_device *xvip)
->  	if (IS_ERR(xvip->clk))
->  		return PTR_ERR(xvip->clk);
->  
-> -	clk_prepare_enable(xvip->clk);
-> -	return 0;
-> +	return clk_prepare_enable(xvip->clk);
->  }
->  EXPORT_SYMBOL_GPL(xvip_init_resources);
->  
+>  	ret = of_property_read_u32(node, "xlnx,video-format", &vf_code);
+
+I don't think this is valid. vf_code and width should be set by the
+of_property_read_u32().
+
+ Tomi
 
 
