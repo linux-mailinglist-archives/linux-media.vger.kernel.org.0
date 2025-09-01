@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-41405-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41406-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56B0AB3DCE9
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 10:47:05 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 140F4B3DD94
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 11:04:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D463E1896F54
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 08:47:25 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1EC607A4445
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 09:03:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AFED2FE58D;
-	Mon,  1 Sep 2025 08:46:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8BC22FF150;
+	Mon,  1 Sep 2025 09:04:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="H4D6D3UK"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LMG/FE5B"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112532FB99F
-	for <linux-media@vger.kernel.org>; Mon,  1 Sep 2025 08:46:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB4313009D2
+	for <linux-media@vger.kernel.org>; Mon,  1 Sep 2025 09:04:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756716389; cv=none; b=K2+rsJO6m1HMOkmwtzyLKYO/Fsm+jdCs7ULwB0kAXyLiRO4TWv5rGSn1x/iMI/mWFNGMOV4w8XaahDuEUASdtQjWq4SJxucSLYUk7B9hx72JsFdiEHTjaAzMBbPaNpHkAOgWF5tV2cm42cF5z/la+Yzpq0n1IJhI2XA6JkSA4fs=
+	t=1756717483; cv=none; b=kNyNIwH+G4Xq5Gb15qteHBNQUSSskSoe/8BF2jpx1H2+p/ufyQkfoI/urXGK+420Zj51e0i8xxozxoe80uAu81uNl7lvgryf/Z6U5llf7vcQJhzAbuTGi3LS9dVDt5EImBYnzN18D9S33WPZmseP7Tt6w3mycpL+lHA3x3du79c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756716389; c=relaxed/simple;
-	bh=iflz5Nt461X1bRlMAcJS6icPWKPS3TA+XUoGxapPj3Q=;
+	s=arc-20240116; t=1756717483; c=relaxed/simple;
+	bh=ylfMvwdHcWV67FG167GMSdGd2pzSjGgujwNJPJyPlGo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WPyGl1pfleGpF/E3jSRHY5T4a5+Pfco5b0MKTGjvj9pGlL5mH36qCx0Re5jjFSLI8LpD7iLKzoe0GgiXbeG4QyMzKb7rhKUPI0rd9+eOQMVp2oegNOmzczBP9LW39Hd21bxFQe86jqIRl3WbNVn2tBGTuSd3oPFH2HsKvO/jvcQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=H4D6D3UK; arc=none smtp.client-ip=209.85.218.50
+	 In-Reply-To:Content-Type; b=J2VH9k4qRnj6i4IA1atuXwZIpm+jyEWSrdwdWUyEfwFAWxQovb9VCuzR9TyzjpcJ13InIZ6aO4DIHlKNzq+5KReFulRMkUZqJms3l5RjxMdxwiMFbfs/pJaWhRY4zMpowiKZEQsxN4BO4GxtpD5hF4LJEqX/FmKtXTtva8Q1yL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LMG/FE5B; arc=none smtp.client-ip=209.85.221.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b0411b83aafso209291566b.1
-        for <linux-media@vger.kernel.org>; Mon, 01 Sep 2025 01:46:26 -0700 (PDT)
+Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3cef6debedcso1724582f8f.3
+        for <linux-media@vger.kernel.org>; Mon, 01 Sep 2025 02:04:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756716385; x=1757321185; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1756717479; x=1757322279; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=G2sT5xK9I1G5rI22V3pZH7RFm4MZzhppyHAkAzi7QT0=;
-        b=H4D6D3UK+OsbzeSzDoqaN1ek5jX4lekmMLB7kB9FDHuy2fOoem6um4XjArE7TjGgft
-         bk6Ox1SDRKXx20Bi8sjgPeX4Jt3JMRRBI3PVRMEmZjHCh2EpIh0O9cxUxBmFJrU85q79
-         v85nN5XlWGeDqrLjMgaNiUunW4qOV24PO1RIBrEevV0Kitp4sjYpKIVqEK8pP2noBY5D
-         UjIHg4FhHiu4n5dZ7k96Am55kytA9qGraU5/dHmPVrRq2bDPyIGsQOlW0uNpJ/q/n+Ps
-         i4Ag0pd7rNvS+ZniE2YnE+Ac1IOFQxwIcHNiC1bYu5ESxl+ymQzNyEqQfMKVi6GaRnna
-         Eo8A==
+        bh=cwVv68lybtG/3lTbSeRMLSCB2s0eqf0axoIfKgt8qqM=;
+        b=LMG/FE5BJKm93DBOnVGlJFPT1lQt94MTpajgNUoh04UkSfYEfuJjgap1E4uZgrPAOc
+         7QF3InzlGGE5uxWvcMClzots8u0hG5ahU1Mu8JepZB8mkT+yDZryKY+HuynHDWZAbyJJ
+         p459GGXBmi7zkM7E8p5LMn31ma2tgGe8sBxBIIbikGGanhufGqYL4YZR/6DshimcLXez
+         XHRWESp+VMi+5NZpywAHuUiLajvuzaVmHWmO1KSTmeafwmA5iW5bNG9snqXk/GESJjjP
+         ATgnqOi/TpS68GIdS64kQWcKuFzjCYtw5Ip1KP9hwkwRXHxEl6JnGfi5zikwYfvHz+yv
+         dg8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756716385; x=1757321185;
+        d=1e100.net; s=20230601; t=1756717479; x=1757322279;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=G2sT5xK9I1G5rI22V3pZH7RFm4MZzhppyHAkAzi7QT0=;
-        b=TWT5oUehtwibAwTs2ltOhwK9g2ZHmSnwTMQm9JHgekd9j6V6DucoYRtQFH+oeC5myL
-         /uF3jG49WFwYncd3u7HMkoY9KNIYuMrz6uSTFPbtLZ1qaHa+f98Arp6H1+PZXDbt6Jqb
-         INoMBNn8d2Qd/awHxpe/fe6O3gS0Un4aPFjU+nvV5AmdoddTHxQA0VKcVOvbBKEEfGRc
-         e6xC+CwZ53sLmjYzAFkjKoNK892Q5KWJJ2cwoVYD+X/04fMO27aIReS1XcAj5XZsFUkz
-         oFZR714R/O03cNn8ne5pzuSs3gSD1WWXctNAEdVY51wsd5feGSOTY5wj32DkDv1NZD/e
-         5ueA==
-X-Forwarded-Encrypted: i=1; AJvYcCUCqc3N4IiymqRs2YSkSiPMh/SIbHjSNycDsE3oYSNPO1Z5E/BowVMjTUsnKrEd132LvwPE/h+WMT9Caw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzs0RUVOdtqhAfZAhydvOTKvqY0cGStaxKUscDKu4BtkFMt/WbV
-	Rl8nTHJlDbH9yzKO0W3v+PzKipfE4BAZH5U6KF+eGBelg2OwENqmzaRiPPpEn+SSfR0=
-X-Gm-Gg: ASbGncskRFo815H0006M/mNNgAxeTjlp31XSDUGUS43zMk4jz2MQvm4fduQ/d8315Jf
-	iKL7u+os3GURHeOuVRWpToBtcy/qVP7JY3duGTqYzeTkQcV2LLfwEtZ40zoOX2T2Dzuo0fnMWSt
-	vZouP2f71xgUocIiVQqwS9i75+r2tG0Ai371kZvUxLKc7fTAZ+m2nyPSj1ejJj2shXTfRbep8AU
-	WhSMvdWbAU4QwmTeWPJarFLqwwd54Ib8CcQcyf4FDtkTtxour3ujoDS9uE34HZjHBWUwMDs7Z1D
-	a7PJmpy3OiMTFqBtiw2e8fg1oYFuL0TPlQvMyNnxF+NvpvnmWh6RyRVWrzKwzbXMv5T7rDneSAU
-	MI7Noxf4b8eZ4IukBE759NlvUnMq5G/V9hgROi07vSlIj4BwZPyMrOG24UGReZLboYEAvup3h02
-	YAP/tlzXvSt8inUVbVc+2wcVqfOn/OXw==
-X-Google-Smtp-Source: AGHT+IEjci4SG+urOJ3OKy5HCPXFmJGLZVHBKnf2mE109Xz+m/ZM7BpLkpOAiXXp+R++EbZpUDHjyw==
-X-Received: by 2002:a17:907:a07:b0:afe:dd76:7cd7 with SMTP id a640c23a62f3a-b01d8a266c2mr751367566b.4.1756716385331;
-        Mon, 01 Sep 2025 01:46:25 -0700 (PDT)
+        bh=cwVv68lybtG/3lTbSeRMLSCB2s0eqf0axoIfKgt8qqM=;
+        b=aJvtobTgdmjr2kD3odAJli0vxNC2jlwcfFSJxqduqTE8AqX92tk8RXAQ9sTXrREcAb
+         qF863sdroiDFBEgTpNQ652QyndpkLobcEBeaPKUAyZguxOiWeFQiT+mi/FVyBYPRcs7j
+         XB3lcPfaOffyvai2vmP98yC1GPeUA5mc9Kc6EVHP9/84NxoD0HsoSwBvu1GYM2Oo3IQ7
+         UB10dpdn5kUKTawmOva95yCCn1woIql//TtHRxo8y0fVQ/dnThvtZ1EMYOTWzsAxL52m
+         JQRFtIhUtn0cQAp+TXFbUA+3cv1oxINVcXQ9/4cND1DlT+JsR0qI1O6c2HOPWxid7QPH
+         ClOQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXhoj1BaVYpDLPMCkXQGCUKo+Y3MM2VZ84NLfaEJp5rd1x5vwZ59wL9hbrnyvBnxrMBKXiqzdw6Dz974A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YynheNQkU0HbAaEJbYuCshYGgzyZWw01OCvn4eJsA2hNufdANYL
+	/cQeZf3rLus6CfR7MOUv1X4kp139gbd9sWo+KZXNYa4OJNPt/I4xUsSdk3D/hN44I0c=
+X-Gm-Gg: ASbGncugG8AjpRJy5+Lg3pEjcboLS/HTcyTMfvcq4lowzaJcIQL5KCg+rI5Wk1DlyPu
+	5lk52XQKwX3L3n3FlG64YVdUzjbyM0ONp9ey1oM8eg9RxrGfpiNcOSA10Zc23t1KGjPhD0CHdsd
+	eDfvu2QOh/YqP26ENQQvkO43OcuEQTGpNFVSZ7E3f1JP3ERk9y6Ze2BSYVsKl/PHavfouqrVQvL
+	yNrN6Po8Y+XwqLhNi2STQgiqdv+uD6q0nPeELP9ZJUKaiB5SfEhTF07LB1KbbsgGquPvVQ6LCSC
+	plOzoMedjxVtN6o3ogFU29Q34YotB1wcXXIHWbd/cpAjrqDgR0soAfJyjf0uAs7F1OIFK4g+M0O
+	enCMBrXQLcx/BAyE9gnN0w2ZNVTy5UVJ+WNLui0vVHVY8mvpe3EuksCgipcX7wIlhKUfE8xEItg
+	o1jKPDZIA44QTjKQkS+PETRFDPTH0iRw==
+X-Google-Smtp-Source: AGHT+IF5ozFXuC12DhRU7wnhvEb/Eaxn298/3hrvqF72A12C7sUxgS1LCCpfGamLqO+HTku4EuOKTg==
+X-Received: by 2002:a05:6000:1ac8:b0:3d1:9202:9e with SMTP id ffacd0b85a97d-3d1de4bb305mr6081112f8f.36.1756717479121;
+        Mon, 01 Sep 2025 02:04:39 -0700 (PDT)
 Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b04279a59ffsm219333966b.60.2025.09.01.01.46.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b7e9c41cfsm147188325e9.21.2025.09.01.02.04.37
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 01 Sep 2025 01:46:24 -0700 (PDT)
-Message-ID: <d32a9e2c-5dc9-461a-b22e-65fddfbf600a@linaro.org>
-Date: Mon, 1 Sep 2025 09:46:22 +0100
+        Mon, 01 Sep 2025 02:04:38 -0700 (PDT)
+Message-ID: <498db18b-f6bc-4678-9d70-7741e3025185@linaro.org>
+Date: Mon, 1 Sep 2025 10:04:37 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,44 +83,51 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] Documentation: media: update Dikshita Agarwal's email
- address
-To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
-References: <20250901-update-email-v1-0-8fd49d58c0e5@oss.qualcomm.com>
- <20250901-update-email-v1-2-8fd49d58c0e5@oss.qualcomm.com>
+Subject: Re: [PATCH v3 8/9] media: qcom: camss: Add support for VFE 690
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, rfoss@kernel.org,
+ todor.too@gmail.com, mchehab@kernel.org, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org, andersson@kernel.org,
+ konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+ cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, quic_svankada@quicinc.com,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250703171938.3606998-1-quic_vikramsa@quicinc.com>
+ <20250703171938.3606998-9-quic_vikramsa@quicinc.com>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-In-Reply-To: <20250901-update-email-v1-2-8fd49d58c0e5@oss.qualcomm.com>
+In-Reply-To: <20250703171938.3606998-9-quic_vikramsa@quicinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 01/09/2025 08:33, Dikshita Agarwal wrote:
-> Replace quic_dikshita@quicinc.com by dikshita.agarwal@oss.qualcomm.com.
-> 
-> Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-> ---
->   Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> index c79bf2101812d83b99704f38b7348a9f728dff44..0d630e620b097d01001fa866b6a4a3c6328e89ca 100644
-> --- a/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> +++ b/Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml
-> @@ -8,7 +8,7 @@ title: Qualcomm iris video encode and decode accelerators
->   
->   maintainers:
->     - Vikash Garodia <quic_vgarodia@quicinc.com>
-> -  - Dikshita Agarwal <quic_dikshita@quicinc.com>
-> +  - Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
->   
->   description:
->     The iris video processing unit is a video encode and decode accelerator
-> 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+On 03/07/2025 18:19, Vikram Sharma wrote:
+> +		!strcmp(clock->name, "camnoc_axi"));
+
+This is causing a regression on other platforms because they define 
+camnnoc_axi but not @ the rate of the pixel clock.
+
+In fact its not very obvious why the CAMNOC AXI would want to have a 
+pixel clock applied to the interconnect fabric.
+
+The following resolves the regression for me. I can either merge with 
+this change or I'll have to drop the VFE690 changes until you come back 
+with something else.
+
+➜ deckard@sagittarius-a  ~/Development/qualcomm/qlt-kernel 
+git:(aaa8b5ab704f3) ✗ git diff
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c 
+b/drivers/media/platform/qcom/camss/camss-vfe.c
+index e969de74818f1..1aa0ba5ad8d60 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+@@ -913,8 +913,7 @@ static int vfe_match_clock_names(struct vfe_device *vfe,
+
+         return (!strcmp(clock->name, vfe_name) ||
+                 !strcmp(clock->name, vfe_lite_name) ||
+-               !strcmp(clock->name, "vfe_lite") ||
+-               !strcmp(clock->name, "camnoc_axi"));
++               !strcmp(clock->name, "vfe_lite"));
+
+---
+bod
 
