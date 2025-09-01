@@ -1,125 +1,150 @@
-Return-Path: <linux-media+bounces-41431-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41432-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF65B3E242
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 14:08:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 707F3B3E257
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 14:11:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6CDC3440003
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 12:08:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 323E43B65A0
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 12:11:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0830C2586FE;
-	Mon,  1 Sep 2025 12:08:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3601E277032;
+	Mon,  1 Sep 2025 12:11:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="l9GXMTNH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="VX12spDQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0711E258EDD
-	for <linux-media@vger.kernel.org>; Mon,  1 Sep 2025 12:08:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 887A92765E3;
+	Mon,  1 Sep 2025 12:11:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756728487; cv=none; b=DqMyv8mVekmV4YRxCDJjLL5ZRI/cR33AtYmpLRkNcG3AFOo2zYMyite9hY0/Z7vDlrMkFGmSdWXPTwtdGGQnIrGZ26pPs05gtN2J8HOzGfws4FOISQnnTl29mjA2kLJRaHLGNinTGAXv34SfCG+mygI4VGmVA+gQItoto49tmH8=
+	t=1756728673; cv=none; b=Spfd41IVAqjHnbsYLPcfrZ7RX2chHgx5CuMB/Q+/oxK8UMWGS0D6W9lY+sHPYlcXUyAan9MsHC4yCq4pVsiWoUFqVVOfNeyATQzLWu5E3ydFGqQoOyWK8aUwGvRqqksfWeR2fKFKCxcY2anDpiL4DrlBKmBMJYbJtbYPplbU5RQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756728487; c=relaxed/simple;
-	bh=pX2uja4tQdl8lDbavnVVX+J0uz03DE2Dx8qz5MViie8=;
+	s=arc-20240116; t=1756728673; c=relaxed/simple;
+	bh=BhDpfpJvIimS2A5/9ELJfbY3vyKUD5N4q9GhNW02pHE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iKNjO3PnZmKpVELV3YnyWYI7gtDKbMyQEWlOBab6Yo2CSqVpVhuRBWy8EUVD+xc82YCHOqTdxXDWdWuSoKSt228JCnP0BWA562tObsF4cZAF6ykVn5HyRE8I7LmfoWvA7xhu1Do5rUNtXohGEtx56l9KdjSl4U6xWb5X4LUWOP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=l9GXMTNH; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-63-95.net.vodafone.it [5.90.63.95])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E64D8E92;
-	Mon,  1 Sep 2025 14:06:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756728417;
-	bh=pX2uja4tQdl8lDbavnVVX+J0uz03DE2Dx8qz5MViie8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=l9GXMTNHVIvaAP1cs7aW25KvquRaM5VAoYw19DuDxaeOePP67jLUm90eENrq4n+Xk
-	 6lhK4IrkolaSvKK1C7bQgy8vUK48zXdyrJVxWRklFlFrrYhY8k0+nRQMUQ9asGdDF4
-	 s5tbahtvfrG16xeEmBth+qsAVBNsSbEBJ25KkjPM=
-Date: Mon, 1 Sep 2025 14:08:01 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
-	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
-	Kate Hsuan <hpa@redhat.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
-	Umang Jain <umang.jain@ideasonboard.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
-	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, 
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>, 
-	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, 
-	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
-	Hans de Goede <hdegoede@redhat.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 14/66] media: Documentation: Refer to internal pads
- in metadata documentation
-Message-ID: <tjvbo4qgvlb2iqqeys4pucz3w535fmqqnl2zz5cvmwigrz2prw@wgmeur7h4t5e>
-References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-15-sakari.ailus@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=C+mukSIKBWqj8/vwmvDM3ezKK5y5c8BvMCaHl9pKlATc6XM9ggfK1I4vsQ2sClsHf0wQkxp/31PnlIka8IGf9i8aceTpI5DgTDBIn90O2e1687h+9g2wPNfsItZKUwdaKENLMOLBXVqzWbT/88gABAEhmLXGeDe3IDftGuz6l+A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=VX12spDQ; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756728672; x=1788264672;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=BhDpfpJvIimS2A5/9ELJfbY3vyKUD5N4q9GhNW02pHE=;
+  b=VX12spDQpSjRvfmvz5pOo/t0dkDref/RSESt1H+6TeFnTxXDG/xqSY4w
+   ebabpDYFK/0DKg4sNQopRZCZz2pkmGdXOAyldv/SPI7fGQRrJv6DzZuuu
+   0zkrYKlstbFtD17eyfq/OApr4/5XCwCax0emssy5xIBmpX7YRAi6oibB3
+   lRO2Oe5EQbNh9ud4ZcHe/bs3nUIONsQE0nN3S3H3KgUa7buy+Un7PIjVc
+   kjnXzT+DZy32hn4ULAtmjn1VP4kYDglFydd2dOShYKlqrXX3AH/LPeZ+h
+   oX3V4cOPEZfcRAfSJgE0vpIj1isbjMN9FRFcAFdDV5uMNd5j+wi2D87DJ
+   w==;
+X-CSE-ConnectionGUID: lxkgHIx/TYKQ5+C0Ew0FEA==
+X-CSE-MsgGUID: zrFBJE68S1msyEM+qWVRGg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11539"; a="58917452"
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="58917452"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 05:11:11 -0700
+X-CSE-ConnectionGUID: tMtO88dqTDW/rGxtV5RDjA==
+X-CSE-MsgGUID: 1y2Gb3UlTTC9+bzzNX+X/Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
+   d="scan'208";a="201932054"
+Received: from sschumil-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.220])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 05:11:08 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id 5B77D11FA4A;
+	Mon, 01 Sep 2025 15:11:07 +0300 (EEST)
+Date: Mon, 1 Sep 2025 15:11:07 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org
+Subject: Re: [PATCH v6 03/11] Documentation: uAPI: media: add
+ V4L2_CID_FLASH_DURATION
+Message-ID: <aLWNW1cBCOdXg3nU@kekkonen.localdomain>
+References: <20250716-ov9282-flash-strobe-v6-0-934f12aeff33@linux.dev>
+ <20250716-ov9282-flash-strobe-v6-3-934f12aeff33@linux.dev>
+ <aKv3uUXf87im8ajX@kekkonen.localdomain>
+ <rcgche43hzctpxbe2xt2cfksjbtyntc6ef26wptgkygcdlg5ga@sdhkkcpdfaek>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250825095107.1332313-15-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <rcgche43hzctpxbe2xt2cfksjbtyntc6ef26wptgkygcdlg5ga@sdhkkcpdfaek>
 
-Hi Sakari
+Hi Richard,
 
-On Mon, Aug 25, 2025 at 12:50:15PM +0300, Sakari Ailus wrote:
-> Metadata is intended to be used with internal pads when it comes to the
-> source of the data. Document this.
+On Mon, Sep 01, 2025 at 12:44:07PM +0200, Richard Leitner wrote:
+> On Mon, Aug 25, 2025 at 08:42:17AM +0300, Sakari Ailus wrote:
+> > Hi Richard,
+> > 
+> > Thanks for the update (and for the ping!).
+> > 
+> > On Wed, Jul 16, 2025 at 11:06:53AM +0200, Richard Leitner wrote:
+> > > Add the new strobe_duration control to v4l uAPI documentation.
+> > > 
+> > > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> > > ---
+> > >  Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst | 5 +++++
+> > >  1 file changed, 5 insertions(+)
+> > > 
+> > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
+> > > index d22c5efb806a183a3ad67ec3e6550b002a51659a..03a58ef94be7c870f55d5a9bb09503995dbfb402 100644
+> > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
+> > > @@ -186,3 +186,8 @@ Flash Control IDs
+> > >      charged before strobing. LED flashes often require a cooldown period
+> > >      after strobe during which another strobe will not be possible. This
+> > >      is a read-only control.
+> > > +
+> > > +``V4L2_CID_FLASH_DURATION (integer)``
+> > > +    Duration the flash should be on when the flash LED is in flash mode
+> > > +    (V4L2_FLASH_LED_MODE_FLASH). The unit should be microseconds (탎)
+> > > +    if possible.
+> > > 
+> > 
+> > I think we should add this is related to the hardware strobe.
+> > 
+> > How about:
+> > 
+> > ``V4L2_CID_FLASH_DURATION (integer)``
+> > 
+> >     Duration of the flash strobe from the strobe source, typically a camera
+> >     sensor. Controlling the flash LED strobe length this way requires that the
+> >     flash LED driver's :ref:`flash LED mode <v4l2-cid-flash-led-mode>` is set
+> >     to ``V4L2_FLASH_LED_MODE_FLASH`` and :ref:`strobe source
+> >     <v4l2-cid-strobe-source>` is set to ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL``.
+> >     The unit should be microseconds (탎) if possible.
+> > 
+> > This requires of course the appropriate labels.
+> > 
+> > I also wonder whether we should use 0,1 탎 or even ns for the unit.
+> 
+> Thanks for the pointer.
+> 
+> I did a quick internet search and the shortest flash duration of
+> speedlights/studio strobes I found was Profoto D2 with 1/63000 sec ~> 15.9탎.
+> So I IMHO we are fine with 1탎 resolution here.
 
-The commit title and description do not match the patch content
-anymore
+Works for me.
 
-With these updated:
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Thanks
-  j
-
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  Documentation/userspace-api/media/v4l/metafmt-generic.rst | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
->
-> diff --git a/Documentation/userspace-api/media/v4l/metafmt-generic.rst b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> index 39d529c910a8..e8824b5a65d6 100644
-> --- a/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> +++ b/Documentation/userspace-api/media/v4l/metafmt-generic.rst
-> @@ -7,12 +7,17 @@ V4L2_META_FMT_GENERIC_8 ('MET8'), V4L2_META_FMT_GENERIC_CSI2_10 ('MC1A'), V4L2_M
->
->  Generic line-based metadata formats
->
-> +.. _v4l2-format-generic-meta:
->
->  Description
->  ===========
->
->  These generic line-based metadata formats define the memory layout of the data
-> -without defining the format or meaning of the metadata itself.
-> +without defining the format or meaning of the metadata itself. These formats may
-> +only be used with a Media Controller pipeline where the more specific metadata
-> +layout is reported by an :ref:`V4L2_CID_METADATA_LAYOUT control
-> +<image_source_control_metadata_layout>` of the source sub-device. See also
-> +:ref:`source routes <subdev-routing>`.
->
->  .. _v4l2-meta-fmt-generic-8:
->
-> --
-> 2.47.2
->
->
+-- 
+Sakari Ailus
 
