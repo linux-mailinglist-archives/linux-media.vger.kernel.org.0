@@ -1,187 +1,263 @@
-Return-Path: <linux-media+bounces-41443-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41444-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82610B3E747
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 16:35:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 791E0B3E7FC
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 16:56:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2D6823A8EE8
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 14:35:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D98241A84118
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 14:57:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56248322550;
-	Mon,  1 Sep 2025 14:35:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15C25258CDF;
+	Mon,  1 Sep 2025 14:56:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kflT5ruq"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kSuOjyba"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF3132E88A8
-	for <linux-media@vger.kernel.org>; Mon,  1 Sep 2025 14:35:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81E830DEBE;
+	Mon,  1 Sep 2025 14:56:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756737307; cv=none; b=TpB3MKLaKsqITiwgs5AG2rMJT4nXneBNC/tjzkX8K+jGvLl683PImz4/EBZBxXJFSPBeFOAcJXgvEMFosHLikVKqylYvb1G8G1MAHDjY/tQw7UtjRjC+6iutj5UFQlUPF2WuQHA6Q2f1sAFBtFTuH2TpxaOhZ4qmaK2P5AfpteI=
+	t=1756738601; cv=none; b=ZD4gy8HCAQsEuchfjlfMNmBN5AN5yyL25//OwYv+ID7uRoQ95FEhCHNkmwKCUaDj0r1jPx+Utlak4GJwJ/uR9PPvZmxcgMIGcs0UKLV0pXJ7cSIn/xUq7vO3HBoOBWQsTOJn3bISD0PPj9s6MSTIZRHHuq7PwpnyQ5i6JHcCPYc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756737307; c=relaxed/simple;
-	bh=tlvRZg62LpCUyrR7HV33aHxbKuGRHBajeWClhFsiZeI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fEp+0X8RDLUChJsgZ+z6uOAuHMU97KTbfCLdosYmjs7QtihCRGZb1P9AIq5xpXv+YLfSpo2qZGRt+V/2PVCK4bCpJTwo8hY1u3VuvjlZbA5vomy0ZszgbyQViuQdcnuZJoRX+wI3pqsQIHN9f/Fsiur70yfZt9OEf6h5zPEYa9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kflT5ruq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-63-95.net.vodafone.it [5.90.63.95])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D90C650A;
-	Mon,  1 Sep 2025 16:33:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756737234;
-	bh=tlvRZg62LpCUyrR7HV33aHxbKuGRHBajeWClhFsiZeI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=kflT5ruq0ACRusVnF0xunn+uyDgH0Aq0BVsR87SpDteBHbe7JkMhUNokOBCLYwedX
-	 J7qi9dq6HunZuxV+A7zAEUnbSM2zbsicpSjQ/tiPR9U7eluLC+/DwQT7rMnd5M0Qi7
-	 /Hnzle4ahj26zlSl5SQyog/2uBTHBCLDzTNeIzSg=
-Date: Mon, 1 Sep 2025 16:34:56 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
-	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
-	Kate Hsuan <hpa@redhat.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
-	Umang Jain <umang.jain@ideasonboard.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
-	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, 
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>, 
-	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, 
-	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
-	Hans de Goede <hdegoede@redhat.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 21/66] media: v4l: uapi: Add a control for color
- pattern flipping effect
-Message-ID: <b2yrfklofl6qpoekmy3r745gk4fvgdlpcdppatwwr3y34kn5zv@xusoi3rasdrc>
-References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-22-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1756738601; c=relaxed/simple;
+	bh=Q7vtAAS4pPrBwgb174S42nZs6J3IFkl9a4ExFnlCZwg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tjFI/S6pdvy+WCCjyI/Rbfj9x2NuW/zLuaV7nF7EYMkNsnaY70z7+sitQQOS3J3a27ZNO8pzdoQ8xj+FS1ibhpeUXhrF/VQldNM4MBl+qqYGgAFOELfrE/r3kzrMJun5sJqqvXlgFOAuI+X7vgWdOJNDMkhusOYq4kA3Yx4d7z0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kSuOjyba; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-45b869d35a0so12589115e9.1;
+        Mon, 01 Sep 2025 07:56:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756738598; x=1757343398; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=g1USGZjLZDxsf6DuJdOKwwC3PA6DI/XPMPASznB/+fs=;
+        b=kSuOjyba2GVaWPw6tLy6FWzb7LZxMIBRX3obeOb1jvlUiu6H27rnEwdigwEhfJ7Mzp
+         gonrEvnZXNr5HwP3Mvtdny6YplZej9jA8h7CqrfmAgYQkBme5vQeftuQE5q9x8Ctshik
+         WgtqXCzw56YaUGzP0NS3eBTldx2KEEb9GnpsuYYqqLmFOWlEhFn+f4DrB6D2QlN2R+aB
+         Ipu8RrVxYSBwx3en0YUUpqggE7ny/3Ci2MtRh1REb6MSCgHnvkvwUyEzYHBmcM0K7Yba
+         RoElz3I8r4gi+q28gwXq4hA+cbWx2WD2Lp1a/hfkY8jagem27+EQc9DJYddqW62e7IHE
+         SLww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756738598; x=1757343398;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g1USGZjLZDxsf6DuJdOKwwC3PA6DI/XPMPASznB/+fs=;
+        b=vCtkgh3YVmWLWEG6uTnxi7IElKlfnsbc78Jp/Xory4tFXm3TzheAPXgXVCP798X42M
+         b2aXTBEPLWZuJcIRlFU/XmDmgvbhUgU8tCOJfGpbk+86qNk4xBAvqkllVF+zt8m2nwpm
+         JtzUKfCFL5OPb/P1rszcz/IDLcV90eH742+oElvv7XcbXzLRx9nn57r98Q+4WXqXIwWW
+         HV6GsRS7Yp8N8bhGa1nu57brpXxIlpss5Y33eaGIK7PdkH5L+lq28j2vymk0lngYwzj8
+         fODKmS5C7K5bkC3/XxGNblRvvU+CWnwttPH9rwJWRjWUxjHobMAXzV7YxkOJhlDX0d+9
+         gh4w==
+X-Forwarded-Encrypted: i=1; AJvYcCXXMXKLj7+38Lir2B2xsY0WyM5VxDneEB5NnwlVqNdaqwdy9/PxvrrtWAw844dwCDZXHpIg8jPxGBRwCE8=@vger.kernel.org, AJvYcCXzCoYSOSx/DjQB7mRL86tvZjJLMdHpwKisjosoGf/K4AiFq8MmPQZxIBtTR4SJwqRrtnzzbqXQJ7FtRTY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHmtPPaYFlbreCLDPjLtUN0wwrMy5L2QMRq8Q7qNTQrvPdYnw7
+	OxxTkso+aoP1vG8qTY0D2Fy2dpVfdIqMIJPHEDibg2yGDY1bVuNFokouQMmU76YyJ377cVg01s9
+	4B6NuuIN9LlMpBNYcmOB3CjMkOT5qo+M=
+X-Gm-Gg: ASbGncvfH87d/aIptq2+cDBsuh/jxtVlyJhyZyUsa3kDJp/3H9qebu3g0Ho8fmhyNID
+	87y9354XcEff1oZTe5kpiJTD6bgPE/+77A7TyOZbEhvX/oUVg0e6IHwbQeDHOi+Y2MgI+FDxLCU
+	PLz3swNmTHQETn5HURJUIyIynXUq0LNH3Ttz12MEBqMvIu3Uu4TgUwmcUdkvdggB2oqcGN11hnb
+	9rB20o=
+X-Google-Smtp-Source: AGHT+IHK90Unn6qwA9knnbDmxsWr35H/JutAIfB4QBaEcXcrhMufG6E5PBhHvtXwzueHpCDrnO1EsJPWJskPIN8DZN8=
+X-Received: by 2002:a05:600c:8b23:b0:45b:47e1:ef6c with SMTP id
+ 5b1f17b1804b1-45b855b2b0emr63168335e9.35.1756738597648; Mon, 01 Sep 2025
+ 07:56:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250825095107.1332313-22-sakari.ailus@linux.intel.com>
+References: <20250829-rzv2h-cru-sizes-v2-1-cc5050ddb145@ideasonboard.com>
+In-Reply-To: <20250829-rzv2h-cru-sizes-v2-1-cc5050ddb145@ideasonboard.com>
+From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date: Mon, 1 Sep 2025 15:56:11 +0100
+X-Gm-Features: Ac12FXyMShyDzcyRd-vi9KcD-sV_GXgPwGVXkEy6vz9NKnDRug5zBpPdt9kdijs
+Message-ID: <CA+V-a8vKRJq1BLRCYv27yLi2SQ+EJt5Vmxdn-1+QHUoPWo7U=g@mail.gmail.com>
+Subject: Re: [PATCH v2] media: rzg2l-cru: csi-2: Support RZ/V2H input sizes
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans Verkuil <hverkuil@kernel.org>, 
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>, 
+	Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>, Biju Das <biju.das.jz@bp.renesas.com>, 
+	Daniel Scally <dan.scally+renesas@ideasonboard.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, 
+	Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sakari
-
-On Mon, Aug 25, 2025 at 12:50:22PM +0300, Sakari Ailus wrote:
-> Add a bitmask control (V4L2_CID_COLOR_PATTERN_FLIP) to tell whether
-> flipping results in a change in the sensor's color pattern, separately
-> horizontally and vertically. The information is essential for raw formats
-> when using generic raw mbus codes.
+On Fri, Aug 29, 2025 at 12:12=E2=80=AFPM Jacopo Mondi
+<jacopo.mondi@ideasonboard.com> wrote:
 >
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> From: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+>
+> The CRU version on the RZ/V2H SoC supports larger input sizes
+> (4096x4096) compared to the version on the RZ/G2L (2800x4095).
+>
+> Store the per-SoC min/max sizes in the device match info and use them
+> in place of the hardcoded ones.
+>
+> While at it, use the min sizes reported by the info structure to replace
+> the RZG2L_CSI2_DEFAULT_WIDTH/HEIGHT macros.
+>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi+renesas@ideasonboard.com>
+> Tested-by: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
 > ---
->  .../userspace-api/media/v4l/ext-ctrls-image-source.rst | 10 ++++++++++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c              |  2 ++
->  include/uapi/linux/v4l2-controls.h                     |  6 ++++++
->  3 files changed, 18 insertions(+)
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+> Changes in v2:
+> - Use the size values in the rzg2l_csi2_info instea of going through
+>   macros
+> - Use min_width/min_height to initialize the format and drop
+>   RZG2L_CSI2_DEFAULT_WIDTH/HEIGHT
+> - Add Tommaso's tag
+> - Link to v1: https://lore.kernel.org/r/20250826-rzv2h-cru-sizes-v1-1-dbd=
+fc54bba11@ideasonboard.com
+> ---
+>  .../media/platform/renesas/rzg2l-cru/rzg2l-csi2.c  | 41 ++++++++++++++--=
+------
+>  1 file changed, 26 insertions(+), 15 deletions(-)
 >
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> index 0fcd60d8c621..ef3784d1119a 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> @@ -133,3 +133,13 @@ Image Source Control IDs
->        - Raw Bayer, with alternating lines beginning with green, blue pixels and
->          red, green pixels.
->        - 3
+Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+
+Cheers,
+Prabhakar
+
+> diff --git a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c b/driv=
+ers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> index 1520211e74185fea3bca85f36239254f6b4651db..183598d6cf0b255f779b4398e=
+027d626ad1f3c1b 100644
+> --- a/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+> @@ -96,13 +96,6 @@
+>
+>  #define VSRSTS_RETRIES                 20
+>
+> -#define RZG2L_CSI2_MIN_WIDTH           320
+> -#define RZG2L_CSI2_MIN_HEIGHT          240
+> -#define RZG2L_CSI2_MAX_WIDTH           2800
+> -#define RZG2L_CSI2_MAX_HEIGHT          4095
+> -
+> -#define RZG2L_CSI2_DEFAULT_WIDTH       RZG2L_CSI2_MIN_WIDTH
+> -#define RZG2L_CSI2_DEFAULT_HEIGHT      RZG2L_CSI2_MIN_HEIGHT
+>  #define RZG2L_CSI2_DEFAULT_FMT         MEDIA_BUS_FMT_UYVY8_1X16
+>
+>  enum rzg2l_csi2_pads {
+> @@ -137,6 +130,10 @@ struct rzg2l_csi2_info {
+>         int (*dphy_enable)(struct rzg2l_csi2 *csi2);
+>         int (*dphy_disable)(struct rzg2l_csi2 *csi2);
+>         bool has_system_clk;
+> +       unsigned int min_width;
+> +       unsigned int min_height;
+> +       unsigned int max_width;
+> +       unsigned int max_height;
+>  };
+>
+>  struct rzg2l_csi2_timings {
+> @@ -418,6 +415,10 @@ static const struct rzg2l_csi2_info rzg2l_csi2_info =
+=3D {
+>         .dphy_enable =3D rzg2l_csi2_dphy_enable,
+>         .dphy_disable =3D rzg2l_csi2_dphy_disable,
+>         .has_system_clk =3D true,
+> +       .min_width =3D 320,
+> +       .min_height =3D 240,
+> +       .max_width =3D 2800,
+> +       .max_height =3D 4095,
+>  };
+>
+>  static int rzg2l_csi2_dphy_setting(struct v4l2_subdev *sd, bool on)
+> @@ -542,6 +543,10 @@ static const struct rzg2l_csi2_info rzv2h_csi2_info =
+=3D {
+>         .dphy_enable =3D rzv2h_csi2_dphy_enable,
+>         .dphy_disable =3D rzv2h_csi2_dphy_disable,
+>         .has_system_clk =3D false,
+> +       .min_width =3D 320,
+> +       .min_height =3D 240,
+> +       .max_width =3D 4096,
+> +       .max_height =3D 4096,
+>  };
+>
+>  static int rzg2l_csi2_mipi_link_setting(struct v4l2_subdev *sd, bool on)
+> @@ -631,6 +636,7 @@ static int rzg2l_csi2_set_format(struct v4l2_subdev *=
+sd,
+>                                  struct v4l2_subdev_state *state,
+>                                  struct v4l2_subdev_format *fmt)
+>  {
+> +       struct rzg2l_csi2 *csi2 =3D sd_to_csi2(sd);
+>         struct v4l2_mbus_framefmt *src_format;
+>         struct v4l2_mbus_framefmt *sink_format;
+>
+> @@ -653,9 +659,11 @@ static int rzg2l_csi2_set_format(struct v4l2_subdev =
+*sd,
+>         sink_format->ycbcr_enc =3D fmt->format.ycbcr_enc;
+>         sink_format->quantization =3D fmt->format.quantization;
+>         sink_format->width =3D clamp_t(u32, fmt->format.width,
+> -                                    RZG2L_CSI2_MIN_WIDTH, RZG2L_CSI2_MAX=
+_WIDTH);
+> +                                    csi2->info->min_width,
+> +                                    csi2->info->max_width);
+>         sink_format->height =3D clamp_t(u32, fmt->format.height,
+> -                                     RZG2L_CSI2_MIN_HEIGHT, RZG2L_CSI2_M=
+AX_HEIGHT);
+> +                                    csi2->info->min_height,
+> +                                    csi2->info->max_height);
+>         fmt->format =3D *sink_format;
+>
+>         /* propagate format to source pad */
+> @@ -668,9 +676,10 @@ static int rzg2l_csi2_init_state(struct v4l2_subdev =
+*sd,
+>                                  struct v4l2_subdev_state *sd_state)
+>  {
+>         struct v4l2_subdev_format fmt =3D { .pad =3D RZG2L_CSI2_SINK, };
+> +       struct rzg2l_csi2 *csi2 =3D sd_to_csi2(sd);
+>
+> -       fmt.format.width =3D RZG2L_CSI2_DEFAULT_WIDTH;
+> -       fmt.format.height =3D RZG2L_CSI2_DEFAULT_HEIGHT;
+> +       fmt.format.width =3D csi2->info->min_width;
+> +       fmt.format.height =3D csi2->info->min_height;
+>         fmt.format.field =3D V4L2_FIELD_NONE;
+>         fmt.format.code =3D RZG2L_CSI2_DEFAULT_FMT;
+>         fmt.format.colorspace =3D V4L2_COLORSPACE_SRGB;
+> @@ -697,16 +706,18 @@ static int rzg2l_csi2_enum_frame_size(struct v4l2_s=
+ubdev *sd,
+>                                       struct v4l2_subdev_state *sd_state,
+>                                       struct v4l2_subdev_frame_size_enum =
+*fse)
+>  {
+> +       struct rzg2l_csi2 *csi2 =3D sd_to_csi2(sd);
 > +
-> +``V4L2_CID_COLOR_PATTERN_FLIP (bitmask)``
-
-I still believe that having this and V4L2_CTRL_FLAG_MODIFY_LAYOUT
-might be confusing. Should sensor driver that registers H/VFLIP still
-mark those controls as V4L2_CTRL_FLAG_MODIFY_LAYOUT or should they
-implement V4L2_CID_COLOR_PATTERN_FLIP, or do both ?
-
-Should we deprectate V4L2_CTRL_FLAG_MODIFY_LAYOUT for flip controls ?
-In this case I think the documentation of the flag should be updated.
-
-> +    Whether the horizontal or vertical flipping controls (V4L2_CID_HFLIP and
-> +    V4L2_CID_VFLIP) have an effect on the pixel order of the output color
-> +    pattern. Macros ``V4L2_COLOR_PATTERN_FLIP_HORIZONTAL`` and
-> +    ``V4L2_COLOR_PATTERN_FLIP_VERTICAL`` define bitmasks for both bits. If
-> +    either horizontal or vertical bit is set, the readout pattern order is that
-> +    of the reversed readout. ``V4L2_COLOR_PATTERN_FLIP_BOTH`` for setting both
-
-I don't think
-
-"the readout pattern order is that of the reversed readout." is very
-clear.
-
-Providing examples might be convenient
-
-In libcamera we have:
-
- * Applying a transform to an image stored in a Bayer format affects the Bayer
- * order. For example, performing a horizontal flip on the Bayer pattern RGGB
- * causes the RG rows of pixels to become GR, and the GB rows to become BG. The
- * transformed image would have a GRBG order. Performing a vertical flip on the
- * Bayer pattern RGGB causes the GB rows to come before the RG ones and the
- * transformed image would have GBRG order. Applying both vertical and
- * horizontal flips on the Bayer patter RGGB results in transformed images with
- * BGGR order. The bit depth and modifiers are not affected.
-
-Should we at least make a table for the most common Bayer CFA ?
-
-
-> +    ``V4L2_COLOR_PATTERN_FLIP_HORIZONTAL`` and
-> +    ``V4L2_COLOR_PATTERN_FLIP_VERTICAL`` is provided as well.
-
-Personally I don't like V4L2_COLOR_PATTERN_FLIP_BOTH much, and would
-prefer to have the two flags separate, but it might be just personal
-tastes.
-
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index 8119012c2638..9ec65998a8f7 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1156,6 +1156,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_TEST_PATTERN_GREENB:	return "Green (Blue) Pixel Value";
->  	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
->  	case V4L2_CID_COLOR_PATTERN:		return "Color Pattern";
-> +	case V4L2_CID_COLOR_PATTERN_FLIP:	return "Color Pattern Flip";
+>         if (fse->index !=3D 0)
+>                 return -EINVAL;
 >
->  	/* Image processing controls */
->  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> @@ -1484,6 +1485,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  		*type = V4L2_CTRL_TYPE_BITMASK;
->  		break;
->  	case V4L2_CID_CONFIG_MODEL:
-> +	case V4L2_CID_COLOR_PATTERN_FLIP:
->  		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
->  		*type = V4L2_CTRL_TYPE_BITMASK;
->  		break;
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index e552f6655fd0..eb9ffdd74d32 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -1233,6 +1233,12 @@ enum v4l2_jpeg_chroma_subsampling {
->  #define V4L2_COLOR_PATTERN_BGGR			2U
->  #define V4L2_COLOR_PATTERN_GBRG			3U
+>         if (!rzg2l_csi2_code_to_fmt(fse->code))
+>                 return -EINVAL;
 >
-> +#define V4L2_CID_COLOR_PATTERN_FLIP		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 11)
-> +#define V4L2_COLOR_PATTERN_FLIP_HORIZONTAL	(1U << 0)
-> +#define V4L2_COLOR_PATTERN_FLIP_VERTICAL	(1U << 1)
-> +#define V4L2_COLOR_PATTERN_FLIP_BOTH \
-> +	(V4L2_COLOR_PATTERN_FLIP_HORIZONTAL | V4L2_COLOR_PATTERN_FLIP_VERTICAL)
-> +
+> -       fse->min_width =3D RZG2L_CSI2_MIN_WIDTH;
+> -       fse->min_height =3D RZG2L_CSI2_MIN_HEIGHT;
+> -       fse->max_width =3D RZG2L_CSI2_MAX_WIDTH;
+> -       fse->max_height =3D RZG2L_CSI2_MAX_HEIGHT;
+> +       fse->min_width =3D csi2->info->min_width;
+> +       fse->min_height =3D csi2->info->min_height;
+> +       fse->max_width =3D csi2->info->max_width;
+> +       fse->max_height =3D csi2->info->max_height;
 >
->  /* Image processing controls */
+>         return 0;
+>  }
 >
+> ---
+> base-commit: 16428e2449ab96cce27be6ab17b750b404c76c7c
+> change-id: 20250826-rzv2h-cru-sizes-371ff5a88081
+>
+> Best regards,
 > --
-> 2.47.2
+> Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 >
 >
 
