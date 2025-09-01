@@ -1,160 +1,177 @@
-Return-Path: <linux-media+bounces-41419-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41421-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19557B3E088
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 12:44:27 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6576AB3E135
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 13:12:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6CFC51A80A18
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 10:44:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 254F7169386
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 11:12:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3503B30FC2A;
-	Mon,  1 Sep 2025 10:44:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B595A2356D9;
+	Mon,  1 Sep 2025 11:12:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EGZsDMDU"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FlOgEtBm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806982AD14;
-	Mon,  1 Sep 2025 10:44:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67C5D2FB975
+	for <linux-media@vger.kernel.org>; Mon,  1 Sep 2025 11:12:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756723457; cv=none; b=YvVR92M/DUOEeeMxFqTZD+eHcFKz4LfuuUbaoAiklFMYpyq6fDPtZL85XxTYrYwN4DgrRn4Yusuh7Ot/eov1obskt9Vpub3BO7nB4T3YFTErp1F0vwiVzkCRVJwI8BCojC5dPQ/sDueiaSHZ5UuI8/zvfmomkFGcaOUY/5iQNgk=
+	t=1756725129; cv=none; b=Ve30sCf4ACoNr0DKjq6EK6/jslt7cFeP/5qo/7IzPXzM/v/hSpzaYS8aC6NGyQE9RZdy+TyyW4j7+nKTWQm0k8LJ9Bly5vcoefen+Ez5Rw+1HoQlCFixNQw2D+dN1HxBMocZsy0RYlWMtg8NIG9l7G1vuE2kc0Eq+YTqsYPjSZk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756723457; c=relaxed/simple;
-	bh=lgl8ZHT0PirfqoDunzKl0otl6G/LgiSXAX7yR1LoQ5w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Czc4B2ajb7ZN6ZV5v1of8OAICbBl8wtbC+VD0P6cn41j1lOT66Ixc8f6H/lz+XEkKgyvl4Oahgf1laSGsTLV6QFKxTwqWuV/dqO6JlS8WxeQP9vnSX0beCC25rybm4o1PJBfwbadqNNUd3kivdBFl81eYHXIs4E6JVSi3UShMv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EGZsDMDU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A7A5C4CEF0;
-	Mon,  1 Sep 2025 10:44:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756723457;
-	bh=lgl8ZHT0PirfqoDunzKl0otl6G/LgiSXAX7yR1LoQ5w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=EGZsDMDUSFPwJdjkTpfaq6bXNM1itNzUvupm+un69UD4c5zry6eU+pJxpiXyx9s5O
-	 SFok3MPkrHL3qP/NksVWms2WdPovPcEXdaWRNPTBoiaF+jHJroLIpabUX44prgH2px
-	 +p8bEKIvtLKLFHhZ5/TEZ5Js4f+vcXvY1yTjNrVxiWbL2e07y7zPoe+2QjrayuQyts
-	 xIhVm3KorxKUO4YFQ5GRu5DDrk+fQQ3Mwu1+z7ofA/RuAsBzOPCyqk7M7PT9LULmBV
-	 1HlgyLLRYAjqhuqiLV220RyQNfcOdLjGxw0q+TJ1VFcoReSR5ZqXTgb8UmfjS1NSPu
-	 G1AtRhx/d1Xmw==
-Message-ID: <4c8041ae-3b20-4c17-b9c2-0816f087717e@kernel.org>
-Date: Mon, 1 Sep 2025 12:44:11 +0200
+	s=arc-20240116; t=1756725129; c=relaxed/simple;
+	bh=FqmWdV/33pHE7QxeCuqV69W785rb6YfJwlWLI/V0bXg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=aXnKUIOnFhEPozwa0pSHXFS47GHn1lftg35G/IsZ9B0n7aOvgiZpSixTuOLFZxU9SFbjn/+jlEIKKXs1GsXU3Yu0GBUvrub+KeB09opZ03mD3OnB4eeo/FYYQmYXbywIdRk3MyiLfnOSHIwukn+Dct0qi4vODJgfVdcujYZ4kWU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FlOgEtBm; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-63-95.net.vodafone.it [5.90.63.95])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 68CD9C72;
+	Mon,  1 Sep 2025 13:10:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1756725055;
+	bh=FqmWdV/33pHE7QxeCuqV69W785rb6YfJwlWLI/V0bXg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FlOgEtBmTPB1tnkllZ+pVDuEFuvjiAedth4ucPREweAIF0ASD2xfXozZFr9zKkCAt
+	 WWY/z5eVV9IZYHPlX4xbMgS0Ag9w/Mz/xKlKuOw9iTD5XqAApUkjq5zdwO2gQuVkhP
+	 fEB4bquYnlJ6YQx3z3ynIyn0BnIv8SVlBx+uKZqo=
+Date: Mon, 1 Sep 2025 13:11:58 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
+	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
+	Kate Hsuan <hpa@redhat.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
+	Umang Jain <umang.jain@ideasonboard.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
+	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, 
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>, 
+	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, 
+	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 01/66] media: Documentation: Clean up figure titles
+Message-ID: <pw4uzjaymoj2u5z4gqgkgynhegqcw2h6w5trbz4ck3qnkvwisf@7uen7poblbew>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-2-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 8/9] media: chips-media: wave6: Add Wave6 control
- driver
-To: Nas Chung <nas.chung@chipsnmedia.com>,
- "mchehab@kernel.org" <mchehab@kernel.org>,
- "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, "robh@kernel.org"
- <robh@kernel.org>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
- "conor+dt@kernel.org" <conor+dt@kernel.org>,
- "shawnguo@kernel.org" <shawnguo@kernel.org>,
- "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
-Cc: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
- "linux-imx@nxp.com" <linux-imx@nxp.com>,
- "linux-arm-kernel@lists.infradead.org"
- <linux-arm-kernel@lists.infradead.org>,
- "jackson.lee" <jackson.lee@chipsnmedia.com>,
- "lafley.kim" <lafley.kim@chipsnmedia.com>, Ming Qian <ming.qian@oss.nxp.com>
-References: <20250829084649.359-1-nas.chung@chipsnmedia.com>
- <20250829084649.359-9-nas.chung@chipsnmedia.com>
- <5502f52d-d302-4479-93b8-1da47731cf1d@kernel.org>
- <SL2P216MB1246A048955A09A5A4D15CA3FB07A@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <SL2P216MB1246A048955A09A5A4D15CA3FB07A@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250825095107.1332313-2-sakari.ailus@linux.intel.com>
 
-On 01/09/2025 10:13, Nas Chung wrote:
-> Hi, Krzysztof.
-> 
-> Thanks for the feedback.
-> 
->> -----Original Message-----
->> From: Krzysztof Kozlowski <krzk@kernel.org>
->> Sent: Friday, August 29, 2025 11:06 PM
->> To: Nas Chung <nas.chung@chipsnmedia.com>; mchehab@kernel.org;
->> hverkuil@xs4all.nl; robh@kernel.org; krzk+dt@kernel.org;
->> conor+dt@kernel.org; shawnguo@kernel.org; s.hauer@pengutronix.de
->> Cc: linux-media@vger.kernel.org; devicetree@vger.kernel.org; linux-
->> kernel@vger.kernel.org; linux-imx@nxp.com; linux-arm-
->> kernel@lists.infradead.org; jackson.lee <jackson.lee@chipsnmedia.com>;
->> lafley.kim <lafley.kim@chipsnmedia.com>; Ming Qian <ming.qian@oss.nxp.com>
->> Subject: Re: [PATCH v3 8/9] media: chips-media: wave6: Add Wave6 control
->> driver
->>
->> On 29/08/2025 10:46, Nas Chung wrote:
->>> +
->>> +static void wave6_vpu_load_firmware(const struct firmware *fw, void
->> *context)
->>> +{
->>> +	struct wave6_vpu_device *vpu = context;
->>> +
->>> +	guard(mutex)(&vpu->lock);
->>
->> Why? How could this be called in parallel, before the probe?
-> 
-> This callback is called asynchronously via firmware_request_nowait_nowarn().
-> In practice, I observed a case where the callback was executing
-> while the device's release() function was being called.
+Hi Sakari
 
-Indeed. Now I wonder how does it protect from concurrent remove()?
+On Mon, Aug 25, 2025 at 12:50:02PM +0300, Sakari Ailus wrote:
+> Remove DocBook (?) conversion leftovers from figure titles, including
+> obsolete numbering and highlighting. This aligns these titles with others.
+>
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Best regards,
-Krzysztof
+I checked the html output and indeed the comments still show up as
+figure titles
+
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Thanks
+  j
+
+> ---
+>  Documentation/userspace-api/media/v4l/dev-raw-vbi.rst    | 6 +++---
+>  Documentation/userspace-api/media/v4l/dev-subdev.rst     | 6 +++---
+>  Documentation/userspace-api/media/v4l/subdev-formats.rst | 2 +-
+>  3 files changed, 7 insertions(+), 7 deletions(-)
+>
+> diff --git a/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst b/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
+> index 2bec20d87928..1f7bb8fd15e7 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
+> @@ -221,7 +221,7 @@ and always returns default parameters as :ref:`VIDIOC_G_FMT <VIDIOC_G_FMT>` does
+>      :alt:   vbi_hsync.svg
+>      :align: center
+>
+> -    **Figure 4.1. Line synchronization**
+> +    Line synchronization
+>
+>  .. _vbi-525:
+>
+> @@ -229,7 +229,7 @@ and always returns default parameters as :ref:`VIDIOC_G_FMT <VIDIOC_G_FMT>` does
+>      :alt:   vbi_525.svg
+>      :align: center
+>
+> -    **Figure 4.2. ITU-R 525 line numbering (M/NTSC and M/PAL)**
+> +    ITU-R 525 line numbering (M/NTSC and M/PAL)
+>
+>  .. _vbi-625:
+>
+> @@ -237,7 +237,7 @@ and always returns default parameters as :ref:`VIDIOC_G_FMT <VIDIOC_G_FMT>` does
+>      :alt:   vbi_625.svg
+>      :align: center
+>
+> -    **Figure 4.3. ITU-R 625 line numbering**
+> +    ITU-R 625 line numbering
+>
+>  Remember the VBI image format depends on the selected video standard,
+>  therefore the application must choose a new standard or query the
+> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> index 225a45fef994..24a69c419dfe 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> @@ -459,7 +459,7 @@ selection will refer to the sink pad format dimensions instead.
+>      :alt:   subdev-image-processing-crop.svg
+>      :align: center
+>
+> -    **Figure 4.5. Image processing in subdevs: simple crop example**
+> +    Image processing in subdevs: simple crop example
+>
+>  In the above example, the subdev supports cropping on its sink pad. To
+>  configure it, the user sets the media bus format on the subdev's sink
+> @@ -476,7 +476,7 @@ pad.
+>      :alt:   subdev-image-processing-scaling-multi-source.svg
+>      :align: center
+>
+> -    **Figure 4.6. Image processing in subdevs: scaling with multiple sources**
+> +    Image processing in subdevs: scaling with multiple sources
+>
+>  In this example, the subdev is capable of first cropping, then scaling
+>  and finally cropping for two source pads individually from the resulting
+> @@ -492,7 +492,7 @@ an area at location specified by the source crop rectangle from it.
+>      :alt:    subdev-image-processing-full.svg
+>      :align:  center
+>
+> -    **Figure 4.7. Image processing in subdevs: scaling and composition with multiple sinks and sources**
+> +    Image processing in subdevs: scaling and composition with multiple sinks and sources
+>
+>  The subdev driver supports two sink pads and two source pads. The images
+>  from both of the sink pads are individually cropped, then scaled and
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index 2a94371448dc..9ef1bc22ad9c 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -2631,7 +2631,7 @@ be named ``MEDIA_BUS_FMT_SRGGB10_2X8_PADHI_LE``.
+>      :alt:    bayer.svg
+>      :align:  center
+>
+> -    **Figure 4.8 Bayer Patterns**
+> +    Bayer Patterns
+>
+>  The following table lists existing packed Bayer formats. The data
+>  organization is given as an example for the first pixel only.
+> --
+> 2.47.2
+>
+>
 
