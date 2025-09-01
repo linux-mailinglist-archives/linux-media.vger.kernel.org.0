@@ -1,250 +1,424 @@
-Return-Path: <linux-media+bounces-41400-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41401-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00D90B3DB3A
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 09:38:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E16B3B3DB8E
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 09:55:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9C93016A066
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 07:38:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7F4E73B7564
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 07:55:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12CA7231C91;
-	Mon,  1 Sep 2025 07:38:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 313A72EDD60;
+	Mon,  1 Sep 2025 07:55:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="YAkIuvd0"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RcCZblE2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PUWP216CU001.outbound.protection.outlook.com (mail-koreasouthazon11020112.outbound.protection.outlook.com [52.101.156.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EB8626B75C;
-	Mon,  1 Sep 2025 07:38:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.156.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756712310; cv=fail; b=Dmvh9StcYwcUrWiP+TbpwChYK6vi5jp0Cnq+U+P6KC4wwH9piQPhV1QnmYm2Nq+2TUPavUjVXul4MMLr5l6FVfOen/zmZakUgB/gWvelXwYItBWXJblV57yD7rAgAygGiltxdcB4Y+tFYuyY6E9hW/+Epc8h37y7M2Kxlq5tKRE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756712310; c=relaxed/simple;
-	bh=VErZ6/EUJ7ux3K20gQ9zesmmVWA7TxQORDgM2ObcWo4=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=lu1osNOJRk58baqJHpZNQb3AOeYk5/P2x5Hz4lxQ4Ofjixy920093E3z3l6OJ14utCyA0qY0cf7nuCznF6xWOplGr5p7ZjQPcr9Xwt6PPfOXZEyxBRlJtDnHqNy5HLEAzPSNQxaV7lS2eXk1drvMEmafcPO3Cis2g0XSfZEIeRY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=YAkIuvd0; arc=fail smtp.client-ip=52.101.156.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=sGJMU0AFwnSsVE/nj3a4ObMsJlns2ALpIpN8EqxUbKJuzgUznFpvBncsgwupv8tki3gQ8tl+3xmD+lfTOM7F5ddOwhzabG8AG++dDfHYPg2S85tN1bBTLN69vDACs4PiitES9PnMWlKRg/jXtEeh3bNnosLC+bbQF2ognrEhBF2zSsECFk0wDbzgstgVYVS8xUR3PqpLrem71Wo313gZKa7sDcgu62YywRNbLczefJU/PmwVo7bptJyKVVg8CwNP3f7sm8v/XPRZNW76BDaxqJOymK3d0roFuUEVcQF59OsXj7sJ+e0cfxEpsMAZCJDR/skqs2jx0fPfANBNq3W4Yw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=2/5B9JlC9H0WqsVCFuSfoaDVuX+LGrJc1PzKbI1rmJE=;
- b=YItFC+XjfWxbCG4YINFblDWy4DTJgB8Yf3ksKaDM6G7VZUis6H9IRDcnHJGRKGx2U6v0mM1xrwf+BlaF7jHLF6IV12gGGM9UrdkAFRzR7RbNt4rhN/flp2h6l68jBjsWUUx00yCtqyMALAdFH7aqgavq3+oZC5k2xKc6fofllOo5hJ9IvPi40Mi0IEiCYXbuJiz/78oWWQyg434hmVaI/WpJfMoqC9L2DyE/3L8coxkS4AmIWbMSuGVmjgGeB3FCkQJ4oRK4iALnW3VB6Rg9rnnhfcBQ9LEfX2hCZ2tAvO8EiKWg0jRSzda2nW+d+W4JH7+JyNJ1OSIu8hWrxOMInw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
- header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=2/5B9JlC9H0WqsVCFuSfoaDVuX+LGrJc1PzKbI1rmJE=;
- b=YAkIuvd0wF4VoL7Amdu1tX7AJmYoc03zvuQYj37z8icieeeAWzPFhF39HhALkct1Zknqr9I+pEzYBuGc8KCbqdwbaGn1g6X5GgLxcHO1EU6yrglNo8ui+h2BKb9myDBOqUozGRQMA91Hd4AlYJmL3sl299/rNR4+YojZsWbm56o=
-Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM (2603:1096:101:a::9) by
- PU4P216MB1584.KORP216.PROD.OUTLOOK.COM (2603:1096:301:d1::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9094.16; Mon, 1 Sep 2025 07:38:24 +0000
-Received: from SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
- ([fe80::9e3d:ee20:8cc7:3c07]) by SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
- ([fe80::9e3d:ee20:8cc7:3c07%5]) with mapi id 15.20.9094.015; Mon, 1 Sep 2025
- 07:38:24 +0000
-From: Nas Chung <nas.chung@chipsnmedia.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
-	"robh@kernel.org" <robh@kernel.org>, "krzk+dt@kernel.org"
-	<krzk+dt@kernel.org>, "conor+dt@kernel.org" <conor+dt@kernel.org>,
-	"shawnguo@kernel.org" <shawnguo@kernel.org>, "s.hauer@pengutronix.de"
-	<s.hauer@pengutronix.de>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-imx@nxp.com" <linux-imx@nxp.com>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, jackson.lee
-	<jackson.lee@chipsnmedia.com>, lafley.kim <lafley.kim@chipsnmedia.com>
-Subject: RE: [PATCH v3 9/9] arm64: dts: freescale: imx95: Add video codec node
-Thread-Topic: [PATCH v3 9/9] arm64: dts: freescale: imx95: Add video codec
- node
-Thread-Index: AQHcGMGM5yWyx69OvEaH5er/KGf+KrR5qwcAgARIVrA=
-Date: Mon, 1 Sep 2025 07:38:23 +0000
-Message-ID:
- <SL2P216MB124642A800176DF8FAC26B7BFB07A@SL2P216MB1246.KORP216.PROD.OUTLOOK.COM>
-References: <20250829084649.359-1-nas.chung@chipsnmedia.com>
- <20250829084649.359-10-nas.chung@chipsnmedia.com>
- <6801197c-ccf7-47ea-bab6-5f567dfca418@kernel.org>
-In-Reply-To: <6801197c-ccf7-47ea-bab6-5f567dfca418@kernel.org>
-Accept-Language: en-US, ko-KR
-Content-Language: ko-KR
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SL2P216MB1246:EE_|PU4P216MB1584:EE_
-x-ms-office365-filtering-correlation-id: d77275ed-d5b9-44c9-149d-08dde92a883a
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam:
- BCL:0;ARA:13230040|376014|1800799024|366016|7416014|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?Qxq2odfaLRc39ACzmYXG3ZRtGI4covu2iN5BLRq3tRtxga5OurniOsj5Ef53?=
- =?us-ascii?Q?R8OHS82uYGeDGx342AnmfucuBZO0EztFV2xhcHPRH4O9vwa4I1nhTfKDlwH4?=
- =?us-ascii?Q?HmsZp7SqloFbevZDhTJl+m/BVdfbwovQJUesEwNXHXNchvbbr7dDB/WH2vdf?=
- =?us-ascii?Q?1U5O3ct/LME3whejx0k65ht/69iiE8kyQjhG2o+hBt+94xPIaUv7PHifHyTT?=
- =?us-ascii?Q?+2xx8XO6yncOKPjfoBuoDimSmYDXXcm5Bi/75s/o9a15dgtXQbMPuzavQD88?=
- =?us-ascii?Q?c55VJbOb9If2P3gy9eevKwNZ9HEboQOHl/FnfZVPs7069B1yBHrnQVzqLI/g?=
- =?us-ascii?Q?EqDchr41VM/2IhcAXwbfJUFgdN0sgKVI1vdTK2ElSFdjH6BeMZ2D56IGN/Ep?=
- =?us-ascii?Q?FIiqr+bDiyeLgTAbmAmixJhbeMRBZix2qb1TkkFI2+jeUs0QuDYtYVh6IK1W?=
- =?us-ascii?Q?tW6HSYul0lUu8jF99HP49En6vBqKlyo1BcOPaIhOkpUyE0dgva7gTdho4ih2?=
- =?us-ascii?Q?OAzYJUfRrtRe4E99WxUyllN1SkL9bAwXR/Hopd/M+w2zekbZB/DjnZa36175?=
- =?us-ascii?Q?f6yBwWhajKbh0xJYQsm11hlkzYCqVAZYgIr7T5DygN3TKqux8XtSVo3LtWt0?=
- =?us-ascii?Q?fk7RLcK6jItADW7ebwSMZoz1Iwh0QMkdoU7oEywo2TA5OMo47LYOIaftdbBz?=
- =?us-ascii?Q?sRwW/PcTGR6Ck7XVq67kDcIRUNZEM8K0fx5jDAFNctSrcgWfWMzOZxBLebXp?=
- =?us-ascii?Q?jDvK3GXE5j5ojQi00ubyUdkV1NQKg+mFfuNqJZl/sFSiqJITMl4x+Ybv3VYX?=
- =?us-ascii?Q?1BXoqtmNgxSRfNwBIweXS9k2mh1KWFbRisu87jdaMmv2dXyECztvXbBEeh/U?=
- =?us-ascii?Q?DLImh8/zV+9QEzkKGxQNiDXDlFXZp8ytItX6qAy+86P2f93/2vcga9uDm2nn?=
- =?us-ascii?Q?YkW0RoJCCdNyK89Kng2DrCbA01bMCWlBySMZv93UsoxEb8ogPYEr+mRuD3hL?=
- =?us-ascii?Q?XGhd1ps/PlxAVp9aJkQlx5Dn584HvtKX/8LeiZNS9pxcmD1gpOHaF1jNAVzX?=
- =?us-ascii?Q?GeXP02gdgUfcli/vHJ7dF8eR3j8H/BZ8n137nS0ZHgl4quyoEv9KZ1I2FmXV?=
- =?us-ascii?Q?iueJDr5gJX8kBMiWsWK1hO2Q5BjOwmk46wtCjFRTWCOPGKgJVXMfHUnbNKDz?=
- =?us-ascii?Q?ggGR4jUe3bwLThuaTmcT0AD3RVv9DNOQA4Mf9m6VQ1E7Uytmy9u5eq6t684z?=
- =?us-ascii?Q?6R8vCZ9fQBI2rCGSB8eDxMMJhpAwCbd/fqRdNGgEQn4IMUFUJ7zsPots7BRq?=
- =?us-ascii?Q?DsjV7QdPmeZIKsrGhgv4y7oBaqEl2BCt59Z2U7uJ5ff71NgEuzuqOHoXFnbe?=
- =?us-ascii?Q?yUw+PZZeiG9U4jFCKT+yTw5ot0KQk5oc5mnU6eaA3/Q8K+QODyqIWWtRFN03?=
- =?us-ascii?Q?m3i/oqKnBteJg5rAxYUjasE6ZVP+rk+9MXfSUnEHZx5lggeu4vMDiw=3D=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SL2P216MB1246.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(7416014)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?RnqJhHu0EyEzBoQaY8yyO88dpIUyhgmVK+S5428t9ovh4A09JQYL/3xgRfLn?=
- =?us-ascii?Q?YJbqAIQNcE/6aenIaszmiJcdjNB+nUFCkfR8CZS0LcyuCNxcxt7xx6rpIPg5?=
- =?us-ascii?Q?/YXo4bmkoDbXth7wN2+W5tISIL5zUiWb+gxWG4E745b34H+YLhim5fFmOEmF?=
- =?us-ascii?Q?+oy2mxj1e+kqCdZkd1J+0iJA5+J8YwwBQq9g8r1c5io7F94Xw1q92zHd8xVF?=
- =?us-ascii?Q?ng1TlU09vJhxJzIafOycS4T4rgk/3d3VkpZESZHlVaNAwOiwnC75Wzz5lwoc?=
- =?us-ascii?Q?5jhas6Tl3aAKdoLc0nB9ycyoHXqwmOSaM8lqb+WhF97IDb3356UIzhV2y0oV?=
- =?us-ascii?Q?sRq5vszV7KvXA4B8+Xo6mNG3yPn7VcMnALJ2fx6lvGs6rpqt4CRQ0AdrA/BN?=
- =?us-ascii?Q?vD42IsC36DUb2oWpS9IxiIIW+hAuaRW2rPeN9JkHGFyaW4QDNy+7uRke0q2s?=
- =?us-ascii?Q?+p0GsIU/kKaLQSFgp0tNNlixAgtcqGfcpABU+4lbpvFZFtZgwys80AwQCSDa?=
- =?us-ascii?Q?HxxHFkutrTiTKyCHWfwBiMR3h9yV8T2gX5T+qkAtTrbtzLprLci0lD0jVdTc?=
- =?us-ascii?Q?IrNpupTJW2eihXMwHfcFXUf/UR3p3zh54LMFtotjwugqUWaM7MFua6sajI4A?=
- =?us-ascii?Q?ENc5+23XoyD/uJbn/nMk4+E0XpdljRL2sdr/fmX7qATd6txeusT2kDMhDutN?=
- =?us-ascii?Q?OrldEs/O8uKAtDwrH85xyn7JMBhr2e9dEgoVA2nY0fBGdym5RoXn/MTdvIRC?=
- =?us-ascii?Q?t/zMk3fVHLGGL8tf9othzRKNpPTTHsbqfS6SOUo6hgFUtvnGN9gTda8NMnx8?=
- =?us-ascii?Q?bXNeJREbOrPsGIHSZqhXQQ6QYISgcHowxHbGA+bUDNodAMVJtEBnJQfFFScE?=
- =?us-ascii?Q?QiaRudLkeqt/ejI2nJOPBOhaP9LrjLfOxW+TynunvsvjtUPYKP+w2Z8obUCI?=
- =?us-ascii?Q?UUbNlwm4ussS+wnlsUd/+RnlR0HeFRss3jXB7kmwROda2+Du2ZgQZQ6Mhs/y?=
- =?us-ascii?Q?qIovsQxFn5xp6Nwa3mP6PmrXh6A3aPqEIyocWeOhNrtJUl72XNTbmqRUKj2V?=
- =?us-ascii?Q?QhWk+Eej5kwGCP1gcO5BnDykO11U10rZmVe9XhcF5d6/Rv53dLvmy/bkk7S2?=
- =?us-ascii?Q?m3Xyn3UDbbC4GO4bmb15cIcKX9IOU4oAQzvMS3bgDhSyLLmoOx+U6waBsy7u?=
- =?us-ascii?Q?ia/OlCYw5FZ0EE91f8l+pcwBer1e08d/+487kXMVLzLTOEOLva8fLzfRvsAH?=
- =?us-ascii?Q?bS0ttUkIsiTnp6oziU1aqK+rvTiW0MMQuzL/vAwccpZMNyV5t9pjK6pPZDz9?=
- =?us-ascii?Q?P0Hdb5itNLo7v2O76il9AMMYZFf3/qoGoIKM11o3W23eWYoLtEFCzFcTJPxC?=
- =?us-ascii?Q?+7kJ75NRuCAKDHBhINo0dyXPc/Z8VBpDl5CuXAhY5kXHR4Fi/2rcbpT6EKmM?=
- =?us-ascii?Q?jx7k2ywIOfC00uw+gRVyoDs17o+iUYV/WPAaEinShfSSYPp+B8GQbbDwSXvT?=
- =?us-ascii?Q?VvTdMTjOnK+vURL3gDTeZv61xXPWrSdnYudvZc4B5fzrUbvtgusSC6+5s31r?=
- =?us-ascii?Q?46YUyPa/i+N2kGfg/in+yHkhZnNcz5xDAyFFqb9Z?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463292EB5CD
+	for <linux-media@vger.kernel.org>; Mon,  1 Sep 2025 07:55:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756713313; cv=none; b=k1m7yvS3rFOTqNqYjsZg+/j87Z0wRD/Elt8BnwOZY494xQD9TA5/zKPfSuHehJpUVV2cLxYbMYDkJ4YEwPCeywrwEYt1T6h4Lmv4W1E9/Xq2irn90HeQth2JEIvJfR1SMCV9cAyClr/wmSL0pXqZ5UtFpfjclY9ymPH5hM85qZI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756713313; c=relaxed/simple;
+	bh=AJzTL4SzscNaKqtDj3jsv9dhU+aMdreTTjcC8nGkKtg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qHBkK3KFrFpCONtbEQR0jwiPaL4cepIiv//+8fQyY3++XSe2nsKD/A7FtQmlNhJKD3oe03RoNokrQTmqMj8n4PXXkzifytfr3x+JIKUGF8malTZjrRSAP0abF6DAwBWWPqjpji3wuFrG/my13g2onhfRwBaOb0EpGkvZXp/T9O4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RcCZblE2; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-45b7ebe667cso23118475e9.3
+        for <linux-media@vger.kernel.org>; Mon, 01 Sep 2025 00:55:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756713309; x=1757318109; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=nLCKDkQyHuW6IW57J4gCkDs2lnUgKFG1yRGou6EmSw0=;
+        b=RcCZblE25sqf03a/jGH1kutveHdHrPDveBcWPj7icRzj0Pjha2kMAMHpCVZ2s1lsZl
+         PzjMuElNNRRREZQqXpv+UsM9GQ3MK7uaF2u1GstC9XYq/JiuAke8lBCCWGGSW5wWGrGb
+         q1EZQvtubQe8EpcNyUlXbzh3ncK71CaCS1PZcyjYxWAsffG0oQnzMnpyey2jMAIMgqMM
+         QHUGsmtd/wJqcGLUiTjDs6mXGk4WklLp2j+511qeWenyUHPnwLcZ9PoHtK0AjDYt86j3
+         d4mYw0w8W/XxfGrCK0VTD/bnP5aduGBNWlKRDAlxJu7mlF760S3iaGgYUrLUzJaZmITH
+         zvrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756713309; x=1757318109;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=nLCKDkQyHuW6IW57J4gCkDs2lnUgKFG1yRGou6EmSw0=;
+        b=d2cobk+9XlO7svZAoy0kwvhcDUiWeUhp1D7GNTRWZ+jlHegSDXQMWl23EQj+odWcwN
+         i4+z0K5soHABQs+V3O4HWEWKWb16GJCEwkabaHlBjf9rShSjvGxlD4orwtBu1jBJ4KR4
+         azPC8hRM7+Li9qLr/qL5YdqcqbSS4NT4PX5x20I/vtBKomUKXpNqDMM4+NJSYsZksuoV
+         d5xTEJiJV66+M9XC1ZyNjbb0zLhKeOtYf7bq++ExAAC3lOZR8lCtRtl1uoR0hmK31Ewm
+         2BU8OTIKAeRCidXHKHDp6BgvRkpdS6aQQxjblKSGEqLTd2xbAu46J9tANpeJYgYVV6TB
+         HiXA==
+X-Gm-Message-State: AOJu0YyFyopXb4gH7izKiEDiPpztCcLgSxo73Ept1gQIa0YEK0m9GVxG
+	YlBsvA03N+LEIBUkEGtSEs32KDETD2s9GZWU5jlXXy6a9OUyb9/LOWRwt4wwXivavfs=
+X-Gm-Gg: ASbGncvhXy44y8duRYsYk0vI4Pskvrwlcj+yTve7+A5o1TgDXe65uKAeU3jXAVTBjoq
+	HdHK9QXSWwk0ax80/wBUsmM77O/bmmss4DPe8u/ttACNw5nO1qxppnvgkIAFHg/klxelBFvGkgE
+	eA8esep7u6BKaxO5BCjLlbavEC82cFM/Rn7dylDF5MWEpvsndg5yJ+uP0Rz4/OYJrIQiF549USC
+	rpmVRNhprKsnA5W6+NktEKi6ZwDz/XSnl4FConFn1SqGKh3MzQ1zCvuXV+4aP2gd23RKQP+sRg/
+	AHEzoIDzd4IJkN4Nj+kX/N3nQLsiGiumlbo2noM/EJfFeBErKzWqYPY51u2TgIlJ4g5ami76Yla
+	m7L+B3j2URYqPoty2HuJiduSlTo7sqWe8g3B81mxaxQQ=
+X-Google-Smtp-Source: AGHT+IE2ec9VMLsNdq7KeJy9kASdqCJnicqdiEO2+tbxChTPTjV4pAZYtoAEJaWJoj4zuANtPXk5aw==
+X-Received: by 2002:a05:600c:1f08:b0:456:13d8:d141 with SMTP id 5b1f17b1804b1-45b8557c845mr48090665e9.27.1756713309511;
+        Mon, 01 Sep 2025 00:55:09 -0700 (PDT)
+Received: from arrakeen.starnux.net ([2a01:e0a:3d9:2080:52eb:f6ff:feb3:451a])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b7c461edasm92280065e9.9.2025.09.01.00.55.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 01 Sep 2025 00:55:09 -0700 (PDT)
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Date: Mon, 01 Sep 2025 09:55:05 +0200
+Subject: [PATCH v2] media: iris: add VPU33 specific encoding buffer
+ calculation
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SL2P216MB1246.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: d77275ed-d5b9-44c9-149d-08dde92a883a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2025 07:38:23.9038
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: rA3TOKh1ITbp3BJeADsvN/elfeCOcjsTdPBgM45Pk/byruM/usEZRqNga/d85K95GOyBqRNZ7Q5sK9iM/CAgM8jvRS/d3XpNoFOQgOEbJts=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PU4P216MB1584
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250901-topic-sm8x50-iris-encoder-v3-hevc-debug-v2-1-c65406bbdf68@linaro.org>
+X-B4-Tracking: v=1; b=H4sIAFhRtWgC/5XNTQ6CMBCG4auYrh3TH5DqynsYFthOYRJtyRQbD
+ OHuIjdw+X6L71lERibM4npYBGOhTCluoY8H4YYu9gjktxZa6lparWFKIznILzvXEogpA0aXPDI
+ UAwMWBx4f7x6UVI0JlTUWjdjeRsZA8y7d260HylPizw4X9Vv/N4oCBWdj/EVWITTe3J4UO06nx
+ L1o13X9AhXyp5zfAAAA
+X-Change-ID: 20250822-topic-sm8x50-iris-encoder-v3-hevc-debug-10173f4838e3
+To: Vikash Garodia <quic_vgarodia@quicinc.com>, 
+ Dikshita Agarwal <quic_dikshita@quicinc.com>, 
+ Abhinav Kumar <abhinav.kumar@linux.dev>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Neil Armstrong <neil.armstrong@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=13892;
+ i=neil.armstrong@linaro.org; h=from:subject:message-id;
+ bh=AJzTL4SzscNaKqtDj3jsv9dhU+aMdreTTjcC8nGkKtg=;
+ b=owEBbQKS/ZANAwAKAXfc29rIyEnRAcsmYgBotVFcwEyhdCVXv3MX9LHkC4RazDatjHwf6ZiscoeW
+ 2BetsLiJAjMEAAEKAB0WIQQ9U8YmyFYF/h30LIt33NvayMhJ0QUCaLVRXAAKCRB33NvayMhJ0U62D/
+ 4gE8St7BPZRc/nAVX5bpRgTJsXr96CaKrY8SUrDkKTrpzm9WF0q3rLLrvB2PXLX0o7ZgeceAWz1VW0
+ Kwno3Ll6Nf7KRiEUVvfTEJK9QF/jhrOROfiPhlfH30CbjNq0YfpIW+3YuzjgRM6DNrsqjeHd6ctkuk
+ ybPV6cqg8YFoc4rZGaGxxzPu9suRb7QlmOyIKIa5h0EmmzUNvhRQRP6S2HHL+wuHUGlNpcw+jiUO2N
+ j2xgx8NM/CdM6B4x4m5UFl4ixxubIchoEPHsTVUP+U9Ts/j1F7U2zGOAZXnuV7ZwSOpJnAhy0BRaD4
+ KhIvKohZ9oigk0W1j8LiT32UL4l+x5iuNNIlwY/tDS7AWy2A4gHvMR7u0Oe4q6vemL1YejBWCYejrb
+ 3gvP5Bog0xSJV+92A28lT/I+T9Hd2uCLs3gH/hoBqxeVcvBQjGwgCb2dlghAcEbdvv9jyMm7JtrF+7
+ 4HtvvEYjjNgg1MmY41Dhm4lOJ0/bAlc9NAXTPIdeUJtR3LEVu7QUqce6ZN8LgHlhXjLv/jEGbH0PaU
+ tK8KFHk5x65ElHE3wldPaiGUUjuiKL2I79dwYsVWzuzRhCA1NbxPZMKBdYAB4fEgCngigAkQIC0Yky
+ KxoWbIXPLNDALYGft0Ia/m4zYurgbjk2edWvu99mQbWE7k89Mn1a/qQreKhw==
+X-Developer-Key: i=neil.armstrong@linaro.org; a=openpgp;
+ fpr=89EC3D058446217450F22848169AB7B1A4CFF8AE
 
-Hi, Krzysztof.
+The VPU33 found in the SM8650 Platform requires some slighly different
+buffer calculation for encoding to allow working with the latest
+firwware uploaded on linux-firmware at [1].
 
->-----Original Message-----
->From: Krzysztof Kozlowski <krzk@kernel.org>
->Sent: Friday, August 29, 2025 11:08 PM
->To: Nas Chung <nas.chung@chipsnmedia.com>; mchehab@kernel.org;
->hverkuil@xs4all.nl; robh@kernel.org; krzk+dt@kernel.org;
->conor+dt@kernel.org; shawnguo@kernel.org; s.hauer@pengutronix.de
->Cc: linux-media@vger.kernel.org; devicetree@vger.kernel.org; linux-
->kernel@vger.kernel.org; linux-imx@nxp.com; linux-arm-
->kernel@lists.infradead.org; jackson.lee <jackson.lee@chipsnmedia.com>;
->lafley.kim <lafley.kim@chipsnmedia.com>
->Subject: Re: [PATCH v3 9/9] arm64: dts: freescale: imx95: Add video codec
->node
->
->On 29/08/2025 10:46, Nas Chung wrote:
->> diff --git a/arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts
->b/arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts
->> index 2f949a0d48d2..c9d8b78d5768 100644
->> --- a/arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts
->> +++ b/arch/arm64/boot/dts/freescale/imx95-19x19-evk.dts
->> @@ -75,6 +75,11 @@ linux_cma: linux,cma {
->>  			linux,cma-default;
->>  			reusable;
->>  		};
->> +
->> +		vpu_boot: vpu_boot@a0000000 {
->
->Follow DTS coding style.
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/commit/?id=ece445af91bbee49bf0d8b23c2b99b596ae6eac7
 
-Okay, I will change the node name to "memory", e.g.:
+Suggested-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+Signed-off-by: Neil Armstrong <neil.armstrong@linaro.org>
+---
+[2] https://lore.kernel.org/all/20250825-iris-video-encoder-v4-0-84aa2bc0a46b@quicinc.com/
+---
+Changes in v2:
+- Removed calculation fix for hevc encoding, as it was added in common code
+- Link to v1: https://lore.kernel.org/r/20250822-topic-sm8x50-iris-encoder-v3-hevc-debug-v1-1-633d904ff7d3@linaro.org
+---
+ drivers/media/platform/qcom/iris/iris_buffer.c     |   2 +-
+ .../platform/qcom/iris/iris_hfi_gen1_command.c     |   2 +-
+ .../platform/qcom/iris/iris_platform_common.h      |   2 +
+ .../media/platform/qcom/iris/iris_platform_gen2.c  |   4 +
+ .../platform/qcom/iris/iris_platform_sm8250.c      |   2 +
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 110 ++++++++++++++++++++-
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.h |   3 +-
+ 7 files changed, 118 insertions(+), 7 deletions(-)
 
-		vpu_boot: memory@a0000000 {
+diff --git a/drivers/media/platform/qcom/iris/iris_buffer.c b/drivers/media/platform/qcom/iris/iris_buffer.c
+index 8891a297d384b018b3cc8313ad6416db6317798b..c0900038e7defccf7de3cb60e17c71e36a0e8ead 100644
+--- a/drivers/media/platform/qcom/iris/iris_buffer.c
++++ b/drivers/media/platform/qcom/iris/iris_buffer.c
+@@ -284,7 +284,7 @@ static void iris_fill_internal_buf_info(struct iris_inst *inst,
+ {
+ 	struct iris_buffers *buffers = &inst->buffers[buffer_type];
+ 
+-	buffers->size = iris_vpu_buf_size(inst, buffer_type);
++	buffers->size = inst->core->iris_platform_data->get_vpu_buffer_size(inst, buffer_type);
+ 	buffers->min_count = iris_vpu_buf_count(inst, buffer_type);
+ }
+ 
+diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+index 29cf392ca2566da286ea3e928ce4a22c2e970cc8..e1788c266bb1080921f17248fd5ee60156b3143d 100644
+--- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
++++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+@@ -911,7 +911,7 @@ static int iris_hfi_gen1_set_bufsize(struct iris_inst *inst, u32 plane)
+ 
+ 	if (iris_split_mode_enabled(inst)) {
+ 		bufsz.type = HFI_BUFFER_OUTPUT;
+-		bufsz.size = iris_vpu_buf_size(inst, BUF_DPB);
++		bufsz.size = inst->core->iris_platform_data->get_vpu_buffer_size(inst, BUF_DPB);
+ 
+ 		ret = hfi_gen1_set_property(inst, ptype, &bufsz, sizeof(bufsz));
+ 		if (ret)
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
+index 96fa7b1bb592441e85664da408ea4ba42c9a15b5..7057c4cd1a9ebefa02c855014e5f19993da58e38 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_common.h
++++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+@@ -7,6 +7,7 @@
+ #define __IRIS_PLATFORM_COMMON_H__
+ 
+ #include <linux/bits.h>
++#include "iris_buffer.h"
+ 
+ struct iris_core;
+ struct iris_inst;
+@@ -189,6 +190,7 @@ struct iris_platform_data {
+ 	void (*init_hfi_command_ops)(struct iris_core *core);
+ 	void (*init_hfi_response_ops)(struct iris_core *core);
+ 	struct iris_inst *(*get_instance)(void);
++	u32 (*get_vpu_buffer_size)(struct iris_inst *inst, enum iris_buffer_type buffer_type);
+ 	const struct vpu_ops *vpu_ops;
+ 	void (*set_preset_registers)(struct iris_core *core);
+ 	const struct icc_info *icc_tbl;
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+index cf4b92f534b272a0a1ac2a0e7bb9316501374332..78a04e76de7c00703b84bd3c1c6e9a884ee7cebe 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
++++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+@@ -8,6 +8,7 @@
+ #include "iris_hfi_gen2.h"
+ #include "iris_hfi_gen2_defines.h"
+ #include "iris_platform_common.h"
++#include "iris_vpu_buffer.h"
+ #include "iris_vpu_common.h"
+ 
+ #include "iris_platform_qcs8300.h"
+@@ -738,6 +739,7 @@ struct iris_platform_data sm8550_data = {
+ 	.get_instance = iris_hfi_gen2_get_instance,
+ 	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
+ 	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
++	.get_vpu_buffer_size = iris_vpu_buf_size,
+ 	.vpu_ops = &iris_vpu3_ops,
+ 	.set_preset_registers = iris_set_sm8550_preset_registers,
+ 	.icc_tbl = sm8550_icc_table,
+@@ -827,6 +829,7 @@ struct iris_platform_data sm8650_data = {
+ 	.get_instance = iris_hfi_gen2_get_instance,
+ 	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
+ 	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
++	.get_vpu_buffer_size = iris_vpu33x_buf_size,
+ 	.vpu_ops = &iris_vpu33_ops,
+ 	.set_preset_registers = iris_set_sm8550_preset_registers,
+ 	.icc_tbl = sm8550_icc_table,
+@@ -916,6 +919,7 @@ struct iris_platform_data qcs8300_data = {
+ 	.get_instance = iris_hfi_gen2_get_instance,
+ 	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
+ 	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
++	.get_vpu_buffer_size = iris_vpu_buf_size,
+ 	.vpu_ops = &iris_vpu3_ops,
+ 	.set_preset_registers = iris_set_sm8550_preset_registers,
+ 	.icc_tbl = sm8550_icc_table,
+diff --git a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+index 978d0130d43b5f6febb65430a9bbe3932e8f24df..16486284f8acccf6a95a27f6003e885226e28f4d 100644
+--- a/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
++++ b/drivers/media/platform/qcom/iris/iris_platform_sm8250.c
+@@ -9,6 +9,7 @@
+ #include "iris_resources.h"
+ #include "iris_hfi_gen1.h"
+ #include "iris_hfi_gen1_defines.h"
++#include "iris_vpu_buffer.h"
+ #include "iris_vpu_common.h"
+ 
+ #define BITRATE_MIN		32000
+@@ -317,6 +318,7 @@ struct iris_platform_data sm8250_data = {
+ 	.get_instance = iris_hfi_gen1_get_instance,
+ 	.init_hfi_command_ops = &iris_hfi_gen1_command_ops_init,
+ 	.init_hfi_response_ops = iris_hfi_gen1_response_ops_init,
++	.get_vpu_buffer_size = iris_vpu_buf_size,
+ 	.vpu_ops = &iris_vpu2_ops,
+ 	.set_preset_registers = iris_set_sm8250_preset_registers,
+ 	.icc_tbl = sm8250_icc_table,
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+index 34a9094201ccd11d30a776f284ede8248d8017a9..9cb7701722c3644ef4c369fa58490ac83258ea7e 100644
+--- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
++++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
+@@ -867,6 +867,34 @@ u32 size_vpss_line_buf(u32 num_vpp_pipes_enc, u32 frame_height_coded,
+ 		      (((((max_t(u32, (frame_width_coded),
+ 				 (frame_height_coded)) + 3) >> 2) << 5) + 256) * 16)), 256);
+ }
++static inline
++u32 size_vpss_line_buf_vpu33x(u32 num_vpp_pipes_enc, u32 frame_height_coded,
++			      u32 frame_width_coded)
++{
++	u32 vpss_4tap_top = 0, vpss_4tap_left = 0, vpss_div2_top = 0;
++	u32 vpss_div2_left = 0, vpss_top_lb = 0, vpss_left_lb = 0;
++	u32 size_left = 0, size_top = 0;
++
++	vpss_4tap_top = (max_t(u32, frame_width_coded, frame_height_coded) * 2) + 3;
++	vpss_4tap_top >>= 2;
++	vpss_4tap_top <<= 4;
++	vpss_4tap_top += 256;
++	vpss_4tap_left = (((8192 + 3) >> 2) << 5) + 64;
++	vpss_div2_top = max_t(u32, frame_width_coded, frame_height_coded) + 3;
++	vpss_div2_top >>= 2;
++	vpss_div2_top <<= 4;
++	vpss_div2_top += 256;
++	vpss_div2_left = (max_t(u32, frame_width_coded, frame_height_coded) * 2) + 3;
++	vpss_div2_left >>= 2;
++	vpss_div2_left <<= 5;
++	vpss_div2_left += 64;
++	vpss_top_lb = (frame_width_coded + 1) << 3;
++	vpss_left_lb = (frame_height_coded << 3) * num_vpp_pipes_enc;
++	size_left = (vpss_4tap_left + vpss_div2_left) * 2 * num_vpp_pipes_enc;
++	size_top = (vpss_4tap_top + vpss_div2_top) * 2;
++
++	return ALIGN(size_left + size_top + vpss_top_lb + vpss_left_lb, DMA_ALIGNMENT);
++}
+ 
+ static inline
+ u32 size_top_line_buf_first_stg_sao(u32 frame_width_coded)
+@@ -977,8 +1005,8 @@ static u32 iris_vpu_enc_non_comv_size(struct iris_inst *inst)
+ }
+ 
+ static inline
+-u32 hfi_buffer_line_enc(u32 frame_width, u32 frame_height, bool is_ten_bit,
+-			u32 num_vpp_pipes_enc, u32 lcu_size, u32 standard)
++u32 hfi_buffer_line_enc_base(u32 frame_width, u32 frame_height, bool is_ten_bit,
++			     u32 num_vpp_pipes_enc, u32 lcu_size, u32 standard)
+ {
+ 	u32 width_in_lcus = ((frame_width) + (lcu_size) - 1) / (lcu_size);
+ 	u32 height_in_lcus = ((frame_height) + (lcu_size) - 1) / (lcu_size);
+@@ -1018,10 +1046,38 @@ u32 hfi_buffer_line_enc(u32 frame_width, u32 frame_height, bool is_ten_bit,
+ 		line_buff_recon_pix_size +
+ 		size_left_linebuff_ctrl_fe(frame_height_coded, num_vpp_pipes_enc) +
+ 		size_line_buf_sde(frame_width_coded) +
+-		size_vpss_line_buf(num_vpp_pipes_enc, frame_height_coded, frame_width_coded) +
+ 		size_top_line_buf_first_stg_sao(frame_width_coded);
+ }
+ 
++static inline
++u32 hfi_buffer_line_enc(u32 frame_width, u32 frame_height, bool is_ten_bit,
++			u32 num_vpp_pipes_enc, u32 lcu_size, u32 standard)
++{
++	u32 width_in_lcus = ((frame_width) + (lcu_size) - 1) / (lcu_size);
++	u32 height_in_lcus = ((frame_height) + (lcu_size) - 1) / (lcu_size);
++	u32 frame_height_coded = height_in_lcus * (lcu_size);
++	u32 frame_width_coded = width_in_lcus * (lcu_size);
++
++	return hfi_buffer_line_enc_base(frame_width, frame_height, is_ten_bit,
++					num_vpp_pipes_enc, lcu_size, standard) +
++		size_vpss_line_buf(num_vpp_pipes_enc, frame_height_coded, frame_width_coded);
++}
++
++static inline
++u32 hfi_buffer_line_enc_vpu33x(u32 frame_width, u32 frame_height, bool is_ten_bit,
++			       u32 num_vpp_pipes_enc, u32 lcu_size, u32 standard)
++{
++	u32 width_in_lcus = ((frame_width) + (lcu_size) - 1) / (lcu_size);
++	u32 height_in_lcus = ((frame_height) + (lcu_size) - 1) / (lcu_size);
++	u32 frame_height_coded = height_in_lcus * (lcu_size);
++	u32 frame_width_coded = width_in_lcus * (lcu_size);
++
++	return hfi_buffer_line_enc_base(frame_width, frame_height, is_ten_bit,
++					num_vpp_pipes_enc, lcu_size, standard) +
++		size_vpss_line_buf_vpu33x(num_vpp_pipes_enc, frame_height_coded,
++					  frame_width_coded);
++}
++
+ static u32 iris_vpu_enc_line_size(struct iris_inst *inst)
+ {
+ 	u32 num_vpp_pipes = inst->core->iris_platform_data->num_vpp_pipe;
+@@ -1040,6 +1096,24 @@ static u32 iris_vpu_enc_line_size(struct iris_inst *inst)
+ 				   lcu_size, HFI_CODEC_ENCODE_AVC);
+ }
+ 
++static u32 iris_vpu33x_enc_line_size(struct iris_inst *inst)
++{
++	u32 num_vpp_pipes = inst->core->iris_platform_data->num_vpp_pipe;
++	struct v4l2_format *f = inst->fmt_dst;
++	u32 height = f->fmt.pix_mp.height;
++	u32 width = f->fmt.pix_mp.width;
++	u32 lcu_size = 16;
++
++	if (inst->codec == V4L2_PIX_FMT_HEVC) {
++		lcu_size = 32;
++		return hfi_buffer_line_enc_vpu33x(width, height, 0, num_vpp_pipes,
++						  lcu_size, HFI_CODEC_ENCODE_HEVC);
++	}
++
++	return hfi_buffer_line_enc_vpu33x(width, height, 0, num_vpp_pipes,
++					  lcu_size, HFI_CODEC_ENCODE_AVC);
++}
++
+ static inline
+ u32 hfi_buffer_dpb_enc(u32 frame_width, u32 frame_height, bool is_ten_bit)
+ {
+@@ -1387,7 +1461,7 @@ struct iris_vpu_buf_type_handle {
+ 	u32 (*handle)(struct iris_inst *inst);
+ };
+ 
+-int iris_vpu_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type)
++u32 iris_vpu_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type)
+ {
+ 	const struct iris_vpu_buf_type_handle *buf_type_handle_arr = NULL;
+ 	u32 size = 0, buf_type_handle_size = 0, i;
+@@ -1431,6 +1505,34 @@ int iris_vpu_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type)
+ 	return size;
+ }
+ 
++u32 iris_vpu33x_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type)
++{
++	u32 size = 0, i;
++
++	static const struct iris_vpu_buf_type_handle enc_internal_buf_type_handle[] = {
++		{BUF_BIN,         iris_vpu_enc_bin_size         },
++		{BUF_COMV,        iris_vpu_enc_comv_size        },
++		{BUF_NON_COMV,    iris_vpu_enc_non_comv_size    },
++		{BUF_LINE,        iris_vpu33x_enc_line_size     },
++		{BUF_ARP,         iris_vpu_enc_arp_size         },
++		{BUF_VPSS,        iris_vpu_enc_vpss_size        },
++		{BUF_SCRATCH_1,   iris_vpu_enc_scratch1_size    },
++		{BUF_SCRATCH_2,   iris_vpu_enc_scratch2_size    },
++	};
++
++	if (inst->domain == DECODER)
++		return iris_vpu_buf_size(inst, buffer_type);
++
++	for (i = 0; i < ARRAY_SIZE(enc_internal_buf_type_handle); i++) {
++		if (enc_internal_buf_type_handle[i].type == buffer_type) {
++			size = enc_internal_buf_type_handle[i].handle(inst);
++			break;
++		}
++	}
++
++	return size;
++}
++
+ static u32 internal_buffer_count(struct iris_inst *inst,
+ 				 enum iris_buffer_type buffer_type)
+ {
+diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.h b/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+index 94668c5b3d15fb6e10d0b5ed6ed704cadb5a6534..e4fd1fcf2dbf25e69d55599a8fd4ad775f9e6575 100644
+--- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
++++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.h
+@@ -146,7 +146,8 @@ static inline u32 size_h264d_qp(u32 frame_width, u32 frame_height)
+ 	return DIV_ROUND_UP(frame_width, 64) * DIV_ROUND_UP(frame_height, 64) * 128;
+ }
+ 
+-int iris_vpu_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type);
++u32 iris_vpu_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type);
++u32 iris_vpu33x_buf_size(struct iris_inst *inst, enum iris_buffer_type buffer_type);
+ int iris_vpu_buf_count(struct iris_inst *inst, enum iris_buffer_type buffer_type);
+ 
+ #endif
 
->
->> +			reg =3D <0 0xa0000000 0 0x100000>;
->> +			no-map;
->> +		};
->>  	};
->>
->>  	flexcan1_phy: can-phy0 {
->> @@ -1044,3 +1049,8 @@ &tpm6 {
->>  	pinctrl-0 =3D <&pinctrl_tpm6>;
->>  	status =3D "okay";
->>  };
->> +
->> +&vpu {
->> +	memory-region =3D <&vpu_boot>;
->> +	sram =3D <&sram1>;
->> +};
->> diff --git a/arch/arm64/boot/dts/freescale/imx95-phycore-fpsc.dtsi
->b/arch/arm64/boot/dts/freescale/imx95-phycore-fpsc.dtsi
->> index 7519d5bd06ba..73c84ab60dfd 100644
->> --- a/arch/arm64/boot/dts/freescale/imx95-phycore-fpsc.dtsi
->> +++ b/arch/arm64/boot/dts/freescale/imx95-phycore-fpsc.dtsi
->> @@ -59,6 +59,11 @@ linux,cma {
->>  			size =3D <0 0x3c000000>;
->>  			linux,cma-default;
->>  		};
->> +
->> +		vpu_boot: vpu_boot@a0000000 {
->
->Same problem.
+---
+base-commit: 58717ecfffd642c1e0950dee4a247dd6cdfeb31e
+change-id: 20250822-topic-sm8x50-iris-encoder-v3-hevc-debug-10173f4838e3
 
-I will fix it in the same way.
+Best regards,
+-- 
+Neil Armstrong <neil.armstrong@linaro.org>
 
-Thanks,
-Nas.
-
->
->> +			reg =3D <0 0xa0000000 0 0x100000>;
->> +			no-map;
->> +		};
->>  	};
->
->> +
->Best regards,
->Krzysztof
 
