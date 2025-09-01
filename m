@@ -1,141 +1,158 @@
-Return-Path: <linux-media+bounces-41434-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41435-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F332B3E35B
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 14:39:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 523C5B3E3A4
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 14:47:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id BB9B27A8739
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 12:38:03 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BDC4A188559F
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 12:47:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9168F337693;
-	Mon,  1 Sep 2025 12:35:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B50332778A;
+	Mon,  1 Sep 2025 12:47:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LUst9Pjl"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="o3ABb0gM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86ACB326D74;
-	Mon,  1 Sep 2025 12:35:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3534B2EF650
+	for <linux-media@vger.kernel.org>; Mon,  1 Sep 2025 12:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756730110; cv=none; b=lyOBYiUMd78qWWFQ8b8igsxWjLQIbevpMj8HnVBHB8xjGCCLLQOJ8MONmGav9JLeaNqnQnM8pMTb4dE835WIGjq3BrOHFmBPymPktZnWphD9tm9xKr/peJRUsNanv1J9lkT9c61pjXMMH9I/suZiCVNNFPLqLoAtWR+GX7o5p4E=
+	t=1756730821; cv=none; b=K/hc59XA9x2CDUx8OBu46ClEyrXV22xHglppGvxZwjD3qI/lFulC/a5QRhCgL+v5dNir3PKCo3Mr1HA8zRhlHJTt1C0N0YFcShso9PncK1UgZ82lpFrCfSs/TzpEV/Ekb/6cuCT8PYgLfw8Azd2f6X/QZ4Sk1/qgJNkhuI5+568=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756730110; c=relaxed/simple;
-	bh=rGr7Bo1vXWwjrmge9Wg/+zFRIYmWBsmAkZO4GZCgaQU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=reB40ZOPH5wylg14Ix9w/r6nDO3c3JU8sysszdPBEkcl0eM/i17bEQ5oekaTr8IMxsq1z+dUkzsjqe/0WOpzOr9DwSs6B7Lbh8BSmqToEuLWPby+/g4R1tj6HbpqNm2ehDTIhDx6RzwTIpQFkLQVtEAgFz2qfUZ5qIx1KVebj2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LUst9Pjl; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756730108; x=1788266108;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=rGr7Bo1vXWwjrmge9Wg/+zFRIYmWBsmAkZO4GZCgaQU=;
-  b=LUst9Pjl4S3GSatj4ui3pJ7DN5qgj9SZ4ZLEBYPk2++n4wN3UOnUpAeA
-   suulgekhmFSkvpqn7CLLUNxA7dqXmU5oMbSX7+oRCMN/ES+x2MpRlOC5f
-   KvcfblUrjFGYS2G89YSmrymgFT2bVLfUxsPgKxVoZIFEyYsAPRZbk/YLw
-   aInwBsxcVd0Oc1N/eHw5LyYMoS3NQZVUae0KCe0+wtx3t5SxlD9Wm4Vm7
-   8fMar6BjrPmM1FzP3VDmalpYEk5P8OtfAaH9QAZO4ndVcJ5P7I4EIsX8r
-   vrFjndRFprnkkctgh8sLuP9M9Qm1JbKlnpExA+Q1ZSnp5/9OP6EyCi18I
-   A==;
-X-CSE-ConnectionGUID: wjYAcG+ZTcumTZh4BpciHQ==
-X-CSE-MsgGUID: XDzyZPKYRXmDRuPtTS5m/Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62820819"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62820819"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 05:35:08 -0700
-X-CSE-ConnectionGUID: LenhrOEsRM219DWntpmz9w==
-X-CSE-MsgGUID: IaHq/rL4Smaq9EvD+l+KTg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,225,1751266800"; 
-   d="scan'208";a="201934761"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Sep 2025 05:35:05 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1ut3kU-0000000APcx-01Qi;
-	Mon, 01 Sep 2025 15:35:02 +0300
-Date: Mon, 1 Sep 2025 15:35:01 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH 1/2] staging: media: atomisp: Remove typedefs for basic
- types in vmem.c
-Message-ID: <aLWS9QsvmzZW4Bak@smile.fi.intel.com>
-References: <20250901091050.1935505-1-abarnas@google.com>
- <20250901091050.1935505-2-abarnas@google.com>
+	s=arc-20240116; t=1756730821; c=relaxed/simple;
+	bh=wvRHqi3dScj15IsjLi+ATrCVMUE7d9PpbVx2eGPnx4I=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jpXUJycJDM+yK/pgYq/fk5w9h/zUwouK7kSQTTSoU+Emh+ewL7wokU0wgYil9iK7a3qlxocA1yJ9mrys8udcjEAJIwGgWE0AAQ9nbCK5BbuxXLemAOxFJeN673T7ujKgSVvSUvJg2mavIXXJ2dzLPi+3WNcuWHYHSLid6sGxCZo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=o3ABb0gM; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-76e4fc419a9so4241191b3a.0
+        for <linux-media@vger.kernel.org>; Mon, 01 Sep 2025 05:46:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1756730819; x=1757335619; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=/7y07yor/pAlX2cJEQqvfRVMWVvqV9hnsGNfw0TS32c=;
+        b=o3ABb0gMorxpktNDLmFcNgXrqiViu8hI6Vrks+rXrRkdGfAjTgAyFYlrHIbzn7A6+h
+         mayazLpXjjFp+dbZ23k+UwtBHt06A8Hvo1bEKjXAGEb5ICOjo1I5hcwupuXZVJK18zz/
+         tyewI5Ld+RQCmD4y6pOyXyYWraYhGUTyo4dDrF7bMguhOkKEmRnxqeythECZMhmK7Un6
+         YAnfCHiggvKD4PxKG1Qg9QO/38d+FYAb+BDAMXQE8kDS0DGwtXhUj2h7n4w41QKexpTy
+         5Mbjj4ZAZQHACdTdHwGLrtOAjwLrBd4fb9aXRIOI9zfqwnvBidxhpNUzYC95MuKWvmSa
+         1xHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756730819; x=1757335619;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=/7y07yor/pAlX2cJEQqvfRVMWVvqV9hnsGNfw0TS32c=;
+        b=cpjjJqi4EpQQP4EEGoAyXnNLBy5wFk/l0l/MrTf5HkfQCExH8/JhlJcNTAkw74VHSm
+         Cd5ZhC/26EAtOA5WIw7nLKfNTsKXVQwUUlCWUfk/skzceRYDM2JltwxGSSntaVn1eupS
+         yj+psCVyxfOfBAm2j+mYbirFMogphm30m7t2i+9bRJxl5qw6SwxJicMNftVYzfCLg9jP
+         fu8zCVX+vdYjyPU5fmza5BA43dFYI1Pxnm3wdkBRSFkZG+uOFeS1EQ6QGmXE0PJC8bsS
+         6/aeXSmIQ8Pm64N0xW0z7bw2Rkt/B9Z+Tm9Hkqu82v2NNhdB50Lt7Y1kHU4P3lPTbIn2
+         jXFg==
+X-Forwarded-Encrypted: i=1; AJvYcCWyPgdg9/AFRWwkv2gflrVhT02V0Axld5kgeKztFoxC3+Knqv1LF0M6Jv5csLLDafgSj5dVW9PKMBlV8w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxM/Yxb0ZqJWnGFS3gzUf5dUW82AChsoiDqLtTgD5FcDQPfP8uz
+	KJxoPD+0+t3lMq7d1t+LfQ1objczeX3z5bs/zkz9Z+PQcZCdJpoO2iAZmMtATJ5K/ZHVjzvf7su
+	C1G4KWHuSHhZ7wyJK7NSXyoO3A80sF+3I6x3mWm/8
+X-Gm-Gg: ASbGnctqHclnLkJKnfU9sIVF/qC2rMHLZV6r1U5xZAAJVze3idtysxIFevkDMgYRF40
+	222XftWd+09xYSngHMvTIpo4wJF/C90EYk3wIs+U3epu7CfBndh/C5wLf9ZM6FI1mtkmEtHTSib
+	4U/TuqXzq9AK1+5WG0bUEnw5j7chFFx+irzgfNc9CZFxF1Wc4N2RntON9aafEStP3bo0wL1YerO
+	Z2vQl+qPi4qz9Pm2v0dwCVP9r8JOiZ7qXibmqyO+za8xzJ87+6Tdg==
+X-Google-Smtp-Source: AGHT+IHzcBc4YYJpeDDugGdalUGLmOoVhyxPLPgnjb0HlKXSlALfB0fjTWzTMuWcnleuXqTacq9sgKTJ1OxjVOmND00=
+X-Received: by 2002:a17:903:4b0d:b0:24a:aedb:1915 with SMTP id
+ d9443c01a7336-24aaedb1b81mr55675215ad.9.1756730819298; Mon, 01 Sep 2025
+ 05:46:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250901091050.1935505-2-abarnas@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+References: <20250901091050.1935505-1-abarnas@google.com> <20250901091050.1935505-3-abarnas@google.com>
+ <aLWQSAX1ZKg6IiTb@smile.fi.intel.com>
+In-Reply-To: <aLWQSAX1ZKg6IiTb@smile.fi.intel.com>
+From: =?UTF-8?Q?Adrian_Barna=C5=9B?= <abarnas@google.com>
+Date: Mon, 1 Sep 2025 14:46:47 +0200
+X-Gm-Features: Ac12FXyc3n7Z0qCXdSTjDfMBIr2AbkPj7jLdgKKqBvKbDUlmPSbbyJWBW9Lvlfk
+Message-ID: <CAATBrPHpLnsWb-Ua0z2Nmv7To_yXeosoV8+nGzcWfGUVPFq1Xg@mail.gmail.com>
+Subject: Re: [PATCH 2/2] staging:media: atomisp: Whitespaces cleanup in vmem.c
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Sep 01, 2025 at 09:10:49AM +0000, Adrian Barnaś wrote:
-> Cleared typedefs hiding unsigned long long type, to align with
-> kernel coding style.
+On Mon, Sep 1, 2025 at 2:23=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+>
+> On Mon, Sep 01, 2025 at 09:10:50AM +0000, Adrian Barna=C5=9B wrote:
+> > Whitespaces cleanup to conform with kernel style and improve readabilit=
+y.
+>
+> Strange...
 
-...
+You mean the commit description? Should I reword it?
 
-> -static inline hive_uedge
-> -subword(hive_uedge w, unsigned int start, unsigned int end)
-> +static inline unsigned long long
-> +subword(unsigned long long w, unsigned int start, unsigned int end)
->  {
->  	return (w & (((1ULL << (end - 1)) - 1) << 1 | 1)) >> start;
->  }
->  
->  /* inverse subword bits move like this: MSB[xxxx____xxxx]LSB -> MSB[xxxx0000xxxx]LSB */
-> -static inline hive_uedge
-> -inv_subword(hive_uedge w, unsigned int start, unsigned int end)
-> +static inline unsigned long long
-> +inv_subword(unsigned long long w, unsigned int start, unsigned int end)
->  {
->  	return w & (~(((1ULL << (end - 1)) - 1) << 1 | 1) | ((1ULL << start) - 1));
->  }
+> >  /* subword bits move like this:         MSB[____xxxx____]LSB -> MSB[00=
+000000xxxx]LSB */
+> > -static inline unsigned long long
+> > -subword(unsigned long long w, unsigned int start, unsigned int end)
+> > +static inline unsigned long long subword(unsigned long long w, unsigne=
+d int start,
+> > +                                      unsigned int end)
+> >  {
+> >       return (w & (((1ULL << (end - 1)) - 1) << 1 | 1)) >> start;
+> >  }
+> >
+> >  /* inverse subword bits move like this: MSB[xxxx____xxxx]LSB -> MSB[xx=
+xx0000xxxx]LSB */
+> > -static inline unsigned long long
+> > -inv_subword(unsigned long long w, unsigned int start, unsigned int end=
+)
+> > +static inline unsigned long long inv_subword(unsigned long long w, uns=
+igned int start,
+> > +                                          unsigned int end)
+> >  {
+> >       return w & (~(((1ULL << (end - 1)) - 1) << 1 | 1) | ((1ULL << sta=
+rt) - 1));
+> >  }
+>
+> These two were just "fixed according to the kernel coding style" and here
+> again. This is odd.
+>
+> Note, the style after the first patch is okay. I dunno what's wrong with =
+it.
 
-Also consider to simplify the above (in a separate change).
+Those were not violate the kernel code style indeed, but it looks more
+consistent this way for me.
+Should I revert those?
 
-static inline unsigned long long
-subword(unsigned long long w, unsigned int start, unsigned int end)
-{
-	return (w & GENMASK_ULL(end, 0)) >> start;
-}
+> ...
+>
+> > -void isp_vmem_load(
+> > -    const isp_ID_t           ID,
+> > -    const t_vmem_elem        *from,
+> > -    t_vmem_elem              *to,
+> > -    unsigned int elems) /* In t_vmem_elem */
+> > +void isp_vmem_load(const isp_ID_t ID, const t_vmem_elem *from, t_vmem_=
+elem *to,
+> > +                unsigned int elems) /* In t_vmem_elem */
+>
+> Please, (re)move trailing comments somewhere else.
 
-static inline unsigned long long
-inv_subword(unsigned long long w, unsigned int start, unsigned int end)
-{
-	return w & (~GENMASK_ULL(end, 0) | GENMASK_ULL(start, 0));
-}
+Those comments are also in header so in my opinion we could get rid of
+them here.
 
-...if I'm not mistaken, so double check all these.
-
-At least in my case the end == 64 is not allowed while it seems the original
-code allows it to be equal to the end == 63 case. Needs testing anyway...
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Thank you for a review
+Adrian Barna=C5=9B
 
