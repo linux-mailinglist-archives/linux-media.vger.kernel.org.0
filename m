@@ -1,106 +1,169 @@
-Return-Path: <linux-media+bounces-41437-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41438-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95EA7B3E4F3
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 15:29:08 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 68693B3E4EE
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 15:28:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 27DB47A1E83
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 13:25:59 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E80301A84849
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 13:28:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A167B3375B6;
-	Mon,  1 Sep 2025 13:26:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4B5D131A062;
+	Mon,  1 Sep 2025 13:27:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="MJVrwvta"
 X-Original-To: linux-media@vger.kernel.org
-Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.237.72.81])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB0EE188A0C;
-	Mon,  1 Sep 2025 13:26:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.237.72.81
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5159527602A
+	for <linux-media@vger.kernel.org>; Mon,  1 Sep 2025 13:27:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756733200; cv=none; b=jLjCA/n4wMxOgpCN5FBYebfCcgi4FlskooFTFf3J7QVv/eDk3BIrHdy9MwME1xZoFpt8KYiWas/fR0/lTCBNbNpdXVitQC5rYAlTXZJEFA5c1M2+NXjxOJyoF3LTUf9lpVTjFBTuMkcLfYsHAwSpQF0WkRTKarIXqqxbZmEmZwI=
+	t=1756733252; cv=none; b=IaGv/CJab+f7QKkpnK6V+w8dd4b99Z8IH7V5MnOewKgW5gn7ChZXmYLYShUvVRKAtzM5/SMWDrJ+QKZA1xt8vo9oxb1ENMtOwy1/ruTshblmeknEK3hVzMiFXVBtHPFb9kibCpjklXf0tYjnTPPXBBWlzi3c4R/9Xjvhu0sOBis=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756733200; c=relaxed/simple;
-	bh=C3eGYQEDdFxnVsk8a5fwepd/ZNJVsBNgRtSYuMC1Ldo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=qV/AHmNthsKf8yV6T4hpgYKsbv4u0bZFP4yYEJK9e3gimPo3ei1dAVRx/SDomX6pcBwLYAqnv5j92MTK3GwxDv0CUKWnUIOfKQWO237OCxwDvuMUEnS+QttInA/BQU0EMgEvxv2nE6kI91MwgqzoASwhTmz/5H6f18omf+fTcJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=52.237.72.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
-Received: from zju.edu.cn (unknown [106.117.98.8])
-	by mtasvr (Coremail) with SMTP id _____wAnxUEAn7VotdbDAQ--.3920S3;
-	Mon, 01 Sep 2025 21:26:25 +0800 (CST)
-Received: from ubuntu.localdomain (unknown [106.117.98.8])
-	by mail-app1 (Coremail) with SMTP id yy_KCgBHnNf7nrVoxMquAQ--.45124S2;
-	Mon, 01 Sep 2025 21:26:24 +0800 (CST)
-From: Duoming Zhou <duoming@zju.edu.cn>
-To: linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	mchehab@kernel.org,
-	tharvey@gateworks.com,
-	Duoming Zhou <duoming@zju.edu.cn>
-Subject: [PATCH] media: TDA1997x: Remove redundant cancel_delayed_work in probe
-Date: Mon,  1 Sep 2025 21:26:17 +0800
-Message-Id: <20250901132617.18985-1-duoming@zju.edu.cn>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1756733252; c=relaxed/simple;
+	bh=fNzrzBOmUfUkL+rdi+LGLcpV5MZwfFh11U0nDpLmcf4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=sqC0MgAfybO1unQsVnmbuOVnoLQYLAreiTNzLrzZuV1nc5GU573qYkzwguFClFor6twUiW8w4lax+XlfhUx63W5WHBDAyl1FedrQlnAZE4lhAaYiKHRuHYejlz/xEZ0LkD01o3i44SoqBy0Yx8Rsftts9Piepoy1NqSSJnyM1a0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=MJVrwvta; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-24af8cd99ddso2633925ad.0
+        for <linux-media@vger.kernel.org>; Mon, 01 Sep 2025 06:27:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1756733250; x=1757338050; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=jV51K7A1stp0fFZW7EXTK5PI5DR7Ti0Q40zH30E1jgU=;
+        b=MJVrwvtaoNMMxm1t6q5fngNeW2ZDd5eqYQARjEncR5a0wu3rDvOcpBpvmxD4lT5SHK
+         c/WpEwSfLRgnki85pQWbT6mcbWXfAoPzeDxIg4a5sENAG79TJOacIiXy97GPrYT3Eczn
+         oTu09BCOaVdAstqXZvbrWIZBD4b5fotDvOJu6ypd2akBHVYeUxjLSWrtKxNRCexdkBYI
+         THJ1th9vfCunKaMH3+uTG/qI2THWIQpmDVmVd6jiy5R6YwS1XkH53FxthkT2TyvKgCNX
+         K2FNQ+JVRSe7vLRZSNR7jgZyaVMKghfYIofPHf9iBKPg0oJymaDKbEXQDW9fhSWbe+0r
+         WyVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756733250; x=1757338050;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jV51K7A1stp0fFZW7EXTK5PI5DR7Ti0Q40zH30E1jgU=;
+        b=ROoXyPBDuzcNcqXAxgYB6h3pYe1O48JKhuAorglyHtqvjKL7BxqZXyg8cdrxsJAEH5
+         MC5DsAqIUrhG4l4WlqonzTYt2/B3DS011Zufju78BJFrPvlrZUIf6vhNOF9CGeyn7qVK
+         neWt/2842TpfOUhMtjhsa8od3UQ1pVTcIIxPlMTtD3gDlwxEbpfrGiwFElxwpBmm0EyG
+         nG1kY9szQ8LlqyyKsEU6DYZI0rHQDJVxLiwpN8QZo1YHVvzN0AcxtKKHE7z123zzNoQW
+         i1oWED1UN37J3D8om8rHFgyRiTx0KXLiTmSJjuwB3Im8BeYtt+bDnBEsKi5x289K/tWl
+         TTaw==
+X-Forwarded-Encrypted: i=1; AJvYcCUxFmYzdL16FVP/dqmscrKjIS5Gcpf/VKGObvXDL/q4xELzTZenmQQaVEhlTxFOdRe5XWgbGxjLTL+2sA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxqCxzRnzMgq/JW+Gb36FcyKfxlkgAzz6bvDJncUuhYPwXwbSyS
+	zZCjIgYVHNeItoRbx36oXe2o3B/kUgIulCMo4hGqElGpJEkjlRjWzH8xRKRN7XsspO2Va098Yp2
+	6H5v83DuF69ySZDtW8Ow0pyX5W0KvQACi2Dj4DOZa
+X-Gm-Gg: ASbGncvCx3ngq519KhAo6BLtW5g0UJ3Qm8JdrTWwZ6FvgjHLAlq24p28hiVgF1ExHCo
+	rXCuTTqK8oVuesMt+0f+xhS4aJjRcA5BfLZxmPjUA457MWCe8ujFC15XF3pRpd7wKGB3ISseaUu
+	2hNG/WVFP5ykS4c7SSMT0cwVczZTL9qP9WIJ0VhHcHE09JrzYt6a0jVBewQNLT6cQibalf2Ay4E
+	bhdoF7JwhmjsGl5BWO8CLMudspEfhZaYLd03maExgBoUezK91eiDaxKFY5ks0XP
+X-Google-Smtp-Source: AGHT+IE69FGO0OzzXMwhaoMRS2q4IeFD8qIfXTVJo75C49xHY1FRbDwJQDcNEfx9CtcjyMh4JkjZAHZ3bTFwzj9tY+A=
+X-Received: by 2002:a17:903:3c45:b0:248:f762:865b with SMTP id
+ d9443c01a7336-24944b196e1mr101515255ad.28.1756733250370; Mon, 01 Sep 2025
+ 06:27:30 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:yy_KCgBHnNf7nrVoxMquAQ--.45124S2
-X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwYQAWi0pXkI7ABdst
-X-CM-DELIVERINFO: =?B?JJit3AXKKxbFmtjJiESix3B1w3uoVhYI+vyen2ZzBEkOnu5chDpkB+ZdGnv/zQ0PbP
-	CR16OIBAsQKXAjlXLAGryky68Kwk92lnJUUFRq0XoR83McCuyxtqYhZJFCsnCkXIBkJXDg
-	b6idtCkPqb0KZyHuIZtiXj0gJRcKDxppq2ZgCjRbAscgt2pF7M08Wx2cG+qHAw==
-X-Coremail-Antispam: 1Uk129KBj9xXoW7Gw1xtr15JFykJw13Ary3ZFc_yoWkZFX_Wa
-	4fXay7Xr1UJr1DC3Z8uF4fZ3y0ya1DZF1rW3Z0gr45Aay7uFykAw4ruFyDAw45uw1akFnr
-	Gr9xXF1xAr1kCosvyTuYvTs0mTUanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUj1kv1TuYvT
-	s0mT0YCTnIWjqI5I8CrVACY4xI64kE6c02F40Ex7xfYxn0WfASr-VFAUDa7-sFnT9fnUUI
-	cSsGvfJTRUUUbsxYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I6I8E6xAIw20EY4v20x
-	vaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM28CjxkF64kEwVA0rcxS
-	w2x7M28EF7xvwVC0I7IYx2IY67AKxVWDJVCq3wA2z4x0Y4vE2Ix0cI8IcVCY1x0267AKxV
-	W8Jr0_Cr1UM28EF7xvwVC2z280aVAFwI0_GcCE3s1l84ACjcxK6I8E87Iv6xkF7I0E14v2
-	6rxl6s0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2x26I8E6xACxx1l5I
-	8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AK
-	xVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41lF7xvr2IYc2Ij64
-	vIr40E4x8a64kEw24l42xK82IYc2Ij64vIr41l4I8I3I0E4IkC6x0Yz7v_Jr0_Gr1lx2Iq
-	xVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxVWUGVWUWwC2zVAF1VAY17CE14v26r
-	126r1DMIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAFwI0_Jr0_JF4lIxAIcVC0I7IYx2IY
-	6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67
-	AKxVWUJVW8JwCI42IY6I8E87Iv6xkF7I0E14v26r1j6r4UYxBIdaVFxhVjvjDU0xZFpf9x
-	07j0iihUUUUU=
+References: <20250901091050.1935505-1-abarnas@google.com> <20250901091050.1935505-2-abarnas@google.com>
+ <aLWS9QsvmzZW4Bak@smile.fi.intel.com>
+In-Reply-To: <aLWS9QsvmzZW4Bak@smile.fi.intel.com>
+From: =?UTF-8?Q?Adrian_Barna=C5=9B?= <abarnas@google.com>
+Date: Mon, 1 Sep 2025 15:27:19 +0200
+X-Gm-Features: Ac12FXzx9PEJF0qZBZJFJPWNQrrMGW9HgVOcnLKTWsob1RafNAi2Th3uDaSy3dU
+Message-ID: <CAATBrPFnSnxwzBQTOdbt0h=epXW7G5Rj8Sr_erKKzUzCH6xC5g@mail.gmail.com>
+Subject: Re: [PATCH 1/2] staging: media: atomisp: Remove typedefs for basic
+ types in vmem.c
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dan Carpenter <dan.carpenter@linaro.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-The delayed_work delayed_work_enable_hpd is initialized with
-INIT_DELAYED_WORK(), but it is never scheduled in tda1997x_probe().
+On Mon, Sep 1, 2025 at 2:35=E2=80=AFPM Andy Shevchenko
+<andriy.shevchenko@intel.com> wrote:
+>
+> On Mon, Sep 01, 2025 at 09:10:49AM +0000, Adrian Barna=C5=9B wrote:
+> > Cleared typedefs hiding unsigned long long type, to align with
+> > kernel coding style.
+>
+> ...
+>
+> > -static inline hive_uedge
+> > -subword(hive_uedge w, unsigned int start, unsigned int end)
+> > +static inline unsigned long long
+> > +subword(unsigned long long w, unsigned int start, unsigned int end)
+> >  {
+> >       return (w & (((1ULL << (end - 1)) - 1) << 1 | 1)) >> start;
+> >  }
+> >
+> >  /* inverse subword bits move like this: MSB[xxxx____xxxx]LSB -> MSB[xx=
+xx0000xxxx]LSB */
+> > -static inline hive_uedge
+> > -inv_subword(hive_uedge w, unsigned int start, unsigned int end)
+> > +static inline unsigned long long
+> > +inv_subword(unsigned long long w, unsigned int start, unsigned int end=
+)
+> >  {
+> >       return w & (~(((1ULL << (end - 1)) - 1) << 1 | 1) | ((1ULL << sta=
+rt) - 1));
+> >  }
+>
+> Also consider to simplify the above (in a separate change).
+>
+> static inline unsigned long long
+> subword(unsigned long long w, unsigned int start, unsigned int end)
+> {
+>         return (w & GENMASK_ULL(end, 0)) >> start;
+> }
+>
+> static inline unsigned long long
+> inv_subword(unsigned long long w, unsigned int start, unsigned int end)
+> {
+>         return w & (~GENMASK_ULL(end, 0) | GENMASK_ULL(start, 0));
+> }
+>
+> ...if I'm not mistaken, so double check all these.
+>
+> At least in my case the end =3D=3D 64 is not allowed while it seems the o=
+riginal
+> code allows it to be equal to the end =3D=3D 63 case. Needs testing anywa=
+y...
 
-Calling cancel_delayed_work() on a work that has never been
-scheduled is redundant and unnecessary, as there is no pending
-work to cancel.
+Those functions works odd:
+when (end =3D 8, start =3D 0) it affects bits 0...7
 
-Remove the redundant cancel_delayed_work() from error handling
-path in tda1997x_probe() to avoid potential confusion.
+This should make the same results, will check twice if i not missed
+anything and post v2:
 
-Fixes: 9ac0038db9a7 ("media: i2c: Add TDA1997x HDMI receiver driver")
-Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
----
- drivers/media/i2c/tda1997x.c | 1 -
- 1 file changed, 1 deletion(-)
+static inline unsigned long long _subword(unsigned long long w,
+unsigned int start,
+unsigned int end)
+{
+return (w & GENMASK_ULL(end-1, 0)) >> start;
+}
 
-diff --git a/drivers/media/i2c/tda1997x.c b/drivers/media/i2c/tda1997x.c
-index 1087d2bddaf2..3532766cd795 100644
---- a/drivers/media/i2c/tda1997x.c
-+++ b/drivers/media/i2c/tda1997x.c
-@@ -2797,7 +2797,6 @@ static int tda1997x_probe(struct i2c_client *client)
- err_free_handler:
- 	v4l2_ctrl_handler_free(&state->hdl);
- err_free_mutex:
--	cancel_delayed_work(&state->delayed_work_enable_hpd);
- 	mutex_destroy(&state->page_lock);
- 	mutex_destroy(&state->lock);
- 	tda1997x_set_power(state, 0);
--- 
-2.34.1
+static inline unsigned long long _inv_subword(unsigned long long w,
+unsigned int start,
+unsigned int end)
+{
+return w & (~GENMASK_ULL(end-1, start));
+}
 
+
+Thank you for a review
+Adrian Barna=C5=9B
 
