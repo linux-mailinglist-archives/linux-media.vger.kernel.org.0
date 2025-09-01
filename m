@@ -1,153 +1,98 @@
-Return-Path: <linux-media+bounces-41457-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41465-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9032BB3E95F
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 17:18:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6CFCB3EB69
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 17:50:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B61C1B2190A
-	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 15:14:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4875D484CC9
+	for <lists+linux-media@lfdr.de>; Mon,  1 Sep 2025 15:44:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36F6F368098;
-	Mon,  1 Sep 2025 15:08:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3AFE2D5951;
+	Mon,  1 Sep 2025 15:44:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fN5FCQlj"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="YXrUhYHR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 629DF352065
-	for <linux-media@vger.kernel.org>; Mon,  1 Sep 2025 15:08:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C4152D593E;
+	Mon,  1 Sep 2025 15:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756739286; cv=none; b=k4n5XAtWYrUXk+FlmEH2+rSGGcpCR1obQ/29lXUnrE/QLo9zzHdQaJi1YKqoipbqIEPwk7RaukSBmxq85EORCa5aqEL07xM8aFPSJd8p6uH8PNt4HgJnSftl1ZdeyY5dKha6d04nSQoOO/xRgBOid2llfzP8Zq9rt3kbk6CjiqQ=
+	t=1756741442; cv=none; b=IdFGgM+OlNaIQG4TAsw6vjdUM0ePUXB5xfJW7jQvy+aNpWJy52nfyW/FL7mJ/frgQSC/dECpO1EOQVhaLhPCKXys0gX0OqjrFCV2pA8XXk/UMeR4kJGPH15LBeqmSW0sq62Vq1871QT4eTuFFxhsarLjO6RgSR3EjMQV+DU+5kA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756739286; c=relaxed/simple;
-	bh=olhTGIsE8oLmTWBFxEyhYRe+AJQ60FIySVO6IDiTE1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=m4QaB3rIDNdY1squ+XAvC2GlP0DkJfNqutN4t1SdNBzC6SWoiHZtyxePXL7zPRYQ8xCMNVnCjUMystBXxr08uxU9Q0Zv9UgxjQFhcStz9/LvGfHVLldH/Wpf+pLhhxaJ5Vg9JbKEEPhU/whO+pJNwezppKC111+EmPxXr+njsCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fN5FCQlj; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-63-95.net.vodafone.it [5.90.63.95])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 27363DF3;
-	Mon,  1 Sep 2025 17:06:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756739213;
-	bh=olhTGIsE8oLmTWBFxEyhYRe+AJQ60FIySVO6IDiTE1s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fN5FCQljsCjPocsLGMtHJouSP+qeDA5jg5RUmtqE1CGL6S9CHHdugJVqH+Jn9mT/3
-	 VTrcLL2Rsg/Rayr0FE8YLh3TYQG8dfwhGKyAM207OsLHfkSKZAXxgbv3PowWE9g7o9
-	 0ufMK23K6oYzsd4vALfSNc0mjC11iL61juAAf7aQ=
-Date: Mon, 1 Sep 2025 17:07:55 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl, 
-	laurent.pinchart@ideasonboard.com, Prabhakar <prabhakar.csengg@gmail.com>, 
-	Kate Hsuan <hpa@redhat.com>, Alexander Shiyan <eagle.alexander923@gmail.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
-	Umang Jain <umang.jain@ideasonboard.com>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Christophe JAILLET <christophe.jaillet@wanadoo.fr>, 
-	Julien Massot <julien.massot@collabora.com>, Naushir Patuck <naush@raspberrypi.com>, 
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>, "Cao, Bingbu" <bingbu.cao@intel.com>, 
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>, "Wang, Hongju" <hongju.wang@intel.com>, 
-	Stefan Klug <stefan.klug@ideasonboard.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
-	Kieran Bingham <kieran.bingham@ideasonboard.com>, Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, 
-	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
-	Hans de Goede <hdegoede@redhat.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 24/66] media: uapi: Add V4L2_CID_METADATA_LAYOUT
- control
-Message-ID: <qeuueahbuofjmeird3dr7xtcosfhymk72ceuma4dibudf2nn3s@z6smlg4yn2rf>
-References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-25-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1756741442; c=relaxed/simple;
+	bh=LXIBSIO6pDV8V3QkWU7mtWXQrCEg3CtRlBkkoG63Jt0=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JHpByGX4xe/A+IGNNLnkTqi6aBHWj7iHiOHIJ/9Oq8zq9edGQ5n6g4eX2C9RJEY5Kmoh3XbkJ1+pz6YvyczlwLlBkFKapkkwmu9fY5triEfPxkW++pjRzcg7EueAfe6ol2uL/xegpYaevc/E1bHJyPGnnTr0iM7h7Nbmo6xr8l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=YXrUhYHR; arc=none smtp.client-ip=168.119.41.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
+	 s=mail; h=Cc:To:Content-Transfer-Encoding:Content-Type:MIME-Version:
+	Message-Id:Date:Subject:From:Sender:Reply-To:Content-ID:Content-Description:
+	Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:
+	In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=FQJhfrqZwWX8BoGnnRMx78+JY5x+yi7uSulwN+BYSvg=; b=YXrUhYHRaQOpycNyZ4QcKwVhwz
+	EPcVBdbtmUsdFPyu/8qCCcsd9A6bFkyVZERMOacLysQo6VbHG0AfjHezVzUbb5PXqRMGcDg4qB0JO
+	ZBmSvEkxWnChbsQ6abe9m51Bz89akqaLPZwll5Q8rEueFWtDbhqV+uz1En+Y92tK9KnI=;
+Received: from 194-208-208-245.tele.net ([194.208.208.245]:61156 helo=[127.0.1.1])
+	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.93)
+	(envelope-from <matthias.fend@emfend.at>)
+	id 1ut6E2-009YyN-Ca; Mon, 01 Sep 2025 17:13:42 +0200
+From: Matthias Fend <matthias.fend@emfend.at>
+Subject: [PATCH 0/3] media: allegro: fixes and improvements
+Date: Mon, 01 Sep 2025 17:13:35 +0200
+Message-Id: <20250901-allegro-dvt-fixes-v1-0-4e4d493836ef@emfend.at>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250825095107.1332313-25-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAB+4tWgC/x3LQQqAIBBA0avErBswpcKuEi0kRxsQC40IxLsnL
+ R+fXyBTYsqwdAUSPZz5jA1D38F+mOgJ2TaDFHIUWgxoQiCfTrTPjY5fyqiVdHLXs5gUQfuuRH9
+ o27rV+gE5x2K9YwAAAA==
+X-Change-ID: 20250901-allegro-dvt-fixes-932f2c97063e
+To: Michael Tretter <m.tretter@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Matthias Fend <matthias.fend@emfend.at>
+X-Mailer: b4 0.14.2
+X-Spam-Score: 
+X-Spam-Bar: 
+X-Spam-Report: 
 
-Hi Sakari
+Several fixes and improvements for the Allegro DVT video IP encoder.
+These relate to race conditions that occur when multiple streams are used
+simultaneously.
+The problems could be reproduced on a ZCU-104 eval board with VCU firmware
+version 2019.2 on various kernel versions (6.4, 6.12 and 6.16).
+It is highly likely that these problems can also occur with other firmware
+versions.
 
-On Mon, Aug 25, 2025 at 12:50:25PM +0300, Sakari Ailus wrote:
-> The metadata layout control defines the layout of the metadata on the bus.
-> It is used on sub-devices that use generic metadata mbus codes on at least
-> on one of the pads.
+Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
+---
+Matthias Fend (3):
+      media: allegro: print warning if channel creation timeout occurs
+      media: allegro: process all pending status mbox messages
+      media: allegro: fix race conditions in channel handling
 
-Ideally:
-1) we have per pad controls
-2) s/V4L2_CID_COLOR_PATTERN/V4L2_CID_DATA_PATTERN
-3) we use V4L2_CID_DATA_PATTERN for both color components ordering and
-   metadata layouts. A sub-device will expose the same control, but on
-   different pads
+ drivers/media/platform/allegro-dvt/allegro-core.c | 114 +++++++++++++++++-----
+ 1 file changed, 91 insertions(+), 23 deletions(-)
+---
+base-commit: b320789d6883cc00ac78ce83bccbfe7ed58afcf0
+change-id: 20250901-allegro-dvt-fixes-932f2c97063e
 
-I know we don't want to block this series to wait for per-pad
-controls, but I'm a bit afraid V4L2_CID_METADATA_LAYOUT will be made
-redundant before it gets used for real (which maybe it's not a big
-deal as if no one uses it, we will be able to easily replace it).
+Best regards,
+-- 
+Matthias Fend <matthias.fend@emfend.at>
 
->
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  .../userspace-api/media/v4l/ext-ctrls-image-source.rst      | 6 ++++++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c                   | 1 +
->  include/uapi/linux/v4l2-controls.h                          | 2 ++
->  3 files changed, 9 insertions(+)
->
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> index 3cb7ee1b0aed..64c0f9ff5b1b 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> @@ -145,3 +145,9 @@ Image Source Control IDs
->      of the reversed readout. ``V4L2_COLOR_PATTERN_FLIP_BOTH`` for setting both
->      ``V4L2_COLOR_PATTERN_FLIP_HORIZONTAL`` and
->      ``V4L2_COLOR_PATTERN_FLIP_VERTICAL`` is provided as well.
-> +
-> +``V4L2_CID_METADATA_LAYOUT (integer)``
-> +    The metadata layout control defines the on-bus metadata layout for metadata
-> +    streams. The control is used in conjunction with :ref:`generic metadata
-> +    formats <media-bus-format-generic-meta>` formats to specify the layout of the
-> +    data.
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index 9ec65998a8f7..a7ea380de5ee 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1157,6 +1157,7 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
->  	case V4L2_CID_COLOR_PATTERN:		return "Color Pattern";
->  	case V4L2_CID_COLOR_PATTERN_FLIP:	return "Color Pattern Flip";
-> +	case V4L2_CID_METADATA_LAYOUT:		return "Metadata Layout";
->
->  	/* Image processing controls */
->  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index eb9ffdd74d32..74e22a930be4 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -1239,6 +1239,8 @@ enum v4l2_jpeg_chroma_subsampling {
->  #define V4L2_COLOR_PATTERN_FLIP_BOTH \
->  	(V4L2_COLOR_PATTERN_FLIP_HORIZONTAL | V4L2_COLOR_PATTERN_FLIP_VERTICAL)
->
-> +#define V4L2_CID_METADATA_LAYOUT		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 12)
-> +
-
-Intentional empty line ?
-
-For the time being
-Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
->
->  /* Image processing controls */
->
-> --
-> 2.47.2
->
->
 
