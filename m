@@ -1,280 +1,166 @@
-Return-Path: <linux-media+bounces-41558-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41559-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBE3FB3FD33
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 12:58:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6ECE5B3FD51
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 13:07:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5539A1A8210C
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 10:59:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2F6EE48844B
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 11:07:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99ABD2FB602;
-	Tue,  2 Sep 2025 10:57:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E10A2F659F;
+	Tue,  2 Sep 2025 11:06:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p4uuKyOO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="luXQtemq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 43DB62FA0FC;
-	Tue,  2 Sep 2025 10:57:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92BEB2E92C5;
+	Tue,  2 Sep 2025 11:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756810657; cv=none; b=c5LsSgVHUGh2kXm7xpezWGqVug42D/gHww9Jj6ZEFoVJrbqHC8vPS7tDqx8bZVjmNTK6RQ72ZkCDIoUKLudBgh0U5MYMRLqph5QTyHh7waiLI6Hp0iiUhts4etaWV1oPWAP7uqW+JcZWnWTCN114NlNEYXnt3bBlL+u3vej4rBQ=
+	t=1756811217; cv=none; b=eDk0SJ9NglRtWAlWPjUwtEUFQqcupDCysSz+EyS3VbUDTWPjrL1+qkx7IIP35TZHwbs+7LWIUdqGFEznoNKS+TonOsiy5FADH96/LfuWtJLsw3FkOaxmJJPzLwTDpoVee9n8qKrb/1vqJQFrNKp4xUxeLH+hsUG9FE5+cqbnooM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756810657; c=relaxed/simple;
-	bh=yK29nMj0x/n6vyRa/wmf8inh11piNH7wp9tI8JUNnPA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gcdqvSuiQfk8GQfFoLeAC5iIJBM8LMtwMByigokzzW3rbyGsVovXYH8zLF64ASE+yaWaXJ4YlDDllOYm2drf7/sZkSUl8Dd3I7CuobHZTk6Bzu2itCAUA60p6KR1AGWJzNtEYacdcYqx8q2WXtdR/c0BJAh5JsgJV9mZRx7qea8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p4uuKyOO; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c69:480e:e039:1d0b:c5ff:a9e2])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B51D5C72;
-	Tue,  2 Sep 2025 12:56:25 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756810586;
-	bh=yK29nMj0x/n6vyRa/wmf8inh11piNH7wp9tI8JUNnPA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=p4uuKyOO//Wk/8NkBzRzYjK6tSNrsoS0vxIUMVfcaDIDJPuduaENYNRlPYjOekYXs
-	 RMgbi6vtFf5qlBJrSEwRRsinuiC0C0gDzd9iS81b0toQuEdXZzRSugrOd5t2Ojbe4j
-	 FJC1/ROAug4mlAXNjQQRzqdmqhFxMka0sArMWyOI=
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Tue, 02 Sep 2025 16:26:51 +0530
-Subject: [PATCH v2 3/3] media: ti: j721e-csi2rx: Support system suspend
- using pm_notifier
+	s=arc-20240116; t=1756811217; c=relaxed/simple;
+	bh=hCa1C3d5MBR18h+mVpk4RAM474rjo1/g4TQSzEy0Gzo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Extkj077px/uWP8AStzNqcoYDBdI4QigYu/2389Wp9czN2sOFY7gBxnV8gXCjD/1Zy7iqTcp1u02J/zbETj0bbRgLrQlS8Sbw2m/93EPtR4DYngxC9KrVDurGh8VyYDwDDC7NYHXEbub+wvOkidabjEOKzyqJAJGlTs5MllBlCM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=luXQtemq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D67BC4CEED;
+	Tue,  2 Sep 2025 11:06:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756811217;
+	bh=hCa1C3d5MBR18h+mVpk4RAM474rjo1/g4TQSzEy0Gzo=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=luXQtemqwauDCW1OGofW7KOn0Ed3TXz+7wSyh4Rq/4C4pBNfrCav73O7nhlQqKsu9
+	 pJwS6fgD10XM5MWzc2V32cauwX2xcs5uKtg2Bn+xWgyC8SmOfVZ8jKdythn+ZO4vAa
+	 0h7EOGiI+UMeKypfX8GCyk9wrCAP4tCX2z8kMskVDMEaLSOSdX6db0uWHaJchKjybu
+	 MaLbWwVqK1itWBWz4FOiOlTEHChtIjiBEjBS0WHuFG4wArCchdxmDkRdChfk7RgGoF
+	 PbQcn5XJw0e6Ezn8C5XZTAc61l/+qt/LvKdGUrn6ovVC7JKrzqR3GHSc85H+bG5dhG
+	 nrqyYFGPfwuJg==
+Date: Tue, 2 Sep 2025 14:06:51 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Christoph Hellwig <hch@lst.de>, dri-devel@lists.freedesktop.org,
+	iommu@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mm@kvack.org, linux-pci@vger.kernel.org,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v1 01/10] PCI/P2PDMA: Remove redundant bus_offset from
+ map state
+Message-ID: <20250902110651.GF10073@unreal>
+References: <cover.1754311439.git.leon@kernel.org>
+ <c9b6237964b9606418af400bb6bec5178fcffff2.1754311439.git.leon@kernel.org>
+ <20250806145825.2654ee59.alex.williamson@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250902-ti_csi_pm-v2-3-59a3be199940@ideasonboard.com>
-References: <20250902-ti_csi_pm-v2-0-59a3be199940@ideasonboard.com>
-In-Reply-To: <20250902-ti_csi_pm-v2-0-59a3be199940@ideasonboard.com>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Maxime Ripard <mripard@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- Changhuang Liang <changhuang.liang@starfivetech.com>, 
- Devarsh Thakkar <devarsht@ti.com>, Rishikesh Donadkar <r-donadkar@ti.com>, 
- Jai Luthra <jai.luthra@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6315;
- i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=yK29nMj0x/n6vyRa/wmf8inh11piNH7wp9tI8JUNnPA=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBots2GcoiTbnZO5rpex82JVzhv5SwYs3r4gAHkn
- a9BaMNVHsmJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaLbNhgAKCRBD3pH5JJpx
- RSiyD/9ppkQe4UMAIjUQiC3u8HIex6vMh+R7qkGtgXvafaGrReAk0shvkcGYeLh3j2xwh6dKOby
- xc2VQLKjdem/TtmaP0qJCKYyoDHVTZt78CEwPpU6ruemszLzbFyP4jg5FklUh3t+uUcfHzN5Q9a
- pVSymfM5PFahlHsBK+Ja7rXwta3RYbkX6fy8CxibZqoYwdGiXjY+jqcwWazlGOw7YmL4aWttzCV
- tmWGU1Ph4W0/qPkK8MehCMA+DjbAjG/wuTzsk1Z53j3WxZS4pPHbbmwNaybg6zx4nDMvQNAPPxp
- oMcaZ0R6rUer5lptl6BjShrw0fC+s8C3qUZIaXtvCf8wSTxd2WtAnLAiJMch/PF+ZFpOh9cuDWC
- SfgvhKrxzAjUnyzlT6QnoZB9Xvi6jA07Kaauz1CZjQDlf55GeuErLWneAsaO1xyxhuTJeF64t/+
- eqx8XsYDyopcV+JmU0FkM6kzkuLjzGC872lo8qrNWIL4ZPstAIIEYbri8hMTD3hao+rLsvKi3Fo
- DvIvvy1zegf9GW50sJ7+EMbk2TnsdpvEZ/WH5vvdg1MioCB0uzDDL6wbcQVVi4FvhXQ1BeTtKYX
- WGqbAtfzUQof0E8lpvFgPx8uAUAAmLh9S0tuxoLwWLh81S3pqZlKiXMfhe6XM7TorLS6bkclioN
- 4wiNobxzueFulug==
-X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250806145825.2654ee59.alex.williamson@redhat.com>
 
-As this device is the "orchestrator" for the rest of the media
-pipeline, we need to stop all on-going streams before system suspend and
-enable them back when the system wakes up from sleep.
+On Wed, Aug 06, 2025 at 02:58:25PM -0600, Alex Williamson wrote:
+> On Mon,  4 Aug 2025 16:00:36 +0300
+> Leon Romanovsky <leon@kernel.org> wrote:
+> 
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > Remove the bus_off field from pci_p2pdma_map_state since it duplicates
+> > information already available in the pgmap structure. The bus_offset
+> > is only used in one location (pci_p2pdma_bus_addr_map) and is always
+> > identical to pgmap->bus_offset.
+> > 
+> > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  drivers/pci/p2pdma.c       | 1 -
+> >  include/linux/pci-p2pdma.h | 3 +--
+> >  2 files changed, 1 insertion(+), 3 deletions(-)
+> > 
+> > diff --git a/drivers/pci/p2pdma.c b/drivers/pci/p2pdma.c
+> > index da5657a020074..274bb7bcc0bc5 100644
+> > --- a/drivers/pci/p2pdma.c
+> > +++ b/drivers/pci/p2pdma.c
+> > @@ -1009,7 +1009,6 @@ void __pci_p2pdma_update_state(struct pci_p2pdma_map_state *state,
+> >  {
+> >  	state->pgmap = page_pgmap(page);
+> >  	state->map = pci_p2pdma_map_type(state->pgmap, dev);
+> > -	state->bus_off = to_p2p_pgmap(state->pgmap)->bus_offset;
+> >  }
+> >  
+> >  /**
+> > diff --git a/include/linux/pci-p2pdma.h b/include/linux/pci-p2pdma.h
+> > index 075c20b161d98..b502fc8b49bf9 100644
+> > --- a/include/linux/pci-p2pdma.h
+> > +++ b/include/linux/pci-p2pdma.h
+> > @@ -146,7 +146,6 @@ enum pci_p2pdma_map_type {
+> >  struct pci_p2pdma_map_state {
+> >  	struct dev_pagemap *pgmap;
+> >  	enum pci_p2pdma_map_type map;
+> > -	u64 bus_off;
+> >  };
+> >  
+> >  /* helper for pci_p2pdma_state(), do not use directly */
+> > @@ -186,7 +185,7 @@ static inline dma_addr_t
+> >  pci_p2pdma_bus_addr_map(struct pci_p2pdma_map_state *state, phys_addr_t paddr)
+> >  {
+> >  	WARN_ON_ONCE(state->map != PCI_P2PDMA_MAP_BUS_ADDR);
+> > -	return paddr + state->bus_off;
+> > +	return paddr + to_p2p_pgmap(state->pgmap)->bus_offsetf;
+> >  }
+> >  
+> >  #endif /* _LINUX_PCI_P2P_H */
 
-Using .suspend/.resume callbacks does not work, as the order of those
-callbacks amongst various devices in the camera pipeline like the sensor,
-FPD serdes, CSI bridge etc. is impossible to enforce, even with
-device links. For example, the Cadence CSI bridge is a child device of
-this device, thus we cannot create a device link with the CSI bridge as
-a provider and this device as consumer. This can lead to situations
-where all the dependencies for the bridge have not yet resumed when we
-request the subdev to start streaming again through the .resume callback
-defined in this device.
+Sorry for long time to reply, I waited to see what is going on with DMA
+phys_vec basic series and together with my summer vacation, it took a
+while.
 
-Instead here we register a notifier callback with the PM framework
-which is triggered when the system is fully functional. At this point we
-can cleanly stop or start the streams, because we know all other devices
-and their dependencies are functional. A downside of this approach is
-that the userspace is also alive (not frozen yet, or just thawed), so
-the suspend notifier might complete before the userspace has completed
-all ioctls, like QBUF/DQBUF/STREAMON/STREAMOFF.
+> 
+> Looks like you're relying on this bogus code getting resolved in the
+> next patch...
+> 
+> In file included from kernel/dma/direct.c:16:
+> ./include/linux/pci-p2pdma.h: In function ‘pci_p2pdma_bus_addr_map’:
+> ./include/linux/pci-p2pdma.h:188:24: error: implicit declaration of function ‘to_p2p_pgmap’ [-Wimplicit-function-declaration]
+>   188 |         return paddr + to_p2p_pgmap(state->pgmap)->bus_offsetf;
+>       |                        ^~~~~~~~~~~~
+> ./include/linux/pci-p2pdma.h:188:50: error: invalid type argument of ‘->’ (have ‘int’)
+>   188 |         return paddr + to_p2p_pgmap(state->pgmap)->bus_offsetf;
+>       |                                                  ^~
+> ./include/linux/pci-p2pdma.h:189:1: error: control reaches end of non-void function [-Werror=return-type]
+>   189 | }
+>       | ^
+> 
+> to_p2p_pgmap() is a static function and struct pci_p2pdma_pagemap
+> doesn't have a bus_offsetf member.  Thanks,
 
-Tested-by: Rishikesh Donadkar <r-donadkar@ti.com>
-Reviewed-by: Rishikesh Donadkar <r-donadkar@ti.com>
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
----
- .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  | 128 +++++++++++++++++++++
- 1 file changed, 128 insertions(+)
+You are right, probably the best way to fix the error is simply squash
+this change into the next patch.
 
-diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-index a5cd7885f26b2cda87e0c68833c2cc584061698e..49860916a29ebe89a300d372368f11ce4a078b50 100644
---- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-+++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-@@ -131,6 +131,7 @@ struct ti_csi2rx_dev {
- 	struct v4l2_subdev		*source;
- 	struct v4l2_subdev		subdev;
- 	struct ti_csi2rx_ctx		ctx[TI_CSI2RX_MAX_CTX];
-+	struct notifier_block		pm_notifier;
- 	u8				pix_per_clk;
- 	/* Buffer to drain stale data from PSI-L endpoint */
- 	struct {
-@@ -1582,6 +1583,124 @@ static int ti_csi2rx_runtime_resume(struct device *dev)
- 	return 0;
- }
- 
-+static int ti_csi2rx_suspend(struct device *dev)
-+{
-+	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
-+	enum ti_csi2rx_dma_state state;
-+	struct ti_csi2rx_ctx *ctx;
-+	struct ti_csi2rx_dma *dma;
-+	unsigned long flags = 0;
-+	int i, ret = 0;
-+
-+	/* If device was not in use we can simply suspend */
-+	if (pm_runtime_status_suspended(dev))
-+		return 0;
-+
-+	/*
-+	 * If device is running, assert the pixel reset to cleanly stop any
-+	 * on-going streams before we suspend.
-+	 */
-+	writel(0, csi->shim + SHIM_CNTL);
-+
-+	for (i = 0; i < csi->num_ctx; i++) {
-+		ctx = &csi->ctx[i];
-+		dma = &ctx->dma;
-+
-+		spin_lock_irqsave(&dma->lock, flags);
-+		state = dma->state;
-+		spin_unlock_irqrestore(&dma->lock, flags);
-+
-+		if (state != TI_CSI2RX_DMA_STOPPED) {
-+			/* Disable source */
-+			ret = v4l2_subdev_disable_streams(&csi->subdev,
-+							  TI_CSI2RX_PAD_FIRST_SOURCE + ctx->idx,
-+							  BIT(0));
-+			if (ret)
-+				dev_err(csi->dev, "Failed to stop subdev stream\n");
-+		}
-+
-+		/* Stop any on-going streams */
-+		writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
-+
-+		/* Drain DMA */
-+		ti_csi2rx_drain_dma(ctx);
-+
-+		/* Terminate DMA */
-+		ret = dmaengine_terminate_sync(ctx->dma.chan);
-+		if (ret)
-+			dev_err(csi->dev, "Failed to stop DMA\n");
-+	}
-+
-+	return ret;
-+}
-+
-+static int ti_csi2rx_resume(struct device *dev)
-+{
-+	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
-+	struct ti_csi2rx_ctx *ctx;
-+	struct ti_csi2rx_dma *dma;
-+	struct ti_csi2rx_buffer *buf;
-+	unsigned long flags = 0;
-+	unsigned int reg;
-+	int i, ret = 0;
-+
-+	/* If device was not in use, we can simply wakeup */
-+	if (pm_runtime_status_suspended(dev))
-+		return 0;
-+
-+	/* If device was in use before, restore all the running streams */
-+	reg = SHIM_CNTL_PIX_RST;
-+	writel(reg, csi->shim + SHIM_CNTL);
-+
-+	for (i = 0; i < csi->num_ctx; i++) {
-+		ctx = &csi->ctx[i];
-+		dma = &ctx->dma;
-+		spin_lock_irqsave(&dma->lock, flags);
-+		if (dma->state != TI_CSI2RX_DMA_STOPPED) {
-+			/* Re-submit all previously submitted buffers to DMA */
-+			list_for_each_entry(buf, &ctx->dma.submitted, list) {
-+				ti_csi2rx_start_dma(ctx, buf);
-+			}
-+			spin_unlock_irqrestore(&dma->lock, flags);
-+
-+			/* Restore stream config */
-+			ti_csi2rx_setup_shim(ctx);
-+
-+			ret = v4l2_subdev_enable_streams(&csi->subdev,
-+							 TI_CSI2RX_PAD_FIRST_SOURCE + ctx->idx,
-+							 BIT(0));
-+			if (ret)
-+				dev_err(ctx->csi->dev, "Failed to start subdev\n");
-+		} else {
-+			spin_unlock_irqrestore(&dma->lock, flags);
-+		}
-+	}
-+
-+	return ret;
-+}
-+
-+static int ti_csi2rx_pm_notifier(struct notifier_block *nb,
-+				 unsigned long action, void *data)
-+{
-+	struct ti_csi2rx_dev *csi =
-+		container_of(nb, struct ti_csi2rx_dev, pm_notifier);
-+
-+	switch (action) {
-+	case PM_HIBERNATION_PREPARE:
-+	case PM_SUSPEND_PREPARE:
-+	case PM_RESTORE_PREPARE:
-+		ti_csi2rx_suspend(csi->dev);
-+		break;
-+	case PM_POST_SUSPEND:
-+	case PM_POST_HIBERNATION:
-+	case PM_POST_RESTORE:
-+		ti_csi2rx_resume(csi->dev);
-+		break;
-+	}
-+
-+	return NOTIFY_DONE;
-+}
-+
- static const struct dev_pm_ops ti_csi2rx_pm_ops = {
- 	RUNTIME_PM_OPS(ti_csi2rx_runtime_suspend, ti_csi2rx_runtime_resume,
- 		       NULL)
-@@ -1653,6 +1772,13 @@ static int ti_csi2rx_probe(struct platform_device *pdev)
- 		goto err_notifier;
- 	}
- 
-+	csi->pm_notifier.notifier_call = ti_csi2rx_pm_notifier;
-+	ret = register_pm_notifier(&csi->pm_notifier);
-+	if (ret) {
-+		dev_err(csi->dev, "Failed to create PM notifier: %d\n", ret);
-+		goto err_notifier;
-+	}
-+
- 	pm_runtime_set_active(csi->dev);
- 	pm_runtime_enable(csi->dev);
- 	pm_request_idle(csi->dev);
-@@ -1683,6 +1809,8 @@ static void ti_csi2rx_remove(struct platform_device *pdev)
- 		ti_csi2rx_cleanup_ctx(&csi->ctx[i]);
- 
- 	ti_csi2rx_cleanup_notifier(csi);
-+	unregister_pm_notifier(&csi->pm_notifier);
-+
- 	ti_csi2rx_cleanup_v4l2(csi);
- 	mutex_destroy(&csi->mutex);
- 	dma_free_coherent(csi->dev, csi->drain.len, csi->drain.vaddr,
+Thanks
 
--- 
-2.50.1
 
+
+> 
+> Alex
+> 
 
