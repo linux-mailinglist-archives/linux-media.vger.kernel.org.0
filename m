@@ -1,72 +1,65 @@
-Return-Path: <linux-media+bounces-41571-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41572-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6D18B400C0
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 14:36:19 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2725FB400DF
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 14:40:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 56DC7188A465
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 12:36:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8AB3D17D0DC
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 12:39:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 719932580ED;
-	Tue,  2 Sep 2025 12:35:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 790E328EA56;
+	Tue,  2 Sep 2025 12:38:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Jt0/hwhJ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p7IjiLZJ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660DD24A069;
-	Tue,  2 Sep 2025 12:35:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CAE28D82F;
+	Tue,  2 Sep 2025 12:38:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756816547; cv=none; b=ESmyGq+bcivUSyuNlr4x2N75NAvllsp4oBXRvHvfS8hBQbrFo8sbruULJDDV2m48nTHl/DnPn47pPM4wEMeing7QHWx7hgzLlET6Q2vetqE6wYBH6mbpNRxin/T5Xrb9WVlZU3toJwlmsfRbIafLlo/8Yb5lOez+UdnoF+ebxMA=
+	t=1756816709; cv=none; b=c24xv+MCJoAZQ6pAlZOII/sjixD61zDuGxKc5gWe2YwtloaDNZMJzAMho7UafpCbLZ4lDGpkF0uheNTc58PzAw6e43PkRk3JZFx+3geZnRXFTCW2M7ErLMpLXk7O4jqTIQcz9RfEuojoCKF2GDffPmsIh0dO6QX2R4UPJ9Ow43s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756816547; c=relaxed/simple;
-	bh=rgeAkaerMuo7pPYf7CTpR6admWuQ1J9uhjoEpdbvc5o=;
+	s=arc-20240116; t=1756816709; c=relaxed/simple;
+	bh=E7533lX6MAykX99kEXEDHRaSmvwJZBHmZuyZ+hSEuDY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sc8uIAe+u/lDy8Sw8WObH5ma+0/OO6nqmbgu9Se8r0F59i4Q7WYq1+auPJ+882xlC4P+13UKbpLePNABgIGJahmqJx8gS+MyJWtU/XVIvsIKU1PUrV8B7zVXfQVxMbVzjqyAtnbXH8mQUHWtaXv7i5TDMCSTKdD0eFg7je7DUes=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Jt0/hwhJ; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=Bycc9vdGS5XoAZsG9FHx+ZjP9oY6yrrq6L75WY0QOxCTkfD3DX0qY4K44/RFCmwneVZw/tsDQdqS0ITZCtOniBNCUmisDiPWWqD9qSLsBLV/ZTbFnc+IrhkF/mJhGAEHrelPqqzxrwpXBbXEhy3NzhNXxROfX4FOfAql025rFxU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p7IjiLZJ; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 07E00C77;
-	Tue,  2 Sep 2025 14:34:37 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8408DC77;
+	Tue,  2 Sep 2025 14:37:17 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756816477;
-	bh=rgeAkaerMuo7pPYf7CTpR6admWuQ1J9uhjoEpdbvc5o=;
+	s=mail; t=1756816637;
+	bh=E7533lX6MAykX99kEXEDHRaSmvwJZBHmZuyZ+hSEuDY=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Jt0/hwhJAsbh9xgjvpHX8ZlaNZWIqk8ZIYHl74D/RpN1aB5NiuYJ4sbekghmfQRpw
-	 +Fd9A/vmmT2nwwMUYmeRtG4iUHsePTSDC6VPwjWx/jvbSLPcmsnu1qiKBY/+y+WTvx
-	 YvS/mGTYyrZxv2mBisLcvTFnx0vJHCWg7VeZxaaQ=
-Date: Tue, 2 Sep 2025 14:35:24 +0200
+	b=p7IjiLZJrdTo7odl3ewl6xeftk66e0FJE5SY4uQ5HzNOgIhoXDJm/XjCq2Zg1OB6q
+	 KN+RSD0GQiPZHE8i/VhO7eE94s6ELIMfxzEy9wwZTHVHpLdaIajy1M5A2r4FdTMSPi
+	 3m9WHxqZcQaFE7dQGw2oVw3Swfdvuca/Lj0OxX8Q=
+Date: Tue, 2 Sep 2025 14:38:05 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Frank Li <Frank.li@nxp.com>, Guoniu Zhou <guoniu.zhou@nxp.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
+To: Isaac Scott <isaac.scott@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@iki.fi>, linux-media@vger.kernel.org,
+	rmfrfs@gmail.com, martink@posteo.de, kernel@puri.sm,
+	mchehab@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+	kernel@pengutronix.de, festevam@gmail.com, imx@lists.linux.dev,
 	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/4] media: dt-bindings: nxp,imx8mq-mipi-csi2: Add
- i.MX8ULP compatible string
-Message-ID: <20250902123524.GK13448@pendragon.ideasonboard.com>
-References: <20250901-csi2_imx8ulp-v5-0-67964d1471f3@nxp.com>
- <20250901-csi2_imx8ulp-v5-1-67964d1471f3@nxp.com>
- <20250901154610.GB13448@pendragon.ideasonboard.com>
- <aLZMQ7c8qr5XO88d@lizhi-Precision-Tower-5810>
- <20250902083554.GD13448@pendragon.ideasonboard.com>
- <7c461931-3b04-4354-a892-52f469511c5a@kernel.org>
+Subject: Re: [PATCH] imx-mipi-csis: Get the number of active lanes from
+ mbus_config
+Message-ID: <20250902123805.GL13448@pendragon.ideasonboard.com>
+References: <20250814113701.165644-1-isaac.scott@ideasonboard.com>
+ <aJ77VTtZy96JJCHE@valkosipuli.retiisi.eu>
+ <20250815103205.GJ6201@pendragon.ideasonboard.com>
+ <aJ8ZJFSn5Wxhj2Aj@valkosipuli.retiisi.eu>
+ <20250815113633.GM6201@pendragon.ideasonboard.com>
+ <aJ8pKs_6YpAiPjlq@valkosipuli.retiisi.eu>
+ <20250819024413.GJ5862@pendragon.ideasonboard.com>
+ <175681611736.1349241.9877873145029586025@isaac-ThinkPad-T16-Gen-2>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -75,77 +68,83 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <7c461931-3b04-4354-a892-52f469511c5a@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <175681611736.1349241.9877873145029586025@isaac-ThinkPad-T16-Gen-2>
 
-On Tue, Sep 02, 2025 at 02:26:53PM +0200, Krzysztof Kozlowski wrote:
-> On 02/09/2025 10:35, Laurent Pinchart wrote:
-> >>>>          compatible:
-> >>>>            contains:
-> >>>>              enum:
-> >>>> -              - fsl,imx8qxp-mipi-csi2
-> >>>> +              - fsl,imx8ulp-mipi-csi2
-> >>>> +    then:
-> >>>> +      properties:
-> >>>> +        reg:
-> >>>> +          minItems: 2
-> >>>> +        resets:
-> >>>> +          minItems: 2
-> >>>> +          maxItems: 2
-> >>>> +        clocks:
-> >>>> +          minItems: 4
-> >>>> +        clock-names:
-> >>>> +          minItems: 4
-> >>>
-> >>> But according to this, the ULP version requires more clocks than the QXP
-> >>> version.
-> >>
-> >> If only clock number difference, generally, it is still compatible and can
-> >> be fallback, especialy driver use devm_bulk_clk_get_all().
+On Tue, Sep 02, 2025 at 01:28:37PM +0100, Isaac Scott wrote:
+> Quoting Laurent Pinchart (2025-08-19 03:44:13)
+> <snip>
+> > > > > > That would need to parse the endpoint every time we start streaming, it
+> > > > > > doesn't sound ideal.
+> > > > > 
+> > > > > Perhaps not, but does that matter in practice? Parsing the endpoint is,
+> > > > > after all, fairly trivial. The advantage would be simplifying drivers.
+> > > > 
+> > > > It's trivial from a code point of view, but it's not a cheap operation.
+> > > > I'd like to avoid making starting streaming more expensive.
+> > > 
+> > > How cheap is "not cheap"? I'd be surprised if parsing an endpoint took more
+> > > time than e.g. an I²C register write. Of course it depends on the CPU...
 > > 
-> > That's a driver-specific implementation decision, so I don't think it
-> > should be taken into account to decide on compatibility.
+> > Still, it's not cheap, and I think it can easily be avoided.
+> > 
+> > > > > Alternatively we could think of caching this information somewhere but I
+> > > > > don't think it's worth it.
+> > > > 
+> > > > Drivers likely need to parse endpoints for other reasons. I'd cache the
+> > > > value in drivers, like done today, and pass it to a get_active_lanes
+> > > > helper.
+> > > 
+> > > Then drivers presumably would also validate this against the endpoint
+> > > configuration, wouldn't they? That's extra code in every CSI-2 receiver
+> > > driver.
+> > 
+> > Why so ? The number of connected lanes can be passed to the helper
+> > function, which can use it to validate the number of lanes reported by
+> > the source subdev.
 > 
-> The clock inputs do not restrict compatibility. If Linux can use
-> fallback to bind and operate properly, then it's a strong indication
-> devices are compatible.
+> Apologies if I'm interpreting this wrong, but it seems that the main
+> thing I'm reading is that this is not the correct place to implement
+> this, and it should be implemented at a higher level (e.g. in v4l2) that
+> lets all MIPI CSI reciever drivers use it?
 > 
-> Imagine exactly the same registers, so same programming interface, but
-> one device takes one more clock which just needs to be enabled through
-> its lifetime. Such devices are fully compatible, even though clock
-> inputs differ.
+> I have noticed that similar functionality has been implemented as part
+> of __v4l2_get_link_freq_pad. Are you suggesting that I take a similar
+> approach and resubmit as a new series?
 
-That's only the case if someone enables the clock, isn't it ? From a DT
-binding point of view, how can we know that the extra clock will be
-enabled by a component separate from the driver (in this case by the
-fact that the devm_bulk_clk_get_all() function gets all clocks) ?
+As far as iI understand, Sakari would like a helper function that will
+query the remote subdev for the number of data lanes it uses, and
+validates that against the number of connected data lanes as described
+by DT. I don't like the idea of parsing the endpoint properties every
+time we do so, so I think the number of connected data lanes should be
+passed by the driver to the helper instead. The helper would still query
+the remote subdev, and validate the value.
 
-> I also wanted to express exactly that case on my slides from OSSE -
-> slide 28:
-> https://osseu2025.sched.com/event/25Vsl/dts-101-from-roots-to-trees-aka-devicetree-for-beginners-krzysztof-kozlowski-linaro
-
-Quoting that slide, you wrote
-
-"Two devices are compatible when the new device works with Linux drivers
-bound via fallback (old) compatible".
-
-That is clearly the case here for the existing *Linux* driver. But what
-if the driver called devm_bulkd_clk_get() with a device-specific list of
-clocks ? Or what if the same DT bindings are used on an OS that has no
-clk_get_all() equivalent ? This is my concern with declaring those two
-devices as compatible: they may be from the point of view of the current
-implementation of the corresponding Linux kernel driver, but DT bindings
-are not Linux-specific.
-
-Or do DT bindings assume that drivers have to always enable all clocks
-declared in DT, even if they don't know what those clocks are ? That
-seems error-prone, in quite a few cases drivers need to handle separate
-clocks in a device-specific way, with for instance a particular
-ordering, preventing them from using devm_bulk_clk_get_all(). If all
-drivers are required to manage all clocks declared in DT, this would get
-messy quite quickly.
-
-> (although I focused on reversed case when devices are not compatible,
-> because that is decisive case).
+> > > > > > > The function could take struct media_pad pointer as an argument, or struct
+> > > > > > > v4l2_subdev pointer and the pad number.
+> > > > > > > 
+> > > > > > > I wonder if any other parameters could change dynamically but I can't think
+> > > > > > > of that now, so perhaps just the number of lanes is what the function
+> > > > > > > should indeed return.
+> > > > > > > 
+> > > > > > > > +
+> > > > > > > > +   return 0;
+> > > > > > > > +}
+> > > > > > > > +
+> > > > > > > >  static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+> > > > > > > >  {
+> > > > > > > >     struct mipi_csis_device *csis = sd_to_mipi_csis_device(sd);
+> > > > > > > > @@ -965,6 +1002,10 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+> > > > > > > >     format = v4l2_subdev_state_get_format(state, CSIS_PAD_SINK);
+> > > > > > > >     csis_fmt = find_csis_format(format->code);
+> > > > > > > >  
+> > > > > > > > +   ret = mipi_csis_get_active_lanes(sd);
+> > > > > > > > +   if (ret < 0)
+> > > > > > > > +           dev_dbg(csis->dev, "Failed to get active lanes: %d", ret);
+> > > > > > > > +
+> > > > > > > >     ret = mipi_csis_calculate_params(csis, csis_fmt);
+> > > > > > > >     if (ret < 0)
+> > > > > > > >             goto err_unlock;
 
 -- 
 Regards,
