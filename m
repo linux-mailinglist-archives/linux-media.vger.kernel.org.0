@@ -1,164 +1,150 @@
-Return-Path: <linux-media+bounces-41515-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41516-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC41BB3F62E
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 09:07:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 23A87B3F642
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 09:12:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6304D17F1D5
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 07:07:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3C1471716A9
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 07:12:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3D712E62A1;
-	Tue,  2 Sep 2025 07:07:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCF482E6CD1;
+	Tue,  2 Sep 2025 07:12:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="MUysy3cm"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="NxPGfhMa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.15.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6AA20B81B;
-	Tue,  2 Sep 2025 07:07:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0FCCA2E62B9
+	for <linux-media@vger.kernel.org>; Tue,  2 Sep 2025 07:12:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756796852; cv=none; b=g5eQPouQ1BjZHGxQohgK/sT8pcl3dBl6OQEIUV8AnQwNSGnhqM1NDDAduCPfacUxL9bA8h9adXKqC668wfZtZzcaWw+S8COtyXjAQ3e7p0/EJmexDDTTFA4hMwPGeyQaBXYuMvpPFLG1KNZ1KrZ7NnAAH0msdVENCM1Q2WudRvs=
+	t=1756797126; cv=none; b=n9hBeMMYtqcKUfaKU91CWG4h+Ytg3jNK0RuXFww9TiwrOJTpCvVX3MQQ4U1u1M7t4hCBOtSP0NPDEzzheXAG3Lhu48/qVz54K6kemNGsmBRJ77Z4ESlDnuCWO4RwfKN6AURAN151VzQqMK8c546RqbdSMrsdc3MAI69KlD8bZ00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756796852; c=relaxed/simple;
-	bh=MNV/36mBzu0ewPtJqGTax110wJbG6ZDmVlGQItuqCWc=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=nNSVxYuSimvymEreWzTZUwrPl5cbMQUnUR3DaLeT7avgBwWn8W6qKgWfKUWq8MbDM94uLeC/mUhu60mXobFK4Zw8VMl4+JeuljWE6u7oq763NXexbWwgIQK4NWgVxWBpuLbQZjejjOogw6/xEIumv67KsWMudCEDogQZqNOaiFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=MUysy3cm; arc=none smtp.client-ip=212.227.15.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1756796823; x=1757401623; i=markus.elfring@web.de;
-	bh=MNV/36mBzu0ewPtJqGTax110wJbG6ZDmVlGQItuqCWc=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
-	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-	 cc:content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=MUysy3cmr0SPG9/piNlR6sOYqDpYHTn9cJ2NTLoiuHN7S6mkhz5Suicvygpxwc3+
-	 hXGJam4PdhwXJ4FLqkUBTP6zrw+9ZqD9MeSrfiXqtR7n93gsSdram1swG4Xfp4yde
-	 99vnaqGac9iM8OwX8legb3H3QAsQ0GOf+v67fJ9BkorhFyrGuEHp/BJmtrnE3xTGl
-	 85E7cjR0kkhesMyBQp9Emcrsf1ovIoTeJGwlxMZ3gYF+mQfz/7a+uBsv9LqvSBf3j
-	 lGoYm8GA0XFEaM1Erj19ba24JRg0FkamEdw5PR4i2jPbxQVZZ4bYrqj8YfC5mModk
-	 p/yun0XJHM0xCPxRIw==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from [192.168.178.29] ([94.31.69.184]) by smtp.web.de (mrweb006
- [213.165.67.108]) with ESMTPSA (Nemesis) id 1MDvDU-1ujTDX1vU4-00Bvyb; Tue, 02
- Sep 2025 09:07:03 +0200
-Message-ID: <7c662bdf-bba8-4821-aa28-8448621be0a9@web.de>
-Date: Tue, 2 Sep 2025 09:06:47 +0200
+	s=arc-20240116; t=1756797126; c=relaxed/simple;
+	bh=4Dj8wHzcKZ+KE+l9JlZw2/wgZaNm5SI7Vg6vhkZUvrM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nzORWWlcaxnnNYDhMs2pCoruRF3SBlYfkF8cNjAiPmPyioNvX02qVBYgfos0ITLzZcND/udQeGGGuDqsIa+xm9MVQ6hsaqQNUBQqrDQLDqMmP/bWcPhmcOmz0Zsb+CKmJcUdXYJ5ObgidMLQIP3ppONEnAWXv2BUctufN8SLLBU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=NxPGfhMa; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-45b883aa3c9so13891225e9.2
+        for <linux-media@vger.kernel.org>; Tue, 02 Sep 2025 00:12:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756797122; x=1757401922; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=leRMEPgF8RUEvULChzHRAQuhgrQpyQ/k4NKGFx3/OIQ=;
+        b=NxPGfhMalr0puieqZ0NjhnLO4k+g37416+742QxVCL39sCZ8MZ0jb++o2JkAxij8ZN
+         vJn/GLrFHv4il+X4O+S9k0gc1m3dqqP0sPeNNzTjEIkm47mcjrtddBFWbt0r9Dl7xhtM
+         n/Nt60RDPFxYA5LqefiznDa6Dwj1ALVZPuYSoeFC+Po/xGqv2pFlPxJBIAnAM1d4hNb6
+         qcND8K1zagmtFFVrGGOii5GgbfTLWGMbqXAYTr3inpqcsYAWui9z0GxlN1GOzu8SK9Hi
+         HqUdBxZrkWRxtoDJZRwKzQGI11wktL4skOeXqnTWj9NG88mpdOP4Xw2vAKnsK/vMicQ2
+         dE5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756797122; x=1757401922;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=leRMEPgF8RUEvULChzHRAQuhgrQpyQ/k4NKGFx3/OIQ=;
+        b=BGHIJha5M019hu0B6GvTH/SvEGDRvPxXMRfRpTk/oaj5V/MoWpRKF4tkLf7r7bIr5w
+         PZj/z6+UJpMxizZX/xyXT3t6sgCdyWeov1KsOGe6VqpOtZd54PZ72iCtQ45Rl4OJOKM7
+         Q52FuhTDEYnofnVLtqQsNt5XRP67at/5l3fZC13q6sQPreE36gLoYhTf8Sixn+pcI6yW
+         gltgiJAWaj9y2h7LsLgm6tply+oK79B0cXGk3yBKuBrqz4rlmQe5Naanhge+aHnkQE7a
+         GbifoJT7R15rD+5+7ERkY02qz8VeiV4jaH9+MSVw09mw1l+VLkKGmpWwn08aG57Qh4jH
+         ESBA==
+X-Forwarded-Encrypted: i=1; AJvYcCU6qTO0iG2gA4K4TT0GFLNHttKS9OMBzkFaQJCXrFuMaD8yYjUh723K3bQCgNPISpFvYU6S+etKaMJqSw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFDOpIwauMoc4uSq21Z2n3aXKSDdVcJ0psn2EeRfe8tyRWbe0m
+	k5V5C18Xiu7Y9SocBEBqyq0MNfGQRSAw33BAH5sEORcA0Q+nf5NIW93eGyb1i3zuNW0=
+X-Gm-Gg: ASbGncvZvicTzPKDUqk4o2aQFu/arRy5Q3ox2iQr5UFYk2RaYMWX2Ty5Gv/6z2c8OWs
+	8BtPp0e9AnnJ0sME9IsF3FXMXVsc1ZsdWAZWTY0fm0W3Bq5m/0l5PIOisCRT2/SYydnlitC1l1s
+	AVnZQHl6+0oS1EyFrI6RdFEn1FydDGi23jxaRBkhJojJslsb1E9HxxegTVtaFp8blY63RPX6/bX
+	Rnvusp0Odn5LRY1lmknKfIaQmGzLC7t6SlovdgSCC12jgfeQflPhDhm8KJhQheyzOWDpkoHGUmH
+	2yMHsO3503D6qmENjiTgkBPXQJO+nDtxEWvEuz7EPoDfcNs+nzOUhx0U4QIDQKA3luzC1y3mbdU
+	Ywhu0C+7EG5ZmizwjhYAFQD0cNmY0VId69XROGg==
+X-Google-Smtp-Source: AGHT+IFYuCWJOgHXp+J/kYURbVc6VnwzlfI13ByiraVfMdlwIoA3Pz1WV9KjlyYQt58VCk3unM9JLQ==
+X-Received: by 2002:a05:600c:4f8f:b0:456:43c:dcdc with SMTP id 5b1f17b1804b1-45b8558baefmr77527515e9.33.1756797122251;
+        Tue, 02 Sep 2025 00:12:02 -0700 (PDT)
+Received: from localhost ([196.207.164.177])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45b6f0c6dc1sm267152735e9.1.2025.09.02.00.12.01
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 02 Sep 2025 00:12:01 -0700 (PDT)
+Date: Tue, 2 Sep 2025 10:11:58 +0300
+From: Dan Carpenter <dan.carpenter@linaro.org>
+To: Mikko Perttunen <mperttunen@nvidia.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <u.kleine-koenig@baylibre.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+	Thierry Reding <treding@nvidia.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Peter De Schrijver <pdeschrijver@nvidia.com>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Svyatoslav Ryhel <clamor95@gmail.com>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Charan Pedumuru <charan.pedumuru@gmail.com>,
+	linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v1 19/19] staging: media: tegra-video: add CSI support
+ for Tegra20 and Tegra30
+Message-ID: <aLaYvsh1sCF7uF6Z@stanley.mountain>
+References: <20250819121631.84280-1-clamor95@gmail.com>
+ <20250819121631.84280-20-clamor95@gmail.com>
+ <3643424.irdbgypaU6@senjougahara>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: Bin Du <Bin.Du@amd.com>, Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>,
- linux-media@vger.kernel.org
-Cc: LKML <linux-kernel@vger.kernel.org>, Anson Tsao <anson.tsao@amd.com>,
- Benjamin Chan <benjamin.chan@amd.com>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Dominic Antony <Dominic.Antony@amd.com>,
- Gjorgji Rosikopulos <gjorgji.rosikopulos@amd.com>,
- Hans Verkuil <hverkuil@xs4all.nl>, King Li <king.li@amd.com>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Phil Jawich
- <Phil.Jawich@amd.com>,
- Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
- Pratap Nirujogi <Pratap.Nirujogi@amd.com>,
- Richard Gong <richard.gong@amd.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Sultan Alsawaf <sultan@kerneltoast.com>
-References: <20250828100811.95722-1-Bin.Du@amd.com>
-Subject: Re: [PATCH v3 1/7] media: platform: amd: Introduce amd isp4 capture
- driver
-Content-Language: en-GB, de-DE
-From: Markus Elfring <Markus.Elfring@web.de>
-In-Reply-To: <20250828100811.95722-1-Bin.Du@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:cYqowaeta42PsBg62Y+sOkXISs5m7fL+UmGR5BdnhLlYUsZHn+p
- mib/aXhzk67txJl1ObawrWdILn5r81vKPjjLZXbk/LAmFBqeyd8rDYU1igX89OrLrWBeLCm
- +YCFdr+nUVn8cjliR97okyO0KEnk5Y26GYzRUDWz2h1RfKAhd1ncNWZuFLcca4DWMG+nMKg
- mtvY/NPJa45ifS8vtoFZA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:8PApWYPyAPY=;jaOcNAhQI9DiM12heNzSnXO7ylr
- +LOCYhUaxTsOJw+CTGQnJWiuFitF7S5q5I29sc0HdB+1gZaHKRt1d9jIKR6YZngjyD8thVNbN
- DklTqxOlccQutOm17xZhgDOOABT6p6wgTF/eUCl8Tapmq+eL4QWYfN/COvVicSB1w7+qufxXY
- AtvhYUCNw4rcbpWUl1Sancnkn+1NX9aRH//3SWMQfTL6HlFBThTFZApkqQlv+qVH9Gqcm/ygc
- KbJ9E+J0V5gefLQNvjFb6MGHCknUfO+qMGz4Q5kje5tVT5ILwnaFlsxfYGdlVlEyt97PdGM4P
- eziqALCgcsRUQERuerBp51T8nrDAUqYmZRDOlBBot/gp8e2nv/p7HPDPqF9hcPutaHUm9Qlui
- 5dTQ8HumwDvzb+hIplp6l45G1aTgDcPcsc9n4bfLGTkLyk8RKu9stW5qCCh27BZrjcHpfOZyI
- PrOrGa0XxI0PBdPFUd4EwUC5MXfcGB1rSXeR4ajls7FFnZwx2EY2VQMZ8wpPoG/lNrL2n1mrE
- ZVp1/vWebDr96b6G4yWwIIu48qt+jgtziBcjRSuYV825p1YuowdfEoW/B+iCf25T3V5onByvK
- fxSlAyTcRnxfsCbcV2WsVopxWsvNg72NOFJVQzbYCMiq+8KQDlju80r3imRBDbX9MTwyMs+Mt
- ok2MGRLxNVS7U23BH0dJqQVdroktCCXQq6e2o2keHfjq2jC1cQgpXtZh/o08I7/tUvPvSI7r4
- Tc0e8HMAZfMy8+lljJYNAWfaTQmy83EmIRo8rALc/M2REuY2Zgy6RXvKpAcq9M7NL2YzTVuph
- heGPbZ6/O3GGGRw7qV08ERxPU3pnsVaXlZQb/GJYEXIT6kJ9EIlSyXeADmXwPZyg+4hkUqhU5
- uW/tyUquoThUkqFHpgkOzvFmlNZW5j6IkGcxR7jyu8VyiQREo2U0ka1jviXpblsTeC8wJjpvX
- pw5XPtxOgpfW/aM2JfGw84eOtO74Pja7DJi2xAO//gyJQzQqRnIlf9670M2SuVIYp9sV6C/vz
- +d/ipGwEs7IySQkGpPdIe7DfQ+ntT+KuM5obl5l9l3h0fM+ih5R7x2JA5hxyk+/NArM2y1Llb
- JV/gZSfETBVextO2r5WL/c3ro6pgUDimUwIdX+tQFSxz5RqJ8MYnDVpyDJ3LFNYIdJIc1fFEy
- 3uzVhBetbToCY84ApQrEn+8LTES/mlE9+XNaHz3UtI+9TN6SXi7WcyqgJe1+Xc53kiTbzr/SE
- Ztg4/q+4/HJtd9RzvYvuxjVrY50noHjkPAlQY1Woegp7z4XDU+Vlj911yYIUVoPjXypsp8piz
- TcKC4gEMcOI0HNemvWrib6H9a7sEPI0NJaiNkUUKy0AEWVVkPW7Zhnuleg0qdHoGipAHIl+8s
- SjQG6FNUKB03tlAzPKZLS+WUlxnpsgt+5La3wD4jgeh4011Eb2im0OP9CMpG1kUEbAVfYWykN
- bJLRVHlY/u63avAwYPfccSI2dbp5byAvW7Mj/vsbuVW6Xry36zgn9su2ugoAuNkCC1HXWON4G
- U3ZP5In593R2vnfoh+vK3XwWbtWPhdZjLhEmd6l3yr2r6zValSGlWNTjR3Ox43JfBnNeTUxWD
- Kzg6upwJg9Itey4ftg/mD8FwNM9JCqyniaQo0ZNPTuFdl3gkj3TedWKjgCIXPeAPzrPl3g5sV
- AqB+OcL4hN+oDhHZkyOuQIUxKLqvvDPENBaUDulx7584Czz8o8d7lpLEMXThSwXTgPW1fX5LD
- NMOUW0770ydzOF58evdC+bXq/6Bou5aQEe47D6wuIxyU8dKFFgOyDMJ9xxSkbMGDnJbZSb0R1
- D2y5MliL6V+iQ6MhtO1Wc3rUAgie5nn1ty9ISEQWASHCFz8GYDiTxnTaBwEKxq11t84xJ/JyQ
- XozS0MEHJAzIPZzdJDj5ItO8oXFELrwKOZ5w9RtQQZjAyA6IF0wvZX6wGwpG9A4EF3kmKMOqP
- nJ7hXYdEp+IMPtGAU+7A4osqY6+iAP3PE7ZBAr5Ebr06rPqIKqvbpisITanyyHiHwJP9988gp
- q/YqhwAjs8LSnONlHOfo88kBiNlkV392yrIzDSY524Ea55rGf+RzWx/mUQHNOdSfdqi+yKaCR
- OfGxLO268DxaeiAQbgvqfHcmL5QcEHl9GJdvWq3vA4f8hh5CQTPCgv/979huNOXPC5hNdiFqC
- dWwlkjWfMvfRLTqpo2D2n1mUZe9Ri+jVcsGtGwkhA/mwGOvJ8hwjDUMSfL/5g6D1KGdjJlmmp
- t5RwHTDKIliwddeT0ubOOhetC7gcBoFTZ/7jKwISPgJyzs1VJ1yGdDSsE+6nf6LIrSvd6Rjsw
- IfAa6O33fa/iVnxs5efczhPTKeTrgX7l8IshFwdCkz+T7klZdLs1s3ZLZclKrfP8lFhmUY/ES
- Y8CTlCQ1ac6scTN0g6PZGLi5PDk57A5l1y0ft+fhZ0TJynfCGmHYlt9SY5mGdlm5S3x1OqEFq
- 9iwx35IbQ6+nsAdhAhuJTobxPzB1X7X1BcTLHV6UYNdzvLKTH6pUjpCzzAeH9hlHH1amkyUeT
- ArR7wI6bGrm+QhTZsNA3+M48i8tj9GEVEIZdvBZroXBOYxBFIkItliy5AEAqwRwCEFK0tUa4g
- 4jxdb+z+5n6sF31vRHacUiW8so14PTQlFXcrALQ/rLCtnvEgctZasehNzoSV60+ECbLXj7B+c
- H7tp5MKYwfXGR2ubJ1tDc1mh0exJZMERpXepbDqqM1COM5bv0QlhKtDCwowI6ebLOSSYd+mg4
- Ca9DyujfiqSEYh7P/uOD/cWb8CIIhBkQOEm+RFYlGIQnnBgFaid5pouykihywvwkdTX/Btzss
- bbgneyAAwRdBDeETPPdAVNLKtHBZYFS1aKIZnq1qigN+9xWPJSWz3OKDbZeXnTUzXwtMEb6tu
- NOg66vrRn0ofYL6ZokI+EHqZA21rUEYwUH94C8tF09Y0laJbzHvycka6ZKr/m7crf3EmXIS/t
- sR8QP/esnagkDFbrF2nnz2//X3vfzWICAhKEUsqbmuYUOQ0DlSfEzzQspzA+Dwclb+VylOZNh
- V3KH1PV5hT4fRYC1+kR6XO882+dhUbSkycDMduu6hA1keoqb7RvGU3gVf6P1drPnRaqpM0UJP
- 48U1yfr8Ce6VCdoXX4PSpygtUEft8dApb5v260g2xFUAYBf1EK4N1bO1jJTEtdOmr8Xr16Erk
- kU1mRWgreFNvwQGo9wzQ4S41jbS5kFa4z9QlhsGIS0YDE0DDMyJKnWHhoyVvdIartKkzCdz7V
- R4ybCIaV72VkVVIHkfsYSOhVCFiQvYqFJssU1FoBIFHD3oj/x6Tg8MnrYIt60xK8HQZ0zgA7U
- JBigy8wQnZkoUkGqvRa45M85+wi7YFpSqcr3m6kdOn57LIVR0E0U+amhPbEXU0J7/g0FmNvk/
- DuZ0W54iSHau7jLSS17x+2MKcOCpX87eGCb/a2hobbpaTPSjffMnJw6psBZf5fuUHuTJAcI+o
- 4iv/Qn1D/21/PRhDjZrgyjsDfn/V4hjS5Dr44swkPm/naHuR9GeqcDNJ1xBDDZCOcnMdNG7F0
- 35nYeqlxA2mQDUNROoNIwJfpJEog5NWjl38v4XtW1uSAa4oQp7ICCfoebUeFUSIFQgD7nJHfE
- y68sfHkweTjs/UwrrzbDtLpzc5juHNiokkAEVyUw6ijcRoNuTxWf7Xkb5idXb8FuYwljMWBbp
- qzFgSXmjaWKmzIbRqFO6TAq0WDthpS7bhAYvaArKnSuMYz/XQZUGn89c5EiUTgpiZv9gks0Ob
- 7YrfeENPybgaf4k3LdacqmK3F6FKknHEnFvSJQAIze66v9b3i65Lvxvn9n2tpSUyJzhw3O1iY
- OT/kNoaSVWzwexu1wiXsGG5zVuRJq/v/OMU6Uh8wDy4JUD//Qwa9TlEjeyMZHhcfDR6bdDO09
- PexfiZMJ6oebjsddicAysM7fOChBvn8SLN6oeIFNw5QBK2e+8d2AKQZr6EWc5lSnGEvJjLoJ5
- pVZh5VYaioihlNPqYoE4e2CzM/OH0qOi6JOFOaWktihctXIakL/oiXC9uZskfyjTUjDHwVMAB
- zRg5u5XokEMmXlJ1KrY+qIja/ZE4gn6qlJOdNzEnWZs0EkW8ldfwKLAIKG6LRRZdTOgieWFW6
- JFSpqo8fFclHKid2qsIro3tB8hAFZXBaVPG7if6siBoYz8r21pQXXwj++NBVmJz1wgtGtao87
- UHA/c1qXb7nZj6tla3C2+mR33Tv2xmHcLjjVT7T/NmG3kx/L02pfme3CxTlYSqpcyb4TAyVlF
- vBvi7VsRXrQlyFYZMonbSNbeCu5NJ375c6cKYyOIwmeTpuEoW0GN2BNx4pvZBTC81StgsQ3Ak
- gEHsG7xbMcLekaQBY3gnUdWyK1W+q0qXenhx9E7ldMFEU7EO1Rs07D9cgaXr9+yOxKc2jTsXU
- l0e4zC0D5oA4zLOsQZCAqGKjuD/Yw+ygzImovi8lJbwxHHDAijBPj6xX1JqogjRQUO+nb6bzG
- sNqDK/Cxl3ZalLFBdj6cyY0HnC99GVesXcXkB9xQuhzHHw/Gm38dBhn7DHwHXlfCflGpRz3HZ
- 3nmjFBsGN5TDTcMqbQUVy4I34uAYE8wXpHTuPir1dC+w6zxp36VI4Kk/V/XRXDb5Qv7gU7fU4
- ijzn3IIlVKhueNtEqB/PH6Ot/X8SyvUgA2eejBqIbod0WYJOLbVHW6Ck5WeDraipcE0IuIJRU
- dzsxS4dZpKC5sj6/UkHmt0P3S/TfrglsRbWPFcdYrKeSIIxGNS7wVYtXKzbqWdXwCG4PgoU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <3643424.irdbgypaU6@senjougahara>
 
-> AMD isp4 capture is a v4l2 media device which =E2=80=A6
+On Tue, Sep 02, 2025 at 11:38:18AM +0900, Mikko Perttunen wrote:
+> > @@ -282,20 +411,27 @@ static int tegra20_vi_enable(struct tegra_vi *vi, bool on)
+> >  static int tegra20_channel_host1x_syncpt_init(struct tegra_vi_channel *chan)
+> >  {
+> >  	struct tegra_vi *vi = chan->vi;
+> > -	struct host1x_syncpt *out_sp;
+> > +	struct host1x_syncpt *out_sp, *fs_sp;
+> >  
+> >  	out_sp = host1x_syncpt_request(&vi->client, HOST1X_SYNCPT_CLIENT_MANAGED);
+> >  	if (!out_sp)
+> > -		return dev_err_probe(vi->dev, -ENOMEM, "failed to request syncpoint\n");
+> > +		return dev_err_probe(vi->dev, -ENOMEM, "failed to request mw ack syncpoint\n");
+> 
+> Existing issue, but dev_err_probe doesn't print anything when the error is
+> -ENOMEM, since "there is already enough output". But that's not necessarily
+> the case with failing syncpoint allocation. Maybe we should be using a
+> different error code like EBUSY?
+> 
 
-Will a cover letter become helpful for such a patch series?
+I'm not sure I love the rule that -ENOMEM doesn't print a message.
+Deleting error messages is fine because it makes the code simpler and
+saves a little memory.  But with dev_err_probe() the message is still
+there in the memory, we just don't print it.  Printing the error message
+doesn't hurt anything.
 
-Regards,
-Markus
+But if we go down that road, we should make it make it a checkpatch
+warning to pass a hard coded -ENOMEM to dev_err_probe().
+
+regards,
+dan carpenter
 
