@@ -1,65 +1,65 @@
-Return-Path: <linux-media+bounces-41614-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41613-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3A17B410C7
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 01:30:11 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 267DDB410C5
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 01:29:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 191FB1897E77
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 23:30:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DC1FA3B9DA3
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 23:29:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB53F27F727;
-	Tue,  2 Sep 2025 23:30:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 26E2F27F160;
+	Tue,  2 Sep 2025 23:29:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="IfecAki+"
+	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="AjbR6Sa8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
+Received: from ksmg01.maxima.ru (ksmg01.mt-integration.ru [81.200.124.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE0CD25FA3B;
-	Tue,  2 Sep 2025 23:29:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4299C23B0;
+	Tue,  2 Sep 2025 23:29:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756855800; cv=none; b=le7MPj8kgax+9u9xQFX1WP9vcoikpIzSaZb7urrS9hWuakg7zwfR2gXx9jZEznIfmClhZOCwVnE+R+iOID7za/aRY1C7eAwQPFbl7xfS2owoBgh2Y/MHTf6flcCwAbU4z9tbxQe3o8wPzVuuiIjbQRj9be8SRCcUQ7dNV2odNzo=
+	t=1756855753; cv=none; b=YJALcupnKe07Jug8Ae0pAIqNQsPS7QPVtB3ws2qL7CbJfZ9gY3kInGg6OpIZ0/Q8dizmiGOzXZATiz7X7JyFinsWiB6aaufkPcCV2KgL9VgW0Z3buIY1f5cvU/byqmggnEOTZFCKEhH7Nb3pyeCOgFL3nC9flok9TQsi2ZlemPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756855800; c=relaxed/simple;
-	bh=eCtynB9qCCWRxn3bv5JMf0afGJAMZ0YPFQlCRPf4gVI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=L3EsLyWvUHt84mraQJqda0I4/LNCvTLaW8kNBx+ENafULEuXgcl2I8eW+QyH2qOA6gtvCH1jjJnIT/3AeE28qhhaTNOtR1Xq/RyIrW+KqhdP3MKe50rPUctE7w5Wli54nC0SJpMlfMUSBRC38q14YC4plLl/iToGguPXyksV89k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=IfecAki+; arc=none smtp.client-ip=81.200.124.38
+	s=arc-20240116; t=1756855753; c=relaxed/simple;
+	bh=SEtGgAVUQer9dl3z2RKdIUzVbQNgUPXc6RoXTpF/wZg=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=eovsTGnZlidWxzHAGzu6Xt5lxUBi9GcM01M/efUTKNv/UvyUeNDxNWaXBuJ0ZHl17gVpEcYXdB+1w4hun4kohlTIgKrPE5QRwltNKEX3J49G2ypTz3QqaVtzT2s2FgY6iL/OKkwFSe9uoTszElMbFZoxRuSRzbZNnKsLN6MVSK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=AjbR6Sa8; arc=none smtp.client-ip=81.200.124.38
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt-integration.ru
 Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
-	by ksmg01.maxima.ru (Postfix) with ESMTP id 5B71EC000A;
-	Wed,  3 Sep 2025 02:24:38 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru 5B71EC000A
+	by ksmg01.maxima.ru (Postfix) with ESMTP id 0393DC000C;
+	Wed,  3 Sep 2025 02:29:08 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru 0393DC000C
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
-	s=sl; t=1756855478; bh=OsvMOjxVa4lS/AuBTii+O5PhCoQ7bxijjbz8vf7z0sk=;
+	s=sl; t=1756855748; bh=k1+EGiK/n5xjGkwOh8h7YdQrC4oUAa59hbmYV+IeFHg=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=IfecAki+f8G6BMkqZI/hE8vUgdbrDDksuPxq9vcvCDpmqfDLcWlEcM/vEjmNiwQ4S
-	 8+Dt+kZuL5kGvanCjc8E/GwpzBpO5H/UcAou92pab6y6b5DGDyiFKJ4vbOxjto/FFf
-	 3iIvuvVS0FsUMmGLkHzHaYH4alE9heC850C9nh79AD8NTkeI5k5pyAGSQoad4oOiag
-	 B6klY7jWbrci0BLjKdCVQX3KiwwUjvhCz8hT1xwNuAErt/aqZygNy0WSBxiUTaZnZu
-	 EvyR7t4pPoB8U5GP4Sww6q1wsvkDLM/oA6VjGbWK4uVpQmLNb0OoJZ+9hWQoHhK+5x
-	 Lh+jYMqMfI6yA==
+	b=AjbR6Sa8+ELYVuFVCkTqpVQjFEC543GLHqQizg5cz89IkQGiMFeSIlzeDlGj2LuSy
+	 OhH7yGGRunDLi32t+zM5W8ssXH06B76ztEgmugHhkS2ixBYQ0BwWlect0HPffcrqcv
+	 6bTdu2a3wQN3mUAg/Fisu/gFdW+M37qzaPWtmW5yy3Dl1vUf48tnGSEhmbcKuI7CCo
+	 v2KkurGm5XHVWsx3K9NoQ/bQs7M7ZE6nH756nDpt0wNminztGP6iRivBNz73l7e4IU
+	 g6bwTYac0pqAyTr8chwA2/Szp3UQ9BLhlAHaRl/8htNFXV6VSrxdDAhzBG65xHkeQn
+	 A8utXWevD1hbQ==
 Received: from ksmg01.maxima.ru (mail.maxima.ru [81.200.124.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(Client did not present a certificate)
 	by ksmg01.maxima.ru (Postfix) with ESMTPS;
-	Wed,  3 Sep 2025 02:24:38 +0300 (MSK)
+	Wed,  3 Sep 2025 02:29:07 +0300 (MSK)
 Received: from db126-1-abramov-14-d-mosos.mti-lab.com (172.25.20.118) by
  mmail-p-exch01.mt.ru (81.200.124.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 3 Sep 2025 02:24:37 +0300
+ 15.2.1544.25; Wed, 3 Sep 2025 02:29:07 +0300
 From: Ivan Abramov <i.abramov@mt-integration.ru>
-To: Hans Verkuil <hverkuil@kernel.org>
-CC: Ivan Abramov <i.abramov@mt-integration.ru>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, <linux-media@vger.kernel.org>,
+To: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: Ivan Abramov <i.abramov@mt-integration.ru>, Hans Verkuil
+	<hverkuil@kernel.org>, <linux-media@vger.kernel.org>,
 	<linux-kernel@vger.kernel.org>, <lvc-project@linuxtesting.org>
-Subject: [PATCH 1/1] media: adv7842: Avoid possible out-of-bounds array accesses in adv7842_cp_log_status()
-Date: Wed, 3 Sep 2025 02:23:31 +0300
-Message-ID: <20250902232332.2415227-1-i.abramov@mt-integration.ru>
+Subject: [PATCH 1/1] media: msp3400: Avoid possible out-of-bounds array accesses in msp3400c_thread()
+Date: Wed, 3 Sep 2025 02:28:14 +0300
+Message-ID: <20250902232819.2415335-1-i.abramov@mt-integration.ru>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -87,53 +87,34 @@ X-KSMG-LinksScanning: NotDetected
 X-KSMG-Message-Action: skipped
 X-KSMG-Rule-ID: 7
 
-It's possible for cp_read() and hdmi_read() to return -EIO. Those
-values are further used as indexes for accessing arrays.
+It's possible for max1 to remain -1 if msp_read() always fail. This variable is
+further used as index for accessing arrays.
 
-Fix that by checking return values where it's needed.
+Fix that by checking max1 prior to array accesses. 
+
+It seems that restart is the preferable action in case of out-of-bounds value.
 
 Found by Linux Verification Center (linuxtesting.org) with SVACE.
 
-Fixes: a89bcd4c6c20 ("[media] adv7842: add new video decoder driver")
+Fixes: 8a4b275f9c19 ("V4L/DVB (3427): audmode and rxsubchans fixes (VIDIOC_G/S_TUNER)")
 Signed-off-by: Ivan Abramov <i.abramov@mt-integration.ru>
 ---
- drivers/media/i2c/adv7842.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+ drivers/media/i2c/msp3400-kthreads.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/drivers/media/i2c/adv7842.c b/drivers/media/i2c/adv7842.c
-index 5545cd23e113..6db26b7f0496 100644
---- a/drivers/media/i2c/adv7842.c
-+++ b/drivers/media/i2c/adv7842.c
-@@ -2699,6 +2699,7 @@ static int adv7842_cp_log_status(struct v4l2_subdev *sd)
- 	/* CP block */
- 	struct adv7842_state *state = to_state(sd);
- 	struct v4l2_dv_timings timings;
-+	int temp;
- 	u8 reg_io_0x02 = io_read(sd, 0x02);
- 	u8 reg_io_0x21 = io_read(sd, 0x21);
- 	u8 reg_rep_0x77 = rep_read(sd, 0x77);
-@@ -2821,8 +2822,9 @@ static int adv7842_cp_log_status(struct v4l2_subdev *sd)
- 		  (((reg_io_0x02 >> 2) & 0x01) ^ (reg_io_0x02 & 0x01)) ?
- 			"(16-235)" : "(0-255)",
- 		  (reg_io_0x02 & 0x08) ? "enabled" : "disabled");
-+	temp = cp_read(sd, 0xf4) >> 4;
- 	v4l2_info(sd, "Color space conversion: %s\n",
--		  csc_coeff_sel_rb[cp_read(sd, 0xf4) >> 4]);
-+		  temp < 0 ? "" : csc_coeff_sel_rb[temp]);
+diff --git a/drivers/media/i2c/msp3400-kthreads.c b/drivers/media/i2c/msp3400-kthreads.c
+index ecabc0e1d32e..1d9f41dd7c21 100644
+--- a/drivers/media/i2c/msp3400-kthreads.c
++++ b/drivers/media/i2c/msp3400-kthreads.c
+@@ -596,6 +596,8 @@ int msp3400c_thread(void *data)
+ 				"carrier2 val: %5d / %s\n", val, cd[i].name);
+ 		}
  
- 	if (!is_digital_input(sd))
- 		return 0;
-@@ -2852,8 +2854,9 @@ static int adv7842_cp_log_status(struct v4l2_subdev *sd)
- 			hdmi_read(sd, 0x5f));
- 	v4l2_info(sd, "AV Mute: %s\n",
- 			(hdmi_read(sd, 0x04) & 0x40) ? "on" : "off");
-+	temp = hdmi_read(sd, 0x0b) >> 6;
- 	v4l2_info(sd, "Deep color mode: %s\n",
--			deep_color_mode_txt[hdmi_read(sd, 0x0b) >> 6]);
-+			temp < 0 ? "" : deep_color_mode_txt[temp]);
- 
- 	adv7842_log_infoframes(sd);
- 
++		if (max1 < 0 || max1 > 3)
++			goto restart;
+ 		/* program the msp3400 according to the results */
+ 		state->main = msp3400c_carrier_detect_main[max1].cdo;
+ 		switch (max1) {
 -- 
 2.43.0
 
