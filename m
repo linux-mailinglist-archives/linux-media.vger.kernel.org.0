@@ -1,169 +1,220 @@
-Return-Path: <linux-media+bounces-41592-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41593-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D24B40403
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 15:39:00 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94FB1B405BC
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 15:57:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D242A188E1BA
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 13:36:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0F7E4202ACE
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 13:52:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E85AF3112B3;
-	Tue,  2 Sep 2025 13:30:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E10532ED37;
+	Tue,  2 Sep 2025 13:47:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="c7Zve6wW"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Xu+XyuDc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f182.google.com (mail-pg1-f182.google.com [209.85.215.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD7B92D9ECA
-	for <linux-media@vger.kernel.org>; Tue,  2 Sep 2025 13:30:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1460532C336
+	for <linux-media@vger.kernel.org>; Tue,  2 Sep 2025 13:47:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756819842; cv=none; b=tFEOHEtfJJxdzzZenfhd7a7YNirYV1TYyBrqeu2g5x9aIwcnlclBOWx8OK08jE/TbFwmgFLGTnraHn/w3PSH9qfLENv/Sc7ZOfisZUElG52J5eAcbx9epCW+yP7QwLNamLJaQVa5h10RNwKv5v6AJfhXaBlBebuvXptK90kgfz0=
+	t=1756820825; cv=none; b=d0isYIi6MeSbABg/kZzqMMmLs5YAGZ9qcm6sn7SojGORDNvZJPlsiem/BsiNUyLsjn4pycA0wlzA6Tgx0Oa7O5ceuJBdoW+/9RJb/3uG7AwKWCDYVe4NgoPZ9LhseNigQNMtWaWJzef11kGVRPAgYDSaIMs6j6MCv3iUbTmyLUw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756819842; c=relaxed/simple;
-	bh=OLHhmag7Mnt9lXi3QwGIWfYDMQGjZIebNRX4qQsseBY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Zr5pUPD6DEh133X40BU7NKEtZ/lwoYTgzRZ9LFS/LtJd96vE6+DjnxBmxXouNQy7VwVuljwM00L0Jc5j4P7/97dFDPl6y3fvzb4470IofY9IMimADmO6JaU3SrRtDsmCJhuYx64QXx83LkW2gQFb3AuZea35kDUjPaqy23EBsZE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=c7Zve6wW; arc=none smtp.client-ip=209.85.215.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
-Received: by mail-pg1-f182.google.com with SMTP id 41be03b00d2f7-b4cb3367d87so2975705a12.3
-        for <linux-media@vger.kernel.org>; Tue, 02 Sep 2025 06:30:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1756819840; x=1757424640; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MQdIhkcAqAjJzHCxGEbBUO4b5K6zRA4syYceYBD5k54=;
-        b=c7Zve6wWIq2gRFBy4QenV9g3qDkFIOqpEXK1Z7ycZTPRVMq1MvVdRg2NDRVDL1WZIM
-         fJe/QVQ69npFJprvuSFdiF45iczl9w7nr3JlO+81T0S6iym086LLGTKiHRZoDR4X2ADt
-         0h/XeB8vUhOM0L64xEgBrKsrkOL+Pu/6pd65A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756819840; x=1757424640;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=MQdIhkcAqAjJzHCxGEbBUO4b5K6zRA4syYceYBD5k54=;
-        b=sedM5thgO+CKBd3xY/YdrXau8pc5M+wfQiBqCXnRWOK2EHinboM154OF+t+HJ7+aEO
-         zKdiJ46uIBgU7Rl29T32EpXZFLGjG2VrdRPu6VxuTQwJIVwpZ65xNJjvICgvM7W2AZj8
-         Dr6epdfuIG6SbE+Bmu/9tV/SiYfE/+DvaRcyW37muo0ntuiVBRjiHOfrQuQAxmWy1Bdg
-         Z/mG+qaaGsX6NQtkhB0/9FRFrLTSL8Qf4kio6Gyl3RHJ44bcQbCJ9XDGO/VKPjQFgflk
-         lxhTxaModSwNOVLFPL3k43yRqa6/VKB8wJFRXFnHYPkEt2lYryh9l6yP+yiE2q/bXA8K
-         Y/Fw==
-X-Gm-Message-State: AOJu0YxxL0p+ruP5X4Iw5xfsPolmHKK0vAt6UaY/o0qJXf2hOzWALCN2
-	FOZW4PBKFKuX/nwmAry3uSjw8FbbDb1ua531CWoTZY4zVeJGI5Cv0rW5XBRs/bTQQ91rfuEem69
-	tPhSJizjqp8a6YXRJbD/WjAf899o/5FMlmd3aOj3tfQ==
-X-Gm-Gg: ASbGnct+f7aKs3Js8qOnv/Lb3RCvcsKbh5EH0c6169rpreEkJs7W4ggIh74Subn4m9C
-	9YomZxyP6qSNahIcbatuRK3V94eIOc6tlZIEC0kVgzG5ynOYfmhSWiXhdVjG2Dq4oSOjXCSp6qW
-	YYpshNEjDJlEXQLE0Min0rJMRhoTKzgibTrIL7pIJCDELSKRmAIc7FhfJ7SIJpvOnioxFnZ4d4h
-	we1NK3bg9Tp2svBXIeuJzfuUqeaan8=
-X-Google-Smtp-Source: AGHT+IH8mj0p0QU7AMqmPJZUgnPgs/UHsTvibAkA/fEpHT9Z8HZcFHyof4QL8ZKNLcAv+k7nCpqP4TbT9oC8Ophl/9M=
-X-Received: by 2002:a17:90b:4a92:b0:328:a89:71b9 with SMTP id
- 98e67ed59e1d1-328156e17d0mr14751281a91.34.1756819839694; Tue, 02 Sep 2025
- 06:30:39 -0700 (PDT)
+	s=arc-20240116; t=1756820825; c=relaxed/simple;
+	bh=y8Aaks2rnTCouTsa1CsUny38MHkkSl/Alem6UcmdZag=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=fdmoahFseg5Ooo9qvC//YHC+KnG4nsx9t3mVWF9/YOK6b78zPH4yevXC3pd9tf5tJD3u59e5Czr3LT10lv1pBnhCc+bpIGiz96hwp2YZRbARezvMq1tz0+/GgEvU0tqA9dAlGN4fTsLSwOAxuKA0A1VzqyhqPhS+1E7NX7Etw/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Xu+XyuDc; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756820824; x=1788356824;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=y8Aaks2rnTCouTsa1CsUny38MHkkSl/Alem6UcmdZag=;
+  b=Xu+XyuDc+Hf1BvSCEjHCfk35Kk1Wf2aALGfJ8InFhecpj/zHldrdQ25F
+   QCmoBmkESt9gKFVyf7pVOc1WhSObzyatvTqW5ea5WFl8ZB835wuPVVI68
+   GUahPX7ohOpOIZb6wRTyj/nPCWuhJtloIECgOkATCBJvZozWZjUbZyk2s
+   2zFUcli1aVboQSPep3xmlMPKEsLafmx6JEO4iz+VwazXPGAOrLScWMh1n
+   s7yk7ikRNtdAw7raJ+cXfIwdtWrN1QHVCdxXM5WglnPA5Kp+MbC0r/b2H
+   45zoDzltOtsXJp4zcW4eKU27lTgfh9ZyC3mVqNbQ8f3ACBeK0AMX4unGb
+   w==;
+X-CSE-ConnectionGUID: HLJwoBr0T/WAgupAWAU2lw==
+X-CSE-MsgGUID: JRp9uyAOReOvSUXXiA+LHg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="61735146"
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="61735146"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 06:47:02 -0700
+X-CSE-ConnectionGUID: 9tLHy2i6ShyG+ghwcB79DQ==
+X-CSE-MsgGUID: CRD0ITYQS9uyJcg6divbxg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="175648257"
+Received: from lkp-server02.sh.intel.com (HELO 06ba48ef64e9) ([10.239.97.151])
+  by orviesa004.jf.intel.com with ESMTP; 02 Sep 2025 06:47:01 -0700
+Received: from kbuild by 06ba48ef64e9 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1utRLe-0002TB-1S;
+	Tue, 02 Sep 2025 13:46:58 +0000
+Date: Tue, 2 Sep 2025 21:46:11 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
+Subject: [sailus-media-tree:metadata 76/77]
+ drivers/media/v4l2-core/v4l2-subdev.c:2292:14: warning: variable 'is_source'
+ set but not used
+Message-ID: <202509022128.hDkCkWCt-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAOf5uwmTTFcizew2QRAr=TZ12hTfXg6NFEsDYKASB7wPeB4odw@mail.gmail.com>
- <7b37c5679994281ae1806f2ee84d1aede77ca836.camel@collabora.com>
- <CAOf5uw=uPkC60gE7Ea_ZnEZdYJRYRJKz=OVUN0RvO_NVe2tw5A@mail.gmail.com> <96dc1231c7d18f8106e4b5e56a336add377ee235.camel@collabora.com>
-In-Reply-To: <96dc1231c7d18f8106e4b5e56a336add377ee235.camel@collabora.com>
-From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
-Date: Tue, 2 Sep 2025 15:30:28 +0200
-X-Gm-Features: Ac12FXzn_GfV_XxRUKa6bD18P6jpKDuo6ojPuDI6AR2WKq4RGK4Qy0QMFBY4GWk
-Message-ID: <CAOf5uwnofTZ1ARzqAD0Tevz_gX1w=Uv5b7Q8=-ZnwQpioZvXuw@mail.gmail.com>
-Subject: Re: Hantro G1 jpeg decoder stm32mp2 (plain text)
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: linux-media <linux-media@vger.kernel.org>, 
-	Hugues Fruchet <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Nicolas
+tree:   git://linuxtv.org/sailus/media_tree.git metadata
+head:   dbb6c78ee163822abba87ee352b67b7cfec3a023
+commit: df6177be8173130bd39345bb16da0bd2a8787470 [76/77] source
+config: i386-buildonly-randconfig-003-20250902 (https://download.01.org/0day-ci/archive/20250902/202509022128.hDkCkWCt-lkp@intel.com/config)
+compiler: gcc-12 (Debian 12.2.0-14+deb12u1) 12.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250902/202509022128.hDkCkWCt-lkp@intel.com/reproduce)
 
-On Tue, Sep 2, 2025 at 3:13=E2=80=AFPM Nicolas Dufresne
-<nicolas.dufresne@collabora.com> wrote:
->
-> Hi,
->
-> Le mardi 02 septembre 2025 =C3=A0 15:01 +0200, Michael Nazzareno Trimarch=
-i a =C3=A9crit :
-> > > If you only have one format support, you don't need to force anything=
- in
-> > > GStreamer. Some extra information about Hantro post-processor. When u=
-sed, you
-> > > need to provide 2 sets of buffers. The decoder will still produce NV1=
-6, and a
-> > > secondary set of buffers is (in parallel, pipeline mode) written back=
- into the
-> > > format you have configured on the PP register set.
-> >
-> > Those sets of buffers are provided by gstreamer or how does this
-> > handle in practice for
-> > other decoders?
-> >
-> > >
-> > > The post-processor can also be used in standalone mode, but this feat=
-ure is
-> > > often fused out. In that mode, in can input interleaved YUV, as often=
- produced
-> > > as raw format by USB cameras (and most cameras using serial links).
-> >
-> > Much better. Now I need to understand better about the two set of buffe=
-rs
->
-> the V4L2 API does not have the notion of primary vs secondary buffers (un=
-like as
-> an example Vulkan Video, which is 20 years younger :-D). So we endup hidi=
-ng the
-> primary buffers inside the kernel driver [0]. Just notice the this alloca=
-tion
-> allocates reference buffers for the decoder, and the decoder actually all=
-ocate
-> the final buffers. This is quite convoluted imho. Note that some importan=
-t fixes
-> have happen on this part of the postproc code (which arguably still need =
-a lot
-> of cleanup, a proper split between G1 and G2 (and merging back VC8000 int=
-o G2
-> since this is largely compatible).
->
-> https://gitlab.freedesktop.org/linux-media/media-committers/-/blob/next/d=
-rivers/media/platform/verisilicon/hantro_postproc.c?ref_type=3Dheads#L224
-> https://gitlab.freedesktop.org/linux-media/media-committers/-/commit/db30=
-0ab0e9d38b1e1b0b561333b66a5beacb9994
->
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202509022128.hDkCkWCt-lkp@intel.com/
 
-Ok, I read the code, but I have some doubt:
+All warnings (new ones prefixed by >>):
 
-- the NV16 and NV12 are both available as the primary buffer for the
-decoder but you don't know until you plug the camera and start
-streaming, so I suppose that in this
-case the size of the primary buffer should be computed based on the
-biggest format.
-- I think that hantro_set_reference_frames_format assumption is to
-keep the one supported from decoder and match the first one match the
-bit_depth,
-  so it can set as reference the NV12 and not the NV16
+   drivers/media/v4l2-core/v4l2-subdev.c: In function 'v4l2_subdev_enable_streams':
+>> drivers/media/v4l2-core/v4l2-subdev.c:2292:14: warning: variable 'is_source' set but not used [-Wunused-but-set-variable]
+    2292 |         bool is_source = true;
+         |              ^~~~~~~~~
 
-Is this correct?
 
-The postproc_enable happens if we have prepare_run it means that the
-buffers are allocated already but the buffer will be known only when
-someone
-enqueues them to the decoder. In such a scenario is there any driver
-already solving it?
+vim +/is_source +2292 drivers/media/v4l2-core/v4l2-subdev.c
 
-Michael
+  2282	
+  2283	int v4l2_subdev_enable_streams(struct v4l2_subdev *sd, u32 pad,
+  2284				       u64 streams_mask)
+  2285	{
+  2286		struct device *dev = sd->entity.graph_obj.mdev->dev;
+  2287		struct v4l2_subdev_state *state;
+  2288		u64 enabled_streams;
+  2289		u64 found_streams;
+  2290		bool already_streaming;
+  2291		bool use_s_stream;
+> 2292		bool is_source = true;
+  2293		int ret;
+  2294	
+  2295		dev_dbg(dev, "enable streams \"%s\":%u/%#llx\n", sd->entity.name, pad,
+  2296			streams_mask);
+  2297	
+  2298		/* A few basic sanity checks first. */
+  2299		if (pad >= sd->entity.num_pads)
+  2300			return -EINVAL;
+  2301	
+  2302		if (!(sd->entity.pads[pad].flags & MEDIA_PAD_FL_SOURCE))
+  2303			return -EOPNOTSUPP;
+  2304	
+  2305		/*
+  2306		 * We use a 64-bit bitmask for tracking enabled pads, so only subdevices
+  2307		 * with 64 pads or less can be supported.
+  2308		 */
+  2309		if (pad >= sizeof(sd->enabled_pads) * BITS_PER_BYTE)
+  2310			return -EOPNOTSUPP;
+  2311	
+  2312		if (!streams_mask)
+  2313			return 0;
+  2314	
+  2315		/* Fallback on .s_stream() if .enable_streams() isn't available. */
+  2316		use_s_stream = !v4l2_subdev_has_op(sd, pad, enable_streams);
+  2317	
+  2318		/* Figure out if the sub-device is a source sub-device. */
+  2319		for (unsigned int i = 0; i < sd->entity.num_pads; i++) {
+  2320			if (!(sd->entity.pads[i].flags & MEDIA_PAD_FL_SINK))
+  2321				continue;
+  2322	
+  2323			is_source = false;
+  2324			break;
+  2325		}
+  2326	
+  2327		if (!use_s_stream)
+  2328			state = v4l2_subdev_lock_and_get_active_state(sd);
+  2329		else
+  2330			state = NULL;
+  2331	
+  2332		/*
+  2333		 * Verify that the requested streams exist and that they are not
+  2334		 * already enabled.
+  2335		 */
+  2336	
+  2337		v4l2_subdev_collect_streams(sd, state, pad, streams_mask,
+  2338					    &found_streams, &enabled_streams);
+  2339	
+  2340		if (found_streams != streams_mask) {
+  2341			dev_dbg(dev, "streams 0x%llx not found on %s:%u\n",
+  2342				streams_mask & ~found_streams, sd->entity.name, pad);
+  2343			ret = -EINVAL;
+  2344			goto done;
+  2345		}
+  2346	
+  2347		if (enabled_streams) {
+  2348			dev_dbg(dev, "streams 0x%llx already enabled on %s:%u\n",
+  2349				enabled_streams, sd->entity.name, pad);
+  2350			ret = -EALREADY;
+  2351			goto done;
+  2352		}
+  2353	
+  2354		already_streaming = v4l2_subdev_is_streaming(sd);
+  2355	
+  2356		if (!use_s_stream) {
+  2357			/* Call the .enable_streams() operation. */
+  2358			ret = v4l2_subdev_call(sd, pad, enable_streams, state, pad,
+  2359					       streams_mask);
+  2360		} else {
+  2361			/* Start streaming when the first pad is enabled. */
+  2362			if (!already_streaming)
+  2363				ret = v4l2_subdev_call(sd, video, s_stream, 1);
+  2364			else
+  2365				ret = 0;
+  2366		}
+  2367	
+  2368		if (ret) {
+  2369			dev_dbg(dev, "enable streams %u:%#llx failed: %d\n", pad,
+  2370				streams_mask, ret);
+  2371			goto done;
+  2372		}
+  2373	
+  2374		/* Mark the streams as enabled. */
+  2375		v4l2_subdev_set_streams_enabled(sd, state, pad, streams_mask, true);
+  2376	
+  2377		/*
+  2378		 * TODO: When all the drivers have been changed to use
+  2379		 * v4l2_subdev_enable_streams() and v4l2_subdev_disable_streams(),
+  2380		 * instead of calling .s_stream() operation directly, we can remove
+  2381		 * the privacy LED handling from call_s_stream() and do it here
+  2382		 * for all cases.
+  2383		 */
+  2384		if (!use_s_stream && !already_streaming)
+  2385			v4l2_subdev_enable_privacy_led(sd);
+  2386	
+  2387	done:
+  2388		if (!use_s_stream)
+  2389			v4l2_subdev_unlock_state(state);
+  2390	
+  2391		return ret;
+  2392	}
+  2393	EXPORT_SYMBOL_GPL(v4l2_subdev_enable_streams);
+  2394	
 
->
-> regards,
-> Nicolas
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
