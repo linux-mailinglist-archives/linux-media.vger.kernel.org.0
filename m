@@ -1,63 +1,82 @@
-Return-Path: <linux-media+bounces-41545-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41544-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E4F5B3FB9C
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 12:02:19 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2AA0B3FB5B
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 11:55:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 66E7248063C
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 10:01:07 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id CD3FF7ACEDE
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 09:53:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE7AF2ED85F;
-	Tue,  2 Sep 2025 09:59:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC7E72EE26F;
+	Tue,  2 Sep 2025 09:54:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OkPXHxox"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ni.piap.pl (ni.piap.pl [195.187.100.5])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EC72EFD8A;
-	Tue,  2 Sep 2025 09:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.187.100.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB27E27702A;
+	Tue,  2 Sep 2025 09:54:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756807187; cv=none; b=pJTJrh3G8DDpmN0vFtCrJSNXWSGH9Q7oY7VAsroxTLB+rLuoMrTwSC2P10UfE9FN07myBzcj9Qy/BAj1R32d85glAfaWMzTtwCQ2PNkQdAyveo0mDfgLcWpIkYb3Ykw9MbNVJ6ERWLT0Q9alaXsoufKWLB2WLo4BdC2ybbC98Oc=
+	t=1756806878; cv=none; b=h3zvszNSKVk8Bbb10MJ/tv0E7SNC7+cAyXH8Y9uudhQ+zhRsVQ5t8i+/CumAutHjz7ZgK6L8vvfdAtvnG18ce/8nnybtppoJINs6fo34Wcc4jC5ij9C0bRSXLh66dJ9IXQ3l5X38PSbSLYsyftaGqN0Nb8Tg8Uc1DLLP6iIs/8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756807187; c=relaxed/simple;
-	bh=GNCNaMiPJDXvB/7iEX4grRokMrqO0VUFGnAoYlmBZNk=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=spscc8hEe82YSf/usC5ulpFKzVRZJrURI/lm6MkQe727YkmJkTNHZWIlwFCxHh3NuF+qa6xtK8YhvJZx1p5d/F6oFuAmYf0SsbMZBFqx8SDluoYJ7y36GD1dmu70BNJDDCU9ZzD47q1Ai0beECh8ycs3W4f1pOZlyY1/TLbunAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl; spf=pass smtp.mailfrom=piap.pl; arc=none smtp.client-ip=195.187.100.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=piap.pl
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=piap.pl
-Received: from t19.piap.pl (OSB1819.piap.pl [10.0.9.19])
-	by ni.piap.pl (Postfix) with ESMTPS id 16763C3EEACD;
-	Tue,  2 Sep 2025 11:54:28 +0200 (CEST)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ni.piap.pl 16763C3EEACD
-From: =?utf-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>
-To: Adam Ford <aford173@gmail.com>
-Cc: Stefan Klug <stefan.klug@ideasonboard.com>,  Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>,  Dafna Hirschfeld
- <dafna@fastmail.com>,  Heiko Stuebner <heiko@sntech.de>,  Paul Elder
- <paul.elder@ideasonboard.com>,  Jacopo Mondi
- <jacopo.mondi@ideasonboard.com>,  Ondrej Jirman <megi@xff.cz>,
-  linux-media@vger.kernel.org,  linux-rockchip@lists.infradead.org,
-  linux-arm-kernel@lists.infradead.org,  linux-kernel@vger.kernel.org
-Subject: Re: FYI: i.MX8MP ISP (RKISP1) MI registers corruption: resolved
-In-Reply-To: <CAHCN7xKq_o_u7PhPMcZ2W9nzrFP8+CnhaYJOyxnjpKfbMTBCEw@mail.gmail.com>
-	(Adam Ford's message of "Tue, 12 Aug 2025 13:22:54 -0500")
-References: <175308758352.3134829.9472501038683860006@localhost>
-	<175326599663.2811177.16620980968274114885@localhost>
-	<m3h5z2vw12.fsf@t19.piap.pl>
-	<175344176070.2811177.10693943493658922992@localhost>
-	<m3qzxyug1s.fsf@t19.piap.pl> <m3cy9futcj.fsf@t19.piap.pl>
-	<m34iumujcs.fsf@t19.piap.pl> <m3zfcet41n.fsf@t19.piap.pl>
-	<m3a545t789.fsf@t19.piap.pl>
-	<20250812103243.GK30054@pendragon.ideasonboard.com>
-	<175501095338.74722.11604545949710100799@localhost>
-	<CAHCN7xKq_o_u7PhPMcZ2W9nzrFP8+CnhaYJOyxnjpKfbMTBCEw@mail.gmail.com>
-Sender: khalasa@piap.pl
-Date: Tue, 02 Sep 2025 11:54:27 +0200
-Message-ID: <m31popxjqk.fsf@t19.piap.pl>
+	s=arc-20240116; t=1756806878; c=relaxed/simple;
+	bh=mrWYcJsYgFEREkPfiWU5na3mwUt9On8OWsszpHczC6w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rjQBUcVoBDwukurCENZEIO//dkMMUhPZnRr2G7DJsxbBrL2SANcA4i+lBB+kiXvgK7Mi7mHEYbAzKrZV/jkYiVbPiDJR3WpeICcuWHm/AgkjdjGeMJnE3Slkj82wr1Qn7wPKzU/G1U6DdGUGDLlzM47msZTsTwNFRK/qNOQ8Wkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OkPXHxox; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756806877; x=1788342877;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=mrWYcJsYgFEREkPfiWU5na3mwUt9On8OWsszpHczC6w=;
+  b=OkPXHxoxtQXVWSpdzTPJb0XP2+Uc7BvaHnf2xyOuMNlcS6fJSKskLBi/
+   CSIMxeuYLyFL7QgH80cjLNep7vSZrxFW9i89lYwUAs+TtPwdmEJcqFIP+
+   6V1st+DKHdlTjzc3a6sCLXGRBmGK9KANU3pG5m844+Q2ZCZCnGUVwlC7H
+   d3N6VYO30dtHzlMSDk35Fpr4JPYVGkz85O2xbh6tuf9Bt0cTPLQ1MR338
+   /Pe5iLH48DGjDw3LdxL7RmSdLLoIZEOlbp8asI1y2g3PWOSVT7sb20b3z
+   XKKNRm1Q3tWHaeu5r2I6NqQcekgglFeAFwg7DNf6+Y6VMM1OkGmdHMHYZ
+   A==;
+X-CSE-ConnectionGUID: HCfZlRJTSOewoE4kewEZDQ==
+X-CSE-MsgGUID: L8dLCvCRSjWuhFPVgXpqrQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="58277748"
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="58277748"
+Received: from fmviesa004.fm.intel.com ([10.60.135.144])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 02:54:34 -0700
+X-CSE-ConnectionGUID: aNRjji1wSgaKIaQvhq8ozA==
+X-CSE-MsgGUID: nE4xiCayQya9ygb9wMscpw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="176507746"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa004.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 02:54:31 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1utNie-0000000AeyC-2MIl;
+	Tue, 02 Sep 2025 12:54:28 +0300
+Date: Tue, 2 Sep 2025 12:54:28 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [RFC] staging: media: atomisp: Simplyfy masking bit logic
+Message-ID: <aLa-1GPJDxpX-soG@smile.fi.intel.com>
+References: <20250902073841.2338568-1-abarnas@google.com>
+ <aLaypTjukJJloGuL@stanley.mountain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,35 +84,45 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aLaypTjukJJloGuL@stanley.mountain>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi,
+On Tue, Sep 02, 2025 at 12:02:29PM +0300, Dan Carpenter wrote:
+> On Tue, Sep 02, 2025 at 07:38:40AM +0000, Adrian Barnaś wrote:
 
-summary:
+...
 
-I've done a few additional tests and it seems the MEDIA_AXI clock is the
-problem. Reducing it to 400 MHz while still running MEDIA_ISP at 500 MHz
-produces no errors.
-MEDIA_ISP at 400 MHz and MEDIA_AXI at 500 MHz produces errors, though
-(register address errors while reading and writing from/to ISP MI
-(memory interface) registers, only on the secondary ISP (isp1), and
-generally only while streaming data from the ISP).
+> >  static inline hive_uedge
+> >  inv_subword(hive_uedge w, unsigned int start, unsigned int end)
+> >  {
+> > -	return w & (~(((1ULL << (end - 1)) - 1) << 1 | 1) | ((1ULL << start) - 1));
+> > +	return w & (~__GENMASK_ULL(end-1, start));
+> >  }
+> 
+> nit: white space.  Add spaces.  Remove parentheses.
+> 
+> These are supposed to be opposites, right?  Subword and inverse Subword.
+> You could dress them up to make them look more opposite.
+> 
+> 	return (w & __GENMASK_ULL(end - 1, start)) >> start;
+> 	return w & ~__GENMASK_ULL(end - 1, start);
 
-What is driven by MEDIA_AXI clock root? MEDIAMIX: ISI, LCDIF, ISP, DWE.
+The problem is (and actually with the (end-1, start) above that it might
+generate a really bad code on some CPUs, so I really, really prefer the way
+when _at least_ one of the parameters is constant.
+That said, using
 
-According to both datasheets (industrial and commercial), MEDIA_AXI
-is limited to 400 MHz in normal mode and 500 MHz in overdrive mode.
-All my hardware is setup for overdrive mode, though (two manufacturers,
-both using the same PMIC setup).
+	GENMASK_ULL(end - 1, 0)
 
-Since no hardware in the official Linux kernel tree (DT) uses the second
-ISP... Should we just add a warning to the imx8mp.dtsi and be done with
-it?
-Out of tree hardware using isp1 (csi1) obviously exists.
---=20
-Krzysztof "Chris" Ha=C5=82asa
+in both cases makes also them look more similar (and opposition comes on how
+start is being used).
 
-Sie=C4=87 Badawcza =C5=81ukasiewicz
-Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
-Al. Jerozolimskie 202, 02-486 Warszawa
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
 
