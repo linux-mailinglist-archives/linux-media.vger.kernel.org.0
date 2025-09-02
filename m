@@ -1,134 +1,147 @@
-Return-Path: <linux-media+bounces-41541-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41542-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87D20B3FADC
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 11:42:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 26F65B3FB45
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 11:53:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 24A994E396F
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 09:42:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC4DF2C1E1B
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 09:53:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 702752EC0A6;
-	Tue,  2 Sep 2025 09:42:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AB8C2EF677;
+	Tue,  2 Sep 2025 09:50:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TUGh9MOP"
+	dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b="i+24XU8u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f196.google.com (mail-pl1-f196.google.com [209.85.214.196])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EA462EB86F;
-	Tue,  2 Sep 2025 09:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 611B62EE26F
+	for <linux-media@vger.kernel.org>; Tue,  2 Sep 2025 09:50:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756806136; cv=none; b=Mf/od9UHUUcrzNfzN813N+PcFOXQ60JWNl7GrV8aM/wLnEFpBbVFll8V2MU2of8BVGDcIBhZ4qgJkT5tcDLwCbDDBWfBoe/moUM+i73a6+xgjnw4RKGkfFpM7IJI6AHanDELVeIrhv6zfvph3kBpQS3Y9ln7/xGw/n0PomG6Ofk=
+	t=1756806635; cv=none; b=KRj4KUgLq9lVcQjJczGXdqS2EuNN7rq8PIoWBjg4U3qsh/Br4/W9bMLaC3950zO1nGQaVXRfGiGtW4/I7WJjWuAooAq+VJfqZSea1MKtkUuQyxbSnjWeyUx9obxpNKu9jx1zHktVr3VTG0behq11OxISuK+vK5Ttx7APmK207Q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756806136; c=relaxed/simple;
-	bh=0r3Kbl66SOPlH3J9OpigscsrmnOrTPBzkofO/1BNk4E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f1Y9b52BcXj0IPGQbamOIsNbNkUjomr2s5Plx0EsL5eUgeMaJOY71onIyCNP+8Z6Fbn0tNcZwxXkkX+J8oteI5TdOnmBbiQv7GOrk90Mxhu9n5BJaGJd3i+RDWUkgHSsJ3jqLf7QrRwbY5B9lbFAp8idsAgMtxfPkZG7heRguwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TUGh9MOP; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756806135; x=1788342135;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=0r3Kbl66SOPlH3J9OpigscsrmnOrTPBzkofO/1BNk4E=;
-  b=TUGh9MOP440WK0Ql2JALw5iCI4a5VnOJJcFy2MnzOCuOCvCnfePz/b3C
-   QlCiZfCnw7sZZr8eLyzV9EsBy4fgyrzmm5raODHP7Lx7zyLCYei8bVffk
-   +nT/nIB2LTRgzgdhB6865DMvIePcAvp3+3XGFEm8WMUwgtbfHPM2PGaC0
-   NPvbsfShthoWfPLWStjfWp5vijWpUXHYX9U/+52pbAo0BftCsaK1HIdQQ
-   tNxrmePKkolrrRJJ5lQcSEtmsp2LILrHj7hoUHze4XCdy+TbZbaYu45QI
-   mnxYlV8UjBzNkJa/THgMsNNAzPX3mNSvFSPkGxz7ENXCIa0QIPE2hz2gd
-   Q==;
-X-CSE-ConnectionGUID: 7H+daIcCT/G6qKR+LWdF0Q==
-X-CSE-MsgGUID: JE6pdSY/SkStZQyxY1pfEA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62900815"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="62900815"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 02:42:14 -0700
-X-CSE-ConnectionGUID: G1gZxVEnTV+SPbaUE/+9hA==
-X-CSE-MsgGUID: 4Vml7+MWTBO0NclOcEoSFQ==
-X-ExtLoop1: 1
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 02:42:12 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1utNWj-0000000Aeom-1t4L;
-	Tue, 02 Sep 2025 12:42:09 +0300
-Date: Tue, 2 Sep 2025 12:42:09 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [RFC] staging: media: atomisp: Simplyfy masking bit logic
-Message-ID: <aLa78SILWdVG9AJj@smile.fi.intel.com>
-References: <20250902073841.2338568-1-abarnas@google.com>
+	s=arc-20240116; t=1756806635; c=relaxed/simple;
+	bh=HpuQ16/in0IZOGTqPmL0wNQ1DqhTQuONkzU8MkQHKyE=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=jxKOs/H6cuRisqWGhmZKhlYKdNT1zEKcjxkoM/glrAkCXVCIvFWp4OVWCt0YCGutUCANYl93ct/Suy89BGVcOh8Jum6qh6Mn1seNs8dMQzITLeQGZgd61yMX/VZgpbtCwv4E0NyRR0+GTCb6PIFlyd/6cXHRnAH1VABbQAyGkoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com; spf=pass smtp.mailfrom=amarulasolutions.com; dkim=pass (1024-bit key) header.d=amarulasolutions.com header.i=@amarulasolutions.com header.b=i+24XU8u; arc=none smtp.client-ip=209.85.214.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=amarulasolutions.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amarulasolutions.com
+Received: by mail-pl1-f196.google.com with SMTP id d9443c01a7336-24a9ccbf10dso22904875ad.3
+        for <linux-media@vger.kernel.org>; Tue, 02 Sep 2025 02:50:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=amarulasolutions.com; s=google; t=1756806632; x=1757411432; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=KwNGOdu6KcWp9upTM29gDlw2QyNB2g4PZkNhsCRVccI=;
+        b=i+24XU8uXRB/oSnQkWvASi+6ynJlzqEppTfXkkF8986W90tLNZwC8wilAGM8QR0G9T
+         F9iDl3Opr8VPsa6r7rSS1VwxrxSVEvgB1AabXMxJVstXG4+VnjlQw4IEtzN3RZgEret3
+         s19m69OiYRCktStsOWdOdeDUtcFE4y4ahjcNY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756806632; x=1757411432;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=KwNGOdu6KcWp9upTM29gDlw2QyNB2g4PZkNhsCRVccI=;
+        b=ETd74wbZ2ZLGX7TNZi2XeqzmrTq1sEBlPLnMB/9TxlBrNff72AIYOxntvlrLdK6Ocq
+         pYl0vE0DURNMwmsxeDB8YKzAGMNKN/2A2yIjiASiAeJzR1aB36/FOsZzaKhqotxu9vzG
+         HJcFMBFmmEhaMTmxAX9GBrmq2jwajDORV4iQnYde3iHI20/r38hb5oYefpGgV9hLP/29
+         uuNF5Kg9n3W5CUXFMlFo5m4Cukcc+NGqIbtU/rB7wTEjfHX7r9hnGo5aZerT18NxtpUa
+         tFj3d5c5LuatW+GkB49EQXxUk14fS9ImOJ5A0skkTIPhcfMN5QiGPBbNOh8BwSyoc33f
+         9J2Q==
+X-Gm-Message-State: AOJu0Yy7bAeq8IptmcgEfeWCVBhPFLau+V961skUA7PXhhOSRmIAy7cz
+	vnc2mWvwsiZQvEpNfoQ8wslyWvzXL8fZVm6QIOwfyrK5pCrIEWrHYb+kwlPsTqu/2KQXEYiJxoe
+	Ri3i46IBUOR2ekEYZYr0jvXhEUgTLoj9Gg3+FejffsPX3X74VwkDl9gYmlnWCGKs=
+X-Gm-Gg: ASbGncuNMcY9scyeiNJcDemZzhzmPGwfDI8w461VVQGr9P9LkoRROTE6Of7PJ8ic3T4
+	IpaCimOWvKYIV0cQA52IhAgG49LFCIFtYc1Pt34iIcOATIHzCHNR2FShuEES3j3asBadWPr/vbm
+	c6I4M6P/+UvWWPDANT2BSD4PW23mbrGuShjDHWFVGOsAGCzZOcApSSswg+Os0xNVG/I/oGvQq8o
+	mhakX8gow==
+X-Google-Smtp-Source: AGHT+IFlpAY4r8tdWZOPZ6tvwypIjekBlj6pAuI2iSDlP+xt1TLiq+1yMrsn73CuWK6j5augrgQtZEXfBBN9mNnN2RM=
+X-Received: by 2002:a17:903:22cc:b0:24c:1a84:f73f with SMTP id
+ d9443c01a7336-24c1a84fa7dmr165895ad.51.1756806632064; Tue, 02 Sep 2025
+ 02:50:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250902073841.2338568-1-abarnas@google.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Date: Tue, 2 Sep 2025 11:50:20 +0200
+X-Gm-Features: Ac12FXwHRsmikeesvMpG1jSz-0NmFwceVlMMikvQAZRftnf0cSFLizDSM_qlfQg
+Message-ID: <CAOf5uwmTTFcizew2QRAr=TZ12hTfXg6NFEsDYKASB7wPeB4odw@mail.gmail.com>
+Subject: Hantro G1 jpeg decoder stm32mp2 (plain text)
+To: linux-media <linux-media@vger.kernel.org>
+Cc: Hugues Fruchet <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, Sep 02, 2025 at 07:38:40AM +0000, Adrian Barnaś wrote:
-> Simplified masking logic in pci/hive_isp_css_common/host/vmem.c.
+Hi all
 
-...
+I'm working starting from downstream jpeg decoder to properly support
+the usb camera to decode mjpg. After look at the header I found out
+how to decode the RSTx block and have a correct image that I can show
+on wayland display using:
 
-> ---
-> 
-> I have tested this change on whole range of *valid* inputs, and it gives
-> the same results as before, but this function seems to be little
-> counter-intuitive as far as start is a (bit index) but end is
-> (bit index + 1).
+gst-launch-1.0  v4l2src device=/dev/video2 ! image/jpeg,
+framerate=30/1,width=640,height=480,format=MJPEG ! v4l2jpegdec !
+video/x-raw, framerate=30/1, width=640, height=480, format=NV16 !
+videoconvert ! waylandsink sync=false
 
-We can't change it without changing the callers at the same time.
-So, better to change just helpers and later on, if working, change
-the semantics of the parameter.
+Now the problem moves to videoconvert that is software based. Anyway:
 
-> ---
+The patch was only to consider:
 
-...
+-       if (header.restart_interval)
++       if (header.restart_interval) {
+                reg |= G1_REG_DEC_CTRL2_SYNC_MARKER_E;
+-
++               vdpu_write_relaxed(vpu,
+G1_REG_DEC_CTRL5_IDR_PIC_ID(header.restart_interval),
+G1_REG_DEC_CTRL5);
++       }
 
->  subword(hive_uedge w, unsigned int start, unsigned int end)
->  {
-> -	return (w & (((1ULL << (end - 1)) - 1) << 1 | 1)) >> start;
-> +	return (w & __GENMASK_ULL(end-1, 0)) >> start;
+The interval and program it in the corresponding register.
 
-Why __ variant?
+All the USB cameras I have tested have 422 subsampling that let the
+decoder decode to
+a NV16 image. Now to show on the screen and present the image, the
+hantro needs to have
+NV16 dst image buffer but anyway the decoding produces the NV16
+format. I'm trying to figure out how to work on hantro postprocess,
+that if I understand correctly, try to go to the requested
+output format but expecting NV12 as input format hardcoded. I have tried to:
 
->  }
++       switch (ctx->vpu_src_fmt->fourcc) {
++       case V4L2_PIX_FMT_NV12:
++               src_pp_fmt = VPU_PP_IN_NV12;
++               break;
++       case V4L2_PIX_FMT_NV16:
++               src_pp_fmt = VPU_PP_IN_NV16;
++               break;
++       default:
++               WARN(1, "input format %d not supported by the
+post-processor, use NV12 ",
++                    ctx->vpu_src_fmt->fourcc);
++               src_pp_fmt = VPU_PP_IN_NV12;
++               break;
 
-...
+and add the NV16 that should correspond to
++#define VPU_PP_IN_NV16                 0x4
 
->  inv_subword(hive_uedge w, unsigned int start, unsigned int end)
->  {
-> -	return w & (~(((1ULL << (end - 1)) - 1) << 1 | 1) | ((1ULL << start) - 1));
-> +	return w & (~__GENMASK_ULL(end-1, start));
->  }
+What is a bit not clear to me is how should I proper handle this
+difference in postprocess and how buffer are properly pass to the
+decoder and then to the userspace. Apart from that what
+I have read from [1] is that if the pipeline is enable the
+G1_REG_DEC_CTRL0_DEC_OUT_DIS should be set to 1, but I did not see any
+driver to it. What I need to continue is a better understanding of how
+the post process manages buffering. I think that then I can directly
+pass
+the only color supported by post-process as caps to gstreamer. Am I right?
 
-Ditto.
+Michael
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+[1] https://github.com/linux4sam/g1_decoder.git
 
