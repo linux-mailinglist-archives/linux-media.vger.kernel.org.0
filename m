@@ -1,222 +1,161 @@
-Return-Path: <linux-media+bounces-41539-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41540-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1FF0B3FA7D
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 11:34:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5271EB3FACE
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 11:38:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E9BF21757CD
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 09:34:04 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 29961164BAD
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 09:38:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB12E2EBB8C;
-	Tue,  2 Sep 2025 09:33:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37A032EB86C;
+	Tue,  2 Sep 2025 09:38:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CewS50UV"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A/W8N2vK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EAA92EBB8D
-	for <linux-media@vger.kernel.org>; Tue,  2 Sep 2025 09:33:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 322FB27FD40
+	for <linux-media@vger.kernel.org>; Tue,  2 Sep 2025 09:38:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756805630; cv=none; b=XixcMObt0PIQ84pEbDeyI6KkP++Ik3HCc4LCmJzM7xcsmSP/SlMvCDrKzNr6/YfSyILS7w5YUVkwIf8tqFWDfzwLYDOaAKjSfsYB5MaS1CWBA3+diEwS2Oex2d1FT3Q31H2VLprvC+onKaOeCgO4Bx4TmFfJhO6AeOyIcBQqEks=
+	t=1756805921; cv=none; b=GslJfrgaP1+wcOq01QxEM4zg2Fo54l9ydymX5i644hioHWWi/Hf+vIFoJ7yY8S1Ieu2OZi24Shiz7lYd0cCNg8h2o8OW6cT4EoD5+x2sHzWLK1R3mggkCnCgx40hxA78pv2wWc3oTInuQvfYpxwZ0zCHyl8AaAFQeThDVRCeL5E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756805630; c=relaxed/simple;
-	bh=mvGqDwKlRv+JLy+LbTVpv4wS0+iUVp2Rrkv66kH/6hY=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=nvXswUUDTobE3ZV0Wb0LNEB8T9tSQjiu/KbfXkzaL5wo1qouOh9w8jBIIwgnia9WKaS/A3GMFBi+Ptv9MDkwSs+spgBDPFnxapt7+aiiaz5excUKzIEILHB5mnIVLROj9sP8OnrkkfERw8lZWihGDuXonbQuR3QECPAdvoI1JTQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CewS50UV; arc=none smtp.client-ip=209.85.167.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-5607b6de4b8so155082e87.2
-        for <linux-media@vger.kernel.org>; Tue, 02 Sep 2025 02:33:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756805626; x=1757410426; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=2WXdsrQ3eI1ThGeTVe6WVTbSehctD5BTu1VZHdzBLQo=;
-        b=CewS50UV1T3cS61SoPcmWd1r94SwkbrUUzc4UHG3EbJ64JY4I+98sX3H7H2gqW1GYK
-         FHvxXtMdiuVbf7Co2FK0By+awiGyYsJSx3aVRHRm9c86jK19t5fPq89vWHGeASz5ha/I
-         p4195UyUxvwtoFzU2k19F1eplqQUo4z95HhP4UmekPPu1z44oe0QzI/lSvskqnzm4Y1D
-         sIDO0srqm2q/pLoknXSBVhd8qSPblbd+ETzuPPt933j3N1QqbmGDWgsXu5DRVwRR53Bh
-         LPH6KAH9NZ1INIWMWhYbrpuc0Yhaq6uLRiyPAGMBH79ZiBWG7blwKyaMvjgjRkrg5F1e
-         /jHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756805626; x=1757410426;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=2WXdsrQ3eI1ThGeTVe6WVTbSehctD5BTu1VZHdzBLQo=;
-        b=t8XsbZcAkdDqCcAvu+3aJhSE1NSMBD6zr/kDo3m99lt0cqtO9mMt6u/dfw0rEVsw65
-         Fp9JUzP4x5uaFrlefAzXaUHVBukqFUrwzGp6spLAlOK8NBgytNGX1wVooNCRNywpQUxu
-         g1kfob3MEiqSBANKwNIzN2nXUyFNmKWYxFyuOz3M7yl6qs72gK/3cHqXNVdNko1HP2V8
-         hHu1iTx+bphduXVoXj1Zew6stbdnbvGssnBFthhz/pIkMk8P780CxtSy56/74qOzq37L
-         OnZr9Bs/TomFY/mnRt36/egEOo8AE1ELjYcHs4CS+fnBPSOgAq6wHzM3tiATr2Zp04GG
-         Mocg==
-X-Forwarded-Encrypted: i=1; AJvYcCV/54w+AApN5XVa/GLD0BLv7YhCgydjy1MhcSTDEfBM5gkIGiSkiJaP287CmX2WqGUSJHD6hy3qlNchcQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw40x46txVMhqSnMDqzsuwBTTaN1Ci6nV7IDYAKUFey84LqKC9D
-	NcOeZJw5ouaYYgBpwz9QBJ0/Rkk6biMmnCk/sdZGxSWLKDDDW0fZP+M35Qfi7EN0eBU=
-X-Gm-Gg: ASbGncu0d5ZnED7lSIFxbLjl02pBUs0UrkgSDGd3oByTr1XV35wG6nsuhsjCAv0OPsn
-	XTmNgj/seAmezdqyda3kqttRR4vKXrtDedzvhyqHUaAD0RuaHCkOcJJQ1V+7WMUp08iTiFfN83n
-	Lm3jImxp1Fl/IwgW4vjYATibcnzY5jGC+TAMDxfr4i1ShE82YGo+hFRChai/xhZJUkaxQBnBidx
-	7C5cvCRy7iMYW16t9j4dkQZr5k5v5G6XAXFh03P9kJdg4+rBKwcmr3iR5aEtejnKudlu/OqKiyn
-	rpG4/84OUqC2kgOplO6GPc8ilLBncktF/i62yimmLTlVdknZqeJ/CvS5QcBwobow0kaMonxRq07
-	QgnBqUyTlZzftoxvAR5hFGCaskwbklrn9A34nbtmDQdCKvDS/WWdfWFDzFUZt4jtgpf08gHliVV
-	0cSA3CSg3rfKA=
-X-Google-Smtp-Source: AGHT+IH0R88JtERWcmI/1sAbpj3SOL9TJiYlxb8qzg+wBv99Po12IEWWWiRt+cg5/FROnX2xs4xX1A==
-X-Received: by 2002:a05:6512:2313:b0:55f:5298:47f3 with SMTP id 2adb3069b0e04-55f6affea28mr2184148e87.3.1756805626438;
-        Tue, 02 Sep 2025 02:33:46 -0700 (PDT)
-Received: from [192.168.1.100] (88-112-128-43.elisa-laajakaista.fi. [88.112.128.43])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-560826d67c9sm570966e87.40.2025.09.02.02.33.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 02 Sep 2025 02:33:46 -0700 (PDT)
-Message-ID: <da59038d-edd6-4444-861f-adb65b040d0e@linaro.org>
-Date: Tue, 2 Sep 2025 12:33:40 +0300
+	s=arc-20240116; t=1756805921; c=relaxed/simple;
+	bh=Kber4A7YkQ4Kobye4jnnWr0rZnIA5qevapqSQTumlxo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=p2rEbcqT1WttQrjZjhspUSalVSGWeW6P00XYjF0wWPMv3ED05nCJmGg8t0qCuGQob+HEgBfz15DJz3wyonmdDs7kjueC+SNDNshpVzI2RgSdx6DXveEatosE2jr0ENKqyoNaZtN6k23s0O8zfbuPYuN02losdfOGX7DVpNIxa4w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A/W8N2vK; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756805920; x=1788341920;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Kber4A7YkQ4Kobye4jnnWr0rZnIA5qevapqSQTumlxo=;
+  b=A/W8N2vKmLqUYm9Lz8wpwpwJrD4NpRA+fgdyV0vS22V1/IMyy7wGmTlx
+   7fiuWtPXX2IyGuTK2Vr/Ke1h9uZ5PFzJjQWr7psc0BSjuEyjtSUzexhtY
+   Cf5rwjBXhWukvZHh2thQi2NuA1Ua0ECJI6pVhyrA++2TsuE35YBObE74W
+   SlsdIYB8KvF+tesKTrlS802QmhjQPqb78q4eVF2uyeY8vyFd34z7ot3y3
+   A8DMBGZ5RqGIlgUpgXZpa4VyT+iVWu+fx1VIqpVNdXyHkQ+YfnFEdeSJj
+   1+dBCb7gi7/J1cr02hhnim2h3iG3b6Ss3Zk7WXG8aUiRl/FOIqp5Yx1W5
+   g==;
+X-CSE-ConnectionGUID: 7DbbIXHZRhai9uWg7KJkBw==
+X-CSE-MsgGUID: M1VU30AkQ3iCBdCBFdWQeg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="69779381"
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="69779381"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 02:38:39 -0700
+X-CSE-ConnectionGUID: aHBbgywkSOGmd+oTTy+yNg==
+X-CSE-MsgGUID: CqJlcLzGTi6jgPMc/GDbKQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="170798498"
+Received: from agladkov-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.32])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 02:38:33 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id AD60E11F739;
+	Tue, 02 Sep 2025 12:38:30 +0300 (EEST)
+Date: Tue, 2 Sep 2025 12:38:30 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 03/66] media: Documentation: There are either
+ immutable or mutable routes
+Message-ID: <aLa7FskB6a-xgEWc@kekkonen.localdomain>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-4-sakari.ailus@linux.intel.com>
+ <natrdubf73v3vfyfhsiympdnykr546ighnvcqsoddqz7s7eif3@bhgd25gvdqea>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 0/2] media: i2c: Add OmniVision OG0VE1B image sensor
- driver
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@kernel.org>,
- Tarang Raval <tarang.raval@siliconsignals.io>
-References: <20250829144242.236732-1-vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20250829144242.236732-1-vladimir.zapolskiy@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <natrdubf73v3vfyfhsiympdnykr546ighnvcqsoddqz7s7eif3@bhgd25gvdqea>
 
-Hi Sakari.
+Hi Jacopo,
 
-On 8/29/25 17:42, Vladimir Zapolskiy wrote:
-> OmniVision OG0VE1B is a monochrome image sensor, which produces frames
-> in 8/10-bit raw output format and supports 640x480, 400x400, 200x200
-> and 100x100 output image resolution modes.
-> 
-> At the moment the only supported resolution in the device driver is
-> 640x480@120fps (Y8).
-> 
-> The driver version is based on top of media/master, which contains
-> a new devm_v4l2_sensor_clk_get() helper function.
+Thank you for the review.
 
-I'm not very well familiar with the linux-media processes, let me ask
-you about an expected interpretation of a "Superseded" patch status,
-which is assigned to this driver and another OV6211 one.
+On Mon, Sep 01, 2025 at 01:18:58PM +0200, Jacopo Mondi wrote:
+> Hi Sakari
+> 
+> On Mon, Aug 25, 2025 at 12:50:04PM +0300, Sakari Ailus wrote:
+> > Document that each sub-device may have either immutable or mutable routes,
+> > not both of them.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  Documentation/userspace-api/media/v4l/dev-subdev.rst | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > index f30a98a9cf78..4da67ee0b290 100644
+> > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > @@ -594,6 +594,11 @@ and user-created routes are fully replaced when ``VIDIOC_SUBDEV_S_ROUTING`` is
+> >  called on the sub-device. Such newly created routes have the device's default
+> >  configuration for format and selection rectangles.
+> >
+> > +A sub-device may only have either immutable routes (routes that have
+> > +``V4L2_SUBDEV_ROUTE_FL_IMMUTABLE``) flag set or routes that are all user-created
+> 
+> The closing ) should go after 'flag set'
 
-Is there anything else expected to be done on my side?
-
-Thank you in advance.
+Ack.
 
 > 
-> Output of v4l2-compliance tool from v4l-utils-1.20.0:
+> > +or user-removable (routes that do not have ``V4L2_SUBDEV_ROUTE_FL_IMMUTABLE``
+> > +flag). This is subject to change in the future.
 > 
-> ----8<----
-> v4l2-compliance SHA: not available, 64 bits, 64-bit time_t
+> I take this as:
+> 1) Either all routes are created by the driver and have the
+>   V4L2_SUBDEV_ROUTE_FL_IMMUTABLE flag set
+> 2) Or all routes are user created (and do not have the
+>    V4L2_SUBDEV_ROUTE_FL_IMMUTABLE flag set)
 > 
-> Compliance test for device /dev/v4l-subdev30:
-> 
-> Required ioctls:
-> 
-> Allow for multiple opens:
-> 	test second /dev/v4l-subdev28 open: OK
-> 	test for unlimited opens: OK
-> 	test invalid ioctls: OK
-> 
-> Debug ioctls:
-> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
-> 
-> Input ioctls:
-> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
-> 
-> Output ioctls:
-> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
-> 
-> Input/Output configuration ioctls:
-> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-> 	test VIDIOC_G/S_EDID: OK (Not Supported)
-> 
-> Control ioctls:
-> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-> 	test VIDIOC_QUERYCTRL: OK
-> 	test VIDIOC_G/S_CTRL: OK
-> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> 	Standard Controls: 10 Private Controls: 0
-> 
-> Format ioctls:
-> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-> 	test VIDIOC_G/S_PARM: OK (Not Supported)
-> 	test VIDIOC_G_FBUF: OK (Not Supported)
-> 	test VIDIOC_G_FMT: OK (Not Supported)
-> 	test VIDIOC_TRY_FMT: OK (Not Supported)
-> 	test VIDIOC_S_FMT: OK (Not Supported)
-> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> 	test Cropping: OK (Not Supported)
-> 	test Composing: OK (Not Supported)
-> 	test Scaling: OK (Not Supported)
-> 
-> Codec ioctls:
-> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> 	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> 
-> Buffer ioctls:
-> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
-> 	test VIDIOC_EXPBUF: OK (Not Supported)
-> 	test Requests: OK (Not Supported)
-> 
-> Total for device /dev/v4l-subdev30: 41, Succeeded: 41, Failed: 0, Warnings: 0
-> ----8<----
-> 
-> Link to v1 of the OG0VE1B camera sensor device driver:
-> - https://lore.kernel.org/all/20250820224646.130270-1-vladimir.zapolskiy@linaro.org/
-> 
-> Changes from v1 to v2:
-> * added Reviewed-by: tag to the device tree binding part (Rob),
-> * removed unnecessary explicit setting of og0ve1b->sd.dev (Tarang),
-> * switched to regulator bulk operations (Sakari comment for ov6211),
-> * minor non-function changes.
-> 
-> Vladimir Zapolskiy (2):
->    dt-bindings: media: i2c: Add OmniVision OG0VE1B camera sensor
->    media: i2c: Add OmniVision OG0VE1B camera sensor
-> 
->   .../bindings/media/i2c/ovti,og0ve1b.yaml      |  97 +++
->   MAINTAINERS                                   |   8 +
->   drivers/media/i2c/Kconfig                     |  10 +
->   drivers/media/i2c/Makefile                    |   1 +
->   drivers/media/i2c/og0ve1b.c                   | 816 ++++++++++++++++++
->   5 files changed, 932 insertions(+)
->   create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,og0ve1b.yaml
->   create mode 100644 drivers/media/i2c/og0ve1b.c
-> 
+> Is this intended ? Can't we have routes that are driver created and
+> are immutable and routes created by the user on the same sub-device ?
+
+We could allow that later on but as I don't think we have a use case yet,
+I'd explicitly deny that for the time being.
 
 -- 
-Best wishes,
-Vladimir
+Kind regards,
+
+Sakari Ailus
 
