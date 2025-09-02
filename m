@@ -1,138 +1,121 @@
-Return-Path: <linux-media+bounces-41547-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41551-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9E24B3FBA2
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 12:03:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F695B3FBD7
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 12:07:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6232E3AA738
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 10:02:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2C3331B21E8B
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 10:08:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AEA42EFD80;
-	Tue,  2 Sep 2025 10:02:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E2CA2E0418;
+	Tue,  2 Sep 2025 10:07:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cIsb9AGT"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="krqLumUa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C536F2ED85F;
-	Tue,  2 Sep 2025 10:02:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DC542E9731;
+	Tue,  2 Sep 2025 10:07:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756807349; cv=none; b=YNkyyUsk123y6fgFPXQMztW4eFNW0pREOePe/+VgJLkVO2nBH7np7Q5O9TCigsmBqfH5dQnOPor0JdBgsUWqG0klNcEiotnDsZCcGzhejbz6MB24Q1uPFJJctyQ/4VSEBOHgyighur+zwAxdceKtZ6E6jElRU6NpdJVMebt62uM=
+	t=1756807656; cv=none; b=qLhcxitzVG5L9P3tBxz9T53OGD+vkh1eOXRp2qU0ftV0t1nC92MOC4J6NBktVowGOlK5w46gqU2DHBg9OuMD3sL8KsEJghlmUDGStcBxVwtm5frItfC4Or2XsUU6VFe89gmOn5c3TF8MbfOdmUPhDG08QE2cPKpY7Qy1Xj+8duc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756807349; c=relaxed/simple;
-	bh=LAo3nqtn7q1/wRUFDy4gQhzWvEEWIBsqnEMQ6Y0XiwM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=GrnHb0hduIJscgM3SgP0XO1ogUeHIUJrii7tiwfE5f2tOvnnQaqsJousRVvOMIklSm1IkugbmQ9MgoRhri/EwnNHvZbHBTzTLdc+oGEOF17cIkpnD0vyjaLv21rA/wzFIzD3bN2lzl+ZJSTHJ4105FBU0SB05ujeq3GwNjm5BDw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cIsb9AGT; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BF53C4CEF9;
-	Tue,  2 Sep 2025 10:02:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756807349;
-	bh=LAo3nqtn7q1/wRUFDy4gQhzWvEEWIBsqnEMQ6Y0XiwM=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cIsb9AGTjJVUl+D1C18BMMjwz5mjvfvoDzuYS2HWE1LGVaADdwgX41cuTiLIiOYVf
-	 yc8Hg8bj6Fi0pxbuurdl+E+eFZyL3Sq5El3TX03qtbekay5zHRaZGHexnC2bMNpVds
-	 A4akGMKuSVOe4d34zrWEkKoLTPxCfRWNMgokkDuzTYwib0ddnu8fGYjcG2egQ2jsZj
-	 PiGlgOpB/cvgCB0nrKmmpk24NzBEc/rqQOY1L5tc2huGmwC2OhTJZ3vz2Y6PI8+xPJ
-	 YhQFJMlgpDfryaBlQZqLrOw6G5TTe0Fw4SiIENeqcI207SAMKCXGNo1s2wN5EIpYW7
-	 fZ3EDoSgBxyNA==
-Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
-	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1utNqM-00000003X7t-3v7e;
-	Tue, 02 Sep 2025 12:02:26 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: 
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	"Hans Verkuil" <hverkuil@xs4all.nl>,
-	"Sakari Ailus" <sakari.ailus@iki.fi>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org
-Subject: [PATCH v5 5/5] docs: media: profile: make it clearer about maintainership duties
-Date: Tue,  2 Sep 2025 12:02:22 +0200
-Message-ID: <718b1a0c51464d4f4cf1306e68014a239a6263a6.1756807237.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1756807237.git.mchehab+huawei@kernel.org>
-References: <cover.1756807237.git.mchehab+huawei@kernel.org>
+	s=arc-20240116; t=1756807656; c=relaxed/simple;
+	bh=7PC2Q//+WuzgF+LeTKFF2hZ7/yTMKlCXrmpgeUqMlYI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cPUV437pgH6zH4X9K7w59D0K+IMSmgXdm7+azOVZHGwpeMr2CJpcNvaDLwc0FDTncj1Yw4nAxFVDcPhq1sci7jeRtA2Dz78BZ45FODYjSwjK9Wkm6b8DfHg0hltY60FamyuyKCFL0Td0fzyZYLuz/u5uiGguBZA29FSTs+C0MBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=krqLumUa; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756807655; x=1788343655;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=7PC2Q//+WuzgF+LeTKFF2hZ7/yTMKlCXrmpgeUqMlYI=;
+  b=krqLumUahmUm7NIe2e6gwk23RCVD70g4upvkeRr1E6tynGFmTzD9UEy8
+   Bl6ltZ4oqc0e9PwB79//Fca7hPr7r4GoFSK6xeotZqQzWNDfx618P/5M9
+   2OTXkyrW3b3rt6IKyzgpb3MbSsTc5zDppdas2zpLCyRigiXfRoFBvE1fU
+   ohYrdfDFYt+MRAaOkZIIaA4qNYR4ZXZv7FQ0FxZ4qZVa9rAdttkSC3GVA
+   fXHJV5TF6TW9N2qYfH/esYXqqG6oxyLuS2Yr5gyIYNBq/guHuV3UBP1HF
+   E3TAPXB7pUXObdZDP/TtpZ4ur8gr52wb//STQwJso7u9oJCshK4ehjDZW
+   Q==;
+X-CSE-ConnectionGUID: W0am2F34S+GMlBY+x7a4pw==
+X-CSE-MsgGUID: MY2fRQoiSNOkpQb8V1IvlA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11540"; a="62717846"
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="62717846"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 03:07:35 -0700
+X-CSE-ConnectionGUID: YTmtS4U3RkOrcWZsfHTwug==
+X-CSE-MsgGUID: ob8IV5UUTzemb5NDEqdxTA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="176552503"
+Received: from agladkov-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.32])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 03:07:33 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 4DD8211F739;
+	Tue, 02 Sep 2025 13:07:29 +0300 (EEST)
+Date: Tue, 2 Sep 2025 13:07:29 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Tarang Raval <tarang.raval@siliconsignals.io>
+Subject: Re: [PATCH v2 0/2] media: i2c: Add OmniVision OG0VE1B image sensor
+ driver
+Message-ID: <aLbB4SlFMUJkXLzY@kekkonen.localdomain>
+References: <20250829144242.236732-1-vladimir.zapolskiy@linaro.org>
+ <da59038d-edd6-4444-861f-adb65b040d0e@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <da59038d-edd6-4444-861f-adb65b040d0e@linaro.org>
 
-During the review of the media committer's profile, it was noticed
-that the responsibility for timely review patches was not clear:
-such review is expected that all developers listed at MAINTAINERS
-with the "M:" tag (e.g. "maintainers" on its broad sense).
+Hi Vladimir,
 
-This is orthogonal of being a media committer or not. Such duty
-is implied at:
+On Tue, Sep 02, 2025 at 12:33:40PM +0300, Vladimir Zapolskiy wrote:
+> Hi Sakari.
+> 
+> On 8/29/25 17:42, Vladimir Zapolskiy wrote:
+> > OmniVision OG0VE1B is a monochrome image sensor, which produces frames
+> > in 8/10-bit raw output format and supports 640x480, 400x400, 200x200
+> > and 100x100 output image resolution modes.
+> > 
+> > At the moment the only supported resolution in the device driver is
+> > 640x480@120fps (Y8).
+> > 
+> > The driver version is based on top of media/master, which contains
+> > a new devm_v4l2_sensor_clk_get() helper function.
+> 
+> I'm not very well familiar with the linux-media processes, let me ask
+> you about an expected interpretation of a "Superseded" patch status,
+> which is assigned to this driver and another OV6211 one.
+> 
+> Is there anything else expected to be done on my side?
+> 
+> Thank you in advance.
 
-	Documentation/admin-guide/reporting-issues.rst
+I intended to mark the two latest series as "under review" but I'll have to
+recheck (and of course Patchwork is down). These are nonetheless in my tree
+now.
 
-and at the MAINTAINERS header, when it says that even when the
-status is "odd fixes", the patches will flow in.
-
-So, let make it explicit at the maintainer-entry-profile that
-maintainers need to do timely reviews.
-
-Also, while right now our focus is on granting committer rights to
-maintainers, the media-committer model may evolve in the future to
-accept other committers that don't have such duties.
-
-So, make it clear at the media-committer.rst that the duties
-related to reviewing patches from others are for the drivers
-they are maintainers as well.
-
-Reviewed-by: Hans Verkuil <hverkuil@xs4all.nl>
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- Documentation/driver-api/media/maintainer-entry-profile.rst | 5 +++++
- Documentation/driver-api/media/media-committer.rst          | 6 +++---
- 2 files changed, 8 insertions(+), 3 deletions(-)
-
-diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
-index 4e6eb1225ade..d6d8ca5eed09 100644
---- a/Documentation/driver-api/media/maintainer-entry-profile.rst
-+++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
-@@ -184,6 +184,11 @@ b. Committers' workflow: patches are handled by media committers::
- On both workflows, all patches shall be properly reviewed at
- linux-media@vger.kernel.org (LMML) before being merged at media-committers.git.
- 
-+Such patches will be reviewed timely by the maintainers and reviewers as
-+listed in the MAINTAINERS file. The subsystem maintainers will follow one of
-+the above workflows, e. g. they will either send a pull request or merge
-+patches directly at the media-committers tree.
-+
- When patches are picked by patchwork and when merged at media-committers,
- CI bots will check for errors and may provide e-mail feedback about
- patch problems. When this happens, the patch submitter must fix them or
-diff --git a/Documentation/driver-api/media/media-committer.rst b/Documentation/driver-api/media/media-committer.rst
-index 3d0987a8a93b..0bc038a0fdcc 100644
---- a/Documentation/driver-api/media/media-committer.rst
-+++ b/Documentation/driver-api/media/media-committer.rst
-@@ -90,9 +90,9 @@ be a part of their maintenance tasks.
- Due to that, to become a committer or a core committer, a consensus between
- all subsystem maintainers is required, as they all need to trust a developer
- well enough to be delegated the responsibility to maintain part of the code
--and to properly review patches from third parties, in a timely manner and
--keeping the status of the reviewed code at https://patchwork.linuxtv.org
--updated.
-+and to properly review patches from third parties for the drivers that they
-+maintain in a timely manner and keeping the status of the patches at
-+https://patchwork.linuxtv.org updated.
- 
- .. Note::
- 
 -- 
-2.51.0
+Kind regrds,
 
+Sakari Ailus
 
