@@ -1,59 +1,69 @@
-Return-Path: <linux-media+bounces-41529-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41530-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F52CB3F858
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 10:29:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD788B3F8D5
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 10:42:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 42E3F1660A5
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 08:29:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D1121A8075C
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 08:42:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4BD6F2E8B6E;
-	Tue,  2 Sep 2025 08:29:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE8162EAD1B;
+	Tue,  2 Sep 2025 08:36:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RUnXee45"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="BGOySrfR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8213D987;
-	Tue,  2 Sep 2025 08:29:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A182EAD13;
+	Tue,  2 Sep 2025 08:36:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756801759; cv=none; b=pOHoVeohXEbcD7+PFDKE9uIx5EQ5m7zO8gtFMeadyD6ARGLs2kSEPtGTcBwj5wxxQ+ixKckztMHWzPuDePUbG6EKykCJD0UwhDQHS3xNkTbC5zLVpJSmSWfU4Im6Af4wGX40Z5+iWyC7/6zLvQbuAXbxU+SgRYYEzoyDRAjF5/Y=
+	t=1756802186; cv=none; b=cNZXPy+faYsTmwm6Kltz9EeVWgJqIccDj+bHHGmfrIrGafvvXxN45qEjKGeTl7rm6qgOT5dJne4HreSxQfnqREipEx+Nel40eTLWs/YGL4beuqOYMiT1rX9RdS+B0Cw+L8Bu0Wd+Z3U0x67wHSbrcLImoyWmJrVkKZ/ABo/gByU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756801759; c=relaxed/simple;
-	bh=TI8iWiXPUcMsp1Yq4V7ng0SNQZgecLWmnTLlRDdrUAA=;
+	s=arc-20240116; t=1756802186; c=relaxed/simple;
+	bh=9b9oj9NtnjkgCqLHI/easGtUlL/TclnyNvdB1pRPJ10=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HMXwccuSF7ZYAVQVXq9UbmVtgeZx5JtngIdqxbogup82FRzE38fjqAc1TqufKbHNkb0xscJJJxbjg4e30CgPwAoyfJJkH86QeyT8T4pDP2XJGwRvpRPcUmasFgW/XOqyAJSV5g+QRYd2eHrZvwuMKfMCCIEYDVpD/+eGX2gyRHE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RUnXee45; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73E0BC4CEED;
-	Tue,  2 Sep 2025 08:29:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756801759;
-	bh=TI8iWiXPUcMsp1Yq4V7ng0SNQZgecLWmnTLlRDdrUAA=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=J1juUgQcRzWFovIT/ZSe90nwrOivxrbPWVDddMj+kPmsd8IWtxSKzVdXBASAGsGo55XdpusG2oPUjJoVRPFZyBhoCMq0JhntDaQm9Ow5OJkrr4uJFqYYk31WvX/25FNMLciWr5FstlxnZoVklNa1l5yY6QWbXtNkamWHDe14qmM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=BGOySrfR; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id ACD1BC75;
+	Tue,  2 Sep 2025 10:35:07 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1756802107;
+	bh=9b9oj9NtnjkgCqLHI/easGtUlL/TclnyNvdB1pRPJ10=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RUnXee45Km6xClRAZTwN3sRjENamYZ9KGX5sNdIU5whvk9R4xxDvDF63XxVGMZRLj
-	 SE29c2F5wMc/T8oFQ9R2txEAnccp2MAu4jAvWuecS4Jgls8B0n5sgECxGZ2upQgld6
-	 2ryRVnvrbRU/cSpNGK5bp/4sfE5fKabw5M7IHVdXthCd+VQhFktQlFK7nPy0xtkydD
-	 EcNsvcmajRwqC5sk1r77X2aRtmRL2jsHi5fS6gCKxhgQyhyK7tgPr21sJt4WaVMCPb
-	 fZXgVg6dOkieSOpteNEG7WZfmyNisHRzcECS73+b8uBhpJ+lpwTXGLSmk5ZcyitWY9
-	 5LOp6YRXJjObQ==
-Date: Tue, 2 Sep 2025 10:29:16 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-Cc: Vikash Garodia <quic_vgarodia@quicinc.com>, 
-	Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH 2/2] Documentation: media: update Dikshita Agarwal's
- email address
-Message-ID: <20250902-space-sawfly-of-protection-ffdb06@kuoka>
-References: <20250901-update-email-v1-0-8fd49d58c0e5@oss.qualcomm.com>
- <20250901-update-email-v1-2-8fd49d58c0e5@oss.qualcomm.com>
+	b=BGOySrfRK7wpIrVW8pam0Ry99/B6YUY4pxhePRpqXmQ4bRXZFruERAo3LeGWgimon
+	 o/2Wg5FRxVjaaLNOYl/+zymSodr6I2YJhJRDo+jpP6ffXxCw07kDAMnlXmAGxUC1O+
+	 wIoZkgmSqEVDBzhib+eXd4wHBTQaA32pg7lKmLTk=
+Date: Tue, 2 Sep 2025 10:35:54 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Guoniu Zhou <guoniu.zhou@nxp.com>, Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/4] media: dt-bindings: nxp,imx8mq-mipi-csi2: Add
+ i.MX8ULP compatible string
+Message-ID: <20250902083554.GD13448@pendragon.ideasonboard.com>
+References: <20250901-csi2_imx8ulp-v5-0-67964d1471f3@nxp.com>
+ <20250901-csi2_imx8ulp-v5-1-67964d1471f3@nxp.com>
+ <20250901154610.GB13448@pendragon.ideasonboard.com>
+ <aLZMQ7c8qr5XO88d@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -62,25 +72,140 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250901-update-email-v1-2-8fd49d58c0e5@oss.qualcomm.com>
+In-Reply-To: <aLZMQ7c8qr5XO88d@lizhi-Precision-Tower-5810>
 
-On Mon, Sep 01, 2025 at 01:03:29PM +0530, Dikshita Agarwal wrote:
-> Replace quic_dikshita@quicinc.com by dikshita.agarwal@oss.qualcomm.com.
+On Mon, Sep 01, 2025 at 09:45:39PM -0400, Frank Li wrote:
+> On Mon, Sep 01, 2025 at 05:46:10PM +0200, Laurent Pinchart wrote:
+> > On Mon, Sep 01, 2025 at 02:25:29PM +0800, Guoniu Zhou wrote:
+> > > The CSI-2 receiver in the i.MX8ULP is almost identical to the version
+> > > present in the i.MX8QXP/QM, but i.MX8ULP CSI-2 controller needs pclk
+> > > clock as the input clock for its APB interface of Control and Status
+> > > register(CSR). So add compatible string fsl,imx8ulp-mipi-csi2 and
+> > > increase maxItems of Clocks (clock-names) to 4 from 3.  And keep the
+> > > same restriction for existed compatible.
+> >
+> > s/existed/existing/
+> >
+> > > Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+> > > ---
+> > >  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml       | 46 ++++++++++++++++++++--
+> > >  1 file changed, 43 insertions(+), 3 deletions(-)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> > > index 3389bab266a9adbda313c8ad795b998641df12f3..412cedddb0efee1a49d1b90b02baa7a625c797ec 100644
+> > > --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> > > +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> > > @@ -21,7 +21,9 @@ properties:
+> > >            - fsl,imx8mq-mipi-csi2
+> > >            - fsl,imx8qxp-mipi-csi2
+> > >        - items:
+> > > -          - const: fsl,imx8qm-mipi-csi2
+> > > +          - enum:
+> > > +              - fsl,imx8qm-mipi-csi2
+> > > +              - fsl,imx8ulp-mipi-csi2
+> > >            - const: fsl,imx8qxp-mipi-csi2
+> >
+> > According to this, the ULP version is compatible with the QXP version.
+> >
+> > >
+> > >    reg:
+> > > @@ -39,12 +41,16 @@ properties:
+> > >                       clock that the RX DPHY receives.
+> > >        - description: ui is the pixel clock (phy_ref up to 333Mhz).
+> > >                       See the reference manual for details.
+> > > +      - description: pclk is clock for csr APB interface.
+> > > +    minItems: 3
+> > >
+> > >    clock-names:
+> > >      items:
+> > >        - const: core
+> > >        - const: esc
+> > >        - const: ui
+> > > +      - const: pclk
+> > > +    minItems: 3
+> > >
+> > >    power-domains:
+> > >      maxItems: 1
+> > > @@ -130,19 +136,53 @@ allOf:
+> > >          compatible:
+> > >            contains:
+> > >              enum:
+> > > -              - fsl,imx8qxp-mipi-csi2
+> > > +              - fsl,imx8ulp-mipi-csi2
+> > > +    then:
+> > > +      properties:
+> > > +        reg:
+> > > +          minItems: 2
+> > > +        resets:
+> > > +          minItems: 2
+> > > +          maxItems: 2
+> > > +        clocks:
+> > > +          minItems: 4
+> > > +        clock-names:
+> > > +          minItems: 4
+> >
+> > But according to this, the ULP version requires more clocks than the QXP
+> > version.
 > 
-> Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-> ---
->  Documentation/devicetree/bindings/media/qcom,sm8550-iris.yaml | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
+> If only clock number difference, generally, it is still compatible and can
+> be fallback, especialy driver use devm_bulk_clk_get_all().
 
-Please use subject prefixes matching the subsystem. You can get them for
-example with 'git log --oneline -- DIRECTORY_OR_FILE' on the directory
-your patch is touching. For bindings, the preferred subjects are
-explained here:
-https://www.kernel.org/doc/html/latest/devicetree/bindings/submitting-patches.html#i-for-patch-submitters
+That's a driver-specific implementation decision, so I don't think it
+should be taken into account to decide on compatibility.
 
+> If driver have not sperated drvdata for it, we can fallback to it. It is
+> quite common.
+> 
+> > > +
+> > > +  - if:
+> > > +      properties:
+> > > +        compatible:
+> > > +          contains:
+> > > +            enum:
+> > > +              - fsl,imx8qm-mipi-csi2
+> >
+> > QM is compatible with the QXP, so you don't need to list it here.
+> >
+> >           contains:
+> >             const: fsl,imx8qxp-mipi-csi2
+> >
+> > is enough to cover both.
+> >
+> > > +            const: fsl,imx8qxp-mipi-csi2
+> > >      then:
+> > >        properties:
+> > >          reg:
+> > >            minItems: 2
+> > >          resets:
+> > >            maxItems: 1
+> > > -    else:
+> > > +        clocks:
+> > > +          maxItems: 3
+> > > +        clock-names:
+> > > +          maxItems: 3
+> > > +
+> > > +  - if:
+> > > +      properties:
+> > > +        compatible:
+> > > +          contains:
+> > > +            enum:
+> > > +              - fsl,imx8mq-mipi-csi2
+> > > +    then:
+> > >        properties:
+> > >          reg:
+> > >            maxItems: 1
+> > >          resets:
+> > >            minItems: 3
+> > > +        clocks:
+> > > +          maxItems: 3
+> > > +        clock-names:
+> > > +          maxItems: 3
+> > >        required:
+> > >          - fsl,mipi-phy-gpr
+> > >
 
-Best regards,
-Krzysztof
+-- 
+Regards,
 
+Laurent Pinchart
 
