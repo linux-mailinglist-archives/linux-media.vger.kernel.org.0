@@ -1,233 +1,153 @@
-Return-Path: <linux-media+bounces-41583-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41584-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB535B401CB
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 15:02:55 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CDBD5B401B4
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 15:00:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4B2943BF656
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 12:59:55 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3AE037A9835
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 12:58:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C28BB2FF158;
-	Tue,  2 Sep 2025 12:58:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D59D63009FC;
+	Tue,  2 Sep 2025 12:58:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="PGgDN+h1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Y03rLipQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E969A2D9ED0;
-	Tue,  2 Sep 2025 12:57:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D88828489B;
+	Tue,  2 Sep 2025 12:58:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756817881; cv=none; b=LYsfa+CK9JlYCpIfveD9BYN/0Ng8zAuB6zvr+iRqeM/GIuSqeP64PXiLEx0BF26BRArqDF8ViYSdkVYriKrhfQ7HdXgofa+UthPt6moQTQ8y0ahIswoLHPoNsC+836koabTeZJWijW3U1Hzo0JLpcGOlQ0ODMDtBaVs+gA885Q8=
+	t=1756817910; cv=none; b=qzloxYGUmMiiHaYeaJWNsu3ig1Ec05oigsIzgADFeb+jBUBKhQD/Zgf6mBhvXjmSpbHQeXp/h9VGru29rS+LbIHdurnftT1c3ihzcJuxOVASvvFckN53SFOzcmF7DyafjdP0Yb+nCNsxgLIMdX4UH9iPybw4M3aQeMHT16+Xgsk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756817881; c=relaxed/simple;
-	bh=PU4Bzgg+nJ15hff/4hvbjW8eUcg1SWaXB9umh0D23so=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=OdIhhdpV5k9fn9dAkSFpsG/jxXs1V2yUzRIRTVXWhkPOob73c7OEVF2VpBAjt6V7qhxFfa6aE93x7BGoC3LsRO41IRbbObKdo2Mn9uNKJcC+w9UaptMMALDG7Rwb2eaiQvrJgTcVmW54acaMdzdPhrVdBXcpMJ1p/PkHw32bBAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=PGgDN+h1; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1756817877;
-	bh=PU4Bzgg+nJ15hff/4hvbjW8eUcg1SWaXB9umh0D23so=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=PGgDN+h1bZerGMRc1RYUUG48WwEewrEM9Bnz6867eTgQr1oT1hufzWJIFxM62vz1k
-	 NS1yLgW3taeEsty5lRDeNwoZUkvRIu/OZ+QDR6140UfEtJt/ZAMeLc2pUMwKI/tjPt
-	 HtTaftwpdmdscoCCzsUkxbt6Ul7sWC3OKUOjGSP0KZXjnFnhQtQ0h26Z/lLU+YAM6x
-	 KeDvVq0QZi02QGo9BEMGysevY/yp9wTmowGi8fzw6ahby/ieIiytl74tztvQxw8H1I
-	 Bp3csuNvWGzO35xfuqB/xkGBwab1jHeYq+vmZnQs/phoGb9sbk3hnIDMuAL2g+Yf5k
-	 L+XrYDbfx87KA==
-Received: from [IPv6:2606:6d00:11:5a76::5ac] (unknown [IPv6:2606:6d00:11:5a76::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 9FBD317E129F;
-	Tue,  2 Sep 2025 14:57:55 +0200 (CEST)
-Message-ID: <005438a1d81a1d02d6c8659bd951ff65d3f39d85.camel@collabora.com>
-Subject: Re: [PATCH v2] media: mediatek: encoder: Fix uninitialized scalar
- variable issue
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Irui Wang =?UTF-8?Q?=28=E7=8E=8B=E7=91=9E=29?= <Irui.Wang@mediatek.com>,
-  "rongqianfeng@vivo.com"	 <rongqianfeng@vivo.com>, "matthias.bgg@gmail.com"
- <matthias.bgg@gmail.com>,  "mchehab@kernel.org"	 <mchehab@kernel.org>,
- AngeloGioacchino Del Regno	 <angelogioacchino.delregno@collabora.com>,
- "hverkuil-cisco@xs4all.nl"	 <hverkuil-cisco@xs4all.nl>
-Cc: "linux-arm-kernel@lists.infradead.org"
-	 <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	 <linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
-	 <linux-media@vger.kernel.org>, "linux-mediatek@lists.infradead.org"
-	 <linux-mediatek@lists.infradead.org>, Longfei Wang
- =?UTF-8?Q?=28=E7=8E=8B=E9=BE=99=E9=A3=9E=29?=
-	 <Longfei.Wang@mediatek.com>, Project_Global_Chrome_Upstream_Group
-	 <Project_Global_Chrome_Upstream_Group@mediatek.com>, Yunfei Dong
- =?UTF-8?Q?=28=E8=91=A3=E4=BA=91=E9=A3=9E=29?=
-	 <Yunfei.Dong@mediatek.com>
-Date: Tue, 02 Sep 2025 08:57:54 -0400
-In-Reply-To: <dbfac6888a2c77c302265df2f90bf4aec8bed686.camel@mediatek.com>
-References: <20250716071450.8214-1-irui.wang@mediatek.com>
-		 <c751e015c0a9fb2ab6514a45952e01424cfbb0cb.camel@collabora.com>
-	 <dbfac6888a2c77c302265df2f90bf4aec8bed686.camel@mediatek.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-F1/z1Y8k8JEbWKEC/4LA"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1756817910; c=relaxed/simple;
+	bh=CM1gzdTND9tJKwW5aJTGTYza7PZbOeFeI+0kiHDsfk0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mcxhFpLkqdxbffnSe2+k6Rp/RjCmb7g6RBpsBnlaZPlQUvoNuHoeK7CdIxosVt6a1j+LF6mV/UWTJ6s4dQnfihXzBQmZwIPcWrST1Txq2wWSk9JR8gU8ZXtzMuY5NENTFxgyvSpyfER4Ieb3HPjKhQTY3wsBZjkMCOZ0xruwyJg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Y03rLipQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08555C4CEED;
+	Tue,  2 Sep 2025 12:58:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756817909;
+	bh=CM1gzdTND9tJKwW5aJTGTYza7PZbOeFeI+0kiHDsfk0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Y03rLipQ172HNCWdzae1SvWeUKEZCuyy4iT/sxqmRUG2Mk9XAm0JD2Cf43Q4ccXI4
+	 vJ3zCW+7bhV2I/8W3AQ/zj+cPA9rZhBtVccOf2Syvu2xP3GZZOcRUzTwD1l9Dszm61
+	 coTmrjtssASLghJ0YobZBbn3b5yvo1gmHUuMYKl3N+eOUDvW9dLkEd42uz6ExoscbL
+	 AN9nGwSWGJAg2aXnrk/T8mIOnh8SJFTLZoRnFwoAw9p/ZVbj1um54ETkG1UmVJ0yaX
+	 k1mi0ufFXvprbr0GmTrnZJZPMNtSonfXc/UWWvtDhkzWmzN/ZJ+J57M3aRwqpyvkrT
+	 ePb8jIU/SceyA==
+Date: Tue, 2 Sep 2025 15:58:24 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Christoph Hellwig <hch@lst.de>, dri-devel@lists.freedesktop.org,
+	iommu@lists.linux.dev, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mm@kvack.org, linux-pci@vger.kernel.org,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v1 08/10] vfio/pci: Enable peer-to-peer DMA transactions
+ by default
+Message-ID: <20250902125824.GH10073@unreal>
+References: <cover.1754311439.git.leon@kernel.org>
+ <edb2ec654fc27ba8f73695382ab0a029f18422b5.1754311439.git.leon@kernel.org>
+ <20250806160201.2b72e7a0.alex.williamson@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250806160201.2b72e7a0.alex.williamson@redhat.com>
 
+On Wed, Aug 06, 2025 at 04:02:01PM -0600, Alex Williamson wrote:
+> On Mon,  4 Aug 2025 16:00:43 +0300
+> Leon Romanovsky <leon@kernel.org> wrote:
+> 
+> > From: Leon Romanovsky <leonro@nvidia.com>
+> > 
+> > Make sure that all VFIO PCI devices have peer-to-peer capabilities
+> > enables, so we would be able to export their MMIO memory through DMABUF,
+> > 
+> > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > ---
+> >  drivers/vfio/pci/vfio_pci_core.c | 4 ++++
+> >  include/linux/vfio_pci_core.h    | 1 +
+> >  2 files changed, 5 insertions(+)
+> > 
+> > diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+> > index 31bdb9110cc0f..df9a32d3deac9 100644
+> > --- a/drivers/vfio/pci/vfio_pci_core.c
+> > +++ b/drivers/vfio/pci/vfio_pci_core.c
+> > @@ -28,6 +28,7 @@
+> >  #include <linux/nospec.h>
+> >  #include <linux/sched/mm.h>
+> >  #include <linux/iommufd.h>
+> > +#include <linux/pci-p2pdma.h>
+> >  #if IS_ENABLED(CONFIG_EEH)
+> >  #include <asm/eeh.h>
+> >  #endif
+> > @@ -2088,6 +2089,9 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
+> >  	INIT_LIST_HEAD(&vdev->dummy_resources_list);
+> >  	INIT_LIST_HEAD(&vdev->ioeventfds_list);
+> >  	INIT_LIST_HEAD(&vdev->sriov_pfs_item);
+> > +	vdev->provider = pci_p2pdma_enable(vdev->pdev);
+> > +	if (IS_ERR(vdev->provider))
+> > +		return PTR_ERR(vdev->provider);
+> 
+> I think this just made all vfio-pci drivers functionally dependent on
+> CONFIG_PCI_P2PDMA.  Seems at best exporting a dma-buf should be
+> restricted if this fails.  Thanks,
 
---=-F1/z1Y8k8JEbWKEC/4LA
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+It is temporary solution in next patch "vfio/pci: Add dma-buf export
+support for MMIO regions", the strict ifdef is added.
 
-Le lundi 01 septembre 2025 =C3=A0 02:37 +0000, Irui Wang (=E7=8E=8B=E7=91=
-=9E) a =C3=A9crit=C2=A0:
-> Dear Nicolas,
->=20
-> Thanks for your comments.
->=20
-> On Fri, 2025-08-29 at 15:10 -0400, Nicolas Dufresne wrote:
-> > Le mercredi 16 juillet 2025 =C3=A0 15:14 +0800, Irui Wang a =C3=A9crit =
-:
-> > > UNINIT checker finds some instances of variables that are used
-> > > without being initialized, for example using the uninitialized
-> > > value enc_result.is_key_frm can result in unpredictable behavior,
-> > > so initialize these variables after declaring.
-> > >=20
-> > > Fixes: 4e855a6efa54 ("[media] vcodec: mediatek: Add Mediatek V4L2
-> > > Video
-> > > Encoder Driver")
-> > >=20
-> > > Signed-off-by: Irui Wang <irui.wang@mediatek.com>
-> > > ---
-> > > v2:
-> > > =C2=A0- Add Fixes tag, update commit message
-> > > =C2=A0- Remove unnecessary memset
-> > > =C2=A0- Move memset to before the first usage
-> > > ---
-> > > =C2=A0.../media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c=C2=
-=A0=C2=A0 | 4
-> > > +++-
-> > > =C2=A01 file changed, 3 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git
-> > > a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-> > > b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-> > > index a01dc25a7699..3065f3e66336 100644
-> > > ---
-> > > a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-> > > +++
-> > > b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-> > > @@ -865,7 +865,7 @@ static void vb2ops_venc_buf_queue(struct
-> > > vb2_buffer *vb)
-> > > =C2=A0static int vb2ops_venc_start_streaming(struct vb2_queue *q,
-> > > unsigned int
-> > > count)
-> > > =C2=A0{
-> > > =C2=A0	struct mtk_vcodec_enc_ctx *ctx =3D vb2_get_drv_priv(q);
-> > > -	struct venc_enc_param param;
-> > > +	struct venc_enc_param param =3D { 0 };
-> > > =C2=A0	int ret;
-> > > =C2=A0	int i;
-> > > =C2=A0
-> > > @@ -1036,6 +1036,7 @@ static int mtk_venc_encode_header(void *priv)
-> > > =C2=A0			=C2=A0 ctx->id, dst_buf->vb2_buf.index, bs_buf.va,
-> > > =C2=A0			=C2=A0 (u64)bs_buf.dma_addr, bs_buf.size);
-> > > =C2=A0
-> > > +	memset(&enc_result, 0, sizeof(enc_result));
-> >=20
-> > Please, apply review comment to all occurrence, so same here.
-> >=20
-> > > =C2=A0	ret =3D venc_if_encode(ctx,
-> > > =C2=A0			VENC_START_OPT_ENCODE_SEQUENCE_HEADER,
-> > > =C2=A0			NULL, &bs_buf, &enc_result);
-> > > @@ -1185,6 +1186,7 @@ static void mtk_venc_worker(struct
-> > > work_struct *work)
-> > > =C2=A0			=C2=A0 (u64)frm_buf.fb_addr[1].dma_addr,
-> > > frm_buf.fb_addr[1].size,
-> > > =C2=A0			=C2=A0 (u64)frm_buf.fb_addr[2].dma_addr,
-> > > frm_buf.fb_addr[2].size);
-> > > =C2=A0
-> > > +	memset(&enc_result, 0, sizeof(enc_result));
-> >=20
-> > Same here.
-> >=20
-> > > =C2=A0	ret =3D venc_if_encode(ctx, VENC_START_OPT_ENCODE_FRAME,
-> > > =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0 &frm_buf, &bs_buf, &enc_result);
-> > > =C2=A0
-> > >=20
-> >=20
-> >=20
-> > Would be nice to coordinate with Qianfeng Rong <rongqianfeng@vivo.com
-> > > [0], he
-> > ported the entire driver to this initialization method, which is
-> > clearly the way
-> > to go.
-> >=20
-> > - Patch 1 will port the driver to {} stack init
-> > - Patch 2 will add missing initializes
-> >=20
-> > Consistency is key for this type of things since developer usually
-> > follow the
-> > surrounding style.
->=20
-> I have learned Qianfeng's patch and comments. I understand what you
-> mean is change my patch coding style to Qianfeng's, modify 'memset' to
-> '{}' for initialization, and amend Qianfeng's patch as patch-2, then
-> send this two patches together.
+  2107 #ifdef CONFIG_VFIO_PCI_DMABUF
+  2108         vdev->provider = pci_p2pdma_enable(vdev->pdev);
+  2109         if (IS_ERR(vdev->provider))
+  2110                 return PTR_ERR(vdev->provider);
+  2111
+  2112         INIT_LIST_HEAD(&vdev->dmabufs);
+  2113 #endif
 
-Correct, and I don't mind who do that work, I'd like to see the code kept
-consistant. And I do agree memset() are error prone.
+I will split "vfio/pci: Add dma-buf export ..." patch to introduce CONFIG_VFIO_PCI_DMABUF
+before this "vfio/pci: Enable peer-to-peer ..." patch.
 
-cheers,
-Nicolas
+Thanks
 
->=20
-> If I misunderstood your opinion, please correct me, thank you very
-> much.
->=20
-> Best Regards
-> >=20
-> > regards
-> > Nicolas
-> >=20
-> > [0]=20
-> > https://patchwork.linuxtv.org/project/linux-media/patch/20250803135514.=
-118892-1-rongqianfeng@vivo.com/
-
---=-F1/z1Y8k8JEbWKEC/4LA
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaLbp0gAKCRDZQZRRKWBy
-9AMIAP4l3zEJdQyeftn4RgftFIHQz0eEqpSztnAbK553WME3KgEAzYyheCs4BblM
-WmNV6SRGwHH6Q1/P7PRqOpIuIa1QNwc=
-=V/iG
------END PGP SIGNATURE-----
-
---=-F1/z1Y8k8JEbWKEC/4LA--
+> 
+> Alex
+> 
+> >  	init_rwsem(&vdev->memory_lock);
+> >  	xa_init(&vdev->ctx);
+> >  
+> > diff --git a/include/linux/vfio_pci_core.h b/include/linux/vfio_pci_core.h
+> > index fbb472dd99b36..b017fae251811 100644
+> > --- a/include/linux/vfio_pci_core.h
+> > +++ b/include/linux/vfio_pci_core.h
+> > @@ -94,6 +94,7 @@ struct vfio_pci_core_device {
+> >  	struct vfio_pci_core_device	*sriov_pf_core_dev;
+> >  	struct notifier_block	nb;
+> >  	struct rw_semaphore	memory_lock;
+> > +	struct p2pdma_provider  *provider;
+> >  };
+> >  
+> >  /* Will be exported for vfio pci drivers usage */
+> 
 
