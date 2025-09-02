@@ -1,129 +1,158 @@
-Return-Path: <linux-media+bounces-41588-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41589-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E252CB40223
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 15:11:30 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8570B40262
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 15:16:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 05BDF189CDE1
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 13:11:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D1CFC5403BF
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 13:13:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 427F92DCF58;
-	Tue,  2 Sep 2025 13:11:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E89AD2F7459;
+	Tue,  2 Sep 2025 13:13:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="WrwYiCTC"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gP3VPcXb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f173.google.com (mail-pg1-f173.google.com [209.85.215.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 475AA28031D
-	for <linux-media@vger.kernel.org>; Tue,  2 Sep 2025 13:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 670BC2F998B
+	for <linux-media@vger.kernel.org>; Tue,  2 Sep 2025 13:13:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756818669; cv=none; b=nLx+fcUjmo5R9dRj+GvYbHUAnk0stZ4kIAZHLUkf7GZOoQbogwWLcDJNcu0VW+U8Y+L0QAd9GUe4PlbSKTib8MooJQsfxnhZ6zQVtKxHpkBKolP9/gRk6veV0Z9tfz1SCiyCAihw7fh9dUNEyBrf6IJx9YgntHLVeb5++RMvQXg=
+	t=1756818790; cv=none; b=uKKwMIYlB/Sb8M2/LzYXj66i9iUY/ImNa0wbBp/Kxnb+nzpT/TJDV09VseDbYwvIIAg8gNkScZfG4sXHeVbBMioWwBrLrNKCNcAPISe4YB0Ja4xjZxs90NHfyMVwLxFNpfQ0DKLJ8koP3Q6qlCRP4Haq9THXkBa17HdGleLC6vA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756818669; c=relaxed/simple;
-	bh=a6+7H71onDG4ZfaCBC69FB5SY12ev/7tff0d25FMAG8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kQbZz1hndvO2nFmPn3pOJtScM08o8vNeyIZMWCVKrT7EWFzBkHgef4XF1sExN5qbcH+Su4Bav8+n0Z4C49KTIzDVYu/nedn7lovhKMKcaE0/oLLle8M9jGBCteQkTHPzMwq6G6ptZcAonT7Rn6iVpE/Ra4tOi/X49X8nrXS8lCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=WrwYiCTC; arc=none smtp.client-ip=209.85.215.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-pg1-f173.google.com with SMTP id 41be03b00d2f7-b4e84a61055so1613700a12.0
-        for <linux-media@vger.kernel.org>; Tue, 02 Sep 2025 06:11:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1756818667; x=1757423467; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Rm8LYWgbBbSoxzsUxJyqmS94JWyK2thOVWLaY84JeS8=;
-        b=WrwYiCTCGAvJoqUkACxFSAvaOAK1GOH+8zPJFwD/tJD774Fw8WQwHKtDnm6akDx657
-         Dh7aFqvU/h1yOy+7b6+vEDQPDzvAVdF8RtiCpIBaLLFdUNTwr1EhjJAt6bN+dHoCRE63
-         h3nQHod5hLtAxcVId3lcuKv07lzqyvxC1tW610L5r0ZyoRdUsi+snlT0nY0RIF2xntU0
-         pWIj7CZMsYrCp1XG8mvg1RSk2ifF6zC6g/ckPzMXTIZ620hjfdC3Y5bJOqlC8r44qpt1
-         fvoD7Q4D/fGAWBHVhbo+euC7hIn6VoNsDM4CqUzlk+QraRDnuj68sngJC0z5IB+GNwfU
-         LTDA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756818667; x=1757423467;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Rm8LYWgbBbSoxzsUxJyqmS94JWyK2thOVWLaY84JeS8=;
-        b=GfHt6I4rCi2jknWOriICCg7p3mHFr38Pznnk9A77pHh6lwFhwx1Xn2nE6mNXD0Ifw+
-         IMuOJ4rT7PPqXEyxgZpHo3Cr4GeVFzcRApaVAw4FI1N9yB9XSkZhmbkGMoVg/KVPVJ9H
-         2wFEMQcYfwToBj/zh2WRGJr4lvPe981qLNnLhR3mbXOeGICZ0JRtgSjWHB+pHOTPTyej
-         N2IC+9TRjlaMVO2n6Sgso6nEFRqZRw8ZSGScEpHe6IYooUXRcDzJ0jp52w2S13K+9PQI
-         lEDDkZCKTHVQICRkI6yefhdjr5ndWQ7CpfACB7Lvv8BR6LwiJcPbdXn0+/PzoeiZDd/i
-         OxNQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWqaDPug+GKd5nAGJJjSU5O2SFwIS7pcx0otn9NQ/alJMdWJpVGJsMGxG38zU1G/Z/zqae/90jqiR4O3w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4szct/6dUYwqmfeadA6tl0HVHZNq8pUcpmFETxPN9gBLrr9wG
-	aSr/ErExvx2N0WewZFhK+m9+aSdzDB9hgrWNuERVMAbHY4MrZrjLggtu3jIh9hofnXRG+g72mz7
-	87vrmPbpvUf+8KyuJTF2ydxGWALT0Sufjv0M5+VfB
-X-Gm-Gg: ASbGnctdmIzQKLKuHeOuuRT+M+5V4WxFume63cahaZ4/i1ViIAKRt+3xHINobLP4eSc
-	VxHUGyI2TVBtI9vMH45eEynvYBZCG1dQrdJHeSM3Q0E642QeeKW/70pOMXPyGve6X4UexP4q7hT
-	gyraRfvo+s/NlzmRVYsSO6uhXAWqLO7Dqax5nZqH7pZxQ5f8yvRRTNuuIGV7nHFyG08nViyxKpj
-	7PGAI9cm8zmXdGmnrgISLyAf257KkTRU+lQ
-X-Google-Smtp-Source: AGHT+IEajt5n7miuhpVNgaVc7Q6fAs6vdDGW7Ft6PJ5otEsVyTncI7dUQga6YoFZNasinGVO2qLjbv1bEw5pg8a7acU=
-X-Received: by 2002:a17:902:ce03:b0:248:cd0b:3454 with SMTP id
- d9443c01a7336-24944873445mr133817985ad.9.1756818667376; Tue, 02 Sep 2025
- 06:11:07 -0700 (PDT)
+	s=arc-20240116; t=1756818790; c=relaxed/simple;
+	bh=L2RstHkjyk2Hf9za+Xc41LtiOl30EFScoomnw0JzxEI=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=kA1ja9rlhb9/VVmFsTHSuKAzbSZBn7Htqm1LHLMA0O2HWf1h+Ome2PdPEjQfM+mBZAD2boteAzNyHZh9LXcTDPfQDD44LzrXjlOUquDI0L4grmgzRvKkSy+i3afYyNKJ8ReQj5DmX6Gg1/hsCXGPupDkfKkvmducYdU522au1PE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gP3VPcXb; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1756818786;
+	bh=L2RstHkjyk2Hf9za+Xc41LtiOl30EFScoomnw0JzxEI=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=gP3VPcXbE5CgiEoPndtjF0MJ/uzVNzFzH1fg93hPGHvTxujMBp6f7Kd+nvvpfP7JH
+	 FYuTz8MjPgOFnblDX6C9EqX8XKXBTHhTz+9AYr0y600ECSWn2ygyHw8sM0W3v0CNxv
+	 QgqyfehsAA7x0IDY0DfpjyGhJ20jqcyq104vnVo546v8ldLJ6QBLUlnbLdi7ujBDRH
+	 q+PeIFEUmwNXDqCb9V9lpQlLRf6fkHs5cijYHR8Wfharm/C4cTA9gy5pY0Ifd8pzhP
+	 n0s3/kJhtPCZNeGrPFI6IJjFOfO0RGzOxyVk+nn9QOlwItzsmD0DO9ZYBcc4zbLPk3
+	 B0r73jLZO0xxQ==
+Received: from [IPv6:2606:6d00:11:5a76::5ac] (unknown [IPv6:2606:6d00:11:5a76::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1BD4417E129F;
+	Tue,  2 Sep 2025 15:13:06 +0200 (CEST)
+Message-ID: <96dc1231c7d18f8106e4b5e56a336add377ee235.camel@collabora.com>
+Subject: Re: Hantro G1 jpeg decoder stm32mp2 (plain text)
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Michael Nazzareno Trimarchi <michael@amarulasolutions.com>
+Cc: linux-media <linux-media@vger.kernel.org>, Hugues Fruchet
+	 <hugues.fruchet@foss.st.com>, Mauro Carvalho Chehab <mchehab@kernel.org>
+Date: Tue, 02 Sep 2025 09:13:03 -0400
+In-Reply-To: <CAOf5uw=uPkC60gE7Ea_ZnEZdYJRYRJKz=OVUN0RvO_NVe2tw5A@mail.gmail.com>
+References: 
+	<CAOf5uwmTTFcizew2QRAr=TZ12hTfXg6NFEsDYKASB7wPeB4odw@mail.gmail.com>
+	 <7b37c5679994281ae1806f2ee84d1aede77ca836.camel@collabora.com>
+	 <CAOf5uw=uPkC60gE7Ea_ZnEZdYJRYRJKz=OVUN0RvO_NVe2tw5A@mail.gmail.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-98cLwVdz7O2BAp+OAIur"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250902073841.2338568-1-abarnas@google.com> <aLaypTjukJJloGuL@stanley.mountain>
-In-Reply-To: <aLaypTjukJJloGuL@stanley.mountain>
-From: =?UTF-8?Q?Adrian_Barna=C5=9B?= <abarnas@google.com>
-Date: Tue, 2 Sep 2025 15:10:55 +0200
-X-Gm-Features: Ac12FXwTsBas7UmElXIeqiXIRz_1zSROWnkOhZSndPGsKtOskJgJVh0CaFvpYhg
-Message-ID: <CAATBrPEsea2GfK26W5eg4ZFm=hJLO1pLNax85vvXZ8hb=iGaFQ@mail.gmail.com>
-Subject: Re: [RFC] staging: media: atomisp: Simplyfy masking bit logic
-To: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-staging@lists.linux.dev
+
+
+--=-98cLwVdz7O2BAp+OAIur
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-> These are supposed to be opposites, right?  Subword and inverse Subword.
-> You could dress them up to make them look more opposite.
+Hi,
 
-In fact this name is misleading as well. For me it should be named
-`clear_subword()`. It is zero-ing the "subword" provided with low and
-high bit boundary (start, end), to be then easily replaced with binary
-or operation.
-And this operation is not an inverse of extracting a subword using the
-subword function.
+Le mardi 02 septembre 2025 =C3=A0 15:01 +0200, Michael Nazzareno Trimarchi =
+a =C3=A9crit=C2=A0:
+> > If you only have one format support, you don't need to force anything i=
+n
+> > GStreamer. Some extra information about Hantro post-processor. When use=
+d, you
+> > need to provide 2 sets of buffers. The decoder will still produce NV16,=
+ and a
+> > secondary set of buffers is (in parallel, pipeline mode) written back i=
+nto the
+> > format you have configured on the PP register set.
+>=20
+> Those sets of buffers are provided by gstreamer or how does this
+> handle in practice for
+> other decoders?
+>=20
+> >=20
+> > The post-processor can also be used in standalone mode, but this featur=
+e is
+> > often fused out. In that mode, in can input interleaved YUV, as often p=
+roduced
+> > as raw format by USB cameras (and most cameras using serial links).
+>=20
+> Much better. Now I need to understand better about the two set of buffers
 
-> The problem is (and actually with the (end-1, start) above that it might
-> generate a really bad code on some CPUs, so I really, really prefer the w=
-ay
-> when _at least_ one of the parameters is constant.
+the V4L2 API does not have the notion of primary vs secondary buffers (unli=
+ke as
+an example Vulkan Video, which is 20 years younger :-D). So we endup hiding=
+ the
+primary buffers inside the kernel driver [0]. Just notice the this allocati=
+on
+allocates reference buffers for the decoder, and the decoder actually alloc=
+ate
+the final buffers. This is quite convoluted imho. Note that some important =
+fixes
+have happen on this part of the postproc code (which arguably still need a =
+lot
+of cleanup, a proper split between G1 and G2 (and merging back VC8000 into =
+G2
+since this is largely compatible).
 
-It would be  easier to create a bitmask sing GENMASK_ULL and just
-reverse it but if it is not safe, this is what looks fine for me and
-works the same as previous function:
+https://gitlab.freedesktop.org/linux-media/media-committers/-/blob/next/dri=
+vers/media/platform/verisilicon/hantro_postproc.c?ref_type=3Dheads#L224
+https://gitlab.freedesktop.org/linux-media/media-committers/-/commit/db300a=
+b0e9d38b1e1b0b561333b66a5beacb9994
 
-// Added a helper to create a mask
-static inline unsigned long long subword_bitmask(unsigned int start,
-unsigned int end)
-{
-        return GENMASK_ULL(end - 1 , 0) & ~(GENMASK_ULL(start, 0) >> 1);
-}
+=20
+regards,
+Nicolas
 
-/* inverse subword bits move like this: MSB[xxxx____xxxx]LSB ->
-MSB[xxxx0000xxxx]LSB */
-static inline unsigned long long
-clear_subword(unsigned long long w, unsigned int start, unsigned int end)
-{
-        return w & ~subword_bitmask(start, end);
-}
+--=-98cLwVdz7O2BAp+OAIur
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
 
-Best regards
-Adrian Barna=C5=9B
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaLbtYAAKCRDZQZRRKWBy
+9J/nAQDsT9FsqXhFKQW99LcUtHhSBGnEVwnVtslCWBxLq3pB1AD/Z8VPt5X/3K+t
+Wb8wRX4SPPhasIBm9rLFjkjUQuIYyw0=
+=tx2I
+-----END PGP SIGNATURE-----
+
+--=-98cLwVdz7O2BAp+OAIur--
 
