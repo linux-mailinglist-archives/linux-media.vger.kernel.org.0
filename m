@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-41600-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41599-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 328D1B409CA
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 17:54:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id C255CB409C7
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 17:53:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A68D71B6406D
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 15:54:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 418BE1B619E3
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 15:54:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A05A5334718;
-	Tue,  2 Sep 2025 15:53:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6649832A825;
+	Tue,  2 Sep 2025 15:53:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SLFkjIu0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="e7yZ59ec"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA3E632ED58;
-	Tue,  2 Sep 2025 15:53:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4BE52F530E;
+	Tue,  2 Sep 2025 15:53:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756828427; cv=none; b=Hk0b+dWYXx99F2yO02koiP6AXfrgUZfgZk3CFQwi8yaTvyOiqb2OUaLRIw4HncJqwHqIfaXHUybiJ1b5EUnlA8qDBhk87C5JfMPX85Ld2Vmz0oz8U9CmbfJGNvzg0fFCKy4/jS9t6KUB/isCCVuwDaLMsKi9QRemqItcGX+Tj8o=
+	t=1756828422; cv=none; b=exmbAC8YPqPANV5ewIJRVvycIW15lcIJ3KxoR4+SsI7U/cTH7uJzW8dcWWqXJl9NBaB20lH8nibWosybkpBTJf8jFJCszXdH2mZ9QBmlJkgEHGbTxIZhL0dhbd0MG6RW+CsANQ7e2Zj9wQv2OOZFANtyEmUBqiRmoV6GyN02HHI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756828427; c=relaxed/simple;
-	bh=DW2NCRd3COiQkXgoinnb8VcsKpxfxA3J84LepgCIijY=;
+	s=arc-20240116; t=1756828422; c=relaxed/simple;
+	bh=k967DAt4rwczEf8YqDD7OJRDqumLz4pIOyT/YeYOOY0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YGn+ymuln0hpK5anIIGKXys6Sknse7Md+VY9qqmI4WkXN7JI4VXip8knadhpYpByqPGjdVwhKgCcUsubjhkRi/CBeE5m5rKOKsyIh1Hkw29OLCuUsm/OO8tEGsvFIcA6IkAra/TXA+puWFK56tAdwrzbz+n+DMv/UGgCSHT6UeE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SLFkjIu0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C24AEC4CEF5;
-	Tue,  2 Sep 2025 15:53:41 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=gDN+dbMBePI72k3+JMYFwTSbuV6E3ZdgLnN0cQrPsfljlVrlgPY4K28IbvASVdOLHhqvn0GhYz7pYCrjlEp4RhRbSUFeKJgEQeTHo/jFiLi484pXzp5PWgUlKcsYVX4uqXcDix3rvJ3dAR2OtkVHOSzpdPXC4Go99IEez9Zsbjk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=e7yZ59ec; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EB56C4CEED;
+	Tue,  2 Sep 2025 15:53:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756828426;
-	bh=DW2NCRd3COiQkXgoinnb8VcsKpxfxA3J84LepgCIijY=;
+	s=k20201202; t=1756828422;
+	bh=k967DAt4rwczEf8YqDD7OJRDqumLz4pIOyT/YeYOOY0=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=SLFkjIu0nlkv+0E5ucgkX15UP6BPezykAJeQSiMzD6O97KFko/gtX9bBDjlQdlBnG
-	 7u7p4QjheiFDis7/nEGxsx2CfxdA28EoXnBcH6/puhT+B/Zdw9/z+rJskX5QFjGnYr
-	 fwBosSzL6rnPg/AtiW9r3JbhKzW+7eiwg3Lro+VRdRXefriE90ztbLWtaVbyc3y3Yk
-	 gpcoFelC7L9L9fEdY2byQSfW8rnYohisDzMBAcM2qvTbTGgtXbHBjSiIz87cWwobNz
-	 WN1IUFXK4sLkqeKhW/N4wgb3dzffck/X5yaqKjd9jLuWGIw3/X8R57nfhWCuzzIC8Q
-	 hBKBmZyClnR6Q==
-Message-ID: <647fdf8a-835b-44d1-b0b8-a3d253a14787@kernel.org>
-Date: Tue, 2 Sep 2025 17:53:39 +0200
+	b=e7yZ59ecMI/K31tu2zZJ6JdY8Kt+3CW0V2fvSYiIX7Q+7u+p99ArGGd98bJ/faDCg
+	 7w9ZFCHROE/GEOewZBD5Bc1dViLTxP7X0OkSfs+Gpi5jtsfgIQqYvqjVc+4iDSkLGP
+	 irLCLHqzyffszHPr6LK8AReHEBxQwqm7Y3pvJAeTqXRg+EkF/qBoWqY1tLCkrBJa3O
+	 eYBcbftopVh1VmPRYig3QIp2LKgZD6QKR/yMCEyMtxzWdC65q3sxvm99o4YDMRXy47
+	 3OytVmQIVKZlt4AFGq6rcdcYdq+o3SGuIFlokL1nXmPU4s51k3+yvi47dMhVwotq+H
+	 km9X7Zpkp36BQ==
+Message-ID: <b2175a9a-f110-4103-ac2d-24971ee41fc9@kernel.org>
+Date: Tue, 2 Sep 2025 10:53:39 -0500
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,166 +50,330 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/4] media: dt-bindings: nxp,imx8mq-mipi-csi2: Add
- i.MX8ULP compatible string
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Frank Li <Frank.li@nxp.com>, Guoniu Zhou <guoniu.zhou@nxp.com>,
- Rui Miguel Silva <rmfrfs@gmail.com>, Martin Kepplinger <martink@posteo.de>,
- Purism Kernel Team <kernel@puri.sm>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20250901-csi2_imx8ulp-v5-0-67964d1471f3@nxp.com>
- <20250901-csi2_imx8ulp-v5-1-67964d1471f3@nxp.com>
- <20250901154610.GB13448@pendragon.ideasonboard.com>
- <aLZMQ7c8qr5XO88d@lizhi-Precision-Tower-5810>
- <20250902083554.GD13448@pendragon.ideasonboard.com>
- <7c461931-3b04-4354-a892-52f469511c5a@kernel.org>
- <20250902123524.GK13448@pendragon.ideasonboard.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+Subject: Re: [PATCH v3 0/7] Add AMD ISP4 driver
+To: "Du, Bin" <bin.du@amd.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, bryan.odonoghue@linaro.org,
+ sakari.ailus@linux.intel.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ sultan@kerneltoast.com, pratap.nirujogi@amd.com, benjamin.chan@amd.com,
+ king.li@amd.com, gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
+ Dominic.Antony@amd.com, richard.gong@amd.com, anson.tsao@amd.com
+References: <20250828084507.94552-1-Bin.Du@amd.com>
+ <20250828165605.GA9916@pendragon.ideasonboard.com>
+ <20250828165850.GA14246@pendragon.ideasonboard.com>
+ <0a10bae2-600c-4ca2-8437-411e9c236d5c@amd.com>
 Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20250902123524.GK13448@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <0a10bae2-600c-4ca2-8437-411e9c236d5c@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On 02/09/2025 14:35, Laurent Pinchart wrote:
-> On Tue, Sep 02, 2025 at 02:26:53PM +0200, Krzysztof Kozlowski wrote:
->> On 02/09/2025 10:35, Laurent Pinchart wrote:
->>>>>>          compatible:
->>>>>>            contains:
->>>>>>              enum:
->>>>>> -              - fsl,imx8qxp-mipi-csi2
->>>>>> +              - fsl,imx8ulp-mipi-csi2
->>>>>> +    then:
->>>>>> +      properties:
->>>>>> +        reg:
->>>>>> +          minItems: 2
->>>>>> +        resets:
->>>>>> +          minItems: 2
->>>>>> +          maxItems: 2
->>>>>> +        clocks:
->>>>>> +          minItems: 4
->>>>>> +        clock-names:
->>>>>> +          minItems: 4
->>>>>
->>>>> But according to this, the ULP version requires more clocks than the QXP
->>>>> version.
->>>>
->>>> If only clock number difference, generally, it is still compatible and can
->>>> be fallback, especialy driver use devm_bulk_clk_get_all().
+
+On 9/1/2025 10:39 PM, Du, Bin wrote:
+> Hi Laurent Pinchart, sorry for the confusion.
+> 
+> On 8/29/2025 12:58 AM, Laurent Pinchart wrote:
+>> On Thu, Aug 28, 2025 at 06:56:06PM +0200, Laurent Pinchart wrote:
+>>> Hi Bin Bu,
 >>>
->>> That's a driver-specific implementation decision, so I don't think it
->>> should be taken into account to decide on compatibility.
+>>> Have you sent out the cover letter only ? I haven't received the rest of
+>>> the series, and it's not found on lore.kernel.org either.
 >>
->> The clock inputs do not restrict compatibility. If Linux can use
->> fallback to bind and operate properly, then it's a strong indication
->> devices are compatible.
+>> I've just noticed you sent the rest later and separately, as
+>> https://lore.kernel.org/all/20250828100811.95722-1-Bin.Du@amd.com/.
 >>
->> Imagine exactly the same registers, so same programming interface, but
->> one device takes one more clock which just needs to be enabled through
->> its lifetime. Such devices are fully compatible, even though clock
->> inputs differ.
 > 
-> That's only the case if someone enables the clock, isn't it ? From a DT
-> binding point of view, how can we know that the extra clock will be
+> Before sending the formal ones, i did some internal test, after the 
+> cover letter, when i tried to send the rest, i encountered this error, 
+> 4.4.2 Message submission rate for this client has exceeded the 
+> configured limit. So i had to wait for some time so i could send again.
 
-We talk about software using the binding in this particular case. Can
-the software use fallback? Yes, it can.
+FYI - this was an AMD I/T SMTP server problem with git send-email.
 
-> enabled by a component separate from the driver (in this case by the
-> fact that the devm_bulk_clk_get_all() function gets all clocks) ?
-
-If you go that way, only 100% identical devices are compatible.
+I understand some other teams were hitting it too and worked with I/T 
+and it should be fixed now.  If you have problems the next go around 
+raise it I/T again.
 
 > 
->> I also wanted to express exactly that case on my slides from OSSE -
->> slide 28:
->> https://osseu2025.sched.com/event/25Vsl/dts-101-from-roots-to-trees-aka-devicetree-for-beginners-krzysztof-kozlowski-linaro
+>>> On Thu, Aug 28, 2025 at 04:45:00PM +0800, Bin Du wrote:
+>>>> Hello,
+>>>>
+>>>> AMD ISP4 is the AMD image processing gen 4 which can be found in HP 
+>>>> ZBook Ultra G1a 14 inch Mobile Workstation PC ( Ryzen AI Max 385)
+>>>> (https://ubuntu.com/certified/202411-36043)
+>>>> This patch series introduces the initial driver support for the AMD 
+>>>> ISP4.
+>>>>
+>>>> Patch summary:
+>>>> - Powers up/off and initializes ISP HW
+>>>> - Configures and kicks off ISP FW
+>>>> - Interacts with APP using standard V4l2 interface by video node
+>>>> - Controls ISP HW and interacts with ISP FW to do image processing
+>>>> - Support enum/set output image format and resolution
+>>>> - Support queueing buffer from app and dequeueing ISP filled buffer 
+>>>> to App
+>>>> - It supports libcamera ver0.2 SimplePipeline
+>>>> - It is verified on qv4l2, cheese and qcam
+>>>> - It is verified together with following patches
+>>>>     platform/x86: Add AMD ISP platform config (https:// 
+>>>> lore.kernel.org/all/20250514215623.522746-1-pratap.nirujogi@amd.com/)
+>>>>     pinctrl: amd: isp411: Add amdisp GPIO pinctrl (https:// 
+>>>> github.com/torvalds/linux/commit/ 
+>>>> e97435ab09f3ad7b6a588dd7c4e45a96699bbb4a)
+>>>>     drm/amd/amdgpu: Add GPIO resources required for amdisp (https:// 
+>>>> gitlab.freedesktop.org/agd5f/linux/-/commit/ 
+>>>> ad0f5966ed8297aa47b3184192b00b7379ae0758)
+>>>>
+>>>> AMD ISP4 Key features:
+>>>> - Processes bayer raw data from the connected sensor and output them 
+>>>> to different YUV formats
+>>>> - Downscale input image to different output image resolution
+>>>> - Pipeline to do image processing on the input image including 
+>>>> demosaic, denoise, 3A, etc
+>>>>
+>>>> ----------
+>>>>
+>>>> Changes v2 -> v3:
+>>>>
+>>>> - All the dependent patches in other modules (drm/amd/amdgpu, 
+>>>> platform/x86, pinctrl/amd) merged on upstream mainline kernel 
+>>>> (https://github.com/torvalds/linux) v6.17.
+>>>> - Removed usage of amdgpu structs in ISP driver. Added helper 
+>>>> functions in amdgpu accepting opaque params from ISP driver to 
+>>>> allocate and release ISP GART buffers.
+>>>> - Moved sensor and MIPI phy control entirely into ISP FW instead of 
+>>>> the previous hybrid approach controlling sensor from both FW and x86 
+>>>> (sensor driver).
+>>>> - Removed phy configuration and sensor binding as x86 (sensor 
+>>>> driver) had relinquished the sensor control for ISP FW. With this 
+>>>> approach the driver will be exposed as web camera like interface.
+>>>> - New FW with built-in sensor driver is submitted on upstream linux- 
+>>>> firmware repo (https://gitlab.com/kernel-firmware/linux-firmware/).
+>>>> - Please note the new FW submitted is not directly compatible with 
+>>>> OEM Kernel ISP4.0 (https://github.com/amd/Linux_ISP_Kernel/tree/4.0) 
+>>>> and the previous ISP V2 patch series.
+>>>> - If intend to use the new FW, please rebuild OEM ISP4.0 Kernel with 
+>>>> CONFIG_VIDEO_OV05C10=N and CONFIG_PINCTRL_AMDISP=Y.
+>>>> - Included critical fixes from Sultan Alsawaf branch (https:// 
+>>>> github.com/kerneltoast/kernel_x86_laptop.git) related to managing 
+>>>> lifetime of isp buffers.
+>>>>        media: amd: isp4: Add missing refcount tracking to mmap memop
+>>>>        media: amd: isp4: Don't put or unmap the dmabuf when detaching
+>>>>        media: amd: isp4: Don't increment refcount when dmabuf export 
+>>>> fails
+>>>>        media: amd: isp4: Fix possible use-after-free in 
+>>>> isp4vid_vb2_put()
+>>>>        media: amd: isp4: Always export a new dmabuf from get_dmabuf 
+>>>> memop
+>>>>        media: amd: isp4: Fix implicit dmabuf lifetime tracking
+>>>>        media: amd: isp4: Fix possible use-after-free when putting 
+>>>> implicit dmabuf
+>>>>        media: amd: isp4: Simplify isp4vid_get_dmabuf() arguments
+>>>>        media: amd: isp4: Move up buf->vaddr check in 
+>>>> isp4vid_get_dmabuf()
+>>>>        media: amd: isp4: Remove unused userptr memops
+>>>>        media: amd: isp4: Add missing cleanup on error in 
+>>>> isp4vid_vb2_alloc()
+>>>>        media: amd: isp4: Release queued buffers on error in 
+>>>> start_streaming
+>>>> - Addressed all code related upstream comments
+>>>> - Fix typo errors and other cosmetic issue.
+>>>>
+>>>>
+>>>> Changes v1 -> v2:
+>>>>
+>>>> - Fix media CI test errors and valid warnings
+>>>> - Reduce patch number in the series from 9 to 8 by merging 
+>>>> MAINTAINERS adding patch to the first patch
+>>>> - In patch 5
+>>>>     - do modification to use remote endpoint instead of local endpoint
+>>>>     - use link frequency and port number as start phy parameter 
+>>>> instead of extra added phy-id and phy-bit-rate property of endpoint
+>>>>
+>>>> ----------
+>>>>
+>>>> It passes v4l2 compliance test, the test reports for:
+>>>>
+>>>> (a) amd_isp_capture device /dev/video0
+>>>>
+>>>> Compliance test for amd_isp_capture device /dev/video0:
+>>>> -------------------------------------------------------
+>>>>
+>>>> atg@atg-HP-PV:~/bin$ ./v4l2-compliance -d /dev/video0
+>>>> v4l2-compliance 1.29.0-5348, 64 bits, 64-bit time_t
+>>>> v4l2-compliance SHA: 75e3f0e2c2cb 2025-03-17 18:12:17
+>>>>
+>>>> Compliance test for amd_isp_capture device /dev/video0:
+>>>>
+>>>> Driver Info:
+>>>>          Driver name      : amd_isp_capture
+>>>>          Card type        : amd_isp_capture
+>>>>          Bus info         : platform:amd_isp_capture
+>>>>          Driver version   : 6.14.0
+>>>>          Capabilities     : 0xa4200001
+>>>>                  Video Capture
+>>>>                  I/O MC
+>>>>                  Streaming
+>>>>                  Extended Pix Format
+>>>>                  Device Capabilities
+>>>>          Device Caps      : 0x24200001
+>>>>                  Video Capture
+>>>>                  I/O MC
+>>>>                  Streaming
+>>>>                  Extended Pix Format
+>>>> Media Driver Info:
+>>>>          Driver name      : amd_isp_capture
+>>>>          Model            : amd_isp41_mdev
+>>>>          Serial           :
+>>>>          Bus info         : platform:amd_isp_capture
+>>>>          Media version    : 6.14.0
+>>>>          Hardware revision: 0x00000000 (0)
+>>>>          Driver version   : 6.14.0
+>>>> Interface Info:
+>>>>          ID               : 0x03000005
+>>>>          Type             : V4L Video
+>>>> Entity Info:
+>>>>          ID               : 0x00000003 (3)
+>>>>          Name             : Preview
+>>>>          Function         : V4L2 I/O
+>>>>          Pad 0x01000004   : 0: Sink
+>>>>            Link 0x02000007: from remote pad 0x1000002 of entity 'amd 
+>>>> isp4' (Image Signal Processor): Data, Enabled, Immutable
+>>>>
+>>>> Required ioctls:
+>>>>          test MC information (see 'Media Driver Info' above): OK
+>>>>          test VIDIOC_QUERYCAP: OK
+>>>>          test invalid ioctls: OK
+>>>>
+>>>> Allow for multiple opens:
+>>>>          test second /dev/video0 open: OK
+>>>>          test VIDIOC_QUERYCAP: OK
+>>>>          test VIDIOC_G/S_PRIORITY: OK
+>>>>          test for unlimited opens: OK
+>>>>
+>>>> Debug ioctls:
+>>>>          test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+>>>>          test VIDIOC_LOG_STATUS: OK (Not Supported)
+>>>>
+>>>> Input ioctls:
+>>>>          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>>>>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>>>>          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>>>>          test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>>>>          test VIDIOC_G/S/ENUMINPUT: OK
+>>>>          test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>>>>          Inputs: 1 Audio Inputs: 0 Tuners: 0
+>>>>
+>>>> Output ioctls:
+>>>>          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>>>>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>>>>          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>>>>          test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>>>>          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>>>>          Outputs: 0 Audio Outputs: 0 Modulators: 0
+>>>>
+>>>> Input/Output configuration ioctls:
+>>>>          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>>>>          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>>>>          test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>>>>          test VIDIOC_G/S_EDID: OK (Not Supported)
+>>>>
+>>>> Control ioctls (Input 0):
+>>>>          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+>>>>          test VIDIOC_QUERYCTRL: OK (Not Supported)
+>>>>          test VIDIOC_G/S_CTRL: OK (Not Supported)
+>>>>          test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+>>>>          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+>>>>          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>>>>          Standard Controls: 0 Private Controls: 0
+>>>>
+>>>> Format ioctls (Input 0):
+>>>>          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+>>>>          test VIDIOC_G/S_PARM: OK
+>>>>          test VIDIOC_G_FBUF: OK (Not Supported)
+>>>>          test VIDIOC_G_FMT: OK
+>>>>          test VIDIOC_TRY_FMT: OK
+>>>>          test VIDIOC_S_FMT: OK
+>>>>          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>>>>          test Cropping: OK (Not Supported)
+>>>>          test Composing: OK (Not Supported)
+>>>>          test Scaling: OK (Not Supported)
+>>>>
+>>>> Codec ioctls (Input 0):
+>>>>          test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>>>>          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>>>>          test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+>>>>
+>>>> Buffer ioctls (Input 0):
+>>>>          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>>>>          test CREATE_BUFS maximum buffers: OK
+>>>>          test VIDIOC_REMOVE_BUFS: OK
+>>>>          test VIDIOC_EXPBUF: OK
+>>>>          test Requests: OK (Not Supported)
+>>>>          test blocking wait: OK
+>>>>
+>>>> Total for amd_isp_capture device /dev/video0: 49, Succeeded: 49, 
+>>>> Failed: 0, Warnings: 0
+>>>>
+>>>> Please review and provide feedback.
+>>>>
+>>>> Many thanks,
+>>>>
+>>>> Bin Du (7):
+>>>>    media: platform: amd: Introduce amd isp4 capture driver
+>>>>    media: platform: amd: low level support for isp4 firmware
+>>>>    media: platform: amd: Add isp4 fw and hw interface
+>>>>    media: platform: amd: isp4 subdev and firmware loading handling 
+>>>> added
+>>>>    media: platform: amd: isp4 video node and buffers handling added
+>>>>    media: platform: amd: isp4 debug fs logging and  more descriptive
+>>>>      errors
+>>>>    Documentation: add documentation of AMD isp 4 driver
+>>>>
+>>>>   Documentation/admin-guide/media/amdisp4-1.rst |   66 +
+>>>>   Documentation/admin-guide/media/amdisp4.dot   |    8 +
+>>>>   .../admin-guide/media/v4l-drivers.rst         |    1 +
+>>>>   MAINTAINERS                                   |   25 +
+>>>>   drivers/media/platform/Kconfig                |    1 +
+>>>>   drivers/media/platform/Makefile               |    1 +
+>>>>   drivers/media/platform/amd/Kconfig            |    3 +
+>>>>   drivers/media/platform/amd/Makefile           |    3 +
+>>>>   drivers/media/platform/amd/isp4/Kconfig       |   13 +
+>>>>   drivers/media/platform/amd/isp4/Makefile      |   10 +
+>>>>   drivers/media/platform/amd/isp4/isp4.c        |  237 ++++
+>>>>   drivers/media/platform/amd/isp4/isp4.h        |   26 +
+>>>>   drivers/media/platform/amd/isp4/isp4_debug.c  |  272 ++++
+>>>>   drivers/media/platform/amd/isp4/isp4_debug.h  |   41 +
+>>>>   .../platform/amd/isp4/isp4_fw_cmd_resp.h      |  314 +++++
+>>>>   drivers/media/platform/amd/isp4/isp4_hw_reg.h |  125 ++
+>>>>   .../media/platform/amd/isp4/isp4_interface.c  |  972 +++++++++++++
+>>>>   .../media/platform/amd/isp4/isp4_interface.h  |  149 ++
+>>>>   drivers/media/platform/amd/isp4/isp4_subdev.c | 1198 ++++++++++++++++
+>>>>   drivers/media/platform/amd/isp4/isp4_subdev.h |  133 ++
+>>>>   drivers/media/platform/amd/isp4/isp4_video.c  | 1213 +++++++++++++ 
+>>>> ++++
+>>>>   drivers/media/platform/amd/isp4/isp4_video.h  |   87 ++
+>>>>   22 files changed, 4898 insertions(+)
+>>>>   create mode 100644 Documentation/admin-guide/media/amdisp4-1.rst
+>>>>   create mode 100644 Documentation/admin-guide/media/amdisp4.dot
+>>>>   create mode 100644 drivers/media/platform/amd/Kconfig
+>>>>   create mode 100644 drivers/media/platform/amd/Makefile
+>>>>   create mode 100644 drivers/media/platform/amd/isp4/Kconfig
+>>>>   create mode 100644 drivers/media/platform/amd/isp4/Makefile
+>>>>   create mode 100644 drivers/media/platform/amd/isp4/isp4.c
+>>>>   create mode 100644 drivers/media/platform/amd/isp4/isp4.h
+>>>>   create mode 100644 drivers/media/platform/amd/isp4/isp4_debug.c
+>>>>   create mode 100644 drivers/media/platform/amd/isp4/isp4_debug.h
+>>>>   create mode 100644 drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
+>>>>   create mode 100644 drivers/media/platform/amd/isp4/isp4_hw_reg.h
+>>>>   create mode 100644 drivers/media/platform/amd/isp4/isp4_interface.c
+>>>>   create mode 100644 drivers/media/platform/amd/isp4/isp4_interface.h
+>>>>   create mode 100644 drivers/media/platform/amd/isp4/isp4_subdev.c
+>>>>   create mode 100644 drivers/media/platform/amd/isp4/isp4_subdev.h
+>>>>   create mode 100644 drivers/media/platform/amd/isp4/isp4_video.c
+>>>>   create mode 100644 drivers/media/platform/amd/isp4/isp4_video.h
+>>
 > 
-> Quoting that slide, you wrote
-> 
-> "Two devices are compatible when the new device works with Linux drivers
-> bound via fallback (old) compatible".
-> 
-> That is clearly the case here for the existing *Linux* driver. But what
-> if the driver called devm_bulkd_clk_get() with a device-specific list of
-> clocks ? Or what if the same DT bindings are used on an OS that has no
-> clk_get_all() equivalent ? This is my concern with declaring those two
-> devices as compatible: they may be from the point of view of the current
-> implementation of the corresponding Linux kernel driver, but DT bindings
-> are not Linux-specific.
 
-It seems you think of compatibility as new device is compatible with old
-kernel, e.g. one not requesting that clock. We don't talk about such case.
-
-> 
-> Or do DT bindings assume that drivers have to always enable all clocks
-> declared in DT, even if they don't know what those clocks are ? That
-> seems error-prone, in quite a few cases drivers need to handle separate
-> clocks in a device-specific way, with for instance a particular
-> ordering, preventing them from using devm_bulk_clk_get_all(). If all
-> drivers are required to manage all clocks declared in DT, this would get
-> messy quite quickly.
-> 
-I don't really want to dive into such specifics, because it is
-impossible to create a generic rule of out. We decide here about
-programming interface mostly. Can Linux use the one from fallback-device
-to properly operate the new one? Can the same driver bind to fallback
-and operate the new device?
-
-If you enable clock by clock for whatever reason, e.g. very specific
-programming power up sequence, then answer would be: no, Linux cannot
-use fallback because handling clocks differ.
-
-Best regards,
-Krzysztof
 
