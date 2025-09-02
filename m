@@ -1,127 +1,105 @@
-Return-Path: <linux-media+bounces-41597-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41598-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92677B408D6
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 17:23:17 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id E0A15B408F9
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 17:32:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 32ED2188F128
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 15:23:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8D52616D74B
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 15:32:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52FBE31CA61;
-	Tue,  2 Sep 2025 15:23:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 530BD31CA5B;
+	Tue,  2 Sep 2025 15:31:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NlSVzfoO"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aw9jMbfM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE1342DA751
-	for <linux-media@vger.kernel.org>; Tue,  2 Sep 2025 15:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F781B21BF;
+	Tue,  2 Sep 2025 15:31:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756826590; cv=none; b=W841LyQEEftHBFIwqw+H0XX3y6dQXOxB05CHH8pwUroe1T2IMntCzJlHBro9IB1Yoz8bl1IwB9RY5Eb5IkC0Lta00HmCULSx+cNexxzoWUxHHOmiBIgdbMFsfSDqCkJAAKg2u44xJNyIl/z2Ch73Cf6tmAR+BPg/jZtHJT4iHEw=
+	t=1756827112; cv=none; b=jWyfqNwaqwqNrc74+x5pqbNib2a0B5IODUMUozs8EzHDCk0RgqH/Jxca9NF4IqeqHYszcP5WxInHM297Q2knGzut+ynhLVIQUgs0cTYXIMvrHHqeXXyIRJe36teGec3XUi73pdzbmWlPcgpmYrJ2tAuEBJ/HyNgBFMTicgBj5ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756826590; c=relaxed/simple;
-	bh=Li8I41ntHVJO9WS0E5hU1A2KOzoVF+E330VAkYEgUdI=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=rTVgKjUEZiqGALlMCytyXzRJX02vUUt3qzYrPDwMUAMTGBRALsHgboHqWWp2YMvJBEJhAien95W2ID+2qlz54hNFp38DdEALfayI3FuWCwfKnnKtZhqmsjwWtPmEcCpqH7GG7KDvQoI2okVTlfZ5CK6RF+jNg/f71sEcp2Vp6Iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NlSVzfoO; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 582EqAte023408
-	for <linux-media@vger.kernel.org>; Tue, 2 Sep 2025 15:23:07 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=XzRZlqncIr3/5g8m0Qd+XG
-	OK4ERP541o3tvuiC5REYg=; b=NlSVzfoOm8M0e35g9iYgkR3hGJ/wdHR9No5MSb
-	GYPAz/3aV3t3yadmSIdlrqqP53TZiMghEFTlduG230bBa4j+ilqlgCGLFeM2h7Rt
-	Py5Er2vp6AqM5s/yEFAG0G+IK5y3e5uXp9woKglWrp0srQKjfk40QyNGA/eHzJRX
-	JOisbm/PiyFEUHzRwvW1igQ8kw07rVbxmBwUJwMRiOMHkdduviuuneSKQxcgA+Ms
-	xSxcAOUBRZsuDDVjHjw5rTaNNE8XATjpSNVTJo3j1CFxUXia708T82/8LbRqvW+o
-	ga+p4Z+Hy4SK3BS9Ou33Srloidz8adphzJXYe3HsNtbRxiMw==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48upnp8e76-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 02 Sep 2025 15:23:07 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 582FN6ID025171
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 2 Sep 2025 15:23:06 GMT
-Received: from hu-vgarodia-hyd.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.24; Tue, 2 Sep 2025 08:23:04 -0700
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-To: <linux-media@vger.kernel.org>
-CC: <vikash.garodia@oss.qualcomm.com>, <quic_vgarodia@quicinc.com>
-Subject: [PATCH] .mailmap: update Vikash Garodia's email addresses
-Date: Tue, 2 Sep 2025 20:52:24 +0530
-Message-ID: <20250902152224.1150300-1-quic_vgarodia@quicinc.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1756827112; c=relaxed/simple;
+	bh=8NZMZNjbtp245s6IL9uaQhkZ2sXfxrtlX8J5YKgAfj4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TH1rB1LqnAesuub1WRX3tKLewUep3iy4J/36micwcqmNMJAWoh8fK4/2YdMMAMig9km92JvRJ2izW4PZE4dqcj5A0TVbo/qtObnOaDVgWNTV+CMgbZFl7Sp0Wcf3oAb8QYX1Txs9PufQcwK5gcXTK29FyAnfbkfQHv8k0CX6o88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aw9jMbfM; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756827112; x=1788363112;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=8NZMZNjbtp245s6IL9uaQhkZ2sXfxrtlX8J5YKgAfj4=;
+  b=aw9jMbfMhCgVuCvrjKlaGRjqGtDzEJs9v7viDJ8gL0mdgUescS+v46Mv
+   ga1ZkJ6YCKm70O/tcR8ByLel9/rXQ37oUyxybX7kNOwzP6wruUbbzsqxf
+   +nOEhXU/sRrfhmaebohlQTebwOAkopf1mXU3aMV6HR7PCTjKqg2rEMfFx
+   ew6O6nmJWj67FDqEwHDxJ1VFPVz3HofbjOHI6Ol+FJCviXH+EG8Y8K1X0
+   dKWn2hk3vXVfUEB/ejVQRTALqobCSddpPKI0UYpzGkjKy+kKB+ZpJVO8B
+   gUFLOKcVRrtoN2FFgLKTBEyS1V+5n6gElUT7jRUOr2GRl0PrADdkuPaIb
+   A==;
+X-CSE-ConnectionGUID: eDsgh4ktTW29M7DZZ1bKlQ==
+X-CSE-MsgGUID: Gou2ymoOTeWQwhy5d4c+JQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="58806210"
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="58806210"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 08:31:51 -0700
+X-CSE-ConnectionGUID: x3UzqLZLRTWYlXAH3ggxIA==
+X-CSE-MsgGUID: azBEhj9BQ8iE8iD7rTEZhw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
+   d="scan'208";a="170865090"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 08:31:48 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1utSz3-0000000AjQp-3NKC;
+	Tue, 02 Sep 2025 18:31:45 +0300
+Date: Tue, 2 Sep 2025 18:31:45 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v2 3/3] staging: media: atomisp: Remove trailing comments
+Message-ID: <aLcN4c-tj5uPIaze@smile.fi.intel.com>
+References: <20250902071847.2330409-1-abarnas@google.com>
+ <20250902071847.2330409-4-abarnas@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: IyNtBGuJD35svBX1BL1da3GYg-82OkT_
-X-Authority-Analysis: v=2.4 cv=Jt/xrN4C c=1 sm=1 tr=0 ts=68b70bdb cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8
- a=20KFwNOVAAAA:8 a=7CQSdrXTAAAA:8 a=LpQP-O61AAAA:8 a=VwQbUJbxAAAA:8
- a=QyXUC8HyAAAA:8 a=JfrnYn6hAAAA:8 a=59_03uvpzj3tGl5N8mkA:9
- a=TjNXssC_j7lpFel5tvFf:22 a=a-qgeE7W1pNrGK8U0ZQC:22 a=pioyyrs4ZptJ924tMmac:22
- a=1CNFftbPRP8L7MoqJWF3:22
-X-Proofpoint-ORIG-GUID: IyNtBGuJD35svBX1BL1da3GYg-82OkT_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAwMSBTYWx0ZWRfX1Z0Qrmg8QN96
- msiJDApxxvx4w1K/SCBs256FBBUUu/S5zg2bHtc95Og4RB2rrOpm0C+Y3DmB6TiSmPG1hDLgjT2
- MK4xkFjHKrdIQIUjKGmYSpJ9FKUZURagZIcaHBVGv1vyeWGrysvcO6GgvR9lKKD6q1Lr1OJb89r
- WdNEJt5vQnGiSolOPbwBEeW9B/9+Z6seWUQjToHBe8XbOPclZDGX+UqGFjCOLyF+plxMU0Nsi+1
- uUjR+j7OFAzxrPIwn4dXrKZSFCFLXqwyuC9cQAWS1wwRzSJ+eYSlH7o9dMgCB+/1IMfuOsuLI1z
- mYrRzsaMU7DCeh4Ys8NnMFwuxyqBXghWsEkcoFc9/sKT28YFMWbqtCCpRJQYxcyo+Vkg610icNf
- 2sz636DW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-02_05,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 clxscore=1015 bulkscore=0 impostorscore=0
- spamscore=0 phishscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300001
+In-Reply-To: <20250902071847.2330409-4-abarnas@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Add vikash.garodia@oss.qualcomm.com as the main address for upstream
-work.
+On Tue, Sep 02, 2025 at 07:18:47AM +0000, Adrian Barnaś wrote:
+> Remove trailing comments in pci/hive_isp_css_common/host/vmem.c.
 
-Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
----
- .mailmap | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+To avoid churn this should be patch 2 in a new series before current patch 2.
 
-diff --git a/.mailmap b/.mailmap
-index a124aeed52a2..c3935bcf6473 100644
---- a/.mailmap
-+++ b/.mailmap
-@@ -814,7 +814,8 @@ Valentin Schneider <vschneid@redhat.com> <valentin.schneider@arm.com>
- Veera Sundaram Sankaran <quic_veeras@quicinc.com> <veeras@codeaurora.org>
- Veerabhadrarao Badiganti <quic_vbadigan@quicinc.com> <vbadigan@codeaurora.org>
- Venkateswara Naralasetty <quic_vnaralas@quicinc.com> <vnaralas@codeaurora.org>
--Vikash Garodia <quic_vgarodia@quicinc.com> <vgarodia@codeaurora.org>
-+Vikash Garodia <vikash.garodia@oss.qualcomm.com> <vgarodia@codeaurora.org>
-+Vikash Garodia <vikash.garodia@oss.qualcomm.com> <quic_vgarodia@quicinc.com>
- Vinod Koul <vkoul@kernel.org> <vinod.koul@intel.com>
- Vinod Koul <vkoul@kernel.org> <vinod.koul@linux.intel.com>
- Vinod Koul <vkoul@kernel.org> <vkoul@infradead.org>
+Otherwise the entire series LGTM.
+
 -- 
-2.34.1
+With Best Regards,
+Andy Shevchenko
+
 
 
