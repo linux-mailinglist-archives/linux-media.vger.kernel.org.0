@@ -1,98 +1,66 @@
-Return-Path: <linux-media+bounces-41591-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41590-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03B8DB40273
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 15:17:21 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 89356B4028B
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 15:19:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 577FB1B24603
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 13:17:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1486254291A
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 13:17:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 660DB302745;
-	Tue,  2 Sep 2025 13:16:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82671304971;
+	Tue,  2 Sep 2025 13:16:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Epnqvl7V"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Ladnn3Ls"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7B9305057
-	for <linux-media@vger.kernel.org>; Tue,  2 Sep 2025 13:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12779302745
+	for <linux-media@vger.kernel.org>; Tue,  2 Sep 2025 13:16:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756818999; cv=none; b=hKT8lZ2QtPEJvzbL4OwwxUsB32Ld/kzYDM4K9jrP6jD7+IQxVFxYVd/kwuOf7yCUWVeNhkYT8er6PMlgZoujBYvj2U1YbZ1bKdFoCc/UQDbCRszMCdh9Kfyln/iDheHOS20ozZMiZ0NRLNpJ2b4gcScQizdyB7KUcuraoS+/x3w=
+	t=1756818999; cv=none; b=Z2MsHT4PtHTtRM/QV2eeMlr+Jp2Nf5xwqCYo7m25n04ljpAEzN458K1raXuBUHLkECH/NzgVMFa4BdT0pbWTLEZnoJeFm1nQ+3FAYFsLcbF+2jB0UodHgvX1n3UbIuFa1i7XqavGyAmiKIExasxtpusdjdi3Krv/Nng6k7BN3vo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1756818999; c=relaxed/simple;
-	bh=ggpCWi+WWCARecszXYOUjw3lOrpSahGGbcYgq2v0JrA=;
+	bh=J/UB6Udef8fbEeoOSuG06O7wpIQ9bj69uIYGtcFO6rs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nwVZMDbCPz+WxtvGtpcxB0X9Y0o06cDkGJonSym/iY7cFuONNa6KazMt70D6OjydaAIZJgvnig5kGgYS3pZA47+RI8QbpFcZybKY0zTLdwztQCM00NqjBzEqw2e2tQl/ocNaTt5Q7yZehVrou8JyM8jGnPVlWu0j/CdaIUqiru8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Epnqvl7V; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756818997; x=1788354997;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=ggpCWi+WWCARecszXYOUjw3lOrpSahGGbcYgq2v0JrA=;
-  b=Epnqvl7V8bk2vu8l4DdgJ8mh/c2FWuF2BKBNHYHicIZbJYlmgHrtC/tD
-   hK3lCPbRcGA9yDsia5igymYhYf9r+VQuR7q71o896qHwd/Bi6pAgs63QY
-   lgc4t8Hqsl+IvP9y/6KnrxLur680S5xWQTkpOtMJLHE5hgAYiIpPcQ+6L
-   DBQGecCQ/lz+IFfBSeaPobJNuslFoLPw8kWu1sTLYQZht7ww61oU9BHjn
-   fkz6+2eN0kVNZGYB31THCuh+HcsAmcwrI28CBxlfDbdgVYFo+2Jd5weUT
-   +v24Js1aHQ0iNMbJv6fhN+Jsjbqdk8CLxLJzMuodUD7XsUFPozqcWoPae
-   Q==;
-X-CSE-ConnectionGUID: PTEhBrZxSoasz87p3HZ7+A==
-X-CSE-MsgGUID: DkNQauaLQQ6ipXfbiGySBw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="76535068"
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="76535068"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 06:16:33 -0700
-X-CSE-ConnectionGUID: 6IFvJsQ7TCCZ23C3NjYmdA==
-X-CSE-MsgGUID: /7zfRpBSSliSnLaPOcgFwA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,230,1751266800"; 
-   d="scan'208";a="175410582"
-Received: from agladkov-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.32])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Sep 2025 06:16:25 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id CD99611F739;
-	Tue, 02 Sep 2025 16:16:21 +0300 (EEST)
-Date: Tue, 2 Sep 2025 16:16:21 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=D6dF+ZvlDUwA52o0Ys2sOkc0W+9nLF5mkqrGelkm+sNvzmd2qck+GePmnjzp5ANQwS4jbF3EX+65v/NFg+2ZeI9+yUuepx+qo+Q6oPMJJnr7WSyw7KFgbyWyPC34PAG7VwUT7Jxgy+a9C2KPZPcua8Qc429fjekT7yHpgbf+cjY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Ladnn3Ls; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-50-160.net.vodafone.it [5.90.50.160])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 869DFC71;
+	Tue,  2 Sep 2025 15:15:24 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1756818924;
+	bh=J/UB6Udef8fbEeoOSuG06O7wpIQ9bj69uIYGtcFO6rs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Ladnn3LsnYOZLhMZjYLLq72o2oCBX4anKVcDcGT7Zxg0zhj51ywLXy+y1QvC4KWya
+	 HFeHFGrE63evIeNtiu8mWfPH7iAzhSR6CBPv7KV/80eRFf58Tpg/iXY7HmXGEzKzpO
+	 qU3Yn6T2ClthmY3jn0BvB4br8BQDwoG12XZCxJ8M=
+Date: Tue, 2 Sep 2025 15:16:29 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, 
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, 
+	Alexander Shiyan <eagle.alexander923@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Tommaso Merciai <tomm.merciai@gmail.com>, Umang Jain <umang.jain@ideasonboard.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
+	"Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, 
+	"Wang, Hongju" <hongju.wang@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, 
+	Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, 
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
+	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 Subject: Re: [PATCH v11 15/66] media: uapi: Add generic CSI-2 raw pixelformats
-Message-ID: <aLbuJVfWAy7jG83-@kekkonen.localdomain>
+Message-ID: <qclv7i3cn2ycvlkhbgusn6qpzx47vchx4d6i3frrkxmto6dsqg@gwugnfrhq2qw>
 References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
  <20250825095107.1332313-16-sakari.ailus@linux.intel.com>
  <yt4ctbipiqd6up6ojeb6j7xl2blnjbxfacbxbypv7mj7zegxnp@gfv5dvcqbv23>
@@ -102,15 +70,15 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 In-Reply-To: <yt4ctbipiqd6up6ojeb6j7xl2blnjbxfacbxbypv7mj7zegxnp@gfv5dvcqbv23>
 
-Hi Jacopo,
+Hi again
 
-On Mon, Sep 01, 2025 at 03:25:01PM +0200, Jacopo Mondi wrote:
+On Mon, Sep 01, 2025 at 03:25:06PM +0200, Jacopo Mondi wrote:
 > Hi Sakari
-> 
+>
 > On Mon, Aug 25, 2025 at 12:50:16PM +0300, Sakari Ailus wrote:
 > > Add generic raw pixelformats for bit depths 8, 10, 12 and 14. These
 > > formats are CSI-2 packed, apart from the 8-bit format.
@@ -135,32 +103,27 @@ On Mon, Sep 01, 2025 at 03:25:01PM +0200, Jacopo Mondi wrote:
 > > +************************************************************************************************************************************************************************************************************************************************************************************
 > > +V4L2_PIX_FMT_RAW_8 ('RAW8'), V4L2_PIX_FMT_RAW_CSI2_10 ('RACA'), V4L2_PIX_FMT_RAW_CSI2_12 ('RACC'), V4L2_PIX_FMT_RAW_CSI2_14 ('RACE'), V4L2_PIX_FMT_RAW_16 ('RAWG'), V4L2_PIX_FMT_RAW_CSI2_20 ('RACK'), V4L2_PIX_FMT_RAW_24 ('RAWO'), V4L2_PIX_FMT_RAW_CSI2_28 ('RACS')
 > > +************************************************************************************************************************************************************************************************************************************************************************************
-> 
+>
 > I see in your branch
 > "media: uapi: Add generic CSI-2 raw pixelformats for 16, 20, 24 and 28 bpp"
-> 
+>
 > Which adds pixel formats for the additional formats not documented in
 > this patch but mentioned here above in the header.
-> 
+>
 > Should you squash it with this patch ?
 
-The reason these are being postponed is that we haven't yet seen devices
-using them. The systems these are used in tend to be little endian while
-the format documentation suggests big endian byte order. That'd be
-inconvenient. So we'd like to see what do they actually use.
+Oh, I just read in the cover letter:
+- Postpone adding formats higher than 14 bpp
 
-I'll move the extra ones to the other patch.
-
-> 
+So I think you should adjust the title of the page here to remove
+these formats with bpp > 14
+>
 > > +
 > > +
 > > +Generic line-based image data formats
-> 
+>
 > Does "line-based" applies to image formats as well or to metadata only ?
-
-These, too.
-
-> 
+>
 > > +
 > > +
 > > +Description
@@ -168,19 +131,13 @@ These, too.
 > > +
 > > +These generic raw image data formats define the memory layout of the data
 > > +without defining the order of the pixels in the format or even the CFA (Colour
-> 
+>
 > What about s/in the format// ?
-
-Yes.
-
-> 
+>
 > > +Filter Array) itself. See also :ref:`source routes <subdev-routing>`.
-> 
+>
 > I might have missed why the reference to the routing documentation.
-
-I think this bit can be removed now.
-
-> 
+>
 > > +
 > > +.. _v4l2-pix-fmt-raw-8:
 > > +
@@ -382,14 +339,14 @@ I think this bit can be removed now.
 > > +#define V4L2_PIX_FMT_RAW_CSI2_14 v4l2_fourcc('R', 'A', 'C', 'E')
 > > +
 > With
+
+Or without
+
 > "media: uapi: Add generic CSI-2 raw pixelformats for 16, 20, 24 and 28 bpp"
-> 
+>
 > and the above minors clarified
 > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Thank you!
-
-> 
+>
 > >  /* HSV formats */
 > >  #define V4L2_PIX_FMT_HSV24 v4l2_fourcc('H', 'S', 'V', '3')
 > >  #define V4L2_PIX_FMT_HSV32 v4l2_fourcc('H', 'S', 'V', '4')
@@ -397,7 +354,4 @@ Thank you!
 > > 2.47.2
 > >
 > >
-
--- 
-Sakari Ailus
 
