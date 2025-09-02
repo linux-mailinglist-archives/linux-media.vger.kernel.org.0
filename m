@@ -1,428 +1,142 @@
-Return-Path: <linux-media+bounces-41560-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41561-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC7B4B3FD86
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 13:13:15 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 10A3AB3FDBB
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 13:23:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1F30B2C4B0A
-	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 11:12:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A8CEA1B2580D
+	for <lists+linux-media@lfdr.de>; Tue,  2 Sep 2025 11:24:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E65CB2F83C9;
-	Tue,  2 Sep 2025 11:12:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CD6A92F7449;
+	Tue,  2 Sep 2025 11:23:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P8ghxtLk"
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="PV2qAiLP";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="R/6snUpu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 40B532F6594;
-	Tue,  2 Sep 2025 11:12:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6AE72246BB4;
+	Tue,  2 Sep 2025 11:23:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756811553; cv=none; b=JO8q/3IBomfGF9yfeXwSRYCOg92L6TAOW4QizTcyCKqNddq/kSt7dqi4cpw8w8TvLWTFP/vpWVL+mN9atuKrCRxeu5a1bnY8q8hKflRynQ1gSIY8VE7WRy/BhcI9Fg2qZLrh8+sBytdWT+FDhvypXc5m2hQlev9F1meXlyhrUJk=
+	t=1756812222; cv=none; b=P/LjOJRIxAeJA1FLu0EFCgTGRfgnNc6GQxFPaeIpZ15LlFAmn/FrDWZdkrXC/gqDjBjRPuMt7KuWdcMplvkkyRkrhSReDJhWzRiKP5eDVgP5Sj6L6cI1AGMB3ZxAZOjdLNylFXPQbDl4TPdWcKCS6RFWmKB5HPkjWPEBiqEUZyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756811553; c=relaxed/simple;
-	bh=957bTBHXYSSNFWOxfDE0dIMqFGmytxcROeciI4THAZI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qcHFBqasVCViaYrfStBVPYyk3GiXzD4F9BIkwFaDN6NCJMnM1RY/NvyVEZ0oSJMjfBPweS0l/heQTogCZtMiVJzmiaLavkWpANEWdMFSpwcpn34gpanWADxwgvpdenvyO568t45q6Pi9A3Fj4wAlerV4A5fQ6HAlePewFdTvF04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P8ghxtLk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85D33C4CEF5;
-	Tue,  2 Sep 2025 11:12:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756811553;
-	bh=957bTBHXYSSNFWOxfDE0dIMqFGmytxcROeciI4THAZI=;
-	h=From:To:Cc:Subject:Date:From;
-	b=P8ghxtLkKeeGyi0OJcj7pijqNMCfHT1WwRg/vgSDYlbEPib6kFelaj/RcDuBxbiDr
-	 qHh9X8YTigWC53O/SaR0oaHTczfF3zWbcNHmcO9GJkFRSwQzsvFe+As0/GGgod1cyd
-	 EDZxGzAHmINGYSqYctHltwFOIRzBmTenZdmIiSIjQ7DgETrzqbsbSYL0bHoPUVAysd
-	 ibO5YpSO20daHq8vkf2e/Am3Qa1t0Z0M+TLFOd1aByqmwWHsQ19H0Dxw32Ih1ubljd
-	 k5SQ1txQNBbFQUHH2dzuJE9XwwduIGCeI8vQDuzOuviJAOnh0dyXl+D81//ZPJDQFc
-	 P0YNUTMJQ8SKw==
-From: Philipp Stanner <phasta@kernel.org>
-To: David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Matthew Brost <matthew.brost@intel.com>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Philipp Stanner <phasta@kernel.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>
-Cc: dri-devel@lists.freedesktop.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Philipp Stanner <pstanner@redhat.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-Subject: [PATCH v2] drm/sched: Extend and update documentation
-Date: Tue,  2 Sep 2025 13:12:10 +0200
-Message-ID: <20250902111209.64082-2-phasta@kernel.org>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1756812222; c=relaxed/simple;
+	bh=p/8ygFbEgtNV5wSQi1SEP1xqS2pYIN9T58TZ8hpdiH4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kRDuJEHgJyFeWCAEcgoa2UDTdQG0BQ0ryKxP9j5F2L6KeDP/Tiw+fGpg3nOkNMySbMtEL1tEZ6W7yTw7QLbH8xFCulKhyzUmSksAFi3EnBDr4t3buTqgAHOS3LWCroWYTFv9s5OObItE/sKkr5xypGJ3SgvEemf9NCBPH6fVmWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=PV2qAiLP; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=R/6snUpu reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1756812217; x=1788348217;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=p/8ygFbEgtNV5wSQi1SEP1xqS2pYIN9T58TZ8hpdiH4=;
+  b=PV2qAiLPtg2ehTwpdvb0StX4QRWLPgzYF+iGTZA43RTpbVAbRYm7Nz0K
+   wf+FX1qk1+fxr/qUgTNzv7iEEJipdlMHZXpluggvss/jFaTHMGGKNdkYg
+   z0TKkW5eD4k2hhNwxzoTtr8vRv+5udhtvPCmxbxvB+HFhkFtjrQ90fIEE
+   hbOuMs9vaM8/oD5ZnHCXjMg/NXdmQ7wYyUB705hqEzf+nN4Dn6eP8tt4H
+   Dpu36U6c4b0PQ7iXcIwGreGuG9+F/yF7w0skKpcTLuG62rShSWbLWGt57
+   kRyxTFf1ERGeXNmPBCaLzHDVbcG1n4UIxGQSrgZilT1IsmbzIKP5Vziy0
+   w==;
+X-CSE-ConnectionGUID: /InFAUSAQBiDzQYzAB7Jhg==
+X-CSE-MsgGUID: iRlDMovyTvqnQs9GRWqNCw==
+X-IronPort-AV: E=Sophos;i="6.18,230,1751234400"; 
+   d="scan'208";a="46028589"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 02 Sep 2025 13:23:27 +0200
+X-CheckPoint: {68B6D3AF-1E-410E8DD8-CEA8F0F8}
+X-MAIL-CPID: 9CBDA58469C4256730D2998464D30FAE_3
+X-Control-Analysis: str=0001.0A002111.68B6D3AC.0013,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 05936164002;
+	Tue,  2 Sep 2025 13:23:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1756812203;
+	h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=p/8ygFbEgtNV5wSQi1SEP1xqS2pYIN9T58TZ8hpdiH4=;
+	b=R/6snUputxLjudPp2/0ad8T64Y4pm5GRb2KwnfMLVCp5LfZpqNekWLfHOny1No/XlzPB4I
+	c+SEfmmfitLnJoO3RRVkFhB/t4V+lJn2Zd70ncslVuUh8X6VEp9c7av5zZbRmb8Fisgwmm
+	XUXzDRq18/YnHkNkKGehYejfRuPbCoLa0GinSKWFcFDrPwM7Kny/NALHrmtXiS+1IYe9Le
+	vBYpeQUA05O04JYpo9C+yr3kSmo6+Q1fsdKUM2xfiWYKaQ8dZLHlb26XucxMwh/4hdITDM
+	t5NBsVIOX+V0NMqPPKbQ6ZgDMt1lfiqHpcc10nsVc8309/JGAWgCozg6jcGYtQ==
+From: Alexander Stein <alexander.stein@ew.tq-group.com>
+To: Adam Ford <aford173@gmail.com>,
+ Krzysztof =?utf-8?B?SGHFgmFzYQ==?= <khalasa@piap.pl>
+Cc: Stefan Klug <stefan.klug@ideasonboard.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Dafna Hirschfeld <dafna@fastmail.com>, Heiko Stuebner <heiko@sntech.de>,
+ Paul Elder <paul.elder@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Ondrej Jirman <megi@xff.cz>,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: FYI: i.MX8MP ISP (RKISP1) MI registers corruption: resolved
+Date: Tue, 02 Sep 2025 13:23:20 +0200
+Message-ID: <5921855.DvuYhMxLoT@steina-w>
+Organization: TQ-Systems GmbH
+In-Reply-To: <m31popxjqk.fsf@t19.piap.pl>
+References:
+ <175308758352.3134829.9472501038683860006@localhost>
+ <CAHCN7xKq_o_u7PhPMcZ2W9nzrFP8+CnhaYJOyxnjpKfbMTBCEw@mail.gmail.com>
+ <m31popxjqk.fsf@t19.piap.pl>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="UTF-8"
+X-Last-TLS-Session-Version: TLSv1.3
 
-From: Philipp Stanner <pstanner@redhat.com>
+Am Dienstag, 2. September 2025, 11:54:27 CEST schrieb Krzysztof Ha=C5=82asa:
+> Hi,
+>=20
+> summary:
+>=20
+> I've done a few additional tests and it seems the MEDIA_AXI clock is the
+> problem. Reducing it to 400 MHz while still running MEDIA_ISP at 500 MHz
+> produces no errors.
+> MEDIA_ISP at 400 MHz and MEDIA_AXI at 500 MHz produces errors, though
+> (register address errors while reading and writing from/to ISP MI
+> (memory interface) registers, only on the secondary ISP (isp1), and
+> generally only while streaming data from the ISP).
+>=20
+> What is driven by MEDIA_AXI clock root? MEDIAMIX: ISI, LCDIF, ISP, DWE.
+>=20
+> According to both datasheets (industrial and commercial), MEDIA_AXI
+> is limited to 400 MHz in normal mode and 500 MHz in overdrive mode.
+> All my hardware is setup for overdrive mode, though (two manufacturers,
+> both using the same PMIC setup).
+>=20
+> Since no hardware in the official Linux kernel tree (DT) uses the second
+> ISP... Should we just add a warning to the imx8mp.dtsi and be done with
+> it?
+> Out of tree hardware using isp1 (csi1) obviously exists.
 
-The various objects and their memory lifetime used by the GPU scheduler
-are currently not fully documented.
+There is also [1] which addresses normal mode and clock limits. I don't know
+if there is any progress.
 
-Add documentation describing the scheduler's objects. Improve the
-general documentation at a few other places.
+Best regards
+Alexander
 
-Co-developed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Philipp Stanner <pstanner@redhat.com>
----
-Changes in v2:
-  - Rephrase drm_sched_fence docu to make it clearer why drivers would
-    care about it.
----
- Documentation/gpu/drm-mm.rst           |  36 ++++
- drivers/gpu/drm/scheduler/sched_main.c | 229 ++++++++++++++++++++++---
- include/drm/gpu_scheduler.h            |   5 +-
- 3 files changed, 239 insertions(+), 31 deletions(-)
+[1] https://lore.kernel.org/all/20250218-imx8m-clk-v4-2-b7697dc2dcd0@pengut=
+ronix.de/
 
-diff --git a/Documentation/gpu/drm-mm.rst b/Documentation/gpu/drm-mm.rst
-index d55751cad67c..95ee95fd987a 100644
---- a/Documentation/gpu/drm-mm.rst
-+++ b/Documentation/gpu/drm-mm.rst
-@@ -556,12 +556,48 @@ Overview
- .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-    :doc: Overview
- 
-+Job Object
-+----------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Job Object
-+
-+Entity Object
-+-------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Entity Object
-+
-+Hardware Fence Object
-+---------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Hardware Fence Object
-+
-+Scheduler Fence Object
-+----------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Scheduler Fence Object
-+
-+Scheduler and Run Queue Objects
-+-------------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Scheduler and Run Queue Objects
-+
- Flow Control
- ------------
- 
- .. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-    :doc: Flow Control
- 
-+Error and Timeout handling
-+--------------------------
-+
-+.. kernel-doc:: drivers/gpu/drm/scheduler/sched_main.c
-+   :doc: Error and Timeout handling
-+
- Scheduler Function References
- -----------------------------
- 
-diff --git a/drivers/gpu/drm/scheduler/sched_main.c b/drivers/gpu/drm/scheduler/sched_main.c
-index 46119aacb809..ec8165fa9ac3 100644
---- a/drivers/gpu/drm/scheduler/sched_main.c
-+++ b/drivers/gpu/drm/scheduler/sched_main.c
-@@ -24,48 +24,221 @@
- /**
-  * DOC: Overview
-  *
-- * The GPU scheduler provides entities which allow userspace to push jobs
-- * into software queues which are then scheduled on a hardware run queue.
-- * The software queues have a priority among them. The scheduler selects the entities
-- * from the run queue using a FIFO. The scheduler provides dependency handling
-- * features among jobs. The driver is supposed to provide callback functions for
-- * backend operations to the scheduler like submitting a job to hardware run queue,
-- * returning the dependencies of a job etc.
-+ * The GPU scheduler is shared infrastructure intended to help drivers managing
-+ * command submission to their hardware.
-  *
-- * The organisation of the scheduler is the following:
-+ * To do so, it offers a set of scheduling facilities that interact with the
-+ * driver through callbacks which the latter can register.
-  *
-- * 1. Each hw run queue has one scheduler
-- * 2. Each scheduler has multiple run queues with different priorities
-- *    (e.g., HIGH_HW,HIGH_SW, KERNEL, NORMAL)
-- * 3. Each scheduler run queue has a queue of entities to schedule
-- * 4. Entities themselves maintain a queue of jobs that will be scheduled on
-- *    the hardware.
-+ * In particular, the scheduler takes care of:
-+ *   - Ordering command submissions
-+ *   - Signalling dma_fences, e.g., for finished commands
-+ *   - Taking dependencies between command submissions into account
-+ *   - Handling timeouts for command submissions
-  *
-- * The jobs in an entity are always scheduled in the order in which they were pushed.
-+ * All callbacks the driver needs to implement are restricted by dma_fence
-+ * signaling rules to guarantee deadlock free forward progress. This especially
-+ * means that for normal operation no memory can be allocated in a callback.
-+ * All memory which is needed for pushing the job to the hardware must be
-+ * allocated before arming a job. It also means that no locks can be taken
-+ * under which memory might be allocated.
-  *
-- * Note that once a job was taken from the entities queue and pushed to the
-- * hardware, i.e. the pending queue, the entity must not be referenced anymore
-- * through the jobs entity pointer.
-+ * Optional memory, for example for device core dumping or debugging, *must* be
-+ * allocated with GFP_NOWAIT and appropriate error handling if that allocation
-+ * fails. GFP_ATOMIC should only be used if absolutely necessary since dipping
-+ * into the special atomic reserves is usually not justified for a GPU driver.
-+ *
-+ * Note especially the following about the scheduler's historic background that
-+ * lead to sort of a double role it plays today:
-+ *
-+ * In classic setups N ("hardware scheduling") entities share one scheduler,
-+ * and the scheduler decides which job to pick from which entity and move it to
-+ * the hardware ring next (that is: "scheduling").
-+ *
-+ * Many (especially newer) GPUs, however, can have an almost arbitrary number
-+ * of hardware rings and it's a firmware scheduler which actually decides which
-+ * job will run next. In such setups, the GPU scheduler is still used (e.g., in
-+ * Nouveau) but does not "schedule" jobs in the classical sense anymore. It
-+ * merely serves to queue and dequeue jobs and resolve dependencies. In such a
-+ * scenario, it is recommended to have one scheduler per entity.
-+ */
-+
-+/**
-+ * DOC: Job Object
-+ *
-+ * The base job object (&struct drm_sched_job) contains submission dependencies
-+ * in the form of &struct dma_fence objects. Drivers can also implement an
-+ * optional prepare_job callback which returns additional dependencies as
-+ * dma_fence objects. It's important to note that this callback can't allocate
-+ * memory or grab locks under which memory is allocated.
-+ *
-+ * Drivers should use this as base class for an object which contains the
-+ * necessary state to push the command submission to the hardware.
-+ *
-+ * The lifetime of the job object needs to last at least from submitting it to
-+ * the scheduler (through drm_sched_job_arm()) until the scheduler has invoked
-+ * &struct drm_sched_backend_ops.free_job and, thereby, has indicated that it
-+ * does not need the job anymore. Drivers can of course keep their job object
-+ * alive for longer than that, but that's outside of the scope of the scheduler
-+ * component.
-+ *
-+ * Job initialization is split into two stages:
-+ *   1. drm_sched_job_init() which serves for basic preparation of a job.
-+ *      Drivers don't have to be mindful of this function's consequences and
-+ *      its effects can be reverted through drm_sched_job_cleanup().
-+ *   2. drm_sched_job_arm() which irrevokably arms a job for execution. This
-+ *      initializes the job's fences and the job has to be submitted with
-+ *      drm_sched_entity_push_job(). Once drm_sched_job_arm() has been called,
-+ *      the job structure has to be valid until the scheduler invoked
-+ *      drm_sched_backend_ops.free_job().
-+ *
-+ * It's important to note that after arming a job drivers must follow the
-+ * dma_fence rules and can't easily allocate memory or takes locks under which
-+ * memory is allocated.
-+ */
-+
-+/**
-+ * DOC: Entity Object
-+ *
-+ * The entity object (&struct drm_sched_entity) is a container for jobs which
-+ * should execute sequentially. Drivers should create an entity for each
-+ * individual context they maintain for command submissions which can run in
-+ * parallel.
-+ *
-+ * The lifetime of the entity *should not* exceed the lifetime of the
-+ * userspace process it was created for and drivers should call the
-+ * drm_sched_entity_flush() function from their file_operations.flush()
-+ * callback. It is possible that an entity object is not alive anymore
-+ * while jobs previously fetched from it are still running on the hardware.
-+ *
-+ * This is done because all results of a command submission should become
-+ * visible externally even after a process exits. This is normal POSIX
-+ * behavior for I/O operations.
-+ *
-+ * The problem with this approach is that GPU submissions contain executable
-+ * shaders enabling processes to evade their termination by offloading work to
-+ * the GPU. So when a process is terminated with a SIGKILL the entity object
-+ * makes sure that jobs are freed without running them while still maintaining
-+ * correct sequential order for signaling fences.
-+ *
-+ * All entities associated with a scheduler have to be torn down before that
-+ * scheduler.
-+ */
-+
-+/**
-+ * DOC: Hardware Fence Object
-+ *
-+ * The hardware fence object is a dma_fence provided by the driver through
-+ * &struct drm_sched_backend_ops.run_job. The driver signals this fence once the
-+ * hardware has completed the associated job.
-+ *
-+ * Drivers need to make sure that the normal dma_fence semantics are followed
-+ * for this object. It's important to note that the memory for this object can
-+ * *not* be allocated in &struct drm_sched_backend_ops.run_job since that would
-+ * violate the requirements for the dma_fence implementation. The scheduler
-+ * maintains a timeout handler which triggers if this fence doesn't signal
-+ * within a configurable amount of time.
-+ *
-+ * The lifetime of this object follows dma_fence refcounting rules. The
-+ * scheduler takes ownership of the reference returned by the driver and
-+ * drops it when it's not needed any more.
-+ *
-+ * See &struct drm_sched_backend_ops.run_job for precise refcounting rules.
-+ */
-+
-+/**
-+ * DOC: Scheduler Fence Object
-+ *
-+ * The scheduler fence object (&struct drm_sched_fence) encapsulates the whole
-+ * time from pushing the job into the scheduler until the hardware has finished
-+ * processing it. It is managed by the scheduler. The implementation provides
-+ * dma_fence interfaces for signaling both scheduling of a command submission
-+ * as well as finishing of processing. &struct drm_sched_fence.finished is the
-+ * fence typically used to synchronize userspace, e.g., in a &struct drm_syncobj.
-+ *
-+ * The lifetime of this object also follows normal dma_fence refcounting rules.
-+ */
-+
-+/**
-+ * DOC: Scheduler and Run Queue Objects
-+ *
-+ * The scheduler object itself (&struct drm_gpu_scheduler) does the actual
-+ * scheduling: it picks the next entity to run a job from and pushes that job
-+ * onto the hardware. Both FIFO and RR selection algorithms are supported, with
-+ * FIFO being the default and the recommended one.
-+ *
-+ * The lifetime of the scheduler is managed by the driver using it. Before
-+ * destroying the scheduler the driver must ensure that all hardware processing
-+ * involving this scheduler object has finished by calling for example
-+ * disable_irq(). It is *not* sufficient to wait for the hardware fence here
-+ * since this doesn't guarantee that all callback processing has finished.
-+ *
-+ * The run queue object (&struct drm_sched_rq) is a container for entities of a
-+ * certain priority level. This object is internally managed by the scheduler
-+ * and drivers must not touch it directly. The lifetime of a run queue is bound
-+ * to the scheduler's lifetime.
-+ *
-+ * All entities associated with a scheduler must be torn down before it. Drivers
-+ * should implement &struct drm_sched_backend_ops.cancel_job to avoid pending
-+ * jobs (those that were pulled from an entity into the scheduler, but have not
-+ * been completed by the hardware yet) from leaking.
-  */
- 
- /**
-  * DOC: Flow Control
-  *
-  * The DRM GPU scheduler provides a flow control mechanism to regulate the rate
-- * in which the jobs fetched from scheduler entities are executed.
-+ * at which jobs fetched from scheduler entities are executed.
-  *
-- * In this context the &drm_gpu_scheduler keeps track of a driver specified
-- * credit limit representing the capacity of this scheduler and a credit count;
-- * every &drm_sched_job carries a driver specified number of credits.
-+ * In this context the &struct drm_gpu_scheduler keeps track of a driver
-+ * specified credit limit representing the capacity of this scheduler and a
-+ * credit count; every &struct drm_sched_job carries a driver-specified number
-+ * of credits.
-  *
-- * Once a job is executed (but not yet finished), the job's credits contribute
-- * to the scheduler's credit count until the job is finished. If by executing
-- * one more job the scheduler's credit count would exceed the scheduler's
-- * credit limit, the job won't be executed. Instead, the scheduler will wait
-- * until the credit count has decreased enough to not overflow its credit limit.
-- * This implies waiting for previously executed jobs.
-+ * Once a job is being executed, the job's credits contribute to the
-+ * scheduler's credit count until the job is finished. If by executing one more
-+ * job the scheduler's credit count would exceed the scheduler's credit limit,
-+ * the job won't be executed. Instead, the scheduler will wait until the credit
-+ * count has decreased enough to not overflow its credit limit. This implies
-+ * waiting for previously executed jobs.
-  */
- 
-+/**
-+ * DOC: Error and Timeout handling
-+ *
-+ * Errors are signaled by using dma_fence_set_error() on the hardware fence
-+ * object before signaling it with dma_fence_signal(). Errors are then bubbled
-+ * up from the hardware fence to the scheduler fence.
-+ *
-+ * The entity allows querying errors on the last run submission using the
-+ * drm_sched_entity_error() function which can be used to cancel queued
-+ * submissions in &struct drm_sched_backend_ops.run_job as well as preventing
-+ * pushing further ones into the entity in the driver's submission function.
-+ *
-+ * When the hardware fence doesn't signal within a configurable amount of time
-+ * &struct drm_sched_backend_ops.timedout_job gets invoked. The driver should
-+ * then follow the procedure described in that callback's documentation.
-+ *
-+ * (TODO: The timeout handler should probably switch to using the hardware
-+ * fence as parameter instead of the job. Otherwise the handling will always
-+ * race between timing out and signaling the fence).
-+ *
-+ * The scheduler also used to provided functionality for re-submitting jobs
-+ * and, thereby, replaced the hardware fence during reset handling. This
-+ * functionality is now deprecated. This has proven to be fundamentally racy
-+ * and not compatible with dma_fence rules and shouldn't be used in new code.
-+ *
-+ * Additionally, there is the function drm_sched_increase_karma() which tries
-+ * to find the entity which submitted a job and increases its 'karma' atomic
-+ * variable to prevent resubmitting jobs from this entity. This has quite some
-+ * overhead and resubmitting jobs is now marked as deprecated. Thus, using this
-+ * function is discouraged.
-+ *
-+ * Drivers can still recreate the GPU state in case it should be lost during
-+ * timeout handling *if* they can guarantee that forward progress will be made
-+ * and this doesn't cause another timeout. But this is strongly hardware
-+ * specific and out of the scope of the general GPU scheduler.
-+ */
- #include <linux/export.h>
- #include <linux/wait.h>
- #include <linux/sched.h>
-diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
-index 323a505e6e6a..0f0687b7ae9c 100644
---- a/include/drm/gpu_scheduler.h
-+++ b/include/drm/gpu_scheduler.h
-@@ -458,8 +458,8 @@ struct drm_sched_backend_ops {
- 	struct dma_fence *(*run_job)(struct drm_sched_job *sched_job);
- 
- 	/**
--	 * @timedout_job: Called when a job has taken too long to execute,
--	 * to trigger GPU recovery.
-+	 * @timedout_job: Called when a hardware fence didn't signal within a
-+	 * configurable amount of time. Triggers GPU recovery.
- 	 *
- 	 * @sched_job: The job that has timed out
- 	 *
-@@ -506,7 +506,6 @@ struct drm_sched_backend_ops {
- 	 * that timeout handlers are executed sequentially.
- 	 *
- 	 * Return: The scheduler's status, defined by &enum drm_gpu_sched_stat
--	 *
- 	 */
- 	enum drm_gpu_sched_stat (*timedout_job)(struct drm_sched_job *sched_job);
- 
--- 
-2.49.0
+
+=2D-=20
+TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
+any
+Amtsgericht M=C3=BCnchen, HRB 105018
+Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
+neider
+http://www.tq-group.com/
+
 
 
