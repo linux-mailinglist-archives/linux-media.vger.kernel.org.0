@@ -1,123 +1,154 @@
-Return-Path: <linux-media+bounces-41742-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41743-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8837B42C1B
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 23:47:33 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DFE58B42C29
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 23:52:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 811C95680BA
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 21:47:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9416F1C21207
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 21:53:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC06C2EC56B;
-	Wed,  3 Sep 2025 21:47:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD4342ECE84;
+	Wed,  3 Sep 2025 21:52:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Bl1bwWQZ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SndGctAV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876B91E2307;
-	Wed,  3 Sep 2025 21:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3C62ECD14
+	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 21:52:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756936044; cv=none; b=LEUNhz5JrQxbOQ11bDY2gd+YzEw2FTe0ZIRCpkQ/l/DUsDs+4FiHcn5a4jsGOoH/TFK09yxMNP0UoMGQ4RWkAJcfJwIxmIaG8UINTR1U/I+t0hbAwgfnO8SHJYkZH3va6olVXTgurYN7p/AnmJBhYPSTa9EuIEaLxvLAbekYtoA=
+	t=1756936371; cv=none; b=ex58ZsSgTknqoOvkjTlseK57xukGkN5oW3JlzCorSKGqcsCJHlwrEtdl5/KqNweB5QJOM1gSndt0h71RrImXLEvjJ6Jhf/WNzBpO0s63hw+OgN1McFXPDJp4ft2A4oCzqdakawNZ7fPhJaf/5kvyzjfKV0Uhie81Ev7j7sVjZGk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756936044; c=relaxed/simple;
-	bh=0GgytPfcIO0Q4/krr70mcNW/yq3FCj9S7utoaJM+kzo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MfQhgUNKN15HAsz2edWJP+8Rm0jPh25RexpuKvslK0+n5PWOPR3QPAZsFcFg1svXCZytOIGOhXqMMDnkhN+kAS+RQz702gHLDi5ZOkFaP+mN6cW1iB7WMfKl8xmjte4RJSveUYgOZMgEhR90NgJyDx40IAixfBY1ljLT2YFbHSA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Bl1bwWQZ; arc=none smtp.client-ip=80.241.56.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cHGRP2Vjqz9tTZ;
-	Wed,  3 Sep 2025 23:47:13 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1756936033;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=w2/qBRLW8QwNWolmp5KZMKZxO0q6IN8ptMt6ovi4FOo=;
-	b=Bl1bwWQZc3N+nfL+h+CMEwn9kGZkUZgIovio+8CKKIi8KI8WxSeaT4pETNCkPY1wQg2Tpy
-	CkF2oNKUUKLSklNSwwbF2wa2gvx+gvUn+VfAQK2xt6eD24o4SrKx5XoESvdqbEbF3vO1YU
-	umkGvmqNf0eHjt3kstJBZmpKGHXKDBNt1I6NQcSAh6Qt3gnxiYKmx5oAU9WEEc5g1uJSs1
-	+yeaFgHsM3hOAjZ+8QXt6Oqld4U1kgWbY/DkTXOJ4w5nQ8uE6aT69l2lPqxQbi3cP37bba
-	8qgDIGNMlDTUUMsuKp5j+B9lG+XC7wYWWTyY2BI35hvObBWJwrOVFn+9dPyN/Q==
-Message-ID: <f03d0ae0-d28b-4b06-8f63-9d06f15c0522@mailbox.org>
-Date: Wed, 3 Sep 2025 23:47:09 +0200
+	s=arc-20240116; t=1756936371; c=relaxed/simple;
+	bh=aCf523gje0B0ppP4dNKjYaORrc5sZAz5xTw3AD7eKAs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bXf8ce56PEzdPZYRTd2DSYanS9hKpjWe2FdgB8UAaEX0/TeHTbQB/xmVFMoUnVMy9v/SXjznTbe2f9FBoCH3T/OmZOLWeL6DP3qhHLc2jfjAbVFyFKYzpcMrPxLXOPVzmNG1qfsmX9W7RwdYIKCSrAx7gwBGGZu8lvuNW8/9ZzQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SndGctAV; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 4DDCC7E9;
+	Wed,  3 Sep 2025 23:51:37 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1756936297;
+	bh=aCf523gje0B0ppP4dNKjYaORrc5sZAz5xTw3AD7eKAs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SndGctAV0wlOln5CiXylTRWMDC1KYL7JrZOLJSN9Sm0Me5tKV4Bu7bG3UnXpTXfJ+
+	 k+2xpZG4mpFpTsHgC9vmaRq8/+z+ud99XyDS9u8Na6GYWjAWYckUMowwf0+znOb1fM
+	 ROXfnlK2qsSyebRSfYOiOG9WSJHNss9ZA5MsPBag=
+Date: Wed, 3 Sep 2025 23:52:24 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 52/66] media: v4l: Add V4L2_SUBDEV_ROUTE_FL_STATIC
+ sub-device routing flag
+Message-ID: <20250903215224.GE3648@pendragon.ideasonboard.com>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-53-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v2 0/8] Add support for Wave6 video codec driver
-To: Nas Chung <nas.chung@chipsnmedia.com>, mchehab@kernel.org,
- hverkuil@xs4all.nl, sebastian.fricke@collabora.com, robh@kernel.org,
- krzk+dt@kernel.org, conor+dt@kernel.org
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-imx@nxp.com,
- jackson.lee@chipsnmedia.com, lafley.kim@chipsnmedia.com
-References: <20250422093119.595-1-nas.chung@chipsnmedia.com>
-Content-Language: en-US
-From: Marek Vasut <marek.vasut@mailbox.org>
-In-Reply-To: <20250422093119.595-1-nas.chung@chipsnmedia.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-MBO-RS-ID: 14d7dbf95193078b02e
-X-MBO-RS-META: ci7eu3bdapium5nw3s4r9au7fjchjxhb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250825095107.1332313-53-sakari.ailus@linux.intel.com>
 
-On 4/22/25 11:31 AM, Nas Chung wrote:
-> This patch series introduces support for the Chips&Media Wave6 video
-> codec IP, a completely different hardware architecture compared to Wave5.
-> 
-> The wave6 driver is a M2M stateful encoder/decoder driver.
-> It supports various video formats, including H.264 and H.265,
-> for both encoding and decoding.
-> While other versions of the Wave6 IP may support VP9 decoding and
-> AV1 decoding and encoding those formats are not implemented or validated
-> in this driver at this time.
-> 
-> On NXP i.MX SoCs, the Wave6 IP functionality is split between two regions:
-> VPU Control region, Manages shared resources such as firmware memory.
-> VPU Core region, Provides encoding and decoding capabilities.
-> The VPU core cannot operate independently without the VPU control region.
-> 
-> This driver has been tested with GStreamer on:
-> - NXP i.MX95 board
-> - pre-silicon FPGA environment
-> 
-> Test results for decoder fluster:
-> - JVT-AVC_V1, Ran 77/135 tests successfully              in 35.519 secs
-> - JVT-FR-EXT, Ran 25/69 tests successfully               in 17.725 secs
-> - JCT-VC-HEVC_V1, Ran 132/147 tests successfully         in 81.549 secs
-> - All failures are due to unsupported hardware features:
-> -- 10bit, Resolutions higher than 4K, FMO, MBAFF
-> -- Extended profile, Field encoding and High422 sreams.
-> 
-> Test results for v4l2-compliance:
-> v4l2-compliance 1.29.0-5359, 64 bits, 64-bit time_t
-> v4l2-compliance SHA: 2a91a869eb8a 2025-04-12 11:35:53
-> 
-> Compliance test for wave6-dec device /dev/video0:
->                  fail: ../utils/v4l2-compliance/v4l2-test-controls.cpp(1180): !have_source_change || !have_eos
->          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
-> Total for wave6-dec device /dev/video0: 48, Succeeded: 47, Failed: 1, Warnings: 0
-> 
-> Compliance test for wave6-enc device /dev/video1:
->                  fail: ../utils/v4l2-compliance/v4l2-test-controls.cpp(1169): node->codec_mask & STATEFUL_ENCODER
->          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
-> Total for wave6-enc device /dev/video1: 48, Succeeded: 47, Failed: 1, Warnings: 0
-> 
-> Note: the failures are all related with the eos event.
+Hi Sakari,
 
-For what its worth, the whole series:
+Thank you for the patch.
 
-Tested-by: Marek Vasut <marek.vasut@mailbox.org> # NXP i.MX95 rev. A0
+On Mon, Aug 25, 2025 at 12:50:53PM +0300, Sakari Ailus wrote:
+> Add a flag to denote static routes, V4L2_SUBDEV_ROUTE_FL_STATIC. Such
+> routes cannot be removed as they are related to hardware features.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  .../userspace-api/media/v4l/vidioc-subdev-g-routing.rst      | 5 +++++
+>  include/uapi/linux/v4l2-subdev.h                             | 5 +++++
+>  2 files changed, 10 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> index 0b90be43af57..3c7fde673b34 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> @@ -151,6 +151,11 @@ wants to retrieve the missing routes, it can issue a new
+>        - The route is immutable. Set by the driver. Indicates that the
+>  	``V4L2_SUBDEV_ROUTE_FL_ACTIVE`` flag of an immutable route may not be
+>  	unset.
+> +    * - ``V4L2_SUBDEV_ROUTE_FL_STATIC``
+> +      - 0x0004
+> +      - The route is static. Set by the driver. Indicates that the route is
+> +        always present and cannot be removed. Implies
+> +        ``V4L2_SUBDEV_ROUTE_FL_IMMUTABLE``.
+
+It's the other way around. IMMUTABLE implies STATIC, but not all static
+routes are immutable.
+
+      - The route is static. Set by the driver. Indicates that the route is
+        created by the driver and cannot be removed. Static routes may
+	be immutable, or may allow userspace to enable and disable them.
+
+I'm not fully happy with the last sentence, but "enable-able" isn't a
+word :-)
+
+>  
+>  Return Value
+>  ============
+> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
+> index 839b1329afb2..cb353fa4a4a6 100644
+> --- a/include/uapi/linux/v4l2-subdev.h
+> +++ b/include/uapi/linux/v4l2-subdev.h
+> @@ -209,6 +209,11 @@ struct v4l2_subdev_capability {
+>   * unset.
+>   */
+>  #define V4L2_SUBDEV_ROUTE_FL_IMMUTABLE		(1U << 1)
+> +/*
+> + * Is the route static? The STATIC flag of an immutable route may not be
+> + * unset.
+
+The static flag can never be unset. We need to document this better
+above. What happens if an application tries to unset it ?
+
+> + */
+> +#define V4L2_SUBDEV_ROUTE_FL_STATIC		(1U << 2)
+>  
+>  /**
+>   * struct v4l2_subdev_route - A route inside a subdev
+
+-- 
+Regards,
+
+Laurent Pinchart
 
