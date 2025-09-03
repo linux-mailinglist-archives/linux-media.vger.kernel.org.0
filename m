@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-41676-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41677-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09765B4200D
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 14:53:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D5DC9B4200C
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 14:53:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3412B3B311C
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 12:52:50 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BE6F5204C11
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 12:53:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1CBD53009C7;
-	Wed,  3 Sep 2025 12:49:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BF3E30275C;
+	Wed,  3 Sep 2025 12:51:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OUlIF0qc"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cSZvFLlp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D0C82FF67E
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 12:49:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A023009E0
+	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 12:51:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756903753; cv=none; b=Gc0w4QMS7UtIUUCcLsTs27XsRoOoTR8z6Qf1+k39Uflioqc6/7A9rQCnsjnkmmSmY1SvUxoz+j5uk4V/vL2MFdSWn1dGqKFXXjLlQBpuVoW90Efl3/C79iB6+6FuzbdlGGhRVxjWWRubCPyAhkYxNSJSCdkUaf8SrPL4UoGMzGc=
+	t=1756903880; cv=none; b=mQgFDTJzGDUnZL6jd5H26mUCecx3MqXlPXtxnqsElrUQRpGdnMhxLJakafU3ylYVfltIFpQnbC9vUnS7XI81jAL2VzrlWHvUsP6nei5eKSBKOWOFHYNr+kqLz12N6e6CcaA7TIII23cBN6uhwKBQTKDcX3c1oKq1PWQWUMt5x4M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756903753; c=relaxed/simple;
-	bh=PYKbeyEjPr4jSDfjjKE6TTaY6TjHel4C+MGdisdfhP4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kQ9OUdH/QGctvfZFiGS3w3+LvozfXBdNV/tH7dkvhid9QWMEceIbQFJqFyEEPjr8U4gCVqM1JIG4P98McmlkIpQ8ew3Uz4XbUq5K6EsJgzeP/0mpeMjlwGN1Ydq8Erq98oGT6absODkcSMUsMSmOY9JJwRKtx/XvXnp0Cgvuqck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OUlIF0qc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD377C4CEF7;
-	Wed,  3 Sep 2025 12:49:11 +0000 (UTC)
+	s=arc-20240116; t=1756903880; c=relaxed/simple;
+	bh=w0Vi6tse421553kSLOPqnPHU9Gz2NkKJLRdSLu2Io70=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ZJVWbYWaMsDzpPQruFyWz7oeGGYMZE4PtyFojyPYnjppOrpn902EU4EuVYezQfg0yLfYxfYpKOVvOoSq8C6DdD0lNcyr29fRfo9kT/3yayNhyuGdDOaFx7c+s3ANaJAr6lHH9lN3gpGV425vCaksSgjPZlPfpZK6wrPDStolZRo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cSZvFLlp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90F92C4CEF5;
+	Wed,  3 Sep 2025 12:51:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756903753;
-	bh=PYKbeyEjPr4jSDfjjKE6TTaY6TjHel4C+MGdisdfhP4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=OUlIF0qcVQTELqA2KGYS/MvVTE82303UARd3Jm8cOAQMj1sZBvdOdJ0sqF7mlsGeS
-	 A8uYfwKcIUqsb8sxaafPyHW0Rw2CamhuKR/vB7u6vNe+B5f5gqD6vNKf7I1dL1nA4Q
-	 gEGuU3YOWCsui7VyfOBXpi//Um4FaRQ1Dy4si84c1oE8NxNE3DV7+MmoyMn4jQzs/o
-	 xy9wCgn4o86g63HVRNI6UP4xxmxmTLPU0zCDhFn88KgYX+rs9vHK7FKDfSkChtD2eU
-	 5dfiOKLVmHG7tp7DDOAZvbEX6qttW6mHnvlvjyJYQwYhmRbxsoA6ZveGJoJGHfg5uQ
-	 THEt88RqAuC+g==
-Message-ID: <1a1320af-0cc1-411a-8242-9e065d37d56a@kernel.org>
-Date: Wed, 3 Sep 2025 14:49:09 +0200
+	s=k20201202; t=1756903879;
+	bh=w0Vi6tse421553kSLOPqnPHU9Gz2NkKJLRdSLu2Io70=;
+	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
+	b=cSZvFLlpPOIiaTdYRStowPJBi/nerxs55BEYPBRQlN0a+i5zWtlyoTpXoB8lm91cw
+	 qZROdKzFYLEMNLqnVjlmU8UiejjqABFVXyyhUeFfDDG1Y7cSIz31SPozJCAdPf+Rfs
+	 s/RpuF83mjKC5J0SFl+5Wey/EcaVcGu1/LIZwFPq2ngxD9n+FEy5iDuRLEzqV06Nz0
+	 xk/KXzSGTaXy2fxBV7TkZADB3VUOyUuq9afrZPU3+WRzoRZwU0Ca1s6fjrF45Dfoof
+	 NrWf3nYZu0tgk37Z32/1x2496zqzFo5042SBynGKb6AbX0b/Vg9nrRBZw7unkL1W4f
+	 xHw3CL4XTzGHA==
+Message-ID: <8f84500b-8b9d-4ad3-a04c-fe8148b0a0bf@kernel.org>
+Date: Wed, 3 Sep 2025 14:51:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,12 +51,13 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] .mailmap: update Vikash Garodia's email addresses
+From: Krzysztof Kozlowski <krzk@kernel.org>
 To: Vikash Garodia <quic_vgarodia@quicinc.com>, linux-media@vger.kernel.org
 Cc: vikash.garodia@oss.qualcomm.com
 References: <20250902152224.1150300-1-quic_vgarodia@quicinc.com>
  <de89f325-0e4c-4040-a7ae-fd36d3e4a177@kernel.org>
  <b60f364e-3aeb-7e01-d03e-b7ec8eed1a42@quicinc.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
+ <1a1320af-0cc1-411a-8242-9e065d37d56a@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
  xsFNBFVDQq4BEAC6KeLOfFsAvFMBsrCrJ2bCalhPv5+KQF2PS2+iwZI8BpRZoV+Bd5kWvN79
@@ -101,51 +102,42 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <b60f364e-3aeb-7e01-d03e-b7ec8eed1a42@quicinc.com>
+In-Reply-To: <1a1320af-0cc1-411a-8242-9e065d37d56a@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 03/09/2025 14:24, Vikash Garodia wrote:
-> 
-> On 9/3/2025 12:56 AM, Krzysztof Kozlowski wrote:
->> On 02/09/2025 17:22, Vikash Garodia wrote:
->>> Add vikash.garodia@oss.qualcomm.com as the main address for upstream
->>> work.
+On 03/09/2025 14:49, Krzysztof Kozlowski wrote:
+> On 03/09/2025 14:24, Vikash Garodia wrote:
+>>
+>> On 9/3/2025 12:56 AM, Krzysztof Kozlowski wrote:
+>>> On 02/09/2025 17:22, Vikash Garodia wrote:
+>>>> Add vikash.garodia@oss.qualcomm.com as the main address for upstream
+>>>> work.
+>>>>
+>>>> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+>>>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
 >>>
->>> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
->>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+>>> That's the same person. SoB does not mean any rights to an email, but
+>>> DCO. Please read submitting patches about meaning of SoB and drop the
+>>> first fake SoB.
 >>
->> That's the same person. SoB does not mean any rights to an email, but
->> DCO. Please read submitting patches about meaning of SoB and drop the
->> first fake SoB.
+>> I referred this [1], at the same time, i find your point valid given its
+>> basically represents an identity, which remains same irrespective of multiple
+>> email IDs.
 > 
-> I referred this [1], at the same time, i find your point valid given its
-> basically represents an identity, which remains same irrespective of multiple
-> email IDs.
+> I don't even know what this means... there is no identity here, no one
+> checks identities, although even identities are the same - oss.qualcomm
+> = quicinc, these are the same companies.
+Anyway the patch should be NAKed for other reason - this email address
+does not even work!
 
-I don't even know what this means... there is no identity here, no one
-checks identities, although even identities are the same - oss.qualcomm
-= quicinc, these are the same companies.
+Diagnostic-Code: smtp; The email account that you tried to reach does
+not exist. Please try double-checking the recipient's email address for
+typos or unnecessary spaces. For more information, go to
+https://support.google.com/mail/?p=NoSuchUser
 
-> 
-> [1]
-> https://lore.kernel.org/linux-media/fb481f2d-d230-4869-9cc2-6f56e75f92a2@xs4all.nl/
-> 
->>
->> Subject - it's mailmap, not mailmap, 
-> 
-> What are you trying to say here "its mailmap, not mailmap" ?
-
-not ".mailmap".
-
-> 
->> but more important - MAINTAINERS
->> patch should be squashed here.
-> 
-> I was planning to do it separately, but i agree its even better to update
-> MAINTAINERS alongwith this.
-
-It's not a separate change. Fixing your email address is one logical change.
+Your message wasn't delivered to vikash.garodia@oss.qualcomm.com because
+the address couldn't be found, or is unable to receive mail.
 
 Best regards,
 Krzysztof
