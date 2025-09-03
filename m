@@ -1,100 +1,163 @@
-Return-Path: <linux-media+bounces-41631-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41635-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D0BB4165C
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 09:23:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2803BB416E9
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 09:39:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A7791BA16B9
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 07:23:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3D6D563ECB
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 07:39:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 506032DA74D;
-	Wed,  3 Sep 2025 07:23:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07DBD2DE70D;
+	Wed,  3 Sep 2025 07:39:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CvztLMZU"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="BUY7TGzc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2E2F27FB2A;
-	Wed,  3 Sep 2025 07:23:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DC52D73B2
+	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 07:39:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756884186; cv=none; b=FwaUHZ6D2q0mfKtlUpfNBWgVSYmoYTEpJDv/hE3HBzVAvZ5omHREDJwkyh8+HUAWvLBNfItxiAI6w3/i6Hb/JxMRGBngK1HOrQk9Ph04pyJH7kAPrUWgnTb3FAePrFvylqWYxpt+IoUNY47w5K5jwB5Zx3hOsekyCMjDDV11r2s=
+	t=1756885155; cv=none; b=XskahBz+VnkoiS+nUqLMjaQp1CwdDXVmmauMoYD+plJIQWpRhSM0AlJVbJ4+wb87MjwRVq3BbHRAjAjqwI27AzspL/4OhHsUfrm1J8lcgDgCh6B7FD5ixyBL6GkPXuZmK0hFXTCnsdo2HQ1S2ieW+zbUXBqM04RsIF977RsthRk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756884186; c=relaxed/simple;
-	bh=i8YViYCLv0G5HWt+WwVcqnR5OfAuwswwP8Ni9nzI9xk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=W4sKLe5hWnPMpK7Z4JwqVL5o4jSwdO9OaXago77M0w75UQSPXfEGBffEk+OAaGreESrC9jYwpCo/L+eDkF9Lc/FCeTX8p8dEWS+CmVSy16X4A73N6cM7Md8cXr1MsjSAmQaAwevYeyW9OLsNl6OiksDQ76hFRdaooZjj59OiiKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CvztLMZU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E7072C4CEF0;
-	Wed,  3 Sep 2025 07:23:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756884186;
-	bh=i8YViYCLv0G5HWt+WwVcqnR5OfAuwswwP8Ni9nzI9xk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CvztLMZUOgGBrIYsh5cn0NG/ZBk1o+0TNOTDgYrnAgHgGXReGBzdFckiiDW5wTGTn
-	 LzB8cRxhs7lXljN5fwMRdNapmxI0nGpde/BlCyxZ/F3YfJN+/QO/6Ss8oNOAFKaL27
-	 eDlIIs7KzBIhqyKKPQPy6N7zdYsb4gNrbKzBMKwo6IgsOcWDXSPpKEAg4+gPNbffvK
-	 diJZqyBEDPPCsymf89lShIPuRaPZPcI6tZbBDWuPnlMINwTAAjoQoJvK3Ys4iYNY5B
-	 FFHYpTSOn9ju6UYXwQZrAbEhwSLW6yjG5tKqCLWcWHlZ3t9eRn31xkltJTk25ViNb0
-	 maxJwEK6z9ZuQ==
-Date: Wed, 3 Sep 2025 08:23:01 +0100
-From: Lee Jones <lee@kernel.org>
-To: "Dr. David Alan Gilbert" <linux@treblig.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mark Brown <broonie@kernel.org>, arnd@arndb.de, mchehab@kernel.org,
-	lgirdwood@gmail.com, perex@perex.cz, tiwai@suse.com,
-	linux-media@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/4] Remove the wl1273 FM Radio
-Message-ID: <20250903072301.GZ2163762@google.com>
-References: <20250625133258.78133-1-linux@treblig.org>
- <20250808154903.GB23187@pendragon.ideasonboard.com>
- <20250902103249.GG2163762@google.com>
- <20250902113527.GB1694@pendragon.ideasonboard.com>
- <88042d72-b428-442e-ba3c-b15e587e12a7@sirena.org.uk>
- <20250902121015.GI13448@pendragon.ideasonboard.com>
- <aLcuHnj_h3Xf7DiK@gallifrey>
+	s=arc-20240116; t=1756885155; c=relaxed/simple;
+	bh=1Oc0Sp3Mx7FR/p2BZFbZfwf5PRZHut2haSGWT0WEc8M=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SKmuGmnymlgvoQh/IvkmTafb7yJNxCT+AuMMrALu7gqOZiPOqRMSXdhsZw5CIHYT2vIiGY+H4A3eGcGD8s7khpvrbw4PT8polABqZFainKg7gH86YDsx+0Q9AVk3N9INRWuvggFjHn+UZYtfTRKSbXLJocCbESB33OHCcJH8ovs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=BUY7TGzc; arc=none smtp.client-ip=121.127.44.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1756885151;
+ bh=auDnTh/G9z3Y/t2W15bb+vq1E6EQIAIJTktRaItnI50=;
+ b=BUY7TGzciFQ9/qPcSITc41HWklDtvWHn1Io9WA26Iy0MyO16eDXyBQfnr+J07PhMsMIkeulLB
+ OFnDwzQKRzOX6z80vlne5NXux+AO/PqmdVbsdo5VAy+5QcJTAr91bItE/hQNTq2mGvc34WWzwhe
+ mHE7VUrntlp/P8keO8sPJCYWuA1FW1fpnlkBKDmgMX/3p/PAwtGYEz7iGqPV684tN6sqFrWCT/J
+ CZPLmKuENVjmH5d8zT3IHvnFqJpX+uFvKP+1WFa9e0NmfmpG+WvzHMI5Wj21l5v9f0vdckhomAf
+ nhN3zKof5bZWQOidPUDybM2sl0UcWUKlzWAZd34Q9hQQ==
+X-Forward-Email-ID: 68b7ee2f3a2f2af95f29221d
+X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 121.127.44.73
+X-Forward-Email-Version: 1.2.11
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+Message-ID: <8394c12a-1e1e-44fc-9bb5-92a464dfe410@kwiboo.se>
+Date: Wed, 3 Sep 2025 09:28:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/7] media: rkvdec: Add HEVC backend
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Detlev Casanova <detlev.casanova@collabora.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
+ <heiko@sntech.de>, Alex Bee <knaerzche@gmail.com>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20250810212454.3237486-1-jonas@kwiboo.se>
+ <20250810212454.3237486-2-jonas@kwiboo.se>
+ <432ab63698b27ca5bce3a7a30d630685aff782b6.camel@collabora.com>
+Content-Language: en-US
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <432ab63698b27ca5bce3a7a30d630685aff782b6.camel@collabora.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aLcuHnj_h3Xf7DiK@gallifrey>
 
-On Tue, 02 Sep 2025, Dr. David Alan Gilbert wrote:
+Hi Nicolas,
 
-> * Laurent Pinchart (laurent.pinchart@ideasonboard.com) wrote:
-> > On Tue, Sep 02, 2025 at 12:47:39PM +0100, Mark Brown wrote:
-> > > On Tue, Sep 02, 2025 at 01:35:27PM +0200, Laurent Pinchart wrote:
-> > > 
-> > > > Patch 1/4 has been queued in the media tree and should be in linux-next
-> > > > as commit 103b0cfc9ab6. It is based straight on v6.17-rc1. Patch 2/4 is
-> > > > also in linux-next, but is based on other ALSA patches. The simplest
-> > > > course of action would be for you to merge 3/4 for v6.18, and 4/4 for
-> > > > v6.19.
-> > > 
-> > > Or given that it's a driver removal we could just get a rebase of the
-> > > series against the meda tree applied?  The conflicts with ASoC should be
-> > > trivial to resolve.
-> > 
-> > I don't mind either way. I know Linus doesn't like having the same patch
-> > merged with different commit IDs, but I don't know how strict the rule
-> > is, especially when git should be able to resolve the conflict
-> > transparently.
+On 8/29/2025 10:22 PM, Nicolas Dufresne wrote:
+> Le dimanche 10 août 2025 à 21:24 +0000, Jonas Karlman a écrit :
+>> The Rockchip VDEC supports the HEVC codec with the Main and Main10
+>> Profile up to Level 5.1 High tier: 4096x2304@60 fps.
+>>
+>> Add the backend for HEVC format to the decoder.
+>>
+>> Signed-off-by: Alex Bee <knaerzche@gmail.com>
+>> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+>> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+>> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
 > 
-> I still think the easiest thing is to leave 1/4 and 2/4 as you currently
-> have them; and let Lee take 3/4 and 4/4 next time around.
+> Re-reading myself, most of my comments were off or really "nitty". So let's move
+> forward and spare you the v3. Detlev is happy to rebase and work on top of your
+> series, so let's help everyone getting better RK codec support.
+> 
+> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> 
+> Just to be transparent, during testing, it was notice that some concurrent
+> decoding resulted into failures. I tested Detlev port to structure registers,
+> and it didn't change anything (so probably not a stalled state, or one that we
+> control). This could easily be a HW issue with older chip. Since you have used
+> this for years without major issue reported, I happy to move on.
 
-It's more disjointed than I like.  But it's okay.  Remind me later.
+Thanks, I found some minor changes compared to the LibreELEC version
+that I am running some new tests on, plan to send out a v3 as soon as
+testing completes later today.
 
--- 
-Lee Jones [李琼斯]
+In LibreELEC version we enable some error detection,
+
+	// sw_cabac_error_e - cabac error enable
+	writel(0xfdfffffd, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+	// slice end error enable = BIT(28)
+	// frame end error enable = BIT(29)
+	writel(0x30000000, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+
+and in this series it was fully disabled to closer match H264/VP9:
+
+	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+
+There is also an extra memset(0, ...) in rkvdec_hevc_start:
+
+	memset(priv_tbl, 0, sizeof(*priv_tbl));
+
+This should not really be needed and was removed in this series.
+
+Still unclear if any of these will result in a changed behavior. Enable
+of cabac/slice end/frame end error could possible activate some more
+states when block issue a self-reset, but I am only guessing.
+
+One thing to note for the flaky tests is that when they fail, they
+typically just end up with a different consistent checksum. I have not
+done any visual inspection of those frames, but will extract each frame
+and compare them both bitwise and visually.
+
+Regards,
+Jonas
+
+> 
+> regards,
+> Nicolas
+> 
+>> ---
+>> Changes in v2:
+>> - Use new_value in transpose_and_flatten_matrices()
+>> - Add NULL check for ctrl->new_elems in rkvdec_hevc_run_preamble()
+>> - Set RKVDEC_WR_DDR_ALIGN_EN for RK3328
+>> ---
+>>  .../media/platform/rockchip/rkvdec/Makefile   |    2 +-
+>>  .../rockchip/rkvdec/rkvdec-hevc-data.c        | 1848 +++++++++++++++++
+>>  .../platform/rockchip/rkvdec/rkvdec-hevc.c    |  817 ++++++++
+>>  .../platform/rockchip/rkvdec/rkvdec-regs.h    |    2 +
+>>  .../media/platform/rockchip/rkvdec/rkvdec.c   |   76 +
+>>  .../media/platform/rockchip/rkvdec/rkvdec.h   |    1 +
+>>  6 files changed, 2745 insertions(+), 1 deletion(-)
+>>  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-data.c
+>>  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-hevc.c
+
+[snip]
 
