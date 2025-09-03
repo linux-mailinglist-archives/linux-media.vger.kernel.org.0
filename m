@@ -1,139 +1,387 @@
-Return-Path: <linux-media+bounces-41672-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41673-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4B90B41EE0
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 14:25:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2421B41EF6
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 14:29:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9604020290F
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 12:25:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B109617CA55
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 12:29:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DFAB2FCC06;
-	Wed,  3 Sep 2025 12:25:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54E6A2FD7CF;
+	Wed,  3 Sep 2025 12:29:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="gBXvWTqE"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="FMyvQ9+W"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939812F8BE4
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 12:25:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 856772FD1D3
+	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 12:29:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756902333; cv=none; b=TfOf6T2TvdcowWEznxHiiAdB5STmLU/n05ewMIaR961cr5LIW5KDc8uVBBFL69L55P3lAYNBDAo3z62ckJdFb9He0YVgt/L15vvuwu5FmkzefRdU0SuuLqxlI54Ri20RrwCt9mMqjBVFxeRvX9qw1XCixCXWxP6AabnwFqLZJcE=
+	t=1756902559; cv=none; b=nl7p8AbVeOu1j6ZpwTUqjlfBI6OmKgwm8JkHWCREj6jkTApJI36qGPelKquYteNr117ZdyDb3nK4ESoppBlEIVvG59Pe+CSOm1rsLzjYaD9nllzlPD4cjeOJkcZKG8MLif0WuvdrNJDxP55k24A5LbPgnkKb9X/SfVfdpErvIbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756902333; c=relaxed/simple;
-	bh=KPwsEJvAgXkjVnBTWgpcN/Msrfxrqfsm2GCKm2d2t+w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=LgeAVljxaCUSQBbumPlbqI+oAU07wEONDWERihYNUw7wWWhvsudqN6HnaW0Pe0iRHGi3TIV31Y7XPoU1HWbbUrpPLms+LSLcqMmim+9WPggzcFL5OxUiNkcBXEgV3OgDVB50F0EyketHTj+a/I/BYKjaXPByEARGRZ6TmTZN3ho=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=gBXvWTqE; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 583BEsMW013984;
-	Wed, 3 Sep 2025 12:25:28 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	p2fiYvZJO3o9q+s6tYcsUanLuxBhINQ89s0eRDvEXOE=; b=gBXvWTqEtYmC5Ia/
-	RugYlWyYxtZzBU26qYkLGihgUN2833lWD/YNuRpvwhkldJ+T6IkPgPE5WIeIlDLU
-	BkEuxiVj9To43Kk77yKD9k6s1erbjQ0YQ0KD6adf2D1ytXgcCLmRXHUoFTV0dwnT
-	FA9jLb+YGv80oWhBLA6VFEh0lZJC18r58fC2c6hIG/lGIcr6R4YT0GVD0JxcKWrk
-	r1keseSibkSDu9NwvdnG/Ot7bJriieWa7TVHeoZ9Y+p0HKcFJqcdcWIm+2gfmCgC
-	JcoZOIbUmZkRDS9Y7QQVpmo61rCMFDGngr5Gu4j34stJM1od17Rp2fRKxFb+zM0n
-	f71NCg==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48w8wy7gnm-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 03 Sep 2025 12:25:28 +0000 (GMT)
-Received: from nasanex01c.na.qualcomm.com (nasanex01c.na.qualcomm.com [10.45.79.139])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 583CPRPO023813
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 3 Sep 2025 12:25:27 GMT
-Received: from [10.216.53.8] (10.80.80.8) by nasanex01c.na.qualcomm.com
- (10.45.79.139) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Wed, 3 Sep
- 2025 05:24:54 -0700
-Message-ID: <b60f364e-3aeb-7e01-d03e-b7ec8eed1a42@quicinc.com>
-Date: Wed, 3 Sep 2025 17:54:49 +0530
+	s=arc-20240116; t=1756902559; c=relaxed/simple;
+	bh=ev0Pw9w6IyNneY7LsvGyJQUmh2KJ/oSazZ+HWW1UR8g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WMb1fR1CoMBjRJKUoDE7KheHZ/k5rBcjxalLuE2xnrensnyB7npCHDDfc+9/DBFlceh0OJ+ivJNX5yOlR82QRoKTZNAVRkkx2EB+3zrIkNGVm/hx9PIAYLuwFEdxEBwzXc2YNYPKPIbECEcwSYrA5s0lnKS59espd6NywCmSxHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=FMyvQ9+W; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-50-160.net.vodafone.it [5.90.50.160])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A57AF982;
+	Wed,  3 Sep 2025 14:28:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1756902485;
+	bh=ev0Pw9w6IyNneY7LsvGyJQUmh2KJ/oSazZ+HWW1UR8g=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FMyvQ9+WcAfluLXeGxtI2sFuUSFN9CCLkhQYpBATHpcMJ3k8mv1f1GeEtSt3pM/+c
+	 Apmn/yjrlAN3Q4LrccpN6HgsnlFGD5AsNnMSC7WQt9m7Mfy48MPPFvraEP7aYPAeJ0
+	 PSkXzqHl5y87Jshegp8uKgzZab0lSF/mduoU6vEg=
+Date: Wed, 3 Sep 2025 14:29:09 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, 
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, 
+	Alexander Shiyan <eagle.alexander923@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+	Tommaso Merciai <tomm.merciai@gmail.com>, Umang Jain <umang.jain@ideasonboard.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
+	"Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, 
+	"Wang, Hongju" <hongju.wang@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, 
+	Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, 
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
+	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 25/66] media: Documentation: v4l: Document internal
+ sink pads
+Message-ID: <by4ftedqmvek3mqxv7zqizhyreotdyd2yoakcf2td5y52t5tzd@acibdthu3adr>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-26-sakari.ailus@linux.intel.com>
+ <6z6xfkco4aiwolh6by4srcu7ec2zwzy3c4psptmm5hxlaqnc3e@wlo6k35pcsys>
+ <aLgx2XqEtd7Uh2w3@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH] .mailmap: update Vikash Garodia's email addresses
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>, <linux-media@vger.kernel.org>
-CC: <vikash.garodia@oss.qualcomm.com>
-References: <20250902152224.1150300-1-quic_vgarodia@quicinc.com>
- <de89f325-0e4c-4040-a7ae-fd36d3e4a177@kernel.org>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <de89f325-0e4c-4040-a7ae-fd36d3e4a177@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01c.na.qualcomm.com (10.45.79.139)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=Ycq95xRf c=1 sm=1 tr=0 ts=68b833b8 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8
- a=xOd6jRPJAAAA:8 a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=-GMWYt7hz1AoRdSRXfsA:9
- a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: CtlDXXLo58Iuin7En8uWJ4Jbu3385QXR
-X-Proofpoint-ORIG-GUID: CtlDXXLo58Iuin7En8uWJ4Jbu3385QXR
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTAxMDEwMSBTYWx0ZWRfX1tzSPy0ZPO7A
- OpSjmTu4xqlZDy+Uj6KlxsXqUGmC/yFBvCKZ2cgf5jdKknZkUddo625SOas/tYfGlSix8/NRghk
- 8QOgMsRcCNqiE/Z9sDD+qRW+itmQ+dCiNGjM+zGMfDgqW+tpbIkcTcnhLzp7dP9XaIIhp4CUpaS
- ypQB5Euv4iUBrkBgXnFi8k8K4Hcit5YyBb+5Emy8RUPv/z+5mf8HyCbvgN/M0Krg4fUZhlErZRQ
- QN7Tw3SUgZ1vr/2PCoQvpqaK+yvniUpKrQILarChETkQogMHaHlVY+g4gHvIdzLG5ctn6S8ASec
- 9STDDsb1HWpxUEsrwylRYNYs1KSvW4Mdbj77E+KaxdWA1h3orQM94tQz2n7Wzj+osQSNogCxUH4
- 3YMEPJAN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-03_06,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 adultscore=0 phishscore=0 malwarescore=0
- bulkscore=0 suspectscore=0 impostorscore=0 spamscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509010101
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aLgx2XqEtd7Uh2w3@kekkonen.localdomain>
 
+Hi Sakari
 
-On 9/3/2025 12:56 AM, Krzysztof Kozlowski wrote:
-> On 02/09/2025 17:22, Vikash Garodia wrote:
->> Add vikash.garodia@oss.qualcomm.com as the main address for upstream
->> work.
->>
->> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
->> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> 
-> That's the same person. SoB does not mean any rights to an email, but
-> DCO. Please read submitting patches about meaning of SoB and drop the
-> first fake SoB.
+On Wed, Sep 03, 2025 at 03:17:29PM +0300, Sakari Ailus wrote:
+> Hi Jacopo,
+>
+> On Mon, Sep 01, 2025 at 06:39:29PM +0200, Jacopo Mondi wrote:
+> > Hi Sakari
+> >
+> > On Mon, Aug 25, 2025 at 12:50:26PM +0300, Sakari Ailus wrote:
+> > > Document internal sink pads, pads that have both SINK and INTERNAL flags
+> > > set. Use the IMX219 camera sensor as an example.
+> > >
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > Reviewed-by Julien Massot <julien.massot@collabora.com>
+> > > ---
+> > >  .../userspace-api/media/v4l/dev-subdev.rst    | 151 ++++++++++++++++++
+> > >  .../media/v4l/ext-ctrls-image-source.rst      |   2 +
+> > >  2 files changed, 153 insertions(+)
+> > >
+> > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > index 4da67ee0b290..bb86cadfad1c 100644
+> > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > @@ -553,6 +553,27 @@ A stream at a specific point in the media pipeline is identified by the
+> > >  sub-device and a (pad, stream) pair. For sub-devices that do not support
+> > >  multiplexed streams the 'stream' field is always 0.
+> > >
+> > > +.. _v4l2-subdev-internal-source-pads:
+> > > +
+> > > +Internal sink pads and routing
+> > > +------------------------------
+> > > +
+> > > +Cases where a single sub-device source pad is traversed by multiple streams, one
+> > > +or more of which originate from within the sub-device itself, are special as
+> > > +there is no external sink pad for such routes. In those cases, the sources of
+> > > +the internally generated streams are represented by internal sink pads, which
+> > > +are sink pads that have the :ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`
+> > > +pad flag set.
+> > > +
+> > > +Internal pads have all the properties of an external pad, including formats and
+> > > +selections. The format in this case is the source format of the stream. An
+> > > +internal pad always has a single stream only (0).
+> > > +
+> > > +Routes from an internal sink pad to an external source pad are typically not
+> > > +modifiable but they can be activated and deactivated using the
+> > > +:ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
+> > > +on driver capabilities.
+> >
+> > Ah, so they are modifiable :)
+> >
+> > What about
+> >
+> > Routes from an internal sink pad to an external source pad are
+> > typically created by the driver and can be activated and deactivated
+> > using the :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > <v4l2-subdev-routing-flags>` flag, depending on the device
+> > capabilities.
+>
+> I'll use that.
+>
+> >
+> > > +
+> > >  Interaction between routes, streams, formats and selections
+> > >  -----------------------------------------------------------
+> > >
+> > > @@ -695,3 +716,133 @@ To configure this pipeline, the userspace must take the following steps:
+> > >     the configurations along the stream towards the receiver, using
+> > >     :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
+> > >     stream endpoint in each sub-device.
+> > > +
+> > > +   In case generic raw and metadata formats are used,
+> > > +   :ref:`V4L2_CID_COLOR_PATTERN <image-source-control-color-pattern>` and
+> > > +   :ref:`V4L2_CID_METADATA_LAYOUT <image_source_control_metadata_layout>`
+> > > +   controls are present on the source sub-device to obtain the pixel data color
+> > > +   pattern and metadata layout.
+> > > +
+> > > +Internal pads setup example
+> > > +---------------------------
+> > > +
+> > > +A simple example of a multiplexed stream setup might be as follows:
+> > > +
+> > > +- An IMX219 camera sensor source sub-device, with one source pad (0), one
+> >
+> > s/sensor source/sensor/
+>
+> Source sub-device is referred to in documentation elsewhere; I think it's
+> appropriate here, too.
+>
+> >
+> > Should we even mention imx219 or can this be a generic "RAW camera
+> > sensor" ?
+>
+> As this is an example, I think it's a good idea to use an actual device and
+> a driver that has support for internal pads.
+>
+> >
+> >
+> > > +  internal sink pad (1) as the source of the image data and an internal sink
+> > > +  pad (2) as the source of the embedded data. There are two routes, one from the
+> >
+> > I would provide a rational for the reason why the external source pad
+> > is preferably assigned to id 0.
+> >
+> >    - A RAW camera sensor driver modeled as a single sub-device with
+> >      three pads. The external source pas is assigned id #0 for
+> >      compatibility reasons with existing user-space applications
+> >      developed to work on drivers that pre-dates the introduction of
+> >      internal pads, where the only available pad was the external
+> >      source one. The sub-device also has two internal sink pads, pad
+> >      #1 that represents the pixel array and produces image data and
+> >      pad #2 that produces embedded data.
+>
+> I'd put this to driver documentation as it's not part of the UAPI.
+>
 
-I referred this [1], at the same time, i find your point valid given its
-basically represents an identity, which remains same irrespective of multiple
-email IDs.
+mmmm, it's true we don't mandate for new drivers to have
+the source pad at index #0, and it's done only for existing drivers..
+Adn userspace should not make assumptions about pad numbers but rather
+inspect the per-pad flags to know which one is the external source pad.
 
-[1]
-https://lore.kernel.org/linux-media/fb481f2d-d230-4869-9cc2-6f56e75f92a2@xs4all.nl/
+So yes, it's no uAPI you're right.
 
-> 
-> Subject - it's mailmap, not mailmap, 
+> >
+> >      There are two routes, one from the internal sink pad 1...
+> >
+> > > +  internal sink pad 1 to the source pad 0 (image data) and another from the
+> > > +  internal sink pad 2 to the source pad 0 (embedded data). Both streams are
+> > > +  always active, i.e. there is no need to separately enable the embedded data
+> > > +  stream. The sensor uses the CSI-2 interface.
+> > > +
+> > > +- A CSI-2 receiver in the SoC. The receiver has a single sink pad (pad 0),
+> > > +  connected to the sensor, and two source pads (pads 1 and 2), to the two DMA
+> > > +  engines. The receiver demultiplexes the incoming streams to the source pads.
+> > > +
+> > > +- DMA engines in the SoC, one for each stream. Each DMA engine is connected to a
+> > > +  single source pad of the receiver.
+> > > +
+> > > +The sensor and the receiver are modelled as V4L2 sub-devices, exposed to
+> > > +userspace via /dev/v4l-subdevX device nodes. The DMA engines are modelled as
+> > > +V4L2 devices, exposed to userspace via /dev/videoX nodes.
+> > > +
+> > > +To configure this pipeline, the userspace must take the following steps:
+> > > +
+> > > +1) Set up media links between entities: enable the links from the sensor to the
+> > > +   receiver and from the receiver to the DMA engines. This step does not differ
+> > > +   from normal non-multiplexed media controller setup.
+> > > +
+> > > +2) Configure routing
+> > > +
+> > > +.. flat-table:: Camera sensor. There are no configurable routes.
+> > > +    :header-rows: 1
+> > > +
+> > > +    * - Sink Pad/Stream
+> > > +      - Source Pad/Stream
+> > > +      - Routing Flags
+> > > +      - Comments
+> > > +    * - 1/0
+> > > +      - 0/0
+> > > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> >
+> > Is this also V4L2_SUBDEV_ROUTE_FL_IMMUTABLE ?
+>
+> Yes, and V4L2_SUBDEV_ROUTE_FL_STATIC. I'll update the example.
+>
+> In practice the patch needs to be moved forwards in the set so we'll have
+> all the flags.
+>
 
-What are you trying to say here "its mailmap, not mailmap" ?
+Yeah, I noticed later those two flags have been introduced later in
+the series..
 
->but more important - MAINTAINERS
-> patch should be squashed here.
+> >
+> > > +      - Pixel data stream from the internal image sink pad
+> > > +    * - 2/0
+> > > +      - 0/1
+> > > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > > +      - Metadata stream from the internal embedded data sink pad
+> > > +
+> > > +The options available in the sensor's routing configuration are dictated by
+> > > +hardware capabilities: typically camera sensors always produce an image data
+> >
+> > s/typically/some
+>
+> "Some" would suggest this may not be very common whereas I think this
+> applies virtually to all camera sensors.
+>
 
-I was planning to do it separately, but i agree its even better to update
-MAINTAINERS alongwith this.
+Ok!
 
-Regards,
-Vikash
+> >
+> > > +stream while it may be possible to enable and disable the embedded data stream.
+> >
+> > s/it may be possible/other might allow
+> >
+> > if you accept my suggestion in the line above
+> >
+> > > +
+> > > +.. flat-table:: Receiver routing table. Typically both routes need to be
+> > > +		explicitly set.
+> >
+> > set or enabled ?
+>
+> On the receiver side, the routes are also created, not just enabled. I'll
+> use "created".
+>
+
+fine as well
+
+> >
+> > > +    :header-rows:  1
+> > > +
+> > > +    * - Sink Pad/Stream
+> > > +      - Source Pad/Stream
+> > > +      - Routing Flags
+> > > +      - Comments
+> > > +    * - 0/0
+> > > +      - 1/0
+> > > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > > +      - Pixel data stream from camera sensor
+> > > +    * - 0/1
+> > > +      - 2/0
+> > > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > > +      - Metadata stream from camera sensor
+> > > +
+> > > +3) Configure formats and selections
+> > > +
+> > > +   This example assumes that the formats are propagated from sink pad to the
+> > > +   source pad as-is. The tables contain fields of both struct v4l2_subdev_format
+> > > +   and struct v4l2_mbus_framefmt.
+> > > +
+> > > +.. flat-table:: Formats set on the sub-devices. Bold values are set, others are
+> > > +                static or propagated. The order is aligned with configured
+> > > +                routes.
+> > > +    :header-rows: 1
+> > > +    :fill-cells:
+> > > +
+> > > +    * - Sub-device
+> > > +      - Pad/Stream
+> > > +      - Width
+> > > +      - Height
+> > > +      - Code
+> > > +    * - :rspan:`3` IMX219
+> >
+> > If you want to make this generic, I would replace IMX219 with just
+> > "Sensor"
+> >
+> > > +      - 1/0
+> > > +      - 3296
+> > > +      - 2480
+> > > +      - MEDIA_BUS_FMT_RAW_10
+> > > +    * - 0/0
+> > > +      - **3296**
+> > > +      - **2480**
+> > > +      - **MEDIA_BUS_FMT_RAW_10**
+> > > +    * - 2/0
+> > > +      - 3296
+> > > +      - 2
+> > > +      - MEDIA_BUS_FMT_META_10
+> > > +    * - 0/1
+> > > +      - 3296
+> > > +      - 2
+> > > +      - MEDIA_BUS_FMT_META_10
+> > > +    * - :rspan:`3` CSI-2 receiver
+> > > +      - 0/0
+> > > +      - **3296**
+> > > +      - **2480**
+> > > +      - **MEDIA_BUS_FMT_RAW_10**
+> > > +    * - 1/0
+> > > +      - 3296
+> > > +      - 2480
+> > > +      - MEDIA_BUS_FMT_RAW_10
+> > > +    * - 0/1
+> > > +      - **3296**
+> > > +      - **2**
+> > > +      - **MEDIA_BUS_FMT_META_10**
+> > > +    * - 2/0
+> > > +      - 3296
+> > > +      - 2
+> > > +      - MEDIA_BUS_FMT_META_10
+> > > +
+> > > +The embedded data format does not need to be configured on the sensor's pads as
+> > > +the format is dictated by the pixel data format in this case.
+> > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > index 64c0f9ff5b1b..d803a2f0f2f9 100644
+> > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > @@ -146,6 +146,8 @@ Image Source Control IDs
+> > >      ``V4L2_COLOR_PATTERN_FLIP_HORIZONTAL`` and
+> > >      ``V4L2_COLOR_PATTERN_FLIP_VERTICAL`` is provided as well.
+> > >
+> > > +.. _image_source_control_metadata_layout:
+> > > +
+> >
+> > All comments I made are just suggestions, so take in what you like.
+> >
+> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>
+> Thanks!
+>
+> >
+> > >  ``V4L2_CID_METADATA_LAYOUT (integer)``
+> > >      The metadata layout control defines the on-bus metadata layout for metadata
+> > >      streams. The control is used in conjunction with :ref:`generic metadata
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
 
