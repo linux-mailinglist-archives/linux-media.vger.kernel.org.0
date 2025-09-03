@@ -1,275 +1,166 @@
-Return-Path: <linux-media+bounces-41724-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41725-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25AD6B42678
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 18:17:08 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97881B42738
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 18:45:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 930B83A63F1
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 16:17:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 825BF3A1EFE
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 16:45:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E3092C0288;
-	Wed,  3 Sep 2025 16:16:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A860030AAB8;
+	Wed,  3 Sep 2025 16:45:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="QNc1W652"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="fx7i9C7j"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011026.outbound.protection.outlook.com [52.101.65.26])
+Received: from mout.web.de (mout.web.de [212.227.15.3])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 664E42BF005;
-	Wed,  3 Sep 2025 16:16:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.26
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756916218; cv=fail; b=BSHbyYi8R+IRPq55MbgsbqeYtyHWhARzmy1craPBmeGx+T5KJDt5JG1+vlkq+T3UIBamzOcVyVJKVX0bSQGL2vdV2IovqpwoEIlbLOLkSC+bs5rqKw8uVdCeX4S1ctP4OfJDDcbT3k1keTnpZmgn4L5d+DEgk98FOWveUDsTN2U=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756916218; c=relaxed/simple;
-	bh=2zYnQ7GqIcIynrJhdhScC8U8zfDtgOY6Kki6p3kHnNE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=nCs74s3FXsmt0p0Kej/1kRr05Tchvrr4HWkvQunG3opy42DSriKVgiauVz2NKX8CcXRByFztAXsbJ9I4iU5IFPYfpmcKAo8TuCquTh5yJdJ6gPxh32tjZcbS4jFZXop7cLpMRbz53Slvt5qlq4MFXVTz4IrTrRVAaZE7psq375M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=QNc1W652; arc=fail smtp.client-ip=52.101.65.26
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=F5SjH1uPV3gCJgWf6VUNFAovMTarHCsCoNxhkPsirA1qjO1dYxnxI5MP+CEu+JoIuzzSaQwk5SpitOys4oSeUAQYU4/Ax4O+bVv9kN06TJS9Pnf5TefbqpghI2WarM0YKQss9JRu+YFee3BeJQ+goC78qEmebzMLMSfkvgTZUjavdRn3dChH9psMDvJqcy3FkNdVj9utBFkBxVfYWepnaVtJbf4XJeGoFAQsQumpUO8WCzrAlc2Pr74Z6Dpe+H2BY/swkN69vCiiYo7Ggkd1B3UxdaHJEVd8XpA58hPMtSuq4SXvcuPijQK4iYQYUcYqCKgNQkl5D2f5Jl6bTl2veg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=rGAbVVoCB/myKVsFsCmZ/RXtZWg4XKET30Muzuywiqs=;
- b=KaIcREEvSQUW6lmokiaZllhGsTHSnheuHltNIHIMMRXcWIVqEOZ4lQxfHP8uDwUn20CH4LlEU4cJbKREEp+9c4zyBqD8WD83hP+0a1mjxQD7216j27xMFuZYDI0BIgoSiuOi9wuPUii4HTMyqsHdUwY98PBim6fRbXFlJCzY9F3UYTIRl7BRuZ+JSZ2ZNsAkGJp3qdfj3EpURhpAMk0diIY7EyOD/imz4AkP47qv1xPrH9+iUpKATb6xl4T3k57GMOLfjS1sjbjHzAU/Ujy7SDKMxeu93uJ+UPXhthWYFM7OcS2Oe2KsRuwpa5ndMpRhK2rVxFqHbc3ZI9LKGz2UQQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=rGAbVVoCB/myKVsFsCmZ/RXtZWg4XKET30Muzuywiqs=;
- b=QNc1W6522g0e+AX573tnxfJMKo+zOkXM7CPmLWElhL5cslaBko+0Bs5PqFS0wCPP2hrZqX5MFfdh7kRpT1nkw1KyYjabHJ9c3YMh/6wHaQnb/JF5PaROV5op0gwuXfH58Pn/B8X7GkiMvPyVmjUoUpAFPSLHZa3p/VwuQ8Pl0Zr1KatGrg0Xo5cHupB5eibOzmqRnfDhB/xdYrxe/zSJ5mr8zzEePLEQb2Fb4Q6wA0U1zoHlHV0dK5UnwSvpZi2e5DHgf2XfwJDMuXDH7pfZoO63lSffMbHO7gfx9VsqD6oKRPEsQumZw2FD5POVfEf92/XpjoH98KGgzZyv7KoVIw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
- by DU4PR04MB10483.eurprd04.prod.outlook.com (2603:10a6:10:565::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.17; Wed, 3 Sep
- 2025 16:16:53 +0000
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15%7]) with mapi id 15.20.9094.015; Wed, 3 Sep 2025
- 16:16:52 +0000
-Date: Wed, 3 Sep 2025 12:16:42 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Guoniu Zhou <guoniu.zhou@nxp.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/4] media: dt-bindings: nxp,imx8mq-mipi-csi2: Add
- i.MX8ULP compatible string
-Message-ID: <aLhp6ui9b/OpOUyX@lizhi-Precision-Tower-5810>
-References: <20250901-csi2_imx8ulp-v5-0-67964d1471f3@nxp.com>
- <20250901-csi2_imx8ulp-v5-1-67964d1471f3@nxp.com>
- <20250901154610.GB13448@pendragon.ideasonboard.com>
- <aLZMQ7c8qr5XO88d@lizhi-Precision-Tower-5810>
- <20250902083554.GD13448@pendragon.ideasonboard.com>
- <7c461931-3b04-4354-a892-52f469511c5a@kernel.org>
- <20250902123524.GK13448@pendragon.ideasonboard.com>
- <647fdf8a-835b-44d1-b0b8-a3d253a14787@kernel.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <647fdf8a-835b-44d1-b0b8-a3d253a14787@kernel.org>
-X-ClientProxiedBy: PH5P222CA0007.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:510:34b::13) To PAXSPRMB0053.eurprd04.prod.outlook.com
- (2603:10a6:102:23f::21)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 744FA7262F;
+	Wed,  3 Sep 2025 16:45:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.3
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1756917933; cv=none; b=NgsZ6RhBOxGpj1EmDohU3FOTlISvqlCnGu2aF+yCzuzuUw1q8UMGVGiRgiOHmUUdehg+NvJ0Tuo220nuC4a9OaqHSLIyzS9z2+Fx3POeAbkeMOd4mCtOHNfoXLxY/3TpUe0xveUYIdr6blTeIsQ8mKJwhxZWbXBZFqojw2S8S+M=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1756917933; c=relaxed/simple;
+	bh=arsa+ynCxQKO/sF979vgNxve8fL9DNgrbWXxJc72C1g=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=uUqCoQkND8/Gfc8jk/OzwPdpesNrXPbDbJIKaKKzbS8FXv44a+ghEuFCHIK/ceNH7lYR3ZS8CfBUQ52NJbz7PjVHVxPIK3FuTXl2+LD+Ev0lfbM9rcRhUHQHa8jXouEhmjX0U1xefpeG8TbN1Ij/ahASuQjJ3wiKqekQHu8VNdo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=fx7i9C7j; arc=none smtp.client-ip=212.227.15.3
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1756917918; x=1757522718; i=markus.elfring@web.de;
+	bh=arsa+ynCxQKO/sF979vgNxve8fL9DNgrbWXxJc72C1g=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=fx7i9C7jI7QoBkYKDo6krLU/nsBDc+SplSi8uL50/deCfKvM1LovzGliBQiQCFX5
+	 ybPCy8THaQRVXi/b22uNeH7NCGPAtSiGbHK0OXPid5aNlOESNunM0Ik44/X6lZioR
+	 V1UkwOLF5zKop3t4cz1ltGzdyDyRkHZMFSuyCFM/KCF+dCXQWm7tj4Kg5MIwbrNro
+	 bCLrX25w7sT85AjQR8603+eep37UabFWRHYU/Vx0RnojxmA9l+bhQuXBjyGkj81YI
+	 Sj910OEhvw2+Mo6vpCPVX2tGvtnOtu+W+jKr3KiZtkC6FObAG6ZVVnpFR66EJ1gU0
+	 IU3nfi2qgO5YxN3v6w==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.92.225]) by smtp.web.de (mrweb005
+ [213.165.67.108]) with ESMTPSA (Nemesis) id 1Ma0PY-1uzEPh3V8W-00NlUx; Wed, 03
+ Sep 2025 18:45:17 +0200
+Message-ID: <b1c54922-ce1e-4259-b66b-f0d3f0a2d7f1@web.de>
+Date: Wed, 3 Sep 2025 18:45:15 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|DU4PR04MB10483:EE_
-X-MS-Office365-Filtering-Correlation-Id: 78dd9f8b-94c2-4cf9-96ed-08ddeb054b02
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|10070799003|7416014|1800799024|376014|52116014|19092799006|366016;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?Ea9awQaga6rVfgruFQMyuCu9Vr4drVASO44cz+lIkYY52TIOY0/5QWTOOVHF?=
- =?us-ascii?Q?cK0nmVpekPNNgYtfVniOI0bBc83skecgtFsdNU/rZLW3dcKZms5yiEBrQGl1?=
- =?us-ascii?Q?Z9ZsNa9ajzR9RQnBFrja+nrN9z3sSe9Q68h63VxUl9I9+NharNCXU+Yc3T2E?=
- =?us-ascii?Q?gOzyrSK0vjez8GK51dh7U9jFKnSNavNsMkU/L+RPxL/jDh2yD63itAVK5Qlb?=
- =?us-ascii?Q?F5oftA72vf/mr9GYkk/3ppEym28Me2aovVXur7BQTfJQZ5EZudZepEdaH7pQ?=
- =?us-ascii?Q?4/ZW1nrovgB2GpWruQb2JaEGZenuQfrH0D5mn9Q7zobTUqXkQxeuUX6eXPFU?=
- =?us-ascii?Q?En6lP3BHE0+smc+p2P8P/whAj56ftGluaZUrpPUboclHVbhoe+i5Jt3yA7gd?=
- =?us-ascii?Q?Uw4Vgf6r/h3hLFADtOTzlQz1mLssDZuYClaLTHnpHfrbbSG4xB+LnBM7f0RE?=
- =?us-ascii?Q?hypDTB5uJAGzvqnxHVY9kunzDq1+IcYQJK9q9RxETpm3BsoR8ZPpYFqEiz7M?=
- =?us-ascii?Q?BiZ2ZVx9p6HKinxwzv3MaqV0vXtJyoe4FgFIIWWFryaGbI90A6jKV+VK5cqg?=
- =?us-ascii?Q?cQJIF9h122GYNHwL0vOhrBbRyXBhjHoPIAEkK9JiK0dFmXQZp+wW4v5z51Mk?=
- =?us-ascii?Q?D9T2yesrMi6fgrY/QYetLViLBh1/FLQ7qySGTmOYN3C8of8ytmJ4dqYziJwF?=
- =?us-ascii?Q?vWk18ms12WoLFPvFYqBitCdUed6Gwj3gHGuTvxjiNjANHLu49OzRUZjg3EXI?=
- =?us-ascii?Q?HCC0keTxch0st9uSTNNm/629cCo9IpQQ01v2I83C5CFsIaApnU8orBOkQQI0?=
- =?us-ascii?Q?tICRv6vy/aqfbJ41heIO0WRVfjYo/fqvEB8V9SsDDEt3sCnl76lT2248ikjn?=
- =?us-ascii?Q?xIIEi+natrYDCibKje4XiUktZRf+JSGLYNvA5KKdMX5d0kZGCGp4NeKve7yM?=
- =?us-ascii?Q?cLrKIFXX8Ch78IjVS5wxB3Jhepsufj6Z1yyPlHDCvKbS1dUiumFWPHU9BiGJ?=
- =?us-ascii?Q?5meuKDtm6rWMtisVYDecSlu5K9OH3m3DnpZ5BD7KHCMCMhWgI/G3BaaUXGsu?=
- =?us-ascii?Q?HTSXOShAtB5T74a48lWImr/yBXMQA8vlM9OgS02OWHVFrkhbUv3D7+pyu28h?=
- =?us-ascii?Q?nwN3EMqtpPIHUwHX+1lp8IrWQvuB8JIRlxS2hktosCx9XvU36jNOuC+6RUhx?=
- =?us-ascii?Q?Eck40pGr3mp2Jdkcw4W1q6QQKL6K+g7MUtOh9SKYlN3FrVCHXCZ1udwEEIPU?=
- =?us-ascii?Q?o1Tt7DA9xVNhEg+E8GyP+8l6wesuTB8oMI5z2y2QdGxWfwhYAVfl2b0Vh9An?=
- =?us-ascii?Q?njwKxCWS0MLLzjEgTXxek1DQ5tOpS1fLfcPh+rEoXjvQaO/3bO0nZjOWpmkS?=
- =?us-ascii?Q?p9hE+Jw=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXSPRMB0053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(7416014)(1800799024)(376014)(52116014)(19092799006)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?WbYonPNLuGoErbKmB/VbifBv6szYstC8tlxj7//dYvtpm/mppacMWNan2jzn?=
- =?us-ascii?Q?ZvpoD/5G0AFROWvPDIcQ5wX/oFMbu5nm/ySfJ/wfiiXUcxsXsJ9Ocu0isGEh?=
- =?us-ascii?Q?h5G7Se32phO/pTY8NJnvRqDlz2jrqk+ZE047fwb1tZ0cbbv8a476AVGm3+nn?=
- =?us-ascii?Q?STujIfHR+vbxSKZW9Pf9Tkdn5DNVImrWDqJmJ+eahjygdNgkafGOmyHAfxVt?=
- =?us-ascii?Q?/pDn2e0uy/Hp04cy4MLBzDBxjBFYY7kOVmzi5YO/2G5429t5cbMRH15OhuwY?=
- =?us-ascii?Q?Aiqy7Wg4lQo3PqWtOzZFxf2URevPrVq3FNzpG4nXfCaWTv6IpW0goWe5ZIjM?=
- =?us-ascii?Q?wCOdqkMHO1kCWFWXnY8iwnQY71nR2axIyQXV8mT2A0J3frGzj2bnPUp+XRqw?=
- =?us-ascii?Q?uVKg4A4TUj0va1r5aoBU3napU0yVXysvvXCTZKL3sh2y8cYMQHg5zJcu7b52?=
- =?us-ascii?Q?mie3h3VYAlOAJF/itwd61nf2zZDXDK59Rb9ofMXQYsOmn73QWk7upraDnBBv?=
- =?us-ascii?Q?8F7UnRpCXMjGd69lAfEgcnL01LnCUMxMoUzxndz4bCBJjD3Zs5jx0/rJscOc?=
- =?us-ascii?Q?fz+WszU85RgFym7RVlYZXwyTLO2CHu/sMzRene+BZXL8GoeJ/BkAGCoSAeCp?=
- =?us-ascii?Q?h7NNwGCiHhR6sKc/ly0HpFLpduqytrBrAOKpmsVOcsF/5fP7xuXHD6LGkUQa?=
- =?us-ascii?Q?4Px4asu3LcSuWLWmChQnmIrKkUCB7oxz7UhsK9FtlvmPnlNCQayXzU7xg6kw?=
- =?us-ascii?Q?yHlDmouU4zNAsbc8I4HQhWwp9LmnMTwv5TIZtEsXoPLEN9ofc/WDMYvF5o+4?=
- =?us-ascii?Q?s9s/FjolwXFjUtcRSbbfj2d/Vhs9ZBC1UxZwfksfrkSw1zG2XSC2yX1/k4CW?=
- =?us-ascii?Q?q8bjh++iARlkgWrpFXO1IcKRw/irqA5rCaSsKVqaP+ko+4dFknhn0N+uuWjL?=
- =?us-ascii?Q?PT/0xNeihUg3TbfdyOjN30X2mKTMhgnnbwb5MudiJ4vK19otvo/ONOo7XClQ?=
- =?us-ascii?Q?56WXTCz1WHwfwq4++Axh41vPSZDmmjh14feXEI9BQ+KtAGKdFGjhXPu/OkZb?=
- =?us-ascii?Q?T4RUC72ZWBf923PgGZ/RKSOW9ts75LraZavLN+u48i1nijt3A55NFhpqKGXD?=
- =?us-ascii?Q?q1IYs4VCIuV2/L6PDWHVx78I4FMQKAY9Plb0TEj0Wg5UNkDo21uddfZkZb82?=
- =?us-ascii?Q?xxDC/beLpMzTTuWMOxwaKlbhO2QIJv99ZYRCWIfVDAH4y30H9sDeak13UHLj?=
- =?us-ascii?Q?XE8kVY+X+sAwdCpQsbs17NQfw2NaZPDFhxzYWkS+PH6mo9bOP9t9Eva+VOTG?=
- =?us-ascii?Q?HT1Soa5bn3rY7iiNFi8eeicafpZhFjDCi6sUrhID0eSJ/wGoPaJ2ae7bzATc?=
- =?us-ascii?Q?i3WW+WjgcbSdVDB+GyhkFSXq1aVUL6dyqsOJ5h6mNaxxVOBRloVJvLh/RJVp?=
- =?us-ascii?Q?S7WRRLOslJzLnkp8/PpfsVp9GBe0fC6kxl9koCVFM96pRYKiY0SBFUdeFRZs?=
- =?us-ascii?Q?YDamTTJFOsxmn6CCFdTJpdG77k8rVcDTkDlpRd2kz16c03bEaCyqgbYuF+yK?=
- =?us-ascii?Q?bPpCXlMqOWOBRbKzy/MxUDSb1duDlIc1Om5UAM6OuhV0UboEzNPzmy0UE29u?=
- =?us-ascii?Q?WC7ML0Zmbom9hZ/nthVmWvnvPMuvvEEVWKwYoGCkB8+E?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 78dd9f8b-94c2-4cf9-96ed-08ddeb054b02
-X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 03 Sep 2025 16:16:52.4669
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: k//nBjiq8zE0PAA6A8COrfKV50Oi9ey0IYR1B6TxRacmhc7np3zLxTiA+3ovv3OTntSzsL90OJ/xTRFyqP/v2A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR04MB10483
+User-Agent: Mozilla Thunderbird
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Miaoqian Lin <linmq006@gmail.com>, linux-renesas-soc@vger.kernel.org,
+ linux-media@vger.kernel.org
+Cc: stable@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+ Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+ Hans Verkuil <hverkuil@kernel.org>, Joe Hattori <joe@pf.is.s.u-tokyo.ac.jp>,
+ Magnus Damm <magnus.damm@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>
+References: <CAMuHMdWBXv+vKqBXOWeFqsy0R8-3__oBFWnm4rUx1kqSq5ZUgQ@mail.gmail.com>
+Subject: Re: [PATCH] media: renesas: rcar_drif: fix device node reference leak
+ in rcar_drif_bond_enabled
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <CAMuHMdWBXv+vKqBXOWeFqsy0R8-3__oBFWnm4rUx1kqSq5ZUgQ@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:X8U4UR2Bj36oJs48AcrSP5yU8VEDzkA8xguZUSY540SWs/4tWIQ
+ JxNQZYJPqoiW0p1lnQ2+wrW+tXBjBGAbqSqhibJhCPg2AE5TqenchFYaTstTEXiaihPC83C
+ +MJnrGIkCeA628cMCoJhWYlk3ox5erb+/pJ1f/aOKGSutOoAVSwRkHisqDK6Ep6Z3gRQ3eM
+ IPi3QDC1XBZUxprlxQ36g==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:WxtS8HPv6Hc=;NgFQAWZzE6RObNfTTIHIouqIAjI
+ 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
 
-On Tue, Sep 02, 2025 at 05:53:39PM +0200, Krzysztof Kozlowski wrote:
-> On 02/09/2025 14:35, Laurent Pinchart wrote:
-> > On Tue, Sep 02, 2025 at 02:26:53PM +0200, Krzysztof Kozlowski wrote:
-> >> On 02/09/2025 10:35, Laurent Pinchart wrote:
-> >>>>>>          compatible:
-> >>>>>>            contains:
-> >>>>>>              enum:
-> >>>>>> -              - fsl,imx8qxp-mipi-csi2
-> >>>>>> +              - fsl,imx8ulp-mipi-csi2
-> >>>>>> +    then:
-> >>>>>> +      properties:
-> >>>>>> +        reg:
-> >>>>>> +          minItems: 2
-> >>>>>> +        resets:
-> >>>>>> +          minItems: 2
-> >>>>>> +          maxItems: 2
-> >>>>>> +        clocks:
-> >>>>>> +          minItems: 4
-> >>>>>> +        clock-names:
-> >>>>>> +          minItems: 4
-> >>>>>
-> >>>>> But according to this, the ULP version requires more clocks than the QXP
-> >>>>> version.
-> >>>>
-> >>>> If only clock number difference, generally, it is still compatible and can
-> >>>> be fallback, especialy driver use devm_bulk_clk_get_all().
-> >>>
-> >>> That's a driver-specific implementation decision, so I don't think it
-> >>> should be taken into account to decide on compatibility.
-> >>
-> >> The clock inputs do not restrict compatibility. If Linux can use
-> >> fallback to bind and operate properly, then it's a strong indication
-> >> devices are compatible.
-> >>
-> >> Imagine exactly the same registers, so same programming interface, but
-> >> one device takes one more clock which just needs to be enabled through
-> >> its lifetime. Such devices are fully compatible, even though clock
-> >> inputs differ.
-> >
-> > That's only the case if someone enables the clock, isn't it ? From a DT
-> > binding point of view, how can we know that the extra clock will be
->
-> We talk about software using the binding in this particular case. Can
-> the software use fallback? Yes, it can.
->
-> > enabled by a component separate from the driver (in this case by the
-> > fact that the devm_bulk_clk_get_all() function gets all clocks) ?
->
-> If you go that way, only 100% identical devices are compatible.
->
-> >
-> >> I also wanted to express exactly that case on my slides from OSSE -
-> >> slide 28:
-> >> https://osseu2025.sched.com/event/25Vsl/dts-101-from-roots-to-trees-aka-devicetree-for-beginners-krzysztof-kozlowski-linaro
-> >
-> > Quoting that slide, you wrote
-> >
-> > "Two devices are compatible when the new device works with Linux drivers
-> > bound via fallback (old) compatible".
-> >
-> > That is clearly the case here for the existing *Linux* driver. But what
-> > if the driver called devm_bulkd_clk_get() with a device-specific list of
-> > clocks ? Or what if the same DT bindings are used on an OS that has no
-> > clk_get_all() equivalent ? This is my concern with declaring those two
-> > devices as compatible: they may be from the point of view of the current
-> > implementation of the corresponding Linux kernel driver, but DT bindings
-> > are not Linux-specific.
->
-> It seems you think of compatibility as new device is compatible with old
-> kernel, e.g. one not requesting that clock. We don't talk about such case.
->
-> >
-> > Or do DT bindings assume that drivers have to always enable all clocks
-> > declared in DT, even if they don't know what those clocks are ? That
-> > seems error-prone, in quite a few cases drivers need to handle separate
-> > clocks in a device-specific way, with for instance a particular
-> > ordering, preventing them from using devm_bulk_clk_get_all(). If all
-> > drivers are required to manage all clocks declared in DT, this would get
-> > messy quite quickly.
-> >
-> I don't really want to dive into such specifics, because it is
-> impossible to create a generic rule of out. We decide here about
-> programming interface mostly. Can Linux use the one from fallback-device
-> to properly operate the new one? Can the same driver bind to fallback
-> and operate the new device?
+> Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-So my understand is correct. we should use fallback string if driver can
-work with it.
+Are any description details still improvable?
 
-Frank
 
->
-> If you enable clock by clock for whatever reason, e.g. very specific
-> programming power up sequence, then answer would be: no, Linux cannot
-> use fallback because handling clocks differ.
->
-> Best regards,
-> Krzysztof
+> Note that this is a duplicate of "[PATCH] media: rcar_drif: Fix an OF
+> node leak in rcar_drif_bond_enabled()", which was never applied.
+>=20
+> [1] https://lore.kernel.org/20250105111050.3859712-1-joe@pf.is.s.u-tokyo=
+.ac.jp
+
+Would it be nicer (in principle) to integrate this patch finally?
+
+Regards,
+Markus
 
