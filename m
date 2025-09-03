@@ -1,163 +1,196 @@
-Return-Path: <linux-media+bounces-41635-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41632-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2803BB416E9
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 09:39:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A2F2B4169A
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 09:32:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id F3D6D563ECB
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 07:39:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 048D516AA5C
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 07:32:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07DBD2DE70D;
-	Wed,  3 Sep 2025 07:39:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2F012DF140;
+	Wed,  3 Sep 2025 07:31:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="BUY7TGzc"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="RUxiARVC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8DC52D73B2
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 07:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A3EC2DCBF4;
+	Wed,  3 Sep 2025 07:31:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756885155; cv=none; b=XskahBz+VnkoiS+nUqLMjaQp1CwdDXVmmauMoYD+plJIQWpRhSM0AlJVbJ4+wb87MjwRVq3BbHRAjAjqwI27AzspL/4OhHsUfrm1J8lcgDgCh6B7FD5ixyBL6GkPXuZmK0hFXTCnsdo2HQ1S2ieW+zbUXBqM04RsIF977RsthRk=
+	t=1756884695; cv=none; b=j2fyDvRbFSaXt2HxhgQtZKcxoRvhB8f6xyYZx5lYapVtg5sCvEWTnU5lD8Q7QQsdQjiwHswUB3tZQ+SZ+1NZo7VkB2QnB4j2Fxc02nV75np4Kn6oXyjGgO3ZBhua3UF24hgOzuqMTM1E+0xchBI8YrvCQO3F+JLsXGhGZNBTX4s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756885155; c=relaxed/simple;
-	bh=1Oc0Sp3Mx7FR/p2BZFbZfwf5PRZHut2haSGWT0WEc8M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SKmuGmnymlgvoQh/IvkmTafb7yJNxCT+AuMMrALu7gqOZiPOqRMSXdhsZw5CIHYT2vIiGY+H4A3eGcGD8s7khpvrbw4PT8polABqZFainKg7gH86YDsx+0Q9AVk3N9INRWuvggFjHn+UZYtfTRKSbXLJocCbESB33OHCcJH8ovs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=BUY7TGzc; arc=none smtp.client-ip=121.127.44.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
- h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
- Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
- s=fe-e1b5cab7be; t=1756885151;
- bh=auDnTh/G9z3Y/t2W15bb+vq1E6EQIAIJTktRaItnI50=;
- b=BUY7TGzciFQ9/qPcSITc41HWklDtvWHn1Io9WA26Iy0MyO16eDXyBQfnr+J07PhMsMIkeulLB
- OFnDwzQKRzOX6z80vlne5NXux+AO/PqmdVbsdo5VAy+5QcJTAr91bItE/hQNTq2mGvc34WWzwhe
- mHE7VUrntlp/P8keO8sPJCYWuA1FW1fpnlkBKDmgMX/3p/PAwtGYEz7iGqPV684tN6sqFrWCT/J
- CZPLmKuENVjmH5d8zT3IHvnFqJpX+uFvKP+1WFa9e0NmfmpG+WvzHMI5Wj21l5v9f0vdckhomAf
- nhN3zKof5bZWQOidPUDybM2sl0UcWUKlzWAZd34Q9hQQ==
-X-Forward-Email-ID: 68b7ee2f3a2f2af95f29221d
-X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
- 121.127.44.73
-X-Forward-Email-Version: 1.2.11
-X-Forward-Email-Website: https://forwardemail.net
-X-Complaints-To: abuse@forwardemail.net
-X-Report-Abuse: abuse@forwardemail.net
-X-Report-Abuse-To: abuse@forwardemail.net
-Message-ID: <8394c12a-1e1e-44fc-9bb5-92a464dfe410@kwiboo.se>
-Date: Wed, 3 Sep 2025 09:28:41 +0200
+	s=arc-20240116; t=1756884695; c=relaxed/simple;
+	bh=uWMPeK8zwk8rd6sRriCCE7i5AVEoHUlD9FKBs7QD4Ew=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IkSAavzR1hk/mn6oN3Rla9xFhalNJwUmCcvsDvEXB6XnSfmLyqO1+n5IOMQkD8cTsK1aY1SLnJIt1PnsAfZ6+CxQaYemHNRmku+UQHWObwpKHu1BZycstNmE22dr8ZO9y2K1fdbwi+bZ4/2enEycD0GJwLpt6eOD/SbA38tvaf4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=RUxiARVC; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5832g9p6023418;
+	Wed, 3 Sep 2025 07:31:23 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=E5HtE4RMpmsfEp1lcb08LT
+	JTeUITZxnKersIljv5Md8=; b=RUxiARVCFS9H72RT5P4rBhxJDsETU1bL5C5Cy5
+	DjkSy7xod/PtGxEzc4wpYYquOAyAtIPO3NPNrhMMP1VAadLVwLAjXIJ0fablenAR
+	kIhV+ppd74xeFnHyOnEFaQ+YM0lAS8EU3us4lWi1+dA3c5kbWwvhZ88eXvvqHIn5
+	nQ1lA0aASBwL2+SVnhV06P8IorGWpkZxTkQ83ogJaHAramAB1Oc4cyqCWanCs7zR
+	7zOHh9Oupv/3XdXJMhcjmgLFZFHg4Jh9iKy3pQ27Ey57rUoMd7F6zUVRQfDE2k7I
+	cc8roXHoTinaH+ZBNacutJNC02h55xY+JXIXZQqKZR384aVw==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48upnpat0x-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 03 Sep 2025 07:31:23 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5837VMdI023493
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 3 Sep 2025 07:31:22 GMT
+Received: from hu-jseerapu-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.24; Wed, 3 Sep 2025 00:31:17 -0700
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+To: Vinod Koul <vkoul@kernel.org>,
+        Mukesh Kumar Savaliya
+	<quic_msavaliy@quicinc.com>,
+        Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+CC: <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
+Subject: [PATCH v7 0/2] i2c: i2c-qcom-geni: Add Block event interrupt support
+Date: Wed, 3 Sep 2025 13:00:57 +0530
+Message-ID: <20250903073059.2151837-1-quic_jseerapu@quicinc.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/7] media: rkvdec: Add HEVC backend
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Detlev Casanova <detlev.casanova@collabora.com>
-Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, Alex Bee <knaerzche@gmail.com>,
- Sebastian Fricke <sebastian.fricke@collabora.com>,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org
-References: <20250810212454.3237486-1-jonas@kwiboo.se>
- <20250810212454.3237486-2-jonas@kwiboo.se>
- <432ab63698b27ca5bce3a7a30d630685aff782b6.camel@collabora.com>
-Content-Language: en-US
-From: Jonas Karlman <jonas@kwiboo.se>
-In-Reply-To: <432ab63698b27ca5bce3a7a30d630685aff782b6.camel@collabora.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: bzG9k4Pz0w-s1-FvpdplLWr1H566arna
+X-Authority-Analysis: v=2.4 cv=Jt/xrN4C c=1 sm=1 tr=0 ts=68b7eecb cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=yJojWOMRYYMA:10 a=Bp52wIM_v22GRZO56cAA:9
+X-Proofpoint-ORIG-GUID: bzG9k4Pz0w-s1-FvpdplLWr1H566arna
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAwMSBTYWx0ZWRfX0c/mucaRpwQo
+ MvbJPQYGZJtdWTEu2V8kp4WG/hKDYYvpveylaV0Wz6ip8UPxPrGi07L4N57TL2i2Kk1SjJHdzVD
+ 1ouEo/mo1QiXUmFe2FFIlDrprJVJIixq4kGGyN0pFfLb3BCcVlqasovwmnNuwYk0P3eYqzfLPEo
+ fnQs4SOluxNdfso9r9WYQuI4yQZnlYpjX/VBrN+/9RBSgLvpD6OIkl0egON1EeJntP/XsfoLbdt
+ +JoVe0bFXOBu+TkD4m6fldz5hjO7MQVoKRqqNMe4l2pfYxvUN1bGzmKeTZ0r0lmUACxlyCCySZJ
+ 0H1J3+9iT+P5+5pndEaBMWjpmGHFEFnUSyleYHTOnD1aH5NeCGEmNPmXpEWdtxVz2Psx5T4OQAy
+ BGmnJ5Qn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-03_04,2025-08-28_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 clxscore=1015 bulkscore=0 impostorscore=0
+ spamscore=0 phishscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2508300001
 
-Hi Nicolas,
+The I2C driver gets an interrupt upon transfer completion.
+When handling multiple messages in a single transfer, this
+results in N interrupts for N messages, leading to significant
+software interrupt latency.
 
-On 8/29/2025 10:22 PM, Nicolas Dufresne wrote:
-> Le dimanche 10 août 2025 à 21:24 +0000, Jonas Karlman a écrit :
->> The Rockchip VDEC supports the HEVC codec with the Main and Main10
->> Profile up to Level 5.1 High tier: 4096x2304@60 fps.
->>
->> Add the backend for HEVC format to the decoder.
->>
->> Signed-off-by: Alex Bee <knaerzche@gmail.com>
->> Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->> Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
->> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-> 
-> Re-reading myself, most of my comments were off or really "nitty". So let's move
-> forward and spare you the v3. Detlev is happy to rebase and work on top of your
-> series, so let's help everyone getting better RK codec support.
-> 
-> Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> 
-> Just to be transparent, during testing, it was notice that some concurrent
-> decoding resulted into failures. I tested Detlev port to structure registers,
-> and it didn't change anything (so probably not a stalled state, or one that we
-> control). This could easily be a HW issue with older chip. Since you have used
-> this for years without major issue reported, I happy to move on.
+To mitigate this latency, utilize Block Event Interrupt (BEI)
+mechanism. Enabling BEI instructs the hardware to prevent interrupt
+generation and BEI is disabled when an interrupt is necessary.
 
-Thanks, I found some minor changes compared to the LibreELEC version
-that I am running some new tests on, plan to send out a v3 as soon as
-testing completes later today.
+Large I2C transfer can be divided into chunks of messages internally.
+Interrupts are not expected for the messages for which BEI bit set,
+only the last message triggers an interrupt, indicating the completion of
+N messages. This BEI mechanism enhances overall transfer efficiency.
 
-In LibreELEC version we enable some error detection,
+BEI optimizations are currently implemented for I2C write transfers only,
+as there is no use case for multiple I2C read messages in a single transfer
+at this time.
 
-	// sw_cabac_error_e - cabac error enable
-	writel(0xfdfffffd, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-	// slice end error enable = BIT(28)
-	// frame end error enable = BIT(29)
-	writel(0x30000000, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
 
-and in this series it was fully disabled to closer match H264/VP9:
+v6 -> v7:
+   - The design has been modified to configure BEI for interrupt
+     generation either:
+     After the last I2C message, if sufficient TREs are available, or
+     After a specific I2C message, when no further TREs are available.
+   - dma_buf and dma_addr for multi descriptor support is changed from
+     static allocation to dynmic allocation.
+   - In i2c_gpi_cb_result function, for multi descriptor case, instead of invoking
+     complete for everry 8 messages completions, changed the logic to Invoke 'complete'
+     for every I2C callback (for submitted I2C messages).
+   - For I2C multi descriptor case, updated 'gi2c_gpi_xfer->dma_buf' and
+     'gi2c_gpi_xfer->dma_addr' for unmappping in geni_i2c_gpi_multi_desc_unmap.
+   - In the GPI driver, passed the flags argumnetr to the gpi_create_i2c_tre function and
+     so avoided using external variables for DMA_PREP_INTERRUPT status.
+   - Updated documentation removed for "struct geni_i2c_dev" as per the review comments.
 
-	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
-	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+v5 -> v6:
+   - Instead of using bei_flag, moved the logic to use with DMA
+     supported flags like DMA_PREP_INTERRUPT.
+   - Additional parameter comments removed from geni_i2c_gpi_multi_desc_unmap
+     function documentation.
 
-There is also an extra memset(0, ...) in rkvdec_hevc_start:
+v4 -> v5:
+   -  BEI flag naming changed from flags to bei_flag.
+   -  QCOM_GPI_BLOCK_EVENT_IRQ macro is removed from qcom-gpi-dma.h
+      file, and Block event support is checked with bei_flag.
+   -  Documentation added for "struct geni_i2c_dev".
 
-	memset(priv_tbl, 0, sizeof(*priv_tbl));
+v3 -> v4:
+  - API's added for Block event interrupt with multi descriptor support is
+    moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
+  - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
+    I2C driver.
+  - geni_i2c_gpi_multi_desc_xfer structure is added as a member of
+    struct geni_i2c_dev.
+  - Removed the changes of making I2C driver is dependent on GPI driver.
 
-This should not really be needed and was removed in this series.
+v2 -> v3:
+  - Updated commit description
+  - In I2C GENI driver, for i2c_gpi_cb_result moved the logic of
+    "!is_tx_multi_xfer" to else part.
+  - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
+  - Changes of I2C GENI driver to depend on the GPI driver moved
+    to patch3.
+  - Renamed gpi_multi_desc_process to gpi_multi_xfer_timeout_handler
+  - Added description for newly added changes in "qcom-gpi-dma.h" file.
 
-Still unclear if any of these will result in a changed behavior. Enable
-of cabac/slice end/frame end error could possible activate some more
-states when block issue a self-reset, but I am only guessing.
+v1 -> v2:
+  - DT changes are reverted for adding dma channel size as a new arg of
+    dma-cells property.
+  - DT binding change reveted for dma channel size as a new arg of
+    dma-cells property.
+  - In GPI driver, reverted the changes to parse the channel TRE size
+    from device tree.
+  - Made the changes in QCOM I2C geni driver to support the BEI
+    functionality with the existing TRE size of 64.
+  - Made changes in QCOM I2C geni driver as per the review comments.
+  - Fixed Kernel test robot reported compiltion issues.
 
-One thing to note for the flaky tests is that when they fail, they
-typically just end up with a different consistent checksum. I have not
-done any visual inspection of those frames, but will extract each frame
-and compare them both bitwise and visually.
 
-Regards,
-Jonas
+Jyothi Kumar Seerapu (2):
+  dmaengine: qcom: gpi: Add GPI Block event interrupt support
+  i2c: i2c-qcom-geni: Add Block event interrupt support
 
-> 
-> regards,
-> Nicolas
-> 
->> ---
->> Changes in v2:
->> - Use new_value in transpose_and_flatten_matrices()
->> - Add NULL check for ctrl->new_elems in rkvdec_hevc_run_preamble()
->> - Set RKVDEC_WR_DDR_ALIGN_EN for RK3328
->> ---
->>  .../media/platform/rockchip/rkvdec/Makefile   |    2 +-
->>  .../rockchip/rkvdec/rkvdec-hevc-data.c        | 1848 +++++++++++++++++
->>  .../platform/rockchip/rkvdec/rkvdec-hevc.c    |  817 ++++++++
->>  .../platform/rockchip/rkvdec/rkvdec-regs.h    |    2 +
->>  .../media/platform/rockchip/rkvdec/rkvdec.c   |   76 +
->>  .../media/platform/rockchip/rkvdec/rkvdec.h   |    1 +
->>  6 files changed, 2745 insertions(+), 1 deletion(-)
->>  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-hevc-data.c
->>  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-hevc.c
+ drivers/dma/qcom/gpi.c             |  11 +-
+ drivers/i2c/busses/i2c-qcom-geni.c | 248 ++++++++++++++++++++++++++---
+ 2 files changed, 233 insertions(+), 26 deletions(-)
 
-[snip]
+-- 
+2.34.1
+
 
