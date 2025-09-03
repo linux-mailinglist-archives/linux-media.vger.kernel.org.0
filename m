@@ -1,234 +1,177 @@
-Return-Path: <linux-media+bounces-41650-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41651-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9A78B41A4A
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 11:43:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F33B41AF6
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 12:03:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 617D61BA43A8
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 09:43:45 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E3E3D16F217
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 10:03:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6E1D2F0C62;
-	Wed,  3 Sep 2025 09:43:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FA4D2D3EDA;
+	Wed,  3 Sep 2025 10:03:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="kHRzDjt8"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WZo4/5uI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B88D2DBF4B;
-	Wed,  3 Sep 2025 09:43:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEB66199252
+	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 10:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756892593; cv=none; b=faIFvV6GaxsFG3WEPB0HnXrv9a26jIxp3/mWGeqxo4nmRoAlDLBZuRSA7hJ5GNwst6RAUDQdX4PUS7QWWW9R97kUI5n5D35YvTOiwwDbKa5ovsZ+3R7v4GB/H2jkLywJf6g6CS9+IdryLHk69OqK+ncJzmWfyQX24cqpmaKb9yA=
+	t=1756893798; cv=none; b=NTTVh33oU6mjidgAhCxwY7b0dGnENZbgR3JS8d0zsiE9ElO+rIUG9Fi1TfmfTxQ/Avi4Dx7if3Z2b5RVSmKLntXmON3Qsu162EQH7VuVAwke6TN9yFBMA/JVmRBne+AzkmkT8C66PrYWnw7oGwlLUa6a9DyqWadD96vZ1rvBi3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756892593; c=relaxed/simple;
-	bh=bfgyIsZ47VIamS1ntkZ4mgB9kGJOYlZoocfdYMTCOVQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=r42ugq8prxYkh3qnDzYo2OOBWofy87+wl0eOYgxg+/gAhu8du0sUuJiRNa+F1qWJ+tRgAn+BcFROcEAzTzHeksspaTuKbTCEHv4sY4/L0QCWurddNKYEnjhrztkI/EnolrjGj8H9FBplJc/OSIuGiFpPQwo3LelH3Y4pj5wQQR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=kHRzDjt8; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58324FZT012188;
-	Wed, 3 Sep 2025 09:43:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	6lu15kYphEF4zj/NAL+Q6XVrkdncw0iE1vxKGIr075w=; b=kHRzDjt8BxBEBB6G
-	RrBFwON6ywWeRu7wvj1iBLSq9PQaoBbdhm2YqaYjK3PuuXTifYJZKCjy3uZwVQ+6
-	nCY5l2rlaNx2HwTkZ/KU67jVZps8L0bDiBYkCniQcWvtFw0m69s/QwpQU3/lHra5
-	EbumeYhe1Kl+cVU0qZXNtAskTSLoNNMG8ri+BOaF9wW1AShgbaAu4HJqREIeizzi
-	uM1m0neo9LDF1yGqnYBs039Ey8nmhICEG8RxZ5w1LVbHCCUYLxdr55nfP90HZYl4
-	yc6cbiAQSyEd9cIlovPRYCXvOFbWi1c/akC5BXrN7fbnKfG23qdcaRHkiBbfzWQU
-	iX3sQQ==
-Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ut2fjysh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 03 Sep 2025 09:43:06 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5839h541019544
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 3 Sep 2025 09:43:05 GMT
-Received: from [10.217.218.181] (10.80.80.8) by nasanex01b.na.qualcomm.com
- (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Wed, 3 Sep
- 2025 02:43:01 -0700
-Message-ID: <d4b297f8-82d7-465f-b691-f723087675d4@quicinc.com>
-Date: Wed, 3 Sep 2025 15:12:58 +0530
+	s=arc-20240116; t=1756893798; c=relaxed/simple;
+	bh=5B0xuP0sxGyRh2XbJCVlD5lzzmRW2gZv/z2zbb2aAPA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qvL4NNyXlCPVPA6A/jwzTkjOp1MWNczLraZQ/vhBQvXepEuRhsNc91nB2Wt6NKjMAMeyJNSxInk2OClBsyVi7GAv6rdMCWtiqVG6GXJo5vWpMPEP2EIhDj6IklH/j+JA3rv79jOMJd9u+xoDz6SxGj+0LJHfcYvZRPZVgKG1CW8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WZo4/5uI; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756893793; x=1788429793;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5B0xuP0sxGyRh2XbJCVlD5lzzmRW2gZv/z2zbb2aAPA=;
+  b=WZo4/5uIHjQGJzTBGJBopRUEcHiPc5ciC4ugO0vnNnzNDyFBEPywOcNP
+   LYfmWgIyYEcstV1HT6DPGUcXZow5/WPanZqHadO6p/Bxx//YrA8KgbTmT
+   +YdooWwOGUVKj9N4S1cXBi/qimQVynHSTCj6IL+TQy66+jGjZvsskcem9
+   jSqehRXICNL+GyEBt1Gf6Kw//tOhklTL0SbYKpMgJH8FlOZlDYr7pFEVo
+   uTZH4HpstZyF4GlKOVmQy+LqywdUYcti1tWsmx9m6e92/hZhZpXNYFBzN
+   GhoT2J+fOuyQ59PQD+Z10P0bbgwFMFcV3G63dJjWoGGiYiGlC576GXnew
+   Q==;
+X-CSE-ConnectionGUID: ccoQWV3zTcGx8oFQb6MkpA==
+X-CSE-MsgGUID: xQpzujNsTx2T1s1sSB9iHA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11541"; a="62844027"
+X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
+   d="scan'208";a="62844027"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 03:03:12 -0700
+X-CSE-ConnectionGUID: otx7oUwVQrWx8RmyWsEk/Q==
+X-CSE-MsgGUID: dBoSh4y/RDS3Ad0uwCaRew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,233,1751266800"; 
+   d="scan'208";a="171116305"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.204])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 03:03:05 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 1FF5F11F99F;
+	Wed, 03 Sep 2025 13:03:01 +0300 (EEST)
+Date: Wed, 3 Sep 2025 13:03:01 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 20/66] media: Documentation: Reference COLOR_PATTERN
+ control in raw format docs
+Message-ID: <aLgSVXZ5XzidPa_x@kekkonen.localdomain>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-21-sakari.ailus@linux.intel.com>
+ <ndc5gt6jyla5hoelwwk4wyy3rqb3ntbppjzsh7hpgevcd36ewo@d5n6nr2jxgck>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 1/2] dmaengine: qcom: gpi: Add GPI Block event
- interrupt support
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: Vinod Koul <vkoul@kernel.org>,
-        Mukesh Kumar Savaliya
-	<quic_msavaliy@quicinc.com>,
-        Viken Dadhaniya <quic_vdadhani@quicinc.com>,
-        Andi Shyti <andi.shyti@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
-        <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
-References: <20250903073059.2151837-1-quic_jseerapu@quicinc.com>
- <20250903073059.2151837-2-quic_jseerapu@quicinc.com>
- <xy2jgnearfsoln7tmjbb7l6zuwm7sq74wohsxj77eeval5wig5@kisng4ufgbuo>
-Content-Language: en-US
-From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-In-Reply-To: <xy2jgnearfsoln7tmjbb7l6zuwm7sq74wohsxj77eeval5wig5@kisng4ufgbuo>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzOCBTYWx0ZWRfX5OOqX+rFnXYQ
- IDylBA2Nf78rHsfMLv8PyLIQfzn/q/Hx1sjWZvXbJddDjJ60cLn8qe/lq0hbBGfSuf9JMXJtgQN
- UKZyhEA5cq4K9fslV9tzj6Ky7h8QCQWBWMTwWsyc9oSuGQSQaOvvusO2hRIFiX2W/QCGLiyEdta
- GQWmcCjPs0rVemTwEJEhDGDXy51xv+Bq3Ukz2O/D0WoUyoaDb0KxQP5mQpK24f/bURYdDy/kUC7
- CdTOHEjyqTwwSoGwUqGaHA13gAY7Z88QUkzwsTQu+NL6LJLzCeiD9BcxQn/toOqmpPhdUvV9t2p
- BOYlGzt9e6IKdipvM4YfyqnigFezuODJdiTcK6j4YDkCZoQKRfSkfS3m7UjoFNprfTwYths8sf6
- ywMbtNxj
-X-Proofpoint-ORIG-GUID: 7CDOPaNJPI3XjP1hrXx2fqv0rIlyGsh0
-X-Proofpoint-GUID: 7CDOPaNJPI3XjP1hrXx2fqv0rIlyGsh0
-X-Authority-Analysis: v=2.4 cv=U7iSDfru c=1 sm=1 tr=0 ts=68b80daa cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8
- a=LAjslmrBFw-AA7XcVLMA:9 a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-03_05,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 phishscore=0 clxscore=1011 impostorscore=0 suspectscore=0
- malwarescore=0 priorityscore=1501 adultscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300038
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ndc5gt6jyla5hoelwwk4wyy3rqb3ntbppjzsh7hpgevcd36ewo@d5n6nr2jxgck>
 
+Hi Jacopo,
 
-
-On 9/3/2025 2:55 PM, Dmitry Baryshkov wrote:
-> On Wed, Sep 03, 2025 at 01:00:58PM +0530, Jyothi Kumar Seerapu wrote:
->> GSI hardware generates an interrupt for each transfer completion.
->> For multiple messages within a single transfer, this results in
->> N interrupts for N messages, leading to significant software
->> interrupt latency.
->>
->> To mitigate this latency, utilize Block Event Interrupt (BEI) mechanism.
->> Enabling BEI instructs the GSI hardware to prevent interrupt generation
->> and BEI is disabled when an interrupt is necessary.
->>
->> Large I2C transfer can be divided into chunks of messages internally.
->> Interrupts are not expected for the messages for which BEI bit set,
->> only the last message triggers an interrupt, indicating the completion of
->> N messages. This BEI mechanism enhances overall transfer efficiency.
->>
->> This BEI mechanism enhances overall transfer efficiency.
+On Mon, Sep 01, 2025 at 04:21:53PM +0200, Jacopo Mondi wrote:
+> On Mon, Aug 25, 2025 at 12:50:21PM +0300, Sakari Ailus wrote:
+> > Add a reference to the V4L2_CID_COLOR_PATTERN control in the generic raw
+> > pixelformat documentation.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../userspace-api/media/v4l/ext-ctrls-image-source.rst         | 2 ++
+> >  Documentation/userspace-api/media/v4l/subdev-formats.rst       | 3 +++
+> >  2 files changed, 5 insertions(+)
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > index b19aaaffbce0..0fcd60d8c621 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > @@ -93,6 +93,8 @@ Image Source Control IDs
+> >      is reported as being (say) 128, then a value of 192 would represent
+> >      a gain of exactly 1.5.
+> >
+> > +.. _image-source-control-color-pattern:
+> > +
+> >  ``V4L2_CID_COLOR_PATTERN (integer)``
+> >      This control determines the color components and native pixel order in the
+> >      sensor's CFA (Color Filter Array) when used in conjunction with
+> > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > index e77b4ad19737..77571adeb21e 100644
+> > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > @@ -3444,6 +3444,9 @@ camera sensors using Bayer and other Colour Filter Arrays (CFAs) on serial
+> >  interfaces. The packing of the data on the bus is determined by the hardware,
+> >  however the bit depth is still specific to the format.
+> >
+> > +The colour components and the native pixel order are determined by the
 > 
-> Duplicate phrase.
-Thanks, I will remove the duplicate phrase 'This BEI mechanism enhances 
-overall transfer efficiency.' in the later patchset.
+> Isn't
+>   +The native colour components ordering are determined by ...
+> 
+> As I don't see how "colour components and the native pixel order"
+> information can be conveyed separately.
+
+How about:
+
+The native Colour Filter Array (CFA) pattern is determined by the
 
 > 
->>
->> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
->> ---
->>
->> v6 -> v7:
->>     - The design has been modified to configure BEI for interrupt
->>       generation either:
->>       After the last I2C message, if sufficient TREs are available, or
->>       After a specific I2C message, when no further TREs are available.
->>     - In the GPI driver, passed the flags argumnetr to the gpi_create_i2c_tre function
->>       and so avoided using external variables for DMA_PREP_INTERRUPT status.
->>
->> v5 ->v6:
->>    - For updating the block event interrupt bit, instead of relying on
->>      bei_flag, decision check is moved with DMA_PREP_INTERRUPT flag.
->>
->> v4 -> v5:
->>    - BEI flag naming changed from flags to bei_flag.
->>    - QCOM_GPI_BLOCK_EVENT_IRQ macro is removed from qcom-gpi-dma.h
->>      file, and Block event interrupt support is checked with bei_flag.
->>
->> v3 -> v4:
->>    - API's added for Block event interrupt with multi descriptor support for
->>      I2C is moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
->>    - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
->>      I2C driver.
->>
->> v2-> v3:
->>     - Renamed gpi_multi_desc_process to gpi_multi_xfer_timeout_handler
->>     - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
->>     - Added documentation for newly added changes in "qcom-gpi-dma.h" file
->>     - Updated commit description.
->>
->> v1 -> v2:
->>     - Changed dma_addr type from array of pointers to array.
->>     - To support BEI functionality with the TRE size of 64 defined in GPI driver,
->>       updated QCOM_GPI_MAX_NUM_MSGS to 16 and NUM_MSGS_PER_IRQ to 4.
->>
->>   drivers/dma/qcom/gpi.c | 11 +++++++++--
->>   1 file changed, 9 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/dma/qcom/gpi.c b/drivers/dma/qcom/gpi.c
->> index 8e87738086b2..66bfea1f156d 100644
->> --- a/drivers/dma/qcom/gpi.c
->> +++ b/drivers/dma/qcom/gpi.c
->> @@ -1619,7 +1619,8 @@ gpi_peripheral_config(struct dma_chan *chan, struct dma_slave_config *config)
->>   }
->>   
->>   static int gpi_create_i2c_tre(struct gchan *chan, struct gpi_desc *desc,
->> -			      struct scatterlist *sgl, enum dma_transfer_direction direction)
->> +			      struct scatterlist *sgl, enum dma_transfer_direction direction,
->> +			      unsigned long flags)
->>   {
->>   	struct gpi_i2c_config *i2c = chan->config;
->>   	struct device *dev = chan->gpii->gpi_dev->dev;
->> @@ -1684,6 +1685,9 @@ static int gpi_create_i2c_tre(struct gchan *chan, struct gpi_desc *desc,
->>   
->>   		tre->dword[3] = u32_encode_bits(TRE_TYPE_DMA, TRE_FLAGS_TYPE);
->>   		tre->dword[3] |= u32_encode_bits(1, TRE_FLAGS_IEOT);
->> +
->> +		if (!(flags & DMA_PREP_INTERRUPT))
->> +			tre->dword[3] |= u32_encode_bits(1, TRE_FLAGS_BEI);
->>   	}
->>   
->>   	for (i = 0; i < tre_idx; i++)
->> @@ -1827,6 +1831,9 @@ gpi_prep_slave_sg(struct dma_chan *chan, struct scatterlist *sgl,
->>   		return NULL;
->>   	}
->>   
->> +	if (!(flags & DMA_PREP_INTERRUPT) && (nr - nr_tre < 2))
->> +		return NULL;
+> Up to you
 > 
-> Comment in the source file.
-> 
->> +
->>   	gpi_desc = kzalloc(sizeof(*gpi_desc), GFP_NOWAIT);
->>   	if (!gpi_desc)
->>   		return NULL;
->> @@ -1835,7 +1842,7 @@ gpi_prep_slave_sg(struct dma_chan *chan, struct scatterlist *sgl,
->>   	if (gchan->protocol == QCOM_GPI_SPI) {
->>   		i = gpi_create_spi_tre(gchan, gpi_desc, sgl, direction);
->>   	} else if (gchan->protocol == QCOM_GPI_I2C) {
->> -		i = gpi_create_i2c_tre(gchan, gpi_desc, sgl, direction);
->> +		i = gpi_create_i2c_tre(gchan, gpi_desc, sgl, direction, flags);
->>   	} else {
->>   		dev_err(dev, "invalid peripheral: %d\n", gchan->protocol);
->>   		kfree(gpi_desc);
->> -- 
->> 2.34.1
->>
-> 
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
+Thanks!
 
+> 
+> Thanks
+>    j
+> 
+> > +:ref:`V4L2_CID_COLOR_PATTERN <image-source-control-color-pattern>` control.
+> > +
+> >  .. tabularcolumns:: |p{2.0cm}|p{4.0cm}|p{11.3cm}|
+> >
+> >  .. cssclass:: longtable
+
+-- 
+Kind regrads,
+
+Sakari Ailus
 
