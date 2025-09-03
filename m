@@ -1,74 +1,82 @@
-Return-Path: <linux-media+bounces-41730-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41731-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E6A6B429C2
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 21:22:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3017AB42A50
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 21:53:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B00961BC61BD
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 19:22:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DFD675E2C5D
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 19:53:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A6EE3629AF;
-	Wed,  3 Sep 2025 19:22:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6C9136C070;
+	Wed,  3 Sep 2025 19:52:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZOIgM5jz"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="v/sZacVD"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDC22D94BB;
-	Wed,  3 Sep 2025 19:22:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D61A369992
+	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 19:52:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756927329; cv=none; b=Y589zaXYifA84kwcEahgoMEkoXJuOsCbsqQVgu7QXa6SsM8qwf0yAMmBNXhKHu/Y9qxC5qPKWfUdtU4biVvuHfktaBlf1Zll9J3xHYzVFUu1WmFfA77E2ffwAjTJbI+501r1GuhEtFEMVWn5fXWkZmtDlGi44e5m/HJCWLkfSt4=
+	t=1756929159; cv=none; b=ivdBhgq1nepEeCsi8wlpJKeUaegzpwpEgsXVYTpoVTjgZ9PE2GiMrVZ4CEgVoIwLa5FdeXNRNBjGBxn1gSN9CADceTsDebmiz/o7ro3Fl7ufLmBpN7EPCASlZdJaeo+2PPqYXFssyEONtAI7pQ7gJdh4QtUgeesTBw42ugAIhZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756927329; c=relaxed/simple;
-	bh=1XkDG//kNC9pcHdUsnMMluOmThV+nzlV6FDY6msTIcE=;
+	s=arc-20240116; t=1756929159; c=relaxed/simple;
+	bh=uyy6VXY2YStnWn5JfQvuybCM6umfC+r3rRnGjL/3Vu4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=izUBmVScTnVFaB56aAYcFkZf5M/PEzFebiZlAd3d021/2uMMeqz4rdIw1Lo+bV+rP0QPrZrXsV7Kn+lamChkP4tX3AH8CZ0KI5EQsmYlqtQcL754XZG2ZUUmcbS+yUf8q04Uzt3AQrFBdJOYwScXx0Y6Zjoyp5KFHBtpP6H9hVY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZOIgM5jz; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=X718xjNdWb0YZDkVi6r/9cO7GtZvIJL6ZpEEmiACD/0LNNAJ5yqq6cTYbl7cDkg3oCIMvY9YnD6d+qccQoN3Ch1HzPKRu/b208hFMPAQIn72oYUek4Y05tmWrPIS5w8WhaG8u0lxaN4r+tn9Ct0Cp1Aaj6U8Er9E3H6o8Dak86o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=v/sZacVD; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 0A2428CB;
-	Wed,  3 Sep 2025 21:20:56 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2FA678D4;
+	Wed,  3 Sep 2025 21:51:24 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756927256;
-	bh=1XkDG//kNC9pcHdUsnMMluOmThV+nzlV6FDY6msTIcE=;
+	s=mail; t=1756929084;
+	bh=uyy6VXY2YStnWn5JfQvuybCM6umfC+r3rRnGjL/3Vu4=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ZOIgM5jzXL81DqRvttrGC0d7U5b7m1zy0HRlJ4Ok+6JHs0REcK/P5dqWi0U5gUceg
-	 NdWsv15iOcIUlISDchNKHNGr/bqD0iTvWm49or2gWxfqz8GOuu+YU6B+5bjebXJdMU
-	 BbgT9Lmh49OgVDVnE5/qw5rnrYuW82jfiHCWMRWI=
-Date: Wed, 3 Sep 2025 21:21:43 +0200
+	b=v/sZacVDqaJhmCFUJStqX0G77y+D7QQ3uxEu7I53xnhOK0VmcEpFGUnb2m19Zv+zm
+	 t5bnmbI3S3i7BQSDdaqv9zJcDWaNWCdDG15VaOs6VmQkECCXvCHYp/sM6vvxi8GO0o
+	 kZugFWVGSd2TnN1L/zXh4UPdSY53RLZNVD8WIayc=
+Date: Wed, 3 Sep 2025 21:52:11 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Frank Li <Frank.li@nxp.com>, Guoniu Zhou <guoniu.zhou@nxp.com>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 1/4] media: dt-bindings: nxp,imx8mq-mipi-csi2: Add
- i.MX8ULP compatible string
-Message-ID: <20250903192142.GA10637@pendragon.ideasonboard.com>
-References: <20250901-csi2_imx8ulp-v5-0-67964d1471f3@nxp.com>
- <20250901-csi2_imx8ulp-v5-1-67964d1471f3@nxp.com>
- <20250901154610.GB13448@pendragon.ideasonboard.com>
- <aLZMQ7c8qr5XO88d@lizhi-Precision-Tower-5810>
- <20250902083554.GD13448@pendragon.ideasonboard.com>
- <7c461931-3b04-4354-a892-52f469511c5a@kernel.org>
- <20250902123524.GK13448@pendragon.ideasonboard.com>
- <647fdf8a-835b-44d1-b0b8-a3d253a14787@kernel.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 24/66] media: uapi: Add V4L2_CID_METADATA_LAYOUT
+ control
+Message-ID: <20250903195211.GU3648@pendragon.ideasonboard.com>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-25-sakari.ailus@linux.intel.com>
+ <qeuueahbuofjmeird3dr7xtcosfhymk72ceuma4dibudf2nn3s@z6smlg4yn2rf>
+ <aLgiwzB_IhGTHyHz@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,124 +85,107 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <647fdf8a-835b-44d1-b0b8-a3d253a14787@kernel.org>
+In-Reply-To: <aLgiwzB_IhGTHyHz@kekkonen.localdomain>
 
-On Tue, Sep 02, 2025 at 05:53:39PM +0200, Krzysztof Kozlowski wrote:
-> On 02/09/2025 14:35, Laurent Pinchart wrote:
-> > On Tue, Sep 02, 2025 at 02:26:53PM +0200, Krzysztof Kozlowski wrote:
-> >> On 02/09/2025 10:35, Laurent Pinchart wrote:
-> >>>>>>          compatible:
-> >>>>>>            contains:
-> >>>>>>              enum:
-> >>>>>> -              - fsl,imx8qxp-mipi-csi2
-> >>>>>> +              - fsl,imx8ulp-mipi-csi2
-> >>>>>> +    then:
-> >>>>>> +      properties:
-> >>>>>> +        reg:
-> >>>>>> +          minItems: 2
-> >>>>>> +        resets:
-> >>>>>> +          minItems: 2
-> >>>>>> +          maxItems: 2
-> >>>>>> +        clocks:
-> >>>>>> +          minItems: 4
-> >>>>>> +        clock-names:
-> >>>>>> +          minItems: 4
-> >>>>>
-> >>>>> But according to this, the ULP version requires more clocks than the QXP
-> >>>>> version.
-> >>>>
-> >>>> If only clock number difference, generally, it is still compatible and can
-> >>>> be fallback, especialy driver use devm_bulk_clk_get_all().
-> >>>
-> >>> That's a driver-specific implementation decision, so I don't think it
-> >>> should be taken into account to decide on compatibility.
-> >>
-> >> The clock inputs do not restrict compatibility. If Linux can use
-> >> fallback to bind and operate properly, then it's a strong indication
-> >> devices are compatible.
-> >>
-> >> Imagine exactly the same registers, so same programming interface, but
-> >> one device takes one more clock which just needs to be enabled through
-> >> its lifetime. Such devices are fully compatible, even though clock
-> >> inputs differ.
+On Wed, Sep 03, 2025 at 02:13:07PM +0300, Sakari Ailus wrote:
+> On Mon, Sep 01, 2025 at 05:07:55PM +0200, Jacopo Mondi wrote:
+> > On Mon, Aug 25, 2025 at 12:50:25PM +0300, Sakari Ailus wrote:
+> > > The metadata layout control defines the layout of the metadata on the bus.
+> > > It is used on sub-devices that use generic metadata mbus codes on at least
+> > > on one of the pads.
 > > 
-> > That's only the case if someone enables the clock, isn't it ? From a DT
-> > binding point of view, how can we know that the extra clock will be
-> 
-> We talk about software using the binding in this particular case. Can
-> the software use fallback? Yes, it can.
-
-The Linux kernel driver, in its current implementation, can, yes. No
-disagreement about that.
-
-> > enabled by a component separate from the driver (in this case by the
-> > fact that the devm_bulk_clk_get_all() function gets all clocks) ?
-> 
-> If you go that way, only 100% identical devices are compatible.
-> 
-> >> I also wanted to express exactly that case on my slides from OSSE -
-> >> slide 28:
-> >> https://osseu2025.sched.com/event/25Vsl/dts-101-from-roots-to-trees-aka-devicetree-for-beginners-krzysztof-kozlowski-linaro
+> > Ideally:
+> > 1) we have per pad controls
+> > 2) s/V4L2_CID_COLOR_PATTERN/V4L2_CID_DATA_PATTERN
+> > 3) we use V4L2_CID_DATA_PATTERN for both color components ordering and
+> >    metadata layouts. A sub-device will expose the same control, but on
+> >    different pads
 > > 
-> > Quoting that slide, you wrote
+> > I know we don't want to block this series to wait for per-pad
+> > controls, but I'm a bit afraid V4L2_CID_METADATA_LAYOUT will be made
+> > redundant before it gets used for real (which maybe it's not a big
+> > deal as if no one uses it, we will be able to easily replace it).
+> 
+> I wouldn't do that, for the reason that the mbus codes in the two cases
+> will be different in any case so both will have separate namespaces.
+> 
+> Metadata is also unaffected by flipping, unlike the colour patterns.
+> 
+> I wonder what others think.
+
+Per-pad controls could possibly be used here, but they're not there yet,
+and the CFA pattern and metadata layout are two different concepts.
+
+This being said, if you consider a sensor that produces multiple
+metadata streams (e.g. embedded data and NPU tensors, transported over
+different DTs), a single V4L2_CID_METADATA_LAYOUT control won't scale.
+We will likely need per-pad, or even per-stream controls for that.
+
+We could start with V4L2_CID_METADATA_LAYOUT and later extend it with
+per-pad/stream controls for additional metadata streams, I don't think
+that would cause trouble in userspace.
+
+> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > ---
+> > >  .../userspace-api/media/v4l/ext-ctrls-image-source.rst      | 6 ++++++
+> > >  drivers/media/v4l2-core/v4l2-ctrls-defs.c                   | 1 +
+> > >  include/uapi/linux/v4l2-controls.h                          | 2 ++
+> > >  3 files changed, 9 insertions(+)
+> > >
+> > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > index 3cb7ee1b0aed..64c0f9ff5b1b 100644
+> > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > @@ -145,3 +145,9 @@ Image Source Control IDs
+> > >      of the reversed readout. ``V4L2_COLOR_PATTERN_FLIP_BOTH`` for setting both
+> > >      ``V4L2_COLOR_PATTERN_FLIP_HORIZONTAL`` and
+> > >      ``V4L2_COLOR_PATTERN_FLIP_VERTICAL`` is provided as well.
+> > > +
+> > > +``V4L2_CID_METADATA_LAYOUT (integer)``
+> > > +    The metadata layout control defines the on-bus metadata layout for metadata
+
+This needs to be clearer. "on-bus metadata layout" left me guessing what
+values this control would take. Before the patches further in the series
+that add layout values, I wasn't sure if the control would use media bus
+codes or other types of values.
+
+> > > +    streams. The control is used in conjunction with :ref:`generic metadata
+> > > +    formats <media-bus-format-generic-meta>` formats to specify the layout of the
+> > > +    data.
+> > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > index 9ec65998a8f7..a7ea380de5ee 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > > @@ -1157,6 +1157,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> > >  	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
+> > >  	case V4L2_CID_COLOR_PATTERN:		return "Color Pattern";
+> > >  	case V4L2_CID_COLOR_PATTERN_FLIP:	return "Color Pattern Flip";
+> > > +	case V4L2_CID_METADATA_LAYOUT:		return "Metadata Layout";
+
+How about v4l2_ctrl_fill() ?
+
+> > >
+> > >  	/* Image processing controls */
+> > >  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> > > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> > > index eb9ffdd74d32..74e22a930be4 100644
+> > > --- a/include/uapi/linux/v4l2-controls.h
+> > > +++ b/include/uapi/linux/v4l2-controls.h
+> > > @@ -1239,6 +1239,8 @@ enum v4l2_jpeg_chroma_subsampling {
+> > >  #define V4L2_COLOR_PATTERN_FLIP_BOTH \
+> > >  	(V4L2_COLOR_PATTERN_FLIP_HORIZONTAL | V4L2_COLOR_PATTERN_FLIP_VERTICAL)
+> > >
+> > > +#define V4L2_CID_METADATA_LAYOUT		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 12)
+> > > +
 > > 
-> > "Two devices are compatible when the new device works with Linux drivers
-> > bound via fallback (old) compatible".
-> > 
-> > That is clearly the case here for the existing *Linux* driver. But what
-> > if the driver called devm_bulkd_clk_get() with a device-specific list of
-> > clocks ? Or what if the same DT bindings are used on an OS that has no
-> > clk_get_all() equivalent ? This is my concern with declaring those two
-> > devices as compatible: they may be from the point of view of the current
-> > implementation of the corresponding Linux kernel driver, but DT bindings
-> > are not Linux-specific.
+> > Intentional empty line ?
 > 
-> It seems you think of compatibility as new device is compatible with old
-> kernel, e.g. one not requesting that clock. We don't talk about such case.
-
-No no, I'm considering compatibility in the same sense as you. Sorry if
-that wasn't clear.
-
-> > Or do DT bindings assume that drivers have to always enable all clocks
-> > declared in DT, even if they don't know what those clocks are ? That
-> > seems error-prone, in quite a few cases drivers need to handle separate
-> > clocks in a device-specific way, with for instance a particular
-> > ordering, preventing them from using devm_bulk_clk_get_all(). If all
-> > drivers are required to manage all clocks declared in DT, this would get
-> > messy quite quickly.
+> I'll drop it.
 > 
-> I don't really want to dive into such specifics, because it is
-> impossible to create a generic rule of out.
-
-We're on the same page there :-)
-
-Compatible strings model compatibility with software. As DT bindings are
-not OS-specific, they should be designed based on the concept of a
-driver, and not on a particular driver implementation. As a conceptual
-generic driver can't be precisely defined, we will always have edge
-cases.
-
-In this specific case, I think that devm_bulk_clk_get_all() is too much
-of a Linux-specific concept to consider that devices with different
-clocks are compatible. Even considering Linux only, a driver that needs
-to handle at least one of the clocks in a particular way (for instance
-to guarantee a device-specific clock sequencing requirement, or to
-retrieve or set the frequency of a particular clock) will need to get
-clocks by their names, making fully generic handling of all clocks not
-possible. For such drivers, difference in clocks will preclude
-considering two devices as compatible.
-
-As this is somewhat of an edge case someone will need to make a
-decision, and I won't fight tooth and nail over it.
-
-> We decide here about
-> programming interface mostly. Can Linux use the one from fallback-device
-> to properly operate the new one? Can the same driver bind to fallback
-> and operate the new device?
+> > For the time being
+> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > 
-> If you enable clock by clock for whatever reason, e.g. very specific
-> programming power up sequence, then answer would be: no, Linux cannot
-> use fallback because handling clocks differ.
+> Thank you.
 
 -- 
 Regards,
