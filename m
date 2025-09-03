@@ -1,120 +1,160 @@
-Return-Path: <linux-media+bounces-41642-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41643-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E481B418F5
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 10:45:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 733DFB418F9
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 10:46:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E967B1B27C47
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 08:45:40 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3137416839C
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 08:46:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E36402E8B69;
-	Wed,  3 Sep 2025 08:45:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E59F52D6E69;
+	Wed,  3 Sep 2025 08:46:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LbVlfp2k"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZtyEQRL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98F22DF13B;
-	Wed,  3 Sep 2025 08:45:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 422E9EADC;
+	Wed,  3 Sep 2025 08:46:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756889106; cv=none; b=EtAKK4VGhaf9myfPkVOdo2PMpBFQIzbSxb8etn74yeYP/HN9IYlyYGcN0tTYFfzQ7QKV+fEWWgp3Iq+7CtQSfBlUOmpzvWCGRKJBck8BdbyTmZCICwI0RY6lzi5qB+evx+Pt+G9vPhO73+DXyjnOsdZdlYvA7F/r9tSrIR+/gj4=
+	t=1756889175; cv=none; b=eFYuAxypAcK/6AuUwR6SzOSKur843EHyl6IYTaEl3TiJSFO1hwHb3c0CyH797eJoV2d2njed0P2yKjDT9iy1HprhrYBGoDQI3HrmP3rCZRbhVO13H7yYRTyHLfhifxF6FCA+X8FeXEmehjdRhtfTx8tDGcYyqbJBYvyYvWIwjLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756889106; c=relaxed/simple;
-	bh=s7Pult1M8a65x3h8QtEBGWYKCQIOKeI7JSXX6UtHa6w=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IdPWxaMQjmFup7b8KCJ1gad2X6NShd0b//iL4TiTGsZ9KtmLO+k7hU4dc/u4CB91OEHJ0xEJ8N1aywTcvKzUa2Ke3+bbAnelArtpmI52Cp3wPikgDWg4LoKussBs0o08iGKdVNtg6HdYkjnHbmrqluJ5UeCEuaAmNvGQZSDqpw4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LbVlfp2k; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3df726ecff3so100214f8f.3;
-        Wed, 03 Sep 2025 01:45:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756889103; x=1757493903; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=WYHkEns0w6Ce8syGafttWZHPhEvjpwV1bKqCXtix5iQ=;
-        b=LbVlfp2kKDqUAziBvM3J9IdAlKdIEhRoRBuCCs69H4eVvs4lKv/nqVQAN1M5AKS3As
-         upleaLIXzah86hGYVs3PuAoOuuiL1wfGZyYS84ZeWVodVCqORfj2aYyQr+4MboIXo/AR
-         qLsm3FKo1SSC560dYKmGF3p3vSoLsoi5hjA5i95gEJSL72IaDo1ELAaWTgYLMJ27bG1J
-         nkIFeYt0WeZ1YMRjGDzAB3O/e7MrLjZ5/CasdyzyyrOrwq2iEig9FARcWAr2lBjVfmtw
-         fPjE7+Vd4Jj4eIcNEHdO5F5SDyDc2TePRTqJruHihjRBmDZoalZ3kMVQWBt+AZZ+vdB1
-         raPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756889103; x=1757493903;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=WYHkEns0w6Ce8syGafttWZHPhEvjpwV1bKqCXtix5iQ=;
-        b=OShq+80v8yExYp87A9giy947xeE3cFMqybpOa+jX96L9847Q+1zjnHIgsc1DcCKWcL
-         pZsJQmgG4tpOTTbh/pOxUB+Si6Oz2+QO0tFQqUmN+a4fstrh6zm8G6zvxlJAr7Ze9sSC
-         l0mQzK45ilzepu9gxf9EnFkgFCuzZqUh79qYZZD4cNsroEUUCe561awwAMFQ5YWFB1Lb
-         DQE/Ew3k52bu6Lc8leSEZB0Sz8zFcINXd/DKcrRYW9l3nKhLr3w0l2JCa3OU/lJMulza
-         ZTiKcvfdzoQOLk4z7eX3zhyuK1n1Yhn6wfpzpc9bECwnZ70xOxfug5ochYyhLYvIOyIA
-         r+lA==
-X-Forwarded-Encrypted: i=1; AJvYcCW8OC5xLZKqfRi1hCEpEOdraFP7tRX4vBwk2WetvduLCvNsCyMn3NR4BD/eAQ7F/Se5/84Z3PVa/bw1AUE=@vger.kernel.org, AJvYcCWeJ0DkWvos4RSo9uU+TN9TZkEi1r2a7ykGQZJqump51E+UnP8ZRA5zuuYTqozsw1fXzUNjCrYoGXKowiY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx3i1m5f8DNTe4nkVIzotrUDzsKrbET3tArltkdTIH5m5dOLoij
-	U+uqX8exjwR3zebi6dcGWmQBslBBCYRgf7gfVtdMVgwX3j0pV7rQuo0CzcK6/lsFX40bug==
-X-Gm-Gg: ASbGncvM7Ur6UYDvRjuhwP2lDE8cgmNqm1Xig9psOaXn0BEHHRnQf06IKFwodMJ/nFc
-	ES0mmNxqSboImPGBHHPZwCrS7a8Ummk1+IJu60Rvbn/AtiFRczNMsgMIbVO1eiPf1jNEsZv1Lxg
-	aSK+zOIWCIYdtzx1DQDuKEtn0JYVFZroeiI6RogvQ2XrKW0XNpngO4/nxAi6RpNy1wCixY/z0Wp
-	PNRxbHWUOFefo+jpRVPTtzxLJD4JxomL4KqNZua1MMqqdutlgOl42ZwgaI+XWKx4GZ/HQw0VR9j
-	SwC9DZF3sOnbxekbKxulruJ19a8XVw4sD286VcOStaR0x9fqMkPJf6kckcAO5IfrUx5hXwsDjeP
-	nHoomYfQqM7yQfkjeuQdJh4JtvPj4sdQ=
-X-Google-Smtp-Source: AGHT+IF22nicgiVDiy2hC205APiOr8T+5LxW0W4PlY0AvVydSMsH3eHiETff7xo0Q0o5ffWpxUYGJg==
-X-Received: by 2002:a05:6000:22c4:b0:3ce:5408:3e9b with SMTP id ffacd0b85a97d-3d1de4bc312mr11355432f8f.32.1756889102911;
-        Wed, 03 Sep 2025 01:45:02 -0700 (PDT)
-Received: from localhost ([87.254.0.133])
-        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3cf33fb9431sm22654054f8f.44.2025.09.03.01.45.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 01:45:02 -0700 (PDT)
-From: Colin Ian King <colin.i.king@gmail.com>
-To: Mike Isely <isely@pobox.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Cc: kernel-janitors@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH][next] media: pvrusb2: Fix incorrect variable used in trace message
-Date: Wed,  3 Sep 2025 09:44:16 +0100
-Message-ID: <20250903084416.2704362-1-colin.i.king@gmail.com>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1756889175; c=relaxed/simple;
+	bh=hA6nv3V0St9sV51zkoxf8dFrQzk/UPwxeuIELYQPAvg=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=VufKHSRRScmZ8g+choyzBK/u/CEwVRmF0fzfRV03IxXryBfpFlZ1bYYKCmRC9z5+VWrdK0ADBi6ILRaMk8+F/npu5qd+byYuKzPcxKmwennc2pChVLXiv5UaNhHbI5W62kqdBOpRnuWyOxz2Ysy8cpIc3zsrnSuvuN0c043V5RI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZtyEQRL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C561C4CEF0;
+	Wed,  3 Sep 2025 08:46:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756889174;
+	bh=hA6nv3V0St9sV51zkoxf8dFrQzk/UPwxeuIELYQPAvg=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=FZtyEQRLr/qCAQGuakfkc5FTOmoD8ENgk3vTzpGqLgyxnxVnpEaIWdkOWu4oLSUWn
+	 7pFpjFIE/QYC33ibe8ZihBUACPIs5S3eD+kl4lWl+M7/rwRgY7tKSgvQqOHkb6fx5H
+	 yE4Mx/y/WO+yjraCbqtnBhYqvN10Mv17SwkS9VZ6uRj8RgKqQkArAu5ZP534CD6V52
+	 8dCfmr7lTnPLUbLSN4VUfe2gtLk0RN9+GXf9B7fbukq08R/oEcD2neiY16lOID5leW
+	 HOKLVze8xsbFPMJWy3aq1cTWa5IA/ZQcSCQxO959Q3ai5XEaX2DLxuqCbKMbpbt2NU
+	 ywQb7i6loX0OQ==
+Message-ID: <80d191a0-d978-4909-a0f2-d25cd9757d55@kernel.org>
+Date: Wed, 3 Sep 2025 10:46:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v2 00/11] media: adv7180: Improve the control over decoder
+ power
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
+ <niklas.soderlund+renesas@ragnatech.se>, Lars-Peter Clausen
+ <lars@metafoo.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@xs4all.nl>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org
+Cc: linux-renesas-soc@vger.kernel.org
+References: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Language: en-US, nl
+In-Reply-To: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The pvr2_trace message is reporting an error about control read
-transfers, however it is using the incorrect variable write_len
-instead of read_lean. Fix this by using the correct variable
-read_len.
+On 28/08/2025 18:06, Niklas Söderlund wrote:
+> Hello,
+> 
+> This series started as an effort to fix issues with querystd. To do that
+> it turned out the whole drivers design around how it controls the power
+> to the video decoder block inside the chip had to be reworked. As a
+> bonus this works removes the now deprecated .s_power callback from
+> adv7180.
+> 
+> The adv7180 drivers comes from a time before media controller and all
+> operation callbacks are, more or less, designed around the concept that
+> a video device is the only user-space facing API. In that world a vdev
+> would attached the subdevice, call .s_power and then perform format
+> configuration using the other operation callbacks and then start
+> streaming with .s_stream. Needles to say this mode of operation don't
+> work well with media controller where the subdevices itself have a
+> user-space API exposed thru a subdev device.
+> 
+> The initial problem I tried to solve (querystd) was that it stopped
+> functioning as expected after the subdev had been used to stream once
+> (.s_power(1), .s_power(0)). As it turns out different variants of the
+> adv7180 device have different reset beaver for if its video decoder
+> block is left running or powered off. On my device it was left running
+> so querystd functioned the first time, but not after the video decoder
+> had been switched off once by .s_power(0).
+> 
+> I first tried to fix this by introducing proper PM handling in the
+> driver to be able to remove the .s_power callback. I quickly learnt the
+> power on/off logic happening in the driver had noting to do with
+> controlling power to the chip itself, but to control if the chips video
+> decoder block was turned off.
+> 
+> When this block is powered on the device process video data, if there is
+> a video source else it free runs. However when the block is turned off
+> the device can still be configured, in fact some configuration requires
+> it to be off.
+> 
+> For this reason I dropped the effort to add proper PM handling and
+> treated the decoder power as a stream on/off switch. I still think
+> proper PM handling would be beneficial for this driver but to not
+> explode this already large series I left that for another time. Solving
+> the issue around .s_power will make that work easier as well as other
+> task such as converting to the v4l2_subdev active state API.
+> 
+> Patch 1/11 just moves code around to make the consecutive changes easier
+> to read. Patch 2/11 fix a locking issues when suspending the device.
+> Patch 3/11 and 4/11 improves the locking design to prepare to improve
+> the driver.
+> 
+> Patch 5/11 make sure the device controls are always programmed after the
+> device have been reset, fixing a possible issue when the device where
+> resumed from system sleep.
+> 
+> Patches 6/11, 7/11 and 8/11 is the real change where the .s_power
+> callback is reworked to fit the design of .s_stream instead.
+> 
+> And finally patch 9/11, 10/11 and 11/11 removes programming of the
+> device from operation callbacks and solves the issue with querystd.
+> 
+> The work is tested on R-Car M2 together with a ADV7180 device.
+> 
+> See individual patches for changelog.
 
-Fixes: d855497edbfb ("V4L/DVB (4228a): pvrusb2 to kernel 2.6.18")
-Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
----
- drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This series looks good to me, other than the one typo and the
+control handler kAPI issue, but that can be done in a follow-up
+series.
 
-diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-index f21c2806eb9f..81e87aa8d4de 100644
---- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-+++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
-@@ -3622,7 +3622,7 @@ static int pvr2_send_request_ex(struct pvr2_hdw *hdw,
- 		pvr2_trace(
- 			PVR2_TRACE_ERROR_LEGS,
- 			"Attempted to execute %d byte control-read transfer (limit=%d)",
--			write_len,PVR2_CTL_BUFFSIZE);
-+			read_len, PVR2_CTL_BUFFSIZE);
- 		return -EINVAL;
- 	}
- 	if ((!write_len) && (!read_len)) {
--- 
-2.51.0
+If you want I can take this series, let me know.
+
+Regards,
+
+	Hans
+
+> 
+> Niklas Söderlund (11):
+>   media: adv7180: Move adv7180_set_power() and init_device()
+>   media: adv7180: Add missing lock in suspend callback
+>   media: adv7180: Move state mutex handling outside init_device()
+>   media: adv7180: Use v4l2-ctrls core to handle s_ctrl locking
+>   media: adv7180: Setup controls every time the device is reset
+>   media: adv7180: Power down decoder when configuring the device
+>   media: adv7180: Split device initialization and reset
+>   media: adv7180: Remove the s_power callback
+>   media: adv7180: Do not write format to device in set_fmt
+>   media: adv7180: Only validate format in s_std
+>   media: adv7180: Only validate format in querystd
+> 
+>  drivers/media/i2c/adv7180.c | 338 +++++++++++++++++++-----------------
+>  1 file changed, 174 insertions(+), 164 deletions(-)
+> 
 
 
