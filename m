@@ -1,251 +1,213 @@
-Return-Path: <linux-media+bounces-41700-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41701-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3896FB42340
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 16:13:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 73060B4234B
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 16:15:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE7663A223B
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 14:13:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5F82E1BA7A2A
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 14:15:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BD9130F527;
-	Wed,  3 Sep 2025 14:13:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9DEF306497;
+	Wed,  3 Sep 2025 14:15:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="bKIg3FLB"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jDhlqqCx"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5227130E829
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 14:13:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FAC0200127
+	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 14:15:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756908805; cv=none; b=n4hhZdC3ohf6OyZlctf7W0qo3raFBa3YREwKM4JIWEO55enDomKzVMKzjeYsaqPZzbm8advL0s4EAQrUxhIJeWr5wD35ROHJIeMwhjAF+NJE9GRbYy1ujR+gfqtI6v5ImdsSIpO7/cQgpq9x6L8NmmlfGYIt4eHJiOEDmLKIlKg=
+	t=1756908919; cv=none; b=fy2FMOfgtabH7S4wZea076ou2bKyeCDhAihnICWuoF3C0C1E18tYW9BM0SHKo3KT0WYbLURqziKKe6Uyjk/wOrYW3re38rmv50gi6YNqAZEHy92tyjSQv+tNSCOCSoNR94v0WKWHxm/rnmJsbevAul/sdLOnL7ayalAW8h6qNog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756908805; c=relaxed/simple;
-	bh=jChr6ji3pFwXeMcSXw5YGcuHU7gFFFGKRuwiRoe9HFI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rEimxc4XFb7OHEslVo9Wg7PT4iiu8ATjz0VS76ZTfr8w0o5E/YQGdFCZ9k4Zvq0xg/4zj1YgjZMJ0Gu1iwVb/wm1VLggL/cMh/5Yq4K4fw5HUUTBGnR1BMfEVzHQWiuaQ5ihOpkVGb1ZTpnrcK6FHvK5z/PwxDxkZPLUHDqqbZA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=bKIg3FLB; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45b84367affso38932445e9.3
-        for <linux-media@vger.kernel.org>; Wed, 03 Sep 2025 07:13:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756908802; x=1757513602; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=yBIcNf631ef2opWTzbk1POiusCMrfVUtghAbvI2Xsvg=;
-        b=bKIg3FLBvw/BtI9Me+i/2aZgCKhsJX+6gxBthc2f0F/DR+ulRLZh5JPcQTHtH7FkVJ
-         7FsTWhZMlMM1RIVGPuES7OPWgKvz2A3sojgigdFuUhqXZYtGUnWd1NXG8wGWIVgoxJYG
-         bJ4LObn6LZsfyYZMBueMMLktjUXIPiaOFQ2u1Bxu2Rl9CJsMCOra9z87zZC9/Yd3bTXU
-         kA6/sVo+bl2g5RBieqssXSTd9LjreaHmVuoCM6mb4EUb2wFyHWwWFOHUb3DMOeqQaLv3
-         P/8kUxOd1sUr9iYMKj62EOI3YX48r55bSP0aOFGZgt+to+RptngC2fxJKRt3jpxTtpve
-         K8Kw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756908802; x=1757513602;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yBIcNf631ef2opWTzbk1POiusCMrfVUtghAbvI2Xsvg=;
-        b=sVBNk2bPKtjAa5qug6pFSlFSkE6vA7ThEy8yd0S0pVm0MAXusC1NpzmExfdQbPNf/+
-         vfuTs+Sgj3APsbjlRUYMmhDVD9COSwSYLVEPr6ObkS5rOatB8cmro9W3BEMoO9yh40ax
-         aA7/2S481GgC0N5j5v1LHBiKKNLAVnPZsslsR1/2UIcog+Nkkik+bTiiQ1QkjSMuLP20
-         qFH6USzxgs66lEvh9Fy7kNtuLU5N3fa8ntjDEE+bZweN13FErUIQQA7tWQZugoWd0lMO
-         ffFJf2D/ffWzMUjWK2rnl2jUluG8mByeKy4Q18RGnL0miJttuWnxNY6zwcsYOkBsksMe
-         O/4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVt9hhS/FZ8E0zEihmfIWiYWUE+yhCrdkUW2WbA1tKyJLbPujRaOORy0DGJeQX1YtZIylmTsjgtttzh7w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+YhOnSA1w3BE4+qJpmIyybFobIB9S/yLvNw00k1rpJk3cYjZD
-	lFTaBIPT4Jpj3xAGDxW8SV3Epxw8UnojDVVHfAcvnVkl+YXhDJsCBBBQkqgJ6rri6aI=
-X-Gm-Gg: ASbGncvo5iMNKMP+20fuHW/6M6TR++mMosEnUW7lTIyYyyVVGOXZf0ZVylQ8vXTwk2N
-	kDQHZzrvaA8lHNwPHyXCJbnfzYKAdgvTdcFjDdmQuZmXLB5g30vXsjrVENBTD653EpZowXitwsG
-	z+FUnnNN8iswHBuHxE0dVZehkgvA93sR2ukJyMgDN0BCAjIHvLwcVye11cXpVpjIFctBHS2IHNb
-	n8reOO2aHaFEdl+2/Ey1Nr86u/LPp+oMNfluxPzqdLVPeZY6vIGnKBSYipMFMge9ACAbREtSAxy
-	/q6dNkgumH0eysNhOOd3aOwCDZvi10MInTN667mkzx+mWHV+89fAo/H1FcxQlcMVK1dGcniuLsZ
-	kn3psIfY7acpkknUeQqT5CK4nS7gKSxvzYPAK7xVMDi4zUsHy8a0FHEs3U/H1k4t+SRtwKgrPmu
-	e3OpGDaUPBVmUUS3bP4K8eLqMRv8+fUA==
-X-Google-Smtp-Source: AGHT+IGfAZzD09cWF5IbzY4R9+9G/lHAa3/pRj3XH1WFBEX6L966x/N8b0asy8I8FFb5vuyrdLwPlw==
-X-Received: by 2002:a05:600c:314d:b0:45b:8a92:6b14 with SMTP id 5b1f17b1804b1-45b8a926f9amr120090275e9.37.1756908801569;
-        Wed, 03 Sep 2025 07:13:21 -0700 (PDT)
-Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d95df59e50sm8541982f8f.23.2025.09.03.07.13.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Sep 2025 07:13:21 -0700 (PDT)
-Message-ID: <7a7c122f-50e1-476a-939e-9d76e34b1d6a@linaro.org>
-Date: Wed, 3 Sep 2025 15:13:18 +0100
+	s=arc-20240116; t=1756908919; c=relaxed/simple;
+	bh=SWdjGnmr2X74Zr3glSRaWKVk36DKnkcaqTa9TrjZa0o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qXI7mKe1ZkzHz5CulfYZN5ABtSeYb6NCFcqqyPX2KDLZhw5L/5zs4pRUVq6zTfvhlpnYVgLsRT7EZHvU2xiLycIzyiUBdR6O735g6xFknwYig9SLCtXjsNprVlBvUzU0z2hkvbc0kpdJ/Eb97rbR08GVHN2gG3dSmRGRI/umNJc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jDhlqqCx; arc=none smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756908917; x=1788444917;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=SWdjGnmr2X74Zr3glSRaWKVk36DKnkcaqTa9TrjZa0o=;
+  b=jDhlqqCxAbGpo7FoI5mIt2yc5OGUt5SWnqgbytHwvc0G1slmdrBnzxnH
+   gesrGbNP2J80Q2QzSvT0cIvXxmcM4YO4Z8PnXyxg6SxmcgoA0CWMqsLNU
+   33wTpwTWkIrvklNKoTn4ZLid7YUBT8MFNwQ0irywzWrT5J/AVT18neuwO
+   W9hg/aCSx24vEH/uTgSuKCXLFlVD77QvT3GZHduZiEQgQTFVqu6nuWuac
+   jNP3n54hkLINFZbsWaOTDO68xwUU3m91Vh6PdN5yEDfNdEWikC0ILUsZD
+   VnQSdqsW7qt3LNtJSeCbRzhmlCEJrfimujGO/J+n4pY30ceLclUiH5URH
+   w==;
+X-CSE-ConnectionGUID: E2NgGclWSZSmvl3W+hkl/g==
+X-CSE-MsgGUID: GfOi8OFZTqOhhwZkqdoXpg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="84652216"
+X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
+   d="scan'208";a="84652216"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 07:15:15 -0700
+X-CSE-ConnectionGUID: qfAbkGFkTZO2jhGvTNjTUQ==
+X-CSE-MsgGUID: 7hpzinDDQ6OT8dCxEUU1kA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
+   d="scan'208";a="171160848"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.204])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 07:15:08 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 36CB011F99F;
+	Wed, 03 Sep 2025 17:15:06 +0300 (EEST)
+Date: Wed, 3 Sep 2025 17:15:06 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 04/66] media: Documentation: Document -ENXIO for
+ VIDIOC_SUBDEV_S_ROUTING
+Message-ID: <aLhNahp3E9fgAyXx@kekkonen.localdomain>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-5-sakari.ailus@linux.intel.com>
+ <s7yxeudfc5n67v7po6rjb7zaxwy3cjxzflvb7v27owhe5hicyu@qqazppf4vajo>
+ <aLbANPWV4wmcMZgT@kekkonen.localdomain>
+ <20250903134755.GF3648@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/11] Peripheral Image Loader support for Qualcomm
- SoCs running Linux host at EL2
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- linux-remoteproc@vger.kernel.org
-References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
- <660c2594-9a93-450e-9a2e-17ef6b4c696d@linaro.org>
- <20250820112242.usd4sdd3avxdlcas@hu-mojha-hyd.qualcomm.com>
- <f5582304-8f55-4c3b-b752-9cefa1e4df96@oss.qualcomm.com>
- <b5a0ad0d-ceba-40d3-a111-0831c4538cea@linaro.org>
- <2g3iwc2en6wh2ucrsth5ontzdwqr7tr6oplxjnfdjsy3lwyyfe@l76frwiadgru>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <2g3iwc2en6wh2ucrsth5ontzdwqr7tr6oplxjnfdjsy3lwyyfe@l76frwiadgru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250903134755.GF3648@pendragon.ideasonboard.com>
 
-On 03/09/2025 15:02, Dmitry Baryshkov wrote:
-> On Wed, Sep 03, 2025 at 02:31:55PM +0100, Bryan O'Donoghue wrote:
->> On 03/09/2025 12:56, Konrad Dybcio wrote:
->>>> Can you try with this next-20250814 tag ?
->>> You sent it on the 19th, so it's in your best interest to run a quick
->>>
->>> git rebase --onto linux-next/master $(git describe --abbrev=0)
->>>
->>> and giving the series a prompt re-test before sending, because there might have
->>> been incompatible changes, whether ones that would prevent applying, or break
->>> things functionally
->>
->> I can't even find that tag next-20250814 closets thing is
+On Wed, Sep 03, 2025 at 03:47:55PM +0200, Laurent Pinchart wrote:
+> On Tue, Sep 02, 2025 at 01:00:20PM +0300, Sakari Ailus wrote:
+> > On Mon, Sep 01, 2025 at 01:33:56PM +0200, Jacopo Mondi wrote:
+> > > On Mon, Aug 25, 2025 at 12:50:05PM +0300, Sakari Ailus wrote:
+> > > > Document that -ENXIO is returned when the user tries to set a routing
+> > > > configuration not supported by the hardware (or rather the driver). The
+> > > > documentation details the exact cases of this, besides -EINVAL that is
+> > > > already documented for VIDIOC_SUBDEV_S_ROUTING.
+> > > >
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > >  .../media/v4l/vidioc-subdev-g-routing.rst             | 11 ++++++++++-
+> > > >  1 file changed, 10 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > > > index 1cf795480602..15f448664e6b 100644
+> > > > --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > > > +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
+> > > > @@ -155,9 +155,18 @@ appropriately. The generic error codes are described at the
+> > > >  :ref:`Generic Error Codes <gen-errors>` chapter.
+> > > >
+> > > >  EINVAL
+> > > > +
+> > > 
+> > > Is this intended ?
+> > 
+> > Oops.
+> > 
+> > > >     The sink or source pad identifiers reference a non-existing pad or reference
+> > > >     pads of different types (ie. the sink_pad identifiers refers to a source
+> > > > -   pad), or the ``which`` field has an unsupported value.
+> > > > +   pad), the ``which`` field has an unsupported value, or, for
+> > > > +   ``VIDIOC_SUBDEV_S_ROUTING``, the num_routes field value is larger than that
+> > > > +   of the len_routes field.
+> > > 
+> > > Doesn't this contradicts the above
+> > > 
+> > > The kernel can return a ``num_routes`` value larger than ``len_routes`` from
+> > > both ioctls. This indicates thare are more routes in the routing table than fits
+> > > the ``routes`` array. In this case, the ``routes`` array is filled by the kernel
+> > > with the first ``len_routes`` entries of the subdevice routing table. This is
+> > > not considered to be an error, and the ioctl call succeeds. If the applications
+> > > wants to retrieve the missing routes, it can issue a new
+> > > ``VIDIOC_SUBDEV_G_ROUTING`` call with a large enough ``routes`` array.
+> > > 
+> > > Looking at the handler for VIDIOC_SUBDEV_S_ROUTING in v4l2-subdev.c I
+> > > think this should specify that is invalid to have userspace set a num_routes
+> > > value larger than len_routes.
+> > > 
+> > > I would simply add this to the above hunk
+> > > 
+> > > -   pad), or the ``which`` field has an unsupported value.
+> > > +   pad), the ``which`` field has an unsupported value, or, for
+> > > +   ``VIDIOC_SUBDEV_S_ROUTING``, the num_routes field provided by the
+> > > +   application is larger than the len_routes field value.
+> > 
+> > s/provided/set/ ?
+> > 
+> > Looks good to me.
+> > 
+> > > > +
+> > > > +ENXIO
+> > > > +   No such link can be created or such link state change can be made. Either the
+> > > > +   sink or source (pad, stream) pair or the combination of the sink and source
+> > > > +   is not supported by the hardware, or no multiple routes from or to the same
+> > > > +   (pad, stream) pair are supported.
+> > > 
+> > > If I'm not mistaken this only applies to VIDIOC_SUBDEV_S_ROUTING, so I
+> > > would mention that. Also ENXIO is not returned by the core but by
+> > > drivers, so I would not limit the possible cases where ENXIO is
+> > > returned by making examples.
+> > > 
+> > > What about a simpler:
+> > > 
+> > > +ENXIO
+> > > +   The application requested routes cannot be created or the state of
+> > > +   the specified routes cannot be modified. Only returned for
+> > > +   ``VIDIOC_SUBDEV_S_ROUTING``.
 > 
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tag/?h=next-20250814
+> This sounds fairly vague. I'd prefer keeping the description of the
+> error conditions, but turning them from an exhaustive list into
+> examples. How about the following ?
 > 
->>
->> | * \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \   00062ea01d35e - Merge tag
->> 'drm-xe-fixes-2025-08-14' of https://gitlab.freedesktop.org/drm/xe/kernel
->> into drm-fixes (3 weeks ago)
->>
->> but patch #9 in this series stubbornly won't apply to any SHA I've tried.
->>
->> meh
->>
->> ---
->> bod
+> ENXIO
+>    The routes specified by the application can't be applied because they violate
+>    the driver's validity requirements. For instance, the application may be
+>    trying to disable an immutable route, create a route that is not supported by
+>    the device, or that conflicts with other routes. Only returned for
+>    ``VIDIOC_SUBDEV_S_ROUTING``.
 > 
+> I'm also not too sure about ENXIO ("No such device or address"). There's
+> no other error code that immediately strikes me as a good match though.
+> If I were to propose a hack, I'd say EBADR could be used to mean "bad
+> route" instead of "bad request" :-)
 
-Unfortunately that's not the right SHA though
+:-) What I think really counts is that it's different from EINVAL, albeit
+I'm open to better suggestions. We could use e.g. EBADSLT, at least it'd
+be easy to spot. Same goes for EBADR probably.
 
-git checkout -b next-20250814-test next-20250814 
-
-Switched to a new branch 'next-20250814-test'
-
-b4 shazam 
-20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-7-ce7a1a774803@oss.qualcomm.com
-Grabbing thread from 
-lore.kernel.org/all/20250812-qcom-tee-using-tee-ss-without-mem-obj-v7-7-ce7a1a774803@oss.qualcomm.com/t.mbox.gz
-Checking for newer revisions
-Grabbing search results from lore.kernel.org
-   Added from v8: 12 patches
-   Added from v9: 12 patches
-Analyzing 60 messages in the thread
-Analyzing 163 code-review messages
-Will use the latest revision: v9
-You can pick other revisions using the -vN flag
-Checking attestation on all messages, may take a moment...
----
-   ✓ [PATCH v9 1/11] tee: allow a driver to allocate a tee_device 
-without a pool
-   ✓ [PATCH v9 2/11] tee: add close_context to TEE driver operation
-   ✓ [PATCH v9 3/11] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
-   ✓ [PATCH v9 4/11] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
-   ✓ [PATCH v9 5/11] tee: increase TEE_MAX_ARG_SIZE to 4096
-   ✓ [PATCH v9 6/11] firmware: qcom: scm: add support for object invocation
-   ✓ [PATCH v9 7/11] firmware: qcom: tzmem: export shm_bridge create/delete
-   ✓ [PATCH v9 8/11] tee: add Qualcomm TEE driver
-   ✓ [PATCH v9 9/11] tee: qcom: add primordial object
-   ✓ [PATCH v9 10/11] tee: qcom: enable TEE_IOC_SHM_ALLOC ioctl
-   ✓ [PATCH v9 11/11] Documentation: tee: Add Qualcomm TEE driver
-   ---
-   ✓ Signed: DKIM/qualcomm.com (From: amirreza.zarrabi@oss.qualcomm.com)
----
-Total patches: 11
----
-  Base: using specified base-commit 33bcf93b9a6b028758105680f8b538a31bc563cf
-Applying: tee: allow a driver to allocate a tee_device without a pool
-Applying: tee: add close_context to TEE driver operation
-Applying: tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
-Applying: tee: add TEE_IOCTL_PARAM_ATTR_TYPE_OBJREF
-Applying: tee: increase TEE_MAX_ARG_SIZE to 4096
-Applying: firmware: qcom: scm: add support for object invocation
-Applying: firmware: qcom: tzmem: export shm_bridge create/delete
-Applying: tee: add Qualcomm TEE driver
-Applying: tee: qcom: add primordial object
-Applying: tee: qcom: enable TEE_IOC_SHM_ALLOC ioctl
-Applying: Documentation: tee: Add Qualcomm TEE driver
-
-b4 shazam 20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com
-Grabbing thread from 
-lore.kernel.org/all/20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com/t.mbox.gz
-Checking for newer revisions
-Grabbing search results from lore.kernel.org
-Analyzing 70 messages in the thread
-Looking for additional code-review trailers on lore.kernel.org
-Analyzing 0 code-review messages
-Checking attestation on all messages, may take a moment...
----
-   ✓ [PATCH v2 1/11] firmware: qcom_scm: Introduce PAS context 
-initialization helper
-   ✓ [PATCH v2 2/11] soc: qcom: mdtloader: Add context aware 
-qcom_mdt_pas_load() helper
-   ✓ [PATCH v2 3/11] firmware: qcom_scm: Add a prep version of 
-auth_and_reset function
-   ✓ [PATCH v2 4/11] firmware: qcom_scm: Simplify qcom_scm_pas_init_image()
-     + Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org> (✗ 
-DKIM/linaro.org)
-   ✓ [PATCH v2 5/11] firmware: qcom_scm: Add shmbridge support to 
-pas_init/release function
-   ✓ [PATCH v2 6/11] remoteproc: Move resource table data structure to 
-its own header
-   ✓ [PATCH v2 7/11] firmware: qcom_scm: Add 
-qcom_scm_pas_get_rsc_table() to get resource table
-   ✓ [PATCH v2 8/11] soc: qcom: mdt_loader: Add helper functions to map 
-and unmap resources
-   ✓ [PATCH v2 9/11] remoteproc: pas: Extend parse_fw callback to parse 
-resource table
-   ✓ [PATCH v2 10/11] remoteproc: qcom: pas: Enable Secure PAS support 
-with IOMMU managed by Linux
-   ✓ [PATCH v2 11/11] media: iris: Enable Secure PAS support with IOMMU 
-managed by Linux
-   ---
-   ✓ Signed: DKIM/qualcomm.com (From: mukesh.ojha@oss.qualcomm.com)
----
-Total patches: 11
----
-Applying: firmware: qcom_scm: Introduce PAS context initialization helper
-Applying: soc: qcom: mdtloader: Add context aware qcom_mdt_pas_load() helper
-Applying: firmware: qcom_scm: Add a prep version of auth_and_reset function
-Applying: firmware: qcom_scm: Simplify qcom_scm_pas_init_image()
-Applying: firmware: qcom_scm: Add shmbridge support to pas_init/release 
-function
-Applying: remoteproc: Move resource table data structure to its own header
-Applying: firmware: qcom_scm: Add qcom_scm_pas_get_rsc_table() to get 
-resource table
-Applying: soc: qcom: mdt_loader: Add helper functions to map and unmap 
-resources
-Applying: remoteproc: pas: Extend parse_fw callback to parse resource table
-Patch failed at 0009 remoteproc: pas: Extend parse_fw callback to parse 
-resource table
-error: patch failed: drivers/soc/qcom/mdt_loader.c:22
-error: drivers/soc/qcom/mdt_loader.c: patch does not apply
-hint: Use 'git am --show-current-patch=diff' to see the failed patch
-hint: When you have resolved this problem, run "git am --continue".
-hint: If you prefer to skip this patch, run "git am --skip" instead.
-hint: To restore the original branch and stop patching, run "git am 
---abort".
-hint: Disable this message with "git config set advice.mergeConflict false"
-
+-- 
+Sakari Ailus
 
