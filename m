@@ -1,216 +1,123 @@
-Return-Path: <linux-media+bounces-41741-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41742-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7801AB42C13
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 23:43:42 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8837B42C1B
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 23:47:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5346A1B282AB
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 21:44:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 811C95680BA
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 21:47:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9FD72EACFB;
-	Wed,  3 Sep 2025 21:43:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC06C2EC56B;
+	Wed,  3 Sep 2025 21:47:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fJQhll56"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="Bl1bwWQZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E13172E7F03
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 21:43:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876B91E2307;
+	Wed,  3 Sep 2025 21:47:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756935815; cv=none; b=J3P4E4LvT7N/AHxxChVO9uflCX1yRZc2U+/jiUgspmVsM9R0NlGyxNGjgutSUke3kOi5lYmQfvJmSVxd+frrqGdJHm8Mv3mmJBNZi70tkYOhN1aqSuUQDreQLADytcwdYMTiBzMYrUMo3tsnMXwjpr0qv/d69bq6Q9wFjjVd5BU=
+	t=1756936044; cv=none; b=LEUNhz5JrQxbOQ11bDY2gd+YzEw2FTe0ZIRCpkQ/l/DUsDs+4FiHcn5a4jsGOoH/TFK09yxMNP0UoMGQ4RWkAJcfJwIxmIaG8UINTR1U/I+t0hbAwgfnO8SHJYkZH3va6olVXTgurYN7p/AnmJBhYPSTa9EuIEaLxvLAbekYtoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756935815; c=relaxed/simple;
-	bh=0VFdBo83O+glE3wjqJoqZqWXvnpEJPNG+ON0KktnWto=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nXsqzNMwjWFHbmcL7JpjK7KGxaIZq/9tHQ/CDPzJsLtDlYH4oO+jz+MGAKgW+n50TmRIKeftvTUooNFe1PdMXfaPGNQZ/DA2i4+5XKPTJHqMrf+1Xh8o2T5cZ/Qwc7rX9KL4Uzvs7f+htW4faNa+vW6JUwTRdG9hlWkj51NvoGI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fJQhll56; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C3BE27CE;
-	Wed,  3 Sep 2025 23:42:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756935739;
-	bh=0VFdBo83O+glE3wjqJoqZqWXvnpEJPNG+ON0KktnWto=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fJQhll56Dn91UgQXuqN34jtgGvdYLZyqEnuujVhZzOhD0d6GQTYlcjxQO/UWEnB7e
-	 jV8MfDEEmz57Ybh5Z/HNbctV+KU2ctOV4awqMYNUA/8SbUB/ikgjGJrLfHhrDfqSgO
-	 QDwBxpThJtw9kuFQwlQfGSuoa0ionU596ZFGRvNU=
-Date: Wed, 3 Sep 2025 23:43:07 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 46/66] media: uapi: Add metadata layout for ov2740
- embedded data
-Message-ID: <20250903214307.GD3648@pendragon.ideasonboard.com>
-References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-47-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1756936044; c=relaxed/simple;
+	bh=0GgytPfcIO0Q4/krr70mcNW/yq3FCj9S7utoaJM+kzo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MfQhgUNKN15HAsz2edWJP+8Rm0jPh25RexpuKvslK0+n5PWOPR3QPAZsFcFg1svXCZytOIGOhXqMMDnkhN+kAS+RQz702gHLDi5ZOkFaP+mN6cW1iB7WMfKl8xmjte4RJSveUYgOZMgEhR90NgJyDx40IAixfBY1ljLT2YFbHSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=Bl1bwWQZ; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp1.mailbox.org (smtp1.mailbox.org [IPv6:2001:67c:2050:b231:465::1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4cHGRP2Vjqz9tTZ;
+	Wed,  3 Sep 2025 23:47:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1756936033;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=w2/qBRLW8QwNWolmp5KZMKZxO0q6IN8ptMt6ovi4FOo=;
+	b=Bl1bwWQZc3N+nfL+h+CMEwn9kGZkUZgIovio+8CKKIi8KI8WxSeaT4pETNCkPY1wQg2Tpy
+	CkF2oNKUUKLSklNSwwbF2wa2gvx+gvUn+VfAQK2xt6eD24o4SrKx5XoESvdqbEbF3vO1YU
+	umkGvmqNf0eHjt3kstJBZmpKGHXKDBNt1I6NQcSAh6Qt3gnxiYKmx5oAU9WEEc5g1uJSs1
+	+yeaFgHsM3hOAjZ+8QXt6Oqld4U1kgWbY/DkTXOJ4w5nQ8uE6aT69l2lPqxQbi3cP37bba
+	8qgDIGNMlDTUUMsuKp5j+B9lG+XC7wYWWTyY2BI35hvObBWJwrOVFn+9dPyN/Q==
+Message-ID: <f03d0ae0-d28b-4b06-8f63-9d06f15c0522@mailbox.org>
+Date: Wed, 3 Sep 2025 23:47:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250825095107.1332313-47-sakari.ailus@linux.intel.com>
+Subject: Re: [PATCH v2 0/8] Add support for Wave6 video codec driver
+To: Nas Chung <nas.chung@chipsnmedia.com>, mchehab@kernel.org,
+ hverkuil@xs4all.nl, sebastian.fricke@collabora.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-imx@nxp.com,
+ jackson.lee@chipsnmedia.com, lafley.kim@chipsnmedia.com
+References: <20250422093119.595-1-nas.chung@chipsnmedia.com>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <20250422093119.595-1-nas.chung@chipsnmedia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-ID: 14d7dbf95193078b02e
+X-MBO-RS-META: ci7eu3bdapium5nw3s4r9au7fjchjxhb
 
-On Mon, Aug 25, 2025 at 12:50:47PM +0300, Sakari Ailus wrote:
-> Add a metadata layout for ov2740 camera sensor embedded data and document
-> it.
+On 4/22/25 11:31 AM, Nas Chung wrote:
+> This patch series introduces support for the Chips&Media Wave6 video
+> codec IP, a completely different hardware architecture compared to Wave5.
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Julien Massot <julien.massot@collabora.com>
-> ---
->  .../media/v4l/ext-ctrls-image-source.rst      |  3 +
->  .../media/v4l/metadata-layouts.rst            | 72 +++++++++++++++++++
->  include/uapi/linux/v4l2-controls.h            |  1 +
->  3 files changed, 76 insertions(+)
+> The wave6 driver is a M2M stateful encoder/decoder driver.
+> It supports various video formats, including H.264 and H.265,
+> for both encoding and decoding.
+> While other versions of the Wave6 IP may support VP9 decoding and
+> AV1 decoding and encoding those formats are not implemented or validated
+> in this driver at this time.
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> index 371c155a88f7..ced358d7c250 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> @@ -165,3 +165,6 @@ Image Source Control IDs
->      * - V4L2_METADATA_LAYOUT_CCS
->        - :ref:`CCS embedded data <media-metadata-layout-ccs>`
->        - 1
-> +    * - V4L2_METADATA_LAYOUT_OV2740
-> +      - :ref:`OV2740 embedded data <media-metadata-layout-ov2740>`
-> +      - 2
-> diff --git a/Documentation/userspace-api/media/v4l/metadata-layouts.rst b/Documentation/userspace-api/media/v4l/metadata-layouts.rst
-> index a4f7e93e6a29..e667148cc3cb 100644
-> --- a/Documentation/userspace-api/media/v4l/metadata-layouts.rst
-> +++ b/Documentation/userspace-api/media/v4l/metadata-layouts.rst
-> @@ -39,3 +39,75 @@ format" (code ``0xa``) but their use may be extended further in the future, to
->  cover other CCS embedded data format codes.
->  
->  Also see :ref:`CCS driver documentation <media-ccs-routes>`.
-> +
-> +.. _media-metadata-layout-ov2740:
-> +
-> +Omnivision OV2740 Embedded Data Layout (``V4L2_METADATA_LAYOUT_OV2740``)
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> +
-> +The Omnivision OV2740 camera sensor produces the following embedded data layout,
-> +indicated by ``V4L2_METADATA_LAYOUT_CCS`` metadata layout. The format conforms
+> On NXP i.MX SoCs, the Wave6 IP functionality is split between two regions:
+> VPU Control region, Manages shared resources such as firmware memory.
+> VPU Core region, Provides encoding and decoding capabilities.
+> The VPU core cannot operate independently without the VPU control region.
+> 
+> This driver has been tested with GStreamer on:
+> - NXP i.MX95 board
+> - pre-silicon FPGA environment
+> 
+> Test results for decoder fluster:
+> - JVT-AVC_V1, Ran 77/135 tests successfully              in 35.519 secs
+> - JVT-FR-EXT, Ran 25/69 tests successfully               in 17.725 secs
+> - JCT-VC-HEVC_V1, Ran 132/147 tests successfully         in 81.549 secs
+> - All failures are due to unsupported hardware features:
+> -- 10bit, Resolutions higher than 4K, FMO, MBAFF
+> -- Extended profile, Field encoding and High422 sreams.
+> 
+> Test results for v4l2-compliance:
+> v4l2-compliance 1.29.0-5359, 64 bits, 64-bit time_t
+> v4l2-compliance SHA: 2a91a869eb8a 2025-04-12 11:35:53
+> 
+> Compliance test for wave6-dec device /dev/video0:
+>                  fail: ../utils/v4l2-compliance/v4l2-test-controls.cpp(1180): !have_source_change || !have_eos
+>          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
+> Total for wave6-dec device /dev/video0: 48, Succeeded: 47, Failed: 1, Warnings: 0
+> 
+> Compliance test for wave6-enc device /dev/video1:
+>                  fail: ../utils/v4l2-compliance/v4l2-test-controls.cpp(1169): node->codec_mask & STATEFUL_ENCODER
+>          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
+> Total for wave6-enc device /dev/video1: 48, Succeeded: 47, Failed: 1, Warnings: 0
+> 
+> Note: the failures are all related with the eos event.
 
-s/V4L2_METADATA_LAYOUT_CCS/V4L2_METADATA_LAYOUT_OV2740/
+For what its worth, the whole series:
 
-> +to :ref:`CCS embedded data layout <media-metadata-layout-ccs>` up to level 1.
-> +
-> +.. flat-table:: Omnivision OV2740 Embedded Data Layout. Octets at indices marked
-> +                reserved or unused have been omitted from the table. The values
-> +                are big endian byte order.
-> +    :header-rows: 1
-> +
-> +    * - Offset
-> +      - Size in bits (active bits if not the same as size)
-> +      - Content description
-> +    * - 4
-> +      - 16 (10--0)
-> +      - Analogue gain
-> +    * - 6
-> +      - 16
-> +      - Coarse integration time
-> +    * - 10
-> +      - 8
-> +      - Dpc correction threshold
-
-s/Dpc/DPC/
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> +    * - 15
-> +      - 16
-> +      - Output image width
-> +    * - 17
-> +      - 16
-> +      - Output image height
-> +    * - 23
-> +      - 8
-> +      - MIPI header revision number (2)
-> +    * - 31
-> +      - 8
-> +      - Vertical (bit 1) and horizontal flip (bit 0)
-> +    * - 32
-> +      - 8
-> +      - Frame duration A
-> +    * - 33
-> +      - 8
-> +      - Frame duration B
-> +    * - 34
-> +      - 8
-> +      - Context count (2)
-> +    * - 35
-> +      - 8
-> +      - Context select
-> +    * - 54
-> +      - 8
-> +      - Data pedestal bits 9--2
-> +    * - 63
-> +      - 8
-> +      - Frame average bits 9--2
-> +    * - 64
-> +      - 16
-> +      - Digital gain red
-> +    * - 66
-> +      - 16
-> +      - Digital gain greenr
-> +    * - 68
-> +      - 16
-> +      - Digital gain blue
-> +    * - 70
-> +      - 16
-> +      - Digital gain greenb
-> +    * - 89
-> +      - 8
-> +      - Frame counter (starts at 1, wraps to 0 after 255)
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 51d43d4a3151..bac2fdcbd202 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -1244,6 +1244,7 @@ enum v4l2_jpeg_chroma_subsampling {
->  
->  #define V4L2_CID_METADATA_LAYOUT		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 12)
->  #define V4L2_METADATA_LAYOUT_CCS		1U
-> +#define V4L2_METADATA_LAYOUT_OV2740		2U
->  
->  
->  /* Image processing controls */
-
--- 
-Regards,
-
-Laurent Pinchart
+Tested-by: Marek Vasut <marek.vasut@mailbox.org> # NXP i.MX95 rev. A0
 
