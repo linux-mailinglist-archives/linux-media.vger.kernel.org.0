@@ -1,177 +1,185 @@
-Return-Path: <linux-media+bounces-41678-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41679-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF73AB4201A
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 14:54:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BEBEB42037
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 15:02:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5EA0C3B4459
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 12:53:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6493C1BA5D70
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 13:02:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BA56302CD0;
-	Wed,  3 Sep 2025 12:51:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A235230102A;
+	Wed,  3 Sep 2025 13:00:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="j00Rlx9R"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u3/jVWRA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C17301001
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 12:51:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE5B19C569
+	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 13:00:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756903914; cv=none; b=EUrmIJfISvHzMtUhkUdXF5ps1hGNh/vhGueWGOGBaDXIYJ0tgF69N+ue1aMlshVRBMz0dklhUd4GrHX6cNKlsHGDnVSUIbQIDH/kB/0ABZ8l6YvktNQCeStCVHVx2hZv7haJMjjo4QSBDBmdf+ONCHPxyNNqC9zu9sMNJazlDTA=
+	t=1756904442; cv=none; b=PC/9kDmRteXqoqY2pkw/709YYJ3UEnVSAo1WVJOpTRI248bEJzuA56D9rTe4Q4V0zcMje2u3c6vF9lIgdzCG8K9pLh2XjJEbIs3f9sNhJNYnBnwCX7ohgzAzzgan0eQOrwl+3gskMtGLFzqjZTXlw7wAsdHqT61LetDUTkU/Usg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756903914; c=relaxed/simple;
-	bh=AIKFtWlK7GYq5oSMffbje2ESCsIUc5V1H8t8dEEMHJc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=JmW3K548l6DC8jnJpEA3LZ0K6WzOUu5fjChCfWRRSITTne/eCsUo56wOS52L9OJCvWMda8x+NY/5SOpA7De0xPfx8yimwCUUd8Q24ofwhRDWAk8V+wQZU3xXEPJ/+ci7YeQMwRuFWCKKEfu0Zk575GVSanzm2rRtbLSqkzeVkbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=j00Rlx9R; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4b109c482c8so115285001cf.3
-        for <linux-media@vger.kernel.org>; Wed, 03 Sep 2025 05:51:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1756903911; x=1757508711; darn=vger.kernel.org;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=AIKFtWlK7GYq5oSMffbje2ESCsIUc5V1H8t8dEEMHJc=;
-        b=j00Rlx9RLaE1YxzYMYw7HwIAs0Dn2BbGEAkIVylIsV9SAFpWSbjZnfwMdQpqzZNyuV
-         oEq/yMdij3xx5CYm+UHnVyPp2aG/yB0RzMf1zs23yadxxexOyiHfebdgSKaYI03Qo3PA
-         VL8uXHJo3LzqzU1wmQ8REzGBa0WusTsFf4Q2027/cAipRktgq/5MSlGll1PDQ5VkANSS
-         JRUI0W51CrmMqPaTNPuS8DLF+TznqubDlbVLzOCeqCUoUwg5UiBOrkhrOVc+V9J7vZYW
-         4DxxONexdIcbqVK2aStZT1laO60IvLE3QiUHMr3/eJbeAXiUw3jzoEpXdHg4pwIYmLFR
-         FlYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756903911; x=1757508711;
-        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
-         :from:subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AIKFtWlK7GYq5oSMffbje2ESCsIUc5V1H8t8dEEMHJc=;
-        b=BphXZdA6NdniHVIgA4ycuPAQ6EV0UsmLOGAuq9r0hyytUb9kqWc+z4KXwWUqxo3MP8
-         vPKAs1+A8FbbYL1Uob8oLEYwqQChrx8yMuY7J/gado/pHxM/obvHYsGZfe3eLKedEqoj
-         Rjl2Vo0vryHEfsaBGFMMZ1wZ6udpRV1/IgoJfZxGf89nF3p/MkTxaOAgkw4vUyCiVgEa
-         h+bS7WtqpPkSNISl87NI9Huzlp0+Bw1yQCDX7PS4+CcvhAX1JF4Eu6rWjhQY0OZKwh/Y
-         U0tSbUEh3S5ahr+PEFc0YQbCqdcmTj1VCM8LKJnK4Wy57F4ZwrXNY+iOPhpFLZghMLzr
-         ImSQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUZhdtY3gYM0A1LgXk6ru+3X9RHYX1P9tpDBwm3C/Gzic/wrn8Ljzgp3enYqI09SLs2hp08wHbUB/u6SQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxiyMFBr2dZ779WreJbsPdIe3SGvZGTIqVslZ6QKw6PAvFtAOPr
-	Khzw9eCxOui512l3H6FXugaO7qLu6rtErcME5Z5KXqqoVXkxe5mSUg0Bf1ZHE3w7RDs=
-X-Gm-Gg: ASbGncsid8UdCGO49A9+V/OXyC7Im08TJUlLmtV0fVqHIuL155PAKByCaT6E8SMKc32
-	hvt5RlAHLrH61zMnxdGFOQiDuS5w/zuV09FKi0kkUgljscIsh0v8rkvXI1t//uTHLXvfuqjfw0C
-	JGRmlNX7XuSf1e0Cn7s09CoHVgr06/11gLW12zbwtyckY03pQvk5tPncEQrJ4ko1T9OTZ5qonSW
-	iWoGTBh0ZfJ8xadkhNtGAYbfzI86CC85x+m/OoZN8Ipp5UMrV5tsIAPVSWJOKLQWoM6wyOHgs1f
-	QLcp8u1RQytR8wbbusqs6Zidlhq6WRZlTK2LukLGJ+011h8jNX5ct+HEWg5bmWhzu8iH3sjBBbi
-	TMolXVyl/VNdk9LzfoB2P4m43qqQ=
-X-Google-Smtp-Source: AGHT+IE72v8aFSokPKeCW+j5I/H9PRUxg3lIUX4jhYLcoDzr0VzT7udk6OxKSXEObKTn7EUimLGAsg==
-X-Received: by 2002:a05:622a:c3:b0:4b4:3788:baae with SMTP id d75a77b69052e-4b43788cbc6mr44528761cf.43.1756903911203;
-        Wed, 03 Sep 2025 05:51:51 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:11:5a76::5ac? ([2606:6d00:11:5a76::5ac])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b48f501690sm11289281cf.0.2025.09.03.05.51.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 05:51:50 -0700 (PDT)
-Message-ID: <78b80e3bc761eee2151a32af8b7f1a782fa5e500.camel@ndufresne.ca>
-Subject: Re: [PATCH] .mailmap: update Vikash Garodia's email addresses
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Vikash Garodia <quic_vgarodia@quicinc.com>, Krzysztof Kozlowski
-	 <krzk@kernel.org>, linux-media@vger.kernel.org
-Cc: vikash.garodia@oss.qualcomm.com
-Date: Wed, 03 Sep 2025 08:51:48 -0400
-In-Reply-To: <b60f364e-3aeb-7e01-d03e-b7ec8eed1a42@quicinc.com>
-References: <20250902152224.1150300-1-quic_vgarodia@quicinc.com>
-	 <de89f325-0e4c-4040-a7ae-fd36d3e4a177@kernel.org>
-	 <b60f364e-3aeb-7e01-d03e-b7ec8eed1a42@quicinc.com>
-Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-YMMHO9Yvb4q6LHa/9hL4"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	s=arc-20240116; t=1756904442; c=relaxed/simple;
+	bh=pO+260DbGixKaoTb9dn9C42PA5iGOQ141yu21b8cKAA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SHvS3VYi1225yWKaBPv/ssXr1WJsjZngFOpcM0PE/9damF1C1Ydfe8yvucA8IzLg1pmBWQKw4XVz/5730apx9IRlJ2LsULRkrwGEJFCmxsC+q57/h+XA787R+T2w/G8i+FdntWq3Q++hIZghYyP3Rp74rcZ3lbIuQ7dJmi9JLuM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=u3/jVWRA; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C2AA88FA;
+	Wed,  3 Sep 2025 14:59:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1756904369;
+	bh=pO+260DbGixKaoTb9dn9C42PA5iGOQ141yu21b8cKAA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=u3/jVWRA61kmYRpymYncqDv34ZMLjme9afVHbjZQuEg00/4wBFh8dR2nm5IvHlpN8
+	 OQ6UUJdZ56o8FAUe+ZydnNdKceo1f/jU1aYzJK1BD01JzPfg+yHdhcMoHZU2qcZ9aX
+	 jFBZyw0sABKU8uHc8yXqOGRrMrXhsHIEZWQQDFYM=
+Date: Wed, 3 Sep 2025 15:00:18 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 01/66] media: Documentation: Clean up figure titles
+Message-ID: <20250903130018.GC3648@pendragon.ideasonboard.com>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-2-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250825095107.1332313-2-sakari.ailus@linux.intel.com>
 
+Hi Sakari,
 
---=-YMMHO9Yvb4q6LHa/9hL4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Thank you for the patch.
 
-Hi,
+On Mon, Aug 25, 2025 at 12:50:02PM +0300, Sakari Ailus wrote:
+> Remove DocBook (?) conversion leftovers from figure titles, including
+> obsolete numbering and highlighting. This aligns these titles with others.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Le mercredi 03 septembre 2025 =C3=A0 17:54 +0530, Vikash Garodia a =C3=A9cr=
-it=C2=A0:
->=20
-> On 9/3/2025 12:56 AM, Krzysztof Kozlowski wrote:
-> > On 02/09/2025 17:22, Vikash Garodia wrote:
-> > > Add vikash.garodia@oss.qualcomm.com=C2=A0as the main address for upst=
-ream
-> > > work.
-> > >=20
-> > > Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-> > > Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
-> >=20
-> > That's the same person. SoB does not mean any rights to an email, but
-> > DCO. Please read submitting patches about meaning of SoB and drop the
-> > first fake SoB.
->=20
-> I referred this [1], at the same time, i find your point valid given its
-> basically represents an identity, which remains same irrespective of mult=
-iple
-> email IDs.
->=20
-> [1]
-> https://lore.kernel.org/linux-media/fb481f2d-d230-4869-9cc2-6f56e75f92a2@=
-xs4all.nl/
->=20
-> >=20
-> > Subject - it's mailmap, not mailmap,=20
->=20
-> What are you trying to say here "its mailmap, not mailmap" ?
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-My guess, and since I also prefer it this way, would be to drop the leading=
- dot
-in the subject, quite cosmetic preference, but I believe this is what the
-comment was about. ".mailmap -> mailmap"
+> ---
+>  Documentation/userspace-api/media/v4l/dev-raw-vbi.rst    | 6 +++---
+>  Documentation/userspace-api/media/v4l/dev-subdev.rst     | 6 +++---
+>  Documentation/userspace-api/media/v4l/subdev-formats.rst | 2 +-
+>  3 files changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst b/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
+> index 2bec20d87928..1f7bb8fd15e7 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
+> @@ -221,7 +221,7 @@ and always returns default parameters as :ref:`VIDIOC_G_FMT <VIDIOC_G_FMT>` does
+>      :alt:   vbi_hsync.svg
+>      :align: center
+>  
+> -    **Figure 4.1. Line synchronization**
+> +    Line synchronization
+>  
+>  .. _vbi-525:
+>  
+> @@ -229,7 +229,7 @@ and always returns default parameters as :ref:`VIDIOC_G_FMT <VIDIOC_G_FMT>` does
+>      :alt:   vbi_525.svg
+>      :align: center
+>  
+> -    **Figure 4.2. ITU-R 525 line numbering (M/NTSC and M/PAL)**
+> +    ITU-R 525 line numbering (M/NTSC and M/PAL)
+>  
+>  .. _vbi-625:
+>  
+> @@ -237,7 +237,7 @@ and always returns default parameters as :ref:`VIDIOC_G_FMT <VIDIOC_G_FMT>` does
+>      :alt:   vbi_625.svg
+>      :align: center
+>  
+> -    **Figure 4.3. ITU-R 625 line numbering**
+> +    ITU-R 625 line numbering
+>  
+>  Remember the VBI image format depends on the selected video standard,
+>  therefore the application must choose a new standard or query the
+> diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> index 225a45fef994..24a69c419dfe 100644
+> --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> @@ -459,7 +459,7 @@ selection will refer to the sink pad format dimensions instead.
+>      :alt:   subdev-image-processing-crop.svg
+>      :align: center
+>  
+> -    **Figure 4.5. Image processing in subdevs: simple crop example**
+> +    Image processing in subdevs: simple crop example
+>  
+>  In the above example, the subdev supports cropping on its sink pad. To
+>  configure it, the user sets the media bus format on the subdev's sink
+> @@ -476,7 +476,7 @@ pad.
+>      :alt:   subdev-image-processing-scaling-multi-source.svg
+>      :align: center
+>  
+> -    **Figure 4.6. Image processing in subdevs: scaling with multiple sources**
+> +    Image processing in subdevs: scaling with multiple sources
+>  
+>  In this example, the subdev is capable of first cropping, then scaling
+>  and finally cropping for two source pads individually from the resulting
+> @@ -492,7 +492,7 @@ an area at location specified by the source crop rectangle from it.
+>      :alt:    subdev-image-processing-full.svg
+>      :align:  center
+>  
+> -    **Figure 4.7. Image processing in subdevs: scaling and composition with multiple sinks and sources**
+> +    Image processing in subdevs: scaling and composition with multiple sinks and sources
+>  
+>  The subdev driver supports two sink pads and two source pads. The images
+>  from both of the sink pads are individually cropped, then scaled and
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index 2a94371448dc..9ef1bc22ad9c 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -2631,7 +2631,7 @@ be named ``MEDIA_BUS_FMT_SRGGB10_2X8_PADHI_LE``.
+>      :alt:    bayer.svg
+>      :align:  center
+>  
+> -    **Figure 4.8 Bayer Patterns**
+> +    Bayer Patterns
+>  
+>  The following table lists existing packed Bayer formats. The data
+>  organization is given as an example for the first pixel only.
 
-regards,
-Nicolas
+-- 
+Regards,
 
->=20
-> > but more important - MAINTAINERS
-> > patch should be squashed here.
->=20
-> I was planning to do it separately, but i agree its even better to update
-> MAINTAINERS alongwith this.
->=20
-> Regards,
-> Vikash
-
---=-YMMHO9Yvb4q6LHa/9hL4
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaLg55QAKCRDZQZRRKWBy
-9E23AP9uxXuhj6wIQTKfXjvP1QE55j4Z81pfP+3CGzl/HBFIAwD8Dh27hEts5q8r
-J9OdeuMxQH0NBQuAPybw5JV+NrDyEgo=
-=VynR
------END PGP SIGNATURE-----
-
---=-YMMHO9Yvb4q6LHa/9hL4--
+Laurent Pinchart
 
