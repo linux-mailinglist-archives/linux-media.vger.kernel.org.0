@@ -1,175 +1,132 @@
-Return-Path: <linux-media+bounces-41689-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41690-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D36EB421E8
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 15:37:31 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EB00B421F2
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 15:38:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C70F93AF63A
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 13:37:29 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 484057BBD50
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 13:36:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EAF43090EE;
-	Wed,  3 Sep 2025 13:37:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77C70309DA1;
+	Wed,  3 Sep 2025 13:37:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UXNjDwhA"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DfKs6bwJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D5B304967
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 13:37:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC092EACE2;
+	Wed,  3 Sep 2025 13:37:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756906643; cv=none; b=iHD1Hqc1IKQgdO4l8qB8HfBagV3rRDfQmRkfCZbTnQV6T20gwRI8WGM9iZknNuSdPO+iG5e9BdH7RI4c+dSR6806mEHqW8iKh8VTU2AMy4G63zx37apbZaP8v8yHxvlgE7cEdk+2dARNSZw1QB7NQWidt50gyFhCuCbb2DtkbZo=
+	t=1756906661; cv=none; b=CMKS8k080mqm+O8nZXrLqLCDNcsoLKfohAtB4ZR/JinYuun5vFrsY8LXu9TLDxQL2vt7UMUf8N6B5AQZ2oaiHT1Htp/urzbUhZyanIgt4A55yk963ehK5FGZkWQbn0ookDIhFHNDEHKV7dfk6BSQcP2YncQhYZY3Jpwal7WkP8w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756906643; c=relaxed/simple;
-	bh=T7FAN4SHbYqtgL0WjoYQ/wEypjs8GeCEfrJ25RL08vw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ME6EhtegjlbjENhzqpqU/cqldMKMrbCnDTmD7NLkkHGE7ouvS7KcA8rar05BfGJdUCYtaHHjLqvzhMvo+5QyHJB4Gmnodh0wVSvUBYXObLdHv+mZT9pOeHh+/zKdA68dSSz7fPi2sdia7431PeekHh0sxQTXG+/cjecNDToBHhM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UXNjDwhA; arc=none smtp.client-ip=198.175.65.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756906642; x=1788442642;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=T7FAN4SHbYqtgL0WjoYQ/wEypjs8GeCEfrJ25RL08vw=;
-  b=UXNjDwhAoO9ObJjmmmLqkeT83MY1LZzz7GnbhNT6Q/ybepYMssmlPQlH
-   p4au6PenYTOn+abJBfKCpXCnB587aIHTV3llziNM9TzEKDG21MULLLWE9
-   SCSKZXgS2Y4FX5i+H/L4S8ITRtxfdq4Ur75bDHnV7w8wToV8ybh8FDWzR
-   YyHafeZG1H2kWk9BGuAJ7r7cV4Ck1MKaYjsOy/KrS8AAk0R5V3gnnjF8b
-   gbgQLaokhL6+GxH9LXweZ7HYZP1xCnT+n1d6P76CC4cLH5mODfRzW0yqV
-   l3w5ksg+nxnp8A2uFfeWpVJufV7wZ3vxF1JZ5Z8yGz2SfTS5Kg9P8BquW
-   Q==;
-X-CSE-ConnectionGUID: 1xGccne4T7KaZwubUa1B4A==
-X-CSE-MsgGUID: 9IJJ8CtrTsKO6ABriDvXLg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="70318780"
-X-IronPort-AV: E=Sophos;i="6.18,235,1751266800"; 
-   d="scan'208";a="70318780"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 06:37:21 -0700
-X-CSE-ConnectionGUID: Pwf+DWhAR/qlhG2f89e0Gw==
-X-CSE-MsgGUID: O9AGnATSQ8amdGuV1HfCsQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,235,1751266800"; 
-   d="scan'208";a="171153492"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.204])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 06:37:15 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 93CAB11F99F;
-	Wed, 03 Sep 2025 16:37:12 +0300 (EEST)
-Date: Wed, 3 Sep 2025 16:37:12 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 26/66] media: Documentation: Document embedded data
- guidelines for camera sensors
-Message-ID: <aLhEiMQSp23ZCffK@kekkonen.localdomain>
-References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-27-sakari.ailus@linux.intel.com>
- <wsa4s2ele6nejp5jcca5ny44oerwxdnyjn2ggxu6e2x5yqlm4g@vihn6rrtdnkg>
+	s=arc-20240116; t=1756906661; c=relaxed/simple;
+	bh=4Pv/lZEmRfsRDnM/wSl9bsAh9CeiyqAEPN2KUA1IfR8=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=knFOwwrS/18T/zJIkOO4u/78uKBlgllsW8bPLP5gKxt7T/TNEsKLx9acMov/1VJEVyAUzASxGxEywMbLrx7QbrKFe8uS2UXRtY6kua8tQpPtlglJj5087AbzjuVqTiKGptQWx7QrRJ0Z593fmiw1yRewdmrMcA2mgYFZCxvCRhU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DfKs6bwJ; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-24a9cc916b3so36962525ad.0;
+        Wed, 03 Sep 2025 06:37:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756906659; x=1757511459; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=j0IPIvNKxRX3PZ8lrrWw+UHXMJcK73G3kVKGuC4cM1o=;
+        b=DfKs6bwJkfyX+MH4pxXtcjOG53XUyaKhXkoq9lExEPK6Kf2FI/PsuGdZSw3lSEUhCg
+         Is2pe459S1kKCHjqYuK6RHmqsw0S6hXNWtHIwls9Rjvg18dfF7VxSnirJUL2eECnO0u2
+         ZCZENTJD8K79PaIzSXRqbnDvCDcuiPx1xbsj7pnIlSULhQt6Paq088JbbTpg6EhVTXDn
+         QiYlijyKfWhdGemMf9NGX1lgA7i2KzDcF5NaTOvSosDwMfBlZaVM2kR02xMFq6BWI0Kr
+         ZxlC+Q1iepgRmJ0uJZM96rDdhpZHYW5B3WmFi4z64gmCW6LZ7rX51czXLyYVvGIsWT2O
+         /fBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756906659; x=1757511459;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=j0IPIvNKxRX3PZ8lrrWw+UHXMJcK73G3kVKGuC4cM1o=;
+        b=trUOZnFcuRkEjxvSs2MN5Q8138MFGF0esZd1oUq8fibvFeOWXfsOhAOGrkaAS8Lrrf
+         L4duJgv4S2BOKKXyA6I/H+QpV25VUAQt/PmZ79I/JSsEk9bxstN24cqf9ex0FjJRmkVP
+         wQJQJB9uzzvpwU4cg/9+3VqJKMLCGqpdDnQ3zAf4zxm1EnBBAOcDkkWjoBWBo61Rlkv7
+         RMVLukIxqZT9NPgVMRC3RZAnRR4A2i6sOcf2OcjJVMhB/b1FKoH/6GAlTVOJ//oAm7JB
+         F0KcBXOkeqNUPOcl/HUmwjIV+47ZREwQIMzFZ0FJutQ7iMN3b2AtUrYngkZboHyG3wHA
+         mTPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV9ENQ9QAfF0Ehz/UX7zIAWBg5+XW076YzBRjUJjHbdHPncS9tIDwC+Qkzgk7bN44MDSRTTd2xTFrnE3uDmxe1l07A=@vger.kernel.org, AJvYcCVZv815wdiT8roUtwQSVHVWjm2QZ5w4VP2KLlEJATTS5Frs4xUI7XYVcO1M3FlE0/SxZsivXYq2c9znEnk=@vger.kernel.org, AJvYcCXP/p5DTFQNJMWw1BiND/C9RVxawkQBxCCLtVTi9AkU8SQLY0nxvvKQVknGfLxZlHXcSNb63bf6@vger.kernel.org, AJvYcCXnW0qmWGL+HCahHpbLhnWmUryEqdnhp4jI+7cL1c/cbDBb9CYWg/N/pMZpVvdhVatxAitPHGq87Ybf9KU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9qio5D86UdaLbo21knMfeMGT9BOVbyJTLQ4/c/njYhPH/L0NT
+	jhs7hhT5ENGPqKBDR8gydyL34kUTkE4tqClqi9Zie0xkBdDKCJNr//6K
+X-Gm-Gg: ASbGncuTYmZGoInsLESgTT+yB9gtz5bU1jorVzdhIJ75ZWX5UFuap/uqsKEe52VNrRV
+	fyTWJ9xCWuXIrR4LYiPfO4d4/otZ8q4h+xWelPWQoIMCd6smFTSHREsh43e5P94K6U8qv2P+QJq
+	hjvR4V5K4i07wP+VUuzpEGc0J36KS/00Vtgt7gcjNiohAQglKITYL4CdHSEGp8hXv6HD7YUwC68
+	aV7i0pkVF5z1+FglronqUMflLb4BFbqtW/pM6F1R0E4mHJ2DCNpG9wDqefLgjxKGG4yv3tzQSDG
+	AXu0iUVxpdV1Lfi/gFjUAz5IOgzlMXD/GS7YLZ7e9v1hzBsLMkgfZb1X8gFYQsCCXmA9k4bT1vv
+	p0dM3Y1xKeKZIE+feCDKVvJNHbvAtgI0LhwNBe5C24hUJVmgvN/hyWCvbKMhHUTj5gDpfWwd1K0
+	c3B+pEvEpQLpQEmfNnb2t+ovXqrTpxbiPqOjeM28Sv6ojJ/i4l4rm27KxU
+X-Google-Smtp-Source: AGHT+IE3ddf9hK7F0KaN7V3DmayhHVnNCIX3cwwbaTIxo3HIL3JNiS8r9JtynDMZISXdX38A9mDSzA==
+X-Received: by 2002:a17:902:d4d2:b0:24a:8d33:96da with SMTP id d9443c01a7336-24a8d339826mr201854925ad.40.1756906658477;
+        Wed, 03 Sep 2025 06:37:38 -0700 (PDT)
+Received: from vickymqlin-1vvu545oca.codev-2.svc.cluster.local ([14.116.239.35])
+        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-24c9e39094dsm16152645ad.84.2025.09.03.06.37.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Sep 2025 06:37:38 -0700 (PDT)
+From: Miaoqian Lin <linmq006@gmail.com>
+To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	linux-media@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: linmq006@gmail.com,
+	stable@vger.kernel.org
+Subject: [PATCH] media: renesas: rcar_drif: fix device node reference leak in rcar_drif_bond_enabled
+Date: Wed,  3 Sep 2025 21:37:29 +0800
+Message-Id: <20250903133729.2523130-1-linmq006@gmail.com>
+X-Mailer: git-send-email 2.35.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <wsa4s2ele6nejp5jcca5ny44oerwxdnyjn2ggxu6e2x5yqlm4g@vihn6rrtdnkg>
+Content-Transfer-Encoding: 8bit
 
-Hi Jacopo,
+The function calls of_parse_phandle() which returns
+a device node with an incremented reference count. When the bonded device
+is not available, the function
+returns NULL without releasing the reference, causing a reference leak.
 
-On Mon, Sep 01, 2025 at 06:42:33PM +0200, Jacopo Mondi wrote:
-> Hi Sakari
-> 
-> On Mon, Aug 25, 2025 at 12:50:27PM +0300, Sakari Ailus wrote:
-> > Document how embedded data support should be implemented for camera
-> > sensors, and when and how CCS embedded data layout should be referenced.
-> >
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Julien Massot <julien.massot@collabora.com>
-> > ---
-> >  .../media/drivers/camera-sensor.rst           | 20 +++++++++++++++++++
-> >  1 file changed, 20 insertions(+)
-> >
-> > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > index a8e0e4accbc9..a719c6f88f11 100644
-> > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > @@ -117,3 +117,23 @@ register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
-> >  values programmed by the register sequences. The default values of these
-> >  controls shall be 0 (disabled). Especially these controls shall not be inverted,
-> >  independently of the sensor's mounting rotation.
-> > +
-> > +Embedded data
-> > +-------------
-> > +
-> > +Many sensors, mostly raw sensors, support embedded data which is used to convey
-> > +the sensor configuration for the captured frame back to the host. While CSI-2 is
-> > +the most common data interface used by such sensors, embedded data can be
-> > +available on other interfaces as well.
-> > +
-> > +Embedded data support is indicated by the presence of an internal sink pad (pad
-> > +that has both the ``MEDIA_PAD_FL_SINK <MEDIA-PAD-FL-SINK>`` and
-> > +``MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`` flags set) with a metadata
-> 
-> These are rendered as verbatim text, not links
+Add of_node_put(np) to release the device node reference.
+The of_node_put function handles NULL pointers.
 
-Will fix for v12.
+Found through static analysis by reviewing the doc of of_parse_phandle()
+and cross-checking its usage patterns across the codebase.
 
-> 
-> > +format to model the embedded data stream. If the sub-device driver supports
-> > +disabling embedded data, this can be done by disabling the embedded data route
-> > +via the ``VIDIOC_SUBDEV_S_ROUTING`` IOCTL.
-> > +
-> > +In general, changing the embedded data layout from the driver-configured values
-> > +is not supported. The height of the metadata is device-specific and the width
-> > +is that (or less of that) of the image width, as configured on the pixel data
-> 
-> s/is that (or less of that) of/is the same (or smaller) than/
-> 
-> reads better in my possibily broke English
+Fixes: 7625ee981af1 ("[media] media: platform: rcar_drif: Add DRIF support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+---
+ drivers/media/platform/renesas/rcar_drif.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-How about:
-
-The height of the metadata is device-specific and equal to or less than the
-image width, as configured on the pixel data stream.
-
-> With the links fixed
-> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Thank you.
-
+diff --git a/drivers/media/platform/renesas/rcar_drif.c b/drivers/media/platform/renesas/rcar_drif.c
+index fc8b6bbef793..c5d676eb1091 100644
+--- a/drivers/media/platform/renesas/rcar_drif.c
++++ b/drivers/media/platform/renesas/rcar_drif.c
+@@ -1246,6 +1246,7 @@ static struct device_node *rcar_drif_bond_enabled(struct platform_device *p)
+ 	if (np && of_device_is_available(np))
+ 		return np;
+ 
++	of_node_put(np);
+ 	return NULL;
+ }
+ 
 -- 
-Sakari Ailus
+2.35.1
+
 
