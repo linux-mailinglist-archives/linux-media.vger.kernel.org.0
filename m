@@ -1,149 +1,152 @@
-Return-Path: <linux-media+bounces-41697-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41698-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 137EFB42311
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 16:07:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13BAEB4232B
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 16:10:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BE402206550
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 14:05:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8DF4E3A35E1
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 14:10:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDDC3310650;
-	Wed,  3 Sep 2025 14:05:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CAAF302CB6;
+	Wed,  3 Sep 2025 14:09:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="s6A0lRSQ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="dMx18jOP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38ED330E85F
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 14:05:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 160AB2FE587
+	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 14:09:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756908316; cv=none; b=DM7BKb6U7ahI2gqf5VazPbO8oH9GgDAKxip8s53EcGG2zAkq2u26KLcb52Y7GErSqwrgLolhJMGOVk/jwFoUxT/kEf15Z1aBDbXpie00BNdL/n88aet5acmS0VuSbbicSQSGWtCUtoeqbLvxI+JG57/rl1d41f/0+I7+zRtgD20=
+	t=1756908597; cv=none; b=naQ1L2e4v39Z/ZpstebU7AY/j/OdXSRe7i2EidL1CKvTcL2OKQRy0nMeWnKU2+3puarcSTmvagmCGF8B2StAueN1vU8rfsbakCTL3Feys9Tivoi7l1T0vxUTXWFXLreXHGJrUiXyPHMJxg1f5BFvLElcxiD+swXxg2a4XZznuyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756908316; c=relaxed/simple;
-	bh=p1lxtpJ7TjvFoHPJ/hZ3029ZCfEe68+gdc5pXFuSGH8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PXyTsoK8BH/vZqHrNfSOXgmcm4jqkieSIPOLcKSmdbgStQhCalas/2VlL10Ka8Sz5xrQCGx0pc6zCrlrwwZtaEaE9ugqUkcN2CehfB3dDK51QNSRJs3ZXllzjEsyLKn3UJK86gFmnWxd1reXiMYmFPjhkeAcKb4ExeKXDtTFLfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=s6A0lRSQ; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3df15fdf0caso385215f8f.0
-        for <linux-media@vger.kernel.org>; Wed, 03 Sep 2025 07:05:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756908312; x=1757513112; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QK1Plguf59MohKiPDL9B9tJ9p4M4VouT3+3TgzQ44t8=;
-        b=s6A0lRSQEJ90tneUCy4zUGJz3L2E5jUu9WsMzIfv6g50o0+H8hjACes/xhJphVACrJ
-         wY1XRLApmYh3RopjnhuBLvNY3qAYVViMH8S4T2lxPJTesKnZsjZiSxvGQlqw6MOLlZAd
-         spHHgGYKFIqxBJXUa814BPmEowiwB6LyLnJmS5ReefQgeKwgRzD8qZY3cALUKn3qHYc1
-         fBwZboS/iNUwRVy51FHS0tecA5Tr0p5Fi/fZEynI2SpJpN940MLe/WzIso3NlGan5fXc
-         yPpYUIvYfnSNLVtFdXcWmJv1TshOwEhfJDkJobAuuFhJkRNvIxBDQSqsMlkOBGZnZn7s
-         RHzQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756908312; x=1757513112;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QK1Plguf59MohKiPDL9B9tJ9p4M4VouT3+3TgzQ44t8=;
-        b=KaB2SW5qt+NCLap7McAAUJPqEpNIdHA5nQSz7MATyb5ydbWiSdsKqkutv1jRB1NId+
-         FoHwac8QJbvZy094GjnHaX2YJSNxdilVQGZV8BJkoKv9hlznQImBQzfRqOweeeZQ4kxM
-         +zbK+5QUfvjxJrqaS4ClHSovgoXKpgtEJux93LvOJIMYFfzo0PNG/jaYmjDAUvNAsWae
-         aWKqURQoWObL6+GQEUH8Tf0umnE43fSmOfFK6dTuc604Q04txkAfal2BkgfgIneSK3nS
-         4KF/MM0qQeZKrj7OoPCy+a9Dr2KUy3cFqB0aazzyIKx3ALVc0nYNdFz8ZJ47Yugmgv5J
-         OxQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUdgu9L4qkptCR6VSTEQEIH4jP6xHoWVgDb4wrjKZXlN2reT/Re9ES8gHqNOXwmxmfh9I4nag0IC4E6nQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPL9yoMq2YjVeFZ8EIUoudCICIhq8LVhkDzCklvXh1bdRUXYrL
-	UdcjsoF3kE12qxjR8uZ7ulbuhTCos8NLF7EtV4YEECHG/ushFbSxnKBNmPH2Q3V4IwY=
-X-Gm-Gg: ASbGncs9341nbr7qLXOor3rGrp66vlzLt+xx9TODY8hRzdJURQNtDndRqHdTmZ41Zp9
-	JIKbtdPMXDNfzPUcg7sBFr6kW5Ry5QA8BubCZ2N1XY9RQ3WkmFEUHMcISa9CCo06saSrpbNni0s
-	DeChMjawxr4nM93/hkRkWJNSj3wFLc4IbKZ/zJhX4CJCpcfuoYtW0sReBqL6KZ77WwTU/+IT4tw
-	/tpbaqYygkEncTZBJQZlKWI6iehZBaszbgUphbtIzGalYrT33Uj92jNswykCQZ8aGM77yA8RA8u
-	JyyrpyG6KAZhg1ezu7TquB6nHkqdiDDSTYsnT5Oqgmdt2hgyF0m6WOwiGZG2tT5LE8znt4ahRxB
-	iQ1ThqzKfGB+mcxQ7Y5p4N0WNQjQv5jmyeAFOmMcAXGrc99wGYmTIzLlzSPGr+4QnxYP9Zr1Jd6
-	wM9fflRK1Jts/NMBKarIba+oZepQP6cA==
-X-Google-Smtp-Source: AGHT+IEZMZforlja2xX6xreLhIbpAVhCSknwT4/G7zI8fcA9TDR7jhhzcqogfHqvrdx3U1dTW1cIhg==
-X-Received: by 2002:a5d:5887:0:b0:3db:f9f7:df86 with SMTP id ffacd0b85a97d-3dbf9f7e8d7mr2886230f8f.61.1756908312422;
-        Wed, 03 Sep 2025 07:05:12 -0700 (PDT)
-Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b6f0c6fe5sm323422865e9.5.2025.09.03.07.05.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Sep 2025 07:05:11 -0700 (PDT)
-Message-ID: <680de02a-6592-40a6-b25c-4d8fa85c4e81@linaro.org>
-Date: Wed, 3 Sep 2025 15:05:09 +0100
+	s=arc-20240116; t=1756908597; c=relaxed/simple;
+	bh=dnJAevJFjjG27GAtPKxafCKPt8rLzruLRRhLXTV+wsA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H9zYjtBtG1guOqG4jCT+EgXFyQI31psPpcQo0cu8GNvBYsKKei0ErczsZ4RmobDGsttiPjPiWiOaQwXqafAgN2FLLFY11D3tqczPfgpKWVmgIy3jAESmTHOB05AzBzp0eF1hQe5RHv41ZinBUeRdHv19n9Nvoi5TbQW7gdNucyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=dMx18jOP; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756908596; x=1788444596;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=dnJAevJFjjG27GAtPKxafCKPt8rLzruLRRhLXTV+wsA=;
+  b=dMx18jOPS8cFna1urjBlQkmHjuD3Uxp/rvxflnE/k4YSp1T5wk/O2Ezv
+   PkE73WOoBG4fwqRqHACgAIvpKGz07/UE5jPbwKSdMFZ/qcCc/BW+3UHom
+   YWzYW7C+ZQrDOEuS6KVmI7dvyu8AOetijNlcSBV2A10HnXMbeebxnCLI3
+   QnLhGegimaZMDl+Kz38QAbel0ktltUCGigsqSddVgFcFjJ1DZN846X5Td
+   yE+wLU7IL9juYj1B586QdOwcRoEUMlj0c//2zF4WA5AkRJ1uCkZugsRlU
+   J98QOztf1UkdZjD6zkcY8BGWJMcFPwafH1rqSGqLnhKH/Sq4LkhlzQ6H9
+   w==;
+X-CSE-ConnectionGUID: howAYo2KRxiAHz2eMZcCyA==
+X-CSE-MsgGUID: 3rQDXTbyRFO87H+dAY2IDw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="69926468"
+X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
+   d="scan'208";a="69926468"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 07:09:49 -0700
+X-CSE-ConnectionGUID: Wo7gJUzhTqacPeHzBmFD0Q==
+X-CSE-MsgGUID: B7lb8r8WRmKD3mukuofgkw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
+   d="scan'208";a="195240269"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.204])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 07:09:41 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 0C43F11F99F;
+	Wed, 03 Sep 2025 17:09:38 +0300 (EEST)
+Date: Wed, 3 Sep 2025 17:09:37 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 03/66] media: Documentation: There are either
+ immutable or mutable routes
+Message-ID: <aLhMIXb34Iiv6gCL@kekkonen.localdomain>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-4-sakari.ailus@linux.intel.com>
+ <20250903132226.GE3648@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/11] Peripheral Image Loader support for Qualcomm
- SoCs running Linux host at EL2
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- linux-remoteproc@vger.kernel.org
-References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
- <660c2594-9a93-450e-9a2e-17ef6b4c696d@linaro.org>
- <20250820112242.usd4sdd3avxdlcas@hu-mojha-hyd.qualcomm.com>
- <f5582304-8f55-4c3b-b752-9cefa1e4df96@oss.qualcomm.com>
- <b5a0ad0d-ceba-40d3-a111-0831c4538cea@linaro.org>
- <2g3iwc2en6wh2ucrsth5ontzdwqr7tr6oplxjnfdjsy3lwyyfe@l76frwiadgru>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <2g3iwc2en6wh2ucrsth5ontzdwqr7tr6oplxjnfdjsy3lwyyfe@l76frwiadgru>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250903132226.GE3648@pendragon.ideasonboard.com>
 
-On 03/09/2025 15:02, Dmitry Baryshkov wrote:
-> On Wed, Sep 03, 2025 at 02:31:55PM +0100, Bryan O'Donoghue wrote:
->> On 03/09/2025 12:56, Konrad Dybcio wrote:
->>>> Can you try with this next-20250814 tag ?
->>> You sent it on the 19th, so it's in your best interest to run a quick
->>>
->>> git rebase --onto linux-next/master $(git describe --abbrev=0)
->>>
->>> and giving the series a prompt re-test before sending, because there might have
->>> been incompatible changes, whether ones that would prevent applying, or break
->>> things functionally
->>
->> I can't even find that tag next-20250814 closets thing is
+On Wed, Sep 03, 2025 at 03:22:26PM +0200, Laurent Pinchart wrote:
+> On Mon, Aug 25, 2025 at 12:50:04PM +0300, Sakari Ailus wrote:
+> > Document that each sub-device may have either immutable or mutable routes,
+> > not both of them.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  Documentation/userspace-api/media/v4l/dev-subdev.rst | 5 +++++
+> >  1 file changed, 5 insertions(+)
+> > 
+> > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > index f30a98a9cf78..4da67ee0b290 100644
+> > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > @@ -594,6 +594,11 @@ and user-created routes are fully replaced when ``VIDIOC_SUBDEV_S_ROUTING`` is
+> >  called on the sub-device. Such newly created routes have the device's default
+> >  configuration for format and selection rectangles.
+> >  
+> > +A sub-device may only have either immutable routes (routes that have
+> > +``V4L2_SUBDEV_ROUTE_FL_IMMUTABLE``) flag set or routes that are all user-created
 > 
-> https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tag/?h=next-20250814
+> ``V4L2_SUBDEV_ROUTE_FL_IMMUTABLE`` flag set) or routes that are all user-created
 > 
->>
->> | * \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \   00062ea01d35e - Merge tag
->> 'drm-xe-fixes-2025-08-14' of https://gitlab.freedesktop.org/drm/xe/kernel
->> into drm-fixes (3 weeks ago)
->>
->> but patch #9 in this series stubbornly won't apply to any SHA I've tried.
->>
->> meh
->>
->> ---
->> bod
+> > +or user-removable (routes that do not have ``V4L2_SUBDEV_ROUTE_FL_IMMUTABLE``
+> > +flag). This is subject to change in the future.
 > 
+> I'd add
+> 
+> Mixing immutable and non-immutable routes is not allowed.
+> 
+> between the two sentences.
+> 
+> But... that's actually not right. An immutable route is always active.
+> What we don't allow is combining driver-created "static" routes (as in
+> routes that can be disabled but can't be removed) and user-created
+> "dynamic" routes.
 
-ah..
+Indeed, this should be discussing the STATIC flag. The two aren't the same
+even though often set (or unset) in the same occasion.
 
-I fetched -stable
-
----
-bod
-
-
-
+-- 
+Sakari Ailus
 
