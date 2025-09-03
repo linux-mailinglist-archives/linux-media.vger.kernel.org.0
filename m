@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-41679-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41680-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BEBEB42037
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 15:02:11 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B144B42054
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 15:06:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6493C1BA5D70
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 13:02:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 27FEE1BA66D4
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 13:06:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A235230102A;
-	Wed,  3 Sep 2025 13:00:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 29BD93019CD;
+	Wed,  3 Sep 2025 13:01:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="u3/jVWRA"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="T7PbGXAB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE5B19C569
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 13:00:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF5AC30AAAE
+	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 13:01:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756904442; cv=none; b=PC/9kDmRteXqoqY2pkw/709YYJ3UEnVSAo1WVJOpTRI248bEJzuA56D9rTe4Q4V0zcMje2u3c6vF9lIgdzCG8K9pLh2XjJEbIs3f9sNhJNYnBnwCX7ohgzAzzgan0eQOrwl+3gskMtGLFzqjZTXlw7wAsdHqT61LetDUTkU/Usg=
+	t=1756904512; cv=none; b=ul/jeJNXKRMefskVfIyCU6tbIna7lMjAAj2Z5+J5BbdH5za2+NZv1854fylf08njtpMzhUuzKrWSbzVJvFPNEyReV0Gx6z6B03Pt52gjF+N+SF9IWIndtZUS0zTFZZ41U1zk4ZQ7jmgO7bDKDd21c5mMAUyT9bK87JWnM4aB1hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756904442; c=relaxed/simple;
-	bh=pO+260DbGixKaoTb9dn9C42PA5iGOQ141yu21b8cKAA=;
+	s=arc-20240116; t=1756904512; c=relaxed/simple;
+	bh=h6aIF1+CHEq+mBfZN3ZjBB90j0PrepZmYSmVkIPVYSI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SHvS3VYi1225yWKaBPv/ssXr1WJsjZngFOpcM0PE/9damF1C1Ydfe8yvucA8IzLg1pmBWQKw4XVz/5730apx9IRlJ2LsULRkrwGEJFCmxsC+q57/h+XA787R+T2w/G8i+FdntWq3Q++hIZghYyP3Rp74rcZ3lbIuQ7dJmi9JLuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=u3/jVWRA; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=LlA7Z0Z3ioqG9C8+PBGr/gJKEjAuw2oNHSztV97XYeZMEp8sC8PKFanJZksuYCjMX9wZAPLJ0/BwGl18WrU1AULSIPcyalmWr3aenIO7w0oge0MIORujpcR+GyDflOkOEWWvRJk4uHUlDjfvpLjh51TL3GEL/PgfUKUbclwmO1I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=T7PbGXAB; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C2AA88FA;
-	Wed,  3 Sep 2025 14:59:29 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A39F4982;
+	Wed,  3 Sep 2025 15:00:40 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756904369;
-	bh=pO+260DbGixKaoTb9dn9C42PA5iGOQ141yu21b8cKAA=;
+	s=mail; t=1756904440;
+	bh=h6aIF1+CHEq+mBfZN3ZjBB90j0PrepZmYSmVkIPVYSI=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=u3/jVWRA61kmYRpymYncqDv34ZMLjme9afVHbjZQuEg00/4wBFh8dR2nm5IvHlpN8
-	 OQ6UUJdZ56o8FAUe+ZydnNdKceo1f/jU1aYzJK1BD01JzPfg+yHdhcMoHZU2qcZ9aX
-	 jFBZyw0sABKU8uHc8yXqOGRrMrXhsHIEZWQQDFYM=
-Date: Wed, 3 Sep 2025 15:00:18 +0200
+	b=T7PbGXABFmQXqeD2J1WjcxluG/44OEQLJQa+ciG01ZAgKp8oHOnBCVrKMlMo/pBmU
+	 pAZp79uDRlquU5RTW8tkZuNdGtihRkQaXsjXHqolqFMuksVtEM5JjC4rCjou4AdRn7
+	 yn3qeeB8vhzn0r/0L1offJBSi3cA37O+TNwH7LkQ=
+Date: Wed, 3 Sep 2025 15:01:29 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
@@ -70,10 +70,11 @@ Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
 	Hans de Goede <hdegoede@redhat.com>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 01/66] media: Documentation: Clean up figure titles
-Message-ID: <20250903130018.GC3648@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v11 02/66] media: Documentation: Fix routing
+ documentation flag references
+Message-ID: <20250903130129.GD3648@pendragon.ideasonboard.com>
 References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-2-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-3-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,101 +83,47 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250825095107.1332313-2-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250825095107.1332313-3-sakari.ailus@linux.intel.com>
 
 Hi Sakari,
 
-Thank you for the patch.
-
-On Mon, Aug 25, 2025 at 12:50:02PM +0300, Sakari Ailus wrote:
-> Remove DocBook (?) conversion leftovers from figure titles, including
-> obsolete numbering and highlighting. This aligns these titles with others.
+On Mon, Aug 25, 2025 at 12:50:03PM +0300, Sakari Ailus wrote:
+> The routing flag indicating an active route is called
+> V4L2_SUBDEV_ROUTE_FL_ACTIVE, not V4L2_SUBDEV_STREAM_FL_ACTIVE. Fix this.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  Documentation/userspace-api/media/v4l/dev-raw-vbi.rst    | 6 +++---
->  Documentation/userspace-api/media/v4l/dev-subdev.rst     | 6 +++---
->  Documentation/userspace-api/media/v4l/subdev-formats.rst | 2 +-
->  3 files changed, 7 insertions(+), 7 deletions(-)
+>  Documentation/userspace-api/media/v4l/dev-subdev.rst | 11 +++++------
+>  1 file changed, 5 insertions(+), 6 deletions(-)
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst b/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
-> index 2bec20d87928..1f7bb8fd15e7 100644
-> --- a/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
-> +++ b/Documentation/userspace-api/media/v4l/dev-raw-vbi.rst
-> @@ -221,7 +221,7 @@ and always returns default parameters as :ref:`VIDIOC_G_FMT <VIDIOC_G_FMT>` does
->      :alt:   vbi_hsync.svg
->      :align: center
->  
-> -    **Figure 4.1. Line synchronization**
-> +    Line synchronization
->  
->  .. _vbi-525:
->  
-> @@ -229,7 +229,7 @@ and always returns default parameters as :ref:`VIDIOC_G_FMT <VIDIOC_G_FMT>` does
->      :alt:   vbi_525.svg
->      :align: center
->  
-> -    **Figure 4.2. ITU-R 525 line numbering (M/NTSC and M/PAL)**
-> +    ITU-R 525 line numbering (M/NTSC and M/PAL)
->  
->  .. _vbi-625:
->  
-> @@ -237,7 +237,7 @@ and always returns default parameters as :ref:`VIDIOC_G_FMT <VIDIOC_G_FMT>` does
->      :alt:   vbi_625.svg
->      :align: center
->  
-> -    **Figure 4.3. ITU-R 625 line numbering**
-> +    ITU-R 625 line numbering
->  
->  Remember the VBI image format depends on the selected video standard,
->  therefore the application must choose a new standard or query the
 > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> index 225a45fef994..24a69c419dfe 100644
+> index 24a69c419dfe..f30a98a9cf78 100644
 > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
 > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> @@ -459,7 +459,7 @@ selection will refer to the sink pad format dimensions instead.
->      :alt:   subdev-image-processing-crop.svg
->      :align: center
+> @@ -577,15 +577,14 @@ Device types and routing setup
 >  
-> -    **Figure 4.5. Image processing in subdevs: simple crop example**
-> +    Image processing in subdevs: simple crop example
+>  Different kinds of sub-devices have differing behaviour for route activation,
+>  depending on the hardware. In all cases, however, only routes that have the
+> -``V4L2_SUBDEV_STREAM_FL_ACTIVE`` flag set are active.
+> +``V4L2_SUBDEV_ROUTE_FL_ACTIVE`` flag set are active.
 >  
->  In the above example, the subdev supports cropping on its sink pad. To
->  configure it, the user sets the media bus format on the subdev's sink
-> @@ -476,7 +476,7 @@ pad.
->      :alt:   subdev-image-processing-scaling-multi-source.svg
->      :align: center
+>  Devices generating the streams may allow enabling and disabling some of the
+>  routes or have a fixed routing configuration. If the routes can be disabled, not
+> -declaring the routes (or declaring them without
+> -``V4L2_SUBDEV_STREAM_FL_ACTIVE`` flag set) in ``VIDIOC_SUBDEV_S_ROUTING`` will
+> -disable the routes. ``VIDIOC_SUBDEV_S_ROUTING`` will still return such routes
+> -back to the user in the routes array, with the ``V4L2_SUBDEV_STREAM_FL_ACTIVE``
+> -flag unset.
+> +declaring the routes (or declaring them without ``V4L2_SUBDEV_ROUTE_FL_ACTIVE``
+> +flag set) in ``VIDIOC_SUBDEV_S_ROUTING`` will disable the routes.
+> +``VIDIOC_SUBDEV_S_ROUTING`` will still return such routes back to the user in
+> +the routes array, with the ``V4L2_SUBDEV_ROUTE_FL_ACTIVE`` flag unset.
 >  
-> -    **Figure 4.6. Image processing in subdevs: scaling with multiple sources**
-> +    Image processing in subdevs: scaling with multiple sources
->  
->  In this example, the subdev is capable of first cropping, then scaling
->  and finally cropping for two source pads individually from the resulting
-> @@ -492,7 +492,7 @@ an area at location specified by the source crop rectangle from it.
->      :alt:    subdev-image-processing-full.svg
->      :align:  center
->  
-> -    **Figure 4.7. Image processing in subdevs: scaling and composition with multiple sinks and sources**
-> +    Image processing in subdevs: scaling and composition with multiple sinks and sources
->  
->  The subdev driver supports two sink pads and two source pads. The images
->  from both of the sink pads are individually cropped, then scaled and
-> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> index 2a94371448dc..9ef1bc22ad9c 100644
-> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> @@ -2631,7 +2631,7 @@ be named ``MEDIA_BUS_FMT_SRGGB10_2X8_PADHI_LE``.
->      :alt:    bayer.svg
->      :align:  center
->  
-> -    **Figure 4.8 Bayer Patterns**
-> +    Bayer Patterns
->  
->  The following table lists existing packed Bayer formats. The data
->  organization is given as an example for the first pixel only.
+>  Devices transporting the streams almost always have more configurability with
+>  respect to routing. Typically any route between the sub-device's sink and source
 
 -- 
 Regards,
