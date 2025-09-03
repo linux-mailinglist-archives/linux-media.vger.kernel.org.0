@@ -1,158 +1,211 @@
-Return-Path: <linux-media+bounces-41716-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41717-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7D8B42492
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 17:12:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8D7B424E7
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 17:20:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 646991BA7173
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 15:11:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A5B08683CE8
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 15:19:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C4EB1EDA3C;
-	Wed,  3 Sep 2025 15:11:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16484258CF1;
+	Wed,  3 Sep 2025 15:16:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CbN6E38K"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b="ErY3l/KV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from lx20.hoststar.hosting (lx20.hoststar.hosting [168.119.41.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE003126CE
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 15:11:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F14E63CF;
+	Wed,  3 Sep 2025 15:16:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.41.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756912281; cv=none; b=Nj0UE2JzXiEJncMvP2pC0dDOdJr9Ag3vNqrOXSXVJP+Yi/VunjCspzITwXUqSIlx1dyljrC8he5z6abOKrleytkPtFsbI4r20Ig7xPOmKtoDO0f2Mjp2OulstIHXYdbiXwj7hyXXp8DwZGXEk/gQ85brDFTWWozQrsY+tIPlsow=
+	t=1756912611; cv=none; b=kbczkalBrbmuZ6URa6JsI17icbe1dEzR8cdxuWcvSouyO9NQMMMMJo8KkwSr2ho333H6YW7788ntw++XqcOzCM8urX8yFRHyyvw7q8mio3hE36aUBTjyevenAxoQLrzh9PtNbk2P5eUz3K6J0Tnf2jrT5NB3WxZAA5bTgisAmjI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756912281; c=relaxed/simple;
-	bh=QTeBnku6UmWV5CxCVL+cwIMTrrWzOH4MbjoQn1vQnws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RLoSV5LhEnKkRo8ZrqRS9Zv5ySndGThAcytFZvFbjDjhyVSLdPoTPL4gKxjMND7a0ChdO4t6ubGrhZEE2dj/3dARz0qmbFgAK6TJI0kaicmYF1/rec9Icb8B3/CeXNogaJe/EEqrkoE7Z+g4cY9O8XlxG+mftZiF2NmfDs3OjR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CbN6E38K; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A0068664;
-	Wed,  3 Sep 2025 17:10:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756912209;
-	bh=QTeBnku6UmWV5CxCVL+cwIMTrrWzOH4MbjoQn1vQnws=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CbN6E38KT7H35jdeCpfSq352O4ZbOoRSxPbV/65ONqNHFoPvs7+EPwezCM2wa7w2v
-	 qWuphAGm9g+OxVXZAZjOrki0QuRrpcAcA/O8sg52+98XnjNfIHY6+iZM1G7+jnPk66
-	 /V2fQOVfxfxPOMJSAEt6zcKJRv2YSA/jSdSwP4P0=
-Date: Wed, 3 Sep 2025 17:10:58 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 20/66] media: Documentation: Reference COLOR_PATTERN
- control in raw format docs
-Message-ID: <20250903151058.GQ3648@pendragon.ideasonboard.com>
-References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-21-sakari.ailus@linux.intel.com>
- <ndc5gt6jyla5hoelwwk4wyy3rqb3ntbppjzsh7hpgevcd36ewo@d5n6nr2jxgck>
- <aLgSVXZ5XzidPa_x@kekkonen.localdomain>
- <fheacfv3k6ksctj2tvwji6wlmocl4f7gcocqdw4zb5xos2ybz5@gvh7c2wjj2br>
+	s=arc-20240116; t=1756912611; c=relaxed/simple;
+	bh=ttg+OChwUbkpoVDWCw3xGKa0n3d+t7aSDC55RG2VqSo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fPUO4dspRjA6SnZ1vMSE2qOdaDQWxKeLKvvUruLq6NHPfUV5V8uSpbf9KrNK4kO5LDSmmWSInjPl/AnJubrKPTAASL2vQA/Wysxrsjp2x4SGlz/ltqcCmdPZOKes5Cp//d9a5ErlVJLxq/5W1OR12ETpqMKuCaDclhSSgYzB1eA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at; spf=pass smtp.mailfrom=emfend.at; dkim=pass (1024-bit key) header.d=emfend.at header.i=@emfend.at header.b=ErY3l/KV; arc=none smtp.client-ip=168.119.41.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=emfend.at
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=emfend.at
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=emfend.at;
+	 s=mail; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:References
+	:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=a3G9xHdW/VxHSePvTIzerhYn95SpSnVWLe7bCZKfh6U=; b=ErY3l/KVYqsCbtBZ+lyIGVK6W5
+	WIbVl4M+Tc128AqaMRvcelzBJaKWXq8+iGnxTyjvVOzsNAU7D9LLM61gxtDs5DVXK9RVlMOIQ75vW
+	duwF15DALAsLbMOX3tYlNgNiFfAsR09Jr49oSG+WNy284Vx7xELoC4QkQ5ZlYs1bUmSk=;
+Received: from 194-208-208-245.tele.net ([194.208.208.245]:61793 helo=[192.168.0.207])
+	by lx20.hoststar.hosting with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_CHACHA20_POLY1305_SHA256
+	(Exim 4.93)
+	(envelope-from <matthias.fend@emfend.at>)
+	id 1utpDx-005LvW-4e; Wed, 03 Sep 2025 17:16:38 +0200
+Message-ID: <8417d761-114b-4e41-8a4a-9eac2600637f@emfend.at>
+Date: Wed, 3 Sep 2025 17:16:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <fheacfv3k6ksctj2tvwji6wlmocl4f7gcocqdw4zb5xos2ybz5@gvh7c2wjj2br>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/2] media: add Himax HM1246 image sensor
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, bsp-development.geo@leica-geosystems.com,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+References: <20250526-hm1246-v2-0-6b882827a3a5@emfend.at>
+Content-Language: de-DE
+From: Matthias Fend <matthias.fend@emfend.at>
+In-Reply-To: <20250526-hm1246-v2-0-6b882827a3a5@emfend.at>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Spam-Score: 
+X-Spam-Bar: 
+X-Spam-Report: 
 
-On Wed, Sep 03, 2025 at 02:03:39PM +0200, Jacopo Mondi wrote:
-> On Wed, Sep 03, 2025 at 01:03:01PM +0300, Sakari Ailus wrote:
-> > On Mon, Sep 01, 2025 at 04:21:53PM +0200, Jacopo Mondi wrote:
-> > > On Mon, Aug 25, 2025 at 12:50:21PM +0300, Sakari Ailus wrote:
-> > > > Add a reference to the V4L2_CID_COLOR_PATTERN control in the generic raw
-> > > > pixelformat documentation.
-> > > >
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > >  .../userspace-api/media/v4l/ext-ctrls-image-source.rst         | 2 ++
-> > > >  Documentation/userspace-api/media/v4l/subdev-formats.rst       | 3 +++
-> > > >  2 files changed, 5 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > > index b19aaaffbce0..0fcd60d8c621 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > > @@ -93,6 +93,8 @@ Image Source Control IDs
-> > > >      is reported as being (say) 128, then a value of 192 would represent
-> > > >      a gain of exactly 1.5.
-> > > >
-> > > > +.. _image-source-control-color-pattern:
-> > > > +
+Hi all,
 
-I'd move this to the previous patch.
+since I sent the first version of this patch series quite some time ago 
+and, apart from the bindings there has been no feedback, I wanted to 
+check whether there might be any fundamental concerns (such as the 
+sensor being somewhat older)?
 
-> > > >  ``V4L2_CID_COLOR_PATTERN (integer)``
-> > > >      This control determines the color components and native pixel order in the
-> > > >      sensor's CFA (Color Filter Array) when used in conjunction with
-> > > > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > index e77b4ad19737..77571adeb21e 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > @@ -3444,6 +3444,9 @@ camera sensors using Bayer and other Colour Filter Arrays (CFAs) on serial
-> > > >  interfaces. The packing of the data on the bus is determined by the hardware,
-> > > >  however the bit depth is still specific to the format.
-> > > >
-> > > > +The colour components and the native pixel order are determined by the
-> > >
-> > > Isn't
-> > >   +The native colour components ordering are determined by ...
-> > >
-> > > As I don't see how "colour components and the native pixel order"
-> > > information can be conveyed separately.
-> >
-> > How about:
-> >
-> > The native Colour Filter Array (CFA) pattern is determined by the
+If there are no general objections to this driver, I would be very 
+grateful for any comments or suggestions for improvement.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Thanks
+  ~Matthias
 
-> Works for me, thanks!
+Added Sakari and Laurent to CC.
+
+Am 26.05.2025 um 08:59 schrieb Matthias Fend:
+> Hello,
 > 
-> > > Up to you
-> > >
-> > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > >
-> > > > +:ref:`V4L2_CID_COLOR_PATTERN <image-source-control-color-pattern>` control.
-> > > > +
-> > > >  .. tabularcolumns:: |p{2.0cm}|p{4.0cm}|p{11.3cm}|
-> > > >
-> > > >  .. cssclass:: longtable
+> this series adds support for the Himax HM1246 image sensor.
+> The Himax HM1246-AWD is a 1/3.7-Inch CMOS image sensor SoC with an active
+> array size of 1296 x 976. The datasheet can b
+> Currently, only the native RAW mode is supported. Other modes and the
+> internal image signal processing pipeline are not currently supported.
+> The data sheet is available on the manufacturer's website [1].
+> Tested on i.MX8MP hardware. A Toshiba TC358746 bridge was used to convert
+> the sensor's parallel video output into MIPI signals for the i.MX8MP.
+> 
+> Best regards
+>   ~Matthias
+>   
+> [1] https://www.himax.com.tw/wp-content/uploads/2024/03/HM1246-AWD_DS_v01.pdf
+> 
+> v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
+> 
+> Compliance test for device /dev/v4l-subdev4:
+> 
+> Driver Info:
+>          Driver version   : 6.12.0
+>          Capabilities     : 0x00000000
+>          Client Capabilities: 0x0000000000000003
+> streams interval-uses-which
+> Required ioctls:
+>          test VIDIOC_SUDBEV_QUERYCAP: OK
+>          test invalid ioctls: OK
+> 
+> Allow for multiple opens:
+>          test second /dev/v4l-subdev4 open: OK
+>          test VIDIOC_SUBDEV_QUERYCAP: OK
+>          test for unlimited opens: OK
+> 
+> Debug ioctls:
+>          test VIDIOC_LOG_STATUS: OK (Not Supported)
+> 
+> Input ioctls:
+>          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+>          test VIDIOC_ENUMAUDIO: OK (Not Supported)
+>          test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+>          test VIDIOC_G/S_AUDIO: OK (Not Supported)
+>          Inputs: 0 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+>          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+>          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+>          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+>          test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+>          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+>          Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+>          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+>          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+>          test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+>          test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls:
+>          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+>          test VIDIOC_QUERYCTRL: OK
+>          test VIDIOC_G/S_CTRL: OK
+>          test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+>          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+>          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+>          Standard Controls: 15 Private Controls: 0
+> 
+> Format ioctls:
+>          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+>          test VIDIOC_G/S_PARM: OK (Not Supported)
+>          test VIDIOC_G_FBUF: OK (Not Supported)
+>          test VIDIOC_G_FMT: OK (Not Supported)
+>          test VIDIOC_TRY_FMT: OK (Not Supported)
+>          test VIDIOC_S_FMT: OK (Not Supported)
+>          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+>          test Cropping: OK (Not Supported)
+>          test Composing: OK (Not Supported)
+>          test Scaling: OK (Not Supported)
+> 
+> Codec ioctls:
+>          test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+>          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+>          test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+> 
+> Buffer ioctls:
+>          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+>          test CREATE_BUFS maximum buffers: OK
+>          test VIDIOC_REMOVE_BUFS: OK
+>          test VIDIOC_EXPBUF: OK (Not Supported)
+>          test Requests: OK (Not Supported)
+> 
+> Total for device /dev/v4l-subdev4: 45, Succeeded: 45, Failed: 0, Warnings: 0
+> 
+> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
+> ---
+> Changes in v2:
+> - Use macros for 64-bit division
+> - Avoid compiler warnings about potentially uninitialized variables
+> - Fix two uses of dev_err_probe
+> - Link to v1: https://lore.kernel.org/r/20250403-hm1246-v1-0-30990d71bc42@emfend.at
+> 
+> ---
+> Matthias Fend (2):
+>        media: dt-bindings: i2c: add Himax HM1246 image sensor
+>        media: i2c: add Himax HM1246 image sensor driver
+> 
+>   .../bindings/media/i2c/himax,hm1246.yaml           |  111 ++
+>   MAINTAINERS                                        |    8 +
+>   drivers/media/i2c/Kconfig                          |    9 +
+>   drivers/media/i2c/Makefile                         |    1 +
+>   drivers/media/i2c/hm1246.c                         | 1421 ++++++++++++++++++++
+>   5 files changed, 1550 insertions(+)
+> ---
+> base-commit: 0ff41df1cb268fc69e703a08a57ee14ae967d0ca
+> change-id: 20250403-hm1246-96b0cdab773c
+> 
+> Best regards,
 
--- 
-Regards,
-
-Laurent Pinchart
 
