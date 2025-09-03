@@ -1,130 +1,175 @@
-Return-Path: <linux-media+bounces-41688-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41689-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46F44B421AE
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 15:32:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D36EB421E8
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 15:37:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CDAE75E567A
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 13:32:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C70F93AF63A
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 13:37:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 35B132FF64B;
-	Wed,  3 Sep 2025 13:32:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EAF43090EE;
+	Wed,  3 Sep 2025 13:37:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="zK1y7ofR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UXNjDwhA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 785EF308F0F
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 13:32:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67D5B304967
+	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 13:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756906322; cv=none; b=mNUgtzXD9E692SLdZYLCnrbYxsLQvrWTf3pnwSRLUQFYnEGVjpC+xYIqiA/YkWYJhYx64Rg913LfDIwwVrwUTo782FJkyNMLPDeOWaTEeDjP6AqujYlOeydewKWCIOPEusiH3NhRDgFGT7L4ecvn/bjQCphSHNgkN1RLEp7vzH0=
+	t=1756906643; cv=none; b=iHD1Hqc1IKQgdO4l8qB8HfBagV3rRDfQmRkfCZbTnQV6T20gwRI8WGM9iZknNuSdPO+iG5e9BdH7RI4c+dSR6806mEHqW8iKh8VTU2AMy4G63zx37apbZaP8v8yHxvlgE7cEdk+2dARNSZw1QB7NQWidt50gyFhCuCbb2DtkbZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756906322; c=relaxed/simple;
-	bh=HMyrqafZWVvnCp8l3xl9EjMdbJHyX9qnKtyEFsPn8dE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=krBDDfeCUYkNyH0dihPJ8PCLL2XipzpmLeIFcaA5ZSEPeTVIj8nSuVnlTCL6vQe/cDCdHX84J6xhhpbAz7nl8tBhp0vIfJSu30J9XjHhIEWkyF2aEPPA/5FeUaKjSZUH6K6FO4g0By6atR3cKZEGr4u+c/h20nEVPW0f6fnIiSU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=zK1y7ofR; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45cb6180b60so3856655e9.0
-        for <linux-media@vger.kernel.org>; Wed, 03 Sep 2025 06:32:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1756906319; x=1757511119; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:to:subject:user-agent:mime-version:date:message-id:from
-         :to:cc:subject:date:message-id:reply-to;
-        bh=jV/+kNQU+fID5A7W7F8ncUimxdPkwRhQZObi8KDWFN4=;
-        b=zK1y7ofRkabpTVTCK72t1pu/W63oE1k9cWiQ7iCp8g6fJ56OmbzmKaB+VGNKqm+k74
-         RstJas+QJu2w5nvLmF4MwLl0M/Q8ETcXt5DSXHJlcW4W03dhGsfoD6IXKgqZlFKhWY3q
-         9TIyKEBiFY2RcJ+cyPlpUKB65IimGqbZ0ejuUyM9VKd03F5oY69T623wErhxaflnw48V
-         7EXfQNnsDwkd0uTwHR+4MV/NCMoctN5+HfVYyFcq8nd2AfPhs+IX5A3yCEt0AR6hhWuo
-         +tuf/SgYnGUzpfUKlDUTC7NmZUD9xSS3co5ihP6W2kj5CmIEknNA1owGStToRsNoVs0Z
-         8Hlw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756906319; x=1757511119;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=jV/+kNQU+fID5A7W7F8ncUimxdPkwRhQZObi8KDWFN4=;
-        b=pf2W+k79+GmhTVSOMpbllMYlGO3arElobqme79CGztaxvKCbNjwSPRXHnRtfhx2OAS
-         cdqf8DkMRA3XgXT2nAINXMF12+eUR+7MxUly9UcC5WmkqYdLS7bZCr9r0n+vaGzIdoCJ
-         5DOr7ckWbJp+W1bzt1+/330GgyLy07Ba/+bMxIixXRYfOQyh7jdwqakcnKfeRPZ8pcgB
-         0Y3OjCbSY8o21f0CQYVOilmNKEtyL9Zv4sumdZRje3Xtbe2SB5Y155iAEwjnszyKYJXh
-         aZahgwHE9+QWNZ2rOiaCMxHGf8nJkLT6Bk/bNqJV2IF7auIxt9NfKMWYiP8VdTY5epj0
-         EIyg==
-X-Forwarded-Encrypted: i=1; AJvYcCVje6pNfTJCTbblcIO62S1RFhxsgrk8z8GdEZPzKz8e2tv1AZalfye7N34qf+32xsozvIyOyimzmR2f4g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzYO1pawwcet2E34koW1DeIAj99/o2dABas4mV0Kmjq20vwmtv8
-	BjRgLDD1ak4gpWAEubNBJQoPcQ+jqJHTOZ2KxcDLSrRCAMGQflL+jhjZ/NmwYa1bO2M=
-X-Gm-Gg: ASbGncsL4E9IDAJOydNd29ov/jBLmEq2Awli1xnkDixS0I/h23lY0A+1KrLj2cRUZc7
-	8bENyfhAN0X43eprojXD6lzulylTl4HBCDB/LSHY+E5gAyRTGPmjLMwX1PFHqbWqNVcoY0yVtSo
-	kK1H4RZIz7VYnYxyXPdO97eQhVwb+6Z7PfXD0yggVqQseDxNXSn5PngXmgtQ6ZP/3IS/rw5SLdW
-	Yjpf4HpfzfSlxCs+xsYYc865QbjzSKmM/QvCXojTkfCTjI95gIDvVZ37Rj1Tv4gLkk5B/Lv6vov
-	tr3ODx6ahJj+o0eRt2IruRcu7GJQLzlvmMjDzErWgR2kXdEwnKSsdA4lQsR9pOdkNqpKhKFm2Yb
-	JGoIHrr2ZKEgaGGbb/0snRRC5yCH9pbL8LrazYY9l9BZxQgbXOv19rxwy4MiJcf5bgJxv2NR63V
-	C3TWnbexl5nQ7Ykh7Lvbrl3rUFBCGbaig1Di65i9NM
-X-Google-Smtp-Source: AGHT+IHgsBA9rledeTVeo8KQley7QFRDXyCYgnqMKEv7MzsQIBH95kbaAiwwLJ8XXVf/C9Q9lEUUqQ==
-X-Received: by 2002:a05:600c:46c8:b0:450:d386:1afb with SMTP id 5b1f17b1804b1-45b85532ec8mr134876395e9.9.1756906318707;
-        Wed, 03 Sep 2025 06:31:58 -0700 (PDT)
-Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b6f306c22sm327450385e9.13.2025.09.03.06.31.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Sep 2025 06:31:58 -0700 (PDT)
-Message-ID: <b5a0ad0d-ceba-40d3-a111-0831c4538cea@linaro.org>
-Date: Wed, 3 Sep 2025 14:31:55 +0100
+	s=arc-20240116; t=1756906643; c=relaxed/simple;
+	bh=T7FAN4SHbYqtgL0WjoYQ/wEypjs8GeCEfrJ25RL08vw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ME6EhtegjlbjENhzqpqU/cqldMKMrbCnDTmD7NLkkHGE7ouvS7KcA8rar05BfGJdUCYtaHHjLqvzhMvo+5QyHJB4Gmnodh0wVSvUBYXObLdHv+mZT9pOeHh+/zKdA68dSSz7fPi2sdia7431PeekHh0sxQTXG+/cjecNDToBHhM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UXNjDwhA; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756906642; x=1788442642;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=T7FAN4SHbYqtgL0WjoYQ/wEypjs8GeCEfrJ25RL08vw=;
+  b=UXNjDwhAoO9ObJjmmmLqkeT83MY1LZzz7GnbhNT6Q/ybepYMssmlPQlH
+   p4au6PenYTOn+abJBfKCpXCnB587aIHTV3llziNM9TzEKDG21MULLLWE9
+   SCSKZXgS2Y4FX5i+H/L4S8ITRtxfdq4Ur75bDHnV7w8wToV8ybh8FDWzR
+   YyHafeZG1H2kWk9BGuAJ7r7cV4Ck1MKaYjsOy/KrS8AAk0R5V3gnnjF8b
+   gbgQLaokhL6+GxH9LXweZ7HYZP1xCnT+n1d6P76CC4cLH5mODfRzW0yqV
+   l3w5ksg+nxnp8A2uFfeWpVJufV7wZ3vxF1JZ5Z8yGz2SfTS5Kg9P8BquW
+   Q==;
+X-CSE-ConnectionGUID: 1xGccne4T7KaZwubUa1B4A==
+X-CSE-MsgGUID: 9IJJ8CtrTsKO6ABriDvXLg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="70318780"
+X-IronPort-AV: E=Sophos;i="6.18,235,1751266800"; 
+   d="scan'208";a="70318780"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 06:37:21 -0700
+X-CSE-ConnectionGUID: Pwf+DWhAR/qlhG2f89e0Gw==
+X-CSE-MsgGUID: O9AGnATSQ8amdGuV1HfCsQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,235,1751266800"; 
+   d="scan'208";a="171153492"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.204])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 06:37:15 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 93CAB11F99F;
+	Wed, 03 Sep 2025 16:37:12 +0300 (EEST)
+Date: Wed, 3 Sep 2025 16:37:12 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 26/66] media: Documentation: Document embedded data
+ guidelines for camera sensors
+Message-ID: <aLhEiMQSp23ZCffK@kekkonen.localdomain>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-27-sakari.ailus@linux.intel.com>
+ <wsa4s2ele6nejp5jcca5ny44oerwxdnyjn2ggxu6e2x5yqlm4g@vihn6rrtdnkg>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 00/11] Peripheral Image Loader support for Qualcomm
- SoCs running Linux host at EL2
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Mathieu Poirier <mathieu.poirier@linaro.org>,
- Abhinav Kumar <abhinav.kumar@linux.dev>, linux-kernel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- linux-remoteproc@vger.kernel.org
-References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
- <660c2594-9a93-450e-9a2e-17ef6b4c696d@linaro.org>
- <20250820112242.usd4sdd3avxdlcas@hu-mojha-hyd.qualcomm.com>
- <f5582304-8f55-4c3b-b752-9cefa1e4df96@oss.qualcomm.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <f5582304-8f55-4c3b-b752-9cefa1e4df96@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <wsa4s2ele6nejp5jcca5ny44oerwxdnyjn2ggxu6e2x5yqlm4g@vihn6rrtdnkg>
 
-On 03/09/2025 12:56, Konrad Dybcio wrote:
->> Can you try with this next-20250814 tag ?
-> You sent it on the 19th, so it's in your best interest to run a quick
+Hi Jacopo,
+
+On Mon, Sep 01, 2025 at 06:42:33PM +0200, Jacopo Mondi wrote:
+> Hi Sakari
 > 
-> git rebase --onto linux-next/master $(git describe --abbrev=0)
+> On Mon, Aug 25, 2025 at 12:50:27PM +0300, Sakari Ailus wrote:
+> > Document how embedded data support should be implemented for camera
+> > sensors, and when and how CCS embedded data layout should be referenced.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Julien Massot <julien.massot@collabora.com>
+> > ---
+> >  .../media/drivers/camera-sensor.rst           | 20 +++++++++++++++++++
+> >  1 file changed, 20 insertions(+)
+> >
+> > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > index a8e0e4accbc9..a719c6f88f11 100644
+> > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > @@ -117,3 +117,23 @@ register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
+> >  values programmed by the register sequences. The default values of these
+> >  controls shall be 0 (disabled). Especially these controls shall not be inverted,
+> >  independently of the sensor's mounting rotation.
+> > +
+> > +Embedded data
+> > +-------------
+> > +
+> > +Many sensors, mostly raw sensors, support embedded data which is used to convey
+> > +the sensor configuration for the captured frame back to the host. While CSI-2 is
+> > +the most common data interface used by such sensors, embedded data can be
+> > +available on other interfaces as well.
+> > +
+> > +Embedded data support is indicated by the presence of an internal sink pad (pad
+> > +that has both the ``MEDIA_PAD_FL_SINK <MEDIA-PAD-FL-SINK>`` and
+> > +``MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`` flags set) with a metadata
 > 
-> and giving the series a prompt re-test before sending, because there might have
-> been incompatible changes, whether ones that would prevent applying, or break
-> things functionally
+> These are rendered as verbatim text, not links
 
-I can't even find that tag next-20250814 closets thing is
+Will fix for v12.
 
-| * \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \   00062ea01d35e - Merge 
-tag 'drm-xe-fixes-2025-08-14' of 
-https://gitlab.freedesktop.org/drm/xe/kernel into drm-fixes (3 weeks ago)
+> 
+> > +format to model the embedded data stream. If the sub-device driver supports
+> > +disabling embedded data, this can be done by disabling the embedded data route
+> > +via the ``VIDIOC_SUBDEV_S_ROUTING`` IOCTL.
+> > +
+> > +In general, changing the embedded data layout from the driver-configured values
+> > +is not supported. The height of the metadata is device-specific and the width
+> > +is that (or less of that) of the image width, as configured on the pixel data
+> 
+> s/is that (or less of that) of/is the same (or smaller) than/
+> 
+> reads better in my possibily broke English
 
-but patch #9 in this series stubbornly won't apply to any SHA I've tried.
+How about:
 
-meh
+The height of the metadata is device-specific and equal to or less than the
+image width, as configured on the pixel data stream.
 
----
-bod
+> With the links fixed
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Thank you.
+
+-- 
+Sakari Ailus
 
