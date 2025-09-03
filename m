@@ -1,124 +1,158 @@
-Return-Path: <linux-media+bounces-41715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41716-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BD52B42480
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 17:10:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A7D8B42492
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 17:12:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 25A27486E65
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 15:10:18 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 646991BA7173
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 15:11:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98CB231DDB9;
-	Wed,  3 Sep 2025 15:09:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C4EB1EDA3C;
+	Wed,  3 Sep 2025 15:11:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CbN6E38K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ua1-f49.google.com (mail-ua1-f49.google.com [209.85.222.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17AE221423C;
-	Wed,  3 Sep 2025 15:09:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EE003126CE
+	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 15:11:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756912186; cv=none; b=lr6DIyDqM7j5SuJ5AHbXD8f70uecF02yPoTax5CaDp+px1QuFJHJ7r8Cqp+Dwx+ZGYUXUMU86zhdPKPXzSW5mPnjSlZGJZoLwxEaX0H+KvyaiWoVPsEnXrbaJBpG/Bkf9jTM12KWJzzTZiTTH6N5zdbbMy3DheJTluXRNW/GYO8=
+	t=1756912281; cv=none; b=Nj0UE2JzXiEJncMvP2pC0dDOdJr9Ag3vNqrOXSXVJP+Yi/VunjCspzITwXUqSIlx1dyljrC8he5z6abOKrleytkPtFsbI4r20Ig7xPOmKtoDO0f2Mjp2OulstIHXYdbiXwj7hyXXp8DwZGXEk/gQ85brDFTWWozQrsY+tIPlsow=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756912186; c=relaxed/simple;
-	bh=ikzhtY9rGgjgk/Rd7wHKRdyMV34Tvhe35O+3FsWsUrw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=bNKim6QMRcwQqUi2Qu4/qB1QxwpYR6lXzlGFSV7nyCA2cO8EENW9cvHJ/69XWLrejR2XFLmwk2zmncLj+0QnaW60fUVdMqYDi8NHmxdzNrDb+RdJN9J32dEijCs2eOf7TkwUxe/B8RKGV1vkLLHXgIPMZZqw4nXcNbrMmP8IY9s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f49.google.com with SMTP id a1e0cc1a2514c-890190d9f89so3498107241.2;
-        Wed, 03 Sep 2025 08:09:43 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756912183; x=1757516983;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zVpdXnOxQkV6aoehfvXuxZwNBrwSUuUJUvgG7SPoeFc=;
-        b=RpnR0lDHAMKkPMkzOA3h+xtRoyPGp3ru+sMXziaM3lE7tzm+E+I/0QiqDj99hYID+1
-         dT2leNuVmkcPbcHWwjQiGaEqdMju4kQBBYn926742b5QRcwHUh2LhGdatFQHKj2ydt6r
-         BxCoREdUA9xIftieQ17Y5oUeNLZBzgXgHVBeH8DGhjjOLqzSOI7K3DUDvGG5Z2fofc+q
-         3WFdtZIgKMKQfDc7XOCowp8QwccJ0AOrnvVToUbkq7XEct6H7I4hQVCu4z18ZfYCDaxX
-         EGEt8v8VV7GL3zvd0Bx10yCqh8a2G/9XqpJL42IBGgVgWGfDuMs4MIfAM7Pq01L0j/CX
-         nN6w==
-X-Forwarded-Encrypted: i=1; AJvYcCUJwiuWbneZwe95Wif1BUngCiqfqwSOJs4+dn3fXlov23wpotZSjYW/pDXcPS0H6pwT87dKlGlKr2FXSzO+wwXXGC4=@vger.kernel.org, AJvYcCUaVziI4cE12pSfyChGMWJbn1PmJ7p82N1/eZlc+ljd8Mj5Ik5eb8dRB98CDbs6yvIpQPt66EHBGyK2xOg=@vger.kernel.org, AJvYcCW75S7Mbt1adKoORZtX6iXtyhADdMsMfI1x65vgHZPFajdSlEkb/kcCQXpXk+nrhMmA3P7Gipet7WJbVMo=@vger.kernel.org, AJvYcCWDODODeDhdw0mENOCM+ruczt5k8w3GcVZXVXetKIAdMLvJE8gnsVLd1Yzcn41SzVXYN4K4fYKo@vger.kernel.org
-X-Gm-Message-State: AOJu0YzXl1yKSCL1+or6muX9vEj7mFpN8PlaUY7X2ITNY3ynDMXGPYWM
-	VOyXDBXz7dd6vZ+6Wr0iHKIvwdhzu/Jdw4xNpOdyq2R6D2iV8dA1VGe571kp9Jzd
-X-Gm-Gg: ASbGncuoLL25rOJ1YGYHa7ZyDUgFtOWYiIuzJp7QMo0pX5+UinIGDvM51P+aNuZITAk
-	KRmrmHKt+V241s81iCz+XzR+aY52Ebdn9r6v1MDV32f2MMEdmKVXkQcEWPZVe5kR6Pwzvj2Kqdw
-	5o+H0ZNxxMIzGAQn9VWaRXMiwXA8iVM1MxTA7FcQT4oEzEW/3Z4dnC/0fX1ZgrnL4Sf5vpcoDYX
-	3hZlbzM92RN9oCFFv0td4ny+XYSd9uBdPqSDAW9Osv7gX5rzg0UIml1T0IlM4atQHhc6MyX0o+u
-	nHCwgV1gJ7Fu0vVJqFpubt6+OU5LhDuywqFn9MxkIlyY8Yj9wtys11viADitRpiWzat+eCsV15p
-	2lILmxRwKlLfn05R+Zc+rbKqGDKoiXdLDYLteb7EDuE8e6wZu5mC4/U/iCiQ8MKdEgEx3hWU=
-X-Google-Smtp-Source: AGHT+IG5UiojQRSjQbp+tq8D2M4cfxB/tpyscIhxY8mjPHCycsbAyr5kgMreKJC64xDyyY/swSVSZA==
-X-Received: by 2002:a05:6102:6a8c:b0:51e:92cc:6e64 with SMTP id ada2fe7eead31-52b1bd1590cmr5999160137.29.1756912182664;
-        Wed, 03 Sep 2025 08:09:42 -0700 (PDT)
-Received: from mail-ua1-f46.google.com (mail-ua1-f46.google.com. [209.85.222.46])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-899a902b2cesm1580116241.14.2025.09.03.08.09.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 03 Sep 2025 08:09:42 -0700 (PDT)
-Received: by mail-ua1-f46.google.com with SMTP id a1e0cc1a2514c-8943501ba3dso3022054241.3;
-        Wed, 03 Sep 2025 08:09:42 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVCe5xqGotqOOiambyefUEVdw73yB4jtc7WIa+xCsM45X/3oUs8284jyswBGgbYoOtD95jqRu+xv4hLENc=@vger.kernel.org, AJvYcCWA9lGubaYXUNcuy897KR/+OLzVf/1FY6XTYEAycB+/JAyqiK1wu7Sjb1Ns2SQyVZlw/YjjmMNfcvCIWjw=@vger.kernel.org, AJvYcCWM0PFJE3fhaN0FBI0I45Pi5lZ54VNjU2/V6kVgb3347MJ8q34o90QdjXuG8Jr+Fr1JH3iY+lnV@vger.kernel.org, AJvYcCWoAAr09VrMTRKBAcvSsEp0NhGDuzODsPe8vjnlCW1l6vnsUhcPwn6DyfhfQvDqmXW95ca4AMB43NueNbLDPBnnTrI=@vger.kernel.org
-X-Received: by 2002:a05:6102:4412:b0:4f9:6a91:cc96 with SMTP id
- ada2fe7eead31-52b1bb25608mr4990360137.26.1756912182120; Wed, 03 Sep 2025
- 08:09:42 -0700 (PDT)
+	s=arc-20240116; t=1756912281; c=relaxed/simple;
+	bh=QTeBnku6UmWV5CxCVL+cwIMTrrWzOH4MbjoQn1vQnws=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RLoSV5LhEnKkRo8ZrqRS9Zv5ySndGThAcytFZvFbjDjhyVSLdPoTPL4gKxjMND7a0ChdO4t6ubGrhZEE2dj/3dARz0qmbFgAK6TJI0kaicmYF1/rec9Icb8B3/CeXNogaJe/EEqrkoE7Z+g4cY9O8XlxG+mftZiF2NmfDs3OjR8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CbN6E38K; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A0068664;
+	Wed,  3 Sep 2025 17:10:09 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1756912209;
+	bh=QTeBnku6UmWV5CxCVL+cwIMTrrWzOH4MbjoQn1vQnws=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=CbN6E38KT7H35jdeCpfSq352O4ZbOoRSxPbV/65ONqNHFoPvs7+EPwezCM2wa7w2v
+	 qWuphAGm9g+OxVXZAZjOrki0QuRrpcAcA/O8sg52+98XnjNfIHY6+iZM1G7+jnPk66
+	 /V2fQOVfxfxPOMJSAEt6zcKJRv2YSA/jSdSwP4P0=
+Date: Wed, 3 Sep 2025 17:10:58 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 20/66] media: Documentation: Reference COLOR_PATTERN
+ control in raw format docs
+Message-ID: <20250903151058.GQ3648@pendragon.ideasonboard.com>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-21-sakari.ailus@linux.intel.com>
+ <ndc5gt6jyla5hoelwwk4wyy3rqb3ntbppjzsh7hpgevcd36ewo@d5n6nr2jxgck>
+ <aLgSVXZ5XzidPa_x@kekkonen.localdomain>
+ <fheacfv3k6ksctj2tvwji6wlmocl4f7gcocqdw4zb5xos2ybz5@gvh7c2wjj2br>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250903133729.2523130-1-linmq006@gmail.com>
-In-Reply-To: <20250903133729.2523130-1-linmq006@gmail.com>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Wed, 3 Sep 2025 17:09:31 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdWBXv+vKqBXOWeFqsy0R8-3__oBFWnm4rUx1kqSq5ZUgQ@mail.gmail.com>
-X-Gm-Features: Ac12FXyAQ8jdtIgL3wkXHy-xS6MnuKfYQ1i_Sq3qEQPyIA5MCrJ91AMJ_d788Ug
-Message-ID: <CAMuHMdWBXv+vKqBXOWeFqsy0R8-3__oBFWnm4rUx1kqSq5ZUgQ@mail.gmail.com>
-Subject: Re: [PATCH] media: renesas: rcar_drif: fix device node reference leak
- in rcar_drif_bond_enabled
-To: Miaoqian Lin <linmq006@gmail.com>
-Cc: Fabrizio Castro <fabrizio.castro.jz@renesas.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Magnus Damm <magnus.damm@gmail.com>, 
-	Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>, Hans Verkuil <hverkuil@kernel.org>, 
-	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <fheacfv3k6ksctj2tvwji6wlmocl4f7gcocqdw4zb5xos2ybz5@gvh7c2wjj2br>
 
-On Wed, 3 Sept 2025 at 15:37, Miaoqian Lin <linmq006@gmail.com> wrote:
-> The function calls of_parse_phandle() which returns
-> a device node with an incremented reference count. When the bonded device
-> is not available, the function
-> returns NULL without releasing the reference, causing a reference leak.
->
-> Add of_node_put(np) to release the device node reference.
-> The of_node_put function handles NULL pointers.
->
-> Found through static analysis by reviewing the doc of of_parse_phandle()
-> and cross-checking its usage patterns across the codebase.
->
-> Fixes: 7625ee981af1 ("[media] media: platform: rcar_drif: Add DRIF support")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
+On Wed, Sep 03, 2025 at 02:03:39PM +0200, Jacopo Mondi wrote:
+> On Wed, Sep 03, 2025 at 01:03:01PM +0300, Sakari Ailus wrote:
+> > On Mon, Sep 01, 2025 at 04:21:53PM +0200, Jacopo Mondi wrote:
+> > > On Mon, Aug 25, 2025 at 12:50:21PM +0300, Sakari Ailus wrote:
+> > > > Add a reference to the V4L2_CID_COLOR_PATTERN control in the generic raw
+> > > > pixelformat documentation.
+> > > >
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > ---
+> > > >  .../userspace-api/media/v4l/ext-ctrls-image-source.rst         | 2 ++
+> > > >  Documentation/userspace-api/media/v4l/subdev-formats.rst       | 3 +++
+> > > >  2 files changed, 5 insertions(+)
+> > > >
+> > > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > > index b19aaaffbce0..0fcd60d8c621 100644
+> > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > > @@ -93,6 +93,8 @@ Image Source Control IDs
+> > > >      is reported as being (say) 128, then a value of 192 would represent
+> > > >      a gain of exactly 1.5.
+> > > >
+> > > > +.. _image-source-control-color-pattern:
+> > > > +
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+I'd move this to the previous patch.
 
-Note that this is a duplicate of "[PATCH] media: rcar_drif: Fix an OF
-node leak in rcar_drif_bond_enabled()", which was never applied.
+> > > >  ``V4L2_CID_COLOR_PATTERN (integer)``
+> > > >      This control determines the color components and native pixel order in the
+> > > >      sensor's CFA (Color Filter Array) when used in conjunction with
+> > > > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > > index e77b4ad19737..77571adeb21e 100644
+> > > > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> > > > @@ -3444,6 +3444,9 @@ camera sensors using Bayer and other Colour Filter Arrays (CFAs) on serial
+> > > >  interfaces. The packing of the data on the bus is determined by the hardware,
+> > > >  however the bit depth is still specific to the format.
+> > > >
+> > > > +The colour components and the native pixel order are determined by the
+> > >
+> > > Isn't
+> > >   +The native colour components ordering are determined by ...
+> > >
+> > > As I don't see how "colour components and the native pixel order"
+> > > information can be conveyed separately.
+> >
+> > How about:
+> >
+> > The native Colour Filter Array (CFA) pattern is determined by the
 
-[1] https://lore.kernel.org/20250105111050.3859712-1-joe@pf.is.s.u-tokyo.ac.jp
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Gr{oetje,eeting}s,
-
-                        Geert
+> Works for me, thanks!
+> 
+> > > Up to you
+> > >
+> > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > >
+> > > > +:ref:`V4L2_CID_COLOR_PATTERN <image-source-control-color-pattern>` control.
+> > > > +
+> > > >  .. tabularcolumns:: |p{2.0cm}|p{4.0cm}|p{11.3cm}|
+> > > >
+> > > >  .. cssclass:: longtable
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Regards,
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+Laurent Pinchart
 
