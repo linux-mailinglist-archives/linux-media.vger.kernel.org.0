@@ -1,190 +1,120 @@
-Return-Path: <linux-media+bounces-41641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41642-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CA10B41898
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 10:31:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E481B418F5
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 10:45:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E06151BA47E5
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 08:32:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E967B1B27C47
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 08:45:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 882C12EBDD0;
-	Wed,  3 Sep 2025 08:30:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E36402E8B69;
+	Wed,  3 Sep 2025 08:45:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rkHwxNEB"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LbVlfp2k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8B832BF016;
-	Wed,  3 Sep 2025 08:30:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98F22DF13B;
+	Wed,  3 Sep 2025 08:45:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756888246; cv=none; b=YKsMUvQVhz78LeuDtT2OISIqzjjvS2pspk9HJ7KXKzFILu+MyHp6Uw5AM+N1KHh/+TJrBekq5hOnhaIqJr2nwqjGqHe+xp7iogPLDiEFlr+q3IR874oaDsN7laaqGJ4qfcT4Tg81OseTrzM67x3HltLAWZVsoLVtKBLXr0mWmSs=
+	t=1756889106; cv=none; b=EtAKK4VGhaf9myfPkVOdo2PMpBFQIzbSxb8etn74yeYP/HN9IYlyYGcN0tTYFfzQ7QKV+fEWWgp3Iq+7CtQSfBlUOmpzvWCGRKJBck8BdbyTmZCICwI0RY6lzi5qB+evx+Pt+G9vPhO73+DXyjnOsdZdlYvA7F/r9tSrIR+/gj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756888246; c=relaxed/simple;
-	bh=JnLCWgleF+XfwxH0bSsslWnZ3ZJEuDsQf0CGnQyLAXQ=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=tg6aPkQW0MJK3DHKp1p2mSuXilv9DYuwmrCrIK8JAGXo9HeHy0OMNF3aIHA5d8p4NFxhmGoJStHuOwhULAuGaX36ezuW8gl7zsI1i6lHp7QBas/m0klS2b78hyWQuv4Rkj2Ta8FRpUauO6IuHA4Z2xw+Mv9b22VXQRHvbir0Yx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rkHwxNEB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D90FBC4CEF0;
-	Wed,  3 Sep 2025 08:30:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756888245;
-	bh=JnLCWgleF+XfwxH0bSsslWnZ3ZJEuDsQf0CGnQyLAXQ=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=rkHwxNEBdY9nM0qOptEdyfty/qbTlm2SgPMfRThSY6lQLtX2QKzksnfv4W8fhq3YW
-	 sltjS2U13K9QkcYxwWiO3oTHyoSXt9kGn8M+wQPkJAPpsuAHu6YaIUxDBwf3yVA5bW
-	 6Jh6lviQcbfZh4VzEnOmbXiwhZhBIHwvFtF4nhyKf4Es8Be7p0WhHOjFRScUy0SkF2
-	 Jz1RtznBIKqO8Hf3ze61/9zNs88JPOuo4GdbnelMgtRRhRa/PrQ/K6dngsAYA0MHeG
-	 BSGs1FlrjcEJAXqVn27/VMfRyQ7i6QxsAKz8/RbB/zdMSaDVmrhnp3F+509uaidKaB
-	 6xnJGEjEvFTPg==
-Message-ID: <a8ca5ff0-17df-4330-a05b-ab892fdf2e6f@kernel.org>
-Date: Wed, 3 Sep 2025 10:30:42 +0200
+	s=arc-20240116; t=1756889106; c=relaxed/simple;
+	bh=s7Pult1M8a65x3h8QtEBGWYKCQIOKeI7JSXX6UtHa6w=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=IdPWxaMQjmFup7b8KCJ1gad2X6NShd0b//iL4TiTGsZ9KtmLO+k7hU4dc/u4CB91OEHJ0xEJ8N1aywTcvKzUa2Ke3+bbAnelArtpmI52Cp3wPikgDWg4LoKussBs0o08iGKdVNtg6HdYkjnHbmrqluJ5UeCEuaAmNvGQZSDqpw4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LbVlfp2k; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3df726ecff3so100214f8f.3;
+        Wed, 03 Sep 2025 01:45:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756889103; x=1757493903; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WYHkEns0w6Ce8syGafttWZHPhEvjpwV1bKqCXtix5iQ=;
+        b=LbVlfp2kKDqUAziBvM3J9IdAlKdIEhRoRBuCCs69H4eVvs4lKv/nqVQAN1M5AKS3As
+         upleaLIXzah86hGYVs3PuAoOuuiL1wfGZyYS84ZeWVodVCqORfj2aYyQr+4MboIXo/AR
+         qLsm3FKo1SSC560dYKmGF3p3vSoLsoi5hjA5i95gEJSL72IaDo1ELAaWTgYLMJ27bG1J
+         nkIFeYt0WeZ1YMRjGDzAB3O/e7MrLjZ5/CasdyzyyrOrwq2iEig9FARcWAr2lBjVfmtw
+         fPjE7+Vd4Jj4eIcNEHdO5F5SDyDc2TePRTqJruHihjRBmDZoalZ3kMVQWBt+AZZ+vdB1
+         raPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756889103; x=1757493903;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WYHkEns0w6Ce8syGafttWZHPhEvjpwV1bKqCXtix5iQ=;
+        b=OShq+80v8yExYp87A9giy947xeE3cFMqybpOa+jX96L9847Q+1zjnHIgsc1DcCKWcL
+         pZsJQmgG4tpOTTbh/pOxUB+Si6Oz2+QO0tFQqUmN+a4fstrh6zm8G6zvxlJAr7Ze9sSC
+         l0mQzK45ilzepu9gxf9EnFkgFCuzZqUh79qYZZD4cNsroEUUCe561awwAMFQ5YWFB1Lb
+         DQE/Ew3k52bu6Lc8leSEZB0Sz8zFcINXd/DKcrRYW9l3nKhLr3w0l2JCa3OU/lJMulza
+         ZTiKcvfdzoQOLk4z7eX3zhyuK1n1Yhn6wfpzpc9bECwnZ70xOxfug5ochYyhLYvIOyIA
+         r+lA==
+X-Forwarded-Encrypted: i=1; AJvYcCW8OC5xLZKqfRi1hCEpEOdraFP7tRX4vBwk2WetvduLCvNsCyMn3NR4BD/eAQ7F/Se5/84Z3PVa/bw1AUE=@vger.kernel.org, AJvYcCWeJ0DkWvos4RSo9uU+TN9TZkEi1r2a7ykGQZJqump51E+UnP8ZRA5zuuYTqozsw1fXzUNjCrYoGXKowiY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx3i1m5f8DNTe4nkVIzotrUDzsKrbET3tArltkdTIH5m5dOLoij
+	U+uqX8exjwR3zebi6dcGWmQBslBBCYRgf7gfVtdMVgwX3j0pV7rQuo0CzcK6/lsFX40bug==
+X-Gm-Gg: ASbGncvM7Ur6UYDvRjuhwP2lDE8cgmNqm1Xig9psOaXn0BEHHRnQf06IKFwodMJ/nFc
+	ES0mmNxqSboImPGBHHPZwCrS7a8Ummk1+IJu60Rvbn/AtiFRczNMsgMIbVO1eiPf1jNEsZv1Lxg
+	aSK+zOIWCIYdtzx1DQDuKEtn0JYVFZroeiI6RogvQ2XrKW0XNpngO4/nxAi6RpNy1wCixY/z0Wp
+	PNRxbHWUOFefo+jpRVPTtzxLJD4JxomL4KqNZua1MMqqdutlgOl42ZwgaI+XWKx4GZ/HQw0VR9j
+	SwC9DZF3sOnbxekbKxulruJ19a8XVw4sD286VcOStaR0x9fqMkPJf6kckcAO5IfrUx5hXwsDjeP
+	nHoomYfQqM7yQfkjeuQdJh4JtvPj4sdQ=
+X-Google-Smtp-Source: AGHT+IF22nicgiVDiy2hC205APiOr8T+5LxW0W4PlY0AvVydSMsH3eHiETff7xo0Q0o5ffWpxUYGJg==
+X-Received: by 2002:a05:6000:22c4:b0:3ce:5408:3e9b with SMTP id ffacd0b85a97d-3d1de4bc312mr11355432f8f.32.1756889102911;
+        Wed, 03 Sep 2025 01:45:02 -0700 (PDT)
+Received: from localhost ([87.254.0.133])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-3cf33fb9431sm22654054f8f.44.2025.09.03.01.45.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Sep 2025 01:45:02 -0700 (PDT)
+From: Colin Ian King <colin.i.king@gmail.com>
+To: Mike Isely <isely@pobox.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-media@vger.kernel.org
+Cc: kernel-janitors@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH][next] media: pvrusb2: Fix incorrect variable used in trace message
+Date: Wed,  3 Sep 2025 09:44:16 +0100
+Message-ID: <20250903084416.2704362-1-colin.i.king@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v2 06/11] media: adv7180: Power down decoder when
- configuring the device
-To: =?UTF-8?Q?Niklas_S=C3=B6derlund?=
- <niklas.soderlund+renesas@ragnatech.se>, Lars-Peter Clausen
- <lars@metafoo.de>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@xs4all.nl>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org
-Cc: linux-renesas-soc@vger.kernel.org
-References: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
- <20250828160654.1467762-7-niklas.soderlund+renesas@ragnatech.se>
-Content-Language: en-US, nl
-In-Reply-To: <20250828160654.1467762-7-niklas.soderlund+renesas@ragnatech.se>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
-On 28/08/2025 18:06, Niklas Söderlund wrote:
-> Some variants of the chip (ADV7180) have it's decoder powered up after
-> reset, while others (ADV7280, ADV7281, ADV7282, ADV7283) have it powered
-> down.
-> 
-> This is tracked by the feature flag ADV7180_FLAG_RESET_POWERED. At probe
-> this flag is used to initialize the state variable powered which keeps
-> track of if the decoder is powered on, or off, for the resume callback.
-> 
-> This however misses that the decoder needs to be powered off for some
-> configuration of the device to take hold. So for devices where it's left
-> on (ADV7180) the format configuration at probe time have little effect.
-> This worked as the .set_fmt callback powers down the decoder, updates
-> the format, and powers back on the decoder.
-> 
-> Before moving all configuration to .s_stream this needs to be fixed.
-> Instead of tracking if the decoder is powered on or off, use the
-> flag to determine if needs to be powered down after a reset to do the
-> configuration.
-> 
-> To keep the behavior consistent with the currents implementation switch
-> the decoder back on for devices where this is the reset behavior. The
-> primary reason for this is that if not done the first 35+ frames or so
-> of the capture session is garbage.
-> 
-> To keep the support of starting the decoder when resuming from sleep on
-> devices where the reset behavior is to start with the decoder powered
-> off, use the state variable streaming. If it is set the decoder was
-> powered on when the system suspended so we know to start it again when
-> resuming.
-> 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> ---
->  drivers/media/i2c/adv7180.c | 34 ++++++++++++++++++++++------------
->  1 file changed, 22 insertions(+), 12 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-> index 8409ee9acc4f..0bc608291df7 100644
-> --- a/drivers/media/i2c/adv7180.c
-> +++ b/drivers/media/i2c/adv7180.c
-> @@ -214,7 +214,6 @@ struct adv7180_state {
->  	struct gpio_desc	*pwdn_gpio;
->  	struct gpio_desc	*rst_gpio;
->  	v4l2_std_id		curr_norm;
-> -	bool			powered;
->  	bool			streaming;
->  	u8			input;
->  
-> @@ -556,8 +555,6 @@ static int adv7180_s_power(struct v4l2_subdev *sd, int on)
->  		return ret;
->  
->  	ret = adv7180_set_power(state, on);
-> -	if (ret == 0)
-> -		state->powered = on;
->  
->  	mutex_unlock(&state->mutex);
->  	return ret;
-> @@ -887,6 +884,13 @@ static int init_device(struct adv7180_state *state)
->  	adv7180_write(state, ADV7180_REG_PWR_MAN, ADV7180_PWR_MAN_RES);
->  	usleep_range(5000, 10000);
->  
-> +	/*
-> +	 * If the devices decoder is power on after reset, power off so the
-> +	 * device can be configured.
-> +	 */
-> +	if (state->chip_info->flags & ADV7180_FLAG_RESET_POWERED)
-> +		adv7180_set_power(state, false);
-> +
->  	ret = state->chip_info->init(state);
->  	if (ret)
->  		return ret;
-> @@ -927,6 +931,14 @@ static int init_device(struct adv7180_state *state)
->  			return ret;
->  	}
->  
-> +	/*
-> +	 * If the devices decoder is power on after reset, restore the power
-> +	 * after configuration. This is to preserve the behavior of the driver,
-> +	 * not doing this result in the first 35+ frames captured being garbage.
-> +	 */
-> +	if (state->chip_info->flags & ADV7180_FLAG_RESET_POWERED)
-> +		adv7180_set_power(state, true);
-> +
->  	return 0;
->  }
->  
-> @@ -1457,10 +1469,7 @@ static int adv7180_probe(struct i2c_client *client)
->  	state->irq = client->irq;
->  	mutex_init(&state->mutex);
->  	state->curr_norm = V4L2_STD_NTSC;
-> -	if (state->chip_info->flags & ADV7180_FLAG_RESET_POWERED)
-> -		state->powered = true;
-> -	else
-> -		state->powered = false;
-> +
->  	state->input = 0;
->  	sd = &state->sd;
->  	v4l2_i2c_subdev_init(sd, client, &adv7180_ops);
-> @@ -1568,11 +1577,12 @@ static int adv7180_resume(struct device *dev)
->  	if (ret < 0)
->  		return ret;
->  
-> -	guard(mutex)(&state->mutex);
-> -
-> -	ret = adv7180_set_power(state, state->powered);
-> -	if (ret)
-> -		return ret;
-> +	/* If we where streaming when suspending, start decoder. */
+The pvr2_trace message is reporting an error about control read
+transfers, however it is using the incorrect variable write_len
+instead of read_lean. Fix this by using the correct variable
+read_len.
 
-where -> were
+Fixes: d855497edbfb ("V4L/DVB (4228a): pvrusb2 to kernel 2.6.18")
+Signed-off-by: Colin Ian King <colin.i.king@gmail.com>
+---
+ drivers/media/usb/pvrusb2/pvrusb2-hdw.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> +	if (state->streaming) {
-> +		ret = adv7180_set_power(state, true);
-> +		if (ret)
-> +			return ret;
-> +	}
->  
->  	return 0;
->  }
+diff --git a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+index f21c2806eb9f..81e87aa8d4de 100644
+--- a/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
++++ b/drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+@@ -3622,7 +3622,7 @@ static int pvr2_send_request_ex(struct pvr2_hdw *hdw,
+ 		pvr2_trace(
+ 			PVR2_TRACE_ERROR_LEGS,
+ 			"Attempted to execute %d byte control-read transfer (limit=%d)",
+-			write_len,PVR2_CTL_BUFFSIZE);
++			read_len, PVR2_CTL_BUFFSIZE);
+ 		return -EINVAL;
+ 	}
+ 	if ((!write_len) && (!read_len)) {
+-- 
+2.51.0
 
 
