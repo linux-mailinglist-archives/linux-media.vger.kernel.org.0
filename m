@@ -1,144 +1,177 @@
-Return-Path: <linux-media+bounces-41677-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41678-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5DC9B4200C
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 14:53:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DF73AB4201A
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 14:54:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BE6F5204C11
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 12:53:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5EA0C3B4459
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 12:53:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BF3E30275C;
-	Wed,  3 Sep 2025 12:51:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BA56302CD0;
+	Wed,  3 Sep 2025 12:51:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cSZvFLlp"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="j00Rlx9R"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03A023009E0
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 12:51:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76C17301001
+	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 12:51:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756903880; cv=none; b=mQgFDTJzGDUnZL6jd5H26mUCecx3MqXlPXtxnqsElrUQRpGdnMhxLJakafU3ylYVfltIFpQnbC9vUnS7XI81jAL2VzrlWHvUsP6nei5eKSBKOWOFHYNr+kqLz12N6e6CcaA7TIII23cBN6uhwKBQTKDcX3c1oKq1PWQWUMt5x4M=
+	t=1756903914; cv=none; b=EUrmIJfISvHzMtUhkUdXF5ps1hGNh/vhGueWGOGBaDXIYJ0tgF69N+ue1aMlshVRBMz0dklhUd4GrHX6cNKlsHGDnVSUIbQIDH/kB/0ABZ8l6YvktNQCeStCVHVx2hZv7haJMjjo4QSBDBmdf+ONCHPxyNNqC9zu9sMNJazlDTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756903880; c=relaxed/simple;
-	bh=w0Vi6tse421553kSLOPqnPHU9Gz2NkKJLRdSLu2Io70=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ZJVWbYWaMsDzpPQruFyWz7oeGGYMZE4PtyFojyPYnjppOrpn902EU4EuVYezQfg0yLfYxfYpKOVvOoSq8C6DdD0lNcyr29fRfo9kT/3yayNhyuGdDOaFx7c+s3ANaJAr6lHH9lN3gpGV425vCaksSgjPZlPfpZK6wrPDStolZRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cSZvFLlp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90F92C4CEF5;
-	Wed,  3 Sep 2025 12:51:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756903879;
-	bh=w0Vi6tse421553kSLOPqnPHU9Gz2NkKJLRdSLu2Io70=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=cSZvFLlpPOIiaTdYRStowPJBi/nerxs55BEYPBRQlN0a+i5zWtlyoTpXoB8lm91cw
-	 qZROdKzFYLEMNLqnVjlmU8UiejjqABFVXyyhUeFfDDG1Y7cSIz31SPozJCAdPf+Rfs
-	 s/RpuF83mjKC5J0SFl+5Wey/EcaVcGu1/LIZwFPq2ngxD9n+FEy5iDuRLEzqV06Nz0
-	 xk/KXzSGTaXy2fxBV7TkZADB3VUOyUuq9afrZPU3+WRzoRZwU0Ca1s6fjrF45Dfoof
-	 NrWf3nYZu0tgk37Z32/1x2496zqzFo5042SBynGKb6AbX0b/Vg9nrRBZw7unkL1W4f
-	 xHw3CL4XTzGHA==
-Message-ID: <8f84500b-8b9d-4ad3-a04c-fe8148b0a0bf@kernel.org>
-Date: Wed, 3 Sep 2025 14:51:16 +0200
+	s=arc-20240116; t=1756903914; c=relaxed/simple;
+	bh=AIKFtWlK7GYq5oSMffbje2ESCsIUc5V1H8t8dEEMHJc=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=JmW3K548l6DC8jnJpEA3LZ0K6WzOUu5fjChCfWRRSITTne/eCsUo56wOS52L9OJCvWMda8x+NY/5SOpA7De0xPfx8yimwCUUd8Q24ofwhRDWAk8V+wQZU3xXEPJ/+ci7YeQMwRuFWCKKEfu0Zk575GVSanzm2rRtbLSqkzeVkbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=j00Rlx9R; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-4b109c482c8so115285001cf.3
+        for <linux-media@vger.kernel.org>; Wed, 03 Sep 2025 05:51:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1756903911; x=1757508711; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=AIKFtWlK7GYq5oSMffbje2ESCsIUc5V1H8t8dEEMHJc=;
+        b=j00Rlx9RLaE1YxzYMYw7HwIAs0Dn2BbGEAkIVylIsV9SAFpWSbjZnfwMdQpqzZNyuV
+         oEq/yMdij3xx5CYm+UHnVyPp2aG/yB0RzMf1zs23yadxxexOyiHfebdgSKaYI03Qo3PA
+         VL8uXHJo3LzqzU1wmQ8REzGBa0WusTsFf4Q2027/cAipRktgq/5MSlGll1PDQ5VkANSS
+         JRUI0W51CrmMqPaTNPuS8DLF+TznqubDlbVLzOCeqCUoUwg5UiBOrkhrOVc+V9J7vZYW
+         4DxxONexdIcbqVK2aStZT1laO60IvLE3QiUHMr3/eJbeAXiUw3jzoEpXdHg4pwIYmLFR
+         FlYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756903911; x=1757508711;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=AIKFtWlK7GYq5oSMffbje2ESCsIUc5V1H8t8dEEMHJc=;
+        b=BphXZdA6NdniHVIgA4ycuPAQ6EV0UsmLOGAuq9r0hyytUb9kqWc+z4KXwWUqxo3MP8
+         vPKAs1+A8FbbYL1Uob8oLEYwqQChrx8yMuY7J/gado/pHxM/obvHYsGZfe3eLKedEqoj
+         Rjl2Vo0vryHEfsaBGFMMZ1wZ6udpRV1/IgoJfZxGf89nF3p/MkTxaOAgkw4vUyCiVgEa
+         h+bS7WtqpPkSNISl87NI9Huzlp0+Bw1yQCDX7PS4+CcvhAX1JF4Eu6rWjhQY0OZKwh/Y
+         U0tSbUEh3S5ahr+PEFc0YQbCqdcmTj1VCM8LKJnK4Wy57F4ZwrXNY+iOPhpFLZghMLzr
+         ImSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUZhdtY3gYM0A1LgXk6ru+3X9RHYX1P9tpDBwm3C/Gzic/wrn8Ljzgp3enYqI09SLs2hp08wHbUB/u6SQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxiyMFBr2dZ779WreJbsPdIe3SGvZGTIqVslZ6QKw6PAvFtAOPr
+	Khzw9eCxOui512l3H6FXugaO7qLu6rtErcME5Z5KXqqoVXkxe5mSUg0Bf1ZHE3w7RDs=
+X-Gm-Gg: ASbGncsid8UdCGO49A9+V/OXyC7Im08TJUlLmtV0fVqHIuL155PAKByCaT6E8SMKc32
+	hvt5RlAHLrH61zMnxdGFOQiDuS5w/zuV09FKi0kkUgljscIsh0v8rkvXI1t//uTHLXvfuqjfw0C
+	JGRmlNX7XuSf1e0Cn7s09CoHVgr06/11gLW12zbwtyckY03pQvk5tPncEQrJ4ko1T9OTZ5qonSW
+	iWoGTBh0ZfJ8xadkhNtGAYbfzI86CC85x+m/OoZN8Ipp5UMrV5tsIAPVSWJOKLQWoM6wyOHgs1f
+	QLcp8u1RQytR8wbbusqs6Zidlhq6WRZlTK2LukLGJ+011h8jNX5ct+HEWg5bmWhzu8iH3sjBBbi
+	TMolXVyl/VNdk9LzfoB2P4m43qqQ=
+X-Google-Smtp-Source: AGHT+IE72v8aFSokPKeCW+j5I/H9PRUxg3lIUX4jhYLcoDzr0VzT7udk6OxKSXEObKTn7EUimLGAsg==
+X-Received: by 2002:a05:622a:c3:b0:4b4:3788:baae with SMTP id d75a77b69052e-4b43788cbc6mr44528761cf.43.1756903911203;
+        Wed, 03 Sep 2025 05:51:51 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:11:5a76::5ac? ([2606:6d00:11:5a76::5ac])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4b48f501690sm11289281cf.0.2025.09.03.05.51.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 03 Sep 2025 05:51:50 -0700 (PDT)
+Message-ID: <78b80e3bc761eee2151a32af8b7f1a782fa5e500.camel@ndufresne.ca>
+Subject: Re: [PATCH] .mailmap: update Vikash Garodia's email addresses
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Vikash Garodia <quic_vgarodia@quicinc.com>, Krzysztof Kozlowski
+	 <krzk@kernel.org>, linux-media@vger.kernel.org
+Cc: vikash.garodia@oss.qualcomm.com
+Date: Wed, 03 Sep 2025 08:51:48 -0400
+In-Reply-To: <b60f364e-3aeb-7e01-d03e-b7ec8eed1a42@quicinc.com>
+References: <20250902152224.1150300-1-quic_vgarodia@quicinc.com>
+	 <de89f325-0e4c-4040-a7ae-fd36d3e4a177@kernel.org>
+	 <b60f364e-3aeb-7e01-d03e-b7ec8eed1a42@quicinc.com>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-YMMHO9Yvb4q6LHa/9hL4"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] .mailmap: update Vikash Garodia's email addresses
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Vikash Garodia <quic_vgarodia@quicinc.com>, linux-media@vger.kernel.org
-Cc: vikash.garodia@oss.qualcomm.com
-References: <20250902152224.1150300-1-quic_vgarodia@quicinc.com>
- <de89f325-0e4c-4040-a7ae-fd36d3e4a177@kernel.org>
- <b60f364e-3aeb-7e01-d03e-b7ec8eed1a42@quicinc.com>
- <1a1320af-0cc1-411a-8242-9e065d37d56a@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <1a1320af-0cc1-411a-8242-9e065d37d56a@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-On 03/09/2025 14:49, Krzysztof Kozlowski wrote:
-> On 03/09/2025 14:24, Vikash Garodia wrote:
->>
->> On 9/3/2025 12:56 AM, Krzysztof Kozlowski wrote:
->>> On 02/09/2025 17:22, Vikash Garodia wrote:
->>>> Add vikash.garodia@oss.qualcomm.com as the main address for upstream
->>>> work.
->>>>
->>>> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
->>>> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->>>
->>> That's the same person. SoB does not mean any rights to an email, but
->>> DCO. Please read submitting patches about meaning of SoB and drop the
->>> first fake SoB.
->>
->> I referred this [1], at the same time, i find your point valid given its
->> basically represents an identity, which remains same irrespective of multiple
->> email IDs.
-> 
-> I don't even know what this means... there is no identity here, no one
-> checks identities, although even identities are the same - oss.qualcomm
-> = quicinc, these are the same companies.
-Anyway the patch should be NAKed for other reason - this email address
-does not even work!
 
-Diagnostic-Code: smtp; The email account that you tried to reach does
-not exist. Please try double-checking the recipient's email address for
-typos or unnecessary spaces. For more information, go to
-https://support.google.com/mail/?p=NoSuchUser
+--=-YMMHO9Yvb4q6LHa/9hL4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Your message wasn't delivered to vikash.garodia@oss.qualcomm.com because
-the address couldn't be found, or is unable to receive mail.
+Hi,
 
-Best regards,
-Krzysztof
+Le mercredi 03 septembre 2025 =C3=A0 17:54 +0530, Vikash Garodia a =C3=A9cr=
+it=C2=A0:
+>=20
+> On 9/3/2025 12:56 AM, Krzysztof Kozlowski wrote:
+> > On 02/09/2025 17:22, Vikash Garodia wrote:
+> > > Add vikash.garodia@oss.qualcomm.com=C2=A0as the main address for upst=
+ream
+> > > work.
+> > >=20
+> > > Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+> > > Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> >=20
+> > That's the same person. SoB does not mean any rights to an email, but
+> > DCO. Please read submitting patches about meaning of SoB and drop the
+> > first fake SoB.
+>=20
+> I referred this [1], at the same time, i find your point valid given its
+> basically represents an identity, which remains same irrespective of mult=
+iple
+> email IDs.
+>=20
+> [1]
+> https://lore.kernel.org/linux-media/fb481f2d-d230-4869-9cc2-6f56e75f92a2@=
+xs4all.nl/
+>=20
+> >=20
+> > Subject - it's mailmap, not mailmap,=20
+>=20
+> What are you trying to say here "its mailmap, not mailmap" ?
+
+My guess, and since I also prefer it this way, would be to drop the leading=
+ dot
+in the subject, quite cosmetic preference, but I believe this is what the
+comment was about. ".mailmap -> mailmap"
+
+regards,
+Nicolas
+
+>=20
+> > but more important - MAINTAINERS
+> > patch should be squashed here.
+>=20
+> I was planning to do it separately, but i agree its even better to update
+> MAINTAINERS alongwith this.
+>=20
+> Regards,
+> Vikash
+
+--=-YMMHO9Yvb4q6LHa/9hL4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaLg55QAKCRDZQZRRKWBy
+9E23AP9uxXuhj6wIQTKfXjvP1QE55j4Z81pfP+3CGzl/HBFIAwD8Dh27hEts5q8r
+J9OdeuMxQH0NBQuAPybw5JV+NrDyEgo=
+=VynR
+-----END PGP SIGNATURE-----
+
+--=-YMMHO9Yvb4q6LHa/9hL4--
 
