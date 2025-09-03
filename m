@@ -1,251 +1,181 @@
-Return-Path: <linux-media+bounces-41736-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41737-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A661B42B7B
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 23:02:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F9E0B42BEF
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 23:29:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 53F405661E7
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 21:02:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E637A1BC76BE
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 21:29:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5DA832E7BAC;
-	Wed,  3 Sep 2025 21:02:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9285E2EB843;
+	Wed,  3 Sep 2025 21:29:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="h6hW9Nga"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f0BNkr92"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 329D62C325C
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 21:02:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9A9C2BE631;
+	Wed,  3 Sep 2025 21:29:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756933360; cv=none; b=KUkbweXtaFBopviQWSf2ljFl1POc+5rVmQWB1pCRD9lvr+EqEzGJaZxPWGgFXb1dZvkWmF9xkt9G3fn7gzvzfH5kWSB4g9+ozoaaO1rpymsfnKidMA4cPywUaiXrbUtvnvISAuFYNvqAbxUxnQGaaQS6vljSA1yo8yFxXOKX4f8=
+	t=1756934946; cv=none; b=beVdOVkDsqmNOz576cTxTt60JpJQYMY9jOHQIzY6eH4V/4RBqDkOeQ9EJlNcLXqCJHeYm+JZVuNVy0p44fnly9OIxc2aSDw1i+ZUxZaf5rZoLv0LMdFdCrYtmLy+to6Q0aZzYYDOejt5H6M+eeWLqXKZ6mohrEwgRQgzazsT0RE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756933360; c=relaxed/simple;
-	bh=hU9eajkyGVwCtI3urBoBt8jkdAJeMJ8xe7iqrjLncdc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hhiqcXIkLh35X9M1TagStcp3XGkdcb02Z8Mqn4M0UevAfMPlre6jLDFkC2gmbfXf9/D6By/D5voeOWX2TIA9HGt3ChLk1O+FrBlLqN6rII0qxxLCCbE9s+1leRZ3PHh/5S/eOj7dsGI2rRVQQtNLU4AkGf1Y0dbTpuHECAEnkTA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=h6hW9Nga; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 6D9E68CB;
-	Wed,  3 Sep 2025 23:01:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756933286;
-	bh=hU9eajkyGVwCtI3urBoBt8jkdAJeMJ8xe7iqrjLncdc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=h6hW9NgabSR/2rCq53Jm2e8fHDZWEzKiyKQ1bt8M+/fI/vQhiQKbv7bqweQmYypnt
-	 9aofuJix28+yLPp/+SOqfLmopNJLfiSRVhiW8KzmCF09nDvrSGRIOZZLr/ypEcBcE1
-	 EmFgGP5+rwSDn0SWKFV1lqJ3Bg0djxKJ/DQQzN7M=
-Date: Wed, 3 Sep 2025 23:02:12 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 34/66] media: ccs: Compute scaling configuration from
- sub-device state
-Message-ID: <20250903210212.GZ3648@pendragon.ideasonboard.com>
-References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-35-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1756934946; c=relaxed/simple;
+	bh=7SVgbfVOoax32KdoDim4jvHnPooapvb5b2nR8ORrvU4=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=f2QupVoXhzFRcO3pXQNhV7eMmnQr7pdptL8ea35OJ276tAS3fUf9wJzSggMYQjeiZManxyMwejZJtVRGXz/1bwLfApa2scUFln9fbj+kJtJUuKOJHEjjhE+rZaHQtW/+2lu8zIlbAJQCUe2FXcAqcT9hSNtAqiOgPTsQTk1hfBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f0BNkr92; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16957C4CEF4;
+	Wed,  3 Sep 2025 21:29:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756934945;
+	bh=7SVgbfVOoax32KdoDim4jvHnPooapvb5b2nR8ORrvU4=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=f0BNkr92T/TrVKvAAMDvQK7wbRg0H89K4vBRW5jYGLt2L51z9bT0YQe4J8P3IufHE
+	 U+f33ouEOxsgUyHVEiekBUidCRqL9X2Mo532lkMaMbJKnTB4+O75npenAx+RKpnUbO
+	 lnoxINPeV+9L8I2OZdOicwhB1UhlEOYc5gnn/C8AGyIa6NEgi8LG/dduUqunfmPrUV
+	 QIf8wMOOGsBaP2jvus4Q+jFRjz38d43XWZJH69j4GylBTPD5ZNGnKlDPcp3LOLDFPA
+	 z03WL/oVkMdSuor+8Fp5RxLKIAseho0lrQo//DjeLLaFevTEItRz3hxgDpSJxEG/x0
+	 NZBA1Zp3obT0w==
+Message-ID: <809eaabf-6ef0-4c86-91c9-cacc3c224bc9@kernel.org>
+Date: Wed, 3 Sep 2025 23:29:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250825095107.1332313-35-sakari.ailus@linux.intel.com>
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v2 00/11] media: adv7180: Improve the control over decoder
+ power
+To: =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil
+ <hverkuil@xs4all.nl>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
+ <80d191a0-d978-4909-a0f2-d25cd9757d55@kernel.org>
+ <20250903143539.GA1207681@ragnatech.se>
+Content-Language: en-US, nl
+In-Reply-To: <20250903143539.GA1207681@ragnatech.se>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
-
-You seem to have missed taking my review comments from v9 into account
-here. As that was the case for other ccs patches earlier in this series
-I'll assume the rest of the ccs patches are also affected and will skip
-reviewing them. Please look at v9 and address the comments in v12.
-
-On Mon, Aug 25, 2025 at 12:50:35PM +0300, Sakari Ailus wrote:
-> Compute scaling configuration from sub-device state instead of storing it
-> to the driver's device context struct.
+On 03/09/2025 16:35, Niklas Söderlund wrote:
+> Hi Hans,
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/i2c/ccs/ccs-core.c | 59 ++++++++++++++++++++++----------
->  drivers/media/i2c/ccs/ccs.h      |  3 --
->  2 files changed, 40 insertions(+), 22 deletions(-)
+> Thanks for your review effort!
 > 
-> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> index 1eb63956ef1f..7b451684e1ed 100644
-> --- a/drivers/media/i2c/ccs/ccs-core.c
-> +++ b/drivers/media/i2c/ccs/ccs-core.c
-> @@ -531,19 +531,51 @@ ccs_get_binning(struct ccs_sensor *sensor, u8 *binning_mode, u8 *binh, u8 *binv)
->  	*binv = sink_crop->height / sink_comp->height;
->  }
->  
-> +static void ccs_get_scaling(struct ccs_sensor *sensor, u8 *scaling_mode,
-> +			    u8 *scale_m)
-> +{
-> +	struct v4l2_subdev_state *state =
-> +		v4l2_subdev_get_locked_active_state(&sensor->scaler->sd);
-> +	const struct v4l2_rect *sink_crop =
-> +		v4l2_subdev_state_get_crop(state, CCS_PAD_SINK,
-> +					   CCS_STREAM_PIXEL);
-> +	const struct v4l2_rect *sink_comp =
-> +		v4l2_subdev_state_get_compose(state, CCS_PAD_SINK,
-> +					      CCS_STREAM_PIXEL);
-> +
-> +	*scale_m = sink_crop->width * CCS_LIM(sensor, SCALER_N_MIN) /
-> +		sink_comp->width;
-> +
-> +	if (!scaling_mode)
-> +		return;
-> +
-> +	if (sink_crop->width == sink_comp->width)
-> +		*scaling_mode = CCS_SCALING_MODE_NO_SCALING;
-> +	else if (sink_crop->height == sink_comp->height)
-> +		*scaling_mode = CCS_SCALING_MODE_HORIZONTAL;
-> +	else
-> +		*scaling_mode = SMIAPP_SCALING_MODE_BOTH;
-> +}
-> +
->  static int ccs_pll_update(struct ccs_sensor *sensor)
->  {
->  	struct ccs_pll *pll = &sensor->pll;
->  	u8 binh, binv;
-> +	u8 scale_m;
->  	int rval;
->  
->  	ccs_get_binning(sensor, NULL, &binh, &binv);
->  
-> +	if (sensor->scaler)
-> +		ccs_get_scaling(sensor, NULL, &scale_m);
-> +	else
-> +		scale_m = CCS_LIM(sensor, SCALER_N_MIN);
-> +
->  	pll->binning_horizontal = binh;
->  	pll->binning_vertical = binv;
->  	pll->link_freq =
->  		sensor->link_freq->qmenu_int[sensor->link_freq->val];
-> -	pll->scale_m = sensor->scale_m;
-> +	pll->scale_m = scale_m;
->  	pll->bits_per_pixel = sensor->csi_format->compressed;
->  
->  	rval = ccs_pll_try(sensor, pll);
-> @@ -1203,7 +1235,7 @@ static int ccs_get_mbus_formats(struct ccs_sensor *sensor)
->  	/* Figure out which BPP values can be used with which formats. */
->  	pll->binning_horizontal = 1;
->  	pll->binning_vertical = 1;
-> -	pll->scale_m = sensor->scale_m;
-> +	pll->scale_m = CCS_LIM(sensor, SCALER_N_MIN);
->  
->  	for (i = 0; i < ARRAY_SIZE(ccs_csi_data_formats); i++) {
->  		sensor->compressed_min_bpp =
-> @@ -1948,11 +1980,15 @@ static int ccs_enable_streams(struct v4l2_subdev *subdev,
->  	/* Scaling */
->  	if (CCS_LIM(sensor, SCALING_CAPABILITY)
->  	    != CCS_SCALING_CAPABILITY_NONE) {
-> -		rval = ccs_write(sensor, SCALING_MODE, sensor->scaling_mode);
-> +		u8 scaling_mode, scale_m;
-> +
-> +		ccs_get_scaling(sensor, &scaling_mode, &scale_m);
-> +
-> +		rval = ccs_write(sensor, SCALING_MODE, scaling_mode);
->  		if (rval < 0)
->  			goto err_pm_put;
->  
-> -		rval = ccs_write(sensor, SCALE_M, sensor->scale_m);
-> +		rval = ccs_write(sensor, SCALE_M, scale_m);
->  		if (rval < 0)
->  			goto err_pm_put;
->  	}
-> @@ -2261,7 +2297,6 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
->  			  struct v4l2_subdev_state *sd_state, int which,
->  			  int target)
->  {
-> -	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
->  	struct ccs_subdev *ssd = to_ccs_subdev(subdev);
->  	struct v4l2_rect *comp, *crop;
->  	struct v4l2_mbus_framefmt *fmt;
-> @@ -2274,13 +2309,6 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
->  						  CCS_STREAM_PIXEL);
->  		comp->width = crop->width;
->  		comp->height = crop->height;
-> -		if (which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> -			if (ssd == sensor->scaler) {
-> -				sensor->scale_m = CCS_LIM(sensor, SCALER_N_MIN);
-> -				sensor->scaling_mode =
-> -					CCS_SCALING_MODE_NO_SCALING;
-> -			}
-> -		}
->  		fallthrough;
->  	case V4L2_SEL_TGT_COMPOSE:
->  		crop = v4l2_subdev_state_get_crop(sd_state, CCS_PAD_SRC,
-> @@ -2665,11 +2693,6 @@ static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
->  				 * CCS_LIM(sensor, SCALER_N_MIN)) & ~1;
->  	else
->  		sel->r.height = sink_crop->height;
-> -
-> -	if (sel->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
-> -		sensor->scale_m = scale_m;
-> -		sensor->scaling_mode = mode;
-> -	}
->  }
->  /* We're only called on source pads. This function sets scaling. */
->  static int ccs_set_compose(struct v4l2_subdev *subdev,
-> @@ -3784,8 +3807,6 @@ static int ccs_probe(struct i2c_client *client)
->  	sensor->pixel_array = &sensor->ssds[sensor->ssds_used];
->  	sensor->ssds_used++;
->  
-> -	sensor->scale_m = CCS_LIM(sensor, SCALER_N_MIN);
-> -
->  	/* prepare PLL configuration input values */
->  	sensor->pll.bus_type = CCS_PLL_BUS_TYPE_CSI2_DPHY;
->  	sensor->pll.csi2.lanes = sensor->hwcfg.lanes;
-> diff --git a/drivers/media/i2c/ccs/ccs.h b/drivers/media/i2c/ccs/ccs.h
-> index 9671883e4885..3fddbe267409 100644
-> --- a/drivers/media/i2c/ccs/ccs.h
-> +++ b/drivers/media/i2c/ccs/ccs.h
-> @@ -238,9 +238,6 @@ struct ccs_sensor {
->  
->  	u8 emb_data_ctrl;
->  
-> -	u8 scale_m;
-> -	u8 scaling_mode;
-> -
->  	u8 frame_skip;
->  	u16 embedded_start; /* embedded data start line */
->  	u16 embedded_end;
+> On 2025-09-03 10:46:11 +0200, Hans Verkuil wrote:
+>> On 28/08/2025 18:06, Niklas Söderlund wrote:
+>>> Hello,
+>>>
+>>> This series started as an effort to fix issues with querystd. To do that
+>>> it turned out the whole drivers design around how it controls the power
+>>> to the video decoder block inside the chip had to be reworked. As a
+>>> bonus this works removes the now deprecated .s_power callback from
+>>> adv7180.
+>>>
+>>> The adv7180 drivers comes from a time before media controller and all
+>>> operation callbacks are, more or less, designed around the concept that
+>>> a video device is the only user-space facing API. In that world a vdev
+>>> would attached the subdevice, call .s_power and then perform format
+>>> configuration using the other operation callbacks and then start
+>>> streaming with .s_stream. Needles to say this mode of operation don't
+>>> work well with media controller where the subdevices itself have a
+>>> user-space API exposed thru a subdev device.
+>>>
+>>> The initial problem I tried to solve (querystd) was that it stopped
+>>> functioning as expected after the subdev had been used to stream once
+>>> (.s_power(1), .s_power(0)). As it turns out different variants of the
+>>> adv7180 device have different reset beaver for if its video decoder
+>>> block is left running or powered off. On my device it was left running
+>>> so querystd functioned the first time, but not after the video decoder
+>>> had been switched off once by .s_power(0).
+>>>
+>>> I first tried to fix this by introducing proper PM handling in the
+>>> driver to be able to remove the .s_power callback. I quickly learnt the
+>>> power on/off logic happening in the driver had noting to do with
+>>> controlling power to the chip itself, but to control if the chips video
+>>> decoder block was turned off.
+>>>
+>>> When this block is powered on the device process video data, if there is
+>>> a video source else it free runs. However when the block is turned off
+>>> the device can still be configured, in fact some configuration requires
+>>> it to be off.
+>>>
+>>> For this reason I dropped the effort to add proper PM handling and
+>>> treated the decoder power as a stream on/off switch. I still think
+>>> proper PM handling would be beneficial for this driver but to not
+>>> explode this already large series I left that for another time. Solving
+>>> the issue around .s_power will make that work easier as well as other
+>>> task such as converting to the v4l2_subdev active state API.
+>>>
+>>> Patch 1/11 just moves code around to make the consecutive changes easier
+>>> to read. Patch 2/11 fix a locking issues when suspending the device.
+>>> Patch 3/11 and 4/11 improves the locking design to prepare to improve
+>>> the driver.
+>>>
+>>> Patch 5/11 make sure the device controls are always programmed after the
+>>> device have been reset, fixing a possible issue when the device where
+>>> resumed from system sleep.
+>>>
+>>> Patches 6/11, 7/11 and 8/11 is the real change where the .s_power
+>>> callback is reworked to fit the design of .s_stream instead.
+>>>
+>>> And finally patch 9/11, 10/11 and 11/11 removes programming of the
+>>> device from operation callbacks and solves the issue with querystd.
+>>>
+>>> The work is tested on R-Car M2 together with a ADV7180 device.
+>>>
+>>> See individual patches for changelog.
+>>
+>> This series looks good to me, other than the one typo and the
+>> control handler kAPI issue, but that can be done in a follow-up
+>> series.
+>>
+>> If you want I can take this series, let me know.
+> 
+> Thanks for pointing out the improvement in the kAPI, I agree with it.  
+> But as you point out I can do that in follow up work so I would be happy 
+> if you would take this series. Can you correct the typo while applying, 
+> or would you prefer I send an undated series?
 
--- 
+I'll correct the typo.
+
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> 
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>>
+>>> Niklas Söderlund (11):
+>>>   media: adv7180: Move adv7180_set_power() and init_device()
+>>>   media: adv7180: Add missing lock in suspend callback
+>>>   media: adv7180: Move state mutex handling outside init_device()
+>>>   media: adv7180: Use v4l2-ctrls core to handle s_ctrl locking
+>>>   media: adv7180: Setup controls every time the device is reset
+>>>   media: adv7180: Power down decoder when configuring the device
+>>>   media: adv7180: Split device initialization and reset
+>>>   media: adv7180: Remove the s_power callback
+>>>   media: adv7180: Do not write format to device in set_fmt
+>>>   media: adv7180: Only validate format in s_std
+>>>   media: adv7180: Only validate format in querystd
+>>>
+>>>  drivers/media/i2c/adv7180.c | 338 +++++++++++++++++++-----------------
+>>>  1 file changed, 174 insertions(+), 164 deletions(-)
+>>>
+>>
+> 
+
 
