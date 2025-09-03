@@ -1,132 +1,237 @@
-Return-Path: <linux-media+bounces-41690-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41691-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB00B421F2
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 15:38:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 972E0B4224F
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 15:45:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 484057BBD50
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 13:36:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2CBE01B2439C
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 13:45:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 77C70309DA1;
-	Wed,  3 Sep 2025 13:37:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AE0630AACE;
+	Wed,  3 Sep 2025 13:45:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DfKs6bwJ"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gygmG0je"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6BC092EACE2;
-	Wed,  3 Sep 2025 13:37:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5260B2749D9;
+	Wed,  3 Sep 2025 13:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756906661; cv=none; b=CMKS8k080mqm+O8nZXrLqLCDNcsoLKfohAtB4ZR/JinYuun5vFrsY8LXu9TLDxQL2vt7UMUf8N6B5AQZ2oaiHT1Htp/urzbUhZyanIgt4A55yk963ehK5FGZkWQbn0ookDIhFHNDEHKV7dfk6BSQcP2YncQhYZY3Jpwal7WkP8w=
+	t=1756907102; cv=none; b=ASWWBnyaLPzCpouINo8mJK6NpirQrUcdZbGl647PEaBLfiga04RFHFGMBeWtreoWeW+N7pM9ZBwlKoyaARlYpbVIh0BORZEP06KSG1Sjxt0/Xw6W7TOY7YSShfDI6emYaXusILGwGbllT6nbxKJSb6oQMaaLxG/N+0KYjJJrGXk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756906661; c=relaxed/simple;
-	bh=4Pv/lZEmRfsRDnM/wSl9bsAh9CeiyqAEPN2KUA1IfR8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=knFOwwrS/18T/zJIkOO4u/78uKBlgllsW8bPLP5gKxt7T/TNEsKLx9acMov/1VJEVyAUzASxGxEywMbLrx7QbrKFe8uS2UXRtY6kua8tQpPtlglJj5087AbzjuVqTiKGptQWx7QrRJ0Z593fmiw1yRewdmrMcA2mgYFZCxvCRhU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DfKs6bwJ; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-24a9cc916b3so36962525ad.0;
-        Wed, 03 Sep 2025 06:37:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756906659; x=1757511459; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=j0IPIvNKxRX3PZ8lrrWw+UHXMJcK73G3kVKGuC4cM1o=;
-        b=DfKs6bwJkfyX+MH4pxXtcjOG53XUyaKhXkoq9lExEPK6Kf2FI/PsuGdZSw3lSEUhCg
-         Is2pe459S1kKCHjqYuK6RHmqsw0S6hXNWtHIwls9Rjvg18dfF7VxSnirJUL2eECnO0u2
-         ZCZENTJD8K79PaIzSXRqbnDvCDcuiPx1xbsj7pnIlSULhQt6Paq088JbbTpg6EhVTXDn
-         QiYlijyKfWhdGemMf9NGX1lgA7i2KzDcF5NaTOvSosDwMfBlZaVM2kR02xMFq6BWI0Kr
-         ZxlC+Q1iepgRmJ0uJZM96rDdhpZHYW5B3WmFi4z64gmCW6LZ7rX51czXLyYVvGIsWT2O
-         /fBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756906659; x=1757511459;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=j0IPIvNKxRX3PZ8lrrWw+UHXMJcK73G3kVKGuC4cM1o=;
-        b=trUOZnFcuRkEjxvSs2MN5Q8138MFGF0esZd1oUq8fibvFeOWXfsOhAOGrkaAS8Lrrf
-         L4duJgv4S2BOKKXyA6I/H+QpV25VUAQt/PmZ79I/JSsEk9bxstN24cqf9ex0FjJRmkVP
-         wQJQJB9uzzvpwU4cg/9+3VqJKMLCGqpdDnQ3zAf4zxm1EnBBAOcDkkWjoBWBo61Rlkv7
-         RMVLukIxqZT9NPgVMRC3RZAnRR4A2i6sOcf2OcjJVMhB/b1FKoH/6GAlTVOJ//oAm7JB
-         F0KcBXOkeqNUPOcl/HUmwjIV+47ZREwQIMzFZ0FJutQ7iMN3b2AtUrYngkZboHyG3wHA
-         mTPQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV9ENQ9QAfF0Ehz/UX7zIAWBg5+XW076YzBRjUJjHbdHPncS9tIDwC+Qkzgk7bN44MDSRTTd2xTFrnE3uDmxe1l07A=@vger.kernel.org, AJvYcCVZv815wdiT8roUtwQSVHVWjm2QZ5w4VP2KLlEJATTS5Frs4xUI7XYVcO1M3FlE0/SxZsivXYq2c9znEnk=@vger.kernel.org, AJvYcCXP/p5DTFQNJMWw1BiND/C9RVxawkQBxCCLtVTi9AkU8SQLY0nxvvKQVknGfLxZlHXcSNb63bf6@vger.kernel.org, AJvYcCXnW0qmWGL+HCahHpbLhnWmUryEqdnhp4jI+7cL1c/cbDBb9CYWg/N/pMZpVvdhVatxAitPHGq87Ybf9KU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9qio5D86UdaLbo21knMfeMGT9BOVbyJTLQ4/c/njYhPH/L0NT
-	jhs7hhT5ENGPqKBDR8gydyL34kUTkE4tqClqi9Zie0xkBdDKCJNr//6K
-X-Gm-Gg: ASbGncuTYmZGoInsLESgTT+yB9gtz5bU1jorVzdhIJ75ZWX5UFuap/uqsKEe52VNrRV
-	fyTWJ9xCWuXIrR4LYiPfO4d4/otZ8q4h+xWelPWQoIMCd6smFTSHREsh43e5P94K6U8qv2P+QJq
-	hjvR4V5K4i07wP+VUuzpEGc0J36KS/00Vtgt7gcjNiohAQglKITYL4CdHSEGp8hXv6HD7YUwC68
-	aV7i0pkVF5z1+FglronqUMflLb4BFbqtW/pM6F1R0E4mHJ2DCNpG9wDqefLgjxKGG4yv3tzQSDG
-	AXu0iUVxpdV1Lfi/gFjUAz5IOgzlMXD/GS7YLZ7e9v1hzBsLMkgfZb1X8gFYQsCCXmA9k4bT1vv
-	p0dM3Y1xKeKZIE+feCDKVvJNHbvAtgI0LhwNBe5C24hUJVmgvN/hyWCvbKMhHUTj5gDpfWwd1K0
-	c3B+pEvEpQLpQEmfNnb2t+ovXqrTpxbiPqOjeM28Sv6ojJ/i4l4rm27KxU
-X-Google-Smtp-Source: AGHT+IE3ddf9hK7F0KaN7V3DmayhHVnNCIX3cwwbaTIxo3HIL3JNiS8r9JtynDMZISXdX38A9mDSzA==
-X-Received: by 2002:a17:902:d4d2:b0:24a:8d33:96da with SMTP id d9443c01a7336-24a8d339826mr201854925ad.40.1756906658477;
-        Wed, 03 Sep 2025 06:37:38 -0700 (PDT)
-Received: from vickymqlin-1vvu545oca.codev-2.svc.cluster.local ([14.116.239.35])
-        by smtp.googlemail.com with ESMTPSA id d9443c01a7336-24c9e39094dsm16152645ad.84.2025.09.03.06.37.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 06:37:38 -0700 (PDT)
-From: Miaoqian Lin <linmq006@gmail.com>
-To: Fabrizio Castro <fabrizio.castro.jz@renesas.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Magnus Damm <magnus.damm@gmail.com>,
-	Ramesh Shanmugasundaram <ramesh.shanmugasundaram@bp.renesas.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
+	s=arc-20240116; t=1756907102; c=relaxed/simple;
+	bh=ueWHIf9d79yBu/xoe2MyNyLUSaPK1ynnR4XQhYYYAAg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Fk47kKBklz1wtqt8F13MAeY6gs5LebzYGS6rFr9ymXaG6ZoNcicmGAsjnCp4Yq99aCePbzxK9Y1cpH3MF3TMBgLwAE+dSjqUdd7QG45rnXVHKR0gpZ7gEd2+rkhuT+g5fQfCNKjy0KzdxC/g03V3Z8OdVLnafP9t8czrnWqmmQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gygmG0je; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1756907098;
+	bh=ueWHIf9d79yBu/xoe2MyNyLUSaPK1ynnR4XQhYYYAAg=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=gygmG0jefBTVHTdvu7MTAa1kGNz0BtjW8x4yYTuee16ehpKx5198ZSqNRqXNH5ynr
+	 fHvybg3f/PiNcsYz5nzjg7DKdlmoqUckBN9F8xB8IeADqDTCcHpWUFWEaRlKzR8yIP
+	 bjIO5PVx4kKJpxOGi9yynyilLPxu9147ONUaURTyO/QCdc22pq0/Y1qhDyR0Iy4+TN
+	 bBKFLj6kOhMOGhHreQM5+9mGdvAtBX8sYXqUDuTT5rHrsocV5mufSQS88mFOoSJ0FY
+	 sZ2jNgRB3/RZQC54P6bIpfdDhVGmNpPtqsrgGgPgYvMbQYhuPVBY57VYaZrOttJqaX
+	 J4mRJNaDDThuQ==
+Received: from [IPv6:2606:6d00:11:5a76::5ac] (unknown [IPv6:2606:6d00:11:5a76::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 262D717E0199;
+	Wed,  3 Sep 2025 15:44:57 +0200 (CEST)
+Message-ID: <d70c5113608c89fd79687a7669b0fa53140bea7b.camel@collabora.com>
+Subject: Re: [PATCH v2 1/7] media: rkvdec: Add HEVC backend
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Jonas Karlman <jonas@kwiboo.se>, Detlev Casanova
+	 <detlev.casanova@collabora.com>
+Cc: Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Alex Bee
+	 <knaerzche@gmail.com>, Sebastian Fricke <sebastian.fricke@collabora.com>, 
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
 	linux-kernel@vger.kernel.org
-Cc: linmq006@gmail.com,
-	stable@vger.kernel.org
-Subject: [PATCH] media: renesas: rcar_drif: fix device node reference leak in rcar_drif_bond_enabled
-Date: Wed,  3 Sep 2025 21:37:29 +0800
-Message-Id: <20250903133729.2523130-1-linmq006@gmail.com>
-X-Mailer: git-send-email 2.35.1
+Date: Wed, 03 Sep 2025 09:44:54 -0400
+In-Reply-To: <8394c12a-1e1e-44fc-9bb5-92a464dfe410@kwiboo.se>
+References: <20250810212454.3237486-1-jonas@kwiboo.se>
+	 <20250810212454.3237486-2-jonas@kwiboo.se>
+	 <432ab63698b27ca5bce3a7a30d630685aff782b6.camel@collabora.com>
+	 <8394c12a-1e1e-44fc-9bb5-92a464dfe410@kwiboo.se>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-01LGmJnWEk6ULtBixrzA"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-The function calls of_parse_phandle() which returns
-a device node with an incremented reference count. When the bonded device
-is not available, the function
-returns NULL without releasing the reference, causing a reference leak.
 
-Add of_node_put(np) to release the device node reference.
-The of_node_put function handles NULL pointers.
+--=-01LGmJnWEk6ULtBixrzA
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Found through static analysis by reviewing the doc of of_parse_phandle()
-and cross-checking its usage patterns across the codebase.
+Hi,
 
-Fixes: 7625ee981af1 ("[media] media: platform: rcar_drif: Add DRIF support")
-Cc: stable@vger.kernel.org
-Signed-off-by: Miaoqian Lin <linmq006@gmail.com>
----
- drivers/media/platform/renesas/rcar_drif.c | 1 +
- 1 file changed, 1 insertion(+)
+Le mercredi 03 septembre 2025 =C3=A0 09:28 +0200, Jonas Karlman a =C3=A9cri=
+t=C2=A0:
+> Hi Nicolas,
+>=20
+> On 8/29/2025 10:22 PM, Nicolas Dufresne wrote:
+> > Le dimanche 10 ao=C3=BBt 2025 =C3=A0 21:24 +0000, Jonas Karlman a =C3=
+=A9crit=C2=A0:
+> > > The Rockchip VDEC supports the HEVC codec with the Main and Main10
+> > > Profile up to Level 5.1 High tier: 4096x2304@60 fps.
+> > >=20
+> > > Add the backend for HEVC format to the decoder.
+> > >=20
+> > > Signed-off-by: Alex Bee <knaerzche@gmail.com>
+> > > Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > > Signed-off-by: Sebastian Fricke <sebastian.fricke@collabora.com>
+> > > Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> >=20
+> > Re-reading myself, most of my comments were off or really "nitty". So l=
+et's move
+> > forward and spare you the v3. Detlev is happy to rebase and work on top=
+ of your
+> > series, so let's help everyone getting better RK codec support.
+> >=20
+> > Tested-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> > Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> >=20
+> > Just to be transparent, during testing, it was notice that some concurr=
+ent
+> > decoding resulted into failures. I tested Detlev port to structure regi=
+sters,
+> > and it didn't change anything (so probably not a stalled state, or one =
+that we
+> > control). This could easily be a HW issue with older chip. Since you ha=
+ve used
+> > this for years without major issue reported, I happy to move on.
+>=20
+> Thanks, I found some minor changes compared to the LibreELEC version
+> that I am running some new tests on, plan to send out a v3 as soon as
+> testing completes later today.
 
-diff --git a/drivers/media/platform/renesas/rcar_drif.c b/drivers/media/platform/renesas/rcar_drif.c
-index fc8b6bbef793..c5d676eb1091 100644
---- a/drivers/media/platform/renesas/rcar_drif.c
-+++ b/drivers/media/platform/renesas/rcar_drif.c
-@@ -1246,6 +1246,7 @@ static struct device_node *rcar_drif_bond_enabled(struct platform_device *p)
- 	if (np && of_device_is_available(np))
- 		return np;
- 
-+	of_node_put(np);
- 	return NULL;
- }
- 
--- 
-2.35.1
+Ok, I will be patient then.
 
+>=20
+> In LibreELEC version we enable some error detection,
+>=20
+> 	// sw_cabac_error_e - cabac error enable
+> 	writel(0xfdfffffd, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+> 	// slice end error enable =3D BIT(28)
+> 	// frame end error enable =3D BIT(29)
+> 	writel(0x30000000, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+>=20
+> and in this series it was fully disabled to closer match H264/VP9:
+>=20
+> 	writel(0, rkvdec->regs + RKVDEC_REG_STRMD_ERR_EN);
+> 	writel(0, rkvdec->regs + RKVDEC_REG_H264_ERR_E);
+
+In error detection mode, the IP will emit an IRQ on the first error. It doe=
+s not
+self reset, this is just to let you read the macroblock index that wasn't
+decoded properly. The problem is that we don't know how to resume it. That =
+lead
+to HW lockup and timeout on packet lost during RTP streaming tests. It is l=
+ikely
+best to keep this off. It is meant to be used to do concealment of lost
+macroblock in software.
+
+>=20
+> There is also an extra memset(0, ...) in rkvdec_hevc_start:
+>=20
+> 	memset(priv_tbl, 0, sizeof(*priv_tbl));
+>=20
+> This should not really be needed and was removed in this series.
+
+Ack.
+
+>=20
+> Still unclear if any of these will result in a changed behavior. Enable
+> of cabac/slice end/frame end error could possible activate some more
+> states when block issue a self-reset, but I am only guessing.
+>=20
+> One thing to note for the flaky tests is that when they fail, they
+> typically just end up with a different consistent checksum. I have not
+> done any visual inspection of those frames, but will extract each frame
+> and compare them both bitwise and visually.
+
+Thanks, looking forward v3. Please note the fh changes, which I needed to
+manually apply here.
+
+Nicolas
+
+>=20
+> Regards,
+> Jonas
+>=20
+> >=20
+> > regards,
+> > Nicolas
+> >=20
+> > > ---
+> > > Changes in v2:
+> > > - Use new_value in transpose_and_flatten_matrices()
+> > > - Add NULL check for ctrl->new_elems in rkvdec_hevc_run_preamble()
+> > > - Set RKVDEC_WR_DDR_ALIGN_EN for RK3328
+> > > ---
+> > > =C2=A0.../media/platform/rockchip/rkvdec/Makefile=C2=A0=C2=A0 |=C2=A0=
+=C2=A0=C2=A0 2 +-
+> > > =C2=A0.../rockchip/rkvdec/rkvdec-hevc-data.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 1848 +++++++++++++++++
+> > > =C2=A0.../platform/rockchip/rkvdec/rkvdec-hevc.c=C2=A0=C2=A0=C2=A0 |=
+=C2=A0 817 ++++++++
+> > > =C2=A0.../platform/rockchip/rkvdec/rkvdec-regs.h=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0=C2=A0 2 +
+> > > =C2=A0.../media/platform/rockchip/rkvdec/rkvdec.c=C2=A0=C2=A0 |=C2=A0=
+=C2=A0 76 +
+> > > =C2=A0.../media/platform/rockchip/rkvdec/rkvdec.h=C2=A0=C2=A0 |=C2=A0=
+=C2=A0=C2=A0 1 +
+> > > =C2=A06 files changed, 2745 insertions(+), 1 deletion(-)
+> > > =C2=A0create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvde=
+c-hevc-data.c
+> > > =C2=A0create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvde=
+c-hevc.c
+>=20
+> [snip]
+
+--=-01LGmJnWEk6ULtBixrzA
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaLhGVgAKCRDZQZRRKWBy
+9FCIAQCI6CQzFHJa2ahw9v9vkMrM8rY/vHwc0Y9bQvtjN0ajggD+IDtToz6FywF5
+f3aZ8Z6hHZTjgca9WG/TO6CEF2n7swQ=
+=kQsS
+-----END PGP SIGNATURE-----
+
+--=-01LGmJnWEk6ULtBixrzA--
 
