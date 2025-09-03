@@ -1,186 +1,186 @@
-Return-Path: <linux-media+bounces-41712-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41713-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8318FB423E2
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 16:40:28 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D6D1CB42458
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 17:04:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09FD91A80631
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 14:40:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3D32C2052A6
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 15:03:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CA20212D7C;
-	Wed,  3 Sep 2025 14:40:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67ECD3126B3;
+	Wed,  3 Sep 2025 15:03:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jT7wPlew"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fpzIAgek"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 335A332F756
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 14:40:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D323002BF
+	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 15:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756910421; cv=none; b=iVIpHj+ihd9ZT7vO9HLFLwCJIWD/Sa+5VSWigrcW0RP7PYBn75oj1jzLK5uuZCLTH7SdIZBnLg9Og0lHjIpEr51MsoJM5YoO51yZEVEWwvpM6Xm8ANoWinhpKVlUx47T8B/YRK8SXg2OShDxKuFoAYQwqLj/0yJqcY5ZQlX1+7c=
+	t=1756911793; cv=none; b=S+t+GYh8SOoS0zeM5AVbKtusgTabHo6iG0mxd0JfnaKEjbQqXUymmlPV8JXzLheoDHLupdenz1d5mldbmHhn1hT10TVnfp2OQ6mrz0vQR7hlOkAWe10y43xoCYNq/Z+OHYGavGjP9dMvLcIounjXgXWDFOUBrBgv94dioiu4ixo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756910421; c=relaxed/simple;
-	bh=dd90u3HyZhqWVDfRWRVeryUi9iIgSIg9iIjUOzkcNmo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y978yYXp1B+tanO44xjaYVl3TnTW3/xqBywLiydpDDE1mMIqrc0wwgsMKNOJm1TDM3v3ji/IO8/RHjT5HlaaTtOkQHwFGGzpMYp1+BoVrJ1JQtLsHIRa2D/XPnfcUflua45oh+CcLc0wV42AfCZnAq819q9eMlEFyJRnun9yzFQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jT7wPlew; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C0FF48BF;
-	Wed,  3 Sep 2025 16:39:09 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756910349;
-	bh=dd90u3HyZhqWVDfRWRVeryUi9iIgSIg9iIjUOzkcNmo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=jT7wPlewWThJzTYHxOxIXWcnKsvNXqgd0+MQXM5Aj+fdu/aMVe5y/t0EB+kI/iWFl
-	 TZRzFbLEe6OvoCxqxhU5EJpMKhkkbXPt613xz672ucBOv+F13mV1e1JLaxPJjN7lzn
-	 CVdjvRx0c8DdqtZp/reodOiLzuQMsVu6RkybnVYM=
-Date: Wed, 3 Sep 2025 16:39:58 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 17/66] media: uapi: Add new media bus codes for
- generic raw formats
-Message-ID: <20250903143958.GN3648@pendragon.ideasonboard.com>
-References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-18-sakari.ailus@linux.intel.com>
- <httktoswdeltortwoqn5hllzjwtb3prjoe2tigx7u4x6ojdpwr@misyxjdfk3lb>
- <aLgKDYgjx5opEi1Q@kekkonen.localdomain>
- <20250903143215.GL3648@pendragon.ideasonboard.com>
- <aLhSJqZx3WVfyUbw@kekkonen.localdomain>
+	s=arc-20240116; t=1756911793; c=relaxed/simple;
+	bh=LekdRFzFZGbphNAI7RPhmxPwnfPr7M4Uz0MSWilmzVc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t1Fwb3UlJpubHmyutTPaO0blp5miqDxwEl4Pw0cVg5y8J5X7EZFNudCfGMB1tLItV/c5Gav4WLMwB4i/0DVWUxFj/xZXiT5YgZjHqVO3rU85korLng2UrFuizb6lKGNhyEEaSc1IP0KhvcKPORwef0OH3y8ocRhq3tZDJj6FJxA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fpzIAgek; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-45b883aa3c9so215695e9.2
+        for <linux-media@vger.kernel.org>; Wed, 03 Sep 2025 08:03:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756911790; x=1757516590; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=vb9H2OtYCm0pJa79dfHcS+lvaJaqfNpw4BGLzTlGfN4=;
+        b=fpzIAgekbJMFuAfGlyDtbM8qv24ttuPeykmCLbD++EHmwTNJ2OFtb6Cm4Ll8Ukgjcx
+         rzMGSMS/8i/cAq49BFA8eKEB1H3Q2aWZGFUy3Zvsoa2Cp7f+mkHpOJXlxGTaBRutzYn8
+         fwExekkwwZJryHpGtVyRE+MtAAEm57wocU8AwP+ZcifzaPXr5cgA3MgP4Hi/fyDZXQnt
+         O/nImKi6zqbrFmQO4malDZqwfuITEUqxV5les70sW+8boNX+rQfNoO8TfHkJ2SZTTTFD
+         WDjx5yzceJaUNjmJl2xPM8zK4eWf0Cbact2U2wiYXe0/ZMdTubdCsH2D7DqCVluweoT/
+         e/dQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756911790; x=1757516590;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=vb9H2OtYCm0pJa79dfHcS+lvaJaqfNpw4BGLzTlGfN4=;
+        b=WvaICHduIHlbn7y5479hfLpBaOArlidai74TquMTRe8p7GQFnw/d6ovnhAn3TkHF4s
+         j+tzH7oPFP7o/fY6lcD2J9urqoy8ZCcDqOvNV39God8q5vDmJQyOd/B2sdsOP2KqE0Bw
+         iQdtMLaoP/WGOk5wL6SIsCW85tLC2hWPebS5YdgW5ne2Ix10cqqhIFyG9aiQU9WrJhaa
+         MLUTCb1zLPVpHTBtEJmBC4JMkiMhgoFIILkWDiqghbc1PHDYoYXmkzFSGCFqxj7jCEHh
+         G6O1ASFSANVCrEtfGvN8BF6XIBe9J0IMOJ9G+N0mNBRY44hji9Y20z6Fvf1Nq4aijmwi
+         lJfw==
+X-Forwarded-Encrypted: i=1; AJvYcCWmUoG5l35cNa5t4NZ1fcggCApUXJexo5OVuqE0ewt25q4pG4Z+Hj8HKpVRJCIQjpAG90lAuke7LxWPDA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvWMl2CiYvI1pt3eFLiwv4A4ZCkJ3Jq2abDz2/HJZug9oNF604
+	yx8GTvQj341ic25yEJjQest3xCpOssiHNhobGuSjFdU9qBREA5/vAAS+9NxsSpX11Zk=
+X-Gm-Gg: ASbGnctqsZ98JHJAwwYGmQ3YiFEi/ccBpI6WgJDU0LQg4iArqMz8MtOBJU93BPcilAV
+	+BIDfHvndPDyVgaMGnshLNxBMD8UJe2yUVgidnrP4QZHK+p9V/inYRKhdR3V2uDAJDTGHnBqdYB
+	75g/C+F/sYWTu4nRxcwbfPnmCFzWjQ9ydm4irMkaRtjHr06oeAgNbsV021sSG4PIWBzmGhp4mBy
+	bIlaIhKpKbBMAzJzLV8T1sIUFlhcpDNhX+U2+MPeKPRFENitaucuFUwmPUoQJS7pecWlinN0iFK
+	XsIY0QYWGRkaHXS+7kvs51bHFkq83UuhSxue7j8uRdqj5WN2RYAAlrivw/ORgSm7Ea9F86/P6kF
+	d8YxTkzgE4vwcrT2JqG/ZyHrdHjRrLa5AnKhgcm6MJRfDKQN4gdg6QXrOJYMc+jIzrX8HOX+2+T
+	GZMmn/9OgqP0yabKjh3+06og9586edrQ==
+X-Google-Smtp-Source: AGHT+IHgxGzSBKO2RRcMFfLj2ZBw0StjQrIND6sOj2Qk5dHscpmAOqzGzyVkeDc8krrGAjKPU2Waxw==
+X-Received: by 2002:a05:600c:310b:b0:459:e3f8:92ec with SMTP id 5b1f17b1804b1-45b85532b05mr140779095e9.10.1756911789005;
+        Wed, 03 Sep 2025 08:03:09 -0700 (PDT)
+Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b73c52735sm306287285e9.22.2025.09.03.08.03.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 03 Sep 2025 08:03:08 -0700 (PDT)
+Message-ID: <0b4472cb-0c73-4eb8-a360-22b40aae44f5@linaro.org>
+Date: Wed, 3 Sep 2025 16:03:05 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aLhSJqZx3WVfyUbw@kekkonen.localdomain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/11] soc: qcom: mdtloader: Add context aware
+ qcom_mdt_pas_load() helper
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org
+References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
+ <20250819165447.4149674-3-mukesh.ojha@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20250819165447.4149674-3-mukesh.ojha@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Sep 03, 2025 at 05:35:18PM +0300, Sakari Ailus wrote:
-> On Wed, Sep 03, 2025 at 04:32:15PM +0200, Laurent Pinchart wrote:
-> > On Wed, Sep 03, 2025 at 12:27:41PM +0300, Sakari Ailus wrote:
-> > > On Mon, Sep 01, 2025 at 04:12:33PM +0200, Jacopo Mondi wrote:
-> > > > On Mon, Aug 25, 2025 at 12:50:18PM +0300, Sakari Ailus wrote:
-> > > > > Add new media bus codes for generic raw formats that are not specific to
-> > > > > the colour filter array but that simply specify the bit depth. The layout
-> > > > > (packing) of the data is interface specific.
-> > > > >
-> > > > > The rest of the properties of the format are specified with controls in
-> > > > > the image source.
-> > > > >
-> > > > > The mbus codes added by this patch have bit depth of 8, 10, 12 and 14.
-> > > > 
-> > > > Same as per the pixel formats, your branch contains
-> > > > "media: uapi: Add more media bus codes for generic raw formats"
-> > > > 
-> > > > Should you squash it in ?
-> > > 
-> > > Related to my comment on bit depths and what we know of CSI-2 receiver
-> > > implementations, no. But let me know if there's a need to further discuss
-> > > this.
-> > > 
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > ---
-> > > > >  .../media/v4l/subdev-formats.rst              | 27 +++++++++++++++++++
-> > > > >  include/uapi/linux/media-bus-format.h         |  6 +++++
-> > > > >  2 files changed, 33 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > > index 9ef1bc22ad9c..1a51b5c817f1 100644
-> > > > > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > > @@ -3434,6 +3434,33 @@ organization is given as an example for the first pixel only.
-> > > > >
-> > > > >      \endgroup
-> > > > >
-> > > > > +Generic raw formats on serial interfaces
-> > > > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > > > +
-> > > > > +Those formats transfer (largely) unprocessed raw pixel data typically from raw
-> > > > 
-> > > > I would remove "(largely) unprocessed", mostly because I'm not sure
-> > > > what you mean here.
-> > > 
-> > > I'm fine with removing that.
-> > > 
-> > > > > +camera sensors using Bayer and other Colour Filter Arrays (CFAs) on serial
-> > > > > +interfaces. The packing of the data on the bus is determined by the hardware,
-> > > > > +however the bit depth is still specific to the format.
-> > > > > +
-> > > > > +.. tabularcolumns:: |p{2.0cm}|p{4.0cm}|p{11.3cm}|
-> > > > > +
-> > > > > +.. cssclass:: longtable
-> > > > > +
-> > > > > +.. flat-table:: Generic raw formats on serial buses
-> > > > > +    :header-rows:  1
-> > > > > +    :stub-columns: 0
-> > > > > +    :widths:       1 1
-> > > > > +
-> > > > > +    * - Format name
-> > > > > +      - Bit depth
-> > > > > +    * - MEDIA_BUS_FMT_RAW_8
-> > > > > +      - 8
-> > > > > +    * - MEDIA_BUS_FMT_RAW_10
-> > > > > +      - 10
-> > > > > +    * - MEDIA_BUS_FMT_RAW_12
-> > > > > +      - 12
-> > > > > +    * - MEDIA_BUS_FMT_RAW_14
-> > > > > +      - 14
-> > > > 
-> > > > Should we now say in the "Bayer Formats" section that the existing
-> > > > media bus codes that convey the color components ordering are now
-> > > > superseded by these ones ?
-> > > 
-> > > I can add a note that new drivers need to use these codes but may use older
-> > > mbus codes, too. I'd add that to the camera sensor driver documentation
-> > > though.
-> > 
-> > Agreed. Let's make the new formats mandatory for new drivers, an the old
-> > formats optional. Implementing the old formats is required when porting
-> > existing drivers to new formats, but I would discourage it for new
-> > drivers in order to get userspace to move forward.
+On 19/08/2025 17:54, Mukesh Ojha wrote:
+> Currently, remoteproc and non-remoteproc subsystems use different
+> variants of the MDT loader helper API, primarily due to the handling of
+> the metadata context. Remoteproc subsystems retain this context until
+> authentication and reset, while non-remoteproc subsystems (e.g., video,
+> graphics) do not require it.
 > 
-> I'll also add that receiver drivers should be amended with support for the
-> new formats instead of adding support for the old ones in the sensor
-> drivers. The latter is likely much easier in any case.
+> Add context aware qcom_mdt_pas_load() function which uses context
+> returned from qcom_scm_pas_ctx_init() and use it till subsystems
+> is out of set. This will also help in unifying the API used by
+> remoteproc and non-remoteproc subsystems drivers.
+> 
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> ---
 
-Good idea.
+I'm struggling with the logic here a little bit.
 
--- 
-Regards,
+You take this function which calls qcom_mtd_load_no_init();
 
-Laurent Pinchart
+>   
+> -		ret = qcom_mdt_pas_init(pas->dev, pas->dtb_firmware, pas->dtb_firmware_name,
+> -					pas->dtb_pas_id, pas->dtb_mem_phys,
+> -					&pas->dtb_pas_metadata);
+> -		if (ret)
+> -			goto release_dtb_firmware;
+> -
+> -		ret = qcom_mdt_load_no_init(pas->dev, pas->dtb_firmware, pas->dtb_firmware_name,
+> -					    pas->dtb_mem_region, pas->dtb_mem_phys,
+> -					    pas->dtb_mem_size, &pas->dtb_mem_reloc);
+> +		ret = qcom_mdt_pas_load(pas->dtb_pas_ctx, pas->dtb_firmware, pas->dtb_firmware_name,
+> +					pas->dtb_mem_region, &pas->dtb_mem_reloc);
+
+and then turn it into
+
+> +int qcom_mdt_pas_load(struct qcom_scm_pas_ctx *ctx, const struct firmware *fw,
+> +		      const char *firmware, void *mem_region, phys_addr_t *reloc_base)
+> +{
+> +	int ret;
+> +
+> +	ret = __qcom_mdt_pas_init(ctx->dev, fw, firmware, ctx->peripheral,
+> +				  ctx->mem_phys, ctx->metadata);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return __qcom_mdt_load(ctx->dev, fw, firmware, mem_region, ctx->mem_phys,
+> +			       ctx->mem_size, reloc_base);
+
+Surely you want to qcom_mdt_load_no_init ?
+
+On current kernel
+return __qcom_mdt_load(ctx->dev, fw, firmware, mem_region, ctx,
+		       mem_phys, ctx->mem_size,
+		       reloc_base, true);
+
+but that's a functional change
+
+> +}
+> +EXPORT_SYMBOL_GPL(qcom_mdt_pas_load);
+the no_init version of this looks like this:
+
+int qcom_mdt_load_no_init(struct device *dev, const struct firmware *fw,
+                           const char *firmware, int pas_id,
+                           void *mem_region, phys_addr_t mem_phys,
+                           size_t mem_size, phys_addr_t *reloc_base)
+{
+         return __qcom_mdt_load(dev, fw, firmware, pas_id, mem_region,
+			       mem_phys, mem_size, reloc_base, false);
+}
+EXPORT_SYMBOL_GPL(qcom_mdt_load_no_init);
+
+So is it really the intention of this patch to change the callsites 
+where qcom_mdt_pas_load() away from the init version to the no_init 
+version ?
+
+Maybe its a symptom of patch collision but hmm, having a hard time 
+cherry-picking this to test.
+
+---
+bod
+
 
