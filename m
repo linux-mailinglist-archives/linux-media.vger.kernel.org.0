@@ -1,201 +1,222 @@
-Return-Path: <linux-media+bounces-41709-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41710-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6744BB423D4
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 16:35:36 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EE88CB423D7
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 16:35:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 228105826F2
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 14:35:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C6F015828A1
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 14:35:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 74DD51FBEA6;
-	Wed,  3 Sep 2025 14:35:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88DEC202F70;
+	Wed,  3 Sep 2025 14:35:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AjdReMQV"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="bPxC5ePM";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="D5rJZeau"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from fout-b7-smtp.messagingengine.com (fout-b7-smtp.messagingengine.com [202.12.124.150])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57F831F461A
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 14:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA89F1F1921;
+	Wed,  3 Sep 2025 14:35:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.150
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756910129; cv=none; b=LZu90gn+eDWfgmHG6rUf51gY0fE6aDsbgjIMdjcntrQOxJtThicV7Sq5hNxDR6/5dW/RzstZ7NYRxPgnzfBXIT9MygteZWDycZevc9hOsJDyCD3vftfEXyINkmssd6AvZu63HENuqATT31ew5voZPyYWZOiHPZqXRhKg6HP5iao=
+	t=1756910147; cv=none; b=W1yMe7/Sg/NCIlaPGJkHR+KvBlfKHTIOOy6QOPPMT/OD6jptStJQyYqmHyYYF3ZRy67WpkUcXdDgiTG4qeQuCuxFjB6NmNB6Bb8Ki5IK1RficPNLXbiAMBH69G4/xLVYHbSIZumDJ/tK5NtxTIRsQOVoDjPSlS77lXw9FYZ4O1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756910129; c=relaxed/simple;
-	bh=GFugPUcZ2/uHq0kCIV5aNrTUYui+XLiP8kPe9IgGXkI=;
+	s=arc-20240116; t=1756910147; c=relaxed/simple;
+	bh=qh06aM/D1zEAo5SMTFqvDu3eMrZnBJcz0WhukWIuW/Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FpigbwpNV7VGbq+lxmrLMv16727Nvc64R+xg8h/sEggoClv5bG1EGBeI85TpaypZfTz+vHN+ShUZY+oWDIvVF39joKuXqcdK27bo+ekXbkYXKnCDi/Uqt51adoRImV3Ho0WWJ5I6o4fQVet9xR9Tc//aEvgxE30ZzJ/Hxz39u9g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AjdReMQV; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1756910128; x=1788446128;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=GFugPUcZ2/uHq0kCIV5aNrTUYui+XLiP8kPe9IgGXkI=;
-  b=AjdReMQVg9jN6HhRZZ+RU93mZmYKhwe7MrCw6RgLF5kc3GLLxo1SRLf8
-   AtkUKK+rCBf6Nanf05Bca/7y9+KEY3/3gZqGfP3xj29ErxmKA9YLvxIUW
-   9b7ruOcyG836g+m4y6sn49u+diSkMu2gg1EMtjUqtwRIAMTB9o4+dUOK7
-   4nLcV4DI8Uf0zLdoaEBzmz3HgrkmiVQA4wY3TLyqXRCGkq4CThjndLVlw
-   P5rAWAkXlK9NvcO+RgKfYQl07RA3DZKIUAuwqU2xVOyxKZMdjGpk3sScf
-   Hkah6RRf+J5krGKNR0DPuP+CPtvx9sfneMEPKfhWtnjNa2D+UOcWe/a/i
-   w==;
-X-CSE-ConnectionGUID: T68rdOGPSSm13Sgc3cWabw==
-X-CSE-MsgGUID: mPAiLT3ySbSDBvUZeoemTQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="76828305"
-X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="76828305"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 07:35:27 -0700
-X-CSE-ConnectionGUID: RWLfhw1BTkOU22v1ryStrA==
-X-CSE-MsgGUID: dHlamWsTQfmOr0DI9dvZmA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,236,1751266800"; 
-   d="scan'208";a="172440206"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.204])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Sep 2025 07:35:21 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id AFDF211F99F;
-	Wed, 03 Sep 2025 17:35:18 +0300 (EEST)
-Date: Wed, 3 Sep 2025 17:35:18 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 17/66] media: uapi: Add new media bus codes for
- generic raw formats
-Message-ID: <aLhSJqZx3WVfyUbw@kekkonen.localdomain>
-References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-18-sakari.ailus@linux.intel.com>
- <httktoswdeltortwoqn5hllzjwtb3prjoe2tigx7u4x6ojdpwr@misyxjdfk3lb>
- <aLgKDYgjx5opEi1Q@kekkonen.localdomain>
- <20250903143215.GL3648@pendragon.ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=ssi6YWc9OhtRe67W2PedlD6yA3CdZ55Pg8fDVW1lEqZK1a6bj9qsYnAFhl9yBYT12075UhpcYIdp0MEjmQ9sjHkGGSpOFcc6k9uDZeYyr9LJ7Wj1hmE2CIdduRpNn+9BR6vp8r0vOErC70smbTFU4p6/DtU6/383ribPOy9jLCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=bPxC5ePM; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=D5rJZeau; arc=none smtp.client-ip=202.12.124.150
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailfout.stl.internal (Postfix) with ESMTP id 9756E1D00367;
+	Wed,  3 Sep 2025 10:35:43 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Wed, 03 Sep 2025 10:35:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1756910143;
+	 x=1756996543; bh=z+hK2FP2aheJNxk80O7ie5ji+zK7A/NzM8F5e45IKzw=; b=
+	bPxC5ePMU3fkUzjWf80lKsZVUNoRTiEsBIeNGNF0z7XJtb03qabLd3h3/2xFY1eU
+	C7531Ljoh9gP5ejaWj0pkmPJLFOQDun91FEID36TGj5KeJI3ubwJpKuM2e1UHOXu
+	4xFl3BE+yZ5Rlo2bocMkprtSngjTTT5UCwLV/3IR/H1H27Z2Yr88FeAv4ZIiEVAp
+	RaP2ApOZQw3OoFGuiwZfFvcTWbVzcCwsan3q+pPpPpDqRxeJs0cIVsNnY514HdTQ
+	W29fdJgNzQX5pCJb63FxcZSfCRiVt1yeoTqJA6JZ27wd68WcteOHfMrCwDghhBZg
+	nJKNhEln8R8PVjqJ39kEkg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756910143; x=
+	1756996543; bh=z+hK2FP2aheJNxk80O7ie5ji+zK7A/NzM8F5e45IKzw=; b=D
+	5rJZeaurQyhkRvWU1V8b+C1uuDqbwStpW2hCEL7nMWjtVeNdajrAk8FizRKkvpTR
+	c+rWej8fUVs+tzaKpHLOHB5FO0st4jX6cqDkJpj3Mzh15R0kvANjmRWpMCPhU8Fh
+	lgdGPBg4A6vkPNhKeuWUuevF4OWXDdVcb377HRkyhw5FhwDYUjdCoeZV/daytwjs
+	z/9u8loStoMkfq+ka0X2e1WJ50EhaD4st2ThpCZTiXV3dO4gfIXAGk1WpBnKSs16
+	AVqLc1KVZ+NaZwVpmq25cEcPsIUhWOeoKB3Gq09VCqo+sbUNeaDMDIWykbSk3EW0
+	/878LBoJuY5/UrlyDA7oQ==
+X-ME-Sender: <xms:P1K4aK2LrB2GrgiokMXjoat6MHqsSC7XPi_8BHo9PhSPY3c_ZgL0Yg>
+    <xme:P1K4aA67Jbnlf81XyLU17C8kbsC9VjVMCxZMbrM_EDO5qhlcIy4evb5Lb7mWFVN8n
+    I8LQ9T_ZT4gWHHqvLc>
+X-ME-Received: <xmr:P1K4aL-YVKJDzWdC65T1TdHlK9LNG4t5fPehe8Re5lIO6eS1gj4AAJmye08UIcIroDTWowKQDPFefCduaJB2qOk6_7Lui_0eFQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefgedtucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgrshcu
+    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrsh
+    esrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefhffejgfef
+    udfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhn
+    ugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopeejpd
+    hmohguvgepshhmthhpohhuthdprhgtphhtthhopehhvhgvrhhkuhhilhdotghishgtohes
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhgrrhhssehmvghtrghfohhordguvgdprh
+    gtphhtthhopehmtghhvghhrggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopehhvhgv
+    rhhkuhhilhesgihsgegrlhhlrdhnlhdprhgtphhtthhopehlrghurhgvnhhtrdhpihhntg
+    hhrghrthesihguvggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhhinhhugidq
+    mhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopehlihhnuhigqd
+    hrvghnvghsrghsqdhsohgtsehvghgvrhdrkhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:P1K4aPX-LgW7IR0kVaysa1-gyRXGKT9INkUONy04PnBrMur8I-L1aA>
+    <xmx:P1K4aGqnV3xbgS1JoOxo7NIrF2M3UnOARpi_qySI06vjfH14yH0rSA>
+    <xmx:P1K4aBlCAIerOytAOSdcZDcI4kpFeQWX9_K_6VPBUT_iTD84hIH8Ew>
+    <xmx:P1K4aG24c8jyOCecCQUlD8APdi9esfedkTO4Q2q2Zgh1ngyXXl7PDQ>
+    <xmx:P1K4aNYdOG5ee62GACrOrFUnSAncJ9T97DBV1M34x27ohP75LdqPEHQb>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Wed,
+ 3 Sep 2025 10:35:42 -0400 (EDT)
+Date: Wed, 3 Sep 2025 16:35:39 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Lars-Peter Clausen <lars@metafoo.de>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 00/11] media: adv7180: Improve the control over
+ decoder power
+Message-ID: <20250903143539.GA1207681@ragnatech.se>
+References: <20250828160654.1467762-1-niklas.soderlund+renesas@ragnatech.se>
+ <80d191a0-d978-4909-a0f2-d25cd9757d55@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250903143215.GL3648@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <80d191a0-d978-4909-a0f2-d25cd9757d55@kernel.org>
 
-On Wed, Sep 03, 2025 at 04:32:15PM +0200, Laurent Pinchart wrote:
-> On Wed, Sep 03, 2025 at 12:27:41PM +0300, Sakari Ailus wrote:
-> > On Mon, Sep 01, 2025 at 04:12:33PM +0200, Jacopo Mondi wrote:
-> > > On Mon, Aug 25, 2025 at 12:50:18PM +0300, Sakari Ailus wrote:
-> > > > Add new media bus codes for generic raw formats that are not specific to
-> > > > the colour filter array but that simply specify the bit depth. The layout
-> > > > (packing) of the data is interface specific.
-> > > >
-> > > > The rest of the properties of the format are specified with controls in
-> > > > the image source.
-> > > >
-> > > > The mbus codes added by this patch have bit depth of 8, 10, 12 and 14.
-> > > 
-> > > Same as per the pixel formats, your branch contains
-> > > "media: uapi: Add more media bus codes for generic raw formats"
-> > > 
-> > > Should you squash it in ?
+Hi Hans,
+
+Thanks for your review effort!
+
+On 2025-09-03 10:46:11 +0200, Hans Verkuil wrote:
+> On 28/08/2025 18:06, Niklas Söderlund wrote:
+> > Hello,
 > > 
-> > Related to my comment on bit depths and what we know of CSI-2 receiver
-> > implementations, no. But let me know if there's a need to further discuss
-> > this.
+> > This series started as an effort to fix issues with querystd. To do that
+> > it turned out the whole drivers design around how it controls the power
+> > to the video decoder block inside the chip had to be reworked. As a
+> > bonus this works removes the now deprecated .s_power callback from
+> > adv7180.
 > > 
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > >  .../media/v4l/subdev-formats.rst              | 27 +++++++++++++++++++
-> > > >  include/uapi/linux/media-bus-format.h         |  6 +++++
-> > > >  2 files changed, 33 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > index 9ef1bc22ad9c..1a51b5c817f1 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > > > @@ -3434,6 +3434,33 @@ organization is given as an example for the first pixel only.
-> > > >
-> > > >      \endgroup
-> > > >
-> > > > +Generic raw formats on serial interfaces
-> > > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > > +
-> > > > +Those formats transfer (largely) unprocessed raw pixel data typically from raw
-> > > 
-> > > I would remove "(largely) unprocessed", mostly because I'm not sure
-> > > what you mean here.
+> > The adv7180 drivers comes from a time before media controller and all
+> > operation callbacks are, more or less, designed around the concept that
+> > a video device is the only user-space facing API. In that world a vdev
+> > would attached the subdevice, call .s_power and then perform format
+> > configuration using the other operation callbacks and then start
+> > streaming with .s_stream. Needles to say this mode of operation don't
+> > work well with media controller where the subdevices itself have a
+> > user-space API exposed thru a subdev device.
 > > 
-> > I'm fine with removing that.
+> > The initial problem I tried to solve (querystd) was that it stopped
+> > functioning as expected after the subdev had been used to stream once
+> > (.s_power(1), .s_power(0)). As it turns out different variants of the
+> > adv7180 device have different reset beaver for if its video decoder
+> > block is left running or powered off. On my device it was left running
+> > so querystd functioned the first time, but not after the video decoder
+> > had been switched off once by .s_power(0).
 > > 
-> > > > +camera sensors using Bayer and other Colour Filter Arrays (CFAs) on serial
-> > > > +interfaces. The packing of the data on the bus is determined by the hardware,
-> > > > +however the bit depth is still specific to the format.
-> > > > +
-> > > > +.. tabularcolumns:: |p{2.0cm}|p{4.0cm}|p{11.3cm}|
-> > > > +
-> > > > +.. cssclass:: longtable
-> > > > +
-> > > > +.. flat-table:: Generic raw formats on serial buses
-> > > > +    :header-rows:  1
-> > > > +    :stub-columns: 0
-> > > > +    :widths:       1 1
-> > > > +
-> > > > +    * - Format name
-> > > > +      - Bit depth
-> > > > +    * - MEDIA_BUS_FMT_RAW_8
-> > > > +      - 8
-> > > > +    * - MEDIA_BUS_FMT_RAW_10
-> > > > +      - 10
-> > > > +    * - MEDIA_BUS_FMT_RAW_12
-> > > > +      - 12
-> > > > +    * - MEDIA_BUS_FMT_RAW_14
-> > > > +      - 14
-> > > 
-> > > Should we now say in the "Bayer Formats" section that the existing
-> > > media bus codes that convey the color components ordering are now
-> > > superseded by these ones ?
+> > I first tried to fix this by introducing proper PM handling in the
+> > driver to be able to remove the .s_power callback. I quickly learnt the
+> > power on/off logic happening in the driver had noting to do with
+> > controlling power to the chip itself, but to control if the chips video
+> > decoder block was turned off.
 > > 
-> > I can add a note that new drivers need to use these codes but may use older
-> > mbus codes, too. I'd add that to the camera sensor driver documentation
-> > though.
+> > When this block is powered on the device process video data, if there is
+> > a video source else it free runs. However when the block is turned off
+> > the device can still be configured, in fact some configuration requires
+> > it to be off.
+> > 
+> > For this reason I dropped the effort to add proper PM handling and
+> > treated the decoder power as a stream on/off switch. I still think
+> > proper PM handling would be beneficial for this driver but to not
+> > explode this already large series I left that for another time. Solving
+> > the issue around .s_power will make that work easier as well as other
+> > task such as converting to the v4l2_subdev active state API.
+> > 
+> > Patch 1/11 just moves code around to make the consecutive changes easier
+> > to read. Patch 2/11 fix a locking issues when suspending the device.
+> > Patch 3/11 and 4/11 improves the locking design to prepare to improve
+> > the driver.
+> > 
+> > Patch 5/11 make sure the device controls are always programmed after the
+> > device have been reset, fixing a possible issue when the device where
+> > resumed from system sleep.
+> > 
+> > Patches 6/11, 7/11 and 8/11 is the real change where the .s_power
+> > callback is reworked to fit the design of .s_stream instead.
+> > 
+> > And finally patch 9/11, 10/11 and 11/11 removes programming of the
+> > device from operation callbacks and solves the issue with querystd.
+> > 
+> > The work is tested on R-Car M2 together with a ADV7180 device.
+> > 
+> > See individual patches for changelog.
 > 
-> Agreed. Let's make the new formats mandatory for new drivers, an the old
-> formats optional. Implementing the old formats is required when porting
-> existing drivers to new formats, but I would discourage it for new
-> drivers in order to get userspace to move forward.
+> This series looks good to me, other than the one typo and the
+> control handler kAPI issue, but that can be done in a follow-up
+> series.
+> 
+> If you want I can take this series, let me know.
 
-I'll also add that receiver drivers should be amended with support for the
-new formats instead of adding support for the old ones in the sensor
-drivers. The latter is likely much easier in any case.
+Thanks for pointing out the improvement in the kAPI, I agree with it.  
+But as you point out I can do that in follow up work so I would be happy 
+if you would take this series. Can you correct the typo while applying, 
+or would you prefer I send an undated series?
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> > 
+> > Niklas Söderlund (11):
+> >   media: adv7180: Move adv7180_set_power() and init_device()
+> >   media: adv7180: Add missing lock in suspend callback
+> >   media: adv7180: Move state mutex handling outside init_device()
+> >   media: adv7180: Use v4l2-ctrls core to handle s_ctrl locking
+> >   media: adv7180: Setup controls every time the device is reset
+> >   media: adv7180: Power down decoder when configuring the device
+> >   media: adv7180: Split device initialization and reset
+> >   media: adv7180: Remove the s_power callback
+> >   media: adv7180: Do not write format to device in set_fmt
+> >   media: adv7180: Only validate format in s_std
+> >   media: adv7180: Only validate format in querystd
+> > 
+> >  drivers/media/i2c/adv7180.c | 338 +++++++++++++++++++-----------------
+> >  1 file changed, 174 insertions(+), 164 deletions(-)
+> > 
+> 
 
 -- 
-Sakari Ailus
+Kind Regards,
+Niklas Söderlund
 
