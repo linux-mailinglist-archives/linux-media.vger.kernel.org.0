@@ -1,177 +1,109 @@
-Return-Path: <linux-media+bounces-41621-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41622-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E843B4115D
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 02:30:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C44CB4118B
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 02:56:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 562FC1B6333C
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 00:31:11 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00B6C1890635
+	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 00:56:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 496D51C8611;
-	Wed,  3 Sep 2025 00:30:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A381419E968;
+	Wed,  3 Sep 2025 00:56:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="huDgh31A"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="M09Ujxba"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A5ED28373;
-	Wed,  3 Sep 2025 00:30:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA6FF14EC73;
+	Wed,  3 Sep 2025 00:56:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756859435; cv=none; b=NAcSYDWYYrBHQ9xWhiDCdRGFv4PXJDPW1lH7ZuQmScEHUny92iEOz9BXlije2Ca31OdS4cxCxB2JMSvt5SWeAsnamhs0DDfRj9TldSxDvA+JRwElJ3OjY7u0GLe4nM1g3CEnDUNq5pHTXn7gH/Su+qIk3udA/C2YDj25Wr+NtZI=
+	t=1756860977; cv=none; b=Pl9IMCQo2I4tBXl3zN2F44VF+xXqinMqzr5ABnKxKpnNOtdqbYuAuPyQWhXHcz1Tx+AbdaXrhc8izZNoeB3x1wyPQU5Vn3pL2kx5rtlxN8kg0qQbjhXjvWxf1Y/Gc/bYpRN1GidH9RHPmuTVCcvfN30gkH47j0JTR70zz2OrghA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756859435; c=relaxed/simple;
-	bh=kN1SVeqqtF7jjk4r9ClxSGmVc8Agt/K+EhDBYCzp8ao=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fPlk6NapYMJq3O7apg4stnRVrfr6KKp+uC+P1kRMPWGrcLtoM5uSUVQgvHfRlEs/zGZIDe00Crk7Vu3w+3HH84ALmuYp0iTD8RSaEIMoGLs79uaZHLbIUjLt6UZDzNUv7scdjdvgbZdqLxbQtYIq+zyEaBPb5ENbtJGtxL0/2Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=huDgh31A; arc=none smtp.client-ip=209.85.216.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-323267bc2eeso4666374a91.1;
-        Tue, 02 Sep 2025 17:30:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756859433; x=1757464233; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=CmMfbXYYghLau518ZkBS9EQ6iyJ6tyWuJVdbkNRuMJc=;
-        b=huDgh31ARc1zjpSuTcEszPnxeXc9AKySu7L3CPRypwhJEev3uHHu7Hb1AK6NHj8gfL
-         7mzaLEfytoYC2fIviYqLghGXeocHw76lP87de955rZtFfsxFQrR2flng/WQ1IHrliBgj
-         ewXRPZi6ykEsBMrWA70vVO9vKCrRbE6tB6Rfr0V/wcv9E9PcgVglp67Synb9oxXPfbUb
-         YPW+T/3vG5jkJZvGfAXCLQtBJJiixKdO3jAPPms7rgB/tuZc0mNXHnGaCzihwRPHalmR
-         Wkj5VKRSlynicZLkOB5qgc5aBxEH+YMiDCnKoMNg0dHHF+R7ucvrQfsGf6bBbrLN0XlC
-         6K8w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756859433; x=1757464233;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CmMfbXYYghLau518ZkBS9EQ6iyJ6tyWuJVdbkNRuMJc=;
-        b=BU7t0LHClP/WsMAMB9pbhGACljp/YKSVOPScDpvcxt1L4Os36d/cfYg22CAomO619i
-         H+Do6t/Mm6Q48Nq2SbzbK+gdonLINpMst0gLtPQ1u5AUKtdjlA5Ojlo/0Hv1PR4NHhhx
-         KSM1krpwkpYIcxQ0KwREMiCrMwkWTut46aoi8hOxawbnVNhjjmdRQvD8U9WQm1Ux2x3y
-         SzOhwlAO/ttgkv/G+78XUHAiiicIOou3DNRmdxGbLh24j3w2C8I3hIPnmwIqwA17FH+0
-         VGZP+34PnjZe7bCIu6zfv38fAFHaL9GNl2Pw7RZwNIRej9FGDdGI/YWW/N5HeLI0DQP+
-         xqDA==
-X-Forwarded-Encrypted: i=1; AJvYcCUv6l1kqGPlksG2tkehWP9dkkFZUviZgV0BWcDcKtBcYmh7RsqoZaK3Erkw5VMIk8UbnP0mVKTdVcZ5bSk=@vger.kernel.org, AJvYcCVNG3V8J2CTN34aF2nev3ast5xDbiEAVXDK9zubOfbrvxFuqbT+5XxxsiUGnQTgUDzEqRtWwVi8oNQ=@vger.kernel.org, AJvYcCVTVtczB6Xs4h0EyMVSUvVAJiZtsVJu+IuOdf6Y2nlEIfl351vsbchC3RnFKETlSCa+SaOQfYIwvlbg@vger.kernel.org, AJvYcCVUP8Cic2Bre0RPMp81MW67LXllXAaTwSiLhtjfbFNgZvt8N0NEmxZ9OR3QQW94jXB9uxOs+mitkQtDB9Y=@vger.kernel.org, AJvYcCW9CK4COPo9DltvCTXW02qDbZBKefFcB38uV94m2dQXULlUJiGQI1OXTptFSKhxOy7hEztLg0f9PaM=@vger.kernel.org, AJvYcCWOHkB5zUiSYmeTuH3J/0Ak+FtoCMFIXjuIVMGDvLjGSZvMcZRpoWJHO1vWSue6Dgzcp0S7AAJEaaR+mtSq@vger.kernel.org, AJvYcCWpgbVe+irAdm42j6Vue9kSqSLFoPIweQWPJeKCvVZMPKd2/YDAe4Y6Wv/p3EHt5G1OaA4Ziw9WIfZQ@vger.kernel.org, AJvYcCWu4OOz4PW+97vu7iIOeLOu9QnF2HtscNKDB74BH2N3uc9J5ceN0Nbu8dp7fZNd9HS/q8vOunCN@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJjkPY7a0sto9YTi7clsatyWPbcV7ZBt5PXQST/oOk2aVHjEp3
-	KnanfOuvnZSmQVvDmBV6Ac7ClwHAm7h7yM33hJj8e2yVTZlJPuR4SET6dO8brb/B
-X-Gm-Gg: ASbGncuIUWbxNzUeV/rfC1wnjCJOr+9kYblifRaJxY47rmIvHmPQ8yNb3Er/iGDxn/9
-	MNHSN8ErYvxDFJ4ux4R2MlDW1AO7mhg0LZSBQ03mpgpRQU7VQ4BHr5v+BBFpIqZS0QrXQikSpZ4
-	ik8C371hzuHyHe3ts9jhMn1jXdgHf90zJjKTQGiMVthWUgg/xXqFWDbwdsv7ItFFLjbQGqPUpH6
-	zOnH5Chi4kK8MJ+PdWEqRT61pVgj9Ur7KnhIoytGKWsW3Yh0m6+ugrCO17+k9mK+Wil02QM/n/M
-	7FH7MsL7GVweIOH1H0lPtDMRCcnSzjSRoIDUmj/Zl20I8srdVzRxtahdm2wPS19jK8L6bk1AhZD
-	o9H8VPBatWoyOpHkDqLsbkg==
-X-Google-Smtp-Source: AGHT+IHKuGow4ZFuttu6aoYR+s2VkdzBbs1o2jEf8YSpdi38rlMbKdEgFtFxfdUZ56XgWRNUklItiw==
-X-Received: by 2002:a17:90b:1b12:b0:323:7e80:8818 with SMTP id 98e67ed59e1d1-328156e5627mr18724374a91.37.1756859433210;
-        Tue, 02 Sep 2025 17:30:33 -0700 (PDT)
-Received: from localhost ([216.228.127.131])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-329e23858ecsm3480217a91.14.2025.09.02.17.30.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 02 Sep 2025 17:30:32 -0700 (PDT)
-Date: Tue, 2 Sep 2025 20:30:30 -0400
-From: Yury Norov <yury.norov@gmail.com>
-To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Shreeya Patel <shreeya.patel@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>,
-	Takashi Iwai <tiwai@suse.com>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-	Alexandre Torgue <alexandre.torgue@foss.st.com>,
-	Shawn Lin <shawn.lin@rock-chips.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Rob Herring <robh@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	MyungJoo Ham <myungjoo.ham@samsung.com>,
-	Kyungmin Park <kyungmin.park@samsung.com>,
-	Qin Jian <qinjian@cqplus1.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>, kernel@collabora.com,
-	linux-kernel@vger.kernel.org, linux-mmc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-phy@lists.infradead.org,
-	linux-sound@vger.kernel.org, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com, linux-pci@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-clk@vger.kernel.org,
-	llvm@lists.linux.dev,
-	Cristian Ciocaltea <cristian.ciocaltea@collabora.com>
-Subject: Re: [PATCH v3 00/20] BYEWORD_UPDATE: unifying (most) HIWORD_UPDATE
- macros
-Message-ID: <aLeMJjfhisYSIEph@yury>
-References: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
+	s=arc-20240116; t=1756860977; c=relaxed/simple;
+	bh=vMUBpOspAwuRbk3s8zYi5ml7mvtL6cW/MHTRA4NY7ro=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=jtKv0tmEl6CYa7iVLFTIut8937Qxa1gK50eSOXyETu/tcPzunse9DiImME+We7ZQFNHmV4Qpd8+foOIs/+mVI8tCuOq8Lh9Tos6J97VLLiOlZHn6YTDftPWp/odENVYOLxStL5OcU+ytH0juuU6V5EZnguR34SA2OcjBtPKJhCU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=M09Ujxba; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from neptunite.rasen.tech (unknown [IPv6:2404:7a81:160:2100:30ba:ee2f:ad96:6665])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 111D3162B;
+	Wed,  3 Sep 2025 02:55:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1756860902;
+	bh=vMUBpOspAwuRbk3s8zYi5ml7mvtL6cW/MHTRA4NY7ro=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=M09UjxbaNl4O7Aq5tpPeCiAvMeaYwv5r0yOTL0GZdgx+4CItYw64sXEQszZXQYdYP
+	 0GJ1Y1XRYj0p3daiEop57gWfDtU6YT1+OVvMuYMJLP4WyXuxJx5jJUhSz3QSvrOFlC
+	 XQxrbiuL8S0iIyk2o/nCeDhN+ir2y/Mf2w+OunwY=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250825-byeword-update-v3-0-947b841cdb29@collabora.com>
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <m31popxjqk.fsf@t19.piap.pl>
+References: <175308758352.3134829.9472501038683860006@localhost> <m3qzxyug1s.fsf@t19.piap.pl> <m3cy9futcj.fsf@t19.piap.pl> <m34iumujcs.fsf@t19.piap.pl> <m3zfcet41n.fsf@t19.piap.pl> <m3a545t789.fsf@t19.piap.pl> <20250812103243.GK30054@pendragon.ideasonboard.com> <175501095338.74722.11604545949710100799@localhost> <CAHCN7xKq_o_u7PhPMcZ2W9nzrFP8+CnhaYJOyxnjpKfbMTBCEw@mail.gmail.com> <m31popxjqk.fsf@t19.piap.pl>
+Subject: Re: FYI: i.MX8MP ISP (RKISP1) MI registers corruption: resolved
+From: Paul Elder <paul.elder@ideasonboard.com>
+Cc: Stefan Klug <stefan.klug@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Dafna Hirschfeld <dafna@fastmail.com>, Heiko Stuebner <heiko@sntech.de>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Ondrej Jirman <megi@xff.cz>, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+To: Adam Ford <aford173@gmail.com>, Krzysztof =?utf-8?q?Ha=C5=82asa?= <khalasa@piap.pl>
+Date: Wed, 03 Sep 2025 09:56:04 +0900
+Message-ID: <175686096405.1542294.2802960782852730947@neptunite.rasen.tech>
+User-Agent: alot/0.0.0
 
-On Mon, Aug 25, 2025 at 10:28:20AM +0200, Nicolas Frattaroli wrote:
-> This series was spawned by [1], where I was asked to move every instance
-> of HIWORD_UPDATE et al that I could find to a common macro in the same
-> series that I am introducing said common macro.
-> 
-> The first patch of the series introduces a new header file,
-> hw_bitfield.h, which contains two new macros: FIELD_PREP_WM16 and
-> FIELD_PREP_WM16_CONST. The latter can be used in initializers.
-> 
-> I've cheekily added the hw_bitfield.h header to the BITMAP API section
-> of the MAINTAINERS file.
-> 
-> This macro definition checks that the mask fits, and that the value fits
-> in the mask. Like FIELD_PREP, it also shifts the value up to the mask,
-> so turning off a bit does not require using the mask as a value. Masks
-> are also required to be contiguous, like with FIELD_PREP.
-> 
-> For each definition of such a macro, the driver(s) that used it were
-> evaluated for three different treatments:
->  - full conversion to the new macro, for cases where replacing the
->    implementation of the old macro wouldn't have worked, or where the
->    conversion was trivial. These are the most complex patches in this
->    series, as they sometimes have to pull apart definitions of masks
->    and values due to the new semantics, which require a contiguous
->    mask and shift the value for us.
->  - replacing the implementation of the old macro with an instance of the
->    new macro, done where I felt it made the patch much easier to review
->    because I didn't want to drop a big diff on people.
->  - skipping conversion entirely, usually because the mask is
->    non-constant and it's not trivial to make it constant. Sometimes an
->    added complication is that said non-constant mask is either used in a
->    path where runtime overhead may not be desirable, or in an
->    initializer.
+Hi Krzysztof,
 
-Applied in bitmap-for-next for testing.
+Quoting Krzysztof Ha=C5=82asa (2025-09-02 18:54:27)
+> Hi,
+>=20
+> summary:
+>=20
+> I've done a few additional tests and it seems the MEDIA_AXI clock is the
+> problem. Reducing it to 400 MHz while still running MEDIA_ISP at 500 MHz
+> produces no errors.
+> MEDIA_ISP at 400 MHz and MEDIA_AXI at 500 MHz produces errors, though
+> (register address errors while reading and writing from/to ISP MI
+> (memory interface) registers, only on the secondary ISP (isp1), and
+> generally only while streaming data from the ISP).
+>=20
+> What is driven by MEDIA_AXI clock root? MEDIAMIX: ISI, LCDIF, ISP, DWE.
+>=20
+> According to both datasheets (industrial and commercial), MEDIA_AXI
+> is limited to 400 MHz in normal mode and 500 MHz in overdrive mode.
+> All my hardware is setup for overdrive mode, though (two manufacturers,
+> both using the same PMIC setup).
 
-Thanks,
-Yury
+Thanks for the investigation!
+
+>=20
+> Since no hardware in the official Linux kernel tree (DT) uses the second
+> ISP... Should we just add a warning to the imx8mp.dtsi and be done with
+> it?
+
+afaiu we can't yet use the ISI and ISP simultaneously, so the ISI is
+enabled by default and you need overlays to enable the ISP, so
+technically nothing upstream uses either ISP. To my knowledge, there is
+hardware where you can use both though, such as the Debix SOM A
+(imx8mp-debix-som-a-bmb-08.dts) [0].
+
+
+Paul
+
+[0] https://debix.io/hardware/debix-som-a-io-board.html
+
+> Out of tree hardware using isp1 (csi1) obviously exists.
+> --=20
+> Krzysztof "Chris" Ha=C5=82asa
+>=20
+> Sie=C4=87 Badawcza =C5=81ukasiewicz
+> Przemys=C5=82owy Instytut Automatyki i Pomiar=C3=B3w PIAP
+> Al. Jerozolimskie 202, 02-486 Warszawa
 
