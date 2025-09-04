@@ -1,63 +1,91 @@
-Return-Path: <linux-media+bounces-41774-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41775-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2803B43CEF
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 15:21:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96B20B43D15
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 15:25:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7BA0317004F
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 13:21:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 575605A466D
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 13:25:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D4C82F5331;
-	Thu,  4 Sep 2025 13:21:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4A8E3054C4;
+	Thu,  4 Sep 2025 13:25:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="FxaTjGnT"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="v+47+t8s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89201158DAC
-	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 13:21:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA6C8303C9E
+	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 13:25:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756992070; cv=none; b=nIsXQXNkEagL+m0j3iJKSqu5Rj9li+gVG8+ZDBZQ8zuMVz3ICPbDj+uRP4PraD4qTPT85kb4NeJ5oU326oqQBSoUJF6OW6mQEsJ5OtE/V6Dj9fqAuoFBdMYYgogdQ38sC4JuNqdTb0ElmBkjV9fCwqbLJ+QFC3ExLYa781hmuiw=
+	t=1756992311; cv=none; b=PXWpMR5YIQXfgRhBD18wJyc1+CE8zo12guGbkDiKXdCcZf6qLVWd8indSt77ZJCvpHy9cE/bOgZkkZsDZuOc5q+/CEcWyxeDQ2QWoF6ZLgFRfkkhMML6r1xJx/PRu7iupbagjXUy+D7LQ7QN/pOpGIErv6HgIfl2M826Wpc0i2M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756992070; c=relaxed/simple;
-	bh=dc04JHTHS1nhH5ef1dpcQuVWvoNJin3s59pOAToGcjs=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=AHmwwYVli/nIcB4phN8h141/gyzbf+kLrStHMizXFFlgwwnATyTP7AoimyOPeC8Nj4jw9vcgpr2j71RDqqNttMhGKG3rINdTYDXIqYEb74WRARhNfrzRsHTIO5aiE9p5IF172chcCeyPMHbXgnyVzcNJDtcHOPKQr1AjeQQx6fw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=FxaTjGnT; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1756992059;
-	bh=dc04JHTHS1nhH5ef1dpcQuVWvoNJin3s59pOAToGcjs=;
-	h=Subject:From:To:Date:In-Reply-To:References:From;
-	b=FxaTjGnTetV1NIF2zSHV1x+5mDnExbO4WzbApC0KO2ZtlGmp09XT56GLDC/fUvdf/
-	 /bje72waA/10BIiyyyoa5wYTRkj/OZNxsGbYKWebx4zexZFjaZG4k0qrdyyoY8ACRS
-	 /JUfQFTHLHHEbM6KVF0mXaBLMCsytIzM5hmkCtVOnodRMmJSZrtVF1Aq7VL4o/JczX
-	 xHWV9s17iH4r8THW/6YyU6SZAFByZPyrMXsnxako0ke2b556WR/OoDOsZZzwD8OPmK
-	 /kUZtIIpJ/WbbVTe3qe4dzOJHZ8ESXgMsq8jh7A1YSv4j1yQey29DsSyy0Z0iKgjxi
-	 AcpxM2CXIeV3w==
-Received: from [IPv6:2606:6d00:11:5a76::5ac] (unknown [IPv6:2606:6d00:11:5a76::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3725617E0579;
-	Thu,  4 Sep 2025 15:20:59 +0200 (CEST)
-Message-ID: <e42a91c32367703eb92761c93ff28b4f6224e2df.camel@collabora.com>
-Subject: Re: [GIT PULL FOR 6.18] Media Codec Fixes 2025-09-03
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org
-Date: Thu, 04 Sep 2025 09:20:56 -0400
-In-Reply-To: <ba96a0168da7df58b7f27377f48d259d4c6495c4.camel@collabora.com>
-References: <dd469ea1001160b5cf7b7bf4f44dfdda8d2d27ce.camel@collabora.com>
-		 <18806e61-3890-4d2d-9740-a1aee00d6884@kernel.org>
-	 <ba96a0168da7df58b7f27377f48d259d4c6495c4.camel@collabora.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+	s=arc-20240116; t=1756992311; c=relaxed/simple;
+	bh=mOQr+5LEx0ExgUegDIgONNOFCSyXgvZsVQ/+Sllt3tk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=esh1ZiRAWYjFTTPdL27BxL0mOvzxARcQO7aQiR6xkKWgA1KoY9rGGTTHJWKN4DoaqGWld+h0KtVuig3Da18gql+6xIuRXzsmMGsfy7KEc6qm2eHJRLwBFRDTz4PPtfd1yZ5Ewhiv6dujRhLxR1W7jzOcVxKdM+D3VNYI/7X2H8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=v+47+t8s; arc=none smtp.client-ip=209.85.222.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-807e414be94so101971385a.1
+        for <linux-media@vger.kernel.org>; Thu, 04 Sep 2025 06:25:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1756992305; x=1757597105; darn=vger.kernel.org;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=mOQr+5LEx0ExgUegDIgONNOFCSyXgvZsVQ/+Sllt3tk=;
+        b=v+47+t8sgdgpe6Hd/7mEpJnV6f+u8/wdt3CZUdqq0oJ+KzCBzxZ1A1INl6oP2E5xwg
+         Y5EfAGZsClALmHCumINB5Op4VkIIbQYUOJ7/j5oLUd+bBUD/LMq0YTx6lI4d8ZXh8BwN
+         VVAH/WR/F4JXMEKjUL35IN2/EvHsHoVRrUCDHJe6VMW23kbe9st0WMEFSq93IVVc+gla
+         GEyQFW1z0yGAiEMSvzlLUDnFybLtacfHKzUtMTYCpHtzhVUCGSA1uY3t3WdomImG1St5
+         qHoxdsNvbHu7xZs79YpguEzBs4Qfs0dawXJ72uhGJONwHC4ZCtbxVGf71olOvh1Ytuds
+         Lt6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756992305; x=1757597105;
+        h=mime-version:user-agent:autocrypt:references:in-reply-to:date:cc:to
+         :from:subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mOQr+5LEx0ExgUegDIgONNOFCSyXgvZsVQ/+Sllt3tk=;
+        b=oOkApQWbSXOsBldzgJ5wezNGEzpvjwmw2gTgqdlNU/XxjER6NUmgUEyG7Kd2/nSect
+         3Jxt+bSLe27b0bU9tWrQuHxBcHF955ZdFYg1l7UG0hnPOzR4MncKx3WjyQojg6V+ayYp
+         LJ5elGpn4mWfjSLNH0KMQiVPpAYh5m7nS7dQPK0sEGZji+GdcXVzxqkqviYo12zowKvN
+         3nJ4KXDf9zz219o2XAWqjZxqMm+Hak11vXqe78cm0AL9lZ4NrElT03dnveBD7WHOU+t4
+         vA3/uYsV/Efm2ZZoVJ1Jcg7L5XoyR7eDspsE3ZQC+fCDDsVoKQ89uL/RVRfq46GPU4hG
+         OXtA==
+X-Gm-Message-State: AOJu0YyhPWx2Pg4eCvHAcCL5uZ595QHJ3rVplSwj0qnkzRdanKbRsK/v
+	eKO76H+gkiLKPVgXk1cI/CZgomaUyYFkxsqLRGgvKUXukZFwrmXf+jcL5afzQnvlBuw=
+X-Gm-Gg: ASbGncsjtuIJE6sOIddwcFL/4wY1ejcRsVYniNDDkAvh5UC3OUFeuTfT5DrkZezC5Ru
+	Z6hPyo0F/zTnULm7HaWeIUWtbkVrVRsZ7QeQtT/IkKakraOpjB7BIGd9i1GV20AIua37AS8ybWI
+	XSW2taX1mrSdYUJ9FTLQ7tEMbQKYj6+GPpkrXEHY/SQXLk1pgv192C4hTE4sSf8oPcdgJSDz6Yp
+	5wgOXjb7O25wC0Ieh2NJeUvcaf/dIyXf/MFeBdZpSHgWeQcwWEoInnKRqYHZY4xXYhXhM20FO4R
+	fJSNr5ILDwMdwvh/hicYYhBfUtVAGaL28dEvnRL4BQrtWcLgtPHw5gAxG82g1TJziEmqZoArTW2
+	Z4GpDcGvvPrYD+uc4OIAtubH3Dv5ZerrpOsE0fA==
+X-Google-Smtp-Source: AGHT+IGi3AWfg748ENYo8vIlANq8HcVXtJHELC+/xkekcOqjHRS1egP49zyDkpVCeqaePBrXUnTpnA==
+X-Received: by 2002:a05:620a:19a7:b0:7e6:8f41:2047 with SMTP id af79cd13be357-7ff26eab696mr2205539685a.6.1756992305020;
+        Thu, 04 Sep 2025 06:25:05 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:11:5a76::5ac? ([2606:6d00:11:5a76::5ac])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-80aab789f9asm276800285a.47.2025.09.04.06.25.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 04 Sep 2025 06:25:04 -0700 (PDT)
+Message-ID: <fcfa00b5ae102d76b02ce1667d27822e6d2c3c81.camel@ndufresne.ca>
+Subject: Re: [PATCH v2 0/8] Add support for Wave6 video codec driver
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Marek Vasut <marek.vasut@mailbox.org>, Nas Chung
+ <nas.chung@chipsnmedia.com>, 	mchehab@kernel.org, hverkuil@xs4all.nl,
+ sebastian.fricke@collabora.com, 	robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-imx@nxp.com,
+ jackson.lee@chipsnmedia.com, 	lafley.kim@chipsnmedia.com
+Date: Thu, 04 Sep 2025 09:25:03 -0400
+In-Reply-To: <f03d0ae0-d28b-4b06-8f63-9d06f15c0522@mailbox.org>
+References: <20250422093119.595-1-nas.chung@chipsnmedia.com>
+	 <f03d0ae0-d28b-4b06-8f63-9d06f15c0522@mailbox.org>
+Autocrypt: addr=nicolas@ndufresne.ca; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
  cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
@@ -70,9 +98,8 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
  ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-yG6bupHXvUm5WFLLc2Ca"
+	protocol="application/pgp-signature"; boundary="=-N8OT1sYIOdbRnL+PZAc4"
 User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -82,188 +109,96 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-yG6bupHXvUm5WFLLc2Ca
+--=-N8OT1sYIOdbRnL+PZAc4
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Le jeudi 04 septembre 2025 =C3=A0 08:36 -0400, Nicolas Dufresne a =C3=A9cri=
-t=C2=A0:
-> Hi Hans,
->=20
-> Le jeudi 04 septembre 2025 =C3=A0 10:39 +0200, Hans Verkuil a =C3=A9crit=
-=C2=A0:
-> > On 03/09/2025 21:05, Nicolas Dufresne wrote:
-> > > Hey Mauro, Hans,
-> > >=20
-> > > I collected the easy stuff I had in queue, so we have code clean and =
-just
-> > > one
-> > > fix for the MT8188 MDP3 M2M driver.
-> > >=20
-> > > cheers,
-> > > Nicolas
-> > >=20
-> > > ---
-> > >=20
-> > > The following changes since commit
-> > > 603957ae903e81fb80d3788297c0f58a68802dfc:
-> > >=20
-> > > =C2=A0 media: rkisp1: Add support for multiple power domains (2025-08=
--31
-> > > 11:10:07 +0200)
-> > >=20
-> > > are available in the Git repository at:
-> > >=20
-> > > =C2=A0 https://gitlab.freedesktop.org/linux-media/users/ndufresne.git=
-=C2=A0tags/for-
-> > > 6.18-media-codecs-2025-09-03
-> > >=20
-> > > for you to fetch changes up to aa067d8de6e85c90a92c4281235c5cb6d7651f=
-b5:
-> > >=20
-> > > =C2=A0 media: uapi: v4l2-controls: Cleanup codec definitions (2025-09=
--03
-> > > 13:08:23 -0400)
-> > >=20
-> > > ----------------------------------------------------------------
-> > > Code cleanup and MT8188 MDP3 fix
-> > >=20
-> > > ----------------------------------------------------------------
-> > > AngeloGioacchino Del Regno (1):
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dt-bindings: media: mediatek,mt8195-jp=
-eg: Allow range number in node
-> > > address
-> >=20
-> > This one is missing the SoB of the devicetree maintainers. I'm dropping=
- it
-> > from this
-> > PR, but will apply the other patches.
->=20
-> Since its bindings, DT folks don't take them. I usually wait for a Rb fro=
-m
-> devicetree folks, but since Angelo is Mediatek tree maintainer he really =
-knows
-> what he's doing. The <name>@<number>,<number> instead of hex address seem=
-s
-> fairly common.
->=20
-> >=20
-> > I also noticed that it wasn't delegated to ndufresne in patchwork, perh=
-aps
-> > this was
-> > mistakingly added to the PR?
->=20
-> I normally only take what I delegated to me indeed, and when I did a fina=
-l
-> review from my tag I didn't realized this one mas missing. I did review t=
-hat
-> regex and it does what the comment says.
->=20
-> Now I got tricked though, the DTS don't yet utilize the new form of
-> jpegdec@<number>,<number>, so its not really fixing a DTS check issue, bu=
-t a
-> check issue that would occur if this was being used.
->=20
-> Anyway, no worries, nothing is broken, I'll ask Angelo to chase a DT
-> maintainer
-> to Rb this patch.
+Hi,
 
-Actually, I just noticed Krzysztof comment, and then Angelo underlining tha=
-t it
-contradicts previous DT maintainers review since all the multi-format multi=
--core
-encoders/decoders in MT8195 uses that form. After that, Krzysztof decicded =
-to
-stay silent, Angelo should ping again or drop that patch.
+Le mercredi 03 septembre 2025 =C3=A0 23:47 +0200, Marek Vasut a =C3=A9crit=
+=C2=A0:
+> On 4/22/25 11:31 AM, Nas Chung wrote:
+> > This patch series introduces support for the Chips&Media Wave6 video
+> > codec IP, a completely different hardware architecture compared to Wave=
+5.
+> >=20
+> > The wave6 driver is a M2M stateful encoder/decoder driver.
+> > It supports various video formats, including H.264 and H.265,
+> > for both encoding and decoding.
+> > While other versions of the Wave6 IP may support VP9 decoding and
+> > AV1 decoding and encoding those formats are not implemented or validate=
+d
+> > in this driver at this time.
+> >=20
+> > On NXP i.MX SoCs, the Wave6 IP functionality is split between two regio=
+ns:
+> > VPU Control region, Manages shared resources such as firmware memory.
+> > VPU Core region, Provides encoding and decoding capabilities.
+> > The VPU core cannot operate independently without the VPU control regio=
+n.
+> >=20
+> > This driver has been tested with GStreamer on:
+> > - NXP i.MX95 board
+> > - pre-silicon FPGA environment
+> >=20
+> > Test results for decoder fluster:
+> > - JVT-AVC_V1, Ran 77/135 tests successfully=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 in 35.519 secs
+> > - JVT-FR-EXT, Ran 25/69 tests successfully=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 in 17.725 secs
+> > - JCT-VC-HEVC_V1, Ran 132/147 tests successfully=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 in 81.549 secs
+> > - All failures are due to unsupported hardware features:
+> > -- 10bit, Resolutions higher than 4K, FMO, MBAFF
+> > -- Extended profile, Field encoding and High422 sreams.
+> >=20
+> > Test results for v4l2-compliance:
+> > v4l2-compliance 1.29.0-5359, 64 bits, 64-bit time_t
+> > v4l2-compliance SHA: 2a91a869eb8a 2025-04-12 11:35:53
+> >=20
+> > Compliance test for wave6-dec device /dev/video0:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 fail: ../utils/v4l2-compliance/v4l2-test-contro=
+ls.cpp(1180): !have_source_change || !have_eos
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 test VIDIOC_(UN)SUBSCR=
+IBE_EVENT/DQEVENT: FAIL
+> > Total for wave6-dec device /dev/video0: 48, Succeeded: 47, Failed: 1, W=
+arnings: 0
+> >=20
+> > Compliance test for wave6-enc device /dev/video1:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 fail: ../utils/v4l2-compliance/v4l2-test-contro=
+ls.cpp(1169): node->codec_mask & STATEFUL_ENCODER
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 test VIDIOC_(UN)SUBSCR=
+IBE_EVENT/DQEVENT: FAIL
+> > Total for wave6-enc device /dev/video1: 48, Succeeded: 47, Failed: 1, W=
+arnings: 0
+> >=20
+> > Note: the failures are all related with the eos event.
+>=20
+> For what its worth, the whole series:
+>=20
+> Tested-by: Marek Vasut <marek.vasut@mailbox.org> # NXP i.MX95 rev. A0
+
+Do you mind sharing what tests you have done ? Are you confirming the same
+fluster and compliance results, have you done more ? Since this is largely
+inspired on Wave5, I'd like to see people testing real-world playback, with
+seeks, dynamic resolution changes, data lost. On Wave5, latest performance
+patches leads to crash or hangs.
 
 Nicolas
 
->=20
-> regards,
-> Nicolas
->=20
-> >=20
-> > Regards,
-> >=20
-> > 	Hans
-> >=20
-> > >=20
-> > > Liao Yuanhong (1):
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: chips-media: wave5: Remove redu=
-ndant ternary operators
-> > >=20
-> > > Lukas Bulwahn (1):
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MAINTAINERS: merge sections for ROCKCH=
-IP VIDEO DECODER DRIVER
-> > >=20
-> > > N=C3=ADcolas F. R. A. Prado (1):
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: platform: mtk-mdp3: Add missing=
- MT8188 compatible to
-> > > comp_dt_ids
-> > >=20
-> > > Paul Kocialkowski (3):
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: verisilicon: imx8m: Use the def=
-ault Hantro G1 irq handler
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: verisilicon: Explicitly disable=
- selection api ioctls for
-> > > decoders
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: uapi: v4l2-controls: Cleanup co=
-dec definitions
-> > >=20
-> > > =C2=A0Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec=
-.yaml |=C2=A0 2
-> > > +-
-> > > =C2=A0Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc=
-.yaml |=C2=A0 2
-> > > +-
-> > > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 =
-9
-> > > +--------
-> > > =C2=A0drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 =
-2
-> > > +-
-> > > =C2=A0drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 3
-> > > +++
-> > > =C2=A0drivers/media/platform/verisilicon/hantro_drv.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2
-> > > ++
-> > > =C2=A0drivers/media/platform/verisilicon/hantro_v4l2.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6
-> > > ++----
-> > > =C2=A0drivers/media/platform/verisilicon/imx8m_vpu_hw.c=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 20
-> > > +-------------------
-> > > =C2=A0include/uapi/linux/v4l2-controls.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23
-> > > +++++++++++------------
-> > > =C2=A09 files changed, 23 insertions(+), 46 deletions(-)
-> > >=20
-> > >=20
-
---=-yG6bupHXvUm5WFLLc2Ca
+--=-N8OT1sYIOdbRnL+PZAc4
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaLmSOQAKCRDZQZRRKWBy
-9INTAQCAbNCDdhkAHwnCxrmn057KT2EH6dlyfVjSNApH0Xg4pAEAucomPJpDKXPW
-hRkBdt6KpHhsKu5UCZUGutcfx05esQk=
-=b1hx
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaLmTLwAKCRDZQZRRKWBy
+9CJ9APkBYE6lgxbTidGKmQRg5uiMIAXHNH43y00P/DQomgvWBAEAj0Y/qQnRztdC
+nn+qennSm56gSH9KiusSuvS6ipCNPAY=
+=0v5T
 -----END PGP SIGNATURE-----
 
---=-yG6bupHXvUm5WFLLc2Ca--
+--=-N8OT1sYIOdbRnL+PZAc4--
 
