@@ -1,149 +1,108 @@
-Return-Path: <linux-media+bounces-41753-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41754-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13468B433AB
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 09:21:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92CFFB43481
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 09:48:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C2E2D483F16
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 07:21:12 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 61EA117C18C
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 07:48:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DAE529B78D;
-	Thu,  4 Sep 2025 07:21:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C72E29B796;
+	Thu,  4 Sep 2025 07:48:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="FZlTYS2H"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="emV2isz6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D073299922
-	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 07:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E7CDBE5E;
+	Thu,  4 Sep 2025 07:48:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756970463; cv=none; b=PLNpjWZBdN9PydUDCwjLN0Dh0qtvc9vRy0K3YlLcId1tY9K6yBYhB7jG/gKYZOvT0dxwlitCf6NYWuZt84XAC6kWP3IK38kD866pDyGlymwsyk6PBqsZYxi8FSeA7gN573grBItFXhzyPHNRmpuAXLAqd/vsFliccOhP0Bwp+ZU=
+	t=1756972098; cv=none; b=FRZ2IIyL7remXo241FVxQOMLGu0IRNQ8KFXTDNhX5Yu3BFHO8zmzIDf36fCk7xbjduwgsD8JaWcx+RKumKTTT+zMcMgvsjWTWH9lwtqSjszMO+n46xkMJ8W/sQgvH+u+r9OZQtEke9D1htAuqjD7SupRjMp+v8xmOprjSXxck5Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756970463; c=relaxed/simple;
-	bh=IzaUyr2QUQ0u34pCN4ankMSHh6IMMQrZS71LWFjV2Xc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Doew6GH9/B/Ve5Zi2CoqY7QzHLWD9A7qs8DFEmo4uDF1tk4dR4cSTpfO22lz4c7ulwpuxzNDVKStUeo5gljG9WDKHUJfFenKnbXrE6Wn7FNQL2JOdXtU/lXaTfbFFE3gzmLp+0g5JNrriJH6ilY3ZT2EWMRDhx4oSHUmReCKlls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=FZlTYS2H; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b4df220483fso436671a12.2
-        for <linux-media@vger.kernel.org>; Thu, 04 Sep 2025 00:21:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1756970461; x=1757575261; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ck4Bse/Qz7JlMSXOfz+yprHWM6hsZTobGzFuDFsmoa4=;
-        b=FZlTYS2HG8qWSETAIvJAfIcqD2klgYWH/sjiho4fyoE1NVIKyNDJUum6b9tpel+Z6/
-         P6DSOVNcWO+Kqg0hoOzYU4z39oz2l1tcNTPB7/X2ZZmz8ZW5j+3zBN0dAiIj120WyKCv
-         dwkyM3xbQJbfYtXkrwK9lQRrQgulZzA9BDlF0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756970461; x=1757575261;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Ck4Bse/Qz7JlMSXOfz+yprHWM6hsZTobGzFuDFsmoa4=;
-        b=Imgb10RIT/B3YYWU2SV5YvUBd2ODItBnpuJ8deNTW77Nn+RkodIpYDNN1pxrgw9DoB
-         Kg+wGl96+7TPZ4FkEzjkrTBGWIzA717s232lkIrfpO25xzMzIPWZEycUXQR5JfGxTBa8
-         mYhbstnK1SY2tY6V2bLZ5hQLqko4zfLSFs0H1PfEDcvkINJKbxJsuMWpfIFyQy92DOVW
-         W1+N8kM+my+NTL+p9ysykXFiz3VQSla34qnvQghled6DT6dCEBVEru3XO7lAQKB5rygY
-         d6h62pPA0f6XLE9HrsUJ3IxddA4sCE4P8knJwi7osT67KknotaxFupoF4Ryu0AxEKdts
-         DRdg==
-X-Forwarded-Encrypted: i=1; AJvYcCV6I9f3lyQybBmprmp8etnrCVrsuKk8Hcnll2oj0neJ6i6nB5n+mnf3oAYdz8/ars6I7jTvMoiryY4KHA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyjT83dPFx7si7XUuHfEFKUrQEivUVRiYsxKcDNHbW4VHfY66e
-	X0LqW1pPLhUzPzFJ2f9+XBWbSwSmBcbJxxNuIOs7IFUeFZPUW6MybgvRn+67sWUdyV2LyIyGHaP
-	6dYQ=
-X-Gm-Gg: ASbGncsTx3viEtqXRQ4Bx0+qgrCcGx58IJZBQWuGNqSXacEGRPI2p4V0cVoCmlWIfqt
-	aKOzvxCn+KRJ19INOwhuu0bP3lQmKMWPnKnkPRM3dIZhDcZfnNg6N6ajDvzpdEmhxvO0FuugJyC
-	9dHMYRnKqg6kP37m7CYheO6XYwj5zfkstxK1zjc7oRo+JdGOgQFqeGaIzSLGKp/iq8SJDBo3Iw3
-	5lFZLhnCbANWgJeNw0d5TKzEWMAjufGxN6Jv5rNrFm7nzkkBLAqMQYD1jZjLxS4TUJ2L4+brjnp
-	umtv62434k1BlwMyHEmF20PeeOzNB1yPXin+wcRysJhuQlHZDVXxdpctr4+8HB5EVakGlRcYzE+
-	WYVcstXT9HYoHP85HhGpc+ywl3QJtdkfJl6W8Omp6wsZclbe9txnLe9OXbvBPfK7Os8FIyqp4Q7
-	s=
-X-Google-Smtp-Source: AGHT+IGo61zStUSpjcuLT4d9/Oha26Up7cq1d67lNKVi+T3bRait9z7NNY3hCr7UcmKEAJBdIAezyg==
-X-Received: by 2002:a17:903:19ce:b0:24b:270e:56cb with SMTP id d9443c01a7336-24b270e59bfmr104765455ad.27.1756970461132;
-        Thu, 04 Sep 2025 00:21:01 -0700 (PDT)
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com. [209.85.210.181])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24ca41746casm32116835ad.48.2025.09.04.00.20.59
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 04 Sep 2025 00:21:00 -0700 (PDT)
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-7724fe9b24dso553411b3a.2
-        for <linux-media@vger.kernel.org>; Thu, 04 Sep 2025 00:20:59 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCX8FGWlkpFhPERObeewXvxrY3tfsSfWbh4TGxY1Hxdwic0EqQgN2iwyejIBeJXeanK38hUtvhd1L7neVA==@vger.kernel.org
-X-Received: by 2002:a05:6a20:4324:b0:246:1c:46d with SMTP id
- adf61e73a8af0-246001c0ca6mr11362895637.2.1756970458983; Thu, 04 Sep 2025
- 00:20:58 -0700 (PDT)
+	s=arc-20240116; t=1756972098; c=relaxed/simple;
+	bh=ZC+WVshZrhZh5+K/oAuQIuFO1mXnL5Mq5cuBTwheGb4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BhRAIiQbxC+gjgug/3c+OMTYpftDgnkETu1Rxyl2p9FvEaQTvXRAW4E/t4ux+xlx29M2Hc2sFZ971MSfixW3AIVnxidV2Omnk2VEFjV38iHXm6m/ZHt/9F5Fy32YAwoPsung6qvIXNroSPthx3wcfyrsZ92EJHjB7AazXydhuOA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=emV2isz6; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1756972096; x=1788508096;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ZC+WVshZrhZh5+K/oAuQIuFO1mXnL5Mq5cuBTwheGb4=;
+  b=emV2isz6sMSZ1fwXPg1ehjRdsAJcyhMaT8T61SmaKvS3MwIKZSHFh5d/
+   J862W3AfCWq0WVtdHsn9hmIT1bb/Gad3au5joSo2fuGNWFefNjUj+ZljA
+   Z1NA21uvtJcMUowKQ/K/6pGwhD0gOIGNbVFw2cMHyYBXsfewZcjVda3xR
+   yfB8WggOop+oAvG2XFRj34OSjkJ4yPxIqxXi/NialLP2n6unf+lfWfQ/c
+   KkH16FqjLHMNSvwYdoF6k4v4h0J8WtX9O1p93PbtgouJ0vlT0480iFG8Q
+   XF9UkJX9766TIAeay3dFrSOSeDh8GrUt8LdO+et5JG+NWpqJEzJ+x2Bxn
+   A==;
+X-CSE-ConnectionGUID: OryHhI2zSyiDVAHv3Or53Q==
+X-CSE-MsgGUID: xjdSRMqqTf6yr+wAptFgsQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11542"; a="59243159"
+X-IronPort-AV: E=Sophos;i="6.18,237,1751266800"; 
+   d="scan'208";a="59243159"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2025 00:48:15 -0700
+X-CSE-ConnectionGUID: noDkDOW7T+KfV0sx0rwuKA==
+X-CSE-MsgGUID: 8XsIk3l/SGGFYWt7Q5CUUA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,237,1751266800"; 
+   d="scan'208";a="171934358"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Sep 2025 00:48:13 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1uu4hW-0000000BCYb-0xMg;
+	Thu, 04 Sep 2025 10:48:10 +0300
+Date: Thu, 4 Sep 2025 10:48:09 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Adrian =?utf-8?Q?Barna=C5=9B?= <abarnas@google.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Andy Shevchenko <andy@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Dan Carpenter <dan.carpenter@linaro.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [RFC PATCH v2 1/2] staging: media: atomisp: Change name to
+ better follow its behavior
+Message-ID: <aLlEOYZqT07r6G_V@smile.fi.intel.com>
+References: <20250903092754.2751556-1-abarnas@google.com>
+ <20250903092754.2751556-2-abarnas@google.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250904081429.592e439f.michal.pecio@gmail.com>
-In-Reply-To: <20250904081429.592e439f.michal.pecio@gmail.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Thu, 4 Sep 2025 09:20:31 +0200
-X-Gmail-Original-Message-ID: <CANiDSCuwHo_wLqVwPj8VHmNAgZw6gyq4zxoapvGxDwnb0tfkxA@mail.gmail.com>
-X-Gm-Features: Ac12FXwZwul4UKpKyMxWTIvEC3mrs3OlDVCBkcPTmJKAOxRhisn9yBCjCfSFcus
-Message-ID: <CANiDSCuwHo_wLqVwPj8VHmNAgZw6gyq4zxoapvGxDwnb0tfkxA@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: Shorten the transfer size non compliance message
-To: Michal Pecio <michal.pecio@gmail.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250903092754.2751556-2-abarnas@google.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
+ krs, Bertel Jungin Aukio 5, 02600 Espoo
 
-Hi Michal
+On Wed, Sep 03, 2025 at 09:27:53AM +0000, Adrian Barnaś wrote:
+> Change name to clearly states what function does.
 
-I like the new writing :)
+The Subject and the body of the commit message should be more specific.
 
-On Thu, 4 Sept 2025 at 08:14, Michal Pecio <michal.pecio@gmail.com> wrote:
->
-> This message is much longer than others and doesn't fit even in a 160
-> column window when printed, despite providing little real information.
->
-> Also replace 'transmission' with 'transfer' because that's the actual
-> name and 'max packet' with 'limit' because it isn't same thing with
-> isochronus endpoints. Remove cryptic abbreviations like 'ep'.
->
-Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+Missing blank line.
 
-> Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
-> ---
->
-> By the way, this hack doesn't help much in the opposite case:
-> dwMaxPayloadTransferSize is right, but EP descriptors are a mess.
->
-> But no harm in trying, I guess.
-> I can live with it either way.
->
->
->  drivers/media/usb/uvc/uvc_video.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> index 82d9d8ae059d..baf4ace41dbe 100644
-> --- a/drivers/media/usb/uvc/uvc_video.c
-> +++ b/drivers/media/usb/uvc/uvc_video.c
-> @@ -266,7 +266,7 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
->         if (stream->intf->num_altsetting > 1 &&
->             ctrl->dwMaxPayloadTransferSize > stream->maxpsize) {
->                 dev_warn_ratelimited(&stream->intf->dev,
-> -                                    "UVC non compliance: the max payload transmission size (%u) exceeds the size of the ep max packet (%u). Using the max size.\n",
-> +                                    "UVC non compliance: Reducing max payload transfer size (%u) to fit endpoint limit (%u).\n",
->                                      ctrl->dwMaxPayloadTransferSize,
->                                      stream->maxpsize);
->                 ctrl->dwMaxPayloadTransferSize = stream->maxpsize;
-> --
-> 2.48.1
->
+> Signed-off-by: Adrian Barnaś <abarnas@google.com>
+
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
---
-Ricardo Ribalda
 
