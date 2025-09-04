@@ -1,130 +1,97 @@
-Return-Path: <linux-media+bounces-41756-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41757-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 009C0B434EE
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 10:05:35 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id E6FC1B43599
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 10:23:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BC74C17490A
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 08:05:35 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 621527B3C17
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 08:21:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 488032BE02A;
-	Thu,  4 Sep 2025 08:05:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L7iHmStW"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1388F2C11D9;
+	Thu,  4 Sep 2025 08:23:14 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1851189BB6;
-	Thu,  4 Sep 2025 08:05:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE692AE68
+	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 08:23:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756973127; cv=none; b=Q3Z+/KdkBJZHhjviERYMjmaeFsgI0jdB6LDEnbNYefOXEwF+Qn8To7jBE5i0LNgIrya8XJnAFsqXagk9gngqmfPXncKgZuXH7Cc2ykv1g2cMBlvq3M8w1bDW5hy/esVRVcz9/uAoq6aQogWfJpM9xiPQFmALNduHEMj+swuF68Y=
+	t=1756974193; cv=none; b=Q/gZMwtSu0lesrM41OxF9t+wL7DDdBkl/ADngHzRfDdXRWcljUEy/LWepXq/vj3DEYdHdqf5Imo3D7IZt7P8XZX3e5bNuQUAjbKDgMmuYfmtwCfxanGy9JxCuUrxrHhA13/biws5msDFNMw4yIHpTJhJNKnQUSeGylxFFf2BVZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756973127; c=relaxed/simple;
-	bh=Tule94MLTResPlA6mlCc+QmKVUXhrRUoEgqeVLBPIyo=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=mlxjS9OsAWqKtFcfwZg4bjJ8x1R3pA50fZM0r5/ssp8/lJAMH7+zpxX2oJczB7UQjqzd1MigBnuBsTIyQNPlogdzReychblvTF8UCzKhHmGDncwF4Hc6OGyFxn3CowiXgjatJ6ji9FlZPVfIU9YwAr8WGTlpmM4AvBih87QjgIw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L7iHmStW; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 288C2C4CEF0;
-	Thu,  4 Sep 2025 08:05:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1756973127;
-	bh=Tule94MLTResPlA6mlCc+QmKVUXhrRUoEgqeVLBPIyo=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=L7iHmStW53E+PlDcvERpzgtkHguq4kZGsn+7gU2zY6JJHfkILSv+iLHxjiipckJny
-	 hQn5R3jr22R2wg9X6u/CbFneWSKjPNpfXxRGwVqt8eTR7OZE3nofgowrKKlfk6ALwZ
-	 xaZ736K/lEvJu2kueP3+eBsa/yaQoT9ZizzucV4XjAeVaT7BYhw4Icu1Wpfn68hbUK
-	 nzASfBuTF/1ci/hhzfLACMwqWmZDyhnUCpuhRmiggFzbePqYDFLpXu7QTLdSMO1cHE
-	 w+V8p5klv0kuCIC6+XjRqCLml/fEmPSlhK2fmhQ+ieVZJdUjoVLk2yx1T/VKjrup9j
-	 at5s3YK1ZRmqw==
-Message-ID: <c4cf17bb-73cb-4e3b-9e61-8fd682b5e9ee@kernel.org>
-Date: Thu, 4 Sep 2025 10:05:24 +0200
+	s=arc-20240116; t=1756974193; c=relaxed/simple;
+	bh=0NXMQ43EVDbunJXI34RVxh2iWxPVfn9f3E0EIWXfkio=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HLYq2vTk1wKHlpyHsMt0XBTSh6mwVnTlUbwgXQX25ogPvZFk4eA0eayCA18fLmHerQQLVtwFI8oijJIFFxDBHg36MfJuBYFVow5urcbaBWjN1Rd/TVguGCdlc/CsIjsWzPXlrUN/gKpbmNjLIpd7ByLUs4mhae8poF1R6mI+mDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iie.ac.cn; spf=pass smtp.mailfrom=iie.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iie.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iie.ac.cn
+Received: from localhost.localdomain (unknown [159.226.95.28])
+	by APP-05 (Coremail) with SMTP id zQCowADniBJZTLlodVx8AA--.18339S2;
+	Thu, 04 Sep 2025 16:22:51 +0800 (CST)
+From: Chen Yufeng <chenyufeng@iie.ac.cn>
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	Chen Yufeng <chenyufeng@iie.ac.cn>
+Subject: [PATCH] media: prevent memory leak in cx25840_ir_probe
+Date: Thu,  4 Sep 2025 16:22:22 +0800
+Message-ID: <20250904082222.928-1-chenyufeng@iie.ac.cn>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH] media: az6007: fix out-of-bounds in az6007_i2c_xfer()
-To: Jeongjun Park <aha310510@gmail.com>, mchehab@kernel.org
-Cc: hverkuil@xs4all.nl, zhang_shurong@foxmail.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250421105555.34984-1-aha310510@gmail.com>
-Content-Language: en-US, nl
-In-Reply-To: <20250421105555.34984-1-aha310510@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:zQCowADniBJZTLlodVx8AA--.18339S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7JrWkAw13Wr13ZF15Jr47urg_yoWDXwcE93
+	4UXrW7WrWUKFs8K3W0kr4rZa4FyFZ8KF48XFnIq343AryFv3s7Za9rZ343Ww4UuFW09F1r
+	KFn3uFy7Kws2yjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUIcSsGvfJTRUUUb2kFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
+	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
+	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
+	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
+	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
+	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
+	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8ZwCF
+	04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
+	18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vI
+	r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
+	1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
+	x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUjxR65UUUUU==
+X-CM-SenderInfo: xfkh05xxih0wo6llvhldfou0/1tbiDAYPEmi5BtD1ggAAsn
 
-Hi Jeongjun,
+In cx25840_ir_probe if kfifo_alloc fails the allocated memory for ir_state
+should be released.
 
-On 21/04/2025 12:55, Jeongjun Park wrote:
-> According to the previous commit 1047f9343011 ("media: az6007: 
-> Fix null-ptr-deref in az6007_i2c_xfer()"), msgs[i].len is user-controlled.
+A patch similar to commit a7b2df76b42b ("media: rc: prevent memory leak in 
+cx23888_ir_probe").
 
-Does this relate to syzbot reports? If so, please add a reference to that.
+Signed-off-by: Chen Yufeng <chenyufeng@iie.ac.cn>
+---
+ drivers/media/i2c/cx25840/cx25840-ir.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-As far as I can tell, you can get here only through /dev/i2c-X devices.
-
-> 
-> In the previous commit, bounds checking was added because a null-ptr-deref 
-> bug occurs when msgs[i].buf and msgs[i].len are set to null. However, this 
-> leads to an out-of-bounds vuln for st->data when msgs[i].len is set to a 
-> large value.
-> 
-> Therefore, code to check the maximum value of msgs[i].len needs to be added.
-> 
-> Fixes: 1047f9343011 ("media: az6007: Fix null-ptr-deref in az6007_i2c_xfer()")
-> Signed-off-by: Jeongjun Park <aha310510@gmail.com>
-> ---
->  drivers/media/usb/dvb-usb-v2/az6007.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
-> index 65ef045b74ca..fba1b6c08dc7 100644
-> --- a/drivers/media/usb/dvb-usb-v2/az6007.c
-> +++ b/drivers/media/usb/dvb-usb-v2/az6007.c
-> @@ -788,7 +788,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
->  			if (az6007_xfer_debug)
->  				printk(KERN_DEBUG "az6007: I2C W addr=0x%x len=%d\n",
->  				       addr, msgs[i].len);
-> -			if (msgs[i].len < 1) {
-> +			if (msgs[i].len < 1 || msgs[i].len + 1 > sizeof(st->data)) {
->  				ret = -EIO;
->  				goto err;
->  			}
-> @@ -806,7 +806,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
->  			if (az6007_xfer_debug)
->  				printk(KERN_DEBUG "az6007: I2C R addr=0x%x len=%d\n",
->  				       addr, msgs[i].len);
-> -			if (msgs[i].len < 1) {
-> +			if (msgs[i].len < 1 || msgs[i].len + 5 > sizeof(st->data)) {
->  				ret = -EIO;
->  				goto err;
->  			}
-
-I feel uncomfortable about this patch and similar patches that attempt to address this
-in various other drivers as well.
-
-It's all rather ad-hoc. E.g. you fix the two places here, but not the case at line 778.
-
-I think the proper fix would be to modify __az6007_read/write and add an argument with the
-size of the buffer, then let that function do the check. Rather than manually doing this
-check at every call of those functions. Same for similar drivers.
-
-The approach taken in this patch is too fragile.
-
-Regards,
-
-	Hans
-
-
-> --
-> 
+diff --git a/drivers/media/i2c/cx25840/cx25840-ir.c b/drivers/media/i2c/cx25840/cx25840-ir.c
+index 8cef9656c612..ee80867755e5 100644
+--- a/drivers/media/i2c/cx25840/cx25840-ir.c
++++ b/drivers/media/i2c/cx25840/cx25840-ir.c
+@@ -1199,8 +1199,10 @@ int cx25840_ir_probe(struct v4l2_subdev *sd)
+ 
+ 	spin_lock_init(&ir_state->rx_kfifo_lock);
+ 	if (kfifo_alloc(&ir_state->rx_kfifo,
+-			CX25840_IR_RX_KFIFO_SIZE, GFP_KERNEL))
++			CX25840_IR_RX_KFIFO_SIZE, GFP_KERNEL)) {
++		devm_kfree(&state->c->dev, ir_state);
+ 		return -ENOMEM;
++	}
+ 
+ 	ir_state->c = state->c;
+ 	state->ir_state = ir_state;
+-- 
+2.34.1
 
 
