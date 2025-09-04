@@ -1,90 +1,87 @@
-Return-Path: <linux-media+bounces-41748-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41749-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8ECAB431B1
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 07:42:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99F34B431BF
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 07:46:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 88C3A565923
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 05:42:54 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 559D6566460
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 05:46:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69645242D83;
-	Thu,  4 Sep 2025 05:42:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA4C02405EB;
+	Thu,  4 Sep 2025 05:46:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KmopdLIp"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JpVi0tJ7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D05A23E358;
-	Thu,  4 Sep 2025 05:42:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8F5632;
+	Thu,  4 Sep 2025 05:46:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756964564; cv=none; b=dmNnftcBvzKa8iQ9IDAC4myWJr4eQ6GIWXNPVciWxUamxbgwoL90WVL+MYNrlAxK6dSHR+74DxNksGWh0rICZ0XIG7ctrF/USP78ilavHkQhwPFEpbWOCbATV5+wtMayUvSgg+Fb4zhgXN85Tp2md2EkrQslveAAMFSp8W+gA6Y=
+	t=1756964805; cv=none; b=OV6BE5/+L1nzBEG76FmGtUtEzzvEe+++m7cZF+pxEY36lGeKLf193L2u9mAoOYcMlLiB60I9almiDwyS9pZNYtM2SDzy+eyOp2rAc+uprB/HrIYrb1QwXUu1luGUcf12p7Z840uQoI7p9HLY2tbHFqW/hr3g1+Yz6bDVF9I8JB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756964564; c=relaxed/simple;
-	bh=g+SXvOscJQeh5HJU9Sa9a+M2q24ilt3506SIFNah/B4=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Knra3c7qGJsEtZGBF7etSBLyLHT5AcnRriGonakMk/nf0ccEX/ow+4/LjDc6uBXzZQKNl37myJNA5TcVZBm74aq6MnfBATEDyBF4Qd7SfqPFHFNXDy3EpG3U9Mnd99jRR/K2x0YDsisxmPxWDI914jQs+8aeynmnd4T7RGX6l5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KmopdLIp; arc=none smtp.client-ip=209.85.214.181
+	s=arc-20240116; t=1756964805; c=relaxed/simple;
+	bh=y9QQemxhNMuU9Cg9hSjpes05Vn3CLhpEomMTRXsM1eM=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=RfGb+Dsj84UBESERkRbaKTb9fJxLg3lSfoXTFLbZSRl9yhU5EM4SXkih15sYjALLp0nxEftdE7Ptd9MNqYS3dltFfcLu46FgLY/nRUS226h6OcZYQ9aaAmqZK+23wvwKR3gx7llY9O7Z7vGaLzU+Ys6xp3pZzRZDQiVkRr1bKBk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JpVi0tJ7; arc=none smtp.client-ip=209.85.214.176
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-24456ce0b96so7297295ad.0;
-        Wed, 03 Sep 2025 22:42:43 -0700 (PDT)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-248d5074ff7so12082955ad.0;
+        Wed, 03 Sep 2025 22:46:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756964563; x=1757569363; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1756964803; x=1757569603; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=hbHjJUZmwsNSKsI58Zu00uvyyhHZY/S+yPHhdvFRXMU=;
-        b=KmopdLIpGH5QQJdk7PVDu2hV3IslHSwjq6I2hOuK1ZcbsTq7uodXgB2mbXiEqDg5qa
-         JLXLoIHHbqV3K3WTBROtcVRv7xLgZFPJAPZSY+XaRtk3y2IHpWfOxMPDARfpKBiC2Foa
-         2UhPY0z+eW/17B6RKegAGJkE+8aS8EZLOO8NI3QQo9kRkKVfdD7on7orG+WGqFltiApW
-         783C7SnowNLCLGn6UNzVII+tYGg8BDIXr88Qe/NDKn0UMoKG+d8Anf2HIkov98OfZ/e2
-         pIknbpjC+oQUq9Mjk6JiDW5yFRdNAR4baiozqXwKfg1NyyedGhSn3xo1BkxAyj54Wx+o
-         W9UA==
+        bh=4oONS1z7VfzwpCrdNQbfTZz4SLPX1uCJokgWYpKs+dg=;
+        b=JpVi0tJ7pyshLm8P0tQ1QeGQKAYPZ8fq0Md0KrrjwIT519iVS0DeUgH8Xzl4sJLiCe
+         BbZyEsk2IGSepxZWZA/Qk/61keXtihBEzafK2JiVtmhCbV5V1znqFosZxr3w/9D1UtOe
+         g9ROoj8X/4+hfP0DMYsn8evhB6VCtsftqMra2luHp04eaSbRqSgpHaAUXx6F6PNQicOP
+         zt5OMO0KErmaDGh8OK1PPdxoCGeX1sEPsAT34MsdOT2RNNXP2t3uIJfxL4u9NL73rBvn
+         kx6R3mAaQ+UTsNaOiFxvmcZAG1/hPLMcwgWEj6KQBzl6PeQ8FXQeWonYDUHYw8eMRkmb
+         dcjw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756964563; x=1757569363;
+        d=1e100.net; s=20230601; t=1756964803; x=1757569603;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=hbHjJUZmwsNSKsI58Zu00uvyyhHZY/S+yPHhdvFRXMU=;
-        b=pFT3dQXCEYhY8wriYIWhgPWkSG2pjxG2zwj74PSF6HZNo7GzLebwxCDvLg9KOJmwkq
-         DYEfCDjTw1Fc6fSBDK6WVA11tPpexgyQh3hmYtGjormlg9n+Fe0uumSH1YzCkn64jSAl
-         FB7wu/rxaG/cvYWM3JXC1fhK978w/rbrpgj7wvDKoliv66kPU8Ko3uUH/sajzmCO3Q3T
-         yvHgNsdUHurlxMACIyt7mlPU/hf6Gw1Pl/vEk+LOa6+TemYZvtSHZ4v5f0aSluel0J6k
-         Nnt4dTPlJh1pBmsCeGSwggRCc7EJnMDlZZnTlSG1R3g7mg7b0hh6ccql/nlnbIiKw6ix
-         50XQ==
-X-Forwarded-Encrypted: i=1; AJvYcCV/nsU8g0RZz81sdlhvJDY9kSx22biYMq7h3j3fi4gnfBKUGuugumunVU3w+kbQqKWeOX0W5GoK@vger.kernel.org, AJvYcCV2qSyzNgz+RcTJ4OR3d703jblgzt0DEAIDY9RWJFZurQ0KdXxZ5Dg59UaoL2aXzLOLpvCSVIN+IrvH3Ns=@vger.kernel.org, AJvYcCVB2CY0oniCCahYIozUOQQ7CpMkcjtvEih7lNnkxhnvXAB5vJWsV6pfdzwevtIyIhiy/vSh4sTnn5dWZus=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5Jdyb3MsbQy8OjFjOkGxSETaecggaDl4zh5f3KHVfLmbDyIct
-	ABWrc1RakvCOdxqJB3bgUaCKLJ7UVh+j6MW4RR0G+vsZiGXV3R6fMRv4
-X-Gm-Gg: ASbGnctTZP5Wxu4D9umsscd1j8N1jFp6g5gbdQ+5tPnvvpYyaJQ5DAB9v9h8GnQMNtF
-	+aT6rzJ6WL5r+6EufzuJR7TeOoG0IakGPBvXpzZzrILAth/WjoP5Zb4ZQ2S3RMXr0OFz2JpN+7+
-	73+kYiMnVbk0+Xz3torNrDDTi0SSttIkfXHemByNcI3vM8FceOLsXVbE0nfaj8Sf1VOgWx44xzC
-	9Z+zeGqNAvNiBZfcCzLdm2T1ipeEc7Zd7giWzVrWvFLLthL87l/Wr7DO+GtZfdopf11J6CgRky2
-	1J1hfIxNwbxqyizDvaAFVJOsbUG/X6/Xx4x8H3cLuGf3G+M7wRBRzXxKbEYhZMY4bX+bEezmQed
-	z0aQD8YD3Wetd3JDsN6DEW9j7GePtqi8nvH9/VpS+0zlXIlsN4Q==
-X-Google-Smtp-Source: AGHT+IGR7eTErbfyCZxh8spMVu2TekPQ7+J4ZP6rBfg12RyZ6N3Czo9+NdflESJbPScLb7zZNdl/Kg==
-X-Received: by 2002:a17:902:d603:b0:24c:1a94:e601 with SMTP id d9443c01a7336-24c1a94ed33mr72611455ad.20.1756964562540;
-        Wed, 03 Sep 2025 22:42:42 -0700 (PDT)
+        bh=4oONS1z7VfzwpCrdNQbfTZz4SLPX1uCJokgWYpKs+dg=;
+        b=dlH9+/A1QQgPLnZDcn9swTwBynR1ATYjEymfVl7OVu4fsNl+prtl+A0nfVqEJhovUR
+         dcDCMm/4brU8tBLjRvXE+71LJkWe07vZYi07GaymFhLXJislorZMr6qEcPY9pyX91P5R
+         KrwYqHRA417e2Ai7Hpbuq49uPwSyPLtHax65rK+e7iKS5p0KG/lKeOu0xukFUZC+9ioh
+         b09eDCjU+l4rIb1PqIN8BG+2K+uSZsd/jGTKFG62FevtAw6BavoI+MJVT6h8tproiazH
+         tkcw/Han9uugEe6wQMX5Z5P3IIC47dLoThzqYY8rZVsISWksu3Z0+iKPoGuhIgZawqS6
+         I13g==
+X-Forwarded-Encrypted: i=1; AJvYcCUR1mdg7RUvi6AC8JbfhAb64tbSvtnI+zj9lFRJZRi025lklQK14uElzj9Bt+YyFX7EIyaaTwO4PCj82X8=@vger.kernel.org, AJvYcCXmlBwtSCv5BaE2S9efbpPn4gIyKbm9NRXSXw2uOggAh82cF2Kj2B4RFcDe1ZmrDlfjseRRS4rg@vger.kernel.org
+X-Gm-Message-State: AOJu0YxjuGmUpWrnHNmWmiMaV+leSQM3rfdhMBxMSMt461ywLSz0bfip
+	nhrWIJOfFpT2wljpWTPfzgzOlVZzGJUkRTb7o+IMDcNWR3pT2xktZ7cM
+X-Gm-Gg: ASbGnct0+cq4MaJ2mCslFsQaCTvOv4OVNOcDMSliEuU9+6jAW2fJngyuwPUkbwjvuIt
+	zC7zqLh5qN2OXxbATHtXifKaj9oDvnHMpK6pSSxZGhsyNO0sOnuOH5lSG/owXYQfMMfFpGwZaqj
+	zAogCTLZDAz8XsnhaCO+TEBGqCBF/p9Qal4rjEIpWpMzfDdxRS6elFCEDcSaz9VylBj8eWaq54Z
+	7c/y+yucqDplekLI+kzEHOuaDiYbw8YP9oZacbDyW3TyUQJ5mawmxkUGR4B+SZlJ5uPD58tjY+k
+	7mKMa+CkFLkOqUhKEq6ZGMrjqMCcIZy+TMWF2zLrSIos0Hzp5pInfBK557LZqbpowDJjtB/DuQO
+	b8yuLlCnKa004cvPdLeh0bibJf+ELLv3YHlEz11D6F2wRc3V+3A==
+X-Google-Smtp-Source: AGHT+IG5SmqyGRhbJLI1lUfKcgWrIZJ9XRjcslCIfml2F+ys+AyU77PLVUALf1B/hly4EEhGK2XMTQ==
+X-Received: by 2002:a17:902:db0b:b0:24c:aa17:e727 with SMTP id d9443c01a7336-24caa17ed1emr52079315ad.0.1756964802908;
+        Wed, 03 Sep 2025 22:46:42 -0700 (PDT)
 Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24c965558b8sm34028405ad.68.2025.09.03.22.42.39
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24ccaeaa74dsm7370135ad.1.2025.09.03.22.46.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 03 Sep 2025 22:42:42 -0700 (PDT)
+        Wed, 03 Sep 2025 22:46:42 -0700 (PDT)
 From: Jeongjun Park <aha310510@gmail.com>
 To: mchehab@kernel.org,
-	hverkuil@kernel.org
-Cc: laurent.pinchart+renesas@ideasonboard.com,
-	crope@iki.fi,
-	linux-media@vger.kernel.org,
+	khoroshilov@ispras.ru
+Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
-	syzbot+6ffd76b5405c006a46b7@syzkaller.appspotmail.com,
-	syzbot+f1b20958f93d2d250727@syzkaller.appspotmail.com,
+	syzbot+47321e8fd5a4c84088db@syzkaller.appspotmail.com,
 	Jeongjun Park <aha310510@gmail.com>
-Subject: [PATCH v2 RESEND] media: hackrf: fix to not free memory after the device is registered in hackrf_probe()
-Date: Thu,  4 Sep 2025 14:42:32 +0900
-Message-Id: <20250904054232.3848637-1-aha310510@gmail.com>
+Subject: [PATCH v2 RESEND] media: as102: fix to not free memory after the device is registered in as102_usb_probe()
+Date: Thu,  4 Sep 2025 14:46:29 +0900
+Message-Id: <20250904054629.3849431-1-aha310510@gmail.com>
 X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -94,74 +91,67 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-In hackrf driver, the following race condition occurs:
+In as102_usb driver, the following race condition occurs:
 ```
 		CPU0						CPU1
-hackrf_probe()
-  kzalloc(); // alloc hackrf_dev
+as102_usb_probe()
+  kzalloc(); // alloc as102_dev_t
   ....
-  v4l2_device_register();
-  ....
-						open("/path/to/dev"); // open hackrf dev
+  usb_register_dev();
+						open("/path/to/dev"); // open as102 dev
 						....
-  v4l2_device_unregister();
+  usb_deregister_dev();
   ....
-  kfree(); // free hackrf_dev
+  kfree(); // free as102_dev_t
   ....
-						ioctl(fd, ...);
-						  v4l2_ioctl();
-						    video_is_registered() // UAF!!
-						....
 						close(fd);
-						  v4l2_release() // UAF!!
-						    hackrf_video_release()
+						  as102_release() // UAF!!
+						    as102_usb_release()
 						      kfree(); // DFB!!
 ```
 
-When a V4L2 or video device is unregistered, the device node is removed so
-new open() calls are blocked.
+When a USB character device registered with usb_register_dev() is later
+unregistered (via usb_deregister_dev() or disconnect), the device node is
+removed so new open() calls fail. However, file descriptors that are
+already open do not go away immediately: they remain valid until the last
+reference is dropped and the driver's .release() is invoked.
 
-However, file descriptors that are already open-and any in-flight I/O-do
-not terminate immediately; they remain valid until the last reference is
-dropped and the driver's release() is invoked.
+In as102, as102_usb_probe() calls usb_register_dev() and then, on an
+error path, does usb_deregister_dev() and frees as102_dev_t right away.
+If userspace raced a successful open() before the deregistration, that
+open FD will later hit as102_release() --> as102_usb_release() and access
+or free as102_dev_t again, occur a race to use-after-free and
+double-free vuln.
 
-Therefore, freeing device memory on the error path after hackrf_probe()
-has registered dev it will lead to a race to use-after-free vuln, since
-those already-open handles haven't been released yet.
+The fix is to never kfree(as102_dev_t) directly once usb_register_dev()
+has succeeded. After deregistration, defer freeing memory to .release().
 
-And since release() free memory too, race to use-after-free and 
-double-free vuln occur.
-
-To prevent this, if device is registered from probe(), it should be
-modified to free memory only through release() rather than calling
-kfree() directly.
+In other words, let release() perform the last kfree when the final open
+FD is closed.
 
 Cc: <stable@vger.kernel.org>
-Reported-by: syzbot+6ffd76b5405c006a46b7@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=6ffd76b5405c006a46b7
-Reported-by: syzbot+f1b20958f93d2d250727@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=f1b20958f93d2d250727
-Fixes: 8bc4a9ed8504 ("[media] hackrf: add support for transmitter")
+Reported-by: syzbot+47321e8fd5a4c84088db@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=47321e8fd5a4c84088db
+Fixes: cd19f7d3e39b ("[media] as102: fix leaks at failure paths in as102_usb_probe()")
 Signed-off-by: Jeongjun Park <aha310510@gmail.com>
 ---
 v2: Fix incorrect patch description style and CC stable mailing list
-- Link to v1: https://lore.kernel.org/all/20250822142729.1156816-1-aha310510@gmail.com/
+- Link to v1: https://lore.kernel.org/all/20250822143539.1157329-1-aha310510@gmail.com/
 ---
- drivers/media/usb/hackrf/hackrf.c | 2 ++
- 1 file changed, 2 insertions(+)
+ drivers/media/usb/as102/as102_usb_drv.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/usb/hackrf/hackrf.c b/drivers/media/usb/hackrf/hackrf.c
-index 0b50de8775a3..d7a84422193d 100644
---- a/drivers/media/usb/hackrf/hackrf.c
-+++ b/drivers/media/usb/hackrf/hackrf.c
-@@ -1515,6 +1515,8 @@ static int hackrf_probe(struct usb_interface *intf,
- 	video_unregister_device(&dev->rx_vdev);
- err_v4l2_device_unregister:
- 	v4l2_device_unregister(&dev->v4l2_dev);
-+	dev_dbg(&intf->dev, "failed=%d\n", ret);
+diff --git a/drivers/media/usb/as102/as102_usb_drv.c b/drivers/media/usb/as102/as102_usb_drv.c
+index e0ef66a522e2..abde5666b2ee 100644
+--- a/drivers/media/usb/as102/as102_usb_drv.c
++++ b/drivers/media/usb/as102/as102_usb_drv.c
+@@ -404,6 +404,7 @@ static int as102_usb_probe(struct usb_interface *intf,
+ 	as102_free_usb_stream_buffer(as102_dev);
+ failed_stream:
+ 	usb_deregister_dev(intf, &as102_usb_class_driver);
 +	return ret;
- err_v4l2_ctrl_handler_free_tx:
- 	v4l2_ctrl_handler_free(&dev->tx_ctrl_handler);
- err_v4l2_ctrl_handler_free_rx:
+ failed:
+ 	usb_put_dev(as102_dev->bus_adap.usb_dev);
+ 	usb_set_intfdata(intf, NULL);
 --
 
