@@ -1,154 +1,165 @@
-Return-Path: <linux-media+bounces-41743-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41744-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFE58B42C29
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 23:52:59 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91DA0B42DE5
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 02:07:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9416F1C21207
-	for <lists+linux-media@lfdr.de>; Wed,  3 Sep 2025 21:53:20 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 542D5580A0C
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 00:07:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD4342ECE84;
-	Wed,  3 Sep 2025 21:52:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B3F3F9CB;
+	Thu,  4 Sep 2025 00:07:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SndGctAV"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iBT6Dn2b"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3C62ECD14
-	for <linux-media@vger.kernel.org>; Wed,  3 Sep 2025 21:52:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6DFB640
+	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 00:07:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756936371; cv=none; b=ex58ZsSgTknqoOvkjTlseK57xukGkN5oW3JlzCorSKGqcsCJHlwrEtdl5/KqNweB5QJOM1gSndt0h71RrImXLEvjJ6Jhf/WNzBpO0s63hw+OgN1McFXPDJp4ft2A4oCzqdakawNZ7fPhJaf/5kvyzjfKV0Uhie81Ev7j7sVjZGk=
+	t=1756944425; cv=none; b=QmKrgR8taP0aNeZpScSGctVUnN5FzZNPVK2p7y4vhPDZ9AKPDsHUCWSdkQepMtlyNnLJm2xtx59pE9lrUl0exH2OdhnDIH1RrBLHuqEhE4M2qFKKQFtgbYl8vKXCR80bIGvrMu+JXUVgHKzQM9kDcBw2ItbMy2FxXeRb/VcMohw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756936371; c=relaxed/simple;
-	bh=aCf523gje0B0ppP4dNKjYaORrc5sZAz5xTw3AD7eKAs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bXf8ce56PEzdPZYRTd2DSYanS9hKpjWe2FdgB8UAaEX0/TeHTbQB/xmVFMoUnVMy9v/SXjznTbe2f9FBoCH3T/OmZOLWeL6DP3qhHLc2jfjAbVFyFKYzpcMrPxLXOPVzmNG1qfsmX9W7RwdYIKCSrAx7gwBGGZu8lvuNW8/9ZzQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SndGctAV; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 4DDCC7E9;
-	Wed,  3 Sep 2025 23:51:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756936297;
-	bh=aCf523gje0B0ppP4dNKjYaORrc5sZAz5xTw3AD7eKAs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SndGctAV0wlOln5CiXylTRWMDC1KYL7JrZOLJSN9Sm0Me5tKV4Bu7bG3UnXpTXfJ+
-	 k+2xpZG4mpFpTsHgC9vmaRq8/+z+ud99XyDS9u8Na6GYWjAWYckUMowwf0+znOb1fM
-	 ROXfnlK2qsSyebRSfYOiOG9WSJHNss9ZA5MsPBag=
-Date: Wed, 3 Sep 2025 23:52:24 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 52/66] media: v4l: Add V4L2_SUBDEV_ROUTE_FL_STATIC
- sub-device routing flag
-Message-ID: <20250903215224.GE3648@pendragon.ideasonboard.com>
-References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-53-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1756944425; c=relaxed/simple;
+	bh=FUxoXrttyZlaf3Re6Hn7g2Jwjqejh2h3jwSdvSn7XOc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=phafK0hZ7tP8qx2RM7GjdXdxyCuNe/v8sSVFALsYT2aZVqS6ER8LwIoxLNFmXPyhmMNkxLk3xnPlu7hACgFIWq1dVU24ftQb/mSfa8+JwB5xasab74Puxbe0ze9dKbB8gzqCu88Rd4dvFluF7r92bJ5kj+oYxc++UHw+MTiVs04=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iBT6Dn2b; arc=none smtp.client-ip=209.85.208.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-333f92d60ddso3449751fa.3
+        for <linux-media@vger.kernel.org>; Wed, 03 Sep 2025 17:07:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1756944421; x=1757549221; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HoZmhLyKn/nkdQ8DJ5UpZG4Aw6d8utBCwrwUaI83R7I=;
+        b=iBT6Dn2bEltFuhKk1bo9IuQE25lIGzGUtpuGgejK+FeFzrSRYc0b+n2gKzo6vUREqN
+         a/+PTi52MBiInYqqYTAu7fW9mW1vfy2Q7yGxY8gx+WORboVCN4CdvJt/G0YhOJ+Om9XQ
+         UFYM+dh6zahbWkJ4nsCGIa7myIUmmyeEPh/XfLY0FM5Ie3n1+g2+/Xhs0Je3i440TdHh
+         aR4PaW8uKFsQbOFZSGsa/o3GXs1l4PiKuWFUGRcN+pW96Fp0v778IDouDVf1qYeQXAvt
+         jNO9mUHy2BG655rb+47Nk5bbjOPYu0zRNGszR+0GPoMFRAbhE5LWJ/YRhe/k4BLR8zQq
+         9MXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756944421; x=1757549221;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=HoZmhLyKn/nkdQ8DJ5UpZG4Aw6d8utBCwrwUaI83R7I=;
+        b=hJ6Fcj1pR8Xj5lZpE+Jh7PZy5s3pU0go8bg0xnmSmYS0bJBbpU8ig/2keLgY9uw1QQ
+         4v7YyaSRuHvHsVORx9HqzL3jaORtFydOAVbPUOVRer/wqDVOzgXPFdsOAPnqTBU2SBfk
+         LQedlQcfrlXAc51My9qWlQD2xUCwK7uMSokrSjzVeOkZeSfSnVw3DDBnMEq9KngsvEhg
+         yZoAMtz8B61YxV5fFwdrgnwYPip1gupSdoZNq1OG5ZaWUcZunsSJKs2KQgEo1pcRK9gB
+         svM1W8aKCGZEeYb7jpJxpmtSxZrLPZ/lDvtQPDmug32zjr5t+ilnzwJq1FMluJ+BuBKD
+         ovgA==
+X-Forwarded-Encrypted: i=1; AJvYcCXd9B8Wn50u1caoT7RhsLFdCHkwpW6jLJBWgQ2Oo118OqanNU94541SG3hnK+76M1wCxxjWtNG1q1wtAA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxOeZaiEVLNokzCXqO79aEsJG1XGPCDKVdXkT2D7jJjyTJj3zu
+	Ocs5cC9amHgOC6Xe0gchiAr/KJ/lEqyexNZC3mf/txOOGdRzLW7zqN5w/vaPHSaKxLqRspJzkgn
+	HR9FOMMTMIHlc/z7MYNVP8iPCjPnZOhP/REyFSDU=
+X-Gm-Gg: ASbGncsQpxyYhTDAo892S71AvGfiqANeJT0YHCIo9TYIbfdk2QzFQ/UWkckxm1wOuQ6
+	E2vQbU9xa4X8f6fTml3zMobOv0uJoA2JU/q03kTmL6Pv1vM4WnJY/VpsqJDIwke+kR0m5/rTdjF
+	nUgaArydvZGtNq6RWg3qtcKU3XiyrqkV8KyNklbbRt/zpMLPV+sfTH6cWddFOSdZOCnjAxHJmVl
+	dopNnz61jxT/ZYtF6UreYkfo2+gIuQ8t5ifehL+grgGWPcsfNjT
+X-Google-Smtp-Source: AGHT+IEct78UJdrP8Mw1fHoqQhwiDSK6WJTCelvjHpNt0ZBbR9UBNmKHi6gPcy7tM8EHSgXZol8bWA6P0Y5bJNZG0cQ=
+X-Received: by 2002:a05:6512:258a:b0:55f:6fcc:6f4c with SMTP id
+ 2adb3069b0e04-55f7095249bmr5080694e87.47.1756944420550; Wed, 03 Sep 2025
+ 17:07:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250825095107.1332313-53-sakari.ailus@linux.intel.com>
+References: <20250830235838.58067-1-21cnbao@gmail.com>
+In-Reply-To: <20250830235838.58067-1-21cnbao@gmail.com>
+From: John Stultz <jstultz@google.com>
+Date: Wed, 3 Sep 2025 17:06:48 -0700
+X-Gm-Features: Ac12FXzqtilJ6SdZS-KX2jb500H77ogaF5l5m6ZQqtBfs2J7DgcHM6yl_AOpcwo
+Message-ID: <CANDhNCqcoR3USLG0Ys2WBQmEdS0u6gdaHGCVsftMk3OC5Vhjpw@mail.gmail.com>
+Subject: Re: [PATCH] dma-buf: system_heap: use larger contiguous mappings
+ instead of per-page mmap
+To: Barry Song <21cnbao@gmail.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	"T . J . Mercier" <tjmercier@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
+	zhengtangquan@oppo.com, Barry Song <v-songbaohua@oppo.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Sakari,
+On Sat, Aug 30, 2025 at 4:58=E2=80=AFPM Barry Song <21cnbao@gmail.com> wrot=
+e:
+>
+> From: Barry Song <v-songbaohua@oppo.com>
+>
+> We can allocate high-order pages, but mapping them one by
+> one is inefficient. This patch changes the code to map
+> as large a chunk as possible. The code looks somewhat
+> complicated mainly because supporting mmap with a
+> non-zero offset is a bit tricky.
+>
+> Using the micro-benchmark below, we see that mmap becomes
+> 3.5X faster:
+...
 
-Thank you for the patch.
+It's been awhile since I've done mm things, so take it with a pinch of
+salt, but this seems reasonable to me.
 
-On Mon, Aug 25, 2025 at 12:50:53PM +0300, Sakari Ailus wrote:
-> Add a flag to denote static routes, V4L2_SUBDEV_ROUTE_FL_STATIC. Such
-> routes cannot be removed as they are related to hardware features.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  .../userspace-api/media/v4l/vidioc-subdev-g-routing.rst      | 5 +++++
->  include/uapi/linux/v4l2-subdev.h                             | 5 +++++
->  2 files changed, 10 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
-> index 0b90be43af57..3c7fde673b34 100644
-> --- a/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
-> +++ b/Documentation/userspace-api/media/v4l/vidioc-subdev-g-routing.rst
-> @@ -151,6 +151,11 @@ wants to retrieve the missing routes, it can issue a new
->        - The route is immutable. Set by the driver. Indicates that the
->  	``V4L2_SUBDEV_ROUTE_FL_ACTIVE`` flag of an immutable route may not be
->  	unset.
-> +    * - ``V4L2_SUBDEV_ROUTE_FL_STATIC``
-> +      - 0x0004
-> +      - The route is static. Set by the driver. Indicates that the route is
-> +        always present and cannot be removed. Implies
-> +        ``V4L2_SUBDEV_ROUTE_FL_IMMUTABLE``.
+Though, one thought below...
 
-It's the other way around. IMMUTABLE implies STATIC, but not all static
-routes are immutable.
+> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/=
+system_heap.c
+> index bbe7881f1360..4c782fe33fd4 100644
+> --- a/drivers/dma-buf/heaps/system_heap.c
+> +++ b/drivers/dma-buf/heaps/system_heap.c
+> @@ -186,20 +186,35 @@ static int system_heap_mmap(struct dma_buf *dmabuf,=
+ struct vm_area_struct *vma)
+>         struct system_heap_buffer *buffer =3D dmabuf->priv;
+>         struct sg_table *table =3D &buffer->sg_table;
+>         unsigned long addr =3D vma->vm_start;
+> -       struct sg_page_iter piter;
+> -       int ret;
+> +       unsigned long pgoff =3D vma->vm_pgoff;
+> +       struct scatterlist *sg;
+> +       int i, ret;
+> +
+> +       for_each_sgtable_sg(table, sg, i) {
+> +               unsigned long n =3D sg->length >> PAGE_SHIFT;
+>
+> -       for_each_sgtable_page(table, &piter, vma->vm_pgoff) {
+> -               struct page *page =3D sg_page_iter_page(&piter);
+> +               if (pgoff < n)
+> +                       break;
+> +               pgoff -=3D n;
+> +       }
+> +
+> +       for (; sg && addr < vma->vm_end; sg =3D sg_next(sg)) {
+> +               unsigned long n =3D (sg->length >> PAGE_SHIFT) - pgoff;
+> +               struct page *page =3D sg_page(sg) + pgoff;
+> +               unsigned long size =3D n << PAGE_SHIFT;
+> +
+> +               if (addr + size > vma->vm_end)
+> +                       size =3D vma->vm_end - addr;
+>
+> -               ret =3D remap_pfn_range(vma, addr, page_to_pfn(page), PAG=
+E_SIZE,
+> -                                     vma->vm_page_prot);
+> +               ret =3D remap_pfn_range(vma, addr, page_to_pfn(page),
+> +                               size, vma->vm_page_prot);
 
-      - The route is static. Set by the driver. Indicates that the route is
-        created by the driver and cannot be removed. Static routes may
-	be immutable, or may allow userspace to enable and disable them.
+It feels like this sort of mapping loop for higher order pages
+wouldn't be a unique pattern to just this code.  Would this be better
+worked into a helper so it would be more generally usable?
 
-I'm not fully happy with the last sentence, but "enable-able" isn't a
-word :-)
+Otherwise,
+Acked-by: John Stultz <jstultz@google.com>
 
->  
->  Return Value
->  ============
-> diff --git a/include/uapi/linux/v4l2-subdev.h b/include/uapi/linux/v4l2-subdev.h
-> index 839b1329afb2..cb353fa4a4a6 100644
-> --- a/include/uapi/linux/v4l2-subdev.h
-> +++ b/include/uapi/linux/v4l2-subdev.h
-> @@ -209,6 +209,11 @@ struct v4l2_subdev_capability {
->   * unset.
->   */
->  #define V4L2_SUBDEV_ROUTE_FL_IMMUTABLE		(1U << 1)
-> +/*
-> + * Is the route static? The STATIC flag of an immutable route may not be
-> + * unset.
-
-The static flag can never be unset. We need to document this better
-above. What happens if an application tries to unset it ?
-
-> + */
-> +#define V4L2_SUBDEV_ROUTE_FL_STATIC		(1U << 2)
->  
->  /**
->   * struct v4l2_subdev_route - A route inside a subdev
-
--- 
-Regards,
-
-Laurent Pinchart
+thanks
+-john
 
