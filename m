@@ -1,126 +1,144 @@
-Return-Path: <linux-media+bounces-41750-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41751-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C15BB43219
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 08:14:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A322B4322D
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 08:19:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 31AC21B28541
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 06:15:05 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 29B04544D81
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 06:19:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D105253944;
-	Thu,  4 Sep 2025 06:14:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF45F25A62E;
+	Thu,  4 Sep 2025 06:18:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="j9Y/4aIj"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YQ0V4/o6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
+Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E806B215F5C;
-	Thu,  4 Sep 2025 06:14:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939C613E898
+	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 06:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756966478; cv=none; b=r9jaop0EjGXoAUByEdqlGaDmYTkDRKtgLiPb7/d+eLrgitiA8/OP0Y/BfsdXLpORvrnfnTBXc8EUHRdROY2xQohGZaD8EM8VuJzyPzImWWUO+MjV+CKcD7Xd4Ai5HO1OalhtpJhEgY9sWtYbxKeWS5zbeVr5Nyl7tQkUBMdFzbA=
+	t=1756966738; cv=none; b=Vd7Il6zEB81mbTxNZmDbRYPTg7+a+96QHe78MFelAQlvnyVtcFR4sL/Uc6SfifTBu0hXl3OPZXXJ9O5vnJqmsEWLWrELUi7y9qc6oWEDNdqpTPYH3GtLzpHkpNfg0tM5orVI5OCe1T2444+SXjTIWyDsGr2t+OCTk40WZH/WBoA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756966478; c=relaxed/simple;
-	bh=h5IRpEFvyqWRnF/7H53pMjRelgAlphY2Ue73FauMSZo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=hV82ovcBCfVE2EXbfBYcLT0ClqSMjoE5pzk94368k/j0Sn97JbyWxAbFk4bgblA6RqQPmSz0Uj+KBlc2FtyDdhAd2RTYLwDyax+GES5GtzqROcipdI58l8cLqk/LsYzlBlk2fREh3ODl6+Sm8xW7tjZylOepCxX29axNZLSCSRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=j9Y/4aIj; arc=none smtp.client-ip=209.85.167.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-5608d792558so621285e87.0;
-        Wed, 03 Sep 2025 23:14:36 -0700 (PDT)
+	s=arc-20240116; t=1756966738; c=relaxed/simple;
+	bh=V+SCQTip4Jj4Bo7UqGS8PgqQeKkz3sa/LNgtAzDwCz0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=i+RO7VMC0bD/PUrDDCTivP1MnoCIgC6la2x0Y2TWs4hpKyLUp6tIjPz/6RlaeFFXSmOWiC3SGtiZfaUpACx8jFaYUr1Oy3zdYyoW4jOE2GQ74lMzLsGL4IUFnm7LEJ8Jv3uuhXOfTdGBzrOk/5KCVQ8nT1qhe8w5LseP8OaaCAo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YQ0V4/o6; arc=none smtp.client-ip=209.85.208.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-337f6cdaf2cso4949941fa.2
+        for <linux-media@vger.kernel.org>; Wed, 03 Sep 2025 23:18:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756966475; x=1757571275; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
-         :from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=A6GFjUwnMe/wXTGckXRK8aWWFaxKp5jPuLXCD+TWM1o=;
-        b=j9Y/4aIjodtlP5XWl+uEId8+DDcql0Fwo5I5cpkshAEAWRylVt2AL5H4B9P1OCPP/V
-         Z2RNKOc6WYESKIhWP+vIHKlLKsFnvzp6xsMrTXnnd9ROUKaERI4lNInlhbbLdIyHjbZT
-         Q2f7c5J05tjXqDMdwYx194UYowqvKvGGZi4PBShD4JlmqDIlQOtoqiQ7R2r1R14iyr5e
-         mKVt9sDssngVceQsRmfE+sELOTekfRqak/uPbFdu0m8W/28CY9v8SUUDL14lPpi2IsV7
-         CSdun7U3507WWnxdeIpxlVvE0+CQL6hC2lIoQXdNpyYwZhWkq7Sa16/2S2iNjs7n7eFG
-         aztg==
+        d=chromium.org; s=google; t=1756966735; x=1757571535; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=7CQBkphJcdYBghhb0rqPa4FTq1gxFu4hiwbVOVVdraE=;
+        b=YQ0V4/o6wOwedE4WLJ0UhQs/S9981jM09Alpui5FQ8Fsxwot/cL1jZZyBmzbU1xJiQ
+         zNCmDYHwzYdMHZmTXYs+hyKNSQuFa2BSKZ2FJHI1e4bpLF+aAiLTZdd2L/UnMdsl6UJR
+         ElJCJtzpAFhrjbvgm5TIO+kvq27B7tnjvS7SU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756966475; x=1757571275;
-        h=content-transfer-encoding:mime-version:message-id:subject:cc:to
-         :from:date:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=A6GFjUwnMe/wXTGckXRK8aWWFaxKp5jPuLXCD+TWM1o=;
-        b=vZvdVV+klxoWgubdUsbJohdsDIXJrC6/dgQlchpWUhBDPPuvJf4f+5BemhhrVy6Bc8
-         WVDZovxDIjG8Tf8jDjwSCysQ3q0DnaGTNibtmG/7a+XsWJVKWIl4IuTC3OdiIQq1k+i2
-         is8s+eW5bkj1RNUiqxiUHpZvI3leIqjMEzm137EiGLDgxsonlwaHkPtW8rw3NylNGh9P
-         PTJXhWLUrdxsbXlrUIr/KHxEUhM3dHPGi98h2e6qQFAa81WTHC4EgcbfhCDw2eKmeXBW
-         Fdptqam9LCR6+6q8C551E2XtVQBBWiKHkw4h+LMbbTX8bO7I5kH7mSBP9A0XBiXtgGbT
-         0aBQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVUU7WuaWKkmpuTebzp2L47gUVoTvGiX64Jm6nYhIvmgISoRl46WV26lk2/8Le/zobhY+056IMdYB0/teI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzCx6jjjpamRZOSkli7CK0ULifDmcEwv0X6qhMe+ySqsKV0usF
-	c5VOh8EinczhNw9BMgVK7kG98PUEzUmMyL9ReyoFigVQwDzQePE56684vrt9ZQ==
-X-Gm-Gg: ASbGncszCfbho5KHNjtatu4eHKvv09nQHYcb0Kzhknx+FjdkmVAbE375tTVI5dnKZRL
-	rhS4idzH5NF0/Tp6hB9BnTIHCSWgZWu7niyjlH1SA5OAofD2K+olDfbQoxj19Q6WfQiu3Aa2lFU
-	R9/jv/fMzZOktoD0HlGO/u2ZHU6zFizG7syK5bBcP8UXWd8zVTQEgiJj3N6ErDLjApTye5EFUB3
-	qo48zN7TCu13SeGSiQ84riI9mS6VTT8kw7m8bEhf1SBPj1ycuUKMRTKzHBFY4LP0G2djfqZ9hM8
-	Hm/n/UmdKsn/X5dtBJLs6Xndgd7TH5tIKmuXd3RoQvDbFqL5l04V8G7gbOMgBICRKoOtuxUi6rJ
-	YC7cwO2ewdMtxbGUZa/+xrQPLJmCTr3tMyT0f4mBJVP0=
-X-Google-Smtp-Source: AGHT+IHK8A4UDfO5U2n8bbl1mJCAwNAfeC8IJsLEZCxMYRwsmc0O4a9+vOwg9soO/blDCwuhB3kp6w==
-X-Received: by 2002:a05:6512:3a90:b0:55f:46d2:a5fa with SMTP id 2adb3069b0e04-55f708ec399mr5867249e87.36.1756966474719;
-        Wed, 03 Sep 2025 23:14:34 -0700 (PDT)
-Received: from foxbook (bhe29.neoplus.adsl.tpnet.pl. [83.28.94.29])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5608ab5e47asm990902e87.6.2025.09.03.23.14.33
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 03 Sep 2025 23:14:34 -0700 (PDT)
-Date: Thu, 4 Sep 2025 08:14:29 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede
- <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: uvcvideo: Shorten the transfer size non compliance
- message
-Message-ID: <20250904081429.592e439f.michal.pecio@gmail.com>
+        d=1e100.net; s=20230601; t=1756966735; x=1757571535;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=7CQBkphJcdYBghhb0rqPa4FTq1gxFu4hiwbVOVVdraE=;
+        b=M46gIXbVA9L91TxONHS0rde2rhEKnOtTRGmOwfYmy3nwcTqNOTqkiYIiZCiTAbABRC
+         09NswYtU8hTh9PmEm65rNVyUJs30BHJjlQbTrobvowYXGCrOGIRzOlhqpc3/p+iDXWIl
+         TTM0t26OTCHFBbKoaSHARcMycanW96SmXBcn5NOoALoWeUxJKIisq3cAYKLx9LgBOrzu
+         ZsaxP/UFIoh/1xBOk0A4J3DW5EsNwerlFTI6hf84MSwdTDRXAsBUVvXhPtoL71/QYnWg
+         XT/lfp+GdkGA0ACU57RRqx5MlH9sqU+dEMfxMewBRZDI7F8V9OoYSG2vNYEbFRnNk29x
+         AsRQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX2Jmjvxj5knOE6kpzDQFqM18XuRI4n1Ip4khmKKHo2FFqY+pkxI5zwAO4k0oUREva4fYJMul1NSAP2kw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxz1PHaVQE7kLHBYNg9E/2a+O9z6yQJGq2qNPYtB1+kQYHuzkc9
+	mLtTuNgS6byGRCOHv4k0SEArmEN/gATS/MpOsugyax11+Fb73Rze1br3VY2W9V8Z9ElzFMJj3+Q
+	oWhZpwpuL37Ahcw0FiidlUVSgJ2MeBtceZ1gYrIH5
+X-Gm-Gg: ASbGncuzG1B4DspwCYVEnYnUldJlJCIluCLNUxyeMwRHO4g83i24ACuco4gTjFcz/k2
+	PMY0YCqx4/mzJpyfwPJkfAPbuf3RC3BRrYo3+SuiY/N5KTpVKoU2F9ezoB39xLVO2GIqcSB8AH7
+	QWCAd23P9oQsHtEul0lOFmLvZIhJteYh32bup+Uy1UV+qO+4ty8+zsfY4ObXWlb3mR+w5WS7oFT
+	I/HEjoOSal4quW8XjLG35Qmi/29OycE7xF67siMqjam3So0f29MzcC/WsM=
+X-Google-Smtp-Source: AGHT+IFmpIgZJkgG1TcnUjMeEXxa3OW2u+0iRL2YEUKOrf2DSwzSi6u1IDGdInKUk3OLck6UIHWPn37d12I2FT8Uhls=
+X-Received: by 2002:a2e:a991:0:b0:337:e585:8082 with SMTP id
+ 38308e7fff4ca-337e585814emr40485291fa.22.1756966734673; Wed, 03 Sep 2025
+ 23:18:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250820075405.1041838-1-wenst@chromium.org> <CAC=S1njQ5z2Ezz2OXDJ6Pk_9EEPgG3gu=Os7uFv6Lmdq0X77og@mail.gmail.com>
+In-Reply-To: <CAC=S1njQ5z2Ezz2OXDJ6Pk_9EEPgG3gu=Os7uFv6Lmdq0X77og@mail.gmail.com>
+From: Chen-Yu Tsai <wenst@chromium.org>
+Date: Thu, 4 Sep 2025 14:18:43 +0800
+X-Gm-Features: Ac12FXyJUlQIqk0i4ipdL_cOK9k6d650IYlqwO_gxbw4GTZ_J2T6UQ6kDktMWOs
+Message-ID: <CAGXv+5GgGs5LEGJV4fpUpxOXC=_Fvo3CA4S10zZGxes9C2HrEQ@mail.gmail.com>
+Subject: Re: [PATCH v2] media: mediatek: vcodec: Use spinlock for context list
+ protection lock
+To: Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>
+Cc: Yunfei Dong <yunfei.dong@mediatek.com>, Matthias Brugger <matthias.bgg@gmail.com>, 
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org, 
+	Tomasz Figa <tfiga@chromium.org>, Fei Shao <fshao@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-This message is much longer than others and doesn't fit even in a 160
-column window when printed, despite providing little real information.
+Ping?
 
-Also replace 'transmission' with 'transfer' because that's the actual
-name and 'max packet' with 'limit' because it isn't same thing with
-isochronus endpoints. Remove cryptic abbreviations like 'ep'.
+On Wed, Aug 20, 2025 at 6:37=E2=80=AFPM Fei Shao <fshao@chromium.org> wrote=
+:
+>
+> On Wed, Aug 20, 2025 at 3:54=E2=80=AFPM Chen-Yu Tsai <wenst@chromium.org>=
+ wrote:
+> >
+> > Previously a mutex was added to protect the encoder and decoder context
+> > lists from unexpected changes originating from the SCP IP block, causin=
+g
+> > the context pointer to go invalid, resulting in a NULL pointer
+> > dereference in the IPI handler.
+> >
+> > Turns out on the MT8173, the VPU IPI handler is called from hard IRQ
+> > context. This causes a big warning from the scheduler. This was first
+> > reported downstream on the ChromeOS kernels, but is also reproducible
+> > on mainline using Fluster with the FFmpeg v4l2m2m decoders. Even though
+> > the actual capture format is not supported, the affected code paths
+> > are triggered.
+> >
 
-Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
----
-
-By the way, this hack doesn't help much in the opposite case:
-dwMaxPayloadTransferSize is right, but EP descriptors are a mess.
-
-But no harm in trying, I guess.
-I can live with it either way.
+We really should get this in as this triggers a very large and scary
+warning every time the encoder or decoder is used.
 
 
- drivers/media/usb/uvc/uvc_video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ChenYu
 
-diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-index 82d9d8ae059d..baf4ace41dbe 100644
---- a/drivers/media/usb/uvc/uvc_video.c
-+++ b/drivers/media/usb/uvc/uvc_video.c
-@@ -266,7 +266,7 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
- 	if (stream->intf->num_altsetting > 1 &&
- 	    ctrl->dwMaxPayloadTransferSize > stream->maxpsize) {
- 		dev_warn_ratelimited(&stream->intf->dev,
--				     "UVC non compliance: the max payload transmission size (%u) exceeds the size of the ep max packet (%u). Using the max size.\n",
-+				     "UVC non compliance: Reducing max payload transfer size (%u) to fit endpoint limit (%u).\n",
- 				     ctrl->dwMaxPayloadTransferSize,
- 				     stream->maxpsize);
- 		ctrl->dwMaxPayloadTransferSize = stream->maxpsize;
--- 
-2.48.1
+> > Since this lock just protects the context list and operations on it are
+> > very fast, it should be OK to switch to a spinlock.
+> >
+> > Fixes: 6467cda18c9f ("media: mediatek: vcodec: adding lock to protect d=
+ecoder context list")
+> > Fixes: afaaf3a0f647 ("media: mediatek: vcodec: adding lock to protect e=
+ncoder context list")
+> > Cc: Yunfei Dong <yunfei.dong@mediatek.com>
+> > Signed-off-by: Chen-Yu Tsai <wenst@chromium.org>
+> > ---
+> > Changes since v1:
+> > - Switched to _irqsave / _irqrestore variants even in helper only calle=
+d
+> >   by IRQ handler (Tomasz)
+> >
+> >  .../mediatek/vcodec/common/mtk_vcodec_fw_vpu.c       | 10 ++++++----
+> >  .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c     | 12 +++++++-----
+> >  .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h     |  2 +-
+> >  .../platform/mediatek/vcodec/decoder/vdec_vpu_if.c   |  5 +++--
+> >  .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c     | 12 +++++++-----
+> >  .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h     |  2 +-
+> >  .../platform/mediatek/vcodec/encoder/venc_vpu_if.c   |  5 +++--
+> >  7 files changed, 28 insertions(+), 20 deletions(-)
+>
+> Reviewed-by: Fei Shao <fshao@chromium.org>
 
