@@ -1,493 +1,167 @@
-Return-Path: <linux-media+bounces-41763-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41764-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE780B437DF
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 12:03:14 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30E07B4386C
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 12:18:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4B17E7B7315
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 10:01:26 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 26C397B340A
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 10:17:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D17D2F6182;
-	Thu,  4 Sep 2025 10:02:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D42F92FE060;
+	Thu,  4 Sep 2025 10:15:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="mAsC/g8l"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WV+yoPqS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 249C12F99A6
-	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 10:02:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ACD82E7F03
+	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 10:15:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756980168; cv=none; b=GdT/MALk22Lp3+Gt0rSxXf2tFOgpZP6qRXdeADXT6xYraufvSKGlVfXB6nTNV7k0GhqEmvcgDFGrozJVTMaeaPJbMAYQNmdtfjZbM9FaPwbFuYs+yvzWQEsf5tzBTpzoCTWG+P+v1ylQLFuzgnYCY/j1l235wvJusB1U98GIjao=
+	t=1756980936; cv=none; b=TZt0MCT+ySrzoiGP/H03IJKcX3rD6NmG0L8beoqlx8JA1AcB4ieq49gsMJIAvVndzWlmLIOaoUQVsu/K6agoU06gscMwpUCtGGXvrAI2XKKVXyIkzIRSP4cdIFBb6Iej0wE13CfDaqXqshZVg8jvYHn/0CixX/ojTtdAg3jQTr8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756980168; c=relaxed/simple;
-	bh=tl019yNl8TlkjVTM6KX3WM0zUX2RpeWAmJwCpYiQGC4=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=i6b8pEKakc53C1SvqQFomD6hLA77HDBWINwSg3pkH4dITxUZC8n51ki6DhZ2Sg3MqDAdehJwh558B9hngwLP5dVcClI1s33FfiezqAOl33gr5bBcb3n05gpbTXRakcvsiTljMokw3qnSrzyytbGzZoLo/POzr0Gzp24tRS9/ogg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=mAsC/g8l; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5849XIO3023158;
-	Thu, 4 Sep 2025 10:02:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	EApVWDK/lIFVD/IMgg1P+bHpvn/uzlwcaN4hJgtvon0=; b=mAsC/g8l/h9+3l1w
-	gAMxMzjjFyV8avHo+cPmJQkOLq2mgF/1Oo2jvs3rvmOkTwOJPJPfcOK4VAo8+hzU
-	MAbtz48KtXWcYqkvlj2t4CWPvQABY6jNo4FBRbHCYBy4cxVMxQg/4V0aaZj6PTbO
-	QbWGu8WAI0rkfXHQ3S9Xt755gBNmrxOQFp0xGVd/ipG1PwplfhjSpZtAr6QK3lDj
-	ZVGDrpt6ST5fYvhrzBBGY0yMEgXJK5zni7Q7xMw2fmYh7dnSxTvFROnpLHpjJyXq
-	2T7db78JEBGor21CJLnx9AvebARjpcMEKsj5i3KtUNQNuYHmsTceWK901khQ6Jry
-	irDAiQ==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48uq0eq7fa-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 04 Sep 2025 10:02:41 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 584A2e7E014502
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 4 Sep 2025 10:02:40 GMT
-Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.24; Thu, 4 Sep 2025 03:02:37 -0700
-From: Vikram Sharma <quic_vikramsa@quicinc.com>
-To: <rfoss@kernel.org>, <todor.too@gmail.com>, <bryan.odonoghue@linaro.org>
-CC: <quic_svankada@quicinc.com>, <quic_vikramsa@quicinc.com>,
-        <linux-media@vger.kernel.org>, Wenmeng Liu <quic_wenmliu@quicinc.com>
-Subject: [PATCH v5.1 7/9] media: qcom: camss: Add support for VFE 690
-Date: Thu, 4 Sep 2025 15:32:22 +0530
-Message-ID: <20250904100222.1872387-1-quic_vikramsa@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250814101615.1102795-8-quic_vikramsa@quicinc.com>
-References: <20250814101615.1102795-8-quic_vikramsa@quicinc.com>
+	s=arc-20240116; t=1756980936; c=relaxed/simple;
+	bh=02YS+hRybT7AYqzhQAWsNOqiFU614c1kM6JJq7QCT0Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IcxlQZBKT16ZDqi4Cag55Is88fwF/f4tXBtaye9UOqIhNSu57wM8XxDL5JDWDkQis2IuUbCn3mh7SuaveccEp7XnxEN2URK6a+unuY1eKZSQauIIE7k9Ng6qr/WZ3jZkUM6oeooYANldBbXaoybiIMZA8VpCPDYYTg/Kmzf4l4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WV+yoPqS; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-3e2055ce973so206235f8f.0
+        for <linux-media@vger.kernel.org>; Thu, 04 Sep 2025 03:15:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1756980933; x=1757585733; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ITTyrcjLlcY8/CcZ1bPQJZjvz7X9rDFNo6l00OOhKdM=;
+        b=WV+yoPqS60xk0I/piZS1i+p49G2TEReiEaB/x1gL4RFBqnaDX0opfpvFt5QPecLeEl
+         jIqdRyQCaBfHM/jQHLb3Sc4AaJErVNpvGRFu9w0b2OgfimTMOY5gUHB9JCiJwkzeoDdx
+         OG6bxAkSbHF2YNlWVYOGRkxNS2+pIZRnZkmXgLCfDBzziqteIqhJ/hsEZsLGFA4VX8qo
+         UeBs+c1WhDUXX6rJfESsyFgn4ublXrYm2pwpi+NrX3p91fWuw+Q7pN1r0UGUGvrycTrR
+         IduUPP+B709hmBc3Q3QOpFEaapV6RLlHAdyBDqLxAwG1CxUgB5QOVFTmcIEXW9BcZkMy
+         MoPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756980933; x=1757585733;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ITTyrcjLlcY8/CcZ1bPQJZjvz7X9rDFNo6l00OOhKdM=;
+        b=WChL6sTpT8nMbdS+9TuI/1eUp7QOFbuiKw/Rv05D3appZmxOK19G/yLPX+6u30k16d
+         xzlyMEeXQcDZJKybMQa1g181IwduOukrHQVm6Ppzs5qPlJTm1fOzDLUXYggVYtzLWbGK
+         gOMzT9GFfEi52Gle1zr1cNYf2L8rrG1A8kKCXqETk/i3XDZ7RUbyMNmmjH070FQ+DcoY
+         /cyUjskFA1pDKveK8ChGxKWN09fN6KC5fDDk8V3VIVMaoBTSa7h1C40BgPoovJPSmZdH
+         uUleL9Wxg3dlCOmbSj+mc3Pu8knOiDBxzzJF6es8i0fc5ouC6bJHFJvhu0jDd9+6DXTJ
+         i/YA==
+X-Forwarded-Encrypted: i=1; AJvYcCUuv6TTRza/hw7gBIsvj48yPjBcqjUhW0+XBuBkD3HFyA58wXetl+VFBXxAoaIIrZ+4XUpKntCivzAW+g==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz+hHSLcTGisWWieTgNLwaScy5IFjaoP5NgOpzwTquMzyD4zKe1
+	IRwHOIrKKxNqt+St7gLhSD3d0JupvrWQe1C+hoQhj7gEtCa56OedvLF8Nc1W53wNbKY=
+X-Gm-Gg: ASbGncsg12NGUzno1tEgi9caa6kSsto9p5BG2WHgDp+ZoHUzAykhhA3uPQw7xb/csdU
+	lMV+5rtimPPGd1wn21QgQo4qheC1ffUnkClE9d7wtI5eDPJ5WcaqSPWRYFG5PCMrBLonw1VkIHi
+	OQdzny46riGg4VQQXZ0n5/GNQs1SNEaaj7ockrzAvLJ6oUtOghWr/zJDslpMTbMXpy+JTpSAUL/
+	VDYbUzD9GS9R1IFok2auF1qILaGfRFBQQd55hTCxlNUYSxWNnV8YTb1SkaWbg4Ahk7qeJzzebsC
+	uzpKyOTKIQdSWdwWoo75p5uSnzvtLZQolLVlyP+WqoObPh2BZJNE7QWcyz9ZEN/jQ2+i+pvhvuV
+	6Sx7HjLXWpk6z7sGv2ddO4Ked0ztHW4aO6UoGdtBsOaKflfUCJ9ui67JD19niHF0HqVINH8RICg
+	Do7OZnx2txhpWpeI+x6hc=
+X-Google-Smtp-Source: AGHT+IHN3+S37G8tZIj+/ejyO1j55iGkRMCn39gBM1gwQQqKT5FKmj84TFJBcgmeeHOEkPQvZICy+g==
+X-Received: by 2002:a05:6000:1449:b0:3df:c5e3:560e with SMTP id ffacd0b85a97d-3dfc5e36062mr2281362f8f.7.1756980932655;
+        Thu, 04 Sep 2025 03:15:32 -0700 (PDT)
+Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3d21a32dbc5sm24323510f8f.11.2025.09.04.03.15.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Sep 2025 03:15:32 -0700 (PDT)
+Message-ID: <a793c2ff-3f06-4ed4-90f4-4b2a11e714e0@linaro.org>
+Date: Thu, 4 Sep 2025 11:15:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: BGwH0alzRSBgDGsqRW7ia4cbHY7XMnYX
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAwNCBTYWx0ZWRfXz/+VJRBrv0w1
- qeuLy6JLUgGbcjQEaLEoHB6YfkmN5goz3vKN7hZtkbXDAvJ1oankCRUsx5PpVc1GZqzHmlFUGMD
- TjR2mrPbVGlCKz3BTvIf1miXsfoibA1bTnSwLYBW8GemyXt11JfXhlquqU3MZiF2dj9Wbh+Dnue
- e7SGqZNtF7ZZom7gHsohudcFB8DPJe7Q+7hdL5NVpq5lo+m7LMpzNIjzX6AHyFcbzZBXWrKWP+K
- Q1etjMwnVTc3X64hJEQy8P0SYWSDW4D4fD7ZfiCDYmDloeDu8t4hXtpm61oK8zQcHjaQTRn/SfB
- OAYgBmbCz5gviIgynR5pNEu7+qrejt8dpxtVp7JFYY+Swo/NjEkS6UZdV/CjNM+gb41TCx5d0Wk
- uw9pDXMf
-X-Proofpoint-ORIG-GUID: BGwH0alzRSBgDGsqRW7ia4cbHY7XMnYX
-X-Authority-Analysis: v=2.4 cv=ea09f6EH c=1 sm=1 tr=0 ts=68b963c1 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=bXMumOVvTGBbDpmXT5EA:9
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-04_03,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 suspectscore=0 clxscore=1015 malwarescore=0 phishscore=0
- bulkscore=0 spamscore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2508300004
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 02/11] soc: qcom: mdtloader: Add context aware
+ qcom_mdt_pas_load() helper
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+Cc: Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org
+References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
+ <20250819165447.4149674-3-mukesh.ojha@oss.qualcomm.com>
+ <0b4472cb-0c73-4eb8-a360-22b40aae44f5@linaro.org>
+ <20250904095215.ekkhrt5ql65ap74k@hu-mojha-hyd.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20250904095215.ekkhrt5ql65ap74k@hu-mojha-hyd.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add support for VFE 690 found on lemans(SA8775P). This is
-different from vfe 780 w.r.t few register offsets. It
-supports two full and five lite VFE.
+On 04/09/2025 10:52, Mukesh Ojha wrote:
+>> So is it really the intention of this patch to change the callsites where
+>> qcom_mdt_pas_load() away from the init version to the no_init version ?
+>>
+>> Maybe its a symptom of patch collision but hmm, having a hard time
+>> cherry-picking this to test.
+> My intention is to unify all subsystems whether it's remoteproc, video,
+> or others using Secure PIL, so that they all use the same set of APIs
+> via context (cxt).
+> 
+> Like, we first initialize the context, and then use it for other PIL-related
+> SMC calls such as pas_init, mem_setup, auth_and_reset, or even for the
+> new rsc_table SMC call. This way, everything is connected, and it
+> becomes clear which functions need to be called and it will also be
+> extensible via a small handling for SHMbridge on gunyah absence. Similar
+> changes would also apply to the MDT loader APIs.
+> 
+> That's why I asked here after "---" in this patch if this approach is
+> preferred, I will apply it consistently and eliminate redundant APIs.
+> 
+> Let me know your thought.
 
-Co-developed-by: Suresh Vankadara <quic_svankada@quicinc.com>
-Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
-Co-developed-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
-Signed-off-by: Wenmeng Liu <quic_wenmliu@quicinc.com>
-Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+For me its a question of digesting the change.
+
+Your series says "Add context aware qcom_mdt_pas_load()" but, it does 
+more than add - it changes logic.
+
+At a minimum I'd suggest splitting the addition of the function from the 
+changing of the existing logic so that the two could be disambiguated.
+
+The other comment I have is, is this change really required to enable 
+pil loading @ EL2 ?
+
+You could for example structure this series to implement the changes you 
+need for EL2 - and then have a last patch at the end to make the code 
+"more beautiful" or even a second series to do that.
+
+So I'd suggest one of
+
+1. Splitting the addition of the new helper and its use into
+    separate patches in the same series.
+
+or
+
+2. Doing the full EL2 conversion and then applying the
+    "make the code look nice" patch last.
+    So that we could for example take 11 of 13 patches
+
+or
+
+3. Making the EL2 conversion and the posting a second series
+    with your proposed tidy up
+
+Either way for me splicing both the addition and the usage here is a bit 
+hard to parse, especially since I can't seem to find a public SHA where 
+this series cleanly applies.
+
 ---
-changes since v5:
-- VFE 690 patch added "camnoc_axi" to the list of clocks matched for
-  rate configuration in vfe_match_clock_names(). However, this caused
-  issues on platforms where "camnoc_axi" is defined but not meant to be
-  set to the pixel clock rate.
-
-  To resolve this, added a new helper function vfe_check_clock_levels(),
-  which ensures that only clocks with valid (non-zero) frequency levels
-  are considered for rate configuration.
-
-  This change allows "camnoc_axi" to be configured to a specific rate
-  (400 MHz) on platforms like SA8775P where it's required, while avoiding
-  unintended rate settings on other platforms.
-
- .../platform/qcom/camss/camss-vfe-gen3.c      |  67 +++++--
- drivers/media/platform/qcom/camss/camss-vfe.c |  25 ++-
- drivers/media/platform/qcom/camss/camss.c     | 174 ++++++++++++++++++
- 3 files changed, 246 insertions(+), 20 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe-gen3.c b/drivers/media/platform/qcom/camss/camss-vfe-gen3.c
-index 93d16b0951e9..f2001140ead1 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe-gen3.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe-gen3.c
-@@ -12,13 +12,43 @@
- #include "camss.h"
- #include "camss-vfe.h"
- 
--#define BUS_REG_BASE			(vfe_is_lite(vfe) ? 0x200 : 0xC00)
-+#define IS_VFE_690(vfe) \
-+	    (vfe->camss->res->version == CAMSS_8775P)
-+
-+#define BUS_REG_BASE_690 \
-+	    (vfe_is_lite(vfe) ? 0x480 : 0x400)
-+#define BUS_REG_BASE_780 \
-+	    (vfe_is_lite(vfe) ? 0x200 : 0xC00)
-+#define BUS_REG_BASE \
-+	    (IS_VFE_690(vfe) ? BUS_REG_BASE_690 : BUS_REG_BASE_780)
-+
-+#define VFE_TOP_CORE_CFG (0x24)
-+#define VFE_DISABLE_DSCALING_DS4  BIT(21)
-+#define VFE_DISABLE_DSCALING_DS16 BIT(22)
-+
-+#define VFE_BUS_WM_TEST_BUS_CTRL_690 (BUS_REG_BASE + 0xFC)
-+#define VFE_BUS_WM_TEST_BUS_CTRL_780 (BUS_REG_BASE + 0xDC)
-+#define VFE_BUS_WM_TEST_BUS_CTRL \
-+	    (IS_VFE_690(vfe) ? VFE_BUS_WM_TEST_BUS_CTRL_690 \
-+	     : VFE_BUS_WM_TEST_BUS_CTRL_780)
-+/*
-+ * Bus client mapping:
-+ *
-+ * Full VFE:
-+ * VFE_690: 16 = RDI0, 17 = RDI1, 18 = RDI2
-+ * VFE_780: 23 = RDI0, 24 = RDI1, 25 = RDI2
-+ *
-+ * VFE LITE:
-+ * VFE_690 : 0 = RDI0, 1 = RDI1, 2 = RDI2, 3 = RDI3, 4 = RDI4, 5 = RDI5
-+ * VFE_780 : 0 = RDI0, 1 = RDI1, 2 = RDI2, 3 = RDI3, 4 = RDI4
-+ */
-+#define RDI_WM_690(n)	((vfe_is_lite(vfe) ? 0x0 : 0x10) + (n))
-+#define RDI_WM_780(n)	((vfe_is_lite(vfe) ? 0x0 : 0x17) + (n))
-+#define RDI_WM(n)	(IS_VFE_690(vfe) ? RDI_WM_690(n) : RDI_WM_780(n))
- 
- #define VFE_BUS_WM_CGC_OVERRIDE		(BUS_REG_BASE + 0x08)
- #define		WM_CGC_OVERRIDE_ALL		(0x7FFFFFF)
- 
--#define VFE_BUS_WM_TEST_BUS_CTRL	(BUS_REG_BASE + 0xDC)
--
- #define VFE_BUS_WM_CFG(n)		(BUS_REG_BASE + 0x200 + (n) * 0x100)
- #define		WM_CFG_EN			BIT(0)
- #define		WM_VIR_FRM_EN			BIT(1)
-@@ -39,17 +69,6 @@
- #define VFE_BUS_WM_MMU_PREFETCH_CFG(n)		(BUS_REG_BASE + 0x260 + (n) * 0x100)
- #define VFE_BUS_WM_MMU_PREFETCH_MAX_OFFSET(n)	(BUS_REG_BASE + 0x264 + (n) * 0x100)
- 
--/*
-- * Bus client mapping:
-- *
-- * Full VFE:
-- * 23 = RDI0, 24 = RDI1, 25 = RDI2
-- *
-- * VFE LITE:
-- * 0 = RDI0, 1 = RDI1, 2 = RDI3, 4 = RDI4
-- */
--#define RDI_WM(n)			((vfe_is_lite(vfe) ? 0x0 : 0x17) + (n))
--
- static void vfe_wm_start(struct vfe_device *vfe, u8 wm, struct vfe_line *line)
- {
- 	struct v4l2_pix_format_mplane *pix =
-@@ -62,14 +81,24 @@ static void vfe_wm_start(struct vfe_device *vfe, u8 wm, struct vfe_line *line)
- 
- 	writel(0x0, vfe->base + VFE_BUS_WM_TEST_BUS_CTRL);
- 
--	writel(ALIGN(pix->plane_fmt[0].bytesperline, 16) * pix->height >> 8,
--	       vfe->base + VFE_BUS_WM_FRAME_INCR(wm));
-+	if (IS_VFE_690(vfe))
-+		writel(ALIGN(pix->plane_fmt[0].bytesperline, 16) * pix->height,
-+		       vfe->base + VFE_BUS_WM_FRAME_INCR(wm));
-+	else
-+		writel(ALIGN(pix->plane_fmt[0].bytesperline, 16) * pix->height >> 8,
-+		       vfe->base + VFE_BUS_WM_FRAME_INCR(wm));
-+
- 	writel((WM_IMAGE_CFG_0_DEFAULT_WIDTH & 0xFFFF),
- 	       vfe->base + VFE_BUS_WM_IMAGE_CFG_0(wm));
- 	writel(WM_IMAGE_CFG_2_DEFAULT_STRIDE,
- 	       vfe->base + VFE_BUS_WM_IMAGE_CFG_2(wm));
- 	writel(0, vfe->base + VFE_BUS_WM_PACKER_CFG(wm));
- 
-+	/* TOP CORE CFG */
-+	if (IS_VFE_690(vfe))
-+		writel(VFE_DISABLE_DSCALING_DS4 | VFE_DISABLE_DSCALING_DS16,
-+			vfe->base + VFE_TOP_CORE_CFG);
-+
- 	/* no dropped frames, one irq per frame */
- 	writel(0, vfe->base + VFE_BUS_WM_FRAMEDROP_PERIOD(wm));
- 	writel(1, vfe->base + VFE_BUS_WM_FRAMEDROP_PATTERN(wm));
-@@ -92,7 +121,11 @@ static void vfe_wm_update(struct vfe_device *vfe, u8 wm, u32 addr,
- 			  struct vfe_line *line)
- {
- 	wm = RDI_WM(wm);
--	writel((addr >> 8) & 0xFFFFFFFF, vfe->base + VFE_BUS_WM_IMAGE_ADDR(wm));
-+
-+	if (IS_VFE_690(vfe))
-+		writel(addr, vfe->base + VFE_BUS_WM_IMAGE_ADDR(wm));
-+	else
-+		writel((addr >> 8), vfe->base + VFE_BUS_WM_IMAGE_ADDR(wm));
- 
- 	dev_dbg(vfe->camss->dev, "wm:%d, image buf addr:0x%x\n",
- 		wm, addr);
-diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-index 4bca6c3abaff..aa4aaf21d9c0 100644
---- a/drivers/media/platform/qcom/camss/camss-vfe.c
-+++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-@@ -346,6 +346,7 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
- 	case CAMSS_8280XP:
- 	case CAMSS_845:
- 	case CAMSS_8550:
-+	case CAMSS_8775P:
- 	case CAMSS_X1E80100:
- 		switch (sink_code) {
- 		case MEDIA_BUS_FMT_YUYV8_1X16:
-@@ -910,7 +911,24 @@ static int vfe_match_clock_names(struct vfe_device *vfe,
- 
- 	return (!strcmp(clock->name, vfe_name) ||
- 		!strcmp(clock->name, vfe_lite_name) ||
--		!strcmp(clock->name, "vfe_lite"));
-+		!strcmp(clock->name, "vfe_lite") ||
-+		!strcmp(clock->name, "camnoc_axi"));
-+}
-+
-+/*
-+ * vfe_check_clock_levels - Calculate and set clock rates on VFE module
-+ * @clock: clocks data
-+ *
-+ * Return false if there is no non-zero clock level and true otherwise.
-+ */
-+static bool vfe_check_clock_levels(struct camss_clock *clock)
-+{
-+	int i;
-+
-+	for (i = 0; i < clock->nfreqs; i++)
-+		if (clock->freq[i])
-+			return true;
-+	return false;
- }
- 
- /*
-@@ -936,7 +954,7 @@ static int vfe_set_clock_rates(struct vfe_device *vfe)
- 	for (i = 0; i < vfe->nclocks; i++) {
- 		struct camss_clock *clock = &vfe->clock[i];
- 
--		if (vfe_match_clock_names(vfe, clock)) {
-+		if (vfe_match_clock_names(vfe, clock) && vfe_check_clock_levels(clock)) {
- 			u64 min_rate = 0;
- 			long rate;
- 
-@@ -1017,7 +1035,7 @@ static int vfe_check_clock_rates(struct vfe_device *vfe)
- 	for (i = 0; i < vfe->nclocks; i++) {
- 		struct camss_clock *clock = &vfe->clock[i];
- 
--		if (vfe_match_clock_names(vfe, clock)) {
-+		if (vfe_match_clock_names(vfe, clock) && vfe_check_clock_levels(clock)) {
- 			u64 min_rate = 0;
- 			unsigned long rate;
- 
-@@ -1974,6 +1992,7 @@ static int vfe_bpl_align(struct vfe_device *vfe)
- 	case CAMSS_8280XP:
- 	case CAMSS_845:
- 	case CAMSS_8550:
-+	case CAMSS_8775P:
- 	case CAMSS_X1E80100:
- 		ret = 16;
- 		break;
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 5f1e267045cb..08763d92f659 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -2687,6 +2687,180 @@ static const struct camss_subdev_resources csid_res_8775p[] = {
- 	},
- };
- 
-+static const struct camss_subdev_resources vfe_res_8775p[] = {
-+	/* VFE0 */
-+	{
-+		.regulators = {},
-+		.clock = { "cpas_vfe0", "vfe0", "vfe0_fast_ahb",
-+			   "cpas_ahb", "gcc_axi_hf",
-+			   "cpas_fast_ahb_clk",
-+			   "camnoc_axi"},
-+		.clock_rate = {
-+			{ 0 },
-+			{ 480000000 },
-+			{ 300000000, 400000000 },
-+			{ 300000000, 400000000 },
-+			{ 0 },
-+			{ 300000000, 400000000 },
-+			{ 400000000 },
-+		},
-+		.reg = { "vfe0" },
-+		.interrupt = { "vfe0" },
-+		.vfe = {
-+			.line_num = 3,
-+			.is_lite = false,
-+			.has_pd = false,
-+			.pd_name = NULL,
-+			.hw_ops = &vfe_ops_gen3,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
-+	},
-+	/* VFE1 */
-+	{
-+		.regulators = {},
-+		.clock = { "cpas_vfe1", "vfe1", "vfe1_fast_ahb",
-+			   "cpas_ahb", "gcc_axi_hf",
-+			   "cpas_fast_ahb_clk",
-+			   "camnoc_axi"},
-+		.clock_rate = {
-+			{ 0 },
-+			{ 480000000 },
-+			{ 300000000, 400000000 },
-+			{ 300000000, 400000000 },
-+			{ 0 },
-+			{ 300000000, 400000000 },
-+			{ 400000000 },
-+		},
-+		.reg = { "vfe1" },
-+		.interrupt = { "vfe1" },
-+		.vfe = {
-+			.line_num = 3,
-+			.is_lite = false,
-+			.has_pd = false,
-+			.pd_name = NULL,
-+			.hw_ops = &vfe_ops_gen3,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
-+	},
-+	/* VFE2 (lite) */
-+	{
-+		.regulators = {},
-+		.clock = { "cpas_vfe_lite", "vfe_lite_ahb",
-+			   "vfe_lite_csid", "vfe_lite_cphy_rx",
-+			   "vfe_lite"},
-+		.clock_rate = {
-+			{ 0, 0, 0, 0  },
-+			{ 300000000, 400000000, 400000000, 400000000 },
-+			{ 400000000, 400000000, 400000000, 400000000 },
-+			{ 400000000, 400000000, 400000000, 400000000 },
-+			{ 480000000, 600000000, 600000000, 600000000 },
-+		},
-+		.reg = { "vfe_lite0" },
-+		.interrupt = { "vfe_lite0" },
-+		.vfe = {
-+			.line_num = 4,
-+			.is_lite = true,
-+			.hw_ops = &vfe_ops_gen3,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
-+	},
-+	/* VFE3 (lite) */
-+	{
-+		.regulators = {},
-+		.clock = { "cpas_vfe_lite", "vfe_lite_ahb",
-+			   "vfe_lite_csid", "vfe_lite_cphy_rx",
-+			   "vfe_lite"},
-+		.clock_rate = {
-+			{ 0, 0, 0, 0  },
-+			{ 300000000, 400000000, 400000000, 400000000 },
-+			{ 400000000, 400000000, 400000000, 400000000 },
-+			{ 400000000, 400000000, 400000000, 400000000 },
-+			{ 480000000, 600000000, 600000000, 600000000 },
-+		},
-+		.reg = { "vfe_lite1" },
-+		.interrupt = { "vfe_lite1" },
-+		.vfe = {
-+			.line_num = 4,
-+			.is_lite = true,
-+			.hw_ops = &vfe_ops_gen3,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
-+	},
-+	/* VFE4 (lite) */
-+	{
-+		.regulators = {},
-+		.clock = { "cpas_vfe_lite", "vfe_lite_ahb",
-+			   "vfe_lite_csid", "vfe_lite_cphy_rx",
-+			   "vfe_lite"},
-+		.clock_rate = {
-+			{ 0, 0, 0, 0  },
-+			{ 300000000, 400000000, 400000000, 400000000 },
-+			{ 400000000, 400000000, 400000000, 400000000 },
-+			{ 400000000, 400000000, 400000000, 400000000 },
-+			{ 480000000, 600000000, 600000000, 600000000 },
-+		},
-+		.reg = { "vfe_lite2" },
-+		.interrupt = { "vfe_lite2" },
-+		.vfe = {
-+			.line_num = 4,
-+			.is_lite = true,
-+			.hw_ops = &vfe_ops_gen3,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
-+	},
-+	/* VFE5 (lite) */
-+	{
-+		.regulators = {},
-+		.clock = { "cpas_vfe_lite", "vfe_lite_ahb",
-+			   "vfe_lite_csid", "vfe_lite_cphy_rx",
-+			   "vfe_lite"},
-+		.clock_rate = {
-+			{ 0, 0, 0, 0  },
-+			{ 300000000, 400000000, 400000000, 400000000 },
-+			{ 400000000, 400000000, 400000000, 400000000 },
-+			{ 400000000, 400000000, 400000000, 400000000 },
-+			{ 480000000, 600000000, 600000000, 600000000 },
-+		},
-+		.reg = { "vfe_lite3" },
-+		.interrupt = { "vfe_lite3" },
-+		.vfe = {
-+			.line_num = 4,
-+			.is_lite = true,
-+			.hw_ops = &vfe_ops_gen3,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
-+	},
-+	/* VFE6 (lite) */
-+	{
-+		.regulators = {},
-+		.clock = { "cpas_vfe_lite", "vfe_lite_ahb",
-+			   "vfe_lite_csid", "vfe_lite_cphy_rx",
-+			   "vfe_lite"},
-+		.clock_rate = {
-+			{ 0, 0, 0, 0  },
-+			{ 300000000, 400000000, 400000000, 400000000 },
-+			{ 400000000, 400000000, 400000000, 400000000 },
-+			{ 400000000, 400000000, 400000000, 400000000 },
-+			{ 480000000, 600000000, 600000000, 600000000 },
-+		},
-+		.reg = { "vfe_lite4" },
-+		.interrupt = { "vfe_lite4" },
-+		.vfe = {
-+			.line_num = 4,
-+			.is_lite = true,
-+			.hw_ops = &vfe_ops_gen3,
-+			.formats_rdi = &vfe_formats_rdi_845,
-+			.formats_pix = &vfe_formats_pix_845
-+		}
-+	},
-+};
-+
- static const struct resources_icc icc_res_sa8775p[] = {
- 	{
- 		.name = "ahb",
--- 
-2.25.1
-
+bod
 
