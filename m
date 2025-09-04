@@ -1,212 +1,234 @@
-Return-Path: <linux-media+bounces-41769-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41770-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F438B43A97
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 13:45:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0311EB43BC2
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 14:37:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B52E75E4A15
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 11:45:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC76EA00088
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 12:37:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E7F82FDC30;
-	Thu,  4 Sep 2025 11:43:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B68C2FF673;
+	Thu,  4 Sep 2025 12:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Eu/aciE+"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Y+KDlRhR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BF322FDC28
-	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 11:43:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6380F2F4A06
+	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 12:36:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756986218; cv=none; b=MgJmQ1AaJ2fOu7EN1s1Se62jFk91Pgcyq8O3s7Ye3ZjjpL3husg0aHjD4DmqMQuK3hSWkgvJQyBOMFSvku8tQWhWmd8kdOaYCcqTtUtaQRFk6lF+nrkEvqak7ep7/9YEe/j81Mg2zpean+VlQP5IGTMYYNP0TxmgeCDiN/NxiPk=
+	t=1756989372; cv=none; b=WihLfHHO+oTlYPKP2sOxCb4+YHnJ879XEQwV3VfeSZ6x+lxcc3OT0qEZqgnIw/6EsP4EM3f/wNZyIqDQqlwypGOz7XHGmgnX0vIYRMz1J64bxCfea8Tt9BLP1m5a31+NYf3lHnaJgQU0f5kfI+E9qN60V0arcE5YdNwIfzWwijo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756986218; c=relaxed/simple;
-	bh=8/IakGCw46hrazl3aA4VwfOOwE8rVlBce2R/a6e/u2M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ehW1uQzc2NMojdmrPUGG1YLrfPCYu+cCso8Wyivf0a8vOWCtIcwvEY3pSttIUBt0+jjfmN+4xoggs0eTKv2g0SX9I4kN/yHX1rPdf2lQ/ZFnpZEzH7kmNMAg/H9icsKswT4NjkNsq7sleSxgFIkW7o7v+deNUoIqns2Ohl7+Xsc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Eu/aciE+; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5849XEHE031940
-	for <linux-media@vger.kernel.org>; Thu, 4 Sep 2025 11:43:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=JlHa+bLNOlllt7+sjrqxahbi
-	SpEqBtvYmevS8IxN37c=; b=Eu/aciE+0JBxEsh8nSfm0b0bLNMSXdcHMa/txli2
-	5lV6psm5FjnQ7Kvdsqr0/hoGUejlrcGPoUHxb6Y/TByvPdnN6gxFHL2Dk9WdcxxK
-	5ScCKgXwDzgjrH8IJ8GAxaNxEcEWInDNQWpv92uVXWyNzePC1Vop0Bya3nTaOyxL
-	YJ+htRBBxHB0kNi/PV90T3VdbUpYbGpI2mV+R/A0Kdg6PXoNrmszC5SokIhid7Yh
-	Fuyho9ALog4Yn8XY5t3pgjeWBBUdjKHJ2AQpneA9An1JD7C9gbqdxioBBq0q1b2W
-	cruSwL+pyxDtD00zHI8a8fzIQGMFFDk1XsRVHo2I45R2jA==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48urw07c64-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 04 Sep 2025 11:43:34 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-24cc19f830fso14882475ad.3
-        for <linux-media@vger.kernel.org>; Thu, 04 Sep 2025 04:43:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756986213; x=1757591013;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=JlHa+bLNOlllt7+sjrqxahbiSpEqBtvYmevS8IxN37c=;
-        b=dqZDvGAOl2G9eW6vdeD0Q5YmwHWYMNm05yqdaBt1LeLAiDwP+viRYhoTTO/wpbDLeD
-         dmvnJIPgXWC0QnJbx+uSUF8JqNfOVcvtbl2uu8sSYBeiZswXexYhCca1ikygm+Tlgtz3
-         PBSgvKxTV79z04b//rEYWUFv6DzxXIM1P4IRR/2Ba2P3AakND+FSlyQo2fizEBYKx/YQ
-         Jdsu+Fdz67S6A+52DezyBUOQSFHcdGpuknbzAt+P1VK5P6lu3UUIXfLP6ecmAhiD74Jo
-         A81aIiXmjZtxq9LC9G4F+B76a9iGpNcrBGOjLzGgGdX0dkRH/NzfWQNcYZ7pEV1ZswDd
-         JWTg==
-X-Forwarded-Encrypted: i=1; AJvYcCWOl1R6AOU/hZG5AhZuoqw6VGmt76f14IaesRwwToIE3kjMcmfAsbDfVmLw8srLbtOhCT+tQGGMlJpqcw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzbPTDh5VTylNR2Dw/yueVKoG/UoTOPbFlvTz3rB6AocmtHZe1J
-	QYQPxBy3SmOw9PSVgROl0jVyBtvFn+xqxQt2fgbO4Fyyjdz/h7fle3SWGylaMqmb7QgJooR5WH/
-	UQvOGOQ1wFEhntkFToi925UIIa6tvjjM/wSs0YbsYOuvPU1wPkAjiH3h8v9BC2RRI2Q==
-X-Gm-Gg: ASbGnctRB79KuBbHMrORuXTWaqkw8/iMmBDyODoQ9BpmMAItkOqM9KxtyndYhd3zVMQ
-	PM301d/Cdb+AFBNSgohnOcfqQ2bDty1Ngr2/P4vaejVowPAP72RUcEYthkCcpXdzmRiNyJO0w2h
-	zm+XF+CxYgnM7R16hACElXKChpSiz2xYf26UYEvS42hu6qAQcENQTdRIPWWAXWY33nFaGa03cEo
-	fgKPfda3PGogiSvZlCNuqnvBEOFj0+VhJ7XJ/cRjSbLflblJ0gjp7TAB3Q3YUxZRamcvou1TzeH
-	2BfES9Ql4o+eQAMcTOxCjBHVzXAPUjKs0FBpf1ucxnNvcXldcvTNoE85PdJNePmBflU=
-X-Received: by 2002:a17:902:e543:b0:24a:9b12:5248 with SMTP id d9443c01a7336-24a9b125499mr224992495ad.54.1756986213395;
-        Thu, 04 Sep 2025 04:43:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGeyBcM+HOUTvrl7j0Vv8OyjKVeRmkSlcU//DcGS2QbTxlYo7fNmNHEzUkkEEXJtkjRK88Cmw==
-X-Received: by 2002:a17:902:e543:b0:24a:9b12:5248 with SMTP id d9443c01a7336-24a9b125499mr224992055ad.54.1756986212899;
-        Thu, 04 Sep 2025 04:43:32 -0700 (PDT)
-Received: from hu-mojha-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-249037223d7sm182353305ad.32.2025.09.04.04.43.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 04 Sep 2025 04:43:31 -0700 (PDT)
-Date: Thu, 4 Sep 2025 17:13:24 +0530
-From: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org
-Subject: Re: [PATCH v2 02/11] soc: qcom: mdtloader: Add context aware
- qcom_mdt_pas_load() helper
-Message-ID: <20250904114324.qtizk6wm44xa4ryj@hu-mojha-hyd.qualcomm.com>
-References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
- <20250819165447.4149674-3-mukesh.ojha@oss.qualcomm.com>
- <0b4472cb-0c73-4eb8-a360-22b40aae44f5@linaro.org>
- <20250904095215.ekkhrt5ql65ap74k@hu-mojha-hyd.qualcomm.com>
- <a793c2ff-3f06-4ed4-90f4-4b2a11e714e0@linaro.org>
+	s=arc-20240116; t=1756989372; c=relaxed/simple;
+	bh=EOS/6zEAAb3zRMjBAB/SaTn6fBz48FB5QgIuG3xWAOw=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=q1fjRnH2b1iLlTPXlvQT037SAepvmoKwN6LuaG8jJ8TE7EKcJ9L0TjrhG08FlfU4tpE9ZAfAID5QO5N27eOXCITWE2AALDfFglTqqhxN07IXjEdVWQCqiXzdyGwBsVU+twibExQ2GaFU3OTecSoLHrEoHMHjiFxdg66wV0pBQKk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Y+KDlRhR; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1756989368;
+	bh=EOS/6zEAAb3zRMjBAB/SaTn6fBz48FB5QgIuG3xWAOw=;
+	h=Subject:From:To:Date:In-Reply-To:References:From;
+	b=Y+KDlRhRGPhCdbQUyUPXzl8n5YTOl9FMqJ+iS7psmipIBf5l1SI/h9bxGMnXkVkH8
+	 yMAZ/UlePIzLUrCe1YeShmjoch8HjnKTkIndiMNROg5KqM+eGkL7KgO7A7bjl4NlP4
+	 3z5V1Rc/Ht3gK5zKQqmRE5kii6ZmTf4JHLF/k5FgvC+QLqVC6hG0kYDIaNThSXYmXa
+	 aZ8b7t9I+fgcCvAt17jxxu1nooLxXvOrMzw4wUPlk115rVyJC0QRUW7RBvSRobfASK
+	 Si09PJ5mVg5ewXi4K1t5eTuIUsHeD6k72I+8fp2rLSYDAhUYkaeXJDpFptxHWEFkxG
+	 2Iq4htQEUrIKg==
+Received: from [IPv6:2606:6d00:11:5a76::5ac] (unknown [IPv6:2606:6d00:11:5a76::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 171A817E00A6;
+	Thu,  4 Sep 2025 14:36:07 +0200 (CEST)
+Message-ID: <ba96a0168da7df58b7f27377f48d259d4c6495c4.camel@collabora.com>
+Subject: Re: [GIT PULL FOR 6.18] Media Codec Fixes 2025-09-03
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org
+Date: Thu, 04 Sep 2025 08:36:05 -0400
+In-Reply-To: <18806e61-3890-4d2d-9740-a1aee00d6884@kernel.org>
+References: <dd469ea1001160b5cf7b7bf4f44dfdda8d2d27ce.camel@collabora.com>
+	 <18806e61-3890-4d2d-9740-a1aee00d6884@kernel.org>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-60TTso7ArabOZCHzjAeo"
+User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a793c2ff-3f06-4ed4-90f4-4b2a11e714e0@linaro.org>
-X-Proofpoint-GUID: K5pb4jeFO5AfiPpZKuXycaWuIO34DjS6
-X-Proofpoint-ORIG-GUID: K5pb4jeFO5AfiPpZKuXycaWuIO34DjS6
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAyNyBTYWx0ZWRfX/cB25llLEkbe
- z0jnwc31FFfFJqeQbl8QQsIygx2B4xxOLwgCI0DxooOAB8/YK2kKu9A7p735LGk0WoXLxFutSdb
- lKaFIYaYD/QHRTBng9qvqwBYJ2t2ECb//64R2cpgMhvcfE/dwv+hRxDA4zTHaU3/D6ZQBvwn78Q
- 0qyLgN1Iz24aC8VXuDXjSLk3Zt4bWn4yMFhImdAYHs2PelcH4RpZhKF8jRKHwn/WSjPKJcM7z2m
- taOM/MdwDvlXTdUZblPJqeG+oekhndPY8KFOk5UiWpc4KpBs5Ycsh1k99R40/7Pm3zvoXpJyTxD
- X6kcZYEOlbfSTf38FYQXd9XTncu0pBZWMBriaFtPDUq1MGfGLovldco5jENyS+fV/2bGE9L5j5N
- kGTAfZf3
-X-Authority-Analysis: v=2.4 cv=NrDRc9dJ c=1 sm=1 tr=0 ts=68b97b66 cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=kj9zAlcOel0A:10 a=yJojWOMRYYMA:10 a=KyAPywjRas_nfg25bTcA:9
- a=CjuIK1q_8ugA:10 a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-04_04,2025-08-28_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 suspectscore=0 malwarescore=0 priorityscore=1501 phishscore=0
- impostorscore=0 spamscore=0 bulkscore=0 adultscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300027
 
-On Thu, Sep 04, 2025 at 11:15:29AM +0100, Bryan O'Donoghue wrote:
-> On 04/09/2025 10:52, Mukesh Ojha wrote:
-> > > So is it really the intention of this patch to change the callsites where
-> > > qcom_mdt_pas_load() away from the init version to the no_init version ?
-> > > 
-> > > Maybe its a symptom of patch collision but hmm, having a hard time
-> > > cherry-picking this to test.
-> > My intention is to unify all subsystems whether it's remoteproc, video,
-> > or others using Secure PIL, so that they all use the same set of APIs
-> > via context (cxt).
-> > 
-> > Like, we first initialize the context, and then use it for other PIL-related
-> > SMC calls such as pas_init, mem_setup, auth_and_reset, or even for the
-> > new rsc_table SMC call. This way, everything is connected, and it
-> > becomes clear which functions need to be called and it will also be
-> > extensible via a small handling for SHMbridge on gunyah absence. Similar
-> > changes would also apply to the MDT loader APIs.
-> > 
-> > That's why I asked here after "---" in this patch if this approach is
-> > preferred, I will apply it consistently and eliminate redundant APIs.
-> > 
-> > Let me know your thought.
-> 
-> For me its a question of digesting the change.
-> 
-> Your series says "Add context aware qcom_mdt_pas_load()" but, it does more
-> than add - it changes logic.
-> 
-> At a minimum I'd suggest splitting the addition of the function from the
-> changing of the existing logic so that the two could be disambiguated.
 
-I agree, I did more than just add even used in current patch itself.
-Will split it.
+--=-60TTso7ArabOZCHzjAeo
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> 
-> The other comment I have is, is this change really required to enable pil
-> loading @ EL2 ?
+Hi Hans,
 
-Not exactly, but to looks things cleaner..
+Le jeudi 04 septembre 2025 =C3=A0 10:39 +0200, Hans Verkuil a =C3=A9crit=C2=
+=A0:
+> On 03/09/2025 21:05, Nicolas Dufresne wrote:
+> > Hey Mauro, Hans,
+> >=20
+> > I collected the easy stuff I had in queue, so we have code clean and ju=
+st one
+> > fix for the MT8188 MDP3 M2M driver.
+> >=20
+> > cheers,
+> > Nicolas
+> >=20
+> > ---
+> >=20
+> > The following changes since commit 603957ae903e81fb80d3788297c0f58a6880=
+2dfc:
+> >=20
+> > =C2=A0 media: rkisp1: Add support for multiple power domains (2025-08-3=
+1 11:10:07 +0200)
+> >=20
+> > are available in the Git repository at:
+> >=20
+> > =C2=A0 https://gitlab.freedesktop.org/linux-media/users/ndufresne.git=
+=C2=A0tags/for-6.18-media-codecs-2025-09-03
+> >=20
+> > for you to fetch changes up to aa067d8de6e85c90a92c4281235c5cb6d7651fb5=
+:
+> >=20
+> > =C2=A0 media: uapi: v4l2-controls: Cleanup codec definitions (2025-09-0=
+3 13:08:23 -0400)
+> >=20
+> > ----------------------------------------------------------------
+> > Code cleanup and MT8188 MDP3 fix
+> >=20
+> > ----------------------------------------------------------------
+> > AngeloGioacchino Del Regno (1):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dt-bindings: media: mediatek,mt8195-jpeg=
+: Allow range number in node address
+>=20
+> This one is missing the SoB of the devicetree maintainers. I'm dropping i=
+t from this
+> PR, but will apply the other patches.
 
-As the other way was carry extra boolean "rproc->has_iommu" in qcom_mdt_pas_init() 
-for rproc and qcom_mdt_load() for video and other smc function to tell what needs
-to be done extra when Linux at EL2.
+Since its bindings, DT folks don't take them. I usually wait for a Rb from
+devicetree folks, but since Angelo is Mediatek tree maintainer he really kn=
+ows
+what he's doing. The <name>@<number>,<number> instead of hex address seems
+fairly common.
 
-> 
-> You could for example structure this series to implement the changes you
-> need for EL2 - and then have a last patch at the end to make the code "more
-> beautiful" or even a second series to do that.
-> 
-> So I'd suggest one of
-> 
-> 1. Splitting the addition of the new helper and its use into
->    separate patches in the same series.
-> 
-> or
-> 
-> 2. Doing the full EL2 conversion and then applying the
->    "make the code look nice" patch last.
->    So that we could for example take 11 of 13 patches
-> 
-> or
-> 
-> 3. Making the EL2 conversion and the posting a second series
->    with your proposed tidy up
-> 
-> Either way for me splicing both the addition and the usage here is a bit
-> hard to parse, especially since I can't seem to find a public SHA where this
-> series cleanly applies.
+>=20
+> I also noticed that it wasn't delegated to ndufresne in patchwork, perhap=
+s this was
+> mistakingly added to the PR?
 
-I'm fine with 2 and 3 as well only if non-cleaner way with EL2
-enablement gets accepted which may look ugly with lots of if's
-in the code or just do 1 for now.
+I normally only take what I delegated to me indeed, and when I did a final
+review from my tag I didn't realized this one mas missing. I did review tha=
+t
+regex and it does what the comment says.
 
-> 
-> ---
-> bod
+Now I got tricked though, the DTS don't yet utilize the new form of
+jpegdec@<number>,<number>, so its not really fixing a DTS check issue, but =
+a
+check issue that would occur if this was being used.
 
--- 
--Mukesh Ojha
+Anyway, no worries, nothing is broken, I'll ask Angelo to chase a DT mainta=
+iner
+to Rb this patch.
+
+regards,
+Nicolas
+
+>=20
+> Regards,
+>=20
+> 	Hans
+>=20
+> >=20
+> > Liao Yuanhong (1):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: chips-media: wave5: Remove redund=
+ant ternary operators
+> >=20
+> > Lukas Bulwahn (1):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MAINTAINERS: merge sections for ROCKCHIP=
+ VIDEO DECODER DRIVER
+> >=20
+> > N=C3=ADcolas F. R. A. Prado (1):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: platform: mtk-mdp3: Add missing M=
+T8188 compatible to comp_dt_ids
+> >=20
+> > Paul Kocialkowski (3):
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: verisilicon: imx8m: Use the defau=
+lt Hantro G1 irq handler
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: verisilicon: Explicitly disable s=
+election api ioctls for decoders
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: uapi: v4l2-controls: Cleanup code=
+c definitions
+> >=20
+> > =C2=A0Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.y=
+aml |=C2=A0 2 +-
+> > =C2=A0Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.y=
+aml |=C2=A0 2 +-
+> > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 +=
+--------
+> > =C2=A0drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +=
+-
+> > =C2=A0drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0 |=C2=A0 3 +++
+> > =C2=A0drivers/media/platform/verisilicon/hantro_drv.c=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 ++
+> > =C2=A0drivers/media/platform/verisilicon/hantro_v4l2.c=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 ++----
+> > =C2=A0drivers/media/platform/verisilicon/imx8m_vpu_hw.c=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 20 +-------------------
+> > =C2=A0include/uapi/linux/v4l2-controls.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 23 +++++++++++------------
+> > =C2=A09 files changed, 23 insertions(+), 46 deletions(-)
+> >=20
+> >=20
+
+--=-60TTso7ArabOZCHzjAeo
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaLmHtQAKCRDZQZRRKWBy
+9OixAQCii5end4ZkKQ4yxESMsIWl9J2S13AdTUbglvAN3spCBgD+OBTHajA86kJB
+fEzPtZBIfDQp1u+z1hLOyADvhhod7Qg=
+=cnCS
+-----END PGP SIGNATURE-----
+
+--=-60TTso7ArabOZCHzjAeo--
 
