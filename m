@@ -1,165 +1,109 @@
-Return-Path: <linux-media+bounces-41744-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41745-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91DA0B42DE5
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 02:07:16 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9105DB42E64
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 02:49:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 542D5580A0C
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 00:07:16 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 775044E1891
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 00:48:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B3F3F9CB;
-	Thu,  4 Sep 2025 00:07:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8DA417C211;
+	Thu,  4 Sep 2025 00:48:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="iBT6Dn2b"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f4a+Hk3X"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC6DFB640
-	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 00:07:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F239A14A9B;
+	Thu,  4 Sep 2025 00:48:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756944425; cv=none; b=QmKrgR8taP0aNeZpScSGctVUnN5FzZNPVK2p7y4vhPDZ9AKPDsHUCWSdkQepMtlyNnLJm2xtx59pE9lrUl0exH2OdhnDIH1RrBLHuqEhE4M2qFKKQFtgbYl8vKXCR80bIGvrMu+JXUVgHKzQM9kDcBw2ItbMy2FxXeRb/VcMohw=
+	t=1756946930; cv=none; b=B4UhAAsYDtQJ8IVdmJOMDgTPtCRxOKPENWjzWJTzKC/+CH+Rf9K2ZYv9b2v46Wku02RgBPVd3iCWaD6HvX+8oxoLwjWMlVmPtegf7TxI/RcNOQz30TTrHvGvUkq4FDa4YuV3sN7iGm4EqS8ANt2QAuee1RjG2Zx40jQWi/OCxhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756944425; c=relaxed/simple;
-	bh=FUxoXrttyZlaf3Re6Hn7g2Jwjqejh2h3jwSdvSn7XOc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=phafK0hZ7tP8qx2RM7GjdXdxyCuNe/v8sSVFALsYT2aZVqS6ER8LwIoxLNFmXPyhmMNkxLk3xnPlu7hACgFIWq1dVU24ftQb/mSfa8+JwB5xasab74Puxbe0ze9dKbB8gzqCu88Rd4dvFluF7r92bJ5kj+oYxc++UHw+MTiVs04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=iBT6Dn2b; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-333f92d60ddso3449751fa.3
-        for <linux-media@vger.kernel.org>; Wed, 03 Sep 2025 17:07:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1756944421; x=1757549221; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=HoZmhLyKn/nkdQ8DJ5UpZG4Aw6d8utBCwrwUaI83R7I=;
-        b=iBT6Dn2bEltFuhKk1bo9IuQE25lIGzGUtpuGgejK+FeFzrSRYc0b+n2gKzo6vUREqN
-         a/+PTi52MBiInYqqYTAu7fW9mW1vfy2Q7yGxY8gx+WORboVCN4CdvJt/G0YhOJ+Om9XQ
-         UFYM+dh6zahbWkJ4nsCGIa7myIUmmyeEPh/XfLY0FM5Ie3n1+g2+/Xhs0Je3i440TdHh
-         aR4PaW8uKFsQbOFZSGsa/o3GXs1l4PiKuWFUGRcN+pW96Fp0v778IDouDVf1qYeQXAvt
-         jNO9mUHy2BG655rb+47Nk5bbjOPYu0zRNGszR+0GPoMFRAbhE5LWJ/YRhe/k4BLR8zQq
-         9MXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756944421; x=1757549221;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=HoZmhLyKn/nkdQ8DJ5UpZG4Aw6d8utBCwrwUaI83R7I=;
-        b=hJ6Fcj1pR8Xj5lZpE+Jh7PZy5s3pU0go8bg0xnmSmYS0bJBbpU8ig/2keLgY9uw1QQ
-         4v7YyaSRuHvHsVORx9HqzL3jaORtFydOAVbPUOVRer/wqDVOzgXPFdsOAPnqTBU2SBfk
-         LQedlQcfrlXAc51My9qWlQD2xUCwK7uMSokrSjzVeOkZeSfSnVw3DDBnMEq9KngsvEhg
-         yZoAMtz8B61YxV5fFwdrgnwYPip1gupSdoZNq1OG5ZaWUcZunsSJKs2KQgEo1pcRK9gB
-         svM1W8aKCGZEeYb7jpJxpmtSxZrLPZ/lDvtQPDmug32zjr5t+ilnzwJq1FMluJ+BuBKD
-         ovgA==
-X-Forwarded-Encrypted: i=1; AJvYcCXd9B8Wn50u1caoT7RhsLFdCHkwpW6jLJBWgQ2Oo118OqanNU94541SG3hnK+76M1wCxxjWtNG1q1wtAA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyxOeZaiEVLNokzCXqO79aEsJG1XGPCDKVdXkT2D7jJjyTJj3zu
-	Ocs5cC9amHgOC6Xe0gchiAr/KJ/lEqyexNZC3mf/txOOGdRzLW7zqN5w/vaPHSaKxLqRspJzkgn
-	HR9FOMMTMIHlc/z7MYNVP8iPCjPnZOhP/REyFSDU=
-X-Gm-Gg: ASbGncsQpxyYhTDAo892S71AvGfiqANeJT0YHCIo9TYIbfdk2QzFQ/UWkckxm1wOuQ6
-	E2vQbU9xa4X8f6fTml3zMobOv0uJoA2JU/q03kTmL6Pv1vM4WnJY/VpsqJDIwke+kR0m5/rTdjF
-	nUgaArydvZGtNq6RWg3qtcKU3XiyrqkV8KyNklbbRt/zpMLPV+sfTH6cWddFOSdZOCnjAxHJmVl
-	dopNnz61jxT/ZYtF6UreYkfo2+gIuQ8t5ifehL+grgGWPcsfNjT
-X-Google-Smtp-Source: AGHT+IEct78UJdrP8Mw1fHoqQhwiDSK6WJTCelvjHpNt0ZBbR9UBNmKHi6gPcy7tM8EHSgXZol8bWA6P0Y5bJNZG0cQ=
-X-Received: by 2002:a05:6512:258a:b0:55f:6fcc:6f4c with SMTP id
- 2adb3069b0e04-55f7095249bmr5080694e87.47.1756944420550; Wed, 03 Sep 2025
- 17:07:00 -0700 (PDT)
+	s=arc-20240116; t=1756946930; c=relaxed/simple;
+	bh=/eZokcjTYsgn7x3TN1nV0vQhMpWaAhi7YQj4lS/oW5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rte9gRCPFWtsNq4A0xwVoLJdQqSVdY39oC0axF5bkrqbVOexHKjlQ2Nxf1aTwFolZUjiwE4Ho/fZ7f0r6Ok84YIagISHMbZV3h+z1QF21WMWcDnagbUcadzd8jy7cX6zOLizms57S5Y+Tt56xdFgCC7iCHZ2F1nvDbYmMzauvLM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f4a+Hk3X; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B9F46C4CEE7;
+	Thu,  4 Sep 2025 00:48:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1756946929;
+	bh=/eZokcjTYsgn7x3TN1nV0vQhMpWaAhi7YQj4lS/oW5w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=f4a+Hk3XTjiN/mfxv9pyjGmIzHB8EyWE1g9mMRhBYpyErEFM2eLS2RLCNLZ9m+flb
+	 usBL3tioZb1jmbnGl2cnprJzZgY+7pXdM1pTdJM/l7LSADXMr8lVMlXEjMiGbORW+l
+	 ylL1uOUITFWfR5Vf2cQlWFj287PPpY3SnuOoIUMARaFXEEbDEiJfG2mlCm55uL15H7
+	 EeIpGd0/dS2PeLYfhNQl8FVow1ttEyNVHftFywOVWIkdDwukIuF755hy2naOdqX4iN
+	 mT+GB2IWk5KvmNBlsutFJjAZgnVXN8wIkBAU7y8uonErOB31WtsIKKO8H9zXSHUUsF
+	 U/aLizS4FgT5Q==
+Date: Wed, 3 Sep 2025 17:48:47 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Meghana Malladi <m-malladi@ti.com>
+Cc: <namcao@linutronix.de>, <jacob.e.keller@intel.com>,
+ <christian.koenig@amd.com>, <sumit.semwal@linaro.org>, <sdf@fomichev.me>,
+ <john.fastabend@gmail.com>, <hawk@kernel.org>, <daniel@iogearbox.net>,
+ <ast@kernel.org>, <pabeni@redhat.com>, <edumazet@google.com>,
+ <davem@davemloft.net>, <andrew+netdev@lunn.ch>,
+ <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+ <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>, Vignesh Raghavendra
+ <vigneshr@ti.com>, Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
+Subject: Re: [PATCH net-next v2 1/6] net: ti: icssg-prueth: Add functions to
+ create and destroy Rx/Tx queues
+Message-ID: <20250903174847.5d8d1c9f@kernel.org>
+In-Reply-To: <20250901100227.1150567-2-m-malladi@ti.com>
+References: <20250901100227.1150567-1-m-malladi@ti.com>
+	<20250901100227.1150567-2-m-malladi@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250830235838.58067-1-21cnbao@gmail.com>
-In-Reply-To: <20250830235838.58067-1-21cnbao@gmail.com>
-From: John Stultz <jstultz@google.com>
-Date: Wed, 3 Sep 2025 17:06:48 -0700
-X-Gm-Features: Ac12FXzqtilJ6SdZS-KX2jb500H77ogaF5l5m6ZQqtBfs2J7DgcHM6yl_AOpcwo
-Message-ID: <CANDhNCqcoR3USLG0Ys2WBQmEdS0u6gdaHGCVsftMk3OC5Vhjpw@mail.gmail.com>
-Subject: Re: [PATCH] dma-buf: system_heap: use larger contiguous mappings
- instead of per-page mmap
-To: Barry Song <21cnbao@gmail.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	"T . J . Mercier" <tjmercier@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, 
-	zhengtangquan@oppo.com, Barry Song <v-songbaohua@oppo.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Sat, Aug 30, 2025 at 4:58=E2=80=AFPM Barry Song <21cnbao@gmail.com> wrot=
-e:
->
-> From: Barry Song <v-songbaohua@oppo.com>
->
-> We can allocate high-order pages, but mapping them one by
-> one is inefficient. This patch changes the code to map
-> as large a chunk as possible. The code looks somewhat
-> complicated mainly because supporting mmap with a
-> non-zero offset is a bit tricky.
->
-> Using the micro-benchmark below, we see that mmap becomes
-> 3.5X faster:
-...
-
-It's been awhile since I've done mm things, so take it with a pinch of
-salt, but this seems reasonable to me.
-
-Though, one thought below...
-
-> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/=
-system_heap.c
-> index bbe7881f1360..4c782fe33fd4 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -186,20 +186,35 @@ static int system_heap_mmap(struct dma_buf *dmabuf,=
- struct vm_area_struct *vma)
->         struct system_heap_buffer *buffer =3D dmabuf->priv;
->         struct sg_table *table =3D &buffer->sg_table;
->         unsigned long addr =3D vma->vm_start;
-> -       struct sg_page_iter piter;
-> -       int ret;
-> +       unsigned long pgoff =3D vma->vm_pgoff;
-> +       struct scatterlist *sg;
-> +       int i, ret;
+On Mon, 1 Sep 2025 15:32:22 +0530 Meghana Malladi wrote:
+>  	if (!emac->xdpi.prog && !prog)
+>  		return 0;
+>  
+> -	WRITE_ONCE(emac->xdp_prog, prog);
+> +	if (netif_running(emac->ndev)) {
+> +		prueth_destroy_txq(emac);
+> +		prueth_destroy_rxq(emac);
+> +	}
 > +
-> +       for_each_sgtable_sg(table, sg, i) {
-> +               unsigned long n =3D sg->length >> PAGE_SHIFT;
->
-> -       for_each_sgtable_page(table, &piter, vma->vm_pgoff) {
-> -               struct page *page =3D sg_page_iter_page(&piter);
-> +               if (pgoff < n)
-> +                       break;
-> +               pgoff -=3D n;
-> +       }
+> +	old_prog = xchg(&emac->xdp_prog, prog);
+> +	if (old_prog)
+> +		bpf_prog_put(old_prog);
 > +
-> +       for (; sg && addr < vma->vm_end; sg =3D sg_next(sg)) {
-> +               unsigned long n =3D (sg->length >> PAGE_SHIFT) - pgoff;
-> +               struct page *page =3D sg_page(sg) + pgoff;
-> +               unsigned long size =3D n << PAGE_SHIFT;
+> +	if (netif_running(emac->ndev)) {
+> +		ret = prueth_create_rxq(emac);
+
+shutting the device down and freeing all rx memory for reconfig is not
+okay. If the system is low on memory the Rx buffer allocations may fail
+and system may drop off the network. You must either pre-allocate or
+avoid freeing the memory, and just restart the queues.
+
+> +		if (ret) {
+> +			netdev_err(emac->ndev, "Failed to create RX queue: %d\n", ret);
+> +			return ret;
+> +		}
 > +
-> +               if (addr + size > vma->vm_end)
-> +                       size =3D vma->vm_end - addr;
->
-> -               ret =3D remap_pfn_range(vma, addr, page_to_pfn(page), PAG=
-E_SIZE,
-> -                                     vma->vm_page_prot);
-> +               ret =3D remap_pfn_range(vma, addr, page_to_pfn(page),
-> +                               size, vma->vm_page_prot);
-
-It feels like this sort of mapping loop for higher order pages
-wouldn't be a unique pattern to just this code.  Would this be better
-worked into a helper so it would be more generally usable?
-
-Otherwise,
-Acked-by: John Stultz <jstultz@google.com>
-
-thanks
--john
+> +		ret = prueth_create_txq(emac);
+> +		if (ret) {
+> +			netdev_err(emac->ndev, "Failed to create TX queue: %d\n", ret);
+> +			prueth_destroy_rxq(emac);
+> +			emac->xdp_prog = NULL;
+> +			return ret;
+> +		}
+> +	}
+>  
+>  	xdp_attachment_setup(&emac->xdpi, bpf);
 
