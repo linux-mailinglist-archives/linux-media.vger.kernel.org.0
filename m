@@ -1,124 +1,205 @@
-Return-Path: <linux-media+bounces-41758-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41759-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86BB7B435A0
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 10:24:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7026AB435CB
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 10:33:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42478480E36
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 08:24:21 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2206F686284
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 08:33:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51E8B2C11D9;
-	Thu,  4 Sep 2025 08:24:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15EB22C11D9;
+	Thu,  4 Sep 2025 08:33:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cMaiJt+2"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="a7Oz2wp/";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="OZmivB4d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from flow-a5-smtp.messagingengine.com (flow-a5-smtp.messagingengine.com [103.168.172.140])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F43A2AE68;
-	Thu,  4 Sep 2025 08:24:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D7042BE7AB;
+	Thu,  4 Sep 2025 08:33:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.140
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756974254; cv=none; b=SOMt71IZBlXvpzMnCSw4GXRSQylk+MQn7yi8DyUN9GEExi4hmS3X8b/JK2o2MJb+o+G8N30jGw92tawxqyJ/Pgq/uFlt9ptXjtGFoeeJJ8gtSaMRrfPGfv72iuNPhpzQMMRbpCCHkPCi+l2G+igsOJ8yrIeIbU3S3MbIpejxgbc=
+	t=1756974793; cv=none; b=kaHnrTlmNra2ksSUHnwlA85qm8g8SDASA+SfuDJZYoRZhZS/bPJXbH4MyGvjdU3RGN9fbNfT6k7yXrf8z2rDR2Wu3WTCneG8XoZ3KhCZwln99TAUdUYHTgzhZMozHnl1rhx/taInVUGNJlooBFoFFnBpZYwH/h4TsztrIXrzwZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756974254; c=relaxed/simple;
-	bh=a9LPPP3Jqp0CkgRLiN9BRA0xBNTVwaijfZKvGiivozA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LYBJ7OddktmuBvbkL9eL37tn6DT+5b6WRH5K//QkX6XKLjhSF+Ogw1OFR48ANLVkenceDuJqsgEQxvEmSnV+B28EQPbh103yAq3EeUCV3BbqKXleRfby8Rgqx2BZ3Yso5Cw9LKk3EfOq5c/obo/1XF9tOGwS+57rZjPAXqdYviE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cMaiJt+2; arc=none smtp.client-ip=209.85.167.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-55f7ad815ceso835724e87.3;
-        Thu, 04 Sep 2025 01:24:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1756974251; x=1757579051; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=KsZU/Z0686kZr73L0uRE+CVL67RZQ/oBdg4VrSudCyg=;
-        b=cMaiJt+28KojiSS6T/MU9g4ETWkPxGvLFK41rs8fyGPto62ha+UQAKlOp2ddXSE/4K
-         6AsfzgSI/c0F750enmphlvbUyLVOjYoI8eVdkfG27+jMNC490a9hdKingfgou+9mbfQN
-         fir+JSkB611RJc0EmxQdxHbYNNoI/7qNVFOQ0X7ff8KGOwqh0MvkEGxd13t4n2hc+3tC
-         txwFkeKw3mdEtUKUl8SjDzI4ap9k+wkoVpmYsYTHQeNDGfHTwuEnhsCyle2EihPaDTwe
-         OeCAQrEyIiPgS2xPkdevzPMEWA84fZqZQF8U4TSdWhp+Fbl+7uNZAyPdy3/dEPwGYRPy
-         oJjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1756974251; x=1757579051;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=KsZU/Z0686kZr73L0uRE+CVL67RZQ/oBdg4VrSudCyg=;
-        b=pzkXWypvjhavweRI/Kk+JMJ042B7ungk0cdesOZt2ssEyyI97AD9cIlxln4MXY3qKV
-         6c76v5lecD/UBXLDNpnErQtSB84VvzolyfDAz8XQ7bxhRYC7LYq1zYDaCiSwSYsyk6g+
-         2U5zz2gIhXEA+L4Jq+NcDw5PZN2A4KsuVwPnnxrBX0FBdpByTnJlmYPeAfLQjrZXa3JI
-         df3VYQNOdDXfS2EIgBTSIer+M9qr11vmj/qpt3rtRA7KPwEqVLnAjANf+bYzkoZ2y543
-         1hpDIkhdVSfr1QSVuiRZpvYR8gLZCXrGUpRbkascCfV1BykzoGnR8eJ4KHEDQfeEpxKJ
-         AV5Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUIArOZk8b8EF3ZE1V558Smkb5j865TBolENWsY6eLS2xtlaZ0iyDUDIJBuuJFccgr9p8vX6eFEpK9Bj7o=@vger.kernel.org, AJvYcCXmxtRGWc0BYljSQV663e1H7SZ7te/Cf7D322ooOSkxr9mK/sXEtk42oHoZKhkNJ0VAbX9AIwKMeQ7HlE0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzf9OXpgdJpoBvGnttBCJwFPoM8oKt7x9AQY0GLpjfNZ+kOF92u
-	QVSCR5jBAxSF/NKZoUUD9kmt6ZJa9D8/OLT4ahhrVVe6A4vEFDqIzrJf3eJ+7g==
-X-Gm-Gg: ASbGncsUhOkFwYO1/5mjlCjbhynclzoIcdtC65FRn0NGZdfIYro+Ni5sQZ3+tvrcubh
-	UUzjgfXeZbR045LjPm9Qm2Kdiah+nRqS8j3GFLqpuSfifN93NE3ktcw9MlFGX7lCs5CvyMnby6l
-	bBhXUURKe13t19HC5M9dNuGh2vowgLOA+QEc8AbqVy66EBXh8jZx2kP1RaYKEx8POMS0fTFjy4U
-	KoaDhgHukO1YP2hqRnpYXA2uo+xnZ3IwEjURzOKT5ByA243ug8M/FBfkJoW4ocqHL4H0+fmm8gM
-	W/2t7afjIj/Wgo6ur9jD3kGT4zT3iDvzYJaTofP+CLuoqWdZqlWrQetlLv0MFmP2nzEVJsmDY6z
-	RzbbbH58j8+PrfDeEQWQFctf1v5/v68zzlUUr7BX3ZUQ=
-X-Google-Smtp-Source: AGHT+IE2FO2kHU7ApX80XmGPiRU8lkDmV+Q0djLsWnwr3Nk3JV5C5f2RVdS4OKx1AsOWgx/XpUwe9w==
-X-Received: by 2002:a05:6512:448e:b0:55f:6adb:b867 with SMTP id 2adb3069b0e04-55f709bdb50mr4607478e87.45.1756974250709;
-        Thu, 04 Sep 2025 01:24:10 -0700 (PDT)
-Received: from foxbook (bhe29.neoplus.adsl.tpnet.pl. [83.28.94.29])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5608ad2e35esm1023344e87.132.2025.09.04.01.24.09
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Thu, 04 Sep 2025 01:24:10 -0700 (PDT)
-Date: Thu, 4 Sep 2025 10:24:05 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Ricardo Ribalda <ribalda@chromium.org>, Laurent Pinchart
- <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: uvcvideo: Shorten the transfer size non
- compliance message
-Message-ID: <20250904102405.3109bfa6.michal.pecio@gmail.com>
-In-Reply-To: <CANiDSCuwHo_wLqVwPj8VHmNAgZw6gyq4zxoapvGxDwnb0tfkxA@mail.gmail.com>
-References: <20250904081429.592e439f.michal.pecio@gmail.com>
-	<CANiDSCuwHo_wLqVwPj8VHmNAgZw6gyq4zxoapvGxDwnb0tfkxA@mail.gmail.com>
+	s=arc-20240116; t=1756974793; c=relaxed/simple;
+	bh=QMc156WtoSHwoqi/fQG9Zopo7d5WjIyJWFRe9bvzkjU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kvldXcFlbovTaXCAGts33vMMyDwsz70ugojNgnG7z1zyfOoPeC5jG2RNylfHksTfkaEALiEYAIWtoCytIJdfxtYyb2eGg4EpfARHG0tfYtFxCH4Pw5OmtLQ+4IMxMqW/xdKo2hgD8yrwLhMRfI2P6vRUnZqSv+wpIBmv+RVZxUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=a7Oz2wp/; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=OZmivB4d; arc=none smtp.client-ip=103.168.172.140
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
+Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
+	by mailflow.phl.internal (Postfix) with ESMTP id 22471138007E;
+	Thu,  4 Sep 2025 04:33:10 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-03.internal (MEProxy); Thu, 04 Sep 2025 04:33:10 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1756974790;
+	 x=1756981990; bh=Ge3LWeRDjf/4/fWFaTRcCNOOaVH7hBOVvV6LtBvwLVs=; b=
+	a7Oz2wp/Lr6CCXTbEtXTQEqdnaTzqhuXeg5oAOW0OYoOq1/zLlt26Alb1NclkU7G
+	AQWNVACneUSVnPLAogLUlJI4WM28+ZygiP9zvCK2KvaR1ajJVE8CuDPO+Htreelz
+	xmPCRnIXUw6IZgZQaxS+Ei8LZWfFwC/3SjkgHYpmCAIz5u/2W+cw9B7qk4A6gfpW
+	XD8cSQ1Vi4FFVoum1ZoBcitQwW4jiAhpMr2GKowGyDcZ+s7jpIBrkvZcGTEDwFpF
+	rmg+lUlYJd28kq+1WC5BS0oTgWHQNWOFzZCQL6xDS7WFkRKl8wfHTRn4bb3jZ6QD
+	ixauGULjU5XMHY0PY5fhYg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1756974790; x=
+	1756981990; bh=Ge3LWeRDjf/4/fWFaTRcCNOOaVH7hBOVvV6LtBvwLVs=; b=O
+	ZmivB4dwZfPVlmHBopD+QagJYu9aK0XzRL3SxwQeOZGC2hMB4If2zUlcHc6dOiQI
+	o8K0O9QjMJ2oI2bHgfpPsDCFkGohRoYEgi+6HUwlMVimXDlBWvBDqrLppu0mk6D1
+	0WWKSykTDHxRCEeNyGo00zPQ4xj64H9eiJIYZDfxWof7bFTy0seHDLPQeZubzxvT
+	Kgysk65/vgvI99FEmEQXIRJZ73AkhfnjEQFN9Eux+Zad8n3aKJYH3fIIYmCG9Gfl
+	yl0CSRSv2ANx3TcFFGd4Pdw7ZYcQQwZT3DjN6I4amQBhD9qQ8LmL8ThRnFCsaDtA
+	SXzkVhQHqWZU5jOr1RvxA==
+X-ME-Sender: <xms:xE65aGfSXTWUUuxu7iDfpgGuvPVwRuT1NKP-HzqqVOT5onUvr5-KtA>
+    <xme:xE65aDsFsbNHLZcT0zJQ0PWoDLlG0dDtdX_-UR_uA0xEyN1qE8PvrLDq5PS3lFzjl
+    R90s63gER2kDbukHYc>
+X-ME-Received: <xmr:xE65aADjh086tO-IuSzPWv7R1qNG5Z3zGVzswPyP5yNyufUj_Qe3j342lkCqxyoJ7TaTmpyucnlriRybyObqo1LIUU6jbei_Jg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdehheehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceurghi
+    lhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurh
+    epfffhvfevuffkfhggtggugfgjsehtkeertddttdejnecuhfhrohhmpefpihhklhgrshcu
+    ufpnuggvrhhluhhnugcuoehnihhklhgrshdrshhouggvrhhluhhnugdorhgvnhgvshgrsh
+    esrhgrghhnrghtvggthhdrshgvqeenucggtffrrghtthgvrhhnpeefhfellefhffejgfef
+    udfggeejlefhveehieekhfeulefgtdefueehffdtvdelieenucevlhhushhtvghrufhiii
+    gvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnihhklhgrshdrshhouggvrhhluhhn
+    ugdorhgvnhgvshgrshesrhgrghhnrghtvggthhdrshgvpdhnsggprhgtphhtthhopedvvd
+    dpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepihhsrggrtgdrshgtohhtthesihgu
+    vggrshhonhgsohgrrhgurdgtohhmpdhrtghpthhtoheplhgruhhrvghnthdrphhinhgthh
+    grrhhtsehiuggvrghsohhnsghorghrugdrtghomhdprhgtphhtthhopehrmhhfrhhfshes
+    ghhmrghilhdrtghomhdprhgtphhtthhopehmrghrthhinhhksehpohhsthgvohdruggvpd
+    hrtghpthhtohepkhgvrhhnvghlsehpuhhrihdrshhmpdhrtghpthhtohepmhgthhgvhhgr
+    sgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepshhhrgifnhhguhhosehkvghrnhgvlh
+    drohhrghdprhgtphhtthhopehsrdhhrghuvghrsehpvghnghhuthhrohhnihigrdguvgdp
+    rhgtphhtthhopehkvghrnhgvlhesphgvnhhguhhtrhhonhhigidruggv
+X-ME-Proxy: <xmx:xE65aGxDyAQ6_yrAXEMOTPSgYThOClOvGXdEEO1oug1sNJvkY_PrLQ>
+    <xmx:xE65aHKwuMdz-ly42WbDA4PFvkqJkKfobcOSyKJ4ft4Ca_khjrum-Q>
+    <xmx:xE65aF6dbdUYkHURtEB47_QbLsMA0ynfFfnxWShE4MiwUDuq4PzYLg>
+    <xmx:xE65aOlEWf7Rr4n6CKQSb4nafNMcjineDvT8anmeS6WBpe0nRKenYw>
+    <xmx:xk65aJmNvrPwa1r7bi4tEiJzKLtX8i2tvdZALOj_b44Gnn7pTqJIgwKx>
+Feedback-ID: i80c9496c:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
+ 4 Sep 2025 04:33:07 -0400 (EDT)
+Date: Thu, 4 Sep 2025 10:33:05 +0200
+From: Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
+To: Isaac Scott <isaac.scott@ideasonboard.com>
+Cc: laurent.pinchart@ideasonboard.com, rmfrfs@gmail.com, martink@posteo.de,
+	kernel@puri.sm, mchehab@kernel.org, shawnguo@kernel.org,
+	s.hauer@pengutronix.de, kernel@pengutronix.de, festevam@gmail.com,
+	linux-media@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	hverkuil@kernel.org, nicolas.dufresne@collabora.com,
+	sakari.ailus@linux.intel.com, tomi.valkeinen@ideasonboard.com,
+	jonas@kwiboo.se, dan.scally+renesas@ideasonboard.com,
+	m.szyprowski@samsung.com, mehdi.djait@linux.intel.com
+Subject: Re: [PATCH v2 1/3] media: v4l: Add helper to get number of active
+ lanes via a pad
+Message-ID: <20250904083305.GB1207681@ragnatech.se>
+References: <20250903102243.1563527-1-isaac.scott@ideasonboard.com>
+ <20250903102243.1563527-2-isaac.scott@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250903102243.1563527-2-isaac.scott@ideasonboard.com>
 
-On Thu, 4 Sep 2025 09:20:31 +0200, Ricardo Ribalda wrote:
-> Hi Michal
+Hi Issac,
+
+Thanks for your work.
+
+On 2025-09-03 11:22:40 +0100, Isaac Scott wrote:
+> Sometimes, users will not use all of the MIPI CSI 2 lanes available when
+> connecting to the MIPI CSI receiver of their device. Add a helper
+> function that checks the mbus_config for the device driver to allow
+> users to define the number of active data lanes through the
+> get_mbus_config op.
 > 
-> I like the new writing :)
+> If the driver does not implement this op, fall back to using the number
+> of data lanes specified in device tree.
 > 
-> On Thu, 4 Sept 2025 at 08:14, Michal Pecio <michal.pecio@gmail.com> wrote:
-> >
-> > This message is much longer than others and doesn't fit even in a 160
-> > column window when printed, despite providing little real information.
-> >
-> > Also replace 'transmission' with 'transfer' because that's the actual
-> > name and 'max packet' with 'limit' because it isn't same thing with
-> > isochronus endpoints. Remove cryptic abbreviations like 'ep'.
-> >  
-> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-common.c | 25 +++++++++++++++++++++++++
+>  include/media/v4l2-common.h           |  1 +
+>  2 files changed, 26 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index 6e585bc76367..8683107b3704 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -571,6 +571,31 @@ s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+>  	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+>  }
+>  EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
+> +
+> +unsigned int v4l2_get_active_data_lanes(const struct media_pad *pad, unsigned int dt_lanes)
+> +{
+> +	struct v4l2_mbus_config mbus_config = {};
+> +	struct v4l2_subdev *sd;
+> +	unsigned int lanes;
+> +	int ret;
+> +
+> +	sd = media_entity_to_v4l2_subdev(pad->entity);
+> +	ret = v4l2_subdev_call(sd, pad, get_mbus_config, pad->index,
+> +			       &mbus_config);
+> +	if (ret < 0 && ret != -ENOIOCTLCMD)
+> +		return ret;
 
-Thank you.
+The function prototype is 'unsigned int' and here you return a signed 
+value here.
 
-On second thought, I'm not sure if those brackets look good here:
+> +
 
-[ 2410.688715] uvcvideo 11-1:1.1: UVC non compliance: Reducing max payload transfer size (32764) to fit endpoint limit (20480).
+Maybe add a comment here that this check depends on mbus_config being 
+zeroed at init if the call above pass with -ENOIOCTLCMD? It's not 
+immediately clear what is going on here even tho the code is clever ;-)
 
-but I sent the patch already. If you think it would be better without
-them, please feel free to tweak the patch or ask for v2. If not, meh.
+> +	if (!mbus_config.bus.mipi_csi2.num_data_lanes)
+> +		return dt_lanes;
+> +
+> +	lanes = mbus_config.bus.mipi_csi2.num_data_lanes;
+> +
+> +	if (lanes < 0 || lanes > dt_lanes)
+> +		return -EINVAL;
+> +
+> +	return lanes;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_get_active_data_lanes);
+>  #endif /* CONFIG_MEDIA_CONTROLLER */
+>  
+>  /*
+> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+> index 0a43f56578bc..3f8937260c76 100644
+> --- a/include/media/v4l2-common.h
+> +++ b/include/media/v4l2-common.h
+> @@ -584,6 +584,7 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
+>  	(pad, mul, div)
+>  s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+>  			     unsigned int div);
+> +unsigned int v4l2_get_active_data_lanes(const struct media_pad *pad, unsigned int dt_lanes);
+>  #else
+>  #define v4l2_get_link_freq(handler, mul, div)		\
+>  	__v4l2_get_link_freq_ctrl(handler, mul, div)
+> -- 
+> 2.43.0
+> 
 
-Regards,
-Michal
+-- 
+Kind Regards,
+Niklas Söderlund
 
