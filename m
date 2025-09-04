@@ -1,234 +1,270 @@
-Return-Path: <linux-media+bounces-41770-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41771-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0311EB43BC2
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 14:37:29 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7AC63B43BF8
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 14:45:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AC76EA00088
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 12:37:27 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 28ED916F74A
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 12:45:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B68C2FF673;
-	Thu,  4 Sep 2025 12:36:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B29BF2FCC10;
+	Thu,  4 Sep 2025 12:45:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Y+KDlRhR"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="RDt3K1CF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6380F2F4A06
-	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 12:36:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 128C61E4AE
+	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 12:45:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756989372; cv=none; b=WihLfHHO+oTlYPKP2sOxCb4+YHnJ879XEQwV3VfeSZ6x+lxcc3OT0qEZqgnIw/6EsP4EM3f/wNZyIqDQqlwypGOz7XHGmgnX0vIYRMz1J64bxCfea8Tt9BLP1m5a31+NYf3lHnaJgQU0f5kfI+E9qN60V0arcE5YdNwIfzWwijo=
+	t=1756989936; cv=none; b=VHN5x45LRcgBDRruj0Jj4v2H7s+h4xt0W1PHAgp/NcGhecVFTI8VtRF2UzS4+yqMwm1vbkPMdZwPuRndsF6+oOXtL/xsEDKkY4v03hT5SFQqQ8QgecTxNVnaM2nxnMeXRf0PAAWNG4Ta8GSOtpcU9eIlQRzFYUYWfehkkexWjFg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756989372; c=relaxed/simple;
-	bh=EOS/6zEAAb3zRMjBAB/SaTn6fBz48FB5QgIuG3xWAOw=;
+	s=arc-20240116; t=1756989936; c=relaxed/simple;
+	bh=y6h7WC8krLg+71mS2lYQcwHjHiD1f22ZYGOAeRwYrb4=;
 	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=q1fjRnH2b1iLlTPXlvQT037SAepvmoKwN6LuaG8jJ8TE7EKcJ9L0TjrhG08FlfU4tpE9ZAfAID5QO5N27eOXCITWE2AALDfFglTqqhxN07IXjEdVWQCqiXzdyGwBsVU+twibExQ2GaFU3OTecSoLHrEoHMHjiFxdg66wV0pBQKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Y+KDlRhR; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1756989368;
-	bh=EOS/6zEAAb3zRMjBAB/SaTn6fBz48FB5QgIuG3xWAOw=;
-	h=Subject:From:To:Date:In-Reply-To:References:From;
-	b=Y+KDlRhRGPhCdbQUyUPXzl8n5YTOl9FMqJ+iS7psmipIBf5l1SI/h9bxGMnXkVkH8
-	 yMAZ/UlePIzLUrCe1YeShmjoch8HjnKTkIndiMNROg5KqM+eGkL7KgO7A7bjl4NlP4
-	 3z5V1Rc/Ht3gK5zKQqmRE5kii6ZmTf4JHLF/k5FgvC+QLqVC6hG0kYDIaNThSXYmXa
-	 aZ8b7t9I+fgcCvAt17jxxu1nooLxXvOrMzw4wUPlk115rVyJC0QRUW7RBvSRobfASK
-	 Si09PJ5mVg5ewXi4K1t5eTuIUsHeD6k72I+8fp2rLSYDAhUYkaeXJDpFptxHWEFkxG
-	 2Iq4htQEUrIKg==
-Received: from [IPv6:2606:6d00:11:5a76::5ac] (unknown [IPv6:2606:6d00:11:5a76::5ac])
+	 Content-Type:MIME-Version; b=NM2MjZkdGmQlO9LlIrUbPVBTW4t+cpkyPslWsktDzMD2eFJqZ/oZv7z0if8DEZpMlio6ePC1h6MCMaxamlSPWZOkP1/uvlVmPBsuvVcHS0ik3BPruqYHoMmuPfvUN06b2SQUwCLya0XwggfMzDdAfloid6dq8px5w/2jWvOv+5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=RDt3K1CF; arc=none smtp.client-ip=80.241.56.161
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 171A817E00A6;
-	Thu,  4 Sep 2025 14:36:07 +0200 (CEST)
-Message-ID: <ba96a0168da7df58b7f27377f48d259d4c6495c4.camel@collabora.com>
-Subject: Re: [GIT PULL FOR 6.18] Media Codec Fixes 2025-09-03
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org
-Date: Thu, 04 Sep 2025 08:36:05 -0400
-In-Reply-To: <18806e61-3890-4d2d-9740-a1aee00d6884@kernel.org>
-References: <dd469ea1001160b5cf7b7bf4f44dfdda8d2d27ce.camel@collabora.com>
-	 <18806e61-3890-4d2d-9740-a1aee00d6884@kernel.org>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-60TTso7ArabOZCHzjAeo"
-User-Agent: Evolution 3.56.2 (3.56.2-1.fc42) 
+	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4cHfMs237Tz9tdB;
+	Thu,  4 Sep 2025 14:45:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1756989929; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7cw5SlezJWkD9vH4s5x2Q9sfM/T9DczJB5/DrhIxAxM=;
+	b=RDt3K1CFKib5cOnL+kd4amKsRNrF43xl7nF+IomYrmqtsEdP7x7UD7Sp7e+0/FEr6hOsiK
+	nXM4aL8kqjmNQXj1IRFm+61pKuNi089hwn2vsiWOUp21QiEV5Zf8t1SdpuBIfeJgBHgb74
+	22zMve8a6qF45kqnIwGbJcxu10d1qAOyrr8+jBW4m10/vExayKHfwuxbbqXmiY3A6yDkJB
+	krBS1TD3ShW5XcdjbDHAGBRh64KhKXDRroCLD8cVe6vDT1HQyiPtsLvSkYg3ms3JIOzhZh
+	Uv6fTphk53jXfqkTpw+yMs8zKsK2iMcohS8/AkY4AZIN04j75lPRFEGW5A4LeA==
+Message-ID: <b6c09af972e7d4a9cb1c9d6621f77f923c3a8a56.camel@mailbox.org>
+Subject: Re: [PATCH 2/2] dma-buf: add warning when dma_fence is signaled
+ from IOCTL
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Christian =?ISO-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>, 
+	simona.vetter@ffwll.ch, tvrtko.ursulin@igalia.com, airlied@gmail.com, 
+	dakr@kernel.org, sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org
+Date: Thu, 04 Sep 2025 14:45:25 +0200
+In-Reply-To: <20250812143402.8619-2-christian.koenig@amd.com>
+References: <20250812143402.8619-1-christian.koenig@amd.com>
+	 <20250812143402.8619-2-christian.koenig@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MBO-RS-META: iswzzsxdww7z5h9gisg9sxxgd37yb7gs
+X-MBO-RS-ID: d86d65c433cca0c4a77
 
-
---=-60TTso7ArabOZCHzjAeo
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-Hi Hans,
-
-Le jeudi 04 septembre 2025 =C3=A0 10:39 +0200, Hans Verkuil a =C3=A9crit=C2=
-=A0:
-> On 03/09/2025 21:05, Nicolas Dufresne wrote:
-> > Hey Mauro, Hans,
-> >=20
-> > I collected the easy stuff I had in queue, so we have code clean and ju=
-st one
-> > fix for the MT8188 MDP3 M2M driver.
-> >=20
-> > cheers,
-> > Nicolas
-> >=20
-> > ---
-> >=20
-> > The following changes since commit 603957ae903e81fb80d3788297c0f58a6880=
-2dfc:
-> >=20
-> > =C2=A0 media: rkisp1: Add support for multiple power domains (2025-08-3=
-1 11:10:07 +0200)
-> >=20
-> > are available in the Git repository at:
-> >=20
-> > =C2=A0 https://gitlab.freedesktop.org/linux-media/users/ndufresne.git=
-=C2=A0tags/for-6.18-media-codecs-2025-09-03
-> >=20
-> > for you to fetch changes up to aa067d8de6e85c90a92c4281235c5cb6d7651fb5=
-:
-> >=20
-> > =C2=A0 media: uapi: v4l2-controls: Cleanup codec definitions (2025-09-0=
-3 13:08:23 -0400)
-> >=20
-> > ----------------------------------------------------------------
-> > Code cleanup and MT8188 MDP3 fix
-> >=20
-> > ----------------------------------------------------------------
-> > AngeloGioacchino Del Regno (1):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dt-bindings: media: mediatek,mt8195-jpeg=
-: Allow range number in node address
+On Tue, 2025-08-12 at 16:34 +0200, Christian K=C3=B6nig wrote:
+> From: Christian K=C3=B6nig <ckoenig@able.fritz.box>
 >=20
-> This one is missing the SoB of the devicetree maintainers. I'm dropping i=
-t from this
-> PR, but will apply the other patches.
-
-Since its bindings, DT folks don't take them. I usually wait for a Rb from
-devicetree folks, but since Angelo is Mediatek tree maintainer he really kn=
-ows
-what he's doing. The <name>@<number>,<number> instead of hex address seems
-fairly common.
-
+> We have the re-occurring problem that people try to invent a
+> DMA-fences implementation which signals fences based on an userspace
+> IOCTL.
 >=20
-> I also noticed that it wasn't delegated to ndufresne in patchwork, perhap=
-s this was
-> mistakingly added to the PR?
-
-I normally only take what I delegated to me indeed, and when I did a final
-review from my tag I didn't realized this one mas missing. I did review tha=
-t
-regex and it does what the comment says.
-
-Now I got tricked though, the DTS don't yet utilize the new form of
-jpegdec@<number>,<number>, so its not really fixing a DTS check issue, but =
-a
-check issue that would occur if this was being used.
-
-Anyway, no worries, nothing is broken, I'll ask Angelo to chase a DT mainta=
-iner
-to Rb this patch.
-
-regards,
-Nicolas
-
+> This is well known as source of hard to track down crashes and is
+> documented to be an invalid approach. The problem is that it seems
+> to work during initial testing and only long term tests points out
+> why this can never work correctly.
 >=20
-> Regards,
+> So give at least a warning when people try to signal a fence from
+> task context and not from interrupts or a work item. This check is
+> certainly not perfect but better than nothing.
 >=20
-> 	Hans
+> Signed-off-by: Christian K=C3=B6nig <ckoenig@able.fritz.box>
+> ---
+> =C2=A0drivers/dma-buf/dma-fence.c | 59 +++++++++++++++++++++++++++-------=
+---
+> =C2=A0include/linux/dma-fence.h=C2=A0=C2=A0 |=C2=A0 9 ++++--
+> =C2=A02 files changed, 51 insertions(+), 17 deletions(-)
 >=20
-> >=20
-> > Liao Yuanhong (1):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: chips-media: wave5: Remove redund=
-ant ternary operators
-> >=20
-> > Lukas Bulwahn (1):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MAINTAINERS: merge sections for ROCKCHIP=
- VIDEO DECODER DRIVER
-> >=20
-> > N=C3=ADcolas F. R. A. Prado (1):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: platform: mtk-mdp3: Add missing M=
-T8188 compatible to comp_dt_ids
-> >=20
-> > Paul Kocialkowski (3):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: verisilicon: imx8m: Use the defau=
-lt Hantro G1 irq handler
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: verisilicon: Explicitly disable s=
-election api ioctls for decoders
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: uapi: v4l2-controls: Cleanup code=
-c definitions
-> >=20
-> > =C2=A0Documentation/devicetree/bindings/media/mediatek,mt8195-jpegdec.y=
-aml |=C2=A0 2 +-
-> > =C2=A0Documentation/devicetree/bindings/media/mediatek,mt8195-jpegenc.y=
-aml |=C2=A0 2 +-
-> > =C2=A0MAINTAINERS=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 9 +=
---------
-> > =C2=A0drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 +=
--
-> > =C2=A0drivers/media/platform/mediatek/mdp3/mtk-mdp3-comp.c=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 3 +++
-> > =C2=A0drivers/media/platform/verisilicon/hantro_drv.c=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 2 ++
-> > =C2=A0drivers/media/platform/verisilicon/hantro_v4l2.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 6 ++----
-> > =C2=A0drivers/media/platform/verisilicon/imx8m_vpu_hw.c=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 20 +-------------------
-> > =C2=A0include/uapi/linux/v4l2-controls.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 | 23 +++++++++++------------
-> > =C2=A09 files changed, 23 insertions(+), 46 deletions(-)
-> >=20
-> >=20
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index 3f78c56b58dc..2bce620eacac 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -345,33 +345,23 @@ void __dma_fence_might_wait(void)
+> =C2=A0}
+> =C2=A0#endif
+> =C2=A0
+> -
+> =C2=A0/**
+> - * dma_fence_signal_timestamp_locked - signal completion of a fence
+> + * dma_fence_signal_internal - internal signal completion of a fence
+> =C2=A0 * @fence: the fence to signal
+> =C2=A0 * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC t=
+ime domain
+> =C2=A0 *
+> - * Signal completion for software callbacks on a fence, this will unbloc=
+k
+> - * dma_fence_wait() calls and run all the callbacks added with
+> - * dma_fence_add_callback(). Can be called multiple times, but since a f=
+ence
+> - * can only go from the unsignaled to the signaled state and not back, i=
+t will
+> - * only be effective the first time. Set the timestamp provided as the f=
+ence
+> - * signal timestamp.
+> - *
+> - * Unlike dma_fence_signal_timestamp(), this function must be called wit=
+h
+> - * &dma_fence.lock held.
+> + * Internal signal the dma_fence without error checking. Should *NEVER* =
+be used
+> + * by drivers or external code directly.
+> =C2=A0 *
+> =C2=A0 * Returns 0 on success and a negative error value when @fence has =
+been
+> =C2=A0 * signalled already.
+> =C2=A0 */
+> -int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+> -				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ktime_t timestamp)
+> +int dma_fence_signal_internal(struct dma_fence *fence, ktime_t timestamp=
+)
+> =C2=A0{
+> =C2=A0	struct dma_fence_cb *cur, *tmp;
+> =C2=A0	struct list_head cb_list;
+> =C2=A0
+> =C2=A0	lockdep_assert_held(fence->lock);
+> -
+> =C2=A0	if (unlikely(test_and_set_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 &fence->flags)))
+> =C2=A0		return -EINVAL;
+> @@ -390,7 +380,46 @@ int dma_fence_signal_timestamp_locked(struct dma_fen=
+ce *fence,
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0}
+> -EXPORT_SYMBOL(dma_fence_signal_timestamp_locked);
+> +EXPORT_SYMBOL(dma_fence_signal_internal);
+> +
+> +/**
+> + * dma_fence_signal_timestamp_locked - signal completion of a fence
+> + * @fence: the fence to signal
+> + * @timestamp: fence signal timestamp in kernel's CLOCK_MONOTONIC time d=
+omain
+> + *
+> + * Signal completion for software callbacks on a fence, this will unbloc=
+k
+> + * dma_fence_wait() calls and run all the callbacks added with
+> + * dma_fence_add_callback(). Can be called multiple times, but since a f=
+ence
+> + * can only go from the unsignaled to the signaled state and not back, i=
+t will
+> + * only be effective the first time. Set the timestamp provided as the f=
+ence
+> + * signal timestamp.
+> + *
+> + * Unlike dma_fence_signal_timestamp(), this function must be called wit=
+h
+> + * &dma_fence.lock held.
+> + *
+> + * Returns 0 on success and a negative error value when @fence has been
+> + * signalled already.
+> + */
+> +int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ktime_t timestamp)
+> +{
+> +	/*
+> +	 * We have the re-occurring problem that people try to invent a
+> +	 * DMA-fences implementation which signals fences based on an userspace
+> +	 * IOCTL.
+> +	 *
+> +	 * This is well known as source of hard to track down crashes and is
+> +	 * documented to be an invalid approach. The problem is that it seems
+> +	 * to work during initial testing and only long term tests points out
+> +	 * why this can never work correctly.
+> +	 *
+> +	 * So give at least a warning when people try to signal a fence from
+> +	 * task context and not from interrupts or a work item. This check is
+> +	 * certainly not perfect but better than nothing.
+> +	 */
+> +	WARN_ON_ONCE(!in_interrupt() && !current_work());
 
---=-60TTso7ArabOZCHzjAeo
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
+I only just realized that this could cause false-positive warnings
+should a driver tear down drm/sched with drm_sched_fini() plus
+drm_sched_backend_ops.cancel_job(). This signals left over dma_fences
+with an error.
 
------BEGIN PGP SIGNATURE-----
+And drm_sched_fini() doesn't usually run in work items, does it. It can
+be invoked through ioctls that destroy a channel and the associated
+scheduler, with rmmod etc.
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaLmHtQAKCRDZQZRRKWBy
-9OixAQCii5end4ZkKQ4yxESMsIWl9J2S13AdTUbglvAN3spCBgD+OBTHajA86kJB
-fEzPtZBIfDQp1u+z1hLOyADvhhod7Qg=
-=cnCS
------END PGP SIGNATURE-----
+cancel_job() is (for now) only used in the unit tests since we recently
+had to revert the usage in Nouveau (because of a different problem). I
+intend to add it back there, though; and we established cancel_job() as
+the way to deal with drm/sched's memory leaks in lengthy discussions.
 
---=-60TTso7ArabOZCHzjAeo--
+
+I think that warning should not be added. False positive warnings in
+dmesg would confuse users, cause unnecessary support tickets etc.
+
+
+P.
+
+
+> +	return dma_fence_signal_internal(fence, timestamp);
+> +}
+> =C2=A0
+> =C2=A0/**
+> =C2=A0 * dma_fence_signal_timestamp - signal completion of a fence
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index 64639e104110..8dbcd66989b8 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -369,6 +369,7 @@ int dma_fence_signal_locked(struct dma_fence *fence);
+> =C2=A0int dma_fence_signal_timestamp(struct dma_fence *fence, ktime_t tim=
+estamp);
+> =C2=A0int dma_fence_signal_timestamp_locked(struct dma_fence *fence,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ktime_t timestamp);
+> +int dma_fence_signal_internal(struct dma_fence *fence, ktime_t timestamp=
+);
+> =C2=A0signed long dma_fence_default_wait(struct dma_fence *fence,
+> =C2=A0				=C2=A0=C2=A0 bool intr, signed long timeout);
+> =C2=A0int dma_fence_add_callback(struct dma_fence *fence,
+> @@ -422,7 +423,7 @@ dma_fence_is_signaled_locked(struct dma_fence *fence)
+> =C2=A0		return true;
+> =C2=A0
+> =C2=A0	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+> -		dma_fence_signal_locked(fence);
+> +		dma_fence_signal_internal(fence, ktime_get());
+> =C2=A0		return true;
+> =C2=A0	}
+> =C2=A0
+> @@ -448,11 +449,15 @@ dma_fence_is_signaled_locked(struct dma_fence *fenc=
+e)
+> =C2=A0static inline bool
+> =C2=A0dma_fence_is_signaled(struct dma_fence *fence)
+> =C2=A0{
+> +	unsigned long flags;
+> +
+> =C2=A0	if (test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
+> =C2=A0		return true;
+> =C2=A0
+> =C2=A0	if (fence->ops->signaled && fence->ops->signaled(fence)) {
+> -		dma_fence_signal(fence);
+> +		spin_lock_irqsave(fence->lock, flags);
+> +		dma_fence_signal_internal(fence, ktime_get());
+> +		spin_unlock_irqrestore(fence->lock, flags);
+> =C2=A0		return true;
+> =C2=A0	}
+> =C2=A0
+
 
