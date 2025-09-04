@@ -1,97 +1,124 @@
-Return-Path: <linux-media+bounces-41757-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41758-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E6FC1B43599
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 10:23:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 86BB7B435A0
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 10:24:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 621527B3C17
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 08:21:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 42478480E36
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 08:24:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1388F2C11D9;
-	Thu,  4 Sep 2025 08:23:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51E8B2C11D9;
+	Thu,  4 Sep 2025 08:24:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cMaiJt+2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
-	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
+Received: from mail-lf1-f43.google.com (mail-lf1-f43.google.com [209.85.167.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCE692AE68
-	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 08:23:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F43A2AE68;
+	Thu,  4 Sep 2025 08:24:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756974193; cv=none; b=Q/gZMwtSu0lesrM41OxF9t+wL7DDdBkl/ADngHzRfDdXRWcljUEy/LWepXq/vj3DEYdHdqf5Imo3D7IZt7P8XZX3e5bNuQUAjbKDgMmuYfmtwCfxanGy9JxCuUrxrHhA13/biws5msDFNMw4yIHpTJhJNKnQUSeGylxFFf2BVZ8=
+	t=1756974254; cv=none; b=SOMt71IZBlXvpzMnCSw4GXRSQylk+MQn7yi8DyUN9GEExi4hmS3X8b/JK2o2MJb+o+G8N30jGw92tawxqyJ/Pgq/uFlt9ptXjtGFoeeJJ8gtSaMRrfPGfv72iuNPhpzQMMRbpCCHkPCi+l2G+igsOJ8yrIeIbU3S3MbIpejxgbc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756974193; c=relaxed/simple;
-	bh=0NXMQ43EVDbunJXI34RVxh2iWxPVfn9f3E0EIWXfkio=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HLYq2vTk1wKHlpyHsMt0XBTSh6mwVnTlUbwgXQX25ogPvZFk4eA0eayCA18fLmHerQQLVtwFI8oijJIFFxDBHg36MfJuBYFVow5urcbaBWjN1Rd/TVguGCdlc/CsIjsWzPXlrUN/gKpbmNjLIpd7ByLUs4mhae8poF1R6mI+mDM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iie.ac.cn; spf=pass smtp.mailfrom=iie.ac.cn; arc=none smtp.client-ip=159.226.251.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iie.ac.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iie.ac.cn
-Received: from localhost.localdomain (unknown [159.226.95.28])
-	by APP-05 (Coremail) with SMTP id zQCowADniBJZTLlodVx8AA--.18339S2;
-	Thu, 04 Sep 2025 16:22:51 +0800 (CST)
-From: Chen Yufeng <chenyufeng@iie.ac.cn>
-To: mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	Chen Yufeng <chenyufeng@iie.ac.cn>
-Subject: [PATCH] media: prevent memory leak in cx25840_ir_probe
-Date: Thu,  4 Sep 2025 16:22:22 +0800
-Message-ID: <20250904082222.928-1-chenyufeng@iie.ac.cn>
-X-Mailer: git-send-email 2.43.0.windows.1
+	s=arc-20240116; t=1756974254; c=relaxed/simple;
+	bh=a9LPPP3Jqp0CkgRLiN9BRA0xBNTVwaijfZKvGiivozA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LYBJ7OddktmuBvbkL9eL37tn6DT+5b6WRH5K//QkX6XKLjhSF+Ogw1OFR48ANLVkenceDuJqsgEQxvEmSnV+B28EQPbh103yAq3EeUCV3BbqKXleRfby8Rgqx2BZ3Yso5Cw9LKk3EfOq5c/obo/1XF9tOGwS+57rZjPAXqdYviE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cMaiJt+2; arc=none smtp.client-ip=209.85.167.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f43.google.com with SMTP id 2adb3069b0e04-55f7ad815ceso835724e87.3;
+        Thu, 04 Sep 2025 01:24:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1756974251; x=1757579051; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=KsZU/Z0686kZr73L0uRE+CVL67RZQ/oBdg4VrSudCyg=;
+        b=cMaiJt+28KojiSS6T/MU9g4ETWkPxGvLFK41rs8fyGPto62ha+UQAKlOp2ddXSE/4K
+         6AsfzgSI/c0F750enmphlvbUyLVOjYoI8eVdkfG27+jMNC490a9hdKingfgou+9mbfQN
+         fir+JSkB611RJc0EmxQdxHbYNNoI/7qNVFOQ0X7ff8KGOwqh0MvkEGxd13t4n2hc+3tC
+         txwFkeKw3mdEtUKUl8SjDzI4ap9k+wkoVpmYsYTHQeNDGfHTwuEnhsCyle2EihPaDTwe
+         OeCAQrEyIiPgS2xPkdevzPMEWA84fZqZQF8U4TSdWhp+Fbl+7uNZAyPdy3/dEPwGYRPy
+         oJjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1756974251; x=1757579051;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=KsZU/Z0686kZr73L0uRE+CVL67RZQ/oBdg4VrSudCyg=;
+        b=pzkXWypvjhavweRI/Kk+JMJ042B7ungk0cdesOZt2ssEyyI97AD9cIlxln4MXY3qKV
+         6c76v5lecD/UBXLDNpnErQtSB84VvzolyfDAz8XQ7bxhRYC7LYq1zYDaCiSwSYsyk6g+
+         2U5zz2gIhXEA+L4Jq+NcDw5PZN2A4KsuVwPnnxrBX0FBdpByTnJlmYPeAfLQjrZXa3JI
+         df3VYQNOdDXfS2EIgBTSIer+M9qr11vmj/qpt3rtRA7KPwEqVLnAjANf+bYzkoZ2y543
+         1hpDIkhdVSfr1QSVuiRZpvYR8gLZCXrGUpRbkascCfV1BykzoGnR8eJ4KHEDQfeEpxKJ
+         AV5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUIArOZk8b8EF3ZE1V558Smkb5j865TBolENWsY6eLS2xtlaZ0iyDUDIJBuuJFccgr9p8vX6eFEpK9Bj7o=@vger.kernel.org, AJvYcCXmxtRGWc0BYljSQV663e1H7SZ7te/Cf7D322ooOSkxr9mK/sXEtk42oHoZKhkNJ0VAbX9AIwKMeQ7HlE0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzf9OXpgdJpoBvGnttBCJwFPoM8oKt7x9AQY0GLpjfNZ+kOF92u
+	QVSCR5jBAxSF/NKZoUUD9kmt6ZJa9D8/OLT4ahhrVVe6A4vEFDqIzrJf3eJ+7g==
+X-Gm-Gg: ASbGncsUhOkFwYO1/5mjlCjbhynclzoIcdtC65FRn0NGZdfIYro+Ni5sQZ3+tvrcubh
+	UUzjgfXeZbR045LjPm9Qm2Kdiah+nRqS8j3GFLqpuSfifN93NE3ktcw9MlFGX7lCs5CvyMnby6l
+	bBhXUURKe13t19HC5M9dNuGh2vowgLOA+QEc8AbqVy66EBXh8jZx2kP1RaYKEx8POMS0fTFjy4U
+	KoaDhgHukO1YP2hqRnpYXA2uo+xnZ3IwEjURzOKT5ByA243ug8M/FBfkJoW4ocqHL4H0+fmm8gM
+	W/2t7afjIj/Wgo6ur9jD3kGT4zT3iDvzYJaTofP+CLuoqWdZqlWrQetlLv0MFmP2nzEVJsmDY6z
+	RzbbbH58j8+PrfDeEQWQFctf1v5/v68zzlUUr7BX3ZUQ=
+X-Google-Smtp-Source: AGHT+IE2FO2kHU7ApX80XmGPiRU8lkDmV+Q0djLsWnwr3Nk3JV5C5f2RVdS4OKx1AsOWgx/XpUwe9w==
+X-Received: by 2002:a05:6512:448e:b0:55f:6adb:b867 with SMTP id 2adb3069b0e04-55f709bdb50mr4607478e87.45.1756974250709;
+        Thu, 04 Sep 2025 01:24:10 -0700 (PDT)
+Received: from foxbook (bhe29.neoplus.adsl.tpnet.pl. [83.28.94.29])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5608ad2e35esm1023344e87.132.2025.09.04.01.24.09
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Thu, 04 Sep 2025 01:24:10 -0700 (PDT)
+Date: Thu, 4 Sep 2025 10:24:05 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Ricardo Ribalda <ribalda@chromium.org>, Laurent Pinchart
+ <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Shorten the transfer size non
+ compliance message
+Message-ID: <20250904102405.3109bfa6.michal.pecio@gmail.com>
+In-Reply-To: <CANiDSCuwHo_wLqVwPj8VHmNAgZw6gyq4zxoapvGxDwnb0tfkxA@mail.gmail.com>
+References: <20250904081429.592e439f.michal.pecio@gmail.com>
+	<CANiDSCuwHo_wLqVwPj8VHmNAgZw6gyq4zxoapvGxDwnb0tfkxA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:zQCowADniBJZTLlodVx8AA--.18339S2
-X-Coremail-Antispam: 1UD129KBjvdXoW7JrWkAw13Wr13ZF15Jr47urg_yoWDXwcE93
-	4UXrW7WrWUKFs8K3W0kr4rZa4FyFZ8KF48XFnIq343AryFv3s7Za9rZ343Ww4UuFW09F1r
-	KFn3uFy7Kws2yjkaLaAFLSUrUUUUjb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUIcSsGvfJTRUUUb2kFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2IYs7xG
-	6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48ve4kI8w
-	A2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI0_Gr0_
-	Cr1l84ACjcxK6I8E87Iv67AKxVWxJr0_GcWl84ACjcxK6I8E87Iv6xkF7I0E14v26rxl6s
-	0DM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xII
-	jxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr
-	1lF7xvr2IYc2Ij64vIr41lF7I21c0EjII2zVCS5cI20VAGYxC7MxkIecxEwVAFwVW8ZwCF
-	04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E14v26r1j6r
-	18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jrv_JF1lIxkGc2Ij64vI
-	r41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Jr0_Gr
-	1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvE
-	x4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUjxR65UUUUU==
-X-CM-SenderInfo: xfkh05xxih0wo6llvhldfou0/1tbiDAYPEmi5BtD1ggAAsn
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-In cx25840_ir_probe if kfifo_alloc fails the allocated memory for ir_state
-should be released.
+On Thu, 4 Sep 2025 09:20:31 +0200, Ricardo Ribalda wrote:
+> Hi Michal
+> 
+> I like the new writing :)
+> 
+> On Thu, 4 Sept 2025 at 08:14, Michal Pecio <michal.pecio@gmail.com> wrote:
+> >
+> > This message is much longer than others and doesn't fit even in a 160
+> > column window when printed, despite providing little real information.
+> >
+> > Also replace 'transmission' with 'transfer' because that's the actual
+> > name and 'max packet' with 'limit' because it isn't same thing with
+> > isochronus endpoints. Remove cryptic abbreviations like 'ep'.
+> >  
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
 
-A patch similar to commit a7b2df76b42b ("media: rc: prevent memory leak in 
-cx23888_ir_probe").
+Thank you.
 
-Signed-off-by: Chen Yufeng <chenyufeng@iie.ac.cn>
----
- drivers/media/i2c/cx25840/cx25840-ir.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+On second thought, I'm not sure if those brackets look good here:
 
-diff --git a/drivers/media/i2c/cx25840/cx25840-ir.c b/drivers/media/i2c/cx25840/cx25840-ir.c
-index 8cef9656c612..ee80867755e5 100644
---- a/drivers/media/i2c/cx25840/cx25840-ir.c
-+++ b/drivers/media/i2c/cx25840/cx25840-ir.c
-@@ -1199,8 +1199,10 @@ int cx25840_ir_probe(struct v4l2_subdev *sd)
- 
- 	spin_lock_init(&ir_state->rx_kfifo_lock);
- 	if (kfifo_alloc(&ir_state->rx_kfifo,
--			CX25840_IR_RX_KFIFO_SIZE, GFP_KERNEL))
-+			CX25840_IR_RX_KFIFO_SIZE, GFP_KERNEL)) {
-+		devm_kfree(&state->c->dev, ir_state);
- 		return -ENOMEM;
-+	}
- 
- 	ir_state->c = state->c;
- 	state->ir_state = ir_state;
--- 
-2.34.1
+[ 2410.688715] uvcvideo 11-1:1.1: UVC non compliance: Reducing max payload transfer size (32764) to fit endpoint limit (20480).
 
+but I sent the patch already. If you think it would be better without
+them, please feel free to tweak the patch or ask for v2. If not, meh.
+
+Regards,
+Michal
 
