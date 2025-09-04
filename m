@@ -1,124 +1,105 @@
-Return-Path: <linux-media+bounces-41787-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41788-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 589ADB4462D
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 21:10:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75A9EB4464E
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 21:23:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 4920A7BAFF0
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 19:08:58 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id E03867B0B96
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 19:21:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B339326A0DB;
-	Thu,  4 Sep 2025 19:10:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CADB62727F0;
+	Thu,  4 Sep 2025 19:22:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="KrgrQzzH"
+	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="0KD8ErqY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f41.google.com (mail-ej1-f41.google.com [209.85.218.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E554D599;
-	Thu,  4 Sep 2025 19:10:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757013025; cv=pass; b=GBEeIFxP/1XTIEEO4OyLiVnYtZYLecPCRbX9DD4WTw013b8GA9Ps8H+YNdcBTVD9srabDt3g0M2JvdomfTzVYd6dV+eeiZZdNRsB/EsQ6sZiCfS6swZVptAt4F1KzULlRJrEzn+i6UHeHYjkFtXcJFhBrKR9bdxEEoeyjqGU2Ho=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757013025; c=relaxed/simple;
-	bh=+h4Zse7WhDcAJDw0AavI4Al0yjN0FBx0HhqVfrpEfIg=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=GdPzBJqnf+cD60NDUSDxrpBs02zr7gaEoUtVTLML/f/wAlFRcgKJHMCYxm3nnynOtdlQRUrc7/CX1I0CQj1IMdsdLt0fm8B3uqbgAEBZ6IsKisML0HXBWf5DqFvFjFc76+RLs8Jb+iUqTTfjneFWRAHK76oOtMnY8ANmPfZUn14=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=KrgrQzzH; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1757013016; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=EyAXeSu3/4WsEdNzyrP8tAQT1gP81vdqPZpi7gqVzRlQwRcMt/DR5QJAhP0OMJGxn/1ZALfxn7gHXuxKqKzeJnGNcmxlgfLQ4lWeFrJpEChW1SL0HIuAY3xDtjJ/aYX8EhtlOfB3C/OFIx6xuP7bPHWCsjzphUCbmpK2+fPxx8s=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1757013016; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=+h4Zse7WhDcAJDw0AavI4Al0yjN0FBx0HhqVfrpEfIg=; 
-	b=MWHm/Vmi+YouFlPxnuSLcdyzNM4twXnNan5Lj4mEKbosagIWAJVRxCqm0A07sXE0M9WHvWXW44vJB9inpcu4pnFOiaWV5cEo7e4kJgqJuA2e9/qpu+KVqj+Oj58kkpUX4IhsDBeyhWwehgFYFrSrC4IY9kh1wGv1nlbjWT/q2Rw=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757013015;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
-	bh=+h4Zse7WhDcAJDw0AavI4Al0yjN0FBx0HhqVfrpEfIg=;
-	b=KrgrQzzHT6tJrG2R3fySF+qofUY7rNqw+Mhi+ZQYTu3BLj9S8jCnt5z7AbQBoDsa
-	lxVzDpDg3zzC89uIh//UC6/VmP1/9wdkxV1zxM3x1V86Ks61eQl9bq6oe3MOaBaqnSg
-	uMxQx+rJEhXYtxAJyNKV7mMbcw7IlIUEYOrQygr8=
-Received: by mx.zohomail.com with SMTPS id 17570130111351013.0951418007742;
-	Thu, 4 Sep 2025 12:10:11 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34D2026FD84
+	for <linux-media@vger.kernel.org>; Thu,  4 Sep 2025 19:22:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.41
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757013767; cv=none; b=H17Iv6+VCZJEru4jmW63LT/WlPzUiIvo1I4XrU4F+eceVMiQO3GpNXm0rTQPZbu5CxtTSs+iajr3WNJQ7w8C5jPWna/PnzqVCzcgqS9UIi23htSFnj72EfNMSlIcSMWzDNVPjUafwKLBB5j6IHMkajuKQcTyk/a9KIIEgyhWu2s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757013767; c=relaxed/simple;
+	bh=cvHLF5lIxxEYKCDL/S6Atw9RYeWBQtPXcbrB6/hY5Fk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=l3R0yafF/niXYHDOqOXn75f0geLov5weZKMw5WvRhn+kMznOnY8l9wKz11wKwnkBwuDLED+pJomJI21/flcNEVPkzz/JogBJV5EOD6yOmJX7w/G/YkBLvMdZnz9Pvut+oW2zph/+RdA4joEeXyj+gFpVSL5pBjCdkq1lfjFdlww=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=0KD8ErqY; arc=none smtp.client-ip=209.85.218.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b042cc3962aso205624566b.0
+        for <linux-media@vger.kernel.org>; Thu, 04 Sep 2025 12:22:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1757013763; x=1757618563; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=F8DNqWy7PFA1m3JpqcxAelInf9yGcTh60eYTIOaOZ9g=;
+        b=0KD8ErqYEQ5vHzX7A04diJNcIVzKk4MwY38ZJBcgC4hW2NaTJylG1YSzASphWQv8Lp
+         +bHxb4Z1xR6hjN1k1Xf516hPVPA348XXbTLE4BYi8Zl06SzbCkykdT8uG7Tegumsg8Cw
+         yNo5M+eUugfMVyu/ItV9IUX5yBiyaL8U4GAG2LXHrLTyygm+OVshtIWCay9KWj634VYR
+         jwWQGrIkI0kZRR7SoLjUhMop0EC2XEfTIqbq5r8nn0pziobKD1qZdiyUUYI+oTDRftGU
+         /SnnAm+6WHVeTRUUB5bNO/M8rpgWCBHQRNwzl+D5hroi6d7JX8tV8Bp2axDukXF/Wc9i
+         ePDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757013763; x=1757618563;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=F8DNqWy7PFA1m3JpqcxAelInf9yGcTh60eYTIOaOZ9g=;
+        b=E8CH6GEHMsSD1RZkPrHRLEHsbQ4QPM0LSqlLYkUPtoTryagZRoKawgv6jcznOxE5vW
+         iFNTV/qZEqZ4Qj9xHyCCF/No4VYbbTsnoGaJRYyvNXAmXVK2CRFigPh/xs76Jm9qvbyp
+         XApispaIXu4drM/jJ+XWyE0udLYhcgJWCyZXHfEgT/ycmaGuF7zjMTiwcfk1hyzMwlPy
+         VumhRe7Y4uRqQqdhhvx/88UnVQszeQynosy057C25Wd8fI7R7bsdj5tHu/PoQ+VxZorH
+         xvcR1sN0gSsTZLhGn2FSSRRWaW4QNVBZWzhi2H+cjgWlTXVI2okO1iDFZgZGrznRtsAU
+         OjfA==
+X-Gm-Message-State: AOJu0Yz8gcz2RFUEMp9oeWJviA8lrqmmpFq7hTgZH3Gy5o+aLhfLFG2p
+	J7QU5A2H/5QcWG1ajDgfjPjvAc9fUO3JImdrGimjzEcUC65rra4TbCn1bUjBpE9OmQ4porKMlpQ
+	Fymf8Mvs=
+X-Gm-Gg: ASbGnctbiO0zlZCkqWa2T6iHd/Fx0LFv7cHsx/vjx4V4BkLVqNTJeWGwHwZ05qXLCIX
+	HzWOEiIFkbak23XO+E7bAdqFThyJkqy5oVhalBxYjdwtzh87WHcd59ZfXhCAUrO/Wpr4QLJq1Fa
+	XqTqMiIPiHgnFxQKoz0Www2wmxokvwhtElU24XtOvv1+tVrU0/lgARqmDtxSiDya82OAeVpMJj0
+	zzD7JSqueR/9a1Oq8adtAgvQNKq5FFhubTlI2W7ofG6ERDNoKKMhsGqh5bnEj0QZ2W3WYidb7ym
+	Ye0ertiqKsUtGuILwqGcIK1Rl8EASupzNy2f2XOPChBKa/1mXHc7Bzh4aidz9PbTCWEllPj6i5q
+	JAgdCq97eS96CAb9XuhJVBCQNcU/9hLZn5PG3mmRttwpKQJmujEOyA1jWDPo=
+X-Google-Smtp-Source: AGHT+IFy0SFOT7C901rftOYeqJCGJue7CBqku6XfDYtcVsOoql1kTJcq3KIN3uvTQDaPgL18Z8ckOA==
+X-Received: by 2002:a17:907:6e8d:b0:afe:d597:f0c2 with SMTP id a640c23a62f3a-b01d97bd1d4mr2153885266b.56.1757013763338;
+        Thu, 04 Sep 2025 12:22:43 -0700 (PDT)
+Received: from ?IPV6:2a02:810a:b98:a000::503d? ([2a02:810a:b98:a000::503d])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b040d44c9adsm1309821966b.9.2025.09.04.12.22.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 04 Sep 2025 12:22:43 -0700 (PDT)
+Message-ID: <e2243aa3-f062-4bee-9f1e-6e8728b5c486@cogentembedded.com>
+Date: Thu, 4 Sep 2025 21:22:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v2 RESEND] media: vidtv: initialize local pointers upon
- transfer of memory ownership
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <20250904054000.3848107-1-aha310510@gmail.com>
-Date: Thu, 4 Sep 2025 16:09:56 -0300
-Cc: mchehab@kernel.org,
- linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- stable@vger.kernel.org,
- syzbot+1d9c0edea5907af239e0@syzkaller.appspotmail.com
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <67D8F9B1-3121-469A-8F50-952BD4C0C99F@collabora.com>
-References: <20250904054000.3848107-1-aha310510@gmail.com>
-To: Jeongjun Park <aha310510@gmail.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: rcar_jpu: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+To: Geert Uytterhoeven <geert+renesas@glider.be>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+References: <240d566d0c77b6db21f7e6f8dab50a46e68f4f4d.1756999968.git.geert+renesas@glider.be>
+Content-Language: en-US, ru-RU
+From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+In-Reply-To: <240d566d0c77b6db21f7e6f8dab50a46e68f4f4d.1756999968.git.geert+renesas@glider.be>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Jeongjun,
+> Convert the Renesas JPEG Processing Unit driver from an open-coded
+> dev_pm_ops structure to DEFINE_SIMPLE_DEV_PM_OPS() and pm_sleep_ptr().
+> This lets us drop the check for CONFIG_PM_SLEEP, and reduces kernel size
+> in case CONFIG_PM or CONFIG_PM_SLEEP is disabled, while increasing build
+> coverage.
+> 
+> Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-You=E2=80=99re resending this, but there were comments on v2.
-
-If you=E2=80=99ve taken steps to address them, please send a v3 instead.
-
-> On 4 Sep 2025, at 02:40, Jeongjun Park <aha310510@gmail.com> wrote:
->=20
-> vidtv_channel_si_init() creates a temporary list (program, service, =
-event)
-> and ownership of the memory itself is transferred to the PAT/SDT/EIT
-> tables through vidtv_psi_pat_program_assign(),
-> vidtv_psi_sdt_service_assign(), vidtv_psi_eit_event_assign().
->=20
-> The problem here is that the local pointer where the memory ownership
-> transfer was completed is not initialized to NULL. This causes the
-> vidtv_psi_pmt_create_sec_for_each_pat_entry() function to fail, and
-> in the flow that jumps to free_eit, the memory that was freed by
-> vidtv_psi_*_table_destroy() can be accessed again by
-> vidtv_psi_*_event_destroy() due to the uninitialized local pointer, so =
-it
-> is freed once again.
->=20
-> Therefore, to prevent use-after-free and double-free vuln, local =
-pointers
-
-Please do not use =E2=80=9Cvuln=E2=80=9D instead of vulnerability.
-
-> must be initialized to NULL when transferring memory ownership.
->=20
-> Cc: <stable@vger.kernel.org>
-> Reported-by: syzbot+1d9c0edea5907af239e0@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=3D1d9c0edea5907af239e0
-> Fixes: 3be8037960bc ("media: vidtv: add error checks")
-> Signed-off-by: Jeongjun Park <aha310510@gmail.com>
-> ---
-> v2: Improved patch description wording and CC stable mailing list
-> - Link to v1: =
-https://lore.kernel.org/all/20250822065849.1145572-1-aha310510@gmail.com/
-> ---
-> drivers/media/test-drivers/vidtv/vidtv_channel.c | 3 +++
-> 1 file changed, 3 insertions(+)
-
-=E2=80=94 Daniel
-
+Reviewed-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
 
