@@ -1,163 +1,141 @@
-Return-Path: <linux-media+bounces-41779-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41780-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 120E3B43FFC
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 17:07:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55CD3B440B8
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 17:33:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F967A049C5
-	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 15:07:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A68201C86267
+	for <lists+linux-media@lfdr.de>; Thu,  4 Sep 2025 15:33:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 231913090D4;
-	Thu,  4 Sep 2025 15:07:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B30C726C3A4;
+	Thu,  4 Sep 2025 15:32:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WkUjzkda"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="l1cE2wrC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2BD23043DC;
-	Thu,  4 Sep 2025 15:07:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693EB2566E2;
+	Thu,  4 Sep 2025 15:32:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1756998469; cv=none; b=J+XqmohofolkiB8YNmTxbE8cvUqxEgJGE5sR8Ze65Qr0OepvcUlR9QFk8KQuquwqgtixAaDYRyqlnGjl+4Y8vpXtm2yH4jOYTgMI3wVCDS/WrSwmbJDB3KVMoeBijWn+dmr7ZhBAaH9LpqAHKUilt6Gvy8/4FFfnViHu1FyBGWU=
+	t=1756999974; cv=none; b=Ufda5nzjZbQ98p9tuS+zHcN46kBXaPiu4u6bkE/5TQpBmQDe1cYQxddNwwt/Xea5FgPnLcU4n5lIbZVSA5/qstIjrla3UhzZBDVT81tkuAFNjL+aEtt7J+RlLuVGkbcjaknPiqzmwWlvotecWlUCf1dw2Cd46EGOILkBSmFSR2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1756998469; c=relaxed/simple;
-	bh=fS0p2XvoEODSzfsL/y2SRg6kik4BTTH3iloa52I6Zwg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KJMPJjBS8W1MBbpUnRpWwr7vY/BIcDcz+k+VbQY/uRfW+jp5Z5++q+C7+fYCTMJElCwkIGkqezyY+0/PYCHRBka1PMLGsXoUcnBKigE9Nx0+/Mfgq08QIQT5hwdJev6KAH4W7ejM36GwPoQW9C7yiuWY3SLXVlkJ0Gk3zoJe/Cs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WkUjzkda; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 659D6F09;
-	Thu,  4 Sep 2025 17:06:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1756998395;
-	bh=fS0p2XvoEODSzfsL/y2SRg6kik4BTTH3iloa52I6Zwg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WkUjzkdazSd/Ab/viLMONgDttbk+IxhhaO8VT3lz6l273uWHfZ2k4lX1AywQrsQ7I
-	 T6O6MDjd2YlzTTZzuXizAuJ11xcf/4fpl4UVbAZQ6p51dRYPMQcIDf+cc5DbSKu2Uv
-	 PvRGlGgjqW55TCQynCJ43FPkqb9AXkY00JcMFEbw=
-Date: Thu, 4 Sep 2025 17:07:23 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Isaac Scott <isaac.scott@ideasonboard.com>, rmfrfs@gmail.com,
-	martink@posteo.de, kernel@puri.sm, mchehab@kernel.org,
-	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, linux-media@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, hverkuil@kernel.org,
-	nicolas.dufresne@collabora.com, tomi.valkeinen@ideasonboard.com,
-	jonas@kwiboo.se, dan.scally+renesas@ideasonboard.com,
-	m.szyprowski@samsung.com, mehdi.djait@linux.intel.com,
-	niklas.soderlund+renesas@ragnatech.se
-Subject: Re: [PATCH v2 1/3] media: v4l: Add helper to get number of active
- lanes via a pad
-Message-ID: <20250904150723.GC6174@pendragon.ideasonboard.com>
-References: <20250903102243.1563527-1-isaac.scott@ideasonboard.com>
- <20250903102243.1563527-2-isaac.scott@ideasonboard.com>
- <aLlRgRBztMEicEgM@kekkonen.localdomain>
+	s=arc-20240116; t=1756999974; c=relaxed/simple;
+	bh=tDTbE3SehodMHw7uN73rIR5YQxukV3vhONZfNB5DYxE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dEFZ9DVbRlu4cMMF8+akZ9Izbkt7ruGv0FRrQrdXlyLD6rkQE25MIxH2Dm+7TjE3Y93r78P32IgdisaNglZdkJiVmFSc+30p/WXATEvuNmsComt9UyKdBqlU1xlv/Jy2zZv9/RB4J2e6EzGRt5XJbv+XUzXmw9j7DXTKI8wUpd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=l1cE2wrC; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp2.mailbox.org (smtp2.mailbox.org [IPv6:2001:67c:2050:b231:465::2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cHk4w4LNXz9sWS;
+	Thu,  4 Sep 2025 17:32:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1756999968;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=JIzZVheBRvd0iBPFoIGMoS2ar7q8yBpuYylj7gKGkt8=;
+	b=l1cE2wrC8tFhr3lNLLGeDqyCiW5tXKlSkRZVLpTDb48ra5RX9AJXKOZfJwOnKu89Ijxnix
+	kMsI0zpruaAlJZZ9m0nENDX0vd1rJra2I3jYNtKzJtE6+60uVRwKQ6VpPJPSwuhn8GpvVl
+	5BUMdnlvFb2J7hWIi8u9FVbydwX1g+aO725fJhgLg2IfvonEndnN8JXtTnrpWN4oclufdO
+	X30Uy1moDoUgSYRl0HVGo+o6BnJb4mlb45DtVqxuL2KQMYW7RGkVXor3+G3Av5MlEvlo0A
+	8XO4qy0E1NsmBHxR4eAlr7kr8e3j2LuqTDdVOAF18LShrgpzyaCV+qZwWnHSUw==
+Message-ID: <472aac3c-9d3e-4892-8d6c-665fa6793464@mailbox.org>
+Date: Thu, 4 Sep 2025 17:32:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aLlRgRBztMEicEgM@kekkonen.localdomain>
+Subject: Re: [PATCH v2 0/8] Add support for Wave6 video codec driver
+To: Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Nas Chung <nas.chung@chipsnmedia.com>, mchehab@kernel.org,
+ hverkuil@xs4all.nl, sebastian.fricke@collabora.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-imx@nxp.com,
+ jackson.lee@chipsnmedia.com, lafley.kim@chipsnmedia.com
+References: <20250422093119.595-1-nas.chung@chipsnmedia.com>
+ <f03d0ae0-d28b-4b06-8f63-9d06f15c0522@mailbox.org>
+ <fcfa00b5ae102d76b02ce1667d27822e6d2c3c81.camel@ndufresne.ca>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <fcfa00b5ae102d76b02ce1667d27822e6d2c3c81.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-MBO-RS-ID: 2dd240b7f7c824b2b50
+X-MBO-RS-META: nbjes31bh5qwrbn7sqdhimymj64fxzc6
 
-On Thu, Sep 04, 2025 at 11:44:49AM +0300, Sakari Ailus wrote:
-> On Wed, Sep 03, 2025 at 11:22:40AM +0100, Isaac Scott wrote:
-> > Sometimes, users will not use all of the MIPI CSI 2 lanes available when
-> > connecting to the MIPI CSI receiver of their device. Add a helper
-> > function that checks the mbus_config for the device driver to allow
-> > users to define the number of active data lanes through the
-> > get_mbus_config op.
-> > 
-> > If the driver does not implement this op, fall back to using the number
-> > of data lanes specified in device tree.
-> > 
-> > Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-common.c | 25 +++++++++++++++++++++++++
-> >  include/media/v4l2-common.h           |  1 +
-> >  2 files changed, 26 insertions(+)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> > index 6e585bc76367..8683107b3704 100644
-> > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > @@ -571,6 +571,31 @@ s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
-> >  	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
-> >  }
-> >  EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
-> > +
-> > +unsigned int v4l2_get_active_data_lanes(const struct media_pad *pad, unsigned int dt_lanes)
+On 9/4/25 3:25 PM, Nicolas Dufresne wrote:
+> Hi,
 > 
-> This line would benefit from being wrapped.
+> Le mercredi 03 septembre 2025 à 23:47 +0200, Marek Vasut a écrit :
+>> On 4/22/25 11:31 AM, Nas Chung wrote:
+>>> This patch series introduces support for the Chips&Media Wave6 video
+>>> codec IP, a completely different hardware architecture compared to Wave5.
+>>>
+>>> The wave6 driver is a M2M stateful encoder/decoder driver.
+>>> It supports various video formats, including H.264 and H.265,
+>>> for both encoding and decoding.
+>>> While other versions of the Wave6 IP may support VP9 decoding and
+>>> AV1 decoding and encoding those formats are not implemented or validated
+>>> in this driver at this time.
+>>>
+>>> On NXP i.MX SoCs, the Wave6 IP functionality is split between two regions:
+>>> VPU Control region, Manages shared resources such as firmware memory.
+>>> VPU Core region, Provides encoding and decoding capabilities.
+>>> The VPU core cannot operate independently without the VPU control region.
+>>>
+>>> This driver has been tested with GStreamer on:
+>>> - NXP i.MX95 board
+>>> - pre-silicon FPGA environment
+>>>
+>>> Test results for decoder fluster:
+>>> - JVT-AVC_V1, Ran 77/135 tests successfully              in 35.519 secs
+>>> - JVT-FR-EXT, Ran 25/69 tests successfully               in 17.725 secs
+>>> - JCT-VC-HEVC_V1, Ran 132/147 tests successfully         in 81.549 secs
+>>> - All failures are due to unsupported hardware features:
+>>> -- 10bit, Resolutions higher than 4K, FMO, MBAFF
+>>> -- Extended profile, Field encoding and High422 sreams.
+>>>
+>>> Test results for v4l2-compliance:
+>>> v4l2-compliance 1.29.0-5359, 64 bits, 64-bit time_t
+>>> v4l2-compliance SHA: 2a91a869eb8a 2025-04-12 11:35:53
+>>>
+>>> Compliance test for wave6-dec device /dev/video0:
+>>>                   fail: ../utils/v4l2-compliance/v4l2-test-controls.cpp(1180): !have_source_change || !have_eos
+>>>           test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
+>>> Total for wave6-dec device /dev/video0: 48, Succeeded: 47, Failed: 1, Warnings: 0
+>>>
+>>> Compliance test for wave6-enc device /dev/video1:
+>>>                   fail: ../utils/v4l2-compliance/v4l2-test-controls.cpp(1169): node->codec_mask & STATEFUL_ENCODER
+>>>           test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
+>>> Total for wave6-enc device /dev/video1: 48, Succeeded: 47, Failed: 1, Warnings: 0
+>>>
+>>> Note: the failures are all related with the eos event.
+>>
+>> For what its worth, the whole series:
+>>
+>> Tested-by: Marek Vasut <marek.vasut@mailbox.org> # NXP i.MX95 rev. A0
+> 
+> Do you mind sharing what tests you have done ? Are you confirming the same
+> fluster and compliance results, have you done more ? Since this is largely
+> inspired on Wave5, I'd like to see people testing real-world playback, with
+> seeks, dynamic resolution changes, data lost. On Wave5, latest performance
+> patches leads to crash or hangs.
+I did not use fluster this time, I used h264 decode of 1920x1080 60 FPS 
+stream. The pipeline was very basic, something along the lines of:
 
-I'd also rename the dt_lanes parameter to max_data_lanes. "dt" sounds
-like data type.
-
-> > +{
-> > +	struct v4l2_mbus_config mbus_config = {};
-> > +	struct v4l2_subdev *sd;
-> > +	unsigned int lanes;
-> > +	int ret;
-> > +
-> > +	sd = media_entity_to_v4l2_subdev(pad->entity);
-> > +	ret = v4l2_subdev_call(sd, pad, get_mbus_config, pad->index,
-> > +			       &mbus_config);
-> > +	if (ret < 0 && ret != -ENOIOCTLCMD)
-> > +		return ret;
-> > +
-> > +	if (!mbus_config.bus.mipi_csi2.num_data_lanes)
-> > +		return dt_lanes;
-> > +
-> > +	lanes = mbus_config.bus.mipi_csi2.num_data_lanes;
-> > +
-> > +	if (lanes < 0 || lanes > dt_lanes)
-> 
-> lanes is unsigned int so no need to check for less than 0.
-> 
-> I might just not use a local variable for this, up to you.
-> 
-
-A debug message would also be nice.
-
-> > +		return -EINVAL;
-> > +
-> > +	return lanes;
-> > +}
-> > +EXPORT_SYMBOL_GPL(v4l2_get_active_data_lanes);
-> >  #endif /* CONFIG_MEDIA_CONTROLLER */
-> >  
-> >  /*
-> > diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> > index 0a43f56578bc..3f8937260c76 100644
-> > --- a/include/media/v4l2-common.h
-> > +++ b/include/media/v4l2-common.h
-> > @@ -584,6 +584,7 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
-> >  	(pad, mul, div)
-> >  s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
-> >  			     unsigned int div);
-> 
-> Some kernel-doc documentation would be nice.
-> 
-> > +unsigned int v4l2_get_active_data_lanes(const struct media_pad *pad, unsigned int dt_lanes);
-> 
-> Please wrap this, too.
-> 
-> >  #else
-> >  #define v4l2_get_link_freq(handler, mul, div)		\
-> >  	__v4l2_get_link_freq_ctrl(handler, mul, div)
-
--- 
-Regards,
-
-Laurent Pinchart
+gst-launch-1.0 -v filesrc location=/test.mp4 ! qtdemux ! h264parse ! 
+v4l2h264dec ! fpsdisplaysink text-overlay=false video-sink=waylandsink
 
