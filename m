@@ -1,92 +1,111 @@
-Return-Path: <linux-media+bounces-41813-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41814-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72142B451FC
-	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 10:46:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CBC7B452E5
+	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 11:19:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D989188B593
-	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 08:47:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6BB821CC0AF8
+	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 09:18:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EBFD27C872;
-	Fri,  5 Sep 2025 08:46:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9CA6284662;
+	Fri,  5 Sep 2025 09:15:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="of2mdF7k"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KssQjEZD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1E12C9D
-	for <linux-media@vger.kernel.org>; Fri,  5 Sep 2025 08:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A0D2820DA;
+	Fri,  5 Sep 2025 09:15:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757062009; cv=none; b=Vj7jWRGUwCCwFBs0LGuurJeqh4Q5ESlP/wBVFscDbL8iEcuShi+dC6nylqu/ev7ftiR+DqssvaBRu8LN/TOdXJYSM2PSp7IHfUU3M15fxr+wUPlHeQbRxyedX4EYPWJD8wf4fUg9eUMdbS/Zb4lADDTkqdBj2J2hzWGRIhU3PRs=
+	t=1757063715; cv=none; b=CvT2/a7aCfc2t/tqwOdHICO0yQK1osr76WqNxbsEoa4KgxPNcyL4CQ6x28jGuJHDNH0WHkA6gHVaTgu8ExBCMmHsmxal5pb7TrfV8jAb63ufBmwehu8Rn8VW9ctfV73pfgpEYJALn+6dt1iXCuAJj2bAUX4ubCR8ps0kGKxOokQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757062009; c=relaxed/simple;
-	bh=2PkSYU9R6cSMgvz9XDJ/cQyaDu5Jb0hhqb2p2vXgvhY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U7Vm5FaWekxRZX3oyloH99vric5Vrh/dzcMuPUKfTAvlHzKcjYUI2aGxg/T45b2rsnj1gJL05haKPrQL4A55Qh+aXxWxrUavbD+NA3JLWpnCvEE4kzma5NVzg/monYoVa9pIavQD/euwlxCG82aZ5e9GlUSNtkji2V0O4tQlk/I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=of2mdF7k; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7FA1A82A;
-	Fri,  5 Sep 2025 10:45:33 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757061933;
-	bh=2PkSYU9R6cSMgvz9XDJ/cQyaDu5Jb0hhqb2p2vXgvhY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=of2mdF7k8TcxQ9+InfkPVs5ZALZQbDln+rCuKMeLFBOziOYOXxgpOvfzH3cl4k973
-	 T6aZKBK8M2tHRrNZGaxKVGj5UAI55K8NkBjEdVl/hGAVUWgFq/anLRpilDAlPd43Rt
-	 mbd65qvD1QV68H5OCa8smhFhS+movZGf3lv1fkrI=
-Date: Fri, 5 Sep 2025 10:46:22 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 10/72] media: i2c: hi556: Replace client->dev usage
-Message-ID: <20250905084622.GA6549@pendragon.ideasonboard.com>
-References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
- <20250812214620.30425-11-laurent.pinchart@ideasonboard.com>
- <aLqifDc9FqUh_oiC@kekkonen.localdomain>
+	s=arc-20240116; t=1757063715; c=relaxed/simple;
+	bh=33A/I19euiFo7KyPkCzzuu4tf57r3cMykqNriw0KQWI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=h1eLGb4QGr+LY0oW6G9YY46Fex4JUb+bvf8LSFCEdcO8oNApJosLiwn/erM9zrtEf5nUEVskIEpiuN0fRF42Qqzyf7k1D532gc7IEh+9GkYV8PmdqnPX9KisVaYGZqrYFp+0lcnZ2NecjgEA5iMDTgmlo/pFz9oosXlQ43pdp2k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KssQjEZD; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1757063710;
+	bh=33A/I19euiFo7KyPkCzzuu4tf57r3cMykqNriw0KQWI=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=KssQjEZDH9qu/sgjacMKg0Zz3UxIzN6z1Hvhb5Fo9k5JDDWuD+TrfyEPCYWFKEmrJ
+	 btk2pincIPdba6Wn/25wln5tco96FJM/f8dTQZffE8QGDFfxp2jrbVcO9wDEHh+gqk
+	 yTHEibEWSqqAPD2ntAHoude1EL3UdPjp4aOO41aCWzfU7L4HQ+B28rK9JNjat3vt5X
+	 X8JwwuxuQvV/D6NYUiKcCgLYKHSKpmZ6PEZS5gFA1HOVradnMsZ4MVTCj1A99pD6ev
+	 Z0BaaOfxx0ZcWJGwfUiWiEzuiyeijBEqH4pkRhGqr57Snx/5Yp8jY3sHCcZQ0zh+xR
+	 k4w/eCvUdARjA==
+Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: kholk11)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id DC6EC17E0523;
+	Fri,  5 Sep 2025 11:15:09 +0200 (CEST)
+Message-ID: <9aa961d0-8138-4363-a606-30d879638a5b@collabora.com>
+Date: Fri, 5 Sep 2025 11:15:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aLqifDc9FqUh_oiC@kekkonen.localdomain>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 0/3] Fix sleeping function called from invalid context
+To: Jason-JH Lin <jason-jh.lin@mediatek.com>,
+ Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Nancy Lin <nancy.lin@mediatek.com>,
+ Singo Chang <singo.chang@mediatek.com>,
+ Paul-PL Chen <paul-pl.chen@mediatek.com>,
+ Yongqiang Niu <yongqiang.niu@mediatek.com>,
+ Zhenxing Qin <zhenxing.qin@mediatek.com>,
+ Xiandong Wang <xiandong.wang@mediatek.com>,
+ Sirius Wang <sirius.wang@mediatek.com>,
+ Xavier Chang <xavier.chang@mediatek.com>,
+ Jarried Lin <jarried.lin@mediatek.com>, Fei Shao <fshao@chromium.org>,
+ Chen-yu Tsai <wenst@chromium.org>,
+ Project_Global_Chrome_Upstream_Group@mediatek.com,
+ dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+References: <20250829091727.3745415-1-jason-jh.lin@mediatek.com>
+From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Content-Language: en-US
+In-Reply-To: <20250829091727.3745415-1-jason-jh.lin@mediatek.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Sep 05, 2025 at 11:42:36AM +0300, Sakari Ailus wrote:
-> On Wed, Aug 13, 2025 at 12:45:18AM +0300, Laurent Pinchart wrote:
-> > The driver needs to access the struct device in many places, and
-> > retrieves it from the i2c_client itself retrieved with
-> > v4l2_get_subdevdata(). Store it as a pointer in struct hi556 and access
-> > it from there instead, to simplify the driver.
-> > 
-> > While at it, fix a mistake in the sort order of include statements.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Il 29/08/25 11:15, Jason-JH Lin ha scritto:
+> We found that there is a spin_lock_irqsave protection in msg_submit()
+> of mailbox.c and it is in the atomic context.
+> So when the mailbox controller driver calls pm_runtime_get_sync() in
+> mbox_chan_ops->send_data(), it will get this BUG report.
+> "BUG: sleeping function called from invalid context at drivers/base/power/runtime.c:1164"
 > 
-> Avoiding v4l2_get_subdevdata is a big plus. But instead of adding the dev
-> field to every driver's context struct, could you use the dev field that
-> exists in struct v4l2_subdev already?
+> Additionally, pm_runtime_put_autosuspend() should be invoked from the
+> GCE IRQ handler to ensure the hardware has actually completed its work.
+> 
+> To resolve these issues, remove the pm_runtime calls from
+> cmdq_mbox_send_data() and delegate power management responsibilities
+> to the client driver.
+> ---
+> Changes in v2:
+> - Move pm_runtmie APIs from cmdq driver to client drivers.
+> - Move pm_runtime_put_autosuspend to GCE irq callback function.
+> - Link to v1: https://lore.kernel.org/r/20240614040133.24967-1-jason-jh.lin@mediatek.com
 
-I'd rather not. I think it's much clearer to have a dev pointer in the
-driver structure, initialized right after allocation. The structure is
-available everywhere, this makes lines shorter, and functions called
-from probe won't need to wonder if the subdev has been initialized
-already or not, and get the dev pointer from somewhere else in the
-latter case.
+For the entire series:
 
-> Should we repeat the pattern in this patch, the context structs of sensor
-> (and other drivers) would be rather large.
+Reviewed-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
--- 
-Regards,
 
-Laurent Pinchart
 
