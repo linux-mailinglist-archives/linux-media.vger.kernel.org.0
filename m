@@ -1,145 +1,149 @@
-Return-Path: <linux-media+bounces-41867-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41853-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D456BB45E92
-	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 18:47:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id D378AB45D67
+	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 18:05:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 625465A2A4E
-	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 16:46:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 8382217F097
+	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 16:05:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BC73309F06;
-	Fri,  5 Sep 2025 16:46:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0651B2FB08C;
+	Fri,  5 Sep 2025 16:05:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YLRK4UfD"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="t5znLdDO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E855279780;
-	Fri,  5 Sep 2025 16:46:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37EE031D749;
+	Fri,  5 Sep 2025 16:05:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757090804; cv=none; b=m+CFkGszWCpLxwhOb7Ebcf/aZvnlSloZNd41w43C8c2Ej5QUUah0i0EuEN5cAZDO4U1HI/xyJ2GRwsMcmNDIO26VWjpFcGtbOucg85T7joNohae0vC1r7pU683ila0Ug+NY7IVeYqCTI+WlqhtBwGZq8aqEVAD4Iv1hEYmmioCw=
+	t=1757088324; cv=none; b=r8F8teeFmZYS3MxemRxWHuDQOBGPa0hdTBGngCzXN9oXb+RqgfupOyCukADh8Kn3eeuKFFIkTeiAZ/nFpm79989pHyaYXr1EtUK2U4rpEcfCuXqAWgsDPE4f8AN6JBApU/IIZL0A4RxR2aWNhtvjmfQo2zdsPub/YaXhsf6AsIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757090804; c=relaxed/simple;
-	bh=n7lgFTuAaHvirVe2HxCgamU69/Yv2hAYIZ80fnvRVso=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Yc2BC9w+ToX9rhUwRzP4yT/rk9r4B6FObwB79KP+zZa/zlH2gZ5al2i3Fn6JfCWxbD35VwWUQs7tXmRtygNp5TFc26VqZWFHdXCGSWxKAAdRQ5B1t3v3XTMv+kMyFnh3twlt4MFus0wvDb31uU3KHsK9qFlHUpC5pooiDeKelZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YLRK4UfD; arc=none smtp.client-ip=217.70.178.249
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
-	by mslow3.mail.gandi.net (Postfix) with ESMTP id 2C87C585463;
-	Fri,  5 Sep 2025 15:59:28 +0000 (UTC)
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 6310B1F74B;
-	Fri,  5 Sep 2025 15:59:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1757087961;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=NFFOsoL+0XB5VITOYkkT3Ujt/8Fw5vWv70yMLAox1vw=;
-	b=YLRK4UfDca2Z1SERSnWpY/5xU/0+E26t3jjeluQS906xxdoUWfgaysjGz2IvnsSkjIGb4e
-	9gcLy0PkCLWkl31aI+PhbvcmWZjhFmcva1tHgwYHIIxNSU15ArMgkzKOGosXgDLZjMuimH
-	55R52ga5aHzQdcUIzCIim48qLCgGE9RAsAhsH1PCNO5C5h/MT1z4JA57tTEzgJJf225nCD
-	pY1Vp5T7Bdd28lQ+LSemVgjBMLR0I5goURkdCklfeb7aKUINAgHsVHxaCGpiWFj/Qagiun
-	FT3m/Smxy9CblMIttmXedXwC2jhzZmMA2GD502u1WSOQJkENXjXGnDvAqT1ePA==
-Date: Fri, 5 Sep 2025 17:59:15 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding
- <treding@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, Jonathan
- Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni
- <skomatineni@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Peter De
- Schrijver <pdeschrijver@nvidia.com>, Prashant Gaikwad
- <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko
- <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
- linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v1 09/19] staging: media: tegra-video: vi: add flip
- controls only if no source controls are provided
-Message-ID: <20250905175915.2d7e02a7@booty>
-In-Reply-To: <20250819121631.84280-10-clamor95@gmail.com>
-References: <20250819121631.84280-1-clamor95@gmail.com>
-	<20250819121631.84280-10-clamor95@gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1757088324; c=relaxed/simple;
+	bh=Q3cOUcU+++24jA63p/u073+a/HiaPqsJU8CA5zLc19I=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=V3b6lUZHRfoqdGZPWtkrTrekCrL4HLq7Cw0VBhjXesu8CoegLOWGkiC3T52+57HhSHH2nscjCDR1aYUHlrZjYOPtQHY0j8XUovW+uDxm2OanMt3EfuXMjZOdR/g2h8CsEPJCPN5hQ3IWh1hoEBZ+pkbDzgnY4iAyZqZKzhlhEu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=t5znLdDO; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 25D5FF09;
+	Fri,  5 Sep 2025 18:04:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1757088244;
+	bh=Q3cOUcU+++24jA63p/u073+a/HiaPqsJU8CA5zLc19I=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=t5znLdDOCBJ8UUSR2W8IzUrPaj+ebAQEhnZW7pJe4F7WnPuKYQ8QLBx5PxvVu1GrY
+	 IJAk3fi8RlnJos9o1hI7u3WG1PZB8rOc4WQkWE3y++RuOQoL4bkDz+8FexzOeu/MkM
+	 4PR6XMBTMeJ18TtkowpJC/NEry+nO5BADDiCae8s=
+Date: Fri, 5 Sep 2025 18:04:53 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: slongerbeam@gmail.com, p.zabel@pengutronix.de, rmfrfs@gmail.com,
+	martin.kepplinger@puri.sm, kernel@puri.sm,
+	linux-media@vger.kernel.org, imx@lists.linux.dev,
+	linux-kernel@vger.kernel.org, mchehab@kernel.org
+Subject: Re: [PATCH 1/1] MAINTAINERS: media: nxp: Add Frank Li as reviewer
+ for nxp SoC
+Message-ID: <20250905160453.GA21773@pendragon.ideasonboard.com>
+References: <20250904161720.514889-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdelfeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdelpdhrtghpthhtoheptghlrghmohhrleehsehgmhgrihhlrdgtohhmpdhrtghpthhtohepthhhihgvrhhrhidrrhgvughinhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepthhrvgguihhnghesnhhvihguihgrrdgtohhmpdhrt
- ghpthhtohepmhhpvghrthhtuhhnvghnsehnvhhiughirgdrtghomhdprhgtphhtthhopehjohhnrghthhgrnhhhsehnvhhiughirgdrtghomhdprhgtphhtthhopehskhhomhgrthhinhgvnhhisehnvhhiughirgdrtghomhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250904161720.514889-1-Frank.Li@nxp.com>
 
-Hello Svyatoslav,
+Hi Frank,
 
-On Tue, 19 Aug 2025 15:16:21 +0300
-Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+On Thu, Sep 04, 2025 at 12:17:20PM -0400, Frank Li wrote:
+> Add Frank Li as reviewer for nxp SoC.
 
-> Add HFLIP and VFLIP from SoC only if camera sensor does not provide those
-> controls.
+Great idea, and thank you for volunteering ! I really appreciate your
+help with reviews so far, and I have already mentioned it in a
+conversation with another SoC vendor as a model they should follow.
+
+I'd mention media drivers here though, unless you want to volunteer to
+review patches for the whole SoC :-) Maybe something along the lines of
+
+----
+MAINTAINERS: Add Frank Li as reviewer for NXP media drivers
+
+Frank has been reviewing NXP media drivers for a while, and is
+volunteering to continue. Add him as a reviewer for the IMX media
+drivers.
+
+Also add the NXP i.MX platform mailing list (imx@lists.linux.dev).
+----
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+> Add nxp open source mail list imx@lists.linux.dev.
 > 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
 > ---
->  drivers/staging/media/tegra-video/vi.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+> I am work on kernel community for the while. And upstreamed/reviewed:
+> cee06ca7a6748 media: imx8mq-mipi-csi2: Fix error code in imx8mq_mipi_csi_parse_dt()
+> 51ad3b570ea7b media: imx-jpeg: Account for data_offset when getting image address
+> 642b70d526ab8 media: imx8mq-mipi-csi2: Add support for i.MX8QXP
+> 382d53e9cefb3 media: imx8mq-mipi-csi2: Add imx8mq_plat_data for different compatible strings
+> 859278460faa4 media: imx8-isi: Add support for i.MX8QM and i.MX8QXP
+> dee8521f69874 media: nxp: imx8-isi: Use dev_err_probe() to simplify code
+> 73a40554f979e media: nxp: imx8-isi: Remove redundant check for dma_set_mask_and_coherent()
+> 60b8de2b9b4be media: nxp: imx8-isi: Use devm_clk_bulk_get_all() to fetch clocks
+> 66ede6d71d4e8 media: nxp: imx8-isi: Remove unused offset in mxc_isi_reg and use BIT() macro for mask
+> 2021b8d51cdb5 media: nxp: imx8-isi: Allow num_sources to be greater than num_sink
+> 038d27acf987c media: imx-mipi-csis: Use CSI-2 data type macros from mipi-csi2.h
+> fd5b6cd730676 media: imx-jpeg: Check decoding is ongoing for motion-jpeg
+> f65fbf8c3d671 media: imx-jpeg: Change the pattern size to 128x64
+> 7500bb9cf164e media: imx-jpeg: Cleanup after an allocation error
+> faa8051b128f4 media: imx-jpeg: Reset slot data pointers when freed
+> 46e9c092f850b media: imx-jpeg: Move mxc_jpeg_free_slot_data() ahea
 > 
-> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
-> index 4f67adc395ac..61b65a2c1436 100644
-> --- a/drivers/staging/media/tegra-video/vi.c
-> +++ b/drivers/staging/media/tegra-video/vi.c
-> @@ -961,6 +961,7 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
->  	}
->  #else
->  	struct v4l2_subdev *subdev;
-> +	struct v4l2_ctrl *hflip, *vflip;
->  
->  	/* custom control */
->  	v4l2_ctrl_new_custom(&chan->ctrl_handler, &syncpt_timeout_ctrl, NULL);
-> @@ -986,11 +987,13 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
->  		return ret;
->  	}
->  
-> -	if (chan->vi->soc->has_h_v_flip) {
-> +	hflip = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_HFLIP);
-> +	if (chan->vi->soc->has_h_v_flip && !hflip)
->  		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
-> -		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
-> -	}
->  
-> +	vflip = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_VFLIP);
-> +	if (chan->vi->soc->has_h_v_flip && !vflip)
-> +		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
-
-Based on my understanding of V4L2, this should not be done.
-AFAIK subdevs should expose what the hardware block can do,
-independently from other subdevs. It is up to userspace (e.g.
-libcamera) to use the most appropriate control when there are redundant
-ones.
-
-Luca
+> On going thread:
+> 5 patches, https://lore.kernel.org/imx/20250729-imx8qxp_pcam-v4-1-4dfca4ed2f87@nxp.com/
+> 32 patches, https://lore.kernel.org/imx/20250808-95_cam-v2-0-4b29fa6919a7@nxp.com/
+> 2 patches, https://lore.kernel.org/imx/aLbdRdS3TmLHjW+Q@lizhi-Precision-Tower-5810/
+> 
+> I am volunteer to review media related patches so add myself to MAINTIANER
+> so I can get notified when related patches post.
+> ---
+>  MAINTAINERS | 4 ++++
+>  1 file changed, 4 insertions(+)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index b3ca0ba848879..2884a5216b427 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -15327,6 +15327,8 @@ F:	drivers/media/pci/ddbridge/*
+>  MEDIA DRIVERS FOR FREESCALE IMX
+>  M:	Steve Longerbeam <slongerbeam@gmail.com>
+>  M:	Philipp Zabel <p.zabel@pengutronix.de>
+> +R:	Frank Li <Frank.Li@nxp.com>
+> +L:	imx@lists.linux.dev
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://linuxtv.org/media.git
+> @@ -15341,6 +15343,8 @@ M:	Rui Miguel Silva <rmfrfs@gmail.com>
+>  M:	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>  M:	Martin Kepplinger <martin.kepplinger@puri.sm>
+>  R:	Purism Kernel Team <kernel@puri.sm>
+> +R:	Frank Li <Frank.Li@nxp.com>
+> +L:	imx@lists.linux.dev
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://linuxtv.org/media.git
 
 -- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Regards,
+
+Laurent Pinchart
 
