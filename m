@@ -1,131 +1,179 @@
-Return-Path: <linux-media+bounces-41804-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41805-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id D29E5B44FB5
-	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 09:31:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 941B7B44FEF
+	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 09:35:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B3AD117AEA3
-	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 07:31:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A9BCD3AD063
+	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 07:35:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE0952EB5BF;
-	Fri,  5 Sep 2025 07:29:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D677258ECA;
+	Fri,  5 Sep 2025 07:35:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="a7cwugNv"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nlYeVcXd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85C582D8DA9
-	for <linux-media@vger.kernel.org>; Fri,  5 Sep 2025 07:29:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83FF3AD2C;
+	Fri,  5 Sep 2025 07:35:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757057355; cv=none; b=K8XCmsTi+014hY5xwgZYh6QJmh3FD6Er93BhneygrQCHtbR4yyLVII+TL9Jy7bHi5j65eutcNqsKgyOsNi3qIr0DuEfvJTszmVoZodn7EG+pNu08BHI+Q+sFcO3E+T2clFT80YJDAVw3UMslqWwfS9tSgzrcg2qpJ1jWBQ23k14=
+	t=1757057707; cv=none; b=m7uHg4H5+70fNZ1mPddBU6MKjcL/ALbBGUST5jW7MWuH1Ihe5uxJ4eLn+m15QE44rCgbNKQPrdvQnLYXhK5Siq6S/ZO6y6mWMw9/6912DXKexi8Zln6+di9QALmapGeXrFPuH4gHpWCcTxZ4Tkrn2Vv+ahXY3xhZx/gD8FNZE6w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757057355; c=relaxed/simple;
-	bh=BvIjxGo6igUuV2U2V2asqezbGgLHP43cOsxtnrrmHX8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=HbVrdedmYSQKuwNaq+lr46dIRCrb0kphUvrl8SZdHsyDxiuicM9KucqshitOF1mNk26NQvG0Z2mu0J9hMKCqaQlgeiDHmwm6njRl729IhvthIXHjXDuoaMIsuiEmexmTVSLsjX5jZZp3qJU/OIS9xubBbtMTzWygEjI0kFpd1BE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=a7cwugNv; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5857DOJ5002342;
-	Fri, 5 Sep 2025 07:29:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	B/N+HDfATpUfaI+ETDZv8h6jQJjr3bp4faafz3I1A48=; b=a7cwugNvqNVB+SER
-	dPfLkBuTAz4NHfIK5X6FG4/QtwQWrBFtbV0cV8oE7ehZCJuoV2uDVQFy0zuRfpG2
-	9UeDutUi68UyomoBMy9QHZmjjXy03Qu2L0YUmB67mvIUwvD7yYsIryYbYjzzxRzR
-	akZUTFetU6nFzj/WdPIxHCTvgHNYzmALDqrhPFqRDrQhaxLkkz/OyXgex29kyVci
-	fCsTjUBJcF5qEe7eMnl+lIuxkRZeNZ+i9s+4coB6PJ2ZqxQ83pE75q6HxD6T46NX
-	FixyVFbaW5xdDG25qDE59etKNocp5ZjtxSfleCbMjejHYW2qtEc9Zg/TCk5JnXtn
-	LAoZPg==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 48ush3a50r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 05 Sep 2025 07:29:10 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5857T9Kh013337
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 5 Sep 2025 07:29:09 GMT
-Received: from [10.216.14.209] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Fri, 5 Sep
- 2025 00:29:06 -0700
-Message-ID: <7fb5dff2-56f1-02d7-b401-a6b3044dda52@quicinc.com>
-Date: Fri, 5 Sep 2025 12:59:03 +0530
+	s=arc-20240116; t=1757057707; c=relaxed/simple;
+	bh=EOPqr6ZVLOPhzztgKUphvR1K2RBLa6FRjsBJ+lJ5MQI=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=eN/ONpiWfcOUwAgftIZxTdSL39eCwBfekn1EnjJicHbfiV57YqJwj2vtsOqbOA/eMuJgXEgANT1jVE8RXQTcIehWHNHsgooR9ze2EYWSADfptbL4qR0N16itjgcf70DDhZtdtxqCPjusNZhfY3p6kKanqdWzcPqtRNuHMEnzSnA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nlYeVcXd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04DA7C4CEF1;
+	Fri,  5 Sep 2025 07:35:05 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757057707;
+	bh=EOPqr6ZVLOPhzztgKUphvR1K2RBLa6FRjsBJ+lJ5MQI=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=nlYeVcXd3krgFEfHZm3GGyE2JgRucewc+onGD2kWqj2Hqv+J6/jxC8HXl9GHcXdtu
+	 iroWoe+WxSyvetrRNvDxBeoX96pCfIoIHPXVSeqcd9asp5f5CKhdVjdsQuSv57hOQH
+	 6669rXyQ7mHdqHvn+3WoTK2ei1uoT3ImBb7hd72kf+zonFpTPjNy8lao/Ba9kr0ODI
+	 8kQpqpe4SEUx38cqcD9tBwgjjNn+U23Vben/8GWWQ8jx6qPd1qvrVz2ohErAnf8PFO
+	 N38mq+DIxXhm5+4UzZEDcTtaGsn5pN7XqBsYpvSuZ4Cnue4vVkQis4fuPTWniD/F0s
+	 i8PB2XSkLbx+A==
+Message-ID: <02fa4a52-1daa-4d1a-9d38-e092b6c9ae13@kernel.org>
+Date: Fri, 5 Sep 2025 09:35:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2] media: MAINTAINERS: Update Vikash Garodia's email
- address
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>, <linux-media@vger.kernel.org>,
-        <nicolas@ndufresne.ca>
-CC: <vikash.garodia@oss.qualcomm.com>
-References: <20250904190003.2478464-1-quic_vgarodia@quicinc.com>
- <1a7dd8b2-925d-4873-a9c8-a3a562abb804@kernel.org>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <1a7dd8b2-925d-4873-a9c8-a3a562abb804@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH] media: az6007: fix out-of-bounds in az6007_i2c_xfer()
+To: Jeongjun Park <aha310510@gmail.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl, zhang_shurong@foxmail.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250421105555.34984-1-aha310510@gmail.com>
+ <c4cf17bb-73cb-4e3b-9e61-8fd682b5e9ee@kernel.org>
+ <CAO9qdTHJ9GrbqjtMKzgDhy+bvEmDc+Sn3VosYxuq5hJ9Z20-bA@mail.gmail.com>
+Content-Language: en-US, nl
+In-Reply-To: <CAO9qdTHJ9GrbqjtMKzgDhy+bvEmDc+Sn3VosYxuq5hJ9Z20-bA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwODMwMDAzMiBTYWx0ZWRfX2PFOPli3gJEB
- mwYXE8ok7ojPgxGiuzLm4YixtHPgAoeVz39B1kUsGLDa7ZksvQy0HtkEJFoGADdOMLqmCeay6aG
- bWHK41IV+icgTaj1facIHZivevcGL578WjnRwSZmpE4Rt4llN2Rg5H1EcPkCu8WALo/GmJmi51E
- VL6AaHG2zoSjwok1y3SihXSYLcBTzi+eFEZjoF2i8K1hjnb6gq2gcR0goFnney3Gejw3ZeaWI+x
- zFBMf/NgqpfGydV4VIMNLte8Objk2iszfX0INW1hiEGZ8ZS+tfLPdzFfQsjb6db3BSOpN6hybVD
- kftXHH3iCAlSjlB+cMW9sHOuQoriAXBTIOK72eu2j6BLeaAT6F00AaECtzpbcWMSc3qMKdVSXW0
- xGRaxSLM
-X-Proofpoint-ORIG-GUID: B-V1jCqacgIEwHUHfMLAwGkv6dn21ZDh
-X-Proofpoint-GUID: B-V1jCqacgIEwHUHfMLAwGkv6dn21ZDh
-X-Authority-Analysis: v=2.4 cv=M9NNKzws c=1 sm=1 tr=0 ts=68ba9146 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8
- a=EUspDBNiAAAA:8 a=uXoPbtGjc5eXSKknrm4A:9 a=QEXdDO2ut3YA:10 a=zZCYzV9kfG8A:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-05_02,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 adultscore=0 spamscore=0 priorityscore=1501 malwarescore=0
- clxscore=1011 suspectscore=0 phishscore=0 bulkscore=0 classifier=typeunknown
- authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2508300032
 
-
-On 9/5/2025 12:21 PM, Krzysztof Kozlowski wrote:
-> On 04/09/2025 21:00, Vikash Garodia wrote:
->> Replace my quicinc.com address with oss.qualcomm.com email in the
->> MAINTAINERS file for both IRIS and VENUS video accelerator drivers.
->> Also update mailmap to ensure proper attribution across historical
->> commits.
+On 04/09/2025 13:07, Jeongjun Park wrote:
+> Hi Hans,
+> 
+> Hans Verkuil <hverkuil+cisco@kernel.org> wrote:
 >>
->> Signed-off-by: Vikash Garodia <quic_vgarodia@quicinc.com>
->> ---
->> Changes in v2:
->> - Added MAINTAINERS file update (Krzysztof)
->> - Dropped multiple SOB (Krzysztof)
+>> Hi Jeongjun,
+>>
+>> On 21/04/2025 12:55, Jeongjun Park wrote:
+>>> According to the previous commit 1047f9343011 ("media: az6007:
+>>> Fix null-ptr-deref in az6007_i2c_xfer()"), msgs[i].len is user-controlled.
+>>
+>> Does this relate to syzbot reports? If so, please add a reference to that.
+>>
+>> As far as I can tell, you can get here only through /dev/i2c-X devices.
+>>
+> 
+> Sorry, I seem to have forgotten to include the reported-by tag when
+> sending the email. I'll add it in the next patch.
 > 
 > 
-> The problem was that 2 days ago when you sent v1 that new email did not
-> work, so please confirm that this was fixed.
+>>>
+>>> In the previous commit, bounds checking was added because a null-ptr-deref
+>>> bug occurs when msgs[i].buf and msgs[i].len are set to null. However, this
+>>> leads to an out-of-bounds vuln for st->data when msgs[i].len is set to a
+>>> large value.
+>>>
+>>> Therefore, code to check the maximum value of msgs[i].len needs to be added.
+>>>
+>>> Fixes: 1047f9343011 ("media: az6007: Fix null-ptr-deref in az6007_i2c_xfer()")
+>>> Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+>>> ---
+>>>  drivers/media/usb/dvb-usb-v2/az6007.c | 4 ++--
+>>>  1 file changed, 2 insertions(+), 2 deletions(-)
+>>>
+>>> diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
+>>> index 65ef045b74ca..fba1b6c08dc7 100644
+>>> --- a/drivers/media/usb/dvb-usb-v2/az6007.c
+>>> +++ b/drivers/media/usb/dvb-usb-v2/az6007.c
+>>> @@ -788,7 +788,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+>>>                       if (az6007_xfer_debug)
+>>>                               printk(KERN_DEBUG "az6007: I2C W addr=0x%x len=%d\n",
+>>>                                      addr, msgs[i].len);
+>>> -                     if (msgs[i].len < 1) {
+>>> +                     if (msgs[i].len < 1 || msgs[i].len + 1 > sizeof(st->data)) {
+>>>                               ret = -EIO;
+>>>                               goto err;
+>>>                       }
+>>> @@ -806,7 +806,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+>>>                       if (az6007_xfer_debug)
+>>>                               printk(KERN_DEBUG "az6007: I2C R addr=0x%x len=%d\n",
+>>>                                      addr, msgs[i].len);
+>>> -                     if (msgs[i].len < 1) {
+>>> +                     if (msgs[i].len < 1 || msgs[i].len + 5 > sizeof(st->data)) {
+>>>                               ret = -EIO;
+>>>                               goto err;
+>>>                       }
+>>
+>> I feel uncomfortable about this patch and similar patches that attempt to address this
+>> in various other drivers as well.
+>>
+>> It's all rather ad-hoc. E.g. you fix the two places here, but not the case at line 778.
+>>
+>> I think the proper fix would be to modify __az6007_read/write and add an argument with the
+>> size of the buffer, then let that function do the check. Rather than manually doing this
+>> check at every call of those functions. Same for similar drivers.
+>>
+>> The approach taken in this patch is too fragile.
+>>
+> 
+> You're right. Looking at it again, it seems more appropriate to fix
+> __az6007_read/write.
+> 
+> https://lore.kernel.org/all/20250421125244.85640-1-aha310510@gmail.com/
+> 
+> I remember patching vulnerabilities I found in other drivers using the
+> method Hans suggested. Is this the correct way to patch them?
 
-Yes, its functional now. I expected it to be working little earlier than it
-actually did, i could have tested with a test email though :(
+Yes, that's probably the correct way.
+
+Your patch for drivers/media/usb/dvb-usb/az6027.c has the same problem as this patch
+for the az6007, so if you can provide an updated version of that patch as well, then
+that will be great.
+
+It's actually more complicated: az6007_i2c_xfer also has code that writes to st->data
+before calling __az6007_write:
+
+	for (j = 0; j < len; j++)
+		st->data[j] = msgs[i].buf[j + 1];
+
+So there we do need a check, we can't rely on __az6007_write to do that.
+
+It's really messy code, perhaps __az6007_write/read should just receive the st pointer,
+and the msgs[i].buf+offset pointer, and have it do the copying and checking against
+sizeof(st->data). I think that's what dtv5100_i2c_msg does, so perhaps this is a good
+template to use.
 
 Regards,
-Vikash
+
+	Hans
+
+> 
+>> Regards,
+>>
+>>         Hans
+>>
+>>
+>>> --
+>>>
+>>
+> 
+> Regards,
+> Jeongjun Park
+
 
