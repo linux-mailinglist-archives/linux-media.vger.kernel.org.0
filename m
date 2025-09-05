@@ -1,211 +1,145 @@
-Return-Path: <linux-media+bounces-41852-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41867-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BA84B45CA6
-	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 17:34:49 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D456BB45E92
+	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 18:47:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D5F553A80C5
-	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 15:34:47 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 625465A2A4E
+	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 16:46:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 598252F7AD7;
-	Fri,  5 Sep 2025 15:34:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7BC73309F06;
+	Fri,  5 Sep 2025 16:46:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LZf5dAID"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="YLRK4UfD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mslow3.mail.gandi.net (mslow3.mail.gandi.net [217.70.178.249])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A262F15D3;
-	Fri,  5 Sep 2025 15:34:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E855279780;
+	Fri,  5 Sep 2025 16:46:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.178.249
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757086478; cv=none; b=JXCX5S3BtaAEOPO/AZKC5Aw2jPCs63DT3r9XM05RvM7Hols52ArOs4PlREXioC/iu1++Fvh2Di6SUiac9dUdTQJ5uYlNoFiTRiTLGbm4VrhA5PTg2/q42QSNVMc+JCjJYz5OBQc9p9xC3KP4e0l/gagNBFFqCYOtoRqVTIjK5eE=
+	t=1757090804; cv=none; b=m+CFkGszWCpLxwhOb7Ebcf/aZvnlSloZNd41w43C8c2Ej5QUUah0i0EuEN5cAZDO4U1HI/xyJ2GRwsMcmNDIO26VWjpFcGtbOucg85T7joNohae0vC1r7pU683ila0Ug+NY7IVeYqCTI+WlqhtBwGZq8aqEVAD4Iv1hEYmmioCw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757086478; c=relaxed/simple;
-	bh=S2f4zsIVkSVZX6263AtP4FMC2mXV744EV7vcHdcxvFs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DM1vQw7ljbuDMbE/CPrM5a9NeEzisdIWVvL5di+76pRbNPnes5kxpIz+rj0lesbUDYIVBnE9olO9fNCCPcs9dpM5x2+IEbkGUlZstSzU+gccxDoSro+t13CcS/pO396VCoVJEXTLn0Tgq3wVwUP4QWuN7ZAnVMvLJS7D20/7ylc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LZf5dAID; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1FB7C4CEF1;
-	Fri,  5 Sep 2025 15:34:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757086478;
-	bh=S2f4zsIVkSVZX6263AtP4FMC2mXV744EV7vcHdcxvFs=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LZf5dAIDALZlpnlmorOcqX3O1MGgtWtRZyVieJ+6MsMxP5YD1Q4QFHkgp1Vmntr6C
-	 wvPgaa1NLQiDAngT9jt9lKUU1wIiwiuNyxnEOarNr5lRwAMQJ4aXAuUBXL3YNsLKhi
-	 dRxiXVQL7Bd7lIv8/Y8Vd/zbd6htZe8bktPgBmflpgd73LEOdGzpHUxeungKUbVvGU
-	 O3I7FiHp/ADxKKQHPvIXMKVZ3J/a97+jB5Pz92nJvsb7kuKequ1onDHT8CLiL4YHS/
-	 8r76zT7Emhrny/U3xZPoE9R228e0LdSFRJQpnIqCd1gx+HF2WjfhzOTYwLihlA1KK6
-	 bakXfsYfKkkKA==
-Date: Fri, 5 Sep 2025 10:34:37 -0500
-From: Rob Herring <robh@kernel.org>
-To: Aleksandrs Vinarskis <alex@vinarskis.com>
-Cc: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
-	Pavel Machek <pavel@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Daniel Thompson <danielt@kernel.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Daniel Thompson <daniel.thompson@linaro.org>,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] dt-bindings: leds: add generic LED consumer
- documentation
-Message-ID: <20250905153437.GA970284-robh@kernel.org>
-References: <20250905-leds-v2-0-ed8f66f56da8@vinarskis.com>
- <20250905-leds-v2-1-ed8f66f56da8@vinarskis.com>
- <20250905151739.GA953718-robh@kernel.org>
+	s=arc-20240116; t=1757090804; c=relaxed/simple;
+	bh=n7lgFTuAaHvirVe2HxCgamU69/Yv2hAYIZ80fnvRVso=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Yc2BC9w+ToX9rhUwRzP4yT/rk9r4B6FObwB79KP+zZa/zlH2gZ5al2i3Fn6JfCWxbD35VwWUQs7tXmRtygNp5TFc26VqZWFHdXCGSWxKAAdRQ5B1t3v3XTMv+kMyFnh3twlt4MFus0wvDb31uU3KHsK9qFlHUpC5pooiDeKelZM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=YLRK4UfD; arc=none smtp.client-ip=217.70.178.249
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+	by mslow3.mail.gandi.net (Postfix) with ESMTP id 2C87C585463;
+	Fri,  5 Sep 2025 15:59:28 +0000 (UTC)
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 6310B1F74B;
+	Fri,  5 Sep 2025 15:59:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1757087961;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=NFFOsoL+0XB5VITOYkkT3Ujt/8Fw5vWv70yMLAox1vw=;
+	b=YLRK4UfDca2Z1SERSnWpY/5xU/0+E26t3jjeluQS906xxdoUWfgaysjGz2IvnsSkjIGb4e
+	9gcLy0PkCLWkl31aI+PhbvcmWZjhFmcva1tHgwYHIIxNSU15ArMgkzKOGosXgDLZjMuimH
+	55R52ga5aHzQdcUIzCIim48qLCgGE9RAsAhsH1PCNO5C5h/MT1z4JA57tTEzgJJf225nCD
+	pY1Vp5T7Bdd28lQ+LSemVgjBMLR0I5goURkdCklfeb7aKUINAgHsVHxaCGpiWFj/Qagiun
+	FT3m/Smxy9CblMIttmXedXwC2jhzZmMA2GD502u1WSOQJkENXjXGnDvAqT1ePA==
+Date: Fri, 5 Sep 2025 17:59:15 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding
+ <treding@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, Jonathan
+ Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni
+ <skomatineni@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
+ <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Peter De
+ Schrijver <pdeschrijver@nvidia.com>, Prashant Gaikwad
+ <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, Stephen
+ Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
+ Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko
+ <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
+ linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-staging@lists.linux.dev
+Subject: Re: [PATCH v1 09/19] staging: media: tegra-video: vi: add flip
+ controls only if no source controls are provided
+Message-ID: <20250905175915.2d7e02a7@booty>
+In-Reply-To: <20250819121631.84280-10-clamor95@gmail.com>
+References: <20250819121631.84280-1-clamor95@gmail.com>
+	<20250819121631.84280-10-clamor95@gmail.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250905151739.GA953718-robh@kernel.org>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdelfeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdelpdhrtghpthhtoheptghlrghmohhrleehsehgmhgrihhlrdgtohhmpdhrtghpthhtohepthhhihgvrhhrhidrrhgvughinhhgsehgmhgrihhlrdgtohhmpdhrtghpthhtohepthhrvgguihhnghesnhhvihguihgrrdgtohhmpdhrt
+ ghpthhtohepmhhpvghrthhtuhhnvghnsehnvhhiughirgdrtghomhdprhgtphhtthhopehjohhnrghthhgrnhhhsehnvhhiughirgdrtghomhdprhgtphhtthhopehskhhomhgrthhinhgvnhhisehnvhhiughirgdrtghomhdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthh
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
-On Fri, Sep 05, 2025 at 10:17:39AM -0500, Rob Herring wrote:
-> On Fri, Sep 05, 2025 at 09:59:29AM +0200, Aleksandrs Vinarskis wrote:
-> > Introduce common generic led consumer binding, where consumer defines
-> > led(s) by phandle, as opposed to trigger-source binding where the
-> > trigger source is defined in led itself.
-> > 
-> > Add already used in some schemas 'leds' parameter which expects
-> > phandle-array. Additionally, introduce 'led-names' which could be used
-> > by consumers to map LED devices to their respective functions.
+Hello Svyatoslav,
+
+On Tue, 19 Aug 2025 15:16:21 +0300
+Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+
+> Add HFLIP and VFLIP from SoC only if camera sensor does not provide those
+> controls.
 > 
-> Please update the existing user dropping the type $ref and indicate how 
-> many entries (i.e. "maxItems: 1").
-
-Nevermind, I see you did...
-
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  drivers/staging/media/tegra-video/vi.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 > 
-> > 
-> > Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
-> > ---
-> >  .../devicetree/bindings/leds/leds-consumer.yaml    | 85 ++++++++++++++++++++++
-> >  1 file changed, 85 insertions(+)
-> > 
-> > diff --git a/Documentation/devicetree/bindings/leds/leds-consumer.yaml b/Documentation/devicetree/bindings/leds/leds-consumer.yaml
-> > new file mode 100644
-> > index 0000000000000000000000000000000000000000..077dbe3ad9ff3fa15236b8dd1f448c00271e4810
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/leds/leds-consumer.yaml
-> > @@ -0,0 +1,85 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/leds/leds-consumer.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Common leds consumer
-> > +
-> > +maintainers:
-> > +  - Aleksandrs Vinarskis <alex@vinarskis.com>
-> > +
-> > +description:
-> > +  Some LED defined in DT are required by other DT consumers, for example
-> > +  v4l2 subnode may require privacy or flash LED. Unlike trigger-source
-> > +  approach which is typically used as 'soft' binding, referencing LED
-> > +  devices by phandle makes things simpler when 'hard' binding is desired.
-> > +
-> > +  Document LED properties that its consumers may define.
-> > +
-> 
-> select: true
-> 
-> 
-> > +properties:
-> > +  leds:
-> > +    $ref: /schemas/types.yaml#/definitions/phandle-array
-> > +    description:
-> > +      A list of LED device(s) required by a particular consumer.
-> > +    items:
-> > +      maxItems: 1
+> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+> index 4f67adc395ac..61b65a2c1436 100644
+> --- a/drivers/staging/media/tegra-video/vi.c
+> +++ b/drivers/staging/media/tegra-video/vi.c
+> @@ -961,6 +961,7 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
+>  	}
+>  #else
+>  	struct v4l2_subdev *subdev;
+> +	struct v4l2_ctrl *hflip, *vflip;
+>  
+>  	/* custom control */
+>  	v4l2_ctrl_new_custom(&chan->ctrl_handler, &syncpt_timeout_ctrl, NULL);
+> @@ -986,11 +987,13 @@ static int tegra_channel_setup_ctrl_handler(struct tegra_vi_channel *chan)
+>  		return ret;
+>  	}
+>  
+> -	if (chan->vi->soc->has_h_v_flip) {
+> +	hflip = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_HFLIP);
+> +	if (chan->vi->soc->has_h_v_flip && !hflip)
+>  		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
+> -		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
+> -	}
+>  
+> +	vflip = v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_VFLIP);
+> +	if (chan->vi->soc->has_h_v_flip && !vflip)
+> +		v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
 
-Also, the select is going to cause a problem with nodes named 'leds', so 
-it will need to be:
+Based on my understanding of V4L2, this should not be done.
+AFAIK subdevs should expose what the hardware block can do,
+independently from other subdevs. It is up to userspace (e.g.
+libcamera) to use the most appropriate control when there are redundant
+ones.
 
-leds:
-  oneOf:
-    - type: object
-    - $ref: /schemas/types.yaml#/definitions/phandle-array
-      ...
+Luca
 
-> > +
-> > +  led-names:
-> > +    description:
-> > +      A list of device name(s). Used to map LED devices to their respective
-> > +      functions, when consumer requires more than one LED.
-> > +
-> > +additionalProperties: true
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/gpio/gpio.h>
-> > +    #include <dt-bindings/leds/common.h>
-> > +
-> > +    leds {
-> > +        compatible = "gpio-leds";
-> > +
-> > +        privacy_led: privacy-led {
-> > +            color = <LED_COLOR_ID_RED>;
-> > +            default-state = "off";
-> > +            function = LED_FUNCTION_INDICATOR;
-> > +            gpios = <&tlmm 110 GPIO_ACTIVE_HIGH>;
-> > +        };
-> > +    };
-> > +
-> > +    i2c {
-> > +      #address-cells = <1>;
-> > +      #size-cells = <0>;
-> > +
-> > +      camera@36 {
-> > +        compatible = "ovti,ov02c10";
-> > +        reg = <0x36>;
-> > +
-> > +        reset-gpios = <&tlmm 237 GPIO_ACTIVE_LOW>;
-> > +        pinctrl-names = "default";
-> > +        pinctrl-0 = <&cam_rgb_default>;
-> > +
-> > +        led-names = "privacy-led";
-> > +        leds = <&privacy_led>;
-> > +
-> > +        clocks = <&ov02e10_clk>;
-> > +
-> > +        assigned-clocks = <&ov02e10_clk>;
-> > +        assigned-clock-rates = <19200000>;
-> > +
-> > +        avdd-supply = <&vreg_l7b_2p8>;
-> > +        dvdd-supply = <&vreg_l7b_2p8>;
-> > +        dovdd-supply = <&vreg_cam_1p8>;
-> > +
-> > +        port {
-> > +          ov02e10_ep: endpoint {
-> > +            data-lanes = <1 2>;
-> > +            link-frequencies = /bits/ 64 <400000000>;
-> > +            remote-endpoint = <&csiphy4_ep>;
-> > +          };
-> > +        };
-> > +      };
-> > +    };
-> > +
-> > +...
-> > 
-> > -- 
-> > 2.48.1
-> > 
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
