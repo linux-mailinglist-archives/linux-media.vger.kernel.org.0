@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-41809-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41810-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2367DB450A4
-	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 10:00:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B65B450AD
+	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 10:01:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EC6B95A424F
-	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 08:00:37 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2DC331C232C7
+	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 08:01:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A7F8C2FC894;
-	Fri,  5 Sep 2025 08:00:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB85E2FE566;
+	Fri,  5 Sep 2025 08:00:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="JOQD/D9E"
+	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="byR/Ou5J"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-244106.protonmail.ch (mail-244106.protonmail.ch [109.224.244.106])
+Received: from mail-106112.protonmail.ch (mail-106112.protonmail.ch [79.135.106.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 412C625B1D2;
-	Fri,  5 Sep 2025 08:00:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=109.224.244.106
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DA91F4262;
+	Fri,  5 Sep 2025 08:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.112
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757059215; cv=none; b=NnXzXMn36ugGLOyWW58VbSCx7HHw8AfQYtdjSiaEU9xPxplIB3PbPamsxUVdU3i0TBbQw/c9/d+sbJH7Pc5C+KnratGjXtv539eExLqHyHejHxs4dDwyQB2/awLNHMa2NO8fAo/0AQik0tqxzuF47+o3cOlI2z1hFmgMdvzNd+8=
+	t=1757059217; cv=none; b=ATGcm+iw5X028i/Ma1NHGWWMbqXsvx8nBcCP7VCa3caHunhCOdN69CM0N6H/znyeDR63jlQxOz2QoE1KKcqJuE++m2Wx17GhmBulwR4r7L6uzq5FcU2JgUIDB2fIAHxU8vhFzrTendP5BwsEPHebEk0bqeyM3xbbmNbNvetXY2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757059215; c=relaxed/simple;
-	bh=yMCxA1YBoWSwXEzfIBx2mS17OtHXmCeiYqirRRvAdG4=;
+	s=arc-20240116; t=1757059217; c=relaxed/simple;
+	bh=edWT6KdBWyksJJHrbWQQWgcHw91Jmbb/HxPT7wxRo/w=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=YHqi7vt4o6dnPY88fGw7te0Bun9Wg8z3oD+CxQagSGio4i0PKpKmnO30CXw5gPP526/eMibBAL/OEl3sbEmgWZVcOfUnrh7c+ZbKP9v+oZW6WS0MeHDVPtOvbLnUNkvXRyPXwsg448aVbfmJxKT59/XKG3sEoGu1zgNHRXPGNPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=JOQD/D9E; arc=none smtp.client-ip=109.224.244.106
+	 In-Reply-To:To:Cc; b=ni6vsdKJ/1BynGhoTh9a6UPs/LLl5NMKwZoNiFpyukuZ4eWFVnz/NhPvoKUy13eYeE3rp7RBYFWBSBl1MxVYYd3PbfQ+0gSpgpjyqyT62GG10TU7tccE3t9991yR7h0VF+MsexRfipgFIxwUHgqROIsC/Tv0uqeWMvnDYGvbZE4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=byR/Ou5J; arc=none smtp.client-ip=79.135.106.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinarskis.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
-	s=protonmail; t=1757059210; x=1757318410;
-	bh=TKLUfGH8uv3WLk2SOPxFiRNjJURmOMHDoaZeUzdLiOs=;
+	s=protonmail; t=1757059213; x=1757318413;
+	bh=91qDt4aSXmfJHmp9z9JEKedQZehuTGRF2Qw0y+ToL4c=;
 	h=From:Date:Subject:Message-Id:References:In-Reply-To:To:Cc:From:To:
 	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=JOQD/D9Et30KnY8JwuEIwpaQHwFLtBFnWWCN6ak9KOYk2pjw4OyrVEsZXHm0WhXxo
-	 IxCB8k28ZVSTNkDiFFlmMt+wIkk6i306RgMQnuvXYYVMxi1vXovM3T8uPxkmR0/CTN
-	 6uaDjJPr5kvs7DR+k+Wl9qJj3yN3/PRk3e7phsrjk198586Ye9Sj4h1FOGcYCCS7Up
-	 mJSCCIHtCVHG4sw3XaeYO9paRD0DIATQaIct4eruYaz6BQXoMzctwj+zxAoYfxZb5H
-	 w/p+QVzhb5IcWV+AiLzFyRYS+C2l69McwbCbP96wya76u1SN0AInvi55ThTyXWYdXP
-	 ls/jvkJCI6L6Q==
-X-Pm-Submission-Id: 4cJ8080fKzz2ScWY
+	b=byR/Ou5JsdLbXUMHPk15tlUl0O7VgudGiQrUKw+EObIXH5Kg24RKVpnurvOBc6qsp
+	 Wlz0VIc2Xq8xkSuurQiMBWj7en4ol4ksaUvRzzI0eBWNLRmczZ5tIqfz4TgsGkVbw8
+	 6oCW7lvNQBEOe0hE0PlZ1+gRvjYdPUnHuuc9O5kNFeHoLJTcg1ybR2Jm43jLILUWYm
+	 UwaAAK/Ie6/6nmbZf8z3tmur8MLWKPe4htq1ntv54uP+HkOW1FBrnFUcrkFDFz0fpt
+	 oIFzuUmci8/YFdEO7Nu8BGAVtsRtIu/DrxoHoxPJoc2sWQZetLGkK1Vj3lVtonHkei
+	 BQGdVBg0R8fMw==
+X-Pm-Submission-Id: 4cJ80B4J0gz2ScWP
 From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Date: Fri, 05 Sep 2025 09:59:31 +0200
-Subject: [PATCH v2 3/4] leds: led-class: Add devicetree support to
- led_get()
+Date: Fri, 05 Sep 2025 09:59:32 +0200
+Subject: [PATCH v2 4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera
+ privacy indicator
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250905-leds-v2-3-ed8f66f56da8@vinarskis.com>
+Message-Id: <20250905-leds-v2-4-ed8f66f56da8@vinarskis.com>
 References: <20250905-leds-v2-0-ed8f66f56da8@vinarskis.com>
 In-Reply-To: <20250905-leds-v2-0-ed8f66f56da8@vinarskis.com>
 To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
@@ -73,94 +73,60 @@ To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>,
 Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>, 
  dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
- linux-arm-msm@vger.kernel.org, Aleksandrs Vinarskis <alex@vinarskis.com>, 
- Andy Shevchenko <andy.shevchenko@gmail.com>, 
- Linus Walleij <linus.walleij@linaro.org>
+ linux-arm-msm@vger.kernel.org, Aleksandrs Vinarskis <alex@vinarskis.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2846; i=alex@vinarskis.com;
- h=from:subject:message-id; bh=q4BZRBIPBJ3imnNcJBChAehI+qOXxd1Xc7eYB34jKo0=;
- b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBm7ZtS/ku/L05jXe15Y9c+f/171HP/OSgiKxjL0x6tr6
- 1WtXf6+o5SFQYyLQVZMkaX7z9e0rkVz1zJc1/gGM4eVCWQIAxenAExk5XSGf5pWrnd+TLlbUfbR
- Xu1MdIj46oXztyadC5wyrf37SefTigsZGa4Jq80+MeVfUP4j349Cq2qnWfve+OAqtmpjZ8B240c
- XKlkA
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1667; i=alex@vinarskis.com;
+ h=from:subject:message-id; bh=edWT6KdBWyksJJHrbWQQWgcHw91Jmbb/HxPT7wxRo/w=;
+ b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBm7ZtQn+QrvYmBferxhro26SRLDQ/c7UwVnzq4QytJWM
+ OleJRreUcrCIMbFICumyNL952ta16K5axmua3yDmcPKBDKEgYtTACYS957hn+UtoyaP4xP8Ikv5
+ vZlWvHkX0snO9OXInZqTnK8jD8p4PWFk2BPx1l09o+pyA2/fxKd/6kMUi9tzTM7zuU2y+ZU1a+k
+ VZgA=
 X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
  fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
 
-From: Hans de Goede <hansg@kernel.org>
+Leverage newly introduced 'leds' and 'led-names' properties to pass
+indicator's phandle and function to v4l2 subnode. The latter supports
+privacy led since couple of years ago under 'privacy-led' designation.
+Unlike initially proposed trigger-source based approach, this solution
+cannot be easily bypassed from userspace, thus reducing privacy
+concerns.
 
-Add 'name' argument to of_led_get() such that it can lookup LEDs in
-devicetree by either name or index.
-
-And use this modified function to add devicetree support to the generic
-(non devicetree specific) [devm_]led_get() function.
-
-This uses the standard devicetree pattern of adding a -names string array
-to map names to the indexes for an array of resources.
-
-Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-Reviewed-by: Lee Jones <lee@kernel.org>
-Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-Signed-off-by: Hans de Goede <hansg@kernel.org>
 Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
 ---
- drivers/leds/led-class.c | 19 +++++++++++++++++--
- 1 file changed, 17 insertions(+), 2 deletions(-)
+ arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-index 15633fbf3c166aa4f521774d245f6399a642bced..982eb4c1aac998e85b104d7cba26e786ca62056f 100644
---- a/drivers/leds/led-class.c
-+++ b/drivers/leds/led-class.c
-@@ -252,15 +252,23 @@ static const struct class leds_class = {
-  * of_led_get() - request a LED device via the LED framework
-  * @np: device node to get the LED device from
-  * @index: the index of the LED
-+ * @name: the name of the LED used to map it to its function, if present
-  *
-  * Returns the LED device parsed from the phandle specified in the "leds"
-  * property of a device tree node or a negative error-code on failure.
-  */
--static struct led_classdev *of_led_get(struct device_node *np, int index)
-+static struct led_classdev *of_led_get(struct device_node *np, int index,
-+				       const char *name)
- {
- 	struct device *led_dev;
- 	struct device_node *led_node;
+diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+index 637430719e6d7d3c0eeb4abf2b80eea1f8289530..03801b174713cb9962c10072a73e9516abc45930 100644
+--- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
++++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
+@@ -83,15 +83,11 @@ leds {
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&cam_indicator_en>;
  
-+	/*
-+	 * For named LEDs, first look up the name in the "led-names" property.
-+	 * If it cannot be found, then of_parse_phandle() will propagate the error.
-+	 */
-+	if (name)
-+		index = of_property_match_string(np, "led-names", name);
- 	led_node = of_parse_phandle(np, "leds", index);
- 	if (!led_node)
- 		return ERR_PTR(-ENOENT);
-@@ -324,7 +332,7 @@ struct led_classdev *__must_check devm_of_led_get(struct device *dev,
- 	if (!dev)
- 		return ERR_PTR(-EINVAL);
+-		led-camera-indicator {
+-			label = "white:camera-indicator";
++		privacy_led: privacy-led {
+ 			function = LED_FUNCTION_INDICATOR;
+ 			color = <LED_COLOR_ID_WHITE>;
+ 			gpios = <&tlmm 28 GPIO_ACTIVE_HIGH>;
+-			linux,default-trigger = "none";
+ 			default-state = "off";
+-			/* Reuse as a panic indicator until we get a "camera on" trigger */
+-			panic-indicator;
+ 		};
+ 	};
  
--	led = of_led_get(dev->of_node, index);
-+	led = of_led_get(dev->of_node, index, NULL);
- 	if (IS_ERR(led))
- 		return led;
+@@ -685,6 +681,9 @@ camera@10 {
+ 		pinctrl-names = "default";
+ 		pinctrl-0 = <&cam_rgb_default>;
  
-@@ -342,9 +350,16 @@ EXPORT_SYMBOL_GPL(devm_of_led_get);
- struct led_classdev *led_get(struct device *dev, char *con_id)
- {
- 	struct led_lookup_data *lookup;
-+	struct led_classdev *led_cdev;
- 	const char *provider = NULL;
- 	struct device *led_dev;
- 
-+	if (dev->of_node) {
-+		led_cdev = of_led_get(dev->of_node, -1, con_id);
-+		if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) != -ENOENT)
-+			return led_cdev;
-+	}
++		led-names = "privacy-led";
++		leds = <&privacy_led>;
 +
- 	mutex_lock(&leds_lookup_lock);
- 	list_for_each_entry(lookup, &leds_lookup_list, list) {
- 		if (!strcmp(lookup->dev_id, dev_name(dev)) &&
+ 		clocks = <&camcc CAMCC_MCLK3_CLK>;
+ 
+ 		orientation = <0>;	/* Front facing */
 
 -- 
 2.48.1
