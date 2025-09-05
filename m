@@ -1,106 +1,92 @@
-Return-Path: <linux-media+bounces-41812-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41813-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C9A8B451DD
-	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 10:43:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 72142B451FC
+	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 10:46:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 662C456340C
-	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 08:43:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D989188B593
+	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 08:47:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 734553093DD;
-	Fri,  5 Sep 2025 08:42:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1EBFD27C872;
+	Fri,  5 Sep 2025 08:46:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hAo/W1Up"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="of2mdF7k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C880727FB28
-	for <linux-media@vger.kernel.org>; Fri,  5 Sep 2025 08:42:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1E12C9D
+	for <linux-media@vger.kernel.org>; Fri,  5 Sep 2025 08:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757061762; cv=none; b=BzH1jus7M9tj8YPV3NE6B067R0cbBTAB49231qM7Ml9tb6aALqySwR5YT4T3uFqQEgud07u8PQwyyBYLvYz71fwLaFiEj1JFHzJmoLpAQfW1/WgSf2OHrrZDW3gC2O5u9J9F32HSDj1W+D+a9gUmiTCPWUFhbbORRQskoFPoD0Q=
+	t=1757062009; cv=none; b=Vj7jWRGUwCCwFBs0LGuurJeqh4Q5ESlP/wBVFscDbL8iEcuShi+dC6nylqu/ev7ftiR+DqssvaBRu8LN/TOdXJYSM2PSp7IHfUU3M15fxr+wUPlHeQbRxyedX4EYPWJD8wf4fUg9eUMdbS/Zb4lADDTkqdBj2J2hzWGRIhU3PRs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757061762; c=relaxed/simple;
-	bh=zf+3JsvKOG6fQD5XeeQVjsflmRftpLkAWn2Al7SZEi0=;
+	s=arc-20240116; t=1757062009; c=relaxed/simple;
+	bh=2PkSYU9R6cSMgvz9XDJ/cQyaDu5Jb0hhqb2p2vXgvhY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=t/dlRNSliSF77Mb/PIhZM9IyA0Dvu9Uf1HbnR9VY6EtExKLWrfGY1cJvQIRNYS0oVe3uxGnitK3H/vtpRgbHRJAdadQuPXcxB4kwk9Th1IhqRuTpAj81DfgjsR86/26G0nt3gC/fy0VAZHHfFDKSuKuFaH5+sASmzQQ96Wq3FGQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hAo/W1Up; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757061761; x=1788597761;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=zf+3JsvKOG6fQD5XeeQVjsflmRftpLkAWn2Al7SZEi0=;
-  b=hAo/W1Upv3PPbc7cZQw7hgIzjoSUhsbmyWDB3F/nB7vy0RPF9Flr4uej
-   xHKAz0Br693tiU3MznnaLWK3AqWMBkPDzrbl/zGs7rQXQ+30VBaDyabXE
-   acVqt2FMba/Cq2zW9+KHywNtVcVf3EUUx0iLC51AUoCg8Mu82c+umlu6k
-   DLCFZeGbqNAwC9K8PboL9AXE+Rsp5dzf9a3DamjC1ncDI7KLZh0YHWVMr
-   2AFzH5msq4zMMbyj3CP91/Ke6t5BoKHHQY7YolWmj1Q5V8K5qVmUdrMHY
-   t8abRKt092HhUjdtJGQUs/Nx5dQusxcP5qpIj20LlOgy7TQRNygkio9Je
-   g==;
-X-CSE-ConnectionGUID: dGga7HMLQXSUy1gkTevh0Q==
-X-CSE-MsgGUID: jZJEMLe+QUWV/KpUpeNMSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11543"; a="70026112"
-X-IronPort-AV: E=Sophos;i="6.18,240,1751266800"; 
-   d="scan'208";a="70026112"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 01:42:40 -0700
-X-CSE-ConnectionGUID: 6sQ4EaDPSNuw3KEqwHAJbg==
-X-CSE-MsgGUID: G5TrC+ALQiaxJ37waY/W7A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,240,1751266800"; 
-   d="scan'208";a="203040192"
-Received: from sschumil-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.241])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Sep 2025 01:42:39 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 798C1121F43;
-	Fri, 05 Sep 2025 11:42:36 +0300 (EEST)
-Date: Fri, 5 Sep 2025 11:42:36 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=U7Vm5FaWekxRZX3oyloH99vric5Vrh/dzcMuPUKfTAvlHzKcjYUI2aGxg/T45b2rsnj1gJL05haKPrQL4A55Qh+aXxWxrUavbD+NA3JLWpnCvEE4kzma5NVzg/monYoVa9pIavQD/euwlxCG82aZ5e9GlUSNtkji2V0O4tQlk/I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=of2mdF7k; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7FA1A82A;
+	Fri,  5 Sep 2025 10:45:33 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1757061933;
+	bh=2PkSYU9R6cSMgvz9XDJ/cQyaDu5Jb0hhqb2p2vXgvhY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=of2mdF7k8TcxQ9+InfkPVs5ZALZQbDln+rCuKMeLFBOziOYOXxgpOvfzH3cl4k973
+	 T6aZKBK8M2tHRrNZGaxKVGj5UAI55K8NkBjEdVl/hGAVUWgFq/anLRpilDAlPd43Rt
+	 mbd65qvD1QV68H5OCa8smhFhS+movZGf3lv1fkrI=
+Date: Fri, 5 Sep 2025 10:46:22 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-media@vger.kernel.org
 Subject: Re: [PATCH v2 10/72] media: i2c: hi556: Replace client->dev usage
-Message-ID: <aLqifDc9FqUh_oiC@kekkonen.localdomain>
+Message-ID: <20250905084622.GA6549@pendragon.ideasonboard.com>
 References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com>
  <20250812214620.30425-11-laurent.pinchart@ideasonboard.com>
+ <aLqifDc9FqUh_oiC@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250812214620.30425-11-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <aLqifDc9FqUh_oiC@kekkonen.localdomain>
 
-Hi Laurent,
-
-On Wed, Aug 13, 2025 at 12:45:18AM +0300, Laurent Pinchart wrote:
-> The driver needs to access the struct device in many places, and
-> retrieves it from the i2c_client itself retrieved with
-> v4l2_get_subdevdata(). Store it as a pointer in struct hi556 and access
-> it from there instead, to simplify the driver.
+On Fri, Sep 05, 2025 at 11:42:36AM +0300, Sakari Ailus wrote:
+> On Wed, Aug 13, 2025 at 12:45:18AM +0300, Laurent Pinchart wrote:
+> > The driver needs to access the struct device in many places, and
+> > retrieves it from the i2c_client itself retrieved with
+> > v4l2_get_subdevdata(). Store it as a pointer in struct hi556 and access
+> > it from there instead, to simplify the driver.
+> > 
+> > While at it, fix a mistake in the sort order of include statements.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > 
-> While at it, fix a mistake in the sort order of include statements.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Avoiding v4l2_get_subdevdata is a big plus. But instead of adding the dev
+> field to every driver's context struct, could you use the dev field that
+> exists in struct v4l2_subdev already?
 
-Avoiding v4l2_get_subdevdata is a big plus. But instead of adding the dev
-field to every driver's context struct, could you use the dev field that
-exists in struct v4l2_subdev already?
+I'd rather not. I think it's much clearer to have a dev pointer in the
+driver structure, initialized right after allocation. The structure is
+available everywhere, this makes lines shorter, and functions called
+from probe won't need to wonder if the subdev has been initialized
+already or not, and get the dev pointer from somewhere else in the
+latter case.
 
-Should we repeat the pattern in this patch, the context structs of sensor
-(and other drivers) would be rather large.
+> Should we repeat the pattern in this patch, the context structs of sensor
+> (and other drivers) would be rather large.
 
 -- 
-kind regards,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
 
