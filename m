@@ -1,131 +1,242 @@
-Return-Path: <linux-media+bounces-41820-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41821-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC2B3B453E5
-	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 11:59:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BED5B453EC
+	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 12:00:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A2ADF5A212E
-	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 09:59:11 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C359C5A231E
+	for <lists+linux-media@lfdr.de>; Fri,  5 Sep 2025 10:00:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0171129BDAA;
-	Fri,  5 Sep 2025 09:58:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9574129A326;
+	Fri,  5 Sep 2025 09:59:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ju7VL2t+"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="GUI0CfKg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B096B29992B;
-	Fri,  5 Sep 2025 09:58:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757066331; cv=none; b=gMEtvvgJ+uyMW95cahC345Eo+CtF7BM6/11e8TkddijNiAqPI8qG6cPJb+s4unvCcV8naMnnP8YnUV7oRXiELG15d7Hl9cd/0ZuKWqLyL/EpQhtuqt2iVh8jnRL+hqHaMCYJV690UtEqmpj2uMBlJfACfCOIHgMZE7GVIlq2QD8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757066331; c=relaxed/simple;
-	bh=HwKAByuNhyttoGvFHgIccch/Uo155Ry0ykJWPvr1wMk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=n1UbRWRqBy3e2gD8pe571xLzQfsCFLSHXz3sU8fhBvyXLDZEiIoHaW+OZuKFiEE/eiG5sF5PQeuZ21RvRjtZ56gcfQSv1mcYeWFXbOS/qX6+zjtkpBCwb66OOzgwVAguikuEVgEt6LAoyNXpfffb8QcQBYGuybFFxDbhEnBiVe8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ju7VL2t+; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-61d3d622a2bso3997247a12.0;
-        Fri, 05 Sep 2025 02:58:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757066328; x=1757671128; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/Fbkrslrl/U4EHGtpNkUJapA11UFx/rFpQL4PlMt2+o=;
-        b=Ju7VL2t+yE45YjZPcFLMqEBvgyXRKiYbvbgLNNZRphjEFwfpZcwS4fvmI0k6roSAKl
-         /V6XDy/i9hptqFECLx3d+++AbyPKYLcWg1C6KrMmWbe303e2V2TIeu6RC7cRSFDD5TqY
-         9/3efbb1buRTSFM2eBykAPR9NTexuFKI05DbcsG/jcwjvOk6BRfzphMT1JxTiHxpKom9
-         1NOCh0pJp3aIHYCYHWmiorUBrTPQWMV2gP4QjIMb/K8xdbYUeAXweBhRKlDe/PtskEuK
-         jUPckMfqTjt+0Xbwcda5QkOsmfADb3KbTOIb2zpD7k4/UflsmEKxQoFBuoESbYfbJkVB
-         6K9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757066328; x=1757671128;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/Fbkrslrl/U4EHGtpNkUJapA11UFx/rFpQL4PlMt2+o=;
-        b=XGUbKioqqbwv+k9M5etEzYqQKkhl7+1bA1N8c8Z3WWNA/y63VQ7g5aeIxIYuVV7Nxj
-         X0V/Uy6MYk/BqKg5vetCr9L31qY3W8RdRPYuIGYm2b/TY67tHlCeJ9aVpOC27aWxOPHt
-         qUwk64+QmF2gkMuvqPf+R4J0KK7hAnn0bgQB6Q08kwpGmgyKT+eFJ5XYhnIkC7/203oI
-         YrJjFkfnzEBloQw3kqtPUreW++GL06LIimguitGjHE92IZ83gW0PT4VLCZtty2d8BwBx
-         4xRUQANyKshe66+nBE97TdXaaQ6CVtojzadOs5depRc82105aPk8HrElwWufT+UVn/cw
-         m2lw==
-X-Forwarded-Encrypted: i=1; AJvYcCU5TusZsWvANO5QZpBXjLiJwxhew1dnrOoc7dllKEzE7eckRu1bUWFnp/aUR+pw4qmN0zxzuFTNAHOg6zQxjw==@vger.kernel.org, AJvYcCUlOK3CKTpXbnnS0tyubxPjZO5EQlCze+ekMjTFAbNtyNdkOYZoJXlPooKsIt0JJCEf/3ICocNdH1WOY9sg@vger.kernel.org, AJvYcCVbNTTXsf2TIF5N1c6KeavA8WNATQ28zP0HpKx5VywvKCwzd154IyQWj5wLFBPCeo1RKIFOl6Fhkx/LMA==@vger.kernel.org, AJvYcCWW7HOUcEp+pHWlBK60JShV2u18zwJkXwokE99xuW/X7r6Z3v9iXV8eAKUvh21Z2OJvs38dyvxHFHH5L6A=@vger.kernel.org, AJvYcCXa/d6LaBGz9hn5qX4R5J5PSkuieBTP6JVfqLyYmVxyJhzbJjuoysiG+Ls8FFyzZziMFrYktiiXQgaq@vger.kernel.org
-X-Gm-Message-State: AOJu0YzH99YiwiSHCOuig6bKEw9pCBV3TAN2o8UKGuhXyjH3QTcfaRCo
-	PDOHpMj3Em+8iisF5D829NanknmSzjkLnzo//XrCqZkUsn7YDNoM6AzW+2bY+kiRMmZ+yN7RrIe
-	4lMMZd+QYh8yhp5N2DjzqXQPEJG+Cnl8=
-X-Gm-Gg: ASbGncsRIz13No41OSggY9WfDCX/gggjUAAWmT5V1hd1MeitwwrcnLA/LfE2xz9mJB+
-	FXvR37bk9B8WNk6r6t4jXHukU/JkEfN0eFdhmpGZURaiyGjUkQ3oz9q6Uw/QNv5cNkLDmezJnwC
-	ICY434PloAlLr5BheBEvuDE7dTEN5gHq7CbFcUJo+SrD3rbVSzFMNzVszMqTjmYAMJBdabmgsPQ
-	/pXAWoYYftoaKH2kP+r
-X-Google-Smtp-Source: AGHT+IG+T0I2sVJ76wcpIaEPBSRBiZu3omKGiXauTUn6MdjpxAu1nCa0lZ8hdCy65HkLKv48pMVIExJVfsOtu7NoIlE=
-X-Received: by 2002:a17:906:b24e:b0:afd:eb4f:d5d2 with SMTP id
- a640c23a62f3a-b04931b6715mr244720966b.31.1757066327695; Fri, 05 Sep 2025
- 02:58:47 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 747D6298CA2;
+	Fri,  5 Sep 2025 09:59:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757066392; cv=pass; b=jSE4SvQi2lj5Vr9LpRp+MpFxB2LDpUSSgaTSnCFM6UY78ublhzoSigA6DycLEuLddoMBbZqfuPkghoZxpvLcw0FcBofpLg/cpNFqS5Ho2jfV0nF3Im5jTVdZnJ99mOUCtRgq1UU1RvvmlASpZhVLNOPTjHPp4KyztuWrCVGi9dE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757066392; c=relaxed/simple;
+	bh=4B0uCafS9PeiWwtB76K0wpVYqUotJLtrS8aEO+uQLTQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LlManCDUCH76jj9k8BdgEdN9p5VCjNP3R2WmzFVzxLxVoIqGLwYpIGBhZCBsk9MvmYQBPSv5WJAiH8OsCUpNwe/J8LtQiBd8x/tOP4m067xUwZn5ozGmEVGhbHrE1qZ+9vepMt+g3LMKTeonGeZcjcSaMWilcyCfQXQiNuvTdGE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=GUI0CfKg; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4cJBf52cjYzyTd;
+	Fri,  5 Sep 2025 12:59:41 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1757066381;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oxU6PeI8iqd+YU+k6CwK/hzw7lag9KitjUROGBpvzGM=;
+	b=GUI0CfKgySHWm7Ai8V/4Q+/y88QEc2bLWtjGFYKs/gyCjaBnn63TEnwZc0IJ22JPvTrpOp
+	1tN+SMDR3kNGkDPvYXj90eWNST1xMPF/q1cargR5yYXf76L6qkodwh8d188QB/on9obLb0
+	pvAFtlyrPl85XX5F+wjIcu1FlFcrU8s=
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1757066381; a=rsa-sha256; cv=none;
+	b=ss4sCOxcsjmOecGY53Y1SCx43ctwU/adJnvSCrjJt12hgfr4BdJsaHqnMQRoBtz/Ck8UQr
+	jClsQldiaeCs/yj41q0KJG1sr4VfaQG4029fB9Oq9zgkqnb/Ec26AKM2np3M/tgo1JzGtK
+	MkaxjDHnZHE24nhR4dYZI/lpcjAlH5E=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1757066381;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=oxU6PeI8iqd+YU+k6CwK/hzw7lag9KitjUROGBpvzGM=;
+	b=y8gsDYeHGpYkGtnCvKUTtWPp489kC8Yom9V6pnpHQee4uHoDHvZE7NDddbsbqSBbNYWZsf
+	XX43UMgDQ2PUWDL+YhyAudCXCOc9GQMBFluqp+ZKrhBqXt0NBKb5HfqSb3QKOdDXcP0Jta
+	RTwsNuM7DJ3AsmOeh4KsgwYIb1BAvzA=
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 74846634C93;
+	Fri,  5 Sep 2025 12:59:40 +0300 (EEST)
+Date: Fri, 5 Sep 2025 12:59:40 +0300
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Matthias Fend <matthias.fend@emfend.at>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	bsp-development.geo@leica-geosystems.com
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: i2c: add Himax HM1246 image
+ sensor
+Message-ID: <aLq0jJtdaxIpN9CT@valkosipuli.retiisi.eu>
+References: <20250526-hm1246-v2-0-6b882827a3a5@emfend.at>
+ <20250526-hm1246-v2-1-6b882827a3a5@emfend.at>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250905-leds-v2-0-ed8f66f56da8@vinarskis.com> <20250905-leds-v2-3-ed8f66f56da8@vinarskis.com>
-In-Reply-To: <20250905-leds-v2-3-ed8f66f56da8@vinarskis.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Fri, 5 Sep 2025 12:58:11 +0300
-X-Gm-Features: Ac12FXxgVWw8at73QOgiZhDzD-M5RC_p2kCHNqId-Qnd1EcmDzHOPtVe7B7RZ5s
-Message-ID: <CAHp75VfSoDHX-zy3Kdk0=oBA64mKddXqHh7v6RwfzRJo8Az_1A@mail.gmail.com>
-Subject: Re: [PATCH v2 3/4] leds: led-class: Add devicetree support to led_get()
-To: Aleksandrs Vinarskis <alex@vinarskis.com>
-Cc: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	"Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, Daniel Thompson <danielt@kernel.org>, 
-	Jingoo Han <jingoohan1@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Jean-Jacques Hiblot <jjhiblot@traphandler.com>, Jacopo Mondi <jacopo@jmondi.org>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, Bjorn Andersson <andersson@kernel.org>, 
-	Konrad Dybcio <konradybcio@kernel.org>, linux-leds@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	Daniel Thompson <daniel.thompson@linaro.org>, dri-devel@lists.freedesktop.org, 
-	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	Linus Walleij <linus.walleij@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250526-hm1246-v2-1-6b882827a3a5@emfend.at>
 
-On Fri, Sep 5, 2025 at 11:00=E2=80=AFAM Aleksandrs Vinarskis <alex@vinarski=
-s.com> wrote:
+Hi Matthias,
 
-> Add 'name' argument to of_led_get() such that it can lookup LEDs in
-> devicetree by either name or index.
->
-> And use this modified function to add devicetree support to the generic
-> (non devicetree specific) [devm_]led_get() function.
->
-> This uses the standard devicetree pattern of adding a -names string array
-> to map names to the indexes for an array of resources.
+Thanks for the set.
 
-...
+On Mon, May 26, 2025 at 08:59:27AM +0200, Matthias Fend wrote:
+> Add YAML device tree binding for Himax HM1246 image sensor.
+> 
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Matthias Fend <matthias.fend@emfend.at>
+> ---
+>  .../bindings/media/i2c/himax,hm1246.yaml           | 111 +++++++++++++++++++++
+>  1 file changed, 111 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/himax,hm1246.yaml b/Documentation/devicetree/bindings/media/i2c/himax,hm1246.yaml
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..8a67de7e3ffcaa9f1acfe443b1e36fffb79dbacf
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/himax,hm1246.yaml
+> @@ -0,0 +1,111 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright 2025 Matthias Fend <matthias.fend@emfend.at>
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/himax,hm1246.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Himax HM1246-AWD 1/3.7-Inch megapixel SoC image sensor
+> +
+> +maintainers:
+> +  - Matthias Fend <matthias.fend@emfend.at>
+> +
+> +description:
+> +  The Himax HM1246-AWD is a 1/3.7-Inch CMOS image sensor SoC with an active
+> +  array size of 1296 x 976. It is programmable through an I2C interface and
+> +  connected via parallel bus.
+> +
+> +allOf:
+> +  - $ref: /schemas/media/video-interface-devices.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: himax,hm1246
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description: Input reference clock (6 - 27 MHz)
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: Active low XSHUTDOWN pin
+> +    maxItems: 1
+> +
+> +  avdd-supply:
+> +    description: Power for analog circuit (3.0 - 3.6 V)
+> +
+> +  iovdd-supply:
+> +    description: Power for I/O circuit (1.7 - 3.6 V)
+> +
+> +  dvdd-supply:
+> +    description: Power for digital circuit (1.5 / 1.8 V)
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +    description: Parallel video output port
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        properties:
+> +          bus-type:
+> +            const: 5
 
-> +       if (dev->of_node) {
+Does the device also support e.g. Bt.656? If not, you can drop this.
 
-This check is not needed.
+If the rest of the parallel interface parameter properties aren't
+mandatory, what are their default values?
 
-Currently of_led_get() returns -ENOENT if the np is NULL or index is
-invalid (negative value).
-Same will be with the added index search as in case of error it will
-hold a negative value.
+> +
+> +        required:
+> +          - bus-type
+> +
+> +    required:
+> +      - endpoint
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - avdd-supply
+> +  - iovdd-supply
+> +  - dvdd-supply
+> +  - port
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/gpio/gpio.h>
+> +    #include <dt-bindings/media/video-interfaces.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        sensor@24 {
+> +            compatible =  "himax,hm1246";
+> +            reg = <0x24>;
+> +
+> +            clocks = <&hm1246_clk>;
+> +
+> +            reset-gpios = <&gpio0 0 GPIO_ACTIVE_LOW>;
+> +
+> +            avdd-supply = <&hm1246_avdd>;
+> +            iovdd-supply = <&hm1246_iovdd>;
+> +            dvdd-supply = <&hm1246_dvdd>;
+> +
+> +            orientation = <2>;
 
-> +               led_cdev =3D of_led_get(dev->of_node, -1, con_id);
-> +               if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) !=3D -ENOENT)
-> +                       return led_cdev;
-> +       }
+It'd be nice to add macros for these in
+include/dt-bindings/media/video-interfaces.h .
 
---=20
-With Best Regards,
-Andy Shevchenko
+> +            rotation = <0>;
+> +
+> +            port {
+> +                endpoint {
+> +                    remote-endpoint = <&isp_par_in>;
+> +                    bus-type = <MEDIA_BUS_TYPE_PARALLEL>;
+> +                    bus-width = <10>;
+> +                    hsync-active = <1>; /* active high */
+> +                    vsync-active = <1>; /* active high */
+> +                    pclk-sample = <1>; /* sample on rising edge */
+> +                };
+> +            };
+> +        };
+> +    };
+> 
+
+-- 
+Regards,
+
+Sakari Ailus
 
