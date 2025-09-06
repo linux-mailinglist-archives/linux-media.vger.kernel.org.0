@@ -1,128 +1,105 @@
-Return-Path: <linux-media+bounces-41913-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41914-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDA17B476DA
-	for <lists+linux-media@lfdr.de>; Sat,  6 Sep 2025 21:18:08 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65DF1B477A9
+	for <lists+linux-media@lfdr.de>; Sat,  6 Sep 2025 23:39:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 60EB4179F91
-	for <lists+linux-media@lfdr.de>; Sat,  6 Sep 2025 19:17:57 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1B92A7AEA7C
+	for <lists+linux-media@lfdr.de>; Sat,  6 Sep 2025 21:38:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48826288500;
-	Sat,  6 Sep 2025 19:17:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 970202D29C3;
+	Sat,  6 Sep 2025 21:37:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PRmMeziJ"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="K2W/llDd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88EA825B1C5;
-	Sat,  6 Sep 2025 19:17:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A882D0C76;
+	Sat,  6 Sep 2025 21:37:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757186268; cv=none; b=QLAZwZzc8XTNWwtB00FZAIBlcFA6ZFLOL3WKCo/u1yQz5sZUZUUVBM2rfSxJhr+fu9P8be/BhAjJPxSdSakI6U1UalJfhVBzDZUfDTHEzjaqjnYrDskIFq2gdPvDHjdEbZjmvnGg526heDwY46peQbe996zB9rULxAQ6p58J+eM=
+	t=1757194629; cv=none; b=NqqXrJgzMh4d3NJ0tzqbCb9ONUJgANZ+clOOcJUoXpWDp/k3qYLCgJDqgLSJ7StD2a0SDr7RuDkJ2iY4cRut49KyHC0+NBT0XjHL9rDb6/n0wxgrywplrSJdV+aXQQbNEjaOVXN5K9t1d9ZY3Bd55qYD0IPp5L79uHH1Ai2+UsI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757186268; c=relaxed/simple;
-	bh=PKtVETpt3iAueUyOAHaFirlCACUUZHxID9Y/hmP47vQ=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=kFtM5W8XU4lMmyp4ADCVVaQya+ze6TJWx7I4iWKdBe3G25i8CaYbLbcrK9thdfq6+3JiyDK276yj//aDJW7ZD40fCC3MwRFQOo2uz3spdnQZ0khgSQtqmaGEpEJ+YgAabWuFibbtBLWKms2dHFazVUZb0SkVEDcWzUoMTYjrrtE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PRmMeziJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35C21C4CEE7;
-	Sat,  6 Sep 2025 19:17:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757186268;
-	bh=PKtVETpt3iAueUyOAHaFirlCACUUZHxID9Y/hmP47vQ=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=PRmMeziJu1HlJ53s8cvAtqN3495uZxs/Jtw+3b/wl/tpByw8ltRq0GtkKT5oNdf+C
-	 TAPPZz4RcsGIf/NRUAbhLQ1RSKhHGo5C/s6RGcWQE/PKHndd2wjq1zei3fsjuYZt5+
-	 /FxHE04rv5z6gL73pOHTaHTdlXmCUpjihD9LfZFQMUecsAMq/3zSKISSdOJQxTCN3f
-	 4Gw5xhCv7blWlgh30jQ+SKks6wMMmRv7JcZkwuBNy6dCHZBlWltomYuPA1N4Xy687k
-	 lv4lhcd9mWTWgfRbJ0jk8MKkaJeRUwkodnUSY+8hO/LuGvKxnmLYLtAH8FJfzD1M7P
-	 mYZfDluqIseqQ==
-Date: Sat, 06 Sep 2025 14:17:47 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	s=arc-20240116; t=1757194629; c=relaxed/simple;
+	bh=55uaeWV/aBUQtp9LkGlPTEcjHah/6AIZRIwqNC7DGV0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=H68HsXzvHqNnnRAPAtiMbwmcYt1bKd2Lzi2PGoYL+j7MVlzf8xHVbEb4sU9F66W6pnMdh8f50NDQTdY0VqQWL56nxGsXvmCRbdwuFa5alsFZSy55clmYPKsHwReAjsOPGGZyZyTqnCtS0Rca5DbWSWrOIVqghSBAuQTU2Q2SUVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=K2W/llDd; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cK64B0917z9sm3;
+	Sat,  6 Sep 2025 23:36:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1757194618;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=p81LzOsOYNsdOTSUXvokaC8zBIJglqa1ttqhdnLPofE=;
+	b=K2W/llDdgZ6H8bXUb8m2FGz08OzeQWYqvyYRR4fh1i+JXw5nsM6MdsK01JhLztgOFTtviD
+	qmdlSmWwfjSjdiGvSRuJq8SH8/MBZH32y/8b/xOQSGqwYK0E8E+TObZohfwXV0SoNmghS5
+	CvFGUT4Rg/SDZAlhUUsjJ9MCelxBsOIiv8w46dfdquCpODsQvcdOyvLw+ALsNJpM4/aEUs
+	uqetv7SDjLzNZqtusbCTEuNiuMCyxieSA1ZvoKkH3Veux3MnL4xtlwEhMNFed5shnvG1Mx
+	rvc4yiFYejOSZ7gPNQe+xUZZkHsvUSTNJLEBN6IWjly2IZuztPCccqe4mv89bg==
+Message-ID: <6f476105-0091-4da8-8941-2794686cf45a@mailbox.org>
+Date: Sat, 6 Sep 2025 23:32:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Conor Dooley <conor+dt@kernel.org>, 
- Charan Pedumuru <charan.pedumuru@gmail.com>, 
- =?utf-8?q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
- Thierry Reding <thierry.reding@gmail.com>, David Airlie <airlied@gmail.com>, 
- Thierry Reding <treding@nvidia.com>, linux-clk@vger.kernel.org, 
- linux-media@vger.kernel.org, linux-staging@lists.linux.dev, 
- Maxime Ripard <mripard@kernel.org>, 
- Michael Turquette <mturquette@baylibre.com>, 
- Dmitry Osipenko <digetx@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sowjanya Komatineni <skomatineni@nvidia.com>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Prashant Gaikwad <pgaikwad@nvidia.com>, linux-tegra@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, 
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
- Luca Ceresoli <luca.ceresoli@bootlin.com>, 
- Mikko Perttunen <mperttunen@nvidia.com>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Thomas Zimmermann <tzimmermann@suse.de>, 
- Jonathan Hunter <jonathanh@nvidia.com>, Stephen Boyd <sboyd@kernel.org>, 
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-In-Reply-To: <20250906135345.241229-5-clamor95@gmail.com>
-References: <20250906135345.241229-1-clamor95@gmail.com>
- <20250906135345.241229-5-clamor95@gmail.com>
-Message-Id: <175718505408.1618397.11958757465445078243.robh@kernel.org>
-Subject: Re: [PATCH v2 04/23] dt-bindings: display: tegra: document Tegra30
- VI and VIP
+Subject: Re: [PATCH v2 0/8] Add support for Wave6 video codec driver
+To: Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Nas Chung <nas.chung@chipsnmedia.com>, mchehab@kernel.org,
+ hverkuil@xs4all.nl, sebastian.fricke@collabora.com, robh@kernel.org,
+ krzk+dt@kernel.org, conor+dt@kernel.org
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-imx@nxp.com,
+ jackson.lee@chipsnmedia.com, lafley.kim@chipsnmedia.com
+References: <20250422093119.595-1-nas.chung@chipsnmedia.com>
+ <f03d0ae0-d28b-4b06-8f63-9d06f15c0522@mailbox.org>
+ <fcfa00b5ae102d76b02ce1667d27822e6d2c3c81.camel@ndufresne.ca>
+ <472aac3c-9d3e-4892-8d6c-665fa6793464@mailbox.org>
+ <59e87d8e346bb16b225382b9a4500e1b16bbf776.camel@ndufresne.ca>
+Content-Language: en-US
+From: Marek Vasut <marek.vasut@mailbox.org>
+In-Reply-To: <59e87d8e346bb16b225382b9a4500e1b16bbf776.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-MBO-RS-META: cxe8848dpu17ughnqfsffthzmjiprqsj
+X-MBO-RS-ID: 67428cf859e6fa40881
 
+On 9/4/25 5:54 PM, Nicolas Dufresne wrote:
 
-On Sat, 06 Sep 2025 16:53:25 +0300, Svyatoslav Ryhel wrote:
-> Existing Parallel VI interface schema for Tegra20 is fully compatible with
-> Tegra30; hence, lets reuse it by setting fallback for Tegra30.
+Hi,
+
+[...]
+
+>> gst-launch-1.0 -v filesrc location=/test.mp4 ! qtdemux ! h264parse !
+>> v4l2h264dec ! fpsdisplaysink text-overlay=false video-sink=waylandsink
 > 
-> Adjust existing VI schema to reflect that Tegra20 VI is compatible with
-> Tegra30 by setting a fallback for Tegra30. Additionally, switch to using
-> an enum instead of list of const.
+> Thanks for the detail. Since you have a running setup, perhaps consider testing
+> with the following, left/right keyboard arrow will let you jump around in the
+> media.
 > 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  .../display/tegra/nvidia,tegra20-vi.yaml      | 19 ++++++++++++-------
->  .../display/tegra/nvidia,tegra20-vip.yaml     |  9 +++++++--
->  2 files changed, 19 insertions(+), 9 deletions(-)
-> 
+>    gst-play-1.0 --audiosink=fakeaudiosink --videosink=waylandsink /test.mp4
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Seeking seems to be working fine.
 
-yamllint warnings/errors:
+> That would at least cover seeking use cases. I provided Nas a stream that
+> aggressively do resolution changes to reproduce a Wave5 crash, I would expect
+> him to test and report against Wave6 too. If you'd like to have that sample, let
+> me know, its not very big, and free, but I'd rather not do attachements over the
+> mailing list.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml: properties:compatible: 'anyOf' conditional failed, one must be fixed:
-	'one0f' is not one of ['$ref', 'additionalItems', 'additionalProperties', 'allOf', 'anyOf', 'const', 'contains', 'default', 'dependencies', 'dependentRequired', 'dependentSchemas', 'deprecated', 'description', 'else', 'enum', 'exclusiveMaximum', 'exclusiveMinimum', 'items', 'if', 'minItems', 'minimum', 'maxItems', 'maximum', 'multipleOf', 'not', 'oneOf', 'pattern', 'patternProperties', 'properties', 'required', 'then', 'typeSize', 'unevaluatedProperties', 'uniqueItems']
-	'type' was expected
-	from schema $id: http://devicetree.org/meta-schemas/keywords.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vip.yaml: properties:compatible: Additional properties are not allowed ('one0f' was unexpected)
-	from schema $id: http://devicetree.org/meta-schemas/string-array.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250906135345.241229-5-clamor95@gmail.com
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
-
+That one seems to be working fine too, thanks for sharing it off-list.
 
