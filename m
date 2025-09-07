@@ -1,308 +1,148 @@
-Return-Path: <linux-media+bounces-41921-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41923-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B4B1B47A1D
-	for <lists+linux-media@lfdr.de>; Sun,  7 Sep 2025 11:36:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 397A3B47A35
+	for <lists+linux-media@lfdr.de>; Sun,  7 Sep 2025 11:43:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5193C169F6C
-	for <lists+linux-media@lfdr.de>; Sun,  7 Sep 2025 09:36:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D98E73BF0A7
+	for <lists+linux-media@lfdr.de>; Sun,  7 Sep 2025 09:43:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0F8D2222BA;
-	Sun,  7 Sep 2025 09:36:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55179222578;
+	Sun,  7 Sep 2025 09:43:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="EjXnBbBW"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ai+6Qnk6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6330221B9D9;
-	Sun,  7 Sep 2025 09:36:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 141FC18859B;
+	Sun,  7 Sep 2025 09:43:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757237777; cv=none; b=a/RXhFdnevsj1SVdR0nmaZhhb2FIxF9OL6dg37vencQgL+9nXAR0JVUcTZ1nLJ39w5BzoA2BMSpJhUoUVHJitGEyNVyzy/CTGMHmrkKR2VuKokH+gEUMg85AUwf+gsPh8G+eq7Zt+zlbiC9o4vlNt6HcEYjTnpVKRM1Qy78aXD0=
+	t=1757238215; cv=none; b=jAy2UQda0TU+6X1DAeM2sA/ggjy8/UZNUTqBHLZ2eyoHLHMQI8au0FKI41wq1IXbAKIEXvC9KYnlAZYKdnnNcTQCVvnChUjcQale0QJC/As3rgfV90qpdHxLsqomMuk9J1SU7r0y4Hborv2XHwpd1gUhLKpVs9ml5e3ms3vRxnw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757237777; c=relaxed/simple;
-	bh=RepQwVUKVQrcxxnC7tQxhJtsdy6MtW8f/SS0Rp5FswA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tht9smym3YeGXm6qHvyJS7PDPgj5lpIPZQA52/SCA7sV5U/cFmw9WyRbmmiilugdp/f6XxRr87XgzHANKsSa7jkqFSrccDVggZRLYBeyTSRDmCIScCa07Dnv2lv+U8YLYCJnm4R6atNKkC47b5J56diUEsLBDpWrprVtLRp4F4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=EjXnBbBW; arc=none smtp.client-ip=60.244.123.138
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
-X-UUID: 15a85d988bce11f0bd5779446731db89-20250907
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-	h=Content-Type:Content-Transfer-Encoding:MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:CC:To:From; bh=RzEQvM++RkeottaJ5vLsxcHwt1Px0R3jVF4cMhjRk7s=;
-	b=EjXnBbBW1X3Sq6mhXILZxk7O0DFMtehgFqOGa7ZGK7D3VhId0h2yth7OboG6AL1S7rpUWM47nQ2sel1HSUMxTF9gfq1Ft+H0hBOFMKS8gRgg8wIkUeFSfBWwOei5LxloR9fTmPV8JZOqi/ddSeGjcBcmWhn4O3nF63UrCnY7UCY=;
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.3,REQID:1f87095e-e8b1-48b8-9922-148af3c6e7c8,IP:0,UR
-	L:0,TC:0,Content:-25,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
-	:release,TS:-25
-X-CID-META: VersionHash:f1326cf,CLOUDID:7a2b8484-5317-4626-9d82-238d715c253f,B
-	ulkID:nil,BulkQuantity:0,Recheck:0,SF:81|82|102,TC:-5,Content:0|15|50,EDM:
-	-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
-	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: 15a85d988bce11f0bd5779446731db89-20250907
-Received: from mtkmbs10n2.mediatek.inc [(172.21.101.183)] by mailgw01.mediatek.com
-	(envelope-from <irui.wang@mediatek.com>)
-	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
-	with ESMTP id 2017719225; Sun, 07 Sep 2025 17:36:09 +0800
-Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
- MTKMBS14N2.mediatek.inc (172.21.101.76) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1258.39; Sun, 7 Sep 2025 17:36:06 +0800
-Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
- mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
- 15.2.1258.39 via Frontend Transport; Sun, 7 Sep 2025 17:36:04 +0800
-From: Irui Wang <irui.wang@mediatek.com>
-To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>,
-	<angelogioacchino.delregno@collabora.com>, <nicolas.dufresne@collabora.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>, Yunfei Dong
-	<yunfei.dong@mediatek.com>, Qianfeng Rong <rongqianfeng@vivo.com>
-CC: Maoguang Meng <maoguang.meng@mediatek.com>, Longfei Wang
-	<longfei.wang@mediatek.com>, Irui Wang <irui.wang@mediatek.com>,
-	<Project_Global_Chrome_Upstream_Group@mediatek.com>,
-	<linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
-Subject: [PATCH v3 2/2] media: mediatek: vcodec: use = { } instead of memset()
-Date: Sun, 7 Sep 2025 17:35:57 +0800
-Message-ID: <20250907093557.8008-3-irui.wang@mediatek.com>
-X-Mailer: git-send-email 2.46.0
-In-Reply-To: <20250907093557.8008-1-irui.wang@mediatek.com>
-References: <20250907093557.8008-1-irui.wang@mediatek.com>
+	s=arc-20240116; t=1757238215; c=relaxed/simple;
+	bh=TDwoEokmsEniRL5mzV7C3NbddClADMi8vSACqfJXWVk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=JfvoL7T+N5Am72/49hapkLyV8cc8ft8t+9Gm4Z2HdoTULHNrF4oz6R1lXqjx7wxc16PRXuPCMVeUYWBaCL+wu5Aj+qR/HBb7oQoQwYU4XdR1+YK52u8PdwJZsDx93V9f8EwLD2cl9Q5GYxzKyMbplkHvw6T1QSxF8VQlZ/zzqNY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ai+6Qnk6; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45de56a042dso781585e9.3;
+        Sun, 07 Sep 2025 02:43:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757238212; x=1757843012; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=GZ/X6GOEUsW9+IFkzRBAiysCMqpUBrDHjoEhck1HoOk=;
+        b=ai+6Qnk63Rp8rNYsCTVbWIM84CwcryJS89kXfWZwcqn2JWjTOUHCAREaNd+RUa1cua
+         IDaE/2Yki9/VbS5OGOz7nCgnRM+CGOBK33Ir3UcU//JrKNX/dklO92rZl8qlKevUV0bo
+         qVyvHB6Kmpf0EZSoxkz1WYzNmKGHJcDz6vkBcZZ/ZkyENEVEkM7JqTbVqVMbuqZKEuVU
+         KuAhm5z+gSQJTC8mjizfTw0/JwzAcSat6wShjL06XHZIf1g+MiPMsnm9dxiGENUK4NO6
+         iS98855/lL8wykV+LBkTuEBKsdDKaQjqNshuPaSD7lAaqdQYadAFO0d1gWI+/YZMcMFk
+         XJFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757238212; x=1757843012;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=GZ/X6GOEUsW9+IFkzRBAiysCMqpUBrDHjoEhck1HoOk=;
+        b=BTZv3L1hr+Y889XSMcaOf3GkPCvJAAAbiOKbda6LHuSuDZonAy5u0aiNPBKnzRlr4b
+         3wP2obZrlBear7xq6AppY/udqAo7Dqbpsq6v0GYYeamsaomek6EDPwN0nv3626MyPqlc
+         y2AOJqbUS2EHuJuYKjRipkRoXCBU/+Gp/BI6rZyNL35FmzbC1MRQ41xW8t9OoYlZzlWR
+         xE28i564KisnA0wXivUYFIC4dyVlDqkHmybnyFJDGzoE8a7S9PcmeQJtAq/+xw6llQQG
+         fr39CHT4ZqZtrWdmWR5KoVmW1zGYTcAfciNyk0vN3BtjxBCXVKeml9ZV9f+sdu9GfttC
+         upog==
+X-Forwarded-Encrypted: i=1; AJvYcCVo4xVxV+XzxOOjpncfK2TVmjrxN8sydiXen26Igq4fF26wawDqE+W+WH+GzGWv1cdSaEozlThtgytorr/4@vger.kernel.org, AJvYcCWAf3v6wr6WAeT3Y5jFuBlAFvZtyMSOsPQhak5NsiWCC23v5yf9r6LdpNtl3EW5PX5xSGJovNougFB6@vger.kernel.org, AJvYcCXA+U1bZai8GrBEyx+WkG/eVJbE26n9+Qv39ZateYIW/kW56K3odM9vOLwTcpGgQHgoJB/koxN2PSgM@vger.kernel.org, AJvYcCXVTFVN3IXOwy4aTrNz895U8NHQi03nhxhzfislvT9WVNVgZrXUVg+9S2WCaHJ/I3OP750sKwxnx7I6dqo=@vger.kernel.org, AJvYcCXxKw1bzQF9yD3nmsZ/iqljp7/jCysDmFtzz2HrcAXWXruzkLaO+y2ZcHkOtGC9sBvzPVL3zuvKjBtrMck=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJPhBUjNoEn0IcXHZWcJs/GxxTZbVqXGlgfAT0e72iedk64Spy
+	LTDe4Uh9gv1psPhizSqaZgpga1Xvd1spouxxFypX7xg7a4d8zCsXTInoti3x0heSoPYWqEhZQbt
+	jh2Orr8Szw0079yzirLCIeDly5Z6PK90=
+X-Gm-Gg: ASbGnctVJG21w+jI9IA7rwU9PvGwvIuSmYTJrwlTvzFs421pM3xQnwUKjKKPY96K5TV
+	MilSZrLyXpk2RmfoUUL2rSOEyupcPYh4vWqK/s/CV3O240oKE1AW4PWXhuzVBCOMHt0XcwBQDze
+	aFtOwqqwkVuTSmH8cUlKv96+DAP6/gtmVSmuyu1dRiki02t4kQTNez3YQrYkjY98q6QnkQJ0lP4
+	QVO/wIi
+X-Google-Smtp-Source: AGHT+IFPqig/UhEDyt4I8/2ZJlpITCSmd+DYWg5033ITXHJTPMBD050/gyXsr+9sNyIaTUs7NwKlwoEiYgPtX0PKgHs=
+X-Received: by 2002:a05:600c:3b25:b0:45b:9a41:5d58 with SMTP id
+ 5b1f17b1804b1-45dddea60cbmr35564895e9.4.1757238212151; Sun, 07 Sep 2025
+ 02:43:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-MTK: N
+References: <20250906135345.241229-1-clamor95@gmail.com> <20250906135345.241229-3-clamor95@gmail.com>
+ <20250907-arboreal-aquatic-gopher-686643@kuoka>
+In-Reply-To: <20250907-arboreal-aquatic-gopher-686643@kuoka>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Sun, 7 Sep 2025 12:43:20 +0300
+X-Gm-Features: AS18NWARBXRzhLtN6n3ce6WfDFCnzLq5yKlMbMSeV1CuL4QdfN0Ud8kVvzMMu8Y
+Message-ID: <CAPVz0n0obwSFDup2n9R9SQNsOZw1Dm0G=2ifv=D7zyw=89+uYQ@mail.gmail.com>
+Subject: Re: [PATCH v2 02/23] dt-bindings: clock: tegra30: Add IDs for CSI pad clocks
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>, 
+	Mikko Perttunen <mperttunen@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Prashant Gaikwad <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko <digetx@gmail.com>, 
+	=?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+	Charan Pedumuru <charan.pedumuru@gmail.com>, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Qianfeng Rong <rongqianfeng@vivo.com>
+=D0=BD=D0=B4, 7 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 12:34 Krzys=
+ztof Kozlowski <krzk@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Sat, Sep 06, 2025 at 04:53:23PM +0300, Svyatoslav Ryhel wrote:
+> > Tegra30 has CSI pad clock enable bits embedded into PLLD/PLLD2 register=
+s.
+> > Add ids for these clocks. Additionally, move TEGRA30_CLK_CLK_MAX into
+> > clk-tegra30 source.
+> >
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > ---
+> >  drivers/clk/tegra/clk-tegra30.c         | 1 +
+> >  include/dt-bindings/clock/tegra30-car.h | 3 ++-
+> >  2 files changed, 3 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/clk/tegra/clk-tegra30.c b/drivers/clk/tegra/clk-te=
+gra30.c
+> > index ca367184e185..ca738bc64615 100644
+> > --- a/drivers/clk/tegra/clk-tegra30.c
+> > +++ b/drivers/clk/tegra/clk-tegra30.c
+> > @@ -53,6 +53,7 @@
+> >  #define SYSTEM_CLK_RATE 0x030
+> >
+> >  #define TEGRA30_CLK_PERIPH_BANKS     5
+> > +#define TEGRA30_CLK_CLK_MAX          311
+>
+> Unused define drop.
+>
 
-Based on testing and recommendations by David Lechner et al. [1][2],
-using = { } to initialize a structure or array is the preferred way
-to do this in the kernel.
+Specify, your comment is not clear.
 
-Converts memset() to = { }, thereby:
-- Eliminating the risk of sizeof() mismatches.
-- Simplifying the code.
+> Also, don't mix bindings and drivers. You cannot create such
+> dependencies.
 
-[1]: https://lore.kernel.org/linux-iio/202505090942.48EBF01B@keescook/
-[2]: https://lore.kernel.org/lkml/20250614151844.50524610@jic23-huawei/
+I literally did what you told me to do! TEGRA30_CLK_CLK_MAX was
+removed from binding, but it is used by the driver, so how you propose
+to handle this without redefining TEGRA30_CLK_CLK_MAX and breaking
+build with missing TEGRA30_CLK_CLK_MAX?
 
-Signed-off-by: Qianfeng Rong <rongqianfeng@vivo.com>
----
- .../mediatek/vcodec/decoder/vdec/vdec_vp9_if.c    |  3 +--
- .../mediatek/vcodec/decoder/vdec_vpu_if.c         | 12 ++++--------
- .../mediatek/vcodec/encoder/mtk_vcodec_enc.c      |  6 ++----
- .../mediatek/vcodec/encoder/venc_vpu_if.c         | 15 +++++----------
- 4 files changed, 12 insertions(+), 24 deletions(-)
-
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_if.c
-index eb3354192853..80554b2c26c0 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_if.c
-@@ -548,10 +548,9 @@ static bool vp9_wait_dec_end(struct vdec_vp9_inst *inst)
- static struct vdec_vp9_inst *vp9_alloc_inst(struct mtk_vcodec_dec_ctx *ctx)
- {
- 	int result;
--	struct mtk_vcodec_mem mem;
-+	struct mtk_vcodec_mem mem = { };
- 	struct vdec_vp9_inst *inst;
- 
--	memset(&mem, 0, sizeof(mem));
- 	mem.size = sizeof(struct vdec_vp9_inst);
- 	result = mtk_vcodec_mem_alloc(ctx, &mem);
- 	if (result)
-diff --git a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-index 145958206e38..d5e943f81c15 100644
---- a/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c
-@@ -181,12 +181,11 @@ static int vcodec_vpu_send_msg(struct vdec_vpu_inst *vpu, void *msg, int len)
- 
- static int vcodec_send_ap_ipi(struct vdec_vpu_inst *vpu, unsigned int msg_id)
- {
--	struct vdec_ap_ipi_cmd msg;
-+	struct vdec_ap_ipi_cmd msg = { };
- 	int err = 0;
- 
- 	mtk_vdec_debug(vpu->ctx, "+ id=%X", msg_id);
- 
--	memset(&msg, 0, sizeof(msg));
- 	msg.msg_id = msg_id;
- 	if (vpu->fw_abi_version < 2)
- 		msg.vpu_inst_addr = vpu->inst_addr;
-@@ -201,7 +200,7 @@ static int vcodec_send_ap_ipi(struct vdec_vpu_inst *vpu, unsigned int msg_id)
- 
- int vpu_dec_init(struct vdec_vpu_inst *vpu)
- {
--	struct vdec_ap_ipi_init msg;
-+	struct vdec_ap_ipi_init msg = { };
- 	int err;
- 
- 	init_waitqueue_head(&vpu->wq);
-@@ -225,7 +224,6 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
- 		}
- 	}
- 
--	memset(&msg, 0, sizeof(msg));
- 	msg.msg_id = AP_IPIMSG_DEC_INIT;
- 	msg.ap_inst_addr = (unsigned long)vpu;
- 	msg.codec_type = vpu->codec_type;
-@@ -245,7 +243,7 @@ int vpu_dec_init(struct vdec_vpu_inst *vpu)
- 
- int vpu_dec_start(struct vdec_vpu_inst *vpu, uint32_t *data, unsigned int len)
- {
--	struct vdec_ap_ipi_dec_start msg;
-+	struct vdec_ap_ipi_dec_start msg = { };
- 	int i;
- 	int err = 0;
- 
-@@ -254,7 +252,6 @@ int vpu_dec_start(struct vdec_vpu_inst *vpu, uint32_t *data, unsigned int len)
- 		return -EINVAL;
- 	}
- 
--	memset(&msg, 0, sizeof(msg));
- 	msg.msg_id = AP_IPIMSG_DEC_START;
- 	if (vpu->fw_abi_version < 2)
- 		msg.vpu_inst_addr = vpu->inst_addr;
-@@ -273,7 +270,7 @@ int vpu_dec_start(struct vdec_vpu_inst *vpu, uint32_t *data, unsigned int len)
- int vpu_dec_get_param(struct vdec_vpu_inst *vpu, uint32_t *data,
- 		      unsigned int len, unsigned int param_type)
- {
--	struct vdec_ap_ipi_get_param msg;
-+	struct vdec_ap_ipi_get_param msg = { };
- 	int err;
- 
- 	if (len > ARRAY_SIZE(msg.data)) {
-@@ -281,7 +278,6 @@ int vpu_dec_get_param(struct vdec_vpu_inst *vpu, uint32_t *data,
- 		return -EINVAL;
- 	}
- 
--	memset(&msg, 0, sizeof(msg));
- 	msg.msg_id = AP_IPIMSG_DEC_GET_PARAM;
- 	msg.inst_id = vpu->inst_id;
- 	memcpy(msg.data, data, sizeof(unsigned int) * len);
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-index acf6ddca1c88..d10e41e8e9ce 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-@@ -1064,7 +1064,7 @@ static int mtk_venc_encode_header(void *priv)
- 
- static int mtk_venc_param_change(struct mtk_vcodec_enc_ctx *ctx)
- {
--	struct venc_enc_param enc_prm;
-+	struct venc_enc_param enc_prm = { };
- 	struct vb2_v4l2_buffer *vb2_v4l2 = v4l2_m2m_next_src_buf(ctx->m2m_ctx);
- 	struct mtk_video_enc_buf *mtk_buf;
- 	int ret = 0;
-@@ -1075,7 +1075,6 @@ static int mtk_venc_param_change(struct mtk_vcodec_enc_ctx *ctx)
- 
- 	mtk_buf = container_of(vb2_v4l2, struct mtk_video_enc_buf, m2m_buf.vb);
- 
--	memset(&enc_prm, 0, sizeof(enc_prm));
- 	if (mtk_buf->param_change == MTK_ENCODE_PARAM_NONE)
- 		return 0;
- 
-@@ -1138,7 +1137,7 @@ static void mtk_venc_worker(struct work_struct *work)
- 	struct mtk_vcodec_enc_ctx *ctx = container_of(work, struct mtk_vcodec_enc_ctx,
- 				    encode_work);
- 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
--	struct venc_frm_buf frm_buf;
-+	struct venc_frm_buf frm_buf = { };
- 	struct mtk_vcodec_mem bs_buf;
- 	struct venc_done_result enc_result = { };
- 	int ret, i;
-@@ -1168,7 +1167,6 @@ static void mtk_venc_worker(struct work_struct *work)
- 		return;
- 	}
- 
--	memset(&frm_buf, 0, sizeof(frm_buf));
- 	for (i = 0; i < src_buf->vb2_buf.num_planes ; i++) {
- 		frm_buf.fb_addr[i].dma_addr =
- 				vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, i);
-diff --git a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-index 51bb7ee141b9..55627b71348d 100644
---- a/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-+++ b/drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c
-@@ -132,7 +132,7 @@ static int vpu_enc_send_msg(struct venc_vpu_inst *vpu, void *msg,
- int vpu_enc_init(struct venc_vpu_inst *vpu)
- {
- 	int status;
--	struct venc_ap_ipi_msg_init out;
-+	struct venc_ap_ipi_msg_init out = { };
- 
- 	init_waitqueue_head(&vpu->wq_hd);
- 	vpu->signaled = 0;
-@@ -148,7 +148,6 @@ int vpu_enc_init(struct venc_vpu_inst *vpu)
- 		return -EINVAL;
- 	}
- 
--	memset(&out, 0, sizeof(out));
- 	out.msg_id = AP_IPIMSG_ENC_INIT;
- 	out.venc_inst = (unsigned long)vpu;
- 	if (vpu_enc_send_msg(vpu, &out, sizeof(out))) {
-@@ -191,11 +190,10 @@ int vpu_enc_set_param(struct venc_vpu_inst *vpu,
- 	size_t msg_size = is_ext ?
- 		sizeof(struct venc_ap_ipi_msg_set_param_ext) :
- 		sizeof(struct venc_ap_ipi_msg_set_param);
--	struct venc_ap_ipi_msg_set_param_ext out;
-+	struct venc_ap_ipi_msg_set_param_ext out = { };
- 
- 	mtk_venc_debug(vpu->ctx, "id %d ->", id);
- 
--	memset(&out, 0, sizeof(out));
- 	out.base.msg_id = AP_IPIMSG_ENC_SET_PARAM;
- 	out.base.vpu_inst_addr = vpu->inst_addr;
- 	out.base.param_id = id;
-@@ -258,11 +256,10 @@ static int vpu_enc_encode_32bits(struct venc_vpu_inst *vpu,
- 	size_t msg_size = is_ext ?
- 		sizeof(struct venc_ap_ipi_msg_enc_ext) :
- 		sizeof(struct venc_ap_ipi_msg_enc);
--	struct venc_ap_ipi_msg_enc_ext out;
-+	struct venc_ap_ipi_msg_enc_ext out = { };
- 
- 	mtk_venc_debug(vpu->ctx, "bs_mode %d ->", bs_mode);
- 
--	memset(&out, 0, sizeof(out));
- 	out.base.msg_id = AP_IPIMSG_ENC_ENCODE;
- 	out.base.vpu_inst_addr = vpu->inst_addr;
- 	out.base.bs_mode = bs_mode;
-@@ -302,12 +299,11 @@ static int vpu_enc_encode_34bits(struct venc_vpu_inst *vpu,
- 				 struct mtk_vcodec_mem *bs_buf,
- 				 struct venc_frame_info *frame_info)
- {
--	struct venc_ap_ipi_msg_enc_ext_34 out;
-+	struct venc_ap_ipi_msg_enc_ext_34 out = { };
- 	size_t msg_size = sizeof(struct venc_ap_ipi_msg_enc_ext_34);
- 
- 	mtk_venc_debug(vpu->ctx, "bs_mode %d ->", bs_mode);
- 
--	memset(&out, 0, sizeof(out));
- 	out.msg_id = AP_IPIMSG_ENC_ENCODE;
- 	out.vpu_inst_addr = vpu->inst_addr;
- 	out.bs_mode = bs_mode;
-@@ -367,9 +363,8 @@ int vpu_enc_encode(struct venc_vpu_inst *vpu, unsigned int bs_mode,
- 
- int vpu_enc_deinit(struct venc_vpu_inst *vpu)
- {
--	struct venc_ap_ipi_msg_deinit out;
-+	struct venc_ap_ipi_msg_deinit out = { };
- 
--	memset(&out, 0, sizeof(out));
- 	out.msg_id = AP_IPIMSG_ENC_DEINIT;
- 	out.vpu_inst_addr = vpu->inst_addr;
- 	if (vpu_enc_send_msg(vpu, &out, sizeof(out))) {
--- 
-2.45.2
-
+>
+> Best regards,
+> Krzysztof
+>
 
