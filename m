@@ -1,205 +1,144 @@
-Return-Path: <linux-media+bounces-41934-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41935-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55A7DB47E48
-	for <lists+linux-media@lfdr.de>; Sun,  7 Sep 2025 22:22:26 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 074F1B480A0
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 00:05:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0C0E13C1753
-	for <lists+linux-media@lfdr.de>; Sun,  7 Sep 2025 20:22:25 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B719417F76F
+	for <lists+linux-media@lfdr.de>; Sun,  7 Sep 2025 22:04:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B05EF22F74D;
-	Sun,  7 Sep 2025 20:22:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8162E29A33E;
+	Sun,  7 Sep 2025 22:04:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LlxKO0JV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qJAy5heZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CAD7189BB0;
-	Sun,  7 Sep 2025 20:22:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4CBC12B73;
+	Sun,  7 Sep 2025 22:04:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757276539; cv=none; b=eGx4pWfinA7HAX1/p7vAVCBZ+SV5c85n1Q+6lvhT/iTSqVMlMtx+pVkGgQWflgrnGE0QiZTJ46n6DAaPysGmUy8XMKJUGZXvNLi1s5CBm07jzdZpzg5CsOhtHnE37OwOOpzgtb5TXiORI+KLnkPnrYq/JcLFpaqrQbQniU98Rnk=
+	t=1757282675; cv=none; b=B/ObQi80/gyt3R4K4M7qeKwjGlWuHZLpt2I0Q5Y62W34Hdll0nSM4C3qHrXx8eLSHTr/BaPQmBQaugEUVXuWhf337B2VIXUn5o+fmWE01poWsW9Bf0VsyaVK5d0FX2pKubEJVo/bs32lWku0pMkJs8/P6cSAD3VAvhOIUumLzB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757276539; c=relaxed/simple;
-	bh=1yLKb+iIj/Mee0xM+qiAWihAxtTjpZ1rDSvsMvY5ahM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MHJArCrwbdGWw8nE2fOagZLyDKURYtJEylQszhZ6StWdhPsM5NBy4dcVEqWEsndJ7ZuUeeFq1tL4Ofqgcto12vRuXN2tDcAFHS1lTvfq3eLiYgrKGDHnq0a+iF7C+Rc1AWSZXgX3K1eTDiQaqapBw67V/+M7INPPaR0gJ1NN5C8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LlxKO0JV; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C89DD19E7;
-	Sun,  7 Sep 2025 22:21:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757276463;
-	bh=1yLKb+iIj/Mee0xM+qiAWihAxtTjpZ1rDSvsMvY5ahM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=LlxKO0JV1BZb6cxVGr+8qJ/PloH9pCgqKwAZR2bPH6jB0EVefJAvC0rtA8qcBF7ch
-	 5wizFr4py4VmeVy4iVl6ozkO49Na902fbJrhjPBo11oCBf/fC/W1uCepbXmcTk1xUE
-	 r1yxkg9eqp7Fui3lzNxNOOQgAKynS1GRFGwAU/qQ=
-Date: Sun, 7 Sep 2025 22:21:54 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
-Subject: Re: [PATCH v7 07/10] media: i2c: ov9282: add strobe_duration v4l2
- control
-Message-ID: <20250907202154.GE19568@pendragon.ideasonboard.com>
-References: <20250901-ov9282-flash-strobe-v7-0-d58d5a694afc@linux.dev>
- <20250901-ov9282-flash-strobe-v7-7-d58d5a694afc@linux.dev>
- <aLYISb07ziGDmFGS@kekkonen.localdomain>
- <uzgdukvgqkpg5koehz6kzxg6dfjes7p5ntd5oyqgqpr7gz5otd@ykwax6c2bo6x>
- <20250907201839.GC19568@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1757282675; c=relaxed/simple;
+	bh=9+FmzHBVrcCtqXllvP6hTlSCZ5CvZZym/HB8c4kj5mE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nl+s1yWuJc6AeWgY3I8mRJxsvXFyBrQCXxbbccX+ly2d701WLx3pWXq/A8bS/52hEC7EclpML7qPoLerEbTfEFiaEOwizM/7VxDHDC2RRBp0h/wnFlxpbkimBhvZNH73HVjmZAxqMKIrxitExfLgVWBIX8UQAmX8KOPbolzJr/M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qJAy5heZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 613E4C4CEF1;
+	Sun,  7 Sep 2025 22:04:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757282675;
+	bh=9+FmzHBVrcCtqXllvP6hTlSCZ5CvZZym/HB8c4kj5mE=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=qJAy5heZ+J2njbyzPp9qajGXEkOjrzO+tomqM6qu1/9IoCGa9j+fba7HJLiyn0iG+
+	 n03OXTnvLOftPuiLUXUhDO8BbL+hgNLEdsE/P4aLBX8kqRI5aZfh0R2vY5hFQxLxdm
+	 v4Yd5LwPNI5zwyODc1KX2AfMszTFmyd0Z43hO/wGZewk74i+iQ8fbcfQB7BzHEotiE
+	 UKhYfRmtim3NmPNtbNdXChu1HblICDvLrEyKvfOUKRQU83LMJuAJspRxaa554MNG8G
+	 XppQhnoSwiQWuk+KlSNmMgzeTCYP9oQyJr2/k6yjCeSNq6V6L7Y8kEOClghqtqZJ8N
+	 wKBj5Qcdaqq+w==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B03ECA1013;
+	Sun,  7 Sep 2025 22:04:35 +0000 (UTC)
+From: =?utf-8?q?Andr=C3=A9_Apitzsch_via_B4_Relay?= <devnull+git.apitzsch.eu@kernel.org>
+Subject: [PATCH 0/4] Add CAMSS support for MSM8939
+Date: Mon, 08 Sep 2025 00:04:14 +0200
+Message-Id: <20250908-camss-8x39-vbif-v1-0-f198c9fd0d4d@apitzsch.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250907201839.GC19568@pendragon.ideasonboard.com>
+X-B4-Tracking: v=1; b=H4sIAF4BvmgC/23OSw7CIBCA4asY1mIYcLC48h7GBeVRSVQMGFLT9
+ O7SxkVNXf6TzDczkOxScJkcNwNJroQc4qMGbDfEXPWjczTY2oQzjgzhQI2+50ybXiha2uCpOqD
+ 32IAC1ZC69UzOh34Wz5fa15BfMb3nAwWm6dfibGUVoIxq4MZKxqT26nTX4RbjLqaOTFjhSwDXA
+ K+AtMKiQe33KFeAWADizweiAt4osIBti/YXGMfxA/StPzgxAQAA
+X-Change-ID: 20250517-camss-8x39-vbif-975ff5819198
+To: Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>
+Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org, 
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Vincent Knecht <vincent.knecht@mailoo.org>, 
+ =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757282673; l=2310;
+ i=git@apitzsch.eu; s=20240325; h=from:subject:message-id;
+ bh=9+FmzHBVrcCtqXllvP6hTlSCZ5CvZZym/HB8c4kj5mE=;
+ b=sdrcJ3hmiqBjErZCuxj8R0+8gYYznFsn/UaMWjBactkUePKhr9bgMpGrsog5PwVLNWYRdbi7M
+ D2RLjHQ5hEmBgr4AfURmHK3x+otqq8amfVKoreTakUBvC4GTqTLlrgI
+X-Developer-Key: i=git@apitzsch.eu; a=ed25519;
+ pk=wxovcZRfvNYBMcTw4QFFtNEP4qv39gnBfnfyImXZxiU=
+X-Endpoint-Received: by B4 Relay for git@apitzsch.eu/20240325 with
+ auth_id=142
+X-Original-From: =?utf-8?q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>
+Reply-To: git@apitzsch.eu
 
-On Sun, Sep 07, 2025 at 10:18:40PM +0200, Laurent Pinchart wrote:
-> On Wed, Sep 03, 2025 at 08:54:42AM +0200, Richard Leitner wrote:
-> > On Mon, Sep 01, 2025 at 11:55:37PM +0300, Sakari Ailus wrote:
-> > > On Mon, Sep 01, 2025 at 05:05:12PM +0200, Richard Leitner wrote:
-> > > > Add V4L2_CID_FLASH_DURATION support using the "strobe_frame_span"
-> > > > feature of the sensor. This is implemented by transforming the given µs
-> > > > value by an interpolated formula to a "span step width" value and
-> > > > writing it to register PWM_CTRL_25, PWM_CTRL_26, PWM_CTRL_27,
-> > > > PWM_CTRL_28 (0x3925, 0x3926, 0x3927, 0x3928).
-> 
-> You name the register OV9282_REG_FLASH_DURATION below. Is
-> "FLASH_DURATION" a term found in the datasheet ?
-> 
-> > > > 
-> > > > The maximum control value is set to the period of the current default
-> > > > framerate.
-> 
-> Should it be adjusted based on the sensor configuration ?
+(This series resumes [1].)
 
-I've now noticed patch 10/10.
+This series adds CAMSS support for MSM8939.  It's mostly identical to
+MSM8916, except for some clocks and an additional CSI.
 
-> > > > 
-> > > > All register values are based on the OV9281 datasheet v1.53 (jan 2019)
-> > > > and tested using an ov9281 VisionComponents module.
-> > > > 
-> > > > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> > > > ---
-> > > >  drivers/media/i2c/ov9282.c | 31 ++++++++++++++++++++++++++++++-
-> > > >  1 file changed, 30 insertions(+), 1 deletion(-)
-> > > > 
-> > > > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > > > index ff0f69f0dc3a2d0518806b9ea65c1b520b5c55fb..c405e3411daf37cf98d5af3535702f8321394af5 100644
-> > > > --- a/drivers/media/i2c/ov9282.c
-> > > > +++ b/drivers/media/i2c/ov9282.c
-> > > > @@ -97,6 +97,10 @@
-> > > >  #define OV9282_REG_MIPI_CTRL00	0x4800
-> > > >  #define OV9282_GATED_CLOCK	BIT(5)
-> > > >  
-> > > > +/* Flash/Strobe control registers */
-> > > > +#define OV9282_REG_FLASH_DURATION	0x3925
-> > > > +#define OV9282_FLASH_DURATION_DEFAULT	0x0000001a
-> > > > +
-> > > >  /* Input clock rate */
-> > > >  #define OV9282_INCLK_RATE	24000000
-> > > >  
-> > > > @@ -687,6 +691,25 @@ static int ov9282_set_ctrl_flash_hw_strobe_signal(struct ov9282 *ov9282, bool en
-> > > >  				current_val);
-> > > >  }
-> > > >  
-> > > > +static int ov9282_set_ctrl_flash_duration(struct ov9282 *ov9282, u32 value)
-> > > > +{
-> > > > +	/*
-> > > > +	 * Calculate "strobe_frame_span" increments from a given value (µs).
-> > > > +	 * This is quite tricky as "The step width of shift and span is
-> > > > +	 * programmable under system clock domain.", but it's not documented
-> > > > +	 * how to program this step width (at least in the datasheet available
-> > > > +	 * to the author at time of writing).
-> > > > +	 * The formula below is interpolated from different modes/framerates
-> > > > +	 * and should work quite well for most settings.
-> > > > +	 */
-> > > > +	u32 val = value * 192 / (ov9282->cur_mode->width + ov9282->hblank_ctrl->val);
-> 
-> I wonder if the register value ends up being expressed as a number of
-> lines.
-> 
-> > > > +
-> > > > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION, 1, (val >> 24) & 0xff);
-> > > > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 1, 1, (val >> 16) & 0xff);
-> > > > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 2, 1, (val >> 8) & 0xff);
-> > > > +	return ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 3, 1, val & 0xff);
-> 
-> The CCI helpers would make this much simpler.
-> 
-> > > The bitwise and operation is redundant.
-> > 
-> > True. Thanks for the catch!
-> > 
-> > > Could you do this in a single write?
-> > 
-> > I've implemented this in single byte writes due to some "special
-> > behaviour" of the vision components ov9281 modules. On those modules
-> > single byte interactions seem broken in some cases. Maybe Laurent knows
-> > more about this and the current state, as he was/is in contact with VC.
-> > 
-> > See also: https://lore.kernel.org/all/918ce2ca-55ff-aff8-ea6c-0c17f566d59d@online.de/
-> > 
-> > Nonetheless, thanks for the pointer. I haven't documented this
-> > accordingly. I will try to reproduce the issue again and either change
-> > this to a single write or add a describing comment.
-> > 
-> > > Also error handling is (largely) missing.
-> > 
-> > Good catch. Thanks.
-> > 
-> > > > +}
-> > > > +
-> > > >  /**
-> > > >   * ov9282_set_ctrl() - Set subdevice control
-> > > >   * @ctrl: pointer to v4l2_ctrl structure
-> > > > @@ -756,6 +779,9 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > >  	case V4L2_CID_FLASH_HW_STROBE_SIGNAL:
-> > > >  		ret = ov9282_set_ctrl_flash_hw_strobe_signal(ov9282, ctrl->val);
-> > > >  		break;
-> > > > +	case V4L2_CID_FLASH_DURATION:
-> > > > +		ret = ov9282_set_ctrl_flash_duration(ov9282, ctrl->val);
-> > > > +		break;
-> > > >  	default:
-> > > >  		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
-> > > >  		ret = -EINVAL;
-> > > > @@ -1346,7 +1372,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> > > >  	u32 lpfr;
-> > > >  	int ret;
-> > > >  
-> > > > -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
-> > > > +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 12);
-> > > >  	if (ret)
-> > > >  		return ret;
-> > > >  
-> > > > @@ -1414,6 +1440,9 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> > > >  	/* Flash/Strobe controls */
-> > > >  	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_HW_STROBE_SIGNAL, 0, 1, 1, 0);
-> > > >  
-> > > > +	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
-> > > > +			  0, 13900, 1, 8);
-> > > > +
-> > > >  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
-> > > >  	if (!ret) {
-> > > >  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
+To fix black stripes across sensor output, and garbage in CSID TPG
+output, 2 VFE VBIF register settings are needed.  So the 2nd patch adds
+helper functions to do just that.
 
+Patch 1: documents qcom,msm8939-camss DT bindings
+Patch 2: adds helper for VFE VBIF settings
+Patch 3: adds CAMSS_8x39 version in CAMSS driver
+Patch 4: adds camss and cci in msm8939.dtsi
+
+Changes compared to [1]:
+- Move bindings patch to the beginning
+- Make the order of {reg, clock, interrupt} items the same as in 8916 +
+  append additional items
+- Drop R-b tags from bindings and dts patches as order of items was
+  changed
+
+[1] https://lore.kernel.org/all/20250613-camss-8x39-vbif-v5-0-a002301a7730@mailoo.org/
+
+Signed-off-by: Vincent Knecht <vincent.knecht@mailoo.org>
+[André: Apply reviewer comments]
+Signed-off-by: André Apitzsch <git@apitzsch.eu>
+---
+Vincent Knecht (4):
+      media: dt-bindings: Add qcom,msm8939-camss
+      media: qcom: camss: vfe: Add VBIF setting support
+      media: qcom: camss: Add support for MSM8939
+      arm64: dts: qcom: msm8939: Add camss and cci
+
+ .../bindings/media/qcom,msm8939-camss.yaml         | 254 +++++++++++++++++++++
+ arch/arm64/boot/dts/qcom/msm8939-pm8916.dtsi       |   4 +
+ arch/arm64/boot/dts/qcom/msm8939.dtsi              | 146 ++++++++++++
+ drivers/media/platform/qcom/camss/Makefile         |   1 +
+ drivers/media/platform/qcom/camss/camss-csiphy.c   |   1 +
+ drivers/media/platform/qcom/camss/camss-ispif.c    |   8 +-
+ drivers/media/platform/qcom/camss/camss-vfe-4-1.c  |  12 +
+ drivers/media/platform/qcom/camss/camss-vfe-vbif.c |  31 +++
+ drivers/media/platform/qcom/camss/camss-vfe-vbif.h |  19 ++
+ drivers/media/platform/qcom/camss/camss-vfe.c      |  10 +
+ drivers/media/platform/qcom/camss/camss-vfe.h      |   3 +
+ drivers/media/platform/qcom/camss/camss.c          | 157 +++++++++++++
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 13 files changed, 645 insertions(+), 2 deletions(-)
+---
+base-commit: be5d4872e528796df9d7425f2bd9b3893eb3a42c
+change-id: 20250517-camss-8x39-vbif-975ff5819198
+
+Best regards,
 -- 
-Regards,
+André Apitzsch <git@apitzsch.eu>
 
-Laurent Pinchart
+
 
