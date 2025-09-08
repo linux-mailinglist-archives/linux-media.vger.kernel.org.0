@@ -1,440 +1,338 @@
-Return-Path: <linux-media+bounces-42000-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42001-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id F01A4B48F4A
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 15:21:42 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 467D8B48FF1
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 15:44:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 8C22C7A539F
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 13:20:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EEA3B3C4AA9
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 13:44:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AE8F30AD06;
-	Mon,  8 Sep 2025 13:21:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F0EB30BB95;
+	Mon,  8 Sep 2025 13:44:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="bdiOrFYn"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="FP0TXdSI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013041.outbound.protection.outlook.com [52.101.83.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB0A2F3C28;
-	Mon,  8 Sep 2025 13:21:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757337689; cv=none; b=F8QhruqWJLsip6B4MgZZ2msmwxeZ9xH1CRJTEqzDw23SfhCL2YoKxMBrfKcn8FdcRfeKl4qquKEDKhDDuC5HL7Ty/YeBIWC5oy4Fvg/blMlpELlg+9jq7qP7GaNvaQ/2lDZCPjtlIToSBoIVdiTkZdgOvgLij/dZ932mnKvgOG4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757337689; c=relaxed/simple;
-	bh=xEOepWPA+NAyVZI3hFquDymhiyDDUSdYUlv8NduN7RE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jLHh4mrdxtrfqQVrrkTOPHacpHQEsOyMeiNbKib3rPAM+tIIE2XzLFCrVzBTj5VEoD5sCFCBF5xfrY34g1WRfTwN6Rrwgxuju9A6zFL1ebkVZRe47R7ENigBHTR6QorCxpQBjwxZ8J2McZptVFinxc5FMMi4CzkpR4qOTCVmUt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=bdiOrFYn; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=In-Reply-To:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Sender:Reply-To:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=6ZBQRkhMwl0WArd2u4lQ4eoYRLljexXQ7ZGURhLG3oA=; b=bdiOrFYnHfmyAswePDu5EMsLlc
-	v7c4lym3yf6PajU/Zlss1Yn14SdMjPBzX3K9j1yS2nSKvxp/c1vG3L8UX09X88LBs/hmtA3b+k2Es
-	kyXW1C/xCrWm/B1i+8vOc4s4TkTqAGDlLitQlRnqyKlYBwkrC6kqwaVQrkLxJ49Pm4x63RhNQVnKZ
-	0Hx23DDT5rd22++A4CV0ZGvJRcKtD0lgwn1P+n7/jbmsaIOcA4XWLfQ/S8QBUP4eWDbFVKFodb7JX
-	QJZUmQ0zCikj1IZkfM+eJ83Tn6DW2rP/0DkuvgH9//GuJkYn67pv4tL8peBHYtBkul+s31O47yWoa
-	fjC8tF5Q==;
-Received: from 179-125-86-100-dinamico.pombonet.net.br ([179.125.86.100] helo=quatroqueijos.cascardo.eti.br)
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256) (Exim)
-	id 1uvbnz-008WNC-Oi; Mon, 08 Sep 2025 15:21:12 +0200
-Date: Mon, 8 Sep 2025 10:21:05 -0300
-From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Tomasz Sikora <sikora.tomus@gmail.com>,
-	Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	syzbot+0584f746fde3d52b4675@syzkaller.appspotmail.com,
-	syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
-Subject: Re: [PATCH] media: uvcvideo: Mark invalid entities with id
- UVC_INVALID_ENTITY_ID
-Message-ID: <aL7YQcKZtzVXDF7W@quatroqueijos.cascardo.eti.br>
-References: <20250820-uvc-thadeu2-v1-1-a04a7cc8fc76@chromium.org>
- <20250908103306.GD26062@pendragon.ideasonboard.com>
- <CANiDSCvJjqczwLRH7TNqO7mocPfJeFeFVbKErXsDNX-qj1NwDA@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF421AAE13;
+	Mon,  8 Sep 2025 13:44:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757339067; cv=fail; b=QhaGbLFdXm2NX6TAWmjm9GXqLSNc2Jm/xp4unUhoMLUauqGWjXYKLCQrgW99qOFJcrh+QiD0a9rY0+WY6TF4arHz9CPiQuX5VvGsJFJtf74PBZvaDLOTXQibNbm81T1Ooqfb5XSBcGesHOR+QYD5kDjCAnvqnctCLYmxPRxlheM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757339067; c=relaxed/simple;
+	bh=DBavNU6j2Y2IEYb7TcdxzIMX1DK7tv112ZV8Z6JN0QM=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ms9V3drhCRQihxnk9j8rLH24TKpr/6jf7ZD1VRDoebod5gvH/dltDZFTlPXAJXowoK6zKomJEeKvqcqc51tHUtziJo4E6/zzwIa7vU92h8kwZYy3VHT//RwpzP3aOh+jdEfIeNHtFqq3lzwxCIAtLCKUrinRyRDlB0b/VOmzA/o=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=FP0TXdSI; arc=fail smtp.client-ip=52.101.83.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=yB4NYqX0OT1kPBTz3lImmS9GTbMSklDRa2ZIleNfpruPugwKfjz/B9KpS1r1DIUDwFxUBARsnP/h7rWV3ZxcsaoOiUq9ymD17ZNGK9fr7Khgbi8Rg8JWfBTJD4KTjkuezdwOT8ZUbisVyTyIbUHGbhDCiSx8CRxqi70LnqJA+xy+4xFeaRleuoqwXYO+uEUyMkIm4W+BAlaqTGjOUadjiR+bcoswSdUAmt6BYdVffcfb4n9qUXUjeXM0mQrzOd3S97b57Q61GBa8XqzBFi/C5t5HEHKiqBYnQXfyDsmd1k73MG0QuAd9JZP9JEGVppixobRSkENrvAfwj+2W1p093w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sMF9q39At2OpN8d1WotbEsxRgIpStlxOxd7EWSPkNOc=;
+ b=BT8tWCHfLiX7AfaMoZ1Q9Gn+Nx4hsKD2wPFYzTEIjxTI4ph4dEhwpJGKzbCLOPwaXGRKz4+iqD0IpTYYArOm1WYHNQ5SqFL3sCqMqSRt2cmWEf7LYgVPIJIrbU81TwfBqc8pwyNBgaVt4KsR4Ka4/ejGwvyCrUIZjufr/LAQGc3OO3dBh15sIbLgbIN78ILeX0cztVMI8OqOfm3Mquh4h9BlOFXDywiYrKRud8iDR302YecjTN1l2bOENM7yeW3Kb10KstpQWrmBEdnTrxjaUj1zHFfSlDnCBqb2zVT8I3pp+400b7b213gpeUEyLpaA43mFcca69ylP/AjkqH0cGg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=sMF9q39At2OpN8d1WotbEsxRgIpStlxOxd7EWSPkNOc=;
+ b=FP0TXdSIJZgw4JrgeHdEY1zEO6/A5ruBF9MpMkd7Mn3k6S47jMKMcDR632uwFwlirJhSC97CAJKJ7lWdKh93kbxrAGdohlALQDycc3qQKxYTZ0z/eGy8v1GWb3+dfkZ5h5Swh/UMBL0cbY71U4cZq77RLn6Dc/owyuwj9D9F0TExff9NS5RCqTOzeTEGqgyosdVSO2yOdjloMEMuYM3O2z6DwY68InArv4kVbplwEPO4yucI1TIpWajGA0wrbP7rtZDPe1XroPprnMeH6qWk/8s6ENvJYPf/FKF4NRTQgFUcFkKqBqBdIhYI8JhqL3T0uXm32CrnKK7DNSoS6c03bA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from GVXPR04MB9831.eurprd04.prod.outlook.com (2603:10a6:150:11c::8)
+ by DB9PR04MB9380.eurprd04.prod.outlook.com (2603:10a6:10:368::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.12; Mon, 8 Sep
+ 2025 13:44:16 +0000
+Received: from GVXPR04MB9831.eurprd04.prod.outlook.com
+ ([fe80::4634:3d9c:c4a:641a]) by GVXPR04MB9831.eurprd04.prod.outlook.com
+ ([fe80::4634:3d9c:c4a:641a%6]) with mapi id 15.20.9115.010; Mon, 8 Sep 2025
+ 13:44:16 +0000
+Message-ID: <ca9e9a86-dbc1-4016-a71f-1f2980bd625f@nxp.com>
+Date: Mon, 8 Sep 2025 15:45:48 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/8] media: Introduce V4L2 extensible parameters
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Dafna Hirschfeld <dafna@fastmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Keke Li <keke.li@amlogic.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Dan Scally <dan.scally@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20250820-extensible-parameters-validation-v4-0-30fe5a99cb1f@ideasonboard.com>
+ <784dcb9e-4e72-44ca-975e-4eb1b0eed5cf@nxp.com>
+ <7l6ahcvujnpfqhzqsviwo72oyhenvcqklj4adivx5yv6fmux5o@bzpgpmmtgntc>
+Content-Language: en-US
+From: Antoine Bouyer <antoine.bouyer@nxp.com>
+In-Reply-To: <7l6ahcvujnpfqhzqsviwo72oyhenvcqklj4adivx5yv6fmux5o@bzpgpmmtgntc>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+X-ClientProxiedBy: AM0PR06CA0078.eurprd06.prod.outlook.com
+ (2603:10a6:208:fa::19) To GVXPR04MB9831.eurprd04.prod.outlook.com
+ (2603:10a6:150:11c::8)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CANiDSCvJjqczwLRH7TNqO7mocPfJeFeFVbKErXsDNX-qj1NwDA@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: GVXPR04MB9831:EE_|DB9PR04MB9380:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81d3df3b-3693-4ac2-aa77-08ddeeddcd84
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|1800799024|19092799006|376014|7416014|366016;
+X-Microsoft-Antispam-Message-Info:
+ =?utf-8?B?VlA5c01Kb3R2R1M0TzFndDB0V01QcGNuc2s5NDFJWHltS1pERFJ2VEc2TUVz?=
+ =?utf-8?B?NmRkWDVPMUFXemlFUE1mK09wOXN5NHF4NW1POXlrYStnQmVmY0JxM1Vmajdv?=
+ =?utf-8?B?NnFnVDRKUFVUdktPbFhCS0w3M05HUDB4WnpNV2MxTjNjNlhUNmdWU1FTVDI2?=
+ =?utf-8?B?azVqRkdrekRKQVNaekdvVXczNWFuK2QwYWEyQjlyNVpVRmdxTTJZb29iWlZw?=
+ =?utf-8?B?ZFBLQXFZRTBGWElBYWRGTGN2UDVHWXBxOVJERE9oSGVhejlKWVlRMm1OaEZJ?=
+ =?utf-8?B?NmRVMlNPRFlPVWF2bzNJclJaTUhaVVVnOXlkSEE0MDlXcmQ4THQ1TUVudUFy?=
+ =?utf-8?B?N2pnWVRxYnRDc0ZEZXNoZkRzSzFIQUUzbzJ1L0U4cDdwZmJDQVJFclpmQkNt?=
+ =?utf-8?B?RGtmMzhEeHluS2lXY2gwMHRJVlVYWlphYkMzc3FGUDZscFViSGUvYTJxT1hr?=
+ =?utf-8?B?Q3lQaGJnZWRmVHVHYmUzSGQvUGUyNlRNdWxZR0wrTWY3clNsL3BzZkVvTmdM?=
+ =?utf-8?B?bktXTVM5YzdDM2NsYTRpRzZ4MitCM0VUOUR2UFJJK3hiUUJjMERTeUFXUmdo?=
+ =?utf-8?B?eXMzWCtld2VFeGU1MTNweGJSQ21Xa0tma0J5KzRkVktmTEgzcTVlUlhYUGhm?=
+ =?utf-8?B?V0dMOTJRWDJhSWwrNU5MQUs3WVoyYlhsWEdabytveW9PV0FEcTJXSXNXU0FR?=
+ =?utf-8?B?YWdDWnpJZjd4bWJ5MVExdFVUUlRmWSs0bmZYc3pSbi80enJ4N0tGUlpSS2ZM?=
+ =?utf-8?B?cS9aVEkxYkVabE9LTkVKVWhCWk03bTQxazZydmJ6VXRKOWw0UUhpSlJOWFJZ?=
+ =?utf-8?B?UW5vS3A5Z2R0TGJrN1lROE1oOTVJVjZVWDhsVUtNV1BSdGFJRE81WG1ZSk5s?=
+ =?utf-8?B?bTV1N0k5cnF0OXNYZlEzc3lSSkFJcUhqcGI1cFJGOThSNkJnRmZocVJkZjU2?=
+ =?utf-8?B?TFhHQW0rdlJiNE9Ic0tEN3ZMZHNrSXpaNGgweWVsYW5IYlEzOGd0WU4xaWZL?=
+ =?utf-8?B?T3duUFlidDdmN2ZITS9JUEwvSElBN1FkemhiQnpPUGxpYU14QU1xN205b1kr?=
+ =?utf-8?B?Rzg4enY5bFp0Q0JraEtCWUcwejIyZlYyeXcyajBqanM3YmJUV0hVUzQrbERP?=
+ =?utf-8?B?eEUyRXZ4clZXRENLUWh0WkYxZjNuME1Va0taaWF2MzB0cGlZSDdVbWlUU3pX?=
+ =?utf-8?B?Y2c4MGZxRjNGVEY5QWZKc2NDK3ZQOXU0VmxwL1FXcDN5SnhYR0hyYTBzRlR1?=
+ =?utf-8?B?TmVyTzJrVzhtOGJXbDUzZmdjWW55YlRkamlPeWQ0cUpuaVpiRjcwek56aWRC?=
+ =?utf-8?B?YSs4VWdqbTRmOFljcC8yMExHL25UVy9uRE1qLzVhTzNhN0NuMUxqNW1OdTQ1?=
+ =?utf-8?B?TDRYVGVDZVZmeFpaaE1sbTZUWmZWYWo3c2tFOElnSERvZjJLQnRXMUFvZjJi?=
+ =?utf-8?B?U0FSa3BKVXdOTkc4TkV5SldGSTVjb1doYk5iRXhLRmJuMFRoZWVQaVI3dU8z?=
+ =?utf-8?B?Tk9vOGJNTGFYTFhQcFM5SXp4NlM4TFh6M3VpTit0Z1B2SXVLakcwNjd2M2k4?=
+ =?utf-8?B?aGRTWUhKTm5IdU5hOWx5clBzbEQvMm1mNDY4WExHRzNXbGg3SmxIOU11dE5P?=
+ =?utf-8?B?ZGRKK0JLNll4N3AvVi9Qa0VTVkpYVkQvdHJHSFdGMzYxVlpPSGx5Zm1uM0Fq?=
+ =?utf-8?B?VUpsbVh1bmdwaFlRb0w2eFhYTC94N0RKSmFsdUVOaTFkdkFxaFJSS3JTMnNW?=
+ =?utf-8?B?Z0tWYVZsQVlWcllkYzRZU2oxWm56azlZODNhMll0MS9mMURqS3d5bDJVSEpl?=
+ =?utf-8?B?RldnYTVoVExza1RldXV0RUI3My9mSnJONEpEa0NvUnVFdHNFMVE0U0gxM0dS?=
+ =?utf-8?Q?fybnUAJFfdJd0?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GVXPR04MB9831.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(376014)(7416014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?utf-8?B?K3o2WGxOdVNNbkRFVkhhTmJsZEI4ejFsbVp1Uk1jeU83d3JWemYrcW9kVVZr?=
+ =?utf-8?B?UEJuRno4blMyQmw1Sks3WXpnQk9wWmhhdXNWdXRjOVpFdGhGbnN4V1FjTitX?=
+ =?utf-8?B?cUgrNU53K05wODlRdGhkeXlsbUNReFBwS1RpNHNKalFPSklsNjNmanV6M3c4?=
+ =?utf-8?B?WWl4cFFSVUVTcS9qUW1kUFFCZTVKNnovb0JUVFRqQkNFZ3NnZldYRWVEcTRH?=
+ =?utf-8?B?ai9HQXV3YUR2ZmFuZG1mT3N3SjNadUlrL2FNYmZpN0l3RVJGc3FuMGRpMHpB?=
+ =?utf-8?B?c0FrRDdONnFVQThKU29GTDlNZW1zTlJFdnA3UThqL202c00ya0RoeG5UdGtP?=
+ =?utf-8?B?RUdyblU1UFNPdkQ0MmdVM1pQQzZTSnhZSGtEc3h3ZnJBSEJxMHlLdFlvRmlB?=
+ =?utf-8?B?R1hVcFhjQ3BybmRWWEJsUGZTcjJWMkg0NVYvMTQ2Ny8zY3NBNms1WlFSU2pO?=
+ =?utf-8?B?U0toajRPc0Y5aEhJcFhMdk1lSndEcnIwc2dGbXhrRm9PS3ZSYWw4VGhPRVlU?=
+ =?utf-8?B?WXBwSEUzencxVFlCbDk0bGFGSXBDMW1KQkgvZ2duVkdnU3lBamRoUzFJRVZz?=
+ =?utf-8?B?Y01hY1daVlJqU204RXFQOTZLQU55MzA0U1B5eVVsZklMbE9ndTd6SU9uc05S?=
+ =?utf-8?B?c2RtZDNqcUFRMCsrM0hDVUpCYzVONnhCRXRCWmdIZk1NY0tWakdvMER4RHhZ?=
+ =?utf-8?B?ZXRiRDg5VUw2S2ZLdjVDT1NpN0Z4cnErT0J5b2ZZZXNOdCtCRnNJcDhHS3FW?=
+ =?utf-8?B?bTlsK0pGcjdoQXZacy9hNjF2R21vQzNyNWhkTmNpcnJucjArQW52Y0xhU2Rq?=
+ =?utf-8?B?U1JhaC9YRnlWZTZxSHg3UTc2SXR5VXhoMmlnWGdqdWxNYm9qSnZOTTdGZG1t?=
+ =?utf-8?B?QkJLTUxYRWNlSzlFbDVDZHNBRVM2Z0RFVVdvQTQ2cFNidE4wZHIzVTcyYU1H?=
+ =?utf-8?B?Q2czV2d1dDNubWg3ZmtVb1ZoSzBhcmdvS1U0SGxKTmM4a3M1SFdtd1Fwa1Yx?=
+ =?utf-8?B?eTZaVFhWU1VZQzFUTjVKMDR4ZkpWa24xK2NzV2tLYmF4S3NiWE1qOHFBSGZh?=
+ =?utf-8?B?Wndpa285VWNZYlBEUVJGRXVVUGhvUmo1Wk40S01vTnExWmtGanhpbmgzWVhF?=
+ =?utf-8?B?RzMzTjRJaG1ROSt6VGJQMUdxTTYzTy9UdHJCUHZYWCtlRmNvN0pEUjFCSWVR?=
+ =?utf-8?B?L01nNUU1YlA4MmtPTVNqQjMyMFBvSjJ5K2tXV3NZeFpKcDdiT0tLKzRPemM5?=
+ =?utf-8?B?NE9ENEt0azVjdUU2c3BRWTRGTzNuT3BQeFRHbUkrdEtuQzY4NXhNeWxsdW5j?=
+ =?utf-8?B?S2VXYUtTaDFIZllmZHljOG1qMG05eTZzckpMSHhoQ3hvL1hiUlZJa2VmeTFN?=
+ =?utf-8?B?WHhHUVlHbzlJYm5QamtaTlZQbTZTYkNmR1d4OFFBM0J5WkhTUFBCZXdWOUFG?=
+ =?utf-8?B?VldSckVTKzNkRnFhYVlCYXYzRmdnZTB1cTVWMHlwUU1pMUp2SzVvMHVCTXpa?=
+ =?utf-8?B?Ty8zY1JyYndJWlZzVVIrbjJhdE1rYW1KbHlRYVZOKzQ1YWZvNGo3TzNIaWZK?=
+ =?utf-8?B?aEY0d2FDaTMrTWhsWndWSWNCTTlSOXFybTBwNjZ6bjFzbDVGUituMml3Yzh2?=
+ =?utf-8?B?bFNyNnpFaHdOTjNZT3grZmJlU1JmU2M3VWVQY1hlMUVPcExlUnBkenMvclFG?=
+ =?utf-8?B?a1Y2QWJRcG85ck9lZldqOXZtbTlVQnJQMElJRnZOU1VvMklsOUh6cUI5Znlr?=
+ =?utf-8?B?cVNsaVhLOGdHcndIR1QwcE1FWTJ1clJ5TVdZWHJxcnQyQXNOcC9JQjgvczFv?=
+ =?utf-8?B?YWhITlhielhCTkFHMTBMLytvUFF0cURuaTZmc2NEcWIrbTJGWUJIdDJ0ZEdC?=
+ =?utf-8?B?eFRKd0xJVGxLWVlodnI1ZjRSbGpHVmU5c3V5Tzdxc2xDcDQvcXV4YU1YN0Fz?=
+ =?utf-8?B?OWErSldqQTZWbVRjSGFsNzd3Y1RZdm83VGY0YTBGNlNadzZFWFY5dEg1VFNY?=
+ =?utf-8?B?dWNSWXZMTTBySWZnR1ZkSzArZXRDaWxJdEVTM3BhOHRHRFFEUzE2Qk9HRkpK?=
+ =?utf-8?B?QlE3VUxqUDlZWU9VSUs4akxuWWRQdVFHSHQ0YWE2RVMrMVR5NGtCa3ZOYU9j?=
+ =?utf-8?B?YVRtckVmem1yWkFnTDJ6eXVadU9KVE1nN1hpRFBqa1JFd2pmb1ZoUkpoUEJx?=
+ =?utf-8?B?bXc9PQ==?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81d3df3b-3693-4ac2-aa77-08ddeeddcd84
+X-MS-Exchange-CrossTenant-AuthSource: GVXPR04MB9831.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2025 13:44:16.1802
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 41bnccGNW6fSfdcgdX6HDjyY3e/rog2++5aiLSjm+sbQ23Hu7o46Z3GiIe9w11escJIBV6RbuEmRXz7+rusDLg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB9380
 
-On Mon, Sep 08, 2025 at 12:35:27PM +0200, Ricardo Ribalda wrote:
-> On Mon, 8 Sept 2025 at 12:33, Laurent Pinchart
-> <laurent.pinchart@ideasonboard.com> wrote:
-> >
-> > Hello Ricardo,
-> >
-> > Thank you for the patch.
-> >
-> > On Wed, Aug 20, 2025 at 04:08:16PM +0000, Ricardo Ribalda wrote:
-> > > From: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-> > >
-> > > Per UVC 1.1+ specification 3.7.2, units and terminals must have a non-zero
-> > > unique ID.
-> > >
-> > > ```
-> > > Each Unit and Terminal within the video function is assigned a unique
-> > > identification number, the Unit ID (UID) or Terminal ID (TID), contained in
-> > > the bUnitID or bTerminalID field of the descriptor. The value 0x00 is
-> > > reserved for undefined ID,
-> > > ```
-> > >
-> > > If we add a new entity with id 0 or a duplicated ID, it will be marked
-> > > as UVC_INVALID_ENTITY_ID.
-> > >
-> > > In a previous attempt commit 3dd075fe8ebb ("media: uvcvideo: Require
-> > > entities to have a non-zero unique ID"), we ignored all the invalid units,
-> > > this broke a lot of non-compatible cameras. Hopefully we are more lucky
-> > > this time.
-> > >
-> > > This also prevents some syzkaller reproducers from triggering warnings due
-> > > to a chain of entities referring to themselves. In one particular case, an
-> > > Output Unit is connected to an Input Unit, both with the same ID of 1. But
-> > > when looking up for the source ID of the Output Unit, that same entity is
-> > > found instead of the input entity, which leads to such warnings.
-> > >
-> > > In another case, a backward chain was considered finished as the source ID
-> > > was 0. Later on, that entity was found, but its pads were not valid.
-> > >
-> > > Here is a sample stack trace for one of those cases.
-> > >
-> > > [   20.650953] usb 1-1: new high-speed USB device number 2 using dummy_hcd
-> > > [   20.830206] usb 1-1: Using ep0 maxpacket: 8
-> > > [   20.833501] usb 1-1: config 0 descriptor??
-> > > [   21.038518] usb 1-1: string descriptor 0 read error: -71
-> > > [   21.038893] usb 1-1: Found UVC 0.00 device <unnamed> (2833:0201)
-> > > [   21.039299] uvcvideo 1-1:0.0: Entity type for entity Output 1 was not initialized!
-> > > [   21.041583] uvcvideo 1-1:0.0: Entity type for entity Input 1 was not initialized!
-> > > [   21.042218] ------------[ cut here ]------------
-> > > [   21.042536] WARNING: CPU: 0 PID: 9 at drivers/media/mc/mc-entity.c:1147 media_create_pad_link+0x2c4/0x2e0
-> > > [   21.043195] Modules linked in:
-> > > [   21.043535] CPU: 0 UID: 0 PID: 9 Comm: kworker/0:1 Not tainted 6.11.0-rc7-00030-g3480e43aeccf #444
-> > > [   21.044101] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS 1.15.0-1 04/01/2014
-> > > [   21.044639] Workqueue: usb_hub_wq hub_event
-> > > [   21.045100] RIP: 0010:media_create_pad_link+0x2c4/0x2e0
-> > > [   21.045508] Code: fe e8 20 01 00 00 b8 f4 ff ff ff 48 83 c4 30 5b 41 5c 41 5d 41 5e 41 5f 5d c3 cc cc cc cc 0f 0b eb e9 0f 0b eb 0a 0f 0b eb 06 <0f> 0b eb 02 0f 0b b8 ea ff ff ff eb d4 66 2e 0f 1f 84 00 00 00 00
-> > > [   21.046801] RSP: 0018:ffffc9000004b318 EFLAGS: 00010246
-> > > [   21.047227] RAX: ffff888004e5d458 RBX: 0000000000000000 RCX: ffffffff818fccf1
-> > > [   21.047719] RDX: 000000000000007b RSI: 0000000000000000 RDI: ffff888004313290
-> > > [   21.048241] RBP: ffff888004313290 R08: 0001ffffffffffff R09: 0000000000000000
-> > > [   21.048701] R10: 0000000000000013 R11: 0001888004313290 R12: 0000000000000003
-> > > [   21.049138] R13: ffff888004313080 R14: ffff888004313080 R15: 0000000000000000
-> > > [   21.049648] FS:  0000000000000000(0000) GS:ffff88803ec00000(0000) knlGS:0000000000000000
-> > > [   21.050271] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> > > [   21.050688] CR2: 0000592cc27635b0 CR3: 000000000431c000 CR4: 0000000000750ef0
-> > > [   21.051136] PKRU: 55555554
-> > > [   21.051331] Call Trace:
-> > > [   21.051480]  <TASK>
-> > > [   21.051611]  ? __warn+0xc4/0x210
-> > > [   21.051861]  ? media_create_pad_link+0x2c4/0x2e0
-> > > [   21.052252]  ? report_bug+0x11b/0x1a0
-> > > [   21.052540]  ? trace_hardirqs_on+0x31/0x40
-> > > [   21.052901]  ? handle_bug+0x3d/0x70
-> > > [   21.053197]  ? exc_invalid_op+0x1a/0x50
-> > > [   21.053511]  ? asm_exc_invalid_op+0x1a/0x20
-> > > [   21.053924]  ? media_create_pad_link+0x91/0x2e0
-> > > [   21.054364]  ? media_create_pad_link+0x2c4/0x2e0
-> > > [   21.054834]  ? media_create_pad_link+0x91/0x2e0
-> > > [   21.055131]  ? _raw_spin_unlock+0x1e/0x40
-> > > [   21.055441]  ? __v4l2_device_register_subdev+0x202/0x210
-> > > [   21.055837]  uvc_mc_register_entities+0x358/0x400
-> > > [   21.056144]  uvc_register_chains+0x1fd/0x290
-> > > [   21.056413]  uvc_probe+0x380e/0x3dc0
-> > > [   21.056676]  ? __lock_acquire+0x5aa/0x26e0
-> > > [   21.056946]  ? find_held_lock+0x33/0xa0
-> > > [   21.057196]  ? kernfs_activate+0x70/0x80
-> > > [   21.057533]  ? usb_match_dynamic_id+0x1b/0x70
-> > > [   21.057811]  ? find_held_lock+0x33/0xa0
-> > > [   21.058047]  ? usb_match_dynamic_id+0x55/0x70
-> > > [   21.058330]  ? lock_release+0x124/0x260
-> > > [   21.058657]  ? usb_match_one_id_intf+0xa2/0x100
-> > > [   21.058997]  usb_probe_interface+0x1ba/0x330
-> > > [   21.059399]  really_probe+0x1ba/0x4c0
-> > > [   21.059662]  __driver_probe_device+0xb2/0x180
-> > > [   21.059944]  driver_probe_device+0x5a/0x100
-> > > [   21.060170]  __device_attach_driver+0xe9/0x160
-> > > [   21.060427]  ? __pfx___device_attach_driver+0x10/0x10
-> > > [   21.060872]  bus_for_each_drv+0xa9/0x100
-> > > [   21.061312]  __device_attach+0xed/0x190
-> > > [   21.061812]  device_initial_probe+0xe/0x20
-> > > [   21.062229]  bus_probe_device+0x4d/0xd0
-> > > [   21.062590]  device_add+0x308/0x590
-> > > [   21.062912]  usb_set_configuration+0x7b6/0xaf0
-> > > [   21.063403]  usb_generic_driver_probe+0x36/0x80
-> > > [   21.063714]  usb_probe_device+0x7b/0x130
-> > > [   21.063936]  really_probe+0x1ba/0x4c0
-> > > [   21.064111]  __driver_probe_device+0xb2/0x180
-> > > [   21.064577]  driver_probe_device+0x5a/0x100
-> > > [   21.065019]  __device_attach_driver+0xe9/0x160
-> > > [   21.065403]  ? __pfx___device_attach_driver+0x10/0x10
-> > > [   21.065820]  bus_for_each_drv+0xa9/0x100
-> > > [   21.066094]  __device_attach+0xed/0x190
-> > > [   21.066535]  device_initial_probe+0xe/0x20
-> > > [   21.066992]  bus_probe_device+0x4d/0xd0
-> > > [   21.067250]  device_add+0x308/0x590
-> > > [   21.067501]  usb_new_device+0x347/0x610
-> > > [   21.067817]  hub_event+0x156b/0x1e30
-> > > [   21.068060]  ? process_scheduled_works+0x48b/0xaf0
-> > > [   21.068337]  process_scheduled_works+0x5a3/0xaf0
-> > > [   21.068668]  worker_thread+0x3cf/0x560
-> > > [   21.068932]  ? kthread+0x109/0x1b0
-> > > [   21.069133]  kthread+0x197/0x1b0
-> > > [   21.069343]  ? __pfx_worker_thread+0x10/0x10
-> > > [   21.069598]  ? __pfx_kthread+0x10/0x10
-> > > [   21.069908]  ret_from_fork+0x32/0x40
-> > > [   21.070169]  ? __pfx_kthread+0x10/0x10
-> > > [   21.070424]  ret_from_fork_asm+0x1a/0x30
-> > > [   21.070737]  </TASK>
-> > >
-> > > Cc: stable@vger.kernel.org
-> > > Reported-by: syzbot+0584f746fde3d52b4675@syzkaller.appspotmail.com
-> > > Closes: https://syzkaller.appspot.com/bug?extid=0584f746fde3d52b4675
-> > > Reported-by: syzbot+dd320d114deb3f5bb79b@syzkaller.appspotmail.com
-> > > Closes: https://syzkaller.appspot.com/bug?extid=dd320d114deb3f5bb79b
-> > > Fixes: a3fbc2e6bb05 ("media: mc-entity.c: use WARN_ON, validate link pads")
-> > > Signed-off-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-> > > Co-developed-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > > This is a new attempt to land a Thadeu's patch, but being a bit more
-> > > benevolent on the non-compliant cameras.
-> > >
-> > > I have kept most of Thadeu's code, but instead of returning an error
-> > > when trying to allocate an invalid entity, I replace its id with a
-> > > special ID.
-> > >
-> > > Thadeu can you validate this new version?
-> > >
-> > > Tomasz can you also check this patch with your non compliant camera?
-> > >
-> > > Thanks!
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_driver.c | 73 ++++++++++++++++++++++++--------------
-> > >  drivers/media/usb/uvc/uvcvideo.h   |  2 ++
-> > >  2 files changed, 48 insertions(+), 27 deletions(-)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > index 775bede0d93d9b3e5391914aa395326d3de6a3b1..46923cd85f0b6790f01ae6b393571ca7660900f7 100644
-> > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > @@ -137,6 +137,9 @@ struct uvc_entity *uvc_entity_by_id(struct uvc_device *dev, int id)
-> > >  {
-> > >       struct uvc_entity *entity;
-> > >
-> > > +     if (id == UVC_INVALID_ENTITY_ID)
-> > > +             return NULL;
-> > > +
-> > >       list_for_each_entry(entity, &dev->entities, list) {
-> > >               if (entity->id == id)
-> > >                       return entity;
-> > > @@ -795,14 +798,27 @@ static const u8 uvc_media_transport_input_guid[16] =
-> > >       UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT;
-> > >  static const u8 uvc_processing_guid[16] = UVC_GUID_UVC_PROCESSING;
-> > >
-> > > -static struct uvc_entity *uvc_alloc_entity(u16 type, u16 id,
-> > > -             unsigned int num_pads, unsigned int extra_size)
-> > > +static struct uvc_entity *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
-> > > +                                            u16 id, unsigned int num_pads,
-> > > +                                            unsigned int extra_size)
-> > >  {
-> > >       struct uvc_entity *entity;
-> > >       unsigned int num_inputs;
-> > >       unsigned int size;
-> > >       unsigned int i;
-> > >
-> > > +     /* Per UVC 1.1+ spec 3.7.2, the ID should be non-zero. */
-> > > +     if (id == 0) {
-> > > +             dev_err(&dev->intf->dev, "Found Unit with invalid ID 0.\n");
-> >
-> > s/0./0/
-> >
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >
-> > Should I wait for Thadeu and Tomasz to check this new patch before
-> > applying it ?
-> 
-> It has been almost 3 weeks of radio-silence... I'd recommend to apply it.
-> 
-> We can always fix it afterwards.
-> 
+Hi Jacopo
 
-Sorry about that, I had to find the reproducers and manage to be able to
-run them again. They still warn on mainline, but are fixed with this patch.
-I wasn't able to verify that the non-compliant real devices still work,
-though. If I managed to run such a test, I will get back with any results.
-
-For now, you can also add:
-
-Tested-by: Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-
-Thanks.
-Cascardo.
-
-> >
-> > > +             id = UVC_INVALID_ENTITY_ID;
-> > > +     }
-> > > +
-> > > +     /* Per UVC 1.1+ spec 3.7.2, the ID is unique. */
-> > > +     if (uvc_entity_by_id(dev, id)) {
-> > > +             dev_err(&dev->intf->dev, "Found multiple Units with ID %u\n", id);
-> > > +             id = UVC_INVALID_ENTITY_ID;
-> > > +     }
-> > > +
-> > >       extra_size = roundup(extra_size, sizeof(*entity->pads));
-> > >       if (num_pads)
-> > >               num_inputs = type & UVC_TERM_OUTPUT ? num_pads : num_pads - 1;
-> > > @@ -812,7 +828,7 @@ static struct uvc_entity *uvc_alloc_entity(u16 type, u16 id,
-> > >            + num_inputs;
-> > >       entity = kzalloc(size, GFP_KERNEL);
-> > >       if (entity == NULL)
-> > > -             return NULL;
-> > > +             return ERR_PTR(-ENOMEM);
-> > >
-> > >       entity->id = id;
-> > >       entity->type = type;
-> > > @@ -924,10 +940,10 @@ static int uvc_parse_vendor_control(struct uvc_device *dev,
-> > >                       break;
-> > >               }
-> > >
-> > > -             unit = uvc_alloc_entity(UVC_VC_EXTENSION_UNIT, buffer[3],
-> > > -                                     p + 1, 2*n);
-> > > -             if (unit == NULL)
-> > > -                     return -ENOMEM;
-> > > +             unit = uvc_alloc_new_entity(dev, UVC_VC_EXTENSION_UNIT,
-> > > +                                         buffer[3], p + 1, 2 * n);
-> > > +             if (IS_ERR(unit))
-> > > +                     return PTR_ERR(unit);
-> > >
-> > >               memcpy(unit->guid, &buffer[4], 16);
-> > >               unit->extension.bNumControls = buffer[20];
-> > > @@ -1036,10 +1052,10 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
-> > >                       return -EINVAL;
-> > >               }
-> > >
-> > > -             term = uvc_alloc_entity(type | UVC_TERM_INPUT, buffer[3],
-> > > -                                     1, n + p);
-> > > -             if (term == NULL)
-> > > -                     return -ENOMEM;
-> > > +             term = uvc_alloc_new_entity(dev, type | UVC_TERM_INPUT,
-> > > +                                         buffer[3], 1, n + p);
-> > > +             if (IS_ERR(term))
-> > > +                     return PTR_ERR(term);
-> > >
-> > >               if (UVC_ENTITY_TYPE(term) == UVC_ITT_CAMERA) {
-> > >                       term->camera.bControlSize = n;
-> > > @@ -1095,10 +1111,10 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
-> > >                       return 0;
-> > >               }
-> > >
-> > > -             term = uvc_alloc_entity(type | UVC_TERM_OUTPUT, buffer[3],
-> > > -                                     1, 0);
-> > > -             if (term == NULL)
-> > > -                     return -ENOMEM;
-> > > +             term = uvc_alloc_new_entity(dev, type | UVC_TERM_OUTPUT,
-> > > +                                         buffer[3], 1, 0);
-> > > +             if (IS_ERR(term))
-> > > +                     return PTR_ERR(term);
-> > >
-> > >               memcpy(term->baSourceID, &buffer[7], 1);
-> > >
-> > > @@ -1117,9 +1133,10 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
-> > >                       return -EINVAL;
-> > >               }
-> > >
-> > > -             unit = uvc_alloc_entity(buffer[2], buffer[3], p + 1, 0);
-> > > -             if (unit == NULL)
-> > > -                     return -ENOMEM;
-> > > +             unit = uvc_alloc_new_entity(dev, buffer[2], buffer[3],
-> > > +                                         p + 1, 0);
-> > > +             if (IS_ERR(unit))
-> > > +                     return PTR_ERR(unit);
-> > >
-> > >               memcpy(unit->baSourceID, &buffer[5], p);
-> > >
-> > > @@ -1139,9 +1156,9 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
-> > >                       return -EINVAL;
-> > >               }
-> > >
-> > > -             unit = uvc_alloc_entity(buffer[2], buffer[3], 2, n);
-> > > -             if (unit == NULL)
-> > > -                     return -ENOMEM;
-> > > +             unit = uvc_alloc_new_entity(dev, buffer[2], buffer[3], 2, n);
-> > > +             if (IS_ERR(unit))
-> > > +                     return PTR_ERR(unit);
-> > >
-> > >               memcpy(unit->baSourceID, &buffer[4], 1);
-> > >               unit->processing.wMaxMultiplier =
-> > > @@ -1168,9 +1185,10 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
-> > >                       return -EINVAL;
-> > >               }
-> > >
-> > > -             unit = uvc_alloc_entity(buffer[2], buffer[3], p + 1, n);
-> > > -             if (unit == NULL)
-> > > -                     return -ENOMEM;
-> > > +             unit = uvc_alloc_new_entity(dev, buffer[2], buffer[3],
-> > > +                                         p + 1, n);
-> > > +             if (IS_ERR(unit))
-> > > +                     return PTR_ERR(unit);
-> > >
-> > >               memcpy(unit->guid, &buffer[4], 16);
-> > >               unit->extension.bNumControls = buffer[20];
-> > > @@ -1315,9 +1333,10 @@ static int uvc_gpio_parse(struct uvc_device *dev)
-> > >               return dev_err_probe(&dev->intf->dev, irq,
-> > >                                    "No IRQ for privacy GPIO\n");
-> > >
-> > > -     unit = uvc_alloc_entity(UVC_EXT_GPIO_UNIT, UVC_EXT_GPIO_UNIT_ID, 0, 1);
-> > > -     if (!unit)
-> > > -             return -ENOMEM;
-> > > +     unit = uvc_alloc_new_entity(dev, UVC_EXT_GPIO_UNIT,
-> > > +                                 UVC_EXT_GPIO_UNIT_ID, 0, 1);
-> > > +     if (IS_ERR(unit))
-> > > +             return PTR_ERR(unit);
-> > >
-> > >       unit->gpio.gpio_privacy = gpio_privacy;
-> > >       unit->gpio.irq = irq;
-> > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > index 70dc80e2b213dff333665022b3410b175d072793..881bfa0caab22714c26a3260cc843bda8e2706a4 100644
-> > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > @@ -41,6 +41,8 @@
-> > >  #define UVC_EXT_GPIO_UNIT            0x7ffe
-> > >  #define UVC_EXT_GPIO_UNIT_ID         0x100
-> > >
-> > > +#define UVC_INVALID_ENTITY_ID          0xffff
-> > > +
-> > >  /* ------------------------------------------------------------------------
-> > >   * Driver specific constants.
-> > >   */
-> > >
-> > > ---
-> > > base-commit: a75b8d198c55e9eb5feb6f6e155496305caba2dc
-> > > change-id: 20250820-uvc-thadeu2-25723a961bd8
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
+On 05/09/2025 12:39, Jacopo Mondi wrote:
+> Hello Antoine
 > 
+> On Fri, Sep 05, 2025 at 12:14:39PM +0200, Antoine Bouyer wrote:
+>> Hi Jacopo
+>>
+>> On 20/08/2025 14:58, Jacopo Mondi wrote:
+>>> Extensible parameters meta formats have been introduced in the Linux
+>>> kernel v6.12 initially to support different revision of the RkISP1 ISP
+>>> implemented in different SoC. In order to avoid breaking userspace
+>>> everytime an ISP configuration block is added or modified in the uAPI
+>>> these new formats, which are versionated and extensible by their
+>>> definition have been introduced.
+>>>
+>>> See for reference:
+>>> e9d05e9d5db1 ("media: uapi: rkisp1-config: Add extensible params format")
+>>> 6c53a7b68c5d ("media: rkisp1: Implement extensible params support")
+>>>
+>>> The Amlogic C3 ISP driver followed shortly, introducing an extensible
+>>> format for the ISP configuration:
+>>>
+>>> 6d406187ebc0 ("media: uapi: Add stats info and parameters buffer for C3 ISP")
+>>>
+>>> with a very similar, if not identical, implementation of the routines to
+>>> validate and handle the ISP configuration in the ISP driver in the
+>>> c3-isp-params.c file.
+>>>
+>>> fb2e135208f3 ("media: platform: Add C3 ISP driver")
+>>>
+>>> With the recent upstreaming attempt of the Mali C55 ISP driver from Dan,
+>>> a third user of extensible parameters is going to be itroduced in the
+>>> kernel, duplicating again in the driver the procedure for validating and
+>>> handling the ISP configuration blocks
+>>>
+>>> https://patchwork.linuxtv.org/project/linux-media/patch/20250624-c55-v10-15-54f3d4196990@ideasonboard.com/
+>>>
+>>> To avoid duplicating again the validation routines and common types
+>>> definition, this series introduces v4l2-params.c/.h for the kAPI
+>>> and v4l2-extensible-params.h for the uAPI and re-organize the RkISP1
+>>> and Amlogic C3 drivers to use the common types and the helper validation
+>>> routines.
+>>>
+>>
+>> I'm currently working on another ISP driver: NXP neo, and also use extended
+>> params so as RkISP1.
+>>
 > 
+> Nice to hear!
 > 
-> -- 
-> Ricardo Ribalda
+>> Using common types looks like really interesting approach. However, only
+>> params are taken into account, while NXP neo also provides statistics. I'm
+>> currently testing extended approach for both params AND statistics. But
+>> v4l2-params only applies to .. params, as stated in the name.
+>>
+>> Is there any plan to apply the same to statistics ?
+>>
+> 
+> Not a proper plan at the moment, but I agree it would indeed be
+> beneficial to have a similar approach for stats...
+> 
+> Are you suggesting we should drop 'params' at least from the file
+> names ?
+
+Either create v4l2-extended-stats header, or a more generic name for 
+both params & stats. Seems Laurent already suggested v4l2-isp.h. I'm 
+fine with this too.
+
+> 
+>>> If the here proposed approach is accepted, I propose to rebase the Mali
+>>> C55 driver on top of this series, to use the new common types and
+>>> helpers.
+>>>
+>>> I have been able to test this on RkISP1 but not on C3.
+>>
+>> Also tested on NXP neo locally.
+> 
+> Great, could you maybe send a Tested-by tag ?
+
+Actually, I further tested your libcamera patchs, but not yet the driver 
+ones. So indeed, I can send my Tested-By tag in libcamera series.
+
+Best regards
+Antoine
+
+> 
+> Also, not sure if you have noticed this series for libcamera
+> https://patchwork.libcamera.org/project/libcamera/list/?series=5413
+> where I tried to generalize the extensible param helpers.
+> 
+> Thanks
+>    j
+> 
+>>
+>> Best regards
+>> Antoine
+>>
+>>>
+>>> Thanks
+>>>     j
+>>>
+>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>> ---
+>>> Changes in v4:
+>>> - Fix the definition of V4L2_PARAMS_FL_PLATFORM_FLAGS
+>>> - Add __counted_by() attribute to the data[] flexible-array member of
+>>>     v4l2_params_buffer
+>>> - Minor style change
+>>> - Link to v3: https://lore.kernel.org/r/20250819-extensible-parameters-validation-v3-0-9dc008348b30@ideasonboard.com
+>>>
+>>> Changes in v3:
+>>> - Rebased on latest media-committers/next
+>>> - Take in Dan's suggestion in block size validation
+>>> - Documentation minor spelling fixes
+>>> - Link to v2: https://lore.kernel.org/r/20250710-extensible-parameters-validation-v2-0-7ec8918ec443@ideasonboard.com
+>>>
+>>> Changes in v2:
+>>> - Make v4l2_params_buffer directly usable
+>>> - Centralize ENABLE/DISABLE flags definition and validation
+>>> - Take in Dan's v4l2_params_buffer_size()
+>>> - Allow blocks to only contain the header if they're going to be
+>>>     disabled
+>>> - Documentation fixes as reported by Nicolas
+>>> - Link to v1: https://lore.kernel.org/r/20250708-extensible-parameters-validation-v1-0-9fc27c9c728c@ideasonboard.com
+>>>
+>>> ---
+>>> Jacopo Mondi (8):
+>>>         media: uapi: Introduce V4L2 extensible params
+>>>         media: uapi: Convert RkISP1 to V4L2 extensible params
+>>>         media: uapi: Convert Amlogic C3 to V4L2 extensible params
+>>>         media: Documentation: uapi: Add V4L2 extensible parameters
+>>>         media: v4l2-core: Introduce v4l2-params.c
+>>>         media: rkisp1: Use v4l2-params for validation
+>>>         media: amlogic-c3: Use v4l2-params for validation
+>>>         media: Documentation: kapi: Add v4l2 extensible parameters
+>>>
+>>>    Documentation/driver-api/media/v4l2-core.rst       |   1 +
+>>>    Documentation/driver-api/media/v4l2-params.rst     |   5 +
+>>>    .../media/v4l/extensible-parameters.rst            |  89 ++++++
+>>>    .../userspace-api/media/v4l/meta-formats.rst       |   1 +
+>>>    MAINTAINERS                                        |  10 +
+>>>    .../media/platform/amlogic/c3/isp/c3-isp-params.c  | 263 ++++++----------
+>>>    .../media/platform/rockchip/rkisp1/rkisp1-params.c | 349 +++++++++------------
+>>>    drivers/media/v4l2-core/Makefile                   |   3 +-
+>>>    drivers/media/v4l2-core/v4l2-params.c              | 126 ++++++++
+>>>    include/media/v4l2-params.h                        | 164 ++++++++++
+>>>    include/uapi/linux/media/amlogic/c3-isp-config.h   |  48 +--
+>>>    include/uapi/linux/media/v4l2-extensible-params.h  | 146 +++++++++
+>>>    include/uapi/linux/rkisp1-config.h                 |  67 ++--
+>>>    13 files changed, 817 insertions(+), 455 deletions(-)
+>>> ---
+>>> base-commit: a75b8d198c55e9eb5feb6f6e155496305caba2dc
+>>> change-id: 20250701-extensible-parameters-validation-c831f7f5cc0b
+>>>
+>>> Best regards,
+
 
