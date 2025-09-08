@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-41947-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41948-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC815B4838F
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 07:16:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36AADB483B2
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 07:41:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8C6BE3B8B33
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 05:16:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E5D3B3BC03F
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 05:41:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B28C2222D8;
-	Mon,  8 Sep 2025 05:16:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2DDF22A4D6;
+	Mon,  8 Sep 2025 05:41:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gPEPU7Rl"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="csC7uw00"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B182F510
-	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 05:16:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EEF121ABC1
+	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 05:41:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757308561; cv=none; b=o6aBTRyZLYfpdY3+6k0kPScYuSMZ1sSHV/OAaKLXaLbDkqm/9JESRa2b9cPotBYWgnBx2ythDar3KR/FZK+Gbol+c7Hcm5p8vH7t+WrYuIC2A66Y1H+DUYZnjx2O8diNmGaJggCgO0YO4YitD8u6KPY74BA9/S6vTiMh0B7a+do=
+	t=1757310108; cv=none; b=aUCDqLYwywmMUAl7yQwk+ihWXBtbS2oHoiXoPsOFn74Rvhtkw2kx2K1aXLe3cFvvw03xFpoMrgDPdRRu9PNjjJRUcWlC8mBWr1bRMA4j97fWVA75qgQBs7DbrOapU615V0KREoxkY8EAPBac+S27DlfGgv9J/jnFE6vM7j70QpY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757308561; c=relaxed/simple;
-	bh=dMzRG3cf7fPRJBRXovxhRiku7WAELsJWHaHyz3AXazg=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=qC9ZD1VeqKZP6LInS+26vU2gnhfTIWXNoXzGGta7V7wRmwco9lRLr3/8wz4WtL9Pz9iK+tHSAka0YVxJGZWvblEblxcGWH2HHu67325Z460C6e9d0Kv+YvgEMYfPyajUH9DOIzC5X8WaHCmTyn3xxUMM2KfNsj/qQzFQqhc2Nqk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gPEPU7Rl; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DEF62C4CEF5;
-	Mon,  8 Sep 2025 05:15:59 +0000 (UTC)
+	s=arc-20240116; t=1757310108; c=relaxed/simple;
+	bh=FRzQiojRB9+/6IhJ/XttIVhmHZvASqPAIu1UyOHwLSs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UHQ+nsQzRD8Qgov0/t/9q6Q0lFStdr5571sYRz1OvoTLaxgBIH0aDqS1frsMaYBzkMl0Dlc4tgDr0L3f21va6VgHw7Bc7RacPPU5bKUAEI5K1Fh16UD6btnJ+dImI+OP0LW8VEwg+lL7Nc0CyX1x8udjIQUXi09vMnFs2RJ8+X0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=csC7uw00; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86460C4CEF5;
+	Mon,  8 Sep 2025 05:41:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757308561;
-	bh=dMzRG3cf7fPRJBRXovxhRiku7WAELsJWHaHyz3AXazg=;
+	s=k20201202; t=1757310106;
+	bh=FRzQiojRB9+/6IhJ/XttIVhmHZvASqPAIu1UyOHwLSs=;
 	h=From:To:Cc:Subject:Date:From;
-	b=gPEPU7RlVVxSNp0eGKlUOmbrSkTiUAmacp0D7NNgKG8CGIbK85hwHJThGM2UVl7TQ
-	 EK2tjkYBM9PNRi0xXq45Tf9B/iZfU21VMT6t9442P0bSG2JWGQ+XhszLCvvCfbi9v3
-	 PjGHS2INE4UG/px7295AQCu0hH7iftlzRpPDLfOTRsZUorsn+89sMJEJ65Bb2htFJ0
-	 bmH71IhuXpO2ENl7HuTb72YVdexxuJSGSkfRRRPRIv1sp7+0aEnf4sdWXDjQRDjZJM
-	 2HBMgHDVvjfUN8tZREXnwzU/2FZs+idis6GW4bjqCIc0D5XqI87jFM7glBI1ZuPq5O
-	 yDMGsxb0wfOXQ==
+	b=csC7uw00gXoHVclG1A/bzhhIGcmDPCaZzE4EotpHqw6Qxhv8o2wYJvBHNFoaYTpov
+	 oGYM9JtpIcxYxz3ewci4D0T2HAAdiJEIR0aTCVjAQXTWbHltjpFtM7m3BmoGDhwCnY
+	 IcGqM8JRGAsxWd9qSHRR5EHAPL2DD0dVP3qIqK5YTN6BU7nBWWM3a5dqKeBvCj7Ke0
+	 u/PNePabqmjxO1BPvCcfihTDTIwTTvpKnMGtqsFn2sVyJRwV36D+Anil+YH9CG+gVi
+	 GxnE2OhNoLz60bZDY/74sA7SoXn3GBrzf2zTS4xnXYY98x3pgTRxIls3LN/ug9nNw5
+	 /61mnt3RK7Shw==
 From: bod@kernel.org
-To: linux-media@vger.kernel.org,
+To: bod@kernel.org,
+	linux-media@vger.kernel.org,
 	hans@jjverkuil.nl
-Cc: bryan.odonoghue@linaro.org,
-	Bryan O'Donoghue <bod@kernel.org>
-Subject: [GIT PULL FOR 6.18] Please pull platform-qcom-venus-for-6.18
-Date: Mon,  8 Sep 2025 06:15:41 +0100
-Message-ID: <20250908051546.14563-1-bod@kernel.org>
+Cc: bryan.odonoghue@linaro.org
+Subject: [GIT PULL FOR 6.18] Please pull platform-qcom-iris-generic-fixes-updates-for-6.18
+Date: Mon,  8 Sep 2025 06:41:38 +0100
+Message-ID: <20250908054142.17487-1-bod@kernel.org>
 X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -65,48 +65,57 @@ The following changes since commit 34837c444cd42236b2b43ce871f30d83776a3431:
 
 are available in the Git repository at:
 
-  https://gitlab.freedesktop.org/linux-media/users/bodonoghue.git tags/platform-qcom-venus-for-6.18
+  https://gitlab.freedesktop.org/linux-media/users/bodonoghue.git tags/platform-qcom-iris-generic-fixes-updates-for-6.18
 
-for you to fetch changes up to 877bb5425240e1cb92ecaa9f26f73b40a416081f:
+for you to fetch changes up to 836378f67823641fb8a844c9d7ac91dbe3142ea2:
 
-  media: venus: core: Add qcm2290 DT compatible and resource data (2025-09-05 12:52:07 +0100)
-
-----------------------------------------------------------------
-This tag includes a new SoC and some housekeeping
-
-- qcm2290 Agatti
-  Version checked to a specific version of firmware
-  both encoder and decoder are supported on this platform.
-
-- A bugfix from Stephan Gerhold.
+  media: iris: Fix firmware reference leak and unmap memory after load (2025-09-05 21:47:14 +0100)
 
 ----------------------------------------------------------------
-Jorge Ramirez-Ortiz (6):
-      media: dt-bindings: venus: Add qcm2290 dt schema
-      media: venus: Define minimum valid firmware version
-      media: venus: Add framework support for AR50_LITE video core
-      media: venus: hfi_plat_v4: Add capabilities for the 4XX lite core
-      media: venus: core: Sort dt_match alphabetically.
-      media: venus: core: Add qcm2290 DT compatible and resource data
+This PR contains:
 
-Stephan Gerhold (1):
-      media: venus: firmware: Use correct reset sequence for IRIS2
+- MAINTAINERS updates for Dikshita, Vikash, Bryan
+- dt-bindings additions for x1e80100 and sm8750
+- dt-bindings fix from Krzysztof
+- Fixes: from the community
+  A number of memory leak and power-sequencing
+  fixes.
 
- .../bindings/media/qcom,qcm2290-venus.yaml         | 130 ++++++++++++++
- drivers/media/platform/qcom/venus/core.c           | 109 +++++++++---
- drivers/media/platform/qcom/venus/core.h           |  18 +-
- drivers/media/platform/qcom/venus/firmware.c       |  38 ++++-
- drivers/media/platform/qcom/venus/firmware.h       |   2 +
- drivers/media/platform/qcom/venus/helpers.c        |  12 +-
- drivers/media/platform/qcom/venus/hfi_msgs.c       |  11 +-
- drivers/media/platform/qcom/venus/hfi_parser.c     |   2 +-
- drivers/media/platform/qcom/venus/hfi_platform.c   |  23 ++-
- drivers/media/platform/qcom/venus/hfi_platform.h   |  34 ++--
- .../media/platform/qcom/venus/hfi_platform_v4.c    | 188 ++++++++++++++++++---
- .../media/platform/qcom/venus/hfi_platform_v6.c    |  33 +++-
- drivers/media/platform/qcom/venus/hfi_venus.c      |  25 ++-
- drivers/media/platform/qcom/venus/hfi_venus_io.h   |   4 +
- drivers/media/platform/qcom/venus/pm_helpers.c     |   2 +-
- 15 files changed, 537 insertions(+), 94 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/qcom,qcm2290-venus.yaml
+----------------------------------------------------------------
+Bryan O'Donoghue (1):
+      MAINTAINERS: Add a media/platform/qcom MAINTAINERS entry
+
+Dikshita Agarwal (3):
+      MAINTAINERS: update Dikshita Agarwal's email addresses
+      dt-bindings: media: qcom,sm8550-iris: Update Dikshita Agarwal's email address
+      media: iris: vpu3x: Add MNoC low power handshake during hardware power-off
+
+Krzysztof Kozlowski (4):
+      dt-bindings: media: qcom,sm8550-iris: Add SM8750 video codec
+      dt-bindings: media: qcom,sm8550-iris: Do not reference legacy venus properties
+      media: iris: Call correct power off callback in cleanup path
+      media: iris: Split power on per variants
+
+Neil Armstrong (1):
+      media: iris: fix module removal if firmware download failed
+
+Stephan Gerhold (2):
+      dt-bindings: media: qcom,sm8550-iris: Add X1E80100 compatible
+      media: iris: Fix firmware reference leak and unmap memory after load
+
+Vikash Garodia (1):
+      MAINTAINERS: Update Vikash Garodia's email address
+
+ .mailmap                                           |   3 +-
+ .../bindings/media/qcom,sm8550-iris.yaml           |  16 +-
+ .../bindings/media/qcom,sm8750-iris.yaml           | 186 +++++++++++++++++++++
+ MAINTAINERS                                        |  21 ++-
+ drivers/media/platform/qcom/iris/iris_core.c       |  10 +-
+ drivers/media/platform/qcom/iris/iris_firmware.c   |  15 +-
+ drivers/media/platform/qcom/iris/iris_vpu2.c       |   2 +
+ drivers/media/platform/qcom/iris/iris_vpu3x.c      |  36 +++-
+ drivers/media/platform/qcom/iris/iris_vpu_common.c |  10 +-
+ drivers/media/platform/qcom/iris/iris_vpu_common.h |   4 +
+ 10 files changed, 274 insertions(+), 29 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8750-iris.yaml
 
