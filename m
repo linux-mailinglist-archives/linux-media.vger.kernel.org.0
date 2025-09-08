@@ -1,136 +1,134 @@
-Return-Path: <linux-media+bounces-41950-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41952-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02C11B483CF
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 07:54:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AF57B4846C
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 08:49:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 09F54189BB66
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 05:54:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EBAC93BA772
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 06:49:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCC552264D9;
-	Mon,  8 Sep 2025 05:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E318F2DF714;
+	Mon,  8 Sep 2025 06:49:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IG89zei1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PZxfv0p4"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4526545945
-	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 05:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EA821E1E1E
+	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 06:49:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757310867; cv=none; b=M8s0Bg3+tccq/wMu4F+wLGpqdzau7Xmzm4qiG6NvU8kl1xKuRSlPRZ60GdZnhfcgrVC8FlyvH4V8hsa3rvNAyJcNqK4Qq42n0P5UpOhlFqwv0SGglHt3iEA3IA3AXjO2qfHfbBgE4PM/GVNIQ6aMDOCQYG2px8unGWcxCx8te7Y=
+	t=1757314185; cv=none; b=fHKhYOfTTnMLQVfRuFUoU6hG9oQBOd0yrwySKKuys+Mk5eS6qXBl3pC1UUPs58c8JKWbrqn+Q6vKAPFCedwFP2CGuyCKh9xwrx+dT2sU39D32Zjk6/XwKBiPL+Ry/5M1QR89IAYBMMc1/Gg0jLzgbiAtRqO2vrkv0NqomP5ULDE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757310867; c=relaxed/simple;
-	bh=7/cwJ3SUkyV0ct7rXhCq6s3E3Vf4utM6sjm/ntEfuEU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=F/Csubh1aRN9D+2H8Y9SyZHPdE6/+hHZwds1WL1tKpe9n59+dxs1XfFv+Fdl9GcrFZ9vLHRnCgZiVqNEI+JLPI+l0v048BfD0wv4r1TmO+3iQnTgmq1Zt8JE76Di01hiulzE8/baVBiw9TzxUUMcCiSYfox5RH0r7ugxIC6NsuM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IG89zei1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBF09C4CEF5;
-	Mon,  8 Sep 2025 05:54:25 +0000 (UTC)
+	s=arc-20240116; t=1757314185; c=relaxed/simple;
+	bh=LM7VxyGsLs5M2XOXjO8TDmvLxI0rWqpYvtsTN2iDKno=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Content-Type; b=fYjqn9irrezN9VtrF1G8QpJdqL9wfqhKobIkLM5S9eDuemfF+RiNNceGbSlBm7XJofX6Li9ZkhwNLW57hwyS/ByYYRtshN9X/lYFKdFj/74PDquLGXgiH6EFkvCdCgcFlg5ns6Wf6gvv2tx0eUrgj4EGeeqfLwVDQmyo8s6i9/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PZxfv0p4; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8A8FDC4CEF5
+	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 06:49:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757310866;
-	bh=7/cwJ3SUkyV0ct7rXhCq6s3E3Vf4utM6sjm/ntEfuEU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=IG89zei1k+LXM0diZWLdkoVnkL8EX6HFssTlHA6GG8wGoAYbSr8oO1UEzf4WFnfyU
-	 PJ3BxCVd8dXh7fTHc+HmvLSPNBYmjdWYiVfS3PUW9NVkDaz1l1LfwLOK19t3Q1CQ+R
-	 xJeFpUjdSlAd9tX0SzA6puplgzsyuS9+eY0wPEtyHwcRYlU+Gu/VGq4gpshPxhvSDe
-	 gRNMf4SWCgKaH8udp2c1szPLyGZFV+6VWXu6a+3Od9sDDJLpXS23VPWHat/WUpU3DD
-	 Vsdqlbac13dPis/Aafv+ftChfK0HJVVcQk2jURZ9kUA3X/PVY85ulATg9qV2oVbBRk
-	 jc4tnxuwi/TfQ==
-From: bod@kernel.org
-To: linux-media@vger.kernel.org,
-	hans@jjverkuil.nl
-Cc: bryan.odonoghue@linaro.org,
-	Bryan O'Donoghue <bod@kernel.org>
-Subject: [GIT PULL FOR 6.18] Please pull platform-qcom-camss-for-6.18
-Date: Mon,  8 Sep 2025 06:54:18 +0100
-Message-ID: <20250908055422.18446-1-bod@kernel.org>
-X-Mailer: git-send-email 2.51.0
+	s=k20201202; t=1757314184;
+	bh=LM7VxyGsLs5M2XOXjO8TDmvLxI0rWqpYvtsTN2iDKno=;
+	h=Date:From:Subject:To:From;
+	b=PZxfv0p4v5MT0cNiRZbeuTKgEpYBjQM3jOk704ACa8izZc7Bauuh5LaPuRjUzCMOc
+	 JxyO/Jq9TOmREQeN8wpxDcrEW015FBytdfqNRJKyJyb68ARLuH4ovgRNww0UpkoVNF
+	 vrC7rzRWyuxSgbHeJ9kczp+WCOVrEXZssHmHTgejsRZQqkIpVJDrW4eqKEq0W9VqUH
+	 RGjDZN57ETulH/wEeII8YQZqPSzzZI0e8CZ/IamOtPjl7qfzGlQ4O209/+9RBuKkGe
+	 ALJz4OgbEV+X7AYJYIapYH1qW1GDvjfmudPKQIDa9ZmpLHBjN2Q3ZL2fXlxjGNvzJ1
+	 UQfAsu1QHUkTA==
+Message-ID: <5b0cbda3-0c70-4022-9d88-de9fd372d27d@kernel.org>
+Date: Mon, 8 Sep 2025 08:49:42 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US, nl
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: [PATCH] media: vivid: fix disappearing <Vendor Command With ID>
+ messages
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-From: Bryan O'Donoghue <bod@kernel.org>
+The vivid driver supports the <Vendor Command With ID> message,
+but if the Vendor ID of the received message didn't match the Vendor ID
+of the CEC Adapter, then it ignores it (good) and returns 0 (bad).
 
-The following changes since commit 04f08db52b3f892c85bd92ebbc3a7ca32e4f60f3:
+It should return -ENOMSG to indicate that other followers should be
+asked to handle it. Return code 0 means that the driver handled it,
+which is wrong in this case.
 
-  media: i2c: tc358743: add support for more infoframe types (2025-09-07 10:29:19 +0200)
+As a result, userspace followers never get the chance to process such a
+message.
 
-are available in the Git repository at:
+Refactor the code a bit to have the function return -ENOMSG at the end,
+drop the default case, and ensure that the message handlers return 0.
 
-  https://gitlab.freedesktop.org/linux-media/users/bodonoghue.git tags/platform-qcom-camss-for-6.18
+That way 0 is only returned if the message is actually handled in the
+vivid_received() function.
 
-for you to fetch changes up to 2d10474317358d41c7f746db4819ac4042a5ad11:
+Fixes: 812765cd6954 ("media: vivid: add <Vendor Command With ID> support")
+Cc: stable@vger.kernel.org
+Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+---
+ drivers/media/test-drivers/vivid/vivid-cec.c | 12 +++++-------
+ 1 file changed, 5 insertions(+), 7 deletions(-)
 
-  media: qcom: camss: remove a check for unavailable CAMSS endpoint (2025-09-08 06:19:38 +0100)
+diff --git a/drivers/media/test-drivers/vivid/vivid-cec.c b/drivers/media/test-drivers/vivid/vivid-cec.c
+index 356a988dd6a1..2d15fdd5d999 100644
+--- a/drivers/media/test-drivers/vivid/vivid-cec.c
++++ b/drivers/media/test-drivers/vivid/vivid-cec.c
+@@ -327,7 +327,7 @@ static int vivid_received(struct cec_adapter *adap, struct cec_msg *msg)
+ 		char osd[14];
 
-----------------------------------------------------------------
-Adds support for the following SoC flavours:
+ 		if (!cec_is_sink(adap))
+-			return -ENOMSG;
++			break;
+ 		cec_ops_set_osd_string(msg, &disp_ctl, osd);
+ 		switch (disp_ctl) {
+ 		case CEC_OP_DISP_CTL_DEFAULT:
+@@ -348,7 +348,7 @@ static int vivid_received(struct cec_adapter *adap, struct cec_msg *msg)
+ 			cec_transmit_msg(adap, &reply, false);
+ 			break;
+ 		}
+-		break;
++		return 0;
+ 	}
+ 	case CEC_MSG_VENDOR_COMMAND_WITH_ID: {
+ 		u32 vendor_id;
+@@ -379,7 +379,7 @@ static int vivid_received(struct cec_adapter *adap, struct cec_msg *msg)
+ 		if (size == 1) {
+ 			// Ignore even op values
+ 			if (!(vendor_cmd[0] & 1))
+-				break;
++				return 0;
+ 			reply.len = msg->len;
+ 			memcpy(reply.msg + 1, msg->msg + 1, msg->len - 1);
+ 			reply.msg[msg->len - 1]++;
+@@ -388,12 +388,10 @@ static int vivid_received(struct cec_adapter *adap, struct cec_msg *msg)
+ 					      CEC_OP_ABORT_INVALID_OP);
+ 		}
+ 		cec_transmit_msg(adap, &reply, false);
+-		break;
++		return 0;
+ 	}
+-	default:
+-		return -ENOMSG;
+ 	}
+-	return 0;
++	return -ENOMSG;
+ }
 
-- sa8755p Lemans
-- qcs8300 Monaco
-- qcm2290 Agatti
+ static const struct cec_adap_ops vivid_cec_adap_ops = {
+-- 
+2.47.2
 
-Includes code optimisation from Vladimir
 
-----------------------------------------------------------------
-Loic Poulain (5):
-      dt-bindings: media: Add qcom,qcm2290-camss
-      media: qcom: camss: Add support for TFE (Spectra 340)
-      media: qcom: camss: Add CSID 340 support
-      media: qcom: camss: csiphy-3ph: Add CSIPHY 2ph DPHY v2.0.1 init sequence
-      media: qcom: camss: add support for QCM2290 camss
-
-Vikram Sharma (14):
-      media: qcom: camss: Rename camss-csid-780.c to camss-csid-gen3.c
-      media: qcom: camss: Rename camss-vfe-780.c to camss-vfe-gen3.c
-      media: dt-bindings: Add qcom,sa8775p-camss compatible
-      media: qcom: camss: Add qcom,sa8775p-camss compatible
-      media: qcom: camss: Add support for CSIPHY (v1.3.0)
-      media: qcom: camss: Add support for CSID 690
-      media: qcom: camss: Add support for VFE 690
-      media: qcom: camss: Enumerate resources for lemans(sa8775p)
-      media: dt-bindings: Add qcom,qcs8300-camss compatible
-      media: qcom: camss: Add qcs8300 compatible
-      media: qcom: camss: Add CSIPHY support for QCS8300
-      media: qcom: camss: enable csid 690 for qcs8300
-      media: qcom: camss: enable vfe 690 for qcs8300
-      media: qcom: camss: Enumerate resources for QCS8300
-
-Vladimir Zapolskiy (3):
-      media: qcom: camss: remove .link_entities callback
-      media: qcom: camss: unconditionally set async notifier of subdevices
-      media: qcom: camss: remove a check for unavailable CAMSS endpoint
-
- .../bindings/media/qcom,qcm2290-camss.yaml         | 243 +++++++
- .../bindings/media/qcom,qcs8300-camss.yaml         | 336 ++++++++++
- .../bindings/media/qcom,sa8775p-camss.yaml         | 361 +++++++++++
- drivers/media/platform/qcom/camss/Makefile         |   6 +-
- drivers/media/platform/qcom/camss/camss-csid-340.c | 189 ++++++
- .../camss/{camss-csid-780.c => camss-csid-gen3.c}  |  34 +-
- .../camss/{camss-csid-780.h => camss-csid-gen3.h}  |   8 +-
- drivers/media/platform/qcom/camss/camss-csid.h     |   3 +-
- .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 175 +++++
- drivers/media/platform/qcom/camss/camss-vfe-340.c  | 319 ++++++++++
- .../camss/{camss-vfe-780.c => camss-vfe-gen3.c}    |  76 ++-
- drivers/media/platform/qcom/camss/camss-vfe.c      |  29 +-
- drivers/media/platform/qcom/camss/camss-vfe.h      |   3 +-
- drivers/media/platform/qcom/camss/camss.c          | 705 +++++++++++++++++++--
- drivers/media/platform/qcom/camss/camss.h          |   4 +-
- 15 files changed, 2400 insertions(+), 91 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/qcom,qcm2290-camss.yaml
- create mode 100644 Documentation/devicetree/bindings/media/qcom,qcs8300-camss.yaml
- create mode 100644 Documentation/devicetree/bindings/media/qcom,sa8775p-camss.yaml
- create mode 100644 drivers/media/platform/qcom/camss/camss-csid-340.c
- rename drivers/media/platform/qcom/camss/{camss-csid-780.c => camss-csid-gen3.c} (88%)
- rename drivers/media/platform/qcom/camss/{camss-csid-780.h => camss-csid-gen3.h} (84%)
- create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-340.c
- rename drivers/media/platform/qcom/camss/{camss-vfe-780.c => camss-vfe-gen3.c} (69%)
 
