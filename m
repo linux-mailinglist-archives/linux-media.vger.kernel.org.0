@@ -1,207 +1,103 @@
-Return-Path: <linux-media+bounces-42025-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42026-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6577AB491FA
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 16:47:45 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DAC1B49288
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 17:08:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C973C1712AB
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 14:47:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4AF5B189292A
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 15:08:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BED1B3002A2;
-	Mon,  8 Sep 2025 14:47:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F134230C63B;
+	Mon,  8 Sep 2025 15:07:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hH9zHq10"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GhTu8Ccf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-170.mta0.migadu.com (out-170.mta0.migadu.com [91.218.175.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212ED1CBEAA
-	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 14:47:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12956226D0F;
+	Mon,  8 Sep 2025 15:07:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757342860; cv=none; b=o/K1+S68oHLA1T4w+eid+Osi+kyXrVUhBDvJvn6H1g8At0/OogbbXYLySW0XdO4HTuQ241bux9DUS2wUw5bnzGCo95RIXuNLsY+N3E2WOSxJiltatAC9ldoDWi2vjfOSGOnogQrdLbHB6Eco7/W/d3fxnR1soICKA1FVavT7DxM=
+	t=1757344058; cv=none; b=c4q5KDxdW5krzV2S2+uV75F/yCVDjmfebETCfy5NobsEHTcPYrWwtmWW6hyUoLWQLe9YHITe2yz6ddSYtKDK8O/eTEx2V6NMLiVxJ/zV6glT+BOKAbw3ALg9Jl6KVcyjgfjf0JJ6Q1SKdxld4JvB+B/21gojO/mB0HfkkDvXxU8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757342860; c=relaxed/simple;
-	bh=fV/k7pnGg5U1j/Ho4oLI9YHZEk//tgEhhTH30ME2tYs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BBho6UsZUB23C9eZjL43bTHyv4IcM8dobhr9YUZHoQMnUvGROVIibGnk9U09L7MRgp9fclv3/jhExVpZOfy3idJ7aoX6BxgG89NS2GP91NBvzEGCu5J7WHMUMqprgC0PFcIf4CQqcwYZ/z1HnT/Cd/tgOojSfpE5NYwXPdfwm2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hH9zHq10; arc=none smtp.client-ip=91.218.175.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Mon, 8 Sep 2025 16:47:23 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1757342846;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YRl/bpkfEMYYMiEprnX/hSTsooigf4G9r5nwDef3AE4=;
-	b=hH9zHq10zbNnlFb24ISQS+7skwtXvH/fL/9y3wfq3GY+NxVKis92wv2HmP9GIUHHN+af2S
-	HOjMgpWFhQ0wBHADKkLgineq2Lt5dgZ8oUhyL6mGOvCXVCDoQroqdHe6VQAY0FuEe8d7Ca
-	T+RPb+bmMipVgKPQ9OGfbGdj0Di6m2I=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Richard Leitner <richard.leitner@linux.dev>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
-Subject: Re: [PATCH v7 06/10] media: i2c: ov9282: add hardware strobe signal
- v4l2 control
-Message-ID: <ahhiuf4is3wnukzgaschey6yrea5qfmmggcon42brh2pp2wrzn@aq3wnluvihtl>
-References: <20250901-ov9282-flash-strobe-v7-0-d58d5a694afc@linux.dev>
- <20250901-ov9282-flash-strobe-v7-6-d58d5a694afc@linux.dev>
- <aLYIq6GxLgPM6ReC@kekkonen.localdomain>
- <ieqhz2bpvtnej7odzjz3laiudbib3q6j656ed5s7zk4n2nxafh@ci7sdkmdni7d>
- <20250907200811.GB19568@pendragon.ideasonboard.com>
- <czhubfkhxayxbmn7hpgxjjqpylgo5c7jbrzobzxq65ruza2zfx@fhlxv2q63a5a>
- <20250908134735.GF26062@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1757344058; c=relaxed/simple;
+	bh=H5N4wjRgkDqnFlonEaPvXEaLaSXJ2fXLmoIe06P1MTk=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MDFoXyYQ8cckYbsnf9o6KkU3sl371vQ4O09SWmblJy62+FDp+ooIqzzQ1HcRdMVj1x40Aa/+tLiJ2q8Mbmdz4V5q81lB1pwJik2ArF85aIUuFhbUNKSbHMN3SeZJaKyED/7HchoaW4YuCqcWcNhQMzMGjvYrtMHxcpc016wAuzk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GhTu8Ccf; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7728a8862ccso3912542b3a.0;
+        Mon, 08 Sep 2025 08:07:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757344056; x=1757948856; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1v/nevopYryJ3uwr9+MPbLpeMXJ/woYxaQOCe5ZfhXs=;
+        b=GhTu8CcfoJqerc9U97XJ44hpjc6waauGceh++UV496D24oyV8Urh0mv1/qHoDrs+PT
+         cN+gkcauuo69hyzvY0bZ+X6rwrBaU70CUPXIOWhmwXahUyEEFMCQiPFzXLRjzv0Kyk6T
+         ZmAxOb8HtiMCpse1iXsuTLyVrtYI+YIfakZW9ylUThXkzNHw1HTvNEfdyFtjAzGxw7qv
+         lnav7/DtvjZ/Z2wj1fNv/UWnw0NvWLT6IQYnHBbUuGd9ZdTdhQ77jiABTOTXoqTG7VTD
+         an7kYW5Z0IDccOyJGnE/EeQEOsIUiZsuPAP28TIshOSfbjn/dDgXnDftpQ+O9TXB44kh
+         +IDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757344056; x=1757948856;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1v/nevopYryJ3uwr9+MPbLpeMXJ/woYxaQOCe5ZfhXs=;
+        b=qMOJrrosMRNYRREcsCRtuQnzK2Ev3mTlRmzQ28EIbDFWn178tVNtY7lR+CJqWF640q
+         Z5yH8n8LTy759K5g5CXvZhLWpdBJqcM2JTgpxYaQYm+ZpXg3f4tEh6UnKyyvjo309lTr
+         Q8pb464Pg4xn2fGmcg2HWESWb7ORnRSONmwPkoo2M664HiZ7mW87D3Xb364CS34yxyjh
+         b5j9uUOYO5694d6mBHi3JjXz5ysjcQ8go6DatVAiC30yVrRNGS05Re5nKrlu3ZE0h9QJ
+         PtDullLUvdoJP1EXVkOAdAn5bbQzXGzQVnKxQTH2PzFs9RY7vnenycCNYNYbdMur5ezH
+         x32A==
+X-Forwarded-Encrypted: i=1; AJvYcCUX5pxX9w5Z2NjyhX733e/fo6KdNOCGTq4hioE4xXDUaoG2hrQohHMBjFMXLGx/MKXdCHxDw3oSVg04q1Y=@vger.kernel.org, AJvYcCWs9LSUcnMUvTbFLsP+klIOLpC7fu59N3uwdgwIZDD+4JawiHJICApwGF0kNNLsAHXFXfAgPJKP@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgZ0m/J9P+B+oEFeLRzEfQjfcJAm4IaQgTJDkU2spfAPgOl32o
+	/LCKiaBiqCrWKPbV0wULSaTYqHMDcYAcge9vS8z6dDWOrMC1VdrNuQ8h
+X-Gm-Gg: ASbGncuQGrkLejPQGMDU2s03QktfYZiZ04QVY4hnoAcyERAXWBrQ/NIp/6z5GSIHEvu
+	cw4BeyOHqPXenikZOlNV8poe8nEi2Udunmi3SOxz0WSqZZmZ3s9g4YMAC2CeRuzbBxUhp7Ew/RQ
+	CtQso3r5I9AsRVSfSJiMF2LPvMf60Qd6S8tB3gA4s2wz/Mw7w6pBg4+7As0XsH22WoEbLZOQjnr
+	L5r5ylOfn2dqI+pq+BkFIYQre4muPqndUrcva/Qp6PY/BR+qIgCtZ1iADSkPMAjUL6FMLvyaP1c
+	BrNab+mfLOAg5+Jtl3bJIs30j+Vbzi7ZbhS5c1qR0DRDvL7Qaq0leeijhBMSbqsQHaxpZZ+boh5
+	xS+HC5J+KcHmhFoUlox2BSA+eVsFp2UqMY1B2aVfuCeilAXG60Q==
+X-Google-Smtp-Source: AGHT+IEh5uNcW2Uoy5V2ckDNYiyBbPPqFLxMnrdRDJzgZKBn1yOD7zvwJgjbIJEgkuGhmmdtgxdpyg==
+X-Received: by 2002:a17:902:ce89:b0:240:6fc0:3421 with SMTP id d9443c01a7336-2517427bc80mr129563525ad.3.1757344056141;
+        Mon, 08 Sep 2025 08:07:36 -0700 (PDT)
+Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24b273e4ad5sm169744005ad.25.2025.09.08.08.07.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 08 Sep 2025 08:07:35 -0700 (PDT)
+From: Jeongjun Park <aha310510@gmail.com>
+To: mchehab@kernel.org,
+	hverkuil@xs4all.nl,
+	hverkuil+cisco@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org,
+	aha310510@gmail.com
+Subject: [PATCH v2 0/2] media: az6007: overall refactor to fix bugs
+Date: Tue,  9 Sep 2025 00:07:28 +0900
+Message-Id: <20250908150730.24560-1-aha310510@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250908134735.GF26062@pendragon.ideasonboard.com>
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On Mon, Sep 08, 2025 at 03:47:35PM +0200, Laurent Pinchart wrote:
-> On Mon, Sep 08, 2025 at 02:09:06PM +0200, Richard Leitner wrote:
-> > On Sun, Sep 07, 2025 at 10:08:11PM +0200, Laurent Pinchart wrote:
-> > > On Wed, Sep 03, 2025 at 08:58:04AM +0200, Richard Leitner wrote:
-> > > > On Mon, Sep 01, 2025 at 11:57:15PM +0300, Sakari Ailus wrote:
-> > > > > On Mon, Sep 01, 2025 at 05:05:11PM +0200, Richard Leitner wrote:
-> > > > > > Add V4L2_CID_FLASH_HW_STROBE_SIGNAL enable/disable support using the
-> > > > > > "strobe output enable" feature of the sensor.
-> > > > > > 
-> > > > > > All values are based on the OV9281 datasheet v1.53 (january 2019) and
-> > > > > > tested using an ov9281 VisionComponents module.
-> > > > > > 
-> > > > > > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> > > > > > ---
-> > > > > >  drivers/media/i2c/ov9282.c | 25 ++++++++++++++++++++++++-
-> > > > > >  1 file changed, 24 insertions(+), 1 deletion(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > > > > > index f42e0d439753e74d14e3a3592029e48f49234927..ff0f69f0dc3a2d0518806b9ea65c1b520b5c55fb 100644
-> > > > > > --- a/drivers/media/i2c/ov9282.c
-> > > > > > +++ b/drivers/media/i2c/ov9282.c
-> > > > > > @@ -670,6 +670,23 @@ static int ov9282_set_ctrl_vflip(struct ov9282 *ov9282, int value)
-> > > > > >  				current_val);
-> > > > > >  }
-> > > > > >  
-> > > > > > +static int ov9282_set_ctrl_flash_hw_strobe_signal(struct ov9282 *ov9282, bool enable)
-> > > > > > +{
-> > > > > > +	u32 current_val;
-> > > > > > +	int ret = ov9282_read_reg(ov9282, OV9282_REG_OUTPUT_ENABLE6, 1,
-> > > > > > +				  &current_val);
-> > > > > > +	if (ret)
-> > > > > > +		return ret;
-> > > > > 
-> > > > > Please don't do assignments in variable declaration if that involves error
-> > > > > handling.
-> > > > 
-> > > > Sure. Will fix that!
-> > > > 
-> > > > > > +
-> > > > > > +	if (enable)
-> > > > > > +		current_val |= OV9282_OUTPUT_ENABLE6_STROBE;
-> > > > > > +	else
-> > > > > > +		current_val &= ~OV9282_OUTPUT_ENABLE6_STROBE;
-> > > > > > +
-> > > > > > +	return ov9282_write_reg(ov9282, OV9282_REG_OUTPUT_ENABLE6, 1,
-> > > > > > +				current_val);
-> > > 
-> > > It would be nice to cache the register value instead of reading it back.
-> > > Regmap may help (and then the driver should use the CCI helpers). This
-> > > can be done separately.
-> > 
-> > Currently all set_ctrl calls in the ov9282 driver have this
-> > read/modify/write pattern. As mentioned in the cover letter I'm planning
-> > to migrate to cci helpers in a future series to keep the set smaller.
-> > But if you prefer the migration in this series I can try to rebase on
-> > it?
-> 
-> No, it's fine on top. I ask for enough yak-shaving already :-)
+This patch series refactors the az6007 driver to address root causes of
+persistent bugs that have persisted for some time.
 
-:-) great. thanks :-)
+Jeongjun Park (2):
+  media: az6007: fix out-of-bounds in az6007_i2c_xfer()
+  media: az6007: refactor to properly use dvb-usb-v2
 
-> 
-> > > > > > +}
-> > > > > > +
-> > > > > >  /**
-> > > > > >   * ov9282_set_ctrl() - Set subdevice control
-> > > > > >   * @ctrl: pointer to v4l2_ctrl structure
-> > > > > > @@ -736,6 +753,9 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > > > >  		ret = ov9282_write_reg(ov9282, OV9282_REG_TIMING_HTS, 2,
-> > > > > >  				       (ctrl->val + ov9282->cur_mode->width) >> 1);
-> > > > > >  		break;
-> > > > > > +	case V4L2_CID_FLASH_HW_STROBE_SIGNAL:
-> > > > > > +		ret = ov9282_set_ctrl_flash_hw_strobe_signal(ov9282, ctrl->val);
-> > > > > > +		break;
-> > > > > >  	default:
-> > > > > >  		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
-> > > > > >  		ret = -EINVAL;
-> > > > > > @@ -1326,7 +1346,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> > > > > >  	u32 lpfr;
-> > > > > >  	int ret;
-> > > > > >  
-> > > > > > -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
-> > > > > > +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
-> > > > > >  	if (ret)
-> > > > > >  		return ret;
-> > > > > >  
-> > > > > > @@ -1391,6 +1411,9 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> > > > > >  						OV9282_TIMING_HTS_MAX - mode->width,
-> > > > > >  						1, hblank_min);
-> > > > > >  
-> > > > > > +	/* Flash/Strobe controls */
-> > > > > > +	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_HW_STROBE_SIGNAL, 0, 1, 1, 0);
-> > > > > 
-> > > > > This seems rather long.
-> > > > 
-> > > > It's exactly 100 chars wide, so from a policy point of view it should be
-> > > > fine ;-). But I'm also fine with breaking it to 80 if you prefer?
-> > > 
-> > > That's the usual policy in V4L2, yes. 80 columns is the preferred soft
-> > > limit.
-> > 
-> > So I should break this line in this case? Tbh I'm often unsure on
-> > breaking on 80 or 100... Personally 100 is fine for me, but that's
-> > "your" subsystem/driver, so I guess it's your descision ;-)
-> 
-> Sakari is even more strict than me about line lengths :-)
-> 
-> It a line is just a couple of charaters about 80 columns and doesn't
-> have a nice split point I would avoid breaking it as I feel the result
-> would be less readable.
-> 
-> In this particular case, breaking the line would lead to
-> 
-> 	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops,
-> 			  V4L2_CID_FLASH_HW_STROBE_SIGNAL, 0, 1, 1, 0);
-> 
-> 
-> which I think is OK. It's very subjective of course.
-
-Thanks for the clarification. Sure. That's fine for me.
-I will adapt the patch accordingly.
-
-> 
-> > > > > > +
-> > > > > >  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
-> > > > > >  	if (!ret) {
-> > > > > >  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
-> > > > > > 
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-
-thanks & regards;rl
+ drivers/media/usb/dvb-usb-v2/az6007.c | 211 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------------------------------------------------------------------------------------------------
+ 1 file changed, 107 insertions(+), 104 deletions(-)
 
