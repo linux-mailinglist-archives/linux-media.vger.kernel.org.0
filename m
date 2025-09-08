@@ -1,65 +1,59 @@
-Return-Path: <linux-media+bounces-42020-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42021-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31666B49076
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 15:55:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4250FB4909D
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 16:01:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E683D34643B
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 13:55:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9A7BD17C807
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 14:01:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D6D530C61C;
-	Mon,  8 Sep 2025 13:54:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 700E830BF59;
+	Mon,  8 Sep 2025 14:01:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GbhZ0XD0"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="sFLQsMnM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAD830C610;
-	Mon,  8 Sep 2025 13:54:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB2BC2F4A;
+	Mon,  8 Sep 2025 14:00:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757339687; cv=none; b=tAznhjvPB4wSc8RjQAOlxOGdqgUztYUU8GYgwYSelftXV5R3fIaGrPqGxji7fm5T/VGz7hVQO26njsAQTujMnJxpZwHDWgUSj61GqutQB5AXw/HeawSIkjm0oHd8/JtTD6FZOkvYqWqX+r3zxYl1fZagpq70nJu0aYd3Uzo1G3I=
+	t=1757340060; cv=none; b=Fu07q8y34GMd0HqKZRn6uqpZMK7v6b19dGePRMD9sKmW6p9UDuwab2PVHQey2cwKH/a6/zCTHqAoIBeZeyEB9sM4+X5UR8rOipECm0pt+61OgYghoV3icEbVBH1yeXl7SUpTajV1uexSlnvlfR0wSc49+bRZ8+AVzq1luS+Y1DE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757339687; c=relaxed/simple;
-	bh=wHggapqJICaSM8/iNe9G74o9fPLBPTYrGqblVhG//7Y=;
+	s=arc-20240116; t=1757340060; c=relaxed/simple;
+	bh=0RTSZ8Puev6F5ikHsoys6+ygNbDXFglEdduPSpoKxWo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iA44YUeI2ZuOGj6KOaZcyLnE7pzLOumyJAhBlCkre1g2Ecx6E3OZxvgQId8EVTnqS6vyz5s/2zUgO+XHOjfUNSIR+ip9i8h2qTGI3nEiWpeFvGxm6NqjrHz1ubhaXqKsoFGau9m9yxnS9p9WGodbha8f4rTlVAHqoY+ZVt7rU0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GbhZ0XD0; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=m4OZOyIoszBWdi6wWXMvLkOXxoJka7utoFoseIMTj0sANvJTHwI2uxYliXZYgMomfM06J0wDiA6/z+oqFuWTD7F5OgQbnC6hH3dlzyRzRnMK9suOytQ9sSXzBzhbWSOFaYBBcmg1+23HcILCw44GmLXvrhsjTmEL0+ohIXXyneM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=sFLQsMnM; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (85-76-134-76-nat.elisa-mobile.fi [85.76.134.76])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 55B3B99F;
-	Mon,  8 Sep 2025 15:53:31 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B13A299F;
+	Mon,  8 Sep 2025 15:59:44 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757339611;
-	bh=wHggapqJICaSM8/iNe9G74o9fPLBPTYrGqblVhG//7Y=;
+	s=mail; t=1757339985;
+	bh=0RTSZ8Puev6F5ikHsoys6+ygNbDXFglEdduPSpoKxWo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GbhZ0XD0hWKtHy4IpQ1dNRteB207gfeKbKmf9q6jJIcTHdh7hlb48H4xSSMcS2Y4V
-	 xlacvt1rDEG0KLQOTQ5Yq/z6irQ+lurNBdZ5Tc273NufrkABRaFWdONrNH7e3mQ8wY
-	 7fCljMjik0uyNkAK7LeyBGsoRsynLE40j7h2ge1E=
-Date: Mon, 8 Sep 2025 15:54:21 +0200
+	b=sFLQsMnMi9E6GIj4f0vYaX6/d41/Pn09D6nMW3nlleNz/iHsMnzE28D5liXolESD/
+	 nY6xCICix6dOP6RorwEK2I67DmkTKdCVIxM/UQgr4+lHxWSkMM6QnQkPj9vKsHhU0C
+	 U/I2x6hIwx8uZBhNFIq9QN0tJsIqxLHGwFKPieH0=
+Date: Mon, 8 Sep 2025 16:00:34 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
 	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
-Subject: Re: [PATCH v7 07/10] media: i2c: ov9282: add strobe_duration v4l2
- control
-Message-ID: <20250908135421.GG26062@pendragon.ideasonboard.com>
-References: <20250901-ov9282-flash-strobe-v7-0-d58d5a694afc@linux.dev>
- <20250901-ov9282-flash-strobe-v7-7-d58d5a694afc@linux.dev>
- <aLYISb07ziGDmFGS@kekkonen.localdomain>
- <uzgdukvgqkpg5koehz6kzxg6dfjes7p5ntd5oyqgqpr7gz5otd@ykwax6c2bo6x>
- <20250907201839.GC19568@pendragon.ideasonboard.com>
- <20250907202154.GE19568@pendragon.ideasonboard.com>
- <ylnynvtb6jpuvahyjvot4o7igkzikzrokhgjn4xsbyepidn22k@err5jg65ubfo>
+	stable@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Fix race condition for meta buffer list
+Message-ID: <20250908140034.GH26062@pendragon.ideasonboard.com>
+References: <20250714-uvc-racemeta-v1-1-360de2e15a9a@chromium.org>
+ <20250908102532.GC26062@pendragon.ideasonboard.com>
+ <CANiDSCsFCADj9NHURG8FV-1mTj8XhtksEqtk75-i3C3e6YyXUQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,169 +62,324 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <ylnynvtb6jpuvahyjvot4o7igkzikzrokhgjn4xsbyepidn22k@err5jg65ubfo>
+In-Reply-To: <CANiDSCsFCADj9NHURG8FV-1mTj8XhtksEqtk75-i3C3e6YyXUQ@mail.gmail.com>
 
-On Mon, Sep 08, 2025 at 01:57:48PM +0200, Richard Leitner wrote:
-> On Sun, Sep 07, 2025 at 10:21:54PM +0200, Laurent Pinchart wrote:
-> > On Sun, Sep 07, 2025 at 10:18:40PM +0200, Laurent Pinchart wrote:
-> > > On Wed, Sep 03, 2025 at 08:54:42AM +0200, Richard Leitner wrote:
-> > > > On Mon, Sep 01, 2025 at 11:55:37PM +0300, Sakari Ailus wrote:
-> > > > > On Mon, Sep 01, 2025 at 05:05:12PM +0200, Richard Leitner wrote:
-> > > > > > Add V4L2_CID_FLASH_DURATION support using the "strobe_frame_span"
-> > > > > > feature of the sensor. This is implemented by transforming the given µs
-> > > > > > value by an interpolated formula to a "span step width" value and
-> > > > > > writing it to register PWM_CTRL_25, PWM_CTRL_26, PWM_CTRL_27,
-> > > > > > PWM_CTRL_28 (0x3925, 0x3926, 0x3927, 0x3928).
-> > > 
-> > > You name the register OV9282_REG_FLASH_DURATION below. Is
-> > > "FLASH_DURATION" a term found in the datasheet ?
+On Mon, Sep 08, 2025 at 12:57:03PM +0200, Ricardo Ribalda wrote:
+> On Mon, 8 Sept 2025 at 12:25, Laurent Pinchart wrote:
+> > On Mon, Jul 14, 2025 at 10:23:45AM +0000, Ricardo Ribalda wrote:
+> > > queue->irqueue contains a list of the buffers owned by the driver. The
+> > > list is protected by queue->irqlock. uvc_queue_get_current_buffer()
+> > > returns a pointer to the current buffer in that list, but does not
+> > > remove the buffer from it. This can lead to race conditions.
+> > >
+> > > Inspecting the code, it seems that the candidate for such race is
+> > > uvc_queue_return_buffers(). For the capture queue, that function is
+> > > called with the device streamoff, so no race can occur. On the other
+> > > hand, the metadata queue, could trigger a race condition, because
+> > > stop_streaming can be called with the device in any streaming state.
+> > >
+> > > We can solve this issue modifying the way the metadata buffer
+> > > lifetime works. We can keep the queue->irqlock while the use the current
+> > > metadata buffer.
+> > >
+> > > The core of this change is uvc_video_decode_meta(), it now obtains the
+> > > buffer and holds the spinlock instead of getting the buffer as an
+> > > argument.
+> > >
+> > > Reported-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > Closes: https://lore.kernel.org/linux-media/20250630141707.GG20333@pendragon.ideasonboard.com/
+> > > Cc: stable@vger.kernel.org
+> > > Fixes: 088ead255245 ("media: uvcvideo: Add a metadata device node")
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > >  drivers/media/usb/uvc/uvc_isight.c |  3 +-
+> > >  drivers/media/usb/uvc/uvc_queue.c  |  4 +-
+> > >  drivers/media/usb/uvc/uvc_video.c  | 92 ++++++++++++++++++++++----------------
+> > >  drivers/media/usb/uvc/uvcvideo.h   |  8 ++--
+> > >  4 files changed, 62 insertions(+), 45 deletions(-)
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_isight.c b/drivers/media/usb/uvc/uvc_isight.c
+> > > index 43cda5e760a345af56186603e2f0594b814cdbcb..f0e71744d25cab98184335b46569b31ba1346e12 100644
+> > > --- a/drivers/media/usb/uvc/uvc_isight.c
+> > > +++ b/drivers/media/usb/uvc/uvc_isight.c
+> > > @@ -98,8 +98,7 @@ static int isight_decode(struct uvc_video_queue *queue, struct uvc_buffer *buf,
+> > >       return 0;
+> > >  }
+> > >
+> > > -void uvc_video_decode_isight(struct uvc_urb *uvc_urb, struct uvc_buffer *buf,
+> > > -                     struct uvc_buffer *meta_buf)
+> > > +void uvc_video_decode_isight(struct uvc_urb *uvc_urb, struct uvc_buffer *buf)
+> > >  {
+> > >       struct urb *urb = uvc_urb->urb;
+> > >       struct uvc_streaming *stream = uvc_urb->stream;
+> > > diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+> > > index 790184c9843d211d34fa7d66801631d5a07450bd..e184e3ae0f59f142a683263168724bca64509628 100644
+> > > --- a/drivers/media/usb/uvc/uvc_queue.c
+> > > +++ b/drivers/media/usb/uvc/uvc_queue.c
+> > > @@ -310,9 +310,11 @@ void uvc_queue_cancel(struct uvc_video_queue *queue, int disconnect)
+> > >   * Buffers may span multiple packets, and even URBs, therefore the active buffer
+> > >   * remains on the queue until the EOF marker.
+> > >   */
+> > > -static struct uvc_buffer *
+> > > +struct uvc_buffer *
+> > >  __uvc_queue_get_current_buffer(struct uvc_video_queue *queue)
+> > >  {
+> > > +     lockdep_assert_held(&queue->irqlock);
+> > > +
+> > >       if (list_empty(&queue->irqqueue))
+> > >               return NULL;
+> > >
+> > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > index 2e377e7b9e81599aca19b800a171cc16a09c1e8a..d6777090d0f892ffe93696c915acd4ec171ca798 100644
+> > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > @@ -1428,9 +1428,11 @@ static int uvc_video_encode_data(struct uvc_streaming *stream,
+> > >   * previous header.
+> > >   */
+> > >  static void uvc_video_decode_meta(struct uvc_streaming *stream,
+> > > -                               struct uvc_buffer *meta_buf,
+> > >                                 const u8 *mem, unsigned int length)
+> > >  {
+> > > +     struct vb2_queue *vb2_qmeta = stream->meta.vdev.queue;
+> > > +     struct uvc_video_queue *qmeta = &stream->meta.queue;
+> > > +     struct uvc_buffer *meta_buf;
+> > >       struct uvc_meta_buf *meta;
+> > >       size_t len_std = 2;
+> > >       bool has_pts, has_scr;
+> > > @@ -1439,7 +1441,13 @@ static void uvc_video_decode_meta(struct uvc_streaming *stream,
+> > >       ktime_t time;
+> > >       const u8 *scr;
+> > >
+> > > -     if (!meta_buf || length == 2)
+> > > +     if (!vb2_qmeta || length <= 2)
+> > > +             return;
+> > > +
+> > > +     guard(spinlock_irqsave)(&qmeta->irqlock);
+> >
+> > This keeps the spinlock held for longer than I would like. We should
+> > really try to minimize the amount of work performed with a spinlock
+> > held.
 > 
-> No, the datasheet named the registers strobe_frame_span. I guess it may
-> be clearer to name it OV9282_REG_STROBE_FRAME_SPAN then... I will update
-> the series accordingly. Thanks for the catch!
+> We are using meta_buf the whole function, which can disappear if  the
+> user closes the metadata file descriptor.
 > 
-> > > > > > 
-> > > > > > The maximum control value is set to the period of the current default
-> > > > > > framerate.
-> > > 
-> > > Should it be adjusted based on the sensor configuration ?
-> > 
-> > I've now noticed patch 10/10.
-> 
-> Is this a problem? Should those patches be merged? The reason for this
-> being a separate patch is it based on review by Sakari and therefore
-> joined the series in v4. I left it in a separate patch as IMHO it's
-> easier to review this way. But I'm open for merging it into this one if
-> that's preferred.
+> Besides memcopying meta_buf, how would you suggest reducing the
+> spinlock held time?
 
-It's fine as a separate patch.
+I'm thinking about a handshake with .stop_streaming(). The
+.stop_streaming() operation can sleep, so we can just guard with a
+spinlock the operation that acquires a metadata buffer, if we ensure
+that .stop_streaming() waits until it completes.
 
-> > > > > > 
-> > > > > > All register values are based on the OV9281 datasheet v1.53 (jan 2019)
-> > > > > > and tested using an ov9281 VisionComponents module.
-> > > > > > 
-> > > > > > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> > > > > > ---
-> > > > > >  drivers/media/i2c/ov9282.c | 31 ++++++++++++++++++++++++++++++-
-> > > > > >  1 file changed, 30 insertions(+), 1 deletion(-)
-> > > > > > 
-> > > > > > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
-> > > > > > index ff0f69f0dc3a2d0518806b9ea65c1b520b5c55fb..c405e3411daf37cf98d5af3535702f8321394af5 100644
-> > > > > > --- a/drivers/media/i2c/ov9282.c
-> > > > > > +++ b/drivers/media/i2c/ov9282.c
-> > > > > > @@ -97,6 +97,10 @@
-> > > > > >  #define OV9282_REG_MIPI_CTRL00	0x4800
-> > > > > >  #define OV9282_GATED_CLOCK	BIT(5)
-> > > > > >  
-> > > > > > +/* Flash/Strobe control registers */
-> > > > > > +#define OV9282_REG_FLASH_DURATION	0x3925
-> > > > > > +#define OV9282_FLASH_DURATION_DEFAULT	0x0000001a
-> > > > > > +
-> > > > > >  /* Input clock rate */
-> > > > > >  #define OV9282_INCLK_RATE	24000000
-> > > > > >  
-> > > > > > @@ -687,6 +691,25 @@ static int ov9282_set_ctrl_flash_hw_strobe_signal(struct ov9282 *ov9282, bool en
-> > > > > >  				current_val);
-> > > > > >  }
-> > > > > >  
-> > > > > > +static int ov9282_set_ctrl_flash_duration(struct ov9282 *ov9282, u32 value)
-> > > > > > +{
-> > > > > > +	/*
-> > > > > > +	 * Calculate "strobe_frame_span" increments from a given value (µs).
-> > > > > > +	 * This is quite tricky as "The step width of shift and span is
-> > > > > > +	 * programmable under system clock domain.", but it's not documented
-> > > > > > +	 * how to program this step width (at least in the datasheet available
-> > > > > > +	 * to the author at time of writing).
-> > > > > > +	 * The formula below is interpolated from different modes/framerates
-> > > > > > +	 * and should work quite well for most settings.
-> > > > > > +	 */
-> > > > > > +	u32 val = value * 192 / (ov9282->cur_mode->width + ov9282->hblank_ctrl->val);
-> > > 
-> > > I wonder if the register value ends up being expressed as a number of
-> > > lines.
-> 
-> I'm not sure... As mentioned in the comment this is not clearly
-> documented in the datasheet. Tbh, I don't think it's "number of lines",
-> but I can do some more measurements just to be sure...
-
-Based on the above formula, the register value is
-
-	val = time (s) * 192e6 / line length
-
-I would guess that the pixel rate is 192MPixel/s, which would lead to
-the the register value expressed as a number of lines.
-
-> > > > > > +
-> > > > > > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION, 1, (val >> 24) & 0xff);
-> > > > > > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 1, 1, (val >> 16) & 0xff);
-> > > > > > +	ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 2, 1, (val >> 8) & 0xff);
-> > > > > > +	return ov9282_write_reg(ov9282, OV9282_REG_FLASH_DURATION + 3, 1, val & 0xff);
-> > > 
-> > > The CCI helpers would make this much simpler.
-> 
-> As mentioned in the cover letter I'm planning to do the migration to
-> v4l2-cci helpers in a seprate series. If that's fine with you I prefer
-> to stick to this plan :)
-
-That's all fine. Thank you for the continuous improvements to the driver
-:-)
-
-> > > > > The bitwise and operation is redundant.
-> > > > 
-> > > > True. Thanks for the catch!
-> > > > 
-> > > > > Could you do this in a single write?
-> > > > 
-> > > > I've implemented this in single byte writes due to some "special
-> > > > behaviour" of the vision components ov9281 modules. On those modules
-> > > > single byte interactions seem broken in some cases. Maybe Laurent knows
-> > > > more about this and the current state, as he was/is in contact with VC.
-> > > > 
-> > > > See also: https://lore.kernel.org/all/918ce2ca-55ff-aff8-ea6c-0c17f566d59d@online.de/
-> > > > 
-> > > > Nonetheless, thanks for the pointer. I haven't documented this
-> > > > accordingly. I will try to reproduce the issue again and either change
-> > > > this to a single write or add a describing comment.
-> > > > 
-> > > > > Also error handling is (largely) missing.
-> > > > 
-> > > > Good catch. Thanks.
-> > > > 
-> > > > > > +}
-> > > > > > +
-> > > > > >  /**
-> > > > > >   * ov9282_set_ctrl() - Set subdevice control
-> > > > > >   * @ctrl: pointer to v4l2_ctrl structure
-> > > > > > @@ -756,6 +779,9 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
-> > > > > >  	case V4L2_CID_FLASH_HW_STROBE_SIGNAL:
-> > > > > >  		ret = ov9282_set_ctrl_flash_hw_strobe_signal(ov9282, ctrl->val);
-> > > > > >  		break;
-> > > > > > +	case V4L2_CID_FLASH_DURATION:
-> > > > > > +		ret = ov9282_set_ctrl_flash_duration(ov9282, ctrl->val);
-> > > > > > +		break;
-> > > > > >  	default:
-> > > > > >  		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
-> > > > > >  		ret = -EINVAL;
-> > > > > > @@ -1346,7 +1372,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> > > > > >  	u32 lpfr;
-> > > > > >  	int ret;
-> > > > > >  
-> > > > > > -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
-> > > > > > +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 12);
-> > > > > >  	if (ret)
-> > > > > >  		return ret;
-> > > > > >  
-> > > > > > @@ -1414,6 +1440,9 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
-> > > > > >  	/* Flash/Strobe controls */
-> > > > > >  	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_HW_STROBE_SIGNAL, 0, 1, 1, 0);
-> > > > > >  
-> > > > > > +	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_DURATION,
-> > > > > > +			  0, 13900, 1, 8);
-> > > > > > +
-> > > > > >  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
-> > > > > >  	if (!ret) {
-> > > > > >  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
+> > > +
+> > > +     meta_buf = __uvc_queue_get_current_buffer(qmeta);
+> > > +     if (!meta_buf)
+> > >               return;
+> > >
+> > >       has_pts = mem[1] & UVC_STREAM_PTS;
+> > > @@ -1512,30 +1520,48 @@ static void uvc_video_validate_buffer(const struct uvc_streaming *stream,
+> > >   * Completion handler for video URBs.
+> > >   */
+> > >
+> > > -static void uvc_video_next_buffers(struct uvc_streaming *stream,
+> > > -             struct uvc_buffer **video_buf, struct uvc_buffer **meta_buf)
+> > > +static void uvc_video_next_meta(struct uvc_streaming *stream,
+> > > +                             struct uvc_buffer *video_buf)
+> > >  {
+> > > -     uvc_video_validate_buffer(stream, *video_buf);
+> > > +     struct vb2_queue *vb2_qmeta = stream->meta.vdev.queue;
+> > > +     struct uvc_video_queue *qmeta = &stream->meta.queue;
+> > > +     struct uvc_buffer *meta_buf;
+> > > +     struct vb2_v4l2_buffer *vb2_meta;
+> > > +     const struct vb2_v4l2_buffer *vb2_video;
+> > >
+> > > -     if (*meta_buf) {
+> > > -             struct vb2_v4l2_buffer *vb2_meta = &(*meta_buf)->buf;
+> > > -             const struct vb2_v4l2_buffer *vb2_video = &(*video_buf)->buf;
+> > > +     if (!vb2_qmeta)
+> > > +             return;
+> > >
+> > > -             vb2_meta->sequence = vb2_video->sequence;
+> > > -             vb2_meta->field = vb2_video->field;
+> > > -             vb2_meta->vb2_buf.timestamp = vb2_video->vb2_buf.timestamp;
+> > > +     guard(spinlock_irqsave)(&qmeta->irqlock);
+> > >
+> > > -             (*meta_buf)->state = UVC_BUF_STATE_READY;
+> > > -             if (!(*meta_buf)->error)
+> > > -                     (*meta_buf)->error = (*video_buf)->error;
+> > > -             *meta_buf = uvc_queue_next_buffer(&stream->meta.queue,
+> > > -                                               *meta_buf);
+> > > -     }
+> > > -     *video_buf = uvc_queue_next_buffer(&stream->queue, *video_buf);
+> > > +     meta_buf = __uvc_queue_get_current_buffer(qmeta);
+> > > +     if (!meta_buf)
+> > > +             return;
+> > > +     list_del(&meta_buf->queue);
+> > > +
+> > > +     vb2_meta = &meta_buf->buf;
+> > > +     vb2_video = &video_buf->buf;
+> > > +
+> > > +     vb2_meta->sequence = vb2_video->sequence;
+> > > +     vb2_meta->field = vb2_video->field;
+> > > +     vb2_meta->vb2_buf.timestamp = vb2_video->vb2_buf.timestamp;
+> > > +     meta_buf->state = UVC_BUF_STATE_READY;
+> > > +     if (!meta_buf->error)
+> > > +             meta_buf->error = video_buf->error;
+> > > +
+> > > +     uvc_queue_buffer_release(meta_buf);
+> > > +}
+> > > +
+> > > +static struct uvc_buffer *uvc_video_next_buffer(struct uvc_streaming *stream,
+> > > +                                             struct uvc_buffer *video_buf)
+> > > +{
+> > > +     uvc_video_validate_buffer(stream, video_buf);
+> > > +     uvc_video_next_meta(stream, video_buf);
+> > > +     return uvc_queue_next_buffer(&stream->queue, video_buf);
+> > >  }
+> > >
+> > >  static void uvc_video_decode_isoc(struct uvc_urb *uvc_urb,
+> > > -                     struct uvc_buffer *buf, struct uvc_buffer *meta_buf)
+> > > +                               struct uvc_buffer *buf)
+> > >  {
+> > >       struct urb *urb = uvc_urb->urb;
+> > >       struct uvc_streaming *stream = uvc_urb->stream;
+> > > @@ -1559,13 +1585,13 @@ static void uvc_video_decode_isoc(struct uvc_urb *uvc_urb,
+> > >                       ret = uvc_video_decode_start(stream, buf, mem,
+> > >                               urb->iso_frame_desc[i].actual_length);
+> > >                       if (ret == -EAGAIN)
+> > > -                             uvc_video_next_buffers(stream, &buf, &meta_buf);
+> > > +                             buf = uvc_video_next_buffer(stream, buf);
+> > >               } while (ret == -EAGAIN);
+> > >
+> > >               if (ret < 0)
+> > >                       continue;
+> > >
+> > > -             uvc_video_decode_meta(stream, meta_buf, mem, ret);
+> > > +             uvc_video_decode_meta(stream, mem, ret);
+> > >
+> > >               /* Decode the payload data. */
+> > >               uvc_video_decode_data(uvc_urb, buf, mem + ret,
+> > > @@ -1576,12 +1602,12 @@ static void uvc_video_decode_isoc(struct uvc_urb *uvc_urb,
+> > >                       urb->iso_frame_desc[i].actual_length);
+> > >
+> > >               if (buf->state == UVC_BUF_STATE_READY)
+> > > -                     uvc_video_next_buffers(stream, &buf, &meta_buf);
+> > > +                     buf = uvc_video_next_buffer(stream, buf);
+> > >       }
+> > >  }
+> > >
+> > >  static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+> > > -                     struct uvc_buffer *buf, struct uvc_buffer *meta_buf)
+> > > +                               struct uvc_buffer *buf)
+> > >  {
+> > >       struct urb *urb = uvc_urb->urb;
+> > >       struct uvc_streaming *stream = uvc_urb->stream;
+> > > @@ -1607,7 +1633,7 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+> > >               do {
+> > >                       ret = uvc_video_decode_start(stream, buf, mem, len);
+> > >                       if (ret == -EAGAIN)
+> > > -                             uvc_video_next_buffers(stream, &buf, &meta_buf);
+> > > +                             buf = uvc_video_next_buffer(stream, buf);
+> > >               } while (ret == -EAGAIN);
+> > >
+> > >               /* If an error occurred skip the rest of the payload. */
+> > > @@ -1617,7 +1643,7 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+> > >                       memcpy(stream->bulk.header, mem, ret);
+> > >                       stream->bulk.header_size = ret;
+> > >
+> > > -                     uvc_video_decode_meta(stream, meta_buf, mem, ret);
+> > > +                     uvc_video_decode_meta(stream, mem, ret);
+> > >
+> > >                       mem += ret;
+> > >                       len -= ret;
+> > > @@ -1644,7 +1670,7 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+> > >                       uvc_video_decode_end(stream, buf, stream->bulk.header,
+> > >                               stream->bulk.payload_size);
+> > >                       if (buf->state == UVC_BUF_STATE_READY)
+> > > -                             uvc_video_next_buffers(stream, &buf, &meta_buf);
+> > > +                             buf = uvc_video_next_buffer(stream, buf);
+> > >               }
+> > >
+> > >               stream->bulk.header_size = 0;
+> > > @@ -1654,7 +1680,7 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+> > >  }
+> > >
+> > >  static void uvc_video_encode_bulk(struct uvc_urb *uvc_urb,
+> > > -     struct uvc_buffer *buf, struct uvc_buffer *meta_buf)
+> > > +                               struct uvc_buffer *buf)
+> > >  {
+> > >       struct urb *urb = uvc_urb->urb;
+> > >       struct uvc_streaming *stream = uvc_urb->stream;
+> > > @@ -1707,8 +1733,6 @@ static void uvc_video_complete(struct urb *urb)
+> > >       struct uvc_video_queue *qmeta = &stream->meta.queue;
+> > >       struct vb2_queue *vb2_qmeta = stream->meta.vdev.queue;
+> > >       struct uvc_buffer *buf = NULL;
+> > > -     struct uvc_buffer *buf_meta = NULL;
+> > > -     unsigned long flags;
+> > >       int ret;
+> > >
+> > >       switch (urb->status) {
+> > > @@ -1734,14 +1758,6 @@ static void uvc_video_complete(struct urb *urb)
+> > >
+> > >       buf = uvc_queue_get_current_buffer(queue);
+> > >
+> > > -     if (vb2_qmeta) {
+> > > -             spin_lock_irqsave(&qmeta->irqlock, flags);
+> > > -             if (!list_empty(&qmeta->irqqueue))
+> > > -                     buf_meta = list_first_entry(&qmeta->irqqueue,
+> > > -                                                 struct uvc_buffer, queue);
+> > > -             spin_unlock_irqrestore(&qmeta->irqlock, flags);
+> > > -     }
+> > > -
+> > >       /* Re-initialise the URB async work. */
+> > >       uvc_urb->async_operations = 0;
+> > >
+> > > @@ -1755,7 +1771,7 @@ static void uvc_video_complete(struct urb *urb)
+> > >        * Process the URB headers, and optionally queue expensive memcpy tasks
+> > >        * to be deferred to a work queue.
+> > >        */
+> > > -     stream->decode(uvc_urb, buf, buf_meta);
+> > > +     stream->decode(uvc_urb, buf);
+> > >
+> > >       /* If no async work is needed, resubmit the URB immediately. */
+> > >       if (!uvc_urb->async_operations) {
+> > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > index 757254fc4fe930ae61c9d0425f04d4cd074a617e..bb41477ce4ff5cdbf27bc9d830b63a60645e3fa1 100644
+> > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > @@ -479,8 +479,7 @@ struct uvc_streaming {
+> > >       unsigned int frozen : 1;
+> > >       struct uvc_video_queue queue;
+> > >       struct workqueue_struct *async_wq;
+> > > -     void (*decode)(struct uvc_urb *uvc_urb, struct uvc_buffer *buf,
+> > > -                    struct uvc_buffer *meta_buf);
+> > > +     void (*decode)(struct uvc_urb *uvc_urb, struct uvc_buffer *buf);
+> > >
+> > >       struct {
+> > >               struct video_device vdev;
+> > > @@ -694,6 +693,8 @@ int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type);
+> > >  void uvc_queue_cancel(struct uvc_video_queue *queue, int disconnect);
+> > >  struct uvc_buffer *uvc_queue_next_buffer(struct uvc_video_queue *queue,
+> > >                                        struct uvc_buffer *buf);
+> > > +struct uvc_buffer *
+> > > +__uvc_queue_get_current_buffer(struct uvc_video_queue *queue);
+> > >  struct uvc_buffer *uvc_queue_get_current_buffer(struct uvc_video_queue *queue);
+> > >  void uvc_queue_buffer_release(struct uvc_buffer *buf);
+> > >  static inline int uvc_queue_streaming(struct uvc_video_queue *queue)
+> > > @@ -802,8 +803,7 @@ u16 uvc_endpoint_max_bpi(struct usb_device *dev, struct usb_host_endpoint *ep);
+> > >
+> > >  /* Quirks support */
+> > >  void uvc_video_decode_isight(struct uvc_urb *uvc_urb,
+> > > -                          struct uvc_buffer *buf,
+> > > -                          struct uvc_buffer *meta_buf);
+> > > +                          struct uvc_buffer *buf);
+> > >
+> > >  /* debugfs and statistics */
+> > >  void uvc_debugfs_init(void);
+> > >
+> > > ---
+> > > base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
+> > > change-id: 20250714-uvc-racemeta-fee2e69bbfcd
 
 -- 
 Regards,
