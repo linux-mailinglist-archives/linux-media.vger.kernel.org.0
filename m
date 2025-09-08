@@ -1,146 +1,153 @@
-Return-Path: <linux-media+bounces-42041-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42042-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ACC6B49982
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 21:13:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1075BB499C6
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 21:21:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D4ED1B280A4
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 19:13:38 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 082F41BC282B
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 19:20:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C4B26238C16;
-	Mon,  8 Sep 2025 19:13:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC4B7248F7F;
+	Mon,  8 Sep 2025 19:20:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ygvp0i9p"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="MDQHe4Dq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C65751799F
-	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 19:13:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.50
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757358791; cv=none; b=llQ1CpW3gL6L4c7UmWR0CQ4o4VVf9vxjkRB7Elmv+HiIGCjoWmFFHEAduWRxDRwhKswSFpNo57mgX1qnexwVI0w3RWALgJNWA3Pr9PjQCXzQkFKsa305Twnmw0AZK1zw3TWqUbhZ64KSkWEJFiz2IOJylM1TzhP4aQXNIIzdFBU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757358791; c=relaxed/simple;
-	bh=9tqTictt0bIeYq9M3kKgFGXPmspKDgzvP7BL/kxEWM0=;
-	h=From:MIME-Version:Date:Message-ID:Subject:To:Content-Type; b=LrqhN0eYo1nsgoBm27XVO6GYkhJNa3ppkrTGcPsYs75RqP0r1GuBt8IXMu8eO2L+ejEY4JHd55m/zfYlvnOi5Fj9k4yYwhTyckYMl/PKwaFuxBBQt5Xn+JfSNNd5ESZx95pgxZeX+s4CEQajAkWEXTy9D+J97jXTUjbmivmBCJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ygvp0i9p; arc=none smtp.client-ip=209.85.216.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-324e6daaa39so4703384a91.0
-        for <linux-media@vger.kernel.org>; Mon, 08 Sep 2025 12:13:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757358789; x=1757963589; darn=vger.kernel.org;
-        h=to:subject:message-id:date:mime-version:from:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=WF9y3esq7rUlzs2qNkOwkxEeP9lXO2vlIjsTClIFM7s=;
-        b=Ygvp0i9pPMb1KUHZvmtGwwQusqhujkeq9sIbhN6Le2QVkHNpM6BTATSrR6cToR0EaN
-         tiDYWO5EhM/Co1/wXBU8KTvcFuwRi42h1EKNqRcYolV5xYBRwCq4TCKLJTRMEE65eOzf
-         ZMP0KT6XdIxTbJmelAQUALpeosrdbTsvxErHUCJkh8Gt9FUHzmAt+E3kZi+51SFoU0H2
-         cMc5PL4PngKijJh/KXjpRmHee8PPQldehFq8rG9WPgNygpn2Sxb6KCFY0RxYy8h/7BPc
-         HvL9O8fY8VHvXGHmQr3axOOWlWishLlwJEXHvcGvIMFqAMs4wbKbZxZgQH4qzuFVSD9u
-         9Shg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757358789; x=1757963589;
-        h=to:subject:message-id:date:mime-version:from:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WF9y3esq7rUlzs2qNkOwkxEeP9lXO2vlIjsTClIFM7s=;
-        b=FeppwGMkNr4dgtj5jfhFutrd0ncRAUkHvrCFIKja0SdvDs8gApzQ1dMwBVH8AaI7Ni
-         wuOkFiImBIvJ/iYjVuBUMXBxOVltb9HESL5KR0tNPBjX/LyxKUG0EHv618XskOoLGP2G
-         IaCb8hHrbIRXQxOg3zD+hr1Pu26NAcawSouZemcFwy0bywJWkVu/Yr3IthuRyHlHSto7
-         RTr/10UnKeaB8NAbFOwEjd6vHOpQRLdWJvn6X2mE1KzMcsnyrr7xOFdSMRxx57JDcS7s
-         Q+A551lH342UI6gmjqInYuC9fZwXcW0xcApXtwJYgoWdO5mhgX9hU3bUbJjOWeuvfDns
-         kWww==
-X-Gm-Message-State: AOJu0Yy4FbgLFW8+mXIaXPh7iDUZKMp423GJmqztVbb2wGEMEyt0n5XZ
-	a+r7vepaGO7ywzcZ2tptXOqRJusyUHbZWPSiqrZkg50LZIMf66y9l95H0w4xC+hw99vLz0fxDrH
-	jBNzsrXJdAR8e+0WKb4akSX7VqWHIw6t9U+jS
-X-Gm-Gg: ASbGnctXGDTnvshYFDuj1D0IjqpNTay+PCEuOMn2cjthq7oKdHXTo3mwO/3fCf4z+oz
-	UXPdetm8TavbEcrzla4NjsAY+yTH0JxjJ6n8/Xt+ZPDnH9fpxl4pjkNrClLBetnYDR5U2FxdNbo
-	HSMcawJhrbvxrdNsp11p4vU976Oo+C0v3934HId+jU6aXsIKJUtd4faYRP1+d2mXnHwgbvDdWw/
-	lVpzQzS
-X-Google-Smtp-Source: AGHT+IGaeX993lSfRHJL20vpKhO6O6ay+3Nje4r6sg4R/KojMD0rw/1YPlCb325TA6jCylTzusse5/XJvLs55tklQtk=
-X-Received: by 2002:a17:90a:da90:b0:32b:9b92:b32d with SMTP id
- 98e67ed59e1d1-32d43f2fc85mr9918867a91.4.1757358788673; Mon, 08 Sep 2025
- 12:13:08 -0700 (PDT)
-Received: from 119074447949 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 8 Sep 2025 12:13:07 -0700
-Received: from 119074447949 named unknown by gmailapi.google.com with
- HTTPREST; Mon, 8 Sep 2025 12:13:07 -0700
-From: trinitronx@gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D9B424A04D;
+	Mon,  8 Sep 2025 19:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757359221; cv=pass; b=aLhlpsQvCcqdw7OGsnbWd4GoL0nTO0ax6qzWZlSei2CRlMiUork4intDIiFjuXOgpga4tfYxysSyNvH8WN6mfdfGeOv4z5yRPJu0hxw6n3XGe+njua5u5pCCfYcpTpRp3EVXEhCHQJRlJcX8+NtULAPMgBOB6Kjb07L+FS/uTrg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757359221; c=relaxed/simple;
+	bh=N4KX4iYjQlsSAC7XbRdcqC2Wav7eEMkfZTLFXxOZ5mk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TzmWK6mwJVw73OJlutWSvfA+sKtd6hl90Lyh9zXRmfXZub0eQQPuL02ASUhV+yaVrGd8I4BAz/X2mkCHRXmJM3JaByub/pp03cZPumdINsa1pSMcjtszfv4j7+7l/WfFVxps7y5C7iKt6hTkrHyZ3+0yIxBeUg/iESrE1aUHRdQ=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=MDQHe4Dq; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1757359161; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=SR21xJbjuheCmpRO47GHS8daLjO4bieeiZzmtZ1cpc55VPRfVg548p5JS7agjhBhxNyqLOj4aSq+sv4fBoBAFwinz+AErAYyDnm9dFMD1lYZFLK2nGxh32KU9UBpnwa4JOgAkGhXXZk1Ezt/EytGOrIDKz/fJ1yBYOqSVdPDvEQ=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1757359161; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=WKomwiWRLnM4IVkNJXgsDxoTaoxCuRYCEVpcC0hexTc=; 
+	b=htmAjoNLy5CO05zAuH6G9LKsksKbRORMRlY2ga//3IUV8oR1JzNf+k84WVaUN8L2BLKsKIhlEp5YQ3KZB1vW4nlER4kFzE9gNteCx4wTgatNBcVznKJb5H1OLhHsmd7Rx2SXOPvHQ6Ssw5cfdqXuwJAAJJ/8DSbGxjiAwoM21VE=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
+	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757359161;
+	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=WKomwiWRLnM4IVkNJXgsDxoTaoxCuRYCEVpcC0hexTc=;
+	b=MDQHe4Dqfppv+jVMwZnyFuAG2uAH30HHHO82FejqVc2iciJuMenfzAvgyXzq4Uui
+	4cmxT8BC0FYcgwWgEs3oRnI/N4M6nE/u/LHyPhm0wpuYeXoPlqRJqe/erXnbU3QzXJ8
+	v3SChD6qsHNwSMzyTd0ri4Nf8MkPaF09mbhQTE+8=
+Received: by mx.zohomail.com with SMTPS id 175735915950243.97346092425232;
+	Mon, 8 Sep 2025 12:19:19 -0700 (PDT)
+Message-ID: <1cf0b296-adaa-4c80-864c-9b78f09cd3e3@collabora.com>
+Date: Mon, 8 Sep 2025 16:19:03 -0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Date: Mon, 8 Sep 2025 12:13:07 -0700
-X-Gm-Features: Ac12FXwTr8--yuSgWCCzJw9sj7FHdD-zVtYZu27gZ1OFJou7o_PQbJCZm4Hti4U
-Message-ID: <CAP4Ef8G8LV+F-Sm7R2RHy0jK29BA1wwt9bVy=asWrSJ5TMM49w@mail.gmail.com>
-Subject: dtv-scan-tables - Fails to Build From Source after commit 15661aabc342
-To: linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 03/14] dt-bindings: arm: mediatek: mmsys: Add
+ assigned-clocks/rates properties
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+ andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
+ broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
+ conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
+ edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
+ jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
+ krzk+dt@kernel.org, kuba@kernel.org,
+ kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
+ linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
+ maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
+ mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
+ p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
+ sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
+ tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
+ devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
+ netdev@vger.kernel.org
+References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
+ <20250820171302.324142-4-ariel.dalessandro@collabora.com>
+ <20250821-electric-kestrel-of-awe-cb89dc@kuoka>
+Content-Language: en-US
+From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+In-Reply-To: <20250821-electric-kestrel-of-awe-cb89dc@kuoka>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
------BEGIN PGP SIGNED MESSAGE-----
-Hash: SHA512
+Krzysztof,
 
-Hello,
+On 8/21/25 3:43 AM, Krzysztof Kozlowski wrote:
+> On Wed, Aug 20, 2025 at 02:12:51PM -0300, Ariel D'Alessandro wrote:
+>> Current, the DT bindings for MediaTek mmsys controller is missing the
+>> assigned-clocks and assigned-clocks-rates properties. Add these and
+> 
+> No, they do not miss them. I don't understand why you are adding these.
 
-Just wanted to file a bug report or FYI about an issue introduced in
-dtv-scan-tables.
-A recent commit added many dvb-s files, which appear to include some
-syntax errors:
+The reason I added these is due to the following check error:
 
-https://git.linuxtv.org/dtv-scan-tables.git/commit/?id=15661aabc342b72f539d4600ad87df6663e23aa4
+$ make -j$(nproc) CHECK_DTBS=y mediatek/mt8173-elm.dtb
+   DTC [C] arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
+[...]
+arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: syscon@14000000 
+(mediatek,mt8173-mmsys): 'assigned-clock-rates', 'assigned-clocks' do 
+not match any of the regexes: '^pinctrl-[0-9]+$'
+	from schema $id: 
+http://devicetree.org/schemas/arm/mediatek/mediatek,mmsys.yaml#
 
-This is causing a FTBFS issue for the AUR dtv-scan-tables-git package,
-as described by some users here:
+> 
+>> update the example as well.
+>>
+>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+>> ---
+>>   .../devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> index 3f4262e93c789..d045d366eb8e2 100644
+>> --- a/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> +++ b/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.yaml
+>> @@ -68,6 +68,12 @@ properties:
+>>         of the power controller specified by phandle. See
+>>         Documentation/devicetree/bindings/power/power-domain.yaml for details.
+>>   
+>> +  assigned-clocks:
+>> +    maxItems: 1
+>> +
+>> +  assigned-clock-rates:
+>> +    maxItems: 1
+>> +
+> 
+> Drop both, completely redundant and not actually in the scope of the binding.
 
-https://bbs.archlinux.org/viewtopic.php?pid=2249257#p2249257
+Ack. Will fix accordingly in v2 based on the discussion above.
 
-I was able to narrow down the list of dvb-s files with syntax errors
-to these ones:
+Thanks!
 
-    dvb-s/Eutelsat-10A-12.0W
-    dvb-s/Eutelsat-21B-21.6E
-    dvb-s/Eutelsat-36B-50.5E
-    dvb-s/Eutelsat-36D-36.0E
-    dvb-s/Eutelsat-3B-3.0E
-    dvb-s/Eutelsat-8-West-D-8.0W
-    dvb-s/Express-AM-8-14.0W
-    dvb-s/Hot-Bird-13E-16.0W
-    dvb-s/Intelsat-10-02-0.8W
-    dvb-s/Intelsat-35-34.5W
-    dvb-s/Intelsat-38-45.0E
-    dvb-s/Intelsat-902-50.1W
-    dvb-s/Intelsat-905-45.3W
-    dvb-s/Intelsat-906-64.2E
-    dvb-s/Rascom-QAF-1R-3.0E
-    dvb-s/Turksat-3A-42.0E
-    dvb-s/Yamal-402-55.0E
+-- 
+Ariel D'Alessandro
+Software Engineer
 
-The package builds after removing these files.  I'm not sure what the
-exact syntax errors within these files are, but I figured that posting
-a report here could help someone else find the root cause.
+Collabora Ltd.
+Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
+Registered in England & Wales, no. 5513718
 
-Thanks,
-- - James Cuzella
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCgAdFiEEm9bHrs1mCJLPb6GgJomkWbFWjQkFAmi/KsIACgkQJomkWbFW
-jQmJjQ//RD0pGA5Pj/DU5QCuBDhmdsVkmVTctdNpwJ3OKuokzJ3QKVphW2BKUSUY
-KRu8eiJhkrUUe6AsuyI1wUozRNmDR04VBlZ+fZs9VLyhylENR30xkNzrlQoYSGkc
-Cml/M/n/umxru13WwrZGY+ZZnK8qwL+oAg8X0COlAXDwjr7rE3C2n+9SjGVUENfu
-3cT93+S6p+imftbC7eos9uQ8RJU95JqmihfUYea3iDlXCeyUIhIzqFccSGB55RK4
-CKeEx5x1KoY6u95KJFlvFRtevA0j1xXNK8iY1CdvCOp6RS8/yxYlbarqa629Hv1l
-74pex9WmumcmiAjjxzet9kT3/5lHTtoKPeNDokZw9ZIv9uVytSAyFlScoYxqiMAc
-qmERt7o6A8Zb0unB6n/04NEQ+seS2sad7saG6pSJp8WC87pvOXX3lkeSZL29ZbW2
-5cxlrA/jnfFc1YN7qkpHnjZtfBSR7OM0HWgcicnDDIkZ/OPSVbbS+NaCWS0qPI4J
-KXC3CGBwc/OxDvuOk5QepDmRl8Wp6hd9EzeJxh0fODdKXMTvGDOxxZea86Y98Opc
-s+t7qMuvlUFkTs0ORQt5ZFbAn3LqBZlcZWeNa50wzsdn1ioVkRvTMSZD3rlxH3KE
-ry3zyw3U0Ppan/zzbUEuxQ17Owj3AfruMm0G1LSmXew0uTmGztc=
-=qAKQ
------END PGP SIGNATURE-----
 
