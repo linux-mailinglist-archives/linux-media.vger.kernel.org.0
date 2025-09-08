@@ -1,254 +1,377 @@
-Return-Path: <linux-media+bounces-41978-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41979-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C116DB48A00
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 12:21:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA637B48A23
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 12:26:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D81D3C39A9
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 10:21:34 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 643103A81BD
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 10:26:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED7D7224B06;
-	Mon,  8 Sep 2025 10:21:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E94B2F7AA9;
+	Mon,  8 Sep 2025 10:25:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="IDBR1M2l"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="v5ZyeOd6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24E92F3639
-	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 10:21:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757326888; cv=pass; b=QDFSb0lHWysrND2wYD6feDtfUtMYNaKZdGZe0v96hVnYZtdlXaMJLGmm3B+Mg6SpOpgEFLS/Bjwrr3+BG5cDD9VNBRtlsqvW8ykiSo3f9ztObSIOsLGQjYo+7f+Z5oeTCv2zYtJbSOGWPcdN6o68vcvR8BZtOy7sjg44pkfctVo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757326888; c=relaxed/simple;
-	bh=NaNXop+4TaUMye0JiuV2XVWqTaLlryjzs/2zpPU2Yy4=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=kx57R6YEJDQL71a0WPjuqfGeG+btfj6hpBSuzB0Za1HmxXWvL1LNjXQoAJIMNgDIAcd1iDwx80R8k2C+RlcXSgUV7qFaBaloFeW90+gPi0MEp7Hz7WuOzCRg76418degY/bzXl3x5Vx8ThuevZb6KyRha/z8COPeWYV22sEDf5c=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=IDBR1M2l; arc=pass smtp.client-ip=185.185.170.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4cL2zf43Z8z49Pv9;
-	Mon,  8 Sep 2025 13:21:18 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1757326878;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=BRGQJDHdsA4twVmO5eLCaqnTZhBCZnFqhG0ypxjP3ZI=;
-	b=IDBR1M2liNxS/GTkXyfX3Dz3jzEy09rWWY6YdI88Jlor6WlUv2UQ4Eq4LlC4sIvBhQNtCY
-	OnhRr7wNmjofWz+sO/gDj1IZIjUpEn4XGSYJBbaRivWOBZBHua9xWD8BVSOMjt7XXuZe4O
-	CVHrDe7txRkgFgKW7feOEO6D8JXCVh6UlWVxRDMFtTzTyY4Bbqny+TN0EXTTtli2DZCbeC
-	t7+GwK2n3DV/bsM5E97rPyOS0MAMhBxVAM1RwmHBGQNtdH2nD5sSarIhXTP4er9yRWlmsc
-	TMkvTzli0lsujth8l0AROslK2KcROKHTZvIBqH0qlJvfM0+axZ8yN0+yC50J9Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1757326878;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=BRGQJDHdsA4twVmO5eLCaqnTZhBCZnFqhG0ypxjP3ZI=;
-	b=UzaplWeIvPXN1g8bYuedkvQO9s8xVy8VgZx1glgVpxaq6u4IqQTd9NiJamXAcAt3ky4hKQ
-	E9evJmAY9fuCmENyV0gfRJkss0C/B2b9l3+NHyrSdEyfmz7i9Xj4o+p0mWcYBAJOO7uMPX
-	/TqA4CTjGl+kyc7px2ibnAcZuDUysvDMKQgXQO5bzHiwg2F8I19+8R696n4looJZxuRp2r
-	SeMAlo34SQpPVzRjVwuXDsX8uEJZ6Q8pfExUA517wng9z9FdK3ZKoAmRtpRwV3LrrR0kHK
-	tny4t2lFoTJSKloz624nkr/lTqXmAcL0aFGj4oeigULVZFoTYFcU1iRSPeurXA==
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1757326878; a=rsa-sha256;
-	cv=none;
-	b=v0TFMm3PlGNSqAgVnhsoNx7D7Ohy5KmZ3fJCu316kqur0+R0JgXkyszw8+vGuz+OWzXsQE
-	xV3gW+WkLmeuuS3VG8Ooq9wD10lkXcIlWKVLLkgw2Og6BtPj8dsi5uovcO3nRAFvZb6EZe
-	wDglM7ualnEt0D8kAFqDWUoZPpBjW1FRdzqkPEW6/+fX/4YlCa3kgf95EC9SAxGx0ewV3y
-	hiy0fL7Y3YG7N6LkcOrYvJ5u2RZ2zMh4XAuBAQ/sgqhjxey4Ps6yJhDxPYxtJC7wTh+28C
-	PH1gTw/ycJqz185zjwRvm9d5GVPfPAAvhF0SklS9qqQactBkn6CUGRwOQSq77w==
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 21DF8634C93;
-	Mon,  8 Sep 2025 13:21:18 +0300 (EEST)
-Date: Mon, 8 Sep 2025 13:21:17 +0300
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: linux-media@vger.kernel.org
-Cc: hans@jjverkuil.nl
-Subject: [GIT PULL FOR 6.18] Use V4L2 clock helper, other cleanups
-Message-ID: <aL6uHdv9ne9JzFrq@valkosipuli.retiisi.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BE321CAA65;
+	Mon,  8 Sep 2025 10:25:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757327158; cv=none; b=sTk+OvAu/4CQKk2hWCH/7b9pm/BxK2rdvWKJRkc5j3FGzmCICRsCPQy3UVAwodnVv5hdo/TGVTz0teBabroLItgZ4lLf16ZtEVaz0mRt2Tojbx4wAnE23/Y/BVpqfqz4MWKrRVpMmMhqSIkdLbiXhXLuxqopBWw70ST0oIa7zBs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757327158; c=relaxed/simple;
+	bh=21K8KcR1MCrMWqs8uGKEa0hkEr38n6EV34+F/YkbVgA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ud/COlWPaZai4lEr7SlOxCdIfcUz/CS3xKR6p2V9NzRP3llQIlrkNnpyc6PyVB8WVqLY9cnQlqfTzvEXCnUoGKcPyRY8GWJnUWoSD0ZG+ZssTLShbXBFW5z+vciQBHUX2xHaNLEYhoWLxP2QZACTv2wQ+59ajKEnMrrcBRs6vy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=v5ZyeOd6; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 5A6CBC71;
+	Mon,  8 Sep 2025 12:24:41 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1757327081;
+	bh=21K8KcR1MCrMWqs8uGKEa0hkEr38n6EV34+F/YkbVgA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=v5ZyeOd647ETC8Gf8bPcBCBKrRxwoUh2pbqJM25AnaU8bJLSCBwetn6FMcH1UNmsI
+	 bjTt5HlWkyBG7oiIWiCcg1JG/vuCVgTXrB0DmLl+Ii+RDux6t1cL6HkfNYBrY78srX
+	 WwIydoHwOfoX0vxIn7P5GXCouTRjeeyEjLBnU02o=
+Date: Mon, 8 Sep 2025 12:25:32 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Fix race condition for meta buffer list
+Message-ID: <20250908102532.GC26062@pendragon.ideasonboard.com>
+References: <20250714-uvc-racemeta-v1-1-360de2e15a9a@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250714-uvc-racemeta-v1-1-360de2e15a9a@chromium.org>
 
-Hi Hans, Mauro,
+Hi Ricardo,
 
-The following changes since commit 04f08db52b3f892c85bd92ebbc3a7ca32e4f60f3:
+Thank you for the patch.
 
-  media: i2c: tc358743: add support for more infoframe types (2025-09-07 10:29:19 +0200)
+On Mon, Jul 14, 2025 at 10:23:45AM +0000, Ricardo Ribalda wrote:
+> queue->irqueue contains a list of the buffers owned by the driver. The
+> list is protected by queue->irqlock. uvc_queue_get_current_buffer()
+> returns a pointer to the current buffer in that list, but does not
+> remove the buffer from it. This can lead to race conditions.
+> 
+> Inspecting the code, it seems that the candidate for such race is
+> uvc_queue_return_buffers(). For the capture queue, that function is
+> called with the device streamoff, so no race can occur. On the other
+> hand, the metadata queue, could trigger a race condition, because
+> stop_streaming can be called with the device in any streaming state.
+> 
+> We can solve this issue modifying the way the metadata buffer
+> lifetime works. We can keep the queue->irqlock while the use the current
+> metadata buffer.
+> 
+> The core of this change is uvc_video_decode_meta(), it now obtains the
+> buffer and holds the spinlock instead of getting the buffer as an
+> argument.
+> 
+> Reported-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Closes: https://lore.kernel.org/linux-media/20250630141707.GG20333@pendragon.ideasonboard.com/
+> Cc: stable@vger.kernel.org
+> Fixes: 088ead255245 ("media: uvcvideo: Add a metadata device node")
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>  drivers/media/usb/uvc/uvc_isight.c |  3 +-
+>  drivers/media/usb/uvc/uvc_queue.c  |  4 +-
+>  drivers/media/usb/uvc/uvc_video.c  | 92 ++++++++++++++++++++++----------------
+>  drivers/media/usb/uvc/uvcvideo.h   |  8 ++--
+>  4 files changed, 62 insertions(+), 45 deletions(-)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_isight.c b/drivers/media/usb/uvc/uvc_isight.c
+> index 43cda5e760a345af56186603e2f0594b814cdbcb..f0e71744d25cab98184335b46569b31ba1346e12 100644
+> --- a/drivers/media/usb/uvc/uvc_isight.c
+> +++ b/drivers/media/usb/uvc/uvc_isight.c
+> @@ -98,8 +98,7 @@ static int isight_decode(struct uvc_video_queue *queue, struct uvc_buffer *buf,
+>  	return 0;
+>  }
+>  
+> -void uvc_video_decode_isight(struct uvc_urb *uvc_urb, struct uvc_buffer *buf,
+> -			struct uvc_buffer *meta_buf)
+> +void uvc_video_decode_isight(struct uvc_urb *uvc_urb, struct uvc_buffer *buf)
+>  {
+>  	struct urb *urb = uvc_urb->urb;
+>  	struct uvc_streaming *stream = uvc_urb->stream;
+> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+> index 790184c9843d211d34fa7d66801631d5a07450bd..e184e3ae0f59f142a683263168724bca64509628 100644
+> --- a/drivers/media/usb/uvc/uvc_queue.c
+> +++ b/drivers/media/usb/uvc/uvc_queue.c
+> @@ -310,9 +310,11 @@ void uvc_queue_cancel(struct uvc_video_queue *queue, int disconnect)
+>   * Buffers may span multiple packets, and even URBs, therefore the active buffer
+>   * remains on the queue until the EOF marker.
+>   */
+> -static struct uvc_buffer *
+> +struct uvc_buffer *
+>  __uvc_queue_get_current_buffer(struct uvc_video_queue *queue)
+>  {
+> +	lockdep_assert_held(&queue->irqlock);
+> +
+>  	if (list_empty(&queue->irqqueue))
+>  		return NULL;
+>  
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index 2e377e7b9e81599aca19b800a171cc16a09c1e8a..d6777090d0f892ffe93696c915acd4ec171ca798 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -1428,9 +1428,11 @@ static int uvc_video_encode_data(struct uvc_streaming *stream,
+>   * previous header.
+>   */
+>  static void uvc_video_decode_meta(struct uvc_streaming *stream,
+> -				  struct uvc_buffer *meta_buf,
+>  				  const u8 *mem, unsigned int length)
+>  {
+> +	struct vb2_queue *vb2_qmeta = stream->meta.vdev.queue;
+> +	struct uvc_video_queue *qmeta = &stream->meta.queue;
+> +	struct uvc_buffer *meta_buf;
+>  	struct uvc_meta_buf *meta;
+>  	size_t len_std = 2;
+>  	bool has_pts, has_scr;
+> @@ -1439,7 +1441,13 @@ static void uvc_video_decode_meta(struct uvc_streaming *stream,
+>  	ktime_t time;
+>  	const u8 *scr;
+>  
+> -	if (!meta_buf || length == 2)
+> +	if (!vb2_qmeta || length <= 2)
+> +		return;
+> +
+> +	guard(spinlock_irqsave)(&qmeta->irqlock);
 
-are available in the Git repository at:
+This keeps the spinlock held for longer than I would like. We should
+really try to minimize the amount of work performed with a spinlock
+held.
 
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.18-2.1-signed
-
-for you to fetch changes up to d67c075c05c585e8085f6d7d66b945fec641e990:
-
-  media: i2c: s5k6a3: Use V4L2 legacy sensor clock helper (2025-09-08 12:25:47 +0300)
-
-----------------------------------------------------------------
-V4L2 clock helper patches and more
-
-- Use V4L2 clock helpers in sensor drivers
-- Avoid using I²C client to obtain struct device pointer in sensor drivers
-- Do not set clock rate in mt9v111
-- Drop platform data support in mt9v032
-
-----------------------------------------------------------------
-Laurent Pinchart (62):
-      dt-bindings: media: Deprecate clock-frequency property for camera sensors
-      dt-bindings: media: et8ek8: Deprecate clock-frequency property
-      dt-bindings: media: imx258: Make clocks property required
-      dt-bindings: media: imx274: Make clocks property required
-      media: i2c: mt9v022: Drop unused mt9v022.h header
-      media: i2c: mt9v032: Replace client->dev usage
-      media: i2c: mt9v032: Drop support for platform data
-      media: i2c: mt9v111: Do not set clock rate manually
-      media: i2c: ov6650: Drop unused driver
-      media: i2c: hi556: Replace client->dev usage
-      media: i2c: hi556: Use V4L2 sensor clock helper
-      media: i2c: hi847: Replace client->dev usage
-      media: i2c: hi847: Use V4L2 sensor clock helper
-      media: i2c: imx208: Replace client->dev usage
-      media: i2c: imx208: Use V4L2 sensor clock helper
-      media: i2c: imx319: Replace client->dev usage
-      media: i2c: imx319: Use V4L2 sensor clock helper
-      media: i2c: imx355: Replace client->dev usage
-      media: i2c: imx335: Use V4L2 sensor clock helper
-      media: i2c: og01a1b: Replace client->dev usage
-      media: i2c: og01a1b: Use V4L2 sensor clock helper
-      media: i2c: ov02c10: Replace client->dev usage
-      media: i2c: ov02c10: Use V4L2 sensor clock helper
-      media: i2c: ov02e10: Replace client->dev usage
-      media: i2c: ov02e10: Use V4L2 sensor clock helper
-      media: i2c: ov08d10: Replace client->dev usage
-      media: i2c: ov08d10: Use V4L2 sensor clock helper
-      media: i2c: ov08x40: Replace client->dev usage
-      media: i2c: ov08x40: Use V4L2 sensor clock helper
-      media: i2c: ov13858: Replace client->dev usage
-      media: i2c: ov13858: Use V4L2 sensor clock helper
-      media: i2c: ov13b10: Replace client->dev usage
-      media: i2c: ov13b10: Use V4L2 sensor clock helper
-      media: i2c: ov2740: Replace client->dev usage
-      media: i2c: ov2740: Use V4L2 sensor clock helper
-      media: i2c: ov4689: Use V4L2 sensor clock helper
-      media: i2c: ov5670: Replace client->dev usage
-      media: i2c: ov5670: Use V4L2 sensor clock helper
-      media: i2c: ov5675: Replace client->dev usage
-      media: i2c: ov5675: Use V4L2 sensor clock helper
-      media: i2c: ov5693: Use V4L2 sensor clock helper
-      media: i2c: ov7251: Use V4L2 sensor clock helper
-      media: i2c: ov9734: Replace client->dev usage
-      media: i2c: ov9734: Use V4L2 sensor clock helper
-      media: v4l2-common: Add legacy camera sensor clock helper
-      media: i2c: et8ek8: Drop support for per-mode external clock frequency
-      media: i2c: et8ek8: Use V4L2 legacy sensor clock helper
-      media: i2c: gc05a2: Use V4L2 legacy sensor clock helper
-      media: i2c: gc08a3: Use V4L2 legacy sensor clock helper
-      media: i2c: imx258: Replace client->dev usage
-      media: i2c: imx258: Use V4L2 legacy sensor clock helper
-      media: i2c: imx290: Use V4L2 legacy sensor clock helper
-      media: i2c: ov02a10: Replace client->dev usage
-      media: i2c: ov02a10: Use V4L2 legacy sensor clock helper
-      media: i2c: ov2685: Use V4L2 legacy sensor clock helper
-      media: i2c: ov5645: Use V4L2 legacy sensor clock helper
-      media: i2c: ov5695: Use V4L2 legacy sensor clock helper
-      media: i2c: ov8856: Replace client->dev usage
-      media: i2c: ov8856: Use V4L2 legacy sensor clock helper
-      media: i2c: s5c73m3: Use V4L2 legacy sensor clock helper
-      media: i2c: s5k5baf: Use V4L2 legacy sensor clock helper
-      media: i2c: s5k6a3: Use V4L2 legacy sensor clock helper
-
- Documentation/admin-guide/media/i2c-cardlist.rst   |    1 -
- .../devicetree/bindings/i2c/qcom,i2c-cci.yaml      |    6 +-
- .../devicetree/bindings/media/i2c/mipi-ccs.yaml    |    7 +-
- .../bindings/media/i2c/ovti,ov02a10.yaml           |    3 +-
- .../devicetree/bindings/media/i2c/ovti,ov5645.yaml |    6 +-
- .../devicetree/bindings/media/i2c/ovti,ov7251.yaml |    6 +-
- .../devicetree/bindings/media/i2c/ovti,ov8856.yaml |    3 +-
- .../bindings/media/i2c/samsung,s5k5baf.yaml        |    6 +-
- .../bindings/media/i2c/samsung,s5k6a3.yaml         |    6 +-
- .../devicetree/bindings/media/i2c/sony,imx258.yaml |    1 +
- .../devicetree/bindings/media/i2c/sony,imx274.yaml |    4 +
- .../devicetree/bindings/media/i2c/sony,imx290.yaml |    5 +-
- .../bindings/media/i2c/ti,ds90ub960.yaml           |    3 +
- .../bindings/media/i2c/toshiba,et8ek8.txt          |    8 +-
- .../bindings/media/samsung,exynos4212-fimc-is.yaml |    3 +-
- .../devicetree/bindings/media/samsung,fimc.yaml    |    3 +-
- MAINTAINERS                                        |    1 -
- drivers/media/i2c/Kconfig                          |   10 +-
- drivers/media/i2c/Makefile                         |    1 -
- drivers/media/i2c/et8ek8/et8ek8_driver.c           |   27 +-
- drivers/media/i2c/et8ek8/et8ek8_mode.c             |    9 -
- drivers/media/i2c/et8ek8/et8ek8_reg.h              |    1 -
- drivers/media/i2c/gc05a2.c                         |    8 +-
- drivers/media/i2c/gc08a3.c                         |    8 +-
- drivers/media/i2c/hi556.c                          |   92 +-
- drivers/media/i2c/hi847.c                          |   84 +-
- drivers/media/i2c/imx208.c                         |   91 +-
- drivers/media/i2c/imx258.c                         |  105 +-
- drivers/media/i2c/imx290.c                         |   27 +-
- drivers/media/i2c/imx319.c                         |   92 +-
- drivers/media/i2c/imx355.c                         |   90 +-
- drivers/media/i2c/mt9v032.c                        |  104 +-
- drivers/media/i2c/mt9v111.c                        |    2 -
- drivers/media/i2c/og01a1b.c                        |  109 +-
- drivers/media/i2c/ov02a10.c                        |   45 +-
- drivers/media/i2c/ov02c10.c                        |  107 +-
- drivers/media/i2c/ov02e10.c                        |  105 +-
- drivers/media/i2c/ov08d10.c                        |   82 +-
- drivers/media/i2c/ov08x40.c                        |   93 +-
- drivers/media/i2c/ov13858.c                        |   69 +-
- drivers/media/i2c/ov13b10.c                        |  110 +-
- drivers/media/i2c/ov2685.c                         |    8 +-
- drivers/media/i2c/ov2740.c                         |   91 +-
- drivers/media/i2c/ov4689.c                         |   12 +-
- drivers/media/i2c/ov5645.c                         |   13 +-
- drivers/media/i2c/ov5670.c                         |  105 +-
- drivers/media/i2c/ov5675.c                         |   89 +-
- drivers/media/i2c/ov5693.c                         |   16 +-
- drivers/media/i2c/ov5695.c                         |    8 +-
- drivers/media/i2c/ov6650.c                         | 1147 --------------------
- drivers/media/i2c/ov7251.c                         |   26 +-
- drivers/media/i2c/ov8856.c                         |   93 +-
- drivers/media/i2c/ov9734.c                         |   82 +-
- drivers/media/i2c/s5c73m3/s5c73m3-core.c           |   15 +-
- drivers/media/i2c/s5c73m3/s5c73m3.h                |    2 -
- drivers/media/i2c/s5k5baf.c                        |   21 +-
- drivers/media/i2c/s5k6a3.c                         |   17 +-
- drivers/media/v4l2-core/v4l2-common.c              |   39 +-
- include/media/i2c/mt9v022.h                        |   13 -
- include/media/i2c/mt9v032.h                        |   12 -
- include/media/v4l2-common.h                        |   41 +-
- 61 files changed, 1016 insertions(+), 2377 deletions(-)
- delete mode 100644 drivers/media/i2c/ov6650.c
- delete mode 100644 include/media/i2c/mt9v022.h
- delete mode 100644 include/media/i2c/mt9v032.h
-
-Please pull.
+> +
+> +	meta_buf = __uvc_queue_get_current_buffer(qmeta);
+> +	if (!meta_buf)
+>  		return;
+>  
+>  	has_pts = mem[1] & UVC_STREAM_PTS;
+> @@ -1512,30 +1520,48 @@ static void uvc_video_validate_buffer(const struct uvc_streaming *stream,
+>   * Completion handler for video URBs.
+>   */
+>  
+> -static void uvc_video_next_buffers(struct uvc_streaming *stream,
+> -		struct uvc_buffer **video_buf, struct uvc_buffer **meta_buf)
+> +static void uvc_video_next_meta(struct uvc_streaming *stream,
+> +				struct uvc_buffer *video_buf)
+>  {
+> -	uvc_video_validate_buffer(stream, *video_buf);
+> +	struct vb2_queue *vb2_qmeta = stream->meta.vdev.queue;
+> +	struct uvc_video_queue *qmeta = &stream->meta.queue;
+> +	struct uvc_buffer *meta_buf;
+> +	struct vb2_v4l2_buffer *vb2_meta;
+> +	const struct vb2_v4l2_buffer *vb2_video;
+>  
+> -	if (*meta_buf) {
+> -		struct vb2_v4l2_buffer *vb2_meta = &(*meta_buf)->buf;
+> -		const struct vb2_v4l2_buffer *vb2_video = &(*video_buf)->buf;
+> +	if (!vb2_qmeta)
+> +		return;
+>  
+> -		vb2_meta->sequence = vb2_video->sequence;
+> -		vb2_meta->field = vb2_video->field;
+> -		vb2_meta->vb2_buf.timestamp = vb2_video->vb2_buf.timestamp;
+> +	guard(spinlock_irqsave)(&qmeta->irqlock);
+>  
+> -		(*meta_buf)->state = UVC_BUF_STATE_READY;
+> -		if (!(*meta_buf)->error)
+> -			(*meta_buf)->error = (*video_buf)->error;
+> -		*meta_buf = uvc_queue_next_buffer(&stream->meta.queue,
+> -						  *meta_buf);
+> -	}
+> -	*video_buf = uvc_queue_next_buffer(&stream->queue, *video_buf);
+> +	meta_buf = __uvc_queue_get_current_buffer(qmeta);
+> +	if (!meta_buf)
+> +		return;
+> +	list_del(&meta_buf->queue);
+> +
+> +	vb2_meta = &meta_buf->buf;
+> +	vb2_video = &video_buf->buf;
+> +
+> +	vb2_meta->sequence = vb2_video->sequence;
+> +	vb2_meta->field = vb2_video->field;
+> +	vb2_meta->vb2_buf.timestamp = vb2_video->vb2_buf.timestamp;
+> +	meta_buf->state = UVC_BUF_STATE_READY;
+> +	if (!meta_buf->error)
+> +		meta_buf->error = video_buf->error;
+> +
+> +	uvc_queue_buffer_release(meta_buf);
+> +}
+> +
+> +static struct uvc_buffer *uvc_video_next_buffer(struct uvc_streaming *stream,
+> +						struct uvc_buffer *video_buf)
+> +{
+> +	uvc_video_validate_buffer(stream, video_buf);
+> +	uvc_video_next_meta(stream, video_buf);
+> +	return uvc_queue_next_buffer(&stream->queue, video_buf);
+>  }
+>  
+>  static void uvc_video_decode_isoc(struct uvc_urb *uvc_urb,
+> -			struct uvc_buffer *buf, struct uvc_buffer *meta_buf)
+> +				  struct uvc_buffer *buf)
+>  {
+>  	struct urb *urb = uvc_urb->urb;
+>  	struct uvc_streaming *stream = uvc_urb->stream;
+> @@ -1559,13 +1585,13 @@ static void uvc_video_decode_isoc(struct uvc_urb *uvc_urb,
+>  			ret = uvc_video_decode_start(stream, buf, mem,
+>  				urb->iso_frame_desc[i].actual_length);
+>  			if (ret == -EAGAIN)
+> -				uvc_video_next_buffers(stream, &buf, &meta_buf);
+> +				buf = uvc_video_next_buffer(stream, buf);
+>  		} while (ret == -EAGAIN);
+>  
+>  		if (ret < 0)
+>  			continue;
+>  
+> -		uvc_video_decode_meta(stream, meta_buf, mem, ret);
+> +		uvc_video_decode_meta(stream, mem, ret);
+>  
+>  		/* Decode the payload data. */
+>  		uvc_video_decode_data(uvc_urb, buf, mem + ret,
+> @@ -1576,12 +1602,12 @@ static void uvc_video_decode_isoc(struct uvc_urb *uvc_urb,
+>  			urb->iso_frame_desc[i].actual_length);
+>  
+>  		if (buf->state == UVC_BUF_STATE_READY)
+> -			uvc_video_next_buffers(stream, &buf, &meta_buf);
+> +			buf = uvc_video_next_buffer(stream, buf);
+>  	}
+>  }
+>  
+>  static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+> -			struct uvc_buffer *buf, struct uvc_buffer *meta_buf)
+> +				  struct uvc_buffer *buf)
+>  {
+>  	struct urb *urb = uvc_urb->urb;
+>  	struct uvc_streaming *stream = uvc_urb->stream;
+> @@ -1607,7 +1633,7 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+>  		do {
+>  			ret = uvc_video_decode_start(stream, buf, mem, len);
+>  			if (ret == -EAGAIN)
+> -				uvc_video_next_buffers(stream, &buf, &meta_buf);
+> +				buf = uvc_video_next_buffer(stream, buf);
+>  		} while (ret == -EAGAIN);
+>  
+>  		/* If an error occurred skip the rest of the payload. */
+> @@ -1617,7 +1643,7 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+>  			memcpy(stream->bulk.header, mem, ret);
+>  			stream->bulk.header_size = ret;
+>  
+> -			uvc_video_decode_meta(stream, meta_buf, mem, ret);
+> +			uvc_video_decode_meta(stream, mem, ret);
+>  
+>  			mem += ret;
+>  			len -= ret;
+> @@ -1644,7 +1670,7 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+>  			uvc_video_decode_end(stream, buf, stream->bulk.header,
+>  				stream->bulk.payload_size);
+>  			if (buf->state == UVC_BUF_STATE_READY)
+> -				uvc_video_next_buffers(stream, &buf, &meta_buf);
+> +				buf = uvc_video_next_buffer(stream, buf);
+>  		}
+>  
+>  		stream->bulk.header_size = 0;
+> @@ -1654,7 +1680,7 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+>  }
+>  
+>  static void uvc_video_encode_bulk(struct uvc_urb *uvc_urb,
+> -	struct uvc_buffer *buf, struct uvc_buffer *meta_buf)
+> +				  struct uvc_buffer *buf)
+>  {
+>  	struct urb *urb = uvc_urb->urb;
+>  	struct uvc_streaming *stream = uvc_urb->stream;
+> @@ -1707,8 +1733,6 @@ static void uvc_video_complete(struct urb *urb)
+>  	struct uvc_video_queue *qmeta = &stream->meta.queue;
+>  	struct vb2_queue *vb2_qmeta = stream->meta.vdev.queue;
+>  	struct uvc_buffer *buf = NULL;
+> -	struct uvc_buffer *buf_meta = NULL;
+> -	unsigned long flags;
+>  	int ret;
+>  
+>  	switch (urb->status) {
+> @@ -1734,14 +1758,6 @@ static void uvc_video_complete(struct urb *urb)
+>  
+>  	buf = uvc_queue_get_current_buffer(queue);
+>  
+> -	if (vb2_qmeta) {
+> -		spin_lock_irqsave(&qmeta->irqlock, flags);
+> -		if (!list_empty(&qmeta->irqqueue))
+> -			buf_meta = list_first_entry(&qmeta->irqqueue,
+> -						    struct uvc_buffer, queue);
+> -		spin_unlock_irqrestore(&qmeta->irqlock, flags);
+> -	}
+> -
+>  	/* Re-initialise the URB async work. */
+>  	uvc_urb->async_operations = 0;
+>  
+> @@ -1755,7 +1771,7 @@ static void uvc_video_complete(struct urb *urb)
+>  	 * Process the URB headers, and optionally queue expensive memcpy tasks
+>  	 * to be deferred to a work queue.
+>  	 */
+> -	stream->decode(uvc_urb, buf, buf_meta);
+> +	stream->decode(uvc_urb, buf);
+>  
+>  	/* If no async work is needed, resubmit the URB immediately. */
+>  	if (!uvc_urb->async_operations) {
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index 757254fc4fe930ae61c9d0425f04d4cd074a617e..bb41477ce4ff5cdbf27bc9d830b63a60645e3fa1 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -479,8 +479,7 @@ struct uvc_streaming {
+>  	unsigned int frozen : 1;
+>  	struct uvc_video_queue queue;
+>  	struct workqueue_struct *async_wq;
+> -	void (*decode)(struct uvc_urb *uvc_urb, struct uvc_buffer *buf,
+> -		       struct uvc_buffer *meta_buf);
+> +	void (*decode)(struct uvc_urb *uvc_urb, struct uvc_buffer *buf);
+>  
+>  	struct {
+>  		struct video_device vdev;
+> @@ -694,6 +693,8 @@ int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type);
+>  void uvc_queue_cancel(struct uvc_video_queue *queue, int disconnect);
+>  struct uvc_buffer *uvc_queue_next_buffer(struct uvc_video_queue *queue,
+>  					 struct uvc_buffer *buf);
+> +struct uvc_buffer *
+> +__uvc_queue_get_current_buffer(struct uvc_video_queue *queue);
+>  struct uvc_buffer *uvc_queue_get_current_buffer(struct uvc_video_queue *queue);
+>  void uvc_queue_buffer_release(struct uvc_buffer *buf);
+>  static inline int uvc_queue_streaming(struct uvc_video_queue *queue)
+> @@ -802,8 +803,7 @@ u16 uvc_endpoint_max_bpi(struct usb_device *dev, struct usb_host_endpoint *ep);
+>  
+>  /* Quirks support */
+>  void uvc_video_decode_isight(struct uvc_urb *uvc_urb,
+> -			     struct uvc_buffer *buf,
+> -			     struct uvc_buffer *meta_buf);
+> +			     struct uvc_buffer *buf);
+>  
+>  /* debugfs and statistics */
+>  void uvc_debugfs_init(void);
+> 
+> ---
+> base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
+> change-id: 20250714-uvc-racemeta-fee2e69bbfcd
 
 -- 
-Kind regards,
+Regards,
 
-Sakari Ailus
+Laurent Pinchart
 
