@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-42044-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42045-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89032B49A68
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 21:56:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92106B49AA9
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 22:06:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 96B37205F78
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 19:56:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67B011896575
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 20:06:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A62FF2D63E8;
-	Mon,  8 Sep 2025 19:56:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58A702D8377;
+	Mon,  8 Sep 2025 20:05:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="WuspcEjl"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="hM5q/qJM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A21D1E231E;
-	Mon,  8 Sep 2025 19:56:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44A9219A86;
+	Mon,  8 Sep 2025 20:05:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757361364; cv=pass; b=HiW8rPVPUhv3jc8h7fHLTG3RNp82HmE8E/A9VlS9nwydj7vi3c1qHk6jyKAbcByqf0vCo6yzIxZW1MxBQ9mckQNvee5TLHL9MIH+tcaNPq1c2EZVjocQZOsSoJf+H7wGyggwpUh9CocZqPuubtHC5GVnczP2h+AV/mIwif/2RPA=
+	t=1757361955; cv=pass; b=hmTX3CcDHzVBHIID1R+iVappo1etwt+EUarRflfZDtymSWJHlTlP4S8SbS2nxYoX3IGw3Dox1MdO+5xCSv2p/7Ie4PEiRzkGZ4Uqu5j7bwy6WKiaISGB8mLWTvVrNchWu4x800Isu0rb9C0DFc85DmBydx0JQQxOLXz5uo99foY=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757361364; c=relaxed/simple;
-	bh=MWpV4A2WRkUfqblRPidOKOMyFxPO/XuuQrBHbl8uMQI=;
+	s=arc-20240116; t=1757361955; c=relaxed/simple;
+	bh=erTUly9Qg9X6cog7y18GcAb2e51Bg9D6zVP2Ld+yegU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oUxeZUZLouoAhqIhaVJAaz7Pb0Gw1Dslw9ChUD7T+y+XI0WEgU7fRF1IRFSHg4aCRLVLBNkisnIGTh3HcJL1DjnNL6vm+YErA2a8xnASXxcmUJmNy4I4xOd0el2ejuFIVEUdRq2e4RjGebPsTQnGAv00jnzOn+AnU5Z4tFb6Amk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=WuspcEjl; arc=pass smtp.client-ip=136.143.188.112
+	 In-Reply-To:Content-Type; b=f3F5oM1el+YgBvHLUZhBx6ltCucQuKoFjn94yRuWd0qFE37Xfx57ZAULiqcW8vkZ8pzyMb/UCPsVjImjFO5uHbj4hF/fjf7MdyYEtsvcrKiEj47wV8mKEthN6L2v/YgQp9NlxOB4OY7VDo+asKP4y4OrNEXyqM3jr6WPyZgx/4E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=hM5q/qJM; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1757361303; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1757361899; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=mUzmnkI7ls4AvpKk9PkLBBYeCu+pH9kCHwMoKRU9mS8Va3Rk3P1EnjIukFHIQ1sAgt4nQPlbPOXlK83kFmYc2xVS75KjHCPk94ELyPusE++ff8czzuFzys66QYc4l6TbNekfLo+fBNe1sVSwmyurSAX0CZXICiNB/U581LhcNrU=
+	b=FBqZoto3NaNrr+QEk2kOlolOBw3muYFVoz92mSEsCqHEHx9bRDQVMBbpJvXLiEZn1Q7eNia7ROlo6ioobMA+XLoysc8dYZF2eB4bzoY2q4Mvdb1w+fUxt8QL5vlTMVEHXiU9sJF53nbHrsyPV3UhZpUZZNyk0Y2P5HGhidk7fn0=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1757361303; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=M/VFSbxaoCdLjJSeyTwHsH+gRgpx/aAWpUtZlGe7uGk=; 
-	b=BaZlsaht09RzyFGIw897Zk6xphgJqy43DTSQKT9TkRm0X5MkO3meBCJ4cTbsHdUbbD2SEdI/5kc03gzpBrHIl+mADS6abfJXQtNg+5HPGSQoyur59mlSQ7Ia3ZhxJAtvYUVT99Q1iWwbwHsF4hvHTz/xFr1r9Snnsvu9tXKFPY0=
+	t=1757361899; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=8Qmtq2CeP5Jx7vZXKA2CMOipGElDjnWELU/7DNqKtTE=; 
+	b=MxHttsUDp1O7iL94CxpC4azMxrqzbdHtZMwsjWmfVfDp8Kmnr2njcXzIJ9sg+185/H7MVUIhbYTGKo2AvEKkeCrHmqcY0aJmhVSm9dlrtrpjzhe6/gvFYThXkLahFKnJupZ127Pgmdll3zTjB/HE7cv6WeXprzWlrH1t6Cdaqrk=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
 	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
 	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757361303;
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757361899;
 	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
 	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=M/VFSbxaoCdLjJSeyTwHsH+gRgpx/aAWpUtZlGe7uGk=;
-	b=WuspcEjlUBylmJh1B0BghZqg5B6vUEjxtdYtMYSmMk6RsbTPP0bLHXw0NlWAcceJ
-	xsO8L1flgUuEeUGRtXTkjsV0T9f76hnyQvEhLCzhzUA5H4Yt1V6Miux3sq5qAOgM9B+
-	4LA1qn9GmOhsgJZge5/qJBesfNjPEAzNODbFUE/w=
-Received: by mx.zohomail.com with SMTPS id 1757361302113105.67245372545813;
-	Mon, 8 Sep 2025 12:55:02 -0700 (PDT)
-Message-ID: <0b1d77ab-7b39-4764-9f0c-4b4a15aa0e56@collabora.com>
-Date: Mon, 8 Sep 2025 16:54:46 -0300
+	bh=8Qmtq2CeP5Jx7vZXKA2CMOipGElDjnWELU/7DNqKtTE=;
+	b=hM5q/qJMILxUA2nOZg1Nvj3qrcEKZCqnn9aoxyH8Z6+lErg0o9Y5rGzh7VrQQh5j
+	/Vq82lI51wz8mQvigoFmbhZv+IZco6nfWCamUyuuMcf08vsBx+PYt5RNWhKIKHVhwpk
+	R/LDv7vzYP2AP5Oo+otV7uUA0uLne4OUJJM8R37A=
+Received: by mx.zohomail.com with SMTPS id 1757361898233170.25250327031745;
+	Mon, 8 Sep 2025 13:04:58 -0700 (PDT)
+Message-ID: <d32af8e4-0771-4674-8317-78dd1e24c95b@collabora.com>
+Date: Mon, 8 Sep 2025 17:04:41 -0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,8 +60,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 04/14] net: dt-bindings: Convert Marvell 8897/8997
- bindings to YAML
+Subject: Re: [PATCH v1 05/14] sound: dt-bindings: Convert MediaTek RT5650
+ codecs bindings to YAML
 To: Rob Herring <robh@kernel.org>
 Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
  andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
@@ -83,71 +83,56 @@ Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
  linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
  linux-sound@vger.kernel.org, netdev@vger.kernel.org
 References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-5-ariel.dalessandro@collabora.com>
- <CAL_Jsq+K72Kof-Z3q2DSh3FKO64npLF6hDJnqnTzNBUoOoVQFA@mail.gmail.com>
+ <20250820171302.324142-6-ariel.dalessandro@collabora.com>
+ <20250822151415.GA3819434-robh@kernel.org>
 Content-Language: en-US
 From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <CAL_Jsq+K72Kof-Z3q2DSh3FKO64npLF6hDJnqnTzNBUoOoVQFA@mail.gmail.com>
+In-Reply-To: <20250822151415.GA3819434-robh@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-ZohoMailClient: External
 
-Hi Rob,
+Rob,
 
-On 8/21/25 11:28 AM, Rob Herring wrote:
-> On Wed, Aug 20, 2025 at 12:15 PM Ariel D'Alessandro
-> <ariel.dalessandro@collabora.com> wrote:
->>
->> Convert the existing text-based DT bindings for Marvell 8897/8997
->> (sd8897/sd8997) bluetooth devices controller to a YAML schema.
->>
->> While here, bindings for "usb1286,204e" (USB interface) are dropped from
->> the YAML definition as these are currently documented in file:
->>
->> - Documentation/devicetree/bindings/net/btusb.txt
+On 8/22/25 12:14 PM, Rob Herring wrote:
+> On Wed, Aug 20, 2025 at 02:12:53PM -0300, Ariel D'Alessandro wrote:
+>> Convert the existing text-based DT bindings for Mediatek MT8173 RT5650
+>> codecs to a YAML schema.
 >>
 >> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 >> ---
->>   .../bindings/net/marvell,sd8897-bt.yaml       | 91 +++++++++++++++++++
-> 
-> This needs to move to net/bluetooth/
-
-Ack.
-
-> 
->>   .../bindings/net/marvell-bt-8xxx.txt          | 83 -----------------
->>   2 files changed, 91 insertions(+), 83 deletions(-)
->>   create mode 100644 Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml
->>   delete mode 100644 Documentation/devicetree/bindings/net/marvell-bt-8xxx.txt
+>>   .../sound/mediatek,mt8173-rt5650.yaml         | 73 +++++++++++++++++++
+>>   .../bindings/sound/mt8173-rt5650.txt          | 31 --------
+>>   2 files changed, 73 insertions(+), 31 deletions(-)
+>>   create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml
+>>   delete mode 100644 Documentation/devicetree/bindings/sound/mt8173-rt5650.txt
 >>
->> diff --git a/Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml b/Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml
+>> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml
 >> new file mode 100644
->> index 0000000000000..6539868c08b8a
+>> index 0000000000000..36e4f9c4c3d62
 >> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/net/marvell,sd8897-bt.yaml
->> @@ -0,0 +1,91 @@
+>> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml
+>> @@ -0,0 +1,73 @@
 >> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
 >> +%YAML 1.2
 >> +---
->> +$id: http://devicetree.org/schemas/net/marvell,sd8897-bt.yaml#
+>> +$id: http://devicetree.org/schemas/sound/mediatek,mt8173-rt5650.yaml#
 >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 >> +
->> +title: Marvell 8897/8997 (sd8897/sd8997) bluetooth devices (SDIO)
+>> +title: Mediatek MT8173 with RT5650 codecs and HDMI via I2S
 >> +
 >> +maintainers:
 >> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 >> +
+>> +properties:
+>> +  compatible:
+>> +    const: "mediatek,mt8173-rt5650"
 > 
-> Needs a $ref to bluetooth-controller.yaml
+> Drop quotes.
 
 Ack.
 
 > 
->> +properties:
->> +  compatible:
->> +    enum:
->> +      - marvell,sd8897-bt
->> +      - marvell,sd8997-bt
 >> +
 >> +  reg:
 >> +    maxItems: 1
@@ -155,98 +140,51 @@ Ack.
 >> +  interrupts:
 >> +    maxItems: 1
 >> +
->> +  marvell,cal-data:
->> +    $ref: /schemas/types.yaml#/definitions/uint8-array
+>> +  mediatek,audio-codec:
+>> +    $ref: /schemas/types.yaml#/definitions/phandle-array
 >> +    description:
->> +      Calibration data downloaded to the device during initialization.
->> +    minItems: 28
-> 
-> Just: maxItems: 28
-
-Ack.
-
-> 
+>> +      The phandles of rt5650 codecs and of the HDMI encoder node.
+>> +    minItems: 2
 >> +
->> +  marvell,wakeup-pin:
->> +    $ref: /schemas/types.yaml#/definitions/uint16
+>> +  mediatek,platform:
+>> +    $ref: /schemas/types.yaml#/definitions/phandle
 >> +    description:
->> +      Wakeup pin number of the bluetooth chip. Used by firmware to wakeup host
->> +      system.
+>> +      The phandle of MT8173 ASoC platform.
 >> +
->> +  marvell,wakeup-gap-ms:
-> 
-> This unfortunately needs a uint16 type. That will cause a warning
-> which has to be fixed on the dtschema side.
-
-Yeah, that's what I thought but wasn't sure on the proper solution. Will 
-fix in v2.
-
-> 
->> +    description:
->> +      Wakeup latency of the host platform. Required by the chip sleep feature.
+>> +  mediatek,mclk:
+>> +    $ref: /schemas/types.yaml#/definitions/uint32
+>> +    description: |
+>> +      The MCLK source.
+>> +      0: external oscillator, MCLK = 12.288M
+>> +      1: internal source from mt8173, MCLK = sampling rate * 256
+>> +
+>> +  codec-capture:
+>> +    description: Subnode of rt5650 codec capture.
+>> +    type: object
+>> +
+>> +    properties:
+>> +      sound-dai:
+>> +        maxItems: 1
+>> +        description: phandle of the CPU DAI
+>> +
+>> +    additionalProperties: false
 >> +
 >> +required:
 >> +  - compatible
->> +  - reg
->> +  - interrupts
+>> +  - mediatek,audio-codec
+>> +  - mediatek,platform
 >> +
 >> +additionalProperties: false
 >> +
 >> +examples:
 >> +  - |
->> +    #include <dt-bindings/interrupt-controller/irq.h>
->> +    #include <dt-bindings/pinctrl/rockchip.h>
+>> +    sound: sound {
 > 
-> Please drop this and just use a number below.
+> Drop unused label.
 
 Ack.
 
-> 
->> +
->> +    sdio0 {
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        btmrvl: btmrvl@2 {
->> +            compatible = "marvell,sd8897-bt";
->> +            reg = <2>;
->> +            interrupt-parent = <&gpio4>;
->> +            interrupts = <RK_PD7 IRQ_TYPE_LEVEL_LOW>;
->> +            marvell,wakeup-pin = /bits/ 16 <13>;
->> +            pinctrl-names = "default";
->> +            pinctrl-0 = <&bt_host_wake_l>;
->> +        };
->> +    };
-> 
-> I would drop this example.
-
-Agreed.
-
-> 
->> +
->> +    mmc3 {
-> 
-> mmc {
-
-Ack.
-
-> 
->> +        vmmc-supply = <&wlan_en_reg>;
->> +        bus-width = <4>;
->> +        cap-power-off-card;
->> +        keep-power-in-suspend;
->> +
->> +        #address-cells = <1>;
->> +        #size-cells = <0>;
->> +
->> +        bluetooth: bluetooth@2 {
-> 
-> Drop the label.
-
-Ack.
-
-Thanks a lot for your feedback and help!
-Regards,
+Thanks!
 
 -- 
 Ariel D'Alessandro
