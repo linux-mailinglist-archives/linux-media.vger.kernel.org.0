@@ -1,194 +1,241 @@
-Return-Path: <linux-media+bounces-41961-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41962-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D980B48598
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 09:39:09 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E05EEB485E8
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 09:44:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B117A1657D4
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 07:38:39 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3294F1730A2
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 07:42:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 069682EDD4D;
-	Mon,  8 Sep 2025 07:36:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CC2F2EB5B7;
+	Mon,  8 Sep 2025 07:40:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="oqUr7NDg"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="JAd9VjAC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D29522ED16B
-	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 07:36:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 252802EB5A6;
+	Mon,  8 Sep 2025 07:40:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757317007; cv=none; b=nNHkWGTkkzidIpyAwX/Y+c9LKSWKSnsrt+tOsX+O1ld45y4yclANYPNUvPdu8A6bHkBTEYefphXg4erdnlaBc0o2yNYOdrq03gTiEWdF+XqWxgWh9v4xUtNmOpCBEKu8N590TWIR8w0PNje4ywK/IfAunPQz9oyMbQMAB44azIY=
+	t=1757317214; cv=none; b=bnqCAZ7c4IckWCsxSWfLWQvU9Gka2Nf6Kx32as/fSaRxZAy1D1LSaB4rzYHAVJ8dvylFZfO7b2+gGUiWHf7SdVwX3K+sMFldVyAzvDxM8QIU8X8nqVv4LS00L5qeDq4HyoVNu61tmQM/Uh9vZqPeU82Er5nfWwjApFIJzbsPNKc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757317007; c=relaxed/simple;
-	bh=zXHMUEdWc0BlUDHaEPySSzugxui2LIQJINaYGqG6S28=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jsyji9jwSwK93dEOLjdFN/te5HnPzLgnpY725vfKvGDpdU9I5wsVN321+Tsh0/ZEA6xhGaJ4VorJpnVR+1HxyUZyjTOqPN7hROihlhWc2UGMd1P3xOrj/6vSZDClhVW1mpbmylJ7KheFRewOwSIwrvsfLIMNVKD0Gvkka61UBzM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=oqUr7NDg; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 587IF1kr023525
-	for <linux-media@vger.kernel.org>; Mon, 8 Sep 2025 07:36:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	QNHN7kPRAWt4JfWXRnbbHXUE90qzcsGnkDRXHKAjBCg=; b=oqUr7NDgdpeIBem0
-	aVox1B+2FjDGu1UOiC+yVMM1C7o+lWzGABi2XQTC6PuSwD1aa2x84C/Up62MXDgr
-	84rDBjaseTB2FQmtL/pQZ4Etmaeum3x6jPtyIdbZnuDBZEnSSzTbbulP6R1BhBtw
-	wanMFBO495a7SYeTSOUdp4N55V5C9eXS6Ey8VxvFoNVlTkmTb+8Aqss7G8fg9i7T
-	o/98QkYuf0veFhKAcVDsQ3qNubCwoAbDG+pYXqh+PKjhg4E5JqK7S39sy7fQ8y3L
-	xrS7OIB+9K/2IzmKuRLpDdSIXe0WN9CxSoPjSiXvL4uS7YOZaa4YimVzrR8yC/up
-	raSUUQ==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490db8bnry-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 08 Sep 2025 07:36:44 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4b612061144so1831081cf.1
-        for <linux-media@vger.kernel.org>; Mon, 08 Sep 2025 00:36:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757317004; x=1757921804;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QNHN7kPRAWt4JfWXRnbbHXUE90qzcsGnkDRXHKAjBCg=;
-        b=N7ezWSFC+XnG5H5rehWgaXWNX/qzAvsf2PcKHyeBsV5pxMO0aQ0fKKEXNueYRGXe1g
-         V1h0Zx28EISrwc5UjT5kZyROqsSnCfJZOHGeXB0WDkMQpzrXIJYQ5QynJUJ/eNmHeb56
-         RXshNVLfwcrd1ok9QAbbIprG7OfjbOvBUjCVDT3Y+qwF8w5K0QRt7HJyPAv0EluVxV9X
-         huNI79e91PvVhI/Sm3DUHtjgw8WqX8VE5bHbY2OZ4asdHxDnTcNI9GGH6O8S/LlOeNMh
-         Ky7T8XOxjQVPXBUG1OYKnJvAJRXzKQS51GIzbM2pPxpYrWv/faJtCwTtK82qX5Gc/MYr
-         TuJw==
-X-Forwarded-Encrypted: i=1; AJvYcCU+EKg0NRfA2d5gYGG3JO/3sZyJS8Jv0jky2RAM3EkdY2xHL3zab9ZtIps/1KYua2m19/Jj1yENdE0Q/w==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw7LRpWFKP9O4wKrC9oQ9vgqmQ8aH1PFr7KspGEJ5d06QeUj2ms
-	VSWZ9BURygTPQOnWEvzopxQNefJ2/gTw08r/iXqLYE2AoxSupsBo/WdUPriM1+8Daoei21oDx6q
-	k//ErhoJrIbvLLkJ6MLGGMWZVf4pLyNT1ov9P5vn+amaVBAg6l6xFF8qK4o1R3zpDvQ==
-X-Gm-Gg: ASbGncvFEDZPUe+w/0NQZNhAT8QsTb4QDLK9adX+Uu7NLso7JGT1wSgDRlBB1wF4T7w
-	moVGOnSn/dYiPOgHlVcajzz6A6ELck2plXSV5tPIWGaoiH1WSOTkUJ6QtYZX7gTBrZMEmHsv2pb
-	izJPSGwSgKXvGgBAx5Nts1QXWgOQXrBHdE5j3vWKW/Yk/oPchaucd4gqX15MZXWyRSR09qRH7Zu
-	W6lpzWwLYv3FaLTr28O7b9dfKKD8EL5tT2d5TpNnIL9F+PnEgHgaWJkJ5NsiClDLEZrvRGvEZI8
-	3NBDD04CUZ+CB+0LFXMsKosSv0SqeVy2scBLaR3E5/4sYPGkTI7kJnFHJHEdZ1BI0Ky3Vv0XZ28
-	qRcOQNBk03IMokHSKu12aOg==
-X-Received: by 2002:a05:622a:1787:b0:4b3:4590:ab6d with SMTP id d75a77b69052e-4b5f848d05bmr48274141cf.7.1757317003660;
-        Mon, 08 Sep 2025 00:36:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IElIxN4NWUvxQroVKmxTi8+UW7BRi0pLtgjjPwqySqL6k7dbcrx49kS4O8YknoB23Bc/E9voA==
-X-Received: by 2002:a05:622a:1787:b0:4b3:4590:ab6d with SMTP id d75a77b69052e-4b5f848d05bmr48273961cf.7.1757317002960;
-        Mon, 08 Sep 2025 00:36:42 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b0484e8a4a1sm1001949866b.83.2025.09.08.00.36.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 08 Sep 2025 00:36:42 -0700 (PDT)
-Message-ID: <39b955b9-a152-458a-8e09-908efebaaccd@oss.qualcomm.com>
-Date: Mon, 8 Sep 2025 09:36:39 +0200
+	s=arc-20240116; t=1757317214; c=relaxed/simple;
+	bh=uZnW4EVcaEx72/e0fP+eU4/Lj8HIhYalrbtNHTsUi7s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=B5kxz69KgSajXm5sL3F3/kE2kkcVMszOO/mkmsEOFOdcDfv2qpz+Ui4lxvdojTvhrzf0h9k6aRslwkfDfivhOoCC8G+yVl1od8UtLeBY63IscpKKH2QpziwABxZDh2knolQPMPCp/msfF0ZQJIyrnAEeR/70844GhDVM0E1wZHE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=JAd9VjAC; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B4E84446;
+	Mon,  8 Sep 2025 09:38:58 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1757317138;
+	bh=uZnW4EVcaEx72/e0fP+eU4/Lj8HIhYalrbtNHTsUi7s=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JAd9VjACqbKTzkqPLhDFy6Nv/SvJ/QOZNrKaCfQYZd/Cw9DyJaF5N1Fv8hYSXyW9i
+	 GaGKILOMvFx41lVUX0Rhw8Xqn30DCy5Lu4c2vfy0K73X1kxES/55UsS7xFM0TrLigL
+	 iLBcL4mM47o4lryP+cqBfMY3nTecvafYtskGT9cA=
+Date: Mon, 8 Sep 2025 09:39:49 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Dafna Hirschfeld <dafna@fastmail.com>, Keke Li <keke.li@amlogic.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Dan Scally <dan.scally@ideasonboard.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 2/8] media: uapi: Convert RkISP1 to V4L2 extensible
+ params
+Message-ID: <20250908073949.GE4105@pendragon.ideasonboard.com>
+References: <20250820-extensible-parameters-validation-v4-0-30fe5a99cb1f@ideasonboard.com>
+ <20250820-extensible-parameters-validation-v4-2-30fe5a99cb1f@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] dt-bindings: leds: commonize leds property
-To: Hans de Goede <hansg@kernel.org>,
-        Aleksandrs Vinarskis <alex@vinarskis.com>, Lee Jones <lee@kernel.org>,
-        Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Daniel Thompson <danielt@kernel.org>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Sakari Ailus
- <sakari.ailus@linux.intel.com>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20250908-leds-v3-0-5944dc400668@vinarskis.com>
- <20250908-leds-v3-2-5944dc400668@vinarskis.com>
- <0e030e7d-0a1a-4a00-ba18-ed26107d07fa@oss.qualcomm.com>
- <046b289d-b6a5-45f9-88b1-090e2ab7c95d@kernel.org>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <046b289d-b6a5-45f9-88b1-090e2ab7c95d@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzMSBTYWx0ZWRfX6tB3vGVGEgir
- vvT19pwWLTPLdB3Q8xCrjVW12f3t5yjOyarMIYI8bJiKNTkHc7T9SOTp5epdIHLyn9TwjtWljxv
- 5mKwRA7CbjUcoRQ4a/+eSNz0XTi8dmSrxSnnZn2xHpjm5yaS6tya3jrNsEBjM18qBURKN0PfQD1
- +dgkGL7aldWOCc0NTXhFcdIWN+0q0SGLXfv7qfFDVRih8onb0gZeYweiuhZLZ1jHuDf0bnw6Z+O
- vHAA9pByIgpwzh53EzxQfMCd1CTumrvk0irxQqf5a7PQbokVtxEY9dxZKjznIy2fR30p7y4vyFL
- MLTksKXdOC+rkd7xhtI0yVJ4OLPz37Vv8cZjt9dFtVANQrFrh9G9Q2h6jKr3FXClx9WwSgB4JBc
- iq6cwNCb
-X-Proofpoint-ORIG-GUID: PUuJeLBtHCCNHXcgLDmhjbQHfSNHsRFL
-X-Proofpoint-GUID: PUuJeLBtHCCNHXcgLDmhjbQHfSNHsRFL
-X-Authority-Analysis: v=2.4 cv=VIDdn8PX c=1 sm=1 tr=0 ts=68be878c cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=I76Qk8w-AAAA:8 a=wJ-R-PlTzkls_HvLT0IA:9
- a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22 a=vUPM0Wvl0xcrLs4nqPIT:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-08_02,2025-09-04_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
- phishscore=0 adultscore=0 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060031
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250820-extensible-parameters-validation-v4-2-30fe5a99cb1f@ideasonboard.com>
 
-On 9/8/25 9:33 AM, Hans de Goede wrote:
-> Hi,
+On Wed, Aug 20, 2025 at 02:58:10PM +0200, Jacopo Mondi wrote:
+> With the introduction of common types for extensible parameters
+> format, convert the rkisp1-config.h header to use the new types.
 > 
-> On 8-Sep-25 09:20, Konrad Dybcio wrote:
->> On 9/8/25 1:18 AM, Aleksandrs Vinarskis wrote:
->>> A number of existing schemas use 'leds' property to provide
->>> phandle-array of LED(s) to the consumer. Additionally, with the
->>> upcoming privacy-led support in device-tree, v4l2 subnode could be a
->>> LED consumer, meaning that all camera sensors should support 'leds'
->>> and 'led-names' property via common 'video-interface-devices.yaml'.
->>>
->>> To avoid dublication, commonize 'leds' property from existing schemas
->>> to newly introduced 'led-consumer.yaml'.
->>>
->>> Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
->>> ---
->>
->> [...]
->>
->>>  
->>> +  leds:
->>> +    minItems: 1
->>> +    maxItems: 1
->>
->> My brain compiler suggests this will throw a warning (minItems should
->> be redundant in this case)
->>> +
->>> +  led-names:
->>> +    enum:
->>> +      - privacy-led
->>
->> Nit: "privacy" makes more sense without the suffix, as we inherently
->> know this is supposed to be an LED
+> Factor-out the documentation that is now part of the common header
+> and only keep the driver-specific on in place.
 > 
-> Note "privacy-led" as name is already used on the x86/ACPI side and
-> the code consuming this will be shared.
+> The conversion to use common types doesn't impact userspace as the
+> new types are either identical to the ones already existing in the
+> RkISP1 uAPI or are 1-to-1 type convertible.
 > 
-> With that said if there is a strong preference for going with just
-> "privacy" the x86 side can be adjusted since the provider-info is
-> generated through a LED lookup table on the x86/ACPI side. So we can
-> just modify both the lookup table generation as well as the already
-> existing led_get(dev, "privacy-led") call to use just "privacy"
-> without problems.
+> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> ---
+>  include/uapi/linux/rkisp1-config.h | 67 +++++++++++++-------------------------
+>  1 file changed, 23 insertions(+), 44 deletions(-)
+> 
+> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> index 3b060ea6eed71b87d79abc8401eae4e9c9f5323a..fc040c7fb13cf18eaf8d9067e7be38bff120e6f6 100644
+> --- a/include/uapi/linux/rkisp1-config.h
+> +++ b/include/uapi/linux/rkisp1-config.h
+> @@ -7,8 +7,13 @@
+>  #ifndef _UAPI_RKISP1_CONFIG_H
+>  #define _UAPI_RKISP1_CONFIG_H
+>  
+> +#ifdef __KERNEL__
+> +#include <linux/build_bug.h>
+> +#endif /* __KERNEL__ */
+>  #include <linux/types.h>
+>  
+> +#include <linux/media/v4l2-extensible-params.h>
+> +
+>  /* Defect Pixel Cluster Detection */
+>  #define RKISP1_CIF_ISP_MODULE_DPCC		(1U << 0)
+>  /* Black Level Subtraction */
+> @@ -1158,26 +1163,21 @@ enum rkisp1_ext_params_block_type {
+>  	RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR,
+>  };
+>  
 
-In that case, it may be cleaner to just go with what we have today
-(unless the dt maintainers have stronger opinions)
+/* For backward compatibility */
 
-Konrad
+> -#define RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE	(1U << 0)
+> -#define RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE	(1U << 1)
+> +#define RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE	V4L2_PARAMS_FL_BLOCK_DISABLE
+> +#define RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE	V4L2_PARAMS_FL_BLOCK_ENABLE
+>  
+>  /* A bitmask of parameters blocks supported on the current hardware. */
+>  #define RKISP1_CID_SUPPORTED_PARAMS_BLOCKS	(V4L2_CID_USER_RKISP1_BASE + 0x01)
+>  
+>  /**
+> - * struct rkisp1_ext_params_block_header - RkISP1 extensible parameters block
+> - *					   header
+> + * rkisp1_ext_params_block_header - RkISP1 extensible parameters block header
+>   *
+>   * This structure represents the common part of all the ISP configuration
+> - * blocks. Each parameters block shall embed an instance of this structure type
+> - * as its first member, followed by the block-specific configuration data. The
+> - * driver inspects this common header to discern the block type and its size and
+> - * properly handle the block content by casting it to the correct block-specific
+> - * type.
+> + * blocks and is identical to :c:type:`v4l2_params_block_header`.
+>   *
+> - * The @type field is one of the values enumerated by
+> + * The type field is one of the values enumerated by
+>   * :c:type:`rkisp1_ext_params_block_type` and specifies how the data should be
+> - * interpreted by the driver. The @size field specifies the size of the
+> + * interpreted by the driver. The size field specifies the size of the
+>   * parameters block and is used by the driver for validation purposes.
+>   *
+>   * The @flags field is a bitmask of per-block flags RKISP1_EXT_PARAMS_FL_*.
+
+@flags leftover.
+
+> @@ -1193,14 +1193,14 @@ enum rkisp1_ext_params_block_type {
+>   * If a new configuration of an ISP block has to be applied userspace shall
+>   * fully populate the ISP block configuration and omit setting the
+>   * RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits
+> - * in the @flags field.
+> + * in the flags field.
+>   *
+>   * Setting both the RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and
+> - * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits in the @flags field is not allowed
+> + * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits in the flags field is not allowed
+>   * and not accepted by the driver.
+>   *
+>   * Userspace is responsible for correctly populating the parameters block header
+> - * fields (@type, @flags and @size) and the block-specific parameters.
+> + * fields (type, flags and size) and the block-specific parameters.
+
+Shouldn't you drop the parts of the documentation the duplicate
+v4l2_params_block_header ? Same below.
+
+>   *
+>   * For example:
+>   *
+> @@ -1220,17 +1220,8 @@ enum rkisp1_ext_params_block_type {
+>   *		bls->config.fixed_val.gb = blackLevelGreenB_;
+>   *		bls->config.fixed_val.b = blackLevelBlue_;
+>   *	}
+> - *
+> - * @type: The parameters block type, see
+> - *	  :c:type:`rkisp1_ext_params_block_type`
+> - * @flags: A bitmask of block flags
+> - * @size: Size (in bytes) of the parameters block, including this header
+>   */
+> -struct rkisp1_ext_params_block_header {
+> -	__u16 type;
+> -	__u16 flags;
+> -	__u32 size;
+> -};
+> +#define rkisp1_ext_params_block_header v4l2_params_block_header
+>  
+>  /**
+>   * struct rkisp1_ext_params_bls_config - RkISP1 extensible params BLS config
+> @@ -1594,21 +1585,7 @@ enum rksip1_ext_param_buffer_version {
+>  /**
+>   * struct rkisp1_ext_params_cfg - RkISP1 extensible parameters configuration
+>   *
+> - * This struct contains the configuration parameters of the RkISP1 ISP
+> - * algorithms, serialized by userspace into a data buffer. Each configuration
+> - * parameter block is represented by a block-specific structure which contains a
+> - * :c:type:`rkisp1_ext_params_block_header` entry as first member. Userspace
+> - * populates the @data buffer with configuration parameters for the blocks that
+> - * it intends to configure. As a consequence, the data buffer effective size
+> - * changes according to the number of ISP blocks that userspace intends to
+> - * configure and is set by userspace in the @data_size field.
+> - *
+> - * The parameters buffer is versioned by the @version field to allow modifying
+> - * and extending its definition. Userspace shall populate the @version field to
+> - * inform the driver about the version it intends to use. The driver will parse
+> - * and handle the @data buffer according to the data layout specific to the
+> - * indicated version and return an error if the desired version is not
+> - * supported.
+> + * This is the driver-specific implementation of :c:type:`v4l2_params_buffer`.
+>   *
+>   * Currently the single RKISP1_EXT_PARAM_BUFFER_V1 version is supported.
+>   * When a new format version will be added, a mechanism for userspace to query
+> @@ -1624,11 +1601,6 @@ enum rksip1_ext_param_buffer_version {
+>   * the maximum value represents the blocks supported by the kernel driver,
+>   * independently of the device instance.
+>   *
+> - * For each ISP block that userspace wants to configure, a block-specific
+> - * structure is appended to the @data buffer, one after the other without gaps
+> - * in between nor overlaps. Userspace shall populate the @data_size field with
+> - * the effective size, in bytes, of the @data buffer.
+> - *
+>   * The expected memory layout of the parameters buffer is::
+>   *
+>   *	+-------------------- struct rkisp1_ext_params_cfg -------------------+
+> @@ -1678,4 +1650,11 @@ struct rkisp1_ext_params_cfg {
+>  	__u8 data[RKISP1_EXT_PARAMS_MAX_SIZE];
+>  };
+>  
+> +#ifdef __KERNEL__
+> +/* Make sure the header is type-convertible to the generic v4l2 params one */
+> +static_assert((sizeof(struct rkisp1_ext_params_cfg) -
+> +	      RKISP1_EXT_PARAMS_MAX_SIZE) ==
+> +	      sizeof(struct v4l2_params_buffer));
+> +#endif /* __KERNEL__ */
+> +
+>  #endif /* _UAPI_RKISP1_CONFIG_H */
+> 
+> -- 
+> 2.50.1
+> 
+
+-- 
+Regards,
+
+Laurent Pinchart
 
