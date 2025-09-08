@@ -1,58 +1,58 @@
-Return-Path: <linux-media+bounces-42038-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42039-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00855B4979F
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 19:55:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8099EB4985C
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 20:33:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 923E73B46CC
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 17:55:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3733E3B39B9
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 18:33:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA1D031771B;
-	Mon,  8 Sep 2025 17:53:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55CBD3164B7;
+	Mon,  8 Sep 2025 18:33:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="eVpN7Xxa"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="gmdHZEpj"
 X-Original-To: linux-media@vger.kernel.org
 Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 240323164A1;
-	Mon,  8 Sep 2025 17:53:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDC204A2D;
+	Mon,  8 Sep 2025 18:33:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757354029; cv=pass; b=kRMP2hP8YK4CPKtuWGPvnbKoMZKrNZiPB0I0xutMdmBoA9Gsj8t5wxIfbKdpEp6BVe3GgeSr5f9zVEpMsBkmwUQ/nXF64LRHLgICbRoQP5n95lG6NU0Cm/jnrQYmulxQil1L0nZmXbbVfp95CA0XC6YWiii3/90cPIrgWYQUit0=
+	t=1757356391; cv=pass; b=TiaTWiL2YcGG84/WG97/s4SqaDnofO/0ZIcdAqdxCF0qwN9ZjSJFGUsMYOILCN02Jme+pJpa4K5glc0Na9S6iCGAJA9LgkvxvcO4q8pVvzAcVTTJTVKRoFpGZX6lGbyHVE4crN2WCURIDAkHPyvFq1eZVcV7K2Yrli8EMBSMuAc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757354029; c=relaxed/simple;
-	bh=OwdRsR4Z/3cQRq3276yVLRfEIjsQhJZfigcO//zTXpM=;
+	s=arc-20240116; t=1757356391; c=relaxed/simple;
+	bh=EHo9+NbhnZGG6NdApLz2AIMTAkqhCWD3bSxkZ2zHasE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pqfSPWGqUpqnCc9QYYvOXeb1pXOsly/g8WLyGDHPRgbP2dkx4/Y6VkSaKmP2U/7BBFSemdZtbGjCaYFW4Wxy1XZdIdK/Q09a8rUNIFNDpwPifatbS722J7J4mLq2kGSw1tr3e5u+hTTc2D41RRzrAWHb105aUBSr9KPz9i18Eyk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=eVpN7Xxa; arc=pass smtp.client-ip=136.143.188.112
+	 In-Reply-To:Content-Type; b=NUi2zCaMbgVXA8V8CL3bTYpI3eqlL4fkGLFYR2EXxj4AHPRZ/UKec66MkRGE6Yj7V0bMbsDFyJy4V6fqh1KFM9u+Z/nhJaMJvPtmwlgOzvlF1segVUQbfW+KJmYDlxVEgH4C6CFQh8R65I+rd7JdM2XlBsFLg5T861JgPgC3osg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=gmdHZEpj; arc=pass smtp.client-ip=136.143.188.112
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1757353964; cv=none; 
+ARC-Seal: i=1; a=rsa-sha256; t=1757356371; cv=none; 
 	d=zohomail.com; s=zohoarc; 
-	b=B4Mf6hX3bTYR3a7xiqiYtVcengOCYMtJ4uJlkCgsH8CHDfIpfPDn9QFXXw2JTXPIXbPjoVEoqmDlJ6+//kQSKYrl74uNirNimliuVIRmMSaqO/i326YtwRB2KLadoFMiMx/dZb9nrPGLCt0tlj96LCoXSGBmxLY/tHo2jPRkQ7o=
+	b=mP1gqjkdiUExNbEz/+ZLOQQRp/VIvy2jg6mCgwuNQvpld/C57PjRbvmWiRJhWc0OyzbbB65Ymt4tCkSYA9iTx0hgW3c/zRMmuSUC8zl97O1/jjklh4OHqQJDJoHNK0R4ACGeg0kxbnkIhx2Ma0ccXKkD73BObWmkSZFEX9n5L0g=
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1757353964; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=naMSKwdItJDOVEut1clldy6rzfJ23gNVWfzo/NG/EPk=; 
-	b=mKNy732zMOeES4VFouY2+RdFC7btgwlztF00TDru9mn+yIv54ZdfAz8e39jQq4oiLF3IRxkBk0qG800GVy3RMMg6HIi+SOu16q91R8tjFTDKRMMEYw8qpMBfCCXqnL97P/1Xj46QZu3zXFHh2SqXEGGh//Hs+ErONriwiN8purw=
+	t=1757356371; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=6ltzTi+I6kPPm3F0lLcLlkqmygrdjRSVDeW/ROJ50BY=; 
+	b=nEU6mm47QxW+KIhbYWdgDGNME8hkZ19fI0B+ngC/O/wyYyU6MvQ6q8A5rSx+wdNH7x7gCh1pnpcl9yY5tshNPPawa23W+z7SELy+UOrDk/G6efLfRRUpodfHJjrxVXAeQ06p6gXjZKl5wvWqmx6ZPos7dCZh4RPSv1mo6ah+cjE=
 ARC-Authentication-Results: i=1; mx.zohomail.com;
 	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
-	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757353963;
-	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
+	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
+	dmarc=pass header.from=<detlev.casanova@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757356371;
+	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
 	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=naMSKwdItJDOVEut1clldy6rzfJ23gNVWfzo/NG/EPk=;
-	b=eVpN7XxaqwQUND+7FTzrATUGruIrEV/dnqxKdmazR6+iYVeul/IphtNTHtGsv/+L
-	kSzW1wYYT7hhzaaRz6IIPqgwHQp/4hshW+ePcAIsT0Bbv+tXe5d9KCs4aIW4JcYdeo4
-	yCZAuQEIoq/b/D9UUwXMI99G0aw05EuN8qyh0Jzo=
-Received: by mx.zohomail.com with SMTPS id 1757353961706173.12105076966714;
-	Mon, 8 Sep 2025 10:52:41 -0700 (PDT)
-Message-ID: <d286ec0b-c8dc-4103-9aa3-2f40e0ade4a3@collabora.com>
-Date: Mon, 8 Sep 2025 14:52:23 -0300
+	bh=6ltzTi+I6kPPm3F0lLcLlkqmygrdjRSVDeW/ROJ50BY=;
+	b=gmdHZEpjqx+Qs0N9zbN7Mgz3VYtN9gkYEaDT2OQegj86gUyG0C+igfYzxfo69760
+	P6q8Y0ULhZPp/AskthsyD20oYxulxBHfDGLyTvGcNu83D/XLEiWWVN98eEW489zYcYs
+	uLSd90pCQs2vD5VVk7y3fPyi/DeL9IgdV7qMC430=
+Received: by mx.zohomail.com with SMTPS id 1757356367793396.9789493803712;
+	Mon, 8 Sep 2025 11:32:47 -0700 (PDT)
+Message-ID: <c05ea992-b0d8-4ea4-8a11-660b9cae4820@collabora.com>
+Date: Mon, 8 Sep 2025 14:32:45 -0400
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,246 +60,185 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 01/14] media: dt-bindings: Convert MediaTek mt8173-mdp
- bindings to YAML
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
- andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
- broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
- conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
- edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
- jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
- krzk+dt@kernel.org, kuba@kernel.org,
- kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
- linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
- maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
- mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
- p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
- sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
- tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
- netdev@vger.kernel.org
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-2-ariel.dalessandro@collabora.com>
- <20250821-silky-slug-of-novelty-e4bb64@kuoka>
-Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <20250821-silky-slug-of-novelty-e4bb64@kuoka>
+Subject: Re: [PATCH v3 2/7] media: rkvdec: Add variants support
+To: Jonas Karlman <jonas@kwiboo.se>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>
+Cc: Alex Bee <knaerzche@gmail.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org
+References: <20250905161942.3759717-1-jonas@kwiboo.se>
+ <20250905161942.3759717-3-jonas@kwiboo.se>
+Content-Language: en-US, fr-CA
+From: Detlev Casanova <detlev.casanova@collabora.com>
+In-Reply-To: <20250905161942.3759717-3-jonas@kwiboo.se>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 X-ZohoMailClient: External
 
-Krzysztof,
+Hi Jonas,
 
-On 8/21/25 3:46 AM, Krzysztof Kozlowski wrote:
-> On Wed, Aug 20, 2025 at 02:12:49PM -0300, Ariel D'Alessandro wrote:
->> Convert the existing text-based DT bindings for MediaTek MT8173 Media Data Path
->> to a YAML schema.
-> 
-> Please wrap commit message according to Linux coding style / submission
-> process (neither too early nor over the limit):
-> https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+On 9/5/25 12:19, Jonas Karlman wrote:
+> From: Alex Bee <knaerzche@gmail.com>
+>
+> Different versions of the Rockchip VDEC IP exists and one way they can
+> differ is what decoding formats are supported.
+>
+> Add a variant implementation in order to support flagging different
+> capabilities.
+>
+> Signed-off-by: Alex Bee <knaerzche@gmail.com>
+> Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+> Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+> ---
+> Changes in v3:
+> - Use a reference to rkvdec_variant
+> - Add num_regs field
 
-Thanks. Looks like my editor was misconfigured, sorry. Will fix in v2.
+Why are you adding this field ? I don't see it being used in a later patch.
 
-> 
->>
->> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
->> ---
->>   .../bindings/media/mediatek,mt8173-mdp.yaml   | 174 ++++++++++++++++++
->>   .../bindings/media/mediatek-mdp.txt           |  95 ----------
->>   2 files changed, 174 insertions(+), 95 deletions(-)
->>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
->>   delete mode 100644 Documentation/devicetree/bindings/media/mediatek-mdp.txt
->>
->> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
->> new file mode 100644
->> index 0000000000000..f3a08afc305b1
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
->> @@ -0,0 +1,174 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/mediatek,mt8173-mdp.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: MediaTek MT8173 Media Data Path
->> +
->> +maintainers:
->> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
->> +
->> +description:
->> +  Media Data Path is used for scaling and color space conversion.
->> +
->> +properties:
->> +  compatible:
->> +    oneOf:
->> +      - items:
-> 
-> Just enum, no items here
+Would that be useful for writing the right amount of registers later 
+when switching to structs and memcpy ?
 
-See below.
+I haven't checked how different the register maps are between those 
+different variants.
 
-> 
-> 
->> +          - enum:
->> +              - mediatek,mt8173-mdp-rdma
->> +              - mediatek,mt8173-mdp-rsz
->> +              - mediatek,mt8173-mdp-wdma
->> +              - mediatek,mt8173-mdp-wrot
->> +      - items:
->> +          - enum:
->> +              - mediatek,mt8173-mdp-rdma
->> +              - mediatek,mt8173-mdp-rsz
->> +              - mediatek,mt8173-mdp-wdma
->> +              - mediatek,mt8173-mdp-wrot
->> +          - const: mediatek,mt8173-mdp
-> 
-> This makes no sense. How devices can be compatible and can not be
-> compatible.
+> - Collect r-b tag
+>
+> Changes in v2:
+> - No change
+> ---
+>   .../media/platform/rockchip/rkvdec/rkvdec.c   | 22 ++++++++++++++++++-
+>   .../media/platform/rockchip/rkvdec/rkvdec.h   | 11 ++++++++++
+>   2 files changed, 32 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> index c15fc238d6af..daf6d9ab2d1d 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> @@ -14,6 +14,7 @@
+>   #include <linux/iommu.h>
+>   #include <linux/module.h>
+>   #include <linux/of.h>
+> +#include <linux/of_device.h>
+>   #include <linux/platform_device.h>
+>   #include <linux/pm.h>
+>   #include <linux/pm_runtime.h>
+> @@ -327,6 +328,7 @@ static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
+>   		.ops = &rkvdec_hevc_fmt_ops,
+>   		.num_decoded_fmts = ARRAY_SIZE(rkvdec_hevc_decoded_fmts),
+>   		.decoded_fmts = rkvdec_hevc_decoded_fmts,
+> +		.capability = RKVDEC_CAPABILITY_HEVC,
+>   	},
+>   	{
+>   		.fourcc = V4L2_PIX_FMT_H264_SLICE,
+> @@ -343,6 +345,7 @@ static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
+>   		.num_decoded_fmts = ARRAY_SIZE(rkvdec_h264_decoded_fmts),
+>   		.decoded_fmts = rkvdec_h264_decoded_fmts,
+>   		.subsystem_flags = VB2_V4L2_FL_SUPPORTS_M2M_HOLD_CAPTURE_BUF,
+> +		.capability = RKVDEC_CAPABILITY_H264,
+>   	},
+>   	{
+>   		.fourcc = V4L2_PIX_FMT_VP9_FRAME,
+> @@ -358,6 +361,7 @@ static const struct rkvdec_coded_fmt_desc rkvdec_coded_fmts[] = {
+>   		.ops = &rkvdec_vp9_fmt_ops,
+>   		.num_decoded_fmts = ARRAY_SIZE(rkvdec_vp9_decoded_fmts),
+>   		.decoded_fmts = rkvdec_vp9_decoded_fmts,
+> +		.capability = RKVDEC_CAPABILITY_VP9,
+>   	}
+>   };
+>   
+> @@ -1186,8 +1190,18 @@ static void rkvdec_watchdog_func(struct work_struct *work)
+>   	}
+>   }
+>   
+> +static const struct rkvdec_variant rk3399_rkvdec_variant = {
+> +	.num_regs = 78,
+> +	.capabilities = RKVDEC_CAPABILITY_HEVC |
+> +			RKVDEC_CAPABILITY_H264 |
+> +			RKVDEC_CAPABILITY_VP9,
+> +};
+> +
+>   static const struct of_device_id of_rkvdec_match[] = {
+> -	{ .compatible = "rockchip,rk3399-vdec" },
+> +	{
+> +		.compatible = "rockchip,rk3399-vdec",
+> +		.data = &rk3399_rkvdec_variant,
+> +	},
+>   	{ /* sentinel */ }
+>   };
+>   MODULE_DEVICE_TABLE(of, of_rkvdec_match);
+> @@ -1198,16 +1212,22 @@ static const char * const rkvdec_clk_names[] = {
+>   
+>   static int rkvdec_probe(struct platform_device *pdev)
+>   {
+> +	const struct rkvdec_variant *variant;
+>   	struct rkvdec_dev *rkvdec;
+>   	unsigned int i;
+>   	int ret, irq;
+>   
+> +	variant = of_device_get_match_data(&pdev->dev);
+> +	if (!variant)
+> +		return -EINVAL;
+> +
+>   	rkvdec = devm_kzalloc(&pdev->dev, sizeof(*rkvdec), GFP_KERNEL);
+>   	if (!rkvdec)
+>   		return -ENOMEM;
+>   
+>   	platform_set_drvdata(pdev, rkvdec);
+>   	rkvdec->dev = &pdev->dev;
+> +	rkvdec->variant = variant;
+>   	mutex_init(&rkvdec->vdev_lock);
+>   	INIT_DELAYED_WORK(&rkvdec->watchdog_work, rkvdec_watchdog_func);
+>   
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+> index 209dd79ce9bd..c47457c954e5 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+> @@ -22,6 +22,10 @@
+>   #include <media/videobuf2-core.h>
+>   #include <media/videobuf2-dma-contig.h>
+>   
+> +#define RKVDEC_CAPABILITY_HEVC		BIT(0)
+> +#define RKVDEC_CAPABILITY_H264		BIT(1)
+> +#define RKVDEC_CAPABILITY_VP9		BIT(2)
+> +
+>   struct rkvdec_ctx;
+>   
+>   struct rkvdec_ctrl_desc {
+> @@ -63,6 +67,11 @@ vb2_to_rkvdec_decoded_buf(struct vb2_buffer *buf)
+>   			    base.vb.vb2_buf);
+>   }
+>   
+> +struct rkvdec_variant {
+> +	unsigned int num_regs;
+> +	unsigned int capabilities;
+> +};
+> +
+>   struct rkvdec_coded_fmt_ops {
+>   	int (*adjust_fmt)(struct rkvdec_ctx *ctx,
+>   			  struct v4l2_format *f);
+> @@ -98,6 +107,7 @@ struct rkvdec_coded_fmt_desc {
+>   	unsigned int num_decoded_fmts;
+>   	const struct rkvdec_decoded_fmt_desc *decoded_fmts;
+>   	u32 subsystem_flags;
+> +	unsigned int capability;
+>   };
+>   
+>   struct rkvdec_dev {
+> @@ -111,6 +121,7 @@ struct rkvdec_dev {
+>   	struct mutex vdev_lock; /* serializes ioctls */
+>   	struct delayed_work watchdog_work;
+>   	struct iommu_domain *empty_domain;
+> +	const struct rkvdec_variant *variant;
+>   };
+>   
+>   struct rkvdec_ctx {
 
-According to the driver source code (and the previous txt mt8173-mdp 
-bindings), there must be a "controller node" with compatible 
-`mediatek,mt8173-mdp`. Then its sibling nodes (including itself) should 
-be one of the component node ids, listed in `struct of_device_id 
-mtk_mdp_comp_dt_ids[]`.
+Regards,
 
-Is there a proper/different way to describe this compatible binding in 
-the yaml? Or you're saying the driver doesn't make sense here?
-
-[0] drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-
-> 
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  clocks: true
-> 
-> No, there's no such syntax. Look at other bindings.
-
-Ack.
-
-> 
-> 
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  iommus:
->> +    description: |
-> 
-> Drop |
-
-Ack.
-
-> 
->> +      This property should point to the respective IOMMU block with master port as argument,
->> +      see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for details.
-> 
-> Drop entire description, completely redundant. I don't know why my patch
-> fixing this was not applied, so you keep repeating same mistakes...
-
-Ack.
-
-> 
->> +    maxItems: 1
->> +
->> +  mediatek,vpu:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description:
->> +      Describes point to vpu.
-> 
-> Useless description. We see that from the property name. Explain the
-> purpose in the hardware.
-
-Ack.
-
-> 
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - power-domains
->> +
->> +allOf:
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: mediatek,mt8173-mdp-rdma
->> +    then:
->> +      properties:
->> +        clocks:
->> +          items:
->> +            - description: Main clock
->> +            - description: Mutex clock
->> +    else:
->> +      properties:
->> +        clocks:
->> +          items:
->> +            - description: Main clock
->> +
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            enum:
->> +              - mediatek,mt8173-mdp-rdma
->> +              - mediatek,mt8173-mdp-wdma
->> +              - mediatek,mt8173-mdp-wrot
->> +    then:
->> +      required:
->> +        - iommus
->> +
->> +  - if:
->> +      properties:
->> +        compatible:
->> +          contains:
->> +            const: mediatek,mt8173-mdp
-> 
-> This makes no sense either.
-
-Same question above about compatibles.
-
-> 
->> +    then:
->> +      required:
->> +        - mediatek,vpu
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/mt8173-clk.h>
->> +    #include <dt-bindings/memory/mt8173-larb-port.h>
->> +    #include <dt-bindings/power/mt8173-power.h>
->> +
->> +    soc {
->> +        #address-cells = <2>;
->> +        #size-cells = <2>;
->> +
->> +        mdp_rdma0: rdma@14001000 {
-> 
-> One example is enough. Two could be fine if they differ significantly.
-
-Sounds good. Will keep just a single example, including a node for the 
-controller node and one for each of the components.
-
-Thanks a lot for the feedback!
-
--- 
-Ariel D'Alessandro
-Software Engineer
-
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
+Detlev
 
 
