@@ -1,239 +1,120 @@
-Return-Path: <linux-media+bounces-41997-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41998-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD046B48DC3
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 14:39:33 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28A16B48DCA
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 14:40:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 79400440CE3
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 12:38:51 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D3FC203591
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 12:39:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCBCA301462;
-	Mon,  8 Sep 2025 12:37:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9329A2FFDE6;
+	Mon,  8 Sep 2025 12:38:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="cefdwZkr"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="d5CszTA7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A792301039
-	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 12:37:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2615D3002C3
+	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 12:38:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757335053; cv=none; b=WyuS4lg7nDe5KWYvH6IF5+15Cy4A8v7HRjsCiyhR2xv3yNH5mAvWmBzKwi+/9oafCL1StmkedtkxykIbJfXGbAEBdkkU/T5LnmAur5d9qFAFMPLmbS0hOvxWP8NTrmwn033wu+YDo0FJ8pX7qM7xThSDTp98DGw6ku5JQfQyjtw=
+	t=1757335127; cv=none; b=QZx87S2lH8drlDrCM5DrDc6d6akkqdqajiPa5Nx+h1fRZ3yv5sByKHjN8UTU1bNcIlr5P+GjwvR+mrXHOGmIQlUavxGyySsFkc4qrnxQ4G7tQwBVWVuvA0wjmgFgVf21rO7gTDohYdsXsevc6m4OeiCMTyXBWP6h4vYh9c+gWI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757335053; c=relaxed/simple;
-	bh=rr16ShcJXMlxybAJcbjY4cSD41F8eLvBBCAkzI4VNgM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=MCH6yygdC4JB4ZFGYNfSMjr67X2058PPOC9rbG3EYGKZ1Yy3q7iACYMtDcwIbiXbNAYYnBWRGF/zSsBrJJY9caPHcV4e/JqG1d9GgF0bK1hBIrn/rQH9Z1rM9R4Ffn0N/iYmERP3LP78KDCiSdWdIkZPB/wgOTTX/JESAhPjTxg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=cefdwZkr; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Mon, 8 Sep 2025 14:37:15 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1757335039;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=MzZpJBOiRSfgUsT92sm7Jv2CJf70g7bcWVTofFZmSXc=;
-	b=cefdwZkrDXdCZCgOn4WL082oHpeoK+dOs/QPn80LmYYa4dGqpSgro7Lh0JUekgav4QpNV8
-	YWVCtBP+5jVgpc4jOMA0OTxmCIF8RnGx0Omh8Iu3j/xmEHHJNIqGPjBkuZC56Yz2UeJfNn
-	UrjcZZwn3YyS38yYAwE/ICYB0T2t/Bg=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Richard Leitner <richard.leitner@linux.dev>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-leds@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
-Subject: Re: [PATCH v7 04/10] Documentation: uAPI: media: add
- V4L2_CID_FLASH_{DURATION,HW_STROBE_SIGNAL}
-Message-ID: <j337fpaqahmee3qutgtkavud6rbqyn4lpsj4yaha2xmvcvfhli@z67twdhybvqp>
-References: <20250901-ov9282-flash-strobe-v7-0-d58d5a694afc@linux.dev>
- <20250901-ov9282-flash-strobe-v7-4-d58d5a694afc@linux.dev>
- <20250907194953.GA19568@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1757335127; c=relaxed/simple;
+	bh=SGPY8M2Qd3kuoLDKFRoDhwJ0VxrlXDznpzVLSQgYxNI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CkoChhJlgut1/a8KjkHSSYC4+34JzMPU5MFytq8XH0iIwLeNzxMgKkrTzL35050tXgxuSasRdJui09N/7t5NNNdwQlR4/5Rw1yEe7rm0tn5nDD4Er+08ecWTVwGRwGBdgLM/LIZmRhwAIDFs3YP4TMjBSxGGRak3K0hhykPfSko=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=d5CszTA7; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3dae49b1293so2252681f8f.1
+        for <linux-media@vger.kernel.org>; Mon, 08 Sep 2025 05:38:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1757335123; x=1757939923; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=+wBkxa/yGQ7mP70MIUjvPeodJiXweeDDEtqNWsYtFII=;
+        b=d5CszTA7xJRtXNWef+1wbbv37BZr2y0B81NaHDnMCQgmvqvswMAQ2Zwo1E8ysIuIbL
+         W915IESn239L7536C8ADvADkeIoxV4Wa4y6Vbe1IH468MGIo0XDKGDc9f6/lXAGF/jMI
+         4aP51aEqSSHxqSEDbBjJopZAo8LLmpKRQjlcLQh/ppUdsy+M0iENM7JJ1FbMeKH7zuGw
+         KNvPe/tpzrzEf++JfgOF9KM/GyVVq6lWOYLdpSH4bMqIRpZ9/g6n9VBr/d046UjZx1N2
+         AXz54aRqquEeDkTu+qRkXUs6fKgCOXF1dEa5bT1ImLt8ULglIhp0/vf/EcWMH6BMACQC
+         p0fA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757335123; x=1757939923;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=+wBkxa/yGQ7mP70MIUjvPeodJiXweeDDEtqNWsYtFII=;
+        b=GytJhwWPzY+3poLCMf5CgkSDiQcZvwfB2PEHfwLs3Ub8ji+bDSfL44uKjPzg8e4yDJ
+         D/MiftVkQPhXob9H4buE308sslX6geYnhqH3BkYwzAviPItbfBVO6ZayOHBDn5mJ4rMx
+         4ilG+nlt2Butio2FRoUmquZiAJmRfwqOE/fcJbu7fm1QqP/scqXB1gDJQ/zdMjUV1LDg
+         hPuxsJDCatc8oP7z+NA0dDgeJLV8oWhPWQnn0NjMU8mJjV7USFyHiCuQid7no9WtoHJo
+         GsJpuT7+MgsM0kaWSpF+SdG20xU+equafWhz7DvlnQfIHtE9GnLP3OCctsUGQphxWi9F
+         7hlg==
+X-Forwarded-Encrypted: i=1; AJvYcCXkE6bz3bWSY6vBPFOYUpdl+Q84kelVodPqfFoX+EQBaBuS26anLcGN6YTi8d4C7s/pTtaUTLMIIXyvvA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNMpgjdEup/qrQDMWXRTN1LZ+8X9LET33SgtLYvujIaR9Faj6U
+	vEoLFcvy6q20x0MZKMbyyeqCGkwU5i70n6qaUwhbHGAKZdVNE13aauJCUk6VtqlXcgI=
+X-Gm-Gg: ASbGnctCDwvie1ODjtjUOzpbpKrtY7wXHQ3f4IcMrkxA500VfwTqVnKMDICZsvUYA6g
+	kwt/NYlyqBAHII+SDEh1rsZbphEwpmwRRXrCOT6od4FDklxPTgObxiTMuD1uoPiKy8Zzb71Gi66
+	A3neR8fXEGhn0EO2E2HXbM/IL65WvCOFwX6SY5cqCZzisBO2Tv8KBlDobpcLbHezXXPh3+GViAF
+	IX371+3EVoa/tpRK6zKGQkcsN5kTFXpC4TKyck3qYyzS2DZfFQ0cyfUeiOiDhxZf/5TCpQu2WK3
+	rpb2vkMNaK+aFG2RLtUtYArLT6Bo/s1y5d6mnpI33vK/WlcFpx7Ix99kCzIUDeK05pvnIjpYwyQ
+	V7VwEnTVBZjlbRQPRNnJsMBmF2O6p997o1L2iKebagKHM/OjnvQrj/OiUZyo9GsDbuRaYjYtfnF
+	0GT3bZCv0A0RNSIu2MefmKkj/3ASSsIg==
+X-Google-Smtp-Source: AGHT+IEhnBeD2VT2hd/mBiSwfbFr8jrq1cYimX0QHes+yKVAo+vJbOIIBqAhykAh6gs4D05hHSw0Fg==
+X-Received: by 2002:a05:6000:24c1:b0:3e2:ac0:8c55 with SMTP id ffacd0b85a97d-3e643c1a48cmr6364184f8f.55.1757335123380;
+        Mon, 08 Sep 2025 05:38:43 -0700 (PDT)
+Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45b7e898b99sm437799005e9.19.2025.09.08.05.38.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Sep 2025 05:38:42 -0700 (PDT)
+Message-ID: <1d72c06a-1a44-4364-bde1-afc4514520a1@linaro.org>
+Date: Mon, 8 Sep 2025 13:38:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250907194953.GA19568@pendragon.ideasonboard.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/5] media: qcom: camss: change internals of endpoint
+ parsing to fwnode handling
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hans.verkuil@cisco.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Neil Armstrong <neil.armstrong@linaro.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20250903002255.346026-1-vladimir.zapolskiy@linaro.org>
+ <20250903002255.346026-5-vladimir.zapolskiy@linaro.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20250903002255.346026-5-vladimir.zapolskiy@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
-
-thanks for reviewing this!
-
-On Sun, Sep 07, 2025 at 09:49:53PM +0200, Laurent Pinchart wrote:
-> Hi Richard,
+On 03/09/2025 01:22, Vladimir Zapolskiy wrote:
+> Since a few called V4L2 functions operate with fwnode arguments the change
+> from OF device nodes to fwnodes brings a simplification to the code.
 > 
-> Thank you for the patch.
+> The camss_parse_endpoint_node() function is called once by camss_probe(),
+> and there is no use of knowing a number of asynchronously registered
+> remote devices, so it makes sense to remove the related computation from
+> the function.
 > 
-> On Mon, Sep 01, 2025 at 05:05:09PM +0200, Richard Leitner wrote:
-> > Add the new strobe duration and hardware strobe signal control to v4l
-> > uAPI documentation. Additionally add labels for cross-referencing v4l
-> > controls.
-> > 
-> > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> > ---
-> >  .../userspace-api/media/v4l/ext-ctrls-flash.rst    | 29 ++++++++++++++++++++++
-> >  1 file changed, 29 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-> > index d22c5efb806a183a3ad67ec3e6550b002a51659a..6254420a8ca95929d23ffdc65f40a6e53e30a635 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-> > @@ -57,6 +57,8 @@ Flash Control IDs
-> >  ``V4L2_CID_FLASH_CLASS (class)``
-> >      The FLASH class descriptor.
-> >  
-> > +.. _v4l2-cid-flash-led-mode:
-> > +
-> >  ``V4L2_CID_FLASH_LED_MODE (menu)``
-> >      Defines the mode of the flash LED, the high-power white LED attached
-> >      to the flash controller. Setting this control may not be possible in
-> > @@ -80,6 +82,8 @@ Flash Control IDs
-> >  
-> >  
-> >  
-> > +.. _v4l2-cid-flash-strobe-source:
-> > +
-> >  ``V4L2_CID_FLASH_STROBE_SOURCE (menu)``
-> >      Defines the source of the flash LED strobe.
-> >  
-> > @@ -186,3 +190,28 @@ Flash Control IDs
-> >      charged before strobing. LED flashes often require a cooldown period
-> >      after strobe during which another strobe will not be possible. This
-> >      is a read-only control.
-> > +
-> > +.. _v4l2-cid-flash-duration:
-> > +
-> > +``V4L2_CID_FLASH_DURATION (integer)``
-> > +    Duration of the flash strobe pulse generated by the strobe source,
-> > +    typically a camera sensor. This method of controlling flash LED strobe
-> > +    duration has three prerequisites: the strobe source's
-> > +    :ref:`hardware strobe signal <v4l2-cid-flash-hw-strobe-signal>` must be
-> > +    enabled, the flash LED driver's :ref:`flash LED mode <v4l2-cid-flash-led-mode>`
-> > +    must be set to ``V4L2_FLASH_LED_MODE_FLASH``, and the
-> > +    :ref:`strobe source <v4l2-cid-flash-strobe-source>` must be configured to
-> > +    ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL``. The unit should be microseconds (µs)
-> > +    if possible.
-> 
-> As mentioned in the review of 01/10, I think this needs to be clarified.
-> Ideally we should add a new document in
-> Documentation/userspace-api/media/v4l/ to explain the flash API, but in
-> the meantime let's at lets improve the description of the duration
-> control. Here's a proposal.
+> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+I think we should keep the code as is here until after merging csiphy 
+changes.
 
-Understood. Thank you for your proposal!
+https://gitlab.com/Linaro/arm64-laptops/linux
 
-> 
-> ``V4L2_CID_FLASH_DURATION (integer)``
->     Duration of the flash strobe pulse generated by the strobe source, when
->     using external strobe. This control shall be implemented by the device
->     generating the hardware flash strobe signal, typically a camera sensor,
->     connected to a flash controller. It must not be implemented by the flash
->     controller.
-> 
->     This method of controlling flash LED strobe duration has three
->     prerequisites: the strobe source's :ref:`hardware strobe signal
->     <v4l2-cid-flash-hw-strobe-signal>` must be enabled, the flash controller's
->     :ref:`flash LED mode <v4l2-cid-flash-led-mode>` must be set to
->     ``V4L2_FLASH_LED_MODE_FLASH``, and its :ref:`strobe source
->     <v4l2-cid-flash-strobe-source>` must be configured to
->     ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL``.
-> 
->     The unit should be microseconds (µs) if possible.
-> 
-> 
-> The second paragraph may be better replaced by expanding the
-> documentation of V4L2_FLASH_STROBE_SOURCE_EXTERNAL, it seems a better
-> place to document how external strobe works.
-
-That's fine for me. I will adapt the V4L2_CID_FLASH_DURATION and
-V4L2_FLASH_STROBE_SOURCE_EXTERNAL documentation accordingly and send in
-v9.
-
-> 
-> As for the unit, is microseconds really the best option ? I would expect
-> most sensors to express the strobe pulse width in unit of lines.
-
-We had that discussion already somewhere during this series. Tbh for me
-microseconds seems fine. Most (professional) flashes are configured with
-s^-1, so that would also be an option, but as flash_timeout is
-configured in microseconds, i chose it for flash_duration too.
-
-Nonetheless technically it shouldn't be a problem to express it as
-number of lines... Is there a reason to prefer this?
-
-> 
-> I think we also need to decide how to handle camera sensors whose flash
-> strobe pulse width can't be controlled. For instance, the AR0144 can
-> output a flash signal, and its width is always equal to the exposure
-> time. The most straightforward solution seems to implement
-> V4L2_CID_FLASH_HW_STROBE_SIGNAL but not V4L2_CID_FLASH_DURATION in the
-> sensor driver. Could this cause issues in any use case ? Is there a
-> better solution ? I would like this to be documented.
-
-Sounds good to me. In this case the V4L2_CID_FLASH_DURATION could be
-provided as a read-only property too. So userspace is explicitely aware
-of the acutal value and doesn't have to make assumptions.
-
-Should I add documentation on this topic to this patch?
-
-> 
-> Finally, I think we also need to standardize the flash strobe offset.
-
-I guess I somewhere mentioned this already: I have some patches for
-configuring the strobe offset of ov9282 and adding the corresponding
-v4l2 control. But to keep this series simple I'm planning to send them
-as soon as this one is "done".
-
-IMHO the offset should then have the same unit as the flash_duration.
-
-> 
-> > +
-> > +.. _v4l2-cid-flash-hw-strobe-signal:
-> > +
-> > +``V4L2_CID_FLASH_HW_STROBE_SIGNAL (boolean)``
-> 
-> Nitpicking a bit on the name, I would have called this
-> V4L2_CID_FLASH_STROBE_OUTPUT_ENABLE (or _OE).
-
-I'm always open to name-nitpicking ;-)
-
-V4L2_CID_FLASH_STROBE_OE sounds great to me... It's clear and even
-shorter than V4L2_CID_FLASH_HW_STROBE_SIGNAL.
-
-> 
-> > +    Enables the output of a hardware strobe signal from the strobe source,
-> > +    typically a camera sensor. To control a flash LED driver connected to this
-> > +    hardware signal, the :ref:`flash LED mode <v4l2-cid-flash-led-mode>`
-> > +    must be set to ``V4L2_FLASH_LED_MODE_FLASH`` and the
-> > +    :ref:`strobe source <v4l2-cid-flash-strobe-source>` must be set to
-> > +    ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL``. Provided the flash LED driver
-> > +    supports it, the length of the strobe signal can be configured by
-> > +    adjusting its :ref:`flash duration <v4l2-cid-flash-duration>`.
-> 
-> The V4L2_CID_FLASH_HW_STROBE_SIGNAL documentation needs to be clarified
-> in a similar way as V4L2_CID_FLASH_DURATION.
-
-Sure. I will adapt this for v9.
-
-> 
-> -- 
-> Regards,
-> 
-> Laurent Pinchart
-
-thanks again for your great review!
-
-regards;rl
+---
+bod
 
