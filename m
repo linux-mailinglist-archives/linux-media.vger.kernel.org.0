@@ -1,76 +1,78 @@
-Return-Path: <linux-media+bounces-42026-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42027-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DAC1B49288
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 17:08:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8098AB4928B
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 17:08:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4AF5B189292A
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 15:08:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D3DD0189AE78
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 15:08:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F134230C63B;
-	Mon,  8 Sep 2025 15:07:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87A3930DEB2;
+	Mon,  8 Sep 2025 15:07:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GhTu8Ccf"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GXgX9W0d"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12956226D0F;
-	Mon,  8 Sep 2025 15:07:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 654ED30CDBB;
+	Mon,  8 Sep 2025 15:07:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757344058; cv=none; b=c4q5KDxdW5krzV2S2+uV75F/yCVDjmfebETCfy5NobsEHTcPYrWwtmWW6hyUoLWQLe9YHITe2yz6ddSYtKDK8O/eTEx2V6NMLiVxJ/zV6glT+BOKAbw3ALg9Jl6KVcyjgfjf0JJ6Q1SKdxld4JvB+B/21gojO/mB0HfkkDvXxU8=
+	t=1757344062; cv=none; b=hOi+hhIHBYIzgFzVPWGv5Kx/CePbpjBmBaRYd//DsrxJQtl6vMgKPmsOjte1B3gbmcDHixBYxzFRZ2WNa3gB5ghgd7XwY9TpWEj0qeXr5lUE7EyT1Kvdd4J+PwbM6K97piUGQpMi7CNmeshyghGXwkFvSgvBaKxCAsYzOt1ES68=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757344058; c=relaxed/simple;
-	bh=H5N4wjRgkDqnFlonEaPvXEaLaSXJ2fXLmoIe06P1MTk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=MDFoXyYQ8cckYbsnf9o6KkU3sl371vQ4O09SWmblJy62+FDp+ooIqzzQ1HcRdMVj1x40Aa/+tLiJ2q8Mbmdz4V5q81lB1pwJik2ArF85aIUuFhbUNKSbHMN3SeZJaKyED/7HchoaW4YuCqcWcNhQMzMGjvYrtMHxcpc016wAuzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GhTu8Ccf; arc=none smtp.client-ip=209.85.210.172
+	s=arc-20240116; t=1757344062; c=relaxed/simple;
+	bh=gRcob5bbTYCtqhImMT4WO8ZNZYRsccm7UOfu6lo+V5U=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=Z/nUfIk1oC3HaAI2kPf3A/2UThwPHCj04rxHKCKkxVsNPuuHWfJkHYsNWE7juKu2LPWzh/Z43d9iz4ie5jFxWD7eLxsb9qJz5eCdmzYMOzZe9K2Wri1pQe3R9rhrm+APA4kf0UpOu9SAH0xDEAzNNMebXaKiJJIQPOoo1YeGFVw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GXgX9W0d; arc=none smtp.client-ip=209.85.214.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7728a8862ccso3912542b3a.0;
-        Mon, 08 Sep 2025 08:07:36 -0700 (PDT)
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2445806e03cso59040195ad.1;
+        Mon, 08 Sep 2025 08:07:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757344056; x=1757948856; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=1v/nevopYryJ3uwr9+MPbLpeMXJ/woYxaQOCe5ZfhXs=;
-        b=GhTu8CcfoJqerc9U97XJ44hpjc6waauGceh++UV496D24oyV8Urh0mv1/qHoDrs+PT
-         cN+gkcauuo69hyzvY0bZ+X6rwrBaU70CUPXIOWhmwXahUyEEFMCQiPFzXLRjzv0Kyk6T
-         ZmAxOb8HtiMCpse1iXsuTLyVrtYI+YIfakZW9ylUThXkzNHw1HTvNEfdyFtjAzGxw7qv
-         lnav7/DtvjZ/Z2wj1fNv/UWnw0NvWLT6IQYnHBbUuGd9ZdTdhQ77jiABTOTXoqTG7VTD
-         an7kYW5Z0IDccOyJGnE/EeQEOsIUiZsuPAP28TIshOSfbjn/dDgXnDftpQ+O9TXB44kh
-         +IDw==
+        d=gmail.com; s=20230601; t=1757344059; x=1757948859; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zYzcpiorMVX6Ede+R/KhzIY+gwW1IY4AzESeGSEE60w=;
+        b=GXgX9W0dmfPhan6f/U7a+4vIk0mskXKnfednJxDvW0I8UcvxcIFacKQJt5P4zRdgQl
+         SHxGbzm/FBQSAFhWeuPzK/rnycnc8YlGJK5B62O5sgtZLQJqJa4KCqoRSgjzuDkN10g7
+         iny5v2KRxLEMd/EYhc4qSWLfCsexPW5BYB1bDGepoZ8vyZvsxWagAtP93TkmiGe+Zz2c
+         fpB0p1LHXu2WjmVJ1dlZ+Zv9ImMvyBFGgqG1EVq8LlSYMMbvPWT+NLkaYdSNCWHvvR1d
+         IsNBpLAswZ3p+Hipe5sKcfrAxEBcGmjK1dVKPG9boYKD7wEV9mHRMncvuGXfv1LfVKb3
+         WTVw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757344056; x=1757948856;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=1v/nevopYryJ3uwr9+MPbLpeMXJ/woYxaQOCe5ZfhXs=;
-        b=qMOJrrosMRNYRREcsCRtuQnzK2Ev3mTlRmzQ28EIbDFWn178tVNtY7lR+CJqWF640q
-         Z5yH8n8LTy759K5g5CXvZhLWpdBJqcM2JTgpxYaQYm+ZpXg3f4tEh6UnKyyvjo309lTr
-         Q8pb464Pg4xn2fGmcg2HWESWb7ORnRSONmwPkoo2M664HiZ7mW87D3Xb364CS34yxyjh
-         b5j9uUOYO5694d6mBHi3JjXz5ysjcQ8go6DatVAiC30yVrRNGS05Re5nKrlu3ZE0h9QJ
-         PtDullLUvdoJP1EXVkOAdAn5bbQzXGzQVnKxQTH2PzFs9RY7vnenycCNYNYbdMur5ezH
-         x32A==
-X-Forwarded-Encrypted: i=1; AJvYcCUX5pxX9w5Z2NjyhX733e/fo6KdNOCGTq4hioE4xXDUaoG2hrQohHMBjFMXLGx/MKXdCHxDw3oSVg04q1Y=@vger.kernel.org, AJvYcCWs9LSUcnMUvTbFLsP+klIOLpC7fu59N3uwdgwIZDD+4JawiHJICApwGF0kNNLsAHXFXfAgPJKP@vger.kernel.org
-X-Gm-Message-State: AOJu0YxgZ0m/J9P+B+oEFeLRzEfQjfcJAm4IaQgTJDkU2spfAPgOl32o
-	/LCKiaBiqCrWKPbV0wULSaTYqHMDcYAcge9vS8z6dDWOrMC1VdrNuQ8h
-X-Gm-Gg: ASbGncuQGrkLejPQGMDU2s03QktfYZiZ04QVY4hnoAcyERAXWBrQ/NIp/6z5GSIHEvu
-	cw4BeyOHqPXenikZOlNV8poe8nEi2Udunmi3SOxz0WSqZZmZ3s9g4YMAC2CeRuzbBxUhp7Ew/RQ
-	CtQso3r5I9AsRVSfSJiMF2LPvMf60Qd6S8tB3gA4s2wz/Mw7w6pBg4+7As0XsH22WoEbLZOQjnr
-	L5r5ylOfn2dqI+pq+BkFIYQre4muPqndUrcva/Qp6PY/BR+qIgCtZ1iADSkPMAjUL6FMLvyaP1c
-	BrNab+mfLOAg5+Jtl3bJIs30j+Vbzi7ZbhS5c1qR0DRDvL7Qaq0leeijhBMSbqsQHaxpZZ+boh5
-	xS+HC5J+KcHmhFoUlox2BSA+eVsFp2UqMY1B2aVfuCeilAXG60Q==
-X-Google-Smtp-Source: AGHT+IEh5uNcW2Uoy5V2ckDNYiyBbPPqFLxMnrdRDJzgZKBn1yOD7zvwJgjbIJEgkuGhmmdtgxdpyg==
-X-Received: by 2002:a17:902:ce89:b0:240:6fc0:3421 with SMTP id d9443c01a7336-2517427bc80mr129563525ad.3.1757344056141;
-        Mon, 08 Sep 2025 08:07:36 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1757344059; x=1757948859;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=zYzcpiorMVX6Ede+R/KhzIY+gwW1IY4AzESeGSEE60w=;
+        b=JN4g9D8eTo3SAUvEM46rLsWj3J/RDvyHngVb6tPF/RnzNAvxIHleRx9zgWL5AVf45C
+         r85wnf+uzBo+dr+jCfOUtsOxrN6Bo2+m5HXg+Ud7YOKJLomGpShI+Oj9GOiG4GJAbWbY
+         k3T3UQyxEBxxz7EJUYPxSilpG+XZxYwHVsxpW5dwZWyyWwtOuVr/dV/9yS7F8iTD1j9q
+         hLFuXHAHbmI9YCuuegWI11onVJ0zBbjQLpWagPZTV03n+G8h65VbXyld81dKf40q65H6
+         q8IpOQerXT0+Nif14+g9bh4hZrkLOIA8kKort3143UqImMVxMhcMnf7a96SN7kyNNlnt
+         aqmA==
+X-Forwarded-Encrypted: i=1; AJvYcCUXJj+vsX03jyMznFtX2mseZQgJN7VzQJyyYB9upPqM/GMhEjGupNILgHsYpsDJxe3tFuQZCMsC@vger.kernel.org, AJvYcCWUjOb+hLMOV3DE5L166lOmme1KEjXn8hbEmrXw6QxRvKMYWGik60gFj7JxLeDjPeUmyWB0dY7R90C2Zjs=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxa/xlXJnsCsg6c3W67YEx0sIg3JoXsrEzuyEet+totcigpi+T8
+	3DxvUmXHWuVpVjKALmMpfIvQDw8xqjVfBjZ4iIwNyhTUHrg4edjX1Lfa
+X-Gm-Gg: ASbGncuUw0U46yTfVRCZ+Yc9SgbwtwXCvCRI88yuRsi1m4rLy1p4Dvk4dHUbqrYLMl7
+	LePjL6108+ib/uRSroVdZfJezK+VLAe/JTYB7EEukb95zH7lKsHG1GsB1rKbKnFYZMgYjGELp/n
+	VoQHEt7ZEecsaCLLnHf5LkEZC7iIMiC9Dd5Nh6hhq9j3qO9KMALnk6iw6/DGhPpYBLIcLJBEZ6Z
+	S3sk7jhXWI43RKQUDv9PQXukaifxBHgldhn/oZr6v7ZHRX8avSoTXLD3Aa1mKXeaXhK/G4EPyJj
+	1bY9HQoUWv0h+H93AvOMyjCNz0RjMFSSl94Qt8keo661LIPNZSNANVbGDpaH4k0KUok8k/Qe+7F
+	ASyK289bF62YKH3WXBWzxbePsXUNAVGD6W6j1JXiVFkacsKkpxw==
+X-Google-Smtp-Source: AGHT+IEEWqDf/hfi9vN9BNJxR24pzRVrpJlwWLa4WxBkrCl3DJ1TUse9QPpKo7m1zjXPV9OeGz4N9w==
+X-Received: by 2002:a17:902:fa85:b0:249:407f:9648 with SMTP id d9443c01a7336-25173118d57mr78508335ad.48.1757344059553;
+        Mon, 08 Sep 2025 08:07:39 -0700 (PDT)
 Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24b273e4ad5sm169744005ad.25.2025.09.08.08.07.33
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24b273e4ad5sm169744005ad.25.2025.09.08.08.07.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 08:07:35 -0700 (PDT)
+        Mon, 08 Sep 2025 08:07:39 -0700 (PDT)
 From: Jeongjun Park <aha310510@gmail.com>
 To: mchehab@kernel.org,
 	hverkuil@xs4all.nl,
@@ -78,11 +80,14 @@ To: mchehab@kernel.org,
 Cc: linux-media@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org,
-	aha310510@gmail.com
-Subject: [PATCH v2 0/2] media: az6007: overall refactor to fix bugs
-Date: Tue,  9 Sep 2025 00:07:28 +0900
-Message-Id: <20250908150730.24560-1-aha310510@gmail.com>
+	aha310510@gmail.com,
+	syzbot+0192952caa411a3be209@syzkaller.appspotmail.com
+Subject: [PATCH v2 1/2] media: az6007: fix out-of-bounds in az6007_i2c_xfer()
+Date: Tue,  9 Sep 2025 00:07:29 +0900
+Message-Id: <20250908150730.24560-2-aha310510@gmail.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250908150730.24560-1-aha310510@gmail.com>
+References: <20250908150730.24560-1-aha310510@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -91,13 +96,189 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This patch series refactors the az6007 driver to address root causes of
-persistent bugs that have persisted for some time.
+Because the blen is not properly bounds-checked in __az6007_read/write,
+it is easy to get out-of-bounds errors in az6007_i2c_xfer later.
 
-Jeongjun Park (2):
-  media: az6007: fix out-of-bounds in az6007_i2c_xfer()
-  media: az6007: refactor to properly use dvb-usb-v2
+Therefore, we need to add bounds-checking to __az6007_read/write to
+resolve this.
 
- drivers/media/usb/dvb-usb-v2/az6007.c | 211 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------------------------------------------------------------------------------------------------
- 1 file changed, 107 insertions(+), 104 deletions(-)
+Cc: <stable@vger.kernel.org>
+Reported-by: syzbot+0192952caa411a3be209@syzkaller.appspotmail.com
+Closes: https://syzkaller.appspot.com/bug?extid=0192952caa411a3be209
+Fixes: 786baecfe78f ("[media] dvb-usb: move it to drivers/media/usb/dvb-usb")
+Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+---
+v2: Change to fix the root cause of oob
+- Link to v1: https://lore.kernel.org/all/20250421105555.34984-1-aha310510@gmail.com/
+---
+ drivers/media/usb/dvb-usb-v2/az6007.c | 62 +++++++++++++++------------
+ 1 file changed, 34 insertions(+), 28 deletions(-)
+
+diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
+index 65ef045b74ca..4202042bdb55 100644
+--- a/drivers/media/usb/dvb-usb-v2/az6007.c
++++ b/drivers/media/usb/dvb-usb-v2/az6007.c
+@@ -97,11 +97,17 @@ static struct mt2063_config az6007_mt2063_config = {
+ 	.refclock = 36125000,
+ };
+ 
+-static int __az6007_read(struct usb_device *udev, u8 req, u16 value,
+-			    u16 index, u8 *b, int blen)
++static int __az6007_read(struct usb_device *udev, struct az6007_device_state *st,
++			    u8 req, u16 value, u16 index, u8 *b, int blen)
+ {
+ 	int ret;
+ 
++	if (blen > sizeof(st->data)) {
++		pr_err("az6007: tried to read %d bytes, but I2C max size is %lu bytes\n",
++		       blen, sizeof(st->data));
++		return -EOPNOTSUPP;
++	}
++
+ 	ret = usb_control_msg(udev,
+ 			      usb_rcvctrlpipe(udev, 0),
+ 			      req,
+@@ -125,24 +131,30 @@ static int __az6007_read(struct usb_device *udev, u8 req, u16 value,
+ static int az6007_read(struct dvb_usb_device *d, u8 req, u16 value,
+ 			    u16 index, u8 *b, int blen)
+ {
+-	struct az6007_device_state *st = d->priv;
++	struct az6007_device_state *st = d_to_priv(d);
+ 	int ret;
+ 
+ 	if (mutex_lock_interruptible(&st->mutex) < 0)
+ 		return -EAGAIN;
+ 
+-	ret = __az6007_read(d->udev, req, value, index, b, blen);
++	ret = __az6007_read(d->udev, st, req, value, index, b, blen);
+ 
+ 	mutex_unlock(&st->mutex);
+ 
+ 	return ret;
+ }
+ 
+-static int __az6007_write(struct usb_device *udev, u8 req, u16 value,
+-			     u16 index, u8 *b, int blen)
++static int __az6007_write(struct usb_device *udev, struct az6007_device_state *st,
++			    u8 req, u16 value, u16 index, u8 *b, int blen)
+ {
+ 	int ret;
+ 
++	if (blen > sizeof(st->data)) {
++		pr_err("az6007: tried to write %d bytes, but I2C max size is %lu bytes\n",
++		       blen, sizeof(st->data));
++		return -EOPNOTSUPP;
++	}
++
+ 	if (az6007_xfer_debug) {
+ 		printk(KERN_DEBUG "az6007: OUT req: %02x, value: %04x, index: %04x\n",
+ 		       req, value, index);
+@@ -150,12 +162,6 @@ static int __az6007_write(struct usb_device *udev, u8 req, u16 value,
+ 				     DUMP_PREFIX_NONE, b, blen);
+ 	}
+ 
+-	if (blen > 64) {
+-		pr_err("az6007: tried to write %d bytes, but I2C max size is 64 bytes\n",
+-		       blen);
+-		return -EOPNOTSUPP;
+-	}
+-
+ 	ret = usb_control_msg(udev,
+ 			      usb_sndctrlpipe(udev, 0),
+ 			      req,
+@@ -172,13 +178,13 @@ static int __az6007_write(struct usb_device *udev, u8 req, u16 value,
+ static int az6007_write(struct dvb_usb_device *d, u8 req, u16 value,
+ 			    u16 index, u8 *b, int blen)
+ {
+-	struct az6007_device_state *st = d->priv;
++	struct az6007_device_state *st = d_to_priv(d);
+ 	int ret;
+ 
+ 	if (mutex_lock_interruptible(&st->mutex) < 0)
+ 		return -EAGAIN;
+ 
+-	ret = __az6007_write(d->udev, req, value, index, b, blen);
++	ret = __az6007_write(d->udev, st, req, value, index, b, blen);
+ 
+ 	mutex_unlock(&st->mutex);
+ 
+@@ -775,7 +781,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+ 			value = addr | (1 << 8);
+ 			length = 6 + msgs[i + 1].len;
+ 			len = msgs[i + 1].len;
+-			ret = __az6007_read(d->udev, req, value, index,
++			ret = __az6007_read(d->udev, st, req, value, index,
+ 					    st->data, length);
+ 			if (ret >= len) {
+ 				for (j = 0; j < len; j++)
+@@ -788,7 +794,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+ 			if (az6007_xfer_debug)
+ 				printk(KERN_DEBUG "az6007: I2C W addr=0x%x len=%d\n",
+ 				       addr, msgs[i].len);
+-			if (msgs[i].len < 1) {
++			if (msgs[i].len < 1 && msgs[i].len > 64) {
+ 				ret = -EIO;
+ 				goto err;
+ 			}
+@@ -796,11 +802,8 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+ 			index = msgs[i].buf[0];
+ 			value = addr | (1 << 8);
+ 			length = msgs[i].len - 1;
+-			len = msgs[i].len - 1;
+-			for (j = 0; j < len; j++)
+-				st->data[j] = msgs[i].buf[j + 1];
+-			ret =  __az6007_write(d->udev, req, value, index,
+-					      st->data, length);
++			ret =  __az6007_write(d->udev, st, req, value, index,
++					      &msgs[i].buf[1], length);
+ 		} else {
+ 			/* read bytes */
+ 			if (az6007_xfer_debug)
+@@ -815,10 +818,12 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+ 			value = addr;
+ 			length = msgs[i].len + 6;
+ 			len = msgs[i].len;
+-			ret = __az6007_read(d->udev, req, value, index,
++			ret = __az6007_read(d->udev, st, req, value, index,
+ 					    st->data, length);
+-			for (j = 0; j < len; j++)
+-				msgs[i].buf[j] = st->data[j + 5];
++			if (ret >= len) {
++				for (j = 0; j < len; j++)
++					msgs[i].buf[j] = st->data[j + 5];
++			}
+ 		}
+ 		if (ret < 0)
+ 			goto err;
+@@ -845,6 +850,7 @@ static const struct i2c_algorithm az6007_i2c_algo = {
+ 
+ static int az6007_identify_state(struct dvb_usb_device *d, const char **name)
+ {
++	struct az6007_device_state *state = d_to_priv(d);
+ 	int ret;
+ 	u8 *mac;
+ 
+@@ -855,7 +861,7 @@ static int az6007_identify_state(struct dvb_usb_device *d, const char **name)
+ 		return -ENOMEM;
+ 
+ 	/* Try to read the mac address */
+-	ret = __az6007_read(d->udev, AZ6007_READ_DATA, 6, 0, mac, 6);
++	ret = __az6007_read(d->udev, state, AZ6007_READ_DATA, 6, 0, mac, 6);
+ 	if (ret == 6)
+ 		ret = WARM;
+ 	else
+@@ -864,9 +870,9 @@ static int az6007_identify_state(struct dvb_usb_device *d, const char **name)
+ 	kfree(mac);
+ 
+ 	if (ret == COLD) {
+-		__az6007_write(d->udev, 0x09, 1, 0, NULL, 0);
+-		__az6007_write(d->udev, 0x00, 0, 0, NULL, 0);
+-		__az6007_write(d->udev, 0x00, 0, 0, NULL, 0);
++		__az6007_write(d->udev, state, 0x09, 1, 0, NULL, 0);
++		__az6007_write(d->udev, state, 0x00, 0, 0, NULL, 0);
++		__az6007_write(d->udev, state, 0x00, 0, 0, NULL, 0);
+ 	}
+ 
+ 	pr_debug("Device is on %s state\n",
+--
 
