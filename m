@@ -1,532 +1,541 @@
-Return-Path: <linux-media+bounces-42028-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42029-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D113B4928D
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 17:08:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0F2BAB4935E
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 17:29:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7054E3AD301
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 15:08:14 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 32A433BEEE3
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 15:29:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F6F930DECF;
-	Mon,  8 Sep 2025 15:07:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B6E130EF97;
+	Mon,  8 Sep 2025 15:29:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bo45Df7d"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UFeX6nMg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FECD30DEB6;
-	Mon,  8 Sep 2025 15:07:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C64930E0F7
+	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 15:29:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757344065; cv=none; b=hHvg4adGA0TTuSUJSDB5dbRftRY4lfQIf6ZzGifLa6eLgoMOTfQnN311vpU3G4kmIdYUWi+29iFnIio5Cv+7O4SRBwlvF2ga/RVy9bqt/ym3Y55m6RvuoempUtHwweLpnGeLMtkRD1CE4wQSJitPRoxxHEvoqDTwYSDIolwiZmM=
+	t=1757345347; cv=none; b=ukTVtC2NrTc4BokZWFt7tnWbvhKDhrspSmZ1ZKKzyeOPUIkF08XGuFEDIg0/+ldsjbihY23F54KZt+rXbFBzo5kOd0UykNgXXV54jD8nvA5V/E+U7KmcOP52nJYB3Fh4wFfzCZcj8nzy+thGEFpHWdrvBPg+5T5Fjjd2UVXhK2s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757344065; c=relaxed/simple;
-	bh=Vu0vJUe9Bhv5lv/7DY0mJ4GbmQUzTzUuUn/IpWhwazo=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=KyNdjzTnRufd1192CwyqlZm5r6RIC7+MMmln0NkWTXHnEKiJvvj2yn66CN3b+EZbBeSmK0KlOQGzqsn8JXYFzcZlFEZL7QH1AaBVey9oAOrnv4x3Mqdpet8wUxxJgvz9KRrdTCUBtr7pwJogjyQ+mYvxqIOr20OMo2I78tvx1ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bo45Df7d; arc=none smtp.client-ip=209.85.214.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2445806e03cso59041065ad.1;
-        Mon, 08 Sep 2025 08:07:43 -0700 (PDT)
+	s=arc-20240116; t=1757345347; c=relaxed/simple;
+	bh=0ViUATA90Bf1KhWoo7r8YcNF/LGhx0ZjXriKP0Gbf58=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pXMZc/myIkacAlIwXwsn5FqCcFjYkstwVeKSGQgdK8d+hXnOvYWus95PNTn5Ev2RNZyMBLMDJfE0xa+chny54vAmqK01WhvHAHz5MDUK7IUCOkdCXzlrz1j59Nd/yMrVAoJvafIwripz7UA/hERpxVLL8kEZHzSZov5bO4hgxu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UFeX6nMg; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-55f6f434c96so4192987e87.2
+        for <linux-media@vger.kernel.org>; Mon, 08 Sep 2025 08:29:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757344063; x=1757948863; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Lkz6hMpQCDGC4fhgfsXPVi1ixs2LkQLhUVauixCWXZ8=;
-        b=Bo45Df7dNJ7LqvaVBHzOoU8iaS1G5fambW6HYNm9NmlC+zn84itwTTkZss3h4IMGdo
-         fWu5Mu2RDreb1OtMCA6FHrXVXF1wLLn01kc8qhcySKMNOF5sx+emyY/PrSeNLxCEAK8d
-         4Gvw4VmFAewbxviuYZ5mehJGki5PwSn3lp4vmqgR5rI5oWZqLPpWAuawEHEZ3Q6Rd3v7
-         p4f1a+Q3Qx3paKXlpplh2GT9s07FJxMozghZmQB1HyZe/SfnYBCTUZ2YLef9SLOyeO0D
-         f33zbjTf3lo/6wamuxT43+Mqlhv1xQMxMVerlmRwtcj2aO7InlLi0XCsV4YLlEjfO92D
-         7HmA==
+        d=chromium.org; s=google; t=1757345343; x=1757950143; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=VJKLfsPnTfdcj8umRfi/DgkgYYIGKkkVL202IOI/NLc=;
+        b=UFeX6nMg3f2NUlupwN4XJNOL97AJnw2cYBdinLhofDxRen3XHlLK5BiemXmeAt8Agu
+         axQgbsK+N9k5JWsXqOyhbnefc8qXcWyCki1Hh4NrFx1WPaYaZUCnQZgVIC92kkU9EjIp
+         R/pSkys+kX2lNFczebpj8U6gly+uLP7/luUi8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757344063; x=1757948863;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Lkz6hMpQCDGC4fhgfsXPVi1ixs2LkQLhUVauixCWXZ8=;
-        b=wr7f0Lz36NbQslLB90ndL18EsJrABBK8Ra757/Gf6VIpAHv8CZjThNZ4m1Ep/peXs3
-         WqwEGOvQ861OcEtqUVLGtMKrYb3Gj5DlXqNOTRceP6vquKcLgeMuVISaUL74sUmNbQHi
-         jA4lxqr+GACbmCyEfWqyaqaZlo0ezUo8zJVnEHnNf9TDF0PJ4p6Qjyat2ekJdpNWGR7G
-         9BrLlaN2Po1huK4Xy5RGeLwXNfimFoVtqGIWOrdW8WSOWCGaDsKGy6E8wL81jqmo4J9i
-         3uF/IXEWhsYNGiSFe5JQeUnbevPT8lSp/Ntxw+qsSa6LCPoeufe6eWUPMsT42ktj9iOW
-         5P7A==
-X-Forwarded-Encrypted: i=1; AJvYcCWO/ujVgK1yLQfcLhIFEM8nkN3jnlGI1palxtqyHsRKB+GcK8ZYWkfdwoY4kjO70kdl2kJ9PKn8y26iFw0=@vger.kernel.org, AJvYcCXejr83ukUWpOCpwM67b4eOiTCvj3qdwufgfHAF8+taQbUUu2dBAj4HgXmsTYA6bjwrdwEnpp+H@vger.kernel.org
-X-Gm-Message-State: AOJu0YzAhZMkAMS0dwDRhfNTFmf9KHxC1Y3+1gqpAsauGO4elnW/4Fnj
-	WLTjQv0homyQLI7t73kMyxmgj5PL87VDFXMIstYIT/k5gaP9bRuDw+IE
-X-Gm-Gg: ASbGncuinektbDGHI94WsWbyn2r4m0I7bEdnw4lPKW22Ns89GuP2mDCk3mBP6E+rO2i
-	mfnaHESFGypKWnZJNouX4K+OIsiXxLVWNrY3KlmTEY2dt8jBB8qVWPRvt/iFv7NIG9pIgLkyteJ
-	ZJovse00c9KFmJ7lpVvB5QImzdpcXZgilS3Jrbeh+TNeJrsc1iVW8490gKvVjMIyvtE3rPfYlKl
-	oRccz14M4lhlRnqYIgkw9h9Je8YjIE9PEcHpDzBkBGHkcw7rsBKh3Et7+1BMNElKQ6OJtjzQ7rF
-	tW7B264bHs2No902rqVtyt9qRHnMxuY3yGkE7l9nYn+zMrTPUe6gwHjANKY4V96BVIjucEdwm92
-	F3vPhtBeQnRVN90SxcKq6L2B3PkXEh6soE3GQifStGzgIfoXVbA==
-X-Google-Smtp-Source: AGHT+IFKAaMays9/SGGrSNvzXyew/oPjgmPmXjn/FySHc4Dg73/PqRIfKoTxmHvswb+jUa7hzdp3Rw==
-X-Received: by 2002:a17:903:2311:b0:24c:c1df:2846 with SMTP id d9443c01a7336-2516e887dcamr112061155ad.21.1757344062755;
-        Mon, 08 Sep 2025 08:07:42 -0700 (PDT)
-Received: from name2965-Precision-7820-Tower.. ([121.185.186.233])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-24b273e4ad5sm169744005ad.25.2025.09.08.08.07.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 08 Sep 2025 08:07:42 -0700 (PDT)
-From: Jeongjun Park <aha310510@gmail.com>
-To: mchehab@kernel.org,
-	hverkuil@xs4all.nl,
-	hverkuil+cisco@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	stable@vger.kernel.org,
-	aha310510@gmail.com,
-	syzbot+a43c95e5c2c9ed88e966@syzkaller.appspotmail.com
-Subject: [PATCH v2 2/2] media: az6007: refactor to properly use dvb-usb-v2
-Date: Tue,  9 Sep 2025 00:07:30 +0900
-Message-Id: <20250908150730.24560-3-aha310510@gmail.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250908150730.24560-1-aha310510@gmail.com>
-References: <20250908150730.24560-1-aha310510@gmail.com>
+        d=1e100.net; s=20230601; t=1757345343; x=1757950143;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=VJKLfsPnTfdcj8umRfi/DgkgYYIGKkkVL202IOI/NLc=;
+        b=bVvCWWMrsqwIP4/BGBwGeKPWXgHMe5CDaa04i4u5919EhpgkOkK5kMNdqFCDv1iSgZ
+         gRXJu+vov4CrDtRmQtdU/v3hN5GMMWC4rztU5wj2S2sBDCFT+TbfewGIVEXPg+zRAb9P
+         OjPf/hJ5ahymG8mPDTLdMf745IE+nWWgY71fKgASqT7mn++LL+Hb0ZhRN+5JkBRDa0ye
+         zq4HIiYVRi5ZLo2I0AG7hk09u0P0XeBPFlvOOHE/3RbAibo3x+yN4x7F0RY+aLAUz5z5
+         FUYCd75gUNuftFJvczIlkoXnHGP9D5LMlx6kn6BqrGVb2fNS4MBnevhLcHa1f5v13RSi
+         Ymyw==
+X-Forwarded-Encrypted: i=1; AJvYcCVL9/QmAt9NmhiYyLSNO8xxsWTl1ySNMWHVmDC8SFnA5LcJmtnHk6tkMdV/+Pcmtm5/BBMQUFDsVS4v3Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTNYmiHDG14tcV25quzdasv3+3NsO3tvnCk8DofhStJqMl/jHA
+	cYyhWEDax8rgEn7fUdFzwWtaFLVstiFumFIgXrUo8vKK2wvRoU++2+X7UH6A60UKrtPRvMXs44y
+	qfAY=
+X-Gm-Gg: ASbGnctZJJkPKd1EOpe8eIbqYj3EdkTIgsqEQxlCn+m1Whfjo5dwSQuL6T7zrEVcJzt
+	hS0pNKuYL/cRLfcikjcDfypfy+dUCTJO8c5bJAQZS+EqxQs2vJfkbMPg5tisRPu8AwDJeNzL5T2
+	CyJ97UcVv03vzD+Jb1cG+oWvJ4vTyp/VbX8FDbSHb4f3TWw+2ExiTei3OeH/4uKZzpoa2j/Ilu+
+	pA1p0PC1SJcamC32qbDyLtdzkbh+22OfRepUR5P0dTmZERrPLwDeJf1EakhDAbnTUseeu758LL9
+	m+R3jHbQUzu66ygwSi0ACOqq+Yjt+K93VkR0b5kYs0SlmudLgntIApSc6ap9q6sHuntswKXF8WO
+	76jqoXj2/riUGqzLw1keGM1xW2W+i4+kGUhSii7eLpn1spqOFZMXgujHMWuKF
+X-Google-Smtp-Source: AGHT+IGXR82gkUwtvQV2l8+QnXgOoLYW+zEqruCuANMENA4HA29gwxKoHuMnogSwlxEiByVv087bsA==
+X-Received: by 2002:a05:6512:3b10:b0:55f:4fb6:20af with SMTP id 2adb3069b0e04-562639b64a3mr2990605e87.51.1757345342686;
+        Mon, 08 Sep 2025 08:29:02 -0700 (PDT)
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5608aba2266sm3649016e87.50.2025.09.08.08.29.01
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 08 Sep 2025 08:29:01 -0700 (PDT)
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-55f6f434c96so4192935e87.2
+        for <linux-media@vger.kernel.org>; Mon, 08 Sep 2025 08:29:01 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUqDVl5viDYnKgKiQHYswL7b5ast46IeaXt5Cip63aBA6OWqBR3zqUFFkSSxrVvhLr4fphIOtIqudDtwg==@vger.kernel.org
+X-Received: by 2002:a05:6512:131f:b0:55f:3ebc:133d with SMTP id
+ 2adb3069b0e04-56260f37ba6mr2336185e87.21.1757345340679; Mon, 08 Sep 2025
+ 08:29:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250714-uvc-racemeta-v1-1-360de2e15a9a@chromium.org>
+ <20250908102532.GC26062@pendragon.ideasonboard.com> <CANiDSCsFCADj9NHURG8FV-1mTj8XhtksEqtk75-i3C3e6YyXUQ@mail.gmail.com>
+ <20250908140034.GH26062@pendragon.ideasonboard.com>
+In-Reply-To: <20250908140034.GH26062@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 8 Sep 2025 17:28:47 +0200
+X-Gmail-Original-Message-ID: <CANiDSCs2PVavsycX83WA0OdPeZxYCqa57ckY1FutPDURDQ-FUQ@mail.gmail.com>
+X-Gm-Features: Ac12FXzLfTTXWX7eZox5L-vlyGcfPtTAcFf53xn5GhXQLFewWIy7W7eRQrgMkIY
+Message-ID: <CANiDSCs2PVavsycX83WA0OdPeZxYCqa57ckY1FutPDURDQ-FUQ@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Fix race condition for meta buffer list
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Guennadi Liakhovetski <guennadi.liakhovetski@intel.com>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-The az6007 driver has long since transitioned from dvb-usb to dvb-usb-v2,
-but its implementation is still a mix of dvb-usb and dvb-usb-v2.
+On Mon, 8 Sept 2025 at 16:01, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Mon, Sep 08, 2025 at 12:57:03PM +0200, Ricardo Ribalda wrote:
+> > On Mon, 8 Sept 2025 at 12:25, Laurent Pinchart wrote:
+> > > On Mon, Jul 14, 2025 at 10:23:45AM +0000, Ricardo Ribalda wrote:
+> > > > queue->irqueue contains a list of the buffers owned by the driver. The
+> > > > list is protected by queue->irqlock. uvc_queue_get_current_buffer()
+> > > > returns a pointer to the current buffer in that list, but does not
+> > > > remove the buffer from it. This can lead to race conditions.
+> > > >
+> > > > Inspecting the code, it seems that the candidate for such race is
+> > > > uvc_queue_return_buffers(). For the capture queue, that function is
+> > > > called with the device streamoff, so no race can occur. On the other
+> > > > hand, the metadata queue, could trigger a race condition, because
+> > > > stop_streaming can be called with the device in any streaming state.
+> > > >
+> > > > We can solve this issue modifying the way the metadata buffer
+> > > > lifetime works. We can keep the queue->irqlock while the use the current
+> > > > metadata buffer.
+> > > >
+> > > > The core of this change is uvc_video_decode_meta(), it now obtains the
+> > > > buffer and holds the spinlock instead of getting the buffer as an
+> > > > argument.
+> > > >
+> > > > Reported-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > > Closes: https://lore.kernel.org/linux-media/20250630141707.GG20333@pendragon.ideasonboard.com/
+> > > > Cc: stable@vger.kernel.org
+> > > > Fixes: 088ead255245 ("media: uvcvideo: Add a metadata device node")
+> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > > ---
+> > > >  drivers/media/usb/uvc/uvc_isight.c |  3 +-
+> > > >  drivers/media/usb/uvc/uvc_queue.c  |  4 +-
+> > > >  drivers/media/usb/uvc/uvc_video.c  | 92 ++++++++++++++++++++++----------------
+> > > >  drivers/media/usb/uvc/uvcvideo.h   |  8 ++--
+> > > >  4 files changed, 62 insertions(+), 45 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/usb/uvc/uvc_isight.c b/drivers/media/usb/uvc/uvc_isight.c
+> > > > index 43cda5e760a345af56186603e2f0594b814cdbcb..f0e71744d25cab98184335b46569b31ba1346e12 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_isight.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_isight.c
+> > > > @@ -98,8 +98,7 @@ static int isight_decode(struct uvc_video_queue *queue, struct uvc_buffer *buf,
+> > > >       return 0;
+> > > >  }
+> > > >
+> > > > -void uvc_video_decode_isight(struct uvc_urb *uvc_urb, struct uvc_buffer *buf,
+> > > > -                     struct uvc_buffer *meta_buf)
+> > > > +void uvc_video_decode_isight(struct uvc_urb *uvc_urb, struct uvc_buffer *buf)
+> > > >  {
+> > > >       struct urb *urb = uvc_urb->urb;
+> > > >       struct uvc_streaming *stream = uvc_urb->stream;
+> > > > diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uvc_queue.c
+> > > > index 790184c9843d211d34fa7d66801631d5a07450bd..e184e3ae0f59f142a683263168724bca64509628 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_queue.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_queue.c
+> > > > @@ -310,9 +310,11 @@ void uvc_queue_cancel(struct uvc_video_queue *queue, int disconnect)
+> > > >   * Buffers may span multiple packets, and even URBs, therefore the active buffer
+> > > >   * remains on the queue until the EOF marker.
+> > > >   */
+> > > > -static struct uvc_buffer *
+> > > > +struct uvc_buffer *
+> > > >  __uvc_queue_get_current_buffer(struct uvc_video_queue *queue)
+> > > >  {
+> > > > +     lockdep_assert_held(&queue->irqlock);
+> > > > +
+> > > >       if (list_empty(&queue->irqqueue))
+> > > >               return NULL;
+> > > >
+> > > > diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> > > > index 2e377e7b9e81599aca19b800a171cc16a09c1e8a..d6777090d0f892ffe93696c915acd4ec171ca798 100644
+> > > > --- a/drivers/media/usb/uvc/uvc_video.c
+> > > > +++ b/drivers/media/usb/uvc/uvc_video.c
+> > > > @@ -1428,9 +1428,11 @@ static int uvc_video_encode_data(struct uvc_streaming *stream,
+> > > >   * previous header.
+> > > >   */
+> > > >  static void uvc_video_decode_meta(struct uvc_streaming *stream,
+> > > > -                               struct uvc_buffer *meta_buf,
+> > > >                                 const u8 *mem, unsigned int length)
+> > > >  {
+> > > > +     struct vb2_queue *vb2_qmeta = stream->meta.vdev.queue;
+> > > > +     struct uvc_video_queue *qmeta = &stream->meta.queue;
+> > > > +     struct uvc_buffer *meta_buf;
+> > > >       struct uvc_meta_buf *meta;
+> > > >       size_t len_std = 2;
+> > > >       bool has_pts, has_scr;
+> > > > @@ -1439,7 +1441,13 @@ static void uvc_video_decode_meta(struct uvc_streaming *stream,
+> > > >       ktime_t time;
+> > > >       const u8 *scr;
+> > > >
+> > > > -     if (!meta_buf || length == 2)
+> > > > +     if (!vb2_qmeta || length <= 2)
+> > > > +             return;
+> > > > +
+> > > > +     guard(spinlock_irqsave)(&qmeta->irqlock);
+> > >
+> > > This keeps the spinlock held for longer than I would like. We should
+> > > really try to minimize the amount of work performed with a spinlock
+> > > held.
+> >
+> > We are using meta_buf the whole function, which can disappear if  the
+> > user closes the metadata file descriptor.
+> >
+> > Besides memcopying meta_buf, how would you suggest reducing the
+> > spinlock held time?
+>
+> I'm thinking about a handshake with .stop_streaming(). The
+> .stop_streaming() operation can sleep, so we can just guard with a
+> spinlock the operation that acquires a metadata buffer, if we ensure
+> that .stop_streaming() waits until it completes.
 
-Addressing the various issues that arise from this requires comprehensive
-refactoring to transition to the dvb-usb-v2 implementation.
+Is this what you have in mind?
+(WARNING! non tested, think of it as pseudocode)
 
-Cc: <stable@vger.kernel.org>
-Reported-by: syzbot+a43c95e5c2c9ed88e966@syzkaller.appspotmail.com
-Closes: https://syzkaller.appspot.com/bug?extid=a43c95e5c2c9ed88e966
-Fixes: 786baecfe78f ("[media] dvb-usb: move it to drivers/media/usb/dvb-usb")
-Signed-off-by: Jeongjun Park <aha310510@gmail.com>
----
- drivers/media/usb/dvb-usb-v2/az6007.c | 175 +++++++++++++-------------
- 1 file changed, 86 insertions(+), 89 deletions(-)
+We still have to grab the spinlock twice in uvc_video_decode_meta(). I
+do not have the numbers, but I doubt that it is going to be much more
+efficient than the other versions.
 
-diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
-index 4202042bdb55..5517675fd0b1 100644
---- a/drivers/media/usb/dvb-usb-v2/az6007.c
-+++ b/drivers/media/usb/dvb-usb-v2/az6007.c
-@@ -39,10 +39,10 @@ DVB_DEFINE_MOD_OPT_ADAPTER_NR(adapter_nr);
- #define AZ6007_READ_IR		0xb4
- 
- struct az6007_device_state {
--	struct mutex		mutex;
- 	struct mutex		ca_mutex;
- 	struct dvb_ca_en50221	ca;
- 	unsigned		warm:1;
-+	unsigned		ci_attached:1;
- 	int			(*gate_ctrl) (struct dvb_frontend *, int);
- 	unsigned char		data[4096];
+We could try to use memory barriers... but the chances of screwing
+things up grow.
+
+
+diff --git a/drivers/media/usb/uvc/uvc_queue.c
+b/drivers/media/usb/uvc/uvc_queue.c
+index e184e3ae0f59..761be28b0088 100644
+--- a/drivers/media/usb/uvc/uvc_queue.c
++++ b/drivers/media/usb/uvc/uvc_queue.c
+@@ -212,7 +212,18 @@ static void uvc_stop_streaming_meta(struct vb2_queue *vq)
+
+        lockdep_assert_irqs_enabled();
+
++       while (1) {
++               spin_lock_irq(&queue->irqlock);
++               if (!queue->buffer_in_use) {
++                       queue->buffer_in_use = true;
++                       spin_unlock_irq(&queue->irqlock);
++                       break;
++               }
++               spin_unlock_irq(&queue->irqlock);
++       }
++
+        uvc_queue_return_buffers(queue, UVC_BUF_STATE_ERROR);
++       spin_lock_irq(&queue->irqlock);       // probably not needed
++       queue->buffer_in_use = false;
++       spin_unlock_irq(&queue->irqlock);
+ }
+
+ static const struct vb2_ops uvc_queue_qops = {
+diff --git a/drivers/media/usb/uvc/uvc_video.c
+b/drivers/media/usb/uvc/uvc_video.c
+index 178f1e40c189..08a47e1f5d15 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -1430,11 +1430,15 @@ static void uvc_video_decode_meta(struct
+uvc_streaming *stream,
+        if (!vb2_qmeta || length <= 2)
+                return;
+
+-       guard(spinlock_irqsave)(&qmeta->irqlock);
+-
++       spin_lock_irq(&qmeta->irqlock);
+        meta_buf = __uvc_queue_get_current_buffer(qmeta);
+-       if (!meta_buf)
++       if (!meta_buf || qmeta->buffer_in_use) {
++               spin_unlock_irq(&qmeta->irqlock);
+                return;
++       }
++
++       qmeta->buffer_in_use = true;
++       spin_unlock_irq(&qmeta->irqlock);
+
+        has_pts = mem[1] & UVC_STREAM_PTS;
+        has_scr = mem[1] & UVC_STREAM_SCR;
+@@ -1454,12 +1458,12 @@ static void uvc_video_decode_meta(struct
+uvc_streaming *stream,
+
+        if (length == len_std && (!has_scr ||
+                                  !memcmp(scr, stream->clock.last_scr, 6)))
+-               return;
++               goto done;
+
+        if (meta_buf->length - meta_buf->bytesused <
+            length + sizeof(meta->ns) + sizeof(meta->sof)) {
+                meta_buf->error = 1;
+-               return;
++               goto done;
+        }
+       meta = (struct uvc_meta_buf *)((u8 *)meta_buf->mem +
+meta_buf->bytesused);
+@@ -1485,6 +1489,12 @@ static void uvc_video_decode_meta(struct
+uvc_streaming *stream,
+                has_pts ? *(u32 *)meta->buf : 0,
+                has_scr ? *(u32 *)scr : 0,
+                has_scr ? *(u32 *)(scr + 4) & 0x7ff : 0);
++
++done:
++
++       spin_lock_irq(&qmeta->irqlock);
++       qmeta->buffer_in_use = false;
++       spin_unlock_irq(&qmeta->irqlock);
+ }
+
+ /* ------------------------------------------------------------------------
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index ccaab8c5a501..c5d954aacb20 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -337,8 +337,9 @@ struct uvc_video_queue {
+        unsigned int flags;
+        unsigned int buf_used;
+
+-       spinlock_t irqlock;                     /* Protects irqqueue */
++       spinlock_t irqlock;                     /* Protects irqqueue,
+buffer_in_use */
+        struct list_head irqqueue;
++       bool buffer_in_use;
  };
-@@ -97,25 +97,30 @@ static struct mt2063_config az6007_mt2063_config = {
- 	.refclock = 36125000,
- };
- 
--static int __az6007_read(struct usb_device *udev, struct az6007_device_state *st,
-+static int __az6007_read(struct dvb_usb_device *d, struct az6007_device_state *st,
- 			    u8 req, u16 value, u16 index, u8 *b, int blen)
- {
- 	int ret;
- 
-+	if (mutex_lock_interruptible(&d->usb_mutex) < 0)
-+		return -EAGAIN;
-+
- 	if (blen > sizeof(st->data)) {
- 		pr_err("az6007: tried to read %d bytes, but I2C max size is %lu bytes\n",
- 		       blen, sizeof(st->data));
--		return -EOPNOTSUPP;
-+		ret = -EOPNOTSUPP;
-+		goto end_unlock;
- 	}
- 
--	ret = usb_control_msg(udev,
--			      usb_rcvctrlpipe(udev, 0),
-+	ret = usb_control_msg(d->udev,
-+			      usb_rcvctrlpipe(d->udev, 0),
- 			      req,
- 			      USB_TYPE_VENDOR | USB_DIR_IN,
- 			      value, index, b, blen, 5000);
- 	if (ret < 0) {
- 		pr_warn("usb read operation failed. (%d)\n", ret);
--		return -EIO;
-+		ret = -EIO;
-+		goto end_unlock;
- 	}
- 
- 	if (az6007_xfer_debug) {
-@@ -125,6 +130,8 @@ static int __az6007_read(struct usb_device *udev, struct az6007_device_state *st
- 				     DUMP_PREFIX_NONE, b, blen);
- 	}
- 
-+end_unlock:
-+	mutex_unlock(&d->usb_mutex);
- 	return ret;
- }
- 
-@@ -134,25 +141,24 @@ static int az6007_read(struct dvb_usb_device *d, u8 req, u16 value,
- 	struct az6007_device_state *st = d_to_priv(d);
- 	int ret;
- 
--	if (mutex_lock_interruptible(&st->mutex) < 0)
--		return -EAGAIN;
--
--	ret = __az6007_read(d->udev, st, req, value, index, b, blen);
--
--	mutex_unlock(&st->mutex);
-+	ret = __az6007_read(d, st, req, value, index, b, blen);
- 
- 	return ret;
- }
- 
--static int __az6007_write(struct usb_device *udev, struct az6007_device_state *st,
-+static int __az6007_write(struct dvb_usb_device *d, struct az6007_device_state *st,
- 			    u8 req, u16 value, u16 index, u8 *b, int blen)
- {
- 	int ret;
- 
-+	if (mutex_lock_interruptible(&d->usb_mutex) < 0)
-+		return -EAGAIN;
-+
- 	if (blen > sizeof(st->data)) {
- 		pr_err("az6007: tried to write %d bytes, but I2C max size is %lu bytes\n",
- 		       blen, sizeof(st->data));
--		return -EOPNOTSUPP;
-+		ret = -EOPNOTSUPP;
-+		goto end_unlock;
- 	}
- 
- 	if (az6007_xfer_debug) {
-@@ -162,17 +168,21 @@ static int __az6007_write(struct usb_device *udev, struct az6007_device_state *s
- 				     DUMP_PREFIX_NONE, b, blen);
- 	}
- 
--	ret = usb_control_msg(udev,
--			      usb_sndctrlpipe(udev, 0),
-+	ret = usb_control_msg(d->udev,
-+			      usb_sndctrlpipe(d->udev, 0),
- 			      req,
- 			      USB_TYPE_VENDOR | USB_DIR_OUT,
- 			      value, index, b, blen, 5000);
- 	if (ret != blen) {
- 		pr_err("usb write operation failed. (%d)\n", ret);
--		return -EIO;
-+		ret = -EIO;
-+		goto end_unlock;
- 	}
- 
--	return 0;
-+	ret = 0;
-+end_unlock:
-+	mutex_unlock(&d->usb_mutex);
-+	return ret;
- }
- 
- static int az6007_write(struct dvb_usb_device *d, u8 req, u16 value,
-@@ -181,12 +191,7 @@ static int az6007_write(struct dvb_usb_device *d, u8 req, u16 value,
- 	struct az6007_device_state *st = d_to_priv(d);
- 	int ret;
- 
--	if (mutex_lock_interruptible(&st->mutex) < 0)
--		return -EAGAIN;
--
--	ret = __az6007_write(d->udev, st, req, value, index, b, blen);
--
--	mutex_unlock(&st->mutex);
-+	ret = __az6007_write(d, st, req, value, index, b, blen);
- 
- 	return ret;
- }
-@@ -580,10 +585,9 @@ static void az6007_ci_uninit(struct dvb_usb_device *d)
- }
- 
- 
--static int az6007_ci_init(struct dvb_usb_adapter *adap)
-+static int az6007_ci_init(struct dvb_usb_device *d)
- {
--	struct dvb_usb_device *d = adap_to_d(adap);
--	struct az6007_device_state *state = adap_to_priv(adap);
-+	struct az6007_device_state *state = d_to_priv(d);
- 	int ret;
- 
- 	pr_debug("%s()\n", __func__);
-@@ -600,7 +604,7 @@ static int az6007_ci_init(struct dvb_usb_adapter *adap)
- 	state->ca.poll_slot_status	= az6007_ci_poll_slot_status;
- 	state->ca.data			= d;
- 
--	ret = dvb_ca_en50221_init(&adap->dvb_adap,
-+	ret = dvb_ca_en50221_init(&d->adapter[0].dvb_adap,
- 				  &state->ca,
- 				  0, /* flags */
- 				  1);/* n_slots */
-@@ -610,6 +614,8 @@ static int az6007_ci_init(struct dvb_usb_adapter *adap)
- 		return ret;
- 	}
- 
-+	state->ci_attached = true;
-+
- 	pr_debug("CI initialized.\n");
- 
- 	return 0;
-@@ -646,8 +652,6 @@ static int az6007_frontend_attach(struct dvb_usb_adapter *adap)
- 	st->gate_ctrl = adap->fe[0]->ops.i2c_gate_ctrl;
- 	adap->fe[0]->ops.i2c_gate_ctrl = drxk_gate_ctrl;
- 
--	az6007_ci_init(adap);
--
- 	return 0;
- }
- 
-@@ -667,8 +671,6 @@ static int az6007_cablestar_hdci_frontend_attach(struct dvb_usb_adapter *adap)
- 	st->gate_ctrl = adap->fe[0]->ops.i2c_gate_ctrl;
- 	adap->fe[0]->ops.i2c_gate_ctrl = drxk_gate_ctrl;
- 
--	az6007_ci_init(adap);
--
- 	return 0;
- }
- 
-@@ -699,50 +701,55 @@ static int az6007_power_ctrl(struct dvb_usb_device *d, int onoff)
- 
- 	pr_debug("%s()\n", __func__);
- 
--	if (!state->warm) {
--		mutex_init(&state->mutex);
-+	mutex_lock(&d->i2c_mutex);
- 
-+	if (!state->warm) {
- 		ret = az6007_write(d, AZ6007_POWER, 0, 2, NULL, 0);
- 		if (ret < 0)
--			return ret;
-+			goto end_unlock;
- 		msleep(60);
- 		ret = az6007_write(d, AZ6007_POWER, 1, 4, NULL, 0);
- 		if (ret < 0)
--			return ret;
-+			goto end_unlock;
- 		msleep(100);
- 		ret = az6007_write(d, AZ6007_POWER, 1, 3, NULL, 0);
- 		if (ret < 0)
--			return ret;
-+			goto end_unlock;
- 		msleep(20);
- 		ret = az6007_write(d, AZ6007_POWER, 1, 4, NULL, 0);
- 		if (ret < 0)
--			return ret;
-+			goto end_unlock;
- 
- 		msleep(400);
- 		ret = az6007_write(d, FX2_SCON1, 0, 3, NULL, 0);
- 		if (ret < 0)
--			return ret;
-+			goto end_unlock;
- 		msleep(150);
- 		ret = az6007_write(d, FX2_SCON1, 1, 3, NULL, 0);
- 		if (ret < 0)
--			return ret;
-+			goto end_unlock;
- 		msleep(430);
- 		ret = az6007_write(d, AZ6007_POWER, 0, 0, NULL, 0);
- 		if (ret < 0)
--			return ret;
-+			goto end_unlock;
- 
- 		state->warm = true;
- 
--		return 0;
-+		ret = 0;
-+		goto end_unlock;
- 	}
- 
-+	ret = 0;
-+
- 	if (!onoff)
--		return 0;
-+		goto end_unlock;
- 
- 	az6007_write(d, AZ6007_POWER, 0, 0, NULL, 0);
- 	az6007_write(d, AZ6007_TS_THROUGH, 0, 0, NULL, 0);
- 
--	return 0;
-+end_unlock:
-+	mutex_unlock(&d->i2c_mutex);
-+	return ret;
- }
- 
- /* I2C */
-@@ -758,7 +765,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
- 	int length;
- 	u8 req, addr;
- 
--	if (mutex_lock_interruptible(&st->mutex) < 0)
-+	if (mutex_lock_interruptible(&d->i2c_mutex) < 0)
- 		return -EAGAIN;
- 
- 	for (i = 0; i < num; i++) {
-@@ -781,7 +788,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
- 			value = addr | (1 << 8);
- 			length = 6 + msgs[i + 1].len;
- 			len = msgs[i + 1].len;
--			ret = __az6007_read(d->udev, st, req, value, index,
-+			ret = __az6007_read(d, st, req, value, index,
- 					    st->data, length);
- 			if (ret >= len) {
- 				for (j = 0; j < len; j++)
-@@ -802,7 +809,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
- 			index = msgs[i].buf[0];
- 			value = addr | (1 << 8);
- 			length = msgs[i].len - 1;
--			ret =  __az6007_write(d->udev, st, req, value, index,
-+			ret = __az6007_write(d, st, req, value, index,
- 					      &msgs[i].buf[1], length);
- 		} else {
- 			/* read bytes */
-@@ -818,7 +825,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
- 			value = addr;
- 			length = msgs[i].len + 6;
- 			len = msgs[i].len;
--			ret = __az6007_read(d->udev, st, req, value, index,
-+			ret = __az6007_read(d, st, req, value, index,
- 					    st->data, length);
- 			if (ret >= len) {
- 				for (j = 0; j < len; j++)
-@@ -829,7 +836,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
- 			goto err;
- 	}
- err:
--	mutex_unlock(&st->mutex);
-+	mutex_unlock(&d->i2c_mutex);
- 
- 	if (ret < 0) {
- 		pr_info("%s ERROR: %i\n", __func__, ret);
-@@ -861,7 +868,7 @@ static int az6007_identify_state(struct dvb_usb_device *d, const char **name)
- 		return -ENOMEM;
- 
- 	/* Try to read the mac address */
--	ret = __az6007_read(d->udev, state, AZ6007_READ_DATA, 6, 0, mac, 6);
-+	ret = __az6007_read(d, state, AZ6007_READ_DATA, 6, 0, mac, 6);
- 	if (ret == 6)
- 		ret = WARM;
- 	else
-@@ -870,9 +877,9 @@ static int az6007_identify_state(struct dvb_usb_device *d, const char **name)
- 	kfree(mac);
- 
- 	if (ret == COLD) {
--		__az6007_write(d->udev, state, 0x09, 1, 0, NULL, 0);
--		__az6007_write(d->udev, state, 0x00, 0, 0, NULL, 0);
--		__az6007_write(d->udev, state, 0x00, 0, 0, NULL, 0);
-+		__az6007_write(d, state, 0x09, 1, 0, NULL, 0);
-+		__az6007_write(d, state, 0x00, 0, 0, NULL, 0);
-+		__az6007_write(d, state, 0x00, 0, 0, NULL, 0);
- 	}
- 
- 	pr_debug("Device is on %s state\n",
-@@ -880,13 +887,6 @@ static int az6007_identify_state(struct dvb_usb_device *d, const char **name)
- 	return ret;
- }
- 
--static void az6007_usb_disconnect(struct usb_interface *intf)
--{
--	struct dvb_usb_device *d = usb_get_intfdata(intf);
--	az6007_ci_uninit(d);
--	dvb_usbv2_disconnect(intf);
--}
--
- static int az6007_download_firmware(struct dvb_usb_device *d,
- 	const struct firmware *fw)
- {
-@@ -895,6 +895,19 @@ static int az6007_download_firmware(struct dvb_usb_device *d,
- 	return cypress_load_firmware(d->udev, fw, CYPRESS_FX2);
- }
- 
-+static int az6007_init(struct dvb_usb_device *d)
-+{
-+	return az6007_ci_init(d);
-+}
-+
-+static void az6007_exit(struct dvb_usb_device *d)
-+{
-+	struct az6007_device_state *state = d_to_priv(d);
-+
-+	if (state->ci_attached)
-+		az6007_ci_uninit(d);
-+}
-+
- /* DVB USB Driver stuff */
- static struct dvb_usb_device_properties az6007_props = {
- 	.driver_name         = KBUILD_MODNAME,
-@@ -912,6 +925,8 @@ static struct dvb_usb_device_properties az6007_props = {
- 	.download_firmware   = az6007_download_firmware,
- 	.identify_state	     = az6007_identify_state,
- 	.power_ctrl          = az6007_power_ctrl,
-+	.init                = az6007_init,
-+	.exit                = az6007_exit,
- 	.num_adapters        = 1,
- 	.adapter             = {
- 		{ .stream = DVB_USB_STREAM_BULK(0x02, 10, 4096), }
-@@ -935,6 +950,8 @@ static struct dvb_usb_device_properties az6007_cablestar_hdci_props = {
- 	.download_firmware   = az6007_download_firmware,
- 	.identify_state	     = az6007_identify_state,
- 	.power_ctrl          = az6007_power_ctrl,
-+	.init                = az6007_init,
-+	.exit                = az6007_exit,
- 	.num_adapters        = 1,
- 	.adapter             = {
- 		{ .stream = DVB_USB_STREAM_BULK(0x02, 10, 4096), }
-@@ -955,37 +972,17 @@ static const struct usb_device_id az6007_usb_table[] = {
- 
- MODULE_DEVICE_TABLE(usb, az6007_usb_table);
- 
--static int az6007_suspend(struct usb_interface *intf, pm_message_t msg)
--{
--	struct dvb_usb_device *d = usb_get_intfdata(intf);
--
--	az6007_ci_uninit(d);
--	return dvb_usbv2_suspend(intf, msg);
--}
--
--static int az6007_resume(struct usb_interface *intf)
--{
--	struct dvb_usb_device *d = usb_get_intfdata(intf);
--	struct dvb_usb_adapter *adap = &d->adapter[0];
--
--	az6007_ci_init(adap);
--	return dvb_usbv2_resume(intf);
--}
--
- /* usb specific object needed to register this driver with the usb subsystem */
- static struct usb_driver az6007_usb_driver = {
--	.name		= KBUILD_MODNAME,
--	.id_table	= az6007_usb_table,
--	.probe		= dvb_usbv2_probe,
--	.disconnect	= az6007_usb_disconnect,
--	.no_dynamic_id	= 1,
--	.soft_unbind	= 1,
--	/*
--	 * FIXME: need to implement reset_resume, likely with
--	 * dvb-usb-v2 core support
--	 */
--	.suspend	= az6007_suspend,
--	.resume		= az6007_resume,
-+	.name = KBUILD_MODNAME,
-+	.id_table = az6007_usb_table,
-+	.probe = dvb_usbv2_probe,
-+	.disconnect = dvb_usbv2_disconnect,
-+	.suspend = dvb_usbv2_suspend,
-+	.resume = dvb_usbv2_resume,
-+	.reset_resume = dvb_usbv2_reset_resume,
-+	.no_dynamic_id = 1,
-+	.soft_unbind = 1,
- };
- 
- module_usb_driver(az6007_usb_driver);
---
+
+ struct uvc_video_chain {
+
+>
+> > > > +
+> > > > +     meta_buf = __uvc_queue_get_current_buffer(qmeta);
+> > > > +     if (!meta_buf)
+> > > >               return;
+> > > >
+> > > >       has_pts = mem[1] & UVC_STREAM_PTS;
+> > > > @@ -1512,30 +1520,48 @@ static void uvc_video_validate_buffer(const struct uvc_streaming *stream,
+> > > >   * Completion handler for video URBs.
+> > > >   */
+> > > >
+> > > > -static void uvc_video_next_buffers(struct uvc_streaming *stream,
+> > > > -             struct uvc_buffer **video_buf, struct uvc_buffer **meta_buf)
+> > > > +static void uvc_video_next_meta(struct uvc_streaming *stream,
+> > > > +                             struct uvc_buffer *video_buf)
+> > > >  {
+> > > > -     uvc_video_validate_buffer(stream, *video_buf);
+> > > > +     struct vb2_queue *vb2_qmeta = stream->meta.vdev.queue;
+> > > > +     struct uvc_video_queue *qmeta = &stream->meta.queue;
+> > > > +     struct uvc_buffer *meta_buf;
+> > > > +     struct vb2_v4l2_buffer *vb2_meta;
+> > > > +     const struct vb2_v4l2_buffer *vb2_video;
+> > > >
+> > > > -     if (*meta_buf) {
+> > > > -             struct vb2_v4l2_buffer *vb2_meta = &(*meta_buf)->buf;
+> > > > -             const struct vb2_v4l2_buffer *vb2_video = &(*video_buf)->buf;
+> > > > +     if (!vb2_qmeta)
+> > > > +             return;
+> > > >
+> > > > -             vb2_meta->sequence = vb2_video->sequence;
+> > > > -             vb2_meta->field = vb2_video->field;
+> > > > -             vb2_meta->vb2_buf.timestamp = vb2_video->vb2_buf.timestamp;
+> > > > +     guard(spinlock_irqsave)(&qmeta->irqlock);
+> > > >
+> > > > -             (*meta_buf)->state = UVC_BUF_STATE_READY;
+> > > > -             if (!(*meta_buf)->error)
+> > > > -                     (*meta_buf)->error = (*video_buf)->error;
+> > > > -             *meta_buf = uvc_queue_next_buffer(&stream->meta.queue,
+> > > > -                                               *meta_buf);
+> > > > -     }
+> > > > -     *video_buf = uvc_queue_next_buffer(&stream->queue, *video_buf);
+> > > > +     meta_buf = __uvc_queue_get_current_buffer(qmeta);
+> > > > +     if (!meta_buf)
+> > > > +             return;
+> > > > +     list_del(&meta_buf->queue);
+> > > > +
+> > > > +     vb2_meta = &meta_buf->buf;
+> > > > +     vb2_video = &video_buf->buf;
+> > > > +
+> > > > +     vb2_meta->sequence = vb2_video->sequence;
+> > > > +     vb2_meta->field = vb2_video->field;
+> > > > +     vb2_meta->vb2_buf.timestamp = vb2_video->vb2_buf.timestamp;
+> > > > +     meta_buf->state = UVC_BUF_STATE_READY;
+> > > > +     if (!meta_buf->error)
+> > > > +             meta_buf->error = video_buf->error;
+> > > > +
+> > > > +     uvc_queue_buffer_release(meta_buf);
+> > > > +}
+> > > > +
+> > > > +static struct uvc_buffer *uvc_video_next_buffer(struct uvc_streaming *stream,
+> > > > +                                             struct uvc_buffer *video_buf)
+> > > > +{
+> > > > +     uvc_video_validate_buffer(stream, video_buf);
+> > > > +     uvc_video_next_meta(stream, video_buf);
+> > > > +     return uvc_queue_next_buffer(&stream->queue, video_buf);
+> > > >  }
+> > > >
+> > > >  static void uvc_video_decode_isoc(struct uvc_urb *uvc_urb,
+> > > > -                     struct uvc_buffer *buf, struct uvc_buffer *meta_buf)
+> > > > +                               struct uvc_buffer *buf)
+> > > >  {
+> > > >       struct urb *urb = uvc_urb->urb;
+> > > >       struct uvc_streaming *stream = uvc_urb->stream;
+> > > > @@ -1559,13 +1585,13 @@ static void uvc_video_decode_isoc(struct uvc_urb *uvc_urb,
+> > > >                       ret = uvc_video_decode_start(stream, buf, mem,
+> > > >                               urb->iso_frame_desc[i].actual_length);
+> > > >                       if (ret == -EAGAIN)
+> > > > -                             uvc_video_next_buffers(stream, &buf, &meta_buf);
+> > > > +                             buf = uvc_video_next_buffer(stream, buf);
+> > > >               } while (ret == -EAGAIN);
+> > > >
+> > > >               if (ret < 0)
+> > > >                       continue;
+> > > >
+> > > > -             uvc_video_decode_meta(stream, meta_buf, mem, ret);
+> > > > +             uvc_video_decode_meta(stream, mem, ret);
+> > > >
+> > > >               /* Decode the payload data. */
+> > > >               uvc_video_decode_data(uvc_urb, buf, mem + ret,
+> > > > @@ -1576,12 +1602,12 @@ static void uvc_video_decode_isoc(struct uvc_urb *uvc_urb,
+> > > >                       urb->iso_frame_desc[i].actual_length);
+> > > >
+> > > >               if (buf->state == UVC_BUF_STATE_READY)
+> > > > -                     uvc_video_next_buffers(stream, &buf, &meta_buf);
+> > > > +                     buf = uvc_video_next_buffer(stream, buf);
+> > > >       }
+> > > >  }
+> > > >
+> > > >  static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+> > > > -                     struct uvc_buffer *buf, struct uvc_buffer *meta_buf)
+> > > > +                               struct uvc_buffer *buf)
+> > > >  {
+> > > >       struct urb *urb = uvc_urb->urb;
+> > > >       struct uvc_streaming *stream = uvc_urb->stream;
+> > > > @@ -1607,7 +1633,7 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+> > > >               do {
+> > > >                       ret = uvc_video_decode_start(stream, buf, mem, len);
+> > > >                       if (ret == -EAGAIN)
+> > > > -                             uvc_video_next_buffers(stream, &buf, &meta_buf);
+> > > > +                             buf = uvc_video_next_buffer(stream, buf);
+> > > >               } while (ret == -EAGAIN);
+> > > >
+> > > >               /* If an error occurred skip the rest of the payload. */
+> > > > @@ -1617,7 +1643,7 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+> > > >                       memcpy(stream->bulk.header, mem, ret);
+> > > >                       stream->bulk.header_size = ret;
+> > > >
+> > > > -                     uvc_video_decode_meta(stream, meta_buf, mem, ret);
+> > > > +                     uvc_video_decode_meta(stream, mem, ret);
+> > > >
+> > > >                       mem += ret;
+> > > >                       len -= ret;
+> > > > @@ -1644,7 +1670,7 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+> > > >                       uvc_video_decode_end(stream, buf, stream->bulk.header,
+> > > >                               stream->bulk.payload_size);
+> > > >                       if (buf->state == UVC_BUF_STATE_READY)
+> > > > -                             uvc_video_next_buffers(stream, &buf, &meta_buf);
+> > > > +                             buf = uvc_video_next_buffer(stream, buf);
+> > > >               }
+> > > >
+> > > >               stream->bulk.header_size = 0;
+> > > > @@ -1654,7 +1680,7 @@ static void uvc_video_decode_bulk(struct uvc_urb *uvc_urb,
+> > > >  }
+> > > >
+> > > >  static void uvc_video_encode_bulk(struct uvc_urb *uvc_urb,
+> > > > -     struct uvc_buffer *buf, struct uvc_buffer *meta_buf)
+> > > > +                               struct uvc_buffer *buf)
+> > > >  {
+> > > >       struct urb *urb = uvc_urb->urb;
+> > > >       struct uvc_streaming *stream = uvc_urb->stream;
+> > > > @@ -1707,8 +1733,6 @@ static void uvc_video_complete(struct urb *urb)
+> > > >       struct uvc_video_queue *qmeta = &stream->meta.queue;
+> > > >       struct vb2_queue *vb2_qmeta = stream->meta.vdev.queue;
+> > > >       struct uvc_buffer *buf = NULL;
+> > > > -     struct uvc_buffer *buf_meta = NULL;
+> > > > -     unsigned long flags;
+> > > >       int ret;
+> > > >
+> > > >       switch (urb->status) {
+> > > > @@ -1734,14 +1758,6 @@ static void uvc_video_complete(struct urb *urb)
+> > > >
+> > > >       buf = uvc_queue_get_current_buffer(queue);
+> > > >
+> > > > -     if (vb2_qmeta) {
+> > > > -             spin_lock_irqsave(&qmeta->irqlock, flags);
+> > > > -             if (!list_empty(&qmeta->irqqueue))
+> > > > -                     buf_meta = list_first_entry(&qmeta->irqqueue,
+> > > > -                                                 struct uvc_buffer, queue);
+> > > > -             spin_unlock_irqrestore(&qmeta->irqlock, flags);
+> > > > -     }
+> > > > -
+> > > >       /* Re-initialise the URB async work. */
+> > > >       uvc_urb->async_operations = 0;
+> > > >
+> > > > @@ -1755,7 +1771,7 @@ static void uvc_video_complete(struct urb *urb)
+> > > >        * Process the URB headers, and optionally queue expensive memcpy tasks
+> > > >        * to be deferred to a work queue.
+> > > >        */
+> > > > -     stream->decode(uvc_urb, buf, buf_meta);
+> > > > +     stream->decode(uvc_urb, buf);
+> > > >
+> > > >       /* If no async work is needed, resubmit the URB immediately. */
+> > > >       if (!uvc_urb->async_operations) {
+> > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> > > > index 757254fc4fe930ae61c9d0425f04d4cd074a617e..bb41477ce4ff5cdbf27bc9d830b63a60645e3fa1 100644
+> > > > --- a/drivers/media/usb/uvc/uvcvideo.h
+> > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
+> > > > @@ -479,8 +479,7 @@ struct uvc_streaming {
+> > > >       unsigned int frozen : 1;
+> > > >       struct uvc_video_queue queue;
+> > > >       struct workqueue_struct *async_wq;
+> > > > -     void (*decode)(struct uvc_urb *uvc_urb, struct uvc_buffer *buf,
+> > > > -                    struct uvc_buffer *meta_buf);
+> > > > +     void (*decode)(struct uvc_urb *uvc_urb, struct uvc_buffer *buf);
+> > > >
+> > > >       struct {
+> > > >               struct video_device vdev;
+> > > > @@ -694,6 +693,8 @@ int uvc_queue_init(struct uvc_video_queue *queue, enum v4l2_buf_type type);
+> > > >  void uvc_queue_cancel(struct uvc_video_queue *queue, int disconnect);
+> > > >  struct uvc_buffer *uvc_queue_next_buffer(struct uvc_video_queue *queue,
+> > > >                                        struct uvc_buffer *buf);
+> > > > +struct uvc_buffer *
+> > > > +__uvc_queue_get_current_buffer(struct uvc_video_queue *queue);
+> > > >  struct uvc_buffer *uvc_queue_get_current_buffer(struct uvc_video_queue *queue);
+> > > >  void uvc_queue_buffer_release(struct uvc_buffer *buf);
+> > > >  static inline int uvc_queue_streaming(struct uvc_video_queue *queue)
+> > > > @@ -802,8 +803,7 @@ u16 uvc_endpoint_max_bpi(struct usb_device *dev, struct usb_host_endpoint *ep);
+> > > >
+> > > >  /* Quirks support */
+> > > >  void uvc_video_decode_isight(struct uvc_urb *uvc_urb,
+> > > > -                          struct uvc_buffer *buf,
+> > > > -                          struct uvc_buffer *meta_buf);
+> > > > +                          struct uvc_buffer *buf);
+> > > >
+> > > >  /* debugfs and statistics */
+> > > >  void uvc_debugfs_init(void);
+> > > >
+> > > > ---
+> > > > base-commit: d968e50b5c26642754492dea23cbd3592bde62d8
+> > > > change-id: 20250714-uvc-racemeta-fee2e69bbfcd
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+
+
+
+-- 
+Ricardo Ribalda
 
