@@ -1,364 +1,254 @@
-Return-Path: <linux-media+bounces-41977-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41978-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF3A5B489C2
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 12:14:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C116DB48A00
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 12:21:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D35DD3C2704
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 10:14:19 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D81D3C39A9
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 10:21:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 585842FAC09;
-	Mon,  8 Sep 2025 10:13:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED7D7224B06;
+	Mon,  8 Sep 2025 10:21:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="TUbpeHYS"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="IDBR1M2l"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 271582F83C3;
-	Mon,  8 Sep 2025 10:13:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757326438; cv=none; b=bpIEmRA0j7qFSq71BQH8FA0Zi5uQ7Y7lU8tf+t5IjmiP/58t1wy07r7sIQcvcwwM+AERzlcpucYDzbrZAUQSVyUa6/jQ4MAnGW2V4d/1pPEWRzpvGpGr7R7o6FwkcdcyvulFztiK1PA+CS1tmUfTdZn1DPYY0b1bWm0JV4QPp6s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757326438; c=relaxed/simple;
-	bh=Gb1ubu2ZH+sJL4BUrJTTK5x/BmpDb5gljBQqUFz29r8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B1+iTDM11zinqoOtZYxEBfupKhbdubvwPZyNYadEB8DG4bK+FzmSvQQcEZV71JUfzkw6ZjYrpYspNEqg2SVx+/tow7UhcKD/t3u5RAebDLnFf1RoVV5sSm7nMLV4jykvw8Pyez3NDKyrWBQhTi0XYlS1z9xl1DDSX1zGIBG2jaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=TUbpeHYS; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (230.215-178-91.adsl-dyn.isp.belgacom.be [91.178.215.230])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B7E6099F;
-	Mon,  8 Sep 2025 12:12:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757326361;
-	bh=Gb1ubu2ZH+sJL4BUrJTTK5x/BmpDb5gljBQqUFz29r8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TUbpeHYSJTUxSChj3hDuZ8T+PW7d/Cx9u823Es8r2kEohxUaJVJyOkqKx0hFHUb00
-	 sk8CkznjcI8JK9SafLTjEmiJ89Vc7s95Zw5ogJiuDcqDVq68i2KVt3Boy3aJujYxYr
-	 0CcBDvhCCejQBq4E6M9VPNkc3vHELe+GcgD6eX1c=
-Date: Mon, 8 Sep 2025 12:13:32 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hdegoede@redhat.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org
-Subject: Re: [PATCH v2 10/12] media: uvcvideo: Add get_* functions to
- uvc_entity
-Message-ID: <20250908101332.GB26062@pendragon.ideasonboard.com>
-References: <20250605-uvc-orientation-v2-0-5710f9d030aa@chromium.org>
- <20250605-uvc-orientation-v2-10-5710f9d030aa@chromium.org>
- <20250629181246.GE6260@pendragon.ideasonboard.com>
- <CANiDSCsu0RT4dcGyBJRutP=9HTe+niUoohxTZE=qJ8O_9ez=+A@mail.gmail.com>
- <20250714142926.GI8243@pendragon.ideasonboard.com>
- <CANiDSCvFe23xmrJ0-qbWWa6+vKGb+QdDFV8VSLkmWdAnfsFtzw@mail.gmail.com>
- <20250715193505.GB19299@pendragon.ideasonboard.com>
- <CANiDSCtvt6qnROQ0_-0iG5hqkU_uHZABujZPN7xuh7pUASSGyw@mail.gmail.com>
- <CANiDSCsNjBEWR5HA9bhFNnXB7Cazj7o0wBnn53gzpoBBcYFkFw@mail.gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C24E92F3639
+	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 10:21:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757326888; cv=pass; b=QDFSb0lHWysrND2wYD6feDtfUtMYNaKZdGZe0v96hVnYZtdlXaMJLGmm3B+Mg6SpOpgEFLS/Bjwrr3+BG5cDD9VNBRtlsqvW8ykiSo3f9ztObSIOsLGQjYo+7f+Z5oeTCv2zYtJbSOGWPcdN6o68vcvR8BZtOy7sjg44pkfctVo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757326888; c=relaxed/simple;
+	bh=NaNXop+4TaUMye0JiuV2XVWqTaLlryjzs/2zpPU2Yy4=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=kx57R6YEJDQL71a0WPjuqfGeG+btfj6hpBSuzB0Za1HmxXWvL1LNjXQoAJIMNgDIAcd1iDwx80R8k2C+RlcXSgUV7qFaBaloFeW90+gPi0MEp7Hz7WuOzCRg76418degY/bzXl3x5Vx8ThuevZb6KyRha/z8COPeWYV22sEDf5c=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=IDBR1M2l; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4cL2zf43Z8z49Pv9;
+	Mon,  8 Sep 2025 13:21:18 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1757326878;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=BRGQJDHdsA4twVmO5eLCaqnTZhBCZnFqhG0ypxjP3ZI=;
+	b=IDBR1M2liNxS/GTkXyfX3Dz3jzEy09rWWY6YdI88Jlor6WlUv2UQ4Eq4LlC4sIvBhQNtCY
+	OnhRr7wNmjofWz+sO/gDj1IZIjUpEn4XGSYJBbaRivWOBZBHua9xWD8BVSOMjt7XXuZe4O
+	CVHrDe7txRkgFgKW7feOEO6D8JXCVh6UlWVxRDMFtTzTyY4Bbqny+TN0EXTTtli2DZCbeC
+	t7+GwK2n3DV/bsM5E97rPyOS0MAMhBxVAM1RwmHBGQNtdH2nD5sSarIhXTP4er9yRWlmsc
+	TMkvTzli0lsujth8l0AROslK2KcROKHTZvIBqH0qlJvfM0+axZ8yN0+yC50J9Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1757326878;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=BRGQJDHdsA4twVmO5eLCaqnTZhBCZnFqhG0ypxjP3ZI=;
+	b=UzaplWeIvPXN1g8bYuedkvQO9s8xVy8VgZx1glgVpxaq6u4IqQTd9NiJamXAcAt3ky4hKQ
+	E9evJmAY9fuCmENyV0gfRJkss0C/B2b9l3+NHyrSdEyfmz7i9Xj4o+p0mWcYBAJOO7uMPX
+	/TqA4CTjGl+kyc7px2ibnAcZuDUysvDMKQgXQO5bzHiwg2F8I19+8R696n4looJZxuRp2r
+	SeMAlo34SQpPVzRjVwuXDsX8uEJZ6Q8pfExUA517wng9z9FdK3ZKoAmRtpRwV3LrrR0kHK
+	tny4t2lFoTJSKloz624nkr/lTqXmAcL0aFGj4oeigULVZFoTYFcU1iRSPeurXA==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1757326878; a=rsa-sha256;
+	cv=none;
+	b=v0TFMm3PlGNSqAgVnhsoNx7D7Ohy5KmZ3fJCu316kqur0+R0JgXkyszw8+vGuz+OWzXsQE
+	xV3gW+WkLmeuuS3VG8Ooq9wD10lkXcIlWKVLLkgw2Og6BtPj8dsi5uovcO3nRAFvZb6EZe
+	wDglM7ualnEt0D8kAFqDWUoZPpBjW1FRdzqkPEW6/+fX/4YlCa3kgf95EC9SAxGx0ewV3y
+	hiy0fL7Y3YG7N6LkcOrYvJ5u2RZ2zMh4XAuBAQ/sgqhjxey4Ps6yJhDxPYxtJC7wTh+28C
+	PH1gTw/ycJqz185zjwRvm9d5GVPfPAAvhF0SklS9qqQactBkn6CUGRwOQSq77w==
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 21DF8634C93;
+	Mon,  8 Sep 2025 13:21:18 +0300 (EEST)
+Date: Mon, 8 Sep 2025 13:21:17 +0300
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: linux-media@vger.kernel.org
+Cc: hans@jjverkuil.nl
+Subject: [GIT PULL FOR 6.18] Use V4L2 clock helper, other cleanups
+Message-ID: <aL6uHdv9ne9JzFrq@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <CANiDSCsNjBEWR5HA9bhFNnXB7Cazj7o0wBnn53gzpoBBcYFkFw@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-A question for Hans Verkuil below.
+Hi Hans, Mauro,
 
-On Thu, Aug 07, 2025 at 09:35:14AM +0200, Ricardo Ribalda wrote:
-> On Wed, 16 Jul 2025 at 12:32, Ricardo Ribalda wrote:
-> > On Tue, 15 Jul 2025 at 21:35, Laurent Pinchart wrote:
-> > > On Mon, Jul 14, 2025 at 05:46:40PM +0200, Ricardo Ribalda wrote:
-> > > > On Mon, 14 Jul 2025 at 16:30, Laurent Pinchart wrote:
-> > > > > On Tue, Jul 01, 2025 at 01:13:10PM +0200, Ricardo Ribalda wrote:
-> > > > > > On Sun, 29 Jun 2025 at 20:13, Laurent Pinchart wrote:
-> > > > > > > On Thu, Jun 05, 2025 at 05:53:03PM +0000, Ricardo Ribalda wrote:
-> > > > > > > > Virtual entities need to provide more values than get_cur and get_cur
-> > > > > > >
-> > > > > > > I think you meant "get_info and get_cur".
-> > > > > > >
-> > > > > > > > for their controls. Add support for get_def, get_min, get_max and
-> > > > > > > > get_res.
-> > > > > > >
-> > > > > > > Do they ? The UVC specification defines controls that don't list
-> > > > > > > GET_DEF, GET_MIN, GET_MAX and GET_RES as mandatory requests. Can't we do
-> > > > > > > the same for the software controls ? This patch is meant to support the
-> > > > > > > UVC_SWENTITY_ORIENTATION and UVC_SWENTITY_ROTATION control in the next
-> > > > > > > patch, and those are read-only controls. Aren't GET_INFO and GET_CUR
-> > > > > > > enough ?
-> > > > > >
-> > > > > > V4L2_CID_CAMERA_ROTATION has the type UVC_CTRL_DATA_TYPE_UNSIGNED,
-> > > > > > that time requires get_min and get_max.
-> > > > >
-> > > > > Where does that requirement come from ? Is it because how the
-> > > > > corresponding V4L2 type (V4L2_CTRL_TYPE_INTEGER) is handled in
-> > > > > uvc_ctrl_clamp() ? uvc_ctrl_clamp() is only called when setting a
-> > > > > control, from uvc_ctrl_set(), and V4L2_CID_CAMERA_ROTATION should be
-> > > > > read-only.
-> > > >
-> > > > It its for VIDIOC_QUERY_EXT_CTRL
-> > > >
-> > > > uvc_query_v4l2_ctrl -> __uvc_query_v4l2_ctrl -> __uvc_queryctrl_boundaries
-> > > >
-> > > > We need to list the min, max, def and step for every control. They are
-> > > > fetched with uvc_ctrl_populate_cache()
-> > >
-> > > Ah, I see, thanks.
-> > >
-> > > For GET_RES, I think we can leave it unimplemented.
-> > > __uvc_queryctrl_boundaries() will set v4l2_ctrl->step = 0 which seems to
-> > > be the right behaviour for a read-only control whose value never
-> > > changes.
-> >
-> > That will break v4l2-compatiblity. Step needs to be != 0
-> > https://git.linuxtv.org/v4l-utils.git/tree/utils/v4l2-compliance/v4l2-test-controls.cpp#n77
-> >
-> > Control ioctls (Input 0):
-> >                 fail: v4l2-test-controls.cpp(77): step == 0
-> >                 fail: v4l2-test-controls.cpp(201): invalid control 009a0923
+The following changes since commit 04f08db52b3f892c85bd92ebbc3a7ca32e4f60f3:
 
-Is that an issue in v4l2-compliance ? For integer controls,
-https://docs.kernel.org/userspace-api/media/v4l/vidioc-queryctrl.html#c.V4L.v4l2_ctrl_type
-documents the step value as "any". For a read-only control whose value
-is constant, do we want to enforce a non-zero value ? If so we should
-update the specification.
+  media: i2c: tc358743: add support for more infoframe types (2025-09-07 10:29:19 +0200)
 
-Hans, what's your opinion ?
+are available in the Git repository at:
 
-In any case, if GET_RES isn't implemented, we could update
-__uvc_queryctrl_boundaries() to set step to 1 instead of 0. That would
-fix v4l2-compliance for real controls that don't implement GET_RES.
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.18-2.1-signed
 
-> > > As for the minimum and maximum, they are currently set to 0 if the
-> > > corresponding operations are not supported. I wonder if we should set
-> > > them to the current value instead for read-only controls (as in controls
-> > > whose flags report support for GET_CUR only)..
-> >
-> > I am not sure that I like that approach IMO the code looks worse...
-> > but if you prefer that, we can go that way
-> 
-> I am almost ready to send a new version.
-> 
-> What approach do you prefer?
+for you to fetch changes up to d67c075c05c585e8085f6d7d66b945fec641e990:
 
-I particularly like the change in __uvc_queryctrl_boundaries(). That
-could probably be done without the rest of the changes though, as
-ctrl->uvc_data is already allocated with kzalloc().
+  media: i2c: s5k6a3: Use V4L2 legacy sensor clock helper (2025-09-08 12:25:47 +0300)
 
-I also like the fact that the driver can rely on the min/max values to
-always be populated in the control data. This could be useful for real
-read-only UVC controls.
+----------------------------------------------------------------
+V4L2 clock helper patches and more
 
-Thinking a bit more about this, for read-only controls whose value never
-changes, min, max and step are meaningless. V4L2 requires their value to
-be set, that's a decision we made in the V4L2 API, but I think a model
-where min, max and step would be undefined (or 0) wouldn't be worse. So
-maybe it makes sense to handle this in __uvc_queryctrl_boundaries(),
-which is where the adaptation between UVC and V4L2 is handled, instead
-of storing CUR in the ctrl->uvc_data DEF/MIN/MAX in
-uvc_ctrl_populate_cache() ? I think the code could look cleaner.
+- Use V4L2 clock helpers in sensor drivers
+- Avoid using I²C client to obtain struct device pointer in sensor drivers
+- Do not set clock rate in mt9v111
+- Drop platform data support in mt9v032
 
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-u> > index ec472e111248..47224437018b 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -35,6 +35,8 @@
-> >  /* ------------------------------------------------------------------------
-> >   * Controls
-> >   */
-> > +static int __uvc_ctrl_load_cur(struct uvc_video_chain *chain,
-> > +                              struct uvc_control *ctrl);
+----------------------------------------------------------------
+Laurent Pinchart (62):
+      dt-bindings: media: Deprecate clock-frequency property for camera sensors
+      dt-bindings: media: et8ek8: Deprecate clock-frequency property
+      dt-bindings: media: imx258: Make clocks property required
+      dt-bindings: media: imx274: Make clocks property required
+      media: i2c: mt9v022: Drop unused mt9v022.h header
+      media: i2c: mt9v032: Replace client->dev usage
+      media: i2c: mt9v032: Drop support for platform data
+      media: i2c: mt9v111: Do not set clock rate manually
+      media: i2c: ov6650: Drop unused driver
+      media: i2c: hi556: Replace client->dev usage
+      media: i2c: hi556: Use V4L2 sensor clock helper
+      media: i2c: hi847: Replace client->dev usage
+      media: i2c: hi847: Use V4L2 sensor clock helper
+      media: i2c: imx208: Replace client->dev usage
+      media: i2c: imx208: Use V4L2 sensor clock helper
+      media: i2c: imx319: Replace client->dev usage
+      media: i2c: imx319: Use V4L2 sensor clock helper
+      media: i2c: imx355: Replace client->dev usage
+      media: i2c: imx335: Use V4L2 sensor clock helper
+      media: i2c: og01a1b: Replace client->dev usage
+      media: i2c: og01a1b: Use V4L2 sensor clock helper
+      media: i2c: ov02c10: Replace client->dev usage
+      media: i2c: ov02c10: Use V4L2 sensor clock helper
+      media: i2c: ov02e10: Replace client->dev usage
+      media: i2c: ov02e10: Use V4L2 sensor clock helper
+      media: i2c: ov08d10: Replace client->dev usage
+      media: i2c: ov08d10: Use V4L2 sensor clock helper
+      media: i2c: ov08x40: Replace client->dev usage
+      media: i2c: ov08x40: Use V4L2 sensor clock helper
+      media: i2c: ov13858: Replace client->dev usage
+      media: i2c: ov13858: Use V4L2 sensor clock helper
+      media: i2c: ov13b10: Replace client->dev usage
+      media: i2c: ov13b10: Use V4L2 sensor clock helper
+      media: i2c: ov2740: Replace client->dev usage
+      media: i2c: ov2740: Use V4L2 sensor clock helper
+      media: i2c: ov4689: Use V4L2 sensor clock helper
+      media: i2c: ov5670: Replace client->dev usage
+      media: i2c: ov5670: Use V4L2 sensor clock helper
+      media: i2c: ov5675: Replace client->dev usage
+      media: i2c: ov5675: Use V4L2 sensor clock helper
+      media: i2c: ov5693: Use V4L2 sensor clock helper
+      media: i2c: ov7251: Use V4L2 sensor clock helper
+      media: i2c: ov9734: Replace client->dev usage
+      media: i2c: ov9734: Use V4L2 sensor clock helper
+      media: v4l2-common: Add legacy camera sensor clock helper
+      media: i2c: et8ek8: Drop support for per-mode external clock frequency
+      media: i2c: et8ek8: Use V4L2 legacy sensor clock helper
+      media: i2c: gc05a2: Use V4L2 legacy sensor clock helper
+      media: i2c: gc08a3: Use V4L2 legacy sensor clock helper
+      media: i2c: imx258: Replace client->dev usage
+      media: i2c: imx258: Use V4L2 legacy sensor clock helper
+      media: i2c: imx290: Use V4L2 legacy sensor clock helper
+      media: i2c: ov02a10: Replace client->dev usage
+      media: i2c: ov02a10: Use V4L2 legacy sensor clock helper
+      media: i2c: ov2685: Use V4L2 legacy sensor clock helper
+      media: i2c: ov5645: Use V4L2 legacy sensor clock helper
+      media: i2c: ov5695: Use V4L2 legacy sensor clock helper
+      media: i2c: ov8856: Replace client->dev usage
+      media: i2c: ov8856: Use V4L2 legacy sensor clock helper
+      media: i2c: s5c73m3: Use V4L2 legacy sensor clock helper
+      media: i2c: s5k5baf: Use V4L2 legacy sensor clock helper
+      media: i2c: s5k6a3: Use V4L2 legacy sensor clock helper
 
-I think you can move the function up instead of adding a forward
-declaration.
+ Documentation/admin-guide/media/i2c-cardlist.rst   |    1 -
+ .../devicetree/bindings/i2c/qcom,i2c-cci.yaml      |    6 +-
+ .../devicetree/bindings/media/i2c/mipi-ccs.yaml    |    7 +-
+ .../bindings/media/i2c/ovti,ov02a10.yaml           |    3 +-
+ .../devicetree/bindings/media/i2c/ovti,ov5645.yaml |    6 +-
+ .../devicetree/bindings/media/i2c/ovti,ov7251.yaml |    6 +-
+ .../devicetree/bindings/media/i2c/ovti,ov8856.yaml |    3 +-
+ .../bindings/media/i2c/samsung,s5k5baf.yaml        |    6 +-
+ .../bindings/media/i2c/samsung,s5k6a3.yaml         |    6 +-
+ .../devicetree/bindings/media/i2c/sony,imx258.yaml |    1 +
+ .../devicetree/bindings/media/i2c/sony,imx274.yaml |    4 +
+ .../devicetree/bindings/media/i2c/sony,imx290.yaml |    5 +-
+ .../bindings/media/i2c/ti,ds90ub960.yaml           |    3 +
+ .../bindings/media/i2c/toshiba,et8ek8.txt          |    8 +-
+ .../bindings/media/samsung,exynos4212-fimc-is.yaml |    3 +-
+ .../devicetree/bindings/media/samsung,fimc.yaml    |    3 +-
+ MAINTAINERS                                        |    1 -
+ drivers/media/i2c/Kconfig                          |   10 +-
+ drivers/media/i2c/Makefile                         |    1 -
+ drivers/media/i2c/et8ek8/et8ek8_driver.c           |   27 +-
+ drivers/media/i2c/et8ek8/et8ek8_mode.c             |    9 -
+ drivers/media/i2c/et8ek8/et8ek8_reg.h              |    1 -
+ drivers/media/i2c/gc05a2.c                         |    8 +-
+ drivers/media/i2c/gc08a3.c                         |    8 +-
+ drivers/media/i2c/hi556.c                          |   92 +-
+ drivers/media/i2c/hi847.c                          |   84 +-
+ drivers/media/i2c/imx208.c                         |   91 +-
+ drivers/media/i2c/imx258.c                         |  105 +-
+ drivers/media/i2c/imx290.c                         |   27 +-
+ drivers/media/i2c/imx319.c                         |   92 +-
+ drivers/media/i2c/imx355.c                         |   90 +-
+ drivers/media/i2c/mt9v032.c                        |  104 +-
+ drivers/media/i2c/mt9v111.c                        |    2 -
+ drivers/media/i2c/og01a1b.c                        |  109 +-
+ drivers/media/i2c/ov02a10.c                        |   45 +-
+ drivers/media/i2c/ov02c10.c                        |  107 +-
+ drivers/media/i2c/ov02e10.c                        |  105 +-
+ drivers/media/i2c/ov08d10.c                        |   82 +-
+ drivers/media/i2c/ov08x40.c                        |   93 +-
+ drivers/media/i2c/ov13858.c                        |   69 +-
+ drivers/media/i2c/ov13b10.c                        |  110 +-
+ drivers/media/i2c/ov2685.c                         |    8 +-
+ drivers/media/i2c/ov2740.c                         |   91 +-
+ drivers/media/i2c/ov4689.c                         |   12 +-
+ drivers/media/i2c/ov5645.c                         |   13 +-
+ drivers/media/i2c/ov5670.c                         |  105 +-
+ drivers/media/i2c/ov5675.c                         |   89 +-
+ drivers/media/i2c/ov5693.c                         |   16 +-
+ drivers/media/i2c/ov5695.c                         |    8 +-
+ drivers/media/i2c/ov6650.c                         | 1147 --------------------
+ drivers/media/i2c/ov7251.c                         |   26 +-
+ drivers/media/i2c/ov8856.c                         |   93 +-
+ drivers/media/i2c/ov9734.c                         |   82 +-
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c           |   15 +-
+ drivers/media/i2c/s5c73m3/s5c73m3.h                |    2 -
+ drivers/media/i2c/s5k5baf.c                        |   21 +-
+ drivers/media/i2c/s5k6a3.c                         |   17 +-
+ drivers/media/v4l2-core/v4l2-common.c              |   39 +-
+ include/media/i2c/mt9v022.h                        |   13 -
+ include/media/i2c/mt9v032.h                        |   12 -
+ include/media/v4l2-common.h                        |   41 +-
+ 61 files changed, 1016 insertions(+), 2377 deletions(-)
+ delete mode 100644 drivers/media/i2c/ov6650.c
+ delete mode 100644 include/media/i2c/mt9v022.h
+ delete mode 100644 include/media/i2c/mt9v032.h
 
-> >
-> >  static const struct uvc_control_info uvc_ctrls[] = {
-> >         {
-> > @@ -1272,6 +1274,13 @@ static int uvc_ctrl_populate_cache(struct uvc_video_chain *chain,
-> >                                         uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF));
-> >                 if (ret < 0)
-> >                         return ret;
-> > +       } else if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR)) {
-
-A comment (probably at the top of the function) to explain the fallback
-would be useful.
-
-> > +               ret = __uvc_ctrl_load_cur(chain, ctrl);
-> > +               if (!ret) {
-> > +                       memcpy(uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF),
-> > +                              uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-> > +                              ctrl->info.size);
-> > +               }
-> >         }
-> >
-> >         if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN) {
-> > @@ -1279,14 +1288,31 @@ static int uvc_ctrl_populate_cache(struct uvc_video_chain *chain,
-> >                                         uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
-> >                 if (ret < 0)
-> >                         return ret;
-> > +       } else if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR)) {
-> > +               ret = __uvc_ctrl_load_cur(chain, ctrl);
-> > +               if (!ret) {
-> > +                       memcpy(uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN),
-> > +                              uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-> > +                              ctrl->info.size);
-> > +               }
-> >         }
-> > +
-> >         if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX) {
-> >                 ret = uvc_ctrl_query_entity(chain->dev, ctrl, UVC_GET_MAX,
-> >                                         uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
-> >                 if (ret < 0)
-> >                         return ret;
-> > +       } else if (!(ctrl->info.flags & UVC_CTRL_FLAG_SET_CUR)) {
-> > +               ret = __uvc_ctrl_load_cur(chain, ctrl);
-> > +               if (!ret) {
-> > +                       memcpy(uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX),
-> > +                              uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-> > +                              ctrl->info.size);
-> > +               }
-> >         }
-> > +
-> >         if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES) {
-> > +               u8 *res;
-> >                 ret = uvc_ctrl_query_entity(chain->dev, ctrl, UVC_GET_RES,
-> >                                         uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
-> >                 if (ret < 0) {
-> > @@ -1304,7 +1330,13 @@ static int uvc_ctrl_populate_cache(struct uvc_video_chain *chain,
-> >                                       "an XU control. Enabling workaround.\n");
-> >                         memset(uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES), 0,
-> >                                ctrl->info.size);
-> > +                       res = uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES);
-> > +                       *res = 1
-> >                 }
-> > +       } else {
-> > +               memset(uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES), 0, ctrl->info.size);
-> > +               res = uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES);
-> > +               *res = 1;
-> >         }
-> >
-> >         ctrl->cached = 1;
-> > @@ -1541,11 +1573,8 @@ static int __uvc_queryctrl_boundaries(struct uvc_video_chain *chain,
-> >                         return ret;
-> >         }
-> >
-> > -       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_DEF)
-> >                 v4l2_ctrl->default_value = uvc_mapping_get_s32(mapping,
-> >                                 UVC_GET_DEF, uvc_ctrl_data(ctrl, UVC_CTRL_DATA_DEF));
-
-You forgot to reduce the indentation here.
-
-> > -       else
-> > -               v4l2_ctrl->default_value = 0;
-> >
-> >         switch (mapping->v4l2_type) {
-> >         case V4L2_CTRL_TYPE_MENU:
-> > @@ -1576,23 +1605,14 @@ static int __uvc_queryctrl_boundaries(struct uvc_video_chain *chain,
-> >                 break;
-> >         }
-> >
-> > -       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MIN)
-> > -               v4l2_ctrl->minimum = uvc_mapping_get_s32(mapping, UVC_GET_MIN,
-> > -                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
-> > -       else
-> > -               v4l2_ctrl->minimum = 0;
-> > +       v4l2_ctrl->minimum = uvc_mapping_get_s32(mapping, UVC_GET_MIN,
-> > +                                       uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MIN));
-> >
-> > -       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_MAX)
-> > -               v4l2_ctrl->maximum = uvc_mapping_get_s32(mapping, UVC_GET_MAX,
-> > -                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
-> > -       else
-> > -               v4l2_ctrl->maximum = 0;
-> > +       v4l2_ctrl->maximum = uvc_mapping_get_s32(mapping, UVC_GET_MAX,
-> > +                                       uvc_ctrl_data(ctrl, UVC_CTRL_DATA_MAX));
-> >
-> > -       if (ctrl->info.flags & UVC_CTRL_FLAG_GET_RES)
-> > -               v4l2_ctrl->step = uvc_mapping_get_s32(mapping, UVC_GET_RES,
-> > -                               uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
-> > -       else
-> > -               v4l2_ctrl->step = 0;
-> > +       v4l2_ctrl->step = uvc_mapping_get_s32(mapping, UVC_GET_RES,
-> > +                                       uvc_ctrl_data(ctrl, UVC_CTRL_DATA_RES));
-> >
-> >         return 0;
-> >  }
-> >
-> > > > > > We can create a new type UVC_CTRL_DATA_TYPE_UNSIGNED_READ_ONLY that
-> > > > > > fakes min, max and res, but I think that it is cleaner this approach.
-> > > > > >
-> > > > > > > > This is a preparation patch.
-> > > > > > > >
-> > > > > > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > > > > > ---
-> > > > > > > >  drivers/media/usb/uvc/uvc_ctrl.c | 12 ++++++++++++
-> > > > > > > >  drivers/media/usb/uvc/uvcvideo.h |  8 ++++++++
-> > > > > > > >  2 files changed, 20 insertions(+)
-> > > > > > > >
-> > > > > > > > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > > > > index 21ec7b978bc7aca21db7cb8fd5d135d876f3330c..59be62ae24a4219fa9d7aacf2ae7382c95362178 100644
-> > > > > > > > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > > > > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > > > > > > > @@ -596,6 +596,18 @@ static int uvc_ctrl_query_entity(struct uvc_device *dev,
-> > > > > > > >       if (query == UVC_GET_CUR && ctrl->entity->get_cur)
-> > > > > > > >               return ctrl->entity->get_cur(dev, ctrl->entity,
-> > > > > > > >                                            ctrl->info.selector, data, len);
-> > > > > > > > +     if (query == UVC_GET_DEF && ctrl->entity->get_def)
-> > > > > > > > +             return ctrl->entity->get_def(dev, ctrl->entity,
-> > > > > > > > +                                          ctrl->info.selector, data, len);
-> > > > > > > > +     if (query == UVC_GET_MIN && ctrl->entity->get_min)
-> > > > > > > > +             return ctrl->entity->get_min(dev, ctrl->entity,
-> > > > > > > > +                                          ctrl->info.selector, data, len);
-> > > > > > > > +     if (query == UVC_GET_MAX && ctrl->entity->get_max)
-> > > > > > > > +             return ctrl->entity->get_max(dev, ctrl->entity,
-> > > > > > > > +                                          ctrl->info.selector, data, len);
-> > > > > > > > +     if (query == UVC_GET_RES && ctrl->entity->get_res)
-> > > > > > > > +             return ctrl->entity->get_res(dev, ctrl->entity,
-> > > > > > > > +                                          ctrl->info.selector, data, len);
-> > > > > > > >       if (query == UVC_GET_INFO && ctrl->entity->get_info)
-> > > > > > > >               return ctrl->entity->get_info(dev, ctrl->entity,
-> > > > > > > >                                             ctrl->info.selector, data);
-> > > > > > > > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > > > > index a931750bdea25b9062dcc7644bf5f2ed89c1cb4c..d6da8ed3ad4cf3377df49923e051fe04d83d2e38 100644
-> > > > > > > > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > > > > > > > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > > > > > > > @@ -261,6 +261,14 @@ struct uvc_entity {
-> > > > > > > >                       u8 cs, u8 *caps);
-> > > > > > > >       int (*get_cur)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > > > > >                      u8 cs, void *data, u16 size);
-> > > > > > > > +     int (*get_def)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > > > > > +                    u8 cs, void *data, u16 size);
-> > > > > > > > +     int (*get_min)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > > > > > +                    u8 cs, void *data, u16 size);
-> > > > > > > > +     int (*get_max)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > > > > > +                    u8 cs, void *data, u16 size);
-> > > > > > > > +     int (*get_res)(struct uvc_device *dev, struct uvc_entity *entity,
-> > > > > > > > +                    u8 cs, void *data, u16 size);
-> > > > > > > >
-> > > > > > > >       unsigned int ncontrols;
-> > > > > > > >       struct uvc_control *controls;
+Please pull.
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
 
