@@ -1,213 +1,127 @@
-Return-Path: <linux-media+bounces-41974-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41975-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90286B48911
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 11:52:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEF53B4893E
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 11:57:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6A7CE4E1512
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 09:52:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF8463A7A56
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 09:57:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDB4E2F069E;
-	Mon,  8 Sep 2025 09:51:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8CC252F3616;
+	Mon,  8 Sep 2025 09:57:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="WjN/vY8I"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="GqO72XzD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6161D1E505;
-	Mon,  8 Sep 2025 09:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5217B2E2EE5;
+	Mon,  8 Sep 2025 09:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757325118; cv=none; b=EBKaMVQjecVFNifooEAatIy5IfwFHZ4knhW4OhvcijeqjnP85sKRvLbkReF9XzD3qPltTMI108mmHKMqEE188gesOofyTKYLAmm1o/PDxQ/JC/hybzS19HF4D2myE9kRvXFCcxzwrk3XRydJxT/de3aJa9VCuTFMzzqu4voGaO4=
+	t=1757325461; cv=none; b=a5WtccGGsNM04iN8szG9/mLOiKGKvXZkprdl3zCqCEKLCuiRnMtyYT9+A4vK3/EZOCknbn45oKo3FUb3Fpcb1JxG4BqWbc5g7BH99ND23vrf899+fXmC6pYv9eI8hlhQvYIDQJqTUl5JwI0HJ0DEJmkph9JG8RF9xyj9O07Xe2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757325118; c=relaxed/simple;
-	bh=AewMyCtVmzpGoCtRfmUsnmVxguA8lkNLgMZfgg4IN80=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=UdYgh4BroP/lPXD2HAkukPURixh0frkt42qnEqj1t+19PYDVdvyw0nFre9hap9/us7Lzd6Ng/FBwRH20bkMopOZJrxs6ObMh6Ld6Om+SrLllV3f4VzaI19JRyOfcif16VuyCinJseVy0qSJDKeS5ZSgxzjTHrd4v1Oxz4lN5iBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=WjN/vY8I; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5889pQE5029061;
-	Mon, 8 Sep 2025 04:51:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1757325086;
-	bh=SS6DuSzgR76vaizUYakz4Izy7zwMeTZaSuY4kSQIbIU=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=WjN/vY8IaoBYzndQySfVCWD0a7MFN+yOIL/iHqmNSGZJjF9TMloFBSplNRqA6QwKT
-	 4VHQgA1/49unadzhM0GnL9N2HQPzwsu1Xe4WzfVYR1/W4RvCNFjK2sCsE/54nf5+ld
-	 /6a/Mv2Smdrj471MbeGQ41dKGgpIMWoyAGmPM1vw=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5889pQU62877877
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Mon, 8 Sep 2025 04:51:26 -0500
-Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 8
- Sep 2025 04:51:25 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Mon, 8 Sep 2025 04:51:25 -0500
-Received: from [172.24.233.149] (ws.dhcp.ti.com [172.24.233.149])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5889pJLO401019;
-	Mon, 8 Sep 2025 04:51:20 -0500
-Message-ID: <5f830f6e-f48d-4150-b705-0cad04ea5267@ti.com>
-Date: Mon, 8 Sep 2025 15:21:19 +0530
+	s=arc-20240116; t=1757325461; c=relaxed/simple;
+	bh=dM5z2tUasXV4s733tX3fvHKZRnpBB4QsUhjTlSr98XA=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=L5XYhla7b6TUFOlib/1o3q8XS9EADu5YqsVgMo7+CdvmNi3p7tuIUGcXLdzDB4Y2FUWIx+DukZjAKbv13G/sXGUXSHMXZZ/CuF4fekagkSneMI++AgqRVmQ+o3YDT3VhVRZNpkbHCdyUF6+C579p1jDsY10EFBb39PRpOQ5xCMc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=GqO72XzD; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-55f7ab2a84eso4182542e87.1;
+        Mon, 08 Sep 2025 02:57:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757325457; x=1757930257; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cbwwRrfMNm0AHhvpRKY5zmyOLjboml80ynPXcO0lBMQ=;
+        b=GqO72XzDL+SaTdj3llSMPkwGug61o7foN+1z4Cs8lF0lPGv6vbLCfokLgK49yETBEm
+         bxRFXgBlPIsKo3vCuwhKReOV04ALQIR4DnQh7VReYrO8ulHdZoIdqXLcr2F3TRKdhFOK
+         ZKQfSMmgVXgedLPvRBAtKqeUmC3L8BaJOI6wXlp/Sy1eAVc+O8M5i/A136+oNWE+5RDT
+         EAgK15CmDua3+TN8mYLizc7GPktneEafcL8Yl2janAzPPM+nSaRLOW6+202EKdpcvpWM
+         sUDbklzqGxYRoz99ho0qn9W8/NAnPl0FvD5NvljMoArLXsOjMbd5m8fmdJt7V5jPPmeq
+         OnRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757325457; x=1757930257;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cbwwRrfMNm0AHhvpRKY5zmyOLjboml80ynPXcO0lBMQ=;
+        b=AqMhInzHUVRjJC7d5q4MhGQdN6MRelKsfWOrIKQRlVHk5sio1F5gObY2PgTQM4z+j4
+         wjhgl55/q7dF1baQBgRp5uBTWft71CeqBq6XQiFYRyeBKnGCm4BIEJCGiVvlqtv6RhCJ
+         4HsUtTzMMbs8RPXbwu99OKQsSePoZokfhoTe/6xfzkco5uZVHTVCZWEQerUGFdrKHH8M
+         u5vU/ubMIafdL/27L6/KKDYUjBNAAOqD6jUrwnttvJtGppp63DbQvHhfYvu6uD8K/bGT
+         AXSE3pqELAi/WjKNxVXUPyPQajYcS123CCXsC9xCHtqXqn3d9frJJHr1evS8CoLgjlwX
+         /Tlw==
+X-Forwarded-Encrypted: i=1; AJvYcCUsutokbZcNM9nv0DPRi52OAqAKnV7Pda8XRCqAIngHfvfaKOiUrFY09H3dsBddfc9gIpdAqRpE0JNAiCc=@vger.kernel.org, AJvYcCX3P0agn9/YTwO+XXkIg9zhZ7ycDRyPQodr3/vBuROkGjt83eHUBNmwPdwQp/f81bxsgoIqDwTD+zMs54g=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2rZmcIKq0w2w5cRaNRw0m8odQnGO2N+Ldu/flpfijaKbLLYD0
+	QG9vyvT4hre2ibDPbloxnogAKuNSXGvtM4tVOVXCFJj/3x0C3I/Df/Qa
+X-Gm-Gg: ASbGncskJg2sfNG3UyZlGmZsKA4L2L5YWV9S42Yr9KXfdLgozqz0vR97e+tk1RPV3mP
+	Ycul9qyjc4nl6WYQvUohxnrVIOYCtKLA+CXJeVi6Ix63oHkQC8+fFL+oMQsPJ99aoQk8Cm6quRG
+	C+nkYx1irpsxHJQ4CcMLvu3wnWstSZoL3trLxnCEkyZut9YtqtQ4rbFT9wLDZ36VvVaRbmjipc+
+	k86dElwDBk359pD9hDI4gNFbzqYjcoSsn0eAKHxcLIw1m6BGjvsOaPWCCR94Q3saeImj48RH6MS
+	pkrB1eKGesllzO2asU668ZDkfOYLDrT5juhy5QfYDWfuLQ4+PcK2VZoAmUYyLmI3PQllOu7bsKh
+	0REhyhdH4lt18ShU54KMbrCyJU6mjqmw//DwMXVmfH0q67A==
+X-Google-Smtp-Source: AGHT+IHxWqdFON/CCC5LRkI3jVzCwBDwQMiNsLLfdR0gH6Mw6m6zXuvxzp1XJmm0lEOZq7v8YQ3FLw==
+X-Received: by 2002:a05:6512:33cd:b0:55f:489d:7bd with SMTP id 2adb3069b0e04-5625d28e732mr2107027e87.0.1757325457107;
+        Mon, 08 Sep 2025 02:57:37 -0700 (PDT)
+Received: from foxbook (bhd197.neoplus.adsl.tpnet.pl. [83.28.93.197])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5608ace9f9asm3517142e87.82.2025.09.08.02.57.36
+        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
+        Mon, 08 Sep 2025 02:57:36 -0700 (PDT)
+Date: Mon, 8 Sep 2025 11:57:32 +0200
+From: Michal Pecio <michal.pecio@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] media: uvcvideo: Shorten the transfer size non
+ compliance message
+Message-ID: <20250908115732.04e84058.michal.pecio@gmail.com>
+In-Reply-To: <20250908083655.GB23493@pendragon.ideasonboard.com>
+References: <20250904081429.592e439f.michal.pecio@gmail.com>
+	<20250908083655.GB23493@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 14/14] media: ti: j721e-csi2rx: Wait for the last drain
- completion
-To: Jai Luthra <jai.luthra@ideasonboard.com>, <jai.luthra@linux.dev>,
-        <laurent.pinchart@ideasonboard.com>, <mripard@kernel.org>
-CC: <y-abhilashchandra@ti.com>, <devarsht@ti.com>, <vaishnav.a@ti.com>,
-        <s-jain1@ti.com>, <vigneshr@ti.com>, <mchehab@kernel.org>,
-        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
-        <sakari.ailus@linux.intel.com>, <hverkuil-cisco@xs4all.nl>,
-        <tomi.valkeinen@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
-        <jack.zhu@starfivetech.com>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
-References: <20250825142522.1826188-1-r-donadkar@ti.com>
- <20250825142522.1826188-15-r-donadkar@ti.com>
- <175707067154.8095.10777597561482124941@freya>
-Content-Language: en-US
-From: Rishikesh Donadkar <r-donadkar@ti.com>
-In-Reply-To: <175707067154.8095.10777597561482124941@freya>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
+On Mon, 8 Sep 2025 10:36:55 +0200, Laurent Pinchart wrote:
+> On Thu, Sep 04, 2025 at 08:14:29AM +0200, Michal Pecio wrote:
+> > This message is much longer than others and doesn't fit even in a 160
+> > column window when printed, despite providing little real information.
+> > 
+> > Also replace 'transmission' with 'transfer' because that's the actual
+> > name and 'max packet' with 'limit' because it isn't same thing with
+> > isochronus endpoints. Remove cryptic abbreviations like 'ep'.
+> > 
+> > Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
+> > ---
+> > 
+> > By the way, this hack doesn't help much in the opposite case:
+> > dwMaxPayloadTransferSize is right, but EP descriptors are a mess.  
+> 
+> Have you encountered such devices ?
 
-On 05/09/25 16:41, Jai Luthra wrote:
-> Quoting Rishikesh Donadkar (2025-08-25 19:55:22)
+Yes, it sometimes reports bad 'mult' in EP descriptors, which leaves
+them with insufficient BW for some video modes. Can be fixed with the
+usual "turn it off, turn it on again".
 
-Hi Jai,
+I frankly haven't bothered trying what would happen if I override mult
+in USB core and I think it would be crazy to send that upstream anyway.
 
-Thank you for the comments.
-
->> dmaengine_terminate_sync() causes all activity for the DMA channel to be
->> stopped, and may discard data in the DMA FIFO which hasn't been fully
->> transferred. No callback functions will be called for any
->> incomplete transfers[1].
->>
->> In multistream use case, calling dmaengine_terminate_sync() immediately
->> after issuing the last drain transaction will result in no callback
->> for the last drain cycle.
->>
->> Implement complete callback for the last drain cycle to make sure that
->> the last drain has completed properly, this will ensure that stale data
->> is not left out in the HW FIFO.
->>
->> [1] : https://docs.kernel.org/driver-api/dmaengine/client.html
->>
->> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
->> ---
->>   drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 11 +++++++++++
->>   1 file changed, 11 insertions(+)
->>
->> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
->> index 4ac6a76b9409..520ee05eb5b4 100644
->> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
->> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
->> @@ -62,6 +62,7 @@
->>   #define TI_CSI2RX_MAX_PADS             (1 + TI_CSI2RX_MAX_SOURCE_PADS)
->>   
->>   #define DRAIN_BUFFER_SIZE              SZ_32K
->> +#define DRAIN_TIMEOUT_MS               50
-> This was dropped in the previous patch, and now reintroduce.
->
-> IIUC this patch is fixing a bug introduced by the previous one, so it's
-> better to squash them together, and have a combined commit description that
-> goes over this end-of-stream case, as well as why continuous drain was
-> needed for mid-stream scenario.
-
-Okay
-
->
->>   
->>   #define CSI2RX_BRIDGE_SOURCE_PAD       1
->>   
->> @@ -137,6 +138,7 @@ struct ti_csi2rx_dev {
->>                  size_t                  len;
->>          } drain;
->>          bool                            vc_cached;
->> +       struct completion drain_complete;
-> Why is the struct completion shared amongst all contexts in the
-> ti_csi2rx_dev structure?
->
-> What happens when two streams are stopped together?
-Right, this struct completion must be per ctx.
->
->>   };
->>   
->>   static inline struct ti_csi2rx_dev *to_csi2rx_dev(struct v4l2_subdev *sd)
->> @@ -624,12 +626,14 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
->>   static void ti_csi2rx_drain_callback(void *param)
->>   {
->>          struct ti_csi2rx_ctx *ctx = param;
->> +       struct ti_csi2rx_dev *csi = ctx->csi;
->>          struct ti_csi2rx_dma *dma = &ctx->dma;
->>          unsigned long flags;
->>   
->>          spin_lock_irqsave(&dma->lock, flags);
->>   
->>          if (dma->state == TI_CSI2RX_DMA_STOPPED) {
->> +               complete(&csi->drain_complete);
-> Please also add comment above this if case explaining why we need to wait
-> for the drain to complete when dma->state == STOPPED, which is set by the
-> driver elsewhere when streamoff was requested, and no more data will be
-> coming in from the source.
-Sure, I believe it would make more sense to add this comment above the 
-wait_for_completion_timeout() call.
->
->>                  spin_unlock_irqrestore(&dma->lock, flags);
->>                  return;
->>          }
->> @@ -774,6 +778,7 @@ static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
->>   static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
->>   {
->>          struct ti_csi2rx_dma *dma = &ctx->dma;
->> +       struct ti_csi2rx_dev *csi = ctx->csi;
->>          enum ti_csi2rx_dma_state state;
->>          unsigned long flags;
->>          int ret;
->> @@ -783,6 +788,8 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
->>          dma->state = TI_CSI2RX_DMA_STOPPED;
->>          spin_unlock_irqrestore(&dma->lock, flags);
->>   
->> +       init_completion(&csi->drain_complete);
->> +
->>          if (state != TI_CSI2RX_DMA_STOPPED) {
->>                  /*
->>                   * Normal DMA termination does not clean up pending data on
->> @@ -796,6 +803,10 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
->>                                   "Failed to drain DMA. Next frame might be bogus\n");
->>          }
->>   
->> +       if (!wait_for_completion_timeout(&csi->drain_complete,
->> +                                        msecs_to_jiffies(DRAIN_TIMEOUT_MS)))
->> +               dev_dbg(csi->dev, "DMA transfer timed out for drain buffer\n");
->> +
->>          ret = dmaengine_terminate_sync(ctx->dma.chan);
->>          if (ret)
->>                  dev_err(ctx->csi->dev, "Failed to stop DMA: %d\n", ret);
->> -- 
->> 2.34.1
->>
-> Thanks,
->      Jai
+Before that patch, it would simply fail with "no fast enough alt
+setting" and -EIO or some such seen by userspace. Now it produces
+truncated frames. But also nothing worse than that, so it's fine.
 
 Regards,
-
-Rishikesh
-
+Michal
 
