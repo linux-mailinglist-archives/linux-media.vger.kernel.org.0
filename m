@@ -1,172 +1,213 @@
-Return-Path: <linux-media+bounces-41973-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41974-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9334B488D9
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 11:43:48 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90286B48911
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 11:52:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D18B3B99B3
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 09:43:03 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6A7CE4E1512
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 09:52:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AB4D2F0C78;
-	Mon,  8 Sep 2025 09:42:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CDB4E2F069E;
+	Mon,  8 Sep 2025 09:51:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="dQ4NJpI5"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="WjN/vY8I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C112EA752;
-	Mon,  8 Sep 2025 09:42:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6161D1E505;
+	Mon,  8 Sep 2025 09:51:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757324543; cv=none; b=CPBxIVAsXvm/vzI0oWxkjHMCHfPj42K7se5JaOJzXUaGMxVDr80gs93ABRbsJ7BwEl6wvdU9p+qwDcppcHFZXsrm3VQwe6q4krtVJSmzOaFG+5Kx0eyEOzCXGHmJXlIucqabIrPnT9iT2qIiLbS60Dzp3K+hvLz2hd+ksMIPJ4k=
+	t=1757325118; cv=none; b=EBKaMVQjecVFNifooEAatIy5IfwFHZ4knhW4OhvcijeqjnP85sKRvLbkReF9XzD3qPltTMI108mmHKMqEE188gesOofyTKYLAmm1o/PDxQ/JC/hybzS19HF4D2myE9kRvXFCcxzwrk3XRydJxT/de3aJa9VCuTFMzzqu4voGaO4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757324543; c=relaxed/simple;
-	bh=rnd6RDB+ozLJ6GnyO0aYYhAe1Suo1G2ATJAAjchaT4k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Wu4oxPiqOdc3ZttFigrTdMMi51Y6cY9bcIf6t1aIwtVBU2p6kkE9P1xIPGP/bx4eNf0g7YSXelyhJQjpslx6ORj2hRcoObrUmOFvrrWd9YDWYC27yOGsfFfibbCLVCjZI4tMfLeZpZjfzftdQVG2fASc8RclljFOa+ku2vrwi48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=dQ4NJpI5; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:c241:40fd:9e5d:437c])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id A397310BE;
-	Mon,  8 Sep 2025 11:41:04 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757324464;
-	bh=rnd6RDB+ozLJ6GnyO0aYYhAe1Suo1G2ATJAAjchaT4k=;
-	h=From:To:Cc:Subject:Date:From;
-	b=dQ4NJpI5PqVhdipK9jmKPgYLgosjlgb1nWZtjezh3jmh7178lplS4hxGh+eXpqkO0
-	 W9MkAw4pnUxJBO9FfcZNU4Ypcr43Sg0OA/A3VxHHbB0d1NXDjDa5iUIrOm+D79CeZs
-	 U2knWweIh4ly9rdszHBoD/BuLpn1y2eweOHPcR40=
-From: Stefan Klug <stefan.klug@ideasonboard.com>
-To: linux-media@vger.kernel.org,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>
-Cc: Stefan Klug <stefan.klug@ideasonboard.com>,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: rkisp1: Improve frame sequence correctness on stats and params buffers
-Date: Mon,  8 Sep 2025 11:41:48 +0200
-Message-ID: <20250908094200.48002-1-stefan.klug@ideasonboard.com>
-X-Mailer: git-send-email 2.48.1
+	s=arc-20240116; t=1757325118; c=relaxed/simple;
+	bh=AewMyCtVmzpGoCtRfmUsnmVxguA8lkNLgMZfgg4IN80=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=UdYgh4BroP/lPXD2HAkukPURixh0frkt42qnEqj1t+19PYDVdvyw0nFre9hap9/us7Lzd6Ng/FBwRH20bkMopOZJrxs6ObMh6Ld6Om+SrLllV3f4VzaI19JRyOfcif16VuyCinJseVy0qSJDKeS5ZSgxzjTHrd4v1Oxz4lN5iBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=WjN/vY8I; arc=none smtp.client-ip=198.47.19.246
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
+	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 5889pQE5029061;
+	Mon, 8 Sep 2025 04:51:26 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1757325086;
+	bh=SS6DuSzgR76vaizUYakz4Izy7zwMeTZaSuY4kSQIbIU=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=WjN/vY8IaoBYzndQySfVCWD0a7MFN+yOIL/iHqmNSGZJjF9TMloFBSplNRqA6QwKT
+	 4VHQgA1/49unadzhM0GnL9N2HQPzwsu1Xe4WzfVYR1/W4RvCNFjK2sCsE/54nf5+ld
+	 /6a/Mv2Smdrj471MbeGQ41dKGgpIMWoyAGmPM1vw=
+Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
+	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 5889pQU62877877
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Mon, 8 Sep 2025 04:51:26 -0500
+Received: from DFLE103.ent.ti.com (10.64.6.24) by DFLE100.ent.ti.com
+ (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 8
+ Sep 2025 04:51:25 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE103.ent.ti.com
+ (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
+ Frontend Transport; Mon, 8 Sep 2025 04:51:25 -0500
+Received: from [172.24.233.149] (ws.dhcp.ti.com [172.24.233.149])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 5889pJLO401019;
+	Mon, 8 Sep 2025 04:51:20 -0500
+Message-ID: <5f830f6e-f48d-4150-b705-0cad04ea5267@ti.com>
+Date: Mon, 8 Sep 2025 15:21:19 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 14/14] media: ti: j721e-csi2rx: Wait for the last drain
+ completion
+To: Jai Luthra <jai.luthra@ideasonboard.com>, <jai.luthra@linux.dev>,
+        <laurent.pinchart@ideasonboard.com>, <mripard@kernel.org>
+CC: <y-abhilashchandra@ti.com>, <devarsht@ti.com>, <vaishnav.a@ti.com>,
+        <s-jain1@ti.com>, <vigneshr@ti.com>, <mchehab@kernel.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <sakari.ailus@linux.intel.com>, <hverkuil-cisco@xs4all.nl>,
+        <tomi.valkeinen@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
+        <jack.zhu@starfivetech.com>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
+References: <20250825142522.1826188-1-r-donadkar@ti.com>
+ <20250825142522.1826188-15-r-donadkar@ti.com>
+ <175707067154.8095.10777597561482124941@freya>
+Content-Language: en-US
+From: Rishikesh Donadkar <r-donadkar@ti.com>
+In-Reply-To: <175707067154.8095.10777597561482124941@freya>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On the rkisp1 (in my case on a NXP i.MX8 M Plus) the ISP interrupt
-handler is sometimes called with RKISP1_CIF_ISP_V_START (start of frame)
-and RKISP1_CIF_ISP_FRAME (end of frame) being set at the same time. In
-commit 8524fa22fd2f ("media: staging: rkisp1: isp: add a warning and
-debugfs var for irq delay") a warning was added for that. There are two
-cases where this condition can occur:
 
-1. The v-sync and the frame-end belong to the same frame. This means,
-   the irq was heavily delayed and the warning is likely appropriate.
+On 05/09/25 16:41, Jai Luthra wrote:
+> Quoting Rishikesh Donadkar (2025-08-25 19:55:22)
 
-2. The v-sync belongs to the next frame. This can happen if the vertical
-   blanking between two frames is very short.
+Hi Jai,
 
-The current code always handles case 1 although case 2 is in my
-experience the more common case and happens in regular usage. This leads
-to incorrect sequence numbers on stats and params buffers which in turn
-breaks the regulation in user space. Fix that by adding a frame_active
-flag to distinguish between these cases and handle the start of frame
-either at the beginning or at the end of the rkisp1_isp_isr().
+Thank you for the comments.
 
-Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
----
- .../platform/rockchip/rkisp1/rkisp1-common.h    |  1 +
- .../media/platform/rockchip/rkisp1/rkisp1-isp.c | 17 +++++++++++++----
- 2 files changed, 14 insertions(+), 4 deletions(-)
+>> dmaengine_terminate_sync() causes all activity for the DMA channel to be
+>> stopped, and may discard data in the DMA FIFO which hasn't been fully
+>> transferred. No callback functions will be called for any
+>> incomplete transfers[1].
+>>
+>> In multistream use case, calling dmaengine_terminate_sync() immediately
+>> after issuing the last drain transaction will result in no callback
+>> for the last drain cycle.
+>>
+>> Implement complete callback for the last drain cycle to make sure that
+>> the last drain has completed properly, this will ensure that stale data
+>> is not left out in the HW FIFO.
+>>
+>> [1] : https://docs.kernel.org/driver-api/dmaengine/client.html
+>>
+>> Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
+>> ---
+>>   drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c | 11 +++++++++++
+>>   1 file changed, 11 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> index 4ac6a76b9409..520ee05eb5b4 100644
+>> --- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> +++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+>> @@ -62,6 +62,7 @@
+>>   #define TI_CSI2RX_MAX_PADS             (1 + TI_CSI2RX_MAX_SOURCE_PADS)
+>>   
+>>   #define DRAIN_BUFFER_SIZE              SZ_32K
+>> +#define DRAIN_TIMEOUT_MS               50
+> This was dropped in the previous patch, and now reintroduce.
+>
+> IIUC this patch is fixing a bug introduced by the previous one, so it's
+> better to squash them together, and have a combined commit description that
+> goes over this end-of-stream case, as well as why continuous drain was
+> needed for mid-stream scenario.
 
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-index ca952fd0829b..adf23416de9a 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-@@ -222,6 +222,7 @@ struct rkisp1_isp {
- 	struct media_pad pads[RKISP1_ISP_PAD_MAX];
- 	const struct rkisp1_mbus_info *sink_fmt;
- 	__u32 frame_sequence;
-+	bool frame_active;
- };
- 
- /*
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-index 8c29a1c9309a..1469075b2d45 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-@@ -965,6 +965,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
- 	}
- 
- 	isp->frame_sequence = -1;
-+	isp->frame_active = false;
- 
- 	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
- 
-@@ -1086,12 +1087,15 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
-  * Interrupt handlers
-  */
- 
--static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
-+static void rkisp1_isp_sof(struct rkisp1_isp *isp)
- {
- 	struct v4l2_event event = {
- 		.type = V4L2_EVENT_FRAME_SYNC,
- 	};
- 
-+	isp->frame_sequence++;
-+	isp->frame_active = true;
-+
- 	event.u.frame_sync.frame_sequence = isp->frame_sequence;
- 	v4l2_event_queue(isp->sd.devnode, &event);
- }
-@@ -1112,14 +1116,15 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
- 	rkisp1_write(rkisp1, RKISP1_CIF_ISP_ICR, status);
- 
- 	/* Vertical sync signal, starting generating new frame */
--	if (status & RKISP1_CIF_ISP_V_START) {
--		rkisp1->isp.frame_sequence++;
--		rkisp1_isp_queue_event_sof(&rkisp1->isp);
-+	if (status & RKISP1_CIF_ISP_V_START && !rkisp1->isp.frame_active) {
-+		status &= ~RKISP1_CIF_ISP_V_START;
-+		rkisp1_isp_sof(&rkisp1->isp);
- 		if (status & RKISP1_CIF_ISP_FRAME) {
- 			WARN_ONCE(1, "irq delay is too long, buffers might not be in sync\n");
- 			rkisp1->debug.irq_delay++;
- 		}
- 	}
-+
- 	if (status & RKISP1_CIF_ISP_PIC_SIZE_ERROR) {
- 		/* Clear pic_size_error */
- 		isp_err = rkisp1_read(rkisp1, RKISP1_CIF_ISP_ERR);
-@@ -1138,6 +1143,7 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
- 	if (status & RKISP1_CIF_ISP_FRAME) {
- 		u32 isp_ris;
- 
-+		rkisp1->isp.frame_active = false;
- 		rkisp1->debug.complete_frames++;
- 
- 		/* New frame from the sensor received */
-@@ -1152,5 +1158,8 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
- 		rkisp1_params_isr(rkisp1);
- 	}
- 
-+	if (status & RKISP1_CIF_ISP_V_START && !rkisp1->isp.frame_active)
-+		rkisp1_isp_sof(&rkisp1->isp);
-+
- 	return IRQ_HANDLED;
- }
--- 
-2.48.1
+Okay
+
+>
+>>   
+>>   #define CSI2RX_BRIDGE_SOURCE_PAD       1
+>>   
+>> @@ -137,6 +138,7 @@ struct ti_csi2rx_dev {
+>>                  size_t                  len;
+>>          } drain;
+>>          bool                            vc_cached;
+>> +       struct completion drain_complete;
+> Why is the struct completion shared amongst all contexts in the
+> ti_csi2rx_dev structure?
+>
+> What happens when two streams are stopped together?
+Right, this struct completion must be per ctx.
+>
+>>   };
+>>   
+>>   static inline struct ti_csi2rx_dev *to_csi2rx_dev(struct v4l2_subdev *sd)
+>> @@ -624,12 +626,14 @@ static void ti_csi2rx_setup_shim(struct ti_csi2rx_ctx *ctx)
+>>   static void ti_csi2rx_drain_callback(void *param)
+>>   {
+>>          struct ti_csi2rx_ctx *ctx = param;
+>> +       struct ti_csi2rx_dev *csi = ctx->csi;
+>>          struct ti_csi2rx_dma *dma = &ctx->dma;
+>>          unsigned long flags;
+>>   
+>>          spin_lock_irqsave(&dma->lock, flags);
+>>   
+>>          if (dma->state == TI_CSI2RX_DMA_STOPPED) {
+>> +               complete(&csi->drain_complete);
+> Please also add comment above this if case explaining why we need to wait
+> for the drain to complete when dma->state == STOPPED, which is set by the
+> driver elsewhere when streamoff was requested, and no more data will be
+> coming in from the source.
+Sure, I believe it would make more sense to add this comment above the 
+wait_for_completion_timeout() call.
+>
+>>                  spin_unlock_irqrestore(&dma->lock, flags);
+>>                  return;
+>>          }
+>> @@ -774,6 +778,7 @@ static int ti_csi2rx_start_dma(struct ti_csi2rx_ctx *ctx,
+>>   static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
+>>   {
+>>          struct ti_csi2rx_dma *dma = &ctx->dma;
+>> +       struct ti_csi2rx_dev *csi = ctx->csi;
+>>          enum ti_csi2rx_dma_state state;
+>>          unsigned long flags;
+>>          int ret;
+>> @@ -783,6 +788,8 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
+>>          dma->state = TI_CSI2RX_DMA_STOPPED;
+>>          spin_unlock_irqrestore(&dma->lock, flags);
+>>   
+>> +       init_completion(&csi->drain_complete);
+>> +
+>>          if (state != TI_CSI2RX_DMA_STOPPED) {
+>>                  /*
+>>                   * Normal DMA termination does not clean up pending data on
+>> @@ -796,6 +803,10 @@ static void ti_csi2rx_stop_dma(struct ti_csi2rx_ctx *ctx)
+>>                                   "Failed to drain DMA. Next frame might be bogus\n");
+>>          }
+>>   
+>> +       if (!wait_for_completion_timeout(&csi->drain_complete,
+>> +                                        msecs_to_jiffies(DRAIN_TIMEOUT_MS)))
+>> +               dev_dbg(csi->dev, "DMA transfer timed out for drain buffer\n");
+>> +
+>>          ret = dmaengine_terminate_sync(ctx->dma.chan);
+>>          if (ret)
+>>                  dev_err(ctx->csi->dev, "Failed to stop DMA: %d\n", ret);
+>> -- 
+>> 2.34.1
+>>
+> Thanks,
+>      Jai
+
+Regards,
+
+Rishikesh
 
 
