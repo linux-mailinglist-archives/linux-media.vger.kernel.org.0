@@ -1,282 +1,197 @@
-Return-Path: <linux-media+bounces-42019-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42002-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E8BB4905C
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 15:53:54 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92717B49015
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 15:48:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6AF0A177854
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 13:53:54 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 77396188A8B7
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 13:48:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C8E5930DEB7;
-	Mon,  8 Sep 2025 13:49:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBC8030BB98;
+	Mon,  8 Sep 2025 13:48:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="A4SUy8RT"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="fTqkyte5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A3C330DEA6;
-	Mon,  8 Sep 2025 13:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A629D22FE0D;
+	Mon,  8 Sep 2025 13:47:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757339386; cv=none; b=A5jzvDQrkio3+7HMsAwMLQ+n94915Qj3u7PrFcjyAdCSxEzEWg9Q5DYS79GWryCVXiHDBsriidzIGCKAa7kIJH9scTUOZipL5Heu8Fl1Fs5T/BHDtGrfY4z2Bkd+0kzQ7xXgOUdvhdwPtfFi5y8mDm2SnAOr4fWOnwkZn/2O/Tk=
+	t=1757339281; cv=none; b=h0ULL7w5Il/D3bQVEEuV9DSV+IBvjasVOBX/wnCVzBxYMaX/wv2jR2ppFIAalJh1GlU6TgjGPbaPLH8lB3RkXEfhD/ArAYeAfz++N2cPQ6/4JmepfeRP7UWiLQD2xG24a+p4Udg5zvQm2fPYf3HVTBKPTQUR1lJXq6pNMOt5d/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757339386; c=relaxed/simple;
-	bh=74dxGks3wE+KmogYQEvEPeKv/CFolBQItJBrOe48W0Q=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=VfKm6P/mAj1xPE38/ynR0Bq8U5s2w9/V2b38gKKeZKGFfTki/KcqdAQJUQ1ugVSJc/4r4QNd+NybJNcYtF51VzGyoA0Q/BzmcBhlZpoKdJOJ17XpHhSwRhfl60tC9E9nAYEe2u+IogPmnLF49h4NLJGJpta0jtd74F1vKkPl+tM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=A4SUy8RT; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelvem-sh01.itg.ti.com ([10.180.77.71])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 588DnUTS113421;
-	Mon, 8 Sep 2025 08:49:30 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1757339370;
-	bh=V69zvBvOl3WhrSdfaqYSrNW1HzDyHIqg6hTSUqZqvqQ=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=A4SUy8RTvA9FwN+XMYcaWzZfifyJNVmcWvDFmbdavNaNyp3ufSsvJrtz1yv1SiBew
-	 yQMax4VlgiZPtNDWE91hPpB+UoFQzQiJRyQ7OlmwZqCN4jJQOT0L7+Vb86jKxyslio
-	 cHAuapa1iFBn59FSi5BQjBY/EZdwiXgw50xBMeA0=
-Received: from DFLE109.ent.ti.com (dfle109.ent.ti.com [10.64.6.30])
-	by lelvem-sh01.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 588DnURH2443419
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Mon, 8 Sep 2025 08:49:30 -0500
-Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE109.ent.ti.com
- (10.64.6.30) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Mon, 8
- Sep 2025 08:49:29 -0500
-Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE112.ent.ti.com
- (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55 via
- Frontend Transport; Mon, 8 Sep 2025 08:49:29 -0500
-Received: from ws.dhcp.ti.com (ws.dhcp.ti.com [172.24.233.149])
-	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 588DlU99689321;
-	Mon, 8 Sep 2025 08:49:23 -0500
-From: Rishikesh Donadkar <r-donadkar@ti.com>
-To: <jai.luthra@linux.dev>, <laurent.pinchart@ideasonboard.com>,
-        <mripard@kernel.org>
-CC: <r-donadkar@ti.com>, <y-abhilashchandra@ti.com>, <devarsht@ti.com>,
-        <s-jain1@ti.com>, <vigneshr@ti.com>, <mchehab@kernel.org>,
-        <robh@kernel.org>, <krzk+dt@kernel.org>, <p.zabel@pengutronix.de>,
-        <conor+dt@kernel.org>, <sakari.ailus@linux.intel.com>,
-        <hverkuil-cisco@xs4all.nl>, <tomi.valkeinen@ideasonboard.com>,
-        <jai.luthra@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
-        <jack.zhu@starfivetech.com>, <sjoerd@collabora.com>,
-        <hverkuil+cisco@kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v6 16/16] media: ti: j721e-csi2rx: Support system suspend using pm_notifier
-Date: Mon, 8 Sep 2025 19:17:29 +0530
-Message-ID: <20250908134729.3940366-17-r-donadkar@ti.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250908134729.3940366-1-r-donadkar@ti.com>
-References: <20250908134729.3940366-1-r-donadkar@ti.com>
+	s=arc-20240116; t=1757339281; c=relaxed/simple;
+	bh=aUU66mA1SxFB9c1Xi8NaJzcoy+mG8NTkYHR2h/BbdPs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nVbitxIijqGN58T/1dKoV9SR0v4awNHZflUfSVIPxWMxO52KUEUWsKYrGuHeCFbLhSgWl+ipmq2p9VtwVQDvJiJlGXylD/jMqpLJ/j+2xUxG9lyViovD/c+cxOffpVht9NXnoqLNrYsC2cjL+biBx28/ZNq+Eb3fiGOXZdLGpAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=fTqkyte5; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (85-76-134-76-nat.elisa-mobile.fi [85.76.134.76])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 27D3599F;
+	Mon,  8 Sep 2025 15:46:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1757339205;
+	bh=aUU66mA1SxFB9c1Xi8NaJzcoy+mG8NTkYHR2h/BbdPs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=fTqkyte5OOIGKga37FfYPeMr1IQ5EiGVQ+IBQHB92MRiHaidHv6oDufsdGrVCMFN5
+	 sWZgaOL1tL0MhNRUVX1jB41MvOqK98J0qmnJv6+9ms+VVg+x1q69pVgulMlNgwLh78
+	 8SdL7NyMg05j/XLhJDSM5nRMhIb9GMrSPUNHr000=
+Date: Mon, 8 Sep 2025 15:47:35 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Richard Leitner <richard.leitner@linux.dev>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-leds@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
+Subject: Re: [PATCH v7 06/10] media: i2c: ov9282: add hardware strobe signal
+ v4l2 control
+Message-ID: <20250908134735.GF26062@pendragon.ideasonboard.com>
+References: <20250901-ov9282-flash-strobe-v7-0-d58d5a694afc@linux.dev>
+ <20250901-ov9282-flash-strobe-v7-6-d58d5a694afc@linux.dev>
+ <aLYIq6GxLgPM6ReC@kekkonen.localdomain>
+ <ieqhz2bpvtnej7odzjz3laiudbib3q6j656ed5s7zk4n2nxafh@ci7sdkmdni7d>
+ <20250907200811.GB19568@pendragon.ideasonboard.com>
+ <czhubfkhxayxbmn7hpgxjjqpylgo5c7jbrzobzxq65ruza2zfx@fhlxv2q63a5a>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <czhubfkhxayxbmn7hpgxjjqpylgo5c7jbrzobzxq65ruza2zfx@fhlxv2q63a5a>
 
-From: Jai Luthra <jai.luthra@ideasonboard.com>
+On Mon, Sep 08, 2025 at 02:09:06PM +0200, Richard Leitner wrote:
+> On Sun, Sep 07, 2025 at 10:08:11PM +0200, Laurent Pinchart wrote:
+> > On Wed, Sep 03, 2025 at 08:58:04AM +0200, Richard Leitner wrote:
+> > > On Mon, Sep 01, 2025 at 11:57:15PM +0300, Sakari Ailus wrote:
+> > > > On Mon, Sep 01, 2025 at 05:05:11PM +0200, Richard Leitner wrote:
+> > > > > Add V4L2_CID_FLASH_HW_STROBE_SIGNAL enable/disable support using the
+> > > > > "strobe output enable" feature of the sensor.
+> > > > > 
+> > > > > All values are based on the OV9281 datasheet v1.53 (january 2019) and
+> > > > > tested using an ov9281 VisionComponents module.
+> > > > > 
+> > > > > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
+> > > > > ---
+> > > > >  drivers/media/i2c/ov9282.c | 25 ++++++++++++++++++++++++-
+> > > > >  1 file changed, 24 insertions(+), 1 deletion(-)
+> > > > > 
+> > > > > diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> > > > > index f42e0d439753e74d14e3a3592029e48f49234927..ff0f69f0dc3a2d0518806b9ea65c1b520b5c55fb 100644
+> > > > > --- a/drivers/media/i2c/ov9282.c
+> > > > > +++ b/drivers/media/i2c/ov9282.c
+> > > > > @@ -670,6 +670,23 @@ static int ov9282_set_ctrl_vflip(struct ov9282 *ov9282, int value)
+> > > > >  				current_val);
+> > > > >  }
+> > > > >  
+> > > > > +static int ov9282_set_ctrl_flash_hw_strobe_signal(struct ov9282 *ov9282, bool enable)
+> > > > > +{
+> > > > > +	u32 current_val;
+> > > > > +	int ret = ov9282_read_reg(ov9282, OV9282_REG_OUTPUT_ENABLE6, 1,
+> > > > > +				  &current_val);
+> > > > > +	if (ret)
+> > > > > +		return ret;
+> > > > 
+> > > > Please don't do assignments in variable declaration if that involves error
+> > > > handling.
+> > > 
+> > > Sure. Will fix that!
+> > > 
+> > > > > +
+> > > > > +	if (enable)
+> > > > > +		current_val |= OV9282_OUTPUT_ENABLE6_STROBE;
+> > > > > +	else
+> > > > > +		current_val &= ~OV9282_OUTPUT_ENABLE6_STROBE;
+> > > > > +
+> > > > > +	return ov9282_write_reg(ov9282, OV9282_REG_OUTPUT_ENABLE6, 1,
+> > > > > +				current_val);
+> > 
+> > It would be nice to cache the register value instead of reading it back.
+> > Regmap may help (and then the driver should use the CCI helpers). This
+> > can be done separately.
+> 
+> Currently all set_ctrl calls in the ov9282 driver have this
+> read/modify/write pattern. As mentioned in the cover letter I'm planning
+> to migrate to cci helpers in a future series to keep the set smaller.
+> But if you prefer the migration in this series I can try to rebase on
+> it?
 
-As this device is the "orchestrator" for the rest of the media
-pipeline, we need to stop all on-going streams before system suspend and
-enable them back when the system wakes up from sleep.
+No, it's fine on top. I ask for enough yak-shaving already :-)
 
-Using .suspend/.resume callbacks does not work, as the order of those
-callbacks amongst various devices in the camera pipeline like the sensor,
-FPD serdes, CSI bridge etc. is impossible to enforce, even with
-device links. For example, the Cadence CSI bridge is a child device of
-this device, thus we cannot create a device link with the CSI bridge as
-a provider and this device as consumer. This can lead to situations
-where all the dependencies for the bridge have not yet resumed when we
-request the subdev to start streaming again through the .resume callback
-defined in this device.
+> > > > > +}
+> > > > > +
+> > > > >  /**
+> > > > >   * ov9282_set_ctrl() - Set subdevice control
+> > > > >   * @ctrl: pointer to v4l2_ctrl structure
+> > > > > @@ -736,6 +753,9 @@ static int ov9282_set_ctrl(struct v4l2_ctrl *ctrl)
+> > > > >  		ret = ov9282_write_reg(ov9282, OV9282_REG_TIMING_HTS, 2,
+> > > > >  				       (ctrl->val + ov9282->cur_mode->width) >> 1);
+> > > > >  		break;
+> > > > > +	case V4L2_CID_FLASH_HW_STROBE_SIGNAL:
+> > > > > +		ret = ov9282_set_ctrl_flash_hw_strobe_signal(ov9282, ctrl->val);
+> > > > > +		break;
+> > > > >  	default:
+> > > > >  		dev_err(ov9282->dev, "Invalid control %d", ctrl->id);
+> > > > >  		ret = -EINVAL;
+> > > > > @@ -1326,7 +1346,7 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+> > > > >  	u32 lpfr;
+> > > > >  	int ret;
+> > > > >  
+> > > > > -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
+> > > > > +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 11);
+> > > > >  	if (ret)
+> > > > >  		return ret;
+> > > > >  
+> > > > > @@ -1391,6 +1411,9 @@ static int ov9282_init_controls(struct ov9282 *ov9282)
+> > > > >  						OV9282_TIMING_HTS_MAX - mode->width,
+> > > > >  						1, hblank_min);
+> > > > >  
+> > > > > +	/* Flash/Strobe controls */
+> > > > > +	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops, V4L2_CID_FLASH_HW_STROBE_SIGNAL, 0, 1, 1, 0);
+> > > > 
+> > > > This seems rather long.
+> > > 
+> > > It's exactly 100 chars wide, so from a policy point of view it should be
+> > > fine ;-). But I'm also fine with breaking it to 80 if you prefer?
+> > 
+> > That's the usual policy in V4L2, yes. 80 columns is the preferred soft
+> > limit.
+> 
+> So I should break this line in this case? Tbh I'm often unsure on
+> breaking on 80 or 100... Personally 100 is fine for me, but that's
+> "your" subsystem/driver, so I guess it's your descision ;-)
 
-Instead here we register a notifier callback with the PM framework
-which is triggered when the system is fully functional. At this point we
-can cleanly stop or start the streams, because we know all other devices
-and their dependencies are functional. A downside of this approach is
-that the userspace is also alive (not frozen yet, or just thawed), so
-the suspend notifier might complete before the userspace has completed
-all ioctls, like QBUF/DQBUF/STREAMON/STREAMOFF.
+Sakari is even more strict than me about line lengths :-)
 
-Tested-by: Rishikesh Donadkar <r-donadkar@ti.com>
-Reviewed-by: Rishikesh Donadkar <r-donadkar@ti.com>
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
----
- .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 128 ++++++++++++++++++
- 1 file changed, 128 insertions(+)
+It a line is just a couple of charaters about 80 columns and doesn't
+have a nice split point I would avoid breaking it as I feel the result
+would be less readable.
 
-diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-index 3405e68932dd..6e3838003857 100644
---- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-+++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
-@@ -132,6 +132,7 @@ struct ti_csi2rx_dev {
- 	struct v4l2_subdev		*source;
- 	struct v4l2_subdev		subdev;
- 	struct ti_csi2rx_ctx		ctx[TI_CSI2RX_MAX_CTX];
-+	struct notifier_block		pm_notifier;
- 	u8				pix_per_clk;
- 	/* Buffer to drain stale data from PSI-L endpoint */
- 	struct {
-@@ -1557,6 +1558,124 @@ static int ti_csi2rx_runtime_resume(struct device *dev)
- 	return 0;
- }
- 
-+static int ti_csi2rx_suspend(struct device *dev)
-+{
-+	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
-+	enum ti_csi2rx_dma_state state;
-+	struct ti_csi2rx_ctx *ctx;
-+	struct ti_csi2rx_dma *dma;
-+	unsigned long flags = 0;
-+	int i, ret = 0;
-+
-+	/* If device was not in use we can simply suspend */
-+	if (pm_runtime_status_suspended(dev))
-+		return 0;
-+
-+	/*
-+	 * If device is running, assert the pixel reset to cleanly stop any
-+	 * on-going streams before we suspend.
-+	 */
-+	writel(0, csi->shim + SHIM_CNTL);
-+
-+	for (i = 0; i < csi->num_ctx; i++) {
-+		ctx = &csi->ctx[i];
-+		dma = &ctx->dma;
-+
-+		spin_lock_irqsave(&dma->lock, flags);
-+		state = dma->state;
-+		spin_unlock_irqrestore(&dma->lock, flags);
-+
-+		if (state != TI_CSI2RX_DMA_STOPPED) {
-+			/* Disable source */
-+			ret = v4l2_subdev_disable_streams(&csi->subdev,
-+							  TI_CSI2RX_PAD_FIRST_SOURCE + ctx->idx,
-+							  BIT(0));
-+			if (ret)
-+				dev_err(csi->dev, "Failed to stop subdev stream\n");
-+		}
-+
-+		/* Stop any on-going streams */
-+		writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
-+
-+		/* Drain DMA */
-+		ti_csi2rx_drain_dma(ctx);
-+
-+		/* Terminate DMA */
-+		ret = dmaengine_terminate_sync(ctx->dma.chan);
-+		if (ret)
-+			dev_err(csi->dev, "Failed to stop DMA\n");
-+	}
-+
-+	return ret;
-+}
-+
-+static int ti_csi2rx_resume(struct device *dev)
-+{
-+	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
-+	struct ti_csi2rx_ctx *ctx;
-+	struct ti_csi2rx_dma *dma;
-+	struct ti_csi2rx_buffer *buf;
-+	unsigned long flags = 0;
-+	unsigned int reg;
-+	int i, ret = 0;
-+
-+	/* If device was not in use, we can simply wakeup */
-+	if (pm_runtime_status_suspended(dev))
-+		return 0;
-+
-+	/* If device was in use before, restore all the running streams */
-+	reg = SHIM_CNTL_PIX_RST;
-+	writel(reg, csi->shim + SHIM_CNTL);
-+
-+	for (i = 0; i < csi->num_ctx; i++) {
-+		ctx = &csi->ctx[i];
-+		dma = &ctx->dma;
-+		spin_lock_irqsave(&dma->lock, flags);
-+		if (dma->state != TI_CSI2RX_DMA_STOPPED) {
-+			/* Re-submit all previously submitted buffers to DMA */
-+			list_for_each_entry(buf, &ctx->dma.submitted, list) {
-+				ti_csi2rx_start_dma(ctx, buf);
-+			}
-+			spin_unlock_irqrestore(&dma->lock, flags);
-+
-+			/* Restore stream config */
-+			ti_csi2rx_setup_shim(ctx);
-+
-+			ret = v4l2_subdev_enable_streams(&csi->subdev,
-+							 TI_CSI2RX_PAD_FIRST_SOURCE + ctx->idx,
-+							 BIT(0));
-+			if (ret)
-+				dev_err(ctx->csi->dev, "Failed to start subdev\n");
-+		} else {
-+			spin_unlock_irqrestore(&dma->lock, flags);
-+		}
-+	}
-+
-+	return ret;
-+}
-+
-+static int ti_csi2rx_pm_notifier(struct notifier_block *nb,
-+				 unsigned long action, void *data)
-+{
-+	struct ti_csi2rx_dev *csi =
-+		container_of(nb, struct ti_csi2rx_dev, pm_notifier);
-+
-+	switch (action) {
-+	case PM_HIBERNATION_PREPARE:
-+	case PM_SUSPEND_PREPARE:
-+	case PM_RESTORE_PREPARE:
-+		ti_csi2rx_suspend(csi->dev);
-+		break;
-+	case PM_POST_SUSPEND:
-+	case PM_POST_HIBERNATION:
-+	case PM_POST_RESTORE:
-+		ti_csi2rx_resume(csi->dev);
-+		break;
-+	}
-+
-+	return NOTIFY_DONE;
-+}
-+
- static const struct dev_pm_ops ti_csi2rx_pm_ops = {
- 	RUNTIME_PM_OPS(ti_csi2rx_runtime_suspend, ti_csi2rx_runtime_resume,
- 		       NULL)
-@@ -1628,6 +1747,13 @@ static int ti_csi2rx_probe(struct platform_device *pdev)
- 		goto err_notifier;
- 	}
- 
-+	csi->pm_notifier.notifier_call = ti_csi2rx_pm_notifier;
-+	ret = register_pm_notifier(&csi->pm_notifier);
-+	if (ret) {
-+		dev_err(csi->dev, "Failed to create PM notifier: %d\n", ret);
-+		goto err_notifier;
-+	}
-+
- 	pm_runtime_set_active(csi->dev);
- 	pm_runtime_enable(csi->dev);
- 	pm_request_idle(csi->dev);
-@@ -1658,6 +1784,8 @@ static void ti_csi2rx_remove(struct platform_device *pdev)
- 		ti_csi2rx_cleanup_ctx(&csi->ctx[i]);
- 
- 	ti_csi2rx_cleanup_notifier(csi);
-+	unregister_pm_notifier(&csi->pm_notifier);
-+
- 	ti_csi2rx_cleanup_v4l2(csi);
- 	mutex_destroy(&csi->mutex);
- 	dma_free_coherent(csi->dev, csi->drain.len, csi->drain.vaddr,
+In this particular case, breaking the line would lead to
+
+	v4l2_ctrl_new_std(ctrl_hdlr, &ov9282_ctrl_ops,
+			  V4L2_CID_FLASH_HW_STROBE_SIGNAL, 0, 1, 1, 0);
+
+
+which I think is OK. It's very subjective of course.
+
+> > > > > +
+> > > > >  	ret = v4l2_fwnode_device_parse(ov9282->dev, &props);
+> > > > >  	if (!ret) {
+> > > > >  		/* Failure sets ctrl_hdlr->error, which we check afterwards anyway */
+> > > > > 
+
 -- 
-2.34.1
+Regards,
 
+Laurent Pinchart
 
