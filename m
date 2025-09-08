@@ -1,197 +1,134 @@
-Return-Path: <linux-media+bounces-42045-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42046-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92106B49AA9
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 22:06:09 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B58DB49CCB
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 00:22:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 67B011896575
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 20:06:30 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE2643C250E
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 22:22:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 58A702D8377;
-	Mon,  8 Sep 2025 20:05:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AFF32EB862;
+	Mon,  8 Sep 2025 22:22:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="hM5q/qJM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R2BsrGp3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A44A9219A86;
-	Mon,  8 Sep 2025 20:05:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757361955; cv=pass; b=hmTX3CcDHzVBHIID1R+iVappo1etwt+EUarRflfZDtymSWJHlTlP4S8SbS2nxYoX3IGw3Dox1MdO+5xCSv2p/7Ie4PEiRzkGZ4Uqu5j7bwy6WKiaISGB8mLWTvVrNchWu4x800Isu0rb9C0DFc85DmBydx0JQQxOLXz5uo99foY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757361955; c=relaxed/simple;
-	bh=erTUly9Qg9X6cog7y18GcAb2e51Bg9D6zVP2Ld+yegU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f3F5oM1el+YgBvHLUZhBx6ltCucQuKoFjn94yRuWd0qFE37Xfx57ZAULiqcW8vkZ8pzyMb/UCPsVjImjFO5uHbj4hF/fjf7MdyYEtsvcrKiEj47wV8mKEthN6L2v/YgQp9NlxOB4OY7VDo+asKP4y4OrNEXyqM3jr6WPyZgx/4E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=hM5q/qJM; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1757361899; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=FBqZoto3NaNrr+QEk2kOlolOBw3muYFVoz92mSEsCqHEHx9bRDQVMBbpJvXLiEZn1Q7eNia7ROlo6ioobMA+XLoysc8dYZF2eB4bzoY2q4Mvdb1w+fUxt8QL5vlTMVEHXiU9sJF53nbHrsyPV3UhZpUZZNyk0Y2P5HGhidk7fn0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1757361899; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=8Qmtq2CeP5Jx7vZXKA2CMOipGElDjnWELU/7DNqKtTE=; 
-	b=MxHttsUDp1O7iL94CxpC4azMxrqzbdHtZMwsjWmfVfDp8Kmnr2njcXzIJ9sg+185/H7MVUIhbYTGKo2AvEKkeCrHmqcY0aJmhVSm9dlrtrpjzhe6/gvFYThXkLahFKnJupZ127Pgmdll3zTjB/HE7cv6WeXprzWlrH1t6Cdaqrk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
-	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757361899;
-	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=8Qmtq2CeP5Jx7vZXKA2CMOipGElDjnWELU/7DNqKtTE=;
-	b=hM5q/qJMILxUA2nOZg1Nvj3qrcEKZCqnn9aoxyH8Z6+lErg0o9Y5rGzh7VrQQh5j
-	/Vq82lI51wz8mQvigoFmbhZv+IZco6nfWCamUyuuMcf08vsBx+PYt5RNWhKIKHVhwpk
-	R/LDv7vzYP2AP5Oo+otV7uUA0uLne4OUJJM8R37A=
-Received: by mx.zohomail.com with SMTPS id 1757361898233170.25250327031745;
-	Mon, 8 Sep 2025 13:04:58 -0700 (PDT)
-Message-ID: <d32af8e4-0771-4674-8317-78dd1e24c95b@collabora.com>
-Date: Mon, 8 Sep 2025 17:04:41 -0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E7AD17E0;
+	Mon,  8 Sep 2025 22:22:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757370168; cv=none; b=J0ngJFCQYEihyrGPF43fH1TOB/kHKyCPwMdjZ3XZfT2YO3kzzCWQ1bRAtK3hpQ54p6wWgz1qVcBH3yQ5ovFCTL+++/Q7aVS8+ob348l7ZrZqK0ZbDB/F47gGAkFk7fJJfeOuArzU8UPGcImX74Mm2grAppZj5ACAeZd7pVbo0gM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757370168; c=relaxed/simple;
+	bh=8cXwfOI9HP/FP1SpHc23/1LxWXO1om2wkblB5QFskag=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nM7sYQxUscQeDtFJTuaV4QWqKAXNQYFQda5jWenk0Le5wKVXnNisbbHmuCxGfAXbsWoP8h/q3E4EyZmvuQEwR/SZHS/yH7CVrSWMiTQks7R0fA9XI6ScDqfLpUsv3Lzq8Fl/qcrAULEolrk8kKk+zn/FCS3CjHq2g67lQKRbaqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R2BsrGp3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB8B4C4CEF1;
+	Mon,  8 Sep 2025 22:22:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757370168;
+	bh=8cXwfOI9HP/FP1SpHc23/1LxWXO1om2wkblB5QFskag=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=R2BsrGp3+jnEyIhsekQIbzBbDnaVfc4R4dvpIQNDENfwb+sk8t8boiajtDihgeeVD
+	 ZSuM5QLF+SUrtOtVc9U/Ktm5vBD+b4bEjx2V8ZnrKpKjCh2QMadCOYzVGGxgwW86Ul
+	 I1bJTENjOii9cyuzUzyM9CNkCOyf7gdjG2DlOYtdoHdESLUDfSF8dYnMQFw+Aqv0ko
+	 RGsIbBebuy1A8MTwov32N0zgLn1z58PWdz3DGt9Yl1g7e2gfyK9IOpHIOfKrOOHRMT
+	 hcpZIFtefPLkE4pQDTRw/VEoJhvPy7dfPl6/KpRFhRzdoaVIH3smhdVZqb90fLRMP8
+	 72Vw5rrTxdO5Q==
+Date: Mon, 8 Sep 2025 17:22:47 -0500
+From: Rob Herring <robh@kernel.org>
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: Hans de Goede <hansg@kernel.org>,
+	Aleksandrs Vinarskis <alex@vinarskis.com>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Daniel Thompson <danielt@kernel.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Daniel Thompson <daniel.thompson@linaro.org>,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH v3 2/4] dt-bindings: leds: commonize leds property
+Message-ID: <20250908222247.GA1943768-robh@kernel.org>
+References: <20250908-leds-v3-0-5944dc400668@vinarskis.com>
+ <20250908-leds-v3-2-5944dc400668@vinarskis.com>
+ <0e030e7d-0a1a-4a00-ba18-ed26107d07fa@oss.qualcomm.com>
+ <046b289d-b6a5-45f9-88b1-090e2ab7c95d@kernel.org>
+ <39b955b9-a152-458a-8e09-908efebaaccd@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 05/14] sound: dt-bindings: Convert MediaTek RT5650
- codecs bindings to YAML
-To: Rob Herring <robh@kernel.org>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
- andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
- broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
- conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
- edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
- jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
- krzk+dt@kernel.org, kuba@kernel.org,
- kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
- linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
- maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
- mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
- p.zabel@pengutronix.de, pabeni@redhat.com, sean.wang@kernel.org,
- simona@ffwll.ch, support.opensource@diasemi.com, tiffany.lin@mediatek.com,
- tzimmermann@suse.de, yunfei.dong@mediatek.com, devicetree@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
- linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
- linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
- linux-sound@vger.kernel.org, netdev@vger.kernel.org
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-6-ariel.dalessandro@collabora.com>
- <20250822151415.GA3819434-robh@kernel.org>
-Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <20250822151415.GA3819434-robh@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <39b955b9-a152-458a-8e09-908efebaaccd@oss.qualcomm.com>
 
-Rob,
-
-On 8/22/25 12:14 PM, Rob Herring wrote:
-> On Wed, Aug 20, 2025 at 02:12:53PM -0300, Ariel D'Alessandro wrote:
->> Convert the existing text-based DT bindings for Mediatek MT8173 RT5650
->> codecs to a YAML schema.
->>
->> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
->> ---
->>   .../sound/mediatek,mt8173-rt5650.yaml         | 73 +++++++++++++++++++
->>   .../bindings/sound/mt8173-rt5650.txt          | 31 --------
->>   2 files changed, 73 insertions(+), 31 deletions(-)
->>   create mode 100644 Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml
->>   delete mode 100644 Documentation/devicetree/bindings/sound/mt8173-rt5650.txt
->>
->> diff --git a/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml b/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml
->> new file mode 100644
->> index 0000000000000..36e4f9c4c3d62
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/sound/mediatek,mt8173-rt5650.yaml
->> @@ -0,0 +1,73 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/sound/mediatek,mt8173-rt5650.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Mediatek MT8173 with RT5650 codecs and HDMI via I2S
->> +
->> +maintainers:
->> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
->> +
->> +properties:
->> +  compatible:
->> +    const: "mediatek,mt8173-rt5650"
+On Mon, Sep 08, 2025 at 09:36:39AM +0200, Konrad Dybcio wrote:
+> On 9/8/25 9:33 AM, Hans de Goede wrote:
+> > Hi,
+> > 
+> > On 8-Sep-25 09:20, Konrad Dybcio wrote:
+> >> On 9/8/25 1:18 AM, Aleksandrs Vinarskis wrote:
+> >>> A number of existing schemas use 'leds' property to provide
+> >>> phandle-array of LED(s) to the consumer. Additionally, with the
+> >>> upcoming privacy-led support in device-tree, v4l2 subnode could be a
+> >>> LED consumer, meaning that all camera sensors should support 'leds'
+> >>> and 'led-names' property via common 'video-interface-devices.yaml'.
+> >>>
+> >>> To avoid dublication, commonize 'leds' property from existing schemas
+> >>> to newly introduced 'led-consumer.yaml'.
+> >>>
+> >>> Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+> >>> ---
+> >>
+> >> [...]
+> >>
+> >>>  
+> >>> +  leds:
+> >>> +    minItems: 1
+> >>> +    maxItems: 1
+> >>
+> >> My brain compiler suggests this will throw a warning (minItems should
+> >> be redundant in this case)
+> >>> +
+> >>> +  led-names:
+> >>> +    enum:
+> >>> +      - privacy-led
+> >>
+> >> Nit: "privacy" makes more sense without the suffix, as we inherently
+> >> know this is supposed to be an LED
+> > 
+> > Note "privacy-led" as name is already used on the x86/ACPI side and
+> > the code consuming this will be shared.
+> > 
+> > With that said if there is a strong preference for going with just
+> > "privacy" the x86 side can be adjusted since the provider-info is
+> > generated through a LED lookup table on the x86/ACPI side. So we can
+> > just modify both the lookup table generation as well as the already
+> > existing led_get(dev, "privacy-led") call to use just "privacy"
+> > without problems.
 > 
-> Drop quotes.
+> In that case, it may be cleaner to just go with what we have today
+> (unless the dt maintainers have stronger opinions)
 
-Ack.
+Well, I do, but I guess it's fine. Please don't add the suffix on the 
+rest and add a comment for why it's there.
 
-> 
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  mediatek,audio-codec:
->> +    $ref: /schemas/types.yaml#/definitions/phandle-array
->> +    description:
->> +      The phandles of rt5650 codecs and of the HDMI encoder node.
->> +    minItems: 2
->> +
->> +  mediatek,platform:
->> +    $ref: /schemas/types.yaml#/definitions/phandle
->> +    description:
->> +      The phandle of MT8173 ASoC platform.
->> +
->> +  mediatek,mclk:
->> +    $ref: /schemas/types.yaml#/definitions/uint32
->> +    description: |
->> +      The MCLK source.
->> +      0: external oscillator, MCLK = 12.288M
->> +      1: internal source from mt8173, MCLK = sampling rate * 256
->> +
->> +  codec-capture:
->> +    description: Subnode of rt5650 codec capture.
->> +    type: object
->> +
->> +    properties:
->> +      sound-dai:
->> +        maxItems: 1
->> +        description: phandle of the CPU DAI
->> +
->> +    additionalProperties: false
->> +
->> +required:
->> +  - compatible
->> +  - mediatek,audio-codec
->> +  - mediatek,platform
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    sound: sound {
-> 
-> Drop unused label.
-
-Ack.
-
-Thanks!
-
--- 
-Ariel D'Alessandro
-Software Engineer
-
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
-
+Rob
 
