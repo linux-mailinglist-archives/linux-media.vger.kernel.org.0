@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-41956-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-41957-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A83AAB484CA
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 09:07:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BB97B484DD
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 09:16:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 527DA177A5C
-	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 07:07:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A4C8189C3D2
+	for <lists+linux-media@lfdr.de>; Mon,  8 Sep 2025 07:16:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5508C2E3360;
-	Mon,  8 Sep 2025 07:07:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E46E291C07;
+	Mon,  8 Sep 2025 07:16:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="IFIRY1Pd"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="KZ0jciLR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EADC3B7A8
-	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 07:07:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17AD513B2A4
+	for <linux-media@vger.kernel.org>; Mon,  8 Sep 2025 07:16:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757315239; cv=pass; b=UvDgQPMcGAyTklBjGJpqllCzcmswGxRgKoe/hEx4pKlsl1IS5BGRIf+aFGx4z+IoER5WyT1PY0gPKbwRFGJUd6ofryRcLW2zwFCfmSxKobDyQDq7TUf3gnJCufbwHvu8CK1NoCfF4NMR2ZSjjMwJIzFpCBFej5MRDmccZRj+fJE=
+	t=1757315765; cv=pass; b=r3odxrM1wr5P/wdto3FmH0fhQyiGJu9j9zAWMo8DlyVaKHA/erPUswYUyLLaE/oj0q2SRrXZ9sIx3N5VNbN0CZIav2KmqdmqQh2fz/nD7/XsBvHYJWPnSH2TXAfv8Mw/57K4bguaxl6QtkpHJUfOL0ZNPidkBGU3tH/nSyMA/k0=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757315239; c=relaxed/simple;
-	bh=Kf3REiCZgiKe10HiO3sMPMOQzDnoJT1ouq/bfYuAZ54=;
+	s=arc-20240116; t=1757315765; c=relaxed/simple;
+	bh=5JZUBj3q5rBRayK0D8KeUW3at0sgbhUliI3nWdxpIMg=;
 	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=UkNIJufYEJ622FwQ9yjxJd+j1DszVan3vhmrLXFjF8BRfLkZCwXe2Tipg6MMZ7S+YoyuwIA4ZjEKjQhyWquhIyJz1k+SqP5k0GtVCQL2iJ28BlJmK96/lYg043C52jHSJdIV3MDOOIgIoDnfpRapwN47TwsOyDhy7knIuYbRcbA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=IFIRY1Pd; arc=pass smtp.client-ip=195.140.195.201
+	 Content-Disposition; b=Y/ElwEKlxZ356MDyhVTbn2w/2tiz2CryUMZxzEGy72q/TgOZQrYDTXdlxohkJcI4ZO9R+1apBweiHojxgwWb0d17ufSgVjEoEPSbWis+mIPQ7gs1VOkPTWMPm0QrpWDVsmOkXktX129c3r8hFZZJkwVvHfOoYbyy4QtktltVRH0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=KZ0jciLR; arc=pass smtp.client-ip=185.185.170.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
 Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
@@ -36,43 +36,50 @@ Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.15
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4cKygb14SdzyRw;
-	Mon,  8 Sep 2025 10:07:06 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1757315227;
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4cKykj0Snlz49Pv9;
+	Mon,  8 Sep 2025 10:09:48 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1757315389;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=fMcT4yvXvIhSqQJ/JARQzzTVnM1x3Ju4Lvt7tXX68I0=;
-	b=IFIRY1PdLhy3fYXU8Oz+2mMEmzRfpbjqGbggPmC8obOoxJK7piA3sdHUYD4kvAv+HkRGCB
-	KshltkxUV5WN4dDroFsvcSBnfnQQvYkzcgC3yF3qFnPDOFQkLqv0HcIUUqkGRllNgSSnWb
-	0O4NAeKiBKTQf/nkYxzZ1nI1To91/fE=
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1757315227; a=rsa-sha256; cv=none;
-	b=PJ66IPw9ZNAvIENWBk/1//5z2z4uhb62x5h7XS0OeomF3172IQdN1lcb9mDw9InizTrybN
-	W9Y/Vsk9/WE1CdB+d+YzhoWSU/EOpT37Jk02YVvE/vZwyXbtZZPbAm6JYl343Lk1iTYCvo
-	LxBaz2QQklJjnfOJvwKutj4mz83jLRg=
+	bh=iZQyeysbcPD0JVGrRtfINTf2tneN34a4pBnJu+EFNtU=;
+	b=KZ0jciLRBi8se7sH/e64XlPHPD6ao0ff9AaUmC4F4EXSFIXdfXbRk4jb7lGnZw3xbLewei
+	otFFBDTl7wbIe14Dn5zbRihYivqs2sS4/LlJz8sPKVVNZ0TehhJIMd9QjbQMnmluYaTs/A
+	UvMhm0dq8eoElatUZCDvgr82i3Hu6g4TvpGH0fdQq3xVd22tQnMjka81RQkPMbAuhomgun
+	5vqxG6mC3q4pbfuziTSBPu02TM4WTU6j1N3o8rh1fo8BdI1qfzAKZf/Brp4bKV0+FpqHAh
+	i1WcPIVu4xla9aVFvH6MKr06ZpnnV64kmBT2/tURhi2KFM6tNQ5L96gDJNY1JA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1757315389;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
+	bh=iZQyeysbcPD0JVGrRtfINTf2tneN34a4pBnJu+EFNtU=;
+	b=gCeGrSkOdvrsE0wLE9/mp1U/gb022/6MpbWPXiK2paoa9HWkeEeWXNvy78f/zyJCO0aK/+
+	26Wk+1qylykDJrSs5OgbK3DkYyL7jfFZfQnkmUwaD3MM9VJDs2PMsKqsp7lVgyMH0/PQt+
+	g4YZxAdpIpEglrpDvLtspujk8S/BWjUsBRyQkHnmMOFsAZKDdBoNqOj2V/k12itOIg0WUh
+	1UqD8ocLLi8iQPG+652Nc3zgACbUEgE37YyHWGSdvkRNz9N9BfBb4+9iS8SEwedCshaJmd
+	JJMQvHz2c1GQfc03Fbjjq9GH+4MthiPctMONJYxVfYvobxMp6K0MvqqhMS62bw==
 ARC-Authentication-Results: i=1;
 	ORIGINATING;
 	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1757315227;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type;
-	bh=fMcT4yvXvIhSqQJ/JARQzzTVnM1x3Ju4Lvt7tXX68I0=;
-	b=iM0Ty9EVk+I/jjrGq8ItIRiHViTTNCLLqQGtZ95OUq0H7Ue/a2KXnwdM81miG33+WNq65r
-	2yJEN76vKQE/MFJTB/xSZLUrQlcd1/GmvFXlpbAcN10ufvDiT5zM1TPMLhDT83tie2BG6K
-	VijN7cRW/pO8koTtuzlLMqd5uuaIE5g=
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1757315389; a=rsa-sha256;
+	cv=none;
+	b=k4rV8zPLJvFFmaTwJWWQWyzGowswBnmTJ0Aeh305Zs7UgITgq/1EC8M2XDbUSbd3Yye4zU
+	h0IJ6az0yrhTSmkx/iB07H9MrkDFQ+eAMf5iYyRMrt3ltvBqbKgeXkh0Vl+zojLXCTqSMI
+	R9rgiqL/yxyjHlbYrZEdXJ9f9qTyKGkblNmF5cXwYpwiLygXnXaX71J/TdX9Z2Cv1//bPU
+	v04/GaiJ1wHbi1Tn72YhNOV6UZ2ywlr3q/DwZnJngDfktqhxp0r3+hL0W1tw7ZzZH0vWBj
+	nkm4mtWhShUMT7h1JVWIe2iTxTWFoVlAX27FU/Y2oAQJdePXfWWCwKF0xIHrVg==
 Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 35B07634C93;
-	Mon,  8 Sep 2025 10:07:06 +0300 (EEST)
-Date: Mon, 8 Sep 2025 10:07:05 +0300
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 9BD65634C93;
+	Mon,  8 Sep 2025 10:09:48 +0300 (EEST)
+Date: Mon, 8 Sep 2025 10:09:48 +0300
 From: Sakari Ailus <sakari.ailus@iki.fi>
 To: linux-media@vger.kernel.org
 Cc: hans@jjverkuil.nl
-Subject: [GIT PULL FOR 6.18] New camera sensor drivers
-Message-ID: <aL6AmZnwBtUp0kL5@valkosipuli.retiisi.eu>
+Subject: [GIT PULL FOR 6.18] Fixes and cleanups
+Message-ID: <aL6BPPCTVIIsAQje@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -90,45 +97,60 @@ The following changes since commit 04f08db52b3f892c85bd92ebbc3a7ca32e4f60f3:
 
 are available in the Git repository at:
 
-  git://linuxtv.org/sailus/media_tree.git tags/for-6.18-4.1-signed
+  git://linuxtv.org/sailus/media_tree.git tags/for-6.18-3.2-signed
 
-for you to fetch changes up to 17de12296f2640f4e8d1a04aacb4b51f570692ed:
+for you to fetch changes up to e9fc898cd700db03138475b0970d51e450b9f927:
 
-  media: i2c: add ov2735 image sensor driver (2025-09-08 10:02:08 +0300)
-
-----------------------------------------------------------------
-New drivers for 6.18
-- New drivers for ov6211, og0be1b and ov2735 camera sensors
+  media: ov08x40: Fix the horizontal flip control (2025-09-08 10:00:56 +0300)
 
 ----------------------------------------------------------------
-Hardevsinh Palaniya (1):
-      media: i2c: add ov2735 image sensor driver
+V4L2 patches for 6.18
 
-Himanshu Bhavani (1):
-      dt-bindings: media: i2c: Add ov2735 sensor
+- MC minor number reservation at unregister time
+- IPU7 staging driver cleanup
+- Mbus code initialisation fix for mt9p031
+- Cleanups for ov8865, mt9v111, rpi-cfe, st32-dcmi
+- UAPI fixes for ov08x40 and og01a1b drivers
+- Error handling fix for j721e-csi2rx driver
 
-Vladimir Zapolskiy (4):
-      dt-bindings: media: i2c: Add OmniVision OV6211 image sensor
-      media: i2c: Add OmniVision OV6211 image sensor driver
-      dt-bindings: media: i2c: Add OmniVision OG0VE1B camera sensor
-      media: i2c: Add OmniVision OG0VE1B camera sensor
+----------------------------------------------------------------
+Allen Ballway (1):
+      media: ov8865: move mode_configure out of state_configure
 
- .../bindings/media/i2c/ovti,og0ve1b.yaml           |   97 ++
- .../devicetree/bindings/media/i2c/ovti,ov2735.yaml |  108 ++
- .../devicetree/bindings/media/i2c/ovti,ov6211.yaml |   96 ++
- MAINTAINERS                                        |   24 +
- drivers/media/i2c/Kconfig                          |   30 +
- drivers/media/i2c/Makefile                         |    3 +
- drivers/media/i2c/og0ve1b.c                        |  816 ++++++++++++++
- drivers/media/i2c/ov2735.c                         | 1109 ++++++++++++++++++++
- drivers/media/i2c/ov6211.c                         |  793 ++++++++++++++
- 9 files changed, 3076 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,og0ve1b.yaml
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov2735.yaml
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov6211.yaml
- create mode 100644 drivers/media/i2c/og0ve1b.c
- create mode 100644 drivers/media/i2c/ov2735.c
- create mode 100644 drivers/media/i2c/ov6211.c
+Dan Carpenter (1):
+      media: ti: j721e-csi2rx: Fix NULL vs IS_ERR() bug in ti_csi2rx_request_max_ppc()
+
+Hans Verkuil (1):
+      media: i2c: mt9p031: fix mbus code initialization
+
+Hao Yao (1):
+      media: ov08x40: Fix the horizontal flip control
+
+Qianfeng Rong (3):
+      media: i2c: mt9v111: fix incorrect type for ret
+      media: raspberrypi: use int type to store negative error codes
+      media: stm32-dcmi: use int type to store negative error codes
+
+Sakari Ailus (3):
+      media: mc: Clear minor number reservation at unregistration time
+      media: staging: ipu7: Don't include linux/version.h
+      media: ov02e10: Remove Jingjing's e-mail address
+
+Vladimir Zapolskiy (1):
+      media: i2c: og01a1b: Specify monochrome media bus format instead of Bayer
+
+ drivers/media/i2c/mt9p031.c                           |  4 +++-
+ drivers/media/i2c/mt9v111.c                           |  2 +-
+ drivers/media/i2c/og01a1b.c                           |  6 +++---
+ drivers/media/i2c/ov02e10.c                           |  2 +-
+ drivers/media/i2c/ov08x40.c                           |  2 +-
+ drivers/media/i2c/ov8865.c                            | 14 +++-----------
+ drivers/media/mc/mc-devnode.c                         |  9 ++++-----
+ drivers/media/platform/raspberrypi/rp1-cfe/csi2.c     |  2 +-
+ drivers/media/platform/st/stm32/stm32-dcmi.c          |  4 ++--
+ drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c |  2 +-
+ drivers/staging/media/ipu7/ipu7.c                     |  1 -
+ 11 files changed, 20 insertions(+), 28 deletions(-)
 
 Please pull.
 
