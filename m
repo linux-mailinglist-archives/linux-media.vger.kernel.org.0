@@ -1,81 +1,48 @@
-Return-Path: <linux-media+bounces-42107-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42108-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88D06B4ACD6
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 13:52:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B68CBB4C238
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 14:08:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 709DA4E2BB5
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 11:52:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 693764E1FBE
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 12:08:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1093D320CB8;
-	Tue,  9 Sep 2025 11:52:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E70C31CA7D;
+	Tue,  9 Sep 2025 12:08:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Ko8TPGDo"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Rhf6baJQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A066A2FF153
-	for <linux-media@vger.kernel.org>; Tue,  9 Sep 2025 11:52:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 79B992BEC28
+	for <linux-media@vger.kernel.org>; Tue,  9 Sep 2025 12:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757418746; cv=none; b=Sx1wKlRCsWtRWc2MQlsQaYyVZZ5DD/e1UboJCcdpRB/x0DAq5ZfwYtLYXgdakfgYnPVVYKNQf3deg3iYkAj3KGEqzEHyn0h8HiRrM7W7q4m4F0wErC0KIGGRol0ldxyA2XBq8nUQerqBDicAKu6beJjlt+dOILly1Ilz/npDcbE=
+	t=1757419679; cv=none; b=EdAOSAByL+RJnQvZoVfTjHIz2uoXJ6Y99W0BhQTgJ4Q6baEp25VDpTddOEOUE/6ka3drB21aw5Jzm1wdLnkQSZKfRkLcUvjGz3CSz6id+rl/3CiPukJdmggwolDbbhqpvlcDjljfOR2wRVUGdzUS7esGUQZEOegeuL2dLreOiyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757418746; c=relaxed/simple;
-	bh=w2OrIUCvxGjgSMhBWX6ZACIGKs9/croVq+jhJ82OqXY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZS/l+9tx6lfeYT3jUCm68+3MXjmTUonfPwFGM3ezd1Gi7cQyMm/C4ipJIgnbcAUbOztcDmndbz3qz+PcrAg/qCS0bTME9HGSpesvf7Qy5gJyy7anN2U5tu64hggPxFJttj5IL/fd133VN2uPhT8DyCt6DHCvYbqkskO394dAi6g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Ko8TPGDo; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45dda7d87faso27627335e9.2
-        for <linux-media@vger.kernel.org>; Tue, 09 Sep 2025 04:52:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757418743; x=1758023543; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=QXGtU590npYGoj4oICVTI2h7kmCmRCpE+pANWf6Qbi4=;
-        b=Ko8TPGDo92M1qXGQlpRonr4gMJ3vgYr/gfndJj55R7+9RXhvCTJ1CJjsEYnKXoqVGi
-         SSYtcMXPAGPdR2ay58ZNS2+Xc8x3AReH6UYiR+ZzcyUrOgSLOMi6ijb+eZXml5hu7g6k
-         37BwlL63KLf5cdPgWm6pWH5/d6DZiHWxUpPMUYqMrg9HV250miBcrRZvWUROiDszHABB
-         dCzkMEs+yGRojSSse0KxZeFmy+0Gly9OjBYcUO9VXnmQsJKDBNN+uOqdRAmKuQQGLcXK
-         iOBapaDJfMa8NDwsGTNHBPR0Yn0CWJXqt+eTBEwQV4G5tZkIlcIV7EkmeRq3t/W72TNZ
-         fKaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757418743; x=1758023543;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=QXGtU590npYGoj4oICVTI2h7kmCmRCpE+pANWf6Qbi4=;
-        b=uLPn8Qjae8R5hXCOALIbKHKdjOOtuM+5j35UkzSr9RLgab2XnYslyi6N4U4fcJEnx7
-         6m9L+w5DGXXfUTrjmWpvNSv5CuYMSQNj0piNzLtyxhMX40aCct48OvVTn9cgWbiOLPT8
-         6m/8MB4C8F7XqXw9wr3J+o3V4dLbEN145q1VYdNMLhi9vkgodXXR1XNjt4UQrfQuwovZ
-         3UO0DehqiRynnFU76UuzWwXgL9WTIY6k5+7ciAuyQH92xJp/bvRlRGnKw30QDK9yJ52K
-         q+8YRiooG20XcecjQl0ll0nSAMk2t64nqfNDazyIKmuMcBd7ZsKIMI6RyNkFlpHI4wRX
-         zwYA==
-X-Forwarded-Encrypted: i=1; AJvYcCXL/03mKWpXDvsU/ISbMm4Y4e9+ItCOD1hP/en+Qc4p/RNecIJ0kIbZfkzZwU1yDnqEU6lYkMICkggR5Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMPerWZ5J9tQPDKVqAsepyKiX58CGRFKw99So/vorWCl6X/aJR
-	6oeo37TcQzCrdnowS8WfDDStAaiH0Vrf1888dSFxJwk6JeKyCqwgertRu1+KB73q/t8=
-X-Gm-Gg: ASbGncuvXEqu0os/ReCSOnt+JJbnaEZKfF+71ot2MAnUCj+kbl7hIxb5d8GsdcCkjyG
-	+5TqSXNSgWBEkptDhOiZvyH2F8JNDyFgtE1GKKaKL34PhJlfIzSMjKy5Fo3hXkfxftfA41QT4eJ
-	bcF5b47UZtOu7cuzaYTxBO0G6ppITy4ly6Bd3YM0fGtLpWzfKixDigvJp4i19eeQeYFmk0UgQGF
-	Vpa/J2jO9QdgQfuOpErUmBvoDUHU3etgdRpzOBCkVBLHlJqbzLKIe8wcQqDJ3LS8C6/oTzqERmD
-	WhjRWOWjtzUUQWgK8iHdg1liJdL2D+dXdIVpHOIGZWKllms7nmSyi9GOLfh98FDZwImQ0TxM/go
-	92R6Fi/pMFLdS+Sz4049n68pH3V7qEWhGu87NFaKhwnYt9iSmJ63FBHRws89tL3uMZu8/vWL0uh
-	h+jHHvmml55hifrdGLtrBZq8pUbpNEaA==
-X-Google-Smtp-Source: AGHT+IFBwGxPLPPfzkQid/eqWAjFaBlrJdMzc7K78u4G3kBOTKirNH0Ail+EfDwQ7kJAYlz2Kk0KMw==
-X-Received: by 2002:a05:600c:4ecd:b0:45d:d5fb:1858 with SMTP id 5b1f17b1804b1-45dddee8e80mr94844295e9.21.1757418742913;
-        Tue, 09 Sep 2025 04:52:22 -0700 (PDT)
-Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45df16a749fsm16413565e9.19.2025.09.09.04.52.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 09 Sep 2025 04:52:22 -0700 (PDT)
-Message-ID: <cc9a5ee4-76d5-4efe-a39d-d4ef240b2aeb@linaro.org>
-Date: Tue, 9 Sep 2025 12:52:18 +0100
+	s=arc-20240116; t=1757419679; c=relaxed/simple;
+	bh=0FrK4FamD8TNwIF1I4qhlGMcoTe60qDFY2il0kn/vyo=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=SJ8/S9q97sKHJ/cu7ceFVjyoqS33Ecf3L9rmtrlsWU3Kd0sUp9p4YTd1H9FJqC0PO2994BkHAsqfv2UvAeWbTLUouTnURdQ4t3qM/r/DL9ThapLoXbVirgZIsToSM1l2RW0gXOTZNH5URwlsh5sJ5Wl+Q1rkIjcAHqZWrWNTUrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Rhf6baJQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CC7CC4CEF4;
+	Tue,  9 Sep 2025 12:07:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757419679;
+	bh=0FrK4FamD8TNwIF1I4qhlGMcoTe60qDFY2il0kn/vyo=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=Rhf6baJQBXCrD4Hx5BJCyyy4CwEo8/7Uy4pvYZxNhZdR54mNfV8V2AIaX7wkwWywc
+	 10ysD6IVvFIa94DDkpCrtOW0MnvfQvBmVHhY3/fnd6Ndw7oiHatms4M93Nsi1UAnvx
+	 XcbXfe+9Rjxlt0kbyDV2o8ZuyyKNUbylV5+JJKQFWATkZN64F/O7jIfoFaoTzH6w0g
+	 tE6YNUHPD5HOvtfMNj6ffpYmRXWTbNJJ9RTSaB/GnQEbmN4IkIvmdf18jUADl1cG6h
+	 MKWZ5PCRd6CXTmmbbk7dH3k3HCxtjHi83vDxeCsu9c/1LCd4JMlfBfphaUnl7pCELr
+	 ue3pJqeHrz7hQ==
+Message-ID: <951b925e-3d0f-4016-a45e-e1b4ccf5f3fc@kernel.org>
+Date: Tue, 9 Sep 2025 14:07:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,55 +50,133 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/4] dt-bindings: i2c: qcom-cci: Document qcs8300
- compatible
-To: Vikram Sharma <quic_vikramsa@quicinc.com>, mchehab@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
- cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
-Cc: linux-arm-kernel@lists.infradead.org, quic_svankada@quicinc.com,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250909114241.840842-1-quic_vikramsa@quicinc.com>
- <20250909114241.840842-2-quic_vikramsa@quicinc.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20250909114241.840842-2-quic_vikramsa@quicinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [GIT PULL FOR 6.18] Please pull
+ platform-qcom-iris-encoder-plus-dependent-fixes-for-6.18-v2
+To: bod@kernel.org, linux-media@vger.kernel.org
+Cc: bryan.odonoghue@linaro.org
+References: <20250909094256.40537-1-bod@kernel.org>
+Content-Language: en-US, nl
+In-Reply-To: <20250909094256.40537-1-bod@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 09/09/2025 12:42, Vikram Sharma wrote:
-> From: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+On 09/09/2025 11:42, bod@kernel.org wrote:
+> From: Bryan O'Donoghue <bod@kernel.org>
 > 
-> Add device tree bindings for the CCI controller on the
-> Qualcomm QCS8300 SoC.
-> Introduce the "qcom,qcs8300-cci" compatible string.
+> The following changes since commit dcd2ca10faaf59fedcafffc6bbf41ba628a23cc4:
 > 
-> Signed-off-by: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
-> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
-> ---
->   Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml | 2 ++
->   1 file changed, 2 insertions(+)
+>   media: i2c: s5k6a3: Use V4L2 legacy sensor clock helper (2025-09-08 20:32:43 +0200)
 > 
-> diff --git a/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml b/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
-> index 73144473b9b2..d50359019501 100644
-> --- a/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
-> +++ b/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
-> @@ -25,6 +25,7 @@ properties:
->   
->         - items:
->             - enum:
-> +              - qcom,qcs8300-cci
->                 - qcom,sc7280-cci
->                 - qcom,sc8280xp-cci
->                 - qcom,sdm670-cci
-> @@ -223,6 +224,7 @@ allOf:
->           compatible:
->             contains:
->               enum:
-> +              - qcom,qcs8300-cci
->                 - qcom,sm8550-cci
->                 - qcom,sm8650-cci
->                 - qcom,x1e80100-cci
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> are available in the Git repository at:
+> 
+>   https://gitlab.freedesktop.org/linux-media/users/bodonoghue.git tags/platform-qcom-iris-encoder-plus-dependent-fixes-for-6.18-v2
+> 
+> for you to fetch changes up to 105d6bc8583498dee6b8c665143a8d8eef135610:
+> 
+>   media: iris: add VPU33 specific encoding buffer calculation (2025-09-09 09:59:37 +0100)
+> 
+> ----------------------------------------------------------------
+> This tag contains:
+> 
+> - A number of Fixes:
+> - An set of patches to enable the encoder which depend
+>   on the Fixes: in this PR to apply cleanly
+> - A power-sequencing update from Neil which also depends
+>   on code in this tag
+> - v2 missed inclusion of "Fix buffer count reporting.."
+>   from Dikshita - fixed in v2.
+> 
+> platform-qcom-iris-generic-fixes-updates-for-6.18-v2 should be
+> merged first.
+
+This fails to compile since this patch is now merged:
+
+https://patchwork.linuxtv.org/project/linux-media/patch/20250902-sm8750-iris-v3-3-564488b412d2@linaro.org/
+
+"media: iris: Add platform-specific capabilities for encoder video device"
+doesn't take support for SM8750 (added by that patch) into account.
+
+I marked this PR as "Changes Requested".
+
+Bryan, if the changes are trivial (I suspect that's likely to be the case),
+then just adjust the patch and post a new PR.
+
+Regards,
+
+	Hans
+
+> 
+> ----------------------------------------------------------------
+> Dikshita Agarwal (26):
+>       media: iris: Fix buffer count reporting in internal buffer check
+>       media: iris: Report unreleased PERSIST buffers on session close
+>       media: iris: Fix memory leak by freeing untracked persist buffer
+>       media: iris: Fix port streaming handling
+>       media: iris: Allow substate transition to load resources during output streaming
+>       media: iris: Always destroy internal buffers on firmware release response
+>       media: iris: Update vbuf flags before v4l2_m2m_buf_done
+>       media: iris: Simplify session stop logic by relying on vb2 checks
+>       media: iris: Allow stop on firmware only if start was issued.
+>       media: iris: Send dummy buffer address for all codecs during drain
+>       media: iris: Fix missing LAST flag handling during drain
+>       media: iris: Fix format check for CAPTURE plane in try_fmt
+>       media: iris: Add support for video encoder device
+>       media: iris: Initialize and deinitialize encoder instance structure
+>       media: iris: Add support for ENUM_FMT, S/G/TRY_FMT encoder
+>       media: iris: Add support for ENUM_FRAMESIZES/FRAMEINTERVALS for encoder
+>       media: iris: Add support for VIDIOC_QUERYCAP for encoder video device
+>       media: iris: Add encoder support for V4L2 event subscription
+>       media: iris: Add support for G/S_SELECTION for encoder video device
+>       media: iris: Add support for G/S_PARM for encoder video device
+>       media: iris: Add platform-specific capabilities for encoder video device
+>       media: iris: Add V4L2 streaming support for encoder video device
+>       media: iris: Set platform capabilities to firmware for encoder video device
+>       media: iris: Allocate and queue internal buffers for encoder video device
+>       media: iris: Add support for buffer management ioctls for encoder device
+>       media: iris: Add support for drain sequence in encoder video device
+> 
+> Neil Armstrong (1):
+>       media: iris: add VPU33 specific encoding buffer calculation
+> 
+>  drivers/media/platform/qcom/iris/Makefile          |   5 +-
+>  drivers/media/platform/qcom/iris/iris_buffer.c     | 222 ++++-
+>  drivers/media/platform/qcom/iris/iris_buffer.h     |   7 +-
+>  drivers/media/platform/qcom/iris/iris_common.c     | 232 ++++++
+>  drivers/media/platform/qcom/iris/iris_common.h     |  18 +
+>  drivers/media/platform/qcom/iris/iris_core.h       |  20 +-
+>  drivers/media/platform/qcom/iris/iris_ctrls.c      | 675 ++++++++++++++-
+>  drivers/media/platform/qcom/iris/iris_ctrls.h      |  15 +
+>  drivers/media/platform/qcom/iris/iris_hfi_common.h |   2 +-
+>  .../platform/qcom/iris/iris_hfi_gen1_command.c     | 482 ++++++++---
+>  .../platform/qcom/iris/iris_hfi_gen1_defines.h     | 112 ++-
+>  .../platform/qcom/iris/iris_hfi_gen1_response.c    |  60 +-
+>  .../platform/qcom/iris/iris_hfi_gen2_command.c     | 359 +++++---
+>  .../platform/qcom/iris/iris_hfi_gen2_defines.h     |  44 +-
+>  .../platform/qcom/iris/iris_hfi_gen2_response.c    |  46 +-
+>  drivers/media/platform/qcom/iris/iris_instance.h   |  24 +
+>  .../platform/qcom/iris/iris_platform_common.h      |  76 +-
+>  .../media/platform/qcom/iris/iris_platform_gen2.c  | 526 +++++++++++-
+>  .../platform/qcom/iris/iris_platform_qcs8300.h     | 352 +++++++-
+>  .../platform/qcom/iris/iris_platform_sm8250.c      | 236 +++++-
+>  drivers/media/platform/qcom/iris/iris_probe.c      |  33 +-
+>  drivers/media/platform/qcom/iris/iris_state.c      |   9 +-
+>  drivers/media/platform/qcom/iris/iris_state.h      |   1 +
+>  drivers/media/platform/qcom/iris/iris_utils.c      |  36 +
+>  drivers/media/platform/qcom/iris/iris_utils.h      |   2 +
+>  drivers/media/platform/qcom/iris/iris_vb2.c        |  58 +-
+>  drivers/media/platform/qcom/iris/iris_vdec.c       | 251 +-----
+>  drivers/media/platform/qcom/iris/iris_vdec.h       |  13 +-
+>  drivers/media/platform/qcom/iris/iris_venc.c       | 579 +++++++++++++
+>  drivers/media/platform/qcom/iris/iris_venc.h       |  27 +
+>  drivers/media/platform/qcom/iris/iris_vidc.c       | 299 ++++++-
+>  drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 922 ++++++++++++++++++++-
+>  drivers/media/platform/qcom/iris/iris_vpu_buffer.h |  24 +-
+>  33 files changed, 5051 insertions(+), 716 deletions(-)
+>  create mode 100644 drivers/media/platform/qcom/iris/iris_common.c
+>  create mode 100644 drivers/media/platform/qcom/iris/iris_common.h
+>  create mode 100644 drivers/media/platform/qcom/iris/iris_venc.c
+>  create mode 100644 drivers/media/platform/qcom/iris/iris_venc.h
+> 
+
 
