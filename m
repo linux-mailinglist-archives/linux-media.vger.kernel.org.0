@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-42136-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42137-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF461B50735
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 22:39:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9878BB50737
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 22:40:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7984D4E3C23
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 20:39:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B8A331BC83FC
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 20:41:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B34D635AACA;
-	Tue,  9 Sep 2025 20:39:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E4ED3570C2;
+	Tue,  9 Sep 2025 20:40:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kK8b6bs0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WThbaB1j"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04549199931;
-	Tue,  9 Sep 2025 20:39:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AAC4199931;
+	Tue,  9 Sep 2025 20:40:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757450353; cv=none; b=Eg3JCgOnUkReyNKbK3NDrupZJ/JyhNzNx/Zpp1L8UcJZf8yPM5j+VHUDAiITpjgeyp+1MvZ7dSnBnTiTKz+epzi8mCqaz1IaoQFLqJOoM52mOJqqFrITvR2rKuI6yXn/bnhigNGQoBCBKQCXNQCVI8WA+bAikkWslc2+pkPlwR4=
+	t=1757450438; cv=none; b=UCCmAxCwxyzVs3u3CrmqYmvJc5ZZTHF6VrsUsUG2KQKvEiUGbeyk0Z2wEGmtKVjK6r4aqfC6wV8ogM5Gz8093l7Vhullqj8S8HobcNRs9FkA+tPZFwSjsRcGwIqkp8dM9/w9OLeNQliESKjx0H/RJ+9obCxYz8Jq6W6zl93J2lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757450353; c=relaxed/simple;
-	bh=9fZASMuZCalLaTWw9GiE1aMw67wsX4JeH92/taONPEA=;
+	s=arc-20240116; t=1757450438; c=relaxed/simple;
+	bh=KyRZ/xwBeA2oq/HklxIZ1S2NqmoCXvHqw7uY98Fl1CQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=EivVbpDzAayaOEM0g+q8+dFEh2YupFb1nE8v9JcMDzcJuKouDwTohFCHL7CvqKWozK7Y1rH7oYK365JrVonxnHUVC5F0Y1kLza5r/S3lHhC9/Nk7js/lcgm5IjfVgnIUydaXoEJjTpbVif+eYg8el1+oVCmyKR4tNiIL1rwVPbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kK8b6bs0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D207C4CEF4;
-	Tue,  9 Sep 2025 20:39:08 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=ilieqS3NlfCuW6IJAa11W8vi7mk03l3OlNZgJk5zXynkTnDGi2gkJlgkIw4sJ/Zq//SlgBXGVhECdJXilCoG0MBEI3Jk/FrzDzIIc3OCcuERlMkj7qrfAu3D0mFsyUxaE+abQYxgIPyi3TeWJe5s/bCGo0QKFNoX8G4sJ1p7Hl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WThbaB1j; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBA2CC4CEF4;
+	Tue,  9 Sep 2025 20:40:36 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757450352;
-	bh=9fZASMuZCalLaTWw9GiE1aMw67wsX4JeH92/taONPEA=;
+	s=k20201202; t=1757450438;
+	bh=KyRZ/xwBeA2oq/HklxIZ1S2NqmoCXvHqw7uY98Fl1CQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=kK8b6bs03H/HrsGZkhmji6GFU23uAvnkWuGs3iMNI6mU9LC9P19HW1YqFl+hibA/7
-	 2bFaZof7z8D2hFJsElDe3EfSgu1s5QiIFlEpzf0zuwPg0X9gAy8pqbl1NjROpQpUCM
-	 zq0yn+VlP9c7+SP4TlBypCLW4nDrY/N/UYOZf9TP+q2PBbxd4qGY4rdGS+OyHDhQ8k
-	 b3TNCDRXZoruVUKHGVP85Y8tz6NV3xKOHsdDTSj5IbJ/73Ytk50SJaLGZ0Qu46jKEC
-	 6bhbQIknvkdT0M/VstjD4+ve6S8x5WYlHsH60396KedSQU7IIVTbkegQ7zI3ckB8lM
-	 L0Kd6oty3hW6w==
-Message-ID: <d957d16f-d206-4f7d-b52e-a2cad9e4abfc@kernel.org>
-Date: Tue, 9 Sep 2025 22:39:06 +0200
+	b=WThbaB1jTOoD0vOgQfuxP+zMfVmcj4JSpKqQS/lGJa+ylxqhDtdA/83lSkAV6SDWh
+	 sl/1Ba/MMVkAIKSJuMZPZBh34s9LR13jl4HeC1hY0CfoQ8C9zDoyiaI5qqyUMlgKKJ
+	 pWJfRmD0ckCLAtk6qLJLqVI/q3fLNFBiRe44cLL983yGOnDKHRn4Nml28bs9s8k89t
+	 t/MhqU6UkZZAHZK7uXTZCjklvEcykSQM/uEj1sEGe29GJBOa1ZWB2jri9QSQ/tFfac
+	 yEoUaeWcll/C+sG0SsojTxeHyFy1ZWpvCM/MP165fNIW7TCUeAI0LXy23y5uYT0dgY
+	 imqNT3qKaFwcw==
+Message-ID: <e3edf119-2dfe-4857-842d-fb2a52470eb9@kernel.org>
+Date: Tue, 9 Sep 2025 22:40:35 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,102 +50,49 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/4] dt-bindings: leds: add generic LED consumer
- documentation
-To: Aleksandrs Vinarskis <alex@vinarskis.com>, Lee Jones <lee@kernel.org>,
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Daniel Thompson <danielt@kernel.org>, Jingoo Han <jingoohan1@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
- Jacopo Mondi <jacopo@jmondi.org>, Sakari Ailus
- <sakari.ailus@linux.intel.com>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, Daniel Thompson <daniel.thompson@linaro.org>,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20250908-leds-v3-0-5944dc400668@vinarskis.com>
- <20250908-leds-v3-1-5944dc400668@vinarskis.com>
- <MOj2NUVAdyu9bvVkEON8rhAlGJ9FRRh9gJABkrOR_6gKhE8rmeZ5Isbj9noA1bDZ12gY4dlDpEtmEjxlRTucCssKwTo4f5nCowMOin85IKk=@vinarskis.com>
+Subject: Re: [PATCH 0/2] v4l2-subdev/int3472: Use "privacy" as con_id for the
+ LED lookup
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Andy Shevchenko <andy@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Aleksandrs Vinarskis <alex@vinarskis.com>,
+ platform-driver-x86@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+References: <20250909144823.27540-1-hansg@kernel.org>
+ <CAHp75VeMMKCTDNWhdZJH2F=cmUObbpoYcDUch2jpsLBBNs_EhQ@mail.gmail.com>
 From: Hans de Goede <hansg@kernel.org>
 Content-Language: en-US, nl
-In-Reply-To: <MOj2NUVAdyu9bvVkEON8rhAlGJ9FRRh9gJABkrOR_6gKhE8rmeZ5Isbj9noA1bDZ12gY4dlDpEtmEjxlRTucCssKwTo4f5nCowMOin85IKk=@vinarskis.com>
+In-Reply-To: <CAHp75VeMMKCTDNWhdZJH2F=cmUObbpoYcDUch2jpsLBBNs_EhQ@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi,
+Hi Andy,
 
-On 9-Sep-25 6:57 PM, Aleksandrs Vinarskis wrote:
-> 
-> 
-> 
-> 
-> 
-> On Monday, September 8th, 2025 at 01:18, Aleksandrs Vinarskis <alex@vinarskis.com> wrote:
-> 
+On 9-Sep-25 7:27 PM, Andy Shevchenko wrote:
+> On Tue, Sep 9, 2025 at 5:48 PM Hans de Goede <hansg@kernel.org> wrote:
 >>
+>> During DT-binding review for extending the V4L2 camera sensor privacy LED
+>> support to systems using devicetree, it has come up that having a "-led"
+>> suffix for the LED name / con_id is undesirable since it already is clear
+>> that it is a LED:
 >>
->> Introduce common generic led consumer binding, where consumer defines
->> led(s) by phandle, as opposed to trigger-source binding where the
->> trigger source is defined in led itself.
+>> https://lore.kernel.org/linux-media/0e030e7d-0a1a-4a00-ba18-ed26107d07fa@oss.qualcomm.com/
 >>
->> Add already used in some schemas 'leds' parameter which expects
->> phandle-array. Additionally, introduce 'led-names' which could be used
->> by consumers to map LED devices to their respective functions.
->>
->> Signed-off-by: Aleksandrs Vinarskis alex@vinarskis.com
->>
->> ---
->> .../devicetree/bindings/leds/leds-consumer.yaml | 89 ++++++++++++++++++++++
->> 1 file changed, 89 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/leds/leds-consumer.yaml b/Documentation/devicetree/bindings/leds/leds-consumer.yaml
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..d50a3850f6336e9e3a52eb1374e36ea50de27f47
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/leds/leds-consumer.yaml
->> @@ -0,0 +1,89 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/leds/leds-consumer.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Common leds consumer
->> +
->> +maintainers:
->> + - Aleksandrs Vinarskis alex@vinarskis.com
->>
->> +
->> +description:
->> + Some LED defined in DT are required by other DT consumers, for example
->> + v4l2 subnode may require privacy or flash LED. Unlike trigger-source
->> + approach which is typically used as 'soft' binding, referencing LED
->> + devices by phandle makes things simpler when 'hard' binding is desired.
->> +
->> + Document LED properties that its consumers may define.
->> +
->> +select: true
->> +
->> +properties:
->> + leds:
->> + oneOf:
->> + - type: object
->> + - $ref: /schemas/types.yaml#/definitions/phandle-array
->> + description:
->> + A list of LED device(s) required by a particular consumer.
->> + items:
->> + maxItems: 1
->> +
->> + led-names:
+>> There was discussion about making an exception for "privacy-led" since
+>> that is already used on x86/ACPI platforms, but I'm afraid that will set
+>> a bad example which ends up being copy and pasted, so lets just drop
+>> the "-led" prefix from the x86/ACPI side, which we can do since there
+>> this is only an in-kernel "API".
 > 
-> While going over the feedback I realized `leds` and `led-names` do
-> not follow `property`, `property-names` convention. Any objections
-> if I rename `led-names` to `leds-names` for consistency?
+> Since it's an in-kernel API, why can't these two be simply squashed?
 
-No objections from me, `leds-names` indeed is better.
+Good question, this is only a runtime thing when running on actual
+hw with a privacy LED. So having this separately will not break
+the build in the middle.
+
+As such it seems better to have this as 2 patches since it involves
+2 different subsystems.
 
 Regards,
 
