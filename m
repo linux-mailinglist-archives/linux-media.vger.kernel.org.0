@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-42123-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42124-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE279B5020C
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 18:03:12 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D054B50284
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 18:26:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AEFDB3BFDF9
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 16:03:11 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08EFE3B73E1
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 16:26:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 645F733472A;
-	Tue,  9 Sep 2025 16:03:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01230352FE7;
+	Tue,  9 Sep 2025 16:26:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g+7SmH1I"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gj/NCaLx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FE9026529B;
-	Tue,  9 Sep 2025 16:03:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41613223337;
+	Tue,  9 Sep 2025 16:26:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757433782; cv=none; b=Ffj+S16RYuKwxQGjzfK5WrYH/45bqs2ywrWg6f8jOp/0z3FxVhA4EXrlpK8b+6zKTTnF+bTIa9Bw3V2MrRUqzn7tVBK+MbRn05kDdsFCzUEPhbiMPcufbsR5kb+g5wVVFvZHNH7U2OL1fyg9gEbbCd+eGMDY0GvWQKl13hcww98=
+	t=1757435162; cv=none; b=D/aBkx+zoLI1Nx7D9oKNSxrDueuEu4AYB6QeE7qimYCDkufzFyI4yKYs6PHkmgvTw+/ER20MU9oaFqi291esV4NE6QPVhZsnL3GlvwHrzpeG9t3/fz7IMZ3hkYQDlttdPLpLnUTTyEm4WOXacPummaF0sXS2hagRNkA17I6ITww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757433782; c=relaxed/simple;
-	bh=jCUceQsL4KPF7qd/NyyavrylZZJxNxFACVT/FdIkAnU=;
+	s=arc-20240116; t=1757435162; c=relaxed/simple;
+	bh=vfzDmUMBXFEXny9F+Q1BKzqeDg/juItm7mo3ihXETqk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aIIYcGgQaGIfANUXfLbGAus2y5bmUvL0Se54tvZ2o8mUzj9r2USWFV45MAVVVuSU/ChRodEy45i2KciX9txTAEKzgIgIX6hYvrGwP15KKuxtTzCvfuWe7ThchkgE4bUZ0wmlXfpf2NjrTjRYxgk19+gwUtPvhn527SXWoaWZ91g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g+7SmH1I; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02714C4CEF8;
-	Tue,  9 Sep 2025 16:03:01 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=esYC6Yfu3RKT8qugdSj3lwdL65Qx3jOelZr7Cfv3jKUClFqPgwTcXS1IQbH0Ug33qUEdLeX5wNbUTYeXf9HEwX0zvynLftrs64Rjl1dQbP9todViFSJkI0xlQOlmMc4OAHY+7hT8/RDy7h8VwosjT8EdqIIeCV0fNalTJ3C6rfo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gj/NCaLx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF8ABC4CEF8;
+	Tue,  9 Sep 2025 16:26:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757433782;
-	bh=jCUceQsL4KPF7qd/NyyavrylZZJxNxFACVT/FdIkAnU=;
+	s=k20201202; t=1757435161;
+	bh=vfzDmUMBXFEXny9F+Q1BKzqeDg/juItm7mo3ihXETqk=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=g+7SmH1IqLAddZD6/oPjNm1Xkbgpxgy3ZnFh6wsBVC+0eQcmQDotbzxg9LHzvJXCg
-	 gkG2Agbo+VNTNQ305lpIgYOJeZWlulkQ8VA1xedj9+hY0wsztN50gzIvG/zjfRgQtc
-	 Co+nbc0N53ntAJF65sG/VCz1XQkfrrO7vNcshEfH6FdsoEoQjd1CbUJjiFfZjzlEmO
-	 jOyEpIDy4nX7TUdBKCTKHmXUe+7qvw1Ym+jrgBiNXn2CSD9FFljm9GoNuyOyGIuM5Z
-	 IkVOX5reiU6Gkz7BbXaIVOGknRZ9CpG5lpVjJI6X0ab5TSEYjQG0nP4EApghI071cR
-	 5A1uZJwfh9K1w==
-Date: Tue, 9 Sep 2025 11:03:01 -0500
+	b=Gj/NCaLx7Ci5Nrx3m8Qf0cGJZZp75UjNxcnZIoP8nSRYWwPJOvqRotzfOsP9OKj6f
+	 60pNDV648NMVSJ51qbitr7AfgNT022kvjT0C05+NAoI+JRDzpmL8Z/1H0xKMLPPaLr
+	 qBDyEA6I3r36yIAYFGs8e61NuttAp/FG+mxwEUwe1oqS5hH3KO6fHXBUUNYmvaeOcD
+	 lhDe9F7Flz6XNeMQUy/dHv8B+NZRH1X6dQycKZQZyjh7q3KJPrX8OBl7oEtQsNSOgE
+	 epjVKtUJy2LNDGUTbSzyJacqQqJhNSRM3CybLPgLExFHy4/BG56vhj2Dqbpzj4xLIs
+	 31Zg4kW986h4g==
+Date: Tue, 9 Sep 2025 11:26:00 -0500
 From: Rob Herring <robh@kernel.org>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
 Cc: Thierry Reding <thierry.reding@gmail.com>,
@@ -68,75 +68,287 @@ Cc: Thierry Reding <thierry.reding@gmail.com>,
 	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 12/23] dt-bindings: display: tegra: move
- avdd-dsi-csi-supply from VI to CSI
-Message-ID: <20250909160301.GA3308644-robh@kernel.org>
+Subject: Re: [PATCH v2 21/23] dt-bindings: display: tegra: document Tegra20
+ and Tegra30 CSI
+Message-ID: <20250909162600.GA3311232-robh@kernel.org>
 References: <20250906135345.241229-1-clamor95@gmail.com>
- <20250906135345.241229-13-clamor95@gmail.com>
- <20250909005729.GA2330015-robh@kernel.org>
- <CAPVz0n0PhzjsJSKp9P7amG36V+E_dLFXAgJqtTPx4cfH0m5BXQ@mail.gmail.com>
+ <20250906135345.241229-22-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAPVz0n0PhzjsJSKp9P7amG36V+E_dLFXAgJqtTPx4cfH0m5BXQ@mail.gmail.com>
+In-Reply-To: <20250906135345.241229-22-clamor95@gmail.com>
 
-On Tue, Sep 09, 2025 at 08:00:04AM +0300, Svyatoslav Ryhel wrote:
-> вт, 9 вер. 2025 р. о 03:57 Rob Herring <robh@kernel.org> пише:
-> >
-> > On Sat, Sep 06, 2025 at 04:53:33PM +0300, Svyatoslav Ryhel wrote:
-> > > The avdd-dsi-csi-supply is CSI power supply, it has nothing to do with VI,
-> > > like same supply is used with DSI and has nothing to do with DC. Move it
-> > > to correct place.
-> > >
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > ---
-> > >  .../devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml   | 3 ---
-> > >  .../devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml | 3 +++
-> > >  2 files changed, 3 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-> > > index dd67d4162884..bb138277d5e8 100644
-> > > --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-vi.yaml
-> > > @@ -75,9 +75,6 @@ properties:
-> > >    ranges:
-> > >      maxItems: 1
-> > >
-> > > -  avdd-dsi-csi-supply:
-> > > -    description: DSI/CSI power supply. Must supply 1.2 V.
-> > > -
-> > >    vip:
-> > >      $ref: /schemas/display/tegra/nvidia,tegra20-vip.yaml
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
-> > > index fa07a40d1004..37f6129c9c92 100644
-> > > --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
-> > > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra210-csi.yaml
-> > > @@ -37,6 +37,9 @@ properties:
-> > >        - const: cile
-> > >        - const: csi_tpg
-> > >
-> > > +  avdd-dsi-csi-supply:
-> > > +    description: DSI/CSI power supply. Must supply 1.2 V.
-> >
-> > On further thought, why does this have 'dsi' in the name at all. If it
-> > happens to be the same supply for DSI and CSI, that's an SoC integration
-> > detail. The name here should be local to the module. Perhaps
-> > 'avdd-supply' is enough? Fine to rename it as you are breaking the ABI
-> > moving it anyways.
-> >
+On Sat, Sep 06, 2025 at 04:53:42PM +0300, Svyatoslav Ryhel wrote:
+> Document CSI HW block found in Tegra20 and Tegra30 SoC.
 > 
-> Not only this supply is common for DSI and CSI, on all schematics I
-> have seem so far input for this supply on CSI block is always called
-> avdd-dsi-csi and supply is named accordingly. This patch aims not to
-> rename supply, which has correct naming IMHO, but to place it in
-> correct place - CSI, not VI as it is ATM.
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  .../display/tegra/nvidia,tegra20-csi.yaml     | 104 ++++++++++++++++
+>  .../display/tegra/nvidia,tegra30-csi.yaml     | 115 ++++++++++++++++++
+>  2 files changed, 219 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+>  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra30-csi.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+> new file mode 100644
+> index 000000000000..1a2858a5893c
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+> @@ -0,0 +1,104 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-csi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NVIDIA Tegra20 CSI controller
+> +
+> +maintainers:
+> +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nvidia,tegra20-csi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 1
+> +
+> +  avdd-dsi-csi-supply:
+> +    description: DSI/CSI power supply. Must supply 1.2 V.
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  "#nvidia,mipi-calibrate-cells":
+> +    description: The number of cells in a MIPI calibration specifier.
+> +      Should be 1. The single cell specifies an id of the pads that
+> +      need to be calibrated for a given device.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    const: 1
 
-Okay, then my Ack stands.
+This property goes in the provider. Is the parent node the provider? You 
+don't really need any of it if it's all one block.
+
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^channel@[0-1]$":
+> +    type: object
+> +    description: channel 0 represents CSI-A and 1 represents CSI-B
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      reg:
+> +        maxItems: 1
+
+Instead:
+
+maximum: 1
+
+
+> +
+> +      nvidia,mipi-calibrate:
+> +        description: Should contain a phandle and a specifier specifying
+> +          which pads are used by this DSI output and need to be
+> +          calibrated. 0 is for CSI-A, 1 is for CSI-B, 2 is for DSI.
+> +        $ref: /schemas/types.yaml#/definitions/phandle-array
+
+Is DSI applicable here?
+
+> +
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: port receiving the video stream from the sensor
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes: true
+
+Drop. No need unless you have some constraints like number of lanes?
+
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +        required:
+> +          - endpoint
+
+Drop.
+
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: port sending the video stream to the VI
+> +
+> +    required:
+> +      - reg
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +      - port@0
+> +      - port@1
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - power-domains
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +
+> +# see nvidia,tegra20-vi.yaml for an example
+> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra30-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra30-csi.yaml
+> new file mode 100644
+> index 000000000000..ea5ebd2f3c65
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra30-csi.yaml
+> @@ -0,0 +1,115 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra30-csi.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NVIDIA Tegra30 CSI controller
+> +
+> +maintainers:
+> +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - nvidia,tegra30-csi
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: module clock
+> +      - description: PAD A clock
+> +      - description: PAD B clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: csi
+> +      - const: csia-pad
+> +      - const: csib-pad
+
+Looks like clocks are the only difference? I think these 2 schemas can 
+be merged.
+
+> +
+> +  avdd-dsi-csi-supply:
+> +    description: DSI/CSI power supply. Must supply 1.2 V.
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  "#nvidia,mipi-calibrate-cells":
+> +    description: The number of cells in a MIPI calibration specifier.
+> +      Should be 1. The single cell specifies an id of the pads that
+> +      need to be calibrated for a given device.
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    const: 1
+> +
+> +  "#address-cells":
+> +    const: 1
+> +
+> +  "#size-cells":
+> +    const: 0
+> +
+> +patternProperties:
+> +  "^channel@[0-1]$":
+> +    type: object
+> +    description: channel 0 represents CSI-A and 1 represents CSI-B
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      reg:
+> +        maxItems: 1
+> +
+> +      nvidia,mipi-calibrate:
+> +        description: Should contain a phandle and a specifier specifying
+> +          which pads are used by this DSI output and need to be
+> +          calibrated. 0 is for CSI-A, 1 is for CSI-B, 2 is for DSI-A and
+> +          3 is for DSI-B
+> +        $ref: /schemas/types.yaml#/definitions/phandle-array
+> +
+> +      "#address-cells":
+> +        const: 1
+> +
+> +      "#size-cells":
+> +        const: 0
+> +
+> +      port@0:
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description: port receiving the video stream from the sensor
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: /schemas/media/video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes: true
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +        required:
+> +          - endpoint
+> +
+> +      port@1:
+> +        $ref: /schemas/graph.yaml#/properties/port
+> +        description: port sending the video stream to the VI
+> +
+> +    required:
+> +      - reg
+> +      - "#address-cells"
+> +      - "#size-cells"
+> +      - port@0
+> +      - port@1
+> +
+> +additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - "#address-cells"
+> +  - "#size-cells"
+> +
+> +# see nvidia,tegra20-vi.yaml for an example
+> -- 
+> 2.48.1
+> 
 
