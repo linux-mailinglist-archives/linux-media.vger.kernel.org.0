@@ -1,100 +1,122 @@
-Return-Path: <linux-media+bounces-42133-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42134-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69F61B5056C
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 20:35:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id C5FB7B5068C
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 21:46:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 11CA73B6BC6
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 18:35:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7219416F6A6
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 19:46:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51E50274B4D;
-	Tue,  9 Sep 2025 18:35:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1752319E7F7;
+	Tue,  9 Sep 2025 19:46:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="krA0gL++"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="S3NHo08h"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD54224BCE8
-	for <linux-media@vger.kernel.org>; Tue,  9 Sep 2025 18:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B34EE1A5BBC
+	for <linux-media@vger.kernel.org>; Tue,  9 Sep 2025 19:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757442927; cv=none; b=Xs9lXrxdYGwNse8Y0ppu0jG9I0R0ufRBa+uui067/nyCITDrf1IDrjVuKbHtlEHQuy8LPr8Q/ihViJaUj7k3Go04AQRNuucpE/sMea83jSoWw17d/GbTDFKOsUpVmAg9nahGkhI9QSUsr9eh5DSnKHBA645alIg9t9kOQt7Nhpo=
+	t=1757447207; cv=none; b=iplszoAWD5kPNX9IPRrrpNJeSL0dkSEhy+GuvqVnoAgysLHpiIMEcxCgnkWh/zqKnWbRV6go9tH6f1XMecJnOZKBaT1yAl/nFJa1pD6v4iPlKJm9x2PGjk6kAp9qVJHi/JZf4vJPiK63oDRulqqWCQxK5ue/YhYoDKxsYpGJMig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757442927; c=relaxed/simple;
-	bh=owOjEvSUqhYxWUGwns+Pu2QmlSYEwlSNCSUwleRViPU=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=dXkhiHzJttLcPhUmu68rRxx2HoCgCcN+1alX3+1fX0JyyxSeAsF/ixbqEEOgusvLS57MSZRpTQoQmJHGfkAl7EeNN6zWtkiV0HUQ2DauP2YxXIcZGLrKOciMD1ofgMp5K5WYB4jbyVDwWW6Ka9JgX7M+V4Vv/659u8N77P5Zf2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=krA0gL++; arc=none smtp.client-ip=192.198.163.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757442924; x=1788978924;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=owOjEvSUqhYxWUGwns+Pu2QmlSYEwlSNCSUwleRViPU=;
-  b=krA0gL++lWR62/2iZ8ejLTX8/D2unc5NuRxu4WzQV9l1rFSUnndo9/PH
-   +BFXv3EmawK3VAtFyBK6xHZUKsMAjEvxaZt0vk6SKB1YE0KPEf8MSRRnO
-   I7JgyI1Ic8DysJWmLBs/5+4Av6Z/S4miVkuVFgmPJc66wMOZQuYLOVo+V
-   7nWh7WOO6iFGLYc55IkcSxtC3eR/l/fyKO2eDVAcmD9SOJF3MxfiR32c3
-   I6meRmCWxdNoYNFMr0bp1g6RDAaSm0+KvG0FF4CyKm9TQkePAEugzp4fN
-   oa1tTt/cpGwirWGVZRJ7XwEbcz1iiOO1RSxJ49dBR9Nr9zHssTyOTCEb3
-   g==;
-X-CSE-ConnectionGUID: 1hCDhkipS+SirujPITfLig==
-X-CSE-MsgGUID: XcRIpyMIQuSV8mEjP1HQHw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="63569867"
-X-IronPort-AV: E=Sophos;i="6.18,252,1751266800"; 
-   d="scan'208";a="63569867"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Sep 2025 11:35:24 -0700
-X-CSE-ConnectionGUID: /f+lrVe/RHKTLUpSZ1FSuw==
-X-CSE-MsgGUID: TAb7yJo4S4+xANFndvz91g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,252,1751266800"; 
-   d="scan'208";a="173957922"
-Received: from lkp-server01.sh.intel.com (HELO 114d98da2b6c) ([10.239.97.150])
-  by fmviesa010.fm.intel.com with ESMTP; 09 Sep 2025 11:35:22 -0700
-Received: from kbuild by 114d98da2b6c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uw3BY-0005B3-18;
-	Tue, 09 Sep 2025 18:35:20 +0000
-Date: Wed, 10 Sep 2025 02:35:13 +0800
-From: kernel test robot <lkp@intel.com>
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Subject: [linuxtv-media-pending:next 102/122]
- drivers/media/platform/qcom/camss/camss-vfe-340.c:186:21: error: call to
- undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit
- function declarations
-Message-ID: <202509100228.xLeeYzpG-lkp@intel.com>
+	s=arc-20240116; t=1757447207; c=relaxed/simple;
+	bh=bxllsDf1Lp5l4wjG0+72sWfLlBUmHJTnSL+neH2MmYE=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=b4L04eiNRTLvJ9HcLFLrnjPuqCQnqCnXGBi9NHAc2V5QhkSqOGVkT02f2RrzqOFLTn+F6U+H3U/5FB5aJTKLqa7coCGgISSxj8PemM/D+BdmvONdWprnAfnIDIPH/dvlsPwSMwpl8p4AJ1DoSqVD8V3u9C8PyawI6z1SyluaJLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=S3NHo08h; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 589HQnN4030510
+	for <linux-media@vger.kernel.org>; Tue, 9 Sep 2025 19:46:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=5steLRplPiLvefWuDpnbGIk+jjoaaF/CqJG
+	o3p0Oykg=; b=S3NHo08hi5lyx5mDsSx3B7xaaTgM7tPKMem0kGKIsnoA1mpmZOx
+	2wgTlDZeC0P/fckpfQ5i+cZkT49P24l0w0ciAWLyxV0HOefBY3TKrXoSW5wWJ9aB
+	0W7pdUka6RDxsgB/K6iEIfCi2pdDCd92mL8JBrOzq9ed4P5HcbzCPgHZ3uuZdVsx
+	5i56ZWFFtBcWIFH9tv18waP4QBQaAAI9ezzHX90s++mH7gNUQRiOse862IQTamaz
+	A59peSJpaQRpZo5UXMswFV+BZbOykcya9AmntZaNZ7L8dNOcQK+w9SNDiiyXBFgo
+	KsZtUvTZUkUSw31UMlvsOrrV76yPvkEJbdA==
+Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490c9j9k1p-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 09 Sep 2025 19:46:44 +0000 (GMT)
+Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-728a71d8fd9so184189396d6.0
+        for <linux-media@vger.kernel.org>; Tue, 09 Sep 2025 12:46:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757447203; x=1758052003;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5steLRplPiLvefWuDpnbGIk+jjoaaF/CqJGo3p0Oykg=;
+        b=YKLoKfmCFS0+2GgATv1Y9wAuJw324dzNZTY0+iHP4WDsiUICMVFnMoE8SsrEeBvTAs
+         lSfY4Q0C8b6p5Jvj4sUqfRavsDZhBzFbFLJQZObzEPmM2FPfijL5auASCJpfb3eIomTu
+         /FDJtbluNgcQt8R8nT5unZ6ssmEsG5pJU1dlNv6mfmP7ZACMCHfL593tAtbuxwRyo/E0
+         RRIwRkwf4Y0XSR/DD0Lp/ulPS3ajtEdRkSOnR6IPfeQE0U14i1iecUMPK5w031GRb8Nl
+         XZDgz0uZJ96k16B0RtHM1LC1u6KYJfBle2TQxh8KvBFTYu1ZV0Vo6vstF+xYy6NTQB8f
+         cdxQ==
+X-Gm-Message-State: AOJu0Ywl1ahlPJj/b2FE94NKK7zwPXMcc0FyuY4NEjUXUZWTLbJw06eO
+	dAYVBV9sOnG1VQ94QCblBqc+/mzyJkBRA3TKzXCwondYe3UamFwB7pzZtyb8ySylsdAMxQXt4XS
+	n3QatNC1cLj9F/TdytgCOpQsAj3ueQjqnslKIiDXJXjux9gfxvjJunc8zDeEVs96MaQ==
+X-Gm-Gg: ASbGnctvLe1EduOSVSTz6yJ8kkfhGUuNkzr0jN86R7UXpR8q9R7GCIQOrdgz8Fs2h/w
+	qTdkRf4vhbMRrf7Z7CSs4qYN1w7aO/0tr7u8TG43yeshL3cpd/Vo2w1HsJ9GquDaMDVnVP1i6BG
+	nJUUH1xgzUjwnHX/0uqWwQyMKWLo8LfnqP77p2uVatWdTQ8H84nkHboFw+eUXTJHu5oYcS1Tz1A
+	ue1xmlVuGLox3XUAdhzIueYFk+M6bABI2V0t2PvRvhmmUCNYdUHV8tyEs8yKjyoA4MYXepMWZBW
+	j0K0aQopwngc0HJ6EWC1w+LxOKLrZgutIkGW4xU1xkhIlU/xwFbG7z0dJSD9ZQ/S84tA7XzHGmw
+	=
+X-Received: by 2002:a05:6214:2262:b0:72d:8061:93f9 with SMTP id 6a1803df08f44-7393ec168a2mr106215056d6.37.1757447203582;
+        Tue, 09 Sep 2025 12:46:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHicJvN6Ujucn2Isb8qJ82mIwVum40z8rVje70UXWdGxfkdDyrQ4DkGVKF4ygrOam+Eb1NvNA==
+X-Received: by 2002:a05:6214:2262:b0:72d:8061:93f9 with SMTP id 6a1803df08f44-7393ec168a2mr106214806d6.37.1757447203103;
+        Tue, 09 Sep 2025 12:46:43 -0700 (PDT)
+Received: from QCOM-eG0v1AUPpu.qualcomm.com ([2a01:e0a:82c:5f0:15ba:6482:f5ef:4039])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-62bfef68a44sm1743963a12.21.2025.09.09.12.46.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 09 Sep 2025 12:46:42 -0700 (PDT)
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+To: bryan.odonoghue@linaro.org
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        hans@jjverkuil.nl, Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        kernel test robot <lkp@intel.com>
+Subject: [PATCH] media: qcom: camss: Add missing header bitfield.h
+Date: Tue,  9 Sep 2025 21:46:36 +0200
+Message-Id: <20250909194636.2243539-1-loic.poulain@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAyMiBTYWx0ZWRfX0ncRMmf+rClO
+ WCB7QiI74KfYL8+3W1FW2kMJVPvX7d4RoKTWx4qPFhf0BL1SM4ucTBI1Y6mZWHo/cIUjjkjbPSr
+ NCmOyyXBjTdOWnZKfuQgufarmHpaAe6GWqMgrYxga9Ome4qtJeaJg6XblLRFrHWrHdAYXAXnVkb
+ kcp5RO72Fbv8i377fcSsaA0duZJvMCAiwg3f6uQcJWn2uqhPfoqjovstbhpRiGjLee0MafkqLZb
+ 1ov8UYVLu3qKK3hnRKxOa1E6/2/FNenn1ZFHV0iLXratukkBYj4MFpSbztHxgWUh4z+tta01a/g
+ JluzJb95+a23pJEbKFN4lh8TBT0/0yA0NHb7I3luIBq4/q9uN3dGx2f2FlLQo6tVEnTJBIQxmgB
+ CvJjYIUu
+X-Proofpoint-ORIG-GUID: FQx1wqFFT-WXNjkhZPAFTeEeuWiRdpFF
+X-Authority-Analysis: v=2.4 cv=PpOTbxM3 c=1 sm=1 tr=0 ts=68c08424 cx=c_pps
+ a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=xqWC_Br6kY4A:10 a=yJojWOMRYYMA:10
+ a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8 a=EUspDBNiAAAA:8 a=d6NsCnqxkaT3_V1LjFAA:9
+ a=pJ04lnu7RYOZP9TFuWaZ:22
+X-Proofpoint-GUID: FQx1wqFFT-WXNjkhZPAFTeEeuWiRdpFF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-09_03,2025-09-08_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 spamscore=0 bulkscore=0 clxscore=1015
+ malwarescore=0 adultscore=0 impostorscore=0 priorityscore=1501
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060022
 
-tree:   https://git.linuxtv.org/media-ci/media-pending.git next
-head:   39d919edea1dd9c254a10b36deeafdbe0c2b813c
-commit: b5e67bd1da323f125dd490d26948a2810b90e181 [102/122] media: qcom: camss: Add support for TFE (Spectra 340)
-config: hexagon-randconfig-002-20250910 (https://download.01.org/0day-ci/archive/20250910/202509100228.xLeeYzpG-lkp@intel.com/config)
-compiler: clang version 22.0.0git (https://github.com/llvm/llvm-project 7fb1dc08d2f025aad5777bb779dfac1197e9ef87)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250910/202509100228.xLeeYzpG-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509100228.xLeeYzpG-lkp@intel.com/
-
-All errors (new ones prefixed by >>):
-
+Add the <linux/bitfield.h> header to prevent erros:
 >> drivers/media/platform/qcom/camss/camss-vfe-340.c:186:21: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
      186 |                         if (bus_status & TFE_BUS_IRQ_MASK_RUP_DONE(i))
          |                                          ^
@@ -109,70 +131,39 @@ All errors (new ones prefixed by >>):
          |                                                 ^
    2 errors generated.
 
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202509100228.xLeeYzpG-lkp@intel.com/
+Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+---
+ drivers/media/platform/qcom/camss/camss-csid-340.c | 1 +
+ drivers/media/platform/qcom/camss/camss-vfe-340.c  | 1 +
+ 2 files changed, 2 insertions(+)
 
-vim +/FIELD_PREP +186 drivers/media/platform/qcom/camss/camss-vfe-340.c
-
-   163	
-   164	static irqreturn_t vfe_isr(int irq, void *dev)
-   165	{
-   166		struct vfe_device *vfe = dev;
-   167		u32 status;
-   168		int i;
-   169	
-   170		status = readl_relaxed(vfe->base + TFE_IRQ_STATUS_0);
-   171		writel_relaxed(status, vfe->base + TFE_IRQ_CLEAR_0);
-   172		writel_relaxed(TFE_IRQ_CMD_CLEAR, vfe->base + TFE_IRQ_CMD);
-   173	
-   174		if (status & TFE_IRQ_MASK_0_RST_DONE) {
-   175			dev_dbg(vfe->camss->dev, "VFE%u: Reset done!", vfe->id);
-   176			vfe_isr_reset_ack(vfe);
-   177		}
-   178	
-   179		if (status & TFE_IRQ_MASK_0_BUS_WR) {
-   180			u32 bus_status = readl_relaxed(vfe->base + TFE_BUS_IRQ_STATUS_0);
-   181	
-   182			writel_relaxed(bus_status, vfe->base + TFE_BUS_IRQ_CLEAR_0);
-   183			writel_relaxed(TFE_BUS_IRQ_CMD_CLEAR, vfe->base + TFE_BUS_IRQ_CMD);
-   184	
-   185			for (i = 0; i < TFE_IFACE_NUM; i++) {
- > 186				if (bus_status & TFE_BUS_IRQ_MASK_RUP_DONE(i))
-   187					vfe->res->hw_ops->reg_update_clear(vfe, __iface_to_line(i));
-   188			}
-   189	
-   190			for (i = 0; i < TFE_SUBGROUP_NUM; i++) {
-   191				if (bus_status & TFE_BUS_IRQ_MASK_BUF_DONE(i))
-   192					vfe_buf_done(vfe, __subgroup_to_line(i));
-   193			}
-   194	
-   195			if (bus_status & TFE_BUS_IRQ_MASK_0_CONS_VIOL)
-   196				dev_err_ratelimited(vfe->camss->dev, "VFE%u: Bad config violation",
-   197						    vfe->id);
-   198	
-   199			if (bus_status & TFE_BUS_IRQ_MASK_0_VIOL)
-   200				dev_err_ratelimited(vfe->camss->dev, "VFE%u: Input data violation",
-   201						    vfe->id);
-   202	
-   203			if (bus_status & TFE_BUS_IRQ_MASK_0_IMG_VIOL)
-   204				dev_err_ratelimited(vfe->camss->dev, "VFE%u: Image size violation",
-   205						    vfe->id);
-   206		}
-   207	
-   208		status = readl_relaxed(vfe->base + TFE_BUS_OVERFLOW_STATUS);
-   209		if (status) {
-   210			writel_relaxed(status, vfe->base + TFE_BUS_STATUS_CLEAR);
-   211			for (i = 0; i < TFE_WM_NUM; i++) {
-   212				if (status & BIT(i))
-   213					dev_err_ratelimited(vfe->camss->dev,
-   214							    "VFE%u: bus overflow for wm %u\n",
-   215							    vfe->id, i);
-   216			}
-   217		}
-   218	
-   219		return IRQ_HANDLED;
-   220	}
-   221	
-
+diff --git a/drivers/media/platform/qcom/camss/camss-csid-340.c b/drivers/media/platform/qcom/camss/camss-csid-340.c
+index 7a8fbae3009b..22a30510fb79 100644
+--- a/drivers/media/platform/qcom/camss/camss-csid-340.c
++++ b/drivers/media/platform/qcom/camss/camss-csid-340.c
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include <linux/completion.h>
++#include <linux/bitfield.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/kernel.h>
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe-340.c b/drivers/media/platform/qcom/camss/camss-vfe-340.c
+index 55f24eb06758..30d7630b3e8b 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe-340.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe-340.c
+@@ -6,6 +6,7 @@
+  */
+ 
+ #include <linux/delay.h>
++#include <linux/bitfield.h>
+ #include <linux/interrupt.h>
+ #include <linux/io.h>
+ #include <linux/iopoll.h>
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.34.1
+
 
