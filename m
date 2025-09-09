@@ -1,172 +1,177 @@
-Return-Path: <linux-media+bounces-42091-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42092-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D9D4B4AA27
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 12:18:17 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id ACBF6B4AA68
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 12:23:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 341FE1892A42
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 10:18:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id DE62018851BF
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 10:23:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5270331C571;
-	Tue,  9 Sep 2025 10:13:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 869F83054F8;
+	Tue,  9 Sep 2025 10:22:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="TSlW3BhB"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="GSrdNOfU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4A203191C4
-	for <linux-media@vger.kernel.org>; Tue,  9 Sep 2025 10:13:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.85.4
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 750CB256C7E;
+	Tue,  9 Sep 2025 10:22:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757412827; cv=none; b=nd8yeHpz7MIDzfhQj6x5agFT5D7+PErNKTUgK79zZ8uB8m9ZDA0xQvJ3YwkjObw6HlYcoV5rSObcnFQijJwIe4hnxnhKBeI1PDLJLhPVEfKPbzZPLH5ydTIKw249u9ORM/WN2W/XWgWooz8ZyYRhwvKDT+ZBdtpQ0to1qAMuzPU=
+	t=1757413358; cv=none; b=lG0eTFinkajioFZRBBa2kzoCpWVds/cDX+hSPjlwE0/RreZRFSUb5bvE2NUYHIa172UYPAQ552GNa4m1kbGdD9lxU69Jdxz7hOZXMBPASZeIjhha1w3qnFhYtjAe4W9WCrPSU+qEHbZCWMWPwWEibCNuZSEL09BS/d8T81KIvfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757412827; c=relaxed/simple;
-	bh=mcfC+h1eStW2uUhSrWJrqUQ4K9R4hrohvIKBqKE5M9I=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kzlI7vGWewrGJUMTQRYL+rPhaJ4ketb50CS6Ovg2vufEzZBqBYuVqOqjn1KhRry8GmHELWIDubyh+4C/TOLqZNdE4KF/ySxANwBkjksLBQSP/uHwi8KZBbWjhVFify/YJK/IIo4syYLWtb9xYHFpwj49l1QtBnszphOTJViQNPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=TSlW3BhB; arc=none smtp.client-ip=185.246.85.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id EAD754E40C65;
-	Tue,  9 Sep 2025 10:13:41 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id BD17360630;
-	Tue,  9 Sep 2025 10:13:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 73E5D102F2894;
-	Tue,  9 Sep 2025 12:13:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1757412820; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=ncdmf1jhLSIzFX+n3bWuOq0zu5sbccap6rdFTbTyrp4=;
-	b=TSlW3BhBfGVHzv475bNiMhL8Bw8Af3XCJJTHeL2j78xMN8yMp46G3obLq8qYawvTQ+Z8O/
-	6qzCYGbzQEw4iyUDCgRjdPeepGT+ksqfZ2l0FwtHikXZcix/OsxLr1Rg2wLHg70jilqdlO
-	5rOAmGcIyiz4VYuU36vecgaQ+lvkfX6ApdRXwREj2aFFzfdOT/hW+BQpe7H5mYrYGSZ4Zq
-	XPvT/PKdMkxw+20IuhZprIRd1cmd0Z2uv5nhGSHYthrbUJSf7ZAShC9QKaNQuN9f15CKBm
-	6ArHqVKmlB6kCpf8WrEEY45YAgcNExhUyH1uqIBIWMCLEuQUzndLSoe7/1Px1w==
-Date: Tue, 9 Sep 2025 12:13:17 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding
- <treding@nvidia.com>, Mikko Perttunen <mperttunen@nvidia.com>, Jonathan
- Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni
- <skomatineni@nvidia.com>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann
- <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Peter De
- Schrijver <pdeschrijver@nvidia.com>, Prashant Gaikwad
- <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, Stephen
- Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Greg
- Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko
- <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>,
- linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
- dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject: Re: [PATCH v1 09/19] staging: media: tegra-video: vi: add flip
- controls only if no source controls are provided
-Message-ID: <20250909121317.6f34e2f3@booty>
-In-Reply-To: <CAPVz0n0_DJh9M-h5a0bcBA8b6_7vzgOYSktGxAhFzuVncoJhmw@mail.gmail.com>
-References: <20250819121631.84280-1-clamor95@gmail.com>
-	<20250819121631.84280-10-clamor95@gmail.com>
-	<20250905175915.2d7e02a7@booty>
-	<CAPVz0n0_DJh9M-h5a0bcBA8b6_7vzgOYSktGxAhFzuVncoJhmw@mail.gmail.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1757413358; c=relaxed/simple;
+	bh=eD6wq/3madOW8/kwVp2CH+4+jWHPF3U4a1TdJ9DICuQ=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=l0+j71B9OaekQmj4Qi6SDUhGck4sCy9qXeq9pW9bH5J5CbUNQxfemdi+Q7hDcXQFuqxgBb+2qg5chWvD/kHdWG5YS1ayzqv6h8xon+/gfGE8x5KZ2Og/p9FlhRnSUXDWxy3UYketIW/J0OXUebSa3qGungxgcTJTchd3TjmCiv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=GSrdNOfU; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5899LU8i031528;
+	Tue, 9 Sep 2025 10:22:32 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=wiM7d5PIg3kCa7myi/zzPS
+	D126ph+RF+nbLFILaiTVM=; b=GSrdNOfUR0YQ2gGr1B7nmex1FLsTAaBsC7ZTHO
+	dhgDwrJWsRaWV9k2ScZeHZFZIHifG+Dod3K3VdEJsOx592NH4Mj1pIp7oL4Gk5Xw
+	TRRRzS7bVRtaC/fonuA5lkHFdHzS4poqLj4WuzMsXWqWwFWQRVNV/0b2zJhrUyOw
+	K9ZiZr+tgsxHBqGYwjf6PL3+SzlIEpk78yuvdf41SAItyDbDgSjP/bSgIpT7H0R1
+	YV2ElCiwj99Yk72MFxFmHHRrQJwW6uKUMrHMxtP5cr7JdODiSd0h7wW3eWJk4Yvg
+	JFZ1j5mSHx0cDXaHVCLdOOZqzsgMe+5bZBoEK9+Vf1ro1RbA==
+Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490bws7yrt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 09 Sep 2025 10:22:32 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 589AMVic019496
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Tue, 9 Sep 2025 10:22:31 GMT
+Received: from cse-cd01-lnx.ap.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.24; Tue, 9 Sep 2025 03:22:26 -0700
+From: Wenmeng Liu <quic_wenmliu@qualcomm.com>
+Subject: [PATCH v3 0/3] Add CCI and imx577 sensor support for lemans evk
+Date: Tue, 9 Sep 2025 18:21:55 +0800
+Message-ID: <20250909-camss_rb8-v3-0-c7c8df385f9a@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAMT/v2gC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyjHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDSwNL3eTE3OLi+KIkC90Uc0tjM4M08zRDUwsloPqCotS0zAqwWdGxtbU
+ AwiiFwlsAAAA=
+X-Change-ID: 20250909-camss_rb8-d79360f7f158
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Robert Foss
+	<rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio
+	<konradybcio@kernel.org>, <bryan.odonoghue@linaro.org>,
+        <todor.too@gmail.com>, <vladimir.zapolskiy@linaro.org>
+CC: <linux-i2c@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, Wenmeng Liu <quic_wenmliu@qualcomm.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757413345; l=2235;
+ i=wenmeng.liu@oss.qualcomm.com; s=20250211; h=from:subject:message-id;
+ bh=eD6wq/3madOW8/kwVp2CH+4+jWHPF3U4a1TdJ9DICuQ=;
+ b=3o7KBVePebJcGn8fw+0R4pHPQCNPzIC4nePsD4/8TAyXeQeVwS6ers/OWXeMR9sxKszd9Njf8
+ dsZa/QDE34JCoEB92sRZRaXhRQRQEZAAfLhdFYbbyrHUz6XZ8jj+9o7
+X-Developer-Key: i=wenmeng.liu@oss.qualcomm.com; a=ed25519;
+ pk=PTegr3w0f1C9dOSL6CUdJR5+u+X/4vsW7VMfwIMeMXQ=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: sIZ8FWfYh_SPPmaQ2AfGsV-HxOC4Qgb7
+X-Proofpoint-GUID: sIZ8FWfYh_SPPmaQ2AfGsV-HxOC4Qgb7
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAxOCBTYWx0ZWRfX6DSZpb+LTu7D
+ 0tXLONyAIuuXx/rCcWRLIvS3u7siax4f8Mw5F9niijOlWqwM/BQ3q/f6p6ux+EpoG/Af92rSm8D
+ N9A9ko/lMrh63+Fi1BgVuMUoBLPSuBA7WndnPdpxyjcrVxnU1f8AFa6GlGdkdtR3pfIur7+El6X
+ lZ97w4EZ+a9jZc7O00x/fn+pDQFqKs1Uy4bnlLA/aHab96ynyWOng5K9i9xiiqPgSaOti0afaSk
+ S9zBgdw60v/vWqBgbyma4WWeF4VpfL0LLJysq4qP/LVGvWkqOy6lBLUL0flj2qQCQ+97spjTFsL
+ toxKlVCKV+qAKyt/xmZAnSJmFb0OI4M2xWnpDThXkqm/Zkd8l6KvNhQeYm9SVrFzWxCFo4tcpX7
+ E0rhM1iH
+X-Authority-Analysis: v=2.4 cv=G4kcE8k5 c=1 sm=1 tr=0 ts=68bfffe8 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8
+ a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=L1m54Ubpix6UO_NYMN8A:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-08_06,2025-09-08_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 bulkscore=0 suspectscore=0 clxscore=1011
+ malwarescore=0 adultscore=0 impostorscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060018
 
-Hello Svyatoslav,
+This series adds cci definition and imx577 sensor enablement
+via cci1 on lemans evk.
 
-On Fri, 5 Sep 2025 19:05:16 +0300
-Svyatoslav Ryhel <clamor95@gmail.com> wrote:
+An example media-ctl pipeline for the imx577 is:
 
-> =D0=BF=D1=82, 5 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 18:59 Luc=
-a Ceresoli <luca.ceresoli@bootlin.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> >
-> > Hello Svyatoslav,
-> >
-> > On Tue, 19 Aug 2025 15:16:21 +0300
-> > Svyatoslav Ryhel <clamor95@gmail.com> wrote:
-> > =20
-> > > Add HFLIP and VFLIP from SoC only if camera sensor does not provide t=
-hose
-> > > controls.
-> > >
-> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > ---
-> > >  drivers/staging/media/tegra-video/vi.c | 9 ++++++---
-> > >  1 file changed, 6 insertions(+), 3 deletions(-)
-> > >
-> > > diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging=
-/media/tegra-video/vi.c
-> > > index 4f67adc395ac..61b65a2c1436 100644
-> > > --- a/drivers/staging/media/tegra-video/vi.c
-> > > +++ b/drivers/staging/media/tegra-video/vi.c
-> > > @@ -961,6 +961,7 @@ static int tegra_channel_setup_ctrl_handler(struc=
-t tegra_vi_channel *chan)
-> > >       }
-> > >  #else
-> > >       struct v4l2_subdev *subdev;
-> > > +     struct v4l2_ctrl *hflip, *vflip;
-> > >
-> > >       /* custom control */
-> > >       v4l2_ctrl_new_custom(&chan->ctrl_handler, &syncpt_timeout_ctrl,=
- NULL);
-> > > @@ -986,11 +987,13 @@ static int tegra_channel_setup_ctrl_handler(str=
-uct tegra_vi_channel *chan)
-> > >               return ret;
-> > >       }
-> > >
-> > > -     if (chan->vi->soc->has_h_v_flip) {
-> > > +     hflip =3D v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_HFLIP);
-> > > +     if (chan->vi->soc->has_h_v_flip && !hflip)
-> > >               v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4=
-L2_CID_HFLIP, 0, 1, 1, 0);
-> > > -             v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4=
-L2_CID_VFLIP, 0, 1, 1, 0);
-> > > -     }
-> > >
-> > > +     vflip =3D v4l2_ctrl_find(subdev->ctrl_handler, V4L2_CID_VFLIP);
-> > > +     if (chan->vi->soc->has_h_v_flip && !vflip)
-> > > +             v4l2_ctrl_new_std(&chan->ctrl_handler, &vi_ctrl_ops, V4=
-L2_CID_VFLIP, 0, 1, 1, 0); =20
-> >
-> > Based on my understanding of V4L2, this should not be done.
-> > AFAIK subdevs should expose what the hardware block can do,
-> > independently from other subdevs. It is up to userspace (e.g.
-> > libcamera) to use the most appropriate control when there are redundant
-> > ones.
-> > =20
->=20
-> This driver is video-centric, interactions are done via /dev/videoX
-> not subdevices like media-centric derivers do. Conversion is possible
-> but it is not scope of this patchset and in case such conversion takes
-> place, one who will do that, will definitely know what to do.
-> Video-centric drivers expose all controls within single video device
-> and it cannot hold duplicates of controls, this causes error. So this
-> solution exposes camera flip controls and if camera has none, SoC
-> controls are exposed.
+media-ctl -d /dev/media0 --reset
+media-ctl -d /dev/media0 -V '"imx577 0-001a":0[fmt:SRGGB10/4056x3040 field:none]'
+media-ctl -d /dev/media0 -V '"msm_csiphy1":0[fmt:SRGGB10/4056x3040]'
+media-ctl -d /dev/media0 -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -d /dev/media0 -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -d /dev/media0 -l '"msm_csiphy1":1->"msm_csid0":0[1]'
+media-ctl -d /dev/media0 -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
 
-Sorry, forgot to think in the past. :-)
-Thanks for the clarification, it makes sense now!
+yavta -B capture-mplane  -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0 --capture=5
 
-Luca
+Changes in v3:
+- Revise the annotations according to Konrad's suggestions.
+- Remove the enable of camcc, camcc default to being enabled.
+- Link to v2:
+  https://lore.kernel.org/linux-arm-msm/20250815-rb8_camera-v2-0-6806242913ed@quicinc.com/
 
---=20
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Changes in v2:
+- Remove the patch that adds PHY supply documentation in the sa8775p CAMSS
+  bindings. This change should be submitted together with the sa8775p bindings patch.
+- Fix the string ordering in the DTS file.
+- Remove the source clock from the CCI node.
+- Move the sensor enable configuration from lemans-evk.dts to lemans-evk-camera.dtso.
+- Remove the definitions for CCI and regulators that are not enabled.
+- Link to v1:
+  https://lore.kernel.org/all/20250514-rb8_camera-v1-0-bf4a39e304e9@quicinc.com/
+
+Dependencies:
+https://lore.kernel.org/all/20250814101615.1102795-1-quic_vikramsa@quicinc.com/
+
+---
+Wenmeng Liu (3):
+      dt-bindings: i2c: qcom-cci: Document sa8775p compatible
+      arm64: dts: qcom: sa8775p: Add CCI definitions
+      arm64: dts: qcom: lemans-evk-camera: Add DT overlay
+
+ .../devicetree/bindings/i2c/qcom,i2c-cci.yaml      |   2 +
+ arch/arm64/boot/dts/qcom/Makefile                  |   4 +
+ arch/arm64/boot/dts/qcom/lemans-evk-camera.dtso    | 101 ++++++++
+ arch/arm64/boot/dts/qcom/lemans.dtsi               | 268 +++++++++++++++++++++
+ 4 files changed, 375 insertions(+)
+---
+base-commit: 0292e5668a417d680b48901c0185bc191693c05c
+change-id: 20250909-camss_rb8-d79360f7f158
+
+Best regards,
+-- 
+Wenmeng <wenmeng.liu@oss.qualcomm.com>
+
 
