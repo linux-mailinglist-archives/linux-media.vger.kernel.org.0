@@ -1,319 +1,177 @@
-Return-Path: <linux-media+bounces-42061-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42062-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A708B4A24D
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 08:32:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21BC7B4A250
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 08:33:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CA5D61785C5
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 06:32:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC7F23A6282
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 06:33:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AB1B303A2C;
-	Tue,  9 Sep 2025 06:32:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AC789303A0C;
+	Tue,  9 Sep 2025 06:33:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pp/hdWj6"
+	dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b="oduwjM0Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from TYDPR03CU002.outbound.protection.outlook.com (mail-japaneastazon11013013.outbound.protection.outlook.com [52.101.127.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D92B118A93F;
-	Tue,  9 Sep 2025 06:32:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757399551; cv=none; b=KEceyEFFXzBzuVvbjbnS7dRp6DwlwW15gknr+jb8AhZFDGr0KEiEr1yv+pmRz5Qgt5aQz64wUPGJU7N5feCHtx2JSLm1rBf+a7ueYUQCB+Cf+i971nuf+sbvd0Jjt4Z3iQI02rGUKfaDgYFIZxgntBjTTxasG3Um/Qbok+DPPJw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757399551; c=relaxed/simple;
-	bh=2G05gzx1PbaHyR1yYOE2y+mLcbStlpmfMPAJKrEzaC8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=sQpcxBDGFDVYOzLAK+x8GbMPJABX+l0gMvQQQWYwGE5lJlCIjz4Qr1qWUOwWR/LME2ryNWI9NXibLe1T1GHz3zmigHr4cvKu+OoutV6x6C0IQXemU9kWVfCHWmkTc3ZWsrE6V1KPtHgt1RJCjXigIC8xhuoA0pWjNm2Zk6SKBhI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pp/hdWj6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 634CDC4CEF5;
-	Tue,  9 Sep 2025 06:32:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757399549;
-	bh=2G05gzx1PbaHyR1yYOE2y+mLcbStlpmfMPAJKrEzaC8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pp/hdWj6LY6bGFjsgsADGJsGjUD6dcZ8sIz1E2W8Bp78HpLJf5tiqc6PaS2tctJdm
-	 vmRk4z5ffK38g1LunQBW0MQIF8wH/i8WasdyLDVZhqU5vYlbAWpRm+5WdrI4F4e1nx
-	 SZk6v7FD0wB9wfJnihoizbTt7Ts6XaoOFKQzUFaVUmnfIwh3Fb69isdIlQwB+DU/zV
-	 sUK7LXBTh4A/R913c5kWjfFNoDCsJAzLL/Fjd+T7S001RLhPcMZsFqlGTK+5PtZRI4
-	 Rh2iw78Rf2haihzrZVl0vVKInRdOFZSP9QhMrMB3DmwQLT65Da5TroKWm2ahjZzO7A
-	 YG0KA2UCAnqHw==
-Message-ID: <5421cfe7-dfe0-4bb8-8722-6f449cd365be@kernel.org>
-Date: Tue, 9 Sep 2025 08:32:17 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 020F13009D5;
+	Tue,  9 Sep 2025 06:33:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.127.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757399589; cv=fail; b=NDTslX9EKGA2AtoF1Pdm/IBkTIn8XuaGAliff3IdA8O5ikcqXFFRkEDKeKWf8c/5zMHQFQx2hPnrcuZipgPp9qISdXLnlkJoF7F6lc9VQiiXOnzY/QNy9rjVnBh00ARfiVVxeFiFBhlJOXZ/5P+aGODHmQTvcQlRR7WxwO5A4Ow=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757399589; c=relaxed/simple;
+	bh=jTrwuzTp9lhuE+EyGxpHDL0HLw0pc3SYb0xjtTtFioM=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=IBBPHPZr1XGvePf673gS7m9pcpObGcwOKhA8AjVwxQS8Uk5udzq5VRBM1aQNMHG+TWE4opse4+NGD4uag2Vh3B5encReNBtYNSxYlbAvpUYxvIxX1yXhoEm/s8vAcBsDcASQCY2l4i+jJEr3M03fIxeXSqwyVqWJqf02FOYCdZw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com; spf=pass smtp.mailfrom=vivo.com; dkim=pass (2048-bit key) header.d=vivo.com header.i=@vivo.com header.b=oduwjM0Q; arc=fail smtp.client-ip=52.101.127.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vivo.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vivo.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nu9mZs2IZp+zPlHBbCtqKxe3xxMyvfmC48rr/urOjEZd6uGQApoKwAGw7ICsXVQJrORcfZ3CF7KayqT3bhoGMHD9XKtxhVAZ7E4CicoPY0nKWsA2ahOv7vdT2vKVdKHsZWyetVolR01JTc1shMDdL8iQjNM9iscq21DX6DMatjfGe2fdYeE4xEBlWbAm9VuqNTF1ch8UqMReI9meSNSmk8rx1zQIUMg6zpmx1WyTveEn48og4wStGRc1WU/Aq06XgaUP7iclOZYiR+yUCHnqmrd6xh+pgNqaJipPz0kKHMjEtywnA2ZvIYPZo0DLw8WVgkYtGRzA9uSh2hPfOc86aA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=dZPyEgd7mDtNJ6yS1kIgruKhsLWdQr/VbBRyl4cQIUY=;
+ b=yZFK3Nbwxph/3VppUyeR+zkbdpJuSxl/kjOO/07dXJO2qYs5zl5/j2dPQ8tvnBn1U9/LxPoIBP5bNpU0dmbShB3o+vRE2v20MPW7obS/JcIHZ7QqgHgn8dy7LyZCTrsccUctG4j3MDP8Xu/YtWhpAcaX//bxKy/dfmUA6vXg4mp7X8GgDlLbyxgZSj/00anTAN+c6rKk+Ckul+dvAvFvVOWHLzyfe4Y4YCOcaAntcUEjVAtcjsL6qOqhykLws60vpkU7kmwAQ/vYuDTf7qUncW8Uvtf85d1qI9JzFHhOWDauPHk0SqLLx7+5hqMROcExpPpCdRB5gDBs+ncvmfgo3A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=vivo.com; dmarc=pass action=none header.from=vivo.com;
+ dkim=pass header.d=vivo.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vivo.com; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=dZPyEgd7mDtNJ6yS1kIgruKhsLWdQr/VbBRyl4cQIUY=;
+ b=oduwjM0QD0C0aUkPqjW5wmSbITofdiEUG4BbfrPHnCFFJSlC6PEHTtLBD3sjV04gxUqbgPR7lYhpUMHPbwFaYTd4nybuhfnRjz01BCCXuEKisJKeAFw178ihvmBnZRg/6UyEtLRVdamFJjmTR9KRXLP+uTA8hgPSJYsdqRegeSVCsWpf35p/hxQvNxE6FOaaURTV0xOC3IeJbvf5Jm5d9Gx2VQ8BCxFoXA6ThgWAej7WEgjNmxaeXUvQg8vzTF9GT7YePhdHhIZ7HQB8AO5CT4y5QrCIhE8veehQvvUC2DusILf0hHEQYKtiatXeweNf7ZMLGTT8bk6Im9RqGeJNMg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=vivo.com;
+Received: from KL1PR06MB7330.apcprd06.prod.outlook.com (2603:1096:820:146::7)
+ by TY2PPF4714CF0AA.apcprd06.prod.outlook.com (2603:1096:408::78c) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.19; Tue, 9 Sep
+ 2025 06:33:04 +0000
+Received: from KL1PR06MB7330.apcprd06.prod.outlook.com
+ ([fe80::d1d3:916:af43:55f5]) by KL1PR06MB7330.apcprd06.prod.outlook.com
+ ([fe80::d1d3:916:af43:55f5%4]) with mapi id 15.20.9094.021; Tue, 9 Sep 2025
+ 06:33:04 +0000
+From: Xichao Zhao <zhao.xichao@vivo.com>
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Xichao Zhao <zhao.xichao@vivo.com>
+Subject: [PATCH] media: dvb_ca_en50221: fix "writen"->"written"
+Date: Tue,  9 Sep 2025 14:32:54 +0800
+Message-Id: <20250909063254.547026-1-zhao.xichao@vivo.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SI2PR02CA0035.apcprd02.prod.outlook.com
+ (2603:1096:4:195::22) To KL1PR06MB7330.apcprd06.prod.outlook.com
+ (2603:1096:820:146::7)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 01/14] media: dt-bindings: Convert MediaTek mt8173-mdp
- bindings to YAML
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
- andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
- broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
- conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
- edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
- jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
- krzk+dt@kernel.org, kuba@kernel.org,
- kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
- linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
- maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
- mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
- p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
- sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
- tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
- netdev@vger.kernel.org
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-2-ariel.dalessandro@collabora.com>
- <20250821-silky-slug-of-novelty-e4bb64@kuoka>
- <d286ec0b-c8dc-4103-9aa3-2f40e0ade4a3@collabora.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <d286ec0b-c8dc-4103-9aa3-2f40e0ade4a3@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: KL1PR06MB7330:EE_|TY2PPF4714CF0AA:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0faebbf8-3b57-44f4-604a-08ddef6abac3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|376014|52116014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?5EK12MjLZTRvRPtNbyLF3jwef0atRkoIrJbJfBCj9EHYDYhAmUHojKU68vQY?=
+ =?us-ascii?Q?jXa1NUZMFgHD3Bv31ue2b7mRTY3tUrVJaUTXdya8QXIp58yHGAuKWiM76Mck?=
+ =?us-ascii?Q?qJ2T8/Zmz3roUphQbnGDPDdaxKIQCKEv1etQ0NQgHFjXOza1xSc9FRwrfuv0?=
+ =?us-ascii?Q?uySdm+iZmieXHpmjgGhGGm3/aee2K8Exug+fxJPAelduPUh5rw7ngXl9LKt5?=
+ =?us-ascii?Q?6Mkhu8gpJ6VFW5HWDyk3wqdqn7+d+uoZVsMTGxyWfeIquvlM1T6QyyZKh4uz?=
+ =?us-ascii?Q?aKCwkzPryYTqu3yTsIzoMpqKAdc1BkZI69a7WxAq9+f1JpFGZOj0ZAG1mYwZ?=
+ =?us-ascii?Q?3Tq6DvShNl8kVx3fyIyfW/iAkyqHuW06FwKEISw1UHqBbx43+gqVe3Qpjhi3?=
+ =?us-ascii?Q?VFFldMVrO16KBiBH64kswYYBMfivL4i54KNO06H5yDLlTqqWBrNnh/XxUuOD?=
+ =?us-ascii?Q?CptuCwdUv8IXwb08kmey7/fC5VOdmEOsd0uVDB2Hrj1yRx81MhjGR9Uyd1ib?=
+ =?us-ascii?Q?kRCBtecIVaRmP571LScSZ6o2sIxjtcQrK4jSxmBIp7AOjTsTkF9qCA5bcNGb?=
+ =?us-ascii?Q?Xh3vYxQ55lCOSE7n+zoIdxNPioIUaLPVUB623WhHXeNSvmfC8OHaq9WCvNg6?=
+ =?us-ascii?Q?/baFrGKL0RA93+UBHyiX6n4zAz7k1GkWhBxd5a7QZj2Agt2JBh0rc6G2FtrQ?=
+ =?us-ascii?Q?cJVTgWFOQpPVOnP76RQWdR1/eBlYU2cNqWLWlvWTFC17UWFTNMm89cPMw3mZ?=
+ =?us-ascii?Q?2SSuE/Ap07VwNtWr6kJszIi4eLzowseqLgy7HaRil31pP/PeTqUzMAyhZT0D?=
+ =?us-ascii?Q?TFJK3GWS8bUJZirVp6ZNs4KuXUkw5MpIluVphoqIKjP5shZIbR0Pxveq9TKH?=
+ =?us-ascii?Q?lYNL49k/08D4aO0BCHWuKNF5D7WSQzVSc8YKbKplKw/szbe3wDqxgj2Gc/pk?=
+ =?us-ascii?Q?/P/ptihiSJuh6k9egtJtMm1CfNKkhpcgmZZxrJWovIScb+gMe35Pz6x5teBM?=
+ =?us-ascii?Q?be7xEyrFAPkcvLUiZ40VHla8NM6zxk5Mf1P1LnELFaOAvbFDS4bUmuXl2U9J?=
+ =?us-ascii?Q?N78lvLnRHj9GEAns4+WTomSCTGLK8XJiLd5MftD7jU6hklk9t48sqCE/wd/8?=
+ =?us-ascii?Q?pCAwkYWd/VoTjextjJOs80HsS21szgXrgSkaAoq7ct83zjMOyxO7ElOoY6YQ?=
+ =?us-ascii?Q?hqRUTE55qMwMl88zjNpSGcD8rGLnRR3EHbahPhVXF1WQgPj4PkqlcR0J9NDN?=
+ =?us-ascii?Q?Rvo+BhybNVvd9l2bSa43YUhmHnbzNOW2G5MmZA5W1pW2uaCwWWwAtmScCQvA?=
+ =?us-ascii?Q?YesOqANFzcmhtWHMtksPDEU/wpGyH2+IqjZJZ/vIY2ciJ9dnKw9Do1cmUKrZ?=
+ =?us-ascii?Q?rqjx2j7YjAYl9pl2eyfQmPQnq6Zv0lpWGL3v0viFue62SqKloSK+uAiBcJPf?=
+ =?us-ascii?Q?NiUTOWTPAvx+0ZiA7KxyLJKDGJV1fZXCK1O3XlSwV71w8xXSCYn1bw=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:KL1PR06MB7330.apcprd06.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?NLXuUYRs61ntcG8ew93IyQnjE59/IMKRgEfHHoM/7x1WOJo5hgleQ/lkGZ06?=
+ =?us-ascii?Q?eknJ3RfEf4x6ikNQYS4iZ4yJ7yOU7C6EwdXGhTjUc8orP7IZaVwCSMlOBLDS?=
+ =?us-ascii?Q?IK2phTwqBeph5StCkwMh/uB1ETxvB6HyHxqMwgwevOFA9ptnCmn1YzDJkkk/?=
+ =?us-ascii?Q?HxWgebwaaU3fGuXeRG29RHEdqJeBBpXi16eq3Hidmcogs/XptqUsYbVRTUg1?=
+ =?us-ascii?Q?odGfNrU35Ygr1jdr0P0BLpAEGoocdh72qzaLZnbgaVZ1TlGAAAeoSVJ+HKp2?=
+ =?us-ascii?Q?GsgOqjf5atlQmyOCCvnAo5V4Mey727Dc3t5MWMgGFikfBtYOdzeKCAxR9tuc?=
+ =?us-ascii?Q?UNvRbkjYx7Q/NGTuY/vEIXpQZ5LPsYFjXto+SLaarsQ+3dJQT4o0W0oxg1mV?=
+ =?us-ascii?Q?036evys+MB05Dpf+jvR8gin4uZzLV0afRUmWyOKg0y3XDkx7PjxeDDSPb9ew?=
+ =?us-ascii?Q?+AW/R4HvVTLe2JTUnKxAK5WivK36rmzyDA8NZpPFOVM77Fg0ZcYzPwydIiDB?=
+ =?us-ascii?Q?UF2+T6996eE4t5jRaXi9nZRlHtDp0mNGvl7j7qplZrN4dvlt02P0gzWYdfgv?=
+ =?us-ascii?Q?hrQXffJ4hFAsId92DqTehp3zwkn/jJJ0NmLmBjHhJiAjE4UmZLPedycBosW0?=
+ =?us-ascii?Q?Hk4Sf8MHaJMmhT7z+PLLAEFk7CDsvXHiuQRpGlsowkLLSA40EZjeTYUDTeqn?=
+ =?us-ascii?Q?QyB263k1NJr/POVAh/fW4KDvQtitc+pEby2sDiEkisWLJr72IE95vGwA8Rww?=
+ =?us-ascii?Q?r0vTb58gMyWVggQXD+iGhMqIrDuatSrXvoPwX4lxVuK+JZSoTnEFxrlH6EPj?=
+ =?us-ascii?Q?61/uv2hWSkKG6XK3ybLfih0fcBlcxR59AJEKC4Jg/Jiit8dTMCA3tjQm5m5v?=
+ =?us-ascii?Q?PFhP6bktU6wNJmvZgmTerT8pp7+kTvSeVnmN/w65Yqz/6ceViLnJde8UxvVk?=
+ =?us-ascii?Q?VmPs+72o0Vt4f+3PGq9IuYMxeMX+4qB06f5dXpjF1DkpCwXQpGAq8TyQYeIy?=
+ =?us-ascii?Q?qPODMWO1CXZyoZTu1MfHMQu7B0/DDfrhfbuhU9pv7Uxr6Op9Gw8sAkcm9j7r?=
+ =?us-ascii?Q?y6oPcbu9B0Kkrugi49RyVzH8IYrN6rW7jodzo1qvAlzfsaVJnbDOqyYsV66H?=
+ =?us-ascii?Q?Fq73Nq2GWCNhWza36iZ2DvKUeAIeogkekbjnv8pT0pA67wMscmjELQ9p4NkF?=
+ =?us-ascii?Q?Tvc2tmTuUks3E2TLuCGokuV6nDZ9mkyQQSM5yHyzIlbYcGo1Fw5nwXW0eSNP?=
+ =?us-ascii?Q?qUXpb/X2UEnc2AsvU/NEnzhwrmTcmG1bcafJpNWhU3Gp4VfgSXguodFKVIlg?=
+ =?us-ascii?Q?tCf6QiSDhaJlaLEDuiW0iDDauWVD/9pbsxo/z+r9HF26/X8KNhtMzfb8fa3e?=
+ =?us-ascii?Q?aod0HFi5hR39HLhilwq6n2buQWHb/Xo1/8qlxa5RXuav7gWrThh06fmDvn2N?=
+ =?us-ascii?Q?TggePRZcEevCxvcxhN7P9mQ8f1n6P6HxuloFXznNJyXzgTjm63ZIP1hVUjoT?=
+ =?us-ascii?Q?uEQX+WClsbp78AU9HeLV8eyPu0NVoHwevRgURegUZyvPWuMaj0Ay0YBpz/Xu?=
+ =?us-ascii?Q?tJQF1+J0b6TYN+QxRzHXC/tl+5NunlveM9DI1vOP?=
+X-OriginatorOrg: vivo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0faebbf8-3b57-44f4-604a-08ddef6abac3
+X-MS-Exchange-CrossTenant-AuthSource: KL1PR06MB7330.apcprd06.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Sep 2025 06:33:03.8915
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 923e42dc-48d5-4cbe-b582-1a797a6412ed
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: gnWR/O4U8UMzXEVaFBQQjNaWltOJ4v2Z7Tu5TZU3UGYV0DEepYyUjeK7tvDNUXL6+ehrSFahH6T02dGvYnKxNw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TY2PPF4714CF0AA
 
-On 08/09/2025 19:52, Ariel D'Alessandro wrote:
-> Krzysztof,
-> 
-> On 8/21/25 3:46 AM, Krzysztof Kozlowski wrote:
->> On Wed, Aug 20, 2025 at 02:12:49PM -0300, Ariel D'Alessandro wrote:
->>> Convert the existing text-based DT bindings for MediaTek MT8173 Media Data Path
->>> to a YAML schema.
->>
->> Please wrap commit message according to Linux coding style / submission
->> process (neither too early nor over the limit):
->> https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
-> 
-> Thanks. Looks like my editor was misconfigured, sorry. Will fix in v2.
-> 
->>
->>>
->>> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
->>> ---
->>>   .../bindings/media/mediatek,mt8173-mdp.yaml   | 174 ++++++++++++++++++
->>>   .../bindings/media/mediatek-mdp.txt           |  95 ----------
->>>   2 files changed, 174 insertions(+), 95 deletions(-)
->>>   create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
->>>   delete mode 100644 Documentation/devicetree/bindings/media/mediatek-mdp.txt
->>>
->>> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
->>> new file mode 100644
->>> index 0000000000000..f3a08afc305b1
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8173-mdp.yaml
->>> @@ -0,0 +1,174 @@
->>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/media/mediatek,mt8173-mdp.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: MediaTek MT8173 Media Data Path
->>> +
->>> +maintainers:
->>> +  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
->>> +
->>> +description:
->>> +  Media Data Path is used for scaling and color space conversion.
->>> +
->>> +properties:
->>> +  compatible:
->>> +    oneOf:
->>> +      - items:
->>
->> Just enum, no items here
-> 
-> See below.
-> 
->>
->>
->>> +          - enum:
->>> +              - mediatek,mt8173-mdp-rdma
->>> +              - mediatek,mt8173-mdp-rsz
->>> +              - mediatek,mt8173-mdp-wdma
->>> +              - mediatek,mt8173-mdp-wrot
->>> +      - items:
->>> +          - enum:
->>> +              - mediatek,mt8173-mdp-rdma
->>> +              - mediatek,mt8173-mdp-rsz
->>> +              - mediatek,mt8173-mdp-wdma
->>> +              - mediatek,mt8173-mdp-wrot
->>> +          - const: mediatek,mt8173-mdp
->>
->> This makes no sense. How devices can be compatible and can not be
->> compatible.
-> 
-> According to the driver source code (and the previous txt mt8173-mdp 
-> bindings), there must be a "controller node" with compatible 
-> `mediatek,mt8173-mdp`. Then its sibling nodes (including itself) should 
+Trivial fix to spelling mistake in comment text.
 
-But you did not define "mediatek,mt8173-mdp" here, so what are you
-talking about?
+Signed-off-by: Xichao Zhao <zhao.xichao@vivo.com>
+---
+ drivers/media/dvb-core/dvb_ca_en50221.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I talk here about "wrot" and others, I thought it is obvious from the
-mistake in the schema.
+diff --git a/drivers/media/dvb-core/dvb_ca_en50221.c b/drivers/media/dvb-core/dvb_ca_en50221.c
+index baf64540dc00..7b591aa1179f 100644
+--- a/drivers/media/dvb-core/dvb_ca_en50221.c
++++ b/drivers/media/dvb-core/dvb_ca_en50221.c
+@@ -785,7 +785,7 @@ static int dvb_ca_en50221_read_data(struct dvb_ca_private *ca, int slot,
+  *	 be written.
+  * @bytes_write: Size of ebuf.
+  * @size_write_flag: A flag on Command Register which says whether the link size
+- * information will be writen or not.
++ * information will be written or not.
+  *
+  * return: Number of bytes written, or < 0 on error.
+  */
+-- 
+2.34.1
 
-
-> be one of the component node ids, listed in `struct of_device_id 
-> mtk_mdp_comp_dt_ids[]`.
-> 
-> Is there a proper/different way to describe this compatible binding in 
-> the yaml? Or you're saying the driver doesn't make sense here?
-> 
-> [0] drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-> 
->>
->>> +
->>> +  reg:
->>> +    maxItems: 1
->>> +
->>> +  clocks: true
->>
->> No, there's no such syntax. Look at other bindings.
-> 
-> Ack.
-> 
->>
->>
->>> +
->>> +  power-domains:
->>> +    maxItems: 1
->>> +
->>> +  iommus:
->>> +    description: |
->>
->> Drop |
-> 
-> Ack.
-> 
->>
->>> +      This property should point to the respective IOMMU block with master port as argument,
->>> +      see Documentation/devicetree/bindings/iommu/mediatek,iommu.yaml for details.
->>
->> Drop entire description, completely redundant. I don't know why my patch
->> fixing this was not applied, so you keep repeating same mistakes...
-> 
-> Ack.
-> 
->>
->>> +    maxItems: 1
->>> +
->>> +  mediatek,vpu:
->>> +    $ref: /schemas/types.yaml#/definitions/phandle
->>> +    description:
->>> +      Describes point to vpu.
->>
->> Useless description. We see that from the property name. Explain the
->> purpose in the hardware.
-> 
-> Ack.
-> 
->>
->>> +
->>> +required:
->>> +  - compatible
->>> +  - reg
->>> +  - clocks
->>> +  - power-domains
->>> +
->>> +allOf:
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          contains:
->>> +            const: mediatek,mt8173-mdp-rdma
->>> +    then:
->>> +      properties:
->>> +        clocks:
->>> +          items:
->>> +            - description: Main clock
->>> +            - description: Mutex clock
->>> +    else:
->>> +      properties:
->>> +        clocks:
->>> +          items:
->>> +            - description: Main clock
->>> +
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          contains:
->>> +            enum:
->>> +              - mediatek,mt8173-mdp-rdma
->>> +              - mediatek,mt8173-mdp-wdma
->>> +              - mediatek,mt8173-mdp-wrot
->>> +    then:
->>> +      required:
->>> +        - iommus
->>> +
->>> +  - if:
->>> +      properties:
->>> +        compatible:
->>> +          contains:
->>> +            const: mediatek,mt8173-mdp
->>
->> This makes no sense either.
-> 
-> Same question above about compatibles.
-
-How same question? Do you understand this code? It is nothing the same -
-you have here contains!
-
-
-Best regards,
-Krzysztof
 
