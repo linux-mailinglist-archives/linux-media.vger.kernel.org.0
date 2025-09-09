@@ -1,354 +1,159 @@
-Return-Path: <linux-media+bounces-42124-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42125-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D054B50284
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 18:26:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E3A1B502C7
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 18:35:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08EFE3B73E1
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 16:26:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 146841C652A3
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 16:35:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01230352FE7;
-	Tue,  9 Sep 2025 16:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 00A7332255C;
+	Tue,  9 Sep 2025 16:35:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gj/NCaLx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JVFrROBS"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41613223337;
-	Tue,  9 Sep 2025 16:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6162B25D218
+	for <linux-media@vger.kernel.org>; Tue,  9 Sep 2025 16:35:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757435162; cv=none; b=D/aBkx+zoLI1Nx7D9oKNSxrDueuEu4AYB6QeE7qimYCDkufzFyI4yKYs6PHkmgvTw+/ER20MU9oaFqi291esV4NE6QPVhZsnL3GlvwHrzpeG9t3/fz7IMZ3hkYQDlttdPLpLnUTTyEm4WOXacPummaF0sXS2hagRNkA17I6ITww=
+	t=1757435702; cv=none; b=Qi7SNM0kjFG+HOi5zkX0bbG3ApEp6teS1Rbpzckp67PPV/ViNr900m/E8tPV2rQiGXVelKN3IbKJd8yn7tZgXectGFFqk1zGGxepv8oIp/CRZNqtD1TtKdfnGu5gc15IyVDgZmXXJd4kC0KIOKZFD2GJAFTaACFpAy8udDUOXRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757435162; c=relaxed/simple;
-	bh=vfzDmUMBXFEXny9F+Q1BKzqeDg/juItm7mo3ihXETqk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=esYC6Yfu3RKT8qugdSj3lwdL65Qx3jOelZr7Cfv3jKUClFqPgwTcXS1IQbH0Ug33qUEdLeX5wNbUTYeXf9HEwX0zvynLftrs64Rjl1dQbP9todViFSJkI0xlQOlmMc4OAHY+7hT8/RDy7h8VwosjT8EdqIIeCV0fNalTJ3C6rfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gj/NCaLx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF8ABC4CEF8;
-	Tue,  9 Sep 2025 16:26:01 +0000 (UTC)
+	s=arc-20240116; t=1757435702; c=relaxed/simple;
+	bh=aOAP9x2AAJNeZF25twY6wqChAscbqWURSyyNGL0aDTE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Tq4zEoTs8VJYk5j9tGTw4rmr2PfTk6pijSPwA3l64HKgRyDg6nHUFTCKFHQxgKP+z/0sl2I2X+4vtRIha9NYwwwNwxzhRRyM5gc4EsmVBtfgrfMAyEJMFKDVeEMISJwkT4u1tlMlRrlDJByHeZviz8xMZk+IE/fnt2Qn9Wq9mpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JVFrROBS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CA886C4CEF4;
+	Tue,  9 Sep 2025 16:35:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757435161;
-	bh=vfzDmUMBXFEXny9F+Q1BKzqeDg/juItm7mo3ihXETqk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Gj/NCaLx7Ci5Nrx3m8Qf0cGJZZp75UjNxcnZIoP8nSRYWwPJOvqRotzfOsP9OKj6f
-	 60pNDV648NMVSJ51qbitr7AfgNT022kvjT0C05+NAoI+JRDzpmL8Z/1H0xKMLPPaLr
-	 qBDyEA6I3r36yIAYFGs8e61NuttAp/FG+mxwEUwe1oqS5hH3KO6fHXBUUNYmvaeOcD
-	 lhDe9F7Flz6XNeMQUy/dHv8B+NZRH1X6dQycKZQZyjh7q3KJPrX8OBl7oEtQsNSOgE
-	 epjVKtUJy2LNDGUTbSzyJacqQqJhNSRM3CybLPgLExFHy4/BG56vhj2Dqbpzj4xLIs
-	 31Zg4kW986h4g==
-Date: Tue, 9 Sep 2025 11:26:00 -0500
-From: Rob Herring <robh@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Thierry Reding <thierry.reding@gmail.com>,
-	Thierry Reding <treding@nvidia.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Prashant Gaikwad <pgaikwad@nvidia.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Jonas =?iso-8859-1?Q?Schw=F6bel?= <jonasschwoebel@yahoo.de>,
-	Charan Pedumuru <charan.pedumuru@gmail.com>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v2 21/23] dt-bindings: display: tegra: document Tegra20
- and Tegra30 CSI
-Message-ID: <20250909162600.GA3311232-robh@kernel.org>
-References: <20250906135345.241229-1-clamor95@gmail.com>
- <20250906135345.241229-22-clamor95@gmail.com>
+	s=k20201202; t=1757435702;
+	bh=aOAP9x2AAJNeZF25twY6wqChAscbqWURSyyNGL0aDTE=;
+	h=From:To:Cc:Subject:Date:From;
+	b=JVFrROBS03R4MxqqatxFclRbENvxn/D6hIyvaFIp5cM7hY28KnBrCmsnKVSI7ki71
+	 l1/GggfRm5eAxBksRMl/FTzeCa6iLbi8MJv7AXHaJXBfykNaXqdy3EAgFEOL3HdxyQ
+	 GhckLFqfj/Lq1sPBE230ROUZRUn6T1yMDPJjlpJrdtah4e43FCeMyobm8O18PyNDuy
+	 W5Fe5JxnKrLqWZ4gcvN1HIF15N4SHovsfyp0SkdRDPZRf2qGNzk3gIgUOFSdieXUpn
+	 GL48BcFB+EcuJzIWqVh1LQiHVa9KlTqoJ5FjaZWCgZryDsYoT2h7XQBHFICniRCgdx
+	 EcHRUfzW4H5mw==
+From: bod@kernel.org
+To: bod@kernel.org,
+	linux-media@vger.kernel.org,
+	hans@jjverkuil.nl
+Cc: bryan.odonoghue@linaro.org
+Subject: [GIT PULL FOR 6.18] Please pull platform-qcom-iris-encoder-plus-dependent-fixes-for-6.18-v3
+Date: Tue,  9 Sep 2025 17:31:42 +0100
+Message-ID: <20250909163454.98410-1-bod@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250906135345.241229-22-clamor95@gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Sat, Sep 06, 2025 at 04:53:42PM +0300, Svyatoslav Ryhel wrote:
-> Document CSI HW block found in Tegra20 and Tegra30 SoC.
-> 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  .../display/tegra/nvidia,tegra20-csi.yaml     | 104 ++++++++++++++++
->  .../display/tegra/nvidia,tegra30-csi.yaml     | 115 ++++++++++++++++++
->  2 files changed, 219 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra30-csi.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
-> new file mode 100644
-> index 000000000000..1a2858a5893c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
-> @@ -0,0 +1,104 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-csi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NVIDIA Tegra20 CSI controller
-> +
-> +maintainers:
-> +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - nvidia,tegra20-csi
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  avdd-dsi-csi-supply:
-> +    description: DSI/CSI power supply. Must supply 1.2 V.
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  "#nvidia,mipi-calibrate-cells":
-> +    description: The number of cells in a MIPI calibration specifier.
-> +      Should be 1. The single cell specifies an id of the pads that
-> +      need to be calibrated for a given device.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    const: 1
+From: Bryan O'Donoghue <bod@kernel.org>
 
-This property goes in the provider. Is the parent node the provider? You 
-don't really need any of it if it's all one block.
+The following changes since commit 4bd8a6147645480d550242ff816b4c7ba160e5b7:
 
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^channel@[0-1]$":
-> +    type: object
-> +    description: channel 0 represents CSI-A and 1 represents CSI-B
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      reg:
-> +        maxItems: 1
+  media: vivid: fix disappearing <Vendor Command With ID> messages (2025-09-09 16:12:56 +0200)
 
-Instead:
+are available in the Git repository at:
 
-maximum: 1
+  https://gitlab.freedesktop.org/linux-media/users/bodonoghue.git tags/platform-qcom-iris-encoder-plus-dependent-fixes-for-6.18-v3
 
+for you to fetch changes up to d87c3ac4bb1a47bc3facf64b97198583ac393b2b:
 
-> +
-> +      nvidia,mipi-calibrate:
-> +        description: Should contain a phandle and a specifier specifying
-> +          which pads are used by this DSI output and need to be
-> +          calibrated. 0 is for CSI-A, 1 is for CSI-B, 2 is for DSI.
-> +        $ref: /schemas/types.yaml#/definitions/phandle-array
+  media: iris: add VPU33 specific encoding buffer calculation (2025-09-09 16:44:41 +0100)
 
-Is DSI applicable here?
+----------------------------------------------------------------
+This tag contains:
 
-> +
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: port receiving the video stream from the sensor
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes: true
+- A number of Fixes:
+- An set of patches to enable the encoder which depend
+  on the Fixes: in this PR to apply cleanly
+- A power-sequencing update from Neil which also depends
+  on code in this tag
+- v2 missed inclusion of "Fix buffer count reporting.."
+  from Dikshita - fixed in v2.
+- v3 Fixes merge splat caused by last minute inclusion of
+  sm8750 in platform-qcom-iris-generic-fixes-updates-for-6.18-v2
+  Rebased and made a small number of interventions to keep
+  parity sm8550, sm8650 and new sm8750.
 
-Drop. No need unless you have some constraints like number of lanes?
+----------------------------------------------------------------
+Dikshita Agarwal (26):
+      media: iris: Fix buffer count reporting in internal buffer check
+      media: iris: Report unreleased PERSIST buffers on session close
+      media: iris: Fix memory leak by freeing untracked persist buffer
+      media: iris: Fix port streaming handling
+      media: iris: Allow substate transition to load resources during output streaming
+      media: iris: Always destroy internal buffers on firmware release response
+      media: iris: Update vbuf flags before v4l2_m2m_buf_done
+      media: iris: Simplify session stop logic by relying on vb2 checks
+      media: iris: Allow stop on firmware only if start was issued.
+      media: iris: Send dummy buffer address for all codecs during drain
+      media: iris: Fix missing LAST flag handling during drain
+      media: iris: Fix format check for CAPTURE plane in try_fmt
+      media: iris: Add support for video encoder device
+      media: iris: Initialize and deinitialize encoder instance structure
+      media: iris: Add support for ENUM_FMT, S/G/TRY_FMT encoder
+      media: iris: Add support for ENUM_FRAMESIZES/FRAMEINTERVALS for encoder
+      media: iris: Add support for VIDIOC_QUERYCAP for encoder video device
+      media: iris: Add encoder support for V4L2 event subscription
+      media: iris: Add support for G/S_SELECTION for encoder video device
+      media: iris: Add support for G/S_PARM for encoder video device
+      media: iris: Add platform-specific capabilities for encoder video device
+      media: iris: Add V4L2 streaming support for encoder video device
+      media: iris: Set platform capabilities to firmware for encoder video device
+      media: iris: Allocate and queue internal buffers for encoder video device
+      media: iris: Add support for buffer management ioctls for encoder device
+      media: iris: Add support for drain sequence in encoder video device
 
-> +
-> +            required:
-> +              - data-lanes
-> +
-> +        required:
-> +          - endpoint
+Neil Armstrong (1):
+      media: iris: add VPU33 specific encoding buffer calculation
 
-Drop.
-
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: port sending the video stream to the VI
-> +
-> +    required:
-> +      - reg
-> +      - "#address-cells"
-> +      - "#size-cells"
-> +      - port@0
-> +      - port@1
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - power-domains
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +# see nvidia,tegra20-vi.yaml for an example
-> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra30-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra30-csi.yaml
-> new file mode 100644
-> index 000000000000..ea5ebd2f3c65
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra30-csi.yaml
-> @@ -0,0 +1,115 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra30-csi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: NVIDIA Tegra30 CSI controller
-> +
-> +maintainers:
-> +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - nvidia,tegra30-csi
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: module clock
-> +      - description: PAD A clock
-> +      - description: PAD B clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: csi
-> +      - const: csia-pad
-> +      - const: csib-pad
-
-Looks like clocks are the only difference? I think these 2 schemas can 
-be merged.
-
-> +
-> +  avdd-dsi-csi-supply:
-> +    description: DSI/CSI power supply. Must supply 1.2 V.
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  "#nvidia,mipi-calibrate-cells":
-> +    description: The number of cells in a MIPI calibration specifier.
-> +      Should be 1. The single cell specifies an id of the pads that
-> +      need to be calibrated for a given device.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    const: 1
-> +
-> +  "#address-cells":
-> +    const: 1
-> +
-> +  "#size-cells":
-> +    const: 0
-> +
-> +patternProperties:
-> +  "^channel@[0-1]$":
-> +    type: object
-> +    description: channel 0 represents CSI-A and 1 represents CSI-B
-> +    additionalProperties: false
-> +
-> +    properties:
-> +      reg:
-> +        maxItems: 1
-> +
-> +      nvidia,mipi-calibrate:
-> +        description: Should contain a phandle and a specifier specifying
-> +          which pads are used by this DSI output and need to be
-> +          calibrated. 0 is for CSI-A, 1 is for CSI-B, 2 is for DSI-A and
-> +          3 is for DSI-B
-> +        $ref: /schemas/types.yaml#/definitions/phandle-array
-> +
-> +      "#address-cells":
-> +        const: 1
-> +
-> +      "#size-cells":
-> +        const: 0
-> +
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description: port receiving the video stream from the sensor
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: /schemas/media/video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +
-> +            properties:
-> +              data-lanes: true
-> +
-> +            required:
-> +              - data-lanes
-> +
-> +        required:
-> +          - endpoint
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/properties/port
-> +        description: port sending the video stream to the VI
-> +
-> +    required:
-> +      - reg
-> +      - "#address-cells"
-> +      - "#size-cells"
-> +      - port@0
-> +      - port@1
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - "#address-cells"
-> +  - "#size-cells"
-> +
-> +# see nvidia,tegra20-vi.yaml for an example
-> -- 
-> 2.48.1
-> 
+ drivers/media/platform/qcom/iris/Makefile          |   5 +-
+ drivers/media/platform/qcom/iris/iris_buffer.c     | 222 ++++-
+ drivers/media/platform/qcom/iris/iris_buffer.h     |   7 +-
+ drivers/media/platform/qcom/iris/iris_common.c     | 232 ++++++
+ drivers/media/platform/qcom/iris/iris_common.h     |  18 +
+ drivers/media/platform/qcom/iris/iris_core.h       |  20 +-
+ drivers/media/platform/qcom/iris/iris_ctrls.c      | 675 ++++++++++++++-
+ drivers/media/platform/qcom/iris/iris_ctrls.h      |  15 +
+ drivers/media/platform/qcom/iris/iris_hfi_common.h |   2 +-
+ .../platform/qcom/iris/iris_hfi_gen1_command.c     | 482 ++++++++---
+ .../platform/qcom/iris/iris_hfi_gen1_defines.h     | 112 ++-
+ .../platform/qcom/iris/iris_hfi_gen1_response.c    |  60 +-
+ .../platform/qcom/iris/iris_hfi_gen2_command.c     | 359 +++++---
+ .../platform/qcom/iris/iris_hfi_gen2_defines.h     |  44 +-
+ .../platform/qcom/iris/iris_hfi_gen2_response.c    |  46 +-
+ drivers/media/platform/qcom/iris/iris_instance.h   |  24 +
+ .../platform/qcom/iris/iris_platform_common.h      |  76 +-
+ .../media/platform/qcom/iris/iris_platform_gen2.c  | 561 ++++++++++++-
+ .../platform/qcom/iris/iris_platform_qcs8300.h     | 352 +++++++-
+ .../platform/qcom/iris/iris_platform_sm8250.c      | 236 +++++-
+ drivers/media/platform/qcom/iris/iris_probe.c      |  33 +-
+ drivers/media/platform/qcom/iris/iris_state.c      |   9 +-
+ drivers/media/platform/qcom/iris/iris_state.h      |   1 +
+ drivers/media/platform/qcom/iris/iris_utils.c      |  36 +
+ drivers/media/platform/qcom/iris/iris_utils.h      |   2 +
+ drivers/media/platform/qcom/iris/iris_vb2.c        |  58 +-
+ drivers/media/platform/qcom/iris/iris_vdec.c       | 251 +-----
+ drivers/media/platform/qcom/iris/iris_vdec.h       |  13 +-
+ drivers/media/platform/qcom/iris/iris_venc.c       | 579 +++++++++++++
+ drivers/media/platform/qcom/iris/iris_venc.h       |  27 +
+ drivers/media/platform/qcom/iris/iris_vidc.c       | 299 ++++++-
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 922 ++++++++++++++++++++-
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.h |  24 +-
+ 33 files changed, 5076 insertions(+), 726 deletions(-)
+ create mode 100644 drivers/media/platform/qcom/iris/iris_common.c
+ create mode 100644 drivers/media/platform/qcom/iris/iris_common.h
+ create mode 100644 drivers/media/platform/qcom/iris/iris_venc.c
+ create mode 100644 drivers/media/platform/qcom/iris/iris_venc.h
 
