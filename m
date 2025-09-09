@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-42073-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42074-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C1480B4A528
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 10:22:58 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 65B0DB4A52F
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 10:24:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8126D188C111
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 08:23:17 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 92C817A96D7
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 08:22:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DD131246335;
-	Tue,  9 Sep 2025 08:22:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BB66E24CEE8;
+	Tue,  9 Sep 2025 08:24:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b8aQqkQZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Ro2HwD+O"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C5C6236451;
-	Tue,  9 Sep 2025 08:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF03227563;
+	Tue,  9 Sep 2025 08:24:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757406167; cv=none; b=NKYjbrlkyevVy8BnI1jgKO1DHDgIzWw59LvDfCFJBIaxqfU58zJgg2eMre3IQAUHCpeEnyu37iG0fQZoJR7uX3NgPsVGiz+tQZmGars3xdGn5/Ta3SF2KlD3TDHURoRaN/wLN62LfeK2Qhb8pQ6V0oR23w0HQKENzH2ZcCapsMU=
+	t=1757406257; cv=none; b=prEbaiwpeSOkI98wGC7FW0+bHz/8NXgsvT7csXq9M/xZFwXQWHjtwZQvQpsTXsITDPmO3LFTpSayH0NULDD4jRzV0FHJ35v1qL9lT9qz6HbXnYRAN14D2G5iSW+ZFxPwusSU1nT9jji99xkwzV1/T/OZA80a4Ixi7NpkueUmW6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757406167; c=relaxed/simple;
-	bh=oSE+dmEX5M+MSMiUeNL0sKEIrMb9kAVLGUTW07Je280=;
+	s=arc-20240116; t=1757406257; c=relaxed/simple;
+	bh=v77qPFbBY+R/qDHaS/6Yet4/g55K5PS0IazByPYoSJ4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=lHTj/n/ljzW8TQ0Th7suK+uil8E6d8d85a9u2H4OgjbVS2PwglmX8kZIyDJCzZmxy9+emfgOg0wAOaIAZrik/0kJjnek2GP6ZBGAGIx3bcOUIi79tOvc+zFePeY1vZhtbKIAI0k9AEdDoD6vs0azAvOP63acEw+PiMKIsUm3cAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b8aQqkQZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5DE0EC4CEF5;
-	Tue,  9 Sep 2025 08:22:43 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=UPInuo/+dpV5P44YgDh2tFa3XFJ72DMvaS1CvoWWTZ1Bhp690ILEx7vPMB+T2tfFHFswMJP3kwK54m4ej8rF+wLYYBoPngrKPiM3l48MhIjV3WMDpT/DCZTC+Vb+etrEjtISCsOKQuHhU8yZRdRU2dsFkAOWIFVcO+4d7cRkja4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Ro2HwD+O; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71637C4CEF9;
+	Tue,  9 Sep 2025 08:24:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757406166;
-	bh=oSE+dmEX5M+MSMiUeNL0sKEIrMb9kAVLGUTW07Je280=;
+	s=k20201202; t=1757406256;
+	bh=v77qPFbBY+R/qDHaS/6Yet4/g55K5PS0IazByPYoSJ4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=b8aQqkQZ+i74H2y0nv6Yt0WFiNJ+oZdZXNi4IqdwDeqsGkQl7Q4mG5EosXgkpg2wR
-	 9C0XHOyjisarBdtzktcgdA0O7UkyecB2YgSFHpKR+rJyt1aUtu8+LwzKdw9O4nWuGn
-	 pvpFLf1OPhOeHICLbwjtjAzsbl+ABADDSw+vjNdj5ORYHLfmu31ml7E3fNzWyWLQqj
-	 ASbmstxoUi4TbS4z0ntn9dDaSDg98MMdMz5sHsq1l4bkA42J2VVsk/jw3KTk62YWaR
-	 4eCmGwRUy6aFucbV102gYrLEzrLY+uwVXoyIE55OQwVN8C8p9qKL5sU3Mx/N2CKNkt
-	 FDPPesdL4yJCg==
-Message-ID: <d5400b0d-8eb4-4b03-b9c2-f9b0cf7ec29e@kernel.org>
-Date: Tue, 9 Sep 2025 10:22:41 +0200
+	b=Ro2HwD+O5lx45gLkqCeorVDYmMoq33OhN7tJEsOyNIG8YoEK3YmE5RECNj0NkbMQJ
+	 rb5OfUwNkoX3CrfBEnar2MQFosuwY9kvplc4Bo40xfVOf3FuO1Lqlc3LY9yavawwge
+	 RbVrdTuVORvkW5vy227KAu2Esz1gSOLO5gN/3M0nav3mhm5tmn7uwznsMfIsqrkmMZ
+	 FUTNhfNpYYxRmQmsduiaPfsvDN7GzeUCjl1Ue+rxlt3YRyvglAZ+uHycW/SLIiH5Qz
+	 h1hd2qyQSZ1bLZBN/UAjOWaEJt+Sd2umhEjcNKwod3pu68PiDunBWbeyw+XbNwnklB
+	 syzU+LyNUQ47g==
+Message-ID: <4ff16bb8-4407-425e-bae7-77ebc53aaec3@kernel.org>
+Date: Tue, 9 Sep 2025 10:24:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH V3 2/5] media: platform: ti: Add kerneldoc for
- vpdma_update_dma_addr()
+Subject: Re: [PATCH V3 3/5] media: platform: ti: Switch to EXPORT_SYMBOL_GPL()
 To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, mchehab@kernel.org,
  robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
  hverkuil+cisco@kernel.org
@@ -60,7 +59,7 @@ Cc: sakari.ailus@linux.intel.com, bparrot@ti.com,
  linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, u-kumar1@ti.com
 References: <20250909080718.1381758-1-y-abhilashchandra@ti.com>
- <20250909080718.1381758-3-y-abhilashchandra@ti.com>
+ <20250909080718.1381758-4-y-abhilashchandra@ti.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,21 +105,28 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250909080718.1381758-3-y-abhilashchandra@ti.com>
+In-Reply-To: <20250909080718.1381758-4-y-abhilashchandra@ti.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 09/09/2025 10:07, Yemike Abhilash Chandra wrote:
-> Add kerneldoc for vpdma_update_dma_addr() function.
-> 
-> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
-> ---
->  drivers/media/platform/ti/vpe/vpdma.c | 15 +++++++++++++++
+>  	struct vpdma_dtd *dtd = list->buf.addr;
+>  	dma_addr_t write_desc_addr;
+> @@ -597,7 +598,7 @@ void vpdma_update_dma_addr(struct vpdma_data *vpdma,
+>  
+>  	dump_dtd(dtd);
+>  }
+> -EXPORT_SYMBOL(vpdma_update_dma_addr);
+> +EXPORT_SYMBOL_GPL(vpdma_update_dma_addr);
 
-Squash it with previous patch. You add there new function, so that
-commit must be complete.
+Don't add incorrect code to fix it immediately. Claiming that "you just
+revert" is irrelevant here - we are not interested in the revert. Revert
+or not, you add new code to the kernel, so that code must be correct.
 
-Don't add known incorrect code which you are fixing in the same patchset!
+if you reverted a commit, which was introducing a security bug, your
+revert would bring that security bug and you find it okay?
+
+No, NAK.
 
 Best regards,
 Krzysztof
