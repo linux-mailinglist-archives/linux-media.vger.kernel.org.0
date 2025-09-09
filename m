@@ -1,76 +1,76 @@
-Return-Path: <linux-media+bounces-42098-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42099-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3ECDB4AC04
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 13:29:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 403BAB4AC25
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 13:33:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 683AF16DD41
-	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 11:29:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 141ED1B25772
+	for <lists+linux-media@lfdr.de>; Tue,  9 Sep 2025 11:33:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 830ED3218B9;
-	Tue,  9 Sep 2025 11:29:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9969E322A11;
+	Tue,  9 Sep 2025 11:32:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Np8ihajT"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Usnv3n9v"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-ej1-f54.google.com (mail-ej1-f54.google.com [209.85.218.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3725731CA4C;
-	Tue,  9 Sep 2025 11:29:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 443CC3218C7;
+	Tue,  9 Sep 2025 11:32:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757417376; cv=none; b=pdYmbkAFU56KM3BkgxTOfZ1y0OZBkjgs+eJPKiro4N5hC84zIrSSZ3IgGQVRzuUqEzI2SYnz/V1gPG/xvicJNI23tUoa1+zRi5O5SloXDMSk8yV8zq4dfAiW5y9L4e2Zakt43JIZFgGlnH/SottXnNxA8uf4zj5V6qs1qjdPOhs=
+	t=1757417544; cv=none; b=MueSvBRCXsb/sNg3lvbzX7/jJCvUe+VFwhlwyRDNIavnhVhMApQgKFcKXtiIT6RVwwrWepbDvYen7QOCC23QVveT8tqbA6/XaPIuPWe4a6LX+eFSQ6vltiuLdtowuHg2MlwDAnQNkPm5ILIK1ynAst4R4EZl/H+I01Vm2G3h6D4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757417376; c=relaxed/simple;
-	bh=RsKExGiDIm7209nGz6c1dPs4Pik8xWf5DBeUwc9KHJE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uTdSY144WlrgOaFQRvlTAalXJQYv665Qn60xaO7dmwp81dk6I2FaJqD6+WzT/xTR3BDw+zoxtjrUnUvI89eoUlSQqkS6qCd/y8woEsLPTcSBNItCQ3FN310ut0ORYFLCTjcELGQa3A7+CUUfFN4FU3K/IDVklanyCW4IUlqOZzo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Np8ihajT; arc=none smtp.client-ip=209.85.218.51
+	s=arc-20240116; t=1757417544; c=relaxed/simple;
+	bh=c80NjRWHDw3F9uoZvOa3/Tgt4iXLxuALNqni2N/rDrQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=LFLSCGs8dPAK3+lg5SdutWBkN6lNG/oqmkXIsTV/+T9MHFFaEKNoLQCwssps/jsao62sC7KGKMmWyCJJlv9ltkOSZ8tDGzHQdX7bneqoIkvoJL4AhrkHWoUBjpaPT4B9ST9qdCWho2jsYa6ZqYr9WuEez9/h1BNvM7wKdXms/j8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Usnv3n9v; arc=none smtp.client-ip=209.85.218.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b045d56e181so820633866b.2;
-        Tue, 09 Sep 2025 04:29:34 -0700 (PDT)
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-afcb7ae31caso919574566b.3;
+        Tue, 09 Sep 2025 04:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757417373; x=1758022173; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757417541; x=1758022341; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=dEwWMYw5sWUgE1N9NYJI+c7GrJTyt+el5N//tVMM1gQ=;
-        b=Np8ihajTDNjuoikMT8DgAaImwlK5aZb/65UW4IIVJWHUmFS1V+n0G8xAjGhNPvRyLP
-         Lv0WrSWt95YOnteFtysU1tNar0ejH3G0dL7J9QSct4DA6VQT/vt7wsgIjfkswlVNk9tc
-         uMb/JFEYJPFC4KBfn85kV98wopIxBI0CdceFAa+0864Np8mHdppQWwrJVgw+PTXBCDT/
-         fOnGllI+n++fakVHu+FHva4JjkzqORWKU8KcuX6kNeNpqYgYiT3Qd7r1TppOGCizjcm8
-         55IkqfMWmmoKA6eg/7khuAMZRYE6GM0tk5E6lLnsnRjudcEzs3fOxiu5CfhPrqIp7dw1
-         Saxw==
+        bh=0vdZghczXQeG40QUaCoqgiKkehxMnEXGzBa1JtcG/Dc=;
+        b=Usnv3n9vY0ccbB7xtdtkmhsEJC+8SvPx/EP6noq/xSG7/oYbxsyQ3Saq4txa64khAH
+         lV1r3fGPK0BfDAChXGm+s60Y42sgOAuerc6qqVKBfF0aGLgbgTsKSOiBoxkTU7Cc/due
+         xqmIjU1h1OlaY3pMb9NTU73hSFuHFl8zJ8dRWU5yO1L/ytGfOzBCa/90pQ1H8XJUdlYB
+         HSMee1FPSFHvpWBSgPDvOGit0MTaSsffFPRsQAk5Gv7qDs1lfOt//6051MYHUUN+VSk7
+         yGo3nGZMUYMm1X5pHYE7s6Ok45phFIJK3ntmJu+mrQtlsIHyg5tw9BSNLuJYWSH20L4U
+         9Sww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757417373; x=1758022173;
+        d=1e100.net; s=20230601; t=1757417541; x=1758022341;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=dEwWMYw5sWUgE1N9NYJI+c7GrJTyt+el5N//tVMM1gQ=;
-        b=nVrVjwCOm4wG44ae6UGRNugpvOXPQq7HG/wFBif4Nr4yr4O2U9LWLshggQnpbCHJrI
-         ajRm/e6fvocWwbujn5Vv2i4p73J2PKgtBTU9YdX+BJLArqVAjD1180PG75W0SgRcwqbb
-         G3tGlOMvpToyO9OARGOQoqHBSp1NrDmlPUmVdGMVVd4P5JRwMkJL22TFBDFDCd1FpMSf
-         XMI9QYKmkLUZijE/7UqHPwVaGAKzvVwyXEPmTL2PjzunYF48h9o4KkJ4E2RfeT6HbPja
-         StwoLniEMr3BMMJNuz/4GlZUCTJbQTYynbmdCxwvtk9WOOUVAX1DidtpNjbxFt/PF8my
-         e+Dg==
-X-Forwarded-Encrypted: i=1; AJvYcCU/TUmOPNW0VG0lwyyp1FNRClVq2B9j424VYrfHtfk/03vX01n2RjLhZ72NokYV4s12zJPLa3AtmryUgE4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YynJyaHxDubGiqLbM6TZV/17AXhop+7KVZq7Qji9Pe34Em9ZTHu
-	p3Fd1GqpcgSfZ/Wnkgp7ZcX1Lw8ku9HtNgPKUGh3YLnUsREf8oBSnCH2okKjC49J
-X-Gm-Gg: ASbGncumFNpXdqv+DoEewJ4qbJ2/IAYJL3AEzhqlEj8Fte9pawgOPmHuqWLUpOS1Kz+
-	AQMzrP4nO0Wlz/pgp2+p7RWnTzHchFfNbG4tESuh2jxqD5VZHVUrJgLtqJxjJV3AqAJ9X+JLSBi
-	UhOIzKWuxopXF4e1np41gU/Gfyp/yqPMlChG9sqCTIkd3qkdeYqID3XlZ99x9tkHJqd+PrvyKH6
-	jwcjS4OoIBB5ptUTtkR6eewUaz58r7n4R45s5wa/246kGSVQtA3YVbd9r/pj1YP5cUoRynIF1yh
-	Ya108oPQAOUsKeo21Y2MmG/1YdGY9qg9zYav0609EuiwgwgeJUqmChWmmhP0C8uFdievhtO4Wl1
-	YRCyxqaPvNvmvK5/GNzYYaFRfJgLU+qT6
-X-Google-Smtp-Source: AGHT+IGInsfa65fLtGFKDjLXDkkhyE9HsVrvX9H3yYe6VIJOtTBzXLTvDHT3CjBKrJGNRXqSEE9heA==
-X-Received: by 2002:a17:907:3ea2:b0:b04:1b90:8d7a with SMTP id a640c23a62f3a-b04b1463381mr1268606066b.27.1757417373083;
-        Tue, 09 Sep 2025 04:29:33 -0700 (PDT)
+        bh=0vdZghczXQeG40QUaCoqgiKkehxMnEXGzBa1JtcG/Dc=;
+        b=gm9r0UOuyaTdVKFuismg1MBqfHOdWX1fRIPu4qm611JgMrHO6v0mJ+SntA6SpyhsMY
+         4qjoNEkuDdeaR60BBCJ9XuiRrtbzVF1pLUxHqeg1TxxzNC5egY7WOfSJaFz/cOFMS1tl
+         PdvroSw1cWNzPV8hp8yMRAXKlYJe75JQMe8GSeQzE+Vp3Q+JYFVmiWVrGkURdQjl2vIN
+         y2o+V1rQB9fbcwYquV6at78FXt+vYm9NyQyBR9VfPiRgkgh0gV5jIDERiYoqf94242IY
+         XOLIdRsi4ZOwTm5015+cTuFkUJluM384blBtG8oE7Aks57Pauoohr5Blw5HvVO/F04nS
+         UfPQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVdi6/2/Og3X4/scBbzRVDQqtS4rfewMv5piPe3uHjSY3om1q3fpu2mXKY+BizFHFdQcfg48uy4bS97@vger.kernel.org, AJvYcCWE/U2HWBBJa7AQuVMFGV20sJzkYy/NzFPSS+fTvhZPlfiaLrVWSvpMwRAfg4bYTWIrObljBSDGF6VLj6Y4@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTerD8F9OBazr7IH5rLfDNx5O1CMvRzWJafGwGjdcY0g2zXyMP
+	pgx+YwzipS0SAh//+CJPmp28cdaYVPKEw9Q5XV57GmF9xIU2Nbcrulkcv5yPs7DX
+X-Gm-Gg: ASbGncvyy3va0EsxeT+l2growlTaVrSJNCY+SqRq0IzQVC6T7ytShWcplyw+GmJcEES
+	WKukGSZCBS4zkjZmprLVCPsACT5IJkerc2HuQll/P+pnukECuV7IFqonMFEOAeBWdhBkN5/Gtyg
+	eMIkSL4vPKU7L+3qX1sGMsNMYgZ83hnHfQsDdzGC4yM4UDT4owN4jCQ2RcxTjRybYQ5P/bJ+Yee
+	fBvUi+xMXY/de9NcK1dFVX3PFj/J2cJfOGsPvOESTLRFiL9JNrsXhvilCccD7x4VEyze5EcypzE
+	7jq19CzdwgbCk2FYELhn8+4oq0mdDWSUh2y2Sh1cUMm+bN7asqT2gHUshAL669YW9rOKM8DjPuf
+	V5OSZCjEIVlgD7fJS86/bPR6UupZf6q9d7RO6yBmEbrM=
+X-Google-Smtp-Source: AGHT+IEbpXpNJeNS5DvyF7kzO0+4mm3pywTXHByCncKcMoLoowaq9U+kzjW2M47+RgVkRNgauCsxiA==
+X-Received: by 2002:a17:907:3d56:b0:b04:5a04:c721 with SMTP id a640c23a62f3a-b04b1409876mr1087165766b.20.1757417541228;
+        Tue, 09 Sep 2025 04:32:21 -0700 (PDT)
 Received: from avt74j0.fritz.box ([2a02:8109:8617:d700:4bd8:5793:1d49:8ea3])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b0424cc1698sm2118734266b.21.2025.09.09.04.29.32
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b040f1cf4b9sm2289497066b.29.2025.09.09.04.32.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 09 Sep 2025 04:29:32 -0700 (PDT)
+        Tue, 09 Sep 2025 04:32:20 -0700 (PDT)
 From: Martin Hecht <mhecht73@gmail.com>
 To: linux-media@vger.kernel.org
 Cc: sakari.ailus@linux.intel.com,
@@ -79,10 +79,14 @@ Cc: sakari.ailus@linux.intel.com,
 	Martin Hecht <mhecht73@gmail.com>,
 	Tommaso Merciai <tomm.merciai@gmail.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	devicetree@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: i2c: alvium: Accelerated alvium_set_power
-Date: Tue,  9 Sep 2025 13:22:51 +0200
-Message-ID: <20250909112252.2577949-1-mhecht73@gmail.com>
+Subject: [PATCH v2 0/2] dt-bindings: media: update email addresses.
+Date: Tue,  9 Sep 2025 13:32:14 +0200
+Message-ID: <20250909113218.2595516-1-mhecht73@gmail.com>
 X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -92,90 +96,18 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Now alvium_set_power tests if Alvium is up and running already
-instead of waiting for the period of a full reboot. This safes
-about 5-7 seconds delay for each connected camera what is already
-booted especially when using multiple Alvium cameras or using
-camera arrays.
-The new function alvium_check is used by read_poll_timeout to check
-whether a camera is connected on I2C and if it responds already.
+Change from my company email address to gmail.com in devicetree documentation
+as well as in alvium driver according MAINTAINERS.
 
-Signed-off-by: Martin Hecht <mhecht73@gmail.com>
----
-v2:
-- added alvium_check to be used by read_poll_timeout as
-  suggested by Sakari
----
- drivers/media/i2c/alvium-csi2.c | 32 +++++++++++++++++++++++++-------
- 1 file changed, 25 insertions(+), 7 deletions(-)
+Martin Hecht (2):
+  Documentation: devicetree: dt-bindings: media: i2c:
+    alliedvision,alvium-csi2
+  media: i2c: alvium-csi2
 
-diff --git a/drivers/media/i2c/alvium-csi2.c b/drivers/media/i2c/alvium-csi2.c
-index 5c1bab574394..c63af96d3b31 100644
---- a/drivers/media/i2c/alvium-csi2.c
-+++ b/drivers/media/i2c/alvium-csi2.c
-@@ -443,10 +443,8 @@ static int alvium_is_alive(struct alvium_dev *alvium)
- 
- 	alvium_read(alvium, REG_BCRM_MINOR_VERSION_R, &bcrm, &ret);
- 	alvium_read(alvium, REG_BCRM_HEARTBEAT_RW, &hbeat, &ret);
--	if (ret)
--		return ret;
- 
--	return hbeat;
-+	return ret;
- }
- 
- static void alvium_print_avail_mipi_fmt(struct alvium_dev *alvium)
-@@ -2364,8 +2362,25 @@ static int alvium_get_dt_data(struct alvium_dev *alvium)
- 	return -EINVAL;
- }
- 
-+static int alvium_check(struct alvium_dev *alvium, u64 *bcrm_major)
-+{
-+	struct device *dev = &alvium->i2c_client->dev;
-+	int ret = 0;
-+
-+	ret = alvium_read(alvium, REG_BCRM_MAJOR_VERSION_R, bcrm_major, NULL);
-+
-+	if (ret)
-+		return ret;
-+
-+	if (*bcrm_major != 0)
-+		return 0;
-+
-+	return -ENODEV;
-+}
-+
- static int alvium_set_power(struct alvium_dev *alvium, bool on)
- {
-+	u64 bcrm_major = 0;
- 	int ret;
- 
- 	if (!on)
-@@ -2375,9 +2390,12 @@ static int alvium_set_power(struct alvium_dev *alvium, bool on)
- 	if (ret)
- 		return ret;
- 
--	/* alvium boot time 7s */
--	msleep(7000);
--	return 0;
-+	/* alvium boot time is up to 7.5s but test if its available already */
-+	read_poll_timeout(alvium_check, bcrm_major, (bcrm_major == 0),
-+		250000, 7500000, false,
-+		alvium, &bcrm_major);
-+
-+	return ret;
- }
- 
- static int alvium_runtime_resume(struct device *dev)
-@@ -2442,7 +2460,7 @@ static int alvium_probe(struct i2c_client *client)
- 	if (ret)
- 		goto err_powerdown;
- 
--	if (!alvium_is_alive(alvium)) {
-+	if (alvium_is_alive(alvium)) {
- 		ret = -ENODEV;
- 		dev_err_probe(dev, ret, "Device detection failed\n");
- 		goto err_powerdown;
+ .../devicetree/bindings/media/i2c/alliedvision,alvium-csi2.yaml | 2 +-
+ drivers/media/i2c/alvium-csi2.c                                 | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
 -- 
 2.43.0
 
