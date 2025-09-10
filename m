@@ -1,58 +1,48 @@
-Return-Path: <linux-media+bounces-42218-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42219-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BDDFB518F2
-	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 16:09:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63794B518FF
+	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 16:11:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C946B4465FC
-	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 14:06:26 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 187B53A5B97
+	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 14:08:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62362322DCC;
-	Wed, 10 Sep 2025 14:06:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E3A3326D54;
+	Wed, 10 Sep 2025 14:07:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="IHYKNoZY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TSB403kD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A793A322745;
-	Wed, 10 Sep 2025 14:06:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757513162; cv=pass; b=RseXRxCzlO9OVseJj3DBWofR9XiOd8Kz8LHOE9hG8fYNOkhsJIdNQ9OBmF5CD3p0CKcw/1vEDHXc6+cGzD8zmTnFwHiRdFVA1/o9Wj0pRK5TQexojKzpedWuGLPbYfN9biQTM6CGGd2IlLzdETfmJAUrk+i1V/jhi6J7D0xJQ4g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757513162; c=relaxed/simple;
-	bh=FONkIWI0n7lG/bUtRih9a715N9XA1/QgoWiRIL6pOMc=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8E70324B10;
+	Wed, 10 Sep 2025 14:07:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757513271; cv=none; b=Ms1HOPi6yVHVTqgSvdohNtOwb+kacjgXIzmCNBm6+n2DU7fhKqzMIistOeBr3Val1UbWvhvRh1EcDbFXdTXPpcC6d+HiVGH9buJWJnBnpS3eqSXUe0Px6rBa7NgaNY8Jo+frD5lpXy1WDi7er2huWt+AiJDmRWoDneE0Pyabqxg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757513271; c=relaxed/simple;
+	bh=mw5f6ybBu0xuJXyP9vWWzjObWSsunLBNWyi1Eqwigck=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Led4Xyg2zycabojrGQIylF/V68hg5lc9vHaERYY4+CSab6Q15AeOec+7KOqV7L3j4NQdn9tK3CdUyH9c9xtM1TDkJWnVaJUuN/L7A1iXV1bRtezbUDcH6ZrK21P/FFVY1KO2E/9ZDMvDsUw4nLWiiD1e1sTJqKcjsutw4Pj9Pe0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=IHYKNoZY; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1757513088; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=VEkyJDxuAQfVsvKhIxBruPEvS+E+Faq6lkb8StCuTHDG4il/MJXRcIahNdDe1K9l5asGM6fNcHpp2dATLpTDdixJydv1Eav7Ciq7KRQ57d64AIcR9G9MzobjDNJWa735TFRzENggkAWdoogP0hXnRRQvmnhic10HgfMoJOI0qqw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1757513088; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=QEeqIWIF/AD2zfk8ywdiI9kgEblpq8FH1YjniWeVCN4=; 
-	b=P9BxtulcIUGD/6FoPkulfuuR84JV4Ri/6txauWEhPar814ZnGKTiquSh/essihNHEQbflrG4B1II2xYvbvqlCLvtwTc27q7uJsa6RzH4frCk8k+iYr2hMphCwl+2BMJFaXmesNFLrkU20dt2cWy9mIGCBaIpcPsipJH3cRPNWPM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
-	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757513088;
-	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=QEeqIWIF/AD2zfk8ywdiI9kgEblpq8FH1YjniWeVCN4=;
-	b=IHYKNoZY4zf4ISQCHWYEleElg0zyYX0fAY3flK0zslYU4qZregRMacfv+qxcfwpQ
-	1x+1iaYapTxzAjxF38sg0OhTVRo1GLDfKW55tsC3QwJKNIhZiomEvEjFNt5Ia3ldCpT
-	ecLwFY4c1qFjQXhURNFG3nBQQ/aFvg2+LOYp7AEA=
-Received: by mx.zohomail.com with SMTPS id 1757513084822538.2895524618148;
-	Wed, 10 Sep 2025 07:04:44 -0700 (PDT)
-Message-ID: <28049fe0-0ae7-4b40-9f95-1513e317547f@collabora.com>
-Date: Wed, 10 Sep 2025 11:04:29 -0300
+	 In-Reply-To:Content-Type; b=Xvl6C4Jh8cEGEvQK7p0jGWGLUbZLEeL4f8NppOdtBJ2Z9CR83A4OG2gmQxc5UA6Ea/Kl1kXyg/ZqjQ/6VsD7PcfNsmKsSwMlyGV/yGvq1+ulh+YKu9/IvxnZfGtrvzSen4osNCv0YW7nULJuelJs44te7FyoRVvBmSxArWYkGrk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TSB403kD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 22039C4CEEB;
+	Wed, 10 Sep 2025 14:07:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757513269;
+	bh=mw5f6ybBu0xuJXyP9vWWzjObWSsunLBNWyi1Eqwigck=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=TSB403kDUg9/opD1JRKWXWeJyUQ7bXA9l6hAAqD0yv69FKZA0biXuVbSNqxDVc/TY
+	 SuMgYGiDYOJ4OgDkKqL95PrSELw4X6taP6nuGqVY/Et5lJmJgn06LmbwPKAlXODkNz
+	 8pIq55i8qGVr7OD/9tQ5x196OwWG64HZDlCD3uZSQYy3fjTiUKA0mMHpsU9PvZWbQ4
+	 Zw1Fp2U0zs1uAzfdhOwd6nUgRI0f372ovZoXGULMB8ANJRv4gnNHEWe+Jq+bEVEjZg
+	 RNM/ag+lCprgI2+3MYbesAyDu9qbpS1FFeam180DPJ4oUq6sXIqtccR+KhXkW2OucM
+	 E1sqThTObvaeg==
+Message-ID: <21ea1149-9b61-487d-9afb-d3b8b41fe71a@kernel.org>
+Date: Wed, 10 Sep 2025 16:07:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,96 +50,91 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 07/14] dt-bindings: display: mediatek,ufoe: Add
- mediatek,gce-client-reg property
-To: Krzysztof Kozlowski <krzk@kernel.org>
-Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
- andrew-ct.chen@mediatek.com, angelogioacchino.delregno@collabora.com,
- broonie@kernel.org, chunkuang.hu@kernel.org, ck.hu@mediatek.com,
- conor+dt@kernel.org, davem@davemloft.net, dmitry.torokhov@gmail.com,
- edumazet@google.com, flora.fu@mediatek.com, houlong.wei@mediatek.com,
- jeesw@melfas.com, jmassot@collabora.com, kernel@collabora.com,
- krzk+dt@kernel.org, kuba@kernel.org,
- kyrie.wu@mediatek.corp-partner.google.com, lgirdwood@gmail.com,
- linus.walleij@linaro.org, louisalexis.eyraud@collabora.com,
- maarten.lankhorst@linux.intel.com, matthias.bgg@gmail.com,
- mchehab@kernel.org, minghsiu.tsai@mediatek.com, mripard@kernel.org,
- p.zabel@pengutronix.de, pabeni@redhat.com, robh@kernel.org,
- sean.wang@kernel.org, simona@ffwll.ch, support.opensource@diasemi.com,
- tiffany.lin@mediatek.com, tzimmermann@suse.de, yunfei.dong@mediatek.com,
- devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-arm-kernel@lists.infradead.org, linux-clk@vger.kernel.org,
- linux-gpio@vger.kernel.org, linux-input@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, linux-sound@vger.kernel.org,
- netdev@vger.kernel.org
-References: <20250820171302.324142-1-ariel.dalessandro@collabora.com>
- <20250820171302.324142-8-ariel.dalessandro@collabora.com>
- <20250821-wandering-vermilion-pigeon-b8c9f0@kuoka>
+Subject: Re: [PATCH v3.1] media: dt-bindings: Add qcom,qcs8300-camss
+ compatible
+To: Vikram Sharma <quic_vikramsa@quicinc.com>, bryan.odonoghue@linaro.org,
+ mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, andersson@kernel.org, konradybcio@kernel.org,
+ hverkuil-cisco@xs4all.nl, cros-qcom-dts-watchers@chromium.org,
+ catalin.marinas@arm.com, will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, quic_svankada@quicinc.com,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+References: <20250813053724.232494-2-quic_vikramsa@quicinc.com>
+ <20250910104915.1444669-1-quic_vikramsa@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-In-Reply-To: <20250821-wandering-vermilion-pigeon-b8c9f0@kuoka>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20250910104915.1444669-1-quic_vikramsa@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
 
-Krzysztof,
-
-On 8/21/25 3:50 AM, Krzysztof Kozlowski wrote:
-> On Wed, Aug 20, 2025 at 02:12:55PM -0300, Ariel D'Alessandro wrote:
->> Current, the DT bindings for Mediatek UFOe (Unified Frame Optimization
->> engine) is missing the mediatek,gce-client-reg property. Add it and
+On 10/09/2025 12:49, Vikram Sharma wrote:
+> Add the compatible string "qcom,qcs8300-camss" to support the
+> Camera Subsystem (CAMSS) on the Qualcomm QCS8300 platform.
 > 
-> Why is it missing? If the binding is complete, it cannot be missing...
-
-Due to the following error:
-
-$ make -j$(nproc) CHECK_DTBS=y mediatek/mt8173-elm.dtb
-   SCHEMA  Documentation/devicetree/bindings/processed-schema.json
-   DTC [C] arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
-[...]
-arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: ufoe@1401a000 
-(mediatek,mt8173-disp-ufoe): 'mediatek,gce-client-reg' does not match 
-any of the regexes: '^pinctrl-[0-9]+$'
-	from schema $id: 
-http://devicetree.org/schemas/display/mediatek/mediatek,ufoe.yaml#
-
+> The QCS8300 platform provides:
+> - 2 x VFE (version 690), each with 3 RDI
+> - 5 x VFE Lite (version 690), each with 6 RDI
+> - 2 x CSID (version 690)
+> - 5 x CSID Lite (version 690)
+> - 3 x CSIPHY (version 690)
+> - 3 x TPG
 > 
->> update the example as well.
->>
->> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
->> ---
->>   .../bindings/display/mediatek/mediatek,ufoe.yaml      | 11 +++++++++++
->>   1 file changed, 11 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml b/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
->> index 61a5e22effbf2..ecb4c0359fec3 100644
->> --- a/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
->> +++ b/Documentation/devicetree/bindings/display/mediatek/mediatek,ufoe.yaml
->> @@ -64,6 +64,14 @@ properties:
->>         - port@0
->>         - port@1
->>   
->> +  mediatek,gce-client-reg:
->> +    description: The register of client driver can be configured by gce with
->> +      4 arguments defined in this property, such as phandle of gce, subsys id,
->> +      register offset and size. Each GCE subsys id is mapping to a client
-> 
-> Don't explain what DT syntax is. We all know, so that's completely
-> redundant description. Explain the purpose. Explain Arguments with sechema - items.
+> Co-developed-by: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+> Signed-off-by: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
 
-Although I agree with your suggestions, this is exactly how the rest of 
-the Mediatek DT bindings describe this node. This patch is based on the 
-other +20 files, which describe the node in the same way.
 
-Regards,
+Fast review only as courtesy to Bryan:
 
--- 
-Ariel D'Alessandro
-Software Engineer
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-Collabora Ltd.
-Platinum Building, St John's Innovation Park, Cambridge CB4 0DS, UK 
-Registered in England & Wales, no. 5513718
+Next time patch which cannot be compared to previous version and has
+broken threading will end up at end of the queue.
 
+Best regards,
+Krzysztof
 
