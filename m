@@ -1,145 +1,181 @@
-Return-Path: <linux-media+bounces-42185-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42186-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7341AB514BB
-	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 13:03:58 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8A17B514D4
+	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 13:07:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 79FD31C242E2
-	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 11:04:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 90FF546709D
+	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 11:07:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A5D727876A;
-	Wed, 10 Sep 2025 11:03:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08EB4318142;
+	Wed, 10 Sep 2025 11:06:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="tIfZ8ai6"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UGeaF/GH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 11DD318FC97
-	for <linux-media@vger.kernel.org>; Wed, 10 Sep 2025 11:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B608331064B;
+	Wed, 10 Sep 2025 11:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757502227; cv=none; b=qVNGOYxm0Kn/i0es1ID8aDIeDdJ3krzdqtLmkEuKFJes7WdJK5IECY6Gw1EAbLoojLBaqef0CVddjIWyZHEe1O2l3gGK/PrLX5bGdzOTrWquob0rNkWUov9jUqUmCPg66G032ROsGD78UkzTTbtxrQ1l+wwMwzWL+x59E8ixdpI=
+	t=1757502415; cv=none; b=Y/6oKixbeGj7ZfGch+WMi2vnXf3rFHZGa8YE/s+/I/MYDClo2BaKQHVTMFbfaBbwXuakm5tJtJ9yrJe0ogSZLJ1QLIVKBcfVU49cJYVwnnsz8VHqYe48D0TTiiFeoan/5HcvOepH0oJUEV2xJglZfpJDyVNgLFb/Mal5A2yP0LU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757502227; c=relaxed/simple;
-	bh=MfAeM0+0+NqP6YlpR00RfgrfzwhHRE8FnwOIXHbqs0U=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tBzo3zsvfHDMtZxVCQ5SbeWi7Smb43Vw/xvcd8UJ9TluYq4C2NXOAB1cmtEqSxP94zFI0EjPJXuvES8bZsvTZg1Z7+GiOU3cKA70RUtfTgp96Udx/rllZVI+NaCEfg4lUGozWHu42Mi6jN4UPVT9/APHBuI2qoqfteQ8dfpreR8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=tIfZ8ai6; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-45df7cb7f6bso3861315e9.3
-        for <linux-media@vger.kernel.org>; Wed, 10 Sep 2025 04:03:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757502224; x=1758107024; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=r08hJahlcSXpf9x/oPCPGF0O7nA9xLQykiFQq47vLr4=;
-        b=tIfZ8ai6lkOeQzEbCfQL3MSu8S2WbIvPue2SElYnmYTWVC0aNILMgmjEMZ+vY6ccHX
-         LTRzpE/Jf8N8McAJfITqeJgy7dS8bkGMccufEhuM3GPAbBD/Qe6yAMFYoZjih/xMAfFt
-         u7C/ksonyUcGI3iVLXW85vEwxWpmxriUsAM8xDtmoN5RnCzdhF+SBILkRX5zMHbqOmxP
-         jWFF7XG7Jt+/QoQlQ/dJXNUgTsEbaTsoRS3k1UXWTGwu067tAJkfzVufUGDCL3H+dsN4
-         awETZ7iIFrPOO55bl+jbVoelqQKdvSBH6T+ckseVlUlpNYA1VVDjpZd3i/SqNmjs4lN+
-         YejA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757502224; x=1758107024;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=r08hJahlcSXpf9x/oPCPGF0O7nA9xLQykiFQq47vLr4=;
-        b=bHmGozBxqA8oiWf/RswMBM1tYZM9kzghIxy63vFDcGN6fxhR1OvubwaIYHSMGzBBjU
-         FPEITo9+wju0BQdsnM/uWTxdgEgNiShT8OGyIROXF7pCGPTypH1qHrQR2JGui4hTqVuI
-         Xv0WW1znqoAnZjrVI6AnSjvT30oQsMVv988RvxYwpprQrPrGLqXp4WoD1JTIli66rBPV
-         6EAMoc71L7JkoNqTb77CjYfh2xVrxnEp+yxIPkLqKxZN011HDk3b/d7wGLTZkLxbx5LI
-         hBBbTcB5Pc8yTh6oA4WyDlf0IwSaB81vyfw/H/MfQsyIqwU/hy3Ukmy3zDcvVrzovZzG
-         aYPA==
-X-Gm-Message-State: AOJu0YxbFJn7CG56V+KYBpCMgnKkh1Wp3+rdLkLH97KQxYzdBurdsHB2
-	tpjKjL/NgAcq+zCr+2E4RY9syceby9MMM1gC1OWN6GXtj4d4yxRn/6J3RnbuX7jh7r4=
-X-Gm-Gg: ASbGncuw7pGMjqi5jVCGAq59Ekbzyo9PSbFtmaSpJgSMM5kiM0cCkLpTTPCVk7ZaF0c
-	atKK9B4PhEdkhhyr0msmdbmK4Z8CVCbcqtNs8Q8bSJAMyhMmJiRQoR32xVmpCuG9RYwIXxkRA1A
-	/p3F6GGx6KhxEV2HeyjkFJnXGvZsHAJvWXCfnIIFdwiP8pvPLp1moUPGo3LryycAmrKD4FMRptC
-	f5hdMpNKMqYrKsqhfd4afXGd7lMQwYov392/ZO27vayAVWCbq8xpE6ysCSiyzfPKVQU4T2tXmwB
-	Et6nx7do/JkzbrG4w7OsBRKj9PHt2T36EidgViyz024NTtJcbyWvCNXH2W/UYaSOuFkWm6mYq0q
-	0rtWH4LaSHAO6ERkNUk3tRnnK1sUbQIoQPw7sbUOGkJHUmqYt8gO245Am+drm3X+HwxXy03mRyJ
-	UZaL8+C//8GFxGPiZgRs0=
-X-Google-Smtp-Source: AGHT+IGSSsTUb8kO2rPV79368muMuGos8vtiUCTfNP+AFDQ9kg7kknopl6w9E+whw5uTL/w+rEfQ7A==
-X-Received: by 2002:a05:600c:8b34:b0:45d:e110:e673 with SMTP id 5b1f17b1804b1-45de110e71emr135337115e9.4.1757502224302;
-        Wed, 10 Sep 2025 04:03:44 -0700 (PDT)
-Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45df16070bdsm28197275e9.3.2025.09.10.04.03.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 10 Sep 2025 04:03:43 -0700 (PDT)
-Message-ID: <1d9287ac-1c6d-4f83-b95c-b69bbeb63147@linaro.org>
-Date: Wed, 10 Sep 2025 12:03:42 +0100
+	s=arc-20240116; t=1757502415; c=relaxed/simple;
+	bh=qt5sSLI8mEL2xDASgkEbhwWOO/rAUjjLi4cBTEJnCHw=;
+	h=From:Subject:Date:Message-ID:MIME-Version:Content-Type:To:CC; b=A82DrNTMClr4AJlkTyjW2JsBRFiPYzNyD+4MH4qRZw8OR7Nd/Kh2vxJtH03gwp2h9Vq4i8iy41c78/fokr/o/Nzcxwo2PbXRHsYaXr1MAdAxMAksmlZbgsTWftM/X02/C/UZAZbamfy/b70fMqVGKDf9kqgiIvpHEGVzQLusPz8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UGeaF/GH; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58AAFE8Z012504;
+	Wed, 10 Sep 2025 11:06:49 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=o8Yyrm2oQhPPsXlJZ5n+1l
+	vn6Vg98FlNvPqZypR2fvQ=; b=UGeaF/GHtIk/Q49PUCQXE2OE5dW17MhxPSlEcV
+	HX+6jncKbGCaOagh10kZtbIj9UfUhrVjshrrq13I6cVBfvVOHeY18YJzUgwdY922
+	296MHmULPAKRXHzV136fs9HRj7YbgI97YkcmvkZ56mZdBZbBuWLAkxSmDt+9Gf4t
+	Oap7f4im785xdGMqssXMg0HlkTFZKrkUn2FoF5RcWNqW+MgZOxJdz/NTDLvvx0hq
+	JjQoOJ3E1CuL3pTmSVINbY3GlnGrLAD54kcoHmi2jKDV+Tnk3Lc3oDCgxXUzTes7
+	+/aUouPPhz2tiKJZo+DPrYF1uLd1mxXmeABm8iAqyVi95h+Q==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490bwsbqu2-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Sep 2025 11:06:48 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 58AB6lFX014561
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 10 Sep 2025 11:06:47 GMT
+Received: from cse-cd01-lnx.ap.qualcomm.com (10.80.80.8) by
+ nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.24; Wed, 10 Sep 2025 04:06:43 -0700
+From: Wenmeng Liu <quic_wenmliu@qualcomm.com>
+Subject: [PATCH v4 0/3] Add CCI and imx577 sensor support for lemans evk
+Date: Wed, 10 Sep 2025 19:06:20 +0800
+Message-ID: <20250910-camss_rb8-v4-0-28f44e1880b8@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: qcom: camss: Add missing header bitfield.h
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- hans@jjverkuil.nl, kernel test robot <lkp@intel.com>
-References: <20250909194636.2243539-1-loic.poulain@oss.qualcomm.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20250909194636.2243539-1-loic.poulain@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAK1bwWgC/22Myw7CIBQFf6W5a2mwiIAr/8M0BnlYEinKVaJp+
+ HexazcnmZPJLIAuB4dw6BbIrgQMaW6w23RgJj1fHQm2MQx04FRRRYyOiOd8kcQKxfbUC7/lEpp
+ /z86H99o6jY2ngM+UP2u6sN/7r1IYocQII61nknuljwmxf7z0zaQY+zYw1lq/umL5Z6kAAAA=
+X-Change-ID: 20250909-camss_rb8-d79360f7f158
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Robert Foss
+	<rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring
+	<robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+	<conor+dt@kernel.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio
+	<konradybcio@kernel.org>, <todor.too@gmail.com>,
+        <bryan.odonoghue@linaro.org>, <vladimir.zapolskiy@linaro.org>
+CC: <linux-i2c@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, Wenmeng Liu <quic_wenmliu@qualcomm.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757502402; l=2403;
+ i=wenmeng.liu@oss.qualcomm.com; s=20250211; h=from:subject:message-id;
+ bh=qt5sSLI8mEL2xDASgkEbhwWOO/rAUjjLi4cBTEJnCHw=;
+ b=e2h7ULgoYY4UNo6nVXnlHa6cm6uqxGKLAQ4LKYP9qxWa6XA6PB5de4F0iO0AhC8V66g+tqfSA
+ HuDSKz8We+gCwuesuZJctNELPpQcTIC8kfhjhh/ARz8It1sU0DrWZnu
+X-Developer-Key: i=wenmeng.liu@oss.qualcomm.com; a=ed25519;
+ pk=PTegr3w0f1C9dOSL6CUdJR5+u+X/4vsW7VMfwIMeMXQ=
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: tDE9MAU0XfPDrMZA43nRm7wywX48F8QW
+X-Proofpoint-GUID: tDE9MAU0XfPDrMZA43nRm7wywX48F8QW
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAxOCBTYWx0ZWRfX7CTupzh5nYcr
+ 1vzg0jolMaLgq28UWCds8KotvDr2/0A8zpCHVgM5NQYVACk41xh2kPa/i3dSRfBFW0QNZwNL8Cp
+ JJrK56WOFmRM3VVIDk4nhRM0mmsJPH8aBHceR5GHI6+XDPnskRFX41z7xEoq9qA9joY1pCCrdUk
+ DwnYie9NiHoE5d71N4X7o1v5PQKFPI09j0c/F5FXYs811ePk/mkG27yovbmaUKuP3O+P53YRu87
+ gVhh2YRqPae743qcG0bOEX1B6/qrYcTF4eKKLSQazVUPjFbyzuwhh7W3rkDvjAFWCdwUU+vsr3L
+ 06WL6Ol0JForbS8thC8XgBhMCRq7GEGv2Md1ZK2uuZLE/owJkgAauoqC5g25jpQ7amhCqEEVmaS
+ 8ZBLAGQP
+X-Authority-Analysis: v=2.4 cv=G4kcE8k5 c=1 sm=1 tr=0 ts=68c15bc8 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8
+ a=EUspDBNiAAAA:8 a=COk6AnOGAAAA:8 a=L1m54Ubpix6UO_NYMN8A:9 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-09_03,2025-09-10_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 phishscore=0 bulkscore=0 suspectscore=0 clxscore=1015
+ malwarescore=0 adultscore=0 impostorscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060018
 
-On 09/09/2025 20:46, Loic Poulain wrote:
-> Add the <linux/bitfield.h> header to prevent erros:
->>> drivers/media/platform/qcom/camss/camss-vfe-340.c:186:21: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->       186 |                         if (bus_status & TFE_BUS_IRQ_MASK_RUP_DONE(i))
->           |                                          ^
->     drivers/media/platform/qcom/camss/camss-vfe-340.c:36:40: note: expanded from macro 'TFE_BUS_IRQ_MASK_RUP_DONE'
->        36 | #define         TFE_BUS_IRQ_MASK_RUP_DONE(sc)   FIELD_PREP(TFE_BUS_IRQ_MASK_RUP_DONE_MASK, BIT(sc))
->           |                                                 ^
->     drivers/media/platform/qcom/camss/camss-vfe-340.c:191:21: error: call to undeclared function 'FIELD_PREP'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
->       191 |                         if (bus_status & TFE_BUS_IRQ_MASK_BUF_DONE(i))
->           |                                          ^
->     drivers/media/platform/qcom/camss/camss-vfe-340.c:38:40: note: expanded from macro 'TFE_BUS_IRQ_MASK_BUF_DONE'
->        38 | #define         TFE_BUS_IRQ_MASK_BUF_DONE(sg)   FIELD_PREP(TFE_BUS_IRQ_MASK_BUF_DONE_MASK, BIT(sg))
->           |                                                 ^
->     2 errors generated.
-> 
-> Reported-by: kernel test robot <lkp@intel.com>
-> Closes: https://lore.kernel.org/oe-kbuild-all/202509100228.xLeeYzpG-lkp@intel.com/
-> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
-> ---
->   drivers/media/platform/qcom/camss/camss-csid-340.c | 1 +
->   drivers/media/platform/qcom/camss/camss-vfe-340.c  | 1 +
->   2 files changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid-340.c b/drivers/media/platform/qcom/camss/camss-csid-340.c
-> index 7a8fbae3009b..22a30510fb79 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid-340.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid-340.c
-> @@ -6,6 +6,7 @@
->    */
->   
->   #include <linux/completion.h>
-> +#include <linux/bitfield.h>
->   #include <linux/interrupt.h>
->   #include <linux/io.h>
->   #include <linux/kernel.h>
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe-340.c b/drivers/media/platform/qcom/camss/camss-vfe-340.c
-> index 55f24eb06758..30d7630b3e8b 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe-340.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe-340.c
-> @@ -6,6 +6,7 @@
->    */
->   
->   #include <linux/delay.h>
-> +#include <linux/bitfield.h>
->   #include <linux/interrupt.h>
->   #include <linux/io.h>
->   #include <linux/iopoll.h>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+This series adds cci definition and imx577 sensor enablement
+via cci1 on lemans evk.
+
+An example media-ctl pipeline for the imx577 is:
+
+media-ctl -d /dev/media0 --reset
+media-ctl -d /dev/media0 -V '"imx577 0-001a":0[fmt:SRGGB10/4056x3040 field:none]'
+media-ctl -d /dev/media0 -V '"msm_csiphy1":0[fmt:SRGGB10/4056x3040]'
+media-ctl -d /dev/media0 -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -d /dev/media0 -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -d /dev/media0 -l '"msm_csiphy1":1->"msm_csid0":0[1]'
+media-ctl -d /dev/media0 -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+
+yavta -B capture-mplane  -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video0 --capture=5
+
+Changes in v4:
+- Correct the formatting issue by replacing the spaces with tabs.
+- Link to v3: https://lore.kernel.org/r/20250909-camss_rb8-v3-0-c7c8df385f9a@oss.qualcomm.com
+
+Changes in v3:
+- Revise the annotations according to Konrad's suggestions.
+- Remove the enable of camcc, camcc default to being enabled.
+- Link to v2:
+  https://lore.kernel.org/r/20250815-rb8_camera-v2-0-6806242913ed@quicinc.com/
+
+Changes in v2:
+- Remove the patch that adds PHY supply documentation in the sa8775p CAMSS
+  bindings. This change should be submitted together with the sa8775p bindings patch.
+- Fix the string ordering in the DTS file.
+- Remove the source clock from the CCI node.
+- Move the sensor enable configuration from lemans-evk.dts to lemans-evk-camera.dtso.
+- Remove the definitions for CCI and regulators that are not enabled.
+- Link to v1:
+  https://lore.kernel.org/all/20250514-rb8_camera-v1-0-bf4a39e304e9@quicinc.com/
+
+Dependencies:
+https://lore.kernel.org/all/20250814101615.1102795-1-quic_vikramsa@quicinc.com/
+
+---
+Wenmeng Liu (3):
+      dt-bindings: i2c: qcom-cci: Document sa8775p compatible
+      arm64: dts: qcom: sa8775p: Add CCI definitions
+      arm64: dts: qcom: lemans-evk-camera: Add DT overlay
+
+ .../devicetree/bindings/i2c/qcom,i2c-cci.yaml      |   2 +
+ arch/arm64/boot/dts/qcom/Makefile                  |   4 +
+ arch/arm64/boot/dts/qcom/lemans-evk-camera.dtso    | 101 ++++++++
+ arch/arm64/boot/dts/qcom/lemans.dtsi               | 268 +++++++++++++++++++++
+ 4 files changed, 375 insertions(+)
+---
+base-commit: 0292e5668a417d680b48901c0185bc191693c05c
+change-id: 20250909-camss_rb8-d79360f7f158
+
+Best regards,
+-- 
+Wenmeng <wenmeng.liu@oss.qualcomm.com>
+
 
