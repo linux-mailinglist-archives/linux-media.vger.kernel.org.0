@@ -1,130 +1,162 @@
-Return-Path: <linux-media+bounces-42157-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42158-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C9EEB50FC7
-	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 09:42:37 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8109B50FCA
+	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 09:42:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F7E6485260
-	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 07:42:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6BC2516F0B6
+	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 07:42:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D936230C359;
-	Wed, 10 Sep 2025 07:42:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3054930C373;
+	Wed, 10 Sep 2025 07:42:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TeaGA7q7"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vAJUqusD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B70212550;
-	Wed, 10 Sep 2025 07:42:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E6FC30BB81;
+	Wed, 10 Sep 2025 07:42:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757490152; cv=none; b=omvPLlNEFOFuFVFqJk4EiGbkdh6+vo2hIQBn338x7UmZnivxEd19vC7brt6H3CHkJn+uuORdYwMeVi8vYfnty9s+gNTdffTeTfTefSuZlMJSEysvZScsqb49VEgJgqcOFqWptWFtx6d0IgpgCOFrDFAJxH8NKc9UFyVMwr+IKh4=
+	t=1757490167; cv=none; b=Xgs/XGh1/8vaxCJj3TLt5WInHZDODU0fWHZcogbPoL1+mnASrAC/OAX2JmgzyZ3mPCkjzO8pCG4Pi74ONfeAKnMD/hi/is3/xn80LjRzqSSuwN62gUZKYRjbKtSk47psO56qQKjWSUwq8Gum9xAoCHtjlqqUPNBtmsrwTmPKMH0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757490152; c=relaxed/simple;
-	bh=XF/ishJ1RSuKO+v8xop0Qb0zD1G6U/x2kGbSrhhwJZc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nmjATsWgTOyhdkyb7lGpn+UR4wEWjlxKPg9o2zNppCc7xJPT78BL8ivJprTWLlvwbs4K0iQwhQzKIXq1oTSaXaQRptsJVl4qhzblDnIueUO1A5btmaIi5YCTro6bOtHFK7FYIZsnHxYt7z+qlUSoCPZ3S9U+zcYvUh8yddDyZJk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TeaGA7q7; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757490151; x=1789026151;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=XF/ishJ1RSuKO+v8xop0Qb0zD1G6U/x2kGbSrhhwJZc=;
-  b=TeaGA7q7TQgYFZiCqCdoQoQhNGPxSVBROPzEyxPq8VgFhBzFm/bpVfiN
-   bI34H9Tkd5B0l8VEaSZ6tBFbfYyMcsYFguJVYjHtCXnWJpklU37d6d9HI
-   NWpZ+3b1VGdLpcGJuWW23xxROCddcnCXdXDHVEQbIlo9jj0wggFgKE0vO
-   rrYUlwdLnIShYT76ZuiDM0jQ60R8v5oNG87Q0cZ+XimBlCsCSnFwzrI1Q
-   V75xKwhetEYeZ9MRsguwhs7u781qJ8/YI0mApclxanXP6HXT41TNEsLKU
-   h1UDtA6b6goHwOcV4FsCKGS55ZlSDm/BHflbTfwap++/bGMSImIGplM3z
-   w==;
-X-CSE-ConnectionGUID: pq00hSH9RcagViLbPEVYfw==
-X-CSE-MsgGUID: zLtAH58rTBq/iDUodhYr0Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59855243"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="59855243"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 00:42:31 -0700
-X-CSE-ConnectionGUID: qIs22zwORDeM3KjEBvkh+g==
-X-CSE-MsgGUID: s59dmbRLQ0qlh+vWmxPSdg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
-   d="scan'208";a="177649140"
-Received: from mjarzebo-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.29])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 00:42:28 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 3DBD711F758;
-	Wed, 10 Sep 2025 10:42:25 +0300 (EEST)
-Date: Wed, 10 Sep 2025 10:42:25 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Aleksandrs Vinarskis <alex@vinarskis.com>,
-	platform-driver-x86@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH 0/2] v4l2-subdev/int3472: Use "privacy" as con_id for the
- LED lookup
-Message-ID: <aMEr4Qtui91NQqkk@kekkonen.localdomain>
-References: <20250909144823.27540-1-hansg@kernel.org>
- <CAHp75VeMMKCTDNWhdZJH2F=cmUObbpoYcDUch2jpsLBBNs_EhQ@mail.gmail.com>
- <e3edf119-2dfe-4857-842d-fb2a52470eb9@kernel.org>
+	s=arc-20240116; t=1757490167; c=relaxed/simple;
+	bh=+4M6tsS1noq3CdhW7Sll0jWiqizEr50fsdQiGPuss64=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZXqoaNWTK/SCM1Q6u1HMrLK78FEIGw8EVW8Cio78A3R4jCPUYvtuecbblD8cjougSnoEP871pWDCwN9ZEn5+gbXzJydqP9YgEyOQeTeIbbk9ZWtvokxwsuVq7SDXDXceg1dknAFSRFbpcIzHgrgxpDNlHu5ed5wbcnkz2xSXbWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vAJUqusD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 55FF1C4CEF0;
+	Wed, 10 Sep 2025 07:42:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757490166;
+	bh=+4M6tsS1noq3CdhW7Sll0jWiqizEr50fsdQiGPuss64=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vAJUqusDyMsHxoK8/VpNOPxDfF73Vsb5zgcHKHvT1CcG3cK5iVZnu8lkO/Qa2YuH3
+	 NWn8HkwuCZZ2hJZ3wVIFuJ5kaPKNWOITD8oZyeeU0kShMhymQngMwsN6coIH9ZoEYP
+	 is6HvqnlJrCFcbUUdYeqdOcADhFeGv/8eVljf7nJ8Mb+vDzmOrASFHLcToG2jK6bNE
+	 w94+SBOG+jH8E7QBQeTtHF1QQUQB3DeEZLfdL/0DOUQgc9tsDSfhHzmbuXL/9QBcwy
+	 5JdHI1DUdQtUzGcAMq9fwGR+D3AeWkZ28a9K/OuhTDezF9E86ioO8jsDQyWjo3dbKR
+	 rLBOzcWnlZNbA==
+Message-ID: <8c1163ad-6e65-450b-ae44-c9a71a045333@kernel.org>
+Date: Wed, 10 Sep 2025 09:42:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <e3edf119-2dfe-4857-842d-fb2a52470eb9@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/7] media: dt-bindings: Add qcom,qcs8300-camss
+ compatible
+To: Vikram Sharma <quic_vikramsa@quicinc.com>,
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, rfoss@kernel.org,
+ todor.too@gmail.com, bryan.odonoghue@linaro.org, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+ cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250813053724.232494-1-quic_vikramsa@quicinc.com>
+ <20250813053724.232494-2-quic_vikramsa@quicinc.com>
+ <f1e3c3a9-9929-477a-b1ad-e485c059cbc2@linaro.org>
+ <d16d40ab-8a35-4886-b11f-2eee15849e1c@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <d16d40ab-8a35-4886-b11f-2eee15849e1c@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Hans, Andy, Ilpo,
-
-On Tue, Sep 09, 2025 at 10:40:35PM +0200, Hans de Goede wrote:
-> Hi Andy,
+On 10/09/2025 09:26, Vikram Sharma wrote:
 > 
-> On 9-Sep-25 7:27 PM, Andy Shevchenko wrote:
-> > On Tue, Sep 9, 2025 at 5:48 PM Hans de Goede <hansg@kernel.org> wrote:
-> >>
-> >> During DT-binding review for extending the V4L2 camera sensor privacy LED
-> >> support to systems using devicetree, it has come up that having a "-led"
-> >> suffix for the LED name / con_id is undesirable since it already is clear
-> >> that it is a LED:
-> >>
-> >> https://lore.kernel.org/linux-media/0e030e7d-0a1a-4a00-ba18-ed26107d07fa@oss.qualcomm.com/
-> >>
-> >> There was discussion about making an exception for "privacy-led" since
-> >> that is already used on x86/ACPI platforms, but I'm afraid that will set
-> >> a bad example which ends up being copy and pasted, so lets just drop
-> >> the "-led" prefix from the x86/ACPI side, which we can do since there
-> >> this is only an in-kernel "API".
-> > 
-> > Since it's an in-kernel API, why can't these two be simply squashed?
+> On 9/10/2025 12:35 PM, Krzysztof Kozlowski wrote:
+>> On 13/08/2025 07:37, Vikram Sharma wrote:
+>>> Add the compatible string "qcom,qcs8300-camss" to support the
+>>> Camera Subsystem (CAMSS) on the Qualcomm QCS8300 platform.
+>>>
+>>> The QCS8300 platform provides:
+>>> - 2 x VFE (version 690), each with 3 RDI
+>>> - 5 x VFE Lite (version 690), each with 6 RDI
+>>> - 2 x CSID (version 690)
+>>> - 5 x CSID Lite (version 690)
+>>> - 3 x CSIPHY (version 690)
+>>> - 3 x TPG
+>>>
+>>> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+>>> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+>>> ---
+>>>   .../bindings/media/qcom,qcs8300-camss.yaml    | 336 ++++++++++++++++++
+>>>   1 file changed, 336 insertions(+)
+>> So it turns out this code is wrong and you already sent fixes for it.
 > 
-> Good question, this is only a runtime thing when running on actual
-> hw with a privacy LED. So having this separately will not break
-> the build in the middle.
+> Hi Krzysztof,
+> Thanks for your comments. These bindings are tested with TPG (Test Pattern Generator), As camera sensor testing was not possible at that point.
+
+You cannot test bindings with TPG. It's impossible.
+
+> This is because Monaco-evk kit was not ready which can be used to enable sensor.
 > 
-> As such it seems better to have this as 2 patches since it involves
-> 2 different subsystems.
+> These Bindings are complete in its own, If someone want to use TPG.
 
-Seems good to me.
+No. You do not understand - they are not complete if you add new
+properties to them!
 
-Ilpo: are you fine with merging this via the media tree?
+How bindings could be complete if you add now supplies!?!?
 
--- 
-Kind regards,
+> 
+> My latest update in these bindings are for camera sensor enablement which needs supplies too.
+> 
+> Please let me know if this justification works to accept these bindings it its current form and add supplies as a separate patch.
 
-Sakari Ailus
+NAK. Read writing bindings doc. Or internal docs.
+
+Best regards,
+Krzysztof
 
