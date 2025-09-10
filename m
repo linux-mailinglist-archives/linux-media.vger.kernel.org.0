@@ -1,140 +1,107 @@
-Return-Path: <linux-media+bounces-42166-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42167-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE0CB51229
-	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 11:09:46 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AED2AB5125F
+	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 11:23:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 43823166562
-	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 09:09:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E6A4F1B28255
+	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 09:23:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 22B703126A6;
-	Wed, 10 Sep 2025 09:09:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49D1731328E;
+	Wed, 10 Sep 2025 09:23:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Srk1nfSE"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ORl1h+mf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B9F93112D6;
-	Wed, 10 Sep 2025 09:09:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13122D660E;
+	Wed, 10 Sep 2025 09:22:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757495379; cv=none; b=O94+ybQARROSCVttwCdqZp0W5W/6IwALFOCrOTU3TJwTe2PbAKi7HXyp3Bs2zGYP5ddVxaXg/yzEi7CjO/LZskbeTOmIUXkXjI5wOMOakpxWP5qZFDuZ3Svf/lg5feUHBby3cbb+PX6QqCoWwTFgesgEgoqfU4dCwUrntTNZcPE=
+	t=1757496180; cv=none; b=XV3yR5utYT4RKoGCWNgv7YjiLvnm/a3MM2XVss5k36yfFagePVWeJO947UIEwGXCi5TiD/q0Vr7masE/BsAjGQU5kb2o3SgPmnHOTxYTuOIDiwBBrElF1AJ29Me+zVR7tZZkwZwI6Gfso1pafarNFW812Z3gkVcywsypRUQlCrk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757495379; c=relaxed/simple;
-	bh=vzHBUoEGBOvofKP8vbq3Vmp2N5vrx4eWL5JDuvkjsZo=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=D4LXnq9nnHK0UhvONuXgy0pz49k5wUH7Bwic5aYgSnJL+36scKW4rMs0m6lAGIP/GEqPRdrIAe2u4TgtPEn3T6CwAao1hSNfLrO9rRn8YdbkxuskkKayS9p+RszC9J4HDCWwpjhx3RBNJV/OXJxWAMRgP1NeASDtgwXZjCHMayw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Srk1nfSE; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757495378; x=1789031378;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version:content-id;
-  bh=vzHBUoEGBOvofKP8vbq3Vmp2N5vrx4eWL5JDuvkjsZo=;
-  b=Srk1nfSEQBZR1u/ktoWqJxHjW/tDukCOu9BMGlq1Wbfv1tj++rvpijd1
-   q2WzCfn2b5+sKTUu9hBcWGbG07dsqdxIHCdwbkL6QCLa47smT5JTXEmcj
-   2nw6DA13SmDuztq32pLTW4RJCZH7RVCVV6qroqmGWs0Ue/ZI77Yf/wd1X
-   6ABqCa9JKcwApHpuXedoebY2K3Aj3aZkayjAYBjr7QlP+oocJtoV1H+hd
-   UOK0nH6xDNGwzHnVjO3XYD/JRgd5oso2OXKpzOkoOgoqhE2+w4+iXSdNQ
-   QwoNSWBlu8CaMlz/LkjZ57Cr1bz+dz3PA6RCDmudALCekAfVl4Ub2uFVE
-   w==;
-X-CSE-ConnectionGUID: zLjh1S5TTe27OZPuvwefVw==
-X-CSE-MsgGUID: H1orJlqfSdCWm+Hun55E6A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11548"; a="63428718"
-X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
-   d="scan'208";a="63428718"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 02:09:38 -0700
-X-CSE-ConnectionGUID: OSEEgtn+SkGHlX2hxgoFWw==
-X-CSE-MsgGUID: xoNWjnI4QYydX0OEaza6rg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,253,1751266800"; 
-   d="scan'208";a="177663643"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.59])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2025 02:09:34 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Wed, 10 Sep 2025 12:09:30 +0300 (EEST)
-To: Hans de Goede <hansg@kernel.org>
-cc: Andy Shevchenko <andy.shevchenko@gmail.com>, 
-    Andy Shevchenko <andy@kernel.org>, 
-    Sakari Ailus <sakari.ailus@linux.intel.com>, 
-    Aleksandrs Vinarskis <alex@vinarskis.com>, 
-    platform-driver-x86@vger.kernel.org, 
-    Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 0/2] v4l2-subdev/int3472: Use "privacy" as con_id for
- the LED lookup
-In-Reply-To: <e3edf119-2dfe-4857-842d-fb2a52470eb9@kernel.org>
-Message-ID: <0706ca2e-cee8-8f3c-b652-ac0cf0f087f8@linux.intel.com>
-References: <20250909144823.27540-1-hansg@kernel.org> <CAHp75VeMMKCTDNWhdZJH2F=cmUObbpoYcDUch2jpsLBBNs_EhQ@mail.gmail.com> <e3edf119-2dfe-4857-842d-fb2a52470eb9@kernel.org>
+	s=arc-20240116; t=1757496180; c=relaxed/simple;
+	bh=yd0ny0R9oIhP7Ea9IXvlxJK03B0rSJN5DFpKsoJYET8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BmdeDTHquIdNAcqB6Wye4IazvrAVq7YWY8ED7FYy7U9gIZ6OCY0TALBtc5vYk0GcQJ6GevmJg6k1olvCCsG+p9+JYsv+dUL39pEFO0Czi7agbPbm43XucX42cpFpY60RRz/tvDUT9cr0s3cPZUy99UlMUBK+o1PIMjjkxxGA1JQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ORl1h+mf; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id AC2EFDAB;
+	Wed, 10 Sep 2025 11:21:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1757496102;
+	bh=yd0ny0R9oIhP7Ea9IXvlxJK03B0rSJN5DFpKsoJYET8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ORl1h+mfxb6QAugG0FoJkjw8EykOpXQyVGC7RBKF7svrsjkFQucQZAgOJfsWeNqPU
+	 03HAdGcuhIRCK4xYuBhvrFFm4GTqUc9utCO/jOrq3n9ZAPjfHoZos6pDiqj8GVJZY5
+	 6Xi+mvGISLffWEU0xIvIPa5IfvDwoh0auPIOUQWk=
+Date: Wed, 10 Sep 2025 12:22:33 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Edward Adam Davis <eadavis@qq.com>
+Cc: syzbot+031d0cfd7c362817963f@syzkaller.appspotmail.com,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	mchehab@kernel.org, sakari.ailus@linux.intel.com,
+	syzkaller-bugs@googlegroups.com
+Subject: Re: [PATCH Next] media: mc: Clear minor number before put device
+Message-ID: <20250910092233.GA20904@pendragon.ideasonboard.com>
+References: <68c097c5.050a0220.3c6139.000a.GAE@google.com>
+ <tencent_341BA32545BAFBBB2133249EDE1B774B4908@qq.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; BOUNDARY="8323328-904436684-1757494513=:937"
-Content-ID: <72606396-7cf1-9d82-bccb-50a45a8c5bac@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <tencent_341BA32545BAFBBB2133249EDE1B774B4908@qq.com>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Hello Edward,
 
---8323328-904436684-1757494513=:937
-Content-Type: text/plain; CHARSET=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-Content-ID: <38679c28-ef95-e083-61a6-3304ffe1b171@linux.intel.com>
+On Wed, Sep 10, 2025 at 09:15:27AM +0800, Edward Adam Davis wrote:
+> The device minor should not be cleared after the device is released.
 
-On Tue, 9 Sep 2025, Hans de Goede wrote:
-> On 9-Sep-25 7:27 PM, Andy Shevchenko wrote:
-> > On Tue, Sep 9, 2025 at 5:48=E2=80=AFPM Hans de Goede <hansg@kernel.org>=
- wrote:
-> >>
-> >> During DT-binding review for extending the V4L2 camera sensor privacy =
-LED
-> >> support to systems using devicetree, it has come up that having a "-le=
-d"
-> >> suffix for the LED name / con_id is undesirable since it already is cl=
-ear
-> >> that it is a LED:
-> >>
-> >> https://lore.kernel.org/linux-media/0e030e7d-0a1a-4a00-ba18-ed26107d07=
-fa@oss.qualcomm.com/
-> >>
-> >> There was discussion about making an exception for "privacy-led" since
-> >> that is already used on x86/ACPI platforms, but I'm afraid that will s=
-et
-> >> a bad example which ends up being copy and pasted, so lets just drop
-> >> the "-led" prefix from the x86/ACPI side, which we can do since there
-> >> this is only an in-kernel "API".
-> >=20
-> > Since it's an in-kernel API, why can't these two be simply squashed?
->=20
-> Good question, this is only a runtime thing when running on actual
-> hw with a privacy LED. So having this separately will not break
-> the build in the middle.
->=20
-> As such it seems better to have this as 2 patches since it involves
-> 2 different subsystems.
+The most important piece of information in a commit message is the
+reason for the patch. You need to explain *why* this is needed, not just
+state it should be done.
 
-But it's still only a single logical change, and not something with=20
-monsterous complexity which would warrant splitting it at the subsystem=20
-boundary.
+> Fixes: 9e14868dc952 ("media: mc: Clear minor number reservation at unregistration time")
+> Reported-by: syzbot+031d0cfd7c362817963f@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=031d0cfd7c362817963f
+> Tested-by: syzbot+031d0cfd7c362817963f@syzkaller.appspotmail.com
+> Signed-off-by: Edward Adam Davis <eadavis@qq.com>
+> ---
+>  drivers/media/mc/mc-devnode.c | 5 +----
+>  1 file changed, 1 insertion(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/mc/mc-devnode.c b/drivers/media/mc/mc-devnode.c
+> index 0d01cbae98f2..6daa7aa99442 100644
+> --- a/drivers/media/mc/mc-devnode.c
+> +++ b/drivers/media/mc/mc-devnode.c
+> @@ -276,13 +276,10 @@ void media_devnode_unregister(struct media_devnode *devnode)
+>  	/* Delete the cdev on this minor as well */
+>  	cdev_device_del(&devnode->cdev, &devnode->dev);
+>  	devnode->media_dev = NULL;
+> +	clear_bit(devnode->minor, media_devnode_nums);
+>  	mutex_unlock(&media_devnode_lock);
+>  
+>  	put_device(&devnode->dev);
+> -
+> -	mutex_lock(&media_devnode_lock);
+> -	clear_bit(devnode->minor, media_devnode_nums);
+> -	mutex_unlock(&media_devnode_lock);
+>  }
+>  
+>  /*
 
-Or do you immediately know about something that would conflict with either=
-=20
-of these changes which would warrant splitting it per subsystem to avoid=20
-merge challenges? If not, I agree with Andy this should just be squashed=20
-into a single patch.
+-- 
+Regards,
 
-Another question, is the "privacy_led" suffix added into pled.name still
-acceptable despite the "led" suffix?
-
---=20
- i.
---8323328-904436684-1757494513=:937--
+Laurent Pinchart
 
