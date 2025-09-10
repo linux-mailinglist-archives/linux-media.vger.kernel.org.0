@@ -1,64 +1,51 @@
-Return-Path: <linux-media+bounces-42189-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42190-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E40AB514E3
-	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 13:08:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95911B514E9
+	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 13:09:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1B6661660D1
-	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 11:08:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C1B191C82F38
+	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 11:09:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AF3F31B107;
-	Wed, 10 Sep 2025 11:07:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 708B6319845;
+	Wed, 10 Sep 2025 11:08:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hOqh1HXB"
+	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="AtdkphF0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mail-106111.protonmail.ch (mail-106111.protonmail.ch [79.135.106.111])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3085931A06C;
-	Wed, 10 Sep 2025 11:07:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E56C30E0D9
+	for <linux-media@vger.kernel.org>; Wed, 10 Sep 2025 11:08:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=79.135.106.111
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757502429; cv=none; b=NVfof8/tV+h0kd9ah8NB4/Q2S+dwHWfpfnxsy+0u/SQ7PxLAhPlEf3OB3NceiNBVeb0UINV3NLZ2/uqwKixzMBypv5Knk/0U3J+PkqXP2U7JJlGBNZ9k9hInMoBh8BJshO8fq+/jSF3mVlAqJzHPevH3WIlN3tO4wCkpQW8pswQ=
+	t=1757502482; cv=none; b=rSpqONrjGrkBGj+vyTF3zNi3cy1Lds2WS081wpjIQp4fIDhlw63K+aRljY8VSCWUzYGb89hGKcy14GWz7H+h0PML9YS159gbmWSx42K549mCEa7GXnoMbSWEL+dPkzUgGqqUi6x0ihmx/bbn5XAzYynh8UxwWKfx3d+rpzVbf30=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757502429; c=relaxed/simple;
-	bh=+suaSLm4yJYPG9kV3xvGc+0GubHGu6l0f5JoNC9Gz5k=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=HbTgOku+SIRoFB0dQ64Fa0NQO33NXAnCYJG66IRZmDCpgz5YgsVoKVkrx8EsVn++uvfzY1X72XfY7G3TzNxSTKS9E3xMXFfqrNctLq8/I7qSFrqMjAhuAlX5msLnIi4mCTKR7J2AZjjRAyHXFL9iUH+s3FKpzWtrc/rSBYMx1q4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hOqh1HXB; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58AAFON4031314;
-	Wed, 10 Sep 2025 11:07:03 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	zOC+e28qEhi3ys02J4XaU8bfLN4a/Y81MtwQs8+gDPA=; b=hOqh1HXBca5YhXDu
-	WLpXk9mIF6exRL51aN4DdIxJLVialJxZA7t29zEVEU6vzaqm68Q5bG4WoLUotZzL
-	cyAkOrGyQfd3h3nOFdQi3ZZ6UWz7SXDG9DE1cKZw9zxNjdcsS+mc2uiN5VMevOvl
-	pS4A0TGjrqP5kpA2lygy+24ZC1YcWSIYqXlYAmsc+vflGLd4rm47n3zfESuYxxWE
-	Ggm6MJueYDfVWB7aa+wGfyDXM2fGnGlke+vZnLQ59ROYf9+yJgPCzsfZ1eLAqq64
-	3/tU54o5IPdfhi1+ik0rVJwp6WAiYJIKRh5GSNSo4xGOxbPNAvBlCHMkVMNKAHDk
-	vfJQ0g==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491vc27n7u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Sep 2025 11:07:03 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 58AB71Le017789
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 10 Sep 2025 11:07:01 GMT
-Received: from cse-cd01-lnx.ap.qualcomm.com (10.80.80.8) by
- nalasex01c.na.qualcomm.com (10.47.97.35) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.24; Wed, 10 Sep 2025 04:06:56 -0700
-From: Wenmeng Liu <quic_wenmliu@qualcomm.com>
-Date: Wed, 10 Sep 2025 19:06:23 +0800
-Subject: [PATCH v4 3/3] arm64: dts: qcom: lemans-evk-camera: Add DT overlay
+	s=arc-20240116; t=1757502482; c=relaxed/simple;
+	bh=qsJHj1/1oQfPkq1JRCPMlD2tTi2M5NZLR9YYmawyVz8=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=MIByKokDxJwENv3Lj+W6UkJ2+ynQckstONq5oC5Wu7ybT/jdrGu0leWXfNcmJ2WrEUBW/oRXByzJYG7pda9oQy+vEvnJP5WfQDhfzL0Y0RbENVIRv7glS6G371qHlX5f7U086PTVbyiyRIeb9Hf1/cU4PUNryL5QaqkIkwf0ZTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=AtdkphF0; arc=none smtp.client-ip=79.135.106.111
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinarskis.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
+	s=protonmail; t=1757502472; x=1757761672;
+	bh=GGr7fDU5v7KaXRd0heWu4LqMfFjXkgK/6awD39LMV8k=;
+	h=From:Subject:Date:Message-Id:To:Cc:From:To:Cc:Date:Subject:
+	 Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
+	b=AtdkphF01wT4SiyUHCXgAtzNhXcV4Wy5b2Q3KzOajeLEwIJAKbguBTLjuiEG/voTX
+	 Wa/SQi3REY5UKA/uM7RpvYgvu+bexG3o97Kgn+nXfa1MKw+4sbeeycYj3JQjHrP41A
+	 auZHhi4mlpjMmEGabgLt20CaEfIBUiWYNwoYOWzatgQH8/OkY7IjIg5UcdL+H6Wa2e
+	 TimUJlhFJuvdIfKPCKr6wyXHuIHfzHMtFaWzcvfCzPf5cZ29z/7Axmg/RMZLENllJl
+	 VbknhM6DpoPFnXocpn9OcM6Kv9wdw4ER1Lc10TJhmcgTXHcBSi3Kn2FseHKnLLTC4O
+	 nvgO4U4+XDQkg==
+X-Pm-Submission-Id: 4cMHwP2szfz2ScCw
+From: Aleksandrs Vinarskis <alex@vinarskis.com>
+Subject: [PATCH v4 0/4] leds: privacy-led support for devicetree
+Date: Wed, 10 Sep 2025 13:07:36 +0200
+Message-Id: <20250910-leds-v4-0-1fc320488233@vinarskis.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -67,196 +54,109 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-ID: <20250910-camss_rb8-v4-3-28f44e1880b8@oss.qualcomm.com>
-References: <20250910-camss_rb8-v4-0-28f44e1880b8@oss.qualcomm.com>
-In-Reply-To: <20250910-camss_rb8-v4-0-28f44e1880b8@oss.qualcomm.com>
-To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Robert Foss
-	<rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-        Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio
-	<konradybcio@kernel.org>, <todor.too@gmail.com>,
-        <bryan.odonoghue@linaro.org>, <vladimir.zapolskiy@linaro.org>
-CC: <linux-i2c@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-media@vger.kernel.org>,
-        Konrad Dybcio
-	<konrad.dybcio@oss.qualcomm.com>,
-        Wenmeng Liu <quic_wenmliu@qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIAPhbwWgC/22Qy2rDMBBFf8VoXZmRrFdCCPmP0oUqjR2RxG6lR
+ LSE/Hsndhah7WbgDnMOzL2ygjlhYevmyjLWVNI0UlAvDQt7Pw7IU6TMJEgNK5D8iLHwYERw1vo
+ YHTA6/cjYp69Z8/pGeZ/Kecrfs7WK+/aXoAoOXPlOoJBaWvO+q2n0uRxSacN0YndJlc+gfoCSQ
+ IyuN6bXJnr3H9g9g+4BdgTqlVIxKABj/oC35Y+Mnxdq4bw8w05Yip9bWDebxShAgLIgW0uTC04
+ 1lWF3wDzisZ3ysCXX7QeSVqS6WQEAAA==
+X-Change-ID: 20250902-leds-c61c877add80
+To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
+ Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
+ Jingoo Han <jingoohan1@gmail.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
+ Jacopo Mondi <jacopo@jmondi.org>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ Konrad Dybcio <konradybcio@kernel.org>, 
+ Daniel Thompson <danielt@kernel.org>
+Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+ threeway@gmail.com, Andy Shevchenko <andy.shevchenko@gmail.com>, 
+ Linus Walleij <linus.walleij@linaro.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1757502403; l=3482;
- i=wenmeng.liu@oss.qualcomm.com; s=20250211; h=from:subject:message-id;
- bh=+suaSLm4yJYPG9kV3xvGc+0GubHGu6l0f5JoNC9Gz5k=;
- b=qPzbdWePstHTedoWKpIUGqe2lldxyObUdVP9nUdy5e6Mi9n2VyKQtBytAyWnjDmznGjZCHZIS
- ZMF08bmzAziDhIfDSnwPNRUwbsz0cIuR9AbQSsiaVCfq+dqQkEp9MPm
-X-Developer-Key: i=wenmeng.liu@oss.qualcomm.com; a=ed25519;
- pk=PTegr3w0f1C9dOSL6CUdJR5+u+X/4vsW7VMfwIMeMXQ=
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=FN4bx/os c=1 sm=1 tr=0 ts=68c15bd7 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=KKAkSRfTAAAA:8
- a=EUspDBNiAAAA:8 a=n2qAWu9mVDBvzsF7sgIA:9 a=QEXdDO2ut3YA:10
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: IVlqsYFsOJyEUz0UWYPSHvUeufJpw603
-X-Proofpoint-GUID: IVlqsYFsOJyEUz0UWYPSHvUeufJpw603
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDA5NCBTYWx0ZWRfX+5dDP/jGU56Z
- 1bapFwnQlbV+2dkeHHww2ruhPz99eF5wQxxnU625g2KOWHEB5SjGo/QgV02BsfN93eqtx1Qo7wt
- Zp7tufpCdAgNzkynnJTnqViyNAorV+95yUyPdlNSChfqY1gvQWZUJpkad/qX4HhNLS1Omcefvqk
- j0u8oM6v190RisO7XpY2wPEvzcsp0mmyy1uxl5WibiNzniooO8nGEK3eMNhtqRxzakvlGDGJViV
- PdZhT8EV2bkjpnbPc6O96FMIZNaqYbpo7WVMh97SCpxSwpWp2m3e8mSva3sjsf+wSSo/2QrDzKv
- C9j76504AlzE++iMqPOysKLP32C7/iJfmEKokTdLcZnz+Enqz57HD8iOqQZynfs+BcC9dnbosmd
- xX85p4sb
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-09_03,2025-09-10_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 clxscore=1015 phishscore=0 adultscore=0
- bulkscore=0 impostorscore=0 malwarescore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080094
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3237; i=alex@vinarskis.com;
+ h=from:subject:message-id; bh=qsJHj1/1oQfPkq1JRCPMlD2tTi2M5NZLR9YYmawyVz8=;
+ b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBkHYxheb8r40ty4+pzO8wTXCq6la94LV0g3Jx9yvj8x4
+ bvO8ttVHSUsDGJcDLJiiizdf76mdS2au5bhusY3mDmsTCBDGLg4BWAittMY/qnK8czacojR72bZ
+ HXe/mN7/mlHBHK/Fz172UL4e7C1tq8Lw4+2cZXubObdqfM6wfnPpX+p7tdqojMxvd+uj7nD9dY7
+ jBAA=
+X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
+ fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
 
-Enable IMX577 via CCI1 on LeMans EVK Core Kit.
+Re-spin of RFC patch from ~2.5 years ago [1]. v4l2 controls for privacy
+LEDs has landed, but the DT part was left out. Introduce missing
+dt-bindings, and commonize 'leds' parameter. Finally, add a patch to
+enable privacy-led on Lenovo Thinkpad x13s.
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Signed-off-by: Wenmeng Liu <quic_wenmliu@qualcomm.com>
+With recent inflow of arm64-power laptops (Snapdragon X1E/X1P) which
+mostly use MIPI cameras, this feature becomes more desired. Original
+rebased patch is still working as expected (with respective DT changes)
+on Dell XPS 9345.
+
+Changelog to original series:
+- Pick RFC patch, pick R-by, drop RFC-related commit message part
+- Add new DT binding to describe generic LED consumer properties
+- Rebase and test on X1E laptop
+
+[1] https://lore.kernel.org/all/20230120114524.408368-6-hdegoede@redhat.com/
+
+Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
 ---
- arch/arm64/boot/dts/qcom/Makefile               |   4 +
- arch/arm64/boot/dts/qcom/lemans-evk-camera.dtso | 101 ++++++++++++++++++++++++
- 2 files changed, 105 insertions(+)
+Changes in v4:
+- Rename `privacy-led` to `privacy`, depend on x86/ACPI change
+- Simplify example in dt-binding for led-consumer.yaml
+- This series now depends on: https://lore.kernel.org/all/20250910104702.7470-1-hansg@kernel.org/
+- Link to v3: https://lore.kernel.org/r/20250908-leds-v3-0-5944dc400668@vinarskis.com
 
-diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-index 0a7c308dec365263bbb7aa5f5cd306dbeacfd3f1..b27f60fbd527146027eebd4bb7b1f8a0a82b3af2 100644
---- a/arch/arm64/boot/dts/qcom/Makefile
-+++ b/arch/arm64/boot/dts/qcom/Makefile
-@@ -30,6 +30,10 @@ dtb-$(CONFIG_ARCH_QCOM)	+= ipq9574-rdp449.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= ipq9574-rdp453.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= ipq9574-rdp454.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= lemans-evk.dtb
-+
-+lemans-evk-camera-dtbs	:= lemans-evk.dtb lemans-evk-camera.dtbo
-+
-+dtb-$(CONFIG_ARCH_QCOM)	+= lemans-evk-camera.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8216-samsung-fortuna3g.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-acer-a1-724.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-alcatel-idol347.dtb
-diff --git a/arch/arm64/boot/dts/qcom/lemans-evk-camera.dtso b/arch/arm64/boot/dts/qcom/lemans-evk-camera.dtso
-new file mode 100644
-index 0000000000000000000000000000000000000000..629992ced9b13b23505fc20562929a0ed17a9566
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/lemans-evk-camera.dtso
-@@ -0,0 +1,101 @@
-+// SPDX-License-Identifier: BSD-3-Clause
-+/*
-+ * Copyright (c) 2024-2025 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+/*
-+ * Camera Sensor overlay on top of LeMans EVK Core Kit.
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/clock/qcom,sa8775p-camcc.h>
-+#include <dt-bindings/gpio/gpio.h>
-+
-+&{/} {
-+	vreg_cam1_1p8: vreg_cam1_1p8 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vreg_cam1_1p8";
-+		startup-delay-us = <10000>;
-+		enable-active-high;
-+		gpio = <&pmm8654au_0_gpios 8 GPIO_ACTIVE_HIGH>;
-+	};
-+};
-+
-+&camss {
-+	vdda-pll-supply = <&vreg_l1c>;
-+	vdda-phy-supply = <&vreg_l4a>;
-+
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			csiphy1_ep: endpoint {
-+				clock-lanes = <7>;
-+				data-lanes = <0 1 2 3>;
-+				remote-endpoint = <&imx577_ep1>;
-+			};
-+		};
-+	};
-+};
-+
-+&cci1 {
-+	pinctrl-0 = <&cci1_0_default>;
-+	pinctrl-1 = <&cci1_0_sleep>;
-+
-+	status = "okay";
-+};
-+
-+&cci1_i2c0 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	camera@1a {
-+		compatible = "sony,imx577";
-+		reg = <0x1a>;
-+
-+		reset-gpios = <&tlmm 133 GPIO_ACTIVE_LOW>;
-+		pinctrl-0 = <&cam1_default>;
-+		pinctrl-names = "default";
-+
-+		clocks = <&camcc CAM_CC_MCLK1_CLK>;
-+		assigned-clocks = <&camcc CAM_CC_MCLK1_CLK>;
-+		assigned-clock-rates = <24000000>;
-+
-+		dovdd-supply = <&vreg_s4a>;
-+		avdd-supply = <&vreg_cam1_1p8>;
-+
-+		port {
-+			imx577_ep1: endpoint {
-+				clock-lanes = <7>;
-+				link-frequencies = /bits/ 64 <600000000>;
-+				data-lanes = <0 1 2 3>;
-+				remote-endpoint = <&csiphy1_ep>;
-+			};
-+		};
-+	};
-+};
-+
-+&tlmm {
-+	cam1_default: cam1-default-state {
-+		mclk-pins {
-+			pins = "gpio73";
-+			function = "cam_mclk";
-+			drive-strength = <2>;
-+			bias-disable;
-+		};
-+
-+		rst-pins {
-+			pins = "gpio133";
-+			function = "gpio";
-+			drive-strength = <2>;
-+			bias-disable;
-+		};
-+	};
-+};
+Changes in v3:
+- Drop unnecessary 'dev->of_node' check by Andy
+- Keep 'panic-indicator;' in DT by Konrad
+- Fix property/property-name order by Konrad
+- Add missing 'led-names' enum definition for video devices by Rob
+- Add oneOf to 'leds' to avoid conflict with nodes of same name by Rob
+- Link to v2: https://lore.kernel.org/r/20250905-leds-v2-0-ed8f66f56da8@vinarskis.com
 
+Changes in v2:
+- Fixed mailing issue
+- Fixed wrong R-by, add my missing sign-off
+- Elaborated cover letter/commits descriptions to better describe why
+  this is needed, and why trigger-source could not be used instead
+- dt-bindings: expanded schema description, fixed s/phandle/phandle-array/,
+  expanded the example
+- dt-bindings: added patch to commonize 'leds' from other schemas
+- leds: dropped wrapper, dropped exporting of private functions
+- dts: added patch to utilize privacy-led on Lenovo Thinkpad x13s
+- Link to v1: https://lore.kernel.org/all/010201990a1f5ad8-fc97fc84-9ef9-4a03-bf1c-2d54423c6497-000000@eu-west-1.amazonses.com/
+
+---
+Aleksandrs Vinarskis (3):
+      dt-bindings: leds: add generic LED consumer documentation
+      dt-bindings: leds: commonize leds property
+      arm64: dts: qcom: sc8280xp-x13s: enable camera privacy indicator
+
+Hans de Goede (1):
+      leds: led-class: Add devicetree support to led_get()
+
+ .../bindings/leds/backlight/led-backlight.yaml     |  6 +-
+ .../devicetree/bindings/leds/leds-consumer.yaml    | 67 ++++++++++++++++++++++
+ .../bindings/leds/leds-group-multicolor.yaml       |  5 +-
+ .../bindings/media/video-interface-devices.yaml    |  8 +++
+ .../dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts     |  8 +--
+ drivers/leds/led-class.c                           | 17 +++++-
+ 6 files changed, 96 insertions(+), 15 deletions(-)
+---
+base-commit: 3db46a82d467bd23d9ebc473d872a865785299d8
+change-id: 20250902-leds-c61c877add80
+prerequisite-message-id: <20250910104702.7470-1-hansg@kernel.org>
+prerequisite-patch-id: 429eb224c966424b458a7179e10e1f3172408eb8
+
+Best regards,
 -- 
-2.34.1
+Aleksandrs Vinarskis <alex@vinarskis.com>
 
 
