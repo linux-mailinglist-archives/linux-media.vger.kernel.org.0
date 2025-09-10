@@ -1,135 +1,131 @@
-Return-Path: <linux-media+bounces-42205-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42206-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5604EB51671
-	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 14:02:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC38B51686
+	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 14:06:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E3A941C845FC
-	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 12:02:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7859D1C81975
+	for <lists+linux-media@lfdr.de>; Wed, 10 Sep 2025 12:06:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F18D531AF3B;
-	Wed, 10 Sep 2025 12:01:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 535613112CF;
+	Wed, 10 Sep 2025 12:06:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="nxKIfJms"
+	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="fM7clJ7t";
+	dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b="fM7clJ7t"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-43172.protonmail.ch (mail-43172.protonmail.ch [185.70.43.172])
+Received: from mail.mleia.com (mleia.com [178.79.152.223])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9564831A541;
-	Wed, 10 Sep 2025 12:01:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F52C28C87C;
+	Wed, 10 Sep 2025 12:06:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.79.152.223
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757505697; cv=none; b=DBTxQfPmBGVsJ5o5jFyrExhp8zbveWAj9wJJv/WnVLA67sO+6QeEpbZTJ2kYuyJSzu/PRl3aHEBGc0nlFYXadD6Jz8BhpFBSRNU0/IHSMe2YQQ43VVwMITnRiKygGf1/RbAp+Djh4lWsLVxl6McLYcEmrQmomaoZLAwoFAcgSu8=
+	t=1757505987; cv=none; b=FMOFC/O4wlLTBd8BuW94tACgNaIhbvgdoH5Rldn3Fl/3Kbf5Fq3W4LZWsLWMPimqrNsbz8mMgopwmJwAWF2wAsOKYC7A3d8aUfDnpy1sUCDSqhgYIQdQrteNQPa/sPykgYLWrz1BV0P5t7EUrh8sFVZ+8iiEnBSX3Etg6SYK47k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757505697; c=relaxed/simple;
-	bh=MrJ75K5TTGWsUdBgpB6wcSaOrHL0GEx8YvZLO6OHvZk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rxSDRm8ua2DAZPHm+HWoB28wbZMgrBSpxHY7TQyajRThobv8R89aE7LEDG6iGorpCzgN//5uttV2B3kHt1W5JiN7lDreKLanLpdLf5RbI5YqrfdrmDPWGwy+kykh4ialP6ebhqHsLTVh65Nj2xkBHkrACli36b2dvKcGPBfSzSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=nxKIfJms; arc=none smtp.client-ip=185.70.43.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinarskis.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
-	s=protonmail; t=1757505693; x=1757764893;
-	bh=WVAZkSDamM6pxbj/GVHH3PYvdQm8SxrqzkK9f4jXnr4=;
-	h=From:Date:Subject:Message-Id:References:In-Reply-To:To:Cc:From:To:
-	 Cc:Date:Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector;
-	b=nxKIfJms1/EPDF2HS5xwwb92MGQcXOgW2xAGSYKO/aN/nXCtVgdV3Enh+sRkKQUCW
-	 GJKVFanLebo5nyF8tsDPxP1ZcVI7WkSVHgCdJ24MF70Jgfj415Q68R6DMCv6/DXkRV
-	 621U8c31AWGcuCDgahqmXkLmctcUaynRXqFKJTrXtEvOwpMGKzjesvdHy0EgwhIHOR
-	 7+oNt9iwzgFR3DuHD57ZitUZokapfRDD8/hnyw4C98CSHb/7o/Vb792ZawfF9K5t6c
-	 iFulP+8RheD46veqhco7YwO7VdCyJ4v/ArX+4evMd1H55kzMxZsiOtJfcRbIBs82Q9
-	 uaY5OE7SPUUIw==
-X-Pm-Submission-Id: 4cMK6L5h8sz2ScCs
-From: Aleksandrs Vinarskis <alex@vinarskis.com>
-Date: Wed, 10 Sep 2025 14:01:11 +0200
-Subject: [PATCH v5 4/4] arm64: dts: qcom: sc8280xp-x13s: enable camera
- privacy indicator
+	s=arc-20240116; t=1757505987; c=relaxed/simple;
+	bh=n8uo/+X4cJWRjA9CXCXEuKfSuSoKhT15GXPbuvWzaqQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Mj3rcYOTL2iX+QL/nbWX/PCTZmd3m8/cBVd7pQv4x0JcWJqGAu/LTFUqpJ+bsbrXAFQC91FsPfGMIxMcWjECsNUP0TqCehLnrMEZrHwySYciUlYoHfGd8CaIggG+FILyVDPNLpIVdpcKU2kKu3y4GTw1DY/HDnkMaDT/+VLuOC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com; spf=none smtp.mailfrom=mleia.com; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=fM7clJ7t; dkim=pass (2048-bit key) header.d=mleia.com header.i=@mleia.com header.b=fM7clJ7t; arc=none smtp.client-ip=178.79.152.223
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mleia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=mleia.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
+	t=1757505977; bh=n8uo/+X4cJWRjA9CXCXEuKfSuSoKhT15GXPbuvWzaqQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fM7clJ7toOc7mAASUwV4oG6CSnxTHXzJco8Az+lZJRTs6yUjutvvpeZpX/LUN72py
+	 VyH8thYEgQfE2dPgCt8Xm03yYsK0hqGMhN71/cjjS4AiRtV+4A+XgEuQ1HSesJkWnD
+	 vsCTIw9ibOOA+dkIlTihpnlWXSBM5a6BiRKS0ihcsovC33Z9wm2rCdEpgw330cgaRV
+	 JUNN99dHdvSA8NR1e2MnQ2+0KeJbfVE0kvdZbUHQPmgFsU4xaQdrR0iU4PRV2yZ9dX
+	 iUf5SvqrD90Nz/LVxfu5tFvrh0yqp7KL7hGlFT3g4V/M80mJoXFwjrw2D63wU5c5du
+	 evGigoG1lhYxw==
+Received: from mail.mleia.com (localhost [127.0.0.1])
+	by mail.mleia.com (Postfix) with ESMTP id C56D33D364D;
+	Wed, 10 Sep 2025 12:06:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mleia.com; s=mail;
+	t=1757505977; bh=n8uo/+X4cJWRjA9CXCXEuKfSuSoKhT15GXPbuvWzaqQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=fM7clJ7toOc7mAASUwV4oG6CSnxTHXzJco8Az+lZJRTs6yUjutvvpeZpX/LUN72py
+	 VyH8thYEgQfE2dPgCt8Xm03yYsK0hqGMhN71/cjjS4AiRtV+4A+XgEuQ1HSesJkWnD
+	 vsCTIw9ibOOA+dkIlTihpnlWXSBM5a6BiRKS0ihcsovC33Z9wm2rCdEpgw330cgaRV
+	 JUNN99dHdvSA8NR1e2MnQ2+0KeJbfVE0kvdZbUHQPmgFsU4xaQdrR0iU4PRV2yZ9dX
+	 iUf5SvqrD90Nz/LVxfu5tFvrh0yqp7KL7hGlFT3g4V/M80mJoXFwjrw2D63wU5c5du
+	 evGigoG1lhYxw==
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi [91.159.24.186])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mail.mleia.com (Postfix) with ESMTPSA id 35B4F3D348C;
+	Wed, 10 Sep 2025 12:06:17 +0000 (UTC)
+Message-ID: <e526e93e-1373-4f1e-82ab-6b22d68211cd@mleia.com>
+Date: Wed, 10 Sep 2025 15:06:12 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/4] dt-bindings: media: ti,ds90ub953: Add new property
+ ti,gpio-data
+To: Guoniu Zhou <guoniu.zhou@nxp.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250910-ds90ub953-v1-0-a7813ffbdf11@nxp.com>
+ <20250910-ds90ub953-v1-1-a7813ffbdf11@nxp.com>
+From: Vladimir Zapolskiy <vz@mleia.com>
+In-Reply-To: <20250910-ds90ub953-v1-1-a7813ffbdf11@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250910-leds-v5-4-bb90a0f897d5@vinarskis.com>
-References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
-In-Reply-To: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
-To: Hans de Goede <hansg@kernel.org>, Lee Jones <lee@kernel.org>, 
- Pavel Machek <pavel@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Jingoo Han <jingoohan1@gmail.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Jean-Jacques Hiblot <jjhiblot@traphandler.com>, 
- Jacopo Mondi <jacopo@jmondi.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, 
- Daniel Thompson <danielt@kernel.org>
-Cc: linux-leds@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- threeway@gmail.com, Andy Shevchenko <andy.shevchenko@gmail.com>, 
- Aleksandrs Vinarskis <alex@vinarskis.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1659; i=alex@vinarskis.com;
- h=from:subject:message-id; bh=MrJ75K5TTGWsUdBgpB6wcSaOrHL0GEx8YvZLO6OHvZk=;
- b=owGbwMvMwCX2dl3hIv4AZgHG02pJDBkHMyZI+928Yv/w+vEmlnVHGMUzT96w4z3xpjjAf0fiw
- iVm4VeVOkpZGMS4GGTFFFm6/3xN61o0dy3DdY1vMHNYmUCGMHBxCsBEonYzMry5dl/8gPvelMuL
- ZLWYY9kOrpq5e/+lqzohM8uP/ZuRVOjKyHCOm938QuKrFRNtdtgKT1mwYN7krlWSkpJ53VV+hR9
- ipHgB
-X-Developer-Key: i=alex@vinarskis.com; a=openpgp;
- fpr=8E21FAE2D2967BB123303E8C684FD4BA28133815
+X-CRM114-Version: 20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-49551924 
+X-CRM114-CacheID: sfid-20250910_120617_825763_E76A8A58 
+X-CRM114-Status: GOOD (  10.98  )
 
-Leverage newly introduced 'leds' and 'led-names' properties to pass
-indicator's phandle and function to v4l2 subnode. The latter supports
-privacy led since couple of years ago under 'privacy-led' designation.
-Unlike initially proposed trigger-source based approach, this solution
-cannot be easily bypassed from userspace, thus reducing privacy
-concerns.
+On 9/10/25 12:44, Guoniu Zhou wrote:
+> Add new property ti,gpio-data to let user select ds90ub953 gpio output
+> remote data coming from the compatible deserializer.
+> 
+> Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+> ---
+>   Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml | 10 ++++++++++
+>   1 file changed, 10 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml
+> index 2e129bf573b79e0ca8f25b4ec5fc6ea76c50abd7..7c3144677f11004468ed3a3fba74e6eee2d259d2 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml
+> @@ -26,6 +26,16 @@ properties:
+>   
+>     gpio-controller: true
+>   
+> +  ti,gpio-data:
+> +    $ref: /schemas/types.yaml#/definitions/uint8
+> +    default: 0
+> +    minimum: 0
+> +    maximum: 15
+> +    description: |
+> +      Program each gpio pin to output remote data coming from compatible
+> +      deserializer using the LOCAL_GPIO_DATA[7:4] register. This property
+> +      has to be a '/bits/ 8' value.
+> +
 
-Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
----
- arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+No, this shall be done as a GPIO controller function of the IC, and not
+as a hardcoded (!) custom property.
 
-diff --git a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-index 637430719e6d7d3c0eeb4abf2b80eea1f8289530..3b3f7137689a6fa292ffe4fec8c1d1f20ee525bc 100644
---- a/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-+++ b/arch/arm64/boot/dts/qcom/sc8280xp-lenovo-thinkpad-x13s.dts
-@@ -83,14 +83,11 @@ leds {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cam_indicator_en>;
- 
--		led-camera-indicator {
--			label = "white:camera-indicator";
-+		privacy_led: privacy-led {
- 			function = LED_FUNCTION_INDICATOR;
- 			color = <LED_COLOR_ID_WHITE>;
- 			gpios = <&tlmm 28 GPIO_ACTIVE_HIGH>;
--			linux,default-trigger = "none";
- 			default-state = "off";
--			/* Reuse as a panic indicator until we get a "camera on" trigger */
- 			panic-indicator;
- 		};
- 	};
-@@ -685,6 +682,9 @@ camera@10 {
- 		pinctrl-names = "default";
- 		pinctrl-0 = <&cam_rgb_default>;
- 
-+		leds = <&privacy_led>;
-+		led-names = "privacy";
-+
- 		clocks = <&camcc CAMCC_MCLK3_CLK>;
- 
- 		orientation = <0>;	/* Front facing */
+>     clocks:
+>       maxItems: 1
+>       description:
+> 
+
+NAK, the approach is wrong.
 
 -- 
-2.48.1
-
+Best wishes,
+Vladimir
 
