@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-42305-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42304-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 04EB2B52E95
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 12:35:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9056CB52E92
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 12:34:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 982145A3017
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 10:35:08 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3DB2E5A2E50
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 10:34:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2475C314A9D;
-	Thu, 11 Sep 2025 10:30:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8A3A320CB4;
+	Thu, 11 Sep 2025 10:30:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="p4wHUX3n"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="ZvzVwytd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
+Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56E9F313E2B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2200B320A10;
 	Thu, 11 Sep 2025 10:30:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757586642; cv=none; b=R9LcIMoznSP9GWxwkk24BToWlzI0iZSexhO14ujksPufcSA96LsPNdzE/9vnuE7CulqTnaFhHgqcl6jwGuVZO9xNyTrMaCxnblw6Oayv4xYNwqCibaDxkai9Rd5VI2sh3dZxjJCPO78tbUInJ+10ZQk6zWtMZUsrGNZT52rwFTY=
+	t=1757586641; cv=none; b=AAWEu3Ar9cJmoiaT25rq4RoIzUNsv5zCQAKz1VFlndtljVCVmR6MbBlaUFHleKxhXqv9bSYTUi+0EosFQFUn5xgY2sFc5K252KrOQXaEixzEXjLBkwVDb2+y/Fp70JvkTxJv+/pBpX6ZDFYGPmYTvBImfS7lEsruxGeqagwAsdU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757586642; c=relaxed/simple;
-	bh=wcv/yuJXsjH3Dbu1OjLNr4e0vAv5beeb/5Gkk4AP2fI=;
+	s=arc-20240116; t=1757586641; c=relaxed/simple;
+	bh=bwChe9M04wi2DKcHP8P+Zpd3slwllET4L7DjRo99g4s=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CedeO+k2i/83YyLxi4QXOo0Ibu8KewBtBWxcYLhZ62FHE+y0XCzRniHsgMheMFnHNav4sQZJV4V6wxNNYKY9wJrpotYKoRPz6Uomu8m58sdopYadLgQmb7tbwkwKy4Ieq9+buEMUSuTbUjNXJGIib4zDcZoMEsBRlEp6c0rSq80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=p4wHUX3n; arc=none smtp.client-ip=198.47.19.245
+	 MIME-Version:Content-Type; b=bpBQHySle8L2IeBdRKXA3E3OSdM8xrHVsqmuWBVRAc2b+Jp5TnkHfxetbNpTsklLHaPeLiuKkZxnWwa2h1qXBFfyAbFJzLnJlSp3x4y0dx8OZaCp2Xt/lTrYQjPXC1c8InKyMr10ZjHB7z9FhZNo9melX2fCyJNz0U+1yCjROHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=ZvzVwytd; arc=none smtp.client-ip=198.47.23.234
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58BAUIX5273541;
-	Thu, 11 Sep 2025 05:30:18 -0500
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58BAUPJq356058;
+	Thu, 11 Sep 2025 05:30:25 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1757586618;
-	bh=wyk0iOCO2C9gbXR4bLbd2UVCDCrVo7otWVB1PBsf1WE=;
+	s=ti-com-17Q1; t=1757586625;
+	bh=enCFKc6uvm/ChuS8244VOlhvp3e6MaYSiMhrUaGKduQ=;
 	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=p4wHUX3nXJGiE6gjhOhHIvhd49qyASx9d7LZHcyMHV9GCOcDPzLOhuduK7oHYzheP
-	 YfGJUtwa+KjcRQjm4SlXLMfp9pCojrl8MJYTeTeFENgqKJHBqrFv0uXvA4UgOU0c34
-	 0WHObtXhA/w6GQD0jEaCj2msOzBpwDP7UfojKJXc=
-Received: from DFLE111.ent.ti.com (dfle111.ent.ti.com [10.64.6.32])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58BAUIbq1093895
+	b=ZvzVwytdRNrI+OQpVdMUxhBVyoqoasUiLuelqTTXAKa2siyBf2x7wTJpp9Lxnbk5h
+	 tjBobwgU9ZCP69636afrqORg5LF3ifMmk641XBYAUMjmMS5ZIM79H1mI32g2nSVA9W
+	 tTU74vdI3NJZwuOpBpEeN05MktQvFZTek5/DF+u4=
+Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58BAUP0N1877216
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Thu, 11 Sep 2025 05:30:18 -0500
-Received: from DFLE202.ent.ti.com (10.64.6.60) by DFLE111.ent.ti.com
- (10.64.6.32) with Microsoft SMTP Server (version=TLS1_2,
+	Thu, 11 Sep 2025 05:30:25 -0500
+Received: from DLEE203.ent.ti.com (157.170.170.78) by DLEE114.ent.ti.com
+ (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 11
- Sep 2025 05:30:18 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE202.ent.ti.com
- (10.64.6.60) with Microsoft SMTP Server (version=TLS1_2,
+ Sep 2025 05:30:25 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE203.ent.ti.com
+ (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 11 Sep 2025 05:30:18 -0500
+ Transport; Thu, 11 Sep 2025 05:30:25 -0500
 Received: from ws.dhcp.ti.com (ws.dhcp.ti.com [172.24.233.149])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58BASXbs1985821;
-	Thu, 11 Sep 2025 05:30:11 -0500
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58BASXbt1985821;
+	Thu, 11 Sep 2025 05:30:18 -0500
 From: Rishikesh Donadkar <r-donadkar@ti.com>
 To: <jai.luthra@linux.dev>, <laurent.pinchart@ideasonboard.com>,
         <mripard@kernel.org>
@@ -68,9 +68,9 @@ CC: <r-donadkar@ti.com>, <y-abhilashchandra@ti.com>, <devarsht@ti.com>,
         <jack.zhu@starfivetech.com>, <sjoerd@collabora.com>,
         <hverkuil+cisco@kernel.org>, <linux-kernel@vger.kernel.org>,
         <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
-Subject: [PATCH v7 14/16] media: cadence: csi2rx: Support runtime PM
-Date: Thu, 11 Sep 2025 15:58:30 +0530
-Message-ID: <20250911102832.1583440-15-r-donadkar@ti.com>
+Subject: [PATCH v7 15/16] media: ti: j721e-csi2rx: Support runtime suspend
+Date: Thu, 11 Sep 2025 15:58:31 +0530
+Message-ID: <20250911102832.1583440-16-r-donadkar@ti.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20250911102832.1583440-1-r-donadkar@ti.com>
 References: <20250911102832.1583440-1-r-donadkar@ti.com>
@@ -84,269 +84,164 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-From: Changhuang Liang <changhuang.liang@starfivetech.com>
+From: Jai Luthra <jai.luthra@ideasonboard.com>
 
-Use runtime power management hooks to save power when CSI-RX is not in
-use.
+Add support for runtime power-management to enable powering off the
+shared power domain between Cadence CSI2RX and TI CSI2RX wrapper when
+the device(s) are not in use.
 
-Signed-off-by: Changhuang Liang <changhuang.liang@starfivetech.com>
+When powering off the IP, the PSI-L endpoint loses the paired DMA
+channels. Thus we have to release the DMA channels at runtime suspend
+and request them again at resume.
+
 Tested-by: Rishikesh Donadkar <r-donadkar@ti.com>
 Reviewed-by: Rishikesh Donadkar <r-donadkar@ti.com>
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
 ---
- drivers/media/platform/cadence/Kconfig       |   1 +
- drivers/media/platform/cadence/cdns-csi2rx.c | 129 ++++++++++++-------
- 2 files changed, 83 insertions(+), 47 deletions(-)
+ drivers/media/platform/ti/Kconfig             |  1 +
+ .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 55 ++++++++++++++++++-
+ 2 files changed, 54 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/platform/cadence/Kconfig b/drivers/media/platform/cadence/Kconfig
-index 1aa608c00dbc..ea85ef82760e 100644
---- a/drivers/media/platform/cadence/Kconfig
-+++ b/drivers/media/platform/cadence/Kconfig
-@@ -5,6 +5,7 @@ comment "Cadence media platform drivers"
- config VIDEO_CADENCE_CSI2RX
- 	tristate "Cadence MIPI-CSI2 RX Controller"
- 	depends on VIDEO_DEV
+diff --git a/drivers/media/platform/ti/Kconfig b/drivers/media/platform/ti/Kconfig
+index 3bc4aa35887e..a808063e2477 100644
+--- a/drivers/media/platform/ti/Kconfig
++++ b/drivers/media/platform/ti/Kconfig
+@@ -70,6 +70,7 @@ config VIDEO_TI_J721E_CSI2RX
+ 	depends on VIDEO_CADENCE_CSI2RX
+ 	depends on PHY_CADENCE_DPHY_RX || COMPILE_TEST
+ 	depends on ARCH_K3 || COMPILE_TEST
 +	depends on PM
- 	select MEDIA_CONTROLLER
- 	select VIDEO_V4L2_SUBDEV_API
+ 	select VIDEOBUF2_DMA_CONTIG
  	select V4L2_FWNODE
-diff --git a/drivers/media/platform/cadence/cdns-csi2rx.c b/drivers/media/platform/cadence/cdns-csi2rx.c
-index 11b73c79adff..fce9397448cd 100644
---- a/drivers/media/platform/cadence/cdns-csi2rx.c
-+++ b/drivers/media/platform/cadence/cdns-csi2rx.c
-@@ -343,11 +343,6 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
- 	u32 reg;
- 	int ret;
+ 	help
+diff --git a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+index 69d091cdd05f..7a6e9a9d6c19 100644
+--- a/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
++++ b/drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c
+@@ -13,6 +13,7 @@
+ #include <linux/module.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
++#include <linux/pm_runtime.h>
+ #include <linux/property.h>
  
--	ret = clk_prepare_enable(csi2rx->p_clk);
--	if (ret)
--		return ret;
--
--	reset_control_deassert(csi2rx->p_rst);
- 	csi2rx_reset(csi2rx);
+ #include <media/cadence/cdns-csi2rx.h>
+@@ -963,12 +964,16 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	unsigned long flags;
+ 	int ret = 0;
  
- 	if (csi2rx->error_irq >= 0)
-@@ -388,7 +383,7 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
- 		if (ret) {
- 			dev_err(csi2rx->dev,
- 				"Failed to configure external DPHY: %d\n", ret);
--			goto err_disable_pclk;
-+			return ret;
- 		}
- 	}
- 
-@@ -403,12 +398,6 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
- 	 * hence the reference counting.
- 	 */
- 	for (i = 0; i < csi2rx->max_streams; i++) {
--		ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
--		if (ret)
--			goto err_disable_pixclk;
--
--		reset_control_deassert(csi2rx->pixel_rst[i]);
--
- 		writel(CSI2RX_STREAM_CFG_FIFO_MODE_LARGE_BUF |
- 			       FIELD_PREP(CSI2RX_STREAM_CFG_NUM_PIXELS_MASK,
- 					  csi2rx->num_pixels[i]),
-@@ -421,30 +410,8 @@ static int csi2rx_start(struct csi2rx_priv *csi2rx)
- 		       csi2rx->base + CSI2RX_STREAM_CTRL_REG(i));
- 	}
- 
--	ret = clk_prepare_enable(csi2rx->sys_clk);
--	if (ret)
--		goto err_disable_pixclk;
--
--	reset_control_deassert(csi2rx->sys_rst);
--
--	clk_disable_unprepare(csi2rx->p_clk);
- 
- 	return 0;
--
--err_disable_pixclk:
--	for (; i > 0; i--) {
--		reset_control_assert(csi2rx->pixel_rst[i - 1]);
--		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
--	}
--
--	if (csi2rx->dphy) {
--		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
--		phy_power_off(csi2rx->dphy);
--	}
--err_disable_pclk:
--	clk_disable_unprepare(csi2rx->p_clk);
--
--	return ret;
- }
- 
- static void csi2rx_stop(struct csi2rx_priv *csi2rx)
-@@ -453,10 +420,6 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
- 	u32 val;
- 	int ret;
- 
--	clk_prepare_enable(csi2rx->p_clk);
--	reset_control_assert(csi2rx->sys_rst);
--	clk_disable_unprepare(csi2rx->sys_clk);
--
- 	writel(0, csi2rx->base + CSI2RX_ERROR_IRQS_MASK_REG);
- 
- 	for (i = 0; i < csi2rx->max_streams; i++) {
-@@ -471,14 +434,8 @@ static void csi2rx_stop(struct csi2rx_priv *csi2rx)
- 		if (ret)
- 			dev_warn(csi2rx->dev,
- 				 "Failed to stop streaming on pad%u\n", i);
--
--		reset_control_assert(csi2rx->pixel_rst[i]);
--		clk_disable_unprepare(csi2rx->pixel_clk[i]);
- 	}
- 
--	reset_control_assert(csi2rx->p_rst);
--	clk_disable_unprepare(csi2rx->p_clk);
--
- 	if (csi2rx->dphy) {
- 		writel(0, csi2rx->base + CSI2RX_DPHY_LANE_CTRL_REG);
- 
-@@ -555,10 +512,17 @@ static int csi2rx_enable_streams(struct v4l2_subdev *subdev,
- 	 * enable the whole controller.
- 	 */
- 	if (!csi2rx->count) {
-+		ret = pm_runtime_resume_and_get(csi2rx->dev);
-+		if (ret < 0)
-+			return ret;
-+
- 		csi2rx_update_vc_select(csi2rx, state);
-+
- 		ret = csi2rx_start(csi2rx);
--		if (ret)
-+		if (ret) {
-+			pm_runtime_put(csi2rx->dev);
- 			return ret;
-+		}
- 	}
- 
- 	/* Start streaming on the source */
-@@ -568,8 +532,10 @@ static int csi2rx_enable_streams(struct v4l2_subdev *subdev,
- 		dev_err(csi2rx->dev,
- 			"Failed to start streams %#llx on subdev\n",
- 			sink_streams);
--		if (!csi2rx->count)
-+		if (!csi2rx->count) {
- 			csi2rx_stop(csi2rx);
-+			pm_runtime_put(csi2rx->dev);
-+		}
- 		return ret;
- 	}
- 
-@@ -597,8 +563,10 @@ static int csi2rx_disable_streams(struct v4l2_subdev *subdev,
- 	csi2rx->count--;
- 
- 	/* Let the last user turn off the lights. */
--	if (!csi2rx->count)
-+	if (!csi2rx->count) {
- 		csi2rx_stop(csi2rx);
-+		pm_runtime_put(csi2rx->dev);
-+	}
- 
- 	return 0;
- }
-@@ -1101,6 +1069,7 @@ static int csi2rx_probe(struct platform_device *pdev)
- 	if (ret)
- 		goto err_cleanup;
- 
-+	pm_runtime_enable(csi2rx->dev);
- 	ret = v4l2_async_register_subdev(&csi2rx->subdev);
- 	if (ret < 0)
- 		goto err_free_state;
-@@ -1115,6 +1084,7 @@ static int csi2rx_probe(struct platform_device *pdev)
- 
- err_free_state:
- 	v4l2_subdev_cleanup(&csi2rx->subdev);
-+	pm_runtime_disable(csi2rx->dev);
- err_cleanup:
- 	v4l2_async_nf_unregister(&csi2rx->notifier);
- 	v4l2_async_nf_cleanup(&csi2rx->notifier);
-@@ -1133,9 +1103,73 @@ static void csi2rx_remove(struct platform_device *pdev)
- 	v4l2_async_unregister_subdev(&csi2rx->subdev);
- 	v4l2_subdev_cleanup(&csi2rx->subdev);
- 	media_entity_cleanup(&csi2rx->subdev.entity);
-+	pm_runtime_disable(csi2rx->dev);
- 	kfree(csi2rx);
- }
- 
-+static int csi2rx_runtime_suspend(struct device *dev)
-+{
-+	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
-+	unsigned int i;
-+
-+	reset_control_assert(csi2rx->sys_rst);
-+	clk_disable_unprepare(csi2rx->sys_clk);
-+
-+	for (i = 0; i < csi2rx->max_streams; i++) {
-+		reset_control_assert(csi2rx->pixel_rst[i]);
-+		clk_disable_unprepare(csi2rx->pixel_clk[i]);
-+	}
-+
-+	reset_control_assert(csi2rx->p_rst);
-+	clk_disable_unprepare(csi2rx->p_clk);
-+
-+	return 0;
-+}
-+
-+static int csi2rx_runtime_resume(struct device *dev)
-+{
-+	struct csi2rx_priv *csi2rx = dev_get_drvdata(dev);
-+	unsigned int i;
-+	int ret;
-+
-+	ret = clk_prepare_enable(csi2rx->p_clk);
++	ret = pm_runtime_resume_and_get(csi->dev);
 +	if (ret)
 +		return ret;
 +
-+	reset_control_deassert(csi2rx->p_rst);
+ 	spin_lock_irqsave(&dma->lock, flags);
+ 	if (list_empty(&dma->queue))
+ 		ret = -EIO;
+ 	spin_unlock_irqrestore(&dma->lock, flags);
+ 	if (ret)
+-		return ret;
++		goto err;
+ 
+ 	ret = video_device_pipeline_start(&ctx->vdev, &csi->pipe);
+ 	if (ret)
+@@ -1024,6 +1029,8 @@ static int ti_csi2rx_start_streaming(struct vb2_queue *vq, unsigned int count)
+ 	writel(0, csi->shim + SHIM_DMACNTX(ctx->idx));
+ err:
+ 	ti_csi2rx_cleanup_buffers(ctx, VB2_BUF_STATE_QUEUED);
++	pm_runtime_put(csi->dev);
 +
-+	for (i = 0; i < csi2rx->max_streams; i++) {
-+		ret = clk_prepare_enable(csi2rx->pixel_clk[i]);
-+		if (ret)
-+			goto err_disable_pixclk;
+ 	return ret;
+ }
+ 
+@@ -1055,6 +1062,7 @@ static void ti_csi2rx_stop_streaming(struct vb2_queue *vq)
+ 
+ 	ti_csi2rx_stop_dma(ctx);
+ 	ti_csi2rx_cleanup_buffers(ctx, VB2_BUF_STATE_ERROR);
++	pm_runtime_put(csi->dev);
+ }
+ 
+ static const struct vb2_ops csi_vb2_qops = {
+@@ -1263,7 +1271,9 @@ static void ti_csi2rx_cleanup_notifier(struct ti_csi2rx_dev *csi)
+ 
+ static void ti_csi2rx_cleanup_ctx(struct ti_csi2rx_ctx *ctx)
+ {
+-	dma_release_channel(ctx->dma.chan);
++	if (!pm_runtime_status_suspended(ctx->csi->dev))
++		dma_release_channel(ctx->dma.chan);
 +
-+		reset_control_deassert(csi2rx->pixel_rst[i]);
-+	}
+ 	vb2_queue_release(&ctx->vidq);
+ 
+ 	video_unregister_device(&ctx->vdev);
+@@ -1519,6 +1529,39 @@ static int ti_csi2rx_init_ctx(struct ti_csi2rx_ctx *ctx)
+ 	return ret;
+ }
+ 
++static int ti_csi2rx_runtime_suspend(struct device *dev)
++{
++	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
++	int i;
 +
-+	ret = clk_prepare_enable(csi2rx->sys_clk);
-+	if (ret)
-+		goto err_disable_pixclk;
++	if (csi->enable_count != 0)
++		return -EBUSY;
 +
-+	reset_control_deassert(csi2rx->sys_rst);
++	for (i = 0; i < csi->num_ctx; i++)
++		dma_release_channel(csi->ctx[i].dma.chan);
 +
 +	return 0;
-+
-+err_disable_pixclk:
-+	for (; i > 0; i--) {
-+		reset_control_assert(csi2rx->pixel_rst[i - 1]);
-+		clk_disable_unprepare(csi2rx->pixel_clk[i - 1]);
-+	}
-+
-+	reset_control_assert(csi2rx->p_rst);
-+	clk_disable_unprepare(csi2rx->p_clk);
-+
-+	return ret;
 +}
 +
-+static const struct dev_pm_ops csi2rx_pm_ops = {
-+	RUNTIME_PM_OPS(csi2rx_runtime_suspend, csi2rx_runtime_resume, NULL)
++static int ti_csi2rx_runtime_resume(struct device *dev)
++{
++	struct ti_csi2rx_dev *csi = dev_get_drvdata(dev);
++	int ret, i;
++
++	for (i = 0; i < csi->num_ctx; i++) {
++		ret = ti_csi2rx_init_dma(&csi->ctx[i]);
++		if (ret)
++			return ret;
++	}
++
++	return 0;
++}
++
++static const struct dev_pm_ops ti_csi2rx_pm_ops = {
++	RUNTIME_PM_OPS(ti_csi2rx_runtime_suspend, ti_csi2rx_runtime_resume,
++		       NULL)
 +};
 +
- static const struct of_device_id csi2rx_of_table[] = {
- 	{ .compatible = "starfive,jh7110-csi2rx" },
- 	{ .compatible = "cdns,csi2rx" },
-@@ -1150,6 +1184,7 @@ static struct platform_driver csi2rx_driver = {
- 	.driver	= {
- 		.name		= "cdns-csi2rx",
- 		.of_match_table	= csi2rx_of_table,
-+		.pm		= &csi2rx_pm_ops,
+ static int ti_csi2rx_probe(struct platform_device *pdev)
+ {
+ 	struct device_node *np = pdev->dev.of_node;
+@@ -1586,6 +1629,10 @@ static int ti_csi2rx_probe(struct platform_device *pdev)
+ 		goto err_notifier;
+ 	}
+ 
++	pm_runtime_set_active(csi->dev);
++	pm_runtime_enable(csi->dev);
++	pm_request_idle(csi->dev);
++
+ 	return 0;
+ 
+ err_notifier:
+@@ -1616,6 +1663,9 @@ static void ti_csi2rx_remove(struct platform_device *pdev)
+ 	mutex_destroy(&csi->mutex);
+ 	dma_free_coherent(csi->dev, csi->drain.len, csi->drain.vaddr,
+ 			  csi->drain.paddr);
++	pm_runtime_disable(&pdev->dev);
++	pm_runtime_set_suspended(&pdev->dev);
++
+ }
+ 
+ static const struct of_device_id ti_csi2rx_of_match[] = {
+@@ -1630,6 +1680,7 @@ static struct platform_driver ti_csi2rx_pdrv = {
+ 	.driver = {
+ 		.name = TI_CSI2RX_MODULE_NAME,
+ 		.of_match_table = ti_csi2rx_of_match,
++		.pm		= &ti_csi2rx_pm_ops,
  	},
  };
- module_platform_driver(csi2rx_driver);
+ 
 -- 
 2.34.1
 
