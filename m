@@ -1,215 +1,180 @@
-Return-Path: <linux-media+bounces-42312-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42313-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CE75B52FE8
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 13:18:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 51751B53082
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 13:34:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1DDBC1CC0A5E
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 11:17:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EC1D63AFBE4
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 11:33:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6BF1220F2C;
-	Thu, 11 Sep 2025 11:14:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9F96331B114;
+	Thu, 11 Sep 2025 11:33:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="rShC73/S"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FuT4EEy7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 876E521E0AD;
-	Thu, 11 Sep 2025 11:14:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF2DA1D5146;
+	Thu, 11 Sep 2025 11:33:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757589292; cv=none; b=AIqx6qBDRlL1T9aixlYe9ORHZJ1ZVbOWIq+5CXbNdXgNsdT3D6tUnu7h8AbrlNpmY+v63kNudrI4VSaLpSLx3Vq5Zm8R/HRfCVmgZ5EMB1/jb26dMvx8IyGVNma+4auhT7PF2zqsr3HN9jANYuAN96d74nhxb/q3nxGAEtaxfPw=
+	t=1757590426; cv=none; b=kk0PSyC3CBWehFgaNcTwY9jYVldnOwNuz8sijdaedWRmrkro0VgicXdAjvnMLkZomBTxiH82Rce4GR81Av8O4Frmh9vjGu0Is/6CQzD6m8XaDIQi2ziihKa79lXESFkHFUeGtp6R790iJuciS43Z8WRyA52UeGWFwQg3ZISfURg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757589292; c=relaxed/simple;
-	bh=eAdrPAZ3GXawVrWkGJf8v4SUTpXlecWFN6x2lLuoKj8=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=ulXKQdi8PHYHi4WyLEN1TRncaLhDCn/iRwX3HVmKRhnOgpKkyimX+dL9bNHOzBYhZ2jnUTNpaA4vugIq9MSjLMA5KllM5QGXVDWfTwfhiG9u3D4o6T0eRx44W2g5+58SyqSx9H+2SfISLL9SmLWESg7Gewau3qNRFKjPDRe0CdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=rShC73/S; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id D43BF520;
-	Thu, 11 Sep 2025 13:13:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757589212;
-	bh=eAdrPAZ3GXawVrWkGJf8v4SUTpXlecWFN6x2lLuoKj8=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=rShC73/SnWCxDLamRpbzde6a0RXH0p6QSXaoLAU80dDcD/WvJt3OhVXNrcrkWXHeK
-	 zpV0lRGq4dRE8SDlnMWEszRv02lfouospTRvME529tD03Q1f1sAnKd0V84d7se6Nva
-	 iK/IRFs8VEVS52ciTeX8SUA/aqoAhyA3ACCW9gPw=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1757590426; c=relaxed/simple;
+	bh=rQckTyKjw0KD4frgMJweuSbbmKII/CXI2ZszG9S0ebs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U6r+sd997FKa1DqdMj3Sc5DRndOJdMWwbIAjRqFhmmOh7EA2aFz8ODHjjcXGrPYcwSwpUTbhIgGSUyJFos1T3BPaqLOpLkFcfpl9JxwGZtUG5JYk+gxEK2f5hlxpd0XUW/vLREPA18gLm72arJUJM9YWehVubJo4qE6mfr9PEGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FuT4EEy7; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8AA16C4CEF0;
+	Thu, 11 Sep 2025 11:33:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757590425;
+	bh=rQckTyKjw0KD4frgMJweuSbbmKII/CXI2ZszG9S0ebs=;
+	h=From:To:Cc:Subject:Date:From;
+	b=FuT4EEy7c2rpuhn+Sige2uAlDkOrkz0Lap5ivExfloCc8AME0HL8VSQ8H3UwFNeaR
+	 9fB4KpiIyvlKO0Mc6EqzzcjStHt9HwZxefXK5c4OSHBV1BfBOdi/Qgn/D4foBcqAkX
+	 GX0QmwP27iI6x4/DoqmrxuGWKvL4HzTkQnzcMldl1K3KWC3r0rxckuzcOcGbH0C68P
+	 Gff1WrmpKE8q6LHavcC0Hj59QeofoCmTmSKbW1fDGc0hVf+IKcTrrJ4EUlc7PRbVSu
+	 K+5OL4HtbfwI0vGfKMqPgZMnbUhDWmIfQqwnHWly4QSaPNELWGd1mGrWq7s1xnjalJ
+	 cQTAN3mxPpl8g==
+From: Leon Romanovsky <leon@kernel.org>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org,
+	iommu@lists.linux.dev,
+	Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>,
+	kvm@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-block@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	linux-mm@kvack.org,
+	linux-pci@vger.kernel.org,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Will Deacon <will@kernel.org>
+Subject: [PATCH v2 00/10] vfio/pci: Allow MMIO regions to be exported through dma-buf
+Date: Thu, 11 Sep 2025 14:33:04 +0300
+Message-ID: <cover.1757589589.git.leon@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250911-imx335_binning-v2-5-30a28df74df6@ideasonboard.com>
-References: <20250911-imx335_binning-v2-0-30a28df74df6@ideasonboard.com> <20250911-imx335_binning-v2-5-30a28df74df6@ideasonboard.com>
-Subject: Re: [PATCH v2 5/8] media: imx335: Handle runtime PM in leaf functions
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, Tommaso Merciai <tomm.merciai@gmail.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>
-Date: Thu, 11 Sep 2025 12:14:45 +0100
-Message-ID: <175758928516.1246375.13284167198046981915@ping.linuxembedded.co.uk>
-User-Agent: alot/0.9.1
+Content-Transfer-Encoding: 8bit
 
-Quoting Jai Luthra (2025-09-11 09:14:21)
-> Simplify .s_stream callback implementation by moving the runtime PM
-> calls to the leaf functions. This patch should not affect any
-> functionality.
->=20
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+Changelog:
+v2:
+ * Added extra patch which adds new CONFIG, so next patches can reuse it.
+ * Squashed "PCI/P2PDMA: Remove redundant bus_offset from map state"
+   into the other patch.
+ * Fixed revoke calls to be aligned with true->false semantics.
+ * Extended p2pdma_providers to be per-BAR and not global to whole
+   device.
+ * Fixed possible race between dmabuf states and revoke.
+ * Moved revoke to PCI BAR zap block.
+v1: https://lore.kernel.org/all/cover.1754311439.git.leon@kernel.org
+ * Changed commit messages.
+ * Reused DMA_ATTR_MMIO attribute.
+ * Returned support for multiple DMA ranges per-dMABUF.
+v0: https://lore.kernel.org/all/cover.1753274085.git.leonro@nvidia.com
 
-Looks reasonable to me and although the stop_streaming function changes
-to no longer return a value - it was previously unused so no functional
-change indeed as far as I can see:
+---------------------------------------------------------------------------
+Based on "[PATCH v6 00/16] dma-mapping: migrate to physical address-based API"
+https://lore.kernel.org/all/cover.1757423202.git.leonro@nvidia.com/ series.
+---------------------------------------------------------------------------
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+This series extends the VFIO PCI subsystem to support exporting MMIO
+regions from PCI device BARs as dma-buf objects, enabling safe sharing of
+non-struct page memory with controlled lifetime management. This allows RDMA
+and other subsystems to import dma-buf FDs and build them into memory regions
+for PCI P2P operations.
 
-> ---
->  drivers/media/i2c/imx335.c | 51 ++++++++++++++++++++--------------------=
-------
->  1 file changed, 22 insertions(+), 29 deletions(-)
->=20
-> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-> index 62a76517ecb263a4fd7e7a593c02a3cdaf3da190..7631f41e6f1e65695fb76a66d=
-9ac5a3588c69658 100644
-> --- a/drivers/media/i2c/imx335.c
-> +++ b/drivers/media/i2c/imx335.c
-> @@ -919,13 +919,17 @@ static int imx335_start_streaming(struct imx335 *im=
-x335)
->         const struct imx335_reg_list *reg_list;
->         int ret;
-> =20
-> +       ret =3D pm_runtime_resume_and_get(imx335->dev);
-> +       if (ret < 0)
-> +               return ret;
-> +
->         /* Setup PLL */
->         reg_list =3D &link_freq_reglist[__ffs(imx335->link_freq_bitmap)];
->         ret =3D cci_multi_reg_write(imx335->cci, reg_list->regs,
->                                   reg_list->num_of_regs, NULL);
->         if (ret) {
->                 dev_err(imx335->dev, "%s failed to set plls\n", __func__);
-> -               return ret;
-> +               goto err_rpm_put;
->         }
-> =20
->         /* Write sensor mode registers */
-> @@ -934,27 +938,27 @@ static int imx335_start_streaming(struct imx335 *im=
-x335)
->                                   reg_list->num_of_regs, NULL);
->         if (ret) {
->                 dev_err(imx335->dev, "fail to write initial registers\n");
-> -               return ret;
-> +               goto err_rpm_put;
->         }
-> =20
->         ret =3D imx335_set_framefmt(imx335);
->         if (ret) {
->                 dev_err(imx335->dev, "%s failed to set frame format: %d\n=
-",
->                         __func__, ret);
-> -               return ret;
-> +               goto err_rpm_put;
->         }
-> =20
->         /* Configure lanes */
->         ret =3D cci_write(imx335->cci, IMX335_REG_LANEMODE,
->                         imx335->lane_mode, NULL);
->         if (ret)
-> -               return ret;
-> +               goto err_rpm_put;
-> =20
->         /* Setup handler will write actual exposure and gain */
->         ret =3D  __v4l2_ctrl_handler_setup(imx335->sd.ctrl_handler);
->         if (ret) {
->                 dev_err(imx335->dev, "fail to setup handler\n");
-> -               return ret;
-> +               goto err_rpm_put;
->         }
-> =20
->         /* Start streaming */
-> @@ -962,25 +966,29 @@ static int imx335_start_streaming(struct imx335 *im=
-x335)
->                         IMX335_MODE_STREAMING, NULL);
->         if (ret) {
->                 dev_err(imx335->dev, "fail to start streaming\n");
-> -               return ret;
-> +               goto err_rpm_put;
->         }
-> =20
->         /* Initial regulator stabilization period */
->         usleep_range(18000, 20000);
-> =20
->         return 0;
-> +
-> +err_rpm_put:
-> +       pm_runtime_put(imx335->dev);
-> +
-> +       return ret;
->  }
-> =20
->  /**
->   * imx335_stop_streaming() - Stop sensor stream
->   * @imx335: pointer to imx335 device
-> - *
-> - * Return: 0 if successful, error code otherwise.
->   */
-> -static int imx335_stop_streaming(struct imx335 *imx335)
-> +static void imx335_stop_streaming(struct imx335 *imx335)
->  {
-> -       return cci_write(imx335->cci, IMX335_REG_MODE_SELECT,
-> -                        IMX335_MODE_STANDBY, NULL);
-> +       cci_write(imx335->cci, IMX335_REG_MODE_SELECT,
-> +                 IMX335_MODE_STANDBY, NULL);
-> +       pm_runtime_put(imx335->dev);
->  }
-> =20
->  /**
-> @@ -993,30 +1001,15 @@ static int imx335_stop_streaming(struct imx335 *im=
-x335)
->  static int imx335_set_stream(struct v4l2_subdev *sd, int enable)
->  {
->         struct imx335 *imx335 =3D to_imx335(sd);
-> -       int ret;
-> +       int ret =3D 0;
-> =20
->         mutex_lock(&imx335->mutex);
-> =20
-> -       if (enable) {
-> -               ret =3D pm_runtime_resume_and_get(imx335->dev);
-> -               if (ret)
-> -                       goto error_unlock;
-> -
-> +       if (enable)
->                 ret =3D imx335_start_streaming(imx335);
-> -               if (ret)
-> -                       goto error_power_off;
-> -       } else {
-> +       else
->                 imx335_stop_streaming(imx335);
-> -               pm_runtime_put(imx335->dev);
-> -       }
-> -
-> -       mutex_unlock(&imx335->mutex);
-> =20
-> -       return 0;
-> -
-> -error_power_off:
-> -       pm_runtime_put(imx335->dev);
-> -error_unlock:
->         mutex_unlock(&imx335->mutex);
-> =20
->         return ret;
->=20
-> --=20
-> 2.51.0
->
+The series supports a use case for SPDK where a NVMe device will be
+owned by SPDK through VFIO but interacting with a RDMA device. The RDMA
+device may directly access the NVMe CMB or directly manipulate the NVMe
+device's doorbell using PCI P2P.
+
+However, as a general mechanism, it can support many other scenarios with
+VFIO. This dmabuf approach can be usable by iommufd as well for generic
+and safe P2P mappings.
+
+In addition to the SPDK use-case mentioned above, the capability added
+in this patch series can also be useful when a buffer (located in device
+memory such as VRAM) needs to be shared between any two dGPU devices or
+instances (assuming one of them is bound to VFIO PCI) as long as they
+are P2P DMA compatible.
+
+The implementation provides a revocable attachment mechanism using dma-buf
+move operations. MMIO regions are normally pinned as BARs don't change
+physical addresses, but access is revoked when the VFIO device is closed
+or a PCI reset is issued. This ensures kernel self-defense against
+potentially hostile userspace.
+
+The series includes significant refactoring of the PCI P2PDMA subsystem
+to separate core P2P functionality from memory allocation features,
+making it more modular and suitable for VFIO use cases that don't need
+struct page support.
+
+-----------------------------------------------------------------------
+The series is based originally on
+https://lore.kernel.org/all/20250307052248.405803-1-vivek.kasireddy@intel.com/
+but heavily rewritten to be based on DMA physical API.
+-----------------------------------------------------------------------
+The WIP branch can be found here:
+https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-vfio-v2
+
+Thanks
+
+Leon Romanovsky (8):
+  PCI/P2PDMA: Separate the mmap() support from the core logic
+  PCI/P2PDMA: Simplify bus address mapping API
+  PCI/P2PDMA: Refactor to separate core P2P functionality from memory
+    allocation
+  PCI/P2PDMA: Export pci_p2pdma_map_type() function
+  types: move phys_vec definition to common header
+  vfio/pci: Add dma-buf export config for MMIO regions
+  vfio/pci: Enable peer-to-peer DMA transactions by default
+  vfio/pci: Add dma-buf export support for MMIO regions
+:wqa
+Vivek Kasireddy (2):
+  vfio: Export vfio device get and put registration helpers
+  vfio/pci: Share the core device pointer while invoking feature
+    functions
+
+ block/blk-mq-dma.c                 |   7 +-
+ drivers/iommu/dma-iommu.c          |   4 +-
+ drivers/pci/p2pdma.c               | 165 ++++++++----
+ drivers/vfio/pci/Kconfig           |  20 ++
+ drivers/vfio/pci/Makefile          |   2 +
+ drivers/vfio/pci/vfio_pci_config.c |  22 +-
+ drivers/vfio/pci/vfio_pci_core.c   |  59 +++--
+ drivers/vfio/pci/vfio_pci_dmabuf.c | 398 +++++++++++++++++++++++++++++
+ drivers/vfio/pci/vfio_pci_priv.h   |  23 ++
+ drivers/vfio/vfio_main.c           |   2 +
+ include/linux/pci-p2pdma.h         | 114 +++++----
+ include/linux/types.h              |   5 +
+ include/linux/vfio.h               |   2 +
+ include/linux/vfio_pci_core.h      |   4 +
+ include/uapi/linux/vfio.h          |  25 ++
+ kernel/dma/direct.c                |   4 +-
+ mm/hmm.c                           |   2 +-
+ 17 files changed, 734 insertions(+), 124 deletions(-)
+ create mode 100644 drivers/vfio/pci/vfio_pci_dmabuf.c
+
+-- 
+2.51.0
+
 
