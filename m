@@ -1,162 +1,325 @@
-Return-Path: <linux-media+bounces-42289-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42291-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E9FF0B52E24
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 12:16:29 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B4ED9B52E70
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 12:32:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A0CBF3BD7D1
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 10:16:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5D8581C86BD5
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 10:32:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98705310630;
-	Thu, 11 Sep 2025 10:16:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C1C743115A0;
+	Thu, 11 Sep 2025 10:29:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="eAM12sLK"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="VNrwbj7X"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672B123BD02
-	for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 10:16:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E09930C354;
+	Thu, 11 Sep 2025 10:29:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757585762; cv=none; b=aKDyu11mUBrzoraUGQroCbMwQeiDB/5U7jC9SL8LxrcRARSGd7G6xC53rciCbO3YQHlt+Co2X6ammtyDdRWP/FJry/7USySEbFPhvEDOwmhIpFnCGfMV2OYx3xyMrxXJowLsRV0wLkhO01Wx+qtXKDfKgNLXXhUHhYa01b4ssG8=
+	t=1757586568; cv=none; b=G3Kgo4mFxn97l7ezZqMAorOrMgFx7Q4/MkqsrIyYUmWgM5ScsNMOVe9uETz98SImkC+RMKk8xAUFTcCxKW3Bl643KOQnxSgQ4JLCtCLmJtU98DvaYQrjTOhHgfT9mzceBid+EPOGrdjmz0ryikp1MKF2++McuiBPnXpYAQIA+KQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757585762; c=relaxed/simple;
-	bh=ca2ySU4dyYlyOWJGaxHKU1ZLVW/b67pBynQ6HDMkqQY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WKay1iYgT+aXQ9xaW3UZYZQWqoIbhBoNoQ2x631hSaSTkwrmXZDrUhInjysfQdiwXsi9LZk7S9IY5WBfZ5B21jka9wWPIMpGboDFY5nzTRlxZqdfzDgyY5Cfeu5Y7bxBNpQJL74rM5GFN0lt9jUcHsbuNxdDYzBO42TO0DArG3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=eAM12sLK; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58B2IuJm002518
-	for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 10:15:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=oph/BqXdzMBPwBrMip4MvFuk
-	jtsewo8GJDCyXuPq3cc=; b=eAM12sLKRw7iHA4nK7P0RsTQpfsV6QY9XETeZn3G
-	UVIE2cPKj7JMqzAzfTrqecqCZw8BRXTrfl0dv7VkVDpH2gdQwye0xgVxCfwxn3vg
-	e8IXG0wo/pnmkmPYNxf1kgY8PeBawUXunhzz5IkfZFWwd3h+qYudDviRl8VIIzeo
-	fKk2qDnJrPGMt5JeBWs7B7tMV30KtgxXNw1yWd0iHH14snWTAhF2dbKy0JDp8A0p
-	8BAyy12bbX/BBo5O4pK1oyM6j/o1EVr6O3H5jKZlyIshw7yTR7s8sFAeKwKbbQ9G
-	mu/gGN3eK6Kj6NLxqc6l5nbM5WevE352xJjwO4goTBplNA==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490db8q9cy-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 10:15:59 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4b5e9b60ce6so15892481cf.2
-        for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 03:15:59 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757585758; x=1758190558;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oph/BqXdzMBPwBrMip4MvFukjtsewo8GJDCyXuPq3cc=;
-        b=hDS3pQFXAczYr9RrC8OORl1h5yWiJ1DuFjPWbx2wpogV2Lwf3uzFjVIg1wY7kRys8J
-         Savew2QvEgphrXOEA50XiIjIgFH6R0XAIZvVguKOEPB8ze756uWxQIOnl74Wt8M8XQNs
-         XTG3eIjFRIqfvD6ASukS++X3Emov2R5/5rsPCg8M4n0p2UYbdOFQRd/YVcYO42+WLs1m
-         v/ZpzaKtqJhnrzpqxCLugqjTH9+SVSdqL2BEK7feUA5myABOY7y7XYtGclmitfjpL05+
-         s/BK03MrK5uWCu1ctXoxwAj4W469tc87V/hLcbN1Ew5PepZ99JdBDydvHJrybAE7XVb6
-         yohA==
-X-Forwarded-Encrypted: i=1; AJvYcCXQhslFX8hY5JROLbaAPR6tRTpe5ikJJOcOnyzBYRT2X/8Fpv80URx52/pO/Qcx/4n13pPdoM2QJjvlhQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6thV249v+Un4Z1HgmgHj/vsBTtbEFLbWqlXMzHUMhzCD0mR3W
-	pfwMFCDNh47nn0Kp32Qwcfl6HnDnek3Y8+L/68fNl93EweX4QgrWCGbQdnb1fX5BYVsZEc57NsS
-	G1bJ5bYyH4WOm5Wkufvs8vydHay7X4TvmR3gHsJ/gbxCDMZpzvuz41jhCvbwP09zW0Q==
-X-Gm-Gg: ASbGnctGs8ZqhSaTnF6UpamOdCTWJXDzR0rytqTdIxdUDdtgMZa5L1A4reaadNlKbOq
-	7dbUcdrcGNXUQ6LlYipxZFdfVJiK42BB7qfvl9CoUYAlpvZv8lXACgrGOm1k4Jblw45KHgqaEQ7
-	m/nVmzhMaVnkw2HxmtKEUAtu1d3oTx1tdIhr8Stdo1AYo4s7XH3cetakZCY0aWUzJWi9wLXaSYr
-	kXn/j3L52qS3KNRMU+jMwUFJdpy3ut1y5XmTiG2BN1M2yTOnig6zfn9AafJQhkZSK/bPBC6mA2x
-	SgMxb+oFnBxuvJ9Ug1Cv07/8B7Bk34/B+a5bR4TFJvmxw1vdB22+2RCFUM/Kqa2D+w+8FA3cV0x
-	LitaA93kA0AN8nCWRRjKftBRr7pgQFInSc9iWvIFBVRINsXUhD87R
-X-Received: by 2002:a05:622a:a953:10b0:4b0:8890:105e with SMTP id d75a77b69052e-4b621507117mr87845231cf.2.1757585758267;
-        Thu, 11 Sep 2025 03:15:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE+FP/EvbksufoGB7yZt87mFGo9Mn7VdVzO2soInO78NzAyreFx9DhQ6rNkNHS/PzrUOKTl/g==
-X-Received: by 2002:a05:622a:a953:10b0:4b0:8890:105e with SMTP id d75a77b69052e-4b621507117mr87844921cf.2.1757585757776;
-        Thu, 11 Sep 2025 03:15:57 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-56e65d11926sm321542e87.140.2025.09.11.03.15.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 03:15:56 -0700 (PDT)
-Date: Thu, 11 Sep 2025 13:15:55 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Wenmeng Liu <quic_wenmliu@qualcomm.com>
-Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>, todor.too@gmail.com,
-        bryan.odonoghue@linaro.org, vladimir.zapolskiy@linaro.org,
-        linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Subject: Re: [PATCH v4 3/3] arm64: dts: qcom: lemans-evk-camera: Add DT
- overlay
-Message-ID: <srawt2oh3hcevopcrvpnmbocw4wknaytyvxt6yjmnet3yujupr@ub3t36ffbrcx>
-References: <20250910-camss_rb8-v4-0-28f44e1880b8@oss.qualcomm.com>
- <20250910-camss_rb8-v4-3-28f44e1880b8@oss.qualcomm.com>
- <u437qomhok4yg6pef4xttd3a6zibuybzaeys33gxu5frbyp2kp@mgmym6c5dr72>
- <8b194a19-182f-4f49-9427-c0044a9b4dfe@qualcomm.com>
+	s=arc-20240116; t=1757586568; c=relaxed/simple;
+	bh=Pa3T9CD86CniqpLGRmc3QhKXiw9OEiy1ZSKkbHCt+MI=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=GWEIhDaECK7YLS48q4/ugLTfKDYIfyWxQk4NHhz3eLjqdaa1JPVLIeWjhxbSxWYb4raTXzclf+Xpg+gCcEA47DZ838O6inkE1VS98EtFA+CiOdij93wSfroGU4tVn535tqBe8+ZoFAVf7/aBUiS/09hBHznXSnVYstmoWk3tW20=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=VNrwbj7X; arc=none smtp.client-ip=198.47.19.245
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58BASf6B273328;
+	Thu, 11 Sep 2025 05:28:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1757586521;
+	bh=8yP2HiFDeTQcblcHvBsZphoo/SWdYfYKcCYjtYb8jkQ=;
+	h=From:To:CC:Subject:Date;
+	b=VNrwbj7XjwLiydcEwqq4Dc5A01uH38yQeUmLwuJMlRPsr/T/7E3bwgaKLUL6rM/n8
+	 pc+t87TQPzCLtl93g8aDwk9do5xqkdpqW1hypUoMsaxYDihlmEE9OqDdsEpn99Ltz5
+	 8P3EGT/UvWXRssqK26TKtkRvia3oYxcJmcswWWwY=
+Received: from DFLE102.ent.ti.com (dfle102.ent.ti.com [10.64.6.23])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58BASfiI1875266
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
+	Thu, 11 Sep 2025 05:28:41 -0500
+Received: from DFLE209.ent.ti.com (10.64.6.67) by DFLE102.ent.ti.com
+ (10.64.6.23) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Thu, 11
+ Sep 2025 05:28:40 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE209.ent.ti.com
+ (10.64.6.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Thu, 11 Sep 2025 05:28:40 -0500
+Received: from ws.dhcp.ti.com (ws.dhcp.ti.com [172.24.233.149])
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58BASXbe1985821;
+	Thu, 11 Sep 2025 05:28:34 -0500
+From: Rishikesh Donadkar <r-donadkar@ti.com>
+To: <jai.luthra@linux.dev>, <laurent.pinchart@ideasonboard.com>,
+        <mripard@kernel.org>
+CC: <r-donadkar@ti.com>, <y-abhilashchandra@ti.com>, <devarsht@ti.com>,
+        <s-jain1@ti.com>, <vigneshr@ti.com>, <mchehab@kernel.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <p.zabel@pengutronix.de>,
+        <conor+dt@kernel.org>, <sakari.ailus@linux.intel.com>,
+        <hverkuil-cisco@xs4all.nl>, <tomi.valkeinen@ideasonboard.com>,
+        <jai.luthra@ideasonboard.com>, <changhuang.liang@starfivetech.com>,
+        <jack.zhu@starfivetech.com>, <sjoerd@collabora.com>,
+        <hverkuil+cisco@kernel.org>, <linux-kernel@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>
+Subject: [PATCH v7 00/16] media: cadence,ti: CSI2RX Multistream Support
+Date: Thu, 11 Sep 2025 15:58:16 +0530
+Message-ID: <20250911102832.1583440-1-r-donadkar@ti.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8b194a19-182f-4f49-9427-c0044a9b4dfe@qualcomm.com>
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzMSBTYWx0ZWRfX/vFy1YUs9gEV
- 4lijDZpweBFez/1iuiqQVUtT+UXt2TJ698rVCFvrhCR/ecw1b51reqyP7v7IuayJmoWW0Cmw6e0
- d526QE1GjRwIaIljXPRpzW/4oAMAlkR1V273rbfEndNIs1zi6BV10vj/nrI2B+aDLa5JUAbcsrr
- kEmGDfO8oIUz+Xr8FII4o5XAi6PD5OMUDI4C30pwSHfsuXc0a91UByHw/Ep2pkfJ6MplRSvWLza
- +sMwEb8qFOuh7JdeiL86K+LV2j20Cn9Vies/1yCH2M5PqpNlszdEIcZ+YEq7s5pi0Ka21zhubfr
- QbP1Ob37unfvOgaI8THJYMxi+8ymkU3O4T5J/u/biLLgP8CJFV124Bustd4iM639ORvuVdim1R5
- numtVSKt
-X-Proofpoint-ORIG-GUID: 7_LEWOE_uJ_L7-jYFjVC7y0Tp5gqpR1f
-X-Proofpoint-GUID: 7_LEWOE_uJ_L7-jYFjVC7y0Tp5gqpR1f
-X-Authority-Analysis: v=2.4 cv=VIDdn8PX c=1 sm=1 tr=0 ts=68c2a15f cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=yJojWOMRYYMA:10 a=lHPSLNiHg4AawE14pKwA:9 a=CjuIK1q_8ugA:10
- a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-10_04,2025-09-11_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
- phishscore=0 adultscore=0 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060031
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-On Thu, Sep 11, 2025 at 01:45:59PM +0800, Wenmeng Liu wrote:
-> 
-> 
-> On 9/10/2025 11:23 PM, Dmitry Baryshkov wrote:
-> > On Wed, Sep 10, 2025 at 07:06:23PM +0800, Wenmeng Liu wrote:
-> > > Enable IMX577 via CCI1 on LeMans EVK Core Kit.
-> > 
-> > Is it a part of the Core Kit? Is it a part of some kind of mezzanine
-> > board? Why is it being enabled as an overlay instead of being a part of
-> > lemans-evk.dts?
-> > 
-> Since the sensor is not part of the default hardware configuration on the
-> core kit, we adopt a device tree overlay solution to enable its integration
-> dynamically.
+This series adds multi-stream support and PM support for Cadence CSI2RX
+and TI CSI2RX SHIM drivers.
 
-This is less helpful than a similar response to the similar monaco-evk
-question.
+PM patches are picked from:
+https://lore.kernel.org/all/20250902-ti_csi_pm-v2-0-59a3be199940@ideasonboard.com/
 
-Is it the only configuration that we are going to support? If not, then
-the overlay should be named accordingly.
+PATCH 01 :    Remove word size alignment restriction on frame width
+PATCH 02-07:  Support multiple DMA contexts/video nodes in TI CSI2RX
+PATCH 08-09:  Use get_frame_desc to propagate virtual channel
+              information across Cadence and TI CSI-RX subdevs
+PATCH 10-11:  Use new multi-stream APIs across the drivers to support
+              multiplexed cameras from sources like UB960 (FPDLink)
+PATCH 12:     Optimize stream on by submitting all queued buffers to DMA
+PATCH 13:     Change the drain architecture to support multi-stream and
+              implement completion barriers for last drain.
+PATCH 14-16:  Runtime PM and System PM support for CSI-RX.
 
-These details should be described in the commit message.
+Testing for this series has been done on top of media tree with 4x IMX219
+camera modules connected to TI's AM62A using V3 Link fusion mini board.
+
+Overlay and defconfig changes for the same can be found below:
+https://github.com/RISHI27-dot/linux/commits/u/multistream_v7/
+
+v4l2-compliance results:
+https://gist.github.com/Rishikesh-D/f51e2e17022cd7fbf449f5ad90ff08ba
+
+---
+Changes in v7:
+
+[PATCH v6 03/16] media: ti: j721e-csi2rx: separate out device and context
+- Resolve bisect test fail because of undefined 'csi' variable
+- Resolve bisect test fail because of 'vdev' not being in scope when used
+[PATCH v6 07/16] media: ti: j721e-csi2rx: get number of contexts from device tree
+- Resolve compiler warning regarding missing error code 'ret'
+[PATCH v6 12/16] media: ti: j721e-csi2rx: Submit all available buffers
+- Remove unused variable
+
+Link to (v6):
+https://lore.kernel.org/all/20250908134729.3940366-1-r-donadkar@ti.com/
+
+---
+Changes in v6:
+
+# New patches in v6:
+
+[PATCH v6 14/16] media: cadence: csi2rx: Support runtime PM
+[PATCH v6 15/16] media: ti: j721e-csi2rx: Support runtime suspend
+[PATCH v6 16/16] media: ti: j721e-csi2rx: Support system suspend
+using pm_notifier
+
+# Changes in patches from v5:
+[PATCH v5 01/16] media: ti: j721e-csi2rx: Remove word size alignment
+on frame width
+- Remove restrictions on minimum frame width in ti_csi2rx_fill_fmt()
+- Add Reviewed-by from Abhilash
+[PATCH v5 02/16] dt-bindings: media: ti,j721e-csi2rx-shim: Support 32 dma chans
+- No change
+[PATCH v5 03/16] media: ti: j721e-csi2rx: separate out device and context
+- No change
+[PATCH v5 04/16] media: ti: j721e-csi2rx: prepare SHIM code for multiple contexts
+- No change
+[PATCH v5 05/16] media: ti: j721e-csi2rx: allocate DMA channel based on context index
+- No change
+[PATCH v5 06/16] media: ti: j721e-csi2rx: add a subdev for the core device
+- No change
+[PATCH v5 07/16] media: ti: j721e-csi2rx: get number of contexts from device tree
+- Solve compilation warnings
+[PATCH v5 08/16] media: cadence: csi2rx: add get_frame_desc wrapper
+- No change
+[PATCH v5 09/16] media: ti: j721e-csi2rx: add support for processing virtual channels
+- Remove unnecessary call to v4l2_unlock_state()
+[PATCH v5 10/16] media: cadence: csi2rx: add multistream support
+- No change
+[PATCH v5 11/16] media: ti: j721e-csi2rx: add multistream support
+- No change
+[PATCH v5 12/16] media: ti: j721e-csi2rx: Submit all available buffers
+- No change
+[PATCH v5 13/16] media: ti: j721e-csi2rx: Change the drain architecture for multistream
+- Squash implementation of completion barriers for last drain cycle
+- Make struct completion per ctx
+
+Link to (v5):
+https://lore.kernel.org/all/20250825142522.1826188-1-r-donadkar@ti.com/
+
+---
+Changes in v5:
+
+# New patches in v5:
+
+[PATCH v5 01/14] media: ti: j721e-csi2rx: Remove word size alignment
+[PATCH v5 14/14] media: ti: j721e-csi2rx: Wait for the last drain
+
+# Changes in patches from v4:
+
+[PATCH v4 01/12] dt-bindings: media: ti,j721e-csi2rx-shim: Support 32 dma chans
+- No change
+[PATCH v4 02/12] media: ti: j721e-csi2rx: separate out device and context
+- No change
+[PATCH v4 03/12] media: ti: j721e-csi2rx: prepare SHIM code for multiple contexts
+- No change
+[PATCH v4 04/12] media: ti: j721e-csi2rx: allocate DMA channel based on context index
+- No change
+[PATCH v4 05/12] media: ti: j721e-csi2rx: add a subdev for the core device
+- No change
+[PATCH v4 06/12] media: ti: j721e-csi2rx: get number of contexts from device tree
+- No change
+[PATCH v4 07/12] media: cadence: csi2rx: add get_frame_desc wrapper
+- No change
+[PATCH v4 08/12] media: ti: j721e-csi2rx: add support for processing virtual channels
+- No change
+[PATCH v4 09/12] media: cadence: csi2rx: add multistream support
+- No change
+[PATCH v4 10/12] media: ti: j721e-csi2rx: add multistream support
+- Serialize stream stop
+- Remove the break statement to avoid early return in the loop, as
+  reported by Sjoerd
+[PATCH v4 11/12] media: ti: j721e-csi2rx: Submit all available buffers
+- Delete the list node on DMA error to avoid kernel panic
+[PATCH v4 12/12] media: ti: j721e-csi2rx: Change the drain architecture for multistream
+- Mention about next frame after drain being bogus
+
+Link to (v4):
+  https://lore.kernel.org/all/20250514112527.1983068-1-r-donadkar@ti.com/
+
+Changes in v4:
+
+[PATCH 01/13] dt-bindings: media: ti,j721e-csi2rx-shim: Support 32 dma chans
+  - No change
+[PATCH 02/13] media: ti: j721e-csi2rx: separate out device and context
+  - Add ctx identifier in the dev_err() message
+  - No change
+[PATCH 03/13] media: ti: j721e-csi2rx: prepare SHIM code for multiple contexts
+  - Reduced the name string lenght from 32 chars to 5 chars
+[PATCH 04/13] media: ti: j721e-csi2rx: allocate DMA channel based on context index
+  - No change
+[PATCH 05/13] media: ti: j721e-csi2rx: add a subdev for the core device
+  - Add .enum_mbus_code callback
+  - Replace statically allocated struct with a global static const struct
+    v4l2_mbus_framefmt and used that in the _init_state() function
+[PATCH 06/13] media: ti: j721e-csi2rx: get number of contexts from device tree
+  - Fix the drain buffer being leaked
+  - If the shows more number of ctx than the TI_CSI2RX_MAX_CTX, return an error
+    instead of warning
+[PATCH 07/13] media: cadence: csi2rx: add get_frame_desc wrapper
+  - No change
+[PATCH 08/13] media: ti: j721e-csi2rx: add support for processing virtual channels
+  - Call ti_csi2rx_get_vc() only once on first stream start and cache the VC data in
+    the driver, use the corresponding VC in all subsequent stream starts.
+[PATCH 09/13] media: cadence: csi2rx: Use new enable stream APIs
+[PATCH 10/13] media: cadence: csi2rx: Enable multi-stream support
+  - Squash the above two patches into
+    [PATCH v4 09/12] media: cadence: csi2rx: add multistream support
+  - Use already obtained csi2rx->source_pad in enable_streams() and
+    disable_streams() call
+  - Update commit message with the reason for using a custom helper for s_stream
+    instead of v4l2_subdev_s_stream_helper()
+  - Use v4l2_get_link_freq() variant that takes pad of the source as its first
+    argument instead of the one that takes v4l2_ctrl_handler
+  - Call v4l2_get_link_freq() with bpp = 0 to prevent fallback to V4L2_CID_PIXEL_RATE
+    in multi-stream case
+  - Use lock guards to simplify error handling
+  - Call csi2rx_update_vc_select() at first stream start before enabling the controller
+[PATCH 11/13] media: ti: j721e-csi2rx: add multistream support
+  - No change
+[PATCH 12/13] media: ti: j721e-csi2rx: Submit all available buffers
+  - No change
+[PATCH 13/13] media: ti: j721e-csi2rx: Change the drain architecture for multistream
+  - Fix checkpatch warning
+  - Change commit message to give a better description of the patch
+
+Link to (v3):
+  https://lore.kernel.org/all/20250417065554.437541-1-r-donadkar@ti.com/
+
+Changes in v3:
+
+- Drop [PATCH v2 01/13] media: cadence: csi2rx: Support runtime PM from
+  v2, support for runtime PM will be added in a separate series:
+  https://lore.kernel.org/all/20250224-ti_csi_pm-v1-0-8f8c29ef646d@ideasonboard.com/
+- Change the drain architecture to prevent FIFO overflow in multistream
+  usecases.
+- With the new drain architecture, we don't need the the driver to wait
+  for userspace to start streaming on all "actively routed" video nodes
+  before starting streaming on the source. So, revert back to the capture
+  architecture where streams can be started and stopped independent
+  to each other.
+
+Link to (v2):
+  https://lore.kernel.org/r/20240627-multistream-v2-0-6ae96c54c1c3@ti.com
+
+Changes in v2:
+
+- Change the multi-camera capture architecture to be similar to that of
+  Tomi's RPi5 FE series, where the driver will wait for userspace to
+  start streaming on all "actively routed" video nodes before starting
+  streaming on the source. This simplifies things a lot from the HW
+  perspective, which might run into deadlocks due to a shared FIFO
+  between multiple DMA channels.
+
+- Drop a few fixes that were posted separately and are already merged
+- Fix dtschema warnings reported by Rob on [02/13]
+- Fix warnings for uninitialized `used_vc` variable in cdns-csi2rx.c
+- Return -EBUSY if someone updates routes for j721e-csi2rx subdev while
+  streaming
+- Only allow single-streams to be routed to the source pads (linked to
+  video nodes) of the j721e-csi2rx device
+- Squash the patches marked "SQUASH" in the v1 RFC series
+
+Changhuang Liang (1):
+  media: cadence: csi2rx: Support runtime PM
+
+Jai Luthra (9):
+  dt-bindings: media: ti,j721e-csi2rx-shim: Support 32 dma chans
+  media: ti: j721e-csi2rx: separate out device and context
+  media: ti: j721e-csi2rx: add a subdev for the core device
+  media: ti: j721e-csi2rx: add support for processing virtual channels
+  media: cadence: csi2rx: add multistream support
+  media: ti: j721e-csi2rx: add multistream support
+  media: ti: j721e-csi2rx: Submit all available buffers
+  media: ti: j721e-csi2rx: Support runtime suspend
+  media: ti: j721e-csi2rx: Support system suspend using pm_notifier
+
+Pratyush Yadav (4):
+  media: ti: j721e-csi2rx: prepare SHIM code for multiple contexts
+  media: ti: j721e-csi2rx: allocate DMA channel based on context index
+  media: ti: j721e-csi2rx: get number of contexts from device tree
+  media: cadence: csi2rx: add get_frame_desc wrapper
+
+Rishikesh Donadkar (2):
+  media: ti: j721e-csi2rx: Remove word size alignment on frame width
+  media: ti: j721e-csi2rx: Change the drain architecture for multistream
+
+ .../bindings/media/ti,j721e-csi2rx-shim.yaml  |   39 +-
+ drivers/media/platform/cadence/Kconfig        |    1 +
+ drivers/media/platform/cadence/cdns-csi2rx.c  |  491 +++++--
+ drivers/media/platform/ti/Kconfig             |    1 +
+ .../platform/ti/j721e-csi2rx/j721e-csi2rx.c   | 1167 +++++++++++++----
+ 5 files changed, 1300 insertions(+), 399 deletions(-)
 
 -- 
-With best wishes
-Dmitry
+2.34.1
+
 
