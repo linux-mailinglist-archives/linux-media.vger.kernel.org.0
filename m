@@ -1,1414 +1,369 @@
-Return-Path: <linux-media+bounces-42247-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42246-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7023B527D7
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 06:55:40 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0ACB527CB
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 06:40:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 40F981C800B5
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 04:56:01 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C36871670B4
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 04:40:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D05623D7CA;
-	Thu, 11 Sep 2025 04:55:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 75A8D23B63B;
+	Thu, 11 Sep 2025 04:40:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=passmail.net header.i=@passmail.net header.b="rDtIaOhw"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="SxAIBKM8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-107164.simplelogin.co (mail-107164.simplelogin.co [79.135.107.164])
+Received: from SEVP216CU002.outbound.protection.outlook.com (mail-koreacentralazon11022096.outbound.protection.outlook.com [40.107.43.96])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F22122C86D
-	for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 04:55:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=79.135.107.164
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2A1B282E1;
+	Thu, 11 Sep 2025 04:40:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.43.96
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757566532; cv=pass; b=A9dS+lBCETCUzjiN1qJjLhpnkSslSwX1HbKiFKZV/H2JqaZvxUIQAA3xnoN0eedLN9AxWe+tx0V3BFc3/+WJIgMFl1dlLnjsr93qn0s7YXSDJrVOzbAp3SeA8rOj7P9ppwGzb5Axe7iwm8k9sF/hO+n6kikPQ3zpCvs7KW7X7Uc=
+	t=1757565649; cv=fail; b=tC8U8Eqn6uWsD8SkV4s3/Ko8Zc9c1RlzkXqZJKZggSt87z0oURYCjTuu/wOzsNrHYyVoCAR5qZ8f8+al+ML/sB1QeNWLa16igSEX6+9VCNHroSnKd4V6OpiQQBl+3XxztiAfxRDPcR4NMkWVgFqdL8BUfRkppyTI2uud3J//E6c=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757566532; c=relaxed/simple;
-	bh=h3GKcaLMgwo7xfV/r9jp+dckJNf8JDNK8Xbfx9OC/aU=;
-	h=Date:Subject:In-Reply-To:MIME-Version:Content-Type:From:To:Cc:
-	 Message-ID:References; b=pv4zxKbum2XNglLftYxyC0jEhBdNgUq4b+0s2vwE+CpKHE4KYfyF0ZtBm4IbRVxLyB1aq0ahzcKJtzdopVDj9ICBdiikBwNKyzUMzCn727Mukcef0xUiIee0bxBMl8QcHotTanwrQp41pQK2MkAmLvMPVsOhHNRZAYzFIk0FbHY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=passmail.net; spf=pass smtp.mailfrom=passmail.net; dkim=pass (1024-bit key) header.d=passmail.net header.i=@passmail.net header.b=rDtIaOhw; arc=pass smtp.client-ip=79.135.107.164
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=passmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=passmail.net
-ARC-Seal: i=1; a=rsa-sha256; d=simplelogin.co; s=arc-20230626; t=1757565431;
-	cv=none; b=iDTaSeEgxxp7+ivCeqvzrirWhWKuoQ6f0D93M5EpRqWhtc7XdO1H70KiaEomiZ2226c4diXzBzMrFRNlUS+vGhKGKc6LJMgeDAHd0MMXP5TCpGIQUBAVf6TynFIVszwwjb/Epye5CWSqQS3iJY2fN+4rD+hn9nchbSt5aQm7dU6emv+HkbAEmk++r64QtDzrKYZ85c9B8gVAzIAvHrG2jVPW98U3OqHKnlEHJ/decwYDtdjLcvpDPa57qWKrB6C/1pvEpDPjK80989rFzfwzC+aN6t0xSxOTw5x9vCHJuD84+c8RgyCxtK5pboz+LRqav1wXx4GlG9F0CR+i1DvwNg==
-ARC-Message-Signature: i=1; a=rsa-sha256; d=simplelogin.co; s=arc-20230626;
-	t=1757565431; c=relaxed/simple;
-	bh=h3GKcaLMgwo7xfV/r9jp+dckJNf8JDNK8Xbfx9OC/aU=;
-	h=Date:Subject:In-Reply-To:From:To:Cc:References; b=yS7EBrFm35J26hdExN7/mMZDlAFp1xdMj67UjkHqxKGfh4TCWRTyoHe5vIWY2wDvnLMtpkI3lhx75PPUgdHAfMsDb6fG4JeIIA4+DZejTiiox3EEbjY70nNs3naeFez1akGG0V7W91aaDwNbK23oesQilCQQuIMlHWPtftk4KswmNTQmNwgq8HKr3yWXsqCGy/szZJkecSvM2brLpOfQKn2RtmummX4FiHWSWxaQSTxJZ+0xwf0imOgQKwqQB57XZ3H3x7j2GScLUt3n9VUkWtpRjVoyliKldcqutyju5++GZB6dlVyPXIIz7MO0rRoDT6lJ34HmxzTP+EdXbnv+jA==
-ARC-Authentication-Results: i=1; mail.protonmail.ch
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=passmail.net;
-	s=dkim; t=1757565431;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xtt7r3bcFLqHCOzNqLHfa4vhbaAVK9OjIqLO66L7aOQ=;
-	b=rDtIaOhwQTeNlp3NYBrSFoFS9qPllwvzpvc72CoKG3Yko0Dw4hMvtaetar9N3y5VWRD6s9
-	ITtPqylIb9RRXzGiRkI4MTAfnokfBPCl3OPSjdJlReJ/8EaixmfPvTibWaW28wR3bvG3SS
-	ENziR7p57x5UTKALctkrINB8P10DkfE=
-Date: Thu, 11 Sep 2025 04:37:04 +0000
-Subject: Re: [PATCH] driver/media: add 'com.useeplus.protocol' USB camera V4L2
- driver
-In-Reply-To: <38925b932506d2a6bcd2e2f94b052a7e25694068.camel@ndufresne.ca>
+	s=arc-20240116; t=1757565649; c=relaxed/simple;
+	bh=8uIMw6FN896kDVeVaAdUV6b/+R1qZOyDojxLpa7rLCI=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=UOBIBjxKa8kICadM2U3l3+klpTKJih5w73PHwtZpNPcK8l5nuiEdSvLj+9QqB9zKoJSnPOdUFP9HrfKixmUnDe3sQsyPSUdyqJ9cQJPR9hPneI8vb/PK+kZ6LyZRzxppUs32QCX6qQgBnypuq7u7KTIrzf/VBVOE2s3xtBJW03I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=SxAIBKM8; arc=fail smtp.client-ip=40.107.43.96
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=FOKw2mIOYuMPW9y+0N0duO/4bY5vOzX71LsNMDcX5uapR0Coo90gYOgufqOAOHjQnGhaoNvuTvyTN5AYEPzCOMr4NIIkUaChhSMSwsbui6l3V4cuirmeWnyzlHXZDyEIwbe0gJ5j7izPwqCi2ymqYIVIq7LXul1kkquY1mC1e8RDo1PVygMFRtsxXUttUddS24UQ3eEgs/cbDHbUf6OH+J1LwZYQ2FIuboOXBGK/g+jJvqD8Jf+EtJFo5GyJjhwYSmeUkwA+A4WgeHvI9mp7W/Q2ASzKVXyK4B6TO/mWqMPFg2ECrT3N7sfUb5CcBo4k+zZ+zHJIgXNCey3MQho6WQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8uIMw6FN896kDVeVaAdUV6b/+R1qZOyDojxLpa7rLCI=;
+ b=k1nKHcmbXTAvt8bR+tydJH+Fxyty3czmqF7bzdQmyIn4bQvXVD2AEvMpe8ZrjiVSTm8XNs0bvHw0t47n4pMA45Mb2HnC/oSdh4YgC6GZ/Bev68d11zkFZR/830aD3QgdVPl7XEngvtNcYN6+YNk54MX/FB8F3k8jhbvFxo7ZDWerntR5eRHInKwFkUnYSTbKzMmP3bDpqwH33xoTtMCHCOjac3hIYG0DkYd6kv6ZT2W1sq9dX4Ek/AOkkIhLzOoQ7EEiWXH+bsK0AnUxw5/VnS0Qb8d0d27aroe6ADxUiNVnLqJjKAhpedfZFEiQOkVLNSgK3ffYjZrZqtO5KSFnhw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=8uIMw6FN896kDVeVaAdUV6b/+R1qZOyDojxLpa7rLCI=;
+ b=SxAIBKM8iczsLDTUBQLT/9f4eelaiwfLfOvLaplZVgdWJZHo42BuZ8hM/G7egO/sy518kC41weXIN+X20QqBR9Q402GvEqb5dKvzoExXvskj0qm2FRvXot4d3K0JV6ilr3PpVmXU/2Ly5D1Algshf97PKRCw2ORrGrKQLDOIvNg=
+Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM (2603:1096:101:f::14) by
+ SE1P216MB1963.KORP216.PROD.OUTLOOK.COM (2603:1096:101:f7::11) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9115.17; Thu, 11 Sep 2025 04:40:43 +0000
+Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
+ ([fe80::6dcd:ad0b:394c:954f]) by SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
+ ([fe80::6dcd:ad0b:394c:954f%3]) with mapi id 15.20.9115.015; Thu, 11 Sep 2025
+ 04:40:41 +0000
+From: jackson.lee <jackson.lee@chipsnmedia.com>
+To: Nicolas Dufresne <nicolas.dufresne@collabora.com>, "mchehab@kernel.org"
+	<mchehab@kernel.org>, "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
+	"bob.beckett@collabora.com" <bob.beckett@collabora.com>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, lafley.kim
+	<lafley.kim@chipsnmedia.com>, "b-brnich@ti.com" <b-brnich@ti.com>,
+	"hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, Nas Chung
+	<nas.chung@chipsnmedia.com>
+Subject: RE: [PATCH v3 0/4] Performance improvement of decoder
+Thread-Topic: [PATCH v3 0/4] Performance improvement of decoder
+Thread-Index:
+ AQHb49TXwjYLUfVzYE+ALyQbFMjCk7R6LviAgBCrSJCAAQDgAIAAnXDAgABkgACAAQdBwA==
+Date: Thu, 11 Sep 2025 04:40:41 +0000
+Message-ID:
+ <SLXP216MB1148D8FE67ED0C26D2528269ED09A@SLXP216MB1148.KORP216.PROD.OUTLOOK.COM>
+References: <20250623002153.51-1-jackson.lee@chipsnmedia.com>
+		 <f79ab2a0db0eb4aad20ed488de3635f9d8942cdf.camel@collabora.com>
+		 <SLXP216MB114806E1937625CA3760CA3EED0FA@SLXP216MB1148.KORP216.PROD.OUTLOOK.COM>
+	 <48540d8ee22cf747d2dd591a7869baf1cba6719e.camel@collabora.com>
+	 <SLXP216MB11483F38D23A5BDFC47068EAED0EA@SLXP216MB1148.KORP216.PROD.OUTLOOK.COM>
+ <c14c5a8b309ffcea723cee66430a59ee57b73e5f.camel@collabora.com>
+In-Reply-To: <c14c5a8b309ffcea723cee66430a59ee57b73e5f.camel@collabora.com>
+Accept-Language: ko-KR, en-US
+Content-Language: ko-KR
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SLXP216MB1148:EE_|SE1P216MB1963:EE_
+x-ms-office365-filtering-correlation-id: 84871fe0-fbbf-4ee6-3ba3-08ddf0ed5d3a
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700021;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?ZWhUNGVmQWZzSXA2ZnNuVnZ1NXU5TXVuNHNleWRkWWZxQVN4cGR1L21yWDNE?=
+ =?utf-8?B?V3p0ODNGbjY1NVZSanBZRHlJRy9PZjR0Rktta2pHOHhBbHE5Kyt1WDgxY1JU?=
+ =?utf-8?B?UlRxdE5RUk9NV0JDZXhReWtPWHEyNzVEMDNWNkpFME1HMWpJelVoNFNVK2k0?=
+ =?utf-8?B?UWdxZFdZdWJMby9SZHRzZDQvajdxdUlNMmR1cUpmREp3SDRabVZmdlhEempl?=
+ =?utf-8?B?UklwKzRSSlJOMThOWmM0Z2pIQno3cWxLWnZUQlFHbzNxcHoyWnRHbnUrTmVr?=
+ =?utf-8?B?Zm4yOVR3cUVNYzFpeTM5QzYrU2tYRnlBOTljcnQ3QVRHeFU1NWNCOU50TmZh?=
+ =?utf-8?B?U2s1akpWcjM4Q3VoRk5lZnZUNHlJYUw5YkRUcUljVVBTRjB1U0Q1clUzQnRl?=
+ =?utf-8?B?TEZ1eklYalR1S0orNEVuUklERnFnVGQwSys0RGZsOEZMRkt5K015T21tWGU2?=
+ =?utf-8?B?S2V6Z0paaERNMDdNcUlJdG5ibkE1Q01UTElYdXJXVGtTY05hWUpYZXQycy9p?=
+ =?utf-8?B?elUydzYrN09YcmV1aGZiRmxlT2doa1YwYi9QR29XVEk5RWFMSTVpbWp5Q1Fs?=
+ =?utf-8?B?R3F6QVI4bnJ0TUZPRlJyemNmYW9PTDRObjJvakFla2ZxVURKYmt2M0gvaUVM?=
+ =?utf-8?B?ZG1BR2dUc0NJeXJtS2RMSWlJbGJMUzAxWHVqV3VJalBHbGlGWWt3Z0FNWSts?=
+ =?utf-8?B?YjRSRTJwdGNNa0FmbTBvQkFtMkgwcEZOS3lHU2huSmdZSlNnOUZscGZ6bzll?=
+ =?utf-8?B?dDhXQUtIWVVQTEZ5K1oxS0VyQ3RSOHY2bFBLazBzNy90dG5qV3hoSzluZ0JG?=
+ =?utf-8?B?ZFFUam1idWRZWEVheUkvd2VGT0xQQkYzaHdrQjdaUGhOaW9LMnEvN0s0RUEx?=
+ =?utf-8?B?RmJlclN2bXVSYm9leEQ2b1lOZVpIWXBMNGpydnZLbk9zUkJ2MjRBajVmUWYz?=
+ =?utf-8?B?V0ovclkzUzIwNkErYlc3OFRicExaUTlFbmdqaTYrSHRvQmRiOXlQY1hxcFU2?=
+ =?utf-8?B?U2NoaG52dVZMWjFjbEwzU09qdlBWWE45aUdMd0U5Q2RzR29lZVlzWDFlU3F3?=
+ =?utf-8?B?aDJmUlRQWkJ4NlFFQzJncnRyZWdMeFVKeVhsSWF6STluWmlGSk5lbmlxMlhF?=
+ =?utf-8?B?dEpvMmx2cGhkVmQ5V2ptTVdrcUZ3bmZUYW1LWm82cU50ZFJxSC9PODFBK1lJ?=
+ =?utf-8?B?ZVo1ZnlrWjJkR2NVV3pUWGhiWHJoSmtuZW5OY2lQUHcrM3hkaVUvR1lzc2dW?=
+ =?utf-8?B?eXJQNkF6MkhYbWxaajZiK3FGc3NFVTl5M2Y2MGRBN3pocVQ4M0ZPM3FQaUJF?=
+ =?utf-8?B?VXZoRUdtRTl4bDNkWDllKzBZOHljZTZqL1Y4NloyZm5uM05mVnExdWc0NWJH?=
+ =?utf-8?B?OEZxQTI2cGR2SVgyR1RES3d4UGdPZjdJSFVybmFFck8wc0x4TkpRZ1h1akNQ?=
+ =?utf-8?B?QW1NQXhTK0tkOERDZDYrOUtGMy9lMmZLNE9ucncxTFovbUJmYnNQNEtJNFpt?=
+ =?utf-8?B?blBINmYydzlrbVVIT2tKMHpVdy9YZmZBMXk1cHhORnF2b2dxNmMrRFNubWlG?=
+ =?utf-8?B?azg1V05QVlIrQWdYRG5ucEVkSTBMcjRkVWJ4blk3WkJpTFJZK3ZEYUFxMFpk?=
+ =?utf-8?B?UXhlR2UrVnFHdzc1VzU4UGlPd0ZlY1RIZ0FxU3JlY0xySWRIeUlTeUNSSHdW?=
+ =?utf-8?B?U1lQMjJxcFVUL1hQV25sdG1IRDVPR1NVVjFhNXVHOWRzMUhXMHAxcTBGdVIv?=
+ =?utf-8?B?MUg5dll1eUh3d0FZU1FQa1Bnd2NnTE5oVGdDdWlYdHJsbUtQQ2FiYzhreG9F?=
+ =?utf-8?B?aFdBM2pTelR2MmNjNE1IWTF6QjFRb2RURGpJQm5jaHNxL3B6dmpraTBFNzBy?=
+ =?utf-8?B?VlBiNTRtZ1pzSnIwSEhTRGh5MzhJMmN3OXIwVXRSMmNjR3lOaTNOYUpXVFlu?=
+ =?utf-8?B?bFFqT2FWd3d2Rk5EVklyMDBrblFVdVpLMUtaNStkRjc5eXVlOGpVeVAxRHJp?=
+ =?utf-8?B?NkRmR05TL2lnPT0=?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:ko;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SLXP216MB1148.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700021);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?SnhFS3VTcHN3UnJmQUdiazR4OC80NFlEazJrQVJUellZN1UxRytsVTUyMmZk?=
+ =?utf-8?B?RGhNTlhwUHJnZGh6M3VRVEpxV0lEUXUyVFNyWm1RRHdwUkRIQnRYdkFJQ0NV?=
+ =?utf-8?B?NWF6ZFYvd1hqamtiSlcxR0RmbzJSNnBPWUY5bk5kdHJaMVdtc3Yzb1pkbUVu?=
+ =?utf-8?B?dGUzRXJMNFlHSWJrTDk2QTNiNWdkdThnYTQ4bVdXQnA4c1N5QUJGZ1hjNkNt?=
+ =?utf-8?B?ZkhZUXhib05peWFZR2NxUzd3S3Z3MEpKKzdYZjJOQ1hTaGhsSUg1QnpNbklX?=
+ =?utf-8?B?eVlxZkQ4anlKTERwRHpWWEYxU2RCSm1aRFNHRlhnNzgxTjZvOWhRUkUzSlJQ?=
+ =?utf-8?B?RkZvUlh5cWF2cTVqZzgxNnpOcnV6Z3drUjloV1JMaUlCYnZKbnVFenNxeG1a?=
+ =?utf-8?B?RURpTndRTkxuY2l1WmMzRStBNkxVeWdWWndOclQwTm0vQzYydG5tL1lCTVNO?=
+ =?utf-8?B?SkVDVHp3T1BvbWE3eXFZOFdiMUMwNklJdXlJc2VqZkMxc0pGeHNERU1XU3BM?=
+ =?utf-8?B?U0w3RnBvS3A4VWVZL0hmdndMc0pvZE1aVVZvVWNrZDRDdUNHSG51aHRBV09Y?=
+ =?utf-8?B?bzJONVBMY1pKZTlkRjU5R1kxQXA2WG53aUVSWGxnWkJWTmFDZGhPSVpqOUE3?=
+ =?utf-8?B?NzBBTUlVUGFPRW5OelAxSVRiZmw3bmU2ZURzSCtHRHUyS0lkVVM3QUJCNlJT?=
+ =?utf-8?B?MFphbnBNeXk2OE0ya2poQ2VyVGlIRThlRTZxN09mbmcyNGhmbDlYVVJmZm5P?=
+ =?utf-8?B?UWFoT3FyaUw1Ym5lWENXL3dSZS9GbzhnUTFNdUJXNVJzOUM0VUlHNVpIUlM4?=
+ =?utf-8?B?SUhmM1dCc1hTb1dKQ25YR1liWkZ5bE42YjZLWExoOHVlTHg4OHpkUjFTMUhQ?=
+ =?utf-8?B?NXVyR2hwUmZjQjcrWm0xdG5rdktBR3BQWU1lUStnR0t6SWtiWG9aM0g2dFhq?=
+ =?utf-8?B?VWE3UmZhQ2FPSkZ4ZkgvUC9WVzNZa0pTUC9TOHVpSDdLc3o3RmpzUStlUXNW?=
+ =?utf-8?B?RlFNSnN5dEZpUjRLb1dRRXVNSTRTQkZQdWVwZEZmaWZET1JCWlNMcm1NTlk1?=
+ =?utf-8?B?V2g2RzEvZGpNNm5LamxNMk9MRnJ2Q1RORHN4eGhWemN1dWhMU1NMK09yaC8y?=
+ =?utf-8?B?cEZsRmNHSkYyWFIrTzRJb3FNNXJvcUJ5R0V4eWxrVFlEVVpHbnpaWkNHeXV4?=
+ =?utf-8?B?TkdJY1lDazNJR2VPd28zNHIyVlI3NTFNR1ljMWNscWtOUVRGKzFQOXluckxs?=
+ =?utf-8?B?RmlxTnI0bng5anpQbldPTnMwWEMxMDZJWkhtYTFrci80aEhhSUJqejNJZytC?=
+ =?utf-8?B?cER5Ky9UM2NUbnBjRUlBMWpVbFNJMXc2QjRUT0xUQThRWTg3eUk0WEEvdGUz?=
+ =?utf-8?B?SUMxcmFDSVROZjgrazBBQ2VpSHJiaHRXMWdpVGFGNVZ4S3kvbFUyTG5uaEh0?=
+ =?utf-8?B?UWV3MDAveUtiY1RBbituMTJHYnlBR1lpUUVjbnRpdHAycys1cTcxSC9PaW9E?=
+ =?utf-8?B?L2lpVXdLSkFQc2hsUVVnUEV6aFFSRmJGSU1MakJNbDlWcUdzTXp0ZjNKWE5i?=
+ =?utf-8?B?TlBRNzV2d1JyL0c5QUFzNVV0RkVLamVESEZmYW9DN2FVR3l1bXVIOFVLN0FQ?=
+ =?utf-8?B?WWxTTm9IMUlZdGNXY05HREw1MWtUb3JrdWl0UEZKODVwdGxtZTNJMzFFQnk5?=
+ =?utf-8?B?MjRxQ1d0M0R1QmJQWG5aTlc2VFdrUWVlc21FZWZ0ZnpLUkx1KytlTElUcVMy?=
+ =?utf-8?B?OG1GR1FSd0dTWWhqenRrT05MbjMvS2J0UjF2Nk5QeVUwdG4xWnRHOWlZdlEy?=
+ =?utf-8?B?NEcyM2tLTU1zTmlJU0tyb1pMVjJocGxJbTRPazhPY3EvYmhiejN5bTM0aXFl?=
+ =?utf-8?B?ODZIZkc4TDZhMnNweksrNHRmVGhOaHJ4bWJNRUJnV0ZMcmg3bWJXa2JHTEZX?=
+ =?utf-8?B?UjJGZEZsNlJaaUE2aDQxMEZGQmR3VXZLeitmU25BZ1R1OFZMcTRCODJHcThE?=
+ =?utf-8?B?SitLRmhLb3RPYkR2WHdiNVJ0VDlXeXpZOVA4U1VpUjNKaHBLQUhic2I1TDVi?=
+ =?utf-8?B?L0VhamZZTHdxUUNkMjJncjcvQlRUbnM5eXlCaXpnSlNrRHJJTnNZMkNPVVB2?=
+ =?utf-8?B?bEpBRlBSRC93VmdzSlJySDU5bjVwZXQwK2E2SnNzZ0FxbkJCRU9JR2MwdFE5?=
+ =?utf-8?B?S1E9PQ==?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: useeplus.l4qli@passmail.net
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: mchehab@kernel.org,linux-media@vger.kernel.org
-Message-ID: <175756543070.7.16346912768806976771.898252898@passmail.net>
-References: <175703815458.6.14698369738764855320.888629330@passmail.net>
- <38925b932506d2a6bcd2e2f94b052a7e25694068.camel@ndufresne.ca>
-X-SimpleLogin-Type: Reply
-X-SimpleLogin-EmailLog-ID: 898252904
-X-SimpleLogin-Want-Signing: yes
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 84871fe0-fbbf-4ee6-3ba3-08ddf0ed5d3a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 11 Sep 2025 04:40:41.7930
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: LkC2h/zKRAUYvx7eJ8iNVUWoRQWw+sFq1U1MiTg3M9h1WO56U4Z8LoNfbg1ZZlBTdsn5lu13DreOgh/jZbgBFacdJtghdJO7GThrSwJ9ZeU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE1P216MB1963
 
-Hi,
-
-> A first step in validating your driver is to run through v4l2-compliance =
-test.
-> This is part of v4l2-utils [0] project. We recommend building from source=
- so
-> you are running the latest version.
-
-Indeed, I forgot to include the report in the original email. I've copied i=
-t at the end of this email. There's one trivial error (fail: v4l2-test-buff=
-ers.cpp(774): Expected EBUSY, got 22), and I'll happily send you the update=
-d patch once we've assessed that everything else is OK.
-
-> Share the resulting report here. Its also nice to extend a bit more, sinc=
-e most
-> of the reviewers don't know about these cameras. Le us know what features=
- the
-> camera have and what you have implemented.
-
-Here's a quick recap, let me know if you want more information.
-
-```
-The 'com.useeplus.protocol' protocol is used in mutiple cheap=20
-borescope/endoscope cameras (exemple:https://www.amazon.com/dp/B0DMK6P7V5 )=
-. There are also reports of this
-being used in camera glasses products. Our guess is some company made a
-new silicon and it is shipping in multiple camera products.
-
-Instead of using the standard UVC protocol, they use a proprietary=20
-protocol, provided by the UseePlus App (as well as some clones). This
-explains why the Amazon link above mentions "Don't fit computer.".
-Multiple people report they would like a way to use it on their
-computer, e.g.https://forums.opensuse.org/t/external-usb-camera-in-endoscop=
-e/175342 ,
-as well as the forks of the userspace driver we based our code on.
-
-The cameras offer a very basic interface, which does not allow for any=20
-configuration (fixed resolution / framerate / ...). Tldr of the
-protocol: send a magic USB frame, then loop reading from an USB endpoint
-which streams JPEG frames.
-
-'com.useeplus.protocol' products usually have a dual camera system: the=20
-current camera can be switched by long-pressing a button - but the
-switch is fully hardware-side, therefore this is transparent to the
-driver. We could not find a way to switch the camera through software.
-The button press itself can be detected, but we are not sure if this is
-useful to implement, so the relevant code is commented in the driver
-source with a short explanation.
-```
-
-Best,
-Amaury
-
-v4l2 report:
-
-```
-v4l2-compliance 1.31.0-5388, 64 bits, 64-bit time_t
-v4l2-compliance SHA: fc46fc8771bf 2025-09-03 09:02:46
-
-Compliance test for supercamera device /dev/video4:
-
-Driver Info:
-        Driver name      : supercamera
-        Card type        : Geek szitman: supercamera
-        Bus info         : usb-0000:00:14.0-1.4
-        Driver version   : 6.12.10
-        Capabilities     : 0x85200001
-                Video Capture
-                Read/Write
-                Streaming
-                Extended Pix Format
-                Device Capabilities
-        Device Caps      : 0x05200001
-                Video Capture
-                Read/Write
-                Streaming
-                Extended Pix Format
-
-Required ioctls:
-        test VIDIOC_QUERYCAP: OK
-        test invalid ioctls: OK
-
-Allow for multiple opens:
-        test second /dev/video4 open: OK
-        test VIDIOC_QUERYCAP: OK
-        test VIDIOC_G/S_PRIORITY: OK
-        test for unlimited opens: OK
-
-Debug ioctls:
-        test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-        test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-        test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-        test VIDIOC_ENUMAUDIO: OK (Not Supported)
-        test VIDIOC_G/S/ENUMINPUT: OK
-        test VIDIOC_G/S_AUDIO: OK (Not Supported)
-        Inputs: 1 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-        test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-        test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-        test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-        test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-        test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-        Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-        test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-        test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-        test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-        test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls (Input 0):
-        test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-        test VIDIOC_QUERYCTRL: OK (Not Supported)
-        test VIDIOC_G/S_CTRL: OK (Not Supported)
-        test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-        test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-        test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-        Standard Controls: 0 Private Controls: 0
-
-Format ioctls (Input 0):
-        test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-                warn: v4l2-test-formats.cpp(1485): S_PARM is supported for =
-buftype 1, but not for ENUM_FRAMEINTERVALS
-        test VIDIOC_G/S_PARM: OK
-        test VIDIOC_G_FBUF: OK (Not Supported)
-        test VIDIOC_G_FMT: OK
-        test VIDIOC_TRY_FMT: OK
-        test VIDIOC_S_FMT: OK
-        test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-        test Cropping: OK (Not Supported)
-        test Composing: OK (Not Supported)
-        test Scaling: OK (Not Supported)
-
-Codec ioctls (Input 0):
-        test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-        test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-        test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls (Input 0):
-                fail: v4l2-test-buffers.cpp(774): Expected EBUSY, got 22
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: FAIL
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_REMOVE_BUFS: OK
-        test VIDIOC_EXPBUF: OK (Not Supported)
-        test Requests: OK (Not Supported)
-        test blocking wait: OK
-
-Total for supercamera device /dev/video4: 48, Succeeded: 47, Failed: 1, War=
-nings: 1
-```
-
-
-
-
-On Wednesday, September 10th, 2025 at 1:52 AM, Nicolas Dufresne - nicolas a=
-t ndufresne.ca <nicolas_at_ndufresne_ca_yuwktb@passmail.net> wrote:
-
->=20
->=20
-> Hi,
->=20
-> Le vendredi 05 septembre 2025 =C3=A0 02:09 +0000, useeplus.l4qli@passmail=
-.net a =C3=A9crit=C2=A0:
->=20
-> > Add a driver for the 'Geek szitman supercamera' ('com.useeplus.protocol=
-'
-> > protocol)
-> >=20
-> > This patch adds a V4L2 driver for USB cameras using the proprietary
-> > 'com.useeplus.protocol' protocol.
-> > The driver builds upon the work of
-> > https://github.com/hbens/geek-szitman-supercamera=C2=A0(owned by one of=
- the
-> > authors of this driver), and draws inspiration from the "usbtv" and
-> > "gspca" drivers present in the linux kernel.
-> >=20
-> > Signed-off-by: Amaury Barral useeplus.l4qli@passmail.net
-> > Co-developed-by: Hadrien Barral hadrien.barral@univ-eiffel.fr
-> > Signed-off-by: Hadrien Barral hadrien.barral@univ-eiffel.fr
-> > ---
-> > Note: this is my first time writing such a driver. I have tested it
-> > to the extent of my capabilities (multiple and fast disconnections and
-> > reconnections, video streaming using ffplay and firefox) and identified
-> > no bugs on my end. However my setup does not allow me to test, for
-> > instance, features such as connecting several such devices on the same
-> > computer.
->=20
->=20
-> A first step in validating your driver is to run through v4l2-compliance =
-test.
-> This is part of v4l2-utils [0] project. We recommend building from source=
- so
-> you are running the latest version.
->=20
-> https://git.linuxtv.org/v4l-utils.git/
->=20
-> Share the resulting report here. Its also nice to extend a bit more, sinc=
-e most
-> of the reviewers don't know about these cameras. Le us know what features=
- the
-> camera have and what you have implemented.
->=20
-> regards,
-> Nicolas
->=20
-> > diff -uprN linux-master/drivers/media/usb/Kconfig
-> > linux-master-modified/drivers/media/usb/Kconfig
-> > --- linux-master/drivers/media/usb/Kconfig=C2=A0=C2=A0=C2=A0 2025-08-18
-> > 07:22:10.000000000 +0900
-> > +++ linux-master-modified/drivers/media/usb/Kconfig=C2=A0=C2=A0=C2=
-=A0 2025-09-04
-> > 11:29:37.667388721 +0900
-> > @@ -17,6 +17,7 @@ source "drivers/media/usb/gspca/Kconfig"
-> > =C2=A0=C2=A0source "drivers/media/usb/pwc/Kconfig"
-> > =C2=A0=C2=A0source "drivers/media/usb/s2255/Kconfig"
-> > =C2=A0=C2=A0source "drivers/media/usb/usbtv/Kconfig"
-> > +source "drivers/media/usb/useeplus/Kconfig"
-> > =C2=A0=C2=A0source "drivers/media/usb/uvc/Kconfig"
-> >=20
-> > endif
-> > diff -uprN linux-master/drivers/media/usb/Makefile
-> > linux-master-modified/drivers/media/usb/Makefile
-> > --- linux-master/drivers/media/usb/Makefile=C2=A0=C2=A0=C2=A0 2025-08-1=
-8
-> > 07:22:10.000000000 +0900
-> > +++ linux-master-modified/drivers/media/usb/Makefile=C2=A0=C2=A0=C2=
-=A0 2025-09-04
-> > 11:30:14.977994923 +0900
-> > @@ -30,3 +30,4 @@ obj-$(CONFIG_VIDEO_HDPVR) +=3D hdpvr/
-> > =C2=A0=C2=A0obj-$(CONFIG_VIDEO_PVRUSB2) +=3D pvrusb2/
-> > =C2=A0=C2=A0obj-$(CONFIG_VIDEO_STK1160) +=3D stk1160/
-> > =C2=A0=C2=A0obj-$(CONFIG_VIDEO_USBTV) +=3D usbtv/
-> > +obj-$(CONFIG_VIDEO_USEEPLUS) +=3D useeplus/
-> > diff -uprN linux-master/drivers/media/usb/useeplus/Kconfig
-> > linux-master-modified/drivers/media/usb/useeplus/Kconfig
-> > --- linux-master/drivers/media/usb/useeplus/Kconfig=C2=A0=C2=A0=C2=
-=A0 1970-01-01
-> > 09:00:00.000000000 +0900
-> > +++ linux-master-modified/drivers/media/usb/useeplus/Kconfig 2025-09-03
-> > 21:11:01.080048349 +0900
-> > @@ -0,0 +1,13 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +config VIDEO_USEEPLUS
-> > +=C2=A0=C2=A0=C2=A0 tristate "UseePlus cameras support"
-> > +=C2=A0=C2=A0=C2=A0 depends on VIDEO_DEV
-> > +=C2=A0=C2=A0=C2=A0 select VIDEOBUF2_VMALLOC
-> > +
-> > +=C2=A0=C2=A0=C2=A0 help
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 This is a video4linux2 driver for UseeP=
-lus based cameras.
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 Currently only supports the following h=
-ardware:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - Geek szitman supercamera, USB-ID 2ce3=
-:3828.
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 To compile this driver as a module, cho=
-ose M here: the
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 module will be called useeplus
-> > diff -uprN linux-master/drivers/media/usb/useeplus/Makefile
-> > linux-master-modified/drivers/media/usb/useeplus/Makefile
-> > --- linux-master/drivers/media/usb/useeplus/Makefile=C2=A0=C2=A0=C2=
-=A0 1970-01-01
-> > 09:00:00.000000000 +0900
-> > +++ linux-master-modified/drivers/media/usb/useeplus/Makefile 2025-09-0=
-3
-> > 21:11:01.080048349 +0900
-> > @@ -0,0 +1,4 @@
-> > +# SPDX-License-Identifier: GPL-2.0-only
-> > +useeplus-y :=3D supercamera.o
-> > +
-> > +obj-$(CONFIG_VIDEO_USEEPLUS) +=3D supercamera.o
-> > diff -uprN linux-master/drivers/media/usb/useeplus/supercamera.c
-> > linux-master-modified/drivers/media/usb/useeplus/supercamera.c
-> > --- linux-master/drivers/media/usb/useeplus/supercamera.c 1970-01-01
-> > 09:00:00.000000000 +0900
-> > +++ linux-master-modified/drivers/media/usb/useeplus/supercamera.c
-> > 2025-09-03 21:11:01.080048349 +0900
-> > @@ -0,0 +1,805 @@
-> > +// SPDX-License-Identifier: GPL-2.0-or-later
-> > +/*
-> > + * supercamera_v4l2.c - V4L2 driver for "Geek szitman supercamera" USB
-> > + *=C2=A0 endoscope
-> > + *
-> > + * This driver supports USB cameras that use the proprietary
-> > + *=C2=A0 "com.useeplus.protocol". The camera shows up as a standard V4=
-L2 video
-> > + *=C2=A0 device.
-> > + *
-> > + * The camera uses a basic protocol where JPEG frames are split across
-> > + *=C2=A0 multiple USB packets.
-> > + * Each USB packet has a 5-byte header (magic 0xBBAA + camera ID + len=
-gth)
-> > + *=C2=A0 followed by a camera frame with a 7-byte header
-> > + *=C2=A0 (frame ID + camera number + flags) and then JPEG data.
-> > + *=C2=A0 We accumulate the JPEG data until the frame ID changes, then =
-deliver
-> > + *=C2=A0 the complete frame.
-> > + *
-> > + * Currently, we only supports the following hardware:
-> > + *=C2=A0=C2=A0 Name: Geek szitman supercamera (from USB descriptors)
-> > + *=C2=A0=C2=A0 USB ID: 2ce3:3828
-> > + *=C2=A0=C2=A0 Resolution: 640x480 JPEG only
-> > + *=C2=A0=C2=A0 Frame rate: ~30 FPS
-> > + *
-> > + * This driver is based on patterns from usbtv and gspca drivers.
-> > + /
-> > +
-> > +#include <linux/module.h>
-> > +#include <linux/usb.h>
-> > +#include <linux/videodev2.h>
-> > +#include <linux/wait.h>
-> > +#include <media/v4l2-ctrls.h>
-> > +#include <media/v4l2-dev.h>
-> > +#include <media/v4l2-device.h>
-> > +#include <media/v4l2-ioctl.h>
-> > +#include <media/videobuf2-vmalloc.h>
-> > +
-> > +#define DRIVER_NAME "supercamera"
-> > +
-> > +#define USB_VENDOR_ID_SUPERCAMERA 0x2ce3
-> > +#define USB_PRODUCT_ID_SUPERCAMERA 0x3828
-> > +
-> > +#define CONTROL_INTERFACE_NUMBER 0
-> > +#define VIDEO_INTERFACE_NUMBER 1
-> > +#define VIDEO_INTERFACE_ALTERNATE_SETTING 1
-> > +
-> > +#define ENDPOINT_1_IN 0x81
-> > +#define ENDPOINT_1_OUT 0x01
-> > +#define ENDPOINT_2_IN 0x82
-> > +#define ENDPOINT_2_OUT 0x02
-> > +
-> > +#define URB_BUFFER_SIZE 0x1000
-> > +#define MAX_URBS 4
-> > +
-> > +#define UPP_USB_MAGIC 0xBBAA
-> > +#define UPP_CAMID_7 7
-> > +
-> > +#define CAMERA_WIDTH 640
-> > +#define CAMERA_HEIGHT 480
-> > +#define CAMERA_FRAME_SIZE (CAMERA_WIDTH * CAMERA_HEIGHT * 3)
-> > +
-> > +/ USB interface descriptors constants for this device /
-> > +#define DEVICE_INTERFACE_NUMBER 0x1
-> > +#define DEVICE_INTERFACE_CLASS 0xff
-> > +#define DEVICE_INTERFACE_SUBCLASS 0xf0
-> > +#define DEVICE_INTERFACE_PROTOCOL 0x01
-> > +
-> > +/ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D DATA MODELS =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D /
-> > +
-> > +/ USB frame header (5 bytes) /
-> > +struct upp_usb_frame {
-> > +=C2=A0=C2=A0=C2=A0 __le16 magic;
-> > +=C2=A0=C2=A0=C2=A0 __u8 cid;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 / camera id=
- /
-> > +=C2=A0=C2=A0=C2=A0 __le16 length; / does not include the 5-bytes heade=
-r length /
-> > +} __packed;
-> > +
-> > +/ Camera frame header (7 bytes) /
-> > +struct upp_cam_frame {
-> > +=C2=A0=C2=A0=C2=A0 __u8 fid;=C2=A0=C2=A0=C2=A0=C2=A0 / frame id /
-> > +=C2=A0=C2=A0=C2=A0 __u8 cam_num; / camera number /
-> > +=C2=A0=C2=A0=C2=A0 / flags byte /
-> > +=C2=A0=C2=A0=C2=A0 __u8 unused_A : 1;
-> > +=C2=A0=C2=A0=C2=A0 __u8 button_press : 1;
-> > +=C2=A0=C2=A0=C2=A0 __u8 unused_B : 6;
-> > +=C2=A0=C2=A0=C2=A0 __le32 unused_C;
-> > +} __packed;
-> > +
-> > +/ Buffer wrapper for our buffer list */
-> > +struct supercamera_buffer {
-> > +=C2=A0=C2=A0=C2=A0 struct vb2_v4l2_buffer vb;
-> > +=C2=A0=C2=A0=C2=A0 struct list_head list;
-> > +};
-> > +
-> > +struct supercamera_dev {
-> > +=C2=A0=C2=A0=C2=A0 struct usb_device udev;
-> > +=C2=A0=C2=A0=C2=A0 struct v4l2_device v4l2_dev;
-> > +=C2=A0=C2=A0=C2=A0 struct video_device vdev;
-> > +=C2=A0=C2=A0=C2=A0 struct vb2_queue vb_queue;
-> > +=C2=A0=C2=A0=C2=A0 struct mutex vb_queue_mutex; / Protects vb_queue /
-> > +
-> > +=C2=A0=C2=A0=C2=A0 / USB interface and endpoint information */
-> > +=C2=A0=C2=A0=C2=A0 struct usb_interface *intf;
-> > +=C2=A0=C2=A0=C2=A0 struct urb *urbs[MAX_URBS];
-> > +=C2=A0=C2=A0=C2=A0 char urb_buffers[MAX_URBS];
-> > +=C2=A0=C2=A0=C2=A0 dma_addr_t urb_dma_handles[MAX_URBS];
-> > +
-> > +=C2=A0=C2=A0=C2=A0 / Buffer management /
-> > +=C2=A0=C2=A0=C2=A0 spinlock_t buffer_list_lock; / Protects buffer list=
- /
-> > +=C2=A0=C2=A0=C2=A0 struct list_head buffer_list;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 / Device state /
-> > +=C2=A0=C2=A0=C2=A0 bool streaming;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 / Protocol handling /
-> > +=C2=A0=C2=A0=C2=A0 struct {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 / Buffer for accumulating J=
-PEG data */
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char jpeg_buffer;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t jpeg_buffer_size;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t jpeg_data_size;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 / Current frame ID tracking=
- /
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 uint8_t current_fid;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool has_frame_id;
-> > +=C2=A0=C2=A0=C2=A0 } protocol;
-> > +};
-> > +
-> > +/ =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D DEVICE INFRASTRUCTURE =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D */
-> > +
-> > +static void supercamera_complete_frame(struct supercamera_dev *sc_dev)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0 struct supercamera_buffer *buf =3D NULL;
-> > +=C2=A0=C2=A0=C2=A0 unsigned long flags;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 spin_lock_irqsave(&sc_dev->buffer_list_lock, flags)=
-;
-> > +=C2=A0=C2=A0=C2=A0 if (!list_empty(&sc_dev->buffer_list)) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 buf =3D list_first_entry(&s=
-c_dev->buffer_list, struct
-> > supercamera_buffer, list);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 list_del(&buf->list);
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +=C2=A0=C2=A0=C2=A0 spin_unlock_irqrestore(&sc_dev->buffer_list_lock, f=
-lags);
-> > +
-> > +=C2=A0=C2=A0=C2=A0 if (!buf) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->protocol.jpeg_data_=
-size =3D 0;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 if (sc_dev->protocol.jpeg_data_size <=3D
-> > vb2_plane_size(&buf->vb.vb2_buf, 0)) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *vaddr =3D vb2_plane_v=
-addr(&buf->vb.vb2_buf, 0);
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memcpy(vaddr, sc_dev->proto=
-col.jpeg_buffer,
-> > sc_dev->protocol.jpeg_data_size);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vb2_set_plane_payload(&buf-=
->vb.vb2_buf, 0,
-> > sc_dev->protocol.jpeg_data_size);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vb2_buffer_done(&buf->vb.vb=
-2_buf, VB2_BUF_STATE_DONE);
-> > +=C2=A0=C2=A0=C2=A0 } else {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vb2_buffer_done(&buf->vb.vb=
-2_buf, VB2_BUF_STATE_ERROR);
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 sc_dev->protocol.jpeg_data_size =3D 0;
-> > +}
-> > +
-> > +static void supercamera_handle_upp_frame(struct supercamera_dev *sc_de=
-v,
-> > +=C2=A0=C2=A0=C2=A0 const struct upp_usb_frame *frame, const char *data=
-, size_t length)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0 const struct upp_cam_frame *cam_frame;
-> > +=C2=A0=C2=A0=C2=A0 size_t cam_header_len =3D sizeof(struct upp_cam_fra=
-me);
-> > +=C2=A0=C2=A0=C2=A0 uint8_t new_fid;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 if (length < cam_header_len)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 cam_frame =3D (const struct upp_cam_frame )data;
-> > +=C2=A0=C2=A0=C2=A0 new_fid =3D cam_frame->fid;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 / Frame boundary detected - complete previous frame=
- /
-> > +=C2=A0=C2=A0=C2=A0 if (sc_dev->protocol.jpeg_data_size > 0 &&
-> > sc_dev->protocol.has_frame_id
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 && sc_dev->protocol.current=
-_fid !=3D new_fid) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 supercamera_complete_frame(=
-sc_dev);
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 if (sc_dev->protocol.jpeg_data_size =3D=3D 0) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->protocol.current_fi=
-d =3D new_fid;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->protocol.has_frame_=
-id =3D true;
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 /=C2=A0 // Not used, but left just in case
-> > +=C2=A0=C2=A0=C2=A0=C2=A0 * if (cam_frame->button_press) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0=C2=A0 dev_warn(dev, "Butt=
-on press event detected\n");
-> > +=C2=A0=C2=A0=C2=A0=C2=A0 * }
-> > +=C2=A0=C2=A0=C2=A0=C2=A0 */
-> > +
-> > +=C2=A0=C2=A0=C2=A0 if (length > cam_header_len) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t data_len =3D length =
-- cam_header_len;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (sc_dev->protocol.jpeg_d=
-ata_size + data_len >
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_=
-dev->protocol.jpeg_buffer_size) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_=
-dev->protocol.jpeg_data_size =3D 0;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
-urn;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 memcpy(sc_dev->protocol.jpe=
-g_buffer +
-> > sc_dev->protocol.jpeg_data_size,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dat=
-a + cam_header_len, data_len);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->protocol.jpeg_data_=
-size +=3D data_len;
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +}
-> > +
-> > +static void supercamera_return_all_buffers(struct supercamera_dev *sc_=
-dev,
-> > +=C2=A0=C2=A0=C2=A0 enum vb2_buffer_state state)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0 struct supercamera_buffer *buf, *tmp;
-> > +=C2=A0=C2=A0=C2=A0 unsigned long flags;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 spin_lock_irqsave(&sc_dev->buffer_list_lock, flags)=
-;
-> > +=C2=A0=C2=A0=C2=A0 list_for_each_entry_safe(buf, tmp, &sc_dev->buffer_=
-list, list) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 list_del(&buf->list);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 vb2_buffer_done(&buf->vb.vb=
-2_buf, state);
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +=C2=A0=C2=A0=C2=A0 spin_unlock_irqrestore(&sc_dev->buffer_list_lock, f=
-lags);
-> > +}
-> > +
-> > +static int supercamera_send_initial_commands(struct supercamera_dev
-> > *sc_dev)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0 struct device dev =3D &sc_dev->intf->dev;
-> > +=C2=A0=C2=A0=C2=A0 int ret;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 / Device initialization command for endpoint 2 */
-> > +=C2=A0=C2=A0=C2=A0 const char ep2_cmd[] =3D {0xFF, 0x55, 0xFF, 0x55, 0=
-xEE, 0x10};
-> > +
-> > +=C2=A0=C2=A0=C2=A0 ret =3D usb_bulk_msg(sc_dev->udev, usb_sndbulkpipe(=
-sc_dev->udev,
-> > ENDPOINT_2_OUT),
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (void )ep2_cmd, sizeof(ep2_=
-cmd), NULL, 1000);
-> > +=C2=A0=C2=A0=C2=A0 if (ret) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(dev, "Failed to sen=
-d EP2 command: %d\n", ret);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 / Start streaming command (UPP protocol header) */
-> > +=C2=A0=C2=A0=C2=A0 const char start_stream_cmd[] =3D {0xBB, 0xAA, 5, 0=
-, 0};
-> > +
-> > +=C2=A0=C2=A0=C2=A0 ret =3D usb_bulk_msg(sc_dev->udev, usb_sndbulkpipe(=
-sc_dev->udev,
-> > ENDPOINT_1_OUT),
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (void *)start_stream_cmd, s=
-izeof(start_stream_cmd), NULL, 1000);
-> > +=C2=A0=C2=A0=C2=A0 if (ret) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(dev, "Failed to sen=
-d start stream command: %d\n", ret);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 return 0;
-> > +}
-> > +
-> > +static void supercamera_urb_complete(struct urb *urb)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev *sc_dev =3D urb->context;
-> > +=C2=A0=C2=A0=C2=A0 struct device *dev =3D &sc_dev->intf->dev;
-> > +=C2=A0=C2=A0=C2=A0 int ret;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 if (!sc_dev)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 switch (urb->status) {
-> > +=C2=A0=C2=A0=C2=A0 case 0:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 break;
-> > +=C2=A0=C2=A0=C2=A0 case -ECONNRESET:
-> > +=C2=A0=C2=A0=C2=A0 case -ENOENT:
-> > +=C2=A0=C2=A0=C2=A0 case -ESHUTDOWN:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
-> > +=C2=A0=C2=A0=C2=A0 default:
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!sc_dev->streaming)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
-urn;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usb_submit_urb(urb, GFP_ATO=
-MIC);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 if (urb->actual_length > 0) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 const char *data =3D urb->t=
-ransfer_buffer;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t len =3D urb->actual_=
-length;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 size_t offset =3D 0;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 while (offset + sizeof(stru=
-ct upp_usb_frame) <=3D len) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 con=
-st struct upp_usb_frame *frame =3D
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 (const struct upp_usb_frame *)(data + offset);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 siz=
-e_t frame_len =3D
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 sizeof(struct upp_usb_frame) + le16_to_cpu(frame->=
-length);
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
-(offset + frame_len > len)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 break;
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
-(le16_to_cpu(frame->magic) !=3D UPP_USB_MAGIC) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 offset++;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 continue;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if =
-(frame->cid !=3D UPP_CAMID_7) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 offset +=3D frame_len;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 continue;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sup=
-ercamera_handle_upp_frame(sc_dev, frame,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 data + offset + sizeof(struct upp_usb_frame),
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 le16_to_cpu(frame->length));
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 off=
-set +=3D frame_len;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 if (sc_dev->streaming) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D usb_submit_urb(urb,=
- GFP_ATOMIC);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev=
-_err(dev, "Failed to resubmit URB: %d\n", ret);
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +}
-> > +
-> > +#define CLEANUP_URBS(sc_dev) \
-> > +do { \
-> > +=C2=A0=C2=A0=C2=A0 int i; \
-> > +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < MAX_URBS; i++) { \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if ((sc_dev)->urbs[i]) { \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usb=
-_kill_urb((sc_dev)->urbs[i]); \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usb=
-_free_urb((sc_dev)->urbs[i]); \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (sc=
-_dev)->urbs[i] =3D NULL; \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if ((sc_dev)->urb_buffers[i=
-]) { \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usb=
-_free_coherent((sc_dev)->udev, URB_BUFFER_SIZE, \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 (sc_dev)->urb_buffers[i], (sc_dev)->urb_dma_handle=
-s[i]); \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (sc=
-_dev)->urb_buffers[i] =3D NULL; \
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 } \
-> > +=C2=A0=C2=A0=C2=A0 } \
-> > +} while (0)
-> > +
-> > +static int supercamera_start_streaming(struct supercamera_dev *sc_dev)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0 struct device *dev =3D &sc_dev->intf->dev;
-> > +=C2=A0=C2=A0=C2=A0 int ret;
-> > +=C2=A0=C2=A0=C2=A0 int i;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 ret =3D supercamera_send_initial_commands(sc_dev);
-> > +=C2=A0=C2=A0=C2=A0 if (ret) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(dev, "Failed to sen=
-d initial commands: %d\n", ret);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 usb_clear_halt(sc_dev->udev, usb_rcvbulkpipe(sc_dev=
-->udev,
-> > ENDPOINT_1_IN));
-> > +
-> > +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < MAX_URBS; i++) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->urbs[i] =3D usb_all=
-oc_urb(0, GFP_KERNEL);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!sc_dev->urbs[i]) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev=
-_err(dev, "Failed to allocate URB\n");
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
- =3D -ENOMEM;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 got=
-o error;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->urb_buffers[i] =3D =
-usb_alloc_coherent(sc_dev->udev,
-> > URB_BUFFER_SIZE,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GFP=
-_KERNEL, &sc_dev->urb_dma_handles[i]);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (!sc_dev->urb_buffers[i]=
-) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev=
-_err(dev, "Failed to allocate URB buffer\n");
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
- =3D -ENOMEM;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 got=
-o error;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usb_fill_bulk_urb(sc_dev->u=
-rbs[i], sc_dev->udev,
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 usb=
-_rcvbulkpipe(sc_dev->udev, ENDPOINT_1_IN),
-> > sc_dev->urb_buffers[i],
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 URB=
-_BUFFER_SIZE, supercamera_urb_complete, sc_dev);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->urbs[i]->transfer_d=
-ma =3D sc_dev->urb_dma_handles[i];
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->urbs[i]->transfer_f=
-lags |=3D URB_NO_TRANSFER_DMA_MAP;
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 for (i =3D 0; i < MAX_URBS; i++) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D usb_submit_urb(sc_d=
-ev->urbs[i], GFP_KERNEL);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev=
-_err(dev, "Failed to submit URB %d: %d\n", i, ret);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 got=
-o error;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 sc_dev->protocol.has_frame_id =3D false;
-> > +=C2=A0=C2=A0=C2=A0 sc_dev->protocol.jpeg_data_size =3D 0;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 sc_dev->streaming =3D true;
-> > +=C2=A0=C2=A0=C2=A0 return 0;
-> > +
-> > +error:
-> > +=C2=A0=C2=A0=C2=A0 CLEANUP_URBS(sc_dev);
-> > +
-> > +=C2=A0=C2=A0=C2=A0 return ret;
-> > +}
-> > +
-> > +static void supercamera_stop_streaming(struct supercamera_dev sc_dev)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0 sc_dev->streaming =3D false;
-> > +=C2=A0=C2=A0=C2=A0 CLEANUP_URBS(sc_dev);
-> > +}
-> > +
-> > +/ VB2 operations */
-> > +static int supercamera_vb2_queue_setup(struct vb2_queue *vq, unsigned
-> > int *nbuffers,
-> > +=C2=A0=C2=A0=C2=A0 unsigned int *nplanes, unsigned int sizes[], struct=
- device
-> > *alloc_devs[])
-> > +{
-> > +=C2=A0=C2=A0=C2=A0 if (*nbuffers < 2)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *nbuffers =3D 2;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 if (*nplanes) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (sizes[0] < CAMERA_WIDTH=
- * CAMERA_HEIGHT)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret=
-urn -EINVAL;
-> > +=C2=A0=C2=A0=C2=A0 } else {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sizes[0] =3D CAMERA_FRAME_S=
-IZE;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 *nplanes =3D 1;
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 return 0;
-> > +}
-> > +
-> > +static int supercamera_vb2_buf_prepare(struct vb2_buffer *vb)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev *sc_dev =3D vb2_get_drv_priv=
-(vb->vb2_queue);
-> > +=C2=A0=C2=A0=C2=A0 struct device *dev =3D &sc_dev->intf->dev;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 if (vb2_plane_size(vb, 0) < CAMERA_WIDTH * CAMERA_H=
-EIGHT) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(dev, "Buffer size t=
-oo small\n");
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 return 0;
-> > +}
-> > +
-> > +static void supercamera_vb2_buf_queue(struct vb2_buffer *vb)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev *sc_dev =3D vb2_get_drv_priv=
-(vb->vb2_queue);
-> > +=C2=A0=C2=A0=C2=A0 struct vb2_v4l2_buffer *vbuf =3D to_vb2_v4l2_buffer=
-(vb);
-> > +=C2=A0=C2=A0=C2=A0 struct supercamera_buffer *buf =3D container_of(vbu=
-f, struct
-> > supercamera_buffer, vb);
-> > +=C2=A0=C2=A0=C2=A0 unsigned long flags;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 spin_lock_irqsave(&sc_dev->buffer_list_lock, flags)=
-;
-> > +=C2=A0=C2=A0=C2=A0 list_add_tail(&buf->list, &sc_dev->buffer_list);
-> > +=C2=A0=C2=A0=C2=A0 spin_unlock_irqrestore(&sc_dev->buffer_list_lock, f=
-lags);
-> > +}
-> > +
-> > +static int supercamera_vb2_start_streaming(struct vb2_queue *vq,
-> > unsigned int count)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev *sc_dev =3D vb2_get_drv_priv=
-(vq);
-> > +=C2=A0=C2=A0=C2=A0 struct device *dev =3D &sc_dev->intf->dev;
-> > +=C2=A0=C2=A0=C2=A0 int ret;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 if (count =3D=3D 0)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return 0;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 ret =3D supercamera_start_streaming(sc_dev);
-> > +=C2=A0=C2=A0=C2=A0 if (ret) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(dev, "Failed to sta=
-rt USB streaming: %d\n", ret);
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return ret;
-> > +=C2=A0=C2=A0=C2=A0 }
-> > +
-> > +=C2=A0=C2=A0=C2=A0 return 0;
-> > +}
-> > +
-> > +static void supercamera_vb2_stop_streaming(struct vb2_queue *vq)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev sc_dev =3D vb2_get_drv_priv(=
-vq);
-> > +
-> > +=C2=A0=C2=A0=C2=A0 supercamera_return_all_buffers(sc_dev, VB2_BUF_STAT=
-E_ERROR);
-> > +=C2=A0=C2=A0=C2=A0 supercamera_stop_streaming(sc_dev);
-> > +}
-> > +
-> > +static const struct vb2_ops supercamera_vb2_ops =3D {
-> > +=C2=A0=C2=A0=C2=A0 .queue_setup =3D supercamera_vb2_queue_setup,
-> > +=C2=A0=C2=A0=C2=A0 .buf_prepare =3D supercamera_vb2_buf_prepare,
-> > +=C2=A0=C2=A0=C2=A0 .buf_queue =3D supercamera_vb2_buf_queue,
-> > +=C2=A0=C2=A0=C2=A0 .start_streaming =3D supercamera_vb2_start_streamin=
-g,
-> > +=C2=A0=C2=A0=C2=A0 .stop_streaming =3D supercamera_vb2_stop_streaming,
-> > +=C2=A0=C2=A0=C2=A0 .wait_prepare =3D vb2_ops_wait_prepare,
-> > +=C2=A0=C2=A0=C2=A0 .wait_finish =3D vb2_ops_wait_finish,
-> > +};
-> > +
-> > +/ V4L2 file operations */
-> > +static int supercamera_v4l2_open(struct file *file)
-> > +{
-> > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev *sc_dev =3D video_drvdata(fi=
-le);
-> > +=C2=A0=C2=A0=C2=A0 struct device *dev =3D &sc_dev->intf->dev;
-> > +=C2=A0=C2=A0=C2=A0 struct v4l2_fh *fh;
-> > +=C2=A0=C2=A0=C2=A0 int ret;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 fh =3D kzalloc(sizeof(*fh), GFP_KERNEL);
-> > +=C2=A0=C2=A0=C2=A0 if (!fh)
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENOMEM;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 v4l2_fh_init(fh, &sc_dev->vdev);
-> > +=C2=A0=C2=A0=C2=A0 v4l2_fh_add(fh);
-> > +=C2=A0=C2=A0=C2=A0 file->private_data =3D fh;
-> > +
-> > +=C2=A0=C2=A0=C2=A0 if (sc_dev->vb_queue.type =3D=3D 0) {
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->vb_queue.type =3D V=
-4L2_BUF_TYPE_VIDEO_CAPTURE;
-> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->vb_queue.io_modes =
-=3D VB2_MMAP | VB2_USERPTR | VB2_DMABUF
-> >=20
-> > > VB2_READ;
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->vb_queue.buf_stru=
-ct_size =3D sizeof(struct
-> > > supercamera_buffer);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->vb_queue.ops =3D =
-&supercamera_vb2_ops;
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->vb_queue.mem_ops =
-=3D &vb2_vmalloc_memops;
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->vb_queue.timestam=
-p_flags =3D
-> > > V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->vb_queue.dev =3D =
-dev;
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->vb_queue.lock =3D=
- &sc_dev->vb_queue_mutex;
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 sc_dev->vb_queue.drv_priv=
- =3D sc_dev;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ret =3D vb2_queue_init(&s=
-c_dev->vb_queue);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (ret) {
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 dev_err(dev, "Failed to initialize VB2 queue: %d\n", ret);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 v4l2_fh_del(fh);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 v4l2_fh_exit(fh);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 kfree(fh);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 return ret;
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > > +=C2=A0=C2=A0=C2=A0 }
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return 0;
-> > > +}
-> > > +
-> > > +static int supercamera_v4l2_release(struct file *file)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 struct v4l2_fh *fh =3D file->private_data;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 v4l2_fh_del(fh);
-> > > +=C2=A0=C2=A0=C2=A0 v4l2_fh_exit(fh);
-> > > +=C2=A0=C2=A0=C2=A0 kfree(fh);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return 0;
-> > > +}
-> > > +
-> > > +static __poll_t supercamera_v4l2_poll(struct file *file, struct
-> > > poll_table_struct *wait)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev *sc_dev =3D video_drvdata(=
-file);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return vb2_poll(&sc_dev->vb_queue, file, wait);
-> > > +}
-> > > +
-> > > +static int supercamera_v4l2_mmap(struct file *file, struct
-> > > vm_area_struct *vma)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev sc_dev =3D video_drvdata(f=
-ile);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return vb2_mmap(&sc_dev->vb_queue, vma);
-> > > +}
-> > > +
-> > > +static const struct v4l2_file_operations supercamera_fops =3D {
-> > > +=C2=A0=C2=A0=C2=A0 .owner =3D THIS_MODULE,
-> > > +=C2=A0=C2=A0=C2=A0 .open =3D supercamera_v4l2_open,
-> > > +=C2=A0=C2=A0=C2=A0 .release =3D supercamera_v4l2_release,
-> > > +=C2=A0=C2=A0=C2=A0 .poll =3D supercamera_v4l2_poll,
-> > > +=C2=A0=C2=A0=C2=A0 .mmap =3D supercamera_v4l2_mmap,
-> > > +=C2=A0=C2=A0=C2=A0 .unlocked_ioctl =3D video_ioctl2,
-> > > +};
-> > > +
-> > > +/ V4L2 ioctl operations */
-> > > +static int supercamera_v4l2_ioctl_querycap(struct file *file, void *=
-fh,
-> > > struct v4l2_capability *cap)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev *sc_dev =3D video_drvdata(=
-file);
-> > > +=C2=A0=C2=A0=C2=A0 char manufacturer[128];
-> > > +=C2=A0=C2=A0=C2=A0 char product[128];
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 strscpy(cap->driver, DRIVER_NAME, sizeof(cap->dri=
-ver));
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 if (usb_string(sc_dev->udev,
-> > > sc_dev->udev->descriptor.iManufacturer, manufacturer,
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 sizeof(manufacturer)) >=3D 0 && usb_string(sc_dev->udev,
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 sc_dev->udev->descriptor.iProduct, product,
-> > > sizeof(product)) >=3D 0) {
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 snprintf(cap->card, sizeo=
-f(cap->card), "%s: %s", manufacturer,
-> > > product);
-> > > +=C2=A0=C2=A0=C2=A0 } else {
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 strscpy(cap->card, "Unkno=
-wn UseePlus USB camera",
-> > > sizeof(cap->card));
-> > > +=C2=A0=C2=A0=C2=A0 }
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 usb_make_path(sc_dev->udev, cap->bus_info, sizeof=
-(cap->bus_info));
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 cap->device_caps =3D V4L2_CAP_VIDEO_CAPTURE | V4L=
-2_CAP_READWRITE |
-> > > V4L2_CAP_STREAMING;
-> > > +=C2=A0=C2=A0=C2=A0 cap->capabilities =3D cap->device_caps | V4L2_CAP=
-_DEVICE_CAPS;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return 0;
-> > > +}
-> > > +
-> > > +static int supercamera_v4l2_ioctl_g_input(struct file *file, void *f=
-h,
-> > > unsigned int *i)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 *i =3D 0;
-> > > +=C2=A0=C2=A0=C2=A0 return 0;
-> > > +}
-> > > +
-> > > +static int supercamera_v4l2_ioctl_s_input(struct file *file, void *f=
-h,
-> > > unsigned int i)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 if (i > 0)
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
-> > > +=C2=A0=C2=A0=C2=A0 return 0;
-> > > +}
-> > > +
-> > > +static int supercamera_v4l2_ioctl_enum_input(struct file *file, void
-> > > *fh, struct v4l2_input *input)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 if (input->index > 0)
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 strscpy(input->name, "Camera", sizeof(input->name=
-));
-> > > +=C2=A0=C2=A0=C2=A0 input->type =3D V4L2_INPUT_TYPE_CAMERA;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return 0;
-> > > +}
-> > > +
-> > > +static int supercamera_v4l2_ioctl_enum_fmt_vid_cap(struct file *file=
-,
-> > > void *fh,
-> > > +=C2=A0=C2=A0=C2=A0 struct v4l2_fmtdesc *f)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 if (f->index !=3D 0)
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 f->pixelformat =3D V4L2_PIX_FMT_JPEG;
-> > > +=C2=A0=C2=A0=C2=A0 return 0;
-> > > +}
-> > > +
-> > > +static int supercamera_v4l2_ioctl_g_fmt_vid_cap(struct file *file, v=
-oid
-> > > *fh, struct v4l2_format *f)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 f->fmt.pix.width =3D CAMERA_WIDTH;
-> > > +=C2=A0=C2=A0=C2=A0 f->fmt.pix.height =3D CAMERA_HEIGHT;
-> > > +=C2=A0=C2=A0=C2=A0 f->fmt.pix.pixelformat =3D V4L2_PIX_FMT_JPEG;
-> > > +=C2=A0=C2=A0=C2=A0 f->fmt.pix.field =3D V4L2_FIELD_NONE;
-> > > +=C2=A0=C2=A0=C2=A0 f->fmt.pix.bytesperline =3D 0;
-> > > +=C2=A0=C2=A0=C2=A0 f->fmt.pix.sizeimage =3D CAMERA_FRAME_SIZE;
-> > > +=C2=A0=C2=A0=C2=A0 f->fmt.pix.colorspace =3D V4L2_COLORSPACE_JPEG;
-> > > +=C2=A0=C2=A0=C2=A0 f->fmt.pix.priv =3D 0;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return 0;
-> > > +}
-> > > +
-> > > +static int supercamera_v4l2_ioctl_g_parm(struct file *file, void *fh=
-,
-> > > struct v4l2_streamparm *a)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 if (a->type !=3D V4L2_BUF_TYPE_VIDEO_CAPTURE)
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -EINVAL;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 a->parm.capture.capability =3D V4L2_CAP_TIMEPERFR=
-AME;
-> > > +=C2=A0=C2=A0=C2=A0 a->parm.capture.capturemode =3D 0;
-> > > +=C2=A0=C2=A0=C2=A0 a->parm.capture.timeperframe.numerator =3D 1;
-> > > +=C2=A0=C2=A0=C2=A0 a->parm.capture.timeperframe.denominator =3D 30;
-> > > +=C2=A0=C2=A0=C2=A0 a->parm.capture.extendedmode =3D 0;
-> > > +=C2=A0=C2=A0=C2=A0 a->parm.capture.readbuffers =3D 2;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return 0;
-> > > +}
-> > > +
-> > > +static int supercamera_v4l2_ioctl_reqbufs(struct file *file, void *f=
-h,
-> > > +=C2=A0=C2=A0=C2=A0 struct v4l2_requestbuffers *rb)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev *sc_dev =3D video_drvdata(=
-file);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return vb2_reqbufs(&sc_dev->vb_queue, rb);
-> > > +}
-> > > +
-> > > +static int supercamera_v4l2_ioctl_querybuf(struct file *file, void *=
-fh,
-> > > struct v4l2_buffer *b)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev *sc_dev =3D video_drvdata(=
-file);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return vb2_querybuf(&sc_dev->vb_queue, b);
-> > > +}
-> > > +
-> > > +static int supercamera_v4l2_ioctl_qbuf(struct file *file, void *fh,
-> > > struct v4l2_buffer *b)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev *sc_dev =3D video_drvdata(=
-file);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return vb2_qbuf(&sc_dev->vb_queue, NULL, b);
-> > > +}
-> > > +
-> > > +static int supercamera_v4l2_ioctl_dqbuf(struct file *file, void *fh,
-> > > struct v4l2_buffer *b)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev *sc_dev =3D video_drvdata(=
-file);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return vb2_dqbuf(&sc_dev->vb_queue, b, file->f_fl=
-ags & O_NONBLOCK);
-> > > +}
-> > > +
-> > > +static int supercamera_v4l2_ioctl_streamon(struct file *file, void *=
-fh,
-> > > enum v4l2_buf_type i)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev *sc_dev =3D video_drvdata(=
-file);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return vb2_streamon(&sc_dev->vb_queue, i);
-> > > +}
-> > > +
-> > > +static int supercamera_v4l2_ioctl_streamoff(struct file *file, void
-> > > *fh, enum v4l2_buf_type i)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev sc_dev =3D video_drvdata(f=
-ile);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return vb2_streamoff(&sc_dev->vb_queue, i);
-> > > +}
-> > > +
-> > > +static const struct v4l2_ioctl_ops supercamera_ioctl_ops =3D {
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_querycap =3D supercamera_v4l2_ioctl_query=
-cap,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_g_input =3D supercamera_v4l2_ioctl_g_inpu=
-t,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_s_input =3D supercamera_v4l2_ioctl_s_inpu=
-t,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_enum_input =3D supercamera_v4l2_ioctl_enu=
-m_input,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_enum_fmt_vid_cap =3D supercamera_v4l2_ioc=
-tl_enum_fmt_vid_cap,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_g_fmt_vid_cap =3D supercamera_v4l2_ioctl_=
-g_fmt_vid_cap,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_s_fmt_vid_cap =3D supercamera_v4l2_ioctl_=
-g_fmt_vid_cap,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_try_fmt_vid_cap =3D supercamera_v4l2_ioct=
-l_g_fmt_vid_cap,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_g_parm =3D supercamera_v4l2_ioctl_g_parm,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_s_parm =3D supercamera_v4l2_ioctl_g_parm,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_reqbufs =3D supercamera_v4l2_ioctl_reqbuf=
-s,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_querybuf =3D supercamera_v4l2_ioctl_query=
-buf,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_qbuf =3D supercamera_v4l2_ioctl_qbuf,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_dqbuf =3D supercamera_v4l2_ioctl_dqbuf,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_streamon =3D supercamera_v4l2_ioctl_strea=
-mon,
-> > > +=C2=A0=C2=A0=C2=A0 .vidioc_streamoff =3D supercamera_v4l2_ioctl_stre=
-amoff,
-> > > +};
-> > > +
-> > > +/ USB probe/disconnect */
-> > > +static int supercamera_probe(struct usb_interface *intf, const struc=
-t
-> > > usb_device_id *id)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev *sc_dev;
-> > > +=C2=A0=C2=A0=C2=A0 struct device *dev =3D &intf->dev;
-> > > +=C2=A0=C2=A0=C2=A0 struct usb_device *udev;
-> > > +=C2=A0=C2=A0=C2=A0 int retval;
-> > > +=C2=A0=C2=A0=C2=A0 int ifnum =3D intf->cur_altsetting->desc.bInterfa=
-ceNumber;
-> > > +=C2=A0=C2=A0=C2=A0 int altsetting =3D intf->cur_altsetting->desc.bAl=
-ternateSetting;
-> > > +=C2=A0=C2=A0=C2=A0 int class =3D intf->cur_altsetting->desc.bInterfa=
-ceClass;
-> > > +=C2=A0=C2=A0=C2=A0 int subclass =3D intf->cur_altsetting->desc.bInte=
-rfaceSubClass;
-> > > +=C2=A0=C2=A0=C2=A0 int protocol =3D intf->cur_altsetting->desc.bInte=
-rfaceProtocol;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 if (ifnum !=3D DEVICE_INTERFACE_NUMBER || class !=
-=3D DEVICE_INTERFACE_CLASS
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 || subclass !=3D DEVICE_I=
-NTERFACE_SUBCLASS || protocol !=3D
-> > > DEVICE_INTERFACE_PROTOCOL) {
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENODEV;
-> > > +=C2=A0=C2=A0=C2=A0 }
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 if (altsetting !=3D VIDEO_INTERFACE_ALTERNATE_SET=
-TING) {
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retval =3D usb_set_interf=
-ace(interface_to_usbdev(intf), ifnum,
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 VIDEO_INTERFACE_ALTERNATE=
-_SETTING);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if (retval) {
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 dev_err(dev, "Failed to set interface: %d\n", retval);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 return retval;
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 }
-> > > +=C2=A0=C2=A0=C2=A0 }
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 sc_dev =3D devm_kzalloc(dev, sizeof(sc_dev), GFP_=
-KERNEL);
-> > > +=C2=A0=C2=A0=C2=A0 if (!sc_dev)
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return -ENOMEM;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 udev =3D interface_to_usbdev(intf);
-> > > +=C2=A0=C2=A0=C2=A0 sc_dev->udev =3D udev;
-> > > +=C2=A0=C2=A0=C2=A0 sc_dev->intf =3D intf;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 mutex_init(&sc_dev->vb_queue_mutex);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 spin_lock_init(&sc_dev->buffer_list_lock);
-> > > +=C2=A0=C2=A0=C2=A0 INIT_LIST_HEAD(&sc_dev->buffer_list);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 / Allocate JPEG buffer - even worst-case JPEG can=
-'t exceed
-> > > uncompressed size */
-> > > +=C2=A0=C2=A0=C2=A0 sc_dev->protocol.jpeg_buffer_size =3D CAMERA_FRAM=
-E_SIZE;
-> > > +=C2=A0=C2=A0=C2=A0 sc_dev->protocol.jpeg_buffer =3D devm_kzalloc(dev=
-,
-> > > sc_dev->protocol.jpeg_buffer_size,
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 GFP_KERNEL);
-> > > +=C2=A0=C2=A0=C2=A0 if (!sc_dev->protocol.jpeg_buffer) {
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retval =3D -ENOMEM;
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto error_jpeg_buffer;
-> > > +=C2=A0=C2=A0=C2=A0 }
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 retval =3D v4l2_device_register(dev, &sc_dev->v4l=
-2_dev);
-> > > +=C2=A0=C2=A0=C2=A0 if (retval) {
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(dev, "Failed to r=
-egister v4l2 device: %d\n", retval);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto error_v4l2;
-> > > +=C2=A0=C2=A0=C2=A0 }
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 sc_dev->vdev =3D (struct video_device) {
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .name =3D "supercamera",
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .fops =3D &supercamera_fo=
-ps,
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .ioctl_ops =3D &supercame=
-ra_ioctl_ops,
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .release =3D video_device=
-_release_empty,
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .v4l2_dev =3D &sc_dev->v4=
-l2_dev,
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .vfl_dir =3D VFL_DIR_RX,
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 .device_caps =3D V4L2_CAP=
-_VIDEO_CAPTURE | V4L2_CAP_READWRITE |
-> > > V4L2_CAP_STREAMING,
-> > > +=C2=A0=C2=A0=C2=A0 };
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 video_set_drvdata(&sc_dev->vdev, sc_dev);
-> > > +=C2=A0=C2=A0=C2=A0 retval =3D video_register_device(&sc_dev->vdev, V=
-FL_TYPE_VIDEO, -1);
-> > > +=C2=A0=C2=A0=C2=A0 if (retval) {
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dev_err(dev, "Failed to r=
-egister video device: %d\n", retval);
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 goto error_video;
-> > > +=C2=A0=C2=A0=C2=A0 }
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 usb_set_intfdata(intf, sc_dev);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 return 0;
-> > > +
-> > > +error_video:
-> > > +=C2=A0=C2=A0=C2=A0 v4l2_device_unregister(&sc_dev->v4l2_dev);
-> > > +error_v4l2:
-> > > +error_jpeg_buffer:
-> > > +=C2=A0=C2=A0=C2=A0 return retval;
-> > > +}
-> > > +
-> > > +static void supercamera_disconnect(struct usb_interface *intf)
-> > > +{
-> > > +=C2=A0=C2=A0=C2=A0 struct supercamera_dev *sc_dev =3D usb_get_intfda=
-ta(intf);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 if (!sc_dev)
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return;
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 supercamera_stop_streaming(sc_dev);
-> > > +=C2=A0=C2=A0=C2=A0 supercamera_return_all_buffers(sc_dev, VB2_BUF_ST=
-ATE_ERROR);
-> > > +
-> > > +=C2=A0=C2=A0=C2=A0 video_unregister_device(&sc_dev->vdev);
-> > > +=C2=A0=C2=A0=C2=A0 v4l2_device_unregister(&sc_dev->v4l2_dev);
-> > > +=C2=A0=C2=A0=C2=A0 usb_set_intfdata(intf, NULL);
-> > > +}
-> > > +
-> > > +static const struct usb_device_id supercamera_table[] =3D {
-> > > +=C2=A0=C2=A0=C2=A0 {USB_DEVICE(USB_VENDOR_ID_SUPERCAMERA, USB_PRODUC=
-T_ID_SUPERCAMERA)}, {}
-> > > +};
-> > > +MODULE_DEVICE_TABLE(usb, supercamera_table);
-> > > +
-> > > +static struct usb_driver supercamera_driver =3D {
-> > > +=C2=A0=C2=A0=C2=A0 .name =3D DRIVER_NAME,
-> > > +=C2=A0=C2=A0=C2=A0 .id_table =3D supercamera_table,
-> > > +=C2=A0=C2=A0=C2=A0 .probe =3D supercamera_probe,
-> > > +=C2=A0=C2=A0=C2=A0 .disconnect =3D supercamera_disconnect,
-> > > +};
-> > > +
-> > > +module_usb_driver(supercamera_driver);
-> > > +
-> > > +MODULE_LICENSE("GPL");
-> > > +MODULE_AUTHOR("Amaury Barral useeplus.l4qli@passmail.net, Hadrien
-> > > Barral hadrien.barral@univ-eiffel.fr");
-> > > +MODULE_DESCRIPTION("Driver for 'Geek szitman supercamera'
-> > > ('com.useeplus.protocol' protocol)");
-> > > +MODULE_VERSION("1.0");
-
+SGkgTmljb2xhcw0KDQo+IC0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IE5pY29s
+YXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAY29sbGFib3JhLmNvbT4NCj4gU2VudDogV2Vk
+bmVzZGF5LCBTZXB0ZW1iZXIgMTAsIDIwMjUgOTo1NyBQTQ0KPiBUbzogamFja3Nvbi5sZWUgPGph
+Y2tzb24ubGVlQGNoaXBzbm1lZGlhLmNvbT47IG1jaGVoYWJAa2VybmVsLm9yZzsNCj4gaHZlcmt1
+aWwtY2lzY29AeHM0YWxsLm5sOyBib2IuYmVja2V0dEBjb2xsYWJvcmEuY29tDQo+IENjOiBsaW51
+eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmc7IGxpbnV4LWtlcm5lbEB2Z2VyLmtlcm5lbC5vcmc7IGxh
+ZmxleS5raW0NCj4gPGxhZmxleS5raW1AY2hpcHNubWVkaWEuY29tPjsgYi1icm5pY2hAdGkuY29t
+OyBodmVya3VpbEB4czRhbGwubmw7IE5hcw0KPiBDaHVuZyA8bmFzLmNodW5nQGNoaXBzbm1lZGlh
+LmNvbT4NCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MyAwLzRdIFBlcmZvcm1hbmNlIGltcHJvdmVt
+ZW50IG9mIGRlY29kZXINCj4gDQo+IEhpIEphY2tzb24sDQo+IA0KPiBMZSBtZXJjcmVkaSAxMCBz
+ZXB0ZW1icmUgMjAyNSDDoCAwNjo1OSArMDAwMCwgamFja3Nvbi5sZWUgYSDDqWNyaXTCoDoNCj4g
+Wy4uLl0NCj4gDQo+ID4gSSBoYXZlIHJlcHJvZHVjZWQgdGhlIHN0YWxsIHByb2JsZW0sIEkgY2Fu
+IHNlZSBpdCB3aXRoIHRoZSBsYXRlc3QNCj4gR3N0cmVhbWVyIHZlcnNpb24uDQo+ID4gVGhlIHJv
+b3QgY2F1c2UgaXMgd2UgY2hlY2tlZCBhbiBpbmNvcnJlY3QgcmV0dXJuIHZhbHVlIHdoaWxlIGZs
+dXNoaW5nLA0KPiBzbyBpbiBzcGl0ZSBvZiBub3QgZmluaXNoZWQgZmx1c2hpbmcsIHRoZSBjaGVj
+a2luZyBsb29wIGlmIHRoZSBmbHVzaGluZw0KPiB3YXMgZmluaXNoZWQgd2FzIGV4aXRlZC4NCj4g
+PiBXaGVuIHN0b3Agc3RyZWFtaW5nIHdhcyBjYWxsZWQgYW5kIHRoZSBpbnN0YW5jZSBxdWV1ZSBj
+b3VudCB3YXMgMSzCoCB0aGUNCj4gY2hlY2tpbmcgZnVuY3Rpb24gcHV0IGluZmluaXRlIGxvb3As
+IHNvIHRoZSBzdGFsbCBwcm9ibGVtIGhhcHBlbmVkLg0KPiA+DQo+ID4gVGhlIGJlbG93IHBhdGNo
+IHNob3VsZCBiZSBuZWVkZWQuDQo+ID4NCj4gPiBkaWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9w
+bGF0Zm9ybS9jaGlwcy1tZWRpYS93YXZlNS93YXZlNS12cHVhcGkuYw0KPiA+IGIvZHJpdmVycy9t
+ZWRpYS9wbGF0Zm9ybS9jaGlwcy1tZWRpYS93YXZlNS93YXZlNS12cHVhcGkuYw0KPiA+IGluZGV4
+IGVkYmU2OTU0MGVmMS4uMmUwMTI4Y2QwZTRkIDEwMDY0NA0KPiA+IC0tLSBhL2RyaXZlcnMvbWVk
+aWEvcGxhdGZvcm0vY2hpcHMtbWVkaWEvd2F2ZTUvd2F2ZTUtdnB1YXBpLmMNCj4gPiArKysgYi9k
+cml2ZXJzL21lZGlhL3BsYXRmb3JtL2NoaXBzLW1lZGlhL3dhdmU1L3dhdmU1LXZwdWFwaS5jDQo+
+ID4gQEAgLTUyLDYgKzUyLDcgQEAgaW50IHdhdmU1X3ZwdV9pbml0X3dpdGhfYml0Y29kZShzdHJ1
+Y3QgZGV2aWNlICpkZXYsDQo+ID4gdTggKmJpdGNvZGUsIHNpemVfdCBzaXplKQ0KPiA+IMKgaW50
+IHdhdmU1X3ZwdV9mbHVzaF9pbnN0YW5jZShzdHJ1Y3QgdnB1X2luc3RhbmNlICppbnN0KQ0KPiA+
+IMKgew0KPiA+IMKgwqDCoMKgwqDCoMKgIGludCByZXQgPSAwOw0KPiA+ICvCoMKgwqDCoMKgwqAg
+aW50IG11dGV4X3JldCA9IDA7DQo+ID4gwqDCoMKgwqDCoMKgwqAgaW50IHJldHJ5ID0gMDsNCj4g
+Pg0KPiA+IMKgwqDCoMKgwqDCoMKgIHJldCA9IG11dGV4X2xvY2tfaW50ZXJydXB0aWJsZSgmaW5z
+dC0+ZGV2LT5od19sb2NrKTsNCj4gPiBAQCAtODAsOSArODEsOSBAQCBpbnQgd2F2ZTVfdnB1X2Zs
+dXNoX2luc3RhbmNlKHN0cnVjdCB2cHVfaW5zdGFuY2UNCj4gPiAqaW5zdCkNCj4gPg0KPiA+IMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbXV0ZXhfdW5sb2Nr
+KCZpbnN0LT5kZXYtPmh3X2xvY2spOw0KPiA+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqAgd2F2ZTVfdnB1X2RlY19nZXRfb3V0cHV0X2luZm8oaW5zdCwNCj4g
+PiAmZGVjX2luZm8pOw0KPiA+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCByZXQgPQ0KPiA+IG11dGV4X2xvY2tfaW50ZXJydXB0aWJsZSgmaW5zdC0+ZGV2LT5o
+d19sb2NrKTsNCj4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgaWYgKHJldCkNCj4gPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJldHVybiByZXQ7DQo+ID4gK8KgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIG11dGV4X3JldCA9DQo+ID4gK211dGV4X2xvY2tf
+aW50ZXJydXB0aWJsZSgmaW5zdC0+ZGV2LT5od19sb2NrKTsNCj4gPiArwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgaWYgKG11dGV4X3JldCkNCj4gPiArwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJl
+dHVybiBtdXRleF9yZXQ7DQo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqDCoMKgwqDCoCBpZiAoZGVjX2luZm8uaW5kZXhfZnJhbWVfZGlzcGxheSA+IDApDQo+ID4gwqDC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
+wqAgd2F2ZTVfdnB1X2RlY19zZXRfZGlzcF9mbGFnKGluc3QsDQo+ID4gZGVjX2luZm8uaW5kZXhf
+ZnJhbWVfZGlzcGxheSk7DQo+ID4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIH0NCj4g
+DQo+IEdvb2QgY2F0Y2gsIHVuZm9ydHVuYXRlbHkgaXQgZG9lcyBub3QgY29tcGxldGVseSBmaXgg
+dGhlIHByb2JsZW0gZm9yIG1lLg0KPiBZb3UgY2FuIGZpbmQgYSB0aGUgZW5kIG9mIHRoaXMgbWVz
+c2FnZSB0aGUgcGF0Y2ggSSBhY3R1YWxseSB0ZXN0ZWQuIE5vdGUNCj4gSSAsb3ZlIHRoZSBtdXRl
+eF9yZXQgaW4gYSBjbG9zZSBzY29wZSwgYW5kIGZpeGVkIG90aGVyIG9jY3VyZW5jZSBvZiB0aGlz
+DQo+IHBhdHRlcm4sIGV4Y2VwdCBvbmUgdGhhdCBJIGhpZ2hsaWdodGVkIHRvIHlvdSB3aXRoIGEg
+RklYTUUuDQo+IA0KPiBTb21lIG5ldyBpbmZvcm1hdGlvbiwgSSBoYWQgdGhpcyB0cmFjZSBmcm9t
+IEdTdHJlYW1lciB3aGVuIHRoZSBidWcgb2NjdXJlZA0KPiBvbiBmb3J3YXJkIHNlZWtzICh2ZXJ5
+IHJhcmUpOg0KDQpJIGhhdmUgZm91bmQgdGhlcmUgaXMgZGVhZCBsb2NrIHdoaWxlIHNlZWtpbmcg
+c2V2ZXJhbCB0aW1lcy4NCkkgYW0gZGlnZ2luZyB0aGUgZGVhZCBsb2NrLCBJIHdpbGwgdXBkYXRl
+DQoNClRoYW5rcw0KSmFja3Nvbi4NCg0KPiANCj4gKiogKGdzdC1wbGF5LTEuMDo2MDQpOiBXQVJO
+SU5HICoqOiAwMDowMzo1OS45NjU6IHY0bDJoMjY0ZGVjMDogVG9vIG9sZA0KPiBmcmFtZXMsIGJ1
+ZyBpbiBkZWNvZGVyIC0tIHBsZWFzZSBmaWxlIGEgYnVnDQo+IA0KPiBbcm9vdEBqYWNpbnRvIG5p
+Y29sYXNdIyBlY2hvIHcgPiAvcHJvYy9zeXNycS10cmlnZ2VyIFsgIDMzNS4xMTYyODldIHN5c3Jx
+Og0KPiBTaG93IEJsb2NrZWQgU3RhdGUNCj4gWyAgMzM1LjEyMDA1NF0gdGFzazp0eXBlZmluZDpz
+aW5rICAgc3RhdGU6RCBzdGFjazowICAgICBwaWQ6NjA3ICAgdGdpZDo2MDQNCj4gcHBpZDo1NDMg
+ICAgdGFza19mbGFnczoweDQwMDQ0YyBmbGFnczoweDAwMDAwMDE5DQo+IFsgIDMzNS4xMzExNDdd
+IENhbGwgdHJhY2U6DQo+IFsgIDMzNS4xMzM1ODRdICBfX3N3aXRjaF90bysweGYwLzB4MWMwIChU
+KSBbICAzMzUuMTM3NDQyXQ0KPiBfX3NjaGVkdWxlKzB4MzVjLzB4OWJjIFsgIDMzNS4xNDA5MzVd
+ICBzY2hlZHVsZSsweDM0LzB4MTEwIFsgIDMzNS4xNDQxNjJdDQo+IHNjaGVkdWxlX3RpbWVvdXQr
+MHg4MC8weDEwNCBbICAzMzUuMTQ4MDgxXQ0KPiB3YWl0X2Zvcl9jb21wbGV0aW9uX3RpbWVvdXQr
+MHg3NC8weDE1OA0KPiBbICAzMzUuMTUyOTU1XSAgd2F2ZTVfdnB1X3dhaXRfaW50ZXJydXB0KzB4
+MjgvMHg2MCBbd2F2ZTVdIFsgIDMzNS4xNTgyNTJdDQo+IHdhdmU1X3ZwdV9kZWNfc3RvcF9zdHJl
+YW1pbmcrMHg2OC8weDI4YyBbd2F2ZTVdIFsgIDMzNS4xNjM5MTVdDQo+IF9fdmIyX3F1ZXVlX2Nh
+bmNlbCsweDJjLzB4MmQ0IFt2aWRlb2J1ZjJfY29tbW9uXSBbICAzMzUuMTY5NjY4XQ0KPiB2YjJf
+Y29yZV9xdWV1ZV9yZWxlYXNlKzB4MjAvMHg3NCBbdmlkZW9idWYyX2NvbW1vbl0gWyAgMzM1LjE3
+NTY3OF0NCj4gdmIyX3F1ZXVlX3JlbGVhc2UrMHgxMC8weDFjIFt2aWRlb2J1ZjJfdjRsMl0gWyAg
+MzM1LjE4MTA4MV0NCj4gdjRsMl9tMm1fY3R4X3JlbGVhc2UrMHgyMC8weDQwIFt2NGwyX21lbTJt
+ZW1dIFsgIDMzNS4xODY1NjddDQo+IHdhdmU1X3ZwdV9yZWxlYXNlX2RldmljZSsweDQ0LzB4MTUw
+IFt3YXZlNV0gWyAgMzM1LjE5MTg3OV0NCj4gd2F2ZTVfdnB1X2RlY19yZWxlYXNlKzB4MjAvMHgy
+YyBbd2F2ZTVdIFsgIDMzNS4xOTY4NDFdDQo+IHY0bDJfcmVsZWFzZSsweGI0LzB4ZjAgW3ZpZGVv
+ZGV2XSBbICAzMzUuMjAxNzA5XSAgX19mcHV0KzB4ZDAvMHgyZTANCj4gWyAgMzM1LjIwNTA5MF0g
+IF9fX19mcHV0KzB4MTQvMHgyMCBbICAzMzUuMjA4NDY4XSAgdGFza193b3JrX3J1bisweDY0LzB4
+ZDQNCj4gWyAgMzM1LjIxMjE2NF0gIGRvX2V4aXQrMHgyNDAvMHg4ZTAgWyAgMzM1LjIxNTU1Ml0g
+IGRvX2dyb3VwX2V4aXQrMHgzMC8weGE0DQo+IFsgIDMzNS4yMTkxNzddICBnZXRfc2lnbmFsKzB4
+NzkwLzB4ODYwIFsgIDMzNS4yMjI2NzZdICBkb19zaWduYWwrMHg5NC8weDM5NA0KPiBbICAzMzUu
+MjI1OTg2XSAgZG9fbm90aWZ5X3Jlc3VtZSsweGQwLzB4MTRjIFsgIDMzNS4yMjk5MTBdDQo+IGVs
+MF9zdmMrMHhlNC8weGU4IFsgIDMzNS4yMzI5NjddICBlbDB0XzY0X3N5bmNfaGFuZGxlcisweGEw
+LzB4ZTQNCj4gWyAgMzM1LjIzNzE1NF0gIGVsMHRfNjRfc3luYysweDE5OC8weDE5Yw0KPiANCj4g
+cmVnYXJkcywNCj4gTmljb2xhcw0KPiANCj4gLS0tDQo+IA0KPiBkaWZmIC0tZ2l0IGEvZHJpdmVy
+cy9tZWRpYS9wbGF0Zm9ybS9jaGlwcy1tZWRpYS93YXZlNS93YXZlNS12cHVhcGkuYw0KPiBiL2Ry
+aXZlcnMvbWVkaWEvcGxhdGZvcm0vY2hpcHMtbWVkaWEvd2F2ZTUvd2F2ZTUtdnB1YXBpLmMNCj4g
+aW5kZXggZWRiZTY5NTQwZWYxZS4uMmZhY2EyZWVlNDFmZSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVy
+cy9tZWRpYS9wbGF0Zm9ybS9jaGlwcy1tZWRpYS93YXZlNS93YXZlNS12cHVhcGkuYw0KPiArKysg
+Yi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL2NoaXBzLW1lZGlhL3dhdmU1L3dhdmU1LXZwdWFwaS5j
+DQo+IEBAIC03NywxMiArNzcsMTMgQEAgaW50IHdhdmU1X3ZwdV9mbHVzaF9pbnN0YW5jZShzdHJ1
+Y3QgdnB1X2luc3RhbmNlICppbnN0KQ0KPiAgICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4g
+LUVUSU1FRE9VVDsNCj4gICAgICAgICAgICAgICAgIH0gZWxzZSBpZiAocmV0ID09IC1FQlVTWSkg
+ew0KPiAgICAgICAgICAgICAgICAgICAgICAgICBzdHJ1Y3QgZGVjX291dHB1dF9pbmZvIGRlY19p
+bmZvOw0KPiArICAgICAgICAgICAgICAgICAgICAgICBpbnQgcmV0X211dGV4Ow0KPiANCj4gICAg
+ICAgICAgICAgICAgICAgICAgICAgbXV0ZXhfdW5sb2NrKCZpbnN0LT5kZXYtPmh3X2xvY2spOw0K
+PiAgICAgICAgICAgICAgICAgICAgICAgICB3YXZlNV92cHVfZGVjX2dldF9vdXRwdXRfaW5mbyhp
+bnN0LCAmZGVjX2luZm8pOw0KPiAtICAgICAgICAgICAgICAgICAgICAgICByZXQgPSBtdXRleF9s
+b2NrX2ludGVycnVwdGlibGUoJmluc3QtPmRldi0+aHdfbG9jayk7DQo+IC0gICAgICAgICAgICAg
+ICAgICAgICAgIGlmIChyZXQpDQo+IC0gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgcmV0
+dXJuIHJldDsNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgcmV0X211dGV4ID0gbXV0ZXhfbG9j
+a19pbnRlcnJ1cHRpYmxlKCZpbnN0LT5kZXYtDQo+ID5od19sb2NrKTsNCj4gKyAgICAgICAgICAg
+ICAgICAgICAgICAgaWYgKHJldF9tdXRleCkNCj4gKyAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICByZXR1cm4gcmV0X211dGV4Ow0KPiAgICAgICAgICAgICAgICAgICAgICAgICBpZiAoZGVj
+X2luZm8uaW5kZXhfZnJhbWVfZGlzcGxheSA+IDApDQo+ICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgd2F2ZTVfdnB1X2RlY19zZXRfZGlzcF9mbGFnKGluc3QsDQo+IGRlY19pbmZvLmlu
+ZGV4X2ZyYW1lX2Rpc3BsYXkpOw0KPiAgICAgICAgICAgICAgICAgfQ0KPiBAQCAtMjIyLDYgKzIy
+Myw4IEBAIGludCB3YXZlNV92cHVfZGVjX2Nsb3NlKHN0cnVjdCB2cHVfaW5zdGFuY2UgKmluc3Qs
+IHUzMg0KPiAqZmFpbF9yZXMpDQo+ICAgICAgICAgfQ0KPiANCj4gICAgICAgICBkbyB7DQo+ICsg
+ICAgICAgICAgICAgICBpbnQgcmV0X211dGV4Ow0KPiArDQo+ICAgICAgICAgICAgICAgICByZXQg
+PSB3YXZlNV92cHVfZGVjX2ZpbmlzaF9zZXEoaW5zdCwgZmFpbF9yZXMpOw0KPiAgICAgICAgICAg
+ICAgICAgaWYgKHJldCA8IDAgJiYgKmZhaWxfcmVzICE9IFdBVkU1X1NZU0VSUl9WUFVfU1RJTExf
+UlVOTklORykgew0KPiAgICAgICAgICAgICAgICAgICAgICAgICBkZXZfd2FybihpbnN0LT5kZXYt
+PmRldiwgImRlY19maW5pc2hfc2VxIHRpbWVkIG91dFxuIik7DQo+IEBAIC0yNDMsMTAgKzI0Niwx
+MCBAQCBpbnQgd2F2ZTVfdnB1X2RlY19jbG9zZShzdHJ1Y3QgdnB1X2luc3RhbmNlICppbnN0LA0K
+PiB1MzIgKmZhaWxfcmVzKQ0KPiANCj4gICAgICAgICAgICAgICAgIG11dGV4X3VubG9jaygmdnB1
+X2Rldi0+aHdfbG9jayk7DQo+ICAgICAgICAgICAgICAgICB3YXZlNV92cHVfZGVjX2dldF9vdXRw
+dXRfaW5mbyhpbnN0LCAmZGVjX2luZm8pOw0KPiAtICAgICAgICAgICAgICAgcmV0ID0gbXV0ZXhf
+bG9ja19pbnRlcnJ1cHRpYmxlKCZ2cHVfZGV2LT5od19sb2NrKTsNCj4gLSAgICAgICAgICAgICAg
+IGlmIChyZXQpIHsNCj4gKyAgICAgICAgICAgICAgIHJldF9tdXRleCA9IG11dGV4X2xvY2tfaW50
+ZXJydXB0aWJsZSgmdnB1X2Rldi0+aHdfbG9jayk7DQo+ICsgICAgICAgICAgICAgICBpZiAocmV0
+X211dGV4KSB7DQo+ICAgICAgICAgICAgICAgICAgICAgICAgIHBtX3J1bnRpbWVfcHV0X3N5bmMo
+aW5zdC0+ZGV2LT5kZXYpOw0KPiAtICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcmV0Ow0K
+PiArICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcmV0X211dGV4Ow0KPiAgICAgICAgICAg
+ICAgICAgfQ0KPiAgICAgICAgIH0gd2hpbGUgKHJldCAhPSAwKTsNCj4gDQo+IEBAIC00ODIsNiAr
+NDg1LDcgQEAgZG1hX2FkZHJfdCB3YXZlNV92cHVfZGVjX2dldF9yZF9wdHIoc3RydWN0DQo+IHZw
+dV9pbnN0YW5jZSAqaW5zdCkNCj4gDQo+ICAgICAgICAgcmV0ID0gbXV0ZXhfbG9ja19pbnRlcnJ1
+cHRpYmxlKCZpbnN0LT5kZXYtPmh3X2xvY2spOw0KPiAgICAgICAgIGlmIChyZXQpDQo+ICsgICAg
+ICAgICAgICAgICAvLyBGSVhNRSB0aGlzIHJldHVybiB0eXBlIGlzIHdyb25nDQo+ICAgICAgICAg
+ICAgICAgICByZXR1cm4gcmV0Ow0KPiANCj4gICAgICAgICByZF9wdHIgPSB3YXZlNV9kZWNfZ2V0
+X3JkX3B0cihpbnN0KTsNCj4gbmljb2xhc0B3aGl0ZWJ1aWxkZXI6fi9Tb3VyY2VzL1RJL2phY2lu
+dG8vbGludXgkIGdpdCBkaWZmIGRpZmYgLS1naXQNCj4gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3Jt
+L2NoaXBzLW1lZGlhL3dhdmU1L3dhdmU1LXZwdWFwaS5jDQo+IGIvZHJpdmVycy9tZWRpYS9wbGF0
+Zm9ybS9jaGlwcy1tZWRpYS93YXZlNS93YXZlNS12cHVhcGkuYw0KPiBpbmRleCBlZGJlNjk1NDBl
+ZjFlLi4yZmFjYTJlZWU0MWZlIDEwMDY0NA0KPiAtLS0gYS9kcml2ZXJzL21lZGlhL3BsYXRmb3Jt
+L2NoaXBzLW1lZGlhL3dhdmU1L3dhdmU1LXZwdWFwaS5jDQo+ICsrKyBiL2RyaXZlcnMvbWVkaWEv
+cGxhdGZvcm0vY2hpcHMtbWVkaWEvd2F2ZTUvd2F2ZTUtdnB1YXBpLmMNCj4gQEAgLTc3LDEyICs3
+NywxMyBAQCBpbnQgd2F2ZTVfdnB1X2ZsdXNoX2luc3RhbmNlKHN0cnVjdCB2cHVfaW5zdGFuY2Ug
+Kmluc3QpDQo+ICAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiAtRVRJTUVET1VUOw0KPiAg
+ICAgICAgICAgICAgICAgfSBlbHNlIGlmIChyZXQgPT0gLUVCVVNZKSB7DQo+ICAgICAgICAgICAg
+ICAgICAgICAgICAgIHN0cnVjdCBkZWNfb3V0cHV0X2luZm8gZGVjX2luZm87DQo+ICsgICAgICAg
+ICAgICAgICAgICAgICAgIGludCByZXRfbXV0ZXg7DQo+IA0KPiAgICAgICAgICAgICAgICAgICAg
+ICAgICBtdXRleF91bmxvY2soJmluc3QtPmRldi0+aHdfbG9jayk7DQo+ICAgICAgICAgICAgICAg
+ICAgICAgICAgIHdhdmU1X3ZwdV9kZWNfZ2V0X291dHB1dF9pbmZvKGluc3QsICZkZWNfaW5mbyk7
+DQo+IC0gICAgICAgICAgICAgICAgICAgICAgIHJldCA9IG11dGV4X2xvY2tfaW50ZXJydXB0aWJs
+ZSgmaW5zdC0+ZGV2LT5od19sb2NrKTsNCj4gLSAgICAgICAgICAgICAgICAgICAgICAgaWYgKHJl
+dCkNCj4gLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICByZXR1cm4gcmV0Ow0KPiArICAg
+ICAgICAgICAgICAgICAgICAgICByZXRfbXV0ZXggPSBtdXRleF9sb2NrX2ludGVycnVwdGlibGUo
+Jmluc3QtPmRldi0NCj4gPmh3X2xvY2spOw0KPiArICAgICAgICAgICAgICAgICAgICAgICBpZiAo
+cmV0X211dGV4KQ0KPiArICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIHJldHVybiByZXRf
+bXV0ZXg7DQo+ICAgICAgICAgICAgICAgICAgICAgICAgIGlmIChkZWNfaW5mby5pbmRleF9mcmFt
+ZV9kaXNwbGF5ID4gMCkNCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB3YXZlNV92
+cHVfZGVjX3NldF9kaXNwX2ZsYWcoaW5zdCwNCj4gZGVjX2luZm8uaW5kZXhfZnJhbWVfZGlzcGxh
+eSk7DQo+ICAgICAgICAgICAgICAgICB9DQo+IEBAIC0yMjIsNiArMjIzLDggQEAgaW50IHdhdmU1
+X3ZwdV9kZWNfY2xvc2Uoc3RydWN0IHZwdV9pbnN0YW5jZSAqaW5zdCwgdTMyDQo+ICpmYWlsX3Jl
+cykNCj4gICAgICAgICB9DQo+IA0KPiAgICAgICAgIGRvIHsNCj4gKyAgICAgICAgICAgICAgIGlu
+dCByZXRfbXV0ZXg7DQo+ICsNCj4gICAgICAgICAgICAgICAgIHJldCA9IHdhdmU1X3ZwdV9kZWNf
+ZmluaXNoX3NlcShpbnN0LCBmYWlsX3Jlcyk7DQo+ICAgICAgICAgICAgICAgICBpZiAocmV0IDwg
+MCAmJiAqZmFpbF9yZXMgIT0gV0FWRTVfU1lTRVJSX1ZQVV9TVElMTF9SVU5OSU5HKSB7DQo+ICAg
+ICAgICAgICAgICAgICAgICAgICAgIGRldl93YXJuKGluc3QtPmRldi0+ZGV2LCAiZGVjX2Zpbmlz
+aF9zZXEgdGltZWQgb3V0XG4iKTsNCj4gQEAgLTI0MywxMCArMjQ2LDEwIEBAIGludCB3YXZlNV92
+cHVfZGVjX2Nsb3NlKHN0cnVjdCB2cHVfaW5zdGFuY2UgKmluc3QsDQo+IHUzMiAqZmFpbF9yZXMp
+DQo+IA0KPiAgICAgICAgICAgICAgICAgbXV0ZXhfdW5sb2NrKCZ2cHVfZGV2LT5od19sb2NrKTsN
+Cj4gICAgICAgICAgICAgICAgIHdhdmU1X3ZwdV9kZWNfZ2V0X291dHB1dF9pbmZvKGluc3QsICZk
+ZWNfaW5mbyk7DQo+IC0gICAgICAgICAgICAgICByZXQgPSBtdXRleF9sb2NrX2ludGVycnVwdGli
+bGUoJnZwdV9kZXYtPmh3X2xvY2spOw0KPiAtICAgICAgICAgICAgICAgaWYgKHJldCkgew0KPiAr
+ICAgICAgICAgICAgICAgcmV0X211dGV4ID0gbXV0ZXhfbG9ja19pbnRlcnJ1cHRpYmxlKCZ2cHVf
+ZGV2LT5od19sb2NrKTsNCj4gKyAgICAgICAgICAgICAgIGlmIChyZXRfbXV0ZXgpIHsNCj4gICAg
+ICAgICAgICAgICAgICAgICAgICAgcG1fcnVudGltZV9wdXRfc3luYyhpbnN0LT5kZXYtPmRldik7
+DQo+IC0gICAgICAgICAgICAgICAgICAgICAgIHJldHVybiByZXQ7DQo+ICsgICAgICAgICAgICAg
+ICAgICAgICAgIHJldHVybiByZXRfbXV0ZXg7DQo+ICAgICAgICAgICAgICAgICB9DQo+ICAgICAg
+ICAgfSB3aGlsZSAocmV0ICE9IDApOw0KPiANCj4gQEAgLTQ4Miw2ICs0ODUsNyBAQCBkbWFfYWRk
+cl90IHdhdmU1X3ZwdV9kZWNfZ2V0X3JkX3B0cihzdHJ1Y3QNCj4gdnB1X2luc3RhbmNlICppbnN0
+KQ0KPiANCj4gICAgICAgICByZXQgPSBtdXRleF9sb2NrX2ludGVycnVwdGlibGUoJmluc3QtPmRl
+di0+aHdfbG9jayk7DQo+ICAgICAgICAgaWYgKHJldCkNCj4gKyAgICAgICAgICAgICAgIC8vIEZJ
+WE1FIHRoaXMgcmV0dXJuIHR5cGUgaXMgd3JvbmcNCj4gICAgICAgICAgICAgICAgIHJldHVybiBy
+ZXQ7DQo+IA0KPiAgICAgICAgIHJkX3B0ciA9IHdhdmU1X2RlY19nZXRfcmRfcHRyKGluc3QpOw0K
 
