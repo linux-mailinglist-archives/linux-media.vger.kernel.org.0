@@ -1,226 +1,222 @@
-Return-Path: <linux-media+bounces-42267-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42268-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id F36F3B52BC3
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 10:35:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FC21B52C0C
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 10:45:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9F09A586479
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 08:35:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C8B563ABC9C
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 08:45:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2F98C2E2F04;
-	Thu, 11 Sep 2025 08:35:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C8EE2E5B1D;
+	Thu, 11 Sep 2025 08:45:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ilWwErg+"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="HFEReM7O"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ot1-f41.google.com (mail-ot1-f41.google.com [209.85.210.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011042.outbound.protection.outlook.com [52.101.70.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E191A2E2DDC
-	for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 08:35:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.41
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757579709; cv=none; b=DOmx1myvZzRt5cXn/AMR7nDkA13VTcbbXqvDaq25S4Uw0H5lYZVltfP4NW3ojngY7gEKX62l+Uq9e+EbG29qCr0Q6DRYh1UGXntqNRpdwuMHZEMbdrexXJpjd6qy0kfQjJKn6vCcEbfksPvqUH9ugOPXrqhyzveBK9MP9xl3f7k=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757579709; c=relaxed/simple;
-	bh=T6ilPcXZgQ5f5CxPTAYUfjyTCdf1YYJ3+E29eRIGUTo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Kw5M0vStytn6CYaQ+1GZbN4zt+xJMr39hub10Gzrkx72phsYra+1zfJeG5TtYTPxpFUWx9BjSI/KLKsoaPrDEzKUHtBheM8W8rpdpPLrLOkDQK+kJfbVFf5BE7FwnurQ4s3V6X94Ea1OFp2AWsnqFDe5JQmMx8n6ksqLBzff95Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ilWwErg+; arc=none smtp.client-ip=209.85.210.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ot1-f41.google.com with SMTP id 46e09a7af769-74526ca7d64so464739a34.2
-        for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 01:35:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1757579707; x=1758184507; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=X3kQgAiwPfvEAAOGUV7iUTri/K2HtvbKjHs1xtQRX0U=;
-        b=ilWwErg+wKTRWwdDweqCYtBQs0YnKgvW9qbHBGFsSCHzfUAAmT0PY45Ock0KUp5fm6
-         NVOwLtUFUoW22vUeCxIBqYnZ4WduWP8/zIb23pInc7+80tB2KvU3JyHtNLFp35o2rBjg
-         a1j26qVH0Mk1l9bZfo8aloCVu0zxRZ2gEySdZbYWJ99vdapdRJPJJhhOyKBJYfaSFm2y
-         bYNordX4gnXIrIbJ3/IuE5nctMqbNCEi5n4z8QrUNSWhdm8CDyFPziOqGfDPKVTlhEIZ
-         FHwSe/u02qNRBa2oSGjXNNZ5vwk+2B2YktK/gZKU6o/Z6KZ8xl2W34sQF2Lk8QLLmFEE
-         O+Hw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757579707; x=1758184507;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=X3kQgAiwPfvEAAOGUV7iUTri/K2HtvbKjHs1xtQRX0U=;
-        b=UlTR0q3uDYIDBY/ZRRkubS2/LUzAmcuZHWLY3mobS4vDH2nCgSi5Vt+5e1lSbnFX9q
-         hTXyDOwwzx+4NYRYK4f1fF2S0Ot2i6GI7c5hTIgFnraYgmgUUWm27SVoMuCHxPK/A7QK
-         BrCc+JyQqiITwyZXXoQtRlGGknwpMc5cwewvwp4n16YzOTLO1cdnxrY4hTdq2wqnBwNY
-         TUipBhdMYRWM5u9TWyf6oaqUvjYHHYnIegpx18fFBj01+j+CjU841xeQyd73bEDI8U2V
-         kwlBtw89kGUXNIocJWa50Pz04sELwuvIEDbewr5Qw0py0KnDJczQdVGclxOxl2i1QoNf
-         LwHQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWVX1JHCaag9EbhJ+R5jGMB69V5i8HTTTPi0E3F3w3kKwC5X7tgDFInzqy7xD9erBVbvp+hWWCaaINRuA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzQ1KorUzNJn3KpT7UIX0ZodXCSw7JCgBGpfwxzD4myEMs4g5vH
-	9laStVvGLHvlU6AEi0JsfXuVs4X+G4u0YsZ9rF7UuGQgHzFqybB/Y6+xavstOMiRhxJNVaEehax
-	P2qb32ZwPDGBi/C96wmwEnCJkGUSeoIPDf6CkMJs9wQ==
-X-Gm-Gg: ASbGnctUeiJNpiZqGtSwCsNLVO85WqatB75zV851aiL1rzLpz2OgoFVv+WK3UP4CTbl
-	z/bBA1jltqlt/nYObzU5x1FdMYqToVzMkNRa4wF5fcOo9E533Rk6th6PTqfJpv7i7hbPfdjveSa
-	/mKJOf349RsvOSJzvyLdBWEIXzt10u6lLkjCE4Q7PI+QLc3Hoe1boF/ZxfhdQtILXJT6obr0WmF
-	wP6OS+7kJ1zJz5EoxA=
-X-Google-Smtp-Source: AGHT+IFeh9GhwJV0/BRbDqXK1301VOv+yaAADE4wRS2wEzztzMHQXFq1Ue2WE8k5BTs1i0e0aU2GdBSeES8eqZ6R/tc=
-X-Received: by 2002:a05:6830:348e:b0:74b:3422:f33d with SMTP id
- 46e09a7af769-74c66acfea9mr10389569a34.0.1757579706886; Thu, 11 Sep 2025
- 01:35:06 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 868932E543E;
+	Thu, 11 Sep 2025 08:45:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.42
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757580302; cv=fail; b=TAm3qYUuTaaCp55C+YBuwbUuf2rpJujUQ8Mn/hMTPC0Sk1j74ZSflktxdlzq5I2j0QGfll8uHw6ZiwKhjJFNLBI0Kz3R2ozsHv5TNAQFdjU7TljyXPxuQudr69khiCbDH68hOXOJi4fjkLyd9iJBC8kkGKhhHZvsTtNqohV39RE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757580302; c=relaxed/simple;
+	bh=Bwqj4YwYWMwg7phZtPiHtVOQ2tNOzMvE/8/LxBoP3XM=;
+	h=From:Subject:Date:Message-Id:Content-Type:To:Cc:MIME-Version; b=lvvA+POn027tniVmC0FebwAXbsYM7+0D3740ZBP3lC4ewK/AUILOfWmaTqDZH6hcxIP/tdZZpbWE8c0mKEdA5ODL6DiYep1qkjN+ENpwl46682CUhwyK/nhHagFVbWHViU6et3M7MaH5VHxBvnqxi9uZSgYtSco8WQhqi7jFmeA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=HFEReM7O; arc=fail smtp.client-ip=52.101.70.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Q5Vc8gof/TAbYffGv9lkBFIQcsy26+YbZfEXppB+4Egy916pqigbdHl9n4Z5Z5xePBHHqnsTVHMBRS0oG7zi6VAOZtKtoZhumliPArMgM6l9ByyqVdzTZzD/VwXziYafCpMfnNJ2jbJCVOzgt1aMNEplCosrTSS+/ad2Q9w41l4ZHuAJHQK7/QjoeSxIXNVoAiRYIKwCscl4FsAxKG1J7ll5RlmyLJIY2Q/sO3sA3mg/cDwOtdpUXbhPwVqSD4ZN5sYRqY/1NWS2vUDpzq/vpIB0I156iE+m4NAE5KTojHBdy8ZmXBdAHOf0i9q/FlPj3kTXId6fkkaNfwdsW3R+2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=GnfmLLwZ9tmXohd8zcUtCFnZwnybJ/lrmnmTUoXZh6I=;
+ b=eDwV/C3Sd2RzLbPxv6h7ovtIiDffQfPKAuuMRz8ROoOQChhUWFYlUYL1Z/QVYnHp9JjTHXC4C7BVRnKTmpmUTQ5QBw48d6KWfBqSK+7mmTtBcz7Iy/1hBFh5p0aI7moDUT3TeLMAmLNT2OHsR6ocvCc5VZLouCX1Iv7FHhIA4UtyiHuf3cZ9nzX7ddLutky9QjybjajKiXP2m/cpvgQtZ6kpuVSM9qr/cSYEQAf28ApPNAk91sdQjhiZWmt4rcaA7BWALoUUropBx6vTi7O6dT8A4TEIbF2XK+SM+rMttHSAK5dtl5Y6dz6i02Nip+KuNiB5zNvs2Yvg3nRkMRC95A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=GnfmLLwZ9tmXohd8zcUtCFnZwnybJ/lrmnmTUoXZh6I=;
+ b=HFEReM7O6cp7rFq9H0wRZZv7Zhj5eN0Ltz35vv+KLp4w8eZ1CoCROPzrBeuLgJQuqU15lfSn0KQx5C8/NTJg+dltuHQls949HVSGX0TRBr2tOzMULy+prVSpWQU/fHh9iM/0um7PsY2wbA2J4ik8yMn9+6kAc8FKSGXoUdRxyH6vqInIJES7IuZ6qhkMZFfSUrn1JDh68Z7+KyVQF/+VxXEgqJianTnXHG2nEl3bAuG6WuVa7+/FW2FWmsAXl1Cp/2vw76959DhJ5ENY/N5xmI/nmx2Bp3qHA/B+4ibLqt9jXLc2+9qjhLKOs5Jybd6artsrxzk9FJHHI1ZfaH3ztQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AS8PR04MB9080.eurprd04.prod.outlook.com (2603:10a6:20b:447::16)
+ by DBAPR04MB7207.eurprd04.prod.outlook.com (2603:10a6:10:1b2::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.12; Thu, 11 Sep
+ 2025 08:44:57 +0000
+Received: from AS8PR04MB9080.eurprd04.prod.outlook.com
+ ([fe80::92c2:2e03:bf99:68eb]) by AS8PR04MB9080.eurprd04.prod.outlook.com
+ ([fe80::92c2:2e03:bf99:68eb%6]) with mapi id 15.20.9115.010; Thu, 11 Sep 2025
+ 08:44:57 +0000
+From: Guoniu Zhou <guoniu.zhou@nxp.com>
+Subject: [PATCH v2 0/4] media: i2c: ds90ub953: Add back channel GPIO
+ support
+Date: Thu, 11 Sep 2025 16:44:21 +0800
+Message-Id: <20250911-ds90ub953-v2-0-03ee76eb6b59@nxp.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAOWLwmgC/03Myw6CMBCF4Vchs7ZmpgRsXfEehgX0IrMQSKsNh
+ vTdrcSFy//k5NshusAuwrXaIbjEkZe5hDxVYKZhvjvBtjRIlA1qJGGjxteom1pQq1qpTFMPiFD
+ +a3Cet8O69aUnjs8lvA860Xf9KYR/SiKBYrgoqr0frSfq5m09m+UBfc75AwqHNSKgAAAA
+X-Change-ID: 20250901-ds90ub953-168628c53a00
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>, 
+ Vladimir Zapolskiy <vz@mleia.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Guoniu Zhou <guoniu.zhou@nxp.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1757580308; l=1345;
+ i=guoniu.zhou@nxp.com; s=20250815; h=from:subject:message-id;
+ bh=Bwqj4YwYWMwg7phZtPiHtVOQ2tNOzMvE/8/LxBoP3XM=;
+ b=YPUzxvP+ngpLAjiVp6pwq/UZBQXeg5Pz+PYqAXhwTiFshuvJtocunspVp9kRfr0SCLLuauhbU
+ g0uFSGXCWgOC3Tua+bjzmiU76Jp5ya/rvsw7V2vc4VR2wrlbtpwd23M
+X-Developer-Key: i=guoniu.zhou@nxp.com; a=ed25519;
+ pk=MM+/XICg5S78/gs+f9wtGP6yIvkyjTdZwfaxXeu5rlo=
+X-ClientProxiedBy: SI1PR02CA0026.apcprd02.prod.outlook.com
+ (2603:1096:4:1f4::11) To AS8PR04MB9080.eurprd04.prod.outlook.com
+ (2603:10a6:20b:447::16)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250813060339.2977604-1-jens.wiklander@linaro.org>
- <20250813060339.2977604-3-jens.wiklander@linaro.org> <aJ1-YpgvGt4_6CFU@sumit-X1>
- <CABdmKX2FPg+hO55qWndMajuWP0kZH=OWEh9v-d8aO6HQWyxJtQ@mail.gmail.com>
- <CAO_48GEqkf_Jm8kSTPEDZkZy-YmT56Zs1Jx9zCvzETPsCzrkEg@mail.gmail.com>
- <CAHUa44HHSKwiBYPMSY5hj6wyWc9-uvtQVx+JLx4M5yjD5AwyTg@mail.gmail.com> <CAO_48GE=FHaNzybUxjY=igyOO1oasKb9yu_yAjJEdjTQXicaJA@mail.gmail.com>
-In-Reply-To: <CAO_48GE=FHaNzybUxjY=igyOO1oasKb9yu_yAjJEdjTQXicaJA@mail.gmail.com>
-From: Jens Wiklander <jens.wiklander@linaro.org>
-Date: Thu, 11 Sep 2025 10:34:53 +0200
-X-Gm-Features: Ac12FXx5ebSInGSvpsrj2pSWY8lp7qtZdsTImt4o0DLikSjOCGD4PzhkPWZzq-g
-Message-ID: <CAHUa44HkMNO1ONTGEKHCPXRQwg3zqYf5ZHmxEijW==vbmd1LFw@mail.gmail.com>
-Subject: Re: [PATCH v11 2/9] dma-buf: dma-heap: export declared functions
-To: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "T.J. Mercier" <tjmercier@google.com>, Sumit Garg <sumit.garg@kernel.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
-	Olivier Masse <olivier.masse@nxp.com>, Thierry Reding <thierry.reding@gmail.com>, 
-	Yong Wu <yong.wu@mediatek.com>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
-	Rouven Czerwinski <rouven.czerwinski@linaro.org>, robin.murphy@arm.com, 
-	Sumit Garg <sumit.garg@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS8PR04MB9080:EE_|DBAPR04MB7207:EE_
+X-MS-Office365-Filtering-Correlation-Id: acb53eb2-8780-4555-642d-08ddf10f7c8b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|52116014|376014|19092799006|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?dDg2eWN5c1RoM001MnlPSHh3blFDV09wSE4rK1pEM25pZ0hQSkcrMmlVZkd0?=
+ =?utf-8?B?NE9LelQwMXNXUUZPb0VtOGFTdWRIK0V4YXZrcFJ4Q29Jb0ErZ2MvR3dNSDF4?=
+ =?utf-8?B?cnM4U1JzNWRyM1R4UFlyeGp5T2JncWkwODIyQ3M0N2dyai9vYjVVRjFjcGlD?=
+ =?utf-8?B?SkgwR2lwYUtYUjd3a0I1K3ZVa3dWeFowWDFBV214RHROU0NaejVkOU5XVFJS?=
+ =?utf-8?B?a1hneDF1TVZDRS9rM051RmRSM3YvVG1SUE5aUCs0OXNYMmpYR1BuVWc4UnlI?=
+ =?utf-8?B?NHpGZm05cVBFSERZOXNWUnpVUUpCVUxyYzBycWxBRWVkeGxweUdYNGlDS2gv?=
+ =?utf-8?B?Mm1DUnZ5Sm1sZTQ1OU80Q0drc20vY0MxbXdmUkxteVJ2dG9JU1dFMHUwUEQ3?=
+ =?utf-8?B?TjdLYW5JNWwrZjc2ZWs1akM3dll0ZXBYV09abXVJSXhtaFVkRWhGUkFTMzda?=
+ =?utf-8?B?M2lrTGt3YkNRcUFXU1JFRU1vODEvMW5rdC94Tm85TlVhMEhPVHdEeDJlQTFr?=
+ =?utf-8?B?V0tSR0RYdVZTNit3WTZwTldieXZzVjF1bFpBL1JQMVVPaExFYkZZWUtIRzRK?=
+ =?utf-8?B?amNZWDcxK1NpbE01d0g5eFAyUXFNdEVia2xOWGlhL3NFQytjOEYwdDFHMDM4?=
+ =?utf-8?B?SUh2QXdibGxNaTRCZWlycy9xZXl0amNWYkJZblRlSSt0Zm0xTWltR3VHenlq?=
+ =?utf-8?B?dWFRT0p1NWtyUjFoeU1wZDhQVjh5RjdzU1FvSS9qbWtMYVlJMDF6MCtwVkt6?=
+ =?utf-8?B?T2pxL1ZxWmt6azNVQUtqeDh1djZYKzU5U0tVai92aFRCbForOFBOcFpHakVI?=
+ =?utf-8?B?aUlFbldUcUhtcm1hL0pPaEY3bWpVZ1k3aCsreWRSSDBrNm8weDBwN2VzUXBr?=
+ =?utf-8?B?cjFHbUNXMGh1WjlQMEJsY1A5TncwZUh2eGNrRW5qeXl4TjFoeWNIa0JheDVD?=
+ =?utf-8?B?eGh0M2ZDaWtDMlNURW91SjVUdGxTYlB2SjBrMUNyUnZXcUhWeVM5YWxwR1lC?=
+ =?utf-8?B?ZU5ZM1pwSm85V1A2QUlJMHdPYjh5TUE0RTA2eGVNQ0J2WnREUHM1ekRvWFo1?=
+ =?utf-8?B?Q1NORm4vNEVpczhUejZSM2pxMTd0WUlmWXBidGZnOWtSUlNxVUVxMXU5VjNt?=
+ =?utf-8?B?WUxZT3BVeE1jeGdSb1FLalQ2ZnVLdXIzbEthdnhVTlY4T3lRV0NmWlJ4cGtR?=
+ =?utf-8?B?djZxdDdPU0Z2MUdqei9tTEhtL21xa2pkWk9ZSU5QdC9Oc21xY0hRekNmZlRz?=
+ =?utf-8?B?M3VRdFBxb2tnS3FBSVNxcnNwTkgyTkVZQVArakE5QWxWTVVNa09zRS9wSDJp?=
+ =?utf-8?B?RVh5VWg5VGpJN0NTdUNWY1BaUG5sNW1vb1ZRVXZ0a3JLUituanNFMkxlaUtt?=
+ =?utf-8?B?eHRpT0ZkdDFxOEg0R0NCcjVHSVRseG9YcWpmbjdlZUJndTZwQ09Cd1ZmUjBQ?=
+ =?utf-8?B?QjVxMUZUTkIycE5hNEhxVnROS05Gekt0ek9qTVVNZ3V1YXozb044K0RKWGtN?=
+ =?utf-8?B?OUJSWnV1UHhwUmJzSVcyZXg2bWN2L1FoVDNyT3ZmNSs2NWs2eFo4a0VnVFQx?=
+ =?utf-8?B?eU9GZVp3TUF0cGp2U1RSVzNPNUU5ZWJZSEJpVzV5QkFXNHlGL21NYVRmVGNo?=
+ =?utf-8?B?Zm95WEpVVlp6d29NUEVDL3dkTTd1NEE3c2NYaWdGaWVqSURPaCt6V3A0RTNn?=
+ =?utf-8?B?Q2JWeEJUeXBsNjVXOTlnQkYyTlVqR1NReVNOQi9UVFNuWmM0SndER2R1cEpl?=
+ =?utf-8?B?YXRKanN4WWYrSElJZVRrVHB6MlNnRDJDT25CbjFKeTNaaUZLMGU0SkFIQlhG?=
+ =?utf-8?B?dE9ySVVxU28vekUvQjh5Z1BPWm4rb1ppUmU2UkU4Rms4UTFGVWUrL2gwd041?=
+ =?utf-8?B?UDI4OXJaOVNRMlZwR0JESGFad0trL1BoTGFtUlhMWHVwVGE0M2s5UCt2cHhr?=
+ =?utf-8?B?WVBOYUpaMkJVSWN2MStkSWd2M09DNm9vVU1rT3hqY1RXRTNPSWxCdlFkelFJ?=
+ =?utf-8?Q?es+Fu/yUSl2ul6xEGj26bAUuvsESSw=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR04MB9080.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(52116014)(376014)(19092799006)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RURibG43b2J6OTNDWGhleG9MV2g3Mk9ORktDa3ZKNlI2aE9TTGJCeUpGZDVs?=
+ =?utf-8?B?YXZNd2lUV1BhNStUZms4THA3Q1M0QmxMQmZGRjhycnhmTjZXcldkaTlqVXVM?=
+ =?utf-8?B?Snl2S3k2eFBBcWlSTDlldnBoNEY1ZndoNms3V3M1QUJvaWVaMWVZUTQzRXVh?=
+ =?utf-8?B?TTFsbXByc2FndmFYM3Urb3Q2S1FYbGJxd1hSUGlldXJvb3RLakcrbHJMZEtT?=
+ =?utf-8?B?R2tFY0dCVXdoNDB4NnVFRjV0WXVPRWt2c1Rqb0dTNTBsbXFRZHdrajdNZzhP?=
+ =?utf-8?B?TFZqRFZSU1lWVnBlY2ZvNHhkOWp0bHlMdjExczNZeWxYN2xZYVB3TXhFeHF4?=
+ =?utf-8?B?NU9NKy9EZDZpa2I3L2FrdzBFZERyeUJYb2hSdFdhc1BKSGFoNnFoUllzMWZF?=
+ =?utf-8?B?Njk4bnk0UW81QWZFcG0yOXJjUkFGeGowUVJON0M4UGFPRUtvcEFabi96VDEy?=
+ =?utf-8?B?YUpQVXFHUGt6dlhGbk5lSUo2Ull4ejI0ZWZ0ekFLSEM3ZU5SMGZiMnhHNDc0?=
+ =?utf-8?B?UWpVWnNUNCtYVmt0TUZaOVF5NFJldnIwMWczM2l3MjhhR0ZoY2RnZk9Tb1ZD?=
+ =?utf-8?B?UGQ0K2JKdzV0b2ovdWpzc1ZZb2RSY3JkNVVSRVVOdi9iZzUrdzFRcFFhMWZM?=
+ =?utf-8?B?NmxseUNWMHdqTlhVcGtheW9USUFxRHZtMlNvY1hwcHY0OE01Skx4enE0ekgy?=
+ =?utf-8?B?VE4vd0xCQU05N0hScFFMRllSU3lPRE42dkpOV2NXWVVLSUFxWkdKZjlDcnpB?=
+ =?utf-8?B?NDVOK0FIUkxxa1VCOWwrYTJKYndCR243YkducldMYzV1ZkI0a0djN3BwZXAv?=
+ =?utf-8?B?YkNjNENnQ0FFWklvVTBITkx6OEVIeWNHMXlDYWIvU0poTFMyS3B2RU9PZjVh?=
+ =?utf-8?B?T3FzbCtzMkt1amJITW04SkhGMmNQS3FCYWoreld2bHB2QStCdFpLQVV6R3lS?=
+ =?utf-8?B?bkxsbG1saUVuVTZodXQwQ2VFSjQ3bXVFZTYxUTdQeFQ1R3RqcTZHbUdwaStB?=
+ =?utf-8?B?WmNWbnBiczloblBxOUR2ZHhzNnZrSTlhaFYvQk5mZ3poRXJoS3Q5ak5xZXU0?=
+ =?utf-8?B?RCt2YTd1dzhlOVQzZjdLS24yQnpGVldPelg3cElkR25oWmM3ZHBoOUVMWE5k?=
+ =?utf-8?B?UVk0LzFpM1UrU2xCMGZuc3V0Vnd5Q25EVzhxSllnOTV5YjNxWWYvUU9hSHpo?=
+ =?utf-8?B?OUhmZHAvS1VEMW5DZHhMVE8vaWN6NjlMV2FLNlNwMnlPU0tOSm42clN4OS84?=
+ =?utf-8?B?SjY4anBBYjlBRXY1WEd1aUFRMERPR0FvbGRQVldDZGdxS3ZsWFpaL005SjVl?=
+ =?utf-8?B?cUQ1cTZYNDN5RGozVzlwZEJIKzZZQXFvTlhhSHFhcXZJTk4vVUEvWUk4TkpT?=
+ =?utf-8?B?YUdxV3g2ZFZvL3hwUUNmaWIzVnBNWmF3VHNYSGdkMjQwMi91Uk9RZDNUcjhG?=
+ =?utf-8?B?ZlNJY0xMNkRCREVGakwwQ0h2NTJVN25yTUxVdDFiOGF0c3NQUnlqSytIUFdz?=
+ =?utf-8?B?RENGRmZpcHV1ZThQTjlBdzlGTEZQcERaTUlXK2pWWFRFaVAzZ0k2TUZOM01k?=
+ =?utf-8?B?OHlDUkdaSHIwU1pFRkxPUjJ0bWJGTmd2MUh1c0xQVHpTaE82ckRkVHpUVFVp?=
+ =?utf-8?B?WFZrN0Fhai9RRFRtRGtRRjBZNjA3Y2FtUHR6ZmRpTDdVVzd6bmttUkFlYWV1?=
+ =?utf-8?B?OTRtMXdDdC8xTkFsQ3BKSm1JbmN4aGhjQUFTWXlGeTFZOU1SdmNSczh2MXVj?=
+ =?utf-8?B?N2laMkRkYUxEbnRPL0J5K2FlTEtkRUVJMlR3SVIzWnNEeU9PWXY0SmJDYVhO?=
+ =?utf-8?B?MzBBTkRiRzBYS3M0R0JlOG9SOGRxV0R0bXYrV0pzblp6ZTdYeUl2M3FyMUk0?=
+ =?utf-8?B?VHh1a0xBVnYvM2lhSHlOUnFSVzA3WUsxazZnZFdmTitDMTZVanl6aGpPNmk5?=
+ =?utf-8?B?OGFoVU9MbjUxZU5NUFpGZEtFbnZEeGE3UEYraDdEMzFLSFZ6TDM1Z0tubHB0?=
+ =?utf-8?B?Y2ZyUE9lQTVpNm1kUENiWS8xU1lndTlpdDRsVmxwT3hoUWZkY1Q2ZjJ2cXpr?=
+ =?utf-8?B?cHR0azA5Y3VUUXZpd1Z6b3Vsc2FCNzRYVnd6YjduVmJDR1EydnFNcW1EbUx1?=
+ =?utf-8?Q?SnWG1s/6E9L0tm7F9Nfp6qbOF?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: acb53eb2-8780-4555-642d-08ddf10f7c8b
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR04MB9080.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2025 08:44:57.4711
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cwpkKc9Fi3/GDIENj4iCScRbGdHuLqXPXOn5v63hA9vy2rzHEA5wOLFbFrvb7h8f1yyXYzrOJApJHWibrcLIFw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7207
 
-Hi,
+Add back channel GPIO support.
+  dt-bindings: media: ti,ds90ub953: Add third cell for GPIO controller
+  media: i2c: ds90ub953: Add back channel GPIO support
 
-On Thu, Sep 11, 2025 at 10:00=E2=80=AFAM Sumit Semwal <sumit.semwal@linaro.=
-org> wrote:
->
-> Hi Jens,
->
-> On Thu, 11 Sept 2025 at 13:20, Jens Wiklander <jens.wiklander@linaro.org>=
- wrote:
-> >
-> > Hi Sumit,
-> >
-> > On Thu, Sep 11, 2025 at 9:15=E2=80=AFAM Sumit Semwal <sumit.semwal@lina=
-ro.org> wrote:
-> > >
-> > > Hello Jens,
-> > >
-> > > On Fri, 15 Aug 2025 at 05:00, T.J. Mercier <tjmercier@google.com> wro=
-te:
-> > > >
-> > > > On Wed, Aug 13, 2025 at 11:13=E2=80=AFPM Sumit Garg <sumit.garg@ker=
-nel.org> wrote:
-> > > > >
-> > > > > On Wed, Aug 13, 2025 at 08:02:51AM +0200, Jens Wiklander wrote:
-> > > > > > Export the dma-buf heap functions to allow them to be used by t=
-he OP-TEE
-> > > > > > driver. The OP-TEE driver wants to register and manage specific=
- secure
-> > > > > > DMA heaps with it.
-> > > Thank you for the series.
-> > >
-> > > Could you please use EXPORT_SYMBOL_GPL_NS instead of EXPORT_SYMBOL fo=
-r these?
-> >
-> > Sure, what namespace do you want in the argument for
-> > EXPORT_SYMBOL_GPL_NS()? "DMA_BUF"?
->
-> I think "DMA_BUF_HEAP" may be better?
+Use helper macro to simplify code.
+  media: i2c: ds90ub953: use devm_mutex_init() to simplify code
+  media: i2c: ds90ub953: use guard() to simplify code
 
-I'll use that.
+Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+---
+Changes in v2:
+- Remove new property ti,gpio-data added in patch 1.
+- Add third cell for GPIO controller to select GPIO output source.
+- Move PTR_ERR() in dev_err_probe();
+- Link to v1: https://lore.kernel.org/r/20250910-ds90ub953-v1-0-a7813ffbdf11@nxp.com
 
-Thanks,
-Jens
+---
+Guoniu Zhou (4):
+      dt-bindings: media: ti,ds90ub953: Add third cell for GPIO controller
+      media: i2c: ds90ub953: Add back channel GPIO support
+      media: i2c: ds90ub953: use devm_mutex_init() to simplify code
+      media: i2c: ds90ub953: use guard() to simplify code
 
-> >
-> > >
-> > > With that change, please feel free to use my
-> > > Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
-> >
-> > Thanks,
-> > Jens
-> >
-> > > > > >
-> > > > > > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > > > > > Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> > > > > > ---
-> > > > > >  drivers/dma-buf/dma-heap.c | 3 +++
-> > > > > >  1 file changed, 3 insertions(+)
-> > > > > >
-> > > > >
-> > > > > Can we get an ack from DMAbuf maintainers here? With that we shou=
-ld be
-> > > > > able to queue this patch-set for linux-next targetting the 6.18 m=
-erge
-> > > > > window.
-> > > > >
-> > > > > -Sumit
-> > > >
-> > > > Reviewed-by: T.J. Mercier <tjmercier@google.com>
-> > > >
-> > > > Sorry I haven't been able to participate much upstream lately.
-> > > > >
-> > > > > > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-h=
-eap.c
-> > > > > > index 3cbe87d4a464..cdddf0e24dce 100644
-> > > > > > --- a/drivers/dma-buf/dma-heap.c
-> > > > > > +++ b/drivers/dma-buf/dma-heap.c
-> > > > > > @@ -202,6 +202,7 @@ void *dma_heap_get_drvdata(struct dma_heap =
-*heap)
-> > > > > >  {
-> > > > > >       return heap->priv;
-> > > > > >  }
-> > > > > > +EXPORT_SYMBOL(dma_heap_get_drvdata);
-> > > > > >
-> > > > > >  /**
-> > > > > >   * dma_heap_get_name - get heap name
-> > > > > > @@ -214,6 +215,7 @@ const char *dma_heap_get_name(struct dma_he=
-ap *heap)
-> > > > > >  {
-> > > > > >       return heap->name;
-> > > > > >  }
-> > > > > > +EXPORT_SYMBOL(dma_heap_get_name);
-> > > > > >
-> > > > > >  /**
-> > > > > >   * dma_heap_add - adds a heap to dmabuf heaps
-> > > > > > @@ -303,6 +305,7 @@ struct dma_heap *dma_heap_add(const struct =
-dma_heap_export_info *exp_info)
-> > > > > >       kfree(heap);
-> > > > > >       return err_ret;
-> > > > > >  }
-> > > > > > +EXPORT_SYMBOL(dma_heap_add);
-> > > > > >
-> > > > > >  static char *dma_heap_devnode(const struct device *dev, umode_=
-t *mode)
-> > > > > >  {
-> > > > > > --
-> > > > > > 2.43.0
-> > > > > >
-> > >
-> > > Best,
-> > > Sumit.
->
->
->
-> --
-> Thanks and regards,
->
-> Sumit Semwal (he / him)
-> Senior Tech Lead - Android, Platforms and Virtualisation
-> Linaro.org =E2=94=82 Arm Solutions at Light Speed
+ .../bindings/media/i2c/ti,ds90ub953.yaml           |  8 +-
+ .../bindings/media/i2c/ti,ds90ub960.yaml           |  4 +-
+ drivers/media/i2c/ds90ub953.c                      | 99 ++++++++++++----------
+ 3 files changed, 59 insertions(+), 52 deletions(-)
+---
+base-commit: 34837c444cd42236b2b43ce871f30d83776a3431
+change-id: 20250901-ds90ub953-168628c53a00
+
+Best regards,
+-- 
+Guoniu Zhou <guoniu.zhou@nxp.com>
+
 
