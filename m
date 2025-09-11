@@ -1,167 +1,207 @@
-Return-Path: <linux-media+bounces-42263-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42266-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 482DBB52B69
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 10:17:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 20386B52B9F
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 10:28:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9CAF75867ED
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 08:17:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2AF301C8227A
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 08:28:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06EDF2E5B05;
-	Thu, 11 Sep 2025 08:15:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FA602E06C9;
+	Thu, 11 Sep 2025 08:28:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XWF4PwSs"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HZ2AIOjz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFE82E03F9;
-	Thu, 11 Sep 2025 08:15:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C0262DE202
+	for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 08:28:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757578548; cv=none; b=mo/1L5QguIJgofkbTZ7D+tIZZm0qGoGL2guY7qhcZ+Rr7s8B8FzCh9Pogu/dLmsmzEPSeTztS9bQtv0vvh47Hdt1y7ApM+k6wiKnlnFtyJ/ulDw7kvbaVXXTNFESGuYbbDSYaffAjvNlj591R6u+M+3IOFNPOHJARUTTDzD2Lfg=
+	t=1757579306; cv=none; b=KTxstZjD9BTsc0EiZ6wId8UgXHyfa0i80ScE+gwfZvJ/MuOCKBrbAmECiT8IsoOqOiQ3kgUR9TbHp4+AdRhornWdrfvtUY4gXLAga1NWKZ588yfHI5+afBCxHRNSZPl4zKzid2v+ul8Q/WHrHMmNzh/iEnB2dB916W37aD2asEw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757578548; c=relaxed/simple;
-	bh=MZkSNF729QqNTQj4q9PWDrOZg6xdXAe10HC4k5HQhA8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cY7uGiqc9t19ck2u4GVtFlI6b/i76bFtvPCtJMqsVNFha+Gv2PyQP+mBJmobHz5eBYBsHILHt7Q3japa16Z+pWSV5+OD3aaopPcV/+6dQ8gvfG4JcUTlbqLiftZ9uuhYXaAqYftWbsbvfyqQOh28iNbfVmQ3eFo/Hs7gf8+sYpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XWF4PwSs; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33EAAC4CEF1;
-	Thu, 11 Sep 2025 08:15:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757578547;
-	bh=MZkSNF729QqNTQj4q9PWDrOZg6xdXAe10HC4k5HQhA8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XWF4PwSs+H43I/a5ob6RMVM1e7DIddUYISGAQpdHdB80rrbiLOVmgcwYPDbdQnUnx
-	 omtvKRdXL9kTjEdlT/mA6jcklq7qN05N6uV9vCrQDL9vwf2XykyhKIe/72SVOdrx+A
-	 M7Ofe21pJ8uU3amFLq3Ax6U/b4wc38Lpy+nDSEAKq7mJut1cuyhKuyB4hcSPvxVZZc
-	 1iLX3srlsJ8AQTUL/+NQxW3+c4rSxYQDXBo0De6JI1YAEML44dP19+ZdA4PsVnYCWq
-	 SjViXlstokf3/Zj7+xaABT+0BnWcftX8znP6k27TosFQZFbWHmbojTAEUbEpqV+iWR
-	 BqXbC2lhEsZpA==
-Date: Thu, 11 Sep 2025 09:15:40 +0100
-From: Lee Jones <lee@kernel.org>
-To: Aleksandrs Vinarskis <alex@vinarskis.com>
-Cc: Hans de Goede <hansg@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-	Jingoo Han <jingoohan1@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
-	Jacopo Mondi <jacopo@jmondi.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Konrad Dybcio <konradybcio@kernel.org>,
-	Daniel Thompson <danielt@kernel.org>, linux-leds@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, threeway@gmail.com,
-	Andy Shevchenko <andy.shevchenko@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>
-Subject: Re: [PATCH v5 3/4] leds: led-class: Add devicetree support to
- led_get()
-Message-ID: <20250911081540.GD9224@google.com>
-References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
- <20250910-leds-v5-3-bb90a0f897d5@vinarskis.com>
+	s=arc-20240116; t=1757579306; c=relaxed/simple;
+	bh=ZyurilZQ3ov1mlEw7ZTbTWlMoDVKoLkX3aq61PXlyPw=;
+	h=Date:From:To:Cc:Subject:Message-ID; b=ptZtmJAMopOVg+nQdq7Orrjy1uJpyAxg4p81gG+HAqgM2AceZlbKOPuNJ3KVRm5I1QR1jRWNT5hpzAMbo8hkov/b5AulI/PxgsIxowGs6M5UddaRYJSOxmuJ6oeDElSncFyTixBbPEYRWnt2xLOnm3uxKfS1sPqUqBgypEB22PQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HZ2AIOjz; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1757579305; x=1789115305;
+  h=date:from:to:cc:subject:message-id;
+  bh=ZyurilZQ3ov1mlEw7ZTbTWlMoDVKoLkX3aq61PXlyPw=;
+  b=HZ2AIOjzOmDwSa1Ot4kh0/th9DWw1BiBTcZAW+tLJnIDKartajDUE+Wq
+   uBkOekWz2VJkYswGzWqVR/SFv2wKYjtZeliDzZKysNtsUeN+N0fsjiYYW
+   EA7RWZzlVdzdP7kpvp8B6lLuRkeDNIi0GfiE+0htscsSFqGuGMT4GoRFg
+   Y3DwRAfzNesVmX7orfad4366DYLdKjCwLnvxJoTf1Tp3ChFv46aKC4KCx
+   s9OXu5D2DpYb/oVOqfEmxY0LQSjXEJFpVlwgFU1okklkn1mh9P2CYrv+o
+   O8hhpzsyO4FkNNs5/YPEO5AFbvfnpx4EkyDGuiQnqFLjibN9NO3MJEhlh
+   g==;
+X-CSE-ConnectionGUID: jk0UQDW1T5eDyOXO8dCKLA==
+X-CSE-MsgGUID: L+ayqKazTFmYmCtSbkMIoQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="59967085"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="59967085"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Sep 2025 01:28:23 -0700
+X-CSE-ConnectionGUID: R3e4WO1jSHyHinJ7qfNgYg==
+X-CSE-MsgGUID: /F0qIFugRM2KFzbvC3K8mg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,256,1751266800"; 
+   d="scan'208";a="210767988"
+Received: from lkp-server02.sh.intel.com (HELO eb5fdfb2a9b7) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 11 Sep 2025 01:28:23 -0700
+Received: from kbuild by eb5fdfb2a9b7 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uwcfD-0000A0-2e;
+	Thu, 11 Sep 2025 08:28:19 +0000
+Date: Thu, 11 Sep 2025 16:28:02 +0800
+From: kernel test robot <lkp@intel.com>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: [sailus-media-tree:cleanup] BUILD SUCCESS
+ 4a31416a3d53863f9c9052ecfdde7997ebf47076
+Message-ID: <202509111652.uFApxKr9-lkp@intel.com>
+User-Agent: s-nail v14.9.24
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250910-leds-v5-3-bb90a0f897d5@vinarskis.com>
 
-On Wed, 10 Sep 2025, Aleksandrs Vinarskis wrote:
+tree/branch: git://linuxtv.org/sailus/media_tree.git cleanup
+branch HEAD: 4a31416a3d53863f9c9052ecfdde7997ebf47076  media: mc: Clear minor number before put device
 
-> From: Hans de Goede <hansg@kernel.org>
-> 
-> Add 'name' argument to of_led_get() such that it can lookup LEDs in
-> devicetree by either name or index.
-> 
-> And use this modified function to add devicetree support to the generic
-> (non devicetree specific) [devm_]led_get() function.
-> 
-> This uses the standard devicetree pattern of adding a -names string array
-> to map names to the indexes for an array of resources.
-> 
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
-> Reviewed-by: Lee Jones <lee@kernel.org>
+elapsed time: 1466m
 
-Remind me why this can't go in through LED again?
+configs tested: 114
+configs skipped: 5
 
-> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
-> Signed-off-by: Hans de Goede <hansg@kernel.org>
-> Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
-> ---
->  drivers/leds/led-class.c | 17 +++++++++++++++--
->  1 file changed, 15 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
-> index 15633fbf3c166aa4f521774d245f6399a642bced..f3faf37f9a08ac762ed87b91cb3cab5faa8eacb0 100644
-> --- a/drivers/leds/led-class.c
-> +++ b/drivers/leds/led-class.c
-> @@ -252,15 +252,23 @@ static const struct class leds_class = {
->   * of_led_get() - request a LED device via the LED framework
->   * @np: device node to get the LED device from
->   * @index: the index of the LED
-> + * @name: the name of the LED used to map it to its function, if present
->   *
->   * Returns the LED device parsed from the phandle specified in the "leds"
->   * property of a device tree node or a negative error-code on failure.
->   */
-> -static struct led_classdev *of_led_get(struct device_node *np, int index)
-> +static struct led_classdev *of_led_get(struct device_node *np, int index,
-> +				       const char *name)
->  {
->  	struct device *led_dev;
->  	struct device_node *led_node;
->  
-> +	/*
-> +	 * For named LEDs, first look up the name in the "led-names" property.
-> +	 * If it cannot be found, then of_parse_phandle() will propagate the error.
-> +	 */
-> +	if (name)
-> +		index = of_property_match_string(np, "led-names", name);
->  	led_node = of_parse_phandle(np, "leds", index);
->  	if (!led_node)
->  		return ERR_PTR(-ENOENT);
-> @@ -324,7 +332,7 @@ struct led_classdev *__must_check devm_of_led_get(struct device *dev,
->  	if (!dev)
->  		return ERR_PTR(-EINVAL);
->  
-> -	led = of_led_get(dev->of_node, index);
-> +	led = of_led_get(dev->of_node, index, NULL);
->  	if (IS_ERR(led))
->  		return led;
->  
-> @@ -342,9 +350,14 @@ EXPORT_SYMBOL_GPL(devm_of_led_get);
->  struct led_classdev *led_get(struct device *dev, char *con_id)
->  {
->  	struct led_lookup_data *lookup;
-> +	struct led_classdev *led_cdev;
->  	const char *provider = NULL;
->  	struct device *led_dev;
->  
-> +	led_cdev = of_led_get(dev->of_node, -1, con_id);
-> +	if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) != -ENOENT)
-> +		return led_cdev;
-> +
->  	mutex_lock(&leds_lookup_lock);
->  	list_for_each_entry(lookup, &leds_lookup_list, list) {
->  		if (!strcmp(lookup->dev_id, dev_name(dev)) &&
-> 
-> -- 
-> 2.48.1
-> 
-> 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
--- 
-Lee Jones [李琼斯]
+tested configs:
+alpha                             allnoconfig    gcc-15.1.0
+alpha                            allyesconfig    gcc-15.1.0
+arc                              allmodconfig    gcc-15.1.0
+arc                               allnoconfig    gcc-15.1.0
+arc                              allyesconfig    gcc-15.1.0
+arc                   randconfig-001-20250910    gcc-13.4.0
+arc                   randconfig-002-20250910    gcc-8.5.0
+arm                               allnoconfig    clang-22
+arm                   randconfig-001-20250910    gcc-8.5.0
+arm                   randconfig-002-20250910    gcc-8.5.0
+arm                   randconfig-003-20250910    clang-16
+arm                   randconfig-004-20250910    gcc-8.5.0
+arm64                             allnoconfig    gcc-15.1.0
+arm64                 randconfig-001-20250910    clang-22
+arm64                 randconfig-002-20250910    clang-22
+arm64                 randconfig-003-20250910    gcc-9.5.0
+arm64                 randconfig-004-20250910    gcc-13.4.0
+csky                              allnoconfig    gcc-15.1.0
+csky                  randconfig-001-20250910    gcc-12.5.0
+csky                  randconfig-002-20250910    gcc-15.1.0
+hexagon                          allmodconfig    clang-17
+hexagon                           allnoconfig    clang-22
+hexagon                          allyesconfig    clang-22
+hexagon               randconfig-001-20250910    clang-22
+hexagon               randconfig-002-20250910    clang-22
+i386                             allmodconfig    gcc-14
+i386                              allnoconfig    gcc-14
+i386        buildonly-randconfig-001-20250910    gcc-14
+i386        buildonly-randconfig-002-20250910    gcc-13
+i386        buildonly-randconfig-003-20250910    clang-20
+i386        buildonly-randconfig-004-20250910    clang-20
+i386        buildonly-randconfig-005-20250910    gcc-14
+i386        buildonly-randconfig-006-20250910    clang-20
+i386                                defconfig    clang-20
+loongarch                        allmodconfig    clang-19
+loongarch                         allnoconfig    clang-22
+loongarch             randconfig-001-20250910    clang-18
+loongarch             randconfig-002-20250910    clang-18
+m68k                             allmodconfig    gcc-15.1.0
+m68k                              allnoconfig    gcc-15.1.0
+m68k                             allyesconfig    gcc-15.1.0
+microblaze                       allmodconfig    gcc-15.1.0
+microblaze                        allnoconfig    gcc-15.1.0
+microblaze                       allyesconfig    gcc-15.1.0
+microblaze                          defconfig    gcc-15.1.0
+mips                              allnoconfig    gcc-15.1.0
+mips                           ip22_defconfig    gcc-15.1.0
+nios2                             allnoconfig    gcc-11.5.0
+nios2                               defconfig    gcc-11.5.0
+nios2                 randconfig-001-20250910    gcc-11.5.0
+nios2                 randconfig-002-20250910    gcc-9.5.0
+openrisc                          allnoconfig    gcc-15.1.0
+openrisc                         allyesconfig    gcc-15.1.0
+openrisc                            defconfig    gcc-15.1.0
+parisc                           allmodconfig    gcc-15.1.0
+parisc                            allnoconfig    gcc-15.1.0
+parisc                           allyesconfig    gcc-15.1.0
+parisc                              defconfig    gcc-15.1.0
+parisc                randconfig-001-20250910    gcc-10.5.0
+parisc                randconfig-002-20250910    gcc-9.5.0
+parisc64                            defconfig    gcc-15.1.0
+powerpc                          allmodconfig    gcc-15.1.0
+powerpc                           allnoconfig    gcc-15.1.0
+powerpc                          allyesconfig    clang-22
+powerpc                   bluestone_defconfig    clang-22
+powerpc               randconfig-001-20250910    gcc-8.5.0
+powerpc               randconfig-002-20250910    gcc-8.5.0
+powerpc               randconfig-003-20250910    clang-22
+powerpc                     taishan_defconfig    clang-17
+powerpc64             randconfig-002-20250910    gcc-11.5.0
+powerpc64             randconfig-003-20250910    clang-22
+riscv                             allnoconfig    gcc-15.1.0
+riscv                               defconfig    clang-22
+riscv                 randconfig-001-20250910    clang-22
+riscv                 randconfig-002-20250910    clang-22
+s390                             allmodconfig    clang-18
+s390                              allnoconfig    clang-22
+s390                             allyesconfig    gcc-15.1.0
+s390                  randconfig-001-20250910    clang-22
+s390                  randconfig-002-20250910    clang-22
+s390                       zfcpdump_defconfig    clang-22
+sh                               allmodconfig    gcc-15.1.0
+sh                                allnoconfig    gcc-15.1.0
+sh                               allyesconfig    gcc-15.1.0
+sh                                  defconfig    gcc-15.1.0
+sh                    randconfig-001-20250910    gcc-15.1.0
+sh                    randconfig-002-20250910    gcc-12.5.0
+sh                              ul2_defconfig    gcc-15.1.0
+sparc                            allmodconfig    gcc-15.1.0
+sparc                             allnoconfig    gcc-15.1.0
+sparc                               defconfig    gcc-15.1.0
+sparc                 randconfig-001-20250910    gcc-8.5.0
+sparc                 randconfig-002-20250910    gcc-8.5.0
+sparc64               randconfig-001-20250910    gcc-8.5.0
+sparc64               randconfig-002-20250910    gcc-12.5.0
+um                               allmodconfig    clang-19
+um                                allnoconfig    clang-22
+um                               allyesconfig    gcc-14
+um                    randconfig-001-20250910    clang-22
+um                    randconfig-002-20250910    clang-22
+x86_64                            allnoconfig    clang-20
+x86_64                           allyesconfig    clang-20
+x86_64      buildonly-randconfig-001-20250910    gcc-14
+x86_64      buildonly-randconfig-002-20250910    clang-20
+x86_64      buildonly-randconfig-003-20250910    gcc-14
+x86_64      buildonly-randconfig-004-20250910    clang-20
+x86_64      buildonly-randconfig-005-20250910    gcc-14
+x86_64      buildonly-randconfig-006-20250910    clang-20
+x86_64                              defconfig    gcc-14
+x86_64                          rhel-9.4-rust    clang-20
+xtensa                           alldefconfig    gcc-15.1.0
+xtensa                            allnoconfig    gcc-15.1.0
+xtensa                randconfig-001-20250910    gcc-8.5.0
+xtensa                randconfig-002-20250910    gcc-10.5.0
+
+--
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
 
