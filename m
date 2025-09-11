@@ -1,80 +1,82 @@
-Return-Path: <linux-media+bounces-42377-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42379-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E8A93B53976
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 18:41:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 959D1B53980
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 18:41:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A0BDCA078B3
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 16:41:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6970B16F0F6
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 16:41:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A1D835AAB2;
-	Thu, 11 Sep 2025 16:40:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E463035FC09;
+	Thu, 11 Sep 2025 16:40:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AHylLhz/"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SlM2/69o"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 451E235A290
-	for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 16:40:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD40D35A2BC
+	for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 16:40:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757608850; cv=none; b=ZumGoVX+YHnCQTTPwEFzPor3ht3eU/R68FGKSEQSk6dw6HenynY8TAjsB8mVsHABbVgidli/eey8DLgwx4oEu2CIATqguMmiDgQ8jrVkeaNEPsSRtg/P2qmxlmYvC7NSU3of5ZO65rW4M6MoR1crsZRyzYFxvCjP15EVRetubQA=
+	t=1757608856; cv=none; b=dTsyLlMtHRq56vscLZkrJmrJgph6d6GMeXExF3AaQ5mSDmCLtkIaRXF75Veej/RZMOZkZUITLlmL5DIuw86ytLX7D6keMeqS6ShNxcNUxYUGgk9UIusGOXlcIqPElVX6Bi/HcJH1phrWtkRAQmu677fQzxLeS18WKpPi8Xwv4IQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757608850; c=relaxed/simple;
-	bh=PGUYgHqS7CEbT5QLDYSKpf+raKUBoMSG/SoVXw8S0ZU=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nollMXW612NNTf5DlV28oGSYW05t4qklmR5pOcRFv5YHM7SemiEbtoTaI35P/DK+dqdNGWcklENfmgT3q1+8Z2ebFBcGwW3SBmXALI5QpQAhFELOKKRD27mrILWKokW3HWALkdFg3CylFuGUa7VihPTINFN+NbzKP/KfrPEgGFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AHylLhz/; arc=none smtp.client-ip=209.85.128.48
+	s=arc-20240116; t=1757608856; c=relaxed/simple;
+	bh=Opo2tkTr1lXPiqj20g3lDX3oXAW38m1pmysw74AhfYs=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=LRG8+BnUtIFvBqNblZ54ntuwA7mDx2OUPzfCyr6q6m90N/B6IX2gy2Wm+LvKbQhAwEkTkAo6gLUYPx6F/Nd4SJYzTvOCgvNcclWqr9lCcqeS/14JnMvq5T2kg5iJZDdiNM+jQEkUgXjrboVAEd52T0TKhRAJYgHpRWRNfWwdNdw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SlM2/69o; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45dd505a1dfso7829395e9.2
-        for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 09:40:48 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3e75fb6b2e2so1075641f8f.3
+        for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 09:40:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757608847; x=1758213647; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=iUkbXECYsNALn3AVpSeO9cAaZnIpWugEqcmf3/zSHD8=;
-        b=AHylLhz/bswBbHNEEFgE4zATHDvY404L/0zDC+EnupsYaEprtkhCphMmRcqCRumgDQ
-         rM0xhDzqoWT7BimokK0vZMxPXh5Sez4XbUFYOc66aNZVX11sdpV1pOslprO+qE2zzo+p
-         dZSkEeKFaOoBWMOEMiIYJR5EPUUGPV6Zy0jFESgpFV9iNJfSdp1QLYNTvBRvHeOlPUVl
-         +06YZaxrRuatW1evM0OV5mtH6fz7WmtLS3ZtLzxZogH/nNgz/7+BaBCuuRlOC1OjXRir
-         BP68I4U4cgTAobECUVtK9/RoyUW2vRDSlWu08TujidOHw7rINhe+rK/3Zatctc6jwlXB
-         m+Wg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757608847; x=1758213647;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1757608849; x=1758213649; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=iUkbXECYsNALn3AVpSeO9cAaZnIpWugEqcmf3/zSHD8=;
-        b=O+o0hOOKNFBRc20HMnpVKxqEmP73l0V3ObCsj/r5MehF8E+Ors4FIZdgZUbFPV9Nqx
-         /DrNoLUIC2LpS+QRwpzLKyNFJxko5dqiVP+yj/E8oLcQBFOCnDnm8f8LjZc6viNEBj/P
-         QKNCR6yAfYY0B0d+bCQIVEWG8fRx+TUJnA0mxpzgTHCJ6Y8e0jfM3Z9/FHLi2PHKV79A
-         KXBsYHf/1qaS7DZNfPcUC5PFXcoRlkLhR/Q9XK5HBhNPX345drII5/2WM8ftEiWj/Cc1
-         i+QaZtuV/ZF1elhkLBDewrC7dW+kQhCWkhx4ppaA8TSmZ6HK0fAvJpmcnc30pfCPPQdY
-         1v7A==
-X-Forwarded-Encrypted: i=1; AJvYcCWmaRdjwuDBSv1f3WU2jpnSqMLOIO2oHqYkJ5xbih0w3vZ98DXMA0B+dmbR6Ti+Sf4D32aG85Uh4u1oSA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzLTlCtc446VPj07iaUO9j/hEfEMbtL7+O9WvfZ844FFuV/TvrI
-	EO9FuWjDcsP5iVprVbw34uFNMAyb5M0oij6HUl6pPTEiyljhK7/3Wrtq
-X-Gm-Gg: ASbGncvxEYEG++b6OCvIB49twIOwGH7aXybTu3iIQMj7YbT448oGWq6n0TlUKWTSLsu
-	sKlfyQwJqXgLgqO3P9hxqanMA/MVnjiufhCyY5G2zQufLcIFWLanvpRgLxqHzGK+xhn6X6IxLMN
-	U1jIeX5SY0m3A8Io/UVjKFyTOXCRYvQkLw93sjZhTs5CEtOnyY7EINlv8mqTWWrjgNbHQCgG0me
-	suvw1/SFEFVn5B/sT+kY4bDLyzyQrIMRwCAiFDioJ04Ks6QUo9D5WT3dqwuLvFs9Wc8EpBr2+o3
-	DGDrtlJtmYxjbpG08aQtmkKAt8PPiunrleVb9StIP+4eUrhW6VyuB1bh55ISVjHPtQNxCFR+Eou
-	H+Xm2T3KS8lf2eSkqVVbk6UBDQ8bzxt/uyg==
-X-Google-Smtp-Source: AGHT+IH+e4l4aKUISAkDkWhELbFiMdLI/yWf42i3aNGaNUM7NHoqldoqBTm7FI7Nsal5lPBry54xSg==
-X-Received: by 2002:a05:600c:3b8d:b0:45d:dba1:b4d3 with SMTP id 5b1f17b1804b1-45f21185db1mr1793415e9.0.1757608846269;
-        Thu, 11 Sep 2025 09:40:46 -0700 (PDT)
+        bh=3bt/HTJeHR07Vaa4RTLl3DlelZbqwNyFWupYSUwfzHs=;
+        b=SlM2/69oWDDMq+Ek7QsA/YaOnVOekC/gV6q80XLx5jw2iJ+843k61Tbk5Qp8bU4ZWo
+         acSVKzmhmK9JJYCwZfL1+6AGMv1J8F8gf734wqE2xBSqpa7mNe5S4YpPJt+CwODSEIln
+         MvzjlUoHCqPmRyoJdm0lzM26HkvdR8u7Ds5/a6M6VSu3XlP2kqA+BF2JD1sdLPvpy62q
+         6SnfM0W5B/gd636b7qynNfZMw79ABwB3NiO+qzvtMfW4jSzicN0oSWi1KUxmFIXzFgvH
+         1656v5IX2iHlnZd+0ETpTyYTZLkGMOscCDB+328Qi4reB0wW3oKCuLBlGbS6g4mNReyN
+         pWyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757608849; x=1758213649;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=3bt/HTJeHR07Vaa4RTLl3DlelZbqwNyFWupYSUwfzHs=;
+        b=o0atpMY4zSAHiiJ//W5xoWyXrS7D6qedMQNJs1uoEQc+w83rS798xT8aSh2NEZNzEa
+         Q+mON7lahXGqSV+qXR4UMtM07zSQLAUblAgv4Tsqr5fp1q8fFB8NOmkEgB4FBMe+l3Lu
+         MppUF/73pcxl0y36I+mV/lnLjQRnsK/ZVDq+SZJazmeR43ZL8FLgur3e5wx6MYZMHpPf
+         btSTYs3cw6hr21raEYi05OOZ0N6xehnqP0ngzV5sPiDoCkHWngB0JDbeAeWy7NF9s43h
+         9jBSJE7puVDBUebCaT06aixqEtyEOVB1zz56x+DJ7iju5SbMU+pKlRFulNpjY9DKrPGi
+         CGVw==
+X-Forwarded-Encrypted: i=1; AJvYcCXR9hhNDE0ReRToctdCt7y18T4qKuIR+Se2aBEKl0eREqgr5JklCtGGIj7/SVjwkGQqULrbpbcEicO/dg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyI7GpJq/xjIlkUWBSA81h+i4Awqg/BaX6hZu4yfO6ZmEpwqPK6
+	qZ+9AOu6aoDV3/Nn2iK9GSb3gGsOCH/vbnwGmxg/MbZaQL6HR2Dse1k8
+X-Gm-Gg: ASbGncttPrR144O24ZMQ823Uw5piMhb2QD5oUUtfveOpJyxByce+eGLeLS+GsBDwb6R
+	aEtfEccCEv2xMe4NE/VnDE9OGty96LEc6OLw5NUz0A6JqU48XFaI+u/LUI3AOAQ60ea6K2pCfs5
+	brUL0MEybVKeqebxSplY8/vAs5Drqj3V4/JRhwSHABF3Jej27eeZvVbBDbCOXpKEfpz2pMJidVf
+	kmou40l9CBDQA7hceH+CymcDq0iAGcoFK+BsiWUIDMdyajntlfWLcv2+y4QaqCyuYU3zcL4T0uk
+	YDVOhw5TJJzvuie2qIAWlRUTEWI1mhveGuPMXM2EQFVZS8m/pNQW+F2aVd+KZ0iLjoj+VY2KGiR
+	JVMjYA+hdtUUXXfIL4UOdKGs=
+X-Google-Smtp-Source: AGHT+IGfyUmJWTKb0B30st9t5OrpXF4vXM1HpJZfkz9CH5r8NuafGnTw6X+T4Y7szfIPsdknSNw41Q==
+X-Received: by 2002:adf:b350:0:b0:3e7:41ac:45f8 with SMTP id ffacd0b85a97d-3e741ac4939mr10590572f8f.55.1757608848395;
+        Thu, 11 Sep 2025 09:40:48 -0700 (PDT)
 Received: from localhost ([2001:861:3385:e20:6384:4cf:52c5:3194])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45e037b9215sm29772365e9.12.2025.09.11.09.40.44
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45e037d638dsm28024775e9.22.2025.09.11.09.40.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 11 Sep 2025 09:40:45 -0700 (PDT)
+        Thu, 11 Sep 2025 09:40:47 -0700 (PDT)
 From: Raphael Gallais-Pou <rgallaispou@gmail.com>
-Subject: [PATCH 0/4] STi drivers cleanup
-Date: Thu, 11 Sep 2025 18:39:56 +0200
-Message-Id: <20250911-master-v1-0-5d5d5ea9af22@gmail.com>
+Date: Thu, 11 Sep 2025 18:39:57 +0200
+Subject: [PATCH 1/4] media: c8sectpfe: remove support of STi c8sectpfe
+ driver
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,10 +85,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFz7wmgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1MDSwML3dzE4pLUIl3TZNNkSwuD5LQkA2MloOKCotS0zAqwQdGxtbUAm0b
- bTVgAAAA=
-X-Change-ID: 20250908-master-5c5c980cfb03
+Message-Id: <20250911-master-v1-1-5d5d5ea9af22@gmail.com>
+References: <20250911-master-v1-0-5d5d5ea9af22@gmail.com>
+In-Reply-To: <20250911-master-v1-0-5d5d5ea9af22@gmail.com>
 To: Patrice Chotard <partice.chotard@foss.st.com>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
  Krzysztof Kozlowski <krzk+dt@kernel.org>, 
@@ -96,45 +97,31 @@ To: Patrice Chotard <partice.chotard@foss.st.com>,
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
  devicetree@vger.kernel.org, linux-clk@vger.kernel.org
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1840; i=rgallaispou@gmail.com;
- h=from:subject:message-id; bh=PGUYgHqS7CEbT5QLDYSKpf+raKUBoMSG/SoVXw8S0ZU=;
- b=owEBbQKS/ZANAwAKAechimjUEsK1AcsmYgBowvt4M6eCDUbwniAvFsl7B6c6vFEZGtq6YBW2O
- Qvzkm+meM2JAjMEAAEKAB0WIQQgmXv2E+fvbV/9ui/nIYpo1BLCtQUCaML7eAAKCRDnIYpo1BLC
- tVZAEACJnq8EfqnB4N/xnh4xaA6NCv1zk6Axys6t8WWk9pLoeMLamXr9+zsfJ8YLhn+sTHNNtuF
- vV4zgzpXaotV5kWh9URYwYedts569Z3slS5u4TS9p4UBeFnyQaUzJFouhtCipwApOL+ghTccmNl
- BqzTj0bVxgu1CK6l4HuK5l9ZlsyQulqDDHXAGQHsGkdOdjixtND3iUtORyCL5wkNWW1XaYtxPCo
- oKLie0xb044BtXbtiON85ojR0dg4XVLk+mbPwDBqODW/7HqUUQa2EjCpg16+elAA0WQYkDoh0zT
- IjIT9LtBPEP1tU/diotyKuiBfbVkgcLKSoyxViMPM83xd3sKpjsyHAVssWIEfPvvng+Sr8D1iKl
- mVWWTuJkSsY4zXqoTgzMwJxylBu0l5s+nVlhao1zocKmk/sY+ZLCIQIMjufXWUnDWaauEcW2Ymg
- SesDSlR4fHfrTWCRnD3sqKobAnR2Z8jTucUwtGEmppu0kpnbcaKrMoH68y8z0KQwUguF8Gt+EQ3
- SGCvmD7PC6Qdy5004D5nHQQh0MvEjCxHhzxe0C83qeZa1U92VQwevkPsK9qpvUsXWpdM1k++2QD
- wXD9mdOwb7iAVSQdjlD3/Lavsoi3Ha5bte93wUXWmXKALdfkPAkA1KcimgEq9pEytPQJRXZp+lP
- sy74W8wCLcmL41w==
+X-Developer-Signature: v=1; a=openpgp-sha256; l=74204;
+ i=rgallaispou@gmail.com; h=from:subject:message-id;
+ bh=Opo2tkTr1lXPiqj20g3lDX3oXAW38m1pmysw74AhfYs=;
+ b=owEBbQKS/ZANAwAKAechimjUEsK1AcsmYgBowvuLUDAwImXxK7D6gpTSYFGtmxl+5LIapVwu7
+ B8hcBot9jGJAjMEAAEKAB0WIQQgmXv2E+fvbV/9ui/nIYpo1BLCtQUCaML7iwAKCRDnIYpo1BLC
+ taS5D/9fnQQeWAECPv9MGuzTM+Qnmt9Cnl0DJeznpu+uu7bpSaRMUxjR48F/nzeFSymwcDaJDOQ
+ ed+aX93dFWO3MAGxo+8+Q/0/C8H0htWpw/2qhGA/e27wB1Mii8Rjs0tU1C75cQRXCErrZQBwm4R
+ vmCsN3JJmx4mh/UJjgZNIgWqFLG7G23G7mab8dVk9jOc01kWPbLCjRuAXk669S+A3sRWgizgDIj
+ 6NiJk3aHMitP38GzZJxr5mIepdKenKcEy9Y9Hs8mgCs+qPot9tsIobFs9IZJSVqwAXKXGRRud0T
+ tRGrlYVGacrzfnc9xATN2B5ueBl0l94dJFRb4WLEQVUbqnTXLNedyZzDxVi0upKMD1zMklMX7Lq
+ PooGbkaSVsX0hjEiE5lt7pTJgPGGqPZOaAFwX8IVKKXxtx7d4hgK/ntHvQaXNvmLyHHiffxlWwe
+ LWWusVWefgkDMIWo8yB9fcWC+dWOz7doMVYCkT27vxz2TTL6yKHqHdYI91/1ghFwJMRMZivuNJt
+ /z6I3yMNbVHknRvcKR2PVOEKkZn0jCBDnmhDlshPGMhTkcwOl3gIcmkhRa1rQUW44Ga5fPiRJP8
+ s+Tf1AlRcc2wzwZgrM8gVT852T/MtgIULi58wDxas7QiD1xxXXMx/cxo3fAz2xLvzKt08WLSBOa
+ LG/ibEESUvBiIdA==
 X-Developer-Key: i=rgallaispou@gmail.com; a=openpgp;
  fpr=20997BF613E7EF6D5FFDBA2FE7218A68D412C2B5
 
-With B2120 board removal[1] several drivers are left unused.
-
-Remove the following compatibles:
-- st,flexgen-stih407-a0
-- st,flexgen-stih407-c0
-- st,flexgen-stih407-d0
-- st,stih407-c8sectpfe
-
-[1] commit dee546e1adef ("ARM: sti: drop B2120 board support")
+STi c8sectpfe device is only used on B2120 boards, which support has
+been withdrawn in commit dee546e1adef ("ARM: sti: drop B2120 board
+support").
 
 Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
 ---
-Raphael Gallais-Pou (4):
-      media: c8sectpfe: remove support of STi c8sectpfe driver
-      dt-bindings: media: remove support of stih407-c8sectpfe
-      clk: st: flexgen: remove unused compatible
-      dt-bindings: clock: st: flexgen: remove deprecated compatibles
-
- .../devicetree/bindings/clock/st/st,flexgen.txt    |    3 -
- .../bindings/media/stih407-c8sectpfe.txt           |   88 --
  MAINTAINERS                                        |    1 -
- drivers/clk/st/clk-flexgen.c                       |   80 --
  drivers/media/platform/st/sti/Kconfig              |    1 -
  drivers/media/platform/st/sti/Makefile             |    1 -
  drivers/media/platform/st/sti/c8sectpfe/Kconfig    |   28 -
@@ -147,13 +134,2428 @@ Raphael Gallais-Pou (4):
  .../platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h  |   23 -
  .../platform/st/sti/c8sectpfe/c8sectpfe-dvb.c      |  235 ----
  .../platform/st/sti/c8sectpfe/c8sectpfe-dvb.h      |   17 -
- 16 files changed, 2499 deletions(-)
----
-base-commit: 8f21d9da46702c4d6951ba60ca8a05f42870fe8f
-change-id: 20250908-master-5c5c980cfb03
+ 13 files changed, 2328 deletions(-)
 
-Best regards,
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 7b7396ed28a700a2aab318553ce8ba1788312bff..ed5bc86ec5638ed6e0635b8ce0120f8f27435ff0 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -3413,7 +3413,6 @@ F:	drivers/clocksource/clksrc_st_lpc.c
+ F:	drivers/cpufreq/sti-cpufreq.c
+ F:	drivers/dma/st_fdma*
+ F:	drivers/i2c/busses/i2c-st.c
+-F:	drivers/media/platform/st/sti/c8sectpfe/
+ F:	drivers/media/rc/st_rc.c
+ F:	drivers/mmc/host/sdhci-st.c
+ F:	drivers/phy/st/phy-miphy28lp.c
+diff --git a/drivers/media/platform/st/sti/Kconfig b/drivers/media/platform/st/sti/Kconfig
+index 60068e8b47b8651e0c2e64121441faef9061933c..91ca0950ff7308d9414d75bfbb2a0e815e7a2104 100644
+--- a/drivers/media/platform/st/sti/Kconfig
++++ b/drivers/media/platform/st/sti/Kconfig
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ source "drivers/media/platform/st/sti/bdisp/Kconfig"
+-source "drivers/media/platform/st/sti/c8sectpfe/Kconfig"
+ source "drivers/media/platform/st/sti/delta/Kconfig"
+ source "drivers/media/platform/st/sti/hva/Kconfig"
+diff --git a/drivers/media/platform/st/sti/Makefile b/drivers/media/platform/st/sti/Makefile
+index f9ce8169b0404cef2a7de8f1c7377f8abe511829..3328d50fb6cf2ed2daae2c0640a6596fdd140be5 100644
+--- a/drivers/media/platform/st/sti/Makefile
++++ b/drivers/media/platform/st/sti/Makefile
+@@ -1,6 +1,5 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ obj-y += bdisp/
+-obj-y += c8sectpfe/
+ obj-y += delta/
+ obj-y += hva/
+ obj-y += stm32/
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/Kconfig b/drivers/media/platform/st/sti/c8sectpfe/Kconfig
+deleted file mode 100644
+index 01c33d9c9ec37ddc9dfc94991e2e9d3b720111e7..0000000000000000000000000000000000000000
+--- a/drivers/media/platform/st/sti/c8sectpfe/Kconfig
++++ /dev/null
+@@ -1,28 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-config DVB_C8SECTPFE
+-	tristate "STMicroelectronics C8SECTPFE DVB support"
+-	depends on DVB_PLATFORM_DRIVERS
+-	depends on PINCTRL && DVB_CORE && I2C
+-	depends on ARCH_STI || ARCH_MULTIPLATFORM || COMPILE_TEST
+-	select FW_LOADER
+-	select DVB_LNBP21 if MEDIA_SUBDRV_AUTOSELECT
+-	select DVB_STV090x if MEDIA_SUBDRV_AUTOSELECT
+-	select DVB_STB6100 if MEDIA_SUBDRV_AUTOSELECT
+-	select DVB_STV6110 if MEDIA_SUBDRV_AUTOSELECT
+-	select DVB_STV0900 if MEDIA_SUBDRV_AUTOSELECT
+-	select DVB_STV0367 if MEDIA_SUBDRV_AUTOSELECT
+-	select MEDIA_TUNER_TDA18212 if MEDIA_SUBDRV_AUTOSELECT
+-
+-	help
+-	  This adds support for DVB front-end cards connected
+-	  to TS inputs of STiH407/410 SoC.
+-
+-	  The driver currently supports C8SECTPFE's TS input block,
+-	  memdma engine, and HW PID filtering.
+-
+-	  Supported DVB front-end cards are:
+-	  - STMicroelectronics DVB-T B2100A (STV0367 + TDA18212)
+-	  - STMicroelectronics DVB-S/S2 STV0903 + STV6110 + LNBP24 board
+-
+-	  To compile this driver as a module, choose M here: the
+-	  module will be called c8sectpfe.
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/Makefile b/drivers/media/platform/st/sti/c8sectpfe/Makefile
+deleted file mode 100644
+index 99425137ee0a9e48b997d62215d4378075024c69..0000000000000000000000000000000000000000
+--- a/drivers/media/platform/st/sti/c8sectpfe/Makefile
++++ /dev/null
+@@ -1,11 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-c8sectpfe-y += c8sectpfe-core.o c8sectpfe-common.o c8sectpfe-dvb.o
+-
+-ifneq ($(CONFIG_DEBUG_FS),)
+-c8sectpfe-y += c8sectpfe-debugfs.o
+-endif
+-
+-obj-$(CONFIG_DVB_C8SECTPFE) += c8sectpfe.o
+-
+-ccflags-y += -I $(srctree)/drivers/media/dvb-frontends/
+-ccflags-y += -I $(srctree)/drivers/media/tuners/
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-common.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-common.c
+deleted file mode 100644
+index 5df67da25525cbfec8b5890fdd626f634408a6f0..0000000000000000000000000000000000000000
+--- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-common.c
++++ /dev/null
+@@ -1,262 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * c8sectpfe-common.c - C8SECTPFE STi DVB driver
+- *
+- * Copyright (c) STMicroelectronics 2015
+- *
+- *   Author: Peter Griffin <peter.griffin@linaro.org>
+- *
+- */
+-#include <linux/completion.h>
+-#include <linux/delay.h>
+-#include <linux/device.h>
+-#include <linux/dvb/dmx.h>
+-#include <linux/errno.h>
+-#include <linux/init.h>
+-#include <linux/interrupt.h>
+-#include <linux/io.h>
+-#include <linux/ioport.h>
+-#include <linux/module.h>
+-#include <linux/slab.h>
+-#include <linux/time.h>
+-#include <linux/wait.h>
+-
+-#include <media/dmxdev.h>
+-#include <media/dvbdev.h>
+-#include <media/dvb_demux.h>
+-#include <media/dvb_frontend.h>
+-#include <media/dvb_net.h>
+-
+-#include "c8sectpfe-common.h"
+-#include "c8sectpfe-core.h"
+-#include "c8sectpfe-dvb.h"
+-
+-static int register_dvb(struct stdemux *demux, struct dvb_adapter *adap,
+-				void *start_feed, void *stop_feed,
+-				struct c8sectpfei *fei)
+-{
+-	int result;
+-
+-	demux->dvb_demux.dmx.capabilities = DMX_TS_FILTERING |
+-					DMX_SECTION_FILTERING |
+-					DMX_MEMORY_BASED_FILTERING;
+-
+-	demux->dvb_demux.priv = demux;
+-	demux->dvb_demux.filternum = C8SECTPFE_MAXCHANNEL;
+-	demux->dvb_demux.feednum = C8SECTPFE_MAXCHANNEL;
+-
+-	demux->dvb_demux.start_feed = start_feed;
+-	demux->dvb_demux.stop_feed = stop_feed;
+-	demux->dvb_demux.write_to_decoder = NULL;
+-
+-	result = dvb_dmx_init(&demux->dvb_demux);
+-	if (result < 0) {
+-		dev_err(fei->dev, "dvb_dmx_init failed (errno = %d)\n",
+-			result);
+-		goto err_dmx;
+-	}
+-
+-	demux->dmxdev.filternum = demux->dvb_demux.filternum;
+-	demux->dmxdev.demux = &demux->dvb_demux.dmx;
+-	demux->dmxdev.capabilities = 0;
+-
+-	result = dvb_dmxdev_init(&demux->dmxdev, adap);
+-	if (result < 0) {
+-		dev_err(fei->dev, "dvb_dmxdev_init failed (errno = %d)\n",
+-			result);
+-
+-		goto err_dmxdev;
+-	}
+-
+-	demux->hw_frontend.source = DMX_FRONTEND_0 + demux->tsin_index;
+-
+-	result = demux->dvb_demux.dmx.add_frontend(&demux->dvb_demux.dmx,
+-						&demux->hw_frontend);
+-	if (result < 0) {
+-		dev_err(fei->dev, "add_frontend failed (errno = %d)\n", result);
+-		goto err_fe_hw;
+-	}
+-
+-	demux->mem_frontend.source = DMX_MEMORY_FE;
+-	result = demux->dvb_demux.dmx.add_frontend(&demux->dvb_demux.dmx,
+-						&demux->mem_frontend);
+-	if (result < 0) {
+-		dev_err(fei->dev, "add_frontend failed (%d)\n", result);
+-		goto err_fe_mem;
+-	}
+-
+-	result = demux->dvb_demux.dmx.connect_frontend(&demux->dvb_demux.dmx,
+-							&demux->hw_frontend);
+-	if (result < 0) {
+-		dev_err(fei->dev, "connect_frontend (%d)\n", result);
+-		goto err_fe_con;
+-	}
+-
+-	return 0;
+-
+-err_fe_con:
+-	demux->dvb_demux.dmx.remove_frontend(&demux->dvb_demux.dmx,
+-						     &demux->mem_frontend);
+-err_fe_mem:
+-	demux->dvb_demux.dmx.remove_frontend(&demux->dvb_demux.dmx,
+-						     &demux->hw_frontend);
+-err_fe_hw:
+-	dvb_dmxdev_release(&demux->dmxdev);
+-err_dmxdev:
+-	dvb_dmx_release(&demux->dvb_demux);
+-err_dmx:
+-	return result;
+-
+-}
+-
+-static void unregister_dvb(struct stdemux *demux)
+-{
+-
+-	demux->dvb_demux.dmx.remove_frontend(&demux->dvb_demux.dmx,
+-						     &demux->mem_frontend);
+-
+-	demux->dvb_demux.dmx.remove_frontend(&demux->dvb_demux.dmx,
+-						     &demux->hw_frontend);
+-
+-	dvb_dmxdev_release(&demux->dmxdev);
+-
+-	dvb_dmx_release(&demux->dvb_demux);
+-}
+-
+-static struct c8sectpfe *c8sectpfe_create(struct c8sectpfei *fei,
+-				void *start_feed,
+-				void *stop_feed)
+-{
+-	struct c8sectpfe *c8sectpfe;
+-	int result;
+-	int i, j;
+-
+-	short int ids[] = { -1 };
+-
+-	c8sectpfe = kzalloc(sizeof(struct c8sectpfe), GFP_KERNEL);
+-	if (!c8sectpfe)
+-		goto err1;
+-
+-	mutex_init(&c8sectpfe->lock);
+-
+-	c8sectpfe->device = fei->dev;
+-
+-	result = dvb_register_adapter(&c8sectpfe->adapter, "STi c8sectpfe",
+-					THIS_MODULE, fei->dev, ids);
+-	if (result < 0) {
+-		dev_err(fei->dev, "dvb_register_adapter failed (errno = %d)\n",
+-			result);
+-		goto err2;
+-	}
+-
+-	c8sectpfe->adapter.priv = fei;
+-
+-	for (i = 0; i < fei->tsin_count; i++) {
+-
+-		c8sectpfe->demux[i].tsin_index = i;
+-		c8sectpfe->demux[i].c8sectpfei = fei;
+-
+-		result = register_dvb(&c8sectpfe->demux[i], &c8sectpfe->adapter,
+-				start_feed, stop_feed, fei);
+-		if (result < 0) {
+-			dev_err(fei->dev,
+-				"register_dvb feed=%d failed (errno = %d)\n",
+-				result, i);
+-
+-			/* we take a all or nothing approach */
+-			for (j = 0; j < i; j++)
+-				unregister_dvb(&c8sectpfe->demux[j]);
+-			goto err3;
+-		}
+-	}
+-
+-	c8sectpfe->num_feeds = fei->tsin_count;
+-
+-	return c8sectpfe;
+-err3:
+-	dvb_unregister_adapter(&c8sectpfe->adapter);
+-err2:
+-	kfree(c8sectpfe);
+-err1:
+-	return NULL;
+-};
+-
+-static void c8sectpfe_delete(struct c8sectpfe *c8sectpfe)
+-{
+-	int i;
+-
+-	if (!c8sectpfe)
+-		return;
+-
+-	for (i = 0; i < c8sectpfe->num_feeds; i++)
+-		unregister_dvb(&c8sectpfe->demux[i]);
+-
+-	dvb_unregister_adapter(&c8sectpfe->adapter);
+-
+-	kfree(c8sectpfe);
+-};
+-
+-void c8sectpfe_tuner_unregister_frontend(struct c8sectpfe *c8sectpfe,
+-					struct c8sectpfei *fei)
+-{
+-	int n;
+-	struct channel_info *tsin;
+-
+-	for (n = 0; n < fei->tsin_count; n++) {
+-
+-		tsin = fei->channel_data[n];
+-
+-		if (tsin) {
+-			if (tsin->frontend) {
+-				dvb_unregister_frontend(tsin->frontend);
+-				dvb_frontend_detach(tsin->frontend);
+-			}
+-
+-			i2c_put_adapter(tsin->i2c_adapter);
+-
+-			if (tsin->i2c_client) {
+-				module_put(tsin->i2c_client->dev.driver->owner);
+-				i2c_unregister_device(tsin->i2c_client);
+-			}
+-		}
+-	}
+-
+-	c8sectpfe_delete(c8sectpfe);
+-};
+-
+-int c8sectpfe_tuner_register_frontend(struct c8sectpfe **c8sectpfe,
+-				struct c8sectpfei *fei,
+-				void *start_feed,
+-				void *stop_feed)
+-{
+-	struct channel_info *tsin;
+-	struct dvb_frontend *frontend;
+-	int n, res;
+-
+-	*c8sectpfe = c8sectpfe_create(fei, start_feed, stop_feed);
+-	if (!*c8sectpfe)
+-		return -ENOMEM;
+-
+-	for (n = 0; n < fei->tsin_count; n++) {
+-		tsin = fei->channel_data[n];
+-
+-		res = c8sectpfe_frontend_attach(&frontend, *c8sectpfe, tsin, n);
+-		if (res)
+-			goto err;
+-
+-		res = dvb_register_frontend(&c8sectpfe[0]->adapter, frontend);
+-		if (res < 0) {
+-			dev_err(fei->dev, "dvb_register_frontend failed (%d)\n",
+-				res);
+-			goto err;
+-		}
+-
+-		tsin->frontend = frontend;
+-	}
+-
+-	return 0;
+-
+-err:
+-	c8sectpfe_tuner_unregister_frontend(*c8sectpfe, fei);
+-	return res;
+-}
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-common.h b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-common.h
+deleted file mode 100644
+index f8d97841f366e32d1087d135bdda8edbb14c1399..0000000000000000000000000000000000000000
+--- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-common.h
++++ /dev/null
+@@ -1,60 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * c8sectpfe-common.h - C8SECTPFE STi DVB driver
+- *
+- * Copyright (c) STMicroelectronics 2015
+- *
+- *   Author: Peter Griffin <peter.griffin@linaro.org>
+- *
+- */
+-#ifndef _C8SECTPFE_COMMON_H_
+-#define _C8SECTPFE_COMMON_H_
+-
+-#include <linux/dvb/dmx.h>
+-#include <linux/dvb/frontend.h>
+-#include <linux/gpio.h>
+-
+-#include <media/dmxdev.h>
+-#include <media/dvb_demux.h>
+-#include <media/dvb_frontend.h>
+-#include <media/dvb_net.h>
+-
+-/* Maximum number of channels */
+-#define C8SECTPFE_MAXADAPTER (4)
+-#define C8SECTPFE_MAXCHANNEL 64
+-#define STPTI_MAXCHANNEL 64
+-
+-#define MAX_INPUTBLOCKS 7
+-
+-struct c8sectpfe;
+-struct stdemux;
+-
+-struct stdemux {
+-	struct dvb_demux	dvb_demux;
+-	struct dmxdev		dmxdev;
+-	struct dmx_frontend	hw_frontend;
+-	struct dmx_frontend	mem_frontend;
+-	int			tsin_index;
+-	int			running_feed_count;
+-	struct			c8sectpfei *c8sectpfei;
+-};
+-
+-struct c8sectpfe {
+-	struct stdemux demux[MAX_INPUTBLOCKS];
+-	struct mutex lock;
+-	struct dvb_adapter adapter;
+-	struct device *device;
+-	int mapping;
+-	int num_feeds;
+-};
+-
+-/* Channel registration */
+-int c8sectpfe_tuner_register_frontend(struct c8sectpfe **c8sectpfe,
+-					struct c8sectpfei *fei,
+-					void *start_feed,
+-					void *stop_feed);
+-
+-void c8sectpfe_tuner_unregister_frontend(struct c8sectpfe *c8sectpfe,
+-						struct c8sectpfei *fei);
+-
+-#endif
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+deleted file mode 100644
+index 89bd15a4d26a95be5576ba5f666fa20f4d010728..0000000000000000000000000000000000000000
+--- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
++++ /dev/null
+@@ -1,1158 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * c8sectpfe-core.c - C8SECTPFE STi DVB driver
+- *
+- * Copyright (c) STMicroelectronics 2015
+- *
+- *   Author:Peter Bennett <peter.bennett@st.com>
+- *	    Peter Griffin <peter.griffin@linaro.org>
+- *
+- */
+-#include <linux/atomic.h>
+-#include <linux/clk.h>
+-#include <linux/completion.h>
+-#include <linux/delay.h>
+-#include <linux/device.h>
+-#include <linux/dma-mapping.h>
+-#include <linux/dvb/dmx.h>
+-#include <linux/dvb/frontend.h>
+-#include <linux/err.h>
+-#include <linux/errno.h>
+-#include <linux/firmware.h>
+-#include <linux/gpio/consumer.h>
+-#include <linux/init.h>
+-#include <linux/interrupt.h>
+-#include <linux/io.h>
+-#include <linux/module.h>
+-#include <linux/of_platform.h>
+-#include <linux/pinctrl/consumer.h>
+-#include <linux/pinctrl/pinctrl.h>
+-#include <linux/platform_device.h>
+-#include <linux/slab.h>
+-#include <linux/time.h>
+-#include <linux/usb.h>
+-#include <linux/wait.h>
+-
+-#include "c8sectpfe-common.h"
+-#include "c8sectpfe-core.h"
+-#include "c8sectpfe-debugfs.h"
+-
+-#include <media/dmxdev.h>
+-#include <media/dvb_demux.h>
+-#include <media/dvb_frontend.h>
+-#include <media/dvb_net.h>
+-
+-#define FIRMWARE_MEMDMA "pti_memdma_h407.elf"
+-MODULE_FIRMWARE(FIRMWARE_MEMDMA);
+-
+-#define PID_TABLE_SIZE 1024
+-#define POLL_MSECS 50
+-
+-static int load_c8sectpfe_fw(struct c8sectpfei *fei);
+-
+-#define TS_PKT_SIZE 188
+-#define HEADER_SIZE (4)
+-#define PACKET_SIZE (TS_PKT_SIZE+HEADER_SIZE)
+-
+-#define FEI_ALIGNMENT (32)
+-/* hw requires minimum of 8*PACKET_SIZE and padded to 8byte boundary */
+-#define FEI_BUFFER_SIZE (8*PACKET_SIZE*340)
+-
+-#define FIFO_LEN 1024
+-
+-static void c8sectpfe_timer_interrupt(struct timer_list *t)
+-{
+-	struct c8sectpfei *fei = timer_container_of(fei, t, timer);
+-	struct channel_info *channel;
+-	int chan_num;
+-
+-	/* iterate through input block channels */
+-	for (chan_num = 0; chan_num < fei->tsin_count; chan_num++) {
+-		channel = fei->channel_data[chan_num];
+-
+-		/* is this descriptor initialised and TP enabled */
+-		if (channel->irec && readl(channel->irec + DMA_PRDS_TPENABLE))
+-			queue_work(system_bh_wq, &channel->bh_work);
+-	}
+-
+-	fei->timer.expires = jiffies +	msecs_to_jiffies(POLL_MSECS);
+-	add_timer(&fei->timer);
+-}
+-
+-static void channel_swdemux_bh_work(struct work_struct *t)
+-{
+-	struct channel_info *channel = from_work(channel, t, bh_work);
+-	struct c8sectpfei *fei;
+-	unsigned long wp, rp;
+-	int pos, num_packets, n, size;
+-	u8 *buf;
+-
+-	if (unlikely(!channel || !channel->irec))
+-		return;
+-
+-	fei = channel->fei;
+-
+-	wp = readl(channel->irec + DMA_PRDS_BUSWP_TP(0));
+-	rp = readl(channel->irec + DMA_PRDS_BUSRP_TP(0));
+-
+-	pos = rp - channel->back_buffer_busaddr;
+-
+-	/* has it wrapped */
+-	if (wp < rp)
+-		wp = channel->back_buffer_busaddr + FEI_BUFFER_SIZE;
+-
+-	size = wp - rp;
+-	num_packets = size / PACKET_SIZE;
+-
+-	/* manage cache so data is visible to CPU */
+-	dma_sync_single_for_cpu(fei->dev,
+-				rp,
+-				size,
+-				DMA_FROM_DEVICE);
+-
+-	buf = channel->back_buffer_aligned;
+-
+-	dev_dbg(fei->dev,
+-		"chan=%d channel=%p num_packets = %d, buf = %p, pos = 0x%x\n\trp=0x%lx, wp=0x%lx\n",
+-		channel->tsin_id, channel, num_packets, buf, pos, rp, wp);
+-
+-	for (n = 0; n < num_packets; n++) {
+-		dvb_dmx_swfilter_packets(
+-			&fei->c8sectpfe[0]->
+-				demux[channel->demux_mapping].dvb_demux,
+-			&buf[pos], 1);
+-
+-		pos += PACKET_SIZE;
+-	}
+-
+-	/* advance the read pointer */
+-	if (wp == (channel->back_buffer_busaddr + FEI_BUFFER_SIZE))
+-		writel(channel->back_buffer_busaddr, channel->irec +
+-			DMA_PRDS_BUSRP_TP(0));
+-	else
+-		writel(wp, channel->irec + DMA_PRDS_BUSRP_TP(0));
+-}
+-
+-static int c8sectpfe_start_feed(struct dvb_demux_feed *dvbdmxfeed)
+-{
+-	struct dvb_demux *demux = dvbdmxfeed->demux;
+-	struct stdemux *stdemux = demux->priv;
+-	struct c8sectpfei *fei = stdemux->c8sectpfei;
+-	struct channel_info *channel;
+-	u32 tmp;
+-	unsigned long *bitmap;
+-	int ret;
+-
+-	switch (dvbdmxfeed->type) {
+-	case DMX_TYPE_TS:
+-		break;
+-	case DMX_TYPE_SEC:
+-		break;
+-	default:
+-		dev_err(fei->dev, "%s:%d Error bailing\n"
+-			, __func__, __LINE__);
+-		return -EINVAL;
+-	}
+-
+-	if (dvbdmxfeed->type == DMX_TYPE_TS) {
+-		switch (dvbdmxfeed->pes_type) {
+-		case DMX_PES_VIDEO:
+-		case DMX_PES_AUDIO:
+-		case DMX_PES_TELETEXT:
+-		case DMX_PES_PCR:
+-		case DMX_PES_OTHER:
+-			break;
+-		default:
+-			dev_err(fei->dev, "%s:%d Error bailing\n"
+-				, __func__, __LINE__);
+-			return -EINVAL;
+-		}
+-	}
+-
+-	if (!atomic_read(&fei->fw_loaded)) {
+-		ret = load_c8sectpfe_fw(fei);
+-		if (ret)
+-			return ret;
+-	}
+-
+-	mutex_lock(&fei->lock);
+-
+-	channel = fei->channel_data[stdemux->tsin_index];
+-
+-	bitmap = channel->pid_buffer_aligned;
+-
+-	/* 8192 is a special PID */
+-	if (dvbdmxfeed->pid == 8192) {
+-		tmp = readl(fei->io + C8SECTPFE_IB_PID_SET(channel->tsin_id));
+-		tmp &= ~C8SECTPFE_PID_ENABLE;
+-		writel(tmp, fei->io + C8SECTPFE_IB_PID_SET(channel->tsin_id));
+-
+-	} else {
+-		bitmap_set(bitmap, dvbdmxfeed->pid, 1);
+-	}
+-
+-	/* manage cache so PID bitmap is visible to HW */
+-	dma_sync_single_for_device(fei->dev,
+-					channel->pid_buffer_busaddr,
+-					PID_TABLE_SIZE,
+-					DMA_TO_DEVICE);
+-
+-	channel->active = 1;
+-
+-	if (fei->global_feed_count == 0) {
+-		fei->timer.expires = jiffies +
+-			msecs_to_jiffies(msecs_to_jiffies(POLL_MSECS));
+-
+-		add_timer(&fei->timer);
+-	}
+-
+-	if (stdemux->running_feed_count == 0) {
+-
+-		dev_dbg(fei->dev, "Starting channel=%p\n", channel);
+-
+-		INIT_WORK(&channel->bh_work, channel_swdemux_bh_work);
+-
+-		/* Reset the internal inputblock sram pointers */
+-		writel(channel->fifo,
+-			fei->io + C8SECTPFE_IB_BUFF_STRT(channel->tsin_id));
+-		writel(channel->fifo + FIFO_LEN - 1,
+-			fei->io + C8SECTPFE_IB_BUFF_END(channel->tsin_id));
+-
+-		writel(channel->fifo,
+-			fei->io + C8SECTPFE_IB_READ_PNT(channel->tsin_id));
+-		writel(channel->fifo,
+-			fei->io + C8SECTPFE_IB_WRT_PNT(channel->tsin_id));
+-
+-
+-		/* reset read / write memdma ptrs for this channel */
+-		writel(channel->back_buffer_busaddr, channel->irec +
+-			DMA_PRDS_BUSBASE_TP(0));
+-
+-		tmp = channel->back_buffer_busaddr + FEI_BUFFER_SIZE - 1;
+-		writel(tmp, channel->irec + DMA_PRDS_BUSTOP_TP(0));
+-
+-		writel(channel->back_buffer_busaddr, channel->irec +
+-			DMA_PRDS_BUSWP_TP(0));
+-
+-		/* Issue a reset and enable InputBlock */
+-		writel(C8SECTPFE_SYS_ENABLE | C8SECTPFE_SYS_RESET
+-			, fei->io + C8SECTPFE_IB_SYS(channel->tsin_id));
+-
+-		/* and enable the tp */
+-		writel(0x1, channel->irec + DMA_PRDS_TPENABLE);
+-
+-		dev_dbg(fei->dev, "%s:%d Starting DMA feed on stdemux=%p\n"
+-			, __func__, __LINE__, stdemux);
+-	}
+-
+-	stdemux->running_feed_count++;
+-	fei->global_feed_count++;
+-
+-	mutex_unlock(&fei->lock);
+-
+-	return 0;
+-}
+-
+-static int c8sectpfe_stop_feed(struct dvb_demux_feed *dvbdmxfeed)
+-{
+-
+-	struct dvb_demux *demux = dvbdmxfeed->demux;
+-	struct stdemux *stdemux = demux->priv;
+-	struct c8sectpfei *fei = stdemux->c8sectpfei;
+-	struct channel_info *channel;
+-	int idlereq;
+-	u32 tmp;
+-	int ret;
+-	unsigned long *bitmap;
+-
+-	if (!atomic_read(&fei->fw_loaded)) {
+-		ret = load_c8sectpfe_fw(fei);
+-		if (ret)
+-			return ret;
+-	}
+-
+-	mutex_lock(&fei->lock);
+-
+-	channel = fei->channel_data[stdemux->tsin_index];
+-
+-	bitmap = channel->pid_buffer_aligned;
+-
+-	if (dvbdmxfeed->pid == 8192) {
+-		tmp = readl(fei->io + C8SECTPFE_IB_PID_SET(channel->tsin_id));
+-		tmp |= C8SECTPFE_PID_ENABLE;
+-		writel(tmp, fei->io + C8SECTPFE_IB_PID_SET(channel->tsin_id));
+-	} else {
+-		bitmap_clear(bitmap, dvbdmxfeed->pid, 1);
+-	}
+-
+-	/* manage cache so data is visible to HW */
+-	dma_sync_single_for_device(fei->dev,
+-					channel->pid_buffer_busaddr,
+-					PID_TABLE_SIZE,
+-					DMA_TO_DEVICE);
+-
+-	if (--stdemux->running_feed_count == 0) {
+-
+-		channel = fei->channel_data[stdemux->tsin_index];
+-
+-		/* TP re-configuration on page 168 of functional spec */
+-
+-		/* disable IB (prevents more TS data going to memdma) */
+-		writel(0, fei->io + C8SECTPFE_IB_SYS(channel->tsin_id));
+-
+-		/* disable this channels descriptor */
+-		writel(0,  channel->irec + DMA_PRDS_TPENABLE);
+-
+-		disable_work_sync(&channel->bh_work);
+-
+-		/* now request memdma channel goes idle */
+-		idlereq = (1 << channel->tsin_id) | IDLEREQ;
+-		writel(idlereq, fei->io + DMA_IDLE_REQ);
+-
+-		/* wait for idle irq handler to signal completion */
+-		ret = wait_for_completion_timeout(&channel->idle_completion,
+-						msecs_to_jiffies(100));
+-
+-		if (ret == 0)
+-			dev_warn(fei->dev,
+-				"Timeout waiting for idle irq on tsin%d\n",
+-				channel->tsin_id);
+-
+-		reinit_completion(&channel->idle_completion);
+-
+-		/* reset read / write ptrs for this channel */
+-
+-		writel(channel->back_buffer_busaddr,
+-			channel->irec + DMA_PRDS_BUSBASE_TP(0));
+-
+-		tmp = channel->back_buffer_busaddr + FEI_BUFFER_SIZE - 1;
+-		writel(tmp, channel->irec + DMA_PRDS_BUSTOP_TP(0));
+-
+-		writel(channel->back_buffer_busaddr,
+-			channel->irec + DMA_PRDS_BUSWP_TP(0));
+-
+-		dev_dbg(fei->dev,
+-			"%s:%d stopping DMA feed on stdemux=%p channel=%d\n",
+-			__func__, __LINE__, stdemux, channel->tsin_id);
+-
+-		/* turn off all PIDS in the bitmap */
+-		memset(channel->pid_buffer_aligned, 0, PID_TABLE_SIZE);
+-
+-		/* manage cache so data is visible to HW */
+-		dma_sync_single_for_device(fei->dev,
+-					channel->pid_buffer_busaddr,
+-					PID_TABLE_SIZE,
+-					DMA_TO_DEVICE);
+-
+-		channel->active = 0;
+-	}
+-
+-	if (--fei->global_feed_count == 0) {
+-		dev_dbg(fei->dev, "%s:%d global_feed_count=%d\n"
+-			, __func__, __LINE__, fei->global_feed_count);
+-
+-		timer_delete(&fei->timer);
+-	}
+-
+-	mutex_unlock(&fei->lock);
+-
+-	return 0;
+-}
+-
+-static struct channel_info *find_channel(struct c8sectpfei *fei, int tsin_num)
+-{
+-	int i;
+-
+-	for (i = 0; i < C8SECTPFE_MAX_TSIN_CHAN; i++) {
+-		if (!fei->channel_data[i])
+-			continue;
+-
+-		if (fei->channel_data[i]->tsin_id == tsin_num)
+-			return fei->channel_data[i];
+-	}
+-
+-	return NULL;
+-}
+-
+-static void c8sectpfe_getconfig(struct c8sectpfei *fei)
+-{
+-	struct c8sectpfe_hw *hw = &fei->hw_stats;
+-
+-	hw->num_ib = readl(fei->io + SYS_CFG_NUM_IB);
+-	hw->num_mib = readl(fei->io + SYS_CFG_NUM_MIB);
+-	hw->num_swts = readl(fei->io + SYS_CFG_NUM_SWTS);
+-	hw->num_tsout = readl(fei->io + SYS_CFG_NUM_TSOUT);
+-	hw->num_ccsc = readl(fei->io + SYS_CFG_NUM_CCSC);
+-	hw->num_ram = readl(fei->io + SYS_CFG_NUM_RAM);
+-	hw->num_tp = readl(fei->io + SYS_CFG_NUM_TP);
+-
+-	dev_info(fei->dev, "C8SECTPFE hw supports the following:\n");
+-	dev_info(fei->dev, "Input Blocks: %d\n", hw->num_ib);
+-	dev_info(fei->dev, "Merged Input Blocks: %d\n", hw->num_mib);
+-	dev_info(fei->dev, "Software Transport Stream Inputs: %d\n"
+-				, hw->num_swts);
+-	dev_info(fei->dev, "Transport Stream Output: %d\n", hw->num_tsout);
+-	dev_info(fei->dev, "Cable Card Converter: %d\n", hw->num_ccsc);
+-	dev_info(fei->dev, "RAMs supported by C8SECTPFE: %d\n", hw->num_ram);
+-	dev_info(fei->dev, "Tango TPs supported by C8SECTPFE: %d\n"
+-			, hw->num_tp);
+-}
+-
+-static irqreturn_t c8sectpfe_idle_irq_handler(int irq, void *priv)
+-{
+-	struct c8sectpfei *fei = priv;
+-	struct channel_info *chan;
+-	int bit;
+-	unsigned long tmp = readl(fei->io + DMA_IDLE_REQ);
+-
+-	/* page 168 of functional spec: Clear the idle request
+-	   by writing 0 to the C8SECTPFE_DMA_IDLE_REQ register. */
+-
+-	/* signal idle completion */
+-	for_each_set_bit(bit, &tmp, fei->hw_stats.num_ib) {
+-
+-		chan = find_channel(fei, bit);
+-
+-		if (chan)
+-			complete(&chan->idle_completion);
+-	}
+-
+-	writel(0, fei->io + DMA_IDLE_REQ);
+-
+-	return IRQ_HANDLED;
+-}
+-
+-
+-static void free_input_block(struct c8sectpfei *fei, struct channel_info *tsin)
+-{
+-	if (!fei || !tsin)
+-		return;
+-
+-	if (tsin->back_buffer_busaddr)
+-		if (!dma_mapping_error(fei->dev, tsin->back_buffer_busaddr))
+-			dma_unmap_single(fei->dev, tsin->back_buffer_busaddr,
+-				FEI_BUFFER_SIZE, DMA_BIDIRECTIONAL);
+-
+-	kfree(tsin->back_buffer_start);
+-
+-	if (tsin->pid_buffer_busaddr)
+-		if (!dma_mapping_error(fei->dev, tsin->pid_buffer_busaddr))
+-			dma_unmap_single(fei->dev, tsin->pid_buffer_busaddr,
+-				PID_TABLE_SIZE, DMA_BIDIRECTIONAL);
+-
+-	kfree(tsin->pid_buffer_start);
+-}
+-
+-#define MAX_NAME 20
+-
+-static int configure_memdma_and_inputblock(struct c8sectpfei *fei,
+-				struct channel_info *tsin)
+-{
+-	int ret;
+-	u32 tmp;
+-	char tsin_pin_name[MAX_NAME];
+-
+-	if (!fei || !tsin)
+-		return -EINVAL;
+-
+-	dev_dbg(fei->dev, "%s:%d Configuring channel=%p tsin=%d\n"
+-		, __func__, __LINE__, tsin, tsin->tsin_id);
+-
+-	init_completion(&tsin->idle_completion);
+-
+-	tsin->back_buffer_start = kzalloc(FEI_BUFFER_SIZE + FEI_ALIGNMENT, GFP_KERNEL);
+-	if (!tsin->back_buffer_start) {
+-		ret = -ENOMEM;
+-		goto err_unmap;
+-	}
+-
+-	/* Ensure backbuffer is 32byte aligned */
+-	tsin->back_buffer_aligned = tsin->back_buffer_start + FEI_ALIGNMENT;
+-
+-	tsin->back_buffer_aligned = PTR_ALIGN(tsin->back_buffer_aligned, FEI_ALIGNMENT);
+-
+-	tsin->back_buffer_busaddr = dma_map_single(fei->dev,
+-					tsin->back_buffer_aligned,
+-					FEI_BUFFER_SIZE,
+-					DMA_BIDIRECTIONAL);
+-
+-	if (dma_mapping_error(fei->dev, tsin->back_buffer_busaddr)) {
+-		dev_err(fei->dev, "failed to map back_buffer\n");
+-		ret = -EFAULT;
+-		goto err_unmap;
+-	}
+-
+-	/*
+-	 * The pid buffer can be configured (in hw) for byte or bit
+-	 * per pid. By powers of deduction we conclude stih407 family
+-	 * is configured (at SoC design stage) for bit per pid.
+-	 */
+-	tsin->pid_buffer_start = kzalloc(PID_TABLE_SIZE + PID_TABLE_SIZE, GFP_KERNEL);
+-	if (!tsin->pid_buffer_start) {
+-		ret = -ENOMEM;
+-		goto err_unmap;
+-	}
+-
+-	/*
+-	 * PID buffer needs to be aligned to size of the pid table
+-	 * which at bit per pid is 1024 bytes (8192 pids / 8).
+-	 * PIDF_BASE register enforces this alignment when writing
+-	 * the register.
+-	 */
+-
+-	tsin->pid_buffer_aligned = tsin->pid_buffer_start + PID_TABLE_SIZE;
+-
+-	tsin->pid_buffer_aligned = PTR_ALIGN(tsin->pid_buffer_aligned, PID_TABLE_SIZE);
+-
+-	tsin->pid_buffer_busaddr = dma_map_single(fei->dev,
+-						tsin->pid_buffer_aligned,
+-						PID_TABLE_SIZE,
+-						DMA_BIDIRECTIONAL);
+-
+-	if (dma_mapping_error(fei->dev, tsin->pid_buffer_busaddr)) {
+-		dev_err(fei->dev, "failed to map pid_bitmap\n");
+-		ret = -EFAULT;
+-		goto err_unmap;
+-	}
+-
+-	/* manage cache so pid bitmap is visible to HW */
+-	dma_sync_single_for_device(fei->dev,
+-				tsin->pid_buffer_busaddr,
+-				PID_TABLE_SIZE,
+-				DMA_TO_DEVICE);
+-
+-	snprintf(tsin_pin_name, MAX_NAME, "tsin%d-%s", tsin->tsin_id,
+-		(tsin->serial_not_parallel ? "serial" : "parallel"));
+-
+-	tsin->pstate = pinctrl_lookup_state(fei->pinctrl, tsin_pin_name);
+-	if (IS_ERR(tsin->pstate)) {
+-		dev_err(fei->dev, "%s: pinctrl_lookup_state couldn't find %s state\n"
+-			, __func__, tsin_pin_name);
+-		ret = PTR_ERR(tsin->pstate);
+-		goto err_unmap;
+-	}
+-
+-	ret = pinctrl_select_state(fei->pinctrl, tsin->pstate);
+-
+-	if (ret) {
+-		dev_err(fei->dev, "%s: pinctrl_select_state failed\n"
+-			, __func__);
+-		goto err_unmap;
+-	}
+-
+-	/* Enable this input block */
+-	tmp = readl(fei->io + SYS_INPUT_CLKEN);
+-	tmp |= BIT(tsin->tsin_id);
+-	writel(tmp, fei->io + SYS_INPUT_CLKEN);
+-
+-	if (tsin->serial_not_parallel)
+-		tmp |= C8SECTPFE_SERIAL_NOT_PARALLEL;
+-
+-	if (tsin->invert_ts_clk)
+-		tmp |= C8SECTPFE_INVERT_TSCLK;
+-
+-	if (tsin->async_not_sync)
+-		tmp |= C8SECTPFE_ASYNC_NOT_SYNC;
+-
+-	tmp |= C8SECTPFE_ALIGN_BYTE_SOP | C8SECTPFE_BYTE_ENDIANNESS_MSB;
+-
+-	writel(tmp, fei->io + C8SECTPFE_IB_IP_FMT_CFG(tsin->tsin_id));
+-
+-	writel(C8SECTPFE_SYNC(0x9) |
+-		C8SECTPFE_DROP(0x9) |
+-		C8SECTPFE_TOKEN(0x47),
+-		fei->io + C8SECTPFE_IB_SYNCLCKDRP_CFG(tsin->tsin_id));
+-
+-	writel(TS_PKT_SIZE, fei->io + C8SECTPFE_IB_PKT_LEN(tsin->tsin_id));
+-
+-	/* Place the FIFO's at the end of the irec descriptors */
+-
+-	tsin->fifo = (tsin->tsin_id * FIFO_LEN);
+-
+-	writel(tsin->fifo, fei->io + C8SECTPFE_IB_BUFF_STRT(tsin->tsin_id));
+-	writel(tsin->fifo + FIFO_LEN - 1,
+-		fei->io + C8SECTPFE_IB_BUFF_END(tsin->tsin_id));
+-
+-	writel(tsin->fifo, fei->io + C8SECTPFE_IB_READ_PNT(tsin->tsin_id));
+-	writel(tsin->fifo, fei->io + C8SECTPFE_IB_WRT_PNT(tsin->tsin_id));
+-
+-	writel(tsin->pid_buffer_busaddr,
+-		fei->io + PIDF_BASE(tsin->tsin_id));
+-
+-	dev_dbg(fei->dev, "chan=%d PIDF_BASE=0x%x pid_bus_addr=%pad\n",
+-		tsin->tsin_id, readl(fei->io + PIDF_BASE(tsin->tsin_id)),
+-		&tsin->pid_buffer_busaddr);
+-
+-	/* Configure and enable HW PID filtering */
+-
+-	/*
+-	 * The PID value is created by assembling the first 8 bytes of
+-	 * the TS packet into a 64-bit word in big-endian format. A
+-	 * slice of that 64-bit word is taken from
+-	 * (PID_OFFSET+PID_NUM_BITS-1) to PID_OFFSET.
+-	 */
+-	tmp = (C8SECTPFE_PID_ENABLE | C8SECTPFE_PID_NUMBITS(13)
+-		| C8SECTPFE_PID_OFFSET(40));
+-
+-	writel(tmp, fei->io + C8SECTPFE_IB_PID_SET(tsin->tsin_id));
+-
+-	dev_dbg(fei->dev, "chan=%d setting wp: %d, rp: %d, buf: %d-%d\n",
+-		tsin->tsin_id,
+-		readl(fei->io + C8SECTPFE_IB_WRT_PNT(tsin->tsin_id)),
+-		readl(fei->io + C8SECTPFE_IB_READ_PNT(tsin->tsin_id)),
+-		readl(fei->io + C8SECTPFE_IB_BUFF_STRT(tsin->tsin_id)),
+-		readl(fei->io + C8SECTPFE_IB_BUFF_END(tsin->tsin_id)));
+-
+-	/* Get base addpress of pointer record block from DMEM */
+-	tsin->irec = fei->io + DMA_MEMDMA_OFFSET + DMA_DMEM_OFFSET +
+-			readl(fei->io + DMA_PTRREC_BASE);
+-
+-	/* fill out pointer record data structure */
+-
+-	/* advance pointer record block to our channel */
+-	tsin->irec += (tsin->tsin_id * DMA_PRDS_SIZE);
+-
+-	writel(tsin->fifo, tsin->irec + DMA_PRDS_MEMBASE);
+-
+-	writel(tsin->fifo + FIFO_LEN - 1, tsin->irec + DMA_PRDS_MEMTOP);
+-
+-	writel((188 + 7)&~7, tsin->irec + DMA_PRDS_PKTSIZE);
+-
+-	writel(0x1, tsin->irec + DMA_PRDS_TPENABLE);
+-
+-	/* read/write pointers with physical bus address */
+-
+-	writel(tsin->back_buffer_busaddr, tsin->irec + DMA_PRDS_BUSBASE_TP(0));
+-
+-	tmp = tsin->back_buffer_busaddr + FEI_BUFFER_SIZE - 1;
+-	writel(tmp, tsin->irec + DMA_PRDS_BUSTOP_TP(0));
+-
+-	writel(tsin->back_buffer_busaddr, tsin->irec + DMA_PRDS_BUSWP_TP(0));
+-	writel(tsin->back_buffer_busaddr, tsin->irec + DMA_PRDS_BUSRP_TP(0));
+-
+-	/* initialize bh work */
+-	INIT_WORK(&tsin->bh_work, channel_swdemux_bh_work);
+-
+-	return 0;
+-
+-err_unmap:
+-	free_input_block(fei, tsin);
+-	return ret;
+-}
+-
+-static irqreturn_t c8sectpfe_error_irq_handler(int irq, void *priv)
+-{
+-	struct c8sectpfei *fei = priv;
+-
+-	dev_err(fei->dev, "%s: error handling not yet implemented\n"
+-		, __func__);
+-
+-	/*
+-	 * TODO FIXME we should detect some error conditions here
+-	 * and ideally do something about them!
+-	 */
+-
+-	return IRQ_HANDLED;
+-}
+-
+-static int c8sectpfe_probe(struct platform_device *pdev)
+-{
+-	struct device *dev = &pdev->dev;
+-	struct device_node *np = dev->of_node;
+-	struct c8sectpfei *fei;
+-	struct resource *res;
+-	int ret, index = 0;
+-	struct channel_info *tsin;
+-
+-	/* Allocate the c8sectpfei structure */
+-	fei = devm_kzalloc(dev, sizeof(struct c8sectpfei), GFP_KERNEL);
+-	if (!fei)
+-		return -ENOMEM;
+-
+-	fei->dev = dev;
+-
+-	res = platform_get_resource_byname(pdev, IORESOURCE_MEM, "c8sectpfe");
+-	fei->io = devm_ioremap_resource(dev, res);
+-	if (IS_ERR(fei->io))
+-		return PTR_ERR(fei->io);
+-
+-	res = platform_get_resource_byname(pdev, IORESOURCE_MEM,
+-					"c8sectpfe-ram");
+-	fei->sram = devm_ioremap_resource(dev, res);
+-	if (IS_ERR(fei->sram))
+-		return PTR_ERR(fei->sram);
+-
+-	fei->sram_size = resource_size(res);
+-
+-	fei->idle_irq = platform_get_irq_byname(pdev, "c8sectpfe-idle-irq");
+-	if (fei->idle_irq < 0)
+-		return fei->idle_irq;
+-
+-	fei->error_irq = platform_get_irq_byname(pdev, "c8sectpfe-error-irq");
+-	if (fei->error_irq < 0)
+-		return fei->error_irq;
+-
+-	platform_set_drvdata(pdev, fei);
+-
+-	fei->c8sectpfeclk = devm_clk_get_enabled(dev, "c8sectpfe");
+-	if (IS_ERR(fei->c8sectpfeclk)) {
+-		dev_err(dev, "Failed to enable c8sectpfe clock\n");
+-		return PTR_ERR(fei->c8sectpfeclk);
+-	}
+-
+-	/* to save power disable all IP's (on by default) */
+-	writel(0, fei->io + SYS_INPUT_CLKEN);
+-
+-	/* Enable memdma clock */
+-	writel(MEMDMAENABLE, fei->io + SYS_OTHER_CLKEN);
+-
+-	/* clear internal sram */
+-	memset_io(fei->sram, 0x0, fei->sram_size);
+-
+-	c8sectpfe_getconfig(fei);
+-
+-	ret = devm_request_irq(dev, fei->idle_irq, c8sectpfe_idle_irq_handler,
+-			0, "c8sectpfe-idle-irq", fei);
+-	if (ret) {
+-		dev_err(dev, "Can't register c8sectpfe-idle-irq IRQ.\n");
+-		return ret;
+-	}
+-
+-	ret = devm_request_irq(dev, fei->error_irq,
+-				c8sectpfe_error_irq_handler, 0,
+-				"c8sectpfe-error-irq", fei);
+-	if (ret) {
+-		dev_err(dev, "Can't register c8sectpfe-error-irq IRQ.\n");
+-		return ret;
+-	}
+-
+-	fei->tsin_count = of_get_child_count(np);
+-
+-	if (fei->tsin_count > C8SECTPFE_MAX_TSIN_CHAN ||
+-		fei->tsin_count > fei->hw_stats.num_ib) {
+-
+-		dev_err(dev, "More tsin declared than exist on SoC!\n");
+-		return -EINVAL;
+-	}
+-
+-	fei->pinctrl = devm_pinctrl_get(dev);
+-
+-	if (IS_ERR(fei->pinctrl)) {
+-		dev_err(dev, "Error getting tsin pins\n");
+-		return PTR_ERR(fei->pinctrl);
+-	}
+-
+-	for_each_child_of_node_scoped(np, child) {
+-		struct device_node *i2c_bus;
+-
+-		fei->channel_data[index] = devm_kzalloc(dev,
+-						sizeof(struct channel_info),
+-						GFP_KERNEL);
+-
+-		if (!fei->channel_data[index])
+-			return -ENOMEM;
+-
+-		tsin = fei->channel_data[index];
+-
+-		tsin->fei = fei;
+-
+-		ret = of_property_read_u32(child, "tsin-num", &tsin->tsin_id);
+-		if (ret) {
+-			dev_err(&pdev->dev, "No tsin_num found\n");
+-			return ret;
+-		}
+-
+-		/* sanity check value */
+-		if (tsin->tsin_id > fei->hw_stats.num_ib) {
+-			dev_err(&pdev->dev,
+-				"tsin-num %d specified greater than number\n\tof input block hw in SoC! (%d)",
+-				tsin->tsin_id, fei->hw_stats.num_ib);
+-			return -EINVAL;
+-		}
+-
+-		tsin->invert_ts_clk = of_property_read_bool(child,
+-							"invert-ts-clk");
+-
+-		tsin->serial_not_parallel = of_property_read_bool(child,
+-							"serial-not-parallel");
+-
+-		tsin->async_not_sync = of_property_read_bool(child,
+-							"async-not-sync");
+-
+-		ret = of_property_read_u32(child, "dvb-card",
+-					&tsin->dvb_card);
+-		if (ret) {
+-			dev_err(&pdev->dev, "No dvb-card found\n");
+-			return ret;
+-		}
+-
+-		i2c_bus = of_parse_phandle(child, "i2c-bus", 0);
+-		if (!i2c_bus) {
+-			dev_err(&pdev->dev, "No i2c-bus found\n");
+-			return -ENODEV;
+-		}
+-		tsin->i2c_adapter =
+-			of_find_i2c_adapter_by_node(i2c_bus);
+-		of_node_put(i2c_bus);
+-		if (!tsin->i2c_adapter) {
+-			dev_err(&pdev->dev, "No i2c adapter found\n");
+-			return -ENODEV;
+-		}
+-
+-		/* Acquire reset GPIO and activate it */
+-		tsin->rst_gpio = devm_fwnode_gpiod_get(dev,
+-						       of_fwnode_handle(child),
+-						       "reset", GPIOD_OUT_HIGH,
+-						       "NIM reset");
+-		ret = PTR_ERR_OR_ZERO(tsin->rst_gpio);
+-		if (ret && ret != -EBUSY) {
+-			dev_err(dev, "Can't request tsin%d reset gpio\n",
+-				fei->channel_data[index]->tsin_id);
+-			return ret;
+-		}
+-
+-		if (!ret) {
+-			/* wait for the chip to reset */
+-			usleep_range(3500, 5000);
+-			/* release the reset line */
+-			gpiod_set_value_cansleep(tsin->rst_gpio, 0);
+-			usleep_range(3000, 5000);
+-		}
+-
+-		tsin->demux_mapping = index;
+-
+-		dev_dbg(fei->dev,
+-			"channel=%p n=%d tsin_num=%d, invert-ts-clk=%d\n\tserial-not-parallel=%d pkt-clk-valid=%d dvb-card=%d\n",
+-			fei->channel_data[index], index,
+-			tsin->tsin_id, tsin->invert_ts_clk,
+-			tsin->serial_not_parallel, tsin->async_not_sync,
+-			tsin->dvb_card);
+-
+-		index++;
+-	}
+-
+-	/* Setup timer interrupt */
+-	timer_setup(&fei->timer, c8sectpfe_timer_interrupt, 0);
+-
+-	mutex_init(&fei->lock);
+-
+-	/* Get the configuration information about the tuners */
+-	ret = c8sectpfe_tuner_register_frontend(&fei->c8sectpfe[0],
+-					(void *)fei,
+-					c8sectpfe_start_feed,
+-					c8sectpfe_stop_feed);
+-	if (ret) {
+-		dev_err(dev, "c8sectpfe_tuner_register_frontend failed (%d)\n",
+-			ret);
+-		return ret;
+-	}
+-
+-	c8sectpfe_debugfs_init(fei);
+-
+-	return 0;
+-}
+-
+-static void c8sectpfe_remove(struct platform_device *pdev)
+-{
+-	struct c8sectpfei *fei = platform_get_drvdata(pdev);
+-	struct channel_info *channel;
+-	int i;
+-
+-	wait_for_completion(&fei->fw_ack);
+-
+-	c8sectpfe_tuner_unregister_frontend(fei->c8sectpfe[0], fei);
+-
+-	/*
+-	 * Now loop through and un-configure each of the InputBlock resources
+-	 */
+-	for (i = 0; i < fei->tsin_count; i++) {
+-		channel = fei->channel_data[i];
+-		free_input_block(fei, channel);
+-	}
+-
+-	c8sectpfe_debugfs_exit(fei);
+-
+-	dev_info(fei->dev, "Stopping memdma SLIM core\n");
+-	if (readl(fei->io + DMA_CPU_RUN))
+-		writel(0x0,  fei->io + DMA_CPU_RUN);
+-
+-	/* unclock all internal IP's */
+-	if (readl(fei->io + SYS_INPUT_CLKEN))
+-		writel(0, fei->io + SYS_INPUT_CLKEN);
+-
+-	if (readl(fei->io + SYS_OTHER_CLKEN))
+-		writel(0, fei->io + SYS_OTHER_CLKEN);
+-}
+-
+-
+-static int configure_channels(struct c8sectpfei *fei)
+-{
+-	int index = 0, ret;
+-	struct device_node *np = fei->dev->of_node;
+-
+-	/* iterate round each tsin and configure memdma descriptor and IB hw */
+-	for_each_child_of_node_scoped(np, child) {
+-		ret = configure_memdma_and_inputblock(fei,
+-						fei->channel_data[index]);
+-		if (ret) {
+-			dev_err(fei->dev,
+-				"configure_memdma_and_inputblock failed\n");
+-			goto err_unmap;
+-		}
+-		index++;
+-	}
+-
+-	return 0;
+-
+-err_unmap:
+-	while (--index >= 0)
+-		free_input_block(fei, fei->channel_data[index]);
+-
+-	return ret;
+-}
+-
+-static int
+-c8sectpfe_elf_sanity_check(struct c8sectpfei *fei, const struct firmware *fw)
+-{
+-	struct elf32_hdr *ehdr;
+-	char class;
+-
+-	if (!fw) {
+-		dev_err(fei->dev, "failed to load %s\n", FIRMWARE_MEMDMA);
+-		return -EINVAL;
+-	}
+-
+-	if (fw->size < sizeof(struct elf32_hdr)) {
+-		dev_err(fei->dev, "Image is too small\n");
+-		return -EINVAL;
+-	}
+-
+-	ehdr = (struct elf32_hdr *)fw->data;
+-
+-	/* We only support ELF32 at this point */
+-	class = ehdr->e_ident[EI_CLASS];
+-	if (class != ELFCLASS32) {
+-		dev_err(fei->dev, "Unsupported class: %d\n", class);
+-		return -EINVAL;
+-	}
+-
+-	if (ehdr->e_ident[EI_DATA] != ELFDATA2LSB) {
+-		dev_err(fei->dev, "Unsupported firmware endianness\n");
+-		return -EINVAL;
+-	}
+-
+-	if (fw->size < ehdr->e_shoff + sizeof(struct elf32_shdr)) {
+-		dev_err(fei->dev, "Image is too small\n");
+-		return -EINVAL;
+-	}
+-
+-	if (memcmp(ehdr->e_ident, ELFMAG, SELFMAG)) {
+-		dev_err(fei->dev, "Image is corrupted (bad magic)\n");
+-		return -EINVAL;
+-	}
+-
+-	/* Check ELF magic */
+-	ehdr = (Elf32_Ehdr *)fw->data;
+-	if (ehdr->e_ident[EI_MAG0] != ELFMAG0 ||
+-	    ehdr->e_ident[EI_MAG1] != ELFMAG1 ||
+-	    ehdr->e_ident[EI_MAG2] != ELFMAG2 ||
+-	    ehdr->e_ident[EI_MAG3] != ELFMAG3) {
+-		dev_err(fei->dev, "Invalid ELF magic\n");
+-		return -EINVAL;
+-	}
+-
+-	if (ehdr->e_type != ET_EXEC) {
+-		dev_err(fei->dev, "Unsupported ELF header type\n");
+-		return -EINVAL;
+-	}
+-
+-	if (ehdr->e_phoff > fw->size) {
+-		dev_err(fei->dev, "Firmware size is too small\n");
+-		return -EINVAL;
+-	}
+-
+-	return 0;
+-}
+-
+-
+-static void load_imem_segment(struct c8sectpfei *fei, Elf32_Phdr *phdr,
+-			const struct firmware *fw, u8 __iomem *dest,
+-			int seg_num)
+-{
+-	const u8 *imem_src = fw->data + phdr->p_offset;
+-	int i;
+-
+-	/*
+-	 * For IMEM segments, the segment contains 24-bit
+-	 * instructions which must be padded to 32-bit
+-	 * instructions before being written. The written
+-	 * segment is padded with NOP instructions.
+-	 */
+-
+-	dev_dbg(fei->dev,
+-		"Loading IMEM segment %d 0x%08x\n\t (0x%x bytes) -> 0x%p (0x%x bytes)\n",
+-		seg_num, phdr->p_paddr, phdr->p_filesz, dest,
+-		phdr->p_memsz + phdr->p_memsz / 3);
+-
+-	for (i = 0; i < phdr->p_filesz; i++) {
+-
+-		writeb(readb((void __iomem *)imem_src), (void __iomem *)dest);
+-
+-		/* Every 3 bytes, add an additional
+-		 * padding zero in destination */
+-		if (i % 3 == 2) {
+-			dest++;
+-			writeb(0x00, (void __iomem *)dest);
+-		}
+-
+-		dest++;
+-		imem_src++;
+-	}
+-}
+-
+-static void load_dmem_segment(struct c8sectpfei *fei, Elf32_Phdr *phdr,
+-			const struct firmware *fw, u8 __iomem *dst, int seg_num)
+-{
+-	/*
+-	 * For DMEM segments copy the segment data from the ELF
+-	 * file and pad segment with zeroes
+-	 */
+-
+-	dev_dbg(fei->dev,
+-		"Loading DMEM segment %d 0x%08x\n\t(0x%x bytes) -> 0x%p (0x%x bytes)\n",
+-		seg_num, phdr->p_paddr, phdr->p_filesz,
+-		dst, phdr->p_memsz);
+-
+-	memcpy((void __force *)dst, (void *)fw->data + phdr->p_offset,
+-		phdr->p_filesz);
+-
+-	memset((void __force *)dst + phdr->p_filesz, 0,
+-		phdr->p_memsz - phdr->p_filesz);
+-}
+-
+-static int load_slim_core_fw(const struct firmware *fw, struct c8sectpfei *fei)
+-{
+-	Elf32_Ehdr *ehdr;
+-	Elf32_Phdr *phdr;
+-	u8 __iomem *dst;
+-	int err = 0, i;
+-
+-	if (!fw || !fei)
+-		return -EINVAL;
+-
+-	ehdr = (Elf32_Ehdr *)fw->data;
+-	phdr = (Elf32_Phdr *)(fw->data + ehdr->e_phoff);
+-
+-	/* go through the available ELF segments */
+-	for (i = 0; i < ehdr->e_phnum; i++, phdr++) {
+-
+-		/* Only consider LOAD segments */
+-		if (phdr->p_type != PT_LOAD)
+-			continue;
+-
+-		/*
+-		 * Check segment is contained within the fw->data buffer
+-		 */
+-		if (phdr->p_offset + phdr->p_filesz > fw->size) {
+-			dev_err(fei->dev,
+-				"Segment %d is outside of firmware file\n", i);
+-			err = -EINVAL;
+-			break;
+-		}
+-
+-		/*
+-		 * MEMDMA IMEM has executable flag set, otherwise load
+-		 * this segment into DMEM.
+-		 *
+-		 */
+-
+-		if (phdr->p_flags & PF_X) {
+-			dst = (u8 __iomem *) fei->io + DMA_MEMDMA_IMEM;
+-			/*
+-			 * The Slim ELF file uses 32-bit word addressing for
+-			 * load offsets.
+-			 */
+-			dst += (phdr->p_paddr & 0xFFFFF) * sizeof(unsigned int);
+-			load_imem_segment(fei, phdr, fw, dst, i);
+-		} else {
+-			dst = (u8 __iomem *) fei->io + DMA_MEMDMA_DMEM;
+-			/*
+-			 * The Slim ELF file uses 32-bit word addressing for
+-			 * load offsets.
+-			 */
+-			dst += (phdr->p_paddr & 0xFFFFF) * sizeof(unsigned int);
+-			load_dmem_segment(fei, phdr, fw, dst, i);
+-		}
+-	}
+-
+-	return err;
+-}
+-
+-static int load_c8sectpfe_fw(struct c8sectpfei *fei)
+-{
+-	const struct firmware *fw;
+-	int err;
+-
+-	dev_info(fei->dev, "Loading firmware: %s\n", FIRMWARE_MEMDMA);
+-
+-	err = request_firmware(&fw, FIRMWARE_MEMDMA, fei->dev);
+-	if (err)
+-		return err;
+-
+-	err = c8sectpfe_elf_sanity_check(fei, fw);
+-	if (err) {
+-		dev_err(fei->dev, "c8sectpfe_elf_sanity_check failed err=(%d)\n"
+-			, err);
+-		release_firmware(fw);
+-		return err;
+-	}
+-
+-	err = load_slim_core_fw(fw, fei);
+-	release_firmware(fw);
+-	if (err) {
+-		dev_err(fei->dev, "load_slim_core_fw failed err=(%d)\n", err);
+-		return err;
+-	}
+-
+-	/* now the firmware is loaded configure the input blocks */
+-	err = configure_channels(fei);
+-	if (err) {
+-		dev_err(fei->dev, "configure_channels failed err=(%d)\n", err);
+-		return err;
+-	}
+-
+-	/*
+-	 * STBus target port can access IMEM and DMEM ports
+-	 * without waiting for CPU
+-	 */
+-	writel(0x1, fei->io + DMA_PER_STBUS_SYNC);
+-
+-	dev_info(fei->dev, "Boot the memdma SLIM core\n");
+-	writel(0x1,  fei->io + DMA_CPU_RUN);
+-
+-	atomic_set(&fei->fw_loaded, 1);
+-
+-	return 0;
+-}
+-
+-static const struct of_device_id c8sectpfe_match[] = {
+-	{ .compatible = "st,stih407-c8sectpfe" },
+-	{ /* sentinel */ },
+-};
+-MODULE_DEVICE_TABLE(of, c8sectpfe_match);
+-
+-static struct platform_driver c8sectpfe_driver = {
+-	.driver = {
+-		.name = "c8sectpfe",
+-		.of_match_table = c8sectpfe_match,
+-	},
+-	.probe	= c8sectpfe_probe,
+-	.remove = c8sectpfe_remove,
+-};
+-
+-module_platform_driver(c8sectpfe_driver);
+-
+-MODULE_AUTHOR("Peter Bennett <peter.bennett@st.com>");
+-MODULE_AUTHOR("Peter Griffin <peter.griffin@linaro.org>");
+-MODULE_DESCRIPTION("C8SECTPFE STi DVB Driver");
+-MODULE_LICENSE("GPL");
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h
+deleted file mode 100644
+index c1b124c6ef128a6fe3fd5cbe5f5f3aee1b034af1..0000000000000000000000000000000000000000
+--- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h
++++ /dev/null
+@@ -1,287 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * c8sectpfe-core.h - C8SECTPFE STi DVB driver
+- *
+- * Copyright (c) STMicroelectronics 2015
+- *
+- *   Author:Peter Bennett <peter.bennett@st.com>
+- *	    Peter Griffin <peter.griffin@linaro.org>
+- *
+- */
+-#ifndef _C8SECTPFE_CORE_H_
+-#define _C8SECTPFE_CORE_H_
+-
+-#define C8SECTPFEI_MAXCHANNEL 16
+-#define C8SECTPFEI_MAXADAPTER 3
+-
+-#define C8SECTPFE_MAX_TSIN_CHAN 8
+-
+-struct gpio_desc;
+-
+-struct channel_info {
+-
+-	int tsin_id;
+-	bool invert_ts_clk;
+-	bool serial_not_parallel;
+-	bool async_not_sync;
+-	int i2c;
+-	int dvb_card;
+-
+-	struct gpio_desc *rst_gpio;
+-
+-	struct i2c_adapter  *i2c_adapter;
+-	struct i2c_adapter  *tuner_i2c;
+-	struct i2c_adapter  *lnb_i2c;
+-	struct i2c_client   *i2c_client;
+-	struct dvb_frontend *frontend;
+-
+-	struct pinctrl_state *pstate;
+-
+-	int demux_mapping;
+-	int active;
+-
+-	void *back_buffer_start;
+-	void *back_buffer_aligned;
+-	dma_addr_t back_buffer_busaddr;
+-
+-	void *pid_buffer_start;
+-	void *pid_buffer_aligned;
+-	dma_addr_t pid_buffer_busaddr;
+-
+-	unsigned long  fifo;
+-
+-	struct completion idle_completion;
+-	struct work_struct bh_work;
+-
+-	struct c8sectpfei *fei;
+-	void __iomem *irec;
+-
+-};
+-
+-struct c8sectpfe_hw {
+-	int num_ib;
+-	int num_mib;
+-	int num_swts;
+-	int num_tsout;
+-	int num_ccsc;
+-	int num_ram;
+-	int num_tp;
+-};
+-
+-struct c8sectpfei {
+-
+-	struct device *dev;
+-	struct pinctrl *pinctrl;
+-
+-	struct dentry *root;
+-	struct debugfs_regset32	*regset;
+-	struct completion fw_ack;
+-	atomic_t fw_loaded;
+-
+-	int tsin_count;
+-
+-	struct c8sectpfe_hw hw_stats;
+-
+-	struct c8sectpfe *c8sectpfe[C8SECTPFEI_MAXADAPTER];
+-
+-	int mapping[C8SECTPFEI_MAXCHANNEL];
+-
+-	struct mutex lock;
+-
+-	struct timer_list timer;	/* timer interrupts for outputs */
+-
+-	void __iomem *io;
+-	void __iomem *sram;
+-
+-	unsigned long sram_size;
+-
+-	struct channel_info *channel_data[C8SECTPFE_MAX_TSIN_CHAN];
+-
+-	struct clk *c8sectpfeclk;
+-	int nima_rst_gpio;
+-	int nimb_rst_gpio;
+-
+-	int idle_irq;
+-	int error_irq;
+-
+-	int global_feed_count;
+-};
+-
+-/* C8SECTPFE SYS Regs list */
+-
+-#define SYS_INPUT_ERR_STATUS	0x0
+-#define SYS_OTHER_ERR_STATUS	0x8
+-#define SYS_INPUT_ERR_MASK	0x10
+-#define SYS_OTHER_ERR_MASK	0x18
+-#define SYS_DMA_ROUTE		0x20
+-#define SYS_INPUT_CLKEN		0x30
+-#define IBENABLE_MASK			0x7F
+-
+-#define SYS_OTHER_CLKEN		0x38
+-#define TSDMAENABLE			BIT(1)
+-#define MEMDMAENABLE			BIT(0)
+-
+-#define SYS_CFG_NUM_IB		0x200
+-#define SYS_CFG_NUM_MIB		0x204
+-#define SYS_CFG_NUM_SWTS	0x208
+-#define SYS_CFG_NUM_TSOUT	0x20C
+-#define SYS_CFG_NUM_CCSC	0x210
+-#define SYS_CFG_NUM_RAM		0x214
+-#define SYS_CFG_NUM_TP		0x218
+-
+-/* Input Block Regs */
+-
+-#define C8SECTPFE_INPUTBLK_OFFSET	0x1000
+-#define C8SECTPFE_CHANNEL_OFFSET(x)	((x*0x40) + C8SECTPFE_INPUTBLK_OFFSET)
+-
+-#define C8SECTPFE_IB_IP_FMT_CFG(x)      (C8SECTPFE_CHANNEL_OFFSET(x) + 0x00)
+-#define C8SECTPFE_IGNORE_ERR_AT_SOP     BIT(7)
+-#define C8SECTPFE_IGNORE_ERR_IN_PKT     BIT(6)
+-#define C8SECTPFE_IGNORE_ERR_IN_BYTE    BIT(5)
+-#define C8SECTPFE_INVERT_TSCLK          BIT(4)
+-#define C8SECTPFE_ALIGN_BYTE_SOP        BIT(3)
+-#define C8SECTPFE_ASYNC_NOT_SYNC        BIT(2)
+-#define C8SECTPFE_BYTE_ENDIANNESS_MSB    BIT(1)
+-#define C8SECTPFE_SERIAL_NOT_PARALLEL   BIT(0)
+-
+-#define C8SECTPFE_IB_SYNCLCKDRP_CFG(x)   (C8SECTPFE_CHANNEL_OFFSET(x) + 0x04)
+-#define C8SECTPFE_SYNC(x)                (x & 0xf)
+-#define C8SECTPFE_DROP(x)                ((x<<4) & 0xf)
+-#define C8SECTPFE_TOKEN(x)               ((x<<8) & 0xff00)
+-#define C8SECTPFE_SLDENDIANNESS          BIT(16)
+-
+-#define C8SECTPFE_IB_TAGBYTES_CFG(x)     (C8SECTPFE_CHANNEL_OFFSET(x) + 0x08)
+-#define C8SECTPFE_TAG_HEADER(x)          (x << 16)
+-#define C8SECTPFE_TAG_COUNTER(x)         ((x<<1) & 0x7fff)
+-#define C8SECTPFE_TAG_ENABLE             BIT(0)
+-
+-#define C8SECTPFE_IB_PID_SET(x)          (C8SECTPFE_CHANNEL_OFFSET(x) + 0x0C)
+-#define C8SECTPFE_PID_OFFSET(x)          (x & 0x3f)
+-#define C8SECTPFE_PID_NUMBITS(x)         ((x << 6) & 0xfff)
+-#define C8SECTPFE_PID_ENABLE             BIT(31)
+-
+-#define C8SECTPFE_IB_PKT_LEN(x)          (C8SECTPFE_CHANNEL_OFFSET(x) + 0x10)
+-
+-#define C8SECTPFE_IB_BUFF_STRT(x)        (C8SECTPFE_CHANNEL_OFFSET(x) + 0x14)
+-#define C8SECTPFE_IB_BUFF_END(x)         (C8SECTPFE_CHANNEL_OFFSET(x) + 0x18)
+-#define C8SECTPFE_IB_READ_PNT(x)         (C8SECTPFE_CHANNEL_OFFSET(x) + 0x1C)
+-#define C8SECTPFE_IB_WRT_PNT(x)          (C8SECTPFE_CHANNEL_OFFSET(x) + 0x20)
+-
+-#define C8SECTPFE_IB_PRI_THRLD(x)        (C8SECTPFE_CHANNEL_OFFSET(x) + 0x24)
+-#define C8SECTPFE_PRI_VALUE(x)           (x & 0x7fffff)
+-#define C8SECTPFE_PRI_LOWPRI(x)          ((x & 0xf) << 24)
+-#define C8SECTPFE_PRI_HIGHPRI(x)         ((x & 0xf) << 28)
+-
+-#define C8SECTPFE_IB_STAT(x)             (C8SECTPFE_CHANNEL_OFFSET(x) + 0x28)
+-#define C8SECTPFE_STAT_FIFO_OVERFLOW(x)  (x & 0x1)
+-#define C8SECTPFE_STAT_BUFFER_OVERFLOW(x) (x & 0x2)
+-#define C8SECTPFE_STAT_OUTOFORDERRP(x)   (x & 0x4)
+-#define C8SECTPFE_STAT_PID_OVERFLOW(x)   (x & 0x8)
+-#define C8SECTPFE_STAT_PKT_OVERFLOW(x)   (x & 0x10)
+-#define C8SECTPFE_STAT_ERROR_PACKETS(x)  ((x >> 8) & 0xf)
+-#define C8SECTPFE_STAT_SHORT_PACKETS(x)  ((x >> 12) & 0xf)
+-
+-#define C8SECTPFE_IB_MASK(x)             (C8SECTPFE_CHANNEL_OFFSET(x) + 0x2C)
+-#define C8SECTPFE_MASK_FIFO_OVERFLOW     BIT(0)
+-#define C8SECTPFE_MASK_BUFFER_OVERFLOW   BIT(1)
+-#define C8SECTPFE_MASK_OUTOFORDERRP(x)   BIT(2)
+-#define C8SECTPFE_MASK_PID_OVERFLOW(x)   BIT(3)
+-#define C8SECTPFE_MASK_PKT_OVERFLOW(x)   BIT(4)
+-#define C8SECTPFE_MASK_ERROR_PACKETS(x)  ((x & 0xf) << 8)
+-#define C8SECTPFE_MASK_SHORT_PACKETS(x)  ((x & 0xf) >> 12)
+-
+-#define C8SECTPFE_IB_SYS(x)              (C8SECTPFE_CHANNEL_OFFSET(x) + 0x30)
+-#define C8SECTPFE_SYS_RESET              BIT(1)
+-#define C8SECTPFE_SYS_ENABLE             BIT(0)
+-
+-/*
+- * Pointer record data structure required for each input block
+- * see Table 82 on page 167 of functional specification.
+- */
+-
+-#define DMA_PRDS_MEMBASE	0x0 /* Internal sram base address */
+-#define DMA_PRDS_MEMTOP		0x4 /* Internal sram top address */
+-
+-/*
+- * TS packet size, including tag bytes added by input block,
+- * rounded up to the next multiple of 8 bytes. The packet size,
+- * including any tagging bytes and rounded up to the nearest
+- * multiple of 8 bytes must be less than 255 bytes.
+- */
+-#define DMA_PRDS_PKTSIZE	0x8
+-#define DMA_PRDS_TPENABLE	0xc
+-
+-#define TP0_OFFSET		0x10
+-#define DMA_PRDS_BUSBASE_TP(x)	((0x10*x) + TP0_OFFSET)
+-#define DMA_PRDS_BUSTOP_TP(x)	((0x10*x) + TP0_OFFSET + 0x4)
+-#define DMA_PRDS_BUSWP_TP(x)	((0x10*x) + TP0_OFFSET + 0x8)
+-#define DMA_PRDS_BUSRP_TP(x)	((0x10*x) + TP0_OFFSET + 0xc)
+-
+-#define DMA_PRDS_SIZE		(0x20)
+-
+-#define DMA_MEMDMA_OFFSET	0x4000
+-#define DMA_IMEM_OFFSET		0x0
+-#define DMA_DMEM_OFFSET		0x4000
+-#define DMA_CPU			0x8000
+-#define DMA_PER_OFFSET		0xb000
+-
+-#define DMA_MEMDMA_DMEM (DMA_MEMDMA_OFFSET + DMA_DMEM_OFFSET)
+-#define DMA_MEMDMA_IMEM (DMA_MEMDMA_OFFSET + DMA_IMEM_OFFSET)
+-
+-/* XP70 Slim core regs */
+-#define DMA_CPU_ID	(DMA_MEMDMA_OFFSET + DMA_CPU + 0x0)
+-#define DMA_CPU_VCR	(DMA_MEMDMA_OFFSET + DMA_CPU + 0x4)
+-#define DMA_CPU_RUN	(DMA_MEMDMA_OFFSET + DMA_CPU + 0x8)
+-#define DMA_CPU_CLOCKGATE	(DMA_MEMDMA_OFFSET + DMA_CPU + 0xc)
+-#define DMA_CPU_PC	(DMA_MEMDMA_OFFSET + DMA_CPU + 0x20)
+-
+-/* Enable Interrupt for a IB */
+-#define DMA_PER_TPn_DREQ_MASK	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xd00)
+-/* Ack interrupt by setting corresponding bit */
+-#define DMA_PER_TPn_DACK_SET	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xd80)
+-#define DMA_PER_TPn_DREQ	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xe00)
+-#define DMA_PER_TPn_DACK	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xe80)
+-#define DMA_PER_DREQ_MODE	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xf80)
+-#define DMA_PER_STBUS_SYNC	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xf88)
+-#define DMA_PER_STBUS_ACCESS	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xf8c)
+-#define DMA_PER_STBUS_ADDRESS	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xf90)
+-#define DMA_PER_IDLE_INT	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xfa8)
+-#define DMA_PER_PRIORITY	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xfac)
+-#define DMA_PER_MAX_OPCODE	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xfb0)
+-#define DMA_PER_MAX_CHUNK	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xfb4)
+-#define DMA_PER_PAGE_SIZE	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xfbc)
+-#define DMA_PER_MBOX_STATUS	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xfc0)
+-#define DMA_PER_MBOX_SET	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xfc8)
+-#define DMA_PER_MBOX_CLEAR	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xfd0)
+-#define DMA_PER_MBOX_MASK	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xfd8)
+-#define DMA_PER_INJECT_PKT_SRC	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xfe0)
+-#define DMA_PER_INJECT_PKT_DEST	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xfe4)
+-#define DMA_PER_INJECT_PKT_ADDR	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xfe8)
+-#define DMA_PER_INJECT_PKT	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xfec)
+-#define DMA_PER_PAT_PTR_INIT	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xff0)
+-#define DMA_PER_PAT_PTR		(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xff4)
+-#define DMA_PER_SLEEP_MASK	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xff8)
+-#define DMA_PER_SLEEP_COUNTER	(DMA_MEMDMA_OFFSET + DMA_PER_OFFSET + 0xffc)
+-/* #define DMA_RF_CPUREGn	DMA_RFBASEADDR n=0 to 15) slim regsa */
+-
+-/* The following are from DMA_DMEM_BaseAddress */
+-#define DMA_FIRMWARE_VERSION	(DMA_MEMDMA_OFFSET + DMA_DMEM_OFFSET + 0x0)
+-#define DMA_PTRREC_BASE		(DMA_MEMDMA_OFFSET + DMA_DMEM_OFFSET + 0x4)
+-#define DMA_PTRREC_INPUT_OFFSET	(DMA_MEMDMA_OFFSET + DMA_DMEM_OFFSET + 0x8)
+-#define DMA_ERRREC_BASE		(DMA_MEMDMA_OFFSET + DMA_DMEM_OFFSET + 0xc)
+-#define DMA_ERROR_RECORD(n)	((n*4) + DMA_ERRREC_BASE + 0x4)
+-#define DMA_IDLE_REQ		(DMA_MEMDMA_OFFSET + DMA_DMEM_OFFSET + 0x10)
+-#define IDLEREQ			BIT(31)
+-
+-#define DMA_FIRMWARE_CONFIG	(DMA_MEMDMA_OFFSET + DMA_DMEM_OFFSET + 0x14)
+-
+-/* Regs for PID Filter */
+-
+-#define PIDF_OFFSET		0x2800
+-#define PIDF_BASE(n)		((n*4) + PIDF_OFFSET)
+-#define PIDF_LEAK_ENABLE	(PIDF_OFFSET + 0x100)
+-#define PIDF_LEAK_STATUS	(PIDF_OFFSET + 0x108)
+-#define PIDF_LEAK_COUNT_RESET	(PIDF_OFFSET + 0x110)
+-#define PIDF_LEAK_COUNTER	(PIDF_OFFSET + 0x114)
+-
+-#endif /* _C8SECTPFE_CORE_H_ */
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.c
+deleted file mode 100644
+index 301fa10f419b6a7c9a1b50d759fd0fbbfc0f7692..0000000000000000000000000000000000000000
+--- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.c
++++ /dev/null
+@@ -1,244 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- * c8sectpfe-debugfs.c - C8SECTPFE STi DVB driver
+- *
+- * Copyright (c) STMicroelectronics 2015
+- *
+- * Author: Peter Griffin <peter.griffin@linaro.org>
+- *
+- */
+-#include <linux/debugfs.h>
+-#include <linux/device.h>
+-#include <linux/interrupt.h>
+-#include <linux/io.h>
+-#include <linux/kernel.h>
+-#include <linux/seq_file.h>
+-#include <linux/slab.h>
+-#include <linux/types.h>
+-
+-#include "c8sectpfe-debugfs.h"
+-
+-#define dump_register(nm ...)			\
+-{						\
+-	.name	= #nm,				\
+-	.offset	= nm,				\
+-}
+-
+-static const struct debugfs_reg32 fei_sys_regs[] = {
+-	dump_register(SYS_INPUT_ERR_STATUS),
+-	dump_register(SYS_OTHER_ERR_STATUS),
+-	dump_register(SYS_INPUT_ERR_MASK),
+-	dump_register(SYS_DMA_ROUTE),
+-	dump_register(SYS_INPUT_CLKEN),
+-	dump_register(IBENABLE_MASK),
+-	dump_register(SYS_OTHER_CLKEN),
+-	dump_register(SYS_CFG_NUM_IB),
+-	dump_register(SYS_CFG_NUM_MIB),
+-	dump_register(SYS_CFG_NUM_SWTS),
+-	dump_register(SYS_CFG_NUM_TSOUT),
+-	dump_register(SYS_CFG_NUM_CCSC),
+-	dump_register(SYS_CFG_NUM_RAM),
+-	dump_register(SYS_CFG_NUM_TP),
+-
+-	dump_register(C8SECTPFE_IB_IP_FMT_CFG(0)),
+-	dump_register(C8SECTPFE_IB_TAGBYTES_CFG(0)),
+-	dump_register(C8SECTPFE_IB_PID_SET(0)),
+-	dump_register(C8SECTPFE_IB_PKT_LEN(0)),
+-	dump_register(C8SECTPFE_IB_BUFF_STRT(0)),
+-	dump_register(C8SECTPFE_IB_BUFF_END(0)),
+-	dump_register(C8SECTPFE_IB_READ_PNT(0)),
+-	dump_register(C8SECTPFE_IB_WRT_PNT(0)),
+-	dump_register(C8SECTPFE_IB_PRI_THRLD(0)),
+-	dump_register(C8SECTPFE_IB_STAT(0)),
+-	dump_register(C8SECTPFE_IB_MASK(0)),
+-	dump_register(C8SECTPFE_IB_SYS(0)),
+-
+-	dump_register(C8SECTPFE_IB_IP_FMT_CFG(1)),
+-	dump_register(C8SECTPFE_IB_TAGBYTES_CFG(1)),
+-	dump_register(C8SECTPFE_IB_PID_SET(1)),
+-	dump_register(C8SECTPFE_IB_PKT_LEN(1)),
+-	dump_register(C8SECTPFE_IB_BUFF_STRT(1)),
+-	dump_register(C8SECTPFE_IB_BUFF_END(1)),
+-	dump_register(C8SECTPFE_IB_READ_PNT(1)),
+-	dump_register(C8SECTPFE_IB_WRT_PNT(1)),
+-	dump_register(C8SECTPFE_IB_PRI_THRLD(1)),
+-	dump_register(C8SECTPFE_IB_STAT(1)),
+-	dump_register(C8SECTPFE_IB_MASK(1)),
+-	dump_register(C8SECTPFE_IB_SYS(1)),
+-
+-	dump_register(C8SECTPFE_IB_IP_FMT_CFG(2)),
+-	dump_register(C8SECTPFE_IB_TAGBYTES_CFG(2)),
+-	dump_register(C8SECTPFE_IB_PID_SET(2)),
+-	dump_register(C8SECTPFE_IB_PKT_LEN(2)),
+-	dump_register(C8SECTPFE_IB_BUFF_STRT(2)),
+-	dump_register(C8SECTPFE_IB_BUFF_END(2)),
+-	dump_register(C8SECTPFE_IB_READ_PNT(2)),
+-	dump_register(C8SECTPFE_IB_WRT_PNT(2)),
+-	dump_register(C8SECTPFE_IB_PRI_THRLD(2)),
+-	dump_register(C8SECTPFE_IB_STAT(2)),
+-	dump_register(C8SECTPFE_IB_MASK(2)),
+-	dump_register(C8SECTPFE_IB_SYS(2)),
+-
+-	dump_register(C8SECTPFE_IB_IP_FMT_CFG(3)),
+-	dump_register(C8SECTPFE_IB_TAGBYTES_CFG(3)),
+-	dump_register(C8SECTPFE_IB_PID_SET(3)),
+-	dump_register(C8SECTPFE_IB_PKT_LEN(3)),
+-	dump_register(C8SECTPFE_IB_BUFF_STRT(3)),
+-	dump_register(C8SECTPFE_IB_BUFF_END(3)),
+-	dump_register(C8SECTPFE_IB_READ_PNT(3)),
+-	dump_register(C8SECTPFE_IB_WRT_PNT(3)),
+-	dump_register(C8SECTPFE_IB_PRI_THRLD(3)),
+-	dump_register(C8SECTPFE_IB_STAT(3)),
+-	dump_register(C8SECTPFE_IB_MASK(3)),
+-	dump_register(C8SECTPFE_IB_SYS(3)),
+-
+-	dump_register(C8SECTPFE_IB_IP_FMT_CFG(4)),
+-	dump_register(C8SECTPFE_IB_TAGBYTES_CFG(4)),
+-	dump_register(C8SECTPFE_IB_PID_SET(4)),
+-	dump_register(C8SECTPFE_IB_PKT_LEN(4)),
+-	dump_register(C8SECTPFE_IB_BUFF_STRT(4)),
+-	dump_register(C8SECTPFE_IB_BUFF_END(4)),
+-	dump_register(C8SECTPFE_IB_READ_PNT(4)),
+-	dump_register(C8SECTPFE_IB_WRT_PNT(4)),
+-	dump_register(C8SECTPFE_IB_PRI_THRLD(4)),
+-	dump_register(C8SECTPFE_IB_STAT(4)),
+-	dump_register(C8SECTPFE_IB_MASK(4)),
+-	dump_register(C8SECTPFE_IB_SYS(4)),
+-
+-	dump_register(C8SECTPFE_IB_IP_FMT_CFG(5)),
+-	dump_register(C8SECTPFE_IB_TAGBYTES_CFG(5)),
+-	dump_register(C8SECTPFE_IB_PID_SET(5)),
+-	dump_register(C8SECTPFE_IB_PKT_LEN(5)),
+-	dump_register(C8SECTPFE_IB_BUFF_STRT(5)),
+-	dump_register(C8SECTPFE_IB_BUFF_END(5)),
+-	dump_register(C8SECTPFE_IB_READ_PNT(5)),
+-	dump_register(C8SECTPFE_IB_WRT_PNT(5)),
+-	dump_register(C8SECTPFE_IB_PRI_THRLD(5)),
+-	dump_register(C8SECTPFE_IB_STAT(5)),
+-	dump_register(C8SECTPFE_IB_MASK(5)),
+-	dump_register(C8SECTPFE_IB_SYS(5)),
+-
+-	dump_register(C8SECTPFE_IB_IP_FMT_CFG(6)),
+-	dump_register(C8SECTPFE_IB_TAGBYTES_CFG(6)),
+-	dump_register(C8SECTPFE_IB_PID_SET(6)),
+-	dump_register(C8SECTPFE_IB_PKT_LEN(6)),
+-	dump_register(C8SECTPFE_IB_BUFF_STRT(6)),
+-	dump_register(C8SECTPFE_IB_BUFF_END(6)),
+-	dump_register(C8SECTPFE_IB_READ_PNT(6)),
+-	dump_register(C8SECTPFE_IB_WRT_PNT(6)),
+-	dump_register(C8SECTPFE_IB_PRI_THRLD(6)),
+-	dump_register(C8SECTPFE_IB_STAT(6)),
+-	dump_register(C8SECTPFE_IB_MASK(6)),
+-	dump_register(C8SECTPFE_IB_SYS(6)),
+-
+-	dump_register(DMA_CPU_ID),
+-	dump_register(DMA_CPU_VCR),
+-	dump_register(DMA_CPU_RUN),
+-	dump_register(DMA_CPU_PC),
+-
+-	dump_register(DMA_PER_TPn_DREQ_MASK),
+-	dump_register(DMA_PER_TPn_DACK_SET),
+-	dump_register(DMA_PER_TPn_DREQ),
+-	dump_register(DMA_PER_TPn_DACK),
+-	dump_register(DMA_PER_DREQ_MODE),
+-	dump_register(DMA_PER_STBUS_SYNC),
+-	dump_register(DMA_PER_STBUS_ACCESS),
+-	dump_register(DMA_PER_STBUS_ADDRESS),
+-	dump_register(DMA_PER_IDLE_INT),
+-	dump_register(DMA_PER_PRIORITY),
+-	dump_register(DMA_PER_MAX_OPCODE),
+-	dump_register(DMA_PER_MAX_CHUNK),
+-	dump_register(DMA_PER_PAGE_SIZE),
+-	dump_register(DMA_PER_MBOX_STATUS),
+-	dump_register(DMA_PER_MBOX_SET),
+-	dump_register(DMA_PER_MBOX_CLEAR),
+-	dump_register(DMA_PER_MBOX_MASK),
+-	dump_register(DMA_PER_INJECT_PKT_SRC),
+-	dump_register(DMA_PER_INJECT_PKT_DEST),
+-	dump_register(DMA_PER_INJECT_PKT_ADDR),
+-	dump_register(DMA_PER_INJECT_PKT),
+-	dump_register(DMA_PER_PAT_PTR_INIT),
+-	dump_register(DMA_PER_PAT_PTR),
+-	dump_register(DMA_PER_SLEEP_MASK),
+-	dump_register(DMA_PER_SLEEP_COUNTER),
+-
+-	dump_register(DMA_FIRMWARE_VERSION),
+-	dump_register(DMA_PTRREC_BASE),
+-	dump_register(DMA_PTRREC_INPUT_OFFSET),
+-	dump_register(DMA_ERRREC_BASE),
+-
+-	dump_register(DMA_ERROR_RECORD(0)),
+-	dump_register(DMA_ERROR_RECORD(1)),
+-	dump_register(DMA_ERROR_RECORD(2)),
+-	dump_register(DMA_ERROR_RECORD(3)),
+-	dump_register(DMA_ERROR_RECORD(4)),
+-	dump_register(DMA_ERROR_RECORD(5)),
+-	dump_register(DMA_ERROR_RECORD(6)),
+-	dump_register(DMA_ERROR_RECORD(7)),
+-	dump_register(DMA_ERROR_RECORD(8)),
+-	dump_register(DMA_ERROR_RECORD(9)),
+-	dump_register(DMA_ERROR_RECORD(10)),
+-	dump_register(DMA_ERROR_RECORD(11)),
+-	dump_register(DMA_ERROR_RECORD(12)),
+-	dump_register(DMA_ERROR_RECORD(13)),
+-	dump_register(DMA_ERROR_RECORD(14)),
+-	dump_register(DMA_ERROR_RECORD(15)),
+-	dump_register(DMA_ERROR_RECORD(16)),
+-	dump_register(DMA_ERROR_RECORD(17)),
+-	dump_register(DMA_ERROR_RECORD(18)),
+-	dump_register(DMA_ERROR_RECORD(19)),
+-	dump_register(DMA_ERROR_RECORD(20)),
+-	dump_register(DMA_ERROR_RECORD(21)),
+-	dump_register(DMA_ERROR_RECORD(22)),
+-
+-	dump_register(DMA_IDLE_REQ),
+-	dump_register(DMA_FIRMWARE_CONFIG),
+-
+-	dump_register(PIDF_BASE(0)),
+-	dump_register(PIDF_BASE(1)),
+-	dump_register(PIDF_BASE(2)),
+-	dump_register(PIDF_BASE(3)),
+-	dump_register(PIDF_BASE(4)),
+-	dump_register(PIDF_BASE(5)),
+-	dump_register(PIDF_BASE(6)),
+-	dump_register(PIDF_BASE(7)),
+-	dump_register(PIDF_BASE(8)),
+-	dump_register(PIDF_BASE(9)),
+-	dump_register(PIDF_BASE(10)),
+-	dump_register(PIDF_BASE(11)),
+-	dump_register(PIDF_BASE(12)),
+-	dump_register(PIDF_BASE(13)),
+-	dump_register(PIDF_BASE(14)),
+-	dump_register(PIDF_BASE(15)),
+-	dump_register(PIDF_BASE(16)),
+-	dump_register(PIDF_BASE(17)),
+-	dump_register(PIDF_BASE(18)),
+-	dump_register(PIDF_BASE(19)),
+-	dump_register(PIDF_BASE(20)),
+-	dump_register(PIDF_BASE(21)),
+-	dump_register(PIDF_BASE(22)),
+-	dump_register(PIDF_LEAK_ENABLE),
+-	dump_register(PIDF_LEAK_STATUS),
+-	dump_register(PIDF_LEAK_COUNT_RESET),
+-	dump_register(PIDF_LEAK_COUNTER),
+-};
+-
+-void c8sectpfe_debugfs_init(struct c8sectpfei *fei)
+-{
+-	fei->regset =  devm_kzalloc(fei->dev, sizeof(*fei->regset), GFP_KERNEL);
+-	if (!fei->regset)
+-		return;
+-
+-	fei->regset->regs = fei_sys_regs;
+-	fei->regset->nregs = ARRAY_SIZE(fei_sys_regs);
+-	fei->regset->base = fei->io;
+-
+-	fei->root = debugfs_create_dir("c8sectpfe", NULL);
+-	debugfs_create_regset32("registers", S_IRUGO, fei->root, fei->regset);
+-}
+-
+-void c8sectpfe_debugfs_exit(struct c8sectpfei *fei)
+-{
+-	debugfs_remove_recursive(fei->root);
+-	fei->root = NULL;
+-}
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h
+deleted file mode 100644
+index 3fe177b59b16d2789cde2438367d6f4cbfd9c832..0000000000000000000000000000000000000000
+--- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h
++++ /dev/null
+@@ -1,23 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * c8sectpfe-debugfs.h - C8SECTPFE STi DVB driver debugfs header
+- *
+- * Copyright (c) STMicroelectronics 2015
+- *
+- * Authors: Peter Griffin <peter.griffin@linaro.org>
+- */
+-
+-#ifndef __C8SECTPFE_DEBUG_H
+-#define __C8SECTPFE_DEBUG_H
+-
+-#include "c8sectpfe-core.h"
+-
+-#if defined(CONFIG_DEBUG_FS)
+-void c8sectpfe_debugfs_init(struct c8sectpfei *);
+-void c8sectpfe_debugfs_exit(struct c8sectpfei *);
+-#else
+-static inline void c8sectpfe_debugfs_init(struct c8sectpfei *fei) {};
+-static inline void c8sectpfe_debugfs_exit(struct c8sectpfei *fei) {};
+-#endif
+-
+-#endif /* __C8SECTPFE_DEBUG_H */
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-dvb.c b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-dvb.c
+deleted file mode 100644
+index feb48cb546d7f11efb62339b8389187f5cec43c9..0000000000000000000000000000000000000000
+--- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-dvb.c
++++ /dev/null
+@@ -1,235 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-/*
+- *  c8sectpfe-dvb.c - C8SECTPFE STi DVB driver
+- *
+- * Copyright (c) STMicroelectronics 2015
+- *
+- *  Author Peter Griffin <peter.griffin@linaro.org>
+- *
+- */
+-#include <linux/completion.h>
+-#include <linux/delay.h>
+-#include <linux/i2c.h>
+-#include <linux/interrupt.h>
+-
+-#include <dt-bindings/media/c8sectpfe.h>
+-
+-#include "c8sectpfe-common.h"
+-#include "c8sectpfe-core.h"
+-#include "c8sectpfe-dvb.h"
+-
+-#include "dvb-pll.h"
+-#include "lnbh24.h"
+-#include "stv0367.h"
+-#include "stv0367_priv.h"
+-#include "stv6110x.h"
+-#include "stv090x.h"
+-#include "tda18212.h"
+-
+-static inline const char *dvb_card_str(unsigned int c)
+-{
+-	switch (c) {
+-	case STV0367_TDA18212_NIMA_1:	return "STV0367_TDA18212_NIMA_1";
+-	case STV0367_TDA18212_NIMA_2:	return "STV0367_TDA18212_NIMA_2";
+-	case STV0367_TDA18212_NIMB_1:	return "STV0367_TDA18212_NIMB_1";
+-	case STV0367_TDA18212_NIMB_2:	return "STV0367_TDA18212_NIMB_2";
+-	case STV0903_6110_LNB24_NIMA:	return "STV0903_6110_LNB24_NIMA";
+-	case STV0903_6110_LNB24_NIMB:	return "STV0903_6110_LNB24_NIMB";
+-	default:			return "unknown dvb frontend card";
+-	}
+-}
+-
+-static struct stv090x_config stv090x_config = {
+-	.device                 = STV0903,
+-	.demod_mode             = STV090x_SINGLE,
+-	.clk_mode               = STV090x_CLK_EXT,
+-	.xtal                   = 16000000,
+-	.address                = 0x69,
+-
+-	.ts1_mode               = STV090x_TSMODE_SERIAL_CONTINUOUS,
+-	.ts2_mode               = STV090x_TSMODE_SERIAL_CONTINUOUS,
+-
+-	.repeater_level         = STV090x_RPTLEVEL_64,
+-
+-	.tuner_init             = NULL,
+-	.tuner_set_mode         = NULL,
+-	.tuner_set_frequency    = NULL,
+-	.tuner_get_frequency    = NULL,
+-	.tuner_set_bandwidth    = NULL,
+-	.tuner_get_bandwidth    = NULL,
+-	.tuner_set_bbgain       = NULL,
+-	.tuner_get_bbgain       = NULL,
+-	.tuner_set_refclk       = NULL,
+-	.tuner_get_status       = NULL,
+-};
+-
+-static struct stv6110x_config stv6110x_config = {
+-	.addr                   = 0x60,
+-	.refclk                 = 16000000,
+-};
+-
+-#define NIMA 0
+-#define NIMB 1
+-
+-static struct stv0367_config stv0367_tda18212_config[] = {
+-	{
+-		.demod_address = 0x1c,
+-		.xtal = 16000000,
+-		.if_khz = 4500,
+-		.if_iq_mode = FE_TER_NORMAL_IF_TUNER,
+-		.ts_mode = STV0367_SERIAL_PUNCT_CLOCK,
+-		.clk_pol = STV0367_CLOCKPOLARITY_DEFAULT,
+-	}, {
+-		.demod_address = 0x1d,
+-		.xtal = 16000000,
+-		.if_khz = 4500,
+-		.if_iq_mode = FE_TER_NORMAL_IF_TUNER,
+-		.ts_mode = STV0367_SERIAL_PUNCT_CLOCK,
+-		.clk_pol = STV0367_CLOCKPOLARITY_DEFAULT,
+-	}, {
+-		.demod_address = 0x1e,
+-		.xtal = 16000000,
+-		.if_khz = 4500,
+-		.if_iq_mode = FE_TER_NORMAL_IF_TUNER,
+-		.ts_mode = STV0367_SERIAL_PUNCT_CLOCK,
+-		.clk_pol = STV0367_CLOCKPOLARITY_DEFAULT,
+-	},
+-};
+-
+-static struct tda18212_config tda18212_conf = {
+-	.if_dvbt_6 = 4150,
+-	.if_dvbt_7 = 4150,
+-	.if_dvbt_8 = 4500,
+-	.if_dvbc = 5000,
+-};
+-
+-int c8sectpfe_frontend_attach(struct dvb_frontend **fe,
+-		struct c8sectpfe *c8sectpfe,
+-		struct channel_info *tsin, int chan_num)
+-{
+-	struct tda18212_config *tda18212;
+-	const struct stv6110x_devctl *fe2;
+-	struct i2c_client *client;
+-	struct i2c_board_info tda18212_info = {
+-		.type = "tda18212",
+-		.addr = 0x60,
+-	};
+-
+-	if (!tsin)
+-		return -EINVAL;
+-
+-	switch (tsin->dvb_card) {
+-
+-	case STV0367_TDA18212_NIMA_1:
+-	case STV0367_TDA18212_NIMA_2:
+-	case STV0367_TDA18212_NIMB_1:
+-	case STV0367_TDA18212_NIMB_2:
+-		if (tsin->dvb_card == STV0367_TDA18212_NIMA_1)
+-			*fe = dvb_attach(stv0367ter_attach,
+-				 &stv0367_tda18212_config[0],
+-					tsin->i2c_adapter);
+-		else if (tsin->dvb_card == STV0367_TDA18212_NIMB_1)
+-			*fe = dvb_attach(stv0367ter_attach,
+-				 &stv0367_tda18212_config[1],
+-					tsin->i2c_adapter);
+-		else
+-			*fe = dvb_attach(stv0367ter_attach,
+-				 &stv0367_tda18212_config[2],
+-					tsin->i2c_adapter);
+-
+-		if (!*fe) {
+-			dev_err(c8sectpfe->device,
+-				"%s: stv0367ter_attach failed for NIM card %s\n"
+-				, __func__, dvb_card_str(tsin->dvb_card));
+-			return -ENODEV;
+-		}
+-
+-		/*
+-		 * init the demod so that i2c gate_ctrl
+-		 * to the tuner works correctly
+-		 */
+-		(*fe)->ops.init(*fe);
+-
+-		/* Allocate the tda18212 structure */
+-		tda18212 = devm_kzalloc(c8sectpfe->device,
+-					sizeof(struct tda18212_config),
+-					GFP_KERNEL);
+-		if (!tda18212) {
+-			dev_err(c8sectpfe->device,
+-				"%s: devm_kzalloc failed\n", __func__);
+-			return -ENOMEM;
+-		}
+-
+-		memcpy(tda18212, &tda18212_conf,
+-			sizeof(struct tda18212_config));
+-
+-		tda18212->fe = (*fe);
+-
+-		tda18212_info.platform_data = tda18212;
+-
+-		/* attach tuner */
+-		request_module("tda18212");
+-		client = i2c_new_client_device(tsin->i2c_adapter,
+-					       &tda18212_info);
+-		if (!i2c_client_has_driver(client)) {
+-			dvb_frontend_detach(*fe);
+-			return -ENODEV;
+-		}
+-
+-		if (!try_module_get(client->dev.driver->owner)) {
+-			i2c_unregister_device(client);
+-			dvb_frontend_detach(*fe);
+-			return -ENODEV;
+-		}
+-
+-		tsin->i2c_client = client;
+-
+-		break;
+-
+-	case STV0903_6110_LNB24_NIMA:
+-		*fe = dvb_attach(stv090x_attach,	&stv090x_config,
+-				tsin->i2c_adapter, STV090x_DEMODULATOR_0);
+-		if (!*fe) {
+-			dev_err(c8sectpfe->device, "%s: stv090x_attach failed\n"
+-				"\tfor NIM card %s\n",
+-				__func__, dvb_card_str(tsin->dvb_card));
+-			return -ENODEV;
+-		}
+-
+-		fe2 = dvb_attach(stv6110x_attach, *fe,
+-					&stv6110x_config, tsin->i2c_adapter);
+-		if (!fe2) {
+-			dev_err(c8sectpfe->device,
+-				"%s: stv6110x_attach failed for NIM card %s\n"
+-				, __func__, dvb_card_str(tsin->dvb_card));
+-			return -ENODEV;
+-		}
+-
+-		stv090x_config.tuner_init = fe2->tuner_init;
+-		stv090x_config.tuner_set_mode = fe2->tuner_set_mode;
+-		stv090x_config.tuner_set_frequency = fe2->tuner_set_frequency;
+-		stv090x_config.tuner_get_frequency = fe2->tuner_get_frequency;
+-		stv090x_config.tuner_set_bandwidth = fe2->tuner_set_bandwidth;
+-		stv090x_config.tuner_get_bandwidth = fe2->tuner_get_bandwidth;
+-		stv090x_config.tuner_set_bbgain = fe2->tuner_set_bbgain;
+-		stv090x_config.tuner_get_bbgain = fe2->tuner_get_bbgain;
+-		stv090x_config.tuner_set_refclk = fe2->tuner_set_refclk;
+-		stv090x_config.tuner_get_status = fe2->tuner_get_status;
+-
+-		dvb_attach(lnbh24_attach, *fe, tsin->i2c_adapter, 0, 0, 0x9);
+-		break;
+-
+-	default:
+-		dev_err(c8sectpfe->device,
+-			"%s: DVB frontend card %s not yet supported\n",
+-			__func__, dvb_card_str(tsin->dvb_card));
+-		return -ENODEV;
+-	}
+-
+-	(*fe)->id = chan_num;
+-
+-	dev_info(c8sectpfe->device,
+-			"DVB frontend card %s successfully attached",
+-			dvb_card_str(tsin->dvb_card));
+-	return 0;
+-}
+diff --git a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-dvb.h b/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-dvb.h
+deleted file mode 100644
+index 3d87a9ae8702d40629a8aa0a0ee76ddf1ad815b8..0000000000000000000000000000000000000000
+--- a/drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-dvb.h
++++ /dev/null
+@@ -1,17 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * c8sectpfe-common.h - C8SECTPFE STi DVB driver
+- *
+- * Copyright (c) STMicroelectronics 2015
+- *
+- *   Author: Peter Griffin <peter.griffin@linaro.org>
+- *
+- */
+-#ifndef _C8SECTPFE_DVB_H_
+-#define _C8SECTPFE_DVB_H_
+-
+-int c8sectpfe_frontend_attach(struct dvb_frontend **fe,
+-			struct c8sectpfe *c8sectpfe, struct channel_info *tsin,
+-			int chan_num);
+-
+-#endif
+
 -- 
-Raphael Gallais-Pou <rgallaispou@gmail.com>
+2.51.0
 
 
