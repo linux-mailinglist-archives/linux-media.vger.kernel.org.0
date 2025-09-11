@@ -1,49 +1,50 @@
-Return-Path: <linux-media+bounces-42274-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42275-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5082EB52CCA
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 11:16:04 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id F3124B52CCD
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 11:16:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76A061C2073B
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 09:16:16 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 5287D7B69D1
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 09:14:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C13F72E8E08;
-	Thu, 11 Sep 2025 09:15:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC79320E702;
+	Thu, 11 Sep 2025 09:15:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HMYDc+VO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tPKOM0XE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FCE12E8B7E;
-	Thu, 11 Sep 2025 09:15:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17AC42E9730;
+	Thu, 11 Sep 2025 09:15:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757582140; cv=none; b=KFIddrW54ppwj/HwpzPtBw+8oY7rJONS8beV45bPCJGmqnzHlKBgWCLELCgTsa1yANAJQ6w7EJdGFss1b8tjYw5dGFCdZ0kRJta7l2q6mJxgNeA+Kh7rOtvkcaLmwqoVJZvcPbskF9CSBuIWklaxI349snId2kXTP1yU+QIHyfw=
+	t=1757582142; cv=none; b=AsD8LrOUXPOMHXraiHKw/5l+I5DniNKcQ99+4nF6ai+AJ0+Wfe7BkOYiWhECcbhTZdCAMwsHCW/v6fhfNu6X7JlFYAXOvZUABZ8YvK+hzG0FxuAyrfkVA1n7cjj5/IOIlMKLbIkpU/l9kCP67L+Qmz9tPNcM/ufhgMVYxt04qKQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757582140; c=relaxed/simple;
-	bh=pCPPPsZYdU74v3FYubISp3QrtK5BY86yBDwpXjYkFok=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=th7SOAuqkF6VQyUhT8V742h56q+Vfr5QKHQ+uvcybHS2tFtpRXMquX4HC1lHvtyFP8WYj95XONLG4hPGeV35HKpO+RUjKa0r1wv7E+yqwlRlpyBluN/EvWXVxnPN2+obyt+apIzEjVTuO7IV8keI5owfLqeH7+LDhOnhILNoYJ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HMYDc+VO; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38EEBC4CEF7;
-	Thu, 11 Sep 2025 09:15:38 +0000 (UTC)
+	s=arc-20240116; t=1757582142; c=relaxed/simple;
+	bh=LIYL+FyEHAnJV8IzqdIcs1l232AGKZKm8aHRWU2Mccg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ZKhRJsjLVhSjXoOU55No7HxZ2U6VsYpnNM5pSyM6QL1JtanpGTAz70c6x6s3llfBPLYWb/ZbxNQ6HJG2cl/nmo53/k+HJXrUxYWotdFTQl2zfVG+X9A76hW7WtGlLHZHnVxsmX72ne0btuRGmTNYdRuxXnrjYn9Wav3hJl+d0CE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tPKOM0XE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43AACC4CEF0;
+	Thu, 11 Sep 2025 09:15:41 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757582138;
-	bh=pCPPPsZYdU74v3FYubISp3QrtK5BY86yBDwpXjYkFok=;
-	h=From:Subject:Date:To:Cc:From;
-	b=HMYDc+VOC2Qahy4MdXnOnLFS21GFxNjhB/6H4EIdRm6KaCIgCBzNUVzgpCEQI3LhQ
-	 f3zD6tN9HwAnrDWCZb8vEW3wJyuC0s7Unq1HIvPqO5M79G32feqWF/+67hkEkitEvK
-	 Irzh2UU9iWfqpElF2aWr6HLJt/5HtXs5Z/TDL/c7+9OPLSa9mK6++V9aT2oSRnWQUh
-	 xrF43nd93J07VRrwYYlcw/qmUZ6IO5rMybZzHTkJ2gZiZC3hiRkUVmNzOr7/HPYS0d
-	 c/MaGSu7S+HompUXDebzOs5SUrOJbEW+IMikLydyk8EwHMqul3MpFsOai5mqilbioR
-	 Ij1PZJrfB35Rw==
+	s=k20201202; t=1757582141;
+	bh=LIYL+FyEHAnJV8IzqdIcs1l232AGKZKm8aHRWU2Mccg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=tPKOM0XEZRe8teTyy2AS1RYyeZmorBJK9iyG9C6wj0N96AUun9kKHISMRfTlbqvUI
+	 FLWy4Y4m+pzi27eWZACMKsv7Eg0nBsv/goIVNCnineDbudk6x+7iYhpJARYsGxOthh
+	 G4GqXGsoJo20YS4K0KTQLZMVuUWJEPjZ2UjNJK7GJNBpXNQAUjUBiXeOrlrDfUdg/L
+	 LLIcJmjpl/EXq4oelJH3Hp85kJCtiM+XkuKVxO6hw/Uj9smZKAZQtFJz3ChfPr+DgL
+	 Ccjjg9FCOS8BGwTWDAnaHNtT4PzrR65sPApLZPPYt6wRjpnOha3atXTbppj1ogitIr
+	 p7d7vnVZ5xlAg==
 From: Maxime Ripard <mripard@kernel.org>
-Subject: [PATCH v2 0/4] media: Fix CSI2 RGB vs BGR pixel order
-Date: Thu, 11 Sep 2025 11:15:31 +0200
-Message-Id: <20250911-csi-bgr-rgb-v2-0-e6c6b10c1040@kernel.org>
+Date: Thu, 11 Sep 2025 11:15:32 +0200
+Subject: [PATCH v2 1/4] media: uapi: Clarify MBUS color component order for
+ serial buses
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,10 +53,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIADOTwmgC/23MQQ6CMBCF4auQWTtmWqIWV97DsKBlKBMNkKkhG
- tK7W1m7/F/yvg0Sq3CCa7WB8ipJ5qmEPVQQxm6KjNKXBkv2RGdjMSRBHxU1evSuvjSOApGvoTw
- W5UHeu3ZvS4+SXrN+dnw1v/W/sxok7IPramqMcYO7PVgnfh5njdDmnL8MV5pYpwAAAA==
-X-Change-ID: 20250612-csi-bgr-rgb-b837980c00b3
+Message-Id: <20250911-csi-bgr-rgb-v2-1-e6c6b10c1040@kernel.org>
+References: <20250911-csi-bgr-rgb-v2-0-e6c6b10c1040@kernel.org>
+In-Reply-To: <20250911-csi-bgr-rgb-v2-0-e6c6b10c1040@kernel.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Mats Randgaard <matrandg@cisco.com>, 
  Alain Volmat <alain.volmat@foss.st.com>, 
@@ -66,72 +66,58 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Dave Stevenson <dave.stevenson@raspberrypi.com>, 
  Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2192; i=mripard@kernel.org;
- h=from:subject:message-id; bh=pCPPPsZYdU74v3FYubISp3QrtK5BY86yBDwpXjYkFok=;
- b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmHJptanrx48svm149z1rhk27m/nCMY1MTgWC126VF5Q
- 9Gz7zyTO6ayMAhzMsiKKbI8kQk7vbx9cZWD/cofMHNYmUCGMHBxCsBEvj1gbHj+xa729yLfG27/
- Hm/rtJC5LH19YvRJochdBhOj9A4G7f75ca6W4ZWayvXrpKsFX31Jes7Y8GpTxj6L8kWv7zRwvFF
- ckcH7PvgD9+2kxIYtNy5mrH8d/o9H4VSnf8I7jQe5l0vfX1IrAAA=
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2324; i=mripard@kernel.org;
+ h=from:subject:message-id; bh=LIYL+FyEHAnJV8IzqdIcs1l232AGKZKm8aHRWU2Mccg=;
+ b=owGbwMvMwCmsHn9OcpHtvjLG02pJDBmHJpu9Pa2vt2il8hPT8+VsJva7N0w110yIUZdaG82wa
+ /WTmNDNHVNZGIQ5GWTFFFmeyISdXt6+uMrBfuUPmDmsTCBDGLg4BWAiG2cx1qm/K2DN4Uur/uxy
+ /4eudfSBbpuuHMm2U39nHln3/vj1V2KVexttVlvvFnMXqks8cUe0i7HhJ49GRX7Cn6NFQkt8L+1
+ yjnxs8PXuY0NNt9X73pkGNxWasbAXLwqq0nlnO9dv3ZmXDukA
 X-Developer-Key: i=mripard@kernel.org; a=openpgp;
  fpr=BE5675C37E818C8B5764241C254BCFC56BF6CE8D
 
-Hi,
+The subdev format documentation has a subsection describing how to use
+the media bus pixel codes for serial buses. While it describes the
+sampling part well, it doesn't really describe the current convention
+used for the components order.
 
-Here's an(other [1]) attempt at fixing the current mess due to the
-opposite meaning of what v4l2 and the MIPI-CSI2 spec call "RGB". By v4l2
-nomenclature, the format CSI calls RGB is actually BGR.
+Let's improve that.
 
-Unfortunately, a handful of CSI transceivers report through RGB media
-bus pixel code, which is then understood as V4L2_PIX_FMT_RGB24 by CSI
-receivers.
-
-This is made somewhat worse the fact that media bus codes have been made
-mostly with parallel busses in mind, and thus the order of pixels wasn't
-clearly defined anywhere.
-
-So the v4l2 vs CSI mismatch was confusing (but there's nothing we can do
-about it), but the doc didn't really make an attempt at clearing it up
-either.
-
-We did have a convention so far though, that about half the affected
-drivers were following. 
-
-This series improves the doc, adds the missing media bus codes, and
-converts the transceiver drivers to the rightful media bus format.
-
-We'll also need that series [2] from Laurent to fix all the affected
-transceivers. 
-
-Let me know what you think,
-Maxime
-
-1: https://lore.kernel.org/r/20250606-rpi-unicam-rgb-bgr-fix-v1-1-9930b963f3eb@kernel.org
-2: https://lore.kernel.org/r/20250611181528.19542-1-laurent.pinchart@ideasonboard.com
-
+Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
-Changes in v2:
-- Don't drop RGB, but treat it as deprecated instead.
-- Rebase on 6.17-rc5
-- Link to v1: https://lore.kernel.org/r/20250612-csi-bgr-rgb-v1-0-dc8a309118f8@kernel.org
+ Documentation/userspace-api/media/v4l/subdev-formats.rst | 14 ++++++++------
+ 1 file changed, 8 insertions(+), 6 deletions(-)
 
----
-Maxime Ripard (4):
-      media: uapi: Clarify MBUS color component order for serial buses
-      media: uapi: Introduce MEDIA_BUS_FMT_BGR565_1X16
-      media: tc358743: Fix the RGB MBUS format
-      media: gc2145: Fix the RGB MBUS format
+diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+index 2a94371448dc07e5c7097421bd82f42dcd7e21aa..8e92f784abd8123f9ea950f954a60af56ee76dbe 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
++++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+@@ -158,16 +158,18 @@ formats in memory (a raw Bayer image won't be magically converted to
+ JPEG just by storing it to memory), there is no one-to-one
+ correspondence between them.
+ 
+ The media bus pixel codes document parallel formats. Should the pixel data be
+ transported over a serial bus, the media bus pixel code that describes a
+-parallel format that transfers a sample on a single clock cycle is used. For
+-instance, both MEDIA_BUS_FMT_BGR888_1X24 and MEDIA_BUS_FMT_BGR888_3X8 are used
+-on parallel busses for transferring an 8 bits per sample BGR data, whereas on
+-serial busses the data in this format is only referred to using
+-MEDIA_BUS_FMT_BGR888_1X24. This is because there is effectively only a single
+-way to transport that format on the serial busses.
++parallel format that transfers a sample on a single clock cycle is used. The
++color component order used is the same used on the serial bus. For instance,
++both MEDIA_BUS_FMT_BGR888_1X24 and MEDIA_BUS_FMT_BGR888_3X8 are used on parallel
++busses for transferring an 8 bits per sample BGR data, whereas on serial busses
++the data in this format is only referred to using MEDIA_BUS_FMT_BGR888_1X24,
++with BGR meaning that the blue component is transmitted first, then green, then
++red. This is because there is effectively only a single way to transport that
++format on the serial busses.
+ 
+ Packed RGB Formats
+ ^^^^^^^^^^^^^^^^^^
+ 
+ Those formats transfer pixel data as red, green and blue components. The
 
- .../userspace-api/media/v4l/subdev-formats.rst     | 51 +++++++++++++++++++---
- drivers/media/i2c/gc2145.c                         | 23 +++++++++-
- drivers/media/i2c/tc358743.c                       | 51 ++++++++++++++++++----
- include/uapi/linux/media-bus-format.h              |  3 +-
- 4 files changed, 110 insertions(+), 18 deletions(-)
----
-base-commit: 76eeb9b8de9880ca38696b2fb56ac45ac0a25c6c
-change-id: 20250612-csi-bgr-rgb-b837980c00b3
-
-Best regards,
 -- 
-Maxime Ripard <mripard@kernel.org>
+2.50.1
 
 
