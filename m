@@ -1,188 +1,167 @@
-Return-Path: <linux-media+bounces-42265-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42263-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC18B52B6E
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 10:18:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 482DBB52B69
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 10:17:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EBEAD16E93F
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 08:17:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9CAF75867ED
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 08:17:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F32512E62B1;
-	Thu, 11 Sep 2025 08:15:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 06EDF2E5B05;
+	Thu, 11 Sep 2025 08:15:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="b7yuYE3K"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XWF4PwSs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF6FE2DF158;
-	Thu, 11 Sep 2025 08:15:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AFE82E03F9;
+	Thu, 11 Sep 2025 08:15:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757578554; cv=none; b=OGmlsXTuexoZONkRVE9C+w4nt87O3LGIYViQ7Fk5fcDcOy2ARWB0Yf0k+0bGgYLOXZMDAkEAOr+sTN23jl3zQrcUBQzOG2PzkTU0tVkskeQIMC4Bt3D/MX6FB6WHl/9xMiCpFC7aTPi5Mzpg5k93DNg24NljttW5lQYiydRuu90=
+	t=1757578548; cv=none; b=mo/1L5QguIJgofkbTZ7D+tIZZm0qGoGL2guY7qhcZ+Rr7s8B8FzCh9Pogu/dLmsmzEPSeTztS9bQtv0vvh47Hdt1y7ApM+k6wiKnlnFtyJ/ulDw7kvbaVXXTNFESGuYbbDSYaffAjvNlj591R6u+M+3IOFNPOHJARUTTDzD2Lfg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757578554; c=relaxed/simple;
-	bh=59zBBGBXVwiK8KdUtCF+f5sq/Ca4rZOdlUR6YSCmksE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ckvJmBWJEDsRgo20V6nJRa5yh3O9Lbm1cHZzuU5xggkpS17kdohku0KPFiEJgaYZQL/6vBe947EJ4XoyOzbGwKu0gc27pueckpmhAhbvSpkTYCSsD6GOCtSrUxCAQpHdGd5Q+JV5/vxFyVWer/uQmbV602kVilm+LugbCDX7fe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=b7yuYE3K; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c66:c9e9:75f9:f434:33cd:e4fe])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A0FD66F3;
-	Thu, 11 Sep 2025 10:14:36 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757578477;
-	bh=59zBBGBXVwiK8KdUtCF+f5sq/Ca4rZOdlUR6YSCmksE=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=b7yuYE3KdzifpPGrkIN+DmVo9oD2tkHdZdZqHa6ZV2STwkuYNtQTS+XXB73AeZrxe
-	 egZ9sZ0/x2uSXU5fGsTAC8DrkvlR4mIL+Kb08ZNaj6DcsOVifq3Q1Xkfm9VnadfqYA
-	 X+Sv2MMvkyemkaGssP6zTFOWTieZOJ0dLln+F0CE=
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Thu, 11 Sep 2025 13:44:24 +0530
-Subject: [PATCH v2 8/8] media: imx335: Switch to {enable,disable}_streams
+	s=arc-20240116; t=1757578548; c=relaxed/simple;
+	bh=MZkSNF729QqNTQj4q9PWDrOZg6xdXAe10HC4k5HQhA8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cY7uGiqc9t19ck2u4GVtFlI6b/i76bFtvPCtJMqsVNFha+Gv2PyQP+mBJmobHz5eBYBsHILHt7Q3japa16Z+pWSV5+OD3aaopPcV/+6dQ8gvfG4JcUTlbqLiftZ9uuhYXaAqYftWbsbvfyqQOh28iNbfVmQ3eFo/Hs7gf8+sYpw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XWF4PwSs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 33EAAC4CEF1;
+	Thu, 11 Sep 2025 08:15:43 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757578547;
+	bh=MZkSNF729QqNTQj4q9PWDrOZg6xdXAe10HC4k5HQhA8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XWF4PwSs+H43I/a5ob6RMVM1e7DIddUYISGAQpdHdB80rrbiLOVmgcwYPDbdQnUnx
+	 omtvKRdXL9kTjEdlT/mA6jcklq7qN05N6uV9vCrQDL9vwf2XykyhKIe/72SVOdrx+A
+	 M7Ofe21pJ8uU3amFLq3Ax6U/b4wc38Lpy+nDSEAKq7mJut1cuyhKuyB4hcSPvxVZZc
+	 1iLX3srlsJ8AQTUL/+NQxW3+c4rSxYQDXBo0De6JI1YAEML44dP19+ZdA4PsVnYCWq
+	 SjViXlstokf3/Zj7+xaABT+0BnWcftX8znP6k27TosFQZFbWHmbojTAEUbEpqV+iWR
+	 BqXbC2lhEsZpA==
+Date: Thu, 11 Sep 2025 09:15:40 +0100
+From: Lee Jones <lee@kernel.org>
+To: Aleksandrs Vinarskis <alex@vinarskis.com>
+Cc: Hans de Goede <hansg@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Jingoo Han <jingoohan1@gmail.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Jean-Jacques Hiblot <jjhiblot@traphandler.com>,
+	Jacopo Mondi <jacopo@jmondi.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Daniel Thompson <danielt@kernel.org>, linux-leds@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, threeway@gmail.com,
+	Andy Shevchenko <andy.shevchenko@gmail.com>,
+	Linus Walleij <linus.walleij@linaro.org>
+Subject: Re: [PATCH v5 3/4] leds: led-class: Add devicetree support to
+ led_get()
+Message-ID: <20250911081540.GD9224@google.com>
+References: <20250910-leds-v5-0-bb90a0f897d5@vinarskis.com>
+ <20250910-leds-v5-3-bb90a0f897d5@vinarskis.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250911-imx335_binning-v2-8-30a28df74df6@ideasonboard.com>
-References: <20250911-imx335_binning-v2-0-30a28df74df6@ideasonboard.com>
-In-Reply-To: <20250911-imx335_binning-v2-0-30a28df74df6@ideasonboard.com>
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Tommaso Merciai <tomm.merciai@gmail.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=3358;
- i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=59zBBGBXVwiK8KdUtCF+f5sq/Ca4rZOdlUR6YSCmksE=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBowoTzE7ORwzfIdbEPtzwpnhY0b0mfq6Qhx68rM
- uQFquS1nYeJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaMKE8wAKCRBD3pH5JJpx
- RTs6D/sFYv62KI1RA7ppIgWdWrtNcDP0mRUhFtpqd/1kMk9L1UdSOEywu3yNv4yjgl/MrcsT5as
- FilZruRPT7NM0/uoJYs1+bhE0qOFZ3eGHOPOrG2GezJUtqKA0Ypzad1tHyyAr3pM1jFQWI/01Bc
- r/4KFeRGb7jtF+dwF1DOJDwN0xo+cgwstP7sFqNltc0FoHXZ8AGTaVjt+PvbAztbvhNXZI2BSdr
- y8L7eoAhldMup3Y2Kt1uGefL42nhfXo4cwKmse/DudeApgk1kFCt46wXFz4uRMEFgxuWV186vWm
- 7dW3z4P8oOIfHZJQt3V23Fgo7odzRPT+iUgEV8iD1E7J0e3B2r9Uw9SDZPU3UXwXdnjwp/FKxdQ
- nvpbphug5xBjypeaPE2tJbRP1q0ibkqviJsfLI3E7h6sRTwUVKNpzxdFQ+v5z/ko0wM8EO02Gjx
- mvUq/XdQkGHNriufLNhjChw4xFl4PSOmqeT/JX9PCyEv8rtYM4GvYtPbhrSonN29rP8URMdTZ0g
- UKC0lXV+E8jgiqvbfmFSFbuxZWq9ChCxCIbdhVXkAm94U/sksiR7PmiwkEL7KGDhi2mkOrVHYS1
- o+ereArtjcoyIfk2UmSXIHaWLIZVlVuWh2f5kcQHz5nFqglrmXqERNub452/UNkYPxgp1eJ7+hm
- zw8Co9mU1GJ5pvw==
-X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250910-leds-v5-3-bb90a0f897d5@vinarskis.com>
 
-Switch from s_stream to enable_streams and disable_streams callbacks.
+On Wed, 10 Sep 2025, Aleksandrs Vinarskis wrote:
 
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
----
- drivers/media/i2c/imx335.c | 53 +++++++++++++++++++++-------------------------
- 1 file changed, 24 insertions(+), 29 deletions(-)
+> From: Hans de Goede <hansg@kernel.org>
+> 
+> Add 'name' argument to of_led_get() such that it can lookup LEDs in
+> devicetree by either name or index.
+> 
+> And use this modified function to add devicetree support to the generic
+> (non devicetree specific) [devm_]led_get() function.
+> 
+> This uses the standard devicetree pattern of adding a -names string array
+> to map names to the indexes for an array of resources.
+> 
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+> Reviewed-by: Lee Jones <lee@kernel.org>
 
-diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-index c985edab7e2a965ccd9427b013cbb3fa8778de2b..a1af70d050bca79255ac9303e8508de919bc4fdc 100644
---- a/drivers/media/i2c/imx335.c
-+++ b/drivers/media/i2c/imx335.c
-@@ -1019,13 +1019,19 @@ static int imx335_set_framefmt(struct imx335 *imx335)
- }
- 
- /**
-- * imx335_start_streaming() - Start sensor stream
-- * @imx335: pointer to imx335 device
-+ * imx335_enable_streams() - Enable sensor streams
-+ * @sd: V4L2 subdevice
-+ * @state: V4L2 subdevice state
-+ * @pad: The pad to enable
-+ * @streams_mask: Bitmask of streams to enable
-  *
-  * Return: 0 if successful, error code otherwise.
-  */
--static int imx335_start_streaming(struct imx335 *imx335)
-+static int imx335_enable_streams(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_state *state, u32 pad,
-+				 u64 streams_mask)
- {
-+	struct imx335 *imx335 = to_imx335(sd);
- 	const struct imx335_reg_list *reg_list;
- 	int ret;
- 
-@@ -1099,37 +1105,24 @@ static int imx335_start_streaming(struct imx335 *imx335)
- }
- 
- /**
-- * imx335_stop_streaming() - Stop sensor stream
-- * @imx335: pointer to imx335 device
-- */
--static void imx335_stop_streaming(struct imx335 *imx335)
--{
--	cci_write(imx335->cci, IMX335_REG_MODE_SELECT,
--		  IMX335_MODE_STANDBY, NULL);
--	pm_runtime_put(imx335->dev);
--}
--
--/**
-- * imx335_set_stream() - Enable sensor streaming
-- * @sd: pointer to imx335 subdevice
-- * @enable: set to enable sensor streaming
-+ * imx335_disable_streams() - Disable sensor streams
-+ * @sd: V4L2 subdevice
-+ * @state: V4L2 subdevice state
-+ * @pad: The pad to disable
-+ * @streams_mask: Bitmask of streams to disable
-  *
-  * Return: 0 if successful, error code otherwise.
-  */
--static int imx335_set_stream(struct v4l2_subdev *sd, int enable)
-+static int imx335_disable_streams(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *state, u32 pad,
-+				   u64 streams_mask)
- {
- 	struct imx335 *imx335 = to_imx335(sd);
--	struct v4l2_subdev_state *state;
--	int ret = 0;
--
--	state = v4l2_subdev_lock_and_get_active_state(sd);
--
--	if (enable)
--		ret = imx335_start_streaming(imx335);
--	else
--		imx335_stop_streaming(imx335);
-+	int ret;
- 
--	v4l2_subdev_unlock_state(state);
-+	ret = cci_write(imx335->cci, IMX335_REG_MODE_SELECT,
-+			IMX335_MODE_STANDBY, NULL);
-+	pm_runtime_put(imx335->dev);
- 
- 	return ret;
- }
-@@ -1249,7 +1242,7 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
- 
- /* V4l2 subdevice ops */
- static const struct v4l2_subdev_video_ops imx335_video_ops = {
--	.s_stream = imx335_set_stream,
-+	.s_stream = v4l2_subdev_s_stream_helper,
- };
- 
- static const struct v4l2_subdev_pad_ops imx335_pad_ops = {
-@@ -1259,6 +1252,8 @@ static const struct v4l2_subdev_pad_ops imx335_pad_ops = {
- 	.set_selection = imx335_get_selection,
- 	.get_fmt = v4l2_subdev_get_fmt,
- 	.set_fmt = imx335_set_pad_format,
-+	.enable_streams = imx335_enable_streams,
-+	.disable_streams = imx335_disable_streams,
- };
- 
- static const struct v4l2_subdev_ops imx335_subdev_ops = {
+Remind me why this can't go in through LED again?
+
+> Reviewed-by: Linus Walleij <linus.walleij@linaro.org>
+> Signed-off-by: Hans de Goede <hansg@kernel.org>
+> Signed-off-by: Aleksandrs Vinarskis <alex@vinarskis.com>
+> ---
+>  drivers/leds/led-class.c | 17 +++++++++++++++--
+>  1 file changed, 15 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/leds/led-class.c b/drivers/leds/led-class.c
+> index 15633fbf3c166aa4f521774d245f6399a642bced..f3faf37f9a08ac762ed87b91cb3cab5faa8eacb0 100644
+> --- a/drivers/leds/led-class.c
+> +++ b/drivers/leds/led-class.c
+> @@ -252,15 +252,23 @@ static const struct class leds_class = {
+>   * of_led_get() - request a LED device via the LED framework
+>   * @np: device node to get the LED device from
+>   * @index: the index of the LED
+> + * @name: the name of the LED used to map it to its function, if present
+>   *
+>   * Returns the LED device parsed from the phandle specified in the "leds"
+>   * property of a device tree node or a negative error-code on failure.
+>   */
+> -static struct led_classdev *of_led_get(struct device_node *np, int index)
+> +static struct led_classdev *of_led_get(struct device_node *np, int index,
+> +				       const char *name)
+>  {
+>  	struct device *led_dev;
+>  	struct device_node *led_node;
+>  
+> +	/*
+> +	 * For named LEDs, first look up the name in the "led-names" property.
+> +	 * If it cannot be found, then of_parse_phandle() will propagate the error.
+> +	 */
+> +	if (name)
+> +		index = of_property_match_string(np, "led-names", name);
+>  	led_node = of_parse_phandle(np, "leds", index);
+>  	if (!led_node)
+>  		return ERR_PTR(-ENOENT);
+> @@ -324,7 +332,7 @@ struct led_classdev *__must_check devm_of_led_get(struct device *dev,
+>  	if (!dev)
+>  		return ERR_PTR(-EINVAL);
+>  
+> -	led = of_led_get(dev->of_node, index);
+> +	led = of_led_get(dev->of_node, index, NULL);
+>  	if (IS_ERR(led))
+>  		return led;
+>  
+> @@ -342,9 +350,14 @@ EXPORT_SYMBOL_GPL(devm_of_led_get);
+>  struct led_classdev *led_get(struct device *dev, char *con_id)
+>  {
+>  	struct led_lookup_data *lookup;
+> +	struct led_classdev *led_cdev;
+>  	const char *provider = NULL;
+>  	struct device *led_dev;
+>  
+> +	led_cdev = of_led_get(dev->of_node, -1, con_id);
+> +	if (!IS_ERR(led_cdev) || PTR_ERR(led_cdev) != -ENOENT)
+> +		return led_cdev;
+> +
+>  	mutex_lock(&leds_lookup_lock);
+>  	list_for_each_entry(lookup, &leds_lookup_list, list) {
+>  		if (!strcmp(lookup->dev_id, dev_name(dev)) &&
+> 
+> -- 
+> 2.48.1
+> 
+> 
 
 -- 
-2.51.0
-
+Lee Jones [李琼斯]
 
