@@ -1,223 +1,120 @@
-Return-Path: <linux-media+bounces-42365-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42352-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3A3B5378A
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 17:22:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0095BB53707
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 17:11:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BFC48188206D
-	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 15:20:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5FDE8A07CF9
+	for <lists+linux-media@lfdr.de>; Thu, 11 Sep 2025 15:11:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28108369978;
-	Thu, 11 Sep 2025 15:16:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7143C346A13;
+	Thu, 11 Sep 2025 15:11:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b="H9jOcS9S"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b0dxe1ZU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 968E33570D9;
-	Thu, 11 Sep 2025 15:16:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757603768; cv=pass; b=IFs3LHMEYprVkz9Tt50hKjYdx5J+Qqu+PAcHFAgrQyZpFw8MFCKii//qspsN4dYx+oDxm5vWX9eXzaEN4rho84bYUHeIEALEb8+4kzM4ibI9Zf5hpkI0ylMJdC1HWtXrdZx2kjfm4GM3QdGY31MiCZ12KPOy1CocIwmjkA6EwLo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757603768; c=relaxed/simple;
-	bh=8m+L9EuCiB2kd+H+6i0/olJjoUQfOiV+U9l4XmnkecM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=O8sxg1crDxLfeTODI7/MG9tYdLYJB3ntOFIhUQprfx1HA4pST7FZa2dfnbahKqJNxdVLNgn84cS2zqLp7dkWob3keICLP3iTjCvqgn9WZEsz7nScVfzlFX0yyAsV7a2MXHrXPFrVmFqHodDba/WSM+x0H3SVfe3P9kdDaJAOQAA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=ariel.dalessandro@collabora.com header.b=H9jOcS9S; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1757603713; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=XdFivKCZ1zSV2DL8A2apCZSVhyGEctH5ibbsN5jnFp92ih8VPPHUt1cYWhfClmon7J3wdT8XMj835fnw3QSHdTqDIxOx9aCzGLYJA3MrC1PM35mhAw9g4XRSaMvjWn0Ebda4XdnOLXWLtITXwA+ZSUO3MG9s0cd845vDoG9CAYo=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1757603713; h=Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=5GbnEMgGDcefdIhwqbOGABlaP4C+kCbcjuGMBFPW0FU=; 
-	b=AJrDS76FnZIW0jLOYXGptiWpzTsBY+npeA8L7BwDefMBU9NbrNHLq5zshxQ6M9UrIsvXqA9LyHtkTCul0qwIFQh2RuSjtHZnC0VBqs5hohXvNancIOHVZC2uroKOXNJxEcmbfsCm1bodh69SN+uOvAnD+aTfYV6zKMe8pJ4GNiI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=ariel.dalessandro@collabora.com;
-	dmarc=pass header.from=<ariel.dalessandro@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757603713;
-	s=zohomail; d=collabora.com; i=ariel.dalessandro@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=5GbnEMgGDcefdIhwqbOGABlaP4C+kCbcjuGMBFPW0FU=;
-	b=H9jOcS9Sf+b45wYgJY5wui9mLzHAFv/8dEF8qzkXIwmkNeLdBo+3737VQFbvZ329
-	cmuyy3V5VCxxklt+8rkDs/4GE0lvqHaocm3GFfgriUVQNIxO+SuJiePrxoKtuMAXu3C
-	ptx0CFAAXKTJtBC4k5JxeWR+Itv5KV3s+U4F5ous=
-Received: by mx.zohomail.com with SMTPS id 1757603711035627.8749849505076;
-	Thu, 11 Sep 2025 08:15:11 -0700 (PDT)
-From: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-To: airlied@gmail.com,
-	amergnat@baylibre.com,
-	andrew+netdev@lunn.ch,
-	andrew-ct.chen@mediatek.com,
-	angelogioacchino.delregno@collabora.com,
-	ariel.dalessandro@collabora.com,
-	broonie@kernel.org,
-	chunkuang.hu@kernel.org,
-	conor+dt@kernel.org,
-	davem@davemloft.net,
-	dmitry.torokhov@gmail.com,
-	edumazet@google.com,
-	flora.fu@mediatek.com,
-	heiko@sntech.de,
-	houlong.wei@mediatek.com,
-	jeesw@melfas.com,
-	kernel@collabora.com,
-	krzk+dt@kernel.org,
-	kuba@kernel.org,
-	lgirdwood@gmail.com,
-	linus.walleij@linaro.org,
-	louisalexis.eyraud@collabora.com,
-	luiz.dentz@gmail.com,
-	maarten.lankhorst@linux.intel.com,
-	marcel@holtmann.org,
-	matthias.bgg@gmail.com,
-	mchehab@kernel.org,
-	minghsiu.tsai@mediatek.com,
-	mripard@kernel.org,
-	p.zabel@pengutronix.de,
-	pabeni@redhat.com,
-	robh@kernel.org,
-	sean.wang@kernel.org,
-	simona@ffwll.ch,
-	support.opensource@diasemi.com,
-	tiffany.lin@mediatek.com,
-	tzimmermann@suse.de,
-	yunfei.dong@mediatek.com
-Cc: devicetree@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-bluetooth@vger.kernel.org,
-	linux-gpio@vger.kernel.org,
-	linux-input@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-mediatek@lists.infradead.org,
-	linux-rockchip@lists.infradead.org,
-	linux-sound@vger.kernel.org,
-	netdev@vger.kernel.org
-Subject: [PATCH v2 12/12] dt-bindings: input: Convert MELFAS MIP4 Touchscreen to DT schema
-Date: Thu, 11 Sep 2025 12:10:01 -0300
-Message-ID: <20250911151001.108744-13-ariel.dalessandro@collabora.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
-References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 447E83469ED
+	for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 15:11:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757603505; cv=none; b=Y2+FwJuKsOGEBp88k4bc4A3ncLPZzvDIAZ49fB9e1Vz9eqMRMWhxmccdllsnsD/3WRF5dgUD9ShoYcI7pKlNf8xR81pLcbTCAugef4cDZB1aMUo2p/nVvThOlmV/Zr2rxDCoJM/RbxDQ65TpFwwhrLFxSGTE5LZgkegptYDXMnI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757603505; c=relaxed/simple;
+	bh=e9kv85eYZpW09Sz+LBjMWCQsY/b15orHC+8wBoqJAFM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Nf7bu/IFdR07Erfxo4fFFHGVW3jiCAK+WL4+CkMflj7+TlRjWP7QoKvCVLyAg7ls46w7iJaS4+jlvPh1jAUxmrKQxOCRnk0klirI5Xcox7Cox8Jd6qE6ECgJn4V5tpSKj67G25cCtYhsFPMHp9bkEdX0cQk4WEZZiLS97/8CU5s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b0dxe1ZU; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-b0787fc3008so120294866b.3
+        for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 08:11:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757603502; x=1758208302; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=TJXD0d9dznPgcTPNThW/LqxiTrPZwdyiS6ep+9wlnic=;
+        b=b0dxe1ZUOP9q83YrjVN5dEeNykK1nkVZ5ttP6fYQQ65yhPNinj6wrjYyKq97Zeu6KO
+         OU1WhS/tSlFkggMR0S55m3VzrzEgnwG/XfS2m6wjCS1Q6b0izTZQ0g1PWzGJEsTVROV0
+         9GhQ+7W5VCRIrMqmMlMjQ3U+HCZNdHC/fsRrELJPEAK+pLmA1W+10lo2ZkHsRY7+PYuc
+         iZF8Bu6YN8PpaMNc0cjMPyjkyCerm+VLS8tT6zLxAPIlsZSAb1JHNREcxa2m6YHKnLq5
+         kkM2p7+gup70AzZHOlzmRE7iTSZ6/squHvZYlKEgjND3GmpeYliqGQjZM+/2uw96vNkm
+         4ybg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757603502; x=1758208302;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TJXD0d9dznPgcTPNThW/LqxiTrPZwdyiS6ep+9wlnic=;
+        b=dXUsmIos+4IYDydgFf1d07QGeQZ2E5JmLWdVKaU5TMU8AVPhCg0mJpYb+ody2CoglE
+         Y1IQ8wduRqn5dnR/bvFJtoTuuO6bAMXa839titcZjFE2YvFI88FYWrMD0q1Bx9GWRu+g
+         O2txrbDiCAT5aqR6dbKrnpgHP4Pw97oYgwokvmaZpIMP0v8JcI5ZKm16tVVV1wQl0MeZ
+         EtPFj/UWLU3WQsNHvdosUx5bczyKTaUOVjBhl5NigHYLH4GHPK4+jpm5xovKGbuoRsqT
+         leMIr3sLpMi4Fh9FDiSUpuICEh7L82y1245dtwITknQ8O/tU3uLqGArq9/nA14KLGHT/
+         isAA==
+X-Gm-Message-State: AOJu0YwLBPKk+mjmyGk1sovaeNKQEB0RGKYCPqVPh/YyLwmRV8asF0+8
+	eHLhBptaJLOuTXEIxJOMCQvCV/saLmIoIq4PNs53MeS+HA/PSzj+4/yv
+X-Gm-Gg: ASbGncvuwTH+3pA77jzB7a41/Vto9+UqcOSRpCi9Xwjbdlsj2n6XSl7O8qDgBhhIGsr
+	Y5u6RiNXl2IDEGgpap5oDBOjXorG8lmdyxiLy1vmzjvNfZNrRpt7TRpSn28i3CeNKmv303ppWvO
+	Ocf9wK/gzStkNADIq2X1xWAyDsqDHk8LTWedifN6Nw35V7/kp0Ok2izqzLP7kQrQlkpMDo4yRGB
+	HNhIXjV9RPFqra8QhxW63b6WAeuqwLar2gP/7XRyETpcJhSatiC9fg8mbTTbIsWa10JQqXFVC3d
+	f2FSzfEkPy6HSB1YbM6XvFbHPHLMH8JTmYiyqNMoXdeEdUedG/YAD8y9Cm7NkMj2u7NHpcgwhCd
+	cC3k1COf+abbQNaByrWneHgLxhTkNAz/ABvuN5IZi0jheuCodY0YwyfX0ibwyEQvisroAq24=
+X-Google-Smtp-Source: AGHT+IFu/p3XCl9aAF361ZEinW5yYkUkoSXzrLLXvUd2NuKZyhoe8iX783XV/nHzhkHTR9LYfTKaug==
+X-Received: by 2002:a17:907:3ea8:b0:b04:25e6:2dbe with SMTP id a640c23a62f3a-b04b16d8182mr1906360766b.63.1757603502321;
+        Thu, 11 Sep 2025 08:11:42 -0700 (PDT)
+Received: from ?IPV6:2a02:8109:8617:d700:fe0f:5a9d:7cd0:4679? ([2a02:8109:8617:d700:fe0f:5a9d:7cd0:4679])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b07b32dd3efsm148194566b.55.2025.09.11.08.11.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 11 Sep 2025 08:11:41 -0700 (PDT)
+Message-ID: <bfe25a26-fef3-4ab3-9ae2-ac9245fd5830@gmail.com>
+Date: Thu, 11 Sep 2025 17:11:40 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-ZohoMailClient: External
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: i2c: alvium: cleanup media bus formats
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, michael.roeder@avnet.eu,
+ martin.hecht@avnet.eu, Tommaso Merciai <tomm.merciai@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-kernel@vger.kernel.org
+References: <20250909135938.2841635-1-mhecht73@gmail.com>
+ <aMK9PQ62EYeJpgeo@kekkonen.localdomain>
+Content-Language: en-US
+From: Martin Hecht <mhecht73@gmail.com>
+In-Reply-To: <aMK9PQ62EYeJpgeo@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Convert the existing text-based DT bindings for MELFAS MIP4 Touchscreen
-controller to a DT schema.
+Hi Sakari,
 
-Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
----
- .../input/touchscreen/melfas,mip4_ts.yaml     | 56 +++++++++++++++++++
- .../input/touchscreen/melfas_mip4.txt         | 20 -------
- 2 files changed, 56 insertions(+), 20 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/input/touchscreen/melfas,mip4_ts.yaml
- delete mode 100644 Documentation/devicetree/bindings/input/touchscreen/melfas_mip4.txt
 
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/melfas,mip4_ts.yaml b/Documentation/devicetree/bindings/input/touchscreen/melfas,mip4_ts.yaml
-new file mode 100644
-index 0000000000000..314be65c56caa
---- /dev/null
-+++ b/Documentation/devicetree/bindings/input/touchscreen/melfas,mip4_ts.yaml
-@@ -0,0 +1,56 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/input/touchscreen/melfas,mip4_ts.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: MELFAS MIP4 Touchscreen
-+
-+maintainers:
-+  - Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-+
-+properties:
-+  compatible:
-+    const: melfas,mip4_ts
-+
-+  reg:
-+    description: I2C address of the chip (0x48 or 0x34)
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  ce-gpios:
-+    description:
-+      GPIO connected to the CE (chip enable) pin of the chip (active high)
-+    maxItems: 1
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/gpio/gpio.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+
-+    i2c {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        touchscreen@34 {
-+            compatible = "melfas,mip4_ts";
-+            reg = <0x34>;
-+
-+            interrupts-extended = <&tlmm 13 IRQ_TYPE_EDGE_FALLING>;
-+            ce-gpios = <&tlmm 12 GPIO_ACTIVE_HIGH>;
-+
-+            pinctrl-0 = <&touchscreen_default>;
-+            pinctrl-names = "default";
-+        };
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/input/touchscreen/melfas_mip4.txt b/Documentation/devicetree/bindings/input/touchscreen/melfas_mip4.txt
-deleted file mode 100644
-index b2ab5498e5190..0000000000000
---- a/Documentation/devicetree/bindings/input/touchscreen/melfas_mip4.txt
-+++ /dev/null
-@@ -1,20 +0,0 @@
--* MELFAS MIP4 Touchscreen
--
--Required properties:
--- compatible: must be "melfas,mip4_ts"
--- reg: I2C slave address of the chip (0x48 or 0x34)
--- interrupts: interrupt to which the chip is connected
--
--Optional properties:
--- ce-gpios: GPIO connected to the CE (chip enable) pin of the chip
--
--Example:
--	i2c@00000000 {
--		touchscreen: melfas_mip4@48 {
--			compatible = "melfas,mip4_ts";
--			reg = <0x48>;
--			interrupt-parent = <&gpio>;
--			interrupts = <0 IRQ_TYPE_EDGE_FALLING>;
--			ce-gpios = <&gpio 0 GPIO_ACTIVE_HIGH>;
--		};
--	};
--- 
-2.50.1
+On 9/11/25 14:14, Sakari Ailus wrote:
+> Hi Martin,
+> 
+> On Tue, Sep 09, 2025 at 03:59:37PM +0200, Martin Hecht wrote:
+>> This patch removes MEDIA_BUS_FMT_RBG888_1X24 and MEDIA_BUS_FMT_BGR888_1X24
+>> as of that formats are not supported by Alvium currently.
+>> The missing and supported MEDIA_BUS_FMT_RGB565_1X16 has been added.
+> 
+> What's the pixel order used by the format in Alvium case?
+> 
+
+The Alvium has a fixed pixel order currently what should be BGR during 
+transmission of any RGB format as described in MIPI-CSI2 spec 1.3. We 
+tested with MEDIA_BUS_FMT_RGB888_1X24 as well as 
+MEDIA_BUS_FMT_RGB888_3X8 for RGB24 in several SoCs like imx8mm, imx8mp 
+and Xilinx CSI2RX subsystem on ZynqMP and Versal.
+Does that answer your question?
+
+BR Martin
 
 
