@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-42432-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42430-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C8D3B5505B
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 16:05:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0318FB55046
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 16:03:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA580178D52
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:04:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64E69AA59E9
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:03:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73CFF30F55D;
-	Fri, 12 Sep 2025 14:04:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65DAD30F7F7;
+	Fri, 12 Sep 2025 14:03:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NZoblIUm"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="joRavizD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EABC62E889B
-	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 14:04:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF5B283FDF
+	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 14:03:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757685853; cv=none; b=H7cPYpFGXRWsZiwLKNq6zFKuZIadP2d/+1UDSeR/Czpbm5qpVDrmTy3+REmuqFEBedQPa+S56rrcAwG9WrEX+hWVA5w5SalK/JFgVgWobt1UHyQeZAs0To0Yvs/Wag/KSRUUtb0l4aPqhltXjcHykyFbM05YQduNFhJhXSG04/U=
+	t=1757685798; cv=none; b=B0CAGk8etFM0ANr1t0zh92VjW+z6gErnMJ2PMVjxTti75+2rFOGB6zwj/hPze/jOvKneg3wGPfJ0DRc58Xs/VwcYiC30GqtgVwxsVG/M7y11yATpTNxpIt5XntJ/LeoEsBKJj/r6Kq13csKVldhrvPUF27vmTWongBP8qqsvOpg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757685853; c=relaxed/simple;
-	bh=qtUzrNjF/uLxAZcSBqnOM6VKuP7XCoaA6s79Clj8kNI=;
+	s=arc-20240116; t=1757685798; c=relaxed/simple;
+	bh=aAY1g8zOPqBn5miZfFbCjKlL6xfEQPFSG95Zowlpqzg=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZLzbRPQKM9j1XcKe3WXVSr/YltqxpEbmM0td+A+S53ZabehTwyUOQZsJ5RPMUltxfZMyY2LBBws2E+5B3bKqm5pZTswaFzSXW+lxzkaOQdf+ofrzBUUXmxVQxSr4GuIQRYFalwoMrgQIwqejZk+H6U4EHnGCp3VpA2S07/Yk1Hk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NZoblIUm; arc=none smtp.client-ip=209.85.221.44
+	 In-Reply-To:Content-Type; b=g8SYCBsje1vcN5DXKwg/usdhqWqNM31Jj7+zGI7B3/A0PR6sVpZDn9+S8RBaxDRkBlfoN2WHA+GLTyuZut54En1bgINATg3qqnYtjTwtk9OFLn7Qx643Og5NdTtXpX0N3Ekj3qOyG0zqy713KEJkhMQolc52zfXFucateFk87Sw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=joRavizD; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3e2055ce973so1110649f8f.0
-        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 07:04:10 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3c68ac7e18aso1322685f8f.2
+        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 07:03:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757685849; x=1758290649; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757685795; x=1758290595; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=APfeXdHVZlvAUzgVrSDnbec2WkFzD9WkVF8lv6dWx7A=;
-        b=NZoblIUmih3OKRYmsg+FHERLMLvZwOxa5XRUjVR1fc+kTN3XAW3ZhMJ0IMoUQu/gbW
-         vbE2udJsu/NrS1iuitk20dqnPJkgD9jWbXhSuesbR6Pu2zjzzAow93u5W+nEM+mmwjwr
-         46JXsRjltl6Krck/i4bKTvMO1mzjVDzV/OPuownYX0c3r5P6DEEHq8xn9veJyHQ2wBO3
-         0RpOZPOHQj2uiy5dh43cT5kAaqv7sD1lP4LIulyHTKlpAzLAWJZ4wxXeXOCVcmsKaqKG
-         k7pOfZTHf/mfYWTiJ+6uIcw1bDCUgYfiqjp7afaQa9AMYPHjIYQnZz8Mr8WoeH6LtKat
-         dIFA==
+        bh=uH+YHXFVH2K1mzrQAHIZiTdd0wND2UdYXw5OhP6ad/I=;
+        b=joRavizDgeqwMPy2GO941dAZlnGDdgRFCcQAhvfu2jv8w7yf/aXrXuDdGSuNACmW7Y
+         gB+0fQTN4KAsXe9t3n4U+FNJWhQRsRElye6MB21w7YIztFYBDdJqe5IrHdnWT+4pqKSh
+         x2nZWF8ZFh3+trITdOudXMlhPEgPmSkCGPO+1syKjs8PEjB7JYvgSjIlS71wadFYaH4/
+         Tp7Vj6Y7jPVCclyvCoO6F5BZUPO7uXTeAKtL2I7bDhb6fIzuVfqp/XXt/fipVI2BCHI0
+         jiJ/20AWbgFs6Y8m/eBuu+Wgrhc6pORzGXZjs90vHOmWPx7s/26nhVTDshQrNjZsYra3
+         4Gxg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757685849; x=1758290649;
+        d=1e100.net; s=20230601; t=1757685795; x=1758290595;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=APfeXdHVZlvAUzgVrSDnbec2WkFzD9WkVF8lv6dWx7A=;
-        b=h7wvBnGKbLt8HP1l0+1qJmxzU+qhs8QLvbUhCcrbAkFzl/Gu0aYaZHomseV86nGSfH
-         rbRgaXKVo/rPRnBwyrzO5tiCD8H3uy2Tsx/GnLxPxCW5+5Xfm6R2W+l0UVHoGaNO+lc7
-         PciloLXz0qgWSzWC1+hQJB7ns1fkUGLP6BX0KHbJGccHcgiGR1u+AyOCU8sq2zv670an
-         5MAXTZRZwhf9fu1O8ulKpUxSy5MV9ZV8faOJsAgK/k/i5TAeZr5W31VrTT2YEwZfhP6K
-         tViAyo2k4MYjjqwEXsQzq9/Z+xQwMFAzev0VKeq9ftUdcyt57SrcfgHcyqEliDTFn0zk
-         KqfQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW0vUoo+vwC/TlmwMNt0l8nsCchdF7rUd8vCypeDtJaeP5gvAl7inXLYGVNkYYvZIM2P+vBvj/2oZXZWw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywd3OU9ejYKyIt6b9Yol74HmrgbND4eeO9FmZ6zO04jf8SEaxq2
-	dMTolCAJw+kI2iuLSEXBqQ1vlS/A8NF6EXSSz0CQhAeP/2US8JPlJTIA
-X-Gm-Gg: ASbGncs7BHWiTaOMBFZS2ByGDuaz9UerzgYEgGFU2vZTAqO2VqE00NCc4A7EK1al7tK
-	h5MI8wmW+GQGtKIGrwdRABHD9KUYz5eMFGnsHlRXVDwNB8ttZTzBsv29WYPhJyNQVPFsKfouXeR
-	rU1P9fZqgRqRaZQ7fuGootLV7ICZKzXXENuCe+8fN4M4Y0jyjmiaxRFvzb3L7pdxo/3N+qmJP30
-	0XvoGbQZWHW4QrAhPw6eMI9NmjvV95XJ5vwsGf5VpBr/gJlmmacq0UrTyxGXWfP4knCSnY16MlW
-	T8KzN9sqyhJGbnySktRTOxEBlaz5r+JBBc+O3RC1Z0AxI5GL96exLuZYVQJffFAOBudrGdXD6/i
-	K7cYEqqb5C4IRzLv82HKtcA+Y1MWcZH2EOhPMVQFqdQ==
-X-Google-Smtp-Source: AGHT+IGthAq77EqTSVIscxbyWVF+jFSi3b1ESxcW24z9DM4Tl2GZ2DYvuqU47ZXwpi1f2I9Iy1R0Ew==
-X-Received: by 2002:a05:6000:2012:b0:3e7:441e:c9e1 with SMTP id ffacd0b85a97d-3e765793127mr2867583f8f.18.1757685848735;
-        Fri, 12 Sep 2025 07:04:08 -0700 (PDT)
+        bh=uH+YHXFVH2K1mzrQAHIZiTdd0wND2UdYXw5OhP6ad/I=;
+        b=AvZ0PykQwD4CEGArl13vazFkPvmmlo+zY4dW3oY7ayR2eCh0NPahXOspKiYTIX9LIp
+         sO2SADR5vjK1tFzpCc+fH4EBLk493SZ32G3y/I+BfxYxk3T5PBT768gX69BI6RrWegpy
+         XYBX34CcvVPKBbJFXoZUEzVtUvADNeLQIbe8RuUZvOUQuicAKpG3LOwQcgoVXtbzj8ON
+         Ooq2pQTbLJEE56jrY35fZvPoi3Jz+UuupLEVPhPT1B2Gf7fGN9QGXvLRDHhaAZH7ogdZ
+         5Qg/authTp/uCWY1XXDnM6pEv8u+kTw3gB/gQVflJpm8EyYO3MEYF51JgIFEMJzEBlHh
+         6/2A==
+X-Forwarded-Encrypted: i=1; AJvYcCVY6xox/+YaXxG8Ox2BSoCq1rHkXVX6VvD7tdEk/wS0yK8+nW0WcHC4k/IB5kVLQIbzLTme1cKi2g/EwA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxAeyz38sArtMTRUELkFTrhF0+JH0rwKA+QVSYae5mtMwT3zrfe
+	dgrLGe6l+3CxG3nARGuU9ev3LCVHLUdD0fyatW93drcpM73vQiH55rev
+X-Gm-Gg: ASbGnctGli2oHfxb47Bu7LfDYsasp/12utbf6uYdGeRS/Jw4Th2uKZZ5VW0hSgAQhG5
+	UEJL0Rd6NluRNL65R083ejklLXDKmg49OFtp4PWPHi+EdTplK+uvYmhbJasMEy1Rz3WIAvbL6ch
+	htccTt4RjpeDA2cJsZh6DnT+oEz7lXstqeciiBwtzsfYFqKE3fpvON+6EqiVt8bjfs7gARM0bK7
+	xn1XXot9MSg6ULPpzJ08M/ePaPjWv2MxkPTD+iVqvF9jIwfi7a66RtB4tFnZiZ+XCIzeMX2zFZu
+	Bb4mzCAomO6Q7dQuDmrk8RYUVtaZt/7t4+N082kaQ3VCvFEokLmTzmOI3XKSmFVK1bocdHAh466
+	crUGYdAdcKC4dvmqyL5sPIorFdekRFaV2HIuV7Q17qz6HCreuiNVS
+X-Google-Smtp-Source: AGHT+IHkpXgL67su2eP0NWVxDv0gnk9lbCDXLQlAVKtF0IvH2Kl70osZH/zbwKbUjcuxvdmzPdw9Pw==
+X-Received: by 2002:a05:6000:61e:b0:3e7:4414:794b with SMTP id ffacd0b85a97d-3e765a018a5mr2537897f8f.50.1757685794754;
+        Fri, 12 Sep 2025 07:03:14 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e760777a0bsm6704897f8f.13.2025.09.12.07.04.03
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e774a3fb5bsm2033837f8f.58.2025.09.12.07.03.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 07:04:07 -0700 (PDT)
-Message-ID: <03402a44-7025-4e31-9ead-a2ecbf63f325@gmail.com>
-Date: Fri, 12 Sep 2025 16:01:12 +0200
+        Fri, 12 Sep 2025 07:03:13 -0700 (PDT)
+Message-ID: <7765f224-60b2-4c92-a597-58c1c6bc5580@gmail.com>
+Date: Fri, 12 Sep 2025 16:03:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,32 +83,33 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 18/38] arm64: dts: mediatek: mt6797: Remove bogus id
- property in i2c nodes
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- linux-mediatek@lists.infradead.org, robh@kernel.org
-Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
- conor+dt@kernel.org, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
- airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com,
- mchehab@kernel.org, chunfeng.yun@mediatek.com, vkoul@kernel.org,
- kishon@kernel.org, sean.wang@kernel.org, linus.walleij@linaro.org,
- lgirdwood@gmail.com, broonie@kernel.org, andersson@kernel.org,
- mathieu.poirier@linaro.org, daniel.lezcano@linaro.org, tglx@linutronix.de,
- atenart@kernel.org, jitao.shi@mediatek.com, ck.hu@mediatek.com,
- houlong.wei@mediatek.com, kyrie.wu@mediatek.corp-partner.google.com,
- andy.teng@mediatek.com, tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com,
- shane.chien@mediatek.com, olivia.wen@mediatek.com, granquet@baylibre.com,
- eugen.hristev@linaro.org, arnd@arndb.de, sam.shih@mediatek.com,
- jieyy.yang@mediatek.com, frank-w@public-files.de, mwalle@kernel.org,
- fparent@baylibre.com, linux-crypto@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
- linux-sound@vger.kernel.org
+Subject: Re: [PATCH 19/38] arm64: dts: mediatek: mt6795: Add mediatek,infracfg
+ to iommu node
+To: Fei Shao <fshao@chromium.org>,
+ AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+Cc: linux-mediatek@lists.infradead.org, robh@kernel.org,
+ daniel.lezcano@linaro.org, mwalle@kernel.org, devicetree@vger.kernel.org,
+ linus.walleij@linaro.org, linux-remoteproc@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ olivia.wen@mediatek.com, shane.chien@mediatek.com,
+ linux-gpio@vger.kernel.org, linux-phy@lists.infradead.org,
+ airlied@gmail.com, simona@ffwll.ch, herbert@gondor.apana.org.au,
+ jassisinghbrar@gmail.com, jiaxin.yu@mediatek.com, andy.teng@mediatek.com,
+ chunfeng.yun@mediatek.com, jieyy.yang@mediatek.com, chunkuang.hu@kernel.org,
+ conor+dt@kernel.org, jitao.shi@mediatek.com, p.zabel@pengutronix.de,
+ arnd@arndb.de, kishon@kernel.org, kyrie.wu@mediatek.corp-partner.google.com,
+ maarten.lankhorst@linux.intel.com, tinghan.shen@mediatek.com,
+ mripard@kernel.org, ck.hu@mediatek.com, broonie@kernel.org,
+ eugen.hristev@linaro.org, houlong.wei@mediatek.com, tglx@linutronix.de,
+ mchehab@kernel.org, linux-arm-kernel@lists.infradead.org,
+ granquet@baylibre.com, sam.shih@mediatek.com, mathieu.poirier@linaro.org,
+ fparent@baylibre.com, andersson@kernel.org, sean.wang@kernel.org,
+ linux-sound@vger.kernel.org, lgirdwood@gmail.com, vkoul@kernel.org,
+ linux-crypto@vger.kernel.org, tzimmermann@suse.de, atenart@kernel.org,
+ krzk+dt@kernel.org, linux-media@vger.kernel.org, davem@davemloft.net
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-19-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-20-angelogioacchino.delregno@collabora.com>
+ <CAC=S1nguRWyG3ubmSFE95_zgsCjjq4dxGWr5ErV9-Yu2+mTmpw@mail.gmail.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -154,110 +155,45 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-19-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <CAC=S1nguRWyG3ubmSFE95_zgsCjjq4dxGWr5ErV9-Yu2+mTmpw@mail.gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
 
 
-On 24/07/2025 10:38, AngeloGioacchino Del Regno wrote:
-> All of the I2C nodes in this devicetree has a bogus "id" property,
-> which was probably specifying the I2C bus number.
+On 25/07/2025 12:52, Fei Shao wrote:
+> On Thu, Jul 24, 2025 at 5:49 PM AngeloGioacchino Del Regno
+> <angelogioacchino.delregno@collabora.com> wrote:
+>>
+>> The "M4U" IOMMU requires a handle to the infracfg to switch to
+>> the 4gb/pae addressing mode: add it.
+>>
+>> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 > 
-> This property was never parsed and never used - and besides, it
-> also gives dtbs_check warnings: remove it from all i2c nodes.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
+> Reviewed-by: Fei Shao <fshao@chromium.org>
 
-Applied, thanks
+Applied thanks
 
-> ---
->   arch/arm64/boot/dts/mediatek/mt6797.dtsi | 10 ----------
->   1 file changed, 10 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt6797.dtsi b/arch/arm64/boot/dts/mediatek/mt6797.dtsi
-> index be401617dfd8..f2d93bf6a055 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt6797.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/mt6797.dtsi
-> @@ -285,7 +285,6 @@ uart3: serial@11005000 {
->   	i2c0: i2c@11007000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <0>;
->   		reg = <0 0x11007000 0 0x1000>,
->   		      <0 0x11000100 0 0x80>;
->   		interrupts = <GIC_SPI 84 IRQ_TYPE_LEVEL_LOW>;
-> @@ -301,7 +300,6 @@ i2c0: i2c@11007000 {
->   	i2c1: i2c@11008000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <1>;
->   		reg = <0 0x11008000 0 0x1000>,
->   		      <0 0x11000180 0 0x80>;
->   		interrupts = <GIC_SPI 85 IRQ_TYPE_LEVEL_LOW>;
-> @@ -317,7 +315,6 @@ i2c1: i2c@11008000 {
->   	i2c8: i2c@11009000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <8>;
->   		reg = <0 0x11009000 0 0x1000>,
->   		      <0 0x11000200 0 0x80>;
->   		interrupts = <GIC_SPI 86 IRQ_TYPE_LEVEL_LOW>;
-> @@ -334,7 +331,6 @@ i2c8: i2c@11009000 {
->   	i2c9: i2c@1100d000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <9>;
->   		reg = <0 0x1100d000 0 0x1000>,
->   		      <0 0x11000280 0 0x80>;
->   		interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_LOW>;
-> @@ -351,7 +347,6 @@ i2c9: i2c@1100d000 {
->   	i2c6: i2c@1100e000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <6>;
->   		reg = <0 0x1100e000 0 0x1000>,
->   		      <0 0x11000500 0 0x80>;
->   		interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_LOW>;
-> @@ -367,7 +362,6 @@ i2c6: i2c@1100e000 {
->   	i2c7: i2c@11010000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <7>;
->   		reg = <0 0x11010000 0 0x1000>,
->   		      <0 0x11000580 0 0x80>;
->   		interrupts = <GIC_SPI 89 IRQ_TYPE_LEVEL_LOW>;
-> @@ -383,7 +377,6 @@ i2c7: i2c@11010000 {
->   	i2c4: i2c@11011000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <4>;
->   		reg = <0 0x11011000 0 0x1000>,
->   		      <0 0x11000300 0 0x80>;
->   		interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_LOW>;
-> @@ -399,7 +392,6 @@ i2c4: i2c@11011000 {
->   	i2c2: i2c@11013000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <2>;
->   		reg = <0 0x11013000 0 0x1000>,
->   		      <0 0x11000400 0 0x80>;
->   		interrupts = <GIC_SPI 95 IRQ_TYPE_LEVEL_LOW>;
-> @@ -416,7 +408,6 @@ i2c2: i2c@11013000 {
->   	i2c3: i2c@11014000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <3>;
->   		reg = <0 0x11014000 0 0x1000>,
->   		      <0 0x11000480 0 0x80>;
->   		interrupts = <GIC_SPI 96 IRQ_TYPE_LEVEL_LOW>;
-> @@ -433,7 +424,6 @@ i2c3: i2c@11014000 {
->   	i2c5: i2c@1101c000 {
->   		compatible = "mediatek,mt6797-i2c",
->   			     "mediatek,mt6577-i2c";
-> -		id = <5>;
->   		reg = <0 0x1101c000 0 0x1000>,
->   		      <0 0x11000380 0 0x80>;
->   		interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_LOW>;
+>> ---
+>>   arch/arm64/boot/dts/mediatek/mt6795.dtsi | 1 +
+>>   1 file changed, 1 insertion(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/mediatek/mt6795.dtsi b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+>> index e5e269a660b1..38f65aad2802 100644
+>> --- a/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+>> +++ b/arch/arm64/boot/dts/mediatek/mt6795.dtsi
+>> @@ -427,6 +427,7 @@ iommu: iommu@10205000 {
+>>                          clocks = <&infracfg CLK_INFRA_M4U>;
+>>                          clock-names = "bclk";
+>>                          interrupts = <GIC_SPI 146 IRQ_TYPE_LEVEL_LOW>;
+>> +                       mediatek,infracfg = <&infracfg>;
+>>                          mediatek,larbs = <&larb0 &larb1 &larb2 &larb3>;
+>>                          power-domains = <&spm MT6795_POWER_DOMAIN_MM>;
+>>                          #iommu-cells = <1>;
+>> --
+>> 2.50.1
+>>
+>>
 
 
