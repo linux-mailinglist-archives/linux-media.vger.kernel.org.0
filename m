@@ -1,113 +1,105 @@
-Return-Path: <linux-media+bounces-42476-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42477-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06CA1B55989
-	for <lists+linux-media@lfdr.de>; Sat, 13 Sep 2025 00:44:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 41850B559E6
+	for <lists+linux-media@lfdr.de>; Sat, 13 Sep 2025 01:11:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 61B84AE34A5
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 22:44:19 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 656D51894683
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 23:11:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6F37A27D771;
-	Fri, 12 Sep 2025 22:44:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFF90280A2F;
+	Fri, 12 Sep 2025 23:11:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dUuS187c"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MyAp5jb0"
 X-Original-To: linux-media@vger.kernel.org
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0955D257820
-	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 22:43:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 806F92550CA
+	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 23:11:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757717039; cv=none; b=XAEKxasEo2XQd/ajBjUmYKcxtQuA4zuStWhVynt0F3nE+qLkqDsABmBRGJ/E219Fgt1Rb6pXykgz6JZdh0CDnswkk4Ztn4Zxg6Xtvcn8DsVbfcVnY7visKia/p3X7wkop8nfzjxdKm5zs+ew4uXk6eACkQZV6yYbNpVKN13oUts=
+	t=1757718673; cv=none; b=IIejTr0CUgGij9rmpbHwsF53/QkVCLQxSJYZxgPIjXPEtTa9Clxoo/Sgt66uEmqgGrxQwelEAJQj3N8j0mrr1WVrJShyTrgoKlk8oSNO9QmWxEkZaNsrIR/0s9lLWKeyXmATBTqXUBwZ9KxS9tGkosgK84+mg2Q7bGnQ8lgbD5k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757717039; c=relaxed/simple;
-	bh=qDJdP4B7xkg9XZowrnhpdeaJsDL5Q+n8Nbl5QirMYco=;
+	s=arc-20240116; t=1757718673; c=relaxed/simple;
+	bh=JwUkr7KIQ3b+YIhVTyf0Ggi08xnyomgNwDBWSMNZd9w=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fGk5V1v35rTVFJA2RwFJFgHKHyJTX7fFEqKU3KNvz3rOMhiilAhO/XouqzFuP72TGyVQfXNTpQxpsBYrApQwV3kqQp93jHtSAbt+qi6JMV5KL+Rp5svW4sYiDTKi9InM+ASwscRFy0rf3ZzydJV4JFZYQgY5D6XbJliyTTijDJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dUuS187c; arc=none smtp.client-ip=170.10.129.124
+	 Content-Type:MIME-Version; b=gyrxN905JQFLX9mjRycIT7CEwlkOTZk5KXpwVngjxQq5cL5iFxQUe+Mpna+UvMlDT64dvhfJu2cmKTMnWldZXKjhbBijsAO/nNnzaw1Cq73zXFpo/I1EwKXz0Qgblij0tPkNFErSV9jkfz6tlEg2zGKLEpXWEixpZej5Px66wW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MyAp5jb0; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1757717037;
+	s=mimecast20190719; t=1757718670;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=a6P9ldw7EWWakW4xzyGepuufj8vCxHmWdr7dQXNGUvg=;
-	b=dUuS187cWMLYCHiNOwSVDuqT284d+Xafhm7HH5cZ2hRiAeE8SgDndspJRX8D0vcmUYZKkK
-	5o0Q4uqpOYGUiUD/0sux+ZkvH/jpN8NjhOEYp6SmLptcrfhlv1AGn7spKW/xBSS47keYk1
-	8j3UO/NZTOBsnvHlmNk1io2faX5hQgI=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=0GAagYMN2hWuUUqdfe3xl2OgQBzj4195S0IfCdKCle0=;
+	b=MyAp5jb0M4ffpPgx9BCPNSJkdhriHEfpsg3aHAOyRvFlT3ycmWrm+QvZIcCGJ9og8BO3cD
+	Q9bdVtGRSh6moQILi5oH2qKB8KU02nvLQ1Z8ZHrGjOTBwgyjxJoa6+co3uPuhEJgBM4L3+
+	2S8FqyiSu9n5sYquP+h+gFVYLUy3k+U=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-625-pGeWXKX2NkmJD9ZHMlkrCA-1; Fri, 12 Sep 2025 18:43:54 -0400
-X-MC-Unique: pGeWXKX2NkmJD9ZHMlkrCA-1
-X-Mimecast-MFC-AGG-ID: pGeWXKX2NkmJD9ZHMlkrCA_1757717033
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-817ecd47971so822360585a.0
-        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 15:43:53 -0700 (PDT)
+ us-mta-253-mePpidYJOHKBSFNM-NQQ_Q-1; Fri, 12 Sep 2025 19:11:09 -0400
+X-MC-Unique: mePpidYJOHKBSFNM-NQQ_Q-1
+X-Mimecast-MFC-AGG-ID: mePpidYJOHKBSFNM-NQQ_Q_1757718669
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-80acebb7cb7so618891485a.3
+        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 16:11:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757717033; x=1758321833;
+        d=1e100.net; s=20230601; t=1757718669; x=1758323469;
         h=mime-version:user-agent:content-transfer-encoding:organization
          :references:in-reply-to:date:cc:to:from:subject:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=a6P9ldw7EWWakW4xzyGepuufj8vCxHmWdr7dQXNGUvg=;
-        b=hHQeETfmPR4M9GmsOuS29kD9RRMy7AFbvyhyzCIIyjyptFZv4Bvi3cOG5WjrTgJV5Z
-         MJlX+ecsw2Z/Fv6hSuZ/FQArYV9JjZG7QpiIt94QnIDFAGKknSAwEUUBkLmQtHZQK68Q
-         4AujI4uXR8/oCqdv5t3EtUXjNUnUP8onhehpRscOzjjDt7WvyiT81zFQISSHgEAnqhnh
-         4+AViyEiy3VNo9jA3JBBO+bMcNs6C2poQLnAj75LLs0BsZlBgxIi56btkqkN6RbBRsJg
-         HSlg2DXOvuYiCNAY16go7JEJY29uyNZpkVQecACbFGyR5stpLQg9ktVRcBXJUGVE1ta3
-         YHFw==
-X-Forwarded-Encrypted: i=1; AJvYcCXNotz74/g/CndTNVS1WlH/ljMbJOVwiE0dZ6OqW/tJOUwki72iEuLbSaSDO15SJiaD8n1CCptLoXQ4wg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJ8+9Rd8/6yvRcnkHeGMOzZo1u1ClQiZsnV26sik3lK0a060vL
-	FrMwCgum6cwwZbcDmjM6OvBKmDyd+gs54FWfSH6BFmQz0GQEC1dR3O62hmyfz2sZ0CSoJYyxfcj
-	IRRxGlnxdpRdrY9P5dNGQqEsnCWMuPpHGoeQUJpq+S79fiAESVQPWdzfLfWp/Bkcb
-X-Gm-Gg: ASbGncvC7PChw7o7l/v1rHA59wym6fpwNNW9D/FHp7pwqqxHXm55gbgGNSvDDhR4GpT
-	bydOxCghepIids1zjvWDq3m3IoNzGPtIxSjzCgy4xI8y3Xl7BNxS4GKHno66jSIXY+tTeR6cNPO
-	QtQLzNjWtw3W7ZFqmPd5tPcYwjnTvd3yiOm5u1/fzWujoQ4ruT81PbaiPvRvk+ixF/iLjZ7hFl4
-	MJUefpixFmkm8yDMlxG5BOLb42zBC92J4l9MgZXQxSAGT6U5YrwHtm0W9yjnJZgOcCmstrSA1EV
-	x3EaGThYiKXf39uzXc6VXaM3AKXsQmfLGfTVK/gEaoEVGeaeCFK+Q5B4GDbD2ndPg/kBCjApOrG
-	9JSxV9VvOy9h8
-X-Received: by 2002:a05:620a:2911:b0:810:a62b:1950 with SMTP id af79cd13be357-823fd6093e5mr662088885a.31.1757717033287;
-        Fri, 12 Sep 2025 15:43:53 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFkNQgtzJHTSiZ3xqgvbPf5iNk1JyhKsteflTOR7MK3s9UTcNjL9CEI84ObFl5sjeH8NNH0Tw==
-X-Received: by 2002:a05:620a:2911:b0:810:a62b:1950 with SMTP id af79cd13be357-823fd6093e5mr662085385a.31.1757717032703;
-        Fri, 12 Sep 2025 15:43:52 -0700 (PDT)
+        bh=0GAagYMN2hWuUUqdfe3xl2OgQBzj4195S0IfCdKCle0=;
+        b=Q+C3r6c1+zHHc8uVBvKSBbsmdfdgsTcbzvhns0KoKo/974xJ9LVI4h4Khksq0U441l
+         +V4K4UDpksfLGSewJeBWEOGCpNGvlacSq0E42S39FllqUduCOR1oWU087lz1bk796Qey
+         YIrAr66jFNWukdtZzw3p+IafbruyH9itTu0s+OJcKdamnzOMiIxmPIkCKgue1S8wwoZo
+         gmLqnxxlFJ6579jBClwx28bdzJVtv2bGhFJvX/9BW4xoTOvYz6dR2PYfh+MUSipA7gFd
+         Qq7XOuM7v45fVzUhn6naH8RHFTAEmkuZ3OxfwIrPPBO83apmtykkrm+Zoe9HcMwWNlq1
+         LKgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUFtLywA1NNDOZNGDivF56J8juGiF/OAeV8g/SVWNeUmrU9By4jO1JR+BKnff7sHsf4chTJp/YLt7LLbw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwOS6kwNJO6SJkR3W6UlO2dd5zg7YNG2QKKFanXYii8AgDmYwSV
+	poETDX5ujwCvmz8YBh3Ov29sXUsDKUC9h1FOPxs8oviGvzi6JYTnbA6HVOVOqG1E8uHyomzEYNe
+	W7+wmrL1UAg7AW+DR8TCBfsWF9u+ICKfPYCQZcvALOcSMQArMpvMZg3N3R+an4xZN
+X-Gm-Gg: ASbGnctstSxqqDHus4Zj9C8Uus2KRWWUPurFeRaP4CBRe/OIebcOm3UkwmFyOmdxlUx
+	ZJ7J6waBxUhhUjNbRtMTcZSL/YMG0nHc1rWeL7x1fz/HCPcP1wtwi5caqx4nNdcDTX6LXn3r+XE
+	DnejQdY8d5SjSzYOovA/ZhjKh3QrYhIul+AzqesUcuvAlG1DTCJSQaJeIZ/CBy7HbkpdmWca5JI
+	EDa5zOXoyEPyPEvXFQs9aDdg5RvSwpxMYnBj/m7xcELsVBMyf0wpThYVYI5EWzc/BNda4A+0axn
+	wiJNPzswwO7ySUsECkN8izi17S+RWmY5UKxg9yZU15NHD8dDTOnRhMzJaCuf30yecslNJ/A1PeM
+	Sh97yRYcdkcbM
+X-Received: by 2002:a05:620a:468c:b0:7e8:434f:ffa7 with SMTP id af79cd13be357-823ffbb7b70mr665579485a.52.1757718668783;
+        Fri, 12 Sep 2025 16:11:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFAjR1RKGXIOOoi4zpqOhUI7EicvZGt43tlpQ8CJikK7Mf3kjpc7ABjKmT7ci4npEdlEQm5yg==
+X-Received: by 2002:a05:620a:468c:b0:7e8:434f:ffa7 with SMTP id af79cd13be357-823ffbb7b70mr665577085a.52.1757718668395;
+        Fri, 12 Sep 2025 16:11:08 -0700 (PDT)
 Received: from [192.168.8.208] (pool-108-49-39-135.bstnma.fios.verizon.net. [108.49.39.135])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-820cfcaca15sm336548985a.71.2025.09.12.15.43.51
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-820c974c848sm343708685a.23.2025.09.12.16.11.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 15:43:52 -0700 (PDT)
-Message-ID: <534238a347c24f99cfebfd2af1d79bf24e25ed27.camel@redhat.com>
-Subject: Re: [PATCH v4 3/3] rust: Add dma_buf stub bindings
+        Fri, 12 Sep 2025 16:11:07 -0700 (PDT)
+Message-ID: <e163b636e7c13bfee8cb623f60fa75ce0d6cd029.camel@redhat.com>
+Subject: Re: [PATCH v4 0/3] Batch 2 of rust gem shmem work
 From: Lyude Paul <lyude@redhat.com>
-To: Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, 
-	dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+To: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
 	rust-for-linux@vger.kernel.org
-Cc: Daniel Almeida <daniel.almeida@collabora.com>, Miguel Ojeda	
- <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, Boqun Feng	
- <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+Cc: Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
  =?ISO-8859-1?Q?Bj=F6rn?= Roy Baron	 <bjorn3_gh@protonmail.com>, Benno
  Lossin <lossin@kernel.org>, Andreas Hindborg	 <a.hindborg@kernel.org>,
  Alice Ryhl <aliceryhl@google.com>, Trevor Gross	 <tmgross@umich.edu>,
  Danilo Krummrich <dakr@kernel.org>, Sumit Semwal	
- <sumit.semwal@linaro.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-  Viresh Kumar <viresh.kumar@linaro.org>, Wedson Almeida Filho
- <wedsonaf@gmail.com>, Tamir Duberstein	 <tamird@gmail.com>, Xiangfei Ding
- <dingxiangfei2009@gmail.com>, "open list:DMA BUFFER SHARING     
- ""FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"	
- <linux-media@vger.kernel.org>, "moderated list:DMA BUFFER SHARING     
- ""FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"	
+ <sumit.semwal@linaro.org>, Christian =?ISO-8859-1?Q?K=F6nig?=	
+ <christian.koenig@amd.com>, "open list:DMA BUFFER SHARING 
+ ""FRAMEWORK:Keyword:\\bdma_(?:buf|fence|resv)\\b"	
+ <linux-media@vger.kernel.org>, "moderated list:DMA BUFFER SHARING 
+ ""FRAMEWORK:Keyword:\\bdma_(?:buf|fence|resv)\\b"	
  <linaro-mm-sig@lists.linaro.org>
-Date: Fri, 12 Sep 2025 18:43:51 -0400
-In-Reply-To: <e1929999f89cd8d90c4454075df4ebe3bdfab36a.camel@redhat.com>
+Date: Fri, 12 Sep 2025 19:11:06 -0400
+In-Reply-To: <20250911230147.650077-1-lyude@redhat.com>
 References: <20250911230147.650077-1-lyude@redhat.com>
-			 <20250911230147.650077-4-lyude@redhat.com>
-			 <14af50d2-f759-4d89-ab9e-0afc7f9cb280@amd.com>
-		 <c00130930901db1ca4ea2d0302350ef024b23f50.camel@redhat.com>
-	 <e1929999f89cd8d90c4454075df4ebe3bdfab36a.camel@redhat.com>
 Organization: Red Hat Inc.
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -119,181 +111,46 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
-Agh! Sorry for the spam, I should have double checked the code before writi=
-ng
-this as I realized the reason I didn't implement this. Correct me if I'm wr=
-ong
-here since it's the first time I've interacted very much with this API in t=
-he
-kernel but: it seems like the reference counting for dma_buf objects is
-intended to be used for keeping a dma_buf's fd around while userspace is st=
-ill
-accessing it and not for use internally by drivers themselves, correct?
+JFYI, after talking with Alice Rhyl we figured since we're not going to be
+getting a user of these bindings into the kernel in time for rc6 that it ma=
+de
+more sense to just merge the two C-side patches into drm-misc-next instead =
+of
+drm-rust-next.
 
-On Fri, 2025-09-12 at 18:32 -0400, Lyude Paul wrote:
-> =E2=80=A6though, I just realized immediately after sending that response =
-to you that I
-> mentioned that this type is reference counted in the commit message - but=
- I
-> never actually added an implementation for AlwaysRefCounted. So, that's a=
-t
-> least one additional thing I will make sure to add. Similarly though, I d=
-on't
-> think doing that would require us to interact with any locking or sg_tabl=
-es
-> since we're not yet exposing any actual operations on DmaBuf.
+I've pushed those two patches to drm-misc-next, and am going to wait until
+we've addressed Christian's concerns before looking into pushing the dma_bu=
+f
+stub bindings.
+
+On Thu, 2025-09-11 at 18:57 -0400, Lyude Paul wrote:
+> Now that we're getting close to reaching the finish line for upstreaming
+> the rust gem shmem bindings, we've got another batch of patches that
+> have been reviewed and can be safely pushed to drm-rust-next
+> independently of the rest of the series.
 >=20
-> On Fri, 2025-09-12 at 18:29 -0400, Lyude Paul wrote:
-> > On Fri, 2025-09-12 at 10:25 +0200, Christian K=C3=B6nig wrote:
-> > > On 12.09.25 00:57, Lyude Paul wrote:
-> > > > In order to implement the gem export callback, we need a type to re=
-present
-> > > > struct dma_buf. So - this commit introduces a set of stub bindings =
-for
-> > > > dma_buf. These bindings provide a ref-counted DmaBuf object, but do=
-n't
-> > > > currently implement any functionality for using the DmaBuf.
-> > >=20
-> > > Especially the last sentence is a bit problematic.
-> > >=20
-> > > Wrapping a DMA-buf object should be pretty easy, the hard part is the=
- operations on the DMA-buf object.
-> > >=20
-> > > E.g. how are locking and sg_table creation handled?
-> >=20
-> > Mind clarifying a bit what you're talking about here?
-> >=20
-> > FWIW: regarding sg_table creation, we currently have two ways of doing =
-this in
-> > rust:
-> >=20
-> >  * Manually, using the scatterlist rust bindings that were recently mer=
-ged
-> >    into drm-rust-next
-> >  * Through a DRM helper provided by gem shmem, ATM this would be either
-> >     - `gem::shmem::BaseObject::<T: DriverObject>::sg_table()`
-> >     - `gem::shmem::BaseObject::<T: DriverObject>::owned_sg_table()`
-> >       (both of these just use drm_gem_shmem_get_pages_sgt())
-> >=20
-> > However, I don't think we currently have any interactions in the bindin=
-gs
-> > we've written so far between SGTable and DmaBuf and I don't currently h=
-ave any
-> > plans for this on my roadmap.
-> >=20
-> > Regarding locking: I'm not totally sure what locking you're referring t=
-o here?
-> > To be clear - I'm explicitly /not/ trying to deal with the issue of sol=
-ving
-> > how operations on the DmaBuf object work in rust, and instead simply co=
-me up
-> > with the bare minimum interface needed so that we can return a DmaBuf c=
-reated
-> > from the drm_gem_prime_export() helper (e.g. gem::BaseObject::prime_exp=
-ort())
-> > from a driver's gem::DriverObject::export() callback. Or alternatively,
-> > destroy it in the event that said callback fails.
-> >=20
-> > Unless there's some locking interaction I missed that we need to solve =
-to
-> > fulfill those two goals, I'm not aware of any rust driver that needs an=
-ything
-> > beyond that just yet. As such, I assumed this interface would touch a s=
-mall
-> > enough surface of the dma-buf API that it shouldn't set any concrete
-> > requirements on how a fully-fledged dma-buf api in rust would work in t=
-he
-> > future. And at the same time, still allow us to move forward with the s=
-hmem
-> > bindings, and make sure that the surface area of the stub API is small =
-enough
-> > that adding the rest of the functionality to it later doesn't require a=
-ny non-
-> > trivial changes to current users.
-> >=20
-> > >=20
-> > > Regards,
-> > > Christian.
-> > >=20
-> > > >=20
-> > > > Signed-off-by: Lyude Paul <lyude@redhat.com>
-> > > > Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
-> > > >=20
-> > > > ---
-> > > > V3:
-> > > > * Rename as_ref() to from_raw()
-> > > > V4:
-> > > > * Add missing period to rustdoc at top of file
-> > > >=20
-> > > >  rust/kernel/dma_buf.rs | 40 ++++++++++++++++++++++++++++++++++++++=
-++
-> > > >  rust/kernel/lib.rs     |  1 +
-> > > >  2 files changed, 41 insertions(+)
-> > > >  create mode 100644 rust/kernel/dma_buf.rs
-> > > >=20
-> > > > diff --git a/rust/kernel/dma_buf.rs b/rust/kernel/dma_buf.rs
-> > > > new file mode 100644
-> > > > index 0000000000000..50be3e4dd4098
-> > > > --- /dev/null
-> > > > +++ b/rust/kernel/dma_buf.rs
-> > > > @@ -0,0 +1,40 @@
-> > > > +// SPDX-License-Identifier: GPL-2.0
-> > > > +
-> > > > +//! DMA buffer API.
-> > > > +//!
-> > > > +//! C header: [`include/linux/dma-buf.h`](srctree/include/linux/dm=
-a-buf.h)
-> > > > +
-> > > > +use bindings;
-> > > > +use kernel::types::*;
-> > > > +
-> > > > +/// A DMA buffer object.
-> > > > +///
-> > > > +/// # Invariants
-> > > > +///
-> > > > +/// The data layout of this type is equivalent to that of `struct =
-dma_buf`.
-> > > > +#[repr(transparent)]
-> > > > +pub struct DmaBuf(Opaque<bindings::dma_buf>);
-> > > > +
-> > > > +// SAFETY: `struct dma_buf` is thread-safe
-> > > > +unsafe impl Send for DmaBuf {}
-> > > > +// SAFETY: `struct dma_buf` is thread-safe
-> > > > +unsafe impl Sync for DmaBuf {}
-> > > > +
-> > > > +#[expect(unused)]
-> > > > +impl DmaBuf {
-> > > > +    /// Convert from a `*mut bindings::dma_buf` to a [`DmaBuf`].
-> > > > +    ///
-> > > > +    /// # Safety
-> > > > +    ///
-> > > > +    /// The caller guarantees that `self_ptr` points to a valid in=
-itialized `struct dma_buf` for the
-> > > > +    /// duration of the lifetime of `'a`, and promises to not viol=
-ate rust's data aliasing rules
-> > > > +    /// using the reference provided by this function.
-> > > > +    pub(crate) unsafe fn from_raw<'a>(self_ptr: *mut bindings::dma=
-_buf) -> &'a Self {
-> > > > +        // SAFETY: Our data layout is equivalent to `dma_buf` .
-> > > > +        unsafe { &*self_ptr.cast() }
-> > > > +    }
-> > > > +
-> > > > +    pub(crate) fn as_raw(&self) -> *mut bindings::dma_buf {
-> > > > +        self.0.get()
-> > > > +    }
-> > > > +}
-> > > > diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
-> > > > index fcffc3988a903..59242d83efe21 100644
-> > > > --- a/rust/kernel/lib.rs
-> > > > +++ b/rust/kernel/lib.rs
-> > > > @@ -81,6 +81,7 @@
-> > > >  pub mod device_id;
-> > > >  pub mod devres;
-> > > >  pub mod dma;
-> > > > +pub mod dma_buf;
-> > > >  pub mod driver;
-> > > >  #[cfg(CONFIG_DRM =3D "y")]
-> > > >  pub mod drm;
+> These patches of course apply against the drm-rust-next branch, and are
+> part of the gem shmem series, the latest version of which can be found
+> here:
+>=20
+> https://patchwork.freedesktop.org/series/146465/
+>=20
+> Lyude Paul (3):
+>   drm/gem/shmem: Extract drm_gem_shmem_init() from
+>     drm_gem_shmem_create()
+>   drm/gem/shmem: Extract drm_gem_shmem_release() from
+>     drm_gem_shmem_free()
+>   rust: Add dma_buf stub bindings
+>=20
+>  drivers/gpu/drm/drm_gem_shmem_helper.c | 98 ++++++++++++++++++--------
+>  include/drm/drm_gem_shmem_helper.h     |  2 +
+>  rust/kernel/dma_buf.rs                 | 40 +++++++++++
+>  rust/kernel/lib.rs                     |  1 +
+>  4 files changed, 111 insertions(+), 30 deletions(-)
+>  create mode 100644 rust/kernel/dma_buf.rs
+>=20
+>=20
+> base-commit: cf4fd52e323604ccfa8390917593e1fb965653ee
 
 --=20
 Cheers,
