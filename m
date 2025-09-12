@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-42452-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42453-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 475CBB55159
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 16:27:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B9C75B5517E
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 16:29:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 09D703A1696
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:27:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E0AED1D657A4
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:27:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92B4C329F11;
-	Fri, 12 Sep 2025 14:23:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D2EC131A058;
+	Fri, 12 Sep 2025 14:23:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bsvX46yj"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="iPTq0sfr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BC9D5324B14
-	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 14:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6500E1A9F9B
+	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 14:23:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757687005; cv=none; b=SP2LpbpjILuR12DVHwfUmvOwTq6gLezg7xoJrrLYEU1GU/nEYdHBLjGSYryHWaPd0smAOr2MRhk1mYyd6B9AltxhlXVL0i25JhBK3rruDLh3x24dOrzQUET4tizLiir4JW6Zs6jMnYh/oPm2hslNIC9ePSkqB/8buze/E8juQvA=
+	t=1757687022; cv=none; b=B3ren0wWZ36lxXVZpu5JhlwQMP2vtK1nOmS6vOjHfbeOn1dwNAJhx3IQ5kquJF0bieW3nM/7A7PHoeFM01iLnSZsCSbCiu4pTkYJ166qgLWrc4WRxG/ETvIHkQ2hSTYcu4+ZYs0LbpXBAX3kxFjYi0aReYCr/BRiY97t/8l/F2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757687005; c=relaxed/simple;
-	bh=unhgIN6U+zpitqxvR0gDATDfv301/LFJXEAxIROoZKE=;
+	s=arc-20240116; t=1757687022; c=relaxed/simple;
+	bh=tW3dD0f9mh8+C6/rT/zFdbcRv73mdEmEtYeki1+tjR8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qVg8n7kQclQ8bdgYFz9z2lb4gIXcxMsTv61yLwgdipX8uiZWq+CpFznNXA5qhuDzLfyZJ0dXKrDmuhiw8YQi0ZU8VbotZxAMhuRAIcz8d5JgYVedGPRJTctsuw2pzfcKuVhRaEHhjoM7N9NR8JgAMQgiSMcmLG4mH7cp8elMz8A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bsvX46yj; arc=none smtp.client-ip=209.85.128.53
+	 In-Reply-To:Content-Type; b=uUTkjtyK5Z2dBl2HSV774UdFoZsDcE2OuyaEpfZ+Cnsftgt8tLjgUdWAcjOG431InayAbrfCGuMH408i1wpLEAiSLFlP/UdgvOsoJkAcLymqefnAX99mHET2n4GvrQLP6/DN0y4l1BJ35WCclXrVjAQ1/rEy2jK6+IHT4m01Tag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=iPTq0sfr; arc=none smtp.client-ip=209.85.128.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-45de287cc11so17011925e9.1
-        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 07:23:22 -0700 (PDT)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-45cb6428c46so23686475e9.1
+        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 07:23:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757687001; x=1758291801; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757687019; x=1758291819; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=1Ug4rvDJVrD/KFt1LWLn8j4wXGstlIATd7OgVTytDCs=;
-        b=bsvX46yjVssnuPus1LkFdNw75J27YW2pphTF9IbX6pHY2uYDIJKXxxXlKMnKpGyPke
-         pgKRAMtSNku6i2Mvs9B3qr08aS3XKsEt0J0Mn4Qk1p3WNJpJm5AXVGLySwHhptKePYBF
-         MFcfjXOgLegeC+ftlwnUa1/XXDSBB+aogSzK/h8ZEAeyr0eUDyXI7AoF5LjG8f8VAVTW
-         4HwZN/jrZ9lHTWaJRAIk7EcugflXYFqDyuHoqSX7SYQlPCOhmqjNrjc8FW2ynNQYOtNm
-         lW1sLNQXuMwmVKoKDDs6Ue8/VrDbufxyib9QimqWJIizwu/DW1DVVUlxRcX6V80jpHQy
-         Ybfw==
+        bh=N4l5zcHW0vFYm8FJd3A+gQjJTt3Y7IkPRU+Kv8jpny4=;
+        b=iPTq0sfrw17USnREcvrpqPmDPcArTqXrmPfohEYoWLm50L5PCPMVD0nQE+g+z69e1K
+         kVkWy8+TFNxpT4hCKWIacYdQCF778GOXMXvfSKN5pHBbBEVoxdcUf6hYtaMrtrYyk+t3
+         wdm0cz4UMIrivGV7bwvG+fVa6VRnsFKgqkm78ClRooJX6C147BF0A0vj9wkYiQeQzUNl
+         0IjrTSNEuAZMqqtTwaB7Flms36UiiZHU+fKKayQsxXdxHCNjETtBOpBaobK5lEEOFboB
+         qgiY8zr4JrEu629ZVM3jQPeetLQO0jp55XQ9vA5g+MG+05jAKRxhrb0VvqBKs3Z59iWw
+         NpzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757687001; x=1758291801;
+        d=1e100.net; s=20230601; t=1757687019; x=1758291819;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=1Ug4rvDJVrD/KFt1LWLn8j4wXGstlIATd7OgVTytDCs=;
-        b=YINCgr376Ls13iFsWkLOgVq7zgksTk3NBX9glzYbJuIb2bxZmdY4MSKdaRZ48czL18
-         oEXeYYEQs+jmfo7BRL+gUX1yx+9bFXj09wa8LElJzUXbI+Jr3dLh87rEQjBP64EwqxY4
-         117Yl85t87dbzJsV0QnkoN1TU2wSWnOBw9tOn9wCJ2BlHu6E3ygpAXzAg0UT7tG8acN3
-         xklxRcdMqG4t3+MyARf5bcz01jQ+g4pOhIpQdlZ74rixlV+TS0u4gVscd9SFEbXtANQJ
-         IkY9hb7jtJ9ZCvNk+VoqdepJcju6o7iNPwm5mK5DNeOwUsTNQ0eNVL/AMz3nuYEQsWhZ
-         rMOA==
-X-Forwarded-Encrypted: i=1; AJvYcCWH1/iIaDcOfyNuvbLNZ0RHWI5/G7xiM3XtuqAkgPJqPfgPUNM0A9rbPLc0weDW+rn7gfvrpQe1dlPYdw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwFrtiNs04e6Kjwhkgxj/omtI1T8mqLcd8TKCT6l7TZBUag1htB
-	BlDcNEmlQpVQZ8z61/57jTdKnJ4u5tNzUHRJI2Y7Yr9PA9K0qQ4SBc5c
-X-Gm-Gg: ASbGncugohb9321Cg6KaoHFlzvq5C7HhA0ciHOlZrbS+S2J8HBxUGjf/exf/lgk+yVI
-	LV7OpERRNGmYeY8x7xQt0EgE/rF0XwwDXbKNTdwP6pAAgUqNp5OgHLSv3ri1JR6Q1pIK+d7cB74
-	5hsajWuL0tgmJ7O0HMEhT5UktFTN81WDHXRHZJCkkFLLzHvcyA24ctLGS5coqfYZ9AKhjSXEP3l
-	rhj4EduKWmobLwGsRe6GULpkKBkUuOehQIK0gvatGFCnRis32DkVGjEBTMdZtCDo5MkFQxcJj7h
-	OHZyJVcfjsEH56YiYcXY2OSFfI8yft8ktltLoEVEISmovZH7hBTTKMl43EtY2VSzLHeFIXjdLtM
-	uGQnblw7xH25CZWw8Co8EgN6syKa++7uBYh5+2mv4qA==
-X-Google-Smtp-Source: AGHT+IE5UXOItxjbn0zFICANNc5GuRpVNR7hiqiKPBU9+i1k2C8vaMc+CHm3lHcY/3oRsKpLL3Rr0Q==
-X-Received: by 2002:a05:600c:468a:b0:45d:5c71:769d with SMTP id 5b1f17b1804b1-45f2126253emr34464315e9.8.1757687000920;
-        Fri, 12 Sep 2025 07:23:20 -0700 (PDT)
+        bh=N4l5zcHW0vFYm8FJd3A+gQjJTt3Y7IkPRU+Kv8jpny4=;
+        b=BpiKxMXSA1KImSfe1fLXf5fC6s9VspIpUoLvINYKvob9OTQdKEhVqIIpQSCH94CDu8
+         63Ek0dupq9eMt1yryMyHYyxfCt3hNa6H8F6A0n+yTLhyjB41oRyDOa1zD/7FR811hNyg
+         0fQ4aM0+O4m+XNTQ7vlO5Gf9LjvfoBcEDFQKrfWEpSLNNmJX5anQlNgj3wyXWp82Rjgh
+         SWyKk3fb9cmAXlMHskppuNa9WKogmzL9WDGzczZsbmLw4XfjD4XAEjqHRVpF0xe8APmP
+         twTJuSIPVtBbNVV2whljtBEv66kJR8yWZD/taqsK948pYXcAb38ssRloyljpvlwhIbfx
+         QnrA==
+X-Forwarded-Encrypted: i=1; AJvYcCVfDO9ZYf8ZvdyXE1yqFnayKkw32kTI002+c7Z4iwN5aUcWb/AuVihqkwVr5M8wfv9m7vEdL4PMWGrIhg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+HMKNGM2gOE3v2Y42xrS7Y/tVxmiYPNPCPtrmkLnR4HMbsbPX
+	iRjd3U/YJ5GCqBNTLpLNWgxMuqdRzeOzcyhJkZVSz2D2Ng/wfRZLfJwx
+X-Gm-Gg: ASbGnctNclEh+K0uBCL0K6mn1vQp5IfjhLE0cSXPbOnT9d4vBT/dtqjiApxoGhee8mj
+	6Ju3GRZRIizMFd0F/x4qJ5I6dhHphtsx080gpaLmBwETymFKscf+xCRyk2o68sQgzUWyhD4eIqK
+	uvVgAz3F6u5V5TZLJFGw9lPgaZbM3JSiUTFs+vd5l9iGhDGKMOucMCm1Jb8MQ1hYTai57qYVggq
+	oYtxs/tgnGeULZY63K1HgTkSuHvf7MuvOYWk7ciFzwiaPh/TMU5F7vPImMp+OO99G0JEP24AyFG
+	fcBacqCjGVgG/wVjA4kxpzGtC+xJ7V4TdNUGZq8HI6SPJMHhcPqb2aDuVr2dfG3GiCxGyDutXFz
+	navwh7zet3Yb9Q24qLFBVYltyXPtDaVk=
+X-Google-Smtp-Source: AGHT+IEmlb8djEP9UynDPDjjLEk8BahcV4jQiKIO9mchkJOf8JIm0XRWhLHxnVD8kQdDLWFmpvT50A==
+X-Received: by 2002:a05:600c:1d2a:b0:45b:9c93:d21d with SMTP id 5b1f17b1804b1-45f24ef20d0mr17392095e9.8.1757687018297;
+        Fri, 12 Sep 2025 07:23:38 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e016b5a2esm67200825e9.13.2025.09.12.07.23.13
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e037c9d91sm62800735e9.20.2025.09.12.07.23.33
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 07:23:18 -0700 (PDT)
-Message-ID: <30468c15-16bf-4c20-bef3-35d58b9a31b1@gmail.com>
-Date: Fri, 12 Sep 2025 16:23:11 +0200
+        Fri, 12 Sep 2025 07:23:36 -0700 (PDT)
+Message-ID: <6ae96168-7066-4881-a228-16e57d0f6e27@gmail.com>
+Date: Fri, 12 Sep 2025 16:23:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,8 +83,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 37/38] arm64: dts: mediatek: mt8395-kontron-i1200: Fix
- MT6360 regulator nodes
+Subject: Re: [PATCH 38/38] arm64: dts: mediatek: mt8516-pumpkin: Fix machine
+ compatible
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-mediatek@lists.infradead.org, robh@kernel.org
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
@@ -108,7 +108,7 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-38-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-39-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -154,103 +154,38 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-38-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-39-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 24/07/2025 10:39, AngeloGioacchino Del Regno wrote:
-> All of the MT6360 regulator nodes were wrong and would not probe
-> because the regulator names are supposed to be lower case, but
-> they are upper case in this devicetree.
+> This devicetree contained only the SoC compatible but lacked the
+> machine specific one: add a "mediatek,mt8516-pumpkin" compatible
+> to the list to fix dtbs_check warnings.
 > 
-> Change all nodes to be lower case to get working regulators.
-> 
-> Fixes: 94aaf79a6af5 ("arm64: dts: mediatek: add Kontron 3.5"-SBC-i1200")
+> Fixes: 9983822c8cf9 ("arm64: dts: mediatek: add pumpkin board dts")
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 Applied, thanks
 
 > ---
->   .../mediatek/mt8395-kontron-3-5-sbc-i1200.dts    | 16 ++++++++--------
->   1 file changed, 8 insertions(+), 8 deletions(-)
+>   arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dts b/arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dts
-> index 4985b65925a9..d16f545cbbb2 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt8395-kontron-3-5-sbc-i1200.dts
-> @@ -352,7 +352,7 @@ regulator {
->   			LDO_VIN2-supply = <&vsys>;
->   			LDO_VIN3-supply = <&vsys>;
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts b/arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts
+> index cce642c53812..3d3db33a64dc 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts
+> +++ b/arch/arm64/boot/dts/mediatek/mt8516-pumpkin.dts
+> @@ -11,7 +11,7 @@
 >   
-> -			mt6360_buck1: BUCK1 {
-> +			mt6360_buck1: buck1 {
->   				regulator-name = "emi_vdd2";
->   				regulator-min-microvolt = <600000>;
->   				regulator-max-microvolt = <1800000>;
-> @@ -362,7 +362,7 @@ MT6360_OPMODE_LP
->   				regulator-always-on;
->   			};
+>   / {
+>   	model = "Pumpkin MT8516";
+> -	compatible = "mediatek,mt8516";
+> +	compatible = "mediatek,mt8516-pumpkin", "mediatek,mt8516";
 >   
-> -			mt6360_buck2: BUCK2 {
-> +			mt6360_buck2: buck2 {
->   				regulator-name = "emi_vddq";
->   				regulator-min-microvolt = <300000>;
->   				regulator-max-microvolt = <1300000>;
-> @@ -372,7 +372,7 @@ MT6360_OPMODE_LP
->   				regulator-always-on;
->   			};
->   
-> -			mt6360_ldo1: LDO1 {
-> +			mt6360_ldo1: ldo1 {
->   				regulator-name = "mt6360_ldo1"; /* Test point */
->   				regulator-min-microvolt = <1200000>;
->   				regulator-max-microvolt = <3600000>;
-> @@ -380,7 +380,7 @@ mt6360_ldo1: LDO1 {
->   							   MT6360_OPMODE_LP>;
->   			};
->   
-> -			mt6360_ldo2: LDO2 {
-> +			mt6360_ldo2: ldo2 {
->   				regulator-name = "panel1_p1v8";
->   				regulator-min-microvolt = <1800000>;
->   				regulator-max-microvolt = <1800000>;
-> @@ -388,7 +388,7 @@ mt6360_ldo2: LDO2 {
->   							   MT6360_OPMODE_LP>;
->   			};
->   
-> -			mt6360_ldo3: LDO3 {
-> +			mt6360_ldo3: ldo3 {
->   				regulator-name = "vmc_pmu";
->   				regulator-min-microvolt = <1800000>;
->   				regulator-max-microvolt = <3300000>;
-> @@ -396,7 +396,7 @@ mt6360_ldo3: LDO3 {
->   							   MT6360_OPMODE_LP>;
->   			};
->   
-> -			mt6360_ldo5: LDO5 {
-> +			mt6360_ldo5: ldo5 {
->   				regulator-name = "vmch_pmu";
->   				regulator-min-microvolt = <3300000>;
->   				regulator-max-microvolt = <3300000>;
-> @@ -404,7 +404,7 @@ mt6360_ldo5: LDO5 {
->   							   MT6360_OPMODE_LP>;
->   			};
->   
-> -			mt6360_ldo6: LDO6 {
-> +			mt6360_ldo6: ldo6 {
->   				regulator-name = "mt6360_ldo6"; /* Test point */
->   				regulator-min-microvolt = <500000>;
->   				regulator-max-microvolt = <2100000>;
-> @@ -412,7 +412,7 @@ mt6360_ldo6: LDO6 {
->   							   MT6360_OPMODE_LP>;
->   			};
->   
-> -			mt6360_ldo7: LDO7 {
-> +			mt6360_ldo7: ldo7 {
->   				regulator-name = "emi_vmddr_en";
->   				regulator-min-microvolt = <1800000>;
->   				regulator-max-microvolt = <1800000>;
+>   	memory@40000000 {
+>   		device_type = "memory";
 
 
