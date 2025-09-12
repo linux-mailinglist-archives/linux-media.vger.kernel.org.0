@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-42436-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42437-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0957DB55096
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 16:13:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0FE3DB5509A
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 16:13:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2329F1D64624
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:14:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 49C4F1D6473C
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:14:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 614463164B4;
-	Fri, 12 Sep 2025 14:12:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BACB7317708;
+	Fri, 12 Sep 2025 14:12:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Sd/4W/Ns"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="IYJpBUJ9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EED4E30F7F7;
-	Fri, 12 Sep 2025 14:12:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607473164CA;
+	Fri, 12 Sep 2025 14:12:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757686341; cv=none; b=L7edFkrS1dGLsRj6FlfmzC2FUOaQnMo5hlxFv7B889vlNb54eJdTx+L1z7lYMh9BIhCQZnCFfLSKJmewxRtHp59ekDooTxIDYFavldL6PssDueOQaetboQltd26rcrfXPjxaRjIPvsiYk8PU5x3f9kRBhrb6KGQyKkPo2ymy3JA=
+	t=1757686347; cv=none; b=kEAmpO0/aKivHS8LrALj8B9k3i+YeYGd65A6lifR8+EKi+pwtIz0nekwIYwTtPi0cRfCUxlezRkb6TnV/U1Au5QobA8fAedh3bAhJtSDZbRwOeDPfIcJ6jYamz9RdlJTG0r2kMR3O2fNVumvx18AdwfVV24UAsUj8TQ3qsBrBJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757686341; c=relaxed/simple;
-	bh=XNRGG0NK/Nz249Hb/tf9r1n5uPMiMWuRcLibzyxL4JY=;
+	s=arc-20240116; t=1757686347; c=relaxed/simple;
+	bh=7KR6HrHJU7oRu+YQt01RqrfJssPhbl8TlOcX5J3670s=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=POEx8w7ImAiI1YtoNBy+bLNjX1aZvESORWwSH+jp/WcRf298p3YWQjtIIidcV+y1IToB2HFO2LxH3a8pf7/QEF6ytjfrscm/lPiO1kVP8M4viJX6FAwiCzABQCMtGdhwaSPY1ig1xDCrpONjjMVgEflDb7/1s93ua7TE2Cuo1Jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Sd/4W/Ns; arc=none smtp.client-ip=205.220.180.131
+	 MIME-Version:Content-Type; b=GeLUriYZEFtDd1QzBIA+LihPMzixiBbvOtstF+kW+1SrljlxSFhtMKVesZnm3dH++xJbQeTis+732KMTIefvP1aGXPMVNwZX6GA9HGbQuUn4BT+TO8EbQux7WAiBb4ClaaZ1xtxprruq4dvFT8ES19waQKjpInXzs+oL9/BE4r0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=IYJpBUJ9; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58C9fD4E017436;
-	Fri, 12 Sep 2025 14:12:10 GMT
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58C9fEJ3001295;
+	Fri, 12 Sep 2025 14:12:16 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YaOp/t3SLRaBjx3H4V2Xff7RXEwa1QPYujP2NpSuZng=; b=Sd/4W/NsqKp/gEmb
-	cvt3XUJ/al8YZ2eR3A8QKZB2TcQGOekjcVMehKDlGI6Cat4eYNiUKTvCkPIwi1Yz
-	QQj8/YPzH06qO5a/0QdR9Jdt6Z3h+AzeLDzAX1xM01IkSorLBiFmAIF9LfWHq/Y/
-	K9JS+k4guovzHy4aRBBBNQyuDJTvpeLNm7TzsfN4UooaQ61hc3mKNYrlWZ29/yeT
-	Ykwia56ZuAy3ARgOGsNWlw4uzeVyTicgdqAGJbgZvhH082GqACjsMNKiq5+RAUG4
-	bTWTnQrUvr+cJPfAHK6nYlSp7Im4gnBlm1XMO0HFEcli25nghDjfZLyQK7rdPFOO
-	BV7ukA==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 490db8uy0v-1
+	nwMW5r0Tc8149DtyycM8Duh/W1fGQFMGOMvWssNqYbM=; b=IYJpBUJ93mIn5eDK
+	AL3TnpKJnp2DWvGL+d/7i4S7AgiKDeHuC+t3gQ3FG04+Me/I8CEGUFX/y+i6dE5F
+	LRrCWHv7KAGN0n4cXnvOtN3EmLEvWw6UYHeiIcpygyEk4dsqLw7VkCYHeOlTxcQd
+	dDCRyOBE09UiV+PdmOEQ2oed3PWSXv4pvIcl7iNkQph5WsiQkx/3KwNHP4XRozLB
+	AdMpncUQz3y2YVBcb18USlJnfw3bj4kMo5/VKYnh2xdX8IgWlP+6MI6MU1c7FtLS
+	Rrc0BNi/dRI/srk6R0E1uIxf1MN8A/gc7ZM/K05ytTAPWbAb1Ndao2VLvamoK1UD
+	xTa//Q==
+Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 493f6h6uyn-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 12 Sep 2025 14:12:10 +0000 (GMT)
+	Fri, 12 Sep 2025 14:12:15 +0000 (GMT)
 Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 58CEC8qR008878
+	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 58CECE2C007617
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 12 Sep 2025 14:12:08 GMT
+	Fri, 12 Sep 2025 14:12:15 GMT
 Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
  nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.24; Fri, 12 Sep 2025 07:12:02 -0700
+ 15.2.1748.24; Fri, 12 Sep 2025 07:12:08 -0700
 From: Vikram Sharma <quic_vikramsa@quicinc.com>
 To: <vladimir.zapolskiy@linaro.org>, <bryan.odonoghue@linaro.org>,
         <mchehab@kernel.org>, <robh@kernel.org>, <krzk+dt@kernel.org>,
@@ -70,9 +70,9 @@ CC: <linux-arm-kernel@lists.infradead.org>, <quic_vikramsa@quicinc.com>,
         Ravi Shankar
 	<quic_rshankar@quicinc.com>,
         Vishal Verma <quic_vishverm@quicinc.com>
-Subject: [PATCH v2 2/3] arm64: dts: qcom: qcs8300: Add CCI definitions
-Date: Fri, 12 Sep 2025 19:41:33 +0530
-Message-ID: <20250912141134.2799078-3-quic_vikramsa@quicinc.com>
+Subject: [PATCH v2 3/3] arm64: dts: qcom: monaco-evk-camera: Add DT overlay
+Date: Fri, 12 Sep 2025 19:41:34 +0530
+Message-ID: <20250912141134.2799078-4-quic_vikramsa@quicinc.com>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20250912141134.2799078-1-quic_vikramsa@quicinc.com>
 References: <20250912141134.2799078-1-quic_vikramsa@quicinc.com>
@@ -88,374 +88,177 @@ X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
  nasanex01b.na.qualcomm.com (10.46.141.250)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA2MDAzMSBTYWx0ZWRfX2OBOye60QwRM
- mn08GMn8SrFiHNoaRKP6cwoAPVGrsi60BqZWKj/2aXTGOzcLKVYqfxHsq1/p9ssNLtWrAh+g8MH
- vjrTXw/7mCMsZ3vAl8u871vT/EqqKyPp7TiIHZHd64oHDarUgWCZaeqQ/q02AawMXt0/EOIsTCq
- +cRJU0aXsPrcDXFIcqjQi6u5x9P+O1sor6kRBBVgCmTbZumES4FftrA+XjXLAYa2OuQWgsGreF6
- qOsL3XZiyQKtyq2ToNJ58gbXJxtYsvQBCe+zSX6qv9PQLWy60wXMrLsYec137/p1kJXHfhCUJnU
- Z8V6JFuUaBklA7pGmrKgDhXiz1cdSFDAD62SXvH64d4PWILxHuhQ+Kaho/JHLeRd2AT6niCZ5R7
- TAkHihrg
-X-Proofpoint-ORIG-GUID: cV6tO8_mXUcPIABlg-Dm6hA9iIXg9Jxr
-X-Proofpoint-GUID: cV6tO8_mXUcPIABlg-Dm6hA9iIXg9Jxr
-X-Authority-Analysis: v=2.4 cv=VIDdn8PX c=1 sm=1 tr=0 ts=68c42a3a cx=c_pps
+X-Proofpoint-ORIG-GUID: YbmGek3WeGiFp1kwTX83FEhngAgsMIjT
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEwMDE3NyBTYWx0ZWRfXxjh8Xb1u1UX2
+ u5F76h39jfZRFRnRBs8RcyNUH/psNStCpWODtoK1aDm7nENl7CReC2AfvmbkD3PP0hGcXZMCDsX
+ cjlKlGj3ypEUP+C/FSbmyUaJARBvSknDIYDnrlMQu/hnzoP1Ft0fbjLglqEl8pzbeXBsKKiCYA5
+ NC912eOeMe4sF5MJg2LNT58PDZRlKD1AlCPQx6yOWcfYJdo4qoNHIK/m1WjY1TJmbBQpw65b9+G
+ f3BsN89nvqBX9qjXyZxGqhZ//MrByf78lAUDW0YzWoEgh60eNnpd7jUTcK7OfCZstXBTN2MycpI
+ qcByKVVipmbHA1B67dOCzIChRaIExoMtq9/7Fm3rA6JdWGucyVvSreCwqiRgU+lEPcoHYqJ5z/k
+ +mg4D+9K
+X-Authority-Analysis: v=2.4 cv=WPB/XmsR c=1 sm=1 tr=0 ts=68c42a3f cx=c_pps
  a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=aZJ5v1Ye_Xp1hk7wVuMA:9
+ a=GEpy-HfZoHoA:10 a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=1o0OAiIl6arAuPHRMUsA:9
  a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: YbmGek3WeGiFp1kwTX83FEhngAgsMIjT
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-12_05,2025-09-11_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 malwarescore=0 spamscore=0 suspectscore=0 bulkscore=0
- phishscore=0 adultscore=0 clxscore=1015 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509060031
+ impostorscore=0 spamscore=0 clxscore=1011 priorityscore=1501 adultscore=0
+ bulkscore=0 phishscore=0 suspectscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509100177
 
 From: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
 
-Add support for three Camera Control Interface (CCI) controllers
-on the Qualcomm QCS8300 SoC. Configure clocks, power domains,
-pinctrl states and two I2C buses (i2c0, i2c1) with 1 MHz frequency.
-Nodes are added in a disabled state by default.
+Monaco EVK board does not include a camera sensor in its default hardware
+configuration. Introducing a device tree overlay to support optional
+integration of the IMX577 sensor via CSIPHY1.
+
+Camera reset is handled through an I2C expander, and power is enabled
+via TLMM GPIO74.
+
+An example media-ctl pipeline for the imx577 is:
+
+media-ctl --reset
+media-ctl -V '"imx577 3-001a":0[fmt:SRGGB10/4056x3040 field:none]'
+media-ctl -V '"msm_csiphy1":0[fmt:SRGGB10/4056x3040]'
+media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+media-ctl -l '"msm_csiphy1":1->"msm_csid0":0[1]'
+media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
+yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video1
 
 Co-developed-by: Ravi Shankar <quic_rshankar@quicinc.com>
 Signed-off-by: Ravi Shankar <quic_rshankar@quicinc.com>
 Co-developed-by: Vishal Verma <quic_vishverm@quicinc.com>
 Signed-off-by: Vishal Verma <quic_vishverm@quicinc.com>
-Co-developed-by: Suresh Vankadara <quic_svankada@quicinc.com>
-Signed-off-by: Suresh Vankadara <quic_svankada@quicinc.com>
 Signed-off-by: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
 Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
 ---
- arch/arm64/boot/dts/qcom/qcs8300.dtsi | 309 ++++++++++++++++++++++++++
- 1 file changed, 309 insertions(+)
+ arch/arm64/boot/dts/qcom/Makefile             |  4 +
+ .../dts/qcom/monaco-evk-camera-imx577.dtso    | 96 +++++++++++++++++++
+ 2 files changed, 100 insertions(+)
+ create mode 100644 arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso
 
-diff --git a/arch/arm64/boot/dts/qcom/qcs8300.dtsi b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
-index a248e269d72d..a69719e291ea 100644
---- a/arch/arm64/boot/dts/qcom/qcs8300.dtsi
-+++ b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
-@@ -4681,6 +4681,123 @@ videocc: clock-controller@abf0000 {
- 			#power-domain-cells = <1>;
- 		};
- 
-+		cci0: cci@ac13000 {
-+			compatible = "qcom,qcs8300-cci", "qcom,msm8996-cci";
-+			reg = <0x0 0x0ac13000 0x0 0x1000>;
+diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+index 5b52f9e4e5f3..1c32c54ed841 100644
+--- a/arch/arm64/boot/dts/qcom/Makefile
++++ b/arch/arm64/boot/dts/qcom/Makefile
+@@ -31,6 +31,10 @@ dtb-$(CONFIG_ARCH_QCOM)	+= ipq9574-rdp453.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= ipq9574-rdp454.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= lemans-evk.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= monaco-evk.dtb
 +
-+			interrupts = <GIC_SPI 460 IRQ_TYPE_EDGE_RISING>;
++monaco-evk-camera-imx577-dtbs	:= monaco-evk.dtb monaco-evk-camera-imx577.dtbo
 +
-+			clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
-+				 <&camcc CAM_CC_CPAS_AHB_CLK>,
-+				 <&camcc CAM_CC_CCI_0_CLK>;
-+			clock-names = "camnoc_axi",
-+				      "cpas_ahb",
-+				      "cci";
++dtb-$(CONFIG_ARCH_QCOM)	+= monaco-evk-camera-imx577.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= msm8216-samsung-fortuna3g.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-acer-a1-724.dtb
+ dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-alcatel-idol347.dtb
+diff --git a/arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso b/arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso
+new file mode 100644
+index 000000000000..2237f0fc4a14
+--- /dev/null
++++ b/arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso
+@@ -0,0 +1,96 @@
++// SPDX-License-Identifier: BSD-3-Clause
++/*
++ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
++ */
 +
-+			power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
++/dts-v1/;
++/plugin/;
 +
-+			pinctrl-0 = <&cci0_i2c0_default &cci0_i2c1_default>;
-+			pinctrl-1 = <&cci0_i2c0_sleep &cci0_i2c1_sleep>;
-+			pinctrl-names = "default", "sleep";
++#include <dt-bindings/clock/qcom,sa8775p-camcc.h>
++#include <dt-bindings/gpio/gpio.h>
 +
-+			#address-cells = <1>;
-+			#size-cells = <0>;
++&{/} {
++	vreg_cam1_2p8: vreg-cam1-2p8 {
++		compatible = "regulator-fixed";
++		regulator-name = "vreg_cam1_2p8";
++		startup-delay-us = <10000>;
++		enable-active-high;
++		gpio = <&tlmm 74 GPIO_ACTIVE_HIGH>;
++	};
++};
 +
-+			status = "disabled";
++&camss {
++	vdda-phy-supply = <&vreg_l4a>;
++	vdda-pll-supply = <&vreg_l5a>;
 +
-+			cci0_i2c0: i2c-bus@0 {
-+				reg = <0>;
-+				clock-frequency = <1000000>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
++	status = "okay";
 +
-+			cci0_i2c1: i2c-bus@1 {
-+				reg = <1>;
-+				clock-frequency = <1000000>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
-+		};
++	ports {
++		#address-cells = <1>;
++		#size-cells = <0>;
 +
-+		cci1: cci@ac14000 {
-+			compatible = "qcom,qcs8300-cci", "qcom,msm8996-cci";
-+			reg = <0x0 0x0ac14000 0x0 0x1000>;
++		port@1 {
++			reg = <1>;
 +
-+			interrupts = <GIC_SPI 271 IRQ_TYPE_EDGE_RISING>;
-+
-+			clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
-+				 <&camcc CAM_CC_CPAS_AHB_CLK>,
-+				 <&camcc CAM_CC_CCI_1_CLK>;
-+			clock-names = "camnoc_axi",
-+				      "cpas_ahb",
-+				      "cci";
-+
-+			power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
-+
-+			pinctrl-0 = <&cci1_i2c0_default &cci1_i2c1_default>;
-+			pinctrl-1 = <&cci1_i2c0_sleep &cci1_i2c1_sleep>;
-+			pinctrl-names = "default", "sleep";
-+
-+			#address-cells = <1>;
-+			#size-cells = <0>;
-+
-+			status = "disabled";
-+
-+			cci1_i2c0: i2c-bus@0 {
-+				reg = <0>;
-+				clock-frequency = <1000000>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
-+
-+			cci1_i2c1: i2c-bus@1 {
-+				reg = <1>;
-+				clock-frequency = <1000000>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
++			csiphy1_ep: endpoint {
++				clock-lanes = <7>;
++				data-lanes = <0 1 2 3>;
++				remote-endpoint = <&imx577_ep1>;
 +			};
 +		};
++	};
++};
 +
-+		cci2: cci@ac15000 {
-+			compatible = "qcom,qcs8300-cci", "qcom,msm8996-cci";
-+			reg = <0x0 0x0ac15000 0x0 0x1000>;
++&cci1 {
++	pinctrl-0 = <&cci1_i2c0_default>;
++	pinctrl-1 = <&cci1_i2c0_sleep>;
 +
-+			interrupts = <GIC_SPI 651 IRQ_TYPE_EDGE_RISING>;
++	status = "okay";
++};
 +
-+			clocks = <&camcc CAM_CC_CAMNOC_AXI_CLK>,
-+				 <&camcc CAM_CC_CPAS_AHB_CLK>,
-+				 <&camcc CAM_CC_CCI_2_CLK>;
-+			clock-names = "camnoc_axi",
-+				      "cpas_ahb",
-+				      "cci";
++&cci1_i2c0 {
++	#address-cells = <1>;
++	#size-cells = <0>;
 +
-+			power-domains = <&camcc CAM_CC_TITAN_TOP_GDSC>;
++	camera@1a {
++		compatible = "sony,imx577";
++		reg = <0x1a>;
 +
-+			pinctrl-0 = <&cci2_i2c0_default &cci2_i2c1_default>;
-+			pinctrl-1 = <&cci2_i2c0_sleep &cci2_i2c1_sleep>;
-+			pinctrl-names = "default", "sleep";
++		reset-gpios = <&expander2 1 GPIO_ACTIVE_LOW>;
++		pinctrl-0 = <&cam1_default>;
++		pinctrl-names = "default";
 +
-+			#address-cells = <1>;
-+			#size-cells = <0>;
++		clocks = <&camcc CAM_CC_MCLK1_CLK>;
++		assigned-clocks = <&camcc CAM_CC_MCLK1_CLK>;
++		assigned-clock-rates = <24000000>;
 +
-+			status = "disabled";
++		avdd-supply = <&vreg_cam1_2p8>;
 +
-+			cci2_i2c0: i2c-bus@0 {
-+				reg = <0>;
-+				clock-frequency = <1000000>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
-+			};
-+
-+			cci2_i2c1: i2c-bus@1 {
-+				reg = <1>;
-+				clock-frequency = <1000000>;
-+				#address-cells = <1>;
-+				#size-cells = <0>;
++		port {
++			imx577_ep1: endpoint {
++				clock-lanes = <7>;
++				link-frequencies = /bits/ 64 <600000000>;
++				data-lanes = <0 1 2 3>;
++				remote-endpoint = <&csiphy1_ep>;
 +			};
 +		};
++	};
++};
 +
- 		camss: isp@ac78000 {
- 			compatible = "qcom,qcs8300-camss";
- 
-@@ -4975,6 +5092,198 @@ tlmm: pinctrl@f100000 {
- 			#interrupt-cells = <2>;
- 			wakeup-parent = <&pdc>;
- 
-+			cci0_i2c0_default: cci0-0-default-state {
-+				sda-pins {
-+					pins = "gpio57";
-+					function = "cci_i2c_sda";
-+					drive-strength = <2>;
-+					bias-pull-up = <2200>;
-+				};
++&tlmm {
++	cam1_default: cam1-default-state {
++		mclk-pins {
++			pins = "gpio68";
++			function = "cam_mclk";
++			drive-strength = <2>;
++			bias-disable;
++		};
 +
-+				scl-pins {
-+					pins = "gpio58";
-+					function = "cci_i2c_scl";
-+					drive-strength = <2>;
-+					bias-pull-up = <2200>;
-+				};
-+			};
-+
-+			cci0_i2c0_sleep: cci0-0-sleep-state {
-+				sda-pins {
-+					pins = "gpio57";
-+					function = "cci_i2c_sda";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+
-+				scl-pins {
-+					pins = "gpio58";
-+					function = "cci_i2c_scl";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+			};
-+
-+			cci0_i2c1_default: cci0-1-default-state {
-+				sda-pins {
-+					pins = "gpio29";
-+					function = "cci_i2c_sda";
-+					drive-strength = <2>;
-+					bias-pull-up = <2200>;
-+				};
-+
-+				scl-pins {
-+					pins = "gpio30";
-+					function = "cci_i2c_scl";
-+					drive-strength = <2>;
-+					bias-pull-up = <2200>;
-+				};
-+			};
-+
-+			cci0_i2c1_sleep: cci0-1-sleep-state {
-+				sda-pins {
-+					pins = "gpio29";
-+					function = "cci_i2c_sda";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+
-+				scl-pins {
-+					pins = "gpio30";
-+					function = "cci_i2c_scl";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+			};
-+
-+			cci1_i2c0_default: cci1-0-default-state {
-+				sda-pins {
-+					pins = "gpio59";
-+					function = "cci_i2c_sda";
-+					drive-strength = <2>;
-+					bias-pull-up = <2200>;
-+				};
-+
-+				scl-pins {
-+					pins = "gpio60";
-+					function = "cci_i2c_scl";
-+					drive-strength = <2>;
-+					bias-pull-up = <2200>;
-+				};
-+			};
-+
-+			cci1_i2c0_sleep: cci1-0-sleep-state {
-+				sda-pins {
-+					pins = "gpio59";
-+					function = "cci_i2c_sda";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+
-+				scl-pins {
-+					pins = "gpio60";
-+					function = "cci_i2c_scl";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+			};
-+
-+			cci1_i2c1_default: cci1-1-default-state {
-+				sda-pins {
-+					pins = "gpio31";
-+					function = "cci_i2c_sda";
-+					drive-strength = <2>;
-+					bias-pull-up = <2200>;
-+				};
-+
-+				scl-pins {
-+					pins = "gpio32";
-+					function = "cci_i2c_scl";
-+					drive-strength = <2>;
-+					bias-pull-up = <2200>;
-+				};
-+			};
-+
-+			cci1_i2c1_sleep: cci1-1-sleep-state {
-+				sda-pins {
-+					pins = "gpio31";
-+					function = "cci_i2c_sda";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+
-+				scl-pins {
-+					pins = "gpio32";
-+					function = "cci_i2c_scl";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+			};
-+
-+			cci2_i2c0_default: cci2-0-default-state {
-+				sda-pins {
-+					pins = "gpio61";
-+					function = "cci_i2c_sda";
-+					drive-strength = <2>;
-+					bias-pull-up = <2200>;
-+				};
-+
-+				scl-pins {
-+					pins = "gpio62";
-+					function = "cci_i2c_scl";
-+					drive-strength = <2>;
-+					bias-pull-up = <2200>;
-+				};
-+			};
-+
-+			cci2_i2c0_sleep: cci2-0-sleep-state {
-+				sda-pins {
-+					pins = "gpio61";
-+					function = "cci_i2c_sda";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+
-+				scl-pins {
-+					pins = "gpio62";
-+					function = "cci_i2c_scl";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+			};
-+
-+			cci2_i2c1_default: cci2-1-default-state {
-+				sda-pins {
-+					pins = "gpio54";
-+					function = "cci_i2c_sda";
-+					drive-strength = <2>;
-+					bias-pull-up = <2200>;
-+				};
-+
-+				scl-pins {
-+					pins = "gpio55";
-+					function = "cci_i2c_scl";
-+					drive-strength = <2>;
-+					bias-pull-up = <2200>;
-+				};
-+			};
-+
-+			cci2_i2c1_sleep: cci2-1-sleep-state {
-+				sda-pins {
-+					pins = "gpio54";
-+					function = "cci_i2c_sda";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+
-+				scl-pins {
-+					pins = "gpio55";
-+					function = "cci_i2c_scl";
-+					drive-strength = <2>;
-+					bias-pull-down;
-+				};
-+			};
-+
- 			hs0_mi2s_active: hs0-mi2s-active-state {
- 				pins = "gpio106", "gpio107", "gpio108", "gpio109";
- 				function = "hs0_mi2s";
++		ldo-avdd-pins {
++			pins = "gpio74";
++			function = "gpio";
++			drive-strength = <2>;
++			bias-disable;
++		};
++	};
++};
 -- 
 2.25.1
 
