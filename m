@@ -1,196 +1,171 @@
-Return-Path: <linux-media+bounces-42427-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42428-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D14DB54F17
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 15:17:15 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C53C2B54F5A
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 15:23:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0BC727C4365
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 13:16:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2F46117684D
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 13:23:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82F1C7B3E1;
-	Fri, 12 Sep 2025 13:15:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5A0230E852;
+	Fri, 12 Sep 2025 13:23:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VIngeNS4"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AvXyZIi8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DA42AEF1
-	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 13:15:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 227B0308F2D;
+	Fri, 12 Sep 2025 13:23:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757682908; cv=none; b=ZkVdTvkcCjhTeBWfx17NVU0muDBi7uUK98Z+wcT/qPJBIX2e8HJHNmf/BVCLXLbnI31/Bg0fMDfLDE7Js9GDsLHZNsXT5VI1oiiaPcwGl7YR/hNx7rwu1BwNA+9d5y+7FNF/AY4LZ8zrNKrbc6zbO/9gAVR1Tr/+bdKwg+aPAh8=
+	t=1757683388; cv=none; b=nW4tE1e8M2+f8RrT7jOqNktvU7w2Xypj9D1Izs5QUi0x9jXBN99p/TLb0r77MEOXscOSa/05x3WVgxAQLgV8gkpvSi7gJMKt2va81BoxvCA5BEWBUWZJpz5e/ycmlpcVcY70U9GJyTllHFIrBafkkMzsBQUGKANSucLzg8Xg/hE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757682908; c=relaxed/simple;
-	bh=09VgY2p82kk4TWXOIJsno3OACTHYSWqM1ipNT58ZzO0=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CuFnedXcP+dPxToG5FcDTuOVmQ37wIz9T981fjKV4rfTXUTVp5CB0/eU5nEr1MmxUuuEWMsYMW4m3yLSFjzP8+HZO1QpeZ7QcmHZDGTEI7K2csmfhCg0zwEMh+h7OeNQmfU1nu5B0a050dVZesKEIfhSdNWP4qPDXiMCGPBG9uI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VIngeNS4; arc=none smtp.client-ip=209.85.216.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-32de096c067so1391886a91.0
-        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 06:15:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757682906; x=1758287706; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=AK5P+/Isdiha4wioMF1al81oH5WF5xA1f1RgLDaypCg=;
-        b=VIngeNS4f7eIOEV7e7IpaBl35ql8lb15xYuhKARGYxaGhTHF2HcZe4F0gfuw5I1uPT
-         polWCzjErHdh4p5+JHEHORufeo8a5jYbqOmir9Fb30qBCyMdbjXPIR+fmm4x9pcrTqZu
-         5Tig6dcU/CkkiDXQK4ndnbsZKvFWSprDWaAkhPVDvRn1f0ODnSuu7WoHnNumiP/8ZmDj
-         EaUoSvf9eegefyZl8l5DO2L/Ib28g4lnypy9QnKyFNdf0Lsgkx8d2jhl8JOt1fEJxswt
-         rvTCxojnOVFgqXMDBSY/uu9j0eaTjzRG7KeOdlyO/XXp/62w1qL5o7/rta1QAmySH3bR
-         Mo5g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757682906; x=1758287706;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=AK5P+/Isdiha4wioMF1al81oH5WF5xA1f1RgLDaypCg=;
-        b=aSYCnPtKMuf89eDDgV7QRqW0whWkx3PjL1zhmH7G2tD5bAH4CsI+cD0qFmmIXp/e8d
-         JFKdV3CASWvjjTnFmz2nST8b09ONaiOipYmBK1WIY3xHBcPCW9DySVm+kSn4bbUihBDj
-         3MDO3nixGk/OKbsMmspN+BqoAB9hocL+PGqGjUdNUptBkMWNHeJhzr1tf7s7MKtfchbt
-         Hqpa+sBny/cte8Jqj+Q2/gTZwYh3arU8/rd8yMDxtxBj+FF0VEzSuu7I4DhcY4/H9yZS
-         Sy21khuUU9RyMErqf65mSQNw/HneHFkUbD2pQ0yv37NlpwBl4zsaHNLpHaVwmq8/PQLH
-         YTCQ==
-X-Gm-Message-State: AOJu0Yz/pd6qEe2z5wME5GCIiBfCUz98mJpO0t8T+YAqUrTiYbQXPPBn
-	p1HmTgE561RQM938i/yF3FFFJ7EEfwpXHu/7wpY0nbqRB1z3+PnEdGWE
-X-Gm-Gg: ASbGncsWxZtTZJqXZ/ZV1cUN9SAxou97BcoQUeeqXT8XkZiZp0hhAAKZUkAkK2dJC71
-	evN9Qd0zoW7T6pO5dfO6JzGypK7Zn014faakamoJXTkD9/23wqPhtI8mRTrEcgtw0+qDfTdNKJz
-	SD2ru21a30GJnb+jQcTjOd/vUQ1Fkj1Uu38IaO4RiKMtD8ngfwOWsN4F42I5qZg1zmRIgRYN0RC
-	g8M54o1sOB5iZ4GMmqAZJkud9gnD8IzsAHMdqGEglLTsHhCvPS8awz7yd6cUDbvflknv23q08Fz
-	55wwRswNqKtTkUZWKRk7Xs2IvbOwZt86DtAREpOz0PmAnF7N4AbojhzN+gFSzo/LGLyl/NGa+GC
-	po97aLw11WbFRsBVDSJc7lVmdR0YrpKqR6l1e+ptZzMj9gK8Q0CmsNE/FmvFrBR8lnEeWfRqt1/
-	uxN7MwU9MOMdD1XA0OjP82K5PeR8i2ng==
-X-Google-Smtp-Source: AGHT+IEUFiDh0LUyJUkxuiV3KaaaNq/kqG31HiQyugm9FbL5DIYEPw3QbzV/WRcaFMnjA3+f1IawkQ==
-X-Received: by 2002:a17:90b:4b09:b0:32b:baaa:2a8f with SMTP id 98e67ed59e1d1-32de4d86c83mr3341213a91.0.1757682906428;
-        Fri, 12 Sep 2025 06:15:06 -0700 (PDT)
-Received: from OSC.. ([106.222.234.17])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32dd98b439asm5580814a91.15.2025.09.12.06.15.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 06:15:06 -0700 (PDT)
-From: Pavan Bobba <opensource206@gmail.com>
-To: mchehab@kernel.org,
-	hverkuil@kernel.org,
-	ribalda@chromium.org,
-	laurent.pinchart@ideasonboard.com,
-	yunkec@google.com,
-	sakari.ailus@linux.intel.com,
-	james.cowgill@blaize.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Pavan Bobba <opensource206@gmail.com>
-Subject: [PATCH] media: v4l2-ctrls: add full AV1 profile validation in validate_av1_sequence()
-Date: Fri, 12 Sep 2025 18:44:59 +0530
-Message-ID: <20250912131459.6833-1-opensource206@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1757683388; c=relaxed/simple;
+	bh=c9p9bPrxSi+sJWVsWiSYSAd6dX2DEW2af6xw4qih9Jw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=J0ZtaX0/CCLBY5XK09EqTi1Htg4tzPkVt3d41g+lUhNb8rUF7Xxb58gXp784CXsOTX8p87mrtrQP3v8zlBRObnsKvKi3yAZ6xMBF/lGl6i2VkfVL9OA0PqDvp6efs4eqd6/IFle5af+RGMHKz1GFFLcs7ZXG2a/mjMbXjIQOvak=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AvXyZIi8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D6B4C4CEF1;
+	Fri, 12 Sep 2025 13:22:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757683387;
+	bh=c9p9bPrxSi+sJWVsWiSYSAd6dX2DEW2af6xw4qih9Jw=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=AvXyZIi8lDfAalXgF1WdETnPgZZ8RM/3fqPD7soAGpkwubprAipGOV6yOoTY3OHSk
+	 yLXY4Sb2YO/3+SqgiF7wj7VGLz9j0uKOmb/GGgy4yndBEsWYvpN5dZma3c60ozNQjC
+	 zG6jkUFWEpkmUpJsBq3cIF3+Hkmtat4QYo+4SuWmEgfIpTAhP/EdrRrE7+MW6ktgiP
+	 sfM2z8ccxdfOJDSOxatKj3UU3+RNd90XT8NCn4Pmwy2G9TD8BXnb2X5PFl8d+ef8oP
+	 MS/OfpRkXMSwF9yOSsOYwPTssnDsx74nkFfSmqUcMqNSlQrdT9mzuIu9ED/Is4y8wJ
+	 KD26QXnW1JVXw==
+Message-ID: <bcad01be-fd00-4789-ae83-b855e495fab9@kernel.org>
+Date: Fri, 12 Sep 2025 15:22:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 14/38] dt-bindings: media: mediatek,mt8195-jpeg: Allow
+ range number in node address
+To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+ linux-mediatek@lists.infradead.org, robh@kernel.org
+Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
+ conor+dt@kernel.org, chunkuang.hu@kernel.org, p.zabel@pengutronix.de,
+ airlied@gmail.com, simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com,
+ mchehab@kernel.org, matthias.bgg@gmail.com, chunfeng.yun@mediatek.com,
+ vkoul@kernel.org, kishon@kernel.org, sean.wang@kernel.org,
+ linus.walleij@linaro.org, lgirdwood@gmail.com, broonie@kernel.org,
+ andersson@kernel.org, mathieu.poirier@linaro.org, daniel.lezcano@linaro.org,
+ tglx@linutronix.de, atenart@kernel.org, jitao.shi@mediatek.com,
+ ck.hu@mediatek.com, houlong.wei@mediatek.com,
+ kyrie.wu@mediatek.corp-partner.google.com, andy.teng@mediatek.com,
+ tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com, shane.chien@mediatek.com,
+ olivia.wen@mediatek.com, granquet@baylibre.com, eugen.hristev@linaro.org,
+ arnd@arndb.de, sam.shih@mediatek.com, jieyy.yang@mediatek.com,
+ frank-w@public-files.de, mwalle@kernel.org, fparent@baylibre.com,
+ linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org
+References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-15-angelogioacchino.delregno@collabora.com>
+ <70ae6787-ee0b-43a0-851e-1fb6c82f6c31@kernel.org>
+ <72934f23-08eb-4214-a946-7aa7a432352e@collabora.com>
+ <56380fe5-8358-4341-9478-ba4ce52daeed@collabora.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <56380fe5-8358-4341-9478-ba4ce52daeed@collabora.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-The AV1 stateless decoder API provides the control
-V4L2_CID_STATELESS_AV1_SEQUENCE to pass sequence header parameters
-from userspace. The current validator only checked that seq_profile
-≤ 2 and that monochrome was not signaled in profile 1.
+On 12/09/2025 11:00, AngeloGioacchino Del Regno wrote:
+> Il 04/08/25 11:02, AngeloGioacchino Del Regno ha scritto:
+>> Il 24/07/25 11:14, Krzysztof Kozlowski ha scritto:
+>>> On 24/07/2025 10:38, AngeloGioacchino Del Regno wrote:
+>>>> The dual and triple core jpeg encoder and decoder (respectively)
+>>>> on MT8195 are far apart: the only way to have this to make sense
+>>>> is to split those in multiple address ranges in device trees as
+>>>> one big range would overlap with other IP in at least the MT8195
+>>>> SoC.
+>>>>
+>>>> Change both the jpegdec and jpegenc bindings to allow specifying
+>>>> children nodes such as "jpegdec@0,10000", "jpegdec@1,0" or for
+>>>> encoder "jpegenc@0,0", "jpegenc@1,0" to resolve dtbs_check issues.
+>>>
+>>>
+>>> This should not be needed for standard MMIO/simple-bus nodes. I think
+>>> DTS is wrong here.
+>>>
+>>> Which cases really need the ','?
+>>>
+>>
+>> All of the multi-core JPEG enc/decoders on MT8195 (and newer).
+>>
+>> The DT changes are included in the same series as this commit; check:
+>>
+>> 20250724083914.61351-35-angelogioacchino.delregno@collabora.com
+>>
+>> Cheers,
+>> Angelo
+>>
+> 
+> Any further comments on this?
 
-This patch completes the "TODO: PROFILES" by enforcing all
-profile-specific constraints as defined by the AV1 specification
-(Section 5.5.2, "Color config syntax"):
+Well yeah, that's still wrong. These are simple MMIO, so comma is not
+correct. Rob already commented on this at v1 of Ariel's patchset. It was
+BTW the same device - mt8195 jpeg!
 
-- Profile 0: 8/10-bit only, 4:2:0 subsampling, no monochrome
-- Profile 1: 8/10-bit only, 4:4:4 only, no monochrome
-- Profile 2: 8/10/12-bit, 4:2:0 / 4:2:2 / 4:4:4 allowed, monochrome allowed
 
-Additionally, when the MONO_CHROME flag is set:
-- subsampling_x and subsampling_y must both be 1
-- separate_uv_delta_q must be 0
-
-These checks prevent userspace from providing invalid AV1 sequence
-headers that would otherwise be accepted, leading to undefined
-driver or hardware behavior.
-
-Signed-off-by: Pavan Bobba <opensource206@gmail.com>
----
- drivers/media/v4l2-core/v4l2-ctrls-core.c | 54 +++++++++++++++++++++--
- 1 file changed, 50 insertions(+), 4 deletions(-)
-
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-index 98b960775e87..3283ed04cc36 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-@@ -852,14 +852,60 @@ static int validate_av1_sequence(struct v4l2_ctrl_av1_sequence *s)
- 	 V4L2_AV1_SEQUENCE_FLAG_SEPARATE_UV_DELTA_Q))
- 		return -EINVAL;
- 
--	if (s->seq_profile == 1 && s->flags & V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME)
--		return -EINVAL;
--
- 	/* reserved */
- 	if (s->seq_profile > 2)
- 		return -EINVAL;
- 
--	/* TODO: PROFILES */
-+	/* Profile-specific checks */
-+	switch (s->seq_profile) {
-+	case 0:
-+		/* Bit depth: 8 or 10 */
-+		if (s->bit_depth != 8 && s->bit_depth != 10)
-+			return -EINVAL;
-+
-+		/* Subsampling must be 4:2:0 → x=1, y=1 */
-+		if (!(s->flags & V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_X) ||
-+		    !(s->flags & V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_Y))
-+			return -EINVAL;
-+		break;
-+
-+	case 1:
-+		/* Monochrome is forbidden in profile 1 */
-+		if (s->flags & V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME)
-+			return -EINVAL;
-+
-+		/* Bit depth: 8 or 10 */
-+		if (s->bit_depth != 8 && s->bit_depth != 10)
-+			return -EINVAL;
-+
-+		/* Subsampling must be 4:4:4 → x=0, y=0 */
-+		if ((s->flags & V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_X) ||
-+		    (s->flags & V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_Y))
-+			return -EINVAL;
-+		break;
-+
-+	case 2:
-+		/* Bit depth: 8, 10, or 12 */
-+		if (s->bit_depth != 8 && s->bit_depth != 10 &&
-+		    s->bit_depth != 12)
-+			return -EINVAL;
-+
-+		/* Subsampling: 4:2:0, 4:2:2, or 4:4:4 allowed → no extra check */
-+		break;
-+	}
-+
-+	/* If monochrome flag is set, enforce spec rules */
-+	if (s->flags & V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME) {
-+		/* Must signal subsampling_x=1, subsampling_y=1 */
-+		if (!(s->flags & V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_X) ||
-+		    !(s->flags & V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_Y))
-+			return -EINVAL;
-+
-+		/* separate_uv_delta_q must be 0 in monochrome */
-+		if (s->flags & V4L2_AV1_SEQUENCE_FLAG_SEPARATE_UV_DELTA_Q)
-+			return -EINVAL;
-+	}
-+
- 	return 0;
- }
- 
--- 
-2.43.0
-
+Best regards,
+Krzysztof
 
