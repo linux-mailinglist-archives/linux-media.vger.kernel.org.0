@@ -1,76 +1,73 @@
-Return-Path: <linux-media+bounces-42474-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42475-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F28BB55954
-	for <lists+linux-media@lfdr.de>; Sat, 13 Sep 2025 00:38:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 244D1B5595C
+	for <lists+linux-media@lfdr.de>; Sat, 13 Sep 2025 00:41:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E1A861D61F10
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 22:38:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7A96E1C271DD
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 22:42:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 83BBC270568;
-	Fri, 12 Sep 2025 22:37:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 87F4A2571DC;
+	Fri, 12 Sep 2025 22:41:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TrVcwliJ"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Um4WpDQH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10A41E5219;
-	Fri, 12 Sep 2025 22:37:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16456254B09
+	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 22:41:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757716673; cv=none; b=H0YReYSobK1Xoqz1WQhH7ecxu90OW2naYnkKWlLsMV76R8LDU7RefhXRpbUEoc8BGoBrAR3Owub3gbUCKEpDHjurPaonrawl0ZYJC/pB2RKOhz46ILOjSkUhinLCqrE1ZAV4SMPRdlbQ3eQ0Zp0HLM2HWzu5aQxT5MWK+IupSCA=
+	t=1757716911; cv=none; b=Hcpw1u4+yyw9K55N5spTlqIieXd6QWx8WF3Z+7DMwa+vzNDDmndrM8sPMuEKHfFy6F2F15uEd+SO1tYYzbr4fyNZKKWgGatR2GRKaTEdaYSxgaDxAyoeOLZzhNSMylO3KmWPvi0wef1J0vOJf1og6r75l02KS0apjb/feg1SnAs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757716673; c=relaxed/simple;
-	bh=B9UWbZGKGjcmdpBpJTHq4Bvu86HEtGMURBUQlAh+wng=;
+	s=arc-20240116; t=1757716911; c=relaxed/simple;
+	bh=41CPMeB5cMst8rFTr0hIwHXN/45oJmRQ3gqFpa1x3y0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JmetdA+kRB5A/O39+6elgPq7XC4XLb5Mnuhznvf9du/0T8FBZoECP6brGFt4rhrJLmA9Omz3S93c1oA2BA8eVICwOMMmm+3B+EQn1rj867BBg8zb3VrtIaPs4wvv+D7+xltRjhTvGEgDZFsDYky/Cz80pchu8ri2Wh/YAoNgWG8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TrVcwliJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2214AC4CEF1;
-	Fri, 12 Sep 2025 22:37:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757716673;
-	bh=B9UWbZGKGjcmdpBpJTHq4Bvu86HEtGMURBUQlAh+wng=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TrVcwliJdziWcvEcLi0TVBaYRU0cqz+P0LkYP18PS4V8it1ba7cZ92zsa5Y3dzWLc
-	 YrEuOyNwShq0RR+1+3s/CzKz/FvAj8Dg2ILyM9zKHc+GxAcTbJRbF9zrHAxYtHAtWS
-	 nowrg87C3Mhu7Ma9MVTSiKPANaSzfmKeaaI+jiwqqKI/eFzfgCVIsx0GyGgRpB5mC/
-	 E1FV/bHUfiM/xWBXFUvAkeBLYpdn5iD18PAOpqzc3WdYh8uHA0QJpTs+ikEAG/Jg8A
-	 LroectmFESH23Jvjk8Jl5nAs0sIu7GliX4k4LL9XE6Kb1IBSFNtgZdkeRG9oO5IQJw
-	 v2hGeBjsKFJvA==
-Date: Fri, 12 Sep 2025 17:37:52 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
-Cc: luiz.dentz@gmail.com, kuba@kernel.org, airlied@gmail.com,
-	mripard@kernel.org, angelogioacchino.delregno@collabora.com,
+	 Content-Type:Content-Disposition:In-Reply-To; b=Yu+epkpY0yUepsWevL2wiPeA7uldB0/kcK0+IHs7h/05kATM+IaNjcBDDpC/9urHKkDfvjzP+85cpK6hZS+aayyB1mq6B2Wq7q835PSung4YlcNhepi6NPMXPbbTFISOX9W9CuyXfXFDl5oaSphYXYVfyH6nQ9l+MO/BHSYUw6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Um4WpDQH; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=B7vC
+	Hc3e+Jy8US7hTTy4b9nsVzGf6UZv+0sVA7/a1y0=; b=Um4WpDQHJJyoDGQGUJlI
+	toL1eJ4r/frk7kDy23UEC+FfwIbkQz4MH6fuLgWvXFnQduOCP5AoGVhUs39qkWr3
+	9ylizJqtxlvx0xAlC/TQCGxQ8hsYkxw+hVAf6f6dLucBZTPJdQ6qEJ1wAYsPd89B
+	t1ZkgBrTCdMg5XVpi/QmQz7vjWDanBQ6xeBdnj8Z40H9V03PzIYAOiK1Q1NKWXvi
+	m8+1B6eiVmNMaemuGDOlZEU7TrGi2cyxePRXVPDRhFT0grEQhbQ2gH3hO1q5lmY/
+	uY7NwOdVj651c0bX4GJzSW042wt+udthFxosn9FeRvj/aYA4cD0WuEXRh8H9KbNM
+	CA==
+Received: (qmail 1506839 invoked from network); 13 Sep 2025 00:41:46 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 13 Sep 2025 00:41:46 +0200
+X-UD-Smtp-Session: l3s3148p1@rqzUW6I+mq0gAQnoAHJ8AC93OVDMgFWg
+Date: Sat, 13 Sep 2025 00:41:46 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org,
+	Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Manivannan Sadhasivam <mani@kernel.org>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Alim Akhtar <alim.akhtar@samsung.com>,
+	Dongchun Zhu <dongchun.zhu@mediatek.com>,
+	Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+	Todor Tomov <todor.too@gmail.com>, linux-arm-msm@vger.kernel.org,
+	linux-i2c@vger.kernel.org, devicetree@vger.kernel.org,
 	linux-arm-kernel@lists.infradead.org,
-	maarten.lankhorst@linux.intel.com, tiffany.lin@mediatek.com,
-	houlong.wei@mediatek.com, minghsiu.tsai@mediatek.com,
-	lgirdwood@gmail.com, louisalexis.eyraud@collabora.com,
-	linus.walleij@linaro.org, devicetree@vger.kernel.org,
-	linux-input@vger.kernel.org, yunfei.dong@mediatek.com,
-	edumazet@google.com, linux-bluetooth@vger.kernel.org,
-	tzimmermann@suse.de, broonie@kernel.org, andrew+netdev@lunn.ch,
-	kernel@collabora.com, chunkuang.hu@kernel.org,
-	amergnat@baylibre.com, conor+dt@kernel.org, matthias.bgg@gmail.com,
-	support.opensource@diasemi.com, linux-rockchip@lists.infradead.org,
-	davem@davemloft.net, andrew-ct.chen@mediatek.com,
-	krzk+dt@kernel.org, p.zabel@pengutronix.de, sean.wang@kernel.org,
-	linux-kernel@vger.kernel.org, simona@ffwll.ch,
-	linux-mediatek@lists.infradead.org, marcel@holtmann.org,
-	dmitry.torokhov@gmail.com, dri-devel@lists.freedesktop.org,
-	pabeni@redhat.com, jeesw@melfas.com, mchehab@kernel.org,
-	linux-media@vger.kernel.org, flora.fu@mediatek.com,
-	linux-gpio@vger.kernel.org, heiko@sntech.de,
-	linux-sound@vger.kernel.org, netdev@vger.kernel.org
-Subject: Re: [PATCH v2 05/12] dt-bindings: display: mediatek,od: Add
- mediatek,gce-client-reg property
-Message-ID: <175771595983.1528737.3645378655142592974.robh@kernel.org>
-References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
- <20250911151001.108744-6-ariel.dalessandro@collabora.com>
+	linux-samsung-soc@vger.kernel.org
+Subject: Re: [PATCH v2.1 01/72] dt-bindings: media: Deprecate clock-frequency
+ property for camera sensors
+Message-ID: <aMShqlBgHXHIExDC@shikoro>
+References: <20250812214620.30425-2-laurent.pinchart@ideasonboard.com>
+ <20250813094923.23695-1-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -79,37 +76,37 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250911151001.108744-6-ariel.dalessandro@collabora.com>
+In-Reply-To: <20250813094923.23695-1-laurent.pinchart@ideasonboard.com>
 
+Hi Laurent,
 
-On Thu, 11 Sep 2025 12:09:54 -0300, Ariel D'Alessandro wrote:
-> Currently, users of Mediatek OD (display overdrive) DT bindings set
-> mediatek,gce-client-reg node property, which is missing from the DT schema.
+On Wed, Aug 13, 2025 at 12:49:23PM +0300, Laurent Pinchart wrote:
+> Usage of the clock-frequency property for camera sensors is discouraged
+> in favour of using assigned-clock-rates (and assigned-clock-parents
+> where needed). Mark the property as deprecated.
 > 
-> For example, device tree arch/arm64/boot/dts/mediatek/mt8173.dtsi is
-> causing the following dtb check error:
+> Update the examples accordingly. In DT examples where the sensor input
+> clock appears to come from a programmable clock generator, replace
+> clock-frequency by the assigned-clocks and assigned-clock-rates
+> properties. Otherwise, just drop clock-frequency.
 > 
-> ```
-> $ make CHECK_DTBS=y mediatek/mt8173-elm.dtb
->    SCHEMA  Documentation/devicetree/bindings/processed-schema.json
->    DTC [C] arch/arm64/boot/dts/mediatek/mt8173-elm.dtb
-> [...]
-> arch/arm64/boot/dts/mediatek/mt8173-elm.dtb: od@14023000
-> (mediatek,mt8173-disp-od): 'mediatek,gce-client-reg' does not match
-> any of the regexes: '^pinctrl-[0-9]+$'
-> ```
-> 
-> This commit adds the missing node property in the DT schema and updates the
-> example as well.
-> 
-> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 > ---
->  .../bindings/display/mediatek/mediatek,od.yaml     | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+> Changes since v2:
 > 
+> - Don't remove clocks property in samsung,exynos4212-fimc-is.yaml
+> 
+> Changes since v1:
+> 
+> - Adapt examples in bindings that reference sensors
+> ---
+>  Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml    | 6 ++++--
 
-I fixed up the commit msg with Krzysztof's comments and applied both 
-display patches. Thanks!
+Can I have this i2c change seperately to avoid dependencies?
 
-Rob
+Happy hacking,
+
+   Wolfram
+
 
