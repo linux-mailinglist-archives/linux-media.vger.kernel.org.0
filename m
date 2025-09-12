@@ -1,101 +1,206 @@
-Return-Path: <linux-media+bounces-42403-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42404-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C583BB5451D
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 10:20:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id DDD36B5453D
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 10:25:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 83E3B189A26F
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 08:21:09 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A7C641886B40
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 08:26:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6846D2D662D;
-	Fri, 12 Sep 2025 08:20:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 010472D77E8;
+	Fri, 12 Sep 2025 08:25:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Doqc4iw3"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="d7pT50r8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f73.google.com (mail-ej1-f73.google.com [209.85.218.73])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM02-SN1-obe.outbound.protection.outlook.com (mail-sn1nam02on2078.outbound.protection.outlook.com [40.107.96.78])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D42A78F4B
-	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 08:20:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.73
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757665222; cv=none; b=k+Ij1mALQRePNlFHXLLwcimFiB6ZGWGOtt+rMjII9xMzodEO8IKUFw6KQsmJy5GFFxktVf9zsAFHaBiw9lFCnFR2GqYaKuUGAP7zBS62j+ff7eWR8AsX6Udk/E20qlGGzW2x/6/HLKdndLR/ccgFLiyGlEyBO+josaWU7nWj+4w=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757665222; c=relaxed/simple;
-	bh=uyTp1DNo2Pl+/MWTpG2OwBe458XML+7oqAeQeYUzoZk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=WtNqonm1I0muX2n8CwNRGuTyH9/V0BXNJaFOp6Lm62Yo6lPTblTdKvk5k2gafyFAq3/dWyAXFvt2f1XWyThWBe5JqPb1TuwXuSHEPBx8HL9n0slEzCPv39dJctedityYeBlMB+slHa+j6dB/9Fb43EKcKxlTTVYoikT171ENiJA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Doqc4iw3; arc=none smtp.client-ip=209.85.218.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-ej1-f73.google.com with SMTP id a640c23a62f3a-b0438a5f20fso131742566b.3
-        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 01:20:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1757665219; x=1758270019; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=htk3m70PkqmNQYQ1yM5F8kN8JeFHH68mo4wtDzJpwoU=;
-        b=Doqc4iw393hc9nTtbgtGwR3gXH243VsCbpvfc5vea+JrdIAh8hKtwkQ2L9kd6R9+Cc
-         zHMrWD1bWBjmdogYzaW7R9pFrXOq4g5rhg6WHjzpTJUWxo90o5cfIlF6nJpushw/WabJ
-         yi3W9tPNGuEI5pzi+Y0cKePpYelsrRaMIXZEk8R/X/+SI9gAAE457n/cJaPhIUU/vU3I
-         JpDrmaf9sBGUkyXafgMdoPLio7ahrYzSkur/6V/eNrMRWmQwh7kqVJkcEgEkLoRBKhCv
-         JRV//5g/GQ8+kDIypoOB++usaw6G39WWIaVM4tI2CRe6aDd9G+rVuRD7YB0XzcY889cG
-         2llg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757665219; x=1758270019;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=htk3m70PkqmNQYQ1yM5F8kN8JeFHH68mo4wtDzJpwoU=;
-        b=wzCywu2Dy5JhqSaSWIWG9wfuQd6qdVzqHF/5T2pNKTordd7DTl+7w0JQE2raRwQqkS
-         BE+193QtOGexLgGVatZZj0ynP0C2NcVyG1pwNJGawxBRyj31oqiSHs1qBMendBziMRgP
-         o+YFPAdmyRMB0BeUIrefdDN3oWtpQJKZ9Vn5t1iVIZSBbCmb0jJ41hL6pdz48/SXg3XF
-         HEmnEFqXx+7XK+mCtgltD3XttFuD+y4L7caNLLmxPnxNzHTUV/H7OxU/90U7pNHT3l/s
-         O0QcQU9rQy1rmijnt4sAHP80bKgoXyzLymlpnn4Ze4Fo7OfLVXlUeges2tOWxib97SSv
-         RXjw==
-X-Forwarded-Encrypted: i=1; AJvYcCUjaHGa78OEzImR1zA8E8X608UPimZElaHj+n3zwmeAp8WBaoaXv1l+fsdhpiV5GoKavXUptR+/WXf/Fg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwitSY2LENoxOAh/1iuBHBBeyfGyAOB3qiPG2SbtI6YJHxMuQuv
-	Jgnm0ZeIROjQthCd0MeocyBpXqgnbxLuljM5bUM0/i8SWf3EksH90ZzqRdLMJOKRLz/Wop1+rHE
-	IiC884z8NsoBTMEhrLA==
-X-Google-Smtp-Source: AGHT+IGUMJAjpyCLFfDMgu2t5nhGP0t48j39Qyhwy6+dlmbmq8TAneB4QA7fEvHNFobhxTxMbIPzssYdjTCps3M=
-X-Received: from ejej11.prod.google.com ([2002:a17:906:2a0b:b0:aff:53b:4790])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:907:980a:b0:b04:7ea3:a10c with SMTP id a640c23a62f3a-b07c3551576mr183083666b.8.1757665219559;
- Fri, 12 Sep 2025 01:20:19 -0700 (PDT)
-Date: Fri, 12 Sep 2025 08:20:18 +0000
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CA028F5B;
+	Fri, 12 Sep 2025 08:25:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.96.78
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757665536; cv=fail; b=eZlnBeVP2ukQXdXH5+zh9vghASkz+SAf5q6wJ4T8vSTq26NOEClC7UDGqpKPc2jYYji5x6OkjNNpT5YkwCc0oMY0+BSnUafKqPpw5uw5ugWx7m8GHcdZB4W7Ad622LvQZm8lAXCaHqavITjS+Sg4wt3oawXg0UY7kl/rSC2OabI=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757665536; c=relaxed/simple;
+	bh=JxzwSbAgXyfzi2jG33kpAexPPgRHi4yOpefnL8r69pY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=UABC9FQxTLHeKY75eh4Yf4eqmXJlcriAOrLc8EhvTXmx3x3Jbm3HX1iUSW+6rhP/7PBrGfZyA53x1ZBzIa37WzjZlKI6XQIKHvuUH6m2tXhTgnePRgZuwGP+prkrXxVR8gwj8HJBmcNl+jW6L0hxUw1BOR9IZidnJi1yyMEBJAc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=d7pT50r8; arc=fail smtp.client-ip=40.107.96.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NdVZEG7ypxAc82KDHnWbKbkr/IMbj2B1HCAhMB/9bBIaxdiPSyjed8WN4vkW3OXSEyLljHCISbaU6ucGEkHWGgar+YDJoyNo4mldLTnODRQMDRmFlhaJRYsK8oVqxVHWxzGxLuBE0+FoRe+OzsCaxsZ2qKf7LfKKWVDuORH+CT9czgF7J3XRK+oiGBBzZGwpyzdaORFYXbd/eaaLk2CbwNymzO1d/T5gydXzdL7tPYnwfuEH4I9c9hU209E76CgS9eTV8z35cvkCkPcreruXvROPbjDJvAgCrKu9gkWN78YC6pelmffLsxpSRu7ZNuCG4wwto73g/kn1cZIhCXzcCQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=o3s/pD2eU7qe7rgmdwwQEoFyNudkuPMCYuzln+NftpI=;
+ b=wblXBdD69wec+2OvOn7c+eCAZp3uZ6rVnbJLGZjn/Zrxqvhk4W8GjaQe0LMUl2hHONx2EOpyv4pM7bgkWJwxg/+Cq3Fz9+duR8T5WNHCpeyqFrAlcRl4OA1LweMD9U/77G3c1N9Pn/D7G2So2RH95QgSnhrXfJm7C5bmvdrNKzLv//OesJl2uhisrtkJNEQ0n0Ya4klurJeYWnZd08apgGLNAYG8JJBE2mliNg53jQy877et/i3GfVTPhd2gFOW2Q2qduVjs0FNivGmBs6tDQBQJwZDOqXol68MW29SDQV4MFleuOvbA3kxri7K8PqAyJmmWPj2bKG8wyC8HFSvsTA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=o3s/pD2eU7qe7rgmdwwQEoFyNudkuPMCYuzln+NftpI=;
+ b=d7pT50r8R3DRlvwS14AEHgyjUfFYUVlWu9NpPNol5YUzHdczyvhLJ6LLn/DEf6JrMZ7sQgFhyiVGxhkDJAahVrEOPMzn1e+2UaIAfeBAaKpUhtdCBALcA4OKje2czmaQTzTGio4EPhx5X9qxzfHTPJFD6InKApteLEi7LEY95Xw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by CYYPR12MB8752.namprd12.prod.outlook.com (2603:10b6:930:b9::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Fri, 12 Sep
+ 2025 08:25:30 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%5]) with mapi id 15.20.9094.021; Fri, 12 Sep 2025
+ 08:25:30 +0000
+Message-ID: <14af50d2-f759-4d89-ab9e-0afc7f9cb280@amd.com>
+Date: Fri, 12 Sep 2025 10:25:21 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/3] rust: Add dma_buf stub bindings
+To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
+Cc: Daniel Almeida <daniel.almeida@collabora.com>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
+ Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+ Danilo Krummrich <dakr@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Viresh Kumar <viresh.kumar@linaro.org>,
+ Wedson Almeida Filho <wedsonaf@gmail.com>,
+ Tamir Duberstein <tamird@gmail.com>,
+ Xiangfei Ding <dingxiangfei2009@gmail.com>,
+ "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linux-media@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
+ <linaro-mm-sig@lists.linaro.org>
+References: <20250911230147.650077-1-lyude@redhat.com>
+ <20250911230147.650077-4-lyude@redhat.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
 In-Reply-To: <20250911230147.650077-4-lyude@redhat.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MN2PR06CA0014.namprd06.prod.outlook.com
+ (2603:10b6:208:23d::19) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250911230147.650077-1-lyude@redhat.com> <20250911230147.650077-4-lyude@redhat.com>
-Message-ID: <aMPXwhpskU1gWANU@google.com>
-Subject: Re: [PATCH v4 3/3] rust: Add dma_buf stub bindings
-From: Alice Ryhl <aliceryhl@google.com>
-To: Lyude Paul <lyude@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
-	rust-for-linux@vger.kernel.org, Daniel Almeida <daniel.almeida@collabora.com>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	"Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Viresh Kumar <viresh.kumar@linaro.org>, Wedson Almeida Filho <wedsonaf@gmail.com>, 
-	Tamir Duberstein <tamird@gmail.com>, Xiangfei Ding <dingxiangfei2009@gmail.com>, 
-	"open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linux-media@vger.kernel.org>, 
-	"moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CYYPR12MB8752:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6d4cb498-1d9f-4220-03eb-08ddf1d5ef2d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|1800799024|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?alpoTHl5UUE3eFhQSDY1bVRlazR2MEhEVXZ3Y0cyVWEycVoxTWpPdVVnRlQv?=
+ =?utf-8?B?Y2Z5Z3hsaGR0SUJXdEdtZUpOTlNzemJTYUpUWXFTbURSMWJ0ZC8wMFRYVCs5?=
+ =?utf-8?B?WHpzS016dmdqK1BHelhEMXUrUXZEOGZoZ29nci9ZcUd0Z0FSdTAvOU5zSmUz?=
+ =?utf-8?B?TVBMelVXZ3JXdFhCOFpEQ3d0UVFvMVZoc0prYTFZanFSY1pjQ2NKRERRWS94?=
+ =?utf-8?B?SjYrZ3VaRzVabDVwem5WYzhQVy9WOUFGVWlJajRobHAyWGptZzdOemR1TXhh?=
+ =?utf-8?B?QjJHOTFJMENsUkpJcDNoRnBMR1MzQ1liQlAvSXFHeXZDZHZVQm5TenFLQits?=
+ =?utf-8?B?eUZlRlljdmFFQ2pvSTZlbWRIOEtXY3dNMFE3TEVHZW1WaHQvNEZkMEJvMSta?=
+ =?utf-8?B?T1ozVENXMldhYmVYK2pIQzhnQk1UbmhMZnlPbTJneDU1dWF0eUZINlhmZ3Ja?=
+ =?utf-8?B?V3pDRUFuTDgrTXMwLzhMTXdYSzZRcXZadUs0NnNPUjNGSG9vRkNsSlp0SjlU?=
+ =?utf-8?B?b2NuZUFVbWVqS3V3dGNBVkhPVUpQYVJnU2Rad05CT0VjYlVQeDU4QU8xZmZE?=
+ =?utf-8?B?WDJKdk5PZ3BMNjM4MHZYZ0lPMEJhVXltOEljZXZJVDU0UGVvbk1CTmRzSllY?=
+ =?utf-8?B?NFFFTkxINVhWZ0FPaFpnQnhTckNuOG5RQ3FHTGtmNSthajY1ZytHVndnZVlB?=
+ =?utf-8?B?bXFFZDRmTnhQWVRGN0ZDRWhwaEVKVVVMcmpCZUVqci9YenBQRGhuU3RGRHRl?=
+ =?utf-8?B?ZWdnWmM4bVhwdHp5VDkxakJZQ2VieG5CbVhFLyt6N1BOR1hWTGo5Z3JYcnJq?=
+ =?utf-8?B?dmFIdVpMUHhyTC9GdFpuekdTV2xETTdNak8zbjllTTJjTUdTa0Q2cVJGRWt0?=
+ =?utf-8?B?bHR3dHlRYURuWFdFNGVlN2g4bzIxVkhoWFc5Mmo5ZjBSM2EwRVN1dlBPc1V5?=
+ =?utf-8?B?NXhmUEZaejZRaTV5VDh4OEsvUVhVQXZhR0xlWlhwRGFYbWdZWk5LUWpRR2JQ?=
+ =?utf-8?B?eXhzYVVBcjBOTW8xaDM5b3g0UEZTT2IrQ0p4NjBITEREN0JQRmNuSG9BSDJn?=
+ =?utf-8?B?ODhWRHdaMU9tekZrbnc5cUVHRDhDalkyUkRVVWFHSkUycS85dTBTNzRBella?=
+ =?utf-8?B?NEsxUEJjNGdlNnlUdGJWTG0xMlVpR0FiTUxDbUxwREhBQkJ3Q1ZZZ3FMcXJl?=
+ =?utf-8?B?TytiNERVQnFaMmorUERQOEZYdmNJYThlNkNhQlc4am5USjZNeEN2R3RsNG9N?=
+ =?utf-8?B?bGtOTFVmV0JNRkpOQ3NxYkI1NWF2YkdBV0NYV3ZiYmpsYURlNDllN2FUcGdL?=
+ =?utf-8?B?M3Z0UEx3cEFkdG1VZmIzOUdzT3JKVVEyRHROVjJDMWtJdllFb3hLbEcwR0pt?=
+ =?utf-8?B?MnhMOXZnTmp5R2pCSnpQUCs3eU5KRXR1SXdQWDJtTFNyNlVtWnl5ZWFGR3Fu?=
+ =?utf-8?B?STFYbzZjRm4wYXZ4azJFbjhucGJERWhsaENkWDU4ZmkxRWpuVURjQ0dzM2dF?=
+ =?utf-8?B?SkdNVmlXWk9QMFpEQlU1czRoSkZ2ZzhnUDlPVGNsTXhVSXdKMVl5d1RZSWpa?=
+ =?utf-8?B?NHJXNFEzSGFGcTdqckpqSml1WXk2VlJkREtRdEloamVHWVg3dEZ2Qm9OVmww?=
+ =?utf-8?B?cmtnWlVnOHB3amxLSkN5Yzgzc2JGZzZqbG4xWjUwN04xdUFmaEcwQTQwcktv?=
+ =?utf-8?B?WWtTZC82d013N3JacDVWWWVJai9pQkZib3VrNTBoYTFzRTF0SHBmbVpzUkt1?=
+ =?utf-8?B?YTlhemIxTmFFTXZka1BVUDRid1dzOUFCRWsvdVRQdXhOLzkrT2ZuVjdWdWVp?=
+ =?utf-8?B?NmdpaklBSHFwNjk4cms3NjVOODgrL2pYWVB4OU45dnVpT0s5ckh0TTYyaXFa?=
+ =?utf-8?B?K1BMR1ZFM3FTTVVQa1Rwdy9HdUJvdEQ2cm51cmsxU21NalE9PQ==?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?LzNIMXpJdGNlc1M5S2t4NjJMN0JTMHVpTndVbDZ1K0tkS3NlQ0grSGZxVERq?=
+ =?utf-8?B?UnlKaERKZEpabzV6WXpyQkdNTnJPUW56YkxqY2hZS1RBVlN6TWkxK3puemxC?=
+ =?utf-8?B?TjdXZllMWGlscGoySkk1L084dGxVR2MxcWJITTM2YUlXU250R3FaQVBqTkt5?=
+ =?utf-8?B?YmpZNTRGMVBSZ2ttUTdxVnZaQ0RObUxpU2FxeGFZbWhYVEFYbkVpdC9BTE9O?=
+ =?utf-8?B?eHc1bGVoUTdwd3ZFWVZ4S29TNDhMTGcwemFEbWp3QkRvcCt3cnQycDUyQ2tF?=
+ =?utf-8?B?YTREajNEVVMwbXdmVEYwTFlNYldkOVJ0aWpmNndZb05STmU2cHFRYWJxc0Mv?=
+ =?utf-8?B?WmRMNzU5VmJvb05tamgzVGFqWXJyb0VhbDhCSGF6OHdkQ0NNVEhtNGpRVXZr?=
+ =?utf-8?B?bnllek9jVXlIKy96Q20zVUtaZElHQVV4SGdOYVFrNXZJTERLN3pnYWJsb0Jk?=
+ =?utf-8?B?ZHp6ZlM5QWxwZFZRVk1sb21lREh5SFBjYTVLcC8vSkdGRHptVHM1amQvUThw?=
+ =?utf-8?B?ZEJuT0srM2lEY0ljS2k1YXFuRGhKaytJVHBrZ3ZxTTNBekRTeU5WMlhFQi9u?=
+ =?utf-8?B?YlF5NjQwWFkvcTNNV1dCUEZWUnQ1NnZIR05mcTRVZ3grNENVdDlxUFR5bElR?=
+ =?utf-8?B?eXdDcEFycGhhY29oU1l5bitwUWlxbHc3eXgyQXkvekFBdlJEejVyMTNKR2xx?=
+ =?utf-8?B?bUpER0l0OTJCUzJoMnI5dUFkd254REtYSVNldnFpK2t6dTRuM29IR2tzSVFi?=
+ =?utf-8?B?R21ncHExdW9jOW1iaVgxcStkWGZFZVhWalROVkxjZnpKN2xWRjRDcTIySUJU?=
+ =?utf-8?B?ejhjMWIrTXJsQXkxbzBmZldZRHJaSDNIcllNUG9sbms0a1VXYTFRWEZRRHBi?=
+ =?utf-8?B?STZ6ZUJ2MWNkaEN4V1V3cnBtclJGVzVKRTV2dUNCSmJyYU95UVFoeFBiU1J0?=
+ =?utf-8?B?R0pmWG5BV2UxSXF5bWlTLzIwWWZJdElVbmE2NU9FdTNrK3M2YjM5djVHTjA2?=
+ =?utf-8?B?dkJCUlY1R2dXeU9PeUFpS3NmcGNVSGNmUk1hVGV3eDBpZlBrbjFINkFWYVRq?=
+ =?utf-8?B?KzkyQjQwMmEydFRRUHNhWlltTGdKQzdCaURVaDZCTDJkNU11aWgrZ3FEMXoy?=
+ =?utf-8?B?VHRWcVRydjhXZEcveDdWQllod1dZYmNmQlp6bFd6dDlYeCtQSTRzbng1cXl4?=
+ =?utf-8?B?Njk0UEpYUHZwTG9KS0tta3hZWm5hSVlNK1FYNUUyMXFLdG9FNC8zSjJjeFNE?=
+ =?utf-8?B?UWVFYzhkMHgrSGZpay9sczJjVHNWaDk5SUpIejdlMGF1czdqcFJCY3dxTzNx?=
+ =?utf-8?B?cWFBRjhUQTRIQ3JvLzNnVmw3YzhZcGl1b3B1Vllob2hVZU80UHNHMjRKMmI1?=
+ =?utf-8?B?MGEycGM2V0c5aWRmWVVXblNBS1NmQzZLRktYcksvYk9GbEYveWM0NXlXQTBz?=
+ =?utf-8?B?ZXpEK2xaVnJzNVNOMmNRb29wclVoVTZoUUFUektDcGFpWHpuWTdrb05rWVV0?=
+ =?utf-8?B?eXhWZmsxdVJiWHBkTnRkaFpHelRuZEh6c2pXcE91ZkhNKytoSldlY29TdzA3?=
+ =?utf-8?B?azdmMDR4RnJVZVpkS09kM1pQYVZldjYwRzFmMERCSlk4ZnF1aUtNRWd4djhX?=
+ =?utf-8?B?d2s1c0Z4ZXdsUktYTXNjZmgxRWRJRkxYWXFTUk9WVCtPakZoemVUUlY0QTBF?=
+ =?utf-8?B?OXgwQXZNN2YvYlJ1QjhoUHZHdHh4d0M4V1pYSStvRllsbUdzWTBIUnMrU1hU?=
+ =?utf-8?B?cUJoeEFwRHlobnVEblN5eElzZnVqdFphVy93WDd4K1dKS2FRblcxV0JWSEtS?=
+ =?utf-8?B?Z1dzMGdTUlh5a2YzdG94ZmFSVlMySWhwcjNmRjNQVGF0TGNnWjdIY2wxclht?=
+ =?utf-8?B?bGpFZytYQ1I1U3VPeHpuVVAwOHAyTVE0dGl4bmtiTXluZU52bU9SaUxBdVFi?=
+ =?utf-8?B?b2NCNlNQM0VhR0RJYXMwWFZiZUpIc09OOHFYcHkzWlcrbVdVU0lYTGticWRs?=
+ =?utf-8?B?RXQ3emVWRzdyS1M0UkxabHI4eWppc1ZmR3FYY0N0OENUdjViejNraTBKcFFh?=
+ =?utf-8?B?SGFKMzVtb3AvbXorUWprSGFhTzdvdSt5bTFESExnOWo3RGJ3MXZJSjlhTkNq?=
+ =?utf-8?Q?iW3THzhXBi5a7kyeiIkgFcd72?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6d4cb498-1d9f-4220-03eb-08ddf1d5ef2d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2025 08:25:30.1144
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cSKcTFaybm3L3zQg9rb5uVwKsvTCwCXJSwqevgR3Vic4tiprmaClYx4L52X1bw/B
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8752
 
-On Thu, Sep 11, 2025 at 06:57:40PM -0400, Lyude Paul wrote:
+On 12.09.25 00:57, Lyude Paul wrote:
 > In order to implement the gem export callback, we need a type to represent
 > struct dma_buf. So - this commit introduces a set of stub bindings for
 > dma_buf. These bindings provide a ref-counted DmaBuf object, but don't
 > currently implement any functionality for using the DmaBuf.
+
+Especially the last sentence is a bit problematic.
+
+Wrapping a DMA-buf object should be pretty easy, the hard part is the operations on the DMA-buf object.
+
+E.g. how are locking and sg_table creation handled?
+
+Regards,
+Christian.
+
 > 
 > Signed-off-by: Lyude Paul <lyude@redhat.com>
 > Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
@@ -131,14 +236,6 @@ On Thu, Sep 11, 2025 at 06:57:40PM -0400, Lyude Paul wrote:
 > +/// # Invariants
 > +///
 > +/// The data layout of this type is equivalent to that of `struct dma_buf`.
-
-I can already deduce that from the fact that it's a repr(transparent)
-wrapper around Opaque<bindings::dma_buf>. Invariants should provide
-*additional* guarantees that can't be deduced just from the declaration.
-
-I would reword this to say that it contains a valid dma_buf rather than
-speaking about the layout.
-
 > +#[repr(transparent)]
 > +pub struct DmaBuf(Opaque<bindings::dma_buf>);
 > +
@@ -148,9 +245,6 @@ speaking about the layout.
 > +unsafe impl Sync for DmaBuf {}
 > +
 > +#[expect(unused)]
-
-By making these methods pub, you don't need this #[expect].
-
 > +impl DmaBuf {
 > +    /// Convert from a `*mut bindings::dma_buf` to a [`DmaBuf`].
 > +    ///
@@ -159,14 +253,26 @@ By making these methods pub, you don't need this #[expect].
 > +    /// The caller guarantees that `self_ptr` points to a valid initialized `struct dma_buf` for the
 > +    /// duration of the lifetime of `'a`, and promises to not violate rust's data aliasing rules
 > +    /// using the reference provided by this function.
+> +    pub(crate) unsafe fn from_raw<'a>(self_ptr: *mut bindings::dma_buf) -> &'a Self {
+> +        // SAFETY: Our data layout is equivalent to `dma_buf` .
+> +        unsafe { &*self_ptr.cast() }
+> +    }
+> +
+> +    pub(crate) fn as_raw(&self) -> *mut bindings::dma_buf {
+> +        self.0.get()
+> +    }
+> +}
+> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
+> index fcffc3988a903..59242d83efe21 100644
+> --- a/rust/kernel/lib.rs
+> +++ b/rust/kernel/lib.rs
+> @@ -81,6 +81,7 @@
+>  pub mod device_id;
+>  pub mod devres;
+>  pub mod dma;
+> +pub mod dma_buf;
+>  pub mod driver;
+>  #[cfg(CONFIG_DRM = "y")]
+>  pub mod drm;
 
-I would just drop the sentence about the aliasing rules. If the caller
-performs an unsafe operation on this DmaBuf, then the safety comment on
-*that* unsafe operation should justify this - it's not needed here.
-
-And if they violate the aliasing rules with a safe operation, then
-probably that safe operation should be redesigned to prevent that,
-rather than having a blanket statement here.
-
-Alice
 
