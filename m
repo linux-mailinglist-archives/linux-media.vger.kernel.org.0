@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-42457-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42458-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E611B551DF
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 16:39:05 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D1E1B5528A
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 16:59:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8C2F7189DF6D
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:35:42 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4319E174C22
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:59:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 619F3319872;
-	Fri, 12 Sep 2025 14:31:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE4353126C8;
+	Fri, 12 Sep 2025 14:59:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="Ef4sszBw"
+	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="DUSVg9Qe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx08-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from mx07-00178001.pphosted.com (mx07-00178001.pphosted.com [185.132.182.106])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B6A3115BE;
-	Fri, 12 Sep 2025 14:31:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=91.207.212.93
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292AA30EF70;
+	Fri, 12 Sep 2025 14:59:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=185.132.182.106
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757687495; cv=fail; b=ot4qjczAeJEicq7Vu0mqU4BeMs77oqBpOvKqLRIFXP1/JjHTYQ5r0YUsmkNTziXsg5ai01+Ki3UMrxtZBlOFKts36ImmyroGH73ncWsoyraOH4iCfqWoQMLDARyij1GXbF/x0cQ9vlelLafTU94bXeWP4hKthN0HyW9pkqJIZNY=
+	t=1757689162; cv=fail; b=F0MgRjGoDqfcPiMYXtz39YAYi8XVvR+c9IytP7Z3xnswEEISDmonmJ1H3X1enj5aAgtLmWBKqb6mrdOO/ynRVzQIyxhDACyZitraEiukSnbiyR+869Yd6w1NEZjSPyHDkQzfLE8viPZf+fbsF6Je2E3ZgiLP4/lEUKYzk/GnCuc=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757687495; c=relaxed/simple;
-	bh=MRRsBoawj+N9I+YYkgI27hNcBRnQZZxLlPZ3oZ0aQYo=;
+	s=arc-20240116; t=1757689162; c=relaxed/simple;
+	bh=boO49nNIR5/Z9s4ZNVLhUozJB6zr6kIZYgqn7w44M+g=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=OAe4mz+NRnquMsNOe4b5Ub9ut83CA3SLMAQVQerUUlWUBateIRpx5tDOT60YNGFHDs68JsuHQiUxKr5748qQwmXsUARs5AI14cFDoKhcZCRMltLCLmcoxGWJeNdYRgjOcCk8uU5pd4i9WyT9ueIqSeNO6vu0AwZzDYHZlUo8t/E=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=Ef4sszBw; arc=fail smtp.client-ip=91.207.212.93
+	 In-Reply-To:Content-Type; b=ksreeeC7Y7SjHOM88NIaX06o/1Pt/db/O2zWkYKgbAImHkckqGoe2Me5r9wnpenLO3OpOU+GZfb9cOYUUqE2ChGxrWsrDp0MV2Z1LumLthQQLaUjTVHELrVv0Bjki0WDxZU7HC0EWX+2Konj85A4nAGAjh3Zpei7xZ7bWKe4ix0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=DUSVg9Qe; arc=fail smtp.client-ip=185.132.182.106
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
-Received: from pps.filterd (m0369457.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58CC9uqr021190;
-	Fri, 12 Sep 2025 16:31:28 +0200
-Received: from pa4pr04cu001.outbound.protection.outlook.com (mail-francecentralazon11013039.outbound.protection.outlook.com [40.107.162.39])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 490ywn01j9-1
+Received: from pps.filterd (m0288072.ppops.net [127.0.0.1])
+	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58CEo3ce024858;
+	Fri, 12 Sep 2025 16:59:10 +0200
+Received: from as8pr04cu009.outbound.protection.outlook.com (mail-westeuropeazon11011066.outbound.protection.outlook.com [52.101.70.66])
+	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 4929f1ackp-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 12 Sep 2025 16:31:27 +0200 (MEST)
+	Fri, 12 Sep 2025 16:59:10 +0200 (MEST)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=faykxz36jc7B8CsnQeP870QzeUjqcJaAWnQDKLRi0adVGLUPd8zCqdrVX6b+RSKT9YO8xeLyLJAqKY2fP2BwY8HjzmF3TqPnF9jWZnJwUUoNljQYiBpT5iJZhjGNBgMANtei29PROl1/SGWXbukXsWtzP17HaNVtyTe0GzXIhTm6U8OvlArvvx9sDXT/eoDa/u0ZXENJ9kgcqOKPxt67qfqYI9fyEWj1a/vOiue/lEt8HBv47rq1PAIwLBi4llEB0nT3YYdDn7ZW+WMyqVqAtNyCzf0mNBaJh2Xwek5O69LMa4r4k7khsHR69GW0gXO7icGbzBf8qCeRZ/92kiSR/g==
+ b=SMZRV7Qtm/FdcqI0xoVIGHFjtCpRhQTs5xlLVFXZpJLSrEue5tBnGEpAcOgsh0z3gUGhR3xhxQ1B7GvEAnkAk0Sxgo+/3qGQYTxoGTj5d00l7+FvLksiIXrotpiJGg8BKjU8yLUlA4C1JGJ070gq+90TIwXgSkGeYexr0F7eg5RWq/RGALUe1XMiYTxYawT/mKOEgL5BNaQubf5ae2CY0jPBMWv+WJkznP4RsV89zg6gpa7TyGIUtPsjv7cdKIY7bPkPrvQLnrfUp481QNy+xn2Krw0/mrjRjs41IgxWgfnM6wNdcVjIaYcfykgFX3bdehjLlK6Qavyl+d2cPTNwkw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5hCP+oidmCsaG8Ey61QUWXT3qSvJr19ZSPvZq4hNLms=;
- b=Iq3GsIGHD+ebBwYlZPLYsjgOvYiKtcUD0MHMN3KwdWzKDIiSPx/v6VZX9I9Gr+Wg60QTP0v8qsYtvCCgRA+xrAbWwYLmkMeCjCLbc6+XWoTEidGYrTJLBfGUtwruk19F2IWx8pSwYHi84sJSj2B3BUscmWd4Y5+zJ25/AgczFBZpPv9sOdKDWmSKNbUIHjmhq1l1O9dI1m9+xtb63QJarrNISfZgdAojDbBQJ3+W/82C9/Ej96L47omWjAYuSYt0cfviH04P0NwgWHSzZzdWMPCXzNPxfuuxN7wsH+9FQhHCK2GyZiuwK6wpY5NYndT3yCQSCa4iLcoXJeaO/6PYuQ==
+ bh=cII0suIFjVoUnb54yoB5AoO9OaBOfXzrZCOlODtNSQQ=;
+ b=RQdyN5qcHB88qDj2f/TVz03vY9h5L1sq+P9zUPhvYXdfxi/oAYGHtcJclaAq/fQFlG1pjvo3s3gr2iVAB/tbxW9HECioB4mpqs/dpLJMjAwJBvlzedFnjwBMVwe7LDv7uL+Jsb2DcgoPl9iEQ3Oy96C+nM1RjJfCqOyRoxVNtEfpLhLv+riJ/kxHkoBf0kLs5MAQgA9vz3eVUq3nJm97KokdznJiUrpcXFbQK28QJGUAITJeb7fkglbLkpSNTVZ7T0O1mgNwVv5bZufxJAeQaMcJGT+o3o2GMN5KyX9MRM+cllllSfo5FbMRvf42ajhSnj/ECy+xWTAQqXi7hWNqyQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
  164.130.1.44) smtp.rcpttodomain=gmail.com smtp.mailfrom=foss.st.com;
  dmarc=fail (p=none sp=none pct=100) action=none header.from=foss.st.com;
@@ -52,18 +52,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=fail (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5hCP+oidmCsaG8Ey61QUWXT3qSvJr19ZSPvZq4hNLms=;
- b=Ef4sszBwOeU9nRmf79UNKxae0TANFjibzyXQfR+zjOSkDm6d4xvbYWn+2SMppKj+6LKRkmsEIYZKqZD6LF7zNc2W8+rIhHJf6wthCTIY+64SD5lSplCUkK+18y5lrwBoOYedN8SzsKKaNvK2DjhXAkTIs9+uvfmqd+R6eRwUSmtE/Qg1GjqrGCW3BAZEg1zHgc/LwORLNnY7jQupkdf7PKqNe3hedUcUd3UFo+z78WB0gZU+Hs4C9HSEhioV1babWLTNIdsVZtNZ4kcp1c1RMDLezqLeSe/U+7UuC3MjcsASURjt3uRG4ZrcWTEeNHB0VXf5xvSoPMhLgeTGTpk5oQ==
-Received: from CWLP265CA0342.GBRP265.PROD.OUTLOOK.COM (2603:10a6:401:5a::18)
- by AS8PR10MB5879.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:527::14) with
+ bh=cII0suIFjVoUnb54yoB5AoO9OaBOfXzrZCOlODtNSQQ=;
+ b=DUSVg9Qeai3wleDqE2B9EuJKNcITVeWlWWfy7VPPotudnO9WMj2XSSAwHjm9UDRmhH9Pvu0gF32hMKaebngd8uqMRxtRB5uYP3WfTTTFKjzSvNh90o6IFo/JsT3I9VN5DapmINjXmXsvk6dgkncyAcgpoonoM2/TJwOOzVbUJBJsfPW3FzdEdFMhpnKTVfw9ZfCy5DBr8BQ/DDHYfhFF8csBlQkau5yF/A6w7wQvnA/Tqensr91X1rCPh2enK9faAbUxfo90vEiBpHsnX7WTtxtf2mze1WUL/cj2lpipIV5mm8fjnXMqBjjsMvzEwEz2WLuUJd41OmVIQy21+ZNeyg==
+Received: from PR0P264CA0226.FRAP264.PROD.OUTLOOK.COM (2603:10a6:100:1e::22)
+ by VI0PR10MB8935.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:233::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9073.27; Fri, 12 Sep
- 2025 14:31:23 +0000
-Received: from AM2PEPF0001C70C.eurprd05.prod.outlook.com
- (2603:10a6:401:5a:cafe::72) by CWLP265CA0342.outlook.office365.com
- (2603:10a6:401:5a::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Fri, 12 Sep
+ 2025 14:59:05 +0000
+Received: from AM2PEPF0001C714.eurprd05.prod.outlook.com
+ (2603:10a6:100:1e:cafe::42) by PR0P264CA0226.outlook.office365.com
+ (2603:10a6:100:1e::22) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.20.9115.17 via Frontend Transport; Fri,
- 12 Sep 2025 14:31:25 +0000
+ 12 Sep 2025 14:59:05 +0000
 X-MS-Exchange-Authentication-Results: spf=fail (sender IP is 164.130.1.44)
  smtp.mailfrom=foss.st.com; dkim=none (message not signed)
  header.d=none;dmarc=fail action=none header.from=foss.st.com;
@@ -71,19 +71,19 @@ Received-SPF: Fail (protection.outlook.com: domain of foss.st.com does not
  designate 164.130.1.44 as permitted sender) receiver=protection.outlook.com;
  client-ip=164.130.1.44; helo=smtpO365.st.com;
 Received: from smtpO365.st.com (164.130.1.44) by
- AM2PEPF0001C70C.mail.protection.outlook.com (10.167.16.200) with Microsoft
+ AM2PEPF0001C714.mail.protection.outlook.com (10.167.16.184) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9115.13 via Frontend Transport; Fri, 12 Sep 2025 14:31:23 +0000
+ 15.20.9115.13 via Frontend Transport; Fri, 12 Sep 2025 14:59:04 +0000
 Received: from SHFDAG1NODE1.st.com (10.75.129.69) by smtpO365.st.com
  (10.250.44.67) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Fri, 12 Sep
- 2025 16:24:15 +0200
+ 2025 16:51:56 +0200
 Received: from [10.252.28.204] (10.252.28.204) by SHFDAG1NODE1.st.com
  (10.75.129.69) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.57; Fri, 12 Sep
- 2025 16:31:22 +0200
-Message-ID: <777930bc-622f-4c2a-9cd7-51334b0ea79d@foss.st.com>
-Date: Fri, 12 Sep 2025 16:31:21 +0200
+ 2025 16:59:03 +0200
+Message-ID: <23dfcdcd-c0fe-47e0-9c59-d9e2fa83d713@foss.st.com>
+Date: Fri, 12 Sep 2025 16:59:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -91,8 +91,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/5] dt-bindings: media: remove support of
- stih407-c8sectpfe
+Subject: Re: [PATCH v2 4/5] clk: st: flexgen: remove unused compatible
 To: Raphael Gallais-Pou <rgallaispou@gmail.com>,
         Mauro Carvalho Chehab
 	<mchehab@kernel.org>,
@@ -106,207 +105,224 @@ To: Raphael Gallais-Pou <rgallaispou@gmail.com>,
 CC: <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
         <devicetree@vger.kernel.org>, <linux-clk@vger.kernel.org>
 References: <20250912-master-v2-0-2c0b1b891c20@gmail.com>
- <20250912-master-v2-3-2c0b1b891c20@gmail.com>
+ <20250912-master-v2-4-2c0b1b891c20@gmail.com>
 Content-Language: en-US
 From: Patrice CHOTARD <patrice.chotard@foss.st.com>
-In-Reply-To: <20250912-master-v2-3-2c0b1b891c20@gmail.com>
+In-Reply-To: <20250912-master-v2-4-2c0b1b891c20@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
 X-ClientProxiedBy: SHFCAS1NODE2.st.com (10.75.129.73) To SHFDAG1NODE1.st.com
  (10.75.129.69)
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM2PEPF0001C70C:EE_|AS8PR10MB5879:EE_
-X-MS-Office365-Filtering-Correlation-Id: c263b415-4901-4eae-b0a8-08ddf2090c59
+X-MS-TrafficTypeDiagnostic: AM2PEPF0001C714:EE_|VI0PR10MB8935:EE_
+X-MS-Office365-Filtering-Correlation-Id: f85bac95-49e2-4c38-84ec-08ddf20ceaab
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|36860700013|7416014|82310400026|7053199007;
+	BCL:0;ARA:13230040|1800799024|376014|7416014|82310400026|36860700013|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cTVNUVFqaDBIc2NJaUxhVEVuN0swMlgzKytkak1QNUhWT29GbUJvdVptNkQ1?=
- =?utf-8?B?V2ZReFQ2Z0ZXekhCSDB4Wm13b09pWG53eVkwYTg0RU56NG9mVzFaTWhGano3?=
- =?utf-8?B?anZialBldHowWGY4WXJRMFkvYkhKMGlmSVlvd3VoY1d1QXkwL0t4bm1ZZm5Z?=
- =?utf-8?B?K01yNGlUalRYL0RWWkJaZE42NGp2Tjh3dmN6eU4xbktYaVVGTHppVEY0WTkv?=
- =?utf-8?B?MFdNaEl3TXE2eGMvSE1wMklSWGJXZExHR2gyeXJFRzlZZW5WN0o5MSt3OFpS?=
- =?utf-8?B?NFNlUm9YTUdDVEwraFJkQ0tVZ0crY1VPdGhBdjBiZEZHTldzellDU2ViYzYr?=
- =?utf-8?B?THJReGdDRDRPL0N0RGwxY210MXpKVnh4ZlJaRGVIQzl3N0ZvaHRkZStTRzBB?=
- =?utf-8?B?U1dpMFZYeWdHSmVkckd3cU5sRmhUT2RNbDlJUlcwU3BIN21KaUNQK1lCS0Vx?=
- =?utf-8?B?QVpCdHBWYUFMWmpzNCsrcHhaNGlaMXpUV3VvVHlXZmJPaHRpd01VWHhOcDlG?=
- =?utf-8?B?Y2tjRWdJaE5LS00wVGdXLy9yRGppeUtZSTJEY29QR3dOWU1yN014eTIxdHlt?=
- =?utf-8?B?djdqaEhDcXA5SGVMSCtEelpBelZhTElwRnZ4eFA1U2RWM2tORlNST2dRUlNs?=
- =?utf-8?B?SkxsYmFuUytKR0J2TFBMdzRROUhoTlY4RnNPZUQ2MFhuTndLa2xsUEJLOHll?=
- =?utf-8?B?OXN2VXQyZklhcWU2V0x2R0xlRmFQRE9Fc2VENUZ3eHRCTjFUbkR6R25VdE5W?=
- =?utf-8?B?Z0U5ZnZrMG5JbEJaa1RTbmt5YzhsN0tnZUkraE83d3l2YnVtV0tFbDVEcys0?=
- =?utf-8?B?RCtPK0tEZldPb0pJcXpqaElqRWliaVJrbHJvakcvVkJ0bUo4TEg0bWhOeWVo?=
- =?utf-8?B?azgwT2VqenNYS1kreFJraThQYlVIV2p3M1JaaWVDQU9pTUgxZmpyRzQwaEQ4?=
- =?utf-8?B?anV0Mkt2MXh2VHZaa2tXU09uREhpUjZQS3ZZTUYyb1NWM2pSdElvWlVtdFZZ?=
- =?utf-8?B?Yy9pL1I4dUJxT2c5TWNLZU1JU0syd29hOTJMakhVdG9wUVNqTnRWRG1NZFJs?=
- =?utf-8?B?ZEZJbkhTTHhwSit6cHJhOUF3UG5jQzhDcU5qaTVJd0M2VUU2NXZ3d1hwWFBK?=
- =?utf-8?B?M0h2ZTBUN1plem9KWlhaelRvazdXR0NySVlUUVdVQmtaNTV1dXJMditJMzFm?=
- =?utf-8?B?ZkJCVlllVE9kY0R5N3NBeDY4MTFZcnFSMytTOHlyYWJGU3JuMnFpSUp1bUxo?=
- =?utf-8?B?UERUL2Q4S2hHNmRVeGZVR0ZWYjNJUURGNmRETDVRSWtKdmRrd091VlAxK2w2?=
- =?utf-8?B?Z054Q0hnMHBjMUQza2FrUGpoRE03NFBTL3NJZUNGY096NFRiMUlsS3h6UWtq?=
- =?utf-8?B?M25XYVQ1U3BEZVZEbDRXckdxVm5Db1hZeW4rQmVsTUI0cGQ0cElKNmNLckZ5?=
- =?utf-8?B?QVdxaExkRU1Ec29VSVlRUDFTN0RrT21sVlVRbjI1NlgyRlpZUlJlaVZXY0I5?=
- =?utf-8?B?UUtqalFDdUptakdJblF1K0NMSkR2c0JNdWxIem1MQmE4VlduZFZ5emtoc0Vo?=
- =?utf-8?B?RGlBMHN1M0Vwc0l2ZHVYVnhUUnFXNXhpTHZIWTJrUnpzdFZoajNrYUg3dkhw?=
- =?utf-8?B?dkhBemY4UXE5TnNmVEI5OCtEQTVUbkEvVkJraVJjYmVQTC9iY3RFNnE1V3Jp?=
- =?utf-8?B?S3FlUVRkVzR4UWRyTlMra2l1SHFidDAzZlFiNy9RMG41c3cxelg3RG5jUWZH?=
- =?utf-8?B?SXNJWVJFZ1NOVStzWjdKQjZHMW1LcE42OXZlTUVmQUEzalhIMkxRMkdtOWM0?=
- =?utf-8?B?aGI5VkU0K2RPOE4vNGF0WFZXeVRDRDl5SHI5bEw3Y214L05GQko3RExvbE1m?=
- =?utf-8?B?Ri9qc2l4aHpaSGw1VW90dlphNkxkbnpIL0I1a2NjYU1kZjBKMFB5ODIyRER4?=
- =?utf-8?B?RlBVL0NkbjVUQklJZGFRZXZlVVJVK3R5Wmg5KzJ0VGltOGpOY1hnMS9naFJm?=
- =?utf-8?B?cEpHOTBxVjZiMFFPN0xNZDNrMzdmTHBDelMxeS94a1FNSzNwUnpjY3pIT2t2?=
- =?utf-8?Q?a+xYOI?=
+	=?utf-8?B?NHJkSlkvZGRLZDhXcG92aTI4R0JCUkQrRVdVZ1puUit4dzZtYU5HOXk0ZC9G?=
+ =?utf-8?B?azlhSk1lZ0FnMVRjaGJndjBQV1ZKRzBNOHhoTnNQRGQvWGhCR2g4ME9MQ1Fu?=
+ =?utf-8?B?Z1EzUFZiQURKbUkwa0s5UGtwU0t3aXFxSGx0MzlOMENlR1pNc3U0T1NtWU9i?=
+ =?utf-8?B?anVmZXBMeXplOWpwUkVrYzdPTDdZeGw1akM3QjJCYkg0ZU9Fb0JPaU9VRjdW?=
+ =?utf-8?B?ZlY5Z3QvTTU1LzZqeFRlS0QySjI2eDVjOHcwYk54Q1RWRXNvdjVxaHNYZytF?=
+ =?utf-8?B?eFNMTUY1T04yMkgyYm5VVjZ4VjVybVY2U0VuSWgxUE9ROFFPaDJONjh3djBC?=
+ =?utf-8?B?eUJDSXBsaHFXeWVBeU05dnYzTHplemtBWnM0M0I5SnZ1cjhNcnh4SWJWWks2?=
+ =?utf-8?B?dWRKaU1RcDFHWmsvQlRJa2Y0NGpKUy9qZUZndEtBY3FxZzY5R0ZSRW1oRUJj?=
+ =?utf-8?B?d2VYTERHdWNQeTV0Skw3amluOG56bG9pSTZBK0xzM2RBZVB1cGNRQ1dFNTdl?=
+ =?utf-8?B?V0hjek9Id1k3N21rYmJTR3NMdWcxbWtQQWFaL2J2ZXR6bUVkZXBmRk1seWcy?=
+ =?utf-8?B?K1dWbWtPWFRpUDd5enJLNE5Nc3l5QkhOck5kbnRyMkh0eFZ3QkJpL0FXUm9j?=
+ =?utf-8?B?cEdZUmhoTnpjZjFNaW90blU2RURubjFFSmljUnJKL2ZVb1F0NkVIaUw3WmVB?=
+ =?utf-8?B?ZTRLMUkvZkN6OXU1bmtQc1N5NEgxTDZLM1NUaHF1d3lET2dEMmlpeFRabkhU?=
+ =?utf-8?B?d1lLMEhpRnVkTHN5azJlc0lBK05mbmx6MHNOR3ptTlR3SENqMlNsSXU1Qnlt?=
+ =?utf-8?B?aDNQYkwvVWdzZGM1UFlZaldXZ2Z1VVBPUU91TW9RN2JmU0VnSlRqcmdNU043?=
+ =?utf-8?B?azZlVGtGV1dIRVJXVDRacSt5N3JrZk40NG9Oa2t0elJSd01ZZWNUY01iaEJ0?=
+ =?utf-8?B?MmRIWlJFZWl6d29xYlAzcTNYQmRXTWkwV2tvcFNHU2REN3dNM09nM0RHb3Uv?=
+ =?utf-8?B?N1M5aTFxUkFlMWxsWnFaelMwd1FaTE9sWmxzYUxqd1ZPTkFKTGpueXJBV3A3?=
+ =?utf-8?B?LzhLREVOQWZnL01iczBzaGVBeU1UcnhURWlDTEQ5M01NUGNSOFBxd056RzIy?=
+ =?utf-8?B?TUJlYnJXNjQ4UFh3YUQrc29LZC9hTnRwVk5IL0pqKzc2dytMd0pLNkxDZW1h?=
+ =?utf-8?B?dHovdUwwRHdqV3g4UXZiZU81YTVnYm5BQ05rZkxZQjF3bTZ4RkN6ZGZnNmRk?=
+ =?utf-8?B?Z2hQcHRJOHE0ak5yQkdoYTk2MDhQMTRsQW85ZmxDcjVsU0pWY05RcXRqZWxm?=
+ =?utf-8?B?UWV0ZTJNMjM0YzJ6anBrdEg5S1hWWnB1OXdFdmExNG50QmovOTlubGk3TVF5?=
+ =?utf-8?B?b3lRL3A0VFpiYTJtQ3l4MmJMWlFsdVRQckFzaFk4Q2k0ZjB6ZjhhdDY2RzZD?=
+ =?utf-8?B?elZrUXhYeWhDcVY2OHZPd3REK2dVVFFsYVNiSVZPT3UxYkFXa1p4RkcrYjlV?=
+ =?utf-8?B?dlFZUk5LOFdEcFpnTUk1Q2VORUZFaHF2RjVxcVdJL3A5MldwWHpPb2MwTjBB?=
+ =?utf-8?B?RzFndzJNUSs2UUhGUVR4V0hVbWJaanFVUDVsTU8rL2lKWTBMbnJLOU9JdXgz?=
+ =?utf-8?B?YzhFQVh1TjBMMmRRcURGS2J0a29mYVhYT1lTSlhnQXk1TkRBMjR6UkpJVC9T?=
+ =?utf-8?B?U01NV0V0aHFzWEZWeFI0SUxOSkdhbG5TRm9TOEUxeUVqYmFKbEMzQVFkN2d4?=
+ =?utf-8?B?THVtUDF1S0NNZXBlUVh0Q2g2QmxuK0NXaCtXdDZEc2F0L2s1cjdSNCtMejJ0?=
+ =?utf-8?B?UlQ4QUtyZGhkVTZpTjY2YlJZOUN1LzFaSEcyYStRU1dxUXo2QmNOVHJNWVVo?=
+ =?utf-8?B?Ym1EZ3Q2VmhhQjVpK3hSUk1oc1ZLV3BNbklGL1VDK3R4c1ZRQ1d6ZjJkK2Ew?=
+ =?utf-8?B?MExIMkhLSzhBRTRSdEIvam9mcytWRVdvVTR5VXM2eUd2ZXlrUzRYUENQQUtv?=
+ =?utf-8?B?RllYN3RIcCtxM29meTY1TmtmUGVhU0hZNFgwcmlSanhkMUsvVUtUaHhBRHhD?=
+ =?utf-8?Q?ZF7/Ev?=
 X-Forefront-Antispam-Report:
-	CIP:164.130.1.44;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(36860700013)(7416014)(82310400026)(7053199007);DIR:OUT;SFP:1101;
+	CIP:164.130.1.44;CTRY:IT;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:smtpO365.st.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(82310400026)(36860700013)(7053199007);DIR:OUT;SFP:1101;
 X-OriginatorOrg: foss.st.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2025 14:31:23.1294
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 Sep 2025 14:59:04.6113
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: c263b415-4901-4eae-b0a8-08ddf2090c59
+X-MS-Exchange-CrossTenant-Network-Message-Id: f85bac95-49e2-4c38-84ec-08ddf20ceaab
 X-MS-Exchange-CrossTenant-Id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=75e027c9-20d5-47d5-b82f-77d7cd041e8f;Ip=[164.130.1.44];Helo=[smtpO365.st.com]
 X-MS-Exchange-CrossTenant-AuthSource:
-	AM2PEPF0001C70C.eurprd05.prod.outlook.com
+	AM2PEPF0001C714.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB5879
-X-Authority-Analysis: v=2.4 cv=OaqYDgTY c=1 sm=1 tr=0 ts=68c42ebf cx=c_pps a=6PCtUV3SjW4dSF/fw/j/Nw==:117 a=Tm9wYGWyy1fMlzdxM1lUeQ==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=h8e1o3o8w34MuCiiGQrqVE4VwXA=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
- a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=d2j-ISUXm-8A:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=s63m1ICgrNkA:10 a=KrXZwBdWH7kA:10 a=pGLkceISAAAA:8 a=8b9GpE9nAAAA:8 a=GtunNuG9RWfyo7yceo0A:9 a=QEXdDO2ut3YA:10 a=T3LWEMljR5ZiDmsYVIUa:22
-X-Proofpoint-ORIG-GUID: xxgHzvefGkAEb-o-O1EjgtAaPLdMqIj_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA3MDAwNiBTYWx0ZWRfXxcpuUuKO/9Kv /CfbVMXSsThbOMbAhq2wxW7rycxY4IiMW7BwN0y0udlc2rZ4VMU3DJPhAWMjC/UPcEoh5v7JusR GkZ/I3l7BE0WLjkcJO1uPP6zitWrGJk2TcaamC95lNeTRBqDgzl+eMaQEuFIawr3blj2d+K/wZg
- EHvOHF1LH7MFk989tjDNtE8E8QL3SaHjtGqXxZCGNDwja6YuHEwBSYWmLVsMwgSRY2vaxchHWmZ VhwlehJGUFmbR06cViuQjQEmAzUw/4sYm9cEiMUvqENi7buJjiiQ/vSenKYMKbz206P/GwwamF1 KajNjSkwB2AF12XYHuo6Lxp/SdYg9zLJmOX1b4XhGDleY+3XdIb0r0MGsrBdPl9tnqxI3PeHICJ wjykDe+k
-X-Proofpoint-GUID: xxgHzvefGkAEb-o-O1EjgtAaPLdMqIj_
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR10MB8935
+X-Authority-Analysis: v=2.4 cv=MrlS63ae c=1 sm=1 tr=0 ts=68c4353e cx=c_pps a=r7EIZDVNRsCIl7asLYOvbA==:117 a=Tm9wYGWyy1fMlzdxM1lUeQ==:17 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19 a=h8e1o3o8w34MuCiiGQrqVE4VwXA=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19
+ a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=d2j-ISUXm-8A:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=s63m1ICgrNkA:10 a=KrXZwBdWH7kA:10 a=pGLkceISAAAA:8 a=8b9GpE9nAAAA:8 a=88iKDjgjSppyayPZQX0A:9 a=QEXdDO2ut3YA:10 a=T3LWEMljR5ZiDmsYVIUa:22
+X-Proofpoint-GUID: nyZut5EHWM2PKKEI6FZICEYGTrxI03BK
+X-Proofpoint-ORIG-GUID: nyZut5EHWM2PKKEI6FZICEYGTrxI03BK
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA5MDAwMCBTYWx0ZWRfXzb/8+y1ZgvtJ 3+lEpPqyzMyNUACNnHTbC6z2GLf3my5stcgNZPLlDGsNk7uTTeLEKryrW5qfENhShMAQlUTX1XA mGemo7uR/jV71bvh3vdMnVN5rNXCNr0Q4fhUf2ZrfUQDXeVgh36iWcrnU1/y3w/znnjU8cUcYCo
+ SPYKzLlVPPDJLrsbYvflfi3B0IBIWpRvHjABhL8ybP+HWUxQSZg/kdaCkxNqE42C/YD7jvne5e7 ygBTPInWQSk+LHnpdS5rsO/XZmZ29g6ZKRQljHlk6nbaTFcb3MWEhV2sTW49A8UfkvWd2EHkdUK B2HG4Y6MmtOUODgj7cpSa9g5PSZuV9nvzAkSR18OcgRk5nqDbkbeyJUq2YV96U6p59odhLY+0xp 4EXIXfYX
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-12_05,2025-09-11_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 clxscore=1011
- suspectscore=0 bulkscore=0 adultscore=0 priorityscore=1501 malwarescore=0
- spamscore=0 impostorscore=0 classifier=typeunknown authscore=0 authtc=
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 priorityscore=1501
+ clxscore=1015 impostorscore=0 suspectscore=0 adultscore=0 bulkscore=0
+ malwarescore=0 phishscore=0 classifier=typeunknown authscore=0 authtc=
  authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2507300000 definitions=main-2509070006
+ engine=8.19.0-2507300000 definitions=main-2509090000
 
 
 
 On 9/12/25 13:36, Raphael Gallais-Pou wrote:
-> Remove files documentation from stih407-c8sectpfe driver.
+> Following B2120 boards removal in commit dee546e1adef ("ARM: sti: drop
+> B2120 board support"), several compatibles are left unused.  Remove
+> them.
 > 
 > Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
 > ---
->  .../admin-guide/media/platform-cardlist.rst        |  2 -
->  .../bindings/media/stih407-c8sectpfe.txt           | 88 ----------------------
->  2 files changed, 90 deletions(-)
+>  drivers/clk/st/clk-flexgen.c | 80 --------------------------------------------
+>  1 file changed, 80 deletions(-)
 > 
-> diff --git a/Documentation/admin-guide/media/platform-cardlist.rst b/Documentation/admin-guide/media/platform-cardlist.rst
-> index 1230ae4037ad551087d4cddc8a02eab5eac2be71..63f4b19c3628f3488fd2ccd1a6dab385d46b2503 100644
-> --- a/Documentation/admin-guide/media/platform-cardlist.rst
-> +++ b/Documentation/admin-guide/media/platform-cardlist.rst
-> @@ -18,8 +18,6 @@ am437x-vpfe        TI AM437x VPFE
->  aspeed-video       Aspeed AST2400 and AST2500
->  atmel-isc          ATMEL Image Sensor Controller (ISC)
->  atmel-isi          ATMEL Image Sensor Interface (ISI)
-> -c8sectpfe          SDR platform devices
-> -c8sectpfe          SDR platform devices
->  cafe_ccic          Marvell 88ALP01 (Cafe) CMOS Camera Controller
->  cdns-csi2rx        Cadence MIPI-CSI2 RX Controller
->  cdns-csi2tx        Cadence MIPI-CSI2 TX Controller
-> diff --git a/Documentation/devicetree/bindings/media/stih407-c8sectpfe.txt b/Documentation/devicetree/bindings/media/stih407-c8sectpfe.txt
-> deleted file mode 100644
-> index 880d4d70c9fd741ac13101721ced18f04336c373..0000000000000000000000000000000000000000
-> --- a/Documentation/devicetree/bindings/media/stih407-c8sectpfe.txt
-> +++ /dev/null
-> @@ -1,88 +0,0 @@
-> -STMicroelectronics STi c8sectpfe binding
-> -============================================
+> diff --git a/drivers/clk/st/clk-flexgen.c b/drivers/clk/st/clk-flexgen.c
+> index 5292208c4dd8b45edfe7c2722e934dd0299c6d34..e8e7626c76db06b2255908a6658bca1f42600c85 100644
+> --- a/drivers/clk/st/clk-flexgen.c
+> +++ b/drivers/clk/st/clk-flexgen.c
+> @@ -303,16 +303,6 @@ static const struct clkgen_data clkgen_video = {
+>  	.mode = 1,
+>  };
+>  
+> -static const struct clkgen_clk_out clkgen_stih407_a0_clk_out[] = {
+> -	/* This clk needs to be on so that memory interface is accessible */
+> -	{ .name = "clk-ic-lmi0", .flags = CLK_IS_CRITICAL },
+> -};
 > -
-> -This document describes the c8sectpfe device bindings that is used to get transport
-> -stream data into the SoC on the TS pins, and into DDR for further processing.
+> -static const struct clkgen_data clkgen_stih407_a0 = {
+> -	.outputs = clkgen_stih407_a0_clk_out,
+> -	.outputs_nb = ARRAY_SIZE(clkgen_stih407_a0_clk_out),
+> -};
 > -
-> -It is typically used in conjunction with one or more demodulator and tuner devices
-> -which converts from the RF to digital domain. Demodulators and tuners are usually
-> -located on an external DVB frontend card connected to SoC TS input pins.
+>  static const struct clkgen_clk_out clkgen_stih410_a0_clk_out[] = {
+>  	/* Those clks need to be on so that memory interface is accessible */
+>  	{ .name = "clk-ic-lmi0", .flags = CLK_IS_CRITICAL },
+> @@ -324,51 +314,6 @@ static const struct clkgen_data clkgen_stih410_a0 = {
+>  	.outputs_nb = ARRAY_SIZE(clkgen_stih410_a0_clk_out),
+>  };
+>  
+> -static const struct clkgen_clk_out clkgen_stih407_c0_clk_out[] = {
+> -	{ .name = "clk-icn-gpu", },
+> -	{ .name = "clk-fdma", },
+> -	{ .name = "clk-nand", },
+> -	{ .name = "clk-hva", },
+> -	{ .name = "clk-proc-stfe", },
+> -	{ .name = "clk-proc-tp", },
+> -	{ .name = "clk-rx-icn-dmu", },
+> -	{ .name = "clk-rx-icn-hva", },
+> -	/* This clk needs to be on to keep bus interconnect alive */
+> -	{ .name = "clk-icn-cpu", .flags = CLK_IS_CRITICAL },
+> -	/* This clk needs to be on to keep bus interconnect alive */
+> -	{ .name = "clk-tx-icn-dmu", .flags = CLK_IS_CRITICAL },
+> -	{ .name = "clk-mmc-0", },
+> -	{ .name = "clk-mmc-1", },
+> -	{ .name = "clk-jpegdec", },
+> -	/* This clk needs to be on to keep A9 running */
+> -	{ .name = "clk-ext2fa9", .flags = CLK_IS_CRITICAL },
+> -	{ .name = "clk-ic-bdisp-0", },
+> -	{ .name = "clk-ic-bdisp-1", },
+> -	{ .name = "clk-pp-dmu", },
+> -	{ .name = "clk-vid-dmu", },
+> -	{ .name = "clk-dss-lpc", },
+> -	{ .name = "clk-st231-aud-0", },
+> -	{ .name = "clk-st231-gp-1", },
+> -	{ .name = "clk-st231-dmu", },
+> -	/* This clk needs to be on to keep bus interconnect alive */
+> -	{ .name = "clk-icn-lmi", .flags = CLK_IS_CRITICAL },
+> -	{ .name = "clk-tx-icn-disp-1", },
+> -	/* This clk needs to be on to keep bus interconnect alive */
+> -	{ .name = "clk-icn-sbc", .flags = CLK_IS_CRITICAL },
+> -	{ .name = "clk-stfe-frc2", },
+> -	{ .name = "clk-eth-phy", },
+> -	{ .name = "clk-eth-ref-phyclk", },
+> -	{ .name = "clk-flash-promip", },
+> -	{ .name = "clk-main-disp", },
+> -	{ .name = "clk-aux-disp", },
+> -	{ .name = "clk-compo-dvp", },
+> -};
 > -
-> -Currently 7 TS input (tsin) channels are supported on the stih407 family SoC.
+> -static const struct clkgen_data clkgen_stih407_c0 = {
+> -	.outputs = clkgen_stih407_c0_clk_out,
+> -	.outputs_nb = ARRAY_SIZE(clkgen_stih407_c0_clk_out),
+> -};
 > -
-> -Required properties (controller (parent) node):
-> -- compatible	: Should be "stih407-c8sectpfe"
+>  static const struct clkgen_clk_out clkgen_stih410_c0_clk_out[] = {
+>  	{ .name = "clk-icn-gpu", },
+>  	{ .name = "clk-fdma", },
+> @@ -482,19 +427,6 @@ static const struct clkgen_data clkgen_stih418_c0 = {
+>  	.outputs_nb = ARRAY_SIZE(clkgen_stih418_c0_clk_out),
+>  };
+>  
+> -static const struct clkgen_clk_out clkgen_stih407_d0_clk_out[] = {
+> -	{ .name = "clk-pcm-0", },
+> -	{ .name = "clk-pcm-1", },
+> -	{ .name = "clk-pcm-2", },
+> -	{ .name = "clk-spdiff", },
+> -};
 > -
-> -- reg		: Address and length of register sets for each device in
-> -		  "reg-names"
+> -static const struct clkgen_data clkgen_stih407_d0 = {
+> -	.flags = CLK_SET_RATE_PARENT,
+> -	.outputs = clkgen_stih407_d0_clk_out,
+> -	.outputs_nb = ARRAY_SIZE(clkgen_stih407_d0_clk_out),
+> -};
 > -
-> -- reg-names	: The names of the register addresses corresponding to the
-> -		  registers filled in "reg":
-> -			- c8sectpfe: c8sectpfe registers
-> -			- c8sectpfe-ram: c8sectpfe internal sram
-> -
-> -- clocks	: phandle list of c8sectpfe clocks
-> -- clock-names	: should be "c8sectpfe"
-> -See: Documentation/devicetree/bindings/clock/clock-bindings.txt
-> -
-> -- pinctrl-names	: a pinctrl state named tsin%d-serial or tsin%d-parallel (where %d is tsin-num)
-> -		   must be defined for each tsin child node.
-> -- pinctrl-0	: phandle referencing pin configuration for this tsin configuration
-> -See: Documentation/devicetree/bindings/pinctrl/pinctrl-bindings.txt
-> -
-> -
-> -Required properties (tsin (child) node):
-> -
-> -- tsin-num	: tsin id of the InputBlock (must be between 0 to 6)
-> -- i2c-bus	: phandle to the I2C bus DT node which the demodulators & tuners on this tsin channel are connected.
-> -- reset-gpios	: reset gpio for this tsin channel.
-> -
-> -Optional properties (tsin (child) node):
-> -
-> -- invert-ts-clk		: Bool property to control sense of ts input clock (data stored on falling edge of clk).
-> -- serial-not-parallel	: Bool property to configure input bus width (serial on ts_data<7>).
-> -- async-not-sync	: Bool property to control if data is received in asynchronous mode
-> -			   (all bits/bytes with ts_valid or ts_packet asserted are valid).
-> -
-> -- dvb-card		: Describes the NIM card connected to this tsin channel.
-> -
-> -Example:
-> -
-> -/* stih410 SoC b2120 + b2004a + stv0367-pll(NIMB) + stv0367-tda18212 (NIMA) DT example) */
-> -
-> -	c8sectpfe@8a20000 {
-> -		compatible = "st,stih407-c8sectpfe";
-> -		reg = <0x08a20000 0x10000>, <0x08a00000 0x4000>;
-> -		reg-names = "stfe", "stfe-ram";
-> -		interrupts = <GIC_SPI 34 IRQ_TYPE_NONE>, <GIC_SPI 35 IRQ_TYPE_NONE>;
-> -		interrupt-names = "stfe-error-irq", "stfe-idle-irq";
-> -		pinctrl-0	= <&pinctrl_tsin0_serial>;
-> -		pinctrl-1	= <&pinctrl_tsin0_parallel>;
-> -		pinctrl-2	= <&pinctrl_tsin3_serial>;
-> -		pinctrl-3	= <&pinctrl_tsin4_serial_alt3>;
-> -		pinctrl-4	= <&pinctrl_tsin5_serial_alt1>;
-> -		pinctrl-names	= "tsin0-serial",
-> -				  "tsin0-parallel",
-> -				  "tsin3-serial",
-> -				  "tsin4-serial",
-> -				  "tsin5-serial";
-> -		clocks = <&clk_s_c0_flexgen CLK_PROC_STFE>;
-> -		clock-names = "c8sectpfe";
-> -
-> -		/* tsin0 is TSA on NIMA */
-> -		tsin0: port@0 {
-> -			tsin-num		= <0>;
-> -			serial-not-parallel;
-> -			i2c-bus			= <&ssc2>;
-> -			reset-gpios		= <&pio15 4 GPIO_ACTIVE_HIGH>;
-> -			dvb-card		= <STV0367_TDA18212_NIMA_1>;
-> -		};
-> -
-> -		tsin3: port@3 {
-> -			tsin-num		= <3>;
-> -			serial-not-parallel;
-> -			i2c-bus			= <&ssc3>;
-> -			reset-gpios		= <&pio15 7 GPIO_ACTIVE_HIGH>;
-> -			dvb-card		= <STV0367_TDA18212_NIMB_1>;
-> -		};
-> -	};
+>  static const struct clkgen_clk_out clkgen_stih410_d0_clk_out[] = {
+>  	{ .name = "clk-pcm-0", },
+>  	{ .name = "clk-pcm-1", },
+> @@ -596,18 +528,10 @@ static const struct of_device_id flexgen_of_match[] = {
+>  		.compatible = "st,flexgen-video",
+>  		.data = &clkgen_video,
+>  	},
+> -	{
+> -		.compatible = "st,flexgen-stih407-a0",
+> -		.data = &clkgen_stih407_a0,
+> -	},
+>  	{
+>  		.compatible = "st,flexgen-stih410-a0",
+>  		.data = &clkgen_stih410_a0,
+>  	},
+> -	{
+> -		.compatible = "st,flexgen-stih407-c0",
+> -		.data = &clkgen_stih407_c0,
+> -	},
+>  	{
+>  		.compatible = "st,flexgen-stih410-c0",
+>  		.data = &clkgen_stih410_c0,
+> @@ -616,10 +540,6 @@ static const struct of_device_id flexgen_of_match[] = {
+>  		.compatible = "st,flexgen-stih418-c0",
+>  		.data = &clkgen_stih418_c0,
+>  	},
+> -	{
+> -		.compatible = "st,flexgen-stih407-d0",
+> -		.data = &clkgen_stih407_d0,
+> -	},
+>  	{
+>  		.compatible = "st,flexgen-stih410-d0",
+>  		.data = &clkgen_stih410_d0,
 > 
 Reviewed-by: Patrice Chotard <patrice.chotard@foss.st.com>
 
-Thanks 
+Thanks
 Patrice
 
