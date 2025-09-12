@@ -1,129 +1,116 @@
-Return-Path: <linux-media+bounces-42469-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42470-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23F95B55638
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 20:32:19 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5825B558A8
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 23:52:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CC56E173500
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 18:32:18 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9EA8FAC02E7
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 21:52:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA0FC32ED36;
-	Fri, 12 Sep 2025 18:32:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CED0A30F544;
+	Fri, 12 Sep 2025 21:52:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="gtScEg6q"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="Yes8bdoN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1AE4285C98
-	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 18:32:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 751A7276045
+	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 21:52:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757701930; cv=none; b=SCr1hbs4X8ICWWZFsVPOZNICVWuV1DbI+b/c9mytYK1GgprfuV8jr4Rtqcos/DDhxoZhszxJFenCNoSiA9oBuy1Lc4NrT1Liswz4/bdl4k6HZkhGW+wbhv68dFO4vLPtYIt60J0p+nJuH/E8SArqwP2IPKqiuV/duO0mlN8dAH4=
+	t=1757713943; cv=none; b=ZglpiI6K9iBgOgdELtiQfDKmSNcw37/FUzEIwshSqMNXCp7tS6gqqWV4mpB+RZ4gm282l+W6C2+P8OolZm3vTZMt1nsyiBFmpMwB39+qRM9W1iOtRPLQZuGxheEkQT5AiB+KMi4O4BK6XkKJKQZd/4HmAIkoOcnhn299crzyBfI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757701930; c=relaxed/simple;
-	bh=i6r5BnwccM40MN1CW61UawFe6hxRBJLKBNylPutF2lE=;
+	s=arc-20240116; t=1757713943; c=relaxed/simple;
+	bh=wPA97b6V//Ti8Do+nraSoCXvD5g+auNcs7NBBJoNq+E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=F0ZKErilhe4m9DJaA5N6MomsPFMGOXbjp1gfAiTjgxibqLrRqK2qgylIRARuEYmBxW/BcgIIL75i8j77FjyDjqHuG2L/xTKQjr45YZRRMtUeFFdKa1tU0ZzsNCzERi3mHWEu0wvSm/byyJDuI/ZVpMCHK8EbZxobdL0EfW2xCVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=gtScEg6q; arc=none smtp.client-ip=209.85.160.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-4b33f71bb1dso30513501cf.0
-        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 11:32:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1757701927; x=1758306727; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=i6r5BnwccM40MN1CW61UawFe6hxRBJLKBNylPutF2lE=;
-        b=gtScEg6qDFbFbyaJsTn1ZhxrKg+uf+sfG5Y9jGOwtd3dtq/EI5saMld8LmL6cRyJWb
-         G6VRRZ/S4dv78/Eg7/N+SRhjFMHE+7/Ev2XR514YRCyFFRMqnMOH82pro2zabPYFe1Vx
-         ZeeThqomwjgUMai+rpKPBzyxxeLF/uTEQJMYY+glp57SmZyPriPfdJvIv0395h5mnxkG
-         tGQpBdQJk2q/i8Xe8gazNnmaKJeSwCEeUMceHpHHL0PUz7AO9bm2O1gSJG4z+d8ALgBT
-         VkiR4Pjs5wk7DMncnKnkLHWWxzzJQR10go5MJk2wB8z6PZnpjk/I7uGY57eZByxxuRU4
-         wxmg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757701927; x=1758306727;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=i6r5BnwccM40MN1CW61UawFe6hxRBJLKBNylPutF2lE=;
-        b=PTyDtcGmLHVzYwAqLSnVjXlXi0224s2vWL5QoAPn0SwokN24yrOUACDKDnnL1hB0iR
-         VHHBXjrM8iaranj1fFV4cwZsQDmoe5ShgrTWR2ugkujlqgj8qaAX6uquV/DJNYgEWdtv
-         DccZXpWDCZd/Two/RvjqXTRanFvTtXW2QXJG07LseeQZRNG2fOwrbMjVkoGzmiz6etOn
-         K76rmgYRKYJdgx8AAJYHbORHXzcxxBRxC0Hbonfm7RocvNEKP8QoG3EOBPBcFzjcDgS8
-         YMNIy9bmiI7fh1LshA+8htAv/AcQdSrwrRg9ebxjfGuDiGGLjV6IUTKcTHjXGqRTBw5W
-         WkRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVsYP/lY1VuWggapuK1NfK+WbftpGOts9eZrL6KRaAyhD9DRMzHZdGMhYieLMmNsIUdZh5wWE/72QxnGQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwAT/nKHpoeEM6RVNXh58fySXukzuAZ5capthUKX2eVgyrtWvVV
-	H2tmoDOC/33R9EXUyFL9sveaydxPhvTsbtJBJunOQ4DcC5DJHzJ0rqr/ZXygKPLztyI=
-X-Gm-Gg: ASbGnctaLLUBPDAoLpAVJ1FzpmFPX+i2FJJsg8a2tVshBuh7gWOzAYqpDq0ITGZDmdk
-	fPdywisByp/jJ47EIzqrLJwFQ8HKG12v37o/BjDORm01lu7RSBvfQNH65t+HzpmjQEDdt6IGkCS
-	8m7/dFwrX5Li39CgCgQwNJM+OHe1Ct/UxTI/BFekVvffmBxe3lwoU8wFTrFGQhY9s0aLnZEzlTP
-	/0WlRD/rYcU9L/qrPLt3kGKI5Og1IH8xbeLwFMq+KiVN5Za0JfZwjVJo8FKrD2Jo51oSgXMogok
-	D6t5wb7cEWRBnQ8Wukja+yNUppIw3zwsMPfcmELDnGYATJEAHWFmHfnsWIvbqagOO2D2Svr0PD5
-	aVPyPctmnltmom8QKAVdcgz8E4qDPGx1Xpm9JSmKLDRPMMPwtsE2R2u6do3wVTJ7ujXJF8U8mjZ
-	JBKzo=
-X-Google-Smtp-Source: AGHT+IHZhwwJ1GAAakUbDyWBchcEmOdwvmn5VpYqCpYR267goBUbd6qsiAamIt0D50PzjBgabwMTEA==
-X-Received: by 2002:a05:622a:2c7:b0:4b5:d6db:eea1 with SMTP id d75a77b69052e-4b6348bd37dmr127954271cf.39.1757701927559;
-        Fri, 12 Sep 2025 11:32:07 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-47-55-120-4.dhcp-dynamic.fibreop.ns.bellaliant.net. [47.55.120.4])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-820c8ac45a3sm313988985a.5.2025.09.12.11.32.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 12 Sep 2025 11:32:06 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1ux8Z4-000000047N0-0oCq;
-	Fri, 12 Sep 2025 15:32:06 -0300
-Date: Fri, 12 Sep 2025 15:32:06 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: =?utf-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
-	robin.murphy@arm.com, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, heiko@sntech.de, p.zabel@pengutronix.de,
-	mchehab@kernel.org, iommu@lists.linux.dev,
+	 Content-Type:Content-Disposition:In-Reply-To; b=XS1wLv8D4tGBta2ULIz/V/3vN3VRXQT8mah6H3uvNk3iOyLkwulpbiO8rsTAlJnZ8K+mB2/f+UZe6ROZh0v5m1qch86lcC+NbAmbMzTqF06lIjOj0oTQmLfSV1wULATVqTTZO/yKOsK7wjx+pVW6LGcTC7QpjaPrAk/2wDDT4aA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=Yes8bdoN; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=wPA9
+	7b6V//Ti8Do+nraSoCXvD5g+auNcs7NBBJoNq+E=; b=Yes8bdoNccyD5Ctik2hi
+	hrEzN+UCtctNOnL2M2KHpTs5Pmuj2/kuzWxQnRqFJ/7LzKtC7LKm0kblnykFL3Ji
+	+TVQ6kgH8aCUNAxLGnt8XcqzxpAr51tD7Q2NqgS1kUFl2ksR2jtcb2bc2eQB44WC
+	5DEtNH2idxxcHYh03dPvmp9We03gDuVPK3zh8BqcPgEHW0+vaB/LKEMFBYRGY5XK
+	BhxeAaw+GEiHREwgWXf/2fIUEzTkNAxSPREcT0KWt4O6fZhhikPfISfk0GSEN7jF
+	QDmQGGouNWEO+nBbV/fCPvbLmDhpMCrrOk2695pJ9xpOQi3aoHdNXPL5DikXcv4T
+	tQ==
+Received: (qmail 1496210 invoked from network); 12 Sep 2025 23:52:12 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 12 Sep 2025 23:52:12 +0200
+X-UD-Smtp-Session: l3s3148p1@kd6DqqE+nq0gAQnoAHJ8AC93OVDMgFWg
+Date: Fri, 12 Sep 2025 23:52:11 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Wenmeng Liu <quic_wenmliu@quicinc.com>
+Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>, bryan.odonoghue@linaro.org,
+	linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, kernel@collabora.com,
-	linux-media@vger.kernel.org
-Subject: Re: [PATCH v9 3/7] iommu: Add verisilicon IOMMU driver
-Message-ID: <20250912183206.GH882933@ziepe.ca>
-References: <20250911155720.180465-1-benjamin.gaignard@collabora.com>
- <20250911155720.180465-4-benjamin.gaignard@collabora.com>
- <vrngq76nnms3jyl5hnxqnkimjc6kil66o6fdyqn5vm3fpovmja@cfynipjw7ktp>
- <694b9ba15cd67f41a38f4a65a3811f035cf8e99d.camel@collabora.com>
+	linux-media@vger.kernel.org,
+	Wenmeng Liu <quic_wenmliu@qualcomm.com>
+Subject: Re: [PATCH v6 1/3] dt-bindings: i2c: qcom-cci: Document sa8775p
+ compatible
+Message-ID: <aMSWCw3LI6Q9o4gr@shikoro>
+References: <20250912-camss_rb8-v6-0-c9a6c3d67392@oss.qualcomm.com>
+ <20250912-camss_rb8-v6-1-c9a6c3d67392@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="sCEER0/hlgH7qpUm"
+Content-Disposition: inline
+In-Reply-To: <20250912-camss_rb8-v6-1-c9a6c3d67392@oss.qualcomm.com>
+
+
+--sCEER0/hlgH7qpUm
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <694b9ba15cd67f41a38f4a65a3811f035cf8e99d.camel@collabora.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Sep 12, 2025 at 01:37:11PM -0400, Nicolas Dufresne wrote:
+On Fri, Sep 12, 2025 at 11:19:25PM +0800, Wenmeng Liu wrote:
+> From: Wenmeng Liu <quic_wenmliu@qualcomm.com>
+>=20
+> Add the sa8775p CCI device string compatible.
+>=20
+> Acked-by: Rob Herring (Arm) <robh@kernel.org>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Signed-off-by: Wenmeng Liu <quic_wenmliu@qualcomm.com>
 
-> To me this rejection isn't about Benjamin's driver, all iommu seems to look
-> alike, so anyone else that would have sent new driver would have face the same
-> issue.
+Applied to for-next, thanks!
 
-Yes, many drivers looks approximately alike.. To the extent possible
-we should be making more helpers and tools to lift common patterns out
-of the drivers. I don't know how much of that applies to rockchip vs
-verisilicon though. Obviously I'm tackling the page table stuff.
 
-Much of the other common code is tracking attachments and invalidation
-requirements. I'm hopeful the general method Nicolin is working on can
-be lifted and shared. Certainly it is better than what is in any of
-the three server focused drivers. But I don't know how much this
-brings to these simpler drivers.
+--sCEER0/hlgH7qpUm
+Content-Type: application/pgp-signature; name="signature.asc"
 
-It seems strange to be talking about merging drivers that don't share
-a common IP supplier or register programming model.
+-----BEGIN PGP SIGNATURE-----
 
-Jason
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjElgsACgkQFA3kzBSg
+KbZvmxAAjntXh3QhT7wW/5CITKV7K1xT5vhMhtTSjW+iA02PdhjJsv1mAxyVwAE0
+7tvE82O9P/5lOy8ez3BViXwyieZE9F5FzHQ69+dxsCN2B8SJjmu4EEsoqRUXgnQd
+1AI5fqQEWBPB+DIVtKcmJCx5bnW3KvuNAS4s2zTNsGkALE1eUCUCmJZ2DOOBZiav
+fMaa22Wf3ohLffkiyz9p+CnqN3J78TjEwH57hc6gK6+BpJt4/5E2yFhyXsxlw7WW
+AT8+gkXkanWonFgEfeZmfhqcwp94u1iKO2Zf2H/mp4lWlxEbeKbyzc3YEQZgmz0s
+e0o2EsCBK8fQAQGCy4bz3kSYhUk8vZa9SH7D8gXv/ny+Dl+KSyGnwKcEfnnd6ehM
+lgnQbg8+YlEMVN+m5x6LT4Ly/9qz7DYhyCXo+0lKzTZKJj5sOi1XDyvR3ohisrun
+yVKUl4PweaW5SoPNEC6fK2Fras2BxCK/XLD1bsDuSHWkZ+y7NGP7KcJoiCcyKsO1
+KhY7+K++xIfB7z+aknPsK5+ojAP3niWK/izB5kOIFPnUIrdiSxlyGfmPBUupBwVS
+dICWSzxG1zfcr26fGvDnAYC5nr83gu3y6Mp2919JwE8hnB4AnThy4s7pWBv0Qr4P
+hTeFF3yx5pIsHo6RQ03xTUGD+ITc90w0JM54oDE9V81vMtaU0EI=
+=5/Pv
+-----END PGP SIGNATURE-----
+
+--sCEER0/hlgH7qpUm--
 
