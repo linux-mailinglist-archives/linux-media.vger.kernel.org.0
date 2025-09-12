@@ -1,114 +1,196 @@
-Return-Path: <linux-media+bounces-42426-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42427-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CB99B54E26
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:38:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D14DB54F17
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 15:17:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2422B3A6D4E
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 12:34:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0BC727C4365
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 13:16:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 28665309DC0;
-	Fri, 12 Sep 2025 12:33:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82F1C7B3E1;
+	Fri, 12 Sep 2025 13:15:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b="boIpsGXg"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VIngeNS4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD21B2E8B90;
-	Fri, 12 Sep 2025 12:33:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757680424; cv=pass; b=GBCSoq7eP+ZDMrYneeoGSlglhEQerU3MQ9dNPHVYrJSfHhZXfsZ9u753vDl6uKqeiEEkFLEwW8AJ3/3ZIXlcs2lmrBC6ws8zSBPXP4OHXqzFLAkvNrFurhUisNS1TOJ2XC4w+OMa4viHjUXMdd+ikLPSwYvZVydZQGwUpXDdzjs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757680424; c=relaxed/simple;
-	bh=gI2KfzM2aq/K9OsV2HIY4vUHjQHbykZZH3svP1jSZJ4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J+lD3FR+TGR85Jl0SrBkr796xCiexOnoR8HqRDzH0jJ15W6cxhxvoN66BKB5uPlqdkeAGO6EeM8raRAAbJGH9Pz9690UK809FAZehi9DR+6AgJ694GBurcX52K1/82XQudd5I87oygRtiN1QupuzSC5xp821oYB29Lly2aA1xBE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=benjamin.gaignard@collabora.com header.b=boIpsGXg; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1757680393; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=d9lx73cJ+3kbqYZ8pdZisBn1TYdH/TuEI9qHtLZVc0HiotwsWQwMUsygScWa/QCSnQDxrDWQdgrowkEpvxEVaPRwtGqoGt90P7eFUTt0rBxR43B8tFk0DCP02yq0s7o3S/xFBsV5yAQF0Cvj0KV6LCtV3pp487ju/iQaIqFu9uw=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1757680393; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=6MSZWnj1jgR4thBvdLu3JU3z1ibbPCoj24oKf6RqCjE=; 
-	b=CZLu6l3WO3PVuVjT/emEIylG9WJMo1+3F5CVysgk2x0zUx4eg4yvgKaZ3Szj1/W1vw2HUB92pdwaWEAQh70huS3eG3J7Gtade47mBZhzAHyZhBZ9neuWrOXSd1E+y7GEy4J+eNf+FJ4nXlF0kizicGGXFdegPR8vkp8z83ePE9o=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=benjamin.gaignard@collabora.com;
-	dmarc=pass header.from=<benjamin.gaignard@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1757680392;
-	s=zohomail; d=collabora.com; i=benjamin.gaignard@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=6MSZWnj1jgR4thBvdLu3JU3z1ibbPCoj24oKf6RqCjE=;
-	b=boIpsGXg6Oa36fHp704E35jAK+/U3XDz+CH4pbWZVUmBTzTFmmki+CCbcz/VW4Go
-	/n3BtmkKJ5ZK9idA/tLZt43qcGWqzTZNVdpT6bplhRwhDf8RfCLubg5clkZEM7d8ie7
-	eMXFLXVoWMeae2oo/2RUAV7YmGRWqFr1y97mOI+g=
-Received: by mx.zohomail.com with SMTPS id 1757680390786230.58638870729078;
-	Fri, 12 Sep 2025 05:33:10 -0700 (PDT)
-Message-ID: <f009ff62-abbe-4305-91ca-9cc762ca4fb1@collabora.com>
-Date: Fri, 12 Sep 2025 14:33:06 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67DA42AEF1
+	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 13:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757682908; cv=none; b=ZkVdTvkcCjhTeBWfx17NVU0muDBi7uUK98Z+wcT/qPJBIX2e8HJHNmf/BVCLXLbnI31/Bg0fMDfLDE7Js9GDsLHZNsXT5VI1oiiaPcwGl7YR/hNx7rwu1BwNA+9d5y+7FNF/AY4LZ8zrNKrbc6zbO/9gAVR1Tr/+bdKwg+aPAh8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757682908; c=relaxed/simple;
+	bh=09VgY2p82kk4TWXOIJsno3OACTHYSWqM1ipNT58ZzO0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=CuFnedXcP+dPxToG5FcDTuOVmQ37wIz9T981fjKV4rfTXUTVp5CB0/eU5nEr1MmxUuuEWMsYMW4m3yLSFjzP8+HZO1QpeZ7QcmHZDGTEI7K2csmfhCg0zwEMh+h7OeNQmfU1nu5B0a050dVZesKEIfhSdNWP4qPDXiMCGPBG9uI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VIngeNS4; arc=none smtp.client-ip=209.85.216.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-32de096c067so1391886a91.0
+        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 06:15:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757682906; x=1758287706; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=AK5P+/Isdiha4wioMF1al81oH5WF5xA1f1RgLDaypCg=;
+        b=VIngeNS4f7eIOEV7e7IpaBl35ql8lb15xYuhKARGYxaGhTHF2HcZe4F0gfuw5I1uPT
+         polWCzjErHdh4p5+JHEHORufeo8a5jYbqOmir9Fb30qBCyMdbjXPIR+fmm4x9pcrTqZu
+         5Tig6dcU/CkkiDXQK4ndnbsZKvFWSprDWaAkhPVDvRn1f0ODnSuu7WoHnNumiP/8ZmDj
+         EaUoSvf9eegefyZl8l5DO2L/Ib28g4lnypy9QnKyFNdf0Lsgkx8d2jhl8JOt1fEJxswt
+         rvTCxojnOVFgqXMDBSY/uu9j0eaTjzRG7KeOdlyO/XXp/62w1qL5o7/rta1QAmySH3bR
+         Mo5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757682906; x=1758287706;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=AK5P+/Isdiha4wioMF1al81oH5WF5xA1f1RgLDaypCg=;
+        b=aSYCnPtKMuf89eDDgV7QRqW0whWkx3PjL1zhmH7G2tD5bAH4CsI+cD0qFmmIXp/e8d
+         JFKdV3CASWvjjTnFmz2nST8b09ONaiOipYmBK1WIY3xHBcPCW9DySVm+kSn4bbUihBDj
+         3MDO3nixGk/OKbsMmspN+BqoAB9hocL+PGqGjUdNUptBkMWNHeJhzr1tf7s7MKtfchbt
+         Hqpa+sBny/cte8Jqj+Q2/gTZwYh3arU8/rd8yMDxtxBj+FF0VEzSuu7I4DhcY4/H9yZS
+         Sy21khuUU9RyMErqf65mSQNw/HneHFkUbD2pQ0yv37NlpwBl4zsaHNLpHaVwmq8/PQLH
+         YTCQ==
+X-Gm-Message-State: AOJu0Yz/pd6qEe2z5wME5GCIiBfCUz98mJpO0t8T+YAqUrTiYbQXPPBn
+	p1HmTgE561RQM938i/yF3FFFJ7EEfwpXHu/7wpY0nbqRB1z3+PnEdGWE
+X-Gm-Gg: ASbGncsWxZtTZJqXZ/ZV1cUN9SAxou97BcoQUeeqXT8XkZiZp0hhAAKZUkAkK2dJC71
+	evN9Qd0zoW7T6pO5dfO6JzGypK7Zn014faakamoJXTkD9/23wqPhtI8mRTrEcgtw0+qDfTdNKJz
+	SD2ru21a30GJnb+jQcTjOd/vUQ1Fkj1Uu38IaO4RiKMtD8ngfwOWsN4F42I5qZg1zmRIgRYN0RC
+	g8M54o1sOB5iZ4GMmqAZJkud9gnD8IzsAHMdqGEglLTsHhCvPS8awz7yd6cUDbvflknv23q08Fz
+	55wwRswNqKtTkUZWKRk7Xs2IvbOwZt86DtAREpOz0PmAnF7N4AbojhzN+gFSzo/LGLyl/NGa+GC
+	po97aLw11WbFRsBVDSJc7lVmdR0YrpKqR6l1e+ptZzMj9gK8Q0CmsNE/FmvFrBR8lnEeWfRqt1/
+	uxN7MwU9MOMdD1XA0OjP82K5PeR8i2ng==
+X-Google-Smtp-Source: AGHT+IEUFiDh0LUyJUkxuiV3KaaaNq/kqG31HiQyugm9FbL5DIYEPw3QbzV/WRcaFMnjA3+f1IawkQ==
+X-Received: by 2002:a17:90b:4b09:b0:32b:baaa:2a8f with SMTP id 98e67ed59e1d1-32de4d86c83mr3341213a91.0.1757682906428;
+        Fri, 12 Sep 2025 06:15:06 -0700 (PDT)
+Received: from OSC.. ([106.222.234.17])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-32dd98b439asm5580814a91.15.2025.09.12.06.15.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Sep 2025 06:15:06 -0700 (PDT)
+From: Pavan Bobba <opensource206@gmail.com>
+To: mchehab@kernel.org,
+	hverkuil@kernel.org,
+	ribalda@chromium.org,
+	laurent.pinchart@ideasonboard.com,
+	yunkec@google.com,
+	sakari.ailus@linux.intel.com,
+	james.cowgill@blaize.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Pavan Bobba <opensource206@gmail.com>
+Subject: [PATCH] media: v4l2-ctrls: add full AV1 profile validation in validate_av1_sequence()
+Date: Fri, 12 Sep 2025 18:44:59 +0530
+Message-ID: <20250912131459.6833-1-opensource206@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 3/7] iommu: Add verisilicon IOMMU driver
-To: =?UTF-8?B?SsO2cmcgUsO2ZGVs?= <joro@8bytes.org>
-Cc: robin.murphy@arm.com, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, heiko@sntech.de, nicolas.dufresne@collabora.com,
- jgg@ziepe.ca, p.zabel@pengutronix.de, mchehab@kernel.org,
- iommu@lists.linux.dev, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, kernel@collabora.com,
- linux-media@vger.kernel.org
-References: <20250911155720.180465-1-benjamin.gaignard@collabora.com>
- <20250911155720.180465-4-benjamin.gaignard@collabora.com>
- <vrngq76nnms3jyl5hnxqnkimjc6kil66o6fdyqn5vm3fpovmja@cfynipjw7ktp>
-Content-Language: en-US
-From: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-In-Reply-To: <vrngq76nnms3jyl5hnxqnkimjc6kil66o6fdyqn5vm3fpovmja@cfynipjw7ktp>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
+The AV1 stateless decoder API provides the control
+V4L2_CID_STATELESS_AV1_SEQUENCE to pass sequence header parameters
+from userspace. The current validator only checked that seq_profile
+≤ 2 and that monochrome was not signaled in profile 1.
 
-Le 12/09/2025 à 13:47, Jörg Rödel a écrit :
-> On Thu, Sep 11, 2025 at 05:57:13PM +0200, Benjamin Gaignard wrote:
->> The Verisilicon IOMMU hardware block can be found in combination
->> with Verisilicon hardware video codecs (encoders or decoders) on
->> different SoCs.
->> Enable it will allow us to use non contiguous memory allocators
->> for Verisilicon video codecs.
->>
->> Signed-off-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
->> ---
->>   drivers/iommu/Kconfig     |  11 +
->>   drivers/iommu/Makefile    |   1 +
->>   drivers/iommu/vsi-iommu.c | 808 ++++++++++++++++++++++++++++++++++++++
->>   include/linux/vsi-iommu.h |  21 +
->>   4 files changed, 841 insertions(+)
->>   create mode 100644 drivers/iommu/vsi-iommu.c
->>   create mode 100644 include/linux/vsi-iommu.h
-> This will not go in before Will Deacons comment about code duplication with the
-> Rockchip driver is addressed.
+This patch completes the "TODO: PROFILES" by enforcing all
+profile-specific constraints as defined by the AV1 specification
+(Section 5.5.2, "Color config syntax"):
 
-It isn't the same hardware block, not from the same IP vendor and the bits set aren't the same.
-pm_runtime, clock, spin_lock aren't managed differently.
-The common point is they both use 2-level page table.
+- Profile 0: 8/10-bit only, 4:2:0 subsampling, no monochrome
+- Profile 1: 8/10-bit only, 4:4:4 only, no monochrome
+- Profile 2: 8/10/12-bit, 4:2:0 / 4:2:2 / 4:4:4 allowed, monochrome allowed
 
-VSI iommu need an additional function to restore iommu context before decoding
-each frame, rockchip doesn't need it.
+Additionally, when the MONO_CHROME flag is set:
+- subsampling_x and subsampling_y must both be 1
+- separate_uv_delta_q must be 0
 
-Regards,
-Benjamin
+These checks prevent userspace from providing invalid AV1 sequence
+headers that would otherwise be accepted, leading to undefined
+driver or hardware behavior.
 
->
-> 	Joerg
+Signed-off-by: Pavan Bobba <opensource206@gmail.com>
+---
+ drivers/media/v4l2-core/v4l2-ctrls-core.c | 54 +++++++++++++++++++++--
+ 1 file changed, 50 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+index 98b960775e87..3283ed04cc36 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+@@ -852,14 +852,60 @@ static int validate_av1_sequence(struct v4l2_ctrl_av1_sequence *s)
+ 	 V4L2_AV1_SEQUENCE_FLAG_SEPARATE_UV_DELTA_Q))
+ 		return -EINVAL;
+ 
+-	if (s->seq_profile == 1 && s->flags & V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME)
+-		return -EINVAL;
+-
+ 	/* reserved */
+ 	if (s->seq_profile > 2)
+ 		return -EINVAL;
+ 
+-	/* TODO: PROFILES */
++	/* Profile-specific checks */
++	switch (s->seq_profile) {
++	case 0:
++		/* Bit depth: 8 or 10 */
++		if (s->bit_depth != 8 && s->bit_depth != 10)
++			return -EINVAL;
++
++		/* Subsampling must be 4:2:0 → x=1, y=1 */
++		if (!(s->flags & V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_X) ||
++		    !(s->flags & V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_Y))
++			return -EINVAL;
++		break;
++
++	case 1:
++		/* Monochrome is forbidden in profile 1 */
++		if (s->flags & V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME)
++			return -EINVAL;
++
++		/* Bit depth: 8 or 10 */
++		if (s->bit_depth != 8 && s->bit_depth != 10)
++			return -EINVAL;
++
++		/* Subsampling must be 4:4:4 → x=0, y=0 */
++		if ((s->flags & V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_X) ||
++		    (s->flags & V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_Y))
++			return -EINVAL;
++		break;
++
++	case 2:
++		/* Bit depth: 8, 10, or 12 */
++		if (s->bit_depth != 8 && s->bit_depth != 10 &&
++		    s->bit_depth != 12)
++			return -EINVAL;
++
++		/* Subsampling: 4:2:0, 4:2:2, or 4:4:4 allowed → no extra check */
++		break;
++	}
++
++	/* If monochrome flag is set, enforce spec rules */
++	if (s->flags & V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME) {
++		/* Must signal subsampling_x=1, subsampling_y=1 */
++		if (!(s->flags & V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_X) ||
++		    !(s->flags & V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_Y))
++			return -EINVAL;
++
++		/* separate_uv_delta_q must be 0 in monochrome */
++		if (s->flags & V4L2_AV1_SEQUENCE_FLAG_SEPARATE_UV_DELTA_Q)
++			return -EINVAL;
++	}
++
+ 	return 0;
+ }
+ 
+-- 
+2.43.0
+
 
