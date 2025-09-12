@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-42443-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42455-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A956B55104
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 16:22:40 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C65E1B5519A
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 16:32:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 435F1AA7451
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:22:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7C6D33AF153
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:32:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C54E73128BE;
-	Fri, 12 Sep 2025 14:21:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FA9D324B33;
+	Fri, 12 Sep 2025 14:28:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="b8bJWuWo"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MaTESpGq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4EC287245
-	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 14:21:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB51F324B19
+	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 14:28:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757686863; cv=none; b=TgqmrjiBn5HbissWN0aC9v4cDkJ2VScpW2R3p+wLprV3DrvcI/OXQc1c04rcfHeQjDax8GthU5VBEmw4zpI9JFuRx4A1mauv4fz8z/PH0+7DtzdBetiyeUXEw0xTeKP4QDJVhYidIc5JIHTZ99pbbo7UNMQVr112u/fuNI8F3CA=
+	t=1757687292; cv=none; b=aog+aTeIaSoNEIo59wmYHg4RPW55TvP+88OFsl+6Ec9nw4g30EFE+VIHCGgF043RkrrGPZkKS2HLNttjDdaOGUNbhEeA9drX/yoAdjNAcLvMbgwH0weq1u9fDPrAYWzcsKbkdHy/Br4LnHZy0PNyhxFTHFJ+ElC2WymzkpGxWcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757686863; c=relaxed/simple;
-	bh=LhFvZeUZESo+BqKcF+l1lftDAN8nJvGBnxH4OQlr4Sk=;
+	s=arc-20240116; t=1757687292; c=relaxed/simple;
+	bh=JFOg5p1iJ5KxXp0KyBvJj/giFbvKAa15YFCa02d2BZ8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iPyJA04lLyGE++SOM/f5JVKpHlJojqDpwziCl4m2QLQzDTPn0W/vuEHVNbgaHJudOQXdWw5dsKwXP5EQKjwjX+Sv1RbvTMW4givQpsSOtED6jLp49rEetdE/HwrdCw3/aALpA/VdEFm2kdpTBWfKZmecp//q48lDuJdTqwE/sDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=b8bJWuWo; arc=none smtp.client-ip=209.85.221.52
+	 In-Reply-To:Content-Type; b=np17OtUUhf4bLOcvl/VAilMRJwniYuXfzxxiGSaPgKJjYuyNnVCzQ+1qFsITWuKFwIiR+3hhbl0FfvTScshMjFI+ZPhN/OxwAd1HPTbxGuToj/G1+Zxh6am/7Uir0MALIw7MYzhXrlvJu4cLeymLPDwxz/I++NC06oa3cPPyAoo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MaTESpGq; arc=none smtp.client-ip=209.85.128.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3e537dc30f7so1139857f8f.2
-        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 07:21:01 -0700 (PDT)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-45df09c7128so16421975e9.1
+        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 07:28:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757686860; x=1758291660; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757687288; x=1758292088; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=4cur4X75SOX+L9Hbv3cU7NjYIOtP0WJSnDy9zZzynTY=;
-        b=b8bJWuWoQT98KnHA+pT3gitJeCu0mmyBmd5H6yoIbZW/KT5S/VipU+HlTqGXT8cy/f
-         0dAKCJde9nepMrRilLmKKW1cZxI6pfTtEgPh5YhnwK/pRWTdXpgsYOAsxhosKwn/jRc1
-         OJsR9W8c5oSo2y+bqhvRMJqY+tLIC21elJhj1M+T064a3OLSzrDGETrMt2sbu/HTpGf0
-         SQt/scjPtpjY/YZNcBBuDEFQXgQlT9q7DhzPIcdNUJ7BnDVF+fkN6wbm2a3K7xjHrSwv
-         qFd7Pflb0ScCfELi7EkM8/BJFbF0FMKgib3sLr+VRTFisfP60ulqYfoFIWSNjVDEHkD9
-         dLTg==
+        bh=jnkM+AnZyhps3qygpz2dIT80TKNeLfoU88kbfoaXJwA=;
+        b=MaTESpGqpTMpTxS5eQvECHwzZqQxvguH81IoIjAdnY6Iuon/s97rA4MgR7ETN4ig4W
+         ZB4kYLAIl5NCHpNeQhKXG2zUbFj4D2hD2Gr8oZV5LTseZWBSFCjCwfxSwTtS87WAwzPa
+         vDF2+G3vWpzq8FbfUpruZSNWV2Nr5Yw4vuEhmyeC4C6qPwjRXq+892caanXthJfzsT5I
+         ofNQi44GhPK9gBRN2TikmfEwn9zuQ1w/6iDiKIn43duVCQJMDlP9fO3qXW6WJBh+w/AR
+         FmItq8OgX7XQln6LAuxWFtzcuITtmn0IsoDUsVwJ3inhv7zLTKjaamm4hsDU2sNgDLTY
+         YTiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757686860; x=1758291660;
+        d=1e100.net; s=20230601; t=1757687288; x=1758292088;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=4cur4X75SOX+L9Hbv3cU7NjYIOtP0WJSnDy9zZzynTY=;
-        b=JLTzbxzwHkabcdipal46Uvu94/SivdQUfPT4cdk4KbL0VHAdmAPasuT1E8z+UOozCC
-         MWjphRI+uLB9T//8UBCzDSy44ZwmkcbL32jAHKoyZlSna3MPhrsBf3ogGFEotzrA4JNK
-         UsP7r/UNZGDnHzBhrGrEHeCJAMCnT0PjzaSipFegnqv9hShxzGitlghxfQSMi/BoLCTK
-         9k+9U0xiJx9AE+OrI3avm6KOOmJyI3Lf5XlLoQ0toLmH2LHUUpaxVn58vX0bPI8ak3jw
-         K/lVQotSOM7oI84YHeseiCcdwfzkg1zXAkHAQLxfN1TPuPp5cC658A0uifIWK+h/ghKu
-         Ip1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUX39qb8uLrFZzxC2ruik1fzh6DSOtaucBfHkju5Eq2rQuitXGtL419nC+tgJrawJ37EmfD6QGPYYEhJw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwUzGHqIULZ/MvGeLrdRIG4SJbjTv7iJhoKfIyPuvIfLrUsnvv4
-	+A8lI/koyPAV3d/FeCYuBubxKXMzU8ROZAtYvTGNwUIwK9xYvWHgO5mo
-X-Gm-Gg: ASbGncs/yIqLdVpSw58gutgaLd0R4CsLyiHfqUqWsvHGr2EpTqaVO44ENjLUPErTvB8
-	VHqF1qJaMnx8u/j6lfpjTP265a/bex/6v9fZWAhY2U6vyuoFBXVxi8BBf5fkZhIuD+DGuoVtcqN
-	v57kDWrtSA3pgkXHdyriFXbiR0FbIHAtWhM/F5q6/FLeGCqLv7zn93QhID+jPoiohe76h7iUvxL
-	BephzUqd/S/cj8Bdyp6iQpvmHhdHtPI5ez8rMCTRMwRs4uFh4fdgAHAYSy+FBbOzyvnL6ws0+aP
-	yY0Kiy02wi3W9wLQwJOYTTyuSKHSMMlbqM0yeJoY5ogQlX1PgdO2nF70+lISiZ4h+dxGBe9OEM6
-	UzBCLmhs0D9/hur2hn9TVS5RCNWwYzGEWQvsuoY/M7xPDeo1QEWLI
-X-Google-Smtp-Source: AGHT+IETnSVaOaRKN/Bmr4IDnznOAwChZ2qQ4ywH5VxUBMfTXYJEq367ON+ECBnG0YBYE/RxZE/ipA==
-X-Received: by 2002:a05:6000:2012:b0:3e7:441e:c9e1 with SMTP id ffacd0b85a97d-3e765793127mr2932126f8f.18.1757686859589;
-        Fri, 12 Sep 2025 07:20:59 -0700 (PDT)
+        bh=jnkM+AnZyhps3qygpz2dIT80TKNeLfoU88kbfoaXJwA=;
+        b=h7Ivy+e1uqGrfxShwWYk9BSlfMEd/Newg6Q52/2q0dDeyXRKYKQnSuQBEf4Vsf9JfF
+         J6dLHraFGOptV25tNsdkQJMEJOiHf167UpY/ZqfuD6yGOYKrbTP4NORReo6Tr0Kq4+eI
+         MCI7TwagE5HiammEjj3oO9le4AZeJQPQSjg9HdjG9p6YU2rqUSBBpSxSYHJ7c2Bit9F6
+         jICM6aY6fJ/g/Smdhv/nsuF8svQ7HierIe/v9+XOpLSOx87agvlKmk4TPqNeudSIsAVp
+         qehC35Qi0Zdk7VrvCpnsXdncpTbbTpxZnL60unXJgfsrlgVSxjXUfUgwOArjiOYlk2VR
+         9MDQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX1lR0fA4wLKjgjV5Tz8TW2RWanDYcAHL64pVYD9XVmG93/JYi0KUglNA7j3k/dGV8vUGOpsTnb+PVaYg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyTJE8Dv37po39+5b9YpRTwffzWjBaai0gUvcdOf3wqGKfli6Oa
+	Hr5Xqj7/kddoCCd0qluMn0dikS0U6oBSRa6nekDZnkiIDo8nwScMbb0U
+X-Gm-Gg: ASbGnctztFyuiq6+ufa9PLIFWXTkyw21jP4ee0GgW3vbJU9qXkDs+eeykawTvyJQo7y
+	3FK+iGPTEJNscAOIVsSFd0OuPfKOjBNAiWY3zh32/6GntXGyOyucxo96cAZFHWTm525E0LLm8k2
+	elYdcYjMIMMZZk6BpcpHeQtHgD5NjGsgmHE3UbQuZW6kXjSUi/14KgTN8OPsmytvoW4OGf0wPzs
+	C7VUK3kbxFZHVFxnjyf5OkARCRAeuTIJEX2/R71qffJusfDpVhJbXq0mJQS3lakXfDI17tc6n5Z
+	RM7CUsaTfAIVggDA/q1yV2U3t383n6yoq+GCNvMtxxqxXiWf6jI+DQsxRaQ36VWrTCv9Jlk7myd
+	EaY8NiM7RdYO8ouQ5zdxvXEubEcnwgpcBZWSKqhWvzQ==
+X-Google-Smtp-Source: AGHT+IGDvV53/LNE/OpdCCjsAZPEbICrc+wJ2bgnqrFTzigP/wpDBOWh7QRU2BBuWo1pqbgZm/YfGQ==
+X-Received: by 2002:a05:600c:1c19:b0:45d:d259:9a48 with SMTP id 5b1f17b1804b1-45f2128cba7mr31759255e9.9.1757687287618;
+        Fri, 12 Sep 2025 07:28:07 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7607cd415sm6697435f8f.30.2025.09.12.07.20.55
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e017b27b6sm67769045e9.16.2025.09.12.07.27.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 07:20:58 -0700 (PDT)
-Message-ID: <cda40929-12d7-4206-a4d9-3a74314c6b2e@gmail.com>
-Date: Fri, 12 Sep 2025 16:13:30 +0200
+        Fri, 12 Sep 2025 07:28:06 -0700 (PDT)
+Message-ID: <3de4b03d-4940-4d96-bf20-5bb45f1cc5a5@gmail.com>
+Date: Fri, 12 Sep 2025 16:13:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,8 +83,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 25/38] arm64: dts: mediatek: mt7986a-bpi-r3: Set
- interrupt-parent to mdio switch
+Subject: Re: [PATCH 26/38] arm64: dts: mediatek: acelink-ew-7886cax: Remove
+ unnecessary cells in spi-nand
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-mediatek@lists.infradead.org, robh@kernel.org
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
@@ -108,7 +108,7 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-26-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-27-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -154,42 +154,40 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-26-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-27-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 24/07/2025 10:39, AngeloGioacchino Del Regno wrote:
-> Being this an interrupt controller, the binding forbids to use
-> interrupts-extended and wants an `interrupts` property instead.
+> There is no need to specify #address-cells and #size-cells in a
+> node that has only one non-addressable subnode, and this is the
+> case of the flash@0 node in this devicetree, as it has only one
+> "partitions" subnode.
 > 
-> Since this interrupt controller's parent is on the GPIO controller
-> set it as interrupt-parent and change interrupts-extended to just
-> interrupts to silence a dtbs_check warning.
+> Remove those to suppress an avoid_unnecessary_addr_size warning.
 > 
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 Applied, thanks
 
 > ---
->   arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts | 2 --
+>   1 file changed, 2 deletions(-)
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts b/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
-> index 6d2762866a1a..e7654dc9a1c9 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt7986a-bananapi-bpi-r3.dts
-> @@ -200,8 +200,9 @@ switch: switch@31 {
->   		compatible = "mediatek,mt7531";
->   		reg = <31>;
->   		interrupt-controller;
-> +		interrupt-parent = <&pio>;
-> +		interrupts = <66 IRQ_TYPE_LEVEL_HIGH>;
->   		#interrupt-cells = <1>;
-> -		interrupts-extended = <&pio 66 IRQ_TYPE_LEVEL_HIGH>;
->   		reset-gpios = <&pio 5 GPIO_ACTIVE_HIGH>;
->   	};
->   };
+> diff --git a/arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts b/arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts
+> index 08b3b0827436..30805a610262 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts
+> +++ b/arch/arm64/boot/dts/mediatek/mt7986a-acelink-ew-7886cax.dts
+> @@ -98,8 +98,6 @@ &spi0 {
+>   	flash@0 {
+>   		compatible = "spi-nand";
+>   		reg = <0>;
+> -		#address-cells = <1>;
+> -		#size-cells = <1>;
+>   		spi-max-frequency = <52000000>;
+>   		spi-rx-bus-width = <4>;
+>   		spi-tx-bus-width = <4>;
 
 
