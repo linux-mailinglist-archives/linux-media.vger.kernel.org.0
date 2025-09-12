@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-42450-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42451-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E01CB55142
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 16:25:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C5DB5514C
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 16:26:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1631F3A8AD8
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:25:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 415967C431F
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:25:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C7E0313538;
-	Fri, 12 Sep 2025 14:22:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86B4231353B;
+	Fri, 12 Sep 2025 14:23:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BNQ02lqS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e9jSqWQ7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E0E13168FC
-	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 14:22:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEA7A31353E
+	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 14:23:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757686965; cv=none; b=jZaCtHdJ7RYW4wYH92DAVlK97xsSmRVs6hClRJPgjXSm23zYMLSSZ0m4BhbUYQnm+APM0XFP2TSUYADV+lTsDhFjZhj3L4d+Zc+idQRcst8vEB+A0Hcs2VY5tBQCpl1veo9iCz5XlOKR5cBjkXrwZpFzl1iGojvx1sPUO2F26tk=
+	t=1757686983; cv=none; b=prx+fyEiNiYj6ExtJsUn46MrH/dk7He4fKWxt2IiDEc7mlhs2qXqeDwL44xgjiJwKLmKihhNOI2yz7jkdnqboN7zfYUyA4wOLx/z2cWQwzJsaCUJYBeJwtWt6cluPXUrULJluoa9XUFNqYhGbe/Yp5owFTV0XghjQXtDoTe1i9w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757686965; c=relaxed/simple;
-	bh=t5l/naQj3nmZrrosN65ssHKsRcpoZMY4WQY0oZATpMQ=;
+	s=arc-20240116; t=1757686983; c=relaxed/simple;
+	bh=nx6xFnItCGXcISjxReH3/VA4Sb0JnyRrb3I1w2HIANw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ap/Cq/iARz15GwBA29I3rTKP+2RYXm5hsPoF/xcB4BOSpQfBG5ecEg/DVMSmJm3163CQoFesZi2VimgZZHhP7r6JTu/W8L8kNLPynLr2VReQCpVzgPvtbmYKnnKDvYuJcXX+oNMc92vg6Ts3OiUrL7Ym9k3qNc3or0JWUTqjxx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BNQ02lqS; arc=none smtp.client-ip=209.85.221.46
+	 In-Reply-To:Content-Type; b=bU+7F4d7OoCn7qD0U8jNbQeXerP8qJM4zuiXtUNh+N90TxhE/OT0hg2e1kUNOKIqtpFS2do/5VvOqqGCHlIkjNT4XxkEtWebJ5rkosWMSDs8/qSUmm3PbkBiUj0kAnWY/gTbo67Iu8ENQgZfkHfhv4dkwq/QW2VilmfGWP/Tt6U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e9jSqWQ7; arc=none smtp.client-ip=209.85.221.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3e7622483beso1079102f8f.3
-        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 07:22:43 -0700 (PDT)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-3e7643b0ab4so1094558f8f.2
+        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 07:23:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757686962; x=1758291762; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757686980; x=1758291780; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=VymCpN9fDyNm7QOg2yye26PyPlP5MnwUCjdKp/JISyg=;
-        b=BNQ02lqSuqirbnxTe2NFyyhmcOufy2yu2NRTUkrDQcJukAkwxwk9Nhyrextlnm8rUD
-         he5z2XsPFh7qL5wOWZoBdKfJFuJ/2VEVD0pIh6o54ifZ+BEDWdc3FETVuUI2ZPZaeGIx
-         qyZFjZtZs6dVVonYBWBH7IcNJB9zeo/qn0ikHV9JVin6qrKTcO27Wd8lkiuzgsXbpsRe
-         vRLzyKfRYh3itLF+sC4/3B7DarGOYKTfZBBPv1MUAvdCEdfM4gIDvPLS/VAEx2xhg3fN
-         fwnhIfThBa4B+MZ1Zbll1aLDwQEZcJFUbum27eIUNMYsIPf3t6pxUhmUYLnoGzPrBdau
-         Slig==
+        bh=ek0TO7GNCfMGdZrn2a6dssI2HabH0ybImb9FG8faTKA=;
+        b=e9jSqWQ79UnmWGmn+kmvUMsz2VtjnIANExxyKp0Vcvq7GdhaV4WDzNP2ID7lW2/v8E
+         tbobSTgbHNq4UwpTwF2J54Z2KK13+hFDIyWpvgiFCbNOfatvUZEWKtuQhd4jnRJaxXZ4
+         pd/2R4Ze7J1dFPbw2D0UaIJ/9+Av1f5xPeVx80SYFGUq6HSWXPkYgGOifYwcEbeIl1ga
+         j9cJe+npACJMklXevDWm0vFqAj/tSfyUuBHV7suxMV09ap/BSafW96Cm7j94ahDiyAtK
+         hk26WFTPvHp+qWzWv58CNTppCd0bH+4zGIrC7cGEMjPY/jS318BLAwsaIDWvo74gcgKp
+         PY2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757686962; x=1758291762;
+        d=1e100.net; s=20230601; t=1757686980; x=1758291780;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=VymCpN9fDyNm7QOg2yye26PyPlP5MnwUCjdKp/JISyg=;
-        b=EMy0mKpf+W2D+lGMWHvZlHgH9yIA6sE4suvng1+eCBxlTpxbJERIhC3VGDRMSmUJSk
-         wxBO4uSOgXUHoKesG0z5+Yhx7LWPGZx0xtp9Ti5RojtesMS4uAT6L25Q1Z+NyvsVo2o2
-         FY9hj+ZFLww35BpP7ESoQJp2jI+/sU1UuYToLKtdI/gdA04uhdCFY/98OZEiQke75aae
-         LoKhppxf2to19Q5FPQ8tLtMbODL3fqbw5HJFPRDshtsDRqDDvekPgFJyjKEJj3Ag08FB
-         pkIytMhc5U3oQj/bQhF1/+CrADRlz6/D5zhQQVzawD9hc3xeS+D56brQfdZB0+/Zl0Nl
-         pMdw==
-X-Forwarded-Encrypted: i=1; AJvYcCU6OmjmLk+W4C2Y/sxcAJ12vQQKW/qzNdM6e0PuYLTkX2qDJhfVvtjOz7iWdejl1bYXXgW2xjVrhHz8Fw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUT7MriW05ECnnFdcwZ4/58k5QTMue8Sj+q3GKBH1OwgnxDGl5
-	MGNfi3ceBDR8Bo3bMz9E83BBHt8HVrFSIYyl2OoVjXBznjC5o4T54Iqe
-X-Gm-Gg: ASbGncsfP9uzk7qdIJvx5bqoDQJqsbhIA1uQn+USclhFKpX49KxFKRCOf8tsJzOWhip
-	NyegSihhvPutGdzh5ATNCW89aAqq4YXjnIXWuz6P4GWwzCRi9brUH8X5hzpfjTnKVTawD0AckqZ
-	c4HHssZJpLIQGYeGJGx8HjNfF1VE31Wey4aDWk7dxBOwt2wvesyF8v9oOpQwU2kK4aWijgUzADJ
-	k0Qow9ms10WYmMmfovE4KXvGXL33ZttTlGSVTWhO41Cu5P5NXwe7mniG39uDRPzqhiG69XM6mb7
-	CbXpa9XoSQcRM01UHzjJlzMB7S3PLEiRxRwa2PeVb3xIlAzv+yX4Qxe+iNP9p1OqM8dBX/542ob
-	rD+Ut+1XXRz4+DNYV3Nz2ZcfKuQ7lDAQ=
-X-Google-Smtp-Source: AGHT+IGS/ldf5VzaTVStAjlJrTC/ggG5z3uMdvDlNsP8I8AfAyjYBZwViC4ftI3Cml1zaAZD0YLmkg==
-X-Received: by 2002:a05:6000:2509:b0:3d9:70cc:6dd0 with SMTP id ffacd0b85a97d-3e765a05342mr3225811f8f.33.1757686962105;
-        Fri, 12 Sep 2025 07:22:42 -0700 (PDT)
+        bh=ek0TO7GNCfMGdZrn2a6dssI2HabH0ybImb9FG8faTKA=;
+        b=viEp1ZLwxZkwySoVFiRtwNFiOlslhv1dkk0zFsFaykyWcJJ4TCecBCsZIL6qp+9ynO
+         bQ3zFR2XKW1gfnnyDNvtmw2kDfxn0qwx09zJ1bpJMoz7Vl9Ahb+YfhzoYibaCdkkTJ3s
+         0fio413fxzR19jKArV3CJmZ87Punnf5F773lcdWYD3sEoI0i+T0frL2GdWCwcs4D4rpi
+         m3qn/69g/kqiqLzbNPulX/te7EEtdDPODzFxNsn0iAJIu2NXAJRTNAZceKcr8VK6P03h
+         NNDiKPoQZnSTvW4C6Xrv0Bm3yCkQCoi+AEqdRuUYFFKWweOCoCy76texdnnwzuNFT8q/
+         AhYA==
+X-Forwarded-Encrypted: i=1; AJvYcCU6cDASVgS72y8EDFUfH6jbon03wvrJOh6PG9e/XtNw5UbVRmeWBl5i/g75T+ELLXRkS3jnzArSnFqqpg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywewh6G4XE30OwR0VfT/iS1OEb7aFAktneUeBJ0h0w3NV88Lbzz
+	OZcQLHOUKIeMaXvCIcvk2fu3YJmHl1AW4+gVZJpj8EsIjrcQJk1a/vh2
+X-Gm-Gg: ASbGncvzLyBjC0BaDGfEkljGgcxXF5HHhuaDr/k2aImhWuFYuC9oxNgUbztdNXJxBoG
+	4rGYGKtkbkdMwowURRzvY4u8f/vu4eMpf/V+QVnTPMnaAq4BmkYp1G2zJYW/aYNWHkG7BeuBo1l
+	8PEnSLWTm/1uzChmfPWSpQD92vHjQJBJQkoZR9jiHKlEJ4yWkaHgK/cH+Mv6orK102hqVD+dHL0
+	HS1ATE/xNYZ6O8Pdu6z5Bfr7K/UT/qiujS7zZdnQKFtzfj5mF7sAA3FMTAkkuzET9Xw6DX4kojL
+	jf9VCPNWrBlpjfhRptbSaDbe7oXTIGopPfmJCkwdKKKNeBr61M6iH/JY1NBc0nZSBTBiTknc4or
+	MPDDbH+wdzgqqhBhmxCGzpnvaNw3GJdk=
+X-Google-Smtp-Source: AGHT+IEyMrgn2AGObMNXrXfOyNSBeXONFdMwd2oXsFxZJiErmFGwTSul75U9TPJBys255/fSCwqlMQ==
+X-Received: by 2002:a05:6000:26cc:b0:3e0:34f4:3225 with SMTP id ffacd0b85a97d-3e765a09238mr3563649f8f.45.1757686979724;
+        Fri, 12 Sep 2025 07:22:59 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e016b5a16sm67350635e9.12.2025.09.12.07.22.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e7607cd0a7sm6624214f8f.39.2025.09.12.07.22.55
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 07:22:40 -0700 (PDT)
-Message-ID: <b28210f7-8154-406e-b2c5-70de85deffb7@gmail.com>
-Date: Fri, 12 Sep 2025 16:22:36 +0200
+        Fri, 12 Sep 2025 07:22:58 -0700 (PDT)
+Message-ID: <2d711432-f6db-400d-b97c-135c839cf5f1@gmail.com>
+Date: Fri, 12 Sep 2025 16:22:53 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,8 +83,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 35/38] arm64: dts: mediatek: mt8195-cherry: Move
- VBAT-supply to Tomato R1/R2
+Subject: Re: [PATCH 36/38] arm64: dts: mediatek: mt8195-cherry: Add missing
+ regulators to rt5682
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-mediatek@lists.infradead.org, robh@kernel.org
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
@@ -108,7 +108,7 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-36-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-37-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -154,59 +154,39 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-36-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-37-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 24/07/2025 10:39, AngeloGioacchino Del Regno wrote:
-> Move the VBAT supply to mt8195-cherry-tomato-{r1,r2} as this power
-> supply is named like that only for the Realtek RT5682i codec.
+> Add the missing DBVDD and LDO1-IN power supplies to the codec
+> node as both RT5682i and RT5682s require those.
+> 
+> This commit only fixes a dtbs_check warning but doesn't produce
+> any functional changes because the VIO18 LDO is already powered
+> on because it's assigned as AVDD supply anyway.
 > 
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 Applied, thanks
 
 > ---
->   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dts | 1 +
->   arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dts | 1 +
->   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi          | 1 -
->   3 files changed, 2 insertions(+), 1 deletion(-)
+>   arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi | 2 ++
+>   1 file changed, 2 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dts b/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dts
-> index a82d716f10d4..a50b4e8efaba 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r1.dts
-> @@ -13,6 +13,7 @@ / {
->   &audio_codec {
->   	compatible = "realtek,rt5682i";
->   	realtek,btndet-delay = <16>;
-> +	VBAT-supply = <&pp3300_z5>;
->   };
->   
->   &sound {
-> diff --git a/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dts b/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dts
-> index 2d6522c144b7..a8657c0068d5 100644
-> --- a/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dts
-> +++ b/arch/arm64/boot/dts/mediatek/mt8195-cherry-tomato-r2.dts
-> @@ -13,6 +13,7 @@ / {
->   &audio_codec {
->   	compatible = "realtek,rt5682i";
->   	realtek,btndet-delay = <16>;
-> +	VBAT-supply = <&pp3300_z5>;
->   };
->   
->   &pio_default {
 > diff --git a/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi b/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
-> index e70599807bb1..d40f4c1b9766 100644
+> index d40f4c1b9766..b3761b80cac7 100644
 > --- a/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
 > +++ b/arch/arm64/boot/dts/mediatek/mt8195-cherry.dtsi
-> @@ -535,7 +535,6 @@ audio_codec: codec@1a {
+> @@ -534,7 +534,9 @@ audio_codec: codec@1a {
+>   		realtek,jd-src = <1>;
 >   
 >   		AVDD-supply = <&mt6359_vio18_ldo_reg>;
+> +		DBVDD-supply = <&mt6359_vio18_ldo_reg>;
 >   		MICVDD-supply = <&pp3300_z2>;
-> -		VBAT-supply = <&pp3300_z5>;
+> +		LDO1-IN-supply = <&mt6359_vio18_ldo_reg>;
 >   	};
 >   };
 >   
