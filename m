@@ -1,81 +1,81 @@
-Return-Path: <linux-media+bounces-42445-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42446-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12BDCB55115
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 16:23:20 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BD2F7B55125
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 16:24:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 397CA1D64C2A
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:23:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D8F3F5A77C7
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 14:23:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E08D1319855;
-	Fri, 12 Sep 2025 14:21:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62E9331AF27;
+	Fri, 12 Sep 2025 14:21:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JfFWlPdb"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="C/JIYmXP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66B4C313535
-	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 14:21:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93E7B313542
+	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 14:21:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757686882; cv=none; b=nicSuEwnEjvjVGU4lxvHhA/M8sVZlHDGxCVpUpZwLUK09tKImvmlZPtXUZbfWRTOh7wJHAdJZJm61lPQTPk2cqxk0wIPQlugWGkhtz9KZDdz2LXrfRsSpNUL8IQR7stgagpHIgorshjd7gAtQad2XoloeloqYa8uXSSrqn9Ac9k=
+	t=1757686893; cv=none; b=lG7opYcxiT/qTgQomu0R87fN/NcIIUVbyrCHSkAfyZ1Bf834tlInoTdcYn8tjrnHk0uu86BwSxSO8p+5L+HvKw7xB4R6z015YW9zW0S8zKOPO41nvA70IB5sN1JfkJKx6vD/6bQkMHL07l2utC/Sts5qXX/8cCReiJDV7Ly1x0U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757686882; c=relaxed/simple;
-	bh=Q4rw3hqD7xfYTz2PjfHUSCWYx6GmHlLphHFHrEZQ64A=;
+	s=arc-20240116; t=1757686893; c=relaxed/simple;
+	bh=Y+vesMFUWtZsFpRaYxFfsKUFrGm7KkfUA64s8bpSzls=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QfQL9RX41BV61YoR8uv4og9b6ZosxB+MUeTpR6nNgQe6ch1qYatdjlOtIFFwv0PTSBQhKl5uJM9SS5YSrGc3UthUK59sGGiNCzaq0kx6a2cLs7UscI1o5KyWn1hgFF1XFRVg/9pqwIuUKVLYtqPxXWDLkhrsJaUgqSF1t8XFXjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JfFWlPdb; arc=none smtp.client-ip=209.85.128.48
+	 In-Reply-To:Content-Type; b=LExnZ+gm6E4MkF8zkKaomffUnAWS940KnWxD4rVkseYO4JEt6UYIlnHaW99/bu8SxIR/8xQIf5JTKXsTHicX9i7ab7Jy/GyX/SXWD5+/81q/vkzDy9BWCvK6ax9/oybUpnlbRw7WVt/07nolZcM5Vaz7HFkcomGY0r3aXWKDgEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=C/JIYmXP; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-45cb6428c46so23652695e9.1
-        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 07:21:20 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-45df09c7128so16348645e9.1
+        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 07:21:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1757686879; x=1758291679; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1757686889; x=1758291689; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=vw9oEMKP6t2zJ5WrxPI767ve9Ezi/7LUntIyA8io5Hw=;
-        b=JfFWlPdbK/WwrPHrAjJ3XiuBxAouAnn4dsbCo65qQEqBynoU6Ove3ahe9pRLtSdKlY
-         EIsyBSc9uq5E4njdOiVmJQi37aQlOS+ZUbeVcscqVZpnjA3Rx6e1oT8loxZDJwBjVnas
-         0o+n0Sv+7fDQDuhpmFxWghT2glDVmnXSCscwCmWDaYti3lIXlDLzP32aPqLTZ0WSA3Lo
-         +U5MVarVO45uCBwRXNBxOR0DthYROowqXAoy6MmQOBv18jWqLiRbxYzWM3ha+mz+zNs/
-         iv6eyWFO8Y3GYxDXahQC6gwGxpqC+AthZsTNozLDV8/XUykMqFDbYdtpLKiEk+0Po0He
-         og2g==
+        bh=m6s4DjcKlA2pZ7v6EsAu/6cLi/c1+O59CbRYF+E3qZc=;
+        b=C/JIYmXPpaaP+KkFDwbo3TmhwxAwXRY6ILmQL5fOgXeHH9OsfynVY4Vctt1yr/pUQs
+         eMB3Taxoa3vHEFcboS1cinDBNXhu4JVYlSGGTWSSmeJ835bslmA02ZS/zJMmDOuprRLj
+         E/1bXDbGm0OuEhAgXoccfGAon5iMXxXGBWqdhvgSyBfiNI+ccYg0xV6WGE7abmfxKfXY
+         F5wU1rZRUs1ZLGUE9z2vAtlQPSB5z9N5xkI8YlKFJa66AC9cVAxMuzfCSe5c2JLfxhhP
+         iHpFAk4JFZ/rOxELSXHfG90MORgxsCOU2je9JrXbDaD4P4CTsu5FPJZs4SLEZ8LnQtTV
+         +xYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1757686879; x=1758291679;
+        d=1e100.net; s=20230601; t=1757686889; x=1758291689;
         h=content-transfer-encoding:in-reply-to:autocrypt:from
          :content-language:references:cc:to:subject:user-agent:mime-version
          :date:message-id:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=vw9oEMKP6t2zJ5WrxPI767ve9Ezi/7LUntIyA8io5Hw=;
-        b=Razhr9sGVsdaTyRdNIosKuywvrQDY4f/pTFO33i5ZoD4pTc98mgujlLRHlTBl2ZATu
-         ANM60abW8KNT2JliMj1IDT46FavhtzXM6GIt7etdXCQq05Srn0YBDqrzc/Zr0Xg4GJpM
-         m3yH0JXCxs+UeFye53FxF6/nb7AMr4VkcX5mg5nWkS0acuKbjDdIYoBGFQsRy0N/b76C
-         K2w0REjBo+ByFt12gy5MYvh6CJapld+YgocyW8AJmm4EfnAic50kKNWGmWTM/tH6cPb1
-         AcRLSyfY50sINv0CGK1hFJ+6ar8MOhUZYJa0zCprJJkXh+g/X8DV/m9pSnqFZc/UEWKo
-         Hu7w==
-X-Forwarded-Encrypted: i=1; AJvYcCWK3PzIGm9TBXG/5txAmOBCLgNtdQZOqICmHoLwyeNIlBovQIV/XWockySHyJWQIdxZ+ZHdyAB1J21zvw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzpvGJDR7a4ZXJ+0ALU7V3g2FlYVB+1uWSeaPcxVxKCgl9JDAwH
-	r7EXKNI3wo7FIRuuZo0LdX9wtw0XPzPZlcNNkCQQeENKu6GdaJlfFLNm
-X-Gm-Gg: ASbGncs+AATiaJkdsObhd9juJ0ZLvdsIycE19Vif+VkwDuEZmcNg6E0Rh0RR8EmBOZA
-	CaAQ3T4c0v+gOovkXN+CT+PTq013zcCLpIC/91T8vGAkf+tKiJaw/+kGILqWCnDpit4CwIRPBeD
-	p5HiGnGsIfPb8ZRGFYHhPo3mR3s8cpWyMBrukDalehDqKTa4piN7qHOukQdoyGW95IXNM2maopl
-	3/7daVpEsi9XwWxRHkFWbljgE8Id6zZCsOuM0s51zqSUbfC2CHES3kOTR6dMrYeilyT/kYJlyzw
-	3nnnJRAphK/qkbMGTO0Kju7SLUIXy6oZha7mAnaFN5KlOpMaYgkdlrdWDRptKY32dFeF5I62t9G
-	vKUEtME05YSvuXL7EocmQ7F53EgeE758ZPrIrni12AQ==
-X-Google-Smtp-Source: AGHT+IFntwFrj6hvDClo8DDECOvHNBx/ZYTf0W4VlRfdOBkNBdr/e49WdTOHoS9sCIAf2OgrZ1iqXQ==
-X-Received: by 2002:a05:6000:2012:b0:3d9:dbe6:e613 with SMTP id ffacd0b85a97d-3e765792841mr3488249f8f.15.1757686878585;
-        Fri, 12 Sep 2025 07:21:18 -0700 (PDT)
+        bh=m6s4DjcKlA2pZ7v6EsAu/6cLi/c1+O59CbRYF+E3qZc=;
+        b=S84wIjkER9Ts/PGGpXdvL+b0sFRHG35TgyjY/WUAcQiZautiCmhrexROwxYeuL2cmL
+         5b9TQnjyPqUC6DTofS49n+4QK0IsL0gt+5KMJZZDjr8GGyOZ+ehq5W6ylVC5SzzrYk0l
+         9zg/3I1K0CApohv4A+G0UGakQNsBHK5V1wRVjlbVbh64k59MAAdMIH7ked3fOeuzUUlt
+         MEX4XXWNzCOpNmWtORcnTgmvEZc2AYRDD7osyqFieZPZiYkq/FtfVyR/2UNuZIdOxtOd
+         iLrxFsYZKofn2SZgpfcfWtzQZIct2IQRP9FbhMvGokIUNGjgG5DYRIUQ4hWAohlKopcL
+         QrKg==
+X-Forwarded-Encrypted: i=1; AJvYcCW8k4FdlisIQ9TzAL05G7pa+UlZuhhhqiGgKbMOB1gIa/jEDKy42kZewpRf1sdhSktILKKLXrRmPuY9DQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywsm0tv+/571zXSdqAqQA/HqbzzieaFm8xsCOVLS1J0L4Z+R46I
+	PjV4cUVuAQqtHAbUTxMv0u/YeagnLyfPD5hjErBc9EJBvR2HstwIgGMD
+X-Gm-Gg: ASbGncv0nc9RhaRWQSSh6yGXx05Xqa6NheCtQR28dbqcZaazNBLclDCfe+MgM4R4tcg
+	GecGKxxx2h/cQ0SG7mEzMYvwsC2MgmFG+EFP0HSxyNIBZqJ8hgSKmvMSalSZnUlW/XGaAx/NVih
+	iNBPpcvQs1CPKpaYwlSAgKzaR1m38Uf4b+7UhCrWxIOMUht2tR1hgAYHPoRXkp+/WDiQuP8nJV6
+	5Jb/ms6C2Hyu/WNnnTGXiRWZktZnvHhuiwjjOCQWJ/9aN6tqgK3nh1taGPrMl3/VbE0t1HsVWw7
+	3nY0HJYcmLS+g02LFmHdcYIN6mFqgn4P0v4tyPo+wixv0PNQByxSEQsPH/llp0SLRdbz9K7VoEW
+	XJM9uQJdm9we/VD5n9+yWqVgPYhgsO5A=
+X-Google-Smtp-Source: AGHT+IF9qckBbO1/MUfpNiCtEF6z09eaYzKoz6jvuBpXQ6fGTJDkBa8yQ4C1wqtVjU1kYwNtwHUpjg==
+X-Received: by 2002:a05:600c:3146:b0:45d:dc6c:9e30 with SMTP id 5b1f17b1804b1-45f21293373mr35435585e9.14.1757686888870;
+        Fri, 12 Sep 2025 07:21:28 -0700 (PDT)
 Received: from [192.168.2.177] ([91.116.220.47])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3e760787080sm6943265f8f.20.2025.09.12.07.21.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-45e015784c3sm71413955e9.10.2025.09.12.07.21.25
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 12 Sep 2025 07:21:17 -0700 (PDT)
-Message-ID: <52a54697-4b42-4c39-ae42-ae03b4231acc@gmail.com>
-Date: Fri, 12 Sep 2025 16:18:36 +0200
+        Fri, 12 Sep 2025 07:21:27 -0700 (PDT)
+Message-ID: <6f60e909-b267-4140-8384-6e06e9a199fb@gmail.com>
+Date: Fri, 12 Sep 2025 16:18:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,8 +83,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 30/38] arm64: dts: mediatek: pumpkin-common: Fix pinctrl
- node names
+Subject: Re: [PATCH 31/38] arm64: dts: mediatek: mt8183-pumpkin: Add power
+ supply for CCI
 To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
  linux-mediatek@lists.infradead.org, robh@kernel.org
 Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
@@ -108,7 +108,7 @@ Cc: herbert@gondor.apana.org.au, davem@davemloft.net, krzk+dt@kernel.org,
  linux-gpio@vger.kernel.org, linux-remoteproc@vger.kernel.org,
  linux-sound@vger.kernel.org
 References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
- <20250724083914.61351-31-angelogioacchino.delregno@collabora.com>
+ <20250724083914.61351-32-angelogioacchino.delregno@collabora.com>
 Content-Language: en-US, ca-ES, es-ES
 From: Matthias Brugger <matthias.bgg@gmail.com>
 Autocrypt: addr=matthias.bgg@gmail.com; keydata=
@@ -154,84 +154,38 @@ Autocrypt: addr=matthias.bgg@gmail.com; keydata=
  +zFJv9fVUpo/bjePOL4PMP1y+PYrp4PmPmRwoklBpy1ep8m8XURv46fGUHUEIsTwPWs2Q87k
  7vjYyrcyAOarX2X5pvMQvpAMADGf2Z3wrCsDdG25w2HztweUNd9QEprtJG8GNNzMOD4cQ82T
  a7eGvPWPeXauWJDLVR9jHtWT9Ot3BQgmApLxACvwvD1a69jaFKov28SPHxUCQ9Y1Y/Ct
-In-Reply-To: <20250724083914.61351-31-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250724083914.61351-32-angelogioacchino.delregno@collabora.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
 On 24/07/2025 10:39, AngeloGioacchino Del Regno wrote:
-> Fix the pinctrl node names to adhere to the bindings, as the main
-> pin node is supposed to be named like "uart0-pins" and the pinmux
-> node named like "pins-bus".
+> Add a power supply for the Cache Coherent Interconnect node as it
+> is required to perform CPU DVFS because both are scaling together.
 > 
 > Signed-off-by: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 
 Applied, thanks
 
 > ---
->   .../boot/dts/mediatek/pumpkin-common.dtsi      | 18 +++++++++---------
->   1 file changed, 9 insertions(+), 9 deletions(-)
+>   arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts | 4 ++++
+>   1 file changed, 4 insertions(+)
 > 
-> diff --git a/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi b/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-> index a356db5fcc5f..805fb82138a8 100644
-> --- a/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-> +++ b/arch/arm64/boot/dts/mediatek/pumpkin-common.dtsi
-> @@ -198,8 +198,8 @@ &usb_phy {
+> diff --git a/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts b/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
+> index dbdee604edab..d5fcb010e1ac 100644
+> --- a/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
+> +++ b/arch/arm64/boot/dts/mediatek/mt8183-pumpkin.dts
+> @@ -482,6 +482,10 @@ &mfg {
+>   	domain-supply = <&mt6358_vgpu_reg>;
 >   };
 >   
->   &pio {
-> -	gpio_keys_default: gpiodefault {
-> -		pins_cmd_dat {
-> +	gpio_keys_default: gpio-keys-pins {
-> +		pins-cmd-dat {
->   			pinmux = <MT8516_PIN_42_KPCOL0__FUNC_GPIO42>,
->   				 <MT8516_PIN_43_KPCOL1__FUNC_GPIO43>;
->   			bias-pull-up;
-> @@ -207,7 +207,7 @@ pins_cmd_dat {
->   		};
->   	};
->   
-> -	i2c0_pins_a: i2c0 {
-> +	i2c0_pins_a: i2c0-pins {
->   		pins1 {
->   			pinmux = <MT8516_PIN_58_SDA0__FUNC_SDA0_0>,
->   				 <MT8516_PIN_59_SCL0__FUNC_SCL0_0>;
-> @@ -215,7 +215,7 @@ pins1 {
->   		};
->   	};
->   
-> -	i2c2_pins_a: i2c2 {
-> +	i2c2_pins_a: i2c2-pins {
->   		pins1 {
->   			pinmux = <MT8516_PIN_60_SDA2__FUNC_SDA2_0>,
->   				 <MT8516_PIN_61_SCL2__FUNC_SCL2_0>;
-> @@ -223,21 +223,21 @@ pins1 {
->   		};
->   	};
->   
-> -	tca6416_pins: pinmux_tca6416_pins {
-> -		gpio_mux_rst_n_pin {
-> +	tca6416_pins: tca6416-pins {
-> +		pins-mux-rstn {
->   			pinmux = <MT8516_PIN_65_UTXD1__FUNC_GPIO65>;
->   			output-high;
->   		};
->   
-> -		gpio_mux_int_n_pin {
-> +		pins-mux-intn {
->   			pinmux = <MT8516_PIN_64_URXD1__FUNC_GPIO64>;
->   			input-enable;
->   			bias-pull-up;
->   		};
->   	};
->   
-> -	ethernet_pins_default: ethernet {
-> -		pins_ethernet {
-> +	ethernet_pins_default: ethernet-pins {
-> +		pins-eth {
->   			pinmux = <MT8516_PIN_0_EINT0__FUNC_EXT_TXD0>,
->   				 <MT8516_PIN_1_EINT1__FUNC_EXT_TXD1>,
->   				 <MT8516_PIN_5_EINT5__FUNC_EXT_RXER>,
+> +&cci {
+> +	proc-supply = <&mt6358_vproc12_reg>;
+> +};
+> +
+>   &cpu0 {
+>   	proc-supply = <&mt6358_vproc12_reg>;
+>   };
 
 
