@@ -1,217 +1,173 @@
-Return-Path: <linux-media+bounces-42414-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42415-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD05FB54ADD
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 13:21:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id A344AB54B16
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 13:37:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1B7541C84D53
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 11:21:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D2E371B24989
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 11:37:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D6713009D4;
-	Fri, 12 Sep 2025 11:21:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4123D2FF656;
+	Fri, 12 Sep 2025 11:37:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="ugQIVJQ0"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fyUbVphU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22996277037
-	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 11:21:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4B2F2FF16D
+	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 11:37:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757676083; cv=none; b=Pf1VhSDWJeRgD8RMavQ2EzWkaESLbV9cCZUexE7N4zJzeLh7zKRNONLRf+DWaiqGOUefQPjAL7708TseGriw0ftOIuUmQKEMfHVG3H4YafVAv/N/8G5q33vSCCErIudLwSDXp5Y/yfJF7aS4A9irEVkX7sUmCBVwSGGx7OOgGhw=
+	t=1757677024; cv=none; b=Cpjxjn5KpGSXitfrognVrzppshxFcmv/4yAJSyBico60yrCREKGFotdb4BpNqDgMIHlvht2F8yAE2o9M0V5KLyXQd35MXeLvAzaH1xn+kAGZnVYTZJZj2plIDym+Wjs8j6ir+MzIXm8HuNB1j0VGjkgd1wkfDNZiH4gXr3/svVc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757676083; c=relaxed/simple;
-	bh=Q4hmQEjva+YvCSicv+ARH/ztXY2Wus0zcpUMszvL0Lg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b69EWLrUwjaRGBlFIrMJr895hb46glK++aMs3spEbDQ/bVD3Vj9zIBZLAd93dkE9H+q3F6ppSJZ9RKb+ZxgvFQDLBoLHsZi8OuDcYIMR8Hm/nkIeygBkZGYwaJotxTH6yhVODPKdp2MUGjg54TXXbigcXECkgRrn7I+JrR/SfEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=ugQIVJQ0; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Date: Fri, 12 Sep 2025 16:51:05 +0530
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1757676075;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=YN11ddgm4aw9B9XKz+NXuJgKviyzTU8HjNO90ljF3UY=;
-	b=ugQIVJQ0sM4wontIzSP3C0AJkYQH9DVLZhAZy1ZeaX/y6hnlyP+XW9sy/NMASmhMx3J6lV
-	lOQRK8V1RLUkCwZZ6+IKAno71++TC9FmxiQZjPfGbcsunM1/+29y5g7hw8lP3qyNpv+WlN
-	jVFKUCS8aOIELJDMKcisX4OwZzDo2nU=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Jai Luthra <jai.luthra@linux.dev>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: linux-media@vger.kernel.org, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Maxime Ripard <mripard@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Devarsh Thakkar <devarsht@ti.com>
-Subject: Re: [GIT PULL FOR v6.18] TI and Cadence CSI2RX drivers changes
-Message-ID: <v2xtw7soyiailistxcr24xj5uxzhlhljtf2hqdgarnzhnmms5d@rxojdydr7jqo>
-X-PGP-Key: http://jailuthra.in/files/public-key.asc
-References: <4wklgso7mjxss5nzrwtcwae6fm22snmw7zdx4lmdxs75tmklip@3w55xhfzkasw>
- <9bc39cae-ea86-4ef7-a97c-66469b082375@kernel.org>
+	s=arc-20240116; t=1757677024; c=relaxed/simple;
+	bh=W/d05Ah4gZEm/6xcEdlciMhi/OilrDK1p9IjJYcMRLo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=RRalK7Phyvyg6RrTDdQNJvuBVwfMgO2kwvoXDIKGOHVIiDyuyaBNt5l/s6kNJ+haevKRnYtYbt0F39soqRa/G9bgGiOVmb1QwLBRU9EUcB02VZS0zaLb4orD6XyiZr1JVzdY3cNjzk+Ssjvd75GDo5pr9EcErT53H2N0dOygJwk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fyUbVphU; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-45df0cde41bso13647805e9.3
+        for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 04:37:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757677021; x=1758281821; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Tbnb5qYeKlx3hN1o2p4vVBHs68NjGI4FeyMjq9mKLyM=;
+        b=fyUbVphUwVUmze5Vc/3hWFiAOvxhvLkhzXwzmf01l1nWYeTawF3/PyTagKYa8dbNom
+         XAZyrKhsJtSDj77tZ+heZaBH3IQZni7TVr2vnmmX3rlouWyGNtLqXNLqBoYEIRLCM1da
+         akObx0gAM+zJpd4mZPN3P/6EWpSjFABBgYxvAiqK7diD028/isOYgbqTSWcl27VbEmgt
+         dNc6HSls3XRuUh5TnXflGGI10Fnb9cPHZUlBacClXs7RTCQwUVd5aymtyi6No0kEeFDJ
+         B0y/zTzKWRAWncM4yT8CR7y6X04mY2g7pnLfKGmmwhhucrtp0GEL7ygq0+YDZ5wFPBlW
+         8uHQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757677021; x=1758281821;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Tbnb5qYeKlx3hN1o2p4vVBHs68NjGI4FeyMjq9mKLyM=;
+        b=fF/eWaHrmbaOvn9szRYAh/ECQvkwni2ViciDrS3F6aXIGLI7w0JWGxqeAMZnyTSDaJ
+         wm6EAEYVIb0SPgudoPOQTej7uVdFmi0iMHy5PpMJFj+ZF8AHAd+DQHObIcbtwNR21Ljp
+         g3LYOrXTAdvsKSicjuoEu4ZboEnkUHRJ14s9YIcRF2zES/+4GRRfI0tHMAnCJfQ76wpa
+         bfS2/Spd1sFw5hBJmFKOESBDhzb3ma1VRHfxp4oWGU3ma9g/m6GneaHf2BfT1tM776wE
+         27tevxiVWhRxIqqWziFraXxUVazIkByZAQ2w1b84jzaOefAs3142L+K/61QkrBYq+sfr
+         bM3g==
+X-Forwarded-Encrypted: i=1; AJvYcCVrcr96deFmn6a/KymL7AsN9lwdnmr0WZUKuyJFI4w5/JDH/1lsWn02iQclds5us6ZqQFPSO19zQtWIww==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz43+GxbkXpGXH9uylS8ijr5gbA4lksLdnCfmDT8yuYycQ1rg8E
+	+KABpN2zWcm08VWImkAFs9pnK+Du71f2ynyX27kAlk7v4x6oZi6nbzSD
+X-Gm-Gg: ASbGncvQ/Gd9CcnPCIR8Tn+nP4+4mACZyQWaHvp13du6+mHsKo/Di0jS5nqC+F4fqXG
+	wj9xi6yvhbaGIfx5Ibj20BbbIC/P6qqcmQg9zj8z0/aaCq06SXSFUC4XOa4L35sDeqaMf6YhjMP
+	KqFEzvCi6Zq59Zc1y52kL1vWl5dC+IvJ4aq3SmkrOS0bVf69hf2rdJ3hDP+l7kVHSsJ3BMTeiAv
+	PQLLykbUjdFGTsAxvy5xX61lc5w/+i4M05Rq0tGUSszpJkuBBkBRIKfY+7CPZyJdiYqSCjG8xfd
+	G0CffeQQZXRTuwBvAxZgelwYbE0Z6LjoUKeLjNci23R8B5WGpQM0rjF9Y+PVtgaWCLD8V+KFy21
+	QQ+FhMrI0eIneI82XGuNKzMaQbYbMvAlrpQ==
+X-Google-Smtp-Source: AGHT+IHD1EhTqy1kILkNX4aqLwbC3vOYUogeq+zQjgxWO9vkCOKW7N3eFQcOHrtSmgitSOXwjOi+4w==
+X-Received: by 2002:a05:600c:4453:b0:459:dde3:1a55 with SMTP id 5b1f17b1804b1-45f211f2fbemr32051345e9.24.1757677020864;
+        Fri, 12 Sep 2025 04:37:00 -0700 (PDT)
+Received: from localhost ([2001:861:3385:e20:6384:4cf:52c5:3194])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-45e015621a3sm34806145e9.0.2025.09.12.04.37.00
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 12 Sep 2025 04:37:00 -0700 (PDT)
+From: Raphael Gallais-Pou <rgallaispou@gmail.com>
+Subject: [PATCH v2 0/5] STi drivers cleanup
+Date: Fri, 12 Sep 2025 13:36:07 +0200
+Message-Id: <20250912-master-v2-0-2c0b1b891c20@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="stshvk6my3qo5kpa"
-Content-Disposition: inline
-In-Reply-To: <9bc39cae-ea86-4ef7-a97c-66469b082375@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAKcFxGgC/zXMQQrDIBCF4auEWdcyWoTYVe9RsrBmTAZqLBokJ
+ Xj32tAyq394fDtkSkwZrt0OiQpnjksLderAzXaZSPDYGhQqjQZ7EWxeKQnttDM9Ov/AC7TxK5H
+ n7YDuQ+uZ8xrT+3CL/H5/hJR/okiBQo/tyBrrlbpNwfLz7GKAodb6ARkGYeycAAAA
+X-Change-ID: 20250908-master-5c5c980cfb03
+To: Patrice Chotard <patrice.chotard@foss.st.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, 
+ Michael Turquette <mturquette@baylibre.com>, 
+ Stephen Boyd <sboyd@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ devicetree@vger.kernel.org, linux-clk@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2385; i=rgallaispou@gmail.com;
+ h=from:subject:message-id; bh=W/d05Ah4gZEm/6xcEdlciMhi/OilrDK1p9IjJYcMRLo=;
+ b=owEBbAKT/ZANAwAKAechimjUEsK1AcsmYgBoxAXLeqm8EM6Ln+ijCpBNbKP4K9a1DvPX3NsAN
+ IYYCf+yf5aJAjIEAAEKAB0WIQQgmXv2E+fvbV/9ui/nIYpo1BLCtQUCaMQFywAKCRDnIYpo1BLC
+ tQGuD/dVI8gwr8NeJogDt/gJ257+fspO6NaaYkH/dEvRdGjup1CfAOfmAiu632NRwxuhcnBapPz
+ /A4h/qVY5OFES7fLAtA6cBemnuD85Lgt/gKhMnkQaVNQeIrNDpCPEJnwzgs3QTQFc1FABo1PTvK
+ mAfl4wTDBWmiHcuV/0/XzM9EGj8cxwOlRCugHE8ar4ff4/8On/eG8wdYbPkeqVxhZYoaXuYcsyV
+ nkv2lqZTJrxK0/fKv3K+HVm6myXgv+EVUmhtxtjYPIlenUrVXP8OnfIRq/9rSXq/AeonG+A2f+V
+ 25LaXemjFtPFelIfrpAf9sdOZCA5z5t6JoYSLjhAaMc3UbF8Fgvi+ykgkuO6zhpeeWSAsDJ4OMg
+ 72FzCauHRkZ0NXwLebFweKXtbdw0UcnShdZLlAVgXUbzSEb4SlQVBD0SynMoi52zNoA8XWvR8Ow
+ nEsp1c8FAjQnfQF+tJW5pwZuOl5J4OTHIhArBUHDNzbwaJUEtO4Zn3Pa5yRghrEdT8vIhXKSWPk
+ u0j7RxMgLY9WJ9qBzOs//PPK9OUReku1RrHC76pQuZJ5xzMvtL23dSZgkn7Z6rXgbOQK6+/D145
+ XyR/JO24SaQKWLBt7GLEoK1EPIo6QN/FaBukh6xMD1AYrwcW/3MNZaO/DpIpRjn3NqE/HQRD7VK
+ OztxzeMRN/6m+
+X-Developer-Key: i=rgallaispou@gmail.com; a=openpgp;
+ fpr=20997BF613E7EF6D5FFDBA2FE7218A68D412C2B5
 
+With B2120 board removal[1] several drivers are left unused.
 
---stshvk6my3qo5kpa
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [GIT PULL FOR v6.18] TI and Cadence CSI2RX drivers changes
-MIME-Version: 1.0
+Remove the following compatibles:
+- st,flexgen-stih407-a0
+- st,flexgen-stih407-c0
+- st,flexgen-stih407-d0
+- st,stih407-c8sectpfe
 
-Hi Hans,
+[1] commit dee546e1adef ("ARM: sti: drop B2120 board support")
 
-On Fri, Sep 12, 2025 at 12:17:17PM +0200, Hans Verkuil wrote:
-> Hi Jai,
->=20
-> On 12/09/2025 11:55, Jai Luthra wrote:
-> > Hi Hans, Mauro,
-> >=20
-> > The following changes since commit ecba852dc9f4993f4f894ea1f352564560e1=
-9a3e:
-> >=20
-> >   media: redrat3: use int type to store negative error codes (2025-09-1=
-1 08:46:10 +0200)
-> >=20
-> > are available in the Git repository at:
-> >=20
-> >   https://gitlab.freedesktop.org/linux-media/users/jluthra.git tags/for=
--6.18-ti-j721e-csi2rx-signed
-> >=20
-> > for you to fetch changes up to c694e74c651e79838e817a8c6644dc72cf80540d:
-> >=20
-> >   media: ti: j721e-csi2rx: Support system suspend using pm_notifier (20=
-25-09-12 14:37:56 +0530)
-> >=20
-> > ----------------------------------------------------------------
-> > TI and Cadence CSI2RX driver changes:
-> >=20
-> > - Multistream support for Cadence and TI CSI2RX
-> > - Runtime PM support for Cadence and TI CSI2RX
-> > - System suspend and resume support for TI CSI2RX
-> > - Misc cleanups
->=20
-> This should go through Sakari most likely, possibly Laurent, seeing that =
-this is CSI
-> related. Several patches do not even have a Reviewed-by from Sakari or La=
-urent.
->=20
-> I can't take this, I'm afraid.
->=20
-> I'm not sure why we get a PR from you, was there some misunderstanding?
->=20
+Signed-off-by: Raphael Gallais-Pou <rgallaispou@gmail.com>
+---
+Changes in v2:
+- Fix Patrice's email
+- Documentation:
+  - Remove media admin-guide c8sectpfe description
+  - Remove c8sectpfe dt-bindings header
+- Driver:
+  - Remove c8sectpfe media occurence in platform Makefile
+- Link to v1: https://lore.kernel.org/r/20250911-master-v1-0-5d5d5ea9af22@gmail.com
 
-Apologies. I had a look at other "GIT PULL" messages on linux-media and=20
-inferred that any driver maintainer can send a pull request for media tree.
+---
+Raphael Gallais-Pou (5):
+      media: c8sectpfe: remove support of STi c8sectpfe driver
+      media: include: remove c8sectpfe header
+      dt-bindings: media: remove support of stih407-c8sectpfe
+      clk: st: flexgen: remove unused compatible
+      dt-bindings: clock: st: flexgen: remove deprecated compatibles
 
-I looked at=20
-https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html but=
-=20
-that was not very informative.
+ .../admin-guide/media/platform-cardlist.rst        |    2 -
+ .../devicetree/bindings/clock/st/st,flexgen.txt    |    3 -
+ .../bindings/media/stih407-c8sectpfe.txt           |   88 --
+ MAINTAINERS                                        |    1 -
+ drivers/clk/st/clk-flexgen.c                       |   80 --
+ drivers/media/platform/st/Makefile                 |    1 -
+ drivers/media/platform/st/sti/Kconfig              |    1 -
+ drivers/media/platform/st/sti/Makefile             |    1 -
+ drivers/media/platform/st/sti/c8sectpfe/Kconfig    |   28 -
+ drivers/media/platform/st/sti/c8sectpfe/Makefile   |   11 -
+ .../platform/st/sti/c8sectpfe/c8sectpfe-common.c   |  262 -----
+ .../platform/st/sti/c8sectpfe/c8sectpfe-common.h   |   60 -
+ .../platform/st/sti/c8sectpfe/c8sectpfe-core.c     | 1158 --------------------
+ .../platform/st/sti/c8sectpfe/c8sectpfe-core.h     |  287 -----
+ .../platform/st/sti/c8sectpfe/c8sectpfe-debugfs.c  |  244 -----
+ .../platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h  |   23 -
+ .../platform/st/sti/c8sectpfe/c8sectpfe-dvb.c      |  235 ----
+ .../platform/st/sti/c8sectpfe/c8sectpfe-dvb.h      |   17 -
+ include/dt-bindings/media/c8sectpfe.h              |   13 -
+ 19 files changed, 2515 deletions(-)
+---
+base-commit: 8f21d9da46702c4d6951ba60ca8a05f42870fe8f
+change-id: 20250908-master-5c5c980cfb03
 
-But yes, happy to wait for more reviews from Sakari and Laurent (or Tomi gi=
-ven=20
-this is about streams support).
+Best regards,
+-- 
+Raphael Gallais-Pou <rgallaispou@gmail.com>
 
-Could the process and who-owns-what sub-subsystem be better documented in=
-=20
-docs.kernel.org or linuxtv.org? I am aware of the proposed multi-committer=
-=20
-model, but until that is finalized even the current process is hard to=20
-understand for a newbie :-)
-
-> Regards,
->=20
-> 	Hans
->=20
-
-Thanks,
-Jai
-
-> >=20
-> > ----------------------------------------------------------------
-> > Changhuang Liang (1):
-> >       media: cadence: csi2rx: Support runtime PM
-> >=20
-> > Jai Luthra (9):
-> >       dt-bindings: media: ti,j721e-csi2rx-shim: Support 32 dma chans
-> >       media: ti: j721e-csi2rx: separate out device and context
-> >       media: ti: j721e-csi2rx: add a subdev for the core device
-> >       media: ti: j721e-csi2rx: add support for processing virtual chann=
-els
-> >       media: cadence: csi2rx: add multistream support
-> >       media: ti: j721e-csi2rx: add multistream support
-> >       media: ti: j721e-csi2rx: Submit all available buffers
-> >       media: ti: j721e-csi2rx: Support runtime suspend
-> >       media: ti: j721e-csi2rx: Support system suspend using pm_notifier
-> >=20
-> > Pratyush Yadav (4):
-> >       media: ti: j721e-csi2rx: prepare SHIM code for multiple contexts
-> >       media: ti: j721e-csi2rx: allocate DMA channel based on context in=
-dex
-> >       media: ti: j721e-csi2rx: get number of contexts from device tree
-> >       media: cadence: csi2rx: add get_frame_desc wrapper
-> >=20
-> > Rishikesh Donadkar (2):
-> >       media: ti: j721e-csi2rx: Remove word size alignment on frame width
-> >       media: ti: j721e-csi2rx: Change the drain architecture for multis=
-tream
-> >=20
-> >  Documentation/devicetree/bindings/media/ti,j721e-csi2rx-shim.yaml |   =
-39 ++++++-
-> >  drivers/media/platform/cadence/Kconfig                            |   =
- 1 +
-> >  drivers/media/platform/cadence/cdns-csi2rx.c                      |  4=
-91 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-----=
-----------------
-> >  drivers/media/platform/ti/Kconfig                                 |   =
- 1 +
-> >  drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c             | 11=
-67 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-++++++++++++--------------------------------------------------
-> >  5 files changed, 1300 insertions(+), 399 deletions(-)
-> >=20
-> > --
-> > Thanks,
-> >=20
-> > Jai
-> >=20
->=20
-
---stshvk6my3qo5kpa
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEETeDYGOXVdejUWq/FQ96R+SSacUUFAmjEAiAACgkQQ96R+SSa
-cUWHBxAAxhaJy2Ug//jL53e7osqKqc/eGZtkrWP2MUA6m9wxFazSsR0xNPLpl6h4
-+jPoM2+Z7rBjdZqYF2Lh+GsdP3vPsDmYe6BN7VtDZmbh20ebe7uQK0OiwveRFS9I
-9WziDShBdCmOQ03G/RCsvTGLgRPDqdSyub0GZrYa2G6oYJIusu0Gp6m2B00XYZo0
-mwEJAK41LY2w5UkI+mT2+rsiJ6sQtrUHeKcH0S/upe89z6e6py+46o7LaQ9DtyW9
-fT7Yh8LqCxe8Hqq/GkeGPcdjZRS+WMpNU6w4ulVI90Kaedb6BBDUT1HdoBzHIvuP
-hoXGliDMTmXMn4m5EIZj6oti/JTUVCHbdxJMYH8sl8NEjVbfranvCh7uQmMuFWqF
-DEb6SA3rCdoEJfAu+mTtsuj2KvAZs7FesAGXJdkLvwJDM94tSX1CyX6y9wAe6+2Q
-sEKeeH7mw7/bmjUFxjeJ+QtA0gBsrDhxWhNtax6XGXzgxSqoqOxHXBsVFDzRw8v5
-vOz57kthXh8OhYoM5rTqLez3bricdv1BR8p7iYQB+Q/Y/vNRSEnpDhYA2w5isnpQ
-YNKjMFx4iN9zHmUW77XLpfPMTVPgZlNHL3ODfJCYwkhRyfsAQ4VE5Ypt6KFYLu0u
-9/KXicXKgM0lEIm25EVEw8Gy1UqAdKzI0O7r5ckoS49tKM+o+bk=
-=Jr2s
------END PGP SIGNATURE-----
-
---stshvk6my3qo5kpa--
 
