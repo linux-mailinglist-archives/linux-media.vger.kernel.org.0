@@ -1,159 +1,161 @@
-Return-Path: <linux-media+bounces-42385-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42386-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9CFE6B54052
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 04:23:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 888FAB5411F
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 05:43:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4C2A0174A14
-	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 02:23:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3DAFDA009E5
+	for <lists+linux-media@lfdr.de>; Fri, 12 Sep 2025 03:43:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5BE401E5B7A;
-	Fri, 12 Sep 2025 02:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3A4F258EF0;
+	Fri, 12 Sep 2025 03:43:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="TCbYYy1Q"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hFTQf4vJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f180.google.com (mail-pg1-f180.google.com [209.85.215.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1478B1D54E3;
-	Fri, 12 Sep 2025 02:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B81652DC775
+	for <linux-media@vger.kernel.org>; Fri, 12 Sep 2025 03:43:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757643817; cv=none; b=bwv5oe6FhvsZ9IwJXf4uuWUsJ9wcE1b2K1J4naHmTMTUp73BiFcQuDDjtv9YTwsyXB0YNGcTLauW/+dADmFV2WMl8EzFsyBGS3sbJtFItAXT1w7hxBo6g14kqcBpqEoFTSJ9Lb5du6+ympEUkUbNat2t7Vv9RCqWOoMBSSi+1/g=
+	t=1757648606; cv=none; b=SMSbTtS9F+TtidYrliVDWEc/IaMB/yfagUPd7oR19Iv9pHKPOaPZlXK5rXjzVT3sYCtrdFFy1dUVTxaimMLVSgtvczTOWff+8qgbBcltxZvTwchqQSKAXoy5BrNyULahhbCxkY9GZxPWK1uiiRBUyTlh82MIeae1XCUWLKxjpJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757643817; c=relaxed/simple;
-	bh=Pf4S51ga8IKbyss+FqICpz6u61R+SEHTBjBV91Yi2+k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=QuJCtAxiy6pScXmHiuQsjrwsU0P2EgRgelfXFQxbw9ejhH4g8cQP609NWLWYfdPlx6oF7M4+EisdTIPiy1zCEp4aj8c89pRhPtvSBjOJlUjfevUQT3iRt9LUCBfhYhqbmcRL3aCkDySg2prDlLgOpLNHCzIvVq6wsVzuykUB5OU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qualcomm.com; spf=pass smtp.mailfrom=qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=TCbYYy1Q; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58BIXGxX005633;
-	Fri, 12 Sep 2025 02:23:31 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	xQBdHUkUZY+KokUQndZcWU2aTrSuesqymEB00Aeqp1w=; b=TCbYYy1QdU//HWSe
-	SOuB8LoNmExOqea6IHzE6rYypLqdPa5wWjquXW3hvxS7/wEj9JsgrJRJhSwrbvwx
-	p593dsOFqZVzdLPuO1XuXSg7pE5g54i1tp1Sg/hHcv4M5aua71AzFRxT44QrMc+V
-	DIewUi2h4Qis/bUOeVe1pwuDxjTjhTv/He0RJ0SxsDuDxWccr87X7WJCxQumyhho
-	TOHnnzFxbC9sz5u3VRlIJ4kySU12B/5HBerVapO/GIsU0TM10alEmdUf7brlwVSc
-	m5rt5ZAS2hZ35k/myA/74zBTjWItsBHtuh4UwQx6XABDoAL1VbOXK91DeXQbFRfZ
-	1CZOZA==
-Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 491vc2e09n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 12 Sep 2025 02:23:31 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 58C2NUAP013525
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 12 Sep 2025 02:23:30 GMT
-Received: from [10.64.69.186] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Thu, 11 Sep
- 2025 19:23:25 -0700
-Message-ID: <39cb76ef-3f51-438d-b740-827a4c70035a@qualcomm.com>
-Date: Fri, 12 Sep 2025 10:23:22 +0800
+	s=arc-20240116; t=1757648606; c=relaxed/simple;
+	bh=35wSlX266gaKLx/MSsHga3vC2Zd0iWKkBkTcazHzxHQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=haEIEggbsokeWw/Pi/pYynw4uJVxz6hEnqM3XZl1pyJAvvCfCdm8E6L53D9pFbw4BLhYFDHsXoknFlpwlvC4n7/GXb+ZOr7cZiB9KcGRiVQdb8g2SQhSCMABM3nUMfPUI1FeqywuxaggPNbBRLibAINGsJEHXVavErW1wtgQhkw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hFTQf4vJ; arc=none smtp.client-ip=209.85.215.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pg1-f180.google.com with SMTP id 41be03b00d2f7-b4fc0249e41so96606a12.2
+        for <linux-media@vger.kernel.org>; Thu, 11 Sep 2025 20:43:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1757648604; x=1758253404; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=jLWg4udJEdEij218We1XZYSmyVzBKbwMh13lO3qxhnw=;
+        b=hFTQf4vJE4eLqXECq6Uh1D3OIyH2xfC8wlj8ZTgq7WD5qi1evrz8vzMdb8MK66x0+E
+         vens+OvRFYV+tgJgggI005wTPZD9Y6Laiel5bi25UatrImT6SEUC0C7V+P/HcaTCczQS
+         a3OF1ZFjPCmUCoTGJFsB1kFn71egCPZZ826iGtjfygNK/osx9Ya1W830xZFGnC8AL44h
+         lswLuh8QCsqiFRBEcLx2AP0dcziMcSsM4gWpC97zCEokZuWnHVOu85wuyG0ElNglJ4jE
+         z6WenrhCN+AjM3RBbpAW1ezRxY6/Gkrd/i8+FlIMBaLkcIHR9XR3ATgbeuIDqJTimpyV
+         uRsA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757648604; x=1758253404;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=jLWg4udJEdEij218We1XZYSmyVzBKbwMh13lO3qxhnw=;
+        b=MgwQHVuS6/LLSE7TNTWVwxWoTEKTrtCYx71pKt+3PzErDpGwlXUyvYPGVvUk5chL4w
+         E0qWsF/ssMQdfFQNP6lAGW5TsJCwukvSyr9d59Fcsr64OJi+PSK6PHBWlRRBUwGO6+2x
+         +Ph3YrLsx6ipAFDfkMng2ZdAHjOfBbGttKgJn/wWBjqZXH9QiGWIQsTU90bKz0rBiP93
+         dv+tlAqefXkqs0KRsTkyQmCml093bguCVq/rITRnZ6NeUjBsWFILZuNcC+O/+aOzI6Oj
+         F6cyKg8MAm+DFUy+tjsHBeUhH6t+yOg8Ysis73G9oajoInrbYEsqp9oV03Wkn7al857L
+         +KPQ==
+X-Gm-Message-State: AOJu0YxfcHdG+WEoIEezXyERyKfhDovcYFME6NiQVc+H6d6i6A7l7gWp
+	xD5cmURYPnW9jXrBlT6rZbGDekEWsBHrfWS8SovUWcnrpY8pIYY4cU2/kprQXLqN
+X-Gm-Gg: ASbGncs6T08I8/QpHOrd0PbT//7pRuVVtFgKbuXDJWrfOrYc/MKrxTkD79muWnP6bCl
+	7sZBWRKzZ/25qsGiU2vQM6RwSqHRWkSCgUirkwoAckRs3Z5cr4A5kL+sVGPui0Evho8EteeR1/A
+	2p+Dwa+y/nbYiweH8AKopFKthZs6nJLad+TMIjNn6YwOipKlv9939T9GlD0Ezszti47zHwTg8dG
+	E0KX4pKbrxcMuvWBdhtjJgXZshZpA6txvDZzy7vqDqRr9zbrk86nJPpBcR0/BfrFAkCpzh92wtC
+	2OK1bwzKOP8cb2CmaTZkOvp5g9Wam9mYkg6pA+WOgaVO+mM9VUWYofvA+7iyUqg55sCkc+qmmIM
+	GUSt8z8B+
+X-Google-Smtp-Source: AGHT+IERAt9/jfGALuZn+XgewpRrdWsPMMMR0znYkOofuPZVvPj1py9R+Yr1+KVGLJpsx1Q1q5Oq+g==
+X-Received: by 2002:a17:902:c40b:b0:243:589d:148e with SMTP id d9443c01a7336-25d2547e1a9mr8791115ad.5.1757648603659;
+        Thu, 11 Sep 2025 20:43:23 -0700 (PDT)
+Received: from debian ([2a09:bac5:4466:dc::16:1c5])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77607b34790sm3733842b3a.81.2025.09.11.20.43.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 11 Sep 2025 20:43:23 -0700 (PDT)
+From: Jianfeng Liu <liujianfeng1994@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: Nicolas Dufresne <nicolas@ndufresne.ca>,
+	Jianfeng Liu <liujianfeng1994@gmail.com>
+Subject: [v4l-utils PATCH v2] Change install dir of libv4l2tracer.so
+Date: Fri, 12 Sep 2025 11:43:04 +0800
+Message-ID: <20250912034310.493360-1-liujianfeng1994@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 3/3] arm64: dts: qcom: lemans-evk-camera: Add DT
- overlay
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Robert Foss
-	<rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-        Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio
-	<konradybcio@kernel.org>,
-        <vladimir.zapolskiy@linaro.org>, <todor.too@gmail.com>,
-        <bryan.odonoghue@linaro.org>, <linux-i2c@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-References: <20250911-camss_rb8-v5-0-c078e4e22d91@oss.qualcomm.com>
- <20250911-camss_rb8-v5-3-c078e4e22d91@oss.qualcomm.com>
- <ex5oojf6lqti45joyjxpyi2ev4mjcitw4lz6cszu6lustrby4j@zzigwnu4pbxo>
-Content-Language: en-US
-From: Wenmeng Liu <quic_wenmliu@qualcomm.com>
-In-Reply-To: <ex5oojf6lqti45joyjxpyi2ev4mjcitw4lz6cszu6lustrby4j@zzigwnu4pbxo>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=FN4bx/os c=1 sm=1 tr=0 ts=68c38423 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=KKAkSRfTAAAA:8
- a=EUspDBNiAAAA:8 a=-7q_Gg4UhoZt8uNEcLsA:9 a=QEXdDO2ut3YA:10
- a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: RYXSl40THPTmVSrKxIV319V5ZINJ53NR
-X-Proofpoint-GUID: RYXSl40THPTmVSrKxIV319V5ZINJ53NR
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTA4MDA5NCBTYWx0ZWRfX+mv9qFPFo1FY
- OB/F8ENGzGxFwxK8xdzFHRLLntU/ETeJ1InRRGNiAS9TrA9BM3zOu0I9I2ycAlebzaAJB6TqDPo
- 1Ijq1mpt94UzSnsTgYBp1cZkQbygwzd4F+Qpz3BakI+fW25tWfyQWqT5gWadtPEfhS8uGQpyxNU
- WX7AIwQ9LJvfFAjM+XGNTqoFZraOnfxIw7TCLgruo9dNss3eBbd0ry8g3PuGARG4SYixEXs7Nd/
- Wy7e/tzjpq4eIWZ2I0M991db7Yl/2bVN5id+hIGfN2jVz8AMl2JG1nsVynWc8hnV2hEPD0oTEcu
- ry8ZqA7TPiJ7RLIF1NKeZ9ib36q6iURPW/JLfpSHl/Dz5Zcr+hjAxZgoPUeUAf0MpS8zkL9Enz7
- XJ01kzv+
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-12_01,2025-09-11_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 clxscore=1015 phishscore=0 adultscore=0
- bulkscore=0 impostorscore=0 malwarescore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509080094
+Content-Transfer-Encoding: 8bit
 
+The default install dir of libv4l2tracer.so is libdir, which will
+be packaged to libv4l-dev in debian or libv4l-devel in fedora by default.
+While libv4l2tracer.so is different from other library files like
+libv4lconvert.so in this path, it is only used by v4l2-tracer at runtime,
+ and it is not a good idea to let binary file in v4l-utils depend on
+libv4l development package.
 
+Installing libv4l2tracer.so to the default libdir won't pass debian
+lintian check because this library doesn't have a SONAME.
 
-On 9/11/2025 8:15 PM, Dmitry Baryshkov wrote:
-> On Thu, Sep 11, 2025 at 07:55:16PM +0800, Wenmeng Liu wrote:
->> Enable IMX577 via CCI1 on LeMans EVK Core Kit.
->>
->> The LeMans EVK board does not include a camera sensor
->> by default, this overlay reflects the possibility of
->> attaching an optional camera sensor.
->> For this reason, the camera sensor configuration is
->> placed in lemans-evk-camera.dtso, rather than
->> modifying the base lemans-evk.dts.
-> 
-> So, is it the only camera configuration that we are going to support?
-> If not, what happens when we get the second sensor or second set of
-> sensors to support?
-You're right, although currently we only plan to support the IMX577 on 
-CCI1.>
->>
->> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->> Signed-off-by: Wenmeng Liu <quic_wenmliu@qualcomm.com>
->> ---
->>   arch/arm64/boot/dts/qcom/Makefile               |  4 +
->>   arch/arm64/boot/dts/qcom/lemans-evk-camera.dtso | 97 +++++++++++++++++++++++++
-> 
-> At least the filename should mention that this is imx577.
-> 
->>   2 files changed, 101 insertions(+)
-> 
+This commit will change the install dir to the same path as other
+libv4l2 wrapper libraies, so libv4l2tracer.so will get packaged to
+libv4l, which is the dependency of v4l-utils, and it will also make
+debian lintian check pass.
 
-Would lemans-evk-camera-csi1-imx577.dtso be a more appropriate name?
-It more precisely describes the content of the dtso.
+Signed-off-by: Jianfeng Liu <liujianfeng1994@gmail.com>
+---
 
-Thanks,
-Wenmeng
+Changes in v2:
+- Add how this patch fixes current issues to commit msg
+- Change install dir same as other libv4l2 wrapper libraies, suggested
+by Nicolas Dufresne
+- Link to v1: https://lore.kernel.org/linux-media/20250911014853.323700-1-liujianfeng1994@gmail.com/
 
+ meson_options.txt             | 2 ++
+ utils/v4l2-tracer/meson.build | 5 ++++-
+ 2 files changed, 6 insertions(+), 1 deletion(-)
+
+diff --git a/meson_options.txt b/meson_options.txt
+index 1e4aa87f..3d04cfb4 100644
+--- a/meson_options.txt
++++ b/meson_options.txt
+@@ -46,6 +46,8 @@ option('libv4l2subdir', type : 'string', value : 'libv4l',
+        description : 'Set libv4l2 library subdir')
+ option('libv4lconvertsubdir', type : 'string', value : 'libv4l',
+        description : 'Set libv4lconvert library subdir')
++option('libv4l2tracersubdir', type : 'string', value : 'libv4l',
++       description : 'Set libv4l2tracer library subdir')
+ option('systemdsystemunitdir', type : 'string',
+        description : 'Set systemd system unit directory')
+ option('udevdir', type : 'string',
+diff --git a/utils/v4l2-tracer/meson.build b/utils/v4l2-tracer/meson.build
+index d059eb6d..92deac31 100644
+--- a/utils/v4l2-tracer/meson.build
++++ b/utils/v4l2-tracer/meson.build
+@@ -24,9 +24,12 @@ libv4l2_tracer_incdir = [
+     v4l2_utils_incdir,
+ ]
+ 
++libv4l2tracerdir = get_option('prefix') / get_option('libdir') / get_option('libv4l2tracersubdir')
++
+ libv4l2tracer = shared_module('v4l2tracer',
+                               libv4l2tracer_sources,
+                               install : true,
++                              install_dir : libv4l2tracerdir,
+                               cpp_args : v4l2_wrapper_args,
+                               dependencies : libv4l2tracer_deps,
+                               include_directories : libv4l2_tracer_incdir)
+@@ -51,7 +54,7 @@ v4l2_tracer_deps = [
+ ]
+ 
+ v4l2_tracer_cpp_args = [
+-    '-DLIBTRACER_PATH="@0@"'.format(get_option('prefix') / get_option('libdir')),
++    '-DLIBTRACER_PATH="@0@"'.format(libv4l2tracerdir),
+ ]
+ 
+ if have_visibility
+-- 
+2.51.0
+
+base-commit: 34aa1df2b23fb85b030cddf64c427137ddf04e93
+branch: v4l2-tracer-install-path
 
