@@ -1,191 +1,185 @@
-Return-Path: <linux-media+bounces-42485-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42486-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AFB9BB56154
-	for <lists+linux-media@lfdr.de>; Sat, 13 Sep 2025 16:07:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11D58B561A6
+	for <lists+linux-media@lfdr.de>; Sat, 13 Sep 2025 16:52:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6912FA01C9E
-	for <lists+linux-media@lfdr.de>; Sat, 13 Sep 2025 14:07:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9DEAC480FA3
+	for <lists+linux-media@lfdr.de>; Sat, 13 Sep 2025 14:52:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 809E92F0675;
-	Sat, 13 Sep 2025 14:06:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FAFC2F0694;
+	Sat, 13 Sep 2025 14:52:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="srvrJTxS"
+	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="xGd16U1/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEEC663CF;
-	Sat, 13 Sep 2025 14:06:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8762EF664
+	for <linux-media@vger.kernel.org>; Sat, 13 Sep 2025 14:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757772417; cv=none; b=SmaLRv1jxEhsU0ZIrBeaxRfk1fBBiZ4mY/a83t7IMANvgbPc5lLrveKBIwmBZCdbS9q7EeVHIjN0Vc0lHZlkJZC2BS6O3Jx4w8tIjsLu0ouUmDS2HWkKIikKfLdy1hsWr2NuwMsRnyCl9h3zVq+DPpQbLRomlUCLAyMU/nD2Cr4=
+	t=1757775137; cv=none; b=W2Igklot2uyaJZPXG4JZigCZiN1o8GQqVZjN2Sxm3cEmZu4mrGOitw6Wn4GlnHRAC0oH/sgiX9hsiFBg0JumNy4VWAzQST6GLeXj9QkDlCsNfXqjGl+FqnidnwKsZWIkyghC32U4yqNJ9qQVYhwJYnvy2JFRgIwURnY4ZXzeOZw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757772417; c=relaxed/simple;
-	bh=h/aHcUcrLTnTYI0mLM9B2w4gQ26lylTJYxKCXczLBqw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=H71XIlH3tLUDctStBPK+70qbj2k+q5TQAJRKMZ0a7tNkJvKUZilc0csRJKlbl2qP7tRRaWtr46vegQcQ2PaZCXb7zYG4+cpYOHEgeGR41wCTKZTSipHwM8Jd2xFBYIJw3mDQKM5LNB2WWTfAFm0tTpXXW/re6sk64pYVdqxa27U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=srvrJTxS; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id DBFC3E91;
-	Sat, 13 Sep 2025 16:05:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757772338;
-	bh=h/aHcUcrLTnTYI0mLM9B2w4gQ26lylTJYxKCXczLBqw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=srvrJTxSgKt2fLOTbQWRv9AsCT+HONmZzHpImt5H0LZoxpGI5vofSRC40SgEFhhp+
-	 xL5zhhMTLA2E27f8BK9NdjyPN4X7yoavLgVULi8Y1jHmBO/yBYI4XpMPpMw/KUdq3f
-	 Q7QHhWck3dw2DxeZfZZqAasWWhJ0v4iMkkvqyik4=
-Date: Sat, 13 Sep 2025 17:06:28 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH 4/4] media: uvcvideo: Support
- UVC_CROSXU_CONTROL_IQ_PROFILE
-Message-ID: <20250913140628.GB10328@pendragon.ideasonboard.com>
-References: <20250818-uvc-iq-switch-v1-0-f7ea5e740ddd@chromium.org>
- <20250818-uvc-iq-switch-v1-4-f7ea5e740ddd@chromium.org>
+	s=arc-20240116; t=1757775137; c=relaxed/simple;
+	bh=qYAa3CbWlOG/7QISC3eEE2X9dL1UQvAmMJ/HtZXAARo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=tQdRHUD+cB6VuEEHgUoCosvk5uDUi1GvINmtlUB3HCtVR5liUj5H2i8J66KL4tkZqmNtBVn/Z51FWSuHCO0HNUhM23SiGoyD7byH0sRLJa2+qpm94NyNNebHYucys7oy/5lnTHR3M6wJVCaDmQ3SqB0/HOxUlHAZ0j4YbfxqjZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=xGd16U1/; arc=none smtp.client-ip=91.218.175.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250818-uvc-iq-switch-v1-4-f7ea5e740ddd@chromium.org>
+Mime-Version: 1.0
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
+	t=1757775131;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=u9ePjJ+3Yd0yus3dXLpNzr9sgV/Y9hlh3yRlAMIYJAI=;
+	b=xGd16U1/xe2ZbKz1tU1pFxVGBXvR7c1+zH1KwDgLwKzjXW4090gcDxzsrDfeKvh2fSNFB9
+	/d3VU98n6oNWbo8B/ueJEGsiZqiH05SGJV92h0IkHSKnhg8YRUlXO+lj1Tq2tfn2aurNTI
+	14QFTVRJ2sphVtlrVcBPRQwor1jQ5x4qjY4wOXI+UnzdY4gG1UnJSe4GIowqu8liNW2tSW
+	1YwWBNHuD6t9WGsIVfWcR52pA/xKXCfDt4Csoc3jsQX2uZD+KVdHPzQjnUgBsy/Nsvz6fq
+	Q6x5vyTzTFNaCy5P6kLHhumTVyyef+vNurKFpqoxWwylj8lbBFeukue0TFhdUQ==
+Content-Type: multipart/signed;
+ boundary=1977ff6ca28b4e071a2b6e2b88836eddf7e93d59c95b5f0edf7cdc5cadb9;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Sat, 13 Sep 2025 16:51:59 +0200
+Message-Id: <DCRR9XY9MT2L.3JSK4SYGMT57R@cknow.org>
+Cc: "Alex Bee" <knaerzche@gmail.com>, "Nicolas Dufresne"
+ <nicolas.dufresne@collabora.com>, <linux-media@vger.kernel.org>,
+ <linux-rockchip@lists.infradead.org>, <devicetree@vger.kernel.org>,
+ <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+ "Christian Hewitt" <christianshewitt@gmail.com>
+Subject: Re: [PATCH v3 0/7] media: rkvdec: Add HEVC backend
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: "Diederik de Haas" <didi.debian@cknow.org>
+To: "Jonas Karlman" <jonas@kwiboo.se>, "Ezequiel Garcia"
+ <ezequiel@vanguardiasur.com.ar>, "Detlev Casanova"
+ <detlev.casanova@collabora.com>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>
+References: <20250905161942.3759717-1-jonas@kwiboo.se>
+In-Reply-To: <20250905161942.3759717-1-jonas@kwiboo.se>
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Aug 18, 2025 at 08:15:39PM +0000, Ricardo Ribalda wrote:
-> The ChromeOS XU provides a control to change the IQ profile for a camera.
-> It can be switched from VIVID (a.k.a. standard) to NONE (a.k.a. natural).
->
-> Wire it up to the standard v4l2 control.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 32 ++++++++++++++++++++++++++++++++
->  include/linux/usb/uvc.h          |  5 +++++
->  2 files changed, 37 insertions(+)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index ff975f96e1325532e2299047c07de5d1b9cf09db..8766a441ad1d8554c0daaed3f87758321684246b 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -376,6 +376,15 @@ static const struct uvc_control_info uvc_ctrls[] = {
->  				| UVC_CTRL_FLAG_GET_DEF
->  				| UVC_CTRL_FLAG_AUTO_UPDATE,
->  	},
-> +	{
-> +		.entity		= UVC_GUID_CHROMEOS_XU,
-> +		.selector	= UVC_CROSXU_CONTROL_IQ_PROFILE,
-> +		.index		= 3,
-> +		.size		= 1,
-> +		.flags		= UVC_CTRL_FLAG_SET_CUR
-> +				| UVC_CTRL_FLAG_GET_RANGE
-> +				| UVC_CTRL_FLAG_RESTORE,
-> +	},
->  };
->  
->  static const u32 uvc_control_classes[] = {
-> @@ -384,6 +393,17 @@ static const u32 uvc_control_classes[] = {
->  };
->  
->  static const int exposure_auto_mapping[] = { 2, 1, 4, 8 };
-> +static const int cros_colorfx_mapping[] = { 1, // V4L2_COLORFX_NONE
-> +					    -1, // V4L2_COLORFX_BW
-> +					    -1, // V4L2_COLORFX_SEPIA
-> +					    -1, // V4L2_COLORFX_NEGATIVE
-> +					    -1, // V4L2_COLORFX_EMBOSS
-> +					    -1, // V4L2_COLORFX_SKETCH
-> +					    -1, // V4L2_COLORFX_SKY_BLUE
-> +					    -1, // V4L2_COLORFX_GRASS_GREEN
-> +					    -1, // V4L2_COLORFX_SKIN_WHITEN
-> +					    0}; // V4L2_COLORFX_VIVID};
+--1977ff6ca28b4e071a2b6e2b88836eddf7e93d59c95b5f0edf7cdc5cadb9
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-Extar '};' at the end of the line. The indentation also looks a bit
-weird. I'll replace it with
+On Fri Sep 5, 2025 at 6:19 PM CEST, Jonas Karlman wrote:
+> This series add a HEVC backend to the Rockchip Video Decoder driver.
 
-static const int cros_colorfx_mapping[] = {
-	1,	/* V4L2_COLORFX_NONE */
-	-1,	/* V4L2_COLORFX_BW */
-	-1,	/* V4L2_COLORFX_SEPIA */
-	-1,	/* V4L2_COLORFX_NEGATIVE */
-	-1,	/* V4L2_COLORFX_EMBOSS */
-	-1,	/* V4L2_COLORFX_SKETCH */
-	-1,	/* V4L2_COLORFX_SKY_BLUE */
-	-1,	/* V4L2_COLORFX_GRASS_GREEN */
-	-1,	/* V4L2_COLORFX_SKIN_WHITEN */
-	0,	/* V4L2_COLORFX_VIVID */
-};
+I did some testing and the TL;DR version is:
 
-> +
->  
->  static bool uvc_ctrl_mapping_is_compound(struct uvc_control_mapping *mapping)
->  {
-> @@ -975,6 +995,18 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
->  		.data_type	= UVC_CTRL_DATA_TYPE_BITMASK,
->  		.name		= "Region of Interest Auto Ctrls",
->  	},
-> +	{
-> +		.id		= V4L2_CID_COLORFX,
-> +		.entity		= UVC_GUID_CHROMEOS_XU,
-> +		.selector	= UVC_CROSXU_CONTROL_IQ_PROFILE,
-> +		.size		= 8,
-> +		.offset		= 0,
-> +		.v4l2_type	= V4L2_CTRL_TYPE_MENU,
-> +		.data_type	= UVC_CTRL_DATA_TYPE_ENUM,
-> +		.menu_mapping	= cros_colorfx_mapping,
-> +		.menu_mask	= BIT(V4L2_COLORFX_VIVID) |
-> +				  BIT(V4L2_COLORFX_NONE),
-> +	},
->  };
->  
->  /* ------------------------------------------------------------------------
-> diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
-> index 12a57e1d34674a3a264ed7f88bed43926661fcd4..22e0dab0809e296e089940620ae0e8838e109701 100644
-> --- a/include/linux/usb/uvc.h
-> +++ b/include/linux/usb/uvc.h
-> @@ -29,6 +29,9 @@
->  #define UVC_GUID_EXT_GPIO_CONTROLLER \
->  	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
->  	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
-> +#define UVC_GUID_CHROMEOS_XU \
-> +	{0x24, 0xe9, 0xd7, 0x74, 0xc9, 0x49, 0x45, 0x4a, \
-> +	 0x98, 0xa3, 0xc8, 0x07, 0x7e, 0x05, 0x1c, 0xa3}
+Tested-by: Diederik de Haas <didi.debian@cknow.org>  # Rock64, RockPro64, Q=
+uartz64-B, NanoPi R5S
 
-I'd like to add a link to the documentation, but searching for the GUID
-didn't turn up any meaningful result. Where can I find documentation for
-this XU ?
+Now for the long version ;-P
 
-The link can be added later, so
+I built a 5.17-rc5 kernel with this patch set [1], which was based upon
+linuxtv's next branch, so I just took all their commits on 2025-09-07.
+Then rebased Detlev's rkvdec patch set on top of that.
+As I have quite a few rk356x based devices and there wasn't a DT patch
+to enable rkvdec2, I 'assembled' my own one. (And some more patches)
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I have a patched ffmpeg [2] and with its -dev libraries built a patched
+mpv [3]. Installed that onto (mostly) Debian Forky systems with mesa
+25.2.2 and sway 1.11. I have a number of test files which are provided
+via NFS so storage device wouldn't matter and it's also what I use with
+LibreELEC (both 12.2 as 12.90.1 provided by 'chewitt').
+And then I went on to perform the same tests on these devices:
 
->  #define UVC_GUID_MSXU_1_5 \
->  	{0xdc, 0x95, 0x3f, 0x0f, 0x32, 0x26, 0x4e, 0x4c, \
->  	 0x92, 0xc9, 0xa0, 0x47, 0x82, 0xf4, 0x3b, 0xc8}
-> @@ -50,6 +53,8 @@
->  #define UVC_MSXU_CONTROL_FIELDOFVIEW2_CONFIG	0x0f
->  #define UVC_MSXU_CONTROL_FIELDOFVIEW2		0x10
->  
-> +#define UVC_CROSXU_CONTROL_IQ_PROFILE		0x04
-> +
->  #define UVC_GUID_FORMAT_MJPEG \
->  	{ 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
->  	 0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+1) Pine64 Rock64 (rk3328)
+2) Pine64 RockPro64 (rk3399)
+3) Pine64 Quartz64 Model B (rk3566) *
+4) FriendlyELEC NanoPi R5S (rk3568) *
 
--- 
-Regards,
+*) I blacklisted the hantro driver
 
-Laurent Pinchart
+My testing showed that the 'classical' Big Buck Bunny video worked the
+best for testing ... meaning it caused the most 'problems'.
+I used the 'Standard 2D' 'Full HD (1920x1080)' '60 fps' version which
+you can download from [4]. That'll give you an 8-bit encoded x264
+version of that video. I have converted that video to x265 with a script
+I wrote (quite) a while ago [5]; instructions near the end of that
+script (no hdr no resize 'branch' about $TENBIT_PARAMS).
+That resulted in 2 test files:
+a) bbb_sunflower_1080p_60fps_normal.x265.cf24.slow.8bit.mp4
+b) bbb_sunflower_1080p_60fps_normal.x265.cf24.medium.10bit.mp4
+
+Testing went as follows:
+I logged into the device, started sway and opened a 'foot' terminal and
+navigated to my NFS share with the test files. Then I used
+
+  mpv --hwdec=3Dv4l2request <video-file> [--fullscreen=3Dyes]
+
+Without the 'fullscreen' param it shows the video in the right part of
+the screen (1080p monitor), while the left part shows mpv's output.
+This made it easy to see 'dropped frames' and any audio delay.
+I played each file twice, one using half the screen and one fullscreen.
+
+This had less of an effect then I expected; only in a few cases it
+'pushed it over the edge' and the only real effect was with Rock64 ...
+which being the least powerful is (kinda) expected.
+
+The results of the 10-bit x265 files was uniform: only a blue screen was
+visible and OSD (with 'I' or 'O' in mpv) didn't work. Interestingly it
+also had no frame drops ... except when doing 'I' (with no visible
+effect), then it dropped a couple of frames (one time quite a few).
+Mpv showed this error message each time:
+[vo/gpu] Initializing texture for hardware decoding failed
+
+For the 8-bit x265 file, the results were more varied:
+- On Rock64 HW accel worked, but the videos had a red 'glare' over them.
+  None of the other devices had that, so maybe related to 'lima'?
+  On LE it did NOT have the red glare. It did seem to have quite a bit
+  of trouble starting it
+- On Rock64 it dropped 970 frames in 60 secs and 2480 in fullscreen.
+  This resulted in quite a shockery display and noticeable artifacts.
+  That was not (or at least a whole lot less) the case with LE.
+- On the other devices there was not much difference in dropped frames
+  when it came to windowed vs full-screen, but the frame drops were
+  quite high ~2000 when HW accelerated and up to ~3000 when not
+  I got the impression that ~3Mbps bitrate was a tipping point.
+- The original BBB file (thus x264) had a similar high frame drop rate,
+  so the problem seems unrelated to this patch set
+- Audio delay was sometimes huge (>60 secs after 60 secs :-O), and HW
+  acceleration fixed that (due to free 'CPU' capacity?)
+
+The 'scores' for my other test files were actually quite good \o/
+All my video were HW accelerated; 8-bit with nv12 worked good while
+10-bit with nv15 was very blue. But all were corrected detected.
+
+So IMO this is a massive improvement! Thanks a LOT :-D
+
+Cheers,
+  Diederik
+
+[1] https://salsa.debian.org/diederik/linux/-/tree/cknow/media-next
+(Salsa CI fails as it can't deal with the ~ in 6.17~rc5)
+[2] https://salsa.debian.org/diederik/ffmpeg/-/tree/v4l2request-2025-v3-rkv=
+dec-n7.1
+[3] https://salsa.debian.org/diederik/mpv/-/tree/v4l2request-support
+[4] http://bbb3d.renderfarming.net/download.html
+[5] https://paste.sr.ht/~diederik/52b81ebc4c14b5146eb9b687bb1e8c1d62787991
+
+--1977ff6ca28b4e071a2b6e2b88836eddf7e93d59c95b5f0edf7cdc5cadb9
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaMWFEwAKCRDXblvOeH7b
+bgaMAQDSV7WBRzhLckmCR13bF/J2ijaueIDTC+eBIfrBN6GE+gD9G+PoK+5Pfngy
+Vo3RPYc+L8VodVWniGaQmL1sOUOZuwo=
+=A6/3
+-----END PGP SIGNATURE-----
+
+--1977ff6ca28b4e071a2b6e2b88836eddf7e93d59c95b5f0edf7cdc5cadb9--
 
