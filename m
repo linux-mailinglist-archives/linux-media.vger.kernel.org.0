@@ -1,185 +1,160 @@
-Return-Path: <linux-media+bounces-42486-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42487-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 11D58B561A6
-	for <lists+linux-media@lfdr.de>; Sat, 13 Sep 2025 16:52:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 429BFB561AB
+	for <lists+linux-media@lfdr.de>; Sat, 13 Sep 2025 16:54:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9DEAC480FA3
-	for <lists+linux-media@lfdr.de>; Sat, 13 Sep 2025 14:52:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F20F8AA470E
+	for <lists+linux-media@lfdr.de>; Sat, 13 Sep 2025 14:54:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FAFC2F0694;
-	Sat, 13 Sep 2025 14:52:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A776A182B4;
+	Sat, 13 Sep 2025 14:54:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b="xGd16U1/"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I4/BJusI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8762EF664
-	for <linux-media@vger.kernel.org>; Sat, 13 Sep 2025 14:52:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1DC88460;
+	Sat, 13 Sep 2025 14:54:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757775137; cv=none; b=W2Igklot2uyaJZPXG4JZigCZiN1o8GQqVZjN2Sxm3cEmZu4mrGOitw6Wn4GlnHRAC0oH/sgiX9hsiFBg0JumNy4VWAzQST6GLeXj9QkDlCsNfXqjGl+FqnidnwKsZWIkyghC32U4yqNJ9qQVYhwJYnvy2JFRgIwURnY4ZXzeOZw=
+	t=1757775273; cv=none; b=nwN7NBBkqWrd2XpBlC7LuC36GNr9fqieFY/dMhtgCN7h/ZKeu8kSvjgBvgOUSEvCGfy73nxfg/lzY9aoGciNpnGTkD7dqJzNbmcO7ot/Bvvlgnkd4RJelv5tVq0xRDAGVFooIcnnqWVU0ma04zJpsZtT5H5n5AAJijshGZRMnHU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757775137; c=relaxed/simple;
-	bh=qYAa3CbWlOG/7QISC3eEE2X9dL1UQvAmMJ/HtZXAARo=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=tQdRHUD+cB6VuEEHgUoCosvk5uDUi1GvINmtlUB3HCtVR5liUj5H2i8J66KL4tkZqmNtBVn/Z51FWSuHCO0HNUhM23SiGoyD7byH0sRLJa2+qpm94NyNNebHYucys7oy/5lnTHR3M6wJVCaDmQ3SqB0/HOxUlHAZ0j4YbfxqjZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org; spf=pass smtp.mailfrom=cknow.org; dkim=pass (2048-bit key) header.d=cknow.org header.i=@cknow.org header.b=xGd16U1/; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cknow.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cknow.org
+	s=arc-20240116; t=1757775273; c=relaxed/simple;
+	bh=deph2n7EsQq+rZQVBJI1J9VmYk8+NHBuBRjSCjvpYrc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sA+os+UhSD9i2S1RmqJDtT6fBCVUn8hEREAmyF1oWzsBLRuijLgvkeOaQ+56+G7Wv5BPTnq0jerWb8CabiQyzUhLklGv0wBJVbFAfXw5zR/ZwRVyMQ/ub2++LIG+TKH+KYv3MtsPfepbk9oQdHbA/f6B+nLT4WaU098aXD0WupM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I4/BJusI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7DD94C4CEEB;
+	Sat, 13 Sep 2025 14:54:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1757775272;
+	bh=deph2n7EsQq+rZQVBJI1J9VmYk8+NHBuBRjSCjvpYrc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=I4/BJusIJfB3pe8YGxSjg9oW/C9M4REAfsLM2Y8PJg8Q3yZJg3rAPKqiDeEuNM1/D
+	 I1TU8l0hH+njdNS0GK9mzJUgxT31dbgKs3xS2VmyybN1DA+z7GGdGbBRaksK2yY1Kx
+	 eymbFLKeePLkKeJ98oW47cKo+9F/D4AQouCoO0jaZfsRx4ym+MO+J0CVvcX0XEvAcd
+	 2/p7G0TgpXyl1fqkfe9jx3Sop+89zQJUOoaetPdT8CX1NIswz2IgwHY1bewV8a0kK4
+	 vD38TMlMLOe+BcB+9pxJwNqKmLEdIxEERzsqekI8bajBPfDthS1g59bYexnWaaZPyS
+	 3iQD+G6oQ2mJQ==
+Message-ID: <91181e2d-e595-42e7-a782-9ee654682036@kernel.org>
+Date: Sat, 13 Sep 2025 15:54:26 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cknow.org; s=key1;
-	t=1757775131;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=u9ePjJ+3Yd0yus3dXLpNzr9sgV/Y9hlh3yRlAMIYJAI=;
-	b=xGd16U1/xe2ZbKz1tU1pFxVGBXvR7c1+zH1KwDgLwKzjXW4090gcDxzsrDfeKvh2fSNFB9
-	/d3VU98n6oNWbo8B/ueJEGsiZqiH05SGJV92h0IkHSKnhg8YRUlXO+lj1Tq2tfn2aurNTI
-	14QFTVRJ2sphVtlrVcBPRQwor1jQ5x4qjY4wOXI+UnzdY4gG1UnJSe4GIowqu8liNW2tSW
-	1YwWBNHuD6t9WGsIVfWcR52pA/xKXCfDt4Csoc3jsQX2uZD+KVdHPzQjnUgBsy/Nsvz6fq
-	Q6x5vyTzTFNaCy5P6kLHhumTVyyef+vNurKFpqoxWwylj8lbBFeukue0TFhdUQ==
-Content-Type: multipart/signed;
- boundary=1977ff6ca28b4e071a2b6e2b88836eddf7e93d59c95b5f0edf7cdc5cadb9;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Sat, 13 Sep 2025 16:51:59 +0200
-Message-Id: <DCRR9XY9MT2L.3JSK4SYGMT57R@cknow.org>
-Cc: "Alex Bee" <knaerzche@gmail.com>, "Nicolas Dufresne"
- <nicolas.dufresne@collabora.com>, <linux-media@vger.kernel.org>,
- <linux-rockchip@lists.infradead.org>, <devicetree@vger.kernel.org>,
- <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
- "Christian Hewitt" <christianshewitt@gmail.com>
-Subject: Re: [PATCH v3 0/7] media: rkvdec: Add HEVC backend
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Diederik de Haas" <didi.debian@cknow.org>
-To: "Jonas Karlman" <jonas@kwiboo.se>, "Ezequiel Garcia"
- <ezequiel@vanguardiasur.com.ar>, "Detlev Casanova"
- <detlev.casanova@collabora.com>, "Mauro Carvalho Chehab"
- <mchehab@kernel.org>
-References: <20250905161942.3759717-1-jonas@kwiboo.se>
-In-Reply-To: <20250905161942.3759717-1-jonas@kwiboo.se>
-X-Migadu-Flow: FLOW_OUT
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 01/11] firmware: qcom_scm: Introduce PAS context
+ initialization helper
+To: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>
+Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-kernel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-remoteproc@vger.kernel.org
+References: <20250819165447.4149674-1-mukesh.ojha@oss.qualcomm.com>
+ <XZzG2CzCeL2c_o0VF9cgreULVU7nO6oDduio5EO50shVXg90DhDFECfckmvcrvT5ALpQb-UB5y9c-0KOT1VB0w==@protonmail.internalid>
+ <20250819165447.4149674-2-mukesh.ojha@oss.qualcomm.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20250819165447.4149674-2-mukesh.ojha@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
---1977ff6ca28b4e071a2b6e2b88836eddf7e93d59c95b5f0edf7cdc5cadb9
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
+On 19/08/2025 17:54, Mukesh Ojha wrote:
+> Currently, remoteproc and non-remoteproc subsystems use different
+> variants of the MDT loader helper API, primarily due to the handling of
+> the metadata context. Remoteproc subsystems retain this context until
+> authentication and reset, while non-remoteproc subsystems (e.g., video,
+> graphics) do not require it.
+> 
+> Unify the metadata loading process for both remoteproc and
+> non-remoteproc subsystems by introducing a dedicated PAS context
+> initialization function.
+> 
+> By introducing qcom_scm_pas_ctx_init(), we can standardize the API usage
+> across subsystems and reduce the number of parameters passed to MDT
+> loader functions, improving code clarity and maintainability.
+> 
+> Signed-off-by: Mukesh Ojha <mukesh.ojha@oss.qualcomm.com>
+> ---
+>   drivers/firmware/qcom/qcom_scm.c       | 26 ++++++++++++++++++++++++++
+>   include/linux/firmware/qcom/qcom_scm.h | 11 +++++++++++
+>   2 files changed, 37 insertions(+)
+> 
+> diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
+> index 96d5cf40a74c..33187d4f4aef 100644
+> --- a/drivers/firmware/qcom/qcom_scm.c
+> +++ b/drivers/firmware/qcom/qcom_scm.c
+> @@ -558,6 +558,32 @@ static void qcom_scm_set_download_mode(u32 dload_mode)
+>   		dev_err(__scm->dev, "failed to set download mode: %d\n", ret);
+>   }
+> 
+> +void *qcom_scm_pas_ctx_init(struct device *dev, u32 peripheral, phys_addr_t mem_phys,
+> +			    size_t mem_size, bool save_mdt_ctx)
+> +{
+> +	struct qcom_scm_pas_ctx *ctx;
+> +
+> +	ctx = devm_kzalloc(dev, sizeof(*ctx), GFP_KERNEL);
+> +	if (!ctx)
+> +		return NULL;
+> +
+> +	ctx->dev = dev;
+> +	ctx->peripheral = peripheral;
 
-On Fri Sep 5, 2025 at 6:19 PM CEST, Jonas Karlman wrote:
-> This series add a HEVC backend to the Rockchip Video Decoder driver.
+One things that is confusing here is renaming this variable to peripheral.
 
-I did some testing and the TL;DR version is:
+It gets initialised from a thing called "pas_id" and then gets sent into 
+other functions which name the incoming variable as pas_id.
 
-Tested-by: Diederik de Haas <didi.debian@cknow.org>  # Rock64, RockPro64, Q=
-uartz64-B, NanoPi R5S
+i.e. you will want to do
+-       ret = qcom_mdt_pas_init(pas->dev, pas->firmware, 
+rproc->firmware, pas->pas_id,
+-                               pas->mem_phys, &pas->pas_metadata);
+-       if (ret)
+-               goto disable_px_supply;
+-
+-       ret = qcom_mdt_load_no_init(pas->dev, pas->firmware, 
+rproc->firmware, pas->pas_id,
+-                                   pas->mem_region, pas->mem_phys, 
+pas->mem_size,
+-                                   &pas->mem_reloc);
++       ret = qcom_mdt_pas_load(pas->pas_ctx, pas->firmware, 
+rproc->firmware,
+  -                              pas->mem_region, &pas->dtb_mem_reloc);
+++                              pas->pas_id, pas->mem_region, 
+&pas->dtb_mem_reloc);
 
-Now for the long version ;-P
+and
 
-I built a 5.17-rc5 kernel with this patch set [1], which was based upon
-linuxtv's next branch, so I just took all their commits on 2025-09-07.
-Then rebased Detlev's rkvdec patch set on top of that.
-As I have quite a few rk356x based devices and there wasn't a DT patch
-to enable rkvdec2, I 'assembled' my own one. (And some more patches)
+-       return __qcom_mdt_load(ctx->dev, fw, firmware, mem_region, 
+ctx->mem_phys,
++       return __qcom_mdt_load(ctx->dev, fw, firmware, ctx->peripheral, 
+mem_region, ctx->mem_phys,
+                                ctx->mem_size, reloc_base);
 
-I have a patched ffmpeg [2] and with its -dev libraries built a patched
-mpv [3]. Installed that onto (mostly) Debian Forky systems with mesa
-25.2.2 and sway 1.11. I have a number of test files which are provided
-via NFS so storage device wouldn't matter and it's also what I use with
-LibreELEC (both 12.2 as 12.90.1 provided by 'chewitt').
-And then I went on to perform the same tests on these devices:
+But it should be ctx->pas_id to be consistent and make it obvious what 
+data is being passed.
 
-1) Pine64 Rock64 (rk3328)
-2) Pine64 RockPro64 (rk3399)
-3) Pine64 Quartz64 Model B (rk3566) *
-4) FriendlyELEC NanoPi R5S (rk3568) *
+Can you stick to the established naming convention and stick with pas_id 
+here ?
 
-*) I blacklisted the hantro driver
+Even if the above fixups on 6.17 aren't right the point is it only adds 
+confusion to randomly change variable names for no reason.
 
-My testing showed that the 'classical' Big Buck Bunny video worked the
-best for testing ... meaning it caused the most 'problems'.
-I used the 'Standard 2D' 'Full HD (1920x1080)' '60 fps' version which
-you can download from [4]. That'll give you an 8-bit encoded x264
-version of that video. I have converted that video to x265 with a script
-I wrote (quite) a while ago [5]; instructions near the end of that
-script (no hdr no resize 'branch' about $TENBIT_PARAMS).
-That resulted in 2 test files:
-a) bbb_sunflower_1080p_60fps_normal.x265.cf24.slow.8bit.mp4
-b) bbb_sunflower_1080p_60fps_normal.x265.cf24.medium.10bit.mp4
+Please stick to the established naming convention.
 
-Testing went as follows:
-I logged into the device, started sway and opened a 'foot' terminal and
-navigated to my NFS share with the test files. Then I used
-
-  mpv --hwdec=3Dv4l2request <video-file> [--fullscreen=3Dyes]
-
-Without the 'fullscreen' param it shows the video in the right part of
-the screen (1080p monitor), while the left part shows mpv's output.
-This made it easy to see 'dropped frames' and any audio delay.
-I played each file twice, one using half the screen and one fullscreen.
-
-This had less of an effect then I expected; only in a few cases it
-'pushed it over the edge' and the only real effect was with Rock64 ...
-which being the least powerful is (kinda) expected.
-
-The results of the 10-bit x265 files was uniform: only a blue screen was
-visible and OSD (with 'I' or 'O' in mpv) didn't work. Interestingly it
-also had no frame drops ... except when doing 'I' (with no visible
-effect), then it dropped a couple of frames (one time quite a few).
-Mpv showed this error message each time:
-[vo/gpu] Initializing texture for hardware decoding failed
-
-For the 8-bit x265 file, the results were more varied:
-- On Rock64 HW accel worked, but the videos had a red 'glare' over them.
-  None of the other devices had that, so maybe related to 'lima'?
-  On LE it did NOT have the red glare. It did seem to have quite a bit
-  of trouble starting it
-- On Rock64 it dropped 970 frames in 60 secs and 2480 in fullscreen.
-  This resulted in quite a shockery display and noticeable artifacts.
-  That was not (or at least a whole lot less) the case with LE.
-- On the other devices there was not much difference in dropped frames
-  when it came to windowed vs full-screen, but the frame drops were
-  quite high ~2000 when HW accelerated and up to ~3000 when not
-  I got the impression that ~3Mbps bitrate was a tipping point.
-- The original BBB file (thus x264) had a similar high frame drop rate,
-  so the problem seems unrelated to this patch set
-- Audio delay was sometimes huge (>60 secs after 60 secs :-O), and HW
-  acceleration fixed that (due to free 'CPU' capacity?)
-
-The 'scores' for my other test files were actually quite good \o/
-All my video were HW accelerated; 8-bit with nv12 worked good while
-10-bit with nv15 was very blue. But all were corrected detected.
-
-So IMO this is a massive improvement! Thanks a LOT :-D
-
-Cheers,
-  Diederik
-
-[1] https://salsa.debian.org/diederik/linux/-/tree/cknow/media-next
-(Salsa CI fails as it can't deal with the ~ in 6.17~rc5)
-[2] https://salsa.debian.org/diederik/ffmpeg/-/tree/v4l2request-2025-v3-rkv=
-dec-n7.1
-[3] https://salsa.debian.org/diederik/mpv/-/tree/v4l2request-support
-[4] http://bbb3d.renderfarming.net/download.html
-[5] https://paste.sr.ht/~diederik/52b81ebc4c14b5146eb9b687bb1e8c1d62787991
-
---1977ff6ca28b4e071a2b6e2b88836eddf7e93d59c95b5f0edf7cdc5cadb9
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQT1sUPBYsyGmi4usy/XblvOeH7bbgUCaMWFEwAKCRDXblvOeH7b
-bgaMAQDSV7WBRzhLckmCR13bF/J2ijaueIDTC+eBIfrBN6GE+gD9G+PoK+5Pfngy
-Vo3RPYc+L8VodVWniGaQmL1sOUOZuwo=
-=A6/3
------END PGP SIGNATURE-----
-
---1977ff6ca28b4e071a2b6e2b88836eddf7e93d59c95b5f0edf7cdc5cadb9--
+--
+bod
 
