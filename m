@@ -1,154 +1,121 @@
-Return-Path: <linux-media+bounces-42488-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42489-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C3B1B561BE
-	for <lists+linux-media@lfdr.de>; Sat, 13 Sep 2025 17:15:34 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8AB5B5682F
+	for <lists+linux-media@lfdr.de>; Sun, 14 Sep 2025 13:59:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9FBB51BC3F16
-	for <lists+linux-media@lfdr.de>; Sat, 13 Sep 2025 15:15:55 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AA23F16E726
+	for <lists+linux-media@lfdr.de>; Sun, 14 Sep 2025 11:59:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 486BD2F0689;
-	Sat, 13 Sep 2025 15:15:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6668256C8D;
+	Sun, 14 Sep 2025 11:59:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DacbyG/X"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VnMrSSpz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F7601FBCA7
-	for <linux-media@vger.kernel.org>; Sat, 13 Sep 2025 15:15:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD5A4226173
+	for <linux-media@vger.kernel.org>; Sun, 14 Sep 2025 11:59:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757776526; cv=none; b=Skw24dY89Ohb+T8KKl6jLvjGvJC3cSFiJh079UyG2HtFTyYRJrYLd5efK5WczKg5mGvTBAqX6LGE7m3nnCJLCGzvAGp3hsBQ6DnqTNSIX7bPtvBVbDswfVRAsr13bnxwBdgKdP+tr2vwpNwvwQD7sTDEnGBCB5gksM4E6nTrO7Q=
+	t=1757851167; cv=none; b=Znw+0QH1BMs7jJF928OspkGRQN1ooqwsFg3I/MI5E6VK5p+ExS6s/XK4/kCh90MDytY7jJVwf9nxCxVifFEAvb6vZR6xGhWY7WbfWPAfoFdX0px3TNC8Q+UbPFAMRGtjG0PMYHDXtwJU7S06nVMN9OxidmgQHfkMirm5aXHhd/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757776526; c=relaxed/simple;
-	bh=l9zzPYLM90GOvMlNHMT02xw+SBlYJHbjQGhrt/WjSLo=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=iL4f8YPDi5Of4WebBNJ/jirkD6B00wSCm44jn4tvM/A1uw8MN4J02vMpC1MOvPbrywm6gsmEb9AtqMqx3eR9L6IECJxVuMYCbU1tjNbkcaGdzxo5w9ogu4+RWTcIo31NsTcUixOy/5rryYXR5LjZNvGtxLjLbJEmYObhUIqDVnE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DacbyG/X; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 2C600A8F;
-	Sat, 13 Sep 2025 17:14:02 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757776443;
-	bh=l9zzPYLM90GOvMlNHMT02xw+SBlYJHbjQGhrt/WjSLo=;
-	h=Date:From:To:Cc:Subject:From;
-	b=DacbyG/XCsbcG8esf5NSajfkFcWEiTts3DDMvbTAIlCytv4wqwWFt8+5/3y4+wdhL
-	 mFXuBbAApxGWXOmDpq0WNpp2/kNciL7sMDfbUzJP0E0KbB2VVfWdpfYn/RQKqcOpRo
-	 nXYKgna+6SOLja+LsXB65ccaDPWzbeCMk6fVFJ1k=
-Date: Sat, 13 Sep 2025 18:14:53 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hans@jjverkuil.nl>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, Hans de Goede <hansg@kernel.org>,
-	Darshan Rathod <darshanrathod475@gmail.com>,
-	Desnes Nunes <desnesn@redhat.com>,
-	Michal Pecio <michal.pecio@gmail.com>,
-	Ricardo Ribalda <ribalda@chromium.org>,
-	Thadeu Lima de Souza Cascardo <cascardo@igalia.com>
-Subject: [GIT PULL FOR v6.18] uvcvideo changes
-Message-ID: <20250913151453.GA461@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1757851167; c=relaxed/simple;
+	bh=TuJ6ZyIXo9169+QV437Uuh1TahXjuW3Nbjn9ho+NqUU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mII66pS/tKMp18pPQYXlVv/C1cWth+KitfnzvZOrp8GjBA5lFUqBv3PsbTZzQDClPysIIpy3T3RlFteuP0qPH/26AeX/yTqxMQiL6tzzcln+9vNpIGW2fH+3TsM0DWf49hrLOt/ImszOA/IsN0Wt6DlmerXIRPenpyXY6ugmcYI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VnMrSSpz; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1757851164;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=TuJ6ZyIXo9169+QV437Uuh1TahXjuW3Nbjn9ho+NqUU=;
+	b=VnMrSSpz2kxfge5cK3f0hWy2OUuzhvozdVorgJ1yOI5jSQPgh/fyeIaJoE3Ham8/4k862Q
+	tgfxNbs5Gxfz6MzZFq1ZmuQkGUBRV47IDKy46Lt3iSE7VPqezcoQVaPxslivgBV6ouy5Bv
+	WofcqCwm18QyVIGJSDFBG5s9LaKQesQ=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-538-7Z5cKzXQNwSH8QW1NYGa8g-1; Sun, 14 Sep 2025 07:59:23 -0400
+X-MC-Unique: 7Z5cKzXQNwSH8QW1NYGa8g-1
+X-Mimecast-MFC-AGG-ID: 7Z5cKzXQNwSH8QW1NYGa8g_1757851163
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-77766aadfd4so8500156d6.1
+        for <linux-media@vger.kernel.org>; Sun, 14 Sep 2025 04:59:23 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757851163; x=1758455963;
+        h=user-agent:in-reply-to:content-disposition:mime-version:references
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TuJ6ZyIXo9169+QV437Uuh1TahXjuW3Nbjn9ho+NqUU=;
+        b=oCth2R3OqTQJEtSPB0uy/RjAEspqLlL4M0BTWhlGAvfj5GdwjlXP/p4Narl6vJucTK
+         MRtY15ssO8Zp+RCBLXd/2lxqEyLjlnp5UpmbRvhOp/5kN7+8x0NHF/nkhoIfKzFxqYJg
+         3TtkGZ+NWVniF4LBdovQcljp4F6Af3mW8OT/IBSS4HKdu7Dsx/FiizfbqrjE98+ROceB
+         aVZMXqf5I9WXb3AhAXHnnFu1Gu9M1X87BxdLXwtaxxmggAxHQ+xvMHGrYqbg+pKKtnhs
+         la3BXTNM8AjjGDAaOiqkuugRr4F10BaIm2WE/RsPgrMeWEyT0i3+tDeqMoyP5g3re/CV
+         1MsA==
+X-Forwarded-Encrypted: i=1; AJvYcCW7gbPjjFY0VuSWKtmx+dfiU2tz9MnJK6SLU6HgpyUPsUYXN+s1it19AIxbHa5NLIZoxFujBbvXvTbCKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5Wd+6+aGFmd9KwG8DW6cq2eh3z2ntFdfB09el83AbkzeA64H0
+	TzKfXqbtPviznqCTiWrievQy5xGUp8fQl1vbNIfZZIBgGe9YCfPqt3SMApkVx9ELSP7yVE/8bx7
+	BbPRkxmYeoN7iAPFrNjVq+5Gy0pQsT1wkGaMn1PG6Q5W0Eg1Wf6uBHAvRNZS3/uZ9
+X-Gm-Gg: ASbGncssPbEMm8DBOy/zlXfuk2pF7PZGN8xPLGlqbaauJbKIuH+5936YKfhCsGQZ+3o
+	pByMfNYDHZegzTF1CyjzH/nXXEo3LWvXSfLc9wtPWLmDkB1Gl6xqlS3T/TBQy4pA8qIXlogWc78
+	lAdwauKt7ONyZ+jgmppQmeagMIlxwa7t05a2woQvY+p53ApkqgeMUQ0Bvk2USMr9iDvjzpXptJ6
+	FgNQ92ptBsQcv5gZS40c7iwZIfYtVcMZUn4TmfSIrGSn3glyjretozp0/W0WGQWnk47XUXWqf2e
+	MfqNgRYNOEYlS7ei8y7xyMcwVEivH/lzb3tVtGl8LmFp9Axk+IGqAauYcXDJvnycM5r1revJNiu
+	0zlW5PuSzs/F6CreevJypiEocLHxKBZM=
+X-Received: by 2002:a05:6214:29c2:b0:722:3a59:fd9c with SMTP id 6a1803df08f44-767bc9e3085mr125308576d6.23.1757851162705;
+        Sun, 14 Sep 2025 04:59:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH8iWdV2eUk9Ftv51+HsH9mmPirIh3yTgTyTqB/S+vGeXIJXMY6wV4xvkdS+fQXOzonhJtDiQ==
+X-Received: by 2002:a05:6214:29c2:b0:722:3a59:fd9c with SMTP id 6a1803df08f44-767bc9e3085mr125308326d6.23.1757851162326;
+        Sun, 14 Sep 2025 04:59:22 -0700 (PDT)
+Received: from redhat.com (c-73-183-52-120.hsd1.pa.comcast.net. [73.183.52.120])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-763b3f49139sm58611576d6.9.2025.09.14.04.59.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 14 Sep 2025 04:59:21 -0700 (PDT)
+Date: Sun, 14 Sep 2025 07:59:20 -0400
+From: Brian Masney <bmasney@redhat.com>
+To: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Julien Massot <julien.massot@collabora.com>,
+	Maxime Ripard <mripard@kernel.org>, Stephen Boyd <sboyd@kernel.org>
+Cc: linux-clk@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] media: convert from clk round_rate() to
+ determine_rate()
+Message-ID: <aMauGOA-9FvJJ7eD@redhat.com>
+References: <20250710-media-clk-round-rate-v1-0-a9617b061741@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250710-media-clk-round-rate-v1-0-a9617b061741@redhat.com>
+User-Agent: Mutt/2.2.14 (2025-02-20)
 
-Hi Hans, Mauro,
+Hi all,
 
-The following changes since commit ecba852dc9f4993f4f894ea1f352564560e19a3e:
+On Thu, Jul 10, 2025 at 01:29:05PM -0400, Brian Masney wrote:
+> The round_rate() clk ops is deprecated in the clk framework in favor
+> of the determine_rate() clk ops, so let's go ahead and convert the
+> drivers in the media subsystem using the Coccinelle semantic patch
+> posted below. I did a few minor cosmetic cleanups of the code in a
+> few cases.
 
-  media: redrat3: use int type to store negative error codes (2025-09-11 08:46:10 +0200)
+Would it be possible to get this picked up for v6.18? I'd like to remove
+this API from drivers/clk in v6.19.
 
-are available in the Git repository at:
+Thanks,
 
-  https://gitlab.freedesktop.org/linux-media/users/uvc.git tags/next-media-uvc-20250913
+Brian
 
-for you to fetch changes up to 43796cd8493e4abd10851449bef95b7aa9d73258:
-
-  media: uvcvideo: Mark invalid entities with id UVC_INVALID_ENTITY_ID (2025-09-13 17:47:15 +0300)
-
-There are a few CI failures
-(https://gitlab.freedesktop.org/linux-media/users/uvc/-/pipelines/1509824),
-all in the media-patchstyle job:
-
-- "Committer ... is not the last SoB"
-
-  I ignore those. They would require reordering trailers if Hans or I
-  need to rebase branches, as that can change the committer. It's
-  important to ensure the committer has a SoB line, but not that it's
-  the last. I think that check should be dropped from CI (or rather
-  replaced by a check that ensures the SoB is present).
-
-- "Commit ... needs to provide a reason to avoid the nomination to stable"
-
-  False positive, due to the CI script requiring
-  "<stable+noautosel@kernel.org>" while "stable+noautosel@kernel.org" is
-  also valid.
-
-There's also a "WARNING: Reported-by: should be immediately followed by
-Closes: with a URL to the report". That's not an oversight, I can't add
-a Closes: tag as the report wasn't public in this case.
-
-----------------------------------------------------------------
-Changes to the uvcvideo driver:
-
-- Simplify locking by dropping redundant mutex
-- Improve log messages for multi-function devices
-- Support the Chrome OS XU IQ_PROFILE control
-- Fix incorrect behaviour with buggy (or malicious) devices using
-  non-unique entity IDs
-- Miscellaneous improvements (including cosmetic changes and comments
-  improvements)
-
-----------------------------------------------------------------
-Darshan Rathod (1):
-      media: uvcvideo: Fix assignment in if condition
-
-Desnes Nunes (1):
-      media: uvcvideo: Avoid variable shadowing in uvc_ctrl_cleanup_fh
-
-Laurent Pinchart (3):
-      media: uvcvideo: Drop unneeded memset() in meta device ioctl handlers
-      media: uvcvideo: Add missing curly braces
-      media: uvcvideo: Move MSXU_CONTROL_METADATA definition to header
-
-Michal Pecio (1):
-      media: uvcvideo: Shorten the transfer size non compliance message
-
-Ricardo Ribalda (7):
-      media: uvcvideo: Fix comments in uvc_meta_detect_msxu
-      media: uvcvideo: Drop stream->mutex
-      media: uvcvideo: Move video_device under video_queue
-      media: uvcvideo: Use intf instead of udev for printks
-      media: uvcvideo: Do not re-reference dev->udev
-      media: uvcvideo: Run uvc_ctrl_init_ctrl for all controls
-      media: uvcvideo: Support UVC_CROSXU_CONTROL_IQ_PROFILE
-
-Thadeu Lima de Souza Cascardo (1):
-      media: uvcvideo: Mark invalid entities with id UVC_INVALID_ENTITY_ID
-
- drivers/media/usb/uvc/uvc_ctrl.c     |  56 ++++++++++++-----
- drivers/media/usb/uvc/uvc_driver.c   | 115 ++++++++++++++++++++---------------
- drivers/media/usb/uvc/uvc_entity.c   |   4 +-
- drivers/media/usb/uvc/uvc_metadata.c |  49 +++++++--------
- drivers/media/usb/uvc/uvc_status.c   |   7 ++-
- drivers/media/usb/uvc/uvc_v4l2.c     |  43 +++----------
- drivers/media/usb/uvc/uvc_video.c    |  10 +--
- drivers/media/usb/uvc/uvcvideo.h     |  16 ++---
- include/linux/usb/uvc.h              |  22 +++++++
- 9 files changed, 173 insertions(+), 149 deletions(-)
-
--- 
-Regards,
-
-Laurent Pinchart
 
