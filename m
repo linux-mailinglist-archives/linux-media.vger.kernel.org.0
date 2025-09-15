@@ -1,53 +1,64 @@
-Return-Path: <linux-media+bounces-42554-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42555-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C07BCB579A3
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 14:01:01 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D4BDB579FE
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 14:10:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 349653A2772
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 12:00:26 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 013891663D8
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 12:10:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8938C304967;
-	Mon, 15 Sep 2025 12:00:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 42EC93054F3;
+	Mon, 15 Sep 2025 12:10:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CL1anuVa"
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="EEBeOIh/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 340F030277E
-	for <linux-media@vger.kernel.org>; Mon, 15 Sep 2025 12:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECFF52F28EF;
+	Mon, 15 Sep 2025 12:10:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757937624; cv=none; b=dtKxq0eY2t0Q2WmxxCDfuMi3H0+6a+hsE3vTmMoURZJwhCGAhqa93STWEoJZKchlupmP++QO/Yh3QI9QvXS9K75zubZePFTPtK8KbfIoOvMGxUgwjjdzbQoVwnyzJ4sYwe6Z1UqlFDEGAr0bUXwqz+jtg9kKbQpBDf2d5Vi06Ug=
+	t=1757938220; cv=none; b=rYxBrPaQS0HxsUO9PGNVoyaFxFLSrRwDZ5vB/1q1bIDhdRpMJw1s8cR97Bcg4q4gIdIi/uMLpcxgdao6XITVuw8rnOs0izPYc0/dCVTWJj1tIMc+01c0wHGbLUgnnXfrNWht8g9MJpGI5iUkmmgw0bp/S0Xhad7batEql9eir7Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757937624; c=relaxed/simple;
-	bh=If0dgx1FXHFyXEUkeAbgiTteB8l5THMpZJGkyb0YEF4=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aRRuyL296C1vDrPYbIlVJYyLRFw+TzQ0NRmst1jJ/+tNXoPnc3DQB4xFoIIORX/1C527U5mlqWFrsfh8YIfcVkSF/0QjyJ9wrgvRrUmfeH4oTB+RsuixJ7I8oszxXd9s2KYA3+lQiAZhgDuozDVAg85YQRit2AJo3NljtM6/H3o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CL1anuVa; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from Monstersaurus.lan (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18CEC32CA;
-	Mon, 15 Sep 2025 13:59:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757937543;
-	bh=If0dgx1FXHFyXEUkeAbgiTteB8l5THMpZJGkyb0YEF4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=CL1anuVaQuqzWLwvyW4utsddLRcfQhYeixKdafx1joQ94HMeby4U9DuHzZRBbVoVF
-	 EvyQkEzuBcqwbroWpj2Kd7gxNNgSnETkYwqRZxTP1szY1p1QToSkWgXXN5QBrOSma9
-	 d4HlaSj4KmEqadXVIPBjZcDqY4aNmfk1EMGh59Jo=
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
+	s=arc-20240116; t=1757938220; c=relaxed/simple;
+	bh=uqn7sQTP/O+KXMPXYRFmgLHEQTjpBe9h/9/eeXkz65Q=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BPtcFJgDpGqE4b9vc16jRbLzhUFRSXqamlNAdMjxV+SRsxmnV9UVx4XRJmhBI/kj2z2HYnZq1bhYzbIAdk7jkhJwpWE+OKhaqmfNf9/cPwvqTc3FBpXdoFXNoVs5wXRhd8pehsk2Lw/1p5kmGNvxnFHHLJBhK8nHHT29Tk07j4g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=EEBeOIh/; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=uX
+	YipikAORq7rmSiXBAcddF/TDyI+Ck/jJ3ssPKAKWY=; b=EEBeOIh/Oflc6xA5cO
+	8ewa4chJ9vmkDiAP0WKltbkUE51T+ydUcJOSThGB7wYBC3BGFDNj3cmMSDBBI24M
+	K6YVLH18A0lDwF3Lk62/HSo6S16spdoIdjuY+AhMUJaQ3cJJhWS0MEXVRgJODkTO
+	N/KpT3GlRi7SB86gO4ylZNVW4=
+Received: from localhost.localdomain (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wD3L8IEAshoNuutBQ--.65473S4;
+	Mon, 15 Sep 2025 20:09:41 +0800 (CST)
+From: Haoxiang Li <haoxiang_li2024@163.com>
+To: tiffany.lin@mediatek.com,
+	andrew-ct.chen@mediatek.com,
+	yunfei.dong@mediatek.com,
+	mchehab@kernel.org,
+	matthias.bgg@gmail.com,
+	angelogioacchino.delregno@collabora.com,
+	haoxiang_li2024@163.com,
+	hverkuil@kernel.org,
+	tzungbi@kernel.org,
+	jiasheng@iscas.ac.cn
 Cc: linux-media@vger.kernel.org,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Subject: [PATCH] media: imx335: Use dev_err_probe where appropriate
-Date: Mon, 15 Sep 2025 13:00:15 +0100
-Message-ID: <20250915120015.3062426-1-kieran.bingham@ideasonboard.com>
-X-Mailer: git-send-email 2.50.1
+	linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-mediatek@lists.infradead.org,
+	stable@vger.kernel.org
+Subject: [PATCH] media: mediatek: vcodec: Fix a reference leak in mtk_vcodec_fw_vpu_init()
+Date: Mon, 15 Sep 2025 20:09:38 +0800
+Message-Id: <20250915120938.177691-1-haoxiang_li2024@163.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,65 +66,44 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:_____wD3L8IEAshoNuutBQ--.65473S4
+X-Coremail-Antispam: 1Uf129KBjvJXoW7Ww1rWr4DKw4rAFWUGFWfXwb_yoW8GF4Dpr
+	s3Ka42kFyUJw1qvw18Zw4Uuay5Cr1SgrW8Cw13Zw1a9rnxXFWIqr1jy3WIqFZ7JFyvka43
+	Xrnaga4fCF4Fvr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0p_MKuUUUUUU=
+X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbBEAnJbmjIAYMTQwAAsM
 
-In the early probe we can fail with -EPROBE_DEFER.
+vpu_get_plat_device() increases the reference count of the returned
+platform device. However, when devm_kzalloc() fails, the reference
+is not released, causing a reference leak.
 
-Use dev_err_probe to ignore these warnings before we successfully power
-on the camera.
+Fix this by calling put_device() on fw_pdev->dev before returning
+on the error path.
 
-Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Fixes: e25a89f743b1 ("media: mtk-vcodec: potential dereference of null pointer")
+Cc: stable@vger.kernel.org
+Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
 ---
-This is currently based on top of Jai's patches [0].
+ .../media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-It can either wait until his have landed or perhaps go as part of that
-series if you wish to collect in altogether.
-
-[0] https://lore.kernel.org/linux-media/20250915-imx335_binning-v3-0-16ecabf2090d@ideasonboard.com/
-
- drivers/media/i2c/imx335.c | 21 +++++++++------------
- 1 file changed, 9 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-index 24d26bc6260b..5efa2884784e 100644
---- a/drivers/media/i2c/imx335.c
-+++ b/drivers/media/i2c/imx335.c
-@@ -1462,26 +1462,23 @@ static int imx335_probe(struct i2c_client *client)
+diff --git a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
+index d7027d600208..1c94316f2d7d 100644
+--- a/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
++++ b/drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c
+@@ -117,8 +117,10 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_vpu_init(void *priv, enum mtk_vcodec_fw_use
+ 		vpu_wdt_reg_handler(fw_pdev, mtk_vcodec_vpu_reset_enc_handler, priv, rst_id);
  
- 	imx335->dev = &client->dev;
- 	imx335->cci = devm_cci_regmap_init_i2c(client, 16);
--	if (IS_ERR(imx335->cci)) {
--		dev_err(imx335->dev, "Unable to initialize I2C\n");
--		return -ENODEV;
--	}
-+	if (IS_ERR(imx335->cci))
-+		return dev_err_probe(imx335->dev, PTR_ERR(imx335->cci),
-+				     "Unable to initialize I2C\n");
- 
- 	/* Initialize subdev */
- 	v4l2_i2c_subdev_init(&imx335->sd, client, &imx335_subdev_ops);
- 	imx335->sd.internal_ops = &imx335_internal_ops;
- 
- 	ret = imx335_parse_hw_config(imx335);
--	if (ret) {
--		dev_err(imx335->dev, "HW configuration is not supported\n");
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(imx335->dev, ret,
-+				     "HW configuration is not supported\n");
- 
- 	ret = imx335_power_on(imx335->dev);
--	if (ret) {
--		dev_err(imx335->dev, "failed to power-on the sensor\n");
--		return ret;
--	}
-+	if (ret)
-+		return dev_err_probe(imx335->dev, ret,
-+				     "failed to power-on the sensor\n");
- 
- 	/* Check module identity */
- 	ret = imx335_detect(imx335);
+ 	fw = devm_kzalloc(&plat_dev->dev, sizeof(*fw), GFP_KERNEL);
+-	if (!fw)
++	if (!fw) {
++		put_device(&fw_pdev->dev);
+ 		return ERR_PTR(-ENOMEM);
++	}
+ 	fw->type = VPU;
+ 	fw->ops = &mtk_vcodec_vpu_msg;
+ 	fw->pdev = fw_pdev;
 -- 
-2.50.1
+2.25.1
 
 
