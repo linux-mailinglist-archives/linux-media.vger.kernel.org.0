@@ -1,324 +1,205 @@
-Return-Path: <linux-media+bounces-42578-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42580-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4209B5831B
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 19:14:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AFF8B58344
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 19:19:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 4D48F2A3B73
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 17:13:49 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 24DF6168913
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 17:19:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54E61298987;
-	Mon, 15 Sep 2025 17:10:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA05929B8EF;
+	Mon, 15 Sep 2025 17:18:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="aRp16Vvp";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="gkxzzFP7"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="DzFm2SUQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fhigh-b2-smtp.messagingengine.com (fhigh-b2-smtp.messagingengine.com [202.12.124.153])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14AEE2FB099;
-	Mon, 15 Sep 2025 17:10:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.153
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D5D296BA6;
+	Mon, 15 Sep 2025 17:18:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757956256; cv=none; b=EYDB77cnmO80XHnqkZXz5HqjdkwFtkvQgdTJYicnQC/Q+q6/vco3r1FUG+VVagUBc3TIpbuZG0xUTbvmw8rwaAnJjmSzdMoA22QXVXTQW1/LdrAewYSCspQocHR9XMrf6CrlJJ8yKFT5kPv5xlj6NcmFycVAfuN9YiEsTWIxCBQ=
+	t=1757956720; cv=none; b=Xyl4m0GWbQKQP9TfsE0jgZaU47xqG0uzfOIZEEWUWeFcV+fSkCxSrFByv77QajL2TVI4yyQp4mYq9+X7vHzZMC4e98KhdAXBCoIbplcvdXI0xV+fFNARU8u1w4/hZliUWL3BjJKLj+/lamv2gdbN21rHSHtC+OU2piNFYMW2Rw0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757956256; c=relaxed/simple;
-	bh=B5XzzmfVL55ibXxzrC5j36Zc2gtZNUDaeNSlffTSryU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NQCY8qoa9QKpvsdEo4XmTraViac2IK+OfUDBLL439pADIvh/L/qp2X71f9E7u7vgYKGkuaQcLEkeO7b3J2pqKtlYF5xYbFUvupKOyPMa+JWp025RUupZ4i9rwgWoW/nXRgIUiHEJiSwzPbgjWxkwQkRuBodEhjxPtV6vV4oCtR4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=aRp16Vvp; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=gkxzzFP7; arc=none smtp.client-ip=202.12.124.153
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 3882E7A0185;
-	Mon, 15 Sep 2025 13:10:53 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Mon, 15 Sep 2025 13:10:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1757956253;
-	 x=1758042653; bh=WeuVSMOFTQzdVY6K+1Y+/FCR6eqbyKn4bZi7CQ8MXOg=; b=
-	aRp16VvpAsWP5HieLSvVwI4HwR433o7jIh3moo1RdXMr6y1IWGpbtuhuUzQlWQEt
-	kG7QJzr133qRZvyy1qUWIl2g46GRSmzxliaM+wcwMs8mRsLOumRue7jG5os1Bcqe
-	O/mHMjuogt4IWmK0/UEfYSLiNTvylbWe0uX0DZNlnNQwyvooB+PPN9qhXJRSzyvc
-	wQ59s2W1yEiXtvndmufUoMDcIKWKVWEi3PE9Zz8MID479E84iCOYBcBtDMh0tgZx
-	Gfzr625crBjIUaS1QRKOfljeBs2Y4a/5Aby07zLLc32DzE7JYJKNiPAv6J5v+HcC
-	o5hJT5AM5o25OHcqofSohQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757956253; x=
-	1758042653; bh=WeuVSMOFTQzdVY6K+1Y+/FCR6eqbyKn4bZi7CQ8MXOg=; b=g
-	kxzzFP7uC4k6BUGKtFWVVsa7feIlrf/DdpDGkq4Im8WLlD7grOa/4hbxfAtoHcSw
-	SO0cv8929+NMaTibLb4tIVk4Yg6SZFHEuGSwjeoHXMX89nWKwFe1IPN+SYN9P8KH
-	LVoGiUdyUyjcljyKZE2b01fUyQNnLmIRJDkU/zlhBk8b16qEXwj7m71jCg4WBfnj
-	RyvLyaLduNK9R6cwvK6hLzZkbqU72ylpRXrDejd13XQbvPD8IL0agDmQXTARHt7Y
-	XIC1oiIYsCGNfm7sXWSwGe4ZFZFd53VfxpstQZgJ7+sY8pemk31OcFjJnRXD2TeC
-	UfMpeMPgrjEpOQLBkKplA==
-X-ME-Sender: <xms:nEjIaCWpXTKoQh3LUy38u2b0HjLti4Qz58QQbFwM5Gmv5yuA9a6RQQ>
-    <xme:nEjIaGOezg8ewyjzigpt0HLuGVbvRNHLDYKd8UKtMvVWioQzi4CTO-kNEFjwWUQkv
-    Dne0RNBIUiZ8ZjFZxg>
-X-ME-Received: <xmr:nEjIaEBd88g4QLzzYKU8Yngk45NAnA0J1sB6qXQ2VZ3Q1-Ji64oQIl4NoHmjhy_WpGfXLF_d4y4vXek4GKM6fLizNg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefkedvhecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefhvfevufffkffojghfgggtgfesthekredtredtjeenucfhrhhomheppfhikhhlrghs
-    ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
-    hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhephfeuledvhfdvffeh
-    tdeikedtgeejgeetgfffudffleduveetudehkedvvdelfedvnecuffhomhgrihhnpehgpg
-    hflhhtrdhgsgdpghgpfhhlthdrghhrpdhgrghinhdrnhhfnecuvehluhhsthgvrhfuihii
-    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhunh
-    gusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepjedpmhhouggvpehsmhht
-    phhouhhtpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghpth
-    htohepjhgrtghophhordhmohhnughisehiuggvrghsohhnsghorghrugdrtghomhdprhgt
-    phhtthhopehlrghurhgvnhhtrdhpihhntghhrghrthesihguvggrshhonhgsohgrrhgurd
-    gtohhmpdhrtghpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdr
-    ohhrghdprhgtphhtthhopehlihhnuhigqdhrvghnvghsrghsqdhsohgtsehvghgvrhdrkh
-    gvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrhdr
-    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhlrghsrdhsohguvghrlhhunhguod
-    hrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:nEjIaDfy8j-z_69MZv8mParCXxJgsFh9axxzRaXNRGMKhw1o0O_CHQ>
-    <xmx:nEjIaDOpq_HVFtMn-vQ6_AjQxGSoYeMIPG_mX6qlUEr67mKemUP4cg>
-    <xmx:nEjIaDJrXX3RD4FNh4ZDc94dIu0CngsN8SvikiUklykZUadgEOMJyg>
-    <xmx:nEjIaDKO5V2p8GUUPqZ1S20ecI4ypcIyOZuj6qhi6DgIp8iZ22yM-Q>
-    <xmx:nUjIaJKoAc6N9yoDxOd3rBFu0ingKsDmlU3qvgB_9awK2_L-i5fsK8F9>
-Feedback-ID: i80c9496c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Sep 2025 13:10:52 -0400 (EDT)
-From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	linux-media@vger.kernel.org,
-	linux-renesas-soc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 12/12] media: rppx1: Add support for Bilateral Denoising
-Date: Mon, 15 Sep 2025 19:07:43 +0200
-Message-ID: <20250915170743.106249-13-niklas.soderlund+renesas@ragnatech.se>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250915170743.106249-1-niklas.soderlund+renesas@ragnatech.se>
-References: <20250915170743.106249-1-niklas.soderlund+renesas@ragnatech.se>
+	s=arc-20240116; t=1757956720; c=relaxed/simple;
+	bh=TKUNoFfaG7mUu050VdbIYJIxqktZZZ2hBbKcgYdK2GI=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=JZjBgQRDe1v6+b8uc7nOeRy1MMsXMKNfTgMKbWS10coMl/SCmmQwTG7GnOu6CoCwdq1yN1pQE6rXdOAKE2kg334C18Oc8peZc2KE5rlG9kg45ISDYZgzy1ffVxBIsYz9mCZ1loo1B6aIRxnS71hRrH0aVcwT+jFKT22hYpMRYPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=DzFm2SUQ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.0.172] (mob-5-90-56-182.net.vodafone.it [5.90.56.182])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41DDB710;
+	Mon, 15 Sep 2025 19:17:17 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1757956638;
+	bh=TKUNoFfaG7mUu050VdbIYJIxqktZZZ2hBbKcgYdK2GI=;
+	h=From:Subject:Date:To:Cc:From;
+	b=DzFm2SUQEqFHw196ty5KYeMEPz4ZMbRvfE/r7cGshGsqu7Jz8bHsrE1arlH4Sdb8Z
+	 CQXwAcfiwZlG7NzEGUZIjY+SC0Z90pRVm5Wr9pNCb/tCqDLQ1fUY081B6zCfca3rT4
+	 uR6pWuxob6+udUmK9dXAZGXt4EV3Lc0+CFLOD49k=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: [PATCH v5 0/8] media: Introduce V4L2 generic ISP support
+Date: Mon, 15 Sep 2025 19:18:09 +0200
+Message-Id: <20250915-extensible-parameters-validation-v5-0-e6db94468af3@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFJKyGgC/43OTWrDMBAF4KsErasy+jGSuso9ShfSaNQIEjtIR
+ iQE3z1yoDSLhnr5BuZ778YqlUyVfexurFDLNU9jD8PbjuHBj9/Ec+yZSZADGBCcLjONNYcj8bM
+ v/kQzlcqbP+bo5/7M0SqRTBoQIbDOnAulfHlUfH71fMh1nsr10djEev3B7f94Exy4SygNOjTS4
+ j5H8nUaw+RLfMfpxNaOJp9cARtc2V1DaJ2whFqrF676da1wG1y17o0IYJW2QcELVz+5cste3V0
+ FiQbvHAaR/nCXZbkDmPsnT98BAAA=
+X-Change-ID: 20250701-extensible-parameters-validation-c831f7f5cc0b
+To: Dafna Hirschfeld <dafna@fastmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Keke Li <keke.li@amlogic.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Heiko Stuebner <heiko@sntech.de>, Dan Scally <dan.scally@ideasonboard.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Antoine Bouyer <antoine.bouyer@nxp.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5208;
+ i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
+ bh=TKUNoFfaG7mUu050VdbIYJIxqktZZZ2hBbKcgYdK2GI=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBoyEpp6lTZEj3KM8EMTSZiL/v1T7U+vwHuOifKT
+ GmpXp02U7iJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaMhKaQAKCRByNAaPFqFW
+ PKd3EADGfGXT5SOJKgthvh7rOhjWsh7Cck/r4ls+Pd3x/0QdkEXjLLQ2hFoZVkKuHGXBEuaqk6k
+ H47OVMKIJ2utKlWHjptg9AIVSRLfo/oK1sQvuhYs8rbSJs5eR5BNG0gWDFORTg+GX0GFAuQRg2x
+ dAvAOZz/9T87s3V4SV6NmgWEpJnmsWFebcc4fhoQFekuBainH1sk1erHUZZ7GyFbf4JpU5hp9vJ
+ kKepyfeIHvjRKrOozb67BOclEjlhQlz6z0hv/nV6gTVKPsCingIcVnDKZK+d607v6RlGgWBDuSS
+ hJgyOwwV4E6nAzdq90Wzb+/xPfafUmM/g2bjFfkUo1efF9czMDGozBjzfrqJ8qSnrTFS8p8Fdxm
+ Xbmrl0Lp02zYn7q0X/L5g+Mksa1WCJjdym9+trUdWqA4ObfJ3koDGjPD+pqiEN6oCiPhKg9hJuI
+ hXKDXrbrKOqzbXdyIX7BICCli8jNvzDde41FmlibzspabBTmf89S+nxtshxflJ6lU6oBhTEmxcJ
+ cyec73JeU/m5v2PTmMBRSN8n9vJQLp2rqdsvdpmYuw+n2kHuPuqlfbgc0DL1wiOXDq+Qit+PLkV
+ 2rzxuibT7rPlbUQLi3iA/lE9xDxnCdV+SCssO5hyBcsBaoCbp85Wwyfe73oIm5WqCN/2CwKA6PP
+ pW6F1jiBna3yQNQ==
+X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
+ fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-Extend the RPPX1 driver to allow setting the Bilateral Denoising
-configuration using the RkISP1 parameter buffer format. It uses the
-RPPX1 framework for parameters and its writer abstraction to allow the
-user to control how (and when) configuration is applied to the RPPX1.
+Extensible parameters meta formats have been introduced in the Linux
+kernel v6.12 initially to support different revision of the RkISP1 ISP
+implemented in different SoC. In order to avoid breaking userspace
+everytime an ISP configuration block is added or modified in the uAPI
+these new formats, which are versionated and extensible by their
+definition have been introduced.
 
-The parameter bit-sizes matches RkISP1 so there is no need to convert
-between the two. Some bit flags are inverted however and RPP have
-different registers for each color components coefficients where RkISP1
-have one for covering all.
+See for reference:
+e9d05e9d5db1 ("media: uapi: rkisp1-config: Add extensible params format")
+6c53a7b68c5d ("media: rkisp1: Implement extensible params support")
 
-The biggest difference is that RPP have dropped the hardware bit
-AWB_GAIN_COMP. Luckily it's behavior is easy to emulate in software.
+The Amlogic C3 ISP driver followed shortly, introducing an extensible
+format for the ISP configuration:
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+6d406187ebc0 ("media: uapi: Add stats info and parameters buffer for C3 ISP")
+
+with a very similar, if not identical, implementation of the routines to
+validate and handle the ISP configuration in the ISP driver in the
+c3-isp-params.c file.
+
+fb2e135208f3 ("media: platform: Add C3 ISP driver")
+
+With the recent upstreaming attempt of the Mali C55 ISP driver from Dan,
+a third user of extensible parameters is going to be itroduced in the
+kernel, duplicating again in the driver the procedure for validating and
+handling the ISP configuration blocks
+
+https://patchwork.linuxtv.org/project/linux-media/patch/20250624-c55-v10-15-54f3d4196990@ideasonboard.com/
+
+To avoid duplicating again the validation routines and common types
+definition, this series introduces v4l2-isp.c/.h for the kAPI
+and v4l2-isp.h for the uAPI and re-organize the RkISP1
+and Amlogic C3 drivers to use the common types and the helper validation
+routines.
+
+The v4l2-isp abstraction will be augmented to support statistcs as well.
+
+If the here proposed approach is accepted, I propose to rebase the Mali
+C55 driver on top of this series, to use the new common types and
+helpers.
+
+I have been able to test this on RkISP1 but not on C3.
+
+Thanks
+  j
+
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 ---
- .../platform/dreamchip/rppx1/rpp_params.c     |   5 +
- .../media/platform/dreamchip/rppx1/rppx1_bd.c | 158 ++++++++++++++++++
- 2 files changed, 163 insertions(+)
+Changes in v5:
+- Move everything to v4l2-isp prefix except from format documentation
+  which still is about 'extensible-parameters' (to be paired in future
+  with extensbile-stats)
+- Simplify documentation and move it part to the driver-api
+  Documentation
+- Remove 'group' and 'features' from the generic handlers definition and
+  adjust rkisp1 accordingly
+- Link to v4: https://lore.kernel.org/r/20250820-extensible-parameters-validation-v4-0-30fe5a99cb1f@ideasonboard.com
 
-diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-index ff075d6b81a7..b7b8adfe9337 100644
---- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-@@ -41,6 +41,11 @@ int rppx1_params_rkisp1(struct rppx1 *rpp, struct rkisp1_ext_params_cfg *cfg,
- 		case RKISP1_EXT_PARAMS_BLOCK_TYPE_GOC:
- 			module = &rpp->hv.ga;
- 			break;
-+		case RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF:
-+		case RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF_STRENGTH:
-+			/* Both types handled by the same block. */
-+			module = &rpp->pre1.bd;
-+			break;
- 		case RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC:
- 			module = &rpp->pre1.lsc;
- 			break;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c b/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
-index acbfbcd59591..3bb717d87ec5 100644
---- a/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_bd.c
-@@ -47,6 +47,164 @@ static int rppx1_bd_probe(struct rpp_module *mod)
- 	return 0;
- }
- 
-+static int
-+rppx1_bd_param_rkisp1_main(struct rpp_module *mod,
-+			   const union rppx1_params_rkisp1_config *block,
-+			   rppx1_reg_write write, void *priv)
-+{
-+	const struct rkisp1_ext_params_dpf_config *cfg = &block->dpf;
-+	unsigned int isp_dpf_mode, spatial_coeff;
-+
-+	/* If the modules is disabled, simply bypass it. */
-+	if (cfg->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE) {
-+		write(priv, mod->base + DPF_MODE_REG, 0);
-+		return 0;
-+	}
-+
-+	/*
-+	 * RkISP1 have an extra hardware flag AWB_GAIN_COMP which was removed
-+	 * in RPP DB module version 4 and later. If the bit is set the
-+	 * programmed gains will be processed, if it's not set a default value
-+	 * of 1 (0x100) will be used. From the RPP documentation for DB version
-+	 * 4 changelog.
-+	 *
-+	 *   Removed RPP_DPF_MODE::awb_gain_comp. Always use programmed
-+	 *   nf-gains for gain compensation.
-+	 *
-+	 * We can emulate this behavior if we keep track of when the RkISP1 do
-+	 * set the flag.
-+	 */
-+	bool awb_gain_comp = false;
-+
-+	switch (cfg->config.gain.mode) {
-+	case RKISP1_CIF_ISP_DPF_GAIN_USAGE_NF_GAINS:
-+		awb_gain_comp = true;
-+		isp_dpf_mode = DPF_MODE_USE_NF_GAIN;
-+		break;
-+	case RKISP1_CIF_ISP_DPF_GAIN_USAGE_LSC_GAINS:
-+		isp_dpf_mode = DPF_MODE_LSC_GAIN_COMP;
-+		break;
-+	case RKISP1_CIF_ISP_DPF_GAIN_USAGE_NF_LSC_GAINS:
-+		awb_gain_comp = true;
-+		isp_dpf_mode = DPF_MODE_USE_NF_GAIN | DPF_MODE_LSC_GAIN_COMP;
-+		break;
-+	case RKISP1_CIF_ISP_DPF_GAIN_USAGE_AWB_GAINS:
-+		awb_gain_comp = true;
-+		isp_dpf_mode = 0;
-+		break;
-+	case RKISP1_CIF_ISP_DPF_GAIN_USAGE_AWB_LSC_GAINS:
-+		awb_gain_comp = true;
-+		isp_dpf_mode = DPF_MODE_LSC_GAIN_COMP;
-+		break;
-+	case RKISP1_CIF_ISP_DPF_GAIN_USAGE_DISABLED:
-+	default:
-+		isp_dpf_mode = 0;
-+		break;
-+	}
-+
-+	/* NOTE: Hardware bit for scale_mode is inverted compared to RkISP1. */
-+	if (cfg->config.nll.scale_mode == RKISP1_CIF_ISP_NLL_SCALE_LINEAR)
-+		isp_dpf_mode |= DPF_MODE_NLL_SEGMENTATION;
-+	if (cfg->config.rb_flt.fltsize == RKISP1_CIF_ISP_DPF_RB_FILTERSIZE_9x9)
-+		isp_dpf_mode |= DPF_MODE_RB_FILTER_SIZE;
-+	if (!cfg->config.rb_flt.r_enable)
-+		isp_dpf_mode |= DPF_MODE_R_FILTER_OFF;
-+	if (!cfg->config.rb_flt.b_enable)
-+		isp_dpf_mode |= DPF_MODE_B_FILTER_OFF;
-+	if (!cfg->config.g_flt.gb_enable)
-+		isp_dpf_mode |= DPF_MODE_GB_FILTER_OFF;
-+	if (!cfg->config.g_flt.gr_enable)
-+		isp_dpf_mode |= DPF_MODE_GR_FILTER_OFF;
-+
-+	isp_dpf_mode |= DPF_MODE_DPF_ENABLE;
-+
-+	if (awb_gain_comp) {
-+		write(priv, mod->base + DPF_NF_GAIN_B_REG, cfg->config.gain.nf_b_gain);
-+		write(priv, mod->base + DPF_NF_GAIN_R_REG, cfg->config.gain.nf_r_gain);
-+		write(priv, mod->base + DPF_NF_GAIN_GB_REG, cfg->config.gain.nf_gb_gain);
-+		write(priv, mod->base + DPF_NF_GAIN_GR_REG, cfg->config.gain.nf_gr_gain);
-+	} else {
-+		write(priv, mod->base + DPF_NF_GAIN_B_REG, 0x100);
-+		write(priv, mod->base + DPF_NF_GAIN_R_REG, 0x100);
-+		write(priv, mod->base + DPF_NF_GAIN_GB_REG, 0x100);
-+		write(priv, mod->base + DPF_NF_GAIN_GR_REG, 0x100);
-+	}
-+
-+	/* The RkISP1 hardware have a single register for all components. */
-+	for (unsigned int i = 0; i < RKISP1_CIF_ISP_DPF_MAX_NLF_COEFFS; i++) {
-+		write(priv, mod->base + DPF_NLL_G_COEFF_REG(i), cfg->config.nll.coeff[i]);
-+		write(priv, mod->base + DPF_NLL_RB_COEFF_REG(i), cfg->config.nll.coeff[i]);
-+	}
-+
-+	spatial_coeff = cfg->config.g_flt.spatial_coeff[0] |
-+			(cfg->config.g_flt.spatial_coeff[1] << 8) |
-+			(cfg->config.g_flt.spatial_coeff[2] << 16) |
-+			(cfg->config.g_flt.spatial_coeff[3] << 24);
-+	write(priv, mod->base + DPF_S_WEIGHT_G_1_4_REG, spatial_coeff);
-+
-+	spatial_coeff = cfg->config.g_flt.spatial_coeff[4] |
-+			(cfg->config.g_flt.spatial_coeff[5] << 8);
-+	write(priv, mod->base + DPF_S_WEIGHT_G_5_6_REG, spatial_coeff);
-+
-+	spatial_coeff = cfg->config.rb_flt.spatial_coeff[0] |
-+			(cfg->config.rb_flt.spatial_coeff[1] << 8) |
-+			(cfg->config.rb_flt.spatial_coeff[2] << 16) |
-+			(cfg->config.rb_flt.spatial_coeff[3] << 24);
-+	write(priv, mod->base + DPF_S_WEIGHT_RB_1_4_REG, spatial_coeff);
-+
-+	spatial_coeff = cfg->config.rb_flt.spatial_coeff[4] |
-+			(cfg->config.rb_flt.spatial_coeff[5] << 8);
-+	write(priv, mod->base + DPF_S_WEIGHT_RB_5_6_REG, spatial_coeff);
-+
-+	/*
-+	 * Bilateral Denoising does not react on RPP_HDR_UPD::regs_gen_cfg_upd
-+	 * (see Table 25). A change in configuration needs write of 1 to
-+	 * RPP_HDR_UPD::regs_cfg_upd.
-+	 */
-+	write(priv, 4, 1);
-+
-+	write(priv, mod->base + DPF_MODE_REG, isp_dpf_mode);
-+
-+	return 0;
-+}
-+
-+static int
-+rppx1_bd_param_rkisp1_strength(struct rpp_module *mod,
-+			       const union rppx1_params_rkisp1_config *block,
-+			       rppx1_reg_write write, void *priv)
-+{
-+	const struct rkisp1_ext_params_dpf_strength_config *cfg = &block->dpfs;
-+
-+	/* If the modules is disabled, simply bypass it. */
-+	if (cfg->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE) {
-+		write(priv, mod->base + DPF_MODE_REG, 0);
-+		return 0;
-+	}
-+
-+	/* Module version 5 adds shadowing for mode and spatial weights. */
-+	write(priv, mod->base + DPF_STRENGTH_R_REG, cfg->config.r);
-+	write(priv, mod->base + DPF_STRENGTH_G_REG, cfg->config.g);
-+	write(priv, mod->base + DPF_STRENGTH_B_REG, cfg->config.b);
-+
-+	return 0;
-+}
-+
-+static int
-+rppx1_bd_param_rkisp1(struct rpp_module *mod,
-+		      const union rppx1_params_rkisp1_config *block,
-+		      rppx1_reg_write write, void *priv)
-+{
-+	switch (block->header.type) {
-+	case RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF:
-+		return rppx1_bd_param_rkisp1_main(mod, block, write, priv);
-+	case RKISP1_EXT_PARAMS_BLOCK_TYPE_DPF_STRENGTH:
-+		return rppx1_bd_param_rkisp1_strength(mod, block, write, priv);
-+	}
-+
-+	return -EINVAL;
-+}
-+
- const struct rpp_module_ops rppx1_bd_ops = {
- 	.probe = rppx1_bd_probe,
-+	.param_rkisp1 = rppx1_bd_param_rkisp1,
- };
+Changes in v4:
+- Fix the definition of V4L2_PARAMS_FL_PLATFORM_FLAGS
+- Add __counted_by() attribute to the data[] flexible-array member of
+  v4l2_params_buffer
+- Minor style change
+- Link to v3: https://lore.kernel.org/r/20250819-extensible-parameters-validation-v3-0-9dc008348b30@ideasonboard.com
+
+Changes in v3:
+- Rebased on latest media-committers/next
+- Take in Dan's suggestion in block size validation
+- Documentation minor spelling fixes
+- Link to v2: https://lore.kernel.org/r/20250710-extensible-parameters-validation-v2-0-7ec8918ec443@ideasonboard.com
+
+Changes in v2:
+- Make v4l2_params_buffer directly usable
+- Centralize ENABLE/DISABLE flags definition and validation
+- Take in Dan's v4l2_params_buffer_size()
+- Allow blocks to only contain the header if they're going to be
+  disabled
+- Documentation fixes as reported by Nicolas
+- Link to v1: https://lore.kernel.org/r/20250708-extensible-parameters-validation-v1-0-9fc27c9c728c@ideasonboard.com
+
+---
+Jacopo Mondi (8):
+      media: uapi: Introduce V4L2 generic ISP types
+      media: uapi: Convert RkISP1 to V4L2 extensible params
+      media: uapi: Convert Amlogic C3 to V4L2 extensible params
+      media: Documentation: uapi: Add V4L2 extensible parameters
+      media: v4l2-core: Introduce v4l2-isp.c
+      media: rkisp1: Use v4l2-isp for validation
+      media: amlogic-c3: Use v4l2-isp for validation
+      media: Documentation: kapi: Add v4l2 generic ISP support
+
+ Documentation/driver-api/media/v4l2-core.rst       |   1 +
+ Documentation/driver-api/media/v4l2-isp.rst        |  37 ++
+ .../media/v4l/extensible-parameters.rst            |  97 +++++
+ .../userspace-api/media/v4l/meta-formats.rst       |   1 +
+ MAINTAINERS                                        |  10 +
+ drivers/media/platform/amlogic/c3/isp/Kconfig      |   1 +
+ .../media/platform/amlogic/c3/isp/c3-isp-params.c  | 248 ++++--------
+ drivers/media/platform/rockchip/rkisp1/Kconfig     |   1 +
+ .../media/platform/rockchip/rkisp1/rkisp1-params.c | 441 ++++++++++-----------
+ drivers/media/v4l2-core/Kconfig                    |   4 +
+ drivers/media/v4l2-core/Makefile                   |   1 +
+ drivers/media/v4l2-core/v4l2-isp.c                 | 108 +++++
+ include/media/v4l2-isp.h                           | 100 +++++
+ include/uapi/linux/media/amlogic/c3-isp-config.h   |  86 +---
+ include/uapi/linux/media/v4l2-isp.h                | 100 +++++
+ include/uapi/linux/rkisp1-config.h                 | 104 +----
+ 16 files changed, 793 insertions(+), 547 deletions(-)
+---
+base-commit: 0e2ee70291e64a30fe36960c85294726d34a103e
+change-id: 20250701-extensible-parameters-validation-c831f7f5cc0b
+
+Best regards,
 -- 
-2.51.0
+Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
 
