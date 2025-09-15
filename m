@@ -1,286 +1,153 @@
-Return-Path: <linux-media+bounces-42550-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42551-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFF10B578C7
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 13:45:22 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D629B57972
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 13:55:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 33A58205239
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 11:44:23 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 02BB87A5B8F
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 11:53:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17ECC2F39AE;
-	Mon, 15 Sep 2025 11:44:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B579302755;
+	Mon, 15 Sep 2025 11:55:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ef/M7NtN"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="M8MnM6KG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A19BA18A6CF;
-	Mon, 15 Sep 2025 11:44:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 441F030214A
+	for <linux-media@vger.kernel.org>; Mon, 15 Sep 2025 11:55:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757936655; cv=none; b=DsnyJmSo51YSNYjmPj7pCjEefsEOZKOaBcOipeWC1WY9jO4t9tsYKLjpv6AjDF1Rfh4DZRQnsMAHgLsHv1/51sDgtnExHL5slYr+7dZ6YobAwjqPsDlZBXgyJV3oLCzxNkvAwO9kGhFrZO+j/wYDbuDfLJtrQYHtGxmKQ53gzQ0=
+	t=1757937322; cv=none; b=F2NTXUqDzvkwlcm1PGD6syO862W0fLiZafFd8P/h8s9RWXaMXUASHuuhF4TjsJooFILYZJOatdyPwRlvrjALPkAPtwq2nz77Ygh3IgXNzS5s5kqsPkhunFpokCVPSwghBuEHXMLmBY0uNAPdi6wkq6t4dPXydm79LZMvympSvvM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757936655; c=relaxed/simple;
-	bh=5O7PhGpBzohgFjiqINlpPQ8H2kq11x3ttRIqJkhP1+A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BR/lRstwmq2/ykAwv77u88TpPbFIHH1QjfXgzsPt8VgAUiw8FUgt3/YaY4B3JSx9lLgM6gXoPM8akf8vvYmIQVg1pw09nVZbjNqOeuqOQadRyWHFZOQxg7VyKMARxtj0Ta/PMAX/9FDjZs2w0nX0beYaj0wtRSoC2aDBf5UHOUg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ef/M7NtN; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1757936653; x=1789472653;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5O7PhGpBzohgFjiqINlpPQ8H2kq11x3ttRIqJkhP1+A=;
-  b=ef/M7NtNrMHeAszxCkug9R7USaskzMN3n0RRFjfm+PzkToEpgeccU/Ni
-   yYKLs6mCscuOzrp+NEexQtctwr3NIyu7RG8Acknyfo8LtvDsiSVDYlrQ0
-   tiePJxddPxbJIznjuwUf7dp2rF4lYM17BQW1B7Pvc16d9Bu5f/TASBc6u
-   3vHOFQHm+1ymx54PgqA9ATXmYaLHO31l6CYbXHwsM3rjop3jPIQcff/f7
-   lh68gKNoU1nCUboijqAc6FW+PrxpTiCPm8ZCbX/RZJ1m9Nxdn86DHEam1
-   jC9gM8oEahXuELCcSCTYxbjGgg/A1Rm59HYWWw5BNHYWeDg8ZHi/eZoXG
-   g==;
-X-CSE-ConnectionGUID: 9Q8IJg5MSlGFVqhHAgSgaw==
-X-CSE-MsgGUID: exMNgiIETZusQ96TcDaIkw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11553"; a="47754102"
-X-IronPort-AV: E=Sophos;i="6.18,266,1751266800"; 
-   d="scan'208";a="47754102"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 04:44:12 -0700
-X-CSE-ConnectionGUID: UIMsDXfoQsyikjW9ShwuKQ==
-X-CSE-MsgGUID: UOoWIbyTQ8S4BMBRswnWIQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,266,1751266800"; 
-   d="scan'208";a="179773250"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.30])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Sep 2025 04:44:11 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 31FAA11FCCF;
-	Mon, 15 Sep 2025 14:44:07 +0300 (EEST)
-Date: Mon, 15 Sep 2025 14:44:07 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Jai Luthra <jai.luthra@ideasonboard.com>
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Tommaso Merciai <tomm.merciai@gmail.com>
-Subject: Re: [PATCH v3 2/8] media: imx335: Support vertical flip
-Message-ID: <aMf8B4RpEFupM9Yn@kekkonen.localdomain>
-References: <20250915-imx335_binning-v3-0-16ecabf2090d@ideasonboard.com>
- <20250915-imx335_binning-v3-2-16ecabf2090d@ideasonboard.com>
+	s=arc-20240116; t=1757937322; c=relaxed/simple;
+	bh=zpiLe+BVPch3C00E/H8i+hJkopM3qNdM7o0pf72WATw=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=cugZ4128xgb02r9J5fzpPmvUnxylRZ4I4u8Vbshyca7QlZYi1LTWosrWQlSNRFOPRbUiUlXRDDDUZwLy7xSFdXyGS9wbQLv0FawA9f8L/e4oe7bfgV/j/Ux8aq+BK+W7IxGyx4s3U6qWUaGz6m/MJfbIPQKxxBlcmD3q27reQH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=M8MnM6KG; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58F8GbAQ007598
+	for <linux-media@vger.kernel.org>; Mon, 15 Sep 2025 11:55:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=tyD/SjI8ilzgiUKq88ErdJ
+	GRhojaxSfjNGDxvrDbvhc=; b=M8MnM6KGJxXOBwxsQ5gtBWZiyTLStOaNrtOTsV
+	/5raZx6y4vHbi5jqpp3sBhmE81WHr6R8zZOvvOSpEkAJbt4YbKAjEdtYQkg9Kbm4
+	Uy10CZk16QqFPGitBW+YsS65h5AsDKd+zE15ISbIhpiBNT1F9Sf73Ij+mjOUfS25
+	fOVptUOM5YXwpZXFK/wrppu1OcIsqD3GxbqMO62eN3PyR3hZfAxHFJTjSLGBzEGJ
+	hc1Nw6UbPxp+u8FZ/PwHSBtQaZQ3dK7C2ckY8qQv0pvGW2V48BkZcfW660FtJ7wj
+	rFU4rBYLrFrEk7t/1hv7brBNWE3s/ycyBH1QGsinznesxoOA==
+Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4951chcqas-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 15 Sep 2025 11:55:19 +0000 (GMT)
+Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-782fb2a5e9aso8865766d6.3
+        for <linux-media@vger.kernel.org>; Mon, 15 Sep 2025 04:55:19 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757937318; x=1758542118;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=tyD/SjI8ilzgiUKq88ErdJGRhojaxSfjNGDxvrDbvhc=;
+        b=g7Xj6shVrYd7OBuNEE7bGQte6noAfuTRZtK7CdTxFNobarnQEmNJ8MEJckC4K+1yO4
+         IFQ3ia69XmmB3SXt6L7ewRBZjIUxHnxcXawhoTqXJBWpXvYGf8eUCe1zPmuQlW9qMg7k
+         7YlN+zSMkDLXb3Q0PsFr+T6tIyMJhNNl9BFCJpgE6fFU4nwiiWdXFbMDkidyWzmOOWVc
+         vvlXlTT7oEkuxqD8uW7HRr2KFNFJkTWdmt5v0Y11uXnku+RT2Yr7W7CzzqBWZJ3i+Y9S
+         MNIZH3HTyCw6XcCy5Pwmfk4Mcn92rwlgObds0dlTjpJ5X3IARiRkm35IbnT+Lp+6Ujpn
+         2cBg==
+X-Gm-Message-State: AOJu0Yx5UwWsY6MxxjMouNRX8gNM8WlbyT/v4KXMTueTBEkQQ537P0J+
+	w4/PPebuXCAIuYZMgz4+zDPlst93Tur2siHoKlIoWeu7MmOWmPNbfASOXwvYof9ref33pzIP62k
+	87aKyf0pyrLoh+FfqUsy/8qkMO10yoMKBcutHrkqD5D1zAPge4yhAdbt/JywLlWROCzHWlZKL/A
+	==
+X-Gm-Gg: ASbGncvudWOOaM7tqrv2cl+6OvM9sjn4EW4TREtFpXHrAl1Ph3YVcDN4X02/oY52c7U
+	XTIpg9/E29hddpkJJHexA+yNHdrrE7GqyQaWWbmcptF2RNkIImckCjCHRZ/wWEOWX0LWkB40ZW/
+	o/QgwHkquPUyGUTS2LW7yoaEc5WKTg6GrSTUM9AaDe9A8+vNq63IhWSdyANr7IkGubnE53N+sva
+	UyO5ItwnYUqCtTkfgQKreaicT5jgPhfpKMyIwpk2Jv70uFK0IoJL7xHZVDm/GfT/zinL4Fc68VA
+	lyEJMCYhz4nZ/5jE3exjkb+Vos03cTnthaFa+1gfsF1A/klLeazThh1MdwIQkNoOZoe8nQN4c2e
+	fUTnxPYCMPM0cnnwGw0/Oo7hxxk8ME6EADGq9phaKU0gyaRrhRA==
+X-Received: by 2002:ad4:5ced:0:b0:77e:dd3e:a0c9 with SMTP id 6a1803df08f44-77edd3ea3d1mr42048286d6.14.1757937317477;
+        Mon, 15 Sep 2025 04:55:17 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFrHu8JBlLAm/W9ryVnhzXp4XdgDTGahW+jtCCSI3Ovs41hVtvCsof4cQfwIZvpKP/cG4dCUg==
+X-Received: by 2002:ad4:5ced:0:b0:77e:dd3e:a0c9 with SMTP id 6a1803df08f44-77edd3ea3d1mr42047956d6.14.1757937316964;
+        Mon, 15 Sep 2025 04:55:16 -0700 (PDT)
+Received: from rohan.lan (2001-14bb-117-9393-e589-aa68-758f-df4e.rev.dnainternet.fi. [2001:14bb:117:9393:e589:aa68:758f:df4e])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-56e5dba7604sm3514266e87.59.2025.09.15.04.55.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 15 Sep 2025 04:55:16 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: linux-media@vger.kernel.org,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v4l-utils 0/2] edid-decode: improve parsing of infoframes
+Date: Mon, 15 Sep 2025 14:55:11 +0300
+Message-ID: <20250915-edid-infoframes-fixes-v1-0-dc3f513d142e@oss.qualcomm.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250915-imx335_binning-v3-2-16ecabf2090d@ideasonboard.com>
+Content-Type: text/plain; charset="utf-8"
+X-Change-ID: 20250915-edid-infoframes-fixes-97fa9bb98ee9
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=719;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=toUUfrwFpN+Bm8YOHLPSGz+8Tm2zlnUh6QQs15ZKkpg=;
+ b=kA0DAAoBizyKPgIpKNUByyZiAGjH/hmhZKJlxJHmJwLgbF5G9N/gnDVqEUaSFoy4/QGMVxbdG
+ okBMwQAAQoAHRYhBExwhJVcsmNW8LiVf4s8ij4CKSjVBQJox/4ZAAoJEIs8ij4CKSjVeWgH/0Qt
+ M/5FK1ebh1DIE1qhGULauxDc2g2F9ldJGw8g+IW45KoAPhmIO+ehJ6XTqsOjeA8YJxDMWEPrgzI
+ vdNY+e4kEJcG89TDZbac3UGB9GNt2wAu8kWPPIApS58Che1KM2xguUuOnVSv1TZQoSwFKlY4Jp4
+ VGi3eDjzMN0BarWJLAZIB3EMsOiH3bOLJJm6SL1jk8mxyj9wcZCqvfjGODK//tDda/G04Vwuoyd
+ 0dlbpESeDTwPNSWuRZyseMoJyYqaZxOF/sbIO3uhNwXP7wX1+vtydd+j+4AGn1EqT/Z+9Z3NVk1
+ skJGfuVs21Mk2jfq+JjjR26Ibvr65Tj4fCjm628=
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+Content-Transfer-Encoding: quoted-printable
+X-Authority-Analysis: v=2.4 cv=eeo9f6EH c=1 sm=1 tr=0 ts=68c7fea7 cx=c_pps
+ a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=yJojWOMRYYMA:10 a=EUspDBNiAAAA:8 a=fTF995WG3RQ6ELyKay0A:9 a=QEXdDO2ut3YA:10
+ a=1HOtulTD9v-eNWfpl4qZ:22
+X-Proofpoint-ORIG-GUID: 7AXidIMYPWgJoC5RAZuSWqGcd7TQZrwY
+X-Proofpoint-GUID: 7AXidIMYPWgJoC5RAZuSWqGcd7TQZrwY
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTEzMDAzNiBTYWx0ZWRfX9cfzGkM/H2ss
+ cafYcedkrB05jkQ2ZxWH7ToqBYuGrE6WRKmbLt2rrUc22rVOVnbXz8vdrlUqRDxfHx0Fk5S/NHB
+ p3u/xST2N7/tLyvQ59FIuq51NNBqtNS0HM2ZAC8hSZF798vTwZVclBazkh2L0PCfTo5utSklvfb
+ DhpBSWVWlSHcTLW/AtrmJxOGhXvL7mxleSwNEqmp3axONdHpVvGZ0xKXHUUwlCmCT33sL+aIEtz
+ mw3qozJ86BF79jVm2cJE/Mdwa7MHJhZagg5flJa1IsRXKbGmrtqdGI1gN6+LPZKl4V3SdbJxmMe
+ m26HkGv6VKxIFWUDTO66citYLfKecMzPAuGpkKZyJHD6zTcyKS8bMkAFkfP0vrAU4mGK8Ts6YQJ
+ bZbyb2NE
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-15_05,2025-09-12_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 impostorscore=0 bulkscore=0 adultscore=0
+ priorityscore=1501 phishscore=0 spamscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509130036
 
-Hi Jai,
-
-On Mon, Sep 15, 2025 at 12:09:08PM +0530, Jai Luthra wrote:
-> From: Umang Jain <umang.jain@ideasonboard.com>
-> 
-> Support vertical flip by setting REG_VREVERSE.
-> Additional registers also needs to be set per mode, according
-> to the readout direction (normal/inverted) as mentioned in the
-> data sheet.
-> 
-> Since the register IMX335_REG_AREA3_ST_ADR_1 is based on the
-> flip (and is set via vflip related registers), it has been
-> moved out of the 2592x1944 mode regs.
-> 
-> Signed-off-by: Umang Jain <umang.jain@ideasonboard.com>
-> Reviewed-by: Tommaso Merciai <tomm.merciai@gmail.com>
-> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> ---
->  drivers/media/i2c/imx335.c | 71 ++++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 69 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-> index 213cfb7276611f522db0643186f25a8fef3c39db..27baf6c9b426a324632db7e393514463611a5ae7 100644
-> --- a/drivers/media/i2c/imx335.c
-> +++ b/drivers/media/i2c/imx335.c
-> @@ -56,6 +56,9 @@
->  #define IMX335_AGAIN_STEP		1
->  #define IMX335_AGAIN_DEFAULT		0
->  
-> +/* Vertical flip */
-> +#define IMX335_REG_VREVERSE		CCI_REG8(0x304f)
-> +
->  #define IMX335_REG_TPG_TESTCLKEN	CCI_REG8(0x3148)
->  
->  #define IMX335_REG_INCLKSEL1		CCI_REG16_LE(0x314c)
-> @@ -155,6 +158,8 @@ static const char * const imx335_supply_name[] = {
->   * @vblank_max: Maximum vertical blanking in lines
->   * @pclk: Sensor pixel clock
->   * @reg_list: Register list for sensor mode
-> + * @vflip_normal: Register list vflip (normal readout)
-> + * @vflip_inverted: Register list vflip (inverted readout)
->   */
->  struct imx335_mode {
->  	u32 width;
-> @@ -166,6 +171,8 @@ struct imx335_mode {
->  	u32 vblank_max;
->  	u64 pclk;
->  	struct imx335_reg_list reg_list;
-> +	struct imx335_reg_list vflip_normal;
-> +	struct imx335_reg_list vflip_inverted;
->  };
->  
->  /**
-> @@ -183,6 +190,7 @@ struct imx335_mode {
->   * @pclk_ctrl: Pointer to pixel clock control
->   * @hblank_ctrl: Pointer to horizontal blanking control
->   * @vblank_ctrl: Pointer to vertical blanking control
-> + * @vflip: Pointer to vertical flip control
->   * @exp_ctrl: Pointer to exposure control
->   * @again_ctrl: Pointer to analog gain control
->   * @vblank: Vertical blanking in lines
-> @@ -207,6 +215,7 @@ struct imx335 {
->  	struct v4l2_ctrl *pclk_ctrl;
->  	struct v4l2_ctrl *hblank_ctrl;
->  	struct v4l2_ctrl *vblank_ctrl;
-> +	struct v4l2_ctrl *vflip;
->  	struct {
->  		struct v4l2_ctrl *exp_ctrl;
->  		struct v4l2_ctrl *again_ctrl;
-> @@ -259,7 +268,6 @@ static const struct cci_reg_sequence mode_2592x1944_regs[] = {
->  	{ IMX335_REG_HTRIMMING_START, 48 },
->  	{ IMX335_REG_HNUM, 2592 },
->  	{ IMX335_REG_Y_OUT_SIZE, 1944 },
-> -	{ IMX335_REG_AREA3_ST_ADR_1, 176 },
->  	{ IMX335_REG_AREA3_WIDTH_1, 3928 },
->  	{ IMX335_REG_OPB_SIZE_V, 0 },
->  	{ IMX335_REG_XVS_XHS_DRV, 0x00 },
-> @@ -333,6 +341,26 @@ static const struct cci_reg_sequence mode_2592x1944_regs[] = {
->  	{ CCI_REG8(0x3a00), 0x00 },
->  };
->  
-> +static const struct cci_reg_sequence mode_2592x1944_vflip_normal[] = {
-> +	{ IMX335_REG_AREA3_ST_ADR_1, 176 },
-> +
-> +	/* Undocumented V-Flip related registers on Page 55 of datasheet. */
-> +	{ CCI_REG8(0x3081), 0x02, },
-> +	{ CCI_REG8(0x3083), 0x02, },
-> +	{ CCI_REG16_LE(0x30b6), 0x00 },
-> +	{ CCI_REG16_LE(0x3116), 0x08 },
-> +};
-> +
-> +static const struct cci_reg_sequence mode_2592x1944_vflip_inverted[] = {
-> +	{ IMX335_REG_AREA3_ST_ADR_1, 4112 },
-> +
-> +	/* Undocumented V-Flip related registers on Page 55 of datasheet. */
-> +	{ CCI_REG8(0x3081), 0xfe, },
-> +	{ CCI_REG8(0x3083), 0xfe, },
-> +	{ CCI_REG16_LE(0x30b6), 0x1fa },
-> +	{ CCI_REG16_LE(0x3116), 0x002 },
-> +};
-> +
->  static const struct cci_reg_sequence raw10_framefmt_regs[] = {
->  	{ IMX335_REG_ADBIT, 0x00 },
->  	{ IMX335_REG_MDBIT, 0x00 },
-> @@ -419,6 +447,14 @@ static const struct imx335_mode supported_mode = {
->  		.num_of_regs = ARRAY_SIZE(mode_2592x1944_regs),
->  		.regs = mode_2592x1944_regs,
->  	},
-> +	.vflip_normal = {
-> +		.num_of_regs = ARRAY_SIZE(mode_2592x1944_vflip_normal),
-> +		.regs = mode_2592x1944_vflip_normal,
-> +	},
-> +	.vflip_inverted = {
-> +		.num_of_regs = ARRAY_SIZE(mode_2592x1944_vflip_inverted),
-> +		.regs = mode_2592x1944_vflip_inverted,
-> +	},
->  };
->  
->  /**
-> @@ -492,6 +528,26 @@ static int imx335_update_exp_gain(struct imx335 *imx335, u32 exposure, u32 gain)
->  	return ret;
->  }
->  
-> +static int imx335_update_vertical_flip(struct imx335 *imx335, u32 vflip)
-> +{
-> +	int ret = 0;
-
-You can do:
-
-	const struct cci_reg_sequence * const vflip_regs =
-		vflip ? imx335->cur_mode->vflip_inverted :
-			imx335->cur_mode->vflip_normal;
-	int ret = 0;
-
-	cci_multi_reg_write(imx335->cci, vflip_regs->regs,
-			    vflip_regs->num_of_regs, &ret);
-
-	return cci_write(imx335->cci, IMX335_REG_VREVERSE, vflip, ret);
-
-> +
-> +	if (vflip)
-> +		cci_multi_reg_write(imx335->cci,
-> +				    imx335->cur_mode->vflip_inverted.regs,
-> +				    imx335->cur_mode->vflip_inverted.num_of_regs,
-> +				    &ret);
-> +	else
-> +		cci_multi_reg_write(imx335->cci,
-> +				    imx335->cur_mode->vflip_normal.regs,
-> +				    imx335->cur_mode->vflip_normal.num_of_regs,
-> +				    &ret);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return cci_write(imx335->cci, IMX335_REG_VREVERSE, vflip, NULL);
-> +}
-> +
->  static int imx335_update_test_pattern(struct imx335 *imx335, u32 pattern_index)
->  {
->  	int ret = 0;
-> @@ -593,6 +649,10 @@ static int imx335_set_ctrl(struct v4l2_ctrl *ctrl)
->  
->  		ret = imx335_update_exp_gain(imx335, exposure, analog_gain);
->  
-> +		break;
-> +	case V4L2_CID_VFLIP:
-> +		ret = imx335_update_vertical_flip(imx335, ctrl->val);
-> +
->  		break;
->  	case V4L2_CID_TEST_PATTERN:
->  		ret = imx335_update_test_pattern(imx335, ctrl->val);
-> @@ -1175,7 +1235,7 @@ static int imx335_init_controls(struct imx335 *imx335)
->  		return ret;
->  
->  	/* v4l2_fwnode_device_properties can add two more controls */
-> -	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 9);
-> +	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 10);
->  	if (ret)
->  		return ret;
->  
-> @@ -1210,6 +1270,13 @@ static int imx335_init_controls(struct imx335 *imx335)
->  
->  	v4l2_ctrl_cluster(2, &imx335->exp_ctrl);
->  
-> +	imx335->vflip = v4l2_ctrl_new_std(ctrl_hdlr,
-> +					  &imx335_ctrl_ops,
-> +					  V4L2_CID_VFLIP,
-> +					  0, 1, 1, 0);
-> +	if (imx335->vflip)
-> +		imx335->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-> +
->  	imx335->vblank_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
->  						&imx335_ctrl_ops,
->  						V4L2_CID_VBLANK,
-> 
-
--- 
-Regards,
-
-Sakari Ailus
+Improvide infoframes support by letting the tool to handle hex data=0D
+instead of raw binaries and also let it use stdin to read infoframe=0D
+data.=0D
+=0D
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>=0D
+---=0D
+Dmitry Baryshkov (2):=0D
+      edid-decode: be more relaxed on InfoFrames format=0D
+      edid-decode: allow using stdin for InfoFrame decoding=0D
+=0D
+ utils/edid-decode/edid-decode.1.in |  8 ++++----=0D
+ utils/edid-decode/edid-decode.cpp  | 17 ++++++++++++++---=0D
+ 2 files changed, 18 insertions(+), 7 deletions(-)=0D
+---=0D
+base-commit: 34aa1df2b23fb85b030cddf64c427137ddf04e93=0D
+change-id: 20250915-edid-infoframes-fixes-97fa9bb98ee9=0D
+=0D
+Best regards,=0D
+-- =0D
+Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>=0D
+=0D
 
