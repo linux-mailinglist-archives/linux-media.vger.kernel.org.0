@@ -1,274 +1,160 @@
-Return-Path: <linux-media+bounces-42528-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42533-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42088B573FF
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 11:04:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7456AB574B9
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 11:23:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C3221714CB
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 09:04:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 00834189E82D
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 09:21:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17B8D2F1FFE;
-	Mon, 15 Sep 2025 08:59:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 161212F6581;
+	Mon, 15 Sep 2025 09:20:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bkienoBv"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="IrVxG8fh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A1A2D8387;
-	Mon, 15 Sep 2025 08:59:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 299242F3C2B;
+	Mon, 15 Sep 2025 09:20:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.61.82.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757926797; cv=none; b=szPuHaRfkPybbF/0Ue3VjgVS8yQl37HasAgwo6MTD2iPDSMV0GUYF0+LJ6rNZzjB0cMxm/RVwyDcrBdBMWAX7vUNl0tm8RTZiBoLNuxKvkT48BAVxGzd1MjHrdv21NAkHfW4bLYXeJr/BFHBJl1pXFcpIN2W+ddT8/2M7SahjNE=
+	t=1757928019; cv=none; b=KrYJCAwaQ8PsXHv6uMYQAq4biyPU1KIe5uTLbYTWiu7/PIKXddU05fd8bpIm8Q7eq1Tx8j6eOIQAZJqbkNv8zzEdovkvQVrHpvcbDpPl4rJXcT+I/R5QUelsKjr4Z3/JpmkJpavyrJSbdUVJSqK7I29BzJzoRASlrtb43sOrmwA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757926797; c=relaxed/simple;
-	bh=1bv81qgssRPmX7JSSJSzYcQkRHnSBXBj0QjCUvFlfoM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UKIIhtRi0GxLtCiHunAGYY51/x2ZmquEkSlsThCsHh9OihWR1r3hctXnQTTKO8SKByxbT+ymXOFDo2OORUgq3D+18Wi9qyAbQ/cBVD0rSBiiy1f48FYPl+KnW+He9DP1hwFtcXN+Su6fKWfpxxlLpkHJHZlatiXdxu15280ikmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bkienoBv; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-56-182.net.vodafone.it [5.90.56.182])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B1C7346;
-	Mon, 15 Sep 2025 10:58:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757926715;
-	bh=1bv81qgssRPmX7JSSJSzYcQkRHnSBXBj0QjCUvFlfoM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bkienoBvij7Or3RoRcArKeF7h12b/srQR/TQmVP7M6WgptcGySgxVuj8y42p1Sjm6
-	 P41l2TjyiVuVQEHVIgkntdeC0E3lHs4qkhd06mkF6O4MaUUzsGWFwQkZtTyrcDRe5p
-	 3r6a7YfsH7c7dshF3mUn1vRyV0Jdzuk2oO42dGFk=
-Date: Mon, 15 Sep 2025 10:59:49 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	Dafna Hirschfeld <dafna@fastmail.com>, Keke Li <keke.li@amlogic.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
-	Dan Scally <dan.scally@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 2/8] media: uapi: Convert RkISP1 to V4L2 extensible
- params
-Message-ID: <ffudipv64bfs2od7b6x7sfquqwqzr3n6a6zmbr4bu6ehd3rz25@3k7ycmqape2e>
-References: <20250820-extensible-parameters-validation-v4-0-30fe5a99cb1f@ideasonboard.com>
- <20250820-extensible-parameters-validation-v4-2-30fe5a99cb1f@ideasonboard.com>
- <20250908073949.GE4105@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1757928019; c=relaxed/simple;
+	bh=lrs+gaC/iCxZllKb8NGtMd926GgvT1TaLgwxAzZYc6w=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=einhWfytAviCl+Kk/g4+bBfoN7nmZ21quFNUxTPi3NvoQJxgG78X9CVdSB1a9GqvGMhabTFqDFntDS8AJqiuvXRsl70IEdbZUoyhh006na8IEwUyfP+zRQC1WDWOzeXMvv4D2F2aV205InbAgSQgly2vUz81/WXAp92JkOD4V+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=IrVxG8fh; arc=none smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 2c7f199c921511f0b33aeb1e7f16c2b6-20250915
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=1le3np0jp2M0puYyEjMNuuOO7xrsTjp7HZKSsbnNKHk=;
+	b=IrVxG8fhruEPK1AT5HnCr4srmmx1UkvZpCuc/xgSJ2wntMHdTOJio9+G/jTnzp/2NVI22qXw32aGH3CVFHLigqJjY2hDiYYhf5jaqdaPK2FChUDTMPEsaX0chiaiYDSsRJ94cxFslhxkE0DwTONULJAXJAoaDXDzvXoxtbUkO/A=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.4,REQID:73610fbe-eb28-40c3-8b5e-80d78e040fe1,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:1ca6b93,CLOUDID:59ac4ff8-ebfe-43c9-88c9-80cb93f22ca4,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:-5,Content:0|15|50,EDM:-3,IP:
+	nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:
+	0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 2c7f199c921511f0b33aeb1e7f16c2b6-20250915
+Received: from mtkmbs10n1.mediatek.inc [(172.21.101.34)] by mailgw02.mediatek.com
+	(envelope-from <kyrie.wu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 1423529524; Mon, 15 Sep 2025 17:20:08 +0800
+Received: from mtkmbs13n2.mediatek.inc (172.21.101.108) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Mon, 15 Sep 2025 17:20:07 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs13n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Mon, 15 Sep 2025 17:20:05 +0800
+From: Kyrie Wu <kyrie.wu@mediatek.com>
+To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
+	<andrew-ct.chen@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Kyrie Wu <kyrie.wu@mediatek.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Nicolas Dufresne
+	<nicolas.dufresne@collabora.com>, Christophe JAILLET
+	<christophe.jaillet@wanadoo.fr>, Sebastian Fricke
+	<sebastian.fricke@collabora.com>, Nathan Hebert <nhebert@chromium.org>, Arnd
+ Bergmann <arnd@arndb.de>, Irui Wang <irui.wang@mediatek.com>, George Sun
+	<george.sun@mediatek.com>, <linux-media@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
+CC: Neil Armstrong <neil.armstrong@linaro.org>, Andrzej Pietrasiewicz
+	<andrzejtp2010@gmail.com>
+Subject: [PATCH v3 0/8] Enable video decoder & encoder for MT8189
+Date: Mon, 15 Sep 2025 17:19:50 +0800
+Message-ID: <20250915091958.31509-1-kyrie.wu@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250908073949.GE4105@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-Hi Laurent
+This series have the follow changing:
+Firstly add mt8189 video decoder compatible, profile and level to support
+MT8189 kernel driver.
+Secondly fix some bugs, including vp 4K profile2 and media device node
+number bug.
+Lastly, add mt8189 video encoder compatible.
 
-On Mon, Sep 08, 2025 at 09:39:49AM +0200, Laurent Pinchart wrote:
-> On Wed, Aug 20, 2025 at 02:58:10PM +0200, Jacopo Mondi wrote:
-> > With the introduction of common types for extensible parameters
-> > format, convert the rkisp1-config.h header to use the new types.
-> >
-> > Factor-out the documentation that is now part of the common header
-> > and only keep the driver-specific on in place.
-> >
-> > The conversion to use common types doesn't impact userspace as the
-> > new types are either identical to the ones already existing in the
-> > RkISP1 uAPI or are 1-to-1 type convertible.
-> >
-> > Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > ---
-> >  include/uapi/linux/rkisp1-config.h | 67 +++++++++++++-------------------------
-> >  1 file changed, 23 insertions(+), 44 deletions(-)
-> >
-> > diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
-> > index 3b060ea6eed71b87d79abc8401eae4e9c9f5323a..fc040c7fb13cf18eaf8d9067e7be38bff120e6f6 100644
-> > --- a/include/uapi/linux/rkisp1-config.h
-> > +++ b/include/uapi/linux/rkisp1-config.h
-> > @@ -7,8 +7,13 @@
-> >  #ifndef _UAPI_RKISP1_CONFIG_H
-> >  #define _UAPI_RKISP1_CONFIG_H
-> >
-> > +#ifdef __KERNEL__
-> > +#include <linux/build_bug.h>
-> > +#endif /* __KERNEL__ */
-> >  #include <linux/types.h>
-> >
-> > +#include <linux/media/v4l2-extensible-params.h>
-> > +
-> >  /* Defect Pixel Cluster Detection */
-> >  #define RKISP1_CIF_ISP_MODULE_DPCC		(1U << 0)
-> >  /* Black Level Subtraction */
-> > @@ -1158,26 +1163,21 @@ enum rkisp1_ext_params_block_type {
-> >  	RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR,
-> >  };
-> >
->
-> /* For backward compatibility */
->
-> > -#define RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE	(1U << 0)
-> > -#define RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE	(1U << 1)
-> > +#define RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE	V4L2_PARAMS_FL_BLOCK_DISABLE
-> > +#define RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE	V4L2_PARAMS_FL_BLOCK_ENABLE
-> >
-> >  /* A bitmask of parameters blocks supported on the current hardware. */
-> >  #define RKISP1_CID_SUPPORTED_PARAMS_BLOCKS	(V4L2_CID_USER_RKISP1_BASE + 0x01)
-> >
-> >  /**
-> > - * struct rkisp1_ext_params_block_header - RkISP1 extensible parameters block
-> > - *					   header
-> > + * rkisp1_ext_params_block_header - RkISP1 extensible parameters block header
-> >   *
-> >   * This structure represents the common part of all the ISP configuration
-> > - * blocks. Each parameters block shall embed an instance of this structure type
-> > - * as its first member, followed by the block-specific configuration data. The
-> > - * driver inspects this common header to discern the block type and its size and
-> > - * properly handle the block content by casting it to the correct block-specific
-> > - * type.
-> > + * blocks and is identical to :c:type:`v4l2_params_block_header`.
-> >   *
-> > - * The @type field is one of the values enumerated by
-> > + * The type field is one of the values enumerated by
-> >   * :c:type:`rkisp1_ext_params_block_type` and specifies how the data should be
-> > - * interpreted by the driver. The @size field specifies the size of the
-> > + * interpreted by the driver. The size field specifies the size of the
-> >   * parameters block and is used by the driver for validation purposes.
-> >   *
-> >   * The @flags field is a bitmask of per-block flags RKISP1_EXT_PARAMS_FL_*.
->
-> @flags leftover.
->
-> > @@ -1193,14 +1193,14 @@ enum rkisp1_ext_params_block_type {
-> >   * If a new configuration of an ISP block has to be applied userspace shall
-> >   * fully populate the ISP block configuration and omit setting the
-> >   * RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits
-> > - * in the @flags field.
-> > + * in the flags field.
-> >   *
-> >   * Setting both the RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and
-> > - * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits in the @flags field is not allowed
-> > + * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits in the flags field is not allowed
-> >   * and not accepted by the driver.
-> >   *
-> >   * Userspace is responsible for correctly populating the parameters block header
-> > - * fields (@type, @flags and @size) and the block-specific parameters.
-> > + * fields (type, flags and size) and the block-specific parameters.
->
-> Shouldn't you drop the parts of the documentation the duplicate
-> v4l2_params_block_header ? Same below.
+This series has been tested with MT8189 tast test.
+Encoding and decoding worked for this chip.
 
-I don't think this part is duplicated. How driver handles
-ENABLE/DISABLE is still platform specific at the moment. Specifying
-that
+Patches 1-2 Add decoder compatible.
+Patches 3 Add profile and level supporting.
+Patches 4 Add core-only VP9 decoding supporting.
+Patches 5-6 fix some bugs.
+Patches 7-8 Adds encoder compatible.
 
- * When userspace simply wants to disable an ISP block the
- * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bit should be set in @flags field. The
- * driver ignores the rest of the block configuration structure in this case.
+---
+H264 test results:
+./fluster.py run -d GStreamer-H.264-V4L2SL-Gst1.0 -j1 -t 90
+     JVT-AVC_V1       94/135
 
-documents a driver-specific behaviour as well as:
+v4l2-compliance test results:
+Compliance test for mtk-vcodec-enc device /dev/video2:
+Total for mtk-vcodec-enc device /dev/video2: 47, Succeeded: 46, Failed: 1, Warnings: 0
+Compliance test for mtk-vcodec-dec device /dev/video3:
+Total for mtk-vcodec-dec device /dev/video3: 48, Succeeded: 48, Failed: 0, Warnings: 0
 
+scp upstream link:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20250811015922.32680-1-huayu.zong@mediatek.com/
 
- * If a new configuration of an ISP block has to be applied userspace shall
- * fully populate the ISP block configuration and omit setting the
- * RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits
- * in the flags field.
+Changes compared with v1:
+--add H264 fluster test results
+--reorder compatible string for dt-bindings
 
-and
+Changes compared with v1:
+--add v4l2-compliance test results
+--add scp upstream link
+--add HW difference discriptions for dt-bindings commit messages
 
- * Setting both the RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and
- * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits in the flags field is not allowed
- * and not accepted by the driver.
+This series patches dependent on:
+[1]
+https://patchwork.linuxtv.org/project/linux-media/cover/20250510075357.11761-1-yunfei.dong@mediatek.com/
+[2]
+https://patchwork.linuxtv.org/project/linux-media/cover/20250528063633.14054-1-irui.wang@mediatek.com/
 
+Kyrie Wu (8):
+  dt-bindings: media: mediatek: decoder: Add MT8189
+    mediatek,vcodec-decoder
+  media: mediatek: vcodec: add decoder compatible to support MT8189
+  media: mediatek: vcodec: add profile and level supporting for MT8189
+  media: mediatek: vcodec: Add core-only VP9 decoding support for MT8189
+  media: mediatek: vcodec: fix vp9 4096x2176 fail for profile2
+  media: mediatek: vcodec: fix media device node number
+  dt-bindings: media: Add MT8189 mediatek,vcodec-encoder
+  media: mediatek: encoder: Add MT8189 encoder compatible data
 
-However, wWith the introduction of the generic validators in this
-series, all drivers using generic parameters implement the three above
-conditions, so I would rather move this part of documentation to
-v4l2_params_block_header ?
+ .../media/mediatek,vcodec-encoder.yaml        |  2 ++
+ .../media/mediatek,vcodec-subdev-decoder.yaml |  1 +
+ .../vcodec/decoder/mtk_vcodec_dec_drv.c       |  9 +++++-
+ .../vcodec/decoder/mtk_vcodec_dec_drv.h       |  1 +
+ .../vcodec/decoder/mtk_vcodec_dec_stateless.c |  4 +++
+ .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 32 ++++++++++++-------
+ .../vcodec/encoder/mtk_vcodec_enc_drv.c       | 14 ++++++++
+ 7 files changed, 50 insertions(+), 13 deletions(-)
 
+-- 
+2.45.2
 
->
-> >   *
-> >   * For example:
-> >   *
-> > @@ -1220,17 +1220,8 @@ enum rkisp1_ext_params_block_type {
-> >   *		bls->config.fixed_val.gb = blackLevelGreenB_;
-> >   *		bls->config.fixed_val.b = blackLevelBlue_;
-> >   *	}
-> > - *
-> > - * @type: The parameters block type, see
-> > - *	  :c:type:`rkisp1_ext_params_block_type`
-> > - * @flags: A bitmask of block flags
-> > - * @size: Size (in bytes) of the parameters block, including this header
-> >   */
-> > -struct rkisp1_ext_params_block_header {
-> > -	__u16 type;
-> > -	__u16 flags;
-> > -	__u32 size;
-> > -};
-> > +#define rkisp1_ext_params_block_header v4l2_params_block_header
-> >
-> >  /**
-> >   * struct rkisp1_ext_params_bls_config - RkISP1 extensible params BLS config
-> > @@ -1594,21 +1585,7 @@ enum rksip1_ext_param_buffer_version {
-> >  /**
-> >   * struct rkisp1_ext_params_cfg - RkISP1 extensible parameters configuration
-> >   *
-> > - * This struct contains the configuration parameters of the RkISP1 ISP
-> > - * algorithms, serialized by userspace into a data buffer. Each configuration
-> > - * parameter block is represented by a block-specific structure which contains a
-> > - * :c:type:`rkisp1_ext_params_block_header` entry as first member. Userspace
-> > - * populates the @data buffer with configuration parameters for the blocks that
-> > - * it intends to configure. As a consequence, the data buffer effective size
-> > - * changes according to the number of ISP blocks that userspace intends to
-> > - * configure and is set by userspace in the @data_size field.
-> > - *
-> > - * The parameters buffer is versioned by the @version field to allow modifying
-> > - * and extending its definition. Userspace shall populate the @version field to
-> > - * inform the driver about the version it intends to use. The driver will parse
-> > - * and handle the @data buffer according to the data layout specific to the
-> > - * indicated version and return an error if the desired version is not
-> > - * supported.
-> > + * This is the driver-specific implementation of :c:type:`v4l2_params_buffer`.
-> >   *
-> >   * Currently the single RKISP1_EXT_PARAM_BUFFER_V1 version is supported.
-> >   * When a new format version will be added, a mechanism for userspace to query
-> > @@ -1624,11 +1601,6 @@ enum rksip1_ext_param_buffer_version {
-> >   * the maximum value represents the blocks supported by the kernel driver,
-> >   * independently of the device instance.
-> >   *
-> > - * For each ISP block that userspace wants to configure, a block-specific
-> > - * structure is appended to the @data buffer, one after the other without gaps
-> > - * in between nor overlaps. Userspace shall populate the @data_size field with
-> > - * the effective size, in bytes, of the @data buffer.
-> > - *
-> >   * The expected memory layout of the parameters buffer is::
-> >   *
-> >   *	+-------------------- struct rkisp1_ext_params_cfg -------------------+
-> > @@ -1678,4 +1650,11 @@ struct rkisp1_ext_params_cfg {
-> >  	__u8 data[RKISP1_EXT_PARAMS_MAX_SIZE];
-> >  };
-> >
-> > +#ifdef __KERNEL__
-> > +/* Make sure the header is type-convertible to the generic v4l2 params one */
-> > +static_assert((sizeof(struct rkisp1_ext_params_cfg) -
-> > +	      RKISP1_EXT_PARAMS_MAX_SIZE) ==
-> > +	      sizeof(struct v4l2_params_buffer));
-> > +#endif /* __KERNEL__ */
-> > +
-> >  #endif /* _UAPI_RKISP1_CONFIG_H */
-> >
-> > --
-> > 2.50.1
-> >
->
-> --
-> Regards,
->
-> Laurent Pinchart
->
 
