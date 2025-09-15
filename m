@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-42517-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42518-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 002F8B57080
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 08:40:52 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 94981B57084
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 08:41:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A81B4188E44D
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 06:41:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2C3DD17BD3A
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 06:40:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5037A287512;
-	Mon, 15 Sep 2025 06:40:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B4FD428980A;
+	Mon, 15 Sep 2025 06:40:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KlUuzN4q"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="spyTVkj7"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0D572882B7;
-	Mon, 15 Sep 2025 06:40:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE80128BAB9;
+	Mon, 15 Sep 2025 06:40:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757918413; cv=none; b=O/+h10NX+DeWORyWrxmEIilFgmyJcPlKvsrJhWZFJJz2mDpEEINwZr5lVayvLoH3u0MMljdLM0+AzCtyqLRwG1gq23edFEceJ5Ks9q+4uOy37+ickxjJ2zPIw7M86baSVV5BjlV8A7JBFKIH3h4xbh+WAw2VGTajowOm7U7Sff0=
+	t=1757918420; cv=none; b=mxwbhv0w8OG0RJ493as7YC6DVHH8lMr7wCFne+14h1L6Uy0wjsSQ6gLE49Urd5xsQvfT42qe48e9EvJz1eXOvVtLAVLEx8tDYXw92U+OTI3+b0eJ2BYeySFEQTeq6FojUvcPncNhSG9WlpA/8RGokCaTe5yer3VDpTzgcTjvwU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757918413; c=relaxed/simple;
-	bh=avfpzotIJNr7ZAssrGuB1xQBZmVl0SIyY0rYb5SR79Q=;
+	s=arc-20240116; t=1757918420; c=relaxed/simple;
+	bh=ZikkkNL8IjE4jQsojkleHw8OR2RznsV4ygfKB+g4yIQ=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gFWXaIxNbzRT32J9+aB8a8NsETHKbd7huzgGiiH+2/raqvdEMGdimO2dEP1R7YtE4PxfZW6Pn8e9m0i2Sd+zDcaLEQVxcWbc0KBB6Ri23wIcOktD3or/ewrnBD/icqwx+x8OCVmt/ePOdWXMmcqncqnEy4vyohDSIeIwe4qf9Wo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KlUuzN4q; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:To:Cc; b=PL5oPHNL9lWhffDycSnXzwtXfladGROHN53Xih5JgMURbDbq7vos/OseZ6aKnjkIkkNSFjiLG9vU/89G14+FneU1Xd+HItc2dq6/MofCM0tBM8NeZvjOOIgCzI/22JyvaFn7q/WJdeE/2Y8qiq5BlEa4rhbvfXbMDMxcypIOTng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=spyTVkj7; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c66:2dbc:e233:e1b4:15e7:45cd])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF03EC71;
-	Mon, 15 Sep 2025 08:38:52 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0445DC71;
+	Mon, 15 Sep 2025 08:38:58 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757918333;
-	bh=avfpzotIJNr7ZAssrGuB1xQBZmVl0SIyY0rYb5SR79Q=;
+	s=mail; t=1757918339;
+	bh=ZikkkNL8IjE4jQsojkleHw8OR2RznsV4ygfKB+g4yIQ=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=KlUuzN4qKD6HRYJgSFwoQW0ashlqBzvqhnPNRHtJZXbafXcAAiCWVd7MEH88u0nqv
-	 4UDYw7qgxhgP2Tk0lzsQTnEKkwr6+Mga5izVjH8/4+lY34FvtHrpJB49ufXkGzFxcs
-	 Gp8KEBfoymW5nXdAcNrOhpPwrSQvmsz+nAkXLiIs=
+	b=spyTVkj7h5GGC+onYkp7nPRVfmRMUP0iJwV5vUuN61IyXkzt+823z+5M6OBzBR3qU
+	 I6T5rE71CzTIzf1hFzR/sWb9xkXJEO9qnU/p/sjZETMuwmoN6OOvgAZDm1Gyq/C4Cs
+	 C6BHc/okxATslqRtrd4BkmQf6gO7o3YPt+apDr6o=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Mon, 15 Sep 2025 12:09:12 +0530
-Subject: [PATCH v3 6/8] media: imx355: Use subdev active state
+Date: Mon, 15 Sep 2025 12:09:13 +0530
+Subject: [PATCH v3 7/8] media: imx335: Support 2x2 binning
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250915-imx335_binning-v3-6-16ecabf2090d@ideasonboard.com>
+Message-Id: <20250915-imx335_binning-v3-7-16ecabf2090d@ideasonboard.com>
 References: <20250915-imx335_binning-v3-0-16ecabf2090d@ideasonboard.com>
 In-Reply-To: <20250915-imx335_binning-v3-0-16ecabf2090d@ideasonboard.com>
 To: Kieran Bingham <kieran.bingham@ideasonboard.com>, 
@@ -61,252 +61,498 @@ To: Kieran Bingham <kieran.bingham@ideasonboard.com>,
 Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Tommaso Merciai <tomm.merciai@gmail.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=7175;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=15646;
  i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=avfpzotIJNr7ZAssrGuB1xQBZmVl0SIyY0rYb5SR79Q=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBox7SV11D49By4uouidX+Xg/P3JInSx5AZ8H8e2
- TDXJkqMh7KJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaMe0lQAKCRBD3pH5JJpx
- RQPnEACnDQd+YMlFUK9Odrw7Yq+x3dqWrNnXWxOgPcYMuxoWIc9OChbOwydmMKtA9g9SH18nym2
- CdGA+Wf6lIOkCGUZv+egur/T3kcpwcTlDWBJuwrN4p6iSxWggvFqhehLuEBSk9aosdNZv/pOiL4
- Oeq+YeWDL/QSruTlce4vnKvPbsLesUWPMeZsVQEjvwSUpfah1pscr/ToQzeeKCicglZZ0cUjOUq
- 1iZ7YeYeEF0LhMm1ImYgFtaZPHzV2zZGeoKchrnA5mmX1U7e1iNSxJ8P/pu6lmtXyLbcGjJ3j+W
- A4+2TgkY2A9MAIUkHfWnJNgBy+e9RoIgp0Cj0p5fySzpJ0vAHDsKl8A6dhBVscRQlh1ARM+2XDJ
- fqKOJ7CRdR01dZPFvsufeqnp/vmWY1+/0ALBtbmlg5NA4YlV5jaOHmB8EV8Y0x3xptatYqRuFCs
- BZzu8TVzeTigKKjAK96Y/ceFHsblvNcL0hvKVQUnjVKXn3CpmO385RUyMaBReHEQ+0MMArzSCqI
- qgAeFDjA2+619g2htL+uk646bek6LWDYp/oohxjCPVvx177pIEnPsf8oOSoF26TDe7H94k52/H+
- l9zoZgcsbJOHeppqFV5w/W9RH+rYQFvrkSAsvYVnYYuN6zIS3sYf7NO7rY6fw3Gf/H5Glhh4qn8
- 3irOEU9VBUYu1tg==
+ bh=ZikkkNL8IjE4jQsojkleHw8OR2RznsV4ygfKB+g4yIQ=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBox7SW4Oexj76XNsFS5Pf3flSo6gdxJ/HHv2RCU
+ Jm+LlsyIymJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaMe0lgAKCRBD3pH5JJpx
+ RVN/EACgPRv36DlTLtDCXN61Bq0JP3UIQfRLEw1XaxbPcYIt3yqbd/JzaNnWR/vDrPfX+XtOvq+
+ 0hBD34+fBw8gUoNzatJZO3sr+uqe5qLqpbU1s2EMfoVlEe+C7u+qGeTG+g1sMFBpx50FC4hMKen
+ ToQj58Ry1T/sMlyjhe3H8EAGLbailTJvzaepl/EILZVldEszqT1j1MkXgjJrUITd274WHVjQyGr
+ 4xyGvU+qvZVDWM+yuHwDpkZMUqgaDaDxxHNDtMYZZJsxUUbroxXBLsu4OFyqKokbYyGosP6IAC2
+ A4vYRDdPZT1h4tp1SBcJ6Z7in95ywK74GJLs2XK2hFWQPxlxa+jI8UDC6s4tIdaTnQ4/9V/2vy+
+ 7pdc7534O95BEuW09FI+v84e953XY/EdBhUxFDYyMIcTDEa56sFUm9SfyYH+bqw0U7qXYNVL5dO
+ k8BqxN/m6oXEWOwl22byCCdKinqfISjx6TM5u5wxkm5FyKW8AmTfZQj4FlKP/wy2PNAS/AmrAda
+ r7wLtJ+Uf7mrqdHkLQ+DCSnDKU8clw3SaKFQMUojlM0eQLGLHxnzH537IOzG+KDcc3pobF1ygRa
+ X0XQCcWWAg1PQb8GyCsYjZ2UD+PsaAl1UbX1cI/QBgjOrJd4CQcwtUbhWcuyeitWfH1rBvSI9Sk
+ a7rS5avvUrbHHSw==
 X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-Port the driver to use the subdev active state. This simplifies locking,
-and makes it easier to support different crop sizes for binned modes, by
-storing the crop rectangle inside the subdev state.
+Introduce 2x2 binning mode (1312x972@60fps). Since there are multiple
+modes now, use v4l2_find_nearest_size() to select the appropriate mode
+in .set_fmt().
+
+For 2x2 binning the minimum shutter value supported is 17 instead of 9.
+This effects the maximum allowed exposure time, and if not enforced then
+the sensor produces very dark frames when the minimum shutter limit is
+violated.
+
+Lastly, update the crop size reported to the userspace. When trying 2x2
+binning with the datasheet suggested pixel array size (i.e. 2592 / 2 =>
+1296), on some platforms (Raspberry Pi 5) artefacts are introduced on
+the right edge of the output image. Instead, using a higher width of
+1312 works fine on all platforms.
 
 Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
- drivers/media/i2c/imx335.c | 79 ++++++++++++----------------------------------
- 1 file changed, 21 insertions(+), 58 deletions(-)
+ drivers/media/i2c/imx335.c | 275 +++++++++++++++++++++++++++++++++++----------
+ 1 file changed, 217 insertions(+), 58 deletions(-)
 
 diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-index 7631f41e6f1e65695fb76a66d9ac5a3588c69658..9b9bbe6473d545bc5618c0fe8191df0b18037cd8 100644
+index 9b9bbe6473d545bc5618c0fe8191df0b18037cd8..e320c7e6fcede823bd67bae617c24196cbbed8c6 100644
 --- a/drivers/media/i2c/imx335.c
 +++ b/drivers/media/i2c/imx335.c
-@@ -204,7 +204,6 @@ struct imx335_mode {
-  * @vblank: Vertical blanking in lines
-  * @lane_mode: Mode for number of connected data lanes
-  * @cur_mode: Pointer to current selected sensor mode
-- * @mutex: Mutex for serializing sensor controls
-  * @link_freq_bitmap: Menu bitmap for link_freq_ctrl
-  * @cur_mbus_code: Currently selected media bus format code
-  */
-@@ -231,7 +230,6 @@ struct imx335 {
- 	u32 vblank;
- 	u32 lane_mode;
- 	const struct imx335_mode *cur_mode;
--	struct mutex mutex;
- 	unsigned long link_freq_bitmap;
- 	u32 cur_mbus_code;
- };
-@@ -766,36 +764,6 @@ static void imx335_fill_pad_format(struct imx335 *imx335,
- 	fmt->format.xfer_func = V4L2_XFER_FUNC_NONE;
- }
+@@ -35,6 +35,7 @@
  
--/**
-- * imx335_get_pad_format() - Get subdevice pad format
-- * @sd: pointer to imx335 V4L2 sub-device structure
-- * @sd_state: V4L2 sub-device configuration
-- * @fmt: V4L2 sub-device format need to be set
-- *
-- * Return: 0 if successful, error code otherwise.
-- */
--static int imx335_get_pad_format(struct v4l2_subdev *sd,
--				 struct v4l2_subdev_state *sd_state,
--				 struct v4l2_subdev_format *fmt)
--{
--	struct imx335 *imx335 = to_imx335(sd);
--
--	mutex_lock(&imx335->mutex);
--
--	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
--		struct v4l2_mbus_framefmt *framefmt;
--
--		framefmt = v4l2_subdev_state_get_format(sd_state, fmt->pad);
--		fmt->format = *framefmt;
--	} else {
--		imx335_fill_pad_format(imx335, imx335->cur_mode, fmt);
--	}
--
--	mutex_unlock(&imx335->mutex);
--
--	return 0;
--}
+ /* Lines per frame */
+ #define IMX335_REG_VMAX			CCI_REG24_LE(0x3030)
++#define IMX335_REG_HMAX			CCI_REG16_LE(0x3034)
+ 
+ #define IMX335_REG_OPB_SIZE_V		CCI_REG8(0x304c)
+ #define IMX335_REG_ADBIT		CCI_REG8(0x3050)
+@@ -42,10 +43,13 @@
+ 
+ #define IMX335_REG_SHUTTER		CCI_REG24_LE(0x3058)
+ #define IMX335_EXPOSURE_MIN		1
+-#define IMX335_EXPOSURE_OFFSET		9
++#define IMX335_SHUTTER_MIN		9
++#define IMX335_SHUTTER_MIN_BINNED	17
+ #define IMX335_EXPOSURE_STEP		1
+ #define IMX335_EXPOSURE_DEFAULT		0x0648
+ 
++#define IMX335_REG_AREA2_WIDTH_1	CCI_REG16_LE(0x3072)
++
+ #define IMX335_REG_AREA3_ST_ADR_1	CCI_REG16_LE(0x3074)
+ #define IMX335_REG_AREA3_WIDTH_1	CCI_REG16_LE(0x3076)
+ 
+@@ -133,12 +137,11 @@ static const struct v4l2_rect imx335_native_area = {
+ 
+ static const struct v4l2_rect imx335_active_area = {
+ 	.top = 50,
+-	.left = 52,
+-	.width = 2592,
++	.left = 36,
++	.width = 2624,
+ 	.height = 1944,
+ };
+ 
 -
  /**
-  * imx335_set_pad_format() - Set subdevice pad format
-  * @sd: pointer to imx335 V4L2 sub-device structure
-@@ -809,12 +777,12 @@ static int imx335_set_pad_format(struct v4l2_subdev *sd,
- 				 struct v4l2_subdev_format *fmt)
- {
- 	struct imx335 *imx335 = to_imx335(sd);
-+	struct v4l2_mbus_framefmt *format;
- 	const struct imx335_mode *mode;
- 	int i, ret = 0;
- 
--	mutex_lock(&imx335->mutex);
--
- 	mode = &supported_mode;
-+
- 	for (i = 0; i < ARRAY_SIZE(imx335_mbus_codes); i++) {
- 		if (imx335_mbus_codes[i] == fmt->format.code)
- 			imx335->cur_mbus_code = imx335_mbus_codes[i];
-@@ -822,19 +790,15 @@ static int imx335_set_pad_format(struct v4l2_subdev *sd,
- 
- 	imx335_fill_pad_format(imx335, mode, fmt);
- 
--	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
--		struct v4l2_mbus_framefmt *framefmt;
-+	format = v4l2_subdev_state_get_format(sd_state, fmt->pad);
-+	*format = fmt->format;
- 
--		framefmt = v4l2_subdev_state_get_format(sd_state, fmt->pad);
--		*framefmt = fmt->format;
--	} else {
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
- 		ret = imx335_update_controls(imx335, mode);
- 		if (!ret)
- 			imx335->cur_mode = mode;
- 	}
- 
--	mutex_unlock(&imx335->mutex);
--
- 	return ret;
- }
- 
-@@ -854,12 +818,10 @@ static int imx335_init_state(struct v4l2_subdev *sd,
- 	fmt.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
- 	imx335_fill_pad_format(imx335, &supported_mode, &fmt);
- 
--	mutex_lock(&imx335->mutex);
- 	__v4l2_ctrl_modify_range(imx335->link_freq_ctrl, 0,
- 				 __fls(imx335->link_freq_bitmap),
- 				 ~(imx335->link_freq_bitmap),
- 				 __ffs(imx335->link_freq_bitmap));
--	mutex_unlock(&imx335->mutex);
- 
- 	return imx335_set_pad_format(sd, sd_state, &fmt);
- }
-@@ -1001,16 +963,17 @@ static void imx335_stop_streaming(struct imx335 *imx335)
- static int imx335_set_stream(struct v4l2_subdev *sd, int enable)
- {
- 	struct imx335 *imx335 = to_imx335(sd);
-+	struct v4l2_subdev_state *state;
- 	int ret = 0;
- 
--	mutex_lock(&imx335->mutex);
-+	state = v4l2_subdev_lock_and_get_active_state(sd);
- 
- 	if (enable)
- 		ret = imx335_start_streaming(imx335);
- 	else
- 		imx335_stop_streaming(imx335);
- 
--	mutex_unlock(&imx335->mutex);
-+	v4l2_subdev_unlock_state(state);
- 
- 	return ret;
- }
-@@ -1138,7 +1101,7 @@ static const struct v4l2_subdev_pad_ops imx335_pad_ops = {
- 	.enum_frame_size = imx335_enum_frame_size,
- 	.get_selection = imx335_get_selection,
- 	.set_selection = imx335_get_selection,
--	.get_fmt = imx335_get_pad_format,
-+	.get_fmt = v4l2_subdev_get_fmt,
- 	.set_fmt = imx335_set_pad_format,
+  * struct imx335_reg_list - imx335 sensor register list
+  * @num_of_regs: Number of registers in the list
+@@ -155,8 +158,14 @@ static const char * const imx335_supply_name[] = {
+ 	"dvdd", /* Digital Core (1.2V) supply */
  };
  
-@@ -1233,9 +1196,6 @@ static int imx335_init_controls(struct imx335 *imx335)
- 	if (ret)
- 		return ret;
- 
--	/* Serialize controls with sensor device */
--	ctrl_hdlr->lock = &imx335->mutex;
--
- 	/* Initialize exposure and gain */
- 	lpfr = mode->vblank + mode->height;
- 	imx335->exp_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
-@@ -1355,12 +1315,10 @@ static int imx335_probe(struct i2c_client *client)
- 		return ret;
- 	}
- 
--	mutex_init(&imx335->mutex);
--
- 	ret = imx335_power_on(imx335->dev);
- 	if (ret) {
- 		dev_err(imx335->dev, "failed to power-on the sensor\n");
--		goto error_mutex_destroy;
-+		return ret;
- 	}
- 
- 	/* Check module identity */
-@@ -1393,11 +1351,18 @@ static int imx335_probe(struct i2c_client *client)
- 		goto error_handler_free;
- 	}
- 
-+	imx335->sd.state_lock = imx335->ctrl_handler.lock;
-+	ret = v4l2_subdev_init_finalize(&imx335->sd);
-+	if (ret < 0) {
-+		dev_err(imx335->dev, "subdev init error\n");
-+		goto error_media_entity;
-+	}
++enum imx335_scan_mode {
++	IMX335_ALL_PIXEL,
++	IMX335_2_2_BINNING,
++};
 +
- 	ret = v4l2_async_register_subdev_sensor(&imx335->sd);
- 	if (ret < 0) {
- 		dev_err(imx335->dev,
- 			"failed to register async subdev: %d\n", ret);
--		goto error_media_entity;
-+		goto error_subdev_cleanup;
- 	}
+ /**
+  * struct imx335_mode - imx335 sensor mode structure
++ * @scan_mode: Configuration scan mode (All pixel / 2x2Binning)
+  * @width: Frame width
+  * @height: Frame height
+  * @code: Format code
+@@ -170,6 +179,7 @@ static const char * const imx335_supply_name[] = {
+  * @vflip_inverted: Register list vflip (inverted readout)
+  */
+ struct imx335_mode {
++	enum imx335_scan_mode scan_mode;
+ 	u32 width;
+ 	u32 height;
+ 	u32 code;
+@@ -271,12 +281,33 @@ static const struct cci_reg_sequence mode_2592x1944_regs[] = {
+ 	{ IMX335_REG_MODE_SELECT, IMX335_MODE_STANDBY },
+ 	{ IMX335_REG_MASTER_MODE, 0x00 },
+ 	{ IMX335_REG_WINMODE, 0x04 },
++	{ IMX335_REG_HMAX, 550 },
+ 	{ IMX335_REG_HTRIMMING_START, 48 },
+ 	{ IMX335_REG_HNUM, 2592 },
+ 	{ IMX335_REG_Y_OUT_SIZE, 1944 },
++	{ IMX335_REG_AREA2_WIDTH_1, 40 },
+ 	{ IMX335_REG_AREA3_WIDTH_1, 3928 },
+ 	{ IMX335_REG_OPB_SIZE_V, 0 },
+ 	{ IMX335_REG_XVS_XHS_DRV, 0x00 },
++};
++
++static const struct cci_reg_sequence mode_1312x972_regs[] = {
++	{ IMX335_REG_MODE_SELECT, IMX335_MODE_STANDBY },
++	{ IMX335_REG_MASTER_MODE, 0x00 },
++	{ IMX335_REG_WINMODE, 0x01 },
++	{ IMX335_REG_HMAX, 275 },
++	{ IMX335_REG_HTRIMMING_START, 48 },
++	{ IMX335_REG_HNUM, 2600 },
++	{ IMX335_REG_Y_OUT_SIZE, 972 },
++	{ IMX335_REG_AREA2_WIDTH_1, 48 },
++	{ IMX335_REG_AREA3_WIDTH_1, 3936 },
++	{ IMX335_REG_OPB_SIZE_V, 0 },
++	{ IMX335_REG_XVS_XHS_DRV, 0x00 },
++	{ CCI_REG8(0x3300), 1 }, /* TCYCLE */
++	{ CCI_REG8(0x3199), 0x30 }, /* HADD/VADD */
++};
++
++static const struct cci_reg_sequence imx335_common_regs[] = {
+ 	{ CCI_REG8(0x3288), 0x21 },
+ 	{ CCI_REG8(0x328a), 0x02 },
+ 	{ CCI_REG8(0x3414), 0x05 },
+@@ -367,16 +398,72 @@ static const struct cci_reg_sequence mode_2592x1944_vflip_inverted[] = {
+ 	{ CCI_REG16_LE(0x3116), 0x002 },
+ };
  
- 	pm_runtime_set_active(imx335->dev);
-@@ -1406,14 +1371,14 @@ static int imx335_probe(struct i2c_client *client)
+-static const struct cci_reg_sequence raw10_framefmt_regs[] = {
+-	{ IMX335_REG_ADBIT, 0x00 },
+-	{ IMX335_REG_MDBIT, 0x00 },
+-	{ IMX335_REG_ADBIT1, 0x1ff },
++static const struct cci_reg_sequence mode_1312x972_vflip_normal[] = {
++	{ IMX335_REG_AREA3_ST_ADR_1, 176 },
++
++	/* Undocumented */
++	{ CCI_REG8(0x3078), 0x04 },
++	{ CCI_REG8(0x3079), 0xfd },
++	{ CCI_REG8(0x307a), 0x04 },
++	{ CCI_REG8(0x307b), 0xfe },
++	{ CCI_REG8(0x307c), 0x04 },
++	{ CCI_REG8(0x307d), 0xfb },
++	{ CCI_REG8(0x307e), 0x04 },
++	{ CCI_REG8(0x307f), 0x02 },
++	{ CCI_REG8(0x3080), 0x04 },
++	{ CCI_REG8(0x3081), 0xfd },
++	{ CCI_REG8(0x3082), 0x04 },
++	{ CCI_REG8(0x3083), 0xfe },
++	{ CCI_REG8(0x3084), 0x04 },
++	{ CCI_REG8(0x3085), 0xfb },
++	{ CCI_REG8(0x3086), 0x04 },
++	{ CCI_REG8(0x3087), 0x02 },
++	{ CCI_REG8(0x30a4), 0x77 },
++	{ CCI_REG8(0x30a8), 0x20 },
++	{ CCI_REG8(0x30a9), 0x00 },
++	{ CCI_REG8(0x30ac), 0x08 },
++	{ CCI_REG8(0x30ad), 0x08 },
++	{ CCI_REG8(0x30b0), 0x20 },
++	{ CCI_REG8(0x30b1), 0x00 },
++	{ CCI_REG8(0x30b4), 0x10 },
++	{ CCI_REG8(0x30b5), 0x10 },
++	{ CCI_REG16_LE(0x30b6), 0x00 },
++	{ CCI_REG16_LE(0x3112), 0x10 },
++	{ CCI_REG16_LE(0x3116), 0x10 },
+ };
+ 
+-static const struct cci_reg_sequence raw12_framefmt_regs[] = {
+-	{ IMX335_REG_ADBIT, 0x01 },
+-	{ IMX335_REG_MDBIT, 0x01 },
+-	{ IMX335_REG_ADBIT1, 0x47 },
++static const struct cci_reg_sequence mode_1312x972_vflip_inverted[] = {
++	{ IMX335_REG_AREA3_ST_ADR_1, 4112 },
++
++	/* Undocumented */
++	{ CCI_REG8(0x3078), 0x04 },
++	{ CCI_REG8(0x3079), 0xfd },
++	{ CCI_REG8(0x307a), 0x04 },
++	{ CCI_REG8(0x307b), 0xfe },
++	{ CCI_REG8(0x307c), 0x04 },
++	{ CCI_REG8(0x307d), 0xfb },
++	{ CCI_REG8(0x307e), 0x04 },
++	{ CCI_REG8(0x307f), 0x02 },
++	{ CCI_REG8(0x3080), 0xfc },
++	{ CCI_REG8(0x3081), 0x05 },
++	{ CCI_REG8(0x3082), 0xfc },
++	{ CCI_REG8(0x3083), 0x02 },
++	{ CCI_REG8(0x3084), 0xfc },
++	{ CCI_REG8(0x3085), 0x03 },
++	{ CCI_REG8(0x3086), 0xfc },
++	{ CCI_REG8(0x3087), 0xfe },
++	{ CCI_REG8(0x30a4), 0x77 },
++	{ CCI_REG8(0x30a8), 0x20 },
++	{ CCI_REG8(0x30a9), 0x00 },
++	{ CCI_REG8(0x30ac), 0x08 },
++	{ CCI_REG8(0x30ad), 0x78 },
++	{ CCI_REG8(0x30b0), 0x20 },
++	{ CCI_REG8(0x30b1), 0x00 },
++	{ CCI_REG8(0x30b4), 0x10 },
++	{ CCI_REG8(0x30b5), 0x70 },
++	{ CCI_REG16_LE(0x30b6), 0x01f2 },
++	{ CCI_REG16_LE(0x3112), 0x10 },
++	{ CCI_REG16_LE(0x3116), 0x02 },
+ };
+ 
+ static const struct cci_reg_sequence mipi_data_rate_1188Mbps[] = {
+@@ -441,25 +528,49 @@ static const u32 imx335_mbus_codes[] = {
+ };
+ 
+ /* Supported sensor mode configurations */
+-static const struct imx335_mode supported_mode = {
+-	.width = 2592,
+-	.height = 1944,
+-	.hblank = 342,
+-	.vblank = 2556,
+-	.vblank_min = 2556,
+-	.vblank_max = 133060,
+-	.pclk = 396000000,
+-	.reg_list = {
+-		.num_of_regs = ARRAY_SIZE(mode_2592x1944_regs),
+-		.regs = mode_2592x1944_regs,
+-	},
+-	.vflip_normal = {
+-		.num_of_regs = ARRAY_SIZE(mode_2592x1944_vflip_normal),
+-		.regs = mode_2592x1944_vflip_normal,
+-	},
+-	.vflip_inverted = {
+-		.num_of_regs = ARRAY_SIZE(mode_2592x1944_vflip_inverted),
+-		.regs = mode_2592x1944_vflip_inverted,
++static const struct imx335_mode supported_modes[] = {
++	{
++		.scan_mode = IMX335_ALL_PIXEL,
++		.width = 2592,
++		.height = 1944,
++		.hblank = 342,
++		.vblank = 2556,
++		.vblank_min = 2556,
++		.vblank_max = 133060,
++		.pclk = 396000000,
++		.reg_list = {
++			.num_of_regs = ARRAY_SIZE(mode_2592x1944_regs),
++			.regs = mode_2592x1944_regs,
++		},
++		.vflip_normal = {
++			.num_of_regs = ARRAY_SIZE(mode_2592x1944_vflip_normal),
++			.regs = mode_2592x1944_vflip_normal,
++		},
++		.vflip_inverted = {
++			.num_of_regs = ARRAY_SIZE(mode_2592x1944_vflip_inverted),
++			.regs = mode_2592x1944_vflip_inverted,
++		}
++	}, {
++		.scan_mode = IMX335_2_2_BINNING,
++		.width = 1312,
++		.height = 972,
++		.hblank = 155,
++		.vblank = 3528,
++		.vblank_min = 3528,
++		.vblank_max = 133060,
++		.pclk = 396000000,
++		.reg_list = {
++			.num_of_regs = ARRAY_SIZE(mode_1312x972_regs),
++			.regs = mode_1312x972_regs,
++		},
++		.vflip_normal = {
++			.num_of_regs = ARRAY_SIZE(mode_1312x972_vflip_normal),
++			.regs = mode_1312x972_vflip_normal,
++		},
++		.vflip_inverted = {
++			.num_of_regs = ARRAY_SIZE(mode_1312x972_vflip_inverted),
++			.regs = mode_1312x972_vflip_inverted,
++		},
+ 	},
+ };
+ 
+@@ -616,18 +727,22 @@ static int imx335_set_ctrl(struct v4l2_ctrl *ctrl)
+ 
+ 	/* Propagate change of current control to all related controls */
+ 	if (ctrl->id == V4L2_CID_VBLANK) {
++		u32 shutter_min = IMX335_SHUTTER_MIN;
++		u32 lpfr;
++
+ 		imx335->vblank = imx335->vblank_ctrl->val;
++		lpfr = imx335->vblank + imx335->cur_mode->height;
+ 
+ 		dev_dbg(imx335->dev, "Received vblank %u, new lpfr %u\n",
+-			imx335->vblank,
+-			imx335->vblank + imx335->cur_mode->height);
++			imx335->vblank, lpfr);
++
++		if (imx335->cur_mode->scan_mode == IMX335_2_2_BINNING)
++			shutter_min = IMX335_SHUTTER_MIN_BINNED;
+ 
+ 		ret = __v4l2_ctrl_modify_range(imx335->exp_ctrl,
+ 					       IMX335_EXPOSURE_MIN,
+-					       imx335->vblank +
+-					       imx335->cur_mode->height -
+-					       IMX335_EXPOSURE_OFFSET,
+-					       1, IMX335_EXPOSURE_DEFAULT);
++					       lpfr - shutter_min, 1,
++					       IMX335_EXPOSURE_DEFAULT);
+ 		if (ret)
+ 			return ret;
+ 	}
+@@ -727,17 +842,16 @@ static int imx335_enum_frame_size(struct v4l2_subdev *sd,
+ 	struct imx335 *imx335 = to_imx335(sd);
+ 	u32 code;
+ 
+-	/* Only a single supported_mode available. */
+-	if (fsize->index > 0)
++	if (fsize->index >= ARRAY_SIZE(supported_modes))
+ 		return -EINVAL;
+ 
+ 	code = imx335_get_format_code(imx335, fsize->code);
+ 	if (fsize->code != code)
+ 		return -EINVAL;
+ 
+-	fsize->min_width = supported_mode.width;
++	fsize->min_width = supported_modes[fsize->index].width;
+ 	fsize->max_width = fsize->min_width;
+-	fsize->min_height = supported_mode.height;
++	fsize->min_height = supported_modes[fsize->index].height;
+ 	fsize->max_height = fsize->min_height;
  
  	return 0;
+@@ -779,9 +893,13 @@ static int imx335_set_pad_format(struct v4l2_subdev *sd,
+ 	struct imx335 *imx335 = to_imx335(sd);
+ 	struct v4l2_mbus_framefmt *format;
+ 	const struct imx335_mode *mode;
++	struct v4l2_rect *crop;
+ 	int i, ret = 0;
  
-+error_subdev_cleanup:
-+	v4l2_subdev_cleanup(&imx335->sd);
- error_media_entity:
- 	media_entity_cleanup(&imx335->sd.entity);
- error_handler_free:
- 	v4l2_ctrl_handler_free(imx335->sd.ctrl_handler);
- error_power_off:
- 	imx335_power_off(imx335->dev);
--error_mutex_destroy:
--	mutex_destroy(&imx335->mutex);
+-	mode = &supported_mode;
++	mode = v4l2_find_nearest_size(supported_modes,
++				      ARRAY_SIZE(supported_modes),
++				      width, height,
++				      fmt->format.width, fmt->format.height);
  
- 	return ret;
- }
-@@ -1427,9 +1392,9 @@ static int imx335_probe(struct i2c_client *client)
- static void imx335_remove(struct i2c_client *client)
+ 	for (i = 0; i < ARRAY_SIZE(imx335_mbus_codes); i++) {
+ 		if (imx335_mbus_codes[i] == fmt->format.code)
+@@ -793,6 +911,16 @@ static int imx335_set_pad_format(struct v4l2_subdev *sd,
+ 	format = v4l2_subdev_state_get_format(sd_state, fmt->pad);
+ 	*format = fmt->format;
+ 
++	crop = v4l2_subdev_state_get_crop(sd_state, fmt->pad);
++	crop->width = fmt->format.width;
++	crop->height = fmt->format.height;
++	if (mode->scan_mode == IMX335_2_2_BINNING) {
++		crop->width *= 2;
++		crop->height *= 2;
++	}
++	crop->left = (imx335_native_area.width - crop->width) / 2;
++	crop->top = (imx335_native_area.height - crop->height) / 2;
++
+ 	if (fmt->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
+ 		ret = imx335_update_controls(imx335, mode);
+ 		if (!ret)
+@@ -816,7 +944,7 @@ static int imx335_init_state(struct v4l2_subdev *sd,
+ 	struct v4l2_subdev_format fmt = { 0 };
+ 
+ 	fmt.which = sd_state ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
+-	imx335_fill_pad_format(imx335, &supported_mode, &fmt);
++	imx335_fill_pad_format(imx335, &supported_modes[0], &fmt);
+ 
+ 	__v4l2_ctrl_modify_range(imx335->link_freq_ctrl, 0,
+ 				 __fls(imx335->link_freq_bitmap),
+@@ -839,11 +967,15 @@ static int imx335_get_selection(struct v4l2_subdev *sd,
+ 				struct v4l2_subdev_selection *sel)
  {
- 	struct v4l2_subdev *sd = i2c_get_clientdata(client);
--	struct imx335 *imx335 = to_imx335(sd);
+ 	switch (sel->target) {
++	case V4L2_SEL_TGT_CROP:
++		sel->r = *v4l2_subdev_state_get_crop(sd_state, 0);
++
++		return 0;
++
+ 	case V4L2_SEL_TGT_NATIVE_SIZE:
+ 		sel->r = imx335_native_area;
+ 		return 0;
  
- 	v4l2_async_unregister_subdev(sd);
-+	v4l2_subdev_cleanup(sd);
- 	media_entity_cleanup(&sd->entity);
- 	v4l2_ctrl_handler_free(sd->ctrl_handler);
+-	case V4L2_SEL_TGT_CROP:
+ 	case V4L2_SEL_TGT_CROP_DEFAULT:
+ 	case V4L2_SEL_TGT_CROP_BOUNDS:
+ 		sel->r = imx335_active_area;
+@@ -855,19 +987,35 @@ static int imx335_get_selection(struct v4l2_subdev *sd,
  
-@@ -1437,8 +1402,6 @@ static void imx335_remove(struct i2c_client *client)
- 	if (!pm_runtime_status_suspended(&client->dev))
- 		imx335_power_off(&client->dev);
- 	pm_runtime_set_suspended(&client->dev);
+ static int imx335_set_framefmt(struct imx335 *imx335)
+ {
+-	switch (imx335->cur_mbus_code) {
+-	case MEDIA_BUS_FMT_SRGGB10_1X10:
+-		return cci_multi_reg_write(imx335->cci, raw10_framefmt_regs,
+-					   ARRAY_SIZE(raw10_framefmt_regs),
+-					   NULL);
 -
--	mutex_destroy(&imx335->mutex);
+-	case MEDIA_BUS_FMT_SRGGB12_1X12:
+-		return cci_multi_reg_write(imx335->cci, raw12_framefmt_regs,
+-					   ARRAY_SIZE(raw12_framefmt_regs),
+-					   NULL);
++	/*
++	 * In the all-pixel scan mode the AD conversion shall match the output
++	 * bit width requested.
++	 *
++	 * However, when 2/2 binning is enabled, the AD conversion is always
++	 * 10-bit, so we ensure ADBIT is clear and ADBIT1 is assigned 0x1ff.
++	 * That's as much as the documentation gives us...
++	 */
++	int ret = 0;
++	u8 bpp = imx335->cur_mbus_code == MEDIA_BUS_FMT_SRGGB10_1X10 ? 10 : 12;
++	u8 ad_conv = bpp;
++
++	/* Start with the output mode */
++	cci_write(imx335->cci, IMX335_REG_MDBIT, bpp == 12, &ret);
++
++	/* Enforce 10 bit AD on binning modes */
++	if (imx335->cur_mode->scan_mode == IMX335_2_2_BINNING)
++		ad_conv = 10;
++
++	/* AD Conversion configuration */
++	if (ad_conv == 10) {
++		cci_write(imx335->cci, IMX335_REG_ADBIT, 0x00, &ret);
++		cci_write(imx335->cci, IMX335_REG_ADBIT1, 0x1ff, &ret);
++	} else { /* 12 bit AD Conversion */
++		cci_write(imx335->cci, IMX335_REG_ADBIT, 0x01, &ret);
++		cci_write(imx335->cci, IMX335_REG_ADBIT1, 0x47, &ret);
+ 	}
+ 
+-	return -EINVAL;
++	return ret;
  }
  
- static const struct dev_pm_ops imx335_pm_ops = {
+ /**
+@@ -903,6 +1051,14 @@ static int imx335_start_streaming(struct imx335 *imx335)
+ 		goto err_rpm_put;
+ 	}
+ 
++	/* Write sensor common registers */
++	ret = cci_multi_reg_write(imx335->cci, imx335_common_regs,
++				  ARRAY_SIZE(imx335_common_regs), NULL);
++	if (ret) {
++		dev_err(imx335->dev, "fail to write initial registers\n");
++		goto err_rpm_put;
++	}
++
+ 	ret = imx335_set_framefmt(imx335);
+ 	if (ret) {
+ 		dev_err(imx335->dev, "%s failed to set frame format: %d\n",
+@@ -1184,7 +1340,7 @@ static int imx335_init_controls(struct imx335 *imx335)
+ 	struct v4l2_ctrl_handler *ctrl_hdlr = &imx335->ctrl_handler;
+ 	const struct imx335_mode *mode = imx335->cur_mode;
+ 	struct v4l2_fwnode_device_properties props;
+-	u32 lpfr;
++	u32 lpfr, shutter_min;
+ 	int ret;
+ 
+ 	ret = v4l2_fwnode_device_parse(imx335->dev, &props);
+@@ -1198,11 +1354,14 @@ static int imx335_init_controls(struct imx335 *imx335)
+ 
+ 	/* Initialize exposure and gain */
+ 	lpfr = mode->vblank + mode->height;
++	shutter_min = IMX335_SHUTTER_MIN;
++	if (mode->scan_mode == IMX335_2_2_BINNING)
++		shutter_min = IMX335_SHUTTER_MIN_BINNED;
+ 	imx335->exp_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
+ 					     &imx335_ctrl_ops,
+ 					     V4L2_CID_EXPOSURE,
+ 					     IMX335_EXPOSURE_MIN,
+-					     lpfr - IMX335_EXPOSURE_OFFSET,
++					     lpfr - shutter_min,
+ 					     IMX335_EXPOSURE_STEP,
+ 					     IMX335_EXPOSURE_DEFAULT);
+ 
+@@ -1329,7 +1488,7 @@ static int imx335_probe(struct i2c_client *client)
+ 	}
+ 
+ 	/* Set default mode to max resolution */
+-	imx335->cur_mode = &supported_mode;
++	imx335->cur_mode = &supported_modes[0];
+ 	imx335->cur_mbus_code = imx335_mbus_codes[0];
+ 	imx335->vblank = imx335->cur_mode->vblank;
+ 
 
 -- 
 2.51.0
