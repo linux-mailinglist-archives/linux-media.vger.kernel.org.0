@@ -1,101 +1,165 @@
-Return-Path: <linux-media+bounces-42494-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42498-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 696D8B56E21
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 04:10:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BED78B56E85
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 05:03:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E7CD43A91C7
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 02:10:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3DD7E189A00F
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 03:03:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 25F0F21FF48;
-	Mon, 15 Sep 2025 02:10:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46D4421ADA4;
+	Mon, 15 Sep 2025 03:02:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RBYdeh9P"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="KZAXW/KK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73F4B1EA7CF;
-	Mon, 15 Sep 2025 02:10:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88581224234;
+	Mon, 15 Sep 2025 03:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757902209; cv=none; b=Lk0YHv48ADUsDM39RjQRVQUykBw8uQdCvX1Mx37riXz3EtwI1UZyhqmNukTxeYcNLPPDcb3BW8IPiLEg4vNPJB+hIDkUhSj+YgU7coVO8U0nQrpnIMdhs304mIQ/caGavWEvs0But7v13cy2S5U+cXJxCsd8tlZRHibJywjI/IU=
+	t=1757905356; cv=none; b=bmdIzRow90bMkKEjpbEot3o31tOR5Gm1FRfqK5NOILKKsju3qkzhaVygCteZMre+dc3cf41VPaRhJK4NFh6DdKzrQqBcAAXqpi+7gDG6gOul7l90jv7w190W40X4fjk2UdiDkv71WD8qUug/1fllcuTYtgbLPpkc2CMb5ka+zm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757902209; c=relaxed/simple;
-	bh=rEX1fVC1mzbS+16jNs5mhKp7yx2T9TgN8z5RmGbee3U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=UWjzK9Lmmf0lV/AQv5LT9kSDGtWVRRbBGiELO6+8Ddcb9S/dHtGunkP9jZOOfQB908R0HomKvd7wxDw4MM4Tk0u8X/nD3EsMyeYUPAYZy2Mwflw0V3WaVTWzhedG7ol0ow92gfmsGWVfiq5eEy/y4c0WzJRyNG3lxi0LU769OqM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RBYdeh9P; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D27DEC4CEF5;
-	Mon, 15 Sep 2025 02:10:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1757902209;
-	bh=rEX1fVC1mzbS+16jNs5mhKp7yx2T9TgN8z5RmGbee3U=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RBYdeh9PBwMXjlnJAb1wjcbHGAoDImxAKz47bXpWHiTAF6Gp8EauznbQt9qDxeWTo
-	 blkoEnPrhyCmUb4m/GYU3hPZzp3Y3W2hgr5C3WTGfw8/lQ+yzKK/3YxFzx9qe7acbg
-	 PskOFVcpDncUc3NbasdGobRA1wY8Prit4tipzUQvfuCTB0hDdShA89C6dTc+CMk3mt
-	 DXTW+imC6kCD3Y2zZRUnPf1rrtfqLEGJLKmlcVn9FezSjLOnEuG3dyzdfZAnZ+Km7/
-	 3WvPPB176fsKr99FA62BZUZwcaewfZC9D9JWMXd6xWvesN8ypzu9JrDQz+ZxPvz00/
-	 /WHzAVBC1Rl2Q==
-Date: Sun, 14 Sep 2025 21:10:08 -0500
-From: Rob Herring <robh@kernel.org>
-To: Guoniu Zhou <guoniu.zhou@nxp.com>
-Cc: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Frank Li <Frank.Li@nxp.com>,
-	Vladimir Zapolskiy <vz@mleia.com>, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 1/4] dt-bindings: media: ti,ds90ub953: Add third cell
- for GPIO controller
-Message-ID: <20250915015309.GA2329507-robh@kernel.org>
-References: <20250911-ds90ub953-v2-0-03ee76eb6b59@nxp.com>
- <20250911-ds90ub953-v2-1-03ee76eb6b59@nxp.com>
+	s=arc-20240116; t=1757905356; c=relaxed/simple;
+	bh=er0+K1SyJSa0T8uHXUXd0hncE1ztXSk4x94kgBUvVc0=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Rkm1wm824xE5Jwv/ekd59TUrF955zyiRGuPO0RByEA6//azOyPZtYDvLyXRg1K5YCDlyGgyB1D7uW2WofRh/i8y6G4ly5dxLXprBqVRmsSfsegwnWB21ZuEJhZbooduICYhUuO2YwjIs9FGcRHo8g/GiDtAoYoGmtPLszqkc5yg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=KZAXW/KK; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 6a02250091e011f0bd5779446731db89-20250915
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:To:From; bh=UasMIIZ3E32MTe7woVcw3Ib05QwAQ639eNSWF0UBJNk=;
+	b=KZAXW/KKLWxNkL9baSueVtqfW28is/z6eoluULr20amMetfLxldEFPT0EM2/ZsHwtRtcNi2N6Susoxz2GlnGOhP4AJqmN7VDlpR4dobkIbZOSwbuPpMcUsOgS2WIrya6sRyYxA4KRrefzLTMxlbXHL4jVlEHPful2et05UYVhoA=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.4,REQID:49aabf0e-39d8-42a5-bbe4-a9ba5aaa80b8,IP:0,UR
+	L:0,TC:0,Content:0,EDM:25,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
+	release,TS:25
+X-CID-META: VersionHash:1ca6b93,CLOUDID:d4c4c884-5317-4626-9d82-238d715c253f,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102,TC:-5,Content:0|15|50,EDM:5,IP:n
+	il,URL:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LE
+	S:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 6a02250091e011f0bd5779446731db89-20250915
+Received: from mtkmbs13n2.mediatek.inc [(172.21.101.108)] by mailgw01.mediatek.com
+	(envelope-from <kyrie.wu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 973887045; Mon, 15 Sep 2025 11:02:28 +0800
+Received: from mtkmbs11n2.mediatek.inc (172.21.101.187) by
+ mtkmbs11n1.mediatek.inc (172.21.101.185) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1258.39; Mon, 15 Sep 2025 11:02:19 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n2.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1258.39 via Frontend Transport; Mon, 15 Sep 2025 11:02:21 +0800
+From: Kyrie Wu <kyrie.wu@mediatek.com>
+To: Hans Verkuil <hverkuil-cisco@xs4all.nl>, Mauro Carvalho Chehab
+	<mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
+	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Matthias Brugger
+	<matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Kyrie Wu <kyrie.wu@mediatek.com>,
+	<linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-mediatek@lists.infradead.org>
+Subject: [PATCH v9 00/12] Enable jpeg enc & dec multi-hardwares for MT8196
+Date: Mon, 15 Sep 2025 11:01:59 +0800
+Message-ID: <20250915030212.22078-1-kyrie.wu@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250911-ds90ub953-v2-1-03ee76eb6b59@nxp.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-On Thu, Sep 11, 2025 at 04:44:22PM +0800, Guoniu Zhou wrote:
-> Add third cell for GPIO controller to select GPIO output source. 0 to
-> select output source from local GPIO data, 1 to select output source
-> from remote compatible deserializer GPIO data.
-> 
-> Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
-> ---
->  Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml | 8 +++++---
->  Documentation/devicetree/bindings/media/i2c/ti,ds90ub960.yaml | 4 ++--
->  2 files changed, 7 insertions(+), 5 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml
-> index 2e129bf573b79e0ca8f25b4ec5fc6ea76c50abd7..de759413a36060d3be6f2c3b67de48ee6e4d29f2 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/ti,ds90ub953.yaml
-> @@ -19,10 +19,12 @@ properties:
->        - ti,ds90ub971-q1
->  
->    '#gpio-cells':
-> -    const: 2
-> +    const: 3
->      description:
->        First cell is the GPIO pin number, second cell is the flags. The GPIO pin
->        number must be in range of [0, 3].
-> +      Third cell is GPIO output source(0 for local gpio data, 1 for remote
-> +      gpio data from remote compatible deserializer).
+This series have the follow changing:
+Firstly fix some bugs, including resolution change handleing, stop
+streaming sw flow, fix buffer layout and clock setting to support multi-hw
+jpeg working and others.
+Secondly add mt8196 jpegdec and jpegenc compatible to support MT8196
+kernel driver.
+Lastly, Add smmu setting to support smmu and iommu at the same time.
 
-Changing the cell size is an ABI break unless 3 cells was supported in 
-OS before which I don't think it would be given GPIO cell meaning is 
-pretty standardized. You could just all a flag to the 2nd cell I think. 
-Or if 0-3 are local GPIOs, then make remote ones a different range.
+This series has been tested with MT8196 tast test.
+Encoding and decoding worked for this chip.
 
-Rob
+Patches 1 fix jpeg hw count setting to support different chips.
+Patches 2 fix jpeg buffer payload setting to handle buffer
+size bug while resolution changed.
+Patches 3 fix jpeg dst buffer layout.
+Patches 4 fix multi-core stop streaming flow
+Patches 5 fix multi-core clk suspend/resume setting
+Patches 6 fix decoding buffer number setting timing issue
+Patches 7 fix decoding resolution change operation
+Patches 8 fix remove buffer operation
+Patches 9-11 Adds jpeg encoder and decoder compatible.
+Patches 12 add jpeg smmu sid setting.
+
+---
+Changes compared with v8:
+--Rebased on top of the latest media tree
+
+Changes compared with v7:
+--Rebased on top of the latest media tree
+
+Changes compared with v6:
+--Rebased on top of the latest media tree
+
+Changes compared with v5:
+--reorder the patches set.
+--fix commit message of patch 1-8.
+
+Changes compared with v4:
+--fix kernel robot build errors for patch 4.
+--add reviewer for patch 1 and patch 2.
+
+Changes compared with v3:
+--change patch subject of jpeg encoder and decoder compatible.
+
+Changes compared with v2:
+--refactor smmu sid setting function interface
+--Some modifications for patch v2's review comments.
+
+Changes compared with v1:
+--refine jpeg dt-bindings for MT8196
+--optimize software code to manage jpeg HW count
+--refactor smmu sid setting function interface
+--Some modifications for patch v1's review comments.
+
+Kyrie Wu (12):
+  media: mediatek: jpeg: fix jpeg hw count setting
+  media: mediatek: jpeg: fix jpeg buffer payload setting
+  media: mediatek: jpeg: fix jpeg buffer layout
+  media: mediatek: jpeg: fix stop streaming flow for multi-core
+  media: mediatek: jpeg: fix multi-core clk suspend and resume setting
+  media: mediatek: jpeg: fix decoding buffer number setting timing issue
+  media: mediatek: jpeg: fix decoding resolution change operation
+  media: mediatek: jpeg: fix remove buffer operation for multi-core
+  media: dt-bindings: mediatek,jpeg: Add mediatek, mt8196-jpgdec
+    compatible
+  media: dt-bindings: mediatek,jpeg: Add mediatek, mt8196-jpgenc
+    compatible
+  media: mediatek: jpeg: add jpeg compatible
+  media: mediatek: jpeg: add jpeg smmu sid setting
+
+ .../media/mediatek,mt8195-jpegdec.yaml        |   8 +-
+ .../media/mediatek,mt8195-jpegenc.yaml        |   8 +-
+ .../platform/mediatek/jpeg/mtk_jpeg_core.c    | 170 +++++++++++++-----
+ .../platform/mediatek/jpeg/mtk_jpeg_core.h    |  21 ++-
+ .../platform/mediatek/jpeg/mtk_jpeg_dec_hw.c  | 112 +++++++++++-
+ .../platform/mediatek/jpeg/mtk_jpeg_enc_hw.c  | 112 +++++++++++-
+ 6 files changed, 376 insertions(+), 55 deletions(-)
+
+-- 
+2.45.2
+
 
