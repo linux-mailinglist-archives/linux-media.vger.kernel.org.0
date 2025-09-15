@@ -1,70 +1,70 @@
-Return-Path: <linux-media+bounces-42574-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42575-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0ED7B58309
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 19:12:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id DBE08B5830F
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 19:13:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 461DB1A2495F
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 17:12:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A374B4C55C9
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 17:12:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4488F2E7650;
-	Mon, 15 Sep 2025 17:10:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78C1F2E8B70;
+	Mon, 15 Sep 2025 17:10:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="TdRZXZbb";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="lWxjdzV8"
+	dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b="H9OYoVZn";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="HNPd/zVs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from fout-b1-smtp.messagingengine.com (fout-b1-smtp.messagingengine.com [202.12.124.144])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AA9B2DE6E8;
-	Mon, 15 Sep 2025 17:10:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7969F2E0905;
+	Mon, 15 Sep 2025 17:10:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.144
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757956247; cv=none; b=FkWHTLVFU812qBNyQSmwhcCQiqMIMr7G5y/F2m0d69liziEOfUNud5dSWyS+Ir/GDoNcC4ZGfuEnYz19zh1L0etGWYhQzSUFon3vcg5LHnnUNA7TYIQetJ7mssoUPOJL4WShDemE+qJEDTQMjPRpOX+l9icAdKpiiBNo6rd3JQM=
+	t=1757956249; cv=none; b=RUa2tcvdHAmjTjtUDOHBxyoOLwPJn9s7+2vAtXLd8KY9IomLvIcHl0elT5yTUkSCAgAfQfJuIfcB8ISWsRVOEcc/72a5ga2LSGqAwh4uSbk6zBivDEIcL3h9vfoO/cKETbFo2q0PtjSC7YAlDY0jhHMuWnNMX8uBwegXApatJ9Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757956247; c=relaxed/simple;
-	bh=sJTbXXngzJNFtPf5fBJ8qMT08dQ0ouBCzAJz9Bs/ynA=;
+	s=arc-20240116; t=1757956249; c=relaxed/simple;
+	bh=VpUlgm40R2Hku1s5CV/eXDleSE2Fi0x2hIuafjzNNSo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NbB/VkYEWaKkW5Utot1E9tPk3htmms3Pcy5k+z0fhU9j3IvuNoywp2L6yiQYuYjmvJnNAAEzjAGhaeUT+Gn90xNrn2wI3ieAnrN1hUKYmR3ECYmCpt0i5tsNoIM7T4fXdsoNcMzih5Naw4So7bXgqCzjglk8uboWTOm6lHNe8Xo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=TdRZXZbb; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=lWxjdzV8; arc=none smtp.client-ip=202.12.124.144
+	 MIME-Version:Content-Type; b=GJh3NEB3MRMVddNn1wWXZDwZpwdV9wBI9zOAPUz6O03o4QGxwkv3kceB0QKBBct8nq7XtEPsjCoUYBVPVv+YT7GED5+cIRZT2yd+lalbvQybboDknV+yUlor/DUD+Dsx/lvdZ/vHRQ8jxna37v5Wqv0pNyObSA9u0ZRPOYw32vg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se; spf=pass smtp.mailfrom=ragnatech.se; dkim=pass (2048-bit key) header.d=ragnatech.se header.i=@ragnatech.se header.b=H9OYoVZn; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=HNPd/zVs; arc=none smtp.client-ip=202.12.124.144
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ragnatech.se
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ragnatech.se
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailfout.stl.internal (Postfix) with ESMTP id 300A21D00153;
-	Mon, 15 Sep 2025 13:10:44 -0400 (EDT)
-Received: from phl-mailfrontend-02 ([10.202.2.163])
-  by phl-compute-10.internal (MEProxy); Mon, 15 Sep 2025 13:10:44 -0400
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 70CF41D0019E;
+	Mon, 15 Sep 2025 13:10:46 -0400 (EDT)
+Received: from phl-mailfrontend-01 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Mon, 15 Sep 2025 13:10:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ragnatech.se; h=
 	cc:cc:content-transfer-encoding:content-type:content-type:date
 	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1757956244;
-	 x=1758042644; bh=LmvZxPwatK4qKPxXge+q3IDINjzHCMSgdKqn29GSQoE=; b=
-	TdRZXZbb+YpwZqG5QFcKebUHFFBAf0XeZUrOr2ery8uMWn+wIB9Fy2c9+uWc61b2
-	o1mNKJgKw9Euw5t/UEGLi+JZFtgiw4dYDnJLxFNdgfBZB5a7MJVTjSpwCG408A4C
-	iV3PHYfeKQeCOu4ETAomwTvlU2Qy8oUmcFHX1Rux58GLHE+OseULGj1zlBs/5Skl
-	ymejqEaad2AJXw8UpNBh5w1psszVA70CbwJrqENQMjsBLPjz9lDrzd8Gcu5xS6bo
-	Rkv/zf7K31wIhDr6hydCBMl76fVXqXvbbLVFXCc/TveXwhHu98S5iglIJd6A8jIx
-	CSg8lb3/OMH8aCjtPAb4NA==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1757956246;
+	 x=1758042646; bh=a9NVSUliwPYYQEYpUBXXaDEsjdNbdV03ITBqz/1pNgE=; b=
+	H9OYoVZn6GAeIgSgfA4YwFfz/77ICC1ESUFlm22saaFtWORc0+5Z9+QtkUWhEppM
+	wGgg7pGwD58HcfPuv6c2jon4GXokFiwoLSYzragvnC6XmjRNihW5XNjdaxa9hmgv
+	l+I73xPubHQXZdf1EUWM/DCHZRcYQU2z21r4V9TUJq2e4qsqZ6mf+dvHEvzmTTzv
+	loDdVXV6Jdgw7K+MQZslSMZHqozWt6IAeBADQHFSFNJ+0c4SWpiqPgKqsC/MEmqP
+	Sy3u9J+9rGnZNgv0qmQxJwwT5lnUKzzlY43lI3N3VKc3uM+SH5mapNWOOt47ncNr
+	tvWdFYcN9iybv74Leq/HTg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:cc:content-transfer-encoding
 	:content-type:content-type:date:date:feedback-id:feedback-id
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
 	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757956244; x=
-	1758042644; bh=LmvZxPwatK4qKPxXge+q3IDINjzHCMSgdKqn29GSQoE=; b=l
-	WxjdzV8H6Iv98BgGtTn4zNX8hAyu3c4ro1/hEqpJvv+tPYinPrCvbtmk+c9s0EKk
-	4cPZti+QToC+4+rRGqkVR8MMXCSgw3uo601XaLDAi25qhNr+1xoYLT0OjVDUIWaC
-	Z49MjC9phsBXT5Thgdl2miUZXlRrvAzj+MyKANZ5F5OSBxCJIbIOwaRb5CB0V1GO
-	hXFdxyRr/vTWxkEQXT+fl4yxNk5fcXph40APcU+p/stNrOkUGoJdCD5DjktS312+
-	UrfpDaDFnjP90Np8crAeFw9/2x5hBshc/9JNtlv/qSp4vuQcFQEYsU0VmvclU8O2
-	ZFEwXidm6qqk9vunDDf0w==
-X-ME-Sender: <xms:k0jIaBvxq0rnngOoADNaRYB-d172KTlFMRTyrRVQG16R4_mNtwKk2g>
-    <xme:k0jIaCFGkmglLNYyPtzz5n6_xwDPgX5YjQ0Vi_H8RGgd2Q1ac613L9BqUH0ICKXYq
-    DHeT2GrCcTNhbsOuQc>
-X-ME-Received: <xmr:k0jIaCZ9HsTU5ma_ARssA7d8KRi7xP0mcfUKPbp5WuD6rlChCo8QQM90-5PFa1689nD5iVkV1RkF53PWOhveydRqJw>
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1757956246; x=
+	1758042646; bh=a9NVSUliwPYYQEYpUBXXaDEsjdNbdV03ITBqz/1pNgE=; b=H
+	NPd/zVs8MOk7XSXr8kyPYTKdFlTDAxUp9pkebX6+NFRBbR9h3zgCcq4kGgr6kKx6
+	6RLMdzVMCjnWOnFGzbZd2G0VRWKh1st6Rnd4lACTyHodjFoREH4sHJtUK+S8ggcq
+	7lwbfKQvI6P4z/2X1uz9wMRuuHy5SgXSiJTeSxOQQ53e8ZRIZveMh4BIvO9YgBOB
+	P2yjqI+29yuVhiLnp4FQgPSz2HjdGXGLgPWEKb5mB0feBChT0eXuNkTp1aTA0Yva
+	8iR9INTnvVeYjqNxbvoQuyiNCXzdxjOZANr0kD/OErA40+isgG7gOCTgVDr/6kJK
+	dw4iTJCCt6XhySXvbu6iA==
+X-ME-Sender: <xms:lkjIaKOaSuWnt0DzpJIsS5kKZN3Fpy0veLtEx6etLuZum2x7zzfviQ>
+    <xme:lkjIaAml0AOkUszLQzfMCZ7VHNMaFBUIBOPaGiK--6I-5etYCaL4WKdqau5QYH2RE
+    5MUMQfgyEq2zBH2zE8>
+X-ME-Received: <xmr:lkjIaO5V0ZSt0vJIvUwJOsFeVoiiPNq_k_FOqi0P7cDTtsnfu5IjhXl5vjNX7FQH-0FS52PC8luTqPFTn-iiScUI6A>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefkedvhecutefuodetggdotefrod
     ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
     ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
@@ -72,7 +72,7 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefkedvhecutefuodetgg
     ucfunpguvghrlhhunhguuceonhhikhhlrghsrdhsohguvghrlhhunhguodhrvghnvghsrg
     hssehrrghgnhgrthgvtghhrdhsvgeqnecuggftrfgrthhtvghrnhepheeigfeuveeutdef
     hfehgeekvedtleeuueekveefudehhffhjeffgfegffelfeegnecuvehluhhsthgvrhfuih
-    iivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhu
+    iivgepudenucfrrghrrghmpehmrghilhhfrhhomhepnhhikhhlrghsrdhsohguvghrlhhu
     nhgusehrrghgnhgrthgvtghhrdhsvgdpnhgspghrtghpthhtohepjedpmhhouggvpehsmh
     htphhouhhtpdhrtghpthhtohepmhgthhgvhhgrsgeskhgvrhhnvghlrdhorhhgpdhrtghp
     thhtohepjhgrtghophhordhmohhnughisehiuggvrghsohhnsghorghrugdrtghomhdprh
@@ -82,14 +82,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdefkedvhecutefuodetgg
     khgvrhhnvghlrdhorhhgpdhrtghpthhtoheplhhinhhugidqkhgvrhhnvghlsehvghgvrh
     drkhgvrhhnvghlrdhorhhgpdhrtghpthhtohepnhhikhhlrghsrdhsohguvghrlhhunhgu
     odhrvghnvghsrghssehrrghgnhgrthgvtghhrdhsvg
-X-ME-Proxy: <xmx:k0jIaCUrAMzEL7nlG2FHZeP8LKSlXThnyEKSBAsEOYmsT-ci67PZ9Q>
-    <xmx:k0jIaIm62lMFO8Vpt7UzwXjyVFn2-Cp8vJq0Qhh8KfvbLL1o4febSA>
-    <xmx:k0jIaNAQQyQAo2vvcOAUpt1kbMs6eJik4qmyVkXsWvM3QEUfdguabQ>
-    <xmx:k0jIaHgGIXLObjdon7Xd8HWszBwqVpKMQIfdiSwAlXnqmbOdhINiSQ>
-    <xmx:lEjIaHB-c0SU6ZaNEaPcRRF7bLe3xjWLIk_216pdJEIxBXha2o7V2qTi>
+X-ME-Proxy: <xmx:lkjIaE0oSp8wlrxjDP0g6cg0472h6mTiD7KhxgSRRXpPmE6dXDhDnQ>
+    <xmx:lkjIaJF0rdT68yZ2BGbzaW0Ot-mdnOCs_N-Om6-FPzPFfIXnH_xeLA>
+    <xmx:lkjIaDh2f8BDmGIrzkjBkf6M_eGs85WIVbidxIgKRZn704Sl-Gcowg>
+    <xmx:lkjIaMCj0-b50u8-TeQqH0WJxrKfw9jwBL7JY4bQ8TRHKHdhb5dBhg>
+    <xmx:lkjIaNjmyUqT2t9npweiDxsqJb7UpeaL5wGIczLBkEvMIcJeUGjf_78H>
 Feedback-ID: i80c9496c:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 15 Sep 2025 13:10:43 -0400 (EDT)
+ 15 Sep 2025 13:10:45 -0400 (EDT)
 From: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
@@ -98,9 +98,9 @@ To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-renesas-soc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
 Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>
-Subject: [PATCH v2 08/12] media: rppx1: Add support for Color Correction Matrix
-Date: Mon, 15 Sep 2025 19:07:39 +0200
-Message-ID: <20250915170743.106249-9-niklas.soderlund+renesas@ragnatech.se>
+Subject: [PATCH v2 09/12] media: rppx1: Add support for Lens Shade Correction
+Date: Mon, 15 Sep 2025 19:07:40 +0200
+Message-ID: <20250915170743.106249-10-niklas.soderlund+renesas@ragnatech.se>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20250915170743.106249-1-niklas.soderlund+renesas@ragnatech.se>
 References: <20250915170743.106249-1-niklas.soderlund+renesas@ragnatech.se>
@@ -113,124 +113,184 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-Extend the RPPX1 driver to allow setting the Color Correction Matrix
-(BLS) configuration using the RkISP1 parameter buffer format. It uses
-the RPPX1 framework for parameters and  its writer abstraction to allow
-the user to control how (and when) configuration is applied to the
-RPPX1.
+Extend the RPPX1 driver to allow setting the Lens Shade Correction (LSC)
+configuration using the RkISP1 parameter buffer format. It uses the
+RPPX1 framework for parameters and  its writer abstraction to allow the
+user to control how (and when) configuration is applied to the RPPX1.
 
-As the RkISP1 parameters buffer have lower precision then the RPPX1
-hardware the values needs to be scaled. The behavior matches the RkISP1
-hardware.
+As the RkISP1 parameters buffer only describes one quadrant of the lens,
+this is due to the RkISP1 hardware only allowing one quadrant to be
+programmed to hardware. The hardware then extrapolates this to the other
+three quadrants of the lens. For RPP all four quadrants are individually
+programmable.
+
+To compensate for the driver need to extrapolate all four quadrants from
+the RkISP1 parameters buffer information.
 
 Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 ---
- .../platform/dreamchip/rppx1/rpp_params.c     |  3 +
- .../platform/dreamchip/rppx1/rppx1_ccor.c     | 74 +++++++++++++++++++
- 2 files changed, 77 insertions(+)
+ .../platform/dreamchip/rppx1/rpp_params.c     |   3 +
+ .../platform/dreamchip/rppx1/rppx1_lsc.c      | 126 ++++++++++++++++++
+ 2 files changed, 129 insertions(+)
 
 diff --git a/drivers/media/platform/dreamchip/rppx1/rpp_params.c b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-index afc80a480d42..c2c8349a2837 100644
+index c2c8349a2837..8491ce88ab90 100644
 --- a/drivers/media/platform/dreamchip/rppx1/rpp_params.c
 +++ b/drivers/media/platform/dreamchip/rppx1/rpp_params.c
-@@ -30,6 +30,9 @@ int rppx1_params_rkisp1(struct rppx1 *rpp, struct rkisp1_ext_params_cfg *cfg,
- 		case RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_GAIN:
- 			module = &rpp->pre1.awbg;
+@@ -33,6 +33,9 @@ int rppx1_params_rkisp1(struct rppx1 *rpp, struct rkisp1_ext_params_cfg *cfg,
+ 		case RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK:
+ 			module = &rpp->post.ccor;
  			break;
-+		case RKISP1_EXT_PARAMS_BLOCK_TYPE_CTK:
-+			module = &rpp->post.ccor;
++		case RKISP1_EXT_PARAMS_BLOCK_TYPE_LSC:
++			module = &rpp->pre1.lsc;
 +			break;
  		case RKISP1_EXT_PARAMS_BLOCK_TYPE_AWB_MEAS:
  			module = &rpp->post.wbmeas;
  			break;
-diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c b/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
-index 4754b0bbce0a..0ccaed8ce55d 100644
---- a/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
-+++ b/drivers/media/platform/dreamchip/rppx1/rppx1_ccor.c
-@@ -68,9 +68,83 @@ static int rppx1_ccor_start(struct rpp_module *mod,
+diff --git a/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c b/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
+index e8acdf744956..00bdcc4aedb3 100644
+--- a/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
++++ b/drivers/media/platform/dreamchip/rppx1/rppx1_lsc.c
+@@ -54,6 +54,10 @@
+ #define LSC_TABLE_SEL_REG	0x00a8
+ #define LSC_STATUS_REG		0x00ac
+ 
++#define LSC_R_TABLE_DATA_VALUE(v1, v2) (((v1) & 0xfff) | (((v2) & 0xfff) << 12))
++#define LSC_GRAD_VALUE(v1, v2) (((v1) & 0xfff) | (((v2) & 0xfff) << 16))
++#define LSC_SIZE_VALUE(v1, v2) (((v1) & 0x1ff) | (((v2) & 0x1ff) << 16))
++
+ static int rppx1_lsc_probe(struct rpp_module *mod)
+ {
+ 	/* Version check. */
+@@ -63,6 +67,128 @@ static int rppx1_lsc_probe(struct rpp_module *mod)
  	return 0;
  }
  
 +static int
-+rppx1_ccor_param_rkisp1(struct rpp_module *mod,
-+			const union rppx1_params_rkisp1_config *block,
-+			rppx1_reg_write write, void *priv)
++rppx1_lsc_param_rkisp1(struct rpp_module *mod,
++		       const union rppx1_params_rkisp1_config *block,
++		       rppx1_reg_write write, void *priv)
 +{
-+	const struct rkisp1_ext_params_ctk_config *cfg = &block->ctk;
++	const struct rkisp1_ext_params_lsc_config *cfg = &block->lsc;
++	const __u16 *v;
 +
-+	/* If the modules is disabled, configure in bypass mode. */
-+	if (cfg->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE) {
-+		write(priv, mod->base + CCOR_COEFF_REG(0), 0x1000);
-+		write(priv, mod->base + CCOR_COEFF_REG(1), 0x0000);
-+		write(priv, mod->base + CCOR_COEFF_REG(2), 0x0000);
-+
-+		write(priv, mod->base + CCOR_COEFF_REG(3), 0x0000);
-+		write(priv, mod->base + CCOR_COEFF_REG(4), 0x1000);
-+		write(priv, mod->base + CCOR_COEFF_REG(5), 0x0000);
-+
-+		write(priv, mod->base + CCOR_COEFF_REG(6), 0x0000);
-+		write(priv, mod->base + CCOR_COEFF_REG(7), 0x0000);
-+		write(priv, mod->base + CCOR_COEFF_REG(8), 0x1000);
-+
-+		write(priv, mod->base + CCOR_OFFSET_R_REG, 0x00000000);
-+		write(priv, mod->base + CCOR_OFFSET_G_REG, 0x00000000);
-+		write(priv, mod->base + CCOR_OFFSET_B_REG, 0x00000000);
-+
++	/* Always disable module as it needs be disabled before configuring. */
++	write(priv, mod->base + LSC_CTRL_REG, 0);
++	if (cfg->header.flags & RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE)
 +		return 0;
++
++	/*
++	 * Program the color correction sectors.
++	 *
++	 * There are two tables to one can program and switch between. As the
++	 * RPPX1 supports preparing a buffer of commands to be applied later
++	 * only use table 0. This works as long as the ISP is not used in
++	 * inline-mode.
++	 *
++	 * For inline-mode support using DMA for configuration is not possible
++	 * so this is not an issue, but needs to be address if inline-mode
++	 * support is added to the driver.
++	 */
++
++	/* Start writing at beginning of table 0. */
++	write(priv, mod->base + LSC_R_TABLE_ADDR_REG, 0);
++	write(priv, mod->base + LSC_GR_TABLE_ADDR_REG, 0);
++	write(priv, mod->base + LSC_B_TABLE_ADDR_REG, 0);
++	write(priv, mod->base + LSC_GB_TABLE_ADDR_REG, 0);
++
++	/* Program data tables. */
++	for (unsigned int i = 0; i < RKISP1_CIF_ISP_LSC_SAMPLES_MAX; i++) {
++		const __u16 *r = cfg->config.r_data_tbl[i];
++		const __u16 *gr = cfg->config.gr_data_tbl[i];
++		const __u16 *b = cfg->config.b_data_tbl[i];
++		const __u16 *gb = cfg->config.gb_data_tbl[i];
++		unsigned int j;
++
++		for (j = 0; j < RKISP1_CIF_ISP_LSC_SAMPLES_MAX - 1; j += 2) {
++			write(priv, mod->base + LSC_R_TABLE_DATA_REG,
++			      LSC_R_TABLE_DATA_VALUE(r[j], r[j + 1]));
++			write(priv, mod->base + LSC_GR_TABLE_DATA_REG,
++			      LSC_R_TABLE_DATA_VALUE(gr[j], gr[j + 1]));
++			write(priv, mod->base + LSC_B_TABLE_DATA_REG,
++			      LSC_R_TABLE_DATA_VALUE(b[j], b[j + 1]));
++			write(priv, mod->base + LSC_GB_TABLE_DATA_REG,
++			      LSC_R_TABLE_DATA_VALUE(gb[j], gb[j + 1]));
++		}
++
++		write(priv, mod->base + LSC_R_TABLE_DATA_REG,
++		      LSC_R_TABLE_DATA_VALUE(r[j], 0));
++		write(priv, mod->base + LSC_GR_TABLE_DATA_REG,
++		      LSC_R_TABLE_DATA_VALUE(gr[j], 0));
++		write(priv, mod->base + LSC_B_TABLE_DATA_REG,
++		      LSC_R_TABLE_DATA_VALUE(b[j], 0));
++		write(priv, mod->base + LSC_GB_TABLE_DATA_REG,
++		      LSC_R_TABLE_DATA_VALUE(gb[j], 0));
 +	}
 +
-+	/*
-+	 * Coefficient n for color correction matrix.
-+	 *
-+	 * RkISP1 coefficients are 11-bit signed fixed-point numbers with 4 bit
-+	 * integer and 7 bit fractional part, ranging from -8 (0x400) to +7.992
-+	 * (0x3FF). 0 is represented by 0x000 and a coefficient value of 1 as
-+	 * 0x080.
-+	 *
-+	 * RPP gains are 16-bit signed fixed-point numbers with 4 bit integer
-+	 * and 12 bit fractional part ranging from -8 (0x8000) to +7.9996
-+	 * (0x7FFF). 0 is represented by 0x0000 and a coefficient value of 1 as
-+	 * 0x1000.
-+	 *
-+	 * Map the RkISP1 value range by left shifting by 5.
-+	 */
-+	write(priv, mod->base + CCOR_COEFF_REG(0), cfg->config.coeff[0][0] << 5);
-+	write(priv, mod->base + CCOR_COEFF_REG(1), cfg->config.coeff[0][1] << 5);
-+	write(priv, mod->base + CCOR_COEFF_REG(2), cfg->config.coeff[0][2] << 5);
-+
-+	write(priv, mod->base + CCOR_COEFF_REG(3), cfg->config.coeff[1][0] << 5);
-+	write(priv, mod->base + CCOR_COEFF_REG(4), cfg->config.coeff[1][1] << 5);
-+	write(priv, mod->base + CCOR_COEFF_REG(5), cfg->config.coeff[1][2] << 5);
-+
-+	write(priv, mod->base + CCOR_COEFF_REG(6), cfg->config.coeff[2][0] << 5);
-+	write(priv, mod->base + CCOR_COEFF_REG(7), cfg->config.coeff[2][1] << 5);
-+	write(priv, mod->base + CCOR_COEFF_REG(8), cfg->config.coeff[2][2] << 5);
++	/* Activate table 0. */
++	write(priv, mod->base + LSC_TABLE_SEL_REG, 0);
 +
 +	/*
-+	 * Offset for color components correction matrix.
++	 * Program X- and Y- sizes, and gradients.
 +	 *
-+	 * Values are a two's complement integer with one sign bit.
++	 * The RPP ISP can describe each quarter of the lens individually, this
++	 * differs from the Rk1ISP which can only describe one quarter of lens
++	 * with software and then extrapolates the other three.
 +	 *
-+	 * The RkISP params are 11-bit while the RPP can be 12, 20 or 24 bit,
-+	 * all values are excluding the sign bit. Figure out how much we need
-+	 * to adjust the input parameters.
++	 * To adjust for this extrapolate the three missing quadrants using
++	 * software for the RPP ISP.
 +	 */
-+	const unsigned int shift = mod->info.wbmeas.colorbits - 12 + 1;
 +
-+	write(priv, mod->base + CCOR_OFFSET_R_REG, cfg->config.ct_offset[0] << shift);
-+	write(priv, mod->base + CCOR_OFFSET_G_REG, cfg->config.ct_offset[1] << shift);
-+	write(priv, mod->base + CCOR_OFFSET_B_REG, cfg->config.ct_offset[2] << shift);
++	v = cfg->config.x_grad_tbl;
++	write(priv, mod->base + LSC_XGRAD_01_REG, LSC_GRAD_VALUE(v[0], v[1]));
++	write(priv, mod->base + LSC_XGRAD_23_REG, LSC_GRAD_VALUE(v[2], v[3]));
++	write(priv, mod->base + LSC_XGRAD_45_REG, LSC_GRAD_VALUE(v[4], v[5]));
++	write(priv, mod->base + LSC_XGRAD_67_REG, LSC_GRAD_VALUE(v[6], v[7]));
++	write(priv, mod->base + LSC_XGRAD_89_REG, LSC_GRAD_VALUE(v[7], v[6]));
++	write(priv, mod->base + LSC_XGRAD_1011_REG, LSC_GRAD_VALUE(v[5], v[4]));
++	write(priv, mod->base + LSC_XGRAD_1213_REG, LSC_GRAD_VALUE(v[3], v[2]));
++	write(priv, mod->base + LSC_XGRAD_1415_REG, LSC_GRAD_VALUE(v[1], v[0]));
++
++	v = cfg->config.y_grad_tbl;
++	write(priv, mod->base + LSC_YGRAD_01_REG, LSC_GRAD_VALUE(v[0], v[1]));
++	write(priv, mod->base + LSC_YGRAD_23_REG, LSC_GRAD_VALUE(v[2], v[3]));
++	write(priv, mod->base + LSC_YGRAD_45_REG, LSC_GRAD_VALUE(v[4], v[5]));
++	write(priv, mod->base + LSC_YGRAD_67_REG, LSC_GRAD_VALUE(v[6], v[7]));
++	write(priv, mod->base + LSC_YGRAD_89_REG, LSC_GRAD_VALUE(v[7], v[6]));
++	write(priv, mod->base + LSC_YGRAD_1011_REG, LSC_GRAD_VALUE(v[5], v[4]));
++	write(priv, mod->base + LSC_YGRAD_1213_REG, LSC_GRAD_VALUE(v[3], v[2]));
++	write(priv, mod->base + LSC_YGRAD_1415_REG, LSC_GRAD_VALUE(v[1], v[0]));
++
++	v = cfg->config.x_size_tbl;
++	write(priv, mod->base + LSC_XSIZE_01_REG, LSC_GRAD_VALUE(v[0], v[1]));
++	write(priv, mod->base + LSC_XSIZE_23_REG, LSC_GRAD_VALUE(v[2], v[3]));
++	write(priv, mod->base + LSC_XSIZE_45_REG, LSC_GRAD_VALUE(v[4], v[5]));
++	write(priv, mod->base + LSC_XSIZE_67_REG, LSC_GRAD_VALUE(v[6], v[7]));
++	write(priv, mod->base + LSC_XSIZE_89_REG, LSC_GRAD_VALUE(v[7], v[6]));
++	write(priv, mod->base + LSC_XSIZE_1011_REG, LSC_GRAD_VALUE(v[5], v[4]));
++	write(priv, mod->base + LSC_XSIZE_1213_REG, LSC_GRAD_VALUE(v[3], v[2]));
++	write(priv, mod->base + LSC_XSIZE_1415_REG, LSC_GRAD_VALUE(v[1], v[0]));
++
++	v = cfg->config.y_size_tbl;
++	write(priv, mod->base + LSC_YSIZE_01_REG, LSC_GRAD_VALUE(v[0], v[1]));
++	write(priv, mod->base + LSC_YSIZE_23_REG, LSC_GRAD_VALUE(v[2], v[3]));
++	write(priv, mod->base + LSC_YSIZE_45_REG, LSC_GRAD_VALUE(v[4], v[5]));
++	write(priv, mod->base + LSC_YSIZE_67_REG, LSC_GRAD_VALUE(v[6], v[7]));
++	write(priv, mod->base + LSC_YSIZE_89_REG, LSC_GRAD_VALUE(v[7], v[6]));
++	write(priv, mod->base + LSC_YSIZE_1011_REG, LSC_GRAD_VALUE(v[5], v[4]));
++	write(priv, mod->base + LSC_YSIZE_1213_REG, LSC_GRAD_VALUE(v[3], v[2]));
++	write(priv, mod->base + LSC_YSIZE_1415_REG, LSC_GRAD_VALUE(v[1], v[0]));
++
++	/* Enable module. */
++	write(priv, mod->base + LSC_CTRL_REG, LSC_CTRL_LSC_EN);
 +
 +	return 0;
 +}
 +
- const struct rpp_module_ops rppx1_ccor_ops = {
- 	.probe = rppx1_ccor_probe,
- 	.start = rppx1_ccor_start,
-+	.param_rkisp1 = rppx1_ccor_param_rkisp1,
+ const struct rpp_module_ops rppx1_lsc_ops = {
+ 	.probe = rppx1_lsc_probe,
++	.param_rkisp1 = rppx1_lsc_param_rkisp1,
  };
- 
- static int rppx1_ccor_csm_start(struct rpp_module *mod,
 -- 
 2.51.0
 
