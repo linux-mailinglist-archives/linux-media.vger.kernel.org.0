@@ -1,363 +1,274 @@
-Return-Path: <linux-media+bounces-42529-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42528-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB21B57401
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 11:05:16 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42088B573FF
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 11:04:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 51917164857
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 09:05:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1C3221714CB
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 09:04:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4ED22F28F9;
-	Mon, 15 Sep 2025 09:00:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17B8D2F1FFE;
+	Mon, 15 Sep 2025 08:59:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="uEQ6TamH"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bkienoBv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from NAM04-MW2-obe.outbound.protection.outlook.com (mail-mw2nam04on2057.outbound.protection.outlook.com [40.107.101.57])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 234B02F290C;
-	Mon, 15 Sep 2025 09:00:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.101.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757926803; cv=fail; b=iDGRP6dtA1gBLBpy0bFp1L778P0RBLBYYCV2es6UWf8anfR9nlAr28siI2bZKg/88x2UHxs4x3gJ8ZezKrE8HDTbrhjgg6NbknU2f6erw/72Bx58MkPgANdlFFibLQ7OAl2ll1SGe8IxSEhIwXyy4FKOeef4Aw5p2X0osEUq5xA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757926803; c=relaxed/simple;
-	bh=V7BVppxZ6LaQ6ky8SXdKca9KoVlDqopPnXtBvEEC9W8=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=fpoJCHVVjwAFD8HmIahQHZ1Xt0wekXW6rtoDH0rMJlH9uGCw7Wf8CGfdxJik/Gw/sI2JdmChRrmwVffHd8IjWqau4ttfgn+06JF9gG6UYpr7GpW2REuB4ZbsFrJfwiPJscdyldvWiU/1R7XMtubId9RuZvKG5ImOOEHOcC15EpI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=uEQ6TamH; arc=fail smtp.client-ip=40.107.101.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ShdNR1SXOCo/4JMbFF/NLRV+Ghf9WqFl624VHFeskwepl4j6j7OAURuv67EPlCk59my6jXrmvomJu/uYH0+gKO/2/4XwgLy1CQEHKlesQTBm/SbhBP9o6Sp+C1MUrtFtcy0GKDFEdN19brCcC47d98tTFN4D+tGbWBL6dxH/3ZXtb71APL7V8IjiDBVyYUq/pitKuMUA7DfFqDEUzRCqsdCvZGZ7CYEqvFdAzgPiPVKnDVg3r53FuQ3Jd3DfLWLm/vj+r4C1greVO+M+TxWyUuvfCwzaC4PRDCnD7TDiXwB07aIuxINAEUjAzYzuQDJID14+hHvg2vtts1ydtfb1Uw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=souMwHADAtKetOnAbK5zZwXeNNUDSIaHDZ1iwOhAcb8=;
- b=qgAw+/LbRbaQIEuGDcdtGWYCWrtec7WefuPoJjMznpI2yUGCCEk66uylSz2CSb8e2WDldqrltj1O0AqggIRReR3dC1lHd+TdRa6UP32vKpzRDgtp9bwdvBsXoPYmqa0LGmtoMC2ktCewipvZs+fQ8Dsr1dZGDS4VUpaWhdaMwpqkp7ZWt/XaK2JQSCvq88IH2QSHGMHrZfovyzJyUGU0+3dvCetxjc7gYQp41OAsYzOq2LjwByRWSuXc9GfH3Rmuwsdiip00jsE8x3wTGySaiWPt9mU6VRwZkaOWcceloDqeC34vVntTxpv4CBYGMjrdgS+BqOszjuE2nVOLShgE2Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=souMwHADAtKetOnAbK5zZwXeNNUDSIaHDZ1iwOhAcb8=;
- b=uEQ6TamHkea5xNgHEnsE0VF9uwGs+T7yABUU4Foam1rO2/ahWEgTUvd/MQE56pv2Z1hXPTUdWEo/2WRWHoA5tJpczrrpQPUa+uIB+HBUTsjr28fmlN33M7kH1V82pOOoRpHe1dSOE4+qvNmKPWWq56MX22xHP5m6cdRrs1AelfM=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by DM4PR12MB7719.namprd12.prod.outlook.com (2603:10b6:8:101::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.21; Mon, 15 Sep
- 2025 08:59:59 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9115.018; Mon, 15 Sep 2025
- 08:59:58 +0000
-Message-ID: <e47bb7e1-5ec7-4142-89a6-2f7813fa40c1@amd.com>
-Date: Mon, 15 Sep 2025 10:59:48 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 3/3] rust: Add dma_buf stub bindings
-To: Lyude Paul <lyude@redhat.com>, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, rust-for-linux@vger.kernel.org
-Cc: Daniel Almeida <daniel.almeida@collabora.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
- Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
- =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
- Benno Lossin <lossin@kernel.org>, Andreas Hindborg <a.hindborg@kernel.org>,
- Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
- Danilo Krummrich <dakr@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Viresh Kumar <viresh.kumar@linaro.org>,
- Wedson Almeida Filho <wedsonaf@gmail.com>,
- Tamir Duberstein <tamird@gmail.com>,
- Xiangfei Ding <dingxiangfei2009@gmail.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
- <linux-media@vger.kernel.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b"
- <linaro-mm-sig@lists.linaro.org>
-References: <20250911230147.650077-1-lyude@redhat.com>
- <20250911230147.650077-4-lyude@redhat.com>
- <14af50d2-f759-4d89-ab9e-0afc7f9cb280@amd.com>
- <c00130930901db1ca4ea2d0302350ef024b23f50.camel@redhat.com>
- <e1929999f89cd8d90c4454075df4ebe3bdfab36a.camel@redhat.com>
- <534238a347c24f99cfebfd2af1d79bf24e25ed27.camel@redhat.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <534238a347c24f99cfebfd2af1d79bf24e25ed27.camel@redhat.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: FR4P281CA0417.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:d0::8) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7A1A2D8387;
+	Mon, 15 Sep 2025 08:59:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1757926797; cv=none; b=szPuHaRfkPybbF/0Ue3VjgVS8yQl37HasAgwo6MTD2iPDSMV0GUYF0+LJ6rNZzjB0cMxm/RVwyDcrBdBMWAX7vUNl0tm8RTZiBoLNuxKvkT48BAVxGzd1MjHrdv21NAkHfW4bLYXeJr/BFHBJl1pXFcpIN2W+ddT8/2M7SahjNE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1757926797; c=relaxed/simple;
+	bh=1bv81qgssRPmX7JSSJSzYcQkRHnSBXBj0QjCUvFlfoM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UKIIhtRi0GxLtCiHunAGYY51/x2ZmquEkSlsThCsHh9OihWR1r3hctXnQTTKO8SKByxbT+ymXOFDo2OORUgq3D+18Wi9qyAbQ/cBVD0rSBiiy1f48FYPl+KnW+He9DP1hwFtcXN+Su6fKWfpxxlLpkHJHZlatiXdxu15280ikmA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bkienoBv; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (mob-5-90-56-182.net.vodafone.it [5.90.56.182])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7B1C7346;
+	Mon, 15 Sep 2025 10:58:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1757926715;
+	bh=1bv81qgssRPmX7JSSJSzYcQkRHnSBXBj0QjCUvFlfoM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bkienoBvij7Or3RoRcArKeF7h12b/srQR/TQmVP7M6WgptcGySgxVuj8y42p1Sjm6
+	 P41l2TjyiVuVQEHVIgkntdeC0E3lHs4qkhd06mkF6O4MaUUzsGWFwQkZtTyrcDRe5p
+	 3r6a7YfsH7c7dshF3mUn1vRyV0Jdzuk2oO42dGFk=
+Date: Mon, 15 Sep 2025 10:59:49 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Dafna Hirschfeld <dafna@fastmail.com>, Keke Li <keke.li@amlogic.com>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+	Dan Scally <dan.scally@ideasonboard.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v4 2/8] media: uapi: Convert RkISP1 to V4L2 extensible
+ params
+Message-ID: <ffudipv64bfs2od7b6x7sfquqwqzr3n6a6zmbr4bu6ehd3rz25@3k7ycmqape2e>
+References: <20250820-extensible-parameters-validation-v4-0-30fe5a99cb1f@ideasonboard.com>
+ <20250820-extensible-parameters-validation-v4-2-30fe5a99cb1f@ideasonboard.com>
+ <20250908073949.GE4105@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|DM4PR12MB7719:EE_
-X-MS-Office365-Filtering-Correlation-Id: ed953019-77fa-48d3-351c-08ddf4363f7c
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?K09kbmZDSUt2TzI5WEpqTTFlbW1pQXFMWnpXZjJKWjRIZ0JPMWVXYjUraVZO?=
- =?utf-8?B?ZWZ0MFlvNi85Y010SVpTTEZvZ1hmeFVuaGdWcUdSaUlQQ1NGK2VxQWw4ZFdV?=
- =?utf-8?B?anBIOWxZVEhCMXFsdGJQR2JVdDFNQnJLaUpwTEhqN05WSUNLVE5WdkdqQTlM?=
- =?utf-8?B?a0hZVGlZMnJqR0I0eVZpVXgvMEVGNC9QRzV3QStGd1NKZGZwQ3FBc1gzdVZ2?=
- =?utf-8?B?bWJZYkRVM1c4RVNGL0xIRFNDeW93RnhGV042c1hTaWMzMll4OVh5bTZOblVW?=
- =?utf-8?B?QUVseFlzMzdsUUE4eEprRmNORnRMbHAwa3laVVU0ZGl0cWdTTHJKMC9ESHlp?=
- =?utf-8?B?T2lhU242b2hSYzh5Sm5SMUxwbDVjcWs4WC9OdVlPVm8zekwzYnk0aUUrUXVB?=
- =?utf-8?B?TXU0M3VaUEl3N3pZTEcxR2dSSUJqVmhPT2FxK3cvdGtPR2I5QTRZcEVPdWFu?=
- =?utf-8?B?S1RMNG5TWXFVU2hWTmY5bjdIRmRycDM2L3NaNENkZ0p5U3phVnNRNU1OZmVw?=
- =?utf-8?B?SFJBdnRFYkJJcExRSkRVV1k0VDV2cGl1T3VYNVdCNTJ3dUV0WkVYR0ZPQ1Bj?=
- =?utf-8?B?WjJMaHdZbWxtMi9VRThoSGVkMEZLR3V4SXozblpYV094UHM1MGlua3NyeGlT?=
- =?utf-8?B?QU90Wk41K1ZSTHhtOGJFYWtOV2J1eWYyMjRWd2pVUldYakdYdlo3a1lGVjZX?=
- =?utf-8?B?eVlCdlRxTzdIZzdqQVE4NjVYUXU1NWZaUytBUHdRTHJydUdiOGtYTlArS2ZN?=
- =?utf-8?B?d3ZYQ0RkWlpOUzB5UXBncVR2WndybmJqY1hTQ0RqV2xVRFlQbGx1YzRoNGVD?=
- =?utf-8?B?dEtsL0EzVE43S2ZUR1UvY0JUSUxwMTB0dVJrdzFvY2FRZ3Y2SmRFOG9JY3Ft?=
- =?utf-8?B?MStIcjR6d2U3UmpQMSs4SjlMSmVWNlhYc2JRT091MVVsY3l3Tk9HWjJXSW9O?=
- =?utf-8?B?M21nZWR1N1Y0anJBUXRFNXh6eXFCUmtGYTc0VDFHQ2RSdDNRdHF0bGM5YjhU?=
- =?utf-8?B?djFFdndBREZaL2tFZVErZ2UvTTVGaEJJSDJxL0hMRUhKRWUxd1hVelhIY1dZ?=
- =?utf-8?B?SVR1SHVPaEZYUngwR0hUZzRmWWJyWGZnM05GaklENUVVWno1Qk5PanE0d0JV?=
- =?utf-8?B?V3hueFFDcjYwcitJcFpmUXZMcGd6TkxXeGtBOWkrbnhPUU9wMXN4a01DMlJ6?=
- =?utf-8?B?dUNOR1hpYjU1ZzJaY2EyZE83Vjh3YUZaS2FPdFFKYU5JSGJFbWdYMnZqWTlh?=
- =?utf-8?B?c3pVSnlVUkJxNWxrRVB2L0JCekdvTVBiM1QyUEhLaUEzYVZIODRtcEgrd3NQ?=
- =?utf-8?B?YWR6S2poT3JIMnNPa1NaV2MrYTk0bWxQZExPSlZPU3lrQVZoc2diQzJSMkdm?=
- =?utf-8?B?cVM0Z0lpa2MzUXlBZThyN3d5SVp0c2FhYTlVYlpJeE9MNlZoMmN6U3IxdmtN?=
- =?utf-8?B?WG51WDg3LzkvRjJlV0ZLWEpMYmEvYnRtNVQ0T1ZKVVh3Z0RwbFovTmJ0eVd2?=
- =?utf-8?B?dmk4Y1UwOTM4bi9Zdkw4NGRNa1ExbVFBSFpqYmxkQ2YzYk1nei9nV3BmWTI1?=
- =?utf-8?B?MERoRnV2UE1pZ1kxbkxGNTd1Q3JqZDVtdjlOKzJqbC84akowM2pBcG1NWXNi?=
- =?utf-8?B?STg1SlFiWTNJblVzQzduUi8zODd3VUNHWU1vZmcxbG01MnJsNTlGNHlPRkd1?=
- =?utf-8?B?Yk1aY1RiQ3JNQUVDNUtVeDl0Z1k0aVV4Z081MStEVVl4RG0rUW1ZSjBzWTJ0?=
- =?utf-8?B?V29SVllVZk10T0MzWGIvOW9sWDQxbTMzOGQ5NjdOR1hWYTB2K3g1a1pyLytI?=
- =?utf-8?B?NzNVemQxeEphQk1QUGNReFQ1YWhLdlo2WCtkVTlnWEE0TGdKSFRjU1E0V1ZB?=
- =?utf-8?B?M0kyWDdpVENMWSt0VlB4NGIrL25BRkRPa3hQR3l0ZDlVRlc0RExzMDFLOXFE?=
- =?utf-8?Q?+uPuHKQ/dAM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bENVbjdObzFYRFMwbWUxcThMYVhKZnlLNnNFTHlsdGdqQThPSjdNMUZ6VExn?=
- =?utf-8?B?dStrVjE4REJwUEwvMjV0bmRnajUwQU5XMTIvekZmeUZLbVd1RmpoZXNaMFNZ?=
- =?utf-8?B?WUo0QS9BWSt3WUw5ekt2L3lQNVVFR0M5SkhOeklXbUZ4L3huNW9CN1dZazFU?=
- =?utf-8?B?OTk2M0lDcS9oek9KbW91emVqUHNYU0tHakI4QThYNDJ4WmVmbXNaSWlyK2JS?=
- =?utf-8?B?bW5jUXhIVkNneDh4aXNNUzJhNFIvdkVicEd5OUROejUyY1N4d09kNi9PWUJI?=
- =?utf-8?B?b2VuTml6L2dyUHcrMWsyUk5DbnBneHFWMUZramVUdzRjb09hVUhhL3RrdVJH?=
- =?utf-8?B?K3NGVnZYcTZPRG5hVjJ6LzF5bVpBaEVyOXk0cnF3OWE3Y0huNmpKdExPd2pt?=
- =?utf-8?B?bjZIOXNLanJEZ01OMlFOTjdUaFQzT1YvMXpjRkRKSzQwdWJ1WVVaajExQnpQ?=
- =?utf-8?B?ZkNOYXlvZUE4b3k0eVViY3JqamFzN1RnL2pJaVZIQzlRR2RtZVFjdzQyb1p4?=
- =?utf-8?B?blJlUlJxL2tpSTRrUm1KUkx1OUdNYk1GMzQ4NTcxSk1sVGcyemUwRitKbElF?=
- =?utf-8?B?Z1JDejZTbWZ1dkQvNE5NNzJHdXBQaWd1dnVadU9oTExkZlJ2ZWpZS0VFcXQ3?=
- =?utf-8?B?cUo0dndmQ29DSDN2SDJ3L2N5NDc4RlVxaEZKUkZFdkJ3dXRmdXFZRHdSNk5I?=
- =?utf-8?B?eVM3QlAyS25lMGZKaXhMK3loTEh6Rm5KUS9CVEFtUGI2eUx3MXNaZmRUZUZB?=
- =?utf-8?B?dkNIcnFoeXVEYWtCcDdCTStOb1pRR1Azc09yRnNpZm15MTRyczFscWJURWp3?=
- =?utf-8?B?MStUMEhGSW96QmpRb1g4SkRYcmxMUThjM2k2Y1dJWTdpUFRSc1R6TTZFTHlB?=
- =?utf-8?B?ODA0dncvL1liU3loVkdLWGZ2dWt5dkdiYTl6STNOUjdJRkZGSnl5b3l3YnR5?=
- =?utf-8?B?SWRDRk1OczhXZ0xPVHVGZ0hGV3VDWVkyRkMyUUYzc2V2b2hRSno4NDFaSTcz?=
- =?utf-8?B?K1Y2dTVWbzFWV21yT1Y0YlBUUHhDMGhsSWYxUkpkZHNRclp5ZUhsYlM3V0tI?=
- =?utf-8?B?Qmozd3JPVjQxZ2g4N3ArU2tZVnFUN0YydXJabmk4YlBUazNRYWFiWWlIR2dq?=
- =?utf-8?B?dFUxTmIwRW8rWFY5UFlaYUtjSHFZQ0N1MDhPWTcwVWZhaXdxUitWK3V0RzZ5?=
- =?utf-8?B?dDk4ZkpvMzFQRHNxZWZzK2t2aXN5bHEvRUFRQjdySHVlMU1lM0NhbjM5aEhs?=
- =?utf-8?B?d0x6Q1lic2NWcUdTZ1VEWkZUWXF6MGs3d090MG4vVEJpNjNuWXhKV3Z5TGhE?=
- =?utf-8?B?Y1dFWXV3ZXlyMmlJb2xSV0N2Q0lTdDkyN2huV1Y4U1VuWGxLSU1Gck9OOE1s?=
- =?utf-8?B?MDMzTWRhdkJwYUFwNUJBWk9aalRXY2VmbTlGZzhzYlllWFVOY3JFRVp2R2x0?=
- =?utf-8?B?ZGxXcVliUlpJR3lEZjNNWithd0Z6VnFIejVSSWJ0bTFDbDVDRFNwdlgzcWVU?=
- =?utf-8?B?dmgzUjYySjF6ejJzaWtITlRrQUJMWE82ZkFzK21aY1RBczhZaGhjNmpEdDBM?=
- =?utf-8?B?RWtMT2MzTVNRYThOVWlHUzYvT015bVEzanNsZnBpc2hMdXdyRGdaY2paaEh2?=
- =?utf-8?B?ODR2TXp1ZlJvRXVHM0xlWmU5SGlxNTFEclpUSU92MGovbEI2MXRQNGpQSVJS?=
- =?utf-8?B?aEdjdGZqbzBld2hoYTc3M2d5bXlWbkYyeFBpUmZLV25OdGFjWHR5VnI1RGJH?=
- =?utf-8?B?ZzJXOHRwbXBKejNTWERES21EUGljRGVOdnNJZjhQL1Q1RlB3UStaVTg4cTFF?=
- =?utf-8?B?OCs0OGMvc2xPZGJ5b3Jpa3NwS2E3dVNLRW16TXBCNmE3UUt0cEN0RVBqWTVo?=
- =?utf-8?B?SUh4SXVOb1kyUWdTSVZCc2FxekZKRTlhUmllc1MwWk82S2RTam9mWm5oMWsz?=
- =?utf-8?B?SzJPYkdONS9WVW9UR21HNXg2ZitqT0JJNHdXUllwdTY5UkhKSnBQeUtzSEtZ?=
- =?utf-8?B?UHpnbDR0dzBTVEJrNkVyQ1VRaXJtSUhvdm5xUGdXT0lkMmswWCthWmF3WXpt?=
- =?utf-8?B?dVdIU0FlZ0JGL2RiWnJieW85RVdPcXg3TU9UbXdrNXlGdmFVZ2QyZkVTaktO?=
- =?utf-8?Q?ajy7xKsZ/KaY3L3Cy4DmP6d4E?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ed953019-77fa-48d3-351c-08ddf4363f7c
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2025 08:59:58.8194
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: +yorWZee4WtU5OBmmSCsvPRVBtjfTYc9mucnXBGYSaogBbIOnfsHSEBe/7rCzJV6
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB7719
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250908073949.GE4105@pendragon.ideasonboard.com>
 
-Hi Lyude,
+Hi Laurent
 
-On 13.09.25 00:43, Lyude Paul wrote:
-> Agh! Sorry for the spam, I should have double checked the code before writing
-> this as I realized the reason I didn't implement this. Correct me if I'm wrong
-> here since it's the first time I've interacted very much with this API in the
-> kernel but: it seems like the reference counting for dma_buf objects is
-> intended to be used for keeping a dma_buf's fd around while userspace is still
-> accessing it and not for use internally by drivers themselves, correct?
+On Mon, Sep 08, 2025 at 09:39:49AM +0200, Laurent Pinchart wrote:
+> On Wed, Aug 20, 2025 at 02:58:10PM +0200, Jacopo Mondi wrote:
+> > With the introduction of common types for extensible parameters
+> > format, convert the rkisp1-config.h header to use the new types.
+> >
+> > Factor-out the documentation that is now part of the common header
+> > and only keep the driver-specific on in place.
+> >
+> > The conversion to use common types doesn't impact userspace as the
+> > new types are either identical to the ones already existing in the
+> > RkISP1 uAPI or are 1-to-1 type convertible.
+> >
+> > Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> >  include/uapi/linux/rkisp1-config.h | 67 +++++++++++++-------------------------
+> >  1 file changed, 23 insertions(+), 44 deletions(-)
+> >
+> > diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> > index 3b060ea6eed71b87d79abc8401eae4e9c9f5323a..fc040c7fb13cf18eaf8d9067e7be38bff120e6f6 100644
+> > --- a/include/uapi/linux/rkisp1-config.h
+> > +++ b/include/uapi/linux/rkisp1-config.h
+> > @@ -7,8 +7,13 @@
+> >  #ifndef _UAPI_RKISP1_CONFIG_H
+> >  #define _UAPI_RKISP1_CONFIG_H
+> >
+> > +#ifdef __KERNEL__
+> > +#include <linux/build_bug.h>
+> > +#endif /* __KERNEL__ */
+> >  #include <linux/types.h>
+> >
+> > +#include <linux/media/v4l2-extensible-params.h>
+> > +
+> >  /* Defect Pixel Cluster Detection */
+> >  #define RKISP1_CIF_ISP_MODULE_DPCC		(1U << 0)
+> >  /* Black Level Subtraction */
+> > @@ -1158,26 +1163,21 @@ enum rkisp1_ext_params_block_type {
+> >  	RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR,
+> >  };
+> >
+>
+> /* For backward compatibility */
+>
+> > -#define RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE	(1U << 0)
+> > -#define RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE	(1U << 1)
+> > +#define RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE	V4L2_PARAMS_FL_BLOCK_DISABLE
+> > +#define RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE	V4L2_PARAMS_FL_BLOCK_ENABLE
+> >
+> >  /* A bitmask of parameters blocks supported on the current hardware. */
+> >  #define RKISP1_CID_SUPPORTED_PARAMS_BLOCKS	(V4L2_CID_USER_RKISP1_BASE + 0x01)
+> >
+> >  /**
+> > - * struct rkisp1_ext_params_block_header - RkISP1 extensible parameters block
+> > - *					   header
+> > + * rkisp1_ext_params_block_header - RkISP1 extensible parameters block header
+> >   *
+> >   * This structure represents the common part of all the ISP configuration
+> > - * blocks. Each parameters block shall embed an instance of this structure type
+> > - * as its first member, followed by the block-specific configuration data. The
+> > - * driver inspects this common header to discern the block type and its size and
+> > - * properly handle the block content by casting it to the correct block-specific
+> > - * type.
+> > + * blocks and is identical to :c:type:`v4l2_params_block_header`.
+> >   *
+> > - * The @type field is one of the values enumerated by
+> > + * The type field is one of the values enumerated by
+> >   * :c:type:`rkisp1_ext_params_block_type` and specifies how the data should be
+> > - * interpreted by the driver. The @size field specifies the size of the
+> > + * interpreted by the driver. The size field specifies the size of the
+> >   * parameters block and is used by the driver for validation purposes.
+> >   *
+> >   * The @flags field is a bitmask of per-block flags RKISP1_EXT_PARAMS_FL_*.
+>
+> @flags leftover.
+>
+> > @@ -1193,14 +1193,14 @@ enum rkisp1_ext_params_block_type {
+> >   * If a new configuration of an ISP block has to be applied userspace shall
+> >   * fully populate the ISP block configuration and omit setting the
+> >   * RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits
+> > - * in the @flags field.
+> > + * in the flags field.
+> >   *
+> >   * Setting both the RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and
+> > - * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits in the @flags field is not allowed
+> > + * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits in the flags field is not allowed
+> >   * and not accepted by the driver.
+> >   *
+> >   * Userspace is responsible for correctly populating the parameters block header
+> > - * fields (@type, @flags and @size) and the block-specific parameters.
+> > + * fields (type, flags and size) and the block-specific parameters.
+>
+> Shouldn't you drop the parts of the documentation the duplicate
+> v4l2_params_block_header ? Same below.
 
-Yes that is more or less correct.
+I don't think this part is duplicated. How driver handles
+ENABLE/DISABLE is still platform specific at the moment. Specifying
+that
 
-The DMA-buf references are handled by the DRM layer, in other words as long as you have a GEM handle the DRM layer keeps a reference to the DMA-buf providing the backing store for this GEM handle.
+ * When userspace simply wants to disable an ISP block the
+ * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bit should be set in @flags field. The
+ * driver ignores the rest of the block configuration structure in this case.
 
-So you should not mess with this reference count if not absolutely necessary.
+documents a driver-specific behaviour as well as:
 
-> On Fri, 2025-09-12 at 18:32 -0400, Lyude Paul wrote:
->> …though, I just realized immediately after sending that response to you that I
->> mentioned that this type is reference counted in the commit message - but I
->> never actually added an implementation for AlwaysRefCounted. So, that's at
->> least one additional thing I will make sure to add. Similarly though, I don't
->> think doing that would require us to interact with any locking or sg_tables
->> since we're not yet exposing any actual operations on DmaBuf.
 
-Well exporting the buffers is trivial, but that is not really useful on its own.
+ * If a new configuration of an ISP block has to be applied userspace shall
+ * fully populate the ISP block configuration and omit setting the
+ * RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits
+ * in the flags field.
 
-So when you exported a DMA-buf you should potentially also use it in some way, e.g. command submission, rendering, scanout etc...
+and
 
-How do you do this without grabbing the lock on the buffer?
+ * Setting both the RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and
+ * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits in the flags field is not allowed
+ * and not accepted by the driver.
 
-The usually semantics for a command submission is for example:
 
-1. Lock all involved buffers.
-2. Make sure prerequisites are meet.
-3. Allocate a slot for a dma_fence on the dma_resv object.
-4. Push the work to the HW.
-5. Remember the work in the dma_fence slot on the dma_resv object of your DMA-buf.
-6. Unlock all involved buffers.
+However, wWith the introduction of the generic validators in this
+series, all drivers using generic parameters implement the three above
+conditions, so I would rather move this part of documentation to
+v4l2_params_block_header ?
 
-Regards,
-Christian.
 
->>
->> On Fri, 2025-09-12 at 18:29 -0400, Lyude Paul wrote:
->>> On Fri, 2025-09-12 at 10:25 +0200, Christian König wrote:
->>>> On 12.09.25 00:57, Lyude Paul wrote:
->>>>> In order to implement the gem export callback, we need a type to represent
->>>>> struct dma_buf. So - this commit introduces a set of stub bindings for
->>>>> dma_buf. These bindings provide a ref-counted DmaBuf object, but don't
->>>>> currently implement any functionality for using the DmaBuf.
->>>>
->>>> Especially the last sentence is a bit problematic.
->>>>
->>>> Wrapping a DMA-buf object should be pretty easy, the hard part is the operations on the DMA-buf object.
->>>>
->>>> E.g. how are locking and sg_table creation handled?
->>>
->>> Mind clarifying a bit what you're talking about here?
->>>
->>> FWIW: regarding sg_table creation, we currently have two ways of doing this in
->>> rust:
->>>
->>>  * Manually, using the scatterlist rust bindings that were recently merged
->>>    into drm-rust-next
->>>  * Through a DRM helper provided by gem shmem, ATM this would be either
->>>     - `gem::shmem::BaseObject::<T: DriverObject>::sg_table()`
->>>     - `gem::shmem::BaseObject::<T: DriverObject>::owned_sg_table()`
->>>       (both of these just use drm_gem_shmem_get_pages_sgt())
->>>
->>> However, I don't think we currently have any interactions in the bindings
->>> we've written so far between SGTable and DmaBuf and I don't currently have any
->>> plans for this on my roadmap.
->>>
->>> Regarding locking: I'm not totally sure what locking you're referring to here?
->>> To be clear - I'm explicitly /not/ trying to deal with the issue of solving
->>> how operations on the DmaBuf object work in rust, and instead simply come up
->>> with the bare minimum interface needed so that we can return a DmaBuf created
->>> from the drm_gem_prime_export() helper (e.g. gem::BaseObject::prime_export())
->>> from a driver's gem::DriverObject::export() callback. Or alternatively,
->>> destroy it in the event that said callback fails.
->>>
->>> Unless there's some locking interaction I missed that we need to solve to
->>> fulfill those two goals, I'm not aware of any rust driver that needs anything
->>> beyond that just yet. As such, I assumed this interface would touch a small
->>> enough surface of the dma-buf API that it shouldn't set any concrete
->>> requirements on how a fully-fledged dma-buf api in rust would work in the
->>> future. And at the same time, still allow us to move forward with the shmem
->>> bindings, and make sure that the surface area of the stub API is small enough
->>> that adding the rest of the functionality to it later doesn't require any non-
->>> trivial changes to current users.
->>>
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>>
->>>>> Signed-off-by: Lyude Paul <lyude@redhat.com>
->>>>> Reviewed-by: Daniel Almeida <daniel.almeida@collabora.com>
->>>>>
->>>>> ---
->>>>> V3:
->>>>> * Rename as_ref() to from_raw()
->>>>> V4:
->>>>> * Add missing period to rustdoc at top of file
->>>>>
->>>>>  rust/kernel/dma_buf.rs | 40 ++++++++++++++++++++++++++++++++++++++++
->>>>>  rust/kernel/lib.rs     |  1 +
->>>>>  2 files changed, 41 insertions(+)
->>>>>  create mode 100644 rust/kernel/dma_buf.rs
->>>>>
->>>>> diff --git a/rust/kernel/dma_buf.rs b/rust/kernel/dma_buf.rs
->>>>> new file mode 100644
->>>>> index 0000000000000..50be3e4dd4098
->>>>> --- /dev/null
->>>>> +++ b/rust/kernel/dma_buf.rs
->>>>> @@ -0,0 +1,40 @@
->>>>> +// SPDX-License-Identifier: GPL-2.0
->>>>> +
->>>>> +//! DMA buffer API.
->>>>> +//!
->>>>> +//! C header: [`include/linux/dma-buf.h`](srctree/include/linux/dma-buf.h)
->>>>> +
->>>>> +use bindings;
->>>>> +use kernel::types::*;
->>>>> +
->>>>> +/// A DMA buffer object.
->>>>> +///
->>>>> +/// # Invariants
->>>>> +///
->>>>> +/// The data layout of this type is equivalent to that of `struct dma_buf`.
->>>>> +#[repr(transparent)]
->>>>> +pub struct DmaBuf(Opaque<bindings::dma_buf>);
->>>>> +
->>>>> +// SAFETY: `struct dma_buf` is thread-safe
->>>>> +unsafe impl Send for DmaBuf {}
->>>>> +// SAFETY: `struct dma_buf` is thread-safe
->>>>> +unsafe impl Sync for DmaBuf {}
->>>>> +
->>>>> +#[expect(unused)]
->>>>> +impl DmaBuf {
->>>>> +    /// Convert from a `*mut bindings::dma_buf` to a [`DmaBuf`].
->>>>> +    ///
->>>>> +    /// # Safety
->>>>> +    ///
->>>>> +    /// The caller guarantees that `self_ptr` points to a valid initialized `struct dma_buf` for the
->>>>> +    /// duration of the lifetime of `'a`, and promises to not violate rust's data aliasing rules
->>>>> +    /// using the reference provided by this function.
->>>>> +    pub(crate) unsafe fn from_raw<'a>(self_ptr: *mut bindings::dma_buf) -> &'a Self {
->>>>> +        // SAFETY: Our data layout is equivalent to `dma_buf` .
->>>>> +        unsafe { &*self_ptr.cast() }
->>>>> +    }
->>>>> +
->>>>> +    pub(crate) fn as_raw(&self) -> *mut bindings::dma_buf {
->>>>> +        self.0.get()
->>>>> +    }
->>>>> +}
->>>>> diff --git a/rust/kernel/lib.rs b/rust/kernel/lib.rs
->>>>> index fcffc3988a903..59242d83efe21 100644
->>>>> --- a/rust/kernel/lib.rs
->>>>> +++ b/rust/kernel/lib.rs
->>>>> @@ -81,6 +81,7 @@
->>>>>  pub mod device_id;
->>>>>  pub mod devres;
->>>>>  pub mod dma;
->>>>> +pub mod dma_buf;
->>>>>  pub mod driver;
->>>>>  #[cfg(CONFIG_DRM = "y")]
->>>>>  pub mod drm;
-> 
-
+>
+> >   *
+> >   * For example:
+> >   *
+> > @@ -1220,17 +1220,8 @@ enum rkisp1_ext_params_block_type {
+> >   *		bls->config.fixed_val.gb = blackLevelGreenB_;
+> >   *		bls->config.fixed_val.b = blackLevelBlue_;
+> >   *	}
+> > - *
+> > - * @type: The parameters block type, see
+> > - *	  :c:type:`rkisp1_ext_params_block_type`
+> > - * @flags: A bitmask of block flags
+> > - * @size: Size (in bytes) of the parameters block, including this header
+> >   */
+> > -struct rkisp1_ext_params_block_header {
+> > -	__u16 type;
+> > -	__u16 flags;
+> > -	__u32 size;
+> > -};
+> > +#define rkisp1_ext_params_block_header v4l2_params_block_header
+> >
+> >  /**
+> >   * struct rkisp1_ext_params_bls_config - RkISP1 extensible params BLS config
+> > @@ -1594,21 +1585,7 @@ enum rksip1_ext_param_buffer_version {
+> >  /**
+> >   * struct rkisp1_ext_params_cfg - RkISP1 extensible parameters configuration
+> >   *
+> > - * This struct contains the configuration parameters of the RkISP1 ISP
+> > - * algorithms, serialized by userspace into a data buffer. Each configuration
+> > - * parameter block is represented by a block-specific structure which contains a
+> > - * :c:type:`rkisp1_ext_params_block_header` entry as first member. Userspace
+> > - * populates the @data buffer with configuration parameters for the blocks that
+> > - * it intends to configure. As a consequence, the data buffer effective size
+> > - * changes according to the number of ISP blocks that userspace intends to
+> > - * configure and is set by userspace in the @data_size field.
+> > - *
+> > - * The parameters buffer is versioned by the @version field to allow modifying
+> > - * and extending its definition. Userspace shall populate the @version field to
+> > - * inform the driver about the version it intends to use. The driver will parse
+> > - * and handle the @data buffer according to the data layout specific to the
+> > - * indicated version and return an error if the desired version is not
+> > - * supported.
+> > + * This is the driver-specific implementation of :c:type:`v4l2_params_buffer`.
+> >   *
+> >   * Currently the single RKISP1_EXT_PARAM_BUFFER_V1 version is supported.
+> >   * When a new format version will be added, a mechanism for userspace to query
+> > @@ -1624,11 +1601,6 @@ enum rksip1_ext_param_buffer_version {
+> >   * the maximum value represents the blocks supported by the kernel driver,
+> >   * independently of the device instance.
+> >   *
+> > - * For each ISP block that userspace wants to configure, a block-specific
+> > - * structure is appended to the @data buffer, one after the other without gaps
+> > - * in between nor overlaps. Userspace shall populate the @data_size field with
+> > - * the effective size, in bytes, of the @data buffer.
+> > - *
+> >   * The expected memory layout of the parameters buffer is::
+> >   *
+> >   *	+-------------------- struct rkisp1_ext_params_cfg -------------------+
+> > @@ -1678,4 +1650,11 @@ struct rkisp1_ext_params_cfg {
+> >  	__u8 data[RKISP1_EXT_PARAMS_MAX_SIZE];
+> >  };
+> >
+> > +#ifdef __KERNEL__
+> > +/* Make sure the header is type-convertible to the generic v4l2 params one */
+> > +static_assert((sizeof(struct rkisp1_ext_params_cfg) -
+> > +	      RKISP1_EXT_PARAMS_MAX_SIZE) ==
+> > +	      sizeof(struct v4l2_params_buffer));
+> > +#endif /* __KERNEL__ */
+> > +
+> >  #endif /* _UAPI_RKISP1_CONFIG_H */
+> >
+> > --
+> > 2.50.1
+> >
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
+>
 
