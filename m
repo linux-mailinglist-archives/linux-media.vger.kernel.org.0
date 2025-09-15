@@ -1,140 +1,242 @@
-Return-Path: <linux-media+bounces-42520-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42521-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59469B57104
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 09:17:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0975B5710E
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 09:19:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0021716F9B0
-	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 07:17:49 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2B17B1898E58
+	for <lists+linux-media@lfdr.de>; Mon, 15 Sep 2025 07:19:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 51EE12D23A5;
-	Mon, 15 Sep 2025 07:17:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B2B22D46CE;
+	Mon, 15 Sep 2025 07:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="iS6YKBIR"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="T6xbMHRl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35A217C21E
-	for <linux-media@vger.kernel.org>; Mon, 15 Sep 2025 07:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9258A1311AC
+	for <linux-media@vger.kernel.org>; Mon, 15 Sep 2025 07:18:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1757920662; cv=none; b=TmMCNe9Q6p3MJuhRQ6j08JK0iRuFSk6iB62m/MOrRLuC7fWQRJ5S83Lvhru4EQqxtApadr9wj/WPqjoQoF0y/iYQHqQTcLqhO9zVLHEC76VEVtzOH7aZrvw0cp852b+BiUIflqhS9Ve1yIqahVEGIc/J+kKqdh2N2ELNI355Jyo=
+	t=1757920731; cv=none; b=qhQRKvRyITjY8kOXUKOKM+lnF5K4j7uETUY4D4MDqkb6+vHy/kqKinj6siB/zp6fQj9lsnDOOTIZl9xHyYYi2UY8qTesThMp0uQUrZkyTY3YXL0xER6md/4S4pgPTs3vYcZoAWjd7JZ2CG/CKix2yWWFaqVrfEfBq6+FODQTCTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1757920662; c=relaxed/simple;
-	bh=2qVl1eukGwkkiqRMCYj5X8/oylq09FMfyhjy+z4z+/A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ILjQ6IoQvZZB8gaPzf7lXHxr9oNtW2fc7AEvFRqhpf7pLNr79dAQGOmye+GA+MYEIH2aOvNdwwMbweo+6gV0Fc1Xm8kuWmgMvZ6H35dgtihLeWHZ8B3Xy+MXs6fBsFszCzvsphS0YSF3mjhGLnauezdLHZAf4olO9YaHwJxUE9o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=iS6YKBIR; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 8722DEC1;
-	Mon, 15 Sep 2025 09:16:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1757920581;
-	bh=2qVl1eukGwkkiqRMCYj5X8/oylq09FMfyhjy+z4z+/A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=iS6YKBIRrkzP5iIbWhnOlYabqyFrXM32REqfnyBQACcz+Y9Khn3GXNB4qPAg3xVyk
-	 K35Tn0Rs0zLqt3VunjbECgtNtT/Y7pbl1C9G6urwObH8w6YFdiaTlNtvkuKR/0E30C
-	 +5t+zKI1oBdFELfzPJt9M7rjNMts4EQ6PRUSntcc=
-Date: Mon, 15 Sep 2025 10:17:13 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Jai Luthra <jai.luthra@linux.dev>, linux-media@vger.kernel.org,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
-	Devarsh Thakkar <devarsht@ti.com>
-Subject: Re: [GIT PULL FOR v6.18] TI and Cadence CSI2RX drivers changes
-Message-ID: <20250915071713.GI4842@pendragon.ideasonboard.com>
-References: <4wklgso7mjxss5nzrwtcwae6fm22snmw7zdx4lmdxs75tmklip@3w55xhfzkasw>
- <9bc39cae-ea86-4ef7-a97c-66469b082375@kernel.org>
+	s=arc-20240116; t=1757920731; c=relaxed/simple;
+	bh=N+aPabF4Hwc+ssipHtzxdYT8V6ZYevI0V4qEa4nH6Xk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=XUKyYTE5XKollakvpPczBduKC9G9H+b4j1jsSNGRpjXGLj2RuZ/uihtSauKUt/6C2GUFmrxOfKIfYzG3IEQnmJMvM9OQG8KYYseI2L4TNaoO0piOHgUfXwE+y27L3eClDKD3ZwWgneS5inZtPadoyEB3x1aXOOsrLirVDxsxY08=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=T6xbMHRl; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-55f720ffe34so4350623e87.1
+        for <linux-media@vger.kernel.org>; Mon, 15 Sep 2025 00:18:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1757920727; x=1758525527; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=O5YQjHTlBTsN+6yBGhPL1nppIP0vBI5RNEgHYignDxI=;
+        b=T6xbMHRlu7mcdZrpKTr9mj0u9T0DZYbABUMCVw+Yga/zQ7zD3c5JBkQJoP0LD4s8Rz
+         EorXvqH9pqpGEDxwqK+3nLZ59FbDQXZiOrCx1xs0tCwy0FjkOX6Es1dwLerKenMj/S45
+         Ey+cwDbcsAsIm9SjwaJtscxyUnXC3rRIMMRbM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1757920727; x=1758525527;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=O5YQjHTlBTsN+6yBGhPL1nppIP0vBI5RNEgHYignDxI=;
+        b=PrGxbuRQLAEEgRmZcpP+wYky6gtTkwadIVDXWs/HlKTqi9rutMJKiZIxCCNT1vvWf3
+         hWjDyeD818tMkDd5NnMCbNfMJqVpvXXZxZWvhDFhyid7xT6PP+mMBeaigr1zXaCv/Hb/
+         uSWxeQqVbA38GTl9fDJH06W25Lbkq53yagTqg/gXIQ2+U3v8eHZUdlNadNDl6/jgOeaJ
+         tx8J6ZLkuv9HZwRDpRYPpoId8MTjsArxQ70wR7ZvYNP9+REFesYVUCRYAfYm34B62zQ7
+         HDg5IB9Thh8ZFpKPoxzzJldoguzQO7w8n+stonmQ9xI7A5eVUFOimJxZ7ibyb851lxQ/
+         5ryA==
+X-Forwarded-Encrypted: i=1; AJvYcCVKGJzYxo9C7B+81GFerqkTyJNR3+rjZFc4fq8VdWmInYP+tL3sonrieyCsqicabmM9lle+Na7ekiZTag==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxbrq2Zaol0s0PkEVZvjoNKHDGI2ezuyizPaqEDDL0Jm2NoAFk8
+	cSezvWb6eUoqNEYM5ul7CR9ihQ7z8zegBiB3sKSGIvEdYQ3xCJBp1QB7gsSWrooV4bNbR/3h+lb
+	QWoE=
+X-Gm-Gg: ASbGncuqCnH6moXRaqTuk6Dwo2Ya2IK3dJR3EnzXezG0kcDxxTHbjyPqRStBZpeZrwM
+	u7u8iLNUqvwy7/FH5hZ0PZwaCfEAB3UpIJldzgsOgjnpqoBrOfuBx9jPTaH/e00kCQHYfDdxvtw
+	tkDZqKmUnZ3EItBqZmA/Rflgf9eQlxjAH/8uZH9m70WBE80vg25wcnEFCQK3kEO9NjnAbqmlvy0
+	EvgZDFExeMaRpz1SjJIziNA08gvt0rIBLeYAvO5N64CuWYRhBaqUSA+SXNYUev47ynRyvvSs2lX
+	rDCqZ5t97lWghHuFUiBvPIMVnmF9/zWjGj3ZjcG3FT6ikE+k8sLI36BZbfz2whGJDIfSNw3Funj
+	gQWk0ba+SU9EszketddNMacBZUZ/NrmmtXN/8ZgfwIw8QNqNoLk0cACP0Q1pM
+X-Google-Smtp-Source: AGHT+IHbmxrVpwQK2q+0yrmudJ0yUqY8SnZ12UxCIPxPg2uXpSXTPwzXDHOx617c2E147hzu/Df8xQ==
+X-Received: by 2002:a05:6512:1047:b0:55f:3c0b:9ca9 with SMTP id 2adb3069b0e04-5705be232c4mr3531590e87.1.1757920727277;
+        Mon, 15 Sep 2025 00:18:47 -0700 (PDT)
+Received: from mail-lf1-f42.google.com (mail-lf1-f42.google.com. [209.85.167.42])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-56e661dbc29sm3419305e87.147.2025.09.15.00.18.46
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 15 Sep 2025 00:18:46 -0700 (PDT)
+Received: by mail-lf1-f42.google.com with SMTP id 2adb3069b0e04-57263febd12so1185114e87.1
+        for <linux-media@vger.kernel.org>; Mon, 15 Sep 2025 00:18:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXpCRlUwbWuWP556jwJT9W6JyyGtpXlQ//u694DRnO7IcpOD+Gjjsk/5ohXJH529gZ2ww1oW+nhtBI0Vg==@vger.kernel.org
+X-Received: by 2002:a05:6512:10d4:b0:554:e7ce:97f8 with SMTP id
+ 2adb3069b0e04-570601d3f6fmr3574906e87.15.1757920726308; Mon, 15 Sep 2025
+ 00:18:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <9bc39cae-ea86-4ef7-a97c-66469b082375@kernel.org>
+References: <20250818-uvc-iq-switch-v1-0-f7ea5e740ddd@chromium.org>
+ <20250818-uvc-iq-switch-v1-4-f7ea5e740ddd@chromium.org> <20250913140628.GB10328@pendragon.ideasonboard.com>
+In-Reply-To: <20250913140628.GB10328@pendragon.ideasonboard.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Mon, 15 Sep 2025 09:18:33 +0200
+X-Gmail-Original-Message-ID: <CANiDSCtsFYoDdQPakhX=mvkYCFpP-U82FBhDwdGJwOME-hFYQg@mail.gmail.com>
+X-Gm-Features: Ac12FXzF2wjrlcTq-ZWxQ0b0FPhh0zsXbdbEJWeUXxxUiBB8xNFTd0o9yHoc-kY
+Message-ID: <CANiDSCtsFYoDdQPakhX=mvkYCFpP-U82FBhDwdGJwOME-hFYQg@mail.gmail.com>
+Subject: Re: [PATCH 4/4] media: uvcvideo: Support UVC_CROSXU_CONTROL_IQ_PROFILE
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Hans de Goede <hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Hans Verkuil <hverkuil@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-usb@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Fri, Sep 12, 2025 at 12:17:17PM +0200, Hans Verkuil wrote:
-> On 12/09/2025 11:55, Jai Luthra wrote:
-> > Hi Hans, Mauro,
-> > 
-> > The following changes since commit ecba852dc9f4993f4f894ea1f352564560e19a3e:
-> > 
-> >   media: redrat3: use int type to store negative error codes (2025-09-11 08:46:10 +0200)
-> > 
-> > are available in the Git repository at:
-> > 
-> >   https://gitlab.freedesktop.org/linux-media/users/jluthra.git tags/for-6.18-ti-j721e-csi2rx-signed
-> > 
-> > for you to fetch changes up to c694e74c651e79838e817a8c6644dc72cf80540d:
-> > 
-> >   media: ti: j721e-csi2rx: Support system suspend using pm_notifier (2025-09-12 14:37:56 +0530)
-> > 
-> > ----------------------------------------------------------------
-> > TI and Cadence CSI2RX driver changes:
-> > 
-> > - Multistream support for Cadence and TI CSI2RX
-> > - Runtime PM support for Cadence and TI CSI2RX
-> > - System suspend and resume support for TI CSI2RX
-> > - Misc cleanups
-> 
-> This should go through Sakari most likely, possibly Laurent, seeing that this is CSI
-> related. Several patches do not even have a Reviewed-by from Sakari or Laurent.
+Hi Laurent
 
-I've asked Tomi if he can review the patches as I won't have time in the
-near future. If he's happy with the patches for this driver, that's good
-enough for me :-)
+On Sat, 13 Sept 2025 at 16:06, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> On Mon, Aug 18, 2025 at 08:15:39PM +0000, Ricardo Ribalda wrote:
+> > The ChromeOS XU provides a control to change the IQ profile for a camera.
+> > It can be switched from VIVID (a.k.a. standard) to NONE (a.k.a. natural).
+> >
+> > Wire it up to the standard v4l2 control.
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >  drivers/media/usb/uvc/uvc_ctrl.c | 32 ++++++++++++++++++++++++++++++++
+> >  include/linux/usb/uvc.h          |  5 +++++
+> >  2 files changed, 37 insertions(+)
+> >
+> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> > index ff975f96e1325532e2299047c07de5d1b9cf09db..8766a441ad1d8554c0daaed3f87758321684246b 100644
+> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> > @@ -376,6 +376,15 @@ static const struct uvc_control_info uvc_ctrls[] = {
+> >                               | UVC_CTRL_FLAG_GET_DEF
+> >                               | UVC_CTRL_FLAG_AUTO_UPDATE,
+> >       },
+> > +     {
+> > +             .entity         = UVC_GUID_CHROMEOS_XU,
+> > +             .selector       = UVC_CROSXU_CONTROL_IQ_PROFILE,
+> > +             .index          = 3,
+> > +             .size           = 1,
+> > +             .flags          = UVC_CTRL_FLAG_SET_CUR
+> > +                             | UVC_CTRL_FLAG_GET_RANGE
+> > +                             | UVC_CTRL_FLAG_RESTORE,
+> > +     },
+> >  };
+> >
+> >  static const u32 uvc_control_classes[] = {
+> > @@ -384,6 +393,17 @@ static const u32 uvc_control_classes[] = {
+> >  };
+> >
+> >  static const int exposure_auto_mapping[] = { 2, 1, 4, 8 };
+> > +static const int cros_colorfx_mapping[] = { 1, // V4L2_COLORFX_NONE
+> > +                                         -1, // V4L2_COLORFX_BW
+> > +                                         -1, // V4L2_COLORFX_SEPIA
+> > +                                         -1, // V4L2_COLORFX_NEGATIVE
+> > +                                         -1, // V4L2_COLORFX_EMBOSS
+> > +                                         -1, // V4L2_COLORFX_SKETCH
+> > +                                         -1, // V4L2_COLORFX_SKY_BLUE
+> > +                                         -1, // V4L2_COLORFX_GRASS_GREEN
+> > +                                         -1, // V4L2_COLORFX_SKIN_WHITEN
+> > +                                         0}; // V4L2_COLORFX_VIVID};
+>
+> Extar '};' at the end of the line. The indentation also looks a bit
+> weird. I'll replace it with
+>
+> static const int cros_colorfx_mapping[] = {
+>         1,      /* V4L2_COLORFX_NONE */
+>         -1,     /* V4L2_COLORFX_BW */
+>         -1,     /* V4L2_COLORFX_SEPIA */
+>         -1,     /* V4L2_COLORFX_NEGATIVE */
+>         -1,     /* V4L2_COLORFX_EMBOSS */
+>         -1,     /* V4L2_COLORFX_SKETCH */
+>         -1,     /* V4L2_COLORFX_SKY_BLUE */
+>         -1,     /* V4L2_COLORFX_GRASS_GREEN */
+>         -1,     /* V4L2_COLORFX_SKIN_WHITEN */
+>         0,      /* V4L2_COLORFX_VIVID */
+> };
+>
+> > +
+> >
+> >  static bool uvc_ctrl_mapping_is_compound(struct uvc_control_mapping *mapping)
+> >  {
+> > @@ -975,6 +995,18 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
+> >               .data_type      = UVC_CTRL_DATA_TYPE_BITMASK,
+> >               .name           = "Region of Interest Auto Ctrls",
+> >       },
+> > +     {
+> > +             .id             = V4L2_CID_COLORFX,
+> > +             .entity         = UVC_GUID_CHROMEOS_XU,
+> > +             .selector       = UVC_CROSXU_CONTROL_IQ_PROFILE,
+> > +             .size           = 8,
+> > +             .offset         = 0,
+> > +             .v4l2_type      = V4L2_CTRL_TYPE_MENU,
+> > +             .data_type      = UVC_CTRL_DATA_TYPE_ENUM,
+> > +             .menu_mapping   = cros_colorfx_mapping,
+> > +             .menu_mask      = BIT(V4L2_COLORFX_VIVID) |
+> > +                               BIT(V4L2_COLORFX_NONE),
+> > +     },
+> >  };
+> >
+> >  /* ------------------------------------------------------------------------
+> > diff --git a/include/linux/usb/uvc.h b/include/linux/usb/uvc.h
+> > index 12a57e1d34674a3a264ed7f88bed43926661fcd4..22e0dab0809e296e089940620ae0e8838e109701 100644
+> > --- a/include/linux/usb/uvc.h
+> > +++ b/include/linux/usb/uvc.h
+> > @@ -29,6 +29,9 @@
+> >  #define UVC_GUID_EXT_GPIO_CONTROLLER \
+> >       {0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+> >        0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x03}
+> > +#define UVC_GUID_CHROMEOS_XU \
+> > +     {0x24, 0xe9, 0xd7, 0x74, 0xc9, 0x49, 0x45, 0x4a, \
+> > +      0x98, 0xa3, 0xc8, 0x07, 0x7e, 0x05, 0x1c, 0xa3}
+>
+> I'd like to add a link to the documentation, but searching for the GUID
+> didn't turn up any meaningful result. Where can I find documentation for
+> this XU ?
 
-> I can't take this, I'm afraid.
-> 
-> I'm not sure why we get a PR from you, was there some misunderstanding?
-> 
+It is not public yet. Not because there is anything secret about it,
+but because of the "making documentation process".
+
+Once there is a public document I will add a link.
+
+Regards!
+>
+> The link can be added later, so
+>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> >  #define UVC_GUID_MSXU_1_5 \
+> >       {0xdc, 0x95, 0x3f, 0x0f, 0x32, 0x26, 0x4e, 0x4c, \
+> >        0x92, 0xc9, 0xa0, 0x47, 0x82, 0xf4, 0x3b, 0xc8}
+> > @@ -50,6 +53,8 @@
+> >  #define UVC_MSXU_CONTROL_FIELDOFVIEW2_CONFIG 0x0f
+> >  #define UVC_MSXU_CONTROL_FIELDOFVIEW2                0x10
+> >
+> > +#define UVC_CROSXU_CONTROL_IQ_PROFILE                0x04
+> > +
+> >  #define UVC_GUID_FORMAT_MJPEG \
+> >       { 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
+> >        0x80, 0x00, 0x00, 0xaa, 0x00, 0x38, 0x9b, 0x71}
+>
+> --
 > Regards,
-> 
-> 	Hans
-> > ----------------------------------------------------------------
-> > Changhuang Liang (1):
-> >       media: cadence: csi2rx: Support runtime PM
-> > 
-> > Jai Luthra (9):
-> >       dt-bindings: media: ti,j721e-csi2rx-shim: Support 32 dma chans
-> >       media: ti: j721e-csi2rx: separate out device and context
-> >       media: ti: j721e-csi2rx: add a subdev for the core device
-> >       media: ti: j721e-csi2rx: add support for processing virtual channels
-> >       media: cadence: csi2rx: add multistream support
-> >       media: ti: j721e-csi2rx: add multistream support
-> >       media: ti: j721e-csi2rx: Submit all available buffers
-> >       media: ti: j721e-csi2rx: Support runtime suspend
-> >       media: ti: j721e-csi2rx: Support system suspend using pm_notifier
-> > 
-> > Pratyush Yadav (4):
-> >       media: ti: j721e-csi2rx: prepare SHIM code for multiple contexts
-> >       media: ti: j721e-csi2rx: allocate DMA channel based on context index
-> >       media: ti: j721e-csi2rx: get number of contexts from device tree
-> >       media: cadence: csi2rx: add get_frame_desc wrapper
-> > 
-> > Rishikesh Donadkar (2):
-> >       media: ti: j721e-csi2rx: Remove word size alignment on frame width
-> >       media: ti: j721e-csi2rx: Change the drain architecture for multistream
-> > 
-> >  Documentation/devicetree/bindings/media/ti,j721e-csi2rx-shim.yaml |   39 ++++++-
-> >  drivers/media/platform/cadence/Kconfig                            |    1 +
-> >  drivers/media/platform/cadence/cdns-csi2rx.c                      |  491 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++---------------------
-> >  drivers/media/platform/ti/Kconfig                                 |    1 +
-> >  drivers/media/platform/ti/j721e-csi2rx/j721e-csi2rx.c             | 1167 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------------------------------------------
-> >  5 files changed, 1300 insertions(+), 399 deletions(-)
+>
+> Laurent Pinchart
+
+
 
 -- 
-Regards,
-
-Laurent Pinchart
+Ricardo Ribalda
 
