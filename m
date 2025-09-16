@@ -1,292 +1,118 @@
-Return-Path: <linux-media+bounces-42605-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42606-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 10E5DB59019
-	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 10:12:20 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19C73B59143
+	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 10:48:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D5DD16F982
-	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 08:12:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B91071BC3E45
+	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 08:49:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 909172868A1;
-	Tue, 16 Sep 2025 08:12:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 099EA2741C6;
+	Tue, 16 Sep 2025 08:48:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wdfU+nZz"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m7LdLz0v"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B99E7285C8B;
-	Tue, 16 Sep 2025 08:12:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DEE0288C08;
+	Tue, 16 Sep 2025 08:48:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758010326; cv=none; b=BdV/987l+MJFVjTmBP292SKj2cA5Xco6shm2eVgFnHXmEp4R4d5tLsJio5bUvjaIKM0wKTkZj+HsLbwAep7IeKf7Fpptn4xPDvq+hoSU9442E7czQ9pLMDQVeoEoGefPDGtdKkF3hNEw6fbA7vLphvTzCv4CjcIQu1GhGbayoD0=
+	t=1758012520; cv=none; b=rcNOtwuHPP3S0UMv56fiTC9zx+oiJUvIpmQJrTB5t520FjSki26tNENeNI5JGIuapfi6/1Zq+qxAXoiQMtm9uaC5M5JiwCpml+k8WQEsHcef2VURLht/riUVJxiG3QEUSxKpanAzx6/ToF8aFY2h07kTihCqOYn2Jmz8w6IYJk8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758010326; c=relaxed/simple;
-	bh=er6zXtoTiw8c9MS+Ncvtij5P2UtensvSwZETz1uW9OE=;
+	s=arc-20240116; t=1758012520; c=relaxed/simple;
+	bh=gBC89acRt2ZWThI6GiBXUA4qAUTNm8vCd8qyDvzjiZE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WwRvFueIxa0iGEPPiRguPTpgAmeFcOP56XSuGk/O0WtPid/YyNi4KFzvfpW+e7IuGW9C+EKCwvq40TXSaNIuYhacpTo8q+DEJnsn3YhM7qAG6qLRQCQI2beBPy53bnz5gKRSu/vxY0pDbrijT4VCQxntnO7/9JCtL2Ik+QLuwKM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wdfU+nZz; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (mob-5-90-51-255.net.vodafone.it [5.90.51.255])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2226AEC1;
-	Tue, 16 Sep 2025 10:10:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1758010243;
-	bh=er6zXtoTiw8c9MS+Ncvtij5P2UtensvSwZETz1uW9OE=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=u5W+aFDMTUogwMSg58UBKNBUnxGI5STyoYkqqAPu8jiu+mwAiLod0UuISxxC/gFQqbdKw5yeEXtkQ82OSpI6/rtxlrxWF1shwYZMa78FVH9JEivDeXc/qIjPQUByQtrXw7Mt+aWlaib9g27j4lw95W9b5tm5Texi1CI/kmGi8lY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m7LdLz0v; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A88BFC4CEEB;
+	Tue, 16 Sep 2025 08:48:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758012519;
+	bh=gBC89acRt2ZWThI6GiBXUA4qAUTNm8vCd8qyDvzjiZE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=wdfU+nZzDWn1ihybBVNW1Qg87qTxj3YEgYFLWLS5ZHS+38Rk17T4WQh9rXsBiDFRm
-	 56OWwjVT4Lm7xMLcVzAkuCYoPUqL89jwTtlDgeCBdhxx+i403V//Rc9hQqMRCSWOut
-	 52WUcxN3v/FkAtXRMZ95dy32/bmmet9vJBZ0menQ=
-Date: Tue, 16 Sep 2025 10:11:57 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Stefan Klug <stefan.klug@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
-	linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, linux-rockchip@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: rkisp1: Improve frame sequence correctness on
- stats and params buffers
-Message-ID: <5hk62bt3jejd4boxtc67klu4zegypvdidt7kju6z2iohbhjeem@apm5bu7opcol>
-References: <20250908094200.48002-1-stefan.klug@ideasonboard.com>
- <rthpkuipbpbp2lv2ddmruwb7fmpkmtlsnx3q6kk7gaskzpdaar@5bk3r44f2mpo>
- <175800895207.653594.14948138348210533073@localhost>
+	b=m7LdLz0vXRu1QDRO3ZuQvA3+jqh3JxhTQHX8IW4VHNOE6jLAJTC8Gk87eluIh4jMT
+	 bli4cXARt8ZQ6n6iqCiYQqtVy69DTegtOxc8LKakwQKUEqA2ZHBE2k+mYufiJ3o/h7
+	 qesqNhorL9QrNX78rRFFprSYoXlFml9tgAj1rkmlm6pyvZupIiXfDuOty7eTB9qDqo
+	 CouLVJhpNf8Pm+Q7rzYldmyitAeHqbukysVTR/mjP/u05hEnXKBbZCt/KRGpHXsHfJ
+	 +n8uUiWSVq10XIvunL3dTV/12Q4aEpBQsfBiiIxiFvqrecpRpSlZT0oZuc1Pk+VoTO
+	 +1DIAmhw7/dug==
+Date: Tue, 16 Sep 2025 09:48:33 +0100
+From: Will Deacon <will@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: =?iso-8859-1?Q?J=F6rg_R=F6del?= <joro@8bytes.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+	robin.murphy@arm.com, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, heiko@sntech.de, p.zabel@pengutronix.de,
+	mchehab@kernel.org, iommu@lists.linux.dev,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, kernel@collabora.com,
+	linux-media@vger.kernel.org
+Subject: Re: [PATCH v9 3/7] iommu: Add verisilicon IOMMU driver
+Message-ID: <aMkkYU-p2ouknnAc@willie-the-truck>
+References: <20250911155720.180465-1-benjamin.gaignard@collabora.com>
+ <20250911155720.180465-4-benjamin.gaignard@collabora.com>
+ <vrngq76nnms3jyl5hnxqnkimjc6kil66o6fdyqn5vm3fpovmja@cfynipjw7ktp>
+ <694b9ba15cd67f41a38f4a65a3811f035cf8e99d.camel@collabora.com>
+ <rt6nvgazcl6mvyy4iuut3n7irf72t7rex2iwabbkuxp7cdvez5@2nanenqgxjdy>
+ <20250915225806.GM882933@ziepe.ca>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <175800895207.653594.14948138348210533073@localhost>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250915225806.GM882933@ziepe.ca>
 
-Hi Stefan
+On Mon, Sep 15, 2025 at 07:58:06PM -0300, Jason Gunthorpe wrote:
+> On Sat, Sep 13, 2025 at 07:58:04AM +0200, Jörg Rödel wrote:
+> > [Adding Will back to Cc]
+> > 
+> > On Fri, Sep 12, 2025 at 01:37:11PM -0400, Nicolas Dufresne wrote:
+> > > To me this rejection isn't about Benjamin's driver, all iommu seems to look
+> > > alike, so anyone else that would have sent new driver would have face the same
+> > > issue.
+> > 
+> > This is about ignoring comments from one of the IOMMU maintainers. I am not
+> > going to merge a driver with open comments/objections[1] from Will (and a few
+> > others), so resolve this with him and get his Ack.
+> 
+> I would strongly object to trying to share map_pages, unmap_pages,
+> iova_to_phys, free and other iommu pt related functions in some
+> limited way instead of helping on the much more complete iommu pt
+> work. Which is what I said to Will, but for some reason he suggested
+> it anyhow.
 
-On Tue, Sep 16, 2025 at 09:49:12AM +0200, Stefan Klug wrote:
-> Hi Jacopo,
->
-> Thank you for the review.
->
-> Quoting Jacopo Mondi (2025-09-15 18:55:44)
-> > Hi Stefan
-> >
-> > On Mon, Sep 08, 2025 at 11:41:48AM +0200, Stefan Klug wrote:
-> > > On the rkisp1 (in my case on a NXP i.MX8 M Plus) the ISP interrupt
-> > > handler is sometimes called with RKISP1_CIF_ISP_V_START (start of frame)
-> > > and RKISP1_CIF_ISP_FRAME (end of frame) being set at the same time. In
-> > > commit 8524fa22fd2f ("media: staging: rkisp1: isp: add a warning and
-> > > debugfs var for irq delay") a warning was added for that. There are two
-> > > cases where this condition can occur:
-> > >
-> > > 1. The v-sync and the frame-end belong to the same frame. This means,
-> > >    the irq was heavily delayed and the warning is likely appropriate.
-> > >
-> > > 2. The v-sync belongs to the next frame. This can happen if the vertical
-> > >    blanking between two frames is very short.
-> > >
-> > > The current code always handles case 1 although case 2 is in my
-> > > experience the more common case and happens in regular usage. This leads
-> >
-> > I would rather argue that 8524fa22fd2f is possibily wrong, and case 1)
-> > would imply the interrupt has been delayed for the whole frame
-> > duration (+ blanking), which seems unlikely to me ?
->
-> I am not completely sure about that. I didn't hunt for that condition.
-> Note that RKISP1_CIF_ISP_FRAME comes before the blanking. So I could
-> imagine that this might occur for very small sensor crop rectangles at
-> high datarates.
+If the answer is to convert this to iommu pt, then so be it. My
+understanding was that was still premature at this stage but you know
+better than me.
 
-Indeed, very short frame durations and minimum blankins might increase
-the likeliness of 1).
+When I bothered to look at this driver side-by-side with the rockchip
+driver which, despite apparently being totally different IP (honest!),
+is *remarkably* similar, I summarised the similarity in the default
+domain ops:
 
-Would be intersting to measure and compare with the time spent in IRQ,
-but it's quite an exercize.
+https://lore.kernel.org/all/aH5yR9CkYSJ4PaZV@willie-the-truck/
 
->
-> >
-> > True we handle stats collection and parameters programming in irq
-> > context, which is less than ideal and could take time (I wonder if we
-> > should use a threaded irq, but that's a different problem)
-> >
-> > If that's the case and we only should care about 2) would simply
-> > handling RKISP1_CIF_ISP_FRAME before RKISP1_CIF_ISP_V_START be enough ?
->
-> That was my first try. But it felt not right to run a whole
-> rkisp1_isp_isr() with frame_sequence being set to -1. And as I believe
+But rather than respond to that, Benjamin just sent a new version. I
+was hoping for a bit more discussion...
 
-You mean for the first frame in case of both V_START and ISP_FRAME
-occour in the same irq ?
+> Sorry, but it doesn't make sense to complain about duplication in
+> drivers and then not help advance one of the biggest projects to
+> actually concretely and comprehensively address that duplication.
 
-> that there is at least a slight chance that 1) might occur, I'd prefer
-> frame_sequence to be 0 in that case.
+I don't think it needs to be one or the other. afaict, these drivers
+should share the default domain ops and if the page-table code is using
+iommu-pt then that's even better.
 
-also because otherwise you would get stats and param buffers with
-sequence -1
-
->
-> >
-> > > to incorrect sequence numbers on stats and params buffers which in turn
-> > > breaks the regulation in user space. Fix that by adding a frame_active
-> > > flag to distinguish between these cases and handle the start of frame
-> > > either at the beginning or at the end of the rkisp1_isp_isr().
-> > >
-> > > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-> > > ---
-> > >  .../platform/rockchip/rkisp1/rkisp1-common.h    |  1 +
-> > >  .../media/platform/rockchip/rkisp1/rkisp1-isp.c | 17 +++++++++++++----
-> > >  2 files changed, 14 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > > index ca952fd0829b..adf23416de9a 100644
-> > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> > > @@ -222,6 +222,7 @@ struct rkisp1_isp {
-> > >       struct media_pad pads[RKISP1_ISP_PAD_MAX];
-> > >       const struct rkisp1_mbus_info *sink_fmt;
-> > >       __u32 frame_sequence;
-> > > +     bool frame_active;
-> > >  };
-> > >
-> > >  /*
-> > > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> > > index 8c29a1c9309a..1469075b2d45 100644
-> > > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> > > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> > > @@ -965,6 +965,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
-> > >       }
-> > >
-> > >       isp->frame_sequence = -1;
-> > > +     isp->frame_active = false;
-> > >
-> > >       sd_state = v4l2_subdev_lock_and_get_active_state(sd);
-> > >
-> > > @@ -1086,12 +1087,15 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
-> > >   * Interrupt handlers
-> > >   */
-> > >
-> > > -static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
-> > > +static void rkisp1_isp_sof(struct rkisp1_isp *isp)
-> > >  {
-> > >       struct v4l2_event event = {
-> > >               .type = V4L2_EVENT_FRAME_SYNC,
-> > >       };
-> > >
-> > > +     isp->frame_sequence++;
-> > > +     isp->frame_active = true;
-> > > +
-> > >       event.u.frame_sync.frame_sequence = isp->frame_sequence;
-> > >       v4l2_event_queue(isp->sd.devnode, &event);
-> > >  }
-> > > @@ -1112,14 +1116,15 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
-> > >       rkisp1_write(rkisp1, RKISP1_CIF_ISP_ICR, status);
-> > >
-> > >       /* Vertical sync signal, starting generating new frame */
-> > > -     if (status & RKISP1_CIF_ISP_V_START) {
-> > > -             rkisp1->isp.frame_sequence++;
-> > > -             rkisp1_isp_queue_event_sof(&rkisp1->isp);
-> > > +     if (status & RKISP1_CIF_ISP_V_START && !rkisp1->isp.frame_active) {
-> > > +             status &= ~RKISP1_CIF_ISP_V_START;
-> > > +             rkisp1_isp_sof(&rkisp1->isp);
-> > >               if (status & RKISP1_CIF_ISP_FRAME) {
-> > >                       WARN_ONCE(1, "irq delay is too long, buffers might not be in sync\n");
-> > >                       rkisp1->debug.irq_delay++;
-> > >               }
-> > >       }
-> > > +
-> > >       if (status & RKISP1_CIF_ISP_PIC_SIZE_ERROR) {
-> > >               /* Clear pic_size_error */
-> > >               isp_err = rkisp1_read(rkisp1, RKISP1_CIF_ISP_ERR);
-> > > @@ -1138,6 +1143,7 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
-> > >       if (status & RKISP1_CIF_ISP_FRAME) {
-> > >               u32 isp_ris;
-> > >
-> > > +             rkisp1->isp.frame_active = false;
-> > >               rkisp1->debug.complete_frames++;
-> > >
-> > >               /* New frame from the sensor received */
-> > > @@ -1152,5 +1158,8 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
-> > >               rkisp1_params_isr(rkisp1);
-> > >       }
-> > >
-> > > +     if (status & RKISP1_CIF_ISP_V_START && !rkisp1->isp.frame_active)
-> >
-> > I think you can drop the  && !rkisp1->isp.frame_active because if you
-> > get here and 'status & RKISP1_CIF_ISP_V_START' it means that:
-> >
-> > 1) frame_active was false and you have entered the above
-> >
-> >         if (status & RKISP1_CIF_ISP_V_START && !rkisp1->isp.frame_active) {
-> >
-> >    and now the RKISP1_CIF_ISP_V_START bit in 'status' has been cleared
-> >    so you don't need to handle VSYNC here
-> >
-> > 2) frame_active was true and you delayed handling V_START till here.
-> >    If also ISP_FRAME was set, frame_start has been set to false here
-> >    above. If ISP_FRAME was not set then it has been delivered by a
-> >    previous interrupt and then frame_start is false.
-> >
-> > So I guess it's enough to check if at this point RKISP1_CIF_ISP_V_START
-> > is still set in 'status' ?
->
-> I think you are right. I can't come up with a sane condition where
-> frame_active==true and RKISP1_CIF_ISP_V_START is set and we *don't* want
-> to increase the frame count. I'll drop that condition.
->
-> >
-> > However, as said, it's seems unlikely to that your above 1) can
-> > happen. Have you ever hit a WARN() again with this patch applied ?
->
-> I don't remember seeing it again. But as noted above, I didn't try to
-> provoke it and took the "better safe than sorry" route. Could you go
-> with that?
->
-
-Fine indeed..
-
-Could you please comment on the two VSYNC conditions ?
-Something like"
-
-	/*
-         * Vertical sync signal, starting generating new frame.
-         * Defer handling of vsync after ISP_FRAME if the we still have to
-         * complete the previous frame.
-         */
-	if (status & RKISP1_CIF_ISP_V_START && !rkisp1->isp.frame_active) {
-		status &= ~RKISP1_CIF_ISP_V_START;
-		rkisp1_isp_sof(&rkisp1->isp);
-		if (status & RKISP1_CIF_ISP_FRAME) {
-			WARN_ONCE(1, "irq delay is too long, buffers might not be in sync\n");
-			rkisp1->debug.irq_delay++;
-		}
-	}
-
-        ...
-
-        /*
-         * Deferred handling of vsync if V_START and ISP_FRAME
-         * occurrend in the same irq.
-         */
-	if (status & RKISP1_CIF_ISP_V_START)
-		rkisp1_isp_sof(&rkisp1->isp);
-
-Up to you
-
-
-> Best regards,
-> Stefan
->
-> >
-> > > +             rkisp1_isp_sof(&rkisp1->isp);
-> > > +
-> > >       return IRQ_HANDLED;
-> > >  }
-> > > --
-> > > 2.48.1
-> > >
-> > >
+Will
 
