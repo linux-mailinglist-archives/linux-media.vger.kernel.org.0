@@ -1,303 +1,106 @@
-Return-Path: <linux-media+bounces-42620-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42621-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A956B596A2
-	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 14:52:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E30B596BB
+	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 14:57:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 56D571BC8381
-	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 12:52:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2EE6C1886376
+	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 12:56:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ACFE921B191;
-	Tue, 16 Sep 2025 12:52:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 918D821D3DC;
+	Tue, 16 Sep 2025 12:56:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="RL5nPs+X"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YZUGGlYc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PH8PR06CU001.outbound.protection.outlook.com (mail-westus3azon11012063.outbound.protection.outlook.com [40.107.209.63])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337801A9FAE;
-	Tue, 16 Sep 2025 12:51:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.209.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758027121; cv=fail; b=eKUm3OpS4H1OTvcANo5REX5iZenBlyn8zE5wyENubCNFkPgoCSMIcptb8/Jq2xEaHOb0kVGV58neOELRonNRvR4NeKXKFQVm6pyYAyxg/3AoRzYrlhLKudCNK/KNAJDExzlKMwETQ6VzIfBIoLeG02hlSEj2mFRTSmTuLNpWLtA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758027121; c=relaxed/simple;
-	bh=VcXDe5iZHwkyboYWC7tNxGsbqH4l/QF5oYNleyUmt0Y=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=ZHvdqmRlKtfpxxVYnRN9zjTXFp/NsgmNGawW0xoDw8V5rfEmIvi/9lu8a1BsCgW1rcEQ14lSUyXURSTlpqFlP/EK3opRnQelEajIZ0RVJmL2LlB/nEcFGdNEfE9YiDTLH5Mto3DOzG30RTBL5MKEhgSA0U7o/RPbbdExiGWWwRw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=RL5nPs+X; arc=fail smtp.client-ip=40.107.209.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=okAk3RZ9ilzTvbCeDTcpmoirXo+mGHR2A1qnDTkoY/Y/cpdhVB1PsRNxsv2y9CuzuDTfrmjDL6TmO29CD5AilH8KXRaAXl0ypdxbMvDBEzvYEYQXD7tojRiUtg+sLSuySJlNXwFJ9d58+wuSUSH7NALLwtiA9xhqcT/JeEePlkCFzPHAGWeOd+2dF/GuSIVDjqH2AqIM4SDiv5JE7GhNR+dZ73kRfUvS4rE4moSvnBITW1En7sJPOGEMpTOBtDkS8baWtQYL9rIdwQ4FYreP7wJWsnwfOPT86EHDJvr40ftEfL7LA1C7erarh9gP1sqfjBfv5WCy1cv5wV9VNC93kQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=O5gcV7kWbrn5Vg5MXeSwIllfWAf3PPGpIxFDhSjF/EE=;
- b=ZIPC2mvSRONAS4phsgQYkXtbNn0iHn7fHYg45/ipZ2pvB1tBfGrU7fcBJGRN/CPjGSHh4OhK8OGcvaBjNgps9RIAb50XiMsGr1MZ/v7mRjHrBfA81z+v/qshQEYwKXgDQgR8E5/5U/uPzV0K2pNYxZ8QCR+GzaToWLMQzzh1IG9SE44+VC4eN3/z5u4ovemYX6Ih7PaGb4+b9gNoI5U8xClvuElG6gdTesB98AiyTZQF6gAEMuTDR8e85/TPbin/tXP8Y2u62hcKnnaBYKWvYVlXvTG/OYwBoKx+MH98jVQj9l628YyRiyj+aJSwQu5hGYg2rxxocaC6N5WAN/M4NA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=O5gcV7kWbrn5Vg5MXeSwIllfWAf3PPGpIxFDhSjF/EE=;
- b=RL5nPs+XUzybswjwYEoi+uZNE+1vzBywZ/su4xZbJaKJksZofhRekkjJCZR+ydr3FYukXS5wx8yfOWtk04lkWLUnlJEqkXLp4qGNQJKxct7rk/fVwMpleEDjDtB+WD2wCd2GR/U27XAnGjh56WRMknKYGDe8zooverLiuEf3y3w=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by BL1PR12MB5897.namprd12.prod.outlook.com (2603:10b6:208:395::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.22; Tue, 16 Sep
- 2025 12:51:55 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9115.020; Tue, 16 Sep 2025
- 12:51:55 +0000
-Message-ID: <388ddaf9-2a43-4c70-aed6-370b9f38887b@amd.com>
-Date: Tue, 16 Sep 2025 14:51:50 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 1/2] drm/amdgpu: make non-NULL out fence mandatory
-To: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- Alex Deucher <alexander.deucher@amd.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-References: <20250916070846.5107-1-pierre-eric.pelloux-prayer@amd.com>
- <f66cc34f-b54b-4f91-a6fe-11a146c516b2@amd.com>
- <9e1964bf-7748-4e41-9048-b1a5ad63a8c9@damsy.net>
- <8a5f0bc8-4d3a-4e47-902e-7527759d1494@amd.com>
- <3b4f8837-e0a8-4e8c-9d33-5f107e41c55d@damsy.net>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <3b4f8837-e0a8-4e8c-9d33-5f107e41c55d@damsy.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: YT4PR01CA0421.CANPRD01.PROD.OUTLOOK.COM
- (2603:10b6:b01:10b::23) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9294D1CAA7D;
+	Tue, 16 Sep 2025 12:56:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758027379; cv=none; b=SMqvYaFPliuiwa/Iea0pmrh58pIdbS9rIFuOEGC2nVZe5OroMla6BVQZ5JFHliODTw8agC3ClxTRKvU1EDXyvzzt+iAiRFlLUJLtBc/5U6W8yBQWIWCL0KSeJbzHaVzoe3+iSF4kUTjuW5isFUF8q9r+430yEMmRYgPDNkm8CdI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758027379; c=relaxed/simple;
+	bh=Pj2YVYTr06wygdiUW7bh8cdApHVt9jxfnh+u+lUkHZM=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=k2boqSTPK7b+I0rM5VWQXhClyEim+baHdLjwTAcYiPj8TZi7LSo87dT1/YQRaYrEIvzSFb47tDqQp0B+A6LnMnQxpmm4q7rzkC6ILCURB60DTuyG9qsDO73Y6OAkK/HbuL9vlEfRcXXwzJStqrbQWiVLy5Wg9siYxi5/OcvvHbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YZUGGlYc; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8B802C6F;
+	Tue, 16 Sep 2025 14:54:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1758027297;
+	bh=Pj2YVYTr06wygdiUW7bh8cdApHVt9jxfnh+u+lUkHZM=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=YZUGGlYc3UGZtXKJYr4A5vR2uDMBDG9a+QVVsHOJZRtqsVmIS/Tu/gQo0ZipUrrFp
+	 JeWW3txLez23b/HeEuzyPWP5vVq/iGaf+citCh3ncluxZ1PlTK9k5AofH5i8yMEzuc
+	 Tr4Myj7OHxK4R2PifgUWNrW2hxriMBy/PxgV6LmY=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|BL1PR12MB5897:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4d9b465f-6238-4147-6c2d-08ddf51fd0d9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?YTA3WkJ0aCs2VzIraDU5ZktNS0lHTXpBem0zcnhwc3pRVDVOanNsc3hyZ1dH?=
- =?utf-8?B?cWZrS2xPT2hqZXRDdjJETmFGK3FOZzhlVmtzWUFzakY3VElKOVYvREMya0xx?=
- =?utf-8?B?anBmNjZxRnZzcFRKTkZZM0Z1c3BNM0YzQVYzdGkrR3k2ak9TemJlMElNUFZo?=
- =?utf-8?B?SEE0TTNHZUFyZURPb1o1UCtPK1czYmlrRmNWSXhmdWVtQzMzalBDemZKYTZp?=
- =?utf-8?B?U1hVL0NORTVIS29KYU44aTg3RDhiVzFHU2kvTEJNektudlRBVExiWTBsbUdH?=
- =?utf-8?B?UzlTTk44b1ZLMVhPSkN4eVZOeXQ3anFMb29LUm1yUzFCdUQxN3BsdDM5U21D?=
- =?utf-8?B?d0NRTXhhZ2dXUGo1N240Q0xPVGhNNkczL2NEdnFOa2tDSW1CTHhaUHcrQ2Ri?=
- =?utf-8?B?bFhoaEpEWnF2LzRoSHJEbldhandRdzhaejBIZldjdkFxTVNKSmRZdVFtQk1C?=
- =?utf-8?B?MU5tUXhJTXRlalJDT3hvcTJMYjBGYlAzRkNYcGI0dWtXZEx6NEJXWXQ4MUxJ?=
- =?utf-8?B?a3laTmMvRHVyejZqSlVWaGw2N3FLaEZJTTJwcDNWQ3Rud2pvL0hZTnF2SDBp?=
- =?utf-8?B?WEpqcjdIaXY3dEFwWkVVcEdBTGwxUWZZbHg5UVY2OVFTdUhZeWJFMGdvZXh2?=
- =?utf-8?B?VkxQMGhPVGRXMWZveG1BS1RBUkFuWEQ3ZWVwN21hclNFWUdmcFEwdzVkV1Mz?=
- =?utf-8?B?Z3RCYTZlTzU1NVNUQjVaNkVGdGt4WlJ6M0JPYk03eXM0QkhSckpncnBEL1NM?=
- =?utf-8?B?aXQyb2dGN05WU3I2ZzRDRFNDUzN3MU0xb0thTE00eVZYNmJSd3N5cW1sV0Zw?=
- =?utf-8?B?VkhQaUFUU2kyWkhtUk12cEpzNDNDdVdpa0loM3Y4eGF1NGFPaDZQV1ZnbDFV?=
- =?utf-8?B?THE2R0ZYOU5ETlNNVjBQdTVtMjBucW5jeHRtZkVGMzlkRDR1YWxyNlVIajQ2?=
- =?utf-8?B?ZlJqRENZa3BmbkNZMzdLVkZaeVhSUXhaUUJhZUlaV01sQ3RqY001M3VITXlB?=
- =?utf-8?B?ME9IRG9zcVJZMmNNeXAzanVwWjVjaTNxV3FWRXdRTmprN2c5emxOV1c3dnhI?=
- =?utf-8?B?MnNEL3JzSWtsOVFUbnZrVUNRdzN0YWEvZFlpN25YQktFclB2allva1FRckVY?=
- =?utf-8?B?V3NJbGZnVWhzZVFxNGd2SENyUVBCcmpDOHdRcEoxQ1gvajdvZkNsT0QrV1lC?=
- =?utf-8?B?dTV2amRCaGw4dVlDeVdpeFBiQ1p3bWxUMDMzRXl2b3ljdXF1WUxNZGsrWk9E?=
- =?utf-8?B?RlBUcVdDaTBjK3NmYlIwZWo5cHhML2I2c0oxUzl0UjIrRVNvMVJYc0FFcEFn?=
- =?utf-8?B?czRFVXZBZERxLzYrNHVhaVFYRDR2YjFwOFFzUGlid3FoZWkxTUR0MGNIQUxr?=
- =?utf-8?B?REF1ZVhzVkZjVzg4MnpvRTdKWVByR213KzFRVWRlRG9QRStLUThvWlV3YzZn?=
- =?utf-8?B?UExVRVJ6Zng3aDBKdHpFZmpYdnBJSVZ1T08wUk1YZ21GOFEzRlpGdFAwcWdz?=
- =?utf-8?B?d1JUL0c0cWUxK084emlQa3J2ZUZBd3NzYkUzdk4xbG5JbUZWK3JDeVV2YnU5?=
- =?utf-8?B?eTZwTFdSV0hUdWFPemd1OElDN2tMVUFRQXQ3Szh5Q3dIY2xHdGkxblhDRjFN?=
- =?utf-8?B?YW8vRGtsbkh5RnpTVnVJeGNXUjJWaG4rZ2c1d0xkVVo4OVk5TFNHTFhWOEdR?=
- =?utf-8?B?aEREdFNFRytRNXptelZXRmVQWE1hK2VzSkRFQVM3bWc2dFpTTnJYOHZpNGhw?=
- =?utf-8?B?dEVQdVdlOXcreHAvdlZ3K2Z0c2FSNlNwNmpiYWQ4N0wrY0lTZjFqdUgwblRy?=
- =?utf-8?Q?rCKPJUKm5T4q9YLXJmUI1v0HLSLGfJcrsOQxE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VVpwamNob1NOQlNTZUkvaElSek8zYnNkK2FtdG9HVWFIdW9oR0NoNEswUG85?=
- =?utf-8?B?YldoeXJubk1vRENmcWUvL3lyRDEvdkkxcWlhZkVLdTNYV21jSnF6ZS9rSjU4?=
- =?utf-8?B?MzNxd2dYSEtlRU85dlU3U1A0RXRPS2tlMFhhdHlLdGlyK3lET0p6bEw3b0dD?=
- =?utf-8?B?LzNocktDN0VRQytxS0VHVS95eEhqcTJtWStMZkk0MjFHNXU0Q3NTc01RS25X?=
- =?utf-8?B?VUhnWVF5RnFYNENmTEVpVlhDU0VBRjhGVGNBa3h6QWZoVVgvZEx4dzA3d0Fj?=
- =?utf-8?B?NXIzbjFaSE4rTFhJSzFyeW9jWDJ2V0U1R0dHOG0vU1RJVGpGQXNKdklGNllS?=
- =?utf-8?B?a1YxMmVjeWFDell0VXp4WEthcko3bnh1L2djR0RYVEt5MGFkYldTaWNPRCto?=
- =?utf-8?B?VVcyZUp3dXkyWm4yWjdVVHlwSDNSWlhrUUVKaWZranFJcnNNZHdJR09leG4z?=
- =?utf-8?B?eC9oUG4wQVlzMDZsMEhLdDlNWVhqVDR0OWs5NElIckFtWm1ORnlYb3B3NnFK?=
- =?utf-8?B?UlZ5NXRXK0NMZWpQNmt5anA5N3NoK1lhblZMQlk3T0M5dUdPazJ4V2dmVGMz?=
- =?utf-8?B?ZTNGa0NkN3BXZTUzMzN6NW1HREp1QVNLVXhWQzNha0JTT3MzZ1Bic2xicjcy?=
- =?utf-8?B?Qm92MUI1TGN0SGx4YXRIUkpkUHErTE1aOVQyM1I5TXpRR0oxUmJzWXNaTkdY?=
- =?utf-8?B?eGZGcmtGQlRQdGloQkZuYjFZdHR3aEhta0MzMGJzdUFNaW5VR0dlTU1VYzNM?=
- =?utf-8?B?SU5PdVJmNTh5ZUE0TmRmZXoyMUpNL3FvK29XdW5sRE14TGI2NGtDbDZ3TTV5?=
- =?utf-8?B?ZWlmZjN4YTBmbXZjNFErb1hTaGdndzYySUNNK1RhQkZJVWhDRDVGNWVrVUY4?=
- =?utf-8?B?dlRIMWxPS2dCalVYVU5UdHBjV2Z4cXlhMisxMjN3Y3FTQlJta3FrajNmSzlq?=
- =?utf-8?B?NDB0eUJUM1dKSkZqWHJMOGlIYzZob0VmZVAwVjFkbDBYUk9vMzNTR2xob1dB?=
- =?utf-8?B?RmlIaWdIK1BlbFB3QTlzcHVMRVNjRDN1dUtZNTJrYU1iQWJINGRmbVJDc3pV?=
- =?utf-8?B?WnlqMVBzcXY5OXI1T2g4YmNpYkRYQ3JnNU82b2R2N2xsWlpaTkswWmluOEQr?=
- =?utf-8?B?RWZoRHdWM2YzNW9FY2ZCcDJadkNtUHozaHJabmtPY1UxQzNVajg1WDBpeldi?=
- =?utf-8?B?QTFnMVZYZW94WmVUQlJQaUcrN1FvdmNkLzRyMTUvV29ZbVhTSjdTZzV4dmNO?=
- =?utf-8?B?Y0FZVHhOdjcybm16R0pvTDY2TTJjUDhGOURTRGhXUXEvZGxkWnN2eWtZS2cr?=
- =?utf-8?B?eWE4Zkhjelh6aFR6Sm51Y0lJWFN5QTlSQ2pKNGRPa0xmV25Va1VsY2hQdTV6?=
- =?utf-8?B?dVRmc2EyVDYyUG5YbVBXSnNhczQzcFRlenMyWU5nRzJ1cUZCTlB3VDdBekRx?=
- =?utf-8?B?ZTBtSHllNU81WnVnSnhxajZKSEZwNlFFRHd3OWVRbisyYkpzRWxRMlhwT01h?=
- =?utf-8?B?RXkvK3NQeXJ2ZVZacUszWjEwT2RLVXptZXdDTloxTTBsSys4TE5SWFRNZnZR?=
- =?utf-8?B?M2w5enVYOHptajlrY3E2bGtKT0pyMXY3dUtPVlB3dEZpUU1xVWhNY0swNUc3?=
- =?utf-8?B?THV2cG5FS3RzeFlWc3Q5aXVqYVU2UkFMNEZzU3UrQjZ4MFByY2JBenFZeFJP?=
- =?utf-8?B?M055M0padkZzYVBPSUN1SjRKUXdWWkRSWjMrSmd6M2JpR01EbUZYUFdVVHRy?=
- =?utf-8?B?cjNrL1ozOStxSExHL1BoMVZDUU9JeGRVZDVyM2JrT3ZQdmU2Z1BoN1BoRnkx?=
- =?utf-8?B?dFVCWmlHSk1SOEpMdTMzWUdBdGRNT1NvNThCcFJuNE16WUpsdFJhQlZoYXFW?=
- =?utf-8?B?WTdpaHhoeEN0djlEL0RQUjVsejZUQXV5VDUrcnhDazdwT0lsY0EzN2lVT0U3?=
- =?utf-8?B?MjQvQ2hsRW9PL2d6dm54ZUQxZU1SaithRGhrZ3J3MHg2Tno2Q1grSTlaOEw5?=
- =?utf-8?B?S1JIVFRPaWVwMUlzN3p1SGpsNCsxaThuYkFIY2VBMFNnNnJUZGtEMm9hemtm?=
- =?utf-8?B?bllnTVA5SnVQSGNCemk4R1hIWUpLWS8zRGhzQTRtUjdIcWpTYm1IdWxyRGtD?=
- =?utf-8?Q?dpELHTleOtElllGQf0LSpXwDx?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d9b465f-6238-4147-6c2d-08ddf51fd0d9
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2025 12:51:55.4915
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Iqm9v4fQFY2fb1CnQ6khv+QPkzsz32SK27F9IDNAuJ3CvnGeRF6I8xqtNIkDFJI9
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL1PR12MB5897
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20250829101425.95442-1-tarang.raval@siliconsignals.io>
+References: <20250829101425.95442-1-tarang.raval@siliconsignals.io>
+Subject: Re: [PATCH] media: rkisp1: Fix enum_framesizes accepting invalid pixel formats
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Tarang Raval <tarang.raval@siliconsignals.io>, Dafna Hirschfeld <dafna@fastmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+To: Tarang Raval <tarang.raval@siliconsignals.io>, laurent.pinchart@ideasonboard.com
+Date: Tue, 16 Sep 2025 13:56:12 +0100
+Message-ID: <175802737238.1246375.11921455447379092868@ping.linuxembedded.co.uk>
+User-Agent: alot/0.9.1
 
-On 16.09.25 13:58, Pierre-Eric Pelloux-Prayer wrote:
-> 
-> 
-> Le 16/09/2025 à 12:52, Christian König a écrit :
->> On 16.09.25 11:46, Pierre-Eric Pelloux-Prayer wrote:
->>>
->>>
->>> Le 16/09/2025 à 11:25, Christian König a écrit :
->>>> On 16.09.25 09:08, Pierre-Eric Pelloux-Prayer wrote:
->>>>> amdgpu_ttm_copy_mem_to_mem has a single caller, make sure the out
->>>>> fence is non-NULL to simplify the code.
->>>>> Since none of the pointers should be NULL, we can enable
->>>>> __attribute__((nonnull))__.
->>>>>
->>>>> While at it make the function static since it's only used from
->>>>> amdgpuu_ttm.c.
->>>>>
->>>>> Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
->>>>> ---
->>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c | 17 ++++++++---------
->>>>>    drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h |  6 ------
->>>>>    2 files changed, 8 insertions(+), 15 deletions(-)
->>>>>
->>>>> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>>>> index 27ab4e754b2a..70b817b5578d 100644
->>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
->>>>> @@ -284,12 +284,13 @@ static int amdgpu_ttm_map_buffer(struct ttm_buffer_object *bo,
->>>>>     * move and different for a BO to BO copy.
->>>>>     *
->>>>>     */
->>>>> -int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
->>>>> -                   const struct amdgpu_copy_mem *src,
->>>>> -                   const struct amdgpu_copy_mem *dst,
->>>>> -                   uint64_t size, bool tmz,
->>>>> -                   struct dma_resv *resv,
->>>>> -                   struct dma_fence **f)
->>>>> +__attribute__((nonnull))
->>>>
->>>> That looks fishy.
->>>>
->>>>> +static int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
->>>>> +                      const struct amdgpu_copy_mem *src,
->>>>> +                      const struct amdgpu_copy_mem *dst,
->>>>> +                      uint64_t size, bool tmz,
->>>>> +                      struct dma_resv *resv,
->>>>> +                      struct dma_fence **f)
->>>>
->>>> I'm not an expert for those, but looking at other examples that should be here and look something like:
->>>>
->>>> __attribute__((nonnull(7)))
->>>
->>> Both syntax are valid. The GCC docs says:
->>>
->>>     If no arg-index is given to the nonnull attribute, all pointer arguments are marked as non-null
->>
->> Never seen that before. Is that gcc specifc or standardized?
-> 
-> clang supports it:
-> 
-> https://clang.llvm.org/docs/AttributeReference.html#id10
-> 
-> And both syntaxes are already used in the drm subtree by i915.
+Quoting Tarang Raval (2025-08-29 11:14:24)
+> Reject unsupported pixel formats in rkisp1_enum_framesizes() to
+> fix v4l2-compliance failure.
+>=20
+> v4l2-compliance test failure:
+>=20
+> fail: ../utils/v4l2-compliance/v4l2-test-formats.cpp(403): Accepted frame=
+size for invalid format
+> test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: FAIL
+>=20
+> Tested on: Debix i.MX8MP Model A
 
-Ok in that case Reviewed-by: Christian König <christian.koenig@amd.com>.
+Tested here also on a debix board running v4l2-compliance before and
+after.
 
-Regards,
-Christian.
+Tested-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 
-> 
-> Pierre-Eric
-> 
->>
->>>
->>>
->>>>
->>>> But I think for this case here it is also not a must have to have that.
->>>
->>> I can remove it if you prefer, but it doesn't hurt to have the compiler validate usage of the functions.
->>
->> Yeah it's clearly useful, but I'm worried that clang won't like it.
->>
->> Christian.
->>
->>>
->>> Pierre-Eric
->>>
->>>
->>>>
->>>> Regards,
->>>> Christian.
->>>>
->>>>>    {
->>>>>        struct amdgpu_ring *ring = adev->mman.buffer_funcs_ring;
->>>>>        struct amdgpu_res_cursor src_mm, dst_mm;
->>>>> @@ -363,9 +364,7 @@ int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
->>>>>        }
->>>>>    error:
->>>>>        mutex_unlock(&adev->mman.gtt_window_lock);
->>>>> -    if (f)
->>>>> -        *f = dma_fence_get(fence);
->>>>> -    dma_fence_put(fence);
->>>>> +    *f = fence;
->>>>>        return r;
->>>>>    }
->>>>>    diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
->>>>> index bb17987f0447..07ae2853c77c 100644
->>>>> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
->>>>> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.h
->>>>> @@ -170,12 +170,6 @@ int amdgpu_copy_buffer(struct amdgpu_ring *ring, uint64_t src_offset,
->>>>>                   struct dma_resv *resv,
->>>>>                   struct dma_fence **fence, bool direct_submit,
->>>>>                   bool vm_needs_flush, uint32_t copy_flags);
->>>>> -int amdgpu_ttm_copy_mem_to_mem(struct amdgpu_device *adev,
->>>>> -                   const struct amdgpu_copy_mem *src,
->>>>> -                   const struct amdgpu_copy_mem *dst,
->>>>> -                   uint64_t size, bool tmz,
->>>>> -                   struct dma_resv *resv,
->>>>> -                   struct dma_fence **f);
->>>>>    int amdgpu_ttm_clear_buffer(struct amdgpu_bo *bo,
->>>>>                    struct dma_resv *resv,
->>>>>                    struct dma_fence **fence);
->>
-
+> Kernel version: v6.17-rc3
+> v4l2-compliance: 1.31.0-5387
+>=20
+> Signed-off-by: Tarang Raval <tarang.raval@siliconsignals.io>
+> ---
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/dr=
+ivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> index 6dcefd144d5a..107937b77153 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
+> @@ -1383,6 +1383,9 @@ static int rkisp1_enum_framesizes(struct file *file=
+, void *fh,
+>         };
+>         struct rkisp1_capture *cap =3D video_drvdata(file);
+> =20
+> +       if (!rkisp1_find_fmt_cfg(cap, fsize->pixel_format))
+> +               return -EINVAL;
+> +
+>         if (fsize->index !=3D 0)
+>                 return -EINVAL;
+> =20
+> --=20
+> 2.34.1
+>
 
