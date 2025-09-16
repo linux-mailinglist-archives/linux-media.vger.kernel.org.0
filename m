@@ -1,72 +1,69 @@
-Return-Path: <linux-media+bounces-42632-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42633-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6F30B59E9B
-	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 19:00:53 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B442FB59EA2
+	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 19:01:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id D0FB5461A06
-	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 17:00:18 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3F25D461586
+	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 17:00:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8B73B343D73;
-	Tue, 16 Sep 2025 16:58:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B392B329504;
+	Tue, 16 Sep 2025 16:58:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d5PnQyOr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iNfloWg+"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5331323F71;
-	Tue, 16 Sep 2025 16:58:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CF833294E8;
+	Tue, 16 Sep 2025 16:58:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758041914; cv=none; b=ZXFV0r3dkSqCgs/G2JhfYYldeeE/i3wRiZJQsoLGBJH1cKSJxuXzhVOLYNzJBO+8B+9ndDScLYNlxnjVlZf9qsblkcRUVI4iVtL33yee6sq1iC7pCmQf+VEpltz+OZ6hsv2quKPqwSsbK9zUsPoGM/jrVBu0/RbF0Vm92yLKqck=
+	t=1758041915; cv=none; b=r2+jpjNrXECXOQtShMumCjbaEZZMXBFhpDXuZe1WTGNy5K96XckHgzFnzTdsdns00fDvVIyM3D3t4X0I1byOK9Gii4icwElpuc50NwsesLfemi5gZqPHRm/pM6BFq4AQOgxDdGWh9G6BAMD22ntiMuMIOfhniG7EsRWd6Lc6RkI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758041914; c=relaxed/simple;
-	bh=n9jFZ8L5DsjRvc5S9GBCejk/BAUuMkiJFJJ3uBsLaxU=;
+	s=arc-20240116; t=1758041915; c=relaxed/simple;
+	bh=D3qvIg6ko2yKinLTtLMypu7l8kYVGM9TPZja3TTO2pY=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=TmFtGU9J18E+u5y4SLu0h5ZYmjsvvg53KRPx1JFC/KW+id/f48IsXzJI36WHpEoUk8gvB74aXYbG3yPtnUghI1eYQ2yPIAUqgkM5A2Ld3VOLP4OQaa9nJ06G9HE8D0aiYn8gIoto7mj/q8GYX2fO+wAup7iBUYQWLzSMOcMkpPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d5PnQyOr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2EC5C4CEFF;
-	Tue, 16 Sep 2025 16:58:31 +0000 (UTC)
+	 MIME-Version:Content-Type; b=jWc7j+csKtpQm/inuEwvRgHQdMO5GnqzipV78H3xMnv34MJ3wFD39SFdmMbrsVtmTBmkE69jTGDy4kSB/K1Eh+pEIU5IgdUpCT/hc8V9wq9JAuPOJ4cRtp9y7NuV0yFFWm8TDOphM6k+74UD2zRNUcUAoQj5GkuRH9oJOuhovkA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iNfloWg+; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7FC4FC4CEFD;
+	Tue, 16 Sep 2025 16:58:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758041913;
-	bh=n9jFZ8L5DsjRvc5S9GBCejk/BAUuMkiJFJJ3uBsLaxU=;
+	s=k20201202; t=1758041914;
+	bh=D3qvIg6ko2yKinLTtLMypu7l8kYVGM9TPZja3TTO2pY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=d5PnQyOrz/U7GSYW+Yzil7LUSbRZfJtqXjySaMyUzfspF8eQrY3Ao0ddfJW51V+8c
-	 H5mzrCE12CWQ3VDJZLH+nphDv8NUUrEg2AShsPnyzxJEC8L+jyz97tn8vmXVD73Odd
-	 ZzjiTM7XzcIUbgwTxunF57jT0TD+0BCCU4DTjHo5TqsV+fA+bl3i2Eby124qSo7Z92
-	 WUJqlMLnHa9hgdAq4kwjmaYAfvZ27WQhW3wLC4iuY5BcCQL2sYmaQys7ItBgmOQGHN
-	 pEgGvaML/uVs0ytdD4sGGhgx+0y3s6La7tILvglczLi692LCGn5YQRIjvtgos8CKR+
-	 lTL82SU+3lEwg==
+	b=iNfloWg+RYVsWVVUekTMIF7SiaatayhzqVsocVe2bBlFAtCHkJVS6b5eRCX6NhaPE
+	 fakx5iD9ewvQI2s/cwIpuNxDO2C+e+TJ3YAQimnOOaHiAnWSZzBOFIup0SrF4Fd1qm
+	 h+P6GV8YjwhS9mfPXaYD0gAtLqVUBFlf4+nX8YVv//zQAm3/iNXMl/7q/p5lV2rId+
+	 UU+x1b1b90QDosYsKb0Ff+b5k3TRLUohBEqr/XTsDeDKQ2ImqbWgwQ7n780sSyh8fv
+	 1SvXu/HVTCfILKAqE2b2txlgRoZezxvLIZ2j52GagqR+LPsoCVV0cSpYPNDD8iIt1B
+	 tchFKDp78eyfg==
 From: Bjorn Andersson <andersson@kernel.org>
-To: rfoss@kernel.org,
-	todor.too@gmail.com,
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+	Robert Foss <rfoss@kernel.org>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
 	bryan.odonoghue@linaro.org,
-	mchehab@kernel.org,
-	robh@kernel.org,
-	krzk+dt@kernel.org,
-	conor+dt@kernel.org,
-	konradybcio@kernel.org,
-	cros-qcom-dts-watchers@chromium.org,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Vikram Sharma <quic_vikramsa@quicinc.com>
-Cc: linux-arm-kernel@lists.infradead.org,
-	quic_svankada@quicinc.com,
-	linux-media@vger.kernel.org,
+	Wenmeng Liu <quic_wenmliu@quicinc.com>
+Cc: linux-i2c@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
 	devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: (subset) [PATCH v5 0/9] Add lemans(sa8775p) camss support
-Date: Tue, 16 Sep 2025 11:58:16 -0500
-Message-ID: <175804189856.3983789.9613227965968869684.b4-ty@kernel.org>
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org,
+	Wenmeng Liu <quic_wenmliu@qualcomm.com>,
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Subject: Re: (subset) [PATCH v6 0/3] Add CCI and imx577 sensor support for LeMans EVK
+Date: Tue, 16 Sep 2025 11:58:17 -0500
+Message-ID: <175804189857.3983789.14525162950764666455.b4-ty@kernel.org>
 X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20250814101615.1102795-1-quic_vikramsa@quicinc.com>
-References: <20250814101615.1102795-1-quic_vikramsa@quicinc.com>
+In-Reply-To: <20250912-camss_rb8-v6-0-c9a6c3d67392@oss.qualcomm.com>
+References: <20250912-camss_rb8-v6-0-c9a6c3d67392@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,27 +74,28 @@ Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 
 
-On Thu, 14 Aug 2025 15:46:06 +0530, Vikram Sharma wrote:
-> From: Vikram Sharma <vikramsa@qti.qualcomm.com>
+On Fri, 12 Sep 2025 23:19:24 +0800, Wenmeng Liu wrote:
+> This series adds cci definition and imx577 sensor enablement
+> via cci1 on LeMans EVK.
 > 
-> Lemans is a Qualcomm SoC. Previously referred to as SA8775P. This series adds
-> bindings and devicetree to bring up CSIPHY, TPG, CSID, VFE/RDI interfaces
-> in Lemans.
+> An example media-ctl pipeline for the imx577 is:
 > 
-> Lemans provides
-> - 2 x VFE, 3 RDI per VFE
-> - 5 x VFE Lite, 6 RDI per VFE
-> - 2 x CSID
-> - 5 x CSID Lite
-> - 3 x TPG
-> - 4 x CSIPHY
+> media-ctl -d /dev/media0 --reset
+> media-ctl -d /dev/media0 -V '"imx577 0-001a":0[fmt:SRGGB10/4056x3040 field:none]'
+> media-ctl -d /dev/media0 -V '"msm_csiphy1":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -d /dev/media0 -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -d /dev/media0 -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
+> media-ctl -d /dev/media0 -l '"msm_csiphy1":1->"msm_csid0":0[1]'
+> media-ctl -d /dev/media0 -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
 > 
 > [...]
 
 Applied, thanks!
 
-[9/9] arm64: dts: qcom: lemans: Add support for camss
-      commit: a19c879b69b12cc31ed59b50e743a1ef2e5b08b1
+[2/3] arm64: dts: qcom: sa8775p: Add CCI definitions
+      commit: 3964a91e552880c356ec4d3f09eed927f48e9c66
+[3/3] arm64: dts: qcom: lemans-evk-camera: Add DT overlay
+      commit: b68fc45910d4eb1b3bb7e160282fba5a4bdd8409
 
 Best regards,
 -- 
