@@ -1,124 +1,232 @@
-Return-Path: <linux-media+bounces-42637-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42638-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id D22ABB5A1E2
-	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 22:09:14 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D77AB5A464
+	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 23:58:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F8D21BC77D8
-	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 20:09:36 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E83434E2B1C
+	for <lists+linux-media@lfdr.de>; Tue, 16 Sep 2025 21:58:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7CCA32DF15A;
-	Tue, 16 Sep 2025 20:09:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C814C3294E4;
+	Tue, 16 Sep 2025 21:58:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b="ckISlrv+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ff0iOsgW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBA52D9EE5
-	for <linux-media@vger.kernel.org>; Tue, 16 Sep 2025 20:09:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6BA31BCA5;
+	Tue, 16 Sep 2025 21:58:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758053347; cv=none; b=cz32lgdCZ+odafTHiWmBBQ7Dvxg7x0+hAQLn3DMUJVKusJ0AgjRDjCx8SPSTyPeWRNFIFyIVPEU62e7q/k+4FjUCzGhJsA4H4MxXdWSmPbFhqK6JQoBcO+rXn1MzdtWapVDwkIu15hLygmu2IE1tSY3Et0WJKTyPhtD7tAt8EzI=
+	t=1758059883; cv=none; b=tbVMN+aA9h5Xmugjc3OLDeGKCm05QBwe15+D0+RRV+d8DLjoUl9z96OyWnir+V9i/x3toZy9LPkETJzJRDBSUUhOIBGybXA/IAlL7JdIz40A4HS0CgNJsKy3N0AXQhxV4bUD/P2VfIqU0dOTwVIimlR2XsSGjRUCdrD+hIOSfFU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758053347; c=relaxed/simple;
-	bh=CV94P1G6PAbXUYBZXtbDVt4H7gF8ZfJUS0/eyqgvHFM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tag4VhcYFR3+A1zkezKlBx/HTLLDm4IRtM+9Aeqjv91eBjDj3qu/xoqKD611PQEputJ239EVjnmGzf8jqXOm6IoiMcSX9HfbM8cqlRrA0A74G9eEkQdpGIaUT6ad/FFgs54TLTke8xDlVxjGubBnat8a0LLShtWpX2noJU2Csys=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool; spf=pass smtp.mailfrom=packett.cool; dkim=pass (2048-bit key) header.d=packett.cool header.i=@packett.cool header.b=ckISlrv+; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=packett.cool
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=packett.cool
-Message-ID: <fad5cb33-0e7c-499b-bad7-bbdacca8076a@packett.cool>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=packett.cool;
-	s=key1; t=1758053331;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=SHtwMr5+ZMiaqfj6m6kVuvNj2Y2evNdPg6uV1F0bJNA=;
-	b=ckISlrv+FoQ3Emync9HM87QOztyL5MLDKkY9+yDg5rpd1E6Ww3PwuRJm35Ehia4bkKowAd
-	RN0gXd09gfVm7wC+5FpJgFB+HgT28UfsW3g75d1QknnRK8+uns/q/PGJYyHQLmfKPq1vkq
-	87mSGmNshUirOiW4awpGJ+a/q5DVsBBqyiJMROJo1ksT0v8QHUPId4nzqd/V3UyLZh5u3p
-	5+E0wGCmSFFhfDIEltrosZZz+EQqVhAnDxVBLTWHpJu1hochZ4wlZDQ2MF1Y8KBnx2CGQf
-	TMZ5S6k0dNsy0MBDpEu2GcEMwxuV2wQpqtRzNNENGSA3HAy4PPma1btuMNbVVg==
-Date: Tue, 16 Sep 2025 17:08:44 -0300
+	s=arc-20240116; t=1758059883; c=relaxed/simple;
+	bh=CcqKmNwdNBd1QSYXFhvxN7W/9Wyt7eWllgzAddhdYy8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XKeijVDAJ/qx8a26tTX8mTL07hNtRV9uqfmAnNS5JL6vWgGJupTuJs8f9mSdfy95lBUyqpRMklsilWGlSpUwibN3LHc2bN8uTm0UQfb32RLjjpt80FDvNUZNENeTxL30eg+JyexgyUOtOCWFgznyLw65TUCVKTvVgmJeGtdlvuo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ff0iOsgW; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C5F4EC4CEEB;
+	Tue, 16 Sep 2025 21:58:00 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758059881;
+	bh=CcqKmNwdNBd1QSYXFhvxN7W/9Wyt7eWllgzAddhdYy8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ff0iOsgWeFSHcTeP+dGPIZE+see6W5Xk0yB3GvGmc2vZjFAHD+0cOJDQjOvK7sBPT
+	 KidWd8Ff7jxARe3IMVqzkSz1iZ8a/BqzboSiQGs+7nISP4hKhA7i1++VqObXtd8S63
+	 n5HxUb/eABzGIZm1Uo3rC6nb+zzwY1CZyZWCGVRAouRYb3oLxoHOz9qKnw6ZVVJXb6
+	 34/OB/25ornZ7DHWW1lBfUrPvT1gn1dUfECMj1n2njc7fOxn0b3+/oh+91kUV1ds7D
+	 CHRjm6v50j66E5xNZVGgVzlQGtDknDj64j4kxeXCIRcclWJ1kjn2Ub7ACdvrYftLD3
+	 5Cvtnk4Ki9cSg==
+Date: Tue, 16 Sep 2025 16:57:56 -0500
+From: Rob Herring <robh@kernel.org>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Guoniu Zhou <guoniu.zhou@nxp.com>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 1/4] media: dt-bindings: nxp,imx8mq-mipi-csi2: Add
+ i.MX8ULP compatible string
+Message-ID: <20250916215756.GA4190660-robh@kernel.org>
+References: <20250901-csi2_imx8ulp-v5-0-67964d1471f3@nxp.com>
+ <20250901-csi2_imx8ulp-v5-1-67964d1471f3@nxp.com>
+ <20250901154610.GB13448@pendragon.ideasonboard.com>
+ <aLZMQ7c8qr5XO88d@lizhi-Precision-Tower-5810>
+ <20250902083554.GD13448@pendragon.ideasonboard.com>
+ <7c461931-3b04-4354-a892-52f469511c5a@kernel.org>
+ <20250902123524.GK13448@pendragon.ideasonboard.com>
+ <647fdf8a-835b-44d1-b0b8-a3d253a14787@kernel.org>
+ <20250903192142.GA10637@pendragon.ideasonboard.com>
+ <aLmnDASizRALzVMM@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH 7/7] media: i2c: dw9719: Fix power on/off sequence
-To: =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
- Daniel Scally <djrscally@gmail.com>, ~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250817-dw9719-v1-0-426f46c69a5a@apitzsch.eu>
- <20250817-dw9719-v1-7-426f46c69a5a@apitzsch.eu>
- <aKLZ39IzI_azrDIu@kekkonen.localdomain>
- <550f28a9aa82a28beb35fd3490dbe08928ba9eed.camel@apitzsch.eu>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Val Packett <val@packett.cool>
-In-Reply-To: <550f28a9aa82a28beb35fd3490dbe08928ba9eed.camel@apitzsch.eu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aLmnDASizRALzVMM@lizhi-Precision-Tower-5810>
 
+On Thu, Sep 04, 2025 at 10:49:48AM -0400, Frank Li wrote:
+> On Wed, Sep 03, 2025 at 09:21:43PM +0200, Laurent Pinchart wrote:
+> > On Tue, Sep 02, 2025 at 05:53:39PM +0200, Krzysztof Kozlowski wrote:
+> > > On 02/09/2025 14:35, Laurent Pinchart wrote:
+> > > > On Tue, Sep 02, 2025 at 02:26:53PM +0200, Krzysztof Kozlowski wrote:
+> > > >> On 02/09/2025 10:35, Laurent Pinchart wrote:
+> > > >>>>>>          compatible:
+> > > >>>>>>            contains:
+> > > >>>>>>              enum:
+> > > >>>>>> -              - fsl,imx8qxp-mipi-csi2
+> > > >>>>>> +              - fsl,imx8ulp-mipi-csi2
+> > > >>>>>> +    then:
+> > > >>>>>> +      properties:
+> > > >>>>>> +        reg:
+> > > >>>>>> +          minItems: 2
+> > > >>>>>> +        resets:
+> > > >>>>>> +          minItems: 2
+> > > >>>>>> +          maxItems: 2
+> > > >>>>>> +        clocks:
+> > > >>>>>> +          minItems: 4
+> > > >>>>>> +        clock-names:
+> > > >>>>>> +          minItems: 4
+> > > >>>>>
+> > > >>>>> But according to this, the ULP version requires more clocks than the QXP
+> > > >>>>> version.
+> > > >>>>
+> > > >>>> If only clock number difference, generally, it is still compatible and can
+> > > >>>> be fallback, especialy driver use devm_bulk_clk_get_all().
+> > > >>>
+> > > >>> That's a driver-specific implementation decision, so I don't think it
+> > > >>> should be taken into account to decide on compatibility.
+> > > >>
+> > > >> The clock inputs do not restrict compatibility. If Linux can use
+> > > >> fallback to bind and operate properly, then it's a strong indication
+> > > >> devices are compatible.
+> > > >>
+> > > >> Imagine exactly the same registers, so same programming interface, but
+> > > >> one device takes one more clock which just needs to be enabled through
+> > > >> its lifetime. Such devices are fully compatible, even though clock
+> > > >> inputs differ.
+> > > >
+> > > > That's only the case if someone enables the clock, isn't it ? From a DT
+> > > > binding point of view, how can we know that the extra clock will be
+> > >
+> > > We talk about software using the binding in this particular case. Can
+> > > the software use fallback? Yes, it can.
+> >
+> > The Linux kernel driver, in its current implementation, can, yes. No
+> > disagreement about that.
+> >
+> > > > enabled by a component separate from the driver (in this case by the
+> > > > fact that the devm_bulk_clk_get_all() function gets all clocks) ?
+> > >
+> > > If you go that way, only 100% identical devices are compatible.
+> > >
+> > > >> I also wanted to express exactly that case on my slides from OSSE -
+> > > >> slide 28:
+> > > >> https://osseu2025.sched.com/event/25Vsl/dts-101-from-roots-to-trees-aka-devicetree-for-beginners-krzysztof-kozlowski-linaro
+> > > >
+> > > > Quoting that slide, you wrote
+> > > >
+> > > > "Two devices are compatible when the new device works with Linux drivers
+> > > > bound via fallback (old) compatible".
+> > > >
+> > > > That is clearly the case here for the existing *Linux* driver. But what
+> > > > if the driver called devm_bulkd_clk_get() with a device-specific list of
+> > > > clocks ? Or what if the same DT bindings are used on an OS that has no
+> > > > clk_get_all() equivalent ? This is my concern with declaring those two
+> > > > devices as compatible: they may be from the point of view of the current
+> > > > implementation of the corresponding Linux kernel driver, but DT bindings
+> > > > are not Linux-specific.
+> > >
+> > > It seems you think of compatibility as new device is compatible with old
+> > > kernel, e.g. one not requesting that clock. We don't talk about such case.
+> >
+> > No no, I'm considering compatibility in the same sense as you. Sorry if
+> > that wasn't clear.
+> >
+> > > > Or do DT bindings assume that drivers have to always enable all clocks
+> > > > declared in DT, even if they don't know what those clocks are ? That
+> > > > seems error-prone, in quite a few cases drivers need to handle separate
+> > > > clocks in a device-specific way, with for instance a particular
+> > > > ordering, preventing them from using devm_bulk_clk_get_all(). If all
+> > > > drivers are required to manage all clocks declared in DT, this would get
+> > > > messy quite quickly.
+> > >
+> > > I don't really want to dive into such specifics, because it is
+> > > impossible to create a generic rule of out.
+> >
+> > We're on the same page there :-)
+> >
+> > Compatible strings model compatibility with software. As DT bindings are
+> > not OS-specific, they should be designed based on the concept of a
+> > driver, and not on a particular driver implementation. As a conceptual
+> > generic driver can't be precisely defined, we will always have edge
+> > cases.
+> >
+> > In this specific case, I think that devm_bulk_clk_get_all() is too much
+> > of a Linux-specific concept to consider that devices with different
+> > clocks are compatible. Even considering Linux only, a driver that needs
+> > to handle at least one of the clocks in a particular way (for instance
+> > to guarantee a device-specific clock sequencing requirement, or to
+> > retrieve or set the frequency of a particular clock) will need to get
+> > clocks by their names, making fully generic handling of all clocks not
+> > possible.
+> 
+> New added clocks is simple clock, needn't specific handler. Only need
+> enable at runtime resume.
+> 
+> Back compatible is hard to decouple with driver's implement 100%.
+> 
+> Compatible string C1 have clock A, B, C
+> Compatible string C2 have clock A, B, C, D, E, F
+> 
+> A, B, C is common for both C1 and C2, which need special handle.
+> D, E, F is simple enable at probe or runtime resume.
 
-On 9/15/25 5:48 PM, André Apitzsch wrote:
-> Hi Sakari,
->
-> @Val, please see below.
->
-> Am Montag, dem 18.08.2025 um 07:44 +0000 schrieb Sakari Ailus:
->> Hi André,
->>
->> On Sun, Aug 17, 2025 at 07:09:26PM +0200, André Apitzsch via B4 Relay
->> wrote:
->>>   	u64 val;
->>>   	int ret;
->>>   	int err;
->>> @@ -109,13 +116,15 @@ static int dw9719_power_up(struct
->>> dw9719_device *dw9719, bool detect)
->>>   	if (ret)
->>>   		return ret;
->>>   
->>> -	/* Jiggle SCL pin to wake up device */
->>> -	reg_pwr = (dw9719->model == DW9718S) ? DW9718S_PD :
->>> DW9719_CONTROL;
->>> -	cci_write(dw9719->regmap, reg_pwr, DW9719_SHUTDOWN, &ret);
->>> -	fsleep(100);
->>> +	/*
->>> +	 * Need 100us to transition from SHUTDOWN to STANDBY.
->>> +	 * Jiggle the SCL pin to wake up the device (even when the
->>> regulator
->>> +	 * is shared) and wait double the time to be sure, then
->>> retry the write.
->> Why double? Isn't the datasheet correct when it comes to the power-on
->> sequence?
->>
-> I haven't noticed any problems during power-up of DW9761. However,
-> according to the commit message, there seems be an issue with DW9718S.
-> But I don't own the device and cannot test it.
->
-> Maybe Val can provided some additional information.
+I think it would only be backwards compatible if clocks D, E, and F were 
+entirely optional and could be left unmanaged.
 
-I haven't had access to the datasheet for the DW9718S, so this was all 
-deduced experimentally. By "to be sure" I meant that I literally raised 
-the timeout "just in case", not based on actual issues.
+> 
+> Can C1 be back compatible C2 (assume all the same except only D, E, F
+> clock difference)? It is always depend on drivers' implemment.
+> 
+> Add back compatible have NOT bad impact for drivers and bindings. Although
+> back compatible "C1", "C2", driver still use can use C1 firstly to do
+> special process.
+> 
+> 
+> > For such drivers, difference in clocks will preclude
+> > considering two devices as compatible.
+> >
+> > As this is somewhat of an edge case someone will need to make a
+> > decision, and I won't fight tooth and nail over it.
+> 
+> Agree. Need a guide line. My opinion is
+> 
+> back compatible if there are no new drvdata (pltdata) in drivers.
+> Needn't back compatible if need add new item in drvdata(pltdata) in drivers.
 
-The actually important change was expecting the failure on the write and 
-not erroring out.
+That's a good indication, but not 100%.
 
-Thanks,
-~val
+If the chip overall needs kernel changes anyways, then backwards 
+compatibility for 1 block doesn't really matter so much other than 1 
+less patch. 
 
+Rob
 
