@@ -1,62 +1,46 @@
-Return-Path: <linux-media+bounces-42653-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42654-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 708B7B7CC34
-	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 14:09:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 750BFB7D5D5
+	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 14:26:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id E629E1C04712
-	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 09:42:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6D1C63AD38E
+	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 09:56:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC2FA343D97;
-	Wed, 17 Sep 2025 09:41:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="Jm77f02G"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2E7B834F48D;
+	Wed, 17 Sep 2025 09:56:34 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2AC872F9DB7;
-	Wed, 17 Sep 2025 09:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
+Received: from azure-sdnproxy.icoremail.net (azure-sdnproxy.icoremail.net [52.229.205.26])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B2C3830BB95;
+	Wed, 17 Sep 2025 09:56:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.229.205.26
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758102092; cv=none; b=Av/KvfyPlyGQ3mWWcyVFB6/TY1kVr+0qw4C+CNxThkGwQ4HG353vG46xJhbmX/3qcLEN3U3RwY74N1N/dPG2t2AaKJuCWfj9BovFuVlwutMbGTyT5ylFL8M2I4/HwTxKcquTa2CKQds/lhckpDnDiMum7oAv/Kk0pushuPDNhrU=
+	t=1758102993; cv=none; b=a2BTPR4N91iZnJnATttfyfPOR4HmVViVq+CyDg6Hgg67MyxoaJjSKkm4a3Q1yGNLZabvREw5wn6iEXsOma/Co76e4fij1QB4B07V8/otZEtu/bJRd9FmGLMdYUzTaa2oOfGDvUgp+A3PLuFGjHTVFCo4U7rgjK71ervKesc2duQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758102092; c=relaxed/simple;
-	bh=EzgT5uVZvbQGIN9UGL1/RHHGWl3JjFuxCL15z3aAxFo=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=KuI5JhZaDGsKKMUM+XV2O1JQI4RqN7R6R+Hm2Pe9JrWLSSprAt2qK0I0PoRbUsEAo0MC9ca4YOhhkYnLWqFdo5ao6wRkUdlARUzt4UIxO7/HgtDzvco6wLEAGCH2Zl0gsbKofix6EQm+WZ+fTeu+jk47SYaqvJ7HKo0O2pkV/OM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=Jm77f02G; arc=none smtp.client-ip=220.197.31.4
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:To:Subject:Date:Message-Id:MIME-Version; bh=wc
-	uuwU3W+I4CmXssHuzyWQWl3YczewIOBpW6e7iYBqg=; b=Jm77f02GAIvB2LtqOW
-	eyHPd41Ec0t0483DCiJ2XtHBi8NLz8MYEjwovKtAtYfkNasuB8Fol++3ydbgwike
-	Fr2gx4wPkUF6wTVo4OhpHISm3GKCHMYrEVtrFIUwEcCNc2p5SpRYBrWQxxZUZPg7
-	51GcGObyoNoq73IdemJMjVaqA=
-Received: from localhost.localdomain (unknown [])
-	by gzsmtp1 (Coremail) with SMTP id PCgvCgDXe9UfgsporHBlDA--.28795S4;
-	Wed, 17 Sep 2025 17:40:48 +0800 (CST)
-From: Haoxiang Li <haoxiang_li2024@163.com>
-To: minghsiu.tsai@mediatek.com,
-	houlong.wei@mediatek.com,
-	andrew-ct.chen@mediatek.com,
+	s=arc-20240116; t=1758102993; c=relaxed/simple;
+	bh=16bpVU88cJUh6YPx5ZktJMysaL5Bti5I4co90FJoiSo=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=n9ldDlrKbvxDoxMNC5XO+7TZYl9/mMHuZIhh96DBP0MAMV35BrdrJNCOdB/DJIPD6MVvdfwjYcUsWXxfJQgEPyXr1Nzd7O7peBnvxwcfTH0YQeulZbEVnwBPGUI4q8TEBoeRG69omI3H3+UAtWhqg8oPcp9Ym9GRmb4d5lE0W50=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn; spf=pass smtp.mailfrom=zju.edu.cn; arc=none smtp.client-ip=52.229.205.26
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=zju.edu.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zju.edu.cn
+Received: from zju.edu.cn (unknown [106.117.98.100])
+	by mtasvr (Coremail) with SMTP id _____wAXHQXBhcpoA+1DAg--.14889S3;
+	Wed, 17 Sep 2025 17:56:18 +0800 (CST)
+Received: from ubuntu.localdomain (unknown [106.117.98.100])
+	by mail-app1 (Coremail) with SMTP id yy_KCgCHCNG6hcpoaqclAg--.17846S2;
+	Wed, 17 Sep 2025 17:56:13 +0800 (CST)
+From: Duoming Zhou <duoming@zju.edu.cn>
+To: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
 	mchehab@kernel.org,
-	matthias.bgg@gmail.com,
-	angelogioacchino.delregno@collabora.com,
-	hans.verkuil@cisco.com
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-mediatek@lists.infradead.org,
-	Haoxiang Li <haoxiang_li2024@163.com>,
-	stable@vger.kernel.org
-Subject: [PATCH v2] media: mtk-mdp: Fix some issues in mtk_mdp_core.c
-Date: Wed, 17 Sep 2025 17:40:45 +0800
-Message-Id: <20250917094045.28789-1-haoxiang_li2024@163.com>
-X-Mailer: git-send-email 2.25.1
+	Duoming Zhou <duoming@zju.edu.cn>
+Subject: [PATCH RESEND] media: tunner: xc5000: Fix use-after-free in xc5000_release
+Date: Wed, 17 Sep 2025 17:56:08 +0800
+Message-Id: <20250917095608.14449-1-duoming@zju.edu.cn>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -64,88 +48,74 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CM-TRANSID:PCgvCgDXe9UfgsporHBlDA--.28795S4
-X-Coremail-Antispam: 1Uf129KBjvJXoWxJFWUGw48ZFyrtw1DWryxGrg_yoW5Xr18pr
-	yUKayFkrWj9FW29w47Ja18Z3W5Cr1S9w48uw1xJw4xC345Wr95J34rJa4xt3y8tr97Ca43
-	Jw4aqFWrCFWYvr7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x0piCD73UUUUU=
-X-CM-SenderInfo: xkdr5xpdqjszblsqjki6rwjhhfrp/xtbBEhrLbmjKfcCUUQAAs3
+X-CM-TRANSID:yy_KCgCHCNG6hcpoaqclAg--.17846S2
+X-CM-SenderInfo: qssqjiasttq6lmxovvfxof0/1tbiAwQMAWjJvXsG9gBjs+
+X-CM-DELIVERINFO: =?B?25/VbwXKKxbFmtjJiESix3B1w3uoVhYI+vyen2ZzBEkOnu5chDpkB+ZdGnv/zQ0PbP
+	CR131FE3wBtlILXmPZxD8pDyBTAro6gO3+CKt5DSKOLCbQH3igjFDdofwCMhjTtT6UK8wq
+	+tJujV6Fgi6rC5dpJmHiLILLAaagKZ7JI+//+cjTsanuRtMX/zbvqogSIHA8qw==
+X-Coremail-Antispam: 1Uk129KBj93XoW7Zr1fAFyDZw13ur4xuFy7XFc_yoW8Aw13pF
+	W5ury3JFWkWr45twsrXF1UXFn5uan5JF1UCFn7G3s3Aryrtr43GryrtF1F9FWDXr4xAa1f
+	Zrn8XFWaqF4qk3gCm3ZEXasCq-sJn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUvmb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1j6r18M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_tr0E3s1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIE14v26rxl6s0DM28EF7xvwVC2z280aVCY1x0267AK
+	xVW0oVCq3wAS0I0E0xvYzxvE52x082IY62kv0487Mc804VCY07AIYIkI8VC2zVCFFI0UMc
+	02F40EFcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAF
+	wI0_Jr0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0Y48IcxkI7V
+	AKI48G6xCjnVAKz4kxMxAIw28IcxkI7VAKI48JMxC20s026xCaFVCjc4AY6r1j6r4UMI8I
+	3I0E5I8CrVAFwI0_Jr0_Jr4lx2IqxVCjr7xvwVAFwI0_JrI_JrWlx4CE17CEb7AF67AKxV
+	WUAVWUtwCIc40Y0x0EwIxGrwCI42IY6xIIjxv20xvE14v26r1j6r1xMIIF0xvE2Ix0cI8I
+	cVCY1x0267AKxVWUJVW8JwCI42IY6xAIw20EY4v20xvaj40_Jr0_JF4lIxAIcVC2z280aV
+	AFwI0_Jr0_Gr1lIxAIcVC2z280aVCY1x0267AKxVW8JVW8JrUvcSsGvfC2KfnxnUUI43ZE
+	Xa7IU8VMKtUUUUU==
 
-Add check for the return value of vpu_get_plat_device() to prevent null
-pointer dereference. And vpu_get_plat_device() increases the reference
-count of the returned platform device. Add platform_device_put() to
-prevent reference leak. Also add platform_device_put() in mtk_mdp_remove().
+The original code uses cancel_delayed_work() in xc5000_release(), which
+does not guarantee that the delayed work item timer_sleep has fully
+completed if it was already running. This leads to use-after-free scenarios
+where xc5000_release() may free the xc5000_priv while timer_sleep is still
+active and attempts to dereference the xc5000_priv.
 
-Add mtk_mdp_unregister_m2m_device() on the error handling path.
+A typical race condition is illustrated below:
 
-Fixes: c8eb2d7e8202 ("[media] media: Add Mediatek MDP Driver")
-Cc: stable@vger.kernel.org
-Signed-off-by: Haoxiang Li <haoxiang_li2024@163.com>
+CPU 0 (release thread)                 | CPU 1 (delayed work callback)
+xc5000_release()                       | xc5000_do_timer_sleep()
+  cancel_delayed_work()                |
+  hybrid_tuner_release_state(priv)     |
+    kfree(priv)                        |
+                                       |   priv = container_of() // UAF
+
+Replace cancel_delayed_work() with cancel_delayed_work_sync() to ensure
+that the timer_sleep is properly canceled before the xc5000_priv memory
+is deallocated.
+
+A deadlock concern was considered: xc5000_release() is called in a process
+context and is not holding any locks that the timer_sleep work item might
+also need. Therefore, the use of the _sync() variant is safe here.
+
+This bug was initially identified through static analysis.
+
+Fixes: f7a27ff1fb77 ("[media] xc5000: delay tuner sleep to 5 seconds")
+Signed-off-by: Duoming Zhou <duoming@zju.edu.cn>
 ---
-Changes in v2:
-- Add check for vpu_get_plat_device()
-- Add platform_device_put() in mtk_mdp_remove()
-- Add mtk_mdp_unregister_m2m_device() on the error handling path.
-- Modify the patch title and description. I think you are right.
-  Thanks, CJ!
----
- .../media/platform/mediatek/mdp/mtk_mdp_core.c  | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
+ drivers/media/tuners/xc5000.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c b/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-index 80fdc6ff57e0..8432833814f3 100644
---- a/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-+++ b/drivers/media/platform/mediatek/mdp/mtk_mdp_core.c
-@@ -194,11 +194,17 @@ static int mtk_mdp_probe(struct platform_device *pdev)
+diff --git a/drivers/media/tuners/xc5000.c b/drivers/media/tuners/xc5000.c
+index 30aa4ee958bd..ec9a3cd4784e 100644
+--- a/drivers/media/tuners/xc5000.c
++++ b/drivers/media/tuners/xc5000.c
+@@ -1304,7 +1304,7 @@ static void xc5000_release(struct dvb_frontend *fe)
+ 	mutex_lock(&xc5000_list_mutex);
+ 
+ 	if (priv) {
+-		cancel_delayed_work(&priv->timer_sleep);
++		cancel_delayed_work_sync(&priv->timer_sleep);
+ 		hybrid_tuner_release_state(priv);
  	}
- 
- 	mdp->vpu_dev = vpu_get_plat_device(pdev);
-+	if (!mdp->vpu_dev) {
-+		dev_err(&pdev->dev, "Failed to get vpu device\n");
-+		ret = -ENODEV;
-+		goto err_vpu_get_dev;
-+	}
-+
- 	ret = vpu_wdt_reg_handler(mdp->vpu_dev, mtk_mdp_reset_handler, mdp,
- 				  VPU_RST_MDP);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to register reset handler\n");
--		goto err_m2m_register;
-+		goto err_reg_handler;
- 	}
- 
- 	platform_set_drvdata(pdev, mdp);
-@@ -206,7 +212,7 @@ static int mtk_mdp_probe(struct platform_device *pdev)
- 	ret = vb2_dma_contig_set_max_seg_size(&pdev->dev, DMA_BIT_MASK(32));
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to set vb2 dma mag seg size\n");
--		goto err_m2m_register;
-+		goto err_reg_handler;
- 	}
- 
- 	pm_runtime_enable(dev);
-@@ -214,6 +220,12 @@ static int mtk_mdp_probe(struct platform_device *pdev)
- 
- 	return 0;
- 
-+err_reg_handler:
-+	platform_device_put(mdp->vpu_dev);
-+
-+err_vpu_get_dev:
-+	mtk_mdp_unregister_m2m_device(mdp);
-+
- err_m2m_register:
- 	v4l2_device_unregister(&mdp->v4l2_dev);
- 
-@@ -242,6 +254,7 @@ static void mtk_mdp_remove(struct platform_device *pdev)
- 
- 	pm_runtime_disable(&pdev->dev);
- 	vb2_dma_contig_clear_max_seg_size(&pdev->dev);
-+	platform_device_put(mdp->vpu_dev);
- 	mtk_mdp_unregister_m2m_device(mdp);
- 	v4l2_device_unregister(&mdp->v4l2_dev);
  
 -- 
-2.25.1
+2.34.1
 
 
