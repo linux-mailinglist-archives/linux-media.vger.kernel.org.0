@@ -1,69 +1,69 @@
-Return-Path: <linux-media+bounces-42639-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42640-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0DC8B7D0D8
-	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 14:16:39 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D0DBB7D77B
+	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 14:28:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id AC3882A7EAF
-	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 00:31:20 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3FE3C7B17D1
+	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 00:41:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 756F3126BF7;
-	Wed, 17 Sep 2025 00:31:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D4E320B21E;
+	Wed, 17 Sep 2025 00:43:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="lxzQHwsR"
+	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="bRQrpbyn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ksmg01.maxima.ru (ksmg01.mt-integration.ru [81.200.124.38])
+Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A863F1C3C18;
-	Wed, 17 Sep 2025 00:31:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B9C13B2A4;
+	Wed, 17 Sep 2025 00:43:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758069066; cv=none; b=Yns9MOatX/JxsRLgbbPhz2eTTJc0yiJGk3BUaqKmw3pdl7zQ9DBaqvyQ4xKD/LQx/oph4em/5z5lo3/mlZTl2PtbrU26AlA676lxaBJflDYPaXH4MtXAfFKUlPLVyHh31ocLM0XQjSVqSv2QbitKVd58zUBKdALC7qnKrR9Q6C8=
+	t=1758069784; cv=none; b=k3vYo0Wa0OjRlVF9urmjH4IdKj2u9crQDnnJ99X/odI/RrlGy3wr3q1OmgKCIscT6I/OMoDzH79PJftk7zySiZMEb+pNZ0VTtVCW33w4JDeHwCUGD0H+Go0FfI0I2lL2D6sfs2oOTrHEuAbgWFLLxcb0YYvCgMXy/gAxbLr0yg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758069066; c=relaxed/simple;
-	bh=jKMrePTVtH3GK5CWeu04sQVpD6lryLOx7JYCpiq1V1Y=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=dVVJ51YAo0UCFwBta7/CR71YR/fpjl9ide85GM2le4AzpNUIRY8Uli5vhrIRyVC91+mZ7UyXhrXeZ8BXTJbzgWAYFv2e3cOnMa7abVuYx+dq1p2/UaTCo24JUlF2zmQsI3JYEAOfcZX7INW6Bv2T5KgfKk06Jr0jZlKPkw2lt2U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=lxzQHwsR; arc=none smtp.client-ip=81.200.124.38
+	s=arc-20240116; t=1758069784; c=relaxed/simple;
+	bh=SXkL13a8iG6GEI5p2NO+RC35HdW6nueOrqs/a8naP5k=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=B+tNpx31giw9p9iku/NKrgiRakTI9nQy7I2ifM2d4CSlfRzcVOiuHBM0gRgLwsTAfhMgim2g+wGXUpU7EYKeK5d4YG0jTe2F8oxaBTMI//M6rgV5YDmqC7lqTf3uxcqHlmRdkh8iNVb39wt4wHkqr+otdz5ASBdPPXJ+7AQYN78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=bRQrpbyn; arc=none smtp.client-ip=81.200.124.38
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt-integration.ru
 Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
-	by ksmg01.maxima.ru (Postfix) with ESMTP id 8B5EDC007A;
-	Wed, 17 Sep 2025 03:30:53 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru 8B5EDC007A
+	by ksmg01.maxima.ru (Postfix) with ESMTP id D77C1C007A;
+	Wed, 17 Sep 2025 03:43:00 +0300 (MSK)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru D77C1C007A
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
-	s=sl; t=1758069053; bh=q3FMmTN5hXMh2C/vbItSLhglx0g/rmCHO6yb27iSL2w=;
+	s=sl; t=1758069780; bh=mMy7o1VKxSYYmV008tZxBY5ChzQiqbztmhJuX5eQfvU=;
 	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=lxzQHwsRMKVDhSzymQ1FelwfAX60PBlp7g38nKSrG3rk5PXjmby6opbidk26tULMW
-	 W+8ClSukFbxob6dWYc+iSJ7XMhU4p0VxU1L4jHPFt/YIXkBH/v5iq8C6YI+4nDNg0G
-	 5JunyfRMcM2f/yQ2ViKNOrLzxfPbPTUP5nzM7RYRybs/XbdsdE3bR37DXjaPhCQ1jO
-	 yJPtaiDX7ldFTHGL6iq28s+hQkOvdAZX1K3aecN1eO51F7YZNcu2ct1qDmapAUHPv6
-	 vYGsDDBFmRHLSCxqK6OHqVZMTd0qr7bA1hFWQ0wLpi02+s0NvWzrY1RaaUjKEOW5+k
-	 LoJyS9krCEWiw==
-Received: from ksmg01.maxima.ru (mail.maxima.ru [81.200.124.61])
+	b=bRQrpbynxPG53Z7IHFd5LNs7TU7qMhRnu2bxAIP/K8dyD6u8p+WPKvXqLAg99wYsj
+	 yYR3pbeAoR49CTzfglEVL69Ig6NCos/6CRFlvTfoqnLMunWzZDphmXkirUSEAJ/i1V
+	 fuCiZvyqK6rSfJmPxmKzJ22Wd2/R878MmJV+mmkfMJOsk9uWxf9MUFxaUm8LASsQPR
+	 FFlaVhvOHZr9VtCK+/0thCCBiMu5CwR1enkpJEKYQ9fL8fGKyc+I+2I+UgbDrAhpAk
+	 GQlii6JK/Hkk3Gg72wWnJPQ3bHjrz/icY0BslHUShqOYZy7sdKfLgqNClee3Avq5Br
+	 qlM4cEqC360Mw==
+Received: from ksmg01.maxima.ru (autodiscover.maxima.ru [81.200.124.61])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(Client did not present a certificate)
 	by ksmg01.maxima.ru (Postfix) with ESMTPS;
-	Wed, 17 Sep 2025 03:30:53 +0300 (MSK)
+	Wed, 17 Sep 2025 03:43:00 +0300 (MSK)
 Received: from db126-1-abramov-14-d-mosos.mti-lab.com (172.25.20.118) by
  mmail-p-exch01.mt.ru (81.200.124.61) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 17 Sep 2025 03:30:52 +0300
+ 15.2.1544.25; Wed, 17 Sep 2025 03:42:59 +0300
 From: Ivan Abramov <i.abramov@mt-integration.ru>
 To: Andy Shevchenko <andy@kernel.org>
 CC: Ivan Abramov <i.abramov@mt-integration.ru>, Hans de Goede
 	<hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
 	<sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
 	<gregkh@linuxfoundation.org>, Colin Ian King <colin.i.king@gmail.com>, Alan
- Cox <alan@linux.intel.com>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linux-staging@lists.linux.dev>,
+ Cox <alan@linux.intel.com>, <linux-media@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>,
 	<lvc-project@linuxtesting.org>
-Subject: [PATCH 1/1] media: atomisp: Avoid memory leaks in ia_css_pipe_create_cas_scaler_desc_single_output()
-Date: Wed, 17 Sep 2025 03:29:29 +0300
-Message-ID: <20250917002933.506138-1-i.abramov@mt-integration.ru>
+Subject: [PATCH v2 1/1] media: atomisp: Avoid memory leaks in ia_css_pipe_create_cas_scaler_desc_single_output()
+Date: Wed, 17 Sep 2025 03:42:36 +0300
+Message-ID: <20250917004240.506794-1-i.abramov@mt-integration.ru>
 X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -103,6 +103,7 @@ Found by Linux Verification Center (linuxtesting.org) with SVACE.
 Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
 Signed-off-by: Ivan Abramov <i.abramov@mt-integration.ru>
 ---
+v2: Fix code formatting.
  drivers/staging/media/atomisp/pci/sh_css.c | 4 ++++
  1 file changed, 4 insertions(+)
 
@@ -115,8 +116,8 @@ index 73bd87f43a8c..d50bc81a59dc 100644
  			    "ia_css_pipe_create_cas_scaler_desc() leave, err=%d\n",
  			    err);
 +
-+        if (err)
-+                ia_css_pipe_destroy_cas_scaler_desc(descr);
++	if (err)
++		ia_css_pipe_destroy_cas_scaler_desc(descr);
 +
  	return err;
  }
