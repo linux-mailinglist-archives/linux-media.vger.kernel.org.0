@@ -1,52 +1,52 @@
-Return-Path: <linux-media+bounces-42689-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42691-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id DDD6DB80AD3
-	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 17:42:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1EA43B80AD9
+	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 17:42:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 648B25244CF
-	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 15:41:07 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7298F525659
+	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 15:41:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5E73321272;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F31D3321279;
 	Wed, 17 Sep 2025 15:38:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U0vgwYVS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BK28CZxu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1AFC37429B;
-	Wed, 17 Sep 2025 15:38:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 107C337C0EB;
+	Wed, 17 Sep 2025 15:38:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758123534; cv=none; b=FRKxszXtHUllk4Je8gemelerXd5uAhHxiCwSpTT+ggh0f8UYdCKBLGFEZDlg0zvfuj6Fnq7j9JNfM8rnxOLsVc0lcoyok2AEBzGMGkSUjReD9o7NPTkEYSdaCsAp5z7ehOfiELyHM3HxNr6lSCC/Mk4OvPfDYr87p/mtB/3aVeo=
+	t=1758123534; cv=none; b=DWdCoB7imE+ii0QyUdBvVWrQIEjQaxX/2F5Sbaxlxf8BYnl4deH77a/59wB9FVqNbWQCvgP+PuAdU4c0ATn/hM0ppqHI/ev6KGgn4E2VZF6Qhdn5PK3t9lka8qathK/rBLnJDx1cbtNY1a7bCQVNWYlVCe6JZvV3/yTdM0TTAh0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758123534; c=relaxed/simple;
-	bh=Tz6jnD4R99+sBwzNPFxbH438Jp+SLdj3TJqQrSpfSJg=;
+	bh=00ySgDeY2SbqvhPX9kBYvU/RMgHNCrJd0O4BG6/GCrE=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=roEYeIejDEEdwxqyBvwi79+41FX53pL19HHVwZ8qovz+z7AIUaiSsqNXOOVLAkpXqYCko9dcmHh49uDnMFBH5Gx1BuhwSk+qxAIDDL+qsxRb2lGWIJ0/+9gQMbo2AK3oH5jdrakroYaKcXbGybpHeghJnlw5Gd9YTJjCDWDzPa8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U0vgwYVS; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id CE4ECC4CEFD;
+	 In-Reply-To:To:Cc; b=OVHpot5kc5kBm5b+fq1bl+K+Vmzdd+tta5FmKvl34FPaORoBWobhRz0cJXOJxjxi4qWdCgAJeIi2mRrwAq5+FPEMioszgYWgcY+XlHtlMnqe1zkvWUofLIGe6LMNVjCLl7JydLuEtnFWQV77P6M2v8OLTn/d7it8ix7Qhe0Ls3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BK28CZxu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id E2FDEC4CEE7;
 	Wed, 17 Sep 2025 15:38:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758123533;
-	bh=Tz6jnD4R99+sBwzNPFxbH438Jp+SLdj3TJqQrSpfSJg=;
+	bh=00ySgDeY2SbqvhPX9kBYvU/RMgHNCrJd0O4BG6/GCrE=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=U0vgwYVSBp17NBp1OXdvdKLX5sYlvFKzvSJ0ZuXXeeNIEzGm7BTPSNFBVQEhVQ2vB
-	 c5Kjpw0K/SdWqwq61BXYZ+pOy9FeMgMa1ujN6Yv2d4W9KnlrrD+fHXFYk4Qpxud63l
-	 melcTKtwkMHivRkawxlYtaXWS6ZYew1eMLv+6DdI1nYiwbYTgPxFeEILzmFcZR/zTH
-	 XTOoxgPK3GvP8GQm+hCAh1IjYH7Y1NXG7f1IdxnrQZmZH5Emj/d+l/X9IXS3IZ5YS8
-	 tZ+1L7aTaG5deixf8NS8hHcYOhpehzRKTOdSkblzJUMoriIMSXbMFzHVQ79mpoVqZZ
-	 i1K1yneLk+7zw==
+	b=BK28CZxuLfmUTKYUv0Y2EmBRDAPfQtbqw0IU1E876bTYuxd6tF5wvnF2gAzEGcLGo
+	 LRoMXsU/74frILIEbJNOBbClTbR5DEjf7bGpovxs0WyTrWS3Hrer/56hVjJ7Dq6o0v
+	 QREe9aTN5oTiRfq39UyTtC49t5xnXH9wmSoPZobJqhupuxZlH1OC/T6Xn5VJN1tJXa
+	 Jlzu5g1P/2iI21GKWHy5NKbn9pqvpmQeuMIiwZ/G3Po63YLZbWzVLQ7XUrNNoGMSxx
+	 oOY4NhFIf1RWq+Mxpow0VxG/OU8v9LvX+gbqKhYq9pkIA68tC4VVm344661MTW8haC
+	 MzQpNyXqklLTA==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C5761CAC5A0;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA719CAC59A;
 	Wed, 17 Sep 2025 15:38:53 +0000 (UTC)
 From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Wed, 17 Sep 2025 17:38:54 +0200
-Subject: [PATCH v11 14/17] arm64: dts: rockchip: add the vip node to px30
+Date: Wed, 17 Sep 2025 17:38:55 +0200
+Subject: [PATCH v11 15/17] arm64: dts: rockchip: add vicap node to rk356x
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -55,7 +55,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240220-rk3568-vicap-v11-14-af0eada54e5d@collabora.com>
+Message-Id: <20240220-rk3568-vicap-v11-15-af0eada54e5d@collabora.com>
 References: <20240220-rk3568-vicap-v11-0-af0eada54e5d@collabora.com>
 In-Reply-To: <20240220-rk3568-vicap-v11-0-af0eada54e5d@collabora.com>
 To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
@@ -82,14 +82,13 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-rockchip@lists.infradead.org, 
  Michael Riesch <michael.riesch@collabora.com>, 
- Michael Riesch <michael.riesch@collabora.com>, 
- Mehdi Djait <mehdi.djait@bootlin.com>
+ Michael Riesch <michael.riesch@collabora.com>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758123529; l=1332;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1758123529; l=2050;
  i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=EwZeXY5MIObNAjpIDbc8b4sEOVnnQIy6dupHuKvt3ds=;
- b=k8uRnhRSGedOpK7hH4Cfrm7BdnirqAjo0gqFEDih0YhzW9IpRFB0c9vYDzUNqoVQcx1aJjVyt
- nanI0xEUxAPCPb+8i1m9ETEFyfxIEIrxdgSZme/RwXq6rO8cYlmXJHE
+ bh=lEu6UcdwUJ585mOVJj4+wXFbf1qt1nIxcP9Qq7FSezA=;
+ b=r/KmEMzbRk07ERxrS6b+7oQuBcmritCK+a929Whh7uDfTVE8FVn+YxM1WQY9KTyw7AWH+vA/B
+ GSWGr8yr752AgZB7bAjqMbB97sFtq/RvuLoM331EVeYAx/FJ7H+MCEk
 X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
  pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
 X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
@@ -97,42 +96,71 @@ X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
 X-Original-From: Michael Riesch <michael.riesch@collabora.com>
 Reply-To: michael.riesch@collabora.com
 
-From: Mehdi Djait <mehdi.djait@bootlin.com>
+From: Michael Riesch <michael.riesch@collabora.com>
 
-Add the device tree node for the PX30 Video Input Processor (VIP).
+Add the device tree node for the RK356x Video Capture (VICAP) unit.
 
-Signed-off-by: Mehdi Djait <mehdi.djait@bootlin.com>
-[added cosmetic changes]
 Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 ---
- arch/arm64/boot/dts/rockchip/px30.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ arch/arm64/boot/dts/rockchip/rk356x-base.dtsi | 44 +++++++++++++++++++++++++++
+ 1 file changed, 44 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/px30.dtsi b/arch/arm64/boot/dts/rockchip/px30.dtsi
-index 46f64cd33b9b..ef52879d6a73 100644
---- a/arch/arm64/boot/dts/rockchip/px30.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/px30.dtsi
-@@ -1280,6 +1280,18 @@ isp_mmu: iommu@ff4a8000 {
- 		#iommu-cells = <0>;
+diff --git a/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi b/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi
+index fd2214b6fad4..e0e4dc85a3a9 100644
+--- a/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi
++++ b/arch/arm64/boot/dts/rockchip/rk356x-base.dtsi
+@@ -564,6 +564,50 @@ gpu: gpu@fde60000 {
+ 		status = "disabled";
  	};
  
-+	cif: video-capture@ff490000 {
-+		compatible = "rockchip,px30-vip";
-+		reg = <0x0 0xff490000 0x0 0x200>;
-+		interrupts = <GIC_SPI 69 IRQ_TYPE_LEVEL_HIGH>;
-+		clocks = <&cru ACLK_CIF>, <&cru HCLK_CIF>, <&cru PCLK_CIF>;
-+		clock-names = "aclk", "hclk", "pclk";
-+		power-domains = <&power PX30_PD_VI>;
-+		resets = <&cru SRST_CIF_A>, <&cru SRST_CIF_H>, <&cru SRST_CIF_PCLKIN>;
-+		reset-names = "axi", "ahb", "pclkin";
++	vicap: video-capture@fdfe0000 {
++		compatible = "rockchip,rk3568-vicap";
++		reg = <0x0 0xfdfe0000 0x0 0x200>;
++		interrupts = <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>;
++		assigned-clocks = <&cru DCLK_VICAP>;
++		assigned-clock-rates = <300000000>;
++		clocks = <&cru ACLK_VICAP>, <&cru HCLK_VICAP>,
++			 <&cru DCLK_VICAP>, <&cru ICLK_VICAP_G>;
++		clock-names = "aclk", "hclk", "dclk", "iclk";
++		iommus = <&vicap_mmu>;
++		power-domains = <&power RK3568_PD_VI>;
++		resets = <&cru SRST_A_VICAP>, <&cru SRST_H_VICAP>,
++			 <&cru SRST_D_VICAP>, <&cru SRST_P_VICAP>,
++			 <&cru SRST_I_VICAP>;
++		reset-names = "arst", "hrst", "drst", "prst", "irst";
++		rockchip,grf = <&grf>;
++		status = "disabled";
++
++		ports {
++			#address-cells = <1>;
++			#size-cells = <0>;
++
++			vicap_dvp: port@0 {
++				reg = <0>;
++			};
++
++			vicap_mipi: port@1 {
++				reg = <1>;
++			};
++		};
++	};
++
++	vicap_mmu: iommu@fdfe0800 {
++		compatible = "rockchip,rk3568-iommu";
++		reg = <0x0 0xfdfe0800 0x0 0x100>;
++		interrupts = <GIC_SPI 146 IRQ_TYPE_LEVEL_HIGH>;
++		clocks = <&cru ACLK_VICAP>, <&cru HCLK_VICAP>;
++		clock-names = "aclk", "iface";
++		#iommu-cells = <0>;
++		power-domains = <&power RK3568_PD_VI>;
++		rockchip,disable-mmu-reset;
 +		status = "disabled";
 +	};
 +
- 	qos_gmac: qos@ff518000 {
- 		compatible = "rockchip,px30-qos", "syscon";
- 		reg = <0x0 0xff518000 0x0 0x20>;
+ 	vpu: video-codec@fdea0400 {
+ 		compatible = "rockchip,rk3568-vpu";
+ 		reg = <0x0 0xfdea0000 0x0 0x800>;
 
 -- 
 2.39.5
