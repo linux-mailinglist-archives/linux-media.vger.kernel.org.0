@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-42682-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42686-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 065E5B80AAE
-	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 17:40:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 987F4B80AD6
+	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 17:42:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A215E4E340E
-	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 15:40:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C7EA7524626
+	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 15:41:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8FED5314D37;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E80B7321273;
 	Wed, 17 Sep 2025 15:38:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lRG4Ovqy"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TO1K05DO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784A535FC0F;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ABE14369997;
 	Wed, 17 Sep 2025 15:38:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758123533; cv=none; b=m1nzIfXhFniytOWNCIDUd9vLm1/+D+lxOysNgz4U6iy/Q3o+A7n72sDhXF8kn60nGTYxxWlIpyCIu5h7SjAoKvgyTEHcaBVuBpVqf/z59V4HLHF5yPKWTcixx2tG4zIS1WlvBPcuOfLhOdInHjMCEbUSjmekuoq52kIIezanXWA=
+	t=1758123533; cv=none; b=TDwsbt8HTfnY8slopcv7FpKpM9rpVLJhhHRTwKuwsUfcMf7eDmQVgovnxrMpCloMj1Uc6BUqXnAHRrF/LVPqQEDqKxpJT53ImPMoorj2izYDoDTS7A+cX3GJY+IFUJZmT/lnJjzvxDQgLQeGGN6MhQX9xmb6Xx9XjydGAczIQrU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1758123533; c=relaxed/simple;
-	bh=XYoMKLKx8Svk2zKKNL7kXv0DJnZYHwNKdP/KHhB98Lg=;
+	bh=tLL4/WL79/3U/bTMhSlaO2Wh2uWsyiNptaFuyhpyQ8c=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=HG7nk7B63HgpTtwbk0reY7cn4VlfODqlCc5Q8hL8gtJtKolROjYIDCALg7bKDYe4H3CM98Uqp8H4ZKn6fX2NB2yN9S0/81AQIWxGifmYUlncGzueTJnTC02sPAeVltFdG9ObthtuAQjhojHXpDxtNDu9eGpZTMrOqPAXvVyv+BI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lRG4Ovqy; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 4D39DC4CEF0;
+	 In-Reply-To:To:Cc; b=Q2fVqnk8xncv3pz/wBg6Bs5hM0tr9vy1IRTuXlFimEWfb9Q3qKG66cKL17Qgd4jqSErHWmVvkJQPgEaDtYmbE9vDoM0Jc2D2PLDSUpX8VUhzwsTz4TW/k+H3wI/NRNRKAmRptUYORhyqobvzOJxHoYxsfLc3o5sxlRj/aTbzQKY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TO1K05DO; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 60819C4CEFA;
 	Wed, 17 Sep 2025 15:38:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1758123533;
-	bh=XYoMKLKx8Svk2zKKNL7kXv0DJnZYHwNKdP/KHhB98Lg=;
+	bh=tLL4/WL79/3U/bTMhSlaO2Wh2uWsyiNptaFuyhpyQ8c=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=lRG4OvqyqhmUBUA8PWwAcDlhmKLnp2qlY1iZEJ4G6Q9DG5e273qYD0i2BnWWIscBm
-	 heFNy96j49cACbEtKP+jL3cj+aRxXoWo+0d71OB+SptxMOM2cnfXD4Ss4TaZWRIDMM
-	 ImIQoad8uK8QgyMuKP1GtLvBs4Mxf3Y7S5McmThv3KyZ0GckHthdOdyhgKzYqbG0q5
-	 6/MzxXF6zYWf0huecUtjkdWzqaIXeIIeByxNtC2edRH9Qp2Q4iGF2S0/AYRpIye5+i
-	 tWyKEturhfyIbh1OjbyJUYiNzs40xLjSgMnaoWHK18KpGsJQwts7dypPHj4ziAP58V
-	 ERRl/EoHG3UQg==
+	b=TO1K05DOW2Mixa66NM4vPdZZGDg3qhigt8LR+01ZLYSY7cjwFsHfHX9o4J0ZD/vKU
+	 3AwKibncScigwDnwm9Uo1WYg9/PxON0wlyikWuc40BnPKd60nbdLYQSGK2XyGvxk/O
+	 WjJIb3W1kqRE/3w3yVrR0DkWBDCF3FNontHW0auEp6yIM+ardwchuYG40ssKHHcAkZ
+	 U7uts7uG413mtkdyksnVEXTiM5g0FLtUb0Ql/smvR5mFma8/g4T46GIIV9FeMBxltY
+	 AOJWAvx3HUCv+uzuxsZc7+YDGw0+kUuhxgpElq1dS1MciRHc26qM1h6L/RVHtWzuXk
+	 Sm97bN2NT6ajg==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41E58CAC59D;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58E0BCAC59A;
 	Wed, 17 Sep 2025 15:38:53 +0000 (UTC)
 From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Wed, 17 Sep 2025 17:38:48 +0200
-Subject: [PATCH v11 08/17] media: rockchip: rkcif: add abstraction for
- interface and crop blocks
+Date: Wed, 17 Sep 2025 17:38:49 +0200
+Subject: [PATCH v11 09/17] media: rockchip: rkcif: add abstraction for dma
+ blocks
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240220-rk3568-vicap-v11-8-af0eada54e5d@collabora.com>
+Message-Id: <20240220-rk3568-vicap-v11-9-af0eada54e5d@collabora.com>
 References: <20240220-rk3568-vicap-v11-0-af0eada54e5d@collabora.com>
 In-Reply-To: <20240220-rk3568-vicap-v11-0-af0eada54e5d@collabora.com>
 To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
@@ -85,11 +85,11 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  Michael Riesch <michael.riesch@collabora.com>, 
  Michael Riesch <michael.riesch@collabora.com>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758123529; l=16913;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1758123529; l=26014;
  i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=JKt/C4TMwILweFaTlz4RL5F6pESC9jF+DdZS+qd1aVo=;
- b=pIBWOyMAI0HTb6bJgcINWKVLxJuVQgsKH33kijvR2mHvz1Rgx1RlIauswQGNMUMRDnU7CXJ6T
- aQyRFLnUZmOA241swtWkAbdM9lhh1eyYxrWuGwMW/8oUf8Krnb2IFA9
+ bh=m22pPHZ7nrfOYiij8i7G0D/EAXxMwSAqjxo+GsZsxwc=;
+ b=EeRxO+AOnkDp5+goSLY+jdRUiaq9zdH7kBz/W1giVbCTMeovkuLQ5XYxCUjKC3XleFAY4tOcl
+ paYeZgmxZIMDemYccneKNHM6fY1o8cB3SMWoWDWXka9DLuo7lmDaXFK
 X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
  pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
 X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
@@ -99,157 +99,213 @@ Reply-To: michael.riesch@collabora.com
 
 From: Michael Riesch <michael.riesch@collabora.com>
 
-Add an abstraction for the INTERFACE and CROP parts of the different
-Rockchip Camera Interface (CIF) variants. These parts are represented
-as V4L2 subdevice with one sink pad and one source pad. The sink pad
-is connected to a subdevice: either the subdevice provided by the
-driver of the companion chip connected to the DVP, or the subdevice
-provided by the MIPI CSI-2 receiver. The source pad is connected to
-V4l2 device(s) provided by one or many instance(s) of the DMA
-abstraction.
+Add an abstraction for the DMA parts and the ping-pong scheme (a
+double-buffering mechanism) of the different CIF variants. Each
+stream is represented as V4L2 device whose corresponding media
+entity has one sink pad. This sink pad is connected to an instance
+of the INTERFACE/CROP abstraction.
 
 Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 ---
  drivers/media/platform/rockchip/rkcif/Makefile     |   1 +
- .../media/platform/rockchip/rkcif/rkcif-common.h   |  71 ++++
- drivers/media/platform/rockchip/rkcif/rkcif-dev.c  |  13 +
- .../platform/rockchip/rkcif/rkcif-interface.c      | 388 +++++++++++++++++++++
- .../platform/rockchip/rkcif/rkcif-interface.h      |  30 ++
- 5 files changed, 503 insertions(+)
+ .../media/platform/rockchip/rkcif/rkcif-common.h   |  67 +++
+ .../platform/rockchip/rkcif/rkcif-interface.c      |  37 ++
+ .../media/platform/rockchip/rkcif/rkcif-stream.c   | 637 +++++++++++++++++++++
+ .../media/platform/rockchip/rkcif/rkcif-stream.h   |  31 +
+ 5 files changed, 773 insertions(+)
 
 diff --git a/drivers/media/platform/rockchip/rkcif/Makefile b/drivers/media/platform/rockchip/rkcif/Makefile
-index c6837ed2f65c..9d535fc27e51 100644
+index 9d535fc27e51..256335d95050 100644
 --- a/drivers/media/platform/rockchip/rkcif/Makefile
 +++ b/drivers/media/platform/rockchip/rkcif/Makefile
-@@ -2,3 +2,4 @@
- obj-$(CONFIG_VIDEO_ROCKCHIP_CIF) += rockchip-cif.o
+@@ -3,3 +3,4 @@ obj-$(CONFIG_VIDEO_ROCKCHIP_CIF) += rockchip-cif.o
  
  rockchip-cif-objs += rkcif-dev.o
-+rockchip-cif-objs += rkcif-interface.o
+ rockchip-cif-objs += rkcif-interface.o
++rockchip-cif-objs += rkcif-stream.o
 diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-common.h b/drivers/media/platform/rockchip/rkcif/rkcif-common.h
-index 43a9390526d8..a3e052ad885a 100644
+index a3e052ad885a..395ec7e7e13b 100644
 --- a/drivers/media/platform/rockchip/rkcif/rkcif-common.h
 +++ b/drivers/media/platform/rockchip/rkcif/rkcif-common.h
-@@ -26,9 +26,78 @@
- #define RKCIF_DRIVER_NAME "rockchip-cif"
- #define RKCIF_CLK_MAX	  4
+@@ -32,6 +32,14 @@ enum rkcif_format_type {
+ 	RKCIF_FMT_TYPE_RAW,
+ };
  
-+enum rkcif_format_type {
-+	RKCIF_FMT_TYPE_INVALID,
-+	RKCIF_FMT_TYPE_YUV,
-+	RKCIF_FMT_TYPE_RAW,
++enum rkcif_id_index {
++	RKCIF_ID0,
++	RKCIF_ID1,
++	RKCIF_ID2,
++	RKCIF_ID3,
++	RKCIF_ID_MAX
 +};
 +
-+enum rkcif_interface_index {
-+	RKCIF_DVP,
-+	RKCIF_MIPI_BASE,
-+	RKCIF_MIPI1 = RKCIF_MIPI_BASE,
-+	RKCIF_MIPI2,
-+	RKCIF_MIPI3,
-+	RKCIF_MIPI4,
-+	RKCIF_MIPI5,
-+	RKCIF_MIPI6,
-+	RKCIF_MIPI_MAX,
-+	RKCIF_IF_MAX = RKCIF_MIPI_MAX
+ enum rkcif_interface_index {
+ 	RKCIF_DVP,
+ 	RKCIF_MIPI_BASE,
+@@ -62,6 +70,19 @@ enum rkcif_interface_type {
+ 	RKCIF_IF_MIPI,
+ };
+ 
++struct rkcif_buffer {
++	struct vb2_v4l2_buffer vb;
++	struct list_head queue;
++	dma_addr_t buff_addr[VIDEO_MAX_PLANES];
++	bool is_dummy;
 +};
 +
-+enum rkcif_interface_pad_index {
-+	RKCIF_IF_PAD_SINK,
-+	RKCIF_IF_PAD_SRC,
-+	RKCIF_IF_PAD_MAX
++struct rkcif_dummy_buffer {
++	struct rkcif_buffer buffer;
++	void *vaddr;
++	u32 size;
 +};
 +
-+enum rkcif_interface_status {
-+	RKCIF_IF_INACTIVE,
-+	RKCIF_IF_ACTIVE,
-+};
-+
-+enum rkcif_interface_type {
-+	RKCIF_IF_INVALID,
-+	RKCIF_IF_DVP,
-+	RKCIF_IF_MIPI,
-+};
-+
-+struct rkcif_input_fmt {
+ struct rkcif_input_fmt {
+ 	u32 mbus_code;
+ 
+@@ -69,6 +90,12 @@ struct rkcif_input_fmt {
+ 	enum v4l2_field field;
+ };
+ 
++struct rkcif_output_fmt {
++	u32 fourcc;
 +	u32 mbus_code;
-+
-+	enum rkcif_format_type fmt_type;
-+	enum v4l2_field field;
++	u8 cplanes;
 +};
 +
-+struct rkcif_interface;
-+
+ struct rkcif_interface;
+ 
  struct rkcif_remote {
- 	struct v4l2_async_connection async_conn;
- 	struct v4l2_subdev *sd;
-+
-+	struct rkcif_interface *interface;
-+};
-+
-+struct rkcif_dvp {
-+	u32 dvp_clk_delay;
-+};
-+
-+struct rkcif_interface {
-+	enum rkcif_interface_type type;
-+	enum rkcif_interface_status status;
-+	enum rkcif_interface_index index;
+@@ -78,6 +105,42 @@ struct rkcif_remote {
+ 	struct rkcif_interface *interface;
+ };
+ 
++struct rkcif_stream {
++	enum rkcif_id_index id;
 +	struct rkcif_device *rkcif;
-+	struct rkcif_remote *remote;
-+	const struct rkcif_input_fmt *in_fmts;
-+	unsigned int in_fmts_num;
++	struct rkcif_interface *interface;
++	const struct rkcif_output_fmt *out_fmts;
++	unsigned int out_fmts_num;
 +
-+	struct media_pad pads[RKCIF_IF_PAD_MAX];
-+	struct v4l2_fwnode_endpoint vep;
-+	struct v4l2_subdev sd;
++	/* in ping-pong mode, two buffers can be provided to the HW */
++	struct rkcif_buffer *buffers[2];
++	int frame_idx;
++	int frame_phase;
 +
-+	union {
-+		struct rkcif_dvp dvp;
-+	};
++	/* in case of no available buffer, HW can write to the dummy buffer */
++	struct rkcif_dummy_buffer dummy;
++
++	bool stopping;
++	wait_queue_head_t wq_stopped;
++
++	/* queue of available buffers plus spinlock that protects it */
++	spinlock_t driver_queue_lock;
++	struct list_head driver_queue;
++
++	/* lock used by the V4L2 core */
++	struct mutex vlock;
++
++	struct media_pad pad;
++	struct media_pipeline pipeline;
++	struct v4l2_pix_format_mplane pix;
++	struct vb2_queue buf_queue;
++	struct video_device vdev;
++
++	void (*queue_buffer)(struct rkcif_stream *stream, unsigned int index);
++	int (*start_streaming)(struct rkcif_stream *stream);
++	void (*stop_streaming)(struct rkcif_stream *stream);
++};
++
+ struct rkcif_dvp {
+ 	u32 dvp_clk_delay;
+ };
+@@ -88,6 +151,8 @@ struct rkcif_interface {
+ 	enum rkcif_interface_index index;
+ 	struct rkcif_device *rkcif;
+ 	struct rkcif_remote *remote;
++	struct rkcif_stream streams[RKCIF_ID_MAX];
++	unsigned int streams_num;
+ 	const struct rkcif_input_fmt *in_fmts;
+ 	unsigned int in_fmts_num;
+ 
+@@ -98,6 +163,8 @@ struct rkcif_interface {
+ 	union {
+ 		struct rkcif_dvp dvp;
+ 	};
++
++	void (*set_crop)(struct rkcif_stream *stream, u16 left, u16 top);
  };
  
  struct rkcif_match_data {
-@@ -46,6 +115,8 @@ struct rkcif_device {
- 	struct reset_control *reset;
- 	void __iomem *base_addr;
- 
-+	struct rkcif_interface interfaces[RKCIF_IF_MAX];
-+
- 	struct media_device media_dev;
- 	struct v4l2_device v4l2_dev;
- 	struct v4l2_async_notifier notifier;
-diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-dev.c b/drivers/media/platform/rockchip/rkcif/rkcif-dev.c
-index a8514e7d3249..331634e5e74b 100644
---- a/drivers/media/platform/rockchip/rkcif/rkcif-dev.c
-+++ b/drivers/media/platform/rockchip/rkcif/rkcif-dev.c
-@@ -73,8 +73,21 @@ static int rkcif_notifier_bound(struct v4l2_async_notifier *notifier,
- 				struct v4l2_subdev *sd,
- 				struct v4l2_async_connection *asd)
- {
-+	struct rkcif_device *rkcif =
-+		container_of(notifier, struct rkcif_device, notifier);
- 	struct rkcif_remote *remote =
- 		container_of(asd, struct rkcif_remote, async_conn);
-+	struct media_pad *sink_pad =
-+		&remote->interface->pads[RKCIF_IF_PAD_SINK];
-+	int ret;
-+
-+	ret = v4l2_create_fwnode_links_to_pad(sd, sink_pad,
-+					      MEDIA_LNK_FL_ENABLED);
-+	if (ret) {
-+		dev_err(rkcif->dev, "failed to link source pad of %s\n",
-+			sd->name);
-+		return ret;
-+	}
- 
- 	remote->sd = sd;
- 
 diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-interface.c b/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
-new file mode 100644
-index 000000000000..06386144b70c
---- /dev/null
+index 06386144b70c..ef07759604a7 100644
+--- a/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
 +++ b/drivers/media/platform/rockchip/rkcif/rkcif-interface.c
-@@ -0,0 +1,388 @@
+@@ -140,15 +140,41 @@ static int rkcif_interface_set_routing(struct v4l2_subdev *sd,
+ 	if (ret)
+ 		return ret;
+ 
++	for (unsigned int i = 0; i < routing->num_routes; i++) {
++		const struct v4l2_subdev_route *route = &routing->routes[i];
++
++		if (route->source_stream >= RKCIF_ID_MAX)
++			return -EINVAL;
++	}
++
+ 	ret = v4l2_subdev_set_routing(sd, state, routing);
+ 
+ 	return ret;
+ }
+ 
++static int rkcif_interface_apply_crop(struct rkcif_stream *stream,
++				      struct v4l2_subdev_state *state)
++{
++	struct rkcif_interface *interface = stream->interface;
++	struct v4l2_rect *crop;
++
++	crop = v4l2_subdev_state_get_crop(state, RKCIF_IF_PAD_SRC, stream->id);
++	if (!crop)
++		return -EINVAL;
++
++	if (interface->set_crop)
++		interface->set_crop(stream, crop->left, crop->top);
++
++	return 0;
++}
++
+ static int rkcif_interface_enable_streams(struct v4l2_subdev *sd,
+ 					  struct v4l2_subdev_state *state,
+ 					  u32 pad, u64 streams_mask)
+ {
++	struct rkcif_interface *interface = to_rkcif_interface(sd);
++	struct rkcif_stream *stream;
++	struct v4l2_subdev_route *route;
+ 	struct v4l2_subdev *remote_sd;
+ 	struct media_pad *remote_pad;
+ 	u64 mask;
+@@ -157,6 +183,17 @@ static int rkcif_interface_enable_streams(struct v4l2_subdev *sd,
+ 		media_pad_remote_pad_first(&sd->entity.pads[RKCIF_IF_PAD_SINK]);
+ 	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
+ 
++	/* DVP has one crop setting for all IDs */
++	if (interface->type == RKCIF_IF_DVP) {
++		stream = &interface->streams[RKCIF_ID0];
++		rkcif_interface_apply_crop(stream, state);
++	} else {
++		for_each_active_route(&state->routing, route) {
++			stream = &interface->streams[route->sink_stream];
++			rkcif_interface_apply_crop(stream, state);
++		}
++	}
++
+ 	mask = v4l2_subdev_state_xlate_streams(state, RKCIF_IF_PAD_SINK,
+ 					       RKCIF_IF_PAD_SRC, &streams_mask);
+ 
+diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-stream.c b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
+new file mode 100644
+index 000000000000..ce8a743ed5d0
+--- /dev/null
++++ b/drivers/media/platform/rockchip/rkcif/rkcif-stream.c
+@@ -0,0 +1,637 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * Rockchip Camera Interface (CIF) Driver
@@ -257,421 +313,671 @@ index 000000000000..06386144b70c
 + * Copyright (C) 2025 Michael Riesch <michael.riesch@wolfvision.net>
 + */
 +
++#include <linux/pm_runtime.h>
++
 +#include <media/v4l2-common.h>
 +#include <media/v4l2-fwnode.h>
++#include <media/v4l2-ioctl.h>
 +#include <media/v4l2-mc.h>
 +#include <media/v4l2-subdev.h>
++#include <media/videobuf2-dma-contig.h>
 +
 +#include "rkcif-common.h"
-+#include "rkcif-interface.h"
++#include "rkcif-stream.h"
 +
-+static inline struct rkcif_interface *to_rkcif_interface(struct v4l2_subdev *sd)
++#define CIF_REQ_BUFS_MIN 1
++#define CIF_MIN_WIDTH	 64
++#define CIF_MIN_HEIGHT	 64
++#define CIF_MAX_WIDTH	 8192
++#define CIF_MAX_HEIGHT	 8192
++
++static inline struct rkcif_buffer *to_rkcif_buffer(struct vb2_v4l2_buffer *vb)
 +{
-+	return container_of(sd, struct rkcif_interface, sd);
++	return container_of(vb, struct rkcif_buffer, vb);
 +}
 +
-+static const struct media_entity_operations rkcif_interface_media_ops = {
-+	.link_validate = v4l2_subdev_link_validate,
-+	.has_pad_interdep = v4l2_subdev_has_pad_interdep,
-+};
-+
-+static int rkcif_interface_set_fmt(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *state,
-+				   struct v4l2_subdev_format *format)
++static inline struct rkcif_stream *to_rkcif_stream(struct video_device *vdev)
 +{
-+	struct rkcif_interface *interface = to_rkcif_interface(sd);
-+	const struct rkcif_input_fmt *input;
-+	struct v4l2_mbus_framefmt *sink, *src;
++	return container_of(vdev, struct rkcif_stream, vdev);
++}
 +
-+	/* the format on the source pad always matches the sink pad */
-+	if (format->pad == RKCIF_IF_PAD_SRC)
-+		return v4l2_subdev_get_fmt(sd, state, format);
++static struct rkcif_buffer *rkcif_stream_pop_buffer(struct rkcif_stream *stream)
++{
++	struct rkcif_buffer *buffer;
 +
-+	input = rkcif_interface_find_input_fmt(interface, true,
-+					       format->format.code);
-+	format->format.code = input->mbus_code;
++	guard(spinlock_irqsave)(&stream->driver_queue_lock);
 +
-+	sink = v4l2_subdev_state_get_format(state, format->pad, format->stream);
-+	if (!sink)
-+		return -EINVAL;
++	if (list_empty(&stream->driver_queue))
++		return NULL;
 +
-+	*sink = format->format;
++	buffer = list_first_entry(&stream->driver_queue, struct rkcif_buffer,
++				  queue);
++	list_del(&buffer->queue);
 +
-+	/* propagate the format to the source pad */
-+	src = v4l2_subdev_state_get_opposite_stream_format(state, format->pad,
-+							   format->stream);
-+	if (!src)
-+		return -EINVAL;
++	return buffer;
++}
 +
-+	*src = *sink;
++static void rkcif_stream_push_buffer(struct rkcif_stream *stream,
++				     struct rkcif_buffer *buffer)
++{
++	guard(spinlock_irqsave)(&stream->driver_queue_lock);
++
++	list_add_tail(&buffer->queue, &stream->driver_queue);
++}
++
++static inline void rkcif_stream_return_buffer(struct rkcif_buffer *buffer,
++					      enum vb2_buffer_state state)
++{
++	struct vb2_v4l2_buffer *vb = &buffer->vb;
++
++	vb2_buffer_done(&vb->vb2_buf, state);
++}
++
++static void rkcif_stream_complete_buffer(struct rkcif_stream *stream,
++					 struct rkcif_buffer *buffer)
++{
++	struct vb2_v4l2_buffer *vb = &buffer->vb;
++
++	vb->vb2_buf.timestamp = ktime_get_ns();
++	vb->sequence = stream->frame_idx;
++	vb2_buffer_done(&vb->vb2_buf, VB2_BUF_STATE_DONE);
++	stream->frame_idx++;
++}
++
++void rkcif_stream_pingpong(struct rkcif_stream *stream)
++{
++	struct rkcif_buffer *buffer;
++
++	buffer = stream->buffers[stream->frame_phase];
++	if (!buffer->is_dummy)
++		rkcif_stream_complete_buffer(stream, buffer);
++
++	buffer = rkcif_stream_pop_buffer(stream);
++	if (buffer) {
++		stream->buffers[stream->frame_phase] = buffer;
++		stream->buffers[stream->frame_phase]->is_dummy = false;
++	} else {
++		stream->buffers[stream->frame_phase] = &stream->dummy.buffer;
++		stream->buffers[stream->frame_phase]->is_dummy = true;
++		dev_dbg(stream->rkcif->dev,
++			"no buffer available, frame will be dropped\n");
++	}
++
++	if (stream->queue_buffer)
++		stream->queue_buffer(stream, stream->frame_phase);
++
++	stream->frame_phase = 1 - stream->frame_phase;
++}
++
++static int rkcif_stream_init_buffers(struct rkcif_stream *stream)
++{
++	struct v4l2_pix_format_mplane *pix = &stream->pix;
++
++	stream->buffers[0] = rkcif_stream_pop_buffer(stream);
++	if (!stream->buffers[0])
++		goto err_buff_0;
++
++	stream->buffers[1] = rkcif_stream_pop_buffer(stream);
++	if (!stream->buffers[1])
++		goto err_buff_1;
++
++	if (stream->queue_buffer) {
++		stream->queue_buffer(stream, 0);
++		stream->queue_buffer(stream, 1);
++	}
++
++	stream->dummy.size = pix->num_planes * pix->plane_fmt[0].sizeimage;
++	stream->dummy.vaddr =
++		dma_alloc_attrs(stream->rkcif->dev, stream->dummy.size,
++				&stream->dummy.buffer.buff_addr[0], GFP_KERNEL,
++				DMA_ATTR_NO_KERNEL_MAPPING);
++	if (!stream->dummy.vaddr)
++		goto err_dummy;
++
++	for (unsigned int i = 1; i < pix->num_planes; i++)
++		stream->dummy.buffer.buff_addr[i] =
++			stream->dummy.buffer.buff_addr[i - 1] +
++			pix->plane_fmt[i - 1].bytesperline * pix->height;
++
++	return 0;
++
++err_dummy:
++	rkcif_stream_return_buffer(stream->buffers[1], VB2_BUF_STATE_QUEUED);
++	stream->buffers[1] = NULL;
++
++err_buff_1:
++	rkcif_stream_return_buffer(stream->buffers[0], VB2_BUF_STATE_QUEUED);
++	stream->buffers[0] = NULL;
++err_buff_0:
++	return -EINVAL;
++}
++
++static void rkcif_stream_return_all_buffers(struct rkcif_stream *stream,
++					    enum vb2_buffer_state state)
++{
++	struct rkcif_buffer *buffer;
++
++	if (stream->buffers[0] && !stream->buffers[0]->is_dummy) {
++		rkcif_stream_return_buffer(stream->buffers[0], state);
++		stream->buffers[0] = NULL;
++	}
++
++	if (stream->buffers[1] && !stream->buffers[1]->is_dummy) {
++		rkcif_stream_return_buffer(stream->buffers[1], state);
++		stream->buffers[1] = NULL;
++	}
++
++	while ((buffer = rkcif_stream_pop_buffer(stream)))
++		rkcif_stream_return_buffer(buffer, state);
++
++	if (stream->dummy.vaddr) {
++		dma_free_attrs(stream->rkcif->dev, stream->dummy.size,
++			       stream->dummy.vaddr,
++			       stream->dummy.buffer.buff_addr[0],
++			       DMA_ATTR_NO_KERNEL_MAPPING);
++		stream->dummy.vaddr = NULL;
++	}
++}
++
++static int rkcif_stream_setup_queue(struct vb2_queue *queue,
++				    unsigned int *num_buffers,
++				    unsigned int *num_planes,
++				    unsigned int sizes[],
++				    struct device *alloc_devs[])
++{
++	struct rkcif_stream *stream = queue->drv_priv;
++	struct v4l2_pix_format_mplane *pix = &stream->pix;
++
++	if (*num_planes) {
++		if (*num_planes != pix->num_planes)
++			return -EINVAL;
++
++		for (unsigned int i = 0; i < pix->num_planes; i++)
++			if (sizes[i] < pix->plane_fmt[i].sizeimage)
++				return -EINVAL;
++	} else {
++		*num_planes = pix->num_planes;
++		for (unsigned int i = 0; i < pix->num_planes; i++)
++			sizes[i] = pix->plane_fmt[i].sizeimage;
++	}
 +
 +	return 0;
 +}
 +
-+static int rkcif_interface_get_sel(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *state,
-+				   struct v4l2_subdev_selection *sel)
++static int rkcif_stream_prepare_buffer(struct vb2_buffer *vb)
 +{
-+	struct v4l2_mbus_framefmt *sink;
-+	struct v4l2_rect *crop;
-+	int ret = 0;
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct rkcif_buffer *buffer = to_rkcif_buffer(vbuf);
++	struct rkcif_stream *stream = vb->vb2_queue->drv_priv;
++	const struct rkcif_output_fmt *fmt;
++	struct v4l2_pix_format_mplane *pix = &stream->pix;
++	unsigned int i;
 +
-+	if (sel->pad != RKCIF_IF_PAD_SRC)
-+		return -EINVAL;
++	memset(buffer->buff_addr, 0, sizeof(buffer->buff_addr));
++	for (i = 0; i < pix->num_planes; i++)
++		buffer->buff_addr[i] = vb2_dma_contig_plane_dma_addr(vb, i);
 +
-+	sink = v4l2_subdev_state_get_opposite_stream_format(state, sel->pad,
-+							    sel->stream);
-+	if (!sink)
-+		return -EINVAL;
-+
-+	crop = v4l2_subdev_state_get_crop(state, sel->pad, sel->stream);
-+	if (!crop)
-+		return -EINVAL;
-+
-+	switch (sel->target) {
-+	case V4L2_SEL_TGT_CROP_DEFAULT:
-+	case V4L2_SEL_TGT_CROP_BOUNDS:
-+		sel->r.left = 0;
-+		sel->r.top = 0;
-+		sel->r.width = sink->width;
-+		sel->r.height = sink->height;
-+		break;
-+	case V4L2_SEL_TGT_CROP:
-+		sel->r = *crop;
-+		break;
-+	default:
-+		ret = -EINVAL;
++	/* apply fallback for non-mplane formats, if required */
++	if (pix->num_planes == 1) {
++		fmt = rkcif_stream_find_output_fmt(stream, true,
++						   pix->pixelformat);
++		for (i = 1; i < fmt->cplanes; i++)
++			buffer->buff_addr[i] =
++				buffer->buff_addr[i - 1] +
++				pix->plane_fmt[i - 1].bytesperline *
++					pix->height;
 +	}
 +
++	for (i = 0; i < pix->num_planes; i++) {
++		unsigned long size = pix->plane_fmt[i].sizeimage;
++
++		if (vb2_plane_size(vb, i) < size) {
++			dev_err(stream->rkcif->dev,
++				"user buffer too small (%ld < %ld)\n",
++				vb2_plane_size(vb, i), size);
++			return -EINVAL;
++		}
++
++		vb2_set_plane_payload(vb, i, size);
++	}
++
++	vbuf->field = V4L2_FIELD_NONE;
++
++	return 0;
++}
++
++static void rkcif_stream_queue_buffer(struct vb2_buffer *vb)
++{
++	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct rkcif_buffer *buffer = to_rkcif_buffer(vbuf);
++	struct rkcif_stream *stream = vb->vb2_queue->drv_priv;
++
++	rkcif_stream_push_buffer(stream, buffer);
++}
++
++static int rkcif_stream_start_streaming(struct vb2_queue *queue,
++					unsigned int count)
++{
++	struct rkcif_stream *stream = queue->drv_priv;
++	struct rkcif_device *rkcif = stream->rkcif;
++	u64 mask;
++	int ret;
++
++	stream->frame_idx = 0;
++	stream->frame_phase = 0;
++
++	ret = video_device_pipeline_start(&stream->vdev, &stream->pipeline);
++	if (ret) {
++		dev_err(rkcif->dev, "failed to start pipeline %d\n", ret);
++		goto err_out;
++	}
++
++	ret = pm_runtime_resume_and_get(rkcif->dev);
++	if (ret < 0) {
++		dev_err(rkcif->dev, "failed to get runtime pm, %d\n", ret);
++		goto err_pipeline_stop;
++	}
++
++	ret = rkcif_stream_init_buffers(stream);
++	if (ret)
++		goto err_runtime_put;
++
++	if (stream->start_streaming) {
++		ret = stream->start_streaming(stream);
++		if (ret < 0)
++			goto err_runtime_put;
++	}
++
++	mask = BIT_ULL(stream->id);
++	ret = v4l2_subdev_enable_streams(&stream->interface->sd,
++					 RKCIF_IF_PAD_SRC, mask);
++	if (ret < 0)
++		goto err_stop_stream;
++
++	return 0;
++
++err_stop_stream:
++	if (stream->stop_streaming)
++		stream->stop_streaming(stream);
++err_runtime_put:
++	pm_runtime_put(rkcif->dev);
++err_pipeline_stop:
++	video_device_pipeline_stop(&stream->vdev);
++err_out:
++	rkcif_stream_return_all_buffers(stream, VB2_BUF_STATE_QUEUED);
 +	return ret;
 +}
 +
-+static int rkcif_interface_set_sel(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_state *state,
-+				   struct v4l2_subdev_selection *sel)
++static void rkcif_stream_stop_streaming(struct vb2_queue *queue)
 +{
-+	struct v4l2_mbus_framefmt *sink, *src;
-+	struct v4l2_rect *crop;
-+
-+	if (sel->pad != RKCIF_IF_PAD_SRC || sel->target != V4L2_SEL_TGT_CROP)
-+		return -EINVAL;
-+
-+	sink = v4l2_subdev_state_get_opposite_stream_format(state, sel->pad,
-+							    sel->stream);
-+	if (!sink)
-+		return -EINVAL;
-+
-+	src = v4l2_subdev_state_get_format(state, sel->pad, sel->stream);
-+	if (!src)
-+		return -EINVAL;
-+
-+	crop = v4l2_subdev_state_get_crop(state, sel->pad, sel->stream);
-+	if (!crop)
-+		return -EINVAL;
-+
-+	/* only starting point of crop can be specified */
-+	sel->r.height = sink->height - sel->r.top;
-+	sel->r.width = sink->width - sel->r.left;
-+	*crop = sel->r;
-+
-+	src->height = sel->r.height;
-+	src->width = sel->r.width;
-+
-+	return 0;
-+}
-+
-+static int rkcif_interface_set_routing(struct v4l2_subdev *sd,
-+				       struct v4l2_subdev_state *state,
-+				       enum v4l2_subdev_format_whence which,
-+				       struct v4l2_subdev_krouting *routing)
-+{
++	struct rkcif_stream *stream = queue->drv_priv;
++	struct rkcif_device *rkcif = stream->rkcif;
++	u64 mask;
 +	int ret;
 +
-+	ret = v4l2_subdev_routing_validate(sd, routing,
-+					   V4L2_SUBDEV_ROUTING_ONLY_1_TO_1);
++	mask = BIT_ULL(stream->id);
++	v4l2_subdev_disable_streams(&stream->interface->sd, RKCIF_IF_PAD_SRC,
++				    mask);
++
++	stream->stopping = true;
++	ret = wait_event_timeout(stream->wq_stopped, !stream->stopping,
++				 msecs_to_jiffies(1000));
++
++	if (!ret && stream->stop_streaming)
++		stream->stop_streaming(stream);
++
++	pm_runtime_put(rkcif->dev);
++
++	rkcif_stream_return_all_buffers(stream, VB2_BUF_STATE_ERROR);
++
++	video_device_pipeline_stop(&stream->vdev);
++}
++
++static const struct vb2_ops rkcif_stream_vb2_ops = {
++	.queue_setup = rkcif_stream_setup_queue,
++	.buf_prepare = rkcif_stream_prepare_buffer,
++	.buf_queue = rkcif_stream_queue_buffer,
++	.wait_prepare = vb2_ops_wait_prepare,
++	.wait_finish = vb2_ops_wait_finish,
++	.start_streaming = rkcif_stream_start_streaming,
++	.stop_streaming = rkcif_stream_stop_streaming,
++};
++
++static int rkcif_stream_fill_format(struct rkcif_stream *stream,
++				    struct v4l2_pix_format_mplane *pix)
++{
++	const struct rkcif_output_fmt *fmt;
++	u32 height, width;
++	int ret;
++
++	fmt = rkcif_stream_find_output_fmt(stream, true, pix->pixelformat);
++	height = clamp_t(u32, pix->height, CIF_MIN_HEIGHT, CIF_MAX_HEIGHT);
++	width = clamp_t(u32, pix->width, CIF_MIN_WIDTH, CIF_MAX_WIDTH);
++	ret = v4l2_fill_pixfmt_mp(pix, fmt->fourcc, width, height);
 +	if (ret)
 +		return ret;
 +
-+	ret = v4l2_subdev_set_routing(sd, state, routing);
++	pix->field = V4L2_FIELD_NONE;
 +
-+	return ret;
++	return 0;
 +}
 +
-+static int rkcif_interface_enable_streams(struct v4l2_subdev *sd,
-+					  struct v4l2_subdev_state *state,
-+					  u32 pad, u64 streams_mask)
++static int rkcif_stream_try_format(struct file *file, void *fh,
++				   struct v4l2_format *f)
 +{
-+	struct v4l2_subdev *remote_sd;
-+	struct media_pad *remote_pad;
-+	u64 mask;
++	struct rkcif_stream *stream = video_drvdata(file);
++	struct v4l2_pix_format_mplane *pix = &f->fmt.pix_mp;
 +
-+	remote_pad =
-+		media_pad_remote_pad_first(&sd->entity.pads[RKCIF_IF_PAD_SINK]);
-+	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-+
-+	mask = v4l2_subdev_state_xlate_streams(state, RKCIF_IF_PAD_SINK,
-+					       RKCIF_IF_PAD_SRC, &streams_mask);
-+
-+	return v4l2_subdev_enable_streams(remote_sd, remote_pad->index, mask);
++	return rkcif_stream_fill_format(stream, pix);
 +}
 +
-+static int rkcif_interface_disable_streams(struct v4l2_subdev *sd,
-+					   struct v4l2_subdev_state *state,
-+					   u32 pad, u64 streams_mask)
++static int rkcif_stream_set_format(struct file *file, void *priv,
++				   struct v4l2_format *f)
 +{
-+	struct v4l2_subdev *remote_sd;
-+	struct media_pad *remote_pad;
-+	u64 mask;
-+
-+	remote_pad =
-+		media_pad_remote_pad_first(&sd->entity.pads[RKCIF_IF_PAD_SINK]);
-+	remote_sd = media_entity_to_v4l2_subdev(remote_pad->entity);
-+
-+	mask = v4l2_subdev_state_xlate_streams(state, RKCIF_IF_PAD_SINK,
-+					       RKCIF_IF_PAD_SRC, &streams_mask);
-+
-+	return v4l2_subdev_disable_streams(remote_sd, remote_pad->index, mask);
-+}
-+
-+static const struct v4l2_subdev_pad_ops rkcif_interface_pad_ops = {
-+	.get_fmt = v4l2_subdev_get_fmt,
-+	.set_fmt = rkcif_interface_set_fmt,
-+	.get_selection = rkcif_interface_get_sel,
-+	.set_selection = rkcif_interface_set_sel,
-+	.set_routing = rkcif_interface_set_routing,
-+	.enable_streams = rkcif_interface_enable_streams,
-+	.disable_streams = rkcif_interface_disable_streams,
-+};
-+
-+static const struct v4l2_subdev_ops rkcif_interface_ops = {
-+	.pad = &rkcif_interface_pad_ops,
-+};
-+
-+static int rkcif_interface_init_state(struct v4l2_subdev *sd,
-+				      struct v4l2_subdev_state *state)
-+{
-+	struct rkcif_interface *interface = to_rkcif_interface(sd);
-+	struct v4l2_subdev_route routes[] = {
-+		{
-+			.sink_pad = RKCIF_IF_PAD_SINK,
-+			.sink_stream = 0,
-+			.source_pad = RKCIF_IF_PAD_SRC,
-+			.source_stream = 0,
-+			.flags = V4L2_SUBDEV_ROUTE_FL_ACTIVE,
-+		},
-+	};
-+	struct v4l2_subdev_krouting routing = {
-+		.len_routes = ARRAY_SIZE(routes),
-+		.num_routes = ARRAY_SIZE(routes),
-+		.routes = routes,
-+	};
-+	const struct v4l2_mbus_framefmt dvp_default_format = {
-+		.width = 3840,
-+		.height = 2160,
-+		.code = MEDIA_BUS_FMT_YUYV8_1X16,
-+		.field = V4L2_FIELD_NONE,
-+		.colorspace = V4L2_COLORSPACE_REC709,
-+		.ycbcr_enc = V4L2_YCBCR_ENC_709,
-+		.quantization = V4L2_QUANTIZATION_LIM_RANGE,
-+		.xfer_func = V4L2_XFER_FUNC_NONE,
-+	};
-+	const struct v4l2_mbus_framefmt mipi_default_format = {
-+		.width = 3840,
-+		.height = 2160,
-+		.code = MEDIA_BUS_FMT_SRGGB10_1X10,
-+		.field = V4L2_FIELD_NONE,
-+		.colorspace = V4L2_COLORSPACE_RAW,
-+		.ycbcr_enc = V4L2_YCBCR_ENC_601,
-+		.quantization = V4L2_QUANTIZATION_FULL_RANGE,
-+		.xfer_func = V4L2_XFER_FUNC_NONE,
-+	};
-+	const struct v4l2_mbus_framefmt *default_format;
++	struct rkcif_stream *stream = video_drvdata(file);
++	struct v4l2_pix_format_mplane *pix = &f->fmt.pix_mp;
 +	int ret;
 +
-+	default_format = (interface->type == RKCIF_IF_DVP) ?
-+				 &dvp_default_format :
-+				 &mipi_default_format;
++	if (vb2_is_busy(&stream->buf_queue))
++		return -EBUSY;
 +
-+	ret = v4l2_subdev_set_routing_with_fmt(sd, state, &routing,
-+					       default_format);
-+
-+	return ret;
-+}
-+
-+static const struct v4l2_subdev_internal_ops rkcif_interface_internal_ops = {
-+	.init_state = rkcif_interface_init_state,
-+};
-+
-+static int rkcif_interface_add(struct rkcif_interface *interface)
-+{
-+	struct rkcif_device *rkcif = interface->rkcif;
-+	struct rkcif_remote *remote;
-+	struct v4l2_async_notifier *ntf = &rkcif->notifier;
-+	struct v4l2_fwnode_endpoint *vep = &interface->vep;
-+	struct device *dev = rkcif->dev;
-+	struct fwnode_handle *ep;
-+	u32 dvp_clk_delay = 0;
-+	int ret;
-+
-+	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(dev), interface->index,
-+					     0, 0);
-+	if (!ep)
-+		return -ENODEV;
-+
-+	vep->bus_type = V4L2_MBUS_UNKNOWN;
-+	ret = v4l2_fwnode_endpoint_parse(ep, vep);
++	ret = rkcif_stream_try_format(file, priv, f);
 +	if (ret)
-+		goto complete;
++		return ret;
 +
-+	if (interface->type == RKCIF_IF_DVP) {
-+		if (vep->bus_type != V4L2_MBUS_BT656 &&
-+		    vep->bus_type != V4L2_MBUS_PARALLEL) {
-+			ret = dev_err_probe(dev, -EINVAL,
-+					    "unsupported bus type\n");
-+			goto complete;
-+		}
++	stream->pix = *pix;
 +
-+		fwnode_property_read_u32(ep, "rockchip,dvp-clk-delay",
-+					 &dvp_clk_delay);
-+		interface->dvp.dvp_clk_delay = dvp_clk_delay;
++	return 0;
++}
++
++static int rkcif_stream_get_format(struct file *file, void *fh,
++				   struct v4l2_format *f)
++{
++	struct rkcif_stream *stream = video_drvdata(file);
++
++	f->fmt.pix_mp = stream->pix;
++
++	return 0;
++}
++
++static int rkcif_stream_enum_formats(struct file *file, void *priv,
++				     struct v4l2_fmtdesc *f)
++{
++	struct rkcif_stream *stream = video_drvdata(file);
++
++	if (f->index >= stream->out_fmts_num)
++		return -EINVAL;
++
++	f->pixelformat = stream->out_fmts[f->index].fourcc;
++
++	return 0;
++}
++
++static int rkcif_stream_enum_framesizes(struct file *file, void *fh,
++					struct v4l2_frmsizeenum *fsize)
++{
++	struct rkcif_stream *stream = video_drvdata(file);
++
++	if (fsize->index > 0)
++		return -EINVAL;
++
++	if (!rkcif_stream_find_output_fmt(stream, false, fsize->pixel_format))
++		return -EINVAL;
++
++	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
++	fsize->stepwise.min_width = CIF_MIN_WIDTH;
++	fsize->stepwise.max_width = CIF_MAX_WIDTH;
++	fsize->stepwise.step_width = 8;
++	fsize->stepwise.min_height = CIF_MIN_HEIGHT;
++	fsize->stepwise.max_height = CIF_MAX_HEIGHT;
++	fsize->stepwise.step_height = 8;
++
++	return 0;
++}
++
++static int rkcif_stream_querycap(struct file *file, void *priv,
++				 struct v4l2_capability *cap)
++{
++	struct rkcif_stream *stream = video_drvdata(file);
++	struct device *dev = stream->rkcif->dev;
++
++	strscpy(cap->driver, dev->driver->name, sizeof(cap->driver));
++	strscpy(cap->card, dev->driver->name, sizeof(cap->card));
++
++	return 0;
++}
++
++static const struct v4l2_ioctl_ops rkcif_stream_ioctl_ops = {
++	.vidioc_reqbufs = vb2_ioctl_reqbufs,
++	.vidioc_querybuf = vb2_ioctl_querybuf,
++	.vidioc_create_bufs = vb2_ioctl_create_bufs,
++	.vidioc_qbuf = vb2_ioctl_qbuf,
++	.vidioc_expbuf = vb2_ioctl_expbuf,
++	.vidioc_dqbuf = vb2_ioctl_dqbuf,
++	.vidioc_prepare_buf = vb2_ioctl_prepare_buf,
++	.vidioc_streamon = vb2_ioctl_streamon,
++	.vidioc_streamoff = vb2_ioctl_streamoff,
++	.vidioc_try_fmt_vid_cap_mplane = rkcif_stream_try_format,
++	.vidioc_s_fmt_vid_cap_mplane = rkcif_stream_set_format,
++	.vidioc_g_fmt_vid_cap_mplane = rkcif_stream_get_format,
++	.vidioc_enum_fmt_vid_cap = rkcif_stream_enum_formats,
++	.vidioc_enum_framesizes = rkcif_stream_enum_framesizes,
++	.vidioc_querycap = rkcif_stream_querycap,
++};
++
++static int rkcif_stream_link_validate(struct media_link *link)
++{
++	struct video_device *vdev =
++		media_entity_to_video_device(link->sink->entity);
++	struct v4l2_mbus_framefmt *source_fmt;
++	struct v4l2_subdev *sd;
++	struct v4l2_subdev_state *state;
++	struct rkcif_stream *stream = to_rkcif_stream(vdev);
++	int ret = -EINVAL;
++
++	if (!media_entity_remote_source_pad_unique(link->sink->entity))
++		return -ENOTCONN;
++
++	sd = media_entity_to_v4l2_subdev(link->source->entity);
++
++	state = v4l2_subdev_lock_and_get_active_state(sd);
++
++	source_fmt = v4l2_subdev_state_get_format(state, link->source->index,
++						  stream->id);
++	if (!source_fmt)
++		goto out;
++
++	if (source_fmt->height != stream->pix.height ||
++	    source_fmt->width != stream->pix.width) {
++		dev_dbg(stream->rkcif->dev,
++			"link '%s':%u -> '%s':%u not valid: %ux%u != %ux%u\n",
++			link->source->entity->name, link->source->index,
++			link->sink->entity->name, link->sink->index,
++			source_fmt->width, source_fmt->height,
++			stream->pix.width, stream->pix.height);
++		goto out;
 +	}
 +
-+	remote = v4l2_async_nf_add_fwnode_remote(ntf, ep, struct rkcif_remote);
-+	if (IS_ERR(remote)) {
-+		ret = PTR_ERR(remote);
-+		goto complete;
-+	}
-+
-+	remote->interface = interface;
-+	interface->remote = remote;
-+	interface->status = RKCIF_IF_ACTIVE;
 +	ret = 0;
 +
-+complete:
-+	fwnode_handle_put(ep);
-+
++out:
++	v4l2_subdev_unlock_state(state);
 +	return ret;
 +}
 +
-+int rkcif_interface_register(struct rkcif_device *rkcif,
-+			     struct rkcif_interface *interface)
++static const struct media_entity_operations rkcif_stream_media_ops = {
++	.link_validate = rkcif_stream_link_validate,
++};
++
++static const struct v4l2_file_operations rkcif_stream_file_ops = {
++	.open = v4l2_fh_open,
++	.release = vb2_fop_release,
++	.unlocked_ioctl = video_ioctl2,
++	.poll = vb2_fop_poll,
++	.mmap = vb2_fop_mmap,
++};
++
++static int rkcif_stream_init_vb2_queue(struct vb2_queue *q,
++				       struct rkcif_stream *stream)
 +{
-+	struct media_pad *pads = interface->pads;
-+	struct v4l2_subdev *sd = &interface->sd;
++	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
++	q->io_modes = VB2_MMAP | VB2_DMABUF;
++	q->drv_priv = stream;
++	q->ops = &rkcif_stream_vb2_ops;
++	q->mem_ops = &vb2_dma_contig_memops;
++	q->buf_struct_size = sizeof(struct rkcif_buffer);
++	q->min_queued_buffers = CIF_REQ_BUFS_MIN;
++	q->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_MONOTONIC;
++	q->lock = &stream->vlock;
++	q->dev = stream->rkcif->dev;
++
++	return vb2_queue_init(q);
++}
++
++int rkcif_stream_register(struct rkcif_device *rkcif,
++			  struct rkcif_stream *stream)
++{
++	struct rkcif_interface *interface = stream->interface;
++	struct v4l2_device *v4l2_dev = &rkcif->v4l2_dev;
++	struct video_device *vdev = &stream->vdev;
++	u32 link_flags = 0;
 +	int ret;
 +
-+	interface->rkcif = rkcif;
++	stream->rkcif = rkcif;
 +
-+	v4l2_subdev_init(sd, &rkcif_interface_ops);
-+	sd->dev = rkcif->dev;
-+	sd->entity.ops = &rkcif_interface_media_ops;
-+	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-+	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_STREAMS;
-+	sd->internal_ops = &rkcif_interface_internal_ops;
-+	sd->owner = THIS_MODULE;
++	INIT_LIST_HEAD(&stream->driver_queue);
++	spin_lock_init(&stream->driver_queue_lock);
 +
++	init_waitqueue_head(&stream->wq_stopped);
++
++	mutex_init(&stream->vlock);
++
++	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE | V4L2_CAP_STREAMING |
++			    V4L2_CAP_IO_MC;
++	vdev->entity.ops = &rkcif_stream_media_ops;
++	vdev->fops = &rkcif_stream_file_ops;
++	vdev->ioctl_ops = &rkcif_stream_ioctl_ops;
++	vdev->lock = &stream->vlock;
++	vdev->minor = -1;
++	vdev->release = video_device_release_empty;
++	vdev->v4l2_dev = v4l2_dev;
++	vdev->vfl_dir = VFL_DIR_RX;
++	video_set_drvdata(vdev, stream);
++
++	stream->pad.flags = MEDIA_PAD_FL_SINK;
++
++	stream->pix.height = CIF_MIN_HEIGHT;
++	stream->pix.width = CIF_MIN_WIDTH;
++	rkcif_stream_fill_format(stream, &stream->pix);
++
++	rkcif_stream_init_vb2_queue(&stream->buf_queue, stream);
++
++	vdev->queue = &stream->buf_queue;
 +	if (interface->type == RKCIF_IF_DVP)
-+		snprintf(sd->name, sizeof(sd->name), "rkcif-dvp0");
++		snprintf(vdev->name, sizeof(vdev->name), "rkcif-dvp0-id%d",
++			 stream->id);
 +	else if (interface->type == RKCIF_IF_MIPI)
-+		snprintf(sd->name, sizeof(sd->name), "rkcif-mipi%d",
-+			 interface->index - RKCIF_MIPI_BASE);
++		snprintf(vdev->name, sizeof(vdev->name), "rkcif-mipi%d-id%d",
++			 interface->index - RKCIF_MIPI_BASE, stream->id);
 +
-+	pads[RKCIF_IF_PAD_SINK].flags = MEDIA_PAD_FL_SINK;
-+	pads[RKCIF_IF_PAD_SRC].flags = MEDIA_PAD_FL_SOURCE;
-+	ret = media_entity_pads_init(&sd->entity, RKCIF_IF_PAD_MAX, pads);
-+	if (ret)
-+		goto err;
-+
-+	ret = v4l2_subdev_init_finalize(sd);
-+	if (ret)
-+		goto err_entity_cleanup;
-+
-+	ret = v4l2_device_register_subdev(&rkcif->v4l2_dev, sd);
-+	if (ret) {
-+		dev_err(sd->dev, "failed to register subdev\n");
-+		goto err_subdev_cleanup;
++	ret = media_entity_pads_init(&vdev->entity, 1, &stream->pad);
++	if (ret < 0) {
++		dev_err(rkcif->dev,
++			"failed to initialize stream media pad: %d\n", ret);
++		return ret;
 +	}
 +
-+	ret = rkcif_interface_add(interface);
-+	if (ret)
-+		goto err_subdev_unregister;
++	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
++	if (ret < 0) {
++		dev_err(rkcif->dev, "failed to register video device: %d\n",
++			ret);
++		goto err_media_entity_cleanup;
++	}
++
++	/* enable only stream ID0 by default */
++	if (stream->id == RKCIF_ID0)
++		link_flags |= MEDIA_LNK_FL_ENABLED;
++
++	ret = media_create_pad_link(&interface->sd.entity, RKCIF_IF_PAD_SRC,
++				    &stream->vdev.entity, 0, link_flags);
++	if (ret) {
++		dev_err(rkcif->dev, "failed to link stream media pad: %d\n",
++			ret);
++		goto err_video_unregister;
++	}
++
++	v4l2_info(v4l2_dev, "registered %s as /dev/video%d\n", vdev->name,
++		  vdev->num);
 +
 +	return 0;
 +
-+err_subdev_unregister:
-+	v4l2_device_unregister_subdev(sd);
-+err_subdev_cleanup:
-+	v4l2_subdev_cleanup(sd);
-+err_entity_cleanup:
-+	media_entity_cleanup(&sd->entity);
-+err:
++err_video_unregister:
++	video_unregister_device(&stream->vdev);
++err_media_entity_cleanup:
++	media_entity_cleanup(&stream->vdev.entity);
 +	return ret;
 +}
 +
-+void rkcif_interface_unregister(struct rkcif_interface *interface)
++void rkcif_stream_unregister(struct rkcif_stream *stream)
 +{
-+	struct v4l2_subdev *sd = &interface->sd;
-+
-+	if (interface->status != RKCIF_IF_ACTIVE)
-+		return;
-+
-+	v4l2_device_unregister_subdev(sd);
-+	v4l2_subdev_cleanup(sd);
-+	media_entity_cleanup(&sd->entity);
++	video_unregister_device(&stream->vdev);
++	media_entity_cleanup(&stream->vdev.entity);
 +}
 +
-+const struct rkcif_input_fmt *
-+rkcif_interface_find_input_fmt(struct rkcif_interface *interface, bool ret_def,
-+			       u32 mbus_code)
++const struct rkcif_output_fmt *
++rkcif_stream_find_output_fmt(struct rkcif_stream *stream, bool ret_def,
++			     u32 pixelfmt)
 +{
-+	const struct rkcif_input_fmt *fmt;
++	const struct rkcif_output_fmt *fmt;
 +
-+	WARN_ON(interface->in_fmts_num == 0);
++	WARN_ON(stream->out_fmts_num == 0);
 +
-+	for (unsigned int i = 0; i < interface->in_fmts_num; i++) {
-+		fmt = &interface->in_fmts[i];
-+		if (fmt->mbus_code == mbus_code)
++	for (unsigned int i = 0; i < stream->out_fmts_num; i++) {
++		fmt = &stream->out_fmts[i];
++		if (fmt->fourcc == pixelfmt)
 +			return fmt;
 +	}
++
 +	if (ret_def)
-+		return &interface->in_fmts[0];
++		return &stream->out_fmts[0];
 +	else
 +		return NULL;
 +}
-diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-interface.h b/drivers/media/platform/rockchip/rkcif/rkcif-interface.h
+diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-stream.h b/drivers/media/platform/rockchip/rkcif/rkcif-stream.h
 new file mode 100644
-index 000000000000..817ef633b3fe
+index 000000000000..e50c9771f1b0
 --- /dev/null
-+++ b/drivers/media/platform/rockchip/rkcif/rkcif-interface.h
-@@ -0,0 +1,30 @@
++++ b/drivers/media/platform/rockchip/rkcif/rkcif-stream.h
+@@ -0,0 +1,31 @@
 +/* SPDX-License-Identifier: GPL-2.0 */
 +/*
 + * Rockchip Camera Interface (CIF) Driver
 + *
-+ * Abstraction for the INTERFACE and CROP parts of the different CIF variants.
-+ * They shall be represented as V4L2 subdevice with one sink pad and one
-+ * source pad. The sink pad is connected to a subdevice: either the subdevice
-+ * provided by the driver of the companion chip connected to the DVP, or the
-+ * subdevice provided by the MIPI CSI-2 receiver driver. The source pad is
-+ * to V4l2 device(s) provided by one or many instance(s) of the DMA
-+ * abstraction.
++ * Abstraction for the DMA part and the ping-pong scheme (a double-buffering
++ * mechanism) of the different CIF variants.
++ * Each stream is represented as V4L2 device whose corresponding media entity
++ * has one sink pad.
++ * The sink pad is connected to an instance of the INTERFACE/CROP abstraction
++ * in rkcif-interface.c.
 + *
 + * Copyright (C) 2025 Michael Riesch <michael.riesch@wolfvision.net>
 + */
 +
-+#ifndef _RKCIF_INTERFACE_H
-+#define _RKCIF_INTERFACE_H
++#ifndef _RKCIF_STREAM_H
++#define _RKCIF_STREAM_H
 +
 +#include "rkcif-common.h"
 +
-+int rkcif_interface_register(struct rkcif_device *rkcif,
-+			     struct rkcif_interface *interface);
++void rkcif_stream_pingpong(struct rkcif_stream *stream);
 +
-+void rkcif_interface_unregister(struct rkcif_interface *interface);
++int rkcif_stream_register(struct rkcif_device *rkcif,
++			  struct rkcif_stream *stream);
 +
-+const struct rkcif_input_fmt *
-+rkcif_interface_find_input_fmt(struct rkcif_interface *interface, bool ret_def,
-+			       u32 mbus_code);
++void rkcif_stream_unregister(struct rkcif_stream *stream);
++
++const struct rkcif_output_fmt *
++rkcif_stream_find_output_fmt(struct rkcif_stream *stream, bool ret_def,
++			     u32 pixelfmt);
 +
 +#endif
 
