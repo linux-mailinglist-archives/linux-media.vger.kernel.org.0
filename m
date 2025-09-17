@@ -1,395 +1,296 @@
-Return-Path: <linux-media+bounces-42695-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42696-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21CA2B80B91
-	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 17:50:16 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A5320B80C3E
+	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 17:54:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1BD6416C543
-	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 15:47:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 60E683ACE66
+	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 15:54:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 926C93362B6;
-	Wed, 17 Sep 2025 15:43:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C0292F49E4;
+	Wed, 17 Sep 2025 15:54:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bVEYuTLn"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="AuVSsEoz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from AM0PR83CU005.outbound.protection.outlook.com (mail-westeuropeazon11010031.outbound.protection.outlook.com [52.101.69.31])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA29532129F;
-	Wed, 17 Sep 2025 15:43:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758123837; cv=none; b=AgXQ7uPMI7YUxaHtjkwleOm5F7rbxE2byiiub1mE0lxIzBWC/qcAwZIp9CLp/9yT6f2dX8f/xDnUdYWTvNGArr8sDc3rqCXl5j2YUfjXyXe/czRGty/eQ8+qjqBoKDj1txW7+ZmZvAKDonM9XkYcmXR0jffb3hB4XIx92zxnHic=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758123837; c=relaxed/simple;
-	bh=M7bmsCJOctouLMHagcFSejZI7FxeTupipz2eFgc7ACg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ok1u4A3ArdoXGAHRbUOQglaLiu6HyPBVXy46jQ8VJ+iHHBGw7DkmGuSfZ881SqAz+BoSwiE61loyJHEofbDSeAH2OOMHWQQ3Cb6YWEb7SaXZzu5CnjLIuzQp7cdgZf8BllA3hRAzsk+xvWIKsDmegmQHzAKreIxy9O+fYIZhd6E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bVEYuTLn; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758123836; x=1789659836;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=M7bmsCJOctouLMHagcFSejZI7FxeTupipz2eFgc7ACg=;
-  b=bVEYuTLnL1WvhLCTCV+8iN6IKp4kM1LfBWsFoyyo8cXa+EAAB0KbPjEb
-   WtomC+py29WQBu+ffhWZ11CoyaownZ4JqDgubM6cxmj0d167ZDXg5CxER
-   LHUleDnz1rPjNn3CGDrX4+q5Ln8Y292hZNDZbDJwDamc1CEIWeURdD+jj
-   AKs1mKbIjiycXaq1ZzOwvOpEWVzs8e4GLgCt4ardySYAw8+IVgUsNi18j
-   mJtECa/e2+Re//hAwZIfuLmYmo9AiqygNZ+9U8Jg2KG28xgp0xFZcZONu
-   r8XmJCTcef8HgNmQ5Y6ey+HjzJAPwV2VO16lFBRxNSUNZsPGoCqjLLgV7
-   A==;
-X-CSE-ConnectionGUID: 5VOX7tGYQl6+gZdkxjPgwA==
-X-CSE-MsgGUID: VTL1abs8RWSFpbf9LBqAyg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11556"; a="70685734"
-X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; 
-   d="scan'208";a="70685734"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 08:43:55 -0700
-X-CSE-ConnectionGUID: pbI9dMX5RNucmu4Zq5EiKQ==
-X-CSE-MsgGUID: sTvATFxVQ02Wzn7Nz8Emxw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,272,1751266800"; 
-   d="scan'208";a="206208885"
-Received: from cpetruta-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.41])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Sep 2025 08:43:52 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id B105711FC22;
-	Wed, 17 Sep 2025 18:43:49 +0300 (EEST)
-Date: Wed, 17 Sep 2025 18:43:49 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Richard Leitner <richard.leitner@linux.dev>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450F2341343;
+	Wed, 17 Sep 2025 15:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.69.31
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758124448; cv=fail; b=KC+C0FMdpyhXLiPnm0mKG7tW3uvyitZuoYiQwexa/3fR6/P7eaV/lDz9SJJobYbqzIs9ao1NwD4EBtI1h/q3U2EAFOSLdLSGPsxD14O0wF8/AAK8ZskgMq8r1wiecjAqxur9fczgX7MqL6rOQVrrDKskkn264iM13Ka/sT1YIzE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758124448; c=relaxed/simple;
+	bh=gcGPrJVU4H+Urv124Z3FwUYtk1bh8Zv6sFHHqyoxtzw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=bZjWwvRR8/UQ5uzq5qBPPu1FHvXqBw2fUu1v6gtZG0QTdnFIHTri4EAHPZWmiyplGLssAGOb85zN9zxgXMxkvQRTyKTHwzlJ6jDheBCShFNLa+gGvnNdMkGbgZR9KItTHDIZfx/np4FO0ICNKLojM+IRKdu8PWq5NVj6NSh5x9I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=AuVSsEoz; arc=fail smtp.client-ip=52.101.69.31
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=PCJvP+XEfafLrFtGSlkcwb87pBRJPo5gkL7bULRE9Acc7wTXlHmI5umkAu4TMkEV01smAEBOvDTlOtuT0MI5++9p1ayrHIu17rrHdNN2FnRww8wHwDK+vbbuSH5pHXd/kZFryH37ILN8oLMK0n6BsCSoTxBPiHTTIXODb0lxTU/Hy1Jh6t/WHideocP+5mE3OIeq84DZxEh5HHcqIatqjSbdW5rCzSxrGSpkjMUaXD/InoSwvRov/fJjMV09fKXx+gx0v2TNtNoxhsOHVxKpAbQJ74ZmovupD/MH8ry25S3ZQc6NrxC5AW0okXAn1xzcNSPqPAeMuV9SOpLYuzKtRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NzcIASX6MQvdQw/Z1fRytkXBMlH8XuDqlGIN6FANLEk=;
+ b=ytUP+ssz0a+9XZ3KMirplrvOsXfBLiuV/UyJqqqu3P0R/0NQocRvAa8HxMvfaMYp0Q91M7GtkqsPbKzMvg8CMzE6nPXghTHM6ERMMn8nvdNVaxgss2UeGq+KoiDzaB87PgoqfLchqpw4ACm5f229JaDQeEcOi1rCpJVmWOrx78EbBLlAIsuTd9aCfXMFSF/LqDZZZS9zoG1LEcrfciLjRpdMLbqMzDZ68jeoEGGBEjISVVtnkYj/24fYdjkX1BsxiPx3BGYHSok13AMcno8JZZOwbzxOA278Bl/BrJnHTX38WgimEwx/YVpBnvZ199LI2Pea7zKP8g+OFked29uHTg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=NzcIASX6MQvdQw/Z1fRytkXBMlH8XuDqlGIN6FANLEk=;
+ b=AuVSsEoz+dL69TAOGwizzxtKlvfa/JaQ9GTk4R7JWb5yNldGoBShQq4LxguZGnydSURv3VGDh5NYVTW+M3y6QECquIbdnMWrX/s5cx9E9NCk0C3P+JGKFF3NlBodcvnx6KVzxgbErzDxsnFjvlEL/sK+WN3X5xKuSvpkhkLzapFZ9lri1kNStOXWOJgB9m0AypD+Zf6i43+SdSDnyOtoCo4F7f2MQpHlf2TH0AC+y6QfmjhHldFVf437CiGzQuxwjzf/I7BuSZcO3dh/Fv6qqa0WTr5FqzWDHX0qC+CxoJm+1Ga6QsbTP4z8Dkbmp+ulZImXwD4p4wnixxwhdcVkXQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
+ by GV4PR04MB11291.eurprd04.prod.outlook.com (2603:10a6:150:28f::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Wed, 17 Sep
+ 2025 15:54:00 +0000
+Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
+ ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
+ ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9137.012; Wed, 17 Sep 2025
+ 15:53:59 +0000
+Date: Wed, 17 Sep 2025 11:53:49 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-leds@vger.kernel.org, Hans Verkuil <hverkuil@kernel.org>
-Subject: Re: [PATCH v7 04/10] Documentation: uAPI: media: add
- V4L2_CID_FLASH_{DURATION,HW_STROBE_SIGNAL}
-Message-ID: <aMrXNXexGBXCxbKd@kekkonen.localdomain>
-References: <20250901-ov9282-flash-strobe-v7-0-d58d5a694afc@linux.dev>
- <20250901-ov9282-flash-strobe-v7-4-d58d5a694afc@linux.dev>
- <20250907194953.GA19568@pendragon.ideasonboard.com>
- <j337fpaqahmee3qutgtkavud6rbqyn4lpsj4yaha2xmvcvfhli@z67twdhybvqp>
- <20250908155917.GK26062@pendragon.ideasonboard.com>
- <mk77d6dn2qn6wrlgyu4sxpwufe7eupi4xcvx7yblo7bki4b5h6@brircux3j6ct>
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	Guoniu Zhou <guoniu.zhou@nxp.com>
+Subject: Re: [PATCH v6 1/5] media: dt-bindings: nxp,imx8mq-mipi-csi2: Add
+ i.MX8ULP compatible string
+Message-ID: <aMrZjcB4zDMw7s/G@lizhi-Precision-Tower-5810>
+References: <20250917-csi2_imx8ulp-v6-0-23a355982eff@nxp.com>
+ <20250917-csi2_imx8ulp-v6-1-23a355982eff@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250917-csi2_imx8ulp-v6-1-23a355982eff@nxp.com>
+X-ClientProxiedBy: BYAPR05CA0080.namprd05.prod.outlook.com
+ (2603:10b6:a03:e0::21) To PAXSPRMB0053.eurprd04.prod.outlook.com
+ (2603:10a6:102:23f::21)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <mk77d6dn2qn6wrlgyu4sxpwufe7eupi4xcvx7yblo7bki4b5h6@brircux3j6ct>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|GV4PR04MB11291:EE_
+X-MS-Office365-Filtering-Correlation-Id: f3e8b359-9b87-440a-e3dd-08ddf6026a99
+X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+ BCL:0;ARA:13230040|1800799024|19092799006|52116014|7416014|376014|366016|38350700014;
+X-Microsoft-Antispam-Message-Info:
+ =?us-ascii?Q?Rehgh52jRSI6pwfpXAUHn69rPhUWKmRmY+DoX/52qeR0mb8PUe+mBd34AsAZ?=
+ =?us-ascii?Q?jfCvP++FVYUoGcpK4TEkBGHEghAh8OjZ5eNWXUU4MEWRgixRljLcz6b4tToI?=
+ =?us-ascii?Q?c5dt5Nd8uklaAqW5uGKGAHRCAUcdg/dfECwGCdzGfAY6G8ZRTOcXFgOTqcmK?=
+ =?us-ascii?Q?ZucGGiDq17oNv6tzF/p25ZgjKQs6SClvm6XAZQAsOlvFwQDbBWFt8PJY1mOd?=
+ =?us-ascii?Q?oq2r2Y6gZu35TILnwg8Ke81dxgMn0ltCo5uu6CYYj0/3C9dapSxKq6kXIqux?=
+ =?us-ascii?Q?kZyxwHrbinrXDXbgZzUrgsIyrixwpger97KcBZpn69iNFZtx/47lV5JNfWFH?=
+ =?us-ascii?Q?kEcplLocIvuK/i8E/UjLNqNzb8HiETXCI1u0RVqCz/qm6hGqgpdutUwHTHuF?=
+ =?us-ascii?Q?S5SXpLgyYezcIh3nQTH+/f0bCnoTKcxehxGcLAMAel6yVQSr7hPgz9VUAvZS?=
+ =?us-ascii?Q?V8E6ECy677NsxQafytZmcneLXtioe7nnySgGs53j7GpYjfnRhi/QdtFge3ST?=
+ =?us-ascii?Q?HwIN4cIDpLktqvWJb0ZqOMNh7a7WDUXmsAIzUPmmx0JjNpBSF9emOc3j6He3?=
+ =?us-ascii?Q?khvsneIz7I5O+nh8oG6mA/JH2FqXJL+DaBpu+iYDYjjQ0GR09Ar1iKJbaR5L?=
+ =?us-ascii?Q?0xWpazpGPhfwpBGLc/arx24/bnnCP2ToINyXbyU0pI9PKMEpHytTiTnmVzB+?=
+ =?us-ascii?Q?7SFuFSzTtm/n8rSq6apy7lTeimoG4Ji96Y/AE1AfbhUZDPm3Cj6RjYKCFFXt?=
+ =?us-ascii?Q?eNDCIlzR+ymd3LAIunYkLnvxi4M8AioQR9HwFAfo4RmBbpvWUpJFScryLYLH?=
+ =?us-ascii?Q?ygb1K/o4VodQeNczyGxY+Zmbloh7NXpccfGwnYmfhV5JyBMQbQVOXJ0NRIDY?=
+ =?us-ascii?Q?arLXvUYGf+uKjOjQ378VY7I6GVVLarwQUMgP/6mpPMsjwt1B1tQLRvrKKL4O?=
+ =?us-ascii?Q?xJdzdnxqw7r+x9v4+lxuYz5ITNKreNx1AMxIFypFACx/uG3VXB/f+KWxGLjB?=
+ =?us-ascii?Q?mrGVKYRpr9mS6Qrl/ZfK3NmNm7y8pltIwqFS2FvdxXCPaCsdIozWK2gyGuum?=
+ =?us-ascii?Q?COwZZkcZnn2/50qJqrnTp7/XDUeoYUVPTFg5TDrg3RlKA3YTo0MHGc83jle6?=
+ =?us-ascii?Q?b5Yf6IcZUKf1npiu8SjwOlN8SEqe4B8rETjaTAPgkDwuBaVjvdfwyLRSASVd?=
+ =?us-ascii?Q?UJtkTg3eoaJWxV+xIAyLLIiV6+VDs7bs0YEbDyADkugIkkZbY+5Uq01lENPa?=
+ =?us-ascii?Q?6czXcIIAfYxDQrbxiubOeVtrLR5ga9nsALQtkzFf6jxvzjWot7TplAcSfZtb?=
+ =?us-ascii?Q?G8amw4/OuH1+BlSxzjNBhilFmK6hleI6c6n7rA+GLCNymLv/93KYv4CKbY04?=
+ =?us-ascii?Q?JGpIjK96UeRrf62GztyfP4dTnlGahvXiPX9v0+fB/JuPfq9yOpBwBiZvaMUX?=
+ =?us-ascii?Q?WyJsDxGxOEs=3D?=
+X-Forefront-Antispam-Report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXSPRMB0053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(19092799006)(52116014)(7416014)(376014)(366016)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+ =?us-ascii?Q?2g+rEPGFf7XWQvyV9+CbWV6Q/iTVjv7Sef2q4OyUeXm28cHJdNlOyGmVr9i0?=
+ =?us-ascii?Q?6OsOlu1nIQ4jR8Yo8wOb4zfRTHe05EPeKnJpPzXG/ejGhR2eZpLeWuUX6DOG?=
+ =?us-ascii?Q?N0yO8H9m535lMjEJBpvpuLNfVzlma3ot1yz9ytIEerZsVtGyBOjAIR2cnbYx?=
+ =?us-ascii?Q?Mm/WUw9Knu1l7seUdEYFj1NqGX0hje1sAKo8K2cdHP0s9XA5rIpoetBX9Zg9?=
+ =?us-ascii?Q?EzSBPDjCR3HX8JiLc21zPQlTgEbZdkn4iAwD8yh/VsXICmJXW8wpxL6zBguw?=
+ =?us-ascii?Q?eLgImIhRV85Kp06dH6nklEpE1s0sETAbTE+2y1UjNP8LK9tnN3mdLxNDats8?=
+ =?us-ascii?Q?CZ+28wV0e7baDFsYeMtuQwjHYgxk/o9/4IDaI+QdzRXQSLAQ77fAw+LZGNbV?=
+ =?us-ascii?Q?fyFgQewDOYnVtyTq+P9Nj30dPJNISvP1h0ydl0pXiIvfby+V0Mv8uAogd+nA?=
+ =?us-ascii?Q?TSdppq8Yn0JJXSppg39/+Pqqmpr1s5X5EYX7/aatbC4pB/zGbzq8gzh/sRxw?=
+ =?us-ascii?Q?jf7NFV4CGDpw/ZLPlyvGj9Pj2MKtrP8kjkWG0ez7uFqVs1yfav0mQikArx6Z?=
+ =?us-ascii?Q?zRP5MhDKAq3yTbp7sU37QXpCsvcOYYLN1qL1Stz62I+7AKpT3pQCn77cHBw0?=
+ =?us-ascii?Q?Bjw8R85qKzXFgTErrfFWgJUCZKAnHi09LG0qzw4b2OiLqJaERYO4vfBVnJen?=
+ =?us-ascii?Q?9mQx52Pm0LFBkB5//JDMCMSh13EzIBQCf5OmDskRJx8pAdm0H/y3m0K1QLiK?=
+ =?us-ascii?Q?F8MkwaqSd5PHeAwED8093VcjIR+esQem46yCcgRUggngKxI1bpvYTxDND/jr?=
+ =?us-ascii?Q?7fe5c5YeYF+tDD3r0maW/VgDrCLZMy1Jy76kOLMrcISgeJFSvXhg50lJ2H7U?=
+ =?us-ascii?Q?ypGigjoIdiDJImCf8rsMrNtXTbtLAnEdyGey6MSKQ/XMVaN3xJjUJ4AGmFS/?=
+ =?us-ascii?Q?pyLIf8L9NGiMQ6UxNN7oH45fHnkDpWkHMiaV1uyc6fo6RtA/eNuA7vAcqTwa?=
+ =?us-ascii?Q?lwlnJONq4Sgrm+az1cW8ebYON8JZ8k2SGTghZdpugWFXk5qRlmjFbW45fpcN?=
+ =?us-ascii?Q?XKktzS0623JmPTpqk9fUip8prTwRXJfRXggX/NpJyVyPRapuTBgLm3Lpcbck?=
+ =?us-ascii?Q?Yo65nO3xqNfp9e+mSxaFxApsDf8cGtbr1wbW87J14Vq5n+7rQAYcBLzrKA3p?=
+ =?us-ascii?Q?iUL3ruCkPDC/XzU+j0LK3y7GmUy+q8wzLS0do5ju+X8KqVhWZV6759QU+0gX?=
+ =?us-ascii?Q?2Km32cDpa0542ksUfnOmxMuvjISJyFpjSn5t36mb0m4JH0SpCAja9vHizibn?=
+ =?us-ascii?Q?J+Uo0N8AqvV8YYsUcYnpc+G3Wvf9lm74437Mgs2t+WlIpkvAq8uOU+4rGJWu?=
+ =?us-ascii?Q?32EtZmCFNDdG+5it+DalSWCyRIcJyWCr7tZi2ipzESyXjB1Izf0FroPCw/pV?=
+ =?us-ascii?Q?MYIQI8Acdkd8Pl+UedQqKimi65yK/YKNAEneazBxOJOaiWOi4Zvbqz/L3OHw?=
+ =?us-ascii?Q?w6/6gasecqH0imsu6qAL4e9BRqMJEvAmLNXwU4TAWjaJavlAty97dX3D0pTC?=
+ =?us-ascii?Q?6alRZzbepgQ8iZ0/E7VvFu7Hjqbz62gUqYW/K7/U?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f3e8b359-9b87-440a-e3dd-08ddf6026a99
+X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2025 15:53:59.8538
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: z3yQLGZTK9VhdmdX+ggC3o4+oaozjAxCBmN4SyL16oSDYJpkgYj994NPXsRn5lgjOvr68YpvEfaCzlXzuY/W+A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4PR04MB11291
 
-Hi Richard,
+On Wed, Sep 17, 2025 at 04:14:50PM +0800, Guoniu Zhou wrote:
+> From: Guoniu Zhou <guoniu.zhou@nxp.com>
+>
+> The CSI-2 receiver in the i.MX8ULP is almost identical to the version
+> present in the i.MX8QXP/QM, but i.MX8ULP CSI-2 controller needs pclk
+> clock as the input clock for its APB interface of Control and Status
+> register(CSR). So add compatible string fsl,imx8ulp-mipi-csi2 and
+> increase maxItems of Clocks (clock-names) to 4 from 3.  And keep the
+> same restriction for existing compatible.
+>
+> Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+> ---
 
-On Tue, Sep 09, 2025 at 12:29:55PM +0200, Richard Leitner wrote:
-> Hi Laurent,
-> 
-> thanks for your great (and quick) feedback!
-> 
-> On Mon, Sep 08, 2025 at 05:59:17PM +0200, Laurent Pinchart wrote:
-> > On Mon, Sep 08, 2025 at 02:37:15PM +0200, Richard Leitner wrote:
-> > > On Sun, Sep 07, 2025 at 09:49:53PM +0200, Laurent Pinchart wrote:
-> > > > On Mon, Sep 01, 2025 at 05:05:09PM +0200, Richard Leitner wrote:
-> > > > > Add the new strobe duration and hardware strobe signal control to v4l
-> > > > > uAPI documentation. Additionally add labels for cross-referencing v4l
-> > > > > controls.
-> > > > > 
-> > > > > Signed-off-by: Richard Leitner <richard.leitner@linux.dev>
-> > > > > ---
-> > > > >  .../userspace-api/media/v4l/ext-ctrls-flash.rst    | 29 ++++++++++++++++++++++
-> > > > >  1 file changed, 29 insertions(+)
-> > > > > 
-> > > > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-> > > > > index d22c5efb806a183a3ad67ec3e6550b002a51659a..6254420a8ca95929d23ffdc65f40a6e53e30a635 100644
-> > > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-> > > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-flash.rst
-> > > > > @@ -57,6 +57,8 @@ Flash Control IDs
-> > > > >  ``V4L2_CID_FLASH_CLASS (class)``
-> > > > >      The FLASH class descriptor.
-> > > > >  
-> > > > > +.. _v4l2-cid-flash-led-mode:
-> > > > > +
-> > > > >  ``V4L2_CID_FLASH_LED_MODE (menu)``
-> > > > >      Defines the mode of the flash LED, the high-power white LED attached
-> > > > >      to the flash controller. Setting this control may not be possible in
-> > > > > @@ -80,6 +82,8 @@ Flash Control IDs
-> > > > >  
-> > > > >  
-> > > > >  
-> > > > > +.. _v4l2-cid-flash-strobe-source:
-> > > > > +
-> > > > >  ``V4L2_CID_FLASH_STROBE_SOURCE (menu)``
-> > > > >      Defines the source of the flash LED strobe.
-> > > > >  
-> > > > > @@ -186,3 +190,28 @@ Flash Control IDs
-> > > > >      charged before strobing. LED flashes often require a cooldown period
-> > > > >      after strobe during which another strobe will not be possible. This
-> > > > >      is a read-only control.
-> > > > > +
-> > > > > +.. _v4l2-cid-flash-duration:
-> > > > > +
-> > > > > +``V4L2_CID_FLASH_DURATION (integer)``
-> > > > > +    Duration of the flash strobe pulse generated by the strobe source,
-> > > > > +    typically a camera sensor. This method of controlling flash LED strobe
-> > > > > +    duration has three prerequisites: the strobe source's
-> > > > > +    :ref:`hardware strobe signal <v4l2-cid-flash-hw-strobe-signal>` must be
-> > > > > +    enabled, the flash LED driver's :ref:`flash LED mode <v4l2-cid-flash-led-mode>`
-> > > > > +    must be set to ``V4L2_FLASH_LED_MODE_FLASH``, and the
-> > > > > +    :ref:`strobe source <v4l2-cid-flash-strobe-source>` must be configured to
-> > > > > +    ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL``. The unit should be microseconds (µs)
-> > > > > +    if possible.
-> > > > 
-> > > > As mentioned in the review of 01/10, I think this needs to be clarified.
-> > > > Ideally we should add a new document in
-> > > > Documentation/userspace-api/media/v4l/ to explain the flash API, but in
-> > > > the meantime let's at lets improve the description of the duration
-> > > > control. Here's a proposal.
-> > > 
-> > > Understood. Thank you for your proposal!
-> > > 
-> > > > ``V4L2_CID_FLASH_DURATION (integer)``
-> > > >     Duration of the flash strobe pulse generated by the strobe source, when
-> > > >     using external strobe. This control shall be implemented by the device
-> > > >     generating the hardware flash strobe signal, typically a camera sensor,
-> > > >     connected to a flash controller. It must not be implemented by the flash
-> > > >     controller.
-> > > > 
-> > > >     This method of controlling flash LED strobe duration has three
-> > > >     prerequisites: the strobe source's :ref:`hardware strobe signal
-> > > >     <v4l2-cid-flash-hw-strobe-signal>` must be enabled, the flash controller's
-> > > >     :ref:`flash LED mode <v4l2-cid-flash-led-mode>` must be set to
-> > > >     ``V4L2_FLASH_LED_MODE_FLASH``, and its :ref:`strobe source
-> > > >     <v4l2-cid-flash-strobe-source>` must be configured to
-> > > >     ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL``.
-> > > > 
-> > > >     The unit should be microseconds (µs) if possible.
-> > > > 
-> > > > 
-> > > > The second paragraph may be better replaced by expanding the
-> > > > documentation of V4L2_FLASH_STROBE_SOURCE_EXTERNAL, it seems a better
-> > > > place to document how external strobe works.
-> > > 
-> > > That's fine for me. I will adapt the V4L2_CID_FLASH_DURATION and
-> > > V4L2_FLASH_STROBE_SOURCE_EXTERNAL documentation accordingly and send in
-> > > v9.
-> > 
-> > Sakari, could you please check if you agree with the above ? Let's avoid
-> > going back and forth with reviews (and I'll try my best to review the
-> > next version quickly).
-> 
-> My current proposal:
-> 
->     * - ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL``
->       - The flash strobe is triggered by an external source. Typically
->         this is a sensor, which makes it possible to synchronise the
->         flash strobe start to exposure start.
->         This method of controlling flash LED strobe has two additional
->         prerequisites: the strobe source's :ref:`flash strobe output
->         <v4l2-cid-flash-strobe-oe>` must be enabled (if available)
->         and the flash controller's :ref:`flash LED mode
->         <v4l2-cid-flash-led-mode>` must be set to
->         ``V4L2_FLASH_LED_MODE_FLASH``. Additionally the :ref:`flash duration
-> 	<v4l2-cid-flash-duration>` may be adjusted by the strobe source.
-> 
-> 
-> ``V4L2_CID_FLASH_DURATION (integer)``
->     Duration of the flash strobe pulse generated by the strobe source, when
->     using external strobe. This control shall be implemented by the device
->     generating the hardware flash strobe signal, typically a camera sensor,
->     connected to a flash controller. It must not be implemented by the flash
->     controller. Typically the flash strobe pulse needs to be activated by
+There are long discussion at previous verison.
 
-I'd drop the sentence on flash controller as this is UAPI documentation.
+For refer:
+	https://lore.kernel.org/imx/20250903192142.GA10637@pendragon.ideasonboard.com/
 
->     enabling the strobe source's :ref:`flash strobe output
->     <v4l2-cid-flash-strobe-oe>`.
-> 
->     The flash controllers :ref:`strobe source <v4l2-cid-flash-strobe-source>`
->     must be configured to ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL`` for this
->     mode of operation.
-> 
->     The unit should be number of lines if possible.
-> 
-> 
-> ``V4L2_CID_FLASH_STROBE_OE (boolean)``
->     Enables the output of a hardware strobe signal from the strobe source,
->     when using external strobe. This control shall be implemented by the device
+	compatible string "fsl,imx8qxp-mipi-csi2", has clock A, B, C
+        compatible string "fsl,imx8ulp-mipi-csi2", has clock A, B, C, D
 
-I'd remove the comma.
+	clock B is special one, driver need know clk-freqeuncy. Other
+clocks just enable/disable.
 
->     generating the hardware flash strobe signal, typically a camera sensor,
->     connected to a flash controller.
-> 
->     Provided the signal generating device driver supports it, the length of the
->     strobe signal can be configured by adjusting its
->     :ref:`flash duration <v4l2-cid-flash-duration>`. In case the device has a
->     fixed strobe length, the flash duration control must not be implemented.
+	The program module is the same.
 
-I don't see why the duration control wouldn't be implemented in this case:
-it's still relevant for the user space to know how long the duration is.
-I'd simply drop this sentence.
+	It is not important about if fsl,imx8ulp-mipi-csi2 need fallback
+to fsl,imx8qxp-mipi-csi2 since driver has to been updated, only one line
+additional change.
 
-> 
->     The flash controllers :ref:`strobe source <v4l2-cid-flash-strobe-source>`
->     must be configured to ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL`` for this
->     mode of operation.
-> 
-> > 
-> > > > As for the unit, is microseconds really the best option ? I would expect
-> > > > most sensors to express the strobe pulse width in unit of lines.
-> > > 
-> > > We had that discussion already somewhere during this series. Tbh for me
-> > > microseconds seems fine. Most (professional) flashes are configured with
-> > > s^-1, so that would also be an option, but as flash_timeout is
-> > > configured in microseconds, i chose it for flash_duration too.
-> > > 
-> > > Nonetheless technically it shouldn't be a problem to express it as
-> > > number of lines... Is there a reason to prefer this?
-> > 
-> > A few observations have confirmed my gut feeling that this is how
-> > sensors typically express the pulse width. Expressing the value in its
-> > hardware unit means we won't have rounding issues, and drivers will also
-> > be simpler. We're missing data though, it would be nice to check a wider
-> > variety of camera sensors.
-> 
-> I have done some more measurements and calculation on this for ov9281.
-> It seems you are (somehow?) right. The strobe_frame_span (aka strobe
-> duration) register value seems to represent the duration of the strobe in
-> number of lines plus a constant and variable offset based on the hblank
-> value. Other settings (e.g. vblank, exposure, ...) have no influence on
-> the duration.
-> 
-> After about 50 measurements using different strobe_frame_span and hblank
-> values and 1280x800 as resolution I came up with the following formulas:
-> 
->    line_factor = active_width + hblank * 1,04 + 56
-> 
->    t_strobe = strobe_frame_span * line_factor / pixel_rate
-> 
-> Which matches all tested cased nicely...
-> 
-> Nonetheless I'm still unsure on what unit to use for flash duration...
-> 
-> The exposure time for ov9282 is set as "number of row periods, where the
-> low 4 bits are fraction bits" in the registers. The v4l2 control should
-> on the other hand accept 100 µs units as value.
-> 
-> From a user perspective it would make sense to me to configure exposure
-> time, flash duration and flash/strobe offset using the same base units.
-> On the other hand we may have rounding issues and formulas based on
-> assumptions or reverse-engineering when implementing this for a
-> sensor...
-> 
-> What's your opinion on this, Sakari, Laurent, Dave?
+	To keep simple and strangh forward, don't set fsl,imx8ulp-mipi-csi2
+fallback to fsl,imx8qxp-mipi-csi2.
 
-I checked what CCS defines exposure time as a function of the external
-clock frequency:
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-	exposure time = tFlash_strobe_width_ctrl / ext_clk_freq *
-			flash_strobe_adjustment
-
-The added accuracy is relevant for xenon (admittedly rare these days, but
-depends on the device) flash but probably not so for LEDs.
-
-So I'm fine with keeping this as-is and perhaps adding CCS specific private
-controls separately.
-
-> 
-> > 
-> > > > I think we also need to decide how to handle camera sensors whose flash
-> > > > strobe pulse width can't be controlled. For instance, the AR0144 can
-> > > > output a flash signal, and its width is always equal to the exposure
-> > > > time. The most straightforward solution seems to implement
-> > > > V4L2_CID_FLASH_HW_STROBE_SIGNAL but not V4L2_CID_FLASH_DURATION in the
-> > > > sensor driver. Could this cause issues in any use case ? Is there a
-> > > > better solution ? I would like this to be documented.
-> > > 
-> > > Sounds good to me. In this case the V4L2_CID_FLASH_DURATION could be
-> > > provided as a read-only property too. So userspace is explicitely aware
-> > > of the acutal value and doesn't have to make assumptions.
-> > 
-> > The value would change depending on the exposure time. Given how control
-> > change events are implemented that would be difficult to use from
-> > userspace at best. I think not exposing the control would be as useful
-> > as exposing a read-only value, and it would be simpler to implement in
-> > kernel drivers.
-> 
-> That's true. I guess keeping the drivers simple and moving this "logic"
-> to a possible client/userspace application (if needed) is fine with me.
-> 
-> As you may have seen above, I've tried to integrate this in the
-> documentation proposal already.
-> 
-> > 
-> > > Should I add documentation on this topic to this patch?
-> > 
-> > That would be nice, thank you.
-> > 
-> > > > Finally, I think we also need to standardize the flash strobe offset.
-> > > 
-> > > I guess I somewhere mentioned this already: I have some patches for
-> > > configuring the strobe offset of ov9282 and adding the corresponding
-> > > v4l2 control. But to keep this series simple I'm planning to send them
-> > > as soon as this one is "done".
-> > > 
-> > > IMHO the offset should then have the same unit as the flash_duration.
-> > 
-> > What's the unit for the OV9282 ? For AR0144, it's a 8-bit signed value
-> > expressed in units of half a line.
-> > 
-> > > > > +
-> > > > > +.. _v4l2-cid-flash-hw-strobe-signal:
-> > > > > +
-> > > > > +``V4L2_CID_FLASH_HW_STROBE_SIGNAL (boolean)``
-> > > > 
-> > > > Nitpicking a bit on the name, I would have called this
-> > > > V4L2_CID_FLASH_STROBE_OUTPUT_ENABLE (or _OE).
-> > > 
-> > > I'm always open to name-nitpicking ;-)
-> > > 
-> > > V4L2_CID_FLASH_STROBE_OE sounds great to me... It's clear and even
-> > > shorter than V4L2_CID_FLASH_HW_STROBE_SIGNAL.
-> > 
-> > Sakari, what's your opinion ?
-
-I slightly prefer the former, too.
-
-> > 
-> > > > > +    Enables the output of a hardware strobe signal from the strobe source,
-> > > > > +    typically a camera sensor. To control a flash LED driver connected to this
-> > > > > +    hardware signal, the :ref:`flash LED mode <v4l2-cid-flash-led-mode>`
-> > > > > +    must be set to ``V4L2_FLASH_LED_MODE_FLASH`` and the
-> > > > > +    :ref:`strobe source <v4l2-cid-flash-strobe-source>` must be set to
-> > > > > +    ``V4L2_FLASH_STROBE_SOURCE_EXTERNAL``. Provided the flash LED driver
-> > > > > +    supports it, the length of the strobe signal can be configured by
-> > > > > +    adjusting its :ref:`flash duration <v4l2-cid-flash-duration>`.
-> > > > 
-> > > > The V4L2_CID_FLASH_HW_STROBE_SIGNAL documentation needs to be clarified
-> > > > in a similar way as V4L2_CID_FLASH_DURATION.
-> > > 
-> > > Sure. I will adapt this for v9.
-> > 
-> > -- 
-> > Regards,
-> > 
-> > Laurent Pinchart
-> 
-> thanks & regards;rl
-
--- 
-Kind regards,
-
-Sakari Ailus
+>  .../bindings/media/nxp,imx8mq-mipi-csi2.yaml       | 41 ++++++++++++++++++++--
+>  1 file changed, 39 insertions(+), 2 deletions(-)
+>
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> index 3389bab266a9adbda313c8ad795b998641df12f3..da3978da1cab75292ada3f24837443f7f4ab6418 100644
+> --- a/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
+> @@ -20,6 +20,7 @@ properties:
+>        - enum:
+>            - fsl,imx8mq-mipi-csi2
+>            - fsl,imx8qxp-mipi-csi2
+> +          - fsl,imx8ulp-mipi-csi2
+>        - items:
+>            - const: fsl,imx8qm-mipi-csi2
+>            - const: fsl,imx8qxp-mipi-csi2
+> @@ -39,12 +40,16 @@ properties:
+>                       clock that the RX DPHY receives.
+>        - description: ui is the pixel clock (phy_ref up to 333Mhz).
+>                       See the reference manual for details.
+> +      - description: pclk is clock for csr APB interface.
+> +    minItems: 3
+>
+>    clock-names:
+>      items:
+>        - const: core
+>        - const: esc
+>        - const: ui
+> +      - const: pclk
+> +    minItems: 3
+>
+>    power-domains:
+>      maxItems: 1
+> @@ -130,19 +135,51 @@ allOf:
+>          compatible:
+>            contains:
+>              enum:
+> -              - fsl,imx8qxp-mipi-csi2
+> +              - fsl,imx8ulp-mipi-csi2
+> +    then:
+> +      properties:
+> +        reg:
+> +          minItems: 2
+> +        resets:
+> +          minItems: 2
+> +          maxItems: 2
+> +        clocks:
+> +          minItems: 4
+> +        clock-names:
+> +          minItems: 4
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            const: fsl,imx8qxp-mipi-csi2
+>      then:
+>        properties:
+>          reg:
+>            minItems: 2
+>          resets:
+>            maxItems: 1
+> -    else:
+> +        clocks:
+> +          maxItems: 3
+> +        clock-names:
+> +          maxItems: 3
+> +
+> +  - if:
+> +      properties:
+> +        compatible:
+> +          contains:
+> +            enum:
+> +              - fsl,imx8mq-mipi-csi2
+> +    then:
+>        properties:
+>          reg:
+>            maxItems: 1
+>          resets:
+>            minItems: 3
+> +        clocks:
+> +          maxItems: 3
+> +        clock-names:
+> +          maxItems: 3
+>        required:
+>          - fsl,mipi-phy-gpr
+>
+>
+> --
+> 2.34.1
+>
 
