@@ -1,128 +1,147 @@
-Return-Path: <linux-media+bounces-42640-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42641-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0DBB7D77B
-	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 14:28:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 727DBB7D2D4
+	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 14:20:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3FE3C7B17D1
-	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 00:41:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C04F91C02A24
+	for <lists+linux-media@lfdr.de>; Wed, 17 Sep 2025 06:24:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D4E320B21E;
-	Wed, 17 Sep 2025 00:43:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A67E529ACD1;
+	Wed, 17 Sep 2025 06:23:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b="bRQrpbyn"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="iw+1ptZy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ksmg01.maxima.ru (ksmg01.maxima.ru [81.200.124.38])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35B9C13B2A4;
-	Wed, 17 Sep 2025 00:43:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=81.200.124.38
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51B4F248861;
+	Wed, 17 Sep 2025 06:23:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758069784; cv=none; b=k3vYo0Wa0OjRlVF9urmjH4IdKj2u9crQDnnJ99X/odI/RrlGy3wr3q1OmgKCIscT6I/OMoDzH79PJftk7zySiZMEb+pNZ0VTtVCW33w4JDeHwCUGD0H+Go0FfI0I2lL2D6sfs2oOTrHEuAbgWFLLxcb0YYvCgMXy/gAxbLr0yg8=
+	t=1758090186; cv=none; b=k5GECTOtt2o7hBES6f38VK/ralsA0wgb6fpAx9bkEdL6gT+ybI1YqTozS5o0y2sMB0oDilSMoqiuqQnoZGKgxLrBrri4MIljBAoMPruqcDeeD+eXiUUbF7ACgVXMLvHok3sKTPXxDE9FBhqeXi/0DA9vyF35GaZEWWktuxOmrhA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758069784; c=relaxed/simple;
-	bh=SXkL13a8iG6GEI5p2NO+RC35HdW6nueOrqs/a8naP5k=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=B+tNpx31giw9p9iku/NKrgiRakTI9nQy7I2ifM2d4CSlfRzcVOiuHBM0gRgLwsTAfhMgim2g+wGXUpU7EYKeK5d4YG0jTe2F8oxaBTMI//M6rgV5YDmqC7lqTf3uxcqHlmRdkh8iNVb39wt4wHkqr+otdz5ASBdPPXJ+7AQYN78=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru; spf=pass smtp.mailfrom=mt-integration.ru; dkim=pass (2048-bit key) header.d=mt-integration.ru header.i=@mt-integration.ru header.b=bRQrpbyn; arc=none smtp.client-ip=81.200.124.38
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=mt-integration.ru
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mt-integration.ru
-Received: from ksmg01.maxima.ru (localhost [127.0.0.1])
-	by ksmg01.maxima.ru (Postfix) with ESMTP id D77C1C007A;
-	Wed, 17 Sep 2025 03:43:00 +0300 (MSK)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ksmg01.maxima.ru D77C1C007A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mt-integration.ru;
-	s=sl; t=1758069780; bh=mMy7o1VKxSYYmV008tZxBY5ChzQiqbztmhJuX5eQfvU=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type:From;
-	b=bRQrpbynxPG53Z7IHFd5LNs7TU7qMhRnu2bxAIP/K8dyD6u8p+WPKvXqLAg99wYsj
-	 yYR3pbeAoR49CTzfglEVL69Ig6NCos/6CRFlvTfoqnLMunWzZDphmXkirUSEAJ/i1V
-	 fuCiZvyqK6rSfJmPxmKzJ22Wd2/R878MmJV+mmkfMJOsk9uWxf9MUFxaUm8LASsQPR
-	 FFlaVhvOHZr9VtCK+/0thCCBiMu5CwR1enkpJEKYQ9fL8fGKyc+I+2I+UgbDrAhpAk
-	 GQlii6JK/Hkk3Gg72wWnJPQ3bHjrz/icY0BslHUShqOYZy7sdKfLgqNClee3Avq5Br
-	 qlM4cEqC360Mw==
-Received: from ksmg01.maxima.ru (autodiscover.maxima.ru [81.200.124.61])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(Client did not present a certificate)
-	by ksmg01.maxima.ru (Postfix) with ESMTPS;
-	Wed, 17 Sep 2025 03:43:00 +0300 (MSK)
-Received: from db126-1-abramov-14-d-mosos.mti-lab.com (172.25.20.118) by
- mmail-p-exch01.mt.ru (81.200.124.61) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Wed, 17 Sep 2025 03:42:59 +0300
-From: Ivan Abramov <i.abramov@mt-integration.ru>
-To: Andy Shevchenko <andy@kernel.org>
-CC: Ivan Abramov <i.abramov@mt-integration.ru>, Hans de Goede
-	<hansg@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Sakari Ailus
-	<sakari.ailus@linux.intel.com>, Greg Kroah-Hartman
-	<gregkh@linuxfoundation.org>, Colin Ian King <colin.i.king@gmail.com>, Alan
- Cox <alan@linux.intel.com>, <linux-media@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-staging@lists.linux.dev>,
-	<lvc-project@linuxtesting.org>
-Subject: [PATCH v2 1/1] media: atomisp: Avoid memory leaks in ia_css_pipe_create_cas_scaler_desc_single_output()
-Date: Wed, 17 Sep 2025 03:42:36 +0300
-Message-ID: <20250917004240.506794-1-i.abramov@mt-integration.ru>
-X-Mailer: git-send-email 2.39.5
+	s=arc-20240116; t=1758090186; c=relaxed/simple;
+	bh=Rs+c/vVPVxFus14/jicS7KV9PWjsmmv1oIivk8MfMiI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=HQgMrNVSjyOVeZ7/zhKExdLnLmg4Uq8QOHZ0QGVZem3Zo2BsqjLyCLL3quoIwPjecYLtOhHBa81b414AtKb+NzQpaLKCfquydel6q1Ymq7ull1uJZq6MdCEFfXj+rZLOS0eqybogSJatbOYWcFuZ5BThz8EQVjSbuhZ5rzm9iw8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=iw+1ptZy; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58H5QV1W016245;
+	Wed, 17 Sep 2025 06:22:52 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	PV0bRllSrJgBYJQjnvZ+Phhssn54H7w1TTU3TTjh7Xs=; b=iw+1ptZypZp9LXdY
+	0B19SrICsTgc2Y3+xHOSTHq53fi8Gcvv8P+pP/GaBcsABKVnDsy6t2ALUj4ZHprt
+	p1xfqT3k8O7yPhpL/vvyaLV38lg49F75QUSNcA3/Q23KgE+GUl0CWYiCZIksE46X
+	sT+zjt9UCrmWtVJnUyUH7dqwkigiNC65AegLLObDGIh7rl5W/11xorgzQocURlS1
+	weYEJ7q3athlaCEQe02jbIxCOlL3/1msS76O/vARuMdC3Lgp6c/3LGmXhfpWpkK0
+	87+TZ6qxsQ7tGSX6ZaeP0QMEqmBid77lzBXQMZ38/5nZcDFXn7+R2/WBz35fET5B
+	aiRdow==
+Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 497fxxh5ny-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 17 Sep 2025 06:22:51 +0000 (GMT)
+Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
+	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 58H6MowZ018092
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 17 Sep 2025 06:22:50 GMT
+Received: from [10.206.103.106] (10.80.80.8) by nalasex01c.na.qualcomm.com
+ (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Tue, 16 Sep
+ 2025 23:22:44 -0700
+Message-ID: <fd075b5f-3766-474a-bffe-c1c402cfca81@quicinc.com>
+Date: Wed, 17 Sep 2025 11:52:41 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: mmail-p-exch02.mt.ru (81.200.124.62) To
- mmail-p-exch01.mt.ru (81.200.124.61)
-X-KSMG-AntiPhishing: NotDetected
-X-KSMG-AntiSpam-Auth: dmarc=none header.from=mt-integration.ru;spf=none smtp.mailfrom=mt-integration.ru;dkim=none
-X-KSMG-AntiSpam-Envelope-From: i.abramov@mt-integration.ru
-X-KSMG-AntiSpam-Info: LuaCore: 66 0.3.66 fc5dda3b6b70d34b3701db39319eece2aeb510fb, {rep_avail}, {Tracking_uf_ne_domains}, {Tracking_from_domain_doesnt_match_to}, mt-integration.ru:7.1.1;d41d8cd98f00b204e9800998ecf8427e.com:7.1.1;81.200.124.61:7.1.2;ksmg01.maxima.ru:7.1.1;127.0.0.199:7.1.2, FromAlignment: s, ApMailHostAddress: 81.200.124.61
-X-KSMG-AntiSpam-Interceptor-Info: scan successful
-X-KSMG-AntiSpam-Lua-Profiles: 196326 [Sep 16 2025]
-X-KSMG-AntiSpam-Method: none
-X-KSMG-AntiSpam-Rate: 0
-X-KSMG-AntiSpam-Status: not_detected
-X-KSMG-AntiSpam-Version: 6.1.1.11
-X-KSMG-AntiVirus: Kaspersky Secure Mail Gateway, version 2.1.1.8310, bases: 2025/09/16 21:49:00 #27824829
-X-KSMG-AntiVirus-Status: NotDetected, skipped
-X-KSMG-LinksScanning: NotDetected
-X-KSMG-Message-Action: skipped
-X-KSMG-Rule-ID: 7
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] dt-bindings: i2c: qcom-cci: Document qcs8300
+ compatible
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Rob Herring
+	<robh@kernel.org>,
+        Vikram Sharma <quic_vikramsa@quicinc.com>
+CC: <vladimir.zapolskiy@linaro.org>, <bryan.odonoghue@linaro.org>,
+        <mchehab@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <andersson@kernel.org>, <konradybcio@kernel.org>,
+        <hverkuil-cisco@xs4all.nl>, <cros-qcom-dts-watchers@chromium.org>,
+        <catalin.marinas@arm.com>, <will@kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <quic_svankada@quicinc.com>,
+        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        Ravi Shankar <quic_rshankar@quicinc.com>
+References: <20250912141134.2799078-1-quic_vikramsa@quicinc.com>
+ <20250912141134.2799078-2-quic_vikramsa@quicinc.com>
+ <20250916024858.GA3574831-robh@kernel.org>
+ <373bbb78-2b0c-446c-be97-53b82edeed64@quicinc.com>
+ <49d6c554-e6ed-4c86-8946-be2cdba659d0@oss.qualcomm.com>
+Content-Language: en-US
+From: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+In-Reply-To: <49d6c554-e6ed-4c86-8946-be2cdba659d0@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01c.na.qualcomm.com (10.47.97.35)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE2MDIwMiBTYWx0ZWRfX8nXMPL614Yff
+ lsRzdA57d3IrdbVicft0uc9b7mhS6zrbvgZIvjDiWMkM8RaTHeV76GETDi+V9PLZh1ecqHOHfRg
+ GLatwjNwStxqvhwOTss9jCwuZlZJ+9LaufJ1mzfW6paR3Dl2JqxCnSSa7mCEM0+Y6geghZNY+i7
+ a3Ssv6Ln/sLYUkuRCqFK5VQlIwKGYHPPXwftlc1j74gb5pc4XnPh9o3Vo1Rx6sxyH1WHgEBlKWt
+ 4+TJbKiu3ilXD1fhkEZ31OUG3WdG51xfJE2hyXSj03oHbk6cjGsjviW9L/LSvFMj7M7PqwT7Z45
+ zhOlWGtZIU+D5C83S6YDQJSSxDMG0bUqb5tesntilGjbY+V8PTdJ1PMOS7QTZOvxZau9mUmbnUZ
+ 6/+3y0AO
+X-Authority-Analysis: v=2.4 cv=MMFgmNZl c=1 sm=1 tr=0 ts=68ca53bc cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10
+ a=XobKNSAVkuln2dIsCLwA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: -YWeYURqnfd2valzalzR04FJDFsdegub
+X-Proofpoint-GUID: -YWeYURqnfd2valzalzR04FJDFsdegub
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-16_02,2025-09-16_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 clxscore=1015 suspectscore=0 bulkscore=0 spamscore=0
+ malwarescore=0 phishscore=0 impostorscore=0 adultscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509160202
 
-If any of the memory allocations for descr struct members fail, goto ERR is
-executed, and none of the previously allocated memory is freed, which leads
-to leaking memory.
 
-Fix this by freeing memory at the end of the function in case of an
-non-NULL err.
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
+On 16-09-2025 16:41, Konrad Dybcio wrote:
+>>> Wrap commit messages at 72 chars. And explain how it's the same or 
+>>> different from existing SoCs in the commit message. Don't explain the 
+>>> diff. We can read that ourselves.
+>>>
+>> SA8775P(Lemans) has 4 CCIs, while QCS8300 (Monaco) has 3 CCI, with the 
+>> only difference being the GPIOs used for SDA/SCL pins.
+>>
+>> Currently, the CCI driver probe happens through the "qcom,msm8996-cci" 
+>> compatible string. Could we use the existing SA8775P compatible string
+>> "qcom,sa8775p-cci" or we should remove it? 
+>>
+>> Please advise on the preferred approach for upstream compliance.
+> Try:
+> 
+> """
+> The three instances of CCI found on the QCS8300 are functionally
+> the same as on a number of existing Qualcomm SoCs.
+> 
+> Introduce a new SoC-specific compatible, with a common fallback.
+> """
+> 
 
-Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-Signed-off-by: Ivan Abramov <i.abramov@mt-integration.ru>
----
-v2: Fix code formatting.
- drivers/staging/media/atomisp/pci/sh_css.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index 73bd87f43a8c..d50bc81a59dc 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -5907,6 +5907,10 @@ static int ia_css_pipe_create_cas_scaler_desc_single_output(
- 	ia_css_debug_dtrace(IA_CSS_DEBUG_TRACE_PRIVATE,
- 			    "ia_css_pipe_create_cas_scaler_desc() leave, err=%d\n",
- 			    err);
-+
-+	if (err)
-+		ia_css_pipe_destroy_cas_scaler_desc(descr);
-+
- 	return err;
- }
- 
--- 
-2.39.5
+ACK, Will address this in next version.
+> Konrad
 
 
