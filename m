@@ -1,178 +1,308 @@
-Return-Path: <linux-media+bounces-42724-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42725-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1FBCB84DCC
-	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 15:35:06 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69D18B8554E
+	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 16:48:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1434F7BA75C
-	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 13:31:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5121D179B6F
+	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 14:46:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16D8D30BB9E;
-	Thu, 18 Sep 2025 13:31:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63F74302CD1;
+	Thu, 18 Sep 2025 14:46:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="o9epKl2Y"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NkgUK6/g"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE63A30BF78
-	for <linux-media@vger.kernel.org>; Thu, 18 Sep 2025 13:31:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122B454673
+	for <linux-media@vger.kernel.org>; Thu, 18 Sep 2025 14:46:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758202296; cv=none; b=kryfaw5WgtIv6jk9bYUDPYvHE38e+kuJwJF/sxFBNLFYFksCuqDsUv2GtG6lfiN+qUHwg18ZKc2MINWEReUVzBFVfTsdteQzPaz3wSJsobUfAnnRtFZdtq3Fzc09+X4pEYJOmZdUuv4+nyPTHYbCCijJFMRqi64lWA9lM79cc+Q=
+	t=1758206807; cv=none; b=r3/kKmrfsQOqCvjSEaxCcw22v5JkL+sfoDkAzdcE2OnqbvrMV8CAqQRk1oDCmVH5BuTFdT0DvBNuyQ1SvEXAIIt3VXHVYrQ1aEeVdzTxYkaQqoc8n9ocKTXHV4tnWx2xP5/yS9iQQ91iJMwr57wpZwKvuE0b6g2Scqwrm+mjLLM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758202296; c=relaxed/simple;
-	bh=qPYv2m3jnaBv4/l/HZ0iG3MFsl4uuoIjun6WjOr6o18=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=sF1e9UmhUDPahg3Ll8RM1KyW0ifOT57rCqFhDkI9RCibUdSOJnp5DcwNg0PeOBVtrzwpgUjUJK+pwJloxUYfG6f4Jpw2Prd4u0muWZSJEcJuoZ0Ssmx97b59B3nObgqpERQqYS+6xcBrNN4D3ImZg0Jx6FoJm7pmAqLITFVlG0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=o9epKl2Y; arc=none smtp.client-ip=209.85.222.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-8117aef2476so99051285a.1
-        for <linux-media@vger.kernel.org>; Thu, 18 Sep 2025 06:31:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1758202293; x=1758807093; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=qPYv2m3jnaBv4/l/HZ0iG3MFsl4uuoIjun6WjOr6o18=;
-        b=o9epKl2YKb7F2al2Yi3aNrsPu3ORw//EycCK8DgCQ1s4chfkcZ/eS+wzVkzChPU1dL
-         mPXCN9rRcxXpZyUMIjEmkMTouxl/KU7RZPukLwrvFm2DniLnW3fH90qGqFRZ9i8NM1we
-         DRgIMwU+q/TnvoTMR0EqLdbKWdnLNAta4fBbBBTL3a9jwcATJ/mpBY+H6Benv1nLyZ2h
-         9mtU/dOYro8vnFAhrVTkjDbw8obXqpXfIk0jJYOLa/A9Ikpx6w4qmVxVQeSHRMgg5Dxr
-         dcskw39a1K/YgB6tl9OagxNKK5typ67md/0vDCqBbtBNkC9xu2BidizmkHfpw3gWEEBT
-         bjmg==
+	s=arc-20240116; t=1758206807; c=relaxed/simple;
+	bh=hDJu4vnMl+TiJw+6isMxHmEd9o2AYG6D13Xl0lyKuGk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=KMB6XBfjeR37DY1DQCbtH1nd8aKAm/5HCEGZvjllWi8PX48IL4PT58VSPqmkwQLE4Low7ynRwDdX/AlrVHFhWT80BZEf+EtkSAmkp86U3GOlAdFu+zcufCfI/jHnwYDHstjTZpVrlVg4+ZxqBhjuTFVlcZS1BlC/JZg/d6RWNbU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NkgUK6/g; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58IE6El7027120
+	for <linux-media@vger.kernel.org>; Thu, 18 Sep 2025 14:46:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:reply-to:subject:to; s=
+	qcppdkim1; bh=gnbUOrf63pBtXte2EyaiZArr5NkIZvu1PUrrJk66+oQ=; b=Nk
+	gUK6/gwac3CiDzymqIH/uQBQwQU/LbvdnUc62tB0sFcfvG6E2KEs4PCcS83tUvn2
+	tDHarbPHnzYBPbDb83Ftn12tnNTeE+Hm6NuidAYnc8nYUwltRusOqH0mwM4kBWaN
+	mEeHXgbFQuY6pCnm6dzTvwzQSW24CDZHr4YmVUgA5QKyJpIrlgSlWyMxu0HADOGQ
+	PztNWKjd0++sYdPt9H9dUwSO/7nyg8xBkpEWmkT1P3/7y6e6uERsVc1O9grZLVSo
+	tIGzebZjJW3i7mAv7lDB5RY+qflcpe+J8g/LlO0LuHboU3VOj04B/SFLEYZii5tz
+	2/CizDHYyzvaVTvkXivA==
+Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 497v1jcqu5-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 18 Sep 2025 14:46:44 +0000 (GMT)
+Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-61ff7d5de50so270079eaf.1
+        for <linux-media@vger.kernel.org>; Thu, 18 Sep 2025 07:46:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758202293; x=1758807093;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=qPYv2m3jnaBv4/l/HZ0iG3MFsl4uuoIjun6WjOr6o18=;
-        b=jOKdD2lgvVDvBajW53/HZQ7ye3oQ2KUnnkpDBcYWwI7w/4Y/fEGPJsHybL48iFH6c6
-         QQx/Vc85Vs/Ae1IqwqgPPkGW3cfij81W5mw8N6vWBv0Y49WgbSd+Mshg4gbb7L36oMhM
-         slr4pLyN/at9i1fTyrxRsqCbAZqRRnYKvhjhWSZ5xqX7n8jN4zZZTvb9K2ieSisHN8t4
-         Iq0eKaJEEZVX+Cge0pxCHM6FmeMdpANWoj+EVC5DHby2SFkG2U2+Dn8Db2hjYm+LFlbP
-         LqZ1g6pI+f4Ih737Mb5J3iyDHhi5LTjTDGvNd9cMwfspOYWWzpGMRMIZVpiZJ2gv76ob
-         fJ6g==
-X-Forwarded-Encrypted: i=1; AJvYcCXUxpafS/9fJK43WkVbEGteK6EakOi8WiKNAyAuGVdRxABQnF0txZJgQs9rtoc+T5KM4nHfnAvACiEViw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzjBbHqsP91mCQSiKgpG+bxperfUfhbkkaAJOQTjSHqkKcwJJte
-	VUMYHaPRYUi19S+nYg5RAvpvk909FOtlHOD+ac/Mg5gRYzqk/JxY8X+8XLY3OEjiG9K8aD8pJgm
-	YdoEB
-X-Gm-Gg: ASbGncuxm2TZgh/+PtX7kJm60/1FjyEAUqnGpI/z9mBcF1/4Mh7XCGa+QAK0lXM1zpD
-	Oz1Ca0t+Y4QU/PYzHwQZS89buzizxPnZP50uE94AOUb+H84uKjDnY4UZT704Yauqvlz0LT8DXfr
-	zVTcf7kR5qcG9V1mPxj65eAUmT5Vbunfg12Sut48WFo46sYZuwWc05GdPrvrEMaY6jVpBJxRrgI
-	fvsMxnR6/g8dXuEbuBLgRLfhhtQ2P4Vl4iatugeL8IvOIt+4mYIsDdnB5cHeCLLbQnnsa1VGtZM
-	eezecV5AOdj8bOHApB/wzlz0SU90fMFexRqg5Qd5oCbm4oP0Ib+jXC2Vr4mHWNdXYBPTl07LRvZ
-	KN19BQfw/aFfHKtfx4gPPIj0ypAb16c2xqKxluM+nBUO+6BIlZiN9c8f6gA==
-X-Google-Smtp-Source: AGHT+IEZMrFSL2BRRPxtTOKjAWDW7xdTVpOSqOm+sRqPhEGgZKYSOVPXEdh1+K0ZhOlHemb5x0jKfg==
-X-Received: by 2002:a05:620a:170f:b0:812:afec:d5b8 with SMTP id af79cd13be357-8311186d1f5mr581762485a.52.1758202292862;
-        Thu, 18 Sep 2025 06:31:32 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:10:aee0::5ac? ([2606:6d00:10:aee0::5ac])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-4bda8998eafsm14022101cf.31.2025.09.18.06.31.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 18 Sep 2025 06:31:32 -0700 (PDT)
-Message-ID: <3a9f613bfcc560281d7287ca2e411dadcac745b6.camel@ndufresne.ca>
-Subject: Re: [PATCH v2 00/12] media: rkvdec: Add support for VDPU381 and
- VDPU383
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Diederik de Haas <didi.debian@cknow.org>, Detlev Casanova
-	 <detlev.casanova@collabora.com>, linux-kernel@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Heiko Stuebner
- <heiko@sntech.de>, 	linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, 	linux-arm-kernel@lists.infradead.org,
- kernel@collabora.com
-Date: Thu, 18 Sep 2025 09:31:30 -0400
-In-Reply-To: <DCV98UFRGHAS.2DGZOEOVN9WNX@cknow.org>
-References: <20250808200340.156393-1-detlev.casanova@collabora.com>
-	 <DCV98UFRGHAS.2DGZOEOVN9WNX@cknow.org>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-ka8JQHJLRBiB88+7XTFU"
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+        d=1e100.net; s=20230601; t=1758206804; x=1758811604;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=gnbUOrf63pBtXte2EyaiZArr5NkIZvu1PUrrJk66+oQ=;
+        b=RTX3WZ1DwF+kmMCAOKVnMpWCVSeRPbm3h5fuk/nedfx2tsJTbglig2TPW/Nr56sGJ9
+         OlvcnZRFTv9BT91AHqSP1vN9U55r9P6uKoJAitSaTle9T9HISW2ACBnVKyNPJmVWPFGW
+         2mnWKW5JyiCJw5K105MP529AfXAPQIDPT6+xCOcun5IJhjSKmyLvtpDX9TDa07HawJHE
+         mb+lzbDmjrTpWfQMhzT8mCeNAdxiAJkCfVcBz4oiUBMd6jLjcQ9sQjcCaqkgib6HC34P
+         F7AXaMpP8CoqoR8kdtU3pcRO1qbtRZVAiz4UpExLzcN+Ffcc9LTxH5bPM8+RcjvSsbmA
+         RE1g==
+X-Forwarded-Encrypted: i=1; AJvYcCVNE2ca51LiQhnfhw+dmlif2pD5x0exuhWynMr7drKTKh9/1ejCMJOTzQtHJ5q5IViSgXxENdOOE+xboQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRU+WkkPAAAWtDnd0EqlhjhgSSaf2zDyQ5rKrN6A+LAjAZV6dG
+	hEyISvqDT4Bqnmud3qN+hhQWD58ZvhAWnETUREcNW4TgG/TO39pnN4M6ZHrS/gdlVWK0vWMngDW
+	vccGyrpHtqNqCaD6+GQW5ZyCKvzIPU1steTkb+0IJp9K2LKvW8p/1wuYOUEutxpe9JwAUmpONiT
+	XyDkloTOj3sUdWrsvdmV3DiUhiZD8Y1eIurhKbAQhG
+X-Gm-Gg: ASbGnctd8csWKZTghvA6gb0WmV7HQGbrzSuKIb8/DlG+RH715v8ENkWVOHhyeH35BPI
+	H0Lc2x99B/I65E51fbH4/V4zL6o0K0vTFe0sZLnWqaVCB496JvfZPCnAtKW5XMBSasyUp4XBAby
+	9NNWzpD56id+T5oTy0gLMiwIKZg8ZPgnh5oomQl+oGr6eMBW4IX2et
+X-Received: by 2002:a05:6871:60c3:b0:319:602d:d60e with SMTP id 586e51a60fabf-335beedc5c7mr3345656fac.30.1758206803947;
+        Thu, 18 Sep 2025 07:46:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG+dimfh8PQO07fjVaMpNrhVtlZwz2RBLy/WEa2oOHpPa1q3yhkCM/5eIl830Fz8or9XI7Pgcy21KiPbEwLLC4=
+X-Received: by 2002:a05:6871:60c3:b0:319:602d:d60e with SMTP id
+ 586e51a60fabf-335beedc5c7mr3345639fac.30.1758206803498; Thu, 18 Sep 2025
+ 07:46:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-
-
---=-ka8JQHJLRBiB88+7XTFU
+References: <20250918-msm-gpu-split-v5-0-44486f44d27d@oss.qualcomm.com> <20250918-msm-gpu-split-v5-2-44486f44d27d@oss.qualcomm.com>
+In-Reply-To: <20250918-msm-gpu-split-v5-2-44486f44d27d@oss.qualcomm.com>
+Reply-To: rob.clark@oss.qualcomm.com
+From: Rob Clark <rob.clark@oss.qualcomm.com>
+Date: Thu, 18 Sep 2025 07:46:32 -0700
+X-Gm-Features: AS18NWAGJ3HI8YxKOdr0e82FJrS98OD4wgECUuKsEu4TLlBFafzU4c8bTPVYhCw
+Message-ID: <CACSVV036k+VwtLEvX4ATG7h7fTpXAzUuOZr9AY4WzwJWFvw0zQ@mail.gmail.com>
+Subject: Re: [PATCH v5 2/5] drm/msm: split VM_BIND from the rest of GEM VMA code
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Dmitry Baryshkov <lumag@kernel.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
+        Sean Paul <sean@poorly.run>,
+        Marijn Suijten <marijn.suijten@somainline.org>,
+        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-ORIG-GUID: D9EamxkRMRUsRsZ7Lypeg1B9dW3Ir7oR
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE3MDExMCBTYWx0ZWRfXx0HDvS9MntFC
+ JuRK1Q5RxBWPSC0lWGzTR2SZH6x8lhTKL5c/Np5dm9gbnqNFpibesjTFRpai0XjFROLS5Q224h+
+ 5IhBx4cwqSXdR1eUs6qxUNMHGsMPULNEzfmzaQUck10eNywAngl0B5ELBvZ7sDHZOanAilzxT72
+ FZZ4fnDv6vn/M7ILb8zxntv8iB/uDSV7eFvwiM0WZbEPIf/T6QI2FcBI3AG95gjFTVuzzuleNo6
+ vtmSJRyNgsk3RxYxhZ0m+cPAOo3y1Y8AxWH0mw9Hys77FBzJlsQf6V6fVGWAA4OZFVXlBpJOkI5
+ 4jQdevk83jhs3UZT1NUvVyWciHfGpDfu/Egk2HqyiP5FesERvEpQnnvt5Z56z+/8fo/QOqCs2dT
+ 5ytZWdFd
+X-Authority-Analysis: v=2.4 cv=AeqxH2XG c=1 sm=1 tr=0 ts=68cc1b54 cx=c_pps
+ a=lVi5GcDxkcJcfCmEjVJoaw==:117 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10
+ a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=CW3DRyB6gakd8nvQtp8A:9 a=QEXdDO2ut3YA:10
+ a=rBiNkAWo9uy_4UTK5NWh:22
+X-Proofpoint-GUID: D9EamxkRMRUsRsZ7Lypeg1B9dW3Ir7oR
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-18_01,2025-09-18_02,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 spamscore=0 phishscore=0 suspectscore=0 adultscore=0
+ impostorscore=0 priorityscore=1501 bulkscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509170110
 
-Hi,
+On Wed, Sep 17, 2025 at 8:51=E2=80=AFPM Dmitry Baryshkov
+<dmitry.baryshkov@oss.qualcomm.com> wrote:
+>
+> In preparation to disabling GPU functionality split VM_BIND-related
+> functions (which are used only for the GPU) from the rest of the GEM VMA
+> implementation.
+>
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> ---
+>  drivers/gpu/drm/msm/Makefile          |    1 +
+>  drivers/gpu/drm/msm/msm_gem_vm_bind.c | 1116 +++++++++++++++++++++++++++=
+++++
+>  drivers/gpu/drm/msm/msm_gem_vma.c     | 1177 +--------------------------=
+------
+>  drivers/gpu/drm/msm/msm_gem_vma.h     |  105 +++
+>  4 files changed, 1225 insertions(+), 1174 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
+> index 0c0dfb25f01b193b10946fae20138caf32cf0ed2..d7876c154b0aa2cb0164c4b1f=
+b7900b1a42db46b 100644
+> --- a/drivers/gpu/drm/msm/Makefile
+> +++ b/drivers/gpu/drm/msm/Makefile
+> @@ -115,6 +115,7 @@ msm-y +=3D \
+>         msm_gem_shrinker.o \
+>         msm_gem_submit.o \
+>         msm_gem_vma.o \
+> +       msm_gem_vm_bind.o \
+>         msm_gpu.o \
+>         msm_gpu_devfreq.o \
+>         msm_io_utils.o \
 
-Le mercredi 17 septembre 2025 =C3=A0 19:34 +0200, Diederik de Haas a =C3=A9=
-crit=C2=A0:
-> Hi Detlev,
->=20
-> On Fri Aug 8, 2025 at 10:03 PM CEST, Detlev Casanova wrote:
-> > These variants are found respectively in the RK3588 and RK3576 SoCs.
-> > This patch only adds support for H264 and H265 in both variants.
->=20
-> I tested this on my Rock 5B (rk3588) with (ffmpeg and) mpv on Debian
-> Forky with sway and I was quite impressed with the results :-)
->=20
-> In my earlier testing I found that the classic BBB video made for a
-> really good test video and it played REALLY well. The 1080p version in
-> both x264 and 8-bit x265 played without frame drops, although when
-> pressing 'I' to show video info over the video it dropped some frames.
-> But that never resulted in any visible artifacts.
-> On the 2160p version I did see quite a number of dropped frames, but
-> didn't notice any visual artifacts. Maybe that it got displayed on a
-> 1080p monitor had something to do with it?
+[snip]
 
-Sounds like we have "correctness" with ok performance, so that is enough fo=
-r me
-to consider the patches. There is few things that are not implemented that =
-could
-explain lower performance compare to the downstream stuff, such as the lack=
- of
-AFBC. It will hopefully come later, giving nice boost when doing GPU stream=
-ing.
+> diff --git a/drivers/gpu/drm/msm/msm_gem_vma.h b/drivers/gpu/drm/msm/msm_=
+gem_vma.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..f702f81529e72b86bffb49604=
+08f1912bc65851a
+> --- /dev/null
+> +++ b/drivers/gpu/drm/msm/msm_gem_vma.h
+> @@ -0,0 +1,105 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (C) 2016 Red Hat
+> + * Author: Rob Clark <robdclark@gmail.com>
+> + */
+> +
+> +#ifndef _MSM_GEM_VMA_H_
+> +#define _MSM_GEM_VMA_H_
+> +
+> +#define vm_dbg(fmt, ...) pr_debug("%s:%d: "fmt"\n", __func__, __LINE__, =
+##__VA_ARGS__)
+> +
+> +/**
+> + * struct msm_vm_map_op - create new pgtable mapping
+> + */
+> +struct msm_vm_map_op {
+> +       /** @iova: start address for mapping */
+> +       uint64_t iova;
+> +       /** @range: size of the region to map */
+> +       uint64_t range;
+> +       /** @offset: offset into @sgt to map */
+> +       uint64_t offset;
+> +       /** @sgt: pages to map, or NULL for a PRR mapping */
+> +       struct sg_table *sgt;
+> +       /** @prot: the mapping protection flags */
+> +       int prot;
+> +
+> +       /**
+> +        * @queue_id: The id of the submitqueue the operation is performe=
+d
+> +        * on, or zero for (in particular) UNMAP ops triggered outside of
+> +        * a submitqueue (ie. process cleanup)
+> +        */
+> +       int queue_id;
+> +};
+> +
+> +/**
+> + * struct msm_vm_unmap_op - unmap a range of pages from pgtable
+> + */
+> +struct msm_vm_unmap_op {
+> +       /** @iova: start address for unmap */
+> +       uint64_t iova;
+> +       /** @range: size of region to unmap */
+> +       uint64_t range;
+> +
+> +       /** @reason: The reason for the unmap */
+> +       const char *reason;
+> +
+> +       /**
+> +        * @queue_id: The id of the submitqueue the operation is performe=
+d
+> +        * on, or zero for (in particular) UNMAP ops triggered outside of
+> +        * a submitqueue (ie. process cleanup)
+> +        */
+> +       int queue_id;
+> +};
+> +
+> +static void
+> +vm_log(struct msm_gem_vm *vm, const char *op, uint64_t iova, uint64_t ra=
+nge, int queue_id)
 
->=20
-> 10-bit encoded x265 files (still) resulted in a completely blue output,
-> but I have strong reasons to believe that's due to 'missing pieces' (ie
-> NV15 support) in the rest of the display pipeline.
+These would have to be static-inline
 
-Its still quite early days for NV15 (and its derivatives) upstream of
-everything, so I would not block on that. It passes the tests when we read =
-back
-the pixels from CPU I believe.
+But overall I'm not sure how I feel about this.. I guess the goal is
+to reduce the size of a kms-only driver?  If so, I think you could do
+better with some ugly ifdef (for ex, you could also remove scheduler
+and other fields not used by kernel managed VMs from msm_gem_vm).
 
->=20
-> The displayed video seemed sharper and better then in my other tests.
-> I thought I did see an artifact around 5:50 when a big rock almost fell
-> on the little animal. Looking further, it appears to be an artifact in
-> the original video :-O (I saw it also on my AMD GPU on my amd64 system
-> and also when using software decoding).
-> The fact I only noticed it when testing this patch set is saying a lot
-> ... in a positive way! So I'm happy to provide my
+I'm not sure how much the savings would be, or if it is worth the pain
+(ie. extra build configurations to test going forward, etc).  Having
+no GPU doesn't seem like a case worth optimizing for, tbh.  You could
+still have a single driver which binds to multiple different devices,
+ie. if # of GPUs !=3D # of DPUs without this with no change in
+footprint.
 
-That's it, your video watching experience is now ruined for the rest of you=
-r
-life :-D
+BR,
+-R
 
->=20
-> Tested-by: Diederik de Haas <didi.debian@cknow.org>=C2=A0 # Rock 5B
 
-thanks a lot for testing,
-Nicolas
 
---=-ka8JQHJLRBiB88+7XTFU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaMwJsgAKCRDZQZRRKWBy
-9IXzAQDaymJ1abHUHsMNbl/WYGVN2REm08PxhqTaHUsWwxU6ywEAy2qLFg4QWHSc
-KidAMEhUNpEK1hwZcicsIl92zBbgPgY=
-=H3qI
------END PGP SIGNATURE-----
-
---=-ka8JQHJLRBiB88+7XTFU--
+> +{
+> +       int idx;
+> +
+> +       if (!vm->managed)
+> +               lockdep_assert_held(&vm->mmu_lock);
+> +
+> +       vm_dbg("%s:%p:%d: %016llx %016llx", op, vm, queue_id, iova, iova =
++ range);
+> +
+> +       if (!vm->log)
+> +               return;
+> +
+> +       idx =3D vm->log_idx;
+> +       vm->log[idx].op =3D op;
+> +       vm->log[idx].iova =3D iova;
+> +       vm->log[idx].range =3D range;
+> +       vm->log[idx].queue_id =3D queue_id;
+> +       vm->log_idx =3D (vm->log_idx + 1) & ((1 << vm->log_shift) - 1);
+> +}
+> +
+> +static void
+> +vm_unmap_op(struct msm_gem_vm *vm, const struct msm_vm_unmap_op *op)
+> +{
+> +       const char *reason =3D op->reason;
+> +
+> +       if (!reason)
+> +               reason =3D "unmap";
+> +
+> +       vm_log(vm, reason, op->iova, op->range, op->queue_id);
+> +
+> +       vm->mmu->funcs->unmap(vm->mmu, op->iova, op->range);
+> +}
+> +
+> +static int
+> +vm_map_op(struct msm_gem_vm *vm, const struct msm_vm_map_op *op)
+> +{
+> +       vm_log(vm, "map", op->iova, op->range, op->queue_id);
+> +
+> +       return vm->mmu->funcs->map(vm->mmu, op->iova, op->sgt, op->offset=
+,
+> +                                  op->range, op->prot);
+> +}
+> +
+> +int msm_gem_vm_sm_step_map(struct drm_gpuva_op *op, void *_arg);
+> +int msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg);
+> +int msm_gem_vm_sm_step_unmap(struct drm_gpuva_op *op, void *_arg);
+> +
+> +int msm_gem_vm_sched_init(struct msm_gem_vm *vm, struct drm_device *drm)=
+;
+> +void msm_gem_vm_sched_fini(struct msm_gem_vm *vm);
+> +
+> +#endif
+>
+> --
+> 2.47.3
+>
 
