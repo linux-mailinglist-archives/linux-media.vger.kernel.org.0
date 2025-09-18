@@ -1,56 +1,57 @@
-Return-Path: <linux-media+bounces-42722-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42723-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1830AB84CDC
-	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 15:28:55 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00842B84CD6
+	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 15:28:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 7D7ED7C3C27
-	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 13:28:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AFF891B283C1
+	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 13:29:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3DF4730C0ED;
-	Thu, 18 Sep 2025 13:28:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3B90130C10E;
+	Thu, 18 Sep 2025 13:28:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RBryiVGw"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Rp/yGahY"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1F3A30BB86;
-	Thu, 18 Sep 2025 13:28:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E835830BBB7;
+	Thu, 18 Sep 2025 13:28:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758202085; cv=none; b=RyTDHSE91k1o5LL2G4gIuPEQCZFcswtAUoEAuJy9ziwl+wNN3NEVr5rs8lvL6FgekReMecAqlGXOjysU4Kb90y23E+4PxNMKAd1ofcN33zFSVTJFWMWBvZaw1e+pTpvIvE9Xkn01gYiyGvqr1+zYTmBNh+SZtscr5K9QG+VgvkU=
+	t=1758202086; cv=none; b=i2Ig4jHv/9880BFoHfODCi1j+GZbQ/VUQCCTTFkQ+yMcYrTSPdS/aodipffAuYcsPbSXzVquXAMXF/JInk+iMo0ftMOOpxsng3T+UOylPUZKNYegEZDj4BXRYWs8qMkzNPLLO/Fd3jyXaOp/TMw1N0CQY3Qo41nM4lWvB2UXvs0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758202085; c=relaxed/simple;
-	bh=DiD08csnYfqx0XNhFT7EmwcuVTpo3RN6h8m6Sfi7xLI=;
+	s=arc-20240116; t=1758202086; c=relaxed/simple;
+	bh=DoBsDaGqEJNKTdRe0Qu1ZI7WBIJo5cmvQqFN0orYVr4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FbrkWW4zR4qRYQRgn8/66NwKawJYic/zmk7tsnZHg/3yOG6WM/HvjsP2hXcYichzJW1afCjI2Ez34UWemKEZin33qDh10mWhbv4xopKxSAdoWHgU14xVaDYb69jD3fmq3ihqRPTrxqKtqzxhyKEVq4lcfPtuyp85sjdfh2qZ4P8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RBryiVGw; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=CDiaNM0Nr2/lQ2tDCpa4HYMCaHg5/8B31VlOqzEhRYcpeSfhLZm9UGL3bweR6YoSJVf2xdANTwPFmpF2fuzqPno0rFT0vuwp1xD47HQNdkudOCMB+Cm8pr8ckCFDdoCl2ibFRWpNzbh1DoA2wrRkh4fgChhHrGfIxGAnOBJFpSA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Rp/yGahY; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from Monstersaurus.lan (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C151CC77;
-	Thu, 18 Sep 2025 15:26:38 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4752B11A0;
+	Thu, 18 Sep 2025 15:26:39 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
 	s=mail; t=1758201999;
-	bh=DiD08csnYfqx0XNhFT7EmwcuVTpo3RN6h8m6Sfi7xLI=;
+	bh=DoBsDaGqEJNKTdRe0Qu1ZI7WBIJo5cmvQqFN0orYVr4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RBryiVGwau/MYWDsbwgBn5iWx01rnuuQAXCOkcaMg4f0kX5E2jBnBapgp8qefhz8d
-	 b5jG/iF8DtnoeTOMJsNxXVt7Rk2ENolxkZ8BasyFtsVHdLP/TfnRTt8QS+ZJvzpU7z
-	 ifIGTg3sB56UWdgVQdpavw7/wqIiWFYJ5/rpUmWo=
+	b=Rp/yGahYl16198iT4eijsg6AN++fxiJH0nWwwoyuNG9OUFcEQFs/wV1CR7aLmzCkn
+	 iGxPHODoao8WrtbIFpsdHEubng9o6+xFezfKItHxtsONC/jco/Qj6YNwsOkt2aYIB6
+	 C6WrCvbH4SLw9V10vmR/TVtM5vmbPuT4ornXatMo=
 From: Kieran Bingham <kieran.bingham@ideasonboard.com>
 To: linux-media@vger.kernel.org
-Cc: Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
+Cc: Stefan Klug <stefan.klug@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH 2/3] media: i2c: imx283: Recalculate SHR on blanking changes
-Date: Thu, 18 Sep 2025 14:27:52 +0100
-Message-ID: <20250918132753.3154059-3-kieran.bingham@ideasonboard.com>
+Subject: [PATCH 3/3] media: i2c: imx283: Fix handling of unsupported mbus codes
+Date: Thu, 18 Sep 2025 14:27:53 +0100
+Message-ID: <20250918132753.3154059-4-kieran.bingham@ideasonboard.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20250918132753.3154059-1-kieran.bingham@ideasonboard.com>
 References: <20250918132753.3154059-1-kieran.bingham@ideasonboard.com>
@@ -62,47 +63,82 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The exposure control on the imx283 is handled through the SHR register.
-This value is calculated based upon the hmax and vmax registers as a
-property of the total line and frame length.
+From: Stefan Klug <stefan.klug@ideasonboard.com>
 
-Ensure that the SHR is updated whenever the blankings update and adjust
-the frame intervals to ensure the correct exposure is configured on the
-sensor.
+When the code requested by imx283_set_pad_format() is not supported, a
+kernel exception occurs due to dereferencing the mode variable which is
+null. Fix that by correcting the code to a valid value before getting
+the mode table.
 
+While at it, remove the cases for the other unsupported codes in
+get_mode_table.
+
+Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
 Signed-off-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
 ---
- drivers/media/i2c/imx283.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ drivers/media/i2c/imx283.c | 24 ++++++++++++++++--------
+ 1 file changed, 16 insertions(+), 8 deletions(-)
 
 diff --git a/drivers/media/i2c/imx283.c b/drivers/media/i2c/imx283.c
-index 06c4b01868c0..582975ac849f 100644
+index 582975ac849f..48a92bc8e6f1 100644
 --- a/drivers/media/i2c/imx283.c
 +++ b/drivers/media/i2c/imx283.c
-@@ -807,6 +807,11 @@ static int imx283_set_ctrl(struct v4l2_ctrl *ctrl)
- 		dev_dbg(imx283->dev, "V4L2_CID_HBLANK : %d  HMAX : %u\n",
- 			ctrl->val, imx283->hmax);
- 		ret = cci_write(imx283->cci, IMX283_REG_HMAX, imx283->hmax, NULL);
+@@ -576,23 +576,31 @@ static inline struct imx283 *to_imx283(struct v4l2_subdev *sd)
+ 	return container_of_const(sd, struct imx283, sd);
+ }
+ 
++static inline int get_format_code(unsigned int code)
++{
++	unsigned int i;
 +
-+		/* Recompute the SHR based on the new timings */
-+		shr = imx283_shr(imx283, mode, imx283->exposure->val);
-+		cci_write(imx283->cci, IMX283_REG_SHR, shr, &ret);
++	for (i = 0; i < ARRAY_SIZE(imx283_mbus_codes); i++)
++		if (imx283_mbus_codes[i] == code)
++			break;
 +
++	if (i >= ARRAY_SIZE(imx283_mbus_codes))
++		i = 0;
++
++	return imx283_mbus_codes[i];
++}
++
+ static inline void get_mode_table(unsigned int code,
+ 				  const struct imx283_mode **mode_list,
+ 				  unsigned int *num_modes)
+ {
+ 	switch (code) {
+ 	case MEDIA_BUS_FMT_SRGGB12_1X12:
+-	case MEDIA_BUS_FMT_SGRBG12_1X12:
+-	case MEDIA_BUS_FMT_SGBRG12_1X12:
+-	case MEDIA_BUS_FMT_SBGGR12_1X12:
+ 		*mode_list = supported_modes_12bit;
+ 		*num_modes = ARRAY_SIZE(supported_modes_12bit);
  		break;
  
- 	case V4L2_CID_VBLANK:
-@@ -814,6 +819,11 @@ static int imx283_set_ctrl(struct v4l2_ctrl *ctrl)
- 		dev_dbg(imx283->dev, "V4L2_CID_VBLANK : %d  VMAX : %u\n",
- 			ctrl->val, imx283->vmax);
- 		ret = cci_write(imx283->cci, IMX283_REG_VMAX, imx283->vmax, NULL);
-+
-+		/* Recompute the SHR based on the new timings */
-+		shr = imx283_shr(imx283, mode, imx283->exposure->val);
-+		cci_write(imx283->cci, IMX283_REG_SHR, shr, &ret);
-+
+ 	case MEDIA_BUS_FMT_SRGGB10_1X10:
+-	case MEDIA_BUS_FMT_SGRBG10_1X10:
+-	case MEDIA_BUS_FMT_SGBRG10_1X10:
+-	case MEDIA_BUS_FMT_SBGGR10_1X10:
+ 		*mode_list = supported_modes_10bit;
+ 		*num_modes = ARRAY_SIZE(supported_modes_10bit);
  		break;
+@@ -973,6 +981,8 @@ static int imx283_set_pad_format(struct v4l2_subdev *sd,
+ 	const struct imx283_mode *mode_list;
+ 	unsigned int num_modes;
  
- 	case V4L2_CID_ANALOGUE_GAIN:
++	fmt->format.code = get_format_code(fmt->format.code);
++
+ 	get_mode_table(fmt->format.code, &mode_list, &num_modes);
+ 
+ 	mode = v4l2_find_nearest_size(mode_list, num_modes, width, height,
+@@ -1371,8 +1381,6 @@ static int imx283_init_controls(struct imx283 *imx283)
+ 
+ 	imx283->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx283_ctrl_ops, V4L2_CID_VFLIP,
+ 					  0, 1, 1, 0);
+-	if (imx283->vflip)
+-		imx283->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+ 
+ 	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &imx283_ctrl_ops,
+ 				     V4L2_CID_TEST_PATTERN,
 -- 
 2.50.1
 
