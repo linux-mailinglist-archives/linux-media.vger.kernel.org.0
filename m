@@ -1,308 +1,197 @@
-Return-Path: <linux-media+bounces-42725-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42726-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69D18B8554E
-	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 16:48:30 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38ECAB85662
+	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 16:59:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5121D179B6F
-	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 14:46:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF404621AE3
+	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 14:58:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63F74302CD1;
-	Thu, 18 Sep 2025 14:46:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5524630CB4A;
+	Thu, 18 Sep 2025 14:58:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="NkgUK6/g"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="EWbX6Wut"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 122B454673
-	for <linux-media@vger.kernel.org>; Thu, 18 Sep 2025 14:46:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21C1AA31;
+	Thu, 18 Sep 2025 14:58:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758206807; cv=none; b=r3/kKmrfsQOqCvjSEaxCcw22v5JkL+sfoDkAzdcE2OnqbvrMV8CAqQRk1oDCmVH5BuTFdT0DvBNuyQ1SvEXAIIt3VXHVYrQ1aEeVdzTxYkaQqoc8n9ocKTXHV4tnWx2xP5/yS9iQQ91iJMwr57wpZwKvuE0b6g2Scqwrm+mjLLM=
+	t=1758207532; cv=none; b=Ph0ZUMkREubHa2Hh9VVTZybRR/YYQsXQp1ZengqCamsWk0LzB60BM9TPfKZ8BDn+SMm+JHOaqzNeKFEF541dN10ZAkBVD0hQ+o6i7xBv1U0goGByIfXNjxcZIw3afOaYzhyvkCczNVViteIKOHPzRmonQ8edOtPOdG0EAVs4jms=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758206807; c=relaxed/simple;
-	bh=hDJu4vnMl+TiJw+6isMxHmEd9o2AYG6D13Xl0lyKuGk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KMB6XBfjeR37DY1DQCbtH1nd8aKAm/5HCEGZvjllWi8PX48IL4PT58VSPqmkwQLE4Low7ynRwDdX/AlrVHFhWT80BZEf+EtkSAmkp86U3GOlAdFu+zcufCfI/jHnwYDHstjTZpVrlVg4+ZxqBhjuTFVlcZS1BlC/JZg/d6RWNbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=NkgUK6/g; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58IE6El7027120
-	for <linux-media@vger.kernel.org>; Thu, 18 Sep 2025 14:46:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:reply-to:subject:to; s=
-	qcppdkim1; bh=gnbUOrf63pBtXte2EyaiZArr5NkIZvu1PUrrJk66+oQ=; b=Nk
-	gUK6/gwac3CiDzymqIH/uQBQwQU/LbvdnUc62tB0sFcfvG6E2KEs4PCcS83tUvn2
-	tDHarbPHnzYBPbDb83Ftn12tnNTeE+Hm6NuidAYnc8nYUwltRusOqH0mwM4kBWaN
-	mEeHXgbFQuY6pCnm6dzTvwzQSW24CDZHr4YmVUgA5QKyJpIrlgSlWyMxu0HADOGQ
-	PztNWKjd0++sYdPt9H9dUwSO/7nyg8xBkpEWmkT1P3/7y6e6uERsVc1O9grZLVSo
-	tIGzebZjJW3i7mAv7lDB5RY+qflcpe+J8g/LlO0LuHboU3VOj04B/SFLEYZii5tz
-	2/CizDHYyzvaVTvkXivA==
-Received: from mail-oo1-f69.google.com (mail-oo1-f69.google.com [209.85.161.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 497v1jcqu5-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 18 Sep 2025 14:46:44 +0000 (GMT)
-Received: by mail-oo1-f69.google.com with SMTP id 006d021491bc7-61ff7d5de50so270079eaf.1
-        for <linux-media@vger.kernel.org>; Thu, 18 Sep 2025 07:46:44 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758206804; x=1758811604;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :reply-to:in-reply-to:references:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=gnbUOrf63pBtXte2EyaiZArr5NkIZvu1PUrrJk66+oQ=;
-        b=RTX3WZ1DwF+kmMCAOKVnMpWCVSeRPbm3h5fuk/nedfx2tsJTbglig2TPW/Nr56sGJ9
-         OlvcnZRFTv9BT91AHqSP1vN9U55r9P6uKoJAitSaTle9T9HISW2ACBnVKyNPJmVWPFGW
-         2mnWKW5JyiCJw5K105MP529AfXAPQIDPT6+xCOcun5IJhjSKmyLvtpDX9TDa07HawJHE
-         mb+lzbDmjrTpWfQMhzT8mCeNAdxiAJkCfVcBz4oiUBMd6jLjcQ9sQjcCaqkgib6HC34P
-         F7AXaMpP8CoqoR8kdtU3pcRO1qbtRZVAiz4UpExLzcN+Ffcc9LTxH5bPM8+RcjvSsbmA
-         RE1g==
-X-Forwarded-Encrypted: i=1; AJvYcCVNE2ca51LiQhnfhw+dmlif2pD5x0exuhWynMr7drKTKh9/1ejCMJOTzQtHJ5q5IViSgXxENdOOE+xboQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxRU+WkkPAAAWtDnd0EqlhjhgSSaf2zDyQ5rKrN6A+LAjAZV6dG
-	hEyISvqDT4Bqnmud3qN+hhQWD58ZvhAWnETUREcNW4TgG/TO39pnN4M6ZHrS/gdlVWK0vWMngDW
-	vccGyrpHtqNqCaD6+GQW5ZyCKvzIPU1steTkb+0IJp9K2LKvW8p/1wuYOUEutxpe9JwAUmpONiT
-	XyDkloTOj3sUdWrsvdmV3DiUhiZD8Y1eIurhKbAQhG
-X-Gm-Gg: ASbGnctd8csWKZTghvA6gb0WmV7HQGbrzSuKIb8/DlG+RH715v8ENkWVOHhyeH35BPI
-	H0Lc2x99B/I65E51fbH4/V4zL6o0K0vTFe0sZLnWqaVCB496JvfZPCnAtKW5XMBSasyUp4XBAby
-	9NNWzpD56id+T5oTy0gLMiwIKZg8ZPgnh5oomQl+oGr6eMBW4IX2et
-X-Received: by 2002:a05:6871:60c3:b0:319:602d:d60e with SMTP id 586e51a60fabf-335beedc5c7mr3345656fac.30.1758206803947;
-        Thu, 18 Sep 2025 07:46:43 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG+dimfh8PQO07fjVaMpNrhVtlZwz2RBLy/WEa2oOHpPa1q3yhkCM/5eIl830Fz8or9XI7Pgcy21KiPbEwLLC4=
-X-Received: by 2002:a05:6871:60c3:b0:319:602d:d60e with SMTP id
- 586e51a60fabf-335beedc5c7mr3345639fac.30.1758206803498; Thu, 18 Sep 2025
- 07:46:43 -0700 (PDT)
+	s=arc-20240116; t=1758207532; c=relaxed/simple;
+	bh=cPGO1N9WZ9kh/g+Cn2Z/DFMLIdDurxeSbmeWGZt6UBI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=n6/uTl4ZAh6yjr2mCPtu0W2qgjfN9/5wbBIu2w30JX8ogtO082v/0+6wM+1cD9s04Jf5EWMjsi9c5LtUIlObrZ/vWo8znq2U0oQFGulKxBZ94249qbYL8KhETUAHruLGSCTHPpUSC8pcPA3S8N+hpCb2belJ+8lI5nF9i/8j2Fo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=EWbX6Wut; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:ace3:d2c2:5eff:9cc5])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 251B9842;
+	Thu, 18 Sep 2025 16:57:29 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1758207449;
+	bh=cPGO1N9WZ9kh/g+Cn2Z/DFMLIdDurxeSbmeWGZt6UBI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=EWbX6WutkR6zJM6u6Jpw5XmGbWKE6MV4icwXgi/M2KYPL/mpxSRD87/VDB/edeNv/
+	 QlukMfq8c11HZZpo+9k9tII6fNDjJ1Xovy1UY54MAmSZfXDoEricVIPedtfVLIq0im
+	 stsxKpxCzTLtz8lGTRRb6M4hXgE8qfZvYTRJBx8E=
+From: Stefan Klug <stefan.klug@ideasonboard.com>
+To: linux-media@vger.kernel.org,
+	Dafna Hirschfeld <dafna@fastmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Stefan Klug <stefan.klug@ideasonboard.com>,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2] media: rkisp1: Improve frame sequence correctness on stats and params buffers
+Date: Thu, 18 Sep 2025 16:54:33 +0200
+Message-ID: <20250918145504.111428-2-stefan.klug@ideasonboard.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250918-msm-gpu-split-v5-0-44486f44d27d@oss.qualcomm.com> <20250918-msm-gpu-split-v5-2-44486f44d27d@oss.qualcomm.com>
-In-Reply-To: <20250918-msm-gpu-split-v5-2-44486f44d27d@oss.qualcomm.com>
-Reply-To: rob.clark@oss.qualcomm.com
-From: Rob Clark <rob.clark@oss.qualcomm.com>
-Date: Thu, 18 Sep 2025 07:46:32 -0700
-X-Gm-Features: AS18NWAGJ3HI8YxKOdr0e82FJrS98OD4wgECUuKsEu4TLlBFafzU4c8bTPVYhCw
-Message-ID: <CACSVV036k+VwtLEvX4ATG7h7fTpXAzUuOZr9AY4WzwJWFvw0zQ@mail.gmail.com>
-Subject: Re: [PATCH v5 2/5] drm/msm: split VM_BIND from the rest of GEM VMA code
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Dmitry Baryshkov <lumag@kernel.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Jessica Zhang <jessica.zhang@oss.qualcomm.com>,
-        Sean Paul <sean@poorly.run>,
-        Marijn Suijten <marijn.suijten@somainline.org>,
-        David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Konrad Dybcio <konradybcio@kernel.org>, linux-arm-msm@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-ORIG-GUID: D9EamxkRMRUsRsZ7Lypeg1B9dW3Ir7oR
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTE3MDExMCBTYWx0ZWRfXx0HDvS9MntFC
- JuRK1Q5RxBWPSC0lWGzTR2SZH6x8lhTKL5c/Np5dm9gbnqNFpibesjTFRpai0XjFROLS5Q224h+
- 5IhBx4cwqSXdR1eUs6qxUNMHGsMPULNEzfmzaQUck10eNywAngl0B5ELBvZ7sDHZOanAilzxT72
- FZZ4fnDv6vn/M7ILb8zxntv8iB/uDSV7eFvwiM0WZbEPIf/T6QI2FcBI3AG95gjFTVuzzuleNo6
- vtmSJRyNgsk3RxYxhZ0m+cPAOo3y1Y8AxWH0mw9Hys77FBzJlsQf6V6fVGWAA4OZFVXlBpJOkI5
- 4jQdevk83jhs3UZT1NUvVyWciHfGpDfu/Egk2HqyiP5FesERvEpQnnvt5Z56z+/8fo/QOqCs2dT
- 5ytZWdFd
-X-Authority-Analysis: v=2.4 cv=AeqxH2XG c=1 sm=1 tr=0 ts=68cc1b54 cx=c_pps
- a=lVi5GcDxkcJcfCmEjVJoaw==:117 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10
- a=EUspDBNiAAAA:8 a=pGLkceISAAAA:8 a=CW3DRyB6gakd8nvQtp8A:9 a=QEXdDO2ut3YA:10
- a=rBiNkAWo9uy_4UTK5NWh:22
-X-Proofpoint-GUID: D9EamxkRMRUsRsZ7Lypeg1B9dW3Ir7oR
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-18_01,2025-09-18_02,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 phishscore=0 suspectscore=0 adultscore=0
- impostorscore=0 priorityscore=1501 bulkscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509170110
+Content-Transfer-Encoding: 8bit
 
-On Wed, Sep 17, 2025 at 8:51=E2=80=AFPM Dmitry Baryshkov
-<dmitry.baryshkov@oss.qualcomm.com> wrote:
->
-> In preparation to disabling GPU functionality split VM_BIND-related
-> functions (which are used only for the GPU) from the rest of the GEM VMA
-> implementation.
->
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  drivers/gpu/drm/msm/Makefile          |    1 +
->  drivers/gpu/drm/msm/msm_gem_vm_bind.c | 1116 +++++++++++++++++++++++++++=
-++++
->  drivers/gpu/drm/msm/msm_gem_vma.c     | 1177 +--------------------------=
-------
->  drivers/gpu/drm/msm/msm_gem_vma.h     |  105 +++
->  4 files changed, 1225 insertions(+), 1174 deletions(-)
->
-> diff --git a/drivers/gpu/drm/msm/Makefile b/drivers/gpu/drm/msm/Makefile
-> index 0c0dfb25f01b193b10946fae20138caf32cf0ed2..d7876c154b0aa2cb0164c4b1f=
-b7900b1a42db46b 100644
-> --- a/drivers/gpu/drm/msm/Makefile
-> +++ b/drivers/gpu/drm/msm/Makefile
-> @@ -115,6 +115,7 @@ msm-y +=3D \
->         msm_gem_shrinker.o \
->         msm_gem_submit.o \
->         msm_gem_vma.o \
-> +       msm_gem_vm_bind.o \
->         msm_gpu.o \
->         msm_gpu_devfreq.o \
->         msm_io_utils.o \
+On the rkisp1 (in my case on a NXP i.MX8 M Plus) the ISP interrupt
+handler is sometimes called with RKISP1_CIF_ISP_V_START (start of frame)
+and RKISP1_CIF_ISP_FRAME (end of frame) being set at the same time. In
+commit 8524fa22fd2f ("media: staging: rkisp1: isp: add a warning and
+debugfs var for irq delay") a warning was added for that. There are two
+cases where this condition can occur:
 
-[snip]
+1. The v-sync and the frame-end belong to the same frame. This means,
+   the irq was heavily delayed and the warning is likely appropriate.
 
-> diff --git a/drivers/gpu/drm/msm/msm_gem_vma.h b/drivers/gpu/drm/msm/msm_=
-gem_vma.h
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..f702f81529e72b86bffb49604=
-08f1912bc65851a
-> --- /dev/null
-> +++ b/drivers/gpu/drm/msm/msm_gem_vma.h
-> @@ -0,0 +1,105 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (C) 2016 Red Hat
-> + * Author: Rob Clark <robdclark@gmail.com>
-> + */
-> +
-> +#ifndef _MSM_GEM_VMA_H_
-> +#define _MSM_GEM_VMA_H_
-> +
-> +#define vm_dbg(fmt, ...) pr_debug("%s:%d: "fmt"\n", __func__, __LINE__, =
-##__VA_ARGS__)
-> +
-> +/**
-> + * struct msm_vm_map_op - create new pgtable mapping
-> + */
-> +struct msm_vm_map_op {
-> +       /** @iova: start address for mapping */
-> +       uint64_t iova;
-> +       /** @range: size of the region to map */
-> +       uint64_t range;
-> +       /** @offset: offset into @sgt to map */
-> +       uint64_t offset;
-> +       /** @sgt: pages to map, or NULL for a PRR mapping */
-> +       struct sg_table *sgt;
-> +       /** @prot: the mapping protection flags */
-> +       int prot;
-> +
-> +       /**
-> +        * @queue_id: The id of the submitqueue the operation is performe=
-d
-> +        * on, or zero for (in particular) UNMAP ops triggered outside of
-> +        * a submitqueue (ie. process cleanup)
-> +        */
-> +       int queue_id;
-> +};
-> +
-> +/**
-> + * struct msm_vm_unmap_op - unmap a range of pages from pgtable
-> + */
-> +struct msm_vm_unmap_op {
-> +       /** @iova: start address for unmap */
-> +       uint64_t iova;
-> +       /** @range: size of region to unmap */
-> +       uint64_t range;
-> +
-> +       /** @reason: The reason for the unmap */
-> +       const char *reason;
-> +
-> +       /**
-> +        * @queue_id: The id of the submitqueue the operation is performe=
-d
-> +        * on, or zero for (in particular) UNMAP ops triggered outside of
-> +        * a submitqueue (ie. process cleanup)
-> +        */
-> +       int queue_id;
-> +};
-> +
-> +static void
-> +vm_log(struct msm_gem_vm *vm, const char *op, uint64_t iova, uint64_t ra=
-nge, int queue_id)
+2. The v-sync belongs to the next frame. This can happen if the vertical
+   blanking between two frames is very short.
 
-These would have to be static-inline
+The current code always handles case 1 although case 2 is in my
+experience the more common case and happens in regular usage. This leads
+to incorrect sequence numbers on stats and params buffers which in turn
+breaks the regulation in user space. Fix that by adding a frame_active
+flag to distinguish between these cases and handle the start of frame
+either at the beginning or at the end of the rkisp1_isp_isr().
 
-But overall I'm not sure how I feel about this.. I guess the goal is
-to reduce the size of a kms-only driver?  If so, I think you could do
-better with some ugly ifdef (for ex, you could also remove scheduler
-and other fields not used by kernel managed VMs from msm_gem_vm).
+Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
 
-I'm not sure how much the savings would be, or if it is worth the pain
-(ie. extra build configurations to test going forward, etc).  Having
-no GPU doesn't seem like a case worth optimizing for, tbh.  You could
-still have a single driver which binds to multiple different devices,
-ie. if # of GPUs !=3D # of DPUs without this with no change in
-footprint.
+---
 
-BR,
--R
+Hi all,
 
+Here is an updated version of the patch with some fixes from the review.
 
+Changes in v2:
+- Removed test for !frame_active in second v_start handler
+- Improved comments
 
+Best regards,
+Stefan
 
-> +{
-> +       int idx;
-> +
-> +       if (!vm->managed)
-> +               lockdep_assert_held(&vm->mmu_lock);
-> +
-> +       vm_dbg("%s:%p:%d: %016llx %016llx", op, vm, queue_id, iova, iova =
-+ range);
-> +
-> +       if (!vm->log)
-> +               return;
-> +
-> +       idx =3D vm->log_idx;
-> +       vm->log[idx].op =3D op;
-> +       vm->log[idx].iova =3D iova;
-> +       vm->log[idx].range =3D range;
-> +       vm->log[idx].queue_id =3D queue_id;
-> +       vm->log_idx =3D (vm->log_idx + 1) & ((1 << vm->log_shift) - 1);
-> +}
-> +
-> +static void
-> +vm_unmap_op(struct msm_gem_vm *vm, const struct msm_vm_unmap_op *op)
-> +{
-> +       const char *reason =3D op->reason;
-> +
-> +       if (!reason)
-> +               reason =3D "unmap";
-> +
-> +       vm_log(vm, reason, op->iova, op->range, op->queue_id);
-> +
-> +       vm->mmu->funcs->unmap(vm->mmu, op->iova, op->range);
-> +}
-> +
-> +static int
-> +vm_map_op(struct msm_gem_vm *vm, const struct msm_vm_map_op *op)
-> +{
-> +       vm_log(vm, "map", op->iova, op->range, op->queue_id);
-> +
-> +       return vm->mmu->funcs->map(vm->mmu, op->iova, op->sgt, op->offset=
-,
-> +                                  op->range, op->prot);
-> +}
-> +
-> +int msm_gem_vm_sm_step_map(struct drm_gpuva_op *op, void *_arg);
-> +int msm_gem_vm_sm_step_remap(struct drm_gpuva_op *op, void *arg);
-> +int msm_gem_vm_sm_step_unmap(struct drm_gpuva_op *op, void *_arg);
-> +
-> +int msm_gem_vm_sched_init(struct msm_gem_vm *vm, struct drm_device *drm)=
-;
-> +void msm_gem_vm_sched_fini(struct msm_gem_vm *vm);
-> +
-> +#endif
->
-> --
-> 2.47.3
->
+---
+ .../platform/rockchip/rkisp1/rkisp1-common.h  |  1 +
+ .../platform/rockchip/rkisp1/rkisp1-isp.c     | 27 +++++++++++++++----
+ 2 files changed, 23 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+index ca952fd0829b..adf23416de9a 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+@@ -222,6 +222,7 @@ struct rkisp1_isp {
+ 	struct media_pad pads[RKISP1_ISP_PAD_MAX];
+ 	const struct rkisp1_mbus_info *sink_fmt;
+ 	__u32 frame_sequence;
++	bool frame_active;
+ };
+ 
+ /*
+diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+index 8c29a1c9309a..2e49764d6262 100644
+--- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
++++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+@@ -965,6 +965,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
+ 	}
+ 
+ 	isp->frame_sequence = -1;
++	isp->frame_active = false;
+ 
+ 	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
+ 
+@@ -1086,12 +1087,15 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
+  * Interrupt handlers
+  */
+ 
+-static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
++static void rkisp1_isp_sof(struct rkisp1_isp *isp)
+ {
+ 	struct v4l2_event event = {
+ 		.type = V4L2_EVENT_FRAME_SYNC,
+ 	};
+ 
++	isp->frame_sequence++;
++	isp->frame_active = true;
++
+ 	event.u.frame_sync.frame_sequence = isp->frame_sequence;
+ 	v4l2_event_queue(isp->sd.devnode, &event);
+ }
+@@ -1111,15 +1115,20 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
+ 
+ 	rkisp1_write(rkisp1, RKISP1_CIF_ISP_ICR, status);
+ 
+-	/* Vertical sync signal, starting generating new frame */
+-	if (status & RKISP1_CIF_ISP_V_START) {
+-		rkisp1->isp.frame_sequence++;
+-		rkisp1_isp_queue_event_sof(&rkisp1->isp);
++	/*
++	 * Vertical sync signal, starting new frame. Defer handling of vsync
++	 * after RKISP1_CIF_ISP_FRAME if the previous frame was not completed
++	 * yet.
++	 */
++	if (status & RKISP1_CIF_ISP_V_START && !rkisp1->isp.frame_active) {
++		status &= ~RKISP1_CIF_ISP_V_START;
++		rkisp1_isp_sof(&rkisp1->isp);
+ 		if (status & RKISP1_CIF_ISP_FRAME) {
+ 			WARN_ONCE(1, "irq delay is too long, buffers might not be in sync\n");
+ 			rkisp1->debug.irq_delay++;
+ 		}
+ 	}
++
+ 	if (status & RKISP1_CIF_ISP_PIC_SIZE_ERROR) {
+ 		/* Clear pic_size_error */
+ 		isp_err = rkisp1_read(rkisp1, RKISP1_CIF_ISP_ERR);
+@@ -1138,6 +1147,7 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
+ 	if (status & RKISP1_CIF_ISP_FRAME) {
+ 		u32 isp_ris;
+ 
++		rkisp1->isp.frame_active = false;
+ 		rkisp1->debug.complete_frames++;
+ 
+ 		/* New frame from the sensor received */
+@@ -1152,5 +1162,12 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
+ 		rkisp1_params_isr(rkisp1);
+ 	}
+ 
++	/*
++	 * Deferred handling of vsync if RKISP1_CIF_ISP_V_START and
++	 * RKISP1_CIF_ISP_FRAME occurrend in the same irq.
++	 */
++	if (status & RKISP1_CIF_ISP_V_START)
++		rkisp1_isp_sof(&rkisp1->isp);
++
+ 	return IRQ_HANDLED;
+ }
+-- 
+2.48.1
+
 
