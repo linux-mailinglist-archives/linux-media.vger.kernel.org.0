@@ -1,152 +1,235 @@
-Return-Path: <linux-media+bounces-42734-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42735-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8805FB8725B
-	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 23:31:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 32A60B87404
+	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 00:37:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47E057E5373
-	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 21:31:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BE8D51C27E45
+	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 22:38:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7082B2ED85D;
-	Thu, 18 Sep 2025 21:31:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7844F2F39C5;
+	Thu, 18 Sep 2025 22:37:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="tUKiFPM1"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="kX1MgsHu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D8B86342;
-	Thu, 18 Sep 2025 21:31:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E27768BEE;
+	Thu, 18 Sep 2025 22:37:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758231094; cv=none; b=ntPhaEmlPV5psGgnjCcf5Sd1VTWI2O4hq7Zk65RBylTYlgGjdbKxr06RCr7fNGc7yRrpLwtqL8CoPA0RSaVcl0AQeREeMyB3iuMUKCT+XUH5oJqo2AD2Zb4vj/JbM/0BtGgF7j43atUCU3rfay9ESjoHhQeb5lP8nVJbmBFpGiE=
+	t=1758235050; cv=none; b=Nwf4DjuF+BtRFTkIVfbAIeyfzLmIA8/46+z9jCbpYKLDVLraf3occoqxEMGqvoavl+8qdheNAQwl7ldg1W6LI6Vs36ijCCCFIvkg9vOqVtiEfuEXC8wnLVRhHFVnij02UxL7NK+OkPZyA7GgRSQxPSATqPdtrx2/y8FhPcdwITs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758231094; c=relaxed/simple;
-	bh=XRP3BRzw4PTthp+BvbIBnXlgMbZK3cuX60MpXQlz+jo=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=B/SMyjn1AnkgtjbZZG4MoEGDw/0PlNhIjrarZTotSZqIxQxyXFzXoVUYzr84saee2ALUpstILjbkUVt5HxxqFw+Wy1cPcklLjdUAKPWwEg1yA9zE0NGTnFMzBBnGmTvnV1JSoQAaCOS+FfeSx1Lv6id2gx1qjCDPAhmi/uLDvvU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=tUKiFPM1; arc=none smtp.client-ip=168.119.26.117
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
-	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
-	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID;
-	bh=9k36Yx116Uyq432ZKnjyvbWAnWv4qokj8porc2uvnG8=; b=tUKiFPM1F4JeTCYVBYkZfj96MR
-	fTvSJnfCrD6bBIxqjd0x7PpdFVR2X6+pToTsTfLGYgHPO3eHpJzpKA6HUZ/oJnKAcj2BQR0/tEBVE
-	TvDymarobfc5gMHoss9dIT1tZCGPMlBnDsAMOK/UoII2e0Y6I36e/P+LkWd5LRveTzKQXIyrmCYO0
-	QZJzkFOAnd2mM5aVTAGia5O/7WljdJo91SdrgkBaBAI+4UEYf1uGqQWlKri/pkSCVTbdKOmnbWzAC
-	VXZr4AK/HNN1FWcGuz0dnLnFdl20ZWgke4BAscqHl/JgL4srI/69dTMtMY+W9K6WQDw9Pgjx8SPIV
-	9T213Bcw==;
-Received: from sslproxy07.your-server.de ([78.47.199.104])
-	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96.2)
-	(envelope-from <git@apitzsch.eu>)
-	id 1uzMDo-0003xr-1L;
-	Thu, 18 Sep 2025 23:31:20 +0200
-Received: from localhost ([127.0.0.1])
-	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <git@apitzsch.eu>)
-	id 1uzMDn-000NGJ-1l;
-	Thu, 18 Sep 2025 23:31:19 +0200
-Message-ID: <048dd9a2d3257ddea4e4223b023bde9747469083.camel@apitzsch.eu>
-Subject: Re: [PATCH 7/7] media: i2c: dw9719: Fix power on/off sequence
-From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, Val Packett
- <val@packett.cool>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh@kernel.org>,  Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, 	devicetree@vger.kernel.org, Daniel Scally
- <djrscally@gmail.com>, 	~postmarketos/upstreaming@lists.sr.ht,
- phone-devel@vger.kernel.org, 	linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Date: Thu, 18 Sep 2025 23:31:18 +0200
-In-Reply-To: <aMqI-lElZsWV-Hrl@kekkonen.localdomain>
-References: <20250817-dw9719-v1-0-426f46c69a5a@apitzsch.eu>
-	 <20250817-dw9719-v1-7-426f46c69a5a@apitzsch.eu>
-	 <aKLZ39IzI_azrDIu@kekkonen.localdomain>
-	 <550f28a9aa82a28beb35fd3490dbe08928ba9eed.camel@apitzsch.eu>
-	 <fad5cb33-0e7c-499b-bad7-bbdacca8076a@packett.cool>
-	 <aMqI-lElZsWV-Hrl@kekkonen.localdomain>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.58.0 
+	s=arc-20240116; t=1758235050; c=relaxed/simple;
+	bh=CFNp1DwRSlhPzDlZBacPlISS3GavBgP3D8OWPHMrqTk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CIvWujndWlW9NJLgwX3s3efEWiFm7ifTAct3ZC/LYcPe920vSpgzinWFy3fp2/S/iLYB6bFp2SkN+NnHrOqsqqMfO+jnJmmEO2g3wwzMTUNb081YaFHxyXeRJlp4fY6AlVm6NZhnchJg/H5V4V6eyRsL53ieW2goTZPtIS49vh4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=kX1MgsHu; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 29C489FC;
+	Fri, 19 Sep 2025 00:36:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1758234965;
+	bh=CFNp1DwRSlhPzDlZBacPlISS3GavBgP3D8OWPHMrqTk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kX1MgsHuiTMdxlMpsJTLrcl6+bZIagVC1+hcH0yPq7yg8lrFDS6Iegjqt7RvxoKYl
+	 7354xr0R6tcDIqcMpuyzHU6C7JxWl6p9VZB1yUtji1Ob7TaGx+e/3qqDikhOTAtIwc
+	 TUTaExBonINK7j2HJizJC+7v4cELXPqJejvsG0dI=
+Date: Fri, 19 Sep 2025 01:36:55 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Dafna Hirschfeld <dafna@fastmail.com>, Heiko Stuebner <heiko@sntech.de>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2] media: rkisp1: Improve frame sequence correctness on
+ stats and params buffers
+Message-ID: <20250918223655.GA10985@pendragon.ideasonboard.com>
+References: <20250918145504.111428-2-stefan.klug@ideasonboard.com>
+ <175820896821.1246375.16035780810428204673@ping.linuxembedded.co.uk>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Virus-Scanned: Clear (ClamAV 1.0.9/27766/Thu Sep 18 10:27:50 2025)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <175820896821.1246375.16035780810428204673@ping.linuxembedded.co.uk>
 
-Hi Sakari,
+On Thu, Sep 18, 2025 at 04:22:48PM +0100, Kieran Bingham wrote:
+> Quoting Stefan Klug (2025-09-18 15:54:33)
+> > On the rkisp1 (in my case on a NXP i.MX8 M Plus) the ISP interrupt
+> > handler is sometimes called with RKISP1_CIF_ISP_V_START (start of frame)
+> > and RKISP1_CIF_ISP_FRAME (end of frame) being set at the same time. In
+> > commit 8524fa22fd2f ("media: staging: rkisp1: isp: add a warning and
+> > debugfs var for irq delay") a warning was added for that. There are two
+> > cases where this condition can occur:
+> > 
+> > 1. The v-sync and the frame-end belong to the same frame. This means,
+> >    the irq was heavily delayed and the warning is likely appropriate.
+> > 
+> > 2. The v-sync belongs to the next frame. This can happen if the vertical
+> >    blanking between two frames is very short.
+> > 
+> > The current code always handles case 1 although case 2 is in my
+> > experience the more common case and happens in regular usage. This leads
+> > to incorrect sequence numbers on stats and params buffers which in turn
+> > breaks the regulation in user space. Fix that by adding a frame_active
+> > flag to distinguish between these cases and handle the start of frame
+> > either at the beginning or at the end of the rkisp1_isp_isr().
+> > 
+> > Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
+> > 
+> > ---
+> > 
+> > Hi all,
+> > 
+> > Here is an updated version of the patch with some fixes from the review.
+> > 
+> > Changes in v2:
+> > - Removed test for !frame_active in second v_start handler
+> > - Improved comments
+> > 
+> > Best regards,
+> > Stefan
+> > 
+> > ---
+> >  .../platform/rockchip/rkisp1/rkisp1-common.h  |  1 +
+> >  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 27 +++++++++++++++----
+> >  2 files changed, 23 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> > index ca952fd0829b..adf23416de9a 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> > @@ -222,6 +222,7 @@ struct rkisp1_isp {
+> >         struct media_pad pads[RKISP1_ISP_PAD_MAX];
+> >         const struct rkisp1_mbus_info *sink_fmt;
+> >         __u32 frame_sequence;
+> > +       bool frame_active;
+> >  };
+> >  
+> >  /*
+> > diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > index 8c29a1c9309a..2e49764d6262 100644
+> > --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> > @@ -965,6 +965,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
+> >         }
+> >  
+> >         isp->frame_sequence = -1;
+> > +       isp->frame_active = false;
+> >  
+> >         sd_state = v4l2_subdev_lock_and_get_active_state(sd);
+> >  
+> > @@ -1086,12 +1087,15 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
+> >   * Interrupt handlers
+> >   */
+> >  
+> > -static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
+> > +static void rkisp1_isp_sof(struct rkisp1_isp *isp)
+> >  {
+> >         struct v4l2_event event = {
+> >                 .type = V4L2_EVENT_FRAME_SYNC,
+> >         };
+> >  
+> > +       isp->frame_sequence++;
+> > +       isp->frame_active = true;
+> > +
+> >         event.u.frame_sync.frame_sequence = isp->frame_sequence;
+> >         v4l2_event_queue(isp->sd.devnode, &event);
+> >  }
+> > @@ -1111,15 +1115,20 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
+> >  
+> >         rkisp1_write(rkisp1, RKISP1_CIF_ISP_ICR, status);
+> >  
+> > -       /* Vertical sync signal, starting generating new frame */
+> > -       if (status & RKISP1_CIF_ISP_V_START) {
+> > -               rkisp1->isp.frame_sequence++;
+> > -               rkisp1_isp_queue_event_sof(&rkisp1->isp);
+> > +       /*
+> > +        * Vertical sync signal, starting new frame. Defer handling of vsync
+> > +        * after RKISP1_CIF_ISP_FRAME if the previous frame was not completed
+> > +        * yet.
+> > +        */
+> > +       if (status & RKISP1_CIF_ISP_V_START && !rkisp1->isp.frame_active) {
+> > +               status &= ~RKISP1_CIF_ISP_V_START;
+> > +               rkisp1_isp_sof(&rkisp1->isp);
+> >                 if (status & RKISP1_CIF_ISP_FRAME) {
+> >                         WARN_ONCE(1, "irq delay is too long, buffers might not be in sync\n");
+> 
+> Now I've read below - I see how in here we've had both a frame start and
+> a frame end without processing an IRQ at all.
+> 
+> I'm trying to figure out if the ISR should always just process frame end
+> events before frame starts ... but then i think we wouldn't catch this
+> case so I suspect this is fine keeping it how things are now.
+> 
+> 
+> >                         rkisp1->debug.irq_delay++;
+> >                 }
+> >         }
+> > +
+> >         if (status & RKISP1_CIF_ISP_PIC_SIZE_ERROR) {
+> >                 /* Clear pic_size_error */
+> >                 isp_err = rkisp1_read(rkisp1, RKISP1_CIF_ISP_ERR);
+> > @@ -1138,6 +1147,7 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
+> >         if (status & RKISP1_CIF_ISP_FRAME) {
+> >                 u32 isp_ris;
+> >  
+> > +               rkisp1->isp.frame_active = false;
+> >                 rkisp1->debug.complete_frames++;
+> >  
+> >                 /* New frame from the sensor received */
+> > @@ -1152,5 +1162,12 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
+> >                 rkisp1_params_isr(rkisp1);
+> >         }
+> >  
+> > +       /*
+> > +        * Deferred handling of vsync if RKISP1_CIF_ISP_V_START and
+> > +        * RKISP1_CIF_ISP_FRAME occurrend in the same irq.
+> 
+> s/occurend/occured/
+> 
+> > +        */
+> > +       if (status & RKISP1_CIF_ISP_V_START)
+> > +               rkisp1_isp_sof(&rkisp1->isp);
+> 
+> Aha I see - so this makes sure we /complete/ the frame before we start
+> another one.
+> 
+> That definitely sounds like a very good thing.
 
-Am Mittwoch, dem 17.09.2025 um 13:10 +0300 schrieb Sakari Ailus:
-> Hi Andr=C3=A9, Val,
->=20
-> On Tue, Sep 16, 2025 at 05:08:44PM -0300, Val Packett wrote:
-> >=20
-> > On 9/15/25 5:48 PM, Andr=C3=A9 Apitzsch wrote:
-> > > Hi Sakari,
-> > >=20
-> > > @Val, please see below.
-> > >=20
-> > > Am Montag, dem 18.08.2025 um 07:44 +0000 schrieb Sakari Ailus:
-> > > > Hi Andr=C3=A9,
-> > > >=20
-> > > > On Sun, Aug 17, 2025 at 07:09:26PM +0200, Andr=C3=A9 Apitzsch via B=
-4
-> > > > Relay wrote:
-> > > > > =C2=A0=C2=A0	u64 val;
-> > > > > =C2=A0=C2=A0	int ret;
-> > > > > =C2=A0=C2=A0	int err;
-> > > > > @@ -109,13 +116,15 @@ static int dw9719_power_up(struct
-> > > > > dw9719_device *dw9719, bool detect)
-> > > > > =C2=A0=C2=A0	if (ret)
-> > > > > =C2=A0=C2=A0		return ret;
-> > > > > -	/* Jiggle SCL pin to wake up device */
-> > > > > -	reg_pwr =3D (dw9719->model =3D=3D DW9718S) ? DW9718S_PD :
-> > > > > DW9719_CONTROL;
-> > > > > -	cci_write(dw9719->regmap, reg_pwr, DW9719_SHUTDOWN,
-> > > > > &ret);
-> > > > > -	fsleep(100);
-> > > > > +	/*
-> > > > > +	 * Need 100us to transition from SHUTDOWN to
-> > > > > STANDBY.
-> > > > > +	 * Jiggle the SCL pin to wake up the device (even
-> > > > > when the
-> > > > > regulator
-> > > > > +	 * is shared) and wait double the time to be sure,
-> > > > > then
-> > > > > retry the write.
-> > > > Why double? Isn't the datasheet correct when it comes to the
-> > > > power-on sequence?
-> > > >=20
-> > > I haven't noticed any problems during power-up of DW9761.
-> > > However, according to the commit message, there seems be an issue
-> > > with DW9718S. But I don't own the device and cannot test it.
-> > >=20
-> > > Maybe Val can provided some additional information.
-> >=20
-> > I haven't had access to the datasheet for the DW9718S, so this was
-> > all deduced experimentally. By "to be sure" I meant that I
-> > literally raised the timeout "just in case", not based on actual
-> > issues.
-> >=20
-> > The actually important change was expecting the failure on the
-> > write and not erroring out.
->=20
-> Ack.
->=20
-> Andr=C3=A9: could you add this information to the comment as well?
+Yes, this seems to be a good improvement.
 
-Could you clarify which information.
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Best regards,
-Andr=C3=A9
+There may still be room for improvement, we could measure the time
+between IRQs to estimate the number of lost interrupts. That won't be
+easy to develop, and may be best handled in userspace. If we investigate
+that, it should probably be implemented with generic helpers.
+
+> I'd be curuious to add a counter for how often we process a frame start
+> and frame end in the same ISR too. That likely still means we've got
+> some undesirable delays?
+
+There's a counter already, and it's already exported through debugfs :-)
+
+> > +
+> >         return IRQ_HANDLED;
+> >  }
+
+-- 
+Regards,
+
+Laurent Pinchart
 
