@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-42701-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42702-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 34EEFB8255F
-	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 02:01:25 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75491B82570
+	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 02:02:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id E894B4A466C
-	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 00:01:24 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 38539172AF3
+	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 00:02:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A764183CC3;
-	Thu, 18 Sep 2025 00:01:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C2F0518DB1E;
+	Thu, 18 Sep 2025 00:02:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VDDVgE8B"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Iuv8owKq"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E00FD17E0;
-	Thu, 18 Sep 2025 00:01:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16B515680;
+	Thu, 18 Sep 2025 00:02:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758153677; cv=none; b=ARBDxq9K+hjveg7PDrPJltEcVDxICdnZjdK0vi+bf49JbjKZIw7T2Ayj1wRePhxab60G6e4KBYdt0qLfqbGQKl764BuOKSoQ/UyjRWK1Y8JisMWHH3M6TFJOb9JmmvbpctvMZ5FCjJtcWS5dV6tjUGty12NyihdNnHjvDU5YaeI=
+	t=1758153721; cv=none; b=VVSdYqN6MPnaZcO7hG3A3Uib+frdiXDBVxTCVTkMZrl2m+QstBrdI/G/BAWgzrmWU5F0j0v0J13wl9UtdiDddFENURsJ95nguRgcTGko1noTIfwpZpai8bFsLm2qMlQMawKNKQ2eOdLKhKqjBPV8zKg/W0HDd79SIdcoL+z8Vmg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758153677; c=relaxed/simple;
-	bh=1B3/y6mC3x0Gb7mESrjJVqtP5iKoAmAQvn0c34F3HYY=;
+	s=arc-20240116; t=1758153721; c=relaxed/simple;
+	bh=58p2Xb4E9NbqINoSvmh4kesI2fGee6RlZEm5bhePd/8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ufwV9JJypoiiCeWyE3qg7xJQfalAJ0nNLWTkITubpzpr7HvrYrYuUu8a34EQHnWk2iQYrrOo9xX3yUE42C56DVi82qJ3H+Jc/Zke+BtH/ykZnxWL8Npa4Kc4bqkalKmrbes1/HhHNxo3Z0fPQb6+IIKE1X//Eevmu/utDfPnxmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VDDVgE8B; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1DF7BC4CEE7;
-	Thu, 18 Sep 2025 00:01:12 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=TyR5icAUv+a0Ee7UzD2drESXQB0Iy+hDQ0ePEqEhKqoa/Y83LL5GjfHSCZAANsyxJ4EFYO4MvWyB0RWZL9577MUv35F+BepZWEuFkuMovktMOG1tFW4+CXePSkp7kTwSTaZjMPwSwWjr03bZFscIZttn6gQBUWoszu7oGobIIX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Iuv8owKq; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7A941C4CEE7;
+	Thu, 18 Sep 2025 00:01:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758153676;
-	bh=1B3/y6mC3x0Gb7mESrjJVqtP5iKoAmAQvn0c34F3HYY=;
+	s=k20201202; t=1758153720;
+	bh=58p2Xb4E9NbqINoSvmh4kesI2fGee6RlZEm5bhePd/8=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=VDDVgE8BCfMQPQ6fqgNJCfqaNGdgmJyEgRe2ykUFgjSd+ZBzPU5ulEDRfLPZY86Ko
-	 VBoiy9cHUAM3MMEw8uNXmNL3NRNtBZKopg3noLfc9RmH89sPqGS1rj4X/hhDxhpxYb
-	 8rQWdHRhbHk0pepfxNSTpcM2TK6bSNcEnXAduDi35HgQOH7CbMuxBzzU6kii96TMlp
-	 gn5Qs8BYvAgJNsOVkPbKuJWS5cTAoXW4qAos6D90t14uWlZ7hct0mISncgCmy8oFOI
-	 GEOQ15U7PkofWvlykkzLAFBGRkXIK43wUoGVZ8qjWIMcXP6AFmFK5g5VgtHYjhh77U
-	 hDovHNlhfh57w==
-Message-ID: <0daf1bda-d0f2-45bb-a68b-2437ba0579e7@kernel.org>
-Date: Thu, 18 Sep 2025 09:01:11 +0900
+	b=Iuv8owKqOWqDV7z4VtmsNxRVNKDF5cNNmCfWMA8qLZFNWtB98KdPrDi595vXMYmUJ
+	 rni7XQ431XGrQvHjoumBhC2seJjkjOGJx7ToZ0v8kKEVoXtGCKUAXWvMRlP7Sf1F47
+	 rZ3PahazBtIv1z9KZsRhgPBdQWgjzwTm/KSwNh4V8sF83oQatPnRCSQZPfo+heccaD
+	 6Iepur7QxIT/rC4IFBNwiHDvwk8vc90jFUW8X9+OCfbitLWBbYzTQ2MRg/20ecrE5h
+	 R3Bwxx1y4aMshcENXZREhAHf8G3L7Wwfd3oCAHAfWfYPVaySx/tjdNNnuTRRgJYs5p
+	 kPzia27PHIJ/w==
+Message-ID: <4b12915d-b12d-402e-b4d0-5c2bc7b7ca35@kernel.org>
+Date: Thu, 18 Sep 2025 09:01:55 +0900
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,20 +50,22 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/7] dt-bindings: media: nxp: Add support for FSD SoC
-To: Inbaraj E <inbaraj.e@samsung.com>, 'Rob Herring' <robh@kernel.org>
+Subject: Re: [PATCH v3 2/7] dt-bindings: media: fsd: Add CSIS video capture
+ interface
+To: Inbaraj E <inbaraj.e@samsung.com>
 Cc: rmfrfs@gmail.com, laurent.pinchart@ideasonboard.com, martink@posteo.de,
- kernel@puri.sm, mchehab@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
- festevam@gmail.com, linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
- pankaj.dubey@samsung.com, ravi.patel@samsung.com, shradha.t@samsung.com
+ kernel@puri.sm, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de,
+ kernel@pengutronix.de, festevam@gmail.com, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-samsung-soc@vger.kernel.org, pankaj.dubey@samsung.com,
+ ravi.patel@samsung.com, shradha.t@samsung.com
 References: <20250828085911.81266-1-inbaraj.e@samsung.com>
- <CGME20250828085926epcas5p1b82576210280fb44c6c7f02851da71c6@epcas5p1.samsung.com>
- <20250828085911.81266-2-inbaraj.e@samsung.com>
- <20250829174638.GA1054721-robh@kernel.org>
- <024f01dc27cb$f167d370$d4377a50$@samsung.com>
+ <CGME20250828085930epcas5p1719c7db08074bf1540dc85b71736a6c5@epcas5p1.samsung.com>
+ <20250828085911.81266-3-inbaraj.e@samsung.com>
+ <20250901-rousing-orange-crab-c05fdf@kuoka>
+ <025001dc27cc$72be7b90$583b72b0$@samsung.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -109,29 +111,24 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <024f01dc27cb$f167d370$d4377a50$@samsung.com>
+In-Reply-To: <025001dc27cc$72be7b90$583b72b0$@samsung.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 17/09/2025 21:09, Inbaraj E wrote:
-> Hi Rob,
-> 
-> Thanks for the review
-> 
-> 
->>> +    description:
->>> +      Syscon used to hold and release the reset of MIPI D-PHY
+On 17/09/2025 21:13, Inbaraj E wrote:
+>>> +examples:
+>>> +  - |
+>>> +    #include <dt-bindings/clock/fsd-clk.h>
+>>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>>> +
+>>> +    csis0: csis@12641000 {
 >>
->> Reset? Sounds like you should be using the reset binding.
+>> Incorrect unit address.
 > 
-> The Tesla FSD Soc does not have a dedicated reset controller. Instead, we
-> are using the
-> system controller which is MMIO Space handled by syscon driver, to assert or
-> de-assert the D-PHY
+> Thanks for pointing out.
+> Unit address is correct. Address in reg is wrong here I'll fix in next patchset.
 
-
-But that's the reset controller, no?
-
+That's even worse, because it means the corresponding DTS was never tested.
 
 Best regards,
 Krzysztof
