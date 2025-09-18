@@ -1,126 +1,152 @@
-Return-Path: <linux-media+bounces-42733-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42734-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E77FBB871FE
-	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 23:26:34 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8805FB8725B
+	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 23:31:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 94AF8B62C91
-	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 21:23:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 47E057E5373
+	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 21:31:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07A0E2ED848;
-	Thu, 18 Sep 2025 21:25:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7082B2ED85D;
+	Thu, 18 Sep 2025 21:31:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jdgu7m42"
+	dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b="tUKiFPM1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from www637.your-server.de (www637.your-server.de [168.119.26.117])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B9D02EC09C
-	for <linux-media@vger.kernel.org>; Thu, 18 Sep 2025 21:25:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19D8B86342;
+	Thu, 18 Sep 2025 21:31:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=168.119.26.117
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758230707; cv=none; b=A2zMASv+D/EyzTnAC7VYGVsulw7+nnZpLUJ9u29sA6+BDlblWCInp8l2wH3WpdyeaUEEC+afje4TeIaJXQUGQStcCq9Gg1mnla3SNnrZrrS9hSET4aBW4qY3fuN7+H5dzAFtYX6BVvLO7lAJ20/vR5p5tKkW3Lq3B7k0NnFZL/Y=
+	t=1758231094; cv=none; b=ntPhaEmlPV5psGgnjCcf5Sd1VTWI2O4hq7Zk65RBylTYlgGjdbKxr06RCr7fNGc7yRrpLwtqL8CoPA0RSaVcl0AQeREeMyB3iuMUKCT+XUH5oJqo2AD2Zb4vj/JbM/0BtGgF7j43atUCU3rfay9ESjoHhQeb5lP8nVJbmBFpGiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758230707; c=relaxed/simple;
-	bh=0Orrvnym9z6mx+qpAqsBTHEzgkRRZum9L9LV5MLQZns=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Y6c7wHZsUg8AU4RON7A70Jwt+BcBYpM89TJmIbGEwS1tZZhB2EEow4eRFzwqITbykbqvsbrvBopP2iNQJNrNZ69iGliiFLanG7RVJoJcK3EorP/hcsslF73jCGMQINBbB7hDFQqhf7hUZzuq/9sSgpwco2fa7KjNGsEUyu3v5Zo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jdgu7m42; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-45f31adf368so10095095e9.3
-        for <linux-media@vger.kernel.org>; Thu, 18 Sep 2025 14:25:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1758230704; x=1758835504; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=otQb23FFW/XLhr6Oh4NQ/t5sBVjKo9CxPKgxi2MGprU=;
-        b=jdgu7m42NDv6ixwTSCratw0l9mcTHs/P6NKZbRYnE6OfYFPFsju6KnRP+UixwzdCHW
-         JVrtA99LnWM5Z982z0SOHpWmUVk7S52HqXHXauIFZn5r9VRM8frmst/KczF/RAtDuKBd
-         ybTDX9rNq0vWKRR7gUB25uVYrUTg3qxumLQdoKBR4L3j0TAxtom2A6jvYeUYK55MJE2N
-         CRFvjTNw1X5cqeSpc1Y3/4J5M2SFBS2gMbyKZvSKfm9Z+AY24ah8WyW/DXbFlQjQx8eQ
-         /KqRwa5+C3ISqAWgLIv50xYCpTo4/G7nENkcelQdfrQ8pvvehHEDKqLVZNqSBTtHkRxS
-         blfw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758230704; x=1758835504;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=otQb23FFW/XLhr6Oh4NQ/t5sBVjKo9CxPKgxi2MGprU=;
-        b=Zc2rbJiAwQk9tp2cM6ld6GEHIBg+XtgFGoK5rfNU3fctvzLiixCLMPDgAMQ6u/5DP7
-         O2E6HZnbAxZfNRfaFIFCWZCAOegM0qi6FohlqwT6AkQLmWXfbEAn1RvAkqAN3A6N+c7k
-         uvGJC7UONsuJC+QzrDChb6fS94N9ezRozv6QmGS7XiDbO7Rq7vx/H4tqLi1EKR577VWW
-         RMg848i6AOGYcX/20EgKdnHXusDxdXJjanwxsRrB5TmiMvo9vkKkMPeRcRjyUKdQuL6Q
-         VZYQup2zt2vhcR4phkXtkvVtb+emyBZ98jyl08NNAF0P99eQHvIwgK6W9wR83d3NCWBs
-         w6yg==
-X-Forwarded-Encrypted: i=1; AJvYcCV+FO7OC3ct4jHd0kBaAw5Er4P1EZw5btbUmUB/7ITY/RbsSuFv+1If5orpBtJdgNUoGi8AcmydUPDWPA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxinPA6+19uTYBXOCRyduwkCTnLaHDdqOLu3l77GTQsMh7egG9G
-	rr7hc54A/xppRz1bfPWN8GMbmgwd7pXqr/F4m9jAZRlKFQuhHZnClQ9ITlmiUkcWuaw=
-X-Gm-Gg: ASbGncvarb6xn8tBi8QaDgtswfuuBXZ2/EECiLUeljRZ46WnMDxUbm/BSpkkrirYyHw
-	Q6DEJ8OAeSXs/KQVYx5cq9OOV9gx0yTkNYsTLX2bUW1Hlxaf/ps6Ae7DjCqzPrrNBBg9WuHxnYB
-	5l0YcHqHz2zx8glePT2VgAJvZO3FdLKE0YmacSIMB+OIE6CuUFUInHfakKrt8vqz+HMUKRDd5WG
-	WfsE+YS7tKmVNbfP57UUHmC8xqBPJ7nIWslyqpVzn2VtkzhkeuXPjLY3dyB8EVoj8CcP/M5RN01
-	kTsV4PfUnUjRAIEL1okSc89tEpxN8fOMkdF3NYpu2NW7B90UsA8oTaU8z0zvOhlrYOtjMHV6VW+
-	2Zb/+hLEKha99vsDb2DTKMSVQmU4v+rPFJPpZHB3BisDJKA5STLVyJAcNh6RsThNnIRNyM8xEi0
-	GHTCW95nkaa+Jr4v+Tw44xZzZgs8F9cJqo7UXdKQ==
-X-Google-Smtp-Source: AGHT+IH01Q3BMBxvVH7m//3u3Ebb9hjBK36gAEMhS02bZTEjbdioULidegt2Ht2MGCXIEyWOW0PaKw==
-X-Received: by 2002:a05:600c:1f85:b0:45b:79fd:cb3d with SMTP id 5b1f17b1804b1-467ec45ff4amr4854965e9.36.1758230704012;
-        Thu, 18 Sep 2025 14:25:04 -0700 (PDT)
-Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-464f64ad359sm70611035e9.22.2025.09.18.14.25.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 18 Sep 2025 14:25:03 -0700 (PDT)
-Message-ID: <0bb932e4-9fb5-4ee0-bd21-6e30d6c8044c@linaro.org>
-Date: Thu, 18 Sep 2025 22:25:02 +0100
+	s=arc-20240116; t=1758231094; c=relaxed/simple;
+	bh=XRP3BRzw4PTthp+BvbIBnXlgMbZK3cuX60MpXQlz+jo=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=B/SMyjn1AnkgtjbZZG4MoEGDw/0PlNhIjrarZTotSZqIxQxyXFzXoVUYzr84saee2ALUpstILjbkUVt5HxxqFw+Wy1cPcklLjdUAKPWwEg1yA9zE0NGTnFMzBBnGmTvnV1JSoQAaCOS+FfeSx1Lv6id2gx1qjCDPAhmi/uLDvvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu; spf=pass smtp.mailfrom=apitzsch.eu; dkim=pass (2048-bit key) header.d=apitzsch.eu header.i=@apitzsch.eu header.b=tUKiFPM1; arc=none smtp.client-ip=168.119.26.117
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=apitzsch.eu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=apitzsch.eu
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=apitzsch.eu
+	; s=default2410; h=MIME-Version:Content-Transfer-Encoding:Content-Type:
+	References:In-Reply-To:Date:Cc:To:From:Subject:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID;
+	bh=9k36Yx116Uyq432ZKnjyvbWAnWv4qokj8porc2uvnG8=; b=tUKiFPM1F4JeTCYVBYkZfj96MR
+	fTvSJnfCrD6bBIxqjd0x7PpdFVR2X6+pToTsTfLGYgHPO3eHpJzpKA6HUZ/oJnKAcj2BQR0/tEBVE
+	TvDymarobfc5gMHoss9dIT1tZCGPMlBnDsAMOK/UoII2e0Y6I36e/P+LkWd5LRveTzKQXIyrmCYO0
+	QZJzkFOAnd2mM5aVTAGia5O/7WljdJo91SdrgkBaBAI+4UEYf1uGqQWlKri/pkSCVTbdKOmnbWzAC
+	VXZr4AK/HNN1FWcGuz0dnLnFdl20ZWgke4BAscqHl/JgL4srI/69dTMtMY+W9K6WQDw9Pgjx8SPIV
+	9T213Bcw==;
+Received: from sslproxy07.your-server.de ([78.47.199.104])
+	by www637.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96.2)
+	(envelope-from <git@apitzsch.eu>)
+	id 1uzMDo-0003xr-1L;
+	Thu, 18 Sep 2025 23:31:20 +0200
+Received: from localhost ([127.0.0.1])
+	by sslproxy07.your-server.de with esmtpsa  (TLS1.3) tls TLS_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <git@apitzsch.eu>)
+	id 1uzMDn-000NGJ-1l;
+	Thu, 18 Sep 2025 23:31:19 +0200
+Message-ID: <048dd9a2d3257ddea4e4223b023bde9747469083.camel@apitzsch.eu>
+Subject: Re: [PATCH 7/7] media: i2c: dw9719: Fix power on/off sequence
+From: =?ISO-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, Val Packett
+ <val@packett.cool>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski	 <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, 	devicetree@vger.kernel.org, Daniel Scally
+ <djrscally@gmail.com>, 	~postmarketos/upstreaming@lists.sr.ht,
+ phone-devel@vger.kernel.org, 	linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Date: Thu, 18 Sep 2025 23:31:18 +0200
+In-Reply-To: <aMqI-lElZsWV-Hrl@kekkonen.localdomain>
+References: <20250817-dw9719-v1-0-426f46c69a5a@apitzsch.eu>
+	 <20250817-dw9719-v1-7-426f46c69a5a@apitzsch.eu>
+	 <aKLZ39IzI_azrDIu@kekkonen.localdomain>
+	 <550f28a9aa82a28beb35fd3490dbe08928ba9eed.camel@apitzsch.eu>
+	 <fad5cb33-0e7c-499b-bad7-bbdacca8076a@packett.cool>
+	 <aMqI-lElZsWV-Hrl@kekkonen.localdomain>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.58.0 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: Use of_reserved_mem_region_to_resource() for
- "memory-region"
-To: Rob Herring <robh@kernel.org>, Ming Qian <ming.qian@nxp.com>,
- Zhou Peng <eagle.zhou@nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Vikash Garodia <quic_vgarodia@quicinc.com>,
- Dikshita Agarwal <quic_dikshita@quicinc.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>
-Cc: Ming Qian <ming.qian@oss.nxp.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-References: <20250813214949.897858-1-robh@kernel.org>
- <CAL_Jsq+vUNtMw6JS0ac6a8LTdJBB+UepadpDxP_S8vr6QwUiNA@mail.gmail.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <CAL_Jsq+vUNtMw6JS0ac6a8LTdJBB+UepadpDxP_S8vr6QwUiNA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: Clear (ClamAV 1.0.9/27766/Thu Sep 18 10:27:50 2025)
 
-On 18/09/2025 21:22, Rob Herring wrote:
-> On Wed, Aug 13, 2025 at 4:50 PM Rob Herring (Arm) <robh@kernel.org> wrote:
->>
->> Use the newly added of_reserved_mem_region_to_resource() function to
->> handle "memory-region" properties.
->>
->> Reviewed-by: Dikshita Agarwal <quic_dikshita@quicinc.com>
->> Reviewed-by: Ming Qian <ming.qian@oss.nxp.com>
->> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
->> ---
->> v2:
->>   - Rebase on v6.17-rc1
->> ---
->>   drivers/media/platform/amphion/vpu_core.c     | 40 +++++--------------
->>   .../media/platform/qcom/iris/iris_firmware.c  | 18 +++------
->>   drivers/media/platform/qcom/venus/firmware.c  | 19 +++------
->>   3 files changed, 21 insertions(+), 56 deletions(-)
-> 
-> Ping!
-I'll pick this one up.
+Hi Sakari,
 
----
-bod
+Am Mittwoch, dem 17.09.2025 um 13:10 +0300 schrieb Sakari Ailus:
+> Hi Andr=C3=A9, Val,
+>=20
+> On Tue, Sep 16, 2025 at 05:08:44PM -0300, Val Packett wrote:
+> >=20
+> > On 9/15/25 5:48 PM, Andr=C3=A9 Apitzsch wrote:
+> > > Hi Sakari,
+> > >=20
+> > > @Val, please see below.
+> > >=20
+> > > Am Montag, dem 18.08.2025 um 07:44 +0000 schrieb Sakari Ailus:
+> > > > Hi Andr=C3=A9,
+> > > >=20
+> > > > On Sun, Aug 17, 2025 at 07:09:26PM +0200, Andr=C3=A9 Apitzsch via B=
+4
+> > > > Relay wrote:
+> > > > > =C2=A0=C2=A0	u64 val;
+> > > > > =C2=A0=C2=A0	int ret;
+> > > > > =C2=A0=C2=A0	int err;
+> > > > > @@ -109,13 +116,15 @@ static int dw9719_power_up(struct
+> > > > > dw9719_device *dw9719, bool detect)
+> > > > > =C2=A0=C2=A0	if (ret)
+> > > > > =C2=A0=C2=A0		return ret;
+> > > > > -	/* Jiggle SCL pin to wake up device */
+> > > > > -	reg_pwr =3D (dw9719->model =3D=3D DW9718S) ? DW9718S_PD :
+> > > > > DW9719_CONTROL;
+> > > > > -	cci_write(dw9719->regmap, reg_pwr, DW9719_SHUTDOWN,
+> > > > > &ret);
+> > > > > -	fsleep(100);
+> > > > > +	/*
+> > > > > +	 * Need 100us to transition from SHUTDOWN to
+> > > > > STANDBY.
+> > > > > +	 * Jiggle the SCL pin to wake up the device (even
+> > > > > when the
+> > > > > regulator
+> > > > > +	 * is shared) and wait double the time to be sure,
+> > > > > then
+> > > > > retry the write.
+> > > > Why double? Isn't the datasheet correct when it comes to the
+> > > > power-on sequence?
+> > > >=20
+> > > I haven't noticed any problems during power-up of DW9761.
+> > > However, according to the commit message, there seems be an issue
+> > > with DW9718S. But I don't own the device and cannot test it.
+> > >=20
+> > > Maybe Val can provided some additional information.
+> >=20
+> > I haven't had access to the datasheet for the DW9718S, so this was
+> > all deduced experimentally. By "to be sure" I meant that I
+> > literally raised the timeout "just in case", not based on actual
+> > issues.
+> >=20
+> > The actually important change was expecting the failure on the
+> > write and not erroring out.
+>=20
+> Ack.
+>=20
+> Andr=C3=A9: could you add this information to the comment as well?
+
+Could you clarify which information.
+
+Best regards,
+Andr=C3=A9
 
