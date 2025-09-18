@@ -1,246 +1,148 @@
-Return-Path: <linux-media+bounces-42716-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42717-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42B81B8497D
-	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 14:33:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id A162DB849FC
+	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 14:42:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id EB8FB4A6000
-	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 12:33:12 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C0DF81C28675
+	for <lists+linux-media@lfdr.de>; Thu, 18 Sep 2025 12:42:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7471A226CF9;
-	Thu, 18 Sep 2025 12:33:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D191305E28;
+	Thu, 18 Sep 2025 12:40:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Bua0w7TO"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b/u5FJVA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B12419343B
-	for <linux-media@vger.kernel.org>; Thu, 18 Sep 2025 12:33:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C946A305955;
+	Thu, 18 Sep 2025 12:40:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758198786; cv=none; b=SFelE6je7QfCAI3AaiQCVchTAbvnBvJq2MbU5OEMQOgSELPv3iLeTNjwLLDbehzchM7q47wv7bXoSHRSBpNYxblrRUYVykrLXSj/5R9bDQpFRq9E1SYHmuS9CR90wHEasd4CreeeRrZ+O3XkD48/BzaXzaLYUDQRl9WLnNySV6s=
+	t=1758199257; cv=none; b=eOle2vYqxVrrWGnYV29xWe2bilpcRi18qjnWpb+k+V2M6kRXDEd536Ud6hbobH0QYz9u8qItktZRK1YmOat5fFzj6YfaYxxrV0a/oW1fC7rx21lU5Lh8wi6FJaYmEOI56Fp7/4LjBmBj+izaTT72eY/S/KqSYyWJ9avzyqQOEIE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758198786; c=relaxed/simple;
-	bh=S0ukjeBUlQgbB8VU/ktJWfk9YQftp/7kkXmW1UGfxXY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=UpWlhPqg+MUttC/xH9dyz1C2Nc71qVY6syHwnLF/8th3zwxTdD1iwZ1zsOXYv+vxUtypLoGxP4Ttpv68RAObwklC1g+ViX9adnpI1amCQx+zCx4P2k3cBfu2392LNlE5cC/Ce5lqWcqMAErxQyej05+N44EgmQdhzOQmBb2V8i0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Bua0w7TO; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758198785; x=1789734785;
-  h=date:from:to:cc:subject:message-id;
-  bh=S0ukjeBUlQgbB8VU/ktJWfk9YQftp/7kkXmW1UGfxXY=;
-  b=Bua0w7TO8jreMBlyrFAO+zsOTBgTX8+j0X7koX0YqUKfvHqzCCgS/Ajx
-   ozaCUBJz+5L6YwXwey86rD4wuegXiwy5HHCfOh0/iAYTmPVx+st2HGNRa
-   mLpfLUTRqgLVI0tCIz5QOx/xlRWX5VMPMXDo21QH5wlr+LwRpcgNzvMJB
-   pRgksFoD6AuUX4A0HEpdwgiY3AQskVl5PnFRxb6IrAwyEpKh8n0TJwiNe
-   4vJ0N+mpVp8UZoNDn/Ty3QP1akz+rucVU07ohd/4xKmwa0nmsW6JPLAUM
-   WGKcNTuxnre60cZyogeWs5AvZvIEYyGR5WAYdKg7ONkrc5Xvi9LE4vsjB
-   A==;
-X-CSE-ConnectionGUID: W/lgLEjEQkutA0yQZbgF5w==
-X-CSE-MsgGUID: 3drMglpkSeuLH5gl5QBCug==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60579692"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60579692"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Sep 2025 05:33:03 -0700
-X-CSE-ConnectionGUID: y0qNZOBXS/WnkiZsOqMvCw==
-X-CSE-MsgGUID: 2dfqWYltTwyxlhcDkIlOVA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,275,1751266800"; 
-   d="scan'208";a="175453128"
-Received: from lkp-server01.sh.intel.com (HELO 84a20bd60769) ([10.239.97.150])
-  by fmviesa006.fm.intel.com with ESMTP; 18 Sep 2025 05:33:01 -0700
-Received: from kbuild by 84a20bd60769 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uzDop-0003Fn-1K;
-	Thu, 18 Sep 2025 12:32:59 +0000
-Date: Thu, 18 Sep 2025 20:32:06 +0800
-From: kernel test robot <lkp@intel.com>
-To: Hans Verkuil <hverkuil@xs4all.nl>
-Cc: linux-media@vger.kernel.org
-Subject: [linuxtv-media-pending:next] BUILD SUCCESS
- 40b7a19f321e65789612ebaca966472055dab48c
-Message-ID: <202509182058.IdFmlgTX-lkp@intel.com>
-User-Agent: s-nail v14.9.24
+	s=arc-20240116; t=1758199257; c=relaxed/simple;
+	bh=Fy67Bpcow+sbYd0zQkbkLDZGjk5OCr6LRtTAvqhuUkk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XViP4Nc8/WfkKAYa4G4z55AQAXo8p79zr0446HZXyhtgZXm7fs4BMoAS774h+L9pNsk8bYPlKKTtslFbs7CzEGflu2x2PyFTq6STKNdtLvFB69FE6IUjzlJ7JIMBffc726HdN4bNxiizFWaUcushWy03qvZOb+z9Qtwm6X8Ay/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b/u5FJVA; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD314C4CEEB;
+	Thu, 18 Sep 2025 12:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758199257;
+	bh=Fy67Bpcow+sbYd0zQkbkLDZGjk5OCr6LRtTAvqhuUkk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=b/u5FJVACgsU1gswmX10Je7N/J0TCysvxQCe14j1mTmDCmkdVPYWTlFZRCmce944z
+	 H8kJQqf9jxps7CAEFyMQVmnTCSoOAyzWlzQwHDp+ckZC9U9Pt0ZJO4igAgrxeBdynz
+	 rY1Sl6zlo5GtVnfkuW6tO91yOuq/gshnxqQyXd22QTuIhjuKquD7HnrT12eY1NpIuE
+	 kv2Exgs1X4Yb/fnXU1a/jfhZM9HMiHusfEEFY0GHQV+I0d5wZ7mvAPiLrSB+9WP5Al
+	 0nMF9ZJy6FQ/gP/LvDVsXXQ1HONtqI0ZxYMZ6uv8/Dy0qUGFj6S5ClTchnh8cijIqn
+	 Sf3FNh1eZQkwQ==
+Message-ID: <b2c0a1e4-c268-48bc-95bd-636947e0dc0c@kernel.org>
+Date: Thu, 18 Sep 2025 13:40:52 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] media: venus: pm_helpers: add fallback for the
+ opp-table
+To: Renjiang Han <quic_renjiang@quicinc.com>, quic_qiweil@quicinc.com,
+ quic_wangaow@quicinc.com, Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>
+Cc: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+References: <5di_SowJW4SgXVZrLssf1fNjAdBwNmlvzRQGcUEgDCgDfjybvxYFiqW_mrukqvEhO2hM9oFv30ftniWamd-ELQ==@protonmail.internalid>
+ <20250918-fallback_of_opp_table-v3-1-f07b34eb7b3a@quicinc.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20250918-fallback_of_opp_table-v3-1-f07b34eb7b3a@quicinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-tree/branch: https://git.linuxtv.org/media-ci/media-pending.git next
-branch HEAD: 40b7a19f321e65789612ebaca966472055dab48c  media: tuner: xc5000: Fix use-after-free in xc5000_release
-
-Unverified Warning (likely false positive, kindly check if interested):
-
-    arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:0: 'top' was expected
-    arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:1: 'csid0' was expected
-    arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:2: 'csid1' was expected
-    arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:3: 'csiphy0' was expected
-    arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:4: 'csiphy1' was expected
-    arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:5: 'csitpg0' was expected
-    arch/arm64/boot/dts/qcom/qrb2210-rb1.dtb: camss@5c6e000 (qcom,qcm2290-camss): reg-names:6: 'csitpg1' was expected
-
-Warning ids grouped by kconfigs:
-
-recent_errors
-|-- arm64-randconfig-051-20250918
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csid0-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csid1-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csiphy0-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csiphy1-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csitpg0-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csitpg1-was-expected
-|   `-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:top-was-expected
-|-- arm64-randconfig-052-20250918
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csid0-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csid1-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csiphy0-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csiphy1-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csitpg0-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csitpg1-was-expected
-|   `-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:top-was-expected
-|-- arm64-randconfig-053-20250918
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csid0-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csid1-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csiphy0-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csiphy1-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csitpg0-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csitpg1-was-expected
-|   `-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:top-was-expected
-|-- arm64-randconfig-054-20250918
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csid0-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csid1-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csiphy0-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csiphy1-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csitpg0-was-expected
-|   |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csitpg1-was-expected
-|   `-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:top-was-expected
-`-- arm64-randconfig-055-20250918
-    |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csid0-was-expected
-    |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csid1-was-expected
-    |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csiphy0-was-expected
-    |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csiphy1-was-expected
-    |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csitpg0-was-expected
-    |-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:csitpg1-was-expected
-    `-- arch-arm64-boot-dts-qcom-qrb2210-rb1.dtb:camss-5c6e000-(qcom-qcm2290-camss):reg-names:top-was-expected
-
-elapsed time: 1450m
-
-configs tested: 99
-configs skipped: 5
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-arc                               allnoconfig    gcc-15.1.0
-arc                   randconfig-001-20250917    gcc-8.5.0
-arc                   randconfig-002-20250917    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                   randconfig-001-20250917    clang-22
-arm                   randconfig-002-20250917    gcc-12.5.0
-arm                   randconfig-003-20250917    gcc-10.5.0
-arm                   randconfig-004-20250917    clang-22
-arm                           sama5_defconfig    gcc-15.1.0
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20250917    clang-22
-arm64                 randconfig-002-20250917    clang-19
-arm64                 randconfig-003-20250917    gcc-10.5.0
-arm64                 randconfig-004-20250917    clang-22
-csky                              allnoconfig    gcc-15.1.0
-csky                  randconfig-001-20250917    gcc-12.5.0
-csky                  randconfig-002-20250917    gcc-9.5.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-22
-hexagon                          allyesconfig    clang-22
-hexagon               randconfig-001-20250917    clang-22
-hexagon               randconfig-002-20250917    clang-22
-i386        buildonly-randconfig-001-20250917    gcc-14
-i386        buildonly-randconfig-002-20250917    clang-20
-i386        buildonly-randconfig-003-20250917    gcc-14
-i386        buildonly-randconfig-004-20250917    gcc-14
-i386        buildonly-randconfig-005-20250917    gcc-14
-i386        buildonly-randconfig-006-20250917    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch             randconfig-001-20250917    gcc-15.1.0
-loongarch             randconfig-002-20250917    gcc-15.1.0
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-microblaze                          defconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-nios2                             allnoconfig    gcc-11.5.0
-nios2                               defconfig    gcc-11.5.0
-nios2                 randconfig-001-20250917    gcc-11.5.0
-nios2                 randconfig-002-20250917    gcc-8.5.0
-openrisc                          allnoconfig    gcc-15.1.0
-openrisc                         allyesconfig    gcc-15.1.0
-parisc                           allmodconfig    gcc-15.1.0
-parisc                            allnoconfig    gcc-15.1.0
-parisc                              defconfig    gcc-15.1.0
-parisc                randconfig-001-20250917    gcc-14.3.0
-parisc                randconfig-002-20250917    gcc-14.3.0
-parisc64                            defconfig    gcc-15.1.0
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                       holly_defconfig    clang-22
-powerpc                 mpc836x_rdk_defconfig    clang-22
-powerpc               randconfig-001-20250917    clang-18
-powerpc               randconfig-002-20250917    clang-22
-powerpc               randconfig-003-20250917    gcc-9.5.0
-powerpc                     sequoia_defconfig    clang-17
-powerpc64             randconfig-001-20250917    clang-19
-powerpc64             randconfig-002-20250917    gcc-8.5.0
-riscv                             allnoconfig    gcc-15.1.0
-riscv                 randconfig-001-20250917    gcc-14.3.0
-riscv                 randconfig-002-20250917    clang-22
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-s390                  randconfig-001-20250917    clang-22
-s390                  randconfig-002-20250917    gcc-8.5.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                    randconfig-001-20250917    gcc-14.3.0
-sh                    randconfig-002-20250917    gcc-15.1.0
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-sparc                               defconfig    gcc-15.1.0
-sparc                 randconfig-001-20250917    gcc-8.5.0
-sparc                 randconfig-002-20250917    gcc-14.3.0
-sparc64               randconfig-001-20250917    gcc-11.5.0
-sparc64               randconfig-002-20250917    gcc-8.5.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-14
-um                    randconfig-001-20250917    gcc-14
-um                    randconfig-002-20250917    gcc-14
-x86_64                            allnoconfig    clang-20
-x86_64      buildonly-randconfig-001-20250917    gcc-14
-x86_64      buildonly-randconfig-002-20250917    clang-20
-x86_64      buildonly-randconfig-003-20250917    clang-20
-x86_64      buildonly-randconfig-004-20250917    clang-20
-x86_64      buildonly-randconfig-005-20250917    clang-20
-x86_64      buildonly-randconfig-006-20250917    gcc-12
-x86_64                              defconfig    gcc-14
-xtensa                            allnoconfig    gcc-15.1.0
-xtensa                randconfig-001-20250917    gcc-8.5.0
-xtensa                randconfig-002-20250917    gcc-11.5.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+On 18/09/2025 13:01, Renjiang Han wrote:
+> Since the device trees for both HFI_VERSION_1XX and HFI_VERSION_3XX
+> do not include an opp-table and have not configured opp-pmdomain, they
+> still need to use the frequencies defined in the driver's freq_tbl.
+> 
+> Both core_power_v1 and core_power_v4 functions require core_clks_enable
+> function during POWER_ON. Therefore, in the core_clks_enable function,
+> if calling dev_pm_opp_find_freq_ceil to obtain the frequency fails,
+> it needs to fall back to the freq_tbl to retrieve the frequency.
+> 
+> Fixes: b179234b5e59 ("media: venus: pm_helpers: use opp-table for the frequency")
+> Reviewed-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+> Reviewed-by: Vikash Garodia <quic_vgarodia@quicinc.com>
+> Closes: https://lore.kernel.org/linux-media/CA+G9fYu5=3n84VY+vTbCAcfFKOq7Us5vgBZgpypY4MveM=eVwg@mail.gmail.com
+> Signed-off-by: Renjiang Han <quic_renjiang@quicinc.com>
+> ---
+> Since device trees for both HFI_VERSION_1XX and HFI_VERSION_3XX do not
+> contain an opp-table and have not configured opp-pmdomain, they still
+> need to use the frequencies defined in the driver's freq_tbl.
+> 
+> Therefore, if calling dev_pm_opp_find_freq_ceil to obtain the frequency
+> fails in the core_clks_enable, it needs to fall back to the freq_tbl to
+> retrieve the frequency.
+> 
+> Validated this series on QCS615 and msm8916.
+> ---
+> Changes in v3:
+> - 1. Fix patch conflict issue.
+> - Link to v2: https://lore.kernel.org/r/20250724-fallback_of_opp_table-v2-1-2fc61f2407dc@quicinc.com
+> 
+> Changes in v2:
+> - 1. Update the returned error value as per the feedback.
+> - Link to v1: https://lore.kernel.org/r/20250723-fallback_of_opp_table-v1-1-20a6277fdded@quicinc.com
+> ---
+>   drivers/media/platform/qcom/venus/pm_helpers.c | 9 ++++++++-
+>   1 file changed, 8 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+> index 88618378129a086274b61be5b23410783b92ca26..f0269524ac70eb72384a06aa6a215e2046abf5c2 100644
+> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
+> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+> @@ -40,6 +40,8 @@ static int core_clks_get(struct venus_core *core)
+> 
+>   static int core_clks_enable(struct venus_core *core)
+>   {
+> +	const struct freq_tbl *freq_tbl = core->res->freq_tbl;
+> +	unsigned int freq_tbl_size = core->res->freq_tbl_size;
+>   	const struct venus_resources *res = core->res;
+>   	struct device *dev = core->dev;
+>   	unsigned long freq = 0;
+> @@ -48,8 +50,13 @@ static int core_clks_enable(struct venus_core *core)
+>   	int ret;
+> 
+>   	opp = dev_pm_opp_find_freq_ceil(dev, &freq);
+> -	if (!IS_ERR(opp))
+> +	if (IS_ERR(opp)) {
+> +		if (!freq_tbl)
+> +			return -ENODEV;
+> +		freq = freq_tbl[freq_tbl_size - 1].freq;
+> +	} else {
+>   		dev_pm_opp_put(opp);
+> +	}
+> 
+>   	for (i = 0; i < res->clks_num; i++) {
+>   		if (IS_V6(core) || (IS_V4(core) && is_lite(core))) {
+> 
+> ---
+> base-commit: ae2d20002576d2893ecaff25db3d7ef9190ac0b6
+> change-id: 20250918-fallback_of_opp_table-bfae64cca1a0
+> 
+> Best regards,
+> --
+> Renjiang Han <quic_renjiang@quicinc.com>
+> 
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
