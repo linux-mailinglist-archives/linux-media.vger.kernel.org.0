@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-42795-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42796-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87E96B8941F
-	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 13:26:31 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 95CACB894DC
+	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 13:46:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 421CB3A9FEE
-	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 11:26:30 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0ECA5160FDC
+	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 11:46:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16C2830CB4A;
-	Fri, 19 Sep 2025 11:26:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D3BE306B3D;
+	Fri, 19 Sep 2025 11:46:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Guc3mcoR"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hiMSOpMR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0E9246795
-	for <linux-media@vger.kernel.org>; Fri, 19 Sep 2025 11:26:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA0B7199934
+	for <linux-media@vger.kernel.org>; Fri, 19 Sep 2025 11:46:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758281185; cv=none; b=mm5dtaAVKRw71ftI0jC8pup5EH4oF3/a1jB8GvgCWMfm7YUNoPoIIBLP1JxlPM7JqPeKVGAz4mN551kcQ6fJQepJWrEOfBnB9GbHhRLcYJjPzq4yM9/MRqyo515zC2CIgREStWE+olCc/1la9Ouh3bSJjZffibzTOZmjtxlltqI=
+	t=1758282382; cv=none; b=Grkpx3NngXnJlq4TNeweES1gjy010Kg8QlJCx+tUaN5Vlyj+mWWdc2tDwpsEJ6OVjS//Q88QJHTb/iMfktKP4U2bqBitsmqN4vwSgIjGvLjKXC3juiRd651QdEMKrS3u2jM/SPhV2Ra0KUpDdGrkJX/bHZjFBZLlCMF5GKvSUSk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758281185; c=relaxed/simple;
-	bh=hdOaeC5nCqknZuF85ArD+76w7cEGxh38XwhypqGV/Ng=;
+	s=arc-20240116; t=1758282382; c=relaxed/simple;
+	bh=0aTp25XsT3JdXKEtcLovCy8sIzc8eoNAIW3+/u2rJeM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Az8GCdsNmXg9TYZ6FZ8HrqeHIKyrlQyRUp6c3IkiempHCi/z72Frjcqb+IBGSiVjMRvf7ABOhvWahcQPSYbJokSoRKSRJpmUwS4/SYVAa7rCxXgPURA40yLsLWdZmtid2yBBlqkZh+NpFHeMSqH8SaqYO5QMe0RZ72wUrKJCAeg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Guc3mcoR; arc=none smtp.client-ip=198.175.65.15
+	 Content-Type:Content-Disposition:In-Reply-To; b=ovn3KXb+0a/lRY5sZ4apc15q83A0fDE8tajUVNCW5UuxQds6buQiNBSjOkMnXLKySduA4OHkGrD/sccT/z0nyKQu4hT7fd2YfoIRaq4y183EESxIl76NVcwfqA2a1Hln4Lxsr6qgB66hVhuWLHXYCG0wOQS2bgV8pO2IUcKsui4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hiMSOpMR; arc=none smtp.client-ip=198.175.65.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758281183; x=1789817183;
+  t=1758282379; x=1789818379;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hdOaeC5nCqknZuF85ArD+76w7cEGxh38XwhypqGV/Ng=;
-  b=Guc3mcoRjxU8tcK4l49+1ZossubeDRzWiSZCyj/IMoMTcxHAB+tZWWBC
-   BhjWM6+RvernT2Ituf9PtV7MqtjGFD3JqbJ0rdNZPZYrObxUiKZ+4bmjV
-   eYeU5S22EpExiQWF82v9EN+4P1i1AHNCtGlzrSWv+V7wvxtzOqTQXAdUk
-   ABeXxA7L2kQhtOG0NE6pnyqF02oJasYghqS9uCBUD3fGIXqM9zHN+ww4G
-   Ss4ORsmTM9S+n8CPjtM5PF0fE11Q1jxD9L+3WgX/Pa4eMbpGHaeQRXpP+
-   175rJp2me2HbwHz4GNnPkIb2inNujGyt6QiEjwFGfvrJEe0/PSyQBva3t
-   A==;
-X-CSE-ConnectionGUID: qQSr1jXcTICwMcHed3qdJA==
-X-CSE-MsgGUID: J/qM+kZcQ72F411ls7tSDA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="64265459"
+  bh=0aTp25XsT3JdXKEtcLovCy8sIzc8eoNAIW3+/u2rJeM=;
+  b=hiMSOpMR6KHMVb3Te7HViN3yy0jh3C18QaqI/ylYSGbkOkdLsjhOYs/3
+   VSLJPHXXodwygeereU+pkq0hhfGzo0Ad3TJLFUwvp/RvnM3XwGnzJz4ah
+   6zj6ANzp71Jn+tUmkh8kL0UACiYezqUydfTdRBMhQK4FTzD8I8ZOCrdRy
+   0Gkle9/XA5tgMEmmN6oBk0QeKz9rjCflMJRpTux1OoALodQv2yUip/+43
+   8plrogwhguwnxpv45yDNyNdOUO8t+t7rpO3DTXyLa2XKzzHfakD0sKcxE
+   rfPhReBsaTTETH+WU5ra5lwYVV+2+3ZNa277/PDrUwsJW4NXdzZvZColl
+   g==;
+X-CSE-ConnectionGUID: a5fDykwgRiWZeU8dyN8IjQ==
+X-CSE-MsgGUID: ux2eoKmCRveHzpcKPlIWrw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="72056704"
 X-IronPort-AV: E=Sophos;i="6.18,277,1751266800"; 
-   d="scan'208";a="64265459"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 04:26:22 -0700
-X-CSE-ConnectionGUID: KE0ZIQP1TtGlcX/ZTdPZXQ==
-X-CSE-MsgGUID: xtZCG8liSx2Ae8zEL0gbgQ==
+   d="scan'208";a="72056704"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 04:46:18 -0700
+X-CSE-ConnectionGUID: Kkmx7c2ZSI6cehvMauGNDw==
+X-CSE-MsgGUID: Jaqt5mWoS0enG8lT79Ca7Q==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,277,1751266800"; 
-   d="scan'208";a="199520753"
+   d="scan'208";a="206574622"
 Received: from ettammin-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.108])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 04:26:15 -0700
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 04:46:11 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 95E8911F982;
-	Fri, 19 Sep 2025 14:26:12 +0300 (EEST)
-Date: Fri, 19 Sep 2025 14:26:12 +0300
+	by kekkonen.fi.intel.com (Postfix) with SMTP id CD25D11F982;
+	Fri, 19 Sep 2025 14:46:08 +0300 (EEST)
+Date: Fri, 19 Sep 2025 14:46:08 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
@@ -91,15 +91,14 @@ Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 	Ricardo Ribalda Delgado <ribalda@kernel.org>,
 	Hans de Goede <hdegoede@redhat.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 25/66] media: Documentation: v4l: Document internal
- sink pads
-Message-ID: <aM091Lloh8yceLn7@kekkonen.localdomain>
+Subject: Re: [PATCH v11 26/66] media: Documentation: Document embedded data
+ guidelines for camera sensors
+Message-ID: <aM1CgGRceRwqvL5q@kekkonen.localdomain>
 References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-26-sakari.ailus@linux.intel.com>
- <6z6xfkco4aiwolh6by4srcu7ec2zwzy3c4psptmm5hxlaqnc3e@wlo6k35pcsys>
- <aLgx2XqEtd7Uh2w3@kekkonen.localdomain>
- <by4ftedqmvek3mqxv7zqizhyreotdyd2yoakcf2td5y52t5tzd@acibdthu3adr>
- <20250903202426.GV3648@pendragon.ideasonboard.com>
+ <20250825095107.1332313-27-sakari.ailus@linux.intel.com>
+ <wsa4s2ele6nejp5jcca5ny44oerwxdnyjn2ggxu6e2x5yqlm4g@vihn6rrtdnkg>
+ <aLhEiMQSp23ZCffK@kekkonen.localdomain>
+ <20250903204059.GW3648@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -108,402 +107,89 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250903202426.GV3648@pendragon.ideasonboard.com>
+In-Reply-To: <20250903204059.GW3648@pendragon.ideasonboard.com>
 
 Hi Laurent,
 
-On Wed, Sep 03, 2025 at 10:24:26PM +0200, Laurent Pinchart wrote:
-> On Wed, Sep 03, 2025 at 02:29:09PM +0200, Jacopo Mondi wrote:
-> > On Wed, Sep 03, 2025 at 03:17:29PM +0300, Sakari Ailus wrote:
-> > > On Mon, Sep 01, 2025 at 06:39:29PM +0200, Jacopo Mondi wrote:
-> > > > On Mon, Aug 25, 2025 at 12:50:26PM +0300, Sakari Ailus wrote:
-> > > > > Document internal sink pads, pads that have both SINK and INTERNAL flags
-> > > > > set. Use the IMX219 camera sensor as an example.
-> > > > >
-> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > Reviewed-by Julien Massot <julien.massot@collabora.com>
-> > > > > ---
-> > > > >  .../userspace-api/media/v4l/dev-subdev.rst    | 151 ++++++++++++++++++
-> > > > >  .../media/v4l/ext-ctrls-image-source.rst      |   2 +
-> > > > >  2 files changed, 153 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > index 4da67ee0b290..bb86cadfad1c 100644
-> > > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > @@ -553,6 +553,27 @@ A stream at a specific point in the media pipeline is identified by the
-> > > > >  sub-device and a (pad, stream) pair. For sub-devices that do not support
-> > > > >  multiplexed streams the 'stream' field is always 0.
-> > > > >
-> > > > > +.. _v4l2-subdev-internal-source-pads:
-> > > > > +
-> > > > > +Internal sink pads and routing
-> > > > > +------------------------------
-> > > > > +
-> > > > > +Cases where a single sub-device source pad is traversed by multiple streams, one
-> 
-> s/is traversed by/carries/
-
-Sounds good.
-
-> 
-> > > > > +or more of which originate from within the sub-device itself, are special as
-> > > > > +there is no external sink pad for such routes. In those cases, the sources of
-> > > > > +the internally generated streams are represented by internal sink pads, which
-> > > > > +are sink pads that have the :ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`
-> > > > > +pad flag set.
-> > > > > +
-> > > > > +Internal pads have all the properties of an external pad, including formats and
-> > > > > +selections. The format in this case is the source format of the stream. An
-> 
-> I'd add "[...] and selections, but can not be connect to other subdevs
-> through links."
-> 
-> > > > > +internal pad always has a single stream only (0).
-> 
-> I already have one use case (related to HDR) that could violate this
-> rule. I'm fine with it for now, we can always relax it later, but I'd
-> like to know your opinion on the concept.
-
-I'd really keep internal pads single-stream only.
-
-> 
-> > > > > +
-> > > > > +Routes from an internal sink pad to an external source pad are typically not
-> > > > > +modifiable but they can be activated and deactivated using the
-> > > > > +:ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
-> > > > > +on driver capabilities.
+On Wed, Sep 03, 2025 at 10:40:59PM +0200, Laurent Pinchart wrote:
+> On Wed, Sep 03, 2025 at 04:37:12PM +0300, Sakari Ailus wrote:
+> > On Mon, Sep 01, 2025 at 06:42:33PM +0200, Jacopo Mondi wrote:
+> > > On Mon, Aug 25, 2025 at 12:50:27PM +0300, Sakari Ailus wrote:
+> > > > Document how embedded data support should be implemented for camera
+> > > > sensors, and when and how CCS embedded data layout should be referenced.
 > > > >
-> > > > Ah, so they are modifiable :)
-> 
-> I was going to mention the same :-)
-> 
-> > > > What about
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > Reviewed-by: Julien Massot <julien.massot@collabora.com>
+> > > > ---
+> > > >  .../media/drivers/camera-sensor.rst           | 20 +++++++++++++++++++
+> > > >  1 file changed, 20 insertions(+)
 > > > >
-> > > > Routes from an internal sink pad to an external source pad are
-> > > > typically created by the driver and can be activated and deactivated
-> > > > using the :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > > > <v4l2-subdev-routing-flags>` flag, depending on the device
-> > > > capabilities.
-> 
-> I'd drop "typically" as (I think) they are always created by the driver.
-> We could use the word "static" already.
-> 
-> Routes from an internal sink pad to an external source pad are
-> statically created by the driver. They are or are not immutable
-
-The connection of "statically" to a sub-device route flag is unclear. The
-same goes for immutable. (See below.)
-
-> depending on the device capabities. The routes that are not immutable
-> can be activated and deactivated using the
-> :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag.
-> 
-> (we could possibly drop the last sentence as it's implied by not being
-> immutable, but it doesn't hurt to have the information here)
-
-We don't have these flags yet, they're added by later patches in the
-series. I can add another patch to refer to these.
-
-> 
-> > > I'll use that.
-> > >
-> > > > > +
-> > > > >  Interaction between routes, streams, formats and selections
-> > > > >  -----------------------------------------------------------
-> > > > >
-> > > > > @@ -695,3 +716,133 @@ To configure this pipeline, the userspace must take the following steps:
-> > > > >     the configurations along the stream towards the receiver, using
-> > > > >     :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
-> > > > >     stream endpoint in each sub-device.
-> > > > > +
-> > > > > +   In case generic raw and metadata formats are used,
-> > > > > +   :ref:`V4L2_CID_COLOR_PATTERN <image-source-control-color-pattern>` and
-> > > > > +   :ref:`V4L2_CID_METADATA_LAYOUT <image_source_control_metadata_layout>`
-> > > > > +   controls are present on the source sub-device to obtain the pixel data color
-> > > > > +   pattern and metadata layout.
-> 
-> s/pixel data color pattern/pixel array CFA pattern/
-> 
-> (or you can spell out color filter array)
-
-I'm fine with CFA.
-
-I'll add CFA to the glossary, too.
-
-> 
-> > > > > +
-> > > > > +Internal pads setup example
-> > > > > +---------------------------
-> > > > > +
-> > > > > +A simple example of a multiplexed stream setup might be as follows:
-> > > > > +
-> > > > > +- An IMX219 camera sensor source sub-device, with one source pad (0), one
-> > > >
-> > > > s/sensor source/sensor/
-> > >
-> > > Source sub-device is referred to in documentation elsewhere; I think it's
-> > > appropriate here, too.
-> > >
-> > > > Should we even mention imx219 or can this be a generic "RAW camera
-> > > > sensor" ?
-> > >
-> > > As this is an example, I think it's a good idea to use an actual device and
-> > > a driver that has support for internal pads.
-> > >
-> > > > > +  internal sink pad (1) as the source of the image data and an internal sink
-> > > > > +  pad (2) as the source of the embedded data. There are two routes, one from the
-> > > >
-> > > > I would provide a rational for the reason why the external source pad
-> > > > is preferably assigned to id 0.
-> > > >
-> > > >    - A RAW camera sensor driver modeled as a single sub-device with
-> > > >      three pads. The external source pas is assigned id #0 for
-> > > >      compatibility reasons with existing user-space applications
-> > > >      developed to work on drivers that pre-dates the introduction of
-> > > >      internal pads, where the only available pad was the external
-> > > >      source one. The sub-device also has two internal sink pads, pad
-> > > >      #1 that represents the pixel array and produces image data and
-> > > >      pad #2 that produces embedded data.
-> > >
-> > > I'd put this to driver documentation as it's not part of the UAPI.
+> > > > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > > index a8e0e4accbc9..a719c6f88f11 100644
+> > > > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > > @@ -117,3 +117,23 @@ register programming sequences shall initialize the :ref:`V4L2_CID_HFLIP
+> > > >  values programmed by the register sequences. The default values of these
+> > > >  controls shall be 0 (disabled). Especially these controls shall not be inverted,
+> > > >  independently of the sensor's mounting rotation.
+> > > > +
+> > > > +Embedded data
+> > > > +-------------
+> > > > +
+> > > > +Many sensors, mostly raw sensors, support embedded data which is used to convey
+> > > > +the sensor configuration for the captured frame back to the host. While CSI-2 is
+> > > > +the most common data interface used by such sensors, embedded data can be
+> > > > +available on other interfaces as well.
+> > > > +
+> > > > +Embedded data support is indicated by the presence of an internal sink pad (pad
+> > > > +that has both the ``MEDIA_PAD_FL_SINK <MEDIA-PAD-FL-SINK>`` and
+> > > > +``MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`` flags set) with a metadata
+> > > 
+> > > These are rendered as verbatim text, not links
 > > 
-> > mmmm, it's true we don't mandate for new drivers to have
-> > the source pad at index #0, and it's done only for existing drivers..
-> > Adn userspace should not make assumptions about pad numbers but rather
-> > inspect the per-pad flags to know which one is the external source pad.
+> > Will fix for v12.
 > > 
-> > So yes, it's no uAPI you're right.
-> 
-> That may be possible for camera sensors, but in general the pad numbers
-> may be part of the UAPI as there may not be any other way to tell pads
-> apart on some subdevs.
-> 
-> For camera sensors, I would document the pad numbers explicitly in the
-> raw camera sensor subdev configuration model, and make them part of the
-> UAPI. I wouldn't explain the rationale here.
-
-I understand the patch is currently aligned with this.
-
-> 
-> > > >
-> > > >      There are two routes, one from the internal sink pad 1...
-> > > >
-> > > > > +  internal sink pad 1 to the source pad 0 (image data) and another from the
-> > > > > +  internal sink pad 2 to the source pad 0 (embedded data). Both streams are
-> > > > > +  always active, i.e. there is no need to separately enable the embedded data
-> > > > > +  stream. The sensor uses the CSI-2 interface.
-> > > > > +
-> > > > > +- A CSI-2 receiver in the SoC. The receiver has a single sink pad (pad 0),
-> > > > > +  connected to the sensor, and two source pads (pads 1 and 2), to the two DMA
-> 
-> s/the sensor/the sensor's source pad (0)/
-> s/the two/two/
-> 
-> > > > > +  engines. The receiver demultiplexes the incoming streams to the source pads.
-> > > > > +
-> > > > > +- DMA engines in the SoC, one for each stream. Each DMA engine is connected to a
-> 
-> s/DMA engines/Two DMA engines/
-> 
-> > > > > +  single source pad of the receiver.
-> 
-> s/single/different/
-> 
-> > > > > +
-> > > > > +The sensor and the receiver are modelled as V4L2 sub-devices, exposed to
-> > > > > +userspace via /dev/v4l-subdevX device nodes. The DMA engines are modelled as
-> > > > > +V4L2 devices, exposed to userspace via /dev/videoX nodes.
-> 
-> s/V4L2 devices/V4L2 video devices/
-
-Yes.
-
-> 
-> > > > > +
-> > > > > +To configure this pipeline, the userspace must take the following steps:
-> > > > > +
-> > > > > +1) Set up media links between entities: enable the links from the sensor to the
-> > > > > +   receiver and from the receiver to the DMA engines. This step does not differ
-> > > > > +   from normal non-multiplexed media controller setup.
-> > > > > +
-> > > > > +2) Configure routing
-> > > > > +
-> > > > > +.. flat-table:: Camera sensor. There are no configurable routes.
-> > > > > +    :header-rows: 1
-> > > > > +
-> > > > > +    * - Sink Pad/Stream
-> > > > > +      - Source Pad/Stream
-> > > > > +      - Routing Flags
-> > > > > +      - Comments
-> > > > > +    * - 1/0
-> > > > > +      - 0/0
-> > > > > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > > >
-> > > > Is this also V4L2_SUBDEV_ROUTE_FL_IMMUTABLE ?
-> > >
-> > > Yes, and V4L2_SUBDEV_ROUTE_FL_STATIC. I'll update the example.
-> > >
-> > > In practice the patch needs to be moved forwards in the set so we'll have
-> > > all the flags.
+> > > > +format to model the embedded data stream. If the sub-device driver supports
+> > > > +disabling embedded data, this can be done by disabling the embedded data route
+> > > > +via the ``VIDIOC_SUBDEV_S_ROUTING`` IOCTL.
+> > > > +
+> > > > +In general, changing the embedded data layout from the driver-configured values
+> > > > +is not supported. The height of the metadata is device-specific and the width
+> > > > +is that (or less of that) of the image width, as configured on the pixel data
+> > > 
+> > > s/is that (or less of that) of/is the same (or smaller) than/
+> > > 
+> > > reads better in my possibily broke English
 > > 
-> > Yeah, I noticed later those two flags have been introduced later in
-> > the series..
+> > How about:
 > > 
-> > > > > +      - Pixel data stream from the internal image sink pad
-> > > > > +    * - 2/0
-> > > > > +      - 0/1
-> > > > > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > The height of the metadata is device-specific and equal to or less than the
+> > image width, as configured on the pixel data stream.
 > 
-> I assume this one is also static and immutable.
-
-Yes, it is.
-
+> That doesn't sound right. "The *height* is [...] than the image
+> *width*". I'll give it a try:
 > 
-> > > > > +      - Metadata stream from the internal embedded data sink pad
-> > > > > +
-> > > > > +The options available in the sensor's routing configuration are dictated by
-> > > > > +hardware capabilities: typically camera sensors always produce an image data
-> > > >
-> > > > s/typically/some
-> > >
-> > > "Some" would suggest this may not be very common whereas I think this
-> > > applies virtually to all camera sensors.
-> > 
-> > Ok!
-> > 
-> > > > > +stream while it may be possible to enable and disable the embedded data stream.
+> ----
+> In general, changing the embedded data layout from the driver-configured
+> values is not supported. The height of the metadata is typically a small
+> fixed device-specific value, and the width is equal to the image width,
+> as configured on the pixel data.
+> ----
 > 
-> The section provides one particular example, based on the imx219, and
-> then this paragraph documents a more generic concept. It's unclear if it
-> applies to the imx219 as well. If you want to keep it, I would phrase it
-> along the lines of
-> 
-> While both routes are immutable for the IMX219, other camera sensors may
-> offer more flexible configuration options. Routing configuration is
-> dictated by the hardware capabilities: camera sensors typically always
-> produce an image data stream, but some of them support enabling and
-> disabling the embedded data stream.
+> That drops the "or less" though. When is the embedded data width smaller
+> than the image data width, and is it configurable in that case, or does
+> it have a fixed value that depends on the image data width ?
 
-I'll use this.
+The text is fine but I think we should add "or less". E.g. the ov2740
+embedded data lines are shorter than the image and that is also common
+elsewhere, too.
 
-> 
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+I used this:
 
-Thank you.
+In general, changing the embedded data layout from the driver-configured values
+is not supported. The height of the metadata is device-specific and equal to or
+less than the image width, as configured on the pixel data stream.
 
-I've split the patch into two so I'll add the ack on both.
-
-> 
-> > > >
-> > > > s/it may be possible/other might allow
-> > > >
-> > > > if you accept my suggestion in the line above
-> > > >
-> > > > > +
-> > > > > +.. flat-table:: Receiver routing table. Typically both routes need to be
-> > > > > +		explicitly set.
-> > > >
-> > > > set or enabled ?
-> > >
-> > > On the receiver side, the routes are also created, not just enabled. I'll
-> > > use "created".
-> > 
-> > fine as well
-> > 
-> > > > > +    :header-rows:  1
-> > > > > +
-> > > > > +    * - Sink Pad/Stream
-> > > > > +      - Source Pad/Stream
-> > > > > +      - Routing Flags
-> > > > > +      - Comments
-> > > > > +    * - 0/0
-> > > > > +      - 1/0
-> > > > > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > > > > +      - Pixel data stream from camera sensor
-> > > > > +    * - 0/1
-> > > > > +      - 2/0
-> > > > > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
-> > > > > +      - Metadata stream from camera sensor
-> > > > > +
-> > > > > +3) Configure formats and selections
-> > > > > +
-> > > > > +   This example assumes that the formats are propagated from sink pad to the
-> > > > > +   source pad as-is. The tables contain fields of both struct v4l2_subdev_format
-> > > > > +   and struct v4l2_mbus_framefmt.
-> > > > > +
-> > > > > +.. flat-table:: Formats set on the sub-devices. Bold values are set, others are
-> > > > > +                static or propagated. The order is aligned with configured
-> > > > > +                routes.
-> > > > > +    :header-rows: 1
-> > > > > +    :fill-cells:
-> > > > > +
-> > > > > +    * - Sub-device
-> > > > > +      - Pad/Stream
-> > > > > +      - Width
-> > > > > +      - Height
-> > > > > +      - Code
-> > > > > +    * - :rspan:`3` IMX219
-> > > >
-> > > > If you want to make this generic, I would replace IMX219 with just
-> > > > "Sensor"
-> > > >
-> > > > > +      - 1/0
-> > > > > +      - 3296
-> > > > > +      - 2480
-> > > > > +      - MEDIA_BUS_FMT_RAW_10
-> > > > > +    * - 0/0
-> > > > > +      - **3296**
-> > > > > +      - **2480**
-> > > > > +      - **MEDIA_BUS_FMT_RAW_10**
-> > > > > +    * - 2/0
-> > > > > +      - 3296
-> > > > > +      - 2
-> > > > > +      - MEDIA_BUS_FMT_META_10
-> > > > > +    * - 0/1
-> > > > > +      - 3296
-> > > > > +      - 2
-> > > > > +      - MEDIA_BUS_FMT_META_10
-> > > > > +    * - :rspan:`3` CSI-2 receiver
-> > > > > +      - 0/0
-> > > > > +      - **3296**
-> > > > > +      - **2480**
-> > > > > +      - **MEDIA_BUS_FMT_RAW_10**
-> > > > > +    * - 1/0
-> > > > > +      - 3296
-> > > > > +      - 2480
-> > > > > +      - MEDIA_BUS_FMT_RAW_10
-> > > > > +    * - 0/1
-> > > > > +      - **3296**
-> > > > > +      - **2**
-> > > > > +      - **MEDIA_BUS_FMT_META_10**
-> > > > > +    * - 2/0
-> > > > > +      - 3296
-> > > > > +      - 2
-> > > > > +      - MEDIA_BUS_FMT_META_10
-> > > > > +
-> > > > > +The embedded data format does not need to be configured on the sensor's pads as
-> > > > > +the format is dictated by the pixel data format in this case.
-> > > > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > > > index 64c0f9ff5b1b..d803a2f0f2f9 100644
-> > > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > > > @@ -146,6 +146,8 @@ Image Source Control IDs
-> > > > >      ``V4L2_COLOR_PATTERN_FLIP_HORIZONTAL`` and
-> > > > >      ``V4L2_COLOR_PATTERN_FLIP_VERTICAL`` is provided as well.
-> > > > >
-> > > > > +.. _image_source_control_metadata_layout:
-> > > > > +
-> > > >
-> > > > All comments I made are just suggestions, so take in what you like.
-> > > >
-> > > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > >
-> > > Thanks!
-> > >
-> > > > >  ``V4L2_CID_METADATA_LAYOUT (integer)``
-> > > > >      The metadata layout control defines the on-bus metadata layout for metadata
-> > > > >      streams. The control is used in conjunction with :ref:`generic metadata
 
 -- 
 Regards,
