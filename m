@@ -1,201 +1,512 @@
-Return-Path: <linux-media+bounces-42794-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42795-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A466B891FB
-	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 12:45:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 87E96B8941F
+	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 13:26:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 53FD51CC14B9
-	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 10:46:10 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 421CB3A9FEE
+	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 11:26:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 697FF30ACFA;
-	Fri, 19 Sep 2025 10:45:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16C2830CB4A;
+	Fri, 19 Sep 2025 11:26:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QlEuOG65"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Guc3mcoR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBF72BEC59
-	for <linux-media@vger.kernel.org>; Fri, 19 Sep 2025 10:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6C0E9246795
+	for <linux-media@vger.kernel.org>; Fri, 19 Sep 2025 11:26:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758278743; cv=none; b=aYuCn/MLOm+VVvHD/n/dEZIVjwl+k2MGE8F/fyqSCCq0dl4IKzhdxoH14fdt/zoB3wQUi9pG68qZBuqKGUyDePzAswrHLrbBTRdfmq89vo2FaKwcIWaUpKoXO9bysWwbcnLe6g1uESlGPZ5OSE9s9EWWE2LH/EhXLde4h+HE3MI=
+	t=1758281185; cv=none; b=mm5dtaAVKRw71ftI0jC8pup5EH4oF3/a1jB8GvgCWMfm7YUNoPoIIBLP1JxlPM7JqPeKVGAz4mN551kcQ6fJQepJWrEOfBnB9GbHhRLcYJjPzq4yM9/MRqyo515zC2CIgREStWE+olCc/1la9Ouh3bSJjZffibzTOZmjtxlltqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758278743; c=relaxed/simple;
-	bh=Z/95kFtj+EpEUZDWc6L2nInAUcfB2yavwYIE9LS/m6M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fyaZ9Nw7CLqneXBZdmjF7c1JQSo9vST5eJ7NIBp9aOVLkmLfzWpPYsAuUxN1P9gSOMTnl7kpN8jmvRbpFHdRMp9aNjmoGQ9QzfVIQpbArPYR/apkPXYIIy8teQ26Mc/ieO1vKEVOoPB27zYljxMMiJG3Vn5ryPk3TRitJ9KmCok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QlEuOG65; arc=none smtp.client-ip=192.198.163.8
+	s=arc-20240116; t=1758281185; c=relaxed/simple;
+	bh=hdOaeC5nCqknZuF85ArD+76w7cEGxh38XwhypqGV/Ng=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Az8GCdsNmXg9TYZ6FZ8HrqeHIKyrlQyRUp6c3IkiempHCi/z72Frjcqb+IBGSiVjMRvf7ABOhvWahcQPSYbJokSoRKSRJpmUwS4/SYVAa7rCxXgPURA40yLsLWdZmtid2yBBlqkZh+NpFHeMSqH8SaqYO5QMe0RZ72wUrKJCAeg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Guc3mcoR; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758278742; x=1789814742;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=Z/95kFtj+EpEUZDWc6L2nInAUcfB2yavwYIE9LS/m6M=;
-  b=QlEuOG65hLV5cM7WghPD1C137vxsitakuCKaxqbGd068Wg+HSp7te0MK
-   T8wj8LgyTqwUx/NNOlP9qCmJh4leR9LTAcmBi9GN7H6msYqKUoc9lSCBU
-   TL0gDRWnmecACi4n8cA3tEhksWT+uyNiF/JxGbUhLpKyp1T3lLzRn38MS
-   +7PdLmmIndl17Yo6KwrcBMD/h6UEORBDbur+kqlhzWEjFnXOw/DiAsMKT
-   3fj5hGChvlwZ7tQ8OBz7j1A32wCXsizKBnv+xz0yzLkOAklAJ/aMt/Aw1
-   xvbW0ko1GCfkCG/zINSaaI0wWUbogf85zUvd91A/ae2cawbvmSeqTzoes
-   w==;
-X-CSE-ConnectionGUID: /uy96pp9QmW59DXTHTMqqw==
-X-CSE-MsgGUID: hturH45PQy2Ee41jYk2USw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="78230971"
+  t=1758281183; x=1789817183;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=hdOaeC5nCqknZuF85ArD+76w7cEGxh38XwhypqGV/Ng=;
+  b=Guc3mcoRjxU8tcK4l49+1ZossubeDRzWiSZCyj/IMoMTcxHAB+tZWWBC
+   BhjWM6+RvernT2Ituf9PtV7MqtjGFD3JqbJ0rdNZPZYrObxUiKZ+4bmjV
+   eYeU5S22EpExiQWF82v9EN+4P1i1AHNCtGlzrSWv+V7wvxtzOqTQXAdUk
+   ABeXxA7L2kQhtOG0NE6pnyqF02oJasYghqS9uCBUD3fGIXqM9zHN+ww4G
+   Ss4ORsmTM9S+n8CPjtM5PF0fE11Q1jxD9L+3WgX/Pa4eMbpGHaeQRXpP+
+   175rJp2me2HbwHz4GNnPkIb2inNujGyt6QiEjwFGfvrJEe0/PSyQBva3t
+   A==;
+X-CSE-ConnectionGUID: qQSr1jXcTICwMcHed3qdJA==
+X-CSE-MsgGUID: J/qM+kZcQ72F411ls7tSDA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="64265459"
 X-IronPort-AV: E=Sophos;i="6.18,277,1751266800"; 
-   d="scan'208";a="78230971"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 03:45:41 -0700
-X-CSE-ConnectionGUID: KJfJ+BRyRQy8doZMDMWzGQ==
-X-CSE-MsgGUID: yRcK4vDpSQeX48ybd5leLA==
+   d="scan'208";a="64265459"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 04:26:22 -0700
+X-CSE-ConnectionGUID: KE0ZIQP1TtGlcX/ZTdPZXQ==
+X-CSE-MsgGUID: xtZCG8liSx2Ae8zEL0gbgQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,277,1751266800"; 
-   d="scan'208";a="206566947"
-Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.245.148])
-  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 03:45:37 -0700
-From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-To: Sumit Semwal <sumit.semwal@linaro.org>,
-	Gustavo Padovan <gustavo@padovan.org>
-Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Maarten Lankhorst <maarten.lankhorst@canonical.com>,
-	John Stultz <john.stultz@linaro.org>,
-	Simona Vetter <simona.vetter@ffwll.ch>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-Subject: [PATCH] dma-buf/sw-sync: Fix interrupts disabled excessively long
-Date: Fri, 19 Sep 2025 12:44:47 +0200
-Message-ID: <20250919104503.1388351-2-janusz.krzysztofik@linux.intel.com>
-X-Mailer: git-send-email 2.51.0
+   d="scan'208";a="199520753"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.108])
+  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 04:26:15 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 95E8911F982;
+	Fri, 19 Sep 2025 14:26:12 +0300 (EEST)
+Date: Fri, 19 Sep 2025 14:26:12 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 25/66] media: Documentation: v4l: Document internal
+ sink pads
+Message-ID: <aM091Lloh8yceLn7@kekkonen.localdomain>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-26-sakari.ailus@linux.intel.com>
+ <6z6xfkco4aiwolh6by4srcu7ec2zwzy3c4psptmm5hxlaqnc3e@wlo6k35pcsys>
+ <aLgx2XqEtd7Uh2w3@kekkonen.localdomain>
+ <by4ftedqmvek3mqxv7zqizhyreotdyd2yoakcf2td5y52t5tzd@acibdthu3adr>
+ <20250903202426.GV3648@pendragon.ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250903202426.GV3648@pendragon.ideasonboard.com>
 
-When multiple fences of an sw_sync timeline are signaled via
-sw_sync_ioctl_inc(), we now disable interrupts and keep them disabled
-while signaling all requested fences of the timeline in a loop.  Since
-user space may set up an arbitrary long timeline of fences with
-arbitrarily expensive callbacks added to each fence, we may end up running
-with interrupts disabled for too long, longer than NMI watchdog limit.
-That potentially risky scenario has been demonstrated on Intel DRM CI
-trybot[1], on a low end machine fi-pnv-d510, with one of new IGT subtests
-that try to reimplement wait_* test cases of a dma_fence_chain selftest in
-user space.
+Hi Laurent,
 
-[141.993704] [IGT] syncobj_timeline: starting subtest stress-enable-all-signal-all-forward
-[164.964389] watchdog: CPU3: Watchdog detected hard LOCKUP on cpu 3
-[164.964407] Modules linked in: snd_hda_codec_alc662 snd_hda_codec_realtek_lib snd_hda_codec_generic snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_timer snd soundcore i915 prime_numbers ttm drm_buddy drm_display_helper cec rc_core i2c_algo_bit video wmi overlay at24 ppdev gpio_ich binfmt_misc nls_iso8859_1 coretemp i2c_i801 i2c_mux i2c_smbus r8169 lpc_ich realtek parport_pc parport nvme_fabrics dm_multipath fuse msr efi_pstore nfnetlink autofs4
-[164.964569] irq event stamp: 1002206
-[164.964575] hardirqs last  enabled at (1002205): [<ffffffff82898ac7>] _raw_spin_unlock_irq+0x27/0x70
-[164.964599] hardirqs last disabled at (1002206): [<ffffffff8287d021>] sysvec_irq_work+0x11/0xc0
-[164.964616] softirqs last  enabled at (1002138): [<ffffffff81341bc5>] fpu_clone+0xb5/0x270
-[164.964631] softirqs last disabled at (1002136): [<ffffffff81341b97>] fpu_clone+0x87/0x270
-[164.964650] CPU: 3 UID: 0 PID: 1515 Comm: syncobj_timelin Tainted: G     U              6.17.0-rc6-Trybot_154715v1-gc1b827f32471+ #1 PREEMPT(voluntary)
-[164.964662] Tainted: [U]=USER
-[164.964665] Hardware name:  /D510MO, BIOS MOPNV10J.86A.0311.2010.0802.2346 08/02/2010
-[164.964669] RIP: 0010:lock_release+0x13d/0x2a0
-[164.964680] Code: c2 01 48 8d 4d c8 44 89 f6 4c 89 ef e8 bc fc ff ff 0b 05 96 ca 42 06 0f 84 fc 00 00 00 b8 ff ff ff ff 65 0f c1 05 0b 71 a9 02 <83> f8 01 0f 85 2f 01 00 00 48 f7 45 c0 00 02 00 00 74 06 fb 0f 1f
-[164.964686] RSP: 0018:ffffc90000170e70 EFLAGS: 00000057
-[164.964693] RAX: 0000000000000001 RBX: ffffffff83595520 RCX: 0000000000000000
-[164.964698] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-[164.964701] RBP: ffffc90000170eb0 R08: 0000000000000000 R09: 0000000000000000
-[164.964706] R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff8226a948
-[164.964710] R13: ffff88802423b340 R14: 0000000000000001 R15: ffff88802423c238
-[164.964714] FS:  0000729f4d972940(0000) GS:ffff8880f8e77000(0000) knlGS:0000000000000000
-[164.964720] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-[164.964725] CR2: 0000729f4d92e720 CR3: 000000003afe4000 CR4: 00000000000006f0
-[164.964729] Call Trace:
-[164.964734]  <IRQ>
-[164.964750]  dma_fence_chain_get_prev+0x13d/0x240
-[164.964769]  dma_fence_chain_walk+0xbd/0x200
-[164.964784]  dma_fence_chain_enable_signaling+0xb2/0x280
-[164.964803]  dma_fence_chain_irq_work+0x1b/0x80
-[164.964816]  irq_work_single+0x75/0xa0
-[164.964834]  irq_work_run_list+0x33/0x60
-[164.964846]  irq_work_run+0x18/0x40
-[164.964856]  __sysvec_irq_work+0x35/0x170
-[164.964868]  sysvec_irq_work+0x9b/0xc0
-[164.964879]  </IRQ>
-[164.964882]  <TASK>
-[164.964890]  asm_sysvec_irq_work+0x1b/0x20
-[164.964900] RIP: 0010:_raw_spin_unlock_irq+0x2d/0x70
-[164.964907] Code: 00 00 55 48 89 e5 53 48 89 fb 48 83 c7 18 48 8b 75 08 e8 06 63 bf fe 48 89 df e8 be 98 bf fe e8 59 ee d3 fe fb 0f 1f 44 00 00 <65> ff 0d 5c 85 68 01 74 14 48 8b 5d f8 c9 31 c0 31 d2 31 c9 31 f6
-[164.964913] RSP: 0018:ffffc9000070fca0 EFLAGS: 00000246
-[164.964919] RAX: 0000000000000000 RBX: ffff88800c2d8b10 RCX: 0000000000000000
-[164.964923] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-[164.964927] RBP: ffffc9000070fca8 R08: 0000000000000000 R09: 0000000000000000
-[164.964931] R10: 0000000000000000 R11: 0000000000000000 R12: ffff88800c2d8ac0
-[164.964934] R13: ffffc9000070fcc8 R14: ffff88800c2d8ac0 R15: 00000000ffffffff
-[164.964967]  sync_timeline_signal+0x153/0x2c0
-[164.964989]  sw_sync_ioctl+0x98/0x580
-[164.965017]  __x64_sys_ioctl+0xa2/0x100
-[164.965034]  x64_sys_call+0x1226/0x2680
-[164.965046]  do_syscall_64+0x93/0x980
-[164.965057]  ? do_syscall_64+0x1b7/0x980
-[164.965070]  ? lock_release+0xce/0x2a0
-[164.965082]  ? __might_fault+0x53/0xb0
-[164.965096]  ? __might_fault+0x89/0xb0
-[164.965104]  ? __might_fault+0x53/0xb0
-[164.965116]  ? _copy_to_user+0x53/0x70
-[164.965131]  ? __x64_sys_rt_sigprocmask+0x8f/0xe0
-[164.965152]  ? do_syscall_64+0x1b7/0x980
-[164.965169]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-[164.965176] RIP: 0033:0x729f4fb24ded
-[164.965188] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
-[164.965193] RSP: 002b:00007ffdc36220e0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-[164.965200] RAX: ffffffffffffffda RBX: 0000000000000007 RCX: 0000729f4fb24ded
-[164.965205] RDX: 00007ffdc3622174 RSI: 0000000040045701 RDI: 0000000000000007
-[164.965209] RBP: 00007ffdc3622130 R08: 0000000000000000 R09: 0000000000000000
-[164.965213] R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffdc3622174
-[164.965217] R13: 0000000040045701 R14: 0000000000000007 R15: 0000000000000003
-[164.965248]  </TASK>
-[166.952984] perf: interrupt took too long (11861 > 6217), lowering kernel.perf_event_max_sample_rate to 16000
-[166.953134] clocksource: Long readout interval, skipping watchdog check: cs_nsec: 13036276804 wd_nsec: 13036274445
+On Wed, Sep 03, 2025 at 10:24:26PM +0200, Laurent Pinchart wrote:
+> On Wed, Sep 03, 2025 at 02:29:09PM +0200, Jacopo Mondi wrote:
+> > On Wed, Sep 03, 2025 at 03:17:29PM +0300, Sakari Ailus wrote:
+> > > On Mon, Sep 01, 2025 at 06:39:29PM +0200, Jacopo Mondi wrote:
+> > > > On Mon, Aug 25, 2025 at 12:50:26PM +0300, Sakari Ailus wrote:
+> > > > > Document internal sink pads, pads that have both SINK and INTERNAL flags
+> > > > > set. Use the IMX219 camera sensor as an example.
+> > > > >
+> > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > Reviewed-by Julien Massot <julien.massot@collabora.com>
+> > > > > ---
+> > > > >  .../userspace-api/media/v4l/dev-subdev.rst    | 151 ++++++++++++++++++
+> > > > >  .../media/v4l/ext-ctrls-image-source.rst      |   2 +
+> > > > >  2 files changed, 153 insertions(+)
+> > > > >
+> > > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > > index 4da67ee0b290..bb86cadfad1c 100644
+> > > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > > @@ -553,6 +553,27 @@ A stream at a specific point in the media pipeline is identified by the
+> > > > >  sub-device and a (pad, stream) pair. For sub-devices that do not support
+> > > > >  multiplexed streams the 'stream' field is always 0.
+> > > > >
+> > > > > +.. _v4l2-subdev-internal-source-pads:
+> > > > > +
+> > > > > +Internal sink pads and routing
+> > > > > +------------------------------
+> > > > > +
+> > > > > +Cases where a single sub-device source pad is traversed by multiple streams, one
+> 
+> s/is traversed by/carries/
 
-Avoid potentially expensive signaling of each fence when removing it from
-the timeline from inside the loop under protection of a common lock and
-disabled interrupts, do that only after interrupts are re-enabled.  Each
-call to dma_fence_signal() will then disable and re-enable interrputs as
-needed for processing of each signaled fence.
+Sounds good.
 
-[1] https://patchwork.freedesktop.org/series/154715/
+> 
+> > > > > +or more of which originate from within the sub-device itself, are special as
+> > > > > +there is no external sink pad for such routes. In those cases, the sources of
+> > > > > +the internally generated streams are represented by internal sink pads, which
+> > > > > +are sink pads that have the :ref:`MEDIA_PAD_FL_INTERNAL <MEDIA-PAD-FL-INTERNAL>`
+> > > > > +pad flag set.
+> > > > > +
+> > > > > +Internal pads have all the properties of an external pad, including formats and
+> > > > > +selections. The format in this case is the source format of the stream. An
+> 
+> I'd add "[...] and selections, but can not be connect to other subdevs
+> through links."
+> 
+> > > > > +internal pad always has a single stream only (0).
+> 
+> I already have one use case (related to HDR) that could violate this
+> rule. I'm fine with it for now, we can always relax it later, but I'd
+> like to know your opinion on the concept.
 
-Fixes: 0f0d8406fb9c3 ("android: convert sync to fence api, v6")
-Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
----
- drivers/dma-buf/sw_sync.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+I'd really keep internal pads single-stream only.
 
-diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-index 3c20f1d31cf54..638c2f756299a 100644
---- a/drivers/dma-buf/sw_sync.c
-+++ b/drivers/dma-buf/sw_sync.c
-@@ -224,13 +224,12 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
- 
- 		list_move_tail(&pt->link, &signalled);
- 		rb_erase(&pt->node, &obj->pt_tree);
--
--		dma_fence_signal_locked(&pt->base);
- 	}
- 
- 	spin_unlock_irq(&obj->lock);
- 
- 	list_for_each_entry_safe(pt, next, &signalled, link) {
-+		dma_fence_signal(&pt->base);
- 		list_del_init(&pt->link);
- 		dma_fence_put(&pt->base);
- 	}
+> 
+> > > > > +
+> > > > > +Routes from an internal sink pad to an external source pad are typically not
+> > > > > +modifiable but they can be activated and deactivated using the
+> > > > > +:ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag, depending
+> > > > > +on driver capabilities.
+> > > >
+> > > > Ah, so they are modifiable :)
+> 
+> I was going to mention the same :-)
+> 
+> > > > What about
+> > > >
+> > > > Routes from an internal sink pad to an external source pad are
+> > > > typically created by the driver and can be activated and deactivated
+> > > > using the :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > > > <v4l2-subdev-routing-flags>` flag, depending on the device
+> > > > capabilities.
+> 
+> I'd drop "typically" as (I think) they are always created by the driver.
+> We could use the word "static" already.
+> 
+> Routes from an internal sink pad to an external source pad are
+> statically created by the driver. They are or are not immutable
+
+The connection of "statically" to a sub-device route flag is unclear. The
+same goes for immutable. (See below.)
+
+> depending on the device capabities. The routes that are not immutable
+> can be activated and deactivated using the
+> :ref:`V4L2_SUBDEV_ROUTE_FL_ACTIVE <v4l2-subdev-routing-flags>` flag.
+> 
+> (we could possibly drop the last sentence as it's implied by not being
+> immutable, but it doesn't hurt to have the information here)
+
+We don't have these flags yet, they're added by later patches in the
+series. I can add another patch to refer to these.
+
+> 
+> > > I'll use that.
+> > >
+> > > > > +
+> > > > >  Interaction between routes, streams, formats and selections
+> > > > >  -----------------------------------------------------------
+> > > > >
+> > > > > @@ -695,3 +716,133 @@ To configure this pipeline, the userspace must take the following steps:
+> > > > >     the configurations along the stream towards the receiver, using
+> > > > >     :ref:`VIDIOC_SUBDEV_S_FMT <VIDIOC_SUBDEV_G_FMT>` ioctls to configure each
+> > > > >     stream endpoint in each sub-device.
+> > > > > +
+> > > > > +   In case generic raw and metadata formats are used,
+> > > > > +   :ref:`V4L2_CID_COLOR_PATTERN <image-source-control-color-pattern>` and
+> > > > > +   :ref:`V4L2_CID_METADATA_LAYOUT <image_source_control_metadata_layout>`
+> > > > > +   controls are present on the source sub-device to obtain the pixel data color
+> > > > > +   pattern and metadata layout.
+> 
+> s/pixel data color pattern/pixel array CFA pattern/
+> 
+> (or you can spell out color filter array)
+
+I'm fine with CFA.
+
+I'll add CFA to the glossary, too.
+
+> 
+> > > > > +
+> > > > > +Internal pads setup example
+> > > > > +---------------------------
+> > > > > +
+> > > > > +A simple example of a multiplexed stream setup might be as follows:
+> > > > > +
+> > > > > +- An IMX219 camera sensor source sub-device, with one source pad (0), one
+> > > >
+> > > > s/sensor source/sensor/
+> > >
+> > > Source sub-device is referred to in documentation elsewhere; I think it's
+> > > appropriate here, too.
+> > >
+> > > > Should we even mention imx219 or can this be a generic "RAW camera
+> > > > sensor" ?
+> > >
+> > > As this is an example, I think it's a good idea to use an actual device and
+> > > a driver that has support for internal pads.
+> > >
+> > > > > +  internal sink pad (1) as the source of the image data and an internal sink
+> > > > > +  pad (2) as the source of the embedded data. There are two routes, one from the
+> > > >
+> > > > I would provide a rational for the reason why the external source pad
+> > > > is preferably assigned to id 0.
+> > > >
+> > > >    - A RAW camera sensor driver modeled as a single sub-device with
+> > > >      three pads. The external source pas is assigned id #0 for
+> > > >      compatibility reasons with existing user-space applications
+> > > >      developed to work on drivers that pre-dates the introduction of
+> > > >      internal pads, where the only available pad was the external
+> > > >      source one. The sub-device also has two internal sink pads, pad
+> > > >      #1 that represents the pixel array and produces image data and
+> > > >      pad #2 that produces embedded data.
+> > >
+> > > I'd put this to driver documentation as it's not part of the UAPI.
+> > 
+> > mmmm, it's true we don't mandate for new drivers to have
+> > the source pad at index #0, and it's done only for existing drivers..
+> > Adn userspace should not make assumptions about pad numbers but rather
+> > inspect the per-pad flags to know which one is the external source pad.
+> > 
+> > So yes, it's no uAPI you're right.
+> 
+> That may be possible for camera sensors, but in general the pad numbers
+> may be part of the UAPI as there may not be any other way to tell pads
+> apart on some subdevs.
+> 
+> For camera sensors, I would document the pad numbers explicitly in the
+> raw camera sensor subdev configuration model, and make them part of the
+> UAPI. I wouldn't explain the rationale here.
+
+I understand the patch is currently aligned with this.
+
+> 
+> > > >
+> > > >      There are two routes, one from the internal sink pad 1...
+> > > >
+> > > > > +  internal sink pad 1 to the source pad 0 (image data) and another from the
+> > > > > +  internal sink pad 2 to the source pad 0 (embedded data). Both streams are
+> > > > > +  always active, i.e. there is no need to separately enable the embedded data
+> > > > > +  stream. The sensor uses the CSI-2 interface.
+> > > > > +
+> > > > > +- A CSI-2 receiver in the SoC. The receiver has a single sink pad (pad 0),
+> > > > > +  connected to the sensor, and two source pads (pads 1 and 2), to the two DMA
+> 
+> s/the sensor/the sensor's source pad (0)/
+> s/the two/two/
+> 
+> > > > > +  engines. The receiver demultiplexes the incoming streams to the source pads.
+> > > > > +
+> > > > > +- DMA engines in the SoC, one for each stream. Each DMA engine is connected to a
+> 
+> s/DMA engines/Two DMA engines/
+> 
+> > > > > +  single source pad of the receiver.
+> 
+> s/single/different/
+> 
+> > > > > +
+> > > > > +The sensor and the receiver are modelled as V4L2 sub-devices, exposed to
+> > > > > +userspace via /dev/v4l-subdevX device nodes. The DMA engines are modelled as
+> > > > > +V4L2 devices, exposed to userspace via /dev/videoX nodes.
+> 
+> s/V4L2 devices/V4L2 video devices/
+
+Yes.
+
+> 
+> > > > > +
+> > > > > +To configure this pipeline, the userspace must take the following steps:
+> > > > > +
+> > > > > +1) Set up media links between entities: enable the links from the sensor to the
+> > > > > +   receiver and from the receiver to the DMA engines. This step does not differ
+> > > > > +   from normal non-multiplexed media controller setup.
+> > > > > +
+> > > > > +2) Configure routing
+> > > > > +
+> > > > > +.. flat-table:: Camera sensor. There are no configurable routes.
+> > > > > +    :header-rows: 1
+> > > > > +
+> > > > > +    * - Sink Pad/Stream
+> > > > > +      - Source Pad/Stream
+> > > > > +      - Routing Flags
+> > > > > +      - Comments
+> > > > > +    * - 1/0
+> > > > > +      - 0/0
+> > > > > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > > >
+> > > > Is this also V4L2_SUBDEV_ROUTE_FL_IMMUTABLE ?
+> > >
+> > > Yes, and V4L2_SUBDEV_ROUTE_FL_STATIC. I'll update the example.
+> > >
+> > > In practice the patch needs to be moved forwards in the set so we'll have
+> > > all the flags.
+> > 
+> > Yeah, I noticed later those two flags have been introduced later in
+> > the series..
+> > 
+> > > > > +      - Pixel data stream from the internal image sink pad
+> > > > > +    * - 2/0
+> > > > > +      - 0/1
+> > > > > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> 
+> I assume this one is also static and immutable.
+
+Yes, it is.
+
+> 
+> > > > > +      - Metadata stream from the internal embedded data sink pad
+> > > > > +
+> > > > > +The options available in the sensor's routing configuration are dictated by
+> > > > > +hardware capabilities: typically camera sensors always produce an image data
+> > > >
+> > > > s/typically/some
+> > >
+> > > "Some" would suggest this may not be very common whereas I think this
+> > > applies virtually to all camera sensors.
+> > 
+> > Ok!
+> > 
+> > > > > +stream while it may be possible to enable and disable the embedded data stream.
+> 
+> The section provides one particular example, based on the imx219, and
+> then this paragraph documents a more generic concept. It's unclear if it
+> applies to the imx219 as well. If you want to keep it, I would phrase it
+> along the lines of
+> 
+> While both routes are immutable for the IMX219, other camera sensors may
+> offer more flexible configuration options. Routing configuration is
+> dictated by the hardware capabilities: camera sensors typically always
+> produce an image data stream, but some of them support enabling and
+> disabling the embedded data stream.
+
+I'll use this.
+
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+Thank you.
+
+I've split the patch into two so I'll add the ack on both.
+
+> 
+> > > >
+> > > > s/it may be possible/other might allow
+> > > >
+> > > > if you accept my suggestion in the line above
+> > > >
+> > > > > +
+> > > > > +.. flat-table:: Receiver routing table. Typically both routes need to be
+> > > > > +		explicitly set.
+> > > >
+> > > > set or enabled ?
+> > >
+> > > On the receiver side, the routes are also created, not just enabled. I'll
+> > > use "created".
+> > 
+> > fine as well
+> > 
+> > > > > +    :header-rows:  1
+> > > > > +
+> > > > > +    * - Sink Pad/Stream
+> > > > > +      - Source Pad/Stream
+> > > > > +      - Routing Flags
+> > > > > +      - Comments
+> > > > > +    * - 0/0
+> > > > > +      - 1/0
+> > > > > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > > > > +      - Pixel data stream from camera sensor
+> > > > > +    * - 0/1
+> > > > > +      - 2/0
+> > > > > +      - V4L2_SUBDEV_ROUTE_FL_ACTIVE
+> > > > > +      - Metadata stream from camera sensor
+> > > > > +
+> > > > > +3) Configure formats and selections
+> > > > > +
+> > > > > +   This example assumes that the formats are propagated from sink pad to the
+> > > > > +   source pad as-is. The tables contain fields of both struct v4l2_subdev_format
+> > > > > +   and struct v4l2_mbus_framefmt.
+> > > > > +
+> > > > > +.. flat-table:: Formats set on the sub-devices. Bold values are set, others are
+> > > > > +                static or propagated. The order is aligned with configured
+> > > > > +                routes.
+> > > > > +    :header-rows: 1
+> > > > > +    :fill-cells:
+> > > > > +
+> > > > > +    * - Sub-device
+> > > > > +      - Pad/Stream
+> > > > > +      - Width
+> > > > > +      - Height
+> > > > > +      - Code
+> > > > > +    * - :rspan:`3` IMX219
+> > > >
+> > > > If you want to make this generic, I would replace IMX219 with just
+> > > > "Sensor"
+> > > >
+> > > > > +      - 1/0
+> > > > > +      - 3296
+> > > > > +      - 2480
+> > > > > +      - MEDIA_BUS_FMT_RAW_10
+> > > > > +    * - 0/0
+> > > > > +      - **3296**
+> > > > > +      - **2480**
+> > > > > +      - **MEDIA_BUS_FMT_RAW_10**
+> > > > > +    * - 2/0
+> > > > > +      - 3296
+> > > > > +      - 2
+> > > > > +      - MEDIA_BUS_FMT_META_10
+> > > > > +    * - 0/1
+> > > > > +      - 3296
+> > > > > +      - 2
+> > > > > +      - MEDIA_BUS_FMT_META_10
+> > > > > +    * - :rspan:`3` CSI-2 receiver
+> > > > > +      - 0/0
+> > > > > +      - **3296**
+> > > > > +      - **2480**
+> > > > > +      - **MEDIA_BUS_FMT_RAW_10**
+> > > > > +    * - 1/0
+> > > > > +      - 3296
+> > > > > +      - 2480
+> > > > > +      - MEDIA_BUS_FMT_RAW_10
+> > > > > +    * - 0/1
+> > > > > +      - **3296**
+> > > > > +      - **2**
+> > > > > +      - **MEDIA_BUS_FMT_META_10**
+> > > > > +    * - 2/0
+> > > > > +      - 3296
+> > > > > +      - 2
+> > > > > +      - MEDIA_BUS_FMT_META_10
+> > > > > +
+> > > > > +The embedded data format does not need to be configured on the sensor's pads as
+> > > > > +the format is dictated by the pixel data format in this case.
+> > > > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > > > index 64c0f9ff5b1b..d803a2f0f2f9 100644
+> > > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
+> > > > > @@ -146,6 +146,8 @@ Image Source Control IDs
+> > > > >      ``V4L2_COLOR_PATTERN_FLIP_HORIZONTAL`` and
+> > > > >      ``V4L2_COLOR_PATTERN_FLIP_VERTICAL`` is provided as well.
+> > > > >
+> > > > > +.. _image_source_control_metadata_layout:
+> > > > > +
+> > > >
+> > > > All comments I made are just suggestions, so take in what you like.
+> > > >
+> > > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > >
+> > > Thanks!
+> > >
+> > > > >  ``V4L2_CID_METADATA_LAYOUT (integer)``
+> > > > >      The metadata layout control defines the on-bus metadata layout for metadata
+> > > > >      streams. The control is used in conjunction with :ref:`generic metadata
+
 -- 
-2.51.0
+Regards,
 
+Sakari Ailus
 
