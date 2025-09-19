@@ -1,80 +1,115 @@
-Return-Path: <linux-media+bounces-42797-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42798-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65EA1B894EE
-	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 13:51:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7472B89623
+	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 14:12:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 215E01BC8804
-	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 11:51:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4F407E2F2E
+	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 12:12:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78FC630E820;
-	Fri, 19 Sep 2025 11:51:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3480330F814;
+	Fri, 19 Sep 2025 12:12:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="cqO/aliK"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="OriFzY6k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH1PR05CU001.outbound.protection.outlook.com (mail-northcentralusazon11010026.outbound.protection.outlook.com [52.101.193.26])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013066.outbound.protection.outlook.com [40.93.201.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1A7F30DEA1
-	for <linux-media@vger.kernel.org>; Fri, 19 Sep 2025 11:50:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.193.26
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C7E233D7B;
+	Fri, 19 Sep 2025 12:12:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.66
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758282659; cv=fail; b=bEx9jFdKC7On6nGrVUy96KSmwRAKd/k1aMCvvj6wsJC0VKoQUCA0ORpOuY0LHhJ49/6nua84YBQOVFgSGhameLErr2nSbUOsaECB27GMEDFiWxHbWJMZE1ukQiXdfz/kr7ky474uCebu6ALN4ITzIFrbcEeRxsYgqmUzqGcLk08=
+	t=1758283928; cv=fail; b=QUWHnAyeMPh7zAmo8bCmRksB5HKyL6XFdi5BoV8nH0d/GoIP5cOvgiRlvwF95iKmJAAJr+5jF2+zf3b6CblIjYgYb7NXupTTnRLRj85BYGBYmhJVVd2/n7wE9kTJxUph3toGpX75G9WHGix821ms0zphVKRI1zDmCYLEa1mmMTU=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758282659; c=relaxed/simple;
-	bh=+hcQnuIvrHeNjZjuIc+QmfZUZaJTrlBgdrEbVELpizA=;
+	s=arc-20240116; t=1758283928; c=relaxed/simple;
+	bh=LFHEdC4pyoE//C2vGxjG15V4VJQ0Y3VFmrn+iqaRhBs=;
 	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=sxWS6cuLQDTPg5kNkGPMZN5IhTcpdv7Qd5r1DlmWtkEyDCPSXSaCrYvaTT3Fucjd9MqReGUAwwLJ+cvuwpnMW52QyaHKaQ+Uxgy5ZNMZnkVAcfDcTykzaUVGO4acblk0dq3dENRowfH2A5z0lPKHBk5TIJD/zYQCwqilVHttMoE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=cqO/aliK; arc=fail smtp.client-ip=52.101.193.26
+	 Content-Type:MIME-Version; b=CSWViB/+e/Lr4Z7B1nGjZGJNFoEzSP/AnVTH9fSXxc2PJaAl1Wbm8eoeCCDSlauA8uFvYtyNvA2qp/3BN0wvBtK1Sm/Coi8nGV+OBn0gwBPMOQYUrbuyeHT83cryfDic/s4ZvpnLohmqCWmJa8tIJgQhFOPElgowZ2kFQhzhdP0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=OriFzY6k; arc=fail smtp.client-ip=40.93.201.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=fuRhEtgagb1PQHfgducu/eXvdwc9kF9wvTap/pbqlzK3VP07iHd9Z5QbkgR509Zl4432OKxg0xDAQ3JH/f9HEQoxsFwO/LTDgzhxmgJsSG62QNkX+iPIy/IPssC/FQBqNlrDa+NEUDN9MiS0yeU5vZhmJ/z4paKSE5TBWcbnZUAMg/Jr9Sc7UuaPAuVsyMXe3PmPvxi3mX0yRDZddMtpcVltAzBppkYXT3nU6CIF6pEt29uJ0QPXbOgNh+sURR/b2/H5Bf2ku+BRZgmAAIKjmRlHG3H4w1a68jvMpkztcXBvpARlk9Dn/sbQ2Q40NytaCarei9ZzyaK0cAB3lYq86g==
+ b=AD582V/BZa9pU6CwJjiIJjvvTNdjxLVrJcJAZ4wDujsYTxHicnibNdBX41+7L7y+xN/BjiNP3wu05eucjRsefxwjmXGoRSvN5bDsuYCHf1FdO5zNpemDct8D4JFME6tYEjWUXJbM0NWdt3/FXpESkq5/J2D5TnqxiRfLpctLAydiPByxMjj23yb6N31ZRMkpXPrKva7C3K/SuJqSsAo05pYR4uHCohh/dNLg6OunTCsArUWNpI2E/NsCF4AdM4EUIysrcXH1U9ariWL+M+4Z16WJNhZ/BJVvUz8+ONE+fuZAayA4it0YsxJnC/iPr53wcMJZ6m3IbmrpcxBYdvXQ/A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zuB+XOHpmlMsb0Esq59vdOcdpU+n/Y+/yD+2lmV6xHY=;
- b=Y/TelKo0AYfqKpnmTGUN8ynKpgsLrUY76bZUNvFt2XmZfVjOJ43N7dgXS+cPD2WwRE2C2S4d8cXLKUHkffP/HwD3XZbHnUTSb6Byw2f6hJblKXP+nyCM+5JwhIPxr+4bMbNvDt4rgpB4v67Uz5h3e0jbSzCAsdF1NUQVCeSLLNQrK52z6xIwpuctWBlAiZrXHP2T7Y0U90jr9Fws74p0h+c/CTQDaD8E/x/BV1S0CDYwB34UJ7SpsxFevQ2AlxiPsSTVC/S4/0ZfmUY9tYoBfEI9NaeLyRguVQdupRh/rOjQi49xhaqQETIetVBQd75uyDX8OuhN2kjZfQlC2PUxFg==
+ bh=wbVXg5MyCk+7aXzf2aqtq5p3hcfcw9Z+3yObGYsYiy4=;
+ b=GNl4eE/M18q6uF+7wngl9tt++sLmOH1dEo+DnV1hhGxl5/Ohp8Uxh3yHO4beFu2EcJqspIqDTelH4Xfo0NObFk9JSid2IK1p1mHuGsYQXZTPAAeEbHxc5qxJXekoFleMev6oYVwtzx3RtmaF6EzK/GryouQObi8gh62H/GsuwMsEhMAH0rbeNusNaFC2XrKdUJgPYVsZMLwXzsEW8gv5Lad9fkxNKdThqMC2SZN0+lr7hUZkQsLgRpFXxuPN4PcwotZ5TN7LChnXe/zOAlS7Gz3dP2Flj/qQGjYfqR5k2p9lumKbkPx6je21y0PiuD+T1Hqmeo8ddN4K0MfTv9l7vg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
  header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zuB+XOHpmlMsb0Esq59vdOcdpU+n/Y+/yD+2lmV6xHY=;
- b=cqO/aliKWRGQQAFwBJmlq5+updTRg/qcK3MR8dVqVwRaNdn28jMiKHQ2cL40c0NWWDRi84PCgVWFdiXfC0Gkndumdr0uTJyAmv5Bg4YmKUJjhRyydvWA5AX2eV3bUlyb7FwrMjEGSbWt9Ijjlbtudivcv8G/RAoLxOCGbMgKLz8=
+ bh=wbVXg5MyCk+7aXzf2aqtq5p3hcfcw9Z+3yObGYsYiy4=;
+ b=OriFzY6kLBgfM9OYuTo2qAYjl8W3DOr9hzny7usAcNpA2yhXN4XLbl1PPLGljQs4l8TiFN6c6GpGfQ46OOVR3bFfybVROkAuOSq36fduPMjXuwR+YrNdURm6XOtsSnywI00zpv6iS+Jz5orH0S+VfpBsX/NROfk0y3DrBJCKz8c=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=amd.com;
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by CYYPR12MB8921.namprd12.prod.outlook.com (2603:10b6:930:c7::14) with
+ by PH8PR12MB6699.namprd12.prod.outlook.com (2603:10b6:510:1ce::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.13; Fri, 19 Sep
- 2025 11:50:54 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.22; Fri, 19 Sep
+ 2025 12:12:01 +0000
 Received: from PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
  ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9137.012; Fri, 19 Sep 2025
- 11:50:54 +0000
-Message-ID: <c8cf218e-0dfa-4a15-81b3-6f5424edfbbb@amd.com>
-Date: Fri, 19 Sep 2025 13:50:50 +0200
+ 12:12:01 +0000
+Message-ID: <184ce83f-0063-43a0-a1c8-da23c5d03cf7@amd.com>
+Date: Fri, 19 Sep 2025 14:11:37 +0200
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-buf/sw-sync: Fix interrupts disabled excessively long
-To: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>,
- Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan <gustavo@padovan.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@canonical.com>,
- John Stultz <john.stultz@linaro.org>, Simona Vetter
- <simona.vetter@ffwll.ch>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org
-References: <20250919104503.1388351-2-janusz.krzysztofik@linux.intel.com>
+Subject: Re: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
+To: Eliav Farber <farbere@amazon.com>, linux@armlinux.org.uk,
+ jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
+ dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
+ hpa@zytor.com, tony.luck@intel.com, qiuxu.zhuo@intel.com,
+ mchehab@kernel.org, james.morse@arm.com, rric@kernel.org,
+ harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
+ airlied@linux.ie, daniel@ffwll.ch, evan.quan@amd.com,
+ james.qian.wang@arm.com, liviu.dudau@arm.com, mihail.atanassov@arm.com,
+ brian.starkey@arm.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, tzimmermann@suse.de, robdclark@gmail.com,
+ sean@poorly.run, jdelvare@suse.com, linux@roeck-us.net, fery@cypress.com,
+ dmitry.torokhov@gmail.com, agk@redhat.com, snitzer@redhat.com,
+ dm-devel@redhat.com, rajur@chelsio.com, davem@davemloft.net,
+ kuba@kernel.org, peppe.cavallaro@st.com, alexandre.torgue@st.com,
+ joabreu@synopsys.com, mcoquelin.stm32@gmail.com, malattia@linux.it,
+ hdegoede@redhat.com, mgross@linux.intel.com, intel-linux-scu@intel.com,
+ artur.paszkiewicz@intel.com, jejb@linux.ibm.com, martin.petersen@oracle.com,
+ sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, clm@fb.com,
+ josef@toxicpanda.com, dsterba@suse.com, jack@suse.com, tytso@mit.edu,
+ adilger.kernel@dilger.ca, dushistov@mail.ru, luc.vanoostenryck@gmail.com,
+ rostedt@goodmis.org, pmladek@suse.com, sergey.senozhatsky@gmail.com,
+ andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
+ minchan@kernel.org, ngupta@vflare.org, akpm@linux-foundation.org,
+ kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org, pablo@netfilter.org,
+ kadlec@netfilter.org, fw@strlen.de, jmaloy@redhat.com,
+ ying.xue@windriver.com, willy@infradead.org, sashal@kernel.org,
+ ruanjinjie@huawei.com, David.Laight@ACULAB.COM, herve.codina@bootlin.com,
+ Jason@zx2c4.com, bvanassche@acm.org, keescook@chromium.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-edac@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-mm@kvack.org, netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
+ tipc-discussion@lists.sourceforge.net, stable@vger.kernel.org
+Cc: jonnyc@amazon.com
+References: <20250919101727.16152-1-farbere@amazon.com>
 Content-Language: en-US
 From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250919104503.1388351-2-janusz.krzysztofik@linux.intel.com>
+In-Reply-To: <20250919101727.16152-1-farbere@amazon.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0110.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:9c::20) To PH7PR12MB5685.namprd12.prod.outlook.com
+X-ClientProxiedBy: FR2P281CA0156.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:d10:98::13) To PH7PR12MB5685.namprd12.prod.outlook.com
  (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -83,235 +118,264 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|CYYPR12MB8921:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3c83d297-7e91-4223-0e4f-08ddf772ca18
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB6699:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6937c5b9-1962-44a7-1ee6-08ddf775bd22
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|921020;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?TmEvOXZibmJudHl0SC8xU1ZTeGltVmplUjVEM3hCSW4zUGtud0tvcVBOeDJT?=
- =?utf-8?B?UjI5SkJvdG05VHBKNVJjblFUM1lJc0I5R05ocm9hL1BkQjNqVFE5cjZPZXJ4?=
- =?utf-8?B?cFJxUXVValRoN2J0bHhveFEzUHF1djZLeEtFcTdISWN5SVBBbUlmZWYwOVhw?=
- =?utf-8?B?bStBT1RkbVJLYnJjbU1pQy8zdE1mRTZvUmd2WnMvNkdGbXVFOFE5WG9PUTdL?=
- =?utf-8?B?WHpPSEFNTGpMOHgyZS9LOFkyMUZ3OHp0Mjk0QUNpN29zSE5veUdnZ0dPbkNk?=
- =?utf-8?B?Q3JaNEJCSURxdmF3Q0pvWkYxblE2Q2tuR2ZaN3hFdEZGSXhzenV6ZWNLczlK?=
- =?utf-8?B?WFVMRllFT3RvNER4Q2FDUGpCbUYvYWxVSXJtN1I3ZXZQL0xIdWNrR1EvUGF6?=
- =?utf-8?B?QWl3TnFuZ2g2V3lWZDNHVGxoV3o0M1NvQUR2SkxGOG1aRDVkVnVqdit2aTBT?=
- =?utf-8?B?U2dFcTRxczE1NXkvdzNERE9HZzcvUld3MXp5cCtIOGZZRThpVnFZYUN4cTBQ?=
- =?utf-8?B?RWhJUWFXa0lvWEhGb1NEeDdqYlhXS3lzMVNSOHpXblRTMGdiT2hEYWNUSHc1?=
- =?utf-8?B?UTRPdWN6cHI1VkJjUDlSL1luNE1pQk1wcHA1TkJIS285NHFEdnJlN3Byb2ZR?=
- =?utf-8?B?M3JwUmdzRzVMWUFtS0lMWmJNSzY5di9qa1N0K0IrYVJYMlVVUGY1clFGMU00?=
- =?utf-8?B?STdoam9RbElmZ1VUUTdlMUdNRk5BTkUwQnNEME1TNjMrNGQ0NnRLczBVNXlK?=
- =?utf-8?B?b2hGdHQwQ0YxS0pTcktaaW9uQVplTjNMVldXNEptdnQ4ZnBVS1FRVHlhZVc5?=
- =?utf-8?B?Ly9NNHhIdXdzSFF3YWY0bVZQTkhDeVFvczljcVBvdENZY2RsVTYrZEJ1L1Zl?=
- =?utf-8?B?NmRyNWFxZVFUR0hYdlBvU3pzNWZYbDA1WHpFMmh1dGwxRlQ4bzNCS0lUUk1W?=
- =?utf-8?B?alFHdUNOVnlsMmRMRjRuK09zaDZWM0tMWllLZmplSGxyRWxwZkJMbDZWNG5h?=
- =?utf-8?B?eUVOU2Yrd1VVdWJoR0JRT2kwUnV6S2UxT0xDN0p2d0N2Y1Irc1FKdmhsMy9H?=
- =?utf-8?B?dVozei9EeTFBSEJRdDFGY0RMZUlkZENDeml1YVBsQUxSams3ZjRvNDNaUFA5?=
- =?utf-8?B?TDNsNjNFSnlHbGtMNERpTjZ5anlOWURaUlkxb25GTEowK21QSkJxVll4d200?=
- =?utf-8?B?MEpuamU1MlFYc3JMRDZCL2FZc2hRS3FHLzVIS2FhalprQWJKbThuOVdwWUht?=
- =?utf-8?B?WUpHM09YUFZ3Q2xGTTc0SkxCVjE1UCtUYVZoaG82enVqcXhDMG5EbGp1Rkhu?=
- =?utf-8?B?U0t3bWhnTkVwZVN2YnE3eFp2SUpSdjJOY2tYRm82S1hMQ3JBaVdraEdBeFR3?=
- =?utf-8?B?NjdCSEJnVnVKc3BFVDl0NW5DM2w3VFlvNWtySkkwRUMvamRNSm1IM3ZXOGZQ?=
- =?utf-8?B?OG5RbXU3SnZ6M2ZmTm53MUJVWExlRURERWdEd0FOK0lkY0hlR0NsTVZ2VE8r?=
- =?utf-8?B?VzBLKzh0ZTBPdzVDSWY1dVlGRk92dVB5d1V3alNNcE4zMXV3aHYwbUtoL3pN?=
- =?utf-8?B?ckZydXFHNnBHa1ZrYS9tV01ySGJwelpSTDFab0JVNUxZT2NUUFNDMFI3YllL?=
- =?utf-8?B?SythYWN2aXhRSW9vTUxpakNxT01raC9ORlp0RW93WWlBOUVhdXVvckVXZ0hF?=
- =?utf-8?B?OS9CaHNJbWo1QVF6K1R1Ym9HOWJsZU9EcUNpYitwOCtQK2VMYlVvWEVDS3NC?=
- =?utf-8?B?L3IrY0UwVDNVNTdjSHQzNGF6NmZIN0ZmQXVldmFZcE1Jd2p6RGJtZkRnRytl?=
- =?utf-8?Q?uEf+X43rht6LMsE24VnWHfNP1ptGQR/6e5uDU=3D?=
+	=?utf-8?B?Y3hLRFVLeVExQmhYODR2ak01bWVFUXNoSXpVYi8rWDdaRzBDN0FpVnpuanZO?=
+ =?utf-8?B?RytJRWgzNjErVi93RUtQdEZZUnRjL0ZFUUs0ZGx3NjN2M3NlWUMxRHVPbFdC?=
+ =?utf-8?B?V1laRGlBSGlrU05RdFNpRWRUeEpnSmVreDVTOStaSUNSVkcwZlRXdEZXRUF4?=
+ =?utf-8?B?Wlg1ZHA1cDNkSnhid3Ftc2lnaWE1YVV1dWxaeG9zbnppZkF5a3dOTlZWZHY3?=
+ =?utf-8?B?bUNiWkJpRVMwa25nVCt0a2t1dUFmZEY3elYvQnc5WWdlRlBmNWRGZGJuZE81?=
+ =?utf-8?B?cnlGRHF3Y0s2ZnZETXdudUdkK0tvSVZtMGVJMkFTWU4vMVJzVFg2Z05MWEZx?=
+ =?utf-8?B?VlpJOStDMDY4YVd4eklyZjFpbGR2aGJnVS9SdjljSjExbkdtZlBoRmZ2dWhH?=
+ =?utf-8?B?TFBadkdYQjROWXo2bUR3ODNRQXM0L1VrQVJMSlIrcDQ4c3drWGdqaEFBZEZV?=
+ =?utf-8?B?cWVnQ09oSXZ3cVJvbUNyMzRJVE1rV2NyV2UvRGJ6ZStyaXRFbTltajdsL0dt?=
+ =?utf-8?B?aElqS1VUc0JObnFucGNLeHp5YyszcWk0TTBmTUVValB0bnlIek0yM1ZyaCtp?=
+ =?utf-8?B?QThGVmROY2kySm1BcW9jQ0JXNWFLajEzbkRkVkhLc082QkpPRjZ5ODE3Q2NW?=
+ =?utf-8?B?a1hNcHNqWGNCdzlkODFUWHkrVVBpRmRIU0tKU21NbXVQOElZSG4vZTZoSFNt?=
+ =?utf-8?B?Ui9qMnllTThYdWFDYWdVR2twcjA3NFNSWUpUT001MHp5Y1FvZ2h2d0d4Vytr?=
+ =?utf-8?B?dUkwNHU2Y0IzUTVUTkp2QUZyS0VWQ0hWaEdpUytsQWF0dG00WGVtdjEzNGFT?=
+ =?utf-8?B?UWR3MWd3K0RmL1ozeDRXbkJMQnQ4TEZPNUhuKytlZVh0UjhRNEkrMXBHeDMr?=
+ =?utf-8?B?TFlGWHdTek8vb2ZDREVwNlFJMjJlQTY4cXhhZFhLWFFVMVU4RU5zKzFhMzNk?=
+ =?utf-8?B?WnVRdlFabnhlUHQ0UzRIU29LYVlzbVRlelZ4NFZ6a1pkTVF1eWR4TjB6bHJk?=
+ =?utf-8?B?ckJldXpDUGdOaFJlUW1janNkaGw3ZUJ2YnNmcmRrY1Bvajl0R2xCaERHYjU4?=
+ =?utf-8?B?OEp0a1ppY0xDL1I1eFEzeGVyemNwWnNUUGhEOGJFeHFuQzVkcXhJMUU1Rjg4?=
+ =?utf-8?B?Q0tBOG1QZFNoaThMTDhkemNkUDY1RUc1Rit5VHYxZWgyUW02cUVFWkxNdjVa?=
+ =?utf-8?B?QmZiWXF0OHBPNnhnWVVMUGxxay9VSTJ3VThmVzBDQlpZcThVT2g1b09wYnRU?=
+ =?utf-8?B?bjFMdi9xSVFubHlXa1ExRXFqTmZSdTl1NmlIa1lzSy9xM25oMUZqTUY3d25E?=
+ =?utf-8?B?dWlXWFk3VjhCdis5dDNYYTdscGcxWDliN3gvR2xGV0F4SHhOcjB0NTh5WHlM?=
+ =?utf-8?B?ZXRnMnlONEJMRWZucXlMUVNEaXFaNUppWnVTanUzZThuc0g1bSswcjRzdGxM?=
+ =?utf-8?B?TGFDbERNcXpTcTY3LzhSbVgrUWZ5Q2RSa2xUd1BRSENDTTFiQ3piaFk5V2h0?=
+ =?utf-8?B?RGJyR3ZhaCt4SkpSRG9CTTBCaUVaVy96NEJyUlFHRmV6RzNGWlFFTHVmSzRX?=
+ =?utf-8?B?RHhnUXJxWi9POVE5TTltZEhJKzVtS25jQi9WV0pFQWZRZEpzUEV4cnhuSlVR?=
+ =?utf-8?B?dDNQSENhSWtULzZpWWc2akZpcFhTUGxRK28ycldrWXkvenFnSXRZUHlTQjZp?=
+ =?utf-8?B?emhyTXdjSk83NWhiM0FYalQwMSsyQjRrSkVlaHRJaGFpYkZVZmRmbVdON3h5?=
+ =?utf-8?B?ZllielpZZTFxc0NESDNGSE5HZURaT29MR1F5N2h0elAxY2p5WjZ3SkpEd2lv?=
+ =?utf-8?B?aXJVMHp5aFVTOThjblhiTC9LNCtFamxvOEhuNVRzSzhGenFsUlNtaGQyd0No?=
+ =?utf-8?B?SkZzWFo2dUtkdndFUk9lMWJBR2xZVlZJRXBSL3JWM1RRMU9LTGFyR0VjNWFR?=
+ =?utf-8?B?eWxZUFF2dEtyZFkvRnlYclRCZGcyWVlLT3BSS3JUZWdvWTlZcmV2UmVYbjZt?=
+ =?utf-8?B?Tk1sNFV6U3lRPT0=?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?b3NYakFINldVaWtrT0VnOW5jTk5xYy9udHRFT2l3VTQwejJNUnhhOEk3aGZq?=
- =?utf-8?B?OGluL0p4cUJJL25MNGorRG5KQW1PcThtR1RVUXhVY2dDZU5reTRIWGhxeGFV?=
- =?utf-8?B?dnE0a0RtTHNlSC84YmJnQUlrZlBLVE1wdUtteTQ2MTZFYXZZMklOckhaRG1U?=
- =?utf-8?B?YTUxYktSeDlTNS9kK2JqMEtPQnlHRXovZTdoOW9RNVVzSlBuZ0NYMDZ4V29m?=
- =?utf-8?B?UGRFK2hDVGxoSVAramg1eVIwbnlJSUFTS3A4K3p4VGNqTmQ5bFlrOEFCU053?=
- =?utf-8?B?c1Nxc0ZiK0dpK21WdFE4aW91VXVuYnExdHJwQStFeFc1NlZXbmxnMjNkeHp3?=
- =?utf-8?B?RHZvS05LUDl0a2JTSVpsdUIvMDFETnB0bmQ5eFduS3BjRGtjTG9KVXpOOEx1?=
- =?utf-8?B?M0NJSkVaWm9HV2s5aExVcStocWRsTHJ6Qy9uWGx0SlV0Q25OVFdaaFBLYjdS?=
- =?utf-8?B?M0t2eHgyTWVyNmlxZEFEVFROSnRXd3FiamU2VWlkRGdjUVFrL0N0TWZvMDBw?=
- =?utf-8?B?WXVZNTZZcDRwdVBobHJqSUxZL0UxVzN3dzl2OEE0d3VjaXBadmhuQWs5SGNo?=
- =?utf-8?B?Wm5mZXh1ZzRROUZuMXBzTGJZRVM0Rk16b3Z3QW1FQzN3ZnNwR2pRTnp3bjEr?=
- =?utf-8?B?QThLMExSZS9rZGtFanNHb2dzajRCS01oZ0tpQzhzbXlRSkhvVHlSdS9JNDhR?=
- =?utf-8?B?MSs3KzNDc0w1V2Z0ZVdXeXUxYWFocjlTTVd1ck9iUktGR0VENEFwWlRhM1ND?=
- =?utf-8?B?dkE2YmJqWE1UMERzajhEcVRhU3pkK1dpbDhxckRobUVyUFB6bVU2UEJYeXZO?=
- =?utf-8?B?eis1eHBhR1dhUncwdEpzRDYvbmxUREJubjVPbms4eUhTVEVvMWxHa3NTaXNu?=
- =?utf-8?B?RDZlUVpUNUo2TUlwUEpDWDNtRmh1VHBzVmJUNXlZY3BMYWk2MExYUGJpYUtl?=
- =?utf-8?B?b044R0xtTy9mNnhJaFhhQkthVnhoQ3hZbnhUUnV5K2ZDdHZYbk04WUxHMHM1?=
- =?utf-8?B?dWUrM1lOR1cvano5WUFycC92RHA4SUxBOTM0c01YNTR0Ylh1TFdlWXJjTkxi?=
- =?utf-8?B?TngxRURyTU5IZ3BtOHpEeStXcWJuVDhIeC93TkdPZG82UEJma05PYmhBOVd3?=
- =?utf-8?B?ckY4dkdQTVZjM0ZTaVNxL2VmTDFzcWsxWElGcnEwMU9yVDZ2MEZ2NDgwWDRy?=
- =?utf-8?B?SFF2a29ZRHBIaHhsMHgvWGoydkt6d1lHeE43Tno0ZGNtNk5YYWg1V25IVHhH?=
- =?utf-8?B?Mks0NVZwaGt2ZkpsNmZLMVU0dTYreFgySXl0bi9WTXlJZlBqZVdhcVNieEJn?=
- =?utf-8?B?STZlbkhoN0I2MndaeGJIUFhoV2ZqcWRPWlYvZmwvU3ZiTzZHbzZJMU9ydHlv?=
- =?utf-8?B?NTlYL2NoaTJLQ09BM29pbGJ0cHIzZzZaQUZsWVVmVlJRU0xDenhxdHR2Nkhz?=
- =?utf-8?B?MTFjS1pEd3k5ZDZNdmlUeDlOV0Nic29oR1lEanhwMXFjR2libkFaT3JnNGhH?=
- =?utf-8?B?MzA2SkpMajFxSnZvTjNiOVc3ek1rRkdndXRuN2ZnMHFNWU5McU5yaDdIU0VQ?=
- =?utf-8?B?NTdYODA4K0N3Wi9pUGpGRzJ4SWlTbkllcWM0NWFheDJXUUlXYUhkbkdxbjdL?=
- =?utf-8?B?NHRTNlQ5OTRCNkZyRkw0YWt6TDljM1A3ekdtRHlMYWVWZDNpT3FkQlREZ3Zj?=
- =?utf-8?B?dlNsWnVsWGFzNjFrMmVJWis0eU9GeWE4NWlVU2VUbmtmQ0M2R1QwOFdZRlk5?=
- =?utf-8?B?QzZTdzJlKytadTZ1YzR5eGtpbmpkeUZSNUdGY0plczkzK1MwQklaNk51M05O?=
- =?utf-8?B?MEVVczVFQ2lndXdtSE1jdVlTV3JiWFNndmlhZnoxRkpXQ3RoT0wzdTV1ekYy?=
- =?utf-8?B?a3dVeGxVeUJoQTcwOWFmcjlwajR3WmtIZnZOalhUQjA1TkplNWRNVTdUaXow?=
- =?utf-8?B?dStNcFgzMlJTTk45aitHWXovRm1FbVM5WkhaN05zOVRDZmNIbDIrcEVjSWZ6?=
- =?utf-8?B?aVZBNjgveDlybTVhQUVaZks5K09SaUlrYXFjMVkzVFdxOFNGT0VFV3NERWJU?=
- =?utf-8?B?RGxiMGYzaUl4Z0FZYnpLNmZRdVJTclh2V1R5WmE3MURRMGo0K3F4LzF6SVlu?=
- =?utf-8?Q?9HCIZNS+DemGEZELjNV6zEtp3?=
+	=?utf-8?B?d0VydlR5bjl3RFBmQk1PSVJNR1VtNWJKcWRoWnM4VjRqNUtBSjJOVm5HU01a?=
+ =?utf-8?B?N0IvZ2RVc3BxVDk1NXdMbjlFUWY2dE9ETlJlMlBaRG9IM2ZpU2lVcXdDZTRX?=
+ =?utf-8?B?akhWL21pTkZXMzJDR1FJMk9WTDc3T1l3UndWMkZMQlZDcVcwbnRoc0NrUDMv?=
+ =?utf-8?B?Y0hvVmpZczFkUlFCaVhJNkkxc00zZExZalBIdXo1eU81MmpPVlJUWmxaTTJS?=
+ =?utf-8?B?QVVFWUtHN3dSOXRORTVrbk5EUUNCVHRlQXdSVUsreS9nSkFXckFOc3dqd0VI?=
+ =?utf-8?B?eS9Nb0hrSW9TOVN3c1ZsSTBYYU9iYmlIMy9XRUE5cmRtaC9ZRTF6RXZYNVNJ?=
+ =?utf-8?B?dkVua1pQV0F6NStCMHRyZ05wMmVSa1J1UFphY1UzVEdmYm5FVHQ3YVdSM003?=
+ =?utf-8?B?YXVDVXpucUNvVk5reE5Ia0lqdWp2Q0w4aUhPQTVUZkdmVTR0T051TXl4V0U4?=
+ =?utf-8?B?dkVQdWZJVHdGdGZqQmdQRXM1Q2tucFhpU3F2aTJvY2pmYU1MMVZieWJDSkJw?=
+ =?utf-8?B?aUtlcHNONGh6bEZ5dkN0akRLUHVuUUE0c2hSQW51MGJ0eStNM2ZuNVNSL001?=
+ =?utf-8?B?YUljbW5Zd0JjcU96Y0EyZm9vMzU2MTF3RENnTzFHazc3MVFxeXRYcll0RWl6?=
+ =?utf-8?B?U2tQbzc0ak53QXJLam9tZkgvTC9xcG9WcENMMlYwUkQvbkdDc3JtMDduUzR6?=
+ =?utf-8?B?RXZzamR6VG9jb0F5QkZkNWVmVDFFbXhRcTRYMUZoNllHOWhxME5ZaDhpZk1E?=
+ =?utf-8?B?cnZCeUJtTEk3TkYwaW50bWxzc1hVY0o2dHkxZ3NZMUhxSi85UlhQNm01eGJ1?=
+ =?utf-8?B?ZnJteTB3a0FXN3lxcTBCU3lFRk1WRWhQUG5sV2VlOFJaekp6MzE0Q1B2UXJK?=
+ =?utf-8?B?elYxZ3ZFY0kzdFRkZnhHc3prOHY5QnEwZnhQY1ptbzl4QjZXQ0VlUk9zM2Fh?=
+ =?utf-8?B?U3ZOTTNSekVJblVzOHNZZDdGYzc4YnkwellNQUw3S0FSQnArc003L21UelBD?=
+ =?utf-8?B?dHYrUkhzbzBGQ1pFNXVEeWl6UWIzQkRjT0hod1pWN3J6T09KNHZldE1TWmJr?=
+ =?utf-8?B?VURrSDl3QnVlcTJjdE0zdE5DbENiVGFzOFIyQUxhZUt1Qk0ySlgyS2RqR3Ex?=
+ =?utf-8?B?ZmtLL2ViRkNML0NhSS94TDFQbWs5V2tMMkNqbE1HSVdHa052S2V0ZXdVeDlv?=
+ =?utf-8?B?K01OMFFlNmFSU0ZqUFlwUlE4NmtJL3htUzU3RmdKQTRiVWY2dUZMdXVvUFA5?=
+ =?utf-8?B?bDJCOWphTjhzZ1lSM2c5cWZXTnRnOUpHZm9jcEc1YVloRHZ5VTFKT0hEalpz?=
+ =?utf-8?B?Zmc2a3hud1R2OE0zdStJZXlZS2gycktPRUdSUUVNZGo2dzZwODFvcEl6MXpo?=
+ =?utf-8?B?ckhtbEdYb3dFZE5KMXNSNzd5M25HTlBLV3ZnL1MwanEreHBaZjdSRWJxN2Rq?=
+ =?utf-8?B?MWZXNGhEZWxYYXFnK2FTN2czTW16K1dKUE1DSmIwQXlyZ0NMMVlBTEJ1V1cw?=
+ =?utf-8?B?RVFUd0RvUGVpQzZIc0pJeUdTL1Q1MVhjS1p4VEcwaU4zNk1HbWJRb0hyOTdt?=
+ =?utf-8?B?ODd3U2o5WTU4SFl5VFBqdzIyQ2RlSElUcVloYUZDNWV0V0FObHk4Z1AvWEFv?=
+ =?utf-8?B?cG56NEZEOWpSK09ET1prbVFTVFlrMUdxQ3dURlRXbnIvbkJOaUZnRXFhYWFI?=
+ =?utf-8?B?b21IRmkwYXJ4QkRxTlhPR01FTXRvRkNjcENnVmZ1OWtvVDkrcDhOK2xvaUZ1?=
+ =?utf-8?B?WDlRS01oQkVmZGpsSFVzemtmQzZObkRrY2F2ZU51MHpYc0RtUDVRcE11emMr?=
+ =?utf-8?B?SWQvRmxKQ2hUcnF6d3k2K3NteGphZHcwb2wxcGN4ZkhqMEQyMHh3cm83Snho?=
+ =?utf-8?B?SC9XdHpSWU1tS0hWS3h0NFVyWTU1Z3dWT1ZOa0pMbmlIQkZpczEySEZoZmwx?=
+ =?utf-8?B?Z3EwTVVacyt2dDZjV3dRTnhUR041TmZVS29LaUFOd01SL2NHbjlZUHZFcVVk?=
+ =?utf-8?B?MFRRZFhrTmtzL1p2MDZENDlHLzRHMlRmOVA5bVdRSDdCUGJNbmgxTU5UeTlm?=
+ =?utf-8?B?dGJHRHdOazVRRTg1RlQ3a1hDazZYYW1HUVhMejFaUmRvWGhpVDY2b24raTZY?=
+ =?utf-8?Q?NKiCWZy6KpXV5wwLJmoYbWn+q?=
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3c83d297-7e91-4223-0e4f-08ddf772ca18
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6937c5b9-1962-44a7-1ee6-08ddf775bd22
 X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2025 11:50:54.6657
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2025 12:12:01.6073
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: SqfB7DZK9SSL59nQuLPmvUjGXNUxaH8ROR9J2ciGNxRJTSrPdB4S3BSativamNVT
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8921
+X-MS-Exchange-CrossTenant-UserPrincipalName: lV8yIqWmCjsKi+0mG6kRzonlCfsKYf5LVBwA839a0bMwoG/ldmSYNzTvdItV8cR7
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6699
 
-On 19.09.25 12:44, Janusz Krzysztofik wrote:
-> When multiple fences of an sw_sync timeline are signaled via
-> sw_sync_ioctl_inc(), we now disable interrupts and keep them disabled
-> while signaling all requested fences of the timeline in a loop.  Since
-> user space may set up an arbitrary long timeline of fences with
-> arbitrarily expensive callbacks added to each fence, we may end up running
-> with interrupts disabled for too long, longer than NMI watchdog limit.
-> That potentially risky scenario has been demonstrated on Intel DRM CI
-> trybot[1], on a low end machine fi-pnv-d510, with one of new IGT subtests
-> that try to reimplement wait_* test cases of a dma_fence_chain selftest in
-> user space.
+On 19.09.25 12:17, Eliav Farber wrote:
+> This series includes a total of 27 patches, to align minmax.h of
+> v5.15.y with v6.17-rc6.
+> 
+> The set consists of 24 commits that directly update minmax.h:
+> 1) 92d23c6e9415 ("overflow, tracing: Define the is_signed_type() macro
+>    once")
+> 2) 5efcecd9a3b1 ("minmax: sanity check constant bounds when clamping")
+> 3) 2122e2a4efc2 ("minmax: clamp more efficiently by avoiding extra
+>    comparison")
+> 4) f9bff0e31881 ("minmax: add in_range() macro")
+> 5) c952c748c7a9 ("minmax: Introduce {min,max}_array()")
+> 6) 5e57418a2031 ("minmax: deduplicate __unconst_integer_typeof()")
+> 7) f6e9d38f8eb0 ("minmax: fix header inclusions")
+> 8) d03eba99f5bf ("minmax: allow min()/max()/clamp() if the arguments
+>    have the same signedness.")
+> 9) f4b84b2ff851 ("minmax: fix indentation of __cmp_once() and
+>    __clamp_once()")
+> 10) 4ead534fba42 ("minmax: allow comparisons of 'int' against 'unsigned
+>     char/short'")
+> 11) 867046cc7027 ("minmax: relax check to allow comparison between
+>     unsigned arguments and signed constants")
+> 12) 3a7e02c040b1 ("minmax: avoid overly complicated constant
+>     expressions in VM code")
+> 14) 017fa3e89187 ("minmax: simplify and clarify min_t()/max_t()
+>     implementation")
+> 15) 1a251f52cfdc ("minmax: make generic MIN() and MAX() macros
+>     available everywhere")
+> 18) dc1c8034e31b ("minmax: simplify min()/max()/clamp()
+>     implementation")
+> 19) 22f546873149 ("minmax: improve macro expansion and type
+>     checking")
+> 20) 21b136cc63d2 ("minmax: fix up min3() and max3() too")
+> 21) 71ee9b16251e ("minmax.h: add whitespace around operators and after
+>     commas")
+> 22) 10666e992048 ("minmax.h: update some comments")
+> 23) b280bb27a9f7 ("minmax.h: reduce the #define expansion of min(),
+>     max() and clamp()")
+> 24) a5743f32baec ("minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi
+>     test in clamp()")
+> 25) c3939872ee4a ("minmax.h: move all the clamp() definitions after the
+>     min/max() ones")
+> 26) 495bba17cdf9 ("minmax.h: simplify the variants of clamp()")
+> 27) 2b97aaf74ed5 ("minmax.h: remove some #defines that are only
+>     expanded once")
+> 
+> 2 prerequisite commits that adjust users of MIN and MAX macros (to
+> prevent compilation issues):
+> 13) 4477b39c32fd ("minmax: add a few more MIN_T/MAX_T users")
+> 17) cb04e8b1d2f2 ("minmax: don't use max() in situations that want a C
+>     constant expression")
+> 
+> 1 additional commit introduced to resolve a build failures during the
+> backport:
+> 16) lib: zstd: drop local MIN/MAX macros in favor of generic ones
+> 
+> The primary motivation is to bring in commit (8).
+> In mainline, this change allows min()/max()/clamp() to accept mixed
+> argument types when both share the same signedness.
+> Backported patches to v5.10.y that use such forms trigger compiler
+> warnings, which in turn cause build failures when -Werror is enabled.
+> 
+> Originaly I aligned 5.10.y to 5.15.y, but David Laight commented that I
+> need to pick up the later changes (from Linus) as well.
+> 
+> Andy Shevchenko (2):
+>   minmax: deduplicate __unconst_integer_typeof()
+>   minmax: fix header inclusions
+> 
+> Bart Van Assche (1):
+>   overflow, tracing: Define the is_signed_type() macro once
+> 
+> David Laight (11):
+>   minmax: allow min()/max()/clamp() if the arguments have the same
+>     signedness.
+>   minmax: fix indentation of __cmp_once() and __clamp_once()
+>   minmax: allow comparisons of 'int' against 'unsigned char/short'
+>   minmax: relax check to allow comparison between unsigned arguments and
+>     signed constants
+>   minmax.h: add whitespace around operators and after commas
+>   minmax.h: update some comments
+>   minmax.h: reduce the #define expansion of min(), max() and clamp()
+>   minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+>   minmax.h: move all the clamp() definitions after the min/max() ones
+>   minmax.h: simplify the variants of clamp()
+>   minmax.h: remove some #defines that are only expanded once
+> 
+> Eliav Farber (1):
+>   lib: zstd: drop local MIN/MAX macros in favor of generic ones
+> 
+> Herve Codina (1):
+>   minmax: Introduce {min,max}_array()
+> 
+> Jason A. Donenfeld (2):
+>   minmax: sanity check constant bounds when clamping
+>   minmax: clamp more efficiently by avoiding extra comparison
+> 
+> Linus Torvalds (8):
+>   minmax: avoid overly complicated constant expressions in VM code
+>   minmax: add a few more MIN_T/MAX_T users
+>   minmax: simplify and clarify min_t()/max_t() implementation
+>   minmax: make generic MIN() and MAX() macros available everywhere
+>   minmax: don't use max() in situations that want a C constant
+>     expression
+>   minmax: simplify min()/max()/clamp() implementation
+>   minmax: improve macro expansion and type checking
+>   minmax: fix up min3() and max3() too
+> 
+> Matthew Wilcox (Oracle) (1):
+>   minmax: add in_range() macro
+> 
+>  arch/arm/mm/pageattr.c                        |   6 +-
+>  arch/um/drivers/mconsole_user.c               |   2 +
+>  arch/x86/mm/pgtable.c                         |   2 +-
 
-The purpose of the sw-sync is to test what happens if drivers exposing dma-fences doesn't behave well.
+>  drivers/edac/sb_edac.c                        |   4 +-
+>  drivers/edac/skx_common.h                     |   1 -
+>  .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
+>  .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
+>  .../drm/arm/display/include/malidp_utils.h    |   2 +-
+>  .../display/komeda/komeda_pipeline_state.c    |  24 +-
+>  drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
+>  drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   6 -
+>  drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
+>  drivers/hwmon/adt7475.c                       |  24 +-
+>  drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
+>  drivers/md/dm-integrity.c                     |   2 +-
+>  drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
+>  .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   |  18 +-
+>  .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
+>  drivers/net/fjes/fjes_main.c                  |   4 +-
+>  drivers/nfc/pn544/i2c.c                       |   2 -
+>  drivers/platform/x86/sony-laptop.c            |   1 -
+>  drivers/scsi/isci/init.c                      |   6 +-
 
-So being able to trigger the NMI watchdog for example is part of why that functionality exists in the first place.
+I do see the value to backport the infrastructure, but why are driver specific changes backported as well?
 
-See this WARNING in the Kconfig file as well:
-
-config SW_SYNC
-        bool "Sync File Validation Framework"
-        default n
-        depends on SYNC_FILE
-        depends on DEBUG_FS
-        help
-          A sync object driver that uses a 32bit counter to coordinate
-          synchronization.  Useful when there is no hardware primitive backing
-          the synchronization.
-
-          WARNING: improper use of this can result in deadlocking kernel
-          drivers from userspace. Intended for test and debug only.
-
-You can actually use the functionality to intentionally deadlock drivers and even the core memory management.
+I mean the changes are most likely correct but also not valuable in anyway as bug fix.
 
 Regards,
 Christian.
 
-
+>  .../pci/hive_isp_css_include/math_support.h   |   5 -
+>  fs/btrfs/misc.h                               |   2 -
+>  fs/btrfs/tree-checker.c                       |   2 +-
+>  fs/ext2/balloc.c                              |   2 -
+>  fs/ext4/ext4.h                                |   2 -
+>  fs/ufs/util.h                                 |   6 -
+>  include/linux/compiler.h                      |  15 +
+>  include/linux/minmax.h                        | 267 ++++++++++++++----
+>  include/linux/overflow.h                      |   1 -
+>  include/linux/trace_events.h                  |   2 -
+>  kernel/trace/preemptirq_delay_test.c          |   2 -
+>  lib/btree.c                                   |   1 -
+>  lib/decompress_unlzma.c                       |   2 +
+>  lib/logic_pio.c                               |   3 -
+>  lib/vsprintf.c                                |   2 +-
+>  lib/zstd/zstd_internal.h                      |   2 -
+>  mm/zsmalloc.c                                 |   1 -
+>  net/ipv4/proc.c                               |   2 +-
+>  net/ipv6/proc.c                               |   2 +-
+>  net/netfilter/nf_nat_core.c                   |   6 +-
+>  net/tipc/core.h                               |   2 +-
+>  net/tipc/link.c                               |  10 +-
+>  44 files changed, 306 insertions(+), 164 deletions(-)
 > 
-> [141.993704] [IGT] syncobj_timeline: starting subtest stress-enable-all-signal-all-forward
-> [164.964389] watchdog: CPU3: Watchdog detected hard LOCKUP on cpu 3
-> [164.964407] Modules linked in: snd_hda_codec_alc662 snd_hda_codec_realtek_lib snd_hda_codec_generic snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_timer snd soundcore i915 prime_numbers ttm drm_buddy drm_display_helper cec rc_core i2c_algo_bit video wmi overlay at24 ppdev gpio_ich binfmt_misc nls_iso8859_1 coretemp i2c_i801 i2c_mux i2c_smbus r8169 lpc_ich realtek parport_pc parport nvme_fabrics dm_multipath fuse msr efi_pstore nfnetlink autofs4
-> [164.964569] irq event stamp: 1002206
-> [164.964575] hardirqs last  enabled at (1002205): [<ffffffff82898ac7>] _raw_spin_unlock_irq+0x27/0x70
-> [164.964599] hardirqs last disabled at (1002206): [<ffffffff8287d021>] sysvec_irq_work+0x11/0xc0
-> [164.964616] softirqs last  enabled at (1002138): [<ffffffff81341bc5>] fpu_clone+0xb5/0x270
-> [164.964631] softirqs last disabled at (1002136): [<ffffffff81341b97>] fpu_clone+0x87/0x270
-> [164.964650] CPU: 3 UID: 0 PID: 1515 Comm: syncobj_timelin Tainted: G     U              6.17.0-rc6-Trybot_154715v1-gc1b827f32471+ #1 PREEMPT(voluntary)
-> [164.964662] Tainted: [U]=USER
-> [164.964665] Hardware name:  /D510MO, BIOS MOPNV10J.86A.0311.2010.0802.2346 08/02/2010
-> [164.964669] RIP: 0010:lock_release+0x13d/0x2a0
-> [164.964680] Code: c2 01 48 8d 4d c8 44 89 f6 4c 89 ef e8 bc fc ff ff 0b 05 96 ca 42 06 0f 84 fc 00 00 00 b8 ff ff ff ff 65 0f c1 05 0b 71 a9 02 <83> f8 01 0f 85 2f 01 00 00 48 f7 45 c0 00 02 00 00 74 06 fb 0f 1f
-> [164.964686] RSP: 0018:ffffc90000170e70 EFLAGS: 00000057
-> [164.964693] RAX: 0000000000000001 RBX: ffffffff83595520 RCX: 0000000000000000
-> [164.964698] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-> [164.964701] RBP: ffffc90000170eb0 R08: 0000000000000000 R09: 0000000000000000
-> [164.964706] R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff8226a948
-> [164.964710] R13: ffff88802423b340 R14: 0000000000000001 R15: ffff88802423c238
-> [164.964714] FS:  0000729f4d972940(0000) GS:ffff8880f8e77000(0000) knlGS:0000000000000000
-> [164.964720] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> [164.964725] CR2: 0000729f4d92e720 CR3: 000000003afe4000 CR4: 00000000000006f0
-> [164.964729] Call Trace:
-> [164.964734]  <IRQ>
-> [164.964750]  dma_fence_chain_get_prev+0x13d/0x240
-> [164.964769]  dma_fence_chain_walk+0xbd/0x200
-> [164.964784]  dma_fence_chain_enable_signaling+0xb2/0x280
-> [164.964803]  dma_fence_chain_irq_work+0x1b/0x80
-> [164.964816]  irq_work_single+0x75/0xa0
-> [164.964834]  irq_work_run_list+0x33/0x60
-> [164.964846]  irq_work_run+0x18/0x40
-> [164.964856]  __sysvec_irq_work+0x35/0x170
-> [164.964868]  sysvec_irq_work+0x9b/0xc0
-> [164.964879]  </IRQ>
-> [164.964882]  <TASK>
-> [164.964890]  asm_sysvec_irq_work+0x1b/0x20
-> [164.964900] RIP: 0010:_raw_spin_unlock_irq+0x2d/0x70
-> [164.964907] Code: 00 00 55 48 89 e5 53 48 89 fb 48 83 c7 18 48 8b 75 08 e8 06 63 bf fe 48 89 df e8 be 98 bf fe e8 59 ee d3 fe fb 0f 1f 44 00 00 <65> ff 0d 5c 85 68 01 74 14 48 8b 5d f8 c9 31 c0 31 d2 31 c9 31 f6
-> [164.964913] RSP: 0018:ffffc9000070fca0 EFLAGS: 00000246
-> [164.964919] RAX: 0000000000000000 RBX: ffff88800c2d8b10 RCX: 0000000000000000
-> [164.964923] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
-> [164.964927] RBP: ffffc9000070fca8 R08: 0000000000000000 R09: 0000000000000000
-> [164.964931] R10: 0000000000000000 R11: 0000000000000000 R12: ffff88800c2d8ac0
-> [164.964934] R13: ffffc9000070fcc8 R14: ffff88800c2d8ac0 R15: 00000000ffffffff
-> [164.964967]  sync_timeline_signal+0x153/0x2c0
-> [164.964989]  sw_sync_ioctl+0x98/0x580
-> [164.965017]  __x64_sys_ioctl+0xa2/0x100
-> [164.965034]  x64_sys_call+0x1226/0x2680
-> [164.965046]  do_syscall_64+0x93/0x980
-> [164.965057]  ? do_syscall_64+0x1b7/0x980
-> [164.965070]  ? lock_release+0xce/0x2a0
-> [164.965082]  ? __might_fault+0x53/0xb0
-> [164.965096]  ? __might_fault+0x89/0xb0
-> [164.965104]  ? __might_fault+0x53/0xb0
-> [164.965116]  ? _copy_to_user+0x53/0x70
-> [164.965131]  ? __x64_sys_rt_sigprocmask+0x8f/0xe0
-> [164.965152]  ? do_syscall_64+0x1b7/0x980
-> [164.965169]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
-> [164.965176] RIP: 0033:0x729f4fb24ded
-> [164.965188] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
-> [164.965193] RSP: 002b:00007ffdc36220e0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
-> [164.965200] RAX: ffffffffffffffda RBX: 0000000000000007 RCX: 0000729f4fb24ded
-> [164.965205] RDX: 00007ffdc3622174 RSI: 0000000040045701 RDI: 0000000000000007
-> [164.965209] RBP: 00007ffdc3622130 R08: 0000000000000000 R09: 0000000000000000
-> [164.965213] R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffdc3622174
-> [164.965217] R13: 0000000040045701 R14: 0000000000000007 R15: 0000000000000003
-> [164.965248]  </TASK>
-> [166.952984] perf: interrupt took too long (11861 > 6217), lowering kernel.perf_event_max_sample_rate to 16000
-> [166.953134] clocksource: Long readout interval, skipping watchdog check: cs_nsec: 13036276804 wd_nsec: 13036274445
-> 
-> Avoid potentially expensive signaling of each fence when removing it from
-> the timeline from inside the loop under protection of a common lock and
-> disabled interrupts, do that only after interrupts are re-enabled.  Each
-> call to dma_fence_signal() will then disable and re-enable interrputs as
-> needed for processing of each signaled fence.
-> 
-> [1] https://patchwork.freedesktop.org/series/154715/
-> 
-> Fixes: 0f0d8406fb9c3 ("android: convert sync to fence api, v6")
-> Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
-> ---
->  drivers/dma-buf/sw_sync.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
-> index 3c20f1d31cf54..638c2f756299a 100644
-> --- a/drivers/dma-buf/sw_sync.c
-> +++ b/drivers/dma-buf/sw_sync.c
-> @@ -224,13 +224,12 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
->  
->  		list_move_tail(&pt->link, &signalled);
->  		rb_erase(&pt->node, &obj->pt_tree);
-> -
-> -		dma_fence_signal_locked(&pt->base);
->  	}
->  
->  	spin_unlock_irq(&obj->lock);
->  
->  	list_for_each_entry_safe(pt, next, &signalled, link) {
-> +		dma_fence_signal(&pt->base);
->  		list_del_init(&pt->link);
->  		dma_fence_put(&pt->base);
->  	}
 
 
