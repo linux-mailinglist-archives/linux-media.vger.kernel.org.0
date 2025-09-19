@@ -1,368 +1,189 @@
-Return-Path: <linux-media+bounces-42801-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42802-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF7EBB896F4
-	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 14:24:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4DF0B8981F
+	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 14:43:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 760731CC0666
-	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 12:24:35 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 27E561C28AD8
+	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 12:43:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D35893101DE;
-	Fri, 19 Sep 2025 12:24:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 95843218596;
+	Fri, 19 Sep 2025 12:42:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bFLzqcRv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JzeU/vxo"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5A763101D8;
-	Fri, 19 Sep 2025 12:23:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D06D81FBEB9
+	for <linux-media@vger.kernel.org>; Fri, 19 Sep 2025 12:42:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758284641; cv=none; b=aBwH3REQcgqkUElY6v7JPH795i5TxGct8mcI+5nbCayoz6sVHo0vcZjNbajnTsG9Hdn+pClZjI/rvWWlWTvj4bsZGqQh6y4PWDOrQGVp2JK8AR4XRvjiUulgPzk/Vpd5cr+RAB1oKithRGHAcDU45ib6FCTpDmkVhU9Z7Tjcx+M=
+	t=1758285772; cv=none; b=Ngf4IQccO6qvyTLZOV39aaSjGMpWNreUTur0JtwCS8cJBfvIn+wqe9I/wMaF+p6CyGrXJa31CJGIy2vjDJfv6oi4PuTyDVNXqwdC9J0F5J45u4M1wzuFjyBcb/NFONNckFUcr49Ci3qAcBIChOhdjJZwrogHsWbEZHXX/ovBv+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758284641; c=relaxed/simple;
-	bh=JJxi6NuuUVnk2fyBHYzfrXdr/oXArBtzRNJLIN+KFAo=;
+	s=arc-20240116; t=1758285772; c=relaxed/simple;
+	bh=5As/2xUtvcMJen3HcRZfrMVMbZqOrbqA90eE+HMNo2U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GVX14FrQaiQJKFYpLDuvO1/6khydykJU21FwOPXcFf3+4EWHkgjJcdOzu0cfek5dzUWOtYkcoFLiXXbHnlGnLbylfhtlgh4Hfkt+g9gloXbkiOh+JbuAohKq6E8m13TQBCw8v5YKpNZt3TDuk6Ff061sfyrOYHIiQ7KV9IoEx/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bFLzqcRv; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9652B346;
-	Fri, 19 Sep 2025 14:22:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1758284550;
-	bh=JJxi6NuuUVnk2fyBHYzfrXdr/oXArBtzRNJLIN+KFAo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=bFLzqcRvzTEGjTPscT0afAOHiunGewFW5OCKn8EEcshMVYfXxhwqlDnrgt8lVF0ay
-	 BBWczAdi4c81yrZ8ovV3QcNmiOwt2jqPyds0A64BnTWX8OpOVKFf7Sr4wHk1kU0Zj7
-	 JK+GfQ93GMMfRDSEQKhPP2EBaiqo1yrqfKkEwrw8=
-Date: Fri, 19 Sep 2025 15:23:21 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: "Du, Bin" <bin.du@amd.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl, bryan.odonoghue@linaro.org,
-	sakari.ailus@linux.intel.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	sultan@kerneltoast.com, pratap.nirujogi@amd.com,
-	benjamin.chan@amd.com, king.li@amd.com, gjorgji.rosikopulos@amd.com,
-	Phil.Jawich@amd.com, Dominic.Antony@amd.com,
-	mario.limonciello@amd.com, richard.gong@amd.com, anson.tsao@amd.com
-Subject: Re: [PATCH v4 0/7] Add AMD ISP4 driver
-Message-ID: <20250919122321.GD10985@pendragon.ideasonboard.com>
-References: <20250911100847.277408-1-Bin.Du@amd.com>
- <2325fe6e-f17e-44f2-9c3c-495466b40e4b@amd.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=FUzHZH2Rt0yLdf25xVSiznMw6JZnTClmNRxzkZCpssjRLgIkns/gFNQe7tDoLhATDc6I/TjJl+xu6/2muvSfBHHx4CRVLCyL5Bql94rn31p4tmheEii4z87oSOQL/C4ZI4Tdhm6Zo3QMK04c9cwkj8EyfV0f2ydqcli0HmvPJCE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JzeU/vxo; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758285770; x=1789821770;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5As/2xUtvcMJen3HcRZfrMVMbZqOrbqA90eE+HMNo2U=;
+  b=JzeU/vxomRUq13u6w1n6W5g5v8RWnNQZy3znh5GSTxgUOOVVWVkAPSRC
+   P4G7ART/I/ytc/5509/wZocNX3twDrMVeV+eJl7cMIk2sohIO2j5D4JCe
+   TYKfbal21StmaRAc/mCd2xSkC2kBU7UxbghNfnkrElSBwsJEDfjvepYiS
+   +KawzyDwLl9pJUwOiK0Cy3hE0hVGMMDcVwfS9Q2XWbG4JseEcRKh2WPZf
+   fSapWxdYVS7g+gLNPnKknxOm6lHXDI1ZTqt9urOZX1KPjmyLj9VRaliLN
+   +ZAgmjwq8kLwpi0YXGk5KPvoxju0sGwCPfeNu++6UxjqBVIMj95gXtPRd
+   Q==;
+X-CSE-ConnectionGUID: /1L/iGp2ScabNmpT8iL7sw==
+X-CSE-MsgGUID: k1ghg2UuR0CMswFWlKsTwg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="48208592"
+X-IronPort-AV: E=Sophos;i="6.18,278,1751266800"; 
+   d="scan'208";a="48208592"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 05:42:49 -0700
+X-CSE-ConnectionGUID: 7ejpOKuiQOCdrd/i2Avuag==
+X-CSE-MsgGUID: MtKAqQUoRIGsYvl/FMR97Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,278,1751266800"; 
+   d="scan'208";a="176635680"
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.108])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 05:42:42 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 9966911F95D;
+	Fri, 19 Sep 2025 15:42:39 +0300 (EEST)
+Date: Fri, 19 Sep 2025 15:42:39 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 41/66] media: Documentation: Add scaling and
+ post-scaler crop for common raw
+Message-ID: <aM1Pv0oXpmw8sVn8@kekkonen.localdomain>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-42-sakari.ailus@linux.intel.com>
+ <mqouvw4ecezulohznuovrg4zcqcnugp6l77mdqqgogdawygu24@j5c3mgvf757x>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2325fe6e-f17e-44f2-9c3c-495466b40e4b@amd.com>
+In-Reply-To: <mqouvw4ecezulohznuovrg4zcqcnugp6l77mdqqgogdawygu24@j5c3mgvf757x>
 
-Hi Bin,
+Hi Jacopo,
 
-On Fri, Sep 19, 2025 at 11:24:36AM +0800, Du, Bin wrote:
-> Hi Laurent, Sakari,
+On Mon, Sep 01, 2025 at 07:12:23PM +0200, Jacopo Mondi wrote:
+> Hi Sakari
 > 
-> Thank you for your previous review feedback, we have addressed all 
-> comments and listed the detailed changes in this cover letter below. 
-> Would you mind taking a look at the v4 series if you have time. Any 
-> feedback would be greatly appreciated.
+> On Mon, Aug 25, 2025 at 12:50:42PM +0300, Sakari Ailus wrote:
+> > Document scaling and post-scaler digital crop operations for the common
+> > raw sensor model.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  .../media/v4l/subdev-config-model.rst         | 24 +++++++++++++++----
+> >  1 file changed, 19 insertions(+), 5 deletions(-)
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > index 1e6c58931ea0..c1b9b74cbcef 100644
+> > --- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > @@ -139,11 +139,18 @@ sub-sampling to achieve the desired size.
+> >
+> >  The digital crop operation takes place after binning and sub-sampling. It is
+> >  configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
+> > -0/0. The resulting image size is further output by the sensor.
+> > +0/0.
+> > +
+> > +The scaling operation is performed after the digital crop. It is configured by
+> > +setting the ``V4L2_SEL_TGT_COMPOSE`` rectangle on (pad, stream) pair 0/0,
+> > +relative to the digital crop.
+> >
+> >  The sensor's output mbus code is configured by setting the format on the (pad,
+> > -stream) pair 0/0. When setting the format, always use the same width and height
+> > -as for the digital crop setting.
+> > +stream) pair 0/0. The width and height fields are used to configure post-scaler
+> > +digital crop if supported by the driver, affecting the right and bottom edges of
+> > +the frame. If post-scaler digital crop is not supported, the width and height
+> > +fields of the format will match the compose rectangle sizes applied on the same
+> > +0/0 (pad, stream) pair.
+> >
+> >  Drivers may only support some or even none of these configurations, in which
+> >  case they do not expose the corresponding selection rectangles. If any selection
+> > @@ -201,12 +208,19 @@ Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
+> >        - X
+> >        - Digital crop. This rectangle is relative to the ``V4L2_SEL_TGT_COMPOSE``
+> >          rectangle on (pad, stream) pair 1/0.
+> > +    * - 0/0
+> > +      - ``V4L2_SEL_TGT_COMPOSE``
+> > +      - \-
+> > +      - X
+> > +      - Scaling. This rectangle is relative to the ``V4L2_SEL_TGT_CROP``
+> > +        rectangle on (pad, stream) pair 0/0.
+> >      * - 0/0
+> >        - Format
+> >        - X
+> >        - X
+> > -      - Image data source format. Always assign the width and height fields of
+> > -        the format to the same values than for the ``V4L2_SEL_TGT_CROP``
+> > +      - Image data source format and post-scaler crop. The width and height
+> > +        fields of the format, used to configure post-scaler crop on the right
+> > +        and bottom edges of the image, are related to the ``V4L2_SEL_TGT_COMPOSE``
+> 
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> 
+> Why not squashing it with #40 that has just introduced the section you
+> are here modifying ?
 
-I'm really overloaded at the moment, so I can't guarantee any review
-time frame. Sorry about that.
+One of the matters that was open regarding this set was whether to include
+scaling. I'm fine with squashing this patch once we conclude that.
 
-> On 9/11/2025 6:08 PM, Bin Du wrote:
-> > Hello,
-> > 
-> > AMD ISP4 is the AMD image processing gen 4 which can be found in HP ZBook Ultra G1a 14 inch Mobile Workstation PC (Ryzen AI Max 300 Series)
-> > (https://ubuntu.com/certified/202411-36043)
-> > This patch series introduces the initial driver support for the AMD ISP4.
-> > 
-> > Patch summary:
-> > - Powers up/off and initializes ISP HW
-> > - Configures and kicks off ISP FW
-> > - Interacts with APP using standard V4l2 interface by video node
-> > - Controls ISP HW and interacts with ISP FW to do image processing
-> > - Supports enum/set output image format and resolution
-> > - Supports queueing buffer from app and dequeuing ISP filled buffer to App
-> > - It is verified on qv4l2, cheese and qcam
-> > - It is verified together with following patches
-> > 	platform/x86: Add AMD ISP platform config (https://lore.kernel.org/all/20250514215623.522746-1-pratap.nirujogi@amd.com/)
-> > 	pinctrl: amd: isp411: Add amdisp GPIO pinctrl (https://github.com/torvalds/linux/commit/e97435ab09f3ad7b6a588dd7c4e45a96699bbb4a)
-> > 	drm/amd/amdgpu: Add GPIO resources required for amdisp (https://gitlab.freedesktop.org/agd5f/linux/-/commit/ad0f5966ed8297aa47b3184192b00b7379ae0758)
-> > 	drm/amd/amdgpu: Declare isp firmware binary file (https://gitlab.freedesktop.org/agd5f/linux/-/commit/35345917bc9f7c86152b270d9d93c220230b667f)
-> > 
-> > AMD ISP4 Key features:
-> > - Processes bayer raw data from the connected sensor and output them to different YUV formats
-> > - Downscale input image to different output image resolution
-> > - Pipeline to do image processing on the input image including demosaic, denoise, 3A, etc.
-> > 
-> > ----------
-> > 
-> > Changes v3 -> v4:
-> > 
-> > - Replace one mutex with guard mutex.
-> > - Remove unnecessary bus_info initialization of v4l2_capability.
-> > - Drop V4L2_CAP_IO_MC from capabilities of v4l2_capability.
-> > - Modify document with better SOC description.
-> > - Fix Test x86 failure in Media CI test https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/83470456/artifacts/report.htm
-> > - Modify some commit messages by describing changes in imperative mood.
-> > - Add media-ctl output in cover letter.
-> > - Create separated dedicated amdgpu patch to add declaration MODULE_FIRMWARE("amdgpu/isp_4_1_1.bin");
-> > - Fix typo errors and other cosmetic issues.
-> > - Add DRM_AMD_ISP dependency in Kconfig.
-> > 
-> > 
-> > Changes v2 -> v3:
-> > 
-> > - All the dependent patches in other modules (drm/amd/amdgpu, platform/x86, pinctrl/amd) merged on upstream mainline kernel (https://github.com/torvalds/linux) v6.17.
-> > - Removed usage of amdgpu structs in ISP driver. Added helper functions in amdgpu accepting opaque params from ISP driver to allocate and release ISP GART buffers.
-> > - Moved sensor and MIPI phy control entirely into ISP FW instead of the previous hybrid approach controlling sensor from both FW and x86 (sensor driver).
-> > - Removed phy configuration and sensor binding as x86 (sensor driver) had relinquished the sensor control for ISP FW. With this approach the driver will be exposed as web camera like interface.
-> > - New FW with built-in sensor driver is submitted on upstream linux-firmware repo (https://gitlab.com/kernel-firmware/linux-firmware/).
-> > - Please note the new FW submitted is not directly compatible with OEM Kernel ISP4.0 (https://github.com/amd/Linux_ISP_Kernel/tree/4.0) and the previous ISP V2 patch series.
-> > - If intend to use the new FW, please rebuild OEM ISP4.0 Kernel with CONFIG_VIDEO_OV05C10=N and CONFIG_PINCTRL_AMDISP=Y.
-> > - Included critical fixes from Sultan Alsawaf branch (https://github.com/kerneltoast/kernel_x86_laptop.git) related to managing lifetime of isp buffers.
-> >        media: amd: isp4: Add missing refcount tracking to mmap memop
-> >        media: amd: isp4: Don't put or unmap the dmabuf when detaching
-> >        media: amd: isp4: Don't increment refcount when dmabuf export fails
-> >        media: amd: isp4: Fix possible use-after-free in isp4vid_vb2_put()
-> >        media: amd: isp4: Always export a new dmabuf from get_dmabuf memop
-> >        media: amd: isp4: Fix implicit dmabuf lifetime tracking
-> >        media: amd: isp4: Fix possible use-after-free when putting implicit dmabuf
-> >        media: amd: isp4: Simplify isp4vid_get_dmabuf() arguments
-> >        media: amd: isp4: Move up buf->vaddr check in isp4vid_get_dmabuf()
-> >        media: amd: isp4: Remove unused userptr memops
-> >        media: amd: isp4: Add missing cleanup on error in isp4vid_vb2_alloc()
-> >        media: amd: isp4: Release queued buffers on error in start_streaming
-> > - Addressed all code related upstream comments
-> > - Fix typo errors and other cosmetic issues.
-> > 
-> > 
-> > Changes v1 -> v2:
-> > 
-> > - Fix media CI test errors and valid warnings
-> > - Reduce patch number in the series from 9 to 8 by merging MAINTAINERS adding patch to the first patch
-> > - In patch 5
-> > 	- do modification to use remote endpoint instead of local endpoint
-> > 	- use link frequency and port number as start phy parameter instead of extra added phy-id and phy-bit-rate property of endpoint
-> > 
-> > ----------
-> > 
-> > It passes v4l2 compliance test, the test reports for:
-> > 
-> > (a) amd_isp_capture device /dev/video0
-> > 
-> > Compliance test for amd_isp_capture device /dev/video0:
-> > -------------------------------------------------------
-> > 
-> > atg@atg-HP-PV:~/bin$ ./v4l2-compliance -d /dev/video0
-> > v4l2-compliance 1.29.0-5348, 64 bits, 64-bit time_t
-> > v4l2-compliance SHA: 75e3f0e2c2cb 2025-03-17 18:12:17
-> > 
-> > Compliance test for amd_isp_capture device /dev/video0:
-> > 
-> > Driver Info:
-> >          Driver name      : amd_isp_capture
-> >          Card type        : amd_isp_capture
-> >          Bus info         : platform:amd_isp_capture
-> >          Driver version   : 6.14.0
-> >          Capabilities     : 0xa4200001
-> >                  Video Capture
-> >                  I/O MC
-> >                  Streaming
-> >                  Extended Pix Format
-> >                  Device Capabilities
-> >          Device Caps      : 0x24200001
-> >                  Video Capture
-> >                  I/O MC
-> >                  Streaming
-> >                  Extended Pix Format
-> > Media Driver Info:
-> >          Driver name      : amd_isp_capture
-> >          Model            : amd_isp41_mdev
-> >          Serial           :
-> >          Bus info         : platform:amd_isp_capture
-> >          Media version    : 6.14.0
-> >          Hardware revision: 0x00000000 (0)
-> >          Driver version   : 6.14.0
-> > Interface Info:
-> >          ID               : 0x03000005
-> >          Type             : V4L Video
-> > Entity Info:
-> >          ID               : 0x00000003 (3)
-> >          Name             : Preview
-> >          Function         : V4L2 I/O
-> >          Pad 0x01000004   : 0: Sink
-> >            Link 0x02000007: from remote pad 0x1000002 of entity 'amd isp4' (Image Signal Processor): Data, Enabled, Immutable
-> > 
-> > Required ioctls:
-> >          test MC information (see 'Media Driver Info' above): OK
-> >          test VIDIOC_QUERYCAP: OK
-> >          test invalid ioctls: OK
-> > 
-> > Allow for multiple opens:
-> >          test second /dev/video0 open: OK
-> >          test VIDIOC_QUERYCAP: OK
-> >          test VIDIOC_G/S_PRIORITY: OK
-> >          test for unlimited opens: OK
-> > 
-> > Debug ioctls:
-> >          test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-> >          test VIDIOC_LOG_STATUS: OK (Not Supported)
-> > 
-> > Input ioctls:
-> >          test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> >          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> >          test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> >          test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> >          test VIDIOC_G/S/ENUMINPUT: OK
-> >          test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> >          Inputs: 1 Audio Inputs: 0 Tuners: 0
-> > 
-> > Output ioctls:
-> >          test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> >          test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> >          test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> >          test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> >          test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> >          Outputs: 0 Audio Outputs: 0 Modulators: 0
-> > 
-> > Input/Output configuration ioctls:
-> >          test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-> >          test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-> >          test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-> >          test VIDIOC_G/S_EDID: OK (Not Supported)
-> > 
-> > Control ioctls (Input 0):
-> >          test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-> >          test VIDIOC_QUERYCTRL: OK (Not Supported)
-> >          test VIDIOC_G/S_CTRL: OK (Not Supported)
-> >          test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-> >          test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-> >          test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> >          Standard Controls: 0 Private Controls: 0
-> > 
-> > Format ioctls (Input 0):
-> >          test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-> >          test VIDIOC_G/S_PARM: OK
-> >          test VIDIOC_G_FBUF: OK (Not Supported)
-> >          test VIDIOC_G_FMT: OK
-> >          test VIDIOC_TRY_FMT: OK
-> >          test VIDIOC_S_FMT: OK
-> >          test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> >          test Cropping: OK (Not Supported)
-> >          test Composing: OK (Not Supported)
-> >          test Scaling: OK (Not Supported)
-> > 
-> > Codec ioctls (Input 0):
-> >          test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-> >          test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> >          test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-> > 
-> > Buffer ioctls (Input 0):
-> >          test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-> >          test CREATE_BUFS maximum buffers: OK
-> >          test VIDIOC_REMOVE_BUFS: OK
-> >          test VIDIOC_EXPBUF: OK
-> >          test Requests: OK (Not Supported)
-> >          test blocking wait: OK
-> > 
-> > Total for amd_isp_capture device /dev/video0: 49, Succeeded: 49, Failed: 0, Warnings: 0
-> > 
-> > The media-ctl output of media device /dev/media0:
-> > -------------------------------------------------------
-> > 
-> > atg@atg-HP-PV:~$ media-ctl -p -d /dev/media0
-> > Media controller API version 6.17.0
-> > 
-> > Media device information
-> > ------------------------
-> > driver          amd_isp_capture
-> > model           amd_isp41_mdev
-> > serial
-> > bus info        platform:amd_isp_capture
-> > hw revision     0x0
-> > driver version  6.17.0
-> > 
-> > Device topology
-> > - entity 1: amd isp4 (1 pad, 1 link, 0 routes)
-> >              type V4L2 subdev subtype Unknown flags 0
-> >          pad0: Source
-> >                  -> "Preview":0 [ENABLED,IMMUTABLE]
-> > 
-> > - entity 3: Preview (1 pad, 1 link)
-> >              type Node subtype V4L flags 0
-> >              device node name /dev/video0
-> >          pad0: Sink
-> >                  <- "amd isp4":0 [ENABLED,IMMUTABLE]
-> > 
-> > Please review and provide feedback.
-> > 
-> > Many thanks,
-> > 
-> > Bin Du (7):
-> >    media: platform: amd: Introduce amd isp4 capture driver
-> >    media: platform: amd: low level support for isp4 firmware
-> >    media: platform: amd: Add isp4 fw and hw interface
-> >    media: platform: amd: isp4 subdev and firmware loading handling added
-> >    media: platform: amd: isp4 video node and buffers handling added
-> >    media: platform: amd: isp4 debug fs logging and  more descriptive
-> >      errors
-> >    Documentation: add documentation of AMD isp 4 driver
-> > 
-> >   Documentation/admin-guide/media/amdisp4-1.rst |   63 +
-> >   Documentation/admin-guide/media/amdisp4.dot   |    6 +
-> >   .../admin-guide/media/v4l-drivers.rst         |    1 +
-> >   MAINTAINERS                                   |   25 +
-> >   drivers/media/platform/Kconfig                |    1 +
-> >   drivers/media/platform/Makefile               |    1 +
-> >   drivers/media/platform/amd/Kconfig            |    3 +
-> >   drivers/media/platform/amd/Makefile           |    3 +
-> >   drivers/media/platform/amd/isp4/Kconfig       |   13 +
-> >   drivers/media/platform/amd/isp4/Makefile      |   10 +
-> >   drivers/media/platform/amd/isp4/isp4.c        |  237 ++++
-> >   drivers/media/platform/amd/isp4/isp4.h        |   26 +
-> >   drivers/media/platform/amd/isp4/isp4_debug.c  |  272 ++++
-> >   drivers/media/platform/amd/isp4/isp4_debug.h  |   41 +
-> >   .../platform/amd/isp4/isp4_fw_cmd_resp.h      |  314 +++++
-> >   drivers/media/platform/amd/isp4/isp4_hw_reg.h |  125 ++
-> >   .../media/platform/amd/isp4/isp4_interface.c  |  966 +++++++++++++
-> >   .../media/platform/amd/isp4/isp4_interface.h  |  149 ++
-> >   drivers/media/platform/amd/isp4/isp4_subdev.c | 1197 ++++++++++++++++
-> >   drivers/media/platform/amd/isp4/isp4_subdev.h |  133 ++
-> >   drivers/media/platform/amd/isp4/isp4_video.c  | 1207 +++++++++++++++++
-> >   drivers/media/platform/amd/isp4/isp4_video.h  |   87 ++
-> >   22 files changed, 4880 insertions(+)
-> >   create mode 100644 Documentation/admin-guide/media/amdisp4-1.rst
-> >   create mode 100644 Documentation/admin-guide/media/amdisp4.dot
-> >   create mode 100644 drivers/media/platform/amd/Kconfig
-> >   create mode 100644 drivers/media/platform/amd/Makefile
-> >   create mode 100644 drivers/media/platform/amd/isp4/Kconfig
-> >   create mode 100644 drivers/media/platform/amd/isp4/Makefile
-> >   create mode 100644 drivers/media/platform/amd/isp4/isp4.c
-> >   create mode 100644 drivers/media/platform/amd/isp4/isp4.h
-> >   create mode 100644 drivers/media/platform/amd/isp4/isp4_debug.c
-> >   create mode 100644 drivers/media/platform/amd/isp4/isp4_debug.h
-> >   create mode 100644 drivers/media/platform/amd/isp4/isp4_fw_cmd_resp.h
-> >   create mode 100644 drivers/media/platform/amd/isp4/isp4_hw_reg.h
-> >   create mode 100644 drivers/media/platform/amd/isp4/isp4_interface.c
-> >   create mode 100644 drivers/media/platform/amd/isp4/isp4_interface.h
-> >   create mode 100644 drivers/media/platform/amd/isp4/isp4_subdev.c
-> >   create mode 100644 drivers/media/platform/amd/isp4/isp4_subdev.h
-> >   create mode 100644 drivers/media/platform/amd/isp4/isp4_video.c
-> >   create mode 100644 drivers/media/platform/amd/isp4/isp4_video.h
+> 
+> >          rectangle on (pad, stream) pair 0/0. The media bus code reflects the
+> >          pixel data output of the sensor.
+> >      * - 0/1
 
 -- 
-Regards,
+Kind regards,
 
-Laurent Pinchart
+Sakari Ailus
 
