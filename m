@@ -1,229 +1,201 @@
-Return-Path: <linux-media+bounces-42793-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42794-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 58F3CB891B0
-	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 12:42:02 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A466B891FB
+	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 12:45:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 58C783B5C66
-	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 10:36:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 53FD51CC14B9
+	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 10:46:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5551E2FBE18;
-	Fri, 19 Sep 2025 10:36:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 697FF30ACFA;
+	Fri, 19 Sep 2025 10:45:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hrE1lsKL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QlEuOG65"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86F984315A
-	for <linux-media@vger.kernel.org>; Fri, 19 Sep 2025 10:36:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CBF72BEC59
+	for <linux-media@vger.kernel.org>; Fri, 19 Sep 2025 10:45:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758278183; cv=none; b=HyvWb2e6V3hzoxAYC73I+HrmOg+kqAc/sS1Xcs1KC4/YubJ9tGhZt+zgQPNf8/DWvdBkxc9iOSMt4/iEQjWyrJfljfy+MjuJaEzIO7u6fvzndDnTqKpGbqKKOJRRicCMrHLHJzF0XqeMwXrA14clX7V2CgpEc3IKDMWIR9ol+v8=
+	t=1758278743; cv=none; b=aYuCn/MLOm+VVvHD/n/dEZIVjwl+k2MGE8F/fyqSCCq0dl4IKzhdxoH14fdt/zoB3wQUi9pG68qZBuqKGUyDePzAswrHLrbBTRdfmq89vo2FaKwcIWaUpKoXO9bysWwbcnLe6g1uESlGPZ5OSE9s9EWWE2LH/EhXLde4h+HE3MI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758278183; c=relaxed/simple;
-	bh=4zqYva0rpTx5isdzKdiBw4W3865TwJgrzOOTkYa+AHU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e9bs1082lH6eHn0/HRAuQ9Vwab+MJmlDJlvVvjUY5Aj3AsU0P2Xc6NJpH7xLYGx4t6T+3kTe5hm5wqm43LYzgOhmMHgW54PzJClw8AFzadloHtl7GV69qpGnf6n6rq+/Z5grWL1+dynp7/YkgK9xReQkSgxGxe5kid2UE/7sjNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hrE1lsKL; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1758278743; c=relaxed/simple;
+	bh=Z/95kFtj+EpEUZDWc6L2nInAUcfB2yavwYIE9LS/m6M=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fyaZ9Nw7CLqneXBZdmjF7c1JQSo9vST5eJ7NIBp9aOVLkmLfzWpPYsAuUxN1P9gSOMTnl7kpN8jmvRbpFHdRMp9aNjmoGQ9QzfVIQpbArPYR/apkPXYIIy8teQ26Mc/ieO1vKEVOoPB27zYljxMMiJG3Vn5ryPk3TRitJ9KmCok=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QlEuOG65; arc=none smtp.client-ip=192.198.163.8
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758278182; x=1789814182;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=4zqYva0rpTx5isdzKdiBw4W3865TwJgrzOOTkYa+AHU=;
-  b=hrE1lsKLvU3izWZ23voft1f1yz9QHFLfNumBM7H+NpqtRIsOO2T6LRvt
-   ae5mRxUcatSIrd5T3IhirnbS6fQcDXy2Jz6yGJtIBNtBhwh2ZNQX+hCLi
-   irYHxVFYdfiKqzdTwVx4A3WqHTH7/hKUTEbQL1sZaOQC+hMKQP7nu/Pbg
-   vE6i8OU/kb32az06xVITUW/7yOYZybncIsnPv2AC6LLKxuBjJso4Wag/S
-   Dky0keVh0iaLb+blXJXoiUYrtFIjIxtRuOJ66M0eJOwUj78F4LAMFKNsx
-   JRxXS/vxbFPEZR97viQXWBsykVCYVEHcRAwnElq61mGWNI6JUBIkVfBys
-   A==;
-X-CSE-ConnectionGUID: VxrMPXzdTXaMLaXhxZ6i/g==
-X-CSE-MsgGUID: AMCnXnZjQmy4UcHvTDHUSw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="60686132"
+  t=1758278742; x=1789814742;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Z/95kFtj+EpEUZDWc6L2nInAUcfB2yavwYIE9LS/m6M=;
+  b=QlEuOG65hLV5cM7WghPD1C137vxsitakuCKaxqbGd068Wg+HSp7te0MK
+   T8wj8LgyTqwUx/NNOlP9qCmJh4leR9LTAcmBi9GN7H6msYqKUoc9lSCBU
+   TL0gDRWnmecACi4n8cA3tEhksWT+uyNiF/JxGbUhLpKyp1T3lLzRn38MS
+   +7PdLmmIndl17Yo6KwrcBMD/h6UEORBDbur+kqlhzWEjFnXOw/DiAsMKT
+   3fj5hGChvlwZ7tQ8OBz7j1A32wCXsizKBnv+xz0yzLkOAklAJ/aMt/Aw1
+   xvbW0ko1GCfkCG/zINSaaI0wWUbogf85zUvd91A/ae2cawbvmSeqTzoes
+   w==;
+X-CSE-ConnectionGUID: /uy96pp9QmW59DXTHTMqqw==
+X-CSE-MsgGUID: hturH45PQy2Ee41jYk2USw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11557"; a="78230971"
 X-IronPort-AV: E=Sophos;i="6.18,277,1751266800"; 
-   d="scan'208";a="60686132"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 03:36:21 -0700
-X-CSE-ConnectionGUID: e8N0ZG+qRkmutZIzmwlurg==
-X-CSE-MsgGUID: LYKLJJiyQGWfboGGB3XAHA==
+   d="scan'208";a="78230971"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 03:45:41 -0700
+X-CSE-ConnectionGUID: KJfJ+BRyRQy8doZMDMWzGQ==
+X-CSE-MsgGUID: yRcK4vDpSQeX48ybd5leLA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,277,1751266800"; 
-   d="scan'208";a="175358526"
-Received: from ettammin-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.108])
-  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 03:36:14 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id D570A11F982;
-	Fri, 19 Sep 2025 13:36:10 +0300 (EEST)
-Date: Fri, 19 Sep 2025 13:36:10 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 24/66] media: uapi: Add V4L2_CID_METADATA_LAYOUT
- control
-Message-ID: <aM0yGiWgZLdaWTAe@kekkonen.localdomain>
-References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-25-sakari.ailus@linux.intel.com>
- <qeuueahbuofjmeird3dr7xtcosfhymk72ceuma4dibudf2nn3s@z6smlg4yn2rf>
- <aLgiwzB_IhGTHyHz@kekkonen.localdomain>
- <20250903195211.GU3648@pendragon.ideasonboard.com>
+   d="scan'208";a="206566947"
+Received: from jkrzyszt-mobl2.ger.corp.intel.com ([10.245.245.148])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 03:45:37 -0700
+From: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+To: Sumit Semwal <sumit.semwal@linaro.org>,
+	Gustavo Padovan <gustavo@padovan.org>
+Cc: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Maarten Lankhorst <maarten.lankhorst@canonical.com>,
+	John Stultz <john.stultz@linaro.org>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+Subject: [PATCH] dma-buf/sw-sync: Fix interrupts disabled excessively long
+Date: Fri, 19 Sep 2025 12:44:47 +0200
+Message-ID: <20250919104503.1388351-2-janusz.krzysztofik@linux.intel.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250903195211.GU3648@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Laurent,
+When multiple fences of an sw_sync timeline are signaled via
+sw_sync_ioctl_inc(), we now disable interrupts and keep them disabled
+while signaling all requested fences of the timeline in a loop.  Since
+user space may set up an arbitrary long timeline of fences with
+arbitrarily expensive callbacks added to each fence, we may end up running
+with interrupts disabled for too long, longer than NMI watchdog limit.
+That potentially risky scenario has been demonstrated on Intel DRM CI
+trybot[1], on a low end machine fi-pnv-d510, with one of new IGT subtests
+that try to reimplement wait_* test cases of a dma_fence_chain selftest in
+user space.
 
-On Wed, Sep 03, 2025 at 09:52:11PM +0200, Laurent Pinchart wrote:
-> On Wed, Sep 03, 2025 at 02:13:07PM +0300, Sakari Ailus wrote:
-> > On Mon, Sep 01, 2025 at 05:07:55PM +0200, Jacopo Mondi wrote:
-> > > On Mon, Aug 25, 2025 at 12:50:25PM +0300, Sakari Ailus wrote:
-> > > > The metadata layout control defines the layout of the metadata on the bus.
-> > > > It is used on sub-devices that use generic metadata mbus codes on at least
-> > > > on one of the pads.
-> > > 
-> > > Ideally:
-> > > 1) we have per pad controls
-> > > 2) s/V4L2_CID_COLOR_PATTERN/V4L2_CID_DATA_PATTERN
-> > > 3) we use V4L2_CID_DATA_PATTERN for both color components ordering and
-> > >    metadata layouts. A sub-device will expose the same control, but on
-> > >    different pads
-> > > 
-> > > I know we don't want to block this series to wait for per-pad
-> > > controls, but I'm a bit afraid V4L2_CID_METADATA_LAYOUT will be made
-> > > redundant before it gets used for real (which maybe it's not a big
-> > > deal as if no one uses it, we will be able to easily replace it).
-> > 
-> > I wouldn't do that, for the reason that the mbus codes in the two cases
-> > will be different in any case so both will have separate namespaces.
-> > 
-> > Metadata is also unaffected by flipping, unlike the colour patterns.
-> > 
-> > I wonder what others think.
-> 
-> Per-pad controls could possibly be used here, but they're not there yet,
-> and the CFA pattern and metadata layout are two different concepts.
-> 
-> This being said, if you consider a sensor that produces multiple
-> metadata streams (e.g. embedded data and NPU tensors, transported over
-> different DTs), a single V4L2_CID_METADATA_LAYOUT control won't scale.
-> We will likely need per-pad, or even per-stream controls for that.
-> 
-> We could start with V4L2_CID_METADATA_LAYOUT and later extend it with
-> per-pad/stream controls for additional metadata streams, I don't think
-> that would cause trouble in userspace.
-> 
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > ---
-> > > >  .../userspace-api/media/v4l/ext-ctrls-image-source.rst      | 6 ++++++
-> > > >  drivers/media/v4l2-core/v4l2-ctrls-defs.c                   | 1 +
-> > > >  include/uapi/linux/v4l2-controls.h                          | 2 ++
-> > > >  3 files changed, 9 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > > index 3cb7ee1b0aed..64c0f9ff5b1b 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > > > @@ -145,3 +145,9 @@ Image Source Control IDs
-> > > >      of the reversed readout. ``V4L2_COLOR_PATTERN_FLIP_BOTH`` for setting both
-> > > >      ``V4L2_COLOR_PATTERN_FLIP_HORIZONTAL`` and
-> > > >      ``V4L2_COLOR_PATTERN_FLIP_VERTICAL`` is provided as well.
-> > > > +
-> > > > +``V4L2_CID_METADATA_LAYOUT (integer)``
-> > > > +    The metadata layout control defines the on-bus metadata layout for metadata
-> 
-> This needs to be clearer. "on-bus metadata layout" left me guessing what
-> values this control would take. Before the patches further in the series
-> that add layout values, I wasn't sure if the control would use media bus
-> codes or other types of values.
+[141.993704] [IGT] syncobj_timeline: starting subtest stress-enable-all-signal-all-forward
+[164.964389] watchdog: CPU3: Watchdog detected hard LOCKUP on cpu 3
+[164.964407] Modules linked in: snd_hda_codec_alc662 snd_hda_codec_realtek_lib snd_hda_codec_generic snd_hda_intel snd_intel_dspcfg snd_hda_codec snd_hda_core snd_hwdep snd_pcm snd_timer snd soundcore i915 prime_numbers ttm drm_buddy drm_display_helper cec rc_core i2c_algo_bit video wmi overlay at24 ppdev gpio_ich binfmt_misc nls_iso8859_1 coretemp i2c_i801 i2c_mux i2c_smbus r8169 lpc_ich realtek parport_pc parport nvme_fabrics dm_multipath fuse msr efi_pstore nfnetlink autofs4
+[164.964569] irq event stamp: 1002206
+[164.964575] hardirqs last  enabled at (1002205): [<ffffffff82898ac7>] _raw_spin_unlock_irq+0x27/0x70
+[164.964599] hardirqs last disabled at (1002206): [<ffffffff8287d021>] sysvec_irq_work+0x11/0xc0
+[164.964616] softirqs last  enabled at (1002138): [<ffffffff81341bc5>] fpu_clone+0xb5/0x270
+[164.964631] softirqs last disabled at (1002136): [<ffffffff81341b97>] fpu_clone+0x87/0x270
+[164.964650] CPU: 3 UID: 0 PID: 1515 Comm: syncobj_timelin Tainted: G     U              6.17.0-rc6-Trybot_154715v1-gc1b827f32471+ #1 PREEMPT(voluntary)
+[164.964662] Tainted: [U]=USER
+[164.964665] Hardware name:  /D510MO, BIOS MOPNV10J.86A.0311.2010.0802.2346 08/02/2010
+[164.964669] RIP: 0010:lock_release+0x13d/0x2a0
+[164.964680] Code: c2 01 48 8d 4d c8 44 89 f6 4c 89 ef e8 bc fc ff ff 0b 05 96 ca 42 06 0f 84 fc 00 00 00 b8 ff ff ff ff 65 0f c1 05 0b 71 a9 02 <83> f8 01 0f 85 2f 01 00 00 48 f7 45 c0 00 02 00 00 74 06 fb 0f 1f
+[164.964686] RSP: 0018:ffffc90000170e70 EFLAGS: 00000057
+[164.964693] RAX: 0000000000000001 RBX: ffffffff83595520 RCX: 0000000000000000
+[164.964698] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+[164.964701] RBP: ffffc90000170eb0 R08: 0000000000000000 R09: 0000000000000000
+[164.964706] R10: 0000000000000000 R11: 0000000000000000 R12: ffffffff8226a948
+[164.964710] R13: ffff88802423b340 R14: 0000000000000001 R15: ffff88802423c238
+[164.964714] FS:  0000729f4d972940(0000) GS:ffff8880f8e77000(0000) knlGS:0000000000000000
+[164.964720] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+[164.964725] CR2: 0000729f4d92e720 CR3: 000000003afe4000 CR4: 00000000000006f0
+[164.964729] Call Trace:
+[164.964734]  <IRQ>
+[164.964750]  dma_fence_chain_get_prev+0x13d/0x240
+[164.964769]  dma_fence_chain_walk+0xbd/0x200
+[164.964784]  dma_fence_chain_enable_signaling+0xb2/0x280
+[164.964803]  dma_fence_chain_irq_work+0x1b/0x80
+[164.964816]  irq_work_single+0x75/0xa0
+[164.964834]  irq_work_run_list+0x33/0x60
+[164.964846]  irq_work_run+0x18/0x40
+[164.964856]  __sysvec_irq_work+0x35/0x170
+[164.964868]  sysvec_irq_work+0x9b/0xc0
+[164.964879]  </IRQ>
+[164.964882]  <TASK>
+[164.964890]  asm_sysvec_irq_work+0x1b/0x20
+[164.964900] RIP: 0010:_raw_spin_unlock_irq+0x2d/0x70
+[164.964907] Code: 00 00 55 48 89 e5 53 48 89 fb 48 83 c7 18 48 8b 75 08 e8 06 63 bf fe 48 89 df e8 be 98 bf fe e8 59 ee d3 fe fb 0f 1f 44 00 00 <65> ff 0d 5c 85 68 01 74 14 48 8b 5d f8 c9 31 c0 31 d2 31 c9 31 f6
+[164.964913] RSP: 0018:ffffc9000070fca0 EFLAGS: 00000246
+[164.964919] RAX: 0000000000000000 RBX: ffff88800c2d8b10 RCX: 0000000000000000
+[164.964923] RDX: 0000000000000000 RSI: 0000000000000000 RDI: 0000000000000000
+[164.964927] RBP: ffffc9000070fca8 R08: 0000000000000000 R09: 0000000000000000
+[164.964931] R10: 0000000000000000 R11: 0000000000000000 R12: ffff88800c2d8ac0
+[164.964934] R13: ffffc9000070fcc8 R14: ffff88800c2d8ac0 R15: 00000000ffffffff
+[164.964967]  sync_timeline_signal+0x153/0x2c0
+[164.964989]  sw_sync_ioctl+0x98/0x580
+[164.965017]  __x64_sys_ioctl+0xa2/0x100
+[164.965034]  x64_sys_call+0x1226/0x2680
+[164.965046]  do_syscall_64+0x93/0x980
+[164.965057]  ? do_syscall_64+0x1b7/0x980
+[164.965070]  ? lock_release+0xce/0x2a0
+[164.965082]  ? __might_fault+0x53/0xb0
+[164.965096]  ? __might_fault+0x89/0xb0
+[164.965104]  ? __might_fault+0x53/0xb0
+[164.965116]  ? _copy_to_user+0x53/0x70
+[164.965131]  ? __x64_sys_rt_sigprocmask+0x8f/0xe0
+[164.965152]  ? do_syscall_64+0x1b7/0x980
+[164.965169]  entry_SYSCALL_64_after_hwframe+0x76/0x7e
+[164.965176] RIP: 0033:0x729f4fb24ded
+[164.965188] Code: 04 25 28 00 00 00 48 89 45 c8 31 c0 48 8d 45 10 c7 45 b0 10 00 00 00 48 89 45 b8 48 8d 45 d0 48 89 45 c0 b8 10 00 00 00 0f 05 <89> c2 3d 00 f0 ff ff 77 1a 48 8b 45 c8 64 48 2b 04 25 28 00 00 00
+[164.965193] RSP: 002b:00007ffdc36220e0 EFLAGS: 00000246 ORIG_RAX: 0000000000000010
+[164.965200] RAX: ffffffffffffffda RBX: 0000000000000007 RCX: 0000729f4fb24ded
+[164.965205] RDX: 00007ffdc3622174 RSI: 0000000040045701 RDI: 0000000000000007
+[164.965209] RBP: 00007ffdc3622130 R08: 0000000000000000 R09: 0000000000000000
+[164.965213] R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffdc3622174
+[164.965217] R13: 0000000040045701 R14: 0000000000000007 R15: 0000000000000003
+[164.965248]  </TASK>
+[166.952984] perf: interrupt took too long (11861 > 6217), lowering kernel.perf_event_max_sample_rate to 16000
+[166.953134] clocksource: Long readout interval, skipping watchdog check: cs_nsec: 13036276804 wd_nsec: 13036274445
 
-A few lines below there's a reference to generic metadata formats where
-this is documented. I wouldn't try to replicate it here. As you also noted,
-this is relevant for the review of this patch but not so much after adding
-the actual values in later patches in the series.
+Avoid potentially expensive signaling of each fence when removing it from
+the timeline from inside the loop under protection of a common lock and
+disabled interrupts, do that only after interrupts are re-enabled.  Each
+call to dma_fence_signal() will then disable and re-enable interrputs as
+needed for processing of each signaled fence.
 
-> 
-> > > > +    streams. The control is used in conjunction with :ref:`generic metadata
-> > > > +    formats <media-bus-format-generic-meta>` formats to specify the layout of the
-> > > > +    data.
-> > > > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > > > index 9ec65998a8f7..a7ea380de5ee 100644
-> > > > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > > > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > > > @@ -1157,6 +1157,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> > > >  	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
-> > > >  	case V4L2_CID_COLOR_PATTERN:		return "Color Pattern";
-> > > >  	case V4L2_CID_COLOR_PATTERN_FLIP:	return "Color Pattern Flip";
-> > > > +	case V4L2_CID_METADATA_LAYOUT:		return "Metadata Layout";
-> 
-> How about v4l2_ctrl_fill() ?
+[1] https://patchwork.freedesktop.org/series/154715/
 
-I'll add that in the next version.
+Fixes: 0f0d8406fb9c3 ("android: convert sync to fence api, v6")
+Signed-off-by: Janusz Krzysztofik <janusz.krzysztofik@linux.intel.com>
+---
+ drivers/dma-buf/sw_sync.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-> 
-> > > >
-> > > >  	/* Image processing controls */
-> > > >  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> > > > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> > > > index eb9ffdd74d32..74e22a930be4 100644
-> > > > --- a/include/uapi/linux/v4l2-controls.h
-> > > > +++ b/include/uapi/linux/v4l2-controls.h
-> > > > @@ -1239,6 +1239,8 @@ enum v4l2_jpeg_chroma_subsampling {
-> > > >  #define V4L2_COLOR_PATTERN_FLIP_BOTH \
-> > > >  	(V4L2_COLOR_PATTERN_FLIP_HORIZONTAL | V4L2_COLOR_PATTERN_FLIP_VERTICAL)
-> > > >
-> > > > +#define V4L2_CID_METADATA_LAYOUT		(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 12)
-> > > > +
-> > > 
-> > > Intentional empty line ?
-> > 
-> > I'll drop it.
-> > 
-> > > For the time being
-> > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > 
-> > Thank you.
-> 
-
+diff --git a/drivers/dma-buf/sw_sync.c b/drivers/dma-buf/sw_sync.c
+index 3c20f1d31cf54..638c2f756299a 100644
+--- a/drivers/dma-buf/sw_sync.c
++++ b/drivers/dma-buf/sw_sync.c
+@@ -224,13 +224,12 @@ static void sync_timeline_signal(struct sync_timeline *obj, unsigned int inc)
+ 
+ 		list_move_tail(&pt->link, &signalled);
+ 		rb_erase(&pt->node, &obj->pt_tree);
+-
+-		dma_fence_signal_locked(&pt->base);
+ 	}
+ 
+ 	spin_unlock_irq(&obj->lock);
+ 
+ 	list_for_each_entry_safe(pt, next, &signalled, link) {
++		dma_fence_signal(&pt->base);
+ 		list_del_init(&pt->link);
+ 		dma_fence_put(&pt->base);
+ 	}
 -- 
-Regards,
+2.51.0
 
-Sakari Ailus
 
