@@ -1,381 +1,497 @@
-Return-Path: <linux-media+bounces-42798-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42799-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7472B89623
-	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 14:12:56 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6680CB89696
+	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 14:18:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4F407E2F2E
-	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 12:12:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 220F4585DCA
+	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 12:18:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3480330F814;
-	Fri, 19 Sep 2025 12:12:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6BA4431079C;
+	Fri, 19 Sep 2025 12:18:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="OriFzY6k"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L4hL9DWz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013066.outbound.protection.outlook.com [40.93.201.66])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C7E233D7B;
-	Fri, 19 Sep 2025 12:12:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758283928; cv=fail; b=QUWHnAyeMPh7zAmo8bCmRksB5HKyL6XFdi5BoV8nH0d/GoIP5cOvgiRlvwF95iKmJAAJr+5jF2+zf3b6CblIjYgYb7NXupTTnRLRj85BYGBYmhJVVd2/n7wE9kTJxUph3toGpX75G9WHGix821ms0zphVKRI1zDmCYLEa1mmMTU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758283928; c=relaxed/simple;
-	bh=LFHEdC4pyoE//C2vGxjG15V4VJQ0Y3VFmrn+iqaRhBs=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=CSWViB/+e/Lr4Z7B1nGjZGJNFoEzSP/AnVTH9fSXxc2PJaAl1Wbm8eoeCCDSlauA8uFvYtyNvA2qp/3BN0wvBtK1Sm/Coi8nGV+OBn0gwBPMOQYUrbuyeHT83cryfDic/s4ZvpnLohmqCWmJa8tIJgQhFOPElgowZ2kFQhzhdP0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=OriFzY6k; arc=fail smtp.client-ip=40.93.201.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AD582V/BZa9pU6CwJjiIJjvvTNdjxLVrJcJAZ4wDujsYTxHicnibNdBX41+7L7y+xN/BjiNP3wu05eucjRsefxwjmXGoRSvN5bDsuYCHf1FdO5zNpemDct8D4JFME6tYEjWUXJbM0NWdt3/FXpESkq5/J2D5TnqxiRfLpctLAydiPByxMjj23yb6N31ZRMkpXPrKva7C3K/SuJqSsAo05pYR4uHCohh/dNLg6OunTCsArUWNpI2E/NsCF4AdM4EUIysrcXH1U9ariWL+M+4Z16WJNhZ/BJVvUz8+ONE+fuZAayA4it0YsxJnC/iPr53wcMJZ6m3IbmrpcxBYdvXQ/A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wbVXg5MyCk+7aXzf2aqtq5p3hcfcw9Z+3yObGYsYiy4=;
- b=GNl4eE/M18q6uF+7wngl9tt++sLmOH1dEo+DnV1hhGxl5/Ohp8Uxh3yHO4beFu2EcJqspIqDTelH4Xfo0NObFk9JSid2IK1p1mHuGsYQXZTPAAeEbHxc5qxJXekoFleMev6oYVwtzx3RtmaF6EzK/GryouQObi8gh62H/GsuwMsEhMAH0rbeNusNaFC2XrKdUJgPYVsZMLwXzsEW8gv5Lad9fkxNKdThqMC2SZN0+lr7hUZkQsLgRpFXxuPN4PcwotZ5TN7LChnXe/zOAlS7Gz3dP2Flj/qQGjYfqR5k2p9lumKbkPx6je21y0PiuD+T1Hqmeo8ddN4K0MfTv9l7vg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=wbVXg5MyCk+7aXzf2aqtq5p3hcfcw9Z+3yObGYsYiy4=;
- b=OriFzY6kLBgfM9OYuTo2qAYjl8W3DOr9hzny7usAcNpA2yhXN4XLbl1PPLGljQs4l8TiFN6c6GpGfQ46OOVR3bFfybVROkAuOSq36fduPMjXuwR+YrNdURm6XOtsSnywI00zpv6iS+Jz5orH0S+VfpBsX/NROfk0y3DrBJCKz8c=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
- by PH8PR12MB6699.namprd12.prod.outlook.com (2603:10b6:510:1ce::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9115.22; Fri, 19 Sep
- 2025 12:12:01 +0000
-Received: from PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
- ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9137.012; Fri, 19 Sep 2025
- 12:12:01 +0000
-Message-ID: <184ce83f-0063-43a0-a1c8-da23c5d03cf7@amd.com>
-Date: Fri, 19 Sep 2025 14:11:37 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
-To: Eliav Farber <farbere@amazon.com>, linux@armlinux.org.uk,
- jdike@addtoit.com, richard@nod.at, anton.ivanov@cambridgegreys.com,
- dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
- hpa@zytor.com, tony.luck@intel.com, qiuxu.zhuo@intel.com,
- mchehab@kernel.org, james.morse@arm.com, rric@kernel.org,
- harry.wentland@amd.com, sunpeng.li@amd.com, alexander.deucher@amd.com,
- airlied@linux.ie, daniel@ffwll.ch, evan.quan@amd.com,
- james.qian.wang@arm.com, liviu.dudau@arm.com, mihail.atanassov@arm.com,
- brian.starkey@arm.com, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, tzimmermann@suse.de, robdclark@gmail.com,
- sean@poorly.run, jdelvare@suse.com, linux@roeck-us.net, fery@cypress.com,
- dmitry.torokhov@gmail.com, agk@redhat.com, snitzer@redhat.com,
- dm-devel@redhat.com, rajur@chelsio.com, davem@davemloft.net,
- kuba@kernel.org, peppe.cavallaro@st.com, alexandre.torgue@st.com,
- joabreu@synopsys.com, mcoquelin.stm32@gmail.com, malattia@linux.it,
- hdegoede@redhat.com, mgross@linux.intel.com, intel-linux-scu@intel.com,
- artur.paszkiewicz@intel.com, jejb@linux.ibm.com, martin.petersen@oracle.com,
- sakari.ailus@linux.intel.com, gregkh@linuxfoundation.org, clm@fb.com,
- josef@toxicpanda.com, dsterba@suse.com, jack@suse.com, tytso@mit.edu,
- adilger.kernel@dilger.ca, dushistov@mail.ru, luc.vanoostenryck@gmail.com,
- rostedt@goodmis.org, pmladek@suse.com, sergey.senozhatsky@gmail.com,
- andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
- minchan@kernel.org, ngupta@vflare.org, akpm@linux-foundation.org,
- kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org, pablo@netfilter.org,
- kadlec@netfilter.org, fw@strlen.de, jmaloy@redhat.com,
- ying.xue@windriver.com, willy@infradead.org, sashal@kernel.org,
- ruanjinjie@huawei.com, David.Laight@ACULAB.COM, herve.codina@bootlin.com,
- Jason@zx2c4.com, bvanassche@acm.org, keescook@chromium.org,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-um@lists.infradead.org, linux-edac@vger.kernel.org,
- amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
- linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
- linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
- linux-media@vger.kernel.org, netdev@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com,
- platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
- linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org,
- linux-ext4@vger.kernel.org, linux-sparse@vger.kernel.org,
- linux-mm@kvack.org, netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
- tipc-discussion@lists.sourceforge.net, stable@vger.kernel.org
-Cc: jonnyc@amazon.com
-References: <20250919101727.16152-1-farbere@amazon.com>
-Content-Language: en-US
-From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-In-Reply-To: <20250919101727.16152-1-farbere@amazon.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: FR2P281CA0156.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:98::13) To PH7PR12MB5685.namprd12.prod.outlook.com
- (2603:10b6:510:13c::22)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A83231076C
+	for <linux-media@vger.kernel.org>; Fri, 19 Sep 2025 12:18:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758284288; cv=none; b=So6NvI+cI2dZ2BUYuSmS2kCCp1zvaASMqfpRrb9nVg+ex+URhIc/CvGhcy/Eh6SKRfDkV+q4t0sX9Q4cpyeXtQFg940Ce2Nsu/rJUzIo0oSZph69OnnjdUOEV4/iUsmTz4AmI96uPgEjO//Xj26tK48eeIbpKszUvRqB4qPVP98=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758284288; c=relaxed/simple;
+	bh=eZu9p0RKu5l1AmdeQXdiXTjyrkTYA6Pz2WesYcAuJVY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=GIt2vKi5i5aJia4yJ+bbNeIGpQ/lR4SLbbQymvHNev8DIIed65vbvyNspX1xcJwvlsx/AD81TTwe6N1Zsyu8jgRSs5QuBbgVL87npuRL8JM/zBrJJKl1hbyfP8HnHUOAm/ieLy2BqRZEPwV6Y/m/4OMfJF7u2wy3+vcHIcIK7+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L4hL9DWz; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758284286; x=1789820286;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=eZu9p0RKu5l1AmdeQXdiXTjyrkTYA6Pz2WesYcAuJVY=;
+  b=L4hL9DWzFL/j15IalVpML/PFatPmm+XnnM+ujmsTo1dMCpO1yIG/COKt
+   s1y2560wxxMFp0DLNz1Ft+4W4nm3/s+5x8dZYJr+O6s6bk/xQQDyBU7fi
+   Ck7eM9LeAfopcoK9sO1+lfc+TmfsVwYyavCMLp6IeYjtS7GEUlE0qSpaN
+   Ga5SEq9c/WfYTrXy+x0DLuriHRIXgOOoipHnes9ffdvuxfsb7ftk/X2DG
+   Dmz7QbvI2loJ0vwZZ6ZnP6yRZSfQB7NASEvLqWs6jB6zYiEF6AfSys+2P
+   EY++ob/eB+S3ANVXvhe+j3AxU5Pz2cQhjJMRDxRDWSylfvaebMcDOMOum
+   g==;
+X-CSE-ConnectionGUID: JSDgaZjQRZuBHAtvjCZatA==
+X-CSE-MsgGUID: /ZZsk/DjRkiTSJzBWHVOiQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="64433330"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="64433330"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 05:18:06 -0700
+X-CSE-ConnectionGUID: T8WAT24VSWKQdOTEZ8O8Zw==
+X-CSE-MsgGUID: xAVHIi1BShapSXQfjG1G2Q==
+X-ExtLoop1: 1
+Received: from ettammin-mobl2.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.108])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 05:17:59 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 14FDB11F95D;
+	Fri, 19 Sep 2025 15:17:56 +0300 (EEST)
+Date: Fri, 19 Sep 2025 15:17:56 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 39/66] media: Documentation: Add subdev configuration
+ models, raw sensor model
+Message-ID: <aM1J9LsbpueEr30x@kekkonen.localdomain>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-40-sakari.ailus@linux.intel.com>
+ <osdr2eavm23pzxrd73v4xscdtaafon3vllhzcg5r6eoqwclsfk@xgfnicn6iboj>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH8PR12MB6699:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6937c5b9-1962-44a7-1ee6-08ddf775bd22
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|7416014|376014|1800799024|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Y3hLRFVLeVExQmhYODR2ak01bWVFUXNoSXpVYi8rWDdaRzBDN0FpVnpuanZO?=
- =?utf-8?B?RytJRWgzNjErVi93RUtQdEZZUnRjL0ZFUUs0ZGx3NjN2M3NlWUMxRHVPbFdC?=
- =?utf-8?B?V1laRGlBSGlrU05RdFNpRWRUeEpnSmVreDVTOStaSUNSVkcwZlRXdEZXRUF4?=
- =?utf-8?B?Wlg1ZHA1cDNkSnhid3Ftc2lnaWE1YVV1dWxaeG9zbnppZkF5a3dOTlZWZHY3?=
- =?utf-8?B?bUNiWkJpRVMwa25nVCt0a2t1dUFmZEY3elYvQnc5WWdlRlBmNWRGZGJuZE81?=
- =?utf-8?B?cnlGRHF3Y0s2ZnZETXdudUdkK0tvSVZtMGVJMkFTWU4vMVJzVFg2Z05MWEZx?=
- =?utf-8?B?VlpJOStDMDY4YVd4eklyZjFpbGR2aGJnVS9SdjljSjExbkdtZlBoRmZ2dWhH?=
- =?utf-8?B?TFBadkdYQjROWXo2bUR3ODNRQXM0L1VrQVJMSlIrcDQ4c3drWGdqaEFBZEZV?=
- =?utf-8?B?cWVnQ09oSXZ3cVJvbUNyMzRJVE1rV2NyV2UvRGJ6ZStyaXRFbTltajdsL0dt?=
- =?utf-8?B?aElqS1VUc0JObnFucGNLeHp5YyszcWk0TTBmTUVValB0bnlIek0yM1ZyaCtp?=
- =?utf-8?B?QThGVmROY2kySm1BcW9jQ0JXNWFLajEzbkRkVkhLc082QkpPRjZ5ODE3Q2NW?=
- =?utf-8?B?a1hNcHNqWGNCdzlkODFUWHkrVVBpRmRIU0tKU21NbXVQOElZSG4vZTZoSFNt?=
- =?utf-8?B?Ui9qMnllTThYdWFDYWdVR2twcjA3NFNSWUpUT001MHp5Y1FvZ2h2d0d4Vytr?=
- =?utf-8?B?dUkwNHU2Y0IzUTVUTkp2QUZyS0VWQ0hWaEdpUytsQWF0dG00WGVtdjEzNGFT?=
- =?utf-8?B?UWR3MWd3K0RmL1ozeDRXbkJMQnQ4TEZPNUhuKytlZVh0UjhRNEkrMXBHeDMr?=
- =?utf-8?B?TFlGWHdTek8vb2ZDREVwNlFJMjJlQTY4cXhhZFhLWFFVMVU4RU5zKzFhMzNk?=
- =?utf-8?B?WnVRdlFabnhlUHQ0UzRIU29LYVlzbVRlelZ4NFZ6a1pkTVF1eWR4TjB6bHJk?=
- =?utf-8?B?ckJldXpDUGdOaFJlUW1janNkaGw3ZUJ2YnNmcmRrY1Bvajl0R2xCaERHYjU4?=
- =?utf-8?B?OEp0a1ppY0xDL1I1eFEzeGVyemNwWnNUUGhEOGJFeHFuQzVkcXhJMUU1Rjg4?=
- =?utf-8?B?Q0tBOG1QZFNoaThMTDhkemNkUDY1RUc1Rit5VHYxZWgyUW02cUVFWkxNdjVa?=
- =?utf-8?B?QmZiWXF0OHBPNnhnWVVMUGxxay9VSTJ3VThmVzBDQlpZcThVT2g1b09wYnRU?=
- =?utf-8?B?bjFMdi9xSVFubHlXa1ExRXFqTmZSdTl1NmlIa1lzSy9xM25oMUZqTUY3d25E?=
- =?utf-8?B?dWlXWFk3VjhCdis5dDNYYTdscGcxWDliN3gvR2xGV0F4SHhOcjB0NTh5WHlM?=
- =?utf-8?B?ZXRnMnlONEJMRWZucXlMUVNEaXFaNUppWnVTanUzZThuc0g1bSswcjRzdGxM?=
- =?utf-8?B?TGFDbERNcXpTcTY3LzhSbVgrUWZ5Q2RSa2xUd1BRSENDTTFiQ3piaFk5V2h0?=
- =?utf-8?B?RGJyR3ZhaCt4SkpSRG9CTTBCaUVaVy96NEJyUlFHRmV6RzNGWlFFTHVmSzRX?=
- =?utf-8?B?RHhnUXJxWi9POVE5TTltZEhJKzVtS25jQi9WV0pFQWZRZEpzUEV4cnhuSlVR?=
- =?utf-8?B?dDNQSENhSWtULzZpWWc2akZpcFhTUGxRK28ycldrWXkvenFnSXRZUHlTQjZp?=
- =?utf-8?B?emhyTXdjSk83NWhiM0FYalQwMSsyQjRrSkVlaHRJaGFpYkZVZmRmbVdON3h5?=
- =?utf-8?B?ZllielpZZTFxc0NESDNGSE5HZURaT29MR1F5N2h0elAxY2p5WjZ3SkpEd2lv?=
- =?utf-8?B?aXJVMHp5aFVTOThjblhiTC9LNCtFamxvOEhuNVRzSzhGenFsUlNtaGQyd0No?=
- =?utf-8?B?SkZzWFo2dUtkdndFUk9lMWJBR2xZVlZJRXBSL3JWM1RRMU9LTGFyR0VjNWFR?=
- =?utf-8?B?eWxZUFF2dEtyZFkvRnlYclRCZGcyWVlLT3BSS3JUZWdvWTlZcmV2UmVYbjZt?=
- =?utf-8?B?Tk1sNFV6U3lRPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?d0VydlR5bjl3RFBmQk1PSVJNR1VtNWJKcWRoWnM4VjRqNUtBSjJOVm5HU01a?=
- =?utf-8?B?N0IvZ2RVc3BxVDk1NXdMbjlFUWY2dE9ETlJlMlBaRG9IM2ZpU2lVcXdDZTRX?=
- =?utf-8?B?akhWL21pTkZXMzJDR1FJMk9WTDc3T1l3UndWMkZMQlZDcVcwbnRoc0NrUDMv?=
- =?utf-8?B?Y0hvVmpZczFkUlFCaVhJNkkxc00zZExZalBIdXo1eU81MmpPVlJUWmxaTTJS?=
- =?utf-8?B?QVVFWUtHN3dSOXRORTVrbk5EUUNCVHRlQXdSVUsreS9nSkFXckFOc3dqd0VI?=
- =?utf-8?B?eS9Nb0hrSW9TOVN3c1ZsSTBYYU9iYmlIMy9XRUE5cmRtaC9ZRTF6RXZYNVNJ?=
- =?utf-8?B?dkVua1pQV0F6NStCMHRyZ05wMmVSa1J1UFphY1UzVEdmYm5FVHQ3YVdSM003?=
- =?utf-8?B?YXVDVXpucUNvVk5reE5Ia0lqdWp2Q0w4aUhPQTVUZkdmVTR0T051TXl4V0U4?=
- =?utf-8?B?dkVQdWZJVHdGdGZqQmdQRXM1Q2tucFhpU3F2aTJvY2pmYU1MMVZieWJDSkJw?=
- =?utf-8?B?aUtlcHNONGh6bEZ5dkN0akRLUHVuUUE0c2hSQW51MGJ0eStNM2ZuNVNSL001?=
- =?utf-8?B?YUljbW5Zd0JjcU96Y0EyZm9vMzU2MTF3RENnTzFHazc3MVFxeXRYcll0RWl6?=
- =?utf-8?B?U2tQbzc0ak53QXJLam9tZkgvTC9xcG9WcENMMlYwUkQvbkdDc3JtMDduUzR6?=
- =?utf-8?B?RXZzamR6VG9jb0F5QkZkNWVmVDFFbXhRcTRYMUZoNllHOWhxME5ZaDhpZk1E?=
- =?utf-8?B?cnZCeUJtTEk3TkYwaW50bWxzc1hVY0o2dHkxZ3NZMUhxSi85UlhQNm01eGJ1?=
- =?utf-8?B?ZnJteTB3a0FXN3lxcTBCU3lFRk1WRWhQUG5sV2VlOFJaekp6MzE0Q1B2UXJK?=
- =?utf-8?B?elYxZ3ZFY0kzdFRkZnhHc3prOHY5QnEwZnhQY1ptbzl4QjZXQ0VlUk9zM2Fh?=
- =?utf-8?B?U3ZOTTNSekVJblVzOHNZZDdGYzc4YnkwellNQUw3S0FSQnArc003L21UelBD?=
- =?utf-8?B?dHYrUkhzbzBGQ1pFNXVEeWl6UWIzQkRjT0hod1pWN3J6T09KNHZldE1TWmJr?=
- =?utf-8?B?VURrSDl3QnVlcTJjdE0zdE5DbENiVGFzOFIyQUxhZUt1Qk0ySlgyS2RqR3Ex?=
- =?utf-8?B?ZmtLL2ViRkNML0NhSS94TDFQbWs5V2tMMkNqbE1HSVdHa052S2V0ZXdVeDlv?=
- =?utf-8?B?K01OMFFlNmFSU0ZqUFlwUlE4NmtJL3htUzU3RmdKQTRiVWY2dUZMdXVvUFA5?=
- =?utf-8?B?bDJCOWphTjhzZ1lSM2c5cWZXTnRnOUpHZm9jcEc1YVloRHZ5VTFKT0hEalpz?=
- =?utf-8?B?Zmc2a3hud1R2OE0zdStJZXlZS2gycktPRUdSUUVNZGo2dzZwODFvcEl6MXpo?=
- =?utf-8?B?ckhtbEdYb3dFZE5KMXNSNzd5M25HTlBLV3ZnL1MwanEreHBaZjdSRWJxN2Rq?=
- =?utf-8?B?MWZXNGhEZWxYYXFnK2FTN2czTW16K1dKUE1DSmIwQXlyZ0NMMVlBTEJ1V1cw?=
- =?utf-8?B?RVFUd0RvUGVpQzZIc0pJeUdTL1Q1MVhjS1p4VEcwaU4zNk1HbWJRb0hyOTdt?=
- =?utf-8?B?ODd3U2o5WTU4SFl5VFBqdzIyQ2RlSElUcVloYUZDNWV0V0FObHk4Z1AvWEFv?=
- =?utf-8?B?cG56NEZEOWpSK09ET1prbVFTVFlrMUdxQ3dURlRXbnIvbkJOaUZnRXFhYWFI?=
- =?utf-8?B?b21IRmkwYXJ4QkRxTlhPR01FTXRvRkNjcENnVmZ1OWtvVDkrcDhOK2xvaUZ1?=
- =?utf-8?B?WDlRS01oQkVmZGpsSFVzemtmQzZObkRrY2F2ZU51MHpYc0RtUDVRcE11emMr?=
- =?utf-8?B?SWQvRmxKQ2hUcnF6d3k2K3NteGphZHcwb2wxcGN4ZkhqMEQyMHh3cm83Snho?=
- =?utf-8?B?SC9XdHpSWU1tS0hWS3h0NFVyWTU1Z3dWT1ZOa0pMbmlIQkZpczEySEZoZmwx?=
- =?utf-8?B?Z3EwTVVacyt2dDZjV3dRTnhUR041TmZVS29LaUFOd01SL2NHbjlZUHZFcVVk?=
- =?utf-8?B?MFRRZFhrTmtzL1p2MDZENDlHLzRHMlRmOVA5bVdRSDdCUGJNbmgxTU5UeTlm?=
- =?utf-8?B?dGJHRHdOazVRRTg1RlQ3a1hDazZYYW1HUVhMejFaUmRvWGhpVDY2b24raTZY?=
- =?utf-8?Q?NKiCWZy6KpXV5wwLJmoYbWn+q?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6937c5b9-1962-44a7-1ee6-08ddf775bd22
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Sep 2025 12:12:01.6073
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: lV8yIqWmCjsKi+0mG6kRzonlCfsKYf5LVBwA839a0bMwoG/ldmSYNzTvdItV8cR7
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB6699
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <osdr2eavm23pzxrd73v4xscdtaafon3vllhzcg5r6eoqwclsfk@xgfnicn6iboj>
 
-On 19.09.25 12:17, Eliav Farber wrote:
-> This series includes a total of 27 patches, to align minmax.h of
-> v5.15.y with v6.17-rc6.
-> 
-> The set consists of 24 commits that directly update minmax.h:
-> 1) 92d23c6e9415 ("overflow, tracing: Define the is_signed_type() macro
->    once")
-> 2) 5efcecd9a3b1 ("minmax: sanity check constant bounds when clamping")
-> 3) 2122e2a4efc2 ("minmax: clamp more efficiently by avoiding extra
->    comparison")
-> 4) f9bff0e31881 ("minmax: add in_range() macro")
-> 5) c952c748c7a9 ("minmax: Introduce {min,max}_array()")
-> 6) 5e57418a2031 ("minmax: deduplicate __unconst_integer_typeof()")
-> 7) f6e9d38f8eb0 ("minmax: fix header inclusions")
-> 8) d03eba99f5bf ("minmax: allow min()/max()/clamp() if the arguments
->    have the same signedness.")
-> 9) f4b84b2ff851 ("minmax: fix indentation of __cmp_once() and
->    __clamp_once()")
-> 10) 4ead534fba42 ("minmax: allow comparisons of 'int' against 'unsigned
->     char/short'")
-> 11) 867046cc7027 ("minmax: relax check to allow comparison between
->     unsigned arguments and signed constants")
-> 12) 3a7e02c040b1 ("minmax: avoid overly complicated constant
->     expressions in VM code")
-> 14) 017fa3e89187 ("minmax: simplify and clarify min_t()/max_t()
->     implementation")
-> 15) 1a251f52cfdc ("minmax: make generic MIN() and MAX() macros
->     available everywhere")
-> 18) dc1c8034e31b ("minmax: simplify min()/max()/clamp()
->     implementation")
-> 19) 22f546873149 ("minmax: improve macro expansion and type
->     checking")
-> 20) 21b136cc63d2 ("minmax: fix up min3() and max3() too")
-> 21) 71ee9b16251e ("minmax.h: add whitespace around operators and after
->     commas")
-> 22) 10666e992048 ("minmax.h: update some comments")
-> 23) b280bb27a9f7 ("minmax.h: reduce the #define expansion of min(),
->     max() and clamp()")
-> 24) a5743f32baec ("minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi
->     test in clamp()")
-> 25) c3939872ee4a ("minmax.h: move all the clamp() definitions after the
->     min/max() ones")
-> 26) 495bba17cdf9 ("minmax.h: simplify the variants of clamp()")
-> 27) 2b97aaf74ed5 ("minmax.h: remove some #defines that are only
->     expanded once")
-> 
-> 2 prerequisite commits that adjust users of MIN and MAX macros (to
-> prevent compilation issues):
-> 13) 4477b39c32fd ("minmax: add a few more MIN_T/MAX_T users")
-> 17) cb04e8b1d2f2 ("minmax: don't use max() in situations that want a C
->     constant expression")
-> 
-> 1 additional commit introduced to resolve a build failures during the
-> backport:
-> 16) lib: zstd: drop local MIN/MAX macros in favor of generic ones
-> 
-> The primary motivation is to bring in commit (8).
-> In mainline, this change allows min()/max()/clamp() to accept mixed
-> argument types when both share the same signedness.
-> Backported patches to v5.10.y that use such forms trigger compiler
-> warnings, which in turn cause build failures when -Werror is enabled.
-> 
-> Originaly I aligned 5.10.y to 5.15.y, but David Laight commented that I
-> need to pick up the later changes (from Linus) as well.
-> 
-> Andy Shevchenko (2):
->   minmax: deduplicate __unconst_integer_typeof()
->   minmax: fix header inclusions
-> 
-> Bart Van Assche (1):
->   overflow, tracing: Define the is_signed_type() macro once
-> 
-> David Laight (11):
->   minmax: allow min()/max()/clamp() if the arguments have the same
->     signedness.
->   minmax: fix indentation of __cmp_once() and __clamp_once()
->   minmax: allow comparisons of 'int' against 'unsigned char/short'
->   minmax: relax check to allow comparison between unsigned arguments and
->     signed constants
->   minmax.h: add whitespace around operators and after commas
->   minmax.h: update some comments
->   minmax.h: reduce the #define expansion of min(), max() and clamp()
->   minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
->   minmax.h: move all the clamp() definitions after the min/max() ones
->   minmax.h: simplify the variants of clamp()
->   minmax.h: remove some #defines that are only expanded once
-> 
-> Eliav Farber (1):
->   lib: zstd: drop local MIN/MAX macros in favor of generic ones
-> 
-> Herve Codina (1):
->   minmax: Introduce {min,max}_array()
-> 
-> Jason A. Donenfeld (2):
->   minmax: sanity check constant bounds when clamping
->   minmax: clamp more efficiently by avoiding extra comparison
-> 
-> Linus Torvalds (8):
->   minmax: avoid overly complicated constant expressions in VM code
->   minmax: add a few more MIN_T/MAX_T users
->   minmax: simplify and clarify min_t()/max_t() implementation
->   minmax: make generic MIN() and MAX() macros available everywhere
->   minmax: don't use max() in situations that want a C constant
->     expression
->   minmax: simplify min()/max()/clamp() implementation
->   minmax: improve macro expansion and type checking
->   minmax: fix up min3() and max3() too
-> 
-> Matthew Wilcox (Oracle) (1):
->   minmax: add in_range() macro
-> 
->  arch/arm/mm/pageattr.c                        |   6 +-
->  arch/um/drivers/mconsole_user.c               |   2 +
->  arch/x86/mm/pgtable.c                         |   2 +-
+Hi Jacopo,
 
->  drivers/edac/sb_edac.c                        |   4 +-
->  drivers/edac/skx_common.h                     |   1 -
->  .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
->  .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
->  .../drm/arm/display/include/malidp_utils.h    |   2 +-
->  .../display/komeda/komeda_pipeline_state.c    |  24 +-
->  drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
->  drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   6 -
->  drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
->  drivers/hwmon/adt7475.c                       |  24 +-
->  drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
->  drivers/md/dm-integrity.c                     |   2 +-
->  drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
->  .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   |  18 +-
->  .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
->  drivers/net/fjes/fjes_main.c                  |   4 +-
->  drivers/nfc/pn544/i2c.c                       |   2 -
->  drivers/platform/x86/sony-laptop.c            |   1 -
->  drivers/scsi/isci/init.c                      |   6 +-
-
-I do see the value to backport the infrastructure, but why are driver specific changes backported as well?
-
-I mean the changes are most likely correct but also not valuable in anyway as bug fix.
-
-Regards,
-Christian.
-
->  .../pci/hive_isp_css_include/math_support.h   |   5 -
->  fs/btrfs/misc.h                               |   2 -
->  fs/btrfs/tree-checker.c                       |   2 +-
->  fs/ext2/balloc.c                              |   2 -
->  fs/ext4/ext4.h                                |   2 -
->  fs/ufs/util.h                                 |   6 -
->  include/linux/compiler.h                      |  15 +
->  include/linux/minmax.h                        | 267 ++++++++++++++----
->  include/linux/overflow.h                      |   1 -
->  include/linux/trace_events.h                  |   2 -
->  kernel/trace/preemptirq_delay_test.c          |   2 -
->  lib/btree.c                                   |   1 -
->  lib/decompress_unlzma.c                       |   2 +
->  lib/logic_pio.c                               |   3 -
->  lib/vsprintf.c                                |   2 +-
->  lib/zstd/zstd_internal.h                      |   2 -
->  mm/zsmalloc.c                                 |   1 -
->  net/ipv4/proc.c                               |   2 +-
->  net/ipv6/proc.c                               |   2 +-
->  net/netfilter/nf_nat_core.c                   |   6 +-
->  net/tipc/core.h                               |   2 +-
->  net/tipc/link.c                               |  10 +-
->  44 files changed, 306 insertions(+), 164 deletions(-)
+On Mon, Sep 01, 2025 at 07:09:29PM +0200, Jacopo Mondi wrote:
+> Hi Sakari
 > 
+> On Mon, Aug 25, 2025 at 12:50:40PM +0300, Sakari Ailus wrote:
+> > Sub-device configuration models define what V4L2 API elements are
+> > available on a compliant sub-device and how do they behave.
+> >
+> > The patch also adds a model for common raw sensors.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+> > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  .../media/drivers/camera-sensor.rst           |   4 +
+> >  .../media/v4l/common-raw-sensor.dia           | 442 ++++++++++++++++++
+> >  .../media/v4l/common-raw-sensor.svg           | 134 ++++++
+> >  .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
+> >  .../media/v4l/subdev-config-model.rst         | 230 +++++++++
+> >  5 files changed, 812 insertions(+)
+> >  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.dia
+> >  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.svg
+> >  create mode 100644 Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> >
+> > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > index cbbfbb0d8273..39f3f91c6733 100644
+> > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > @@ -18,6 +18,8 @@ binning functionality. The sensor drivers belong to two distinct classes, freely
+> >  configurable and register list-based drivers, depending on how the driver
+> >  configures this functionality.
+> >
+> > +Also see :ref:`media_subdev_config_model_common_raw_sensor`.
+> > +
+> >  Freely configurable camera sensor drivers
+> >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >
+> > @@ -118,6 +120,8 @@ values programmed by the register sequences. The default values of these
+> >  controls shall be 0 (disabled). Especially these controls shall not be inverted,
+> >  independently of the sensor's mounting rotation.
+> >
+> > +.. _media_using_camera_sensor_drivers_embedded_data:
+> > +
+> >  Embedded data
+> >  -------------
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/common-raw-sensor.dia b/Documentation/userspace-api/media/v4l/common-raw-sensor.dia
+> > new file mode 100644
+> > index 000000000000..24b3f2b2a626
+> > --- /dev/null
+> > +++ b/Documentation/userspace-api/media/v4l/common-raw-sensor.dia
+> 
+> [snip]
+> 
+> > diff --git a/Documentation/userspace-api/media/v4l/common-raw-sensor.svg b/Documentation/userspace-api/media/v4l/common-raw-sensor.svg
+> > new file mode 100644
+> > index 000000000000..1d6055da2519
+> > --- /dev/null
+> > +++ b/Documentation/userspace-api/media/v4l/common-raw-sensor.svg
+> 
+> [snip]
+> 
+> > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > index bb86cadfad1c..b0774b9a9b71 100644
+> > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > @@ -846,3 +846,5 @@ stream while it may be possible to enable and disable the embedded data stream.
+> >
+> >  The embedded data format does not need to be configured on the sensor's pads as
+> >  the format is dictated by the pixel data format in this case.
+> > +
+> > +.. include:: subdev-config-model.rst
+> > diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > new file mode 100644
+> > index 000000000000..1e6c58931ea0
+> > --- /dev/null
+> > +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > @@ -0,0 +1,230 @@
+> > +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
+> > +
+> > +.. _media_subdev_config_model:
+> > +
+> > +Sub-device configuration models
+> > +===============================
+> > +
+> > +The V4L2 specification defines a subdev API that exposes three type of
+> > +configuration elements: formats, selection rectangles and controls. The
+> > +specification contains generic information about how those configuration
+> > +elements behave, but not precisely how they apply to particular hardware
+> > +features. We leave some leeway to drivers to decide how to map selection
+> > +rectangles to device features, as long as they comply with the V4L2
+> > +specification. This is needed as hardware features differ between devices, so
+> > +it's the driver's responsibility to handle this mapping.
+> > +
+> > +Unfortunately, this lack of clearly defined mapping in the specification has led
+> > +to different drivers mapping the same hardware features to different API
+> > +elements, or implementing the API elements with slightly different
+> > +behaviours. Furthermore, many drivers have implemented selection rectangles in
+> > +ways that do not comply with the V4L2 specification. All of this makes userspace
+> > +development difficult.
+> > +
+> > +Sub-device configuration models specify in detail what the user space can expect
+> > +from a sub-device in terms of V4L2 sub-device interface support, semantics
+> > +included.
+> > +
+> > +A sub-device may implement more than one configuration model at the same
+> > +time. The implemented configuration models can be obtained from the sub-device's
+> > +``V4L2_CID_CONFIG_MODEL`` control.
+> > +
+> > +.. _media_subdev_config_model_common_raw_sensor:
+> > +
+> > +Common raw camera sensor model
+> > +------------------------------
+> > +
+> > +The common raw camera sensor model defines a set of enumeration and
+> > +configuration interfaces (formats, selections etc.) that cover the vast majority
+> > +of functionality of raw camera sensors. Not all of the interfaces are
+> > +necessarily offered by all drivers.
+> > +
+> > +A sub-device complies with the common raw sensor model if the
+> > +``V4L2_CONFIG_MODEL_COMMON_RAW_SENSOR`` bit is set in the
+> > +``V4L2_CID_CONFIG_MODEL`` control of the sub-device.
+> > +
+> > +The common raw camera sensor model is aligned with
+> > +:ref:`media_using_camera_sensor_drivers`. Please refer to that regarding aspects
+> > +not specified here.
+> > +
+> > +Each camera sensor implementing the common raw sensor model exposes a single
+> > +V4L2 sub-device. The sub-device contains a single source pad (0) and two or more
+> > +internal pads: one or more image data internal pads (starting from 1) and
+> > +optionally an embedded data pad.
+> > +
+> > +Additionally, further internal pads may be supported for other features. Using
+> > +more than one image data internal pad or more than one non-image data pad
+> > +requires these pads documented separately for the given device. The indices of
+> > +the image data internal pads shall be lower than those of the non-image data
+> > +pads.
+> > +
+> > +This is shown in :ref:`media_subdev_config_model_common_raw_sensor_subdev`.
+> 
+> possibly doesn't need a link as the image is just here below
+> 
+> > +
+> > +.. _media_subdev_config_model_common_raw_sensor_subdev:
+> > +
+> > +.. kernel-figure:: common-raw-sensor.svg
+> > +    :alt:    common-raw-sensor.svg
+> > +    :align:  center
+> > +
+> > +    **Common raw sensor sub-device with n pads (n == 2)**
+> > +
+> > +Routes
+> > +^^^^^^
+> > +
+> > +A sub-device conforming to common raw camera sensor model implements the
+> > +following routes.
+> > +
+> > +.. flat-table:: Routes
+> > +    :header-rows: 1
+> > +
+> > +    * - Sink pad/stream
+> > +      - Source pad/stream
+> > +      - Static (X/M(aybe)/-)
+> > +      - Mandatory (X/-)
+> > +      - Synopsis
+> > +    * - 1/0
+> > +      - 0/0
+> > +      - X
+> > +      - X
+> > +      - Image data
+> > +    * - 2/0
+> > +      - 0/1
+> > +      - M
+> > +      - \-
+> > +      - Embedded data
+> > +
+> > +Support for the embedded data stream is optional. Drivers supporting the
+> > +embedded data stream may allow disabling and enabling the route when the
+> > +streaming is disabled.
+> 
+> I would
+> 
+> s/when the streaming is disabled//
 
+Sounds good.
+
+> 
+> > +
+> > +Sensor pixel array size, cropping and binning
+> > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > +
+> > +The sensor's pixel array is divided into one or more areas. The areas around the
+> > +edge of the pixel array, usually one or more sides, may contain optical black
+> 
+> You say that "the pixel array is divided into one or more areas" and
+> then list "the areas around the edge of the pixel array" which is confusing
+> 
+> I think it would be better as
+> 
+> The sensor's full pixel array is divided into one or more areas, one
+> (or multiple) active area which contains visible pixels surrounded,
+> usually on one or more sides, by non-active areas which may contain
+> optical black pixels, dummy pixels and other non-image pixels. The
+> entire pixel array areas size, including the active and non-active
+> portions is conveyed by the format on (pad, stream) pair 1/0.
+> 
+> This would also better define the "visible pixels" term which is used
+> in the rest of the documentation.
+
+There indeed were issues in the terms used in the original text. How about:
+
+The sensor's pixel array is divided into one or more areas. The areas around the
+the visible area in the pixel array, usually one or more sides, may contain
+optical black pixels, dummy pixels and other non-image pixels. The full size of
+the pixel array that may be captured is conveyed by the format on (pad, stream)
+pair 1/0.
+
+A rectangle within the pixel array contains the visible pixels. Capturing the
+non-visible pixels outside the visible pixel area may be supported by the
+sensor. The visible pixel area corresponds to the ``V4L2_SEL_TGT_CROP_DEFAULT``
+selection target on (pad, stream) pair 1/0.
+
+> 
+> > +
+> > +A rectangle within the pixel array contains the visible pixels. Capturing the
+> 
+> If you accept the above, you can drop the first sentence here
+> 
+> > +non-visible pixels outside the visible pixel area may be supported by the
+> > +sensor. The visible pixel area corresponds to the ``V4L2_SEL_TGT_CROP_DEFAULT``
+> > +selection target on (pad, stream) pair 1/0.
+> > +
+> > +Sensors can perform multiple operations that affect the output image size. First
+> > +of these is the analogue crop. Analogue crop limits the area of the pixel array
+> 
+> s/First one of these/The first one of these/
+
+Yes.
+
+> 
+> > +which the sensor will read, affecting sensor timing as well. The granularity of
+> > +the analogue crop configuration varies greatly across sensors: some sensors
+> > +support only a few different analogue crop configurations whereas others may
+> > +support anything divisible by a given number of pixels. The analogue crop
+> > +configuration corresponds to the ``V4L2_SEL_TGT_CROP`` selection target on (pad,
+> > +stream) pair 1/0. The default analogue crop rectangle corresponds to the visible
+> > +pixel area.
+> > +
+> > +In the next step, binning is performed on the image data read from camera
+> > +sensor's pixel array, as determined by the analogue crop configuration. Enabling
+> > +binning will effectively result in an image smaller than the original by given
+> > +binning factors horizontally and vertically. Typical values are 1/2 and 1/3 but
+> > +others may well be supported by the hardware as well.
+> > +
+> > +Sub-sampling follows binning. Sub-sampling, like binning, reduces the size of
+> > +the image by including only a subset of samples read from the sensor's pixel
+> > +matrix, typically every n'th pixel horizontally and vertically, taking the
+> > +sensor's color pattern into account. Sub-sampling is generally configurable
+> > +separately horizontally and vertically.
+> > +
+> > +Binning and sub-sampling are configured using the ``V4L2_SEL_TGT_COMPOSE``
+> 
+> s/Binning and sub-sampling are/The combined effect of binning and
+> sub-sampling is/
+
+Yes.
+
+> 
+> > +rectangle, relative to the analogue crop rectangle, on (pad, stream) pair
+> > +1/0. The driver implementation determines how to configure binning and
+> > +sub-sampling to achieve the desired size.
+> > +
+> > +The digital crop operation takes place after binning and sub-sampling. It is
+> > +configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
+> > +0/0. The resulting image size is further output by the sensor.
+> 
+> by the sensor on the bus.
+> 
+> ?
+
+We should in fact get rid of the word "bus" in this context as the CSI-2
+interface is not an actual (addressable) bus. How about "sensor's data
+interface"? Someone will probably ask what that data interface is. :-)
+
+> 
+> > +
+> > +The sensor's output mbus code is configured by setting the format on the (pad,
+> > +stream) pair 0/0. When setting the format, always use the same width and height
+> > +as for the digital crop setting.
+> > +
+> > +Drivers may only support some or even none of these configurations, in which
+> > +case they do not expose the corresponding selection rectangles. If any selection
+> > +targets are omitted, the further selection rectangle or format is instead
+> > +related to the previous implemented selection rectangle. For instance, if the
+> > +sensor supports binning but not analogue crop, then the binning configuration
+> > +(``V4L2_SEL_TGT_COMPOSE`` selection target) is done in relation to the visible
+> > +pixel area (``V4L2_SEL_TGT_CROP_DEFAULT`` selection target).
+> > +
+> > +Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
+> > +
+> > +.. flat-table:: Selection targets on pads
+> > +    :header-rows: 1
+> > +
+> > +    * - Pad/Stream
+> > +      - Selection target/format
+> > +      - Mandatory (X/-)
+> > +      - Modifiable (X/-)
+> > +      - Synopsis
+> > +    * - 1/0
+> > +      - Format
+> > +      - X
+> > +      - \-
+> > +      - Image data format. The width and the height fields indicates the full
+> > +        size of the pixel array, including non-visible pixels. The media bus
+> > +        code of this format reflects the native pixel depth of the sensor.
+> > +    * - 1/0
+> > +      - ``V4L2_SEL_TGT_CROP_DEFAULT``
+> > +      - X
+> > +      - \
+> > +      - The visible pixel area. This rectangle is relative to the format on the
+> > +        same (pad, stream).
+> > +    * - 1/0
+> > +      - ``V4L2_SEL_TGT_CROP``
+> > +      - \-
+> > +      - X
+> > +      - Analogue crop. Analogue crop typically has a coarse granularity. This
+> > +        rectangle is relative to the format on the same (pad, stream).
+> > +    * - 1/0
+> > +      - ``V4L2_SEL_TGT_COMPOSE``
+> > +      - \-
+> > +      - X
+> > +      - Binning and sub-sampling. This rectangle is relative to the
+> > +        ``V4L2_SEL_TGT_CROP`` rectangle on the same (pad, stream). The
+> > +        combination of binning and sub-sampling is configured using this
+> > +        selection target.
+> > +    * - 2/0
+> > +      - Format
+> > +      - X
+> > +      - \-
+> > +      - Embedded data format.
+> > +    * - 0/0
+> > +      - ``V4L2_SEL_TGT_CROP``
+> > +      - \-
+> > +      - X
+> > +      - Digital crop. This rectangle is relative to the ``V4L2_SEL_TGT_COMPOSE``
+> > +        rectangle on (pad, stream) pair 1/0.
+> > +    * - 0/0
+> > +      - Format
+> > +      - X
+> > +      - X
+> > +      - Image data source format. Always assign the width and height fields of
+> > +        the format to the same values than for the ``V4L2_SEL_TGT_CROP``
+> > +        rectangle on (pad, stream) pair 0/0. The media bus code reflects the
+> > +        pixel data output of the sensor.
+> > +    * - 0/1
+> > +      - Format
+> > +      - X
+> > +      - \-
+> > +      - Embedded data source format.
+> > +
+> > +Embedded data
+> > +^^^^^^^^^^^^^
+> > +
+> > +The embedded data stream is produced by the sensor when the corresponding route
+> > +is enabled. The embedded data route may also be immutable or not exist at all,
+> > +in case the sensor (or the driver) does not support it.
+> > +
+> > +Generally the sensor embedded data width is determined by the width of the image
+> > +data whereas the number of lines are constant for the embedded data. The user
+> > +space may obtain the size of the embedded data once the image data size on the
+> > +source pad has been configured.
+> > +
+> > +Also see :ref:`media_using_camera_sensor_drivers_embedded_data`.
+> 
+> Neat!
+> 
+> Take in any of the suggestions I made you like.
+> 
+> Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
+Thank you!
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
