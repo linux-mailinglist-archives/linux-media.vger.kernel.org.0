@@ -1,263 +1,317 @@
-Return-Path: <linux-media+bounces-42813-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42814-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 226DDB8B5AD
-	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 23:35:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04BEFB8C568
+	for <lists+linux-media@lfdr.de>; Sat, 20 Sep 2025 12:21:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C71C85A3DE4
-	for <lists+linux-media@lfdr.de>; Fri, 19 Sep 2025 21:35:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE63C7E1D86
+	for <lists+linux-media@lfdr.de>; Sat, 20 Sep 2025 10:21:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FFE82D1F42;
-	Fri, 19 Sep 2025 21:35:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0913A2F8BDC;
+	Sat, 20 Sep 2025 10:21:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CJ+DjPTH"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="R/7euhNL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA7D734BA3C
-	for <linux-media@vger.kernel.org>; Fri, 19 Sep 2025 21:35:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD322C325B
+	for <linux-media@vger.kernel.org>; Sat, 20 Sep 2025 10:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758317733; cv=none; b=DHtnk3Rmvv5oV2aYchrXzGbzvBhGNNBoZXffileOHSGI5tt+1gC68IWWkOuN7/oK7Xi7Gzbfu3ivtEecHaXA2tbHX/9j4wVNq4kaD/40ThShB/HoEGSrhxJldTB8scx+nYzJNvp+Lla38tpm4lsyzJHDo6BaY84ufeaJ6NLz5Uc=
+	t=1758363691; cv=none; b=lA/5Kpn7oTmGb2xTMBbGIgYLhosGS5lVLKEyiy/0y9QNHc6w24gkIqRr5rEtV3JOPJtHq0Jy0DVFs1r6Tc+g3iH2HtbF86fJUBWamQtVM1bUQInVt2ZBwGtaIBoWdTGxyoivx2TuAQPmyfJ7JiwnyAC+ZrMzgMvRnbgwJal50ik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758317733; c=relaxed/simple;
-	bh=A78i7Vfa4IFc4PSSjDTEk3ze/JybQIrNWecsBPTyc8I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nS6qWm4V2LGN/yMrHQsdgkbUGGA2LGr3RvcvkqwJ+XDNFn+Jd5rg9TpXIngO8tn9aQWovvmLED7SpqRnNxEbRNm25d+SoTqJj6rNeC7T5LNqYFTV/7IMILlzoPF6niZiNkUMOsA/bw5e1NCXAS2lO+bz3VK9sOzZJlb/P4gtAbQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CJ+DjPTH; arc=none smtp.client-ip=192.198.163.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758317731; x=1789853731;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=A78i7Vfa4IFc4PSSjDTEk3ze/JybQIrNWecsBPTyc8I=;
-  b=CJ+DjPTHjiSxTCP9Qijfc4QTOO31kZOCVBUfG9hRqfTTu1eNMw4r+hMx
-   GqELyKrUbh2l6273tviG6FOtNu8TaWeE3YAaygXTNrNtJIpUIiSsNB2li
-   o9GXV1UOKuOkNL11nf9ZK0A20Hza0v4766PNMPzxjVBeevVawB3oBwLnE
-   wV21VoIeNpWMCEGRDqWlITDFX9ZHIjyQXzhKZWJQ7z+f/5uslQBeCyR+g
-   Dk+AV0CKBydl12ZWR1Pc9XQmDwFCV6AIskFla+jqibjpuhOJyqr281Sf3
-   za1AM11/4U3JXmIrWR06Yr9BwhP06/7PHshw6SqBqsdbj/1YHlSGxfMbi
-   g==;
-X-CSE-ConnectionGUID: E/4fztrmSpKy9w+IUrEjBQ==
-X-CSE-MsgGUID: Q5xDzfdDRYuBLxzLWKcECg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11558"; a="71297201"
-X-IronPort-AV: E=Sophos;i="6.18,279,1751266800"; 
-   d="scan'208";a="71297201"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 14:35:30 -0700
-X-CSE-ConnectionGUID: OqTa/usWQ2SJg2DwozS/CA==
-X-CSE-MsgGUID: lOr+QbueRm6s9v5CmCWSCQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,279,1751266800"; 
-   d="scan'208";a="176374574"
-Received: from agladkov-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.231])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Sep 2025 14:35:24 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id ED47E11FC29;
-	Sat, 20 Sep 2025 00:35:19 +0300 (EEST)
-Date: Sat, 20 Sep 2025 00:35:19 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Stefan Klug <stefan.klug@ideasonboard.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 19/66] media: uapi: Add V4L2_CID_COLOR_PATTERN for
- describing color patterns
-Message-ID: <aM3Ml-aSVKjPbv9W@kekkonen.localdomain>
-References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-20-sakari.ailus@linux.intel.com>
- <20250903150507.GO3648@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1758363691; c=relaxed/simple;
+	bh=NeUWLUvwC6kW9VyfKYx42FFXe0IA1wZCOhU/BXYAKwI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oVXwIOiDxC3HjsfhV0Ve68mGullLdlPpyj1hIhgkB+9/BO6hRoTZqnNOYRlv4HMNUYPg7uKEsmHSyyavgWh2BhFdLLW81bjf7cPwtVk5gvtm5DCE/eLWCFmDTS2TCtU9auWVQuLiURMdxkPoy9Xe5QX2KIOC8BSi+UYXP0Ujh0U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=R/7euhNL; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-45cb6428c46so26826655e9.1
+        for <linux-media@vger.kernel.org>; Sat, 20 Sep 2025 03:21:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758363686; x=1758968486; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=P0vYXtUQVOuP2mhoWd4ropfz+61/nK8dVG+VKmZf9qg=;
+        b=R/7euhNLFeNlzmaUZ+Phoi0Q88Um1/yPfSkGC3G2sFF8md/oqJcr43+2FV+9UmZ2Dk
+         SUnKvAzbGiMrGaYgJR97ThDsbv3pKQfcEILZgylruuHbwAgK1ibJB3U9tn1aPxbYXcK1
+         MyRhovHH6tj9EMTzJqrblnvCmVfWpPYmKtlRwrM4k2sJZEX5nejonCqSjRQvEZ+qH5zA
+         DZ8wgDnOm8GaSljL3BUhgkod1l54KOPFjRhr/NVlywP8mhfKqtfasB/gPB/yUR4l9gOU
+         cdSyKg0V831oaRBDwypFkfc9dJHAFm8Nx1QoZlRSq09uBR4nwN02T4sdmyv+CMFSoURH
+         KYog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758363686; x=1758968486;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=P0vYXtUQVOuP2mhoWd4ropfz+61/nK8dVG+VKmZf9qg=;
+        b=fuRou5Shifl9HRIvbzIO7VAwpPO5GDtlDLGbP7V9pQ5/VfW7EZ0tWvHjjhVAUQyZ1B
+         bS3lB9emIlIlHAluZs3kRxKxem1qzblKY7SML5OCfMnqRd0Ss9Z6UT6SRQl70h4yrlUz
+         ZeBvkRTkvOtyXnDmBrOB0ONsCOsWYr/f9sa+7FPpttQkHE35OnnZL4N4NAUBmVOB5VA8
+         ISPqud40AVhz0gnZa1yxb8k06izdLWP8JRChE2jv+edLgl+IzkL8OMelWH2QCCKbSYJ+
+         Ih5b5+9VR1mMt3b9nbfO5d6zqz1QyQTh3ISmDgI1HLus8zVa5oPs1q4WesuNcT8rr5C8
+         9TTg==
+X-Forwarded-Encrypted: i=1; AJvYcCUcpwPTuAVr5GNV+ZhFU8r2AzX39B6vc5Vp/wsjdr7J/LI2vTiIqRF/4StfdYe4B6tm9A7BNszNdCvbAA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrawnmDRvRATppwuDz6M362m1lx/k/ELkpM55OyFZncO08OtZR
+	MBSHrCFgNpaIWLActe/UMQgrQN7dqOTIIgd27/HpOXZD4hMeixWxMDjV
+X-Gm-Gg: ASbGncsXgsK4a+4rK4zpEINqNinITmFM9trQdz/cdOthZsUrIBZiON3Bv91iQGTV3yv
+	5Av0O37AcQ3LWwxUlhDdyd4xr9homre+ctTadAlp/Vv/mztwroTTEBvs/p1PF1QaH0eABxEX3Py
+	wUxDtljB0G3kFGAgcggDfUtopJfGFceat7+4+lPACI19vKSj31LJUdKfoqyx0nRJOwsahvusSRT
+	XqYG3YPNXzfo2i8gCRmKtw2zrCYSYXTMhj5CUON8JOsflF344MEDHqaO+O2q8nY1t9QaI3MQ8Jf
+	RRRs4YPTEc+kg2bG5wYfi7QaUQhiUrvXFuyBMAzSnJm7D+QKzgqG8Bve6eexcgtRwgLuvbme8D2
+	Mi4T1s9y/lzR4iww0zFJPNjo1qKxOzIs+DGKZVGyk6kjQjPaJlvHkO1lNCk2f
+X-Google-Smtp-Source: AGHT+IFiz+7GSgFF/mIUUp0ndfipkNQ39jr+2XK+PXUAveDTslyL1Wu67txaLfdop4/qCEdAg/m1vQ==
+X-Received: by 2002:a05:600c:c8f:b0:45f:2919:5e6c with SMTP id 5b1f17b1804b1-467e6f37d8dmr76782405e9.16.1758363685327;
+        Sat, 20 Sep 2025 03:21:25 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3f0e28c83d6sm5624389f8f.56.2025.09.20.03.21.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 20 Sep 2025 03:21:25 -0700 (PDT)
+Date: Sat, 20 Sep 2025 11:21:22 +0100
+From: David Laight <david.laight.linux@gmail.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: linux@armlinux.org.uk, jdike@addtoit.com,
+ anton.ivanov@cambridgegreys.com, dave.hansen@linux.intel.com,
+ peterz@infradead.org, tglx@linutronix.de, x86@kernel.org, hpa@zytor.com,
+ tony.luck@intel.com, qiuxu.zhuo@intel.com, mchehab@kernel.org,
+ james.morse@arm.com, rric@kernel.org, harry.wentland@amd.com,
+ sunpeng.li@amd.com, alexander.deucher@amd.com, airlied@linux.ie,
+ daniel@ffwll.ch, evan.quan@amd.com, james.qian.wang@arm.com,
+ liviu.dudau@arm.com, mihail.atanassov@arm.com, brian.starkey@arm.com,
+ maarten.lankhorst@linux.intel.com, mripard@kernel.org, tzimmermann@suse.de,
+ robdclark@gmail.com, sean@poorly.run, dmitry.torokhov@gmail.com,
+ agk@redhat.com, snitzer@redhat.com, dm-devel@redhat.com, rajur@chelsio.com,
+ davem@davemloft.net, kuba@kernel.org, peppe.cavallaro@st.com,
+ alexandre.torgue@st.com, joabreu@synopsys.com, mcoquelin.stm32@gmail.com,
+ malattia@linux.it, hdegoede@redhat.com, mgross@linux.intel.com,
+ intel-linux-scu@intel.com, artur.paszkiewicz@intel.com, jejb@linux.ibm.com,
+ martin.petersen@oracle.com, sakari.ailus@linux.intel.com,
+ gregkh@linuxfoundation.org, dushistov@mail.ru, luc.vanoostenryck@gmail.com,
+ rostedt@goodmis.org, pmladek@suse.com, sergey.senozhatsky@gmail.com,
+ andriy.shevchenko@linux.intel.com, linux@rasmusvillemoes.dk,
+ akpm@linux-foundation.org, kuznet@ms2.inr.ac.ru, yoshfuji@linux-ipv6.org,
+ pablo@netfilter.org, kadlec@netfilter.org, jmaloy@redhat.com,
+ ying.xue@windriver.com, willy@infradead.org, sashal@kernel.org,
+ ruanjinjie@huawei.com, David.Laight@ACULAB.COM, herve.codina@bootlin.com,
+ Jason@zx2c4.com, bvanassche@acm.org, keescook@chromium.org,
+ linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-um@lists.infradead.org, linux-edac@vger.kernel.org,
+ amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+ linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
+ linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-media@vger.kernel.org, netdev@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com,
+ platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
+ linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org,
+ linux-ext4@vger.kernel.org, linux-sparse@vger.kernel.org,
+ linux-mm@kvack.org, netfilter-devel@vger.kernel.org,
+ coreteam@netfilter.org, tipc-discussion@lists.sourceforge.net,
+ stable@vger.kernel.org, jonnyc@amazon.com
+Subject: Re: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
+Message-ID: <20250920111904.6d9ecb17@pumpkin>
+In-Reply-To: <184ce83f-0063-43a0-a1c8-da23c5d03cf7@amd.com>
+References: <20250919101727.16152-1-farbere@amazon.com>
+	<184ce83f-0063-43a0-a1c8-da23c5d03cf7@amd.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250903150507.GO3648@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-Hi Laurent,
+On Fri, 19 Sep 2025 14:11:37 +0200
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-On Wed, Sep 03, 2025 at 05:05:07PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Mon, Aug 25, 2025 at 12:50:20PM +0300, Sakari Ailus wrote:
-> > Add V4L2_CID_COLOR_PATTERN to tell the camera sensor's native color
-> > pattern.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > ---
-> >  .../media/v4l/ext-ctrls-image-source.rst      | 39 +++++++++++++++++++
-> >  .../media/v4l/subdev-formats.rst              |  2 +
-> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  1 +
-> >  include/uapi/linux/v4l2-controls.h            |  6 +++
-> >  4 files changed, 48 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > index 71f23f131f97..b19aaaffbce0 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-image-source.rst
-> > @@ -92,3 +92,42 @@ Image Source Control IDs
-> >      representing a gain of exactly 1.0. For example, if this default value
-> >      is reported as being (say) 128, then a value of 192 would represent
-> >      a gain of exactly 1.5.
-> > +
-> > +``V4L2_CID_COLOR_PATTERN (integer)``
-> > +    This control determines the color components and native pixel order in the
-> > +    sensor's CFA (Color Filter Array) when used in conjunction with
-> > +    :ref:`generic raw mbus codes MEDIA_BUS_FMT_RAW_x (where 'x' is the bit
-> > +    depth) <v4l2-mbus-pixelcode-generic-raw>` pixelcodes. The native pixel
-> > +    order is constant for a given device, it is not affected by cropping or
-> > +    flipping.
-> > +
-> > +    This control may only be used on V4L2 sub-devices.
-> > +
-> > +    This is a read-only control.
-> > +
-> > +    Available patterns:
-> > +
-> > +.. flat-table:: V4L2 color patterns
-> > +    :header-rows:  1
-> > +    :stub-columns: 0
-> > +    :widths:       1 2 1
-> > +
-> > +    * - Macro name
-> > +      - Synopsis
-> > +      - Value
-> > +    * - V4L2_COLOR_PATTERN_GRBG
-> > +      - Raw Bayer, with alternating lines beginning with green, red pixels and
-> > +        blue, green pixels.
-> 
-> I know what you mean, but it's a bit vague. Let's try to be more
-> precise:
-> 
->       - Bayer pattern with 2x2 macroblocks. Each macroblock stores pixels in
->         green, red, blue, green order.
-> 
-> Or even more precise
-> 
->       - Bayer pattern with 2x2 macroblocks. Each macroblock has a green filter
->         in the top-left and bottom-right pixels, a red filter in the top-right
-> 	pixel, and a blue filter in the bottom-left pixel.
+> On 19.09.25 12:17, Eliav Farber wrote:
+> > This series includes a total of 27 patches, to align minmax.h of
+> > v5.15.y with v6.17-rc6.
+> >=20
+> > The set consists of 24 commits that directly update minmax.h:
+> > 1) 92d23c6e9415 ("overflow, tracing: Define the is_signed_type() macro
+> >    once")
+> > 2) 5efcecd9a3b1 ("minmax: sanity check constant bounds when clamping")
+> > 3) 2122e2a4efc2 ("minmax: clamp more efficiently by avoiding extra
+> >    comparison")
+> > 4) f9bff0e31881 ("minmax: add in_range() macro")
+> > 5) c952c748c7a9 ("minmax: Introduce {min,max}_array()")
+> > 6) 5e57418a2031 ("minmax: deduplicate __unconst_integer_typeof()")
+> > 7) f6e9d38f8eb0 ("minmax: fix header inclusions")
+> > 8) d03eba99f5bf ("minmax: allow min()/max()/clamp() if the arguments
+> >    have the same signedness.")
+> > 9) f4b84b2ff851 ("minmax: fix indentation of __cmp_once() and
+> >    __clamp_once()")
+> > 10) 4ead534fba42 ("minmax: allow comparisons of 'int' against 'unsigned
+> >     char/short'")
+> > 11) 867046cc7027 ("minmax: relax check to allow comparison between
+> >     unsigned arguments and signed constants")
+> > 12) 3a7e02c040b1 ("minmax: avoid overly complicated constant
+> >     expressions in VM code")
+> > 14) 017fa3e89187 ("minmax: simplify and clarify min_t()/max_t()
+> >     implementation")
+> > 15) 1a251f52cfdc ("minmax: make generic MIN() and MAX() macros
+> >     available everywhere")
+> > 18) dc1c8034e31b ("minmax: simplify min()/max()/clamp()
+> >     implementation")
+> > 19) 22f546873149 ("minmax: improve macro expansion and type
+> >     checking")
+> > 20) 21b136cc63d2 ("minmax: fix up min3() and max3() too")
+> > 21) 71ee9b16251e ("minmax.h: add whitespace around operators and after
+> >     commas")
+> > 22) 10666e992048 ("minmax.h: update some comments")
+> > 23) b280bb27a9f7 ("minmax.h: reduce the #define expansion of min(),
+> >     max() and clamp()")
+> > 24) a5743f32baec ("minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi
+> >     test in clamp()")
+> > 25) c3939872ee4a ("minmax.h: move all the clamp() definitions after the
+> >     min/max() ones")
+> > 26) 495bba17cdf9 ("minmax.h: simplify the variants of clamp()")
+> > 27) 2b97aaf74ed5 ("minmax.h: remove some #defines that are only
+> >     expanded once")
+> >=20
+> > 2 prerequisite commits that adjust users of MIN and MAX macros (to
+> > prevent compilation issues):
+> > 13) 4477b39c32fd ("minmax: add a few more MIN_T/MAX_T users")
+> > 17) cb04e8b1d2f2 ("minmax: don't use max() in situations that want a C
+> >     constant expression")
+> >=20
+> > 1 additional commit introduced to resolve a build failures during the
+> > backport:
+> > 16) lib: zstd: drop local MIN/MAX macros in favor of generic ones
+> >=20
+> > The primary motivation is to bring in commit (8).
+> > In mainline, this change allows min()/max()/clamp() to accept mixed
+> > argument types when both share the same signedness.
+> > Backported patches to v5.10.y that use such forms trigger compiler
+> > warnings, which in turn cause build failures when -Werror is enabled.
+> >=20
+> > Originaly I aligned 5.10.y to 5.15.y, but David Laight commented that I
+> > need to pick up the later changes (from Linus) as well.
+> >=20
+> > Andy Shevchenko (2):
+> >   minmax: deduplicate __unconst_integer_typeof()
+> >   minmax: fix header inclusions
+> >=20
+> > Bart Van Assche (1):
+> >   overflow, tracing: Define the is_signed_type() macro once
+> >=20
+> > David Laight (11):
+> >   minmax: allow min()/max()/clamp() if the arguments have the same
+> >     signedness.
+> >   minmax: fix indentation of __cmp_once() and __clamp_once()
+> >   minmax: allow comparisons of 'int' against 'unsigned char/short'
+> >   minmax: relax check to allow comparison between unsigned arguments and
+> >     signed constants
+> >   minmax.h: add whitespace around operators and after commas
+> >   minmax.h: update some comments
+> >   minmax.h: reduce the #define expansion of min(), max() and clamp()
+> >   minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+> >   minmax.h: move all the clamp() definitions after the min/max() ones
+> >   minmax.h: simplify the variants of clamp()
+> >   minmax.h: remove some #defines that are only expanded once
+> >=20
+> > Eliav Farber (1):
+> >   lib: zstd: drop local MIN/MAX macros in favor of generic ones
+> >=20
+> > Herve Codina (1):
+> >   minmax: Introduce {min,max}_array()
+> >=20
+> > Jason A. Donenfeld (2):
+> >   minmax: sanity check constant bounds when clamping
+> >   minmax: clamp more efficiently by avoiding extra comparison
+> >=20
+> > Linus Torvalds (8):
+> >   minmax: avoid overly complicated constant expressions in VM code
+> >   minmax: add a few more MIN_T/MAX_T users
+> >   minmax: simplify and clarify min_t()/max_t() implementation
+> >   minmax: make generic MIN() and MAX() macros available everywhere
+> >   minmax: don't use max() in situations that want a C constant
+> >     expression
+> >   minmax: simplify min()/max()/clamp() implementation
+> >   minmax: improve macro expansion and type checking
+> >   minmax: fix up min3() and max3() too
+> >=20
+> > Matthew Wilcox (Oracle) (1):
+> >   minmax: add in_range() macro
+> >=20
+> >  arch/arm/mm/pageattr.c                        |   6 +-
+> >  arch/um/drivers/mconsole_user.c               |   2 +
+> >  arch/x86/mm/pgtable.c                         |   2 +- =20
+>=20
+> >  drivers/edac/sb_edac.c                        |   4 +-
+> >  drivers/edac/skx_common.h                     |   1 -
+> >  .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
+> >  .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
+> >  .../drm/arm/display/include/malidp_utils.h    |   2 +-
+> >  .../display/komeda/komeda_pipeline_state.c    |  24 +-
+> >  drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
+> >  drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   6 -
+> >  drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
+> >  drivers/hwmon/adt7475.c                       |  24 +-
+> >  drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
+> >  drivers/md/dm-integrity.c                     |   2 +-
+> >  drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
+> >  .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   |  18 +-
+> >  .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
+> >  drivers/net/fjes/fjes_main.c                  |   4 +-
+> >  drivers/nfc/pn544/i2c.c                       |   2 -
+> >  drivers/platform/x86/sony-laptop.c            |   1 -
+> >  drivers/scsi/isci/init.c                      |   6 +- =20
+>=20
+> I do see the value to backport the infrastructure, but why are driver spe=
+cific changes backported as well?
 
-The Bayer pattern indeed uses 2x2 blocks. Seems good to me. I modified it
-slightly:
+They will be about removing local definitions of MIN() and MAX() freeing
+them up for simple implementations (usable as constant initialisers) and th=
+en
+using them in places where the compound statements in min() and max() can't
+be used.
 
-      - Bayer pattern (2x2 macroblocks). Each macroblock has a green filter in
-        the top-left and bottom-right pixels, a red filter in the top-right
-        pixel, and a blue filter in the bottom-left pixel.
+Linus did all those changes - so he didn't have to wait for the maintainers
+to apply the changes (etc).
 
-> 
-> > +      - 0
-> > +    * - V4L2_COLOR_PATTERN_RGGB
-> > +      - Raw Bayer, with alternating lines beginning with red, green pixels and
-> > +        green, blue pixels.
-> > +      - 1
-> > +    * - V4L2_COLOR_PATTERN_BGGR
-> > +      - Raw Bayer, with alternating lines beginning with blue, green pixels and
-> > +        green, red pixels.
-> > +      - 2
-> > +    * - V4L2_COLOR_PATTERN_GBRG
-> > +      - Raw Bayer, with alternating lines beginning with green, blue pixels and
-> > +        red, green pixels.
-> > +      - 3
-> > diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > index 1a51b5c817f1..e77b4ad19737 100644
-> > --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> > @@ -3434,6 +3434,8 @@ organization is given as an example for the first pixel only.
-> >  
-> >      \endgroup
-> >  
-> > +.. _v4l2-mbus-pixelcode-generic-raw:
-> > +
-> 
-> I'd move this to the patch that adds the raw formats. No big deal
-> though.
-> 
-> >  Generic raw formats on serial interfaces
-> >  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> >  
-> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > index dd5f06546773..8119012c2638 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> > @@ -1155,6 +1155,7 @@ const char *v4l2_ctrl_get_name(u32 id)
-> >  	case V4L2_CID_TEST_PATTERN_BLUE:	return "Blue Pixel Value";
-> >  	case V4L2_CID_TEST_PATTERN_GREENB:	return "Green (Blue) Pixel Value";
-> >  	case V4L2_CID_NOTIFY_GAINS:		return "Notify Gains";
-> > +	case V4L2_CID_COLOR_PATTERN:		return "Color Pattern";
-> >  
-> 
-> Shouldn't you also patch v4l2_ctrl_fill() ?
+	David
+=20
+>=20
+> I mean the changes are most likely correct but also not valuable in anywa=
+y as bug fix.
+>=20
+> Regards,
+> Christian.
+>=20
+> >  .../pci/hive_isp_css_include/math_support.h   |   5 -
+> >  fs/btrfs/misc.h                               |   2 -
+> >  fs/btrfs/tree-checker.c                       |   2 +-
+> >  fs/ext2/balloc.c                              |   2 -
+> >  fs/ext4/ext4.h                                |   2 -
+> >  fs/ufs/util.h                                 |   6 -
+> >  include/linux/compiler.h                      |  15 +
+> >  include/linux/minmax.h                        | 267 ++++++++++++++----
+> >  include/linux/overflow.h                      |   1 -
+> >  include/linux/trace_events.h                  |   2 -
+> >  kernel/trace/preemptirq_delay_test.c          |   2 -
+> >  lib/btree.c                                   |   1 -
+> >  lib/decompress_unlzma.c                       |   2 +
+> >  lib/logic_pio.c                               |   3 -
+> >  lib/vsprintf.c                                |   2 +-
+> >  lib/zstd/zstd_internal.h                      |   2 -
+> >  mm/zsmalloc.c                                 |   1 -
+> >  net/ipv4/proc.c                               |   2 +-
+> >  net/ipv6/proc.c                               |   2 +-
+> >  net/netfilter/nf_nat_core.c                   |   6 +-
+> >  net/tipc/core.h                               |   2 +-
+> >  net/tipc/link.c                               |  10 +-
+> >  44 files changed, 306 insertions(+), 164 deletions(-)
+> >  =20
+>=20
+>=20
 
-Yes.
-
-> 
-> >  	/* Image processing controls */
-> >  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> > index 3c0f6afe7500..e552f6655fd0 100644
-> > --- a/include/uapi/linux/v4l2-controls.h
-> > +++ b/include/uapi/linux/v4l2-controls.h
-> > @@ -1227,6 +1227,12 @@ enum v4l2_jpeg_chroma_subsampling {
-> >  #define V4L2_CID_UNIT_CELL_SIZE			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 8)
-> >  #define V4L2_CID_NOTIFY_GAINS			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 9)
-> >  
-> > +#define V4L2_CID_COLOR_PATTERN			(V4L2_CID_IMAGE_SOURCE_CLASS_BASE + 10)
-> > +#define V4L2_COLOR_PATTERN_GRBG			0U
-> > +#define V4L2_COLOR_PATTERN_RGGB			1U
-> > +#define V4L2_COLOR_PATTERN_BGGR			2U
-> > +#define V4L2_COLOR_PATTERN_GBRG			3U
-> 
-> How about V4L2_CID_CFA_PATTERN and V4L2_CFA_PATTERN_* ?
-
-We've discussed this before. I think I'll switch, it makes sense for
-consistency.
-
-> 
-> > +
-> >  
-> >  /* Image processing controls */
-> >  
-> 
-
--- 
-Regards,
-
-Sakari Ailus
 
