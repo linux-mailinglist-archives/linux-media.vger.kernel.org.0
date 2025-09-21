@@ -1,117 +1,149 @@
-Return-Path: <linux-media+bounces-42840-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42841-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26EC7B8DA79
-	for <lists+linux-media@lfdr.de>; Sun, 21 Sep 2025 14:02:56 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E393B8DEA7
+	for <lists+linux-media@lfdr.de>; Sun, 21 Sep 2025 18:10:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A821A17361E
-	for <lists+linux-media@lfdr.de>; Sun, 21 Sep 2025 12:02:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4FF17189C75A
+	for <lists+linux-media@lfdr.de>; Sun, 21 Sep 2025 16:10:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E19632C324E;
-	Sun, 21 Sep 2025 12:02:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 594C925A2C3;
+	Sun, 21 Sep 2025 16:07:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/Ls5If8"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="guX3vtQ1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C8A34BA39;
-	Sun, 21 Sep 2025 12:02:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89936254AF5;
+	Sun, 21 Sep 2025 16:07:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758456169; cv=none; b=Nfq8EElEpyn33zSSlkqWWh/sLNOZT2qGxQt7nBWS5PYwC+W0G7F+1setGKcpUTRwqESVyxuvArOwbo+4UjYIlZvndHeOdhoMCGpidqZjoKVau1S+5Z8XXafO/pRRast4Kktas7hcgiSpP9UKh8Sb+V5l2J8HVGlgDYLcPYr1soU=
+	t=1758470866; cv=none; b=t3oOxysxIcit3Sixed4eNag6ZYoMEwPPHjEgTze4jNQ8a1C0x0yPH0jvrEWucLD3BANjr2iOfsSXQXiC5mcaxJfwLfWGMwGJKNA7PYwdIVqxEZImZz4t31ckC1jhrknXqeYcNYAZCLdPLi1OyQDKNKf0AkE8Ex+Ayau6zRMUyGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758456169; c=relaxed/simple;
-	bh=5IQlyYmqYaYIRSexLmhO6aiLRDVa4NoqpEv0Gr5FZOc=;
+	s=arc-20240116; t=1758470866; c=relaxed/simple;
+	bh=SOxfcuAg/wHY4zUhpi4EhLnADzgpkX8Jpg/fLpNoMp0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iBoUZ9RntvEM1/N5wt8FjqOwR6ofyjGH4Sl5jJN+bf47GJpD5cSZndZtXVh8v0wX7RyO75e04vAi0n2zepfww3tkQxMTm49tACreNfLimUr/FuK949wHLaanx22OgGttvynJ8EvvshFz24JBvA4r7cXhc6iRw7VuI3pee7e1+9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/Ls5If8; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758456166; x=1789992166;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=5IQlyYmqYaYIRSexLmhO6aiLRDVa4NoqpEv0Gr5FZOc=;
-  b=K/Ls5If8VWd5AWpl+8AXwR/j/VRRH8H+QUaR8IPK50sBQABSimLs2luk
-   +D1EPLyAjY41qyl56/f9MzxWyoJ+z1gJPJKL76s1of4zVN4CoCMoqKDVW
-   36INbF0oaro9VuhFFv5NBJYi9WkhHAcvlttZNtqGxxju8q0E4XmsJiCs1
-   DdS3Gt0klFYqSdBeGZZp28BCvl/D0mvs5iBetcwx4usk0IprrEZmGjkke
-   lgE5vyMs2EfHhKYFYw0fWniHdol2LA93OMGphnETAmoejS+5C6eeGvZq7
-   VWR5szE1O5yhu38kYpLikg+AaF9TYAtBaooPD3cqmqpzv/sdrpBaq5UdJ
-   w==;
-X-CSE-ConnectionGUID: QLpeOB5DSSW6rDvjh8npiQ==
-X-CSE-MsgGUID: Cqa0B5CFQq+kbyhNKCUG1A==
-X-IronPort-AV: E=McAfee;i="6800,10657,11559"; a="60669017"
-X-IronPort-AV: E=Sophos;i="6.18,283,1751266800"; 
-   d="scan'208";a="60669017"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 05:02:44 -0700
-X-CSE-ConnectionGUID: rHuhnbv3RFGRPrlcYPuCeQ==
-X-CSE-MsgGUID: q68WrYn/R+eVSGWv9RHJXQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,283,1751266800"; 
-   d="scan'208";a="175380558"
-Received: from lkp-server02.sh.intel.com (HELO 84c55410ccf6) ([10.239.97.151])
-  by orviesa006.jf.intel.com with ESMTP; 21 Sep 2025 05:02:41 -0700
-Received: from kbuild by 84c55410ccf6 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v0Im7-0000hx-1H;
-	Sun, 21 Sep 2025 12:02:39 +0000
-Date: Sun, 21 Sep 2025 20:02:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Alex Tran <alex.t.tran@gmail.com>, mchehab@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, laurent.pinchart@ideasonboard.com,
-	hansg@kernel.org, hverkuil+cisco@kernel.org, cascardo@igalia.com,
-	ribalda@chromium.org, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, Alex Tran <alex.t.tran@gmail.com>
-Subject: Re: [PATCH v3] media: i2c: wm8775: parameterize wm8775_platform_data
- based on config
-Message-ID: <202509211953.3uP6gmSx-lkp@intel.com>
-References: <20250921005635.949377-1-alex.t.tran@gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=iDkl18GisnUZDoZbJJICAES8hqg7vHVWmgFhG5ve9Sn5tFBbeuQK2XaYkibORH2QqgIgvzTn+q9N0HidPeub9g029DpvgaFwdAyX+YDYwe6HyI54hM3B+SzLTyDBP3qyeGOELvY5KIRHUzrdhlC2NNxgtTY7Rh8NCeHuKUT5xUE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=guX3vtQ1; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 0D213169;
+	Sun, 21 Sep 2025 18:06:13 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1758470773;
+	bh=SOxfcuAg/wHY4zUhpi4EhLnADzgpkX8Jpg/fLpNoMp0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=guX3vtQ1J6g5ihr5dodogs1eocaF6XVcFMrHKbETIm77ZVJ4vxZmz0NpdkPI5dPm0
+	 cUxdWnS6ZUV3qibeB2k+tpUYHZeUi5ofnrlM/fyCEwrkR0POjH2DiqY2RGv9ifDbbr
+	 +u0TxG79fuLkHvu2k3X3vcw0vCj8/3tackr5WAmg=
+Date: Sun, 21 Sep 2025 19:07:04 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: "G.N. Zhou" <guoniu.zhou@nxp.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	Alice Yuan <alice.yuan@nxp.com>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Subject: Re: [PATCH v2 0/5] media: imx91: Add ISI support
+Message-ID: <20250921160704.GA29453@pendragon.ideasonboard.com>
+References: <20250905-isi_imx93-v2-0-37db5f768c57@nxp.com>
+ <AS8PR04MB90801C7CE8D06EDC8CAA6750FA11A@AS8PR04MB9080.eurprd04.prod.outlook.com>
+ <aM2AurOTxTB4raSg@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250921005635.949377-1-alex.t.tran@gmail.com>
+In-Reply-To: <aM2AurOTxTB4raSg@lizhi-Precision-Tower-5810>
 
-Hi Alex,
+Hi Frank,
 
-kernel test robot noticed the following build errors:
+On Fri, Sep 19, 2025 at 12:11:38PM -0400, Frank Li wrote:
+> On Fri, Sep 19, 2025 at 02:40:01AM +0000, G.N. Zhou wrote:
+> > Hi,
+> >
+> > Could you help to please review the patches which I have submitted
+> > some time back to linux media community and move forward driver part
+> > if possible.
+> > 
+> > Your feedback will be very appreciated. Thanks.
+> >
+> > Best Regards
+> > G.N Zhou
+> >
+> 
+> Laurent Pinchart:
+> 
+> 	Could you please consider pickup these patches? Consider these
+> related simple changes, is my Reviewed-by enough?
 
-[auto build test ERROR on linuxtv-media-pending/master]
-[also build test ERROR on linus/master v6.17-rc6]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+I've completed a set of other reviews and will get to this patch series
+in the upcoming week.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Alex-Tran/media-i2c-wm8775-parameterize-wm8775_platform_data-based-on-config/20250921-104257
-base:   https://git.linuxtv.org/media-ci/media-pending.git master
-patch link:    https://lore.kernel.org/r/20250921005635.949377-1-alex.t.tran%40gmail.com
-patch subject: [PATCH v3] media: i2c: wm8775: parameterize wm8775_platform_data based on config
-config: sparc-randconfig-002-20250921 (https://download.01.org/0day-ci/archive/20250921/202509211953.3uP6gmSx-lkp@intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 8.5.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250921/202509211953.3uP6gmSx-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202509211953.3uP6gmSx-lkp@intel.com/
-
-All errors (new ones prefixed by >>, old ones prefixed by <<):
-
->> ERROR: modpost: "wm8775_standard_cfg" [drivers/media/pci/cx88/cx8800.ko] undefined!
->> ERROR: modpost: "wm8775_nova_s_cfg" [drivers/media/pci/cx88/cx8800.ko] undefined!
+> > >
+> > > Add ISI support for i.MX91 chip.
+> > >
+> > > The bellow patch refine code, no functions changed.
+> > >    media: nxp: imx8-isi: Simplify code by using helper macro
+> > >    media: nxp: imx8-isi: Reorder the platform data
+> > >
+> > > The bindings and driver patch for i.MX91 ISI.
+> > >    media: dt-bindings: nxp,imx8-isi: Add i.MX91 ISI compatible string
+> > >    media: nxp: imx8-isi: Add ISI support for i.MX91
+> > >
+> > > Add parallel camera input for i.MX93 ISI.
+> > >    media: nxp: imx8-isi: Add parallel camera input support
+> > >
+> > > Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+> > > ---
+> > > Changes in v2:
+> > > - Update commit log in patch 5 to better describe why introduce it.
+> > > - Include two header files in patch 2 since kernel test robot report build
+> > >   issue when arch is riscv and compiler is clang-22.
+> > >   #include <linux/bitfield.h>
+> > >   #include <linux/bits.h>
+> > > - Link to v1: https://lore.kernel.org/all/20250827-isi_imx93-v1-0-
+> > > 83e6b4b50c4d@nxp.com
+> > >
+> > > ---
+> > > Alice Yuan (2):
+> > >       media: dt-bindings: nxp,imx8-isi: Add i.MX91 ISI compatible string
+> > >       media: nxp: imx8-isi: Add parallel camera input support
+> > >
+> > > Guoniu Zhou (3):
+> > >       media: nxp: imx8-isi: Simplify code by using helper macro
+> > >       media: nxp: imx8-isi: Reorder the platform data
+> > >       media: nxp: imx8-isi: Add ISI support for i.MX91
+> > >
+> > >  .../devicetree/bindings/media/nxp,imx8-isi.yaml    | 13 +++++-
+> > >  .../media/platform/nxp/imx8-isi/imx8-isi-core.c    | 50 ++++++++++++++--------
+> > >  .../media/platform/nxp/imx8-isi/imx8-isi-core.h    |  1 +
+> > >  .../media/platform/nxp/imx8-isi/imx8-isi-gasket.c  | 18 ++++++--
+> > >  4 files changed, 59 insertions(+), 23 deletions(-)
+> > > ---
+> > > base-commit: 603957ae903e81fb80d3788297c0f58a68802dfc
+> > > change-id: 20250826-isi_imx93-4a59288b33e4
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Regards,
+
+Laurent Pinchart
 
