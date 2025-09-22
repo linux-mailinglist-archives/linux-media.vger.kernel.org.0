@@ -1,74 +1,63 @@
-Return-Path: <linux-media+bounces-42956-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42957-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD077B921D6
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 18:03:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CE3B92513
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 18:55:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C538E18981C7
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 16:04:00 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 084D62A662E
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 16:55:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEC0431079B;
-	Mon, 22 Sep 2025 16:03:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 65D94311C38;
+	Mon, 22 Sep 2025 16:54:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Okdk4HLp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZumRcMh8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D1E31064A;
-	Mon, 22 Sep 2025 16:03:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A434C31195A;
+	Mon, 22 Sep 2025 16:54:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758557004; cv=none; b=GH+HscK0H8DfY05Ksh+i8w7drjSBdmzlmBebGJm0UzPDzYGtwKi2m/dgIrwBiNWanGjMaWhkFwUeGfDIEXTzyXycMdqJtupYd5F/YxwfvvBEL5QZ0ArKvoeo1PtPGOCHgnEjIFh9y/oNwkq4vHHNRcZEKRjBrlMFlxqgcfLVFvQ=
+	t=1758560089; cv=none; b=Cr9PbVLF9oci+NeHrJP5ZSqYH5/tiWx2r2yKYrtTtbLlImJ0iATod96493i+xwjCdiod9MP7hiHR8tpDCmtZOtiVpAg73f5U9qsHbb4qsiBS4qwmk1w+YoCivfDvOrbz6+1Zj/A3Jize8ooKJWkOAK6XjsRcfZMY6v88PAJH8lY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758557004; c=relaxed/simple;
-	bh=SBGcHxTA1qXpjYcMN2XvPCz4NeeP4t9w4dEm7rTj6mI=;
+	s=arc-20240116; t=1758560089; c=relaxed/simple;
+	bh=ymMmzTp4EnxrYkm69r1TPDGsncG3tXK6gHua10vVyNw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=A2qgeXoStKx7wIOIFvKYzdOBhGX/6BwoLfVKQII+wdKTkGcnhk5FAiNkxGqY0RpIhtl3qpEa8E2gOWDXiirD95NbWqkxkzqLquUYrXwA79n/oM35V/+mrC7MvmD5oDJkd4oO8GKi0rN8tFUZ3RxTNFBnTe8+UxPA8rMW8JvBqIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Okdk4HLp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05220C4CEF0;
-	Mon, 22 Sep 2025 16:03:23 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=mN+xl4F9gc35RRY9xVzTbcc2ztCDuqF5+428GemfDrlUrYTUoWWMhVs+mKUjSzkFtdfjKeK0qJUgraLf+263371E0ZNE3wntPJVjlQPRKNAM3UVf7OXi+ADOYAQ5PQwzvWXNiiZZtKA4pv7EuLn4qkaiOloP9jhxflXyoDIJHCA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZumRcMh8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9F61C4CEF0;
+	Mon, 22 Sep 2025 16:54:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758557003;
-	bh=SBGcHxTA1qXpjYcMN2XvPCz4NeeP4t9w4dEm7rTj6mI=;
+	s=k20201202; t=1758560089;
+	bh=ymMmzTp4EnxrYkm69r1TPDGsncG3tXK6gHua10vVyNw=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Okdk4HLpW7Kmoxgxc97pQ2qYlroVJ/LR1qBFjpayn3uKBBhgY65vvD5163oCK9WgH
-	 hpHrSkjmcc6hzLlajkdmPSJiDTq44kQzw2/jZaHLba2rTWEEGCydLFy3QhKZsN4ZXC
-	 Vjq5Ly2WbORSmmMberQB7tT42jTifK/WO50CloeJ4LpSZQlrN36/p8u3IWvu+PYGpd
-	 llpAF5PGvW4gn7LbQwItU6acJSa2UjKBpARczJa4qmhZzuKQMUc3+BOK7LMSX1Vem+
-	 0qd5B/8DFOZw9mtOdBWfi1YR0BQu0XbhSvy8gY/Iv74JmQcN+kHjIhg3QdmldLL/mb
-	 6D94AhDK7WiNw==
-Date: Mon, 22 Sep 2025 11:03:16 -0500
+	b=ZumRcMh8jm0KqGBSZyCF42mMASpEBcfAlsxnbT1a5Cw5HjxL29txLT6wRycCpy58/
+	 xCfoNVjWsQFAjYPXIQ/ZKudI3gEYpRPNGqql1MP4dJ6bWxv2B2nyMrPLcO8VZqsQpx
+	 Nr+GPl6F2D1FXZ7p8fI9V6EmIXws+SJm7U5npCZKflv7cQcodcw6Hs5Mf5sVA786f7
+	 eVo0OlN3PEPh+4/dCBS5Z6+ZYaHpossPyHAm+QPB+pt7VrRUtE0jzxkb4SjfVpplVm
+	 5qX81wdLsEPALK1Kxip+zVgsC1KdVfeYX2sWh615p8TRTSyZWeWCUZfERYi8ysLYmN
+	 68IZ8ShEarFXg==
+Date: Mon, 22 Sep 2025 11:54:47 -0500
 From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Kyrie Wu <kyrie.wu@mediatek.com>
-Cc: Arnd Bergmann <arnd@arndb.de>, Irui Wang <irui.wang@mediatek.com>,
-	linux-mediatek@lists.infradead.org,
-	Sebastian Fricke <sebastian.fricke@collabora.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Nathan Hebert <nhebert@chromium.org>,
-	Hans Verkuil <hverkuil@xs4all.nl>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	linux-arm-kernel@lists.infradead.org,
-	Conor Dooley <conor+dt@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Yunfei Dong <yunfei.dong@mediatek.com>, linux-media@vger.kernel.org,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	George Sun <george.sun@mediatek.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>
-Subject: Re: [PATCH v3 1/8] dt-bindings: media: mediatek: decoder: Add MT8189
- mediatek,vcodec-decoder
-Message-ID: <175855699590.126634.9163224835580363424.robh@kernel.org>
-References: <20250915091958.31509-1-kyrie.wu@mediatek.com>
- <20250915091958.31509-2-kyrie.wu@mediatek.com>
+To: Vikram Sharma <quic_vikramsa@quicinc.com>
+Cc: mchehab@kernel.org, linux-media@vger.kernel.org, krzk+dt@kernel.org,
+	andersson@kernel.org, vladimir.zapolskiy@linaro.org,
+	cros-qcom-dts-watchers@chromium.org, quic_nihalkum@quicinc.com,
+	will@kernel.org, linux-kernel@vger.kernel.org,
+	hverkuil-cisco@xs4all.nl, linux-arm-msm@vger.kernel.org,
+	devicetree@vger.kernel.org, konradybcio@kernel.org,
+	bryan.odonoghue@linaro.org, catalin.marinas@arm.com,
+	quic_svankada@quicinc.com, conor+dt@kernel.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 1/3] dt-bindings: i2c: qcom-cci: Document qcs8300
+ compatible
+Message-ID: <175856008717.464887.16008377245653350497.robh@kernel.org>
+References: <20250917130647.1701883-1-quic_vikramsa@quicinc.com>
+ <20250917130647.1701883-2-quic_vikramsa@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -77,20 +66,24 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250915091958.31509-2-kyrie.wu@mediatek.com>
+In-Reply-To: <20250917130647.1701883-2-quic_vikramsa@quicinc.com>
 
 
-On Mon, 15 Sep 2025 17:19:51 +0800, Kyrie Wu wrote:
-> Add compatible for video decoder on MT8189 platform. Compared with
-> former ICs, the MT8189 decoder use iommu to instead of smmu, and
-> use scp architecture, the frequency is only 406MHZ, and cannot reach
-> more than 700MHZ. At the same time, the decoder supports the vp9
-> decoding protocol for the first time in single IC.
+On Wed, 17 Sep 2025 18:36:45 +0530, Vikram Sharma wrote:
+> From: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
 > 
-> Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
+> The three instances of CCI found on the QCS8300 are functionally the same
+> as on a number of existing Qualcomm SoCs.
+> 
+> Introduce a new SoC-specific compatible string "qcom,qcs8300-cci" with a
+> common fallback.
+> 
+> Signed-off-by: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > ---
->  .../bindings/media/mediatek,vcodec-subdev-decoder.yaml           | 1 +
->  1 file changed, 1 insertion(+)
+>  Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 > 
 
 Acked-by: Rob Herring (Arm) <robh@kernel.org>
