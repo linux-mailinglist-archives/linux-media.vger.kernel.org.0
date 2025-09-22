@@ -1,331 +1,280 @@
-Return-Path: <linux-media+bounces-42899-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42900-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6512CB8F50A
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 09:38:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D27BEB8F538
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 09:44:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 385B2189E86C
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 07:39:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 885E13BF2DD
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 07:44:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 261672F5A1E;
-	Mon, 22 Sep 2025 07:38:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A4862F6179;
+	Mon, 22 Sep 2025 07:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PZ1BUOu6"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Woo2QBeN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5871824167A
-	for <linux-media@vger.kernel.org>; Mon, 22 Sep 2025 07:38:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717608F40;
+	Mon, 22 Sep 2025 07:44:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758526727; cv=none; b=KSZocISeLsZ+sL3z78pRJeswWTS0uRHCD5JQZgUoX2bfMBioYwZesQOSU7J370suvzcgeiY5ydpXEH16pT9MI3PlYsWTeUeJ2QZw3cjWP5gXXij58ZHdRe3YBLYtCdQXbuikDqYSpR0MChUO3NUiBoJIYQX1qNIPIPMYdF5xLyI=
+	t=1758527047; cv=none; b=ekDVzkehsG/cPTEnSOpaqjRiStMLpW2pk+oxfXd8BjSGQmyHxIZ6zy1iba6SjZGmSnt7WttHGFj/Uc3x1f2rpaoKCEQ+03HRHZfdmzmCpOuWWxJuYoOrMPWl4GEXVeDn/0coTyi6a1wwh+y/bJa0C5BIMi3qWPVG3v8my0jdL6k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758526727; c=relaxed/simple;
-	bh=jqtTlZK4/unizdyJeTwF0YmgRnhQsacUe2F4KU9yi8E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AMA9kBQYhnZGT8aXV2VSRtAgjl4Qb29CqzzHD76HcVDNnPdHsHQZzv/qDxTW6AZtjDKZNVQXI5V1DfCn0IPHBLdLpERt1gEtRw0FQcKV9V+I7p1efgqwgjjbD42N+NCfcjn75MaSTrpc3dN+vhVGlu9KEIsnTK0MRJ2/NipXP30=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PZ1BUOu6; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758526726; x=1790062726;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=jqtTlZK4/unizdyJeTwF0YmgRnhQsacUe2F4KU9yi8E=;
-  b=PZ1BUOu6dCEdrr/Qwv5pu/8hhROOtbo+n+4yDphjUG7Eq5jpfxAEakuB
-   lkmENn9D58xy8zp0ffSxCsGjhQAVzGbvPuRZyd9sxmtzd2/uG3vBVY2+5
-   o7neb+uVa9p38qgI4Yu3JFadSEwN7Ihn3w14S+ln1JyB77Li87I36Kfnm
-   k8QpBVPt5d4wrgGx9ot5sEFYorX6mR5ZRpgFUsdqapYG0H2JRCHaWpuWt
-   CTULKDrD9VpgOWd8cEwBpfsf6QPR+ELvd8XnjXW3FiYIjmkf6NCbNs+IV
-   7Wmp49UEBoaMk3oUJk9kzB/cObWOEZrF9DpWpxE3vlN1FUkEjV24v0Voy
-   w==;
-X-CSE-ConnectionGUID: j+NdEiWkRhaGOvtANiGQTA==
-X-CSE-MsgGUID: 4dhDg9KcT5CWVh67QzItYA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11560"; a="64420892"
-X-IronPort-AV: E=Sophos;i="6.18,284,1751266800"; 
-   d="scan'208";a="64420892"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 00:38:45 -0700
-X-CSE-ConnectionGUID: 94Tkq8yHRi2ISRJaUC4c2g==
-X-CSE-MsgGUID: 4YaIzsArSVKt+73jSBwnug==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,284,1751266800"; 
-   d="scan'208";a="200125598"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.61])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Sep 2025 00:38:42 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 9DAAB1202BC;
-	Mon, 22 Sep 2025 10:38:38 +0300 (EEST)
-Date: Mon, 22 Sep 2025 10:38:38 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, tomi.valkeinen@ideasonboard.com,
-	bingbu.cao@intel.com, hongju.wang@intel.com, hverkuil@xs4all.nl,
-	Andrey Konovalov <andrey.konovalov@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Dmitry Perchanov <dmitry.perchanov@intel.com>,
-	"Ng, Khai Wen" <khai.wen.ng@intel.com>,
-	Alain Volmat <alain.volmat@foss.st.com>
-Subject: Re: [PATCH v9 32/46] media: ccs: Rely on sub-device state locking
-Message-ID: <aND8_l6zCH3vuCHe@kekkonen.localdomain>
-References: <20240416193319.778192-1-sakari.ailus@linux.intel.com>
- <20240416193319.778192-33-sakari.ailus@linux.intel.com>
- <20240420091628.GU6414@pendragon.ideasonboard.com>
+	s=arc-20240116; t=1758527047; c=relaxed/simple;
+	bh=xTJmutZRe2xmXyQhek9lOtpNGYD49Simt+rFNAEbuJQ=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Oe2Akk2D9IVh1YjMM5O4XTKniY0BF2Q1nEQF9FTklJ0l0QJGHeN18UWd8VjcbklZ30hw6oMN8iji8NQpZuCNzJRcWCwTBolEPtEtgqyKGG7awOcrEIzB46DD+i53TOAXPAgie4PCCuAVDZS3uQcr66WdP47HvrdeNZLHDdGgtP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Woo2QBeN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1E58BC4CEF0;
+	Mon, 22 Sep 2025 07:44:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758527047;
+	bh=xTJmutZRe2xmXyQhek9lOtpNGYD49Simt+rFNAEbuJQ=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=Woo2QBeNR0jRVE685higrpHvwMEnNOtNZrQrOp24TSeJ+WgE/35Cun4Ba76LH7fln
+	 xuczEcsyEGk0I40iIXeCvDOjQkogpdaIKN6YIPmfi6f4fPeszqegaQgCW/9bxUr96S
+	 5bym8Zpv4vdt3wM9XMZbPabCP0dhduXiFIfUold4q78UmMua9SNryOa+vh3KO5rszN
+	 X2rMuzLCR106XhSlbcdj8COSkSCOYA3sRDCILGzV60QIUq+Yl4re5+xMqBjHx3pP7/
+	 m8Kqmvl1TP/R7o7DaFhOnqQKhfiStTbilkqZt+EwRXjc87adVBubqpaZGBPtFhPe1T
+	 s3tHTZ3dZUnyQ==
+Message-ID: <15df046b-0fe1-4b57-acad-66b88beac982@kernel.org>
+Date: Mon, 22 Sep 2025 09:44:02 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20240420091628.GU6414@pendragon.ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v2 01/10] media: v4l2-core: Introduce state management for
+ video devices
+To: Jai Luthra <jai.luthra@ideasonboard.com>,
+ Hans Verkuil <hverkuil@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org
+Cc: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+ Al Viro <viro@zeniv.linux.org.uk>, Ma Ke <make24@iscas.ac.cn>,
+ linux-kernel@vger.kernel.org
+References: <20250919-vdev-state-v2-0-b2c42426965c@ideasonboard.com>
+ <20250919-vdev-state-v2-1-b2c42426965c@ideasonboard.com>
+Content-Language: en-US, nl
+In-Reply-To: <20250919-vdev-state-v2-1-b2c42426965c@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Laurent,
+Hi Jai,
 
-On Sat, Apr 20, 2024 at 12:16:28PM +0300, Laurent Pinchart wrote:
-> >  static int ccs_pll_blanking_update(struct ccs_sensor *sensor)
-> >  {
-> > +	struct v4l2_subdev_state *state =
-> > +		v4l2_subdev_get_locked_active_state(&sensor->pixel_array->sd);
-> > +	struct v4l2_rect *pa_src =
-> > +		v4l2_subdev_state_get_crop(state, CCS_PA_PAD_SRC,
-> > +					   CCS_STREAM_PIXEL);
-> 
-> You can guess what I will say :-)
+Apologies that I had no time to review v1, but I'll review v2 today.
 
-Sorry, I can't. What is it? :-)
+On 19/09/2025 11:55, Jai Luthra wrote:
+> Similar to V4L2 subdev states, introduce state support for video devices
+> to provide a centralized location for storing device state information.
+> This includes the current (active) pixelformat used by the device and
+> the temporary (try) pixelformat used during format negotiation. In the
+> future, this may be extended or subclassed by device drivers to store
+> their internal state variables.
+> 
+> Also introduce a flag for drivers that wish to use this state
+> management. When set, the framework automatically allocates the state
+> during device registration and stores a pointer to it within the
+> video_device structure.
+> 
+> This change aligns video devices with V4L2 subdevices by storing
+> hardware state in a common framework-allocated structure. This is the
+> first step towards enabling the multiplexing of the underlying hardware
+> by using different software "contexts", each represented by the combined
+> state of all video devices and V4L2 subdevices in a complex media graph.
+> 
+> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
+> --
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Hans Verkuil <hverkuil@kernel.org>
+> Cc: Ricardo Ribalda <ribalda@chromium.org>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Al Viro <viro@zeniv.linux.org.uk>
+> Cc: Ma Ke <make24@iscas.ac.cn>
+> Cc: Jai Luthra <jai.luthra@ideasonboard.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> ---
+>  drivers/media/v4l2-core/v4l2-dev.c | 27 +++++++++++++++++++++++++
+>  include/media/v4l2-dev.h           | 40 ++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 67 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index 10a126e50c1ca25b1bd0e9872571261acfc26b39..997255709448510fcd17b6de798a3df99cd7ea09 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -163,6 +163,27 @@ void video_device_release_empty(struct video_device *vdev)
+>  }
+>  EXPORT_SYMBOL(video_device_release_empty);
+>  
+> +struct video_device_state *
+> +__video_device_state_alloc(struct video_device *vdev)
+> +{
+> +	struct video_device_state *state =
+> +		kzalloc(sizeof(struct video_device_state), GFP_KERNEL);
+> +
+> +	if (!state)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	state->vdev = vdev;
+> +
+> +	return state;
+> +}
+> +EXPORT_SYMBOL_GPL(__video_device_state_alloc);
+> +
+> +void __video_device_state_free(struct video_device_state *state)
+> +{
+> +	kfree(state);
+> +}
+> +EXPORT_SYMBOL_GPL(__video_device_state_free);
+> +
+>  static inline void video_get(struct video_device *vdev)
+>  {
+>  	get_device(&vdev->dev);
+> @@ -939,6 +960,10 @@ int __video_register_device(struct video_device *vdev,
+>  	spin_lock_init(&vdev->fh_lock);
+>  	INIT_LIST_HEAD(&vdev->fh_list);
+>  
+> +	/* state support */
+> +	if (test_bit(V4L2_FL_USES_STATE, &vdev->flags))
+> +		vdev->state = __video_device_state_alloc(vdev);
+> +
+>  	/* Part 1: check device type */
+>  	switch (type) {
+>  	case VFL_TYPE_VIDEO:
+> @@ -1127,6 +1152,8 @@ void video_unregister_device(struct video_device *vdev)
+>  	clear_bit(V4L2_FL_REGISTERED, &vdev->flags);
+>  	mutex_unlock(&videodev_lock);
+>  	v4l2_event_wake_all(vdev);
+> +	if (test_bit(V4L2_FL_USES_STATE, &vdev->flags))
+> +		__video_device_state_free(vdev->state);
+>  	device_unregister(&vdev->dev);
+>  }
+>  EXPORT_SYMBOL(video_unregister_device);
+> diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
+> index a213c3398dcf60be8c531df87bf40c56b4ad772d..57e4691ef467aa2b0782dd4b8357bd0670643293 100644
+> --- a/include/media/v4l2-dev.h
+> +++ b/include/media/v4l2-dev.h
+> @@ -89,12 +89,18 @@ struct dentry;
+>   *	set by the core when the sub-devices device nodes are registered with
+>   *	v4l2_device_register_ro_subdev_nodes() and used by the sub-device ioctl
+>   *	handler to restrict access to some ioctl calls.
+> + * @V4L2_FL_USES_STATE:
+> + *	indicates that the &struct video_device has state support.
+> + *	The active video and metadata formats are stored in video_device.state,
+> + *	and the try video and metadata formats are stored in v4l2_fh.state.
+> + *	All new drivers should use it.
+>   */
+>  enum v4l2_video_device_flags {
+>  	V4L2_FL_REGISTERED		= 0,
+>  	V4L2_FL_USES_V4L2_FH		= 1,
+>  	V4L2_FL_QUIRK_INVERTED_CROP	= 2,
+>  	V4L2_FL_SUBDEV_RO_DEVNODE	= 3,
+> +	V4L2_FL_USES_STATE		= 4,
+>  };
+>  
+>  /* Priority helper functions */
+> @@ -214,6 +220,17 @@ struct v4l2_file_operations {
+>  	int (*release) (struct file *);
+>  };
+>  
+> +/**
+> + * struct video_device_state - Used for storing video device state information.
+> + *
+> + * @fmt: Format of the capture stream
+> + * @vdev: Pointer to video device
+> + */
+> +struct video_device_state {
+> +	struct v4l2_format fmt;
 
-> 
-> >  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
-> >  	int rval;
-> >  
-> > @@ -1271,15 +1286,15 @@ static int ccs_pll_blanking_update(struct ccs_sensor *sensor)
-> >  		return rval;
-> >  
-> >  	/* Output from pixel array, including blanking */
-> > -	ccs_update_blanking(sensor);
-> > +	ccs_update_blanking(sensor, pa_src);
-> >  
-> >  	dev_dbg(&client->dev, "vblank\t\t%d\n", sensor->vblank->val);
-> >  	dev_dbg(&client->dev, "hblank\t\t%d\n", sensor->hblank->val);
-> >  
-> >  	dev_dbg(&client->dev, "real timeperframe\t100/%d\n",
-> >  		sensor->pll.pixel_rate_pixel_array /
-> > -		((sensor->pa_src.width + sensor->hblank->val) *
-> > -		 (sensor->pa_src.height + sensor->vblank->val) / 100));
-> > +		((pa_src->width + sensor->hblank->val) *
-> > +		 (pa_src->height + sensor->vblank->val) / 100));
-> >  
-> >  	return 0;
-> >  }
-> > @@ -1788,6 +1803,16 @@ static int ccs_enable_streams(struct v4l2_subdev *subdev,
-> >  			      u64 streams_mask)
-> >  {
-> >  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-> > +	struct v4l2_subdev_state *pa_state =
-> > +		v4l2_subdev_get_locked_active_state(&sensor->pixel_array->sd);
-> > +	struct v4l2_subdev_state *src_state =
-> > +		v4l2_subdev_get_locked_active_state(&sensor->src->sd);
-> > +	struct v4l2_rect *pa_src =
-> > +		v4l2_subdev_state_get_crop(pa_state, CCS_PA_PAD_SRC,
-> > +					   CCS_STREAM_PIXEL);
-> > +	struct v4l2_rect *src_src =
-> > +		v4l2_subdev_state_get_crop(src_state, CCS_PAD_SRC,
-> > +					   CCS_STREAM_PIXEL);
-> 
-> Same for pa_src and src_src.
-> 
-> >  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
-> >  	unsigned int binning_mode;
-> >  	int rval;
-> > @@ -1835,22 +1860,20 @@ static int ccs_enable_streams(struct v4l2_subdev *subdev,
-> >  		goto err_pm_put;
-> >  
-> >  	/* Analog crop start coordinates */
-> > -	rval = ccs_write(sensor, X_ADDR_START, sensor->pa_src.left);
-> > +	rval = ccs_write(sensor, X_ADDR_START, pa_src->left);
-> >  	if (rval < 0)
-> >  		goto err_pm_put;
-> >  
-> > -	rval = ccs_write(sensor, Y_ADDR_START, sensor->pa_src.top);
-> > +	rval = ccs_write(sensor, Y_ADDR_START, pa_src->top);
-> >  	if (rval < 0)
-> >  		goto err_pm_put;
-> >  
-> >  	/* Analog crop end coordinates */
-> > -	rval = ccs_write(sensor, X_ADDR_END,
-> > -			 sensor->pa_src.left + sensor->pa_src.width - 1);
-> > +	rval = ccs_write(sensor, X_ADDR_END, pa_src->left + pa_src->width - 1);
-> >  	if (rval < 0)
-> >  		goto err_pm_put;
-> >  
-> > -	rval = ccs_write(sensor, Y_ADDR_END,
-> > -			 sensor->pa_src.top + sensor->pa_src.height - 1);
-> > +	rval = ccs_write(sensor, Y_ADDR_END, pa_src->top + pa_src->height - 1);
-> >  	if (rval < 0)
-> >  		goto err_pm_put;
-> >  
-> > @@ -1862,23 +1885,30 @@ static int ccs_enable_streams(struct v4l2_subdev *subdev,
-> >  	/* Digital crop */
-> >  	if (CCS_LIM(sensor, DIGITAL_CROP_CAPABILITY)
-> >  	    == CCS_DIGITAL_CROP_CAPABILITY_INPUT_CROP) {
-> > +		struct v4l2_subdev_state *scaler_state =
-> > +			v4l2_subdev_get_locked_active_state(&sensor->scaler->sd);
-> > +		struct v4l2_rect *scaler_sink =
-> > +			v4l2_subdev_state_get_crop(scaler_state,
-> > +						   sensor->scaler->sink_pad,
-> > +						   CCS_STREAM_PIXEL);
-> 
-> Here too.
-> 
-> > +
-> >  		rval = ccs_write(sensor, DIGITAL_CROP_X_OFFSET,
-> > -				 sensor->scaler_sink.left);
-> > +				 scaler_sink->left);
-> >  		if (rval < 0)
-> >  			goto err_pm_put;
-> >  
-> >  		rval = ccs_write(sensor, DIGITAL_CROP_Y_OFFSET,
-> > -				 sensor->scaler_sink.top);
-> > +				 scaler_sink->top);
-> >  		if (rval < 0)
-> >  			goto err_pm_put;
-> >  
-> >  		rval = ccs_write(sensor, DIGITAL_CROP_IMAGE_WIDTH,
-> > -				 sensor->scaler_sink.width);
-> > +				 scaler_sink->width);
-> >  		if (rval < 0)
-> >  			goto err_pm_put;
-> >  
-> >  		rval = ccs_write(sensor, DIGITAL_CROP_IMAGE_HEIGHT,
-> > -				 sensor->scaler_sink.height);
-> > +				 scaler_sink->height);
-> >  		if (rval < 0)
-> >  			goto err_pm_put;
-> >  	}
-> > @@ -1896,10 +1926,10 @@ static int ccs_enable_streams(struct v4l2_subdev *subdev,
-> >  	}
-> >  
-> >  	/* Output size from sensor */
-> > -	rval = ccs_write(sensor, X_OUTPUT_SIZE, sensor->src_src.width);
-> > +	rval = ccs_write(sensor, X_OUTPUT_SIZE, src_src->width);
-> >  	if (rval < 0)
-> >  		goto err_pm_put;
-> > -	rval = ccs_write(sensor, Y_OUTPUT_SIZE, sensor->src_src.height);
-> > +	rval = ccs_write(sensor, Y_OUTPUT_SIZE, src_src->height);
-> >  	if (rval < 0)
-> >  		goto err_pm_put;
-> >  
-> > @@ -2088,9 +2118,6 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
-> >  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-> >  	unsigned int i;
-> >  	int idx = -1;
-> > -	int rval = -EINVAL;
-> > -
-> > -	mutex_lock(&sensor->mutex);
-> >  
-> >  	dev_err(&client->dev, "subdev %s, pad %u, index %u\n",
-> >  		subdev->name, code->pad, code->index);
-> > @@ -2098,12 +2125,11 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
-> >  	if (subdev == &sensor->src->sd) {
-> >  		if (code->pad == CCS_PAD_META) {
-> >  			if (code->index)
-> > -				goto out;
-> > +				return -EINVAL;
-> >  
-> >  			code->code = MEDIA_BUS_FMT_CCS_EMBEDDED;
-> >  
-> > -			rval = 0;
-> > -			goto out;
-> > +			return 0;
-> >  		}
-> >  		if (code->stream == CCS_STREAM_META) {
-> >  			struct v4l2_mbus_framefmt *pix_fmt =
-> > @@ -2150,21 +2176,21 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
-> >  			}
-> >  
-> >  			if (WARN_ON(i > ARRAY_SIZE(codes)) || code->index >= i)
-> > -				goto out;
-> > +				return -EINVAL;
-> >  
-> >  			code->code = codes[code->index];
-> > -			rval = 0;
-> > -			goto out;
-> > +
-> > +			return 0;
-> >  		}
-> >  	}
-> >  
-> >  	if (subdev != &sensor->src->sd || code->pad != CCS_PAD_SRC) {
-> >  		if (code->index)
-> > -			goto out;
-> > +			return -EINVAL;
-> >  
-> >  		code->code = sensor->internal_csi_format->code;
-> > -		rval = 0;
-> > -		goto out;
-> > +
-> > +		return 0;
-> >  	}
-> >  
-> >  	for (i = 0; i < ARRAY_SIZE(ccs_csi_data_formats); i++) {
-> > @@ -2175,18 +2201,14 @@ static int ccs_enum_mbus_code(struct v4l2_subdev *subdev,
-> >  			code->code = ccs_csi_data_formats[i].code;
-> >  			dev_err(&client->dev, "found index %u, i %u, code %x\n",
-> >  				code->index, i, code->code);
-> > -			rval = 0;
-> > -			break;
-> > +			return 0;
-> >  		}
-> >  	}
-> >  
-> > -out:
-> > -	mutex_unlock(&sensor->mutex);
-> > -
-> > -	return rval;
-> > +	return -EINVAL;
-> >  }
-> >  
-> > -static u32 __ccs_get_mbus_code(struct v4l2_subdev *subdev, unsigned int pad)
-> > +static u32 ccs_get_mbus_code(struct v4l2_subdev *subdev, unsigned int pad)
-> >  {
-> >  	struct ccs_sensor *sensor = to_ccs_sensor(subdev);
-> >  
-> > @@ -2196,33 +2218,19 @@ static u32 __ccs_get_mbus_code(struct v4l2_subdev *subdev, unsigned int pad)
-> >  		return sensor->internal_csi_format->code;
-> >  }
-> >  
-> > -static int __ccs_get_format(struct v4l2_subdev *subdev,
-> > -			    struct v4l2_subdev_state *sd_state,
-> > -			    struct v4l2_subdev_format *fmt)
-> > +static int ccs_get_format(struct v4l2_subdev *subdev,
-> > +			  struct v4l2_subdev_state *sd_state,
-> > +			  struct v4l2_subdev_format *fmt)
-> >  {
-> >  	fmt->format = *v4l2_subdev_state_get_format(sd_state, fmt->pad,
-> >  						    fmt->stream);
-> >  
-> >  	if (fmt->pad != CCS_PAD_META && fmt->stream != CCS_STREAM_META)
-> > -		fmt->format.code = __ccs_get_mbus_code(subdev, fmt->pad);
-> > +		fmt->format.code = ccs_get_mbus_code(subdev, fmt->pad);
-> >  
-> >  	return 0;
-> >  }
-> 
-> Any chance to switch to v4l2_subdev_get_fmt() ?
+While typically a video_device supports only a single video format type, that is
+not always the case. There are the following exceptions:
 
-The mbus code is affected by the flipping controls and there are many of
-the mbus codes to change, in various pads. I'd leave this as-is.
+1) M2M devices have both a capture and output video format. However, for M2M devices
+   the state is per-filehandle, so it shouldn't be stored in a video_device_state
+   struct anyway.
+2) VBI devices can have both a raw and sliced VBI format (either capture or output)
+3) AFAIK non-M2M video devices can have both a video and meta format. That may have
+   changed, I'm not 100% certain about this.
+4) video devices can also support an OVERLAY or OUTPUT_OVERLAY format (rare)
 
--- 
-Kind regards,
+V4L2_CAP_VIDEO_OVERLAY is currently only used in
+drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c, so once that driver
+disappears we can drop video overlay support for capture devices.
 
-Sakari Ailus
+2-4 are all quite rare, but 1 is very common. But for such devices the state
+wouldn't be in video_device anyway.
+
+But it would be nice if the same struct can be used in both m2m devices and non-m2m
+devices. It's just stored either in struct v4l2_fh or struct video_device. It would
+give a lot of opportunities for creating helper functions to make the life for
+driver developers easier.
+
+Regards,
+
+	Hans
+
+> +	struct video_device *vdev;
+> +};
+> +
+>  /*
+>   * Newer version of video_device, handled by videodev2.c
+>   *	This version moves redundant code from video device code to
+> @@ -238,6 +255,7 @@ struct v4l2_file_operations {
+>   * @queue: &struct vb2_queue associated with this device node. May be NULL.
+>   * @prio: pointer to &struct v4l2_prio_state with device's Priority state.
+>   *	 If NULL, then v4l2_dev->prio will be used.
+> + * @state: &struct video_device_state, holds the active state for the device.
+>   * @name: video device name
+>   * @vfl_type: V4L device type, as defined by &enum vfl_devnode_type
+>   * @vfl_dir: V4L receiver, transmitter or m2m
+> @@ -283,6 +301,7 @@ struct video_device {
+>  	struct vb2_queue *queue;
+>  
+>  	struct v4l2_prio_state *prio;
+> +	struct video_device_state *state;
+>  
+>  	/* device info */
+>  	char name[64];
+> @@ -546,6 +565,27 @@ static inline int video_is_registered(struct video_device *vdev)
+>  	return test_bit(V4L2_FL_REGISTERED, &vdev->flags);
+>  }
+>  
+> +/** __video_device_state_alloc - allocate video device state structure
+> + *
+> + * @vdev: pointer to struct video_device
+> + *
+> + * .. note::
+> + *
+> + *	This function is meant to be used only inside the V4L2 core.
+> + */
+> +struct video_device_state *
+> +__video_device_state_alloc(struct video_device *vdev);
+> +
+> +/** __video_device_state_free - free video device state structure
+> + *
+> + * @state: pointer to the state to be freed
+> + *
+> + * .. note::
+> + *
+> + *	This function is meant to be used only inside the V4L2 core.
+> + */
+> +void __video_device_state_free(struct video_device_state *state);
+> +
+>  /**
+>   * v4l2_debugfs_root - returns the dentry of the top-level "v4l2" debugfs dir
+>   *
+> 
+
 
