@@ -1,97 +1,82 @@
-Return-Path: <linux-media+bounces-42865-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42868-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id EEED8B8EEFE
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 06:29:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB44FB8EF25
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 06:37:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3E8C3BA8EA
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 04:29:43 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id B2B577ADA63
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 04:35:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D92A2EFD9B;
-	Mon, 22 Sep 2025 04:29:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61C722D592D;
+	Mon, 22 Sep 2025 04:36:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="AiDdkZVM"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="VX8A29qM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012052.outbound.protection.outlook.com [52.101.53.52])
+Received: from SLXP216CU001.outbound.protection.outlook.com (mail-koreacentralazon11021114.outbound.protection.outlook.com [40.107.42.114])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8893572613;
-	Mon, 22 Sep 2025 04:29:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A867219A8A;
+	Mon, 22 Sep 2025 04:36:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.42.114
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758515376; cv=fail; b=LcEVdtX1C7K9o4dSxunZ3vqutQCBrf4kQaPjJeSZ7MOeSfC3TYJ4UdkkH+AqnOSBhU4dPRh1DRY295qEoh3xA5l09ZF4FxLwpGE8kl8uWzYf4FQx5W5TLMj1bmo/2PngwlaJkDY2WjCG4ieKcCImu3w7mmuVSTDsjJiLd0HiiOw=
+	t=1758515809; cv=fail; b=MIXRZZuOab73Z2jm7n0zhMQkg76upCPaEPw4jD3vvWaR4wi+lQg+o4xCbH9APcpBykDl6RVafzBjZai0pz9rM5XTbYlbv8BAEXa3MBPsXBfyn5HhHlq7eASN8zZxLMgPZ+ZjPBD6R4qt2Do9L9w9CsxVxXThw45QNal2luTohHo=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758515376; c=relaxed/simple;
-	bh=qL2U80YsgV+XxQ2zaYhMB2NWnpL3Zxyl04vGmlMHtp4=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=Aq6MeKPjPbJpLZypZhE18N6+5rZ1KUpxqtxcFxZk/qyhqujDREkBpDn5LsK2+eqt4KjUjpqgMFZ7XOR7Tu2sANvf8bvhrkxr3uSO3M9hjr4sQEN6/00F12TfQGPXbbJPfakk2JQS5RxjG5BqjzXaA3fqtdGiWwfdGGCl24jE9E8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=AiDdkZVM; arc=fail smtp.client-ip=52.101.53.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1758515809; c=relaxed/simple;
+	bh=uT/WbpQpxMNeEFMZh922XZBXHtCEKCVNCnmX8t+uTO0=;
+	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=BHT+MzWEiwKWDfAIPbxe4bFyivTb4w6s/HNkQ9pneAsBrTXpaVIlo0tgweySRDFy3dpcJNmnjOFTp3QL5sOb5s+hV3TqMyNrivg9yar9bUFpofCUCXaY8C7psIoF4110jVyqmzUPlI+CdECHukEf0Kx1FCmaS9Lqykq5eR7NMlM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=VX8A29qM; arc=fail smtp.client-ip=40.107.42.114
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=X7RswrIVQpgKBF2tdNbhe/APjAl8morpwI7UXRWTAY/TYaVMhSns2ICNHnrSq/shXA9J+QwKpnkZGEzSMcKNv9N2kZvSHc8eJnK0B09WqusSNblJEYNXGsF/Ba6MOz+L4SARYYku+R6OfBLZ9lc34LJ0BPNKl7Tpf5Lu86r5JMazi7vxug5nn27eFoo+sQOS4kGajiNbMELcMbNejfKAZG0waEhxUbaBNfsUj4jdf/o+CAIweDnM9jRJAgR13ozSvGfAalfAzpFyJvDFMPwBMUYVVptpzEFRJ7JRtHy42GEmANfqazQ3kJ42ypAoXqCoA1Oa5j3ot5bEzLIGkZYUiw==
+ b=o7Ccu1zorOukL14LakXMIsp4qtbbKBmKftWqYctRJkqZyybsEevsH/tCreNA9caVhXMPgZ5FrQ2ETSJE97I/KYYyLVe6R01ZaXRKLIseKKvfvxNPCEt5POa8PR+FM7niU60LK3xKqqU6zSOLHP5xJVOHIetw1sZ57TpT92UcoI8debBiKA7EagEHith46kWcApkyorRV0ffpNN+RzCmHw05CPnn1PnL8j7887xuli714CiBTfrqfn3ngNia2mSSreqv/kOFDWToh4Zm65jQAppc296cS/OBKcZhpNHihwEeZkkkKZYbgguFM7dOtaVxMSeYZk07yEooY4Bus+zwyfg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ikekz+wm+0L0ESli/NJXiW5O1M/SABmUaQtS2aDR7+4=;
- b=wZZ0mZbsiHUVjHJgrdc/sNOPvKshb42SxsYV5kmJ8+V/74pX5y35GE7766aFkrS7ImSZ99kp+UXvsPLlqEOGBlKz5rdl/pE68hp6WNvFqjIzdzDcB/ODHEr0029F9F9W/zVdqEz+WJqdOG6ch0fupBvPBEzcb6BqnqgCNKEFo6pnNUOqlIAcDivw7o3AYETgfyyrrVhGIm5IbUURhhOQSytaXGbMBmME+7AQQLJDRJyd7eOeaDEpjiEFXvAwEkia+6thD5Pnp2Yf3B/LWY3KXrBf97jbC/oyIjIn4Bm39bJvuxygfIRnhJt44d+IOIte9C8DhvvkgZuqm09o6gnjMw==
+ bh=NhhnMP7J1EPwpwSA/3EkzAFq93U7JxddkhpacYIpTXA=;
+ b=Xt4MiOIk810Fky8dp4TPqtgMvgxjLLbsJOMxJ+BM+qoCHrYWeZA+vCgLkJaI63xs3Kg8Q3DyRSSGsENjgd/9/gEM5/s5urPeXP69YELD7GCcbSFjsE9wfOMBZZKATrWJ3EzKZBXoe/isR+FcnxoLUuSxg8tLdYWyHkrMjmmzJiwZVYLaFq9pq28gK4kjlF1IzLvdghZ9w26GELXZ2jN+5mNBTfHm/7NgcqascPfVe8O/isvofXHISWNwtdJxLDFpKVGRHyQkXOJs3+U6E42OIje/cYtTxBLUe6esLTuz1o7i14jjqaA+kbc2+iZ3Y34bGEiYxRYNQhFZgN1KGHMMfQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Ikekz+wm+0L0ESli/NJXiW5O1M/SABmUaQtS2aDR7+4=;
- b=AiDdkZVMaSQAQgJJXH4hboZmIjtkaqupkVLXYeIuN0vNKQ6zVfR4OnigizqYPAzckivoEKvB591Vs03Bs77YexVyfrQArAa69CJyG18gxyVZp4Ft3weucBucIK6f96XpH42Ki3C8pfxZ2RfjntrLOuMOnCCsb1T9Usdpiq7KQn6D9EuHCI/H+KaeLwV/YXqHoXvdmZiVS6+aBO2k+kS3pUesjAR25lgH8maCvJE+jc3FIlelQ6NUm9pKzJY/nTNH5UYOJPRzxfFfnZxV2wZsgNHAgejCwnk7Hxu0SeiZUy+NUdj7gr4TJSZUgrN3TBsnIVB/LCQzH4oNy8Z0fAo2Lw==
+ bh=NhhnMP7J1EPwpwSA/3EkzAFq93U7JxddkhpacYIpTXA=;
+ b=VX8A29qMO7fOHQ7apIsW7bYmoAN9SxXhLbyrCMA6rtIoLspABkfPY5H35GK7AKKIb1v2bBiQeVc5tyvtbSFN51uCjI1FjOEe1WAPS/5olqyUAMiLaYt7lZ54QTxG3/NV0hFzJMuBFsNKUAhybkQq+iXNfwCRENFrZFP2qaNUcYg=
 Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
- SA1PR12MB7126.namprd12.prod.outlook.com (2603:10b6:806:2b0::22) with
+ header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
+Received: from PU4P216MB1149.KORP216.PROD.OUTLOOK.COM (2603:1096:301:72::14)
+ by SE1P216MB1479.KORP216.PROD.OUTLOOK.COM (2603:1096:101:2a::7) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Mon, 22 Sep
- 2025 04:29:28 +0000
-Received: from DM4PR12MB6494.namprd12.prod.outlook.com
- ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
- ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
- 04:29:28 +0000
-From: Mikko Perttunen <mperttunen@nvidia.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Svyatoslav Ryhel <clamor95@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
- Jonas =?UTF-8?B?U2Nod8O2YmVs?= <jonasschwoebel@yahoo.de>,
- Charan Pedumuru <charan.pedumuru@gmail.com>,
- Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject:
- Re: [PATCH v2 15/23] staging: media: tegra-video: tegra20: add support for
- second output of VI
-Date: Mon, 22 Sep 2025 13:29:24 +0900
-Message-ID: <5174845.cEBGB3zze1@senjougahara>
-In-Reply-To: <20250906135345.241229-16-clamor95@gmail.com>
-References:
- <20250906135345.241229-1-clamor95@gmail.com>
- <20250906135345.241229-16-clamor95@gmail.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-ClientProxiedBy: TY4P286CA0043.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:405:36e::10) To DM4PR12MB6494.namprd12.prod.outlook.com
- (2603:10b6:8:ba::19)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Mon, 22 Sep
+ 2025 04:36:41 +0000
+Received: from PU4P216MB1149.KORP216.PROD.OUTLOOK.COM
+ ([fe80::689e:6dca:162:dc0d]) by PU4P216MB1149.KORP216.PROD.OUTLOOK.COM
+ ([fe80::689e:6dca:162:dc0d%4]) with mapi id 15.20.9137.017; Mon, 22 Sep 2025
+ 04:36:40 +0000
+From: "Jackson.lee" <jackson.lee@chipsnmedia.com>
+To: mchehab@kernel.org,
+	hverkuil-cisco@xs4all.nl,
+	nicolas.dufresne@collabora.com,
+	bob.beckett@collabora.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	jackson.lee@chipsnmedia.com,
+	lafley.kim@chipsnmedia.com,
+	b-brnich@ti.com,
+	hverkuil@xs4all.nl,
+	nas.chung@chipsnmedia.com
+Subject: [PATCH v4 0/4] Performance improvement of decoder
+Date: Mon, 22 Sep 2025 13:36:26 +0900
+Message-Id: <20250922043630.74-1-jackson.lee@chipsnmedia.com>
+X-Mailer: git-send-email 2.34.1
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SEWP216CA0023.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2b6::18) To PU4P216MB1149.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:301:72::14)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -99,337 +84,218 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|SA1PR12MB7126:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9f4f3182-bcb6-4e39-94da-08ddf9909e0f
+X-MS-TrafficTypeDiagnostic: PU4P216MB1149:EE_|SE1P216MB1479:EE_
+X-MS-Office365-Filtering-Correlation-Id: b50fbe07-ee0c-4e42-7814-08ddf9919ff8
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|10070799003|921020;
+	BCL:0;ARA:13230040|366016|1800799024|376014|52116014|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?eVFWMStaNkdlbEZ4YzhBQjFTNW9kc3B4eVV5VDk5MjllWWhITURqTnU4VXlp?=
- =?utf-8?B?eFo5UXh3UnJqbm9aaVdyVjR5RmlGUWFYVnNnYnFCS2w4dE5TZmtCY3pNRlJH?=
- =?utf-8?B?YURRYml0cDExUjdLdFVlWUlEYXJVUFpBSmtzWTRtSVgzU2loODJxYlQ0R2Yw?=
- =?utf-8?B?bHdZQVd3cDdoOTlSU2NLOC9ldkROaXFoUzJhSkFiRi81ek1lWWJlRlRiblQw?=
- =?utf-8?B?c3I0c0hPMHJobGNDTFZxNjRLdkZ4R3NUZ3QwaWoxTmtRaUpWQUhUbkZldUxj?=
- =?utf-8?B?TlBMcnV3N0RhUXA0TEVSeVNHbXNsdytZWHJ4TGt1UExUN04yNzErcjc1ZEsw?=
- =?utf-8?B?ZzVraVRPc2tsL2YvWVBrZXdobDMxcmtTZWNST1dvZmw2RVgxNnFSM2tsQW05?=
- =?utf-8?B?RGRBZURtMW9TNjRCZkx4YndGUTI4SHlBdVVCOGpNUEpPTmQ1QTh0a2JQamRm?=
- =?utf-8?B?Z2lnejMrNjkzd2FJYWtEeW4xNGhoeEJHOHY2TnNzQ1JUSXorQmp2NTcvQ3A0?=
- =?utf-8?B?RzE4OEYrNWxTelpucjN0NXVyeStYeUFCOExJRTBINmJ5TjdGUUZCc29NRGVM?=
- =?utf-8?B?NVkwOG5yaXF6OXN3aHBRSGZneWMzQS9malB1dzdRLzNMOUNxcDkzQUJGdXJ3?=
- =?utf-8?B?WkdTTWVyWC9ESXdWRFoxTXF2R0NrOS9XQ2o0ZTZNTG9oRkNmMFZGYXJzbUZt?=
- =?utf-8?B?N3hNU2h3b2RhNU1ZejBQUUFTc21jWHJTSlIxS083SU1jY1ZNNHZsaGFhY240?=
- =?utf-8?B?VkRnUGFqR2xFV2ZQeDZIN0xDTUhNaGRCY0ZhZ0ZmUFVuby9YZ3UrMmlIWGVv?=
- =?utf-8?B?WkhnblZQRWVuU2drVGNZaTBIMWhKU0VqNUU5YUV4bEJ3SjZ4QWxSZ1ZwRVFE?=
- =?utf-8?B?SjlRcDIxQ21oVW1zbnY0a3luK1dNeU4xcldjN3Q2d0lnUXgvSFdySytIN0hE?=
- =?utf-8?B?SFFjMjI0OVZxQkVOcm56VHdEbjNvakRXU3hZSUcwUFJtU1dVK2cwK3NReUZs?=
- =?utf-8?B?QzJQczR2MmRnbUdjNTRyODB2ekF5V2ZuY0lUUVdPM0E0UzVPakllc28vbnVR?=
- =?utf-8?B?M202Tmp5RHF6cFB6bmVvV0k2aDMyNXFxSmd2QkRzVDlPK0lKRVFpd0t4bTht?=
- =?utf-8?B?cTl4SlJFcVZaVmFuYzdoODE3aW8wd2plUG9MZDRmWkNUN3ExZTVnNGExMXlV?=
- =?utf-8?B?ZjNRdHRYelhRL3RJMXlYVlZTYzY2OWlUTEtDTHRXbk0yMXlPYmhkSXlFVTdC?=
- =?utf-8?B?bUVHTHBURWVqSC80cGNSMjkrL3U0RVEvekZFcHlTekZaY0lhWFJVTjQzMER6?=
- =?utf-8?B?dko3T3JFT1g5YTUrNE1JbkNmcW1zWWJMTi9ycXI4WlFTK2ZSZm1vMFdhaDcw?=
- =?utf-8?B?UjcvU25xVmN0VFNRK2ZTWFYzQjJ5S2cwYnF3NjlTWlFyVWRDQ3oxNE5UN1kv?=
- =?utf-8?B?MUpZb2ZUSm9vZmVxWmdyVzlyYzliYlhiOFR0NWRjajNkMlVlRGE5c1g3SlU5?=
- =?utf-8?B?SWJjdE94eGVyUDZTZGtJMjlOdTlPa0RNd3JrV1lHWWtjVHUxc1ZScm9DMzZR?=
- =?utf-8?B?eThhNFJRT0JZeUNJR2FJQ21CQUc1c1lDUW1NNU9tM0Y3VExvUk9ETXNOdkNP?=
- =?utf-8?B?b09jaW41czVPUGtSckUxUFlPLytISEc3OXVTbE96NGdGMTFJT2JobDNUeERU?=
- =?utf-8?B?UE1PWEduNXJjVXNLMlBOQk5INURmMStvNWxRajFEa1llUHIwOU00eUVNZHVR?=
- =?utf-8?B?UmtTWVY5ZTFCQ0pWOGlXVXlhOHMwSHRBU1lNcFhFM1BmWVUySDNTYVJiajA2?=
- =?utf-8?B?bUpGS0VCdGR6SlpzWGtiQktFdVJRV3pwUFpzQXJkUCt5QmhJM1RzeVV6NHZ6?=
- =?utf-8?B?cExoU3pKd2RVYWRQWFZKTldUWjlPUzFMUzNxbDhkZkVMWUo5QU9xbmhQMTll?=
- =?utf-8?B?NmFpQmh0OXROUjZuWTF5MEpqV3JSc2VoWFp4SW51N2Fvb2tlR2w4VGVIM2Ri?=
- =?utf-8?B?T1YrRkdPcHh3PT0=?=
+	=?us-ascii?Q?CqGF/VovDDnt0ZwZaNH3j5OCb5QRyHCgkif3JPlP7zj1LZO+R/FRz6fpbGnK?=
+ =?us-ascii?Q?gdkiy6BiL8JDHnOB/5A76MJoPGrPhqadUrIHYoHAdfvKINnswU94t7eyxUEB?=
+ =?us-ascii?Q?IBWDf8r4zQOvdXeCTxBfdeJVkkLPWKNH3QiVjgFij+oqsBJxVW3KDtcNqIRa?=
+ =?us-ascii?Q?xWhgB0UVUkxRbb3wUTvYe0b4czz/pqMFxI5zR9qMYtarkjYgig1CsGTJYy3f?=
+ =?us-ascii?Q?n3JyJPg85g4qC5Oak5ZrLLas2Je0MfraiR99nuLBpuVstms8utMwHWWWWQzw?=
+ =?us-ascii?Q?nQNFeA2x9fUNZB+jbOWBJIFfxVhfdTK8KVXPSN0B/rp7vgPprpR+RoSOzzjk?=
+ =?us-ascii?Q?VLU3TEuM2HglqzbmxsNEQKB8LoodA5yaLXGnYMWV1TszoUdFyBfXGPXBIeQ0?=
+ =?us-ascii?Q?Ss899dRvs1em+ufx1Az1zTGcPwaOmqOmSPkUk3i/MgDPpeULknYSxSDtad7W?=
+ =?us-ascii?Q?+wSsXlN4VfJV934AIHdpIvvtXCKpJBqcGcZzPm0ri2ooxotJnorZm/W+X8dd?=
+ =?us-ascii?Q?a3ytDhwMhNVKYEkQWkB0IzcBfUyLeC9xCqbVAOiW4fhXZngpBqW58RWmk5IV?=
+ =?us-ascii?Q?1S3NM5D7sweIrQ3QOqMeqPtJ3nT3yLDhrSQUOma1VBkYG44B0i4zfllGu1fz?=
+ =?us-ascii?Q?ND2euwsETsJKsaANaq2zgKsZ80ZF9B6eD1+ey6V39hs21Lgf+xx4IkrSZoJG?=
+ =?us-ascii?Q?+ZvlEmFxt/asgJy2Vwx6FLYftKhbJotGOXmvD8nXvzIAktEdY400+mSjH6CI?=
+ =?us-ascii?Q?s4qY6B1q5Z9FVWdYAEl7R4u+OZBZc2ELMAXejX4nWiV6EP3eGIAZuq6taUsJ?=
+ =?us-ascii?Q?OrtFk6YP0aOlIiRgdAfXk+ilHZ9M9ng8bXu4lEjS2hYpwgwYiXojSew5RF0Q?=
+ =?us-ascii?Q?k+lrNyKe/1NvRXxNoN0mhOOKH1OE/oD7vUYljGAlOkfDc7xFZV3g69+ABIj6?=
+ =?us-ascii?Q?6pYp9X1kPwcndLm8DJcT/HRyVs+GIJPd9KX18H6O+qjs+Ky72tBWlmUpuErx?=
+ =?us-ascii?Q?A2Z0Gbb9A/si7p4Nxl/2pGf25EZeZ1HeZsfDjCC5PAbqS3AWwFmEyFAf/th/?=
+ =?us-ascii?Q?DDcynbSZA5M4W/CX3c21OF5fT7AMlbOVUCGVFbW3E362n7H3c18/MTDEY2OT?=
+ =?us-ascii?Q?rHFItr3MqLNniEesw8gEHYhmKZyIMwV/grrJHTywTDF6wzr6hRWy8LzxW2wI?=
+ =?us-ascii?Q?YdyFBsK333GU1c0blY2qmBVuFMjKJUuhebUiqrYUJSJ3ckS3gxGTaHffE2dM?=
+ =?us-ascii?Q?sLSUFC9b+0W3CoBTboboDic7ab8kLXTy96VP1M2fi1SKqzNUE/eYAU/vZ+Nb?=
+ =?us-ascii?Q?EN3ELgWCBOKN8WnsjK5IoULvkn0jD0BqepWm+qZHb925o8P6kJX+YycVuwW0?=
+ =?us-ascii?Q?NsRSXGAFZrY6Bs9b1F/9eXaagGRelmJHLxZjKm1sOD0EoVxgNsp6ddPsthD2?=
+ =?us-ascii?Q?n8Y6xWhTqhXmizwiiF1zZLyXlXdAo4Er4yf1vy8OMCEyH/LTV9FO0A=3D=3D?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6494.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(10070799003)(921020);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PU4P216MB1149.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(52116014)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?bXNNaW53R0tibnFSNkN6VHRLc1FrQnRHbVk5SXBGRXphSzNJeHlGeXNTVnJP?=
- =?utf-8?B?S2M3S3VwSTRON3Q5N2s1MEFoa0dMQ1hmS2djYlByVWZsL3BpQVZNRUVrNkRs?=
- =?utf-8?B?VSt2U2VvTDRNUkJCU0dqblpHcnVqRzUrZThscUpicHdWOWFRZGYrSmFpWHE5?=
- =?utf-8?B?MnRtL0RkcG9BQ0hLdHpNck40UzE2T1NZNlZ0UmVGOHRPWFVySHV3ZDREZkQv?=
- =?utf-8?B?UXZQVkhWQWs2cUJmemRlcG1XZmc1dHBpR0UxQU90UEVUZmFSbGV4TE5LWkR1?=
- =?utf-8?B?UThEQjFlVFNHMEUvb1BpdGt5THNrdDlXVDZvNC8wOGQvL2d4dVFlY0h0OTMv?=
- =?utf-8?B?aDV5L0NIalNjKzlhNmhsSnlUc2ZabkJUbTA2L2ZKelhYOUhYb0gzSXlzTHh0?=
- =?utf-8?B?N1J1UG1taXpsSzNyRWFxaDZFU0I1cjVrcHByNHZyeHh0SXRydW91TURtTita?=
- =?utf-8?B?S0Y4Z1RXY3RHU2Z5YnJrYTEyM1ZiQU1ZcVhzeGwrOWV2SWhVR0ttc2NQNGIr?=
- =?utf-8?B?Ulh3eDFHNmNZUmxqZ05JRTd2QmhwaGhNSi92S2M2akZsSzg1bFZkZTBobVhZ?=
- =?utf-8?B?RVVoN1BuZ2RHTWxBOGFoWTZ2cldLS2ZWT2UxRy9MM0QyVkI0R3pBQWl1aWNX?=
- =?utf-8?B?Y1NsTVZWSFY4UE5JYzhGdmtqOFNISHRyZlRreHNSVzVLQmgzSXJvdEMxcE1z?=
- =?utf-8?B?VDNrbzJYOThZaVE4WUxWcElZUDlRdlJ1VloxbE9GMHNRRm5zMG1mazdKUDds?=
- =?utf-8?B?dzlPWEdDYlB5dWhYeWVKWFNhNDJYc0tXL3JFWUUvMnpoYm5wVTRoOFQ5VXhn?=
- =?utf-8?B?aURtVTVXSCt1UElvN1grTGN0cGNlcXVPaHBRNlBPZG1pbzhEcDJaNTdSZXVD?=
- =?utf-8?B?VTI4dWFBT2JuSC9Ea3M3VDZDcHZWZExiWitVZ295dFVMUGZGL0RYS3JIaWgw?=
- =?utf-8?B?V1FNRXp0N0YxNEdQL283K1FyaVZXcmdzMUV4ejNQRC9Felphdkgvd2Z0Y2FD?=
- =?utf-8?B?KzBWTkNYREp2QUJzbDNaWXo3TDdQbi9wQmdSVVVVZXNnZFpPTTlsUUFTeURU?=
- =?utf-8?B?Y1FaK3NpSlpWUDZSQnQrSGphRUFvSnVORlV0MndmeFRHK0lqZlFqMkpRTjNM?=
- =?utf-8?B?ZE8zcm82K0U5NjFxbnFqSHJKRlJqcm1hZ04vMHZ4OWZSUkpCT3dQNzNZWnEx?=
- =?utf-8?B?aTFkZk5UTGZTMGc1ZktTQStzbEN4SFhTMDk5YXM5ZHU0VFI4YlJrU1RBS2ox?=
- =?utf-8?B?cG5xaW5nS2RGczJHVUFJTlF3TEpBVFIzRmpyTUxiYVJqdUNNQlF0Y2UvOFR0?=
- =?utf-8?B?ckJSMmJla3E4ZC82RjV2ZGVrbUdOR1RmUG1tKzFLOU5pajVqakdCd09QU21H?=
- =?utf-8?B?STF0WU8xbGpyTzdQeUZWdVF2Zk4wRWhRSitDdnBVRUFiRU54NlFiOVNnN3J2?=
- =?utf-8?B?WEhBSWE0TzQwb2R2MGszZmh1REU0M2g0NG5JMTR4MDlrMjJFVjlGUXNaYVMz?=
- =?utf-8?B?ZXFBZ05YcEJRS01oektwU3hJMW9GV3NwWlN6RXV4K01wbnlnSzlsUmxmWUR4?=
- =?utf-8?B?R3N2UDBIeU51SHgvbC9FZ2FnTzFIVGVsd0tMbHBMM2F2RWZUSDE3S3pXM1pK?=
- =?utf-8?B?eFcvVXBxdDJGaThqUW1xZUdTNGtWUVdxWUM5MmdscUYzSXJ4WDZ1cDB1V1Z3?=
- =?utf-8?B?NE8rblpwMFRHak1XdHZQYXBUajZPeWNGdDBMenAzcEo3YkN3L1RTUWxPak5k?=
- =?utf-8?B?OXBzcGlXeTFXTWxMOEhKNHpYT1dpSmFFTzFNcHRmQW1ZZVpEWE5RditDUVBq?=
- =?utf-8?B?dkJ6bVpoOGduVDJDb0EzSThxa21PYkZzdXY2eHBwSEMzdGZQayt0N3NPNDFx?=
- =?utf-8?B?ZkZMNWdpeUp6NjBXYzBqdGl2YkZ0TndGTHE2NkdQWDFod0cxOHlwR2drK2or?=
- =?utf-8?B?RnJrMmViZXp6Z3BVdnhMN1dMc2tUUkoxQTJtVzhsY1BqbDhMRnNUbXNQb1pZ?=
- =?utf-8?B?ZVlaRFdhaDBOSFNIdjNpVHowSHRTWG1XUzhwYTYvVmwxK25XQW52eXQ5dmE3?=
- =?utf-8?B?dVNtMDd3bmY3cktNMHIxeElTMlpCaVA0VmJiNFJJVDIwZU1sUnk3R3BPZ3BF?=
- =?utf-8?B?Y25DUUZQejRid2dZdDdtUUNFM3drdTc3WTNoSStrNW9VUFZxYUMzYmY4R0w0?=
- =?utf-8?B?Vzk2Zzh5SXRhY3FTVEtndGlxNzhlOG1vbXp0VUNFeTBJQUJtSUFXeTNGSHkw?=
- =?utf-8?B?M3ErVTRQc0NXNEg3bTA2bFhrdjFRPT0=?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9f4f3182-bcb6-4e39-94da-08ddf9909e0f
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
+	=?us-ascii?Q?c9WD76uajHBYl58sJFKiKQJPjqc7m1O3x233P6LsQU34u7krl41qu8S309V1?=
+ =?us-ascii?Q?ZQx+ciSXO+fltolkS1YhwVkifZU40P/zs9Q2M9xROCxtdORQqk6I/R4dVl/3?=
+ =?us-ascii?Q?0wJAoTd3YDnrkKTRytfmhITuhadtsLfToE6ulf1QRD/NEhNEDMHE5h6HhbJH?=
+ =?us-ascii?Q?hgxF2wSwRvjUqMf1Hzm3SH4iv1r19UXYyT/6zVQdDfsMTgaxr5HbM860aFyo?=
+ =?us-ascii?Q?+RjgdM4dDM/hDbCL+p1n3dtXQJiCXEZe7EPjrCWYmKS2AJ+vaTdtbCUPAPYM?=
+ =?us-ascii?Q?ygqM9zEi7DVwmIT0O+zj7R30wGnlhYmDRNdl0uISH/YMazIHfzgrSyTq9ywA?=
+ =?us-ascii?Q?K0qOY1Qs9kXSXWIW0cezw2YvYKlRuPfgqhcbDDdIu2CaijrBVXyo76ob4mxY?=
+ =?us-ascii?Q?60u7jhs6DymYg5t4XGSRuBMHSUfogeV2pbG045sD+EVAh7vZabO4yn9kLQf1?=
+ =?us-ascii?Q?+7DYmPKTh6U5TRxePu48+OtU88ogcV62NG2KiBmfOXt9P9Teyz4n9eunja9j?=
+ =?us-ascii?Q?naX8WbYTf1oevmjXgW/FxKczmxwCDKdlppZzJDOMd5TCtWqdlU3tx4RR3YDz?=
+ =?us-ascii?Q?F2g9ZOtNObLaYGYH2ToGuWbNpuWN92jKjh92jD069tYzTlDG1JDgveeq8vbi?=
+ =?us-ascii?Q?BfX7AA+5Sr1WtApW8EFkJRdWUYa7PzpwAO1Zkh/qg0xaV2tGguEZKbE3cons?=
+ =?us-ascii?Q?VYJDfuuYj5G4NlqV2TmWxk96sA/53qUA2vtFyWAybT03AXkQ9FNtVBgFtIoh?=
+ =?us-ascii?Q?Sfzgmt/MKcbSBDvXvFYixptLFxu3o4xxpCSJjS1dUpg5LiH9il/CX4u1HEBP?=
+ =?us-ascii?Q?FLkC8hIYUxzdtXf+3y7lBxjGQaxMzn/M0HYFTk+cWebrkZCDY9kwwz5KcjNg?=
+ =?us-ascii?Q?eQddPNqbcwWOwSkA0A1s8PmSGvTJnhZOquJtZCF6GwvfL0ykyZB52VgDhbX5?=
+ =?us-ascii?Q?00FQpd11hB54eXkagBGbmjsCDbIyjN8ppKJv95yQ+GuME3HsYk8MhcgDn4v9?=
+ =?us-ascii?Q?mQs+Ic0c9r4uvBfV6kKEu9VLYfXqmv2dCIVuytY3bAGo8Pp+x92Nv9BC/NSK?=
+ =?us-ascii?Q?X/sq+omfaXu9gsHRx2kYm84HhQ+DHaDiREVdwSfru0ojU4j7MQ9lYcneOmSJ?=
+ =?us-ascii?Q?VPLrEHRWdE7Y+HfY86y5XHmvg5bxgEuVF5j3LzL2vpNp4J4InShYHsPGniDM?=
+ =?us-ascii?Q?xvyPmrIzmx2kD8SvKNcu+lWZSuUL0OU4QfzNuRJJ1s2hC+MR+iORaef2/R0a?=
+ =?us-ascii?Q?Mj2aOP05LMHDL5JIoLJpnekw21c0DEu9Mjd4Ojs3JJ3ypHizxJgUvXfjuAfA?=
+ =?us-ascii?Q?/veW+BVyK5eb+/Iu3xsnSGlbm1H09fC0nJMPWvFRyGCOtI+pjwVGKruAgKs/?=
+ =?us-ascii?Q?JnO/LN72RW9v+mxFDvW7M7pPcaUWlYKtXWexE7Na7fY66mxTrCQ9SFxH9iCX?=
+ =?us-ascii?Q?6YUgmbUm6BKfgZfIXFR1u0CRUQAQSECVcJtoreDE8Y5KltoDO3jPR4YngNkT?=
+ =?us-ascii?Q?MmZAqobLbYilyUs9wPqCjXUlhujssabVM+r318tONc8TuTp+CFAOG486yN9x?=
+ =?us-ascii?Q?BJ99kHGQlNbp7WDEcJzSmvReuwFhKVGC1d3iduafQN0hnkssNxMVkLlczd9f?=
+ =?us-ascii?Q?qw=3D=3D?=
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b50fbe07-ee0c-4e42-7814-08ddf9919ff8
+X-MS-Exchange-CrossTenant-AuthSource: PU4P216MB1149.KORP216.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 04:29:28.0819
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 04:36:40.8106
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: goU++2WoSa3J8r5xurNy9ZrBXcgWdjpdcMKfSTTZVkiQKjg4+QbWGV1XDnLqhyndcPY2A89OCHcr76cRumifZA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7126
+X-MS-Exchange-CrossTenant-UserPrincipalName: BsfXXQd7SbHdR4Ol6nHpqLS06DRKB9djg0vii97zHj1cNtZ+YJ03hKuEf5VM7ch23khko0WKqIf4kJMMwe8jkGCifnV8nz6UIaLP2EiRIdc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE1P216MB1479
 
-On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ryhel wrote:
-> VI in Tegra20/Tegra30 has 2 VI outputs with different set of supported
-> formats. Convert output registers to macros for simpler work with both
-> outputs since apart formats their layout matches.
->=20
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  drivers/staging/media/tegra-video/tegra20.c | 82 ++++++++++++---------
->  1 file changed, 46 insertions(+), 36 deletions(-)
->=20
-> diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/stagin=
-g/media/tegra-video/tegra20.c
-> index 3dc26f5552eb..6e0b3b728623 100644
-> --- a/drivers/staging/media/tegra-video/tegra20.c
-> +++ b/drivers/staging/media/tegra-video/tegra20.c
-> @@ -29,13 +29,19 @@
->  #define TEGRA20_MIN_HEIGHT	32U
->  #define TEGRA20_MAX_HEIGHT	8190U
-> =20
-> +/* Tegra20/Tegra30 has 2 outputs in VI */
-> +enum tegra_vi_out {
-> +	TEGRA_VI_OUT_1 =3D 0,
-> +	TEGRA_VI_OUT_2 =3D 1,
-> +};
-> +
->  /* ---------------------------------------------------------------------=
------
->   * Registers
->   */
-> =20
-> -#define TEGRA_VI_CONT_SYNCPT_OUT_1			0x0060
-> -#define       VI_CONT_SYNCPT_OUT_1_CONTINUOUS_SYNCPT	BIT(8)
-> -#define       VI_CONT_SYNCPT_OUT_1_SYNCPT_IDX_SFT	0
-> +#define TEGRA_VI_CONT_SYNCPT_OUT(n)			(0x0060 + (n) * 4)
-> +#define       VI_CONT_SYNCPT_OUT_CONTINUOUS_SYNCPT	BIT(8)
-> +#define       VI_CONT_SYNCPT_OUT_SYNCPT_IDX_SFT		0
-> =20
->  #define TEGRA_VI_VI_INPUT_CONTROL			0x0088
->  #define       VI_INPUT_FIELD_DETECT			BIT(27)
-> @@ -47,6 +53,7 @@
->  #define       VI_INPUT_YUV_INPUT_FORMAT_YVYU		(3 << VI_INPUT_YUV_INPUT_F=
-ORMAT_SFT)
->  #define       VI_INPUT_INPUT_FORMAT_SFT			2  /* bits [5:2] */
->  #define       VI_INPUT_INPUT_FORMAT_YUV422		(0 << VI_INPUT_INPUT_FORMAT_=
-SFT)
-> +#define       VI_INPUT_INPUT_FORMAT_BAYER		(2 << VI_INPUT_INPUT_FORMAT_S=
-FT)
->  #define       VI_INPUT_VIP_INPUT_ENABLE			BIT(1)
-> =20
->  #define TEGRA_VI_VI_CORE_CONTROL			0x008c
-> @@ -67,7 +74,7 @@
->  #define       VI_VI_CORE_CONTROL_OUTPUT_TO_EPP_SFT	2
->  #define       VI_VI_CORE_CONTROL_OUTPUT_TO_ISP_SFT	0
-> =20
-> -#define TEGRA_VI_VI_FIRST_OUTPUT_CONTROL		0x0090
-> +#define TEGRA_VI_VI_OUTPUT_CONTROL(n)			(0x0090 + (n) * 4)
->  #define       VI_OUTPUT_FORMAT_EXT			BIT(22)
->  #define       VI_OUTPUT_V_DIRECTION			BIT(20)
->  #define       VI_OUTPUT_H_DIRECTION			BIT(19)
-> @@ -81,6 +88,7 @@
->  #define       VI_OUTPUT_OUTPUT_FORMAT_SFT		0
->  #define       VI_OUTPUT_OUTPUT_FORMAT_YUV422POST	(3 << VI_OUTPUT_OUTPUT_=
-FORMAT_SFT)
->  #define       VI_OUTPUT_OUTPUT_FORMAT_YUV420PLANAR	(6 << VI_OUTPUT_OUTPU=
-T_FORMAT_SFT)
+From: Jackson Lee <jackson.lee@chipsnmedia.com>
 
-I would perhaps add a note here that values below are only supported by OUT=
-_2.
+v4l2-compliance results:
+========================
 
-> +#define       VI_OUTPUT_OUTPUT_FORMAT_VIP_BAYER_DIRECT	(9 << VI_OUTPUT_O=
-UTPUT_FORMAT_SFT)
-> =20
+v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
 
-Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
+Buffer ioctls:
+                warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
+                warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
+        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+        test CREATE_BUFS maximum buffers: OK
+        test VIDIOC_EXPBUF: OK
+        test Requests: OK (Not Supported)
 
->  #define TEGRA_VI_VIP_H_ACTIVE				0x00a4
->  #define       VI_VIP_H_ACTIVE_PERIOD_SFT		16 /* active pixels/line, must=
- be even */
-> @@ -90,26 +98,26 @@
->  #define       VI_VIP_V_ACTIVE_PERIOD_SFT		16 /* active lines */
->  #define       VI_VIP_V_ACTIVE_START_SFT			0
-> =20
-> -#define TEGRA_VI_VB0_START_ADDRESS_FIRST		0x00c4
-> -#define TEGRA_VI_VB0_BASE_ADDRESS_FIRST			0x00c8
-> +#define TEGRA_VI_VB0_START_ADDRESS(n)			(0x00c4 + (n) * 44)
-> +#define TEGRA_VI_VB0_BASE_ADDRESS(n)			(0x00c8 + (n) * 44)
->  #define TEGRA_VI_VB0_START_ADDRESS_U			0x00cc
->  #define TEGRA_VI_VB0_BASE_ADDRESS_U			0x00d0
->  #define TEGRA_VI_VB0_START_ADDRESS_V			0x00d4
->  #define TEGRA_VI_VB0_BASE_ADDRESS_V			0x00d8
-> =20
-> -#define TEGRA_VI_FIRST_OUTPUT_FRAME_SIZE		0x00e0
-> -#define       VI_FIRST_OUTPUT_FRAME_HEIGHT_SFT		16
-> -#define       VI_FIRST_OUTPUT_FRAME_WIDTH_SFT		0
-> +#define TEGRA_VI_OUTPUT_FRAME_SIZE(n)			(0x00e0 + (n) * 24)
-> +#define       VI_OUTPUT_FRAME_HEIGHT_SFT		16
-> +#define       VI_OUTPUT_FRAME_WIDTH_SFT			0
-> =20
-> -#define TEGRA_VI_VB0_COUNT_FIRST			0x00e4
-> +#define TEGRA_VI_VB0_COUNT(n)				(0x00e4 + (n) * 24)
-> =20
-> -#define TEGRA_VI_VB0_SIZE_FIRST				0x00e8
-> -#define       VI_VB0_SIZE_FIRST_V_SFT			16
-> -#define       VI_VB0_SIZE_FIRST_H_SFT			0
-> +#define TEGRA_VI_VB0_SIZE(n)				(0x00e8 + (n) * 24)
-> +#define       VI_VB0_SIZE_V_SFT				16
-> +#define       VI_VB0_SIZE_H_SFT				0
-> =20
-> -#define TEGRA_VI_VB0_BUFFER_STRIDE_FIRST		0x00ec
-> -#define       VI_VB0_BUFFER_STRIDE_FIRST_CHROMA_SFT	30
-> -#define       VI_VB0_BUFFER_STRIDE_FIRST_LUMA_SFT	0
-> +#define TEGRA_VI_VB0_BUFFER_STRIDE(n)			(0x00ec + (n) * 24)
-> +#define       VI_VB0_BUFFER_STRIDE_CHROMA_SFT		30
-> +#define       VI_VB0_BUFFER_STRIDE_LUMA_SFT		0
-> =20
->  #define TEGRA_VI_H_LPF_CONTROL				0x0108
->  #define       VI_H_LPF_CONTROL_CHROMA_SFT		16
-> @@ -137,7 +145,7 @@
->  #define       VI_CAMERA_CONTROL_TEST_MODE		BIT(1)
->  #define       VI_CAMERA_CONTROL_VIP_ENABLE		BIT(0)
-> =20
-> -#define TEGRA_VI_VI_ENABLE				0x01a4
-> +#define TEGRA_VI_VI_ENABLE(n)				(0x01a4 + (n) * 4)
->  #define       VI_VI_ENABLE_SW_FLOW_CONTROL_OUT1		BIT(1)
->  #define       VI_VI_ENABLE_FIRST_OUTPUT_TO_MEM_DISABLE	BIT(0)
-> =20
-> @@ -367,8 +375,8 @@ static void tegra20_channel_vi_buffer_setup(struct te=
-gra_vi_channel *chan,
->  	case V4L2_PIX_FMT_VYUY:
->  	case V4L2_PIX_FMT_YUYV:
->  	case V4L2_PIX_FMT_YVYU:
-> -		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS_FIRST,  base);
-> -		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS_FIRST, base + chan->=
-start_offset);
-> +		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS(TEGRA_VI_OUT_1),  bas=
-e);
-> +		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS(TEGRA_VI_OUT_1), bas=
-e + chan->start_offset);
->  		break;
->  	}
->  }
-> @@ -456,6 +464,7 @@ static void tegra20_camera_capture_setup(struct tegra=
-_vi_channel *chan)
->  	int stride_l =3D chan->format.bytesperline;
->  	int stride_c =3D (output_fourcc =3D=3D V4L2_PIX_FMT_YUV420 ||
->  			output_fourcc =3D=3D V4L2_PIX_FMT_YVU420) ? 1 : 0;
-> +	enum tegra_vi_out output_channel =3D TEGRA_VI_OUT_1;
->  	int main_output_format;
->  	int yuv_output_format;
-> =20
-> @@ -473,33 +482,33 @@ static void tegra20_camera_capture_setup(struct teg=
-ra_vi_channel *chan)
->  	/* Set up raise-on-edge, so we get an interrupt on end of frame. */
->  	tegra20_vi_write(chan, TEGRA_VI_VI_RAISE, VI_VI_RAISE_ON_EDGE);
-> =20
-> -	tegra20_vi_write(chan, TEGRA_VI_VI_FIRST_OUTPUT_CONTROL,
-> +	tegra20_vi_write(chan, TEGRA_VI_VI_OUTPUT_CONTROL(output_channel),
->  			 (chan->vflip ? VI_OUTPUT_V_DIRECTION : 0) |
->  			 (chan->hflip ? VI_OUTPUT_H_DIRECTION : 0) |
->  			 yuv_output_format << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT |
->  			 main_output_format << VI_OUTPUT_OUTPUT_FORMAT_SFT);
-> =20
->  	/* Set up frame size */
-> -	tegra20_vi_write(chan, TEGRA_VI_FIRST_OUTPUT_FRAME_SIZE,
-> -			 height << VI_FIRST_OUTPUT_FRAME_HEIGHT_SFT |
-> -			 width  << VI_FIRST_OUTPUT_FRAME_WIDTH_SFT);
-> +	tegra20_vi_write(chan, TEGRA_VI_OUTPUT_FRAME_SIZE(output_channel),
-> +			 height << VI_OUTPUT_FRAME_HEIGHT_SFT |
-> +			 width  << VI_OUTPUT_FRAME_WIDTH_SFT);
-> =20
->  	/* First output memory enabled */
-> -	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE, 0);
-> +	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE(output_channel), 0);
-> =20
->  	/* Set the number of frames in the buffer */
-> -	tegra20_vi_write(chan, TEGRA_VI_VB0_COUNT_FIRST, 1);
-> +	tegra20_vi_write(chan, TEGRA_VI_VB0_COUNT(output_channel), 1);
-> =20
->  	/* Set up buffer frame size */
-> -	tegra20_vi_write(chan, TEGRA_VI_VB0_SIZE_FIRST,
-> -			 height << VI_VB0_SIZE_FIRST_V_SFT |
-> -			 width  << VI_VB0_SIZE_FIRST_H_SFT);
-> +	tegra20_vi_write(chan, TEGRA_VI_VB0_SIZE(output_channel),
-> +			 height << VI_VB0_SIZE_V_SFT |
-> +			 width  << VI_VB0_SIZE_H_SFT);
-> =20
-> -	tegra20_vi_write(chan, TEGRA_VI_VB0_BUFFER_STRIDE_FIRST,
-> -			 stride_l << VI_VB0_BUFFER_STRIDE_FIRST_LUMA_SFT |
-> -			 stride_c << VI_VB0_BUFFER_STRIDE_FIRST_CHROMA_SFT);
-> +	tegra20_vi_write(chan, TEGRA_VI_VB0_BUFFER_STRIDE(output_channel),
-> +			 stride_l << VI_VB0_BUFFER_STRIDE_LUMA_SFT |
-> +			 stride_c << VI_VB0_BUFFER_STRIDE_CHROMA_SFT);
-> =20
-> -	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE, 0);
-> +	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE(output_channel), 0);
->  }
-> =20
->  static int tegra20_vi_start_streaming(struct vb2_queue *vq, u32 count)
-> @@ -588,7 +597,7 @@ const struct tegra_vi_soc tegra20_vi_soc =3D {
->  	.nformats =3D ARRAY_SIZE(tegra20_video_formats),
->  	.default_video_format =3D &tegra20_video_formats[0],
->  	.ops =3D &tegra20_vi_ops,
-> -	.vi_max_channels =3D 1, /* parallel input (VIP) */
-> +	.vi_max_channels =3D 2, /* TEGRA_VI_OUT_1 and TEGRA_VI_OUT_2 */
->  	.vi_max_clk_hz =3D 150000000,
->  	.has_h_v_flip =3D true,
->  };
-> @@ -608,6 +617,7 @@ static int tegra20_vip_start_streaming(struct tegra_v=
-ip_channel *vip_chan)
->  	struct tegra_vi_channel *vi_chan =3D v4l2_get_subdev_hostdata(&vip_chan=
-->subdev);
->  	int width  =3D vi_chan->format.width;
->  	int height =3D vi_chan->format.height;
-> +	enum tegra_vi_out output_channel =3D TEGRA_VI_OUT_1;
-> =20
->  	unsigned int main_input_format;
->  	unsigned int yuv_input_format;
-> @@ -638,10 +648,10 @@ static int tegra20_vip_start_streaming(struct tegra=
-_vip_channel *vip_chan)
->  			 GENMASK(9, 2) << VI_DATA_INPUT_SFT);
->  	tegra20_vi_write(vi_chan, TEGRA_VI_PIN_INVERSION, 0);
-> =20
-> -	tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_OUT_1,
-> -			 VI_CONT_SYNCPT_OUT_1_CONTINUOUS_SYNCPT |
-> +	tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_OUT(output_channel),
-> +			 VI_CONT_SYNCPT_OUT_CONTINUOUS_SYNCPT |
->  			 host1x_syncpt_id(vi_chan->mw_ack_sp[0])
-> -			 << VI_CONT_SYNCPT_OUT_1_SYNCPT_IDX_SFT);
-> +			 << VI_CONT_SYNCPT_OUT_SYNCPT_IDX_SFT);
-> =20
->  	tegra20_vi_write(vi_chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_ST=
-OP_CAPTURE);
-> =20
->=20
+Total for wave5-dec device /dev/video0: 46, Succeeded: 46, Failed: 0, Warnings: 2
+Total for wave5-enc device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
+
+Fluster test results:
+=====================
+
+Running test suite JCT-VC-HEVC_V1 with decoder GStreamer-H.265-V4L2-Gst1.0 Using 3 parallel job(s)
+Ran 133/147 tests successfully               in 40.122 secs
+
+(1 test fails because of not supporting to parse multi frames, 1 test fails because of a missing frame and slight corruption,
+ 2 tests fail because of sizes which are incompatible with the IP, 11 tests fail because of unsupported 10 bit format)
 
 
+Running test suite JVT-AVC_V1 with decoder GStreamer-H.264-V4L2-Gst1.0 Using 3 parallel job(s)
+Ran 78/135 tests successfully               in 43.354 secs
 
+(57 fail because the hardware is unable to decode  MBAFF / FMO / Field / Extended profile streams.)
+
+Running test suite JVT-FR-EXT with decoder GStreamer-H.264-V4L2-Gst1.0 Using 3 parallel job(s)
+Ran 25/69 tests successfully               in 40.413 secs
+
+(44 fail because the hardware does not support field encoded and 422 encoded stream)
+
+Seek test
+=====================
+1. gst-play-1.0 seek.264
+2. this will use waylandsink since gst-play-1.0 uses playbin.
+   if you don't want to hook up display,
+   you can run gst-play-1.0 seek.264 --videosink=fakevideosink instead 3. Let pipeline run for 2-3 seconds 4. press SPACE key to pause 5. press 0 to reset press SPACE to start again
+
+gst-play-1.0 seek.264 --videosink=fakevideosink Press 'k' to see a list of keyboard shortcuts.
+Now playing /root/seek.264
+Redistribute latency...
+Redistribute latency...
+Redistribute latency...
+Redistribute latency...
+Redistribute latency...aused
+0:00:09.9 / 0:00:09.7
+Reached end of play list.
+
+Sequence Change test
+=====================
+gst-launch-1.0 filesrc location=./drc.h264 ! h264parse ! v4l2h264dec ! filesink location=./h264_output_420.yuv Setting pipeline to PAUSED ...
+Pipeline is PREROLLING ...
+Redistribute latency...
+Pipeline is PREROLLED ...
+Setting pipeline to PLAYING ...
+New clock: GstSystemClock
+Redistribute latency...
+Got EOS from element "pipeline0".
+Execution ended after 0:00:00.113620590
+Setting pipeline to NULL ...
+Freeing pipeline ...
+
+Change since v3:
+==================
+* For [PATCH v4 4/4] media: chips-media: wave5: Improve performance of decoder
+ - fix crash and dead lock while testing seek
+ 
+* For [PATCH v4 3/4] media: chips-media: wave5: Add WARN_ON to check if dec_output_info is NULL
+ - update commit message
+
+* For [PATCH v4 2/4] media: chips-media: wave5: Fix Null reference while testing fluster
+ - add thread irq logic
+
+* For [PATCH v4 1/4] media: chips-media: wave5: Fix SError of kernel panic when closed
+ - add Reviewed-by tag
+
+Change since v2:
+==================
+* For [PATCH v3 4/4] media: chips-media: wave5: Improve performance of decoder
+ - squash v2's #3~#6 to #4 patch of v3
+
+Change since v1:
+===================
+* For [PATCH v2 2/7] media: chips-media: wave5: Improve performance of decoder
+ - change log to dbg level
+
+Change since v0:
+===================
+* For [PATCH v1 2/7] media: chips-media: wave5: Improve performance of decoder
+ - separates the previous patch to a few patches
+
+* For [PATCH v1 3/7] media: chips-media: wave5: Fix not to be closed
+ - separated from the previous patch of performance improvement of
+   decoder
+
+* For [PATCH v1 4/7] media: chips-media: wave5: Use spinlock whenever state is changed
+ - separated from the previous patch of performance improvement of
+   decoder
+
+* For [PATCH v1 5/7] media: chips-media: wave5: Fix not to free resources normally when
+    instance was destroyed
+ - separated from the previous patch of performance improvement of
+   decoder
+
+* For [PATCH v1 7/7] media: chips-media: wave5: Fix SError of kernel panic when closed
+ - separated from the previous patch of performance improvement of
+   decoder
+
+
+Jackson Lee (4):
+  media: chips-media: wave5: Fix SError of kernel panic when closed
+  media: chips-media: wave5: Fix Null reference while testing fluster
+  media: chips-media: wave5: Add WARN_ON to check if dec_output_info is
+    NULL
+  media: chips-media: wave5: Improve performance of decoder
+
+ .../platform/chips-media/wave5/wave5-helper.c |  28 ++-
+ .../platform/chips-media/wave5/wave5-helper.h |   1 +
+ .../platform/chips-media/wave5/wave5-hw.c     |   2 +-
+ .../chips-media/wave5/wave5-vpu-dec.c         | 172 ++++++++++++------
+ .../chips-media/wave5/wave5-vpu-enc.c         |   8 +-
+ .../platform/chips-media/wave5/wave5-vpu.c    |  98 ++++++++--
+ .../platform/chips-media/wave5/wave5-vpu.h    |   2 +-
+ .../platform/chips-media/wave5/wave5-vpuapi.c |  61 ++++---
+ .../platform/chips-media/wave5/wave5-vpuapi.h |  12 ++
+ .../chips-media/wave5/wave5-vpuconfig.h       |   1 +
+ 10 files changed, 283 insertions(+), 102 deletions(-)
+
+-- 
+2.43.0
 
 
