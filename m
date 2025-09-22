@@ -1,314 +1,214 @@
-Return-Path: <linux-media+bounces-42893-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42894-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05B2FB8F303
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 08:46:41 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2885EB8F30F
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 08:48:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C7C877A448B
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 06:44:59 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CD9FA170936
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 06:48:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D84C2264A0;
-	Mon, 22 Sep 2025 06:46:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E27E248F72;
+	Mon, 22 Sep 2025 06:48:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nP7VXSl1"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="vVDfy2lQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A54F8A55;
-	Mon, 22 Sep 2025 06:46:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758523590; cv=none; b=U4Oh+Wcgwsf6xNvdxi6muZs4qOn8DMzP9tWWWWgUiqXb1hDM1PjVL+kRlCWeyvVt8DiugrAbju2v2fUFiDJ4rMxB9mTnlPCejYU0lwNiKhPwzesAYeSfcIdv3dGnf+mI9QQ4cSmg118Qmni0hXYOWrnoCkEGxjFboKopBFyjLPY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758523590; c=relaxed/simple;
-	bh=mp29UBXZYvpEtP1el7OKjbHwlHEypaNYsUJfhUBttwQ=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=l25zKC3G2PAbqYHLaWqZIv9BGR1Tkb6Ltsm555gGxrBneQZ0teet1uGXP1NmQxnPu78LmcgHY5UHnOQJwQ5P7gPzqRkec7g5cy0TDwN7oWGZbNwlqkRZ9TitBR4bJi933J8uv+2VRK1fgIrlvkbS7BgyeSmvxO8sMR3eRs9LdOc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nP7VXSl1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95DC5C4CEF0;
-	Mon, 22 Sep 2025 06:46:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758523590;
-	bh=mp29UBXZYvpEtP1el7OKjbHwlHEypaNYsUJfhUBttwQ=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=nP7VXSl1degD44CnUCKz8XyH1Y/s9xpLGdhM9qwWmJuXpdoF576t7wIoG+s3pSbOM
-	 0+hSoze0v+fM5ObE64bldFy1KMOLs2vuHU0i0JHaniSbexXjprQcImtoj4KwwnlSgR
-	 R9CnU6RUQnYC3MuC2mMRo6cRaWVc/IoQhmL7dPOV5qumigrlxjncHqj2ciiigLNcVY
-	 Cy3Yghr806XVKrOvYM7UZIERQR8BemLI5iRJbmEoeHjd/vcf3UDZsGPALGT1jO7PG5
-	 Vz4Tzh8sPu+6a3Q615qHMAmX5q4gapKyarsrZZsn6MzitPUv1VQ1K0BxkNyc4BayRl
-	 bzlgRJe0ZVVBA==
-Message-ID: <a317e3e5-d1fc-4d87-8fb7-c47adf7c5a69@kernel.org>
-Date: Mon, 22 Sep 2025 08:46:26 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C84182B7;
+	Mon, 22 Sep 2025 06:48:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758523729; cv=pass; b=gkGSq2oYQRmTxpk62OBTG2oPo3+igUGO5PallBrtbYgQuLJaiMmVw4JNP8vtqfbbm3dg1IzMyH3L6ZYfEKnNI6s0WaR7YYHdqpUDC+SwTVXF0N7zpUSEML90Ptk0cb4N0cEwHnBoishiJxDbAPT4Eujtu8pxDmOH8MG1eyjYz0Q=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758523729; c=relaxed/simple;
+	bh=5IuIzBWva9dvgo3S5ZQQdPjYk/zGEYXEvzD6aLl30ZA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NLzT2pBeFKGROSDat8rkiTxBnPFWn/vdv93Z/UMTuMIIpgcRAAGUHHAF0IKbTmw2dY/UvKFpn7Q0sVZUtfiIN1opqjtATB5jI3aR/5vcRRSVyMwGWdZ3QIkeznPiUJf7dvzX7K+3jnVR3wdTHTkJSCC4xQ41TylRw6fg1kV81YM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=vVDfy2lQ; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4cVYbr454BzySx;
+	Mon, 22 Sep 2025 09:48:40 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1758523724;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c54KfsI4HptCQLSrRHNLP/BIoKR4dJKvmjofNFS6EPc=;
+	b=vVDfy2lQjagkvA3af60EKADTdyriSznlKV73hf4JVOoX/TZuMUfLBjaiMLFrP7fPLmqVA3
+	sjHSkHtNOQr33qQzzn/ChKilK0YiXSDfnVHTilVwX6eH1NfRryaeLN8ZDSEzdtFbJWAB78
+	6h1reBho5da8Kr5sUqDENJOaNj7Qsqc=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1758523724;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=c54KfsI4HptCQLSrRHNLP/BIoKR4dJKvmjofNFS6EPc=;
+	b=lzzOw/iUyIuIcE8vKQQTUc6GdwsIGCDBvH/vR8CVyVBzzjk6Kq10jiurbsc9/suXh4ks5q
+	6CbEb9suSHT2k6Cla0dSDMppZWu8+sBH1hXp52gEdPxm7ILbjK9GtqOPaCDOCy/VVdasU4
+	CnNbB6c/RF3rTciion6y6P6ANl04V64=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1758523724; a=rsa-sha256; cv=none;
+	b=M3OqNc5uTmbUDslVQLQe5qkl/wBTqyXYHc3Sn7R/kKSv2WrmAqld7ufyaOoFejSMsWf/qS
+	ibPEaYD53GQogiMIFvtzYY57VIksUz23Eq6zSKIfLi5a3lQUvhmO4P+EI6+zZdkVOFWuXZ
+	B+91lvnWlX//KGJ4YtkXpl27gEJsbls=
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E8CFA634C97;
+	Mon, 22 Sep 2025 09:48:39 +0300 (EEST)
+Date: Mon, 22 Sep 2025 09:48:39 +0300
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Isaac Scott <isaac.scott@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, Frank Li <Frank.Li@nxp.com>
+Subject: Re: [PATCH v3 1/3] media: v4l: Add helper to get number of active
+ lanes via a pad
+Message-ID: <aNDxR72CmvGofTHy@valkosipuli.retiisi.eu>
+References: <20250915-mbus-config-active-lanes-v3-0-97a1282a410b@ideasonboard.com>
+ <20250915-mbus-config-active-lanes-v3-1-97a1282a410b@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: hverkuil+cisco@kernel.org
-Subject: Re: [PATCH v4] media: i2c: wm8775: parameterize wm8775_platform_data
- based on config
-To: Alex Tran <alex.t.tran@gmail.com>, linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org, mchehab@kernel.org, hansg@kernel.org,
- ribalda@chromium.org, laurent.pinchart@ideasonboard.com, cascardo@igalia.com
-References: <20250921190155.1013277-1-alex.t.tran@gmail.com>
-Content-Language: en-US, nl
-In-Reply-To: <20250921190155.1013277-1-alex.t.tran@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250915-mbus-config-active-lanes-v3-1-97a1282a410b@ideasonboard.com>
 
-Hi Alex,
+Hi Isaac,
 
-On 21/09/2025 21:01, Alex Tran wrote:
-> Parameterized wm8775_platform_data struct, removing the single boolean
-> for determining device type. wm8775_standard_cfg struct will be used
-> for standard devices and wm8775_nova_s_cfg for nova_s devices. 
+Thanks for the update.
 
-Thank you for your patch, but since this driver is ancient, and has not seen new
-development for years, I don't think it is a good idea to apply this.
+On Mon, Sep 15, 2025 at 02:18:33PM +0100, Isaac Scott wrote:
+> Sometimes, users will not use all of the MIPI CSI 2 lanes available when
+> connecting to the MIPI CSI receiver of their device. Add a helper
+> function that checks the mbus_config for the device driver to allow
+> users to define the number of active data lanes through the
+> get_mbus_config op.
+> 
+> If the driver does not implement this op, fall back to using the number
+> of data lanes specified in device tree.
+> 
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
+> ---
+>  drivers/media/v4l2-core/v4l2-common.c | 32 ++++++++++++++++++++++++++++++++
+>  include/media/v4l2-common.h           | 21 +++++++++++++++++++++
+>  2 files changed, 53 insertions(+)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> index 6e585bc76367..2ce8407f1397 100644
+> --- a/drivers/media/v4l2-core/v4l2-common.c
+> +++ b/drivers/media/v4l2-core/v4l2-common.c
+> @@ -571,6 +571,38 @@ s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+>  	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+>  }
+>  EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
+> +
+> +unsigned int v4l2_get_active_data_lanes(const struct media_pad *pad,
+> +					unsigned int max_data_lanes)
+> +{
+> +	struct v4l2_mbus_config mbus_config = {};
+> +	struct v4l2_subdev *sd;
+> +	unsigned int lanes;
+> +	int ret;
+> +
+> +	sd = media_entity_to_v4l2_subdev(pad->entity);
+> +	ret = v4l2_subdev_call(sd, pad, get_mbus_config, pad->index,
+> +			       &mbus_config);
+> +	if (ret < 0 && ret != -ENOIOCTLCMD)
+> +		return ret;
+> +
+> +	/*
+> +	 * This relies on the mbus_config being zeroed at init time.
+> +	 */
+> +	if (!mbus_config.bus.mipi_csi2.num_data_lanes)
 
-It just increases the code size, and causes unnecessary code churn.
+I'd either use the local variable for this (lanes) either all the time, or
+not at all.
 
-It might be interesting if we get more exceptions like the nova_s, but that
-is highly unlikely.
+> +		return max_data_lanes;
+> +
+> +	lanes = mbus_config.bus.mipi_csi2.num_data_lanes;
+> +
+> +	if (lanes > max_data_lanes) {
+> +		dev_dbg(sd->dev, "Active data lanes (%u) exceeds max (%u)\n",
+> +			lanes, max_data_lanes);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return lanes;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_get_active_data_lanes);
+>  #endif /* CONFIG_MEDIA_CONTROLLER */
+>  
+>  /*
+> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+> index 0a43f56578bc..6af0695460ab 100644
+> --- a/include/media/v4l2-common.h
+> +++ b/include/media/v4l2-common.h
+> @@ -584,6 +584,27 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
+>  	(pad, mul, div)
+>  s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
+>  			     unsigned int div);
 
-Rejected-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+Is your tree up to date?
 
+> +
+> +/**
+> + * v4l2_get_active_data_lanes - Get number of active data lanes from driver
+> + *
+> + * @pad: The transmitter's media pad.
+> + * @max_data_lanes: The maximum number of active data lanes supported by
+> + * 		    the MIPI CSI link in hardware. This can be configured
+> + * 		    in device tree.
+
+I'd remove the latter sentence. Alternatively, it needs to be improved:
+there are other sources for this information than DT.
+
+> + *
+> + * This function is intended for obtaining the number of data lanes that are
+> + * actively being used by the driver for a MIPI CSI-2 device on a given media pad.
+> + * This information is derived from a mbus_config fetched from a device driver
+> + * using the get_mbus_config v4l2_subdev pad op.
+> + *
+> + * Return:
+> + * * >0: Number of active data lanes
+> + * * %-EINVAL: Number of active data lanes is invalid, as it exceeds the maximum
+> + *	       supported data lanes listed in device tree.
+> + */
+> +unsigned int v4l2_get_active_data_lanes(const struct media_pad *pad,
+> +					unsigned int max_data_lanes);
+>  #else
+>  #define v4l2_get_link_freq(handler, mul, div)		\
+>  	__v4l2_get_link_freq_ctrl(handler, mul, div)
+> 
+
+-- 
 Regards,
 
-	Hans
-
-> 
-> Signed-off-by: Alex Tran <alex.t.tran@gmail.com>
-> ---
-> Changes in v2:
-> - rebased from mchehab linux media onto media committers tree
-> - resolve patch and build errors
-> Changes in v3:
-> - cc updated maintainers list
-> Changes in v4:
-> - exported config symbols
-> - cx88_core wm8775_data field converted to pointer
->  drivers/media/i2c/wm8775.c          | 111 ++++++++++++++++------------
->  drivers/media/pci/cx88/cx88-video.c |   6 +-
->  drivers/media/pci/cx88/cx88.h       |   2 +-
->  include/media/i2c/wm8775.h          |  25 +++++--
->  4 files changed, 87 insertions(+), 57 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/wm8775.c b/drivers/media/i2c/wm8775.c
-> index 56778d3bc..a6c605303 100644
-> --- a/drivers/media/i2c/wm8775.c
-> +++ b/drivers/media/i2c/wm8775.c
-> @@ -50,6 +50,45 @@ struct wm8775_state {
->  	u8 input;		/* Last selected input (0-0xf) */
->  };
->  
-> +struct wm8775_platform_data wm8775_standard_cfg = {
-> +	.reset = 0x000, /* RESET */
-> +	.zero_cross_timeout = 0x000, /* Disable zero cross detect timeout */
-> +	.interface_ctrl =
-> +		0x021, /* HPF enable, left justified, 24-bit (Philips) mode */
-> +	.master_mode = 0x102, /* Master mode, clock ratio 256fs */
-> +	.powerdown = 0x000, /* Powered up */
-> +	.adc_l = 0x1d4, /* ADC gain +2.5dB, enable zero cross */
-> +	.adc_r = 0x1d4, /* ADC gain +2.5dB, enable zero cross */
-> +	.alc_ctrl_1 =
-> +		0x1bf, /* ALC Stereo, ALC target level -1dB FS max gain +8dB */
-> +	.alc_ctrl_2 = 0x185, /* Enable gain control, ALC hold time 42.6 ms */
-> +	.alc_ctrl_3 = 0x0a2, /* Ramp up delay 34 s, ramp down delay 33 ms */
-> +	.noise_gate = 0x005, /* Enable noise gate, threshold -72dBfs */
-> +	.limiter_ctrl = 0x07a, /* Window 4ms, lower PGA gain limit -1dB */
-> +	.adc_mixer = 0x102, /* LRBOTH = 1, use input 2. */
-> +	.should_set_audio = false,
-> +};
-> +EXPORT_SYMBOL_GPL(wm8775_standard_cfg);
-> +
-> +struct wm8775_platform_data wm8775_nova_s_cfg = {
-> +	.reset = 0x000, /* RESET */
-> +	.zero_cross_timeout = 0x000, /* Disable zero cross detect timeout */
-> +	.interface_ctrl =
-> +		0x021, /* HPF enable, left justified, 24-bit (Philips) mode */
-> +	.master_mode = 0x102, /* Master mode, clock ratio 256fs */
-> +	.powerdown = 0x000, /* Powered up */
-> +	.adc_l = WM8775_REG_UNUSED,
-> +	.adc_r = WM8775_REG_UNUSED,
-> +	.alc_ctrl_1 = 0x1bb, /* Stereo, target level -5dB FS, max gain +8dB */
-> +	.alc_ctrl_2 = WM8775_REG_UNUSED,
-> +	.alc_ctrl_3 = 0x0a2, /* Ramp up delay 34 s, ramp down delay 33 ms */
-> +	.noise_gate = 0x005, /* Enable noise gate, threshold -72dBfs */
-> +	.limiter_ctrl = 0x0fb, /* Transient window 4ms, ALC min gain -5dB  */
-> +	.adc_mixer = WM8775_REG_UNUSED,
-> +	.should_set_audio = true, /* set volume/mute/mux */
-> +};
-> +EXPORT_SYMBOL_GPL(wm8775_nova_s_cfg);
-> +
->  static inline struct wm8775_state *to_state(struct v4l2_subdev *sd)
->  {
->  	return container_of(sd, struct wm8775_state, sd);
-> @@ -195,12 +234,8 @@ static int wm8775_probe(struct i2c_client *client)
->  	struct wm8775_state *state;
->  	struct v4l2_subdev *sd;
->  	int err;
-> -	bool is_nova_s = false;
-> -
-> -	if (client->dev.platform_data) {
-> -		struct wm8775_platform_data *data = client->dev.platform_data;
-> -		is_nova_s = data->is_nova_s;
-> -	}
-> +	struct wm8775_platform_data *data = client->dev.platform_data ?:
-> +						    &wm8775_standard_cfg;
->  
->  	/* Check if the adapter supports the needed features */
->  	if (!i2c_check_functionality(client->adapter, I2C_FUNC_SMBUS_BYTE_DATA))
-> @@ -233,49 +268,29 @@ static int wm8775_probe(struct i2c_client *client)
->  	}
->  
->  	/* Initialize wm8775 */
-> +	wm8775_write(sd, R23, data->reset);
-> +	wm8775_write(sd, R7, data->zero_cross_timeout);
-> +	wm8775_write(sd, R11, data->interface_ctrl);
-> +	wm8775_write(sd, R12, data->master_mode);
-> +	wm8775_write(sd, R13, data->powerdown);
-> +	if (data->adc_l != WM8775_REG_UNUSED)
-> +		wm8775_write(sd, R14, data->adc_l);
-> +	if (data->adc_r != WM8775_REG_UNUSED)
-> +		wm8775_write(sd, R15, data->adc_r);
-> +	wm8775_write(sd, R16, data->alc_ctrl_1);
-> +	if (data->alc_ctrl_2 != WM8775_REG_UNUSED)
-> +		wm8775_write(sd, R17, data->alc_ctrl_2);
-> +	else
-> +		wm8775_write(sd, R17,
-> +			     (state->loud->val ? ALC_EN : 0) | ALC_HOLD);
-> +	wm8775_write(sd, R18, data->alc_ctrl_3);
-> +	wm8775_write(sd, R19, data->noise_gate);
-> +	wm8775_write(sd, R20, data->limiter_ctrl);
-> +	if (data->adc_mixer != WM8775_REG_UNUSED)
-> +		wm8775_write(sd, R21, data->adc_mixer);
-> +	if (data->should_set_audio)
-> +		wm8775_set_audio(sd, 1);
->  
-> -	/* RESET */
-> -	wm8775_write(sd, R23, 0x000);
-> -	/* Disable zero cross detect timeout */
-> -	wm8775_write(sd, R7, 0x000);
-> -	/* HPF enable, left justified, 24-bit (Philips) mode */
-> -	wm8775_write(sd, R11, 0x021);
-> -	/* Master mode, clock ratio 256fs */
-> -	wm8775_write(sd, R12, 0x102);
-> -	/* Powered up */
-> -	wm8775_write(sd, R13, 0x000);
-> -
-> -	if (!is_nova_s) {
-> -		/* ADC gain +2.5dB, enable zero cross */
-> -		wm8775_write(sd, R14, 0x1d4);
-> -		/* ADC gain +2.5dB, enable zero cross */
-> -		wm8775_write(sd, R15, 0x1d4);
-> -		/* ALC Stereo, ALC target level -1dB FS max gain +8dB */
-> -		wm8775_write(sd, R16, 0x1bf);
-> -		/* Enable gain control, use zero cross detection,
-> -		   ALC hold time 42.6 ms */
-> -		wm8775_write(sd, R17, 0x185);
-> -	} else {
-> -		/* ALC stereo, ALC target level -5dB FS, ALC max gain +8dB */
-> -		wm8775_write(sd, R16, 0x1bb);
-> -		/* Set ALC mode and hold time */
-> -		wm8775_write(sd, R17, (state->loud->val ? ALC_EN : 0) | ALC_HOLD);
-> -	}
-> -	/* ALC gain ramp up delay 34 s, ALC gain ramp down delay 33 ms */
-> -	wm8775_write(sd, R18, 0x0a2);
-> -	/* Enable noise gate, threshold -72dBfs */
-> -	wm8775_write(sd, R19, 0x005);
-> -	if (!is_nova_s) {
-> -		/* Transient window 4ms, lower PGA gain limit -1dB */
-> -		wm8775_write(sd, R20, 0x07a);
-> -		/* LRBOTH = 1, use input 2. */
-> -		wm8775_write(sd, R21, 0x102);
-> -	} else {
-> -		/* Transient window 4ms, ALC min gain -5dB  */
-> -		wm8775_write(sd, R20, 0x0fb);
-> -
-> -		wm8775_set_audio(sd, 1);      /* set volume/mute/mux */
-> -	}
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/pci/cx88/cx88-video.c b/drivers/media/pci/cx88/cx88-video.c
-> index 0c8732768..2054daeba 100644
-> --- a/drivers/media/pci/cx88/cx88-video.c
-> +++ b/drivers/media/pci/cx88/cx88-video.c
-> @@ -1348,14 +1348,14 @@ static int cx8800_initdev(struct pci_dev *pci_dev,
->  		struct i2c_board_info wm8775_info = {
->  			.type = "wm8775",
->  			.addr = 0x36 >> 1,
-> -			.platform_data = &core->wm8775_data,
-> +			.platform_data = core->wm8775_data,
->  		};
->  		struct v4l2_subdev *sd;
->  
->  		if (core->boardnr == CX88_BOARD_HAUPPAUGE_NOVASPLUS_S1)
-> -			core->wm8775_data.is_nova_s = true;
-> +			core->wm8775_data = &wm8775_nova_s_cfg;
->  		else
-> -			core->wm8775_data.is_nova_s = false;
-> +			core->wm8775_data = &wm8775_standard_cfg;
->  
->  		sd = v4l2_i2c_new_subdev_board(&core->v4l2_dev, &core->i2c_adap,
->  					       &wm8775_info, NULL);
-> diff --git a/drivers/media/pci/cx88/cx88.h b/drivers/media/pci/cx88/cx88.h
-> index 2ff3226a5..c8f85d2f4 100644
-> --- a/drivers/media/pci/cx88/cx88.h
-> +++ b/drivers/media/pci/cx88/cx88.h
-> @@ -391,7 +391,7 @@ struct cx88_core {
->  
->  	/* I2C remote data */
->  	struct IR_i2c_init_data    init_data;
-> -	struct wm8775_platform_data wm8775_data;
-> +	struct wm8775_platform_data *wm8775_data;
->  
->  	struct mutex               lock;
->  	/* various v4l controls */
-> diff --git a/include/media/i2c/wm8775.h b/include/media/i2c/wm8775.h
-> index a02695ee3..99678d165 100644
-> --- a/include/media/i2c/wm8775.h
-> +++ b/include/media/i2c/wm8775.h
-> @@ -20,13 +20,28 @@
->  #define WM8775_AIN3 4
->  #define WM8775_AIN4 8
->  
-> +#define WM8775_REG_UNUSED ((u16)-1)
->  
->  struct wm8775_platform_data {
-> -	/*
-> -	 * FIXME: Instead, we should parameterize the params
-> -	 * that need different settings between ivtv, pvrusb2, and Nova-S
-> -	 */
-> -	bool is_nova_s;
-> +	u16 reset; /* RESET (R23) */
-> +	u16 zero_cross_timeout; /* Zero cross detect timeout (R7) */
-> +	u16 interface_ctrl; /* Interface control (R11) */
-> +	u16 master_mode; /* Master mode (R12) */
-> +	u16 powerdown; /* Power down (R13) */
-> +
-> +	u16 adc_l; /* ADC left (R14) */
-> +	u16 adc_r; /* ADC right (R15) */
-> +	u16 alc_ctrl_1; /* ALC control 1 (R16)*/
-> +	u16 alc_ctrl_2; /* ALC control 2 (R17) */
-> +	u16 alc_ctrl_3; /* ALC control 3 (R18) */
-> +	u16 noise_gate; /* Noise gate (R19) */
-> +	u16 limiter_ctrl; /* Limiter control (R20) */
-> +	u16 adc_mixer; /* ADC mixer control (R21) */
-> +
-> +	bool should_set_audio;
->  };
->  
-> +extern struct wm8775_platform_data wm8775_nova_s_cfg;
-> +extern struct wm8775_platform_data wm8775_standard_cfg;
-> +
->  #endif
-
+Sakari Ailus
 
