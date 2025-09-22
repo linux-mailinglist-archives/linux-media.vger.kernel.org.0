@@ -1,164 +1,129 @@
-Return-Path: <linux-media+bounces-42911-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42912-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2DBBB8F6BF
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 10:11:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3833B8F721
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 10:15:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 870D33A34F2
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 08:11:13 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5B39F3AE458
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 08:15:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B1D9C2FD7BA;
-	Mon, 22 Sep 2025 08:11:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B046527602A;
+	Mon, 22 Sep 2025 08:15:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YBevXoa7"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="FUKSHOBP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF58120E023;
-	Mon, 22 Sep 2025 08:11:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758528668; cv=none; b=jiHrXfjnVzL+9RKZLVwpOvs+x/kY/qJwVh2Wdc63fTYBqa3XNDHLYflqelboQIzGJEpR8QFuqZ7hWLxWzAOmfcEZj2a8ldyl3Md1N5uYZpthQZAVuqlqJxvLkVaStTnpxg0eutvrOn2x7ji5oITJRS1Nql2+xAZSPwKRqDY7I3s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758528668; c=relaxed/simple;
-	bh=JIW9M3iR2HQQJJ0SVOTM9LqopydspXiw/QFO03vz47M=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=PjFAiSuvi1dOwQl0/NQXqlce4cBf5S6IWmfriqk1fdUDV3rMC3qVdRZZ9XwvyRzHBeKMTi0JIdxzAKMEVO5KDAKhndqtledPnscuGfRE8UoQg/llRiVD1lhPgOSsrPoVO3Kl7ce7MNXDBOuhd4a4zQC0qcwEelbgRCLriRhIOrk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YBevXoa7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 856C6C4CEF5;
-	Mon, 22 Sep 2025 08:11:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758528668;
-	bh=JIW9M3iR2HQQJJ0SVOTM9LqopydspXiw/QFO03vz47M=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=YBevXoa7hYL5A7UPZY6ccWB+dd6jEhpcBdgIQ5Y+u06CtYfOWAXsf+rPojGck/wPN
-	 juUHHx6j/XxXudOplLPDkNQG9CaKd7u25jCeVkf6pvJ19zH7eZTSA+8Gyd35meaVBW
-	 mUlPe7JCVRGPD77Ihv9ENCgPsVRcM6KBU1mxWCjLMCPFXw9BCNOpic6IBBfE7VNixH
-	 oLHMeGrK80Ewp3EgBN12SU6HKdWGCVowoI2XFibjijuTMfPJ6dm4GZRqlCnKlWzBdR
-	 /BzAVk8TCtEyPY/i7atr57W5qE7NU3ooGWcwtmV9obHbODWSssJN0eX0JThxmHxXuo
-	 iVfAUd7KIp0dA==
-Message-ID: <097124ea-cf9b-425c-bb5f-a305224328f6@kernel.org>
-Date: Mon, 22 Sep 2025 10:11:04 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F90B25D1E6;
+	Mon, 22 Sep 2025 08:15:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758528920; cv=pass; b=kEGtRyr02LrtKsLSrG4WpJGTULwiHVfbN/OAm9Mu43ZEmF30+XENpT/93hkFfgblyBhZ68i7vjwHqJR2ibW28oF0JS10qCaFWk8yYeVAHt+gzyxBPC8ipJojvx2M1V7BqlAfThXFG9zklqy2uYUlKE7v23u8Y/dYQVRR+jYF4S4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758528920; c=relaxed/simple;
+	bh=hVyKfbOvMIS+Z2BtByrXURm/o+WKQHysqSr/Qh9nN8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=etUN8X/lK0QbmYucqPHmC6WobVjKdHBGRFDw4ZhXmOOCHozDmMTtjt7jJ6FeH6qO/oNqw3wfl+wbObfLKxCSECE8/o4uceLOeJ7jkT32fTqQXjhdoRIsKgYsLNGLlye4EnEe1g3TM5eQB1PsvonfhVlI3Vv6lKYW1sj4v5ceKOA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=FUKSHOBP; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4cVbWc67GQz49QG5;
+	Mon, 22 Sep 2025 11:15:08 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1758528910;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Oa1+u/rSXZ2NnLW3G4hQDJz9GKJpQQQU1oY/bd0Ns/s=;
+	b=FUKSHOBPT/5Khqi1Ou7FuOrukCRp9nge98Q2pgHW9GHkd7H1BD/fi9e2Z3abJpfDYE/M4t
+	Fhvv+vA1ENmQbFGwHNJDydrb32Ti7xYKeK/xnAYK/pRXrvNzHyGubrDmBi4Dk2ZzrwdDXg
+	gHrgSXJ0v9d1LZjO1uYGz8DPtf5NAd6ZvMBOG8YEn1sgN+A7QJL99O/32YLecylH7D5Odu
+	NrBFpev9N5/5KE40+LrYIVfU2/Mrs+Vb3VpuoVWcYePU2rYxG4fAD49AcqA8JEa48oE5SI
+	QbKf6WP+b9YKPGOp+u0VTjL60zgFu+yTj4zli9CeujNXiHQ6sK+QVEjssPlg1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1758528910;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Oa1+u/rSXZ2NnLW3G4hQDJz9GKJpQQQU1oY/bd0Ns/s=;
+	b=mpXAp37H56k+cot584MrFfNtijzDUrEASg4YmcAfGcgzD/1iqoahP81X6NUpCr4Ht7byk4
+	nSYFgCS9ORHQg0gTvKAqHm+rEQ7m+JDbETFVzMzwECACDHbHkBBKptLGrTeuICgCxKM3QD
+	A0ff5Uc4ht1dNin8kwiJ7Gpy9mw1Pqrc7gyz5ui59gOjgMyZLtNd747fAD8xULXC0uxstL
+	/Lxnj9lPkfHJyhXpUNBmJb3ZKUp4dl17bGtMli+KyZJyNv6N2zk/ZmAxhZh5Bw7/J7Foey
+	x0z8rPh2E8An/Q+WzCzBon8PkzOhJ7NlaSUo6tt2srd5JKHV4fPyLYgq+DSH1w==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1758528910; a=rsa-sha256;
+	cv=none;
+	b=tvR5iCiPgDiljgxrQvf4zlLi9ZcOB39vfwMCuuio73x3l7AAZy4vuohuz5YoZsrrMNieZF
+	yVv26c8j/9us+q41cP7SF40Ph2Ycx0/dFfMUrl0l0pL8PSYbQ7XlVggYdg9qWeUrfJyO0w
+	cVSLgsoItIgzIBa4IiXSD1WGHtjSRGdKJV10pVsDFQBSjNAKYX7eYD5bF7TkyXoYQJ939Z
+	p2mMrRkZstCA/78qHtNK0ONqYh0uoh5lETxaSRvzME22zwNngNPjSZtyh6TQuHBFu7ak0m
+	W7Fk0jZwZOlQ3Wpe2Uw7xS8QNUlAB7NiUOqAUkhP7EsPxOWue+Jylx6yhIr66A==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 27E4F634C97;
+	Mon, 22 Sep 2025 11:15:08 +0300 (EEST)
+Date: Mon, 22 Sep 2025 11:15:07 +0300
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Hans Verkuil <hverkuil@xs4all.nl>, Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, workflows@vger.kernel.org
+Subject: Re: [PATCH v5 0/5] multicommiters model documentation
+Message-ID: <aNEFi4e5szfbJu4X@valkosipuli.retiisi.eu>
+References: <cover.1756807237.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v2 07/10] media: v4l2-ioctl: Pass device state for
- G/S/TRY_FMT ioctls
-To: Jai Luthra <jai.luthra@ideasonboard.com>,
- Hans Verkuil <hverkuil@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org
-Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Ricardo Ribalda <ribalda@chromium.org>, Hans de Goede <hansg@kernel.org>,
- linux-kernel@vger.kernel.org
-References: <20250919-vdev-state-v2-0-b2c42426965c@ideasonboard.com>
- <20250919-vdev-state-v2-7-b2c42426965c@ideasonboard.com>
-Content-Language: en-US, nl
-In-Reply-To: <20250919-vdev-state-v2-7-b2c42426965c@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1756807237.git.mchehab+huawei@kernel.org>
 
-On 19/09/2025 11:55, Jai Luthra wrote:
-> Now that video device state is accepted as an argument in ioctl
-> implementations across all video device drivers, populate that argument
-> with the actual state data.
+Hi Mauro,
+
+On Tue, Sep 02, 2025 at 12:02:17PM +0200, Mauro Carvalho Chehab wrote:
+> This is a respin over the latest discussions with regards to the media
+> multicommitters model.
 > 
-> Pass the active state for G_FMT and S_FMT ioctls, and the try state for
-> TRY_FMT ioctl to drivers that have opted to use device state for format
-> storage.
+> On this version, some texts were improved after Sakari's review.
 > 
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> --
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Hans Verkuil <hverkuil@kernel.org>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Ricardo Ribalda <ribalda@chromium.org>
-> Cc: Hans de Goede <hansg@kernel.org>
-> Cc: Jai Luthra <jai.luthra@ideasonboard.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> ---
->  drivers/media/v4l2-core/v4l2-ioctl.c | 23 +++++++++++++++++++++--
->  1 file changed, 21 insertions(+), 2 deletions(-)
-
-There is one more occurrence of this in v4l2_compat_ioctl32.c in function
-ctrl_is_pointer() where vidioc_query_ext_ctrl is called.
-
-Regards,
-
-	Hans
-
+> Mauro Carvalho Chehab (5):
+>   docs: maintainer-pgp-guide.rst: add a reference for kernel.org sign
+>   MAINTAINERS: fix a couple issues at media input infrastructure
+>   docs: media: update maintainer-entry-profile for multi-committers
+>   docs: media: document media multi-committers rules and process
+>   docs: media: profile: make it clearer about maintainership duties
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index 644f06521673ff7ce5b194335d50f0e375ca7f51..500fc20627c97ce70016f4524301835142b7bebd 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -3070,6 +3070,21 @@ void v4l_printk_ioctl(const char *prefix, unsigned int cmd)
->  }
->  EXPORT_SYMBOL(v4l_printk_ioctl);
->  
-> +static struct video_device_state *
-> +video_device_get_state(struct video_device *vfd, struct v4l2_fh *vfh,
-> +		       unsigned int cmd)
-> +{
-> +	switch (cmd) {
-> +	default:
-> +		return NULL;
-> +	case VIDIOC_G_FMT:
-> +	case VIDIOC_S_FMT:
-> +		return vfd->state;
-> +	case VIDIOC_TRY_FMT:
-> +		return vfh->state;
-> +	}
-> +}
-> +
->  static long __video_do_ioctl(struct file *file,
->  		unsigned int cmd, void *arg)
->  {
-> @@ -3078,6 +3093,7 @@ static long __video_do_ioctl(struct file *file,
->  	struct mutex *lock; /* ioctl serialization mutex */
->  	const struct v4l2_ioctl_ops *ops = vfd->ioctl_ops;
->  	bool write_only = false;
-> +	struct video_device_state *state = NULL;
->  	struct v4l2_ioctl_info default_info;
->  	const struct v4l2_ioctl_info *info;
->  	struct v4l2_fh *vfh = file_to_v4l2_fh(file);
-> @@ -3090,6 +3106,9 @@ static long __video_do_ioctl(struct file *file,
->  		return ret;
->  	}
->  
-> +	if (test_bit(V4L2_FL_USES_STATE, &vfd->flags))
-> +		state = video_device_get_state(vfd, vfh, cmd);
-> +
->  	/*
->  	 * We need to serialize streamon/off with queueing new requests.
->  	 * These ioctls may trigger the cancellation of a streaming
-> @@ -3138,11 +3157,11 @@ static long __video_do_ioctl(struct file *file,
->  
->  	write_only = _IOC_DIR(cmd) == _IOC_WRITE;
->  	if (info != &default_info) {
-> -		ret = info->func(ops, file, NULL, arg);
-> +		ret = info->func(ops, file, state, arg);
->  	} else if (!ops->vidioc_default) {
->  		ret = -ENOTTY;
->  	} else {
-> -		ret = ops->vidioc_default(file, NULL,
-> +		ret = ops->vidioc_default(file, state,
->  			v4l2_prio_check(vfd->prio, vfh->prio) >= 0,
->  			cmd, arg);
->  	}
-> 
+>  Documentation/driver-api/media/index.rst      |   1 +
+>  .../media/maintainer-entry-profile.rst        | 263 ++++++++++++----
+>  .../driver-api/media/media-committer.rst      | 280 ++++++++++++++++++
+>  .../process/maintainer-pgp-guide.rst          |   2 +
+>  MAINTAINERS                                   |   3 +-
+>  5 files changed, 497 insertions(+), 52 deletions(-)
+>  create mode 100644 Documentation/driver-api/media/media-committer.rst
 
+Thank you for updating the set, it looks good to me.
+
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
