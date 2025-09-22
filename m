@@ -1,61 +1,62 @@
-Return-Path: <linux-media+bounces-42881-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42882-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0211B8F0D0
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 07:53:29 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 42621B8F0D3
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 07:53:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 409757A7EB8
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 05:51:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE7693B7774
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 05:53:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 987C22405E8;
-	Mon, 22 Sep 2025 05:53:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D259224A063;
+	Mon, 22 Sep 2025 05:53:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="aSmIts7h"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="hqxKs3Hk"
 X-Original-To: linux-media@vger.kernel.org
 Received: from SEVP216CU002.outbound.protection.outlook.com (mail-koreacentralazon11022089.outbound.protection.outlook.com [40.107.43.89])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7168434BA47;
-	Mon, 22 Sep 2025 05:53:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F07DB23D7C5;
+	Mon, 22 Sep 2025 05:53:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.43.89
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758520392; cv=fail; b=FjQCaj+zD4KHxoIWD4U+Qc5e1yJZCXyTlrf3qH4pxihNFl/M1DCGMFdzMQXtRGAQjRr1xqEMYbaAWUwcVLZEPaAc7rkakb9+VQIxg8804BQz8E7CHP0xArJBbQFOnHuwqu1UH7LUqNC32gyRIRuWLZN9bd4ksC3fbCrwjFyJVYo=
+	t=1758520395; cv=fail; b=qtF5yCNzKo9vqmUfhoC2hJOaTpXM5gsmq/i0F/pqIkh9PxQj/FwzukY6D6gQgBTbxKO0ssfWf0NvOZvnqJamDzRZMNkLNwgpqgUuqh0+oyoCYwj+lBh0Zavb8hx4cHG9KdZ2FJb34r1sBPZHcIUnLQqJplNKR1EuFAJsosK/1yE=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758520392; c=relaxed/simple;
-	bh=PhSQpF8XX/ZMAOrDeiFJx+IL9ctZ6An1VMhB+tDyxfE=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=KR47cpKjIfwrFMa0yqRwkl+HJce9K55F8X/l7pwtdSS+wLKfBT8BvijHpe+5hTuBDJUoMneec0qDN4IZ7fxKdqhbLrzi9w0i+vfNofPWOPXYxHTJ7Opsj1yU1rkT3hY4W2GDVLWe/xSsDqbjvxmLrFMPwalR5J7AW9+PHgqWFos=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=aSmIts7h; arc=fail smtp.client-ip=40.107.43.89
+	s=arc-20240116; t=1758520395; c=relaxed/simple;
+	bh=hcWEnFrAwikUa8o1i6SVHEiotu5A8c9SsftWEujbNVg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Ln/Nf6bTgDFvm7Et49q/ODDQULnW8F5Yg53Pbq42fuC16p4Sp5VOc52ylYOFECqUvXIinP9O9IgSDs3aMURVLeFSC8D9B3ytB9PbUojfsjwocVO30+oeMns8CJoZbaFpYdrF2L/MmFsY+FSGwt8yDcZx0dJD9SIEM11P6EeGcMs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=hqxKs3Hk; arc=fail smtp.client-ip=40.107.43.89
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=hwSFRHnkUG2V+WNevc0iLm3bdIfTceT8vDibPageyZ+RZcjRO7KxZoq8pjN8qn6gzRDOo9zLKaeCIHl17DZO0OMZ0H6YzwRhrX/vhk2nB3wLC7gdeHZgmp5ePDSVHR3EPwXWtMz3bexSfq0BkuwBr5TQm2MU457ZkRuJgKgNqEvV7OgUG4OfTGyQRXqSg9UavVH/xqv7iUdEs13ZbFgkHuh6BhlTpGqxDfaVb45DxAauXBTiuTVRkK4+P9Z/sum3v9cCy2twUCo9TYox7lIFAM0vmfXudRPHVQuxvns0C4KXVl38yc0MrZfwIbEuEObUfqhO5AWXnUb70wAPK1aJew==
+ b=CT8IHSRTvG8qUfJRS3p6dQSewObMET7+tvicS/0v8tp6QsgUd6Wwf/y16/EJhXprXe0E4TAY5BgbtPRqiXr/yxWbYUujKhUzr1rvckXdrHUK6keT4zNV/GxZEiHYQHWCutpc9wUJYOTvnFYxznF9WMia4DMj1imlIg+D5tFTc1zzdd88RU9reiPhuQ6lM2FUULpXNJrw/qkqXmpGaTym5Ou6f8/PkrmLHDjXzFBvVGS0NvVY/lgQ7xrDDQr9DlqQSH6RksmA65QBqXRxocMDtvMMO7Mr/1jPSaNaM1zyNy1rPMU//Ca4H2+p5DnfOe5QxcVaELTqY8I2YtRlzf1vZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=JnrsmK93V9eJlzdjCoe2VEF/OZ7cepZK6NgyI27tmaI=;
- b=dA05b259ZqXmUanBgwlSn+yDd4YiyAZ+4HBC+BLA6urp2gj0IKP673e5wmgMwMeRRfmNGhHdxEz05yFK8dMasHVvXYyGROJ7NZ3g3jxCtoEuNI/zXBZyj2GamTaXZTnqWRvGzLlRwN18x8P0fhE0JMQHW9E6w8TjValXXhPNEWDEQW/4adPdk1oXQzIGarNK5hJobkT0WPuHWL79bc553zu+FU5IofBrGZHxVH1+ep3xqySO2mnDj9/b3OrvVyw7h6ww2NmlaLKS55ITsKldo5quR19f5Ytvaiv+vcfnQhsOtDEeyuG7aU1abGWvV+2lzRixSXAgdUWTUJ/UFXoLGA==
+ bh=FRRCWxPVcpeyA431VhNF4fW/eAtIHPP1dmdtgR9CLb8=;
+ b=P7whuqd3njPw+2Tz64Lk/A34PoNIylq2fc64lASrwc0VGYtCQfIcgQHzsUmvRjsVheS+pdqlR0D1dW8Kig3w4aDuv0SD5QCxhCQkZ1mOwNsmOs3DNH8vmcaswi8eHWJixBpvDXX9QPfWqxPotEns/Q075akk3gov7nk9q+GkqGjXAZKht0xvJuOyB/96b6EEcQJOjj62HCPlMXJlE/qk0onyKD2WCC6mkMFW5LI31Z9oqf7U17WFHoTps5RFPMzPVWqGQJ0V6701tctdnDqWxticiHPCLZhb//EPNQPpw5sR/iz7aHLPSB4fMGwEV2KU4NyIEcCZ9F42Ma9qPHfn7A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
  header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=JnrsmK93V9eJlzdjCoe2VEF/OZ7cepZK6NgyI27tmaI=;
- b=aSmIts7hnl7C68xhFj32jioAKka6EeFgIrr+BKZKO77qsHwuPuXgnI9mrKQMfJcfPJEQeFy9jKUMeWgLW1DnrHOHu0JdwPS6a7EVtyZWPiykjSweVGymwJsSuUyC7c23shS98cf5sxmwi4tvPGhJwuzgyF2TU7zCSdDmGFtNdfY=
+ bh=FRRCWxPVcpeyA431VhNF4fW/eAtIHPP1dmdtgR9CLb8=;
+ b=hqxKs3HkZNa1w0UeD0XPi4cJcz7t52rmXmZGltW3zHDv/7SPsezTb/FH3EO5HLFGgkYZG+U/BaZ5H70BY7dxolbx1JQnnJLSSpvrNfwV6IghfBVBgozApoFey39K9gdgfXXiMkAqkKYla8Iy6LSqSV4Mipwd2MUWv9UfN/Tv4vs=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
 Received: from PU4P216MB1149.KORP216.PROD.OUTLOOK.COM (2603:1096:301:72::14)
  by SE2P216MB3024.KORP216.PROD.OUTLOOK.COM (2603:1096:101:28b::7) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Mon, 22 Sep
- 2025 05:53:05 +0000
+ 2025 05:53:06 +0000
 Received: from PU4P216MB1149.KORP216.PROD.OUTLOOK.COM
  ([fe80::689e:6dca:162:dc0d]) by PU4P216MB1149.KORP216.PROD.OUTLOOK.COM
  ([fe80::689e:6dca:162:dc0d%4]) with mapi id 15.20.9137.017; Mon, 22 Sep 2025
- 05:53:05 +0000
+ 05:53:06 +0000
 From: "Jackson.lee" <jackson.lee@chipsnmedia.com>
 To: mchehab@kernel.org,
 	hverkuil-cisco@xs4all.nl,
@@ -68,10 +69,12 @@ Cc: linux-media@vger.kernel.org,
 	b-brnich@ti.com,
 	hverkuil@xs4all.nl,
 	nas.chung@chipsnmedia.com
-Subject: [PATCH v5 0/4] Performance improvement of decoder
-Date: Mon, 22 Sep 2025 14:52:51 +0900
-Message-Id: <20250922055255.116-1-jackson.lee@chipsnmedia.com>
+Subject: [PATCH v5 1/4] media: chips-media: wave5: Fix SError of kernel panic when closed
+Date: Mon, 22 Sep 2025 14:52:52 +0900
+Message-Id: <20250922055255.116-2-jackson.lee@chipsnmedia.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20250922055255.116-1-jackson.lee@chipsnmedia.com>
+References: <20250922055255.116-1-jackson.lee@chipsnmedia.com>
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-ClientProxiedBy: SL2P216CA0090.KORP216.PROD.OUTLOOK.COM
@@ -85,225 +88,243 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: PU4P216MB1149:EE_|SE2P216MB3024:EE_
-X-MS-Office365-Filtering-Correlation-Id: 04ccf523-cece-4f79-33fa-08ddf99c4c7e
+X-MS-Office365-Filtering-Correlation-Id: 64f7d50d-7782-4ed5-3ec4-08ddf99c4cda
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
 	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|38350700014;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?iRG+6Bk2vWO7Y3LwemPpVuTr4tFGF9ACfcKzaUeSxbe0Y4jLfp72ogfo50ff?=
- =?us-ascii?Q?nGAxoJQa1bXAkFyqg+QotfIr1O0y6dGjHz3K0BDx2CdIKXqoXEk0ZZLNWd7P?=
- =?us-ascii?Q?iFPgJOFrtyEBOQEdZtfisQR4nFaPjEyzDmU4DUHnVZ3Gv08Vh5+M6fhJ408K?=
- =?us-ascii?Q?oF/nPQ8Y8NL8winZSPu7hb9DeeeiC9oHFXvic1RM0/3mXp043UvdIGZGR/dU?=
- =?us-ascii?Q?9Um3ee5v6ok/CH24delDzxNETKLNqbIsHkuHutKoF9AGlp/4K8010EKwwfL7?=
- =?us-ascii?Q?9f2k/EWScNffJ7QLLU9R/4Mm28jXak3PL490zDywh/VrUSh3pExl5gNjbzru?=
- =?us-ascii?Q?LSY/CBqhQ9EBWs3A+9uZEu58o4tmqbv3Sgi8BZAxI+CUQAPs/XPuC1erOuSR?=
- =?us-ascii?Q?AmrHoaeQNtB9mBimMna20lay/V16ZVlLj6qXKvaIEemEg08W5mKmPt5CyGLg?=
- =?us-ascii?Q?919eGj+HNnWy4A9e8fZIKEuREKkSDiyZWHtndvLAMF1jlMs5hK5c+QqWUag9?=
- =?us-ascii?Q?nyxW6Kg7rTM8lwBhLI3IasyY3myIB5MmoX6JXGc5UNQhf4Vo03+ETpqmPoqx?=
- =?us-ascii?Q?Xxv8DAkhu7doqa6sSW9Vd5e6h13nKOSvW4yAi60jR0gngy8hJNYM5atCXmlx?=
- =?us-ascii?Q?n3jKZQWzaw4SFNfzpv0WmhMeo7A1tTWiEW8Ybb5Y5v4jRmwcfhirTp8FLseW?=
- =?us-ascii?Q?iLEOuPUso+PW/fGSPiusQyjMHB+rnjPVRCs3qJANqjZaqNXqm09qrAsThcOE?=
- =?us-ascii?Q?MWUUvHaYUY6d7JGL5JYPOhHlDRB5+/8J6IUd7ZegwBwQD806v/RDbWB5W3LX?=
- =?us-ascii?Q?jS9TzHdGNqUWltRwzDr/P1WZZeZOPrdFqqp07W5oX9d0ZklIiBVAMmJWcM9x?=
- =?us-ascii?Q?8Zx4XNhDTZOxbrAVKb4IHj0PWvTODs/20TToJo5shulHyO3o+7mr4wyytfyD?=
- =?us-ascii?Q?FrvFvDy3YiCFWf+1iYC4jQrtOb0WQNOWZAOxfN8ADccoMGuWJPuTDySGI6jJ?=
- =?us-ascii?Q?eq9vSdHDVj9nAxjCnZG2mwwC55ztMwlAmg33bDnD1JHZr7YJJZinnREvs3KC?=
- =?us-ascii?Q?xq6/1qdpDrpzY5qWfoTgrV8vXOv7GNLeKFyrDF6RkL2bVvFKQ1ta1Ny8PL41?=
- =?us-ascii?Q?63FmXrZGH+qrDcESRvEEz+sGXcqOITiCWgVpqCxn+r8l3CwKCsKS+cq/BYAh?=
- =?us-ascii?Q?PVAMC0sUUWzUP/wKEb3964+kH+y5jJ8qNK6Yo4Ji7vIkE57Tg+K9ke+as24K?=
- =?us-ascii?Q?F12ZEAuM3rjSQZXJ1IUV9cRoWxXtujYgiE7nOB/B+e9jFaDE8+jY2eeM2d54?=
- =?us-ascii?Q?gKDhA9qdJFSpK4y4z8dlFeui3DilGFgX/Boj0/Tmem/j/HGF8PzmyUIJGafW?=
- =?us-ascii?Q?lLWOIIbIHVqfuAZ3EF0atGlHWjP3VDB+mjiM3QDf6uca3GKcn4eGrLXUQGlf?=
- =?us-ascii?Q?kCzKqH3DaLSEN4C3djYbvbJq0u+YCXn6ogvkfFYSIuzqCL58Vn8COQ=3D=3D?=
+	=?us-ascii?Q?GXuZ18vKD2kxTkfzkayIFdXzF24sfF71VWYBp8QseyCTRQFL347LmFg+Y458?=
+ =?us-ascii?Q?jwQrxDGOK+o8PyD6aZ9rJmBIGdPaeeiAOObv8rTxeg54Tp86H9wavPuPnWNJ?=
+ =?us-ascii?Q?w+cleE4NoZKTAoPDAUf5514uT8siqLuMNcFK8rfPYGuZgJpPu9El9Ohfv8aY?=
+ =?us-ascii?Q?dydjoS7KK3SjzGswq907KSzTCrt3K6Z6fWyc3jlprSbcaOfWpVeIBQ6UiiwQ?=
+ =?us-ascii?Q?1jEcXlXH3PDTPJmNJOPQd7UopRh1VdIs89EhONrhclQKnIU/BM6UHl2yXyvo?=
+ =?us-ascii?Q?aFyPya7PqTVC9K5NQVX9xYiQnOGxXfg+T22pS6EEPME25XdyNIvRSd7EfUJQ?=
+ =?us-ascii?Q?VKMxzb7oZNdZ0cEzjGa3MAJjKpLfHIpQOm6c4A1PsYyqPP+7WWe8po9M+u50?=
+ =?us-ascii?Q?7ra7UyT2J95G5YHQY3iMUkk2o107QNv9U6gunG+XljlK0v9Os9sMAeNctFjY?=
+ =?us-ascii?Q?EkVKA21QMMYQxlhoKcZxQmxt8brv79CFiAj/1GMTEv0iwumI2p2qzEwNUiEB?=
+ =?us-ascii?Q?c9+U3Bxebzu+c1EbwHFx7FlcYNLohsFo0Fxg/pTFfEDv+qnEwAi4qhK1/yxC?=
+ =?us-ascii?Q?ch8t/SRtX7nd+2VzfOIv2iGhXdSHW6DagO/Br2eb8xuRb1pVOhibCPqGrVPe?=
+ =?us-ascii?Q?BCpqlcK9bltpjshlfRCBvVUiqd2udiGRMtrFXij+3MrsunKrS9wbyEIL+x7Y?=
+ =?us-ascii?Q?cQhl2Hq0oAYB2ABRLQ+B0biB+e+uRwAq7Yq5a+92pJhdz6vQFDgjN15RfCRQ?=
+ =?us-ascii?Q?8fZOaIRwbc3WWj53+lrXN36EHvLg1kfz2BioPTtzo6Zm3rYcoSHhPfJ5PWHh?=
+ =?us-ascii?Q?VGJ1fPmI0Dwcs3C+X+iRLpIytNeIZ6jFifxz9+n2y7xuIg28bzcP7KbI1xoi?=
+ =?us-ascii?Q?Pf5kJIlOQHYZRTsOdx381oTIP2cuPEGSgRDfsB9FmMYrE9QaQ6xnZLcNhfD3?=
+ =?us-ascii?Q?DF6Knjx7WdzIT9MlyALs/LXLuYInjqdSbfDDCF/nEc6/crkw+2OAcc3OrLwo?=
+ =?us-ascii?Q?EcZ+Fy0FDTDn7i9gVbU8nuFDpO1uDj+a+T/yVlpGbSNQcvE6SARqrGJiKBzp?=
+ =?us-ascii?Q?T88Nsj8CotgIXkuzRvaNXnnQJlgt+arn/XSYxOKCF6UjAMgrJ9ww8WotKxxn?=
+ =?us-ascii?Q?M9Lpcqhu0a4eD2Z4bLM2EVCEbZ1yYO0pfoqSW12ueZTpWl1cCA1E8GqV9jBL?=
+ =?us-ascii?Q?OEbGoNrXhqs+DPzEs1ap1GYvd2t+8tislbqNiPQS4LKYgsPYi2wywoqB7/uo?=
+ =?us-ascii?Q?SiypBnnNqDergKqTlWxd8+erLwxId4kzuzTUMdpklN/b/2PTmD4vjVkIOqRR?=
+ =?us-ascii?Q?5xTxGClUa+tF2CNngysPdhqxPGBeoUkgGupTTjnnpEk16sJpwStXyN3rnlFn?=
+ =?us-ascii?Q?XZic0lFEYfJBwc4fJFFUgBzjTbe9eJqMcNrXyKkkGyHU7FcvhDbbG/IccD5b?=
+ =?us-ascii?Q?hlrpCmW/B89itvfdIKcP0MCBJZcKUzo3hkqyMlAMLn4DUp/rmrzidA=3D=3D?=
 X-Forefront-Antispam-Report:
 	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PU4P216MB1149.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?q6fyqOuIAS8JuADcgkWzfmd2rfc5iribmqKL+xMwOMX+FHJ0n7yQRIwfZgTN?=
- =?us-ascii?Q?EONh/xxAIvbk6g7Aayt7vB9eIk66xb2XnXDsLOvZrBOxgQ5uawMlIwUfEcjf?=
- =?us-ascii?Q?qcq2XPdkzpSB9Fl4E9V+Fkk/Ptzjj7Uc8eCqOSaigjZa9z61MdJlzNXIrJnl?=
- =?us-ascii?Q?HtjxgF6pDMAE3UqJtW/oucxoJ2T//b+daopmcQtXVhCybncU0aKVD6Cib1TX?=
- =?us-ascii?Q?NwCS1sBsTX6q2xGyn5wPpAQmuZXFF3gZIX6j1hRU5C/yps8WLRO7iT/MImX9?=
- =?us-ascii?Q?COIJ32cCjbd68nOn9iJJttwdWllG+w34Wt2gOEnwNWFIxylMzoo3obGSVA9i?=
- =?us-ascii?Q?4339WLm8KKeecp4tWDJP+I5Fg+x88Th1BfhBHzNuESnDVtmVLxoOdQOxZYMS?=
- =?us-ascii?Q?Q3PMsZ+pKo912O5Ou7Lvjapxb5xBh2Y6CgvV+plkkzcza2uauzwZMB4XXOM4?=
- =?us-ascii?Q?x3ceFqzi+DCZNptT3qnSmBZzjCYCidMyK/EJxLtdA/wbtGQ2Pi5WlXZjbO8e?=
- =?us-ascii?Q?5COKkwNcfaAIHTRM7TBaUiaStSUUs6wAM/rsAGixIZYGxrxlqgejFmqoMDe1?=
- =?us-ascii?Q?PaBklgIVxS3cZzfTOe/vgW9CdilqgBnpSXIOyC8PjJkbL9OCoQKR4Rk8Vt8D?=
- =?us-ascii?Q?vM2Aic7SKD9uMdGIYhJCGZgbRZiJgJUn0o2XLZIPJ630Zy/65i3aVUIGHzg+?=
- =?us-ascii?Q?MvaCXGb8iVT4d9t6Dy8xDKDKm3inhxGfrWeinaAKv4aprnjwcBvPNUQcVIMu?=
- =?us-ascii?Q?/EGWYU5NARlNvoUg8oVfyHeTY9c/ZKjGbV7xG3Dwp0Q7t/ibGJbV7PMulTZM?=
- =?us-ascii?Q?ptEIwldsVYKnMJkWwoWGNs8NpSmMYK+k5ubZs+VtQypShAptTsdTMW/sWTkH?=
- =?us-ascii?Q?A5/4N8o2S7/fHnKIaYkVvRPwUps7phx88I8WxenkxZZQSDsfJt+LmiV25lyj?=
- =?us-ascii?Q?tOz0NCbMvcoiuno1H2gEMTb/veSeU3zPmxFefBJ8QrYnHupwh2pBBCwvGrO1?=
- =?us-ascii?Q?37NzwK19m2EsmvylXIKBWlN0tksJCTOKAfeaLEq9QhC5DOam9rcafw2LAAKy?=
- =?us-ascii?Q?n4uSUQhXk868ZNTvcsJ1o8TGYgy2ON44jXAyvMYevNADnP9AyyfWKBcJZGHB?=
- =?us-ascii?Q?BcAAK4ajIT48RGTtiLN0DLXuMmmBUSIjSqRQ3x39goJ+qUmAFhJLE4+LnWsU?=
- =?us-ascii?Q?30JNgBXNa809YFVSTqzGFOx943uadvNFye5ZepvQP3PrlO3ZaS+znmg9liBh?=
- =?us-ascii?Q?m54tJyAslFRcA99IZrhPD3Nn/RBJLYb7e4QsM0n72XaggCri4Vzv+NA9iKJu?=
- =?us-ascii?Q?eoIxJJFF4R6rOwgwFpGqL5AT8r2tQfM7OWqYvhG6SFemZ3WF8yR46b0Nr6yB?=
- =?us-ascii?Q?JfcnSK8iWhfQTiwa0WqGHAoeX99KxFsB/Jla6IW7H3mjpIEJ481FT3w2UGfs?=
- =?us-ascii?Q?Jm4tR/0DG+RT3z/h0GDtaNbxlDegYjgnCCOu2+I81cKBO8YOrZZJOENM+vF7?=
- =?us-ascii?Q?6n5ZZNtAsTbwsYeBA9ZARx8Y1KLJCRIguc5VXIf8zhiP/oy5voGmkPQb1obF?=
- =?us-ascii?Q?QW/kCtaYXd7KRfPPeHHtgBBjRNd1P+zf2Q3cgPfvkNqCHQnwxZewPd8dyfIS?=
- =?us-ascii?Q?nQ=3D=3D?=
+	=?us-ascii?Q?tUIoiumfmoImfQ89tiQkYk3U4oWcP3wjULNtbXB+vVChX8LpEQuf1dqmeL4I?=
+ =?us-ascii?Q?w94Wofuw5dEuKyESuGbOS35iwVob8T9YAi2nXxgomtHXuw6vE1XAtepkvQOb?=
+ =?us-ascii?Q?Qt35WNIoaAdlcRrZXgBNxvSw42WVz5kq9CuLKeFBVr+M05vtZLY4ZVM5iF8r?=
+ =?us-ascii?Q?f2aB91pOw3IJw7cjgWhfxTFt3IPztAZwG0pAQSXoKktfTgwXYVQ/I4IeLifA?=
+ =?us-ascii?Q?aTulE9wK28fssQ6MVM43ajr62cd8wWQDaSqUkl+GFMyXcWAcfF+lm3SkKyjD?=
+ =?us-ascii?Q?5/zqJ8Vuyd+8dRE9xPbncaF/3agqWoOVLsf5PsNWsEdIvz9sE4FV50mioQJx?=
+ =?us-ascii?Q?pntsN2fZyNguhsf1zUjLZIIMtCzpCLy5P0euCWl/5KLmNHGtBAbnZomtwHND?=
+ =?us-ascii?Q?K2+7ktnnKPDkeauEUcxu5nlSR84QWisbwUlSSAK+fvfKV9GIn+9tYvU2SUAe?=
+ =?us-ascii?Q?DM1jYTfYPyUSLa0kyuiPGyvqYiRMpiwZTooJOHnFSIqfykgXkl5R8oIF1vSZ?=
+ =?us-ascii?Q?SMvHCN5KosTumiZnYvM+gXO/ftlaOBl99U1cVd767somk9WnZepyiai2K46j?=
+ =?us-ascii?Q?dUcgCULb/QpUzhyElmzBh+rfwwcJYiTn0IvylXWYDkLF2dQhxRja2LzSz63C?=
+ =?us-ascii?Q?2PeHmmFQ7n2yDmfMUoa9fmPYFpweUrJE+MV+ZgvZY8DVAI7F019az8G+WZKW?=
+ =?us-ascii?Q?6cEGGiO3tR/HSFz3Cskmr3w1iL0YZowvmFgPnwnqYI9Sskc+EZWifmTdK4XY?=
+ =?us-ascii?Q?pRZZg/eJ5H7nj8siNEchchLxAVTAKxFYWGxx6QV6qDVlVgq+NVWY/ZkSQDvY?=
+ =?us-ascii?Q?8pPd034Omvpz1JVGnPUi6+3J3ozAh3BtZLhL8eXOsBCALxt71bHJ8f3nLFSx?=
+ =?us-ascii?Q?+uLXwm3N/hqDRJu9scSkTUWQxsokUnNr7VC2IuPxiYfM49dU90VZcei+23JJ?=
+ =?us-ascii?Q?4L0yC500Roez8CKazJFJOn3ljxF7FWiFmpfSn144hrS3toL1lI5N3zEX4umz?=
+ =?us-ascii?Q?N2R70TCkg6cgIKIxtfiozDeyaPWa002Vy31E5IMTNMMJdiwTdS3s5WxoeYZj?=
+ =?us-ascii?Q?s0YfehQP+HBaf1V5KNP6JnyTNNNHNiCo1ik6es8ZRSd8Vpd4iQHKnD2gLusi?=
+ =?us-ascii?Q?rjIP9WoAzGc80RVwWhG7OBBgdsC/tcfzS+wshBuFLges0kNlQ7/hPOl/2HVo?=
+ =?us-ascii?Q?eFl3RlEJCNx1wYgxs9C/+xaAP3NC2D++QNq5tReTRomqyzwx/pPgg/CIlTb2?=
+ =?us-ascii?Q?jTfWq1pOjTqQJ6rASOAlAgrqTb2zgK/3/wqlZHAYCUSgzjeHfbKAY5ZcVpRN?=
+ =?us-ascii?Q?oRkHuDkVMdPF/XKQNfzNFBPnEx6hWputvIkGwUgPRAZfOzgBJYSHYbJ75M0p?=
+ =?us-ascii?Q?+ByrgXkaz80B02Ukr5IfRo/O97g+woEJodYw0GZT/5vX8yTnAavnz6Li2nTO?=
+ =?us-ascii?Q?UZ6l8R+94iuIFWz8fyarEVH+XcH4UdE4UxE5m51C8B/vO53R4KQXYIXVVVrK?=
+ =?us-ascii?Q?Grmtk/1tAKDZxOvseknVYuiq0WdpXFgUDUF1Kk57QGbbq6kQRPSEIkZuINYt?=
+ =?us-ascii?Q?02Fi0PZ5PrhVli+ZjySErMd8Lq4Ab8QMWgwe/hbMVRRNxk/9YmyWlw6WGcef?=
+ =?us-ascii?Q?6g=3D=3D?=
 X-OriginatorOrg: chipsnmedia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 04ccf523-cece-4f79-33fa-08ddf99c4c7e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 64f7d50d-7782-4ed5-3ec4-08ddf99c4cda
 X-MS-Exchange-CrossTenant-AuthSource: PU4P216MB1149.KORP216.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 05:53:05.2540
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 05:53:06.2517
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: poU1oJMTC5P96gymkQ3HFgF5LiLGx0/+3E1Kkql+xXP7xcI5jCwXXGS7Pwr/KXiWcA1UnzxIWeHGRFOb+3MH7/M64TEMXL0ITaxiGi2ri9M=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Z2+QqWATPJTHuvVAMbzoY0S5YKfBH/qv+hH6rV0pz3uVjmIpXoPAVNZMru0mHi+oBZkdHLnbgElkTvKnklMsNW2APJnDVkVr24+dO/KETZQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: SE2P216MB3024
 
 From: Jackson Lee <jackson.lee@chipsnmedia.com>
 
-v4l2-compliance results:
-========================
+SError of kernel panic rarely happened while testing fluster.
+The root cause was to enter suspend mode because timeout of autosuspend
+delay happened.
 
-v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
+[   48.834439] SError Interrupt on CPU0, code 0x00000000bf000000 -- SError
+[   48.834455] CPU: 0 UID: 0 PID: 1067 Comm: v4l2h265dec0:sr Not tainted 6.12.9-gc9e21a1ebd75-dirty #7
+[   48.834461] Hardware name: ti Texas Instruments J721S2 EVM/Texas Instruments J721S2 EVM, BIOS 2025.01-00345-gbaf3aaa8ecfa 01/01/2025
+[   48.834464] pstate: 20000005 (nzCv daif -PAN -UAO -TCO -DIT -SSBS BTYPE=--)
+[   48.834468] pc : wave5_dec_clr_disp_flag+0x40/0x80 [wave5]
+[   48.834488] lr : wave5_dec_clr_disp_flag+0x40/0x80 [wave5]
+[   48.834495] sp : ffff8000856e3a30
+[   48.834497] x29: ffff8000856e3a30 x28: ffff0008093f6010 x27: ffff000809158130
+[   48.834504] x26: 0000000000000000 x25: ffff00080b625000 x24: ffff000804a9ba80
+[   48.834509] x23: ffff000802343028 x22: ffff000809158150 x21: ffff000802218000
+[   48.834513] x20: ffff0008093f6000 x19: ffff0008093f6000 x18: 0000000000000000
+[   48.834518] x17: 0000000000000000 x16: 0000000000000000 x15: 0000ffff74009618
+[   48.834523] x14: 000000010000000c x13: 0000000000000000 x12: 0000000000000000
+[   48.834527] x11: ffffffffffffffff x10: ffffffffffffffff x9 : ffff000802343028
+[   48.834532] x8 : ffff00080b6252a0 x7 : 0000000000000038 x6 : 0000000000000000
+[   48.834536] x5 : ffff00080b625060 x4 : 0000000000000000 x3 : 0000000000000000
+[   48.834541] x2 : 0000000000000000 x1 : ffff800084bf0118 x0 : ffff800084bf0000
+[   48.834547] Kernel panic - not syncing: Asynchronous SError Interrupt
+[   48.834549] CPU: 0 UID: 0 PID: 1067 Comm: v4l2h265dec0:sr Not tainted 6.12.9-gc9e21a1ebd75-dirty #7
+[   48.834554] Hardware name: ti Texas Instruments J721S2 EVM/Texas Instruments J721S2 EVM, BIOS 2025.01-00345-gbaf3aaa8ecfa 01/01/2025
+[   48.834556] Call trace:
+[   48.834559]  dump_backtrace+0x94/0xec
+[   48.834574]  show_stack+0x18/0x24
+[   48.834579]  dump_stack_lvl+0x38/0x90
+[   48.834585]  dump_stack+0x18/0x24
+[   48.834588]  panic+0x35c/0x3e0
+[   48.834592]  nmi_panic+0x40/0x8c
+[   48.834595]  arm64_serror_panic+0x64/0x70
+[   48.834598]  do_serror+0x3c/0x78
+[   48.834601]  el1h_64_error_handler+0x34/0x4c
+[   48.834605]  el1h_64_error+0x64/0x68
+[   48.834608]  wave5_dec_clr_disp_flag+0x40/0x80 [wave5]
+[   48.834615]  wave5_vpu_dec_clr_disp_flag+0x54/0x80 [wave5]
+[   48.834622]  wave5_vpu_dec_buf_queue+0x19c/0x1a0 [wave5]
+[   48.834628]  __enqueue_in_driver+0x3c/0x74 [videobuf2_common]
+[   48.834639]  vb2_core_qbuf+0x508/0x61c [videobuf2_common]
+[   48.834646]  vb2_qbuf+0xa4/0x168 [videobuf2_v4l2]
+[   48.834656]  v4l2_m2m_qbuf+0x80/0x238 [v4l2_mem2mem]
+[   48.834666]  v4l2_m2m_ioctl_qbuf+0x18/0x24 [v4l2_mem2mem]
+[   48.834673]  v4l_qbuf+0x48/0x5c [videodev]
+[   48.834704]  __video_do_ioctl+0x180/0x3f0 [videodev]
+[   48.834725]  video_usercopy+0x2ec/0x68c [videodev]
+[   48.834745]  video_ioctl2+0x18/0x24 [videodev]
+[   48.834766]  v4l2_ioctl+0x40/0x60 [videodev]
+[   48.834786]  __arm64_sys_ioctl+0xa8/0xec
+[   48.834793]  invoke_syscall+0x44/0x100
+[   48.834800]  el0_svc_common.constprop.0+0xc0/0xe0
+[   48.834804]  do_el0_svc+0x1c/0x28
+[   48.834809]  el0_svc+0x30/0xd0
+[   48.834813]  el0t_64_sync_handler+0xc0/0xc4
+[   48.834816]  el0t_64_sync+0x190/0x194
+[   48.834820] SMP: stopping secondary CPUs
+[   48.834831] Kernel Offset: disabled
+[   48.834833] CPU features: 0x08,00002002,80200000,4200421b
+[   48.834837] Memory Limit: none
+[   49.161404] ---[ end Kernel panic - not syncing: Asynchronous SError Interrupt ]---
 
-Buffer ioctls:
-                warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
-                warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not supported
-        test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-        test CREATE_BUFS maximum buffers: OK
-        test VIDIOC_EXPBUF: OK
-        test Requests: OK (Not Supported)
+Fixes: 2092b3833487 ("media: chips-media: wave5: Support runtime suspend/resume")
+Signed-off-by: Jackson Lee <jackson.lee@chipsnmedia.com>
+Signed-off-by: Nas Chung <nas.chung@chipsnmedia.com>
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+---
+ .../platform/chips-media/wave5/wave5-vpu-dec.c    |  3 ---
+ .../platform/chips-media/wave5/wave5-vpu-enc.c    |  3 ---
+ .../media/platform/chips-media/wave5/wave5-vpu.c  |  2 +-
+ .../platform/chips-media/wave5/wave5-vpuapi.c     | 15 ---------------
+ 4 files changed, 1 insertion(+), 22 deletions(-)
 
-Total for wave5-dec device /dev/video0: 46, Succeeded: 46, Failed: 0, Warnings: 2
-Total for wave5-enc device /dev/video1: 46, Succeeded: 46, Failed: 0, Warnings: 0
-
-Fluster test results:
-=====================
-
-Running test suite JCT-VC-HEVC_V1 with decoder GStreamer-H.265-V4L2-Gst1.0 Using 3 parallel job(s)
-Ran 133/147 tests successfully               in 40.122 secs
-
-(1 test fails because of not supporting to parse multi frames, 1 test fails because of a missing frame and slight corruption,
- 2 tests fail because of sizes which are incompatible with the IP, 11 tests fail because of unsupported 10 bit format)
-
-
-Running test suite JVT-AVC_V1 with decoder GStreamer-H.264-V4L2-Gst1.0 Using 3 parallel job(s)
-Ran 78/135 tests successfully               in 43.354 secs
-
-(57 fail because the hardware is unable to decode  MBAFF / FMO / Field / Extended profile streams.)
-
-Running test suite JVT-FR-EXT with decoder GStreamer-H.264-V4L2-Gst1.0 Using 3 parallel job(s)
-Ran 25/69 tests successfully               in 40.413 secs
-
-(44 fail because the hardware does not support field encoded and 422 encoded stream)
-
-Seek test
-=====================
-1. gst-play-1.0 seek.264
-2. this will use waylandsink since gst-play-1.0 uses playbin.
-   if you don't want to hook up display,
-   you can run gst-play-1.0 seek.264 --videosink=fakevideosink instead 3. Let pipeline run for 2-3 seconds 4. press SPACE key to pause 5. press 0 to reset press SPACE to start again
-
-gst-play-1.0 seek.264 --videosink=fakevideosink Press 'k' to see a list of keyboard shortcuts.
-Now playing /root/seek.264
-Redistribute latency...
-Redistribute latency...
-Redistribute latency...
-Redistribute latency...
-Redistribute latency...aused
-0:00:09.9 / 0:00:09.7
-Reached end of play list.
-
-Sequence Change test
-=====================
-gst-launch-1.0 filesrc location=./drc.h264 ! h264parse ! v4l2h264dec ! filesink location=./h264_output_420.yuv Setting pipeline to PAUSED ...
-Pipeline is PREROLLING ...
-Redistribute latency...
-Pipeline is PREROLLED ...
-Setting pipeline to PLAYING ...
-New clock: GstSystemClock
-Redistribute latency...
-Got EOS from element "pipeline0".
-Execution ended after 0:00:00.113620590
-Setting pipeline to NULL ...
-Freeing pipeline ...
-
-Change since v4:
-=================
-* For [PATCH v5 4/4] media: chips-media: wave5: Improve performance of decoder
- - fix the error which the Media CI rebot reported
-
-* For [PATCH v5 2/4] media: chips-media: wave5: Fix Null reference while testing fluster
- - fix the error which the Media CI rebot reported
-
-Change since v3:
-==================
-* For [PATCH v4 4/4] media: chips-media: wave5: Improve performance of decoder
- - fix crash and dead lock while testing seek
-
-* For [PATCH v4 3/4] media: chips-media: wave5: Add WARN_ON to check if dec_output_info is NULL
- - update commit message
-
-* For [PATCH v4 2/4] media: chips-media: wave5: Fix Null reference while testing fluster
- - add thread irq logic
-
-* For [PATCH v4 1/4] media: chips-media: wave5: Fix SError of kernel panic when closed
- - add Reviewed-by tag
-
-Change since v2:
-==================
-* For [PATCH v3 4/4] media: chips-media: wave5: Improve performance of decoder
- - squash v2's #3~#6 to #4 patch of v3
-
-Change since v1:
-===================
-* For [PATCH v2 2/7] media: chips-media: wave5: Improve performance of decoder
- - change log to dbg level
-
-Change since v0:
-===================
-* For [PATCH v1 2/7] media: chips-media: wave5: Improve performance of decoder
- - separates the previous patch to a few patches
-
-* For [PATCH v1 3/7] media: chips-media: wave5: Fix not to be closed
- - separated from the previous patch of performance improvement of
-   decoder
-
-* For [PATCH v1 4/7] media: chips-media: wave5: Use spinlock whenever state is changed
- - separated from the previous patch of performance improvement of
-   decoder
-
-* For [PATCH v1 5/7] media: chips-media: wave5: Fix not to free resources normally when
-    instance was destroyed
- - separated from the previous patch of performance improvement of
-   decoder
-
-* For [PATCH v1 7/7] media: chips-media: wave5: Fix SError of kernel panic when closed
- - separated from the previous patch of performance improvement of
-   decoder
-
-
-
-Jackson Lee (4):
-  media: chips-media: wave5: Fix SError of kernel panic when closed
-  media: chips-media: wave5: Fix Null reference while testing fluster
-  media: chips-media: wave5: Add WARN_ON to check if dec_output_info is
-    NULL
-  media: chips-media: wave5: Improve performance of decoder
-
- .../platform/chips-media/wave5/wave5-helper.c |  28 ++-
- .../platform/chips-media/wave5/wave5-helper.h |   1 +
- .../platform/chips-media/wave5/wave5-hw.c     |   2 +-
- .../chips-media/wave5/wave5-vpu-dec.c         | 174 ++++++++++++------
- .../chips-media/wave5/wave5-vpu-enc.c         |   8 +-
- .../platform/chips-media/wave5/wave5-vpu.c    |  98 ++++++++--
- .../platform/chips-media/wave5/wave5-vpu.h    |   2 +-
- .../platform/chips-media/wave5/wave5-vpuapi.c |  61 +++---
- .../platform/chips-media/wave5/wave5-vpuapi.h |  12 ++
- .../chips-media/wave5/wave5-vpuconfig.h       |   1 +
- 10 files changed, 285 insertions(+), 102 deletions(-)
-
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+index 72af0faa3ef2..1df78e427c6a 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-dec.c
+@@ -1829,9 +1829,6 @@ static int wave5_vpu_open_dec(struct file *filp)
+ 	if (ret)
+ 		goto cleanup_inst;
+ 
+-	if (list_empty(&dev->instances))
+-		pm_runtime_use_autosuspend(inst->dev->dev);
+-
+ 	list_add_tail(&inst->list, &dev->instances);
+ 
+ 	mutex_unlock(&dev->dev_lock);
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+index 506d6c6166a6..d2b047706626 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+@@ -1773,9 +1773,6 @@ static int wave5_vpu_open_enc(struct file *filp)
+ 	if (ret)
+ 		goto cleanup_inst;
+ 
+-	if (list_empty(&dev->instances))
+-		pm_runtime_use_autosuspend(inst->dev->dev);
+-
+ 	list_add_tail(&inst->list, &dev->instances);
+ 
+ 	mutex_unlock(&dev->dev_lock);
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu.c b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+index e1715d3f43b0..b3c633dd3df1 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpu.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpu.c
+@@ -322,7 +322,7 @@ static int wave5_vpu_probe(struct platform_device *pdev)
+ 	dev_info(&pdev->dev, "Product Code:      0x%x\n", dev->product_code);
+ 	dev_info(&pdev->dev, "Firmware Revision: %u\n", fw_revision);
+ 
+-	pm_runtime_set_autosuspend_delay(&pdev->dev, 100);
++	pm_runtime_set_autosuspend_delay(&pdev->dev, 500);
+ 	pm_runtime_use_autosuspend(&pdev->dev);
+ 	pm_runtime_enable(&pdev->dev);
+ 	wave5_vpu_sleep_wake(&pdev->dev, true, NULL, 0);
+diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+index e5e879a13e8b..e94d6ebc9f81 100644
+--- a/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
++++ b/drivers/media/platform/chips-media/wave5/wave5-vpuapi.c
+@@ -207,8 +207,6 @@ int wave5_vpu_dec_close(struct vpu_instance *inst, u32 *fail_res)
+ 	int retry = 0;
+ 	struct vpu_device *vpu_dev = inst->dev;
+ 	int i;
+-	int inst_count = 0;
+-	struct vpu_instance *inst_elm;
+ 
+ 	*fail_res = 0;
+ 	if (!inst->codec_info)
+@@ -250,11 +248,6 @@ int wave5_vpu_dec_close(struct vpu_instance *inst, u32 *fail_res)
+ 
+ 	wave5_vdi_free_dma_memory(vpu_dev, &p_dec_info->vb_task);
+ 
+-	list_for_each_entry(inst_elm, &vpu_dev->instances, list)
+-		inst_count++;
+-	if (inst_count == 1)
+-		pm_runtime_dont_use_autosuspend(vpu_dev->dev);
+-
+ unlock_and_return:
+ 	mutex_unlock(&vpu_dev->hw_lock);
+ 	pm_runtime_put_sync(inst->dev->dev);
+@@ -720,8 +713,6 @@ int wave5_vpu_enc_close(struct vpu_instance *inst, u32 *fail_res)
+ 	int ret;
+ 	int retry = 0;
+ 	struct vpu_device *vpu_dev = inst->dev;
+-	int inst_count = 0;
+-	struct vpu_instance *inst_elm;
+ 
+ 	*fail_res = 0;
+ 	if (!inst->codec_info)
+@@ -764,12 +755,6 @@ int wave5_vpu_enc_close(struct vpu_instance *inst, u32 *fail_res)
+ 	}
+ 
+ 	wave5_vdi_free_dma_memory(vpu_dev, &p_enc_info->vb_task);
+-
+-	list_for_each_entry(inst_elm, &vpu_dev->instances, list)
+-		inst_count++;
+-	if (inst_count == 1)
+-		pm_runtime_dont_use_autosuspend(vpu_dev->dev);
+-
+ 	mutex_unlock(&vpu_dev->hw_lock);
+ 	pm_runtime_put_sync(inst->dev->dev);
+ 
 -- 
 2.43.0
 
