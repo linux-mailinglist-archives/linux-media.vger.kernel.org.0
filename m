@@ -1,172 +1,179 @@
-Return-Path: <linux-media+bounces-42906-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42907-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ADFBB8F67A
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 10:07:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88CAEB8F683
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 10:08:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A1C131895FAB
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 08:07:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6A37F18976F3
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 08:08:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4DDB2FCC17;
-	Mon, 22 Sep 2025 08:07:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6971F2FD1A5;
+	Mon, 22 Sep 2025 08:08:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Gxt4kE6b"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Pzp+430z"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07478223DD0;
-	Mon, 22 Sep 2025 08:07:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7ADE244685;
+	Mon, 22 Sep 2025 08:07:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758528424; cv=none; b=E7Sqn1z/8DYpe40QbAf5h99JQzfqvOHlcPPCQWUXpYuv8EXAlPmT+PDULC1k+ovKV/klUHk3CL2KEHl0H/zsROxL04kbZyyt7axthE5emKG6oyuJNTCMmI7mgsVptjLFCCBe3z701yrSXgZwEAE03kg8Qmtk27mOXM9I8PoqsQI=
+	t=1758528479; cv=none; b=anX/lt6wJjB9dvYtXRGGaTXY/pAgBF5dJLZrxa4mE07lnKtXhSDVsCHZSVctWBUDFBCqnVaYoCarcWstua7cmJO8jwh+J0z3LEpMYrE1QDlohUCflXyk+uFqG/J+kW6+7nE1sfUu+D1GXhYotHubDd6oScxQcu3sb8WD/+FuL5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758528424; c=relaxed/simple;
-	bh=WvfLQCaZYoECA+x/WK/pWse3oxQLuALUEc/LsimrXOA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=oKCMP0L3Unt2uJJ5HZ7JpRbmICP86VRUL1qYXXzS1MamRWcoAYhKHJqkkQkjaaKZNyn6zVPg8Wik0ZrW4Si0gp6gl+WgL3L0lKIv3S02/wWYZy3TXVrsvRGVDulaUqsfqwrm6pHwaiBRoTE2U5WNQ6e15H1tMOV9byJwkhNeYRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Gxt4kE6b; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0E549C4CEF0;
-	Mon, 22 Sep 2025 08:07:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758528423;
-	bh=WvfLQCaZYoECA+x/WK/pWse3oxQLuALUEc/LsimrXOA=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=Gxt4kE6b3am6LufpMzE/eoC8PWDHXDOUO9DEQyd5rUY9wVFoQuDzxFFhjf8ODGcas
-	 wLxpTeHwmb2rHcpfWMVlZ3zxE1lOz6h4OTuoD9ruzFqwDDZJPTT3tPrugCyl7ipfgA
-	 ZZA7s563QV2am/KcaUTcycGb767kP0FvOcETUiJn1I8k9G6lRaO7ftEiKsS1fOfqS/
-	 K+k+5xC782qMPbOqU+hph8Im0mW86chQF+zBEAdjFlVGRBgWuF54dHG91mdzlSepyr
-	 Yd2Q2kBQAGBmRTzgu4cE5yQG6XozA9GLFABvdhH2LSDjRBCy/yQwsLAZgshhQ61tx9
-	 p1iO5wHPhtCRQ==
-Message-ID: <f2178b2d-d8ea-470f-8f8f-8ffc0380cee5@kernel.org>
-Date: Mon, 22 Sep 2025 10:06:59 +0200
+	s=arc-20240116; t=1758528479; c=relaxed/simple;
+	bh=vhNsUXDWD5mlApfmMJfi5q4ViL1LmxbLuD0y5YquSBE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kZJhpcN70fJmeqXPAaJy4RbfY2yDcm/pd2JFcMFCjikSoth+kC2clVdehokM7i8F1K4f+4sEURWjRmZ3xx+YsZ3r+LFyx/rw8cb9uLmtFFltHpl7AVbG6Mfl2ibHSBrzMbsqt3vv085gkVKhkhNc0nvMRh7BHsGclGtRJJUrOAM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Pzp+430z; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 54D0BF89;
+	Mon, 22 Sep 2025 10:06:32 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1758528392;
+	bh=vhNsUXDWD5mlApfmMJfi5q4ViL1LmxbLuD0y5YquSBE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Pzp+430zL259s4SgzVaIeEXvGiwDzPVPmd9jsSQzvLDxnSNdgcAL7fPJ7Q7RRR3PZ
+	 56129ewwGgIXI1tIyeum9dD1sHNrfcGxr0rJfAeE+ClmvRvlQ2emgMG2id2eRaviMX
+	 HK7yw9bW6fxlOKWgY+g477a9rXINLXzqA3Goyh7o=
+Date: Mon, 22 Sep 2025 11:07:23 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: Isaac Scott <isaac.scott@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v3 2/3] media: imx-mipi-csis: Store the number of
+ data_lanes configured in dt
+Message-ID: <20250922080723.GI10540@pendragon.ideasonboard.com>
+References: <20250915-mbus-config-active-lanes-v3-0-97a1282a410b@ideasonboard.com>
+ <20250915-mbus-config-active-lanes-v3-2-97a1282a410b@ideasonboard.com>
+ <aNDxd9rWjmgrVCd9@valkosipuli.retiisi.eu>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v2 04/10] media: v4l2-dev: Add helpers to get current
- format from the state
-To: Jai Luthra <jai.luthra@ideasonboard.com>,
- Hans Verkuil <hverkuil@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org
-Cc: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Ma Ke <make24@iscas.ac.cn>, linux-kernel@vger.kernel.org
-References: <20250919-vdev-state-v2-0-b2c42426965c@ideasonboard.com>
- <20250919-vdev-state-v2-4-b2c42426965c@ideasonboard.com>
-Content-Language: en-US, nl
-In-Reply-To: <20250919-vdev-state-v2-4-b2c42426965c@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aNDxd9rWjmgrVCd9@valkosipuli.retiisi.eu>
 
-On 19/09/2025 11:55, Jai Luthra wrote:
-> Add a helper function that drivers can call to retrieve the current
-> v4l2_format stored in a video device state for internal use.
+On Mon, Sep 22, 2025 at 09:49:27AM +0300, Sakari Ailus wrote:
+> On Mon, Sep 15, 2025 at 02:18:34PM +0100, Isaac Scott wrote:
+> > The number of lanes actively used by a MIPI CSI transmitter may differ
+> > from that which is defined in device tree. To allow us to be able to set
+> > the number of configured lanes without changing the maximum lane count,
+> > store the number of lanes configured in device tree, and adjust the
+> > debug print to reflect the device tree value.
+> > 
+> > Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
+> > ---
+> >  drivers/media/platform/nxp/imx-mipi-csis.c | 14 +++++++++-----
+> >  1 file changed, 9 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+> > index 2beb5f43c2c0..6afbedfe131e 100644
+> > --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> > +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> > @@ -313,6 +313,8 @@ struct mipi_csis_device {
+> >  	u32 hs_settle;
+> >  	u32 clk_settle;
+> >  
+> > +	unsigned int num_data_lanes;
+> > +
+> >  	spinlock_t slock;	/* Protect events */
+> >  	struct mipi_csis_event events[MIPI_CSIS_NUM_EVENTS];
+> >  	struct dentry *debugfs_root;
+> > @@ -535,7 +537,7 @@ static void mipi_csis_system_enable(struct mipi_csis_device *csis, int on)
+> >  	val = mipi_csis_read(csis, MIPI_CSIS_DPHY_CMN_CTRL);
+> >  	val &= ~MIPI_CSIS_DPHY_CMN_CTRL_ENABLE;
+> >  	if (on) {
+> > -		mask = (1 << (csis->bus.num_data_lanes + 1)) - 1;
+> > +		mask = (1 << (csis->num_data_lanes + 1)) - 1;
 > 
-> Additionally, provide a G_FMT ioctl implementation that drivers can use
-> instead of writing their own when the format is stored in the active
-> state.
-> 
-> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
-> --
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Hans Verkuil <hverkuil@kernel.org>
-> Cc: Jai Luthra <jai.luthra@ideasonboard.com>
-> Cc: Ricardo Ribalda <ribalda@chromium.org>
-> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Cc: Ma Ke <make24@iscas.ac.cn>
-> Cc: linux-media@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> ---
->  drivers/media/v4l2-core/v4l2-dev.c | 23 +++++++++++++++++++++++
->  include/media/v4l2-dev.h           | 18 ++++++++++++++++++
->  2 files changed, 41 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-> index dff23c6a0b56fb3d29e1c04e386bb445fa8773bb..2606077538be0e83032c6ae8956c1d67da0d0c5d 100644
-> --- a/drivers/media/v4l2-core/v4l2-dev.c
-> +++ b/drivers/media/v4l2-core/v4l2-dev.c
-> @@ -199,6 +199,29 @@ void __video_device_state_free(struct video_device_state *state)
->  }
->  EXPORT_SYMBOL_GPL(__video_device_state_free);
->  
-> +struct v4l2_format *video_device_state_get_fmt(struct video_device_state *state)
-> +{
-> +	if (WARN_ON_ONCE(!state))
-> +		return NULL;
-> +
-> +	return &state->fmt;
-> +}
-> +EXPORT_SYMBOL_GPL(video_device_state_get_fmt);
-> +
-> +int video_device_g_fmt(struct file *file, void *priv, struct v4l2_format *fmt)
-> +{
-> +	struct video_device_state *state = priv;
-> +	struct v4l2_format *vfmt = video_device_state_get_fmt(state);
+> Please use 1U or BIT() for bit-shifted values.
 
-Obviously, if multiple format types are stored in state (e.g. video capture and
-output), then this code needs to pick the right format based on fmt->type.
+BIT() isn't appropriate here. GENMASK(csis->num_data_lanes, 0) could be
+fine, but this patch just changes the variable, I wouldn't insist in
+fixing separate issues.
 
-I would also suggest moving this to v4l2-common.c and renaming it to v4l2_g_fmt,
-consistent with other helpers there (v4l2_g/s_parm_cap).
+> >  		val |= (mask & MIPI_CSIS_DPHY_CMN_CTRL_ENABLE);
+> >  	}
+> >  	mipi_csis_write(csis, MIPI_CSIS_DPHY_CMN_CTRL, val);
+> > @@ -586,7 +588,7 @@ static int mipi_csis_calculate_params(struct mipi_csis_device *csis,
+> >  
+> >  	/* Calculate the line rate from the pixel rate. */
+> >  	link_freq = v4l2_get_link_freq(src_pad, csis_fmt->width,
+> > -				       csis->bus.num_data_lanes * 2);
+> > +				       csis->num_data_lanes * 2);
+> >  	if (link_freq < 0) {
+> >  		dev_err(csis->dev, "Unable to obtain link frequency: %d\n",
+> >  			(int)link_freq);
+> > @@ -631,7 +633,7 @@ static void mipi_csis_set_params(struct mipi_csis_device *csis,
+> >  				 const struct v4l2_mbus_framefmt *format,
+> >  				 const struct csis_pix_format *csis_fmt)
+> >  {
+> > -	int lanes = csis->bus.num_data_lanes;
+> > +	int lanes = csis->num_data_lanes;
+> >  	u32 val;
+> >  
+> >  	val = mipi_csis_read(csis, MIPI_CSIS_CMN_CTRL);
+> > @@ -1299,8 +1301,10 @@ static int mipi_csis_async_register(struct mipi_csis_device *csis)
+> >  	}
+> >  
+> >  	csis->bus = vep.bus.mipi_csi2;
+> > +	csis->bus.num_data_lanes = vep.bus.mipi_csi2.num_data_lanes;
 
+That doesn't seem to be needed.
+
+> > +	csis->num_data_lanes = csis->bus.num_data_lanes;
+> >  
+> > -	dev_dbg(csis->dev, "data lanes: %d\n", csis->bus.num_data_lanes);
+> > +	dev_dbg(csis->dev, "data lanes: %d\n", csis->num_data_lanes);
+
+Neither is this change. What you print here is the number of connected
+data lanes, not the number of effectively used lanes. You could change
+it to 
+
+	dev_dbg(csis->dev, "max data lanes: %u\n", csis->bus.num_data_lanes);
+
+You'll want to also update the commit message, which I think needs some
+improvement regardless.
+
+> >  	dev_dbg(csis->dev, "flags: 0x%08x\n", csis->bus.flags);
+> >  
+> >  	asd = v4l2_async_nf_add_fwnode_remote(&csis->notifier, ep,
+> > @@ -1498,7 +1502,7 @@ static int mipi_csis_probe(struct platform_device *pdev)
+> >  	}
+> >  
+> >  	dev_info(dev, "lanes: %d, freq: %u\n",
+> > -		 csis->bus.num_data_lanes, csis->clk_frequency);
+> > +		 csis->num_data_lanes, csis->clk_frequency);
+
+Drop this change too. This message is actually redundant, the number of
+lanes is printed in mipi_csis_async_register(). You could submit a
+separate patch to remove this, possibly replacing it with a dev_dbg() in
+mipi_csis_parse_dt() to print clk_frequency.
+
+> >  
+> >  	return 0;
+> >  
+
+-- 
 Regards,
 
-	Hans
-
-> +
-> +	if (!vfmt)
-> +		return -EINVAL;
-> +
-> +	*fmt = *vfmt;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(video_device_g_fmt);
-> +
->  static inline void video_get(struct video_device *vdev)
->  {
->  	get_device(&vdev->dev);
-> diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
-> index d327be16f6def70554a7d92d10436a29384ae32a..b5312823fbff9c236d4394d48fa9a14412b17c68 100644
-> --- a/include/media/v4l2-dev.h
-> +++ b/include/media/v4l2-dev.h
-> @@ -612,6 +612,24 @@ __video_device_state_alloc(struct video_device *vdev,
->   */
->  void __video_device_state_free(struct video_device_state *state);
->  
-> +/**
-> + * video_device_state_get_fmt - get current v4l2_format.
-> + *
-> + * @state: pointer to struct video_device_state
-> + */
-> +struct v4l2_format *
-> +video_device_state_get_fmt(struct video_device_state *state);
-> +
-> +/**
-> + * video_device_g_fmt - fill v4l2_format from the state.
-> + *
-> + * @file: pointer to struct file
-> + * @state: pointer to struct video_device_state
-> + * @format: pointer to struct v4l2_format
-> + */
-> +int video_device_g_fmt(struct file *file, void *priv,
-> +		       struct v4l2_format *format);
-> +
->  /**
->   * v4l2_debugfs_root - returns the dentry of the top-level "v4l2" debugfs dir
->   *
-> 
-
+Laurent Pinchart
 
