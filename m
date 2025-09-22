@@ -1,195 +1,411 @@
-Return-Path: <linux-media+bounces-42896-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42897-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0B526B8F41D
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 09:17:23 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A289B8F4B0
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 09:28:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EB265189EB5E
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 07:17:44 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 01686179FCA
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 07:28:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B66B25A34F;
-	Mon, 22 Sep 2025 07:17:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 629702F549C;
+	Mon, 22 Sep 2025 07:28:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ufpHgwcg"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kEzMyA+9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010057.outbound.protection.outlook.com [52.101.56.57])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A99C59475;
-	Mon, 22 Sep 2025 07:17:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758525434; cv=none; b=vFy2nRTnGAG02Y3Az8hK/ByjwWFtEQlzo78J8iNXCxaVW1roH290vTD/bdA26yeZtzLzCyjQNKt1GRMglkD7e+EwG8y8V2TWF62l9A1U/0uhcFewZnOXsch2PMrIlnUQbZUjTjwJF2rb1Ve0WUVfPLLUi1J2Aln+1Oqq9UZ49uc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758525434; c=relaxed/simple;
-	bh=eulG1dlDhbrFnqQ/5xFfJsT6m8P5BkUgfXxI6mGrGeo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=prscGPNcx47rs9rXsRs2y/m3HbuklbwpPRAFVVRVaVIZX1K6qsQbRzCSq+moLLWvpLfm3F8+ET+hXDKfBXea3XuQ0QSYXvXoybpp1/DYeki5KP3JnQpckJjjnFmeQWb3wyQ+CRVcXMVf3MvgDIwdoyc6i5dguPNzAoa+SFTWCQw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ufpHgwcg; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (81-175-209-231.bb.dnainternet.fi [81.175.209.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7A5A36DC;
-	Mon, 22 Sep 2025 09:15:46 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1758525346;
-	bh=eulG1dlDhbrFnqQ/5xFfJsT6m8P5BkUgfXxI6mGrGeo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ufpHgwcg0ZMn+gEkWQoQ0MiIM9bDGIl/lywer96IBtniuPFz5oOsjbEFh+tg6pgyz
-	 JSm9kKuOFPF37Ke5swwPo7gwH4NSjImdP9yrAwL6VemJQ9ugGX+OxKzkIfJMo4gYy+
-	 bpSj8V7c/yqUW9qKjjT0arg7TobiT+h2ybCFWkok=
-Date: Mon, 22 Sep 2025 10:16:37 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Isaac Scott <isaac.scott@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, Frank Li <Frank.Li@nxp.com>
-Subject: Re: [PATCH v3 1/3] media: v4l: Add helper to get number of active
- lanes via a pad
-Message-ID: <20250922071637.GH10540@pendragon.ideasonboard.com>
-References: <20250915-mbus-config-active-lanes-v3-0-97a1282a410b@ideasonboard.com>
- <20250915-mbus-config-active-lanes-v3-1-97a1282a410b@ideasonboard.com>
- <aNDxR72CmvGofTHy@valkosipuli.retiisi.eu>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0208178F58;
+	Mon, 22 Sep 2025 07:27:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.57
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758526080; cv=fail; b=pvwic+WPcGDUwG3ijCRzFK3JXrh9AiFVc+NBuPDGhEIZGGbSEgSsyHS/nnMb5umQxQQ2yfVrmSnVAg/mE7+7SYZ5X+1pUTg0OhvZlnIhB+Hgn+ynnIDhoDO1pQGfq7Ccxh86HhRYE8ipfgfphMUNIz5BtZM4+TpiS3K+VwWfC50=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758526080; c=relaxed/simple;
+	bh=+8PbCRh8Jj0Pwxrrg1hrqD9vTdhghpIz4UoGtUttW6A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=G1hW9h8PChNBJEv5P4LdKMv+BvBrU7WlHvR/LrpFL/HOFz8+TlfGLdk0S5ZQuojjYX1QDfR/yph2RDojmOHUmWBO8LOO4nVli6VpuRICCjELS2EHPneTPzB0bBCUtTJuOTpa3RBQ0CToQ05vpA9O+p9HJVF9MhSWF1fQ74JOT7Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kEzMyA+9; arc=fail smtp.client-ip=52.101.56.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=T9ChRTVTaMPYd8AktZjiHd7QQCLdsd24aS22VRHffoC5trsRO509cAUTFf33L8xpOH+OBuz2XeDr92BkoZDOCKAqX/ESLxSHGytWc+nC8k/NUr2i1XRSRb/ksNjjH/KG+kaQr8bEOESvF8tlkvGceCoydboQ3wo9RzYo+L/0F+zRqnBLLg859cyP4mssbmrLoFo767AYPOoPHJ9xi69GFFqFZlUc04PMORUWXNGSJkupF518NSCcKpFy1kOZR8YSXBGhU8noQy1J2855dKPq5eZa7AQSGehBnwvknR5xxNSeYWhgAfuzZ3CLidC8hl/YxrN/fOTDdz0j/DPqgAM3OA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Wi9T/LqXsl7MIFU4yUmsXN8WkfPyY1InD+P1+nOAGzA=;
+ b=R2JFA/9WkCUEn9dWEjJlZQc/bLBtl2aN9gEJpy/1WVLJnzcuNXLwopaZ7Vv562SkTld2vy8F6++dN6RdPPYhxbvnVQAKv9oD4dsPqfpmIr7sm+SsHAzzEEcwKFDjWQlOh4PYyi0X/Bypy0Nn9kMwIQ/9yJQR2H3TUU1ufR7oHr+zKOL2lMmtwQNnWUMCAr+d7NI5WmgKvvMvpaWpRwzxCJRUEzMimsPKu3fAGylcqw6tCapw15ZL96oB1UNoSNg6p85KaArZC4QWPODVeI+6zDgoDzQ9e+TS38ChwBbilZfyBtJDS4ipA+QinzTcY+1Kb5kpYdaEgrwQW/Cw3lnDuA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Wi9T/LqXsl7MIFU4yUmsXN8WkfPyY1InD+P1+nOAGzA=;
+ b=kEzMyA+9iEuUVTMouJC9qNXOZtHr2YeRRz7NksmSa7SN4jfRcBBiV1xlLr5oIdIbuqfF1vYOmZvM/0LTP2UozN0MVnqTTLPjcS3BT2UgBTBKERVgdxkw1loQnOrym+Epf+ZEdoLRcZ3MU5BAdJwtWVE2PnO+/ayjDCvd0rhVyeNOnqUJ0Grf7xak1nH9ySEQWD5GD5QICxg1Junb0Ktujqe2o1BRU9MDqi/tusvTsJ8Zu5W8LiQAGtKMIwqOY9NochH5jvLKm7qm2pIpmjgMH6k8PSQHFRShmoeDyxsS0dPCaTb85kpTsrJ/Dfs8eb992+/2zhsFjyLHKphFX/kU9w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
+ BL3PR12MB6474.namprd12.prod.outlook.com (2603:10b6:208:3ba::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9094.22; Mon, 22 Sep
+ 2025 07:27:54 +0000
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
+ 07:27:54 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Jonas =?UTF-8?B?U2Nod8O2YmVs?= <jonasschwoebel@yahoo.de>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Subject:
+ Re: [PATCH v2 16/23] staging: media: tegra-video: tegra20: simplify format
+ align calculations
+Date: Mon, 22 Sep 2025 16:27:51 +0900
+Message-ID: <3074302.Sgy9Pd6rRy@senjougahara>
+In-Reply-To:
+ <CAPVz0n0TPKa2cVXZdUEAWWHquGeqzj=p-9cXx79jc6RwXLkkGg@mail.gmail.com>
+References:
+ <20250906135345.241229-1-clamor95@gmail.com>
+ <4198615.hdfAi7Kttb@senjougahara>
+ <CAPVz0n0TPKa2cVXZdUEAWWHquGeqzj=p-9cXx79jc6RwXLkkGg@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TYCP286CA0149.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:31b::12) To DM4PR12MB6494.namprd12.prod.outlook.com
+ (2603:10b6:8:ba::19)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aNDxR72CmvGofTHy@valkosipuli.retiisi.eu>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|BL3PR12MB6474:EE_
+X-MS-Office365-Filtering-Correlation-Id: 52a04169-e899-41dc-a0f1-08ddf9a98b7b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|1800799024|366016|376014|7416014|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?ck5tSEF1UEtQcG5wbmloSi83N0R6K0w1dGpzU2Z4b3hzWlRLZVIyeHJuTlNx?=
+ =?utf-8?B?VzU1bGU0RVZYekorS1grbWRGY0dFZDJpODRHWlZudkY4dTdqWXN6K3YrYnFS?=
+ =?utf-8?B?Z0ZHREJPazB0bHhmTWx5SlMyR3NOT0hucjR6c3RUc08ybkk5NmRrUVBBendN?=
+ =?utf-8?B?MHZQbUJOejg1Y1ZnYTBvc0lrSnNGMVM4aHFhZjkzaXZVZ2U1SUtZT3dHNHRz?=
+ =?utf-8?B?Mis0NFhBSUZpYzZtdmhPekFoQVdIcDFzSWg3SmVmQlQzZ3hmczhWdFd4Sm9G?=
+ =?utf-8?B?QWxzRkpOOXFmSUJZN20rSnlkSk9oSStpWWtjblpKT0pXSnVYRFBVTXlSNWlh?=
+ =?utf-8?B?MVUydnhib0ZkNWJVMDgyN2RheHQ3dU8vOTk5VFBPaWg4Q01Dbm1Oa1FlZjBi?=
+ =?utf-8?B?NDRkclZHdm1lSzU5bTRwUjdDSXRocVk5T3N0L3dWRGdBMEM1eDVXNWc4TDRp?=
+ =?utf-8?B?MDY2ZjZsclNYZmxVSk1YcGxLbndjaTU2VmdZZmlLWFVhbmJhN1h2amxIQnVn?=
+ =?utf-8?B?UmgvWHFRZE94TXg0T01hVStCb3JMNmJSNGQ4STFDMWVncUR5K2pDUzQwcXpw?=
+ =?utf-8?B?SThGdU1kOHR4b21xQlFpcVFNMXk5bnRtQWI2RHFQR2tucjYyZGk2ZDF2OEdU?=
+ =?utf-8?B?cjc1SHB2NXNGRnlyUzMvTjVuVjFCdFdud0I0MkhTYnNsbmNXSEVOTUNjRjMv?=
+ =?utf-8?B?SHdFT0crYXlLOGUwdVhlakRXY3FYOS9BQzczdE9OcWJKU050ejhiWVhRbmFR?=
+ =?utf-8?B?MXhHcjZKQ1lSeEQ3YjcxWmxnUTQ3b0lza2tBMVpPTStpZjNpZ3dnZTN4VmhB?=
+ =?utf-8?B?WjlNbWdMTWprODczakpZOVQzSnNIUks2ZkRWR01mdkVRNWFOYWwyZUd5SVFi?=
+ =?utf-8?B?K3hTUXdIdGxYeExlYW5zRzd2eUZ3S1hoZEs2cGxTUEJQckV2YjFmQjlralF3?=
+ =?utf-8?B?M25VdENlZVhoTTYwWUhTMTdHU2F5MHlGZEV6ZEk0VWVUQlc0UjQ5NUxjMExW?=
+ =?utf-8?B?RE1yV2hKaExBZjhHM25BVC92aDRaMXV2MllpTWErN3g4NjBpamJ0M1hCdlVq?=
+ =?utf-8?B?MzYvNCtNbGpCaVZQb3BuSURmUjNaSXdaL3M0bzQ0ejRTRG9vMk8xK2FhSGho?=
+ =?utf-8?B?NkFXSVNWd1dROGhYWnpmRCtSODVMWG1Wa1hXck8xMTgreWh1NTBxMDk2akNP?=
+ =?utf-8?B?ZEVuc3lHVFlHYThmTUlRMlYyTWJHQkFkVHQ3cXhRK1phdGJJdlVUMzZwZGJx?=
+ =?utf-8?B?WEI3dWVNQ1hDQ3ZTWTI2UnlSYnkrTVhOZ2NZQ2RlTFdJa3NCKzFJcUxkLzdm?=
+ =?utf-8?B?WmVRZ292a2xxUUNYcnVDd2JSTjNJZ0tiV2hVU0JQYURFN0VyZFJhZzZDckN0?=
+ =?utf-8?B?YjJqbkdWTGd5T2s3eXhtRURXTk5jTW5IVWNPSDJqKzhXRWhUZFZhUzN6b3dV?=
+ =?utf-8?B?M2VOYUYrcURvVU5zd1F1VzJGemp2eXQyTFo1WmF4TkYySUFiQjk3TXRIUFNW?=
+ =?utf-8?B?dU9VeGI5aTJraVhQTHYxckpRWlNYV09jZDZMRFN1TWlHZVhYNmdWbCtXU01j?=
+ =?utf-8?B?L0VoTzhOQ1AvK1pPM01XYy9mUmpZcHBNQWREZ3Q1eG1JV2JzK1o1QWExd3NO?=
+ =?utf-8?B?MDNqbVpLaTVGTlNUaExOS1NtRlp2TDd6OTM5dW1LcW5kVForbHh0a3Z3blEw?=
+ =?utf-8?B?TnF6bXk3TmpPcDhwVENEOGEvYVJRVTVKclpVZFd0dTdQdUFGenFXcGxkZ0RM?=
+ =?utf-8?B?VnNsL3JjTXlVQmZCVzlDUHhqNndMMWo4QTdqamFidU9jTVpOd3kzc1ptbDBF?=
+ =?utf-8?B?SGlSelY5cncwMVg3cjdaN0lReTc4N2l3TjBXUTBaeW1uejJxN1l0MDllaE5n?=
+ =?utf-8?B?cERGNzViWlE3VEhRdlZ3dGxiQUZrbDVaWjNKYkpFYmYxNThKdElweklYcW5z?=
+ =?utf-8?Q?cDKMoJYH7co=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6494.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(376014)(7416014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aXREUHhheHJyb1phdC9OTnkvZUhvckpXKzJaeHlmdVBOYnhlNElwWC9QL0Rh?=
+ =?utf-8?B?R2x1Njk0TUtyM3lqUGpVSmU3SW92ZzRlbXp3SHpIRHR5KzJLMjJwSGYwZm05?=
+ =?utf-8?B?Ui9MMnFnOW1xenlGVWxFeGtqR2hTSFdDTFlKdnFBbWUxejRJY0FpelFNMVgy?=
+ =?utf-8?B?OVpMNFNBM3EyeUNYSGM0Q1JRdk1Fcm9MaUhxUHlyZjdKM1JWYU1PVEU5Mkla?=
+ =?utf-8?B?Rm1qQi9JZlJaZFBZT0gyWUlLRURJdU1kWVc2b3o1V2JpRUJxT2hyU0RjU051?=
+ =?utf-8?B?dlVIR3ArNXNWZ0E2VHhYYWRpbTVHdG1BYlhNWTZTZm1vbTQxQUdMcmlIWkd4?=
+ =?utf-8?B?VS9sWEIvMkt0VG0vY2VYdGo5T2pya1JJRFVWa3NOT2ZHWU1sQWRrQ3BZOFVt?=
+ =?utf-8?B?RzhBRHdKOVY4TEZFcjlFVzMzWjFqUkFwQkJxR2IwaHB2UWc0RCtobVJwUjVO?=
+ =?utf-8?B?bXBnQUJvVEcyVzRtL3YxVC83NHhBRXowZFBTa2FCTXdud01Udlh6ZllKZ1lI?=
+ =?utf-8?B?RC9aOTQzNzg4UlZzamY2L25nSCtzSUk1RWYrcTd6dFJjcVFuNGJlNThKZXVh?=
+ =?utf-8?B?dGJ5NzVHN0VBVksvRE9OcWFsdUdBS1JINTNvOUdjdGtPUDN2VHN0UFZGYXUy?=
+ =?utf-8?B?WndDTXlFaVo2ZFRpMllpOEJqdnJ4YlVSd2J6NytKZjVMRWtPTGFSZjZteDV1?=
+ =?utf-8?B?ajlHSGx2ZXJ2Mm5XemwvK0JROTJONmI4ZlZHUkEzUlBQQm5Jd05XUDl4dy9H?=
+ =?utf-8?B?TzdIZUF0YnMxcDNnVFFpVTREUmdUbEdtYkU4dW9iY3ZFMzBxMVBTdFJwajdE?=
+ =?utf-8?B?NnJDUFcxckM4bCtFZi9UK3RLb1NOWFNINkpMcm9vRm5FaGw5bzk4dmZvRXds?=
+ =?utf-8?B?WnJUcy9UN0lTYlFqUDZveUNubWFpSjcvb0NyWGFRSTVjN01pVE5qdGxWMzg5?=
+ =?utf-8?B?WTMvZUl2Skw1L0t4L1JZRnc4Q0hmdHNlOUUxcHhzMFRxZCtvd2d4MDdCTzZu?=
+ =?utf-8?B?amhQNmhqUDBOenNXY2ZnUHVlWWhYNE1UaDJxdmgrQnJpdVk1YUZKeWF0b3NZ?=
+ =?utf-8?B?YWxqOWcwbEJ2TDEvek0rOXBtLzZSRGowRVY5b2NGREZlS1hYYThaZUQxcVZh?=
+ =?utf-8?B?UmFqbmMyckU3N3hFRXZHMFhmNXV6UGhxeU52QXBQbzFYU3JiTmFLbUx6dUsy?=
+ =?utf-8?B?ZEZ3SGZVbmo1RUxJK1hGMi9aZzNvdXFDc1kvQ3U5TkFPVDFJWEg0VFZMbmZ4?=
+ =?utf-8?B?RTBIVVFINFZVczE5NnVDZ3NrRi9KTUxwQ1llTk45MEdsL1VKT3N4dWJkcHZo?=
+ =?utf-8?B?TFp6TlVsZVh5SGQxLzJUd0ZxYitSaWRVbzFyZGNMZnlvc1RvOXIwcU15Vk5N?=
+ =?utf-8?B?alpnRjZ6K21QaEk4bzJ1QWNrOVpYK2gvWHpMbEVaY244MXNJcC9aOTl3Tmgw?=
+ =?utf-8?B?cnRETFA4eTdPV3hWdlJ6K3ZhOEhMUENIWDVFRUxIVUk3UzM5aXRoNXdLUnVL?=
+ =?utf-8?B?TmMvNHJhdk50YWVZb1ViRDhseVl4VGFUaDY4RFJqcm9lMlpOcDlHcDVnK2Yv?=
+ =?utf-8?B?UVVCNEszMnNydkttR1cra2J4bExGVGpLVDgySFJlVEcrZ0VnczJnaDBHenAy?=
+ =?utf-8?B?R2dZVTJVNXl2enIwRjRMWTRBVkp5a3FONUVPNnphWG41bkF5d2lPSFhJU1VG?=
+ =?utf-8?B?eTZvMm45SGJkSHpHWk5ONDNjcUgrMWlqa3JMOW40RWxHdFlhN1BtczNkaEkw?=
+ =?utf-8?B?U05qVWU0b3lDakxyRkRtbGVyUU95YUQ2ZHd1R3NleGVaSVEwcGxuclY3dDRu?=
+ =?utf-8?B?akI0S0pCRWNNNlM4Mk5DQ0xZSjduczdhamMyWG16MzJWWmNnT0ZhNm1tb2Z6?=
+ =?utf-8?B?S1dMQTF5MGRUNkcwZnd3Sm91STl3cUErOVRDVnllWWIwNkozT0dXY3oyTHpW?=
+ =?utf-8?B?OXVubEkzQTBsZzFsNlV3cHp3Q1VBOG5KNUlLT1hKbElDbThXekZtU0hmV3ln?=
+ =?utf-8?B?ZzRrNHNEVmEzekRiQitweTBxRHQrOW5icEJtTXFqdFlJOGQ5eGZyTmR1VXBV?=
+ =?utf-8?B?b2JiWFF3WnFsd3lxOE1rY1lrcGtDeDRFS3BrZU83VGRUQVlxZU4yMHpucVFC?=
+ =?utf-8?B?U1p3blpVZXBSeGdqeEtsVG00RTNEdFRyRnJJdVMwRkl5YzNoR0w3VVNGNHY3?=
+ =?utf-8?B?NmVxYUp3ejJVT1hZOTJNWDFTN0R4dHY4dHk2amRweHZYWlhsenJaeEp0elAr?=
+ =?utf-8?B?dEx1c3FwZVp1amhqRzZlZmNRTEdnPT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 52a04169-e899-41dc-a0f1-08ddf9a98b7b
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 07:27:54.3262
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: QDZNkMDXihUJUw1/AaOt6AzDFrUA5KhJbS9Cx9NLpdXAd8nCJlTf74NTxEM1Ej5qR6X6lQrueSXBDPA25uet8g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL3PR12MB6474
 
-On Mon, Sep 22, 2025 at 09:48:39AM +0300, Sakari Ailus wrote:
-> On Mon, Sep 15, 2025 at 02:18:33PM +0100, Isaac Scott wrote:
-> > Sometimes, users will not use all of the MIPI CSI 2 lanes available when
-> > connecting to the MIPI CSI receiver of their device. Add a helper
-> > function that checks the mbus_config for the device driver to allow
-> > users to define the number of active data lanes through the
-> > get_mbus_config op.
-> > 
-> > If the driver does not implement this op, fall back to using the number
-> > of data lanes specified in device tree.
-> > 
-> > Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> > Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
-> > ---
-> >  drivers/media/v4l2-core/v4l2-common.c | 32 ++++++++++++++++++++++++++++++++
-> >  include/media/v4l2-common.h           | 21 +++++++++++++++++++++
-> >  2 files changed, 53 insertions(+)
-> > 
-> > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> > index 6e585bc76367..2ce8407f1397 100644
-> > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > @@ -571,6 +571,38 @@ s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
-> >  	return __v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
-> >  }
-> >  EXPORT_SYMBOL_GPL(__v4l2_get_link_freq_pad);
-> > +
-> > +unsigned int v4l2_get_active_data_lanes(const struct media_pad *pad,
-> > +					unsigned int max_data_lanes)
-> > +{
-> > +	struct v4l2_mbus_config mbus_config = {};
-> > +	struct v4l2_subdev *sd;
-> > +	unsigned int lanes;
-> > +	int ret;
-> > +
-> > +	sd = media_entity_to_v4l2_subdev(pad->entity);
-> > +	ret = v4l2_subdev_call(sd, pad, get_mbus_config, pad->index,
-> > +			       &mbus_config);
-> > +	if (ret < 0 && ret != -ENOIOCTLCMD)
-> > +		return ret;
-> > +
-> > +	/*
-> > +	 * This relies on the mbus_config being zeroed at init time.
-> > +	 */
+On Monday, September 22, 2025 3:30=E2=80=AFPM Svyatoslav Ryhel wrote:
+> =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 09:23 Mi=
+kko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > On Monday, September 22, 2025 2:13=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 07:4=
+4 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > > >
+> > > > On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ryhel wr=
+ote:
+> > > > > Simplify format align calculations by slightly modifying supporte=
+d formats
+> > > > > structure.
+> > > > >
+> > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > > ---
+> > > > >  drivers/staging/media/tegra-video/tegra20.c | 41 ++++++++-------=
+------
+> > > > >  1 file changed, 16 insertions(+), 25 deletions(-)
+> > > > >
+> > > > > diff --git a/drivers/staging/media/tegra-video/tegra20.c b/driver=
+s/staging/media/tegra-video/tegra20.c
+> > > > > index 6e0b3b728623..781c4e8ec856 100644
+> > > > > --- a/drivers/staging/media/tegra-video/tegra20.c
+> > > > > +++ b/drivers/staging/media/tegra-video/tegra20.c
+> > > > > @@ -280,20 +280,8 @@ static void tegra20_fmt_align(struct v4l2_pi=
+x_format *pix, unsigned int bpp)
+> > > > >       pix->width  =3D clamp(pix->width,  TEGRA20_MIN_WIDTH,  TEGR=
+A20_MAX_WIDTH);
+> > > > >       pix->height =3D clamp(pix->height, TEGRA20_MIN_HEIGHT, TEGR=
+A20_MAX_HEIGHT);
+> > > > >
+> > > > > -     switch (pix->pixelformat) {
+> > > > > -     case V4L2_PIX_FMT_UYVY:
+> > > > > -     case V4L2_PIX_FMT_VYUY:
+> > > > > -     case V4L2_PIX_FMT_YUYV:
+> > > > > -     case V4L2_PIX_FMT_YVYU:
+> > > > > -             pix->bytesperline =3D roundup(pix->width, 2) * 2;
+> > > > > -             pix->sizeimage =3D roundup(pix->width, 2) * 2 * pix=
+->height;
+> > > > > -             break;
+> > > > > -     case V4L2_PIX_FMT_YUV420:
+> > > > > -     case V4L2_PIX_FMT_YVU420:
+> > > > > -             pix->bytesperline =3D roundup(pix->width, 8);
+> > > > > -             pix->sizeimage =3D roundup(pix->width, 8) * pix->he=
+ight * 3 / 2;
+> > > > > -             break;
+> > > > > -     }
+> > > > > +     pix->bytesperline =3D DIV_ROUND_UP(pix->width * bpp, 8);
+> > > >
+> > > > Assuming the bpp is coming from the format table below, this change=
+s the value of bytesperline for planar formats. With this it'll be (width *=
+ 12) / 8 i.e. width * 3/2, which doesn't sound right.
+> > > >
+> > >
+> > > Downstream uses soc_mbus_bytes_per_line for this calculation which wa=
+s
+> > > deprecated some time ago, here is a fragment
+> > >
+> > > s32 soc_mbus_bytes_per_line(u32 width, const struct soc_mbus_pixelfmt=
+ *mf)
+> > > {
+> > >  if (mf->fourcc =3D=3D V4L2_PIX_FMT_JPEG)
+> > >  return 0;
+> > >
+> > >  if (mf->layout !=3D SOC_MBUS_LAYOUT_PACKED)
+> > >  return width * mf->bits_per_sample / 8;
+> > >
+> > >  switch (mf->packing) {
+> > >  case SOC_MBUS_PACKING_NONE:
+> > >   return width * mf->bits_per_sample / 8;
+> > >  case SOC_MBUS_PACKING_2X8_PADHI:
+> > >  case SOC_MBUS_PACKING_2X8_PADLO:
+> > >  case SOC_MBUS_PACKING_EXTEND16:
+> > >   return width * 2;
+> > >  case SOC_MBUS_PACKING_1_5X8:
+> > >   return width * 3 / 2;
+> > >  case SOC_MBUS_PACKING_VARIABLE:
+> > >   return 0;
+> > >  }
+> > >    return -EINVAL;
+> > > }
+> > >
+> > > V4L2_PIX_FMT_YUV420 and V4L2_PIX_FMT_YVU420 are classified as
+> > > SOC_MBUS_PACKING_1_5X8 hence we get width * 3/2
+> >
+> > Googling this brings up the entry
+> >
+> > {
+> >         .code =3D V4L2_MBUS_FMT_YUYV8_1_5X8,
+> >         .fmt =3D {
+> >                 .fourcc                 =3D V4L2_PIX_FMT_YUV420,
+> >                 .name                   =3D "YUYV 4:2:0",
+> >                 .bits_per_sample                =3D 8,
+> >                 .packing                        =3D SOC_MBUS_PACKING_1_=
+5X8,
+> >                 .order                  =3D SOC_MBUS_ORDER_LE,
+> >                 .layout                 =3D SOC_MBUS_LAYOUT_PACKED,
+> >         },
+> > }
+> >
+> > which matches that you're describing. It doesn't make sense to me, sinc=
+e it at the same time specifies PIX_FMT_YUV420 (which is planar with 3 plan=
+es, as documented by include/uapi/linux/videodev2.h), and LAYOUT_PACKED
+> >
+> > /**
+> >  * enum soc_mbus_layout - planes layout in memory
+> >  * @SOC_MBUS_LAYOUT_PACKED:             color components packed
+> >  * @SOC_MBUS_LAYOUT_PLANAR_2Y_U_V:      YUV components stored in 3 plan=
+es (4:2:2)
+> >  * @SOC_MBUS_LAYOUT_PLANAR_2Y_C:        YUV components stored in a luma=
+ and a
+> >  *                                      chroma plane (C plane is half t=
+he size
+> >  *                                      of Y plane)
+> >  * @SOC_MBUS_LAYOUT_PLANAR_Y_C:         YUV components stored in a luma=
+ and a
+> >  *                                      chroma plane (C plane is the sa=
+me size
+> >  *                                      as Y plane)
+> >  */
+> > enum soc_mbus_layout {
+> >         SOC_MBUS_LAYOUT_PACKED =3D 0,
+> >         SOC_MBUS_LAYOUT_PLANAR_2Y_U_V,
+> >         SOC_MBUS_LAYOUT_PLANAR_2Y_C,
+> >         SOC_MBUS_LAYOUT_PLANAR_Y_C,
+> > };
+> >
+> > i.e. non-planar. The code in the driver is handling it as three planes =
+as well, with addresses VB0_BASE_ADDRESS/VB0_BASE_ADDRESS_U/VB0_BASE_ADDRES=
+S_V. Since the planes are separate, there should be no need to have more th=
+an 'width' samples per line.
+> >
+>=20
+> I did not invent this, I have just simplified this calculation from
+> downstream, output values remain same. I have no cameras which can
+> output V4L2_PIX_FMT_YUV420 or V4L2_PIX_FMT_YVU420 so I cannot test if
+> this works either. Other YUV and RAW formats were tested on real HW
+> and work perfectly fine.
 
-This holds on a single line.
+My understanding from the code was, that the MEDIA_BUS_FMT_ formats listed =
+in the video format table refer to the input formats from the camera, and t=
+he V4L2_PIX_FMT_ formats to output formats from VI. Hence VI could input UY=
+VY8_2X8 and write to memory in YUV420. The code dealing with V4L2_PIX_FMT_ =
+values seems to be related to the output to memory. Is it possible to test =
+this (your camera -> VI converts to YUV420) or am I mistaken?
 
-> > +	if (!mbus_config.bus.mipi_csi2.num_data_lanes)
-> 
-> I'd either use the local variable for this (lanes) either all the time, or
-> not at all.
-> 
-> > +		return max_data_lanes;
-> > +
-> > +	lanes = mbus_config.bus.mipi_csi2.num_data_lanes;
-> > +
-> > +	if (lanes > max_data_lanes) {
-> > +		dev_dbg(sd->dev, "Active data lanes (%u) exceeds max (%u)\n",
-> > +			lanes, max_data_lanes);
-> > +		return -EINVAL;
-> > +	}
-> > +
-> > +	return lanes;
-> > +}
-> > +EXPORT_SYMBOL_GPL(v4l2_get_active_data_lanes);
-> >  #endif /* CONFIG_MEDIA_CONTROLLER */
-> >  
-> >  /*
-> > diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> > index 0a43f56578bc..6af0695460ab 100644
-> > --- a/include/media/v4l2-common.h
-> > +++ b/include/media/v4l2-common.h
-> > @@ -584,6 +584,27 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
-> >  	(pad, mul, div)
-> >  s64 __v4l2_get_link_freq_pad(struct media_pad *pad, unsigned int mul,
-> >  			     unsigned int div);
-> 
-> Is your tree up to date?
+It's certainly possible that the current code is functional -- if bytesperl=
+ine is set to a too large value and that information flows to userspace, it=
+ could still read the buffer. It would just waste memory.
 
-We seem to be moving faster than we used to :-)
+>=20
+> > >
+> > > > > +     pix->sizeimage =3D pix->bytesperline * pix->height;
+> > > > >  }
+> > > > >
+> > > > >  /*
+> > > > > @@ -576,20 +564,23 @@ static const struct tegra_vi_ops tegra20_vi=
+_ops =3D {
+> > > > >       .vi_stop_streaming =3D tegra20_vi_stop_streaming,
+> > > > >  };
+> > > > >
+> > > > > -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)    \
+> > > > > -{                                                    \
+> > > > > -     .code    =3D MEDIA_BUS_FMT_##MBUS_CODE,           \
+> > > > > -     .bpp     =3D BPP,                                 \
+> > > > > -     .fourcc  =3D V4L2_PIX_FMT_##FOURCC,               \
+> > > > > +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE, BPP, =
+FOURCC)      \
+> > > > > +{                                                               =
+     \
+> > > > > +     .img_dt         =3D TEGRA_IMAGE_DT_##DATA_TYPE,            =
+       \
+> > > > > +     .bit_width      =3D BIT_WIDTH,                             =
+       \
+> > > > > +     .code           =3D MEDIA_BUS_FMT_##MBUS_CODE,             =
+       \
+> > > > > +     .bpp            =3D BPP,                                   =
+       \
+> > > > > +     .fourcc         =3D V4L2_PIX_FMT_##FOURCC,                 =
+       \
+> > > > >  }
+> > > > >
+> > > > >  static const struct tegra_video_format tegra20_video_formats[] =
+=3D {
+> > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
+> > > > > -     TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
+> > > > > -     TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
+> > > > > -     TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
+> > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
+> > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
+> > > > > +     /* YUV422 */
+> > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 16, UYVY),
+> > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 16, VYUY),
+> > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 16, YUYV),
+> > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16, YVYU),
+> > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YUV420),
+> > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YVU420),
+> > > > >  };
+> > > > >
+> > > > >  const struct tegra_vi_soc tegra20_vi_soc =3D {
+> > > > >
+> > > >
+> > > >
+> > > >
+> > > >
+> >
+> >
+> >
+> >
 
-> > +
-> > +/**
-> > + * v4l2_get_active_data_lanes - Get number of active data lanes from driver
-> > + *
-> > + * @pad: The transmitter's media pad.
-> > + * @max_data_lanes: The maximum number of active data lanes supported by
-> > + * 		    the MIPI CSI link in hardware. This can be configured
-> > + * 		    in device tree.
-> 
-> I'd remove the latter sentence. Alternatively, it needs to be improved:
-> there are other sources for this information than DT.
-> 
-> > + *
-> > + * This function is intended for obtaining the number of data lanes that are
-> > + * actively being used by the driver for a MIPI CSI-2 device on a given media pad.
-> > + * This information is derived from a mbus_config fetched from a device driver
-> > + * using the get_mbus_config v4l2_subdev pad op.
-> > + *
-> > + * Return:
-> > + * * >0: Number of active data lanes
-> > + * * %-EINVAL: Number of active data lanes is invalid, as it exceeds the maximum
-> > + *	       supported data lanes listed in device tree.
 
-Drop "listed in the device tree" here too.
 
-With those small issues fixed,
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> > + */
-> > +unsigned int v4l2_get_active_data_lanes(const struct media_pad *pad,
-> > +					unsigned int max_data_lanes);
-> >  #else
-> >  #define v4l2_get_link_freq(handler, mul, div)		\
-> >  	__v4l2_get_link_freq_ctrl(handler, mul, div)
-
--- 
-Regards,
-
-Laurent Pinchart
 
