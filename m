@@ -1,248 +1,301 @@
-Return-Path: <linux-media+bounces-42890-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42891-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B80AB8F22E
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 08:25:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 97BE8B8F26A
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 08:31:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id A11A57A9449
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 06:23:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6CC7D189A263
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 06:31:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 617702ED164;
-	Mon, 22 Sep 2025 06:24:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 849A52ECEA7;
+	Mon, 22 Sep 2025 06:31:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LcS4L6aK"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mGqwvr/T"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B87D0243374;
-	Mon, 22 Sep 2025 06:24:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A176E20E6E2
+	for <linux-media@vger.kernel.org>; Mon, 22 Sep 2025 06:31:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758522255; cv=none; b=hivL61U0lvg+Dh66DKPnHeE8MAhof0MeKIFhxjdFexGM9EHCfLamUy/QHTBrCAQ+roR59MzC3U/AHty57b8d1t35gyAtVz+rpiph9acVsdLRvdLeM1/au/ZNqlsoQm7ZEUhZFWBg8INTN2qAjB9Bi66h3gC4bPqOzzlmuQQiFa0=
+	t=1758522663; cv=none; b=FkjjpUBHmjBcOba7uzDMaW7Di6uN8PZNkMamyNbt7jxBCiMFWLSyP6iVwPPk1xXQorW7z8X9BZ6YPzoRUDFne6ofMBtCNb0kGQz/YUiZ0JrJiiGwrGm6H+zW2fKeSdiKZfbJPYQ1Z3CKbqfq0ogzeIng2+Sn66Fp6rj467NerbI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758522255; c=relaxed/simple;
-	bh=ItzcklpR0VEI3W2fs8IVOzcdzh9vl6FK1hexHboE1Ck=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JAD+wnDUeRxAextVA/w6n1tWtDv7xlINki1JgO32ALnleFP8O15mKxvMIj5XwJhKBEttok3XhGmb8L4HI2sP/X2teL76KQYsla86vA3oUKC8wHPPti+q99DLrPjYu5b5x9CLcWjkeJLI7RbnI9gh65BIGreBOB4Ox+T/gf3BAno=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LcS4L6aK; arc=none smtp.client-ip=198.175.65.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1758522254; x=1790058254;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=ItzcklpR0VEI3W2fs8IVOzcdzh9vl6FK1hexHboE1Ck=;
-  b=LcS4L6aKKF+65EXqKDTA0RlWdCtXmUX1P6xA7W/CZO/cBuHvh9rJumOb
-   Mu9OgsBX7FsCHhV/3MesgwCsUCeM59zovu0AhmdEtylvRCFqEDFehlIWf
-   MtT+qOy07FykMdroycCclUxDIIBmrAnVwpuoHj8V3DgbWywUL5Vifa1H6
-   fhpIIWK+aHW3ySseMWiqRvtTmSRQuBzBUYzDmhGvVscF9Kqd3pX+XdKLK
-   hHDjuFpLu1qwWO1Gpg4pgH7AhG0tgN9fKbHoN53XSnhogDCHU4QuZW9y3
-   gpfecadJDJ7zEBIgV9qFCEidA8AYTXfJiJomFJiRBTGkmZMJGPoTHJ3mR
-   A==;
-X-CSE-ConnectionGUID: 9SlGhMczRH2agNRUtDlq0Q==
-X-CSE-MsgGUID: Tu6RabkMQQiccy5y+0zyOw==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="60833837"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="60833837"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 23:24:13 -0700
-X-CSE-ConnectionGUID: Eg0xHE8hQKCggUhFi/aITQ==
-X-CSE-MsgGUID: aUR+PvcVRmKqFRgI5cT0QQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,284,1751266800"; 
-   d="scan'208";a="200109407"
-Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.61])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Sep 2025 23:24:09 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with ESMTP id 5BFAD11F982;
-	Mon, 22 Sep 2025 09:24:06 +0300 (EEST)
-Date: Mon, 22 Sep 2025 09:24:06 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: "Du, Bin" <bin.du@amd.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	mchehab@kernel.org, hverkuil@xs4all.nl, bryan.odonoghue@linaro.org,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
-	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
-	Dominic.Antony@amd.com,
-	Mario Limonciello <mario.limonciello@amd.com>, Richard.Gong@amd.com,
-	anson.tsao@amd.com
-Subject: Re: [PATCH v2 8/8] Documentation: add documentation of AMD isp 4
- driver
-Message-ID: <aNDrhlLL3UpfyBpV@kekkonen.localdomain>
-References: <20250618091959.68293-1-Bin.Du@amd.com>
- <20250618091959.68293-9-Bin.Du@amd.com>
- <20250805113719.GF24627@pendragon.ideasonboard.com>
- <e614b565-81e0-49c0-93dc-af1936462728@amd.com>
- <aKXC0Q4IiKmkjoSH@kekkonen.localdomain>
- <63949b3b-ca2d-42aa-bc8d-43f2952d307a@amd.com>
+	s=arc-20240116; t=1758522663; c=relaxed/simple;
+	bh=5OhwGux6ou9g6/LIEcHhMB74OG5Iog4JQZsaPDeECSU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=AIv1MCLKE6PtYkiVl1MNTAnNULWa1w4kJ7h1DRIdNxpf0BMhhXzRuciKcWnak6X7R05B0Qy9+e2nNc4aQ0szZQa0onHa9xF59G+9sfMz8fMc6divTwGlJP+h08r+6g7PVUNXllVWE/WLhf+MnqlwrDGy2R3omS9f7WCoDwwIFtw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mGqwvr/T; arc=none smtp.client-ip=209.85.128.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-45dd513f4ecso28621735e9.3
+        for <linux-media@vger.kernel.org>; Sun, 21 Sep 2025 23:31:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758522659; x=1759127459; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JBI7ozwg7DTSQ24O2TuFL4d84hmFpnF5vS3hSbCRd3Q=;
+        b=mGqwvr/TMPhsqPk61nyIphPWj/fzaAi7hR7G74g8uMJ1qyMKLr2PYeh2k8GqZisZYh
+         JGaxgZwmhJYWfhQEz3uJfNrYmov5GuHwucpFCnicrOfx/KyZ2oD0LuImEj78CrwNZCjo
+         ywjl6XuAsPeV9LGa4dHASaJSpdgTgShcpF+pyJwerl3f+SnPNlLGPh5zyLUg6DJMSYnw
+         UNl6vDlzNy1acK0KdV/fbe75yNjVeSNZ4oWOcX0lf6Fut9876OMGap2A/2lIB8/EwRQS
+         gjSHfkztsi6/OhPyaFLFL8FPeSuIyLRHdrCt8VFUYy2TjBjlfMt/j/vnelgc7dbfZam7
+         ZFMw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758522659; x=1759127459;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=JBI7ozwg7DTSQ24O2TuFL4d84hmFpnF5vS3hSbCRd3Q=;
+        b=OUT8gWcst0zJE3L9yrZwZUz/txDCD2TQuAEpz7UoiA6umZKizlLB8LNVVGsdG1P3A3
+         7pvQDCyQNyVi6rp+pqpJDSbqTamp6HPGut0UBVfjSeW7XdwqMnVXlNdvkH3ufwdQYd2y
+         yLp30GTTcybKB5HprfYCtFhYM15m/j9LV6SjS969peeZdnUy0+kmS/8wpO1o5b7P/Y3Y
+         ogLdB//VMtj7uysyIXVYl+CeJyO+vuZWB4SYizTdRbg5EKxmhflNGPDuSAMHzpalbGKf
+         ZbiVqyKH4ZdKHBlLkPMDo/CPAK9Bhj0Hz8oBnxpxm8F/YLAVnpB3al5G75aicWwUKrpO
+         jA8g==
+X-Forwarded-Encrypted: i=1; AJvYcCW+gQ+RiBkgsz2y4hgzWNjxdRtHgz8nyDJMHRlQAZlJ5YExaZGxvmaaD3v+q7mQqe6FQYJVOYZUZnYLzg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6N6yDNuieIXlbi/3XTE4e/AGxZ6cSAiyaAsvo+tb75wQS25Iz
+	S3dz7vnFB8e9kav3H0y2spukbsWTx7wLoK6PmsrqXxXALdfUzHS3l08XEJ0pN1rGYof/te0sDmM
+	yvwRKvGr4rZ3iXOUZK9II+OOgH+PFWps=
+X-Gm-Gg: ASbGnctKqlczgesq3+jF2nIdT6mF5Iw8tGNzMOpGud9rImnsdzHTSL3hStfbIit531d
+	/PYr/IVQBlss74K/F5SZHZfU+7oby1A8yfvkMZM+TPnejeVY0WYOtz85mt3v5DXThV+EvNRj/Uz
+	N2a2lGbCAu/WASIzmEhvMyNoSq9+i8J8rDms0R04UJ+rLZzLNkX3IMxlKWu2NazedW1zKSwO4EM
+	ZcdUiMP
+X-Google-Smtp-Source: AGHT+IEgRyr03+K3nP1v4RFDAaB2T/dukNJX/7fSxSDXqoenOtbaJwHE6abGnYzKvIAOsR+BBjFG+VRT8nGt6XTXdf4=
+X-Received: by 2002:a05:600c:1554:b0:45d:f7ca:4f07 with SMTP id
+ 5b1f17b1804b1-467efb04520mr94891755e9.18.1758522658794; Sun, 21 Sep 2025
+ 23:30:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <63949b3b-ca2d-42aa-bc8d-43f2952d307a@amd.com>
+References: <20250906135345.241229-1-clamor95@gmail.com> <25240767.ouqheUzb2q@senjougahara>
+ <CAPVz0n1Tur0YY7yOYAyUFvyTxie4OteyzGhzv487L+aA-YY+wQ@mail.gmail.com> <4198615.hdfAi7Kttb@senjougahara>
+In-Reply-To: <4198615.hdfAi7Kttb@senjougahara>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Mon, 22 Sep 2025 09:30:47 +0300
+X-Gm-Features: AS18NWDVc75UgxzKXU9wjmggqvC2LNOMRXXeLZ6ybXXuZrOg-NHyYp0QsvZuWLs
+Message-ID: <CAPVz0n0TPKa2cVXZdUEAWWHquGeqzj=p-9cXx79jc6RwXLkkGg@mail.gmail.com>
+Subject: Re: [PATCH v2 16/23] staging: media: tegra-video: tegra20: simplify
+ format align calculations
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>, Thierry Reding <treding@nvidia.com>, 
+	Jonathan Hunter <jonathanh@nvidia.com>, Sowjanya Komatineni <skomatineni@nvidia.com>, 
+	Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Prashant Gaikwad <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Dmitry Osipenko <digetx@gmail.com>, 
+	=?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+	Charan Pedumuru <charan.pedumuru@gmail.com>, dri-devel@lists.freedesktop.org, 
+	devicetree@vger.kernel.org, linux-tegra@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Bin,
+=D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 09:23 Mikk=
+o Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Monday, September 22, 2025 2:13=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 07:44 =
+Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > >
+> > > On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ryhel wrot=
+e:
+> > > > Simplify format align calculations by slightly modifying supported =
+formats
+> > > > structure.
+> > > >
+> > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > ---
+> > > >  drivers/staging/media/tegra-video/tegra20.c | 41 ++++++++---------=
+----
+> > > >  1 file changed, 16 insertions(+), 25 deletions(-)
+> > > >
+> > > > diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/=
+staging/media/tegra-video/tegra20.c
+> > > > index 6e0b3b728623..781c4e8ec856 100644
+> > > > --- a/drivers/staging/media/tegra-video/tegra20.c
+> > > > +++ b/drivers/staging/media/tegra-video/tegra20.c
+> > > > @@ -280,20 +280,8 @@ static void tegra20_fmt_align(struct v4l2_pix_=
+format *pix, unsigned int bpp)
+> > > >       pix->width  =3D clamp(pix->width,  TEGRA20_MIN_WIDTH,  TEGRA2=
+0_MAX_WIDTH);
+> > > >       pix->height =3D clamp(pix->height, TEGRA20_MIN_HEIGHT, TEGRA2=
+0_MAX_HEIGHT);
+> > > >
+> > > > -     switch (pix->pixelformat) {
+> > > > -     case V4L2_PIX_FMT_UYVY:
+> > > > -     case V4L2_PIX_FMT_VYUY:
+> > > > -     case V4L2_PIX_FMT_YUYV:
+> > > > -     case V4L2_PIX_FMT_YVYU:
+> > > > -             pix->bytesperline =3D roundup(pix->width, 2) * 2;
+> > > > -             pix->sizeimage =3D roundup(pix->width, 2) * 2 * pix->=
+height;
+> > > > -             break;
+> > > > -     case V4L2_PIX_FMT_YUV420:
+> > > > -     case V4L2_PIX_FMT_YVU420:
+> > > > -             pix->bytesperline =3D roundup(pix->width, 8);
+> > > > -             pix->sizeimage =3D roundup(pix->width, 8) * pix->heig=
+ht * 3 / 2;
+> > > > -             break;
+> > > > -     }
+> > > > +     pix->bytesperline =3D DIV_ROUND_UP(pix->width * bpp, 8);
+> > >
+> > > Assuming the bpp is coming from the format table below, this changes =
+the value of bytesperline for planar formats. With this it'll be (width * 1=
+2) / 8 i.e. width * 3/2, which doesn't sound right.
+> > >
+> >
+> > Downstream uses soc_mbus_bytes_per_line for this calculation which was
+> > deprecated some time ago, here is a fragment
+> >
+> > s32 soc_mbus_bytes_per_line(u32 width, const struct soc_mbus_pixelfmt *=
+mf)
+> > {
+> >  if (mf->fourcc =3D=3D V4L2_PIX_FMT_JPEG)
+> >  return 0;
+> >
+> >  if (mf->layout !=3D SOC_MBUS_LAYOUT_PACKED)
+> >  return width * mf->bits_per_sample / 8;
+> >
+> >  switch (mf->packing) {
+> >  case SOC_MBUS_PACKING_NONE:
+> >   return width * mf->bits_per_sample / 8;
+> >  case SOC_MBUS_PACKING_2X8_PADHI:
+> >  case SOC_MBUS_PACKING_2X8_PADLO:
+> >  case SOC_MBUS_PACKING_EXTEND16:
+> >   return width * 2;
+> >  case SOC_MBUS_PACKING_1_5X8:
+> >   return width * 3 / 2;
+> >  case SOC_MBUS_PACKING_VARIABLE:
+> >   return 0;
+> >  }
+> >    return -EINVAL;
+> > }
+> >
+> > V4L2_PIX_FMT_YUV420 and V4L2_PIX_FMT_YVU420 are classified as
+> > SOC_MBUS_PACKING_1_5X8 hence we get width * 3/2
+>
+> Googling this brings up the entry
+>
+> {
+>         .code =3D V4L2_MBUS_FMT_YUYV8_1_5X8,
+>         .fmt =3D {
+>                 .fourcc                 =3D V4L2_PIX_FMT_YUV420,
+>                 .name                   =3D "YUYV 4:2:0",
+>                 .bits_per_sample                =3D 8,
+>                 .packing                        =3D SOC_MBUS_PACKING_1_5X=
+8,
+>                 .order                  =3D SOC_MBUS_ORDER_LE,
+>                 .layout                 =3D SOC_MBUS_LAYOUT_PACKED,
+>         },
+> }
+>
+> which matches that you're describing. It doesn't make sense to me, since =
+it at the same time specifies PIX_FMT_YUV420 (which is planar with 3 planes=
+, as documented by include/uapi/linux/videodev2.h), and LAYOUT_PACKED
+>
+> /**
+>  * enum soc_mbus_layout - planes layout in memory
+>  * @SOC_MBUS_LAYOUT_PACKED:             color components packed
+>  * @SOC_MBUS_LAYOUT_PLANAR_2Y_U_V:      YUV components stored in 3 planes=
+ (4:2:2)
+>  * @SOC_MBUS_LAYOUT_PLANAR_2Y_C:        YUV components stored in a luma a=
+nd a
+>  *                                      chroma plane (C plane is half the=
+ size
+>  *                                      of Y plane)
+>  * @SOC_MBUS_LAYOUT_PLANAR_Y_C:         YUV components stored in a luma a=
+nd a
+>  *                                      chroma plane (C plane is the same=
+ size
+>  *                                      as Y plane)
+>  */
+> enum soc_mbus_layout {
+>         SOC_MBUS_LAYOUT_PACKED =3D 0,
+>         SOC_MBUS_LAYOUT_PLANAR_2Y_U_V,
+>         SOC_MBUS_LAYOUT_PLANAR_2Y_C,
+>         SOC_MBUS_LAYOUT_PLANAR_Y_C,
+> };
+>
+> i.e. non-planar. The code in the driver is handling it as three planes as=
+ well, with addresses VB0_BASE_ADDRESS/VB0_BASE_ADDRESS_U/VB0_BASE_ADDRESS_=
+V. Since the planes are separate, there should be no need to have more than=
+ 'width' samples per line.
+>
 
-On Fri, Aug 22, 2025 at 10:20:01AM +0800, Du, Bin wrote:
-> Many thanks Sakari Ailus for your deep insight
-> 
-> On 8/20/2025 8:42 PM, Sakari Ailus wrote:
-> > Hi Bin,
-> > 
-> > On Tue, Aug 12, 2025 at 09:36:04AM +0800, Du, Bin wrote:
-> > > Many thanks Laurent Pinchart for the review.
-> > > 
-> > > On 8/5/2025 7:37 PM, Laurent Pinchart wrote:
-> > > > On Wed, Jun 18, 2025 at 05:19:59PM +0800, Bin Du wrote:
-> > > > > Add documentation for AMD isp 4 and describe the main components
-> > > > > 
-> > > > > Signed-off-by: Bin Du <Bin.Du@amd.com>
-> > > > > Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
-> > > > > ---
-> > > > >    Documentation/admin-guide/media/amdisp4-1.rst | 64 +++++++++++++++++++
-> > > > >    Documentation/admin-guide/media/amdisp4.dot   |  8 +++
-> > > > >    MAINTAINERS                                   |  2 +
-> > > > >    3 files changed, 74 insertions(+)
-> > > > >    create mode 100644 Documentation/admin-guide/media/amdisp4-1.rst
-> > > > >    create mode 100644 Documentation/admin-guide/media/amdisp4.dot
-> > > > > 
-> > > > > diff --git a/Documentation/admin-guide/media/amdisp4-1.rst b/Documentation/admin-guide/media/amdisp4-1.rst
-> > > > > new file mode 100644
-> > > > > index 000000000000..417b15af689a
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/admin-guide/media/amdisp4-1.rst
-> > > > > @@ -0,0 +1,64 @@
-> > > > > +.. SPDX-License-Identifier: GPL-2.0
-> > > > > +
-> > > > > +.. include:: <isonum.txt>
-> > > > > +
-> > > > > +====================================
-> > > > > +AMD Image Signal Processor (amdisp4)
-> > > > > +====================================
-> > > > > +
-> > > > > +Introduction
-> > > > > +============
-> > > > > +
-> > > > > +This file documents the driver for the AMD ISP4 that is part of
-> > > > > +AMD Ryzen AI Max 385 SoC.
-> > > > > +
-> > > > > +The driver is located under drivers/media/platform/amd/isp4 and uses
-> > > > > +the Media-Controller API.
-> > > > > +
-> > > > > +Topology
-> > > > > +========
-> > > > > +
-> > > > > +.. _amdisp4_topology_graph:
-> > > > > +
-> > > > > +.. kernel-figure:: amdisp4.dot
-> > > > > +     :alt:   Diagram of the media pipeline topology
-> > > > > +     :align: center
-> > > > > +
-> > > > > +
-> > > > > +
-> > > > > +The driver has 1 sub-device:
-> > > > > +
-> > > > > +- isp: used to resize and process bayer raw frames in to yuv.
-> > > > > +
-> > > > > +The driver has 1 video device:
-> > > > > +
-> > > > > +- <capture video device: capture device for retrieving images.
-> > > > > +
-> > > > > +
-> > > > > +  - ISP4 Image Signal Processing Subdevice Node
-> > > > > +-----------------------------------------------
-> > > > > +
-> > > > > +The isp4 is represented as a single V4L2 subdev, the sub-device does not
-> > > > > +provide interface to the user space.
-> > > > 
-> > > > Doesn't it ? The driver sets the V4L2_SUBDEV_FL_HAS_DEVNODE flag for the
-> > > > subdev, and calls v4l2_device_register_subdev_nodes().
-> > > > 
-> > > 
-> > > We have exported subdev device to user space during the testing with
-> > > libcamera sample pipeline.
-> > > 
-> > > > As far as I understand, the camera is exposed by the firmware with a
-> > > > webcam-like interface. We need to better understand your plans with this
-> > > > driver. If everything is handled by the firmware, why are the sensor and
-> > > > subdev exposed to userspace ? Why can't you expose a single video
-> > > > capture device, with a media device, and handle everything behind the
-> > > > scene ? I assume there may be more features coming later. Please
-> > > > document the plan, we can't provide feedback on the architecture
-> > > > otherwise.
-> > > > 
-> > > 
-> > > Currently, isp fw is controlling the sensor to update just the exposure and
-> > > gain, since the 3A algorithms run on ISP HW rather than on x86. In a future
-> > > version, we plan to introduce raw output support in the ISP driver, allowing
-> > > users to choose between AMD’s 3A running on ISP hardware or a custom 3A
-> > > running on x86. If the user opts for the x86-based 3A, the firmware will
-> > > relinquish control of the sensor, and hands over full control to the x86
-> > > system.
-> > 
-> > There are a few problems I see with this approach.
-> > 
-> > Camera sensors are separate devices from the ISP and they're expected to be
-> > controlled by the respective camera sensor drivers and these drivers only.
-> > The firmware contains the camera control algorithms as well as tuning; this
-> > is something that's better located outside of it.
-> > 
-> > The complex camera system comprising of a camera sensor, an ISP and a
-> > microcontroller within you have is right now semi-integrated to the SoC and
-> > I think it needs to be either fully unintegrated (the ISPs we currently
-> > support) or fully integrated (e.g. UVC webcams).
-> > 
-> > There are two options that I can see here, in descending order of
-> > preference:
-> > 
-> > 1. Control the ISP processing blocks from the AMD ISP driver, via a
-> >     documented UAPI. This includes setting processing block parameters and
-> >     being able to obtain statistics from the ISP. This is aligned with the
-> >     other currently supported ISP drivers.
-> >     This option could include support for the CSI-2 receiver only, with the
-> >     processing taking place in SoftISP. Fully supported ISP would of course
-> >     be preferred.
-> >     Right now I don't have an opinion on whether or not this needs to
-> >     include libcamera support, but the ISP driver wouldn't be of much use
-> >     without that anyway.
-> > 
-> > 2. Move sensor control to firmware and make the AMD ISP driver expose an
-> >     interface that looks like a webcam, akin to the UVC driver. In this case
-> >     there's also no use for the sensor driver you've posted earlier.
-> >     Overall, the ISP/sensor combination will probably be limited to use as a
-> >     webcam in this case.
-> > 
-> 
-> Based on our internal discussion and validation, will make option 2 as our
-> current upstream target, after that, will plan option 1 with more
-> considerations, a. Whether to provide the capability and interface so user
-> can do switch between option 1 and 2. b. Whether and how to expose interface
-> so host can leverage the ISP HW feature to accelerat some processing. Though
-> sensor driver is not used in option 2, we still plan to upstream it because
-> of option 1 as next step.
+I did not invent this, I have just simplified this calculation from
+downstream, output values remain same. I have no cameras which can
+output V4L2_PIX_FMT_YUV420 or V4L2_PIX_FMT_YVU420 so I cannot test if
+this works either. Other YUV and RAW formats were tested on real HW
+and work perfectly fine.
 
-I expect this to take some time.
-
-In the meantime, I'm inclined to merge ov02c05 driver from Bingbu / Hao in
-case they can provide an upstreamable one as that driver would have users
-already today. That being said, it won't be a problem accommodating the
-needs of both into the same driver.
-
--- 
-Kind regards,
-
-Sakari Ailus
+> >
+> > > > +     pix->sizeimage =3D pix->bytesperline * pix->height;
+> > > >  }
+> > > >
+> > > >  /*
+> > > > @@ -576,20 +564,23 @@ static const struct tegra_vi_ops tegra20_vi_o=
+ps =3D {
+> > > >       .vi_stop_streaming =3D tegra20_vi_stop_streaming,
+> > > >  };
+> > > >
+> > > > -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)    \
+> > > > -{                                                    \
+> > > > -     .code    =3D MEDIA_BUS_FMT_##MBUS_CODE,           \
+> > > > -     .bpp     =3D BPP,                                 \
+> > > > -     .fourcc  =3D V4L2_PIX_FMT_##FOURCC,               \
+> > > > +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE, BPP, FO=
+URCC)      \
+> > > > +{                                                                 =
+   \
+> > > > +     .img_dt         =3D TEGRA_IMAGE_DT_##DATA_TYPE,              =
+     \
+> > > > +     .bit_width      =3D BIT_WIDTH,                               =
+     \
+> > > > +     .code           =3D MEDIA_BUS_FMT_##MBUS_CODE,               =
+     \
+> > > > +     .bpp            =3D BPP,                                     =
+     \
+> > > > +     .fourcc         =3D V4L2_PIX_FMT_##FOURCC,                   =
+     \
+> > > >  }
+> > > >
+> > > >  static const struct tegra_video_format tegra20_video_formats[] =3D=
+ {
+> > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
+> > > > -     TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
+> > > > -     TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
+> > > > -     TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
+> > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
+> > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
+> > > > +     /* YUV422 */
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 16, UYVY),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 16, VYUY),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 16, YUYV),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16, YVYU),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YUV420),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YVU420),
+> > > >  };
+> > > >
+> > > >  const struct tegra_vi_soc tegra20_vi_soc =3D {
+> > > >
+> > >
+> > >
+> > >
+> > >
+>
+>
+>
+>
 
