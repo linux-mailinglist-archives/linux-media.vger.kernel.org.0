@@ -1,203 +1,127 @@
-Return-Path: <linux-media+bounces-42961-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42962-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1B867B92966
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 20:22:48 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B6CCB92A05
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 20:44:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CAA4344424A
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 18:22:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0460D2A6EDA
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 18:44:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D78E83191DE;
-	Mon, 22 Sep 2025 18:22:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6367B31A545;
+	Mon, 22 Sep 2025 18:44:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="L/8FBKlT"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ebwaCkxH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE2F2318146;
-	Mon, 22 Sep 2025 18:22:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 841F92EAB64;
+	Mon, 22 Sep 2025 18:44:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758565360; cv=none; b=VOs2ex/XUZ7itzgX0HtUob1TP/NIS4CMnW7ojmwpjJm62pLQVkn3a+QfqkLaxtL0M1rKFmvrQfhJ+R1/fePozykF4rUY6DAhXKvp/WFuatNkTpAq7AoCo73RW4TCYuJkLo/XhCxeWQqTf6hMqQa9x0qUSV9yL7oJ8UggjxlW7T0=
+	t=1758566646; cv=none; b=bx8HLSZEokhdD+8K1Ijry70ogecwg+5N8FRybl88hVSRVVDQL4qxQ/mwGP6GTDHXqnKD8FGjaswe8oTLpAbSnTvSb/e/t4CKAE7GyBQ4ZJ7WzcyEFpu2lmikfoJ4FMUieqqdj/RKFxf5F5NBzhs33nHy+F7PDrDC0buElHpxfiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758565360; c=relaxed/simple;
-	bh=b5FgkqgcRpAPhJwM4wWi1BVoVHnT8H6KCuQiV5V1p+U=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=PWWWpifizhJDASgPwaIODG0O4y8hkS60ar5NVMz+84rwQp8CLj6n8aOPSTeYfGdpMjRbJAw4xGFhfWnhGIcAUgnzm+irkJWX6JchxnRCSqyf618CUPxfaNMQ0nvWamFk/m1yhm/w3EVqmB6W/jVtZhufnbDbZWkMYS1Sk47osHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=L/8FBKlT; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:2e97:e92:3fbf:8dbb])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 508A46DC;
-	Mon, 22 Sep 2025 20:21:07 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1758565267;
-	bh=b5FgkqgcRpAPhJwM4wWi1BVoVHnT8H6KCuQiV5V1p+U=;
-	h=From:To:Cc:Subject:Date:From;
-	b=L/8FBKlTGlVV3ey/JGNvHo6MtrVf+y5bke3Xlf8bg+YOU2PXd0Dz7FhpkV1Ox6haE
-	 K9QeVFFRVUZCbBWVJcL3x+AroTBlA/Z8PC98dlyj68cDMiATGWCncSn5JhV1SIzO1a
-	 B7f/eCGy1HGbgsLo8veDdlTavU5elt8ACigglgM4=
-From: Stefan Klug <stefan.klug@ideasonboard.com>
-To: linux-media@vger.kernel.org,
-	Dafna Hirschfeld <dafna@fastmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Heiko Stuebner <heiko@sntech.de>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Stefan Klug <stefan.klug@ideasonboard.com>,
-	linux-rockchip@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v3] media: rkisp1: Improve frame sequence correctness on stats and params buffers
-Date: Mon, 22 Sep 2025 20:19:57 +0200
-Message-ID: <20250922182003.3712101-2-stefan.klug@ideasonboard.com>
-X-Mailer: git-send-email 2.48.1
+	s=arc-20240116; t=1758566646; c=relaxed/simple;
+	bh=qJ+biJM2TwoXnGA56XQYa05itNz8yBOcvDagz+NFrGU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=D/46b346d3wCrvDYdNycR4NZgaJ5yVCEFWSaIVJYmyb/FmB58ujFXam+EVmkW6j2c9feSexafBb1y5zcJrSSlUmdVh4TCDoygRBUQa7VpD4/GbmrelOE/VVn9KbOY9GEcTBsc3cskIjGdF3DxX9hw0jPOAm03oEs0gMNHvA7tp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ebwaCkxH; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1758566642;
+	bh=qJ+biJM2TwoXnGA56XQYa05itNz8yBOcvDagz+NFrGU=;
+	h=From:Subject:Date:To:Cc:From;
+	b=ebwaCkxHDAGHYS4qE8QPgOdYsJO6p5SHToqt6R/xmZUc2nyC5YmOn1TmNIH/TLIjX
+	 WqaAwY4noR5s0Roa9ac1OaDa08wQIQDT6xtmUmg25QzyM8HdIb/icMWquGIN7i50Cz
+	 elcNukL3U+BSecVNtDaJ1/FrVAKZ98CZ5meoEr5Ka+9DcoeRlPY51n4WpjBQXiUsMe
+	 vO8OkI5Nx7asWoNczggXDG3Uf9wjsfjoAZdZrarvAxelWxxsVVmCeEQSEPNHFOyA1b
+	 iebbRxnZKeQtOGMZluTaAKXwTQpVc64UzS9xBlkkGxOz3a9JBfwITtxRt2q7RpTsuw
+	 mPVBEYdQmhrXw==
+Received: from [192.168.13.179] (unknown [IPv6:2606:6d00:10:aee0::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id CAF7517E124A;
+	Mon, 22 Sep 2025 20:44:00 +0200 (CEST)
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Subject: [PATCH 0/2] media: verisilicon: Fix Hantro G2 handling of invalid
+ DPB index
+Date: Mon, 22 Sep 2025 14:43:37 -0400
+Message-Id: <20250922-imx8mq-hantro-g2-hang-v1-0-67d00eb6a548@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIANmY0WgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
+ vPSU3UzU4B8JSMDI1MDS0NL3czcCovcQl2gXElRvm66EYiVrpucZGCSkpxiYJ5oYaIE1FtQlJq
+ WWQE2Nzq2thYAdneXa2cAAAA=
+X-Change-ID: 20250919-imx8mq-hantro-g2-hang-cb04dcd07a84
+To: Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
+ Philipp Zabel <p.zabel@pengutronix.de>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
+ Sascha Hauer <s.hauer@pengutronix.de>, 
+ Pengutronix Kernel Team <kernel@pengutronix.de>, 
+ Fabio Estevam <festevam@gmail.com>, 
+ Jernej Skrabec <jernej.skrabec@gmail.com>, 
+ Hans Verkuil <hverkuil@kernel.org>, 
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+ linux-kernel@vger.kernel.org, imx@lists.linux.dev, 
+ linux-arm-kernel@lists.infradead.org, kernel@collabora.com, 
+ Stable@vger.kernel.org, Nicolas Dufresne <nicolas.dufresne@collabora.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1598;
+ i=nicolas.dufresne@collabora.com; h=from:subject:message-id;
+ bh=qJ+biJM2TwoXnGA56XQYa05itNz8yBOcvDagz+NFrGU=;
+ b=owGbwMvMwCV203FKoGZC0RfG02pJDBkXZ3yovtPKc/bayuTVDL5Te89tm/FbdErJsc2fd4XbV
+ 7fkbXyo1FHKwiDGxSArpsjynjeoUfTI4UNSLPlCMHNYmUCGMHBxCsBEihkZ/odfUsnYEhFo8fR7
+ rNdNKW3pL4opq9dsnJ82w0Q2ereLgSDDf/8GueoZh8xYDdZ+yG/fINd6z3b93u8P9u5lXcdVuL+
+ 8nBsA
+X-Developer-Key: i=nicolas.dufresne@collabora.com; a=openpgp;
+ fpr=EF0D528115C4C3C21A046F12D9419451296072F4
 
-On the rkisp1 (in my case on a NXP i.MX8 M Plus) the ISP interrupt
-handler is sometimes called with RKISP1_CIF_ISP_V_START (start of frame)
-and RKISP1_CIF_ISP_FRAME (end of frame) being set at the same time. In
-commit 8524fa22fd2f ("media: staging: rkisp1: isp: add a warning and
-debugfs var for irq delay") a warning was added for that. There are two
-cases where this condition can occur:
+First patch hardens the IRQ handler so the driver can resume after
+hitting bus errors (presumably AXI errors). This will reduce the
+risk of having to reboot the system in order to recover.
 
-1. The v-sync and the frame-end belong to the same frame. This means,
-   the irq was heavily delayed and the warning is likely appropriate.
+The second patch actually fix the issue, ensuring the decoder won't be
+instructed to use address 0x0 as a reference anymore.
 
-2. The v-sync belongs to the next frame. This can happen if the vertical
-   blanking between two frames is very short.
+The issues was discovered using GStreamer. A bug in the userspace lead
+to skippable (RASL) frames not being skipped if its past reference are
+missing. This will happen when seeking inside a video that makes use of
+this GOP configuration. The probably could also have been hit in lossy
+streaming use cases, such as WebRTC. The JCT-VC-HEVC_V1 ITU tests still
+results in 141/147 with two concurrent decoders.
 
-The current code always handles case 1 although case 2 is in my
-experience the more common case and happens in regular usage. This leads
-to incorrect sequence numbers on stats and params buffers which in turn
-breaks the regulation in user space. Fix that by adding a frame_active
-flag to distinguish between these cases and handle the start of frame
-either at the beginning or at the end of the rkisp1_isp_isr().
-
-Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 ---
+Nicolas Dufresne (2):
+      media: verisilicon: Fix CPU stalls on G2 bus error
+      media: verisilicon: Protect G2 HEVC decoder against invalid DPB index
 
-Hi all,
-
-Here is an updated version of the patch with a fix for a typo that was
-spotted in the last review.
-
-Changes in v3:
-- Fixed typo in comment
-- Collected r-by tag
-
-Changes in v2:
-- Removed test for !frame_active in second v_start handler
-- Improved comments
+ drivers/media/platform/verisilicon/hantro_g2.c     | 88 +++++++++++++++++-----
+ .../platform/verisilicon/hantro_g2_hevc_dec.c      | 17 ++++-
+ .../media/platform/verisilicon/hantro_g2_regs.h    | 13 ++++
+ .../media/platform/verisilicon/hantro_g2_vp9_dec.c |  2 -
+ drivers/media/platform/verisilicon/hantro_hw.h     |  1 +
+ drivers/media/platform/verisilicon/imx8m_vpu_hw.c  |  2 +
+ 6 files changed, 98 insertions(+), 25 deletions(-)
+---
+base-commit: 40b7a19f321e65789612ebaca966472055dab48c
+change-id: 20250919-imx8mq-hantro-g2-hang-cb04dcd07a84
 
 Best regards,
-Stefan
-
----
- .../platform/rockchip/rkisp1/rkisp1-common.h  |  1 +
- .../platform/rockchip/rkisp1/rkisp1-isp.c     | 27 +++++++++++++++----
- 2 files changed, 23 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-index ca952fd0829b..adf23416de9a 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-@@ -222,6 +222,7 @@ struct rkisp1_isp {
- 	struct media_pad pads[RKISP1_ISP_PAD_MAX];
- 	const struct rkisp1_mbus_info *sink_fmt;
- 	__u32 frame_sequence;
-+	bool frame_active;
- };
- 
- /*
-diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-index 8c29a1c9309a..660c1fd7efcc 100644
---- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-+++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-@@ -965,6 +965,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
- 	}
- 
- 	isp->frame_sequence = -1;
-+	isp->frame_active = false;
- 
- 	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
- 
-@@ -1086,12 +1087,15 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
-  * Interrupt handlers
-  */
- 
--static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
-+static void rkisp1_isp_sof(struct rkisp1_isp *isp)
- {
- 	struct v4l2_event event = {
- 		.type = V4L2_EVENT_FRAME_SYNC,
- 	};
- 
-+	isp->frame_sequence++;
-+	isp->frame_active = true;
-+
- 	event.u.frame_sync.frame_sequence = isp->frame_sequence;
- 	v4l2_event_queue(isp->sd.devnode, &event);
- }
-@@ -1111,15 +1115,20 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
- 
- 	rkisp1_write(rkisp1, RKISP1_CIF_ISP_ICR, status);
- 
--	/* Vertical sync signal, starting generating new frame */
--	if (status & RKISP1_CIF_ISP_V_START) {
--		rkisp1->isp.frame_sequence++;
--		rkisp1_isp_queue_event_sof(&rkisp1->isp);
-+	/*
-+	 * Vertical sync signal, starting new frame. Defer handling of vsync
-+	 * after RKISP1_CIF_ISP_FRAME if the previous frame was not completed
-+	 * yet.
-+	 */
-+	if (status & RKISP1_CIF_ISP_V_START && !rkisp1->isp.frame_active) {
-+		status &= ~RKISP1_CIF_ISP_V_START;
-+		rkisp1_isp_sof(&rkisp1->isp);
- 		if (status & RKISP1_CIF_ISP_FRAME) {
- 			WARN_ONCE(1, "irq delay is too long, buffers might not be in sync\n");
- 			rkisp1->debug.irq_delay++;
- 		}
- 	}
-+
- 	if (status & RKISP1_CIF_ISP_PIC_SIZE_ERROR) {
- 		/* Clear pic_size_error */
- 		isp_err = rkisp1_read(rkisp1, RKISP1_CIF_ISP_ERR);
-@@ -1138,6 +1147,7 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
- 	if (status & RKISP1_CIF_ISP_FRAME) {
- 		u32 isp_ris;
- 
-+		rkisp1->isp.frame_active = false;
- 		rkisp1->debug.complete_frames++;
- 
- 		/* New frame from the sensor received */
-@@ -1152,5 +1162,12 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
- 		rkisp1_params_isr(rkisp1);
- 	}
- 
-+	/*
-+	 * Deferred handling of vsync if RKISP1_CIF_ISP_V_START and
-+	 * RKISP1_CIF_ISP_FRAME occurred in the same irq.
-+	 */
-+	if (status & RKISP1_CIF_ISP_V_START)
-+		rkisp1_isp_sof(&rkisp1->isp);
-+
- 	return IRQ_HANDLED;
- }
 -- 
-2.48.1
+Nicolas Dufresne <nicolas.dufresne@collabora.com>
 
 
