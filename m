@@ -1,361 +1,197 @@
-Return-Path: <linux-media+bounces-42875-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42876-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 160A4B8EF8B
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 07:01:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 987AFB8EFB8
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 07:02:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D1A7B3BDE2C
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 05:00:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0DA933BE26A
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 05:02:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF502220F5E;
-	Mon, 22 Sep 2025 05:00:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 81BE922FAFD;
+	Mon, 22 Sep 2025 05:02:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="PcD03iZC"
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BcNVWZn6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from CH5PR02CU005.outbound.protection.outlook.com (mail-northcentralusazon11012027.outbound.protection.outlook.com [40.107.200.27])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58136347D0;
-	Mon, 22 Sep 2025 05:00:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.200.27
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758517251; cv=fail; b=D8P/Ss8RGSq32dDlGUimDQteDmV7ma7GvrJvCI8NrDtRGLhL/IS2tJFaCOX0jt8p8324zAT4kxJDjq07d3c93iWjyJKtNI+0woKRF60nyHSMqa0cAHpVrxYi1G+oqOxagilHs65kyd89FDPwp+C+eyFPKhLczTkqRiXs+t3VX8k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758517251; c=relaxed/simple;
-	bh=FJ5oJvXoQ1gOZ7yQ9meymn6Dk/5Osq0tfRvqu2EvTCg=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=oVTNMvPFYDUzhViIL6rmDRjTDtjvTKP2mmudRliEoqVYDjuopniJMYo83m6k2fERcDMcVnqSRGMbXh3Ucq/pDimwPzp1ANVI5phdlpswZEos0fYZ6TmYcwE3jMOeH/YNfnKCFT0MTAb9zbYFLG72kA3PIubXD/G5t8v1ArP4+iM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=PcD03iZC; arc=fail smtp.client-ip=40.107.200.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=d7dsfSu9iSGuUbjUyorx0ab4bCff1BDUkbWU5ZPGL36SYFE6Ut2DxEC3ejiIvmdmGR1tsxsdILrnAySlmVgU5Qwz8HJdfeowTs+QzCFX1R721pIsROqIvNDr9t/wt7edslNNjSxdCkLPn0wGTrx58LX+4oN2dhpPRQ3sYBkZ2XVr6iQI620H2N3Fy4EqPojjV5v7wFoRzWQ0jGOM6prXqA2u4o5csiRctA608+9z0uMeeSs3yJDCD6BJyvMISQGUzpY0V9SJa6z/GsCIbAqGYRhqSky9hNbZQJ29qBnFBDQBZ/iWtsj97Te7huPoqDxpIPXrAks7evbaxgLwBSltxQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kbsleFoZ+xUR7tcvCPtcqKqvwAMMr27xQvyLc8ynr7w=;
- b=bOTAEoz9wfCZQv9bnOSXmUK/+8jyNHBjtMit/+3BPHCewPAuL5OlaZGoQD10lRUQGTetOJ38iOy3D5B7GVyhJdgWIGkcNwlXNzfS/UiawwxXCZyC8BGxhjLE0iCwh30TN9mp06/KrTBZWkcOhV85AjooIoNySxXsCVyt5zkl6mmu7BHnaD7q6BcT6vqeOiMpwJS5NwW/Vr0HjcU2mbbL2LmyCymhId2B9Er59Sy87ozv8xV9n8bbBhSBF9ZwXzFvqdaIgpuDs3tVOBQx1odG8wVaK9raksK7Jd3VNSP+4XNWhTzx9yZO67pZPyba5fN5C8XT2UszfMQopgWFCiM7Vw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kbsleFoZ+xUR7tcvCPtcqKqvwAMMr27xQvyLc8ynr7w=;
- b=PcD03iZCCK5NhfotcQuPIaS2fSOFwzV7TiFWmFdnLaICIfZg+BYEvDNHnZ2s+bRZq0i+RKk2sFWs76q6mIODa8NuR1iqdRUBKqV09lYmzgkgLTBAs4aJ9diI7OrtJrSL9odgP562P3NLtYrB+p7gY5rjj5USUKFJafI4Pz0C+qc0/gCgCqYw1wnpNycRaXD/JMuOB0gTcAPHbQLpIabwTSQoWZOVa60VzDCkhTgwYZC7c/x7lgMvj5c0/CjRHqA3GBEwpdMZEiR6bdpaZ5TnERVj5G8g7wGcqFib4fYI4TdiOYpJ0dvWQs9fQ1OYNY24FPW3oXpG0LvU+FJSEObtsw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
- SJ2PR12MB8832.namprd12.prod.outlook.com (2603:10b6:a03:4d0::5) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.9137.19; Mon, 22 Sep 2025 05:00:45 +0000
-Received: from DM4PR12MB6494.namprd12.prod.outlook.com
- ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
- ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
- 05:00:44 +0000
-From: Mikko Perttunen <mperttunen@nvidia.com>
-To: Thierry Reding <thierry.reding@gmail.com>,
- Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
- Sowjanya Komatineni <skomatineni@nvidia.com>,
- Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>,
- Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad <pgaikwad@nvidia.com>,
- Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Svyatoslav Ryhel <clamor95@gmail.com>, Dmitry Osipenko <digetx@gmail.com>,
- Jonas =?UTF-8?B?U2Nod8O2YmVs?= <jonasschwoebel@yahoo.de>,
- Charan Pedumuru <charan.pedumuru@gmail.com>,
- Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
- linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
- linux-staging@lists.linux.dev
-Subject:
- Re: [PATCH v2 19/23] staging: media: tegra-video: tegra20: expand format
- support with RAW8/10 and YUV422 1X16
-Date: Mon, 22 Sep 2025 14:00:39 +0900
-Message-ID: <3835298.oiGErgHkdL@senjougahara>
-In-Reply-To: <20250906135345.241229-20-clamor95@gmail.com>
-References:
- <20250906135345.241229-1-clamor95@gmail.com>
- <20250906135345.241229-20-clamor95@gmail.com>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
-X-ClientProxiedBy: TYCP286CA0157.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:383::12) To DM4PR12MB6494.namprd12.prod.outlook.com
- (2603:10b6:8:ba::19)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70552C148;
+	Mon, 22 Sep 2025 05:02:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758517333; cv=none; b=WBECRCx1R8F7kTNTcagnzxArnF43MW479u8HGGAMhlZvlB/VjgsqF2ErA6pgUWstKhBs7OqMnqvO6tDR8Zjr/anfAd+C4HygXS9ZnJSXP1zkSn8SuZVmOY1m0qawGdyoLE0DPNl78xR/3St2OGg3xOEO3aqQ8H/w7CORuBTSuXc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758517333; c=relaxed/simple;
+	bh=/nk8xPLOsGXuSw5wS41Jy4q570vGloBiPOCZp2/irX0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=WWoTP1eV0IW5JcNDQIZ3a0JzZCn0kPAtsTpcGxzybql9nw2ENzifIuqgGz2ODAmDzW+iz+kjm83zZHvvV/iuSWlKt/bpuTlt3TA0Ex9esZ0dtq15QIiwr7kRfTCrBCfFZHOVvQJ6dSesO4iJruzIc5OKsPjhYFBO5CKYivzF2mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BcNVWZn6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A858C4CEF5;
+	Mon, 22 Sep 2025 05:02:11 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1758517333;
+	bh=/nk8xPLOsGXuSw5wS41Jy4q570vGloBiPOCZp2/irX0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BcNVWZn6zT4Gv/IUZ2C0NZn/XQ5pAMMpsZzcS58NBPYxD2oFH/k4xQ1OcYygH2JDO
+	 qM8XphYZH6pOzc+c2uakvnfuiVmB28vwfNolajwWxIrag0Gc1iZ0LiKuoKaX4EXv7U
+	 h1tGLKcFUdBrn8iKhoSlB6ijAzBdHBAHMrirLbcw=
+Date: Mon, 22 Sep 2025 07:02:08 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: "Farber, Eliav" <farbere@amazon.com>
+Cc: "linux@armlinux.org.uk" <linux@armlinux.org.uk>,
+	"jdike@addtoit.com" <jdike@addtoit.com>,
+	"richard@nod.at" <richard@nod.at>,
+	"anton.ivanov@cambridgegreys.com" <anton.ivanov@cambridgegreys.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"luto@kernel.org" <luto@kernel.org>,
+	"peterz@infradead.org" <peterz@infradead.org>,
+	"tglx@linutronix.de" <tglx@linutronix.de>,
+	"mingo@redhat.com" <mingo@redhat.com>,
+	"bp@alien8.de" <bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>,
+	"hpa@zytor.com" <hpa@zytor.com>,
+	"tony.luck@intel.com" <tony.luck@intel.com>,
+	"qiuxu.zhuo@intel.com" <qiuxu.zhuo@intel.com>,
+	"mchehab@kernel.org" <mchehab@kernel.org>,
+	"james.morse@arm.com" <james.morse@arm.com>,
+	"rric@kernel.org" <rric@kernel.org>,
+	"harry.wentland@amd.com" <harry.wentland@amd.com>,
+	"sunpeng.li@amd.com" <sunpeng.li@amd.com>,
+	"alexander.deucher@amd.com" <alexander.deucher@amd.com>,
+	"christian.koenig@amd.com" <christian.koenig@amd.com>,
+	"airlied@linux.ie" <airlied@linux.ie>,
+	"daniel@ffwll.ch" <daniel@ffwll.ch>,
+	"evan.quan@amd.com" <evan.quan@amd.com>,
+	"james.qian.wang@arm.com" <james.qian.wang@arm.com>,
+	"liviu.dudau@arm.com" <liviu.dudau@arm.com>,
+	"mihail.atanassov@arm.com" <mihail.atanassov@arm.com>,
+	"brian.starkey@arm.com" <brian.starkey@arm.com>,
+	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
+	"mripard@kernel.org" <mripard@kernel.org>,
+	"tzimmermann@suse.de" <tzimmermann@suse.de>,
+	"robdclark@gmail.com" <robdclark@gmail.com>,
+	"sean@poorly.run" <sean@poorly.run>,
+	"jdelvare@suse.com" <jdelvare@suse.com>,
+	"linux@roeck-us.net" <linux@roeck-us.net>,
+	"fery@cypress.com" <fery@cypress.com>,
+	"dmitry.torokhov@gmail.com" <dmitry.torokhov@gmail.com>,
+	"agk@redhat.com" <agk@redhat.com>,
+	"snitzer@redhat.com" <snitzer@redhat.com>,
+	"dm-devel@redhat.com" <dm-devel@redhat.com>,
+	"rajur@chelsio.com" <rajur@chelsio.com>,
+	"davem@davemloft.net" <davem@davemloft.net>,
+	"kuba@kernel.org" <kuba@kernel.org>,
+	"peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
+	"alexandre.torgue@st.com" <alexandre.torgue@st.com>,
+	"joabreu@synopsys.com" <joabreu@synopsys.com>,
+	"mcoquelin.stm32@gmail.com" <mcoquelin.stm32@gmail.com>,
+	"malattia@linux.it" <malattia@linux.it>,
+	"hdegoede@redhat.com" <hdegoede@redhat.com>,
+	"mgross@linux.intel.com" <mgross@linux.intel.com>,
+	"intel-linux-scu@intel.com" <intel-linux-scu@intel.com>,
+	"artur.paszkiewicz@intel.com" <artur.paszkiewicz@intel.com>,
+	"jejb@linux.ibm.com" <jejb@linux.ibm.com>,
+	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
+	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+	"clm@fb.com" <clm@fb.com>,
+	"josef@toxicpanda.com" <josef@toxicpanda.com>,
+	"dsterba@suse.com" <dsterba@suse.com>,
+	"jack@suse.com" <jack@suse.com>, "tytso@mit.edu" <tytso@mit.edu>,
+	"adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
+	"dushistov@mail.ru" <dushistov@mail.ru>,
+	"luc.vanoostenryck@gmail.com" <luc.vanoostenryck@gmail.com>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>,
+	"pmladek@suse.com" <pmladek@suse.com>,
+	"sergey.senozhatsky@gmail.com" <sergey.senozhatsky@gmail.com>,
+	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>,
+	"minchan@kernel.org" <minchan@kernel.org>,
+	"ngupta@vflare.org" <ngupta@vflare.org>,
+	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
+	"kuznet@ms2.inr.ac.ru" <kuznet@ms2.inr.ac.ru>,
+	"yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>,
+	"pablo@netfilter.org" <pablo@netfilter.org>,
+	"kadlec@netfilter.org" <kadlec@netfilter.org>,
+	"fw@strlen.de" <fw@strlen.de>,
+	"jmaloy@redhat.com" <jmaloy@redhat.com>,
+	"ying.xue@windriver.com" <ying.xue@windriver.com>,
+	"willy@infradead.org" <willy@infradead.org>,
+	"sashal@kernel.org" <sashal@kernel.org>,
+	"ruanjinjie@huawei.com" <ruanjinjie@huawei.com>,
+	"David.Laight@aculab.com" <David.Laight@aculab.com>,
+	"herve.codina@bootlin.com" <herve.codina@bootlin.com>,
+	"Jason@zx2c4.com" <Jason@zx2c4.com>,
+	"bvanassche@acm.org" <bvanassche@acm.org>,
+	"keescook@chromium.org" <keescook@chromium.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-um@lists.infradead.org" <linux-um@lists.infradead.org>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"amd-gfx@lists.freedesktop.org" <amd-gfx@lists.freedesktop.org>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"linux-arm-msm@vger.kernel.org" <linux-arm-msm@vger.kernel.org>,
+	"freedreno@lists.freedesktop.org" <freedreno@lists.freedesktop.org>,
+	"linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+	"linux-input@vger.kernel.org" <linux-input@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+	"linux-stm32@st-md-mailman.stormreply.com" <linux-stm32@st-md-mailman.stormreply.com>,
+	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
+	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
+	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
+	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
+	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
+	"linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"netfilter-devel@vger.kernel.org" <netfilter-devel@vger.kernel.org>,
+	"coreteam@netfilter.org" <coreteam@netfilter.org>,
+	"tipc-discussion@lists.sourceforge.net" <tipc-discussion@lists.sourceforge.net>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>,
+	"Chocron, Jonathan" <jonnyc@amazon.com>
+Subject: Re: [PATCH 00/27 5.10.y] Backport minmax.h updates from v6.17-rc6
+Message-ID: <2025092203-untreated-sloppily-23b5@gregkh>
+References: <20250919101727.16152-1-farbere@amazon.com>
+ <2025092136-unelected-skirt-d91d@gregkh>
+ <4f497306c58240a88c0bb001786c3ad2@amazon.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|SJ2PR12MB8832:EE_
-X-MS-Office365-Filtering-Correlation-Id: 29b1080c-2918-4e62-7fdc-08ddf994fc80
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|366016|376014|1800799024|7416014|10070799003|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?ay9pYmJoWjRLVUxyZ2NCVWVOcmI5SGxLekk3c0hFbGlTOE1zZUhEa1ZweFQ5?=
- =?utf-8?B?VERieStOZmFLaGxNZEZtcnZCZklwWkJUSHY3cFR6dHE0bStBSEJwbTRhZzk2?=
- =?utf-8?B?eVdEQ3ZnT0JYc3JHclpaU1JiTnQ1ZDNqTXRSQXQ5WjZ4N0JCbzVzRXB4dGhR?=
- =?utf-8?B?ODh5N015NDVXLytSZi93akhQZ3BlekYzRVJScWZyZTJLeDFRcWt1R3hOMmxq?=
- =?utf-8?B?TEU2YUU0S0FRTHpZLzNnN3BiNnhnTHFuOU42eGJYODFWbVhGZHBwaTZaN3Ft?=
- =?utf-8?B?bU90UUMvU24yYmNyNklqVUE3TVNGV0kzaTgxQnEzcnF4RlZBRFpITXZDZlRH?=
- =?utf-8?B?VkNsWGczekpSb3BBalJxb0g2VERES0lmZEtmQVhkdlk3MTdYM3FHZGNCYkU1?=
- =?utf-8?B?ZS91Y3ZHL1dXNUFPVFlOdytKeEJiMTFyMlUyVVM2dlB6ZEE3cjRZalhod01y?=
- =?utf-8?B?aUtubXlmWnJPc1R3dnI2NFZLdGljaGpZVlBFVWFSaTBJdy95M0p3aFpPd0FY?=
- =?utf-8?B?alNUeGRtS2VOWlJJaGtoREFkeHVMZkVDcWYyMkYzVmo5LytpK2lWOXhwT2Fr?=
- =?utf-8?B?VDdYcXRvdDEraCtSRzN2ZkJTbVVEb3RGb3hTQ2xLdzJyL093T24vOVB0clN1?=
- =?utf-8?B?KzNEdjlzNVRyRC9QdXZGWndkYWc0TWVYZWtBVG5HelZ0SkJua0lRMitXdFNh?=
- =?utf-8?B?RDJPZG12OXRZVDVxd2R3enJlZmZ0K2dDYVRFUnBjUUdDcUtEbEVTaXVHenY2?=
- =?utf-8?B?VzJXaHZqSnR4eGRXUDh1RXhmNjllL20wajJab21BN0M0RE1xSSsrc0cvTS9l?=
- =?utf-8?B?cmNsb2dxUG56Tm5IS0htWm1DeXhEMjkzZVhqWUlsbG5vS1pCVThSZmxLMWxs?=
- =?utf-8?B?RkNOWU05aUJyLzVDeHBtYWRKZzBFZW5VN1ZtbTFCd3h1ZEwvOVE5TElJdHhV?=
- =?utf-8?B?NldlbWp0SUNYM1dUcUVCK2hQZkZMdnhLd1pNMkZFeFpXOHZZN28wWEJsVE4r?=
- =?utf-8?B?RWhidDkxYldnY2JCVFBFT3lLeXF5Zy9YR1BOTHE2K0FwdFpmTjRzWUlrSEhi?=
- =?utf-8?B?UzJqeUx6SFhwdisvUXAxMmxLemRXbG5KU3RxdVNnaTU4dFlGTWxrVk4yWjNG?=
- =?utf-8?B?NXUwdHNqNnFOcHdscXM1OWkwUEJtY1ZuTGVTQ0lyWXNwa2kzRDg4YXVYcXZF?=
- =?utf-8?B?aDNpc0lJNStDS1JDZytJbXZoMGpmRnUyY1JoMHFtdUlVbUJSVnpMNDRhQVo1?=
- =?utf-8?B?Z2VtQm1ZUXdYT2hVN2FkYTlZZ3ZsZjBCRm9CZmNyMm83K2xHZHFtRU1KT3pR?=
- =?utf-8?B?K25HU09nbUg4Wityc0hab29sV3dSaXZPVElVUGRvck1RWXdYTGdEYWpWdnpz?=
- =?utf-8?B?WGR5V1BRSWtiSDQ1bUFYRW5mNEpLM1kzTHZISGpEQlRJdUFaWGhwZ3A4UlFz?=
- =?utf-8?B?N1ZsVHpWY0FZZ3FJVm5QcEhSK2Z4cVltMi9aSGI2Q21WR3dpdU5Vb3g0SVEw?=
- =?utf-8?B?SVRSTlR4M0hpN3VpdHRTejFuNEpJdTlBZ3dicmRIcjdHdjM5T2MxNmd5ays2?=
- =?utf-8?B?OVg4amwxWmtPK0tkWGE0Q1h0dWVBS1VLU0d3SklKUkwzRVlsbFZjMXplRnJk?=
- =?utf-8?B?aW1NaWJ2TDh0cnNQN3c5RVVXRkQ5K3MyUTNveU4vTTJtSEpHUzJjeHhKWHlH?=
- =?utf-8?B?QldNc3Q1R0RJN0lqMUYvL1dLUG1tMVRrbnBJaGdoR3BTZzc5L0lIMk9KWEhq?=
- =?utf-8?B?QlhSdDJUVS9JNE5CRU1tRFNZeGRtcUJEOFloc0ExSmFDbWFLamsrdW1ZblZS?=
- =?utf-8?B?bEZaV0hxNW9Zc21hQjFLcHJ3ZWtycUhyZHEySUZrSlJVN2dhNENFMHJWa3VX?=
- =?utf-8?B?SVBNS0ZBWlorcVhaWFJMcThBeGpidjZITXQyeEF0T3dvTVAwQ2ErdDlhNHZC?=
- =?utf-8?B?RnJGczRIV3VnTndwNU52TStGZDNlM0oybTNZdXJ0c2dPL3B6RkFGUldJMGor?=
- =?utf-8?B?dERsV2tBOFJBPT0=?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6494.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014)(10070799003)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?Q05kOWNrYzdvUGpuRUVjTlpib1E5L1ZXbHZGdmkzSjFPbWFCMGM5cXU2T0hl?=
- =?utf-8?B?RWQyemtFTnpSVENSajVHeDN6NlNzZkNoMEs1ZXZDbGd4SlNucUhCRjNpNXRE?=
- =?utf-8?B?N1o3N045N1FwbURrZ2NiM2xOOWppb1dhMDdCdjNZcWg5ZWQ3R2VCckI1d3hJ?=
- =?utf-8?B?ckU1ZURQamlCb1FERHMxVDBISHBZcGl6ZWYwVDByTUZsUXJnaTJHNjhCNDlG?=
- =?utf-8?B?S3VEZWE5ZVl4cmZneWNFVk9XblRFU2MvaTl4b045VjVjNEUyLzFKT2VLNGZw?=
- =?utf-8?B?WUNodDRJWXp6aVBFSTNraThPeEU1YjJyL2tvU2ZFbVFvZk9FT2JzQkVvdWpa?=
- =?utf-8?B?WXh5blhPRDJiU3NjMHdDR2U1T1BvRnNPdUJHVit4YldGY2ZIY3JER3JYUTNv?=
- =?utf-8?B?YVg2eUFNa0FIV3Z1dWVzZHBLMXBaTG9MZWFVUHVKcFBPcG56WTJNejlLTFFt?=
- =?utf-8?B?RHZyNXNlZ1VGSWZoLzh5ZVVIdFEzSGRkNEFCN2NGZUVCZDdkcDU5akhmR1By?=
- =?utf-8?B?TVcrMFlTZ3JJVms2WXNyemxoK0RmUlFPVC92cm9NSmUzdTNKenlhOFd5VTU0?=
- =?utf-8?B?UTVtSUVGSDMxdThpcUY4cHJ0SVRLb1pyRFZ3eWNnM1lpeTZ2UlpZU004MmJV?=
- =?utf-8?B?UmVyL1BtWDhBd0xPNXRVenVCbWU3bmZJY3N5aHVWeHJZdnNaWC9CK2pkTUs2?=
- =?utf-8?B?T0wyM1c4ZUI5bkY2Q1dKTEE4U2VVa1NKMnB1M2FmbDdpUmVRaHR2dWxsenNN?=
- =?utf-8?B?YldtQUFDd3lwRTV3WGlKMU11TTBYRW9hSGgxOG5ZUEtRRitFYWZVSG9Sc2Np?=
- =?utf-8?B?d2pISE9nRGZmQlNOeVNOQjRPcndaOVVsdHZ4N0xkWjljS2poV1RaYzQ2R2xK?=
- =?utf-8?B?MlJzbjVRWlRmK1ZZQzA1azFHL3dsaHlnSm5sV2N0eGJiM3huVUpSY09vNUd4?=
- =?utf-8?B?ZWlIUnhYc1V3M0ErdEIvWU41VmF2aVBNVVIwQ0YvdDgwKytENGhXellEZ0hN?=
- =?utf-8?B?UzEzYmwxd0V0WUQzbmUwUDVCdnBqSUIrTjEzelE0eGsxTlAvRDVPQW10N2dH?=
- =?utf-8?B?VHFDQTR3dktYZndVZU1oSGJzNUpZTnI4VXEzdS9kZkJnbmh6dGhkNGRVOHVY?=
- =?utf-8?B?d01rNzZtczJWaEgrKzlEN09JMWo3WUpvZTQzdFZBMGswT0xiNVBoa21uYzNW?=
- =?utf-8?B?eWRZSG50NXlrdnFGN2g3KzdSNlY1V29sTCtNbVhzYzY2ZmlKZTRXSXl3TGlG?=
- =?utf-8?B?eWpxdjBiQ2Vva1pML1dmTEEzcHRnSDhwTXM2Q3dPbWlINkw3eTg4Q2Nmalpv?=
- =?utf-8?B?SUxZYWVCeDhHNmErRFhoclpZRmZ3ekZ6Q2RNM2RtQXZLZE1SWU1oWVFKeUF6?=
- =?utf-8?B?Yk5ENFdpbkw0T1dFeVpvSEdxQzNOelhqMEJZVG5yMENwK3ZkMGRhcjVXd05V?=
- =?utf-8?B?SWZlL0ZXaWZrNDVWdmx3U3lwZXhiMkJvdW5PcVI5K3JkQUJuVTNxMGpRQWlx?=
- =?utf-8?B?aG1Bc0Vja1dndUNxWSsrN2RnejQrMWpESlZ4SHQ0VzhCV1V1UDlUMnFhcEo0?=
- =?utf-8?B?ZFVIdnJUdmZGcG5qZmxUaU5WU3cyejl0VXVSRzhIR2lYZ0J3VFJMcS9uL2NV?=
- =?utf-8?B?YXp2aEt2d0U3UWZVOVp3QTd0Qi9ncXBxdzZHTnlkdnFCSW9lSWYrMXdhSEFN?=
- =?utf-8?B?aHhlbkNPWFpEdGR1YUhmbXc3UGlRUUUzcDVQODhtRDR6S3dQNWZQKzM0dTJ6?=
- =?utf-8?B?S3lDZTNOQlVnekcvMFlkWWh6R2ZhVEtVOWI3NnRKR0RzWCthUkthNlBPR0Iz?=
- =?utf-8?B?RU8rdlFETlpuQWJBVFl0RnhtRFNDdHd3Z1MvRDYrZzdQRzZvQURCdS9zQTVu?=
- =?utf-8?B?R21VYjhmaWZ4N2MzK2NxNXZEOEpvemg0emNPZkdRWll4bTgvSnJCMS8zLytJ?=
- =?utf-8?B?akhxOG4vMkVwRm1rYjFZQmFxUGxIbzJHWERxK0V6UXNqQytLSmpWUFczUnVC?=
- =?utf-8?B?Z1lueXR1TmhzQ1ZRNEV1UkFGWDVRd2tEUnlYQVJJNlMrRmlZRG1kS3Z6WjRs?=
- =?utf-8?B?TEJxY3RYS1FXVG9ZNDFFZEgyaTYvWmkyWWZlcjRQWlZYUzB4QkVIVmtYRmIx?=
- =?utf-8?B?L2crcERtWkdVZ1I1NW8rZ1hoMUdpQzcyUUZNYmNSajFnd2pjTXRBTjNwM1hV?=
- =?utf-8?B?Mm01Qi9qRWo4SGIxS0gwckt6NUl5VTFqbDJTUXFQcjhhYUN1K0tpVVVLVlpQ?=
- =?utf-8?B?RGUwOGxWVDViWEU4b1BhRkNxd2NRPT0=?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29b1080c-2918-4e62-7fdc-08ddf994fc80
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 05:00:44.7853
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OFSAzQYRa9QfTF/mI9I1dMRfkWQ+5LWh54SLNni163yC8ZtUbeqJeCTLX/LJGr4qLzOYNLK7ABOIOysY3iB6TQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8832
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4f497306c58240a88c0bb001786c3ad2@amazon.com>
 
-On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ryhel wrote:
-> Add support for Bayer formats (RAW8 and RAW10) and YUV422_8 1X16 versions
-> of existing YUV422_8 2X8.
->=20
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  drivers/staging/media/tegra-video/tegra20.c | 72 ++++++++++++++++++++-
->  1 file changed, 69 insertions(+), 3 deletions(-)
->=20
-> diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/stagin=
-g/media/tegra-video/tegra20.c
-> index 3c5bafebfcd8..f9adb0611638 100644
-> --- a/drivers/staging/media/tegra-video/tegra20.c
-> +++ b/drivers/staging/media/tegra-video/tegra20.c
-> @@ -187,6 +187,18 @@ static void tegra20_vi_get_input_formats(struct tegr=
-a_vi_channel *chan,
->  	case MEDIA_BUS_FMT_YVYU8_2X8:
->  		(*yuv_input_format) =3D VI_INPUT_YUV_INPUT_FORMAT_YVYU;
->  		break;
-> +	/* RAW8 */
-> +	case MEDIA_BUS_FMT_SBGGR8_1X8:
-> +	case MEDIA_BUS_FMT_SGBRG8_1X8:
-> +	case MEDIA_BUS_FMT_SGRBG8_1X8:
-> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
-> +	/* RAW10 */
-> +	case MEDIA_BUS_FMT_SBGGR10_1X10:
-> +	case MEDIA_BUS_FMT_SGBRG10_1X10:
-> +	case MEDIA_BUS_FMT_SGRBG10_1X10:
-> +	case MEDIA_BUS_FMT_SRGGB10_1X10:
-> +		(*main_input_format) =3D VI_INPUT_INPUT_FORMAT_BAYER;
-> +		break;
->  	}
->  }
-> =20
-> @@ -221,6 +233,18 @@ static void tegra20_vi_get_output_formats(struct teg=
-ra_vi_channel *chan,
->  	case V4L2_PIX_FMT_YVU420:
->  		(*main_output_format) =3D VI_OUTPUT_OUTPUT_FORMAT_YUV420PLANAR;
->  		break;
-> +	/* RAW8 */
-> +	case V4L2_PIX_FMT_SBGGR8:
-> +	case V4L2_PIX_FMT_SGBRG8:
-> +	case V4L2_PIX_FMT_SGRBG8:
-> +	case V4L2_PIX_FMT_SRGGB8:
-> +	/* RAW10 */
-> +	case V4L2_PIX_FMT_SBGGR10:
-> +	case V4L2_PIX_FMT_SGBRG10:
-> +	case V4L2_PIX_FMT_SGRBG10:
-> +	case V4L2_PIX_FMT_SRGGB10:
-> +		(*main_output_format) =3D VI_OUTPUT_OUTPUT_FORMAT_VIP_BAYER_DIRECT;
-> +		break;
->  	}
->  }
-> =20
-> @@ -301,6 +325,16 @@ static void tegra20_channel_queue_setup(struct tegra=
-_vi_channel *chan)
->  	case V4L2_PIX_FMT_VYUY:
->  	case V4L2_PIX_FMT_YUYV:
->  	case V4L2_PIX_FMT_YVYU:
-> +	/* RAW8 */
-> +	case V4L2_PIX_FMT_SRGGB8:
-> +	case V4L2_PIX_FMT_SGRBG8:
-> +	case V4L2_PIX_FMT_SGBRG8:
-> +	case V4L2_PIX_FMT_SBGGR8:
-> +	/* RAW10 */
-> +	case V4L2_PIX_FMT_SRGGB10:
-> +	case V4L2_PIX_FMT_SGRBG10:
-> +	case V4L2_PIX_FMT_SGBRG10:
-> +	case V4L2_PIX_FMT_SBGGR10:
->  		if (chan->vflip)
->  			chan->start_offset +=3D stride * (height - 1);
->  		if (chan->hflip)
-> @@ -366,6 +400,19 @@ static void tegra20_channel_vi_buffer_setup(struct t=
-egra_vi_channel *chan,
->  		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS(TEGRA_VI_OUT_1),  bas=
-e);
->  		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS(TEGRA_VI_OUT_1), bas=
-e + chan->start_offset);
->  		break;
-> +	/* RAW8 */
-> +	case V4L2_PIX_FMT_SRGGB8:
-> +	case V4L2_PIX_FMT_SGRBG8:
-> +	case V4L2_PIX_FMT_SGBRG8:
-> +	case V4L2_PIX_FMT_SBGGR8:
-> +	/* RAW10 */
-> +	case V4L2_PIX_FMT_SRGGB10:
-> +	case V4L2_PIX_FMT_SGRBG10:
-> +	case V4L2_PIX_FMT_SGBRG10:
-> +	case V4L2_PIX_FMT_SBGGR10:
-> +		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS(TEGRA_VI_OUT_2),  bas=
-e);
-> +		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS(TEGRA_VI_OUT_2), bas=
-e + chan->start_offset);
-> +		break;
->  	}
->  }
-> =20
-> @@ -447,12 +494,15 @@ static int tegra20_chan_capture_kthread_start(void =
-*data)
->  static void tegra20_camera_capture_setup(struct tegra_vi_channel *chan)
->  {
->  	u32 output_fourcc =3D chan->format.pixelformat;
-> +	u32 data_type =3D chan->fmtinfo->img_dt;
->  	int width  =3D chan->format.width;
->  	int height =3D chan->format.height;
->  	int stride_l =3D chan->format.bytesperline;
->  	int stride_c =3D (output_fourcc =3D=3D V4L2_PIX_FMT_YUV420 ||
->  			output_fourcc =3D=3D V4L2_PIX_FMT_YVU420) ? 1 : 0;
-> -	enum tegra_vi_out output_channel =3D TEGRA_VI_OUT_1;
-> +	enum tegra_vi_out output_channel =3D (data_type =3D=3D TEGRA_IMAGE_DT_R=
-AW8 ||
-> +					    data_type =3D=3D TEGRA_IMAGE_DT_RAW10) ?
-> +					    TEGRA_VI_OUT_2 : TEGRA_VI_OUT_1;
->  	int main_output_format;
->  	int yuv_output_format;
-> =20
-> @@ -581,6 +631,20 @@ static const struct tegra_video_format tegra20_video=
-_formats[] =3D {
->  	TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16, YVYU),
->  	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YUV420),
->  	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YVU420),
-> +	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_1X16, 16, UYVY),
-> +	TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_1X16, 16, VYUY),
-> +	TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_1X16, 16, YUYV),
-> +	TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_1X16, 16, YVYU),
-> +	/* RAW 8 */
-> +	TEGRA20_VIDEO_FMT(RAW8, 8, SRGGB8_1X8, 16, SRGGB8),
-> +	TEGRA20_VIDEO_FMT(RAW8, 8, SGRBG8_1X8, 16, SGRBG8),
-> +	TEGRA20_VIDEO_FMT(RAW8, 8, SGBRG8_1X8, 16, SGBRG8),
-> +	TEGRA20_VIDEO_FMT(RAW8, 8, SBGGR8_1X8, 16, SBGGR8),
-> +	/* RAW 10 */
-> +	TEGRA20_VIDEO_FMT(RAW10, 10, SRGGB10_1X10, 16, SRGGB10),
-> +	TEGRA20_VIDEO_FMT(RAW10, 10, SGRBG10_1X10, 16, SGRBG10),
-> +	TEGRA20_VIDEO_FMT(RAW10, 10, SGBRG10_1X10, 16, SGBRG10),
-> +	TEGRA20_VIDEO_FMT(RAW10, 10, SBGGR10_1X10, 16, SBGGR10),
->  };
-> =20
->  const struct tegra_vi_soc tegra20_vi_soc =3D {
-> @@ -607,10 +671,12 @@ const struct tegra_vi_soc tegra20_vi_soc =3D {
->  static int tegra20_vip_start_streaming(struct tegra_vip_channel *vip_cha=
-n)
->  {
->  	struct tegra_vi_channel *vi_chan =3D v4l2_get_subdev_hostdata(&vip_chan=
-->subdev);
-> +	u32 data_type =3D vi_chan->fmtinfo->img_dt;
->  	int width  =3D vi_chan->format.width;
->  	int height =3D vi_chan->format.height;
-> -	enum tegra_vi_out output_channel =3D TEGRA_VI_OUT_1;
-> -
-> +	enum tegra_vi_out output_channel =3D (data_type =3D=3D TEGRA_IMAGE_DT_R=
-AW8 ||
-> +					    data_type =3D=3D TEGRA_IMAGE_DT_RAW10) ?
-> +					    TEGRA_VI_OUT_2 : TEGRA_VI_OUT_1;
->  	unsigned int main_input_format;
->  	unsigned int yuv_input_format;
-> =20
->=20
+On Sun, Sep 21, 2025 at 09:37:02PM +0000, Farber, Eliav wrote:
+> > On Fri, Sep 19, 2025 at 10:17:00AM +0000, Eliav Farber wrote:
+> > > This series includes a total of 27 patches, to align minmax.h of
+> > > v5.15.y with v6.17-rc6.
+> > >
+> > > The set consists of 24 commits that directly update minmax.h:
+> > > 1) 92d23c6e9415 ("overflow, tracing: Define the is_signed_type() macro
+> > >    once")
+> >
+> > But this isn't in 5.15.y, so how is this syncing things up?
+> >
+> > I'm all for this, but I got confused here, at the first commit :)
+> 
+> It's a typo.
+> It should be 5.10.y and not 5.15.y.
+> 
+> > Some of these are also only in newer kernels, which, as you know, is
+> > generally a bad thing (i.e. I can't take patches only for older
+> > kernels.)
+> >
+> > I want these changes, as they are great, but can you perhaps provide
+> > patch series for newer kernels first so that I can then take these?
+> 
+> So you'd first like first to align 6.16 with 6.17, then 6.15 with 6.16,
+> then 6.12 with 6.15, then 6.6 with 6.12, and so on until we eventually
+> align 5.10 and even 5.4?
 
-Seems fine by me though I'm not familiar with the v4l2 specifics.
-
-Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
-
-
-
+Yes please!
 
 
