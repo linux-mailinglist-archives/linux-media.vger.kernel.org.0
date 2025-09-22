@@ -1,62 +1,62 @@
-Return-Path: <linux-media+bounces-42864-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42865-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C799B8EE99
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 06:11:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id EEED8B8EEFE
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 06:29:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 353B4189A908
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 04:11:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3E8C3BA8EA
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 04:29:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E5E4C2F0670;
-	Mon, 22 Sep 2025 04:11:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D92A2EFD9B;
+	Mon, 22 Sep 2025 04:29:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kV/1PjjA"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="AiDdkZVM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BN1PR04CU002.outbound.protection.outlook.com (mail-eastus2azon11010009.outbound.protection.outlook.com [52.101.56.9])
+Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012052.outbound.protection.outlook.com [52.101.53.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 406DE273FD;
-	Mon, 22 Sep 2025 04:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.56.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8893572613;
+	Mon, 22 Sep 2025 04:29:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.52
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758514279; cv=fail; b=KP+Hd5P+3ANwLZLattlT043RFMqRKQp5XCiCqEvv/b7a+hniWYiO2iIy4bS1/Emy2cWdBu+xVROSQqRujpFePWCTrtbdBxYQB7uRhPJfDB9UMi6I1L/dVcVgO+gW/cb6TXgYaNnjLsrKGlnEfeCVZ8QiGQCN19C6Q9LlmCrXTv0=
+	t=1758515376; cv=fail; b=LcEVdtX1C7K9o4dSxunZ3vqutQCBrf4kQaPjJeSZ7MOeSfC3TYJ4UdkkH+AqnOSBhU4dPRh1DRY295qEoh3xA5l09ZF4FxLwpGE8kl8uWzYf4FQx5W5TLMj1bmo/2PngwlaJkDY2WjCG4ieKcCImu3w7mmuVSTDsjJiLd0HiiOw=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758514279; c=relaxed/simple;
-	bh=LWRrUTsQxlcpF/PQHKNLLhnE8f324IwgoijXForxVLA=;
+	s=arc-20240116; t=1758515376; c=relaxed/simple;
+	bh=qL2U80YsgV+XxQ2zaYhMB2NWnpL3Zxyl04vGmlMHtp4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=W6czVxPe4qusTXuDgz2hkoGDk59MwbvN+8O7qKrxVff4ypKLI2MhPEuJQy+6qLwrtZclRFz65D79tERPJoPx3cnYK6oJc4P6OOej2YsJ/edcfJdhnPhCEmn9xiFsy4Tv4Yh0Fke1+HGQvfDSD4lPDIXAIq5eX9Bfj3HOvOW/z1M=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kV/1PjjA; arc=fail smtp.client-ip=52.101.56.9
+	 Content-Type:MIME-Version; b=Aq6MeKPjPbJpLZypZhE18N6+5rZ1KUpxqtxcFxZk/qyhqujDREkBpDn5LsK2+eqt4KjUjpqgMFZ7XOR7Tu2sANvf8bvhrkxr3uSO3M9hjr4sQEN6/00F12TfQGPXbbJPfakk2JQS5RxjG5BqjzXaA3fqtdGiWwfdGGCl24jE9E8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=AiDdkZVM; arc=fail smtp.client-ip=52.101.53.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QKiDjzmhCOQ1y6WXSQcFZMtZxaiCGF7iyKO3fLb4kz+O+1p5XoMt4j44/0418y9Y2mwqBLvz7bkVhCo+SpVTs3X+odsxJ6t606sGFRu0RNDFd5r0E/2//N/SqvVli+OnFzkGUxnsj5cmSwb6xqHM0yR9DazhJ6nju0T9FKdpqtaGZ4nCSl1Z3m+gk6DvrZfteyCPdLnBPWDXYFqKX7My6LYve733C4qNgsR4KNAAmnOBrGebKwJIxlGQoyIzA2x/0esozBWFgGz3B3mffTsOCSQCOCK+4M8QQPTYYQ095oNhN42p0JOLL0wq5i4SP9a08xrFb6osOFf4m7i798Sr3A==
+ b=X7RswrIVQpgKBF2tdNbhe/APjAl8morpwI7UXRWTAY/TYaVMhSns2ICNHnrSq/shXA9J+QwKpnkZGEzSMcKNv9N2kZvSHc8eJnK0B09WqusSNblJEYNXGsF/Ba6MOz+L4SARYYku+R6OfBLZ9lc34LJ0BPNKl7Tpf5Lu86r5JMazi7vxug5nn27eFoo+sQOS4kGajiNbMELcMbNejfKAZG0waEhxUbaBNfsUj4jdf/o+CAIweDnM9jRJAgR13ozSvGfAalfAzpFyJvDFMPwBMUYVVptpzEFRJ7JRtHy42GEmANfqazQ3kJ42ypAoXqCoA1Oa5j3ot5bEzLIGkZYUiw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=WKrxDeZnlKUCUdQ67KRFxtD+3VexIWr9rARN1nAHmgE=;
- b=FraznzBE+grMeH4fPH1wPAXdB1rXYJWi6bpiyGzg9cIzEmqAOywtrbWRxb85wd1ayJd8A0vdww5nQM6AanXBETlEQ19V1++GYksTQ/scKlbu92F1oI14ti4TeXiOLAyG3CQATzX175Qa4ABie0RmoGc7xdJ55aP7meFXwzJ6RIyO5NibbXT7SgpcwscMDua8edm4fZichzwUxJ6VjQzjK1BBqq/Q0H+GwYlavARFBCgxfqPa/KDVvx//zPiUDvjda+J2sjC5usyD/B3ateCCuXJ489bD4p1zTBBptqYMCKe2oWYoKnnqcRpY897W0ayNRRulis8KKh3YiQ0bdlOwhQ==
+ bh=Ikekz+wm+0L0ESli/NJXiW5O1M/SABmUaQtS2aDR7+4=;
+ b=wZZ0mZbsiHUVjHJgrdc/sNOPvKshb42SxsYV5kmJ8+V/74pX5y35GE7766aFkrS7ImSZ99kp+UXvsPLlqEOGBlKz5rdl/pE68hp6WNvFqjIzdzDcB/ODHEr0029F9F9W/zVdqEz+WJqdOG6ch0fupBvPBEzcb6BqnqgCNKEFo6pnNUOqlIAcDivw7o3AYETgfyyrrVhGIm5IbUURhhOQSytaXGbMBmME+7AQQLJDRJyd7eOeaDEpjiEFXvAwEkia+6thD5Pnp2Yf3B/LWY3KXrBf97jbC/oyIjIn4Bm39bJvuxygfIRnhJt44d+IOIte9C8DhvvkgZuqm09o6gnjMw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
  dkim=pass header.d=nvidia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=WKrxDeZnlKUCUdQ67KRFxtD+3VexIWr9rARN1nAHmgE=;
- b=kV/1PjjAyrw9LE2H7qj1TfeMG2EkwcuhnT52OsBvTkQDYocIbp2NEypIPspQaSD72V2Ij45JlAEbjKTctRhd1IjvgN4Map6i8Wxiee13iq7olswEX1Boq1DfwyWp+Ax/IN+O+i8HEm2RXpDt18ZlZzlI5+kowksOYrXSaYuE1xLRmdkPnX+Sh0UP68nquNNNcr2eQtCPvgtidZK0DGWDT7nEGaejj5w3W1qvhCMT7BHoJiQvQat8fKqCnjDyQR2rN73XAceWXhZrdG9fl8BBesP6UAHH31ajrnKK31+MoZip2La7FMuwaxq/zVTwfcQoEQkc3JCg0j4ZfrPynR5UDA==
+ bh=Ikekz+wm+0L0ESli/NJXiW5O1M/SABmUaQtS2aDR7+4=;
+ b=AiDdkZVMaSQAQgJJXH4hboZmIjtkaqupkVLXYeIuN0vNKQ6zVfR4OnigizqYPAzckivoEKvB591Vs03Bs77YexVyfrQArAa69CJyG18gxyVZp4Ft3weucBucIK6f96XpH42Ki3C8pfxZ2RfjntrLOuMOnCCsb1T9Usdpiq7KQn6D9EuHCI/H+KaeLwV/YXqHoXvdmZiVS6+aBO2k+kS3pUesjAR25lgH8maCvJE+jc3FIlelQ6NUm9pKzJY/nTNH5UYOJPRzxfFfnZxV2wZsgNHAgejCwnk7Hxu0SeiZUy+NUdj7gr4TJSZUgrN3TBsnIVB/LCQzH4oNy8Z0fAo2Lw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nvidia.com;
 Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
- PH8PR12MB7026.namprd12.prod.outlook.com (2603:10b6:510:1bd::19) with
+ SA1PR12MB7126.namprd12.prod.outlook.com (2603:10b6:806:2b0::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.19; Mon, 22 Sep
- 2025 04:11:13 +0000
+ 2025 04:29:28 +0000
 Received: from DM4PR12MB6494.namprd12.prod.outlook.com
  ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
  ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9137.018; Mon, 22 Sep 2025
- 04:11:13 +0000
+ 04:29:28 +0000
 From: Mikko Perttunen <mperttunen@nvidia.com>
 To: Thierry Reding <thierry.reding@gmail.com>,
  Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
@@ -79,18 +79,18 @@ Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
  linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
  linux-staging@lists.linux.dev
 Subject:
- Re: [PATCH v2 13/23] staging: media: tegra-video: csi: move
- avdd-dsi-csi-supply from VI to CSI
-Date: Mon, 22 Sep 2025 13:11:05 +0900
-Message-ID: <2325951.TLkxdtWsSY@senjougahara>
-In-Reply-To: <20250906135345.241229-14-clamor95@gmail.com>
+ Re: [PATCH v2 15/23] staging: media: tegra-video: tegra20: add support for
+ second output of VI
+Date: Mon, 22 Sep 2025 13:29:24 +0900
+Message-ID: <5174845.cEBGB3zze1@senjougahara>
+In-Reply-To: <20250906135345.241229-16-clamor95@gmail.com>
 References:
  <20250906135345.241229-1-clamor95@gmail.com>
- <20250906135345.241229-14-clamor95@gmail.com>
+ <20250906135345.241229-16-clamor95@gmail.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset="utf-8"
-X-ClientProxiedBy: TYCP286CA0290.JPNP286.PROD.OUTLOOK.COM
- (2603:1096:400:3c8::7) To DM4PR12MB6494.namprd12.prod.outlook.com
+X-ClientProxiedBy: TY4P286CA0043.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:405:36e::10) To DM4PR12MB6494.namprd12.prod.outlook.com
  (2603:10b6:8:ba::19)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -99,274 +99,335 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|PH8PR12MB7026:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1bbcac1e-be9f-447a-bb3d-08ddf98e117e
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|SA1PR12MB7126:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9f4f3182-bcb6-4e39-94da-08ddf9909e0f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|10070799003|366016|921020;
+	BCL:0;ARA:13230040|1800799024|376014|7416014|366016|10070799003|921020;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?UU9YckxRdzd0Vmhmc29qdGk5L0NIZTEzY1JtWDBQa2Qwb1pFcEpxb05zYWEz?=
- =?utf-8?B?WkcyMHl0dTZGSmNCMWkzSFYrY1R6ejlsWUdUbTFFZWh2aUtjZ2tvMkpZamJi?=
- =?utf-8?B?SzVLd2Rjc1lNRGR2ZW5vK2VsUDVYMGtzVjk5NVNwTzlLbVU4UkFDN1Bwdlpu?=
- =?utf-8?B?ZzFaOWtBTWlHWGJ1Qzlpd2twU2wzdVRuTlNYSHJsOXBXVm1VMWdKUk0yZ1ZJ?=
- =?utf-8?B?STV3STU3NjNEdnZ2WTNGcVNXY3lMSFEyNEZOdG15WDlBOXBPRTVUbnNRZWNa?=
- =?utf-8?B?aWRSY0NvSzlZdXUzWkE0NGI2UC9ZZmdyc3FiSGJDNFB0SkhxQ1NkRU1Uc1dL?=
- =?utf-8?B?Q29lV3ljOEtSOWxhK0VSN3IweEhFYVNlZkNXbmw4bzVLOHhacDNBY0FxRmZ4?=
- =?utf-8?B?ZlFlWlREODRFb2gxN1Z1V3JEUVZTSCtSd3gyeW5lbWczL1RWUDRzWW1VSWdP?=
- =?utf-8?B?Wk51NzJDUjlJaDRmZVp3Sjc2QndoVENvbEhqZ0JWMFBKbXpaeHRPd2tWMlNx?=
- =?utf-8?B?NWpwZ3c4SWNZNE9oOEtCQXlDQXYxamJ6TlNGWEVTRHBXemRKeE80b3MyVExw?=
- =?utf-8?B?TWgwRUt0SUMxaTRjU0gxZVBkOVBUS2wvdmZzZEJsU0VIUGlySnpTT0dhdlpB?=
- =?utf-8?B?aWg0Q2JTMEV1K1krKzQ4SVhOTDR3MlBndU1xYkhBSHVpM2tUdHZiMDRyVFJq?=
- =?utf-8?B?Nkt4NUhoRDNuNXE4aHJHa3VvRkJiRGlGOVFwUUJEVC9tR3hZSlpzOUd2TlMx?=
- =?utf-8?B?YXo3UTFkN2dpWW44RzJPVHBTZHRLNFpKVGc5TS9VQnVBQk0wcGlnWE1yeXRn?=
- =?utf-8?B?dGxMNTAxa3ZVbmtvd29XeS9TaE5va0lKclJnMTVUd3E1OE1DbzhKeENBTGIy?=
- =?utf-8?B?Y0lKN0RZbTloNnprY3Q1K0RkbWd0WUlVbFl5YStvcmdGZTVkVzVOci9DQzVo?=
- =?utf-8?B?QUc4cm1oWHFYR0V6b1pSNE95ck5LcEhERmV3VVVMclVocU9sKzNTaHQ2YTJv?=
- =?utf-8?B?Qy80L1hUVDh3RUZrRjBBdzVVbGNUSjBjZDA5TjlmK2ZITER2Z2dDbm1LL2dp?=
- =?utf-8?B?TnVHRkZlcWhIT2NVWXMrNjhoNDhRTEJuS2FZaWk2NXN3K1pnSWhaKzVoWXhp?=
- =?utf-8?B?K3RrcHVLYWYzVkx6WXZoWHoxR2x0cXdnbDhLa0dvQlJLRlVrZktSZ01WSVZa?=
- =?utf-8?B?STNvWmkyU1ZZZGNrUVQvRVh5VlhzekVPWjUzeHRTMFpLb21YZlpHMjkvKzBh?=
- =?utf-8?B?M3JFNzV4VUZlZlQ2L1AvaFFhYUhocXVCQjRPSnRSNW0xS0hxdkQvV1hyVjBC?=
- =?utf-8?B?U1V0MkpCL3ZMYmFhRE1iWWZqeU1Ib2pmMExEeXRrK3AyT1hqc3BBUUYvdC92?=
- =?utf-8?B?NjhidTZRNHB2emRwZENKaXRPeGtiYUd4VUk4THM5a3hCb0Rkd1kvN1owUC9K?=
- =?utf-8?B?VVlES0NYTkVEanNkZVl1R3piTDlJUUlNRG5qNmhpWGMrMmcrUXZxQWErYis1?=
- =?utf-8?B?TnZrUzZhOU81clhORldBTGJBVGtzYnR0OGhzcHpZS1gxTE9ISFEvK0F2K2Qw?=
- =?utf-8?B?MjFHcU9aZk5UODVKbG83eHA0QUdZaHRhd2ZXdGdkWTFrdVp1TWphWllHSWMy?=
- =?utf-8?B?ckcrdmZjQ0xYa1hkTm81dTVkRWV5amtsNGFzb0F6SjNzQnpSRVdrYUVnZXlh?=
- =?utf-8?B?YkQvdW5BVS82MTc2QjhaOVdsRXVjeGEvRGxRVXhrb1RsZVBGSkdDbGZjc0ZF?=
- =?utf-8?B?U0dnSzh1TDBqa1VraG1sN1BPbnZDR1NudXlsMjRWMk0vQWIzbk5HT1lCWlhG?=
- =?utf-8?B?OEtvVDlqb0EyTFlxVjlrSnlNSDZNWUVMRCtlTmEyeVlHaytzTndtZm1lMk4z?=
- =?utf-8?B?Z2JBdnhpTndmLy95dmN0TmxkcUJ1Y0VpbnR4Y1FWUUJiSHpIc1Aza1VUZklW?=
- =?utf-8?B?aUVDbVY4eFQ3RmZpa01yODJLRjQyaFFhZHlCRE42UFBYdWVhbkgrcDdISDZt?=
- =?utf-8?B?anhZS3ZNVlNRPT0=?=
+	=?utf-8?B?eVFWMStaNkdlbEZ4YzhBQjFTNW9kc3B4eVV5VDk5MjllWWhITURqTnU4VXlp?=
+ =?utf-8?B?eFo5UXh3UnJqbm9aaVdyVjR5RmlGUWFYVnNnYnFCS2w4dE5TZmtCY3pNRlJH?=
+ =?utf-8?B?YURRYml0cDExUjdLdFVlWUlEYXJVUFpBSmtzWTRtSVgzU2loODJxYlQ0R2Yw?=
+ =?utf-8?B?bHdZQVd3cDdoOTlSU2NLOC9ldkROaXFoUzJhSkFiRi81ek1lWWJlRlRiblQw?=
+ =?utf-8?B?c3I0c0hPMHJobGNDTFZxNjRLdkZ4R3NUZ3QwaWoxTmtRaUpWQUhUbkZldUxj?=
+ =?utf-8?B?TlBMcnV3N0RhUXA0TEVSeVNHbXNsdytZWHJ4TGt1UExUN04yNzErcjc1ZEsw?=
+ =?utf-8?B?ZzVraVRPc2tsL2YvWVBrZXdobDMxcmtTZWNST1dvZmw2RVgxNnFSM2tsQW05?=
+ =?utf-8?B?RGRBZURtMW9TNjRCZkx4YndGUTI4SHlBdVVCOGpNUEpPTmQ1QTh0a2JQamRm?=
+ =?utf-8?B?Z2lnejMrNjkzd2FJYWtEeW4xNGhoeEJHOHY2TnNzQ1JUSXorQmp2NTcvQ3A0?=
+ =?utf-8?B?RzE4OEYrNWxTelpucjN0NXVyeStYeUFCOExJRTBINmJ5TjdGUUZCc29NRGVM?=
+ =?utf-8?B?NVkwOG5yaXF6OXN3aHBRSGZneWMzQS9malB1dzdRLzNMOUNxcDkzQUJGdXJ3?=
+ =?utf-8?B?WkdTTWVyWC9ESXdWRFoxTXF2R0NrOS9XQ2o0ZTZNTG9oRkNmMFZGYXJzbUZt?=
+ =?utf-8?B?N3hNU2h3b2RhNU1ZejBQUUFTc21jWHJTSlIxS083SU1jY1ZNNHZsaGFhY240?=
+ =?utf-8?B?VkRnUGFqR2xFV2ZQeDZIN0xDTUhNaGRCY0ZhZ0ZmUFVuby9YZ3UrMmlIWGVv?=
+ =?utf-8?B?WkhnblZQRWVuU2drVGNZaTBIMWhKU0VqNUU5YUV4bEJ3SjZ4QWxSZ1ZwRVFE?=
+ =?utf-8?B?SjlRcDIxQ21oVW1zbnY0a3luK1dNeU4xcldjN3Q2d0lnUXgvSFdySytIN0hE?=
+ =?utf-8?B?SFFjMjI0OVZxQkVOcm56VHdEbjNvakRXU3hZSUcwUFJtU1dVK2cwK3NReUZs?=
+ =?utf-8?B?QzJQczR2MmRnbUdjNTRyODB2ekF5V2ZuY0lUUVdPM0E0UzVPakllc28vbnVR?=
+ =?utf-8?B?M202Tmp5RHF6cFB6bmVvV0k2aDMyNXFxSmd2QkRzVDlPK0lKRVFpd0t4bTht?=
+ =?utf-8?B?cTl4SlJFcVZaVmFuYzdoODE3aW8wd2plUG9MZDRmWkNUN3ExZTVnNGExMXlV?=
+ =?utf-8?B?ZjNRdHRYelhRL3RJMXlYVlZTYzY2OWlUTEtDTHRXbk0yMXlPYmhkSXlFVTdC?=
+ =?utf-8?B?bUVHTHBURWVqSC80cGNSMjkrL3U0RVEvekZFcHlTekZaY0lhWFJVTjQzMER6?=
+ =?utf-8?B?dko3T3JFT1g5YTUrNE1JbkNmcW1zWWJMTi9ycXI4WlFTK2ZSZm1vMFdhaDcw?=
+ =?utf-8?B?UjcvU25xVmN0VFNRK2ZTWFYzQjJ5S2cwYnF3NjlTWlFyVWRDQ3oxNE5UN1kv?=
+ =?utf-8?B?MUpZb2ZUSm9vZmVxWmdyVzlyYzliYlhiOFR0NWRjajNkMlVlRGE5c1g3SlU5?=
+ =?utf-8?B?SWJjdE94eGVyUDZTZGtJMjlOdTlPa0RNd3JrV1lHWWtjVHUxc1ZScm9DMzZR?=
+ =?utf-8?B?eThhNFJRT0JZeUNJR2FJQ21CQUc1c1lDUW1NNU9tM0Y3VExvUk9ETXNOdkNP?=
+ =?utf-8?B?b09jaW41czVPUGtSckUxUFlPLytISEc3OXVTbE96NGdGMTFJT2JobDNUeERU?=
+ =?utf-8?B?UE1PWEduNXJjVXNLMlBOQk5INURmMStvNWxRajFEa1llUHIwOU00eUVNZHVR?=
+ =?utf-8?B?UmtTWVY5ZTFCQ0pWOGlXVXlhOHMwSHRBU1lNcFhFM1BmWVUySDNTYVJiajA2?=
+ =?utf-8?B?bUpGS0VCdGR6SlpzWGtiQktFdVJRV3pwUFpzQXJkUCt5QmhJM1RzeVV6NHZ6?=
+ =?utf-8?B?cExoU3pKd2RVYWRQWFZKTldUWjlPUzFMUzNxbDhkZkVMWUo5QU9xbmhQMTll?=
+ =?utf-8?B?NmFpQmh0OXROUjZuWTF5MEpqV3JSc2VoWFp4SW51N2Fvb2tlR2w4VGVIM2Ri?=
+ =?utf-8?B?T1YrRkdPcHh3PT0=?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6494.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(10070799003)(366016)(921020);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6494.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(366016)(10070799003)(921020);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?YTR0SktTTzRGTXZtWFRYNGFIY1RURTdsdXJQdVpvdmJ2Z0J6c1VRa1NqYllF?=
- =?utf-8?B?RUlZUVVibzcySG9HUTdZL2ZCZ0dRVkgvM3hRdHRvNlRXOVNUMU9rZ1JWd3o5?=
- =?utf-8?B?WE03TitRcG9jWHMwODBlZUFTZ2xya2xZMlVRbGtLUmh3WnNDVHhnc2VwMWxB?=
- =?utf-8?B?Mkl4Njk1OURLd2JuWitwV3JucEszd2dIY0dLcXdHTWY2eFJKS1NWdU1Ec1Nw?=
- =?utf-8?B?bStsa2xKYVVRT3ZIaG1GMjhXREtqdnMwaUxmSHNzTk9seGsrZUhDK1hmeFpK?=
- =?utf-8?B?WnRvRTcyeFpSN3NtUDlVcFJjYldPYlh5dWhVNk1oWGRMSFhlT0U2ZGQ2eVov?=
- =?utf-8?B?aVgrTmhRUTlPdzF3bUNrc05GT3JpUHNVUFdpd3ZBS2c2OGRLZFZFek5sNXNX?=
- =?utf-8?B?RHRPSldTK1M2L3ZGZzF5WjdLdTlnSEVpSFN6MVgrbkptZlEwNGtBaGZDaGdZ?=
- =?utf-8?B?YnpWL0V1OFBsYlREbXpvTkRVUG9UeW5VdzBuTkl0Z24wKzZsZ25MNUVKcEhI?=
- =?utf-8?B?WW9uRkdZRmxkOUlVWVZ0U0dOSXFweisyT3VDeUtuM2NnUnB2VnZSVXJLaWRP?=
- =?utf-8?B?NE5Td3B3Q01uZGp1dmZXZ0pjWWFCN1JMQmFCbjlYSDRFVkREUkRBd21YcHN0?=
- =?utf-8?B?NnlCK3FtWlpkbXJvWFdxNVZONHcvWDZOeHQ2TWF3SWVPRk8yVlhBdWt5MkEr?=
- =?utf-8?B?Rjgzak0yRzlGUEhTY0YrWDRjcUdvOFc2L2V5bzJuM1VZdnI0MUplUWI1cDdO?=
- =?utf-8?B?b01MUDlwL1hJWk9mSlZuOTFxQ1pvSjkwdGNyL1VQbFppMXpveXhlMkI4eUUx?=
- =?utf-8?B?UmMzY1dTUXAzMGx3RTA2THJQTjJoQlhBVHIvUVJZMWxScHd3ZTFMeWE3VWt1?=
- =?utf-8?B?UGRmWmR5QzFMQUxiN3RLektGOEZTTjkxN1hFMGc0QjRQeGJCZFpWVDJiNmRR?=
- =?utf-8?B?NHJlNmNMTmFpanFCTjZrT05QaUNUempTNEFVSGVlWTRuMzV3STlJQ01LZW0z?=
- =?utf-8?B?YUJOcWVka2xUaXF5bjNrTWZOQ2tFbytFMmdwVnBYM1lmeUxyQW8vYVFWQ3or?=
- =?utf-8?B?NHk1b0YxZXE4UTBNb2tHY2l2dWRwUFJZZU1ta0dmMjExYWpjeEFCT2hKZmh4?=
- =?utf-8?B?VlczY1NCQWNleitVL282SldzM1hlbzlLTlh5WFFGdmJEUFpwQXptQlp2S3o1?=
- =?utf-8?B?Y3ZiSWhhNEJ0Nk5Lckl6WEd3UDBRUEVXR25nM1F2VW1yeDFib1VvZVhiTHNi?=
- =?utf-8?B?WGFQbUNDbURKUm8wbGhwRmZ0UmVBdmFELy8xT1U5Q3B2STdUSmJlNzlDTTI3?=
- =?utf-8?B?TERFQU9laEZ3TWhvYjhjODFCTS9hazd5VVBsZFA5Uld5SXBCQWdxbHZqanA5?=
- =?utf-8?B?a3NzVExndmxRZ2J6MG1xTXh1dDNqckh1WWVZOExEOWF4RE5kOGZ0SmwwdEd2?=
- =?utf-8?B?dm90SlZzNEVNaGlzWW5EVWxEUXZWd0RuNkJQSjc0cGl0bjM0R093WUZ0U2lt?=
- =?utf-8?B?RUJhMUpYUnBHSjk5aFNWNEVCTEYxQUtCTmVia0paaTA0TGlTektaa0FzY0pp?=
- =?utf-8?B?UXI5WTE4N1M1NEV2NG5LZnVpNUxoUFowMnVNR3lIaWxhUWVLU0p3UEVGcDFV?=
- =?utf-8?B?b1FDWGVpTGJqRzIzaXdEM0k3ZGE0VWhXRXcvNmpjUThJZFhWY1g5TDk5Z29U?=
- =?utf-8?B?ajJoN1FLeWJadUNEZW81N1h2Y3RUYUlqS2tGMWxjcW92K01sRWpTS0UvZ0gz?=
- =?utf-8?B?SEhqY0dpUkNabFFQNXErYmFuQ1IvR3IvUkZVdDhSczFwS2VwbGZoWm9USVNO?=
- =?utf-8?B?YUtOS2dma3NSZHdDbStFNDBZQ0VGUVdVOUZrVmRjNzdGU05FZTlyUXJNRjdi?=
- =?utf-8?B?QmV0Q0ExWUVaWnN1R2pFVzdCV1VPdnRjRzg5Y0xVQmt0b1BPd2FHM2pmbDNx?=
- =?utf-8?B?T1h0UmZuak1uOW1sMHBNL0lZR0ttTTBIb2w0aDQ2YmhYWG16QUsyQVcyWEZY?=
- =?utf-8?B?MFZRZkRtWUJORXNLY2FmYkdDbXVQRkdIdkdFSHhWQ2w3K3BzSEZVbDlnTkEw?=
- =?utf-8?B?VGpVQ2VjWjYxRm5FRGVrYk8zbTZzQUlOcWp6ZmE5UHo4YlZwYXE4ZEp5WGRk?=
- =?utf-8?B?M3Z2akluazRqVEpiMSs1UXpnRXZlNGwzd3FPK3dZOHFUeWN6VTUzRWZuYXFz?=
- =?utf-8?B?NzRnRFh3M0NCcDFJSktsLzJQSTdHNjNUOUxCMWxUYmw2YTFYWFczdForSUhR?=
- =?utf-8?B?VzhQQWlmMUxTWTMyb2pWNzk4cUVBPT0=?=
+	=?utf-8?B?bXNNaW53R0tibnFSNkN6VHRLc1FrQnRHbVk5SXBGRXphSzNJeHlGeXNTVnJP?=
+ =?utf-8?B?S2M3S3VwSTRON3Q5N2s1MEFoa0dMQ1hmS2djYlByVWZsL3BpQVZNRUVrNkRs?=
+ =?utf-8?B?VSt2U2VvTDRNUkJCU0dqblpHcnVqRzUrZThscUpicHdWOWFRZGYrSmFpWHE5?=
+ =?utf-8?B?MnRtL0RkcG9BQ0hLdHpNck40UzE2T1NZNlZ0UmVGOHRPWFVySHV3ZDREZkQv?=
+ =?utf-8?B?UXZQVkhWQWs2cUJmemRlcG1XZmc1dHBpR0UxQU90UEVUZmFSbGV4TE5LWkR1?=
+ =?utf-8?B?UThEQjFlVFNHMEUvb1BpdGt5THNrdDlXVDZvNC8wOGQvL2d4dVFlY0h0OTMv?=
+ =?utf-8?B?aDV5L0NIalNjKzlhNmhsSnlUc2ZabkJUbTA2L2ZKelhYOUhYb0gzSXlzTHh0?=
+ =?utf-8?B?N1J1UG1taXpsSzNyRWFxaDZFU0I1cjVrcHByNHZyeHh0SXRydW91TURtTita?=
+ =?utf-8?B?S0Y4Z1RXY3RHU2Z5YnJrYTEyM1ZiQU1ZcVhzeGwrOWV2SWhVR0ttc2NQNGIr?=
+ =?utf-8?B?Ulh3eDFHNmNZUmxqZ05JRTd2QmhwaGhNSi92S2M2akZsSzg1bFZkZTBobVhZ?=
+ =?utf-8?B?RVVoN1BuZ2RHTWxBOGFoWTZ2cldLS2ZWT2UxRy9MM0QyVkI0R3pBQWl1aWNX?=
+ =?utf-8?B?Y1NsTVZWSFY4UE5JYzhGdmtqOFNISHRyZlRreHNSVzVLQmgzSXJvdEMxcE1z?=
+ =?utf-8?B?VDNrbzJYOThZaVE4WUxWcElZUDlRdlJ1VloxbE9GMHNRRm5zMG1mazdKUDds?=
+ =?utf-8?B?dzlPWEdDYlB5dWhYeWVKWFNhNDJYc0tXL3JFWUUvMnpoYm5wVTRoOFQ5VXhn?=
+ =?utf-8?B?aURtVTVXSCt1UElvN1grTGN0cGNlcXVPaHBRNlBPZG1pbzhEcDJaNTdSZXVD?=
+ =?utf-8?B?VTI4dWFBT2JuSC9Ea3M3VDZDcHZWZExiWitVZ295dFVMUGZGL0RYS3JIaWgw?=
+ =?utf-8?B?V1FNRXp0N0YxNEdQL283K1FyaVZXcmdzMUV4ejNQRC9Felphdkgvd2Z0Y2FD?=
+ =?utf-8?B?KzBWTkNYREp2QUJzbDNaWXo3TDdQbi9wQmdSVVVVZXNnZFpPTTlsUUFTeURU?=
+ =?utf-8?B?Y1FaK3NpSlpWUDZSQnQrSGphRUFvSnVORlV0MndmeFRHK0lqZlFqMkpRTjNM?=
+ =?utf-8?B?ZE8zcm82K0U5NjFxbnFqSHJKRlJqcm1hZ04vMHZ4OWZSUkpCT3dQNzNZWnEx?=
+ =?utf-8?B?aTFkZk5UTGZTMGc1ZktTQStzbEN4SFhTMDk5YXM5ZHU0VFI4YlJrU1RBS2ox?=
+ =?utf-8?B?cG5xaW5nS2RGczJHVUFJTlF3TEpBVFIzRmpyTUxiYVJqdUNNQlF0Y2UvOFR0?=
+ =?utf-8?B?ckJSMmJla3E4ZC82RjV2ZGVrbUdOR1RmUG1tKzFLOU5pajVqakdCd09QU21H?=
+ =?utf-8?B?STF0WU8xbGpyTzdQeUZWdVF2Zk4wRWhRSitDdnBVRUFiRU54NlFiOVNnN3J2?=
+ =?utf-8?B?WEhBSWE0TzQwb2R2MGszZmh1REU0M2g0NG5JMTR4MDlrMjJFVjlGUXNaYVMz?=
+ =?utf-8?B?ZXFBZ05YcEJRS01oektwU3hJMW9GV3NwWlN6RXV4K01wbnlnSzlsUmxmWUR4?=
+ =?utf-8?B?R3N2UDBIeU51SHgvbC9FZ2FnTzFIVGVsd0tMbHBMM2F2RWZUSDE3S3pXM1pK?=
+ =?utf-8?B?eFcvVXBxdDJGaThqUW1xZUdTNGtWUVdxWUM5MmdscUYzSXJ4WDZ1cDB1V1Z3?=
+ =?utf-8?B?NE8rblpwMFRHak1XdHZQYXBUajZPeWNGdDBMenAzcEo3YkN3L1RTUWxPak5k?=
+ =?utf-8?B?OXBzcGlXeTFXTWxMOEhKNHpYT1dpSmFFTzFNcHRmQW1ZZVpEWE5RditDUVBq?=
+ =?utf-8?B?dkJ6bVpoOGduVDJDb0EzSThxa21PYkZzdXY2eHBwSEMzdGZQayt0N3NPNDFx?=
+ =?utf-8?B?ZkZMNWdpeUp6NjBXYzBqdGl2YkZ0TndGTHE2NkdQWDFod0cxOHlwR2drK2or?=
+ =?utf-8?B?RnJrMmViZXp6Z3BVdnhMN1dMc2tUUkoxQTJtVzhsY1BqbDhMRnNUbXNQb1pZ?=
+ =?utf-8?B?ZVlaRFdhaDBOSFNIdjNpVHowSHRTWG1XUzhwYTYvVmwxK25XQW52eXQ5dmE3?=
+ =?utf-8?B?dVNtMDd3bmY3cktNMHIxeElTMlpCaVA0VmJiNFJJVDIwZU1sUnk3R3BPZ3BF?=
+ =?utf-8?B?Y25DUUZQejRid2dZdDdtUUNFM3drdTc3WTNoSStrNW9VUFZxYUMzYmY4R0w0?=
+ =?utf-8?B?Vzk2Zzh5SXRhY3FTVEtndGlxNzhlOG1vbXp0VUNFeTBJQUJtSUFXeTNGSHkw?=
+ =?utf-8?B?M3ErVTRQc0NXNEg3bTA2bFhrdjFRPT0=?=
 X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1bbcac1e-be9f-447a-bb3d-08ddf98e117e
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9f4f3182-bcb6-4e39-94da-08ddf9909e0f
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 04:11:13.4079
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2025 04:29:28.0819
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: GPXNLpM1tkn24/3ckfm/2Yrv1crWcUx90i9CrItLSXLFwjko4kMUZRS1XsDUipUQPTMsUGLwaw/xqKlUc2o26A==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7026
+X-MS-Exchange-CrossTenant-UserPrincipalName: goU++2WoSa3J8r5xurNy9ZrBXcgWdjpdcMKfSTTZVkiQKjg4+QbWGV1XDnLqhyndcPY2A89OCHcr76cRumifZA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB7126
 
 On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyatoslav Ryhel wrote:
-> The avdd-dsi-csi-supply is CSI power supply not VI, hence move it to
-> proper place.
+> VI in Tegra20/Tegra30 has 2 VI outputs with different set of supported
+> formats. Convert output registers to macros for simpler work with both
+> outputs since apart formats their layout matches.
 >=20
 > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > ---
->  drivers/staging/media/tegra-video/csi.c | 19 ++++++++++++++++++-
->  drivers/staging/media/tegra-video/vi.c  | 23 ++---------------------
->  drivers/staging/media/tegra-video/vi.h  |  2 --
->  include/linux/tegra-csi.h               |  2 ++
->  4 files changed, 22 insertions(+), 24 deletions(-)
+>  drivers/staging/media/tegra-video/tegra20.c | 82 ++++++++++++---------
+>  1 file changed, 46 insertions(+), 36 deletions(-)
 >=20
-> diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/staging/me=
-dia/tegra-video/csi.c
-> index c848e4ab51ac..1677eb51ec21 100644
-> --- a/drivers/staging/media/tegra-video/csi.c
-> +++ b/drivers/staging/media/tegra-video/csi.c
-> @@ -710,6 +710,8 @@ static int __maybe_unused csi_runtime_suspend(struct =
-device *dev)
+> diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/stagin=
+g/media/tegra-video/tegra20.c
+> index 3dc26f5552eb..6e0b3b728623 100644
+> --- a/drivers/staging/media/tegra-video/tegra20.c
+> +++ b/drivers/staging/media/tegra-video/tegra20.c
+> @@ -29,13 +29,19 @@
+>  #define TEGRA20_MIN_HEIGHT	32U
+>  #define TEGRA20_MAX_HEIGHT	8190U
 > =20
->  	clk_bulk_disable_unprepare(csi->soc->num_clks, csi->clks);
-> =20
-> +	regulator_disable(csi->vdd);
+> +/* Tegra20/Tegra30 has 2 outputs in VI */
+> +enum tegra_vi_out {
+> +	TEGRA_VI_OUT_1 =3D 0,
+> +	TEGRA_VI_OUT_2 =3D 1,
+> +};
 > +
->  	return 0;
->  }
+>  /* ---------------------------------------------------------------------=
+-----
+>   * Registers
+>   */
 > =20
-> @@ -718,13 +720,23 @@ static int __maybe_unused csi_runtime_resume(struct=
- device *dev)
->  	struct tegra_csi *csi =3D dev_get_drvdata(dev);
->  	int ret;
+> -#define TEGRA_VI_CONT_SYNCPT_OUT_1			0x0060
+> -#define       VI_CONT_SYNCPT_OUT_1_CONTINUOUS_SYNCPT	BIT(8)
+> -#define       VI_CONT_SYNCPT_OUT_1_SYNCPT_IDX_SFT	0
+> +#define TEGRA_VI_CONT_SYNCPT_OUT(n)			(0x0060 + (n) * 4)
+> +#define       VI_CONT_SYNCPT_OUT_CONTINUOUS_SYNCPT	BIT(8)
+> +#define       VI_CONT_SYNCPT_OUT_SYNCPT_IDX_SFT		0
 > =20
-> +	ret =3D regulator_enable(csi->vdd);
-> +	if (ret) {
-> +		dev_err(dev, "failed to enable VDD supply: %d\n", ret);
-> +		return ret;
-> +	}
-> +
->  	ret =3D clk_bulk_prepare_enable(csi->soc->num_clks, csi->clks);
->  	if (ret < 0) {
->  		dev_err(csi->dev, "failed to enable clocks: %d\n", ret);
-> -		return ret;
-> +		goto disable_vdd;
->  	}
+>  #define TEGRA_VI_VI_INPUT_CONTROL			0x0088
+>  #define       VI_INPUT_FIELD_DETECT			BIT(27)
+> @@ -47,6 +53,7 @@
+>  #define       VI_INPUT_YUV_INPUT_FORMAT_YVYU		(3 << VI_INPUT_YUV_INPUT_F=
+ORMAT_SFT)
+>  #define       VI_INPUT_INPUT_FORMAT_SFT			2  /* bits [5:2] */
+>  #define       VI_INPUT_INPUT_FORMAT_YUV422		(0 << VI_INPUT_INPUT_FORMAT_=
+SFT)
+> +#define       VI_INPUT_INPUT_FORMAT_BAYER		(2 << VI_INPUT_INPUT_FORMAT_S=
+FT)
+>  #define       VI_INPUT_VIP_INPUT_ENABLE			BIT(1)
 > =20
->  	return 0;
-> +
-> +disable_vdd:
-> +	regulator_disable(csi->vdd);
-> +	return ret;
->  }
+>  #define TEGRA_VI_VI_CORE_CONTROL			0x008c
+> @@ -67,7 +74,7 @@
+>  #define       VI_VI_CORE_CONTROL_OUTPUT_TO_EPP_SFT	2
+>  #define       VI_VI_CORE_CONTROL_OUTPUT_TO_ISP_SFT	0
 > =20
->  static int tegra_csi_init(struct host1x_client *client)
-> @@ -802,6 +814,11 @@ static int tegra_csi_probe(struct platform_device *p=
-dev)
->  		return ret;
->  	}
+> -#define TEGRA_VI_VI_FIRST_OUTPUT_CONTROL		0x0090
+> +#define TEGRA_VI_VI_OUTPUT_CONTROL(n)			(0x0090 + (n) * 4)
+>  #define       VI_OUTPUT_FORMAT_EXT			BIT(22)
+>  #define       VI_OUTPUT_V_DIRECTION			BIT(20)
+>  #define       VI_OUTPUT_H_DIRECTION			BIT(19)
+> @@ -81,6 +88,7 @@
+>  #define       VI_OUTPUT_OUTPUT_FORMAT_SFT		0
+>  #define       VI_OUTPUT_OUTPUT_FORMAT_YUV422POST	(3 << VI_OUTPUT_OUTPUT_=
+FORMAT_SFT)
+>  #define       VI_OUTPUT_OUTPUT_FORMAT_YUV420PLANAR	(6 << VI_OUTPUT_OUTPU=
+T_FORMAT_SFT)
+
+I would perhaps add a note here that values below are only supported by OUT=
+_2.
+
+> +#define       VI_OUTPUT_OUTPUT_FORMAT_VIP_BAYER_DIRECT	(9 << VI_OUTPUT_O=
+UTPUT_FORMAT_SFT)
 > =20
-> +	csi->vdd =3D devm_regulator_get(&pdev->dev, "avdd-dsi-csi");
-> +	if (IS_ERR(csi->vdd))
-> +		return dev_err_probe(&pdev->dev, PTR_ERR(csi->vdd),
-> +				     "failed to get VDD supply");
-> +
->  	if (!pdev->dev.pm_domain) {
->  		ret =3D -ENOENT;
->  		dev_warn(&pdev->dev, "PM domain is not attached: %d\n", ret);
-> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/med=
-ia/tegra-video/vi.c
-> index 2deb615547be..05af718b3cdf 100644
-> --- a/drivers/staging/media/tegra-video/vi.c
-> +++ b/drivers/staging/media/tegra-video/vi.c
-> @@ -1405,29 +1405,19 @@ static int __maybe_unused vi_runtime_resume(struc=
-t device *dev)
->  	struct tegra_vi *vi =3D dev_get_drvdata(dev);
->  	int ret;
-> =20
-> -	ret =3D regulator_enable(vi->vdd);
-> -	if (ret) {
-> -		dev_err(dev, "failed to enable VDD supply: %d\n", ret);
-> -		return ret;
-> -	}
-> -
->  	ret =3D clk_set_rate(vi->clk, vi->soc->vi_max_clk_hz);
->  	if (ret) {
->  		dev_err(dev, "failed to set vi clock rate: %d\n", ret);
-> -		goto disable_vdd;
-> +		return ret;
->  	}
-> =20
->  	ret =3D clk_prepare_enable(vi->clk);
->  	if (ret) {
->  		dev_err(dev, "failed to enable vi clock: %d\n", ret);
-> -		goto disable_vdd;
-> +		return ret;
->  	}
-> =20
->  	return 0;
-> -
-> -disable_vdd:
-> -	regulator_disable(vi->vdd);
-> -	return ret;
->  }
-> =20
->  static int __maybe_unused vi_runtime_suspend(struct device *dev)
-> @@ -1436,8 +1426,6 @@ static int __maybe_unused vi_runtime_suspend(struct=
- device *dev)
-> =20
->  	clk_disable_unprepare(vi->clk);
-> =20
-> -	regulator_disable(vi->vdd);
-> -
->  	return 0;
->  }
-> =20
-> @@ -1882,13 +1870,6 @@ static int tegra_vi_probe(struct platform_device *=
-pdev)
->  		return ret;
->  	}
-> =20
-> -	vi->vdd =3D devm_regulator_get(&pdev->dev, "avdd-dsi-csi");
-> -	if (IS_ERR(vi->vdd)) {
-> -		ret =3D PTR_ERR(vi->vdd);
-> -		dev_err(&pdev->dev, "failed to get VDD supply: %d\n", ret);
-> -		return ret;
-> -	}
-> -
->  	if (!pdev->dev.pm_domain) {
->  		ret =3D -ENOENT;
->  		dev_warn(&pdev->dev, "PM domain is not attached: %d\n", ret);
-> diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/staging/med=
-ia/tegra-video/vi.h
-> index 64655ac1b41f..367667adf745 100644
-> --- a/drivers/staging/media/tegra-video/vi.h
-> +++ b/drivers/staging/media/tegra-video/vi.h
-> @@ -93,7 +93,6 @@ struct tegra_vi_soc {
->   * @client: host1x_client struct
->   * @iomem: register base
->   * @clk: main clock for VI block
-> - * @vdd: vdd regulator for VI hardware, normally it is avdd_dsi_csi
->   * @soc: pointer to SoC data structure
->   * @ops: vi operations
->   * @vi_chans: list head for VI channels
-> @@ -103,7 +102,6 @@ struct tegra_vi {
->  	struct host1x_client client;
->  	void __iomem *iomem;
->  	struct clk *clk;
-> -	struct regulator *vdd;
->  	const struct tegra_vi_soc *soc;
->  	const struct tegra_vi_ops *ops;
->  	struct list_head vi_chans;
-> diff --git a/include/linux/tegra-csi.h b/include/linux/tegra-csi.h
-> index b47f48ef7115..85c74e22a0cb 100644
-> --- a/include/linux/tegra-csi.h
-> +++ b/include/linux/tegra-csi.h
-> @@ -139,6 +139,7 @@ struct tegra_csi_soc {
->   * @client: host1x_client struct
->   * @iomem: register base
->   * @clks: clock for CSI and CIL
-> + * @vdd: vdd regulator for CSI hardware, usually avdd_dsi_csi
->   * @soc: pointer to SoC data structure
->   * @ops: csi operations
->   * @mipi_ops: MIPI calibration operations
-> @@ -150,6 +151,7 @@ struct tegra_csi {
->  	struct host1x_client client;
->  	void __iomem *iomem;
->  	struct clk_bulk_data *clks;
-> +	struct regulator *vdd;
->  	const struct tegra_csi_soc *soc;
->  	const struct tegra_csi_ops *ops;
->  	const struct tegra_mipi_ops *mipi_ops;
->=20
 
 Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
+
+>  #define TEGRA_VI_VIP_H_ACTIVE				0x00a4
+>  #define       VI_VIP_H_ACTIVE_PERIOD_SFT		16 /* active pixels/line, must=
+ be even */
+> @@ -90,26 +98,26 @@
+>  #define       VI_VIP_V_ACTIVE_PERIOD_SFT		16 /* active lines */
+>  #define       VI_VIP_V_ACTIVE_START_SFT			0
+> =20
+> -#define TEGRA_VI_VB0_START_ADDRESS_FIRST		0x00c4
+> -#define TEGRA_VI_VB0_BASE_ADDRESS_FIRST			0x00c8
+> +#define TEGRA_VI_VB0_START_ADDRESS(n)			(0x00c4 + (n) * 44)
+> +#define TEGRA_VI_VB0_BASE_ADDRESS(n)			(0x00c8 + (n) * 44)
+>  #define TEGRA_VI_VB0_START_ADDRESS_U			0x00cc
+>  #define TEGRA_VI_VB0_BASE_ADDRESS_U			0x00d0
+>  #define TEGRA_VI_VB0_START_ADDRESS_V			0x00d4
+>  #define TEGRA_VI_VB0_BASE_ADDRESS_V			0x00d8
+> =20
+> -#define TEGRA_VI_FIRST_OUTPUT_FRAME_SIZE		0x00e0
+> -#define       VI_FIRST_OUTPUT_FRAME_HEIGHT_SFT		16
+> -#define       VI_FIRST_OUTPUT_FRAME_WIDTH_SFT		0
+> +#define TEGRA_VI_OUTPUT_FRAME_SIZE(n)			(0x00e0 + (n) * 24)
+> +#define       VI_OUTPUT_FRAME_HEIGHT_SFT		16
+> +#define       VI_OUTPUT_FRAME_WIDTH_SFT			0
+> =20
+> -#define TEGRA_VI_VB0_COUNT_FIRST			0x00e4
+> +#define TEGRA_VI_VB0_COUNT(n)				(0x00e4 + (n) * 24)
+> =20
+> -#define TEGRA_VI_VB0_SIZE_FIRST				0x00e8
+> -#define       VI_VB0_SIZE_FIRST_V_SFT			16
+> -#define       VI_VB0_SIZE_FIRST_H_SFT			0
+> +#define TEGRA_VI_VB0_SIZE(n)				(0x00e8 + (n) * 24)
+> +#define       VI_VB0_SIZE_V_SFT				16
+> +#define       VI_VB0_SIZE_H_SFT				0
+> =20
+> -#define TEGRA_VI_VB0_BUFFER_STRIDE_FIRST		0x00ec
+> -#define       VI_VB0_BUFFER_STRIDE_FIRST_CHROMA_SFT	30
+> -#define       VI_VB0_BUFFER_STRIDE_FIRST_LUMA_SFT	0
+> +#define TEGRA_VI_VB0_BUFFER_STRIDE(n)			(0x00ec + (n) * 24)
+> +#define       VI_VB0_BUFFER_STRIDE_CHROMA_SFT		30
+> +#define       VI_VB0_BUFFER_STRIDE_LUMA_SFT		0
+> =20
+>  #define TEGRA_VI_H_LPF_CONTROL				0x0108
+>  #define       VI_H_LPF_CONTROL_CHROMA_SFT		16
+> @@ -137,7 +145,7 @@
+>  #define       VI_CAMERA_CONTROL_TEST_MODE		BIT(1)
+>  #define       VI_CAMERA_CONTROL_VIP_ENABLE		BIT(0)
+> =20
+> -#define TEGRA_VI_VI_ENABLE				0x01a4
+> +#define TEGRA_VI_VI_ENABLE(n)				(0x01a4 + (n) * 4)
+>  #define       VI_VI_ENABLE_SW_FLOW_CONTROL_OUT1		BIT(1)
+>  #define       VI_VI_ENABLE_FIRST_OUTPUT_TO_MEM_DISABLE	BIT(0)
+> =20
+> @@ -367,8 +375,8 @@ static void tegra20_channel_vi_buffer_setup(struct te=
+gra_vi_channel *chan,
+>  	case V4L2_PIX_FMT_VYUY:
+>  	case V4L2_PIX_FMT_YUYV:
+>  	case V4L2_PIX_FMT_YVYU:
+> -		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS_FIRST,  base);
+> -		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS_FIRST, base + chan->=
+start_offset);
+> +		tegra20_vi_write(chan, TEGRA_VI_VB0_BASE_ADDRESS(TEGRA_VI_OUT_1),  bas=
+e);
+> +		tegra20_vi_write(chan, TEGRA_VI_VB0_START_ADDRESS(TEGRA_VI_OUT_1), bas=
+e + chan->start_offset);
+>  		break;
+>  	}
+>  }
+> @@ -456,6 +464,7 @@ static void tegra20_camera_capture_setup(struct tegra=
+_vi_channel *chan)
+>  	int stride_l =3D chan->format.bytesperline;
+>  	int stride_c =3D (output_fourcc =3D=3D V4L2_PIX_FMT_YUV420 ||
+>  			output_fourcc =3D=3D V4L2_PIX_FMT_YVU420) ? 1 : 0;
+> +	enum tegra_vi_out output_channel =3D TEGRA_VI_OUT_1;
+>  	int main_output_format;
+>  	int yuv_output_format;
+> =20
+> @@ -473,33 +482,33 @@ static void tegra20_camera_capture_setup(struct teg=
+ra_vi_channel *chan)
+>  	/* Set up raise-on-edge, so we get an interrupt on end of frame. */
+>  	tegra20_vi_write(chan, TEGRA_VI_VI_RAISE, VI_VI_RAISE_ON_EDGE);
+> =20
+> -	tegra20_vi_write(chan, TEGRA_VI_VI_FIRST_OUTPUT_CONTROL,
+> +	tegra20_vi_write(chan, TEGRA_VI_VI_OUTPUT_CONTROL(output_channel),
+>  			 (chan->vflip ? VI_OUTPUT_V_DIRECTION : 0) |
+>  			 (chan->hflip ? VI_OUTPUT_H_DIRECTION : 0) |
+>  			 yuv_output_format << VI_OUTPUT_YUV_OUTPUT_FORMAT_SFT |
+>  			 main_output_format << VI_OUTPUT_OUTPUT_FORMAT_SFT);
+> =20
+>  	/* Set up frame size */
+> -	tegra20_vi_write(chan, TEGRA_VI_FIRST_OUTPUT_FRAME_SIZE,
+> -			 height << VI_FIRST_OUTPUT_FRAME_HEIGHT_SFT |
+> -			 width  << VI_FIRST_OUTPUT_FRAME_WIDTH_SFT);
+> +	tegra20_vi_write(chan, TEGRA_VI_OUTPUT_FRAME_SIZE(output_channel),
+> +			 height << VI_OUTPUT_FRAME_HEIGHT_SFT |
+> +			 width  << VI_OUTPUT_FRAME_WIDTH_SFT);
+> =20
+>  	/* First output memory enabled */
+> -	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE, 0);
+> +	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE(output_channel), 0);
+> =20
+>  	/* Set the number of frames in the buffer */
+> -	tegra20_vi_write(chan, TEGRA_VI_VB0_COUNT_FIRST, 1);
+> +	tegra20_vi_write(chan, TEGRA_VI_VB0_COUNT(output_channel), 1);
+> =20
+>  	/* Set up buffer frame size */
+> -	tegra20_vi_write(chan, TEGRA_VI_VB0_SIZE_FIRST,
+> -			 height << VI_VB0_SIZE_FIRST_V_SFT |
+> -			 width  << VI_VB0_SIZE_FIRST_H_SFT);
+> +	tegra20_vi_write(chan, TEGRA_VI_VB0_SIZE(output_channel),
+> +			 height << VI_VB0_SIZE_V_SFT |
+> +			 width  << VI_VB0_SIZE_H_SFT);
+> =20
+> -	tegra20_vi_write(chan, TEGRA_VI_VB0_BUFFER_STRIDE_FIRST,
+> -			 stride_l << VI_VB0_BUFFER_STRIDE_FIRST_LUMA_SFT |
+> -			 stride_c << VI_VB0_BUFFER_STRIDE_FIRST_CHROMA_SFT);
+> +	tegra20_vi_write(chan, TEGRA_VI_VB0_BUFFER_STRIDE(output_channel),
+> +			 stride_l << VI_VB0_BUFFER_STRIDE_LUMA_SFT |
+> +			 stride_c << VI_VB0_BUFFER_STRIDE_CHROMA_SFT);
+> =20
+> -	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE, 0);
+> +	tegra20_vi_write(chan, TEGRA_VI_VI_ENABLE(output_channel), 0);
+>  }
+> =20
+>  static int tegra20_vi_start_streaming(struct vb2_queue *vq, u32 count)
+> @@ -588,7 +597,7 @@ const struct tegra_vi_soc tegra20_vi_soc =3D {
+>  	.nformats =3D ARRAY_SIZE(tegra20_video_formats),
+>  	.default_video_format =3D &tegra20_video_formats[0],
+>  	.ops =3D &tegra20_vi_ops,
+> -	.vi_max_channels =3D 1, /* parallel input (VIP) */
+> +	.vi_max_channels =3D 2, /* TEGRA_VI_OUT_1 and TEGRA_VI_OUT_2 */
+>  	.vi_max_clk_hz =3D 150000000,
+>  	.has_h_v_flip =3D true,
+>  };
+> @@ -608,6 +617,7 @@ static int tegra20_vip_start_streaming(struct tegra_v=
+ip_channel *vip_chan)
+>  	struct tegra_vi_channel *vi_chan =3D v4l2_get_subdev_hostdata(&vip_chan=
+->subdev);
+>  	int width  =3D vi_chan->format.width;
+>  	int height =3D vi_chan->format.height;
+> +	enum tegra_vi_out output_channel =3D TEGRA_VI_OUT_1;
+> =20
+>  	unsigned int main_input_format;
+>  	unsigned int yuv_input_format;
+> @@ -638,10 +648,10 @@ static int tegra20_vip_start_streaming(struct tegra=
+_vip_channel *vip_chan)
+>  			 GENMASK(9, 2) << VI_DATA_INPUT_SFT);
+>  	tegra20_vi_write(vi_chan, TEGRA_VI_PIN_INVERSION, 0);
+> =20
+> -	tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_OUT_1,
+> -			 VI_CONT_SYNCPT_OUT_1_CONTINUOUS_SYNCPT |
+> +	tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_OUT(output_channel),
+> +			 VI_CONT_SYNCPT_OUT_CONTINUOUS_SYNCPT |
+>  			 host1x_syncpt_id(vi_chan->mw_ack_sp[0])
+> -			 << VI_CONT_SYNCPT_OUT_1_SYNCPT_IDX_SFT);
+> +			 << VI_CONT_SYNCPT_OUT_SYNCPT_IDX_SFT);
+> =20
+>  	tegra20_vi_write(vi_chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CONTROL_ST=
+OP_CAPTURE);
+> =20
+>=20
 
 
 
