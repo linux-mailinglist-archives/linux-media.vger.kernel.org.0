@@ -1,134 +1,98 @@
-Return-Path: <linux-media+bounces-42955-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-42956-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD90BB91C62
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 16:43:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AD077B921D6
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 18:03:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 55498189C6AD
-	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 14:44:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id C538E18981C7
+	for <lists+linux-media@lfdr.de>; Mon, 22 Sep 2025 16:04:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A6EDC281355;
-	Mon, 22 Sep 2025 14:43:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CEC0431079B;
+	Mon, 22 Sep 2025 16:03:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Dbclt5RU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Okdk4HLp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62EDC27FB27
-	for <linux-media@vger.kernel.org>; Mon, 22 Sep 2025 14:43:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 27D1E31064A;
+	Mon, 22 Sep 2025 16:03:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758552206; cv=none; b=rBW7IkA8uapUPbBHjIuDOStE/Gkd9Wv11w1LU3X9BmWknoM1bWveKjqY0zhxqCPYNY9LjH/c0opyM1+BOBet83NqyMGeMiDclxijbdcjXXZuTC93wnTisb9lghKIu3gKf6HugIEaNloKOFF8Yx6bbdSa5k32FV0bTFKPAJUyyko=
+	t=1758557004; cv=none; b=GH+HscK0H8DfY05Ksh+i8w7drjSBdmzlmBebGJm0UzPDzYGtwKi2m/dgIrwBiNWanGjMaWhkFwUeGfDIEXTzyXycMdqJtupYd5F/YxwfvvBEL5QZ0ArKvoeo1PtPGOCHgnEjIFh9y/oNwkq4vHHNRcZEKRjBrlMFlxqgcfLVFvQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758552206; c=relaxed/simple;
-	bh=01eLBwKsR2MPC5ljxSM0eM0q4VqlpbK29DMtnFjku3Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WK433VuaXlmHeB4L9Zm0M05Ix1brS5cswPCdWOWlsIBKoF2DvALIrzL2Qk8gfryNIyk/uhWrltDGA73ZpCov9tPb/ziaw3DH+RZunokUZMrzSPlaKKrZ4C8hEQg7PBISIJ+edsC0YmnfM77BmPvjrUkS6gnDkve3WIklqKzMh4U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Dbclt5RU; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-361d175c97fso35846411fa.3
-        for <linux-media@vger.kernel.org>; Mon, 22 Sep 2025 07:43:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758552202; x=1759157002; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=F0lMUB1ROfKuK75/vGdOophe58nNykYwwEOWTGObV+k=;
-        b=Dbclt5RURZ5S3nBkBhGAJfnMXY5irBTsOgkqqkhfsEqo9yqiNRnYfnMkgdpnenNIjV
-         95W7EqA3Sy0V9DEdK8H4DNqF91pKTaVo59yND4P9gszI62iSDxf7qVpMIWLYen0W6UGQ
-         iC4J+Ej+d5iqAnl95fWncSOvi5/bA/yWr40pO+SOWK+mq9MPzUDttyxIczUjj4qIFqZB
-         uPAB4W0wX+jmuSsRZXayXhqHEBlRsUb6s/5d9trZhPcEZMDO7rRqnWS6BZSVtM05I52w
-         A4bnTYarvAfCEYoiIAktf+IrlGKiPtKbWDAa44kCvnAEmAt3jPPba+dj0s53JN+POOth
-         UxQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758552202; x=1759157002;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=F0lMUB1ROfKuK75/vGdOophe58nNykYwwEOWTGObV+k=;
-        b=wZUxsLH2WQsTSFb4oFbqneOWJ1iiB7fQUo1UKULF5D8HrH0zXrDp1wKhgA/C61gh7N
-         Yb+0pqTizZZitYtd11//0TFuAY/KMs4hDjJfHtMQ0DguqDGSAGleIRjEMgKbZ1jf6ZC2
-         sD22M6qyT4iZNnB+wjL10651fTsqqt+JDyskX8QlRGDMBK2RE5SKEc7ZOJV09p3Yu2j0
-         qjQwlDEXg+OrrSRIqx9PEkRG23UjxsURDBJHbQnLveGxrSxxV6GwRcrbnMsDfAAFtzdZ
-         bITFwYi8udc22q+K5EJzhlkbmQe357oyHsBixVbA94Tfu1iIsrOWUwHvoBRxBdyE6Xl4
-         /cig==
-X-Forwarded-Encrypted: i=1; AJvYcCUe1GTB0I9ZeEBK/lZy8k44xn4Iq5Rm76uDIFDGnKC1pq/BlOwBxkm1UNlgT7KXKga8vHwyfBWPP7DRaA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2k18FdWeVcjVDAizWH9xyMw1nefOFH5UTVZq5H0zpmoM37RAC
-	KQ3h1fjpYZqLPha2PiH3YphcVILaMbJWKKxn3zVu20LYp7JZxTlH6JfK
-X-Gm-Gg: ASbGnctNLHGSUPSvi4xfM9ZrgtYBXsmgHOJ+VL4rdlRqQIGido34OuMV5o3qsm7TzDS
-	HvXECGfW3edhy+7+QOozNxj1wsipCoZLv7jwV+1I6HFPd/VDZTFQTJHgZzQ8pVROQ0vd6Q+mJln
-	kj0TWHpquAMizw4CYSx+DhF9QYrbnD+6QVREb/S6mZkseWa13qw0sv6EjkKp1CM3vF0+dwJ0B/r
-	dNS7d257AVQt7Fzs9llDXXY8k1SvIphY4fEI+AOmujtzqherFZTtYS+gRWIn+I4QRIaa0LsOY61
-	av+YNnU4tvP+rNJLeu5OGnMXkiWWVJnefDALHOdAvEpBnnbunvNTs6PHLrNyoC/DK8Gc5s+qQCl
-	eD8Ub8S7KUz/IPZI+1dUYkGa8jmzoOuIu/LH39ZCqDRQhHwnb4nDVKPfXXGxBqiHbqAxgMZcWpR
-	w7xtVfkIBqtbcBHCPz
-X-Google-Smtp-Source: AGHT+IG0k8GFm/GzeFNoiWTic6tM3XN6hehF7mLWcX6QsOfPfppRRO6H9eJxef5vfYTewNG17se7sA==
-X-Received: by 2002:a05:651c:545:b0:36b:4cc1:15ff with SMTP id 38308e7fff4ca-36b4cc116b5mr18512911fa.5.1758552201998;
-        Mon, 22 Sep 2025 07:43:21 -0700 (PDT)
-Received: from localhost.localdomain (broadband-109-173-93-221.ip.moscow.rt.ru. [109.173.93.221])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3673e015747sm15960611fa.62.2025.09.22.07.43.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 22 Sep 2025 07:43:21 -0700 (PDT)
-From: Alexandr Sapozhnkiov <alsp705@gmail.com>
-To: Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	David Airlie <airlied@gmail.com>,
-	Daniel Vetter <daniel@ffwll.ch>,
-	intel-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org
-Cc: Alexandr Sapozhnikov <alsp705@gmail.com>,
-	linux-media@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: [PATCH 5.10] gpu/i915: fix error return in mmap_offset_attach()
-Date: Mon, 22 Sep 2025 17:43:16 +0300
-Message-ID: <20250922144318.26-1-alsp705@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	s=arc-20240116; t=1758557004; c=relaxed/simple;
+	bh=SBGcHxTA1qXpjYcMN2XvPCz4NeeP4t9w4dEm7rTj6mI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=A2qgeXoStKx7wIOIFvKYzdOBhGX/6BwoLfVKQII+wdKTkGcnhk5FAiNkxGqY0RpIhtl3qpEa8E2gOWDXiirD95NbWqkxkzqLquUYrXwA79n/oM35V/+mrC7MvmD5oDJkd4oO8GKi0rN8tFUZ3RxTNFBnTe8+UxPA8rMW8JvBqIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Okdk4HLp; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05220C4CEF0;
+	Mon, 22 Sep 2025 16:03:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758557003;
+	bh=SBGcHxTA1qXpjYcMN2XvPCz4NeeP4t9w4dEm7rTj6mI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Okdk4HLpW7Kmoxgxc97pQ2qYlroVJ/LR1qBFjpayn3uKBBhgY65vvD5163oCK9WgH
+	 hpHrSkjmcc6hzLlajkdmPSJiDTq44kQzw2/jZaHLba2rTWEEGCydLFy3QhKZsN4ZXC
+	 Vjq5Ly2WbORSmmMberQB7tT42jTifK/WO50CloeJ4LpSZQlrN36/p8u3IWvu+PYGpd
+	 llpAF5PGvW4gn7LbQwItU6acJSa2UjKBpARczJa4qmhZzuKQMUc3+BOK7LMSX1Vem+
+	 0qd5B/8DFOZw9mtOdBWfi1YR0BQu0XbhSvy8gY/Iv74JmQcN+kHjIhg3QdmldLL/mb
+	 6D94AhDK7WiNw==
+Date: Mon, 22 Sep 2025 11:03:16 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Kyrie Wu <kyrie.wu@mediatek.com>
+Cc: Arnd Bergmann <arnd@arndb.de>, Irui Wang <irui.wang@mediatek.com>,
+	linux-mediatek@lists.infradead.org,
+	Sebastian Fricke <sebastian.fricke@collabora.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Nathan Hebert <nhebert@chromium.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	linux-arm-kernel@lists.infradead.org,
+	Conor Dooley <conor+dt@kernel.org>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Yunfei Dong <yunfei.dong@mediatek.com>, linux-media@vger.kernel.org,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	George Sun <george.sun@mediatek.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>
+Subject: Re: [PATCH v3 1/8] dt-bindings: media: mediatek: decoder: Add MT8189
+ mediatek,vcodec-decoder
+Message-ID: <175855699590.126634.9163224835580363424.robh@kernel.org>
+References: <20250915091958.31509-1-kyrie.wu@mediatek.com>
+ <20250915091958.31509-2-kyrie.wu@mediatek.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250915091958.31509-2-kyrie.wu@mediatek.com>
 
-From: Alexandr Sapozhnikov <alsp705@gmail.com>
 
-Return value of function 'drm_vma_node_allow', called 
-at i915_gem_mman.c:670, is not checked, but it is usually 
-checked for this function
+On Mon, 15 Sep 2025 17:19:51 +0800, Kyrie Wu wrote:
+> Add compatible for video decoder on MT8189 platform. Compared with
+> former ICs, the MT8189 decoder use iommu to instead of smmu, and
+> use scp architecture, the frequency is only 406MHZ, and cannot reach
+> more than 700MHZ. At the same time, the decoder supports the vp9
+> decoding protocol for the first time in single IC.
+> 
+> Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
+> ---
+>  .../bindings/media/mediatek,vcodec-subdev-decoder.yaml           | 1 +
+>  1 file changed, 1 insertion(+)
+> 
 
-Found by Linux Verification Center (linuxtesting.org) with SVACE.
-Signed-off-by: Alexandr Sapozhnikov <alsp705@gmail.com>
-
----
- drivers/gpu/drm/i915/gem/i915_gem_mman.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-index a2195e28b625..adaef8f09d59 100644
---- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-+++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-@@ -706,8 +706,11 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
- 	mmo = insert_mmo(obj, mmo);
- 	GEM_BUG_ON(lookup_mmo(obj, mmap_type) != mmo);
- out:
--	if (file)
--		drm_vma_node_allow_once(&mmo->vma_node, file);
-+	if (file) {
-+		err = drm_vma_node_allow_once(&mmo->vma_node, file);
-+		if (err)
-+			goto err;
-+	}
- 	return mmo;
- 
- err:
--- 
-2.43.0
+Acked-by: Rob Herring (Arm) <robh@kernel.org>
 
 
