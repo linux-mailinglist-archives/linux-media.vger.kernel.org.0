@@ -1,75 +1,75 @@
-Return-Path: <linux-media+bounces-43001-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43002-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A9ADB97968
-	for <lists+linux-media@lfdr.de>; Tue, 23 Sep 2025 23:37:34 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 909EEB97A07
+	for <lists+linux-media@lfdr.de>; Tue, 23 Sep 2025 23:49:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 04659320E56
-	for <lists+linux-media@lfdr.de>; Tue, 23 Sep 2025 21:37:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7B7F74E3176
+	for <lists+linux-media@lfdr.de>; Tue, 23 Sep 2025 21:49:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FC2B30DEC7;
-	Tue, 23 Sep 2025 21:37:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 64131311943;
+	Tue, 23 Sep 2025 21:48:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a55I2Dre"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gPtHV0im"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5D9578F58;
-	Tue, 23 Sep 2025 21:37:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672F73101DF;
+	Tue, 23 Sep 2025 21:48:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758663443; cv=none; b=hWaQILhlsNLMI/aSUs7rgYf5LeeOUdCgygitarhcwgC+fMUdA11wBXIiUVKc7iEQlg2fdPcGQflYHCgFwSLZOqoPHsv+Bet4OBpROKLAeqPpI5qEoz67SIUtmz0u2x7WOxt8WfpoRkJImHyEYS1tQ/W0XRG42xe7LqjMik1KW0s=
+	t=1758664116; cv=none; b=pPCaZiJF4AJQaCd5KXIpssD61TMyDHtVyQ6qE1iIKYZnUHGsKfsy4QcWOMeUucxW594eVrTdDtIbWeshH7OYIzTtJk3ZqVZ2K0WIYYto9TaNoCIyLkXMs2WVHDtfwPue4wHNIggN3GC/Os8I+8GU9KQDsuw4O7qGQAFDE+UNAEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758663443; c=relaxed/simple;
-	bh=AmT7pTT/bQK4h7VloFIIhchliPgyZojTf54MF0QHREo=;
+	s=arc-20240116; t=1758664116; c=relaxed/simple;
+	bh=ynSU1sjv/APhbJJAUkW92GPfKCAkcMDj27Y78DB5+JA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DigyDuCykUZUYuYfeuzzwtc5v4QSCTd1qLSLUqhXnzEb8fr460UozrZD93NDsb0+MV9eaTDc0ptjoyGD7tncUBCz52g92l26QKenYgiqUY/0/JhQORtsKCcb1vrMj/2XowCnxGPHJGTY/TbFuc0/nFBpYC7UKilW/qr34WUH2gI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a55I2Dre; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5EE44C4CEF5;
-	Tue, 23 Sep 2025 21:37:23 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=DLEAptKn1blAZ14XCaG1/zINag3OEYY9yQFCarRjch0zZaLT91bD344H2sXHNb1vDQO/3G1kmD4xR+Y47rxVj1a2KTXO6hjhNtVC96fRekh/nnokIRu8NiMd/5DaHeMnueTV9nwvNILfGLO5ezpjQPQY0X2k9ZLSDLjIvX5Np7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gPtHV0im; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B63F5C4CEF7;
+	Tue, 23 Sep 2025 21:48:35 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758663443;
-	bh=AmT7pTT/bQK4h7VloFIIhchliPgyZojTf54MF0QHREo=;
+	s=k20201202; t=1758664115;
+	bh=ynSU1sjv/APhbJJAUkW92GPfKCAkcMDj27Y78DB5+JA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=a55I2Drexre9bmk9zOM6IHzQLXlQLZh5HwWP9Px8aa/1hUS7J58IX7JJ3YDzCuSEM
-	 PAS3UJCrtAIueVROmkX4i4/LE8CnJ4xggv/HzM6XkXuZUCxXuwrOA/v6g8Y2f0uku/
-	 f0ijwgCPwX5/BC3M3TGHhGSBZsK1PD0rxU7lsZr5CX9FWDXzMlOrlUQMTXiYaxcO0D
-	 skyJYWG9BJlwnI2a0btE2FNr6ra9N0dWRB6zll1TTr5tpxaUDyhp6C6gLAYOk8Mmtl
-	 jxKtO5V+Vycuwt7yWcI4UnHje3zc3L22NfIckDsJKK8yanMDnkXkmCavEDVeL+Tcsl
-	 68jmOmlZAVZmQ==
-Date: Tue, 23 Sep 2025 16:37:21 -0500
+	b=gPtHV0imNsUTP1wQzviVh4zQi3BxZ5/9R0MrNEIhtqcEaB/XUpHIKkKeRanyeehY0
+	 ievQlqwU2fZZUxcrIHQrV7w6FvObgnmnDdd72mY1KwpPiDV5r/F0fQ9+ksRhi/Xr8F
+	 uWlhIVqm6YSkGT2vYircLvEly2pCXJIHPJF6FMjpkEzH1H2herK4Njygc3EfE0lrL3
+	 ozpyW40XNqKw7fH7eq/7gsEIlJFf2Vr/ijD2RX5ii7SfLIKdyN2mPOP4BKWK/XqoB6
+	 yAYE6NoqRCOrl51Qu9pWtpQJ6IvHxKM1uhTLUVw8OMgZxIgorvSJ1zgyjRohNZMKx1
+	 8GX+dWpLaH69g==
+Date: Tue, 23 Sep 2025 16:48:34 -0500
 From: Rob Herring <robh@kernel.org>
-To: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
-Cc: linux-mediatek@lists.infradead.org, herbert@gondor.apana.org.au,
-	davem@davemloft.net, krzk+dt@kernel.org, conor+dt@kernel.org,
-	chunkuang.hu@kernel.org, p.zabel@pengutronix.de, airlied@gmail.com,
-	simona@ffwll.ch, maarten.lankhorst@linux.intel.com,
-	mripard@kernel.org, tzimmermann@suse.de, jassisinghbrar@gmail.com,
-	mchehab@kernel.org, matthias.bgg@gmail.com,
-	chunfeng.yun@mediatek.com, vkoul@kernel.org, kishon@kernel.org,
-	sean.wang@kernel.org, linus.walleij@linaro.org, lgirdwood@gmail.com,
-	broonie@kernel.org, andersson@kernel.org,
-	mathieu.poirier@linaro.org, daniel.lezcano@linaro.org,
-	tglx@linutronix.de, atenart@kernel.org, jitao.shi@mediatek.com,
-	ck.hu@mediatek.com, houlong.wei@mediatek.com,
-	kyrie.wu@mediatek.corp-partner.google.com, andy.teng@mediatek.com,
-	tinghan.shen@mediatek.com, jiaxin.yu@mediatek.com,
-	shane.chien@mediatek.com, olivia.wen@mediatek.com,
-	granquet@baylibre.com, eugen.hristev@linaro.org, arnd@arndb.de,
-	sam.shih@mediatek.com, jieyy.yang@mediatek.com,
-	frank-w@public-files.de, mwalle@kernel.org, fparent@baylibre.com,
-	linux-crypto@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-phy@lists.infradead.org, linux-gpio@vger.kernel.org,
-	linux-remoteproc@vger.kernel.org, linux-sound@vger.kernel.org
-Subject: Re: [PATCH 00/38] MediaTek devicetree/bindings warnings sanitization
-Message-ID: <20250923213721.GA91441-robh@kernel.org>
-References: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
+To: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
+Cc: airlied@gmail.com, amergnat@baylibre.com, andrew+netdev@lunn.ch,
+	andrew-ct.chen@mediatek.com,
+	angelogioacchino.delregno@collabora.com, broonie@kernel.org,
+	chunkuang.hu@kernel.org, conor+dt@kernel.org, davem@davemloft.net,
+	dmitry.torokhov@gmail.com, edumazet@google.com,
+	flora.fu@mediatek.com, heiko@sntech.de, houlong.wei@mediatek.com,
+	jeesw@melfas.com, kernel@collabora.com, krzk+dt@kernel.org,
+	kuba@kernel.org, lgirdwood@gmail.com, linus.walleij@linaro.org,
+	louisalexis.eyraud@collabora.com, luiz.dentz@gmail.com,
+	maarten.lankhorst@linux.intel.com, marcel@holtmann.org,
+	matthias.bgg@gmail.com, mchehab@kernel.org,
+	minghsiu.tsai@mediatek.com, mripard@kernel.org,
+	p.zabel@pengutronix.de, pabeni@redhat.com, sean.wang@kernel.org,
+	simona@ffwll.ch, support.opensource@diasemi.com,
+	tiffany.lin@mediatek.com, tzimmermann@suse.de,
+	yunfei.dong@mediatek.com, devicetree@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-bluetooth@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mediatek@lists.infradead.org,
+	linux-rockchip@lists.infradead.org, linux-sound@vger.kernel.org,
+	netdev@vger.kernel.org
+Subject: Re: [PATCH v2 00/12] MediaTek dt-bindings sanitization (MT8173)
+Message-ID: <20250923214834.GC91441-robh@kernel.org>
+References: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,45 +78,61 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250724083914.61351-1-angelogioacchino.delregno@collabora.com>
+In-Reply-To: <20250911151001.108744-1-ariel.dalessandro@collabora.com>
 
-On Thu, Jul 24, 2025 at 10:38:36AM +0200, AngeloGioacchino Del Regno wrote:
-> As Rob pointed out, MediaTek devicetrees are *poor* in the dtbs_check
-> tests, and got an infinite load of warnings.
+On Thu, Sep 11, 2025 at 12:09:49PM -0300, Ariel D'Alessandro wrote:
+> This patch series continues the effort to address Device Tree validation
+> warnings for MediaTek platforms, with a focus on MT8173. It follows the
+> initial cleanup series by Angelo [0].
 > 
-> This series starts attacking this situation.
+> Similarly to the ongoing MT8183 work done by Julien Massot, this patchset
+> eliminates several of the remaining warnings by improving or converting DT
+> bindings to YAML, adding missing properties, and updating device tree files
+> accordingly.
 > 
-> I didn't really count how many warnings I have resolved - it's a lot
-> of them anyway - and I think that this is a good start in any case.
+> [0] https://www.spinics.net/lists/kernel/msg5780177.html
 > 
-> More will come, but I'll be on a long holiday soon, so not from me
-> (or anyway not before I come back anyway), but most probably from
-> someone else (in August...!).
+> Changes in v2:
+> * Wrapped commit messages to 75 columns line wrap.
+> * Replaced "YAML" by "DT schema" in patches subject and content.
+> * mt8173-mdp: Fixed properties: compatible, clocks, iommus and
+>   mediatek,vpu.
+> * mt8173-vpu: Fixed line wrap. Dropped memory-region property description.
+> * mediatek,mmsys: Dropped patch as it's not a binding issue.
+> * mediatek,od: Rewrote commit log with details on DT schema users missing
+>   the related property. Rewrote mediatek,gce-client-reg property.
+> * mediatek,ufoe: Rewrote commit log with details on DT schema users missing
+>   the related property. Rewrote mediatek,gce-client-reg property.
+> * marvell,sd8897-bt: Moved to net/bluetooth/. Added missing ref to
+>   bluetooth-controller.yaml. Dropped example. Updated reference in another
+>   file. Minor fixes in properties.
+> * mediatek,mt8173-rt5650: Dropped unnecessary quotes and unused label.
+> * dlg,da9211: Dropped enable-gpios description. Rewrote generic example
+>   node names. Minor fixes in properties.
+> * melfas,mip4_ts: Dropped unnecessary quotes. Added "active high" to
+>   ce-gpios property description.
+> * mediatek,jpeg: Dropped patch as it doesn't apply.
 > 
-> Cheers!
-> Angelo
+> Signed-off-by: Ariel D'Alessandro <ariel.dalessandro@collabora.com>
 > 
-> AngeloGioacchino Del Regno (38):
->   dt-bindings: display: mediatek: dpi: Allow specifying resets
->   dt-bindings: display: mediatek,dp: Allow DisplayPort AUX bus
->   dt-bindings: mailbox: mediatek,gce-mailbox: Make clock-names optional
->   ASoC: dt-bindings: mt8192-afe-pcm: Fix clocks and clock-names
->   dt-bindings: crypto: inside-secure,safexcel: Mandate only ring IRQs
->   dt-bindings: timer: mediatek: Add compatible for MT6795 GP Timer
->   dt-bindings: pinctrl: mediatek,mt7622-pinctrl: Add missing pwm_ch7_2
->   dt-bindings: pinctrl: mediatek,mt7622-pinctrl: Add missing base reg
->   dt-bindings: pinctrl: mt6779: Allow common MediaTek pinctrl node names
->   dt-bindings: regulator: mediatek,mt6332-regulator: Add missing
->     compatible
->   dt-bindings: regulator: mediatek,mt6331: Fix various regulator names
->   dt-bindings: regulator: mediatek,mt6331: Add missing compatible
->   dt-bindings: remoteproc: mediatek: Remove l1tcm MMIO from MT8188 dual
->   dt-bindings: media: mediatek,mt8195-jpeg: Allow range number in node
->     address
->   dt-bindings: phy: mediatek,hdmi-phy: Fix clock output names for MT8195
+> Ariel D'Alessandro (12):
+>   dt-bindings: media: Convert MediaTek mt8173-mdp bindings to DT schema
+>   dt-bindings: media: Convert MediaTek mt8173-vpu bindings to DT schema
+>   dt-bindings: net: Convert Marvell 8897/8997 bindings to DT schema
+>   dt-bindings: ASoC: Convert MediaTek RT5650 codecs bindings to DT
+>     schema
+>   dt-bindings: display: mediatek,od: Add mediatek,gce-client-reg
+>     property
+>   dt-bindings: display: mediatek,ufoe: Add mediatek,gce-client-reg
+>     property
+>   arm64: dts: mediatek: mt8173: Fix mt8173-pinctrl node names
+>   dt-bindings: pinctrl: mt65xx: Allow gpio-line-names
+>   dt-bindings: regulator: Convert Dialog DA9211 Regulators to DT schema
+>   arm64: dts: mediatek: mt8173-elm: Drop unused bank supply
+>   dt-bindings: soc: mediatek: pwrap: Add power-domains property
+>   dt-bindings: input: Convert MELFAS MIP4 Touchscreen to DT schema
 
-As we are close to the merge window, I applied patches 1, 3, 6, 7, 8, 
-10, 11, 12 and 14.
+As we're close to the merge window, I applied patches 2, 8, and 11.
 
 Rob
 
