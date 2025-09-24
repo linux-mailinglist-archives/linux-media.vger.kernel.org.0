@@ -1,48 +1,55 @@
-Return-Path: <linux-media+bounces-43057-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43058-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2708B99D76
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 14:30:24 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F817B99DBE
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 14:33:17 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EAC5C3A469C
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 12:30:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 98D8A1B22BF3
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 12:33:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66F6F2EC095;
-	Wed, 24 Sep 2025 12:30:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E1998303CB2;
+	Wed, 24 Sep 2025 12:32:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aEltAJSp"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="uAOpuzL3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.web.de (mout.web.de [217.72.192.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7E422E7199
-	for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 12:30:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 110152FFDF1;
+	Wed, 24 Sep 2025 12:32:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.72.192.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758717009; cv=none; b=cB+3Fkjrbfyy3Xdi8adeDeSHNvFCNjVe9Bgq4zF1kF1XiEVGdwRw9h1P1NFaKE9pV+VrxBiHYSRPwEqvWGezULUPshpL0Mb8pone25H6nhUVEK87OFUyO+RkPlAkvtk7gQyWwrFO7/HNxvVSEMF1ZuHsKbqQ7o1Gn63hDAgngTk=
+	t=1758717178; cv=none; b=VOSA5Ee2gB2ICWjcoEhnVXDkmJUudKSev5PZDTPqFxOJFFoIpnUypNSpC9O7Omq1tIceeJ6ObsflqY91zaCJznrxvrZZlHmILdN1fvo/spF85HOSAilHKxHWj9bheehTst5f2ucYsDA5nxCQWT/5VBk/ZI8t6QZ0tNtFU45lymI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758717009; c=relaxed/simple;
-	bh=H7sHV1P9JX+WrJIzcQCzTrTuVqJo+6m0nB4Ks3vkkJs=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:References:
-	 In-Reply-To:Content-Type; b=n1OEl/YscAZ32MpxGeW9DaqTzERsrSB2XPYe6w42FcrBHET8KppgR1jm8x0r4UUyH4aDzQjjnhLVm14Eg73Za/RZlizsYTek2v7y6yV9fKHmv6iTF6H2hAiVJyZGVOqI8Nz24sHTOlMctA0QpAe9ASafgm+D7psR7saiId6pV5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aEltAJSp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C61A8C4CEE7;
-	Wed, 24 Sep 2025 12:30:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758717009;
-	bh=H7sHV1P9JX+WrJIzcQCzTrTuVqJo+6m0nB4Ks3vkkJs=;
-	h=Date:From:Subject:To:References:In-Reply-To:From;
-	b=aEltAJSpVmxEtapX6g7Kq2NDcMmwqDXmrBfyfiDT/B8sCLlLNKSC59pMb6XZxkd+Z
-	 pQYGPjl5kF+4fSJzhC1y4Y54ChbTsLCuYRNvgd8MLABeQCY4f6eiiDzLVIwSEzJJoC
-	 Pfg+mZy3FC+C3QyFy+c0Qm39BwqPsFnvAaSyiQtFFNX88+4UChXqKVobOwF/OgriLV
-	 dKQCQNV+yCOECtu5tWuKyuFEBwbfSqe8Znp4PyMnced/IwwZHh6NVwAa94WL+D7YiN
-	 pdDg3zTRT3OGgwfKb7oBjDKwakOjsYYKHzH12UmnHY9/tK+i0zcFIb3suJ8Yrhsu/2
-	 saX51TL+xM9rg==
-Message-ID: <63ffc682-10e2-46ef-bccf-f5b047aae688@kernel.org>
-Date: Wed, 24 Sep 2025 14:30:07 +0200
+	s=arc-20240116; t=1758717178; c=relaxed/simple;
+	bh=ZGxq+Ix5oisLA9COEk0FEELZKMSYR2wygcqx0J1ZhPE=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=D5mgNhhePFf1CrFJXElqTf5IqM/6pGrUB6iNLKVoFqizAhvXOdTN34+uVXRSf0lZK6OZNn7mGIVj8MUn3ylfEiy61kk6+qtYqZbxY1pMa8HNZDiPFeeAynOS1WuVQXq7MGIzfB7Q529C/TbuB4SW85CuacNi3liJVx168r4MNtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=uAOpuzL3; arc=none smtp.client-ip=217.72.192.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1758717154; x=1759321954; i=markus.elfring@web.de;
+	bh=KWn3nedyIxEDNdo6UJdXvOoLYUbJadV6nhxPIqocgL8=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=uAOpuzL3hLrJfAUe+sSW2WUrvniLXgH++55wAcwtIk8j7UvG3hnAVPRYcLdriVY/
+	 M49N7QZCDGrnLwA4S4oBto09e+JT+PSLx4g+L1MpMaVLrDjmTw30b3iTS+ZTB6uFp
+	 S8POOO4uuDmqwBXOmJQb8RkrEq9g7dL2Z9UqjuXQBBKOGvrKipO3o7hpSYYte7ECf
+	 0IPbuEDEctRdbGlCbTlnaeiDrNxvoaRCJfrY34tcT5rrv6Ia8ou27wByK85WyXFAa
+	 t+uNK4GktdK+iXumZwXCKrrNdIYHPhko4J3VbYorGra+nHy4ZJZJNFgHHnyKGr2YZ
+	 IV91sz3Qae/4krYY1A==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.191]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MBB3s-1vCuzM0N7W-007qtL; Wed, 24
+ Sep 2025 14:32:34 +0200
+Message-ID: <ce08ae79-8f7e-4a37-85b9-d86c10567881@web.de>
+Date: Wed, 24 Sep 2025 14:32:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,102 +57,113 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [GIT PULL FOR 6.18-fixes] Please pull
- platform-qcom-fixes-for-6.18
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>, bod@kernel.org,
- linux-media@vger.kernel.org
-References: <20250924104419.7248-1-bod@kernel.org>
- <582bd5a7-fece-4cb9-b76c-73e536f78475@kernel.org>
- <2568439c-3d0d-4f6e-a4ee-3d1123237ce2@linaro.org>
-Content-Language: en-US, nl
-In-Reply-To: <2568439c-3d0d-4f6e-a4ee-3d1123237ce2@linaro.org>
+To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+References: <20250919-video-iris-ubwc-enable-v1-1-000d11edafd8@oss.qualcomm.com>
+Subject: Re: [PATCH 1/2] media: iris: Add support for QC08C format for decoder
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20250919-video-iris-ubwc-enable-v1-1-000d11edafd8@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:sGWNiIbdSGaZx3dO1eNBciCn/6VJ4p3IoxgH7KT5ib7Wfx7FaGA
+ DtfyzaPHFUmr6a8z0qyUuBkFM6OPBvLm/U570xvVijSIr8eeGcEYhDiM+s2blKPWH9tyAbd
+ 7gLtnm4GMxlsP3EGIP/nWD2P0iuM/pnATQQ+C1ijxl39q0yz8+9rz2JrNzqQ8WVotem0mNK
+ nF5b45YI1dFecSPjV5g0A==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:aBXKtSFHZ7o=;m4WRmjpnHhyRo5E6ifSaw5z59yZ
+ CQhSnIS9nZPRL5ab0iWvNgYGiHmTL0ulK1owlGXd0BZbtUz6juLdhkZ1EAwoeD/cLUgqgcpZU
+ actdztIu7/5WR4TwlIskEoL799yiew88uue+Pq0SkabKkVQkyarhfv4im9j6z+fvASwKcKcro
+ fe538xJaxMeQAGzNsccdADp5Mc7gnRSz4YCiECDxtR4bHUKVr+7+6UCJf2FXP2JSEsDNB2SOx
+ DdrpqbhaBQ3Kza/IQsFoW/XqpV4OwgIgVjJdXVo3I9pUscak+psjRXwmUcOYNIUtA0Rhqi8OA
+ cffa0zoDAFhem80wh3B2RQEc8cC04/Q2s/usUKccXFbvaW9wqpz3l3/QM/HJ75wOpwI94Ng1V
+ gilxMVDD9RgosuaqnBMzk0PJdtfyHvDWSuaNLP4JJXyeasZbfh82aWOPiRxKNQHLWclEIbUvp
+ sEwbYuI1truLnOxnv6x80NNHwbklTdVZPNviyOuFCtTZqGKLQhTWMqZq8QgBLLvfwgz2vJ2jv
+ uIiNuvduOu08BOcUkpitUTAn5hp5E+2uXVmvQDUcESmW/NV3kaB2esibgnXkjd+lf/SnsEyFY
+ YfHvRMFYREseKMBPUxkGNeR5W8xjiN9PBljKRbRxeDv5ChZ2WTEcIJEtHs9hDHGpEYeSncrTO
+ rn4XApZ2OYmWcdfOEoGWd+MYA3gXVjDzvQeKm/cmeqV2FMFx0x3ANXeiqALuMasKPguQ3Tc+C
+ gz/jBkApKATpF67pYi7THC0/tFiurMVU5XrGOuFw52DzvvxlPs1tGO6Q0y1cBUWv1RKByYGdg
+ Iqe5eJmp8o9s3Rwv4SKaZzTwvLIlddGM0CxNJ9XOUFQMZCdEOmpqL1mcVwNCGMFtA9eAjPtkr
+ 9rLY2pIfRK0Wq1DZDhYWa65WhU7AE5jL0WUltvwJjxbRDBpfWH6VFJOJF8DHtPXGJA27Zu/eR
+ UvuWJtKbvn6AN9HWVGJU5xSZo367uQIfR8P5+jG8aQr0nsQqciZyRS21Jh9HsXpu0A8j683ze
+ 640t9mp/ve8A854ZaS1N0KH73RUxa0nx8md4Q3WVg0FVu3LP385oKfnfaKoqZ1ySRdAu6zKIK
+ 7IdJIHNuSQTIJGAgZr3gd6qvs45Zz0180Xi6x2WQzcTdWyn0KQ63UnyXISpSDuo18Pt28HfSo
+ od22t1067txjsb+efnkbRjJP7X3z8gydpmbfoXRNe69vX9yXU8lqwXvfLCVDlQBpXjGlEXIbu
+ rVjGiCZ+H1JT2diGmY04Ekp1yBPViI1/qfmXQ1du8jnC080QyV79I+FwtwmxEKp+jYHb9YTPd
+ jQOMI+ED3QwTs5knqd24yQnvnLtxODOJ342C4lgC4P2SZYVGBKlAgWlkq/YIsNEzdX06W9iCB
+ jDjxG1ZEMqIboUFm6yxMeZ08l8we/DV4CRqDfKi8gVcLRvKOCMu2eMHsPhyL9/GFzVn48K1ah
+ HEyc7MIDnzET9MGaTic8zdPA9KRd03m68S7N9J3VAQTpGhIZmFHh7OVvnEUY5BPVlji6sBFAw
+ qjzzq+o6PvLOUKKDzNRAKP/ItT898sCzVSJFfqttyKOlx+Lbik8ByhpH0p9cLnMcSXmFaYl4A
+ StnnidlVFfd1a5lPEsG4C8gva+cbxR2zIyTdF91+NdVBmUx/qIoz0IZ36vxtcQk5V8S6nYghd
+ 92Gdd1ebKSmOe0+XquxH69eHYO1v7dTrCtEVYQ51Cz4TzPLwF7dBm+OT2vdWfHrDNWdHUpBu2
+ KguOTQU7uWYmGA1Wrd31URlO7vkJdOarQmbmwbyBDaqoXlElcqRGdAjXOvApxLI7bewosdbH9
+ Iu3GLovDdSldLOjEricHutcQxmpW1wmzOzUU3TPRmhlFmygjjedwlkkefVXK+cm71ztTWvWOw
+ /rFxiogufHv7XAONpjh7WLHfxkXa0vdXvh2qd+n+eLt/CaI/4of6h7Lx6fVal72YNDoSAb1DR
+ u/XRcoJ6+aMZwTW0foynhl5Z5213aqw/XqBgm0ZvLFsi/ZqgeTJznUWwE5GMwqrMY/xYNHxcG
+ nY4vNt3fkJQofohIXvRP/pFzJbD7ccCzO01Bt6UMsc7J7C4e55CfCKQ+x3db3Fw8eodgy/Rt0
+ mm6eDUOniwBn3863LkGPZ2sKDuwx6O/7FksPCAXM3XwJHaQlzKRe3zRfMaZl9McVFDvZL7y8o
+ j+e2C7kEvOoaonq5vHwwmHSyWvuJLDV15pNFYjPBTA3PIwXdzEb/h0Nbl/IuRRPu1Bxs3VhSw
+ n2ywsYkVLFZxYO4z0PowmJJTygljBWtGk0g44Og7So6w1AjkpYtp6/zaCO3ul5LNMLTiMNrZa
+ TeheD3KjqIvrt7Oaep4g3Piy9x0nX0Pargyr0NtGMR2xr31oaubRAu+nsc9IX+ZVGB7kxtPer
+ rwumMmYAplW2bRWYbgJpsox/WR7LW1I0ob1b7njVH8ChuOvWmY3/9D1000xCjg/+av3QV7Eh6
+ qct7Mq0RY2JbNmAMoZ30i9+mwQ1R4uQMeO+PSGmhNIzrkm54HxsbkIzRJgbrfLlcUprIYu+x+
+ R7u3hcHl26t1aZD6nfxUaYbuE1rWfVVlHnZNQdRdtD3QutNfIGLXhwXBCmtbspaeeoBB4dqXY
+ c+N+HqQrZd43+HCw6rhJJFW0uWRhGtKtx0yMJe6LAFqLgqFfeAxVSnkY3us3+4rP+H/+j+xA5
+ XqYiUTUZ1dQo84skqAquiVr2xhoaVISputWHJ7fGBO+jQOuUoug+1Y1dna0283l/7l+bqg856
+ DjQlpM9xLCHQI1SWYeqREwhaexvoevCwUmbQhA6qxsFaaalS0ckfkUtRyGaNaX06IXFPdcJs/
+ nLJL79w0gTtgyvGHEPYe41iFDZ5hkiiw2q+4sg3UWqxi55JsQKPhNt+jrdSyLkYdUqrEOq79c
+ 9lzpbwYuoqirXE2DDRmIrdi6QTmpn3KgLFzKlZtkgPNQlj7X0EmFfHOyBEpDdl5/r+3g0d/bq
+ UWkcW+X3wK9FbMKml/OIGS4FBDk31er411/0Ssyo7qpxEVAQq+7bCFdJZfcazTizM1oqCTvs3
+ 9i7o5Y4QYKviyM3GLd07dYhdPYSr4oPnKtTq6XsCAFagxHuIXj15gLfbzPTn2vpGwlHXBMZ2U
+ K4nHfouPCI6CiRPaxEcYcR30fFsMezfBa7Zr+H6r6QyUdqJnjk7e7MBKd9obgtoR58/9azNqr
+ 1VP124lPooiqphKeDacE6cCmnRBJmZWHV7gLcaDUHPWMDRZZ2A+MRk5DDGE9kFPzXovXYPxLR
+ pjX1skOHefLisSqKx30YFWxOEcTPvVziwwntV1Jz2WrRrG3iFG8VlbFv6L795c5nP00pcyvET
+ T4y7vccFMat+1AIBk1pfFH2183Xh03CGvJ9f7N+lBMbK04OLfF/jFbVyVAJSNMr9KKLztWwSK
+ zNTz06eI5TVPqyyPGcxB/knDq0xO5ruvoQO4Czqm/Q9e9YS2ceCTjPDarQF0CG/+CI82HiOHL
+ k/s007aUSIrBU6hW75crWd0kDR8Cph3osbeUSgWPtyS7ZXLEBkMDXvs0iIwvDhHwtpXVR+9i6
+ /+D61rQSPCm7pzLAdhMlwFEpVsV7dOnSZFDl6ByhwPo3j3OtfkoZH3ZxXIVVGtP5bVPm93LGb
+ yb3N/2VFPNwMzY6zBOQ21fajwn8zyafILnp5yc5byI7ZE9LOeI7RQuhqKdAgCozKrmRNYqrlp
+ OPjkIhC/q0UvjR5dcby8DLFcCCgRRM5351dmXilSiuQQZVr6iVF9jABlC9QDr530OUVrsgyCs
+ 5BJ5NAI3p3c9a/owfzuy6Vtbino2y3/4LVA1ytoe9doBw9zkUIIz3g6JqdfhnkjEWqO53tW3z
+ 8oL0gGr13anrf4I+RB9bx70vej1qPlPluPt8XMr0qaHe73DjuU5h+llP3L3WyTTu+ZuLGXzqv
+ 1bTPJJKP9tWoE3839rNvPEo73FPNSYa/evOoEPWVrxhwxT+WMgSSq/6E7huXQDpW8r9L8DotI
+ OMDzi42xseQ/TX6/CgSXJ8t9aBqLTvTgRP3TE82QdHOna3g2AhKQdBI/0Kn/uiUMfebM6iivb
+ KZ/CPacCc5fgyHL3+6IGlMG5GM0Kf29Zkhg6aiT7UuV9E6w306IdAQoB4RPZ+eRTRrsug5fy3
+ /t0IFy3qxlX4JG3KSUBgOMLgrC2qFr9995zNgxLnGHRVMOjpRaeN0Xfzq7j/5zGGUpdVjkPeQ
+ YL0jSbef6RIeWbeue43vaS4TQtsQpxQUn1PkgAELGI8V5qwH86QWsMi39+oHB6cGtfXGl9h/0
+ ehSD1M/k+ycQ1Cqh8njBdFjjiECIa3w62mNWLPszJuYRBZxi/gyxYUACk/uy3+Ys4WOHjOt8T
+ ENGfOpPQowaXwhNM3D85p5wM5MHUqbJzbG+53kRwme5YOEube0l6zv8KpFk6J/TfRccVMSKET
+ yVS6fCWWXIVRG2fAiPrF+IjRfXeEuP0P5UBsJcctlSsi+13MKlwYbaNJYLnbUN6caip/0Oa7N
+ eDLWDIaJpNvTaf9p+JQFNHyNipLCvCijglazgd1kjVvA0ZnCjSuJKZEi7n7r1NB3ZFyn9CnkD
+ dS8vgCPP9wH8IQK+Dpfcuwya+ZzkYTwpJyzF7VT/XOca5jljA8efK6TbJ4U1fwb9fpjW3Bjb/
+ ePRxe51DExgTOWi15tsn+FMQ+aM69+ZFQB3FRLREl/XbZi+O2fdrTk+XzlNg9kpV4SqXKplb1
+ y1x6H9QiNEPlQFt9XFUvYpQvif99Dzzia+Jt2JWeLUQHyzBCmeF4wvufSB2wGOPMsTNNepQ=
 
-On 24/09/2025 13:45, Bryan O'Donoghue wrote:
-> On 24/09/2025 12:22, Hans Verkuil wrote:
->> On 24/09/2025 12:43, bod@kernel.org wrote:
->>> From: Bryan O'Donoghue <bod@kernel.org>
->>>
->>> The following changes since commit 40b7a19f321e65789612ebaca966472055dab48c:
->>>
->>>    media: tuner: xc5000: Fix use-after-free in xc5000_release (2025-09-17 12:15:35 +0200)
->>>
->>> are available in the Git repository at:
->>>
->>>    https://gitlab.freedesktop.org/linux-media/users/bodonoghue.git tags/platform-qcom-fixes-for-6.18
->>>
->>> for you to fetch changes up to 22d0fa7f9507d8e20db956aab5d2eecd55084db6:
->>>
->>>    dt-bindings: media: camss: Add qcs8300 supplies binding (2025-09-23 00:13:39 +0100)
->>>
->>> ----------------------------------------------------------------
->>> This tag contains three fixes for 6.18
->>>
->>> - An alignment issue Loic identified in -next for QCM2290
->>> - A fix for Venus when OPP tables are missing
->>> - A fix for the QCS8300 CAMSS binding.
->>>    https://lore.kernel.org/linux-media/61b562ad-eb67-4917-a449-f5556c43ceef@linaro.org
->>>    https://lore.kernel.org/linux-media/e72800d4-cb65-443b-be7e-0966a60fa5a9@linaro.org
->>>
->>> ----------------------------------------------------------------
->>> Loic Poulain (1):
->>>        media: qcom: camss: vfe: Fix BPL alignment for QCM2290
->>>
->>> Nihal Kumar Gupta (1):
->>>        dt-bindings: media: camss: Add qcs8300 supplies binding
->>
->> I am unhappy with this bindings patch: it's missing Acks from the device-tree devs,
->> and the commit log is vague:
-> 
-> A revised version of the whole yaml with the supplies has the Ack, 
-> second link.
-> 
-> I'm not exactly sure what is the right thing to do with a file in -next 
-> other than rebase swapping the old commit with the new.
+=E2=80=A6
+> +++ b/drivers/media/platform/qcom/iris/iris_buffer.c
+> @@ -261,7 +261,10 @@ int iris_get_buffer_size(struct iris_inst *inst,
+>  		case BUF_INPUT:
+>  			return iris_dec_bitstream_buffer_size(inst);
+>  		case BUF_OUTPUT:
+> -			return iris_yuv_buffer_size_nv12(inst);
+> +			if (inst->fmt_dst->fmt.pix_mp.pixelformat =3D=3D V4L2_PIX_FMT_QC08C)
+> +				return iris_yuv_buffer_size_qc08c(inst);
+> +			else
+> +				return iris_yuv_buffer_size_nv12(inst);
+=E2=80=A6
 
-??? We apply the fix to our media-committers/next tree and linux-next pulls from that
-(actually it pulls from the mirror on linuxtv.org, but they are the same). I don't see
-what linux-next has to do with this.
+How do you think about to use a source code variant like the following?
 
-The only concern is that it is really close to the new merge window, and I'm
-uncomfortable dealing with somewhat messy patches like this so late in the cycle.
+			return (inst->fmt_dst->fmt.pix_mp.pixelformat =3D=3D V4L2_PIX_FMT_QC08C=
+)
+				? iris_yuv_buffer_size_qc08c(inst)
+				: iris_yuv_buffer_size_nv12(inst);
 
-> 
-> i.e. the whole yaml in the second link has the ACK but the yaml minus 
-> the supplies is already in linux-next.
-> 
->> "This commit adds in the missing vdda-phy and vdda-pll supplies from
->> qcs8300-camss.yaml."
->>
->> Did you mean "to" instead of "from"?
->>
->> Also mention why they were missing, I assume because it was simply forgotten? Shouldn't
->> there be a Fixes tag?
-> 
-> Since its in -next only the Fixes: sha would not work, AFAIU.
-
-Why not? It's merged from our tree, and it's the same sha.
-
-> 
->>
->> Since this is also a fix for a newly introduced file (hence the lack of Acks), I think it
->> is better to handle this as a post-v6.18-rc1 fix. That way the file that is fixed is
->> available for the devicetree maintainers, you can add a Fixes tag and update the commit
->> message.
-> 
-> That's fine too, so long as no DTS is applied against it until we fixup.
-
-Let's do that.
 
 Regards,
-
-	Hans
-
-> 
-> ---
-> bod
-> 
-
+Markus
 
