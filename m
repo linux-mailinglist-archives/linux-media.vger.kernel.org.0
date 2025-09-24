@@ -1,176 +1,125 @@
-Return-Path: <linux-media+bounces-43045-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43046-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B95B995C2
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 12:07:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53B46B9964B
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 12:16:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 64D567AAB38
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 10:06:13 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 90F587ADA0A
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 10:14:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E102D2DCC01;
-	Wed, 24 Sep 2025 10:07:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 934702DE1E4;
+	Wed, 24 Sep 2025 10:15:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MG9U504x"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lRlqE/tc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF3B52BCF5;
-	Wed, 24 Sep 2025 10:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB29E2DBF69;
+	Wed, 24 Sep 2025 10:15:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758708456; cv=none; b=DUmm4WqERDQ0SwhBOTD4SW9EN/OW+4oNnSNrF3llqayvR6h2tiU/IwRBbZ8O6ZegkVbqZtOA8gDaUJ90XpTrfqf0PIewyGhjpxlb1wX3MtO4ic5pwUWUtMmZkw1AglaBXkmspWi4A2Jb+Y9K9A9MFPMndri4+t+zuXObbCcmA3E=
+	t=1758708952; cv=none; b=JxIAJ7lzjqfot8pw6WyC0nQ5G4FEj8okQ7W9OzI5l0rcT7e7+IyDkvj0yPg/xCIcOJkXWoWToprDIfG/bWSVpYq52eqElHaIMZMQ73VW0FTrZlhnM5iskdm97Jl3PqHEyijnA07gpa1gll25N4qhsmM8P+LKK4XKTOtcmZfwy4Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758708456; c=relaxed/simple;
-	bh=wYs42sFxB1z6qStU60RP+A1H9ebtQZzHVrEmZGgoccg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bCmsk+CE83Uf/WBoBQNkQTF/pN8DyHGeYsj0xXEqyosgp+KVS2PeyVIAgh2DpW74LNkbJ2u1PDqgGYN34/ZSvuN3FxQEQ+4iKiEG0L9tWKB5BWqL3GoERQ8Pup9b9S537faMFlXuDOeaIE8a38IvIIcMeW3BpLp5WqNGH9zMtcA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MG9U504x; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (85-76-33-231-nat.elisa-mobile.fi [85.76.33.231])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 37666169;
-	Wed, 24 Sep 2025 12:06:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1758708363;
-	bh=wYs42sFxB1z6qStU60RP+A1H9ebtQZzHVrEmZGgoccg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MG9U504xXOiYhIvbDW9REDTOwCjd1Rjc3OlzBpQ0TbuiOaL7H8w/SIypUhTxNx6+o
-	 OaQlncSq44/yQZqjh5QStUtWUFSBp4q2taKlfrxpThAXZCWz7NtQhYegKHG95MdtPQ
-	 mYbjfEn2x2obfoJe4j8CwY4ieKsbVCP8NOHrQiK0=
-Date: Wed, 24 Sep 2025 13:06:54 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-	linux-media@vger.kernel.org, netdev@vger.kernel.org,
-	linux-spi@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Danilo Krummrich <dakr@kernel.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Daniel Scally <djrscally@gmail.com>,
-	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
-	Javier Carrasco <javier.carrasco@wolfvision.net>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
-	Matthias Fend <matthias.fend@emfend.at>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>,
-	Paul Elder <paul.elder@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Horatiu Vultur <horatiu.vultur@microchip.com>,
-	UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Mark Brown <broonie@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2 08/16] property: Document that fwnode API returns
- available nodes
-Message-ID: <20250924100654.GO28073@pendragon.ideasonboard.com>
-References: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
- <20250924074602.266292-9-sakari.ailus@linux.intel.com>
+	s=arc-20240116; t=1758708952; c=relaxed/simple;
+	bh=DvLhw947CblcIdyBFNhtEqAX1eV7V+6cSO3ZZNC0UuQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=eOEdRzqnNtFuET2TRx4gYsnLIf2aaMRCdYa/XnCSm+fsyp+gAH1IsNZeSIz+L28fr9U0mpu2sDNf0r7Ub3Vc0NPivfpLDhMVxL+jAQdFF4XcAnxHPvEp8d3+SSF923byAac+bbzNtfJR5VRdDpCR7dL36dWsn10RjBdJmHPGrF4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lRlqE/tc; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80951C2BCAF;
+	Wed, 24 Sep 2025 10:15:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758708952;
+	bh=DvLhw947CblcIdyBFNhtEqAX1eV7V+6cSO3ZZNC0UuQ=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=lRlqE/tcDWOs7fia3v9/EHCjzmuNXAFNG43/LCa1FTwxC3jmAKjLI+ZcF0IDmHPJL
+	 P/l6nR995ioS/xTq5axHljw2J8kZpau6IRjpTd745QRLwgE8bKYUduwd9NAnEBXO1g
+	 bR++Q3A2bSg2QAiGHLrVcByn/j8LYMz+V2mMxdvj8QPWz7iGioUIYbgtuR8726MTw/
+	 h+b+7EQADZpUa/4m8po0u9bQNQHs1K1g2ODO2qS+z1OsHmoqV3s6lq9C44chBvFH1O
+	 zpSq87UwzU0VaR/r7VGTh7eweThTE8f+zZ738TEOQyZNlyA71olvt5i6Jdra4tSDoM
+	 Rslb+YbWRDHfw==
+Date: Wed, 24 Sep 2025 12:15:45 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: Hans Verkuil <hverkuil@kernel.org>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Laurent
+ Pinchart <laurent.pinchart@ideasonboard.com>, Tomi Valkeinen
+ <tomi.valkeinen@ideasonboard.com>, Jacopo Mondi
+ <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org, Ricardo
+ Ribalda <ribalda@chromium.org>, Laurent Pinchart
+ <laurent.pinchart+renesas@ideasonboard.com>, Al Viro
+ <viro@zeniv.linux.org.uk>, Ma Ke <make24@iscas.ac.cn>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 01/10] media: v4l2-core: Introduce state management
+ for video devices
+Message-ID: <20250924121545.1456cbea@foz.lan>
+In-Reply-To: <20250919-vdev-state-v2-1-b2c42426965c@ideasonboard.com>
+References: <20250919-vdev-state-v2-0-b2c42426965c@ideasonboard.com>
+	<20250919-vdev-state-v2-1-b2c42426965c@ideasonboard.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250924074602.266292-9-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hi Sakari,
+Em Fri, 19 Sep 2025 15:25:53 +0530
+Jai Luthra <jai.luthra@ideasonboard.com> escreveu:
 
-On Wed, Sep 24, 2025 at 10:45:54AM +0300, Sakari Ailus wrote:
-> The fwnode API has historically provided two functions to iterate over a
-> fwnode's child nodes, fwnode_get_next_child_node() and
-> fwnode_get_next_available_child_node() whereas all of the fwnode API has
-> always worked on available nodes, apart unavailable ACPI child device
-> nodes could have been returned by fwnode_get_next_child_node().
+> Similar to V4L2 subdev states, introduce state support for video devices
+> to provide a centralized location for storing device state information.
+> This includes the current (active) pixelformat used by the device and
+> the temporary (try) pixelformat used during format negotiation.
+
+I didn't look at the patch series yet, so I may be just jumping too
+fast here, but storing "try" attempts doesn't seem the right thing to
+do.
+
+Btw, IMHO, the first patch on this series should be against documentation,
+where you would be describing not only the new feature with the supported 
+states, but also the state machine transitions that are supported,
+preferably with some graphs.
+
+So, before actually looking on any code changes, I'd like to see a clear
+description of this new feature, what it is proposing to address, how
+and what impacts (if any) this would bring to userspace.
+
+The current diffstat:
+
+ include/media/v4l2-ctrls.h                         |   5 +-
+ include/media/v4l2-dev.h                           |  84 +++++
+ include/media/v4l2-fh.h                            |   2 +
+ include/media/v4l2-ioctl.h                         | 238 ++++++-------
+ include/media/v4l2-mem2mem.h                       |  48 ++-
+ include/media/videobuf2-v4l2.h                     |  33 +-
+
+implies that this affects for now only Documentation/driver-api/media/...
+
+> In the
+> future, this may be extended or subclassed by device drivers to store
+> their internal state variables.
 > 
-> Now that the availability check has been added to ACPI side as well,
-> document that the functions in the fwnode API return available nodes.
+> Also introduce a flag for drivers that wish to use this state
+> management. When set, the framework automatically allocates the state
+> during device registration and stores a pointer to it within the
+> video_device structure.
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  drivers/base/property.c | 12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/base/property.c b/drivers/base/property.c
-> index 4bd64e729431..ff440456af7b 100644
-> --- a/drivers/base/property.c
-> +++ b/drivers/base/property.c
-> @@ -785,7 +785,7 @@ struct fwnode_handle *fwnode_get_nth_parent(struct fwnode_handle *fwnode,
->  EXPORT_SYMBOL_GPL(fwnode_get_nth_parent);
->  
->  /**
-> - * fwnode_get_next_child_node - Return the next child node handle for a node
-> + * fwnode_get_next_child_node - Return the next available child node handle
->   * @fwnode: Firmware node to find the next child node for.
->   * @child: Handle to one of the node's child nodes or a %NULL handle.
->   *
-> @@ -830,7 +830,7 @@ fwnode_get_next_available_child_node(const struct fwnode_handle *fwnode,
->  EXPORT_SYMBOL_GPL(fwnode_get_next_available_child_node);
->  
->  /**
-> - * device_get_next_child_node - Return the next child node handle for a device
-> + * device_get_next_child_node - Return the next available child node handle for a device
+> This change aligns video devices with V4L2 subdevices by storing
+> hardware state in a common framework-allocated structure. This is the
+> first step towards enabling the multiplexing of the underlying hardware
+> by using different software "contexts", each represented by the combined
+> state of all video devices and V4L2 subdevices in a complex media graph.
 
-You may want to drop "for a device" at the end of the line, it seems
-you've made that change in 15/16 instead of here.
+... but when you mention "contexts", I'm assuming that you're aiming
+at either userspace API changes and/or behavoral changes that will
+affect uAPI as well.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-
->   * @dev: Device to find the next child node for.
->   * @child: Handle to one of the device's child nodes or a %NULL handle.
->   *
-> @@ -858,7 +858,7 @@ struct fwnode_handle *device_get_next_child_node(const struct device *dev,
->  EXPORT_SYMBOL_GPL(device_get_next_child_node);
->  
->  /**
-> - * fwnode_get_named_child_node - Return first matching named child node handle
-> + * fwnode_get_named_child_node - Return first available matching named child node handle
->   * @fwnode: Firmware node to find the named child node for.
->   * @childname: String to match child node name against.
->   *
-> @@ -874,7 +874,7 @@ fwnode_get_named_child_node(const struct fwnode_handle *fwnode,
->  EXPORT_SYMBOL_GPL(fwnode_get_named_child_node);
->  
->  /**
-> - * device_get_named_child_node - Return first matching named child node handle
-> + * device_get_named_child_node - Return first available matching named child node handle for a device
->   * @dev: Device to find the named child node for.
->   * @childname: String to match child node name against.
->   *
-> @@ -928,7 +928,7 @@ bool fwnode_device_is_available(const struct fwnode_handle *fwnode)
->  EXPORT_SYMBOL_GPL(fwnode_device_is_available);
->  
->  /**
-> - * fwnode_get_child_node_count - return the number of child nodes for a given firmware node
-> + * fwnode_get_child_node_count - Return the number of available child nodes for a given firmware node
->   * @fwnode: Pointer to the parent firmware node
->   *
->   * Return: the number of child nodes for a given firmware node.
-> @@ -946,7 +946,7 @@ unsigned int fwnode_get_child_node_count(const struct fwnode_handle *fwnode)
->  EXPORT_SYMBOL_GPL(fwnode_get_child_node_count);
->  
->  /**
-> - * fwnode_get_named_child_node_count - number of child nodes with given name
-> + * fwnode_get_named_child_node_count - Return the number of available child nodes with given name
->   * @fwnode: Node which child nodes are counted.
->   * @name: String to match child node name against.
->   *
-
--- 
-Regards,
-
-Laurent Pinchart
+Thanks,
+Mauro
 
