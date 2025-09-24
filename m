@@ -1,63 +1,63 @@
-Return-Path: <linux-media+bounces-43050-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43051-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE6BFB9977F
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 12:43:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C5A6B99788
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 12:44:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 55F124C03C6
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 10:43:38 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AFFDE3B3EBA
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 10:44:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A01572E06E4;
-	Wed, 24 Sep 2025 10:43:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAF5E2E03FA;
+	Wed, 24 Sep 2025 10:44:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NwIG0fVk"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bjs8nMWp"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FD312DFA3B;
-	Wed, 24 Sep 2025 10:43:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B47D72DF15C;
+	Wed, 24 Sep 2025 10:43:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758710605; cv=none; b=NZmR9CYMIIXDqyfZtSDvEzg4ZbsK1zdiEb/meFrzj6Al7EfugLmATE7pBjRIlp2OR5m3j7NaJLBkoJZy7+jwRW2rQboqJpwdTJqyVKBh3IwlTROWereli4uOKT7cH9gsgqKrqEWucIqUX3C1hNZcS0DQPaHELdSSqG/tJPlf3ps=
+	t=1758710640; cv=none; b=m+O8WmBNygNHwHggcHlaCwfuElK0+wB5F8W8+X4kJze+qsFTBJpcYgCf3sk9AnDvZ2LJS3kNwh3UYvERNZZFxHNb7yJOmlKq6AUUwhqoO3NGQxd+VWWYZm2AGjjWx5zXeUnh0GP1W1Galuj4QoVcw4xBlnGA9NrJ2GE6BkWe8yg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758710605; c=relaxed/simple;
+	s=arc-20240116; t=1758710640; c=relaxed/simple;
 	bh=uZ5aL+RvlvrxXl7y7TA2bmQpgsId4kMSh5rp1Xr/eFM=;
 	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=HHTU/L6FrADt8bjx0tMgycnTtQFFu1Mi6vHfHW6E+wJPazl2Ipda0+4KLChk5CAbhUK7Jk9f+Mzz2ZQVyN0fs4TXiOALbuyBHySfHB7h+oQ6dAnKu8Frn6CLkUkjllP0Mwu2KQw3qpZnOXtl5enltTYH9Tui6Y6ZM8/AKdZIIic=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NwIG0fVk; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=VtH+TwW6Xeklu9fnM01Y/2TKuwLs8gv45qbfbiBBK/nHQV8+ihiz6v4lYbsoilj3Yy3zK1cWf+fUdv33ETTLSzXpGujpBXPUI3z+fKZTwD+r5R9megpxLqrdjJdqPinL6tB2AcQHCZSpRvX/B6jLjTdiFum5kw1EreRWEjmQiJA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bjs8nMWp; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58O4iD1i002114;
-	Wed, 24 Sep 2025 10:43:12 GMT
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58O4iOTh025243;
+	Wed, 24 Sep 2025 10:43:47 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	A4ZWAcXNUh+a8/wDPonqbInQPP3wM6yFGOe9WVaaSKo=; b=NwIG0fVkiwYUh0hE
-	ASk6cWHglQi/iQgu329LXzNzt8GQSFqVJJurjvodbtHONgDQYIKGdT41EdL902aD
-	1WsZL2HoxRwzouRxX1vjp/uwd2BC5O/UkWA5Nr3482RF1h2oTZc27ztdUy1QT4q8
-	r5v01BARry2ga90FLGxwHyZoEb5Vii2B6yNn+2Nk1vBnZtNqJps8nX2Sp/9r32sS
-	UJWvQWCZ5QQbpI3I4Rp3fQFWKDyGroh9CpfMvuM/Wed7vR25Xe0e4PlusUk6L53B
-	Up9mMyNuky8vKQx/A7ArppBOhLUT1QZLEyxviWhhoFIlPh844f7uFstkoDp4UdKJ
-	q2RjjA==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499k98m036-1
+	A4ZWAcXNUh+a8/wDPonqbInQPP3wM6yFGOe9WVaaSKo=; b=bjs8nMWpx1NYsL35
+	db7jjwfZYzMj8M56oO7wztB9JEdQ5AJjdFz6Jvurf3kh333cvhrXeKHVd9KDFixK
+	pEnS11nc0YdX6gyXPJtHpb6Fsg16Xi6psQ8jbfuqSCpqe5Bn6RE42yrXpY4n+Ewa
+	fst+A2Z/OfLdPtcNPTjBVK/qGETtr8QU2DmfBWY3txG+j2A4lHNnwVjh4uILTy+m
+	aasyYBF4+U/hlsux92E0SdKQUdr5+SCt2jLGVh7cg4PAOVkDzClWZVkLWfbCadOV
+	4SwjBjvFTGYJvVaAVa1uLcbUICy5WzRdS2kwX/rD/02qUqiFyM5jTFFqt7rTDwz0
+	yb494A==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499kv140by-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 24 Sep 2025 10:43:11 +0000 (GMT)
+	Wed, 24 Sep 2025 10:43:47 +0000 (GMT)
 Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 58OAhAXg010908
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 58OAhktn014339
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 24 Sep 2025 10:43:10 GMT
+	Wed, 24 Sep 2025 10:43:46 GMT
 Received: from [10.50.8.83] (10.80.80.8) by nalasex01a.na.qualcomm.com
  (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Wed, 24 Sep
- 2025 03:43:08 -0700
-Message-ID: <f1e9ddb0-683d-4c91-f39b-6954c23f7f75@quicinc.com>
-Date: Wed, 24 Sep 2025 16:13:03 +0530
+ 2025 03:43:44 -0700
+Message-ID: <eca3f63e-256a-c810-1d5c-a3326a08deaf@quicinc.com>
+Date: Wed, 24 Sep 2025 16:13:39 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -68,11 +68,11 @@ User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.13.0
 Subject: Re: qcom: vpu: fix the firmware binary name for qcm6490
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-CC: <linux-firmware@kernel.org>,
-        "Vikash Garodia (QUIC)"
-	<quic_vgarodia@quicinc.com>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        "Vikash Garodia
+ (QUIC)" <quic_vgarodia@quicinc.com>
+CC: <linux-firmware@kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>
 References: <f5965570-9c49-860d-5de6-bc5a3056d9ad@quicinc.com>
  <w2zhq4nedrzjb7znmjqhixbk7ncxqedjsi5mapsfwfe7pqcnrn@36aeageuuhs7>
  <dcd27cce-7558-d055-caf7-3bf56ff31fdc@quicinc.com>
@@ -91,28 +91,28 @@ X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
  nalasex01a.na.qualcomm.com (10.47.209.196)
 X-QCInternal: smtphost
 X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: vNd1xP1_rsbFs6rwfjmuLoMMh6YkVtUl
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAxOCBTYWx0ZWRfX/zgd4SBOr4o5
- Ah2oFQdcw1vviICGJ62lD+CjOlU0wj6rfiutAUNxfgBI7MjxDHj0GyeNwcuav5Ciq4woCveG4Mw
- dxKIRYGsUDjW+0aYfzSjQQmMwgG+mNMo05f8dTcTx8bTVXZCni+MD5HpdEP5j6RmZY3BVsCTFNi
- SRtrcoGKOn+YlwuZ8W1RICwUDAQjjnIykYzMx6ne6W1grBiLhKP25M+VNSi54KKrYXw56psa+qv
- rrPbyDuy69IQaBAJxoDO0kl2I0LpFWJSFcxnFizSpLtUaYQYcDW73GuSh1nastLWFWPOqpjbCUR
- gMUOdqhGkgStmnAnIjg2z3ZsNwLHkJ6PDV8fXPeapgNo4EEe+v74IlluJ57tKJBU3N8P/DMvRmT
- HrxGc2my
-X-Proofpoint-ORIG-GUID: vNd1xP1_rsbFs6rwfjmuLoMMh6YkVtUl
-X-Authority-Analysis: v=2.4 cv=Dp1W+H/+ c=1 sm=1 tr=0 ts=68d3cb3f cx=c_pps
+X-Proofpoint-GUID: HqEe-LUhfo68zXnkLcWigoy_CFVEkRsV
+X-Authority-Analysis: v=2.4 cv=RO2zH5i+ c=1 sm=1 tr=0 ts=68d3cb63 cx=c_pps
  a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
  a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=qC_FGOx9AAAA:8
  a=NEAV23lmAAAA:8 a=lFjzG4kKUw5I2YI2xoUA:9 a=QEXdDO2ut3YA:10
  a=fsdK_YakeE02zTmptMdW:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAyNSBTYWx0ZWRfX3VgOayi/vIn6
+ rxrKU08O1k6wW7FAfwHwEjZWHvkrxNRQR4byYnLFE6SaPPs09kPUrc+afg1oT+XCNKKzHOqmikB
+ 2SB2aF5S2sGvuKAgqdJpf2ihauq7Sl9iQC5VjarnRqC1GwO+L1z2dzI/bFZxTHiOBKjcUOeFqiM
+ 3JRsoxWzNYWkVv9usHiwT5cepCSjmWipofUL7npZ12hi9+hLlliYZrXzrIpwS90f41gpUY86UwP
+ cpg8x+s7YpVnSz6KYuZLmBJfrcGDaQAHyuSS9i7F6vWoSe/Xn/p3ObNCQ/Lhn88btx1myN8W4BQ
+ zqNtXioTIAk7fEameS4XJnAgpkMiOr/gDID22iHb+6uTuU3+NCW5gfxyMW2NOnZpPRxMyyA16pv
+ PgQc+JW1
+X-Proofpoint-ORIG-GUID: HqEe-LUhfo68zXnkLcWigoy_CFVEkRsV
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-24_03,2025-09-22_05,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 adultscore=0 bulkscore=0 impostorscore=0
- phishscore=0 spamscore=0 priorityscore=1501 suspectscore=0
+ malwarescore=0 clxscore=1015 suspectscore=0 priorityscore=1501
+ impostorscore=0 spamscore=0 adultscore=0 bulkscore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200018
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200025
 
 
 
