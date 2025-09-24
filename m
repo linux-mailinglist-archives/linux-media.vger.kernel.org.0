@@ -1,357 +1,520 @@
-Return-Path: <linux-media+bounces-43108-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43109-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61590B9C7E0
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 01:18:52 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id F1BD0B9C852
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 01:21:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 16EC64A450B
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 23:18:51 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 3879C7B7050
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 23:20:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F01702D97AC;
-	Wed, 24 Sep 2025 23:16:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7336144C63;
+	Wed, 24 Sep 2025 23:20:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="D1aBwYQn"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="dzS0fgX6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from PH0PR06CU001.outbound.protection.outlook.com (mail-westus3azon11011028.outbound.protection.outlook.com [40.107.208.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22FA12D5946
-	for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 23:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758755788; cv=none; b=H6olOugOxMvq9g2424uS0M0iyxHCFHogxLXZimrn8Yj35GvQiTx1MfI7Pnm21aGFF9NjqXnE5NEXyM/nt9xKpsCyOT1GiVxJxjfTmze7c2QiTv8KH1hxytsdwuAImefXdgQeSkug+099DVYdEiLZJy82dc7kiErn/9z50ej7BjU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758755788; c=relaxed/simple;
-	bh=cxc2qRwoD0861RaNG9Zbj5zrmPVWUCqkDL7UdZfJm6I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=REvggq92xDk7mp8OMq8viZL7AaY+7xGo2b/bFAfYoX2HJMDNZuJhindg38NMntSkS63h2iCm+N/N7md4Y0n8zxUe/II0t+4Q/6KRx+3ngHom5JDXrmAUaUBm8moo8JOpKVmCJFABhgR/1/u1T7Q52g4L6Z2ipZqODB1fDTJNQtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=D1aBwYQn; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58OCQIXH027774
-	for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 23:16:25 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	oXUnWAOvos4jrzT39LapQeiT0YJ1c+pPZoVmLxegeWI=; b=D1aBwYQnYjSIqfPS
-	jrLo56URB0yPZY2rCUwtryKBzapcBVyy69XGMsjDuBsegBl4I2XNpqV8BvG3CI2W
-	AGqZbOp/pg4PEUQkHNuw+SG+nLhltDbGnZp1x3n6CyGxA+GjRjf/dIOwMd5dfnrJ
-	uqAICAh51GPsgXBvokOlvzF+QK21F6dtPelXDdccTaFQrjKpnFMSTYSqYxe/uguS
-	r9BgLTxRfix3oaoNavO5FlJ47YvKE6abKh+qb463i0zaYcpgkRj+Qh3EQglUGKHt
-	J5tSZn+Gp9P5xnjC6nPGCwT/hdAnTRpeYNCdSW8Fv/Itfs95E9MjdMI+sQQL84eY
-	BurTjQ==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499hmnxbk0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 23:16:24 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-24458345f5dso3684795ad.3
-        for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 16:16:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758755783; x=1759360583;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oXUnWAOvos4jrzT39LapQeiT0YJ1c+pPZoVmLxegeWI=;
-        b=o6BpVExifPBJFkHwDWOEPsVKOmOzxsNz2/C9eO8vPPnFoiMc/Dt968BROSTaJxmV/a
-         p6gcFOueV6oGQUkjNpptaDgLnl15hjSNGs0F8eTsp9q782Yfublx6SrqLXOSIKT7pmq5
-         0ZyUDdBHTiriIP5xqDBQtH97xVrxJo+0FoKc7jIk4xq75MhzwXB/9mBGaYeGdRhWuPQe
-         0PNbfgxchoKLywNIped2jgTsWQB0/y94I0ZJcfENVTN2Rwk+ey32tT0RgzJqtZ5WMmLX
-         QesuLF+tedKoipF7oHMpbClfzWVk9mCHT+o+VFG3CYnTp0mD61iX76Uv44QeFsJjEYey
-         WM2g==
-X-Forwarded-Encrypted: i=1; AJvYcCW9A6kzi9HQ7dlW32hT5f82pjqSYl+RPW6dZFiPLH2zpHOMUfgp2LHjfiUxCNe7X2L7z/6SB5KMTRfGdQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvmzieKyWrRHzthLn5nlPooD4c/F/cYhtISoihABjiRGZCFFBu
-	YJKrSaprqZU1q5NlEHBWPJsQ+D4fBbdNHMt+x0YYGb0oPw0FwaD2RxmBb8Ly7VHILQhjkB7lgfS
-	Apd7HmXeP3KYHNCXOijxNJPJE394pWhSCXL9FJaiDVLUD6n5BAEnp3dri80oeML1p/w==
-X-Gm-Gg: ASbGncv6qHIK745bqBFy9pN6A4j97hnJRp796bX7yTpvCZ7xOfeXyjnke2BxiLmt5PG
-	TWAzl+MBuvhYjvdO54LTpz76OP0QBn++ifdFQ0+GhbYb1goBQ5AG/1CSGyjNzLdq1q1g+do2A/6
-	Ic7WM51RWb1S5HAJzzH1/XdL9RrmBAlQujSbQ4RUnaEgPhCp6r0fWFN201kOWNxOfkyUpIfW7KJ
-	ncDfdt0p6xrHyzx1BKCS/hFlsvf96+Bz5V4ameoF1DyQFnGg1gzkKRCxbzOKdvvAiVElfKgLDc1
-	zZ+U/OUbhyohh1sxOyhIXh4iYTC3d7twWuE72193YJaui9MOgRsow+R5DwvcP5R+Y3RYivt//0A
-	=
-X-Received: by 2002:a17:903:1b0b:b0:266:f01a:98d5 with SMTP id d9443c01a7336-27ed4ab37a2mr16816965ad.57.1758755783302;
-        Wed, 24 Sep 2025 16:16:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF5nrEkPRC51iRb+pI8AZxBuZmqGPCgPUitY89VbyYPzVTiUUnEeO7yHHqh8OhP39/QrDPtgQ==
-X-Received: by 2002:a17:903:1b0b:b0:266:f01a:98d5 with SMTP id d9443c01a7336-27ed4ab37a2mr16816435ad.57.1758755782762;
-        Wed, 24 Sep 2025 16:16:22 -0700 (PDT)
-Received: from hu-vgarodia-hyd.qualcomm.com ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed671c156sm3964175ad.50.2025.09.24.16.16.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 16:16:22 -0700 (PDT)
-From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-Date: Thu, 25 Sep 2025 04:44:46 +0530
-Subject: [PATCH 8/8] media: iris: Add platform data for kaanapali
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4A96628CF5D;
+	Wed, 24 Sep 2025 23:20:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.208.28
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758756045; cv=fail; b=rSvqA7HMlcacJyNC5zKAkbNo11SS8LkWKBOggvSFiaT4CPSQQOUBkmHGS1FI1GFVaEDFAoX+4vRryWGcZg2WL72OeB2onOGuqylTJX1WMDbtFu7HhbjM7+Aebia2z0p2jHk5PV1sM+dL9/1zfQ0BcvU6jiHNPdb7UigqMC59a5o=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758756045; c=relaxed/simple;
+	bh=nW1DF6grZ7vCFvwfMIummJFuI8mHOiXTtAV+DkdUb4A=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=CLc2tQFafDO69dyRlcm0irBOxVtyklY5PRQe7rGROsX3aocEKl/5uA44fO8PhUFxsp44w5+03jyihQg8H6n3r5CMQNTwXizPYnf5DShPpjmo9+pKgqVVGBYDa3yxsZKlPGaRhoVPXIUtkI71RmR4mDlOWWo4Xy5ggURUOC1IF0g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=dzS0fgX6; arc=fail smtp.client-ip=40.107.208.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LfZdc34nMyGXYoaIPXGCnNfMcqoS5Fxk+yiifxWwPWPG43AvTMMmFCG8++20Bzj8kex8Tg9+eXDpxshFyww3P4+fXsGeB/tmcJunOlRJaHhjPAp2HToKJmUGyYsRUAQUX9fLBR4pEq5yze4Vh+kPj9ZfLe3lzMODMN6cH2Rx/u9PrNRm19Fnytv7mdBnKkl+wdqNOqWXuuHCV3m8CObXfJgCAea7zNae54R6e2JvUvpjFdZ/fSREMKQubcbR2KNyQbsuJJTAyaANndeRYnnKvwwze6N+tBJpJEuonaeA+jllDJUgxzd1kZOfuzzutKT5QuajSrFLqt/OyjsGH9GLxQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1w5uTXpsLqHRA8xJZfpQjkJ6SLMJjCAabVAEl2zthtk=;
+ b=CZMP+tL03CmZS+yH0OCyDaWdiEpZONfWRZyQMAklVPeNVOKXt+F9UR1oC4gNPdPiLRGD2R008SZDl9OJng0rXNb2lyOHpgPzv9v6YltiW7hBVvjk/cD1lguxAGCVZBfEmUH169TbLT3HJF5V3AlF1gCHJJGSLkfpINFzu+IDCIRFtx1rFcvIiLzOKahtdbWW7mt1jKxgQ9Ca84AAO8rJa8RFYohi1zuXXOIEVNcbQ/8zhCM4qYSsu+wDvZah9InfQBjWmzxPp7oeX31IEBRhel/Vy0Td9HOAZ+VE6pY/M3X4Sss5pKbaKgQegeGmmwiqHImqx+vbiNy3rQJP3SWnsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1w5uTXpsLqHRA8xJZfpQjkJ6SLMJjCAabVAEl2zthtk=;
+ b=dzS0fgX6Yd8IIVnqzW3yrB14m7OPuBU3Ruaw8Vo7XNrcR/lOTC5Ofo0c1NMTPKkzpLA3pfB5nqp/eWZ39QSVYh9DIx6MVNBCppfRSp5EEtOgD4/+qZ9UJt9Pofi6KOAPh4Ro1e1ZRVS4a4pXSRQIU9rxHeqzi9CDmQWIfB4ODCusi7N0nC6Oh+wewGfpayO/MqUvtRJw5KfZZAa33u4IvosFRIjWKbQOW/UvdVlwWZ5R49qK3faG50HaSRCMUMuPR6DjHY0/uMquP71k9SsSWiYclQyOnneshUkux9eEyaJqnapbb9uVn2Y411wri/vH/DM7cmbxYco1eJ56p5wU7w==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
+ CY3PR12MB9553.namprd12.prod.outlook.com (2603:10b6:930:109::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9137.20; Wed, 24 Sep
+ 2025 23:20:40 +0000
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9137.018; Wed, 24 Sep 2025
+ 23:20:40 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Thierry Reding <thierry.reding@gmail.com>,
+ Thierry Reding <treding@nvidia.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Jonas =?UTF-8?B?U2Nod8O2YmVs?= <jonasschwoebel@yahoo.de>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>, dri-devel@lists.freedesktop.org,
+ devicetree@vger.kernel.org, linux-tegra@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-clk@vger.kernel.org, linux-staging@lists.linux.dev
+Subject:
+ Re: [PATCH v2 16/23] staging: media: tegra-video: tegra20: simplify format
+ align calculations
+Date: Thu, 25 Sep 2025 08:20:30 +0900
+Message-ID: <2263926.yIU609i1g2@senjougahara>
+In-Reply-To:
+ <CAPVz0n0HmYAF8=1q6jQCuWn0pmcwqAzNTNfPh0kvJ_BiLByP1Q@mail.gmail.com>
+References:
+ <20250906135345.241229-1-clamor95@gmail.com>
+ <16036554.JCcGWNJJiE@senjougahara>
+ <CAPVz0n0HmYAF8=1q6jQCuWn0pmcwqAzNTNfPh0kvJ_BiLByP1Q@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TYWPR01CA0004.jpnprd01.prod.outlook.com
+ (2603:1096:400:a9::9) To DM4PR12MB6494.namprd12.prod.outlook.com
+ (2603:10b6:8:ba::19)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250925-knp_video-v1-8-e323c0b3c0cd@oss.qualcomm.com>
-References: <20250925-knp_video-v1-0-e323c0b3c0cd@oss.qualcomm.com>
-In-Reply-To: <20250925-knp_video-v1-0-e323c0b3c0cd@oss.qualcomm.com>
-To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vishnu Reddy <quic_bvisredd@quicinc.com>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1758755747; l=8461;
- i=vikash.garodia@oss.qualcomm.com; s=20241104; h=from:subject:message-id;
- bh=cxc2qRwoD0861RaNG9Zbj5zrmPVWUCqkDL7UdZfJm6I=;
- b=kPHies8I76JbEDYlPU9rhR9D+QkjjmH260bSBgE9ydVuKIX3beSDI7uW9wd/uTPa/6hg/CS2y
- vEEyp+lBhDKDfcfKevwMdxmnWK7rORnS1G8m9xo5hw39XBZCXogi53J
-X-Developer-Key: i=vikash.garodia@oss.qualcomm.com; a=ed25519;
- pk=LY9Eqp4KiHWxzGNKGHbwRFEJOfRCSzG/rxQNmvZvaKE=
-X-Authority-Analysis: v=2.4 cv=YPqfyQGx c=1 sm=1 tr=0 ts=68d47bc8 cx=c_pps
- a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=Sy3tz_aew2TJaLd6cD4A:9 a=QEXdDO2ut3YA:10 a=GvdueXVYPmCkWapjIL-Q:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: Qrhx3qO1WWXLeHc96nkY3as7sHfAVwNP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAwMCBTYWx0ZWRfX+zY0BXcEGNh0
- yPE7ZbAtfTNiMwBPuooIRz+2PNwtJmdy5IeD17k+XP9yLU2HlbOIpVF8IYOXGwPdW7nzPQZLcU0
- pem6k0Vs/qt5zT/ggGL7M98+ZBuYZJ8E+9rIDDqCfvdiTDT+QwCi3lKGbCwOzKo5KD4fxYdkK9o
- u470OSYSM44oeMimT1/JtGMg3ayP+NcNqY0pCzYgOHp7CitA6NXYOdibymwjzqQ7CrfQIOF2BHX
- wm1zFeEdpxbULgYRn/Q30NNUv1XFcF9C4eiWZPgQjhKGkMVQZ82a0WuqLnuxbhFW9R0mtEnRMnV
- dR5XPBl3goTQEnZDXjUFk7MbHFSfw8gIrMV3vin1wNI6MdbsMVZ9FtXXcHEALI+mSWWYG3aGnrf
- btQBbphE
-X-Proofpoint-GUID: Qrhx3qO1WWXLeHc96nkY3as7sHfAVwNP
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-24_07,2025-09-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 priorityscore=1501 phishscore=0 adultscore=0
- clxscore=1015 impostorscore=0 spamscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200000
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|CY3PR12MB9553:EE_
+X-MS-Office365-Filtering-Correlation-Id: 61da9ea2-0024-4cfe-75a0-08ddfbc0f9c4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|1800799024|7416014|376014|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TWZoWDJGZFlsY0FuMU9tTGY0VWNwYTJsU1VnSTZ3d21NQytGaVZMdXpoSFBF?=
+ =?utf-8?B?Ui91elorbVcyS0F6M3p1Rmo1b0wrR3d2alFkRDhETEVwN1Q3cVJmVVVSdVhj?=
+ =?utf-8?B?L01EOUFUTjdkNHhBU3hweTBPTGtFVjNzUkMzWWtyaG5DckJUMEpjSWo2MGpH?=
+ =?utf-8?B?b1hWYlduK2hkdnRhV2dzeTBxUzJGS2FRS3NvSUE2enVndFAyalhOMFlodVc0?=
+ =?utf-8?B?OEMrU3JNMzdqSEdHeWRZUWpmS1RJS1FwYkhaSmJnSmdubGtBeWFuUHA0cEtQ?=
+ =?utf-8?B?QXp3aThLc2tqa2swUndyQVVQd0xXYzhtazF0WmV2ZzU4UXJiTUVjOXg0MURl?=
+ =?utf-8?B?d204WUgvemV1dmpERkcrMytPSVgxZXRvbnFhZG1hQW9WZEZNVVI1WCtmN2hk?=
+ =?utf-8?B?eUd1YjdvdUFBUXk3WS9mdGZuQWtud1EzYndIdXl5YmlQREZ4R0RSa2dzMnAv?=
+ =?utf-8?B?a2ZzTDZxUmY2elpLTWJhd0VDQWVzZnFNVTFlUkpBZmh3cHlveGcwTVRMcnlR?=
+ =?utf-8?B?RG9VUEpMOWlDbkFGSVlyWFlDcytLZHBZbS9teWZVTzc0dTVjTnY3TWd2ejRy?=
+ =?utf-8?B?TElLOHh5ZmZFT2p3eW5oNTg0UTc4eXJwb2dvb2VUV0VJd21SSmh4a1F1UjhC?=
+ =?utf-8?B?MVo0NUNSZlNlRTR4WnZ6UndCTUtmWkQ4VERXbXM5UE5RUTUyNXNENWt4eUxW?=
+ =?utf-8?B?eWZwTDJJNndicDZGbUkvM1RtQ2dnMHJLbnNHTnM3eHpNNitQRWpTNGJ5Nko1?=
+ =?utf-8?B?OFRjRi9tVFNDdHNyRlhqeVhVSG41Vnh0cjg3ZStWVXN3WVlzdUVzMXRXTXAr?=
+ =?utf-8?B?NWRvYWYyd1o1OTZpMXUyMUZxcStscFJLZGg5MTk0VHdxVzA5Tnpkd1FxUzVx?=
+ =?utf-8?B?YlFCSGMwcE4zckh1clptYXNsUWxzdWRVY1BvamxmWlMySE5nc1czNU1URitK?=
+ =?utf-8?B?alpaUTNDby92SGlwZXlGbjdPOUhaVVZyWmVvL090VzlGV2ZNLzJ3NExJU2Zs?=
+ =?utf-8?B?VmI2Z3ZZUTlLeEJxTW5RWVAzK291KzJIR1ZQbHM1YUIwZkpZZzNUc21LNnJ2?=
+ =?utf-8?B?RDlpNU5DMm1FZUZmZHF2R2NCMy9ma2tXSFhQYVNQeTFTSmp4TWE0azBLRytT?=
+ =?utf-8?B?aHRTMjloNENmSi9nL2tkRzJYU0p4bjNjVEkvM3FSNlcxTWdRazFreW15Sm5t?=
+ =?utf-8?B?eDFhd1JGa2x6S3Y1TWw0czFwdFZCL2dwOGMyU05wZ2tHSjBxWVh3aXZVV2Jh?=
+ =?utf-8?B?Rk9Xak1oZW1HTDR6V3B2WEgyNHhwTktSbnpUZWtVNFo4M2dTdlVRbzBCaENk?=
+ =?utf-8?B?REFRK0J4c3psYXVubVJZandqb2xDYXc5ZVhGYk50NVJTVlYvKzMzMXRVdTRE?=
+ =?utf-8?B?dzVUbzVBNXl2V010Z3FIcHcwQzhrT2lsUU9YMzV0WWFSdGExaGw5NzZIcDFu?=
+ =?utf-8?B?NTVQK05HUmlSNENuSjNVKzkydTRicjlZRDJkSUZneGxFcDFReGttOWhETnM2?=
+ =?utf-8?B?c0dvNXIvdmFtR1RFVDViY3lMbG96WnhtWlNEZ05XREg1Y2J1SzM4a25Od28w?=
+ =?utf-8?B?NzhGV2VoZ3NQdERWOXFQT3psejYrWkR5R1VBUnRCd01XR2hLdHJLcXBnbzNQ?=
+ =?utf-8?B?aXdHeStEWUZmYlBiV0ZKcnNLSkpzRWZOblZORkhGeWg1THNnUE4yd0d5MG5O?=
+ =?utf-8?B?dWdBWXhIMHMvSzlWeW13UEFMc0tCVTFKM29YczFIb1hCRk8vRFhEQUFXTEd2?=
+ =?utf-8?B?QXZQTHBDY3FNSlN0dWYrMWxRS1Z3OHhVc3huZnRGbVM0ZmcySDVIaUNQeHM2?=
+ =?utf-8?B?SlFHRkNadTh2LzZLTmdWdGdydzg2Qk1jZjBXZnlsV1pNM1VUK2pScndsbDJz?=
+ =?utf-8?B?elJzbkVKSUM3dERFT0hNSldmbHFycHBoTWM4RTJYcmQwTWtJZVo3Mkk5WkRz?=
+ =?utf-8?Q?fQ00CoqoYTI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6494.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(7416014)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dTRpYXk0Z0ZzSGxGbG1qc0N1ZVdJQzN5N21Za1V5VHdkVXpSOHl6VnJHdDJG?=
+ =?utf-8?B?c2IxdGx3U3h6TW9VSmVZWmRuMUxkYkFENWdnNy9zRkgvQUU2U0JaVGFXeDBq?=
+ =?utf-8?B?amNURGhOU29RdEpHZnhGZW1OcTZodGFPV3laR0F6N3ByOGl5czlMR1pKNC9v?=
+ =?utf-8?B?OU1FeGZtSkF5c3J3NmQxS3pNKythSFVVRU1RWGptb0tHcVZVbU5ZQ3dOL3pp?=
+ =?utf-8?B?N2dxY2ozQ3cvdUJqVTd3aWFhQi9xOCtubDRXdnN1c2R2bTlGOEwwVTlCRnBK?=
+ =?utf-8?B?RHNyNXpEb3dEWFNVWXk3Y29RS05RQnl4VHgvMDN1SklnTEhmQVlncVR5UjU4?=
+ =?utf-8?B?UTFnbUhkcUdaQkFIN3NCWGJYUkIzMW02akxQV3ZHNm9qeW9wYWJMWkRsZXZ5?=
+ =?utf-8?B?REJkOUE0YTNlejQ1RHlqWjRMdkFZOVo4eDR1NXAzV1orSmlsb3VVaGo2KzV1?=
+ =?utf-8?B?dkpLbitGTEJ0SjFpUWhESTVSbmkzaE1RMEhaWXRqZ3R2YUh6TG40MUdjVWpZ?=
+ =?utf-8?B?bDd4bTVkTkVaTnc2NjROSXpJdnZ0eEdIdmxpZkZxTkFBTGp6OTJITGk0a3dB?=
+ =?utf-8?B?TEdlRktsRWVNZnRva25sSzZ6T0w4L2tkWllFS2RVTnFQNmtyTjJjQUlEdUlt?=
+ =?utf-8?B?ak9veUFzSjFmTjA2RnBtZk5XeFdIVWtmd0lUR29WbWEveXJZVXI0Mkd5N0xk?=
+ =?utf-8?B?ZmZ4NWpUL0cxQnpPQmZJZG9aU1Y2Qi9vTEJHa3hrdlJJWjAvUDlENEEyY2tp?=
+ =?utf-8?B?T2VzSUhtWVA5NkNBVFpJckJRK1RNQktOWVV3OHlrVC9uUFI3NWt1RkZGd203?=
+ =?utf-8?B?eWRIVFVpdElCZGRaQ21vWlN3VzI4OU5yd1QrQmF5WHpSWWNhdlNEYk51d1dU?=
+ =?utf-8?B?a3JQZjlPV25DMm94TmlBQklnS3dHZmtFK0FMaEtJVWc4SzFrU0l4di9IWVhT?=
+ =?utf-8?B?K1o3bWtsSEtkSmRLVENkbG9lb3hZWElqWlY1NE9vSEZOVmZoKzFRbTZGNXZo?=
+ =?utf-8?B?a0d5MjJyQUNXcFN0Y2Z3VkJaQUVnSitaZXFpUmlHbHBmZkVWYjRZdlptckZy?=
+ =?utf-8?B?MmtPQWNJMzF5THdpdUR6ZmNuRzlYNHFyb1A4YTlMMDdtRmtid3dmdlhpY0Yx?=
+ =?utf-8?B?R3JWcUZGVG85Z3Vta1g3YUpKNkJ4S1BUVHBMYUdWTWVnVTltUExRMXBIZkV2?=
+ =?utf-8?B?MCtSOGQzRHpVSWsyQXljQ3ZHODNRRUtaK0IyMzA4b1NSYzFkdFE2SUNDUTNt?=
+ =?utf-8?B?bDlLS3JyYUo1SGVVYVQxWUl2WStCRStIaUZLczRkdDF3NFdmYjdEbm44bkc2?=
+ =?utf-8?B?eHo2UWMxcjVhc0dJd3ZDRGZMYjV1OFBsa2hwdy9UQnphZGdmc2c4djl4a2ZO?=
+ =?utf-8?B?d3phYm03cHRLR21sTlJVeUQycHJSMnhvY285eXNpbVdMc1JsbjUvOW9vMVI4?=
+ =?utf-8?B?RkxMbjB5ZGViMFVLOWZzNFdYUnpyYUhuQTlvbllFRE9aZDhseXNmaGhpVmRZ?=
+ =?utf-8?B?Q3RveHg4Z2NLVWlwTFBRb3JMVVpsOHNSU1RNSjJGVU9HZ2xYUTVaY2N5bTgx?=
+ =?utf-8?B?QWEvUmM0ekd0WVB2c2RiY05iNVkvS2Jmc0o1bEVoVk1RQ3o1UXUvbVh0Q0Fn?=
+ =?utf-8?B?ejBjeklnYXRkdmtJV0NnRUhDc0k2WUlFMVlNSGhlTXpqbjZVb1RZWkwyZjF4?=
+ =?utf-8?B?WmdiR1NxTE15WEhDVEQzNExNMVRYcmRxWnl5UWk3bmRIREx6TXpuRUNxZllC?=
+ =?utf-8?B?emVib2V2NUk4ZFZZZGI0QjVtMFR6QnhLb2ZBbFFraFhudWg5Mm5ENG10QStk?=
+ =?utf-8?B?bGd4ZGl0OWd5dlMwUzZMdWRZNWpBY0QvQWlLeFpTL1RBU1dkN1JUbS9MUys1?=
+ =?utf-8?B?ZncwMCtBemY5Ujd0ZTEzTXpuNWk4dzhoeEFVTE5XbHhtNnExVXh6d01BOVVM?=
+ =?utf-8?B?d1hlemR2OXBGWnlQSVVFUGJIMlk0Z3ZNeVZBZlZ4alpFQXNkZFdZb2h5b0JT?=
+ =?utf-8?B?eE1LOG1FNTdPL2I0MTZHS2dJM1FsamNwM3JEcWhiem9YdUtTVkN2bEl0U2Y1?=
+ =?utf-8?B?QSt0WWpwNVVIWDJOcWwxQkJnOEk1SWdJYzR2bjZwQkUyQTRjdFdmeXQyRklD?=
+ =?utf-8?B?ajlXcFVIdTdSZkdzbWpPelk3MUJpOEtxcWVETEUycWlTVUdQQkc4bjZUR2pr?=
+ =?utf-8?B?eWRkUnZiVE5XMmNIS0xmNlo1VWxuLzdSTjZpclN6V2xwZlRXRy9EUzlpcFpr?=
+ =?utf-8?B?ay9vMEl4RzJNQUtTN2RBQlpCT1F3PT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61da9ea2-0024-4cfe-75a0-08ddfbc0f9c4
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2025 23:20:40.0858
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mDZlEJOmlRd6anXLMVDjs8/58G0TGz2kl0qbKThfu+gdiTcbmzCEuiPd3C8Ilh8FNAa/R9fLHf6Sn9LzkCwW5Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY3PR12MB9553
 
-Add support for the kaanapali platform by re-using the SM8550
-definitions and using the vpu4 ops.
-Move the configurations that differs in a per-SoC platform
-header, that will contain SoC specific data.
+On Wednesday, September 24, 2025 7:24=E2=80=AFPM Svyatoslav Ryhel wrote:
+> =D1=81=D1=80, 24 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 07:47 Mi=
+kko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > On Tuesday, September 23, 2025 3:50=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > > =D0=B2=D1=82, 23 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 09:1=
+1 Svyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > > >
+> > > > =D0=B2=D1=82, 23 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=BE 09=
+:04 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > > > >
+> > > > > On Monday, September 22, 2025 4:36=E2=80=AFPM Svyatoslav Ryhel wr=
+ote:
+> > > > > > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =D0=
+=BE 10:27 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > > > > > >
+> > > > > > > On Monday, September 22, 2025 3:30=E2=80=AFPM Svyatoslav Ryhe=
+l wrote:
+> > > > > > > > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=80. =
+=D0=BE 09:23 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=
+=B5:
+> > > > > > > > >
+> > > > > > > > > On Monday, September 22, 2025 2:13=E2=80=AFPM Svyatoslav =
+Ryhel wrote:
+> > > > > > > > > > =D0=BF=D0=BD, 22 =D0=B2=D0=B5=D1=80. 2025=E2=80=AF=D1=
+=80. =D0=BE 07:44 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=
+=88=D0=B5:
+> > > > > > > > > > >
+> > > > > > > > > > > On Saturday, September 6, 2025 10:53=E2=80=AFPM Svyat=
+oslav Ryhel wrote:
+> > > > > > > > > > > > Simplify format align calculations by slightly modi=
+fying supported formats
+> > > > > > > > > > > > structure.
+> > > > > > > > > > > >
+> > > > > > > > > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com=
+>
+> > > > > > > > > > > > ---
+> > > > > > > > > > > >  drivers/staging/media/tegra-video/tegra20.c | 41 +=
++++++++-------------
+> > > > > > > > > > > >  1 file changed, 16 insertions(+), 25 deletions(-)
+> > > > > > > > > > > >
+> > > > > > > > > > > > diff --git a/drivers/staging/media/tegra-video/tegr=
+a20.c b/drivers/staging/media/tegra-video/tegra20.c
+> > > > > > > > > > > > index 6e0b3b728623..781c4e8ec856 100644
+> > > > > > > > > > > > --- a/drivers/staging/media/tegra-video/tegra20.c
+> > > > > > > > > > > > +++ b/drivers/staging/media/tegra-video/tegra20.c
+> > > > > > > > > > > > @@ -280,20 +280,8 @@ static void tegra20_fmt_align(=
+struct v4l2_pix_format *pix, unsigned int bpp)
+> > > > > > > > > > > >       pix->width  =3D clamp(pix->width,  TEGRA20_MI=
+N_WIDTH,  TEGRA20_MAX_WIDTH);
+> > > > > > > > > > > >       pix->height =3D clamp(pix->height, TEGRA20_MI=
+N_HEIGHT, TEGRA20_MAX_HEIGHT);
+> > > > > > > > > > > >
+> > > > > > > > > > > > -     switch (pix->pixelformat) {
+> > > > > > > > > > > > -     case V4L2_PIX_FMT_UYVY:
+> > > > > > > > > > > > -     case V4L2_PIX_FMT_VYUY:
+> > > > > > > > > > > > -     case V4L2_PIX_FMT_YUYV:
+> > > > > > > > > > > > -     case V4L2_PIX_FMT_YVYU:
+> > > > > > > > > > > > -             pix->bytesperline =3D roundup(pix->wi=
+dth, 2) * 2;
+> > > > > > > > > > > > -             pix->sizeimage =3D roundup(pix->width=
+, 2) * 2 * pix->height;
+> > > > > > > > > > > > -             break;
+> > > > > > > > > > > > -     case V4L2_PIX_FMT_YUV420:
+> > > > > > > > > > > > -     case V4L2_PIX_FMT_YVU420:
+> > > > > > > > > > > > -             pix->bytesperline =3D roundup(pix->wi=
+dth, 8);
+> > > > > > > > > > > > -             pix->sizeimage =3D roundup(pix->width=
+, 8) * pix->height * 3 / 2;
+> > > > > > > > > > > > -             break;
+> > > > > > > > > > > > -     }
+> > > > > > > > > > > > +     pix->bytesperline =3D DIV_ROUND_UP(pix->width=
+ * bpp, 8);
+> > > > > > > > > > >
+> > > > > > > > > > > Assuming the bpp is coming from the format table belo=
+w, this changes the value of bytesperline for planar formats. With this it'=
+ll be (width * 12) / 8 i.e. width * 3/2, which doesn't sound right.
+> > > > > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > > Downstream uses soc_mbus_bytes_per_line for this calcul=
+ation which was
+> > > > > > > > > > deprecated some time ago, here is a fragment
+> > > > > > > > > >
+> > > > > > > > > > s32 soc_mbus_bytes_per_line(u32 width, const struct soc=
+_mbus_pixelfmt *mf)
+> > > > > > > > > > {
+> > > > > > > > > >  if (mf->fourcc =3D=3D V4L2_PIX_FMT_JPEG)
+> > > > > > > > > >  return 0;
+> > > > > > > > > >
+> > > > > > > > > >  if (mf->layout !=3D SOC_MBUS_LAYOUT_PACKED)
+> > > > > > > > > >  return width * mf->bits_per_sample / 8;
+> > > > > > > > > >
+> > > > > > > > > >  switch (mf->packing) {
+> > > > > > > > > >  case SOC_MBUS_PACKING_NONE:
+> > > > > > > > > >   return width * mf->bits_per_sample / 8;
+> > > > > > > > > >  case SOC_MBUS_PACKING_2X8_PADHI:
+> > > > > > > > > >  case SOC_MBUS_PACKING_2X8_PADLO:
+> > > > > > > > > >  case SOC_MBUS_PACKING_EXTEND16:
+> > > > > > > > > >   return width * 2;
+> > > > > > > > > >  case SOC_MBUS_PACKING_1_5X8:
+> > > > > > > > > >   return width * 3 / 2;
+> > > > > > > > > >  case SOC_MBUS_PACKING_VARIABLE:
+> > > > > > > > > >   return 0;
+> > > > > > > > > >  }
+> > > > > > > > > >    return -EINVAL;
+> > > > > > > > > > }
+> > > > > > > > > >
+> > > > > > > > > > V4L2_PIX_FMT_YUV420 and V4L2_PIX_FMT_YVU420 are classif=
+ied as
+> > > > > > > > > > SOC_MBUS_PACKING_1_5X8 hence we get width * 3/2
+> > > > > > > > >
+> > > > > > > > > Googling this brings up the entry
+> > > > > > > > >
+> > > > > > > > > {
+> > > > > > > > >         .code =3D V4L2_MBUS_FMT_YUYV8_1_5X8,
+> > > > > > > > >         .fmt =3D {
+> > > > > > > > >                 .fourcc                 =3D V4L2_PIX_FMT_=
+YUV420,
+> > > > > > > > >                 .name                   =3D "YUYV 4:2:0",
+> > > > > > > > >                 .bits_per_sample                =3D 8,
+> > > > > > > > >                 .packing                        =3D SOC_M=
+BUS_PACKING_1_5X8,
+> > > > > > > > >                 .order                  =3D SOC_MBUS_ORDE=
+R_LE,
+> > > > > > > > >                 .layout                 =3D SOC_MBUS_LAYO=
+UT_PACKED,
+> > > > > > > > >         },
+> > > > > > > > > }
+> > > > > > > > >
+> > > > > > > > > which matches that you're describing. It doesn't make sen=
+se to me, since it at the same time specifies PIX_FMT_YUV420 (which is plan=
+ar with 3 planes, as documented by include/uapi/linux/videodev2.h), and LAY=
+OUT_PACKED
+> > > > > > > > >
+> > > > > > > > > /**
+> > > > > > > > >  * enum soc_mbus_layout - planes layout in memory
+> > > > > > > > >  * @SOC_MBUS_LAYOUT_PACKED:             color components =
+packed
+> > > > > > > > >  * @SOC_MBUS_LAYOUT_PLANAR_2Y_U_V:      YUV components st=
+ored in 3 planes (4:2:2)
+> > > > > > > > >  * @SOC_MBUS_LAYOUT_PLANAR_2Y_C:        YUV components st=
+ored in a luma and a
+> > > > > > > > >  *                                      chroma plane (C p=
+lane is half the size
+> > > > > > > > >  *                                      of Y plane)
+> > > > > > > > >  * @SOC_MBUS_LAYOUT_PLANAR_Y_C:         YUV components st=
+ored in a luma and a
+> > > > > > > > >  *                                      chroma plane (C p=
+lane is the same size
+> > > > > > > > >  *                                      as Y plane)
+> > > > > > > > >  */
+> > > > > > > > > enum soc_mbus_layout {
+> > > > > > > > >         SOC_MBUS_LAYOUT_PACKED =3D 0,
+> > > > > > > > >         SOC_MBUS_LAYOUT_PLANAR_2Y_U_V,
+> > > > > > > > >         SOC_MBUS_LAYOUT_PLANAR_2Y_C,
+> > > > > > > > >         SOC_MBUS_LAYOUT_PLANAR_Y_C,
+> > > > > > > > > };
+> > > > > > > > >
+> > > > > > > > > i.e. non-planar. The code in the driver is handling it as=
+ three planes as well, with addresses VB0_BASE_ADDRESS/VB0_BASE_ADDRESS_U/V=
+B0_BASE_ADDRESS_V. Since the planes are separate, there should be no need t=
+o have more than 'width' samples per line.
+> > > > > > > > >
+> > > > > > > >
+> > > > > > > > I did not invent this, I have just simplified this calculat=
+ion from
+> > > > > > > > downstream, output values remain same. I have no cameras wh=
+ich can
+> > > > > > > > output V4L2_PIX_FMT_YUV420 or V4L2_PIX_FMT_YVU420 so I cann=
+ot test if
+> > > > > > > > this works either. Other YUV and RAW formats were tested on=
+ real HW
+> > > > > > > > and work perfectly fine.
+> > > > > > >
+> > > > > > > My understanding from the code was, that the MEDIA_BUS_FMT_ f=
+ormats listed in the video format table refer to the input formats from the=
+ camera, and the V4L2_PIX_FMT_ formats to output formats from VI. Hence VI =
+could input UYVY8_2X8 and write to memory in YUV420. The code dealing with =
+V4L2_PIX_FMT_ values seems to be related to the output to memory. Is it pos=
+sible to test this (your camera -> VI converts to YUV420) or am I mistaken?
+> > > > > > >
+> > > > > >
+> > > > > > Camera I am testing with has no YUV420 options available and fr=
+om what
+> > > > > > I can tell there is no way to force VI to output in YUV420 unle=
+ss
+> > > > > > camera supports it. Any format manipulations should requite hoo=
+king up
+> > > > > > ISP, or am I missing smth?
+> > > > >
+> > > > > From a quick look at the spec it looks to me like for YUV422 pack=
+ed input formats specifically, VI should be able to convert to YUV420. If t=
+hat were not the case, e.g. 'TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12,=
+ YUV420),' would not make sense anyway as it's talking about both YUV422 pa=
+cked input data and then also YUV420.
+> > > > >
+> > > >
+> > > > After additional checking you are correct, VI should be able to
+> > > > perform YUV442 to YUV440. One of the reasons why VI is not exposing
+> > > > YUV440 may be video-centric nature of the driver, so that it expose=
+s
+> > > > only formats supported by camera and VI. I will double check which
+> > > > formats video device exposes. What should I test exactly?
+> > > >
+> >
+> > If you are able to test, I would like to see the following (with YUV422=
+ input camera, VI set to output YUV420)
+> > (1) Output image is correct
+> > (2) Check output image bytes per line (e.g. with a hex editor)
+> > (3) If output image bytes per line is 3/2 * width, try changing it to 1=
+ * width and repeating test
+> >
+>=20
+> 1 * width is enough, 3/2 * width has just end of memory dump filled
+> with zeroes. I assume downstream is wrong in this aspect. Additionally
+> I was able to address YUV422 > YUV420 conversion. Existing YUV entries
+> have YUV 2X8 media bus formats which are not used by my camera, my
+> camera uses only YUV 1X16 media bus formats. So by adding those YU12
+> format appeared.
 
-Co-developed-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
-Signed-off-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
-Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
----
- .../platform/qcom/iris/iris_platform_common.h      |  1 +
- .../media/platform/qcom/iris/iris_platform_gen2.c  | 86 ++++++++++++++++++++++
- .../platform/qcom/iris/iris_platform_kaanapali.h   | 63 ++++++++++++++++
- drivers/media/platform/qcom/iris/iris_probe.c      |  4 +
- 4 files changed, 154 insertions(+)
+Excellent! I suppose we have a better driver than downstream now :)
 
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-index d6d4a9fdfc189797f903dfeb56d931741b405ee2..465943db0c6671e9b564b40e31ce6ba2d645a84c 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-+++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-@@ -46,6 +46,7 @@ extern struct iris_platform_data sm8250_data;
- extern struct iris_platform_data sm8550_data;
- extern struct iris_platform_data sm8650_data;
- extern struct iris_platform_data sm8750_data;
-+extern struct iris_platform_data kaanapali_data;
- 
- enum platform_clk_type {
- 	IRIS_AXI_CLK, /* AXI0 in case of platforms with multiple AXI clocks */
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-index 00c6b9021b98aac80612b1bb9734c8dac8146bd9..142b7d84ee00a9b65420158ac1f168515b56f4a3 100644
---- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-+++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
-@@ -15,6 +15,7 @@
- #include "iris_platform_qcs8300.h"
- #include "iris_platform_sm8650.h"
- #include "iris_platform_sm8750.h"
-+#include "iris_platform_kaanapali.h"
- 
- #define VIDEO_ARCH_LX 1
- #define BITRATE_MAX				245000000
-@@ -1095,3 +1096,88 @@ struct iris_platform_data qcs8300_data = {
- 	.enc_op_int_buf_tbl = sm8550_enc_op_int_buf_tbl,
- 	.enc_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_enc_op_int_buf_tbl),
- };
-+
-+struct iris_platform_data kaanapali_data = {
-+	.get_instance = iris_hfi_gen2_get_instance,
-+	.init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
-+	.init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
-+	.get_vpu_buffer_size = iris_vpu4x_buf_size,
-+	.vpu_ops = &iris_vpu4x_ops,
-+	.set_preset_registers = iris_set_sm8550_preset_registers,
-+	.icc_tbl = sm8550_icc_table,
-+	.icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
-+	.clk_rst_tbl = kaanapali_clk_reset_table,
-+	.clk_rst_tbl_size = ARRAY_SIZE(kaanapali_clk_reset_table),
-+	.bw_tbl_dec = sm8550_bw_table_dec,
-+	.bw_tbl_dec_size = ARRAY_SIZE(sm8550_bw_table_dec),
-+	.pmdomain_tbl = kaanapali_pmdomain_table,
-+	.pmdomain_tbl_size = ARRAY_SIZE(kaanapali_pmdomain_table),
-+	.opp_pd_tbl = sm8550_opp_pd_table,
-+	.opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
-+	.clk_tbl = kaanapali_clk_table,
-+	.clk_tbl_size = ARRAY_SIZE(kaanapali_clk_table),
-+	.opp_clk_tbl = kaanapali_opp_clk_table,
-+	/* Upper bound of DMA address range */
-+	.dma_mask = 0xe0000000 - 1,
-+	.fwname = "qcom/vpu/vpu40_p2.mbn",
-+	.pas_id = IRIS_PAS_ID,
-+	.inst_caps = &platform_inst_cap_sm8550,
-+	.inst_fw_caps_dec = inst_fw_cap_sm8550_dec,
-+	.inst_fw_caps_dec_size = ARRAY_SIZE(inst_fw_cap_sm8550_dec),
-+	.inst_fw_caps_enc = inst_fw_cap_sm8550_enc,
-+	.inst_fw_caps_enc_size = ARRAY_SIZE(inst_fw_cap_sm8550_enc),
-+	.tz_cp_config_data = tz_cp_config_kaanapali,
-+	.tz_cp_config_data_size = ARRAY_SIZE(tz_cp_config_kaanapali),
-+	.core_arch = VIDEO_ARCH_LX,
-+	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
-+	.ubwc_config = &ubwc_config_sm8550,
-+	.num_vpp_pipe = 2,
-+	.max_session_count = 16,
-+	.max_core_mbpf = NUM_MBS_8K * 2,
-+	.max_core_mbps = ((8192 * 4352) / 256) * 60,
-+	.dec_input_config_params_default =
-+		sm8550_vdec_input_config_params_default,
-+	.dec_input_config_params_default_size =
-+		ARRAY_SIZE(sm8550_vdec_input_config_params_default),
-+	.dec_input_config_params_hevc =
-+		sm8550_vdec_input_config_param_hevc,
-+	.dec_input_config_params_hevc_size =
-+		ARRAY_SIZE(sm8550_vdec_input_config_param_hevc),
-+	.dec_input_config_params_vp9 =
-+		sm8550_vdec_input_config_param_vp9,
-+	.dec_input_config_params_vp9_size =
-+		ARRAY_SIZE(sm8550_vdec_input_config_param_vp9),
-+	.dec_output_config_params =
-+		sm8550_vdec_output_config_params,
-+	.dec_output_config_params_size =
-+		ARRAY_SIZE(sm8550_vdec_output_config_params),
-+
-+	.enc_input_config_params =
-+		sm8550_venc_input_config_params,
-+	.enc_input_config_params_size =
-+		ARRAY_SIZE(sm8550_venc_input_config_params),
-+	.enc_output_config_params =
-+		sm8550_venc_output_config_params,
-+	.enc_output_config_params_size =
-+		ARRAY_SIZE(sm8550_venc_output_config_params),
-+
-+	.dec_input_prop = sm8550_vdec_subscribe_input_properties,
-+	.dec_input_prop_size = ARRAY_SIZE(sm8550_vdec_subscribe_input_properties),
-+	.dec_output_prop_avc = sm8550_vdec_subscribe_output_properties_avc,
-+	.dec_output_prop_avc_size =
-+		ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_avc),
-+	.dec_output_prop_hevc = sm8550_vdec_subscribe_output_properties_hevc,
-+	.dec_output_prop_hevc_size =
-+		ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_hevc),
-+	.dec_output_prop_vp9 = sm8550_vdec_subscribe_output_properties_vp9,
-+	.dec_output_prop_vp9_size =
-+		ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_vp9),
-+
-+	.dec_ip_int_buf_tbl = sm8550_dec_ip_int_buf_tbl,
-+	.dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
-+	.dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
-+	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
-+
-+	.enc_op_int_buf_tbl = sm8550_enc_op_int_buf_tbl,
-+	.enc_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_enc_op_int_buf_tbl),
-+};
-diff --git a/drivers/media/platform/qcom/iris/iris_platform_kaanapali.h b/drivers/media/platform/qcom/iris/iris_platform_kaanapali.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..247fb9d7cb632d2e9a1e9832d087cb03ac9b7cf3
---- /dev/null
-+++ b/drivers/media/platform/qcom/iris/iris_platform_kaanapali.h
-@@ -0,0 +1,63 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights reserved.
-+ */
-+
-+#ifndef __IRIS_PLATFORM_KAANAPALI_H__
-+#define __IRIS_PLATFORM_KAANAPALI_H__
-+
-+#define VIDEO_REGION_VM0_SECURE_NP_ID		1
-+#define VIDEO_REGION_VM0_NONSECURE_NP_ID	5
-+
-+static const char *const kaanapali_clk_reset_table[] = {
-+	"bus0",
-+	"bus1",
-+	"core_freerun_reset",
-+	"vcodec0_core_freerun_reset",
-+};
-+
-+static const char *const kaanapali_pmdomain_table[] = {
-+	"venus",
-+	"vcodec0",
-+	"vpp0",
-+	"vpp1",
-+	"apv",
-+};
-+
-+static const struct platform_clk_data kaanapali_clk_table[] = {
-+	{ IRIS_AXI_CLK, "iface" },
-+	{ IRIS_CTRL_CLK, "core" },
-+	{ IRIS_HW_CLK, "vcodec0_core" },
-+	{ IRIS_AXI1_CLK, "iface1" },
-+	{ IRIS_CTRL_FREERUN_CLK, "core_freerun" },
-+	{ IRIS_HW_FREERUN_CLK, "vcodec0_core_freerun" },
-+	{ IRIS_BSE_HW_CLK, "vcodec_bse" },
-+	{ IRIS_VPP0_HW_CLK, "vcodec_vpp0" },
-+	{ IRIS_VPP1_HW_CLK, "vcodec_vpp1" },
-+	{ IRIS_APV_HW_CLK, "vcodec_apv" },
-+};
-+
-+static const char *const kaanapali_opp_clk_table[] = {
-+	"vcodec0_core",
-+	"vcodec_apv",
-+	"vcodec_bse",
-+	"core",
-+	NULL,
-+};
-+
-+static struct tz_cp_config tz_cp_config_kaanapali[] = {
-+	{
-+		.cp_start = VIDEO_REGION_VM0_SECURE_NP_ID,
-+		.cp_size = 0,
-+		.cp_nonpixel_start = 0x01000000,
-+		.cp_nonpixel_size = 0x24800000,
-+	},
-+	{
-+		.cp_start = VIDEO_REGION_VM0_NONSECURE_NP_ID,
-+		.cp_size = 0,
-+		.cp_nonpixel_start = 0x25800000,
-+		.cp_nonpixel_size = 0xda400000,
-+	},
-+};
-+
-+#endif /* __IRIS_PLATFORM_KAANAPALI_H__ */
-diff --git a/drivers/media/platform/qcom/iris/iris_probe.c b/drivers/media/platform/qcom/iris/iris_probe.c
-index ad82a62f8b923d818ffe77c131d7eb6da8c34002..9a0db65dbdb2eedf3974bcb8a2327e664b556ccd 100644
---- a/drivers/media/platform/qcom/iris/iris_probe.c
-+++ b/drivers/media/platform/qcom/iris/iris_probe.c
-@@ -370,6 +370,10 @@ static const struct of_device_id iris_dt_match[] = {
- 		.compatible = "qcom,sm8750-iris",
- 		.data = &sm8750_data,
- 	},
-+	{
-+		.compatible = "qcom,kaanapali-iris",
-+		.data = &kaanapali_data,
-+	},
- 	{ },
- };
- MODULE_DEVICE_TABLE(of, iris_dt_match);
+>=20
+> >
+> > > Alternatively, since code that I propose matches in output with one
+> > > that was before, changes can be applied and revised once there will b=
+e
+> > > such need. Especially, since YUV422 and RAW8/10 work fine and were
+> > > tested. I am not sure there will be many use cases which deliberately
+> > > target YUV420.
+> > >
+> >
+> > Yeah, since it's a pre-existing issue, that makes sense. However, I'd s=
+till add a comment to the bytes per line calculation with a reference to th=
+e downstream code it's based on, and that it produces an unexpected 3/2 * w=
+idth for YUV420.
+> >
+>=20
+> I assume since I am applying expected and correct value, no additional
+> comments would be required within code, but I will add a note to
+> commit description.
 
--- 
-2.34.1
+Indeed.
+
+Thanks!
+Mikko
+
+>=20
+> > Mikko
+> >
+> > > > > >
+> > > > > > > It's certainly possible that the current code is functional -=
+- if bytesperline is set to a too large value and that information flows to=
+ userspace, it could still read the buffer. It would just waste memory.
+> > > > > > >
+> > > > > > > >
+> > > > > > > > > >
+> > > > > > > > > > > > +     pix->sizeimage =3D pix->bytesperline * pix->h=
+eight;
+> > > > > > > > > > > >  }
+> > > > > > > > > > > >
+> > > > > > > > > > > >  /*
+> > > > > > > > > > > > @@ -576,20 +564,23 @@ static const struct tegra_vi_=
+ops tegra20_vi_ops =3D {
+> > > > > > > > > > > >       .vi_stop_streaming =3D tegra20_vi_stop_stream=
+ing,
+> > > > > > > > > > > >  };
+> > > > > > > > > > > >
+> > > > > > > > > > > > -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC) =
+   \
+> > > > > > > > > > > > -{                                                 =
+   \
+> > > > > > > > > > > > -     .code    =3D MEDIA_BUS_FMT_##MBUS_CODE,      =
+     \
+> > > > > > > > > > > > -     .bpp     =3D BPP,                            =
+     \
+> > > > > > > > > > > > -     .fourcc  =3D V4L2_PIX_FMT_##FOURCC,          =
+     \
+> > > > > > > > > > > > +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MB=
+US_CODE, BPP, FOURCC)      \
+> > > > > > > > > > > > +{                                                 =
+                   \
+> > > > > > > > > > > > +     .img_dt         =3D TEGRA_IMAGE_DT_##DATA_TYP=
+E,                   \
+> > > > > > > > > > > > +     .bit_width      =3D BIT_WIDTH,               =
+                     \
+> > > > > > > > > > > > +     .code           =3D MEDIA_BUS_FMT_##MBUS_CODE=
+,                    \
+> > > > > > > > > > > > +     .bpp            =3D BPP,                     =
+                     \
+> > > > > > > > > > > > +     .fourcc         =3D V4L2_PIX_FMT_##FOURCC,   =
+                     \
+> > > > > > > > > > > >  }
+> > > > > > > > > > > >
+> > > > > > > > > > > >  static const struct tegra_video_format tegra20_vid=
+eo_formats[] =3D {
+> > > > > > > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
+> > > > > > > > > > > > -     TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
+> > > > > > > > > > > > -     TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
+> > > > > > > > > > > > -     TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
+> > > > > > > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
+> > > > > > > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
+> > > > > > > > > > > > +     /* YUV422 */
+> > > > > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 16=
+, UYVY),
+> > > > > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 16=
+, VYUY),
+> > > > > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 16=
+, YUYV),
+> > > > > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16=
+, YVYU),
+> > > > > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12=
+, YUV420),
+> > > > > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12=
+, YVU420),
+> > > > > > > > > > > >  };
+> > > > > > > > > > > >
+> > > > > > > > > > > >  const struct tegra_vi_soc tegra20_vi_soc =3D {
+> > > > > > > > > > > >
+
+
+
 
 
