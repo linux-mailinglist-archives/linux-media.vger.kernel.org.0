@@ -1,78 +1,78 @@
-Return-Path: <linux-media+bounces-43077-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43078-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D0E3B9B7F3
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 20:33:13 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 567B2B9B80E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 20:36:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B9C451BC0E30
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 18:33:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 0172E322811
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 18:36:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68ED1313D72;
-	Wed, 24 Sep 2025 18:33:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE41F3168E3;
+	Wed, 24 Sep 2025 18:36:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="efsmGQUS"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FtBmNeMB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55F5E242D69
-	for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 18:33:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E787629DB6E
+	for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 18:36:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758738782; cv=none; b=D0i9Z/A1jYO7t3+iLNTTyBMBORuQB6W3MepdArSv1d+YzG0eq/jdAyY8zKS3XD/uYVrx0sA0i4h2orAxUIgaWN9q7hu0e0G/9J/UHGjhuP2aiVEkaPQ+XU2KClrERZkOx8Mw0yh1sgMav9JSurm1loNpVXmSMXLXMNHd7AeDpPI=
+	t=1758738973; cv=none; b=RyyiOdPqF42Kug0g1UJvgvBGTXywPySYd8VI6PBMAzjM33AoN6tnDnAxNMU24/oEXuYBRKfENUhFQ6wAvAhWHMif7pcK4rSLfHtf6TmfQ1uJr5G0noSyZCyDISmuvnEujGXSDDJp7z20eLN4vKs/GtRJ7bpzNmtaOuVRGEf00lk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758738782; c=relaxed/simple;
-	bh=BPmp7/HZwCEN2P3jkfww+6QmR4v0glh9O0ulkchMmyA=;
+	s=arc-20240116; t=1758738973; c=relaxed/simple;
+	bh=2aLfX7a8qrLe04EEuCsSWXOjT7NO0ExrjFnQIBlHj04=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jxg9Rc97MiAyhQja+nSzkwvSsPTfJUclfXQMzOyuYGvPJo+CJNtqkX+BN8mQI99VOnRt/1bY8fBk/uLAz7YELjr4wg3yJD6pTFnPMXNWeyvFgHFC6ZVKo+bYTaD2otAujxlYVNSgld3OZiZR3bndN1PxSeYxKCjOH/zbr1+5l1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=efsmGQUS; arc=none smtp.client-ip=209.85.210.181
+	 Content-Type:Content-Disposition:In-Reply-To; b=TcFyAN2+1dMzti2uSybEgpCnhcDPzoMdRJCX0BkT7+PUX8CJeILcQpKMS3VC40yNqtIzgkUOT14R4VfnEFiQBbPA9a88Llf/PoLYSIpYg3OSsJ8ffoXU7zfAtDSkelc2FPumy42FhbBmKIYZm591dMEvNJwBtBHI4ZKa+kUwB1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FtBmNeMB; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-77f2c7ba550so154474b3a.1
-        for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 11:33:00 -0700 (PDT)
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-279e2554b6fso1004935ad.2
+        for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 11:36:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758738780; x=1759343580; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1758738971; x=1759343771; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=0ZiGUngEg1bz9RIGYOxgVE+7eeU9JAJ9lijyiP/taFE=;
-        b=efsmGQUSpeAlPhYHne6mC9XC+C9cNzm6ws/4Ul28qA1tV22MQq/u+/O0JouKGUlWsB
-         Wg8aQR3IWtavWeaibMajUZYpQ73rb5v4O6F0KOmCFAq5Gz6PwNetVK7bWKp8Tw6mPL7E
-         5ZuAfkeO8xgdBah+Js9Z3uVhESeJZWIqvVbPgx3uF/xguI+WgG4yLngOl9cmHZTTn6Ng
-         LS/WfY3SG3CVQ37ATQh/qhypJX5s+AoKuctiUHKPWFvEPbAOkCNNC8g8OLLCR3UZ23Ka
-         g8HLw1zh61PvqSya2YzFZyovay2iCDkNmu+7zp5GQKFxoSswiC8LBZczkewG1LArYuuk
-         HlBw==
+        bh=RuMDAryKyhqMDr6B+XSq4gaOR0tjLhHQ+hf5EwbyoXs=;
+        b=FtBmNeMB04FY3JGB6PNvtOFMiiWfAj4garK3jVjddYu+aBCpnKJv62bLvq1W//T70a
+         y4kpNyp7rAle3Axx60PHhi6UEdug4mVpmTWaiXKH7HrgfEK/PWpxCcW0GSz76SJe4Dr9
+         occhHLHIxPq0kTA95Jz5yBEygNFimb1rEmkA1gh+VV5Pqlk8iMz81SJJZ0+AJISXUxZt
+         wdtaeEH1wwkn7kSP5ttEoRqBmeHlsXKKhB8JQMcokPHbGgOVheMDGjqihXZULw08wYio
+         ZlNFk+yeDUGN96q/XFWEIvy11lkr81KqELV2YRixghqOF9U1I8bvBJ6ZhOrkKSss3XPz
+         GONQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758738780; x=1759343580;
+        d=1e100.net; s=20230601; t=1758738971; x=1759343771;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=0ZiGUngEg1bz9RIGYOxgVE+7eeU9JAJ9lijyiP/taFE=;
-        b=a59euJVq3YxtRfpCmTS8YZiwMczOR3NIypSzNwZzf8MupJaRcVSXLqUkAala7W/LBS
-         1EdeFfmZK2aYLoNvVFrNNodEuOYbN8rW3TKNq+L1yOV5K3p3xCO3OOrSiLcIipKc9eyk
-         t53B2daA9Jtd6X4fCziwH7P+UH7Tjq3md3DUnzM8Io7OcebCbBb1N/9LvtsPdt3ak8TY
-         GKT+OZOFx7cJOBHGt+/hPVUoqgvFhX1BmVXP6UjR4kRe2u4RSvhtIJjEZHEIo6+txbN9
-         KaGnVLVVgbBEpY4pGJaVSj0Ta7DhnqNkXQeSf4RhxLtYnME9478g0PinwWiOiG6p7hPt
-         pqRw==
-X-Forwarded-Encrypted: i=1; AJvYcCUdJ1Be25k5Q2fPlgGs32ZzcuxkfHaONkuML1+REvJCH6Lhgdd3mO5KqMGpVzWkaAxX6GvkwQjAFtkWJQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzBl7CIEW1fWNrdB5wl9GU0wMP14pIK9IgPLC5E8WtmONz8IrIO
-	eZpTXQUtKahgObdwyEUD0d7uwNDiU90gQwX6AXmyiJNG1a5EnpmaV0fY
-X-Gm-Gg: ASbGncu6AMJ+vtJMWGvrMiZ4475tQDdMFQ/CpUgET8hBDG8eX378jZ9TmwL8ZyBWPPB
-	qaqFTdK5zDt141JLYR5hg9Vp2J5AFf1JYBJljUmH9Vj8jn9H1ZVIzx9CHxrBCb0xT7B+x++SfJu
-	TXSgd6J3O2/DuuCcW4KHpl3YkMi/MCC9Po5EwczS/JTUXNCC7+GCj2mux1tblS21js4ShU5A9LN
-	/f8Lepv0mD9erVRCQlq+pPydNd+fQlinX91FsQ4V1cjhQuqXrnKyZ1uD4EH2rAS4E5+xZqawv7A
-	0BqpOm+L36rwKhq0vSlbYf/T1OcpKcUBu9M6JuJqg2vZEDAuAc02C/sgfN+Rf1H0ech43nFnGh8
-	xgRfa0Icn1nXIJiSVYXKoDMk=
-X-Google-Smtp-Source: AGHT+IGjh8GHJkW4HrCxPM3eBOhaOjfwbgk4g/556B0RsOzYugb+CgPT02LHWIyv3xFJhWkcNdv5fA==
-X-Received: by 2002:a17:90b:3d4b:b0:32d:d4fa:4c3 with SMTP id 98e67ed59e1d1-3342a2ef04fmr506703a91.31.1758738780237;
-        Wed, 24 Sep 2025 11:33:00 -0700 (PDT)
+        bh=RuMDAryKyhqMDr6B+XSq4gaOR0tjLhHQ+hf5EwbyoXs=;
+        b=XflFBM6ihV2RlgeG8X8H1QUpbLnAI/pFQNiuWPj2xBLtOutC89LxWXcscJc7FQoIo0
+         +7Q7jfJzM1UvVFIONLZ31O2JXLzAUohXEaSCphUUh8+k1In4F+S9jrPVIhNwD8dXRLXm
+         GrFmIU9ZS+ZPVc76JIVePXCvjIQ0qoPM3fpTfde0Zup0WVFf7FBg9Bke01uKS2Lkh8U5
+         WzNjst/UTiQJJoxdQwViMUhgIb/PtRbModRuC28KjZ/8Uj4C/jWzxCIHsj2UvX2j0c4D
+         WCMD3NS/Hx+dxrRBXef8Ao9ipkisOOL6Qm4wbD8O7mryV9+ZcM2KsPytzKrUDseYLXbp
+         Zgrw==
+X-Forwarded-Encrypted: i=1; AJvYcCWhePMsYAqjV8A90v+Jj5qvJNM317IVj+SDgb8Vl6WMMI3TEhydAeZA7zr4dArxVlbA4sVinoZIkFIrbg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzoQ7TniLxiqkb03qQ+V6VAW9exXNVwdJgO6SDYHYaEbDlBvx1I
+	zLuElRYUTaFPvyScYvmQlSd6kKWJ58+0e2Jr0QbP+4L05ukSawuipxwi
+X-Gm-Gg: ASbGncttvNIE+hxBCu3V2Ea7vPFGRd4+bUVOib1dOHaJPsJK29lbbAfjxYUc8BTQKje
+	wMi1n2UEM2YvlwsDHL5wjviAWU+KHFrMeV+K0LzeOXzyelIYmf7mPPood0TAsvNuJLVItxwEW4A
+	eXLso8ePdUh6uhAcL9luKbMdd6MLKbQnoKN1u9HAb8Kicd6WjGum+kC5eNx5mpz099KFkRG6f6G
+	uaWVxFr/KpE3mDfgJ4I2cgImaqDBu7M0hgLRw/EEtEPNzWt8rDbZG03lUNImEew6KHmGCnu5IdX
+	IkyD0bLDPbKyfFJq02bcMmR96vLUG7sAkw9ju7+B/RmkTqdGittAVHrfuNGQSeY4VoRWYQTyqqO
+	kDKaoNIFdzrx3BZNalWp0H4w=
+X-Google-Smtp-Source: AGHT+IFpCuPX+NdIWL+u5IkcBx4+VbKV/4827jy+s9/WEKKxG/dZ2BXBXewNNRlOFgtg+akJrLG03A==
+X-Received: by 2002:a17:902:dac5:b0:27a:6c30:49c with SMTP id d9443c01a7336-27ed4a56ba4mr5732905ad.27.1758738971104;
+        Wed, 24 Sep 2025 11:36:11 -0700 (PDT)
 Received: from google.com ([2620:15c:9d:2:f4c4:bad6:f33e:ddc9])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3341bda06ccsm3113092a91.7.2025.09.24.11.32.58
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3341bd90367sm3096304a91.5.2025.09.24.11.36.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 24 Sep 2025 11:32:59 -0700 (PDT)
-Date: Wed, 24 Sep 2025 11:32:56 -0700
+        Wed, 24 Sep 2025 11:36:10 -0700 (PDT)
+Date: Wed, 24 Sep 2025 11:36:07 -0700
 From: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
@@ -92,11 +92,11 @@ Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
 	Paolo Abeni <pabeni@redhat.com>, Mark Brown <broonie@kernel.org>, 
 	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>, 
 	Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Subject: Re: [PATCH v2 02/16] ACPI: property: Use ACPI functions in
- acpi_graph_get_next_endpoint() only
-Message-ID: <iqfarpvf72l7qbhfinopjb27qvfm7wg77d4yhuy5qyubcwtcd2@exmcuvgqr353>
+Subject: Re: [PATCH v2 11/16] Input: touch-overlay - Use
+ fwnode_for_each_child_node() instead
+Message-ID: <amnjiro7qhreys4upoh6ggqurom6gudk2gw5ayrfjhj243wqwh@o4hf6txhsm62>
 References: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
- <20250924074602.266292-3-sakari.ailus@linux.intel.com>
+ <20250924074602.266292-12-sakari.ailus@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -105,25 +105,35 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250924074602.266292-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250924074602.266292-12-sakari.ailus@linux.intel.com>
 
-Hi Sakari,
+On Wed, Sep 24, 2025 at 10:45:57AM +0300, Sakari Ailus wrote:
+> fwnode_for_each_child_node() is now the same as
+> fwnode_for_each_available_child_node() on all backends (OF, ACPI and
+> swnode). In order to remove the available variants, switch the uses to
+> non-available variants.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-On Wed, Sep 24, 2025 at 10:45:48AM +0300, Sakari Ailus wrote:
-> Calling fwnode_get_next_child_node() in ACPI implementation of the fwnode
-> property API is somewhat problematic as the latter is used in the
+Acked-by: Dmitry Torokhov <dmitry.torokhov@gmail.com>
 
-How exactly is this problematic?
-
-> impelementation of the former. Instead of using
-> fwnode_get_next_child_node() in acpi_graph_get_next_endpoint(), call
-> acpi_get_next_subnode() directly instead.
-
-I think we are moving into the world of mixed fwnode types with software
-nodes/secondary fwnodes, so I do not think this is a step in right
-direction.
-
-Thanks.
+> ---
+>  drivers/input/touch-overlay.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/input/touch-overlay.c b/drivers/input/touch-overlay.c
+> index b9fd82c4829d..7eaaaef1bd82 100644
+> --- a/drivers/input/touch-overlay.c
+> +++ b/drivers/input/touch-overlay.c
+> @@ -82,7 +82,7 @@ int touch_overlay_map(struct list_head *list, struct input_dev *input)
+>  	if (!overlay)
+>  		return 0;
+>  
+> -	fwnode_for_each_available_child_node(overlay, fw_segment) {
+> +	fwnode_for_each_child_node(overlay, fw_segment) {
+>  		segment = devm_kzalloc(dev, sizeof(*segment), GFP_KERNEL);
+>  		if (!segment) {
+>  			fwnode_handle_put(fw_segment);
 
 -- 
 Dmitry
