@@ -1,177 +1,154 @@
-Return-Path: <linux-media+bounces-43070-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43071-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E03CAB9A77E
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 17:08:38 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 072D8B9AC4C
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 17:50:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2491E1619B5
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 15:06:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 07BE4189621A
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 15:51:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C06A030AABE;
-	Wed, 24 Sep 2025 15:06:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C7A331283E;
+	Wed, 24 Sep 2025 15:50:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="I08/LofM"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="MH/NzWFm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBB658462;
-	Wed, 24 Sep 2025 15:06:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B19D73002A9
+	for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 15:50:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758726399; cv=none; b=EqfIz9iWG+S8zmYHvpEDYjQxXbu4PmO3vCMw6+6uzvTZlaav+uuN7WUXg3LDUCo8Oxm7RgvZzHFeR5nQwhvZWwgO0GO9TyIL9AsmnewqVgtr0+TPFOhExtLNs0Q4/RK+koFEoFrpLlm8IB6GSGUvhQwVj56MUYadQkHAlpZy57I=
+	t=1758729034; cv=none; b=b48sHjsZYKyiXJxqClfRnm75Wn5PFOwzQt3AnhAfz6gtr39GNuWDSkt+v4c53CrJa4IQwzOHunF1YwLU8aIlBejBg1vbONgs/32zT53sH63qyrXHh5H0JfM8cVbsqd8zgsTHBJXs8d3xaSjm8QRPgOjWaO5Js84lIPqEkF9d6Ho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758726399; c=relaxed/simple;
-	bh=lTo0mxD7UgzpTGzWkwz+NQb+tgBlMPnQN8ycWHq9SLI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=OVJZwc0Ri7Ck3TSMV+LU19ATDP3CmnsITYL8bo/P5XQ1y9KolKsx0ZXIcbgmKPTdoFk3CXPFEJdeNaiSx9m+4xRzx95FtrTUZ71rnoKg6tti2AO2uNsOPGxGw9/yqiy2UuAG7GBAKQDPa/ASeLWIlQcnRKCiOCRtGRSafZYpQTs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=I08/LofM; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 58OF6PtQ1723564;
-	Wed, 24 Sep 2025 10:06:25 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1758726385;
-	bh=C12jodyvOYQRYMZFpqYTb+c/4y9abagksNSdTyo4T44=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=I08/LofMj2RI/rOoDeTKdx4rSNujCNumeQYa3+g+1ITPPWqSZB7t6qNhnq8u4v0f3
-	 Y5H3Lg0h3Sp2xiNKlv3iIeSklhbwmfjLBmqMtmTr3fTIhd/1y5g+aa5c3yS/svqRRg
-	 6toQp4zOnV8xl6MJJaDVlkIQhUZpH0VJRewWNK7c=
-Received: from DLEE114.ent.ti.com (dlee114.ent.ti.com [157.170.170.25])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 58OF6PxL2521207
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-SHA256 bits=128 verify=FAIL);
-	Wed, 24 Sep 2025 10:06:25 -0500
-Received: from DLEE206.ent.ti.com (157.170.170.90) by DLEE114.ent.ti.com
- (157.170.170.25) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.55; Wed, 24
- Sep 2025 10:06:25 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE206.ent.ti.com
- (157.170.170.90) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Wed, 24 Sep 2025 10:06:25 -0500
-Received: from [10.250.32.49] ([10.250.32.49])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 58OF6O2G2203485;
-	Wed, 24 Sep 2025 10:06:24 -0500
-Message-ID: <76e12732-9a39-409d-aa60-44622fe42ec5@ti.com>
-Date: Wed, 24 Sep 2025 10:06:24 -0500
+	s=arc-20240116; t=1758729034; c=relaxed/simple;
+	bh=3HFVHU2A86JsxNXWuaSgCTlzKZ3pf22FDrMEBP9wlaM=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Rdqpj9Ojk/gIUX2GEoFzNkgdU5B+l5+CLXwFzWoFMvOjNM7/MAN1mKTb3T2nKq93HWfMvgK1X+MQaF8muPqHAHPtFNd0MO0dXpkjKEVTDAlnm4VJ61z8r6VqkXdHuqHCBeYNXjA5kr5sub6MMdXelnUJvuVYgZi+UcT8mImfa7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=MH/NzWFm; arc=none smtp.client-ip=209.85.160.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-4b3d3f6360cso2911cf.0
+        for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 08:50:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1758729030; x=1759333830; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=wKYKt3wBpNWpKAvLvz/Y9fS8qlda2gni+8GdP2SiBRk=;
+        b=MH/NzWFmMK66WDJO0EcpeK4YNLynWzOQlyauaqvCkKb3hlA0JQn91tXAOyzlwp+b+o
+         +wo6IafMnp+3aS9zFGtnQKugNM3uebSQZJ/ab30xfp5WBXV2fBzdPTbd2Gn64JC1wJMS
+         mtLWtCQxbfwh9gO3CVdTwsorBka/UWYstT1vjOplFKOgKdOV2XHRFJ4dlv7G7/B3msSu
+         oLh54+K20hlX3OY4CacgIe6uSMLi77toaBXRIjX9yBgwYA2vnr1cNv+vIjNrHIqZIlAK
+         qQNmzgKhITzTwRRweswLiC5EqsUCB01mTUwvzvH1OKnbkcAEZKlqZadqHGJeVIAvewxX
+         QPuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758729030; x=1759333830;
+        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wKYKt3wBpNWpKAvLvz/Y9fS8qlda2gni+8GdP2SiBRk=;
+        b=sFYnrGY6pBPPCkdgIdAoblut1gxN08SjuSm2TJ0xR5tuYj+NuZCmfUxHQRP3qRcNJD
+         rCkAl1NlqZ5JyPLc582jtMx/oa4OJGbvId6Tsf/2UpawGYG21OI5LcUK2+EG4Qt4j1Nt
+         F73uztaMXva19Yy7slZEc84OxsOvCNIMdA7BuKbuU8LJsKYjz0d04UEZxBBqLv4mB7dW
+         BZHRpo34VAtE3dWjdh7cDHmwjQC0gJYrzUEkLBeutFUx9hhYyYa3m/K+eifxAdMlXLOy
+         BeLppenbxzS1ky8NWqyLS5obzRi+L1bkN3iToiJxMMBe4M3r3kqyYIZsB2HIl4ESOXil
+         XApA==
+X-Forwarded-Encrypted: i=1; AJvYcCXqL8YP6NSqbiIq3cdHk3lXRp/t3OdgCq7lmsjhcyRQ+Kxy0E352y3agsFCWnvC7HKnXxYmcl4yLxMZMw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YziJsZAePdeULO7VsN/ZK2SlboUQqLfz71v1Jj8c/sQFbH+KSHh
+	GTz29+yzJAmSzAw/+UW6mPDA2BF87hIMVmIdWPp90z/XPODUJWlShB0JD9q1EwM76TI=
+X-Gm-Gg: ASbGncuFEL3tZmhBbp417Zpe6VhhYog7MJpTr7QdZ8MEIOQcEdiEdk30CVeSY4zbLWL
+	LNzV6al3/A3WkkROx450QarhH8T7Ve7snuun4KY2x4gFRFRoI9jKPmHX4l6eUVdCQbfuSiAc6Z0
+	5ab9HGhwxFhBm9TochOR9qEWA6w/s3GYYjGFzdg5b0cYgbQ92tbFSb2XIe6AZYE/EJ3VZE/TkT5
+	g0djfVedRw/GbKI2ohOiORVNH1I5vmYv5YnU+d8GTwn5xWNzrfuICiljp85Fw8IH65FISvrzs7a
+	YaHz8Z5osn8Tt2Ewct4c9r4HwmBrGbId01bCQEQHLamZhq6szWnGbNiD4lYSraQsqauixnVhHzC
+	8mJFxdaI7QnUbUUuAjtY9sfUaIiLW
+X-Google-Smtp-Source: AGHT+IHFDw/Eg5JWh7qPZieLyWp9NXunBGjbJijvunF0rhToS+dVyRBZ8XDISKVOXGkGM4owfaf9Vw==
+X-Received: by 2002:ac8:7d8e:0:b0:4cf:b74b:e1af with SMTP id d75a77b69052e-4da4c1aeacfmr3705331cf.63.1758729030340;
+        Wed, 24 Sep 2025 08:50:30 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:17:ebd3::5ac? ([2606:6d00:17:ebd3::5ac])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-79351f713a5sm109494106d6.44.2025.09.24.08.50.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Sep 2025 08:50:29 -0700 (PDT)
+Message-ID: <b3c3a9b47a2075f6a0acc1ee501f885d4997679e.camel@ndufresne.ca>
+Subject: Re: [PATCH 1/2] media: iris: Add support for QC08C format for
+ decoder
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Markus Elfring <Markus.Elfring@web.de>, Dikshita Agarwal
+	 <dikshita.agarwal@oss.qualcomm.com>, linux-media@vger.kernel.org, 
+	linux-arm-msm@vger.kernel.org
+Cc: LKML <linux-kernel@vger.kernel.org>, Abhinav Kumar
+ <abhinav.kumar@linux.dev>,  Bryan O'Donoghue	 <bod@kernel.org>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Vikash Garodia	
+ <vikash.garodia@oss.qualcomm.com>
+Date: Wed, 24 Sep 2025 11:50:28 -0400
+In-Reply-To: <ce08ae79-8f7e-4a37-85b9-d86c10567881@web.de>
+References: 
+	<20250919-video-iris-ubwc-enable-v1-1-000d11edafd8@oss.qualcomm.com>
+	 <ce08ae79-8f7e-4a37-85b9-d86c10567881@web.de>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-BGkOL5lJ8hoFaStaZV+n"
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 4/4] media: chips-media: wave5: Improve performance of
- decoder
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        "jackson.lee"
-	<jackson.lee@chipsnmedia.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>,
-        "bob.beckett@collabora.com" <bob.beckett@collabora.com>
-CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "lafley.kim"
-	<lafley.kim@chipsnmedia.com>,
-        "hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
-        Nas
- Chung <nas.chung@chipsnmedia.com>
-References: <20250922055255.116-1-jackson.lee@chipsnmedia.com>
- <20250922055255.116-5-jackson.lee@chipsnmedia.com>
- <1f59f00d-eff7-4c65-a504-227df0de75d2@ti.com>
- <d4b7cc51f1bd7fcf88066e8510f950ec90cfb5aa.camel@collabora.com>
- <PU4P216MB114923D47D5AD77D5D32D56FED1CA@PU4P216MB1149.KORP216.PROD.OUTLOOK.COM>
- <6eed102e2aa739e5026ee545a38ddacf09058bbb.camel@collabora.com>
-Content-Language: en-US
-From: Brandon Brnich <b-brnich@ti.com>
-In-Reply-To: <6eed102e2aa739e5026ee545a38ddacf09058bbb.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-Hi Nicolas and Jackson,
 
-On 9/24/2025 8:20 AM, Nicolas Dufresne wrote:
-> Hi Jackson,
-> 
-> Le mercredi 24 septembre 2025 à 01:14 +0000, jackson.lee a écrit :
->> Hi Nicolas
->>
->>> -----Original Message-----
->>> From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
->>> Sent: Tuesday, September 23, 2025 3:00 AM
->>> To: Brandon Brnich <b-brnich@ti.com>; jackson.lee
->>> <jackson.lee@chipsnmedia.com>; mchehab@kernel.org; hverkuil-
->>> cisco@xs4all.nl; bob.beckett@collabora.com
->>> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org; lafley.kim
->>> <lafley.kim@chipsnmedia.com>; hverkuil@xs4all.nl; Nas Chung
->>> <nas.chung@chipsnmedia.com>
->>> Subject: Re: [PATCH v5 4/4] media: chips-media: wave5: Improve performance
->>> of decoder
->>>
->>> Hi Brandon,
->>>
->>> Le lundi 22 septembre 2025 à 12:32 -0500, Brandon Brnich a écrit :
->>>>> -	/*
->>>>> -	 * During a resolution change and while draining, the firmware
->>>>> may
->>>>> flush
->>>>> -	 * the reorder queue regardless of having a matching decoding
->>>>> operation
->>>>> -	 * pending. Only terminate the job if there are no more IRQ
->>>>> coming.
->>>>> -	 */
->>>>> -	wave5_vpu_dec_give_command(inst, DEC_GET_QUEUE_STATUS,
->>>>> &q_status);
->>>>> -	if (q_status.report_queue_count == 0 &&
->>>>> -	    (q_status.instance_queue_count == 0 ||
->>>>> dec_info.sequence_changed)) {
->>>>> -		dev_dbg(inst->dev->dev, "%s: finishing job.\n",
->>>>> __func__);
->>>>> -		pm_runtime_mark_last_busy(inst->dev->dev);
->>>>
->>>> Patch is failing to apply here to linux-next because these redundant
->>>> calls have already been removed[0].
->>>
->>> Which have not been merged back from the RC into media-committers/next,
->>> forcing to skip a cycle. Jackson, feel free to rebase on linux-next like
->>> Brandon suggest.
->>
->> Then should I make v6 patch series based on Linux-next ?
-> 
-> I've asked advises from the other maintainers, and the answer is no. Basing it
-> on our next branch for linux-media submission is the correct thing to do. Its
-> too late for this cycle, but be reassured we will improve our process in future
-> iterations to reduce the risk of this happening.
-> 
-> Feel free to send a rebased patch to Brandon, having more testing is always
-> good.
+--=-BGkOL5lJ8hoFaStaZV+n
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Sorry for the confusion here, I was unaware that the patches weren't 
-present in -next on linux-media tree. Typically I just do all my testing 
-on the linux-next branch. I will make sure to use linux-media in the future.
+Hi,
 
-No need to share the patch with me, I already rebased it to build and 
-start my own testing.
+Le mercredi 24 septembre 2025 =C3=A0 14:32 +0200, Markus Elfring a =C3=A9cr=
+it=C2=A0:
+> =E2=80=A6
+> > +++ b/drivers/media/platform/qcom/iris/iris_buffer.c
+> > @@ -261,7 +261,10 @@ int iris_get_buffer_size(struct iris_inst *inst,
+> > =C2=A0		case BUF_INPUT:
+> > =C2=A0			return iris_dec_bitstream_buffer_size(inst);
+> > =C2=A0		case BUF_OUTPUT:
+> > -			return iris_yuv_buffer_size_nv12(inst);
+> > +			if (inst->fmt_dst->fmt.pix_mp.pixelformat =3D=3D
+> > V4L2_PIX_FMT_QC08C)
+> > +				return iris_yuv_buffer_size_qc08c(inst);
+> > +			else
+> > +				return iris_yuv_buffer_size_nv12(inst);
+> =E2=80=A6
+>=20
+> How do you think about to use a source code variant like the following?
+>=20
+> 			return (inst->fmt_dst->fmt.pix_mp.pixelformat =3D=3D
+> V4L2_PIX_FMT_QC08C)
+> 				? iris_yuv_buffer_size_qc08c(inst)
+> 				: iris_yuv_buffer_size_nv12(inst);
 
-Thanks,
-Brandon
+Please don't, this is less readable and have no explained technical advanta=
+ges.
 
-> 
-> cheers,
-> Nicolas
-> 
->>
->> Thanks
->> Jackson
->>
->>>
->>> regards,
->>
->>> Nicolas
+Nicolas
 
+>=20
+>=20
+> Regards,
+> Markus
+
+--=-BGkOL5lJ8hoFaStaZV+n
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaNQTRAAKCRDZQZRRKWBy
+9M4hAP4xMwFl82DVj9T4UD6n+w1SjuDmzrNmUl3WHwoFFThJMAD/de71Hs2BOyqL
+rqF9js4QRLUpv4wRTLhyGSuePA0+EQ0=
+=v93q
+-----END PGP SIGNATURE-----
+
+--=-BGkOL5lJ8hoFaStaZV+n--
 
