@@ -1,235 +1,200 @@
-Return-Path: <linux-media+bounces-43075-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43076-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C495FB9AE1B
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 18:31:24 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A45AB9B17E
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 19:41:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3572D19C5622
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 16:31:46 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6180E1782FD
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 17:41:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1998530B527;
-	Wed, 24 Sep 2025 16:31:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E8833168FC;
+	Wed, 24 Sep 2025 17:41:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="LVJo2dtL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FyFqbUnd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41F774A21
-	for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 16:31:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D35A315789
+	for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 17:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758731478; cv=none; b=rP0m47dZAUyJXg4b0rua7eT+uyX5eTzN7RyKXeKrhnFd1M2xRXgZeTM+u9lMBZczmBXMdyufzJzV7ro6GzbPsqKMQAa3Lz/adQkYm47b+3QddBhS7dLUIPdmJZX2EdjndvyOg34khIq70PyDe3KicZT+pLXXZWpGeAHDFStyVCk=
+	t=1758735684; cv=none; b=a01C0j48V/TlpwhlocY+VWDZQ6VTaVN2skUM61d2L+suQR/yHdyRGGPB2fhOOG7Tyb8q280znf72On5kRaNmQPWBKclrxh3Tl/Llux9d61H7CzxsXPDlupLqsLXnSt8r/ECKHFyT8FzsOG0M7L5IyBm6KmzJrv3qA6Nqxrigsz0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758731478; c=relaxed/simple;
-	bh=XORZ8NKMTnrG4KViEYLKXh3Y0sDd4nIB2pz3bxwVj+4=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=ZdWNK4Z5FJ9CChhv/HaJn5yOYSUV00XXpJIR+GHmKL9Cn13GkQtb5FnRjDR3RWX13lC0JnYBC5LbEr4e0gvsIDUSFItOhRSDR1DPJ8nhRljR8uxnYlLYoySUbuu7vIbZxFefV8kCAO0Zy30rdznfHmLCc/dhZL+9hIRtjIlE534=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=LVJo2dtL reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from thinkpad.ideasonboard.com (cpc90716-aztw32-2-0-cust408.18-1.cable.virginm.net [86.26.101.153])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id BF3C0596;
-	Wed, 24 Sep 2025 18:29:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1758731388;
-	bh=XORZ8NKMTnrG4KViEYLKXh3Y0sDd4nIB2pz3bxwVj+4=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=LVJo2dtLVRNryZvZfHJjLfu69mE422viBiBdULorVng+0l1vxs6EaG/bY1XsDK4X6
-	 NaUoMsPVdR3qukG+EV+aJZUG0cPTP9dCpU/zo6IFlGyVfctBlJlxZr+RkEwumUdHf8
-	 wtMl+danRQPv3wJz5i+dgeLkGkvr5XlJds6JYO5Y=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1758735684; c=relaxed/simple;
+	bh=bQYk1EC/G2kWRYB45UUzoDmY01Dotdy7GHuXCL8h2zI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=lqcFzpyJYjp63geBvsv9NYu1HRH08utgE3QPmw5drFOrVLYpa/J8cxGLQkjcUSF88zNwmpfcL8tsjARiz7AeIPS97kuZzonP9ozk9KTm9F5m47nNqm2XIJppCS29zYC4saX/l9Emym2cv9BU6R4TX/lAGpOoTI7TcaGGD183scE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FyFqbUnd; arc=none smtp.client-ip=209.85.210.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-780f6632e64so57051b3a.2
+        for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 10:41:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1758735682; x=1759340482; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ty52FH05Tvs7xv/IdghzsK+lMAT5+OB4jQyAKfAPbHQ=;
+        b=FyFqbUndW0zeVua9nrw7au3j9ZG22CzQIvGi00NjHH9eGG9S4bgn1D0v2qdQ9DjKH8
+         AythRt1jNl6hg56uwf7u7qTvLtJrZLm8ZYOUiN3s+xiKSfMtijn4beclduqE9+IyaM/6
+         Mf5dcED8zVhgO8+IPcEjmqP5VTYynjm0RpCIMO2q3JjkFE2JW4fl7blRPpCH1bSa+8Og
+         3OOt0MViGEvsBcxaEuOogpZTZLgR86QnpRdtweyEYDskD99qCyIutdUIa+j+uJtEDVv2
+         BPFjnk6GFLGobMq6ButsRLzCtgaPOtWZaBNO/5sGbEjM14NSSdmDxy8OyXY1KWaFX28r
+         PamQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758735682; x=1759340482;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ty52FH05Tvs7xv/IdghzsK+lMAT5+OB4jQyAKfAPbHQ=;
+        b=aetnG2W+kF7i0K7/ZfcFq062d0MdaR7Iw2iws+pzpkB9pLvjvcvvNJnPOzVOOTpR+p
+         p6UN4UTpNPM9IYuSyMC9os6v4PgqE81J08qJSobIAwKbjH3YzXwItvAnExWxNUvpLh4R
+         M7SQkB/9MlN1ggyRTcNMqv3nPPavtjKtVFu1SGxxZrEqyrDgP8ZB42J/qnWA5/YFJdU7
+         0aCHeCSdKUidgfmmdCbhiTmTZLMpwrda+72YeBlni52QJ9MzMqhhP8Qadg5mDCZqfPP2
+         Cj1b36PQz75Z9yi4nYbNN+pb+ZV3VdM1u1DxL7WuOIqUf9qCyimeb5Y+ijH/0vTfLafX
+         s/6Q==
+X-Gm-Message-State: AOJu0YxUeCDS7HV1qR09nL70K81THRxlxPg5MIx7J+XBUbs/2EraSz20
+	9RbbJvR49OXt/kJvYWZklwZqMjz7e8OQtPyNzyfAKB7sdQMpOsqnoqTW977dqLiYHpAD+g==
+X-Gm-Gg: ASbGncv9d3xEYsxJQ66JjA0vizls9FlF9sCv4qvcOE73Hy76hF8pxXS6B63T7rmp/8v
+	iCwTKtTC+dauF96RTaFiGXgjcwlYGbk8yE5RacSe7zGbBpE2bJ2UwyZ/Ks8U492LkeSV0qt/oMq
+	TVvHL+3jpZPq2ocHIbEVRIyxhdZ1x/KEI5nAKb6cGgWIJHzASdGWZr4rj8jKlo6ULLo4mUi3z3C
+	L3HqInQ0AnhVj5p8gZAJlq/5RuVbyfhnq3n1yzWg16EYXMMAm89qCeilvT/4xpgAVIoDTcr04VF
+	RDCBpuR7gQtmDXC6bgboC7CRy/cibe0lD3ZHMH936Pcz5BNttsq8URAKTqb9rdm/BffklrgulaD
+	u6PmBDY7fxOwAPnl2ae/03Vwsqbll2j+1wpsnaDTLwjUnNERRhxRiQz+rJA==
+X-Google-Smtp-Source: AGHT+IEH7V8AaqsK8NVGCCYR/TOu4QgCBqsRmAXHSWKWcD9xohjCTkdmty7dG+stB3XxdKNYyTnwTQ==
+X-Received: by 2002:a05:6a21:3385:b0:240:1d4f:720b with SMTP id adf61e73a8af0-2e7c4dac17dmr504768637.23.1758735682190;
+        Wed, 24 Sep 2025 10:41:22 -0700 (PDT)
+Received: from nikhil-s-Swift-SFG14-73.. ([101.0.63.224])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-77f0da42fdesm14921267b3a.66.2025.09.24.10.41.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 24 Sep 2025 10:41:21 -0700 (PDT)
+From: Nikhil S <nikhilsunilkumar@gmail.com>
+To: mchehab@kernel.org
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Nikhil S <nikhilsunilkumar@gmail.com>
+Subject: [PATCH] media: dvbringbuffer : fix space issues
+Date: Wed, 24 Sep 2025 23:11:01 +0530
+Message-ID: <20250924174105.8302-1-nikhilsunilkumar@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250507081338.53614-1-sakari.ailus@linux.intel.com>
-References: <20250507081338.53614-1-sakari.ailus@linux.intel.com>
-Subject: Re: [PATCH 1/1] media: dt-bindings: Add bindings for camera modules
-From: Isaac Scott <isaac.scott@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Sean Young <sean@mess.org>, Ricardo Ribalda <ribalda@chromium.org>, Nicolas Dufresne <nicolas.dufresne@collabora.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Niklas =?utf-8?q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, Alain Volmat <alain.volmat@foss.st.com>, Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Dave Stevenson <dave.stevenson@raspberrypi.com>, Daniel Almeida <daniel.almeida@collabora.com>, Michael Tretter <m.tretter@pengutronix.de>, Tomasz Figa <tfiga@chromium.org>, "Hu,               Jerry W" <jerry.w.hu@intel.com>, Steve Cho <stevecho@chromium.org>, Kieran Bingham <kieran.bingham@ideasonboard.com>, Kevin Hilman <khilman@baylibre.com>, Paul Kocialkowski <paulk@sys-base.io>, Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Hans Verkuil <hverkuil@xs4all.nl>, Arthur Vinchon <arthur.vinchon@allegrodvt.com>, Marco F
- elsch <m.felsch@pengutronix.de>, Jackson Lee <jackson.lee@chipsnmedia.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, Hans de Goede <hdegoede@redhat.com>, Jai Luthra <jai.luthra@ideasonboard.com>, Devarsh Thakkar <devarsht@ti.com>, Maxime Ripard <mripard@kernel.org>, Stefan Klug <stefan.klug@ideasonboard.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, Naushir Patuck <naush@raspberrypi.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Date: Wed, 24 Sep 2025 17:31:09 +0100
-Message-ID: <175873146978.81336.16498568894802782437@isaac-ThinkPad-T16-Gen-2>
-User-Agent: alot/0.10
+Content-Transfer-Encoding: 8bit
 
-Hi all,
+Fix the space issues detected by the checkpatch tool
 
-I think this is a very good idea.
+Signed-off-by: Nikhil S <nikhilsunilkumar@gmail.com>
+---
+ drivers/media/dvb-core/dvb_ringbuffer.c | 33 ++++++++++++++-----------
+ 1 file changed, 19 insertions(+), 14 deletions(-)
 
-Quoting Sakari Ailus (2025-05-07 09:13:38)
-> Add bindings for camera modules to allow telling especially the user space
-> which module is found in the system. Camera modules do not have a device
-> node so this is a property for the camera sensor device node. This allows
-> describing modules that contain a single camera sensor.
->=20
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
-> Hi all,
->=20
-> Here's the patch to give some advance warning for the camera module
-> discussion. The good thing is that it's quite short.
->=20
-> The intent indeed is to address the regular use case where we have a
-> single sensor in a camera module. For cases where we have more, we'll need
-> something else, not based on individual properties. I believe this is
-> still the way to go, to address current issues and for a couple of
-> additional reasons:
->=20
-> - Cameras with more than one sensor tend to be collections of camera
->   modules so this is still relevant in most cases.
->=20
-> - It's much simpler to have a single property than begin having new nodes
->   in DT. In practice such nodes would be a poor fit for DT generally as
->   they have (few or) no functions.
+diff --git a/drivers/media/dvb-core/dvb_ringbuffer.c b/drivers/media/dvb-core/dvb_ringbuffer.c
+index 7d4558de8..29b1fa028 100644
+--- a/drivers/media/dvb-core/dvb_ringbuffer.c
++++ b/drivers/media/dvb-core/dvb_ringbuffer.c
+@@ -37,10 +37,10 @@
+ 
+ void dvb_ringbuffer_init(struct dvb_ringbuffer *rbuf, void *data, size_t len)
+ {
+-	rbuf->pread=rbuf->pwrite=0;
+-	rbuf->data=data;
+-	rbuf->size=len;
+-	rbuf->error=0;
++	rbuf->pread = rbuf->pwrite = 0;
++	rbuf->data = data;
++	rbuf->size = len;
++	rbuf->error = 0;
+ 
+ 	init_waitqueue_head(&rbuf->queue);
+ 
+@@ -235,7 +235,7 @@ ssize_t dvb_ringbuffer_write_user(struct dvb_ringbuffer *rbuf,
+ 	return len;
+ }
+ 
+-ssize_t dvb_ringbuffer_pkt_write(struct dvb_ringbuffer *rbuf, u8* buf, size_t len)
++ssize_t dvb_ringbuffer_pkt_write(struct dvb_ringbuffer *rbuf, u8 *buf, size_t len)
+ {
+ 	int status;
+ 	ssize_t oldpwrite = rbuf->pwrite;
+@@ -245,7 +245,8 @@ ssize_t dvb_ringbuffer_pkt_write(struct dvb_ringbuffer *rbuf, u8* buf, size_t le
+ 	DVB_RINGBUFFER_WRITE_BYTE(rbuf, PKT_READY);
+ 	status = dvb_ringbuffer_write(rbuf, buf, len);
+ 
+-	if (status < 0) rbuf->pwrite = oldpwrite;
++	if (status < 0)
++		rbuf->pwrite = oldpwrite;
+ 	return status;
+ }
+ 
+@@ -258,8 +259,10 @@ ssize_t dvb_ringbuffer_pkt_read_user(struct dvb_ringbuffer *rbuf, size_t idx,
+ 
+ 	pktlen = rbuf->data[idx] << 8;
+ 	pktlen |= rbuf->data[(idx + 1) % rbuf->size];
+-	if (offset > pktlen) return -EINVAL;
+-	if ((offset + len) > pktlen) len = pktlen - offset;
++	if (offset > pktlen)
++		return -EINVAL;
++	if ((offset + len) > pktlen)
++		len = pktlen - offset;
+ 
+ 	idx = (idx + DVB_RINGBUFFER_PKTHDRSIZE + offset) % rbuf->size;
+ 	todo = len;
+@@ -278,7 +281,7 @@ ssize_t dvb_ringbuffer_pkt_read_user(struct dvb_ringbuffer *rbuf, size_t idx,
+ }
+ 
+ ssize_t dvb_ringbuffer_pkt_read(struct dvb_ringbuffer *rbuf, size_t idx,
+-				int offset, u8* buf, size_t len)
++				int offset, u8 *buf, size_t len)
+ {
+ 	size_t todo;
+ 	size_t split;
+@@ -286,8 +289,10 @@ ssize_t dvb_ringbuffer_pkt_read(struct dvb_ringbuffer *rbuf, size_t idx,
+ 
+ 	pktlen = rbuf->data[idx] << 8;
+ 	pktlen |= rbuf->data[(idx + 1) % rbuf->size];
+-	if (offset > pktlen) return -EINVAL;
+-	if ((offset + len) > pktlen) len = pktlen - offset;
++	if (offset > pktlen)
++		return -EINVAL;
++	if ((offset + len) > pktlen)
++		len = pktlen - offset;
+ 
+ 	idx = (idx + DVB_RINGBUFFER_PKTHDRSIZE + offset) % rbuf->size;
+ 	todo = len;
+@@ -309,7 +314,7 @@ void dvb_ringbuffer_pkt_dispose(struct dvb_ringbuffer *rbuf, size_t idx)
+ 	rbuf->data[(idx + 2) % rbuf->size] = PKT_DISPOSED;
+ 
+ 	// clean up disposed packets
+-	while(dvb_ringbuffer_avail(rbuf) > DVB_RINGBUFFER_PKTHDRSIZE) {
++	while (dvb_ringbuffer_avail(rbuf) > DVB_RINGBUFFER_PKTHDRSIZE) {
+ 		if (DVB_RINGBUFFER_PEEK(rbuf, 2) == PKT_DISPOSED) {
+ 			pktlen = DVB_RINGBUFFER_PEEK(rbuf, 0) << 8;
+ 			pktlen |= DVB_RINGBUFFER_PEEK(rbuf, 1);
+@@ -321,7 +326,7 @@ void dvb_ringbuffer_pkt_dispose(struct dvb_ringbuffer *rbuf, size_t idx)
+ 	}
+ }
+ 
+-ssize_t dvb_ringbuffer_pkt_next(struct dvb_ringbuffer *rbuf, size_t idx, size_t* pktlen)
++ssize_t dvb_ringbuffer_pkt_next(struct dvb_ringbuffer *rbuf, size_t idx, size_t *pktlen)
+ {
+ 	int consumed;
+ 	int curpktlen;
+@@ -339,7 +344,7 @@ ssize_t dvb_ringbuffer_pkt_next(struct dvb_ringbuffer *rbuf, size_t idx, size_t*
+ 	if (consumed < 0)
+ 		consumed += rbuf->size;
+ 
+-	while((dvb_ringbuffer_avail(rbuf) - consumed) > DVB_RINGBUFFER_PKTHDRSIZE) {
++	while ((dvb_ringbuffer_avail(rbuf) - consumed) > DVB_RINGBUFFER_PKTHDRSIZE) {
+ 
+ 		curpktlen = rbuf->data[idx] << 8;
+ 		curpktlen |= rbuf->data[(idx + 1) % rbuf->size];
+-- 
+2.43.0
 
-I'm running into the use case where I have lots of cameras all using the
-same sensors, but need to be identified as different in user space.
-
-What makes this especially tricky is they run on a hotplug-based system,
-so I don't think adding the information as properties in device tree
-alone would solve this in all use cases, although it is definitely a
-good idea.
-
-For the hotplug use case, I would suggest that we add a kernel API to
-let drivers report which sensor / module variant is detected, as well as
-dt properties to let people configure which module is connected ahead of
-time.
-
->=20
-> The biggest difficulty is still in module identification. These components
-> tend to be often ignored and the best we have for a module name in that
-> case is random-looking string if even that. Besides DT bindings, we need
-> an additional (git?) tree to describe the modules that have no proper
-> names but it could be also useful for those that do, for instance to
-> include information on lens, field of view, IR filter, photos of the
-> module etc. There is some overlap with what libcamera needs, too.
-
-I've been looking into adding functionality to support this into
-libcamera, but it is hard to know which format to use for this. The
-solution I've partly implemented at the moment is to basically write the
-name of the sensor and the variant of the module into
-subdev->entity.name, which has let me tell libcamera to use a
-camera_sensor_helper for the 'base' camera sensor with the tuning file
-representing the different configuration for the 'variant', which could
-be used to account for different lenses etc.
-
-My main question is: what is the current status of this? I think
-identifying the module in a cleaner, more upstreamable way is definitely
-what I'd prefer to be doing. If its on the backburner and needs some
-development time put into it, I'd really like to help get this problem
-solved.
-
-Best wishes,
-
-Isaac
->=20
-> - Sakari
->=20
->  .../bindings/media/camera-module.yaml         | 52 +++++++++++++++++++
->  .../media/video-interface-devices.yaml        |  3 ++
->  2 files changed, 55 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/camera-module=
-.yaml
->=20
-> diff --git a/Documentation/devicetree/bindings/media/camera-module.yaml b=
-/Documentation/devicetree/bindings/media/camera-module.yaml
-> new file mode 100644
-> index 000000000000..31b898c8c334
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/camera-module.yaml
-> @@ -0,0 +1,52 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +# Copyright (C) 2025 Intel Corporation
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/camera-module.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Camera modules
-> +
-> +maintainers:
-> +  - Sakari Ailus <sakari.ailus@linux.intel.com>
-> +
-> +description: |
-> +  Camera modules are devices that embed one or more active devices, incl=
-uding
-> +  Camera Sensors, Voice Coil Motor (VCM) and possibly a flash LED as wel=
-l as
-> +  other passive devices such as lenses and Ultra-Violet (UV) filters. Wh=
-ile the
-> +  camera modules themselves have no OF nodes and have generally no module
-> +  specific functions, it still does matter for the software stack as a w=
-hole
-> +  which module the devices are a part of.
-> +
-> +  Two properties are used for this, depending on what is known of the mo=
-dule:
-> +
-> +  1. The model of the module is known. In this case the name of the modu=
-le uses
-> +  the format "vendor,model[,version]" where "vendor" is the manufacturer=
- of the
-> +  module and "model" the name of the model. The version part is optional=
-. In
-> +  such cases the property "camera-module-canonical" will be used. If the=
- vendor
-> +  is not known, the "gpio" vendor prefix is used.
-> +
-> +  2. The model of the module is unknown. In this case, the module has an
-> +  identifier only, and will be described in detail in the camera module
-> +  database. The property "camera-module-casual" is used to denote such m=
-odules.
-> +
-> +  Before including in this binding documentation, all modules shall also=
- be
-> +  documented in add-URL-here.
-> +
-> +  All camera modules listed below shall have the name of the sensor as w=
-ell as
-> +  other devices included in the module as DT compatible string mentioned=
- in a
-> +  comment after the enumeration, separated by a whitespace (" ").
-> +
-> +  Always keep the enumeration alphabetically (1) or numerically (2) sort=
-ed.
-> +
-> +properties:
-> +  camera-module-canonical:
-> +    $ref: /schemas/types.yaml#/definitions/string
-> +    enum:
-> +      - "dell,0BF122N3" # onnn,ov01a10
-> +  camera-module-casual:
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    enum:
-> +      - 1 # st,vs6555
-> +
-> +additionalProperties: true
-> diff --git a/Documentation/devicetree/bindings/media/video-interface-devi=
-ces.yaml b/Documentation/devicetree/bindings/media/video-interface-devices.=
-yaml
-> index cf7712ad297c..27fa6711367e 100644
-> --- a/Documentation/devicetree/bindings/media/video-interface-devices.yaml
-> +++ b/Documentation/devicetree/bindings/media/video-interface-devices.yaml
-> @@ -10,6 +10,9 @@ maintainers:
->    - Jacopo Mondi <jacopo@jmondi.org>
->    - Sakari Ailus <sakari.ailus@linux.intel.com>
-> =20
-> +allOf:
-> +  - $ref: /schemas/media/camera-module.yaml#
-> +
->  properties:
->    flash-leds:
->      $ref: /schemas/types.yaml#/definitions/phandle-array
-> --=20
-> 2.39.5
->=20
->
 
