@@ -1,97 +1,180 @@
-Return-Path: <linux-media+bounces-43052-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43053-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5BDFB9978E
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 12:44:32 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FC04B997EF
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 12:52:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 149377B1A20
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 10:42:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5A4034C4412
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 10:52:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA10A2DEA7A;
-	Wed, 24 Sep 2025 10:44:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6B0272E282C;
+	Wed, 24 Sep 2025 10:52:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GcMR98k8"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dG8VUQLE"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3127D2DFA3B
-	for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 10:44:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C29892E1F05
+	for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 10:52:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758710665; cv=none; b=plHVmOTSMgbz0AOw4lZbLdd12b/e36sVH02rDa7egtEVfcm0LyYsq37r2EGAPH48XDLtavQbMz2uSKoUwHa6aQ63JCBMdL0CRETzr3jpZlV5t2w9VXF54bPaLCePR8ELmqGWAVz3pP1q2Kw7O/AtD4YHYM+gYlupgsH/jtkQUvM=
+	t=1758711146; cv=none; b=ogw/NUyQhRqFLEnG7QiR22K8K6Qqmw9mRhYTdwtYw8x7YgUDsd9fgWgHkt5IoNIxsH8R2hbXbYA+3tqfNJXdU8KDfIcApNwDAfzpUliDt7qDYGgCYogPIv3XmQ9dsL/F0UEJ8sDFu1r1WmnbFAMW+8oGq/hVKrAuDjhvH93R6aI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758710665; c=relaxed/simple;
-	bh=9iko0IOvzqd7n2JM7Y5Re5xIuF2PTCuK4g6Sx7Ajt4s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=HPOZBmo8VSy3Z+5Iq5YbqHglTPlTK0FS9gmKLjZQy7QhCCeN8pEpzwdeSmbPp8Xb1VGAoII/GJng7nBlTP4XKForQJ8bvCMCdxCYuQRytCqoMvmDuY4YmhF0Nin/pDonvfmyZM5NJTeQgUiefn0003pvvpc8mLc19RqSwpp7PGo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GcMR98k8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88CF7C2BCF4;
-	Wed, 24 Sep 2025 10:44:23 +0000 (UTC)
+	s=arc-20240116; t=1758711146; c=relaxed/simple;
+	bh=xCDPc5y7d7WCp3lQou1gJLzgPsjIpA8s9dbP+kcvNIg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=eP2PwyZXXr5GbBr1Gdle0p+DC6amqz80bhsZHrN2l8w7D1kqPHHuvwW23o8/4RV8nAO7mk73hCd/GvJlJOtLvuuSjp/fzAX1rKzt0rl6aYLQu0hPI/Ht3LZRjxMB5TfwcJZjSmimkWvrUcU+8wXJBFsefDmI5mHgDUwq4Cv/gow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dG8VUQLE; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 845DAC116C6
+	for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 10:52:26 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758710664;
-	bh=9iko0IOvzqd7n2JM7Y5Re5xIuF2PTCuK4g6Sx7Ajt4s=;
-	h=From:To:Cc:Subject:Date:From;
-	b=GcMR98k83Tuj7wA4Q8Gu2mQtj2M8P1qR4x8FHKypngfbfNpzBX082AQDQ0sHpWEXz
-	 725s4WOgCFuNkiIGHlrvWhn74vQ9AXSBkTNn93cuU5umzsXLcsV/FQe9I0MXTQ2e1K
-	 7MTDHAbgeDX14vYCfQn3W4n7DsJiiZGmEQCtyUd5peDNQPzvVfyRexKKqhNH4Qs3fx
-	 wKsrD8X2P5PcVMuvhct6UAmr2gw7mqpLGgg1sW+/bMPHzErm1eLeLm5C6y57yJI+y+
-	 dO7od0kj5J4MP7GPJzRjYiCBb9hw2DlZL4CYxGGstrF/a4Z9V40L4UTEKloQjr4lO1
-	 dFZi3pKtEkV4g==
-From: bod@kernel.org
-To: bod@kernel.org,
-	linux-media@vger.kernel.org,
-	hans@jjverkuil.nl
-Cc: bryan.odonoghue@linaro.org
-Subject: [GIT PULL FOR 6.18-fixes] Please pull platform-qcom-fixes-for-6.18
-Date: Wed, 24 Sep 2025 11:43:56 +0100
-Message-ID: <20250924104419.7248-1-bod@kernel.org>
-X-Mailer: git-send-email 2.51.0
+	s=k20201202; t=1758711146;
+	bh=xCDPc5y7d7WCp3lQou1gJLzgPsjIpA8s9dbP+kcvNIg=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=dG8VUQLEQO6rumXUWPyuJMbAWM35Bj7FP4hq3VC6xyhrgmfldUcvL3iGQJbeF6q7l
+	 9xFhsmEJ3RUeZyCOnMIofh4uneMMaAIRZjh9gO30VdH73LsYfmVCYujLqm/C0p7t5G
+	 NjSWwgRC/7BEliaM1n5JKfEPzDHaHwpMIYpz6Jy5AaIUyWb3f5540+I1OjGVpi0+eF
+	 LntdgaY81sDWTrir4C5kEe6qPIHYy33EzYCtlGC0sBTtVqOENfYREQpK1CTRHcgbhj
+	 4obidwdHgVuT1qQqDyHPWG2VHg4F6yALwIKdb2ay4gGBkpmVTSISzAV5d5s9SwOF9E
+	 LxKMTw1mtDcPA==
+Received: by mail-oa1-f51.google.com with SMTP id 586e51a60fabf-30cce86052cso5137591fac.1
+        for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 03:52:26 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWE3U7F10P1WRRcZfhhaLOWljbUq9xWStA3xCFiuhe+Uc2mxuWATROYJlWIxOBBheYbKYIyEqu5OylPRg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyyEZH84zg58iF81V5vuZff0WV36f8K2C1gwM4Y+fNBm4Iyvt4g
+	jy2RtMLEQ1rXnQqFUc4PmR4lEZ4AHFxjxin6+CXpAmglB64C7GBBWj1m0k6GfSh8/mcdD8fIWk+
+	gttsuSMT8ImNK2P1aAgqzo0OkEfqKQAo=
+X-Google-Smtp-Source: AGHT+IGEgSAb7PwthMT480H5j0SYdHpLlRhlrtZ+iuewQGA9Jkcl/bfStgYc/Gc6s4+VwKbrFzCE17TX9oVZJW6wMhs=
+X-Received: by 2002:a05:6871:758a:b0:314:b6a6:6894 with SMTP id
+ 586e51a60fabf-34c835413d5mr3060169fac.40.1758711145254; Wed, 24 Sep 2025
+ 03:52:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
+In-Reply-To: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
+From: "Rafael J. Wysocki" <rafael@kernel.org>
+Date: Wed, 24 Sep 2025 12:52:12 +0200
+X-Gmail-Original-Message-ID: <CAJZ5v0hSy9zQd6cP9B4QPSZi-6ughmkW=VoEBV-0MbUr2xcaAQ@mail.gmail.com>
+X-Gm-Features: AS18NWB0nF3M_Qh13bpf9jNMtOHP6GaQKliTE12EO3NKN8SlzbsSaUYuu04ZXT8
+Message-ID: <CAJZ5v0hSy9zQd6cP9B4QPSZi-6ughmkW=VoEBV-0MbUr2xcaAQ@mail.gmail.com>
+Subject: Re: [PATCH v2 00/16] Align availability checks on fwnode child node enumeration
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org, 
+	linux-media@vger.kernel.org, netdev@vger.kernel.org, 
+	linux-spi@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>, Len Brown <lenb@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Danilo Krummrich <dakr@kernel.org>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Daniel Scally <djrscally@gmail.com>, 
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>, 
+	Javier Carrasco <javier.carrasco@wolfvision.net>, 
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Lee Jones <lee@kernel.org>, 
+	Pavel Machek <pavel@kernel.org>, Matthias Fend <matthias.fend@emfend.at>, 
+	Chanwoo Choi <cw00.choi@samsung.com>, Krzysztof Kozlowski <krzk@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	Paul Elder <paul.elder@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Horatiu Vultur <horatiu.vultur@microchip.com>, UNGLinuxDriver@microchip.com, 
+	Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Mark Brown <broonie@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@kernel.org>, 
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Bryan O'Donoghue <bod@kernel.org>
+Hi Sakari,
 
-The following changes since commit 40b7a19f321e65789612ebaca966472055dab48c:
+On Wed, Sep 24, 2025 at 9:46=E2=80=AFAM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hello everyone,
+>
+> Historically the fwnode property API has enumerated only available device
+> nodes on OF whereas on ACPI, also nodes that haven't been present in the
+> system have been provided. Both OF and ACPI have similar concepts of node
+> availbility, on OF it's the "status" property present on device nodes and
+> on ACPI the _STA object evaluates to device present, enabled and
+> functional bits, of which the present and functional bits are currently
+> being used to determine whether to enumerate a device.
+>
+> Two additional functions, fwnode_get_next_available_child_node() and
+> fwnode_for_each_available_child_node(), have been provided to enumerate
+> the available nodes only on ACPI, whereas on OF the implementation has
+> been the same on the non-available variants. The motivation for providing
+> these has very likely been to provide fwnode variants of the similarly
+> named functions but the difference isn't justifiable from API consistency
+> viewpoint.
+>
+> This set switches the users away from the "available" fwnode API function=
+s
+> and later on removes them, aligning the functionality on all fwnode
+> backends.
+>
+> since v1:
+>
+> - Move patch "ACPI: property: Make acpi_get_next_subnode() static" as
+>   first.
+>
+> - Add missing parentheses and kernel-doc Return: section in
+>   acpi_get_next_present_subnode() documentation and move the Return
+>   section: of fwnode_graph_get_endpoint_by_id() to the end of the
+>   documentation section (new patch for the latter).
+>
+> - Use device_get_next_child_node() instead of fwnode_get_next_child_node(=
+)
+>   in flash LED driver drivers.
+>
+> - Rework iterating port nodes in acpi_graph_get_next_endpoint() as
+>   suggested by Andy (new patch).
 
-  media: tuner: xc5000: Fix use-after-free in xc5000_release (2025-09-17 12:15:35 +0200)
+I think that you really have four series here, or rather two series, a
+collection of patches depending on them, and a follow-up cleanup.
 
-are available in the Git repository at:
+> Sakari Ailus (16):
+>   ACPI: property: Make acpi_get_next_subnode() static
+>   ACPI: property: Use ACPI functions in acpi_graph_get_next_endpoint()
+>     only
+>   ACPI: property: Rework acpi_graph_get_next_endpoint()
+>   ACPI: property: Return present device nodes only on fwnode interface
 
-  https://gitlab.freedesktop.org/linux-media/users/bodonoghue.git tags/platform-qcom-fixes-for-6.18
+So the above is one series, focused on ACPI property changes.
 
-for you to fetch changes up to 22d0fa7f9507d8e20db956aab5d2eecd55084db6:
+They can go in via ACPI as soon as everyone is happy with them.  I
+think I can push them for 6.18 if that helps to process the other
+patches.
 
-  dt-bindings: media: camss: Add qcs8300 supplies binding (2025-09-23 00:13:39 +0100)
+>   property: Move Return: section of fwnode_graph_get_endpoint_by_id()
+>     down
+>   property: Drop DEVICE_DISABLED flag in
+>     fwnode_graph_get_endpoint_by_id()
+>   property: Drop DEVICE_DISABLED flag in
+>     fwnode_graph_get_endpoint_count()
 
-----------------------------------------------------------------
-This tag contains three fixes for 6.18
+The above patches are another series that doesn't depend on the first
+one AFAICS and can go in via driver core.
 
-- An alignment issue Loic identified in -next for QCM2290
-- A fix for Venus when OPP tables are missing
-- A fix for the QCS8300 CAMSS binding.
-  https://lore.kernel.org/linux-media/61b562ad-eb67-4917-a449-f5556c43ceef@linaro.org
-  https://lore.kernel.org/linux-media/e72800d4-cb65-443b-be7e-0966a60fa5a9@linaro.org
+>   property: Document that fwnode API returns available nodes
+>   driver core: Use fwnode_for_each_child_node() instead
+>   net: lan966x: Use fwnode_for_each_child_node() instead
+>   Input: touch-overlay - Use fwnode_for_each_child_node() instead
+>   media: thp7312: Use fwnode_for_each_child_node() instead
+>   leds: Use fwnode_for_each_child_node() instead
+>   leds: Use fwnode_get_next_child_node() instead
 
-----------------------------------------------------------------
-Loic Poulain (1):
-      media: qcom: camss: vfe: Fix BPL alignment for QCM2290
+The above can go in via respective subsystem trees when the ACPI
+property series gets in (I'm not sure if/how they depend on the second
+series).
 
-Nihal Kumar Gupta (1):
-      dt-bindings: media: camss: Add qcs8300 supplies binding
+And the following one is a follow-up cleanup getting rid of code that
+would be redundant going forward.
 
-Renjiang Han (1):
-      media: venus: pm_helpers: add fallback for the opp-table
+>   property: Drop functions operating on "available" child nodes
+>   spi: cadence: Remove explicit device node availability check
 
- .../devicetree/bindings/media/qcom,qcs8300-camss.yaml       | 13 +++++++++++++
- drivers/media/platform/qcom/camss/camss-vfe.c               |  1 -
- drivers/media/platform/qcom/venus/pm_helpers.c              |  9 ++++++++-
- 3 files changed, 21 insertions(+), 2 deletions(-)
+Does the spi change depend on the previous patch?
 
