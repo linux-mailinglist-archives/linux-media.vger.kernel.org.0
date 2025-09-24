@@ -1,292 +1,140 @@
-Return-Path: <linux-media+bounces-43006-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43007-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42CDEB9877F
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 09:06:36 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C0451B98782
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 09:06:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id AD0857B0407
-	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 07:04:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E02DC4A1858
+	for <lists+linux-media@lfdr.de>; Wed, 24 Sep 2025 07:06:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08386269806;
-	Wed, 24 Sep 2025 07:06:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2195F26A0D0;
+	Wed, 24 Sep 2025 07:06:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RJTPo0v1"
+	dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b="JQEGwDau"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-4317.protonmail.ch (mail-4317.protonmail.ch [185.70.43.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EF11158874;
-	Wed, 24 Sep 2025 07:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B29421D3F3
+	for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 07:06:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758697586; cv=none; b=gQVEJAWlXfYc4UHD3pKyC4ltZRvUJoiXVEP8W3Yuz1yZhobrmExc5Gr5d5ONMLqYPTn6zaIW2a2Xt31uRzfb1gIqyJ0z5hTqDRrOnP+JFeEDf+EUXFX+aTPZw0JE1LbsEJxus4+GoDD2ruGFOkA0mfSlSy2UA2JsJHaOkid90Fc=
+	t=1758697600; cv=none; b=IAuUdIl4upHY/RBTqu5ctZeAgkIB+zgrz/UIf+F121fpkZs5iRqRI3HJNOj2qZC7FM5v6BkzkrmUV0qzDQZTP/DuijZW0dLcSIIlKd8aW5x1pLiFetxkGSW74U1sXKCGM0Du24C4LE8Mpc95gF1kLAV9gEXiG3Ntf9qrEteSouM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758697586; c=relaxed/simple;
-	bh=FHBNBXdVbc7cGUAU8pa80kCl1ubofGYeejBW6WyYkx0=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=s9eC6A2qyeA6yTjMqKw43fvY+5d0X8Lnb5xo1MGIj6CsqgeV3Qvnp5biTotu1Uw4p8gKgLW2akN+qWD9Bzk98HRTOS2pbXvQIlhjnb48jTwfx3cxhr4gYxeL+c71FifLzdDRkly2iKCMY881nhM2Y3zvohhdLx9oK7fu7UMtTHM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RJTPo0v1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 36D63C4CEE7;
-	Wed, 24 Sep 2025 07:06:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758697585;
-	bh=FHBNBXdVbc7cGUAU8pa80kCl1ubofGYeejBW6WyYkx0=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=RJTPo0v1Y2y6VvITQdOoRWrm6kucmhl4IguOIrT7EzmSI6GCrP3GmqpSdTpT8rXlK
-	 v6qztmsSHr9vf/oLymPlTO4E8j2GhzV6RDRnA2TNXIZXblxXmxg8JngaGsfCTP41cr
-	 kd6YjENs7qFse7rluNCQ+B7vtJI5LLg/m1sK15YWMUt4U9oupU34UBgnAr6tOWlU8g
-	 /uyqoyHHCJcs1O94/wUfsbwimcdRX3isLPqtCXGNBWXbIYDD6TYxGBIEdIAZ/5jNJ7
-	 2hUjN2lx/xqvCrVXoe+1VQocBkQ+IYhj1CGTOsThl4rv2OX6Q+TnqmUllnPJOi9GuN
-	 Xuo4+7dtDjLGg==
-Message-ID: <c507ec74-cbc4-4b60-b057-23022842d8c5@kernel.org>
-Date: Wed, 24 Sep 2025 09:06:21 +0200
+	s=arc-20240116; t=1758697600; c=relaxed/simple;
+	bh=oUBI0d3ZCPt2cKz33OPp6FqJ544oXGlHTr6GYFfd2Eg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fBcoEgsg4iDzpo8J7x6Za5HQQYv3zzjhIBW1rCWAkXgOTPIQ8CsvbbexZFkw4Q2F6mNKicbH5uL1S9CtiIztKUCo2b8hyRIdiiKGG9B8KIDIvwiuWD01rNWDN5kPR5+NqlbCFkaq51PCIpNjhaRzTwumrR1GTJjCnb8rU3lnjy8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com; spf=pass smtp.mailfrom=vinarskis.com; dkim=pass (2048-bit key) header.d=vinarskis.com header.i=@vinarskis.com header.b=JQEGwDau; arc=none smtp.client-ip=185.70.43.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=vinarskis.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=vinarskis.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=vinarskis.com;
+	s=protonmail; t=1758697595; x=1758956795;
+	bh=oUBI0d3ZCPt2cKz33OPp6FqJ544oXGlHTr6GYFfd2Eg=;
+	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
+	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
+	 Message-ID:BIMI-Selector;
+	b=JQEGwDauamSP06vMSMY1DMfsSkFwx7RaNvh/HN29DRdORKqk7yYYCEusoJSOBAE5s
+	 QFdMn3tLtroiCDdGvdLrDVX4enje5bGGFTZ0QY9sEd+nfP+gz9hH3aRSTbVO5pgT7Q
+	 tiXFBKFFkH6vqbc6b9GdlA70G1H5iRhdT9z2URuqZOKzZ2NrZD1VAWyJVN3hQhL2da
+	 N/UVCvVVAxtXZGzBUGlBH3qV7NA54zaLeb/mVvpSQ/xI2CTmm4s/lI163/GE0qw925
+	 twwXSpVs4xp0Y9HBKXNSQ7fvdT1RPaJFLObE+wRputMzzpUDEgzcKIwZmZ8dYO7m0v
+	 ge/F2uXp4Bvng==
+Date: Wed, 24 Sep 2025 07:06:28 +0000
+To: =?utf-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+From: Aleksandrs Vinarskis <alex@vinarskis.com>
+Cc: Hans de Goede <hansg@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, Andy Shevchenko <andy@kernel.org>, platform-driver-x86@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 1/1] media: v4l2-subdev / pdx86: int3472: Use "privacy" as con_id for the privacy LED
+Message-ID: <qWUcwd3SUhjavnDhfi9XGxQGsawpzg7ULgHBZllrjxgmELw17JPeZYZuN4bc_VvmoVzd73AmdyZfOcWyFzTvdYUNOG_ORuJhlzPgkxdyN-A=@vinarskis.com>
+In-Reply-To: <ccdf3f79-b1ad-a7cd-5e40-0fb8f70d05d4@linux.intel.com>
+References: <20250910104702.7470-1-hansg@kernel.org> <20250910104702.7470-2-hansg@kernel.org> <ccdf3f79-b1ad-a7cd-5e40-0fb8f70d05d4@linux.intel.com>
+Feedback-ID: 158356072:user:proton
+X-Pm-Message-ID: a1fd173f53acf0b3a8a394808529889eb080dfeb
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v2 01/10] media: v4l2-core: Introduce state management for
- video devices
-To: Jai Luthra <jai.luthra@ideasonboard.com>,
- Hans Verkuil <hverkuil@kernel.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>, linux-media@vger.kernel.org
-Cc: Ricardo Ribalda <ribalda@chromium.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Al Viro <viro@zeniv.linux.org.uk>, Ma Ke <make24@iscas.ac.cn>,
- linux-kernel@vger.kernel.org
-References: <20250919-vdev-state-v2-0-b2c42426965c@ideasonboard.com>
- <20250919-vdev-state-v2-1-b2c42426965c@ideasonboard.com>
- <15df046b-0fe1-4b57-acad-66b88beac982@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <15df046b-0fe1-4b57-acad-66b88beac982@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 22/09/2025 09:44, Hans Verkuil wrote:
-> Hi Jai,
-> 
-> Apologies that I had no time to review v1, but I'll review v2 today.
-> 
-> On 19/09/2025 11:55, Jai Luthra wrote:
->> Similar to V4L2 subdev states, introduce state support for video devices
->> to provide a centralized location for storing device state information.
->> This includes the current (active) pixelformat used by the device and
->> the temporary (try) pixelformat used during format negotiation. In the
->> future, this may be extended or subclassed by device drivers to store
->> their internal state variables.
->>
->> Also introduce a flag for drivers that wish to use this state
->> management. When set, the framework automatically allocates the state
->> during device registration and stores a pointer to it within the
->> video_device structure.
->>
->> This change aligns video devices with V4L2 subdevices by storing
->> hardware state in a common framework-allocated structure. This is the
->> first step towards enabling the multiplexing of the underlying hardware
->> by using different software "contexts", each represented by the combined
->> state of all video devices and V4L2 subdevices in a complex media graph.
->>
->> Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
->> --
->> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
->> Cc: Hans Verkuil <hverkuil@kernel.org>
->> Cc: Ricardo Ribalda <ribalda@chromium.org>
->> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->> Cc: Al Viro <viro@zeniv.linux.org.uk>
->> Cc: Ma Ke <make24@iscas.ac.cn>
->> Cc: Jai Luthra <jai.luthra@ideasonboard.com>
->> Cc: linux-media@vger.kernel.org
->> Cc: linux-kernel@vger.kernel.org
->> ---
->>  drivers/media/v4l2-core/v4l2-dev.c | 27 +++++++++++++++++++++++++
->>  include/media/v4l2-dev.h           | 40 ++++++++++++++++++++++++++++++++++++++
->>  2 files changed, 67 insertions(+)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
->> index 10a126e50c1ca25b1bd0e9872571261acfc26b39..997255709448510fcd17b6de798a3df99cd7ea09 100644
->> --- a/drivers/media/v4l2-core/v4l2-dev.c
->> +++ b/drivers/media/v4l2-core/v4l2-dev.c
->> @@ -163,6 +163,27 @@ void video_device_release_empty(struct video_device *vdev)
->>  }
->>  EXPORT_SYMBOL(video_device_release_empty);
->>  
->> +struct video_device_state *
->> +__video_device_state_alloc(struct video_device *vdev)
->> +{
->> +	struct video_device_state *state =
->> +		kzalloc(sizeof(struct video_device_state), GFP_KERNEL);
->> +
->> +	if (!state)
->> +		return ERR_PTR(-ENOMEM);
->> +
->> +	state->vdev = vdev;
->> +
->> +	return state;
->> +}
->> +EXPORT_SYMBOL_GPL(__video_device_state_alloc);
->> +
->> +void __video_device_state_free(struct video_device_state *state)
->> +{
->> +	kfree(state);
->> +}
->> +EXPORT_SYMBOL_GPL(__video_device_state_free);
->> +
->>  static inline void video_get(struct video_device *vdev)
->>  {
->>  	get_device(&vdev->dev);
->> @@ -939,6 +960,10 @@ int __video_register_device(struct video_device *vdev,
->>  	spin_lock_init(&vdev->fh_lock);
->>  	INIT_LIST_HEAD(&vdev->fh_list);
->>  
->> +	/* state support */
->> +	if (test_bit(V4L2_FL_USES_STATE, &vdev->flags))
->> +		vdev->state = __video_device_state_alloc(vdev);
->> +
->>  	/* Part 1: check device type */
->>  	switch (type) {
->>  	case VFL_TYPE_VIDEO:
->> @@ -1127,6 +1152,8 @@ void video_unregister_device(struct video_device *vdev)
->>  	clear_bit(V4L2_FL_REGISTERED, &vdev->flags);
->>  	mutex_unlock(&videodev_lock);
->>  	v4l2_event_wake_all(vdev);
->> +	if (test_bit(V4L2_FL_USES_STATE, &vdev->flags))
->> +		__video_device_state_free(vdev->state);
->>  	device_unregister(&vdev->dev);
->>  }
->>  EXPORT_SYMBOL(video_unregister_device);
->> diff --git a/include/media/v4l2-dev.h b/include/media/v4l2-dev.h
->> index a213c3398dcf60be8c531df87bf40c56b4ad772d..57e4691ef467aa2b0782dd4b8357bd0670643293 100644
->> --- a/include/media/v4l2-dev.h
->> +++ b/include/media/v4l2-dev.h
->> @@ -89,12 +89,18 @@ struct dentry;
->>   *	set by the core when the sub-devices device nodes are registered with
->>   *	v4l2_device_register_ro_subdev_nodes() and used by the sub-device ioctl
->>   *	handler to restrict access to some ioctl calls.
->> + * @V4L2_FL_USES_STATE:
->> + *	indicates that the &struct video_device has state support.
->> + *	The active video and metadata formats are stored in video_device.state,
->> + *	and the try video and metadata formats are stored in v4l2_fh.state.
->> + *	All new drivers should use it.
->>   */
->>  enum v4l2_video_device_flags {
->>  	V4L2_FL_REGISTERED		= 0,
->>  	V4L2_FL_USES_V4L2_FH		= 1,
->>  	V4L2_FL_QUIRK_INVERTED_CROP	= 2,
->>  	V4L2_FL_SUBDEV_RO_DEVNODE	= 3,
->> +	V4L2_FL_USES_STATE		= 4,
->>  };
->>  
->>  /* Priority helper functions */
->> @@ -214,6 +220,17 @@ struct v4l2_file_operations {
->>  	int (*release) (struct file *);
->>  };
->>  
->> +/**
->> + * struct video_device_state - Used for storing video device state information.
->> + *
->> + * @fmt: Format of the capture stream
->> + * @vdev: Pointer to video device
->> + */
->> +struct video_device_state {
->> +	struct v4l2_format fmt;
-> 
-> While typically a video_device supports only a single video format type, that is
-> not always the case. There are the following exceptions:
-> 
-> 1) M2M devices have both a capture and output video format. However, for M2M devices
->    the state is per-filehandle, so it shouldn't be stored in a video_device_state
->    struct anyway.
-> 2) VBI devices can have both a raw and sliced VBI format (either capture or output)
 
-This is actually wrong. VBI devices are either in raw or in sliced VBI mode, you can't
-have both at the same time. So a single v4l2_format in the state is fine for this.
+On Wednesday, September 10th, 2025 at 12:51, Ilpo J=C3=A4rvinen <ilpo.jarvi=
+nen@linux.intel.com> wrote:
 
-Regards,
+>=20
+>=20
+> On Wed, 10 Sep 2025, Hans de Goede wrote:
+>=20
+> > During DT-binding review for extending the V4L2 camera sensor privacy L=
+ED
+> > support to systems using devicetree, it has come up that having a "-led=
+"
+> > suffix for the LED name / con_id is undesirable since it already is cle=
+ar
+> > that it is a LED.
+> >=20
+> > Drop the "-led" suffix from the con_id in both the lookup table in
+> > the int3472 code, as well as from the con_id led_get() argument in
+> > the v4l2-subdev code.
+> >=20
+> > Signed-off-by: Hans de Goede hansg@kernel.org
+> > ---
+> > drivers/media/v4l2-core/v4l2-subdev.c | 2 +-
+> > drivers/platform/x86/intel/int3472/led.c | 2 +-
+> > 2 files changed, 2 insertions(+), 2 deletions(-)
+> >=20
+> > diff --git a/drivers/media/v4l2-core/v4l2-subdev.c b/drivers/media/v4l2=
+-core/v4l2-subdev.c
+> > index 113eb74eb7c1..babcc1120354 100644
+> > --- a/drivers/media/v4l2-core/v4l2-subdev.c
+> > +++ b/drivers/media/v4l2-core/v4l2-subdev.c
+> > @@ -2602,7 +2602,7 @@ EXPORT_SYMBOL_GPL(v4l2_subdev_is_streaming);
+> > int v4l2_subdev_get_privacy_led(struct v4l2_subdev *sd)
+> > {
+> > #if IS_REACHABLE(CONFIG_LEDS_CLASS)
+> > - sd->privacy_led =3D led_get(sd->dev, "privacy-led");
+> > + sd->privacy_led =3D led_get(sd->dev, "privacy");
+> > if (IS_ERR(sd->privacy_led) && PTR_ERR(sd->privacy_led) !=3D -ENOENT)
+> > return dev_err_probe(sd->dev, PTR_ERR(sd->privacy_led),
+> > "getting privacy LED\n");
+> > diff --git a/drivers/platform/x86/intel/int3472/led.c b/drivers/platfor=
+m/x86/intel/int3472/led.c
+> > index f1d6d7b0cb75..b1d84b968112 100644
+> > --- a/drivers/platform/x86/intel/int3472/led.c
+> > +++ b/drivers/platform/x86/intel/int3472/led.c
+> > @@ -43,7 +43,7 @@ int skl_int3472_register_pled(struct int3472_discrete=
+_device *int3472, struct gp
+> >=20
+> > int3472->pled.lookup.provider =3D int3472->pled.name;
+> > int3472->pled.lookup.dev_id =3D int3472->sensor_name;
+> > - int3472->pled.lookup.con_id =3D "privacy-led";
+> > + int3472->pled.lookup.con_id =3D "privacy";
+> > led_add_lookup(&int3472->pled.lookup);
+> >=20
+> > return 0;
+>=20
+>=20
+> Acked-by: Ilpo J=C3=A4rvinen ilpo.jarvinen@linux.intel.com
+>=20
 
-	Hans
+Hi all,
 
-> 3) AFAIK non-M2M video devices can have both a video and meta format. That may have
->    changed, I'm not 100% certain about this.
-> 4) video devices can also support an OVERLAY or OUTPUT_OVERLAY format (rare)
-> 
-> V4L2_CAP_VIDEO_OVERLAY is currently only used in
-> drivers/staging/vc04_services/bcm2835-camera/bcm2835-camera.c, so once that driver
-> disappears we can drop video overlay support for capture devices.
-> 
-> 2-4 are all quite rare, but 1 is very common. But for such devices the state
-> wouldn't be in video_device anyway.
-> 
-> But it would be nice if the same struct can be used in both m2m devices and non-m2m
-> devices. It's just stored either in struct v4l2_fh or struct video_device. It would
-> give a lot of opportunities for creating helper functions to make the life for
-> driver developers easier.
-> 
-> Regards,
-> 
-> 	Hans
-> 
->> +	struct video_device *vdev;
->> +};
->> +
->>  /*
->>   * Newer version of video_device, handled by videodev2.c
->>   *	This version moves redundant code from video device code to
->> @@ -238,6 +255,7 @@ struct v4l2_file_operations {
->>   * @queue: &struct vb2_queue associated with this device node. May be NULL.
->>   * @prio: pointer to &struct v4l2_prio_state with device's Priority state.
->>   *	 If NULL, then v4l2_dev->prio will be used.
->> + * @state: &struct video_device_state, holds the active state for the device.
->>   * @name: video device name
->>   * @vfl_type: V4L device type, as defined by &enum vfl_devnode_type
->>   * @vfl_dir: V4L receiver, transmitter or m2m
->> @@ -283,6 +301,7 @@ struct video_device {
->>  	struct vb2_queue *queue;
->>  
->>  	struct v4l2_prio_state *prio;
->> +	struct video_device_state *state;
->>  
->>  	/* device info */
->>  	char name[64];
->> @@ -546,6 +565,27 @@ static inline int video_is_registered(struct video_device *vdev)
->>  	return test_bit(V4L2_FL_REGISTERED, &vdev->flags);
->>  }
->>  
->> +/** __video_device_state_alloc - allocate video device state structure
->> + *
->> + * @vdev: pointer to struct video_device
->> + *
->> + * .. note::
->> + *
->> + *	This function is meant to be used only inside the V4L2 core.
->> + */
->> +struct video_device_state *
->> +__video_device_state_alloc(struct video_device *vdev);
->> +
->> +/** __video_device_state_free - free video device state structure
->> + *
->> + * @state: pointer to the state to be freed
->> + *
->> + * .. note::
->> + *
->> + *	This function is meant to be used only inside the V4L2 core.
->> + */
->> +void __video_device_state_free(struct video_device_state *state);
->> +
->>  /**
->>   * v4l2_debugfs_root - returns the dentry of the top-level "v4l2" debugfs dir
->>   *
->>
-> 
-> 
+Anything still pending before this patch can land? As DT-binding change tha=
+t requires this [1] is already in linux-next it would be nice to land this =
+in the same cycle.
 
+Thanks,
+Alex
+
+[1] https://lore.kernel.org/all/20250910-leds-v5-0-bb90a0f897d5@vinarskis.c=
+om/
+
+>=20
+> --
+> i.
 
