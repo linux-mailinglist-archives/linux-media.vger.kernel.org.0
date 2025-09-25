@@ -1,99 +1,58 @@
-Return-Path: <linux-media+bounces-43131-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43132-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96E05B9DD6A
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 09:20:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD70B9DDAD
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 09:29:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DB2B319C2EFC
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 07:20:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 99F8D4A2F1C
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 07:29:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55D162E7637;
-	Thu, 25 Sep 2025 07:20:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF6772E9EC7;
+	Thu, 25 Sep 2025 07:29:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b="R7R3lI8P"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YrW/A+e9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A78742A82
-	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 07:20:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 711912E9726;
+	Thu, 25 Sep 2025 07:28:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758784820; cv=none; b=FaNzkWxrzIezVhIH8Cn3F9lFUp0G7mZ5sZLTZArtoxb0qLDZRRfDFBt3E2TC8cLV5VR/1c1YfuE9RjMte76AA2m2q5yIvw4hAqKV780nojHmYt7ale7gyvL1OUZM2pF7907XDW8X6w7Jx7YKaSqkCcGCUOBd7FWf2e+rfCo4Vyc=
+	t=1758785343; cv=none; b=s9+zlyO1/drCca0auaTVaqmYwX4HogvXsN5pITu7WZjN3AU9AZYjKrXyBqo/5J5hXhLE/VpqYP1juCwaUJyrIXWuiM6R5/fODpaP24PlxXwPEO1n+n9zoYQWR+/Pkfj7HTX5rvxMvNsxOdQF4xVVkjrL4bEmVt2fT5FmmSY/diw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758784820; c=relaxed/simple;
-	bh=UtG2AYwE7Ts1qKbeElgIYgx4GfyB0QGg7UEYXLghLgE=;
+	s=arc-20240116; t=1758785343; c=relaxed/simple;
+	bh=z21Xp4TuXHyCW4xtMz/OOCsZSb7Kaf5SWHB7K7mD714=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SR9gKcDkNbc1Yf67fogbm/Dv1r/PDpiEDqb7zzHbHUwjFQBKkKk/4ySZCqruSmoY7bGVehbYMpulDxGu0SgpwfBS6IZbaWZbWLolxraZzXHH7yuY/DzbdiDIIoZfQiqmirOeCqiJ1BTfkg0SPtb4SAgvch0pXQcufwis1GStisY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com; spf=pass smtp.mailfrom=kerneltoast.com; dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b=R7R3lI8P; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kerneltoast.com
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-26d0fbe238bso5444575ad.3
-        for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 00:20:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kerneltoast.com; s=google; t=1758784816; x=1759389616; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=xAqrmYR9/bMDXFfFDrd4j9J0pEMkOP8vYNJlcMIJQPs=;
-        b=R7R3lI8PkrHVUhxQ5aoORbO5P0lfrBhQiKab2tiNh2BKnBjxMXLcFG0kAPZFltI5Po
-         rYLrEoiHYjDP0ly9AmwsswTEn71gzfVj8HK8jovz1vL43q7O1o8sdGh6s6nphPBvG1Xw
-         bUYdFgAgD58/oxN2spzecEwzu64NrgRM7ixD/N3GRHOEaiW/6wbxmSzqos556fqX0+sX
-         bZRBB37cmmMUDmHV3MZJp0RhAnusPOxzaD35nYPZYBXzFTJclmJPR/i+q72d3UpfZm8h
-         QFckkpI/hnArD/ScvI+326rguJRo2XTAIY/Ekx1bo3Q5AUFxoIA4xV879fBAcHRmbkLg
-         LYFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758784816; x=1759389616;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=xAqrmYR9/bMDXFfFDrd4j9J0pEMkOP8vYNJlcMIJQPs=;
-        b=cWBNgM0Q6IEejrzxJOExwB6cfe+d8prrqr8c8JAFuonnocvie/M6yZ0wWd6RSZDIpj
-         79eGiCbEx0fR9fonHExvKtQlYcxllpJp6DgFZVsuwVooi35T1tZlFFf3mTP8F4aZWi3p
-         h5SzdUVqFsLk4lONBjheCSusbefTQpYI25wZsdK/locvAoDrJfJeF4l1bhZYMO4orrIR
-         l9avAtyhTXOA9AZSLU6Co4MHuicxWjF6scIT5zgzZCwdzX95f2ZlBhNnnrm+0g7hEcTA
-         if2qIxDgcLMlXmqLgr+zP41HQJTMqipd42bywV6MeNXcAmeBWGY8L6xJ7jjsXB/00Z8h
-         8Q1A==
-X-Forwarded-Encrypted: i=1; AJvYcCUoZvWO6GUMW5Hwu1x1EJpaP3QvqpkKzOC3RMISl/0DsDohWN/BcUWRRXCqzmmmmJ/Mzw6fKYCHkvdu/A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyV+cih+K1t3M5adDWJCul14dm+NRUrtZXr5z9WC87WsEaKrizW
-	zPqcSZe/lLZQt15krTFi0yNunbJEoqzUVNCS2gLe1KJtFEwJDlJAJUyCJ8s0IIT9UInw
-X-Gm-Gg: ASbGncvzsDAvcmlJL4m8ka5Y4k6AnF9BPUo7M/yOAYcDYdHrmoeSa+a5Ez4qeURiHUz
-	MDQKZnxxm1Bv+c/9MHBJITGVVfellZd8IpLCBpCRR8hhL2prTkLm6seyjrgEpwAU6jlQV/HeTUi
-	vwav/H8rVythDOOXs+luENmT8PpoNhFkTbR/mQ0ufgZsP4T/cPWG0jx6piwdQ9d2YFOYM0q9E+0
-	ESpNfG2M01s974e24LijPvtIVaN9kDq3YK4ui3gNrdhfSdu9zCZ8yYvYFzA4sECkN0rEFtOY2ef
-	6CzYq5qvBbxbzjTphNm3W7DHHXgFnivpu+yql5iqjowGhe6r7jFewpbhSmyvDMS6hkQi0MnlsFa
-	wYsn5ViOLTWsIhlX2Un7gMpFe
-X-Google-Smtp-Source: AGHT+IEmrnuAbtaCBvgIy/U+TujjkSmq5FHheEOgKf94c4b4kqHJ+6AiPtVFQJ6hNObPXoVY2vx8uQ==
-X-Received: by 2002:a17:902:db02:b0:25d:d848:1cca with SMTP id d9443c01a7336-27ed4a9210cmr25271665ad.35.1758784816242;
-        Thu, 25 Sep 2025 00:20:16 -0700 (PDT)
-Received: from sultan-box ([79.127.217.41])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6ac94ffsm14619405ad.136.2025.09.25.00.20.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Sep 2025 00:20:15 -0700 (PDT)
-Date: Thu, 25 Sep 2025 00:20:12 -0700
-From: Sultan Alsawaf <sultan@kerneltoast.com>
-To: "Du, Bin" <bin.du@amd.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
-	laurent.pinchart+renesas@ideasonboard.com,
-	bryan.odonoghue@linaro.org, sakari.ailus@linux.intel.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
-	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
-	Dominic.Antony@amd.com, mario.limonciello@amd.com,
-	richard.gong@amd.com, anson.tsao@amd.com,
-	Alexey Zagorodnikov <xglooom@gmail.com>
-Subject: Re: [PATCH v4 3/7] media: platform: amd: Add isp4 fw and hw interface
-Message-ID: <aNTtLHDHf_ozenC-@sultan-box>
-References: <20250911100847.277408-1-Bin.Du@amd.com>
- <20250911100847.277408-4-Bin.Du@amd.com>
- <aNB0P18ytI1KopWI@sultan-box>
- <df5f52eb-0480-4d59-b930-e8336a993831@amd.com>
- <aNOZM2fj1X9TfZSF@sultan-box>
- <2f6c190d-aed0-4a27-8b20-1a4833d7edf7@amd.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=AbvujRxWActDEpBmhZ/1Hj1zXzgu+SjKHftYVJZjPCkQyH9IbZ5/hwsNPJ80fSrvL6inOgK2bmIoVZi6JoN+ysogp5W0Dh7vrjswoOGhHLlTOrBXwCNFOOuWCTo3ckegSsrvFHOctzIaKpMfIKXTlcT5ImLfF2cN8ZIIoTc0wQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YrW/A+e9; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2001:b07:6462:5de2:520d:d7a3:63ca:99e8])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B35FBE91;
+	Thu, 25 Sep 2025 09:27:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1758785251;
+	bh=z21Xp4TuXHyCW4xtMz/OOCsZSb7Kaf5SWHB7K7mD714=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YrW/A+e9Va5WN1aYaEF5voDen7kynHSJvb+tW2ovoWaqiLOi+xSAs0R+GwOweyOig
+	 MB4oMsacYfWEsVxFZo3m6wEEi0odSNTqlAQS9kiDMXJXpKOosA//i9sVj60gOtB5CH
+	 CTsWJgx/wFZrvnZK4ydTqXG4mF8RItwEVkzGCipM=
+Date: Thu, 25 Sep 2025 09:28:52 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, Dafna Hirschfeld <dafna@fastmail.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Heiko Stuebner <heiko@sntech.de>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] media: rkisp1: Improve frame sequence correctness on
+ stats and params buffers
+Message-ID: <xxj3awe4ezdf242bpiktov4tb2xb3r6l6c5rtmrywubniwlbik@bubb5l6psz6i>
+References: <20250922182003.3712101-2-stefan.klug@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -102,70 +61,149 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2f6c190d-aed0-4a27-8b20-1a4833d7edf7@amd.com>
+In-Reply-To: <20250922182003.3712101-2-stefan.klug@ideasonboard.com>
 
-On Thu, Sep 25, 2025 at 11:56:13AM +0800, Du, Bin wrote:
-> On 9/24/2025 3:09 PM, Sultan Alsawaf wrote:
-> > On Tue, Sep 23, 2025 at 05:24:11PM +0800, Du, Bin wrote:
-> > > On 9/22/2025 5:55 AM, Sultan Alsawaf wrote:
-> > > > On Thu, Sep 11, 2025 at 06:08:43PM +0800, Bin Du wrote:
-> > > > > +	struct isp4if_cmd_element *cmd_ele = NULL;
-> > > > > +	struct isp4if_rb_config *rb_config;
-> > > > > +	struct device *dev = ispif->dev;
-> > > > > +	struct isp4fw_cmd cmd = {};
-> > > > 
-> > > > Use memset() to guarantee padding bits of cmd are zeroed, since this may not
-> > > > guarantee it on all compilers.
-> > > > 
-> > > 
-> > > Sure, will do it in the next version. Just a question, padding bits seem
-> > > never to be used, will it cause any problem if they are not zeroed?
-> > 
-> > Padding bits, if there are any, are used by isp4if_compute_check_sum() and are
-> > also sent to the firmware.
-> > 
-> 
-> Yes, this will impact the checksum value. However, based on my
-> understanding, it will not affect the error detection outcome, since the
-> firmware uses the same padding bits during both checksum calculation and
-> comparison. I apologize for the minor disagreement—I just want to avoid
-> introducing redundant code, especially given that similar scenarios appear a
-> lot. Originally, we used memset in the initial version, but switched to { }
-> initialization in subsequent versions based on review feedback. Please feel
-> free to share your ideas, if you believe it is still necessary, we will add
-> them.
+Hi Stefan
 
-Ah, I see Sakari suggested that during a prior review [1].
+On Mon, Sep 22, 2025 at 08:19:57PM +0200, Stefan Klug wrote:
+> On the rkisp1 (in my case on a NXP i.MX8 M Plus) the ISP interrupt
+> handler is sometimes called with RKISP1_CIF_ISP_V_START (start of frame)
+> and RKISP1_CIF_ISP_FRAME (end of frame) being set at the same time. In
+> commit 8524fa22fd2f ("media: staging: rkisp1: isp: add a warning and
+> debugfs var for irq delay") a warning was added for that. There are two
+> cases where this condition can occur:
+>
+> 1. The v-sync and the frame-end belong to the same frame. This means,
+>    the irq was heavily delayed and the warning is likely appropriate.
+>
+> 2. The v-sync belongs to the next frame. This can happen if the vertical
+>    blanking between two frames is very short.
+>
+> The current code always handles case 1 although case 2 is in my
+> experience the more common case and happens in regular usage. This leads
+> to incorrect sequence numbers on stats and params buffers which in turn
+> breaks the regulation in user space. Fix that by adding a frame_active
+> flag to distinguish between these cases and handle the start of frame
+> either at the beginning or at the end of the rkisp1_isp_isr().
+>
+> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+>
+> ---
+>
+> Hi all,
+>
+> Here is an updated version of the patch with a fix for a typo that was
+> spotted in the last review.
+>
+> Changes in v3:
+> - Fixed typo in comment
+> - Collected r-by tag
+>
+> Changes in v2:
+> - Removed test for !frame_active in second v_start handler
+> - Improved comments
 
-Whenever a struct is sent outside of the kernel, padding bits should be zeroed
-for a few reasons:
+Thanks for addressing these
+Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 
-1. Uninitialized padding bits can expose sensitive information from kernel
-   memory, which can be a security concern.
-
-2. There is no guarantee that the recipient will always behave the same way with
-   different values for the padding bits. In this case for example, I cannot
-   look at the ISP source code and say for sure that the padding bits don't
-   affect its operation. And even if I could, that may always change with a new
-   firmware version.
-
-3. You can ensure more reliable testing results by guaranteeing that the padding
-   bits are the same value (zero) for everyone. For example, if the padding bits
-   accidentally affected the firmware, some users with different padding bits
-   values could experience bugs that you cannot reproduce in your lab or dev
-   environment.
-
-The only way to ensure padding bits are zeroed on all compilers is to use
-memset; using { } won't do this on every compiler or every compiler version or
-even every compiler optimization level [2].
-
-So I still believe it is necessary to use memset for those structs which are
-sent outside of the kernel, in this case for the structs sent to firmware. For
-structs which are used _only inside_ the kernel, it is preferred to use { }.
-
-[1] https://lore.kernel.org/all/aIclcwRep3F_z7PF@kekkonen.localdomain/
-[2] https://interrupt.memfault.com/blog/c-struct-padding-initialization#strategy-4---gcc-extension
-
-Sultan
+>
+> Best regards,
+> Stefan
+>
+> ---
+>  .../platform/rockchip/rkisp1/rkisp1-common.h  |  1 +
+>  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 27 +++++++++++++++----
+>  2 files changed, 23 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> index ca952fd0829b..adf23416de9a 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
+> @@ -222,6 +222,7 @@ struct rkisp1_isp {
+>  	struct media_pad pads[RKISP1_ISP_PAD_MAX];
+>  	const struct rkisp1_mbus_info *sink_fmt;
+>  	__u32 frame_sequence;
+> +	bool frame_active;
+>  };
+>
+>  /*
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> index 8c29a1c9309a..660c1fd7efcc 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> @@ -965,6 +965,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd, int enable)
+>  	}
+>
+>  	isp->frame_sequence = -1;
+> +	isp->frame_active = false;
+>
+>  	sd_state = v4l2_subdev_lock_and_get_active_state(sd);
+>
+> @@ -1086,12 +1087,15 @@ void rkisp1_isp_unregister(struct rkisp1_device *rkisp1)
+>   * Interrupt handlers
+>   */
+>
+> -static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
+> +static void rkisp1_isp_sof(struct rkisp1_isp *isp)
+>  {
+>  	struct v4l2_event event = {
+>  		.type = V4L2_EVENT_FRAME_SYNC,
+>  	};
+>
+> +	isp->frame_sequence++;
+> +	isp->frame_active = true;
+> +
+>  	event.u.frame_sync.frame_sequence = isp->frame_sequence;
+>  	v4l2_event_queue(isp->sd.devnode, &event);
+>  }
+> @@ -1111,15 +1115,20 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
+>
+>  	rkisp1_write(rkisp1, RKISP1_CIF_ISP_ICR, status);
+>
+> -	/* Vertical sync signal, starting generating new frame */
+> -	if (status & RKISP1_CIF_ISP_V_START) {
+> -		rkisp1->isp.frame_sequence++;
+> -		rkisp1_isp_queue_event_sof(&rkisp1->isp);
+> +	/*
+> +	 * Vertical sync signal, starting new frame. Defer handling of vsync
+> +	 * after RKISP1_CIF_ISP_FRAME if the previous frame was not completed
+> +	 * yet.
+> +	 */
+> +	if (status & RKISP1_CIF_ISP_V_START && !rkisp1->isp.frame_active) {
+> +		status &= ~RKISP1_CIF_ISP_V_START;
+> +		rkisp1_isp_sof(&rkisp1->isp);
+>  		if (status & RKISP1_CIF_ISP_FRAME) {
+>  			WARN_ONCE(1, "irq delay is too long, buffers might not be in sync\n");
+>  			rkisp1->debug.irq_delay++;
+>  		}
+>  	}
+> +
+>  	if (status & RKISP1_CIF_ISP_PIC_SIZE_ERROR) {
+>  		/* Clear pic_size_error */
+>  		isp_err = rkisp1_read(rkisp1, RKISP1_CIF_ISP_ERR);
+> @@ -1138,6 +1147,7 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
+>  	if (status & RKISP1_CIF_ISP_FRAME) {
+>  		u32 isp_ris;
+>
+> +		rkisp1->isp.frame_active = false;
+>  		rkisp1->debug.complete_frames++;
+>
+>  		/* New frame from the sensor received */
+> @@ -1152,5 +1162,12 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
+>  		rkisp1_params_isr(rkisp1);
+>  	}
+>
+> +	/*
+> +	 * Deferred handling of vsync if RKISP1_CIF_ISP_V_START and
+> +	 * RKISP1_CIF_ISP_FRAME occurred in the same irq.
+> +	 */
+> +	if (status & RKISP1_CIF_ISP_V_START)
+> +		rkisp1_isp_sof(&rkisp1->isp);
+> +
+>  	return IRQ_HANDLED;
+>  }
+> --
+> 2.48.1
+>
 
