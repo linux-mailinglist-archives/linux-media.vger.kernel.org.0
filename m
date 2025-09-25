@@ -1,204 +1,184 @@
-Return-Path: <linux-media+bounces-43209-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43210-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE36BA0F9A
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 20:10:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CB850BA1201
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 21:10:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BD24B1BC69E2
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 18:11:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7CD48188AAEF
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 19:10:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 61DF8313278;
-	Thu, 25 Sep 2025 18:10:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7B2D931C561;
+	Thu, 25 Sep 2025 19:10:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZwbB+lDF"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lSCSFT3y"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8762882B4
-	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 18:10:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D32631B822
+	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 19:10:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758823844; cv=none; b=WY3PBCAVjchCWMVV5ELeFFizdTwydtm9omoe+Kt8ceVCe7K4jocleEQYerIcjtBVe/iUUlBYQldopWPPUgxQSi/m6b8ScJq7+DkWzViCAXQfAOLqWN+mO29QPWo702J8AhKwq6mDeFflsot5qRPPNmLPqHKMJtopaEO6B7iErYk=
+	t=1758827406; cv=none; b=RbBvJFg39Rkzlo2ltBPREdNlyJ0262aBtIvfGRusV4sCCBCvJEoq+HDMIYEsi77VeEUFtX/BqFDT+VfN3jPh+eTz2AVrFvetNtnDE+9JIBHbOkQfBSjGR+NOkbcTN6xm1QflC7eFA6xzbC1/CJ9N+NVQlzNilXSF3le0kH12IYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758823844; c=relaxed/simple;
-	bh=3u2Z1Pc8D3oNqINJbtnWAt49YQPsAhRBwY5G2ZGbttA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KTcXT7/7A6LqigGhnOOLS0baIw9COqNu3ouSMLLISKGWgoT1LEgvxnZFdAjHxgG1ibBaAgmfD2RCe1nmJRjnXbRKDOzUhokyXUzkUWNg9uU/k6XHZ8egdh3bBM5rlxLDa/TlTN7LLU+9yDw0z0XWQmaxgRRwzLsobDOkYo7dZOE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZwbB+lDF; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-32ee4817c43so1096397a91.0
-        for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 11:10:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758823842; x=1759428642; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=3D+6J5+0iW5mAwUnARNGWccQaDqo6C5S8jNBMNLkLcM=;
-        b=ZwbB+lDF0wj/an2rJyB4tNAywaRK3XJNM7TRYKfG/Ax8nPmCrG732RO0tL00Rqkegt
-         SRz15X3Q3vvwJpADywwwymU/WayUZM+b8QncXCHeix3Uc/ZiGThiCkW8UDLxP2CSsvcU
-         DG8y6lnI2Z9OApBeILVhjfmM41/e2/RVEHoS05ALMbjRv5JfeaExNOxiYFLfq9Y7np8R
-         M5dAihIEb8SEwhj1cVpjOZT59B5Q2WQZzAgwA7t1EofYP7fs+k6uaJRTztjSgOq0fMhY
-         odK57gHPlt5qUhmbOnmQUFJNGRysrOEd1X6Qy5fq4HgWcGp4hw5mvLoEZBp8XX6QZOHF
-         5qag==
+	s=arc-20240116; t=1758827406; c=relaxed/simple;
+	bh=33QVb+NuxOAlvLexUpybIeM5jklhLL3UPh2hDq/dvyQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MMn8TslSs3+mXJmusd5by8qPbL0lHgb7/8uHkkINyE3iDh+HmDn/js7oVu7j65CxKCmjGjzhRVEjjQugvqJ1oDMLHA0TZC9CGa5sw6GK0viXMO0GWl4CKnzlNp+Dy91aav4IcqD5Kj3WlqctE6nnjCAietxcwtPnWOuvxKXtMhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lSCSFT3y; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58PIPxxG006992
+	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 19:10:04 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	aq1TCW4NK+CnzHfz+6d/b4lI4bzihUEnE7N3vMMCLGI=; b=lSCSFT3y59o31pwW
+	TFj6XKZVYaPYzpCcNid128RrCMIfeO+Xzn23FzOdnKkmBmMSwUbBvxTmh0nSlU4s
+	8htiGqDN24BTjL5cESPckh+9wGyvxz+BN1D+3pOm8lNkdkJC7F89AcQWKaorMS89
+	pzdDvasYNZX9+uWowYpKuhzwqGVrYqeN//4v4oIV+HXRJhnKGk8OGIEbC0uSDbEX
+	UYfM0bvlVbs8n7JD5m8T9J66GQsNwDKOBu/Em1KqESA9nN11xumnBpg/1y7KGhU8
+	RccnqOIqGaQEmnPu0g+Jcqpwc2GAdDfSNlaCbPPHs7+9Gnr7MMsS6d5rX19KOtzd
+	VfUfeA==
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49db0vr36y-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 19:10:03 +0000 (GMT)
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-b5576590fd1so851069a12.1
+        for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 12:10:03 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758823842; x=1759428642;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=3D+6J5+0iW5mAwUnARNGWccQaDqo6C5S8jNBMNLkLcM=;
-        b=LwNN84rToERHd5eB1Bge/L5IN79/OP7oSzuwngWGqKHien/MdYK2tX3KtMNzs4RxTF
-         KJxH7wuQNz1m93etY71CfZxv9748R3npODTpFN7GSUPNA5XZs/Jvf+i75QPxT5HU6BT6
-         hjfUuBOVAjd8f5+Gpa8BgV/4dQelx3az++KmHBZ3kZSVeKv8VqSsy6JIH7qbP+nJJbQ4
-         On8wSmZ82GE7XawHBOfakZoSzBQuNYg8JnqfGsrBZp2vf3q5KJP6V+I8XFGjJF1TouKj
-         da5EkR7cdeTl/t/Mkeg9ORwAWQx88t4fGS4KEHtXQVwB+HcCpQjuwEySoPkCx363J8eI
-         0Lqg==
-X-Gm-Message-State: AOJu0YxwMeyzatEece6+L8wLo+yeV88L2cYaj2zepwOiTWfcByjHxSwI
-	TojFG2K8iLR6rHcQlcPVsbT7S3kJ2BmU+yHlxndpgMPhhP5TgYnmH7iM+e0CR5VUoJhl1Q==
-X-Gm-Gg: ASbGnctBwlne1C2L/V9DX7M9VJRMzizX6Ju4Y5noYElw8FAglXyntyoHzd8xmVtGM6L
-	5ZM6t0ABnHgTf6i1wZEG7MevHCFtypL+k8fohd0o68i7EQ/7OejPed71zWcAs9c7CjBcn63wUVu
-	pTzkqG7zLwdhwkcPZz6tIx09GMSgjDZvAgqpdqMsSdW+flTGDAw+p6Rrza7IZSalwQHaxAHkSIl
-	9Ntoc+8pOSM44iMJEkdCqdWqU8OIxT9Qv5bvHoUiL8MClr6ZQZBRBk91qa91sHmtxtuhuRv97Eq
-	jIX1x4d1hRVOHGnyVbDtY0SrTDio3FKiL5ivWcb7w9WwulpQagB23r1u/5ma+vPDBD+0lS5cFgA
-	CxnvDUWEaZfHUfuhPKmRpQmO0Ok3T2xtZi+8F+uL+ASS6sg54ptIR9gqocg==
-X-Google-Smtp-Source: AGHT+IEvI/Zn0/bwZ03S8X+dYp1EKKmZPn61r8TgfpwHOcE6n4vYwztpEi25wZ270KfumXzxyfsgsQ==
-X-Received: by 2002:a17:90b:3d0b:b0:32e:dcc6:cd3f with SMTP id 98e67ed59e1d1-33456f55426mr4017199a91.14.1758823842519;
-        Thu, 25 Sep 2025 11:10:42 -0700 (PDT)
-Received: from nikhil-s-Swift-SFG14-73.. ([101.0.63.224])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3347254dd4fsm3059574a91.12.2025.09.25.11.10.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 25 Sep 2025 11:10:41 -0700 (PDT)
-From: Nikhil S <nikhilsunilkumar@gmail.com>
-To: mchehab@kernel.org
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Nikhil S <nikhilsunilkumar@gmail.com>
-Subject: [PATCH v2] media: dvbringbuffer : fix space issues
-Date: Thu, 25 Sep 2025 23:40:27 +0530
-Message-ID: <20250925181032.7862-1-nikhilsunilkumar@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1758827402; x=1759432202;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=aq1TCW4NK+CnzHfz+6d/b4lI4bzihUEnE7N3vMMCLGI=;
+        b=pfJLFMCFxCTZDxHfcx8Td5Jsc5FnN8aWRttz/hX3+Gek175+v49+4kdQIZ/BwWGomy
+         GXAvdzZVulpAAClTfV4mzEa0z1pmTtUUFG59rkwVFCjIyOWdCWD9RI9L+b63fqJTYe8e
+         0wDHf+dLfKFsFpIF1Q1/mkjaY2/TCM+TX5jbi0cDCpcZKGfsrGC21AxTJzrx9aIAaUNm
+         sHPFiwHU+6BBDrEXkPB8AFDxw7jmIgB7k0hZ8pkkC1r8/nKUNMs4qDVUysSdm4a4KGxO
+         QOjuHJmRLTkQ6q1Wr1Kk2KnI3rwoEBqltPN8vlBnCEf4oSwouC4LvxarEcJtKocqlzDH
+         MC6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUg+OFRSn2tOC0sI4i5+cUde24Ho3JpQBYQMUYn7DgqUqEe8qFyCLNPKp6K+skl/xz/ty1G0sfzD2Iy/Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVXJVTfRirDE0IRXCI+fjtc724OoPJFrMJDl8LWYsxJFB5UG3k
+	oIVhP0DYtstemDL+AgoXI5Dl0hKI8zceRtaL/5D4rSfZbOWQrL6CfZ7IM7WsQCk5bOtZvnKbb/F
+	CBJpYmSHFadVTklbASBSlpqTi+5oi2vNf04nfXD4huxEoYX9P/qrPIuYqP9o1qoIXzgaoY9sgyg
+	==
+X-Gm-Gg: ASbGncvOIDj/+LDywGCPSUJ74wWm3tVEnUTs/7qZI64TYoTIGdNT0js3sbyTnrV91yQ
+	F9EeguH/3+D4lCJetAlA3VYdrIPkKpf8fbd4cduvg3APoN6Bw3Tp0jh8bKYmAYe7jMBERI7Rzz3
+	sDfjpgOK3K84YbBDBMsYdpgp6oDnkDda011f7rdvLlLiEtETqqfVQ0SKtJlRk+8iTtekLSVO1zC
+	KBbL1hfjzFesY4RojUicJeGHMQt29r+ad/dMmgJca8kLoCsTQetPXY2vwymmOAGWIYJ3uKk8J8a
+	mDDkxm8oP9QA8LPMG7ky/lWegDYHcK9ymXUaMJl855e8GbTJdaGA8hQFR7BjHXWBQ4SjFqUE7Ew
+	=
+X-Received: by 2002:a17:903:3503:b0:272:d27d:48e1 with SMTP id d9443c01a7336-27ed4adb725mr51666855ad.57.1758827402375;
+        Thu, 25 Sep 2025 12:10:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEsdikHslccjzEdRvkqdX7DzQqj39+zjdTyWCwDH4G4Cf76Ibq1t4sN3SiZloNNOu/uTbBqYQ==
+X-Received: by 2002:a17:903:3503:b0:272:d27d:48e1 with SMTP id d9443c01a7336-27ed4adb725mr51666635ad.57.1758827401958;
+        Thu, 25 Sep 2025 12:10:01 -0700 (PDT)
+Received: from [192.168.0.166] ([49.205.248.165])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed66d310csm32368545ad.10.2025.09.25.12.09.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 25 Sep 2025 12:10:01 -0700 (PDT)
+Message-ID: <0ec617c8-d22c-f37d-b66d-3a562310982b@oss.qualcomm.com>
+Date: Fri, 26 Sep 2025 00:39:55 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH 1/8] media: dt-bindings: qcom-kaanapali-iris: Add
+ kaanapali video codec binding
+Content-Language: en-US
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Vishnu Reddy <quic_bvisredd@quicinc.com>
+References: <20250925-knp_video-v1-0-e323c0b3c0cd@oss.qualcomm.com>
+ <20250925-knp_video-v1-1-e323c0b3c0cd@oss.qualcomm.com>
+ <vqzon3svfqvk3poz76jm5x5gf4rd6vkygegonafcprmkejt4aq@5kwlwytg3ulk>
+ <1af0d19e-30e0-1260-877c-5d6027c3d297@oss.qualcomm.com>
+ <888e0d4a-ee44-4b09-8dba-2e0b282c205c@oss.qualcomm.com>
+From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <888e0d4a-ee44-4b09-8dba-2e0b282c205c@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: vK6u1NXEMAQuKAnycpte8xg0O1URJfEH
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDE3MSBTYWx0ZWRfX/a5V73e1K3eW
+ E9uZdnieEFO2PVWcaF24tq4L4uZCPneui6q94cAfq2dsp4DnBQDRWnBR0SEcGUbgAE1auOq6L/M
+ vcD9orzf0b6GIyZ8tMggURYFHtoYNFhANu+mfjJNQZsVCQ+dz327WuxK9Wb2mO7dseDeKpUDXKA
+ jRtZArSnuw1sOJcfDRnWsz0Kdce9GYKEWdTZhGASdqm+zpgdHngsANkiIqz+fQ5Sm0L/Ed9s8LR
+ hpVQoOPEq7/Cps9qeFO7KuH9vnuVoVUnfYiZExrMpxWwZPT/IP3Myp4/ZRf0CfIgdyyyDFvxBis
+ JmWb1YwvTrOfIyU4xjAVjBwIwh4RlHJUXAvA0NLbOYZfRCNx+IhUsKt83PLmAouUI5HOULQJGBP
+ i6hCK7Fc7L+BNBmz5oBTC46wzwIZ4A==
+X-Authority-Analysis: v=2.4 cv=OstCCi/t c=1 sm=1 tr=0 ts=68d5938b cx=c_pps
+ a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=AkZwv1uTgJSVxlfcUQlFCg==:17
+ a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8
+ a=_tU7aAVo7FkOKzdvdu8A:9 a=QEXdDO2ut3YA:10 a=x9snwWr2DeNwDh03kgHS:22
+X-Proofpoint-GUID: vK6u1NXEMAQuKAnycpte8xg0O1URJfEH
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-25_01,2025-09-25_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 malwarescore=0 bulkscore=0 spamscore=0 phishscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
+ definitions=main-2509250171
 
-Fix the space issues detected by the checkpatch tool
 
-Changes in v2:
- - Split multiple assignments into separate lines
+On 9/25/2025 2:29 PM, Konrad Dybcio wrote:
+> On 9/25/25 9:57 AM, Vikash Garodia wrote:
+>>
+>> On 9/25/2025 8:36 AM, Dmitry Baryshkov wrote:
+>>> On Thu, Sep 25, 2025 at 04:44:39AM +0530, Vikash Garodia wrote:
+>>>> Kaanapali SOC brings in the new generation of video IP i.e iris4. When
+>>>> compared to previous generation, iris3x, it has,
+>>>> - separate power domains for stream and pixel processing hardware blocks
+>>>>   (bse and vpp).
+>>>> - additional power domain for apv codec.
+>>>> - power domains for individual pipes (VPPx).
+>>>> - different clocks and reset lines.
+>>>>
+>>>> There are variants of this hardware, where only a single VPP pipe would
+>>>> be functional (VPP0), and APV may not be present. In such case, the
+>>>> hardware can be enabled without those 2 related power doamins, and
+>>>> corresponding clocks. This explains the min entries for power domains
+>>>> and clocks.
+>>>> Iommus include all the different stream-ids which can be possibly
+>>>> generated by vpu4 video hardware in both secure and non secure
+>>>> execution mode.
+>>>>
+>>>> This patch depends on following patches
+>>>> https://lore.kernel.org/all/20250924-knp-interconnect-v1-1-4c822a72141c@oss.qualcomm.com/
+>>>> https://lore.kernel.org/all/20250924-knp-clk-v1-3-29b02b818782@oss.qualcomm.com/
+>>>
+>>> This doesn't belong to the commit message. But you also can drop this
+>>> dependency alltogether. Could you please do it?
+>>
+>> Sure, i see below works good w.r.t schema and dtb checker. Please review and
+>> confirm.
+> 
+> lgtm, you can also drop the interconnect header (i think you don't
+> need any rpmhpd additions so it can stay - potayto/potahto)
+> 
 
-Signed-off-by: Nikhil S <nikhilsunilkumar@gmail.com>
----
- drivers/media/dvb-core/dvb_ringbuffer.c | 34 +++++++++++++++----------
- 1 file changed, 20 insertions(+), 14 deletions(-)
+interconnect can be removed as well.
 
-diff --git a/drivers/media/dvb-core/dvb_ringbuffer.c b/drivers/media/dvb-core/dvb_ringbuffer.c
-index 7d4558de8..99c2d700c 100644
---- a/drivers/media/dvb-core/dvb_ringbuffer.c
-+++ b/drivers/media/dvb-core/dvb_ringbuffer.c
-@@ -37,10 +37,11 @@
- 
- void dvb_ringbuffer_init(struct dvb_ringbuffer *rbuf, void *data, size_t len)
- {
--	rbuf->pread=rbuf->pwrite=0;
--	rbuf->data=data;
--	rbuf->size=len;
--	rbuf->error=0;
-+	rbuf->pread = 0;
-+	rbuf->pwrite = 0;
-+	rbuf->data = data;
-+	rbuf->size = len;
-+	rbuf->error = 0;
- 
- 	init_waitqueue_head(&rbuf->queue);
- 
-@@ -235,7 +236,7 @@ ssize_t dvb_ringbuffer_write_user(struct dvb_ringbuffer *rbuf,
- 	return len;
- }
- 
--ssize_t dvb_ringbuffer_pkt_write(struct dvb_ringbuffer *rbuf, u8* buf, size_t len)
-+ssize_t dvb_ringbuffer_pkt_write(struct dvb_ringbuffer *rbuf, u8 *buf, size_t len)
- {
- 	int status;
- 	ssize_t oldpwrite = rbuf->pwrite;
-@@ -245,7 +246,8 @@ ssize_t dvb_ringbuffer_pkt_write(struct dvb_ringbuffer *rbuf, u8* buf, size_t le
- 	DVB_RINGBUFFER_WRITE_BYTE(rbuf, PKT_READY);
- 	status = dvb_ringbuffer_write(rbuf, buf, len);
- 
--	if (status < 0) rbuf->pwrite = oldpwrite;
-+	if (status < 0)
-+		rbuf->pwrite = oldpwrite;
- 	return status;
- }
- 
-@@ -258,8 +260,10 @@ ssize_t dvb_ringbuffer_pkt_read_user(struct dvb_ringbuffer *rbuf, size_t idx,
- 
- 	pktlen = rbuf->data[idx] << 8;
- 	pktlen |= rbuf->data[(idx + 1) % rbuf->size];
--	if (offset > pktlen) return -EINVAL;
--	if ((offset + len) > pktlen) len = pktlen - offset;
-+	if (offset > pktlen)
-+		return -EINVAL;
-+	if ((offset + len) > pktlen)
-+		len = pktlen - offset;
- 
- 	idx = (idx + DVB_RINGBUFFER_PKTHDRSIZE + offset) % rbuf->size;
- 	todo = len;
-@@ -278,7 +282,7 @@ ssize_t dvb_ringbuffer_pkt_read_user(struct dvb_ringbuffer *rbuf, size_t idx,
- }
- 
- ssize_t dvb_ringbuffer_pkt_read(struct dvb_ringbuffer *rbuf, size_t idx,
--				int offset, u8* buf, size_t len)
-+				int offset, u8 *buf, size_t len)
- {
- 	size_t todo;
- 	size_t split;
-@@ -286,8 +290,10 @@ ssize_t dvb_ringbuffer_pkt_read(struct dvb_ringbuffer *rbuf, size_t idx,
- 
- 	pktlen = rbuf->data[idx] << 8;
- 	pktlen |= rbuf->data[(idx + 1) % rbuf->size];
--	if (offset > pktlen) return -EINVAL;
--	if ((offset + len) > pktlen) len = pktlen - offset;
-+	if (offset > pktlen)
-+		return -EINVAL;
-+	if ((offset + len) > pktlen)
-+		len = pktlen - offset;
- 
- 	idx = (idx + DVB_RINGBUFFER_PKTHDRSIZE + offset) % rbuf->size;
- 	todo = len;
-@@ -309,7 +315,7 @@ void dvb_ringbuffer_pkt_dispose(struct dvb_ringbuffer *rbuf, size_t idx)
- 	rbuf->data[(idx + 2) % rbuf->size] = PKT_DISPOSED;
- 
- 	// clean up disposed packets
--	while(dvb_ringbuffer_avail(rbuf) > DVB_RINGBUFFER_PKTHDRSIZE) {
-+	while (dvb_ringbuffer_avail(rbuf) > DVB_RINGBUFFER_PKTHDRSIZE) {
- 		if (DVB_RINGBUFFER_PEEK(rbuf, 2) == PKT_DISPOSED) {
- 			pktlen = DVB_RINGBUFFER_PEEK(rbuf, 0) << 8;
- 			pktlen |= DVB_RINGBUFFER_PEEK(rbuf, 1);
-@@ -321,7 +327,7 @@ void dvb_ringbuffer_pkt_dispose(struct dvb_ringbuffer *rbuf, size_t idx)
- 	}
- }
- 
--ssize_t dvb_ringbuffer_pkt_next(struct dvb_ringbuffer *rbuf, size_t idx, size_t* pktlen)
-+ssize_t dvb_ringbuffer_pkt_next(struct dvb_ringbuffer *rbuf, size_t idx, size_t *pktlen)
- {
- 	int consumed;
- 	int curpktlen;
-@@ -339,7 +345,7 @@ ssize_t dvb_ringbuffer_pkt_next(struct dvb_ringbuffer *rbuf, size_t idx, size_t*
- 	if (consumed < 0)
- 		consumed += rbuf->size;
- 
--	while((dvb_ringbuffer_avail(rbuf) - consumed) > DVB_RINGBUFFER_PKTHDRSIZE) {
-+	while ((dvb_ringbuffer_avail(rbuf) - consumed) > DVB_RINGBUFFER_PKTHDRSIZE) {
- 
- 		curpktlen = rbuf->data[idx] << 8;
- 		curpktlen |= rbuf->data[(idx + 1) % rbuf->size];
--- 
-2.43.0
-
+Regards,
+Vikash
 
