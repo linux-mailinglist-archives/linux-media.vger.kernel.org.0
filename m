@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-43202-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43203-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B0E6BA07C6
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 17:55:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D1C1BA07CC
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 17:55:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B85CA38221D
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 15:55:36 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id A82DF3849E3
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 15:55:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2CF2B303C9D;
-	Thu, 25 Sep 2025 15:55:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8EE4305077;
+	Thu, 25 Sep 2025 15:55:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="wcJBW7ze"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mcs2YirO"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12F601CA84;
-	Thu, 25 Sep 2025 15:55:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE74F3019C1;
+	Thu, 25 Sep 2025 15:55:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758815731; cv=none; b=PwuhpFALnVDcW1bc8O0o/59N+pgi8d0+f9j5UkVYR42THWLkdKaKNhWiy1Dm0FYzWkCld+nXHpjkuOacuq/x6qFMwKaoZnICqeetkSjIErX01Y/9AGARTIIjELuAz/00ivCkFM1MGObHXF//V/USkhSpOxEhRRB5ixFiqxF2FdI=
+	t=1758815733; cv=none; b=eN52amSnVXYcl9msp02J2I+XytG8LFY1R1WwxK/Pb7AHlXOGd60aDezFEs67tjgw8/pTeY3ZfWxxEgac73dJASO3mZ+9iTyfYsKyTX0majW5e+cLVVQdX+Z+sWcO/uhuRH8s6bV0m9prb7WXJ35GWhK0EtLQskxTyDK2l363GZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758815731; c=relaxed/simple;
-	bh=0ASisa2QCpY4l16afQHZBqZmcpyhe0KCgNcO9tJeOGU=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=rQXUGyDP7x+77+YAQkKisWvj3S2T8L2856FAqzqMXAXn1Z1farB2kBI4Nqo4VI0llakCAa2mQiA7gvqZ1d2NjZr9IjfF4dXrc522ozkpUh3M3UJq6sRphkKx9B78w0bRv9O2L4AmrKYMmOvvrE3s0MNGn0qL/Uwb12wX+VFmgXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=wcJBW7ze; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1758815733; c=relaxed/simple;
+	bh=0eohwAR/y++4oPMxRnpqozTlsghcWn2K5MPx0wPe8gg=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=u1MElmGt3GfPibKirGZUJwQbUQXTY+BdGWsiuJl5IrFADTrnoMFbTyoNgGNK2AIvNAzVPFW6+er6jHWDv5ZbxgiLhIsm5zhQhWAdtqH1fihPctT/r+/RfIETg1oRnumOAa1KAuw9jfCJqegu4ufUlsOqboOJ6wLoVWzG51OPgKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mcs2YirO; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [127.0.1.1] (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id A199C1129;
-	Thu, 25 Sep 2025 17:54:00 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 628B21D1C;
+	Thu, 25 Sep 2025 17:54:01 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1758815641;
-	bh=0ASisa2QCpY4l16afQHZBqZmcpyhe0KCgNcO9tJeOGU=;
-	h=From:Subject:Date:To:Cc:From;
-	b=wcJBW7zeIqgQbrienKha/4I+rYetMbftwZF0xnM0mKxi7yIVL20dbJrxWr0tgsQ6q
-	 BHiLky86k2+TIE38E0FE48mF29tH5RJV40Qfpm7b2MvYX69rdYkqk7t6IGh4XR02jL
-	 dYtG7N6iayY0wZRI7nsxlZoFsDv1A/k4P9hkWL88=
+	s=mail; t=1758815642;
+	bh=0eohwAR/y++4oPMxRnpqozTlsghcWn2K5MPx0wPe8gg=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=mcs2YirOd9cwzKG03SPsBv9Hu8SCoekmPeGuYhxWzmjddYDdUZlXWueul6Gl41IYx
+	 OlSU4tm4LTT8NyUg7pGfK2BAw7s9Sznpt2dx178Xg0suyV0meuVCt35XXyToGzG51e
+	 Xy1ALGMN1+X/f0UGnFoTTnMuTD/J6JnE42tAkOCY=
 From: Isaac Scott <isaac.scott@ideasonboard.com>
-Subject: [PATCH v4 0/4] media: imx-mipi-csis: Get the number of active
- lanes from mbus_config
-Date: Thu, 25 Sep 2025 16:54:25 +0100
-Message-Id: <20250925-active-data-lanes-v4-0-8b54e3d5af6c@ideasonboard.com>
+Date: Thu, 25 Sep 2025 16:54:26 +0100
+Subject: [PATCH v4 1/4] media: v4l: Add helper to get number of active
+ lanes via a pad
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,9 +53,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIALFl1WgC/x3MQQqAIBBA0avIrBsQ0YVdJVpMOdZAWKhEEN49a
- fkW/79QOAsXGNULmW8pcqYOOyhYd0obo4RuMNo47Y1DWqvcjIEq4UGJCy4ueG9j1MYS9O7KHOX
- 5n9Pc2gcWWSs0YwAAAA==
+Message-Id: <20250925-active-data-lanes-v4-1-8b54e3d5af6c@ideasonboard.com>
+References: <20250925-active-data-lanes-v4-0-8b54e3d5af6c@ideasonboard.com>
+In-Reply-To: <20250925-active-data-lanes-v4-0-8b54e3d5af6c@ideasonboard.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
  Rui Miguel Silva <rmfrfs@gmail.com>, 
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
@@ -69,77 +69,96 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Isaac Scott <isaac.scott@ideasonboard.com>, Frank Li <Frank.Li@nxp.com>
 X-Mailer: b4 0.13.0
 
-It is possible that the number of desired active MIPI CSI2 data lanes
-does not match the maximum listed in device tree. Add a helper function
-to v4l2_common that calls the get_mbus_config op to get the number of
-actively used data lanes in drivers that support it.
+Sometimes, users will not use all of the MIPI CSI 2 lanes available when
+connecting to the MIPI CSI receiver of their device. Add a helper
+function that checks the mbus_config for the device driver to allow
+users to define the number of active data lanes through the
+get_mbus_config op.
 
-Compare it to the number of lanes configured in device tree, and if its
-invalid, use the number present in device tree.
+If the driver does not implement this op, fall back to using the maximum
+number of lanes available.
 
-This series also uses the helper in imx-mipi-csis driver to set the
-currently configured num_data_lanes, while keeping track of the number
-of data lanes set in device tree to ensure we can still use all possible
-lanes if we need to, and the upstream subdev driver requests them.
-
-Tested on v6.15, compile tested on media/next.
-
----------
-
-Changes v3 -> v4:
-
-- Updated base tree to media/next
-- Used local 'lanes' variable consistently in
-  v4l2_get_active_data_lanes()
-- Removed device tree references in documentation
-- Made comment a single line
-- Collected tag for patch 1/4
-- Removed unnecessary num_data_lanes assignments in async_register in
-  imx-mipi-csis
-- Removed some debug print changes
-- Checked return value of v4l2_get_active_data_lanes() before assignment
-  to csis->num_data_lanes
-- Added patch to move redundant debug print in mipi_csis_probe()
-
-Changes v2 -> v3:
-
-- Rename dt_lanes to max_data_lanes
-- Remove check for < 0 on unsigned int max_data_lanes in
-  v4l2_get_active_data_lanes()
-- Added comment to explain that mbus_config is expected to be zeroed at
-  init in drivers implementing get_mbus_config subdev pad op
-- Wrapped signature in header file and source for
-  v4l2_get_active_data_lanes()
-- Added kernel-doc documentation for v4l2_get_active_data_lanes()
-- Added debug message to indicate an invalid number of active lanes
-- Changed csis->max_data_lanes to csis->num_data_lanes
-- Changed uses of csis->bus.num_data_lanes to csis->num_data_lanes where
-  appropriate to make csis->bus immutable after probe
-
-Changes v1 -> v2:
-
-- Added helper function to get active data lanes in v4l2-common
-- Store the maximum data lanes possible, as configured in device tree
-- Added media: prefix to commit titles
-
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
 ---
-Isaac Scott (4):
-      media: v4l: Add helper to get number of active lanes via a pad
-      media: imx-mipi-csis: Move redundant debug print in probe
-      media: imx-mipi-csis: Store the number of data_lanes configured in dt
-      media: imx-mipi-csis: Get number of active lanes via mbus_config
+ drivers/media/v4l2-core/v4l2-common.c | 29 +++++++++++++++++++++++++++++
+ include/media/v4l2-common.h           | 20 ++++++++++++++++++++
+ 2 files changed, 49 insertions(+)
 
- drivers/media/platform/nxp/imx-mipi-csis.c | 19 ++++++++++++-------
- drivers/media/v4l2-core/v4l2-common.c      | 29 +++++++++++++++++++++++++++++
- include/media/v4l2-common.h                | 20 ++++++++++++++++++++
- 3 files changed, 61 insertions(+), 7 deletions(-)
----
-base-commit: 40b7a19f321e65789612ebaca966472055dab48c
-change-id: 20250925-active-data-lanes-b5d994ff024a
+diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+index b367d479d6b3..2b4cec25e751 100644
+--- a/drivers/media/v4l2-core/v4l2-common.c
++++ b/drivers/media/v4l2-core/v4l2-common.c
+@@ -573,6 +573,35 @@ s64 v4l2_get_link_freq(const struct media_pad *pad, unsigned int mul,
+ 	return v4l2_get_link_freq_ctrl(sd->ctrl_handler, mul, div);
+ }
+ EXPORT_SYMBOL_GPL(v4l2_get_link_freq);
++
++unsigned int v4l2_get_active_data_lanes(const struct media_pad *pad,
++					unsigned int max_data_lanes)
++{
++	struct v4l2_mbus_config mbus_config = {};
++	struct v4l2_subdev *sd;
++	unsigned int lanes;
++	int ret;
++
++	sd = media_entity_to_v4l2_subdev(pad->entity);
++	ret = v4l2_subdev_call(sd, pad, get_mbus_config, pad->index,
++			       &mbus_config);
++	if (ret < 0 && ret != -ENOIOCTLCMD)
++		return ret;
++
++	/* This relies on the mbus_config being zeroed at init time */
++	lanes = mbus_config.bus.mipi_csi2.num_data_lanes;
++	if (!lanes)
++		return max_data_lanes;
++
++	if (lanes > max_data_lanes) {
++		dev_dbg(sd->dev, "Active data lanes (%u) exceeds max (%u)\n",
++			lanes, max_data_lanes);
++		return -EINVAL;
++	}
++
++	return lanes;
++}
++EXPORT_SYMBOL_GPL(v4l2_get_active_data_lanes);
+ #endif
+ 
+ /*
+diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+index 5c0a7f6b5bb6..950df46cb27a 100644
+--- a/include/media/v4l2-common.h
++++ b/include/media/v4l2-common.h
+@@ -581,6 +581,26 @@ int v4l2_fill_pixfmt_mp(struct v4l2_pix_format_mplane *pixfmt, u32 pixelformat,
+ #ifdef CONFIG_MEDIA_CONTROLLER
+ s64 v4l2_get_link_freq(const struct media_pad *pad, unsigned int mul,
+ 		       unsigned int div);
++
++/**
++ * v4l2_get_active_data_lanes - Get number of active data lanes from driver
++ *
++ * @pad: The transmitter's media pad.
++ * @max_data_lanes: The maximum number of active data lanes supported by
++ *		    the MIPI CSI link in hardware.
++ *
++ * This function is intended for obtaining the number of data lanes that are
++ * actively being used by the driver for a MIPI CSI-2 device on a given media pad.
++ * This information is derived from a mbus_config fetched from a device driver
++ * using the get_mbus_config v4l2_subdev pad op.
++ *
++ * Return:
++ * * >0: Number of active data lanes
++ * * %-EINVAL: Number of active data lanes is invalid, as it exceeds the maximum
++ *	       supported data lanes.
++ */
++unsigned int v4l2_get_active_data_lanes(const struct media_pad *pad,
++					unsigned int max_data_lanes);
+ #endif
+ 
+ void v4l2_simplify_fraction(u32 *numerator, u32 *denominator,
 
-Best regards,
 -- 
-Isaac Scott <isaac.scott@ideasonboard.com>
+2.43.0
 
 
