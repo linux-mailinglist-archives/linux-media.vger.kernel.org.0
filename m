@@ -1,89 +1,88 @@
-Return-Path: <linux-media+bounces-43139-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43140-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E6DCB9E360
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 11:10:37 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C751BB9E450
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 11:19:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5611D383C92
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 09:10:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 682003AD418
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 09:19:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2ECA92DE6FF;
-	Thu, 25 Sep 2025 09:10:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C43062EA159;
+	Thu, 25 Sep 2025 09:18:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Pcpo4Dcm"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="T3fPcCME"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279C725A631
-	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 09:10:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212262E92BB
+	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 09:18:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758791421; cv=none; b=Pc9q2GzFBJE3ZRyzDaNa6QI7jLW/axeTotgUQV6QiBLMgEPkOeMXo+limo/OX9RMt7OAMCYg/7rb76pzlHfKU770uhXGj62r73LcLX5+y2GJue/3kcP6XN5knAOM4yFMViYyOHVwfDFdQ5Qhd11hf3GfHIZhLJhYcP83tDXAKyQ=
+	t=1758791932; cv=none; b=pd0FNbMT8gWMuBA6P6B+VzNBkuiZq9y24frN34a6/OHzY//EewJvCiR0Ov3QgpVC6HXwf/7qPR+LlWHdgk/bYpBsBAZUfYhRVVwi0z4izF6i/dIg3Wi9/b5BZmH+EkN4bipyg2ZiWhjhOjZXgQiueOC1FV2O1cTCwYDTgJY5BNk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758791421; c=relaxed/simple;
-	bh=VaO3i7T1b7yOwRkFlMNKwsdMGDTOTdR9OM8uKc1xL/Q=;
+	s=arc-20240116; t=1758791932; c=relaxed/simple;
+	bh=aBzVgiUoATjDskwmV+O0A19hA27wGt/bIlMwuurcLQY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WZ1+uMgVCyZIR6Zem6EtFoBCvLaMNSxGArzu4Q/Xscv373pm3nBPcQxjRAxXCRIUzm+yZVMcN42QIZDkSRTUExYl/KnrRcF+VCp/SEr+bSRyW2Rx6BHXYyFnYOzDgIqKQkYgsLh7T0J3BjqUQDRgwL5yUCTBodvtmt7FuffF33I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Pcpo4Dcm; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=q9shWZh8LC36qWpVLXFXZ0+kAIRzcf+yY6sMlmChei0885mvI/JtRc9J76Vo8b9iiAnzpZFV2e2fy4qWjux0URzctjWpv9DZ1yFuDgbfXbxb4GqZFHNNDyh6bmxykOVHwoD0xkBVr8n9mL1zfvDXMBsg1b+7Py9Bf2UycWcUtos=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=T3fPcCME; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58ONr9Qu027915
-	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 09:10:19 GMT
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58P0kiCV002114
+	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 09:18:49 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	eYZzVW9nVW8KA6tqECyGN+RNlHNLZrOF+4bwFfwCiLE=; b=Pcpo4DcmW+oDY+r+
-	rZDyKMfWtqOYmhDD+enL9K3uf+OTqlFyAXN/08CmPZ3ClsBOpmOvqZYc2iq9jzh+
-	ZNZfVXyO3GFnzRhVce+wuD/Vi7/nu1KcCHDXjAU4+T+Mp2XXuEpf/CV+ajux7p3D
-	/nQW/mMp7q7mXkLksJUAlDZncJak4r6Vf/neAeWxxctL6Jx6VRqBRgMGxgWTd4V7
-	r8P2lldig94Y5NjiLSbYD6CxB49v2JzmeKngy8C9KKJD11te01a4oMGirqXLoir7
-	8sWfk/7Zs8ZAcisVSWptv7S0ItJSbiOGBVD7kesJwCflFdYvGBABAZ0s3aKQHwzb
-	D0F46w==
-Received: from mail-qk1-f198.google.com (mail-qk1-f198.google.com [209.85.222.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499hmnyvnc-1
+	Ea+frmUPjgVv+Mq8YyoARL2w4ombZur44q+lIGeQf9A=; b=T3fPcCMEvUb2K267
+	hcXjAwxtuGRjOQXEtY7F18Opc1UfFKz3aC+Fd52JdfA0fgp5BH4/B6yKoBzfEybg
+	h0EXKNlVe2fecrLcuiC8MBfTilQaTAUN3G64nwhCIq18TX32wn/7w/ZnFg8X3Shz
+	wSXgbchIicsYgIKDPYnKbBmqIvOAK6wMYI/jCue88QPixWauH5BR14VbRMMq0Xmi
+	eldLpRKbmTOjLuYMxK8MmasER+CICnb3/+gENHqVppB9hOft83l9PV0AiY3XeJ4j
+	NRsD6MoxSn0PAG+n7XfbiNVzcUMYQJCb+MqyAwKDI0rH3fPWiwXb5vYZ5jT6jHJd
+	uVVEug==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499k98qh00-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 09:10:18 +0000 (GMT)
-Received: by mail-qk1-f198.google.com with SMTP id af79cd13be357-853f011da26so28295785a.0
-        for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 02:10:18 -0700 (PDT)
+	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 09:18:48 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8572f379832so25399785a.3
+        for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 02:18:48 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758791412; x=1759396212;
+        d=1e100.net; s=20230601; t=1758791928; x=1759396728;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=eYZzVW9nVW8KA6tqECyGN+RNlHNLZrOF+4bwFfwCiLE=;
-        b=dOk0HrdxyqP3NeaPHRROrE4MuwFPQd8rqAIh4zjo/hjprVtVfpm0jbw0US9pB0DmAv
-         VHUGc3FzBNqReh82UtkhiKUiMoiLe5okC8q/kyluJYObx8cYuKu/y4WKveMeGJ0p27mY
-         AFmONX1Gw/BITnavvjdTtS2hidGzUuCyy8CdpCePxXyOK0hXJkonlQaBIXQiuEKrUG8o
-         eq7AdlOf8lXbMeEg0hC0BnoRG6gjl8zT7Wb/pQEM40t6POOuhAWcKjCNJrqME2re04q8
-         7Ol6YKpI3n3FsZFXUqeY8yTes1ibnGPS9cEV70eHzVW1LYYgSLtFnXpDR6kCGCo0LNL/
-         r2Gg==
-X-Forwarded-Encrypted: i=1; AJvYcCU3PIYMmRoDcrRfwUfjZQPEF90NeWbz8YihYdBplzWxau5Jb0mrJd3mIP4R93ByaWWTiU5IgaMz8uB2HQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz6wgzGUUPUgDgsbE5mr8gu2SFabTw9pAYRfzMYMM19ldRr4yz1
-	5wfy3u0V/EeDCVgZ4tTX2KW+V++Oqe8I1nUCDQ0fuZEIX6lJKQrI5Sx5WI5BLCIV9eSsELmowT1
-	cttRMJ+j3tPP4F8X6iPdLdfVhfcU8PVleJQ/I7xjarPl9plx+QWnwFk3o2r+EErNrjud+3AI8Sg
-	==
-X-Gm-Gg: ASbGncspzaJSrfRpjw51BC3OAPpWnzGHV2ADqjQ5vrQMOZaEbhpdCZ7kbycKHJPVZ11
-	Fq+KQrLYaW95Pm9Wj0Nd0ut7LP8OA7yZ5VlPSQUnKWM7bVQGatnmfxLCm5iwGJUqMkP+sbOekGW
-	kM80Ff/viw9ss5/ydfodtzXPTOGOWUeq2/se7BJ5GGq1dtcdsCxTGey/xEupu4KcAYKOPJAjLaB
-	A2TQb9V4luL11O7kwU+npJIWyKJ0y8w9p11uITYyirykq3yq4a9gjWC8CoFDgS3k96hRr9cyqGI
-	Hn6ydT4Wc4bpJhKz7wBSYN7of3/nCZNZDP4KYzTHmA8/voo+iRmdBzUBVHzYTmdi1kyX6svpaTH
-	tjq5+ShuI2qKKxomxlaaiIw==
-X-Received: by 2002:a05:620a:1a0f:b0:827:52b2:42be with SMTP id af79cd13be357-85adf5d2741mr246323485a.1.1758791412033;
-        Thu, 25 Sep 2025 02:10:12 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGADNWi8FxPoW2rbFkEpU+q5ie6LXLacUuiyEXFSNUKEa5yYt7K4AF5EOvbsvCoObZuswbrig==
-X-Received: by 2002:a05:620a:1a0f:b0:827:52b2:42be with SMTP id af79cd13be357-85adf5d2741mr246319685a.1.1758791411237;
-        Thu, 25 Sep 2025 02:10:11 -0700 (PDT)
+        bh=Ea+frmUPjgVv+Mq8YyoARL2w4ombZur44q+lIGeQf9A=;
+        b=twkFW6zqxPg4qjpQA+TNsqn9LpHwyA8kjAu0Oj7DgqhcK6R08UlK3RzOVvqqRZF1Ml
+         erSSiXDfw6/6tFoeBc8uIf4Z3S17mw+qWkdhII1ApJm62gU7wrLVZVYm+w9bwX8dsQnG
+         0GjH7TTDNpGRTu5db0KPU8LMshSLd6G24YxDSm7e+A3+Q6CKmT6lLnZ8XvymvQ5sSEVL
+         pl6IduaFDm8tjxLXyXdSV/VqAlU04UMElnYPm3G7H0YL86B/wNhcTm+yvBws4NnZcFEe
+         TNazhJq5F/elPokFZFp9kEM4VXXjdE7XQBA5DFmh0FWHbkZ+7oQuemMRiRipFyq34Lki
+         zFMA==
+X-Forwarded-Encrypted: i=1; AJvYcCUFAJik2W26LYr1NDHETxjaRpxG5iwGJA3R02MyRfGMtcQmRT6rxwAtqYRt0R6CCwDbzSrkdj1kPn0WjQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz9loBDMFsJx12kprHUbKXfhhyJaiPwb8WYrX8J1ayHo0ICajFw
+	p+w60tgGayHqnPl66Qy5X8NmMNpGEC5wkNRY+XyOBL8R4npnMXWDSsv4Ahik2yPrxvxC4cKsrJ3
+	aBz3KEixHQ0Z522o/1TwOYmHzhILQqymc9+Sv/eXwwsyF5dmE3j0OIR/QcpMy5FygRg==
+X-Gm-Gg: ASbGncsjUdHqvj2rdGqmqrv8uI5nvog80KpJVAyICglbS4jSwtSBQRhez6aIM7N4v+B
+	t1gDL764WPdYgzvZ5b0+HaZ5C+4YlJR9qd3Xm/eZqk5GELWDErs2g9CIs/0QnA8zBKqXi4gOQeF
+	45c+zziILI3rXN+W/OaeGGsNNLYM0xBjDHEk6lpVyzslTpQLStbJQQgiydh0KmpE5jfCIIWNFFz
+	TvB/Z2AI7UKHMmYka8bkxa+h1jJXmYDg7KR4x8bQ0HuDi/lkoAmvkzNbA11TxCRCCjvS867Z8iF
+	4dGZQb87NDzyWxiQBO0xQQggxlFLRMF4PrmGGmUaKEodIDjmmwQu6x/NmU7SOhpmpP1UJdgWNyi
+	y9++JRYq23qaORBD5Aqm2BA==
+X-Received: by 2002:a05:620a:2948:b0:7e3:297d:ec32 with SMTP id af79cd13be357-85ae6b98c31mr219201985a.10.1758791928060;
+        Thu, 25 Sep 2025 02:18:48 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG9ZYl0aa3NdV1AUBuLFOtIFJqHnpIWD3oOeW+CrL7tUMx6aQqFaHJq4P9k7znBgc2to9oBTg==
+X-Received: by 2002:a05:620a:2948:b0:7e3:297d:ec32 with SMTP id af79cd13be357-85ae6b98c31mr219200385a.10.1758791927534;
+        Thu, 25 Sep 2025 02:18:47 -0700 (PDT)
 Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b353fa65a62sm126307366b.47.2025.09.25.02.10.09
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b3544fd0a54sm128782566b.86.2025.09.25.02.18.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 02:10:10 -0700 (PDT)
-Message-ID: <ab28a715-6b5e-4adc-8889-f47ee2e18d5c@oss.qualcomm.com>
-Date: Thu, 25 Sep 2025 11:10:08 +0200
+        Thu, 25 Sep 2025 02:18:47 -0700 (PDT)
+Message-ID: <3355306e-4059-4af5-8865-3b5335356382@oss.qualcomm.com>
+Date: Thu, 25 Sep 2025 11:18:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -91,8 +90,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 5/8] media: iris: Move vpu register defines to common
- header file
+Subject: Re: [PATCH 7/8] media: iris: Introduce vpu ops for vpu4 with
+ necessary hooks
 To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
         Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
         Abhinav Kumar <abhinav.kumar@linux.dev>,
@@ -107,59 +106,111 @@ Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
         devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
         Vishnu Reddy <quic_bvisredd@quicinc.com>
 References: <20250925-knp_video-v1-0-e323c0b3c0cd@oss.qualcomm.com>
- <20250925-knp_video-v1-5-e323c0b3c0cd@oss.qualcomm.com>
+ <20250925-knp_video-v1-7-e323c0b3c0cd@oss.qualcomm.com>
 Content-Language: en-US
 From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250925-knp_video-v1-5-e323c0b3c0cd@oss.qualcomm.com>
+In-Reply-To: <20250925-knp_video-v1-7-e323c0b3c0cd@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=YPqfyQGx c=1 sm=1 tr=0 ts=68d506fa cx=c_pps
- a=qKBjSQ1v91RyAK45QCPf5w==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+X-Proofpoint-GUID: 7SjTJ4FbZjtWmXqi5ygtCo4AwjHdqaiS
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAxOCBTYWx0ZWRfX26+mLKr0HubE
+ QPQ3EyfZW8HQksEWP2La9xx7wLKRgQM3sLSiuGEZ195tI+VbXoElKT3XMPu1uULN+ufTYb6oR2b
+ xAYdhblPF7e9gws2hA02oWODp04okBHBOQaoNfRL53a4zJY0N0vRguZeJ4GZnYmFuFTg/Q9Q2x4
+ cFHKH1kRfVqXtUl/IFiEtf0ONXZ2jHZRguO8gqMTZT5ZgzJeip6EHnK4AIi/HONqD1hQBJukdIr
+ wpbUdvqM7G5l0Z4YoNNdxcvaANUl1I+Y1XTdTmMMLd5whOAI7Ogchqzf4bSjoPT0VglfOy1zXiH
+ 1LscAVxsw44ypKdgOmuzhdC6dk2w0WZcRQ8Rkp+2aXBwlbOSdEtILb/NbWZ9du5ant1MDB9dYdr
+ iAdG7AqP
+X-Proofpoint-ORIG-GUID: 7SjTJ4FbZjtWmXqi5ygtCo4AwjHdqaiS
+X-Authority-Analysis: v=2.4 cv=Dp1W+H/+ c=1 sm=1 tr=0 ts=68d508f9 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
  a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=-FEiAWMsPlssRVfEe-4A:9 a=QEXdDO2ut3YA:10 a=NFOGd7dJGGMPyQGDc5-O:22
+ a=Z7GqTKoUbcai2g_QebIA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
  a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: dEfiAexFHNQOnFrU3CE7zZGTcR-4jXaW
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAwMCBTYWx0ZWRfXyxevHRhfJQ/X
- q/lJFVvBeAZuVlwsAzU/ZHCeQXWY1eclKLqfZ1QGyiDd+9RUnr4wIjqXROnhcYPfp+bxoWS/jML
- Jm8/tVLYDu+KN85jmn4cS1z8mIV899FWy3pHIuDodkzIprsVfNrS9uTFKkhjJu7+2RrOrINjdMV
- fJ2MDNt6vWeHU8neQFkdY6W9o7k3l68mNF2i/1d4sxMx5k1BNnpD8wqtVV3rRYJbR3JVvJpfzXs
- kd2v0kLLuEK+cB5kCmazskHPdaGGo1D+NIZTv5syVm39v8G5DvG97u7PuUxvRP2OukXu1KbbNId
- lxHaHFrKA4FmJQ/eakfYZQIXLtIYPHcVCvGRWV/29q6iVvdJI+eWglbCdbbnunTMDFzL7kdDUnA
- KVk0i+GX
-X-Proofpoint-GUID: dEfiAexFHNQOnFrU3CE7zZGTcR-4jXaW
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-09-24_07,2025-09-24_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 priorityscore=1501 phishscore=0 adultscore=0
- clxscore=1015 impostorscore=0 spamscore=0 malwarescore=0
+ malwarescore=0 clxscore=1015 adultscore=0 bulkscore=0 impostorscore=0
+ phishscore=0 spamscore=0 priorityscore=1501 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200000
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200018
 
 On 9/25/25 1:14 AM, Vikash Garodia wrote:
-> Some of vpu4 register defines are common with vpu3x. Move those into the
-> common register defines header. This is done to reuse the defines for
-> vpu4 in subsequent patch which enables the power sequence for vpu4.
+> Add power sequence for vpu4 by reusing from previous generation wherever
+> possible. Hook up vpu4 op with vpu4 specific implemtation or resue from
+> earlier generation wherever feasible, like clock calculation in this
+> case.
 > 
 > Co-developed-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
 > Signed-off-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
 > Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
 > ---
->  drivers/media/platform/qcom/iris/iris_vpu3x.c      | 36 ----------------------
->  drivers/media/platform/qcom/iris/iris_vpu_common.c | 23 --------------
->  .../platform/qcom/iris/iris_vpu_register_defines.h | 29 +++++++++++++++++
 
-This is a slippery slope. I think it's better if you explicitly say
-the header file contains the register map of VPU3 instead, as let's say
-VPU5 may add a random register in the middle (pushing some existing ones
-+0x4 down). Such changes are annoying to debug, and we've unfortunately
-been there on Adreno..
+[...]
 
-Because you're using this for a single common function that is both acting
-upon the same registers and performing the same operations on them across
-VPU35 and VPU4, it's okay to de-static-ize the function from iris_vpu3.c and
-refer to it from vpu4 ops, keeping the register map private to the former
-file which I think will end up less error-prone for the future.
+> +#include <linux/iopoll.h>
+> +#include <linux/reset.h>
+> +#include "iris_instance.h"
+> +#include "iris_vpu_common.h"
+> +#include "iris_vpu_register_defines.h"
+> +
+> +#define WRAPPER_EFUSE_MONITOR			(WRAPPER_BASE_OFFS + 0x08)
+> +#define AON_WRAPPER_MVP_NOC_RESET_SYNCRST	(AON_MVP_NOC_RESET + 0x08)
+> +#define CPU_CS_APV_BRIDGE_SYNC_RESET		(CPU_BASE_OFFS + 0x174)
+> +#define DISABLE_VIDEO_APV_BIT			BIT(27)
+> +#define DISABLE_VIDEO_VPP1_BIT			BIT(28)
+> +#define DISABLE_VIDEO_VPP0_BIT			BIT(29)
+> +#define CORE_CLK_HALT				BIT(0)
+> +#define APV_CLK_HALT				BIT(1)
+> +#define CORE_PWR_ON				BIT(1)
+> +
+> +static int iris_vpu4x_genpd_set_hwmode(struct iris_core *core, bool hw_mode)
+> +{
+> +	u32 value = readl(core->reg_base + WRAPPER_EFUSE_MONITOR);
+
+I think this could use some explanations.
+
+I'll go ahead and assume that the eFuse tells us that parts of the
+IP are disables (hopefully not all three at once.. we shouldn't
+advertise the v4l2 device then, probably)
+
+You read back the fuse register a lot, even though I presume it's not
+supposed to change at runtime. How about we add:
+
+bool vpp0_fused_off
+bool vpp1_fused_off
+bool apv_fused_off
+
+instead?
+
+[...]
+
+> +	if (!(value & DISABLE_VIDEO_VPP0_BIT)) {
+> +		ret = iris_enable_power_domains(core, core->pmdomain_tbl->pd_devs
+> +						[IRIS_VPP0_HW_POWER_DOMAIN]);
+
+Maybe the iris_en/disable_foo functions could get a wrapper like:
+
+int iris_enable_power_domains_if(core, pd_devs[IRIS_VPP0_HW_POWER_DOMAIN],
+				 !foo->vpp0_fused_off)
+
+I'm not super sure about it, but that's something to consider
+
+[...]
+
+> +	readl_poll_timeout(core->reg_base + VCODEC_SS_IDLE_STATUSN, value,
+> +			   value & 0x7103, 2000, 20000);
+
+That's a nice magic number.. but what does it mean?
+
+[...]
+
+> +	writel(0x070103, core->reg_base + AON_WRAPPER_MVP_NOC_RESET_REQ);
+> +	readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_RESET_ACK,
+> +			   value, value == 0x070103, 200, 2000);
+
+That's a slightly different magic number, but it's oddly similar to
+the one above
 
 Konrad
 
