@@ -1,216 +1,146 @@
-Return-Path: <linux-media+bounces-43224-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43225-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D8CCBA1B3A
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 23:55:50 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04398BA1CC9
+	for <lists+linux-media@lfdr.de>; Fri, 26 Sep 2025 00:31:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BB288387D58
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 21:55:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8B60740E5A
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 22:31:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A810327FB26;
-	Thu, 25 Sep 2025 21:55:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5E26F322521;
+	Thu, 25 Sep 2025 22:31:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="luqEr8OS"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C+yZubRg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from OSPPR02CU001.outbound.protection.outlook.com (mail-norwayeastazon11013029.outbound.protection.outlook.com [40.107.159.29])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 411C71F91D6;
-	Thu, 25 Sep 2025 21:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.159.29
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758837342; cv=fail; b=c7uL8Q95BGoT4/eEW7wAgJ3oWncgkPUUWshn7xTFcYQBbEl6L/bS5YgOPi9hi3PL+djTATG0Iy2T/WO8zfyvg7m/L9IJy58PD47dwRooY+hVhDwB4IS5sBruCahs0JMT+/QaLONKtjjo0CEO4/bEHV5/D423VhrZqJ60mKU3OB0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758837342; c=relaxed/simple;
-	bh=/34Q/dfjZGskugTcAvcyYfYjPNERXkQXTTXxDY0Plng=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=pjV4ilPBrZp4GJqM+eVLyyK8MdLUiSmzHDHmaAVooFGSrONbrVrHg4k4wTBJDnF2H/Oxudva63CTUusJgeL+hse5YJhExM2nbxm4wQdlmsehKIa7iapz9hdeSy2LJiFdILZsoni2uV6krAq4WgOQsiBkUoSj2zgq8Fo70eHEDPU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=luqEr8OS; arc=fail smtp.client-ip=40.107.159.29
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dVdYUcWsIYN9X0BbY/F4Ec8slW0laYeRNmVsznqk9QaQhEFMV2JK6IA7dqjamgIkPEUDl3mc2Va50G5hLeUfKTcfdBlYnjmiZPO5lVNiR1ABgYlCIse5RATkPXkd2e5EvDrjFwcptJoCXxpnvQTeUXfr6XSz9vciyzuRI3jYE/s1OI15zQP4zG4p2/OA2wJicxj/bT2OAVbIuMUNbG6SG5BFvRlaWRkR+8JVPpOOY9LnNlR2D3jrfl6Avkj2acT+YIfE+rvJLkq6A674G6QyZGnmvlgw3BKlBkwOiIHSf0PD9fyWpHrblovtQaRCaU5FqJamMBiS9ZI8aFfDrVXsmA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eYp/21o38PKejkqSa7U/BrniIDH57jgw6WqFh9xIeFk=;
- b=MZuU8asD/LFN8IxAow9CXBV5f+EjHwWEIfSri5g07Vzc5mYfIhyiBvoNRcWI2hRFZx3wfegGgN9PYtI22/d8GjGMjH8aehZ65psQiZwND/yKJuKwWTmnpZZdkjFb9yMSaCyvmSfWML0S3VwJqMYbpSVWlfsbj2pzuvH8PE9+A40Pr7HMHhJ+nTyqcDrVtvw/83PTwgGJt0g59DH0l++bZyMWVr0LaEXEuo7ZwdQAppu4wV43QlXvzPLtJ3Hn4DckNpxcjTq3T6UrCdDxQ7u00eGuOnV+YEjVX6Ucq4RYfpn0UqbYNt1x6Cg7RcDFXc6UwzGFt5Rwb0o5FVnTVP99WA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eYp/21o38PKejkqSa7U/BrniIDH57jgw6WqFh9xIeFk=;
- b=luqEr8OSpWKjn6txJfPtclU47Kl5mn8KrkFq/sjt+perAtFNvMpbFSvWJFce/njWAGVli+9XP06yDwbRogwHOTadzZtl39OtOeOlgwH+8EbjOsowkH6yM9ZMjKy7FoYhGyNBw+0JGYy/suQTRuBP9fXMc54kzDMCv9IomXmMUNHQ3SD3pJygNTYwj3a2vjh4hgoMmLLw1ylYl0t9WsNhrmbc0fWnGVgwLC5WRLy7iqzoACqyti+31Kt/UhjqH0yyrTgNhT3CnBUqm7EaYEc+MLXK1KyrstH9xYlr7FTYnfOmXtMpQNgkori4IjR9TyBgveKEfjle27IDCw76PYDGNA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
- by AS8PR04MB9112.eurprd04.prod.outlook.com (2603:10a6:20b:44b::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.10; Thu, 25 Sep
- 2025 21:55:36 +0000
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9160.008; Thu, 25 Sep 2025
- 21:55:36 +0000
-Date: Thu, 25 Sep 2025 17:55:28 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Isaac Scott <isaac.scott@ideasonboard.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rui Miguel Silva <rmfrfs@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v4 4/4] media: imx-mipi-csis: Get number of active lanes
- via mbus_config
-Message-ID: <aNW6UPV7LzmczWtm@lizhi-Precision-Tower-5810>
-References: <20250925-active-data-lanes-v4-0-8b54e3d5af6c@ideasonboard.com>
- <20250925-active-data-lanes-v4-4-8b54e3d5af6c@ideasonboard.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250925-active-data-lanes-v4-4-8b54e3d5af6c@ideasonboard.com>
-X-ClientProxiedBy: PH7P222CA0026.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:510:33a::29) To PAXSPRMB0053.eurprd04.prod.outlook.com
- (2603:10a6:102:23f::21)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC8F930EF83
+	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 22:31:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758839500; cv=none; b=CL8LTI4YWEb3VqJbEY5PhwyaoAnYcsCBUwEZmkuRPY5KFdz1CMR8EKGsk/q2Z/Ggzcx10jRfjfeApxQQuTyyiFpUSxSb7R8t1Yc0mflBxqsUbEVBRPXbmPaTogdyl+gwVE9iE8nU6d76Uc99r1XfA06XW/rvaYgRkfgeEwLtcTY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758839500; c=relaxed/simple;
+	bh=0Alswmfe1zq7N80PnOB6XtFxyNuFoZwrMxHbgdTZfVk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rE2MQIIoy8/+VYjRVhK1BMrJTBX+/PyQXL2WQZfpx9XMJ4h4rBGoIxqRsKRi2pRhCe5QaPqo5Q/mjFyW2ydn3xzv/ksS8D/XpQ4mZXlW2Z4mN7478gEBY7EuGw2uDVyDlB8447BYDCh1ZBVdU9cOamXA/Cbp7FHyFj+cSoRiqPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=C+yZubRg; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1758839497;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pPGBYTkBK6lmMsctQg86rFzc+ubUYRnHqSeaFKAdA0w=;
+	b=C+yZubRgK7Xuwq8ZYbAwrcRYC9QJmxmKZYhbFEgZZzGy0wcSpRtZdmQIn5cJi+4/kE7I0b
+	H7LRxQ7lvfwPszHznmJsqnXlq31xtlX1UeKVoTth1DoVwhxeCom1E1069qr7z2twjZ/ElL
+	OZg7vgVrWNEhfNV/vmzboGSLcCUVDtI=
+Received: from mail-il1-f198.google.com (mail-il1-f198.google.com
+ [209.85.166.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-661-a2kIN9IzP3W9deUuXmZqAw-1; Thu, 25 Sep 2025 18:31:36 -0400
+X-MC-Unique: a2kIN9IzP3W9deUuXmZqAw-1
+X-Mimecast-MFC-AGG-ID: a2kIN9IzP3W9deUuXmZqAw_1758839495
+Received: by mail-il1-f198.google.com with SMTP id e9e14a558f8ab-4247de28df5so3347135ab.2
+        for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 15:31:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758839495; x=1759444295;
+        h=content-transfer-encoding:mime-version:organization:references
+         :in-reply-to:message-id:subject:cc:to:from:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pPGBYTkBK6lmMsctQg86rFzc+ubUYRnHqSeaFKAdA0w=;
+        b=XEYKTkNySotFgBIxqNIXH14skZq3nIlRZ2al6CXfbfmRyqCuphn+pZGQWaaZh76DGO
+         YNvobtWzLijaBjPhemxRZb4WjF0/KVosPR7RGMqMEHiZY5vbUmJ+ChPQPiljRVvRjPc6
+         ywIULNGizR7raHLmip7FFmLyQw2B/LZsK5u8n7Fr1SDOEDjWyjoAYBM4a/1tyWQxHVJ6
+         zBsMPK9T4wsoIw+q6LKsDfb1vMitC1VvN8L5Y1J8UgVPx04iXcAyOaKG9uJ2UxQeU29o
+         0jffFsYwwIaObXW3TrLo3K6gb3g2OQ0iWWgg4N/RHEd1fdZXrVqyF03jIoOJDNcMpmSI
+         nVXA==
+X-Forwarded-Encrypted: i=1; AJvYcCXiAnudmxWGrAy0330VRpVlUKH1a37BnNRmG2pSyheXpnPMMKDcODlff112DIYZeQBv88EmMVggl/SOdA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTxzrhlvWngA0kHC1bpvKyv/SqYPhqeOFzBDREaIRseSAjaMob
+	WdEpw9c3dbhQaUdV5mKDkKOL12vy+61Q/q/2R7wTEpA8YkMg7HJwqyMl7trljN1PMfN4m4ESWlT
+	1JdcThR4rqHnXie3G4I/THkAPvynkoIZXDIciSwX+Xtw7+HsgKuGZ30sahoxQ/xAN
+X-Gm-Gg: ASbGnctSBwqE4nB3GKyw7B8mD8mwItUma/6mJA97x7rHTQNadVRodQ9fv99ftKoasVk
+	wr16ThHUFzaHJ616Gp+Tqfm7Ob5iZu67zBk6nwBJrZTRu9e75sM5GpyJ2pfwpgFDo8sK65WdseS
+	VqFD8/zoBN53+4iMQvqCmlIRL3JIN9x4sDzaQjguktMeFV2a+UpkhDRXgdrw39FXeH0I4EJtRuo
+	xUh0Q87t31Latsphs3+2Ap+QboPy5U0TODV3A56b2JxqS2LUZBIQsUwFbdit6pSTRzQKZe9iIn1
+	CW2xatOU5X/QhFnoOfzztTBDQumjvYRWLg7xrskg7VE=
+X-Received: by 2002:a92:d987:0:b0:424:80e6:9e8b with SMTP id e9e14a558f8ab-42595661562mr24720295ab.7.1758839495377;
+        Thu, 25 Sep 2025 15:31:35 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGBjWzVlsd5kVvaGcIPZVt9Dy5vtGZ7X7lNybnyhnS6f36pgd3Q/xbJFuK0zszjvTKZaW8Iag==
+X-Received: by 2002:a92:d987:0:b0:424:80e6:9e8b with SMTP id e9e14a558f8ab-42595661562mr24719995ab.7.1758839494991;
+        Thu, 25 Sep 2025 15:31:34 -0700 (PDT)
+Received: from redhat.com ([38.15.36.11])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-56a69a1c574sm1211405173.40.2025.09.25.15.31.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Sep 2025 15:31:34 -0700 (PDT)
+Date: Thu, 25 Sep 2025 16:31:31 -0600
+From: Alex Williamson <alex.williamson@redhat.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Bjorn Helgaas <bhelgaas@google.com>, Christian
+ =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, Jens Axboe
+ <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-mm@kvack.org, linux-pci@vger.kernel.org, Logan Gunthorpe
+ <logang@deltatee.com>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin
+ Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 03/10] PCI/P2PDMA: Refactor to separate core P2P
+ functionality from memory allocation
+Message-ID: <20250925163131.22a2c09b.alex.williamson@redhat.com>
+In-Reply-To: <20250925115308.GT2617119@nvidia.com>
+References: <cover.1757589589.git.leon@kernel.org>
+	<1e2cb89ea76a92949d06a804e3ab97478e7cacbb.1757589589.git.leon@kernel.org>
+	<20250922150032.3e3da410.alex.williamson@redhat.com>
+	<20250923150414.GA2608121@nvidia.com>
+	<20250923113041.38bee711.alex.williamson@redhat.com>
+	<20250923174333.GE2608121@nvidia.com>
+	<20250923120932.47df57b2.alex.williamson@redhat.com>
+	<20250925070314.GA12165@unreal>
+	<20250925115308.GT2617119@nvidia.com>
+Organization: Red Hat
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|AS8PR04MB9112:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8c6c260e-17dd-43eb-98e8-08ddfc7e4231
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|19092799006|52116014|376014|7416014|1800799024|366016|38350700014|7053199007;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?WI/FdmKuc721s4KgN1wHGbc11RWXxkznxtrBTi9YvE9vQe2uxXaf6XqLM5Gq?=
- =?us-ascii?Q?s0tJZgp44wbgczapoJG94JyV1RE1epQ6drib6FlcFscko46rK47n2bOpxXES?=
- =?us-ascii?Q?hQeitjzMrIoEZhH/lT460CLQcpivKdX90fOeifLo6jv7N4zHa+HhIgfEzR8S?=
- =?us-ascii?Q?xuAxAFRYIswSOXSUjNH1WXKl9zo278lCDL5el49T15Stgoand4zsjShsYNA1?=
- =?us-ascii?Q?KRbRpxmgLN3pvstFMYtrq5iQsYq6wNRFoOdSaejRf7jbj5KBUo4HFWQGPAJT?=
- =?us-ascii?Q?PeOgkoKPU3C12wngae5q0wrBHR46HWSnTtxRH603VVCG3CIV8AKUtOnFIoPe?=
- =?us-ascii?Q?F1ZSzCQpCrUF9CDttOgsVHwwUBaiDVwkNdWVtoa9HhvtvyBKo5y479qbuINu?=
- =?us-ascii?Q?P6ZxrBiRpfcPQRjfN9yX86m4Q/CFMdd28h/A+g7KSh1EKDIFSUZq5/4toHkO?=
- =?us-ascii?Q?/CZJi/8bl9ATjlHBIs2ehjdxvudjgqKCT8E9/bO4acmVSlpuLokqPMwd9i2g?=
- =?us-ascii?Q?nKh9HutaNFi++g5AeCddhJsZeni4PcxsKDfnDm+3WGR/Jy2u/n1dAK3kMg5E?=
- =?us-ascii?Q?WO3v4Gw9qxN5SczUGBbRgpc1ckPxltIZejyt652KFkN38y2g2yX1A9nH7aF/?=
- =?us-ascii?Q?AHyyk/xQQuR62HyUL3/9Jm6nhgtnBbuyuj1YAg8YPEUX3Fku4Q83kC1FyBJ5?=
- =?us-ascii?Q?txULNBZfLT/BBP9JLNomJKiU56smcrcma/XrL+VS/FccTcMFYlWMVgT5bQRc?=
- =?us-ascii?Q?RhTuZ+hl2W6qEmT2a0JyuUDAGj8meVPyCg7yOVG1/lGIUCP2xYd/Nopg5LdJ?=
- =?us-ascii?Q?whH4g/saMNj3pfn0LP16fDfGpziYMzmR/AxSnKo9SoxiQSopTzRX39GAPUME?=
- =?us-ascii?Q?BWzzI4ned5CXHN7k5a4xE8CQxnGB1rUDkUzgUDixkl41zv1YoO+hRPY2rKJq?=
- =?us-ascii?Q?tnet8sHFcC7LHpNLoX4fbJzOvaVMdi2GY6G6I52JcKIDypg7rLScOMZ69Ygn?=
- =?us-ascii?Q?c+LYtzzi65Xu9THFI9Uaf6KMC14bMrcnL8Gdf5TJeZfR37hDQeBNeGO42p42?=
- =?us-ascii?Q?nh10yuoq6ired6xIRXnlThGoEYxZ9EzUuyIk9Q9J1fkhQRXGfRsqDEww/TVY?=
- =?us-ascii?Q?FKzZqStFTIgWYstCGxyy2tOvUEjjKCGMqd0Lpurb9+UqdfiHyKkEzWKDGWVu?=
- =?us-ascii?Q?aPAvQOHr9yQbzlB1eCzPcpl4T92lrNLhfxesXhkMvLBNRA83zcQITRbw5+YH?=
- =?us-ascii?Q?UeP7F8VvlGamy/J0ZmLXsVUPKtDlUtG4PKsXMtE/rO5kRNTLci48y1WvowHu?=
- =?us-ascii?Q?jkPnGXOgvTOFi26g0N7e0dKRcNFVuUDJ2hxW0zoDNDL5m/UhD3FaxkMN1xtW?=
- =?us-ascii?Q?vcESY4+0Yu3pxURIJmv940Om1gCoxeUSMzpwDH2Mgf2Y8zTxZroo+30NG2XL?=
- =?us-ascii?Q?ZRE19ce8jOcdzn+wczrS6yQ/d86NW3ObZhGCKkxLjGsTjT+zyrnIsw=3D=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXSPRMB0053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(52116014)(376014)(7416014)(1800799024)(366016)(38350700014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?VF40pT/CEoRKd1cS979u0yJCS8HLfWo17ht7ycszJs5Vmnd1tkNsKEHXExW6?=
- =?us-ascii?Q?R8ZQ+ca+zv+ac3/wdODMfCSlrLrGtK7DJkUmDm/H/rMHg9ZpDkdLcQHlD5+e?=
- =?us-ascii?Q?00zwtIErSlTd9GptU7EpMr7ly6BSFb5j6RDGF+vt1R6kgJ948R8tMXhRYSBE?=
- =?us-ascii?Q?pKK/t4jhDYSkObGNRohZ7aBjRILQarfNByAesrCKmeSLKPY9NaRYHFkpxx2x?=
- =?us-ascii?Q?+0dE9p3xsb4NWopS2Ebn1b9BAgcm97a45r8Qwhg/rKYsXdlGJ/1fju5nCVSU?=
- =?us-ascii?Q?hXDhJRprppkpvoKD7vfR77g4N1ItlD0J1GnR43ULJCPK2Tv2EdhyakRteseq?=
- =?us-ascii?Q?oAJBzSDc7x3IJY8YzC9fTm5RhSzuT96FhjPh+/LjQXUFwitkF3VbG9w1PlSq?=
- =?us-ascii?Q?qB9Ir5og4pBKmAgSckl4aCMFciyTc8/nPR8pF4n3p7mdoBEhTGtnHxmF9ncq?=
- =?us-ascii?Q?3e8RePZJO1F8Kz/naR7PRMTBFFWdUxXsfBmBiDHCOLGYfN0bF48lypktMO3K?=
- =?us-ascii?Q?kSF9SQllSXtifgt5Y5XOifArkp5pjzznZlCMsquxGxFujuJbYdCPyUNlT+kL?=
- =?us-ascii?Q?GAqBGvWHd79aTcquFOHMt78kj9G9D73R0M4JmjVUwvA1FEZ/3GqWIm6NFNow?=
- =?us-ascii?Q?njutkY+8FXpuMYAtV2D0Xpt9AS25OUtgSJ6SCk2mJEAu/hcIRTZxUtgqoJQl?=
- =?us-ascii?Q?8NM557LEheoVxD/sMjlBbkkqCwm9qLv7cvx+U2VDbljDW08axDncCVRbU0sv?=
- =?us-ascii?Q?Keg4NHVKxVofPQVPahkFia0X2NNTOkfxFJwVHERoRP1XZUX7rTpbBfzQ4KJO?=
- =?us-ascii?Q?MUZBsiSLDW4qSHUQZqYwwXD37spFUSqS2j+/Rfn/aF9gkHktZ1VEFZ1R+PTf?=
- =?us-ascii?Q?sPS8lsRDOoz2QOiBuwZT2l8quB9YfUrPwGOBK8y20WmxxzhvsQzvh5pv+glZ?=
- =?us-ascii?Q?FQg25uzs/E1sbrG0q2sTo3P4JXfe4jIVJ0o4k05AJoe/sH3ZPZn4mX2YFbXN?=
- =?us-ascii?Q?0uUQqSX/mnR08jgms8OGIehay/KkGODuEDfMbr7l+zn6XCJF4Xbc/R/UVpjL?=
- =?us-ascii?Q?3FpHoToYGyFhdpkSe1v7z4iIkvhgg27F3lbtn5n6V264HpUCHgrFZqoKgm9A?=
- =?us-ascii?Q?CducRYtD0s/y1LD+RxG5CgGM3Vm0GMuOk5bGEKyQq7m37TpHqv57bYbtO7jL?=
- =?us-ascii?Q?xizmdOW+oDv700/IxQ/o0VVjJgsdWGKGrWGAmyihyW2ja94Y5MWcaK2Vsn3H?=
- =?us-ascii?Q?mDaB6I5slhS+8akLOSNRZmtLheb0now1+iPTKD/pGoeQEEj6OUyv+E6H32V+?=
- =?us-ascii?Q?OGpKMhtzpYvG0V+sStk+PRKO6r2iOe2o3VZBGjoYmhUcJb+0+ls/o4gHxWFP?=
- =?us-ascii?Q?xeFvWWFwMLwypNWWCCgoi7lg5CMshu1X59t8oRAI1b2FBuJ0l7671qoWVFwI?=
- =?us-ascii?Q?rUEr29tqLgQ4QNjKcqNEtucqHs6mpYYKQj/1pAgc/HCZdETpFa6m1ZK7Zeu0?=
- =?us-ascii?Q?hzh1aJAP1fp/T4UWVdprBCThx4Cm2wrpACjWbV8/85iEPFJqvjzlh5qqp0IN?=
- =?us-ascii?Q?wf7cRSWPtdY4jElzZ+avIR0Wr2kiCF43OwxfbJlr?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8c6c260e-17dd-43eb-98e8-08ddfc7e4231
-X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 21:55:36.5016
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: H3xa0Ib7ilJ03i+enZplAqYAX1szCIGgrlcedJ2+TjT5cNqSBQVHvjRjUVo4N1JdxBvsf+IWa01jPMaSFT/vxA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB9112
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Thu, Sep 25, 2025 at 04:54:29PM +0100, Isaac Scott wrote:
-> The number of lanes actively used by a MIPI CSI transmitter may differ
-> from that which is defined in device tree, due to the source device not
-> using all of the connected data lanes on the board. As such, call on
-> v4l2_get_active_data_lanes() to check if the driver reports a differing
-> number of lanes to the maximum, and use that number of active lanes.
->
-> If the number of active data lanes is invalid, or the op is not
-> supported, use the maximum number of allowed data lanes.
+On Thu, 25 Sep 2025 08:53:08 -0300
+Jason Gunthorpe <jgg@nvidia.com> wrote:
 
-Is below message better?
+> On Thu, Sep 25, 2025 at 10:03:14AM +0300, Leon Romanovsky wrote:
+> 
+> > > It would at least make sense to me then to store the provider on the
+> > > vfio_pci_dma_buf object at the time of the get feature call rather than
+> > > vfio_pci_core_init_dev() though.  That would eliminate patch 08/ and
+> > > the inline #ifdefs.  
+> > 
+> > I'll change it now. If "enable" function goes to be "get" function, we
+> > won't need to store anything in vfio_pci_dma_buf too. At the end, we
+> > have exactly two lines "provider = priv->vdev->provider[priv->bar];",
+> > which can easily be changed to be "provider = pcim_p2pdma_provider(priv->vdev->pdev, priv->bar)"  
+> 
+> Not without some kind of locking change. I'd keep the
+> priv->vdev->provider[priv->bar] because setup during probe doesn't
+> need special locking.
 
-media: mipi-csis: Support active data lanes differing from maximum
+Why do we need to store the provider on the vfio_pci_core_device at
+probe though, we can get it later via pcim_p2pdma_provider().  Ideally
+we'd take the opportunity to pull out the setup part of the _provider
+function to give us an initialization interface to use at probe time
+without an unnecessary BAR# arg.  Thanks,
 
-Call v4l2_get_active_data_lanes() to get the number of lanes actively used
-by the MIPI CSI transmitter, which may differs from the maximum defined in
-the device tree.
+Alex
 
-If the driver reports an invalid number of active lanes, or the
-operation is not supported, fall back to the maximum number of allowed
-data lanes
-
-Frank
->
-> Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
-> ---
->  drivers/media/platform/nxp/imx-mipi-csis.c | 4 ++++
->  1 file changed, 4 insertions(+)
->
-> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-> index 838a1ad123b5..637ef6e614fa 100644
-> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> @@ -1034,6 +1034,10 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
->  	format = v4l2_subdev_state_get_format(state, CSIS_PAD_SINK);
->  	csis_fmt = find_csis_format(format->code);
->
-> +	ret = v4l2_get_active_data_lanes(csis->source.pad,
-> +					 csis->bus.num_data_lanes);
-> +	csis->num_data_lanes = ret < 0 ? csis->bus.num_data_lanes : ret;
-> +
->  	ret = mipi_csis_calculate_params(csis, csis_fmt);
->  	if (ret < 0)
->  		goto err_unlock;
->
-> --
-> 2.43.0
->
 
