@@ -1,48 +1,63 @@
-Return-Path: <linux-media+bounces-43155-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43156-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 690D4B9F50D
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 14:44:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98B2B9F53D
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 14:47:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 859391BC236F
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 12:44:51 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B8D4E1BC3B23
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 12:47:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE8E5261596;
-	Thu, 25 Sep 2025 12:44:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0B33B18C933;
+	Thu, 25 Sep 2025 12:46:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="O89KvNSq"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="dYlx8oaa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87181A5B9E;
-	Thu, 25 Sep 2025 12:44:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFBDB1D5151;
+	Thu, 25 Sep 2025 12:46:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758804260; cv=none; b=j4Uu0iwOhko0iPKz0DnAx7YOZUUzZam1csfX5fpoq5EQ8NfeBYCYW2kzpeh7p6HtI4ejVL1SREivqGtODd4rAOxQDjAryf3CKmHLxDGPh8if/FmSlw4l7KZ/cb/t0tdUWZSbfRTzwA202u1YgYMWk2GRtyewemnbw36JCxe59zc=
+	t=1758804397; cv=none; b=FZ3VqJKcmb/ALFGp4CnHR2jB1jeYLkSgNvwOD/W3RGnSh8878II4OzPEX0ZAEpijf10kYZstuvgCi45rtAQkuJHX8nLa8WypcTNe/yLeZNRGiLOSPVeXaiWyZQ3UK5so0VLfqe+Ab+LCWk72+AYDiowI1dF3wV8ZQqBnNgrdTRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758804260; c=relaxed/simple;
-	bh=QmGmn3+dtNbLHQC1nbIC/IJWmcaevKdkI0kLT4TRyV8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Qn1Iy9wKb0QJyus6lyXTJRKVB3/v+1r1juN+Ue0ZaG+IVypGkF3wpfahWlhqhwhbWkQX6V69cSIACjwcHQRH2HM5tXfLoB+xCF4qOkXJ6fHijVPl5F6+R8vvVYOgHI3vmqpihDiQcdeQzFtpK6SwXmTH/v8nE83pukPCkRo2pwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=O89KvNSq; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.88.20] (91-158-153-178.elisa-laajakaista.fi [91.158.153.178])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id EFBAD1AC5;
-	Thu, 25 Sep 2025 14:42:50 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1758804172;
-	bh=QmGmn3+dtNbLHQC1nbIC/IJWmcaevKdkI0kLT4TRyV8=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=O89KvNSq+0Yw7Yuvl9ChFeh1WUbCT07bkSYIH20SKFYAeUOOVWr5P7mjqg32jLmNh
-	 JxCWGws5v89IDD9toYuWxxQmsc6GKCjNfw+4q5BPpiXGsntklFveYvabFnk2Fccsuh
-	 wIXQBW+/Psq+d6OZPbTX5GgXrv+tCzf27ejc3iRU=
-Message-ID: <364c3b35-81a0-4e93-ad3b-a0fff3a29365@ideasonboard.com>
-Date: Thu, 25 Sep 2025 15:44:13 +0300
+	s=arc-20240116; t=1758804397; c=relaxed/simple;
+	bh=M0UDfbEHXwRZCG4zurwKlMYjlubq0XzZ938+BxCitGE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=OdSin7FLCBKIGedCz4tlPYbnYsGDEEN/glAIiXx2BSnG8Y7gP7kgm7EHM8zXKz5BOJTXeIZX3PzE9v1VQBKBRaC5Wbr4lzQpX5hgt27IH4ZrDt3CqTTAmvWplVV1qlNshwbfDRY2sT0s/7Y3yHfY0f59Xpyyc7fblCfrM3FZy3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=dYlx8oaa; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58P9jEc4025075;
+	Thu, 25 Sep 2025 12:46:28 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	FNHO05SX2ISnbSmP3iCTPQxHrJHJuuNmq1A3PLmG1/s=; b=dYlx8oaa5hiYO6GZ
+	Z6+AAC7aS5MhXQRW7Od8z/CyA6ZKWkEJI7zW4IBXVcDMiBgSbY97lxAT1qR+WGtV
+	hw2IGEXTAAjxKKs/Ev44UUbUJeZImMOhcd9BrhhcbWX74+Z/bXSH2Ra9BXcbTySL
+	/6oCpVzelQ/eBSfVx8xWaV8TcV9lKLOT8GPZiM7o7UqFmpmLoZUF1E3++cotMZDt
+	24RKylmX0Jz5rlEBLiqAmtE03Xzig3nNkGiDbGn/SHNB0Y4Fs/0o6rRfVNUT+UnB
+	x9BXO1r6lYwiTYbdSEhmYBzhTwnCnsIWpilXgyr5P7hzZfykMpWdT1KGHVBk/1Yd
+	YNygiQ==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499hyf0e2w-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 25 Sep 2025 12:46:28 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 58PCkSo5014879
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 25 Sep 2025 12:46:28 GMT
+Received: from [10.218.44.34] (10.80.80.8) by nasanex01b.na.qualcomm.com
+ (10.46.141.250) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Thu, 25 Sep
+ 2025 05:46:23 -0700
+Message-ID: <43719456-cb4a-4cf9-99cd-2b97b1300c87@quicinc.com>
+Date: Thu, 25 Sep 2025 18:16:23 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,128 +65,75 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 10/16] media: cadence: csi2rx: add multistream support
-To: Rishikesh Donadkar <r-donadkar@ti.com>, jai.luthra@linux.dev,
- laurent.pinchart@ideasonboard.com, mripard@kernel.org
-Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com,
- vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
- p.zabel@pengutronix.de, conor+dt@kernel.org, sakari.ailus@linux.intel.com,
- hverkuil-cisco@xs4all.nl, jai.luthra@ideasonboard.com,
- changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com,
- sjoerd@collabora.com, hverkuil+cisco@kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20250911102832.1583440-1-r-donadkar@ti.com>
- <20250911102832.1583440-11-r-donadkar@ti.com>
+Subject: Re: [PATCH v7 RESEND 0/2] i2c: i2c-qcom-geni: Add Block event
+ interrupt support
 Content-Language: en-US
-From: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Autocrypt: addr=tomi.valkeinen@ideasonboard.com; keydata=
- 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
-In-Reply-To: <20250911102832.1583440-11-r-donadkar@ti.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+To: Andi Shyti <andi.shyti@kernel.org>
+CC: Vinod Koul <vkoul@kernel.org>,
+        Mukesh Kumar Savaliya
+	<quic_msavaliy@quicinc.com>,
+        Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?=
+	<christian.koenig@amd.com>,
+        <linux-arm-msm@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-i2c@vger.kernel.org>,
+        <linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linaro-mm-sig@lists.linaro.org>, <quic_vtanuku@quicinc.com>
+References: <20250923073752.1425802-1-quic_jseerapu@quicinc.com>
+ <eobfxgtssuiom2cuc2zlsvc2hhyi2jk7qb7zydgo4k5wwvxjlz@nksb3x6p5ums>
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+In-Reply-To: <eobfxgtssuiom2cuc2zlsvc2hhyi2jk7qb7zydgo4k5wwvxjlz@nksb3x6p5ums>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: BqH7osJsGLflu6b1HESYpIrNgIhCoe6u
+X-Authority-Analysis: v=2.4 cv=YMOfyQGx c=1 sm=1 tr=0 ts=68d539a4 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10
+ a=hdYCJYuJWRfGjIhB1IAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAwNCBTYWx0ZWRfX0w2DYUOyEQl+
+ ueSU8oqvjsE5xRZJRNZ6rxVZjSf8lqF4NDlxibk0R1PBdIA8QWskmxbIbNlxuJNqhbBrUu5Q+U9
+ 5ZpFWI4jxssM0GkQUe/KQyFkeu7HM/7u+5P2VJjx01NIAYTLJ3N/Ll0Y+q0mY8HyLvnZQDITmbI
+ VgCG2kbkCL8SyViauxnWNChQVx5Wb66uW4RyEkhF6/nEhelgAMIq0ZScTAZvm4Nd6O0IRF4L397
+ iK3+eQc3bG7I5O14DvIJ7DiJgGuXJDhps/nRgXTCMzpPaH/o1SA51IHNm+WeupwmASk0kSuyvJ/
+ TUK9vOQDmcOcKhOiN50xURfArHxnxUrVHNw9GW7lCICdmXgCRo80kNKme+9zxv1FcDGkO+3CZz1
+ dngniYV/
+X-Proofpoint-ORIG-GUID: BqH7osJsGLflu6b1HESYpIrNgIhCoe6u
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-25_01,2025-09-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 bulkscore=0 adultscore=0 priorityscore=1501 spamscore=0
+ clxscore=1015 suspectscore=0 phishscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200004
 
-Hi,
 
-On 11/09/2025 13:28, Rishikesh Donadkar wrote:
-> From: Jai Luthra <j-luthra@ti.com>
-> 
-> Cadence CSI-2 bridge IP supports capturing multiple virtual "streams"
-> of data over the same physical interface using MIPI Virtual Channels.
-> 
-> While the hardware IP supports usecases where streams coming in the sink
-> pad can be broadcasted to multiple source pads, the driver will need
-> significant re-architecture to make that possible. The two users of this
-> IP in mainline linux are TI Shim and StarFive JH7110 CAMSS, and both
-> have only integrated the first source pad i.e stream0 of this IP. So for
-> now keep it simple and only allow 1-to-1 mapping of streams from sink to
-> source, without any broadcasting.
-> 
-> The enable_streams() API in v4l2 supports passing a bitmask to enable
-> each pad/stream combination individually on any media subdev. Use this
-> API instead of  s_stream() API.
-> 
-> Implement the enable_stream and disable_stream hooks in place of the
-> stream-unaware s_stream hook.
-> 
-> Implement a fallback s_stream hook that internally calls enable_stream
-> on each source pad, for consumer drivers that don't use multi-stream
-> APIs to still work. The helper function v4l2_subdev_s_stream_helper()
-> form the v4l2 framework is not used here as it is meant only for the
-> subedvs that have a single source pad and this hardware IP supports
-> having multiple source pads.
-
-<snip>
-
-> +static int csi2rx_enable_streams(struct v4l2_subdev *subdev,
-> +				 struct v4l2_subdev_state *state, u32 pad,
-> +				 u64 streams_mask)
-> +{
-> +	struct csi2rx_priv *csi2rx = v4l2_subdev_to_csi2rx(subdev);
-> +	u64 sink_streams;
-> +	int ret;
-> +
-> +	sink_streams = v4l2_subdev_state_xlate_streams(state, pad,
-> +						       CSI2RX_PAD_SINK,
-> +						       &streams_mask);
-> +
-> +	guard(mutex)(&csi2rx->lock);
-
-This looks a bit odd too. With enable/disable_streams, the state is
-already locked. What is the mutex protecting?
-
-j721e-csi2rx also has mutexes, and it's very unclear what they protect.
-This should be described in the code.
-
-I think in csi2rx the whole mutex can be just dropped.
-
-j721e-csi2rx is a bit more complex, but there also I would consider if
-and when the state lock protects the relevant parts already, and when
-another lock is needed, what is the sequence to lock/unlock (e.g. always
-csi->mutex first, then csi->subdev state lock), and make sure the code
-follows that.
-
- Tomi
-
+On 9/25/2025 4:58 AM, Andi Shyti wrote:
+> Hi Jyothi,
+>
+> I'm sorry, but this is not a resend, but this is a v8. Other
+> than:
+>
+> 1. commit log in patch 1: removed duplicate sentence
+> 2. use proper types when calling geni_i2c_gpi_unmap() inside
+>     geni_i2c_gpi_multi_desc_unmap()
+>
+> is there anything else?
+>
+> Please, next increase the version even for tiny changes.
+Thanks Andi, I’ve raised the V8 patch as per the suggestion.
+>> Jyothi Kumar Seerapu (2):
+>>    dmaengine: qcom: gpi: Add GPI Block event interrupt support
+> We still need Vinod's comments here...
+>
+>>    i2c: i2c-qcom-geni: Add Block event interrupt support
+> ... and Mukesh and Viken's ack here.
+>
+> Thanks,
+> Andi
 
