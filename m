@@ -1,163 +1,139 @@
-Return-Path: <linux-media+bounces-43128-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43129-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0B12B9DBC1
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 08:54:30 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E79B0B9DBF1
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 09:03:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id ABACF3B0110
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 06:54:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id BEDF819C77CE
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 07:03:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA07B2E8B8F;
-	Thu, 25 Sep 2025 06:54:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4352D2E973F;
+	Thu, 25 Sep 2025 07:03:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RNsR6weW"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qHutfg7p"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4EDA3C01
-	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 06:54:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DAEC1CAA92;
+	Thu, 25 Sep 2025 07:03:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758783265; cv=none; b=kOknF2zpG4u+E5pTGw2Zf4FUrr2kp7+ZY7SOH27MX48YvOrCV8+jPASytDeXXgW4RRKaoAVxVoq3e4qlcyZNq6/mX8kZvUCpi8T9rT/xKb1cKVCGsPHSk7J81hG7y4By6UKQs+BMIEeR2eshdQIrb8CQa1REZW9jtVJrTRWI0rE=
+	t=1758783801; cv=none; b=EhpeZ4N09Bs/KRSdMLJJRB5DSIOypRUcgIdRXhybTs8Id8LrUcnu2BzK3jbkixQpjK1wloVpE7z1eC91yWEQEXTIXYqIfa/nmg8DHm/BG8W7l9bjPSyo8SMLsGWQZR2INcYYY0uOMYK8XpFS1ITUYf13z4GAGclmBNUw1nNBwSc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758783265; c=relaxed/simple;
-	bh=17a4zkGgaa//HU7iZsn7gwYHjY/+I8XSpvL2JrgelU4=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=tVo2A/FVzzJQVO3hKlDxhBpKeOCW8pmc6BsNEGjghtmXGM3Q1oNvo5xRYroNpHDM7QO8GeHTAuzn+y8O1RCdSE6G/W2rFWUdWzAPDKrLmWynpBrKvUD1xF+2h8ksRXtUQtHInJkWAWs1K5mHLIkKURZjHQ5LhaxNmUxDjewWCs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RNsR6weW; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-77d94c6562fso789193b3a.2
-        for <linux-media@vger.kernel.org>; Wed, 24 Sep 2025 23:54:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1758783263; x=1759388063; darn=vger.kernel.org;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=17a4zkGgaa//HU7iZsn7gwYHjY/+I8XSpvL2JrgelU4=;
-        b=RNsR6weWh2KvqIvp+BR4V0wpY5b4C5bwdmAzMHsgDCRHRFZr5LFyUjKq21TVlXm1bS
-         dHuW1xn0atSbmycvT9OnUKH5krs3gSd9plNrL7EgEvt+zKH/VCyO1C1jw73AooSY5zRv
-         0JGbYlfpXPQ48ZpPDWqJpm8E+gvqlGfyonTP5+0ck5anIK7Z6Svg6Xg7PVzEUtg1SfVG
-         W5Q3nqZNbejPZU6Ui4jsazSeHnExoGNkpsi0ICcDvunhFvcJsmSSgN4xs/ecTHio9dsZ
-         oFn4ugnLpmaKSUvLjZrGcszh7dWRuN2mE4HA+ANhPR/v5jsUWVFHVltHD14gdZDH0t3u
-         keFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758783263; x=1759388063;
-        h=content-transfer-encoding:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=17a4zkGgaa//HU7iZsn7gwYHjY/+I8XSpvL2JrgelU4=;
-        b=UpJ7sqf+dFJbJ0crpQ1EyPPmlaW0RJCIcvCfxA6lduHRiZ4mPZ+oE79d+tGiYDzW9B
-         DbiYpHJypYgPeT62HfBQ5KlU2PLIDt3rKmjj8icYIKItwJNv2QG1IdYX+Bc/wSkay+YJ
-         ofIvGXFAkpD3yjktkL7fkSsx6tjzM+XEqzex5rE0NmwdzUczhDulJo5jc+JZh6PoupFM
-         tKKktf8QL1n3Axfcd8WUsaYMscEcDpOdGgQ0TDfl+F5cwQNScz4RqIeoy4nOwa1oiN+t
-         lbSTkz0J6uJYxHE6vrJPHB4j0xHnu3+3dgttWrV4io54Zy6R9B/U5zbsrhnVdDdjiD1l
-         9Pwg==
-X-Gm-Message-State: AOJu0YyV7qcy7AhNvSCKSEg/4bQlwwaGur9Chw9Tpb2wXl4GK3A+d3A6
-	+5+nfSjZi2Bzwf6/LEeMpDWc6BL8XGkw5IweV8h6i4TUv1o23vpOskjruvDhZ6oOv7RPeNo8EVc
-	8HmIF1NaIZ4ViI7BzANlC+dD1qdimafz75Q==
-X-Gm-Gg: ASbGncs0tYk1UM/D3j5EaU+3rkbCBbltw/4YeSfMP+bHrAjaum15LfwXIKB5dVEt4Tx
-	/gNKnneZvtnH+Nh9NjHqtsbll9F0BQYxC0XFuCiZp0VvONCufN88kgKSHEJ5wTjAfvAO4BBlUGB
-	hzehm6vr1Ru58RVS2HjNJQ4kMqB3jtk+8ABJtoq6go4mruCxO6NDLwwMlUJAdvkQ9T61wXVhPhm
-	JmPbXi/qPrxx2NS67YwNqPTkqXDOiYAVDaoDZhZjj1MOBM5mtyenGKoJaKLPxE45meGPwXHb+lG
-	I88=
-X-Google-Smtp-Source: AGHT+IGve+nxiZi2uPfJt996xXcMSvFaismW7B5q4duYfThwjLHRAyytlU46E9wHrdXLrW+X22r1XQ08Q1oHf9XMNCU=
-X-Received: by 2002:a05:6a20:a10d:b0:262:1611:6527 with SMTP id
- adf61e73a8af0-2e7d0db0885mr2963565637.35.1758783262866; Wed, 24 Sep 2025
- 23:54:22 -0700 (PDT)
+	s=arc-20240116; t=1758783801; c=relaxed/simple;
+	bh=IfFjt1sIn89xjUeeoV2zJsvE3bTjSj86lJ2QWvNYz8w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uT4W4PHEa0T9K2MMhqmpmAcD0+HhmD6HfR60fW77tc5ycyxSNKO4N4exspj2qU2YgjWIOwTnteK3TzHsWOg1fceWB5WZG+LTeGr8ERHp2lTCGi8YNaE0Y8OzBkvzyroKbFODJeFg/zxWWeunTBwYKdC6xT3gJyKcERtFjogIYPI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qHutfg7p; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 476E0C4CEF4;
+	Thu, 25 Sep 2025 07:03:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758783799;
+	bh=IfFjt1sIn89xjUeeoV2zJsvE3bTjSj86lJ2QWvNYz8w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qHutfg7p0MJiJzKdbXS/d6R3kdEqDhdXcGmgxvkwI4AM6XuKyeIpgR1GSCsEqIGVB
+	 9ZrAilO0Zj59EMAXR1lQlcpWEMA28nquUz1IKkduHGuS4dyD2OJmp5f3UxncKmQ8+I
+	 Dp30uxy2wGUYE3Hja5f4XS00BFzuj+WaXq60qYIzodUdV2tvE04uI5a85RPL6mAqR7
+	 MWKPSQplfkMcH9/nRS03UG60TJBwCq9ZQRhoS60sk8FdhiE0kifJqWTjrMUqN9REZV
+	 kUzpbXtt2XKNZVaDT/F1inIn9vj+we8Gfm9meFs0BUoq+pahNKDPioVkPIFajbcBnM
+	 waHnKaEouWGfQ==
+Date: Thu, 25 Sep 2025 10:03:14 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 03/10] PCI/P2PDMA: Refactor to separate core P2P
+ functionality from memory allocation
+Message-ID: <20250925070314.GA12165@unreal>
+References: <cover.1757589589.git.leon@kernel.org>
+ <1e2cb89ea76a92949d06a804e3ab97478e7cacbb.1757589589.git.leon@kernel.org>
+ <20250922150032.3e3da410.alex.williamson@redhat.com>
+ <20250923150414.GA2608121@nvidia.com>
+ <20250923113041.38bee711.alex.williamson@redhat.com>
+ <20250923174333.GE2608121@nvidia.com>
+ <20250923120932.47df57b2.alex.williamson@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250913105252.26886-1-opensource206@gmail.com>
- <68c55d70.050a0220.2634f5.389c@mx.google.com> <CAKPKb89xmoyH2gs=B3QhS4HxAUGc0PKvsm2kQ2sEw1zicZS0wg@mail.gmail.com>
-In-Reply-To: <CAKPKb89xmoyH2gs=B3QhS4HxAUGc0PKvsm2kQ2sEw1zicZS0wg@mail.gmail.com>
-From: opensource india <opensource206@gmail.com>
-Date: Thu, 25 Sep 2025 12:24:07 +0530
-X-Gm-Features: AS18NWBAQBojerw8_MX_zO6XaD8ySEyugyNRZMd79Bf0maY1GbcuINzsSxRoPHQ
-Message-ID: <CAKPKb8-WPUJp9bHayp=iWQCA8i5pThnux+JenpX9Dk3tsxh8eQ@mail.gmail.com>
-Subject: Re: [v3] media: v4l2-ctrls: add full AV1 profile validation in validate_av1_sequence()
-To: linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250923120932.47df57b2.alex.williamson@redhat.com>
 
-On Tue, Sep 16, 2025 at 5:30=E2=80=AFPM opensource india
-<opensource206@gmail.com> wrote:
->
->
->
-> On Sat, Sep 13, 2025 at 5:32=E2=80=AFPM Patchwork Integration <patchwork@=
-media-ci.org> wrote:
-> >
-> > Dear Pavan Bobba:
-> >
-> > Thanks for your patches! Unfortunately the Media CI robot detected some
-> > issues:
-> >
-> > # Test virtme32-onlyvivid:test-virtme
-> > Error running test. Final Summary not found
-> >
-> > # Test virtme64-onlyvivid:test-virtme
-> > Error running test. Final Summary not found
-> >
-> > # Test virtme32:test-virtme
-> > Error running test. Final Summary not found
-> >
-> > # Test virtme64:test-virtme
-> > Error running test. Final Summary not found
-> >
-> >
-> >
-> > Please fix your series, and upload a new version. If you have a patchwo=
-rk
-> > account, do not forget to mark the current series as Superseded.
-> >
-> > For more details, check the full report at:
-> > https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/8442=
-9906/artifacts/report.htm .
-> >
-> >
-> >
-> > Best regards, and Happy Hacking!
-> > Media CI robot on behalf of the linux-media community.
-> >
-> > ---
-> > Check the latest rules for contributing your patches at:
-> > https://docs.kernel.org/driver-api/media/maintainer-entry-profile.html
-> >
-> > If you believe that the CI is wrong, kindly open an issue at
-> > https://gitlab.freedesktop.org/linux-media/media-ci/-/issues or reply-a=
-ll
-> > to this message.
->
-> This issue appears to be a setup issue.
->
-> as per log, i can see below failure
->
-> mount: /etc/lvm: mount point does not exist.
-> dmesg(1) may have more information after failed mount system call.
-> [ 73.430279] virtme-init: basic initialization done
-> [ 73.580731] virtme-init: running systemd-tmpfiles
-> /usr/lib/tmpfiles.d/legacy.conf:14: Duplicate line for path "/run/lock", =
-ignoring.
-> symlink(../proc/self/mounts, /etc/mtab) failed: Read-only file system
-> [ 88.255808] systemd-tmpfile (96) used greatest stack depth: 12136 bytes =
-left
-> Error running test. Final Summary not found
-> [ 107.331899] virtme-init: starting udevd
-> [ 115.941117] virtme-init: udev: Starting systemd-udevd version 257.7-1
-> [ 115.946095] virtme-init: triggering udev coldplug
-> [ 131.892889] random: crng init done
-> [ 166.780537] virtme-init: waiting for udev to settle
-> Failed to wait for daemon to reply: Connection timed out
-> [ 288.720366] virtme-init: udev is done
-> [ 292.359663] ip (139) used greatest stack depth: 11816 bytes left
+On Tue, Sep 23, 2025 at 12:09:32PM -0600, Alex Williamson wrote:
+> On Tue, 23 Sep 2025 14:43:33 -0300
+> Jason Gunthorpe <jgg@nvidia.com> wrote:
+> 
+> > On Tue, Sep 23, 2025 at 11:30:41AM -0600, Alex Williamson wrote:
+> > > On Tue, 23 Sep 2025 12:04:14 -0300
+> > > Jason Gunthorpe <jgg@nvidia.com> wrote:
+> > >   
+> > > > On Mon, Sep 22, 2025 at 03:00:32PM -0600, Alex Williamson wrote:  
+> > > > > But then later in patch 8/ and again in 10/ why exactly do we cache
+> > > > > the provider on the vfio_pci_core_device rather than ask for it on
+> > > > > demand from the p2pdma?    
+> > > > 
+> > > > It makes the most sense if the P2P is activated once during probe(),
+> > > > it is just a cheap memory allocation, so no reason not to.
+> > > > 
+> > > > If you try to do it on-demand then it will require more locking.  
+> > > 
+> > > I'm only wondering about splitting to an "initialize/setup" function
+> > > where providers for each BAR are setup, and a "get provider" interface,
+> > > which doesn't really seem to be a hot path anyway.  Batching could
+> > > still be done to setup all BAR providers at once.  
+> > 
+> > I agree it is a weird interface, but it is close to the existing weird
+> > interface :\
+> 
+> Seems like it would help if we just positioned it as a "get provider
+> for BAR" function that happens to initialize all the providers on the
+> first call, rather than an "enable" function with some strange BAR
+> argument and provider return.  pcim_p2pdma_provider(pdev, bar)?
+> 
+> It would at least make sense to me then to store the provider on the
+> vfio_pci_dma_buf object at the time of the get feature call rather than
+> vfio_pci_core_init_dev() though.  That would eliminate patch 08/ and
+> the inline #ifdefs.
 
-can you please review this patch?
+I'll change it now. If "enable" function goes to be "get" function, we
+won't need to store anything in vfio_pci_dma_buf too. At the end, we
+have exactly two lines "provider = priv->vdev->provider[priv->bar];",
+which can easily be changed to be "provider = pcim_p2pdma_provider(priv->vdev->pdev, priv->bar)"
+
+> 
+> > > However, the setup isn't really once per probe(), even in the case of a
+> > > new driver probing we re-use the previously setup providers.    
+> > 
+> > It uses devm to call pci_p2pdma_release() which NULL's pdev->p2pdma.
+> 
+> Ah, right.  So the /* PCI device was "rebound" to the driver */ comment
+> is further misleading, a new probe would do a new setup.  Thanks,
+
+I will fix the comment.
+
+Thanks
+
+> 
+> Alex
+> 
 
