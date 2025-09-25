@@ -1,216 +1,258 @@
-Return-Path: <linux-media+bounces-43140-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43141-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C751BB9E450
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 11:19:14 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id F2A4BB9E760
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 11:43:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 682003AD418
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 09:19:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F2CE3189F8FF
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 09:43:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C43062EA159;
-	Thu, 25 Sep 2025 09:18:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4D1122E9ED6;
+	Thu, 25 Sep 2025 09:42:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="T3fPcCME"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="N/5OSj1/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazon11013024.outbound.protection.outlook.com [40.93.201.24])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212262E92BB
-	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 09:18:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758791932; cv=none; b=pd0FNbMT8gWMuBA6P6B+VzNBkuiZq9y24frN34a6/OHzY//EewJvCiR0Ov3QgpVC6HXwf/7qPR+LlWHdgk/bYpBsBAZUfYhRVVwi0z4izF6i/dIg3Wi9/b5BZmH+EkN4bipyg2ZiWhjhOjZXgQiueOC1FV2O1cTCwYDTgJY5BNk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758791932; c=relaxed/simple;
-	bh=aBzVgiUoATjDskwmV+O0A19hA27wGt/bIlMwuurcLQY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=q9shWZh8LC36qWpVLXFXZ0+kAIRzcf+yY6sMlmChei0885mvI/JtRc9J76Vo8b9iiAnzpZFV2e2fy4qWjux0URzctjWpv9DZ1yFuDgbfXbxb4GqZFHNNDyh6bmxykOVHwoD0xkBVr8n9mL1zfvDXMBsg1b+7Py9Bf2UycWcUtos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=T3fPcCME; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58P0kiCV002114
-	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 09:18:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Ea+frmUPjgVv+Mq8YyoARL2w4ombZur44q+lIGeQf9A=; b=T3fPcCMEvUb2K267
-	hcXjAwxtuGRjOQXEtY7F18Opc1UfFKz3aC+Fd52JdfA0fgp5BH4/B6yKoBzfEybg
-	h0EXKNlVe2fecrLcuiC8MBfTilQaTAUN3G64nwhCIq18TX32wn/7w/ZnFg8X3Shz
-	wSXgbchIicsYgIKDPYnKbBmqIvOAK6wMYI/jCue88QPixWauH5BR14VbRMMq0Xmi
-	eldLpRKbmTOjLuYMxK8MmasER+CICnb3/+gENHqVppB9hOft83l9PV0AiY3XeJ4j
-	NRsD6MoxSn0PAG+n7XfbiNVzcUMYQJCb+MqyAwKDI0rH3fPWiwXb5vYZ5jT6jHJd
-	uVVEug==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 499k98qh00-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 09:18:48 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8572f379832so25399785a.3
-        for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 02:18:48 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758791928; x=1759396728;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ea+frmUPjgVv+Mq8YyoARL2w4ombZur44q+lIGeQf9A=;
-        b=twkFW6zqxPg4qjpQA+TNsqn9LpHwyA8kjAu0Oj7DgqhcK6R08UlK3RzOVvqqRZF1Ml
-         erSSiXDfw6/6tFoeBc8uIf4Z3S17mw+qWkdhII1ApJm62gU7wrLVZVYm+w9bwX8dsQnG
-         0GjH7TTDNpGRTu5db0KPU8LMshSLd6G24YxDSm7e+A3+Q6CKmT6lLnZ8XvymvQ5sSEVL
-         pl6IduaFDm8tjxLXyXdSV/VqAlU04UMElnYPm3G7H0YL86B/wNhcTm+yvBws4NnZcFEe
-         TNazhJq5F/elPokFZFp9kEM4VXXjdE7XQBA5DFmh0FWHbkZ+7oQuemMRiRipFyq34Lki
-         zFMA==
-X-Forwarded-Encrypted: i=1; AJvYcCUFAJik2W26LYr1NDHETxjaRpxG5iwGJA3R02MyRfGMtcQmRT6rxwAtqYRt0R6CCwDbzSrkdj1kPn0WjQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz9loBDMFsJx12kprHUbKXfhhyJaiPwb8WYrX8J1ayHo0ICajFw
-	p+w60tgGayHqnPl66Qy5X8NmMNpGEC5wkNRY+XyOBL8R4npnMXWDSsv4Ahik2yPrxvxC4cKsrJ3
-	aBz3KEixHQ0Z522o/1TwOYmHzhILQqymc9+Sv/eXwwsyF5dmE3j0OIR/QcpMy5FygRg==
-X-Gm-Gg: ASbGncsjUdHqvj2rdGqmqrv8uI5nvog80KpJVAyICglbS4jSwtSBQRhez6aIM7N4v+B
-	t1gDL764WPdYgzvZ5b0+HaZ5C+4YlJR9qd3Xm/eZqk5GELWDErs2g9CIs/0QnA8zBKqXi4gOQeF
-	45c+zziILI3rXN+W/OaeGGsNNLYM0xBjDHEk6lpVyzslTpQLStbJQQgiydh0KmpE5jfCIIWNFFz
-	TvB/Z2AI7UKHMmYka8bkxa+h1jJXmYDg7KR4x8bQ0HuDi/lkoAmvkzNbA11TxCRCCjvS867Z8iF
-	4dGZQb87NDzyWxiQBO0xQQggxlFLRMF4PrmGGmUaKEodIDjmmwQu6x/NmU7SOhpmpP1UJdgWNyi
-	y9++JRYq23qaORBD5Aqm2BA==
-X-Received: by 2002:a05:620a:2948:b0:7e3:297d:ec32 with SMTP id af79cd13be357-85ae6b98c31mr219201985a.10.1758791928060;
-        Thu, 25 Sep 2025 02:18:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG9ZYl0aa3NdV1AUBuLFOtIFJqHnpIWD3oOeW+CrL7tUMx6aQqFaHJq4P9k7znBgc2to9oBTg==
-X-Received: by 2002:a05:620a:2948:b0:7e3:297d:ec32 with SMTP id af79cd13be357-85ae6b98c31mr219200385a.10.1758791927534;
-        Thu, 25 Sep 2025 02:18:47 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b3544fd0a54sm128782566b.86.2025.09.25.02.18.45
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 25 Sep 2025 02:18:47 -0700 (PDT)
-Message-ID: <3355306e-4059-4af5-8865-3b5335356382@oss.qualcomm.com>
-Date: Thu, 25 Sep 2025 11:18:44 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EBDE283FEF;
+	Thu, 25 Sep 2025 09:42:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.201.24
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758793376; cv=fail; b=Zrer1IHEYd0rWV/505qug6XqwAJ045vMEsw57rtoIkTb2BQByL7l0fnT9uCiZQLF2Bt+0OLSRkt7HVdTZ4z4XoLshQAbr0OwR6nI8lXYld1lhvYm1s3mqbDp5lzZJq7uMJuyYikat1G/NjMQ/7P4W82Xp/jOPcijb0ud2QwRanw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758793376; c=relaxed/simple;
+	bh=iQq1nqZv3dM9excvTtl0+dCZfsaK2vAhhw8if9gjx88=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=YyeDDPAJBlFsW0I1dl9b6b2tB8ViDTmUEQiIyI62luPsBSt73v7Q1ZO3G7NVzgctnRX3FJCLX3NQMAdQSEIZLEiXuCx2DzmylIef90/E5zI+zwnKl1QrhPA2+3z2embjhXANLu0XrxJ9hlTzGZxB9cmDG6lejTxp8bBiMBukvyg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=N/5OSj1/; arc=fail smtp.client-ip=40.93.201.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iS2QGSkTgCfVjgnQ66AsrsdA3F0wSshud3uMv75FGOMplhaoYruBXGePMi2LxmFM1tfncUxNRk3IAiIOLkVdWzeMEYuQaAuSWmJiUtmk/Q2RGojYzT3bJXJdZHTErvc9Gg/+KaXxudqp3hYxt8hUql1wYDBc5H2gVJahznNiyK247MidqTOsv3fbHqWiXDAj7BbkkhFFtgQ/8793nBcfViDKWP0qFP3qDHp03Y9627neEjWeNjbsTGUxXO8r47AYVfgyQGIWON9qgMR7VsyR9LvBBUHgAVnXotkFvpED+DZflIoQbuvZ3H0hOwKq1Itm5vKpKCQYD0F63nVm9j+q2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Jp+yblrm21c+FNlAaKtHkET3n5VHKGra+/uwKCDg7KM=;
+ b=MJtEnjC524J13ujS0QizhoyC7009OcGBV5UXfdo8ATpbkMvW2O4eyXTxLSzF7xJvxzJsolLtNOHhxTQW3B8o5uuwv0whiCuVjS7J9m7InjIcOd5sEefi6+08cwjxFucIBt4b4MNohh9iKjmN30rHDaq97UG5Dt52zw5yTGE0pEg2Iv9FlaDKCg0ANBwAMhTbZtufd3AN3QiKlDiAERJnRfWArRrvtIRsmqDDZwv47eigKE9TCz0u/tqlT7pUqqcjE1FGoJ2VMVN7kf5Gc49PaiFykQ6brZTdCdt9X9WLd84FUes5eVMmSfMU6KwcMEdvfm8IojdHuLu5sHYBjkj0nA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Jp+yblrm21c+FNlAaKtHkET3n5VHKGra+/uwKCDg7KM=;
+ b=N/5OSj1/eGvur0N/+FAkSxQAnDcAr9tAv3xFtRdT6sBA6BS1vgLFuHPMkg7J0cYzY79eLkJNGIWs9pdNJSVh//fhxJHCpvu47gjQSQBVyYjjNdl0HgpbhdMwVSC1bsFjgtClXpY8il0K0KloV3m2Wy+AJiZXN8ycaM6rsejmLNg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH8PR12MB7446.namprd12.prod.outlook.com (2603:10b6:510:216::13)
+ by PH7PR12MB5829.namprd12.prod.outlook.com (2603:10b6:510:1d4::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Thu, 25 Sep
+ 2025 09:42:52 +0000
+Received: from PH8PR12MB7446.namprd12.prod.outlook.com
+ ([fe80::e5c1:4cae:6e69:52d7]) by PH8PR12MB7446.namprd12.prod.outlook.com
+ ([fe80::e5c1:4cae:6e69:52d7%6]) with mapi id 15.20.9160.008; Thu, 25 Sep 2025
+ 09:42:52 +0000
+Message-ID: <2c70e54b-bd10-46df-8d93-71708ad3f3bc@amd.com>
+Date: Thu, 25 Sep 2025 17:42:43 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 3/7] media: platform: amd: Add isp4 fw and hw interface
+To: Sultan Alsawaf <sultan@kerneltoast.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
+ laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
+ sakari.ailus@linux.intel.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
+ linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
+ gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com, Dominic.Antony@amd.com,
+ mario.limonciello@amd.com, richard.gong@amd.com, anson.tsao@amd.com,
+ Alexey Zagorodnikov <xglooom@gmail.com>
+References: <20250911100847.277408-1-Bin.Du@amd.com>
+ <20250911100847.277408-4-Bin.Du@amd.com> <aNB0P18ytI1KopWI@sultan-box>
+ <df5f52eb-0480-4d59-b930-e8336a993831@amd.com> <aNOZM2fj1X9TfZSF@sultan-box>
+ <2f6c190d-aed0-4a27-8b20-1a4833d7edf7@amd.com> <aNTtLHDHf_ozenC-@sultan-box>
+Content-Language: en-US
+From: "Du, Bin" <bin.du@amd.com>
+In-Reply-To: <aNTtLHDHf_ozenC-@sultan-box>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SI2PR01CA0049.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:193::13) To PH8PR12MB7446.namprd12.prod.outlook.com
+ (2603:10b6:510:216::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 7/8] media: iris: Introduce vpu ops for vpu4 with
- necessary hooks
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vishnu Reddy <quic_bvisredd@quicinc.com>
-References: <20250925-knp_video-v1-0-e323c0b3c0cd@oss.qualcomm.com>
- <20250925-knp_video-v1-7-e323c0b3c0cd@oss.qualcomm.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250925-knp_video-v1-7-e323c0b3c0cd@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: 7SjTJ4FbZjtWmXqi5ygtCo4AwjHdqaiS
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIwMDAxOCBTYWx0ZWRfX26+mLKr0HubE
- QPQ3EyfZW8HQksEWP2La9xx7wLKRgQM3sLSiuGEZ195tI+VbXoElKT3XMPu1uULN+ufTYb6oR2b
- xAYdhblPF7e9gws2hA02oWODp04okBHBOQaoNfRL53a4zJY0N0vRguZeJ4GZnYmFuFTg/Q9Q2x4
- cFHKH1kRfVqXtUl/IFiEtf0ONXZ2jHZRguO8gqMTZT5ZgzJeip6EHnK4AIi/HONqD1hQBJukdIr
- wpbUdvqM7G5l0Z4YoNNdxcvaANUl1I+Y1XTdTmMMLd5whOAI7Ogchqzf4bSjoPT0VglfOy1zXiH
- 1LscAVxsw44ypKdgOmuzhdC6dk2w0WZcRQ8Rkp+2aXBwlbOSdEtILb/NbWZ9du5ant1MDB9dYdr
- iAdG7AqP
-X-Proofpoint-ORIG-GUID: 7SjTJ4FbZjtWmXqi5ygtCo4AwjHdqaiS
-X-Authority-Analysis: v=2.4 cv=Dp1W+H/+ c=1 sm=1 tr=0 ts=68d508f9 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=Z7GqTKoUbcai2g_QebIA:9 a=QEXdDO2ut3YA:10 a=bTQJ7kPSJx9SKPbeHEYW:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-24_07,2025-09-24_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 adultscore=0 bulkscore=0 impostorscore=0
- phishscore=0 spamscore=0 priorityscore=1501 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2507300000 definitions=main-2509200018
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR12MB7446:EE_|PH7PR12MB5829:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7eba3941-10db-4d5b-88fc-08ddfc17e530
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?S3lCdHF0QUhrOEFjaTBlZnVyTGlIUm5xdXVVNFRpRXdrU1hMa2FrY0xPN2RM?=
+ =?utf-8?B?cnRjUFpySWdPa2hkSjF4bFJUNGFDYmY1S0ZJVWVtQUxuVVBub0VFWXIwNSt6?=
+ =?utf-8?B?RVhwa2J2WWxSWStQZEwyZG90c2JTeXBweDVlTytXR3EybFE5VFBTQ0ZYL0JW?=
+ =?utf-8?B?NSthcEMyZVlHeDcwVDEwNWFzQXVUSWZWaHdBd3RjQWxuWTFYZVY0RXBpYmwr?=
+ =?utf-8?B?OWdDYys0ektwUE9abm93T0UzU2Y4dFBoeE9rY0t6c3RPS3JIVTZCaktFZWZj?=
+ =?utf-8?B?MzNzcjQ0eXByMXpucWsza3ljbGorMHJ6MjVmLzFNb2MwOW9FRzRCakhKZ3N6?=
+ =?utf-8?B?L0RlaWNOT3lhNjdxTWdyeWxuRGVYTGJ0ZkxXeElHdTVxaitFZFRrVFJWSkgv?=
+ =?utf-8?B?TFQvbGFOMUpudmlYbG9kclNxWENmd3FNQjlsZ1VKT2N6MzVXdUoxUVZzeXVR?=
+ =?utf-8?B?eUgzS25zcHB5WE42Y1dwamFZdGRVNHYwOU8yNitucS90YTZnUFpncm0wUllh?=
+ =?utf-8?B?VnpORzAxeWlXeVhRYUNpT2JWZ1lrMnNIU1Z4aUl0RHRpNk1NTm93QmJVZ0pv?=
+ =?utf-8?B?SzhvcXpwTXVPbUFzNSs4c2VQZVMwMVF6UEpIcVIvNG4zeEFRQ3pyWWp3M1pv?=
+ =?utf-8?B?YVZVZDNRUXJHUUVXK21nS1MrdXArOHlyL1ZPU21EWlRQY2IrejgwZlJGWDNY?=
+ =?utf-8?B?R1YxKzl4SGJIbS9DRHJPaUpzWU5HVnVCWHVvVm01aW9xQVUrK012dytDb2FZ?=
+ =?utf-8?B?RHdNdTdnUzd0dzJCR0FmV0VlNkRzWm9GMXl2VUduVUh4QXB4d1U1aVhhcnZx?=
+ =?utf-8?B?azBnamhkZUpBTGNkWE5MTlJ4a1ZpRGxtSTUvRzVYdkR0TDJrRjRzRHNPekZw?=
+ =?utf-8?B?Rk1SczZXYlIxTFVnYnhNckFzZEUyYzUrNUNINTFCZTZjdkY3dWVHWGIrM0pk?=
+ =?utf-8?B?SXFrUENoVDZtK01KNExiSjZ6RnMvYTBOMy9jWnFnT2IvQmdmSkM5OG00Sk1J?=
+ =?utf-8?B?WVI4UEttTVBXVENQWTZnQjIrQWhEQjBPR2kxcVk2NXNwNUlvZmZUQ2pMbSt5?=
+ =?utf-8?B?U3pQZzBUekI3NVIxYndDWW40cW9sbzlRNXBmNUFodnZTdFI3TnlJYlo4UnQ0?=
+ =?utf-8?B?TFRxOGxJdmJhM3M5dVVMR1h2bWJJMHlPcUdoNFN0eHJzVk9heG9wZUoxODBZ?=
+ =?utf-8?B?UE1zYUhLdjgxS3Qwc2RrR09xWXZJSnVIUXl4UjlRSGE5c2lRNDZESnp6ZHdD?=
+ =?utf-8?B?VEpVN3NCS3d5U3Z0Y3NmUmx3TllRQXJZbUJEbjJSZFZsUEx1eU5rRkFPaG5r?=
+ =?utf-8?B?YnJ5WXZ1MG10SDF6ZDdMa3M2T21yaitYZlNLS3FKTFR5UUg1VVBIZ3NiS1RK?=
+ =?utf-8?B?TnNvZHRjSUlKTmJjK3NkaWRYM2RkQ09BRitMMGdacFppNzE5SDVzQ1hua2RM?=
+ =?utf-8?B?bGZxbEREd3JQZkhwaFlJQmdXSWMzemxiRDdUc25nd2RwcGhRRjFOTVJYdWlU?=
+ =?utf-8?B?MnlnVEZJNUgzZUkzUGQrYVhIOWJJU3RweDdVNDNmeStKek85UFlIQWQrMzM3?=
+ =?utf-8?B?Y2wwVmxrUGRWREFJR2crckhkWWpJd1dDOTRZL1dnS29uRWlhRHY3UDVRZGZa?=
+ =?utf-8?B?WUpTTkdTYlZiRUkyNUpXUjg4UTFnYVV2TG9WNllPaE5veEJOM0gxWVFOYlJw?=
+ =?utf-8?B?T1RJUlBYYXpzbTh6WDZUWmordS9ZNi9BTWMrS1N0cll3NGRvVjAySjB0Wis2?=
+ =?utf-8?B?QW5YMjkxT2ZxV1ExZ3UwTHNYMWY5Mjk0cjF4MWZsMTJ6a1o5dFRjM0xnNFVB?=
+ =?utf-8?Q?GEdduSoR0dOe5ppKPPGzjWw8+uuyWMhUVWNsg=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR12MB7446.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?aDVpWVNIZkR2MzhXM3RnK0dhUUloSGp2dUh1cmJxRUEyZ0VHbHlZanhZZWNw?=
+ =?utf-8?B?ZGEzMnZ6RDNjbk9qckxZdzhScGRxWXhpcTdUMU12YnhDNjhRUjVNWWkwMkhx?=
+ =?utf-8?B?NDNRMWd6Rzk3RHY5WlprMUMvd3hLRk1VMHd4YU8vc2VSNkoraW5uSDNxRUlF?=
+ =?utf-8?B?SUw0SGp0ZXdMZnhSbEVSUE9KTDdaQjlQN09YUVJGazB5amJGdjEwdkNNU1Mx?=
+ =?utf-8?B?M0NIeTg3b0wrZ3RWWlBKWDNuaUNXQ3RWRm9LQ1hUL3d0Uk4ySjNkaE1hYjV4?=
+ =?utf-8?B?SVpVQmREWVlJSWNkQmNRbjVEWm9mTmhleExQZW03MjJPSHFnbFk4eUZyUHRr?=
+ =?utf-8?B?ZFBvamRuOE9nT3pwbFNIVDRTSVlRS1hSVUtVVkpxelN5cXFObU5VWURIbVZ2?=
+ =?utf-8?B?YmNtemc0RlhacStJcHpBV3Fyd3pXcEN3OFFic05iWUtqL1ZuQW14Q0NCR21T?=
+ =?utf-8?B?UmZqeDUybzJMSCtEbHNzQTJ2L3JtUjBHdE1LamlYcHZiSzZJQTB6dnhGUEpz?=
+ =?utf-8?B?MXJaeGZ0MUtwWnQ5anphcFFURHE0TStZNG1xOUJaNlpMaUlBTUJzdUNjcUV4?=
+ =?utf-8?B?enJBZjJJMkk0YVIzWTNaZzNpaW1GSFVVN2NtZVAyNElTM2VWbE1WTXk4VjYz?=
+ =?utf-8?B?UFovdE81VDBEalJIWU5KdkdMSXhXbHN5a0tOVTBSNVM1T0p4NU93TlFVc1U0?=
+ =?utf-8?B?WFErcHpyN243WFhERDJXN1dXVjZBaFNPVmdHUGtQb0E5ZTJESTJkLzhsQ3Y4?=
+ =?utf-8?B?QVVVOHJjKzJXc3p6bkY0dkhsNW5Mc0RHSkRhWjZsT09xUjUvbDM1QXdEZkda?=
+ =?utf-8?B?MDNjVTBuc1FFenJkNDY4Q01OczNCeGpHSEdBb2NYeSsvOVhnOGNxV2tSbjFq?=
+ =?utf-8?B?NWpFTnNnN2VmNndtdjNteGNDenpXZVhYVWhIdzMwa3ErZllnNkhtUEhPemc3?=
+ =?utf-8?B?WGFNb1ZaRUc3Vm1jQzIyZzFsbjVWcFkwQ0gzM2drRERsakV2bU9TUHlFOFJE?=
+ =?utf-8?B?dm81M2NGemcxSUU2Rkt0akhseHY2NzlzdS9ZQlBxWTZHN1NzZ0tFUEpvNmxm?=
+ =?utf-8?B?ZjY3NEVFZG1VZHlvWHNvMExlemtlaGRlaWhGK1NIakN0QTc1azkwbHVQY0xH?=
+ =?utf-8?B?OUxEMFNOdkVZd3FCTDkvbWlUVGxMZ3h2dkduYUttTllFZlRFUGQ1N1YyZ0Zl?=
+ =?utf-8?B?bENVbGkvckpUbEVCQzRYRldaQnpObC8yYmxFay80UFp1eUVWNmNONEdIZDVD?=
+ =?utf-8?B?ZHJUaWdjU2RJNFFVdkVmcTNPZDJreTRWM3hpTmRuRlhraUIrMzZLVXFEYUJP?=
+ =?utf-8?B?cTl5TDZidU1aUjg0Sis0Rk54WEFXZnZrQzd6UEVyYi9JZlQvKzBMY1VyREln?=
+ =?utf-8?B?a09uZ2cxNUt4TmhteUNUcVVSall3SkMzT0M1SmU5N3B5ek14RmsrYTN5Tm0y?=
+ =?utf-8?B?QWR0cDNod0Z1YVJFd1B3Z3BhUC9oc3FwYll1cE5MUlBDc3dxLzJWUGJmemtC?=
+ =?utf-8?B?bXdZWjFjWm5zWE1PaHlBUldVdnpqZGozT25maXNaQ1NjeFRvSlFqVCt0UmhX?=
+ =?utf-8?B?bjJINnBRZUR6Mnc5MWFWLzJDUTBUZTFKcFpId2FFWVdQREMrN2RTc3BTWXNP?=
+ =?utf-8?B?WGxmUE1yYkFYRGU2aUw5bWY5bjd5TWt4aGFVR2xSNUlXUUNOWEVsYzlSNlIv?=
+ =?utf-8?B?b3RzT0UvNVJNY2s0SzJLcnlseFZkaHhVMHdlTGlLc1Q4QTc4VjdFcnRPeUQr?=
+ =?utf-8?B?aVp6UlVkMmFJb2srM25MWTZHWHBWSm1FbnI0SEIwTzl6L1dmbXZIODFWVHhj?=
+ =?utf-8?B?cFNkYlptdmozcFhoSDRTUngxSmViNWU1SFNGUnVHbUpBU1NIaFU5MjBRK1c2?=
+ =?utf-8?B?b25qVjNyWnR6M1M5Vm9aK1JNMWdPbmxhRDVKcDFrSWk0NzVPamZieGVTNlho?=
+ =?utf-8?B?U2x2bFRKdUd6Tmd1UnVsSWpORHRGMkhmYUxtdC9la3RXajFVeWZHMDZ2Y0J2?=
+ =?utf-8?B?SVNCckp5WVZZbW82WTZDMFF0N3dVZm5UamlmN0RrWUhPeDBKTXlic1QyNm1s?=
+ =?utf-8?B?WG9DNWQrUlR1MHZoYTlTU0VybSs4SFM3eDlpbEMwSmlpZ2ZLZmsyVjJMY05l?=
+ =?utf-8?Q?QB/g=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7eba3941-10db-4d5b-88fc-08ddfc17e530
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR12MB7446.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 09:42:51.9681
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: NhLv7BiqtfDduUUiXvXPHK6Bm2NeuBO5Te+obcdSd+ds5JmZeVmMdnCymAEP4pkq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB5829
 
-On 9/25/25 1:14 AM, Vikash Garodia wrote:
-> Add power sequence for vpu4 by reusing from previous generation wherever
-> possible. Hook up vpu4 op with vpu4 specific implemtation or resue from
-> earlier generation wherever feasible, like clock calculation in this
-> case.
+Thanks Sultan.
+
+On 9/25/2025 3:20 PM, Sultan Alsawaf wrote:
+> On Thu, Sep 25, 2025 at 11:56:13AM +0800, Du, Bin wrote:
+>> On 9/24/2025 3:09 PM, Sultan Alsawaf wrote:
+>>> On Tue, Sep 23, 2025 at 05:24:11PM +0800, Du, Bin wrote:
+>>>> On 9/22/2025 5:55 AM, Sultan Alsawaf wrote:
+>>>>> On Thu, Sep 11, 2025 at 06:08:43PM +0800, Bin Du wrote:
+>>>>>> +	struct isp4if_cmd_element *cmd_ele = NULL;
+>>>>>> +	struct isp4if_rb_config *rb_config;
+>>>>>> +	struct device *dev = ispif->dev;
+>>>>>> +	struct isp4fw_cmd cmd = {};
+>>>>>
+>>>>> Use memset() to guarantee padding bits of cmd are zeroed, since this may not
+>>>>> guarantee it on all compilers.
+>>>>>
+>>>>
+>>>> Sure, will do it in the next version. Just a question, padding bits seem
+>>>> never to be used, will it cause any problem if they are not zeroed?
+>>>
+>>> Padding bits, if there are any, are used by isp4if_compute_check_sum() and are
+>>> also sent to the firmware.
+>>>
+>>
+>> Yes, this will impact the checksum value. However, based on my
+>> understanding, it will not affect the error detection outcome, since the
+>> firmware uses the same padding bits during both checksum calculation and
+>> comparison. I apologize for the minor disagreement—I just want to avoid
+>> introducing redundant code, especially given that similar scenarios appear a
+>> lot. Originally, we used memset in the initial version, but switched to { }
+>> initialization in subsequent versions based on review feedback. Please feel
+>> free to share your ideas, if you believe it is still necessary, we will add
+>> them.
 > 
-> Co-developed-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
-> Signed-off-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
-> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-> ---
+> Ah, I see Sakari suggested that during a prior review [1].
+> 
+> Whenever a struct is sent outside of the kernel, padding bits should be zeroed
+> for a few reasons:
+> 
+> 1. Uninitialized padding bits can expose sensitive information from kernel
+>     memory, which can be a security concern.
+> 
+> 2. There is no guarantee that the recipient will always behave the same way with
+>     different values for the padding bits. In this case for example, I cannot
+>     look at the ISP source code and say for sure that the padding bits don't
+>     affect its operation. And even if I could, that may always change with a new
+>     firmware version.
+> 
+> 3. You can ensure more reliable testing results by guaranteeing that the padding
+>     bits are the same value (zero) for everyone. For example, if the padding bits
+>     accidentally affected the firmware, some users with different padding bits
+>     values could experience bugs that you cannot reproduce in your lab or dev
+>     environment.
+> 
+> The only way to ensure padding bits are zeroed on all compilers is to use
+> memset; using { } won't do this on every compiler or every compiler version or
+> even every compiler optimization level [2].
+> 
+> So I still believe it is necessary to use memset for those structs which are
+> sent outside of the kernel, in this case for the structs sent to firmware. For
+> structs which are used _only inside_ the kernel, it is preferred to use { }.
+> 
+> [1] https://lore.kernel.org/all/aIclcwRep3F_z7PF@kekkonen.localdomain/
+> [2] https://interrupt.memfault.com/blog/c-struct-padding-initialization#strategy-4---gcc-extension
+> 
 
-[...]
+Thank you for the detailed explanation. Your reasoning is both 
+professional and persuasive. Will switch to using memset instead of { } 
+initialization for structures that are shared with firmware. 
+Additionally, will include comments before the memset call to clarify 
+that it is used to ensure all padding bits are properly zeroed.
 
-> +#include <linux/iopoll.h>
-> +#include <linux/reset.h>
-> +#include "iris_instance.h"
-> +#include "iris_vpu_common.h"
-> +#include "iris_vpu_register_defines.h"
-> +
-> +#define WRAPPER_EFUSE_MONITOR			(WRAPPER_BASE_OFFS + 0x08)
-> +#define AON_WRAPPER_MVP_NOC_RESET_SYNCRST	(AON_MVP_NOC_RESET + 0x08)
-> +#define CPU_CS_APV_BRIDGE_SYNC_RESET		(CPU_BASE_OFFS + 0x174)
-> +#define DISABLE_VIDEO_APV_BIT			BIT(27)
-> +#define DISABLE_VIDEO_VPP1_BIT			BIT(28)
-> +#define DISABLE_VIDEO_VPP0_BIT			BIT(29)
-> +#define CORE_CLK_HALT				BIT(0)
-> +#define APV_CLK_HALT				BIT(1)
-> +#define CORE_PWR_ON				BIT(1)
-> +
-> +static int iris_vpu4x_genpd_set_hwmode(struct iris_core *core, bool hw_mode)
-> +{
-> +	u32 value = readl(core->reg_base + WRAPPER_EFUSE_MONITOR);
+> Sultan
 
-I think this could use some explanations.
+-- 
+Regards,
+Bin
 
-I'll go ahead and assume that the eFuse tells us that parts of the
-IP are disables (hopefully not all three at once.. we shouldn't
-advertise the v4l2 device then, probably)
-
-You read back the fuse register a lot, even though I presume it's not
-supposed to change at runtime. How about we add:
-
-bool vpp0_fused_off
-bool vpp1_fused_off
-bool apv_fused_off
-
-instead?
-
-[...]
-
-> +	if (!(value & DISABLE_VIDEO_VPP0_BIT)) {
-> +		ret = iris_enable_power_domains(core, core->pmdomain_tbl->pd_devs
-> +						[IRIS_VPP0_HW_POWER_DOMAIN]);
-
-Maybe the iris_en/disable_foo functions could get a wrapper like:
-
-int iris_enable_power_domains_if(core, pd_devs[IRIS_VPP0_HW_POWER_DOMAIN],
-				 !foo->vpp0_fused_off)
-
-I'm not super sure about it, but that's something to consider
-
-[...]
-
-> +	readl_poll_timeout(core->reg_base + VCODEC_SS_IDLE_STATUSN, value,
-> +			   value & 0x7103, 2000, 20000);
-
-That's a nice magic number.. but what does it mean?
-
-[...]
-
-> +	writel(0x070103, core->reg_base + AON_WRAPPER_MVP_NOC_RESET_REQ);
-> +	readl_poll_timeout(core->reg_base + AON_WRAPPER_MVP_NOC_RESET_ACK,
-> +			   value, value == 0x070103, 200, 2000);
-
-That's a slightly different magic number, but it's oddly similar to
-the one above
-
-Konrad
 
