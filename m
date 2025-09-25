@@ -1,193 +1,221 @@
-Return-Path: <linux-media+bounces-43147-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43148-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91BCDB9F026
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 13:53:28 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B0201B9F047
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 13:54:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 3B43917FC1A
-	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 11:53:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B947C1BC7E9C
+	for <lists+linux-media@lfdr.de>; Thu, 25 Sep 2025 11:55:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D71C2FC86A;
-	Thu, 25 Sep 2025 11:53:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE4AC2FCBE9;
+	Thu, 25 Sep 2025 11:54:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="PzxRpVFS"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="k7qW1Q7/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from SJ2PR03CU001.outbound.protection.outlook.com (mail-westusazon11012027.outbound.protection.outlook.com [52.101.43.27])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 105972C17A0;
-	Thu, 25 Sep 2025 11:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.43.27
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758801194; cv=fail; b=LtIKlIzx1Tq4+oUJqwT2nNLRQN5Q4xP7pw/oeJOiiVYV6T7nubCZBBdm5aX6FcO5LFsv4cl35Re2bS5h4gKj5EpV5HtXqU5yD8jQ6MDYbkKnXCT727fKOYYxJLsGRP7ah+LrZjHZ8UstLgGBQ/9gvyFAETbjAYGlQgKv0gnJVJQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758801194; c=relaxed/simple;
-	bh=wsq82cMVuJXiDrRRHDP0XjgkAanoDtubM1o0yrEcyJg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=npcUUySPREByAz13MgLe7IagfogyY6ykgYfgCx2GVbHR9Dx6RKoVEfoiMyxtggnvexu0Ph7zrDTbtS/A9UJkBgMHoOQPcBqvmxteqFdyKxqdffG/6eMk191ASz79CVac7bkEYRAmuJMzvG9R6zW4dQUTcKyBv48lz+ebgG1OWhI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=PzxRpVFS; arc=fail smtp.client-ip=52.101.43.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=egii8MpGSPZHZ9cxM1fHyHN8mn6+quqIquH/K6lrg1zEfUldNoHyzOVPPn07vwC+0xTiLsmKiFE1pXc+UhU+oBywOpzOam0pSuxbtsEw6mXRsYqrAevwMhsTx/5rmajd4LVx8CL1b1a+rFLpW8SJmam2/19uw6/D1i/JEUYGLjZaKykZKkR4J+B5lkbLwiR0kzeLXxNNSVdHhYhXW5bOadqIMWJYTTE10oRlAdvKTr8lmo/h5hQZJN2qptMHb2gAEO5JCQNsyTiuNygTzsm6+6z3YRgz8zHUCA1ENBREmQ3Co+jSz6e0tad686iC7uoI0TnXxSo3sbdSIC0jI9J2TA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QODKn9Ui+ltheYIHWDWac1wskQ/Yw/qpqIVGllIqi/E=;
- b=NIkJwtaBSHVtD8OpT4qQBkB4H1k9vDt/FDzngMkisylgJdrleMZQgfE/EnYfqYGICsIoLyfX5v/r9wAqOSbIY6qrjnEeKYtfUqhSiMbXwmBYxQvL3z83StwFfgznOaD4pyQk7242J36sFlysyYaB5MNWsJFCWm1+Jc77QmDlRF4WMrqPx2pThTu198KdloZM4n93XME606dYn3SXslxAak2mQasU4bpuDDxvvwQQqGkSihHmVWRcZKijEIy1vH23YZcjRm9UT5gt6FNmHpz7XepxTH5tNXw1JFXzxK8b31ILnfSQSwiezckRuaaDGXse3I6at2HUOu8gDfgsuaCl8Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=QODKn9Ui+ltheYIHWDWac1wskQ/Yw/qpqIVGllIqi/E=;
- b=PzxRpVFSn7daxkuBM45CbgmQ92VUwdudqOgCJfhdL4cwcrtiNhkYBzov6W93P7ePZAUMvsOM4Aw36eJjC+H3yeo8rZvSf4PglU0VJykjGptDcFhFqdoMjD4wsZPdToRudSf0i/s2jkTdoBvZvex/nyjNGe17v8CMM3wvXaSYz2180BuV21HdO2MbZHbsvHMRGRvjSnqcDA46gsgiG9kZ73Np+6W1+GTrWh5Ig3rulP2urqjynRJSPa0wLZCODG/083AuExm57bE3GpJuJIOesRherKapoCdOBArcYm4gf24lqKIrt+fok1eyX/GfMLZP0t9szWWbtR34KAj7gtdu8g==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
- by SA1PR12MB6751.namprd12.prod.outlook.com (2603:10b6:806:258::6) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.9; Thu, 25 Sep
- 2025 11:53:09 +0000
-Received: from PH7PR12MB5757.namprd12.prod.outlook.com
- ([fe80::f012:300c:6bf4:7632]) by PH7PR12MB5757.namprd12.prod.outlook.com
- ([fe80::f012:300c:6bf4:7632%2]) with mapi id 15.20.9137.021; Thu, 25 Sep 2025
- 11:53:09 +0000
-Date: Thu, 25 Sep 2025 08:53:08 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v2 03/10] PCI/P2PDMA: Refactor to separate core P2P
- functionality from memory allocation
-Message-ID: <20250925115308.GT2617119@nvidia.com>
-References: <cover.1757589589.git.leon@kernel.org>
- <1e2cb89ea76a92949d06a804e3ab97478e7cacbb.1757589589.git.leon@kernel.org>
- <20250922150032.3e3da410.alex.williamson@redhat.com>
- <20250923150414.GA2608121@nvidia.com>
- <20250923113041.38bee711.alex.williamson@redhat.com>
- <20250923174333.GE2608121@nvidia.com>
- <20250923120932.47df57b2.alex.williamson@redhat.com>
- <20250925070314.GA12165@unreal>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250925070314.GA12165@unreal>
-X-ClientProxiedBy: SA1P222CA0161.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:3c3::9) To PH7PR12MB5757.namprd12.prod.outlook.com
- (2603:10b6:510:1d0::13)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F8ED2FB995
+	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 11:54:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758801266; cv=none; b=eKQvEHQ969Ux9vozxEtGmgPrMh/Ot4IGEg5Y/WejqBd8gCJJka70XTkymzRz5CMsvfLL9i9ekLRAQIsoafYm9RxuGUElNlJUdC8f52h9k/GkyXI/DncvOynFI3YS6uOeLq2XAeBxS0jvXnjI8H+EM1SZhSB5uD49rKvysY6IH70=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758801266; c=relaxed/simple;
+	bh=SyjT/o2z0dyOG2o4BytzIRC4dNs1eO2vwpK24YRaEkY=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=oznGg86R0U+NXfy7Tt13Ui0niYP8Y/uNPAZi3XKIbpRmJmaXx+FsnaL4tLrHpgffjMV10wa4evmvUChWPMhkAvESykneMVOx3q6OktKSxmC/ldUZ6CoeFLOM1G708VGcOgZ+5j+OceoDSrpyqTjoJ4kvvsZjcceMTgTkCBLunrI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=k7qW1Q7/; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58P982xW023856
+	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 11:54:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=Ibi4SnoGMV8sI9OUOF4j1A9snxHLAbs/hnY
+	dDBg+Vjw=; b=k7qW1Q7/SptebFxWY3QJgijbjb8kx1guveuj61ZnjJ70SxrHSW+
+	f/VugZaQ3HWw2ZT2ZS6sc4FnUoU+GuOzNJRe0M2lsvohTQObbRUjW8lI07u2F0C/
+	giMUSgAWEAoaJXSP7lYSJfsS30efuoGi/87V8OuMMiwUoCAy5cB8Z4WBJo0p1TA7
+	lNjK0WfXeyg3tQhDO52kp8x2pf0gXnnQyFS0UhkRQ+ajz4eLDv0ellFi7io2DmCx
+	R1Uu5DVRCGHJqcH1pZFekAlEJGpJjhpq/F7rD7aFrklQOvryXADtEu0LhOuUENxu
+	xf9Z6s33PlONOK7lZPF1n6gp4+zj/Zi2nfQ==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49bwp0f01q-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 11:54:22 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-27c36902f42so6760135ad.0
+        for <linux-media@vger.kernel.org>; Thu, 25 Sep 2025 04:54:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1758801261; x=1759406061;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ibi4SnoGMV8sI9OUOF4j1A9snxHLAbs/hnYdDBg+Vjw=;
+        b=qZaBlfDHNu7U71VK2ahcXwvFh/p2xd8FVkTQxjhtDNnlO5bue5vKcqqYyNIFkekAau
+         xLd9WJPBkJR26cqnEAN5DYfeqB76Sgs4cUGh5uWCMNFC/0vLurkvkS/eD433WGMAxB8w
+         +F5wz4Up3SaMNTiaL3vYPgVx0Pp6lYOwweWTn4Qtm8bBGtVfifnklrkGswGLr0CkpSxl
+         l22KYxYITbIk2F4pVwD0SU19oUiG+KISaPUe0p384+3KvFirbUeOzXB4hGoWrETtY1eH
+         Ig8su4zegJM7IVVhpAfVxPABf1T70lPeMYqIy9BrKRPDUWbwYCoM6OJLMMdh2baIZdil
+         NO0A==
+X-Forwarded-Encrypted: i=1; AJvYcCWqq/okz/xt537IUTAmoV7wVLOp88lB2zcDOhuwcvm41gtY0iPq4kLtMfdSKh7K5ouYrxlcS35fZgF/7Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzTzXVsGmHqqI8+XHng7mEnb+VcFryZnSDImbwwgr1dJcBY2ath
+	JDLeODf0VXxDgJPvRDKhsorhmAAtCiNSQZ7XH/iD1vKrbE9+IdmPFNUoiPkCdijQC+IKVOGeZO3
+	NifTzw7uRPyG/FsulanDWl00JBi/VR+JTHf7+VdwCzrHugjAn2CvoEHecDrKvLWDhYw==
+X-Gm-Gg: ASbGncsbzT/r4+oNdwYY1XG6JOuRn7NSxcpAaESQLOn/1WNVgbohZeBOpsol6g7EPYT
+	w1/iyFYgfA1S7go1CsR3xUhFSXuweVxy2NkgfbAS9ohVzFsOUnChTzAEKlFhyAmadgjtAqOr3cR
+	BGkSryxuGh5TRaAfENPjidz6J+3syMjzVXszv4KsBFTqalRmUyIvQJG27lxJSFAhKLTds+mGjW8
+	jvJYpYiYinB5q4FeL7+P8UuhI517gBmvgg5FrqRLl/k4KtNrAP4QzKhPN5bpYjy1SxKEcxcSA37
+	6zhnfx/TuDoMkqc5apXdN8UGEHPmRasSnm8ZpUduKoW4C5p4wBBoXBtHFWvzO71zmLWZ4XQnB+0
+	=
+X-Received: by 2002:a17:903:2c06:b0:269:ed31:6c50 with SMTP id d9443c01a7336-27ed4a091e8mr37880555ad.10.1758801260821;
+        Thu, 25 Sep 2025 04:54:20 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGuENIT7uqE/PhFHkktSwABTjczamPHUaUnB2zTV5WRthAd1QMusVFWwc0an+6Xwk23xxnGrw==
+X-Received: by 2002:a17:903:2c06:b0:269:ed31:6c50 with SMTP id d9443c01a7336-27ed4a091e8mr37880135ad.10.1758801260297;
+        Thu, 25 Sep 2025 04:54:20 -0700 (PDT)
+Received: from hu-jseerapu-hyd.qualcomm.com ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed69bb502sm22087935ad.118.2025.09.25.04.54.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 25 Sep 2025 04:54:20 -0700 (PDT)
+From: Jyothi Kumar Seerapu <jyothi.seerapu@oss.qualcomm.com>
+To: Vinod Koul <vkoul@kernel.org>,
+        Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>,
+        Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
+Subject: [PATCH v8] i2c: i2c-qcom-geni: Add Block event interrupt support
+Date: Thu, 25 Sep 2025 17:24:10 +0530
+Message-Id: <20250925115412.2843659-1-jyothi.seerapu@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH7PR12MB5757:EE_|SA1PR12MB6751:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce458c94-657e-4a56-d013-08ddfc2a190f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?pSgVEb8b6KvWO/8Kh+G0nNdWEIpSJtu2flhAl93INC79YkRIQ/i6SqWK/KDB?=
- =?us-ascii?Q?ib/RhJ0vjlXF66NRxN/kD09tPom/MRumuHrsD9r7kNqKgxW787OD4QS+oJpa?=
- =?us-ascii?Q?gwOKITSQaL2rccHRQwilNUmuJKXTA6Paf57x4Ccyz74DLdky1qNa/NnUA4+r?=
- =?us-ascii?Q?+12DzVfURLWkRqhNpffLGMnlJxVMaN30fJ4JJWgSoMsBifVpAkLjy2o09/rO?=
- =?us-ascii?Q?ZWi1n6OLhynK9X7VqxTR36PSD/u37oVn7/h9ZYf5dCzZgSdUKN3W6amsVZ04?=
- =?us-ascii?Q?gYG6Su0O4BkBZ8vV5GxtdDFpI3gqtFNbdHS2KwCjo+MjqvbZZ4q+KgqiihTR?=
- =?us-ascii?Q?5uzMZ2yyP8JfoG6mLuMOWOJmTiQboRXqduO3LzeTCsB7ghbbn8BxQEqYjwXe?=
- =?us-ascii?Q?JEEuyCQ6wa521ykEFeraq+lU72FYymt8ZVO9vKK9Ck7UPl6mf8EewqfyxRr7?=
- =?us-ascii?Q?QAIqryontd5LRyRbCE2Cca5pg0pMVJuvejRWsEg0lB5lXWLWERdYJefq/5qh?=
- =?us-ascii?Q?6yX1xfuKr9VphRe29XRZn9UEvitvK5gxkum4r38y+AMJZIDKMWC1/QC/o+lO?=
- =?us-ascii?Q?C0u8m1p5x6Z0QirgQhKUAgV7Ys5uoADlLTR7RUJpFbifNCwSnupjAPq2Zy2Y?=
- =?us-ascii?Q?Ez/6C4RJTnsRp4iHwGnAjZd1lTnYQZ/PBAXGz8p1DTOln3XzCX5rD47Z2xpX?=
- =?us-ascii?Q?qJCZ6FCU0RjbNI7St1wbPHcnJDr6Y8kYbLNZBS8+fldOIW2InDr+RW2yywdc?=
- =?us-ascii?Q?2EzXJAvusKWrgPCq7nnroktNG3XrdLbPjLuYQAB/E35v7U+Y3poG+fdjTtT6?=
- =?us-ascii?Q?De3wtSrgDAyzQhwnx9V1GyW+2LCPlS40Jf+axTrDOB1J7Fomihnk9D1+4Wql?=
- =?us-ascii?Q?Cg/huC0VSSnDdsw37gAoDIRTgN2Z701kWp9tejz236AoPQGlg1hNgcVJLw4p?=
- =?us-ascii?Q?/pcooPB3PQFj/Dpfuozk81LHJoROyi9/TlpbWhbSQADuwjbrEjTTOMtI9mRS?=
- =?us-ascii?Q?FvwmkuNCZNip6azzIQO4+hP6s/h7+vroRNnNjU0T1aYAQj8B0Udu2b+0C7Zv?=
- =?us-ascii?Q?RXBJxzQSojLypCoeVwHd3BBzEbSya1dtnrUheBNsyMekomGXeG3I+XRlRncd?=
- =?us-ascii?Q?66gKaflBsAq4Mca5jZbw0JTm5kZcAkijmfVxwuVYtVL8XgQUjhDYRGpeTEi/?=
- =?us-ascii?Q?YWTrojBCYlXUM/bVyjH0jQDpYQgs1crc1rBkGq3WicLAku4IgwwnYaIpK7Lq?=
- =?us-ascii?Q?X8kuXRNefkBmxhmobsvVFDnlnKK+o3i5E8RmQAO6XFW+C29kSR/CsaNHizWz?=
- =?us-ascii?Q?lcGnlFG3IXzQDQLiFr/1mtL982BdPFpd6J8j0eNIaIrUnZwl98VHHqNTjVns?=
- =?us-ascii?Q?QePNazHNEE9dATL4xTCGPWTpA7AcbhQ1LKNl+E6IlQx8WYgKk0zWpDG46WTC?=
- =?us-ascii?Q?3LCFmbV5oKI=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?i8fxwWWeHXe45Gc/7Fui0+yPn3NmkmmYud+HtG1HqNOg7cBRcTQPB5CDcsl6?=
- =?us-ascii?Q?hDheSTsI3UV81vhhzN4XuTl2RW0xLrFimwgRlEUMf1FIAcTAa/bVRugNVHAA?=
- =?us-ascii?Q?i5T4MmJqHv7vSkUEnuzwE0MQRFPYRx5d71RP6l581FObqH/tiTrXChsq3MPU?=
- =?us-ascii?Q?4kgkLoWSq7D04M9zs6BYNhyieGQV6jsjZDTcd0BGw7FEHYTS03rhIl40SXSO?=
- =?us-ascii?Q?NQ+oRru1PzwExWsRwEhOeDCjD2dI842os448QINVGNEyMw9GwtRNO9mqibWv?=
- =?us-ascii?Q?Xgpe7g4rYPG3v80LfenictE/PY/dHUzzZK+NRCTWCJsOfIaK0tYlbXssgASb?=
- =?us-ascii?Q?4om9WKg2IJufl6a4GCiW4A9JcDRIUH85rHeW4TT4BaGzxNJi5oD4AUcmVjyW?=
- =?us-ascii?Q?rZjh1rhIXrRj8dIpnYNl+CYX/cUJ9eEBCQ4h6yp7cq940YQlxNiz73CPppCw?=
- =?us-ascii?Q?Cuuyx/LAWgbeahsoiXDuKR7dHmIExLUgJAE394dip/33H2g91XiwQRrHDbpl?=
- =?us-ascii?Q?mU4RCsFQDLLtSD2DRXvmODX1GxeU3PKyr0BZ6bQ/wfQQBr9KvWdh1nKII4WL?=
- =?us-ascii?Q?OCtXZc8C/sBwsjVn6TBBJf22mEni2mYmNaXvuf2ljorQdfJ7kaaOKlG7HdIX?=
- =?us-ascii?Q?tKoDj3p3cZyoQ4gfq4y5/aHedx0VjNqo0bE1rDyvSyhLG4j+wEMA1JlIHXje?=
- =?us-ascii?Q?UtkHLhtJYy2NYVQeAX6z7JYMLPc1lHEppD3oGF2zTdizTXxFVuiXps9bcO+P?=
- =?us-ascii?Q?6+aEoBgzXranD9eEaigPcv7/WWO4C0ZEBl7Y8kQ1fWwRIf92NVDlm/zpNlmd?=
- =?us-ascii?Q?TiGpiHq3jHoKCtbv4ia30l5HXLWOX5YSKDa1y2jmu0k92ziqpm9y8krjttaB?=
- =?us-ascii?Q?rqyyAFl+WyvzzyGgjsknz2o1s2xb5RR185Nnl0BEE+lmpl7eHUV1BSjtJQXa?=
- =?us-ascii?Q?Pz+jdbVQqqsVqTCcvCFhez95vuO4DrsuDoz+sSl8zLZx73IXHQkidThsCV9A?=
- =?us-ascii?Q?i2BYMocAHhicNGBaiSs6HRcJEHnEHgDs8EaAnC3DfQR20owcjnroXCSOv6MU?=
- =?us-ascii?Q?+rrKet4IuE51qqoCz8Zv6EHcHDC3+lf9PAF6MCZBah71R6LXPiK3eEb8thi5?=
- =?us-ascii?Q?wMlRc8xnXRqXTNA+0OPOypJVTLIX5nLaWmKMDfBGtb7aPWggAzTC4Dmn+eq8?=
- =?us-ascii?Q?p/M7YoEJa+W5jkos9zk+NHZpXyDS3AgRPcy6jXfFL9EEsBt9fozQMPgpIcLV?=
- =?us-ascii?Q?/Ez5sw4+UP8qaqiKR6gXCdbkdehzo9Vet4/fDV8+eVZ1834at8fI8PklZdKn?=
- =?us-ascii?Q?FZEop8bCGnFgzvqqUkPURbVH1P7GgzXyVeG8m3BzfgqwnIdNDMznXo5shkQj?=
- =?us-ascii?Q?n1VnRJveSLRvk8NEdzuyLpL4ILaYx0OJfbZqmh0n+E1VuyuoKXLADGn/gl2x?=
- =?us-ascii?Q?BGf+XDgCb5Ql6xpwhNfR/7fkSOlWMfO0LV8Eky79PUrp9i3e2pU757dEa38z?=
- =?us-ascii?Q?q5SbydndtEl34lLotlCk9XD2cbEoVAwrYL50SLYkg2yOysizsYmCGwyav42o?=
- =?us-ascii?Q?7Kslylb7VQHs0+JShODSXrm/jLy7bTi9c2sHumZY?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce458c94-657e-4a56-d013-08ddfc2a190f
-X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5757.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2025 11:53:09.7267
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: B5PwFHHVts9+Re3FZIF4gKRGUJRrPXeRuyK/vEUDVZM1wu6ok/ncCDG2to02T0oK
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB6751
+Content-Transfer-Encoding: 8bit
+X-Authority-Analysis: v=2.4 cv=KNxaDEFo c=1 sm=1 tr=0 ts=68d52d6e cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=yJojWOMRYYMA:10 a=COk6AnOGAAAA:8 a=AcHsLZsjNhMhd8_3HEgA:9
+ a=1OuFwYUASf3TG4hYMiVC:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-GUID: jO4bFtukXVE6OBmZ11qJ6ek6ferUND1-
+X-Proofpoint-ORIG-GUID: jO4bFtukXVE6OBmZ11qJ6ek6ferUND1-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTIzMDEzOCBTYWx0ZWRfX6LTql3xLOZPn
+ 2Dl8Bw//Zwcx0GgJBC9isAbqA/xMUoQuxMmoaOOZOyLGeWvXkIOn1pLOJM1aHyBdUl90/FJ1BKB
+ xiQTVBvcOzbqJwSXXS5Ll25MmVZ0Xko4iusmj9oQU+B/6jqLjcgvwZholNF59QxVRzAaQ5j2oV2
+ L/c70TdKo24xlriJs1j8REeCKqPJsCCrZAYqTPFQsr6RMxHqWqBZ5VR5KNxvbz996LjnAHzReVu
+ AnM7sd2w4y27QgZnuaIkiAMe2U1M2IDV34HDMYROm7txHVoSrYKbBNbT2Dr6/ZbbwfRtokZl+2L
+ k61urRNFcELBwwzmi42YXgJuUITOLc+YxsxB50OpfTno9k8N6vD8EKYLu1zo1AvfK0ISpFqTG2V
+ qtPFG4YX
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-09-25_01,2025-09-24_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 priorityscore=1501 clxscore=1011 phishscore=0 suspectscore=0
+ adultscore=0 bulkscore=0 spamscore=0 malwarescore=0 classifier=typeunknown
+ authscore=0 authtc= authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2507300000 definitions=main-2509230138
 
-On Thu, Sep 25, 2025 at 10:03:14AM +0300, Leon Romanovsky wrote:
+From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
 
-> > It would at least make sense to me then to store the provider on the
-> > vfio_pci_dma_buf object at the time of the get feature call rather than
-> > vfio_pci_core_init_dev() though.  That would eliminate patch 08/ and
-> > the inline #ifdefs.
-> 
-> I'll change it now. If "enable" function goes to be "get" function, we
-> won't need to store anything in vfio_pci_dma_buf too. At the end, we
-> have exactly two lines "provider = priv->vdev->provider[priv->bar];",
-> which can easily be changed to be "provider = pcim_p2pdma_provider(priv->vdev->pdev, priv->bar)"
+The I2C driver gets an interrupt upon transfer completion.
+When handling multiple messages in a single transfer, this
+results in N interrupts for N messages, leading to significant
+software interrupt latency.
 
-Not without some kind of locking change. I'd keep the
-priv->vdev->provider[priv->bar] because setup during probe doesn't
-need special locking.
+To mitigate this latency, utilize Block Event Interrupt (BEI)
+mechanism. Enabling BEI instructs the hardware to prevent interrupt
+generation and BEI is disabled when an interrupt is necessary.
 
-Jason
+Large I2C transfer can be divided into chunks of messages internally.
+Interrupts are not expected for the messages for which BEI bit set,
+only the last message triggers an interrupt, indicating the completion of
+N messages. This BEI mechanism enhances overall transfer efficiency.
+
+BEI optimizations are currently implemented for I2C write transfers only,
+as there is no use case for multiple I2C read messages in a single transfer
+at this time.
+
+v7 -> v8:
+   - Removed duplicate sentence in patch1 commit description
+   - Updated with proper types when calling geni_i2c_gpi_unmap() inside
+     geni_i2c_gpi_multi_desc_unmap().
+
+v6 -> v7:
+   - The design has been modified to configure BEI for interrupt
+     generation either:
+     After the last I2C message, if sufficient TREs are available, or
+     After a specific I2C message, when no further TREs are available.
+   - dma_buf and dma_addr for multi descriptor support is changed from
+     static allocation to dynmic allocation.
+   - In i2c_gpi_cb_result function, for multi descriptor case, instead of invoking
+     complete for everry 8 messages completions, changed the logic to Invoke 'complete'
+     for every I2C callback (for submitted I2C messages).
+   - For I2C multi descriptor case, updated 'gi2c_gpi_xfer->dma_buf' and
+     'gi2c_gpi_xfer->dma_addr' for unmappping in geni_i2c_gpi_multi_desc_unmap.
+   - In the GPI driver, passed the flags argumnetr to the gpi_create_i2c_tre function and
+     so avoided using external variables for DMA_PREP_INTERRUPT status.
+   - Updated documentation removed for "struct geni_i2c_dev" as per the review comments.
+
+v5 -> v6:
+   - Instead of using bei_flag, moved the logic to use with DMA
+     supported flags like DMA_PREP_INTERRUPT.
+   - Additional parameter comments removed from geni_i2c_gpi_multi_desc_unmap
+     function documentation.
+
+v4 -> v5:
+   -  BEI flag naming changed from flags to bei_flag.
+   -  QCOM_GPI_BLOCK_EVENT_IRQ macro is removed from qcom-gpi-dma.h
+      file, and Block event support is checked with bei_flag.
+   -  Documentation added for "struct geni_i2c_dev".
+
+v3 -> v4:
+  - API's added for Block event interrupt with multi descriptor support is
+    moved from qcom-gpi-dma.h file to I2C geni qcom driver file.
+  - gpi_multi_xfer_timeout_handler function is moved from GPI driver to
+    I2C driver.
+  - geni_i2c_gpi_multi_desc_xfer structure is added as a member of
+    struct geni_i2c_dev.
+  - Removed the changes of making I2C driver is dependent on GPI driver.
+
+v2 -> v3:
+  - Updated commit description
+  - In I2C GENI driver, for i2c_gpi_cb_result moved the logic of
+    "!is_tx_multi_xfer" to else part.
+  - MIN_NUM_OF_MSGS_MULTI_DESC changed from 4 to 2
+  - Changes of I2C GENI driver to depend on the GPI driver moved
+    to patch3.
+  - Renamed gpi_multi_desc_process to gpi_multi_xfer_timeout_handler
+  - Added description for newly added changes in "qcom-gpi-dma.h" file.
+
+v1 -> v2:
+  - DT changes are reverted for adding dma channel size as a new arg of
+    dma-cells property.
+  - DT binding change reveted for dma channel size as a new arg of
+    dma-cells property.
+  - In GPI driver, reverted the changes to parse the channel TRE size
+    from device tree.
+  - Made the changes in QCOM I2C geni driver to support the BEI
+    functionality with the existing TRE size of 64.
+  - Made changes in QCOM I2C geni driver as per the review comments.
+  - Fixed Kernel test robot reported compiltion issues.
+
+Jyothi Kumar Seerapu (2):
+  dmaengine: qcom: gpi: Add GPI Block event interrupt support
+  i2c: i2c-qcom-geni: Add Block event interrupt support
+
+ drivers/dma/qcom/gpi.c             |  11 +-
+ drivers/i2c/busses/i2c-qcom-geni.c | 248 ++++++++++++++++++++++++++---
+ 2 files changed, 233 insertions(+), 26 deletions(-)
+
+-- 
+2.34.1
+
 
