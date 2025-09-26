@@ -1,181 +1,234 @@
-Return-Path: <linux-media+bounces-43246-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43247-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id C99F8BA3886
-	for <lists+linux-media@lfdr.de>; Fri, 26 Sep 2025 13:47:58 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8EC31BA38A7
+	for <lists+linux-media@lfdr.de>; Fri, 26 Sep 2025 13:48:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7490D2A7422
-	for <lists+linux-media@lfdr.de>; Fri, 26 Sep 2025 11:47:58 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 778654E2C54
+	for <lists+linux-media@lfdr.de>; Fri, 26 Sep 2025 11:48:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D20C52E093E;
-	Fri, 26 Sep 2025 11:47:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 44A172E974D;
+	Fri, 26 Sep 2025 11:48:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XBUlLIN6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hC/oOzx1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D5F9924678F
-	for <linux-media@vger.kernel.org>; Fri, 26 Sep 2025 11:47:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 810B32DC784;
+	Fri, 26 Sep 2025 11:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758887269; cv=none; b=tFMXYHModemUUAv50huP9ZmkNpiSBqqNmD0QhbPRdt/0fRCpLmLtBqm9hx8BXhA+OwVKg9brXK+KUQHQpn/V0GJPHBMA25Atqq75UeS50MROagCN/E+1y/4yB3jDNmWIjIuKZ4QSIBdSp8MY4hs4I7zx47HSOhoTUVjKyFkrq74=
+	t=1758887320; cv=none; b=SX/Wkt+HSRHDkrE0ETefB8FRpQ3zeLOsffTCW8g9yCHYwxqw/w/Z2CH0cDwGkTD9RJdmV06WVgANzglv0zex2oHGM0IpLCU4A1ExVxidghwJVAXw7Z+n1/zsukeSsq90jqgcKm4nPHt3lL2TIg/XW6tldTUobvhvhyZ3+nO5ZLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758887269; c=relaxed/simple;
-	bh=OAgwbS/VknejtABxzuaNwsXHRFEJYCx7WnLwqMVsnJ4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=O+CHKe+OY5X5tvRt7wJqJ3yERNFHhhGYcRu8s+hT/tcFQkbsuKMjZbrJN42XUjtUkQOkjrBW6/fvm5fjvi4cGmSTUAcQgCZqbQ0GLuDtAGpuYoVpfbqPvLcAjD94QYuUPX2/Sqpscww+PKF0h2awOn8AndB3Y2AHd6jKaL0FWtA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XBUlLIN6; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58Q8vjY6001763
-	for <linux-media@vger.kernel.org>; Fri, 26 Sep 2025 11:47:46 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	zeXt8RmZ2p5jBB+q4SRx697VU8GfH0Yutu8AdTfa1to=; b=XBUlLIN6zCNjcVfb
-	t6IoF1uc9+Ascp3//GivOuaaeYuAa3oHjIpWzHBWLuZnIPmCADG4qL4L8QgZdjhF
-	o2NLswvvz1ctSKn8J+0ulZebyL1VZP4rnBjh+UlFt72I+eIuS4xc6RoP6KN8FUmg
-	uRmNLWBl2OLMVcKK2RjKJt/PtCqfUtBxIvnWsvnZJpwJNqKbi/BgqL5sfe9R9FxC
-	xXgCFo4wtek8uL5eRO7iyISPK3mhnW+44WNDAu4Srxk45mqQak6nhxY49477wFcP
-	WwF4oZVCcbp46Wnb33q1zyFsjqgBfybUq1+TVjPBZGErhPsR6VuohFtDwTHtqK9G
-	KsGflQ==
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com [209.85.222.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49db0ttqpk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 26 Sep 2025 11:47:46 +0000 (GMT)
-Received: by mail-qk1-f197.google.com with SMTP id af79cd13be357-82b15c1dca8so80427785a.1
-        for <linux-media@vger.kernel.org>; Fri, 26 Sep 2025 04:47:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1758887266; x=1759492066;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zeXt8RmZ2p5jBB+q4SRx697VU8GfH0Yutu8AdTfa1to=;
-        b=hjZO6hQnv/qF168eHndzB/dYzhd68upSsNoD6icUOzy/Khfi/uhf0B2j0q44vdf2o2
-         zruADQRRZTBJqqLunJvbgxzDlPXojjULbZ3nGbk6Y5JQmHki2fkCcwfA8tH2jkhjpvrz
-         n7ucbugGmcJvXE6Uk5NO5fJuEwBxCEFZ6hNkhbxqApj5Wxh6wVfVojnqAQbrkEq9+TH0
-         7aEVPBaDU/8mxCtDdJQlu47zWDZgiYzRJHWkk1cFe8K93iqUO0LynJOTitTS/1ehj40h
-         pN2IT+T44ljwajmBWpZDpqUkJfALctMWgEgKRlkZZgfeNMipYALR1emjnw/l0xDXPjED
-         Cd8A==
-X-Forwarded-Encrypted: i=1; AJvYcCWUwgixL3k+5kSNQinqfEaJYnkd5E457d3phFY4YOgQ5RZWr/tZgzVt+WFKXKnvLu8M0wvjDYLAGbckpQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyCSEwlris5fUUmDbIWAeKsInFKkFTkIW2L0I64boE8G8z92PHm
-	h8j/SDSGzt7YfE1QnAqmVQt4h0A9RssUEnTQTsq7HInHdIa5sVcx215ydVdHOOgTy4gl8dz9IjR
-	uyTAxPMrjdh0o+MzaUiczHW03LdqA4PHsDaE/xaOaq/tp/ixCFu0B4tslB8xWluiTKw==
-X-Gm-Gg: ASbGncsruQDTpvqK7Jvg2m0k05bPRtyHrFnFBgqvPaWDggqfxd9N675ut3ou5EnIOKr
-	iRPpAaMw7TG1L+mBTPXqFO+LClhofM62W/Js6uBcGvxelFL2cXVu6My6e7hTOZQmkuxmxoJzt2r
-	cCeqYXzun75/BKLdPGRk0T4nv1QlYrrQgArFx8n4pmBou96C0qrLuv1hZ2+LQdJ0sfofK3Aa93p
-	eEiEB0gk3EG2MtL3FrqnrzJHVn5M+ldkPhycU+o852vTfuUaDQiPjORX3yu5YY3nvbi2mwZjm06
-	jwRHmUMmzftT1Hrw5m6Il7j5Wqo3g9r0XJdadCsDbFysqnZHlcScgBUX9F2foJpGw7VFunsWUMN
-	gXjHitFWyIJ8b+5sJMWgKnQ==
-X-Received: by 2002:ad4:5dcb:0:b0:797:1974:b824 with SMTP id 6a1803df08f44-7fc2740a087mr61520766d6.2.1758887265758;
-        Fri, 26 Sep 2025 04:47:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEr5bf6UETViENcg6o3qIp7ZoNsIv4FMqZ6Ft48XN9AJDhNwFvEybD2BRdLu3eBM3Rbt2dbWQ==
-X-Received: by 2002:ad4:5dcb:0:b0:797:1974:b824 with SMTP id 6a1803df08f44-7fc2740a087mr61520556d6.2.1758887265269;
-        Fri, 26 Sep 2025 04:47:45 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-634a3ae31cfsm2693665a12.33.2025.09.26.04.47.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 26 Sep 2025 04:47:44 -0700 (PDT)
-Message-ID: <7c6ab647-0c54-4480-9eb2-5c2bbf5f857d@oss.qualcomm.com>
-Date: Fri, 26 Sep 2025 13:47:42 +0200
+	s=arc-20240116; t=1758887320; c=relaxed/simple;
+	bh=E4e0aJYFgJz8G2kBy/37UxAGesQyoBDgqKIJdOVc8qY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qEoca4KEpRcyRL8jg/qR0jxX5lcYFemWaSRpA7LXSaBUqiAUYJNaT9dtIdZy0Znkw7GZuYcnoOG7ev9Lhti3PWdN/ax1M8nu7v1peGH19oCvsvjKZ4Y+leP1zsgshj3xxlfKRONTFbnqay+NmY7QyvnggRBXHgPwFjZw+a6t+CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hC/oOzx1; arc=none smtp.client-ip=198.175.65.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1758887318; x=1790423318;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=E4e0aJYFgJz8G2kBy/37UxAGesQyoBDgqKIJdOVc8qY=;
+  b=hC/oOzx14+A1xenDHWUSarDBPZkI/b2R55DJ3g89KrRg+Do3qOPDcbvw
+   6L0MUSS4yLkeptfLAPb5ZzCuz/kuP3lpLuBgQRhDD0+kpBm0Bw0Ndq1WR
+   e+jj6fE05M36j5rKGcRSHyQ0nlCkZyC6lVJItPDP8RTeLaDDCOioUDEJG
+   6o0moKZGpXcu7LdDTZpY/spK2+pceCCNHHtlmBcLsN5HZZPv9gdRPeNO8
+   NYbCIxhQQi0DeJhr3mbvu94zzbJ+1Tank4ulbvu1pQsBIYHVTQg5H8AGB
+   G3iA/CqnFXiYnUL+TI7OAUtU1DsTXYlgUu16h4RSlxSafHzalTBWL6glh
+   w==;
+X-CSE-ConnectionGUID: cuJQXdUCR0O2J2k0bm9new==
+X-CSE-MsgGUID: FHBafSWKQx68qIkFArpfCg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11564"; a="61387847"
+X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
+   d="scan'208";a="61387847"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa108.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 04:48:36 -0700
+X-CSE-ConnectionGUID: BK+axjuPStWsYBileeDUlA==
+X-CSE-MsgGUID: oC0T6jquTx6oROopZJan1A==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,295,1751266800"; 
+   d="scan'208";a="178351412"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.33])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Sep 2025 04:48:18 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id E84671202BC;
+	Fri, 26 Sep 2025 14:48:13 +0300 (EEST)
+Date: Fri, 26 Sep 2025 14:48:13 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: "Rafael J. Wysocki" <rafael@kernel.org>
+Cc: linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+	linux-media@vger.kernel.org, netdev@vger.kernel.org,
+	linux-spi@vger.kernel.org, Len Brown <lenb@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Daniel Scally <djrscally@gmail.com>,
+	Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+	Javier Carrasco <javier.carrasco@wolfvision.net>,
+	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+	Lee Jones <lee@kernel.org>, Pavel Machek <pavel@kernel.org>,
+	Matthias Fend <matthias.fend@emfend.at>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Paul Elder <paul.elder@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Horatiu Vultur <horatiu.vultur@microchip.com>,
+	UNGLinuxDriver@microchip.com, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Subject: Re: [PATCH v2 00/16] Align availability checks on fwnode child node
+ enumeration
+Message-ID: <aNZ9fbh8eLiPAJzR@kekkonen.localdomain>
+References: <20250924074602.266292-1-sakari.ailus@linux.intel.com>
+ <CAJZ5v0hSy9zQd6cP9B4QPSZi-6ughmkW=VoEBV-0MbUr2xcaAQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/8] media: dt-bindings: qcom-kaanapali-iris: Add
- kaanapali video codec binding
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>, linux-arm-msm@vger.kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Vishnu Reddy <quic_bvisredd@quicinc.com>
-References: <20250925-knp_video-v1-0-e323c0b3c0cd@oss.qualcomm.com>
- <20250925-knp_video-v1-1-e323c0b3c0cd@oss.qualcomm.com>
- <nuunkv3xwfes6wed5xf4re2efakndvvrfl4lhmenilkic4sjiy@5cb2f5ygegvm>
- <522d7244-0003-a42e-9be0-1d353df8d5bd@oss.qualcomm.com>
- <oimuo26ohcye74j6rl5hfbmd4ip5wzudhyiaibf74b5zmjb4vl@xh3dnp7gmvq7>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <oimuo26ohcye74j6rl5hfbmd4ip5wzudhyiaibf74b5zmjb4vl@xh3dnp7gmvq7>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=I9Vohdgg c=1 sm=1 tr=0 ts=68d67d62 cx=c_pps
- a=50t2pK5VMbmlHzFWWp8p/g==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10 a=4CA5EJrnJ1NXJjxpXhEA:9
- a=QEXdDO2ut3YA:10 a=IoWCM6iH3mJn3m4BftBB:22
-X-Proofpoint-GUID: IWKEE166LwANFb6JaT_Nj7Z-EN_AatFP
-X-Proofpoint-ORIG-GUID: IWKEE166LwANFb6JaT_Nj7Z-EN_AatFP
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI1MDE3MSBTYWx0ZWRfX7FVhEWYq4jpC
- 3Yl4YTXUrh2RiNUqtHuXbuvnT89Q0NFyqGgizCvm/6Nke3mw21XR5iSdAETuoUl3UoPP4mEamQx
- qbsu3+naju8dEH/oZ3t4olSOivUREt9frE3fiVd3wf2CZ1WSQ82YOEejADV5HhqgndlVLzaaJQX
- fIg3uP+PczwbL3vGwEO/InsBBmhwgMTwRR4B32kubPmxDuWKNdkCuemFWydDf9irUUF6+s6TjIF
- K7u1IvnG0i1m0Pv1HBhFQf4IwISM1HefjduoZnMHhrgj7fzoHYU8VG3VwlXiKGPWWhoV3Ms4Hlm
- sEcmREodoqcGDpvAgiF/NzMw5RAp7cW0BT2L+1WA8rDGoNyqYCCmQVlEjKzL0qRMq1J7jOVZfwn
- jjd/1JTfte0rL+6FsWkEKyrRAznhxw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-26_03,2025-09-26_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 spamscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0
- priorityscore=1501 malwarescore=0 impostorscore=0 phishscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509250171
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJZ5v0hSy9zQd6cP9B4QPSZi-6ughmkW=VoEBV-0MbUr2xcaAQ@mail.gmail.com>
 
-On 9/25/25 9:38 PM, Dmitry Baryshkov wrote:
-> On Fri, Sep 26, 2025 at 01:01:29AM +0530, Vikash Garodia wrote:
->>
->> On 9/26/2025 12:55 AM, Dmitry Baryshkov wrote:
->>> On Thu, Sep 25, 2025 at 04:44:39AM +0530, Vikash Garodia wrote:
+Hi Rafael,
 
-
-[...]
-
->>>> +  power-domains:
->>>> +    minItems: 5
->>>> +    maxItems: 7
->>>
->>> You are sending bindings for a single device on a single platform. How
->>> comes that it has min != max?
->>
->> I was planning to reuse this binding for the variant SOCs of kaanapali/vpu4. If
->> we do not have min interface, then for those variants, we have to either have
->> separate bindings or add if/else conditions(?). Introducing min now can make it
->> easily usable for upcoming vpu4 variants.
+On Wed, Sep 24, 2025 at 12:52:12PM +0200, Rafael J. Wysocki wrote:
+> Hi Sakari,
 > 
-> No, it makes it harder to follow the changes. This platform has
-> this-and-that requirements. Then you add another platform and it's clear
-> that the changes are for that platform. Now you have mixed two different
-> patches into a single one.
+> On Wed, Sep 24, 2025 at 9:46 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > Hello everyone,
+> >
+> > Historically the fwnode property API has enumerated only available device
+> > nodes on OF whereas on ACPI, also nodes that haven't been present in the
+> > system have been provided. Both OF and ACPI have similar concepts of node
+> > availbility, on OF it's the "status" property present on device nodes and
+> > on ACPI the _STA object evaluates to device present, enabled and
+> > functional bits, of which the present and functional bits are currently
+> > being used to determine whether to enumerate a device.
+> >
+> > Two additional functions, fwnode_get_next_available_child_node() and
+> > fwnode_for_each_available_child_node(), have been provided to enumerate
+> > the available nodes only on ACPI, whereas on OF the implementation has
+> > been the same on the non-available variants. The motivation for providing
+> > these has very likely been to provide fwnode variants of the similarly
+> > named functions but the difference isn't justifiable from API consistency
+> > viewpoint.
+> >
+> > This set switches the users away from the "available" fwnode API functions
+> > and later on removes them, aligning the functionality on all fwnode
+> > backends.
+> >
+> > since v1:
+> >
+> > - Move patch "ACPI: property: Make acpi_get_next_subnode() static" as
+> >   first.
+> >
+> > - Add missing parentheses and kernel-doc Return: section in
+> >   acpi_get_next_present_subnode() documentation and move the Return
+> >   section: of fwnode_graph_get_endpoint_by_id() to the end of the
+> >   documentation section (new patch for the latter).
+> >
+> > - Use device_get_next_child_node() instead of fwnode_get_next_child_node()
+> >   in flash LED driver drivers.
+> >
+> > - Rework iterating port nodes in acpi_graph_get_next_endpoint() as
+> >   suggested by Andy (new patch).
+> 
+> I think that you really have four series here, or rather two series, a
+> collection of patches depending on them, and a follow-up cleanup.
+> 
+> > Sakari Ailus (16):
+> >   ACPI: property: Make acpi_get_next_subnode() static
+> >   ACPI: property: Use ACPI functions in acpi_graph_get_next_endpoint()
+> >     only
+> >   ACPI: property: Rework acpi_graph_get_next_endpoint()
+> >   ACPI: property: Return present device nodes only on fwnode interface
+> 
+> So the above is one series, focused on ACPI property changes.
+> 
+> They can go in via ACPI as soon as everyone is happy with them.  I
+> think I can push them for 6.18 if that helps to process the other
+> patches.
 
-Vikash, preparing for future submissions is a very good thing,
-however "a binding" can be thought of as a tuple of
+If it's an option, that would be nice. But see below.
 
-(compatible, allowed_properties, required_properties)
+> 
+> >   property: Move Return: section of fwnode_graph_get_endpoint_by_id()
+> >     down
+> >   property: Drop DEVICE_DISABLED flag in
+> >     fwnode_graph_get_endpoint_by_id()
+> >   property: Drop DEVICE_DISABLED flag in
+> >     fwnode_graph_get_endpoint_count()
+> 
+> The above patches are another series that doesn't depend on the first
+> one AFAICS and can go in via driver core.
 
-which needs(asterisk) to remain immutable
+Agreed.
 
-You can make changes to this file later, when introducing said
-platforms and it will be fine, so long as you preserve the same allowed
-and required properties that you're trying to associate with Kanaapali
-here
+> 
+> >   property: Document that fwnode API returns available nodes
+> >   driver core: Use fwnode_for_each_child_node() instead
+> >   net: lan966x: Use fwnode_for_each_child_node() instead
+> >   Input: touch-overlay - Use fwnode_for_each_child_node() instead
+> >   media: thp7312: Use fwnode_for_each_child_node() instead
+> >   leds: Use fwnode_for_each_child_node() instead
+> >   leds: Use fwnode_get_next_child_node() instead
+> 
+> The above can go in via respective subsystem trees when the ACPI
+> property series gets in (I'm not sure if/how they depend on the second
+> series).
+> 
+> And the following one is a follow-up cleanup getting rid of code that
+> would be redundant going forward.
+> 
+> >   property: Drop functions operating on "available" child nodes
+> >   spi: cadence: Remove explicit device node availability check
+> 
+> Does the spi change depend on the previous patch?
 
-(i.e. YAML refactors are OK but the result must come out identical)
+There's really only one dependency, apart from the direct dependency of
+fwnode_get_next_available_child_node() /
+fwnode_for_each_available_child_node() definitions removed in the second
+last patch: fwnode_get_next_child_node() and fwnode_for_each_child_node()
+may still return non-available nodes before the last of the ACPI patches in
+the set. So if the ACPI patches aren't merged but the rest are,
+non-available nodes could be returned.
 
-Konrad
+How about:
+
+1. Merge the ACPI patches to 6.18.
+
+2. Merge the rest, apart from the second last patch, for 6.19.
+
+3. Once everything else is in, merge the last patch. Could wait for 6.20.
+
+Perhaps I should split the series in three sets?
+
+I'll send an update on the ACPI patches soon, to address a comment related
+to them.
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
