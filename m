@@ -1,200 +1,149 @@
-Return-Path: <linux-media+bounces-43269-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43270-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1792DBA4B85
-	for <lists+linux-media@lfdr.de>; Fri, 26 Sep 2025 18:55:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64BF3BA5061
+	for <lists+linux-media@lfdr.de>; Fri, 26 Sep 2025 22:01:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 86B5E4A5281
-	for <lists+linux-media@lfdr.de>; Fri, 26 Sep 2025 16:55:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B18263B9719
+	for <lists+linux-media@lfdr.de>; Fri, 26 Sep 2025 20:01:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 868333093B5;
-	Fri, 26 Sep 2025 16:55:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3AB63284662;
+	Fri, 26 Sep 2025 20:01:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CNv6s0I1"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NjaLfnbx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B917C1D86DC;
-	Fri, 26 Sep 2025 16:55:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DAF87A13A;
+	Fri, 26 Sep 2025 20:01:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758905739; cv=none; b=hu2SRGCwICcxu7lk9j1P2J8/lx5m2b8koqF/kt8W2NTxkm3pkRJhaLoulxegUtuiy+yCNCeb63pmUhj+iTGxfHFqA1vrKDHT4HddZnArR6i63gj9Vvu0UkxnlMCJ6j4nmjPWX94VVzFGcgqwoIoSXjUKHalDq5uEfLTJn7vCAEo=
+	t=1758916861; cv=none; b=dRnnmLnCJczRKBA8asU5y5W8dEqPUwPY6hFLFQMgDZ/Ey+pN2HrLFEiWDQ9vNgnBwkYq/DvvZOheLmALnYk/PDedu4TZc014t/kcdQNqkUKVAJcZuUIQ+sojtalqfIU9wPRsaMeIzmusShUlsW7Uj6x1DJ+N7KHVo3pUtJqcb/I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758905739; c=relaxed/simple;
-	bh=pI9degLf/+q59D0fv8fpQNooxIH3uWVgpJc8N6uXbW8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Po7lprEah+KxXlbgw9nM1mXcz8PMPfo+4us3M7B2cY9YKS/asZsZBkZa1qz/RbMJ3nemydxOLLmhTlIlh8qfNS9g+KFUlgdaMzn8/mPd2V4nmjMrO3vrTYSb7jAC9rhisO6O1kxa/gMulD5CkglEZvUsT2G25dChWxYGztrWbnc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CNv6s0I1; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FC4FC4CEF4;
-	Fri, 26 Sep 2025 16:55:35 +0000 (UTC)
+	s=arc-20240116; t=1758916861; c=relaxed/simple;
+	bh=LmM6ig4MOGV4lcn/w+S1PNw5phmfSGuH7K+di1MOKA4=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=nIEusxCUddRnp8WlB6czEz5/aJioz0vZpnK1fYP7oIUcKIocG80Rd+/ESxEd0XKRqYQjocCZS/nPku/miSqHdTumMK7BgW0M1xTHTqll77tSLbWDJsbcooeAR+dsc1ySgTrbfmrfFNTI7ax6C2me7ZpWew2K5Dt4uGiGouxuaRc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NjaLfnbx; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5F7C1C4CEF4;
+	Fri, 26 Sep 2025 20:01:00 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1758905739;
-	bh=pI9degLf/+q59D0fv8fpQNooxIH3uWVgpJc8N6uXbW8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CNv6s0I15gC3nUFJYvTIXlSI1AxJD9q0u/28WFjydG4s3aEbNDQM3K3dEAdRr8Qla
-	 PGTHbo6NItVKL1HdEqHUpcH0AX5RTvpjlQupbL2ZqDH1NiMdE+fh2d+9FSmAl0ZZmb
-	 AHX7OKP3LK0R3zxOZBgNVoeso3oOI93r0/q/4mjd+wZK/74VLJHj4oYA/VOhmzqrqC
-	 cDUbjat38PeRVT0f5K/x+DemPmO3DWfckHjIFMoZvG9LsOYPlXb8pb2ez9so2nc+B0
-	 PYoPqFpKOQddrXrRA8wlElbjRTHoCZ4MS/Pzh7EfSjgZQyG4VkyQTHRp+RRLhdg45t
-	 iB4QM4Gva7RMQ==
-Date: Fri, 26 Sep 2025 17:55:32 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev
-Subject: Re: [PATCH v3 07/12] dt-bindings: media: Add usb-camera-module
-Message-ID: <20250926-mute-boil-e75839753526@spud>
-References: <20250926-uvc-orientation-v3-0-6dc2fa5b4220@chromium.org>
- <20250926-uvc-orientation-v3-7-6dc2fa5b4220@chromium.org>
+	s=k20201202; t=1758916861;
+	bh=LmM6ig4MOGV4lcn/w+S1PNw5phmfSGuH7K+di1MOKA4=;
+	h=From:Subject:Date:To:Cc:From;
+	b=NjaLfnbxgmQJvJztY7ncapArMYJ4hE3ilw/Tyb8w5GWm6Hc5YOHpUhta0+q1QNEtj
+	 qcgpq3pyyGAYEEaW3wIjFTCK35m01Qfsrtm6wojA/RR11tSnL6kHuzeEiCqnEHWJfs
+	 RKd/Ybcty7YZl4sZtkoImdQ6cvXNms+tKhILliQW6yaUL+oKuxuiqBohOPzom9voxQ
+	 JLe5hqqDkqkGgzK/CzzDHUAxGREQHAgr9RmfSfdqetmiRYW9nrvBvLKEey0a0T0pAZ
+	 6NHOAmlm+1TAHEZIwzaX/JYjjOpJrUM5uvpB6wTYhOQWSVa+l771jPeIzbCigdjvQ2
+	 NYNFa7sq6+5tA==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Subject: [PATCH v3 0/2] accel: Add Arm Ethos-U NPU
+Date: Fri, 26 Sep 2025 15:00:47 -0500
+Message-Id: <20250926-ethos-v3-0-6bd24373e4f5@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="dvlxf+F9Nk0RUTPP"
-Content-Disposition: inline
-In-Reply-To: <20250926-uvc-orientation-v3-7-6dc2fa5b4220@chromium.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAO/w1mgC/1WMQQrCMBBFr1JmbSQzJWpceQ9xkaaTNiiNJCUop
+ Xc3LRVx+T7/vQkSR88JztUEkbNPPgwF6l0FtjdDx8K3hYEkKXlEJXjsQxK1a9taszs41FC+z8j
+ Ov9bO9Va492kM8b1mMy7rViDaChmFFNaiVUbapnHN5c5x4Mc+xA6WRKafdkL8alQ0Q6idVWS0+
+ tfmef4A8IKvg9IAAAA=
+X-Change-ID: 20250715-ethos-3fdd39ef6f19
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Robin Murphy <robin.murphy@arm.com>, Steven Price <steven.price@arm.com>, 
+ Daniel Stone <daniel@fooishbar.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org
+X-Mailer: b4 0.15-dev
 
+The Arm Ethos-U65/85 NPUs are designed for edge AI inference 
+applications[0].
 
---dvlxf+F9Nk0RUTPP
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+The driver works with Mesa Teflon. A merge request for Ethos support is 
+here[1]. The UAPI should also be compatible with the downstream (open 
+source) driver stack[2] and Vela compiler though that has not been 
+implemented.
 
-On Fri, Sep 26, 2025 at 01:11:31PM +0000, Ricardo Ribalda wrote:
-> For fixed cameras modules the OS needs to know where they are mounted.
-> This information is used to determine if images need to be rotated or
-> not.
->=20
-> ACPI has a property for this purpose, which is parsed by
-> acpi_get_physical_device_location():
-> https://uefi.org/htmlspecs/ACPI_Spec_6_4_html/06_Device_Configuration/Dev=
-ice_Configuration.html#pld-physical-location-of-device
->=20
-> In DT we have similar properties for video-interface-devices called
-> orientation and rotation:
-> Documentation/devicetree/bindings/media/video-interface-devices.yaml
->=20
-> Add a new schema that combines usb/usb-device.yaml and
-> media/video-interface-devices.yaml
->=20
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  .../bindings/media/usb-camera-module.yaml          | 46 ++++++++++++++++=
-++++++
->  MAINTAINERS                                        |  1 +
->  2 files changed, 47 insertions(+)
->=20
-> diff --git a/Documentation/devicetree/bindings/media/usb-camera-module.ya=
-ml b/Documentation/devicetree/bindings/media/usb-camera-module.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..e4ad6f557b9151751522e49b7=
-2ae6584deb0c7ba
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/usb-camera-module.yaml
-> @@ -0,0 +1,46 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/usb-camera-module.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: USB Camera Module
-> +
-> +maintainers:
-> +  - Ricardo Ribalda <ribalda@chromium.org>
-> +
-> +description: |
-> +  This schema allows for annotating auxiliary information for fixed came=
-ra
-> +  modules. This information enables the system to determine if incoming =
-frames
-> +  require rotation, mirroring, or other transformations. It also describ=
-es the
-> +  module's relationship with other hardware elements, such as flash LEDs=
- or
-> +  Voice Coil Motors (VCMs).
-> +
-> +allOf:
-> +  - $ref: /schemas/usb/usb-device.yaml#
-> +  - $ref: /schemas/media/video-interface-devices.yaml#
-> +
-> +properties:
-> +  reg:
-> +    maxItems: 1
-> +
+Testing so far has been on i.MX93 boards with Ethos-U65 and a FVP model 
+with Ethos-U85. More work is needed in mesa for handling U85 command 
+stream differences, but that doesn't affect the UABI.
 
-What actually causes this schema to be applied? Did I miss it getting
-included somewhere?
+A git tree is here[3].
 
-> +required:
-> +  - reg
-> +
-> +additionalProperties: true
-> +
-> +examples:
-> +  - |
-> +    usb@11270000 {
-> +        reg =3D <0x11270000 0x1000>;
-> +        interrupts =3D <0x0 0x4e 0x0>;
-> +        #address-cells =3D <1>;
-> +        #size-cells =3D <0>;
-> +
-> +        device@1 {
-> +            compatible =3D "usb123,4567";
-> +            reg =3D <2>;
-> +            orientation =3D <0>;
-> +            rotation =3D <90>;
-> +        };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index ee8cb2db483f6a5e96b62b6f2edd05b1427b69f5..1503502a3aed2625e8ff48845=
-6ccd7305cc74ba7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -26258,6 +26258,7 @@ L:	linux-media@vger.kernel.org
->  S:	Maintained
->  W:	http://www.ideasonboard.org/uvc/
->  T:	git git://linuxtv.org/media.git
-> +F:	Documentation/devicetree/bindings/media/usb-camera-module.yaml
->  F:	Documentation/userspace-api/media/drivers/uvcvideo.rst
->  F:	Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst
->  F:	Documentation/userspace-api/media/v4l/metafmt-uvc.rst
->=20
-> --=20
-> 2.51.0.536.g15c5d4f767-goog
->=20
+Rob
 
---dvlxf+F9Nk0RUTPP
-Content-Type: application/pgp-signature; name="signature.asc"
+[0] https://www.arm.com/products/silicon-ip-cpu?families=ethos%20npus
+[1] https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/36699/
+[2] https://gitlab.arm.com/artificial-intelligence/ethos-u/
+[3] git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git ethos-v3
 
------BEGIN PGP SIGNATURE-----
+Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+---
+Changes in v3:
+- Rework and improve job submit validation                                                            
+- Rename ethos to ethosu. There was an Ethos-Nxx that's unrelated.
+- Add missing init for sched_lock mutex
+- Drop some prints to debug level          
+- Fix i.MX93 SRAM accesses (AXI config)
+- Add U85 AXI configuration and test on FVP with U85
+- Print the current cmd value on timeout                                                              
+- Link to v2: https://lore.kernel.org/r/20250811-ethos-v2-0-a219fc52a95b@kernel.org
 
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaNbFhAAKCRB4tDGHoIJi
-0qhdAP49nO2mKsosLHwnekS7EGEufeFAyOly/K0/a5m74rcMVwEAvbMFbwdFzaSM
-DgN8a+gmLLJ+4P89rQ8cIJR4oV+IpwI=
-=/Hob
------END PGP SIGNATURE-----
+Changes in v2:
+- Rebase on v6.17-rc1 adapting to scheduler changes
+- scheduler: Drop the reset workqueue. According to the scheduler docs,
+  we don't need it since we have a single h/w queue.
+- scheduler: Rework the timeout handling to continue running if we are
+  making progress. Fixes timeouts on larger jobs.
+- Reset the NPU on resume so it's in a known state
+- Add error handling on clk_get() calls
+- Fix drm_mm splat on module unload. We were missing a put on the
+  cmdstream BO in the scheduler clean-up.
+- Fix 0-day report needing explicit bitfield.h include
+- Link to v1: https://lore.kernel.org/r/20250722-ethos-v1-0-cc1c5a0cbbfb@kernel.org
 
---dvlxf+F9Nk0RUTPP--
+---
+Rob Herring (Arm) (2):
+      dt-bindings: npu: Add Arm Ethos-U65/U85
+      accel: Add Arm Ethos-U NPU driver
+
+ .../devicetree/bindings/npu/arm,ethos.yaml         |  79 +++
+ MAINTAINERS                                        |   9 +
+ drivers/accel/Kconfig                              |   1 +
+ drivers/accel/Makefile                             |   1 +
+ drivers/accel/ethosu/Kconfig                       |  10 +
+ drivers/accel/ethosu/Makefile                      |   4 +
+ drivers/accel/ethosu/ethosu_device.h               | 187 ++++++
+ drivers/accel/ethosu/ethosu_drv.c                  | 430 +++++++++++++
+ drivers/accel/ethosu/ethosu_drv.h                  |  15 +
+ drivers/accel/ethosu/ethosu_gem.c                  | 709 +++++++++++++++++++++
+ drivers/accel/ethosu/ethosu_gem.h                  |  46 ++
+ drivers/accel/ethosu/ethosu_job.c                  | 543 ++++++++++++++++
+ drivers/accel/ethosu/ethosu_job.h                  |  41 ++
+ include/uapi/drm/ethosu_accel.h                    | 262 ++++++++
+ 14 files changed, 2337 insertions(+)
+---
+base-commit: 8f5ae30d69d7543eee0d70083daf4de8fe15d585
+change-id: 20250715-ethos-3fdd39ef6f19
+
+Best regards,
+--  
+Rob Herring (Arm) <robh@kernel.org>
+
 
