@@ -1,336 +1,273 @@
-Return-Path: <linux-media+bounces-43239-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43240-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37272BA2F57
-	for <lists+linux-media@lfdr.de>; Fri, 26 Sep 2025 10:33:44 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 30BC5BA2FD2
+	for <lists+linux-media@lfdr.de>; Fri, 26 Sep 2025 10:42:08 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DE50A3A48A5
-	for <lists+linux-media@lfdr.de>; Fri, 26 Sep 2025 08:33:42 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4F8BF1C21624
+	for <lists+linux-media@lfdr.de>; Fri, 26 Sep 2025 08:42:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E0881291C1E;
-	Fri, 26 Sep 2025 08:33:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF74F296BBD;
+	Fri, 26 Sep 2025 08:42:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="pUS2xkib"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RwDTvK8L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33A4F7404E
-	for <linux-media@vger.kernel.org>; Fri, 26 Sep 2025 08:33:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C3A926E6EA
+	for <linux-media@vger.kernel.org>; Fri, 26 Sep 2025 08:42:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758875617; cv=none; b=Cs4u1BY15oTq5U3c5ntIAqWITMLiZjFkiSUPeOwXS4Bf93R1G8uhwsYQ22DaopofGlCNSu83muT5MnMZGOC/ySFB3c7fP4hkkE5Bxq60yIDhCroeJz9UGJdyRxPiXKRVK56quZ94E8oN/zBTG7vCzlkT1rGwF5uHTgbuhycNQgY=
+	t=1758876122; cv=none; b=bEVTrpr3sPScq7p0EK4r0RCFLmoXF/gSwrYHUT7Jcqln0SvS50/3ip3cNxues7IwEliz2YkCCSCDDCfzDKNRetScO/7+ZjaoQ/g9bnDCKdNZ8EyPRJW6PgLzq27OlLO7d3NujDq1kPXpaoqWY9af8v33EUUQP8yIr1hUD2hXWtE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758875617; c=relaxed/simple;
-	bh=vyKexwme473OJ2NjYwV4oSf/0saUleVTHehU9VPa20M=;
-	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=GZu4McJBMfNDJIHCQC9gex5t1zFCr198+1cV7Pe/OPD6iyeH8S0+zqORfH/CJ89+EZAyyq1JahpO2ekdCpoKjx2NzUttw50N0+WJ22PFYPuTCyF+tSaYx++XItJ4UlofDD1Qz3rPe9TfbH2LYwN0m1d+umMnjO0/DQTVJ0yStSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=pUS2xkib; arc=none smtp.client-ip=140.211.166.241
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
-	; s=s1; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:
-	References:In-Reply-To:Message-ID:To:From:Date:Sender:Reply-To:Cc:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
-	List-Post:List-Owner:List-Archive;
-	bh=zrjj35h2CiSneJDrpibmb+LfQzw0PIqftPNNjRQ7Bho=; b=pUS2xkibi7benZRlmqw0CdfL3x
-	mrnzgZ+LkAz17a+epRgfKlWuR1Q0HZAGJX1CVAWMbYZgzBQgQNUJJtVgk7OgN6Ej4XudFepdy7DsY
-	kWnM3zfb4/XI2d6gCQXUfCccZCIXYH/S4CVg0Z+oKFyY4UdI9r49ckvMTpRvB1BogOrWv7144QgNk
-	++7vT2dn2i+BoA4gOEYxkHtA8kB0mu+zTas0/V+CPk+7Na+IHaimHoBhMiX3Q4jKkJiWtgZElfCFC
-	BGwtw7VaSzfxye/0RNIzFLoAYLwnCWZ2Ock3OLhN3k5C4gxxJHCYe+QZavkNvDNST+M4o7IK8cT9X
-	6SiLapvg==;
-Received: from builder.linuxtv.org ([140.211.167.10])
-	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1v23tT-0002lG-2t;
-	Fri, 26 Sep 2025 08:33:34 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-	by builder.linuxtv.org with esmtp (Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1v23tT-00E0FG-2Z;
-	Fri, 26 Sep 2025 08:33:31 +0000
-Date: Fri, 26 Sep 2025 08:33:31 +0000 (UTC)
-From: Jenkins Builder Robot  <jenkins@linuxtv.org>
-To: mchehab@kernel.org, linux-media@vger.kernel.org,
-	libcamera-devel@lists.libcamera.org
-Message-ID: <13558153.1.1758875611791@builder.linuxtv.org>
-In-Reply-To: <1100823679.1.1758804520270@builder.linuxtv.org>
-References: <1100823679.1.1758804520270@builder.linuxtv.org>
-Subject: Build failed in Jenkins: libcamera #1490
+	s=arc-20240116; t=1758876122; c=relaxed/simple;
+	bh=Q4aFMsqbBNSrljWqkrz3F71guVInaHDdbAvHYY33zk0=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:References:Cc:
+	 In-Reply-To:Content-Type; b=OHd7hkX4x2ZJClftcLNZnV3Z0Jizu1TLZwCFnnJe3H4YeM5HGssXREI6Q6MYX0fAGwp73UtD+NL9Kdcl+SM7j7EggCNGifeAJqdXbnAkj8NY3T0WYHj2t/GqlZ2qT3ib2bQkaWzV14vmYPw755m6tVJKVtxvZL2OdXCh3CTWuXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RwDTvK8L; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2DEEDC4CEF4;
+	Fri, 26 Sep 2025 08:42:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758876121;
+	bh=Q4aFMsqbBNSrljWqkrz3F71guVInaHDdbAvHYY33zk0=;
+	h=Date:From:Subject:To:References:Cc:In-Reply-To:From;
+	b=RwDTvK8LFBsSOfw5Jgp61Bk9EOvrjgBlkm4OBqe+DfxXHnuenXFfKY+t9QuEw7b0a
+	 M1ONYEDUlhizkfgZ2g3lrOqP04ay5mpjvEyY8mZGV5ncRx1NsKCgQpEx9eOeaqaQMz
+	 DylBzJLODkOzUbz6f3zwYEEKUMWpQeB7TeivF7SYo7A7OXHQua/0OU2SYOJ/N7+068
+	 GzOkRxn6E0sxcy5iwsBXJFo6FKDHc+IaIjJVmMVaMAZgD/5oXTR3/dO2rjwPlxplGY
+	 2Kh19TisSnsdnxoBVPXUUXTZ8XTZNXxLR5Nygyij6zOi/N5f/CTMUxJpK/D2iVSsTx
+	 nYAz6Dn/pNS4g==
+Message-ID: <5cfb3270-6a4e-4f5d-a885-52f95f231d00@kernel.org>
+Date: Fri, 26 Sep 2025 10:41:59 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v4l-utils v2] v4l2-ctl: Fix failure on controls starting
+ with a digit
+To: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+References: <20250819-fix_3alock-v2-1-84953c908075@foss.st.com>
+Content-Language: en-US, nl
+Cc: linux-media@vger.kernel.org
+In-Reply-To: <20250819-fix_3alock-v2-1-84953c908075@foss.st.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: libcamera
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
 
-See <https://builder.linuxtv.org/job/libcamera/1490/display/redirect?page=changes>
+Hi Benjamin,
 
-Changes:
+Thank you for the patch, and apologies for not reviewing this earlier.
 
-[barnabas.pocze] meson: Add option to disable libunwind integration
+On 19/08/2025 09:07, Benjamin Mugnier wrote:
+> Specifically querying the 3a_lock control from v4l2-ctl fails :
+> 
+>   $ v4l2-ctl -C 3a_lock
+>   VIDIOC_G_EXT_CTRLS: failed: Invalid argument
+>   : 0
+> 
+> A similar issue occurs when setting the control :
+> 
+>   $ v4l2-ctl -c 3a_lock=0
+>   VIDIOC_S_EXT_CTRLS: failed: Invalid argument
+>   Error setting controls: Invalid argument
+> 
+> This does not happen with other controls. Internally, v4l2-ctl parses
+> its arguments in order and differentiates a control name from a value
+> using this check :
+> 
+>   if (isdigit(s[0]))
+> 
+> This means if the argument starts with a letter, it is a control
+> name; otherwise, it is a control value. This works well for all controls
+> except for 3a_lock, which starts with a digit and is wrongly detected as
+> a control value.
+> 
+> Currently, 3a_lock is the only control that starts with a digit.
+> 
+> Introduce is_digits() to check if a string contains only digits, and
+> therefore would return false when parsing '3a_lock'. Use is_digits() for
+> control get and set operations, and expand its use to all other relevant
+> cases.
 
+This isn't enough. strtoul allows for hex numbers (preceded by 0x or 0X) and
+numbers starting with '-' (see man strtoul). This isn't tested.
 
-------------------------------------------
-[...truncated 23.93 KiB...]
-[142/347] Generating src/libcamera/ipa/vimc_ipa_interface.cpp with a custom command
-[143/347] Generating src/libcamera/ipa/core_ipa_interface.cpp with a custom command
-[144/347] Generating include/libcamera/ipa/soft_proxy_h with a custom command (wrapped by meson to set env)
-[145/347] Generating include/libcamera/ipa/soft_ipa_serializer_h with a custom command (wrapped by meson to set env)
-[146/347] Generating src/libcamera/ipa_pub_key_cpp with a custom command
-writing RSA key
-[147/347] Compiling C++ object subprojects/libyuv/libyuv.a.p/source_compare_mmi.cc.o
-[148/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/camera.cpp.o
-[149/347] Compiling C++ object subprojects/libyuv/libyuv.a.p/source_convert_to_i420.cc.o
-[150/347] Generating symbol file src/libcamera/base/libcamera-base.so.0.5.2.p/libcamera-base.so.0.5.2.symbols
-[151/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/camera_manager.cpp.o
-[152/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/color_space.cpp.o
-[153/347] Compiling C++ object subprojects/libyuv/libyuv_shared.so.p/source_rotate_neon.cc.o
-[154/347] Linking static target subprojects/libyuv/libyuv.a
-[155/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/controls.cpp.o
-[156/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/fence.cpp.o
-[157/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/framebuffer.cpp.o
-[158/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/orientation.cpp.o
-[159/347] Generating src/libcamera/proxy/ipu3_proxy_cpp with a custom command (wrapped by meson to set env)
-[160/347] Generating src/libcamera/proxy/soft_proxy_cpp with a custom command (wrapped by meson to set env)
-[161/347] Generating src/libcamera/version.cpp with a custom command
-[162/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/framebuffer_allocator.cpp.o
-[163/347] Generating src/libcamera/properties_ids_cpp with a custom command (wrapped by meson to set env)
-[164/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/geometry.cpp.o
-[165/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pixel_format.cpp.o
-[166/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/meson-generated_.._proxy_soft_ipa_proxy.cpp.o
-[167/347] Generating src/libcamera/controls_ids_cpp with a custom command (wrapped by meson to set env)
-[168/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/meson-generated_.._proxy_ipu3_ipa_proxy.cpp.o
-[169/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/request.cpp.o
-[170/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/meson-generated_.._property_ids.cpp.o
-[171/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/stream.cpp.o
-[172/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/transform.cpp.o
-[173/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/bayer_format.cpp.o
-[174/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/byte_stream_buffer.cpp.o
-[175/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/meson-generated_.._control_ids.cpp.o
-[176/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/camera_lens.cpp.o
-[177/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/clock_recovery.cpp.o
-[178/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/control_serializer.cpp.o
-[179/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/control_validator.cpp.o
-[180/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/converter.cpp.o
-[181/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/delayed_controls.cpp.o
-[182/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/device_enumerator_sysfs.cpp.o
-[183/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/formats.cpp.o
-[184/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/device_enumerator.cpp.o
-[185/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/global_configuration.cpp.o
-[186/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipa_controls.cpp.o
-[187/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/camera_controls.cpp.o
-[188/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipa_interface.cpp.o
-[189/347] Linking target subprojects/libyuv/libyuv_shared.so
-[190/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/debug_controls.cpp.o
-[191/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/dma_buf_allocator.cpp.o
-[192/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipa_data_serializer.cpp.o
-[193/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipa_manager.cpp.o
-[194/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipa_module.cpp.o
-[195/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipa_proxy.cpp.o
-[196/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipc_pipe.cpp.o
-[197/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipc_pipe_unixsocket.cpp.o
-[198/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/mapped_framebuffer.cpp.o
-[199/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/matrix.cpp.o
-[200/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/media_object.cpp.o
-[201/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipc_unixsocket.cpp.o
-[202/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/media_device.cpp.o
-[203/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/media_pipeline.cpp.o
-[204/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pub_key.cpp.o
-[205/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/shared_mem_object.cpp.o
-[206/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/process.cpp.o
-[207/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/sysfs.cpp.o
-[208/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pipeline_handler.cpp.o
-[209/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/source_paths.cpp.o
-[210/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/v4l2_device.cpp.o
-[211/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/v4l2_pixelformat.cpp.o
-[212/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/v4l2_videodevice.cpp.o
-[213/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/vector.cpp.o
-[214/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/v4l2_subdevice.cpp.o
-[215/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/converter_converter_v4l2_m2m.cpp.o
-[216/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/yaml_parser.cpp.o
-[217/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pipeline_ipu3_frames.cpp.o
-[218/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pipeline_ipu3_imgu.cpp.o
-[219/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pipeline_ipu3_cio2.cpp.o
-[220/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/sensor_camera_sensor.cpp.o
-[221/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pipeline_uvcvideo_uvcvideo.cpp.o
-[222/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/sensor_camera_sensor_properties.cpp.o
-[223/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pipeline_ipu3_ipu3.cpp.o
-[224/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/sensor_camera_sensor_legacy.cpp.o
-[225/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/sensor_camera_sensor_raw.cpp.o
-[226/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/software_isp_debayer.cpp.o
-[227/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pipeline_simple_simple.cpp.o
-[228/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/software_isp_debayer_cpu.cpp.o
-[229/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/software_isp_software_isp.cpp.o
-[230/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/software_isp_swstats_cpu.cpp.o
-[231/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/tracepoints.cpp.o
-[232/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/device_enumerator_udev.cpp.o
-[233/347] Compiling C object src/android/libcamera_metadata.a.p/metadata_camera_metadata.c.o
-[234/347] Compiling C++ object src/android/libcamera-hal.so.p/camera3_hal.cpp.o
-[235/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_capabilities.cpp.o
-[236/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_device.cpp.o
-[237/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_hal_config.cpp.o
-[238/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_hal_manager.cpp.o
-[239/347] Linking static target src/android/libcamera_metadata.a
-[240/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_metadata.cpp.o
-[241/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_ops.cpp.o
-[242/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_request.cpp.o
-[243/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_stream.cpp.o
-[244/347] Compiling C++ object src/android/libcamera-hal.so.p/hal_framebuffer.cpp.o
-[245/347] Compiling C++ object src/android/libcamera-hal.so.p/yuv_post_processor_yuv.cpp.o
-[246/347] Compiling C++ object src/android/libcamera-hal.so.p/jpeg_encoder_libjpeg.cpp.o
-[247/347] Compiling C++ object src/android/libcamera-hal.so.p/jpeg_post_processor_jpeg.cpp.o
-[248/347] Compiling C++ object src/android/libcamera-hal.so.p/jpeg_exif.cpp.o
-[249/347] Compiling C++ object src/android/libcamera-hal.so.p/jpeg_thumbnailer.cpp.o
-[250/347] Compiling C++ object src/android/libcamera-hal.so.p/mm_generic_camera_buffer.cpp.o
-[251/347] Compiling C++ object src/android/libcamera-hal.so.p/mm_generic_frame_buffer_allocator.cpp.o
-[252/347] Compiling C object src/android/libcamera-hal.so.p/mm_libhardware_stub.c.o
-[253/347] Compiling C++ object src/ipa/libipa/libipa.a.p/agc_mean_luminance.cpp.o
-[254/347] Compiling C++ object src/ipa/libipa/libipa.a.p/algorithm.cpp.o
-[255/347] Compiling C++ object src/ipa/libipa/libipa.a.p/awb_bayes.cpp.o
-[256/347] Compiling C++ object src/ipa/libipa/libipa.a.p/awb_grey.cpp.o
-[257/347] Compiling C++ object src/ipa/libipa/libipa.a.p/colours.cpp.o
-[258/347] Compiling C++ object src/ipa/libipa/libipa.a.p/exposure_mode_helper.cpp.o
-[259/347] Compiling C++ object src/ipa/libipa/libipa.a.p/awb.cpp.o
-[260/347] Compiling C++ object src/ipa/libipa/libipa.a.p/camera_sensor_helper.cpp.o
-[261/347] Compiling C++ object src/ipa/libipa/libipa.a.p/fc_queue.cpp.o
-[262/347] Compiling C++ object src/ipa/libipa/libipa.a.p/fixedpoint.cpp.o
-[263/347] Compiling C++ object src/ipa/libipa/libipa.a.p/histogram.cpp.o
-[264/347] Compiling C++ object src/ipa/libipa/libipa.a.p/interpolator.cpp.o
-[265/347] Generating src/libcamera/proxy/worker/soft_proxy_worker with a custom command (wrapped by meson to set env)
-[266/347] Compiling C++ object src/ipa/libipa/libipa.a.p/lsc_polynomial.cpp.o
-[267/347] Compiling C++ object src/ipa/libipa/libipa.a.p/module.cpp.o
-[268/347] Generating src/libcamera/proxy/worker/ipu3_proxy_worker with a custom command (wrapped by meson to set env)
-[269/347] Compiling C++ object src/ipa/libipa/libipa.a.p/lux.cpp.o
-[270/347] Compiling C++ object src/ipa/libipa/libipa.a.p/pwl.cpp.o
-[271/347] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/ipa_context.cpp.o
-[272/347] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_af.cpp.o
-[273/347] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_agc.cpp.o
-[274/347] Compiling C++ object src/libcamera/proxy/worker/soft_ipa_proxy.p/meson-generated_.._soft_ipa_proxy_worker.cpp.o
-[275/347] Compiling C++ object src/libcamera/proxy/worker/ipu3_ipa_proxy.p/meson-generated_.._ipu3_ipa_proxy_worker.cpp.o
-[276/347] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_blc.cpp.o
-[277/347] Linking static target src/ipa/libipa/libipa.a
-[278/347] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_awb.cpp.o
-[279/347] Compiling C++ object src/ipa/simple/ipa_soft_simple.so.p/ipa_context.cpp.o
-[280/347] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/ipu3.cpp.o
-[281/347] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_tone_mapping.cpp.o
-[282/347] Compiling C++ object src/ipa/simple/ipa_soft_simple.so.p/soft_simple.cpp.o
-[283/347] Compiling C++ object src/ipa/simple/ipa_soft_simple.so.p/algorithms_awb.cpp.o
-[284/347] Compiling C++ object src/ipa/simple/ipa_soft_simple.so.p/algorithms_agc.cpp.o
-[285/347] Compiling C++ object src/ipa/simple/ipa_soft_simple.so.p/algorithms_ccm.cpp.o
-[286/347] Compiling C++ object src/ipa/simple/ipa_soft_simple.so.p/algorithms_blc.cpp.o
-[287/347] Compiling C++ object src/ipa/simple/ipa_soft_simple.so.p/algorithms_lut.cpp.o
-[288/347] Compiling C++ object src/apps/common/libapps.a.p/image.cpp.o
-[289/347] Compiling C++ object src/apps/common/libapps.a.p/options.cpp.o
-[290/347] Compiling C++ object src/apps/common/libapps.a.p/ppm_writer.cpp.o
-[291/347] Compiling C++ object src/apps/common/libapps.a.p/stream_options.cpp.o
-[292/347] Compiling C++ object src/apps/common/libapps.a.p/event_loop.cpp.o
-[293/347] Compiling C++ object src/apps/common/libapps.a.p/dng_writer.cpp.o
-[294/347] Compiling C++ object src/apps/lc-compliance/lc-compliance.p/environment.cpp.o
-[295/347] Compiling C++ object src/apps/lc-compliance/lc-compliance.p/helpers_capture.cpp.o
-[296/347] Compiling C++ object src/apps/lc-compliance/lc-compliance.p/main.cpp.o
-[297/347] Compiling C++ object src/apps/lc-compliance/lc-compliance.p/test_base.cpp.o
-[298/347] Compiling C++ object src/apps/lc-compliance/lc-compliance.p/tests_capture_test.cpp.o
-[299/347] Linking static target src/apps/common/libapps.a
-[300/347] Compiling C++ object src/apps/lc-compliance/lc-compliance.p/.._.._.._subprojects_googletest-release-1.11.0_googletest_src_gtest-all.cc.o
-[301/347] Compiling C++ object src/apps/cam/cam.p/frame_sink.cpp.o
-[302/347] Compiling C++ object src/apps/cam/cam.p/camera_session.cpp.o
-[303/347] Compiling C++ object src/apps/cam/cam.p/file_sink.cpp.o
-[304/347] Compiling C++ object src/apps/cam/cam.p/capture_script.cpp.o
-[305/347] Compiling C++ object src/apps/cam/cam.p/main.cpp.o
-[306/347] Compiling C++ object src/apps/cam/cam.p/drm.cpp.o
-[307/347] Compiling C++ object src/apps/cam/cam.p/kms_sink.cpp.o
-[308/347] Compiling C++ object src/apps/cam/cam.p/sdl_texture.cpp.o
-[309/347] Compiling C++ object src/apps/cam/cam.p/sdl_texture_1plane.cpp.o
-[310/347] Compiling C++ object src/apps/cam/cam.p/sdl_sink.cpp.o
-[311/347] Compiling C++ object src/apps/cam/cam.p/sdl_texture_yuv.cpp.o
-[312/347] Compiling C++ object src/apps/cam/cam.p/sdl_texture_mjpg.cpp.o
-[313/347] Compiling C++ object src/apps/ipa-verify/ipa_verify.p/main.cpp.o
-[314/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamera-utils.cpp.o
-[315/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcameraprovider.cpp.o
-[316/347] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_camera_file.cpp.o
-[317/347] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_camera_proxy.cpp.o
-[318/347] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_camera.cpp.o
-[319/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcameraallocator.cpp.o
-[320/347] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_compat.cpp.o
-[321/347] Generating src/gstreamer/gstlibcamera-controls.cpp with a custom command (wrapped by meson to set env)
-[322/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerapad.cpp.o
-[323/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamera.cpp.o
-[324/347] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_compat_manager.cpp.o
-[325/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/meson-generated_.._version.cpp.o
-[326/347] Generating Documentation/doxyfile-public with a custom command
-[327/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerasrc.cpp.o
-[328/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerapool.cpp.o
-[329/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/meson-generated_.._gstlibcamera-controls.cpp.o
-[330/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/meson-generated_.._ipa_pub_key.cpp.o
-[331/347] Linking target src/libcamera/libcamera.so.0.5.2
-[332/347] Generating Documentation/doxygen-public with a custom command
-[333/347] Generating symbol file src/libcamera/libcamera.so.0.5.2.p/libcamera.so.0.5.2.symbols
-[334/347] Linking target src/libcamera/proxy/worker/soft_ipa_proxy
-[335/347] Linking target src/gstreamer/libgstlibcamera.so
-[336/347] Linking target src/libcamera/proxy/worker/ipu3_ipa_proxy
-[337/347] Linking target src/ipa/simple/ipa_soft_simple.so
-[338/347] Linking target src/ipa/ipu3/ipa_ipu3.so
-[339/347] Generating src/ipa/simple/ipa_soft_simple.so.sign with a custom command
-[340/347] Linking target src/apps/lc-compliance/lc-compliance
-[341/347] Linking target src/apps/ipa-verify/ipa_verify
-[342/347] Generating src/ipa/ipu3/ipa_ipu3.so.sign with a custom command
-[343/347] Linking target src/v4l2/v4l2-compat.so
-[344/347] Linking target src/android/libcamera-hal.so
-[345/347] Linking target src/apps/cam/cam
-[346/347] Generating Documentation/doxygen-internal with a custom command
-warning: source '<https://builder.linuxtv.org/job/libcamera/ws/build/src/libcamera/libcamera.so'> is not a readable file or directory... skipping.
-warning: source '<https://builder.linuxtv.org/job/libcamera/ws/build/src/libcamera/libcamera.so.0.5'> is not a readable file or directory... skipping.
-[347/347] Generating Documentation/documentation with a custom command
-FAILED: Documentation/html 
-/var/lib/jenkins/.local/bin/sphinx-build -D release=v0.5.2+99-22f6edc6 -q -W -b html -c Documentation <https://builder.linuxtv.org/job/libcamera/ws/Documentation> Documentation/html
+It might be better to have a helper is_valid_number() that calls strtoul and
+checks the endptr to make sure the number does not end with an isalnum() or
+underscore character.
 
-Theme error!
+There are a few cases below where strtol is called: those are actually wrong
+and it should be strtoul. I'll push fixes for that soon.
 
-Versions
-========
+Some more comments below.
 
-* Platform:         linux; (Linux-6.1.0-17-amd64-x86_64-with-glibc2.36)
-* Python version:   3.11.2 (CPython)
-* Sphinx version:   8.2.3
-* Docutils version: 0.21.2
-* Jinja2 version:   3.1.2
-* Pygments version: 2.19.2
+> 
+> Signed-off-by: Benjamin Mugnier <benjamin.mugnier@foss.st.com>
+> ---
+> Changes in v2:
+> - Remove spurious debug trace
+> ---
+>  utils/v4l2-ctl/v4l2-ctl-common.cpp | 8 ++++----
+>  utils/v4l2-ctl/v4l2-ctl-stds.cpp   | 2 +-
+>  utils/v4l2-ctl/v4l2-ctl-vidcap.cpp | 4 ++--
+>  utils/v4l2-ctl/v4l2-ctl.cpp        | 4 ++--
+>  utils/v4l2-ctl/v4l2-ctl.h          | 9 +++++++++
+>  5 files changed, 18 insertions(+), 9 deletions(-)
+> 
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-common.cpp b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+> index 32dbe9de7162258ec19c49580bd36c0971fd7fe6..98e0a2596758f69d85ef25769358cef9ce8bcb7b 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-common.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-common.cpp
+> @@ -1000,7 +1000,7 @@ void common_process_controls(cv4l_fd &fd)
+>  	find_controls(fd);
+>  	for (const auto &get_ctrl : get_ctrls) {
+>  		std::string s = get_ctrl;
+> -		if (isdigit(s[0])) {
+> +		if (is_digits(s)) {
+>  			__u32 id = strtoul(s.c_str(), nullptr, 0);
+>  			if (ctrl_id2str.find(id) != ctrl_id2str.end())
+>  				s = ctrl_id2str[id];
+> @@ -1012,7 +1012,7 @@ void common_process_controls(cv4l_fd &fd)
+>  	}
+>  	for (const auto &set_ctrl : set_ctrls) {
+>  		std::string s = set_ctrl.first;
+> -		if (isdigit(s[0])) {
+> +		if (is_digits(s)) {
+>  			__u32 id = strtoul(s.c_str(), nullptr, 0);
+>  			if (ctrl_id2str.find(id) != ctrl_id2str.end())
+>  				s = ctrl_id2str[id];
+> @@ -1212,7 +1212,7 @@ void common_set(cv4l_fd &_fd)
+>  		memset(&ctrls, 0, sizeof(ctrls));
+>  		for (const auto &set_ctrl : set_ctrls) {
+>  			std::string s = set_ctrl.first;
+> -			if (isdigit(s[0])) {
+> +			if (is_digits(s)) {
+>  				__u32 id = strtoul(s.c_str(), nullptr, 0);
+>  				s = ctrl_id2str[id];
+>  			}
+> @@ -1359,7 +1359,7 @@ void common_get(cv4l_fd &_fd)
+>  		memset(&ctrls, 0, sizeof(ctrls));
+>  		for (const auto &get_ctrl : get_ctrls) {
+>  			std::string s = get_ctrl;
+> -			if (isdigit(s[0])) {
+> +			if (is_digits(s)) {
+>  				__u32 id = strtoul(s.c_str(), nullptr, 0);
+>  				s = ctrl_id2str[id];
+>  			}
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-stds.cpp b/utils/v4l2-ctl/v4l2-ctl-stds.cpp
+> index 8c9abf5df687d3aeaf68089e702566854bd34bd0..5e23cc5708b7c33e4cc8562d2ec1d13c3efcd70c 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-stds.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-stds.cpp
+> @@ -445,7 +445,7 @@ void stds_cmd(int ch, char *optarg)
+>  			else
+>  				standard = V4L2_STD_SECAM;
+>  		}
+> -		else if (isdigit(optarg[0])) {
+> +		else if (is_digits(optarg)) {
 
-Last Messages
-=============
+Just drop this change, standard names never start with a digit, so no need to
+replace it with is_digits.
 
-None.
+>  			standard = strtol(optarg, nullptr, 0) | (1ULL << 63);
+>  		} else {
+>  			fprintf(stderr, "Unknown standard '%s'\n", optarg);
+> diff --git a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
+> index 498362217149df1b854f138fd642dc938e7a90fb..2384200248d567d14be0628aa2e1158b345fc57f 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl-vidcap.cpp
+> @@ -133,7 +133,7 @@ void vidcap_cmd(int ch, char *optarg)
+>  							   optarg[2], optarg[3]);
+>  			if (be_pixfmt)
+>  				frmsize.pixel_format |= 1U << 31;
+> -		} else if (isdigit(optarg[0])) {
+> +		} else if (is_digits(optarg)) {
+>  			frmsize.pixel_format = strtol(optarg, nullptr, 0);
+>  		} else {
+>  			fprintf(stderr, "The pixelformat '%s' is invalid\n", optarg);
+> @@ -165,7 +165,7 @@ void vidcap_cmd(int ch, char *optarg)
+>  							    value[2], value[3]);
+>  					if (be_pixfmt)
+>  						frmival.pixel_format |= 1U << 31;
+> -				} else if (isdigit(optarg[0])) {
+> +				} else if (is_digits(optarg)) {
+>  					frmival.pixel_format = strtol(value, nullptr, 0);
+>  				} else {
+>  					fprintf(stderr, "The pixelformat '%s' is invalid\n", optarg);
 
-Loaded Extensions
-=================
+Ditto for these two changes.
 
-None.
+> diff --git a/utils/v4l2-ctl/v4l2-ctl.cpp b/utils/v4l2-ctl/v4l2-ctl.cpp
+> index 0eb4bb5c9200a32c1fa056d73d2c1f4e050e7e23..cfe33f32f52286a5b23421ad4222918feafe03d2 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl.cpp
+> +++ b/utils/v4l2-ctl/v4l2-ctl.cpp
+> @@ -812,7 +812,7 @@ int parse_fmt(char *optarg, __u32 &width, __u32 &height, __u32 &pixelformat,
+>  						    value[2], value[3]);
+>  				if (be_pixfmt)
+>  					pixelformat |= 1U << 31;
+> -			} else if (isdigit(value[0])) {
+> +			} else if (is_digits(value)) {
+>  				pixelformat = strtol(value, nullptr, 0);
+>  			} else {
+>  				fprintf(stderr, "The pixelformat '%s' is invalid\n", value);
+> @@ -950,7 +950,7 @@ static __u32 parse_event(const char *e, const char **name)
+>  	__u32 event = 0;
+>  
+>  	*name = "0";
+> -	if (isdigit(e[0])) {
+> +	if (is_digits(e)) {
+>  		event = strtoul(e, nullptr, 0);
+>  		if (event == V4L2_EVENT_CTRL) {
+>  			fprintf(stderr, "Missing control name for ctrl event, use ctrl=<name>\n");
 
-Traceback
-=========
+And these two.
 
-      File "/var/lib/jenkins/.local/lib/python3.11/site-packages/sphinx/theming.py", line 228, in create
-        raise ThemeError(__('no theme named %r found (missing theme.toml?)') % name)
-    sphinx.errors.ThemeError: no theme named 'sphinx_book_theme' found (missing theme.toml?)
+It's only for control names that you need this new test.
 
+> diff --git a/utils/v4l2-ctl/v4l2-ctl.h b/utils/v4l2-ctl/v4l2-ctl.h
+> index b0d42110ca0fbbf05dc3957a6fe08f426947b871..132ac64a35414a9be47997ca1b26319ce5adc664 100644
+> --- a/utils/v4l2-ctl/v4l2-ctl.h
+> +++ b/utils/v4l2-ctl/v4l2-ctl.h
+> @@ -1,9 +1,11 @@
+>  #ifndef _V4L2_CTL_H
+>  #define _V4L2_CTL_H
+>  
+> +#include <algorithm>
+>  #include <cstdint>
+>  #include <linux/videodev2.h>
+>  #include <linux/v4l2-subdev.h>
+> +#include <string>
+>  #include <v4l-getsubopt.h>
+>  
+>  #include <v4l2-info.h>
+> @@ -331,6 +333,13 @@ static inline bool subscribe_event(cv4l_fd &fd, __u32 type)
+>  	return !fd.subscribe_event(sub);
+>  }
+>  
+> +static inline bool is_digits(const std::string &str)
+> +{
+> +	if (str.empty())
+> +		return false;
+> +	return std::all_of(str.begin(), str.end(), isdigit);
+> +}
+> +
+>  #define doioctl(n, r, p) doioctl_name(n, r, p, #r)
+>  
+>  #define info(fmt, args...) 			\
+> 
+> ---
+> base-commit: 48316b8a20aac35f982991b617f84fb3c104e7b0
+> change-id: 20250813-fix_3alock-fdac270ae321
+> 
+> Best regards,
 
-The full traceback has been saved in:
-/tmp/sphinx-err-pfgdh68l.log
+Regards,
 
-To report this error to the developers, please open an issue at <https://github.com/sphinx-doc/sphinx/issues/>. Thanks!
-Please also report this if it was a user error, so that a better error message can be provided next time.
-ninja: build stopped: subcommand failed.
-Build step 'Execute shell' marked build as failure
+	Hans
 
