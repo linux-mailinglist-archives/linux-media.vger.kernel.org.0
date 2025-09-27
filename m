@@ -1,137 +1,132 @@
-Return-Path: <linux-media+bounces-43281-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43282-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E213BA5BA6
-	for <lists+linux-media@lfdr.de>; Sat, 27 Sep 2025 10:57:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5B40BA5DBA
+	for <lists+linux-media@lfdr.de>; Sat, 27 Sep 2025 12:29:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BE4492A54FA
-	for <lists+linux-media@lfdr.de>; Sat, 27 Sep 2025 08:57:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3C6B81B26A53
+	for <lists+linux-media@lfdr.de>; Sat, 27 Sep 2025 10:29:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBE3C2D594A;
-	Sat, 27 Sep 2025 08:57:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 15D562DAFC1;
+	Sat, 27 Sep 2025 10:29:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b="K69Kg00E"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ACzsHtiw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A8F92D0C98;
-	Sat, 27 Sep 2025 08:57:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758963443; cv=pass; b=s+iA3RCTlFZSJz9wECHRoPW5uIi2Vme3QtHn0IiszMkzEEDOYc9jkFDBg4vzIZ7aNWH4ljuCxRZqzRHzkr6Nd3hWgFbWOtM2zFR0k3awpA66a7mewjryoI7FshsPd7Zld4ET4ymrVkf+Dp6hlhcYiLoi4+ls4h3UVgIJSd98JbI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758963443; c=relaxed/simple;
-	bh=31PDAq1j2yHrsOyxJvpl+PYWs/DRbGFfKUtWCCzqmNs=;
-	h=Content-Type:Mime-Version:Subject:From:In-Reply-To:Date:Cc:
-	 Message-Id:References:To; b=lG53t267j3FVURcMKTWUQ7Qo4jdVPsdW547aAA3XSQS+SNPjoX1RFJHL3bgSl6TzZp+XOFTAa1g9lDFxYAxtKvBT5/xn7b1GEqfLbgoI+gPNROFXxXNbTtsvQBrM2pPmxkhwcaRxy2WgFYdfRA95GR9lXsPjzhhGVlei+z3REJI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=daniel.almeida@collabora.com header.b=K69Kg00E; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1758963423; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=U9GTHb3BL1ACQuXAQdGaD6YV4mK/iou6rjkGzEhy7I4BICFDhy0DPRWZiUx7bCx6/Bd9YtooQ216pwXK+qk9pekFZLuxE4K1tafIrpJhVaSb2Gap6zK5lVcJCSAZOwJDULdATU30PlxNwfcjrM8IgGKGI4EBS1l1tb8Iur/hFy0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1758963423; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=WVKscjX/htp6TRcxxnzTBI72o6jOuvBFMEOm5t2DYw4=; 
-	b=cUP66b/LEb3sjEyNsoqF31e9gBtcH1W95+ufOcp6vyDcbUrGd1EhIHXS+WBKprtEeoihYmKZOgTXhdyaNGDuNxKblPt0GgqkC2+4b7gAHSbElNrUNjVw5qg7A9fXZ9shDbjJ0bdpougyAI11Y+2sBYnI+jm3FdmPf5Nim3/bioA=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=daniel.almeida@collabora.com;
-	dmarc=pass header.from=<daniel.almeida@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1758963423;
-	s=zohomail; d=collabora.com; i=daniel.almeida@collabora.com;
-	h=Content-Type:Mime-Version:Subject:Subject:From:From:In-Reply-To:Date:Date:Cc:Cc:Content-Transfer-Encoding:Message-Id:Message-Id:References:To:To:Reply-To;
-	bh=WVKscjX/htp6TRcxxnzTBI72o6jOuvBFMEOm5t2DYw4=;
-	b=K69Kg00Ene1HRcHbbzlE0SN2t3DuwOjcD/UOp8sYmAZKkigiSzI69SE0GUSYNCSZ
-	cc9gQVJWpR65MynQGDR8T/uR/HGWLucKTBxAeqpC6JhJGbe5siNKXkVON0+9CTWxBIg
-	YyJ1LPwWZ/KsxzMQ89lGTyHVTphXU75EHjEG7mGQ=
-Received: by mx.zohomail.com with SMTPS id 1758963421740265.9635416776508;
-	Sat, 27 Sep 2025 01:57:01 -0700 (PDT)
-Content-Type: text/plain;
-	charset=utf-8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BEC28B51E;
+	Sat, 27 Sep 2025 10:29:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1758968946; cv=none; b=V6kPIvZJN+fD8yibdLRW1YQytUg63d6P4JfTuPH9OpenXR2AOlJSFB5D4CAvw9fIWQoHxOjcMmRwD0D/10mRedcKnCxGLrLUUZACXDr7lBd4+Pew/Y2mD9TPxeYlQGJY3A2e2le1bShNFhMtLOWCVa6rN4CTbboWk7bo4iHDbKU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1758968946; c=relaxed/simple;
+	bh=VBBYEi7zqeGBaPxZzuReDWT2atyZfOkrCabeiV/nt3g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Wi1e5gyvYL14IwwuvorcSlcSnGPVlip4InfKcJTaxuBWwWQKoMQYDQY3iB75FlLn8WJBo/Fzo2JuQV3MsrVlNiAMYbbq74dLhRBxQAJ0bAG4vj0jzHgAHIn3CPXq2TocfyLXHX69joZAO/vXEBmuW2mw5EOiV7+bRM4nICf/+Fg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ACzsHtiw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BB95C4CEE7;
+	Sat, 27 Sep 2025 10:29:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1758968945;
+	bh=VBBYEi7zqeGBaPxZzuReDWT2atyZfOkrCabeiV/nt3g=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ACzsHtiwXKmoMID5tH9S+Y+qkQFalUgRLnTAGUN8GlfII/SNaXtzB7Xyq1T0ImAbz
+	 pihENXlMrNPnS57qbowiFSkvCwvKBRocIGaCjKryMRrGf3oceySeGVzKiy3wGK5Yrk
+	 VqSFg1KxlYasZk6/WwJnH5TN3D+Y9tOMvYqvId6KGDn0GSJsAPy5RQtk7HQdwqEq+T
+	 GzKS7OX+ftZEDO2/HsVEkOzSUBqe2kbAg3FXSci79SG35cvzYcBgc89HbTMYSi3Gkj
+	 FejHodbNnmxYqSC+A5AgAotGSC9AxwhETaKYRTgVd7NLY9jjhHIUYdXAZedTqg+AXX
+	 vV6ANrnyuqrLA==
+Message-ID: <880dcbb3-16fd-4eff-b452-80a172d7e84b@kernel.org>
+Date: Sat, 27 Sep 2025 11:29:00 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (Mac OS X Mail 16.0 \(3826.700.81\))
-Subject: Re: [PATCH v3] media: v4l2-ctrls: add full AV1 profile validation in
- validate_av1_sequence()
-From: Daniel Almeida <daniel.almeida@collabora.com>
-In-Reply-To: <CAKPKb882DgYB2fZXRDU_y1Xqz6GtFEErvzzET9eOAm=db0ns1g@mail.gmail.com>
-Date: Sat, 27 Sep 2025 10:56:46 +0200
-Cc: mchehab@kernel.org,
- hverkuil@kernel.org,
- ribalda@chromium.org,
- laurent.pinchart@ideasonboard.com,
- yunkec@google.com,
- sakari.ailus@linux.intel.com,
- james.cowgill@blaize.com,
- hansg@kernel.org,
- linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-Content-Transfer-Encoding: quoted-printable
-Message-Id: <873C85C5-2BCB-4631-BA18-919CE448A7CE@collabora.com>
-References: <20250913105252.26886-1-opensource206@gmail.com>
- <CAKPKb882DgYB2fZXRDU_y1Xqz6GtFEErvzzET9eOAm=db0ns1g@mail.gmail.com>
-To: opensource india <opensource206@gmail.com>
-X-Mailer: Apple Mail (2.3826.700.81)
-X-ZohoMailClient: External
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] media: i2c: ov9282: Fix reset-gpio logical state
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>, andersson@kernel.org,
+ konradybcio@kernel.org, dave.stevenson@raspberrypi.com,
+ sakari.ailus@linux.intel.com
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org, mchehab@kernel.org, conor+dt@kernel.org,
+ robh@kernel.org
+References: <20250926073421.17408-1-loic.poulain@oss.qualcomm.com>
+ <UOlyemyHumj7KSxoHz97_4KS7Mgjbfj22__Bd2qi-hw-FvU3R_W_kXTlm2HpefoGBxVsyPlyZ0EQ1xUqRvT1oA==@protonmail.internalid>
+ <20250926073421.17408-2-loic.poulain@oss.qualcomm.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+In-Reply-To: <20250926073421.17408-2-loic.poulain@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi, I=E2=80=99ll review this in the coming weeks.
+On 26/09/2025 08:34, Loic Poulain wrote:
+> Ensure reset state is low in the power-on state and high in the
+> power-off state (assert reset). Note that the polarity is abstracted
+> by the GPIO subsystem, so the logic level reflects the intended reset
+> behavior.
+> 
+> This breaks backward compatibility for any downstream dts using the
+> wrong polarity.
+> 
+> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> ---
+>   drivers/media/i2c/ov9282.c | 8 ++++----
+>   1 file changed, 4 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ov9282.c b/drivers/media/i2c/ov9282.c
+> index c882a021cf18..fb6fcba503c8 100644
+> --- a/drivers/media/i2c/ov9282.c
+> +++ b/drivers/media/i2c/ov9282.c
+> @@ -1127,7 +1127,7 @@ static int ov9282_parse_hw_config(struct ov9282 *ov9282)
+> 
+>   	/* Request optional reset pin */
+>   	ov9282->reset_gpio = devm_gpiod_get_optional(ov9282->dev, "reset",
+> -						     GPIOD_OUT_LOW);
+> +						     GPIOD_OUT_HIGH);
+>   	if (IS_ERR(ov9282->reset_gpio)) {
+>   		dev_err(ov9282->dev, "failed to get reset gpio %ld",
+>   			PTR_ERR(ov9282->reset_gpio));
+> @@ -1238,7 +1238,7 @@ static int ov9282_power_on(struct device *dev)
+> 
+>   	usleep_range(400, 600);
+> 
+> -	gpiod_set_value_cansleep(ov9282->reset_gpio, 1);
+> +	gpiod_set_value_cansleep(ov9282->reset_gpio, 0);
+> 
+>   	ret = clk_prepare_enable(ov9282->inclk);
+>   	if (ret) {
+> @@ -1261,7 +1261,7 @@ static int ov9282_power_on(struct device *dev)
+>   error_clk:
+>   	clk_disable_unprepare(ov9282->inclk);
+>   error_reset:
+> -	gpiod_set_value_cansleep(ov9282->reset_gpio, 0);
+> +	gpiod_set_value_cansleep(ov9282->reset_gpio, 1);
+> 
+>   	regulator_bulk_disable(OV9282_NUM_SUPPLIES, ov9282->supplies);
+> 
+> @@ -1279,7 +1279,7 @@ static int ov9282_power_off(struct device *dev)
+>   	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+>   	struct ov9282 *ov9282 = to_ov9282(sd);
+> 
+> -	gpiod_set_value_cansleep(ov9282->reset_gpio, 0);
+> +	gpiod_set_value_cansleep(ov9282->reset_gpio, 1);
+> 
+>   	clk_disable_unprepare(ov9282->inclk);
+> 
+> --
+> 2.34.1
+> 
+> 
 
-> On 27 Sep 2025, at 06:51, opensource india <opensource206@gmail.com> =
-wrote:
->=20
-> On Sat, Sep 13, 2025 at 4:23=E2=80=AFPM Pavan Bobba =
-<opensource206@gmail.com> wrote:
->>=20
->> Complete the "TODO: PROFILES" by enforcing profile-specific and
->> monochrome constraints as defined by the AV1 specification
->> (Section 5.5.2, "Color config syntax").
->>=20
->> The validator now checks:
->>=20
->> - Flags: reject any unknown bits set in sequence->flags
->> - Profile range: only profiles 0..2 are valid
->> - Profile 0: 8/10-bit only, subsampling must be 4:2:0 (sx=3D1, sy=3D1),=
+Needs a Fixes: tag
 
->>   monochrome allowed
->> - Profile 1: 8/10-bit only, subsampling must be 4:4:4 (sx=3D0, sy=3D0),=
-
->>   monochrome forbidden
->> - Profile 2:
->>    * 8/10-bit: only 4:2:2 allowed (sx=3D1, sy=3D0)
->>    * 12-bit: 4:4:4 (sx=3D0, sy=3D0), 4:2:2 (sx=3D1, sy=3D0), or 4:2:0 =
-(sx=3D1, sy=3D1)
->>      allowed
->> - Monochrome path (all profiles except 1): forces subsampling_x=3D1,
->>   subsampling_y=3D1, separate_uv_delta_q=3D0
->>=20
->> These checks prevent userspace from providing invalid AV1 sequence
->> headers that would otherwise be accepted, leading to undefined driver
->> or hardware behavior.
-
-Mauro,
-
-A reminder that I have been warning about this for quite a while [0], =
-which
-includes mentioning that patches like this, although welcome, do not =
-solve the
-root issue completely.
-
-I keep working on what I believe to be the solution [1][2]. I would =
-appreciate if
-we could restart this discussion.
-
-[0]: https://lwn.net/Articles/970565/
-[1]: =
-https://lore.kernel.org/linux-media/20250818-v4l2-v1-0-6887e772aac2@collab=
-ora.com/
-[2]: https://lwn.net/Articles/963966/
-
+---
+bod
 
