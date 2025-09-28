@@ -1,109 +1,142 @@
-Return-Path: <linux-media+bounces-43285-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43286-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76982BA60B8
-	for <lists+linux-media@lfdr.de>; Sat, 27 Sep 2025 16:45:58 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C35BA6AB5
+	for <lists+linux-media@lfdr.de>; Sun, 28 Sep 2025 10:15:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id DC29C7AF6BE
-	for <lists+linux-media@lfdr.de>; Sat, 27 Sep 2025 14:44:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id AE19B188AD4F
+	for <lists+linux-media@lfdr.de>; Sun, 28 Sep 2025 08:15:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6BBA2E62AF;
-	Sat, 27 Sep 2025 14:45:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78C852BEC2D;
+	Sun, 28 Sep 2025 08:15:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b="nqP248wi"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KMtmLekY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from www3141.sakura.ne.jp (www3141.sakura.ne.jp [49.212.207.181])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEC0C1C8611;
-	Sat, 27 Sep 2025 14:45:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=49.212.207.181
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1758984344; cv=pass; b=OF0iv/zAumVAhEvkJOCfyOBmBN0cVl9gPrH7k3pNriZ2nrROTscNFXfXed4aQXj14D9/AyZdzbQ6Ews4oASKwrRRa8lZqupyn6rOMNdfAgstcjD/rMwaeAugfken+ZvCUZTiuNL5QoqMZTua4FHxOzS84Q/vy2hOIZo1YYMgGto=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1758984344; c=relaxed/simple;
-	bh=rBDj/+OvJDWxuLLyDHtZeCHCmlyH4RlF/MZo1EldIWA=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XA++JhO1pqCP3/xP0RJCVEM3qZFQQPGn+3bh1RRsTbAOXk4pmP2Z3V6kXxYB18NgsaS8ZVJARcER2GNKrQMpXWNjo0sj/xbjb9hugwWG+ZZkt2KtsPDSc5lxQ0F/AH7lpXoFpIwkdFJ5gPlN7gfrEF0yFf/HVnc1mOpovM2oSuE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org; spf=pass smtp.mailfrom=redadmin.org; dkim=pass (1024-bit key) header.d=redadmin.org header.i=@redadmin.org header.b=nqP248wi; arc=pass smtp.client-ip=49.212.207.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=redadmin.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redadmin.org
-Received: from www.redadmin.org (ag129037.ppp.asahi-net.or.jp [157.107.129.37])
-	(authenticated bits=0)
-	by www3141.sakura.ne.jp (8.16.1/8.16.1) with ESMTPSA id 58REjZ99079846
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Sat, 27 Sep 2025 23:45:35 +0900 (JST)
-	(envelope-from weibu@redadmin.org)
-Received: from localhost (localhost [127.0.0.1])
-	by www.redadmin.org (Postfix) with ESMTP id 0717910A24946;
-	Sat, 27 Sep 2025 23:45:35 +0900 (JST)
-X-Virus-Scanned: amavis at redadmin.org
-Received: from www.redadmin.org ([127.0.0.1])
- by localhost (redadmin.org [127.0.0.1]) (amavis, port 10024) with ESMTP
- id SXAlEZ7bM9wj; Sat, 27 Sep 2025 23:45:31 +0900 (JST)
-Received: by www.redadmin.org (Postfix, from userid 1000)
-	id 93D36109D57DE; Sat, 27 Sep 2025 23:45:31 +0900 (JST)
-Authentication-Results: www.redadmin.org; arc=none smtp.remote-ip=127.0.0.1
-ARC-Seal: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space; t=1758984331;
-	cv=none; b=ZaMM1dV04ltRnAJXWQgLbD3LSIAtI72CpuwYZIspNs82jM36FebOPtqwBMNak61FjPwiywBYUrpb026jDSh1vcIV2OIEWt22hOm+Kd+QwVVhItes/5y887tfUkqDApPZppf7QuvJ1h4ZC3xt9EvFLxPnz54oWmZfBgtfdyXf49k=
-ARC-Message-Signature: i=1; a=rsa-sha256; d=redadmin.org; s=20231208space;
-	t=1758984331; c=relaxed/relaxed;
-	bh=rBDj/+OvJDWxuLLyDHtZeCHCmlyH4RlF/MZo1EldIWA=;
-	h=DKIM-Filter:DKIM-Signature:From:To:Cc:Subject:Date:Message-ID:
-	 X-Mailer:MIME-Version:Content-Transfer-Encoding; b=Mza+zV0pqFwhyse1ff7e5yecNWyAprOybjDsQzDVdVYgbOF+JDPTnCyGZiwsYh9ef6ZXEO/ziPuPEy8tdbCoEbRH9133U02Sdo5DeLqr5ICjzQQbOPreNQOE4gm7PCMs6fD2SjQzeArlGWmytQxh8TWI9ogpE3xSVxzBnloBwh0=
-ARC-Authentication-Results: i=1; www.redadmin.org
-DKIM-Filter: OpenDKIM Filter v2.11.0 www.redadmin.org 93D36109D57DE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redadmin.org;
-	s=20231208space; t=1758984331;
-	bh=rBDj/+OvJDWxuLLyDHtZeCHCmlyH4RlF/MZo1EldIWA=;
-	h=From:To:Cc:Subject:Date:From;
-	b=nqP248wis1pIlm7YFyQGgQh8X0w8L16uFJS/w/tRTFcczW+uTLOBGb5kUzsjI33to
-	 vdaORhNwULu0NVekyaxCbbcpiCoe/hXNd6IL0cSneymd6OOjYMoJsRULaPbAtnufvu
-	 WOCWX/i5U4/IfTT3iOq/9/hNegmOppePf0riVST8=
-From: Akiyoshi Kurita <weibu@redadmin.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Akiyoshi Kurita <weibu@redadmin.org>
-Subject: [PATCH] docs: media: bt8xx: Correct typo in vendor name (Connexant)
-Date: Sat, 27 Sep 2025 23:45:28 +0900
-Message-ID: <20250927144528.170403-1-weibu@redadmin.org>
-X-Mailer: git-send-email 2.47.3
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAAE11D8A10;
+	Sun, 28 Sep 2025 08:15:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759047317; cv=none; b=dFk6be9dL8e0O2Ppb5kL9QLtxa0geMyzqGN0aBl1exmR4j6Wrv4eVrwFL0wQE2JlCgjjLsOsPcbCjv+bFIaNMIFozqoFjvnjeVnV10xUxC06ui4Q95PdShkEZsqRKEqxPkFWvf4mfUfGuvQIRjA16jQpDhxUu84UGxrAPtueb28=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759047317; c=relaxed/simple;
+	bh=de9qzleZA+R2N/Kmiw9QQMnYG50hXtyYa8gfYsMACWk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NnwNpZnbMcT99uc/0dJTGiDZyFcS1kImFebtn6n2DZ6YV31y/XFUEqpRyKkuZlJR7aAZWKf8rMDKf1b4XurCoRmtFBlq9c4+ExLqCgp0eaBgd0zpR9c5bw6LE7L1hPTRgLu49FJMlvK6vw7PyQLqZeNVTZiGoVs6ZSJcIiogtys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KMtmLekY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 846E1C4CEF0;
+	Sun, 28 Sep 2025 08:15:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759047317;
+	bh=de9qzleZA+R2N/Kmiw9QQMnYG50hXtyYa8gfYsMACWk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KMtmLekYVZUE7aRFSU9mkhSkk4d2ntkHA9S03kyf74bsqgqfKRQVhafqnCSWyOedv
+	 j3ALK52bH8Ib0Qcjq73RywxOiTyDmFQWvZrSLzgQu7h6BfCe96um8PU6yXa3j1+99V
+	 FGKhJMG48c569FGlH//UPB1ED5dl4Ifq6JGVIKZvrAca3dREYBHHST1Q5so4+z4eaY
+	 ccYycjRt92s6L0ewEIaOyQRQPsYgpAgUNUX7hHBLNc2rys8+IT/z1BVurmh2ZP0TbU
+	 V0pJks/SLiWWs/cl5dVESCI2dRN+y9HXnOHfSrklek/YOtBiMhW81kGRirOKn9C5ba
+	 xbPCNcierbgCQ==
+Date: Sun, 28 Sep 2025 11:15:12 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v2 03/10] PCI/P2PDMA: Refactor to separate core P2P
+ functionality from memory allocation
+Message-ID: <20250928081512.GD12165@unreal>
+References: <20250922150032.3e3da410.alex.williamson@redhat.com>
+ <20250923150414.GA2608121@nvidia.com>
+ <20250923113041.38bee711.alex.williamson@redhat.com>
+ <20250923174333.GE2608121@nvidia.com>
+ <20250923120932.47df57b2.alex.williamson@redhat.com>
+ <20250925070314.GA12165@unreal>
+ <20250925115308.GT2617119@nvidia.com>
+ <20250925163131.22a2c09b.alex.williamson@redhat.com>
+ <20250925230236.GB2617119@nvidia.com>
+ <20250926081350.16bb66c8.alex.williamson@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250926081350.16bb66c8.alex.williamson@redhat.com>
 
-In Documentation/admin-guide/media/bt8xx.rst, the vendor name
-was misspelled.
+On Fri, Sep 26, 2025 at 08:13:50AM -0600, Alex Williamson wrote:
+> On Thu, 25 Sep 2025 20:02:36 -0300
+> Jason Gunthorpe <jgg@nvidia.com> wrote:
+> 
+> > On Thu, Sep 25, 2025 at 04:31:31PM -0600, Alex Williamson wrote:
+> > > On Thu, 25 Sep 2025 08:53:08 -0300
+> > > Jason Gunthorpe <jgg@nvidia.com> wrote:
+> > >   
+> > > > On Thu, Sep 25, 2025 at 10:03:14AM +0300, Leon Romanovsky wrote:
+> > > >   
+> > > > > > It would at least make sense to me then to store the provider on the
+> > > > > > vfio_pci_dma_buf object at the time of the get feature call rather than
+> > > > > > vfio_pci_core_init_dev() though.  That would eliminate patch 08/ and
+> > > > > > the inline #ifdefs.    
+> > > > > 
+> > > > > I'll change it now. If "enable" function goes to be "get" function, we
+> > > > > won't need to store anything in vfio_pci_dma_buf too. At the end, we
+> > > > > have exactly two lines "provider = priv->vdev->provider[priv->bar];",
+> > > > > which can easily be changed to be "provider = pcim_p2pdma_provider(priv->vdev->pdev, priv->bar)"    
+> > > > 
+> > > > Not without some kind of locking change. I'd keep the
+> > > > priv->vdev->provider[priv->bar] because setup during probe doesn't
+> > > > need special locking.  
+> > > 
+> > > Why do we need to store the provider on the vfio_pci_core_device at
+> > > probe though, we can get it later via pcim_p2pdma_provider().   
+> > 
+> > Because you'd need some new locking to prevent races.
+> 
+> The race is avoided if we simply call pcim_p2pdma_provider() during
+> probe.  We don't need to save the returned provider.  That's where it
+> seems like pulling the setup out to a separate function would eliminate
+> this annoying BAR# arg.
+>  
+> > Besides, the model here should be to call the function once during
+> > probe and get back the allocated provider. The fact internally it is
+> > kind of nutzo still shouldn't leak out as a property of the ABI.
+> > 
+> > I would like to remove this weird behavior where it caches things
+> > inside the struct device. That's not normal for an API to do that, it
+> > is only done for the genalloc path that this doesn't use.
+> 
+> My goal in caching the provider on the vfio p2pdma object was to avoid
+> caching it on the vfio_pci_core_device, but now we're storing it on the
+> struct device, the vfio_pci_core_device, AND the vfio p2pdma object.
+> Given the current state that it's stored on the struct device, I think
+> we only need a setup call during probe (that could be stubbed out
+> rather than #ifdef'd), then cache the provider on the vfio p2pdma
+> object when a dmabuf is configured.  Thanks,
 
-Change "Conexant" to the correct spelling "Connexant".
+I can do it.
 
-Signed-off-by: Akiyoshi Kurita <weibu@redadmin.org>
----
- Documentation/admin-guide/media/bt8xx.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Thanks
 
-diff --git a/Documentation/admin-guide/media/bt8xx.rst b/Documentation/admi=
-n-guide/media/bt8xx.rst
-index 3589f6ab7e46..3da0bbf6d16a 100644
---- a/Documentation/admin-guide/media/bt8xx.rst
-+++ b/Documentation/admin-guide/media/bt8xx.rst
-@@ -19,7 +19,7 @@ This class of cards has a bt878a as the PCI interface, an=
-d require the bttv
- driver for accessing the i2c bus and the gpio pins of the bt8xx chipset.
-=20
- Please see Documentation/admin-guide/media/bttv-cardlist.rst for a complete
--list of Cards based on the Conexant Bt8xx PCI bridge supported by the
-+list of Cards based on the Connexant Bt8xx PCI bridge supported by the
- Linux Kernel.
-=20
- In order to be able to compile the kernel, some config options should be
---=20
-2.47.3
-
+> 
+> Alex
+> 
 
