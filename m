@@ -1,125 +1,125 @@
-Return-Path: <linux-media+bounces-43305-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43306-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BB7FFBA778F
-	for <lists+linux-media@lfdr.de>; Sun, 28 Sep 2025 22:24:04 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id DE483BA7989
+	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 01:56:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5BE583B83A0
-	for <lists+linux-media@lfdr.de>; Sun, 28 Sep 2025 20:24:03 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9898B3B12A6
+	for <lists+linux-media@lfdr.de>; Sun, 28 Sep 2025 23:56:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4431A27F177;
-	Sun, 28 Sep 2025 20:23:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE353275111;
+	Sun, 28 Sep 2025 23:56:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="R+2t5RUg"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YA3Mtz9l"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A0AC122D9E9
-	for <linux-media@vger.kernel.org>; Sun, 28 Sep 2025 20:23:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF153594C
+	for <linux-media@vger.kernel.org>; Sun, 28 Sep 2025 23:56:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759091034; cv=none; b=pipkesVlchL3NLYqYSfjvIuEK7WCuDSA6JFRFicWBcDa+cPHZzCABP47+Ws9Z6UDVgkrGl14QVMy2sydFTI2Xh7e5sV3hNVUtnR5y2LXw55+TGJSxKD1//1hQWMMI5ODEEEDA/lcsdhczdHyX5OX0SQLITBojMZnU72bQrUs2bs=
+	t=1759103803; cv=none; b=ZpIoPtVcwsxl9YaeLM6Gpkjd3e8Mv0mWTRgKmLFaE0w7Hd76HuuYzm7tc91Ks0rQGtYDsKrUChO9RPTsxGD1QV/s+oe+clhS29FabYmdHXpQZwy9Go4wOzEgDwQl7Ra8JGXabFuVcIgwxpt0kQfSn9e9o0JI441zsOZUM6nCb+c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759091034; c=relaxed/simple;
-	bh=f0KbGPF00kZzNzX882R/gqRn05yNZLkgA/Ha1ipTTiY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RArH6Cgt7YT/nuy1hoW7tBfKFXu7dtvryD2dbNazIb8zDGnQLbjI01gpDS7E1NJ/hXNCREyqFKlHtTd9PeVQi7yHzRdpUPVBz5+SGIdJVLuBIFTzSYyxMtzkkymuYry+wsyOYhwLtNDJ5PL3xPpwT/0KoLuwPNZ1B8XYnrBVdJ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=R+2t5RUg; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 41A3FC113D0
-	for <linux-media@vger.kernel.org>; Sun, 28 Sep 2025 20:23:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759091034;
-	bh=f0KbGPF00kZzNzX882R/gqRn05yNZLkgA/Ha1ipTTiY=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=R+2t5RUgotK+O5B/9A9YIogztwNESvf0W363S+UgXHbDl1ck0fvV3GcsLQ8gtsuIw
-	 aS4AngeHx6FSaxB3OPOKXhFu2RCJag9jvS/ThypK3OXnDw5UohS6Iqrp0DqKHrHDZm
-	 0rwAH2WWsEfuersMEGVi1mcvu8XJ63L2Q/jcpnuiSEDA3lAXDPrsfYKLeYyYdW+g5v
-	 TZ8U0YBwYN1Ai3SAnBTTKqgwpV2NTuSRTulONTcQ2QLRV+vbvSOXzk/M9V04bx5SGD
-	 rqOXZPfneL3+33RDBwg+stRErELMlXUHLQgVRV5AX1Y7C/3sYu2O/qdbiochfGQbvZ
-	 ieY6Mkw7IDEiA==
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b3f5e0e2bf7so15619566b.3
-        for <linux-media@vger.kernel.org>; Sun, 28 Sep 2025 13:23:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCW5/tRO9mSs/R1GYs8aWxG28TgyhEnhkW2Z62lJpwdpIybTJ0h0x2d10+UsBLvZJ2brksbiK7wecFzx7Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzv83Q/uOTNk/gTzsU2WcW+QMyDY67H2pshfWmuDgwOXfaP6WWa
-	IiQ6/VUlDrLG2inZxjY7GGcsYRB0xWzClliel1hdct5l6zYU/HKfOVUSk/LoCJdoG4lZnJaEdgK
-	n2YgE76EyyLFc8sveV2Mope5JzkYA+g==
-X-Google-Smtp-Source: AGHT+IGljkA1Fha+nY81qrIVwl5aGRrhj/Ww61c1Va1R3cSc0Qwgx1hOVjVnCVYAJOUI9Ne0SY3WAcvwrWIE4YCtKW4=
-X-Received: by 2002:a17:907:97c7:b0:b3d:e9be:7ac2 with SMTP id
- a640c23a62f3a-b3de9be7bf9mr214954366b.5.1759091032783; Sun, 28 Sep 2025
- 13:23:52 -0700 (PDT)
+	s=arc-20240116; t=1759103803; c=relaxed/simple;
+	bh=PBXcdUFXV2smj1ifaK+LoGQlD79BEM5RKJP30S7aDQM=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=nlEUaNMsasv/wolsePWY/eseVxaXy0R80pnK6qBw7B5rpMr/Ca8oBufPMZRHCHu3D+yS4G893egtQqNk2ALQQoQRcNnAU1ncfCIwGMTXgSPcwpLEflacXx2PBuigjsLG0xM/DVg7SKDUmUKjVAfIUTmvPXkYn3puPiBRDTzBdqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YA3Mtz9l; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-57a8b00108fso712437e87.3
+        for <linux-media@vger.kernel.org>; Sun, 28 Sep 2025 16:56:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1759103798; x=1759708598; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=DbaERkJpuwwW2s0GTceO+zDUT/u2ovHBQ/LYQFgCFf8=;
+        b=YA3Mtz9lp8WYOSmFrudhBWi8vzYu4Z1BF/jVUhu+kBx8y+v6YWH5ODtzpkIcPLJTNG
+         CVYAOb/wH7AYEItgHcvVx94Kpz6JzBf0IEHFIrOcncuA/JvD9ay4MQW/b6vWkF1jeZub
+         3GqFgfK3wJUe7vB2laoSuAqe9R2fFq15eSOr/qZbKgiIhKY8ymK0O3VmXzxkww0sPAj2
+         trVqm8xINp72QCdwIWyTyrRFmMK/2EnrtDvN9K/FqtQH+ojqbniTNHNw8uya3mhoclbF
+         HCtxZJNGdy/R9pMjTtYz7WsY1DyxMLRvldAZEV5oSzfJaTzsYsl7aOiF5grroj1jLNiM
+         4onQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759103798; x=1759708598;
+        h=content-transfer-encoding:in-reply-to:references:cc:to:from:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=DbaERkJpuwwW2s0GTceO+zDUT/u2ovHBQ/LYQFgCFf8=;
+        b=jXNKSjpYXPFilB2U02Z1IXmVm7hysRyfXtK/FhHNFhdbb0KlnoXTwr9Ly8ID7K4AKV
+         4Nzo2bzq/8h36f7T79y28MSh+zbXoNMUJpgjkwzm/mxj9RaNeZPaShIYJdepGWUUI9fO
+         V6IGdd2DEUqQS3cYZTDcRcwQqrppIqhPGd2M6EZnJngTwxgRzTe9jhvYA/pt6wvbKmB9
+         EoPnpzVfC6pf5HGsn/B3J03MM3LB2QsMPTfVaydTH7kqserjgAnjom3whd5YpRlFrrMe
+         UEC1nF11PnulzFZngxSNZgiMCmZyPRh2Z3sMTWvdFryOg4s+qxZaLt5QdL2BVOijlZfo
+         5sgA==
+X-Gm-Message-State: AOJu0Yy4rhsICBQo6+lzoz8KGVq0SDuZyLN1NshKkwqJg21QnG70nv8I
+	SLpIT5f77oEuBDSSAe3g9hWbAMqs4tnN+MPVylUuqI8ngfKX74BHd94P5s3pQwzVGdqbd+eZH/A
+	sfI8i
+X-Gm-Gg: ASbGncsOHqds0aEYyL3HO5O1W1fpJKoXUGZ6BAwpWfbLJvndcjzZgvzskE3KR6s+wlP
+	5c3+4glEHREVv+81m09LlWMBVUelixUj1D6b4oeWP3ElOneZN32shkaFt5YiChusOCEwt0vjRz5
+	8t9x33fMd1WNd98qMd10S330wyRRwTM7W5DYkvDn3sj7rDJjAK/RQiCcvpx5F4bHr/37r443PHt
+	9evPU+uI16IVvl9caGIg9NqxFxmLCNmz9Cc4BkZooTSkGzPPWFxWC0ko4RspekvgDdi+bdIZuMP
+	oDme8JmEJJc73X+QbrbUAaSDzCH+iKSNSY09YlTZKmKsMziMNDyMqWwVosZLXDKzMTDDNsdJ6Ok
+	YYDD1V6Rjpntg9Ze0OLXZiC3sUy3xPP5Kj29GFLhH1OhW+tUypCvUZzukHWQJ/14VV3eomay2Rj
+	j6Tw==
+X-Google-Smtp-Source: AGHT+IEniNh/lC6fMtQqG7+hId5XHSg1wAZFEUUvL+8ztnzI/asQEKfDgprBwMaVnstmR6eSJxzAxg==
+X-Received: by 2002:a05:6512:230a:b0:578:f613:ed9b with SMTP id 2adb3069b0e04-582d267c1d8mr1996930e87.8.1759103798319;
+        Sun, 28 Sep 2025 16:56:38 -0700 (PDT)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58316a32217sm3610507e87.115.2025.09.28.16.56.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 28 Sep 2025 16:56:36 -0700 (PDT)
+Message-ID: <99f2de20-054f-4122-82d7-dbbb2ee32482@linaro.org>
+Date: Mon, 29 Sep 2025 02:56:33 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250928171718.436440-1-charan.kalla@oss.qualcomm.com>
-In-Reply-To: <20250928171718.436440-1-charan.kalla@oss.qualcomm.com>
-From: Rob Herring <robh@kernel.org>
-Date: Sun, 28 Sep 2025 15:23:41 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqK9waZK=i+ov0jV-PonWSfddwHvE94Q+pks4zAEtKc+yg@mail.gmail.com>
-X-Gm-Features: AS18NWB9iYb53BkxRxGbaDbf_ZYxtXe5ZBA-hIIueyfkPaVxGM2QNyJN-EWNlNw
-Message-ID: <CAL_JsqK9waZK=i+ov0jV-PonWSfddwHvE94Q+pks4zAEtKc+yg@mail.gmail.com>
-Subject: Re: [RFC PATCH 0/3] Introduce iommu-map-masked for platform devices
-To: Charan Teja Kalla <charan.kalla@oss.qualcomm.com>
-Cc: joro@8bytes.org, will@kernel.org, robin.murphy@arm.com, 
-	saravanak@google.com, conor+dt@kernel.org, mchehab@kernel.org, bod@kernel.org, 
-	krzk+dt@kernel.org, abhinav.kumar@linux.dev, vikash.garodia@oss.qualcomm.com, 
-	dikshita.agarwal@oss.qualcomm.com, linux-media@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, iommu@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] media: i2c: add Samsung S5KJN1 image sensor device
+ driver
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Hans Verkuil <hverkuil@kernel.org>, Hans de Goede <hansg@kernel.org>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
+ <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>
+References: <20250928200956.1215285-1-vladimir.zapolskiy@linaro.org>
+ <20250928200956.1215285-3-vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20250928200956.1215285-3-vladimir.zapolskiy@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Sun, Sep 28, 2025 at 12:17=E2=80=AFPM Charan Teja Kalla
-<charan.kalla@oss.qualcomm.com> wrote:
->
-> This series introduces a new iommu property called iommu-map-masked(may
-> be there is a better name), which is used to represent the IOMMU
-> specifier pairs for each function of a __multi-functional platform
-> device__, where each function can emit unique master id(s) that can be
-> associated with individual translation context.
->
-> Currently, the iommu configuration - at least for arm architecture-
-> requires all the functions of a platform device will be represented
-> under single dt node thus endup in using only a single translation
-> context.
->
-> A simple solution to associate individual translation context for each
-> function of a device can be through creating per function child nodes in
-> the device tree, but dt is only to just represent the soc layout to
-> linux kernel.
->
-> Supporting such cases requires a new iommu property called,
-> iommu-map-masked(taking cue from iommu-map for pci devices) and syntax
-> is:
->    iommu-map-masked =3D <FUNCTION_ID1 &iommu ID1 MASK1>,
->                       <FUNCTION_ID2 &iommu ID2 MASK2>;
-> NOTE: As an RFC, it is considered that this property always expects 4
-> cells.
->
-> During the probe phase of the driver for a multi-functional device
-> behind an IOMMU, a child device is instantiated for each FUNCTION_ID.
-> The call to of_dma_configure_id() on each child sets up the IOMMU
-> configuration, ensuring that each function of the device is associated
-> with a distinct translation context.
->
-> This property can also be used in association with 'iommus=3D' when dt
-> bindings requires the presence of 'iommus=3D', example[2]. For these
-> cases, representation will be(on arm64):
->    iommus =3D <&iommu sid mask>; //for default function.
->    iommu-map-masked =3D <FUNCTION_ID &iommu sid mask>;//additional
-> function.
+On 9/28/25 23:09, Vladimir Zapolskiy wrote:
+> Samsung S5KJN1 is a 50MP image sensor, it produces Bayer GRBG (2x2)
+> frames in RAW10 output format, the maximum supported output resolution
+> is 8160x6144 at 10 frames per second rate.
+> 
+> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 
-Where does the FUNCTION_ID value come from?
+<snip>
 
-Why can't you just have multiple "iommus" entries where the index
-defines the default and any FUNCTION_ID entries? What's in each index
-is specific to the device.
+> +
+> +#if 0
+> +	/* V07 */
+> +	ret = cci_write(s5kjn1->regmap, CCI_REG16(0x001e), 0x0007, NULL);
+> +	if (ret)
+> +		goto error;
+> +#endif
+> +
 
-Rob
+That's an unpleasant leftover, I'll remove it in v2 since it's been
+tested that this commented out setting has no noticeable effect.
+
+-- 
+Best wishes,
+Vladimir
 
