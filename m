@@ -1,273 +1,272 @@
-Return-Path: <linux-media+bounces-43358-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43359-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id ED8F1BAA621
-	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 20:49:35 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E5A9BAA648
+	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 20:54:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A463F3BDFC4
-	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 18:49:34 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 1D4F116EA27
+	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 18:54:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45D2323D2AB;
-	Mon, 29 Sep 2025 18:49:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9005D24167A;
+	Mon, 29 Sep 2025 18:54:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DmLQPoLf"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="l2+Gh7N6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from AM0PR02CU008.outbound.protection.outlook.com (mail-westeuropeazon11013034.outbound.protection.outlook.com [52.101.72.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829912032D;
-	Mon, 29 Sep 2025 18:49:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759171763; cv=none; b=VQXge/WEZfN52y+fcl0GR/KLxwV2EBaopf1nISwXVt30a5jbkvDRKm+w+ji4AnS9vRGQtVIPh+pmPWnhd9QJ4DF8cvF8sOypRe5fFxr5/kUJzlAwNYSt5LSVLx7GGVWgzj1cSu+415SzgsYgTZp/zWYyNTz4xo5oP+2hV8/pP24=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759171763; c=relaxed/simple;
-	bh=CIesZg8God6+nurlZmJlDErmkC0T5rSf+vpzR1sIRAU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eh65tXVQhGdmU6/c+XX9HmuR+CyFVU6jIBTQ0cstAZgwTC2fqe7pFc+FS6ZUA1xXK3qKmsBs82zdqOYMqnOA6NlBdLIDy+1tEhri0ezP5z7uf1jqSEP9UlVpwayGo9PSWdTWsl3n3/6wmAQX6ytYZ1oXHb8nrjug1wk+P5+kh7I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DmLQPoLf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02A7FC4CEF4;
-	Mon, 29 Sep 2025 18:49:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759171763;
-	bh=CIesZg8God6+nurlZmJlDErmkC0T5rSf+vpzR1sIRAU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DmLQPoLflrWPzRHpNZHaEQ6aDwxh9aYtXgubo4m46HHBDXYVQgDPIOQtOYSXLT0UW
-	 J0cY7HPPczP7uGVH9bcU+tgHh7JtcdZAtZ/6LkN4Q9KJns0kjSKvioKAxNeym0F/RE
-	 7Jaqb/P/p+piz8zOUQLrQ0JqLlFpk0EgPrMLapEl2mTsSX89/OCAF5ICnPviDScM8e
-	 f9N+ovN/nvQY+yVV/VjHhRlzBKhjk8QSuDeMmVdSw/y/HhudxSwo2qdDx8p6luxZWn
-	 r2qXWDt5vxv4e8T8xv12/e34WtpCFymnIXXgYbICoJ1r01KImMcZb8lqAn92hmslwc
-	 qaKj9SwXF+fMQ==
-Date: Mon, 29 Sep 2025 19:49:15 +0100
-From: Conor Dooley <conor@kernel.org>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Rob Herring <robh@kernel.org>, Hans de Goede <hansg@kernel.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 693EE22B584;
+	Mon, 29 Sep 2025 18:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.72.34
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759172047; cv=fail; b=e+NSqiXWbP82FMmbNhM0u8phsS3bC4GOn/N2O5Vjp/hlWU1PZ3IEYUyYpt6XPwBWS+sLSlxzxHb6ITxuZLqff6zZQx/0nKoo4ZEZ16mNKOZYQgGMMcbeVxyzKd2jZNqcXxa68yQWZ/RTgxSHPuYwLAppjeW/Gw3o3Pk5UyHQnj0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759172047; c=relaxed/simple;
+	bh=wXlL4lxEfJOu7xiUNRT6/P/Gc8N7RkAoW20d+eQt0KI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=qioAF48kOeQQxEtuabwCB2bDpfZCwzKMhPVdgrrCeRUTNNcXPlA4B1hn01kIJtHHNPS2UO/groFVLFGy4FOOERWichEKyJAocrXFJvE2/3oMRPu8yCIohIE2sXvnppX08TReOZgxNrMbX4SaSzPCEnxpc4K+aR+zcdJ7eQIWFQ8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=l2+Gh7N6; arc=fail smtp.client-ip=52.101.72.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=WdYwsybls3XsYBkXpTntJqzQIMWxr2ut6MrWK++4cWXumKTPVi25bEUFzOC4ODqXp/1emKT4zAa9LK4mRBqhOhbNytFOSSjXb3ok/03B2gOmZRpsit51sJJWscY3qBdjvJ8+0fc5UKqcqfgokoivg7Km9ydjsAPDvI+SGVBljxWzzQZD/MrZOk4rQxPFH3im1cQ8aKwJ+pjHyN3BB5ejrVz/JmyZus5ZqeKb3t/kgRLRdAC3diwhc80UaQQe3UoqVcNU9ZXQy/dHgtzoYJVia+GnK8c3bqFqhfYd/G6awvW2nEZAkC7lpUYm6xdZuhg0GdcIFRPOPGBoA5EPolJFHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=j8D62V0nwPwHYnLntEFZVtSScrULlpJgB7wx38tnFRI=;
+ b=SAtuJvN8S9aO2cXPX1d+DOSf8VxM/970iUC8FgdEU6UEQZwW2Oh5SJ+V2ky4EX4Znc+C/AvYLR/n1tkT5l7sCAVjVAHSkSfU9PYEQgg1Bh03O3E32P8MEBFLXfq5ZdbJyW2lx5FsaMlwqrDiUYLY9pgqNcffFP9NPk1iA/uOPe6ibgbaHZXkK4zGdGh4526JWmAzVhj4flWqCqJzvHF3kzPsMACTkemkccNDeSzp3H4E1uv4NHTk25hl9TXhsbly8hd8G+1H+q3atflz9L1UGh9BuaGFiZ4tm97q6Ru4vpiLWgBD3CgFyd52kxWlzp8UdR0ntPdwfaH9RoOr0e/KGQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j8D62V0nwPwHYnLntEFZVtSScrULlpJgB7wx38tnFRI=;
+ b=l2+Gh7N6amt1qxYariiIU5CCPwylVio7LWz5ruIz6iEVHcUSMxQj1P3fp9PpzUMgNzXzQDxJ44sU8oxe0InzPOscBk4qtgNumlm7V1T5h3H7a9VKW4bKxExlqkJ2qVGrY2cVEzW5iu1N2rN0f+V763r2k+GGT4yDlITkJD7hPo7tB2QYcPE1S1VNqchx74z2+PdYlL3bFQg65DPEz/VY1hs52eWh1w1E6NvWOYJM6+/g27MhkunXRDJaUqfXE3F9z7MWWuuUKglEV23cCseljpt3xl/NHChYEkh3MJImw9cEVn8Y/brY8iQ/bNFMP/icbwpVbIosaVUMolYq/+b9rg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from AS4PR04MB9621.eurprd04.prod.outlook.com (2603:10a6:20b:4ff::22)
+ by PA4PR04MB9367.eurprd04.prod.outlook.com (2603:10a6:102:2aa::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.16; Mon, 29 Sep
+ 2025 18:54:01 +0000
+Received: from AS4PR04MB9621.eurprd04.prod.outlook.com
+ ([fe80::a84d:82bf:a9ff:171e]) by AS4PR04MB9621.eurprd04.prod.outlook.com
+ ([fe80::a84d:82bf:a9ff:171e%4]) with mapi id 15.20.9160.014; Mon, 29 Sep 2025
+ 18:54:01 +0000
+Date: Mon, 29 Sep 2025 14:53:54 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>,
-	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev
-Subject: Re: [PATCH v3 07/12] dt-bindings: media: Add usb-camera-module
-Message-ID: <20250929-disparate-fidgeting-65c2f7eff236@spud>
-References: <20250926-uvc-orientation-v3-0-6dc2fa5b4220@chromium.org>
- <20250926-uvc-orientation-v3-7-6dc2fa5b4220@chromium.org>
- <20250926-mute-boil-e75839753526@spud>
- <CANiDSCuddqjeDr80xKsZZP7CXu9qB5qqYPoZujNYLcVjK0kKkg@mail.gmail.com>
+	Oded Gabbay <ogabbay@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Steven Price <steven.price@arm.com>,
+	Daniel Stone <daniel@fooishbar.org>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v3 1/2] dt-bindings: npu: Add Arm Ethos-U65/U85
+Message-ID: <aNrVwn1ibQmB/rKJ@lizhi-Precision-Tower-5810>
+References: <20250926-ethos-v3-0-6bd24373e4f5@kernel.org>
+ <20250926-ethos-v3-1-6bd24373e4f5@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250926-ethos-v3-1-6bd24373e4f5@kernel.org>
+X-ClientProxiedBy: AS4P191CA0035.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:20b:657::11) To AS4PR04MB9621.eurprd04.prod.outlook.com
+ (2603:10a6:20b:4ff::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="T7A0TheW4Ey8c64A"
-Content-Disposition: inline
-In-Reply-To: <CANiDSCuddqjeDr80xKsZZP7CXu9qB5qqYPoZujNYLcVjK0kKkg@mail.gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|PA4PR04MB9367:EE_
+X-MS-Office365-Filtering-Correlation-Id: fe37429b-2103-4273-1dd9-08ddff898dc3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|52116014|376014|366016|1800799024|19092799006|7053199007|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?3dhQGsCf9YRE9GAZ0Dytgz6enqlsNR57zSDATv60uyRCgSRNPkfKXOR280x0?=
+ =?us-ascii?Q?UqDlQdXrjQvQdkhQGfmMClFute9AkK81TI/7cTNN+GYVqOHa8i+girc/PsTX?=
+ =?us-ascii?Q?WA9r1vfwoXPqtLdiVdivJhhGShg2GFwbUP1QxgesKZ8i2GfIN2t/cgZva7a5?=
+ =?us-ascii?Q?2BQlaIBwv2u4aUnDsBXow/cbHN1yRlql9bbql1vAyKMDd3FMXcaJFx8n5iA+?=
+ =?us-ascii?Q?XvIEeBKIB0DHKGZd/powUIYW6efPqAsYyFJFZtfu1b3DCopO1Q/hXZfUHy2T?=
+ =?us-ascii?Q?w+JkNDWC9+upcdEoZN0RSkH5sgiRSdPkSOdckW5Mo4oVCumWFI04OPAe2iym?=
+ =?us-ascii?Q?aKRDirGBqafOPkIgCV82cUTWg8Jl96bHwMj7s7aa98AxC9HrGcY0vEHgi33P?=
+ =?us-ascii?Q?eBAEfRxhUBO3Qn0MWS3Gle3SCggDeQonTd1Tc3EEUbJOB2wNxKnLlmSd8Hz6?=
+ =?us-ascii?Q?2ntFKYhowW/ja4AtmA56A9SMWCsHWK4lLlAtiuURtHe11TkCMW5oNlhyQvba?=
+ =?us-ascii?Q?ZuoJNivrE645wqjrl5TdcvgY0hX3SauJCg6QKMhcmk/XFXPAsagmT/2nnyOn?=
+ =?us-ascii?Q?uuyqVKrUYhrCq48UQICz3+LVmO+cC/E6AYrv9cWSzxRCLaM0uCZii7UEbxsq?=
+ =?us-ascii?Q?cYZMQyxxCVFLaYhW0QEdSWBGqaMDiPN5vf4N6asqlYMUMZA1aVrvswxVjErw?=
+ =?us-ascii?Q?CZo9JPxJDnXhks0zeHx/1ovOCFqSMWhPO5vQnqY9vY1qNl0CKvqiRxzbiCsg?=
+ =?us-ascii?Q?NNRMU9+Op6VS4/1x8Z3yaWCfZEmkOUEn9dbZO30Yxo7FDxsbqNkkvdMGCSw1?=
+ =?us-ascii?Q?i6rP4gmFianTlJ2lpHy7bT2XwChhfU4BKiLr9yJ1/t/pWJVsH+GpEMcECxNY?=
+ =?us-ascii?Q?GJvoU7PypNZsNa/hfV2Mah8Q9MbanOHp0Y4g5nHQ/9IHLqG4WHdrV9IOuMil?=
+ =?us-ascii?Q?UBbH8lKoIjN0223fOeDOYZZNUe92ZcTaAX+LkRn9uYYT5cNywVMUTn+DxyaQ?=
+ =?us-ascii?Q?rFjtxxyJwoYt2PrDC7daq2F0e2jm+wEMWgoNwsQhGfILvoBNIxMoDfYIfPdV?=
+ =?us-ascii?Q?lQ4NGO4u6DPQAEbSDKBEa6XqyN5h4X4+XcWl3sxYSmU8XaCtZM4Iiz56kKbb?=
+ =?us-ascii?Q?EL2Zzs29EPyOz243Y4rV1FLtVwTbQ+OVuQnKx/RzK/VOq2goLJAQ6IM84BNS?=
+ =?us-ascii?Q?5bidvzOK4KXTN5zEZn2ya2l8EKqza+BJqfEqdJqHY8+cuapoWUujDDYmMLMR?=
+ =?us-ascii?Q?NfLsjQ6ZmyQ3bRVSLRUQbalo6MoQzUQHe7vuV+rDJeVTDxa1qI6FoN0/lb/U?=
+ =?us-ascii?Q?TptblOxC98qdj7m4po2aKCCWPw1yWXG4lhtPehxB2WwutORPcJVwbM17UhlZ?=
+ =?us-ascii?Q?SwfeYxyREiijWLoeIXOSn+9vK4h1p3RGrSIEj1Dtgj5RSgTDCvno+8xTAf5l?=
+ =?us-ascii?Q?2u+zsfpzbwfFlRtLzaRv0Fw+vmPhI/iIiA7x4ARIligtYxhPewDJRQ=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9621.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(52116014)(376014)(366016)(1800799024)(19092799006)(7053199007)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?vmzHSX+oSz7JZAOymGTfy/bfFF632Vz14jLVQ/UmesHZ1UK9wR0bdT0yYaaG?=
+ =?us-ascii?Q?c9VW4JrQdBYOdP0+3JJWtlyvO2VpwB7rdGMe1oUKzzDc5d2iiKEo41Z8G2GI?=
+ =?us-ascii?Q?Zi1LRzJBFzlFjUKWfpwU5UFZFbUpDl/CYbm7izvQxzYmTYOx27F46MYNwVH9?=
+ =?us-ascii?Q?PMkirMfFjhALtPS+QiN+wn2bvkylEy8L6LZklme0JZZHjgjFdROAOxYZBD+b?=
+ =?us-ascii?Q?Xvoq6NesyEAq+vTHqNjAKoyJYCYykMjKmXbmacbTNdBV4C4K87CUlkcohJgr?=
+ =?us-ascii?Q?+d/Il5q8TctVnbF9bN4qEp4pQ93CCbZFGYeD4T1tVN/iIn3dLE2fxlRRnQ8w?=
+ =?us-ascii?Q?4Y8hp7uKDb1TfZYXvWa6nWbT2P1OAbRu1umcSIS4uTEkag8p37jA3Z8rRE9e?=
+ =?us-ascii?Q?2vNSGHtcW+cEgBL8fAIhqlMsBMqX2YQr3YYTX5jR4zfXmO5E0fXBhnf4iX34?=
+ =?us-ascii?Q?tuFTw2iLy7WH8FsTiwFsaYAAsZdGvtzDONZfeRPmMUfqp4fWm0pNPMV8bAPK?=
+ =?us-ascii?Q?joMG+/QzXCKvoRLMQ4Ny2ZrlWuPwXImcHL4t/Lm89f4ijq3vItiNAIGfXf5j?=
+ =?us-ascii?Q?wsNJd/+PVeQuT+Q6HfJnCbZUoeckptwtfLL+sJaZXfemjewVgmq5curXmb2M?=
+ =?us-ascii?Q?6cm5AY2NNyn9JA/J5icOQcwls6cPZcTXTjW0Qr07q6Efy/ytbeG6k/QooX+N?=
+ =?us-ascii?Q?b2uo/I9y7921qmWfWAVXWXXBC4PgXT6hlnDN2AcbeHzRVn0r9qYZAIvIL2rG?=
+ =?us-ascii?Q?ztINAjD71lcOmE2EHpH2Cbl8ZCGZMWCT7yqQNVvPMAOPvX9OMVLtas/asmjZ?=
+ =?us-ascii?Q?6jVKXcEgBMO/bdNMMQgyNu/s4mdKspMhFnl2lviMYBDvKWNc5J0MRThOJriU?=
+ =?us-ascii?Q?WKlVsKwVtumdV9dGLRqemUA7nxtpylE74cJXZNOaWHPMUOl3aEsPgb/EaKVP?=
+ =?us-ascii?Q?K2VPj3vp+5LCPcMEkDDMWQABNdGmPMS/mspWFh2iR9ynOidQwhhiborcP9/a?=
+ =?us-ascii?Q?WlBwkIBL7aLUSWmXp5C8DwJhX6qGOvdRc4Hge9M3RdHWb0sf0si+kIF4Qg4m?=
+ =?us-ascii?Q?NWSwtIbYUzOI8HpD2ARyqZduCRv1OnQcKMCceQ+L4SeGyCsyhx62q22VBXsk?=
+ =?us-ascii?Q?z+olcoeXZ5nFDpsMt4nC7O1QlhB4xLIIDHLaJvxbKyLMPqgp4O2lxJJ8P0qp?=
+ =?us-ascii?Q?17QN1N+ftdTdpKHmnMRy1FmqYHbAEhgLusqtlMEiFOJLKJCSSE4dTkTBr1xE?=
+ =?us-ascii?Q?Ne+jTJB0xjzfRBGIxnl+lNkfFZGxuOOMKAUkJnDPNz8oCobuSyCy6JMZsjm1?=
+ =?us-ascii?Q?jNH3+pG0QhvkKgeGaZvxU3Fxb+tTj2yTSZvwbTw0z58Bsf8hkLoMGNdLL7Qd?=
+ =?us-ascii?Q?kxAbZajAh9mkJBOqDfFAk/z8W16gw1VVsYRBrMwI5HbAId9bsGHVhm4Pq/NW?=
+ =?us-ascii?Q?sFwoISl7tiETNpPPqWK8PxA/TrmWXxehEFsGCrejRVy+QWZr+Wg3GvAMK6vv?=
+ =?us-ascii?Q?cFF+z92ihIgrGVPPBsCE8c0mTfqlSrwYVynh02MdVEHFfMSbn8l3Fp+GEoG2?=
+ =?us-ascii?Q?IvF6t6zxmN2QlppC65I=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fe37429b-2103-4273-1dd9-08ddff898dc3
+X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9621.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Sep 2025 18:54:01.4355
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: nqgTqYSP6bKvzOngt5BSd3b7ILLOVEVILay9+W064kUI4tQwB86gOM2nkbSJ/UKSWELAxiyOHhM1YK7pkIWtFg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB9367
 
-
---T7A0TheW4Ey8c64A
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Sep 29, 2025 at 10:30:35AM +0200, Ricardo Ribalda wrote:
-> Hi Conor
->=20
-> On Fri, 26 Sept 2025 at 18:55, Conor Dooley <conor@kernel.org> wrote:
-> >
-> > On Fri, Sep 26, 2025 at 01:11:31PM +0000, Ricardo Ribalda wrote:
-> > > For fixed cameras modules the OS needs to know where they are mounted.
-> > > This information is used to determine if images need to be rotated or
-> > > not.
-> > >
-> > > ACPI has a property for this purpose, which is parsed by
-> > > acpi_get_physical_device_location():
-> > > https://uefi.org/htmlspecs/ACPI_Spec_6_4_html/06_Device_Configuration=
-/Device_Configuration.html#pld-physical-location-of-device
-> > >
-> > > In DT we have similar properties for video-interface-devices called
-> > > orientation and rotation:
-> > > Documentation/devicetree/bindings/media/video-interface-devices.yaml
-> > >
-> > > Add a new schema that combines usb/usb-device.yaml and
-> > > media/video-interface-devices.yaml
-> > >
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > >  .../bindings/media/usb-camera-module.yaml          | 46 ++++++++++++=
-++++++++++
-> > >  MAINTAINERS                                        |  1 +
-> > >  2 files changed, 47 insertions(+)
-> > >
-> > > diff --git a/Documentation/devicetree/bindings/media/usb-camera-modul=
-e.yaml b/Documentation/devicetree/bindings/media/usb-camera-module.yaml
-> > > new file mode 100644
-> > > index 0000000000000000000000000000000000000000..e4ad6f557b9151751522e=
-49b72ae6584deb0c7ba
-> > > --- /dev/null
-> > > +++ b/Documentation/devicetree/bindings/media/usb-camera-module.yaml
-> > > @@ -0,0 +1,46 @@
-> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > +%YAML 1.2
-> > > +---
-> > > +$id: http://devicetree.org/schemas/media/usb-camera-module.yaml#
-> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > +
-> > > +title: USB Camera Module
-> > > +
-> > > +maintainers:
-> > > +  - Ricardo Ribalda <ribalda@chromium.org>
-> > > +
-> > > +description: |
-> > > +  This schema allows for annotating auxiliary information for fixed =
-camera
-> > > +  modules. This information enables the system to determine if incom=
-ing frames
-> > > +  require rotation, mirroring, or other transformations. It also des=
-cribes the
-> > > +  module's relationship with other hardware elements, such as flash =
-LEDs or
-> > > +  Voice Coil Motors (VCMs).
-> > > +
-> > > +allOf:
-> > > +  - $ref: /schemas/usb/usb-device.yaml#
-> > > +  - $ref: /schemas/media/video-interface-devices.yaml#
-> > > +
-> > > +properties:
-> > > +  reg:
-> > > +    maxItems: 1
-> > > +
-> >
-> > What actually causes this schema to be applied? Did I miss it getting
-> > included somewhere?
->=20
-> I guess your question is why I have not defined the compatible field?
->=20
-> I tried this change[1] with no luck:
-> /usr/local/google/home/ribalda/work/linux/Documentation/devicetree/bindin=
-gs/media/uvc-camera.example.dtb:
-> device@1 (uvc-camera): compatible: ['uvc-camera'] does not contain
-> items matching the given schema
->=20
-> I think it failed, because If we add these allOfs as Rob proposed
-> https://lore.kernel.org/all/20250625185608.GA2010256-robh@kernel.org/:
-> ```
-> allOf:
->   - $ref: /schemas/usb/usb-device.yaml#
->   - $ref: /schemas/media/video-interface-devices.yaml#
-> ```
-> We cannot (or I do not know how to) have a different compatible than
-> the one from usb-device.yaml
->=20
->=20
-> Any suggestion on how to do this properly will be highly appreciated :)
-
-It'd work, I think, if you permitted the pattern from usb-device as a
-fallback compatible. I don't know if that would work for whatever niche
-you're attempting to fill here though.
-
-Probably a Rob question ultimately.
-
->=20
-> Thanks!
->=20
->=20
->=20
-> [1]
->=20
-> @@ -21,10 +21,14 @@ allOf:
->    - $ref: /schemas/media/video-interface-devices.yaml#
->=20
->  properties:
-> +  compatible:
-> +    const: uvc-camera
+On Fri, Sep 26, 2025 at 03:00:48PM -0500, Rob Herring (Arm) wrote:
+> Add a binding schema for Arm Ethos-U65/U85 NPU. The Arm Ethos-U NPUs are
+> designed for edge AI inference applications.
+>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+>  .../devicetree/bindings/npu/arm,ethos.yaml         | 79 ++++++++++++++++++++++
+>  1 file changed, 79 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/npu/arm,ethos.yaml b/Documentation/devicetree/bindings/npu/arm,ethos.yaml
+> new file mode 100644
+> index 000000000000..716c4997f976
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/npu/arm,ethos.yaml
+> @@ -0,0 +1,79 @@
+> +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/npu/arm,ethos.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->    reg:
->      maxItems: 1
->=20
->  required:
+> +title: Arm Ethos U65/U85
+> +
+> +maintainers:
+> +  - Rob Herring <robh@kernel.org>
+> +
+> +description: >
+> +  The Arm Ethos-U NPUs are designed for IoT inference applications. The NPUs
+> +  can accelerate 8-bit and 16-bit integer quantized networks:
+> +
+> +    Transformer networks (U85 only)
+> +    Convolutional Neural Networks (CNN)
+> +    Recurrent Neural Networks (RNN)
+> +
+> +  Further documentation is available here:
+> +
+> +    U65 TRM: https://developer.arm.com/documentation/102023/
+> +    U85 TRM: https://developer.arm.com/documentation/102685/
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - items:
+> +          - enum:
+> +              - fsl,imx93-npu
+> +          - const: arm,ethos-u65
+> +      - items:
+> +          - {}
+
+what's means {} here ?, just not allow arm,ethos-u85 alone?
+
+Reviewed-by: Frank Li <Frank.Li@nxp.com>
+
+> +          - const: arm,ethos-u85
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    maxItems: 2
+> +
+> +  clock-names:
+> +    items:
+> +      - const: core
+> +      - const: apb
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  sram:
+> +    maxItems: 1
+> +
+> +required:
 > +  - compatible
->    - reg
->=20
->  additionalProperties: true
-> @@ -38,8 +42,8 @@ examples:
->          #size-cells =3D <0>;
->=20
->          device@1 {
-> -            compatible =3D "usb123,4567";
-> +           compatible =3D "uvc-camera";
->              reg =3D <2>;
->              orientation =3D <0>;
->              rotation =3D <90>;
->          };
->=20
-> >
-> > > +required:
-> > > +  - reg
-> > > +
-> > > +additionalProperties: true
-> > > +
-> > > +examples:
-> > > +  - |
-> > > +    usb@11270000 {
-> > > +        reg =3D <0x11270000 0x1000>;
-> > > +        interrupts =3D <0x0 0x4e 0x0>;
-> > > +        #address-cells =3D <1>;
-> > > +        #size-cells =3D <0>;
-> > > +
-> > > +        device@1 {
-> > > +            compatible =3D "usb123,4567";
-> > > +            reg =3D <2>;
-> > > +            orientation =3D <0>;
-> > > +            rotation =3D <90>;
-> > > +        };
-> > > +    };
-> > > diff --git a/MAINTAINERS b/MAINTAINERS
-> > > index ee8cb2db483f6a5e96b62b6f2edd05b1427b69f5..1503502a3aed2625e8ff4=
-88456ccd7305cc74ba7 100644
-> > > --- a/MAINTAINERS
-> > > +++ b/MAINTAINERS
-> > > @@ -26258,6 +26258,7 @@ L:    linux-media@vger.kernel.org
-> > >  S:   Maintained
-> > >  W:   http://www.ideasonboard.org/uvc/
-> > >  T:   git git://linuxtv.org/media.git
-> > > +F:   Documentation/devicetree/bindings/media/usb-camera-module.yaml
-> > >  F:   Documentation/userspace-api/media/drivers/uvcvideo.rst
-> > >  F:   Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst
-> > >  F:   Documentation/userspace-api/media/v4l/metafmt-uvc.rst
-> > >
-> > > --
-> > > 2.51.0.536.g15c5d4f767-goog
-> > >
->=20
->=20
->=20
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/imx93-clock.h>
+> +
+> +    npu@4a900000 {
+> +        compatible = "fsl,imx93-npu", "arm,ethos-u65";
+> +        reg = <0x4a900000 0x1000>;
+> +        interrupts = <GIC_SPI 178 IRQ_TYPE_LEVEL_HIGH>;
+> +        power-domains = <&mlmix>;
+> +        clocks = <&clk IMX93_CLK_ML>, <&clk IMX93_CLK_ML_APB>;
+> +        clock-names = "core", "apb";
+> +        sram = <&sram>;
+> +    };
+> +...
+>
 > --
-> Ricardo Ribalda
->=20
-
---T7A0TheW4Ey8c64A
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaNrUqwAKCRB4tDGHoIJi
-0mASAP49pwqqfaBzHe/GqEE+pCyOCKLHjQV++1zecT+/WddTgAD/dP2GQvWciVeV
-ngYFC1P2vUnJOUWrondGz3NRTBBB/g0=
-=ew51
------END PGP SIGNATURE-----
-
---T7A0TheW4Ey8c64A--
+> 2.51.0
+>
 
