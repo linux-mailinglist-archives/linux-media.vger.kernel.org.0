@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-43362-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43363-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61CF5BAA969
-	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 22:19:54 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BFDFBAA9A6
+	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 22:43:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 154743A83BD
-	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 20:19:53 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 42462167E56
+	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 20:43:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4148C224B12;
-	Mon, 29 Sep 2025 20:19:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 913792494FE;
+	Mon, 29 Sep 2025 20:43:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="GSvvZFf+"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="mWx+HBNK"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B2220FA81;
-	Mon, 29 Sep 2025 20:19:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69A5013A3F7
+	for <linux-media@vger.kernel.org>; Mon, 29 Sep 2025 20:43:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759177188; cv=none; b=soL6oKVfVIrFEBTad4DpWjYQJ+ienx01q+ooK64EMAM8Oo1TmRKX3IuOCOYL0EzYMy8jS8VCKN0pNmU6/lMHUfRN/KnFGW9sHMvRgmFlG792tAYEBDfCfV18wdlrJxTFxbF5ou3nj2x+AJZSCE2vgKT2hAZ8SlGYmKpRY3D3RTI=
+	t=1759178632; cv=none; b=FVNrG7IkcdYClxpv3YgkYUWW3BNIzEGOYn5RNnBGu7/++Li4pYGc+R0qqRHtkr1P9QhVmzNju8QUO4xXlTteKGMx7q0skguODQyUiMQQnj/zPRgkorkItzD9GxtJem1JeFtMx6zMweQfvq0Q0q5Y4htRjGf2K4ajNM529fpDeFY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759177188; c=relaxed/simple;
-	bh=lNipjJdMAZ5qz+onvyG19IRxSPLNYrDlQ5cDfVAVHqo=;
+	s=arc-20240116; t=1759178632; c=relaxed/simple;
+	bh=71h9D2AyxdncIeJjlNLPJ/HUTTC3zay43uozGS0myLA=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QzNj9cYZ1BGD1HPaVtqwxPhgT5sQ99M74Cz8pI9JqftaJuED3Fv0Bf1OGUo7kPOB50TNgN456WWIbOatMDeQzb+1RNq8gComAYpVvEO8uKUrluLUOgZq9vgdn7nENYj58DZIwnlZoCXPND7lpuP7mWRtoaGIe7quzx6j3FxukPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=GSvvZFf+; arc=none smtp.client-ip=213.167.242.64
+	 In-Reply-To:Content-Type; b=Oz+aizI58Tq1FM19nPDpGIyuQOOcD5nMZsGhMi7misohr3wy432doyW/hs28utXuT8VOd0EQp4Bc5YwCyr4P8ml+FbPay42ccLS2B/e785putIq+icLMXWT0rTNJC4RbIv/zpoq4xY7bliX8t1Lkcmxd08XKBm5ufmnt/MCbJjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=mWx+HBNK; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from [192.168.0.43] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 747513A4;
-	Mon, 29 Sep 2025 22:18:14 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C3649289;
+	Mon, 29 Sep 2025 22:42:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1759177094;
-	bh=lNipjJdMAZ5qz+onvyG19IRxSPLNYrDlQ5cDfVAVHqo=;
+	s=mail; t=1759178540;
+	bh=71h9D2AyxdncIeJjlNLPJ/HUTTC3zay43uozGS0myLA=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GSvvZFf+Mo1s7NAufXgp8Hb51XOl1pR26wWc9nyOnKOUWZre3A82F0olyG9kvISrb
-	 xmhko4G9e5crXRTozX+da+1tFNN7bg7WNWPBCNv6pnbAMUt09dP012UJ7G3Nf+R1qm
-	 ZauGaMe8ZdIliydsS9BVcKEadq/u+3e65mO8Ur08=
-Message-ID: <54bfa9f3-33fc-4633-9091-95873d502146@ideasonboard.com>
-Date: Mon, 29 Sep 2025 21:19:39 +0100
+	b=mWx+HBNKAT+pdUIdwJSl/AJZH9FPZhmRRXOX7FULVrpiZc+fYWXaBOhx1m+OQX8lQ
+	 9GsGofSljzVFjFCZ6e95KczJrythN+MuST6OY4TQhk0T1PCJkA/yZViGBZ/Pp4YfT8
+	 rxWSbhRo0lBjvR1IMB2I8sKJtvDPTzV2BxbaRMgE=
+Message-ID: <c8d4f303-0bfc-43f5-96e3-24f30790d3af@ideasonboard.com>
+Date: Mon, 29 Sep 2025 21:43:44 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,23 +51,22 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH] media: rzg2l-cru: rework rzg2l_cru_fill_hw_slot()
-To: Tommaso Merciai <tommaso.merciai.xr@bp.renesas.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, laurent.pinchart+renesas@ideasonboard.com,
- prabhakar.mahadev-lad.rj@bp.renesas.com, biju.das.jz@bp.renesas.com,
- linux-renesas-soc@vger.kernel.org
+ prabhakar.mahadev-lad.rj@bp.renesas.com, tommaso.merciai.xr@bp.renesas.com,
+ biju.das.jz@bp.renesas.com
 References: <20250918-rzg2l-cru-v1-1-fe110fdb91e5@ideasonboard.com>
- <aNqu5LXUcQjx4H6w@tom-desktop>
+ <52izfy5bkkw732n55q4ykrb65cwnot3lw4xtqt6lhjpwnfcuzr@wxrixkgezcz3>
 Content-Language: en-US
 From: Dan Scally <dan.scally@ideasonboard.com>
-In-Reply-To: <aNqu5LXUcQjx4H6w@tom-desktop>
+In-Reply-To: <52izfy5bkkw732n55q4ykrb65cwnot3lw4xtqt6lhjpwnfcuzr@wxrixkgezcz3>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Tommaso
+Hi Jacopo - thanks for the comments
 
-On 29/09/2025 17:08, Tommaso Merciai wrote:
-> Hi Daniel,
-> Thank you for your patch!
+On 29/09/2025 19:18, Jacopo Mondi wrote:
+> Hi Dan
 > 
 > On Thu, Sep 18, 2025 at 01:08:55PM +0100, Daniel Scally wrote:
 >> The current implementation of rzg2l_cru_fill_hw_slot() results in the
@@ -79,10 +78,69 @@ On 29/09/2025 17:08, Tommaso Merciai wrote:
 >> is a minimum of a two-frame delay before that slot will be written to
 >> however, and in the intervening period userspace may queue more
 >> buffers which could be used.
+> 
+> As I understand it the driver uses three slots by default.
+> The hardware circles through them.
+> 
+> The current implementation of rzg3e_cru_irq() (because I presume
+> you're using that variant) finds the last used slot with
+> rzg3e_cru_get_current_slot() and the re-programs it with the address
+> of the next buffer provided by userspace. The other version of the
+> interrupt handler rzg2l_cru_irq() does the same, using a register not
+> present in the g3e version.
+> 
+> This means that if we hit an underrun, we waste a frame even if in
+> between two frame interrupts userspace has queued something.
+> 
+> Something like
+> 
+> X = programmed
+> O = scratch
+> 
+> Starting condition:
+> 
+> Slot #    0   1   2
+>          +---+---+---+
+>          | X | X |X |
+>          +---+---+---+
+> 
+> 0 completes and there are no buffers in queue
+> Slot 0 gets programmed with the scratch buffer addrs
+> 
+> Slot #    0   1   2
+>          +---+---+---+
+>          | O | X |X |
+>          +---+---+---+
+> 
+> 1 completes and there are buffers in queue now
+> 1 gets programmed with a new valid address, 0 stays to the
+> the scratch buffer
+> 
+> Slot #    0   1   2
+>          +---+---+---+
+>          | O | X'|X |
+>          +---+---+---+
+> 
+> So yeah, it seems possible for some frames to be dropped if userspace
+> doesn't keep up!
+
+Yes that's my understanding exactly.
+
+> 
 >>
 >> To resolve the issue rework rzg2l_cru_fill_hw_slot() so that it
 >> iteratively fills all slots from the queue which currently do not
 >> have a buffer assigned, until the queue is empty. The scratch
+> 
+> Ok, I was a bit confused by this. You use "slots from the queue"
+> and "queue is empty" but these are two different queues possibily..
+> 
+> Should "slots from the queue" be just "slots" maybe ?
+
+Err, I mean it uses buffers from the queue to fill the slots until the queue is empty...does that 
+make it clearer?
+
+> 
 >> buffer is only resorted to in the event that the queue is empty and
 >> the next slot that will be written to does not already have a buffer
 >> assigned.
@@ -98,38 +156,100 @@ On 29/09/2025 17:08, Tommaso Merciai wrote:
 >> +++ b/drivers/media/platform/renesas/rzg2l-cru/rzg2l-video.c
 >> @@ -192,45 +192,47 @@ static void rzg2l_cru_set_slot_addr(struct rzg2l_cru_dev *cru,
 >>   }
->>   
+>>
 >>   /*
 >> - * Moves a buffer from the queue to the HW slot. If no buffer is
 >> - * available use the scratch buffer. The scratch buffer is never
 >> - * returned to userspace, its only function is to enable the capture
 >> - * loop to keep running.
 >> + * Move as many buffers as possible from the queue to HW slots. If no buffer is
+> 
+> I wonder if we should try to exauhst the buffers queue or care about
+> the next available one only. After all the next interrupts will take
+> care of it, and if we prequeue all buffers then we'll have to return
+> them in order when streaming is stopped (I didn't check if this how
+> this is handled tbh).
+
+Yeah...the same thought occurred to me. I suppose that the benefit would be with a really high 
+frame-rate; because we're writing the addresses of the next buffers a couple of frames in advance, 
+there's less risk of the hardware attempting to write to an slot that hasn't been programmed with a 
+buffer yet if the driver takes longer to write that address than the camera takes to send the next 
+frame? I don't know how much of a risk that is though really.
+
+> 
+> 
 >> + * available and the next slot currently lacks one then use the scratch buffer.
 >> + * The scratch buffer is never returned to userspace, its only function is to
 >> + * enable the capture loop to keep running.
 >>    */
 >> -static void rzg2l_cru_fill_hw_slot(struct rzg2l_cru_dev *cru, int slot)
 >> +static void rzg2l_cru_fill_hw_slots(struct rzg2l_cru_dev *cru, int slot)
+> 
+> 
+> Now both rzg2l_cru_irq() and rzg3e_cru_irq() call this function as
+> 
+> 		rzg2l_cru_fill_hw_slots(cru, (slot + 1) % cru->num_buf);
+> 
+> the "slot" parameters indicate the one which the hardware is currently
+> writing to, right ?
+
+ From the call-sites, "slot" is the slot that the hardware is currently writing to. "(slot + 1) % 
+cru->num_buf" is "the next slot", so the effect is to tell rzg2l_cru_fill_hw_slots() to start 
+filling hw slots with buffer addresses from the queue, starting from the next slot that the hardware 
+will write to.
+
+> 
 >>   {
 >> -	struct vb2_v4l2_buffer *vbuf;
 >> +	unsigned int from_slot = slot;
+> 
+> If the above is true you can start from the next one already,
+> if "slot" is the one in use
+
+Not sure I follow that I'm afraid.
+
+> 
 >>   	struct rzg2l_cru_buffer *buf;
 >> +	struct vb2_v4l2_buffer *vbuf;
 >>   	dma_addr_t phys_addr;
->>   
+>>
 >> -	/* A already populated slot shall never be overwritten. */
 >> -	if (WARN_ON(cru->queue_buf[slot]))
 >> -		return;
 >> -
 >> -	dev_dbg(cru->dev, "Filling HW slot: %d\n", slot);
 >> +	do {
+> 
+> I know it's safe here, but do {} while() always scare me a bit, as
+> they can easily escape and spin forever.
+
+Hah - pretty sure that's the first time I've ever actually written one!
+
+> 
+> What about
+>          for (unsigned int next_slot = (slot + 1) % num_buf;
+>               next_slot != slot; next_slot = (next_slot + 1) % num_buf)) {
+> 
+>          }
+> 
+> untested :)
+Looks fine to me too, and I'm happy to switch.
+
+> 
 >> +		if (cru->queue_buf[slot]) {
 >> +			slot = (slot + 1) % cru->num_buf;
 >> +			continue;
 >> +		}
->>   
+>>
 >> -	if (list_empty(&cru->buf_list)) {
+> 
+> The buf_list is accessed without locking. This in only called from irq
+> context and before streaming, so it shouldn't be a problem in
+> practice
+
+Indeed, and in the interrupt handlers cru->qlock is held.
+
+> 
 >> -		cru->queue_buf[slot] = NULL;
 >> -		phys_addr = cru->scratch_phys;
 >> -	} else {
@@ -146,58 +266,125 @@ On 29/09/2025 17:08, Tommaso Merciai wrote:
 >> +		if (list_empty(&cru->buf_list)) {
 >> +			if (slot == from_slot)
 >> +				phys_addr = cru->scratch_phys;
+> 
+> I might have missed where cru->queue_buf[slot] is reset to NULL..
+
+In the interrupt handlers, before they call rzg2l_cru_fill_hw_slots()
+
+> 
 >> +			else
 >> +				return;
+> 
+> I guess you can return unconditonally here. if list_empty() we have
+> nothing more to do
+
+Er no we still need to call rzg2l_cru_set_slot_addr() to write the address of the scratch buffer to 
+hardware.
+
+> 
 >> +		} else {
 >> +			buf = list_first_entry(&cru->buf_list,
 >> +					       struct rzg2l_cru_buffer, list);
+> 
+> You could use list_first_entry_or_null() in place of list_empty()
+> before and avoid a double lookup
+
+Good point; thank you!
+
+> 
 >> +			vbuf = &buf->vb;
 >> +			list_del_init(&buf->list);
 >> +			cru->queue_buf[slot] = vbuf;
 >> +			phys_addr = vb2_dma_contig_plane_dma_addr(&vbuf->vb2_buf, 0);
 >> +		}
->>   
+>>
 >> -	rzg2l_cru_set_slot_addr(cru, slot, phys_addr);
 >> +		dev_dbg(cru->dev, "Filling HW slot: %d\n", slot);
 >> +		rzg2l_cru_set_slot_addr(cru, slot, phys_addr);
 >> +		slot = (slot + 1) % cru->num_buf;
 >> +	} while (slot != from_slot);
+> 
+> 
+> This feels easier to me
+> 
+> 	for (unsigned int next_slot = (slot + 1) % cru->num_buf;
+> 	     next_slot != slot; next_slot = (next_slot + 1) % cru->num_buf) {
+> 
+> 		/* An already populated slot shall never be overwritten. */
+> 		if (cru->queue_buf[slot])
+> 			continue;
+> 
+> 		buf = list_first_entry_or_null(&cru->buf_list,
+> 					       struct rzg2l_cru_buffer, list);
+> 		if (!buf) {
+> 			phys_addr = cru->scratch_phys;
+> 			cru->queue_buf[slot] = NULL;
+> 
+> 			return;
+> 		}
+
+I think here ...
+
+	} else {
+		vbuf = &buf->vb;
+		list_del_init(&buf->list);
+		cru->queue_buf[slot] = vbuf;
+		phys_addr = vb2_dma_contig_plane_dma_addr(&vbuf->vb2_buf, 0);
+	}
+
+	rzg2l_cru_set_slot_addr(cru, slot, phys_addr);
+}
+
+And then yeah that looks good to me - I'll switch to that.
+
+Thanks
+Dan
+         >
+> 		vbuf = &buf->vb;
+> 		list_del_init(&buf->list);
+> 		cru->queue_buf[slot] = vbuf;
+> 		phys_addr = vb2_dma_contig_plane_dma_addr(&vbuf->vb2_buf, 0);
+> 		rzg2l_cru_set_slot_addr(cru, slot, phys_addr);
+>       }
+> 
+> What do you think ?
+> 
 >>   }
->>   
+>>
 >>   static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
 >>   {
 >>   	const struct rzg2l_cru_info *info = cru->info;
 >> -	unsigned int slot;
 >>   	u32 amnaxiattr;
->>   
+>>
 >>   	/*
 >> @@ -239,8 +241,7 @@ static void rzg2l_cru_initialize_axi(struct rzg2l_cru_dev *cru)
 >>   	 */
 >>   	rzg2l_cru_write(cru, AMnMBVALID, AMnMBVALID_MBVALID(cru->num_buf - 1));
->>   
+>>
 >> -	for (slot = 0; slot < cru->num_buf; slot++)
 >> -		rzg2l_cru_fill_hw_slot(cru, slot);
 >> +	rzg2l_cru_fill_hw_slots(cru, 0);
->>   
+>>
 >>   	if (info->has_stride) {
 >>   		u32 stride = cru->format.bytesperline;
 >> @@ -652,7 +653,7 @@ irqreturn_t rzg2l_cru_irq(int irq, void *data)
 >>   	cru->sequence++;
->>   
+>>
 >>   	/* Prepare for next frame */
 >> -	rzg2l_cru_fill_hw_slot(cru, slot);
 >> +	rzg2l_cru_fill_hw_slots(cru, (slot + 1) % cru->num_buf);
->>   
+>>
 >>   done:
 >>   	spin_unlock_irqrestore(&cru->qlock, flags);
 >> @@ -752,7 +753,7 @@ irqreturn_t rzg3e_cru_irq(int irq, void *data)
 >>   		cru->sequence++;
->>   
+>>
 >>   		/* Prepare for next frame */
 >> -		rzg2l_cru_fill_hw_slot(cru, slot);
 >> +		rzg2l_cru_fill_hw_slots(cru, (slot + 1) % cru->num_buf);
 >>   	}
->>   
+>>
 >>   	return IRQ_HANDLED;
 >>
 >> ---
@@ -205,41 +392,11 @@ On 29/09/2025 17:08, Tommaso Merciai wrote:
 >> change-id: 20250918-rzg2l-cru-0554a4352a70
 >>
 >> Best regards,
->> -- 
+>> --
 >> Daniel Scally <dan.scally@ideasonboard.com>
-> 
-> Not reviewed yet, sorry.
-
-No problem :)
-
-> 
-> But testing on RZ/G3E I'm getting the following:
-> 
-> [  288.873715] rzg2l-cru 16000000.video: Invalid MB address 0xeacc3e00 (out of range)
-> [  288.884665] rzg2l-cru 16000000.video: Invalid MB address 0xeae57e00 (out of range)
-> [  288.967963] rzg2l-cru 16000000.video: Invalid MB address 0xe9957e00 (out of range)
-> 
-> Tested using:
-> 
-> media-ctl -d /dev/media0 --set-v4l2 '"ov5645 0-003c":0[fmt:UYVY8_2X8/1280x960@1/60 field:none]'
-> media-ctl -d /dev/media0 --set-v4l2 '"csi-16000400.csi2":0[fmt:UYVY8_2X8/1280x960]'
-> media-ctl -d /dev/media0 --set-v4l2 '"cru-ip-16000000.video":0[fmt:UYVY8_2X8/1280x960]'
-> 
-> gst-launch-1.0 v4l2src device=/dev/video0 io-mode=dmabuf ! video/x-raw,format=UYVY,width=1280,height=960 !  videoconvert ! queue ! glimagesink sync=false
-> 
-> Let me gently know if I'm missing somenthing.
-
-Ooh. I don't think you're missing anything...does it happen every time? Let me see if I can work out 
-what would trigger that - thanks for testing!
-
-Dan
-
-> 
-> Thanks & Regards,
-> Tommaso
-> 
-> 
-> 
 >>
+>>
+
+
 
 
