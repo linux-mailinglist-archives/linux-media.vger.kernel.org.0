@@ -1,199 +1,301 @@
-Return-Path: <linux-media+bounces-43366-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43367-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB43ABAAA4A
-	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 23:18:44 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E5655BAAA95
+	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 23:46:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 619E0421C04
-	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 21:18:43 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9468A1C3CBE
+	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 21:46:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7AD48265626;
-	Mon, 29 Sep 2025 21:17:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03D9B25784B;
+	Mon, 29 Sep 2025 21:46:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="RkrDBj/m"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="DK3Y9bNe"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CE7C264614
-	for <linux-media@vger.kernel.org>; Mon, 29 Sep 2025 21:17:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9929D1F30A9;
+	Mon, 29 Sep 2025 21:46:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759180678; cv=none; b=JVX+Tx6JBpFd2PnKUwr77cltb0xbuiafS88B8gkzr+WP9WlXR8gDFFxVQL7fkl+LGei12hZkeSYwU+QLawPiMTLLYVOlp0OoWAnG0XEokomxLuXWAeHrvFdQWldtTTqeo3y4PkuZMTEgkvUnzomlh5YBufFB86mQBJLlBRReyJ8=
+	t=1759182393; cv=none; b=aaorCcBgn+RBFUaQL8ufZH4CxbfeCMsFUg4geG6bVHK6DMwB3KuNeppwSD7FAYHnTQk2JqmZt9hTE73J3uz/dTPQWA2HLYVhp0tAbYasJgIX6lsH+iuRk/eYMw7pjZOIWTOjP43QCg1mvIy9hL3PcgTiHLLPTMi16Z9iM1uO9pg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759180678; c=relaxed/simple;
-	bh=pkxsk78IHog0vv+IBSdn+sUVFtS8RfXXuKpUO43hniM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=u3Q+lUwKM8rwxjy1oe8C7uRPYOYtqVt0rZrTPoN24FISkBmFP9pjOs5NPiKL69RbJc3swxz3cInvEgyn0qIxAmOPLLT8YUpjKaloReZ32ywNiOGnf+4vVEyeR9oX50pJ6zegNv5nWC2obiggrD5NL42fY64Pwk/o0xLCyuNGvmA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=RkrDBj/m; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1759180676;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tBEzt7vDi7cQon8pe4PxgzLkANUC3bHfRN0ntBJldU8=;
-	b=RkrDBj/mQQk4PuIztoKVAa3F2+AgcdomwVixFGYufQg5Deu8Zu98l2VqcGwMvtnlXwzK2H
-	cG9/BomPpzqSUCEikh5TuwzGREP/mQVr8dmbK1XBjwWdJsIQZE0NO5BIWnnTE64b90C+eF
-	fxqqlsuusBPTCfMUM0qyIVLL7DJf8y0=
-Received: from mail-il1-f197.google.com (mail-il1-f197.google.com
- [209.85.166.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-159-eiCUt_73Pc6AgolES57YcQ-1; Mon, 29 Sep 2025 17:17:53 -0400
-X-MC-Unique: eiCUt_73Pc6AgolES57YcQ-1
-X-Mimecast-MFC-AGG-ID: eiCUt_73Pc6AgolES57YcQ_1759180673
-Received: by mail-il1-f197.google.com with SMTP id e9e14a558f8ab-42b18fa4b81so5192915ab.1
-        for <linux-media@vger.kernel.org>; Mon, 29 Sep 2025 14:17:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759180673; x=1759785473;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=tBEzt7vDi7cQon8pe4PxgzLkANUC3bHfRN0ntBJldU8=;
-        b=J6ioaDstLHzqGwJ9nmHqHs/yf6UsbliMyd8zzQ4yrcFfC1YP3U8HLzncpPMuvWkWXs
-         3Xd24FHTbMgRcDBCsE6dK+Zil/Y6zcBLNB2rc24/62vnTbA837xK+SlB73RhUyuVLl62
-         2Hyn94RJqIH6yBBJlA1k7KserA9jJYKBqyagBW90Bjz+fMn/yLylG1azEy0TIYhCGmdb
-         qHutr5dGIiYdpQX+ibAN2Gu5W+LOAHaVd6qidjRrxLwDZ797FsPUNj2L83GtCk+QhyCr
-         NWICbtyDYA+DlQyrLkcfAHwbeE7KQ8gYxa3MJ0iFWtFimUYZBDqw10QjmYIM3m814IWS
-         waVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVZMBuinOigZP35u+U9jrUHWqyMAme+8ImmQ6rArNXvBsD/nB3kfIZWoxN3A8bqd2OANqpH8zcEiY7EMw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLa72oUEgFfgq2liBYnLxIwq0JWmZ402BaG/KEZUeVsHGwFhGr
-	w7dmnKomAWW0k6ej0fFSSouzdgnQ2UMfEEVo2aVyL0aKqpN6aRqaTNbORx7bHFPt52Iw4MXqAaS
-	kJJ5Zjqm31HZ7wtlgibAqlaAumoHOdEuGY4VvlUzGlBGxEm2X5nkgWpwZr0NJ7Erc
-X-Gm-Gg: ASbGncuZcxkUUKSEgY7WuvzBHPJrATrNZvhHUH19ZPe40j9CuBdrvJvmAjrWglbOZ9t
-	Z67Am+uJJtSgHxchldtqrMwc5LKLaT9YVnsQhRAMJK9UvRxV3wsytkqT5zlG43z3tFEEMmBHyiQ
-	6dxR8kaeXCUBgJYAbMa6AVF/aMDacN/frmtAHSDuft6fvwqxRkQ5B4uZHZTSsVhIMVAobmDs5G2
-	2yK57ShDiuPm9BHJjpuX7pspxb3KZSpo0Cg52jXlFUmz3i/2vfwz2G0vJWHnVm4tZdLHIW7kt1s
-	sAN/9TaGfX8QKLVXWx5lzmL50fiw65Zz7pmzDqXMwM8=
-X-Received: by 2002:a05:6e02:1523:b0:425:9068:4ff with SMTP id e9e14a558f8ab-425955c8eb5mr97782405ab.1.1759180672726;
-        Mon, 29 Sep 2025 14:17:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFTF4nahZRRX2gicTqxhxWdWKeUzRDCgsQQuCRfxHGJ4HNrczL75firr5hrFe4LKeaKRuPCNA==
-X-Received: by 2002:a05:6e02:1523:b0:425:9068:4ff with SMTP id e9e14a558f8ab-425955c8eb5mr97782155ab.1.1759180672251;
-        Mon, 29 Sep 2025 14:17:52 -0700 (PDT)
-Received: from redhat.com ([38.15.36.11])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-425c05476fasm62141985ab.43.2025.09.29.14.17.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 29 Sep 2025 14:17:51 -0700 (PDT)
-Date: Mon, 29 Sep 2025 15:17:49 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Leon Romanovsky <leonro@nvidia.com>, Jason Gunthorpe <jgg@nvidia.com>,
- Andrew Morton <akpm@linux-foundation.org>, Bjorn Helgaas
- <bhelgaas@google.com>, Christian =?UTF-8?B?S8O2bmln?=
- <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org,
- iommu@lists.linux.dev, Jens Axboe <axboe@kernel.dk>, Joerg Roedel
- <joro@8bytes.org>, kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org,
- Logan Gunthorpe <logang@deltatee.com>, Marek Szyprowski
- <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, Sumit
- Semwal <sumit.semwal@linaro.org>, Vivek Kasireddy
- <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v4 10/10] vfio/pci: Add dma-buf export support for MMIO
- regions
-Message-ID: <20250929151749.2007b192.alex.williamson@redhat.com>
-In-Reply-To: <53f3ea1947919a5e657b4f83e74ca53aa45814d4.1759070796.git.leon@kernel.org>
-References: <cover.1759070796.git.leon@kernel.org>
-	<53f3ea1947919a5e657b4f83e74ca53aa45814d4.1759070796.git.leon@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1759182393; c=relaxed/simple;
+	bh=NUu0AP/Y/b6sxBMQX5+HIS4HgANg/O7SvbtfXPGtNco=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dYKtHLqLUhRDlILVNkRufVIVsjtNfwfRG1BpgNA+B6waRWukWZXy+UhgDkFUPm4Qnsq7iq8JZOGJNC5q0Ua1Uv+CGgMbGck9wOhxo379nnMSe/cydDJNu5isFJfjz4Kig1I6L5ygK1FNkHh6U5IobvDmRJ4uf47MpX4ofU0AAmI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=DK3Y9bNe; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1759182388;
+	bh=NUu0AP/Y/b6sxBMQX5+HIS4HgANg/O7SvbtfXPGtNco=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=DK3Y9bNeZ23oe2VZsJdSI3/n95X1tBhAkQcK8G+pHt1hKrvx6XWlnd0wF+5/RAKK0
+	 LTEXQDLyq70YCp6TKoShYyrlxhrxiBn5KzRnx7Utdb3BXUlFzMKtepHA7Sr94tH3HE
+	 9VFpGor6m07Qyfd8Do6RxOHuAgmotUAA8D68SycDCanfaXW/Gm8aoAofg9GaIBbQhX
+	 ZMDLX4Nr8No65uabM3Zq8EDxhcpUYUz+sVw5n0E6/sQUI/J+XMV+dL45sosEll1Lpd
+	 Kn0oFkue5jY4p77mqW64iky393/oOaDpZ+DgRHNMDrCCM3ur7HuGHqWZaO3aEGq+C5
+	 86dMZlZO+XsVw==
+Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mriesch)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 96E2F17E12BB;
+	Mon, 29 Sep 2025 23:46:27 +0200 (CEST)
+Message-ID: <1f1dd0a4-c6e7-4863-a99d-c0615e2746c4@collabora.com>
+Date: Mon, 29 Sep 2025 23:46:26 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v11 05/17] media: dt-bindings: add rockchip rk3568 mipi
+ csi-2 receiver
+To: Rob Herring <robh@kernel.org>
+Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Gerald Loacker <gerald.loacker@wolfvision.net>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Markus Elfring <Markus.Elfring@web.de>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Kever Yang <kever.yang@rock-chips.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Collabora Kernel Team <kernel@collabora.com>,
+ Paul Kocialkowski <paulk@sys-base.io>,
+ Alexander Shiyan <eagle.alexander923@gmail.com>,
+ Val Packett <val@packett.cool>, Philipp Zabel <p.zabel@pengutronix.de>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ Bryan O'Donoghue <bod@kernel.org>
+References: <20240220-rk3568-vicap-v11-0-af0eada54e5d@collabora.com>
+ <20240220-rk3568-vicap-v11-5-af0eada54e5d@collabora.com>
+ <20250922171126.GA480461-robh@kernel.org>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <20250922171126.GA480461-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Sun, 28 Sep 2025 17:50:20 +0300
-Leon Romanovsky <leon@kernel.org> wrote:
-> +static int validate_dmabuf_input(struct vfio_pci_core_device *vdev,
-> +				 struct vfio_device_feature_dma_buf *dma_buf,
-> +				 struct vfio_region_dma_range *dma_ranges,
-> +				 struct p2pdma_provider **provider)
-> +{
-> +	struct pci_dev *pdev = vdev->pdev;
-> +	u32 bar = dma_buf->region_index;
-> +	resource_size_t bar_size;
-> +	u64 sum;
-> +	int i;
-> +
-> +	if (dma_buf->flags)
-> +		return -EINVAL;
-> +	/*
-> +	 * For PCI the region_index is the BAR number like  everything else.
-> +	 */
-> +	if (bar >= VFIO_PCI_ROM_REGION_INDEX)
-> +		return -ENODEV;
-> +
-> +	*provider = pcim_p2pdma_provider(pdev, bar);
-> +	if (!provider)
+Hi Rob,
 
-This needs to be IS_ERR_OR_NULL() or the function needs to settle on a
-consistent error return value regardless of CONFIG_PCI_P2PDMA.
+Thanks for your review.
 
-> +		return -EINVAL;
-> +
-> +	bar_size = pci_resource_len(pdev, bar);
+On 9/22/25 19:11, Rob Herring wrote:
+> On Wed, Sep 17, 2025 at 05:38:45PM +0200, Michael Riesch wrote:
+>> Add documentation for the Rockchip RK3568 MIPI CSI-2 Receiver.
+>>
+>> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+>> Reviewed-by: Bryan O'Donoghue <bod@kernel.org>
+>> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+>> ---
+>>  .../bindings/media/rockchip,rk3568-mipi-csi.yaml   | 144 +++++++++++++++++++++
+>>  MAINTAINERS                                        |   6 +
+>>  2 files changed, 150 insertions(+)
+>>
+>> diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi.yaml
+>> new file mode 100644
+>> index 000000000000..8cbab93b4b85
+>> --- /dev/null
+>> +++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi.yaml
+>> @@ -0,0 +1,144 @@
+>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+>> +%YAML 1.2
+>> +---
+>> +$id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
+>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+>> +
+>> +title: Rockchip RK3568 MIPI CSI-2 Receiver
+>> +
+>> +maintainers:
+>> +  - Michael Riesch <michael.riesch@collabora.com>
+>> +
+>> +description:
+>> +  The Rockchip RK3568 MIPI CSI-2 Receiver is a CSI-2 bridge with one input port
+>> +  and one output port. It receives the data with the help of an external
+>> +  MIPI PHY (C-PHY or D-PHY) and passes it to the Rockchip RK3568 Video Capture
+>> +  (VICAP) block.
+>> +
+>> +properties:
+>> +  compatible:
+>> +    oneOf:
+>> +      - items:
+>> +          - enum:
+>> +              - rockchip,rk3588-mipi-csi
+>> +          - const: rockchip,rk3568-mipi-csi
+>> +      - const: rockchip,rk3568-mipi-csi
+>> +
+>> +  reg:
+>> +    maxItems: 1
+>> +
+>> +  interrupts:
+>> +    items:
+>> +      - description: Interrupt that signals changes in CSI2HOST_ERR1.
+>> +      - description: Interrupt that signals changes in CSI2HOST_ERR2.
+>> +
+>> +  interrupt-names:
+>> +    items:
+>> +      - const: irq1
+>> +      - const: irq2
+> 
+> Names that are just the index are not useful. Drop. With that,
 
-We get to this feature via vfio_pci_core_ioctl_feature(), which is used
-by several variant drivers, some of which mangle the BAR size exposed
-to the user, ex. hisi_acc.  I'm afraid this might actually be giving
-dmabuf access to a portion of the BAR that isn't exposed otherwise.
+I would be OK with that, but in the discussion of my recent CSI DPHY
+series I was asked to give names to two resets in order to be future
+proof (right now all these resets are (de)asserted in unison and this
+would be perfectly possible without reset names). Going back to the
+issue raised here, I would say that the names need to be there as well
+(simply for reasons of consistency).
 
-> +	for (i = 0; i < dma_buf->nr_ranges; i++) {
-> +		u64 offset = dma_ranges[i].offset;
-> +		u64 len = dma_ranges[i].length;
-> +
-> +		if (!PAGE_ALIGNED(offset) || !PAGE_ALIGNED(len))
-> +			return -EINVAL;
-> +
-> +		if (check_add_overflow(offset, len, &sum) || sum > bar_size)
-> +			return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +int vfio_pci_core_feature_dma_buf(struct vfio_pci_core_device *vdev, u32 flags,
-> +				  struct vfio_device_feature_dma_buf __user *arg,
-> +				  size_t argsz)
-> +{
-> +	struct vfio_device_feature_dma_buf get_dma_buf = {};
-> +	struct vfio_region_dma_range *dma_ranges;
-> +	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-> +	struct p2pdma_provider *provider;
-> +	struct vfio_pci_dma_buf *priv;
-> +	int ret;
-> +
-> +	ret = vfio_check_feature(flags, argsz, VFIO_DEVICE_FEATURE_GET,
-> +				 sizeof(get_dma_buf));
-> +	if (ret != 1)
-> +		return ret;
-> +
-> +	if (copy_from_user(&get_dma_buf, arg, sizeof(get_dma_buf)))
-> +		return -EFAULT;
-> +
-> +	if (!get_dma_buf.nr_ranges)
-> +		return -EINVAL;
-> +
-> +	dma_ranges = memdup_array_user(&arg->dma_ranges, get_dma_buf.nr_ranges,
-> +				       sizeof(*dma_ranges));
-> +	if (IS_ERR(dma_ranges))
-> +		return PTR_ERR(dma_ranges);
-> +
-> +	ret = validate_dmabuf_input(vdev, &get_dma_buf, dma_ranges, &provider);
-> +	if (ret)
-> +		return ret;
+Maybe we can fix the naming here. One IRQ fires when the ERR1 status
+register changes, so maybe irq_err1 ? Other suggestions welcome.
 
-goto err_free_ranges;
+Best regards,
+Michael
 
-Thanks,
-Alex
+> 
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> 
+>> +
+>> +  clocks:
+>> +    maxItems: 1
+>> +
+>> +  phys:
+>> +    maxItems: 1
+>> +    description: MIPI C-PHY or D-PHY.
+>> +
+>> +  ports:
+>> +    $ref: /schemas/graph.yaml#/properties/ports
+>> +
+>> +    properties:
+>> +      port@0:
+>> +        $ref: /schemas/graph.yaml#/$defs/port-base
+>> +        unevaluatedProperties: false
+>> +        description: Input port node. Connect to e.g., a MIPI CSI-2 image sensor.
+>> +
+>> +        properties:
+>> +          endpoint:
+>> +            $ref: video-interfaces.yaml#
+>> +            unevaluatedProperties: false
+>> +
+>> +            properties:
+>> +              bus-type:
+>> +                enum: [1, 4]
+>> +
+>> +              data-lanes:
+>> +                minItems: 1
+>> +                maxItems: 4
+>> +
+>> +            required:
+>> +              - bus-type
+>> +              - data-lanes
+>> +
+>> +      port@1:
+>> +        $ref: /schemas/graph.yaml#/properties/port
+>> +        description: Output port connected to a RK3568 VICAP port.
+>> +
+>> +    required:
+>> +      - port@0
+>> +      - port@1
+>> +
+>> +  power-domains:
+>> +    maxItems: 1
+>> +
+>> +  resets:
+>> +    maxItems: 1
+>> +
+>> +required:
+>> +  - compatible
+>> +  - reg
+>> +  - clocks
+>> +  - phys
+>> +  - ports
+>> +  - power-domains
+>> +  - resets
+>> +
+>> +additionalProperties: false
+>> +
+>> +examples:
+>> +  - |
+>> +    #include <dt-bindings/clock/rk3568-cru.h>
+>> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+>> +    #include <dt-bindings/media/video-interfaces.h>
+>> +    #include <dt-bindings/power/rk3568-power.h>
+>> +
+>> +    soc {
+>> +        interrupt-parent = <&gic>;
+>> +        #address-cells = <2>;
+>> +        #size-cells = <2>;
+>> +
+>> +        csi: csi@fdfb0000 {
+>> +            compatible = "rockchip,rk3568-mipi-csi";
+>> +            reg = <0x0 0xfdfb0000 0x0 0x10000>;
+>> +            interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
+>> +                         <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
+>> +            interrupt-names = "irq1", "irq2";
+>> +            clocks = <&cru PCLK_CSI2HOST1>;
+>> +            phys = <&csi_dphy>;
+>> +            power-domains = <&power RK3568_PD_VI>;
+>> +            resets = <&cru SRST_P_CSI2HOST1>;
+>> +
+>> +            ports {
+>> +                #address-cells = <1>;
+>> +                #size-cells = <0>;
+>> +
+>> +                csi_in: port@0 {
+>> +                    reg = <0>;
+>> +
+>> +                    csi_input: endpoint {
+>> +                        bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
+>> +                        data-lanes = <1 2 3 4>;
+>> +                        remote-endpoint = <&imx415_output>;
+>> +                    };
+>> +                };
+>> +
+>> +                csi_out: port@1 {
+>> +                    reg = <1>;
+>> +
+>> +                    csi_output: endpoint {
+>> +                        remote-endpoint = <&vicap_mipi_input>;
+>> +                    };
+>> +                };
+>> +            };
+>> +        };
+>> +    };
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 4c39b9fd80bb..2ac4b7a5b255 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -21797,6 +21797,12 @@ F:	Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst
+>>  F:	drivers/media/platform/rockchip/rkisp1
+>>  F:	include/uapi/linux/rkisp1-config.h
+>>  
+>> +ROCKCHIP MIPI CSI-2 RECEIVER DRIVER
+>> +M:	Michael Riesch <michael.riesch@collabora.com>
+>> +L:	linux-media@vger.kernel.org
+>> +S:	Maintained
+>> +F:	Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi.yaml
+>> +
+>>  ROCKCHIP RK3568 RANDOM NUMBER GENERATOR SUPPORT
+>>  M:	Daniel Golle <daniel@makrotopia.org>
+>>  M:	Aurelien Jarno <aurelien@aurel32.net>
+>>
+>> -- 
+>> 2.39.5
+>>
 
 
