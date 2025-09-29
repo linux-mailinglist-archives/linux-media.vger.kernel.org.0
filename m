@@ -1,215 +1,273 @@
-Return-Path: <linux-media+bounces-43357-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43358-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2AB1CBAA5F3
-	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 20:39:38 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id ED8F1BAA621
+	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 20:49:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 6751E1C5C89
-	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 18:39:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A463F3BDFC4
+	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 18:49:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 389E825A35F;
-	Mon, 29 Sep 2025 18:39:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45D2323D2AB;
+	Mon, 29 Sep 2025 18:49:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="nqZw28ij"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DmLQPoLf"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com [63.176.194.123])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7058922F76F;
-	Mon, 29 Sep 2025 18:39:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.176.194.123
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 829912032D;
+	Mon, 29 Sep 2025 18:49:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759171151; cv=none; b=qnL9wt4gXlFeT2ptRxBkoXNt5ZsJIYvHqYHZ2nug/Ezf6SUIvzrA3hJXFGm/wMN9A8Y+GJs1C+lKwsO2kGOw4/aoNT8HCEMhrqiK89q+dsY/VkKN2MLUgIh+/PCZFjh+4VwZEOVX54P7KrkJf50hwob/mXrP2QfHxbd1SBuarT8=
+	t=1759171763; cv=none; b=VQXge/WEZfN52y+fcl0GR/KLxwV2EBaopf1nISwXVt30a5jbkvDRKm+w+ji4AnS9vRGQtVIPh+pmPWnhd9QJ4DF8cvF8sOypRe5fFxr5/kUJzlAwNYSt5LSVLx7GGVWgzj1cSu+415SzgsYgTZp/zWYyNTz4xo5oP+2hV8/pP24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759171151; c=relaxed/simple;
-	bh=vJ7eD2nV/4N7AIUA9/+6epf2vjH4s0akBoFco89HihE=;
-	h=Subject:From:To:CC:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=gvOP+pN1ec/tRVlFDNDiYi0Rz7pXtQHqK5KboU4WywaQ8rAEI+uMgF9IkWK2kcULHbbT1j6ce4C6LPlPFLrK5WOjQAtPEIHMSYTZ8eZVSAODhT1xGPCUSLA0bDgNgF7NjjJoRUSzt9w0rgh2mJXlVQchL6lLdEuudTnaa1LpPIk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=nqZw28ij; arc=none smtp.client-ip=63.176.194.123
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1759171149; x=1790707149;
-  h=from:to:cc:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version:subject;
-  bh=vJ7eD2nV/4N7AIUA9/+6epf2vjH4s0akBoFco89HihE=;
-  b=nqZw28ijwkrb/pB3DBjusC/TpdcVATjo7BQwbZXC4YwamHadT5WG8QCW
-   ffympzEULPkfZQCMr9EvIqKsHMpQd2nqPrIB6lSUCv14gEfmi3Gas73YW
-   7iQv4+U/Eb37b+qK+xVl+TH4Ioa8ZSmhntyZLrsePmReX8t1DgcfX4p2R
-   7l+L4UzPttMIvL/N429rUWFzYpFgqwfAsdp5aLJr/zT4hqGbA1e3ltZhf
-   tFaueNq62ojOlCToSiZSe9e+aY07I48qtcf/UPAQh/7GiHCNeXcFaMLXm
-   gpgbkN8jc2yYE9GeOXoVO3suffMUCPbX9QQlG0PnThmZOZvsccXcUHnw4
-   w==;
-X-CSE-ConnectionGUID: EC85rEzURZ+CERFt3YJdKA==
-X-CSE-MsgGUID: tnl/cymrQVqCkLCX53HUhQ==
-X-IronPort-AV: E=Sophos;i="6.18,302,1751241600"; 
-   d="scan'208";a="2844874"
-Subject: RE: [PATCH 07/19 v6.1.y] minmax: make generic MIN() and MAX() macros
- available everywhere
-Thread-Topic: [PATCH 07/19 v6.1.y] minmax: make generic MIN() and MAX() macros available
- everywhere
-Received: from ip-10-6-6-97.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.6.97])
-  by internal-fra-out-005.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2025 18:39:02 +0000
-Received: from EX19MTAEUB002.ant.amazon.com [54.240.197.232:4036]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.19.222:2525] with esmtp (Farcaster)
- id a320107e-9e0a-4760-b3dc-26c5d986714d; Mon, 29 Sep 2025 18:39:01 +0000 (UTC)
-X-Farcaster-Flow-ID: a320107e-9e0a-4760-b3dc-26c5d986714d
-Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Mon, 29 Sep 2025 18:39:00 +0000
-Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19D018EUA004.ant.amazon.com (10.252.50.85) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Mon, 29 Sep 2025 18:39:00 +0000
-Received: from EX19D018EUA004.ant.amazon.com ([fe80::e53:84f8:3456:a97d]) by
- EX19D018EUA004.ant.amazon.com ([fe80::e53:84f8:3456:a97d%3]) with mapi id
- 15.02.2562.020; Mon, 29 Sep 2025 18:39:00 +0000
-From: "Farber, Eliav" <farbere@amazon.com>
-To: Greg KH <gregkh@linuxfoundation.org>
-CC: "linux@armlinux.org.uk" <linux@armlinux.org.uk>, "richard@nod.at"
-	<richard@nod.at>, "anton.ivanov@cambridgegreys.com"
-	<anton.ivanov@cambridgegreys.com>, "johannes@sipsolutions.net"
-	<johannes@sipsolutions.net>, "dave.hansen@linux.intel.com"
-	<dave.hansen@linux.intel.com>, "luto@kernel.org" <luto@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>, "tglx@linutronix.de"
-	<tglx@linutronix.de>, "mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de"
-	<bp@alien8.de>, "x86@kernel.org" <x86@kernel.org>, "hpa@zytor.com"
-	<hpa@zytor.com>, "tony.luck@intel.com" <tony.luck@intel.com>,
-	"qiuxu.zhuo@intel.com" <qiuxu.zhuo@intel.com>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, "james.morse@arm.com" <james.morse@arm.com>,
-	"rric@kernel.org" <rric@kernel.org>, "harry.wentland@amd.com"
-	<harry.wentland@amd.com>, "sunpeng.li@amd.com" <sunpeng.li@amd.com>,
-	"Rodrigo.Siqueira@amd.com" <Rodrigo.Siqueira@amd.com>,
-	"alexander.deucher@amd.com" <alexander.deucher@amd.com>,
-	"christian.koenig@amd.com" <christian.koenig@amd.com>, "Xinhui.Pan@amd.com"
-	<Xinhui.Pan@amd.com>, "airlied@gmail.com" <airlied@gmail.com>,
-	"daniel@ffwll.ch" <daniel@ffwll.ch>, "evan.quan@amd.com" <evan.quan@amd.com>,
-	"james.qian.wang@arm.com" <james.qian.wang@arm.com>, "liviu.dudau@arm.com"
-	<liviu.dudau@arm.com>, "mihail.atanassov@arm.com" <mihail.atanassov@arm.com>,
-	"brian.starkey@arm.com" <brian.starkey@arm.com>,
-	"maarten.lankhorst@linux.intel.com" <maarten.lankhorst@linux.intel.com>,
-	"mripard@kernel.org" <mripard@kernel.org>, "tzimmermann@suse.de"
-	<tzimmermann@suse.de>, "robdclark@gmail.com" <robdclark@gmail.com>,
-	"quic_abhinavk@quicinc.com" <quic_abhinavk@quicinc.com>,
-	"dmitry.baryshkov@linaro.org" <dmitry.baryshkov@linaro.org>,
-	"sean@poorly.run" <sean@poorly.run>, "jdelvare@suse.com" <jdelvare@suse.com>,
-	"linux@roeck-us.net" <linux@roeck-us.net>, "linus.walleij@linaro.org"
-	<linus.walleij@linaro.org>, "dmitry.torokhov@gmail.com"
-	<dmitry.torokhov@gmail.com>, "maz@kernel.org" <maz@kernel.org>,
-	"wens@csie.org" <wens@csie.org>, "jernej.skrabec@gmail.com"
-	<jernej.skrabec@gmail.com>, "samuel@sholland.org" <samuel@sholland.org>,
-	"agk@redhat.com" <agk@redhat.com>, "snitzer@kernel.org" <snitzer@kernel.org>,
-	"dm-devel@redhat.com" <dm-devel@redhat.com>, "rajur@chelsio.com"
-	<rajur@chelsio.com>, "davem@davemloft.net" <davem@davemloft.net>,
-	"edumazet@google.com" <edumazet@google.com>, "kuba@kernel.org"
-	<kuba@kernel.org>, "pabeni@redhat.com" <pabeni@redhat.com>,
-	"peppe.cavallaro@st.com" <peppe.cavallaro@st.com>,
-	"alexandre.torgue@foss.st.com" <alexandre.torgue@foss.st.com>,
-	"joabreu@synopsys.com" <joabreu@synopsys.com>, "mcoquelin.stm32@gmail.com"
-	<mcoquelin.stm32@gmail.com>, "krzysztof.kozlowski@linaro.org"
-	<krzysztof.kozlowski@linaro.org>, "malattia@linux.it" <malattia@linux.it>,
-	"hdegoede@redhat.com" <hdegoede@redhat.com>, "markgross@kernel.org"
-	<markgross@kernel.org>, "artur.paszkiewicz@intel.com"
-	<artur.paszkiewicz@intel.com>, "jejb@linux.ibm.com" <jejb@linux.ibm.com>,
-	"martin.petersen@oracle.com" <martin.petersen@oracle.com>,
-	"sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
-	"fei1.li@intel.com" <fei1.li@intel.com>, "clm@fb.com" <clm@fb.com>,
-	"josef@toxicpanda.com" <josef@toxicpanda.com>, "dsterba@suse.com"
-	<dsterba@suse.com>, "jack@suse.com" <jack@suse.com>, "tytso@mit.edu"
-	<tytso@mit.edu>, "adilger.kernel@dilger.ca" <adilger.kernel@dilger.ca>,
-	"dushistov@mail.ru" <dushistov@mail.ru>, "luc.vanoostenryck@gmail.com"
-	<luc.vanoostenryck@gmail.com>, "rostedt@goodmis.org" <rostedt@goodmis.org>,
-	"mhiramat@kernel.org" <mhiramat@kernel.org>, "pmladek@suse.com"
-	<pmladek@suse.com>, "senozhatsky@chromium.org" <senozhatsky@chromium.org>,
-	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
-	"linux@rasmusvillemoes.dk" <linux@rasmusvillemoes.dk>, "minchan@kernel.org"
-	<minchan@kernel.org>, "ngupta@vflare.org" <ngupta@vflare.org>,
-	"akpm@linux-foundation.org" <akpm@linux-foundation.org>,
-	"yoshfuji@linux-ipv6.org" <yoshfuji@linux-ipv6.org>, "dsahern@kernel.org"
-	<dsahern@kernel.org>, "pablo@netfilter.org" <pablo@netfilter.org>,
-	"kadlec@netfilter.org" <kadlec@netfilter.org>, "fw@strlen.de" <fw@strlen.de>,
-	"jmaloy@redhat.com" <jmaloy@redhat.com>, "ying.xue@windriver.com"
-	<ying.xue@windriver.com>, "andrii@kernel.org" <andrii@kernel.org>,
-	"mykolal@fb.com" <mykolal@fb.com>, "ast@kernel.org" <ast@kernel.org>,
-	"daniel@iogearbox.net" <daniel@iogearbox.net>, "martin.lau@linux.dev"
-	<martin.lau@linux.dev>, "song@kernel.org" <song@kernel.org>, "yhs@fb.com"
-	<yhs@fb.com>, "john.fastabend@gmail.com" <john.fastabend@gmail.com>,
-	"kpsingh@kernel.org" <kpsingh@kernel.org>, "sdf@google.com" <sdf@google.com>,
-	"haoluo@google.com" <haoluo@google.com>, "jolsa@kernel.org"
-	<jolsa@kernel.org>, "shuah@kernel.org" <shuah@kernel.org>,
-	"keescook@chromium.org" <keescook@chromium.org>, "wad@chromium.org"
-	<wad@chromium.org>, "willy@infradead.org" <willy@infradead.org>,
-	"sashal@kernel.org" <sashal@kernel.org>, "ruanjinjie@huawei.com"
-	<ruanjinjie@huawei.com>, "quic_akhilpo@quicinc.com"
-	<quic_akhilpo@quicinc.com>, "David.Laight@aculab.com"
-	<David.Laight@aculab.com>, "herve.codina@bootlin.com"
-	<herve.codina@bootlin.com>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-um@lists.infradead.org"
-	<linux-um@lists.infradead.org>, "linux-edac@vger.kernel.org"
-	<linux-edac@vger.kernel.org>, "amd-gfx@lists.freedesktop.org"
-	<amd-gfx@lists.freedesktop.org>, "dri-devel@lists.freedesktop.org"
-	<dri-devel@lists.freedesktop.org>, "linux-arm-msm@vger.kernel.org"
-	<linux-arm-msm@vger.kernel.org>, "freedreno@lists.freedesktop.org"
-	<freedreno@lists.freedesktop.org>, "linux-hwmon@vger.kernel.org"
-	<linux-hwmon@vger.kernel.org>, "linux-input@vger.kernel.org"
-	<linux-input@vger.kernel.org>, "linux-sunxi@lists.linux.dev"
-	<linux-sunxi@lists.linux.dev>, "linux-media@vger.kernel.org"
-	<linux-media@vger.kernel.org>, "netdev@vger.kernel.org"
-	<netdev@vger.kernel.org>, "linux-stm32@st-md-mailman.stormreply.com"
-	<linux-stm32@st-md-mailman.stormreply.com>,
-	"platform-driver-x86@vger.kernel.org" <platform-driver-x86@vger.kernel.org>,
-	"linux-scsi@vger.kernel.org" <linux-scsi@vger.kernel.org>,
-	"linux-staging@lists.linux.dev" <linux-staging@lists.linux.dev>,
-	"linux-btrfs@vger.kernel.org" <linux-btrfs@vger.kernel.org>,
-	"linux-ext4@vger.kernel.org" <linux-ext4@vger.kernel.org>,
-	"linux-sparse@vger.kernel.org" <linux-sparse@vger.kernel.org>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, "netfilter-devel@vger.kernel.org"
-	<netfilter-devel@vger.kernel.org>, "coreteam@netfilter.org"
-	<coreteam@netfilter.org>, "tipc-discussion@lists.sourceforge.net"
-	<tipc-discussion@lists.sourceforge.net>, "bpf@vger.kernel.org"
-	<bpf@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "stable@vger.kernel.org"
-	<stable@vger.kernel.org>, Linus Torvalds <torvalds@linux-foundation.org>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Thread-Index: AQHcLZHEroQ9W2lH4EW9XJumD1KlZrSqNL0AgABQRkA=
-Date: Mon, 29 Sep 2025 18:39:00 +0000
-Message-ID: <f32d53131d0a4b61a7be4862c7a7f237@amazon.com>
-References: <20250924202320.32333-1-farbere@amazon.com>
- <20250924202320.32333-8-farbere@amazon.com>
- <2025092923-stove-rule-a00f@gregkh>
-In-Reply-To: <2025092923-stove-rule-a00f@gregkh>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	s=arc-20240116; t=1759171763; c=relaxed/simple;
+	bh=CIesZg8God6+nurlZmJlDErmkC0T5rSf+vpzR1sIRAU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eh65tXVQhGdmU6/c+XX9HmuR+CyFVU6jIBTQ0cstAZgwTC2fqe7pFc+FS6ZUA1xXK3qKmsBs82zdqOYMqnOA6NlBdLIDy+1tEhri0ezP5z7uf1jqSEP9UlVpwayGo9PSWdTWsl3n3/6wmAQX6ytYZ1oXHb8nrjug1wk+P5+kh7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DmLQPoLf; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02A7FC4CEF4;
+	Mon, 29 Sep 2025 18:49:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759171763;
+	bh=CIesZg8God6+nurlZmJlDErmkC0T5rSf+vpzR1sIRAU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=DmLQPoLflrWPzRHpNZHaEQ6aDwxh9aYtXgubo4m46HHBDXYVQgDPIOQtOYSXLT0UW
+	 J0cY7HPPczP7uGVH9bcU+tgHh7JtcdZAtZ/6LkN4Q9KJns0kjSKvioKAxNeym0F/RE
+	 7Jaqb/P/p+piz8zOUQLrQ0JqLlFpk0EgPrMLapEl2mTsSX89/OCAF5ICnPviDScM8e
+	 f9N+ovN/nvQY+yVV/VjHhRlzBKhjk8QSuDeMmVdSw/y/HhudxSwo2qdDx8p6luxZWn
+	 r2qXWDt5vxv4e8T8xv12/e34WtpCFymnIXXgYbICoJ1r01KImMcZb8lqAn92hmslwc
+	 qaKj9SwXF+fMQ==
+Date: Mon, 29 Sep 2025 19:49:15 +0100
+From: Conor Dooley <conor@kernel.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Rob Herring <robh@kernel.org>, Hans de Goede <hansg@kernel.org>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Len Brown <lenb@kernel.org>, Robert Moore <robert.moore@intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-usb@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-acpi@vger.kernel.org, acpica-devel@lists.linux.dev
+Subject: Re: [PATCH v3 07/12] dt-bindings: media: Add usb-camera-module
+Message-ID: <20250929-disparate-fidgeting-65c2f7eff236@spud>
+References: <20250926-uvc-orientation-v3-0-6dc2fa5b4220@chromium.org>
+ <20250926-uvc-orientation-v3-7-6dc2fa5b4220@chromium.org>
+ <20250926-mute-boil-e75839753526@spud>
+ <CANiDSCuddqjeDr80xKsZZP7CXu9qB5qqYPoZujNYLcVjK0kKkg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="T7A0TheW4Ey8c64A"
+Content-Disposition: inline
+In-Reply-To: <CANiDSCuddqjeDr80xKsZZP7CXu9qB5qqYPoZujNYLcVjK0kKkg@mail.gmail.com>
 
-On Wed, Sep 24, 2025 at 08:23:08PM +0000, Eliav Farber wrote:
-> From: Linus Torvalds <torvalds@linux-foundation.org>
->
-> [ Upstream commit 1a251f52cfdc417c84411a056bc142cbd77baef4 ]
 
-<snip>
+--T7A0TheW4Ey8c64A
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-As this didn't go into 6.6.y yet, I'll stop here on this series for now.
-Please fix up for newer kernels first and then resend these.
+On Mon, Sep 29, 2025 at 10:30:35AM +0200, Ricardo Ribalda wrote:
+> Hi Conor
+>=20
+> On Fri, 26 Sept 2025 at 18:55, Conor Dooley <conor@kernel.org> wrote:
+> >
+> > On Fri, Sep 26, 2025 at 01:11:31PM +0000, Ricardo Ribalda wrote:
+> > > For fixed cameras modules the OS needs to know where they are mounted.
+> > > This information is used to determine if images need to be rotated or
+> > > not.
+> > >
+> > > ACPI has a property for this purpose, which is parsed by
+> > > acpi_get_physical_device_location():
+> > > https://uefi.org/htmlspecs/ACPI_Spec_6_4_html/06_Device_Configuration=
+/Device_Configuration.html#pld-physical-location-of-device
+> > >
+> > > In DT we have similar properties for video-interface-devices called
+> > > orientation and rotation:
+> > > Documentation/devicetree/bindings/media/video-interface-devices.yaml
+> > >
+> > > Add a new schema that combines usb/usb-device.yaml and
+> > > media/video-interface-devices.yaml
+> > >
+> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > > ---
+> > >  .../bindings/media/usb-camera-module.yaml          | 46 ++++++++++++=
+++++++++++
+> > >  MAINTAINERS                                        |  1 +
+> > >  2 files changed, 47 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/usb-camera-modul=
+e.yaml b/Documentation/devicetree/bindings/media/usb-camera-module.yaml
+> > > new file mode 100644
+> > > index 0000000000000000000000000000000000000000..e4ad6f557b9151751522e=
+49b72ae6584deb0c7ba
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/usb-camera-module.yaml
+> > > @@ -0,0 +1,46 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/usb-camera-module.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: USB Camera Module
+> > > +
+> > > +maintainers:
+> > > +  - Ricardo Ribalda <ribalda@chromium.org>
+> > > +
+> > > +description: |
+> > > +  This schema allows for annotating auxiliary information for fixed =
+camera
+> > > +  modules. This information enables the system to determine if incom=
+ing frames
+> > > +  require rotation, mirroring, or other transformations. It also des=
+cribes the
+> > > +  module's relationship with other hardware elements, such as flash =
+LEDs or
+> > > +  Voice Coil Motors (VCMs).
+> > > +
+> > > +allOf:
+> > > +  - $ref: /schemas/usb/usb-device.yaml#
+> > > +  - $ref: /schemas/media/video-interface-devices.yaml#
+> > > +
+> > > +properties:
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> >
+> > What actually causes this schema to be applied? Did I miss it getting
+> > included somewhere?
+>=20
+> I guess your question is why I have not defined the compatible field?
+>=20
+> I tried this change[1] with no luck:
+> /usr/local/google/home/ribalda/work/linux/Documentation/devicetree/bindin=
+gs/media/uvc-camera.example.dtb:
+> device@1 (uvc-camera): compatible: ['uvc-camera'] does not contain
+> items matching the given schema
+>=20
+> I think it failed, because If we add these allOfs as Rob proposed
+> https://lore.kernel.org/all/20250625185608.GA2010256-robh@kernel.org/:
+> ```
+> allOf:
+>   - $ref: /schemas/usb/usb-device.yaml#
+>   - $ref: /schemas/media/video-interface-devices.yaml#
+> ```
+> We cannot (or I do not know how to) have a different compatible than
+> the one from usb-device.yaml
+>=20
+>=20
+> Any suggestion on how to do this properly will be highly appreciated :)
 
-The fix for 6.6.y was applied also on 6.1.y:
-https://lore.kernel.org/stable/20250929183358.18982-1-farbere@amazon.com/
+It'd work, I think, if you permitted the pattern from usb-device as a
+fallback compatible. I don't know if that would work for whatever niche
+you're attempting to fill here though.
 
----
-Regards, Eliav
+Probably a Rob question ultimately.
+
+>=20
+> Thanks!
+>=20
+>=20
+>=20
+> [1]
+>=20
+> @@ -21,10 +21,14 @@ allOf:
+>    - $ref: /schemas/media/video-interface-devices.yaml#
+>=20
+>  properties:
+> +  compatible:
+> +    const: uvc-camera
+> +
+>    reg:
+>      maxItems: 1
+>=20
+>  required:
+> +  - compatible
+>    - reg
+>=20
+>  additionalProperties: true
+> @@ -38,8 +42,8 @@ examples:
+>          #size-cells =3D <0>;
+>=20
+>          device@1 {
+> -            compatible =3D "usb123,4567";
+> +           compatible =3D "uvc-camera";
+>              reg =3D <2>;
+>              orientation =3D <0>;
+>              rotation =3D <90>;
+>          };
+>=20
+> >
+> > > +required:
+> > > +  - reg
+> > > +
+> > > +additionalProperties: true
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    usb@11270000 {
+> > > +        reg =3D <0x11270000 0x1000>;
+> > > +        interrupts =3D <0x0 0x4e 0x0>;
+> > > +        #address-cells =3D <1>;
+> > > +        #size-cells =3D <0>;
+> > > +
+> > > +        device@1 {
+> > > +            compatible =3D "usb123,4567";
+> > > +            reg =3D <2>;
+> > > +            orientation =3D <0>;
+> > > +            rotation =3D <90>;
+> > > +        };
+> > > +    };
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index ee8cb2db483f6a5e96b62b6f2edd05b1427b69f5..1503502a3aed2625e8ff4=
+88456ccd7305cc74ba7 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -26258,6 +26258,7 @@ L:    linux-media@vger.kernel.org
+> > >  S:   Maintained
+> > >  W:   http://www.ideasonboard.org/uvc/
+> > >  T:   git git://linuxtv.org/media.git
+> > > +F:   Documentation/devicetree/bindings/media/usb-camera-module.yaml
+> > >  F:   Documentation/userspace-api/media/drivers/uvcvideo.rst
+> > >  F:   Documentation/userspace-api/media/v4l/metafmt-uvc-msxu-1-5.rst
+> > >  F:   Documentation/userspace-api/media/v4l/metafmt-uvc.rst
+> > >
+> > > --
+> > > 2.51.0.536.g15c5d4f767-goog
+> > >
+>=20
+>=20
+>=20
+> --
+> Ricardo Ribalda
+>=20
+
+--T7A0TheW4Ey8c64A
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRh246EGq/8RLhDjO14tDGHoIJi0gUCaNrUqwAKCRB4tDGHoIJi
+0mASAP49pwqqfaBzHe/GqEE+pCyOCKLHjQV++1zecT+/WddTgAD/dP2GQvWciVeV
+ngYFC1P2vUnJOUWrondGz3NRTBBB/g0=
+=ew51
+-----END PGP SIGNATURE-----
+
+--T7A0TheW4Ey8c64A--
 
