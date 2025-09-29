@@ -1,125 +1,124 @@
-Return-Path: <linux-media+bounces-43306-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43307-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE483BA7989
-	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 01:56:48 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id EA2D5BA7C26
+	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 03:30:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9898B3B12A6
-	for <lists+linux-media@lfdr.de>; Sun, 28 Sep 2025 23:56:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 68FC31898875
+	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 01:31:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EE353275111;
-	Sun, 28 Sep 2025 23:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="YA3Mtz9l"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF8971F3B8A;
+	Mon, 29 Sep 2025 01:30:39 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from cstnet.cn (smtp84.cstnet.cn [159.226.251.84])
+	(using TLSv1.2 with cipher DHE-RSA-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3AF153594C
-	for <linux-media@vger.kernel.org>; Sun, 28 Sep 2025 23:56:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5248013777E;
+	Mon, 29 Sep 2025 01:30:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.226.251.84
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759103803; cv=none; b=ZpIoPtVcwsxl9YaeLM6Gpkjd3e8Mv0mWTRgKmLFaE0w7Hd76HuuYzm7tc91Ks0rQGtYDsKrUChO9RPTsxGD1QV/s+oe+clhS29FabYmdHXpQZwy9Go4wOzEgDwQl7Ra8JGXabFuVcIgwxpt0kQfSn9e9o0JI441zsOZUM6nCb+c=
+	t=1759109439; cv=none; b=pKVRPPPFtnNGrmdBCtDtdRw3fw9yJtu1DGTXKE+Ow7l6q94+R3kITLcpqUmwgIO1/l1KjQia6V11DoKPS/2Y54RbauwYhdcFurSau1KP5D5TJwLK4wzXIkzVDja3VLx7zWNMPmQCt58ljd5cOz7RWRq5dj2/OCu6Kq8RszMFId4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759103803; c=relaxed/simple;
-	bh=PBXcdUFXV2smj1ifaK+LoGQlD79BEM5RKJP30S7aDQM=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=nlEUaNMsasv/wolsePWY/eseVxaXy0R80pnK6qBw7B5rpMr/Ca8oBufPMZRHCHu3D+yS4G893egtQqNk2ALQQoQRcNnAU1ncfCIwGMTXgSPcwpLEflacXx2PBuigjsLG0xM/DVg7SKDUmUKjVAfIUTmvPXkYn3puPiBRDTzBdqs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=YA3Mtz9l; arc=none smtp.client-ip=209.85.167.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-57a8b00108fso712437e87.3
-        for <linux-media@vger.kernel.org>; Sun, 28 Sep 2025 16:56:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1759103798; x=1759708598; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=DbaERkJpuwwW2s0GTceO+zDUT/u2ovHBQ/LYQFgCFf8=;
-        b=YA3Mtz9lp8WYOSmFrudhBWi8vzYu4Z1BF/jVUhu+kBx8y+v6YWH5ODtzpkIcPLJTNG
-         CVYAOb/wH7AYEItgHcvVx94Kpz6JzBf0IEHFIrOcncuA/JvD9ay4MQW/b6vWkF1jeZub
-         3GqFgfK3wJUe7vB2laoSuAqe9R2fFq15eSOr/qZbKgiIhKY8ymK0O3VmXzxkww0sPAj2
-         trVqm8xINp72QCdwIWyTyrRFmMK/2EnrtDvN9K/FqtQH+ojqbniTNHNw8uya3mhoclbF
-         HCtxZJNGdy/R9pMjTtYz7WsY1DyxMLRvldAZEV5oSzfJaTzsYsl7aOiF5grroj1jLNiM
-         4onQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759103798; x=1759708598;
-        h=content-transfer-encoding:in-reply-to:references:cc:to:from:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=DbaERkJpuwwW2s0GTceO+zDUT/u2ovHBQ/LYQFgCFf8=;
-        b=jXNKSjpYXPFilB2U02Z1IXmVm7hysRyfXtK/FhHNFhdbb0KlnoXTwr9Ly8ID7K4AKV
-         4Nzo2bzq/8h36f7T79y28MSh+zbXoNMUJpgjkwzm/mxj9RaNeZPaShIYJdepGWUUI9fO
-         V6IGdd2DEUqQS3cYZTDcRcwQqrppIqhPGd2M6EZnJngTwxgRzTe9jhvYA/pt6wvbKmB9
-         EoPnpzVfC6pf5HGsn/B3J03MM3LB2QsMPTfVaydTH7kqserjgAnjom3whd5YpRlFrrMe
-         UEC1nF11PnulzFZngxSNZgiMCmZyPRh2Z3sMTWvdFryOg4s+qxZaLt5QdL2BVOijlZfo
-         5sgA==
-X-Gm-Message-State: AOJu0Yy4rhsICBQo6+lzoz8KGVq0SDuZyLN1NshKkwqJg21QnG70nv8I
-	SLpIT5f77oEuBDSSAe3g9hWbAMqs4tnN+MPVylUuqI8ngfKX74BHd94P5s3pQwzVGdqbd+eZH/A
-	sfI8i
-X-Gm-Gg: ASbGncsOHqds0aEYyL3HO5O1W1fpJKoXUGZ6BAwpWfbLJvndcjzZgvzskE3KR6s+wlP
-	5c3+4glEHREVv+81m09LlWMBVUelixUj1D6b4oeWP3ElOneZN32shkaFt5YiChusOCEwt0vjRz5
-	8t9x33fMd1WNd98qMd10S330wyRRwTM7W5DYkvDn3sj7rDJjAK/RQiCcvpx5F4bHr/37r443PHt
-	9evPU+uI16IVvl9caGIg9NqxFxmLCNmz9Cc4BkZooTSkGzPPWFxWC0ko4RspekvgDdi+bdIZuMP
-	oDme8JmEJJc73X+QbrbUAaSDzCH+iKSNSY09YlTZKmKsMziMNDyMqWwVosZLXDKzMTDDNsdJ6Ok
-	YYDD1V6Rjpntg9Ze0OLXZiC3sUy3xPP5Kj29GFLhH1OhW+tUypCvUZzukHWQJ/14VV3eomay2Rj
-	j6Tw==
-X-Google-Smtp-Source: AGHT+IEniNh/lC6fMtQqG7+hId5XHSg1wAZFEUUvL+8ztnzI/asQEKfDgprBwMaVnstmR6eSJxzAxg==
-X-Received: by 2002:a05:6512:230a:b0:578:f613:ed9b with SMTP id 2adb3069b0e04-582d267c1d8mr1996930e87.8.1759103798319;
-        Sun, 28 Sep 2025 16:56:38 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58316a32217sm3610507e87.115.2025.09.28.16.56.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 28 Sep 2025 16:56:36 -0700 (PDT)
-Message-ID: <99f2de20-054f-4122-82d7-dbbb2ee32482@linaro.org>
-Date: Mon, 29 Sep 2025 02:56:33 +0300
+	s=arc-20240116; t=1759109439; c=relaxed/simple;
+	bh=jgYfnGlpJUsBLnIp0dgG9Um0H/BiAyG/N/ufXTWeP7g=;
+	h=From:To:Cc:Subject:Date:Message-Id; b=Tuna/Fz8wTFMWXE+KpZzKYNy4oxjDBs2Arf3sY0LEDNLBVtNhe56oLXt56peyDNuWr1snK6r+FCJPJIwa2qduV0obBKlRsFvbFeb0kqmW3UADxvIIKyKu79kdBnl//qfO/xL1LHF8IjtqVG8e3+zG9eqg8ubfX3GDd/3K/oPftY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn; spf=pass smtp.mailfrom=iscas.ac.cn; arc=none smtp.client-ip=159.226.251.84
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iscas.ac.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iscas.ac.cn
+Received: from localhost.localdomain (unknown [202.112.113.212])
+	by APP-05 (Coremail) with SMTP id zQCowADHaRMg4dloIUR_CA--.42010S2;
+	Mon, 29 Sep 2025 09:30:19 +0800 (CST)
+From: Ma Ke <make24@iscas.ac.cn>
+To: sakari.ailus@linux.intel.com,
+	bingbu.cao@intel.com,
+	lixu.zhang@intel.com,
+	stanislaw.gruszka@linux.intel.com,
+	mchehab@kernel.org,
+	wentong.wu@intel.com
+Cc: linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org,
+	Ma Ke <make24@iscas.ac.cn>
+Subject: [PATCH v5] media: pci: intel: ivsc: improve device reference counting in mei_ace driver
+Date: Mon, 29 Sep 2025 09:30:07 +0800
+Message-Id: <20250929013007.1920-1-make24@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID:zQCowADHaRMg4dloIUR_CA--.42010S2
+X-Coremail-Antispam: 1UD129KBjvJXoW7WFWfWrWDAr1kCryDtF1fWFg_yoW8CF1kpr
+	Wq9FWkKFWUXr4jgr1UAa18ZFyrWa1Sya9xGr43Aa1xu3W5Z347try0qa47Ca4YqFZrCFy7
+	AF13KryfAF40yw7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDU0xBIdaVrnRJUUUP014x267AKxVW8JVW5JwAFc2x0x2IEx4CE42xK8VAvwI8IcIk0
+	rVWrJVCq3wAFIxvE14AKwVWUJVWUGwA2ocxC64kIII0Yj41l84x0c7CEw4AK67xGY2AK02
+	1l84ACjcxK6xIIjxv20xvE14v26r4j6ryUM28EF7xvwVC0I7IYx2IY6xkF7I0E14v26r4j
+	6F4UM28EF7xvwVC2z280aVAFwI0_Gr1j6F4UJwA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_Gr
+	1j6F4UJwAac4AC62xK8xCEY4vEwIxC4wAS0I0E0xvYzxvE52x082IY62kv0487Mc02F40E
+	FcxC0VAKzVAqx4xG6I80ewAv7VC0I7IYx2IY67AKxVWUJVWUGwAv7VC2z280aVAFwI0_Jr
+	0_Gr1lOx8S6xCaFVCjc4AY6r1j6r4UM4x0Y48IcxkI7VAKI48JM4x0x7Aq67IIx4CEVc8v
+	x2IErcIFxwACI402YVCY1x02628vn2kIc2xKxwCY1x0262kKe7AKxVWUtVW8ZwCY02Avz4
+	vE14v_KwCF04k20xvY0x0EwIxGrwCFx2IqxVCFs4IE7xkEbVWUJVW8JwC20s026c02F40E
+	14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_Jw0_GFylIx
+	kGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVWUJVWUCwCI42IY6xIIjxv20xvEc7CjxVAF
+	wI0_Jr0_Gr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r
+	4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7VUb9mitUU
+	UUU==
+X-CM-SenderInfo: ppdnvj2u6l2u1dvotugofq/
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/2] media: i2c: add Samsung S5KJN1 image sensor device
- driver
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Hans Verkuil <hverkuil@kernel.org>, Hans de Goede <hansg@kernel.org>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- Conor Dooley <conor+dt@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Rob Herring <robh@kernel.org>
-References: <20250928200956.1215285-1-vladimir.zapolskiy@linaro.org>
- <20250928200956.1215285-3-vladimir.zapolskiy@linaro.org>
-In-Reply-To: <20250928200956.1215285-3-vladimir.zapolskiy@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
 
-On 9/28/25 23:09, Vladimir Zapolskiy wrote:
-> Samsung S5KJN1 is a 50MP image sensor, it produces Bayer GRBG (2x2)
-> frames in RAW10 output format, the maximum supported output resolution
-> is 8160x6144 at 10 frames per second rate.
-> 
-> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+The device reference counting in mei_ace_setup_dev_link() was
+incomplete, as the reference acquired by device_find_child_by_name()
+was not released immediately on the success path. Add put_device() to
+properly balance the reference count. Additionally, the redundant
+put_device() in mei_ace_remove() is removed.
 
-<snip>
+Found by code review.
 
-> +
-> +#if 0
-> +	/* V07 */
-> +	ret = cci_write(s5kjn1->regmap, CCI_REG16(0x001e), 0x0007, NULL);
-> +	if (ret)
-> +		goto error;
-> +#endif
-> +
+Signed-off-by: Ma Ke <make24@iscas.ac.cn>
+---
+Changes in v5:
+- jumped to err instead of err_put to avoid calling put_device() again in err_put as reviewer's instructions;
+Changes in v4:
+- updated the subject as suggestions;
+Changes in v3:
+- deleted the tag of Fixes and CC, and moved put_device() to immediately after device_link_add() as suggestions;
+Changes in v2:
+- modified the put_device() operations and the patch title as suggestions.
+---
+ drivers/media/pci/intel/ivsc/mei_ace.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-That's an unpleasant leftover, I'll remove it in v2 since it's been
-tested that this commented out setting has no noticeable effect.
-
+diff --git a/drivers/media/pci/intel/ivsc/mei_ace.c b/drivers/media/pci/intel/ivsc/mei_ace.c
+index 98310b8511b1..b306a320b70f 100644
+--- a/drivers/media/pci/intel/ivsc/mei_ace.c
++++ b/drivers/media/pci/intel/ivsc/mei_ace.c
+@@ -414,10 +414,11 @@ static int mei_ace_setup_dev_link(struct mei_ace *ace)
+ 	/* setup link between mei_ace and mei_csi */
+ 	ace->csi_link = device_link_add(csi_dev, dev, DL_FLAG_PM_RUNTIME |
+ 					DL_FLAG_RPM_ACTIVE | DL_FLAG_STATELESS);
++	put_device(csi_dev);
+ 	if (!ace->csi_link) {
+ 		ret = -EINVAL;
+ 		dev_err(dev, "failed to link to %s\n", dev_name(csi_dev));
+-		goto err_put;
++		goto err;
+ 	}
+ 
+ 	ace->csi_dev = csi_dev;
+@@ -522,7 +523,6 @@ static void mei_ace_remove(struct mei_cl_device *cldev)
+ 	cancel_work_sync(&ace->work);
+ 
+ 	device_link_del(ace->csi_link);
+-	put_device(ace->csi_dev);
+ 
+ 	pm_runtime_disable(&cldev->dev);
+ 	pm_runtime_set_suspended(&cldev->dev);
 -- 
-Best wishes,
-Vladimir
+2.17.1
+
 
