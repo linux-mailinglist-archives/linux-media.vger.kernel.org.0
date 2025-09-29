@@ -1,147 +1,230 @@
-Return-Path: <linux-media+bounces-43317-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43318-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BB8ABA8772
-	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 10:54:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 505B7BA8824
+	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 11:03:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BEA9016AAB1
-	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 08:54:06 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 902061896149
+	for <lists+linux-media@lfdr.de>; Mon, 29 Sep 2025 09:03:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F08D2BF015;
-	Mon, 29 Sep 2025 08:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9A82C208994;
+	Mon, 29 Sep 2025 09:03:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="cD0sNuFV"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dDBoMyhc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52F1327E06D
-	for <linux-media@vger.kernel.org>; Mon, 29 Sep 2025 08:53:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F5092032D
+	for <linux-media@vger.kernel.org>; Mon, 29 Sep 2025 09:03:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759136037; cv=none; b=UmfYVow638NfL7dbPInxOROsq4T8C2dDr9geo0l8Rv4xRYZF3qScRQ5QMsqPYE1QGgNKBYYmBt8sSfQNXdjyhhF8gqZd9ky5ycjtXjtFq9qbasa0LtQHrxPHHRyd499OLHk0X6j5PLWCTLrvR24Dm7XiJgVE67bkgs0gpTYoKIM=
+	t=1759136594; cv=none; b=ItiphbKaR8P7Tcb36ZrMqmYM8Vcm0sxlXgaGc8Fr94nldDqNeDE34UyN7fi7RDX41MLNJo/dpTNuAMW6mogqqCHTu6TVvTTDu92BbZ7x3jRUiFxdGvdHJoas1sd82hG3dzKMPaH1vRb9WDCMMx0qlXqVTSAZYg+uRJXK/amSmVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759136037; c=relaxed/simple;
-	bh=R7BdmZgGTbdZfx8EcUuOrDncdMcGmRVH+JIXn1G/oLY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pc6UZoLmACvpeus04e9GimhE2c60s5v7A8dgQfvpZ8ie0W7I84mMdtx40MNHqOHnUlxyPwGBmGX2x19OzDcOuo+sxG4DjuTUAJBLVFFXlX7rum3fg1BrMKWi9XbNM0qTFlkiTLniL2bJP1j+pYXR+nXkKxxBkdbImG3epPcO2fM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=cD0sNuFV; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 58SN9WhT011761
-	for <linux-media@vger.kernel.org>; Mon, 29 Sep 2025 08:53:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	R7BdmZgGTbdZfx8EcUuOrDncdMcGmRVH+JIXn1G/oLY=; b=cD0sNuFVC2Q5FHs9
-	BMnBlwSDxTWRi9aCZfSzPKvDpgCeHs49SO1uh86bOF8hVGPzPVd3vHWERnMGVrtj
-	TsTbpFeENNbE9ZECfBhRbrQ3mAytjl9446q5uW5dXACcgFVfRg7ZX7+s5+IDEIQi
-	9OX68idSS9P7chbxX2TooLkGPpAFsBgJt42lKD7MWiVEIYU4mKFrDiTK5xOqMEmG
-	T76GK9OcN/S76OM+s2s8f25b2rqrQheTPntzl6+0bKf/Ka66M5bNacHcb/bIhE7R
-	S1lqBMDlbeZRLe9sK9j7SdFEWIfufXU709SwpPZirJHo2EytxlIB8FLrHRtgyKT0
-	RgBZkQ==
-Received: from mail-qv1-f72.google.com (mail-qv1-f72.google.com [209.85.219.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e6vqvjq8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 29 Sep 2025 08:53:55 +0000 (GMT)
-Received: by mail-qv1-f72.google.com with SMTP id 6a1803df08f44-7916b05b94bso129182416d6.0
-        for <linux-media@vger.kernel.org>; Mon, 29 Sep 2025 01:53:55 -0700 (PDT)
+	s=arc-20240116; t=1759136594; c=relaxed/simple;
+	bh=YDkB1cC1lei3HB7fQRoAVOGBWOAs06N/aEhJ0IeU4eQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=d30eqD7XvWZS8DausVhDdO+EY6eEKzCfH7nB9EXn5bF4/RUfwWJPNcgBtAARGi66pgUS5aqgnYl2Au9MdGnQxhs4uSd0nB2yR2P6gZBDzzpolqrFT40N9Bwq66QzVdU/Z4lMTyD8DFsDubm7k5ef88foeV4nZ2Elj76FgCDBjKU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dDBoMyhc; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-5796051ee6aso913665e87.2
+        for <linux-media@vger.kernel.org>; Mon, 29 Sep 2025 02:03:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1759136590; x=1759741390; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SQ1kR/YUyZ1nKY+v1ygHX/aXlVuO3SwbSwJRstRbb9s=;
+        b=dDBoMyhc87yvAJOHgaElDJMprkqDNtYY8fXo7lOlADdonOZ/cJYXHdOcxQ9rQueuBR
+         LERpIoy2kOXv+/KEbIpKqeKu4wq95AGTEyiEwXZHtnI8HMTLzF6sj6Blh35h+Hvgefoq
+         sRYzZtXijZjKxrJR9T2PYGrsGZbPNBNnHMzGHfZwRHZOXi02I0yV3VWAiIeWjMJ2ncvh
+         XiuUscm1Ea/CkRtqt7sBf4rVE+9G2kcqO8Fes2EZW0At0HqeddhTqIWWjS+xb31wKSwg
+         7c3FTEqrVe4FnFJPctZJJTaHeTjtS/eWyZgWAjxas/nJToi0p3Yyefp0kHabOB2VJVrw
+         Z5mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759136034; x=1759740834;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=R7BdmZgGTbdZfx8EcUuOrDncdMcGmRVH+JIXn1G/oLY=;
-        b=WWWRTnJyJi5UfKo1bGLCjdiMNnRs2xwdAoTPTX9QaYXRYFiZPIzaXBFrubDcWjknv2
-         i6mNzt4hb84jBjzEkpqUQd6Ri4Dl7m+Yn2Z+jc2eqiASeB05VDu3PH0jUPtKiPOwcMyP
-         X+5HpcY49eme9JcAKDkhz6at8KUvdhaRwYiXJ8ygrNQwGFHz0+jb8TFB7i7YWXZ5etpF
-         HwOkxiYQTtp9SF8RzRB5sKkA9hF0GRfUbMPZOnvjg7L7oPxYCGXvnBv+HD1OwUDH4Xau
-         qKfq1eRqV5R6KEdiI+l9PYWo6xI51CvcXxie2LMxFujPiKxBTxzJ7iEXXz3YLxjX3kTf
-         P1yQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX75ZnYFRmG8HXEKo4BXFXT9FllFdMJ1b2yyJ/gmyRGG1Iar1HsujZYd0el4nRqFqLkJPp3O0ppqDbDMA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEpzxPHDhL7Gj8XeLoPT1+9GmPXYqBqRz9PuhpPcdsRxxUzIxf
-	I9tXvS1U13lmVzzLX+RE8Rj5LdE3jxYMjKjn8UGoyCjr13QQTWBBdzSDGfnjTQrlbWG1F369RLH
-	dA368+QFCfGn6kg9XfwHycJGXixH2eiB+PKT4iID/8jUYlv7zcrwqSZkixdk1NsUJp19pIoPqvG
-	wcWqPQ+2Wh/MqTYFR/ScWcMcjAel8gP/V0C9KjMMUD
-X-Gm-Gg: ASbGncs2J9dJNC0Y/qvyDMfl7Hg+LzL5ptk6oVtUcimKJbLsNOOZ2Vz8//Up0ArnqdZ
-	m5ARv+2VNYrj/7jIzGDMO3SjWSh9hsXSugCgLQbeXEvVpexzS7MYkyZwGzApetQ5BvCFDbsgJxP
-	WjZq4HuHFELP3k3FKdv4THF42sELV6G2OFvp8umjZxqH1+7Sj09tO+oNU=
-X-Received: by 2002:a05:6214:411:b0:7d0:341f:148a with SMTP id 6a1803df08f44-7fc3aa707a8mr169289086d6.33.1759136034076;
-        Mon, 29 Sep 2025 01:53:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEE7+++gueAWVbcIWzNugbC5NemFua/qTKa7w8VJdZEmfCrc0HAv3aQj1V7qkKv/arj7Jri3xWs8memUSFsccU=
-X-Received: by 2002:a05:6214:411:b0:7d0:341f:148a with SMTP id
- 6a1803df08f44-7fc3aa707a8mr169288896d6.33.1759136033411; Mon, 29 Sep 2025
- 01:53:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759136590; x=1759741390;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=SQ1kR/YUyZ1nKY+v1ygHX/aXlVuO3SwbSwJRstRbb9s=;
+        b=qKAQccM/WFfVL/KYudbxUDTVBKIWRrBvvZc47NFkmUbViTudUdL+HGjqo14Jd8pLno
+         Mv6ERIKbSfxuKIJJxN4bL1y2cP3XqNpr2+FJ3mfHb1/G/TCyFsp8ceqhpVKFrBnKImpq
+         O2wbR+fLWfz6ikM1LyJCDoxRvSybCe+dgn9YFlcYJqMPumst3XkyEgaT+kAmTR9vWM23
+         mfGPogu4+ywdlFBCqR04tCxRzaLbQP3QjETuEQNUPVAJ7GrdjZTMEOaXkqJ6/Oyn1DRN
+         WW0ruqmlh3Bi4ASMXVgbTiEUrS6a6D2KN/9445r1W2OaCzUnog0iOvN20I0J47x1iw0H
+         0y4g==
+X-Forwarded-Encrypted: i=1; AJvYcCVJlYpdZrM5pZPsNF3PVNADQph3xT+givz6vL0mtI7OQDr92x2sJMFYZ+g+8Jy0Ss4d1A7Ny3QQfBUyng==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJXLF3PpxXPilndGzOD0tg7ofnD3W22cfpEvELFr51ius5Uo5E
+	o3pNw5NdkqW4N6PgKkdvEKtWbs34kMv2sd+W6MHQ+N5kIBXZQAZdBoITWqTzYEnmyz0=
+X-Gm-Gg: ASbGncvo6MIo9Sk63y4a7go8rhdUcCSK5dsBnk+RnhJmxEPQi5GRsJCIFOlnl/aEqZb
+	GgIJpZPioSFMJIoysAZFOBLOBNv2UxIU3szj0mhU15kfbnKzdA2OjRJjJHRoLA2QE70KgI/eF8J
+	39J/pL+UsuFgWKrn3dBT5wF4WNbKHvTH9XPP12h2EgNnOo2B4LtudxAHqhrJdIFczQn9dNUkEzk
+	oVVD52rerTdAfg41UPnoft9sII7iYL4g7I/ng3rnV0aTRAP1xUBiT6YnsfyamGkKuG/EgOp+Ffk
+	/69CMjPAzQZZX1hS9mzqVj1oxhN53F06Ps6KKFY25uNUTCqAcVDlj8x3whJsSBEnJf1p/Y16u3C
+	y85Z+dFPwOsL9QJUX9ZQGNhaXJT5SEK8Y7isCQo7cuKkbiCGuQ2OziN/0kkbqZnMRt7eNXttz4X
+	47yw==
+X-Google-Smtp-Source: AGHT+IFxskxasAcUCzpw5FlswrTo8wIg2CVztTjf3s5U11u0jYRFd9ekebyNAAIZnj0TT5QUNQxd4w==
+X-Received: by 2002:a19:5212:0:b0:584:2ad8:7cd1 with SMTP id 2adb3069b0e04-5842ad87ee4mr1305280e87.3.1759136590100;
+        Mon, 29 Sep 2025 02:03:10 -0700 (PDT)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58316ff552esm4006185e87.127.2025.09.29.02.03.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 29 Sep 2025 02:03:09 -0700 (PDT)
+Message-ID: <d6530142-469e-4859-ac71-fd4af82ed4be@linaro.org>
+Date: Mon, 29 Sep 2025 12:03:08 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 3/3] arm64: dts: qcom: qrb2210-rb1: Add overlay for
+ vision mezzanine
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>, andersson@kernel.org,
+ konradybcio@kernel.org, dave.stevenson@raspberrypi.com,
+ sakari.ailus@linux.intel.com
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-media@vger.kernel.org, mchehab@kernel.org, conor+dt@kernel.org,
+ robh@kernel.org
 References: <20250926073421.17408-1-loic.poulain@oss.qualcomm.com>
- <20250926073421.17408-2-loic.poulain@oss.qualcomm.com> <0bfc50c3-2df7-4e7c-a6b7-99b8e56a65ea@linaro.org>
-In-Reply-To: <0bfc50c3-2df7-4e7c-a6b7-99b8e56a65ea@linaro.org>
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Mon, 29 Sep 2025 10:53:42 +0200
-X-Gm-Features: AS18NWDWFNifGO0pEvmy4HvdAyPW7WJ3Wi0YNtbMTnTSHZCFCSZ5-ItZzCp9W10
-Message-ID: <CAFEp6-0nja15oSEhm=ZjJb1g2MgM8Vv+fPdDgyghFNestf_t4A@mail.gmail.com>
-Subject: Re: [PATCH v2 1/3] media: i2c: ov9282: Fix reset-gpio logical state
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Cc: andersson@kernel.org, konradybcio@kernel.org,
-        dave.stevenson@raspberrypi.com, sakari.ailus@linux.intel.com,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org, conor+dt@kernel.org,
-        robh@kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-GUID: 0DdXREh_EEQks6RkQtjHLJ5fGriDtfbh
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAxNyBTYWx0ZWRfX34YZE92DawMV
- rdCc4cHyAbdcwtPqkSyfUGGSSvol2Ry4seShoLDSAntTSfVg/bWXZuCELxGZj01Puc36Vz2RKi9
- +bWi0sltIgPCKSSEtFrwhHQyOblsoPKp6QcYbbb8+o9Oq6xFZquV4koJpRo7v5+wvLIG6VASHTb
- +krXiM2rbBOeIrBq7HeHJ+1MJSzW3vJITRtTHnZqhgj9PZLzzFGxPWdfQz2/aThGJLrGqQXp/b9
- P8dh8kOHpzSN0qBl9GrdAw/fqcpGcddsbsy0C/w6qoyxHxVuVuyOrDjrc0D8Pamr6tZMTgQyQcu
- p+cjeyCBm2SLR3O+GBF5xHn+sTURs4kiXRnSek/3hUhncvrVu+gXrlhoEUtS0TZ2piQ7Ntl1ZQH
- XjBk7vcv/Nv6D1GvF91JnLRCcd0bjg==
-X-Authority-Analysis: v=2.4 cv=IeiKmGqa c=1 sm=1 tr=0 ts=68da4923 cx=c_pps
- a=7E5Bxpl4vBhpaufnMqZlrw==:117 a=IkcTkHD0fZMA:10 a=yJojWOMRYYMA:10
- a=KKAkSRfTAAAA:8 a=EUspDBNiAAAA:8 a=y2W2zGIOAgzQDGN_av8A:9 a=QEXdDO2ut3YA:10
- a=pJ04lnu7RYOZP9TFuWaZ:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: 0DdXREh_EEQks6RkQtjHLJ5fGriDtfbh
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-09-29_03,2025-09-29_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
- suspectscore=0 spamscore=0 adultscore=0 impostorscore=0 phishscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
- definitions=main-2509270017
+ <20250926073421.17408-4-loic.poulain@oss.qualcomm.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <20250926073421.17408-4-loic.poulain@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 29, 2025 at 10:46=E2=80=AFAM Vladimir Zapolskiy
-<vladimir.zapolskiy@linaro.org> wrote:
->
-> On 9/26/25 10:34, Loic Poulain wrote:
-> > Ensure reset state is low in the power-on state and high in the
-> > power-off state (assert reset). Note that the polarity is abstracted
-> > by the GPIO subsystem, so the logic level reflects the intended reset
-> > behavior.
-> >
-> > This breaks backward compatibility for any downstream dts using the
-> > wrong polarity.
-> >
-> > Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
->
-> Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->
-> I kindly ask you to specify the intended behaviour in the documentation
-> Documentation/devicetree/bindings/media/i2c/ovti,ov9282.yaml
+On 9/26/25 10:34, Loic Poulain wrote:
+> This initial version includes support for OV9282 camera sensor.
+> 
+> Signed-off-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
+> ---
+>   arch/arm64/boot/dts/qcom/Makefile             |  5 ++
+>   .../qcom/qrb2210-rb1-vision-mezzanine.dtso    | 76 +++++++++++++++++++
+>   2 files changed, 81 insertions(+)
+>   create mode 100644 arch/arm64/boot/dts/qcom/qrb2210-rb1-vision-mezzanine.dtso
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
+> index d7f22476d510..bee021efc249 100644
+> --- a/arch/arm64/boot/dts/qcom/Makefile
+> +++ b/arch/arm64/boot/dts/qcom/Makefile
+> @@ -138,6 +138,11 @@ dtb-$(CONFIG_ARCH_QCOM)	+= qcs9100-ride.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qcs9100-ride-r3.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qdu1000-idp.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qrb2210-rb1.dtb
+> +
+> +qrb2210-rb1-vision-mezzanine-dtbs	:= qrb2210-rb1.dtb qrb2210-rb1-vision-mezzanine.dtbo
+> +
+> +dtb-$(CONFIG_ARCH_QCOM)	+= qrb2210-rb1-vision-mezzanine.dtb
+> +
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qrb4210-rb2.dtb
+>   dtb-$(CONFIG_ARCH_QCOM)	+= qrb5165-rb5.dtb
+>   
+> diff --git a/arch/arm64/boot/dts/qcom/qrb2210-rb1-vision-mezzanine.dtso b/arch/arm64/boot/dts/qcom/qrb2210-rb1-vision-mezzanine.dtso
+> new file mode 100644
+> index 000000000000..3b6261131b75
+> --- /dev/null
+> +++ b/arch/arm64/boot/dts/qcom/qrb2210-rb1-vision-mezzanine.dtso
+> @@ -0,0 +1,76 @@
+> +// SPDX-License-Identifier: BSD-3-Clause
+> +/*
+> + * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
 
-Sure, I will add this in V3.
+Year is missing, please set it.
 
-Thanks,
-Loic
+> + */
+> +
+> +/dts-v1/;
+> +/plugin/;
+> +
+> +#include <dt-bindings/clock/qcom,gcc-qcm2290.h>
+> +#include <dt-bindings/gpio/gpio.h>
+> +
+> +&tlmm {
+> +	cam0a_default: cam0a-default-state {
+> +		pins = "gpio28";
+> +		function = "cam_mclk";
+> +		drive-strength = <16>;
+> +		bias-disable;
+> +	};
+> +};
+
+This is a generic non-changeable MCLK3 pin configuration, which is
+specific to the SoC. Like in a number of other cases please consider
+to define this and other MCLKx pin configurations in the SoC .dtsi file.
+
+> +
+> +&pm8008 {
+> +	status = "okay";
+> +};
+> +
+> +&camss {
+> +	status = "okay";
+> +
+> +	vdd-csiphy-1p2-supply = <&pm4125_l5>;
+> +	vdd-csiphy-1p8-supply = <&pm4125_l13>;
+> +
+> +	ports {
+> +		port@0 {
+> +			csiphy0_ep: endpoint {
+> +				data-lanes = <0 1>;
+> +				remote-endpoint = <&ov9282_ep>;
+> +			};
+> +		};
+> +	};
+> +};
+> +
+> +&cci {
+> +	status = "okay";
+> +};
+> +
+> +&cci_i2c1 {
+> +	#address-cells = <1>;
+> +	#size-cells = <0>;
+> +
+> +	/* Vision Mezzanine DIP3-1 must be ON (Selects camera CAM0A&B) */
+> +	camera@60 {
+> +		compatible = "ovti,ov9282";
+> +		reg = <0x60>;
+> +
+> +		/* Note: Reset is active-low but ov9282 driver logic is inverted... */
+> +		reset-gpios = <&tlmm 18 GPIO_ACTIVE_LOW>;
+> +
+> +		pinctrl-0 = <&cam0a_default>;
+> +		pinctrl-names = "default";
+> +
+> +		clocks = <&gcc GCC_CAMSS_MCLK3_CLK>;
+> +		assigned-clocks = <&gcc GCC_CAMSS_MCLK3_CLK>;
+> +		assigned-clock-rates = <24000000>;
+> +
+
+It makes little sense to split properties with blank lines.
+
+> +		avdd-supply = <&vreg_l3p>;
+> +		dvdd-supply = <&vreg_l1p>;
+> +		dovdd-supply = <&vreg_l7p>;
+> +
+> +		port {
+> +			ov9282_ep: endpoint {
+> +				link-frequencies = /bits/ 64 <400000000>;
+> +				data-lanes = <1 2>;
+> +				remote-endpoint = <&csiphy0_ep>;
+
+It's quite strange to see CSI0 and MCLK3 in the same boat, but the
+schematics says so.
+
+> +                        };
+> +                };
+> +	};
+> +};
+
+Reviewed-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+
+-- 
+Best wishes,
+Vladimir
 
