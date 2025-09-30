@@ -1,88 +1,87 @@
-Return-Path: <linux-media+bounces-43425-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43426-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FAC4BADFE5
-	for <lists+linux-media@lfdr.de>; Tue, 30 Sep 2025 18:01:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 00EACBAE028
+	for <lists+linux-media@lfdr.de>; Tue, 30 Sep 2025 18:08:23 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3FA7A4A3074
-	for <lists+linux-media@lfdr.de>; Tue, 30 Sep 2025 16:01:32 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 7F4DC1754CB
+	for <lists+linux-media@lfdr.de>; Tue, 30 Sep 2025 16:08:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 358083093BF;
-	Tue, 30 Sep 2025 16:01:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B47FB298CAB;
+	Tue, 30 Sep 2025 16:08:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Rwg0TymT"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JWnCBbkh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4FD2B200C2
-	for <linux-media@vger.kernel.org>; Tue, 30 Sep 2025 16:01:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E7743090DF
+	for <linux-media@vger.kernel.org>; Tue, 30 Sep 2025 16:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759248081; cv=none; b=l2Q1Z4n9IW6u0sPjuOe1A17LvFrTFL60gDP8AA8VYaj519gh6X4kTIdM2WVUEo39eUGmM+uzSVHytnplRY9a+LZ2HSERKnCtPgbCDAFSMq0BOeUrsqQhMoeIIlQAuzGBoG0qL1x8mZ70YBK5XKZ9qL9k2orGd5MZKOyFx0pCwBU=
+	t=1759248491; cv=none; b=OS2nJAIz7Ce4g54OGx7XedWGRtaYlG/ypXSzE7Bl3rYNH0mgAGBtW9uSEhXvbWUXMzy/tqWfHJpmsPIftdNifYvCv3m91oXXDQfkYlLzVTxGbQp9KzfV/BVohie0XfXKcCe59MF6m1/+ffKeFB9FZ2GmKUA5iyyiaJI6Bo/MV9o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759248081; c=relaxed/simple;
-	bh=Bn7zEJ911XHzxxR8rR96F8Z2uaJ/NUbD+h2AbVhFNRg=;
+	s=arc-20240116; t=1759248491; c=relaxed/simple;
+	bh=snlcpuhg9ToSlXPE+QrSoUGnOciOVCfFz6OxetVNkco=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tfU+OA0C03/KM+5rcWyCkzhxowv7qFZcFnJyoMMV8K+sDSNKWf9ifqOhgIXIh5H9nPZjWZLhOeixHmIj+4UDbBgRYp4+itRPpvzXWOBsw4Vicl6K4gyWXrVr6N91vIknEIwcQVNpZcp7Inw+4o/tZtEIa2YLTKM6rW2bjz+4eXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Rwg0TymT; arc=none smtp.client-ip=170.10.133.124
+	 MIME-Version:Content-Type; b=IP12Jt+OyVkwvN2IiOvptLzj2uZW+B9r+T+z0dlUHUhGoD/dfHjrR5lOV79Ejw+CUaCFo+30ExBFZsmKlAGiJhpVv3dH207/1KUrI1hKbO/ZbQKRX7e+QRMoIUKfUsDlVMwBeHvvqwHxqUy6u7W4vsI8Q1ZlTG0lezjV4htSeDI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JWnCBbkh; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1759248078;
+	s=mimecast20190719; t=1759248487;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=HOYVDlXcgikSCUwOdxOfSsjt8Nh4FIwdpCdV/JBPVPE=;
-	b=Rwg0TymTof2GChCfuZLJYnFJ5RK2ZAdw4yisax3/tLWEyG3H/OEqAgt4rU8OYzy4bplGgl
-	JyxSL+dJ2qK7nNDg8vk7K0bkbVzUyv6MAdG1Lb1okeuTxXU0WfmTn/Q8AwH6Xw17gDP442
-	clCJV8veraieu2+hxfzWPOrRASmkCSA=
-Received: from mail-il1-f199.google.com (mail-il1-f199.google.com
- [209.85.166.199]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=wSk9NtZOWjVSHAXaMNsatYeAsaJr+OLKF/ipGZAl/7o=;
+	b=JWnCBbkhxMXO2tJlx2aYnL95BY14aXlKjT+eg2vI+O6+ybnxFuH3wciQX1ojbyeO1SX14f
+	1oXZFFV1vccn0pBjQmFlTJ8qHNTGYKqO0P/SJ51h4+87a2bZcLPNM74qsodj9tlpmrZKFI
+	bSF5mL6UdnHXmWRfwA82XncWJ1998G0=
+Received: from mail-ot1-f72.google.com (mail-ot1-f72.google.com
+ [209.85.210.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-510-HPSXfH5rOriT8dVYK-qI2g-1; Tue, 30 Sep 2025 12:01:16 -0400
-X-MC-Unique: HPSXfH5rOriT8dVYK-qI2g-1
-X-Mimecast-MFC-AGG-ID: HPSXfH5rOriT8dVYK-qI2g_1759248075
-Received: by mail-il1-f199.google.com with SMTP id e9e14a558f8ab-4280e6181c1so8568915ab.1
-        for <linux-media@vger.kernel.org>; Tue, 30 Sep 2025 09:01:16 -0700 (PDT)
+ us-mta-677-6s39KfqJOASc6g94MAa04A-1; Tue, 30 Sep 2025 12:08:05 -0400
+X-MC-Unique: 6s39KfqJOASc6g94MAa04A-1
+X-Mimecast-MFC-AGG-ID: 6s39KfqJOASc6g94MAa04A_1759248484
+Received: by mail-ot1-f72.google.com with SMTP id 46e09a7af769-7b591a3e6deso1063883a34.3
+        for <linux-media@vger.kernel.org>; Tue, 30 Sep 2025 09:08:04 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759248075; x=1759852875;
+        d=1e100.net; s=20230601; t=1759248484; x=1759853284;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=HOYVDlXcgikSCUwOdxOfSsjt8Nh4FIwdpCdV/JBPVPE=;
-        b=phZFuEfpeVrePnwePqwDqLOukZT/XWAA7sh+VVqhHAVECqG5WBiUZ9esS9HjHqJnB0
-         aDwWabHEktKqwLU30iJTKbXqRVsXaaoTj5soHKnk3V9g/CKFZtziHlLlmBxBBi5K3jg+
-         Hmo7nmws10ISuhGmzHY70/c1uYHM3ZwS5zL7Ui8e93TmSk8kLd7vVwDhf+vOUBoCNE1o
-         oCkiBMJ/UBtndN8ntR/11fgw69bktl+lIKWLg3alTcV3krU+uK2cuT099t4q5kqiyndt
-         4z5E/fWPhgs8/z3+EBLRWPi6ayI/SgddEZVjVdPejZI0fAF6634NHr1hHunjX6Basp9K
-         a8Fg==
-X-Forwarded-Encrypted: i=1; AJvYcCUDplc5ANRd7OIlB3GeKMAfm2Yj6W/8yLx+rRUGW4/s0kzXoGqyuO5Yt/rk2lSacZVBXz1UqTH+IxgPvg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwLI5oUhJdL69d5/L+3TYR9WXYlx+pAOtiZe+twx1s8c7z+X0i4
-	VvG0xIa7cjPMGJNIaZzpQtcHW4Xy69kurVwVHFCQ48JHM1eMY/nnM+g40rm9X6IXd63D6cvEhLl
-	/CXM6dKX1MWjoeVm594bMtsG+B2wE36yxqiSSdZHYPTe0RznzGS/3jr8Nedx7OKJ8
-X-Gm-Gg: ASbGnctUp/e7O1W8AMF5Xr788ajojuuNedLpwRheLSSoxeyhL2DqhPdWXyWyv3V1rLJ
-	9D653zFjDvCFqOZKP7AfwndFsS+zt7wEqJAa+ZvgDyT5h3U7iWlzWLLvXOpyhG9iLaT+spCbgWW
-	1UR48BCttItF3u2BcFapAKWJ41PpW4qJ4OO5qyJuu/UfqXEf/gKvLhqPzG7mPESn7O3fnpZSzRy
-	FmPcQ07S8KtmbH/64WiE20dJdcSvZ6fqInFDly1NyBH/n0qZ3UIJ0aMTnReqBIUnVUlNFf9/6Jo
-	efmBwpFi9w6MAibZrNxlnPuZj8+LaBqyvvy65PS4rY12MOZL
-X-Received: by 2002:a05:6e02:164b:b0:42b:1763:5796 with SMTP id e9e14a558f8ab-42d81635257mr2672825ab.7.1759248075080;
-        Tue, 30 Sep 2025 09:01:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFa3YWCojRcq8FvhA8oy0OghueS9jHVQ9BVoBDjYigh74bKjlyhu7iHP48jxbQj2TC5kTDAzg==
-X-Received: by 2002:a05:6e02:164b:b0:42b:1763:5796 with SMTP id e9e14a558f8ab-42d81635257mr2672385ab.7.1759248074259;
-        Tue, 30 Sep 2025 09:01:14 -0700 (PDT)
+        bh=wSk9NtZOWjVSHAXaMNsatYeAsaJr+OLKF/ipGZAl/7o=;
+        b=Pgqzcz2zfBOxVyx59z0Lww7rfU8wl8hx+fzkberzAqrGXPcp5oUxsWtftNqzFJWjdO
+         a+hOdm5WYx3cxHOr2TGM2t/QALaRLxYDzRYHOcT9WC7lgCSyG7b1fO58iKeM1FwPQ2xi
+         yQbhRwUjt5gs19kKqkJAb5qBnTJKJT0SA/nOmIKK0jWC5KuPT3dy+6N1oM9HSmsxzepT
+         JQCQrLVF7iOJH3+q+P6X3RYaZfCA+yWkldAnxf6yn5j0B6TGlqAAbqbADwok8TZkXe31
+         8eCPPpasJL0QZwXaAYvtJyjYoLf/GZPnUnvqsTe1vlp3+pFMlHaai8T63AfcWUMQE44o
+         mZTw==
+X-Forwarded-Encrypted: i=1; AJvYcCUM6KfgN505B4LEw/V4ZGfpz6etsZBHRNR8LOk/3+k5iP2jIjiRcfutt+TPNpCPM2Ukm2uOGQQ3VO4pmw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwV0NcxgddoJC2vnWshAAH24niDxA4eAsitqJtjkXQ8b0DWaX5p
+	y6XBsw7m2EOX1lw37ThTZqZJQm9OmiozCO3hblU1yynNOqiq3ld/EFsr/t3VSExgkAzu0O6Qk+H
+	SQhE0zGpIUGS+qWBdLVfhWK/yGREYeEMbGlN4ajACk5irEQwNkHl8gP3ZVutV/AIj
+X-Gm-Gg: ASbGncs5aAEilwsjizMyOISCKnkbSo0QXVywwVHbk4nNhkiLwklhbyFh+qNx8ljrkt0
+	cnfTXXkfgK/QiiNN5luGngUzhTGedPLGiYaFdOsLj5zAqKtLLx1PaN30o5QYKHv1c0C7sTyAAlU
+	r2TmHoY5+CYgbZETbxuSKbHI02QqaMlzZLr+a9aa/DCBOP91dmo99j1ZJyHjnfXNf02hMm/cxve
+	a8T0DzVvgfohHF2l9zrtAdu+z1Qwv8bsn/E/admWnxubU0AsfOyk+fT2UYEn0jLyjK1oMYm81Ue
+	6MgSME7sYmL6sJE0agaJfWm+yikiu+N79zly9f0Sf2+pKHGW
+X-Received: by 2002:a05:6820:5082:b0:621:2845:6daa with SMTP id 006d021491bc7-64bb6545f8bmr113855eaf.0.1759248483598;
+        Tue, 30 Sep 2025 09:08:03 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHJseUyrGoKfdwzuhrG64O9kfcQryt5nehwMqyr+Cc6sT4mD/DyY2Du1MoSsHbbw6RCv1mcDg==
+X-Received: by 2002:a05:6820:5082:b0:621:2845:6daa with SMTP id 006d021491bc7-64bb6545f8bmr113843eaf.0.1759248483252;
+        Tue, 30 Sep 2025 09:08:03 -0700 (PDT)
 Received: from redhat.com ([38.15.36.11])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-425bfba6242sm68758215ab.27.2025.09.30.09.01.12
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7b4c0e92da9sm1836631a34.26.2025.09.30.09.08.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 30 Sep 2025 09:01:13 -0700 (PDT)
-Date: Tue, 30 Sep 2025 10:01:10 -0600
+        Tue, 30 Sep 2025 09:08:02 -0700 (PDT)
+Date: Tue, 30 Sep 2025 10:07:58 -0600
 From: Alex Williamson <alex.williamson@redhat.com>
-To: Leon Romanovsky <leon@kernel.org>, Marek Szyprowski
- <m.szyprowski@samsung.com>
+To: Leon Romanovsky <leon@kernel.org>
 Cc: Jason Gunthorpe <jgg@nvidia.com>, Andrew Morton
  <akpm@linux-foundation.org>, Bjorn Helgaas <bhelgaas@google.com>, Christian
  =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
@@ -91,17 +90,17 @@ Cc: Jason Gunthorpe <jgg@nvidia.com>, Andrew Morton
  linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-mm@kvack.org, linux-pci@vger.kernel.org, Logan Gunthorpe
- <logang@deltatee.com>, Robin Murphy <robin.murphy@arm.com>, Sumit Semwal
- <sumit.semwal@linaro.org>, Vivek Kasireddy <vivek.kasireddy@intel.com>,
- Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v4 08/10] vfio/pci: Enable peer-to-peer DMA transactions
- by default
-Message-ID: <20250930100110.6ec5b8a1.alex.williamson@redhat.com>
-In-Reply-To: <20250930073053.GE324804@unreal>
+ <logang@deltatee.com>, Marek Szyprowski <m.szyprowski@samsung.com>, Robin
+ Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v4 07/10] vfio/pci: Add dma-buf export config for MMIO
+ regions
+Message-ID: <20250930100758.1605d5a5.alex.williamson@redhat.com>
+In-Reply-To: <20250930075748.GF324804@unreal>
 References: <cover.1759070796.git.leon@kernel.org>
-	<ac8c6ccd792e79f9424217d4bca23edd249916ca.1759070796.git.leon@kernel.org>
-	<20250929151745.439be1ec.alex.williamson@redhat.com>
-	<20250930073053.GE324804@unreal>
+	<b1b44823f93fd9e7fa73dc165141d716cb74fa90.1759070796.git.leon@kernel.org>
+	<20250929151740.21f001e3.alex.williamson@redhat.com>
+	<20250930075748.GF324804@unreal>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -112,83 +111,79 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Tue, 30 Sep 2025 10:30:53 +0300
+On Tue, 30 Sep 2025 10:57:48 +0300
 Leon Romanovsky <leon@kernel.org> wrote:
 
-> On Mon, Sep 29, 2025 at 03:17:45PM -0600, Alex Williamson wrote:
-> > On Sun, 28 Sep 2025 17:50:18 +0300
+> On Mon, Sep 29, 2025 at 03:17:40PM -0600, Alex Williamson wrote:
+> > On Sun, 28 Sep 2025 17:50:17 +0300
 > > Leon Romanovsky <leon@kernel.org> wrote:
 > >   
 > > > From: Leon Romanovsky <leonro@nvidia.com>
 > > > 
-> > > Make sure that all VFIO PCI devices have peer-to-peer capabilities
-> > > enables, so we would be able to export their MMIO memory through DMABUF,
+> > > Add new kernel config which indicates support for dma-buf export
+> > > of MMIO regions, which implementation is provided in next patches.
 > > > 
 > > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 > > > ---
-> > >  drivers/vfio/pci/vfio_pci_core.c | 9 +++++++++
-> > >  1 file changed, 9 insertions(+)
+> > >  drivers/vfio/pci/Kconfig | 20 ++++++++++++++++++++
+> > >  1 file changed, 20 insertions(+)
 > > > 
-> > > diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
-> > > index 7dcf5439dedc..608af135308e 100644
-> > > --- a/drivers/vfio/pci/vfio_pci_core.c
-> > > +++ b/drivers/vfio/pci/vfio_pci_core.c
-> > > @@ -28,6 +28,9 @@
-> > >  #include <linux/nospec.h>
-> > >  #include <linux/sched/mm.h>
-> > >  #include <linux/iommufd.h>
-> > > +#ifdef CONFIG_VFIO_PCI_DMABUF
-> > > +#include <linux/pci-p2pdma.h>
-> > > +#endif
-> > >  #if IS_ENABLED(CONFIG_EEH)
-> > >  #include <asm/eeh.h>
-> > >  #endif
-> > > @@ -2085,6 +2088,7 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
-> > >  {
-> > >  	struct vfio_pci_core_device *vdev =
-> > >  		container_of(core_vdev, struct vfio_pci_core_device, vdev);
-> > > +	int __maybe_unused ret;
+> > > diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
+> > > index 2b0172f54665..55ae888bf26a 100644
+> > > --- a/drivers/vfio/pci/Kconfig
+> > > +++ b/drivers/vfio/pci/Kconfig
+> > > @@ -55,6 +55,26 @@ config VFIO_PCI_ZDEV_KVM
 > > >  
-> > >  	vdev->pdev = to_pci_dev(core_vdev->dev);
-> > >  	vdev->irq_type = VFIO_PCI_NUM_IRQS;
-> > > @@ -2094,6 +2098,11 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
-> > >  	INIT_LIST_HEAD(&vdev->dummy_resources_list);
-> > >  	INIT_LIST_HEAD(&vdev->ioeventfds_list);
-> > >  	INIT_LIST_HEAD(&vdev->sriov_pfs_item);
-> > > +#ifdef CONFIG_VFIO_PCI_DMABUF
-> > > +	ret = pcim_p2pdma_init(vdev->pdev);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +#endif
-> > >  	init_rwsem(&vdev->memory_lock);
-> > >  	xa_init(&vdev->ctx);
-> > >    
+> > >  	  To enable s390x KVM vfio-pci extensions, say Y.
+> > >  
+> > > +config VFIO_PCI_DMABUF
+> > > +	bool "VFIO PCI extensions for DMA-BUF"
+> > > +	depends on VFIO_PCI_CORE
+> > > +	depends on PCI_P2PDMA && DMA_SHARED_BUFFER
+> > > +	default y
+> > > +	help
+> > > +	  Enable support for VFIO PCI extensions that allow exporting
+> > > +	  device MMIO regions as DMA-BUFs for peer devices to access via
+> > > +	  peer-to-peer (P2P) DMA.
+> > > +
+> > > +	  This feature enables a VFIO-managed PCI device to export a portion
+> > > +	  of its MMIO BAR as a DMA-BUF file descriptor, which can be passed
+> > > +	  to other userspace drivers or kernel subsystems capable of
+> > > +	  initiating DMA to that region.
+> > > +
+> > > +	  Say Y here if you want to enable VFIO DMABUF-based MMIO export
+> > > +	  support for peer-to-peer DMA use cases.
+> > > +
+> > > +	  If unsure, say N.
+> > > +
+> > >  source "drivers/vfio/pci/mlx5/Kconfig"
+> > >  
+> > >  source "drivers/vfio/pci/hisilicon/Kconfig"  
 > > 
-> > What breaks if we don't test the return value and remove all the
-> > #ifdefs?  The feature call should fail if we don't have a provider but
-> > that seems more robust than failing to register the device.  Thanks,  
+> > This is only necessary if we think there's a need to build a kernel with
+> > P2PDMA and VFIO_PCI, but not VFIO_PCI_DMABUF.  Does that need really
+> > exist?  
 > 
-> pcim_p2pdma_init() fails if memory allocation fails, which is worth to check.
-> Such failure will most likely cause to non-working vfio-pci module anyway,
-> as failure in pcim_p2pdma_init() will trigger OOM. It is better to fail early
-> and help for the system to recover from OOM, instead of delaying to the
-> next failure while trying to load vfio-pci.
+> It is used to filter build of vfio_pci_dmabuf.c - drivers/vfio/pci/Makefile:
+> vfio-pci-core-$(CONFIG_VFIO_PCI_DMABUF) += vfio_pci_dmabuf.o
+
+Maybe my question of whether it needs to exist at all is too broad.
+Does it need to be a user visible Kconfig option?  Where do we see the
+need to preclude this feature from vfio-pci if the dependencies are
+enabled?
+
+> > I also find it unusual to create the Kconfig before adding the
+> > supporting code.  Maybe this could be popped to the end or rolled into
+> > the last patch if we decided to keep it.  Thanks,  
 > 
-> CONFIG_VFIO_PCI_DMABUF is mostly for next line "INIT_LIST_HEAD(&vdev->dmabufs);"
-> from the following patch. Because that pcim_p2pdma_init() and dmabufs list are
-> coupled, I put CONFIG_VFIO_PCI_DMABUF on both of them.
+> It is leftover from previous version, I can squash it, but first we need
+> to decide what to do with pcim_p2pdma_init() call, if it needs to be
+> guarded or not.
 
-Maybe it would remove my hang-up on the #ifdefs if we were to
-unconditionally include the header and move everything below that into
-a 'if (IS_ENABLED(CONFIG_VFIO_PCI_DMA)) {}' block.  I think that would
-be statically evaluated by the compiler so we can still conditionalize
-the list_head in the vfio_pci_core_device struct via #ifdef, though I'm
-not super concerned about that since I'm expecting this will eventually
-be necessary for p2p DMA with IOMMUFD.
-
-That's also my basis for questioning why we think this needs a user
-visible kconfig option.  I don't see a lot of value in enabling
-P2PDMA, DMABUF, and VFIO_PCI, but not VFIO_PCI_DMABUF.  Thanks,
+As in the other thread, I think it would be cleaner in an IS_ENABLED
+branch.  I'm tempted to suggest we filter out EOPNOTSUPP to allow it to
+be unconditional, but I understand your point with the list_head
+initialization.  Thanks,
 
 Alex
 
