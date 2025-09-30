@@ -1,186 +1,200 @@
-Return-Path: <linux-media+bounces-43422-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43423-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8BF9FBACF46
-	for <lists+linux-media@lfdr.de>; Tue, 30 Sep 2025 14:58:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 066A5BAD347
+	for <lists+linux-media@lfdr.de>; Tue, 30 Sep 2025 16:35:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 325ED1C75CB
-	for <lists+linux-media@lfdr.de>; Tue, 30 Sep 2025 12:58:31 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 9E7D11C56B0
+	for <lists+linux-media@lfdr.de>; Tue, 30 Sep 2025 14:34:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E55B302CC2;
-	Tue, 30 Sep 2025 12:58:25 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5821F304964;
+	Tue, 30 Sep 2025 14:34:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="gcYdA31z"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="lpGrvc3+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from CY7PR03CU001.outbound.protection.outlook.com (mail-westcentralusazon11010013.outbound.protection.outlook.com [40.93.198.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C21431B4236;
-	Tue, 30 Sep 2025 12:58:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759237105; cv=none; b=M2Y8WQnVQr4jT1xDKWArYbCXFeqf/YVGN7POT+NC4hb3IeMV8sFOQ7t0xd5zcnblM3PHym7LxSxZvEssXyPb7Gl7ZTS7YaiH4q0AoLXfiooVJY6drRAuuROTlj5ZgUGm33C1i6hyrR2hq4GUD/p8F97oMI4buLQnikQO+8tPrtE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759237105; c=relaxed/simple;
-	bh=RK7IzL1Zeq/fJP4hvapyJAwCkjX9uv/grEB82ocyfBY=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=L7lZ06YSJ0j/I/KOgxBbL6mG/HBF3wQxB7kcU9WQIupgpJ1Uk73cAbpasYaKLVadKU4KBxCXCAPRrnGPXWvtAALJXHGN+SqiIdCkJ35CAFJ+W65EUXBYprIzO/PJp26QiAUvVrU0z/PEtnry0qpFWPLEtOHBdQtX5VIc3U28MDs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=gcYdA31z; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1759237097;
-	bh=RK7IzL1Zeq/fJP4hvapyJAwCkjX9uv/grEB82ocyfBY=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=gcYdA31z3d8lq1Z+J4heKJjd3YHupC16bCknHdbE//P24BpkKFtBvcBap+Y5TivUM
-	 PIbnRy3tuyWV6OOpNx9Vky7JOar0NAh3GgPZRNDDhxT0nHX0zPr/nSjVEk7MyPTJr5
-	 7LsNdRFaov8ohJVsCKD0auKP+cmLvvU3Y9KYIFXnC3t+vUg+KrVkxaAY/fmXpwH/kz
-	 xo7/4oKSVpXOfOHTH4vEmWAw89TFR5up42x0/At7HOJTo2MkSg3wdVMplSX0tZptkm
-	 Sm6B6sozNSU3eDguDfCV2b/LQ0gA/RUoyc5Un1w+PDQgD0EQXOkeaK7SD2HPPY4byi
-	 J3j6JaZxi7AGg==
-Received: from [IPv6:2606:6d00:17:ebd3::5ac] (unknown [IPv6:2606:6d00:17:ebd3::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1196917E0154;
-	Tue, 30 Sep 2025 14:58:15 +0200 (CEST)
-Message-ID: <2efcfe19bafd1276e9fc71b72e251443f313d693.camel@collabora.com>
-Subject: Re: [PATCH v2 12/27] media: v4l2-subdev: Introduce v4l2 subdev
- context
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jacopo Mondi
-	 <jacopo.mondi@ideasonboard.com>
-Cc: Anthony McGivern <Anthony.McGivern@arm.com>, 
- "bcm-kernel-feedback-list@broadcom.com"	
- <bcm-kernel-feedback-list@broadcom.com>, "florian.fainelli@broadcom.com"	
- <florian.fainelli@broadcom.com>, "hverkuil@kernel.org"
- <hverkuil@kernel.org>,  "kernel-list@raspberrypi.com"	
- <kernel-list@raspberrypi.com>, "Kieran Bingham
- (kieran.bingham@ideasonboard.com)"	 <kieran.bingham@ideasonboard.com>,
- "linux-arm-kernel@lists.infradead.org"	
- <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org"	
- <linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"	
- <linux-media@vger.kernel.org>, "linux-rpi-kernel@lists.infradead.org"	
- <linux-rpi-kernel@lists.infradead.org>, "m.szyprowski@samsung.com"	
- <m.szyprowski@samsung.com>, "mchehab@kernel.org" <mchehab@kernel.org>, 
- "sakari.ailus@linux.intel.com"	 <sakari.ailus@linux.intel.com>,
- "tfiga@chromium.org" <tfiga@chromium.org>, 
- "tomi.valkeinen@ideasonboard.com"	 <tomi.valkeinen@ideasonboard.com>
-Date: Tue, 30 Sep 2025 08:58:13 -0400
-In-Reply-To: <20250930101626.GE25784@pendragon.ideasonboard.com>
-References: 
-	<DU0PR08MB8836559555E586FCD5AE1CBA811FA@DU0PR08MB8836.eurprd08.prod.outlook.com>
-	 <pdxsi4fskze6mvgro5foa3jvmrvl3ihmksnzukonoihkb5xum5@kph26jtiayda>
-	 <20250930101626.GE25784@pendragon.ideasonboard.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-0L4H1CrQYwSEJYFcjhYv"
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CEFB201017;
+	Tue, 30 Sep 2025 14:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.198.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759242860; cv=fail; b=HmVHdATko4cCZYj1IZLEy2TYCfKpB2eaLAzq3i0sg+4BdbWiu01cjjQVjWiL1mzJnv5ZgfQhSIDTPpx7b9jHdVkakfLNhLep2UTJWdmR9eV33Doi5XWctPYlZplWs0zehFI8CfBdFDE3tXg6cTJMfSkqBPVKzeTogAxs+/c5Ctg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759242860; c=relaxed/simple;
+	bh=BWb85YI1VAI1u57e9BaSuKn7OX//onhqU/j1fE+iGeM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=sFo1L4wWhTLOkVP2/H14iCA/DPpX6WcEXeGsy2AkvUuV5a82sbkn030Qc00ovkJDfQ/2pcAv+PuYaHywawRMPj0dN2EqxOuYQyROGV8XkkuW1C+E09YSN9yMNwevuhI7Ernaql0MkLhsu7u9pvJfo/9I636jmw7xlDwz6dDwllU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=lpGrvc3+; arc=fail smtp.client-ip=40.93.198.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HUS0E9qByJJgu09puVh6qbCm++TXjkVVyNyVVzNz43JI5FpNEc6MWX/qnTirGVZSP9zg/ejciJ3KBPSqzpNMJx5dHSUcJg0w0+brolMBUCVZGBFLMykMWhLDTLqrnrm6kYjkH3CSGkXPh1cyd3kc9n60m8o443Fzlt1Jut+iR7fTzRMn9ia5MWjHP3Vis9RZzDgmZLu/gMOdHxdwIfz0dJ5OU4LCsIaG07t7KCM7MoqqqWBv0HcCBiU6baJsC1JZ4qY2tZqhTTPaIgWp1gZ6I7Px8bRDgodlK6bO+yH3cSzAXvXnWDatMBlZ0ci1kEPgqyhJQ1EhAOWlyed59/1t4w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=BWb85YI1VAI1u57e9BaSuKn7OX//onhqU/j1fE+iGeM=;
+ b=A+EAhyD+O/+HkBRFsYTO68DLec9DLNSZObaUI6eFhvCT4VamfxMqFUVweF37yOjSYagbn1NJwSaK3TPTiVbD9z9EUvS6qXjXlM2aHrugOOpbouEgq2wFnDbu0tqp8CEEJM5pYiDMdZ28keiCtsqOAVBm0CwzehRwVmHqavuY4yckubRN89WPbu62OVnd/RzBaXEbYk4pdKSCtnykAfWfbRX83tF1it7W6wzRYRzEQZcdi1NJr25GdnCt3RwtS/1/NqYld6OvojabJMHYSJWrsa9aLov1CBzsENtK8BGeZ4V9laJib+VnCLyPxV6e1KfGJwTsnbCFAmDyY90zOFSt8Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=BWb85YI1VAI1u57e9BaSuKn7OX//onhqU/j1fE+iGeM=;
+ b=lpGrvc3+bXWKdknypUgMPCr4E8wu8pALBeiQyMaUdKTIaNXe9GhLaEkPbUZ5anVNdQbo6UvY+ewOfTdRZmNWX3lwvnmhEQB56oc6MDUQWhI4HBw1eMhMJBR/nC6fOV3WdaKToUYAMz39jwopjmWTFdvC8BCf+L2LnmwR8Zn5WD0BaQq0E0F+A17xgKnOO/A7CJERQ4jXHNvkDRwdMW17KTZBRXIALzsmmT3oryrG9yG4ZKQEkcnY75J7oa2Uvth9Fj9Jvl+47mVNcoPGpbdkpO9OR5Ou53FI/bxBvdUl9HnLl82bFDkmXQhJm5X6jIS9C1o0rK6w8Wej7PeDpJiPKw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from PH7PR12MB5757.namprd12.prod.outlook.com (2603:10b6:510:1d0::13)
+ by PH7PR12MB8425.namprd12.prod.outlook.com (2603:10b6:510:240::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.17; Tue, 30 Sep
+ 2025 14:34:11 +0000
+Received: from PH7PR12MB5757.namprd12.prod.outlook.com
+ ([fe80::f012:300c:6bf4:7632]) by PH7PR12MB5757.namprd12.prod.outlook.com
+ ([fe80::f012:300c:6bf4:7632%2]) with mapi id 15.20.9160.014; Tue, 30 Sep 2025
+ 14:34:11 +0000
+Date: Tue, 30 Sep 2025 11:34:08 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Shameer Kolothum <skolothumtho@nvidia.com>
+Cc: Leon Romanovsky <leon@kernel.org>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+	"linux-block@vger.kernel.org" <linux-block@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>,
+	"linux-pci@vger.kernel.org" <linux-pci@vger.kernel.org>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v4 10/10] vfio/pci: Add dma-buf export support for MMIO
+ regions
+Message-ID: <20250930143408.GI2942991@nvidia.com>
+References: <cover.1759070796.git.leon@kernel.org>
+ <53f3ea1947919a5e657b4f83e74ca53aa45814d4.1759070796.git.leon@kernel.org>
+ <20250929151749.2007b192.alex.williamson@redhat.com>
+ <20250930090048.GG324804@unreal>
+ <CH3PR12MB754801DC65227CC39A3CB1F3AB1AA@CH3PR12MB7548.namprd12.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CH3PR12MB754801DC65227CC39A3CB1F3AB1AA@CH3PR12MB7548.namprd12.prod.outlook.com>
+X-ClientProxiedBy: BN0PR07CA0018.namprd07.prod.outlook.com
+ (2603:10b6:408:141::25) To PH7PR12MB5757.namprd12.prod.outlook.com
+ (2603:10b6:510:1d0::13)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5757:EE_|PH7PR12MB8425:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3abc86bf-36ec-4831-a421-08de002e6ba8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?zk5++mRU27edAOeAL7UL+yNfoW6jFDjhMWcRzDoBxseHJGKdBHcdeq8r+sM2?=
+ =?us-ascii?Q?EPp4MO5DSMLEi3+cythe/dhtKyob2vluNTgxX6+TBDEXepGiYJ3ggjEvNQBZ?=
+ =?us-ascii?Q?58M9uegDlFxbR6zs0IfAMgVqT4d7bPbknEop7Yw1LQNvit663CgYSquKF76u?=
+ =?us-ascii?Q?K++zGodYxKgb//TkNzayMAYru3iCxwlaGNJNCeWtQziiNJtCFvh0QaAFck/G?=
+ =?us-ascii?Q?+ksakBqG3GsQjIPAuasCRU5+RWaLRPML4hvG8LsNeJdf7GLqc6n7J8SEqZF9?=
+ =?us-ascii?Q?rwBA8ANzJBgUg/wdAXo88ZXVDb5R7i50DqDlHjFVU+QZP5gzvtL2InCihBFp?=
+ =?us-ascii?Q?ks3muR1h0yfLaScny7yLSkveMj+CyD0zYeMjssGuBFkeA6NKcexWICJdoG+z?=
+ =?us-ascii?Q?hc4/J/fcCY5qqhEVVGJT5Uxr2GuA0rWjUFPlDv5DJGHypklgL23m0uWyZcA9?=
+ =?us-ascii?Q?rp+5kxSByjRS16imbuJ75PzRxo+SADjXClLW0vcWFSUfQ70LmvUcqzjVZnd2?=
+ =?us-ascii?Q?1jTsU1AqLf1anNKsvt2YdEkALahgDBzh/RrJmYeiIrxrXazuYid8+u9w4+R/?=
+ =?us-ascii?Q?zVnIJqZJFtq75C6HIKltfAG43/Whuf2nN0DF6EKUlMVdfwxrVAMEjdsiKjLP?=
+ =?us-ascii?Q?MAK8zgf57HfuDL29QDZRrOtctOsu4lHQkLmyU6MrYgmLk1pAoutFe03xZJzK?=
+ =?us-ascii?Q?cgSbJQeA49KoEA5EwNBKNMeh4d4dZsIbR+FUxgh5CodsvywpwINYyl0ycXbD?=
+ =?us-ascii?Q?Mas2V+iXEXUyjb5aVQrSlhOiEctd9TZ+1D040xswi2q39r9eSYRxoL3mgPH6?=
+ =?us-ascii?Q?EqBh6rE8ycBuu6VoEj8Yd2opuXYec0NehZPzXqp3c193nIbBr+rCq/26wbmc?=
+ =?us-ascii?Q?yb8vRBQsSViAoXP6UWm8mpgwaFKHgZN0w4mGtImBO6AzkSUALvE/WRnR4dP+?=
+ =?us-ascii?Q?EF6/FN/G2S9/db492yeEPDrZgoqoO/kzGAvYVqnL3UV+73vyfpgpDYCOqlYm?=
+ =?us-ascii?Q?mq4nxqIWfdJw9z6oWCXJ4EEliiZWDNsdU+qrc57hdoxUrC1CjWhTo4PIOf/+?=
+ =?us-ascii?Q?4LGJuTGSh+4Pq/Pmk3ggP5bv5kKBDUB/4EPZos3tDWeJpiPOv1Mn8az7i8+S?=
+ =?us-ascii?Q?lpdfOi9yC6YDhf1c6+MFWzHbP5n2UxXt9bOs+WOTJGSNO1hIeFhQ7rRdVLFv?=
+ =?us-ascii?Q?A6KNM7J6gBxMYJx7kFDpXZHVouCBBtl1bHoJyp+odsO1QVxVJO+PErJjdrFE?=
+ =?us-ascii?Q?Oz9H8MAXiKY9Ql05L9ex3xpUamfTpczDFhq+cZBJeQuSj34dDoZmKar3oveg?=
+ =?us-ascii?Q?VoY4z404gdnJkhK45CaZrMm0?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5757.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?JJRHN8vE2WuQYNc6WJirOIQRQ5M3gyPrSil1VVJLK44jOYf6fAoMhcO8VFWo?=
+ =?us-ascii?Q?vS4ncEdMq9rfS6jTy31HtJ/kr03ZoLQSNqVwPgXV4YWJf0T3NQr91koFCwnT?=
+ =?us-ascii?Q?l6nzhYCOcCfA7kbG/8YCul9qr+KoVAdveG+bBkiz11jZ93QRC1djb4LqsMfw?=
+ =?us-ascii?Q?4U2MP6ArnqiyxMrlmnclMRUYLHkKlTzgkQm60QjzoYCg2L6cs+o6fMIL/0Yf?=
+ =?us-ascii?Q?ALc3d+DQjz1kU37xFSOE3NxHsUKBYs5lAiO642J+uMBAAcyKWbXxyfi6RXre?=
+ =?us-ascii?Q?BHG/r2L2vkVIPVPAX++TkPSbsMEYnZgOkNXnVspFRG06kJ2cweNeivUPF/F6?=
+ =?us-ascii?Q?CXS7HeWbJ5yMJPX4vtMIW5I4PxnXZSS4HYVmThulnVKBKpEqTkL/N4t6XehR?=
+ =?us-ascii?Q?vNUpjl3tzHXdGOL8ysprtGje8vyzd04DFXdnxvwWLBvOnuH3x/SADKtdaqRY?=
+ =?us-ascii?Q?c5Somy2qNQcCuZ3Z1Pw3ZFSlbrONpSKrpNSC+smVDpC+zL22PjFH77jhIGwY?=
+ =?us-ascii?Q?pPYjW/1dh2lqKnBDtDrz+w/0pBiLQjyuZYNQkZEBLiq/6+Mk3U/dTb2+Kf2A?=
+ =?us-ascii?Q?gdozRUEqhWSdGDPEYJbt7iry5J3PEZDNSEofC37WH9XZqsAHzmiRW9HsrMm0?=
+ =?us-ascii?Q?FeR7D2oSk8KAH4bGQT/yXDhEEW2LESlT9UpODKOu63CBBGDQ9Za01wc9bJ9H?=
+ =?us-ascii?Q?dKZCQ8rFW4Cieg0i1XoFrLX8cMMjo3UW8c9C1379ESHiSQ54Qups/tcMAgsm?=
+ =?us-ascii?Q?fpGSUaZ6w1bH8XVLruLy7phGPWyYgWFrMf59YDx9o3gOaITkFX0e8loVjN8Y?=
+ =?us-ascii?Q?ZJj92hnm5pmigdkSosrgRyTS7gHx1X79dy/weLUbIbx6BRunEsppbGFBNB1d?=
+ =?us-ascii?Q?Xa7Z8vWq+K51od7rZLD5udhJkaxQNtJgqYbXLsGA8Fn9vB9W+FiQ8FpqilMu?=
+ =?us-ascii?Q?yBd2OYH/mTF/e8TGdhvQbiD+B6kyx/N6PU2OY1XaWcavBuYIO4BZkiKICTX4?=
+ =?us-ascii?Q?dH6YG3TofNXqbyaMpkXuHcJSO8W8YJQak7OBsD5HW1/1PGRU++ucAP3N2t3W?=
+ =?us-ascii?Q?7fhVXAsUEnfxkzuYJfTlwOHgCvrSy81ws2YQ/6UfG9Y4VF45/T/k4OzSeLbf?=
+ =?us-ascii?Q?ti9dG+EqNgSZD4NlT489Ri6/j+KQiT1qxzzLh8ozE9V4h3BGyro0sc83OyYK?=
+ =?us-ascii?Q?7jxCXV5yN6ENmWsLclJpLVWSBoBudPyZNGNvEwxDWcQwa/oCmT7uAwfouV+y?=
+ =?us-ascii?Q?0u6C5TIaP1X48Y7k+MwEhdhttZ0ZaTD/ItwNUrllUZrghymTIE2qnhhw2ffo?=
+ =?us-ascii?Q?qdGGeEvnaFdQ/FqA6w7c2EoEvSjTwK+OTNbINzdNYhOg05o1ms/cGs0ET0G9?=
+ =?us-ascii?Q?AQ8cIMpNKMJDnyW6QdMViOmJRv/FK93rkvwj9Yg3CXaZMfy7ANRgJj4o8bIL?=
+ =?us-ascii?Q?k4+Y5MxkMXg6YUKa/kzNjNtr5/HFVgdn3wkQMQ0MgHcNya81navQJ7glK1rn?=
+ =?us-ascii?Q?/kbg9sqlo3Vsz7ZSeYy5m1GAfgkQi4yEahTKIWCKmpsHPE65MnB9LsVJHBEv?=
+ =?us-ascii?Q?cPpeQRT8+s44eW2MddIJH1igmTSp7SvFwOWj9vwB?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3abc86bf-36ec-4831-a421-08de002e6ba8
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5757.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2025 14:34:11.0186
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fD2nX+HNIxtPpBPldMJ+Uhjb+M9Ymg6B4Brli66rjds5EqfKQELgyMBIfmUlBatL
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8425
 
+On Tue, Sep 30, 2025 at 12:50:47PM +0000, Shameer Kolothum wrote:
 
---=-0L4H1CrQYwSEJYFcjhYv
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+> This is where hisi_acc reports a different BAR size as it tries to hide
+> the migration control region from Guest access.
 
-Hi Laurent,
+I think for now we should disable DMABUF for any PCI driver that
+implements a VFIO_DEVICE_GET_REGION_INFO
 
-Le mardi 30 septembre 2025 =C3=A0 13:16 +0300, Laurent Pinchart a =C3=A9cri=
-t=C2=A0:
-> On Tue, Sep 30, 2025 at 11:53:39AM +0200, Jacopo Mondi wrote:
-> > On Thu, Sep 25, 2025 at 09:26:56AM +0000, Anthony McGivern wrote:
-> > > On Thu, Jul 24, 2025 at 16:10:19 +0200, Jacopo Mondi write:
-> > > > Introduce a new type in v4l2 subdev that represents a v4l2 subdevic=
-e
-> > > > contex. It extends 'struct media_entity_context' and is intended to=
- be
-> > > > extended by drivers that can store driver-specific information
-> > > > in their derived types.
-> > > >=20
-> > > > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> > >=20
-> > > I am interested in how the sub-device context will handle the
-> > > Streams API? Looking at the commits the
-> > > v4l2_subdev_enable/disable_streams functions still appear to operate
-> > > on the main sub-device only. I take it we would have additional
-> > > context-aware functions here that can fetch the subdev state from
-> > > the sub-device context, though I imagine some fields will have to be
-> > > moved into the context such as s_stream_enabled, or even
-> > > enabled_pads for non stream-aware drivers?
-> >=20
-> > mmm good question, I admit I might have not considered that part yet.
-> >=20
-> > Streams API should go in a soon as Sakari's long awaited series hits
-> > mainline, and I will certainly need to rebase soon, so I'll probably
-> > get back to this.
-> >=20
-> > Have you any idea about how this should be designed ?
->=20
-> Multi-context is designed for memory to memory pipelines, as inline
-> pipelines can't be time-multiplexed (at least not without very specific
-> hardware designs that I haven't encountered in SoCs so far). In a
+For a while I've wanted to further reduce the use of the ioctl
+multiplexer, so maybe this series:
 
-I probably don't understand what you mean here, since I know you are well a=
-ware
-of the ISP design on RK3588. It has two cores, which allow handling up to 2
-sensors inline, but once you need more stream, you should have a way to
-reconfigure the pipeline and use one or both cores in a m2m (multi-context)
-fashion to extend its capability (balancing the resolutions and rate as usu=
-al).
+https://github.com/jgunthorpe/linux/commits/vfio_get_region_info_op/
 
-Perhaps you mean this specific case is already covered by the stream API
-combined with other floating proposal ? I think most of us our missing the =
-big
-picture and just see organic proposals toward goals documented as un-relate=
-d,
-but that actually looks related.
+And then the dmabuf code can check if the ops are set to the generic
+or not and disable itself automatically.
 
-Nicolas
+Otherwise perhaps route the dmabuf through an op and deliberately omit
+it (with a comment!) from hisi, virtio, nvgrace.
 
-> memory-to-memory pipeline I expect the .enable/disable_streams()
-> operation to not do much, as the entities in the pipeline operate based
-> on buffers being queued on the input and output video devices. We may
-> still need to support this in the multi-context framework, depending on
-> the needs of drivers.
->=20
-> Anthony, could you perhaps share some information about the pipeline
-> you're envisioning and the type of subdev that you think would cause
-> concerns ?
+We need to route it through an op anyhow as those three drivers will
+probably eventually want to implement their own version.
 
---=-0L4H1CrQYwSEJYFcjhYv
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaNvT5QAKCRDZQZRRKWBy
-9H2OAQDYJU61T/0h1wzEwZ7iddu/tUyOjwcMugwELYj4l1qfdQEArPd23oj/vi4j
-GiESd5rvRJN2+qKwpQh3Nn1Jvkrefgo=
-=mobG
------END PGP SIGNATURE-----
-
---=-0L4H1CrQYwSEJYFcjhYv--
+Jason
 
