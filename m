@@ -1,125 +1,131 @@
-Return-Path: <linux-media+bounces-43404-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43405-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9B7BBABAE5
-	for <lists+linux-media@lfdr.de>; Tue, 30 Sep 2025 08:40:50 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8ACD0BABAF4
+	for <lists+linux-media@lfdr.de>; Tue, 30 Sep 2025 08:41:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC67B3ACCC2
-	for <lists+linux-media@lfdr.de>; Tue, 30 Sep 2025 06:40:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 926A41887AC9
+	for <lists+linux-media@lfdr.de>; Tue, 30 Sep 2025 06:41:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 692FB29B781;
-	Tue, 30 Sep 2025 06:40:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9020129AAEA;
+	Tue, 30 Sep 2025 06:40:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WwbKDoiV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DKgSCAt1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4B3D2989B5
-	for <linux-media@vger.kernel.org>; Tue, 30 Sep 2025 06:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B116929992A
+	for <linux-media@vger.kernel.org>; Tue, 30 Sep 2025 06:40:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759214422; cv=none; b=SIOc7leJ5pifZvz4WeD8UvWBg5+S8hTL6HU6ESGsnorcETRXVRdz6u26FhjvtiyhXRh7cNsZE/1VZY9ioP+Y9KAnvc2k5dOvJxdyy985F6doRyyS2a0nCPe68udYow2OD1gdnRsIBfW0/7I7Jc6+iZC1Yz8Dzb1GthdcGSTHrV0=
+	t=1759214454; cv=none; b=KrAqXcfPyipXGwW1QjDPGEiwNT/AUoQQhEYsZpOSv5gJVhc9Bov4on9Tmr7BCCqNOAV3s7c+d+KsHHTb5zxV7tXGKM5KpgLXOPN513Ivh7X7LHhUEhOfiC/qFogDdrI67N1nCt+fuSeBoCnDyND6ligXPSvHGJ+hYDCQBaxJkgQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759214422; c=relaxed/simple;
-	bh=gQDZRuX3Iyc8Vxc4NYfOuO3yI92bRrIQu2/zmCtsShA=;
+	s=arc-20240116; t=1759214454; c=relaxed/simple;
+	bh=aY796e7ZjDJ3GpkqwDAOoDMWoCinINh6cbC/Z6IAkio=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EFd8p1/K+jVABGwBa7yCvT2JbqgpfpiXlH6UG6TsZkLLWx291OsR67xahSPqjjcLPEIXbpkwwAJIN5OOu4+0htXUu2QESa6jeCbqyS1RVfEzNgRCs7E8JLXRxpLq5J1ABnQeixS2hW0suUrmygK5zrRWnu33Ae1atQWETxq5aYQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WwbKDoiV; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-57f1b88354eso5774084e87.1
-        for <linux-media@vger.kernel.org>; Mon, 29 Sep 2025 23:40:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1759214419; x=1759819219; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gQDZRuX3Iyc8Vxc4NYfOuO3yI92bRrIQu2/zmCtsShA=;
-        b=WwbKDoiVslen1GmzOh7yo5NpvauCzQe3tM9rrYrZf5yrYUte6N0nZ3faimYbBNeBjd
-         hO1LT4dO76q/KDpoSroMoh9lIi+pui2A5ekdGcqwQ3oAmaTo26zznX08tmNGV4jUbRR6
-         j1uglomfwA0x4rzq1RMtgzkvXcmR2/Gw2Xwto=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759214419; x=1759819219;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gQDZRuX3Iyc8Vxc4NYfOuO3yI92bRrIQu2/zmCtsShA=;
-        b=OIlA+gXofvM+df9OvzMFN76WT166bbKIHOU0eLULxvYMKOLWheIoZU1p56YRm4XgHx
-         6ogiLrvYXyNZ3TH6jcQhJ49ClIJ5fI94m+BCAYM1SJuljw5quFlRsA16EsrpcciAL2Qd
-         vyymAYSKU0rREuZYzwdRLYJbgHt2JKyyxU9OYbMKLQh3tRZhI6xEQiOiGNERpdpYjtS/
-         Stmih4taU9wgEDQuhtacrAdc0hgeIB3+S6Gm6EqdK2R+Zd3whRR5bUr0DcyZpg7V1tNG
-         hTMLPOMvOVkqZpQdstVZbq6coWUJhsskGbJbFUHGU1wLMUgqS2snRgN49POiGU2xPxFu
-         VNtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVX6+UfV2DVYumahZOFcWLlns4zIXlCm5HDC+FzwbUBrVwroPcrGHBc3XhBLtAunHy3zLm3x7Q9PjNPvg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz0IDi8zVgSQbEqdR2cKw+0H4liFhWL7eJD68phwZeZauAu/zD+
-	icxJa1MuM2NkV02Cl4SXofzW+FQrwqv2mM1T8cjy17YOxKVeo9i+OiDryBIjeFz+gm+MX5rp2yr
-	tYZVTzA==
-X-Gm-Gg: ASbGnct7wkblF459eUxl4AIhkWtUHQhx8wcXB6s6VzZ9Oa5yzyvsIgTi4ukY768/44l
-	+s5nhe0US9dhA/S5bTwkxVDgmTqGbuCes4mdkidnFv7aU8a3oYRwblORTiOdgIdd9TNaKyCF2vz
-	WQhflf2csFj2y89A9iy6BwTiW+HNwD1rASRy5qvre5VldmnRx/bvGeTfY/RiKZrrbLiFiFHLJXC
-	egUc+XbMO9VD3lZ0DDSVpxtmZmb2LH9GiFTQXqYvQaROJ4sZ/09mbSTCuu0xbY/qrqA6/sIfyW/
-	axH2YOLYXWwjT1DXSXjzxJvOmYf/VyjnLKQopgBOFJgoErKdMPnM3t3P8iplAhzPFOlhYIQvwJf
-	H9fHibpWBiZ8OeUD/a5IkdqEsKo/6Nhi4guZYRmp2tnxN2sS9H8spgebT9UKWNCU/GRqzPlXhNk
-	ko0GdRtx19AfQe
-X-Google-Smtp-Source: AGHT+IHsYvg826T0jo5WXQk3MS4ss48qM5cwIy7kwMJBfd3eBQZ260nYMnHJfqCkpQWQWAZxF+oH9A==
-X-Received: by 2002:ac2:5145:0:b0:585:c51e:e99d with SMTP id 2adb3069b0e04-585c51eeb93mr2681781e87.3.1759214418624;
-        Mon, 29 Sep 2025 23:40:18 -0700 (PDT)
-Received: from mail-lj1-f178.google.com (mail-lj1-f178.google.com. [209.85.208.178])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58619e6c530sm2475601e87.93.2025.09.29.23.40.17
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 29 Sep 2025 23:40:17 -0700 (PDT)
-Received: by mail-lj1-f178.google.com with SMTP id 38308e7fff4ca-3635bd94f3eso50568541fa.0
-        for <linux-media@vger.kernel.org>; Mon, 29 Sep 2025 23:40:17 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWgJNxJHfNHPQ//yknlWwp1tnRvlK64CsfUCwFQNppVmIwBheZIjiwKIWWB31slngQqNR+q9Ciw8V9LOQ==@vger.kernel.org
-X-Received: by 2002:a05:651c:441c:20b0:372:96c1:b276 with SMTP id
- 38308e7fff4ca-37296c1b58dmr15679651fa.45.1759214417128; Mon, 29 Sep 2025
- 23:40:17 -0700 (PDT)
+	 To:Cc:Content-Type; b=YAtOvhSeIjk7cMzMFfV2u+MLR54QKPYCC9Cz/hDIgGXi2Mdu2OEbJaKcybOo1mHNeciIcxZpVQ4lSJ+BMpVnor461KaxETre54vFW0f3/sSCZpAyIVwxEIk7smpo8Dbg0ArDUdxRRAWFZDz6hX64jYNrwESq1rS4xSObHsv13S0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DKgSCAt1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 58B8AC19422
+	for <linux-media@vger.kernel.org>; Tue, 30 Sep 2025 06:40:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759214454;
+	bh=aY796e7ZjDJ3GpkqwDAOoDMWoCinINh6cbC/Z6IAkio=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=DKgSCAt1CIUjTAPD85phyC6/D/engFWoLogA9Yz5lqVjDmSESvd0ZOchbg0bW326x
+	 SW3YgAa4BKIk40LZ6tlKLlg0+2AmH9iEDSDkRkpUyTmOL/yMRy6+l1DvFG4sNq92g5
+	 sy/a90b1stw+87lspEOgUef61/I56Yjy0Gx9rS9WSeSmXvC14Dd7DfSTvudUdeHmvs
+	 hyf2tiiH4u7VKMaBdzQnBPsrh+0ulbD0H5T3ez6ZO2r1S0BXDt/Ie+UoPYrB2Y77Zw
+	 nJdGsBiHyj7wChYx6E02wVyxskB4mWT6pVJP8RRkE4qkvJfPssQ/OibpAGmtBcuzZ0
+	 my/RmbK0cZuXA==
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2698d47e776so48196215ad.1
+        for <linux-media@vger.kernel.org>; Mon, 29 Sep 2025 23:40:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXFwEdnh8lfjfRlpRhUbNeiBA3TbHVO2+4Trpn2++n97zOFOpODkqXSBMSNvlMwILdCVlmSBiLk+4bBiw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxcd6zgC0CyNp7lA3+IGPSD3ACP5pCd3fOdSnRDR3A+OIVXQLxR
+	GPN1d7c4c01bTmC+ye5+pfjR62rbw0T0mpdx4/uwkGERyjV8WIo7TXku7CjrFxJpXY9lwikdm6U
+	aNa7XE9YKE5rwkCZaMYBn5RkrMhd6OTM=
+X-Google-Smtp-Source: AGHT+IFilulwB7yZKk8NWBisCkRd9EVIUP8wmRYd1pqL/aVk/i4cqOXK4Ip+OXNthJdD/mk9ed9ZzEkUxbiiEQK8Lsg=
+X-Received: by 2002:a17:902:f68d:b0:276:842a:f9a7 with SMTP id
+ d9443c01a7336-27ed4a5aab7mr219005735ad.57.1759214453755; Mon, 29 Sep 2025
+ 23:40:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CO1PR18MB463349680603EC2C284B7FEFF71BA@CO1PR18MB4633.namprd18.prod.outlook.com>
-In-Reply-To: <CO1PR18MB463349680603EC2C284B7FEFF71BA@CO1PR18MB4633.namprd18.prod.outlook.com>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 30 Sep 2025 08:40:02 +0200
-X-Gmail-Original-Message-ID: <CANiDSCtwhpCAgQY73phJE0okN+Smv_AbA6Q+w2tuTVW1_qcbDg@mail.gmail.com>
-X-Gm-Features: AS18NWA_D8LZfRD_mkcuc94lcACPA1tYsQzBsNOsCaW-qDSlktvb8Q1qfsQ7Ed8
-Message-ID: <CANiDSCtwhpCAgQY73phJE0okN+Smv_AbA6Q+w2tuTVW1_qcbDg@mail.gmail.com>
-Subject: Re: Realsense camera patch
-To: Gladysz WojciechX <wojciechx.gladysz@realsenseai.com>
-Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
-	"kontra.wojciech.gladysz@gmail.com" <kontra.wojciech.gladysz@gmail.com>
+References: <CGME20250930035525epcas5p3a1238a3a7bc6e52113838397187e36ba@epcas5p3.samsung.com>
+ <20250930040348.3702923-1-h.dewangan@samsung.com> <20250930040348.3702923-3-h.dewangan@samsung.com>
+In-Reply-To: <20250930040348.3702923-3-h.dewangan@samsung.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Date: Tue, 30 Sep 2025 15:40:41 +0900
+X-Gmail-Original-Message-ID: <CAJKOXPc+ass6ftbxrodVzXVPFW+8rUYW=VyxsmGTU1wR_jBiAg@mail.gmail.com>
+X-Gm-Features: AS18NWBGk7OJKwPJ5iy8_Rm-Qzpd87k2vQsijdmZj27-buhGtUmwdQhJcd2WDg0
+Message-ID: <CAJKOXPc+ass6ftbxrodVzXVPFW+8rUYW=VyxsmGTU1wR_jBiAg@mail.gmail.com>
+Subject: Re: [PATCH 02/29] arm64: dts: mfc: Add MFC device tree for Auto V920 SoC
+To: Himanshu Dewangan <h.dewangan@samsung.com>
+Cc: mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, 
+	conor+dt@kernel.org, sumit.semwal@linaro.org, christian.koenig@amd.com, 
+	alim.akhtar@samsung.com, manjun@samsung.com, nagaraju.s@samsung.com, 
+	ih0206.lee@samsung.com, jehyung.lee@samsung.com, 
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-samsung-soc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Gladysz
-
-Thanks for your patch.
-
-It should be sent inlined instead of as an attachment. Also for quirks
-we usually require the output of lsusb -v -d $VID:$PID.
-
-Regards!
-
-On Mon, 29 Sept 2025 at 13:51, Gladysz WojciechX
-<wojciechx.gladysz@realsenseai.com> wrote:
+On Tue, 30 Sept 2025 at 12:55, Himanshu Dewangan <h.dewangan@samsung.com> w=
+rote:
 >
-> Kind regards,
+> From: Nagaraju Siddineni <nagaraju.s@samsung.com>
 >
-> Wojciech G=C5=82adysz
+> Introduce the device=E2=80=91tree entries for the Samsung Exynos AUTO V92=
+0
+> multimedia=E2=80=91function controller (MFC). The patch defines:
+> - Reserved memory regions for firmware and CMA buffers.
+> - Core0 and Core1 memory mappings.
+> - The main MFC node with basic properties (compatible, reg, interrupts,
+>   clocks, DMA window, firmware name, debug mode, etc.).
+> - Per=E2=80=91core sub=E2=80=91nodes (MFC=E2=80=910 and MFC=E2=80=911) wi=
+th their own sysmmu,
+>   firmware region, and configuration parameters.
+> - Resource table listing supported codecs and their capabilities.
+>
+> Adds full support for the V920 MFC hardware to the mainline kernel
+> device=E2=80=91tree, enabling proper memory allocation, interrupt handlin=
+g and
+> codec operation on this platform.
+>
+> Signed-off-by: Nagaraju Siddineni <nagaraju.s@samsung.com>
+> Signed-off-by: Himanshu Dewangan <h.dewangan@samsung.com>
+> ---
+>  .../dts/exynos/exynosautov920-evt2-mfc.dtsi   | 187 ++++++++++++++++++
+
+No, there are no such files. Don't push your downstream here.
+
+>  .../arm64/boot/dts/exynos/exynosautov920.dtsi |   1 +
+>  2 files changed, 188 insertions(+)
+>  create mode 100644 arch/arm64/boot/dts/exynos/exynosautov920-evt2-mfc.dt=
+si
+>
+
+This doesn't belong to media patchset, don't combine them.
+
+Anyway, you completely disregarded DTS coding style and how we were
+Samsung DTS. Please don't send us downstream code.
+
+I won't be reviewing this, you need to start from scratch looming at
+other recent code.
+
+Remember also about Samsung maintainer profile, although with such
+completely broken and non working bindings it's pointless now - this
+code couldn't even be reliably tested with them.
 
 
-
---=20
-Ricardo Ribalda
+Best regards,
+Krzysztof
 
