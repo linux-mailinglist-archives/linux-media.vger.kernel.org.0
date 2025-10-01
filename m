@@ -1,1334 +1,1339 @@
-Return-Path: <linux-media+bounces-43497-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43498-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 943CFBB10E8
-	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 17:24:29 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 79DC8BB10F1
+	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 17:25:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 44B463C457A
-	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 15:24:11 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1449A7AB6F7
+	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 15:23:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D0132FD1B4;
-	Wed,  1 Oct 2025 15:23:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D112773C2;
+	Wed,  1 Oct 2025 15:25:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IvbF1csw"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KWZ+nPyY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DCDB18DB01
-	for <linux-media@vger.kernel.org>; Wed,  1 Oct 2025 15:23:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E39B9748F;
+	Wed,  1 Oct 2025 15:25:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759332221; cv=none; b=eFTyVyHNsY79r1APo3bxgspC6yUAFPDWcnbXAnaeJ+czsvfvObvCrzmRUZfCKGu0lDMr652BCJ5SjYi8ZRi1KqytWvcTjlTrFlrBCz0IZhA0o945j85mY3oQyH0mKZ82R04HYKlJt44SEuL0IBqL5uwoDghwrnw51vMN2sfEsPY=
+	t=1759332323; cv=none; b=Irgubg05X98fZGM8MdS7YI4hudFFxq1noKpare9MPE5IcOYgrknHBGk1J5Z+gcnzYqluOz8ekrbrX4wNQIYOPkdH4/cWNH/B47EP8uKAbwAksYhNt8zb4Md8swtRj3vPKv7n7YDzLlt9NCbI532cT1q2lAY3PkwLsIGLLKUOLCg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759332221; c=relaxed/simple;
-	bh=hb4ASK2MzPiPsySK8DuvHIAKAY28S2EZ92Je+Uploh8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K895crZi8TQY9ZC0h6fiJN3o8/zp8dCErNyoA6Oq6WpJj0S80CByZPKs3PSiiXb0Ifr0LqQcvIpAs3753z/nS3dBVmanO0xu3RSff2CCfTb8v6ueVCMt8MZQjKhdJAE72jcWAQliYU9TBYI7D40MxFBhexRVcOgVpXxG8XnUN3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IvbF1csw; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-46e42fa08e4so48176805e9.3
-        for <linux-media@vger.kernel.org>; Wed, 01 Oct 2025 08:23:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759332216; x=1759937016; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pteOjSEAPMK0MmkdEGBqvf48AjUG+FB+evELEARTicI=;
-        b=IvbF1cswAOt8CPIpys2LZoTjXz3Wl1Jdyq3QrOV5tyof58XKb8JxLLR1Elnj45ctZG
-         EaR/aKKWubEYtHQUGitN1NU/eaeNLlQloPM3NyyR4lPDNPHs0NdJTnaQzi74VMxNzqp7
-         /6YXji2sEQKbHeLW4SL0YipVFqn0eOxhwRXwm3EDDj2VdI5LUOy+ho0280rAYfh/JRN4
-         aDm+AALvkknMvNnnCJji97Fx1SDk3YUXHXpeKQYzYqa4GikYQP8RvzE6U8nAGu4oZgzA
-         zS84E6uvJvcsKlRArjk7M0rcWgQ8e2BPXgP1TLPh6e26pItXFShLoCR9b+jLSHd9C7A+
-         UAmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759332216; x=1759937016;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pteOjSEAPMK0MmkdEGBqvf48AjUG+FB+evELEARTicI=;
-        b=UOVMjnt1zSYkRSXKR+ot0vfqXejz/8WAXQXdRnzl0+54eYy7a1J32fJqi4rPqgdHb1
-         aaCUYWJnv+cwfq8zPL01/Lc+vWUCkvt40n376ASo/UkgLmvtee9U4cHcD6BbWglqZB7Z
-         Jle3cW5e6r+HVf132hSUkh0UwBD9wbiSQRgSgtfXkdqrVXRhW1yiL9jYA/SmQhp8d6om
-         yy4Uay/Os64E/xopygMgTeh/zcMl4lQqj4tkdzVCDOLKVZGkpKk9uwENP1UglAsTA1S2
-         Wwe3DohV0E4+q0tJce89hlRH9OLEpHeKBT9lNquGUJOTlO1/SXAYL9OqkEs5PGLBmCBl
-         92ew==
-X-Forwarded-Encrypted: i=1; AJvYcCXqA23kqEaj8+rokqV8RYcfkR3RlE1sZ7wLh4XwqTYj87mBJY4oiktxNh0tnPyCd8J237aun5XDUTQT9A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxJtKINs3GUjdWRmFDlM+tzmgzlj0PnMTMMuEZLPjTr0LxPJRJ1
-	BSff51iLSh5EiI6xbZijs2YhBTBrulsfciem2K0c3+4F6ICzQ8GVJV5oJfut3OaV+iXWESDY4Cb
-	Q7o8KcwgBOX2GZmii4woQ8MDNRATZcSU=
-X-Gm-Gg: ASbGncsvmABYBlZ/0IDtrw5ka/1TkWbioPWikj+mUh323hOLhuWMHIZ/MHRVAFty0Wc
-	5o3wMKHPOMwDbMkmg4zgD9FLQVibOJpwR+caxCtEG4X5jyaXfouCJXYmxJ9mkx9W4Anh6/8o2al
-	rzmFW01iQ6OqbIKFRxxmkcssn1GZUPMrkjpN4VOXdbQrEKGiimxEZDvfhJwchoa1kh2Qf8NmgDz
-	BO8s/7eGIT7+GfBaptDJLxrwcfCgF8T
-X-Google-Smtp-Source: AGHT+IGUq3iCLK3AFbfX0shwLUIOONQbGVt6KKMSpuy8Jdej2172o4rBo01phW/sfmbh1bg7HTBeFGCziBbrEGxQXxY=
-X-Received: by 2002:a05:600c:a404:b0:46e:6339:79d1 with SMTP id
- 5b1f17b1804b1-46e63397ae5mr25776665e9.5.1759332215235; Wed, 01 Oct 2025
- 08:23:35 -0700 (PDT)
+	s=arc-20240116; t=1759332323; c=relaxed/simple;
+	bh=C83zHNvTwjbYDJ/LWMnYNm11JqJu5Nui89ndnTqDtUI=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=EERXzpLWBhh9UtAHKtFGaywrVfLQxVF5MgsKFW4erbO8yZ79EHuQAW99s23L43fwqqWkAUr8DTN2Uxdnlt7XPORL6Pmyp/D2OtxjGMig1TcgfdZrLptSObnZpxM3JbpSDAfiM6cQTzTE+6T23Ta3Voc29s7j5+T/mmihhYSMBe4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KWZ+nPyY; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 05C7DC4CEF1;
+	Wed,  1 Oct 2025 15:25:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759332322;
+	bh=C83zHNvTwjbYDJ/LWMnYNm11JqJu5Nui89ndnTqDtUI=;
+	h=Date:From:To:Cc:Subject:From;
+	b=KWZ+nPyYw0tQMPg0IxqegQ0T9xkBPYQlaZCDTXhpkVz1Nse+3DTfeJ168m7ucawiU
+	 eSKVkKPN12Nn+S3VbqtOkyex6gN+hKhZb/ONtmSkNsBj2TeQzqecNXOTcjr+xz0zqz
+	 gnqLOobhDM31FIua+5/dV3T3hnurQYk0v5p1u+126erMis9+IaNL0vymQWCN2tY3U1
+	 O45vhWVdhdKAVS66PUdxsQy9G0NFjU/v0juc3VKzJ5FlXN5yZ5/2FD+Stf+JitOX75
+	 i4w8RC4I6QxoomXBhzkUfOo5q66dUOAXJG4GZGTigdFz8QEvp3bNch6xbZC7LtNqZc
+	 2w/vZp2ys52Jw==
+Date: Wed, 1 Oct 2025 17:25:11 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linus Torvalds <torvalds@linux-foundation.org>
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Morton
+ <akpm@linux-foundation.org>, Linux Media Mailing List
+ <linux-media@vger.kernel.org>, Linux Kernel Mailing List
+ <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL for v6.18] media updates
+Message-ID: <20251001172511.2d0514ec@sal.lan>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250925151648.79510-1-clamor95@gmail.com> <7265577.tM3a2QDmDi@senjougahara>
- <CAPVz0n2rjDq06axWQHuS6KGQqT7ycFDtYBbZPqxbJW3S=Nstqw@mail.gmail.com> <2443034.g5d078U9FE@senjougahara>
-In-Reply-To: <2443034.g5d078U9FE@senjougahara>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Wed, 1 Oct 2025 18:23:23 +0300
-X-Gm-Features: AS18NWAfYTmzxdvdr1ykpabuDyR97AK5Ley3-Dquan-0rx9klITBu30IZO84TbU
-Message-ID: <CAPVz0n2g_OGhKpWW7pdhy+9Wt5HBy50_CwLV2cVBZt7rjAKxEg@mail.gmail.com>
-Subject: Re: [PATCH v3 22/22] staging: media: tegra-video: add CSI support for
- Tegra20 and Tegra30
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Prashant Gaikwad <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	=?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
-	Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>, 
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-=D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 09:38=
- Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Wednesday, October 1, 2025 2:15=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > =D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 0=
-8:04 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > >
-> > > On Friday, September 26, 2025 12:16=E2=80=AFAM Svyatoslav Ryhel wrote=
-:
-> > > > Add support for MIPI CSI device and calibration logic found in Tegr=
-a20 and
-> > > > Tegra30 SoC.
-> > > >
-> > > > To get CSI operational, an additional syncpoint was allocated to se=
-rve as
-> > > > the CSI frame counter. Both VIP and CSI use an existing syncpoint f=
-or VI
-> > > > frame start events. That said, the frame capture function was refac=
-tored
-> > > > to reflect the addition of the CSI syncpoint, and the CSI-specific
-> > > > configuration is guarded by the presence of a passed CSI channel st=
-ructure
-> > > > pointer.
-> > > >
-> > > > The camera capture setup's configuration was reconsidered: the firs=
-t two
-> > > > writes must be done before tegra_channel_set_stream for MIPI calibr=
-ation
-> > > > to work properly; the third write was moved to VIP/CSI-specific fun=
-ctions
-> > > > since it must be source-specific; the function was placed after
-> > > > tegra_channel_set_stream so the initial sequence is preserved and e=
-xpanded.
-> > > >
-> > > > CSI configuration sequences were added based on downstream 3.1 kern=
-el
-> > > > sources and adjusted to the existing video-tegra framework. Althoug=
-h
-> > > > Tegra20 and Tegra30 have the same set of configurations, they diffe=
-r by
-> > > > the number of clocks used by CSI.
-> > > >
-> > > > Dropped the software syncpoint counters in favor of reading syncpoi=
-nts
-> > > > directly and passing the incremented value to the polling function.=
- If the
-> > > > syncpoint increase fails, the PP is reset. This change should preve=
-nt
-> > > > possible race conditions.
-> > > >
-> > > > MIPI calibration logic was registered in CSI since Tegra20 and Tegr=
-a30
-> > > > have no dedicated hardware block for these operations and use CSI. =
-These
-> > > > calls are used for both CSI and DSI to work properly, which is why =
-MIPI
-> > > > calibration cannot be contained within CSI. The pads passed to the
-> > > > calibration calls resemble CSI PORT_A (0), CSI PORT_B (1), DSI-A (3=
-) and
-> > > > DSI-B (4).
-> > > >
-> > > > Co-developed-by: Jonas Schw=C3=B6bel <jonasschwoebel@yahoo.de>
-> > > > Signed-off-by: Jonas Schw=C3=B6bel <jonasschwoebel@yahoo.de>
-> > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > ---
-> > > >  drivers/staging/media/tegra-video/csi.c     |  19 +
-> > > >  drivers/staging/media/tegra-video/csi.h     |   4 +
-> > > >  drivers/staging/media/tegra-video/tegra20.c | 608 ++++++++++++++++=
-++--
-> > > >  drivers/staging/media/tegra-video/vi.h      |   2 -
-> > > >  drivers/staging/media/tegra-video/video.c   |   6 +
-> > > >  5 files changed, 592 insertions(+), 47 deletions(-)
-> > > >
-> > > > diff --git a/drivers/staging/media/tegra-video/csi.c b/drivers/stag=
-ing/media/tegra-video/csi.c
-> > > > index 7d70478a07aa..92ee4c84a988 100644
-> > > > --- a/drivers/staging/media/tegra-video/csi.c
-> > > > +++ b/drivers/staging/media/tegra-video/csi.c
-> > > > @@ -827,6 +827,13 @@ static int tegra_csi_probe(struct platform_dev=
-ice *pdev)
-> > > >
-> > > >       csi->dev =3D &pdev->dev;
-> > > >       csi->ops =3D csi->soc->ops;
-> > > > +
-> > > > +     if (csi->soc->mipi_ops)
-> > > > +             tegra_mipi_add_provider(pdev->dev.of_node,
-> > > > +                                     csi->soc->mipi_ops);
-> > >
-> > > Error handling should be added. Also, I realize that we should have a=
- tegra_mipi_remove_provider to call if the probe fails after this or at CSI=
- device removal. Since tegra_mipi_request refcounts the platform device, AI=
-UI the CSI device cannot be unbound while it has users, so we don't need to=
- worry about the CSI device being removed while there are active users.
-> > >
-> >
-> > Your words tegra_mipi_remove_provider are unclear, should I add it and
-> > where should I use it exactly? I can make devm version of
-> > tegra_mipi_remove_provider by adding action there.
->
-> Yes, devm_tegra_mipi_add_provider would be a good solution. My intent was=
- that we should clean up the provider registration in an error case or when=
- the CSI device is removed.
->
-> FWIW, I've spent a little time looking at the refcounting situation, and =
-it doesn't seem like the device refcount guarantees the driver is still bou=
-nd. Will need to look at this further, but no need to block this series.
->
+Hi Linus,
 
-What should I release in remove? I have not found instance where
-structures like provider were released in any way, unless they
-allocate memory for it parts, in this case provider has only 2
-pointers and does not allocate anything so release is not needed.
+Please pull from:
 
-> >
-> > > > +
-> > > > +     mutex_init(&csi->mipi_lock);
-> > > > +
-> > > >       platform_set_drvdata(pdev, csi);
-> > > >       pm_runtime_enable(&pdev->dev);
-> > > >
-> > > > @@ -858,11 +865,23 @@ static void tegra_csi_remove(struct platform_=
-device *pdev)
-> > > >       pm_runtime_disable(&pdev->dev);
-> > > >  }
-> > > >
-> > > > +#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-> > > > +extern const struct tegra_csi_soc tegra20_csi_soc;
-> > > > +#endif
-> > > > +#if defined(CONFIG_ARCH_TEGRA_3x_SOC)
-> > > > +extern const struct tegra_csi_soc tegra30_csi_soc;
-> > > > +#endif
-> > > >  #if defined(CONFIG_ARCH_TEGRA_210_SOC)
-> > > >  extern const struct tegra_csi_soc tegra210_csi_soc;
-> > > >  #endif
-> > > >
-> > > >  static const struct of_device_id tegra_csi_of_id_table[] =3D {
-> > > > +#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-> > > > +     { .compatible =3D "nvidia,tegra20-csi", .data =3D &tegra20_cs=
-i_soc },
-> > > > +#endif
-> > > > +#if defined(CONFIG_ARCH_TEGRA_3x_SOC)
-> > > > +     { .compatible =3D "nvidia,tegra30-csi", .data =3D &tegra30_cs=
-i_soc },
-> > > > +#endif
-> > > >  #if defined(CONFIG_ARCH_TEGRA_210_SOC)
-> > > >       { .compatible =3D "nvidia,tegra210-csi", .data =3D &tegra210_=
-csi_soc },
-> > > >  #endif
-> > > > diff --git a/drivers/staging/media/tegra-video/csi.h b/drivers/stag=
-ing/media/tegra-video/csi.h
-> > > > index 1550defb115a..422f30655945 100644
-> > > > --- a/drivers/staging/media/tegra-video/csi.h
-> > > > +++ b/drivers/staging/media/tegra-video/csi.h
-> > > > @@ -115,6 +115,7 @@ struct tegra_csi_ops {
-> > > >   * struct tegra_csi_soc - NVIDIA Tegra CSI SoC structure
-> > > >   *
-> > > >   * @ops: csi hardware operations
-> > > > + * @mipi_ops: MIPI calibration operations
-> > > >   * @csi_max_channels: supported max streaming channels
-> > > >   * @clk_names: csi and cil clock names
-> > > >   * @num_clks: total clocks count
-> > > > @@ -123,6 +124,7 @@ struct tegra_csi_ops {
-> > > >   */
-> > > >  struct tegra_csi_soc {
-> > > >       const struct tegra_csi_ops *ops;
-> > > > +     const struct tegra_mipi_ops *mipi_ops;
-> > > >       unsigned int csi_max_channels;
-> > > >       const char * const *clk_names;
-> > > >       unsigned int num_clks;
-> > > > @@ -140,6 +142,7 @@ struct tegra_csi_soc {
-> > > >   * @vdd: vdd regulator for CSI hardware, usually avdd_dsi_csi
-> > > >   * @soc: pointer to SoC data structure
-> > > >   * @ops: csi operations
-> > > > + * @mipi_lock: for MIPI calibration operations
-> > > >   * @csi_chans: list head for CSI channels
-> > > >   */
-> > > >  struct tegra_csi {
-> > > > @@ -150,6 +153,7 @@ struct tegra_csi {
-> > > >       struct regulator *vdd;
-> > > >       const struct tegra_csi_soc *soc;
-> > > >       const struct tegra_csi_ops *ops;
-> > > > +     struct mutex mipi_lock;
-> > > >       struct list_head csi_chans;
-> > > >  };
-> > > >
-> > > > diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/=
-staging/media/tegra-video/tegra20.c
-> > > > index 8c9655ffa886..d99a04fa25af 100644
-> > > > --- a/drivers/staging/media/tegra-video/tegra20.c
-> > > > +++ b/drivers/staging/media/tegra-video/tegra20.c
-> > > > @@ -4,6 +4,9 @@
-> > > >   *
-> > > >   * Copyright (C) 2023 SKIDATA GmbH
-> > > >   * Author: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> > > > + *
-> > > > + * Copyright (c) 2025 Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > + * Copyright (c) 2025 Jonas Schw=C3=B6bel <jonasschwoebel@yahoo.de=
->
-> > > >   */
-> > > >
-> > > >  /*
-> > > > @@ -12,10 +15,15 @@
-> > > >   */
-> > > >
-> > > >  #include <linux/bitfield.h>
-> > > > +#include <linux/clk.h>
-> > > > +#include <linux/clk/tegra.h>
-> > > >  #include <linux/delay.h>
-> > > >  #include <linux/host1x.h>
-> > > > +#include <linux/iopoll.h>
-> > > >  #include <linux/kernel.h>
-> > > >  #include <linux/kthread.h>
-> > > > +#include <linux/pm_runtime.h>
-> > > > +#include <linux/tegra-mipi-cal.h>
-> > > >  #include <linux/v4l2-mediabus.h>
-> > > >
-> > > >  #include "vip.h"
-> > > > @@ -42,6 +50,9 @@ enum tegra_vi_out {
-> > > >  #define       VI_CONT_SYNCPT_OUT_CONTINUOUS_SYNCPT   BIT(8)
-> > > >  #define       VI_CONT_SYNCPT_OUT_SYNCPT_IDX_SFT              0
-> > > >
-> > > > +#define TEGRA_VI_CONT_SYNCPT_CSI_PP_FRAME_START(n)   (0x0070 + (n)=
- * 8)
-> > > > +#define TEGRA_VI_CONT_SYNCPT_CSI_PP_FRAME_END(n)     (0x0074 + (n)=
- * 8)
-> > > > +
-> > > >  #define TEGRA_VI_VI_INPUT_CONTROL                    0x0088
-> > > >  #define       VI_INPUT_FIELD_DETECT                  BIT(27)
-> > > >  #define       VI_INPUT_BT656                         BIT(25)
-> > > > @@ -88,6 +99,8 @@ enum tegra_vi_out {
-> > > >  #define       VI_OUTPUT_OUTPUT_FORMAT_YUV422POST     (3 << VI_OUTP=
-UT_OUTPUT_FORMAT_SFT)
-> > > >  #define       VI_OUTPUT_OUTPUT_FORMAT_YUV420PLANAR   (6 << VI_OUTP=
-UT_OUTPUT_FORMAT_SFT)
-> > > >  /* TEGRA_VI_OUT_2 supported formats */
-> > > > +#define       VI_OUTPUT_OUTPUT_FORMAT_CSI_PPA_BAYER  (7 << VI_OUTP=
-UT_OUTPUT_FORMAT_SFT)
-> > > > +#define       VI_OUTPUT_OUTPUT_FORMAT_CSI_PPB_BAYER  (8 << VI_OUTP=
-UT_OUTPUT_FORMAT_SFT)
-> > > >  #define       VI_OUTPUT_OUTPUT_FORMAT_VIP_BAYER_DIRECT       (9 <<=
- VI_OUTPUT_OUTPUT_FORMAT_SFT)
-> > > >
-> > > >  #define TEGRA_VI_VIP_H_ACTIVE                                0x00a=
-4
-> > > > @@ -152,8 +165,106 @@ enum tegra_vi_out {
-> > > >  #define TEGRA_VI_VI_RAISE                            0x01ac
-> > > >  #define       VI_VI_RAISE_ON_EDGE                    BIT(0)
-> > > >
-> > > > +#define TEGRA_VI_CSI_PP_RAISE_FRAME_START(n)         (0x01d8 + (n)=
- * 8)
-> > > > +#define TEGRA_VI_CSI_PP_RAISE_FRAME_END(n)           (0x01dc + (n)=
- * 8)
-> > > > +#define TEGRA_VI_CSI_PP_H_ACTIVE(n)                  (0x01e8 + (n)=
- * 8)
-> > > > +#define TEGRA_VI_CSI_PP_V_ACTIVE(n)                  (0x01ec + (n)=
- * 8)
-> > > > +
-> > > > +/* Tegra20 CSI registers: Starts from 0x800, offset 0x0 */
-> > > > +#define TEGRA_CSI_VI_INPUT_STREAM_CONTROL            0x0000
-> > > > +#define TEGRA_CSI_HOST_INPUT_STREAM_CONTROL          0x0008
-> > > > +#define TEGRA_CSI_INPUT_STREAM_CONTROL(n)            (0x0010 + (n)=
- * 0x2c)
-> > > > +#define       CSI_SKIP_PACKET_THRESHOLD(n)           (((n) & 0xff)=
- << 16)
-> > > > +#define TEGRA_CSI_PIXEL_STREAM_CONTROL0(n)           (0x0018 + (n)=
- * 0x2c)
-> > > > +#define       CSI_PP_PAD_FRAME_PAD0S                 (0 << 28)
-> > > > +#define       CSI_PP_PAD_FRAME_PAD1S                 (1 << 28)
-> > > > +#define       CSI_PP_PAD_FRAME_NOPAD                 (2 << 28)
-> > > > +#define       CSI_PP_HEADER_EC_ENABLE                        BIT(2=
-7)
-> > > > +#define       CSI_PP_PAD_SHORT_LINE_PAD0S            (0 << 24)
-> > > > +#define       CSI_PP_PAD_SHORT_LINE_PAD1S            (1 << 24)
-> > > > +#define       CSI_PP_PAD_SHORT_LINE_NOPAD            (2 << 24)
-> > > > +#define       CSI_PP_EMBEDDED_DATA_EMBEDDED          BIT(20)
-> > > > +#define       CSI_PP_OUTPUT_FORMAT_ARBITRARY         (0 << 16)
-> > > > +#define       CSI_PP_OUTPUT_FORMAT_PIXEL             (1 << 16)
-> > > > +#define       CSI_PP_OUTPUT_FORMAT_PIXEL_REP         (2 << 16)
-> > > > +#define       CSI_PP_OUTPUT_FORMAT_STORE             (3 << 16)
-> > > > +#define       CSI_PP_VIRTUAL_CHANNEL_ID(n)           (((n) - 1) <<=
- 14)
-> > > > +#define       CSI_PP_DATA_TYPE(n)                    ((n) << 8)
-> > > > +#define       CSI_PP_CRC_CHECK_ENABLE                        BIT(7=
-)
-> > > > +#define       CSI_PP_WORD_COUNT_HEADER                       BIT(6=
-)
-> > > > +#define       CSI_PP_DATA_IDENTIFIER_ENABLE          BIT(5)
-> > > > +#define       CSI_PP_PACKET_HEADER_SENT                      BIT(4=
-)
-> > > > +#define TEGRA_CSI_PIXEL_STREAM_CONTROL1(n)           (0x001c + (n)=
- * 0x2c)
-> > > > +#define TEGRA_CSI_PIXEL_STREAM_WORD_COUNT(n)         (0x0020 + (n)=
- * 0x2c)
-> > > > +#define TEGRA_CSI_PIXEL_STREAM_GAP(n)                        (0x00=
-24 + (n) * 0x2c)
-> > > > +#define       CSI_PP_FRAME_MIN_GAP(n)                        (((n)=
- & 0xffff) << 16)
-> > > > +#define       CSI_PP_LINE_MIN_GAP(n)                 (((n) & 0xfff=
-f))
-> > > > +#define TEGRA_CSI_PIXEL_STREAM_PP_COMMAND(n)         (0x0028 + (n)=
- * 0x2c)
-> > > > +#define       CSI_PP_START_MARKER_FRAME_MAX(n)               (((n)=
- & 0xf) << 12)
-> > > > +#define       CSI_PP_START_MARKER_FRAME_MIN(n)               (((n)=
- & 0xf) << 8)
-> > > > +#define       CSI_PP_VSYNC_START_MARKER                      BIT(4=
-)
-> > > > +#define       CSI_PP_SINGLE_SHOT                     BIT(2)
-> > > > +#define       CSI_PP_NOP                             0
-> > > > +#define       CSI_PP_ENABLE                          1
-> > > > +#define       CSI_PP_DISABLE                         2
-> > > > +#define       CSI_PP_RESET                           3
-> > > > +#define TEGRA_CSI_PHY_CIL_COMMAND                    0x0068
-> > > > +#define       CSI_A_PHY_CIL_NOP                              0x0
-> > > > +#define       CSI_A_PHY_CIL_ENABLE                   0x1
-> > > > +#define       CSI_A_PHY_CIL_DISABLE                  0x2
-> > > > +#define       CSI_A_PHY_CIL_ENABLE_MASK                      0x3
-> > > > +#define       CSI_B_PHY_CIL_NOP                              (0x0 =
-<< 16)
-> > > > +#define       CSI_B_PHY_CIL_ENABLE                   (0x1 << 16)
-> > > > +#define       CSI_B_PHY_CIL_DISABLE                  (0x2 << 16)
-> > > > +#define       CSI_B_PHY_CIL_ENABLE_MASK                      (0x3 =
-<< 16)
-> > > > +#define TEGRA_CSI_PHY_CIL_CONTROL0(n)                        (0x00=
-6c + (n) * 4)
-> > > > +#define       CSI_CONTINUOUS_CLOCK_MODE_ENABLE               BIT(5=
-)
-> > > > +#define TEGRA_CSI_CSI_PIXEL_PARSER_STATUS            0x0078
-> > > > +#define TEGRA_CSI_CSI_CIL_STATUS                     0x007c
-> > > > +#define       CSI_MIPI_AUTO_CAL_DONE                 BIT(15)
-> > > > +#define TEGRA_CSI_CSI_PIXEL_PARSER_INTERRUPT_MASK    0x0080
-> > > > +#define TEGRA_CSI_CSI_CIL_INTERRUPT_MASK             0x0084
-> > > > +#define TEGRA_CSI_CSI_READONLY_STATUS                        0x008=
-8
-> > > > +#define TEGRA_CSI_ESCAPE_MODE_COMMAND                        0x008=
-c
-> > > > +#define TEGRA_CSI_ESCAPE_MODE_DATA                   0x0090
-> > > > +#define TEGRA_CSI_CIL_PAD_CONFIG0(n)                 (0x0094 + (n)=
- * 8)
-> > > > +#define TEGRA_CSI_CIL_PAD_CONFIG1(n)                 (0x0098 + (n)=
- * 8)
-> > > > +#define TEGRA_CSI_CIL_PAD_CONFIG                     0x00a4
-> > > > +#define TEGRA_CSI_CILA_MIPI_CAL_CONFIG                       0x00a=
-8
-> > > > +#define TEGRA_CSI_CILB_MIPI_CAL_CONFIG                       0x00a=
-c
-> > > > +#define       CSI_CIL_MIPI_CAL_STARTCAL                      BIT(3=
-1)
-> > > > +#define       CSI_CIL_MIPI_CAL_OVERIDE_A             BIT(30)
-> > > > +#define       CSI_CIL_MIPI_CAL_OVERIDE_B             BIT(30)
-> > > > +#define       CSI_CIL_MIPI_CAL_NOISE_FLT(n)          (((n) & 0xf) =
-<< 26)
-> > > > +#define       CSI_CIL_MIPI_CAL_PRESCALE(n)           (((n) & 0x3) =
-<< 24)
-> > > > +#define       CSI_CIL_MIPI_CAL_SEL_A                 BIT(21)
-> > > > +#define       CSI_CIL_MIPI_CAL_SEL_B                 BIT(21)
-> > > > +#define       CSI_CIL_MIPI_CAL_HSPDOS(n)             (((n) & 0x1f)=
- << 16)
-> > > > +#define       CSI_CIL_MIPI_CAL_HSPUOS(n)             (((n) & 0x1f)=
- << 8)
-> > > > +#define       CSI_CIL_MIPI_CAL_TERMOS(n)             (((n) & 0x1f)=
-)
-> > > > +#define TEGRA_CSI_CIL_MIPI_CAL_STATUS                        0x00b=
-0
-> > > > +#define TEGRA_CSI_CLKEN_OVERRIDE                     0x00b4
-> > > > +#define TEGRA_CSI_DEBUG_CONTROL                              0x00b=
-8
-> > > > +#define       CSI_DEBUG_CONTROL_DEBUG_EN_ENABLED     BIT(0)
-> > > > +#define       CSI_DEBUG_CONTROL_CLR_DBG_CNT_0                BIT(4=
-)
-> > > > +#define       CSI_DEBUG_CONTROL_CLR_DBG_CNT_1                BIT(5=
-)
-> > > > +#define       CSI_DEBUG_CONTROL_CLR_DBG_CNT_2                BIT(6=
-)
-> > > > +#define       CSI_DEBUG_CONTROL_DBG_CNT_SEL(n, v)    ((v) << (8 + =
-8 * (n)))
-> > > > +#define TEGRA_CSI_DEBUG_COUNTER(n)                   (0x00bc + (n)=
- * 4)
-> > > > +#define TEGRA_CSI_PIXEL_STREAM_EXPECTED_FRAME(n)     (0x00c8 + (n)=
- * 4)
-> > > > +#define       CSI_PP_EXP_FRAME_HEIGHT(n)             (((n) & 0x1ff=
-f) << 16)
-> > > > +#define       CSI_PP_MAX_CLOCKS(n)                   (((n) & 0xfff=
-) << 4)
-> > > > +#define       CSI_PP_LINE_TIMEOUT_ENABLE             BIT(0)
-> > > > +#define TEGRA_CSI_DSI_MIPI_CAL_CONFIG                        0x00d=
-0
-> > > > +#define TEGRA_CSI_MIPIBIAS_PAD_CONFIG                        0x00d=
-4
-> > > > +#define       CSI_PAD_DRIV_DN_REF(n)                 (((n) & 0x7) =
-<< 16)
-> > > > +#define       CSI_PAD_DRIV_UP_REF(n)                 (((n) & 0x7) =
-<< 8)
-> > > > +#define       CSI_PAD_TERM_REF(n)                    (((n) & 0x7) =
-<< 0)
-> > > > +#define TEGRA_CSI_CSI_CILA_STATUS                    0x00d8
-> > > > +#define TEGRA_CSI_CSI_CILB_STATUS                    0x00dc
-> > > > +
-> > > >  /* ---------------------------------------------------------------=
------------
-> > > > - * VI
-> > > > + * Read and Write helpers
-> > > >   */
-> > > >
-> > > >  static void tegra20_vi_write(struct tegra_vi_channel *chan, unsign=
-ed int addr, u32 val)
-> > > > @@ -161,6 +272,35 @@ static void tegra20_vi_write(struct tegra_vi_c=
-hannel *chan, unsigned int addr, u
-> > > >       writel(val, chan->vi->iomem + addr);
-> > > >  }
-> > > >
-> > > > +static int __maybe_unused tegra20_vi_read(struct tegra_vi_channel =
-*chan, unsigned int addr)
-> > > > +{
-> > > > +     return readl(chan->vi->iomem + addr);
-> > > > +}
-> > > > +
-> > > > +static void tegra20_csi_write(struct tegra_csi_channel *csi_chan, =
-unsigned int addr, u32 val)
-> > > > +{
-> > > > +     writel(val, csi_chan->csi->iomem + addr);
-> > > > +}
-> > > > +
-> > > > +static int __maybe_unused tegra20_csi_read(struct tegra_csi_channe=
-l *csi_chan, unsigned int addr)
-> > > > +{
-> > > > +     return readl(csi_chan->csi->iomem + addr);
-> > > > +}
-> > > > +
-> > > > +static void tegra20_mipi_write(struct tegra_csi *csi, unsigned int=
- addr, u32 val)
-> > > > +{
-> > > > +     writel(val, csi->iomem + addr);
-> > > > +}
-> > > > +
-> > > > +static int __maybe_unused tegra20_mipi_read(struct tegra_csi *csi,=
- unsigned int addr)
-> > > > +{
-> > > > +     return readl(csi->iomem + addr);
-> > > > +}
-> > > > +
-> > > > +/* ---------------------------------------------------------------=
------------
-> > > > + * VI
-> > > > + */
-> > > > +
-> > > >  /*
-> > > >   * Get the main input format (YUV/RGB...) and the YUV variant as v=
-alues to
-> > > >   * be written into registers for the current VI input mbus code.
-> > > > @@ -283,20 +423,27 @@ static int tegra20_vi_enable(struct tegra_vi =
-*vi, bool on)
-> > > >  static int tegra20_channel_host1x_syncpt_init(struct tegra_vi_chan=
-nel *chan)
-> > > >  {
-> > > >       struct tegra_vi *vi =3D chan->vi;
-> > > > -     struct host1x_syncpt *out_sp;
-> > > > +     struct host1x_syncpt *out_sp, *fs_sp;
-> > > >
-> > > >       out_sp =3D host1x_syncpt_request(&vi->client, HOST1X_SYNCPT_C=
-LIENT_MANAGED);
-> > > >       if (!out_sp)
-> > > > -             return dev_err_probe(vi->dev, -ENOMEM, "failed to req=
-uest syncpoint\n");
-> > > > +             return dev_err_probe(vi->dev, -EBUSY, "failed to requ=
-est mw ack syncpoint\n");
-> > > >
-> > > >       chan->mw_ack_sp[0] =3D out_sp;
-> > > >
-> > > > +     fs_sp =3D host1x_syncpt_request(&vi->client, HOST1X_SYNCPT_CL=
-IENT_MANAGED);
-> > > > +     if (!fs_sp)
-> > > > +             return dev_err_probe(vi->dev, -EBUSY, "failed to requ=
-est frame start syncpoint\n");
-> > > > +
-> > > > +     chan->frame_start_sp[0] =3D fs_sp;
-> > > > +
-> > > >       return 0;
-> > > >  }
-> > > >
-> > > >  static void tegra20_channel_host1x_syncpt_free(struct tegra_vi_cha=
-nnel *chan)
-> > > >  {
-> > > >       host1x_syncpt_put(chan->mw_ack_sp[0]);
-> > > > +     host1x_syncpt_put(chan->frame_start_sp[0]);
-> > > >  }
-> > > >
-> > > >  static void tegra20_fmt_align(struct v4l2_pix_format *pix, unsigne=
-d int bpp)
-> > > > @@ -418,41 +565,79 @@ static void tegra20_channel_vi_buffer_setup(s=
-truct tegra_vi_channel *chan,
-> > > >  }
-> > > >
-> > > >  static int tegra20_channel_capture_frame(struct tegra_vi_channel *=
-chan,
-> > > > -                                      struct tegra_channel_buffer =
-*buf)
-> > > > +                                      struct tegra_channel_buffer =
-*buf,
-> > > > +                                      struct tegra_csi_channel *cs=
-i_chan)
-> > > >  {
-> > > > +     u32 val;
-> > > >       int err;
-> > > >
-> > > > -     chan->next_out_sp_idx++;
-> > > > -
-> > > >       tegra20_channel_vi_buffer_setup(chan, buf);
-> > > >
-> > > > -     tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_CON=
-TROL_VIP_ENABLE);
-> > > > +     if (csi_chan) {
-> > > > +             u32 port =3D csi_chan->csi_port_nums[0] & 1;
-> > > > +
-> > > > +             tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_PP=
-_COMMAND(port),
-> > > > +                               CSI_PP_START_MARKER_FRAME_MAX(0xf) =
-|
-> > > > +                               CSI_PP_SINGLE_SHOT | CSI_PP_ENABLE)=
-;
-> > > > +
-> > > > +             val =3D host1x_syncpt_read(chan->frame_start_sp[0]);
-> > > > +             do {
-> > > > +                     err =3D host1x_syncpt_wait(chan->frame_start_=
-sp[0],
-> > > > +                                              val + 1, TEGRA_VI_SY=
-NCPT_WAIT_TIMEOUT, NULL);
-> > > > +             } while (err =3D=3D -ERESTARTSYS);
-> > >
-> > > This function is called only from a kthread, so I don't think it's po=
-ssible for any functions to return -ERESTARTSYS. Have you seen otherwise? (=
-Anyway, it it were possible, we should add a parameter to host1x_syncpt_wai=
-t to specify whether the wait should be interruptible or not, instead of wo=
-rking around it)
-> > >
-> >
-> > This is caused by dma_fence_wait_timeout being unconditionally
-> > interruptible. I do not want to touch host1x stuff, this patchset
-> > already takes too much resources.
->
-> Sure, I don't think we need to change host1x. Since this function is only=
- called from non-user context, even if the wait is interruptible it should =
-never be actually interrupted. So I think you can just drop the ERESTARTSYS=
- handling.
->
-> >
-> > > > +
-> > > > +             if (err) {
-> > > > +                     if (err !=3D -ERESTARTSYS)
-> > > > +                             dev_err_ratelimited(&chan->video.dev,
-> > > > +                                                 "frame start sync=
-pt timeout: %d\n", err);
-> > > > +
-> > > > +                     tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_S=
-TREAM_PP_COMMAND(port),
-> > > > +                                       CSI_PP_START_MARKER_FRAME_M=
-AX(0xf) | CSI_PP_RESET);
-> > > > +                     goto exit;
-> > > > +             }
-> > > > +
-> > > > +             tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_PP=
-_COMMAND(port),
-> > > > +                               CSI_PP_START_MARKER_FRAME_MAX(0xf) =
-|
-> > > > +                               CSI_PP_DISABLE);
-> > > > +     } else {
-> > > > +             tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL, VI_CA=
-MERA_CONTROL_VIP_ENABLE);
-> > > > +     }
-> > > > +
-> > > > +     val =3D host1x_syncpt_read(chan->mw_ack_sp[0]);
-> > > > +     do {
-> > > > +             err =3D host1x_syncpt_wait(chan->mw_ack_sp[0], val + =
-1,
-> > > > +                                      TEGRA_VI_SYNCPT_WAIT_TIMEOUT=
-, NULL);
-> > > > +     } while (err =3D=3D -ERESTARTSYS);
-> > > >
-> > > > -     /* Wait for syncpt counter to reach frame start event thresho=
-ld */
-> > > > -     err =3D host1x_syncpt_wait(chan->mw_ack_sp[0], chan->next_out=
-_sp_idx,
-> > > > -                              TEGRA_VI_SYNCPT_WAIT_TIMEOUT, NULL);
-> > > >       if (err) {
-> > > > -             host1x_syncpt_incr(chan->mw_ack_sp[0]);
-> > > > -             dev_err_ratelimited(&chan->video.dev, "frame start sy=
-ncpt timeout: %d\n", err);
-> > > > -             release_buffer(chan, buf, VB2_BUF_STATE_ERROR);
-> > > > -             return err;
-> > > > +             if (err !=3D -ERESTARTSYS)
-> > > > +                     dev_err_ratelimited(&chan->video.dev, "mw ack=
- syncpt timeout: %d\n", err);
-> > > > +             goto exit;
-> > > >       }
-> > > >
-> > > > -     tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL,
-> > > > -                      VI_CAMERA_CONTROL_STOP_CAPTURE | VI_CAMERA_C=
-ONTROL_VIP_ENABLE);
-> > > > +     if (!csi_chan)
-> > > > +             tegra20_vi_write(chan, TEGRA_VI_CAMERA_CONTROL,
-> > > > +                              VI_CAMERA_CONTROL_STOP_CAPTURE | VI_=
-CAMERA_CONTROL_VIP_ENABLE);
-> > > >
-> > > > +exit:
-> > > >       release_buffer(chan, buf, VB2_BUF_STATE_DONE);
-> > > >
-> > > > -     return 0;
-> > > > +     return err;
-> > > >  }
-> > > >
-> > > >  static int tegra20_chan_capture_kthread_start(void *data)
-> > > >  {
-> > > >       struct tegra_vi_channel *chan =3D data;
-> > > >       struct tegra_channel_buffer *buf;
-> > > > +     struct v4l2_subdev *csi_subdev =3D NULL;
-> > > > +     struct tegra_csi_channel *csi_chan =3D NULL;
-> > > >       unsigned int retries =3D 0;
-> > > >       int err =3D 0;
-> > > >
-> > > > +     csi_subdev =3D tegra_channel_get_remote_csi_subdev(chan);
-> > > > +     if (csi_subdev)
-> > > > +             csi_chan =3D to_csi_chan(csi_subdev);
-> > > > +
-> > > >       while (1) {
-> > > >               /*
-> > > >                * Source is not streaming if error is non-zero.
-> > > > @@ -477,7 +662,7 @@ static int tegra20_chan_capture_kthread_start(v=
-oid *data)
-> > > >               list_del_init(&buf->queue);
-> > > >               spin_unlock(&chan->start_lock);
-> > > >
-> > > > -             err =3D tegra20_channel_capture_frame(chan, buf);
-> > > > +             err =3D tegra20_channel_capture_frame(chan, buf, csi_=
-chan);
-> > > >               if (!err) {
-> > > >                       retries =3D 0;
-> > > >                       continue;
-> > > > @@ -504,28 +689,6 @@ static void tegra20_camera_capture_setup(struc=
-t tegra_vi_channel *chan)
-> > > >       enum tegra_vi_out output_channel =3D (data_type =3D=3D TEGRA_=
-IMAGE_DT_RAW8 ||
-> > > >                                           data_type =3D=3D TEGRA_IM=
-AGE_DT_RAW10) ?
-> > > >                                           TEGRA_VI_OUT_2 : TEGRA_VI=
-_OUT_1;
-> > > > -     int main_output_format;
-> > > > -     int yuv_output_format;
-> > > > -
-> > > > -     tegra20_vi_get_output_formats(chan, &main_output_format, &yuv=
-_output_format);
-> > > > -
-> > > > -     /*
-> > > > -      * Set up low pass filter.  Use 0x240 for chromaticity and 0x=
-240
-> > > > -      * for luminance, which is the default and means not to touch
-> > > > -      * anything.
-> > > > -      */
-> > > > -     tegra20_vi_write(chan, TEGRA_VI_H_LPF_CONTROL,
-> > > > -                      0x0240 << VI_H_LPF_CONTROL_LUMA_SFT |
-> > > > -                      0x0240 << VI_H_LPF_CONTROL_CHROMA_SFT);
-> > > > -
-> > > > -     /* Set up raise-on-edge, so we get an interrupt on end of fra=
-me. */
-> > > > -     tegra20_vi_write(chan, TEGRA_VI_VI_RAISE, VI_VI_RAISE_ON_EDGE=
-);
-> > > > -
-> > > > -     tegra20_vi_write(chan, TEGRA_VI_VI_OUTPUT_CONTROL(output_chan=
-nel),
-> > > > -                      (chan->vflip ? VI_OUTPUT_V_DIRECTION : 0) |
-> > > > -                      (chan->hflip ? VI_OUTPUT_H_DIRECTION : 0) |
-> > > > -                      yuv_output_format << VI_OUTPUT_YUV_OUTPUT_FO=
-RMAT_SFT |
-> > > > -                      main_output_format << VI_OUTPUT_OUTPUT_FORMA=
-T_SFT);
-> > > >
-> > > >       /* Set up frame size */
-> > > >       tegra20_vi_write(chan, TEGRA_VI_OUTPUT_FRAME_SIZE(output_chan=
-nel),
-> > > > @@ -556,18 +719,28 @@ static int tegra20_vi_start_streaming(struct =
-vb2_queue *vq, u32 count)
-> > > >       struct media_pipeline *pipe =3D &chan->video.pipe;
-> > > >       int err;
-> > > >
-> > > > -     chan->next_out_sp_idx =3D host1x_syncpt_read(chan->mw_ack_sp[=
-0]);
-> > > > -
-> > > >       err =3D video_device_pipeline_start(&chan->video, pipe);
-> > > >       if (err)
-> > > >               goto error_pipeline_start;
-> > > >
-> > > > -     tegra20_camera_capture_setup(chan);
-> > > > +     /*
-> > > > +      * Set up low pass filter.  Use 0x240 for chromaticity and 0x=
-240
-> > > > +      * for luminance, which is the default and means not to touch
-> > > > +      * anything.
-> > > > +      */
-> > > > +     tegra20_vi_write(chan, TEGRA_VI_H_LPF_CONTROL,
-> > > > +                      0x0240 << VI_H_LPF_CONTROL_LUMA_SFT |
-> > > > +                      0x0240 << VI_H_LPF_CONTROL_CHROMA_SFT);
-> > > > +
-> > > > +     /* Set up raise-on-edge, so we get an interrupt on end of fra=
-me. */
-> > > > +     tegra20_vi_write(chan, TEGRA_VI_VI_RAISE, VI_VI_RAISE_ON_EDGE=
-);
-> > > >
-> > > >       err =3D tegra_channel_set_stream(chan, true);
-> > > >       if (err)
-> > > >               goto error_set_stream;
-> > > >
-> > > > +     tegra20_camera_capture_setup(chan);
-> > > > +
-> > > >       chan->sequence =3D 0;
-> > > >
-> > > >       chan->kthread_start_capture =3D kthread_run(tegra20_chan_capt=
-ure_kthread_start,
-> > > > @@ -662,6 +835,345 @@ const struct tegra_vi_soc tegra20_vi_soc =3D =
-{
-> > > >       .has_h_v_flip =3D true,
-> > > >  };
-> > > >
-> > > > +/* ---------------------------------------------------------------=
------------
-> > > > + * MIPI Calibration
-> > > > + */
-> > > > +static int tegra20_start_pad_calibration(struct tegra_mipi_device =
-*mipi)
-> > > > +{
-> > > > +     struct tegra_csi *csi =3D platform_get_drvdata(mipi->pdev);
-> > > > +     unsigned int port =3D mipi->pads;
-> > > > +     u32 value;
-> > > > +     int ret;
-> > > > +
-> > > > +     guard(mutex)(&csi->mipi_lock);
-> > > > +
-> > > > +     ret =3D pm_runtime_resume_and_get(csi->dev);
-> > > > +     if (ret < 0) {
-> > > > +             dev_err(csi->dev, "failed to get runtime PM: %d\n", r=
-et);
-> > > > +             return ret;
-> > > > +     }
-> > > > +
-> > > > +     tegra20_mipi_write(csi, TEGRA_CSI_DSI_MIPI_CAL_CONFIG,
-> > > > +                        CSI_CIL_MIPI_CAL_HSPDOS(4) |
-> > > > +                        CSI_CIL_MIPI_CAL_HSPUOS(3) |
-> > > > +                        CSI_CIL_MIPI_CAL_TERMOS(0));
-> > > > +     tegra20_mipi_write(csi, TEGRA_CSI_MIPIBIAS_PAD_CONFIG,
-> > > > +                        CSI_PAD_DRIV_DN_REF(5) |
-> > > > +                        CSI_PAD_DRIV_UP_REF(7) |
-> > > > +                        CSI_PAD_TERM_REF(0));
-> > > > +
-> > > > +     /* CSI B */
-> > > > +     value =3D CSI_CIL_MIPI_CAL_HSPDOS(0) |
-> > > > +             CSI_CIL_MIPI_CAL_HSPUOS(0) |
-> > > > +             CSI_CIL_MIPI_CAL_TERMOS(4);
-> > > > +
-> > > > +     if (port =3D=3D PORT_B)
-> > > > +             value |=3D CSI_CIL_MIPI_CAL_SEL_B;
-> > > > +
-> > > > +     tegra20_mipi_write(csi, TEGRA_CSI_CILB_MIPI_CAL_CONFIG, value=
-);
-> > > > +
-> > > > +     /* CSI A */
-> > > > +     value =3D CSI_CIL_MIPI_CAL_STARTCAL |
-> > > > +             CSI_CIL_MIPI_CAL_NOISE_FLT(0xa) |
-> > > > +             CSI_CIL_MIPI_CAL_PRESCALE(0x2) |
-> > > > +             CSI_CIL_MIPI_CAL_HSPDOS(0) |
-> > > > +             CSI_CIL_MIPI_CAL_HSPUOS(0) |
-> > > > +             CSI_CIL_MIPI_CAL_TERMOS(4);
-> > > > +
-> > > > +     if (port =3D=3D PORT_A)
-> > > > +             value |=3D CSI_CIL_MIPI_CAL_SEL_A;
-> > > > +
-> > > > +     tegra20_mipi_write(csi, TEGRA_CSI_CILA_MIPI_CAL_CONFIG, value=
-);
-> > > > +
-> > > > +     tegra20_mipi_write(csi, TEGRA_CSI_CIL_PAD_CONFIG, 0);
-> > > > +
-> > > > +     return 0;
-> > > > +}
-> > > > +
-> > > > +static int tegra20_finish_pad_calibration(struct tegra_mipi_device=
- *mipi)
-> > > > +{
-> > > > +     struct tegra_csi *csi =3D platform_get_drvdata(mipi->pdev);
-> > > > +     void __iomem *cil_status_reg =3D csi->iomem + TEGRA_CSI_CSI_C=
-IL_STATUS;
-> > > > +     unsigned int port =3D mipi->pads;
-> > > > +     u32 value, pp =3D 0, cil =3D 0;
-> > > > +     int ret;
-> > > > +
-> > > > +     /* This part is only for CSI */
-> > > > +     if (port > PORT_B) {
-> > > > +             pm_runtime_put(csi->dev);
-> > > > +
-> > > > +             return 0;
-> > > > +     }
-> > > > +
-> > > > +     guard(mutex)(&csi->mipi_lock);
-> > > > +
-> > > > +     ret =3D readl_relaxed_poll_timeout(cil_status_reg, value,
-> > > > +                                      value & CSI_MIPI_AUTO_CAL_DO=
-NE, 50, 250000);
-> > > > +     if (ret < 0) {
-> > > > +             dev_warn(csi->dev, "MIPI calibration timeout!\n");
-> > > > +             goto exit;
-> > > > +     }
-> > > > +
-> > > > +     /* clear status */
-> > > > +     tegra20_mipi_write(csi, TEGRA_CSI_CSI_CIL_STATUS, value);
-> > > > +     ret =3D readl_relaxed_poll_timeout(cil_status_reg, value,
-> > > > +                                      !(value & CSI_MIPI_AUTO_CAL_=
-DONE), 50, 250000);
-> > > > +     if (ret < 0) {
-> > > > +             dev_warn(csi->dev, "MIPI calibration status timeout!\=
-n");
-> > > > +             goto exit;
-> > > > +     }
-> > > > +
-> > > > +     pp =3D tegra20_mipi_read(csi, TEGRA_CSI_CSI_PIXEL_PARSER_STAT=
-US);
-> > > > +     cil =3D tegra20_mipi_read(csi, TEGRA_CSI_CSI_CIL_STATUS);
-> > > > +     if (pp | cil) {
-> > > > +             dev_warn(csi->dev, "Calibration status not been clear=
-ed!\n");
-> > > > +             ret =3D -EINVAL;
-> > > > +             goto exit;
-> > > > +     }
-> > > > +
-> > > > +exit:
-> > > > +     tegra20_mipi_write(csi, TEGRA_CSI_CSI_CIL_STATUS, pp);
-> > > > +
-> > > > +     /* un-select to avoid interference with DSI */
-> > > > +     tegra20_mipi_write(csi, TEGRA_CSI_CILB_MIPI_CAL_CONFIG,
-> > > > +                        CSI_CIL_MIPI_CAL_HSPDOS(0) |
-> > > > +                        CSI_CIL_MIPI_CAL_HSPUOS(0) |
-> > > > +                        CSI_CIL_MIPI_CAL_TERMOS(4));
-> > > > +
-> > > > +     tegra20_mipi_write(csi, TEGRA_CSI_CILA_MIPI_CAL_CONFIG,
-> > > > +                        CSI_CIL_MIPI_CAL_NOISE_FLT(0xa) |
-> > > > +                        CSI_CIL_MIPI_CAL_PRESCALE(0x2) |
-> > > > +                        CSI_CIL_MIPI_CAL_HSPDOS(0) |
-> > > > +                        CSI_CIL_MIPI_CAL_HSPUOS(0) |
-> > > > +                        CSI_CIL_MIPI_CAL_TERMOS(4));
-> > > > +
-> > > > +     pm_runtime_put(csi->dev);
-> > > > +
-> > > > +     return ret;
-> > > > +}
-> > > > +
-> > > > +static const struct tegra_mipi_ops tegra20_mipi_ops =3D {
-> > > > +     .start_calibration =3D tegra20_start_pad_calibration,
-> > > > +     .finish_calibration =3D tegra20_finish_pad_calibration,
-> > > > +};
-> > > > +
-> > > > +/* ---------------------------------------------------------------=
------------
-> > > > + * CSI
-> > > > + */
-> > > > +static void tegra20_csi_capture_clean(struct tegra_csi_channel *cs=
-i_chan)
-> > > > +{
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_VI_INPUT_STREAM_CONTROL=
-, 0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_HOST_INPUT_STREAM_CONTR=
-OL, 0);
-> > > > +
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_CSI_PIXEL_PARSER_STATUS=
-, 0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_CSI_CIL_STATUS, 0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_CSI_PIXEL_PARSER_INTERR=
-UPT_MASK, 0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_CSI_CIL_INTERRUPT_MASK,=
- 0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_CSI_READONLY_STATUS, 0)=
-;
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_ESCAPE_MODE_COMMAND, 0)=
-;
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_ESCAPE_MODE_DATA, 0);
-> > > > +
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_CIL_PAD_CONFIG, 0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_CIL_MIPI_CAL_STATUS, 0)=
-;
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_CLKEN_OVERRIDE, 0);
-> > > > +
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_DEBUG_CONTROL,
-> > > > +                       CSI_DEBUG_CONTROL_CLR_DBG_CNT_0 |
-> > > > +                       CSI_DEBUG_CONTROL_CLR_DBG_CNT_1 |
-> > > > +                       CSI_DEBUG_CONTROL_CLR_DBG_CNT_2);
-> > > > +}
-> > > > +
-> > > > +static int tegra20_csi_port_start_streaming(struct tegra_csi_chann=
-el *csi_chan,
-> > > > +                                         u8 portno)
-> > > > +{
-> > > > +     struct tegra_vi_channel *vi_chan =3D v4l2_get_subdev_hostdata=
-(&csi_chan->subdev);
-> > > > +     int width  =3D vi_chan->format.width;
-> > > > +     int height =3D vi_chan->format.height;
-> > > > +     u32 data_type =3D vi_chan->fmtinfo->img_dt;
-> > > > +     u32 word_count =3D (width * vi_chan->fmtinfo->bit_width) / 8;
-> > > > +     enum tegra_vi_out output_channel =3D TEGRA_VI_OUT_1;
-> > > > +
-> > > > +     unsigned int main_output_format, yuv_output_format;
-> > > > +     unsigned int port =3D portno & 1;
-> > > > +     u32 value;
-> > > > +
-> > > > +     tegra20_vi_get_output_formats(vi_chan, &main_output_format, &=
-yuv_output_format);
-> > > > +
-> > > > +     switch (data_type) {
-> > > > +     case TEGRA_IMAGE_DT_RAW8:
-> > > > +     case TEGRA_IMAGE_DT_RAW10:
-> > > > +             output_channel =3D TEGRA_VI_OUT_2;
-> > > > +             if (port =3D=3D PORT_A)
-> > > > +                     main_output_format =3D VI_OUTPUT_OUTPUT_FORMA=
-T_CSI_PPA_BAYER;
-> > > > +             else
-> > > > +                     main_output_format =3D VI_OUTPUT_OUTPUT_FORMA=
-T_CSI_PPB_BAYER;
-> > > > +             break;
-> > > > +     }
-> > > > +
-> > > > +     tegra20_csi_capture_clean(csi_chan);
-> > > > +
-> > > > +     /* CSI port cleanup */
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_INPUT_STREAM_CONTROL(po=
-rt), 0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_CONTROL0(p=
-ort), 0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_CONTROL1(p=
-ort), 0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_WORD_COUNT=
-(port), 0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_GAP(port),=
- 0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_PP_COMMAND=
-(port), 0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_EXPECTED_F=
-RAME(port), 0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PHY_CIL_CONTROL0(port),=
- 0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_CIL_PAD_CONFIG0(port), =
-0);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_CIL_PAD_CONFIG1(port), =
-0);
-> > > > +
-> > > > +     tegra20_vi_write(vi_chan, TEGRA_VI_VI_CORE_CONTROL, BIT(25 + =
-port)); /* CSI_PP_YUV422 */
-> > > > +
-> > > > +     tegra20_vi_write(vi_chan, TEGRA_VI_H_DOWNSCALE_CONTROL, BIT(2=
- + port)); /* CSI_PP */
-> > > > +     tegra20_vi_write(vi_chan, TEGRA_VI_V_DOWNSCALE_CONTROL, BIT(2=
- + port)); /* CSI_PP */
-> > > > +
-> > > > +     tegra20_vi_write(vi_chan, TEGRA_VI_CSI_PP_H_ACTIVE(port), wid=
-th << 16);
-> > > > +     tegra20_vi_write(vi_chan, TEGRA_VI_CSI_PP_V_ACTIVE(port), hei=
-ght << 16);
-> > > > +
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_CONTROL1(p=
-ort), 0x1);
-> > > > +
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_WORD_COUNT=
-(port), word_count);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_GAP(port),
-> > > > +                       CSI_PP_FRAME_MIN_GAP(0x14)); /* 14 vi clks =
-between frames */
-> > > > +
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_EXPECTED_F=
-RAME(port),
-> > > > +                       CSI_PP_EXP_FRAME_HEIGHT(height) |
-> > > > +                       CSI_PP_MAX_CLOCKS(0x300) | /* wait 0x300 vi=
- clks for timeout */
-> > > > +                       CSI_PP_LINE_TIMEOUT_ENABLE);
-> > > > +
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_CONTROL0(p=
-ort),
-> > > > +                       CSI_PP_OUTPUT_FORMAT_PIXEL |
-> > > > +                       CSI_PP_DATA_TYPE(data_type) |
-> > > > +                       CSI_PP_CRC_CHECK_ENABLE |
-> > > > +                       CSI_PP_WORD_COUNT_HEADER |
-> > > > +                       CSI_PP_DATA_IDENTIFIER_ENABLE |
-> > > > +                       CSI_PP_PACKET_HEADER_SENT |
-> > > > +                       port);
-> > > > +
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_INPUT_STREAM_CONTROL(po=
-rt),
-> > > > +                       CSI_SKIP_PACKET_THRESHOLD(0x3f) |
-> > > > +                       (csi_chan->numlanes - 1));
-> > > > +
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PHY_CIL_CONTROL0(port),
-> > > > +                       CSI_CONTINUOUS_CLOCK_MODE_ENABLE |
-> > > > +                       0x5); /* Clock settle time */
-> > > > +
-> > > > +     tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_CSI_PP_FRAME_S=
-TART(port),
-> > > > +                      VI_CONT_SYNCPT_OUT_CONTINUOUS_SYNCPT |
-> > > > +                      host1x_syncpt_id(vi_chan->frame_start_sp[0])
-> > > > +                      << VI_CONT_SYNCPT_OUT_SYNCPT_IDX_SFT);
-> > > > +
-> > > > +     tegra20_vi_write(vi_chan, TEGRA_VI_CONT_SYNCPT_OUT(output_cha=
-nnel),
-> > > > +                      VI_CONT_SYNCPT_OUT_CONTINUOUS_SYNCPT |
-> > > > +                      host1x_syncpt_id(vi_chan->mw_ack_sp[0])
-> > > > +                      << VI_CONT_SYNCPT_OUT_SYNCPT_IDX_SFT);
-> > > > +
-> > > > +     value =3D (port =3D=3D PORT_A) ? CSI_A_PHY_CIL_ENABLE | CSI_B=
-_PHY_CIL_DISABLE :
-> > > > +             CSI_B_PHY_CIL_ENABLE | CSI_A_PHY_CIL_DISABLE;
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PHY_CIL_COMMAND, value)=
-;
-> > > > +
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_PP_COMMAND=
-(port),
-> > > > +                       CSI_PP_START_MARKER_FRAME_MAX(0xf) |
-> > > > +                       CSI_PP_DISABLE);
-> > > > +
-> > > > +     tegra20_vi_write(vi_chan, TEGRA_VI_VI_OUTPUT_CONTROL(output_c=
-hannel),
-> > > > +                      (vi_chan->vflip ? VI_OUTPUT_V_DIRECTION : 0)=
- |
-> > > > +                      (vi_chan->hflip ? VI_OUTPUT_H_DIRECTION : 0)=
- |
-> > > > +                      yuv_output_format | main_output_format);
-> > > > +
-> > > > +     return 0;
-> > > > +};
-> > > > +
-> > > > +static void tegra20_csi_port_stop_streaming(struct tegra_csi_chann=
-el *csi_chan, u8 portno)
-> > > > +{
-> > > > +     struct tegra_csi *csi =3D csi_chan->csi;
-> > > > +     unsigned int port =3D portno & 1;
-> > > > +     u32 value;
-> > > > +
-> > > > +     value =3D tegra20_csi_read(csi_chan, TEGRA_CSI_CSI_PIXEL_PARS=
-ER_STATUS);
-> > > > +     dev_dbg(csi->dev, "TEGRA_CSI_CSI_PIXEL_PARSER_STATUS 0x%08x\n=
-", value);
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_CSI_PIXEL_PARSER_STATUS=
-, value);
-> > > > +
-> > > > +     value =3D tegra20_csi_read(csi_chan, TEGRA_CSI_CSI_CIL_STATUS=
-);
-> > > > +     dev_dbg(csi->dev, "TEGRA_CSI_CSI_CIL_STATUS 0x%08x\n", value)=
-;
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_CSI_CIL_STATUS, value);
-> > > > +
-> > > > +     tegra20_csi_write(csi_chan, TEGRA_CSI_PIXEL_STREAM_PP_COMMAND=
-(port),
-> > > > +                       CSI_PP_START_MARKER_FRAME_MAX(0xf) |
-> > > > +                       CSI_PP_DISABLE);
-> > > > +
-> > > > +     if (csi_chan->numlanes =3D=3D 4) {
-> > > > +             tegra20_csi_write(csi_chan, TEGRA_CSI_PHY_CIL_COMMAND=
-,
-> > > > +                               CSI_A_PHY_CIL_DISABLE | CSI_B_PHY_C=
-IL_DISABLE);
-> > > > +     } else {
-> > > > +             value =3D (port =3D=3D PORT_A) ? CSI_A_PHY_CIL_DISABL=
-E | CSI_B_PHY_CIL_NOP :
-> > > > +                     CSI_B_PHY_CIL_DISABLE | CSI_A_PHY_CIL_NOP;
-> > > > +             tegra20_csi_write(csi_chan, TEGRA_CSI_PHY_CIL_COMMAND=
-, value);
-> > > > +     }
-> > > > +}
-> > > > +
-> > > > +static int tegra20_csi_start_streaming(struct tegra_csi_channel *c=
-si_chan)
-> > > > +{
-> > > > +     u8 *portnos =3D csi_chan->csi_port_nums;
-> > > > +     int ret, i;
-> > > > +
-> > > > +     for (i =3D 0; i < csi_chan->numgangports; i++) {
-> > > > +             ret =3D tegra20_csi_port_start_streaming(csi_chan, po=
-rtnos[i]);
-> > > > +             if (ret)
-> > > > +                     goto stream_start_fail;
-> > > > +     }
-> > > > +
-> > > > +     return 0;
-> > > > +
-> > > > +stream_start_fail:
-> > > > +     for (i =3D i - 1; i >=3D 0; i--)
-> > > > +             tegra20_csi_port_stop_streaming(csi_chan, portnos[i])=
-;
-> > > > +
-> > > > +     return ret;
-> > > > +}
-> > > > +
-> > > > +static void tegra20_csi_stop_streaming(struct tegra_csi_channel *c=
-si_chan)
-> > > > +{
-> > > > +     u8 *portnos =3D csi_chan->csi_port_nums;
-> > > > +     int i;
-> > > > +
-> > > > +     for (i =3D 0; i < csi_chan->numgangports; i++)
-> > > > +             tegra20_csi_port_stop_streaming(csi_chan, portnos[i])=
-;
-> > > > +}
-> > > > +
-> > > > +static const struct tegra_csi_ops tegra20_csi_ops =3D {
-> > > > +     .csi_start_streaming =3D tegra20_csi_start_streaming,
-> > > > +     .csi_stop_streaming =3D tegra20_csi_stop_streaming,
-> > > > +};
-> > > > +
-> > > > +static const char * const tegra20_csi_clks[] =3D {
-> > > > +     NULL,
-> > > > +};
-> > > > +
-> > > > +const struct tegra_csi_soc tegra20_csi_soc =3D {
-> > > > +     .ops =3D &tegra20_csi_ops,
-> > > > +     .mipi_ops =3D &tegra20_mipi_ops,
-> > > > +     .csi_max_channels =3D 2, /* CSI-A and CSI-B */
-> > > > +     .clk_names =3D tegra20_csi_clks,
-> > > > +     .num_clks =3D ARRAY_SIZE(tegra20_csi_clks),
-> > > > +};
-> > > > +
-> > > > +static const char * const tegra30_csi_clks[] =3D {
-> > > > +     "csi",
-> > > > +     "csia-pad",
-> > > > +     "csib-pad",
-> > > > +};
-> > > > +
-> > > > +const struct tegra_csi_soc tegra30_csi_soc =3D {
-> > > > +     .ops =3D &tegra20_csi_ops,
-> > > > +     .mipi_ops =3D &tegra20_mipi_ops,
-> > > > +     .csi_max_channels =3D 2, /* CSI-A and CSI-B */
-> > > > +     .clk_names =3D tegra30_csi_clks,
-> > > > +     .num_clks =3D ARRAY_SIZE(tegra30_csi_clks),
-> > > > +};
-> > > > +
-> > > >  /* ---------------------------------------------------------------=
------------
-> > > >   * VIP
-> > > >   */
-> > > > @@ -681,10 +1193,11 @@ static int tegra20_vip_start_streaming(struc=
-t tegra_vip_channel *vip_chan)
-> > > >       enum tegra_vi_out output_channel =3D (data_type =3D=3D TEGRA_=
-IMAGE_DT_RAW8 ||
-> > > >                                           data_type =3D=3D TEGRA_IM=
-AGE_DT_RAW10) ?
-> > > >                                           TEGRA_VI_OUT_2 : TEGRA_VI=
-_OUT_1;
-> > > > -     unsigned int main_input_format;
-> > > > -     unsigned int yuv_input_format;
-> > > > +     unsigned int main_input_format, yuv_input_format;
-> > > > +     unsigned int main_output_format, yuv_output_format;
-> > > >
-> > > >       tegra20_vi_get_input_formats(vi_chan, &main_input_format, &yu=
-v_input_format);
-> > > > +     tegra20_vi_get_output_formats(vi_chan, &main_output_format, &=
-yuv_output_format);
-> > > >
-> > > >       tegra20_vi_write(vi_chan, TEGRA_VI_VI_CORE_CONTROL, 0);
-> > > >
-> > > > @@ -717,6 +1230,11 @@ static int tegra20_vip_start_streaming(struct=
- tegra_vip_channel *vip_chan)
-> > > >
-> > > >       tegra20_vi_write(vi_chan, TEGRA_VI_CAMERA_CONTROL, VI_CAMERA_=
-CONTROL_STOP_CAPTURE);
-> > > >
-> > > > +     tegra20_vi_write(vi_chan, TEGRA_VI_VI_OUTPUT_CONTROL(output_c=
-hannel),
-> > > > +                      (vi_chan->vflip ? VI_OUTPUT_V_DIRECTION : 0)=
- |
-> > > > +                      (vi_chan->hflip ? VI_OUTPUT_H_DIRECTION : 0)=
- |
-> > > > +                       yuv_output_format | main_output_format);
-> > > > +
-> > > >       return 0;
-> > > >  }
-> > > >
-> > > > diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/stagi=
-ng/media/tegra-video/vi.h
-> > > > index 5cbc0606ed6c..bad55e0bd313 100644
-> > > > --- a/drivers/staging/media/tegra-video/vi.h
-> > > > +++ b/drivers/staging/media/tegra-video/vi.h
-> > > > @@ -125,7 +125,6 @@ struct tegra_vi {
-> > > >   *           frame through host1x syncpoint counters (On Tegra20 u=
-sed for the
-> > > >   *              OUT_1 syncpt)
-> > > >   * @sp_incr_lock: protects cpu syncpoint increment.
-> > > > - * @next_out_sp_idx: next expected value for mw_ack_sp[0], i.e. OU=
-T_1 (Tegra20)
-> > > >   *
-> > > >   * @kthread_start_capture: kthread to start capture of single fram=
-e when
-> > > >   *           vb buffer is available. This thread programs VI CSI h=
-ardware
-> > > > @@ -188,7 +187,6 @@ struct tegra_vi_channel {
-> > > >       struct host1x_syncpt *mw_ack_sp[GANG_PORTS_MAX];
-> > > >       /* protects the cpu syncpoint increment */
-> > > >       spinlock_t sp_incr_lock[GANG_PORTS_MAX];
-> > > > -     u32 next_out_sp_idx;
-> > > >
-> > > >       struct task_struct *kthread_start_capture;
-> > > >       wait_queue_head_t start_wait;
-> > > > diff --git a/drivers/staging/media/tegra-video/video.c b/drivers/st=
-aging/media/tegra-video/video.c
-> > > > index 6fe8d5301b9c..9f2bddc460bf 100644
-> > > > --- a/drivers/staging/media/tegra-video/video.c
-> > > > +++ b/drivers/staging/media/tegra-video/video.c
-> > > > @@ -127,6 +127,12 @@ static const struct of_device_id host1x_video_=
-subdevs[] =3D {
-> > > >       { .compatible =3D "nvidia,tegra20-vip", },
-> > > >       { .compatible =3D "nvidia,tegra20-vi", },
-> > > >  #endif
-> > > > +#if defined(CONFIG_ARCH_TEGRA_2x_SOC)
-> > > > +     { .compatible =3D "nvidia,tegra20-csi", },
-> > > > +#endif
-> > > > +#if defined(CONFIG_ARCH_TEGRA_3x_SOC)
-> > > > +     { .compatible =3D "nvidia,tegra30-csi", },
-> > > > +#endif
-> > > >  #if defined(CONFIG_ARCH_TEGRA_210_SOC)
-> > > >       { .compatible =3D "nvidia,tegra210-csi", },
-> > > >       { .compatible =3D "nvidia,tegra210-vi", },
-> > > >
-> > >
-> > >
-> > >
-> > >
->
->
->
->
+	git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git medi=
+a/v6.18-1
+
+For:
+
+- Added a new V4L2 clock helper;
+- iris: Enable H.264/H.265 encoder support and fixes in iris driver common =
+code;
+- camss: add support for new SoC flavors;
+- New camera sensor drivers;
+- venus: add new SoC support;
+- tc358743: support more infoframe types;
+- Various fixes, driver improvements and cleanups;
+=20
+Regards,
+Mauro
+
+---
+
+The following changes since commit 8f5ae30d69d7543eee0d70083daf4de8fe15d585:
+
+  Linux 6.17-rc1 (2025-08-10 19:41:16 +0300)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media.git tag=
+s/media/v6.18-1
+
+for you to fetch changes up to afb100a5ea7a13d7e6937dcd3b36b19dc6cc9328:
+
+  media: venus: pm_helpers: add fallback for the opp-table (2025-09-24 12:5=
+2:09 +0200)
+
+----------------------------------------------------------------
+[GIT PULL for v6.18] media updates
+
+----------------------------------------------------------------
+A.T. Jefferies (1):
+      staging: media: tegra-video: use BIT() macro instead of shift
+
+Allen Ballway (1):
+      media: ov8865: move mode_configure out of state_configure
+
+Andr=C3=A9 Apitzsch (5):
+      media: i2c: imx214: Remove unneeded parentheses
+      media: i2c: imx214: Drop dev argument from imx214_parse_fwnode()
+      media: i2c: imx214: Use __free(fwnode_handle)
+      media: i2c: imx214: Move imx214_pll_update to imx214_ctrls_init
+      media: i2c: imx214: Separate legacy link frequency check from PLL cal=
+culation
+
+Arnd Bergmann (3):
+      media: st-delta: avoid excessive stack usage
+      media: s5p-mfc: remove an unused/uninitialized variable
+      media: em28xx: add special case for legacy gpiolib interface
+
+Benjamin Mugnier (1):
+      media: i2c: vd55g1: Fix duster register address
+
+Biju Das (1):
+      media: rzg2l-cru: Drop function pointer to configure CSI
+
+Bingbu Cao (4):
+      media: staging/ipu7: convert to use pci_alloc_irq_vectors() API
+      media: staging/ipu7: Don't set name for IPU7 PCI device
+      media: staging/ipu7: cleanup the MMU correctly in IPU7 driver release
+      media: staging/ipu7: fix isys device runtime PM usage in firmware clo=
+sing
+
+Bryan O'Donoghue (1):
+      MAINTAINERS: Add a media/platform/qcom MAINTAINERS entry
+
+Chandra Mohan Sundar (1):
+      media: stm32-csi: Fix dereference before NULL check
+
+Chelsy Ratnawat (1):
+      media: fix uninitialized symbol warnings
+
+Chen Ni (1):
+      media: au0828: Use USB API functions rather than constants
+
+Colin Ian King (4):
+      media: i2c: ov5648: make read-only arrays regs and values static const
+      media: Kconfig: Fix spelling mistake "Tehnology" -> "Technology"
+      media: atomisp: Fix incorrect snprintf format specifiers for signed i=
+ntegers
+      media: b2c2: Remove space before newline
+
+Dan Carpenter (2):
+      media: stk1160: Restore deleted comment in stk1160_fill_urb()
+      media: ti: j721e-csi2rx: Fix NULL vs IS_ERR() bug in ti_csi2rx_reques=
+t_max_ppc()
+
+Darshan Rathod (2):
+      media: b2c2: flexcop: Fix coding style issues
+      media: uvcvideo: Fix assignment in if condition
+
+David Lechner (1):
+      media: pci: mg4b: fix uninitialized iio scan data
+
+Desnes Nunes (1):
+      media: uvcvideo: Avoid variable shadowing in uvc_ctrl_cleanup_fh
+
+Dikshita Agarwal (30):
+      MAINTAINERS: update Dikshita Agarwal's email addresses
+      dt-bindings: media: qcom,sm8550-iris: Update Dikshita Agarwal's email=
+ address
+      mailmap: update Dikshita Agarwal's email addresses
+      media: iris: vpu3x: Add MNoC low power handshake during hardware powe=
+r-off
+      media: iris: Fix buffer count reporting in internal buffer check
+      media: iris: Report unreleased PERSIST buffers on session close
+      media: iris: Fix memory leak by freeing untracked persist buffer
+      media: iris: Fix port streaming handling
+      media: iris: Allow substate transition to load resources during outpu=
+t streaming
+      media: iris: Always destroy internal buffers on firmware release resp=
+onse
+      media: iris: Update vbuf flags before v4l2_m2m_buf_done
+      media: iris: Simplify session stop logic by relying on vb2 checks
+      media: iris: Allow stop on firmware only if start was issued.
+      media: iris: Send dummy buffer address for all codecs during drain
+      media: iris: Fix missing LAST flag handling during drain
+      media: iris: Fix format check for CAPTURE plane in try_fmt
+      media: iris: Add support for video encoder device
+      media: iris: Initialize and deinitialize encoder instance structure
+      media: iris: Add support for ENUM_FMT, S/G/TRY_FMT encoder
+      media: iris: Add support for ENUM_FRAMESIZES/FRAMEINTERVALS for encod=
+er
+      media: iris: Add support for VIDIOC_QUERYCAP for encoder video device
+      media: iris: Add encoder support for V4L2 event subscription
+      media: iris: Add support for G/S_SELECTION for encoder video device
+      media: iris: Add support for G/S_PARM for encoder video device
+      media: iris: Add platform-specific capabilities for encoder video dev=
+ice
+      media: iris: Add V4L2 streaming support for encoder video device
+      media: iris: Set platform capabilities to firmware for encoder video =
+device
+      media: iris: Allocate and queue internal buffers for encoder video de=
+vice
+      media: iris: Add support for buffer management ioctls for encoder dev=
+ice
+      media: iris: Add support for drain sequence in encoder video device
+
+Dr. David Alan Gilbert (2):
+      media: radio-wl1273: Remove
+      media: pci: zoran: Remove unused debug parameter
+
+Duoming Zhou (3):
+      media: b2c2: Fix use-after-free causing by irq_check_work in flexcop_=
+pci_remove
+      media: i2c: tc358743: Fix use-after-free bugs caused by orphan timer =
+in probe
+      media: tuner: xc5000: Fix use-after-free in xc5000_release
+
+Edward Adam Davis (1):
+      media: mc: Clear minor number before put device
+
+Geert Uytterhoeven (5):
+      media: renesas: rcar_drif: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+      media: renesas: rcar-vin: Convert to DEFINE_SIMPLE_DEV_PM_OPS()
+      media: renesas: fdp1: Convert to RUNTIME_PM_OPS()
+      media: renesas: ceu: Convert to RUNTIME_PM_OPS()
+      media: renesas: vsp1: Convert to SYSTEM_SLEEP/RUNTIME_PM_OPS()
+
+Guoniu Zhou (2):
+      media: nxp: imx8-isi: Add suspend/resume support for ISI mem2mem
+      media: nxp: imx8-isi: m2m: Fix streaming cleanup on release
+
+Hanne-Lotta M=C3=A4enp=C3=A4=C3=A4 (1):
+      media: Documentation: Improve grammar in DVB API
+
+Hans Verkuil (12):
+      media: v4l2-core: v4l2-dv-timings: support DRM IFs
+      media: i2c: tc358743: add support for more infoframe types
+      MAINTAINERS: update Hans Verkuil's email addresses
+      Documentation: media: update Hans Verkuil's email address
+      media: v4l2-core: update Hans Verkuil's email address
+      media: update Hans Verkuil's email address
+      Documentation: update Hans Verkuil's email address
+      media: include: update Hans Verkuil's email address
+      media: update Hans Verkuil's email address
+      gpu: drm: display: drm_dp_cec: update Hans' email address
+      media: i2c: mt9p031: fix mbus code initialization
+      media: vivid: fix disappearing <Vendor Command With ID> messages
+
+Hans de Goede (1):
+      media: Move gc0310 sensor drivers to drivers/media/i2c/
+
+Hao Yao (1):
+      media: ov08x40: Fix the horizontal flip control
+
+Hardevsinh Palaniya (1):
+      media: i2c: add ov2735 image sensor driver
+
+Himanshu Bhavani (1):
+      dt-bindings: media: i2c: Add ov2735 sensor
+
+Jacopo Mondi (37):
+      media: rcar-vin: Do not set file->private_data
+      media: rzg2l-cru: Do not set file->private_data
+      media: camss: Remove custom .release fop()
+      media: zoran: Remove zoran_fh structure
+      media: zoran: Rename __fh to fh
+      media: v4l2-ioctl: Access v4l2_fh from private_data
+      media: allegro: Access v4l2_fh from file
+      media: meson-ge2d: Access v4l2_fh from file
+      media: coda: Access v4l2_fh from file
+      media: wave5: Access v4l2_fh from file
+      media: m2m-deinterlace: Access v4l2_fh from file
+      media: mtk: jpeg: Access v4l2_fh from file->private_data
+      media: mtk_mdp_m2m: Access v4l2_fh from file
+      media: mtk: mdp3: Access v4l2_fh from file
+      media: mtk: vcodec: Access v4l2_fh from file
+      media: tegra-vde: Access v4l2_fh from file
+      media: imx-jpeg: Access v4l2_fh from file
+      media: imx-isi: Access v4l2_fh from file
+      media: nxp: mx2: Access v4l2_fh from file
+      media: renesas: Access v4l2_fh from file
+      media: rockhip: rga: Access v4l2_fh from file
+      media: rockchip: rkvdec: Access v4l2_fh from file
+      media: exynos-gsc: Access v4l2_fh from file
+      media: exynos4-is: Access v4l2_fh from file
+      media: s3c-camif: Access v4l2_fh from file
+      media: s5p-g2d: Access v4l2_fh from file
+      media: s5p-jpeg: Access v4l2_fh from file
+      media: s5p-mfc: Access v4l2_fh from file
+      media: bdisp: Access v4l2_fh from file
+      media: st: delta: Access v4l2_fh from file
+      media: stm32: dma2d: Access v4l2_fh from file
+      media: omap3isp: Access v4l2_fh from file
+      media: cx18: Access v4l2_fh from file
+      media: ivtv: Access v4l2_fh from file
+      media: usb: hdpvr: Access v4l2_fh from file
+      media: usb: uvc: Access v4l2_fh from file
+      media: staging: imx: Access v4l2_fh from file
+
+Jai Luthra (6):
+      media: ti: j721e-csi2rx: Use devm_of_platform_populate
+      media: ti: j721e-csi2rx: Use fwnode_get_named_child_node
+      media: ti: j721e-csi2rx: Fix source subdev link creation
+      media: cadence: csi2rx: Implement get_fwnode_pad op
+      media: cadence: cdns-csi2rx: Support multiple pixels per clock cycle
+      media: ti: j721e-csi2rx: Support multiple pixels per clock
+
+Jammy Huang (1):
+      media: aspeed: Allow to capture from SoC display (GFX)
+
+Jorge Ramirez-Ortiz (6):
+      media: dt-bindings: venus: Add qcm2290 dt schema
+      media: venus: Define minimum valid firmware version
+      media: venus: Add framework support for AR50_LITE video core
+      media: venus: hfi_plat_v4: Add capabilities for the 4XX lite core
+      media: venus: core: Sort dt_match alphabetically.
+      media: venus: core: Add qcm2290 DT compatible and resource data
+
+Julien Massot (1):
+      media: i2c: vgxy61: Report stream using frame descriptors
+
+Krzysztof Kozlowski (6):
+      media: i2c: imx: Add note to prevent buggy code re-use
+      dt-bindings: media: qcom,sm8550-iris: Add SM8750 video codec
+      dt-bindings: media: qcom,sm8550-iris: Do not reference legacy venus p=
+roperties
+      media: iris: Call correct power off callback in cleanup path
+      media: iris: Split power on per variants
+      media: iris: Add support for SM8750 (VPU v3.5)
+
+Larshin Sergey (1):
+      media: rc: fix races with imon_disconnect()
+
+Laurent Pinchart (135):
+      media: pci: saa7164: Store v4l2_fh pointer in file->private_data
+      media: imagination: Store v4l2_fh pointer in file->private_data
+      media: ti: vpe: Store v4l2_fh pointer in file->private_data
+      media: usb: hdpvr: Store v4l2_fh pointer in file->private_data
+      media: usb: pvrusb2: Store v4l2_fh pointer in file->private_data
+      media: usb: uvcvideo: Store v4l2_fh pointer in file->private_data
+      media: staging: most: Store v4l2_fh pointer in file->private_data
+      media: Wrap file->private_data access with a helper function
+      media: Replace file->private_data access with file_to_v4l2_fh()
+      media: nvidia: tegra-vde: Replace file->private_data access
+      media: Replace file->private_data access with custom functions
+      media: pci: ivtv: Don't create fake v4l2_fh
+      media: amphion: Make some vpu_v4l2 functions static
+      media: amphion: Delete v4l2_fh synchronously in .release()
+      media: visl: Drop visl_v4l2fh_to_ctx() function
+      media: v4l2-fh: Move piece of documentation to correct function
+      media: camss: Replace .open() file operation with v4l2_fh_open()
+      media: chips-media: wave5: Pass file pointer to wave5_cleanup_instanc=
+e()
+      media: qcom: iris: Pass file pointer to iris_v4l2_fh_(de)init()
+      media: qcom: iris: Set file->private_data in iris_v4l2_fh_(de)init()
+      media: qcom: iris: Drop unused argument to iris_get_inst()
+      media: qcom: venus: Pass file pointer to venus_close_common()
+      media: Set file->private_data in v4l2_fh_add()
+      media: Reset file->private_data to NULL in v4l2_fh_del()
+      media: ipu6: isys: Don't set V4L2_FL_USES_V4L2_FH manually
+      media: staging: ipu7: isys: Don't set V4L2_FL_USES_V4L2_FH manually
+      media: v4l2-ctrls: Move v4l2_fh retrieval after V4L2_FL_USES_V4L2_FH =
+check
+      media: v4l2-dev: Make open and release file operations mandatory
+      media: Drop V4L2_FL_USES_V4L2_FH checks
+      media: s5p-mfc: Store s5p_mfc_ctx in vb2_queue.drv_priv
+      media: hantro: Access v4l2_fh from file->private_data
+      media: v4l2-ioctl: Stop passing fh pointer to ioctl handlers
+      media: v4l2-ioctl: Push NULL fh argument down to ioctl wrappers
+      media: test-drivers: Rename second ioctl handlers argument to 'void *=
+priv'
+      media: uvcvideo: Rename second ioctl handlers argument to 'void *priv'
+      media: v4l2-pci-skeleton: Rename second ioctl handlers argument to 'v=
+oid *priv'
+      media: v4l2-core: Rename second ioctl handlers argument to 'void *pri=
+v'
+      media: v4l2: Rename second ioctl handlers argument to 'void *priv'
+      media: staging: Rename second ioctl handlers argument to 'void *priv'
+      media: i2c: ds90ub913: Stop accessing streams configs directly
+      media: staging/ipu7: Disallow source multiplexing
+      media: v4l2-subdev: Make struct v4l2_subdev_stream_config private
+      media: omap3isp: Drop custom .unsubscribe_event() handler
+      media: staging: atomisp: Drop custom .unsubscribe_event() handler
+      media: staging: imx: Drop custom .unsubscribe_event() handler
+      media: ipu6: isys: Use v4l2_ctrl_subdev_subscribe_event()
+      media: staging/ipu7: Use v4l2_ctrl_subdev_subscribe_event()
+      media: mc: Fix MUST_CONNECT handling for pads with no links
+      media: mc: Improve unconnected pads debugging message in link explora=
+tion
+      media: v4l2-common: Constify media_pad argument to v4l2_get_link_freq=
+()
+      media: imx-mipi-csis: Simplify access to source pad
+      media: imx-mipi-csis: Standardize const keyword placement
+      media: imx-mipi-csis: Shorten name of subdev state variables
+      media: imx-mipi-csis: Rename register macros to match reference manual
+      media: imx-mipi-csis: Use GENMASK for all register field masks
+      media: imx-mipi-csis: Fix field alignment in register dump
+      media: imx-mipi-csis: Log per-lane start of transmission errors
+      media: imx-mipi-csis: Only set clock rate when specified in DT
+      dt-bindings: media: nxp,imx-mipi-csi2: Mark clock-frequency as deprec=
+ated
+      dt-bindings: media: nxp,imx-mipi-csi2: Add fsl,num-channels property
+      media: imx-mipi-csis: Initial support for multiple output channels
+      media: nxp: imx8-isi: Drop mxc_isi_video.is_streaming field
+      media: nxp: imx8-isi: Drop unused argument to mxc_isi_channel_chain()
+      media: nxp: imx8-isi: m2m: Delay power up until streamon
+      dt-bindings: media: rkisp1: Require pclk clock on i.MX8MP variant
+      dt-bindings: media: rkisp1: Add second power domain on i.MX8MP
+      media: rkisp1: Refactor clocks initialization
+      media: rkisp1: Acquire pclk clock on i.MX8MP
+      media: rkisp1: Add support for multiple power domains
+      dt-bindings: media: Deprecate clock-frequency property for camera sen=
+sors
+      dt-bindings: media: et8ek8: Deprecate clock-frequency property
+      dt-bindings: media: imx258: Make clocks property required
+      dt-bindings: media: imx274: Make clocks property required
+      media: i2c: mt9v022: Drop unused mt9v022.h header
+      media: i2c: mt9v032: Replace client->dev usage
+      media: i2c: mt9v032: Drop support for platform data
+      media: i2c: mt9v111: Do not set clock rate manually
+      media: i2c: ov6650: Drop unused driver
+      media: i2c: hi556: Replace client->dev usage
+      media: i2c: hi556: Use V4L2 sensor clock helper
+      media: i2c: hi847: Replace client->dev usage
+      media: i2c: hi847: Use V4L2 sensor clock helper
+      media: i2c: imx208: Replace client->dev usage
+      media: i2c: imx208: Use V4L2 sensor clock helper
+      media: i2c: imx319: Replace client->dev usage
+      media: i2c: imx319: Use V4L2 sensor clock helper
+      media: i2c: imx355: Replace client->dev usage
+      media: i2c: imx335: Use V4L2 sensor clock helper
+      media: i2c: og01a1b: Replace client->dev usage
+      media: i2c: og01a1b: Use V4L2 sensor clock helper
+      media: i2c: ov02c10: Replace client->dev usage
+      media: i2c: ov02c10: Use V4L2 sensor clock helper
+      media: i2c: ov02e10: Replace client->dev usage
+      media: i2c: ov02e10: Use V4L2 sensor clock helper
+      media: i2c: ov08d10: Replace client->dev usage
+      media: i2c: ov08d10: Use V4L2 sensor clock helper
+      media: i2c: ov08x40: Replace client->dev usage
+      media: i2c: ov08x40: Use V4L2 sensor clock helper
+      media: i2c: ov13858: Replace client->dev usage
+      media: i2c: ov13858: Use V4L2 sensor clock helper
+      media: i2c: ov13b10: Replace client->dev usage
+      media: i2c: ov13b10: Use V4L2 sensor clock helper
+      media: i2c: ov2740: Replace client->dev usage
+      media: i2c: ov2740: Use V4L2 sensor clock helper
+      media: i2c: ov4689: Use V4L2 sensor clock helper
+      media: i2c: ov5670: Replace client->dev usage
+      media: i2c: ov5670: Use V4L2 sensor clock helper
+      media: i2c: ov5675: Replace client->dev usage
+      media: i2c: ov5675: Use V4L2 sensor clock helper
+      media: i2c: ov5693: Use V4L2 sensor clock helper
+      media: i2c: ov7251: Use V4L2 sensor clock helper
+      media: i2c: ov9734: Replace client->dev usage
+      media: i2c: ov9734: Use V4L2 sensor clock helper
+      media: v4l2-common: Add legacy camera sensor clock helper
+      media: i2c: et8ek8: Drop support for per-mode external clock frequency
+      media: i2c: et8ek8: Use V4L2 legacy sensor clock helper
+      media: i2c: gc05a2: Use V4L2 legacy sensor clock helper
+      media: i2c: gc08a3: Use V4L2 legacy sensor clock helper
+      media: i2c: imx258: Replace client->dev usage
+      media: i2c: imx258: Use V4L2 legacy sensor clock helper
+      media: i2c: imx290: Use V4L2 legacy sensor clock helper
+      media: i2c: ov02a10: Replace client->dev usage
+      media: i2c: ov02a10: Use V4L2 legacy sensor clock helper
+      media: i2c: ov2685: Use V4L2 legacy sensor clock helper
+      media: i2c: ov5645: Use V4L2 legacy sensor clock helper
+      media: i2c: ov5695: Use V4L2 legacy sensor clock helper
+      media: i2c: ov8856: Replace client->dev usage
+      media: i2c: ov8856: Use V4L2 legacy sensor clock helper
+      media: i2c: s5c73m3: Use V4L2 legacy sensor clock helper
+      media: i2c: s5k5baf: Use V4L2 legacy sensor clock helper
+      media: i2c: s5k6a3: Use V4L2 legacy sensor clock helper
+      media: uvcvideo: Drop unneeded memset() in meta device ioctl handlers
+      media: uvcvideo: Add missing curly braces
+      media: uvcvideo: Move MSXU_CONTROL_METADATA definition to header
+      media: vsp1: Export missing vsp1_isp_free_buffer symbol
+
+Liao Yuanhong (2):
+      media: imx296: Remove redundant semicolons
+      media: chips-media: wave5: Remove redundant ternary operators
+
+Loic Poulain (7):
+      dt-bindings: media: Add qcom,qcm2290-camss
+      media: qcom: camss: Add support for TFE (Spectra 340)
+      media: qcom: camss: Add CSID 340 support
+      media: qcom: camss: csiphy-3ph: Add CSIPHY 2ph DPHY v2.0.1 init seque=
+nce
+      media: qcom: camss: add support for QCM2290 camss
+      media: qcom: camss: Add missing header bitfield.h
+      media: qcom: camss: vfe: Fix BPL alignment for QCM2290
+
+Lukas Bulwahn (1):
+      MAINTAINERS: merge sections for ROCKCHIP VIDEO DECODER DRIVER
+
+Ma Ke (1):
+      media: lirc: Fix error handling in lirc_register()
+
+Markus Elfring (1):
+      media: stk1160: Use usb_endpoint_is_isoc_in() rather than duplicating=
+ its implementation
+
+Martin T=C5=AFma (1):
+      media: pci: mgb4: Fix timings comparison in VIDIOC_S_DV_TIMINGS
+
+Mathis Foerst (2):
+      media: mt9m114: Allow set_selection while streaming
+      media: mt9m114: Set pad-slew-rate
+
+Mehdi Djait (49):
+      media: v4l2-common: Add a helper for obtaining the clock producer
+      media: i2c: Kconfig: Ensure a dependency on HAVE_CLK for VIDEO_CAMERA=
+_SENSOR
+      Documentation: media: camera-sensor: Mention v4l2_devm_sensor_clk_get=
+() for obtaining the clock
+      media: i2c: ar0521: Use the v4l2 helper for obtaining the clock
+      media: i2c: et8ek8: Use the v4l2 helper for obtaining the clock
+      media: i2c: gc05a2: Use the v4l2 helper for obtaining the clock
+      media: i2c: gc08a3: Use the v4l2 helper for obtaining the clock
+      media: i2c: gc2145: Use the v4l2 helper for obtaining the clock
+      media: i2c: hi846: Use the v4l2 helper for obtaining the clock
+      media: i2c: imx214: Use the v4l2 helper for obtaining the clock
+      media: i2c: imx219: Use the v4l2 helper for obtaining the clock
+      media: i2c: imx283: Use the v4l2 helper for obtaining the clock
+      media: i2c: imx290: Use the v4l2 helper for obtaining the clock
+      media: i2c: imx296: Use the v4l2 helper for obtaining the clock
+      media: i2c: imx334: Use the v4l2 helper for obtaining the clock
+      media: i2c: imx335: Use the v4l2 helper for obtaining the clock
+      media: i2c: imx412: Use the v4l2 helper for obtaining the clock
+      media: i2c: imx415: Use the v4l2 helper for obtaining the clock
+      media: i2c: mt9m001: Use the v4l2 helper for obtaining the clock
+      media: i2c: mt9m111: Use the v4l2 helper for obtaining the clock
+      media: i2c: mt9m114: Use the v4l2 helper for obtaining the clock
+      media: i2c: mt9p031: Use the v4l2 helper for obtaining the clock
+      media: i2c: mt9t112: Use the v4l2 helper for obtaining the clock
+      media: i2c: mt9v032: Use the v4l2 helper for obtaining the clock
+      media: i2c: mt9v111: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov02a10: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov2659: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov2685: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov5640: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov5645: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov5647: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov5648: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov5695: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov64a40: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov6650: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov7740: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov8856: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov8858: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov8865: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov9282: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov9640: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov9650: Use the v4l2 helper for obtaining the clock
+      media: i2c: s5c73m3: Use the v4l2 helper for obtaining the clock
+      media: i2c: s5k5baf: Use the v4l2 helper for obtaining the clock
+      media: i2c: s5k6a3: Use the v4l2 helper for obtaining the clock
+      media: i2c: vd55g1: Use the v4l2 helper for obtaining the clock
+      media: i2c: vd56g3: Use the v4l2 helper for obtaining the clock
+      media: i2c: vgxy61: Use the v4l2 helper for obtaining the clock
+      media: i2c: ov2680: Use the v4l2 helper for obtaining the clock
+
+Michal Pecio (1):
+      media: uvcvideo: Shorten the transfer size non compliance message
+
+Nai-Chen Cheng (1):
+      staging: media: ipu3: use string_choices API instead of ternary opera=
+tor
+
+Neil Armstrong (2):
+      media: iris: fix module removal if firmware download failed
+      media: iris: add VPU33 specific encoding buffer calculation
+
+Niklas S=C3=B6derlund (11):
+      media: adv7180: Move adv7180_set_power() and init_device()
+      media: adv7180: Add missing lock in suspend callback
+      media: adv7180: Move state mutex handling outside init_device()
+      media: adv7180: Use v4l2-ctrls core to handle s_ctrl locking
+      media: adv7180: Setup controls every time the device is reset
+      media: adv7180: Power down decoder when configuring the device
+      media: adv7180: Split device initialization and reset
+      media: adv7180: Remove the s_power callback
+      media: adv7180: Do not write format to device in set_fmt
+      media: adv7180: Only validate format in s_std
+      media: adv7180: Only validate format in querystd
+
+N=C3=ADcolas F. R. A. Prado (1):
+      media: platform: mtk-mdp3: Add missing MT8188 compatible to comp_dt_i=
+ds
+
+Paul Kocialkowski (5):
+      media: uapi: Move colorimetry controls at the end of the file
+      media: uapi: Cleanup tab after define in headers
+      media: verisilicon: imx8m: Use the default Hantro G1 irq handler
+      media: verisilicon: Explicitly disable selection api ioctls for decod=
+ers
+      media: uapi: v4l2-controls: Cleanup codec definitions
+
+Qianfeng Rong (4):
+      media: i2c: mt9v111: fix incorrect type for ret
+      media: raspberrypi: use int type to store negative error codes
+      media: stm32-dcmi: use int type to store negative error codes
+      media: redrat3: use int type to store negative error codes
+
+Randy Dunlap (1):
+      media: cec: extron-da-hd-4k-plus: drop external-module make commands
+
+Renjiang Han (1):
+      media: venus: pm_helpers: add fallback for the opp-table
+
+Ricardo Ribalda (7):
+      media: uvcvideo: Fix comments in uvc_meta_detect_msxu
+      media: uvcvideo: Drop stream->mutex
+      media: uvcvideo: Move video_device under video_queue
+      media: uvcvideo: Use intf instead of udev for printks
+      media: uvcvideo: Do not re-reference dev->udev
+      media: uvcvideo: Run uvc_ctrl_init_ctrl for all controls
+      media: uvcvideo: Support UVC_CROSXU_CONTROL_IQ_PROFILE
+
+Richard Leitner (1):
+      media: nxp: imx8-isi: Fix streaming cleanup on release
+
+Sakari Ailus (17):
+      media: v4l2-common: Improve devm_v4l2_sensor_clk_get() documentation
+      media: vimc: Don't explicitly set bus_info
+      media: Documentation: Add a hyphen to list-based
+      media: Documentation: Reword split of sensor driver to two classes
+      media: MAINTAINERS: Remove Stanislaw from IVCS and IPU6 reviewers
+      media: ipu6: isys: Set embedded data type correctly for metadata form=
+ats
+      media: Documentation: Move streams documentation one level up
+      media: MAINTAINERS: Change rcar-jpu maintainer
+      media: vim2m: Remove compilation conditional to CONFIG_MEDIA_CONTROLL=
+ER
+      media: ov02c10: Don't include linux/version.h
+      media: uapi: Documentation: Improve column width hints for examples
+      media: amlogic: c3-mipi-csi2: Call v4l2_get_link_freq() on source pad
+      media: v4l2-common: Drop the workaround from v4l2_get_link_freq()
+      media: v4l2-common: Update v4l2_get_link_freq() documentation
+      media: mc: Clear minor number reservation at unregistration time
+      media: staging: ipu7: Don't include linux/version.h
+      media: ov02e10: Remove Jingjing's e-mail address
+
+Sean Young (1):
+      media: imon: Remove unused defines
+
+Shravan Chippa (1):
+      media: i2c: imx334: add support for additional test patterns
+
+Stephan Gerhold (3):
+      media: venus: firmware: Use correct reset sequence for IRIS2
+      dt-bindings: media: qcom,sm8550-iris: Add X1E80100 compatible
+      media: iris: Fix firmware reference leak and unmap memory after load
+
+Tetsuo Handa (2):
+      media: imon: make send_packet() more robust
+      media: imon: grab lock earlier in imon_ir_change_protocol()
+
+Thadeu Lima de Souza Cascardo (1):
+      media: uvcvideo: Mark invalid entities with id UVC_INVALID_ENTITY_ID
+
+Thomas Fourier (2):
+      media: cx18: Add missing check after DMA map
+      media: pci: ivtv: Add missing check after DMA map
+
+Thomas Huth (1):
+      media: pci/ivtv: Replace GPLv2 boilerplate text with SPDX
+
+Thomas Wei=C3=9Fschuh (1):
+      media: platform: mtk-mdp3: don't use %pK through printk
+
+Tomi Valkeinen (1):
+      media: v4l2-subdev: Fix alloc failure check in v4l2_subdev_call_state=
+_try()
+
+Vikash Garodia (1):
+      MAINTAINERS: Update Vikash Garodia's email address
+
+Vikram Sharma (14):
+      media: qcom: camss: Rename camss-csid-780.c to camss-csid-gen3.c
+      media: qcom: camss: Rename camss-vfe-780.c to camss-vfe-gen3.c
+      media: dt-bindings: Add qcom,sa8775p-camss compatible
+      media: qcom: camss: Add qcom,sa8775p-camss compatible
+      media: qcom: camss: Add support for CSIPHY (v1.3.0)
+      media: qcom: camss: Add support for CSID 690
+      media: qcom: camss: Add support for VFE 690
+      media: qcom: camss: Enumerate resources for lemans(sa8775p)
+      media: dt-bindings: Add qcom,qcs8300-camss compatible
+      media: qcom: camss: Add qcs8300 compatible
+      media: qcom: camss: Add CSIPHY support for QCS8300
+      media: qcom: camss: enable csid 690 for qcs8300
+      media: qcom: camss: enable vfe 690 for qcs8300
+      media: qcom: camss: Enumerate resources for QCS8300
+
+Vladimir Zapolskiy (8):
+      media: i2c: og01a1b: Specify monochrome media bus format instead of B=
+ayer
+      dt-bindings: media: i2c: Add OmniVision OV6211 image sensor
+      media: i2c: Add OmniVision OV6211 image sensor driver
+      dt-bindings: media: i2c: Add OmniVision OG0VE1B camera sensor
+      media: i2c: Add OmniVision OG0VE1B camera sensor
+      media: qcom: camss: remove .link_entities callback
+      media: qcom: camss: unconditionally set async notifier of subdevices
+      media: qcom: camss: remove a check for unavailable CAMSS endpoint
+
+Wolfram Sang (1):
+      media: remove unneeded 'fast_io' parameter in regmap_config
+
+Yemike Abhilash Chandra (1):
+      MAINTAINERS: Update maintainers of TI VPE and CAL
+
+Yunseong Kim (1):
+      media: vim2m: remove unused CLIP macro
+
+Zhang Shurong (1):
+      media: rj54n1cb0c: Fix memleak in rj54n1_probe()
+
+ .mailmap                                           |    6 +-
+ Documentation/ABI/testing/debugfs-cec-error-inj    |    2 +-
+ Documentation/admin-guide/bug-hunting.rst          |    2 +-
+ Documentation/admin-guide/media/i2c-cardlist.rst   |    1 -
+ Documentation/admin-guide/media/ivtv.rst           |    2 +-
+ .../devicetree/bindings/i2c/qcom,i2c-cci.yaml      |    6 +-
+ .../devicetree/bindings/media/cec/cec-common.yaml  |    2 +-
+ .../devicetree/bindings/media/cec/cec-gpio.yaml    |    2 +-
+ .../bindings/media/cec/nvidia,tegra114-cec.yaml    |    2 +-
+ .../devicetree/bindings/media/i2c/adi,adv7604.yaml |    2 +-
+ .../devicetree/bindings/media/i2c/mipi-ccs.yaml    |    7 +-
+ .../bindings/media/i2c/ovti,og0ve1b.yaml           |   97 +
+ .../bindings/media/i2c/ovti,ov02a10.yaml           |    3 +-
+ .../devicetree/bindings/media/i2c/ovti,ov2735.yaml |  108 +
+ .../devicetree/bindings/media/i2c/ovti,ov5645.yaml |    6 +-
+ .../devicetree/bindings/media/i2c/ovti,ov6211.yaml |   96 +
+ .../devicetree/bindings/media/i2c/ovti,ov7251.yaml |    6 +-
+ .../devicetree/bindings/media/i2c/ovti,ov8856.yaml |    3 +-
+ .../bindings/media/i2c/samsung,s5k5baf.yaml        |    6 +-
+ .../bindings/media/i2c/samsung,s5k6a3.yaml         |    6 +-
+ .../devicetree/bindings/media/i2c/sony,imx258.yaml |    1 +
+ .../devicetree/bindings/media/i2c/sony,imx274.yaml |    4 +
+ .../devicetree/bindings/media/i2c/sony,imx290.yaml |    5 +-
+ .../bindings/media/i2c/ti,ds90ub960.yaml           |    3 +
+ .../bindings/media/i2c/toshiba,et8ek8.txt          |    8 +-
+ .../bindings/media/nxp,imx-mipi-csi2.yaml          |   18 +-
+ .../bindings/media/qcom,qcm2290-camss.yaml         |  243 +++
+ .../bindings/media/qcom,qcm2290-venus.yaml         |  130 ++
+ .../bindings/media/qcom,qcs8300-camss.yaml         |  336 +++
+ .../bindings/media/qcom,sa8775p-camss.yaml         |  361 ++++
+ .../bindings/media/qcom,sm8550-iris.yaml           |   16 +-
+ .../bindings/media/qcom,sm8750-iris.yaml           |  186 ++
+ .../devicetree/bindings/media/rockchip-isp1.yaml   |   23 +-
+ .../bindings/media/samsung,exynos4212-fimc-is.yaml |    3 +-
+ .../devicetree/bindings/media/samsung,fimc.yaml    |    3 +-
+ .../devicetree/bindings/media/silabs,si470x.yaml   |    2 +-
+ Documentation/driver-api/media/camera-sensor.rst   |   24 +-
+ .../driver-api/media/maintainer-entry-profile.rst  |    4 +-
+ Documentation/driver-api/media/v4l2-fh.rst         |   59 +-
+ .../translations/zh_CN/admin-guide/bug-hunting.rst |    2 +-
+ .../zh_CN/video4linux/v4l2-framework.txt           |   16 +-
+ .../translations/zh_TW/admin-guide/bug-hunting.rst |    2 +-
+ Documentation/userspace-api/media/cec/cec-api.rst  |    2 +-
+ .../userspace-api/media/drivers/camera-sensor.rst  |   16 +-
+ .../userspace-api/media/drivers/cx2341x-uapi.rst   |    2 +-
+ .../media/dvb/fe-diseqc-send-burst.rst             |    2 +-
+ .../userspace-api/media/dvb/fe-set-tone.rst        |    2 +-
+ .../userspace-api/media/dvb/fe-set-voltage.rst     |    2 +-
+ .../media/dvb/fe_property_parameters.rst           |   23 +-
+ .../dvb/frontend-property-terrestrial-systems.rst  |    2 +-
+ Documentation/userspace-api/media/dvb/intro.rst    |    4 +-
+ .../userspace-api/media/dvb/legacy_dvb_audio.rst   |    4 +-
+ .../userspace-api/media/v4l/dev-subdev.rst         |   12 +-
+ .../userspace-api/media/v4l/metafmt-generic.rst    |    8 +-
+ Documentation/userspace-api/media/v4l/v4l2.rst     |    2 +-
+ MAINTAINERS                                        |  150 +-
+ drivers/gpu/drm/display/drm_dp_cec.c               |    2 +-
+ drivers/media/cec/core/cec-core.c                  |    2 +-
+ drivers/media/cec/platform/cec-gpio/cec-gpio.c     |    2 +-
+ drivers/media/cec/platform/stm32/stm32-cec.c       |    1 -
+ .../media/cec/usb/extron-da-hd-4k-plus/Makefile    |    6 -
+ .../extron-da-hd-4k-plus/extron-da-hd-4k-plus.c    |    6 +-
+ drivers/media/cec/usb/pulse8/pulse8-cec.c          |    4 +-
+ drivers/media/cec/usb/rainshadow/rainshadow-cec.c  |    4 +-
+ drivers/media/common/b2c2/flexcop-sram.c           |    2 +-
+ drivers/media/common/b2c2/flexcop.c                |   22 +-
+ drivers/media/common/cx2341x.c                     |    2 +-
+ drivers/media/common/videobuf2/videobuf2-v4l2.c    |   12 +-
+ drivers/media/dvb-frontends/Kconfig                |    4 +-
+ drivers/media/i2c/Kconfig                          |   50 +-
+ drivers/media/i2c/Makefile                         |    5 +-
+ drivers/media/i2c/adv7180.c                        |  338 +--
+ drivers/media/i2c/adv7604.c                        |    2 +-
+ drivers/media/i2c/adv7842.c                        |    2 +-
+ drivers/media/i2c/ar0521.c                         |    9 +-
+ drivers/media/i2c/cx25840/cx25840-core.c           |    4 +-
+ drivers/media/i2c/ds90ub913.c                      |   17 +-
+ drivers/media/i2c/et8ek8/et8ek8_driver.c           |   34 +-
+ drivers/media/i2c/et8ek8/et8ek8_mode.c             |    9 -
+ drivers/media/i2c/et8ek8/et8ek8_reg.h              |    1 -
+ .../i2c/atomisp-gc0310.c =3D> media/i2c/gc0310.c}    |    0
+ drivers/media/i2c/gc05a2.c                         |    8 +-
+ drivers/media/i2c/gc08a3.c                         |    8 +-
+ drivers/media/i2c/gc2145.c                         |    2 +-
+ drivers/media/i2c/hi556.c                          |   92 +-
+ drivers/media/i2c/hi846.c                          |   11 +-
+ drivers/media/i2c/hi847.c                          |   84 +-
+ drivers/media/i2c/imx208.c                         |   91 +-
+ drivers/media/i2c/imx214.c                         |  247 ++-
+ drivers/media/i2c/imx219.c                         |    6 +-
+ drivers/media/i2c/imx258.c                         |  105 +-
+ drivers/media/i2c/imx274.c                         |    2 +
+ drivers/media/i2c/imx283.c                         |    5 +-
+ drivers/media/i2c/imx290.c                         |   27 +-
+ drivers/media/i2c/imx296.c                         |    4 +-
+ drivers/media/i2c/imx319.c                         |   92 +-
+ drivers/media/i2c/imx334.c                         |   15 +-
+ drivers/media/i2c/imx335.c                         |    9 +-
+ drivers/media/i2c/imx355.c                         |   90 +-
+ drivers/media/i2c/imx412.c                         |    9 +-
+ drivers/media/i2c/imx415.c                         |    2 +-
+ drivers/media/i2c/ir-kbd-i2c.c                     |    6 +-
+ drivers/media/i2c/mt9m001.c                        |    5 +-
+ drivers/media/i2c/mt9m111.c                        |    5 +-
+ drivers/media/i2c/mt9m114.c                        |   75 +-
+ drivers/media/i2c/mt9p031.c                        |    9 +-
+ drivers/media/i2c/mt9t112.c                        |   11 +-
+ drivers/media/i2c/mt9v032.c                        |  105 +-
+ drivers/media/i2c/mt9v111.c                        |    9 +-
+ drivers/media/i2c/og01a1b.c                        |  115 +-
+ drivers/media/i2c/og0ve1b.c                        |  816 ++++++++
+ drivers/media/i2c/ov02a10.c                        |   45 +-
+ drivers/media/i2c/ov02c10.c                        |  108 +-
+ drivers/media/i2c/ov02e10.c                        |  107 +-
+ drivers/media/i2c/ov08d10.c                        |   82 +-
+ drivers/media/i2c/ov08x40.c                        |   95 +-
+ drivers/media/i2c/ov13858.c                        |   69 +-
+ drivers/media/i2c/ov13b10.c                        |  110 +-
+ drivers/media/i2c/ov2659.c                         |    5 +-
+ drivers/media/i2c/ov2680.c                         |   29 +-
+ drivers/media/i2c/ov2685.c                         |   16 +-
+ drivers/media/i2c/ov2735.c                         | 1109 ++++++++++
+ drivers/media/i2c/ov2740.c                         |   91 +-
+ drivers/media/i2c/ov4689.c                         |   12 +-
+ drivers/media/i2c/ov5640.c                         |    9 +-
+ drivers/media/i2c/ov5645.c                         |   13 +-
+ drivers/media/i2c/ov5647.c                         |    9 +-
+ drivers/media/i2c/ov5648.c                         |   10 +-
+ drivers/media/i2c/ov5670.c                         |  105 +-
+ drivers/media/i2c/ov5675.c                         |   89 +-
+ drivers/media/i2c/ov5693.c                         |   16 +-
+ drivers/media/i2c/ov5695.c                         |   16 +-
+ drivers/media/i2c/ov6211.c                         |  793 +++++++
+ drivers/media/i2c/ov64a40.c                        |    2 +-
+ drivers/media/i2c/ov6650.c                         | 1149 -----------
+ drivers/media/i2c/ov7251.c                         |   26 +-
+ drivers/media/i2c/ov7740.c                         |   11 +-
+ drivers/media/i2c/ov8856.c                         |   95 +-
+ drivers/media/i2c/ov8858.c                         |    2 +-
+ drivers/media/i2c/ov8865.c                         |   50 +-
+ drivers/media/i2c/ov9282.c                         |    9 +-
+ drivers/media/i2c/ov9640.c                         |    5 +-
+ drivers/media/i2c/ov9650.c                         |    5 +-
+ drivers/media/i2c/ov9734.c                         |   82 +-
+ drivers/media/i2c/rj54n1cb0c.c                     |    9 +-
+ drivers/media/i2c/s5c73m3/s5c73m3-core.c           |   19 +-
+ drivers/media/i2c/s5c73m3/s5c73m3.h                |    2 -
+ drivers/media/i2c/s5k5baf.c                        |   21 +-
+ drivers/media/i2c/s5k6a3.c                         |   20 +-
+ drivers/media/i2c/saa6752hs.c                      |    2 +-
+ drivers/media/i2c/saa7115.c                        |    2 +-
+ drivers/media/i2c/saa7127.c                        |    2 +-
+ drivers/media/i2c/saa717x.c                        |    2 +-
+ drivers/media/i2c/tc358743.c                       |  113 +-
+ drivers/media/i2c/tc358743_regs.h                  |   57 +-
+ drivers/media/i2c/tda9840.c                        |    2 +-
+ drivers/media/i2c/tea6415c.c                       |    2 +-
+ drivers/media/i2c/tea6420.c                        |    2 +-
+ drivers/media/i2c/ths7303.c                        |    2 +-
+ drivers/media/i2c/tlv320aic23b.c                   |    2 +-
+ drivers/media/i2c/upd64031a.c                      |    2 +-
+ drivers/media/i2c/upd64083.c                       |    2 +-
+ drivers/media/i2c/vd55g1.c                         |    4 +-
+ drivers/media/i2c/vd56g3.c                         |    2 +-
+ drivers/media/i2c/vgxy61.c                         |   26 +-
+ drivers/media/i2c/vp27smpx.c                       |    2 +-
+ drivers/media/i2c/wm8739.c                         |    2 +-
+ drivers/media/i2c/wm8775.c                         |    2 +-
+ drivers/media/mc/mc-devnode.c                      |    6 +-
+ drivers/media/mc/mc-entity.c                       |    6 +-
+ drivers/media/mc/mc-request.c                      |    2 +-
+ drivers/media/pci/b2c2/flexcop-pci.c               |    2 +-
+ drivers/media/pci/bt8xx/bttv-driver.c              |   14 +-
+ drivers/media/pci/bt8xx/bttv-vbi.c                 |    6 +-
+ drivers/media/pci/cobalt/cobalt-driver.c           |    2 +-
+ drivers/media/pci/cobalt/cobalt-v4l2.c             |   60 +-
+ drivers/media/pci/cx18/cx18-audio.c                |    2 +-
+ drivers/media/pci/cx18/cx18-audio.h                |    2 +-
+ drivers/media/pci/cx18/cx18-av-audio.c             |    2 +-
+ drivers/media/pci/cx18/cx18-av-core.c              |    2 +-
+ drivers/media/pci/cx18/cx18-av-core.h              |    2 +-
+ drivers/media/pci/cx18/cx18-av-firmware.c          |    2 +-
+ drivers/media/pci/cx18/cx18-av-vbi.c               |    2 +-
+ drivers/media/pci/cx18/cx18-cards.c                |    2 +-
+ drivers/media/pci/cx18/cx18-cards.h                |    2 +-
+ drivers/media/pci/cx18/cx18-controls.c             |    2 +-
+ drivers/media/pci/cx18/cx18-controls.h             |    2 +-
+ drivers/media/pci/cx18/cx18-driver.c               |    2 +-
+ drivers/media/pci/cx18/cx18-driver.h               |    4 +-
+ drivers/media/pci/cx18/cx18-fileops.c              |   13 +-
+ drivers/media/pci/cx18/cx18-fileops.h              |    2 +-
+ drivers/media/pci/cx18/cx18-firmware.c             |    2 +-
+ drivers/media/pci/cx18/cx18-firmware.h             |    2 +-
+ drivers/media/pci/cx18/cx18-gpio.c                 |    2 +-
+ drivers/media/pci/cx18/cx18-gpio.h                 |    2 +-
+ drivers/media/pci/cx18/cx18-i2c.c                  |    2 +-
+ drivers/media/pci/cx18/cx18-i2c.h                  |    2 +-
+ drivers/media/pci/cx18/cx18-io.c                   |    2 +-
+ drivers/media/pci/cx18/cx18-io.h                   |    2 +-
+ drivers/media/pci/cx18/cx18-ioctl.c                |   66 +-
+ drivers/media/pci/cx18/cx18-ioctl.h                |    2 +-
+ drivers/media/pci/cx18/cx18-irq.c                  |    2 +-
+ drivers/media/pci/cx18/cx18-irq.h                  |    2 +-
+ drivers/media/pci/cx18/cx18-mailbox.c              |    2 +-
+ drivers/media/pci/cx18/cx18-mailbox.h              |    2 +-
+ drivers/media/pci/cx18/cx18-queue.c                |   15 +-
+ drivers/media/pci/cx18/cx18-queue.h                |    2 +-
+ drivers/media/pci/cx18/cx18-scb.c                  |    2 +-
+ drivers/media/pci/cx18/cx18-scb.h                  |    2 +-
+ drivers/media/pci/cx18/cx18-streams.c              |    2 +-
+ drivers/media/pci/cx18/cx18-streams.h              |    2 +-
+ drivers/media/pci/cx18/cx18-vbi.c                  |    2 +-
+ drivers/media/pci/cx18/cx18-vbi.h                  |    2 +-
+ drivers/media/pci/cx18/cx18-version.h              |    2 +-
+ drivers/media/pci/cx18/cx18-video.c                |    2 +-
+ drivers/media/pci/cx18/cx18-video.h                |    2 +-
+ drivers/media/pci/cx18/cx23418.h                   |    2 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c      |    2 +-
+ drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c    |    6 +
+ drivers/media/pci/intel/ipu6/ipu6-isys-video.c     |    1 -
+ drivers/media/pci/ivtv/ivtv-alsa-pcm.c             |    2 -
+ drivers/media/pci/ivtv/ivtv-cards.c                |    2 +-
+ drivers/media/pci/ivtv/ivtv-cards.h                |    2 +-
+ drivers/media/pci/ivtv/ivtv-controls.c             |    2 +-
+ drivers/media/pci/ivtv/ivtv-controls.h             |    2 +-
+ drivers/media/pci/ivtv/ivtv-driver.c               |   17 +-
+ drivers/media/pci/ivtv/ivtv-driver.h               |   24 +-
+ drivers/media/pci/ivtv/ivtv-fileops.c              |   42 +-
+ drivers/media/pci/ivtv/ivtv-fileops.h              |    2 +-
+ drivers/media/pci/ivtv/ivtv-firmware.c             |    2 +-
+ drivers/media/pci/ivtv/ivtv-firmware.h             |    2 +-
+ drivers/media/pci/ivtv/ivtv-gpio.c                 |    2 +-
+ drivers/media/pci/ivtv/ivtv-gpio.h                 |    2 +-
+ drivers/media/pci/ivtv/ivtv-i2c.c                  |    2 +-
+ drivers/media/pci/ivtv/ivtv-i2c.h                  |    2 +-
+ drivers/media/pci/ivtv/ivtv-ioctl.c                |  126 +-
+ drivers/media/pci/ivtv/ivtv-ioctl.h                |    2 +-
+ drivers/media/pci/ivtv/ivtv-irq.c                  |    8 +-
+ drivers/media/pci/ivtv/ivtv-irq.h                  |    2 +-
+ drivers/media/pci/ivtv/ivtv-mailbox.c              |    2 +-
+ drivers/media/pci/ivtv/ivtv-mailbox.h              |    2 +-
+ drivers/media/pci/ivtv/ivtv-queue.c                |    2 +-
+ drivers/media/pci/ivtv/ivtv-queue.h                |    2 +-
+ drivers/media/pci/ivtv/ivtv-routing.c              |    2 +-
+ drivers/media/pci/ivtv/ivtv-routing.h              |    2 +-
+ drivers/media/pci/ivtv/ivtv-streams.c              |   17 +-
+ drivers/media/pci/ivtv/ivtv-streams.h              |    2 +-
+ drivers/media/pci/ivtv/ivtv-udma.c                 |    2 +-
+ drivers/media/pci/ivtv/ivtv-udma.h                 |    2 +-
+ drivers/media/pci/ivtv/ivtv-vbi.c                  |    2 +-
+ drivers/media/pci/ivtv/ivtv-vbi.h                  |    2 +-
+ drivers/media/pci/ivtv/ivtv-version.h              |    2 +-
+ drivers/media/pci/ivtv/ivtv-yuv.c                  |    8 +-
+ drivers/media/pci/mgb4/mgb4_trigger.c              |    2 +-
+ drivers/media/pci/mgb4/mgb4_vin.c                  |    3 +-
+ drivers/media/pci/saa7134/saa7134-video.c          |    4 +-
+ drivers/media/pci/saa7164/saa7164-encoder.c        |   30 +-
+ drivers/media/pci/saa7164/saa7164-vbi.c            |   25 +-
+ drivers/media/pci/saa7164/saa7164.h                |   10 +
+ drivers/media/pci/tw68/tw68-core.c                 |    4 +-
+ drivers/media/pci/tw68/tw68-reg.h                  |    2 +-
+ drivers/media/pci/tw68/tw68-risc.c                 |    2 +-
+ drivers/media/pci/tw68/tw68-video.c                |    2 +-
+ drivers/media/pci/tw68/tw68.h                      |    2 +-
+ drivers/media/pci/zoran/zoran.h                    |    6 -
+ drivers/media/pci/zoran/zoran_card.c               |    4 -
+ drivers/media/pci/zoran/zoran_card.h               |    2 -
+ drivers/media/pci/zoran/zoran_driver.c             |   35 +-
+ drivers/media/platform/allegro-dvt/allegro-core.c  |   33 +-
+ .../platform/amlogic/c3/mipi-csi2/c3-mipi-csi2.c   |    7 +-
+ drivers/media/platform/amlogic/meson-ge2d/ge2d.c   |   25 +-
+ drivers/media/platform/amphion/vpu.h               |    2 +-
+ drivers/media/platform/amphion/vpu_v4l2.c          |   22 +-
+ drivers/media/platform/amphion/vpu_v4l2.h          |    8 -
+ drivers/media/platform/aspeed/aspeed-video.c       |  199 +-
+ drivers/media/platform/cadence/cdns-csi2rx.c       |   75 +-
+ .../media/platform/chips-media/coda/coda-common.c  |   50 +-
+ .../platform/chips-media/wave5/wave5-helper.c      |   10 +-
+ .../platform/chips-media/wave5/wave5-helper.h      |    2 +-
+ .../platform/chips-media/wave5/wave5-vpu-dec.c     |   23 +-
+ .../platform/chips-media/wave5/wave5-vpu-enc.c     |   31 +-
+ .../media/platform/chips-media/wave5/wave5-vpu.h   |    5 +
+ .../media/platform/imagination/e5010-jpeg-enc.c    |   23 +-
+ .../media/platform/imagination/e5010-jpeg-enc.h    |    5 +
+ drivers/media/platform/m2m-deinterlace.c           |   26 +-
+ drivers/media/platform/marvell/cafe-driver.c       |    2 +-
+ .../media/platform/mediatek/jpeg/mtk_jpeg_core.c   |   37 +-
+ drivers/media/platform/mediatek/mdp/mtk_mdp_m2m.c  |   29 +-
+ .../media/platform/mediatek/mdp3/mtk-mdp3-comp.c   |    3 +
+ .../media/platform/mediatek/mdp3/mtk-mdp3-core.c   |    2 +-
+ .../media/platform/mediatek/mdp3/mtk-mdp3-m2m.c    |   25 +-
+ .../media/platform/mediatek/mdp3/mtk-mdp3-vpu.c    |    2 +-
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.c       |   36 +-
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c   |    9 +-
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h   |    5 +
+ .../mediatek/vcodec/encoder/mtk_vcodec_enc.c       |   37 +-
+ .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c   |    9 +-
+ .../mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h   |    4 +-
+ drivers/media/platform/nvidia/tegra-vde/v4l2.c     |   35 +-
+ drivers/media/platform/nxp/dw100/dw100.c           |    7 +-
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c     |   45 +-
+ drivers/media/platform/nxp/imx-mipi-csis.c         |  353 ++--
+ drivers/media/platform/nxp/imx-pxp.c               |    7 +-
+ .../media/platform/nxp/imx8-isi/imx8-isi-core.c    |    8 +
+ .../media/platform/nxp/imx8-isi/imx8-isi-core.h    |   14 +-
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-hw.c  |    2 +-
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c |  292 ++-
+ .../media/platform/nxp/imx8-isi/imx8-isi-pipe.c    |    2 +-
+ .../media/platform/nxp/imx8-isi/imx8-isi-video.c   |  156 +-
+ drivers/media/platform/nxp/mx2_emmaprp.c           |   24 +-
+ drivers/media/platform/qcom/camss/Makefile         |    6 +-
+ drivers/media/platform/qcom/camss/camss-csid-340.c |  190 ++
+ .../camss/{camss-csid-780.c =3D> camss-csid-gen3.c}  |   34 +-
+ .../camss/{camss-csid-780.h =3D> camss-csid-gen3.h}  |    8 +-
+ drivers/media/platform/qcom/camss/camss-csid.h     |    3 +-
+ .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     |  175 ++
+ drivers/media/platform/qcom/camss/camss-vfe-340.c  |  320 +++
+ .../camss/{camss-vfe-780.c =3D> camss-vfe-gen3.c}    |   76 +-
+ drivers/media/platform/qcom/camss/camss-vfe.c      |   28 +-
+ drivers/media/platform/qcom/camss/camss-vfe.h      |    3 +-
+ drivers/media/platform/qcom/camss/camss-video.c    |   43 +-
+ drivers/media/platform/qcom/camss/camss.c          |  705 ++++++-
+ drivers/media/platform/qcom/camss/camss.h          |    4 +-
+ drivers/media/platform/qcom/iris/Makefile          |    5 +-
+ drivers/media/platform/qcom/iris/iris_buffer.c     |  222 +-
+ drivers/media/platform/qcom/iris/iris_buffer.h     |    7 +-
+ drivers/media/platform/qcom/iris/iris_common.c     |  232 +++
+ drivers/media/platform/qcom/iris/iris_common.h     |   18 +
+ drivers/media/platform/qcom/iris/iris_core.c       |   10 +-
+ drivers/media/platform/qcom/iris/iris_core.h       |   20 +-
+ drivers/media/platform/qcom/iris/iris_ctrls.c      |  675 +++++-
+ drivers/media/platform/qcom/iris/iris_ctrls.h      |   15 +
+ drivers/media/platform/qcom/iris/iris_firmware.c   |   15 +-
+ drivers/media/platform/qcom/iris/iris_hfi_common.h |    2 +-
+ .../platform/qcom/iris/iris_hfi_gen1_command.c     |  482 +++--
+ .../platform/qcom/iris/iris_hfi_gen1_defines.h     |  112 +-
+ .../platform/qcom/iris/iris_hfi_gen1_response.c    |   60 +-
+ .../platform/qcom/iris/iris_hfi_gen2_command.c     |  359 +++-
+ .../platform/qcom/iris/iris_hfi_gen2_defines.h     |   44 +-
+ .../platform/qcom/iris/iris_hfi_gen2_response.c    |   46 +-
+ drivers/media/platform/qcom/iris/iris_instance.h   |   24 +
+ .../platform/qcom/iris/iris_platform_common.h      |   82 +-
+ .../media/platform/qcom/iris/iris_platform_gen2.c  |  609 +++++-
+ .../platform/qcom/iris/iris_platform_qcs8300.h     |  352 +++-
+ .../platform/qcom/iris/iris_platform_sm8250.c      |  236 ++-
+ .../platform/qcom/iris/iris_platform_sm8750.h      |   22 +
+ drivers/media/platform/qcom/iris/iris_probe.c      |   37 +-
+ drivers/media/platform/qcom/iris/iris_state.c      |    9 +-
+ drivers/media/platform/qcom/iris/iris_state.h      |    1 +
+ drivers/media/platform/qcom/iris/iris_utils.c      |   36 +
+ drivers/media/platform/qcom/iris/iris_utils.h      |    2 +
+ drivers/media/platform/qcom/iris/iris_vb2.c        |   58 +-
+ drivers/media/platform/qcom/iris/iris_vdec.c       |  251 +--
+ drivers/media/platform/qcom/iris/iris_vdec.h       |   13 +-
+ drivers/media/platform/qcom/iris/iris_venc.c       |  579 ++++++
+ drivers/media/platform/qcom/iris/iris_venc.h       |   27 +
+ drivers/media/platform/qcom/iris/iris_vidc.c       |  335 ++-
+ drivers/media/platform/qcom/iris/iris_vpu2.c       |    2 +
+ drivers/media/platform/qcom/iris/iris_vpu3x.c      |  202 +-
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.c |  922 ++++++++-
+ drivers/media/platform/qcom/iris/iris_vpu_buffer.h |   24 +-
+ drivers/media/platform/qcom/iris/iris_vpu_common.c |   14 +-
+ drivers/media/platform/qcom/iris/iris_vpu_common.h |    6 +
+ drivers/media/platform/qcom/venus/core.c           |  113 +-
+ drivers/media/platform/qcom/venus/core.h           |   22 +-
+ drivers/media/platform/qcom/venus/firmware.c       |   38 +-
+ drivers/media/platform/qcom/venus/firmware.h       |    2 +
+ drivers/media/platform/qcom/venus/helpers.c        |   12 +-
+ drivers/media/platform/qcom/venus/hfi_msgs.c       |   11 +-
+ drivers/media/platform/qcom/venus/hfi_parser.c     |    2 +-
+ drivers/media/platform/qcom/venus/hfi_platform.c   |   23 +-
+ drivers/media/platform/qcom/venus/hfi_platform.h   |   34 +-
+ .../media/platform/qcom/venus/hfi_platform_v4.c    |  188 +-
+ .../media/platform/qcom/venus/hfi_platform_v6.c    |   33 +-
+ drivers/media/platform/qcom/venus/hfi_venus.c      |   25 +-
+ drivers/media/platform/qcom/venus/hfi_venus_io.h   |    4 +
+ drivers/media/platform/qcom/venus/pm_helpers.c     |   11 +-
+ drivers/media/platform/qcom/venus/vdec.c           |    5 +-
+ drivers/media/platform/qcom/venus/venc.c           |    5 +-
+ drivers/media/platform/raspberrypi/rp1-cfe/csi2.c  |    2 +-
+ .../media/platform/renesas/rcar-vin/rcar-core.c    |    8 +-
+ .../media/platform/renesas/rcar-vin/rcar-v4l2.c    |    2 -
+ drivers/media/platform/renesas/rcar_drif.c         |   12 +-
+ drivers/media/platform/renesas/rcar_fdp1.c         |   27 +-
+ drivers/media/platform/renesas/rcar_jpu.c          |   29 +-
+ drivers/media/platform/renesas/renesas-ceu.c       |   10 +-
+ .../media/platform/renesas/rzg2l-cru/rzg2l-core.c  |    2 -
+ .../media/platform/renesas/rzg2l-cru/rzg2l-cru.h   |    9 -
+ .../media/platform/renesas/rzg2l-cru/rzg2l-video.c |   31 +-
+ drivers/media/platform/renesas/vsp1/vsp1_drv.c     |   14 +-
+ drivers/media/platform/renesas/vsp1/vsp1_histo.c   |    6 +-
+ drivers/media/platform/renesas/vsp1/vsp1_video.c   |   18 +-
+ drivers/media/platform/renesas/vsp1/vsp1_vspx.c    |    1 +
+ drivers/media/platform/rockchip/rga/rga.c          |   30 +-
+ drivers/media/platform/rockchip/rga/rga.h          |    5 +
+ .../media/platform/rockchip/rkisp1/rkisp1-common.h |   17 +-
+ .../media/platform/rockchip/rkisp1/rkisp1-dev.c    |  123 +-
+ drivers/media/platform/rockchip/rkvdec/rkvdec.c    |   21 +-
+ drivers/media/platform/rockchip/rkvdec/rkvdec.h    |    4 +-
+ .../media/platform/samsung/exynos-gsc/gsc-core.h   |    6 +-
+ .../media/platform/samsung/exynos-gsc/gsc-m2m.c    |   37 +-
+ .../media/platform/samsung/exynos4-is/fimc-core.h  |    5 +-
+ .../media/platform/samsung/exynos4-is/fimc-m2m.c   |   19 +-
+ .../platform/samsung/s3c-camif/camif-capture.c     |   26 +-
+ drivers/media/platform/samsung/s5p-g2d/g2d.c       |   40 +-
+ .../media/platform/samsung/s5p-jpeg/jpeg-core.c    |   33 +-
+ drivers/media/platform/samsung/s5p-mfc/s5p_mfc.c   |   17 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_cmd_v6.c      |   35 +-
+ .../platform/samsung/s5p-mfc/s5p_mfc_common.h      |    6 +-
+ .../media/platform/samsung/s5p-mfc/s5p_mfc_dec.c   |   34 +-
+ .../media/platform/samsung/s5p-mfc/s5p_mfc_enc.c   |   38 +-
+ drivers/media/platform/st/sti/bdisp/bdisp-v4l2.c   |   30 +-
+ .../media/platform/st/sti/delta/delta-mjpeg-dec.c  |   20 +-
+ drivers/media/platform/st/sti/delta/delta-v4l2.c   |   41 +-
+ drivers/media/platform/st/sti/hva/hva-v4l2.c       |   38 +-
+ drivers/media/platform/st/sti/hva/hva.h            |    2 -
+ drivers/media/platform/st/stm32/dma2d/dma2d.c      |   28 +-
+ drivers/media/platform/st/stm32/stm32-csi.c        |    4 +-
+ drivers/media/platform/st/stm32/stm32-dcmi.c       |    4 +-
+ .../platform/sunxi/sun6i-csi/sun6i_csi_capture.c   |   16 +-
+ drivers/media/platform/sunxi/sun8i-di/sun8i-di.c   |   10 +-
+ .../platform/sunxi/sun8i-rotate/sun8i_rotate.c     |   10 +-
+ .../media/platform/synopsys/hdmirx/snps_hdmirx.c   |    8 +-
+ drivers/media/platform/ti/Kconfig                  |    3 +-
+ .../media/platform/ti/j721e-csi2rx/j721e-csi2rx.c  |   67 +-
+ drivers/media/platform/ti/omap/omap_vout.c         |    6 +-
+ drivers/media/platform/ti/omap3isp/ispccdc.c       |    8 +-
+ drivers/media/platform/ti/omap3isp/isph3a_aewb.c   |    2 +-
+ drivers/media/platform/ti/omap3isp/isph3a_af.c     |    2 +-
+ drivers/media/platform/ti/omap3isp/isphist.c       |    2 +-
+ drivers/media/platform/ti/omap3isp/ispstat.c       |    7 -
+ drivers/media/platform/ti/omap3isp/ispstat.h       |    3 -
+ drivers/media/platform/ti/omap3isp/ispvideo.c      |   36 +-
+ drivers/media/platform/ti/omap3isp/ispvideo.h      |    6 +-
+ drivers/media/platform/ti/vpe/vpe.c                |   21 +-
+ drivers/media/platform/verisilicon/hantro.h        |    4 +-
+ drivers/media/platform/verisilicon/hantro_drv.c    |   12 +-
+ drivers/media/platform/verisilicon/hantro_v4l2.c   |   28 +-
+ drivers/media/platform/verisilicon/imx8m_vpu_hw.c  |   20 +-
+ drivers/media/platform/xilinx/xilinx-dma.c         |   10 +-
+ drivers/media/radio/Kconfig                        |   17 -
+ drivers/media/radio/Makefile                       |    1 -
+ drivers/media/radio/radio-aimslab.c                |    2 +-
+ drivers/media/radio/radio-aztech.c                 |    2 +-
+ drivers/media/radio/radio-gemtek.c                 |    2 +-
+ drivers/media/radio/radio-isa.c                    |    2 +-
+ drivers/media/radio/radio-isa.h                    |    2 +-
+ drivers/media/radio/radio-keene.c                  |    4 +-
+ drivers/media/radio/radio-miropcm20.c              |    2 +-
+ drivers/media/radio/radio-raremono.c               |    4 +-
+ drivers/media/radio/radio-rtrack2.c                |    2 +-
+ drivers/media/radio/radio-terratec.c               |    2 +-
+ drivers/media/radio/radio-wl1273.c                 | 2159 ----------------=
+----
+ drivers/media/radio/radio-zoltrix.c                |    2 +-
+ drivers/media/radio/si4713/radio-platform-si4713.c |   10 +-
+ drivers/media/rc/imon.c                            |   99 +-
+ drivers/media/rc/lirc_dev.c                        |    9 +-
+ drivers/media/rc/redrat3.c                         |    2 +-
+ drivers/media/test-drivers/vicodec/vicodec-core.c  |   23 +-
+ drivers/media/test-drivers/vim2m.c                 |   23 +-
+ drivers/media/test-drivers/vimc/vimc-capture.c     |    4 +-
+ drivers/media/test-drivers/vimc/vimc-core.c        |    2 -
+ drivers/media/test-drivers/visl/visl-core.c        |    5 +-
+ drivers/media/test-drivers/visl/visl.h             |    7 +-
+ drivers/media/test-drivers/vivid/vivid-cec.c       |   12 +-
+ drivers/media/test-drivers/vivid/vivid-core.c      |  100 +-
+ drivers/media/test-drivers/vivid/vivid-radio-rx.c  |   12 +-
+ drivers/media/test-drivers/vivid/vivid-radio-rx.h  |    8 +-
+ drivers/media/test-drivers/vivid/vivid-radio-tx.c  |    8 +-
+ drivers/media/test-drivers/vivid/vivid-radio-tx.h  |    4 +-
+ drivers/media/test-drivers/vivid/vivid-sdr-cap.c   |   18 +-
+ drivers/media/test-drivers/vivid/vivid-sdr-cap.h   |   18 +-
+ drivers/media/test-drivers/vivid/vivid-vbi-cap.c   |   10 +-
+ drivers/media/test-drivers/vivid/vivid-vbi-cap.h   |    8 +-
+ drivers/media/test-drivers/vivid/vivid-vbi-out.c   |    8 +-
+ drivers/media/test-drivers/vivid/vivid-vbi-out.h   |    6 +-
+ drivers/media/test-drivers/vivid/vivid-vid-cap.c   |   24 +-
+ drivers/media/test-drivers/vivid/vivid-vid-cap.h   |   24 +-
+ .../media/test-drivers/vivid/vivid-vid-common.c    |    8 +-
+ .../media/test-drivers/vivid/vivid-vid-common.h    |    8 +-
+ drivers/media/test-drivers/vivid/vivid-vid-out.c   |   16 +-
+ drivers/media/test-drivers/vivid/vivid-vid-out.h   |   16 +-
+ drivers/media/tuners/xc4000.c                      |    8 +-
+ drivers/media/tuners/xc5000.c                      |   14 +-
+ drivers/media/usb/au0828/au0828-video.c            |    5 +-
+ drivers/media/usb/cx231xx/cx231xx-417.c            |    2 +-
+ drivers/media/usb/em28xx/Kconfig                   |    1 +
+ drivers/media/usb/em28xx/em28xx-dvb.c              |    4 +-
+ drivers/media/usb/gspca/gspca.c                    |   18 +-
+ drivers/media/usb/hdpvr/hdpvr-video.c              |   69 +-
+ drivers/media/usb/pvrusb2/pvrusb2-v4l2.c           |   69 +-
+ drivers/media/usb/stk1160/stk1160-core.c           |    3 +-
+ drivers/media/usb/stk1160/stk1160-video.c          |    7 +-
+ drivers/media/usb/uvc/uvc_ctrl.c                   |   56 +-
+ drivers/media/usb/uvc/uvc_driver.c                 |  115 +-
+ drivers/media/usb/uvc/uvc_entity.c                 |    4 +-
+ drivers/media/usb/uvc/uvc_metadata.c               |   71 +-
+ drivers/media/usb/uvc/uvc_status.c                 |    7 +-
+ drivers/media/usb/uvc/uvc_v4l2.c                   |  128 +-
+ drivers/media/usb/uvc/uvc_video.c                  |   10 +-
+ drivers/media/usb/uvc/uvcvideo.h                   |   21 +-
+ drivers/media/v4l2-core/v4l2-common.c              |   90 +-
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c      |   11 +-
+ drivers/media/v4l2-core/v4l2-ctrls-api.c           |   13 +-
+ drivers/media/v4l2-core/v4l2-ctrls-core.c          |    2 +-
+ drivers/media/v4l2-core/v4l2-ctrls-defs.c          |    2 +-
+ drivers/media/v4l2-core/v4l2-ctrls-priv.h          |    2 +-
+ drivers/media/v4l2-core/v4l2-ctrls-request.c       |    2 +-
+ drivers/media/v4l2-core/v4l2-dev.c                 |   45 +-
+ drivers/media/v4l2-core/v4l2-device.c              |    2 +-
+ drivers/media/v4l2-core/v4l2-dv-timings.c          |    4 +
+ drivers/media/v4l2-core/v4l2-fh.c                  |   16 +-
+ drivers/media/v4l2-core/v4l2-ioctl.c               |  456 ++---
+ drivers/media/v4l2-core/v4l2-mem2mem.c             |   50 +-
+ drivers/media/v4l2-core/v4l2-subdev.c              |   40 +-
+ drivers/staging/media/atomisp/i2c/Kconfig          |    9 -
+ drivers/staging/media/atomisp/i2c/Makefile         |    1 -
+ drivers/staging/media/atomisp/pci/atomisp_subdev.c |    9 +-
+ .../media/atomisp/pci/runtime/bufq/src/bufq.c      |    4 +-
+ drivers/staging/media/imx/imx-media-csc-scaler.c   |   26 +-
+ drivers/staging/media/imx/imx-media-csi.c          |    8 +-
+ drivers/staging/media/ipu3/ipu3-css.c              |    3 +-
+ drivers/staging/media/ipu3/ipu3-v4l2.c             |    5 +-
+ drivers/staging/media/ipu7/ipu7-isys-csi2.c        |    2 +-
+ drivers/staging/media/ipu7/ipu7-isys-queue.c       |    3 +-
+ drivers/staging/media/ipu7/ipu7-isys-subdev.c      |   35 +-
+ drivers/staging/media/ipu7/ipu7-isys-subdev.h      |    1 -
+ drivers/staging/media/ipu7/ipu7-isys-video.c       |   37 +-
+ drivers/staging/media/ipu7/ipu7.c                  |   29 +-
+ drivers/staging/media/meson/vdec/vdec.c            |   29 +-
+ drivers/staging/media/meson/vdec/vdec.h            |    5 +
+ drivers/staging/media/sunxi/cedrus/cedrus.c        |    8 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.h        |    5 +
+ drivers/staging/media/sunxi/cedrus/cedrus_video.c  |    5 -
+ .../media/sunxi/sun6i-isp/sun6i_isp_capture.c      |   16 +-
+ .../media/sunxi/sun6i-isp/sun6i_isp_params.c       |    6 +-
+ drivers/staging/media/tegra-video/tegra20.c        |    4 +-
+ drivers/staging/most/video/video.c                 |   19 +-
+ drivers/usb/gadget/function/uvc.h                  |    5 +
+ drivers/usb/gadget/function/uvc_v4l2.c             |    8 +-
+ include/dt-bindings/media/tvp5150.h                |    2 +-
+ include/linux/usb/uvc.h                            |   22 +
+ include/linux/videodev2.h                          |    2 +-
+ include/media/cadence/cdns-csi2rx.h                |   19 +
+ include/media/drv-intf/cx25840.h                   |    2 +-
+ include/media/drv-intf/msp3400.h                   |    2 +-
+ include/media/i2c/bt819.h                          |    2 +-
+ include/media/i2c/cs5345.h                         |    2 +-
+ include/media/i2c/cs53l32a.h                       |    2 +-
+ include/media/i2c/m52790.h                         |    2 +-
+ include/media/i2c/mt9v011.h                        |    2 +-
+ include/media/i2c/mt9v022.h                        |   13 -
+ include/media/i2c/mt9v032.h                        |   12 -
+ include/media/i2c/saa7115.h                        |    2 +-
+ include/media/i2c/saa7127.h                        |    2 +-
+ include/media/i2c/ths7303.h                        |    2 +-
+ include/media/i2c/tvaudio.h                        |    2 +-
+ include/media/i2c/upd64031a.h                      |    2 +-
+ include/media/i2c/upd64083.h                       |    2 +-
+ include/media/i2c/wm8775.h                         |    2 +-
+ include/media/media-request.h                      |    2 +-
+ include/media/v4l2-common.h                        |  103 +-
+ include/media/v4l2-ctrls.h                         |    6 +-
+ include/media/v4l2-dev.h                           |    2 +-
+ include/media/v4l2-device.h                        |    2 +-
+ include/media/v4l2-dv-timings.h                    |    1 +
+ include/media/v4l2-fh.h                            |   30 +-
+ include/media/v4l2-ioctl.h                         |  238 +--
+ include/media/v4l2-mem2mem.h                       |   42 +-
+ include/media/v4l2-subdev.h                        |   57 +-
+ include/uapi/linux/aspeed-video.h                  |    7 +
+ include/uapi/linux/ivtv.h                          |    2 +-
+ include/uapi/linux/v4l2-controls.h                 |  121 +-
+ include/uapi/linux/v4l2-dv-timings.h               |    2 +-
+ include/uapi/linux/videodev2.h                     |   20 +-
+ samples/v4l/v4l2-pci-skeleton.c                    |   10 +-
+ 576 files changed, 16905 insertions(+), 9289 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,og0ve1=
+b.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov2735=
+.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov6211=
+.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,qcm2290-ca=
+mss.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,qcm2290-ve=
+nus.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,qcs8300-ca=
+mss.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sa8775p-ca=
+mss.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/qcom,sm8750-iri=
+s.yaml
+ rename drivers/{staging/media/atomisp/i2c/atomisp-gc0310.c =3D> media/i2c/=
+gc0310.c} (100%)
+ create mode 100644 drivers/media/i2c/og0ve1b.c
+ create mode 100644 drivers/media/i2c/ov2735.c
+ create mode 100644 drivers/media/i2c/ov6211.c
+ delete mode 100644 drivers/media/i2c/ov6650.c
+ create mode 100644 drivers/media/platform/qcom/camss/camss-csid-340.c
+ rename drivers/media/platform/qcom/camss/{camss-csid-780.c =3D> camss-csid=
+-gen3.c} (88%)
+ rename drivers/media/platform/qcom/camss/{camss-csid-780.h =3D> camss-csid=
+-gen3.h} (84%)
+ create mode 100644 drivers/media/platform/qcom/camss/camss-vfe-340.c
+ rename drivers/media/platform/qcom/camss/{camss-vfe-780.c =3D> camss-vfe-g=
+en3.c} (69%)
+ create mode 100644 drivers/media/platform/qcom/iris/iris_common.c
+ create mode 100644 drivers/media/platform/qcom/iris/iris_common.h
+ create mode 100644 drivers/media/platform/qcom/iris/iris_platform_sm8750.h
+ create mode 100644 drivers/media/platform/qcom/iris/iris_venc.c
+ create mode 100644 drivers/media/platform/qcom/iris/iris_venc.h
+ delete mode 100644 drivers/media/radio/radio-wl1273.c
+ create mode 100644 include/media/cadence/cdns-csi2rx.h
+ delete mode 100644 include/media/i2c/mt9v022.h
+ delete mode 100644 include/media/i2c/mt9v032.h
 
