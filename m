@@ -1,216 +1,269 @@
-Return-Path: <linux-media+bounces-43471-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43482-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA41DBB08EE
-	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 15:48:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C1B6BB0DED
+	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 16:55:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 576D117C001
-	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 13:48:09 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5A4942A7676
+	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 14:55:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4850C27380A;
-	Wed,  1 Oct 2025 13:48:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5D7FF30E842;
+	Wed,  1 Oct 2025 14:50:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="vqC6kgC5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ipkGi75C"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD9B32FBE14
-	for <linux-media@vger.kernel.org>; Wed,  1 Oct 2025 13:48:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 84E112F0C46;
+	Wed,  1 Oct 2025 14:49:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759326482; cv=none; b=LF8ERdQpl/+Ai3RseFzV2t+iPELFmcHFn+aNJxEnMzh1O05mpbhK6Ulds1ki+pGwdPwcYIzfVrqt+Y7viSaFHgTBx09crQlkJ3XO1RM9Tp2TVds7O9QWBfm/2YK5bicCYhXR75GlCsAWErk37gNwKgPYqohZZTgimZ95AyAa2Oo=
+	t=1759330199; cv=none; b=iMWYnPqgHABKqiD/UFxnJ66V1T2utZfmTsta/rK+F6HWoZ15Ozu00jyZuY4FMwMowoxQCzYw7H3/QliJAgOIyJzn3wMXnNWrstONIGjokVYJSPkUJctVL9tAPRISaCOkufdtEbPt29jLVsFKmMf8TVIT4ENbH84zgiFxFbrNv34=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759326482; c=relaxed/simple;
-	bh=GwWiPxXWApSuBjTieyfbH0uVPyK1qpzobUKX5yWOe8Y=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UDmmfmK9Tu3bEnn8MZBLntuh626kW5uANrl/AjxXUsCah2UB0JeeD5qH5yQ2ceoh8hhx3ahxA1ltf1sSm/CVkxAj1WWBvqoM3IU7weMiefkVN8kNDFUpHhKNIsEjEiLPwaVX4I5LPUNTPzahRK3h/uy1wN2BtTCPih14fkwbosk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=vqC6kgC5; arc=none smtp.client-ip=209.85.160.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-4de1b5a6b7fso50047381cf.2
-        for <linux-media@vger.kernel.org>; Wed, 01 Oct 2025 06:48:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1759326480; x=1759931280; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=GwWiPxXWApSuBjTieyfbH0uVPyK1qpzobUKX5yWOe8Y=;
-        b=vqC6kgC5WJx43JKAZUo4OKxI5cD8wS1kM0pPUBM9r6Q7BZOf6e/51l6rEqWVNizAfp
-         Opy/HojCfjeeDcRIu8IepjriyXP8iAPuKv2gyWOWRDHrtUHWd2687Ea/GIKY558i8hxB
-         LMREcOMXyc4IZJPHGcV1/Jvxb69JX6paLieAr6y+qikWD0lCYg9lzR761XOtYCsFom2j
-         zhajVMyuPrlUCqAGr3CfLW9+LwrzSWs6WCKPFf1Cix08AF+y6rI8w8J4z/n3D1YOmZwy
-         eAdG8v40dmI5Lp0MUqMIQ0/iRefgEVLZYRSAi5eAQxYHVxeuGGyhUWd2QbBgDkQ+sd+Q
-         gJmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759326480; x=1759931280;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GwWiPxXWApSuBjTieyfbH0uVPyK1qpzobUKX5yWOe8Y=;
-        b=gwGaknPniZJkqsZqo8bNKGBFvP9NcRxr/YkGzwSvsKkhTYPidBhfQdDowm6Wy3i0yF
-         X6ykQm6cApV/VdLQUnhE+gt4xtwS/LdWuCLEWxYtkO7W911Yp1z+00BoKzIgMErWouAT
-         Lw2IU73sMunFjuCwRh+MGX+dk2fdkcji1qgYToxDp/NKPKEmO9UnDLzV8o1Zj3RaChH+
-         /55NJdsQwQj3VU8cEkKwe0FXWfJGO12jubBdWf58VmDJ4LeGTtZMQU2zVpKPs1Qf9QkQ
-         5gypTM2a4nNMNNgqqqNffgFh7gbC1r87rvRPi+aBauMRWeP9wfh/k86iSZghmmrefmZD
-         yzvQ==
-X-Gm-Message-State: AOJu0YwikoSYRh+U+5XbFtJZ717kfUh5bI6NJcvpi4ST3rl3YgjT/cnR
-	I3/OY2M4tiVF/KL8kbCQODsns1a3Vl+B3MEV9pM/uNXFoTru+X9KXdkiRPZ9dMbvhPA=
-X-Gm-Gg: ASbGnctJQHdNwEXJOCwzMOv5nPz25qlcXf4GqSQ8SAGnu45pXqbh7t7QOxUvHX+32zK
-	8OOn5zV+gaNfqVFs/Jjc3NJSFlqhKm2iuJvZKPMBORrffCtWOqj3hm1xx641hRkPuXlWq6LisyW
-	mvC/Qrn/GgDVls4nIf4EB9pfq1TgSXWkX2E0Yd3BYQmtvqNxr6Au6M+6R5W26VjiM+POQMxFxjA
-	Z45TxT2qw3WM3GlRJ63srckxnr+ReHDfUckK2/QSaweZ6RUnaRcH9Ac0wtlGkdlISE0PYY84A+n
-	TA/B1i30qraJDoUvL/JVCc8UdqHi0+g/cTJ5pbiJuTgzjHkuAkEO2MJ8kemuKG89TovfLOIxau+
-	nkXnx3ht/NV7jorJThY677yp4BPVsGOa4tf0Rrjq0PzGekTO5jYXW
-X-Google-Smtp-Source: AGHT+IHiblZwtYX3wgFUO/7OpMhacfKleAAxOFFJx1Q7ftMvPB1RMJ+PB8Ib9Ip55aCTEP2Txr59Ow==
-X-Received: by 2002:a05:622a:5c88:b0:4de:1d0e:5cd4 with SMTP id d75a77b69052e-4e41c732f0fmr44326791cf.30.1759326479606;
-        Wed, 01 Oct 2025 06:47:59 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:17:ebd3::5ac? ([2606:6d00:17:ebd3::5ac])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-80167b8b79esm110958756d6.38.2025.10.01.06.47.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Oct 2025 06:47:58 -0700 (PDT)
-Message-ID: <971675c3d0a5f033d9eb68698dd9985a0a122aa9.camel@ndufresne.ca>
-Subject: Re: [PATCH 0/2] Add support for QC08C format in iris driver
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Neil Armstrong <neil.armstrong@linaro.org>, Dikshita Agarwal	
- <dikshita.agarwal@oss.qualcomm.com>, Vikash Garodia	
- <vikash.garodia@oss.qualcomm.com>, Abhinav Kumar <abhinav.kumar@linux.dev>,
-  Bryan O'Donoghue	 <bod@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Wed, 01 Oct 2025 09:47:57 -0400
-In-Reply-To: <b2538934-bda7-45e1-b368-8dc4d2c6f71b@linaro.org>
-References: 
-	<20250919-video-iris-ubwc-enable-v1-0-000d11edafd8@oss.qualcomm.com>
-	 <b2538934-bda7-45e1-b368-8dc4d2c6f71b@linaro.org>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-8im6X2nzMFe6Gk5DQ8ir"
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	s=arc-20240116; t=1759330199; c=relaxed/simple;
+	bh=TvUQuLsyiUO80ZMNlVDcKbFKJj2Mi6vaFGMLmY+UYIY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=IFMGCPEXCOS5wo5ZgHQoUrp71NWgxv280+p5Fh5mEXXuCXZzzO2Yz5OexlbwAAGxgKrIV/Ilkypqf7cy/ORAHn2GOIEBK/u5tpfqhEbFfKwIQnIK9XVU1OXTkwrRcD2S5C7lmK9gRDHepR+13HvStQD2ss3qfwXZ1nomeyCfTyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ipkGi75C; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ACC6C4CEF9;
+	Wed,  1 Oct 2025 14:49:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759330199;
+	bh=TvUQuLsyiUO80ZMNlVDcKbFKJj2Mi6vaFGMLmY+UYIY=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ipkGi75ClgU7QKkuVHl7ZVHwpRXQyMkzsZ9OBleiulvIyGmMJIYGvu74dFax6mkmY
+	 STAYFVH8zCKuxAzHKgn3rYQnU9V9KnWbZDDAGMfUC6AJiD0yDzfdgx4SsW+Fhg9reR
+	 9T9oWp2qJKKTEKP0pZEniw34n/tqqfglWEWo7F3k7L3V4LRFJBXtwvMQ+T84y9JNym
+	 EFJbOQZD7y1zb7fxPLW5WtMCZGzlwz+ydCD+r9NmJTWto/21uynEU1ok0EdZRDyaMr
+	 tIQmnmohmNO7pIIeReem6AHl42kPNuVRbiFdnGl2AEsxwARsoeMRajIiIjaSCvCc7S
+	 APP17gVjvDNJQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1v3y9V-0000000BLI0-0S4r;
+	Wed, 01 Oct 2025 16:49:57 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "Jonathan Corbet" <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH 00/23] Fix media uAPI cross references
+Date: Wed,  1 Oct 2025 16:49:23 +0200
+Message-ID: <cover.1759329363.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
+In the past, media used Docbook to generate documentation, together
+with some logic to ensure that cross-references would match the
+actual defined uAPI.
 
---=-8im6X2nzMFe6Gk5DQ8ir
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+The rationale is that we wanted to automatically check for uAPI
+documentation gaps.
 
-Hi,
+The same logic was migrated to Sphinx. Back then, broken links
+were reported. However, recent versions of it and/or changes at
+conf.py disabled such checks.
 
-Le mercredi 01 octobre 2025 =C3=A0 10:39 +0200, Neil Armstrong a =C3=A9crit=
-=C2=A0:
-> Hi,
->=20
-> On 9/19/25 17:47, Dikshita Agarwal wrote:
-> > Add support for the QC08C color format in both the encoder and decoder
-> > paths of the iris driver. The changes include:
-> >=20
-> > - Adding QC08C format handling in the driver for both encoding and
-> > decoding.
-> > - Updating format enumeration to properly return supported formats.
-> > - Ensuring the correct HFI format is set for firmware communication.
-> > -Making all related changes required for seamless integration of QC08C
-> > support.
-> >=20
-> > The changes have been validated using v4l2-ctl, compliance, and GStream=
-er
-> > (GST) tests.
-> > Both GST and v4l2-ctl tests were performed using the NV12 format, as
-> > these clients do not support the QCOM-specific QC08C format, and all
-> > tests passed successfully.
->=20
-> Sorry but this means you didn't test the full decoding and encoding with =
-GST
-> and v4l2-ctl using QC08C ?
-> So how did you test ?
+The result is that several symbols are now not cross-referenced,
+and we don't get warnings anymore when something breaks.
 
-We've made addition of V4L2/DRM format mapping trivial lately in GStreamer.=
- So
-trivial, that my colleague Robert Mader made the changes for you, and this
-change is just waiting for someone with the hardware to test.
+This series consist on 2 parts:
 
-https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/8195
+Part 1: extra patches to parse_data_structs.py and kernel_include.py;
+Part 2: media documentation fixes.
 
-With that you can visually test it by rendering through OpenGL or your disp=
-lay
-controller if supported. This gives option to use glimagesink, waylandsink,=
- and
-possibly kmssink, but not sure for the later.
+I'm not sure what's the best strategy to merge it, as some patches
+belong to doc while others are media. So, they can be merged on
+either one of the tree, or split on two series and merged in
+separate or even being merged via a PR applied on both trees.
 
-What would need to work harder would be fluster testing. Going through GL w=
-ill
-mean converting from YUV to RGB back to YUV, which can damage the pictures
-slightly, resulting in different MD5.
+IMO, the latter is the better strategy.
 
-regards,
-Nicolas
+Anyway, let's submit the series for review and discuss later about
+its merge strategy.
 
->=20
-> Thanks,
-> Neil
->=20
-> >=20
-> > During v4l2-ctl testing, a regression was observed when using the NV12
-> > color format after adding QC08C support. A fix for this regression has
-> > also been posted [1].
-> >=20
-> > [1]:
-> > https://lore.kernel.org/linux-media/20250918103235.4066441-1-dikshita.a=
-garwal@oss.qualcomm.com/T/#u
-> >=20
-> > Signed-off-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-> > ---
-> > Dikshita Agarwal (2):
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: iris: Add support for QC08C=
- format for decoder
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: iris: Add support for QC08C=
- format for encoder
-> >=20
-> > =C2=A0 drivers/media/platform/qcom/iris/iris_buffer.c=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 17 ++++--
-> > =C2=A0 .../platform/qcom/iris/iris_hfi_gen1_command.c=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 15 ++++--
-> > =C2=A0 .../platform/qcom/iris/iris_hfi_gen2_command.c=C2=A0=C2=A0=C2=A0=
-=C2=A0 | 21 +++++++-
-> > =C2=A0 .../platform/qcom/iris/iris_hfi_gen2_defines.h=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 1 +
-> > =C2=A0 drivers/media/platform/qcom/iris/iris_instance.h=C2=A0=C2=A0 |=
-=C2=A0 7 ++-
-> > =C2=A0 .../media/platform/qcom/iris/iris_platform_gen2.c=C2=A0 |=C2=A0 =
-1 +
-> > =C2=A0 drivers/media/platform/qcom/iris/iris_utils.c=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0 3 +-
-> > =C2=A0 drivers/media/platform/qcom/iris/iris_vdec.c=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 61
-> > ++++++++++++++++++----
-> > =C2=A0 drivers/media/platform/qcom/iris/iris_venc.c=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 59 +++++++++++++++++-
-> > ---
-> > =C2=A0 9 files changed, 152 insertions(+), 33 deletions(-)
-> > ---
-> > base-commit: 40b7a19f321e65789612ebaca966472055dab48c
-> > change-id: 20250918-video-iris-ubwc-enable-87eac6f41fa4
-> >=20
-> > Best regards,
->=20
+Mauro Carvalho Chehab (23):
+  tools: docs: parse_data_structs.py: drop contents header
+  tools: docs: parse_data_structs.py: output a line number
+  docs: kernel_include.py: fix line numbers for TOC
+  docs: kernel_include.py: propose alternatives
+  tools: docs: parse_data_structs: make process_exceptions two stages
+  tools: docs: parse_data_structs.py: get rid of process_exceptions()
+  tools: docs: parse_data_structs.py: add namespace support
+  tools: docs: parse_data_structs.py: accept more reftypes
+  docs: media: dvb: use TOC instead of file contents at headers
+  docs: media: dvb: enable warnings for most headers
+  docs: media: rc: use TOC instead of file contents for LIRC header
+  docs: media: mediactl: use TOC instead of file contents
+  docs: kernel_include.py: use get_close_matches() to propose
+    alternatives
+  docs: media: add missing c namespace to V4L headers
+  docs: media: videodev2.h.rst.exceptions: fix namespace on refs
+  media: docs: add a missing reference for VIDIOC_QUERY_CTRL
+  media: docs: videodev2.h.rst.exceptions: ignore struct
+    __kernel_v4l2_timeval
+  media: docs: add some C domain missing references
+  docs: cec: cec.h.rst.exceptions: fix broken references from cec.h
+  docs: cec: show broken xrefs and show TOC instead of cec.h content
+  docs: media: dmx_types: place kerneldoc at the right namespace
+  docs: media: dvb: headers: warn about broken cross references
+  docs: media: dvb: fix dmx.h.rst.exceptions
 
---=-8im6X2nzMFe6Gk5DQ8ir
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+ Documentation/sphinx/kernel_include.py        | 110 ++++++-
+ .../userspace-api/media/cec/cec-header.rst    |   8 +-
+ .../media/cec/cec.h.rst.exceptions            |   3 +
+ .../media/dvb/dmx.h.rst.exceptions            |  82 +++--
+ .../userspace-api/media/dvb/dmx_types.rst     |   1 +
+ .../media/dvb/frontend.h.rst.exceptions       |   5 +-
+ .../userspace-api/media/dvb/headers.rst       |  31 +-
+ .../media/mediactl/media-header.rst           |   8 +-
+ .../media/mediactl/media.h.rst.exceptions     |   3 +
+ .../userspace-api/media/rc/lirc-header.rst    |  14 +-
+ .../userspace-api/media/v4l/app-pri.rst       |   1 +
+ .../userspace-api/media/v4l/audio.rst         |   1 +
+ .../userspace-api/media/v4l/biblio.rst        |   1 +
+ .../userspace-api/media/v4l/buffer.rst        |   2 +
+ .../media/v4l/capture-example.rst             |   1 +
+ .../userspace-api/media/v4l/capture.c.rst     |   1 +
+ .../media/v4l/colorspaces-defs.rst            |   1 +
+ .../media/v4l/colorspaces-details.rst         |   1 +
+ .../userspace-api/media/v4l/colorspaces.rst   |   1 +
+ .../userspace-api/media/v4l/common-defs.rst   |   1 +
+ .../userspace-api/media/v4l/common.rst        |   1 +
+ .../userspace-api/media/v4l/compat.rst        |   1 +
+ .../userspace-api/media/v4l/control.rst       |   1 +
+ .../userspace-api/media/v4l/crop.rst          |   1 +
+ .../userspace-api/media/v4l/depth-formats.rst |   1 +
+ .../userspace-api/media/v4l/dev-decoder.rst   |   1 +
+ .../userspace-api/media/v4l/dev-encoder.rst   |   1 +
+ .../userspace-api/media/v4l/dev-event.rst     |   1 +
+ .../userspace-api/media/v4l/dev-mem2mem.rst   |   1 +
+ .../userspace-api/media/v4l/dev-meta.rst      |   1 +
+ .../userspace-api/media/v4l/dev-osd.rst       |   1 +
+ .../userspace-api/media/v4l/dev-overlay.rst   |   1 +
+ .../userspace-api/media/v4l/dev-radio.rst     |   1 +
+ .../userspace-api/media/v4l/dev-sdr.rst       |   1 +
+ .../media/v4l/dev-stateless-decoder.rst       |   1 +
+ .../userspace-api/media/v4l/dev-subdev.rst    |   1 +
+ .../userspace-api/media/v4l/dev-touch.rst     |   1 +
+ .../userspace-api/media/v4l/devices.rst       |   1 +
+ .../userspace-api/media/v4l/dv-timings.rst    |   1 +
+ .../media/v4l/ext-ctrls-camera.rst            |   1 +
+ .../media/v4l/ext-ctrls-codec-stateless.rst   |   1 +
+ .../media/v4l/ext-ctrls-codec.rst             |   1 +
+ .../media/v4l/ext-ctrls-colorimetry.rst       |   1 +
+ .../media/v4l/ext-ctrls-detect.rst            |   1 +
+ .../userspace-api/media/v4l/ext-ctrls-dv.rst  |   1 +
+ .../media/v4l/ext-ctrls-flash.rst             |   1 +
+ .../media/v4l/ext-ctrls-fm-rx.rst             |   1 +
+ .../media/v4l/ext-ctrls-fm-tx.rst             |   1 +
+ .../media/v4l/ext-ctrls-image-process.rst     |   1 +
+ .../media/v4l/ext-ctrls-image-source.rst      |   1 +
+ .../media/v4l/ext-ctrls-jpeg.rst              |   1 +
+ .../media/v4l/ext-ctrls-rf-tuner.rst          |   1 +
+ .../media/v4l/extended-controls.rst           |   1 +
+ .../userspace-api/media/v4l/field-order.rst   |   1 +
+ .../userspace-api/media/v4l/fourcc.rst        |   1 +
+ .../userspace-api/media/v4l/hsv-formats.rst   |   1 +
+ .../userspace-api/media/v4l/libv4l.rst        |   1 +
+ .../userspace-api/media/v4l/meta-formats.rst  |   1 +
+ .../media/v4l/metafmt-c3-isp.rst              |   1 +
+ .../userspace-api/media/v4l/metafmt-d4xx.rst  |   1 +
+ .../media/v4l/metafmt-generic.rst             |   1 +
+ .../media/v4l/metafmt-intel-ipu3.rst          |   1 +
+ .../media/v4l/metafmt-pisp-be.rst             |   1 +
+ .../media/v4l/metafmt-pisp-fe.rst             |   1 +
+ .../media/v4l/metafmt-rkisp1.rst              |   1 +
+ .../userspace-api/media/v4l/metafmt-uvc.rst   |   1 +
+ .../userspace-api/media/v4l/metafmt-vivid.rst |   1 +
+ .../media/v4l/metafmt-vsp1-hgo.rst            |   1 +
+ .../media/v4l/metafmt-vsp1-hgt.rst            |   1 +
+ .../userspace-api/media/v4l/pixfmt-bayer.rst  |   1 +
+ .../userspace-api/media/v4l/pixfmt-cnf4.rst   |   1 +
+ .../media/v4l/pixfmt-compressed.rst           |   1 +
+ .../media/v4l/pixfmt-indexed.rst              |   1 +
+ .../userspace-api/media/v4l/pixfmt-intro.rst  |   1 +
+ .../userspace-api/media/v4l/pixfmt-inzi.rst   |   1 +
+ .../userspace-api/media/v4l/pixfmt-m420.rst   |   1 +
+ .../media/v4l/pixfmt-packed-hsv.rst           |   1 +
+ .../media/v4l/pixfmt-packed-yuv.rst           |   1 +
+ .../media/v4l/pixfmt-reserved.rst             |   1 +
+ .../userspace-api/media/v4l/pixfmt-rgb.rst    |   1 +
+ .../media/v4l/pixfmt-sdr-cs08.rst             |   1 +
+ .../media/v4l/pixfmt-sdr-cs14le.rst           |   1 +
+ .../media/v4l/pixfmt-sdr-cu08.rst             |   1 +
+ .../media/v4l/pixfmt-sdr-cu16le.rst           |   1 +
+ .../media/v4l/pixfmt-sdr-pcu16be.rst          |   1 +
+ .../media/v4l/pixfmt-sdr-pcu18be.rst          |   1 +
+ .../media/v4l/pixfmt-sdr-pcu20be.rst          |   1 +
+ .../media/v4l/pixfmt-sdr-ru12le.rst           |   1 +
+ .../media/v4l/pixfmt-srggb10-ipu3.rst         |   1 +
+ .../media/v4l/pixfmt-srggb10.rst              |   1 +
+ .../media/v4l/pixfmt-srggb10alaw8.rst         |   1 +
+ .../media/v4l/pixfmt-srggb10dpcm8.rst         |   1 +
+ .../media/v4l/pixfmt-srggb10p.rst             |   1 +
+ .../media/v4l/pixfmt-srggb12.rst              |   1 +
+ .../media/v4l/pixfmt-srggb12p.rst             |   1 +
+ .../media/v4l/pixfmt-srggb14.rst              |   1 +
+ .../media/v4l/pixfmt-srggb14p.rst             |   1 +
+ .../media/v4l/pixfmt-srggb16.rst              |   1 +
+ .../media/v4l/pixfmt-srggb8-pisp-comp.rst     |   1 +
+ .../userspace-api/media/v4l/pixfmt-srggb8.rst |   1 +
+ .../media/v4l/pixfmt-tch-td08.rst             |   1 +
+ .../media/v4l/pixfmt-tch-td16.rst             |   1 +
+ .../media/v4l/pixfmt-tch-tu08.rst             |   1 +
+ .../media/v4l/pixfmt-tch-tu16.rst             |   1 +
+ .../userspace-api/media/v4l/pixfmt-uv8.rst    |   1 +
+ .../media/v4l/pixfmt-v4l2-mplane.rst          |   1 +
+ .../userspace-api/media/v4l/pixfmt-v4l2.rst   |   1 +
+ .../userspace-api/media/v4l/pixfmt-y12i.rst   |   1 +
+ .../userspace-api/media/v4l/pixfmt-y16i.rst   |   1 +
+ .../userspace-api/media/v4l/pixfmt-y8i.rst    |   1 +
+ .../media/v4l/pixfmt-yuv-luma.rst             |   1 +
+ .../media/v4l/pixfmt-yuv-planar.rst           |   1 +
+ .../userspace-api/media/v4l/pixfmt-z16.rst    |   1 +
+ .../userspace-api/media/v4l/pixfmt.rst        |   1 +
+ .../userspace-api/media/v4l/planar-apis.rst   |   1 +
+ .../userspace-api/media/v4l/querycap.rst      |   1 +
+ .../userspace-api/media/v4l/sdr-formats.rst   |   1 +
+ .../media/v4l/selection-api-configuration.rst |   1 +
+ .../media/v4l/selection-api-examples.rst      |   1 +
+ .../media/v4l/selection-api-intro.rst         |   1 +
+ .../media/v4l/selection-api-targets.rst       |   1 +
+ .../media/v4l/selection-api-vs-crop-api.rst   |   1 +
+ .../userspace-api/media/v4l/selection-api.rst |   1 +
+ .../media/v4l/selections-common.rst           |   1 +
+ .../userspace-api/media/v4l/standard.rst      |   1 +
+ .../media/v4l/subdev-formats.rst              |   1 +
+ .../userspace-api/media/v4l/tch-formats.rst   |   1 +
+ .../userspace-api/media/v4l/tuner.rst         |   1 +
+ .../userspace-api/media/v4l/user-func.rst     |   1 +
+ .../media/v4l/v4l2-selection-flags.rst        |   1 +
+ .../media/v4l/v4l2-selection-targets.rst      |   1 +
+ .../userspace-api/media/v4l/v4l2.rst          |   1 +
+ .../media/v4l/v4l2grab-example.rst            |   1 +
+ .../userspace-api/media/v4l/v4l2grab.c.rst    |   1 +
+ .../userspace-api/media/v4l/video.rst         |   1 +
+ .../userspace-api/media/v4l/videodev.rst      |   9 +-
+ .../media/v4l/videodev2.h.rst.exceptions      | 288 +++++++++---------
+ .../media/v4l/vidioc-queryctrl.rst            |   8 +
+ .../userspace-api/media/v4l/yuv-formats.rst   |   1 +
+ tools/docs/lib/parse_data_structs.py          | 230 ++++++++------
+ tools/docs/parse-headers.py                   |   5 +-
+ 141 files changed, 608 insertions(+), 324 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.51.0
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaN0xDQAKCRDZQZRRKWBy
-9MA4AP9Wnbk1p1fA9WS9eZnfnfvuJohBg8nrG8sTKlfaHftc6wEAwGh9enUFIa14
-IZhYzQqBaFqyPDvB4BlNfMDrr5KeSAs=
-=PwN1
------END PGP SIGNATURE-----
-
---=-8im6X2nzMFe6Gk5DQ8ir--
 
