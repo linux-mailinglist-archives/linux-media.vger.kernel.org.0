@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-43513-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43514-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93939BB1B17
-	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 22:30:38 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id CA4EBBB1DF6
+	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 23:41:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 2BA5016FCE4
-	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 20:30:38 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 78B772A35B2
+	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 21:41:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DD2A27F010;
-	Wed,  1 Oct 2025 20:30:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 687C7311960;
+	Wed,  1 Oct 2025 21:41:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="ZIoS/kqS"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Excnw8LI"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66C378F54;
-	Wed,  1 Oct 2025 20:30:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7117617A2FC;
+	Wed,  1 Oct 2025 21:41:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759350630; cv=none; b=pG1inoMgFVvRSvTGPMANqE8wCEgQw7aY3aAWC6ZhNimFckj/X3NKeqebMuNvnm89WtuRz5nS/6Sb4EExx5CzXZ2RWbO1wN4LM/k/aiaqEWblwHnVPln10pmfbHQQ7gf9vzZRjBs7jNbHpMzH2y6OW14gikA74YfBnagKIt749C4=
+	t=1759354903; cv=none; b=KESl0hc4CP6i0sRBUHcLWTuiRFZccN69bQq8z6fOBWT8HG4I+NTCQ3a6yp5iGXuRdZxSQZ3wpuRCXNdZZ1M1smwl2zSPdTg7q7rNQpVb8+O1aiJR3yn2/r6LMSiKjdwcY3d5XLaCwSKVnulSpTmmPhyyO+u1U7/dD6OErxaT6uc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759350630; c=relaxed/simple;
-	bh=+LQlVXXad+zNyMeO9pSfA8Ov2PPCoFbt8Kka0at6+Kg=;
+	s=arc-20240116; t=1759354903; c=relaxed/simple;
+	bh=teBzgg6W66TCegIEp7ZYSh7bHyXJUjH+ENcqJQ17cqs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uI4IAOCuCQZxp9OTWRiJo2WPop7l9XumkohFxlwwEv4su+5pNdeQWOVVjPLSmMd85Su5ly7OsPHE+1J9+OEeSRv8XX3g4eV8NIeAGCSaRod6S22OgLl4y711Hhca5EZKVjDToEurQqd0zynVJxoiUK05HwWaoxXgkUpjXPIp0gU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=ZIoS/kqS; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:Content-Type; b=k2sp9IxXHZ5Bb4wSiGrnZw1xqlGtTDCTXmNTfd1HU7wKpKyqqRX3u0K5lMg/4E1OKQWDEM64/FCXPVS1zSdZSykLWfvS9u6VBlKkY0732BPlIdfpHZo7j5la2g45sIwRFUmn4niEVOWtR0elShSJsRiQM6B2q+60x99M32IioxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Excnw8LI; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1759350625;
-	bh=+LQlVXXad+zNyMeO9pSfA8Ov2PPCoFbt8Kka0at6+Kg=;
+	s=mail; t=1759354899;
+	bh=teBzgg6W66TCegIEp7ZYSh7bHyXJUjH+ENcqJQ17cqs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ZIoS/kqS0snLWYV1q/KYT5T0cmAYpHSzQGxVr2iC20rCRt1lbx+D9C3Wj7E2KF6Q9
-	 Zg3d4BXNzamxTYCABCSW1m7h+hvBUMUS58tzcKNrv0gGL9buEeDcqNio419Ak2l3TK
-	 JPh9wt2gB0HVZv287dk3euorf6xDi94lGN+AgxdXuGbtyM2UrKEXutxqjM2bbkJjh/
-	 WzkOe1niIQ6ugaijzaI7pOG3YbvNOx88W3Qcv1UgVd4buR2LglrAiFcvFq4jf27e5u
-	 53sNfdsvOLVsRQVmYmNsRmqbe5gHAzYypTtQZXPPifrQEOXO5EfoiCyABBUYH0Qrqb
-	 V1Ghptb7sAsGQ==
+	b=Excnw8LIXnQ/LNhbk55aewH9+GfqyTaDKYKtMOVqBxvZYHyJUcxX8isJFBk+RUbGY
+	 VnEtzqf5we8wjMq+M70lpd3rMDHY7xiFrQcRqg9UVxlHzo7GfsHKJKpBLER7AHdRVW
+	 +/ywcqH6Nozs/jUdF9eibULEFlx7n71aoNPlbq8OSn0PDnQk2zWY30VVUd7TXuyTHe
+	 E7Wu/5FVm/uprZnT+5/4M3OQ70dXE1nNCyiIb1AQ5RBs+clm7Ck35PGhfbNCD6ftec
+	 6hkFb3jKCKiKWyjvAGKMwkI/YLMcXi4y7IBWqmwPzM72kqf/jHLY19pkfSGW+qAyJk
+	 BYkh82tLhWAcg==
 Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 21C1C17E0286;
-	Wed,  1 Oct 2025 22:30:25 +0200 (CEST)
-Message-ID: <98b6196a-9ffe-42fa-874f-26a3a997a714@collabora.com>
-Date: Wed, 1 Oct 2025 22:30:24 +0200
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id C3CE917E12C0;
+	Wed,  1 Oct 2025 23:41:38 +0200 (CEST)
+Message-ID: <b8e03fd2-3a44-48bb-8707-4aecabbbfd9c@collabora.com>
+Date: Wed, 1 Oct 2025 23:41:38 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,7 +57,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 04/26] media: media-device: Introduce media device context
+Subject: Re: [PATCH 06/26] media: v4l2-ioctl: Introduce VIDIOC_BIND_CONTEXT
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -73,551 +73,277 @@ To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
 Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
  linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org
 References: <20250717-multicontext-mainline-2025-v1-0-81ac18979c03@ideasonboard.com>
- <20250717-multicontext-mainline-2025-v1-4-81ac18979c03@ideasonboard.com>
+ <20250717-multicontext-mainline-2025-v1-6-81ac18979c03@ideasonboard.com>
 Content-Language: en-US
 From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <20250717-multicontext-mainline-2025-v1-4-81ac18979c03@ideasonboard.com>
+In-Reply-To: <20250717-multicontext-mainline-2025-v1-6-81ac18979c03@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi Jacopo,
 
-Thanks for the patch. Makes sense to me, but I found some typos.
-
 On 7/17/25 12:45, Jacopo Mondi wrote:
-> Introduce a new type in the media-fh.h header that represent a media
-
-Typo "represents"
-
-> device context.
+> Introduce a new ioctl in V4L2 to allocate a video device context and
+> associate it with a media device context.
 > 
-> A media device context is allocated when the media device is open
+> The ioctl is valid only if support for MEDIA_CONTROLLER is compiled in
+> as it calls into the entity ops to let driver allocate a new context and
+> binds the newly created context with the media context associated
+> with the file descriptor provided by userspace as the new ioctl
+> argument.
 
-Typo "open" -> "opened"
+I would have expected that the execution context of the video device
+already exists and is not allocated at ioctl call time. If I understand
+it correctly
 
-> and released when the last reference to it is put. A new pair of
-> media_device_ops is added to allow device drivers to allocate and
-> release a media context.
-> 
-> The media context groups together the media entity contexts that are
-> associated with it to form an isolated execution context.
-> 
-> Provide helpers in mc-device.c for drivers and for the v4l2-core to
-> handle media device contexts and to bind/unbind entity contexts
-> to it. Once an entity context has been bound to a media device
-> context it is possible to retrieve it by using a pointer to the entity
-> the device is represented by.
+ - after opening a video device, no context is allocated, but in
+   v4l2_fh_release the reference counter of the context is decreased.
+   This smells fishy. Note that the user may not call the ioctl.
+ - after opening a video device there is no context. This could imply
+   that two operating modes are required (with a context and without a
+   context), which would seem unnecessarily complex.
+ - What happens if the VIDIOC_BIND_CONTEXT ioctl is called more than
+   once? (IIUC vfh->context gets overwritten but the old context is not
+   released)
+
+(Just found that a later patch introduces default contexts. Should this
+address the comments above, consider rearranging the patches so that
+default contexts are introduced first.)
+
+> The newly allocated video context is then stored in the v4l2-fh that
+> represent the open file handle on which the ioctl has been called.
+
+Couldn't the same be achieved by
+ - v4l2_fh_open allocates a new context
+ - v4l2_fh_release releases it (already implemented)
+ - ioctl takes the existing context and binds it to the media device
+   context
+Then,
+ - open/release are symmetric and not fishy
+ - after open but before the ioctl call the user can safely operate on a
+   context
+ - calling ioctl twice will be idempotent (check already implemented in
+   media_device_bind_context())
+
 > 
 > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > ---
->  drivers/media/mc/mc-device.c | 168 ++++++++++++++++++++++++++++++++++
->  drivers/media/mc/mc-entity.c |   1 +
->  include/media/media-device.h | 211 +++++++++++++++++++++++++++++++++++++++++++
->  include/media/media-fh.h     |   5 +
->  4 files changed, 385 insertions(+)
+>  drivers/media/v4l2-core/v4l2-dev.c   | 10 ++++++
+>  drivers/media/v4l2-core/v4l2-fh.c    |  1 +
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 64 ++++++++++++++++++++++++++++++++++++
+>  include/media/v4l2-ioctl.h           |  7 ++++
+>  include/uapi/linux/videodev2.h       | 11 +++++++
+>  5 files changed, 93 insertions(+)
 > 
-> diff --git a/drivers/media/mc/mc-device.c b/drivers/media/mc/mc-device.c
-> index e0cad87087d3863bf14207049a54e5e4dea1cdd4..d8f12db933d22ae7466051698d853f4bdc599400 100644
-> --- a/drivers/media/mc/mc-device.c
-> +++ b/drivers/media/mc/mc-device.c
-> @@ -12,7 +12,9 @@
->  #include <linux/export.h>
->  #include <linux/idr.h>
->  #include <linux/ioctl.h>
-> +#include <linux/kref.h>
->  #include <linux/media.h>
-> +#include <linux/mutex.h>
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index c83c37843c9e7beb899a4b2bd176273c3dec381b..bc6502b4ce21cc0ad53136e1637d1c926e31dd89 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -606,6 +606,10 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  		__set_bit(_IOC_NR(VIDIOC_ENUM_FREQ_BANDS), valid_ioctls);
+>  
+>  	if (is_vid) {
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +		__set_bit(_IOC_NR(VIDIOC_BIND_CONTEXT), valid_ioctls);
+> +#endif
+> +
+>  		/* video specific ioctls */
+>  		if ((is_rx && (ops->vidioc_enum_fmt_vid_cap ||
+>  			       ops->vidioc_enum_fmt_vid_overlay)) ||
+> @@ -661,12 +665,18 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  		SET_VALID_IOCTL(ops, VIDIOC_G_FMT, vidioc_g_fmt_meta_cap);
+>  		SET_VALID_IOCTL(ops, VIDIOC_S_FMT, vidioc_s_fmt_meta_cap);
+>  		SET_VALID_IOCTL(ops, VIDIOC_TRY_FMT, vidioc_try_fmt_meta_cap);
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +		__set_bit(_IOC_NR(VIDIOC_BIND_CONTEXT), valid_ioctls);
+> +#endif
+>  	} else if (is_meta && is_tx) {
+>  		/* metadata output specific ioctls */
+>  		SET_VALID_IOCTL(ops, VIDIOC_ENUM_FMT, vidioc_enum_fmt_meta_out);
+>  		SET_VALID_IOCTL(ops, VIDIOC_G_FMT, vidioc_g_fmt_meta_out);
+>  		SET_VALID_IOCTL(ops, VIDIOC_S_FMT, vidioc_s_fmt_meta_out);
+>  		SET_VALID_IOCTL(ops, VIDIOC_TRY_FMT, vidioc_try_fmt_meta_out);
+> +#ifdef CONFIG_MEDIA_CONTROLLER
+> +		__set_bit(_IOC_NR(VIDIOC_BIND_CONTEXT), valid_ioctls);
+> +#endif
+>  	}
+>  	if (is_vbi) {
+>  		/* vbi specific ioctls */
+> diff --git a/drivers/media/v4l2-core/v4l2-fh.c b/drivers/media/v4l2-core/v4l2-fh.c
+> index 90eec79ee995a2d214590beeacc91b9f8f33236d..f7af444d2344541ccae1eae230b39d4cbc47f6bd 100644
+> --- a/drivers/media/v4l2-core/v4l2-fh.c
+> +++ b/drivers/media/v4l2-core/v4l2-fh.c
+> @@ -93,6 +93,7 @@ int v4l2_fh_release(struct file *filp)
+>  	struct v4l2_fh *fh = filp->private_data;
+>  
+>  	if (fh) {
+> +		video_device_context_put(fh->context);
+>  		v4l2_fh_del(fh);
+>  		v4l2_fh_exit(fh);
+>  		kfree(fh);
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 46da373066f4ec786b87ef18b8372abee621332f..bade64cc62b66dd6237ccd5338aa6dd8ab00ef8c 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -9,6 +9,7 @@
+>   */
+>  
+>  #include <linux/compat.h>
+> +#include <linux/file.h>
+>  #include <linux/mm.h>
+>  #include <linux/module.h>
 >  #include <linux/slab.h>
->  #include <linux/types.h>
->  #include <linux/pci.h>
-> @@ -49,11 +51,31 @@ static int media_device_open(struct media_devnode *devnode, struct file *filp)
->  {
->  	struct media_device *mdev = devnode->media_dev;
->  	struct media_device_fh *fh;
-> +	int ret;
->  
->  	fh = kzalloc(sizeof(*fh), GFP_KERNEL);
->  	if (!fh)
->  		return -ENOMEM;
->  
-> +	if (mdev->ops && mdev->ops->alloc_context) {
-> +		if (WARN_ON(!mdev->ops->destroy_context)) {
-> +			kfree(fh);
-> +			return -EINVAL;
-> +		}
-> +
-> +		ret = mdev->ops->alloc_context(mdev, &fh->context);
-> +		if (ret) {
-> +			kfree(fh);
-> +			return ret;
-> +		}
-> +
-> +		/*
-> +		 * Make sure the driver implementing alloc_context has
-> +		 * called media_device_init_context()
-> +		 */
-> +		WARN_ON(!fh->context->initialized);
-> +	}
-> +
->  	filp->private_data = &fh->fh;
->  
->  	spin_lock_irq(&mdev->fh_list_lock);
-> @@ -73,6 +95,8 @@ static int media_device_close(struct file *filp)
->  	list_del(&fh->mdev_list);
->  	spin_unlock_irq(&mdev->fh_list_lock);
->  
-> +	media_device_context_put(fh->context);
-> +
->  	kfree(fh);
->  
->  	return 0;
-> @@ -860,6 +884,150 @@ void media_device_unregister(struct media_device *mdev)
+> @@ -350,6 +351,13 @@ static void v4l_print_format(const void *arg, bool write_only)
+>  	}
 >  }
->  EXPORT_SYMBOL_GPL(media_device_unregister);
 >  
-> +/* -----------------------------------------------------------------------------
-> + * Context handling
-> + */
-> +
-> +static void media_device_release_context(struct kref *refcount)
+> +static void v4l_print_context(const void *arg, bool write_only)
 > +{
-> +	struct media_device_context *context =
-> +		container_of(refcount, struct media_device_context, refcount);
+> +	const struct v4l2_context *c = arg;
+> +
+> +	pr_cont("context=%u\n", c->context_fd);
+> +}
+> +
+>  static void v4l_print_framebuffer(const void *arg, bool write_only)
+>  {
+>  	const struct v4l2_framebuffer *p = arg;
+> @@ -2151,6 +2159,61 @@ static int v4l_overlay(const struct v4l2_ioctl_ops *ops,
+>  	return ops->vidioc_overlay(file, fh, *(unsigned int *)arg);
+>  }
+>  
+> +static int v4l_bind_context(const struct v4l2_ioctl_ops *ops,
+> +			    struct file *file, void *fh, void *arg)
+> +{
+> +	struct video_device *vdev = video_devdata(file);
+> +	struct media_device_context *mdev_context;
+> +	struct v4l2_fh *vfh =
+> +		test_bit(V4L2_FL_USES_V4L2_FH, &vdev->flags) ? fh : NULL;
+> +	struct v4l2_context *c = arg;
+> +	int ret;
 > +
 > +	/*
-> +	 * All the associated entity contexts should have been released if we
-> +	 * get here.
+> +	 * TODO: do not __set_bit(_IOC_NR(VIDIOC_BIND_CONTEXT), valid_ioctls)
+> +	 * if V4L2_FL_USES_V4L2_FH isn't set or the driver does not implement
+> +	 * alloc_context and destroy_context.
 > +	 */
-> +	WARN_ON(!list_empty(&context->contexts));
+> +	if (!vfh)
+> +		return -ENOTTY;
 > +
-> +	context->mdev->ops->destroy_context(context);
-> +}
+> +	if (!vdev->entity.ops || !vdev->entity.ops->alloc_context ||
+> +	    !vdev->entity.ops->destroy_context)
+> +		return -ENOTTY;
 > +
-> +struct media_device_context *
-> +media_device_context_get(struct media_device_context *ctx)
-> +{
-> +	if (!ctx)
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	kref_get(&ctx->refcount);
-> +
-> +	return ctx;
-> +}
-> +EXPORT_SYMBOL_GPL(media_device_context_get);
-> +
-> +void media_device_context_put(struct media_device_context *ctx)
-> +{
-> +	if (!ctx)
-> +		return;
-> +
-> +	kref_put(&ctx->refcount, media_device_release_context);
-> +}
-> +EXPORT_SYMBOL_GPL(media_device_context_put);
-> +
-> +struct media_device_context *media_device_context_get_from_fd(unsigned int fd)
-> +{
-> +	struct media_device_context *ctx;
-> +	struct file *filp = fget(fd);
-> +	struct media_device_fh *fh;
-> +
-> +	if (!filp)
-> +		return NULL;
-> +
-> +	fh = media_device_fh(filp);
-> +	ctx = media_device_context_get(fh->context);
-> +	fput(filp);
-> +
-> +	return ctx;
-> +}
-> +EXPORT_SYMBOL_GPL(media_device_context_get_from_fd);
-> +
-> +int media_device_init_context(struct media_device *mdev,
-> +			      struct media_device_context *ctx)
-> +{
-> +	ctx->mdev = mdev;
-> +	INIT_LIST_HEAD(&ctx->contexts);
-> +	mutex_init(&ctx->lock);
-> +	kref_init(&ctx->refcount);
-> +
-> +	ctx->initialized = true;
-> +
-> +	return 0;
-> +}
-> +EXPORT_SYMBOL_GPL(media_device_init_context);
-> +
-> +void media_device_cleanup_context(struct media_device_context *ctx)
-> +{
-> +	mutex_destroy(&ctx->lock);
-> +	list_del_init(&ctx->contexts);
-> +}
-> +EXPORT_SYMBOL_GPL(media_device_cleanup_context);
-> +
-> +int media_device_bind_context(struct media_device_context *mdev_context,
-> +			      struct media_entity_context *context)
-> +{
-> +	struct media_entity_context *entry;
-> +
-> +	if (WARN_ON(!mdev_context || !context))
+> +	mdev_context = media_device_context_get_from_fd(c->context_fd);
+> +	if (!mdev_context)
 > +		return -EINVAL;
 > +
-> +	guard(mutex)(&mdev_context->lock);
+> +	/* Let the driver allocate the per-file handle context. */
+> +	ret = vdev->entity.ops->alloc_context(&vdev->entity,
+> +					      (struct media_entity_context **)
+> +					      &vfh->context);
+> +	if (ret)
+> +		goto err_put_mdev_context;
 > +
-> +	/* Make sure the entity has not been bound already. */
-> +	list_for_each_entry(entry, &mdev_context->contexts, list) {
-> +		if (entry == context)
-> +			return -EINVAL;
-> +	}
+> +	/*
+> +	 * Bind the newly created video device context to the media device
+> +	 * context identified by the file descriptor.
+> +	 */
+> +	ret = media_device_bind_context(mdev_context,
+> +					(struct media_entity_context *)
+> +					vfh->context);
+> +	if (ret)
+> +		goto err_put_context;
 > +
-> +	list_add_tail(&context->list, &mdev_context->contexts);
-> +	context->mdev_context = media_device_context_get(mdev_context);
+> +	media_device_context_put(mdev_context);
 > +
 > +	return 0;
+> +
+> +err_put_context:
+> +	video_device_context_put(vfh->context);
+> +err_put_mdev_context:
+> +	media_device_context_put(mdev_context);
+> +
+> +	return ret;
 > +}
-> +EXPORT_SYMBOL_GPL(media_device_bind_context);
 > +
-> +int media_device_unbind_context(struct media_entity_context *context)
-> +{
-> +	struct media_device_context *mdev_context = context->mdev_context;
-> +	struct media_entity_context *entry;
-> +	struct media_entity_context *tmp;
-> +
-> +	if (WARN_ON(!mdev_context || !context))
-> +		return -EINVAL;
-> +
-> +	guard(mutex)(&mdev_context->lock);
-> +	list_for_each_entry_safe(entry, tmp, &mdev_context->contexts, list) {
-> +		if (entry != context)
-> +			continue;
-> +
-> +		list_del(&entry->list);
-> +		media_device_context_put(mdev_context);
-> +		entry->mdev_context = NULL;
-> +
-> +		return 0;
-> +	}
-> +
-> +	WARN(true, "Media entity context is not bound to any media context\n");
-> +
-> +	return -EINVAL;
-> +}
-> +EXPORT_SYMBOL_GPL(media_device_unbind_context);
-> +
-> +struct media_entity_context *
-> +media_device_get_entity_context(struct media_device_context *mdev_context,
-> +				struct media_entity *entity)
-> +{
-> +	struct media_entity_context *entry;
-> +
-> +	guard(mutex)(&mdev_context->lock);
-> +
-> +	list_for_each_entry(entry, &mdev_context->contexts, list) {
-> +		if (entry->entity == entity)
-> +			return media_entity_context_get(entry);
-> +	}
-> +
-> +	return ERR_PTR(-EINVAL);
-> +}
-> +EXPORT_SYMBOL(media_device_get_entity_context);
-> +
->  #if IS_ENABLED(CONFIG_PCI)
->  void media_device_pci_init(struct media_device *mdev,
->  			   struct pci_dev *pci_dev,
-> diff --git a/drivers/media/mc/mc-entity.c b/drivers/media/mc/mc-entity.c
-> index b4a9f0a0aa7353d7a3333f20903980956b3df4a7..7bc276c725f974539ea06e3882d004b81be1de68 100644
-> --- a/drivers/media/mc/mc-entity.c
-> +++ b/drivers/media/mc/mc-entity.c
-> @@ -1717,5 +1717,6 @@ EXPORT_SYMBOL_GPL(media_entity_init_context);
->  
->  void media_entity_cleanup_context(struct media_entity_context *ctx)
+>  static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
+>  				struct file *file, void *fh, void *arg)
 >  {
-> +	media_device_unbind_context(ctx);
->  }
->  EXPORT_SYMBOL_GPL(media_entity_cleanup_context);
-> diff --git a/include/media/media-device.h b/include/media/media-device.h
-> index 2fc750efef7c43814f019f12078e9c96c1bd6bf9..2ea8fce9ba75700286961f1622584372a954cb8a 100644
-> --- a/include/media/media-device.h
-> +++ b/include/media/media-device.h
-> @@ -18,10 +18,73 @@
+> @@ -2998,6 +3061,7 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+>  	IOCTL_INFO(VIDIOC_DBG_G_CHIP_INFO, v4l_dbg_g_chip_info, v4l_print_dbg_chip_info, INFO_FL_CLEAR(v4l2_dbg_chip_info, match)),
+>  	IOCTL_INFO(VIDIOC_QUERY_EXT_CTRL, v4l_query_ext_ctrl, v4l_print_query_ext_ctrl, INFO_FL_CTRL | INFO_FL_CLEAR(v4l2_query_ext_ctrl, id)),
+>  	IOCTL_INFO(VIDIOC_REMOVE_BUFS, v4l_remove_bufs, v4l_print_remove_buffers, INFO_FL_PRIO | INFO_FL_QUEUE | INFO_FL_CLEAR(v4l2_remove_buffers, type)),
+> +	IOCTL_INFO(VIDIOC_BIND_CONTEXT, v4l_bind_context, v4l_print_context, 0),
+>  };
+>  #define V4L2_IOCTLS ARRAY_SIZE(v4l2_ioctls)
 >  
->  #include <media/media-devnode.h>
->  #include <media/media-entity.h>
-> +#include <media/media-fh.h>
+> diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
+> index 82695c3a300a73219f262fb556ed61a8f09d273e..6d9edfd9ca912972ad15acdc07014dee1ed36ab6 100644
+> --- a/include/media/v4l2-ioctl.h
+> +++ b/include/media/v4l2-ioctl.h
+> @@ -18,6 +18,7 @@
+>  #include <linux/videodev2.h>
 >  
->  struct ida;
->  struct media_device;
+>  struct v4l2_fh;
+> +struct video_device_context;
 >  
-> +/**
-> + * struct media_device_context - Media device context
-> + * @mdev: The media device this context is associated with
-> + * @refcount: The kref reference counter
-> + * @lock: Protects the entities contexts list
-
-Typo "entity contexts". Or "list of entity contexts", as in the next
-sentence.
-
-> + * @contexts: List of entity contexts associated with this media device context
-> + * @initialized: Flag set to true by media_device_init_context()
-> + *
-> + * A media device context is created every time the media device gets opened by
-> + * userspace. It is then uniquely identified for applications by the numerical
-> + * file descriptor returned by a successful call to open() and is associated
-> + * with an instance of :c:type:`media_device_fh`.
-> + *
-> + * Media device contexts are ref-counted and thus freed once the last reference
-> + * to them is released.
-> + *
-> + * A media device context groups together the media entity contexts registered
-> + * on a video device or v4l2 subdevice that has been associated with a media
-> + * device context. The association between a media entity context and media
-> + * device context is called 'bounding', and the result of bounding is to create
-
-"bounding" -> "binding" I would say.
-
-> + * an 'execution context' independent from other execution contexts.
-> + *
-> + * An entity context is bound to a media device context by a call to the
-> + * VIDIOC_BIND_CONTEXT ioctl on video devices and by a call to
-> + * VIDIOC_SUBDEV_BIND_CONTEXT on subdevices by userspace. The bounding operation
-> + * groups together entity contexts to the same media device context. As video
-> + * devices and v4l2 subdevices devnodes can be opened multiple times, each file
-> + * descriptor resulting from a successful open() call can be bound to a
-> + * different media device context.
-> + *
-> + * Creating execution contexts by bounding video entity contexts to a media
-> + * device context allows userspace to effectively multiplex the usage of a
-> + * media graph and of the device nodes that are part of it.
-> + *
-> + * In order to create an execution context userspace should:
-> + *
-> + * 1) Open the media device to create a media device context identified by the
-> + * file descriptor returned by a successful 'open()' call
-> + * 2) Open the video device or v4l2 subdevice and bind the file descriptors to
-> + * the media device context by calling the VIDIOC_BIND_CONTEXT and
-> + * VIDIOC_SUBDEV_BIND_CONTEXT ioctls
-> + *
-> + * All devices bound to the same media device context are now part of the same
-> + * execution context. From this point on all the operations performed on a file
-> + * descriptor bound to a media device context are independent from operations
-> + * performed on a file descriptor bound to a different execution context.
-> + *
-> + * Binding an entity context to a media device context increases the media
-> + * device context reference count. This guarantees that references to media
-> + * device context are valid as long as there are valid entity contexts that
-> + * refers to it. Symmetrically, unbinding an entity context from a media
-> + * device context decreases the media device context reference count.
+>  /**
+>   * struct v4l2_ioctl_ops - describe operations for each V4L2 ioctl
+> @@ -149,6 +150,8 @@ struct v4l2_fh;
+>   *	:ref:`VIDIOC_TRY_FMT <vidioc_g_fmt>` ioctl logic for metadata capture
+>   * @vidioc_try_fmt_meta_out: pointer to the function that implements
+>   *	:ref:`VIDIOC_TRY_FMT <vidioc_g_fmt>` ioctl logic for metadata output
+> + * @vidioc_bind_context: pointer to the function that implements
+> + *	:ref:`VIDIOC_BIND_CONTEXT <vidioc_bind_context>` ioctl
+>   * @vidioc_reqbufs: pointer to the function that implements
+>   *	:ref:`VIDIOC_REQBUFS <vidioc_reqbufs>` ioctl
+>   * @vidioc_querybuf: pointer to the function that implements
+> @@ -402,6 +405,10 @@ struct v4l2_ioctl_ops {
+>  	int (*vidioc_try_fmt_meta_out)(struct file *file, void *fh,
+>  				       struct v4l2_format *f);
+>  
+> +	/* Context handlers */
+> +	int (*vidioc_bind_context)(struct file *file, void *fh,
+> +				   struct video_device_context *c);
+> +
+>  	/* Buffer handlers */
+>  	int (*vidioc_reqbufs)(struct file *file, void *fh,
+>  			      struct v4l2_requestbuffers *b);
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 3dd9fa45dde1066d52a68581625a39e7ec92c9b7..0b9aa89e2479620dbbaa54f1aadff7aaa7a3d0f7 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -1057,6 +1057,14 @@ struct v4l2_jpegcompression {
+>  					* always use APP0 */
+>  };
+>  
+> +/*
+> + *     V I D E O   D E V I C E   C O N T E X T
 > + */
-> +struct media_device_context {
-> +	struct media_device *mdev;
-> +	struct kref refcount;
-> +	/* Protects the 'contexts' list */
+> +
+> +struct v4l2_context {
+> +	__u32 context_fd;
 
-This comment seems redundant, the comment above will do nicely.
+Reserve some space for the future?
+
+> +};
+> +
+>  /*
+>   *	M E M O R Y - M A P P I N G   B U F F E R S
+>   */
+> @@ -2818,6 +2826,9 @@ struct v4l2_remove_buffers {
+>  #define VIDIOC_REMOVE_BUFS	_IOWR('V', 104, struct v4l2_remove_buffers)
+>  
+>  
+> +/* Context handling */
+> +#define VIDIOC_BIND_CONTEXT	_IOW('V', 105, struct v4l2_context)
+> +
+>  /* Reminder: when adding new ioctls please add support for them to
+>     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
+>  
+> 
 
 Best regards,
 Michael
-
-> +	struct mutex lock;
-> +	struct list_head contexts;
-> +	bool initialized;
-> +};
-> +
->  /**
->   * struct media_entity_notify - Media Entity Notify
->   *
-> @@ -62,6 +125,13 @@ struct media_entity_notify {
->   *	       request (and thus the buffer) must be available to the driver.
->   *	       And once a buffer is queued, then the driver can complete
->   *	       or delete objects from the request before req_queue exits.
-> + * @alloc_context: Allocate a media device context. The operation allows drivers to
-> + *		   allocate a driver-specific structure that embeds a
-> + *		   media_device_context instance as first member where to store
-> + *		   driver-specific information that are global to all device
-> + *		   contexts part of media device context. Returns 0 on success a
-> + *		   negative error code otherwise.
-> + * @destroy_context: Release a media device context.
->   */
->  struct media_device_ops {
->  	int (*link_notify)(struct media_link *link, u32 flags,
-> @@ -70,6 +140,9 @@ struct media_device_ops {
->  	void (*req_free)(struct media_request *req);
->  	int (*req_validate)(struct media_request *req);
->  	void (*req_queue)(struct media_request *req);
-> +	int (*alloc_context)(struct media_device *mdev,
-> +			     struct media_device_context **ctx);
-> +	void (*destroy_context)(struct media_device_context *ctx);
->  };
->  
->  /**
-> @@ -298,6 +371,144 @@ int __must_check __media_device_register(struct media_device *mdev,
->   */
->  void media_device_unregister(struct media_device *mdev);
->  
-> +/* -----------------------------------------------------------------------------
-> + * media device context handling
-> + */
-> +
-> +/**
-> + * media_device_context_get - Increase the media device context reference count
-> + *			      and return a reference to it
-> + * @ctx: The media device context
-> + */
-> +struct media_device_context *
-> +media_device_context_get(struct media_device_context *ctx);
-> +
-> +/**
-> + * media_device_context_put - Decrease the media device context reference count
-> + * @ctx: The media device context
-> + */
-> +void media_device_context_put(struct media_device_context *ctx);
-> +
-> +/**
-> + * media_device_context_get_from_fd - Get the media device context associated with a
-> + *				      numerical file descriptor
-> + *
-> + * @fd: the numerical file descriptor
-> + *
-> + * A media device context is created whenever the media device devnode is opened
-> + * by userspace. It is then associated uniquely with a numerical file descriptor
-> + * which is unique in the userspace process context.
-> + *
-> + * This function allows to retrieve the media device associated with such
-> + * numerical file descriptor and increases the media device context reference
-> + * count to guarantee the returned reference stays valid at least until the
-> + * caller does not call media_device_context_put().
-> + *
-> + * Caller of this function are required to put the returned media device context
-> + * once they are done with it.
-> + *
-> + * The intended caller of this function is the VIDIOC_BIND_CONTEXT ioctl handler
-> + * which need to get the media device contexts associated to a numerical file
-> + * descriptor.
-> + */
-> +struct media_device_context *media_device_context_get_from_fd(unsigned int fd);
-> +
-> +/**
-> + * media_device_init_context - Initialize the media device context
-> + *
-> + * @mdev: The media device this context belongs to
-> + * @ctx: The media device context to initialize
-> + *
-> + * Initialize the fields of a media device context. Device drivers that support
-> + * multi context operations shall call this function in their implementation of
-> + * media_device_operations.alloc_context()
-> + */
-> +int media_device_init_context(struct media_device *mdev,
-> +			      struct media_device_context *ctx);
-> +
-> +/**
-> + * media_device_cleanup_context - Cleanup the media device context
-> + *
-> + * @ctx: The media device context to clean up
-> + *
-> + * Cleanup a media device context. Device drivers that support multi context
-> + * operations shall call this function in their implementation of
-> + * media_device_operations.destroy_context() before releasing the memory allocated
-> + * by media_device_operations.alloc_context().
-> + */
-> +void media_device_cleanup_context(struct media_device_context *ctx);
-> +
-> +/**
-> + * media_device_bind_context - Bind an entity context to a media device context
-> + *
-> + * @mdev_context: pointer to struct &media_device_context
-> + * @context: the entity context to bind
-> + *
-> + * This function creates a mapping entry in the media device context that
-> + * associates an entity context to the media entity it belongs to and stores it
-> + * in a linked list so that they can be retrieved later.
-> + *
-> + * Binding an entity context to a media device context increases the media
-> + * device context refcount.
-> + *
-> + * The intended caller of this function is the VIDIOC_BIND_CONTEXT ioctl handler
-> + * that binds a newly created context to a media device context.
-> + */
-> +int media_device_bind_context(struct media_device_context *mdev_context,
-> +			      struct media_entity_context *context);
-> +
-> +/**
-> + * media_device_unbind_context - Unbind an entity context from a media device
-> + *				 context
-> + *
-> + * @context: the entity context to unbind
-> + *
-> + * An entity context is unbound from a media device context when the file handle
-> + * it is associated with gets closed.
-> + *
-> + * Unbinding an entity context from a media device context decreases the media
-> + * device context refcount.
-> + *
-> + * Returns 0 if the context was bound to a media device context, -EINVAL
-> + * otherwise.
-> + */
-> +int media_device_unbind_context(struct media_entity_context *context);
-> +
-> +/**
-> + * media_device_get_entity_context - Get the entity context associated with
-> + *				     a media entity in a media device context
-> + *
-> + * @mdev_context: pointer to struct &media_device_context
-> + * @entity: pointer to struct &media_entity that the entity context is
-> + *	    associated with
-> + *
-> + * An entity context is uniquely associated with a media device context after it
-> + * has been bound to it by a call to the VIDIOC_BIND_CONTEXT ioctl. This helper
-> + * function retrieves the entity context associated with a media device context
-> + * for a specific entity that represents a video device or a v4l2 subdevice.
-> + *
-> + * The reference count of the returned entity context is increased to guarantee
-> + * the returned reference stays valid until the caller does not call
-> + * media_entity_context_put().
-> + *
-> + * Drivers are not expected to call this function directly but should instead
-> + * use the helpers provided by the video_device and v4l2_subdevice layers,
-> + * video_device_context_get() and v4l2_subdev_get_context() respectively.
-> + * Drivers are always required to decrease the returned context reference count
-> + * by calling video_device_context_put() and v4l2_subdev_put_context().
-> + *
-> + * If no entity context has been associated with the media device context
-> + * provided as first argument an error  pointer is returned. Drivers are
-> + * required to always check the value returned by this function.
-> + */
-> +struct media_entity_context *
-> +media_device_get_entity_context(struct media_device_context *mdev_context,
-> +				struct media_entity *entity);
-> +
-> +/*------------------------------------------------------------------------------
-> + * Media entity handling
-> + */
-> +
->  /**
->   * media_device_register_entity() - registers a media entity inside a
->   *	previously registered media device.
-> diff --git a/include/media/media-fh.h b/include/media/media-fh.h
-> index 6f00744b81d6000a4b0c503fe6968dd7adcbb1c3..48ec266416dd288a008bc5f93db5eb7ec6b8859c 100644
-> --- a/include/media/media-fh.h
-> +++ b/include/media/media-fh.h
-> @@ -13,15 +13,20 @@
->  
->  #include <media/media-devnode.h>
->  
-> +struct media_device_context;
-> +
->  /**
->   * struct media_device_fh - File handle specific information on MC
->   *
->   * @fh: The media device file handle
->   * @mdev_list: This file handle in media device's list of file handles
-> + * @context: The media device context associated with the file handle
->   */
->  struct media_device_fh {
->  	struct media_devnode_fh fh;
->  	struct list_head mdev_list;
-> +
-> +	struct media_device_context *context;
->  };
->  
->  static inline struct media_device_fh *media_device_fh(struct file *filp)
-> 
 
 
