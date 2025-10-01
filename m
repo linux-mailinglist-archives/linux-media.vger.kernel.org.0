@@ -1,399 +1,425 @@
-Return-Path: <linux-media+bounces-43448-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43449-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EDE5BAF654
-	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 09:24:42 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C23DBAF801
+	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 09:52:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C98E21921AEF
-	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 07:25:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8149F192213E
+	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 07:52:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7969726B2CE;
-	Wed,  1 Oct 2025 07:24:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6310B275113;
+	Wed,  1 Oct 2025 07:51:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b="oD4z0TYC"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="PXQzkiFi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010037.outbound.protection.outlook.com [52.101.61.37])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB8E4200C2
-	for <linux-media@vger.kernel.org>; Wed,  1 Oct 2025 07:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759303468; cv=none; b=NYG8cF/7xCLMRwitX8Gme84Mgrf5CPuo0F7kpThvqGRlyYDU9hQIjdq5TaIWNuBQlD1s4sRGRci/ILFfIFLDhfqivbgzO9Ebld+MC1+A88ffJPDqyQxrkf5GiMpFUpoIg/fk/6HCWoBHDoA8Q3YWZvMfwWjw24D3ES40rKsI+os=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759303468; c=relaxed/simple;
-	bh=jJXddCZFI/cpqttthVvXwpHOOfpO6qOgBeHJyNLw3sU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Q9Zit7IpfjTkZjg8oU75bv9PlMtHnUkDAGe4husK6+pYLQeA57X8e43mGBdzJgfWemTqWzBYniD9swg4uqYuJ7t/AhzsBaj+MVCq7U5rkEFZlGyuaD8i/46yD3y/B37GA63N47RtbSq7YcPb17fRGvi7v6Z/4qzvxLL2DC294O0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com; spf=pass smtp.mailfrom=kerneltoast.com; dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b=oD4z0TYC; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kerneltoast.com
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-28a5b8b12a1so32022135ad.0
-        for <linux-media@vger.kernel.org>; Wed, 01 Oct 2025 00:24:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kerneltoast.com; s=google; t=1759303465; x=1759908265; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=Vl/CNeoWhBjYRjRzmZ70zdlmyrUzioNb3cPONrlMgXE=;
-        b=oD4z0TYC25JdT1fOZr52zMRqbg1wmIWtoykVLa6wq3J85cbPXsm4jpCFEBb3eM0zCG
-         vGfG2vVsRQW0+gyaU821IEdfy58IFD14PeS5ZUiN9Dbb0pvYjkE4q2GqecG2RT2E7yFq
-         0ZytH262/PC8TDg6Fv8deqspOQGDeA0uuqGF3jVO9hTKwD2ei3xfaAJD1+bt2JyvAhBY
-         c1BBTOJz4kyTnNFIX6ZqjWN3xWZu6bUrQyl0JLsBuJrhlQjFchrogd9Q6nHwG8rmx6QX
-         FQFhRDqKJb1QO5tsV7HakN9/qowm0CUIRjuNs7KOSaSawgkb7kxPi9Itmvkcady63Kii
-         sVLg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759303465; x=1759908265;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Vl/CNeoWhBjYRjRzmZ70zdlmyrUzioNb3cPONrlMgXE=;
-        b=YReAEvxoRjlQuzuGs6JkdR4jUbp0WfeBhNg3bZPAxLpFiKGsXPer4DAdX3KvnxLc2v
-         7lJTaKwpWvHUBqqFn1P59O97npPQmPA9kZ6R/O8iLPYrjtmhziF0S+BgF1ekJFQKlx4Y
-         zX6UaGK04zFUs6JmU0x1bonPMph/ZWmh2I52HKW/6IvyNTiu4SjsH9nxOmK6fgwlFGtp
-         4MHT241Ygx+5MPqgEf2ghM/veSA31BhQZFx1hqlcXZYWYZKp82UtxM4RlEARO12x/VDT
-         8sB4aM3lW5PAiKg7zg9kpnoC04s0szo+IKdhYa76xnsIRQWCwR9+VxezzLkSBTepZz5A
-         WSvg==
-X-Forwarded-Encrypted: i=1; AJvYcCV3vGUK5WBdW60akQtjadpgTDL+hxks8Kq09gtlVvycnA/lxjv2Zy2qX66NxBzd2hXScIVMgCtICETCrw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxUtE1P9htK0ltktEL0loJ/N4ErZSe47IMQPXG8I33GefJ7OhG3
-	2LB5CG/caTkhY/xaF/w5CznxJVarVsITLKK5MmwRSl9bqfjluxgpBgPsfuQ9B7klXOJU
-X-Gm-Gg: ASbGnctp7I3eZM5pfS8d3UhVxEjODnUoel6JqNRGugHw6FiQWqG0GbL3//Is5zunqvo
-	P35MLJbtt1abkn1v6RLkgUIeTt1XdhqmKIWijH0YP4xMsRAfIj3rPrbc/XNwdu7IULruMnqjTvM
-	xpPYV8nwdbReqLuKm3Zc5boP7z7PnTHb28fq5+OF5j78K2NF7e7u1Eul+03s+RATWXTqao8tZbs
-	xnu7euyaQMJsmm51UUD6nHvZfL1j2zcZIL3j1zHKfoVcO6FxNKR58Qc9BnscJ7QAX72JviYHtn9
-	vhSgzykVF6Of02PrQH8BUKva2LyNSAWenYgElEsD0H1W/BwiqIIO151xNz5TyoqjnBHpvsRGv8S
-	jP8V3khHjkLbfqFAqjGmqB6MrwIVOb2VVZzYB9l0ZzZNHFay7
-X-Google-Smtp-Source: AGHT+IEcRWXeLVrb+pvtX4jq8PyYOWVzLibEP7mgL2Y7VQ8f57O8WepoVnphTXII4DvapquColdOgw==
-X-Received: by 2002:a17:903:40ca:b0:265:57dc:977b with SMTP id d9443c01a7336-28e7f440616mr29394075ad.61.1759303465055;
-        Wed, 01 Oct 2025 00:24:25 -0700 (PDT)
-Received: from sultan-box ([79.127.217.41])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed6881fcasm178452755ad.93.2025.10.01.00.24.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 01 Oct 2025 00:24:24 -0700 (PDT)
-Date: Wed, 1 Oct 2025 00:24:21 -0700
-From: Sultan Alsawaf <sultan@kerneltoast.com>
-To: "Du, Bin" <bin.du@amd.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
-	laurent.pinchart+renesas@ideasonboard.com,
-	bryan.odonoghue@linaro.org, sakari.ailus@linux.intel.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
-	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
-	Dominic.Antony@amd.com, mario.limonciello@amd.com,
-	richard.gong@amd.com, anson.tsao@amd.com,
-	Alexey Zagorodnikov <xglooom@gmail.com>
-Subject: Re: [PATCH v4 4/7] media: platform: amd: isp4 subdev and firmware
- loading handling added
-Message-ID: <aNzXJaH_yGu1UrV2@sultan-box>
-References: <20250911100847.277408-1-Bin.Du@amd.com>
- <20250911100847.277408-5-Bin.Du@amd.com>
- <aNJK_tZe99_jWNdR@sultan-box>
- <c63a56cb-23d0-4c5a-8e1a-0dfe17ff1786@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBEC22750ED;
+	Wed,  1 Oct 2025 07:51:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759305117; cv=fail; b=JhmVVg226DLfiJv8xBrspCKaySpDc+h5d6ldq2fF7f0AfiwIrnQuFa0mm+kam/XCUTWyt4brMCKSHU085K9PkerDI7ki7g3TM8nBiAZuve4UpsN83Al5/wsSJCAFzzp5fbdMRzhCprpVkWlUBwEdbYTQtus+dEp02BHYjiQTQ0k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759305117; c=relaxed/simple;
+	bh=ign/zOPI9jnJ9AuIPMwMk6HsK16xTelbLjKB89OC5hs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=WNJF2CGo2xo+xLDOFUdSbaPmmVfmh5LLYqKaralV9iHG9btUO8ca+UP6GH+DQ+2pMl6Wx3XODJHZ+SUa/LncDECOrpkpc6f72ap9wwL7Gj3zq1b1AiJG0VX0l8srsYc6lX4kte+Da2v/RLLIfndIp3T0PCopxihgCuctJPlvUvs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=PXQzkiFi; arc=fail smtp.client-ip=52.101.61.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lnowF6v8nGNGQlIq3eiwYL8q54EHNYJkNE1PPxHpU6Jn2V2GRsZejXhUuq98hVdJRTMFVUkOyDX+6zFmM89q9nCBSKEikA3LORRqStMJ07Rr2h+J/d4lLc3SRZZSdMvkwT/xB9qYWA45vCXJizcx7vzFU1QvCm7cPpmu3s/E4VXs+SJE7zZ9WhqcVZkaskfkoBKNabxewlE8AjK6Ltr7nDplzb6Kb/axe15aT7yvBg6o9V747AdXLuG66qwImsgOU0gdGCGpKZ+pAN5YhELvdRlsfa0pvQB6dnTZh0gYwqaG33E+2pf2rZ54h9aYFKLhyWARyFNJu0FLbdUAP+T2kg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Fn0M1EsqAF0IX86pAR922sUYcQvuDYv33n5Z+JMqMmA=;
+ b=eqicgS8l4UCvQkfR2uTYH6NFx4dlSZKAQXXyCQTy8eDGAUv1lHz4+qRA32YtMCr3g6ocwlmG/hfzf+wOkAELstYYK/sgbDGWCq5WSTXYsXKiPAHNgfxv1TfY301xZlkxIUxy7k+01CcIcgkXOkWbrqz1USjFZ80vwXld2lcNBbVjBRYbFJ9CniFE87DvY4f6RxetyKm9N7PKFFCOi8Kp1R3tJMVOn4FQXmzZ140RVx2ckewgTKrydNEidIyJgBvZmNVfO9D8YydzGfJcwDxD4Jyw2+oXw6XF2pCd2XULh1MxA91+OFrBAovAZfFGuFVsSOYiQHPuk6eM4aCMfTRmQw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Fn0M1EsqAF0IX86pAR922sUYcQvuDYv33n5Z+JMqMmA=;
+ b=PXQzkiFikDA+/bjU5VtGstgbnVTfldxEeqKO1gWLo+DrtSry7Nn3R8nnWX21Ey+roAs5Ushr5oLSt1dsCy5MfDvmld34ujcgE1CG1ZQ8aTuy1DiorfDWvWkOCMWTRltW6WNcLeuL61RJR/c1ep4qhbgT1nFqMRwfsFyDS4D5Si2HUA4FS1G/GZMHtJt83WSCwH+nQbiW9zVPbjPCyIp3E4pMTcUPPeW1Cql5sMtJfPOETY+v4okGCb2MOIREOEh7efrAL3emiL2zV5rvjRdqYE2003gyjBNTqq3teVGOI/H4SxZXsGt62/HH7g8hb86/HA6pE3JNtHGnk5N+llSYaQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
+ MN0PR12MB5908.namprd12.prod.outlook.com (2603:10b6:208:37c::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9160.17; Wed, 1 Oct
+ 2025 07:51:50 +0000
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9160.015; Wed, 1 Oct 2025
+ 07:51:50 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Jonas =?UTF-8?B?U2Nod8O2YmVs?= <jonasschwoebel@yahoo.de>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>,
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+ Aaron Kling <webgeek1234@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
+Subject:
+ Re: [PATCH v3 15/22] staging: media: tegra-video: tegra20: simplify format
+ align calculations
+Date: Wed, 01 Oct 2025 16:51:39 +0900
+Message-ID: <2368735.QZUTf85G27@senjougahara>
+In-Reply-To:
+ <CAPVz0n3-VvtjHDPKoFiipYQFx=Xq6hph8WW=xa2UaC7iDf1MyA@mail.gmail.com>
+References:
+ <20250925151648.79510-1-clamor95@gmail.com>
+ <CAPVz0n2CRV8d1w1hp-60SQ_caBTFyJE8tJaWerwyEuZHD1p_Nw@mail.gmail.com>
+ <CAPVz0n3-VvtjHDPKoFiipYQFx=Xq6hph8WW=xa2UaC7iDf1MyA@mail.gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TYCPR01CA0181.jpnprd01.prod.outlook.com
+ (2603:1096:400:2b0::10) To DM4PR12MB6494.namprd12.prod.outlook.com
+ (2603:10b6:8:ba::19)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <c63a56cb-23d0-4c5a-8e1a-0dfe17ff1786@amd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|MN0PR12MB5908:EE_
+X-MS-Office365-Filtering-Correlation-Id: 219e351b-e03a-49ed-bb02-08de00bf6108
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|366016|7416014|376014|10070799003|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?K1F1S3pUTk4wRWpBM09DaUdCZTBjdWx3TFdNdm1MMVhYNVZtcGkrSStVM3hG?=
+ =?utf-8?B?K3JVYkRzcHlsV2c2SFpYcUJBd0E2L1hTQXFaNWZkYVEwOFUvQ3ljclZ2N1dU?=
+ =?utf-8?B?bGNkSnlkRjRlS2dJK3hwZTdibkZPMDA4RHpFTGlIendBN2dRUW93L1RpSzZw?=
+ =?utf-8?B?U0ovWkdaTko5MG1uZ2R4MWh3aUZvUFN1cXhZRlhaNDd6V0lyS3BCUENVallN?=
+ =?utf-8?B?L0FoTEZzYUtDbHM4NnlaQm1SeTgyaDJRdjRnMEV0ZHNTU0RGam5JVGJETDJx?=
+ =?utf-8?B?U0Nub1FsWk9xQnQwZm5QSjBnOVpUWTlEeUM4RmxmczlEaG5QL1NxMDBOTG5T?=
+ =?utf-8?B?cW83VmVMUXRpQ0Y3Nk1SN3J2a3hVTGlIbkErRWttb3UrZnZiTklHSHJHcXMr?=
+ =?utf-8?B?N1oxSklQb1J5VlZnL2VOQmR0UDFyb1FPeC8ybkdoTDEyamQ2TjcrSHRZVDN2?=
+ =?utf-8?B?Zm1GYUU3K2ovbkJsMlM0dzBHSGkzMmc0Rng5N015YTZjRTZQYWRoWGxJczJI?=
+ =?utf-8?B?UFJzZ2F0MEtsS2V4REh6d2RobUpISDBzUFRLdWxTbDZ4T2MyWkdSbnFKaURO?=
+ =?utf-8?B?QnE2N2IwbW9PWTBOUGZYRklRdTc1UTlwdHU1MGpzZDA0SDl1UU9EZDNvc0RY?=
+ =?utf-8?B?ZGovS1VYYk1sL1RMSWlQWXhBOGlIZ0lZMUdWT1ZEKzBleDZRVFlNTmpmclk1?=
+ =?utf-8?B?b3ZHWWl3OWtWaFhaaHFxVUNvZnF3eXl3TTNMSDJjMjBpM0NXaVRKcWh5aUFz?=
+ =?utf-8?B?T1pkNUhTM1A0NExtdnljc08yelhKSkxoL3JNWkJjOHRtcDdWRHM1OWhUMXhy?=
+ =?utf-8?B?bFYyaEJpcWFOUC9vbzlHTm9aZ3lBbTBlZ3BXT0luVTVGUmI4c1Yvem5NWWIy?=
+ =?utf-8?B?TXk0MmJVck9ZMnlheUt0TXl3ZEZGZUh1Q1drUVFWb0l2MEcyaWJISXo3Qkxx?=
+ =?utf-8?B?YlJ4N0kwTTBHVmp0dklNbVpxWjZUMTllYlNrcjE4SElIaUFoKzNWN0tyQzhl?=
+ =?utf-8?B?RHluOG5yazlFUW9lR1MweCtZY1hkTVdwTXN1U3NPY3dvZXYzVUQvajA0WkY2?=
+ =?utf-8?B?T3JzQ0dCRFNaQWcwT3JHNGZNNi9TaTJ3N01BNDJicVp3QkdyVzhmSjhBMFl6?=
+ =?utf-8?B?N294LzZvOHd1RlZhNTZZTjZiU0NyM253VmVSbUVrbjZ4b1laQVZ6cThLWDlY?=
+ =?utf-8?B?a05KNXI1Y2JlLzJXK2YvaVZqdkYvdUdEbHdMbE95dWREVVg5eEh3RWRxV2tv?=
+ =?utf-8?B?cjJPaEtpbTEvZTFwSUFrNkVWUzYwdUFvUnFxbWt3WUt3cjNXbTdBdkVreUFq?=
+ =?utf-8?B?Z3hCenN3TS9BbUgxaUZMdHdXSmhXSVIyMzl4Mld2NjdxTlpLVDgxYXg4TEEx?=
+ =?utf-8?B?SXBBNkEwRkZtRkpkTU0xeFpycGltcVF3eS9MaWk2cUJWNzk1RDV6bXdjaUVi?=
+ =?utf-8?B?NlNINzdEdXNhbE1iSktNb3RURXNRc0xVRmlpdW80SkxkYVpaRlJjSnl1K3Ju?=
+ =?utf-8?B?MzVGNVJWaEdKczh1Wkw3MnZsdVBRV2ZTVzJMQ0FOQXp0aU1oTkVzVG1FT2ZG?=
+ =?utf-8?B?TWRWQ3dVOWR2UjJZa3FvOFR1V1RTK0FSVm5pMkRFR0NIVmxPZU1HdVFueGtv?=
+ =?utf-8?B?T01RRU4wUWM1VEU3V2ZmTnR2MzNaWXZSNEJvamZBN3NBNStWcm9UZHFJc3k0?=
+ =?utf-8?B?Q3VGTS82SGFhcGJWVVF4Wld4Tng0dWloVkYwREoyS09TTjJEZVVXUUFJdnVF?=
+ =?utf-8?B?ZWNMVGVxYTRVNUpRVFp1bFBncTB5TVhkdU5wUmZUM1daNU1DbXBER1o1aEdk?=
+ =?utf-8?B?M1lIZ2djaGtmMC8yd3E5L2c5RWEzMG1Nd0lSUzhVN0pVLzA2L01RNndUMTlT?=
+ =?utf-8?B?clMrbzhaeEhhYTMrVCtkeS84dmlxQ2IwS2ZEdU0xaDlORzhzRlJyK2x6cFIw?=
+ =?utf-8?Q?O92BuGZBfhpNwSTqjunOLomSU+lXpHRB?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6494.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(10070799003)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?ZTlJZGZ5R1FpazB3SVI4QXpxNkRJajZ1dmtZc3ZzSjZoZURSQ2k4bjZtUWZy?=
+ =?utf-8?B?TWpYSERyTDlIYkc1MXJ2U0dMYWZyWW5mVlNkRUF6RFVJWmVHbzIreDUxZUZ0?=
+ =?utf-8?B?ZGhXdzdFSTN2Z0ZuRjZCbUFQTTNHU3N1V0Jvc1VZS3dibDFsOVQ0QitjUjZH?=
+ =?utf-8?B?R0xKSFJxZDV5NldwUm5RbTZSbVlCV1pVOGVONm1CcEhiNnUzOVA4U2srOTJs?=
+ =?utf-8?B?QURwSTcxdUQyc1gzcTk4cWJOU0gxT3hqak4raTlDbzN0UGl0dGR4bHEwSURr?=
+ =?utf-8?B?Y2x2QUp3ZUNyZTdkUmpLN3A1WldxSGRTaWRtR3ZWYmFmckViRG9Qd3o1Tjk2?=
+ =?utf-8?B?T21ZM1N3bWF6V0FOTmlIMDR5NWhZdGhpd2QycSs5TXdKTElaa3ZlVDNTb1Fu?=
+ =?utf-8?B?eGtRYUtXZmRWUkRTNTZIRGNoK09xV3hiVTZ2cWtKUndUenZrZERPSG5VS09Q?=
+ =?utf-8?B?VDZIZ0ZFMjNpYW45eEVQaDZsMm1kYzN5L2EyNm1tRmRpbVd0QVkyQ0hIZ0Zu?=
+ =?utf-8?B?d1YydmxiYWdRVE00OXBNMG5oY3lyTmdhU0RqMWVZYnpSbzBxOXlNSXhjanhG?=
+ =?utf-8?B?MXlBT1NCMWd3TDlxR3I4RzNoU0RGcVpRTFlUTDc0OHZFK2pJb2x6MTYvU1pN?=
+ =?utf-8?B?amtCcm9RamtjTmcrVEFZZS9meGJVTjIwVE9LRlkrUzJmN3p5Wm1KT2g5UWdG?=
+ =?utf-8?B?RVNVQ0t2bDBNaWo4N0IzWFV4Y1JHeWlhQms0SzhsbW9JUG5OaFAxdmpNK1JO?=
+ =?utf-8?B?WlFNQkRyS3ZweGZqTm5QSXlPeU9EYi9SRnVpbHFMNUFERXFCNHY4K0ZrNHZ1?=
+ =?utf-8?B?OFdiYThFOXFBSlFlZlJaWjIraU43RTZXalpqcGZ2ZG5RTnBkOEx3ckd6QkhF?=
+ =?utf-8?B?emFSWDh4aG9MeG5VWXNueUk2YzBQVkJWZVRsZ09CUkx4Sy82T0VtcnBqV0l5?=
+ =?utf-8?B?alcxS2RGcVdxUWUrMzh4TDdnL1djTzlrRkt1aXpkVWlQSVdkT1drRjNVRW8z?=
+ =?utf-8?B?QzFXZXhtMlJZV1dLT3BpdFRVR2ZscjdibHRQSTRiemtjUHhWdjFJWW5xcjNG?=
+ =?utf-8?B?Zkt0bVh4TW85QUVNK0dMaGpyQXQyNUw1TkNZaUFuMlFiZXNaeExXY3ZMc1Mr?=
+ =?utf-8?B?ZDNNcm5PUlZSWVJ3VVlpL1hSTjRGdi91QTA2VWZiWnVnSFROamZ3TVcvSTJS?=
+ =?utf-8?B?Qnk4TVhOT1ZBelVEeTQrR3JIUHRhVjVvOXVHaHZnL2s5SHdJYzZ4cEFnUGha?=
+ =?utf-8?B?cGZTOHNrbHMwZDZDQ05xaHhKUWp2ZmNkc2JnRkxhVU8wNk1mQWVZd3Brcnpu?=
+ =?utf-8?B?dnhSY21EeEt4V01NQWFYWTlWMllFYUx6WFNTcGs1RkVlTmVZTm9QUytlakN4?=
+ =?utf-8?B?OGNqSGJ3Ny9ISDErR2FYc0N1UEMyU0JGa2RDcW5aRWFtbHFGenRxTU5tU2pG?=
+ =?utf-8?B?N3hPVHBpNFpNejgyRlBXekc2dllJVmp5aUZIeUNlcy9RVWltbExmRG5uZi9O?=
+ =?utf-8?B?d3UvdDFQVGliUHU3WUQ2WUJmd21pc2V6WHd2cU9CR2Q0ZXFzcUZQc3ZTb2hV?=
+ =?utf-8?B?bHV6RzFNN0w4OHV1MXpjL2xwdDlyeWxYRGJsK3JVYUFOeUNCRG55bFBlZkh0?=
+ =?utf-8?B?d0NjcnRoQzhReVFCODVxQkd6VG1KREY3SkgzNjI1MFJpTWRBZENQNWk4clhH?=
+ =?utf-8?B?dHFUTXU5VlBIckVpd2hnMkxoRmN5M2EzQmVJeWF2alJIUU81NXFtWmZaTEpy?=
+ =?utf-8?B?b2Z2ajcwSkZpR05xTDNTdkVkZG5HNTFSVFVKbjgvV1l4MTVzY0dvU0lmZGFt?=
+ =?utf-8?B?RjhVVVdVT3hJdnp5czVESUJOWG50eU5Ia3U3Q0kwL1FndDBkZk5wMEQ3N1hq?=
+ =?utf-8?B?ZWJiTDFwVllYc202dUlDdGs2Y1FVWHg2SFppRURxOXppWVk3ZzFocFl3aWd5?=
+ =?utf-8?B?Zng0Rm1DTG9YTmlpYUsxdm1oMXVHQWVsS2JQTmZlVjhwRmt6VmRkaVFadU5q?=
+ =?utf-8?B?cTl2bjhNbUhsRVNpTHNscUZtclYvZ3dKWER5SWFuSDNPYXBlTnlzQTJyQVFX?=
+ =?utf-8?B?SnkyU1crL3IrT21yQmNzRHJzU1BweG1UL0p0Tjh6TkxvUzFscktCSTdwN0FG?=
+ =?utf-8?B?UDg4Q3ZCTkFNQjZXdlFRODVOMStIbHN2YVpaVllVdmJRRE8xbEdBc3dRTjZY?=
+ =?utf-8?B?bkdLOHoxZTBFa0QwbndvYksrUG1DZU0yMkRqbGd2WWhQOEJ4VnR4RXlmY0dx?=
+ =?utf-8?B?cFEzSzE5MjU4ZmJEKzRzeE82MmRnPT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 219e351b-e03a-49ed-bb02-08de00bf6108
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2025 07:51:50.2506
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 4ps+jCi7bQ/zazn+UGfw8Fq8tnXq0D7RacsoRHEkk4F/S3MaDljZ60im37t3KJHDCsVAAa91Imxcicvcopc/zQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5908
 
-On Tue, Sep 30, 2025 at 03:30:49PM +0800, Du, Bin wrote:
-> On 9/23/2025 3:23 PM, Sultan Alsawaf wrote:
-> > On Thu, Sep 11, 2025 at 06:08:44PM +0800, Bin Du wrote:
-> > > Isp4 sub-device is implementing v4l2 sub-device interface. It has one
-> > > capture video node, and supports only preview stream. It manages firmware
-> > > states, stream configuration. Add interrupt handling and notification for
-> > > isp firmware to isp-subdevice.
-> > > 
-> > > Co-developed-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
-> > > Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
-> > > Signed-off-by: Bin Du <Bin.Du@amd.com>
-> > > Tested-by: Alexey Zagorodnikov <xglooom@gmail.com>
-> > 
-> > [snip]
-> > 
-> > > +++ b/drivers/media/platform/amd/isp4/isp4.c
-> > > @@ -5,13 +5,19 @@
-> > >   #include <linux/pm_runtime.h>
-> > >   #include <linux/vmalloc.h>
-> > > +
-> > > +#include <media/v4l2-fwnode.h>
-> > >   #include <media/v4l2-ioctl.h>
-> > >   #include "isp4.h"
-> > > -
-> > > -#define VIDEO_BUF_NUM 5
-> > > +#include "isp4_hw_reg.h"
-> > >   #define ISP4_DRV_NAME "amd_isp_capture"
-> > > +#define ISP4_FW_RESP_RB_IRQ_STATUS_MASK \
-> > > +	(ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT9_INT_MASK  | \
-> > > +	 ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT10_INT_MASK | \
-> > > +	 ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT11_INT_MASK | \
-> > > +	 ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT12_INT_MASK)
-> > >   /* interrupt num */
-> > >   static const u32 isp4_ringbuf_interrupt_num[] = {
-> > > @@ -21,19 +27,95 @@ static const u32 isp4_ringbuf_interrupt_num[] = {
-> > >   	4, /* ISP_4_1__SRCID__ISP_RINGBUFFER_WPT12 */
-> > >   };
-> > > -#define to_isp4_device(dev) \
-> > > -	((struct isp4_device *)container_of(dev, struct isp4_device, v4l2_dev))
-> > > +#define to_isp4_device(dev) container_of(dev, struct isp4_device, v4l2_dev)
-> > > +
-> > > +static void isp4_wake_up_resp_thread(struct isp4_subdev *isp, u32 index)
-> > > +{
-> > > +	if (isp && index < ISP4SD_MAX_FW_RESP_STREAM_NUM) {
-> > > +		struct isp4sd_thread_handler *thread_ctx =
-> > > +				&isp->fw_resp_thread[index];
-> > > +
-> > > +		thread_ctx->wq_cond = 1;
-> > > +		wake_up_interruptible(&thread_ctx->waitq);
-> > > +	}
-> > > +}
-> > > +
-> > > +static void isp4_resp_interrupt_notify(struct isp4_subdev *isp, u32 intr_status)
-> > > +{
-> > > +	bool wake = (isp->ispif.status == ISP4IF_STATUS_FW_RUNNING);
-> > > +
-> > > +	u32 intr_ack = 0;
-> > > +
-> > > +	/* global response */
-> > > +	if (intr_status &
-> > > +	    ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT12_INT_MASK) {
-> > > +		if (wake)
-> > > +			isp4_wake_up_resp_thread(isp, 0);
-> > > +
-> > > +		intr_ack |= ISP_SYS_INT0_ACK__SYS_INT_RINGBUFFER_WPT12_ACK_MASK;
-> > 
-> > The INT_MASKs and ACK_MASKs are the same; perhaps the ACK_MASKs can just be
-> > removed so you can just write intr_status to ISP_SYS_INT0_ACK instead?
-> > 
-> 
-> These macro definitions are automatically generated from the IP design by
-> the hardware team. INT_MASK and ACK_MASK represent specific bits in
-> different registers—the status and acknowledgment registers, respectively.
-> While their values are currently the same, they could differ depending on
-> the IP design. I prefer to keep both definitions to maintain clarity.
+On Wednesday, October 1, 2025 2:35=E2=80=AFPM Svyatoslav Ryhel wrote:
+> =D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 08:=
+07 Svyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> >
+> > =D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 0=
+7:38 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > >
+> > > On Friday, September 26, 2025 12:16=E2=80=AFAM Svyatoslav Ryhel wrote=
+:
+> > > > Simplify format align calculations by slightly modifying supported =
+formats
+> > > > structure. Adjusted U and V offset calculations for planar formats =
+since
+> > > > YUV420P bits per pixel is 12 (1 full plane for Y + 2 * 1/4 planes f=
+or U
+> > > > and V) so stride is width * 3/2, but offset must be calculated with=
+ plain
+> > > > width since each plain has stride width * 1. This aligns with downs=
+tream
+> > >
+> > > plane
+> > >
+> > > > behavior which uses same approach for offset calculations.
+> > > >
+> > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > ---
+> > > >  drivers/staging/media/tegra-video/tegra20.c | 58 +++++++++--------=
+----
+> > > >  drivers/staging/media/tegra-video/vi.h      |  3 +-
+> > > >  2 files changed, 27 insertions(+), 34 deletions(-)
+> > > >
+> > > > diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/=
+staging/media/tegra-video/tegra20.c
+> > > > index 7c3ff843235d..b7a39723dfc2 100644
+> > > > --- a/drivers/staging/media/tegra-video/tegra20.c
+> > > > +++ b/drivers/staging/media/tegra-video/tegra20.c
+> > > > @@ -280,20 +280,8 @@ static void tegra20_fmt_align(struct v4l2_pix_=
+format *pix, unsigned int bpp)
+> > > >       pix->width  =3D clamp(pix->width,  TEGRA20_MIN_WIDTH,  TEGRA2=
+0_MAX_WIDTH);
+> > > >       pix->height =3D clamp(pix->height, TEGRA20_MIN_HEIGHT, TEGRA2=
+0_MAX_HEIGHT);
+> > > >
+> > > > -     switch (pix->pixelformat) {
+> > > > -     case V4L2_PIX_FMT_UYVY:
+> > > > -     case V4L2_PIX_FMT_VYUY:
+> > > > -     case V4L2_PIX_FMT_YUYV:
+> > > > -     case V4L2_PIX_FMT_YVYU:
+> > > > -             pix->bytesperline =3D roundup(pix->width, 2) * 2;
+> > > > -             pix->sizeimage =3D roundup(pix->width, 2) * 2 * pix->=
+height;
+> > > > -             break;
+> > > > -     case V4L2_PIX_FMT_YUV420:
+> > > > -     case V4L2_PIX_FMT_YVU420:
+> > > > -             pix->bytesperline =3D roundup(pix->width, 8);
+> > > > -             pix->sizeimage =3D roundup(pix->width, 8) * pix->heig=
+ht * 3 / 2;
+> > > > -             break;
+> > > > -     }
+> > > > +     pix->bytesperline =3D DIV_ROUND_UP(pix->width * bpp, 8);
+> > > > +     pix->sizeimage =3D pix->bytesperline * pix->height;
+> > > >  }
+> > > >
+> > > >  /*
+> > > > @@ -305,6 +293,7 @@ static void tegra20_channel_queue_setup(struct =
+tegra_vi_channel *chan)
+> > > >  {
+> > > >       unsigned int stride =3D chan->format.bytesperline;
+> > > >       unsigned int height =3D chan->format.height;
+> > > > +     unsigned int width =3D chan->format.width;
+> > > >
+> > > >       chan->start_offset =3D 0;
+> > > >
+> > > > @@ -321,8 +310,8 @@ static void tegra20_channel_queue_setup(struct =
+tegra_vi_channel *chan)
+> > > >
+> > > >       case V4L2_PIX_FMT_YUV420:
+> > > >       case V4L2_PIX_FMT_YVU420:
+> > > > -             chan->addr_offset_u =3D stride * height;
+> > > > -             chan->addr_offset_v =3D chan->addr_offset_u + stride =
+* height / 4;
+> > > > +             chan->addr_offset_u =3D width * height;
+> > > > +             chan->addr_offset_v =3D chan->addr_offset_u + width *=
+ height / 4;
+> > > >
+> > > >               /* For YVU420, we swap the locations of the U and V p=
+lanes. */
+> > > >               if (chan->format.pixelformat =3D=3D V4L2_PIX_FMT_YVU4=
+20)
+> > > > @@ -332,14 +321,14 @@ static void tegra20_channel_queue_setup(struc=
+t tegra_vi_channel *chan)
+> > > >               chan->start_offset_v =3D chan->addr_offset_v;
+> > > >
+> > > >               if (chan->vflip) {
+> > > > -                     chan->start_offset   +=3D stride * (height - =
+1);
+> > > > -                     chan->start_offset_u +=3D (stride / 2) * ((he=
+ight / 2) - 1);
+> > > > -                     chan->start_offset_v +=3D (stride / 2) * ((he=
+ight / 2) - 1);
+> > > > +                     chan->start_offset   +=3D width * (height - 1=
+);
+> > > > +                     chan->start_offset_u +=3D (width / 2) * ((hei=
+ght / 2) - 1);
+> > > > +                     chan->start_offset_v +=3D (width / 2) * ((hei=
+ght / 2) - 1);
+> > > >               }
+> > > >               if (chan->hflip) {
+> > > > -                     chan->start_offset   +=3D stride - 1;
+> > > > -                     chan->start_offset_u +=3D (stride / 2) - 1;
+> > > > -                     chan->start_offset_v +=3D (stride / 2) - 1;
+> > > > +                     chan->start_offset   +=3D width - 1;
+> > > > +                     chan->start_offset_u +=3D (width / 2) - 1;
+> > > > +                     chan->start_offset_v +=3D (width / 2) - 1;
+> > > >               }
+> > > >               break;
+> > > >       }
+> > > > @@ -576,20 +565,23 @@ static const struct tegra_vi_ops tegra20_vi_o=
+ps =3D {
+> > > >       .vi_stop_streaming =3D tegra20_vi_stop_streaming,
+> > > >  };
+> > > >
+> > > > -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)    \
+> > > > -{                                                    \
+> > > > -     .code    =3D MEDIA_BUS_FMT_##MBUS_CODE,           \
+> > > > -     .bpp     =3D BPP,                                 \
+> > > > -     .fourcc  =3D V4L2_PIX_FMT_##FOURCC,               \
+> > > > +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE, BPP, FO=
+URCC)      \
+> > > > +{                                                                 =
+   \
+> > > > +     .img_dt         =3D TEGRA_IMAGE_DT_##DATA_TYPE,              =
+     \
+> > > > +     .bit_width      =3D BIT_WIDTH,                               =
+     \
+> > > > +     .code           =3D MEDIA_BUS_FMT_##MBUS_CODE,               =
+     \
+> > > > +     .bpp            =3D BPP,                                     =
+     \
+> > > > +     .fourcc         =3D V4L2_PIX_FMT_##FOURCC,                   =
+     \
+> > > >  }
+> > > >
+> > > >  static const struct tegra_video_format tegra20_video_formats[] =3D=
+ {
+> > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
+> > > > -     TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
+> > > > -     TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
+> > > > -     TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
+> > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
+> > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
+> > > > +     /* YUV422 */
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 16, UYVY),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 16, VYUY),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 16, YUYV),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16, YVYU),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YUV420),
+> > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YVU420),
+> > > >  };
+> > >
+> > > Looking at the code, BPP seems to only be used for the line stride (i=
+.e. bytes per line) calculation. I think we should just make it 8 for the p=
+lanar formats (possibly with an explaining comment). With the current code,=
+ we end up with 'bytesperline' variables in places not being the actual byt=
+es per line, which is confusing.
+> > >
+> > > Actually, we can then just make the 'bpp' field be bytes per pixel as=
+ it was before to avoid the discrepancy with Tegra210.
+> > >
+> >
+> > No, this code is actually cleaner and in sync with what downstream
+> > does, Tegra210 bytes per pixel is confusing since it totally neglects
+> > formats with fractional bytes per pixel, it is impossible to set there
+> > 3/2 for example, which is used by YUV420.
+> >
+> > According to downstream code bytes_per_line =3D
+> > soc_mbus_bytes_per_line..., downstream directly name is bytes_per_line
+> > and soc_mbus_bytes_per_line returns width * 3 / 2 which is correct
+> > calculation (12 bits). Meanwhile for planar formats Tegra has 3
+> > different buffers so with offset calculation plain width must be used
+> > (which matches downstream).
+> >
+>=20
+> If you mean use of BPP by VI, I can propose removing bytesperline and
+> sizeimage configuration from VI entirely and leave this to per-SoC
+> fmt_align function which does this already anyway and guards every
+> time those values are referred. This way there will be no instances
+> where "places not being the actual bytes per line" comes true.
 
-Sure, no problem.
+Without trying myself, I'm not sure what approach is the cleanest. In any c=
+ase, the downstream code is just wrong (or incorrectly named), so we should=
+n't defer to it in this matter. I don't see a reason to keep the value '12'=
+ either if it doesn't serve any purpose (admittedly if we changed it to 8 o=
+r 1, 'bpp' would be a confusing name for it, but explainable with a comment=
+ and improve-able later) I don't mind having an if/switch statement for the=
+ planar formats to use a '8' as multiplier instead of '12' if we need to ke=
+ep the '12'. But the main thing I want to avoid is a bytesperline/stride va=
+riable that isn't the line stride in bytes.
 
-> > > +
-> > > +	/* clear ISP_SYS interrupts */
-> > > +	isp4hw_wreg(ISP4_GET_ISP_REG_BASE(isp), ISP_SYS_INT0_ACK, intr_ack);
-> > > +}
-> > >   static irqreturn_t isp4_irq_handler(int irq, void *arg)
-> > >   {
-> > > +	struct isp4_device *isp_dev = dev_get_drvdata(arg);
-> > 
-> > This is technically a data race because setting drvdata and reading drvdata do
-> > not use WRITE_ONCE() and READ_ONCE(), respectively. And enabling the IRQ before
-> > the handler is allowed to do anything is why that `if (!isp_dev)` check exists,
-> > because that is another race.
-> > 
-> > Instead, pass the isp_dev pointer through the private pointer of
-> > devm_request_irq() and add IRQ_NOAUTOEN so the IRQ is enabled by default. Then,
-> > when it is safe for the IRQ to run, enable it with enable_irq().
-> > 
-> > That way you can delete the `if (!isp_dev)` check and resolve the two races.
-> > 
-> 
-> Good deep insight, suppose you mean use IRQ_NOAUTOEN to make irq default
-> disabled. Sure, will add support to dynamically enable/disable IRQ during
-> camera open/close and remove unnecessary check.
+>=20
+> > > >
+> > > >  const struct tegra_vi_soc tegra20_vi_soc =3D {
+> > > > diff --git a/drivers/staging/media/tegra-video/vi.h b/drivers/stagi=
+ng/media/tegra-video/vi.h
+> > > > index bfadde8858d4..5cbc0606ed6c 100644
+> > > > --- a/drivers/staging/media/tegra-video/vi.h
+> > > > +++ b/drivers/staging/media/tegra-video/vi.h
+> > > > @@ -281,7 +281,8 @@ enum tegra_image_dt {
+> > > >   * @img_dt: MIPI CSI-2 data type (for CSI-2 only)
+> > > >   * @bit_width: format width in bits per component (for CSI/Tegra21=
+0 only)
+> > > >   * @code: media bus format code
+> > > > - * @bpp: bytes per pixel (when stored in memory)
+> > > > + * @bpp: bytes per pixel (when stored in memory) for Tegra210,
+> > > > + *    bits per pixel for Tegra20/Tegra30
+> > > >   * @img_fmt: image format (for CSI/Tegra210 only)
+> > > >   * @fourcc: V4L2 pixel format FCC identifier
+> > > >   */
+> > > >
 
-Sorry for the typo, meant to say default disabled indeed. :)
 
-> > > +	u32 r1;
-> > > +
-> > > +	if (!isp_dev)
-> > > +		goto error_drv_data;
-> > > +
-> > > +	isp = &isp_dev->isp_sdev;
-> > > +	/* check ISP_SYS interrupts status */
-> > > +	r1 = isp4hw_rreg(ISP4_GET_ISP_REG_BASE(isp), ISP_SYS_INT0_STATUS);
-> > > +
-> > > +	isp_sys_irq_status = r1 & ISP4_FW_RESP_RB_IRQ_STATUS_MASK;
-> > 
-> > There are four IRQs (one for each stream) but any one of the IRQs can result in
-> > a notification for _all_ streams. Each IRQ should only do the work of its own
-> > stream.
-> > 
-> > You can do this by passing devm_request_irq() a private pointer to indicate the
-> > mapping between a stream and its IRQ, so that isp4_irq_handler() can know which
-> > stream it should look at.
-> > 
-> 
-> Will do optimization to remove unused IRQs and keep only necessary ones
-> (reduce from 4 to 2), actually an IRQ won't result in notification to all
-> streams, please check the implementation of isp4_resp_interrupt_notify, it
-> will only wake up IRQ corresponding stream processing thread.
 
-What I mean is that the IRQ for one stream can wake a different stream if it is
-also ready at the same time according to the interrupt status register.
 
-Assume we have ISP_IRQ 0 and 1 for streams 1 (WPT9) and 2 (WPT10), respectively.
-Consider the following sequence of events:
-
-    ISP_IRQ0 (WPT9)			ISP_IRQ1 (WPT10)
-    ---------------			----------------
-    <interrupt fires>			<interrupt fires>
-    isp4_irq_handler()			isp4_irq_handler()
-    isp_sys_irq_status = WPT9|WPT10	isp_sys_irq_status = WPT9|WPT10
-
-    isp4_wake_up_resp_thread(isp, 1)	isp4_wake_up_resp_thread(isp, 1)
-					// ^ woke up WPT9 from WPT10 IRQ!
-
-    isp4_wake_up_resp_thread(isp, 2)	isp4_wake_up_resp_thread(isp, 2)
-    // ^ woke up WPT10 from WPT9 IRQ!
-
-The problem is that isp4_irq_handler() doesn't know which IRQ triggered the call
-into isp4_irq_handler().
-
-> > > +static int isp4sd_init_meta_buf(struct isp4_subdev *isp_subdev)
-> > > +{
-> > > +	struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
-> > > +	struct isp4_interface *ispif = &isp_subdev->ispif;
-> > > +	struct device *dev = isp_subdev->dev;
-> > > +	u32 i;
-> > > +
-> > > +	for (i = 0; i < ISP4IF_MAX_STREAM_BUF_COUNT; i++) {
-> > > +		if (!sensor_info->meta_info_buf[i]) {
-> > > +			sensor_info->meta_info_buf[i] = ispif->metainfo_buf_pool[i];
-> > > +			if (!sensor_info->meta_info_buf[i]) {
-> > > +				dev_err(dev, "invalid %u meta_info_buf fail\n", i);
-> > > +				return -ENOMEM;
-> > > +			}
-> > > +		}
-> > > +	}
-> > > +
-> > > +	return 0;
-> > > +}
-> > 
-> > What is the point of metainfo_buf_pool? Especially since metainfo_buf_pool[i] is
-> > not set to NULL after this "allocation" occurs.
-> > 
-> > I think isp4sd_init_meta_buf() and metainfo_buf_pool are unnecessary and can be
-> > factored out.
-> > 
-> 
-> I suppose you mean meta_info_buf, will remove it together with
-> isp4sd_init_meta_buf() and use metainfo_buf_pool from ispif directly which
-> is vital for ISP FW to carry response info.
-
-I was thinking that metainfo_buf_pool could be renamed to meta_info_buf and then
-the old meta_info_buf could be deleted. Same result either way. :)
-
-> > > +	init_waitqueue_head(&thread_ctx->waitq);
-> > > +	timeout = msecs_to_jiffies(ISP4SD_WAIT_RESP_IRQ_TIMEOUT);
-> > > +
-> > > +	dev_dbg(dev, "[%u] started\n", para->idx);
-> > > +
-> > > +	while (true) {
-> > > +		wait_event_interruptible_timeout(thread_ctx->waitq,
-> > > +						 thread_ctx->wq_cond != 0,
-> > > +						 timeout);
-> > 
-> > Why is there a timeout? What does the timeout even do since the return value of
-> > wait_event_interruptible_timeout() is not checked? Doesn't that mean that once
-> > the timeout is hit, isp4sd_fw_resp_func() will be called for nothing?
-> > 
-> > I observe that most of the time spent by these kthreads is due to the constant
-> > wake-ups from the very short 5 ms timeout. This is bad for energy efficiency and
-> > creates needless overhead.
-> > 
-> 
-> Good catch, previouly before IRQ is really enabled, this is to make sure ISP
-> can work normally even for 120fps sensor, since now IRQ is enabled, we can
-> increase the timeout value to like 200ms to avoid the unwanted timeout
-> caused wake-ups.
-
-What should the kthread do when there is a timeout though? Is the timeout
-necessary to detect when FW is no longer responding? If so, shouldn't there be
-error handling?
-
-If the timeout isn't used to check for error then I think it should be removed.
-
-> > > +		thread_ctx->wq_cond = 0;
-> > > +
-> > > +		if (kthread_should_stop()) {
-> > > +			dev_dbg(dev, "[%u] quit\n", para->idx);
-> > > +			break;
-> > > +		}
-> > > +
-> > > +		guard(mutex)(&thread_ctx->mutex);
-> > > +		isp4sd_fw_resp_func(isp_subdev, stream_id);
-> > > +	}
-> > > +
-> > > +	mutex_destroy(&thread_ctx->mutex);
-> > > +
-> > > +	return 0;
-> > > +}
-
-[snip]
-
-> > > +
-> > > +static int isp4sd_pwroff_and_deinit(struct isp4_subdev *isp_subdev)
-> > > +{
-> > > +	struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
-> > > +	unsigned int perf_state = ISP4SD_PERFORMANCE_STATE_LOW;
-> > > +	struct isp4_interface *ispif = &isp_subdev->ispif;
-> > > +
-> > > +	struct device *dev = isp_subdev->dev;
-> > > +	u32 cnt;
-> > > +	int ret;
-> > > +
-> > > +	mutex_lock(&isp_subdev->ops_mutex);
-> > > +
-> > > +	if (sensor_info->status == ISP4SD_START_STATUS_STARTED) {
-> > > +		dev_err(dev, "fail for stream still running\n");
-> > > +		mutex_unlock(&isp_subdev->ops_mutex);
-> > > +		return -EINVAL;
-> > > +	}
-> > > +
-> > > +	sensor_info->status = ISP4SD_START_STATUS_NOT_START;
-> > > +	cnt = isp4sd_get_started_stream_count(isp_subdev);
-> > > +	if (cnt > 0) {
-> > > +		dev_dbg(dev, "no need power off isp_subdev\n");
-> > > +		mutex_unlock(&isp_subdev->ops_mutex);
-> > > +		return 0;
-> > > +	}
-> > > +
-> > > +	isp4if_stop(ispif);
-> > > +
-> > > +	ret = dev_pm_genpd_set_performance_state(dev, perf_state);
-> > > +	if (ret)
-> > > +		dev_err(dev,
-> > > +			"fail to set isp_subdev performance state %u,ret %d\n",
-> > > +			perf_state, ret);
-> > > +	isp4sd_stop_resp_proc_threads(isp_subdev);
-> > > +	dev_dbg(dev, "isp_subdev stop resp proc streads suc");
-> > > +	/* hold ccpu reset */
-> > > +	isp4hw_wreg(isp_subdev->mmio, ISP_SOFT_RESET, 0x0);
-> > > +	isp4hw_wreg(isp_subdev->mmio, ISP_POWER_STATUS, 0);
-> > > +	ret = pm_runtime_put_sync(dev);
-> > > +	if (ret)
-> > > +		dev_err(dev, "power off isp_subdev fail %d\n", ret);
-> > > +	else
-> > > +		dev_dbg(dev, "power off isp_subdev suc\n");
-> > > +
-> > > +	ispif->status = ISP4IF_STATUS_PWR_OFF;
-> > > +	isp4if_clear_cmdq(ispif);
-> > > +	isp4sd_module_enable(isp_subdev, false);
-> > > +
-> > > +	msleep(20);
-> > 
-> > What is this msleep for?
-> > 
-> 
-> This is the HW requirement, at least 20ms is needed for the possible quickly
-> open followed.
-
-Add a comment explaining the HW requirement for this msleep.
-
-Sultan
 
