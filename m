@@ -1,73 +1,72 @@
-Return-Path: <linux-media+bounces-43467-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43468-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5B858BB0129
-	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 12:58:07 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1030BB0351
+	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 13:39:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 787637AFF91
-	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 10:56:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A89313A384E
+	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 11:39:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF40E2C11F4;
-	Wed,  1 Oct 2025 10:57:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AE1AB2D879F;
+	Wed,  1 Oct 2025 11:39:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ltPwJR9O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hyfhWXjK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96CA22C11C4
-	for <linux-media@vger.kernel.org>; Wed,  1 Oct 2025 10:57:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB09C22A4FE;
+	Wed,  1 Oct 2025 11:39:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759316272; cv=none; b=myYGJF3HUgsoxvMAtn2IL/2PzavTOWRrcl82/btbksNu7AxlJ08fIMIq3A3HS71isUxnKLR+N9S5N2YY26vRzWaNhVVZ//uR/YGNfhkwKau1+QRv9dRKd+hb2gfLJgcCccCf0dLtDyiJzlHfpwvmWYcrOs78+uqfDfXF0Ki+Vpo=
+	t=1759318783; cv=none; b=EUrxrOiVGTUYbyKgMCX0lsWY4kbkzw/n665X7Efc6tQtWs2OZWLoHnXe1AKLVeJjwjGiT9uyQg/l+cMEx4dpB/OV0/YnyOGLRfKxjJGJ3aq5UVNntEyzKQWGnT651MUn+OzkvDCmtA30Aj2Qgct2D/YjpoKGZS7FLOIt+yfI79U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759316272; c=relaxed/simple;
-	bh=I5UHrnDJ/jELA8m5hFTMnMMRJZOKXe8QY+tVO0EBmPc=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=OCN9hqfRaC/Zq0u6jEXtopuslHqWkYjO4a7HbbRl+eT9Ui7Buuf2MDbuGYULhf1XUQuH+KSi2Z/EoBSHbQhf38IYwqgKxTPL+LwFWFUmFRww4j1hxhJdlTaeuV6P6s6c2MNDkgE7D/OcROw9IB9hvCa1Ilnsh1Ov/b5cZ8Hjdzk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ltPwJR9O; arc=none smtp.client-ip=198.175.65.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759316270; x=1790852270;
-  h=date:from:to:cc:subject:message-id:mime-version;
-  bh=I5UHrnDJ/jELA8m5hFTMnMMRJZOKXe8QY+tVO0EBmPc=;
-  b=ltPwJR9OOhMGemMHTpgtZkdH9CU70gqgjVzwaAK9iXRnobjRMSKCy5vT
-   4TiS3E8Br5i/aqlEcxf+thZ+XxT10I6l36ZOwI7yiqPxZ7KnRE6ZK2nUI
-   C+41gYeZdb2uEHmc7EnBzzidY3d/8saVNrx4CqKPKUptv4UuUgjFf3HPb
-   oNlr5d4sWmSbCF8ToidtOlzbRy5jeDnDW5Txq2bIbbY/HjwK/095T+mVe
-   /TmN+IegY5qJ9i8UPRskMp3420ob8GKtI/ZyBl5KfgOxUXJSrOuqFt5hf
-   gIxNesigUAhxIaLHHHQFoZh0oRfwSUMVLM6UgS+z++iNtieCpMV2RNCZP
-   g==;
-X-CSE-ConnectionGUID: M9Ry+7jVSwOaRVCBqKClcg==
-X-CSE-MsgGUID: V5V4X8WwQbuc2vmbo+y1Wg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="65405462"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="65405462"
-Received: from orviesa002.jf.intel.com ([10.64.159.142])
-  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 03:57:50 -0700
-X-CSE-ConnectionGUID: 6XBrrRF/R2W9nsZis2V+TQ==
-X-CSE-MsgGUID: TKnv1J32QOKwfxRW80R79Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
-   d="scan'208";a="209483107"
-Received: from lkp-server01.sh.intel.com (HELO 2f2a1232a4e4) ([10.239.97.150])
-  by orviesa002.jf.intel.com with ESMTP; 01 Oct 2025 03:57:48 -0700
-Received: from kbuild by 2f2a1232a4e4 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1v3uWo-0002vX-1R;
-	Wed, 01 Oct 2025 10:57:46 +0000
-Date: Wed, 1 Oct 2025 18:57:39 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org
-Subject: [sailus-media-tree:metadata 47/73]
- drivers/media/i2c/ov2740.c:985:42: error: 'client' undeclared
-Message-ID: <202510011855.Lg39xxNl-lkp@intel.com>
+	s=arc-20240116; t=1759318783; c=relaxed/simple;
+	bh=Ezy7+mtT4eps9wTpBlbZkP1mFfCZBHTp5E+V6UHQD4c=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=UwuXmc6Gw7PvyRhIKXx+GtxFV0pLRzXaimW09uqODJCjKS92sOXfwvajbyOzBUtpFaW+ikS6vGbi/1tq833zIkrIIRSdeLa/GlxNzMda4V65pfKF16Hwl1pcssZI+6I6q0GN2GYxNoKHW25+yaOI2hwHBzaHPPBICdn2o5CT8yU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hyfhWXjK; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BB4B8C4CEF4;
+	Wed,  1 Oct 2025 11:39:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759318782;
+	bh=Ezy7+mtT4eps9wTpBlbZkP1mFfCZBHTp5E+V6UHQD4c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hyfhWXjKKeqTsPAKqst9VMRZTuHnr79Sn85JR9oApnhJZe1TO5oXMimv1OZ2K5t1Q
+	 9MiMpANH+0eOS4bcbwboljFqvrlf7T7uAAqpI3hYX8SgDpEKW89XvVN/UZ5DYJEoku
+	 FCsdu0jIgr5dBxYfu2TGJvAqsoQRkfMXMl/1F9lyU95/QyzDKaMdhpvL1V7Ya/B2mh
+	 pfedbt0u93fTYkQVaxWkIHD9fK5BbrTidNe/CqVFgP1WMiwVDvBVcc7cf3aq3rnWzp
+	 eISxrrXcYtNF0j6R+nLIOAcxLwM1v6bQ7c0J8gD109M3HZIzW3eQE3Urg+TrWFUG6k
+	 2FEfVcfX3pxjQ==
+Date: Wed, 1 Oct 2025 14:39:37 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Alex Williamson <alex.williamson@redhat.com>
+Cc: Jason Gunthorpe <jgg@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v4 07/10] vfio/pci: Add dma-buf export config for MMIO
+ regions
+Message-ID: <20251001113937.GH324804@unreal>
+References: <cover.1759070796.git.leon@kernel.org>
+ <b1b44823f93fd9e7fa73dc165141d716cb74fa90.1759070796.git.leon@kernel.org>
+ <20250929151740.21f001e3.alex.williamson@redhat.com>
+ <20250930075748.GF324804@unreal>
+ <20250930100758.1605d5a5.alex.williamson@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,112 +75,98 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20250930100758.1605d5a5.alex.williamson@redhat.com>
 
-tree:   git://linuxtv.org/sailus/media_tree.git metadata
-head:   ba7808a5f3363959e2cd9a8afc4bb43f1e62f659
-commit: 7b24bfc3b454db19fc1a4ad0009f6f817c9bb039 [47/73] media: ov2740: Add support for embedded data
-config: csky-randconfig-002-20251001 (https://download.01.org/0day-ci/archive/20251001/202510011855.Lg39xxNl-lkp@intel.com/config)
-compiler: csky-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251001/202510011855.Lg39xxNl-lkp@intel.com/reproduce)
+On Tue, Sep 30, 2025 at 10:07:58AM -0600, Alex Williamson wrote:
+> On Tue, 30 Sep 2025 10:57:48 +0300
+> Leon Romanovsky <leon@kernel.org> wrote:
+> 
+> > On Mon, Sep 29, 2025 at 03:17:40PM -0600, Alex Williamson wrote:
+> > > On Sun, 28 Sep 2025 17:50:17 +0300
+> > > Leon Romanovsky <leon@kernel.org> wrote:
+> > >   
+> > > > From: Leon Romanovsky <leonro@nvidia.com>
+> > > > 
+> > > > Add new kernel config which indicates support for dma-buf export
+> > > > of MMIO regions, which implementation is provided in next patches.
+> > > > 
+> > > > Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+> > > > ---
+> > > >  drivers/vfio/pci/Kconfig | 20 ++++++++++++++++++++
+> > > >  1 file changed, 20 insertions(+)
+> > > > 
+> > > > diff --git a/drivers/vfio/pci/Kconfig b/drivers/vfio/pci/Kconfig
+> > > > index 2b0172f54665..55ae888bf26a 100644
+> > > > --- a/drivers/vfio/pci/Kconfig
+> > > > +++ b/drivers/vfio/pci/Kconfig
+> > > > @@ -55,6 +55,26 @@ config VFIO_PCI_ZDEV_KVM
+> > > >  
+> > > >  	  To enable s390x KVM vfio-pci extensions, say Y.
+> > > >  
+> > > > +config VFIO_PCI_DMABUF
+> > > > +	bool "VFIO PCI extensions for DMA-BUF"
+> > > > +	depends on VFIO_PCI_CORE
+> > > > +	depends on PCI_P2PDMA && DMA_SHARED_BUFFER
+> > > > +	default y
+> > > > +	help
+> > > > +	  Enable support for VFIO PCI extensions that allow exporting
+> > > > +	  device MMIO regions as DMA-BUFs for peer devices to access via
+> > > > +	  peer-to-peer (P2P) DMA.
+> > > > +
+> > > > +	  This feature enables a VFIO-managed PCI device to export a portion
+> > > > +	  of its MMIO BAR as a DMA-BUF file descriptor, which can be passed
+> > > > +	  to other userspace drivers or kernel subsystems capable of
+> > > > +	  initiating DMA to that region.
+> > > > +
+> > > > +	  Say Y here if you want to enable VFIO DMABUF-based MMIO export
+> > > > +	  support for peer-to-peer DMA use cases.
+> > > > +
+> > > > +	  If unsure, say N.
+> > > > +
+> > > >  source "drivers/vfio/pci/mlx5/Kconfig"
+> > > >  
+> > > >  source "drivers/vfio/pci/hisilicon/Kconfig"  
+> > > 
+> > > This is only necessary if we think there's a need to build a kernel with
+> > > P2PDMA and VFIO_PCI, but not VFIO_PCI_DMABUF.  Does that need really
+> > > exist?  
+> > 
+> > It is used to filter build of vfio_pci_dmabuf.c - drivers/vfio/pci/Makefile:
+> > vfio-pci-core-$(CONFIG_VFIO_PCI_DMABUF) += vfio_pci_dmabuf.o
+> 
+> Maybe my question of whether it needs to exist at all is too broad.
+> Does it need to be a user visible Kconfig option?  Where do we see the
+> need to preclude this feature from vfio-pci if the dependencies are
+> enabled?
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510011855.Lg39xxNl-lkp@intel.com/
+The dependencies are for the platform and not for the devices. For
+example, hisilicon device mentioned in other email doesn't support
+p2p, but the platform most likely support.
 
-All errors (new ones prefixed by >>):
+I don't have strong feelings about this config and at least for our use
+case will always be enabled. I can hide it from the users.
 
-   drivers/media/i2c/ov2740.c: In function 'ov2740_enable_streams':
->> drivers/media/i2c/ov2740.c:985:42: error: 'client' undeclared (first use in this function)
-     985 |         ret = pm_runtime_resume_and_get(&client->dev);
-         |                                          ^~~~~~
-   drivers/media/i2c/ov2740.c:985:42: note: each undeclared identifier is reported only once for each function it appears in
-   drivers/media/i2c/ov2740.c: In function 'ov2740_disable_streams':
-   drivers/media/i2c/ov2740.c:1060:25: error: 'client' undeclared (first use in this function)
-    1060 |         pm_runtime_put(&client->dev);
-         |                         ^~~~~~
+> 
+> > > I also find it unusual to create the Kconfig before adding the
+> > > supporting code.  Maybe this could be popped to the end or rolled into
+> > > the last patch if we decided to keep it.  Thanks,  
+> > 
+> > It is leftover from previous version, I can squash it, but first we need
+> > to decide what to do with pcim_p2pdma_init() call, if it needs to be
+> > guarded or not.
+> 
+> As in the other thread, I think it would be cleaner in an IS_ENABLED
+> branch.  I'm tempted to suggest we filter out EOPNOTSUPP to allow it to
+> be unconditional, but I understand your point with the list_head
+> initialization.  Thanks,
 
+We can add dmabuf list to struct unconditionally, as memory overhead is
+negligible. It will allow us to drop IS_ENABLED() too.
 
-vim +/client +985 drivers/media/i2c/ov2740.c
+Thanks
 
-   970	
-   971	static int ov2740_enable_streams(struct v4l2_subdev *sd,
-   972					 struct v4l2_subdev_state *state, u32 pad,
-   973					 u64 streams_mask)
-   974	{
-   975		struct ov2740 *ov2740 = to_ov2740(sd);
-   976		const struct ov2740_reg_list *reg_list;
-   977		int link_freq_index;
-   978		int ret;
-   979	
-   980		if (ov2740->streaming) {
-   981			ov2740->streaming |= streams_mask;
-   982			return 0;
-   983		}
-   984	
- > 985		ret = pm_runtime_resume_and_get(&client->dev);
-   986		if (ret < 0)
-   987			return ret;
-   988	
-   989		ret = ov2740_identify_module(ov2740);
-   990		if (ret)
-   991			goto out_pm_put;
-   992	
-   993		if (ov2740->nvm)
-   994			ov2740_load_otp_data(ov2740->nvm);
-   995	
-   996		/* Reset the sensor */
-   997		ret = ov2740_write_reg(ov2740, 0x0103, 1, 0x01);
-   998		if (ret) {
-   999			dev_err(ov2740->dev, "failed to reset\n");
-  1000			goto out_pm_put;
-  1001		}
-  1002	
-  1003		usleep_range(10000, 15000);
-  1004	
-  1005		link_freq_index = ov2740->cur_mode->link_freq_index;
-  1006		reg_list = &link_freq_configs[link_freq_index].reg_list;
-  1007		ret = ov2740_write_reg_list(ov2740, reg_list);
-  1008		if (ret) {
-  1009			dev_err(ov2740->dev, "failed to set plls\n");
-  1010			goto out_pm_put;
-  1011		}
-  1012	
-  1013		reg_list = &ov2740->cur_mode->reg_list;
-  1014		ret = ov2740_write_reg_list(ov2740, reg_list);
-  1015		if (ret) {
-  1016			dev_err(ov2740->dev, "failed to set mode\n");
-  1017			goto out_pm_put;
-  1018		}
-  1019	
-  1020		ret = __v4l2_ctrl_handler_setup(ov2740->sd.ctrl_handler);
-  1021		if (ret)
-  1022			goto out_pm_put;
-  1023	
-  1024		ret = ov2740_write_reg(ov2740, OV2740_REG_EMBEDDED_FLAG, 1,
-  1025				       OV2740_EMBEDDED_FLAG_MYSTERY);
-  1026		if (ret)
-  1027			goto out_pm_put;
-  1028	
-  1029		ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
-  1030				       OV2740_MODE_STREAMING);
-  1031		if (ret) {
-  1032			dev_err(&client->dev, "failed to start streaming\n");
-  1033			goto out_pm_put;
-  1034		}
-  1035	
-  1036		ov2740->streaming |= streams_mask;
-  1037	
-  1038		return 0;
-  1039	
-  1040	out_pm_put:
-  1041		pm_runtime_put(&client->dev);
-  1042	
-  1043		return ret;
-  1044	}
-  1045	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> 
+> Alex
+> 
+> 
 
