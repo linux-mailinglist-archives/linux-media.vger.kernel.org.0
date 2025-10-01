@@ -1,109 +1,101 @@
-Return-Path: <linux-media+bounces-43464-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43465-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A033DBAFF14
-	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 11:59:15 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CEC9BAFFDD
+	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 12:21:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 370B017D261
-	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 09:59:15 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 1EF017B0248
+	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 10:20:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 429B6296BD3;
-	Wed,  1 Oct 2025 09:59:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UM1iNgds"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D762BE7B4;
+	Wed,  1 Oct 2025 10:21:31 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 951331C8611;
-	Wed,  1 Oct 2025 09:59:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from vmicros1.altlinux.org (vmicros1.altlinux.org [194.107.17.57])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C93A1B0420;
+	Wed,  1 Oct 2025 10:21:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.107.17.57
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759312747; cv=none; b=YIG/khYvI0wpKg6qX7qvlC4YHT7kTwXsVXHeBdcaJlhJgmnsNJtp+XTjCsrnePVmCoWurw+gKilWTHT80dZYK3Cs+5kMN5qMQLsejSBhK89bKTJd/FLxB/vAEwL/xv0QdpXQFn7sjpAzdETKqJFykhwvaLW95ubsT/bCvGElS64=
+	t=1759314091; cv=none; b=UsJ45I2B3amXcqjyBI1BY8HkG0OHVfGOE8mRbA43mPoLjJHB8td0ZLzb9WJ6WlGWwvAkQkUiU4GZVoSaAxBzF9kKJfNGuIQ3b102s/JKHzp75Y1QFktdM30CMbcRXx5cRWpvsxuzcypLxih3wcPblRnUiYz83cekU8ye1OCr2wo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759312747; c=relaxed/simple;
-	bh=NiLZp9i7KhYZ7sEUFqq6diLm8LTYjZqIgXXtKVXc9wU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ERwgsHd/E2jwukrOg2U3EZMPzQBeyOuejncFNBJv53MD0ky+KoTeYbYkPAWhCRP3cFBHJGELORRxmk8qu07YIwvfxiRj3Zg4zgyTgSGz1Z9G8xKt9qH/a7qGcDe47K9kIQd8RMe5KtzpvMEpy+agm1dzY87PbCvMF/08oftCDGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UM1iNgds; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CB296C4CEF4;
-	Wed,  1 Oct 2025 09:59:04 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759312746;
-	bh=NiLZp9i7KhYZ7sEUFqq6diLm8LTYjZqIgXXtKVXc9wU=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=UM1iNgdsB2mm9da/VZps4E3syLEiJrW8/NUlOaL0mdt9/ZNqBDjWAKWETTm44WuLh
-	 60mSZlikZ7IMcJmvkuLObmDxpjG0omSGrlTWCUW0NvHD2q3UwBwUGh9OdkWb/3Dprb
-	 Dinj1L3Fbicb6cOpTgFpF7HYhcX3I+upNAaJXqjbY1wXTN+EXUEh3mK6T4+7PuzdYc
-	 QNbO3TjZ2zE3xDgp6n2Noc0pkPsx+6S54bXANIRT319sUuMeUxqmlmyD6nzRe2zMgW
-	 pOEl5x+iSAiaCROXbwXqNhj8lIZa9b04i/E9wYOHKTbllTM2gx6Teb/bRxrb+3Rthe
-	 Jsw1F6rRm3gIQ==
-Message-ID: <bffe3d02-076c-47af-8770-2b89c1dccf08@kernel.org>
-Date: Wed, 1 Oct 2025 11:59:03 +0200
+	s=arc-20240116; t=1759314091; c=relaxed/simple;
+	bh=ODeNv/xSjUtbdZAeBsFlGuryHUWRemRcqjm8xDajy7E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=dylHR7wnLcAZvpRQmsJqAtq9FGcz21KK6pkgDWwZDUw5QODIkDNR7tFKFEJIMMF6RTGLJryCqTRCU4Gw9yPf6Dd178KA6K+u21oBRXNpqZ1rAiaoQTvOqZbL4ZKrTsPxE8ZoCJCQdcXAM9Yq4j+OU9YG5w5DKcreL9sCMCXnRoc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org; spf=pass smtp.mailfrom=altlinux.org; arc=none smtp.client-ip=194.107.17.57
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=altlinux.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=altlinux.org
+Received: from imap.altlinux.org (imap.altlinux.org [194.107.17.38])
+	by vmicros1.altlinux.org (Postfix) with ESMTP id 7418972C8CC;
+	Wed,  1 Oct 2025 13:11:48 +0300 (MSK)
+Received: by imap.altlinux.org (Postfix, from userid 705)
+	id 6C02E36D070F; Wed,  1 Oct 2025 13:11:48 +0300 (MSK)
+Date: Wed, 1 Oct 2025 13:11:48 +0300
+From: Michael Shigorin <mike@altlinux.org>
+To: Michael Shigorin <mike@altlinux.ru>
+Cc: Linus Torvalds <torvalds@linux-foundation.org>,
+	Tor Vic <torvic9@mailbox.org>, Kexy Biscuit <kexybiscuit@aosc.io>,
+	jeffbai@aosc.io, gregkh@linuxfoundation.org, wangyuli@uniontech.com,
+	aospan@netup.ru, conor.dooley@microchip.com,
+	ddrokosov@sberdevices.ru, dmaengine@vger.kernel.org,
+	dushistov@mail.ru, fancer.lancer@gmail.com, geert@linux-m68k.org,
+	hoan@os.amperecomputing.com, ink@jurassic.park.msu.ru,
+	linux-alpha@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
+	linux-hwmon@vger.kernel.org, linux-ide@vger.kernel.org,
+	linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
+	linux-mips@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+	linux-spi@vger.kernel.org, manivannan.sadhasivam@linaro.org,
+	mattst88@gmail.com, netdev@vger.kernel.org, nikita@trvn.ru,
+	ntb@lists.linux.dev, patches@lists.linux.dev,
+	richard.henderson@linaro.org, s.shtylyov@omp.ru, serjk@netup.ru,
+	shc_work@mail.ru, tsbogend@alpha.franken.de, v.georgiev@metrotek.ru,
+	wsa+renesas@sang-engineering.com, xeb@mail.ru
+Subject: Re: what about CoC? (was: [PATCH] Revert "MAINTAINERS: Remove some
+ entries due to various compliance requirements.")
+Message-ID: <20251001101148.GA30625@imap.altlinux.org>
+References: <a08dc31ab773604d8f206ba005dc4c7a@aosc.io>
+ <20241023080935.2945-2-kexybiscuit@aosc.io>
+ <124c1b03-24c9-4f19-99a9-6eb2241406c2@mailbox.org>
+ <CAHk-=whNGNVnYHHSXUAsWds_MoZ-iEgRMQMxZZ0z-jY4uHT+Gg@mail.gmail.com>
+ <20241024095339.GA32487@imap.altlinux.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH] staging: media: av7110: Replace msleep() with
- usleep_range() in tuner function
-To: Pratibimba Khadka <pratibimbakhadka@gmail.com>, mchehab@kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Al Viro <viro@zeniv.linux.org.uk>,
- "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)"
- <linux-media@vger.kernel.org>,
- "open list:STAGING SUBSYSTEM" <linux-staging@lists.linux.dev>,
- open list <linux-kernel@vger.kernel.org>
-References: <20250626173229.10967-1-pratibimbakhadka@gmail.com>
-Content-Language: en-US, nl
-In-Reply-To: <20250626173229.10967-1-pratibimbakhadka@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20241024095339.GA32487@imap.altlinux.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On 26/06/2025 19:32, Pratibimba Khadka wrote:
-> Replace msleep(10) with usleep_range(10000, 12000) in the PLL lock
-> waiting loop of nexusca_stv0297_tuner_set_params().
+On Thu, Oct 24, 2024 at 12:53:39PM +0300, I wrote
+> It's not about the patch but rather about the attitude;
+> Documentation/process/code-of-conduct-interpretation.rst:
 > 
-> usleep_range() is preferred over msleep() for short delays (< 20ms) as
-> it provides better accuracy and allows the scheduler flexibility for
-> power management optimizations. The 10-12ms range maintains the same
-> timing behavior while giving the kernel scheduler room to optimize.
+> "regardless of ... ethnicity, ... nationality, ... race"
+> "Focusing on what is best for the community"
 > 
-> This change improves timing precision during the PLL lock detection
-> phase without affecting the overall functionality of the tuner
-> configuration process.
+> "Examples of unacceptable behavior ... insulting/derogatory
+> comments ... Public or private harassment"
 > 
-> Signed-off-by: Pratibimba Khadka <pratibimbakhadka@gmail.com>
+> Get back to single-standard integrity for yor own's sake.
 
-Thank you for your patch, but I'm not taking this patch. It's an old driver,
-and msleep is perfectly fine here.
+Glad to hear that ESR thinks -- and speaks! -- in a similar vein.
 
-Regards,
+I believe that Linus -- whose daughter has been basically
+kidnapped mentally[1][2] by the same hypicrites who speak "love"
+but groom real hate -- has his own merits to rise against those.
 
-	Hans
+But it does take leadership and guts in a "modern" world.
 
-> ---
->  drivers/staging/media/av7110/av7110.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/av7110/av7110.c b/drivers/staging/media/av7110/av7110.c
-> index bc9a2a40afcb..7f6c610579c8 100644
-> --- a/drivers/staging/media/av7110/av7110.c
-> +++ b/drivers/staging/media/av7110/av7110.c
-> @@ -1827,7 +1827,7 @@ static int nexusca_stv0297_tuner_set_params(struct dvb_frontend *fe)
->  		if (i2c_transfer(&av7110->i2c_adap, &readmsg, 1) == 1)
->  			if (data[0] & 0x40)
->  				break;
-> -		msleep(10);
-> +		usleep_range(10000, 12000);
->  	}
->  
->  	return 0;
+[1] http://reddit.com/r/linux/comments/9go8cp/linus_torvalds_daughter_has_signed_the/ [del, heh]
+[2] http://unz.com/isteve/and-they-came-for-somebody-who-actually-gets-things-done-linus-torvalds/
 
+-- 
+Michael Shigorin
+http://t.me/anna_news
 
