@@ -1,64 +1,65 @@
-Return-Path: <linux-media+bounces-43485-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43491-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C829BB0DC3
-	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 16:55:10 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D373BB0DFC
+	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 16:55:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 9BC677A4BE7
-	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 14:53:22 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 783D7189E7F5
+	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 14:56:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 594E030E83E;
-	Wed,  1 Oct 2025 14:50:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 49BA530F925;
+	Wed,  1 Oct 2025 14:50:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gUmszQtF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DE9TZu76"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921352FD7DF;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8F8630215A;
 	Wed,  1 Oct 2025 14:49:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759330199; cv=none; b=Dnm5BH2UnttMkGomHvZlw0eV6AoWJn6k8twiyUAiqdy2pjddC+BdFGZXWWv+eB6IFocOAZov+W+aZ+G6oK3tBkVtLoWV/dIMz1NsJnwfI96EAzkXlRf/SKfcrhyiP/5woypQejhwdWN4qdFtUZ7oVKIxhAE0oWLuC5E4fpqFd3k=
+	t=1759330199; cv=none; b=TPSj1gcQzXrILUMzdB3A5pUdM+gkmyQCaDin6fKY0ocZ8K3ynb+6+WT+Ab0Sx/Ar8CxFbv0J7y/++JfIhKn8X4XN2YI65pmEp36f+ZKJOvshlZEVzNclNT6+kD2DAMvzFK8wh5YOS3I8MBJqWsTM3bFzvmvLX24GAK7RunUu4Q0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1759330199; c=relaxed/simple;
-	bh=X5d3EN269R0Mk2mv6VYfYFv/qWj0nAYOaSmF+i4NyEI=;
+	bh=4SMG2xnHWkUrwcb9TUgCCE+356hByF3nNXHaJFswRdM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=W/6Nm8cSjNttD3fpLMIa8XpHO+NKKGo6G5mLDyN0/PdmPhZqv4T0yvoBouGl+HBHw/swCEyHh5VKq5ur2MBNFqDU1vjcxGFN6g1Q4bobbdr2xkGNP6X2EMzPiPKGlEU9Ka5VspRcGSXHp2n27uD2k9VB9sys5Fcbebbil8iWxSE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gUmszQtF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4ADBBC2BCC7;
+	 MIME-Version; b=XtuFUw5jGySgOuITfaru826X2z07WGAgIRvLeOUlwCLXxt1GTdjTLr67QWhMsbfD4Ok45fe3x26BV8d8TCVCyLN3XS3E1Kh3aNAMOSaRGQzH9xEWgZH8cMlKcP+B8dB1Qx1FV1tcA/1PWS+t5l0mZhWQq7rRHNdaO5UHxWUr34E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DE9TZu76; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56EBEC2BCF4;
 	Wed,  1 Oct 2025 14:49:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1759330199;
-	bh=X5d3EN269R0Mk2mv6VYfYFv/qWj0nAYOaSmF+i4NyEI=;
+	bh=4SMG2xnHWkUrwcb9TUgCCE+356hByF3nNXHaJFswRdM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gUmszQtFk8i8Cj2/omuVvVihBIbJ5PhpxZ0CmGRaijnCgP6yEYPWPdIoOyQW76kAX
-	 LDAIsizh7C8X1VTV/2rK2Za8GD30Eg53/PcSu9chPgF3j/h5PeR3Z2UYxsUhuPxO35
-	 v+DvDoE1StYi73D3qmRWAgdh8DDBxaNIJJDktq2yqgdwujPD3Q1pz2ds7mTHDdCA9x
-	 VRkTb4vyW807Qj2CBxOdxkgNWdC9DXLrySRFipl4ggu6WuwIpNO2wsNQKKNm8iDgyZ
-	 NH12CGOZvQaoclWm99aSAya6PE+z9PS1uFCp557/MtVFku18zoD5bhbVCl+VcYMv/m
-	 EvIFvlBFRy8iA==
+	b=DE9TZu768NvMWMLIikmberUP/hL8Nae1quZpLuxH3KA2lUYvXA5KwG7G0rsy2b6YY
+	 SUqLaDMV1DVNO45cgudFF4FXiN5WFgfj2Eu0IOY6KEB2OWiOGfo1oCc0o3+nxqKoTY
+	 SXwibql4kbmsq6QpELw4j8kvldj4FS25E+L4aAVd7PgABqnyUJWZidMeQj2MLEzfMD
+	 NDR5xbZKxxXE4eVog/dnjRPkLvdPAp1IzLGG31z0t//XrervE5QKJ5EKXtP2n2+8gh
+	 JVwsUdWVnX6yXlS1jUsMF4G++1r4bIXF0L8eUj17xmEAvNetCXwHM1PcHT1klnlKkV
+	 bA1EA1DbwVLgw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1v3y9V-0000000BLJ1-2K9j;
+	id 1v3y9V-0000000BLJ5-2Qvb;
 	Wed, 01 Oct 2025 16:49:57 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: "Jonathan Corbet" <corbet@lwn.net>,
 	Linux Doc Mailing List <linux-doc@vger.kernel.org>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>,
 	Hans Verkuil <hverkuil@kernel.org>,
 	Hans de Goede <hansg@kernel.org>,
 	Ricardo Ribalda <ribalda@chromium.org>,
 	Yunke Cao <yunkec@google.com>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH 16/23] media: docs: add a missing reference for VIDIOC_QUERY_CTRL
-Date: Wed,  1 Oct 2025 16:49:39 +0200
-Message-ID: <46f86be6ace28abe83ea9ce6fa6138e40185a23a.1759329363.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 17/23] media: docs: videodev2.h.rst.exceptions: ignore struct __kernel_v4l2_timeval
+Date: Wed,  1 Oct 2025 16:49:40 +0200
+Message-ID: <a6a0dc7366b1a5d7184b8f7d4ba27689051a1f6a.1759329363.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1759329363.git.mchehab+huawei@kernel.org>
 References: <cover.1759329363.git.mchehab+huawei@kernel.org>
@@ -71,26 +72,26 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-This one is missing its c:macro definition.
+This is an ancillary struct used for year-2038 compat logic.
+It is not meant to be used directly on userspace.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst | 2 ++
- 1 file changed, 2 insertions(+)
+ Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-index 3549417c7feb..a8d84806a3c0 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-queryctrl.rst
-@@ -15,6 +15,8 @@ VIDIOC_QUERYCTRL - VIDIOC_QUERY_EXT_CTRL - VIDIOC_QUERYMENU - Enumerate controls
- Synopsis
- ========
+diff --git a/Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions
+index 9bcb5ae6fbc4..c41693115db6 100644
+--- a/Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions
++++ b/Documentation/userspace-api/media/v4l/videodev2.h.rst.exceptions
+@@ -18,6 +18,7 @@ ignore define _UAPI__LINUX_VIDEODEV2_H
+ ignore symbol V4L2_BUF_TYPE_PRIVATE
+ ignore symbol V4L2_TUNER_DIGITAL_TV
+ ignore symbol V4L2_COLORSPACE_BT878
++ignore struct __kernel_v4l2_timeval
  
-+.. c:macro:: VIDIOC_QUERY_CTRL
-+
- ``int ioctl(int fd, int VIDIOC_QUERYCTRL, struct v4l2_queryctrl *argp)``
- 
- .. c:macro:: VIDIOC_QUERY_EXT_CTRL
+ # Documented enum v4l2_field
+ replace symbol V4L2_FIELD_ALTERNATE :c:type:`V4L.v4l2_field`
 -- 
 2.51.0
 
