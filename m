@@ -1,49 +1,49 @@
-Return-Path: <linux-media+bounces-43477-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43480-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A830BB0DC9
-	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 16:55:18 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FD32BB0DCA
+	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 16:55:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id CCCD02A6C7B
-	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 14:54:47 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8744D1947F64
+	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 14:55:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F01CF30E0CD;
-	Wed,  1 Oct 2025 14:50:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4415130E832;
+	Wed,  1 Oct 2025 14:50:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rb2bdfB+"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G/YtICIZ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C7FE2EAB8E;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86A4B2FBE13;
 	Wed,  1 Oct 2025 14:49:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759330199; cv=none; b=YaP9xUYUdLSMTYT6LiG3ar/rIP6U6Z5gIeBCJU1Dq1RY2OvfoYIIljrQHDoCsfjVxd7rZofqbNUYPmYOHY+QskXJ2igOef6ClBqJE+BHVAULXLh85IHQ+8ZeeBAep0MaWeq6D2mPEniMsaQPaM6IRC5otWTFvI3NX+KkxNXbuzc=
+	t=1759330199; cv=none; b=hZpzKgDAZ4GyQzUUIjOhctJgQdkB7jrXnFoSgTef/vN99pGqxH+L2yS3TAEGRyO5jsOj0hJWNpkUhBoG8a1KmVGhXZQjpgacX+dInZXOPRNCxkmV/V3+JFKklMoubj2FTF1L1PB3N9BCYkAbsUhIw9v8Db56jyXiiG7qI/XjlW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1759330199; c=relaxed/simple;
-	bh=quJA1Nh80cs+Ipf6Dqjr1VgadIpCqZGsThtJSHhZD4c=;
+	bh=BpmyC/Co0NOcMnA6DqxMPq8qTUiM3ZaK0OlRbzpqf08=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BJubgdxEhuhxGEEQdw3HkobWUwgvm0uaWM2V1WZ9zfxhtQ51orL77Co7KmMBvClvvVJFqck38gNSjqLw8yB4edM930md3dMg1v1umwsCHEYjamIn8ZShAATEhCqLeA79Y7XEpNPTJ+mQPpqBSrgH68ZIehsm3HTpLKLtt6S1vs0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rb2bdfB+; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A078C4CEFD;
+	 MIME-Version; b=lLkW/ubqxvsXQTTcxZYM4tV3YDKOt/z2sOpCHnBscCmeYXcDuV8iCpuWW4SlxAlUR7MuTGG5yg1F2ZsOcxGhKHOXW6lu7ZEybg43UyyQ5Thzg5UElzR/aSri5FYnfYGfd1CCJTfjlnHeZzf8XS21QwSjgw+FTLOEdU778zRxdtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G/YtICIZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 21B64C116D0;
 	Wed,  1 Oct 2025 14:49:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1759330199;
-	bh=quJA1Nh80cs+Ipf6Dqjr1VgadIpCqZGsThtJSHhZD4c=;
+	bh=BpmyC/Co0NOcMnA6DqxMPq8qTUiM3ZaK0OlRbzpqf08=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=rb2bdfB++M0syD5ni5OlXot3bBvsomdW944ZufewB19feYrktlCHh+aDH01Frp9iH
-	 4SoeB63am/xxncPSCzVTUFBpKDJqr96sC+qYzO12A18I0GxtVBmRGN/eYOEiKBF7ch
-	 YhKgZ5llJ8UAUHisvpMSgZ2Dj5c6aAeZTrV3m9Py3AVklXYOrIrQQ+/8rYOLJkmjah
-	 PmUcFsvM+x9Xj4hOhymjaYBDL1Pv+jPIiiaeSHWA4S/1NrHeHV3M12Qox/hyQGBQa3
-	 WsqKmxyMn6WJQBmQM4VB+ekUomJ/M/6QY3kBg9Fu2/oocaOgfrbw0Peh62UnKsprIC
-	 PKcQs+3c+kuXQ==
+	b=G/YtICIZ3cWYb8GuvlOhv4yYvwpKXuGFMAjzzaq2lyZl1ekvmv4frjMa5FuHXAzrc
+	 kc4kwA13PDK0GtzNkce3454+PtNT+E0wEcnRFGyn0Hoy4EnbYrlyTbAvkj5oazg+rU
+	 ID/BMikyxLYHCEce8UWKEbfPbXmAH8RdOwF+jVwKlyakIh/KUkaq3DzX3iO7t1V75O
+	 NSUl9tNAeUxNFAXIMejGGR9zrqwcgdKpxI93Qdb+r9dNHq5eqVm8qcJyvztOSPG9E8
+	 vJbrZyGR2we6bMhr/P7yKS8V3piNWr/nLSCdX7u/1ZbSP/T/OtAxo1Jgk3LD/QxwUB
+	 3PR+g6hD1WGtg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab+huawei@kernel.org>)
-	id 1v3y9V-0000000BLIV-1Q66;
+	id 1v3y9V-0000000BLIZ-1Wkp;
 	Wed, 01 Oct 2025 16:49:57 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: "Jonathan Corbet" <corbet@lwn.net>,
@@ -52,9 +52,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	"Mauro Carvalho Chehab" <mchehab@kernel.org>,
 	linux-kernel@vger.kernel.org,
 	linux-media@vger.kernel.org
-Subject: [PATCH 08/23] tools: docs: parse_data_structs.py: accept more reftypes
-Date: Wed,  1 Oct 2025 16:49:31 +0200
-Message-ID: <5c146923d1e3183893f290216fb1378954e2e540.1759329363.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 09/23] docs: media: dvb: use TOC instead of file contents at headers
+Date: Wed,  1 Oct 2025 16:49:32 +0200
+Message-ID: <dbe95d83ae2117ed532fda423fd1c1d9906b7a19.1759329363.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1759329363.git.mchehab+huawei@kernel.org>
 References: <cover.1759329363.git.mchehab+huawei@kernel.org>
@@ -67,29 +67,69 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Current regex is limited to only some c-domain reftypes.
-There are several others.
+All we wanted were to have a way to link the comprehensive
+documentation with the actual symbols parsed from the header
+file, as this helps to identify any broken references.
 
-Change the code to pick the name specified there.
+Use the new :toc: flag for DVB.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- tools/docs/lib/parse_data_structs.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../userspace-api/media/dvb/headers.rst       | 27 +++++++++++++++----
+ 1 file changed, 22 insertions(+), 5 deletions(-)
 
-diff --git a/tools/docs/lib/parse_data_structs.py b/tools/docs/lib/parse_data_structs.py
-index 0d537e989ea7..25361996cd20 100755
---- a/tools/docs/lib/parse_data_structs.py
-+++ b/tools/docs/lib/parse_data_structs.py
-@@ -214,7 +214,7 @@ class ParseDataStructs:
+diff --git a/Documentation/userspace-api/media/dvb/headers.rst b/Documentation/userspace-api/media/dvb/headers.rst
+index c75f64cf21d5..e78122944a69 100644
+--- a/Documentation/userspace-api/media/dvb/headers.rst
++++ b/Documentation/userspace-api/media/dvb/headers.rst
+@@ -1,25 +1,42 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
  
-             # Parse reference type when the type is specified
+-****************************
+-Digital TV uAPI header files
+-****************************
+-
+-Digital TV uAPI headers
+ ***********************
++Digital TV uAPI symbols
++***********************
++
++.. contents:: Table of Contents
++   :depth: 2
++   :local:
++
++Frontend
++========
  
--            match = re.match(r"^\:c\:(data|func|macro|type)\:\`(.+)\`", new)
-+            match = re.match(r"^\:c\:(\w+)\:\`(.+)\`", new)
-             if match:
-                 reftype = f":c:{match.group(1)}"
-                 new = match.group(2)
+ .. kernel-include:: include/uapi/linux/dvb/frontend.h
+     :generate-cross-refs:
+     :exception-file: frontend.h.rst.exceptions
++    :toc:
++
++Demux
++=====
+ 
+ .. kernel-include:: include/uapi/linux/dvb/dmx.h
+     :generate-cross-refs:
+     :exception-file: dmx.h.rst.exceptions
++    :toc:
++
++Conditional Access
++==================
+ 
+ .. kernel-include:: include/uapi/linux/dvb/ca.h
+     :generate-cross-refs:
+     :exception-file: ca.h.rst.exceptions
++    :toc:
++
++Network
++=======
+ 
+ .. kernel-include:: include/uapi/linux/dvb/net.h
+     :generate-cross-refs:
+     :exception-file: net.h.rst.exceptions
++    :toc:
+ 
 -- 
 2.51.0
 
