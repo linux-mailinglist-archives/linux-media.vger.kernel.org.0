@@ -1,48 +1,88 @@
-Return-Path: <linux-media+bounces-43460-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43461-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C3A0BAFD61
-	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 11:17:45 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3962ABAFE03
+	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 11:35:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 308B77AB903
-	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 09:16:02 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id DA1D91C7628
+	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 09:35:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C25F027D771;
-	Wed,  1 Oct 2025 09:17:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCE182DA743;
+	Wed,  1 Oct 2025 09:35:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tZxnQ0Qn"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="R1IDEJh4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 292252652AC
-	for <linux-media@vger.kernel.org>; Wed,  1 Oct 2025 09:17:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC4C2D9ED7
+	for <linux-media@vger.kernel.org>; Wed,  1 Oct 2025 09:35:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759310256; cv=none; b=k0AGJ1FsucDovFnf8uwkCzs4FpssFJsRAiWhkeOFwTVMUKcgMGNnffNUeoQshUzH/CQrFa6/+2HPZVcmY+nzhbte2hXtnqW26I07iMe/GLW+TSOqq26trVRHb50lsWM7Qa6VpzYgANpYCe1X4JOB2n3QzO8mSv0quOMUZ7rHm2w=
+	t=1759311319; cv=none; b=eiYOzAPvDITN9kL+i+5dRMZgVc6nrSOWnXAmCgjjNacXARSqYrxVmm6Sg1G3g74DDhuXntDGGKIArSeyuyFRWaXaRONOgpsK5cNcRS5RryFwit2b3+DDN1COJcQMZ50KNxqGHZ4kQe3Ee8hP43KT4bsXpvrJCiEUNghze0b3YNU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759310256; c=relaxed/simple;
-	bh=W/CRBjamX3DO//BIUDk+HsrPJkg29i1xnBRtFd0/1xw=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:References:
-	 In-Reply-To:Content-Type; b=j5Gw8200XzLTJYGSZkjElCTV+bu+fn3j6ubhAgVCnotUGREOWs3JLheg3FKYcobuhm5KEX3Z4gP8LaNSzEVAqh7nvliK3aKOKEc79hpO1IEpyZZrVgqUm5Z88Jt06AnLk8WfuWa+PgUOFBF4NuWkJaDn7UutIHB9RdLug8gXsCo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tZxnQ0Qn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B2EDC4CEF4;
-	Wed,  1 Oct 2025 09:17:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759310255;
-	bh=W/CRBjamX3DO//BIUDk+HsrPJkg29i1xnBRtFd0/1xw=;
-	h=Date:From:Subject:To:References:In-Reply-To:From;
-	b=tZxnQ0Qn0wO95PaS6ZznBOImBA36noYRi2I0TBauLsBrPrmGNpg2CjS0nQCYSxi3g
-	 GmDbV0nNK4FMnUQA2YLWT3Pdpnk3o2bqsl41ZtgMMDFq6P/j4q1UtKLVfh1rDcuOgr
-	 WlZmbHrSI5Yh26BI8ecPk8CvtMVJAPlGWsbhn7RatKQkDMh7AE7ld2a3P+OcTPt0OL
-	 3SCTBVCn27tR791esNIvfKNsp/gQi7yUHnVtS8v4rA/92Z7zAGLjVMvYo4NUDUX70i
-	 R9tPFDfhLTd+jPPwXcbuwZpGFAbEm8pFKjsFBVgUMfB5V6F0FxH67d4prgbcO5guQ9
-	 vTCh6F4Kp/uCQ==
-Message-ID: <f5a942fd-478c-4a5d-bf68-d53191d543f5@kernel.org>
-Date: Wed, 1 Oct 2025 11:17:33 +0200
+	s=arc-20240116; t=1759311319; c=relaxed/simple;
+	bh=clodCt2KFV7idC6nf+b0UvwIapnLPbxEnItnIWj7QEk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SENnH4iEPCnDvLT1KSeGk5pKXfjIHUIdbg+vGmoWnb4X20I7L6/DtiE7YoKCcMay1cmYBuPx43gvfaPsnHUw4Ir+OX4enAOHeM8oL+p8QMl89xiRZ9znM+aGwjhZxXj4pk8GDMuF6fu738KeFn3kpbWAUQEdCgQP1TYkues92Lo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=R1IDEJh4; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5918QjPc009314
+	for <linux-media@vger.kernel.org>; Wed, 1 Oct 2025 09:35:17 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	DDF9dailVTb9C+8g1Gxz0cI5TBD6wn76XGlSDfVLb5s=; b=R1IDEJh4EBryW4Sb
+	vT9pxjcQ6folIvZgqA+UqusGWBLRXww5TIVxaPn7sLYRgwjLmUkrq8+zsvRI6zKA
+	15jaPB+YRd2wsCuJwJs1UNNYjyctsUFM60nIxHtQ1uYrOeboFRQwO7cTqcslIDv0
+	AYFqiFUJijfnhIwtIR1Gf0FdEjp6qg1EO/5BWc4F4EN5+Y6VkJnD/PbO6zBp/c8B
+	0vi26cHbZqTwqJYj1R8XJ3cPWpShfJa/P+nK1zMHHmpFP+yrxcNooVzKaImHHSlf
+	EL2RC3URhNiDYTX4OgtZuc80r2Vvm//aIcBbUXQPRXcBURxGietSfJUTLM+d1B2c
+	SbYJvQ==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e977uty3-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 01 Oct 2025 09:35:16 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-28d1747f23bso32947405ad.3
+        for <linux-media@vger.kernel.org>; Wed, 01 Oct 2025 02:35:16 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759311316; x=1759916116;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=DDF9dailVTb9C+8g1Gxz0cI5TBD6wn76XGlSDfVLb5s=;
+        b=RHJT3fwy5887l1j/nkwi2hviSujHZCZl86qXuqDgusMzBpvAsqy6lxorP1nU6umfLL
+         v8gYi2a5Fnd6CaY0L0rNbf+vu8sRkM3VYs57VGVDN3tHgMiz/cU/a3JYyM2Y8qAksDGn
+         w9mrpKqp+HG9T5bgImXydmhoiZG0VFYUjd+6BRhIb31Jwqi2mBNyvqCx66UF+kNSD09z
+         yomUKwXvd83QlJ2aap71zCyUy6b6O4xgWxHCjq/c8Efd/k3TsRbHDp60dLeUvx/GIpFW
+         BmlUzz6g9GNdpTo0gKL10kxj0R2l0AeBY+BlEP4Po0pKm7sZPmtuZs70CTiQr2tilFGz
+         9txw==
+X-Forwarded-Encrypted: i=1; AJvYcCU/faNI6wedtktm/S5KNi7MwBEq8JvWU6tq5D3wf3/6EOhQsolAUZkGE/C7fEQ3/MC0DuDaXjpd1adr7w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxrmNNFCRSiMo4OJjon+RmMn1OY9YgokrlkDC0vH6CDSk+r4zFV
+	gqgr2d7IF1kcONWPjftHeoi34OgxKaSFOPRAd24Py3aPsooNaBGoLke/1E1kfQ1agPnzyzeaflo
+	8lSRm74e6KkPqRtzTXhHk2c9u5QqlSrsGZIQltER67CSmV842uodVRJvvq6hM6Vm2FA==
+X-Gm-Gg: ASbGncsfeXlSB4Xm4S/efBTyHu1mr7TB38kIeSSpIiB6eVh+tlcwyaZV3YBibpZd2fo
+	ZF2spEqHIvbi5viqHZpxXFwWV0B5WZrGKkL5YwfwaipcN8u43zSU05jpaWoLrFhI/WCyqGB8DBh
+	O9YAE567agEla7oRXplGZHcAS+FlQ38pvsmQXh8mYX5DTSoRcxy6SDF89t48L3SgM0dSkTWmIfN
+	fIQOGJ9Xo0nzdp8bt6/TS5AOhkdsAzDs7sZh1RjAYeTv7ISFZ5GEjnp0afirjsR3ZmuPxZD59AW
+	5H9a5xdT7N/a1aL9XIuwoJ7pwACXAX3r0PSLkZIazLw5721GrDgyr5O+E8+EKSF0Gx1GCaH9rnO
+	IhJNp
+X-Received: by 2002:a17:903:2384:b0:26c:3e5d:43b6 with SMTP id d9443c01a7336-28e7f2f4ef0mr36261205ad.32.1759311315773;
+        Wed, 01 Oct 2025 02:35:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHYUv/Dm0XesDSTyHwQm2dVe57hhTs7K33D3ebSSuW0U2zhQHMjz1FXWOI+Y+NBaNAKCKO4DQ==
+X-Received: by 2002:a17:903:2384:b0:26c:3e5d:43b6 with SMTP id d9443c01a7336-28e7f2f4ef0mr36260875ad.32.1759311315356;
+        Wed, 01 Oct 2025 02:35:15 -0700 (PDT)
+Received: from [10.217.219.207] ([202.46.22.19])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-27ed671d8c6sm181633145ad.56.2025.10.01.02.35.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 01 Oct 2025 02:35:15 -0700 (PDT)
+Message-ID: <32fd77a1-f352-4f82-be18-c978fabac280@oss.qualcomm.com>
+Date: Wed, 1 Oct 2025 15:05:09 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,78 +90,76 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH 0/3] v4l2-ctl/rds-ctl: support optional ioctl and migrate
- some code to it
-To: Quentin Schulz <foss+kernel@0leil.net>, linux-media@vger.kernel.org,
- Quentin Schulz <quentin.schulz@cherry.de>
-References: <20250905-opt-ioctl-v1-0-4b3ae770fc4b@cherry.de>
-Content-Language: en-US, nl
-In-Reply-To: <20250905-opt-ioctl-v1-0-4b3ae770fc4b@cherry.de>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH v8 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
+ support
+To: Jyothi Kumar Seerapu <jyothi.seerapu@oss.qualcomm.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Viken Dadhaniya <quic_vdadhani@quicinc.com>,
+        Andi Shyti <andi.shyti@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
+References: <20250925120035.2844283-1-jyothi.seerapu@oss.qualcomm.com>
+ <20250925120035.2844283-3-jyothi.seerapu@oss.qualcomm.com>
+Content-Language: en-US
+From: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
+In-Reply-To: <20250925120035.2844283-3-jyothi.seerapu@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: kr1853Pase-K-KtGr-DcUQVfW1GAdmgX
+X-Proofpoint-ORIG-GUID: kr1853Pase-K-KtGr-DcUQVfW1GAdmgX
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDA0MyBTYWx0ZWRfXwYLVlw5US+n3
+ +8/WzjCAstjSckOYYGBPWmk+87BoC/pJOSL6fiZcO/brZYv7QJpDd7s9jRdoHQCwpjav3oMoUde
+ 4h1G2Meg/mAXZD53tCbtFPgJx9sY5wH9zM0qHiRZdrzVSEJmpgwNBOjIN0rPUEDM6oyQW89HiTV
+ kgdIjfLe5B4t2PP1BA2mwWrbXBIbhZQaWp7ly0LqMuQZY4NgEjVT4EWdT5I+ZNoiozvwaLWZ/yD
+ /SKMz9pnNiVW4I7hDZvjEwJ66WcMtXJXSNOfenlQInJAuEjpy8nfb0uVStuZWLp0tVr9HtHoPV7
+ SCw3nI1orKrrv6phM48dh5dfaOVy6KYvy69VUoq1/3ZaNmzJ0+AHMANFlPD16jL16ZoiAbgwa+1
+ gZSb1BrYBltYS1LDhSA+iQeppILlKw==
+X-Authority-Analysis: v=2.4 cv=Sf36t/Ru c=1 sm=1 tr=0 ts=68dcf5d4 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=fChuTYTh2wq5r3m49p7fHw==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=fvgdV2PV7z-sFcuOFeoA:9 a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
+ a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-01_02,2025-09-29_04,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 bulkscore=0 suspectscore=0 adultscore=0 spamscore=0
+ priorityscore=1501 malwarescore=0 lowpriorityscore=0 phishscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
+ definitions=main-2509270043
 
-On 05/09/2025 14:19, Quentin Schulz wrote:
-> Some ioctls are optional and the logic around it handle it nicely,
-> except that doioctl (via doioctl_name) sets app_result static variable
-> to -1 if the ioctl fails.
+
+
+On 9/25/2025 5:30 PM, Jyothi Kumar Seerapu wrote:
+> From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
 > 
-> However, both rds-ctl and v4l2-ctl exit code is from app_result. So it
-> is possible to have those tools perform the expected task (albeit
-> failing to use an optional ioctl) and still report to the user that it
-> failed to do so.
+> The I2C driver gets an interrupt upon transfer completion.
+> When handling multiple messages in a single transfer, this
+> results in N interrupts for N messages, leading to significant
+> software interrupt latency.
 > 
-> Let's add a new function doioctl_opt which allows to NOT set the
-> app_result variable when the ioctl fails.
+> To mitigate this latency, utilize Block Event Interrupt (BEI)
+> mechanism. Enabling BEI instructs the hardware to prevent interrupt
+> generation and BEI is disabled when an interrupt is necessary.
 > 
-> This migrates two ioctl VIDIOC_SUBDEV_S_CLIENT_CAP and
-> VIDIOC_SUBDEV_QUERYCAP to be optional ioctls.
-
-Actually, those ioctls must be present, unless you run an old kernel, but
-they've been around since kernel 6.4.
-
-I'm dropping this series as this isn't quite the way to do this.
-
-Perhaps you should explain the problem you encounter first (and mention
-the kernel version you are using)?
-
-Regards,
-
-	Hans
-
+> Large I2C transfer can be divided into chunks of messages internally.
+> Interrupts are not expected for the messages for which BEI bit set,
+> only the last message triggers an interrupt, indicating the completion of
+> N messages. This BEI mechanism enhances overall transfer efficiency.
 > 
-> Note:
->  - rds-ctl receives the same patch but doesn't make use of it, simply
->    for consistency, but can be dropped if desired,
->  - wondering if VIDIOC_SUBDEV_QUERYCAP really is optional considering
->    the code in v4l2-compliance/v4l2-test-subdevs:
->    fail_on_test(doioctl(node, VIDIOC_SUBDEV_QUERYCAP, &caps));
->    which also has a nice comment above saying "// Must always be there"
->  - wondering if there aren't more optional ioctl considering how many
->    doioctl calls aren't actually exiting early the tools,
->    Should we add something like __attribute__ ((warn_unused_result))
->    so we know for sure doioctl shouldn't be used if we don't check its
->    result, though that wouldn't catch if(do_ioctl(...)) for optional
->    ioctls like VIDIOC_SUBDEV_S_CLIENT_CAP here for example,
->  - I assume we may want to backport those to stable branches? (e.g.
->    Debian Trixie is using 1.30.1 and I experienced this bug with that
->    package version)
+> BEI optimizations are currently implemented for I2C write transfers only,
+> as there is no use case for multiple I2C read messages in a single transfer
+> at this time.
 > 
-> Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
+> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
 > ---
-> Quentin Schulz (3):
->       v4l2-ctl/rds-ctl: do not set app_result if an ioctl is optional
->       v4l2-ctl: do not fail on kernel not implementing VIDIOC_SUBDEV_S_CLIENT_CAP
->       v4l2-ctl: do not fail on kernel not implementing VIDIOC_SUBDEV_QUERYCAP
 > 
->  utils/rds-ctl/rds-ctl.cpp   | 7 ++++---
->  utils/v4l2-ctl/v4l2-ctl.cpp | 8 ++++----
->  utils/v4l2-ctl/v4l2-ctl.h   | 5 +++--
->  3 files changed, 11 insertions(+), 9 deletions(-)
-> ---
-> base-commit: fc46fc8771bff905204e7463ab03ed1f355436b1
-> change-id: 20250905-opt-ioctl-387192021068
-> 
-> Best regards,
+
+Acked-by: Mukesh Savaliya <mukesh.savaliya@oss.qualcomm.com>
 
 
