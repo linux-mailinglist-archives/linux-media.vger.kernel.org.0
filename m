@@ -1,152 +1,166 @@
-Return-Path: <linux-media+bounces-43469-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43470-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D4EBB042D
-	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 14:00:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EBB3DBB0611
+	for <lists+linux-media@lfdr.de>; Wed, 01 Oct 2025 14:49:31 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B726194040F
-	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 12:00:25 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 801CE19271B6
+	for <lists+linux-media@lfdr.de>; Wed,  1 Oct 2025 12:49:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B8AAB2E7F3E;
-	Wed,  1 Oct 2025 11:59:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4DD3A2EBDE6;
+	Wed,  1 Oct 2025 12:49:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="WjE0QNHe"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="awFetGzO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com [209.85.217.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2716A2DE715;
-	Wed,  1 Oct 2025 11:59:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B1F92EAD0A
+	for <linux-media@vger.kernel.org>; Wed,  1 Oct 2025 12:49:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.217.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759319995; cv=none; b=nPlRS7nfrJUXQa4QPY1iVQ+5r924mo5OjkKWyKeclZKcHfr6xrQWGvHET/EQ/QTeky2ePpqKn7rI/o5u2hFn9NJZ8C1VW6Yhfpk8Nb2EHQnAhQG7l5cYkE0wI7ltNQhbVPGd66gykHIEk4xRdGhCoVekoipKyI6MifAWP3YZ9ls=
+	t=1759322965; cv=none; b=GB8lkLd5FlSQAeEQFTUY7S9VfwSKjpZmE+CkEFYLM9XvpjFiOrZH1RQvcRyJkmQXQkzbneowHMSwEgnK1e8adL9ux/f6QW6/PE2XNPnuEAtWQo7MKdYZPgntEWioubplV7EIXv8tgrsoXzVo0efkwdh+P4UWlUCcy0ykb2lNruI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759319995; c=relaxed/simple;
-	bh=yasRxt5QP0TubpGRVpMM60tA67T2lNp2t5aBrR0AQ7s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cKwrxzj2o9GqqyIVaWgKTSvCEzZ+ktTpY7LJ66ZfdwlN3iUA+Kauln1iWOlyx32yIl5tW9bMtEo2RifZ0XeHo56W3/TTuH3WXnu5YXJTxferJjRp9G902UFtI1kyfEkAGdbybLneuoapaKnHFeYtE6fa2Vg85PGO9HdQQEfM1y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=WjE0QNHe; arc=none smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759319993; x=1790855993;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=yasRxt5QP0TubpGRVpMM60tA67T2lNp2t5aBrR0AQ7s=;
-  b=WjE0QNHeDgu3DWW/736EDcERF2VYglZm2LSa45y4YwfwWk8RdJpvJDJn
-   4QU5tqkEFvdkyhOiHhz23kHB/uljsqHkYVXkdUK+lO0UxVzHdJ6shdL/P
-   92u6tbe7Z0vRoYzVThat+UoIZazyVWsIcviJJHTJ/+fjdqkxqzwsckVU9
-   N+3x/1GdrxNJU+R5IrlfrfzqXFBUFlRnutIF/lAxNEkOC3GvlBXDkBRs7
-   sWRgxRzbZQmr2p4GaiBdVsh26X6GKRCtBTDfyjh9Wfr6irU9tKNIRYBFN
-   bmKg82c6J9s6VMhHxG+dR05j8XslEEFRpFKXbhgfHOn9GdjLipLAwHPra
-   Q==;
-X-CSE-ConnectionGUID: zLIszrsvRBG4C3XJ1+wuJg==
-X-CSE-MsgGUID: Jk9pcgKrT6WATkL1OAbSGg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="60804574"
-X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
-   d="scan'208";a="60804574"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 04:59:53 -0700
-X-CSE-ConnectionGUID: nERQSJBORcKpxb9lx/DIGQ==
-X-CSE-MsgGUID: /UxpTlybTf24alL71cqoqA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.18,306,1751266800"; 
-   d="scan'208";a="178819207"
-Received: from fpallare-mobl4.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.14])
-  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2025 04:59:50 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 0B133121163;
-	Wed, 01 Oct 2025 14:59:47 +0300 (EEST)
-Date: Wed, 1 Oct 2025 14:59:47 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Ma Ke <make24@iscas.ac.cn>
-Cc: bingbu.cao@intel.com, lixu.zhang@intel.com,
-	stanislaw.gruszka@linux.intel.com, mchehab@kernel.org,
-	wentong.wu@intel.com, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, akpm@linux-foundation.org
-Subject: Re: [PATCH v5] media: pci: intel: ivsc: improve device reference
- counting in mei_ace driver
-Message-ID: <aN0XszBNLZPjoRfg@kekkonen.localdomain>
-References: <20250929013007.1920-1-make24@iscas.ac.cn>
+	s=arc-20240116; t=1759322965; c=relaxed/simple;
+	bh=wFHNTs49qUJ4R/XkrBRhugaX+baqu/sFEfxqFkSKkLg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Jo8KRQvOfaiBhq/DpkbkSuD1KPL9VXzlppelFVlZEY3yp5nAZ9nD3owQxOruh0XP8VtKYxUAXqdbjTJjk6aiwKmID3s4BhFiVjAHD35j5DWwCD95uPe8MvdGfg/dOniy4rclBM1iTZJSIFIec3DwgXygSttfJz1hazgQWRHgURY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=awFetGzO; arc=none smtp.client-ip=209.85.217.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-5b99f5d5479so693586137.0
+        for <linux-media@vger.kernel.org>; Wed, 01 Oct 2025 05:49:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759322962; x=1759927762; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=FqAAIjc6Qt7FXWVGlCDnEfTkQhmVsUANJKVkWneg770=;
+        b=awFetGzOsq9l9h1qUn3/Gs9Xts21pAK0xJaMa3ywJJTk23JJqizLOZBLOmJ0z95A+g
+         CKHy51vLcT9NCiS3R+Vck2H274DYsfG1e/DU11JKq46zyaRJ7tyPgyjdblKLAgpjFWr6
+         boh5f+9N4BerlT8dRPX9XPTGVg8MPpQSTYBW4C6DwwBN6GZYdqD31/P3NYAN3+Cg0iEy
+         0+xL/S/jsqMbQ0CcLLy3LhUQKUohn8a7W+2k7F0Vh+SAQx//sebIgI1w4ccxtUUnJl0s
+         qx8ePEIil1FLusqfqSBZ+kdxCG1nxnluPNDCDTxbXdo0eLbWygcAvgxZ/a0ViF9n6sNM
+         cK7w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759322962; x=1759927762;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=FqAAIjc6Qt7FXWVGlCDnEfTkQhmVsUANJKVkWneg770=;
+        b=hmDXkzz25xhC5faw433Qzxs3vIHyWQ0ywIZbJQDBE8KSJFAaVvPgjrI6W3kQjzk/6N
+         oUR4d84ilUv3s+q1xCOjNUKT7dGwsCt9qsHCn5dPZwuDO0a2s2BQH27byCw/zWrusH2i
+         fcYNuJqs+i8e+T2DbLz8omcdLb1EBZDiOe6JzkVlr61s7fWpu9Y6SICbnxQ7NsWu+PLO
+         Xkg6a8eGIQW+kQz0smUsvv+GYO6ofFEQrbzwACa3ubk116Wahp8U7Hz6mraZ8tjzN6St
+         F6Ya0DNgZsB8BbzvglwViGVMmCxJB81ZfMtaqrmKcHgnGC7ie3aad8FFqRqzmf88cZbP
+         ojxg==
+X-Forwarded-Encrypted: i=1; AJvYcCXY1UHtLFo4Aic5sPvYnB4FGphI29B3TVOZ748qT5mV2DQoUaGbnNsHFFlUmq4R+4B+0FzdYj+crCpD0g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAMsHJKfrXSsvLbJAN3eGYnowe7uYTZOpaeYdBBn9wqHeMn8Kt
+	0+e6dhWO1CeR0gjoM4RmBHUVWMKkTxf1p5Yw6h9EBKi0YIg8zYTJMHtG1uaWnNRoHWnrDEb6Wjf
+	FxnLavgokvjAijb1ii3OlEu5xy7te7CA=
+X-Gm-Gg: ASbGncsBS5NFAWAXaM91rzbj9LbyuTxyBfn0TjjqklyQJn2vlwjzHSAWthFZU+NPfbD
+	QyqSBAneJs651qFhn3r6jQDX+/c5a3hurEnnleqZhcVV64cg1RU5D+uOtEGXtQU6pHS6RyHKveJ
+	gxBFiZVSQbzYoOon6+d4Oh0MC2EWkx/Sp2Szu+KEmlvapPOBLHZrlTvt8NtVtOSYyZ5aNbpnokK
+	rgU1/yqb7roRdEEFxPHxLT6A6sHPBtQHZN3GoCfuTwAP46YhqF0n+iHE5eQTA==
+X-Google-Smtp-Source: AGHT+IERRwXJp9F//JwG+TdQsrB3cSAJW1qE4AA9Xa8i3nFxtPEvH//jKEKteR1nSfRhCoh0bBRfaE8F5k8Bd8aTBPk=
+X-Received: by 2002:a05:6102:2925:b0:4e5:8d09:7b12 with SMTP id
+ ada2fe7eead31-5d3fd671c4cmr1832661137.7.1759322961773; Wed, 01 Oct 2025
+ 05:49:21 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250929013007.1920-1-make24@iscas.ac.cn>
+References: <20250905-b4-v1-1-2cdc261fd86d@cherry.de> <8eec5b1a-9b57-48d2-94dc-0afdb3f942ed@kernel.org>
+In-Reply-To: <8eec5b1a-9b57-48d2-94dc-0afdb3f942ed@kernel.org>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Wed, 1 Oct 2025 14:49:03 +0200
+X-Gm-Features: AS18NWDdfk93KaRKHr4k-8OGc90WfmpBO-a6_haT_tXpSKG1h5i1GFL8qDXQASM
+Message-ID: <CAPybu_03MnkUzbJ8zFRoH7-hQABDjHn_GEq5vojkKUdCs0b=Fw@mail.gmail.com>
+Subject: Re: [PATCH] add basic b4 config file
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Quentin Schulz <foss+kernel@0leil.net>, linux-media@vger.kernel.org, 
+	Quentin Schulz <quentin.schulz@cherry.de>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Ma,
+Hi Quentin
 
-Thanks for the update.
+On Wed, Oct 1, 2025 at 11:10=E2=80=AFAM Hans Verkuil <hverkuil+cisco@kernel=
+.org> wrote:
+>
+> On 05/09/2025 14:29, Quentin Schulz wrote:
+> > From: Quentin Schulz <quentin.schulz@cherry.de>
+> >
+> > b4[1] is a very nice tool for mail-based contribution. A config[2] file
+> > exists to set up a few defaults. We can use it to set the To recipients
+> > to always add, in our case the mailing list.
+> >
+> > This shouldn't be necessary if we had a script that b4 prep --auto-to-c=
+c
+> > could call to find the mail address(es) to send to, =C3=A0-la
+> > scripts/get_maintainer.pl from the kernel tree.
+> >
+> > This allows us to not have to look for the mailing list to send the
+> > patches to, just use b4 and you're all set.
+> >
+> > [1] https://pypi.org/project/b4/
+> > [2] https://b4.docs.kernel.org/en/latest/config.html
+> >
+> > Signed-off-by: Quentin Schulz <quentin.schulz@cherry.de>
+> > ---
+> > Since that ML is also used for other repos than v4l-utils and I've seen
+> > a few people using [v4l-utils] as prefixes, should we add
+> >
+> > send-prefixes =3D v4l-utils
+> >
+> > to the config file as well?
+>
+> Yes please.
+>
+> I'm not sure I want to have this in v4l-utils, but if I do, then definite=
+ly with
+> that prefix.
+>
+> When you post the new patch, please prefix it with v4l-utils as well.
+>
+> Regards,
+>
+>         Hans
+>
+> > ---
+> >  .b4-config | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/.b4-config b/.b4-config
+> > new file mode 100644
+> > index 0000000000000000000000000000000000000000..31873a088f0b32c174363f8=
+b56a54a976b87fb17
+> > --- /dev/null
+> > +++ b/.b4-config
+> > @@ -0,0 +1,2 @@
+> > +[b4]
+> > +  send-series-to =3D linux-media@vger.kernel.org
+I believe we prefer send-series-cc.
 
-On Mon, Sep 29, 2025 at 09:30:07AM +0800, Ma Ke wrote:
-> The device reference counting in mei_ace_setup_dev_link() was
-> incomplete, as the reference acquired by device_find_child_by_name()
-> was not released immediately on the success path. Add put_device() to
-> properly balance the reference count. Additionally, the redundant
-> put_device() in mei_ace_remove() is removed.
-> 
-> Found by code review.
+https://git.linuxtv.org/v4l-utils.git/tree/CONTRIBUTE.md
 
-The patch seems fine but the commit message is a bit more dramatic than
-what reality justifies. I'll use this:
 
-Put the reference to csi_dev acquired during driver probe in
-mei_ace_setup_dev_link() inside the same function, instead of during driver
-unbind in mei_ace_remove(). This can be done as device_link_add() already
-takes a reference to csi_dev.
 
-> 
-> Signed-off-by: Ma Ke <make24@iscas.ac.cn>
-> ---
-> Changes in v5:
-> - jumped to err instead of err_put to avoid calling put_device() again in err_put as reviewer's instructions;
-> Changes in v4:
-> - updated the subject as suggestions;
-> Changes in v3:
-> - deleted the tag of Fixes and CC, and moved put_device() to immediately after device_link_add() as suggestions;
-> Changes in v2:
-> - modified the put_device() operations and the patch title as suggestions.
-> ---
->  drivers/media/pci/intel/ivsc/mei_ace.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/pci/intel/ivsc/mei_ace.c b/drivers/media/pci/intel/ivsc/mei_ace.c
-> index 98310b8511b1..b306a320b70f 100644
-> --- a/drivers/media/pci/intel/ivsc/mei_ace.c
-> +++ b/drivers/media/pci/intel/ivsc/mei_ace.c
-> @@ -414,10 +414,11 @@ static int mei_ace_setup_dev_link(struct mei_ace *ace)
->  	/* setup link between mei_ace and mei_csi */
->  	ace->csi_link = device_link_add(csi_dev, dev, DL_FLAG_PM_RUNTIME |
->  					DL_FLAG_RPM_ACTIVE | DL_FLAG_STATELESS);
-> +	put_device(csi_dev);
->  	if (!ace->csi_link) {
->  		ret = -EINVAL;
->  		dev_err(dev, "failed to link to %s\n", dev_name(csi_dev));
-> -		goto err_put;
-> +		goto err;
->  	}
->  
->  	ace->csi_dev = csi_dev;
-> @@ -522,7 +523,6 @@ static void mei_ace_remove(struct mei_cl_device *cldev)
->  	cancel_work_sync(&ace->work);
->  
->  	device_link_del(ace->csi_link);
-> -	put_device(ace->csi_dev);
->  
->  	pm_runtime_disable(&cldev->dev);
->  	pm_runtime_set_suspended(&cldev->dev);
+> >
+> > ---
+> > base-commit: fc46fc8771bff905204e7463ab03ed1f355436b1
+> > change-id: 20250905-b4-1e813446afa4
+> >
+> > Best regards,
+>
+>
 
--- 
-Regards,
 
-Sakari Ailus
+--=20
+Ricardo Ribalda
 
