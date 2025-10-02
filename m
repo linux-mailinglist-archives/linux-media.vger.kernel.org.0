@@ -1,171 +1,248 @@
-Return-Path: <linux-media+bounces-43699-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43700-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C383BB58BC
-	for <lists+linux-media@lfdr.de>; Fri, 03 Oct 2025 00:33:05 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A36C9BB59A0
+	for <lists+linux-media@lfdr.de>; Fri, 03 Oct 2025 01:20:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D603E342103
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 22:33:04 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8BB004E76D5
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 23:20:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 296D7274FCE;
-	Thu,  2 Oct 2025 22:33:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8562D2BDC3D;
+	Thu,  2 Oct 2025 23:20:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="g6GN9X5E"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="UlZXQBIH";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UPWCT2uX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from flow-b1-smtp.messagingengine.com (flow-b1-smtp.messagingengine.com [202.12.124.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229ED266B6F
-	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 22:32:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD99288530;
+	Thu,  2 Oct 2025 23:20:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759444379; cv=none; b=kbfFQgAFmIFynE/fzZALtpKh5kVoB9G/Z6HN45P1fVJEhbOYwhRH+rUgy0il7gOtTFgJJDHOPSWZI/wceGKae/5mlIjUiHAUXHHLSLQ17N38WfYPJn3l0wM9OlR1Pjm7EKABgY5XKTgt2CMpJCbck/Vs540YGPoT+o6Ox00dTPc=
+	t=1759447213; cv=none; b=p2bQPuwC/u9KevDZ3EAXC4W+J4uwW1Jb3j8nFmg1oV0NH5+wpRUJZ1kRHKR00OTa1w3a6IccgPOevQafD6J8mDa+Z5vuFdXSukCrzfYZrogWsqj4OC1+EUHZNDzCEiVNQyhjy7m+18AwkLyQaGkwOzcP1I5o84PonqJlhpM1IvE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759444379; c=relaxed/simple;
-	bh=qGBvGVUOR2k1VrExAC7p734oLxaKwcZqmNkNFkXFeTw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KvvXmWAeZTVrRbxPycFLubG5+pzIIy96hQbxu/NjIyukZl9sgZjX67XasHwzbkoKgnfEy8MRbJsAWRJAQVh0n5oFuv+wC6HPqKJGYrqc/eoZxFao7IKw4kZNFsFkmoW8Z59icHfkpKH/c3y7KN+GNYv1Z+38gEjJsiB0EM224lE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=g6GN9X5E; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5929TIC3005570
-	for <linux-media@vger.kernel.org>; Thu, 2 Oct 2025 22:32:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	FpwK6wbpl1nHk+Rk54AADbhqSQ/2kNSwRaAd3k0SSc4=; b=g6GN9X5E+IsJIiUT
-	c3GcgC/AxotYGLwrKIZYP/4wdgzr2atBF4oD5A9TTnRqNSiKdjVC003noX/XXP7I
-	W2mOfIAxHn25XRRLM00aNyYC+EswzahZVc1nMDn2xmVO00SgGvnDb9H6a+5Gh3cl
-	UIAznHf0Bib0xFuiy37rsWZ/jSVXz6PB5u6C7vz2fR1POplJ3qB2UQFzdXMXCDqx
-	PHECk2c17/tWPTZFi2iqy5LrA7eI58kF5ZBEHDfBG29tSlJTVwTxQWTov7edkvIj
-	XkxDuNQ7nvNs7Bni1SQu4Gtklb6ymKoHuzm1sbGmf+N8KrOyjc6CTob2vxCK+A+O
-	lmvoDw==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e851s6en-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 22:32:57 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-3306bae2119so617510a91.0
-        for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 15:32:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759444376; x=1760049176;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FpwK6wbpl1nHk+Rk54AADbhqSQ/2kNSwRaAd3k0SSc4=;
-        b=t3Vh05+reZeUAQqGvj3c/D/nF3yhAdYMc3D6775Rh6KvvRtgwGsqmWLkdxCLE4vyAz
-         xeGHVaHQTgpwyCIp+rRlKVE0W7R1ruzX6RODS5BCEGL4IKJGjmyWkPPpybOGjuCA3ngT
-         oaIJkIgxAr/sQIqffpifPauB4sM2uJj+z3oJ56thT9x7FWBdxaN+YVWMlIgAeYHRa8ap
-         Bz7eQLk8BDfldnNvFaFbUdVZPFCOYJAbgwPQx2O1cNRHYzp0i20mHao2XsY9xum6fh80
-         /EkKbn1agAGWCw9eRtp2SaSUEo2dH5DId3NejS94pKrW9XkriK6hh/IzQ1P8iVtC/isS
-         E6xQ==
-X-Gm-Message-State: AOJu0YzOWN5LldgjOOBlOBb6NflFv5iDyQUKb4GJ8UA7arjmfrycO9j1
-	Nkq6ajdsL8Z0iBR/F5Kl9sGqSAI3dtIDhipg2kxtHjxdB4EumKrFczOotrJzb9q+iUr9iLMmUhq
-	V/+Ap/FvCwoo55zsOpsJ3ioWtfaTGCGOQzWFQxE8d6GeHmAoriXGy/bFzXcQufhjIKmXyvgFchA
-	==
-X-Gm-Gg: ASbGncsKPEBRbhNmWRDl2MNsLFlQLP4yhOMnTVZMZu9C5vmQE0EiHhErmbhiquhsyXI
-	98u2KdUuPAk9zynHR1ZSiQOPnguB3/a2M3yMr6gtuEaErihAmquO9HL2ptgKOH08fAZJOTYsz96
-	3+RaemY/3ahh2f9QG++yFcn/A8SL0kqramk/mzKPtjys/RwNWPJnSbFpU/0DKwV4NrfD//Wad+B
-	a8M7TtDfA+wxdZXg6DYFKZMqo0ZufEZ+7EAhZIK1TCUhYjfVkjHEJtZAVke9UaiBgLbvY2uDVDN
-	KV65EdiMYt8Sg6cUi9KRUtMgYch6hoX5MQUKj1J8OptnwqlJ179OPEyjrFFJO935s1CD4XWKLOx
-	QlibOEysZbDophVEjX+doLovwqoLUahUt
-X-Received: by 2002:a17:90b:1b07:b0:335:2eee:19d7 with SMTP id 98e67ed59e1d1-339c27f147cmr548595a91.5.1759444376146;
-        Thu, 02 Oct 2025 15:32:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHv7Ezyd2UUjO1KmLcKNimDDT7YbIHUc7nq44OqeXFnjgQivLtCpsrlpOrl4tDqUhXI5zl9oQ==
-X-Received: by 2002:a17:90b:1b07:b0:335:2eee:19d7 with SMTP id 98e67ed59e1d1-339c27f147cmr548575a91.5.1759444375693;
-        Thu, 02 Oct 2025 15:32:55 -0700 (PDT)
-Received: from [10.71.110.242] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3399cdef492sm4222624a91.4.2025.10.02.15.32.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Oct 2025 15:32:55 -0700 (PDT)
-Message-ID: <ad9c79bd-b3ea-4dac-96c5-f264eaf91dcc@oss.qualcomm.com>
-Date: Thu, 2 Oct 2025 15:32:54 -0700
+	s=arc-20240116; t=1759447213; c=relaxed/simple;
+	bh=BR/jqWo92itmdMH1ocfUuKDAP7WulChibnIwAiSXhT4=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=As55O0BgHHu7XadPt6rE8gWYgT1KYrbqPzeVZGWgC5JFMIasraf95uQ+Xd16EXZcK4J5Z1KOPYSUcJZhHASyGrDj5IfenDbmLy4YpVNuJ7mk1Frg/O0JkIGOztW6eK+6l2sWg+PLUHk+LTAtWw4lg/mSmQe2zIAawEffjygT5Jc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=UlZXQBIH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UPWCT2uX; arc=none smtp.client-ip=202.12.124.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
+	by mailflow.stl.internal (Postfix) with ESMTP id DB1F41300343;
+	Thu,  2 Oct 2025 19:20:09 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-04.internal (MEProxy); Thu, 02 Oct 2025 19:20:11 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1759447209;
+	 x=1759454409; bh=8eLJoj9XRO384G/VvXT2HeFOAWEdoc6vPNt14uKR73A=; b=
+	UlZXQBIHPI3UaJe+qvjb/0azu1Oe5qtfVSOgfR9F74ejhfdVcoLT5yCscAFxGXg8
+	pwym4mpSChHvERlZa3eyvyx08BV44zMw3YGN0tM+vPnhSUz76Sq/1sLgdMvN//1t
+	MgHWqimhr0AzYrwUzdnliiWe0Dm9Z34Ogn+/sldz60VOggZ3d7nAO9W0sjAS+ODa
+	YJDWUIJqUD3rBGsCWCRyC9s7i9AA9pS/qByHexvhH8G1gQsu2dD8k1LeI24HGUWh
+	/03Dje8K6N7L4VyDIt3NIojzwr6tdgIOBwfeBK5umF7roU56mWwwY3FulE7R0j2n
+	QUpOkKf5lBp7bdgkzhLbPw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1759447209; x=
+	1759454409; bh=8eLJoj9XRO384G/VvXT2HeFOAWEdoc6vPNt14uKR73A=; b=U
+	PWCT2uXT/GxiygPtmHbccRddiUfCEYjhtJdXJccb/5YerEHrZjTt4d9N2RDQu1Wk
+	qyOu+HowFfq+mSzSu4jBKZpxK4j61odikvauJS62BQvPo05HzMc2V0Q02lDG/KuV
+	xFOFsUSRnUOVxEuk/jp9b7DJX/6hFCwfMhDmrQ+Gjgp+bzUnTy9kM9MFcHK3eQR5
+	T9dRhCCh7CnFM2shDd7H9AIA40TS7O85KP3muQgcpbkTId7BGzFMnUMJQzEW6cKC
+	RXT0xfdCbnheksb/9HE80aFjG/+J9g7pqLK4D083rrfitbbZ+Xq2jg/7x8JM1H12
+	rJ7EgoklB90Zb+f1OtOPw==
+X-ME-Sender: <xms:pwjfaGV4JN0Ma44cNnMBrUtL97DgMZmD0pMjmYN8l-menv5GZtsfLg>
+    <xme:pwjfaNbUXFszpshl1sBUhW_dmCbyy6ss_a2I-2pSkgussU5ZHyuAg_MFZejD8O402
+    j78984Anpb1DwJaQlM1svAPgMii0eUG1MbwQfJ4GQa5C5t5JGIzwDY>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdekjeefvdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
+    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
+    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
+    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
+    hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
+    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
+    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeegledpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhoph
+    drohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdr
+    ihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnrghrohdqmhhmqdhsihhgse
+    hlihhsthhsrdhlihhnrghrohdrohhrghdprhgtphhtthhopehlihhnuhigqdhrthdquggv
+    vhgvlheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegtohhrsggvtheslh
+    ifnhdrnhgvthdprhgtphhtthhopehthihtshhosehmihhtrdgvughupdhrtghpthhtohep
+    jhhovghlrghgnhgvlhhfsehnvhhiughirgdrtghomhdprhgtphhtthhopeiiihihsehnvh
+    hiughirgdrtghomhdprhgtphhtthhopegurghmihgvnhdrlhgvmhhorghlsehophgvnhhs
+    ohhurhgtvgdrfigutgdrtghomh
+X-ME-Proxy: <xmx:pwjfaJ2BSQWnOhQ8IplrbbGK-gyE5_grSXYP3j9439lOC_jvlo5zZA>
+    <xmx:pwjfaGp-w5NGLIBr_AoLUes9YDJp8xiczs-IYhNS4F_HgHxvLrrzZA>
+    <xmx:pwjfaHE7EXWw8nb_0yF2EO6HFQilk8UVSNu6kLKe14icznmhBIcCwA>
+    <xmx:pwjfaI62HivFrwmWVnm93cq4CY8LYM9QpIUA5yL17t5fpoJyAMu_1w>
+    <xmx:qQjfaCYKV7n5Om4PDcHknSXz-bYbngxY5RgrPIa40VVrCIhGD4C03q0Q>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 38369700065; Thu,  2 Oct 2025 19:20:07 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/5] media: v4l2: Add description for V4L2_PIX_FMT_AV1 in
- v4l_fill_fmtdesc()
-To: Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-References: <20251001-av1_irisdecoder-v1-0-9fb08f3b96a0@oss.qualcomm.com>
- <20251001-av1_irisdecoder-v1-2-9fb08f3b96a0@oss.qualcomm.com>
- <544147436308901fba85d6de48380c0c1eea7c67.camel@ndufresne.ca>
-Content-Language: en-US
-From: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>
-In-Reply-To: <544147436308901fba85d6de48380c0c1eea7c67.camel@ndufresne.ca>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=OJoqHCaB c=1 sm=1 tr=0 ts=68defd99 cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=fpfRSM_o4ZOcEIIQWIgA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAzMiBTYWx0ZWRfX6JqUX5yrHCCx
- iPM1oy+sHkYzPtuTg8MbL7tWQrFyju3vSXP8nRi3xrcfFmC80wpGOEr1kjk9c1qHqdIaqFoDyEP
- ryXFm7GYjE96FoGZTiTBIZAeg7J3l3I+dS68pVaX727KBPzm+C3ljzMPhDISuHp1y3gKCgIjbol
- 4smPKJ6YWrENOC/tKLqHm+PqmIXH7WVhzzHlVI7to+McgUXY5Ng4jF5JL8WMUebWe+dpTiWNt7a
- riANZJxeeDbme8PwgpBo58axLxkRPgFcgmniw0K10vgAcFAxGJZ4ZKBh91R7TFgL84Wy5IFzlh6
- chVK4F8nyaYedqP1usdJIjNdqmrd3z6iNk7o93gCAEgki3lxM19vQFh3p0CSug1N8UWMVz7rzVe
- HKWxKrYrADYLOjLGF6gGyRmdRFunNg==
-X-Proofpoint-ORIG-GUID: PPbhHsmPbof4yHcEsBw7LdtnjG4ktVxQ
-X-Proofpoint-GUID: PPbhHsmPbof4yHcEsBw7LdtnjG4ktVxQ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-02_08,2025-10-02_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 priorityscore=1501 bulkscore=0 impostorscore=0
- suspectscore=0 lowpriorityscore=0 phishscore=0 malwarescore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270032
+X-ThreadId: Aghr8S2aY07B
+Date: Fri, 03 Oct 2025 01:19:33 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
+ "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
+ "Byungchul Park" <byungchul@sk.com>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+ "Linus Torvalds" <torvalds@linux-foundation.org>,
+ "Damien Le Moal" <damien.lemoal@opensource.wdc.com>,
+ linux-ide@vger.kernel.org, "Andreas Dilger" <adilger.kernel@dilger.ca>,
+ linux-ext4@vger.kernel.org, "Ingo Molnar" <mingo@redhat.com>,
+ "Peter Zijlstra" <peterz@infradead.org>, "Will Deacon" <will@kernel.org>,
+ "Thomas Gleixner" <tglx@linutronix.de>,
+ "Steven Rostedt" <rostedt@goodmis.org>,
+ "Joel Fernandes" <joel@joelfernandes.org>,
+ "Sasha Levin" <sashal@kernel.org>,
+ "Daniel Vetter" <daniel.vetter@ffwll.ch>, duyuyang@gmail.com,
+ "Johannes Berg" <johannes.berg@intel.com>, "Tejun Heo" <tj@kernel.org>,
+ "Theodore Ts'o" <tytso@mit.edu>, "Matthew Wilcox" <willy@infradead.org>,
+ "Dave Chinner" <david@fromorbit.com>,
+ "Amir Goldstein" <amir73il@gmail.com>, kernel-team@lge.com,
+ linux-mm@kvack.org, "Andrew Morton" <akpm@linux-foundation.org>,
+ "Michal Hocko" <mhocko@kernel.org>, "Minchan Kim" <minchan@kernel.org>,
+ "Johannes Weiner" <hannes@cmpxchg.org>, vdavydov.dev@gmail.com,
+ "SeongJae Park" <sj@kernel.org>, jglisse@redhat.com,
+ "Dennis Zhou" <dennis@kernel.org>, "Christoph Lameter" <cl@linux.com>,
+ "Pekka Enberg" <penberg@kernel.org>,
+ "David Rientjes" <rientjes@google.com>,
+ "Vlastimil Babka" <vbabka@suse.cz>, ngupta@vflare.org,
+ linux-block@vger.kernel.org, "Josef Bacik" <josef@toxicpanda.com>,
+ linux-fsdevel@vger.kernel.org, "Jan Kara" <jack@suse.cz>,
+ "Jeff Layton" <jlayton@kernel.org>,
+ "Dan Williams" <dan.j.williams@intel.com>,
+ "Christoph Hellwig" <hch@infradead.org>,
+ "Darrick J. Wong" <djwong@kernel.org>, dri-devel@lists.freedesktop.org,
+ rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+ hamohammed.sa@gmail.com, harry.yoo@oracle.com, chris.p.wilson@intel.com,
+ "Gwan-gyeong Mun" <gwan-gyeong.mun@intel.com>,
+ max.byungchul.park@gmail.com, "Boqun Feng" <boqun.feng@gmail.com>,
+ "Waiman Long" <longman@redhat.com>, yunseong.kim@ericsson.com,
+ ysk@kzalloc.com, "Yeoreum Yun" <yeoreum.yun@arm.com>,
+ Netdev <netdev@vger.kernel.org>,
+ "Matthew Brost" <matthew.brost@intel.com>, her0gyugyu@gmail.com,
+ "Jonathan Corbet" <corbet@lwn.net>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Borislav Petkov" <bp@alien8.de>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, "Andy Lutomirski" <luto@kernel.org>,
+ "Sumit Semwal" <sumit.semwal@linaro.org>, gustavo@padovan.org,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ "Andi Shyti" <andi.shyti@kernel.org>,
+ "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ "Mike Rapoport" <rppt@kernel.org>,
+ "Suren Baghdasaryan" <surenb@google.com>,
+ "Luis Chamberlain" <mcgrof@kernel.org>,
+ "Petr Pavlu" <petr.pavlu@suse.com>, da.gomez@kernel.org,
+ "Sami Tolvanen" <samitolvanen@google.com>,
+ "Paul E. McKenney" <paulmck@kernel.org>,
+ "Frederic Weisbecker" <frederic@kernel.org>, neeraj.upadhyay@kernel.org,
+ joelagnelf@nvidia.com, "Josh Triplett" <josh@joshtriplett.org>,
+ "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
+ "Lai Jiangshan" <jiangshanlai@gmail.com>, qiang.zhang@linux.dev,
+ "Juri Lelli" <juri.lelli@redhat.com>,
+ "Vincent Guittot" <vincent.guittot@linaro.org>,
+ "Dietmar Eggemann" <dietmar.eggemann@arm.com>,
+ "Benjamin Segall" <bsegall@google.com>, "Mel Gorman" <mgorman@suse.de>,
+ "Valentin Schneider" <vschneid@redhat.com>,
+ "Chuck Lever" <chuck.lever@oracle.com>, neil@brown.name,
+ okorniev@redhat.com, "Dai Ngo" <Dai.Ngo@oracle.com>,
+ "Tom Talpey" <tom@talpey.com>, trondmy@kernel.org,
+ "Anna Schumaker" <anna@kernel.org>, "Kees Cook" <kees@kernel.org>,
+ "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
+ "Clark Williams" <clrkwllms@kernel.org>,
+ "Mark Rutland" <mark.rutland@arm.com>, ada.coupriediaz@arm.com,
+ kristina.martsenko@arm.com, "Kefeng Wang" <wangkefeng.wang@huawei.com>,
+ "Mark Brown" <broonie@kernel.org>,
+ "Kevin Brodsky" <kevin.brodsky@arm.com>,
+ "David Woodhouse" <dwmw@amazon.co.uk>,
+ "Shakeel Butt" <shakeel.butt@linux.dev>,
+ "Alexei Starovoitov" <ast@kernel.org>, "Zi Yan" <ziy@nvidia.com>,
+ "Yu Zhao" <yuzhao@google.com>,
+ "Baolin Wang" <baolin.wang@linux.alibaba.com>, usamaarif642@gmail.com,
+ joel.granados@kernel.org, "Wei Yang" <richard.weiyang@gmail.com>,
+ "Geert Uytterhoeven" <geert+renesas@glider.be>,
+ tim.c.chen@linux.intel.com, linux <linux@treblig.org>,
+ "Alexander Shishkin" <alexander.shishkin@linux.intel.com>,
+ lillian@star-ark.net, "Huacai Chen" <chenhuacai@kernel.org>,
+ francesco@valla.it, guoweikang.kernel@gmail.com, link@vivo.com,
+ "Josh Poimboeuf" <jpoimboe@kernel.org>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Christian Brauner" <brauner@kernel.org>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
+ "Oleg Nesterov" <oleg@redhat.com>, "Mateusz Guzik" <mjguzik@gmail.com>,
+ "Andrii Nakryiko" <andrii@kernel.org>, wangfushuai@baidu.com,
+ linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-i2c@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
+ linux-modules@vger.kernel.org, rcu <rcu@vger.kernel.org>,
+ linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev
+Message-Id: <3bbe14af-ccdc-4c78-a7ca-d4ed39fa6b5d@app.fastmail.com>
+In-Reply-To: <63034035-03e4-4184-afce-7e1a897a90e9@efficios.com>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-2-byungchul@sk.com>
+ <2025100230-grafted-alias-22a2@gregkh>
+ <63034035-03e4-4184-afce-7e1a897a90e9@efficios.com>
+Subject: Re: [PATCH v17 01/47] llist: move llist_{head,node} definition to types.h
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
+On Thu, Oct 2, 2025, at 15:53, Mathieu Desnoyers wrote:
+> On 2025-10-02 04:24, Greg KH wrote:
+>> On Thu, Oct 02, 2025 at 05:12:01PM +0900, Byungchul Park wrote:
+>>> llist_head and llist_node can be used by some other header files.  For
+>>> example, dept for tracking dependencies uses llist in its header.  To
+>>> avoid header dependency, move them to types.h.
+>> 
+>> If you need llist in your code, then include llist.h.  Don't force all
+>> types.h users to do so as there is not a dependency in types.h for
+>> llist.h.
+>> 
+>> This patch shouldn't be needed as you are hiding "header dependency" for
+>> other files.
+>
+> I agree that moving this into a catch-all types.h is not what we should
+> aim for.
+>
+> However, it's a good practice to move the type declarations to a
+> separate header file, so code that only cares about type and not
+> implementation of static inline functions can include just that.
+>
+> Perhaps we can move struct llist_head and struct llist_node to a new
+> include/linux/llist_types.h instead ?
 
-On 10/2/2025 12:43 PM, Nicolas Dufresne wrote:
-> Le mercredi 01 octobre 2025 à 12:00 -0700, Deepa Guthyappa Madivalara a écrit :
->> Add a descriptive string for the AV1 pixel format to v4l_fill_fmtdesc(),
->> enabling proper reporting of AV1 support via VIDIOC_ENUM_FMT.
->>
->> Signed-off-by: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>
->> ---
->>   drivers/media/v4l2-core/v4l2-ioctl.c | 1 +
->>   1 file changed, 1 insertion(+)
->>
->> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-
->> core/v4l2-ioctl.c
->> index
->> 01cf52c3ea33e1a01e1b306036ba4e57ef5c95d0..d3ee7736b74b0f277d3208782e3ac3282eca
->> 1e6b 100644
->> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
->> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
->> @@ -1542,6 +1542,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->>   		case V4L2_PIX_FMT_QC10C:	descr = "QCOM Compressed 10-
->> bit Format"; break;
->>   		case V4L2_PIX_FMT_AJPG:		descr = "Aspeed
->> JPEG"; break;
->>   		case V4L2_PIX_FMT_AV1_FRAME:	descr = "AV1 Frame"; break;
->> +		case V4L2_PIX_FMT_AV1:		descr = "AV1"; break;
-> Perhaps "AV1 OBU stream", so its clear its no Annex B ?
+We have around a dozen types of linked lists, and the most common
+two of them are currently defined in linux/types.h, while the
+rest of them are each defined in the same header as the inteface
+definition.
 
-Sure, makes it more clear. I will update this as well in the next patch.
+Duplicating each of those headers by splitting out the trivial
+type definition doesn't quite seem right either, as we'd end
+up with even more headers that have to be included indirectly
+in each compilation unit.
 
-Regards,
-deepa
+Maybe a shared linux/list_types.h would work, to specifically
+contain all the list_head variants that are meant to be included
+in larger structures?
 
->>   		case V4L2_PIX_FMT_MT2110T:	descr = "Mediatek 10bit Tile
->> Mode"; break;
->>   		case V4L2_PIX_FMT_MT2110R:	descr = "Mediatek 10bit
->> Raster Mode"; break;
->>   		case V4L2_PIX_FMT_HEXTILE:	descr = "Hextile Compressed
->> Format"; break;
+    Arnd
 
