@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-43529-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43530-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7CF1BB2A95
-	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 09:10:12 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16642BB2AA4
+	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 09:12:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DD9619C473E
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 07:10:35 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id C0B5C3206AC
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 07:12:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBCB027A454;
-	Thu,  2 Oct 2025 07:10:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AB1332877F2;
+	Thu,  2 Oct 2025 07:12:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EUiue1v2"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mLvQjPE/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D3E23F294
-	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 07:10:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAB95239E81
+	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 07:12:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759389006; cv=none; b=piRsptxgaZvJO/07kb+j9gcAjU/Oek9LR2esP1kQAbFoh6j3bfqOeXBqPGrc0dMtTdujxcmeYuHOkuZ4oL8WtUhm3pt2BBFrhSgL1rL8Xi97csBCY/pdFpriFIFq9Qaht8409omkhl6ZwbdF0SiurYchExM3KlXvxiX64JZOT7U=
+	t=1759389153; cv=none; b=LHH30nPaKFgSCsEXy9xxzroHRWehKoYpX5BolOUnbrghgbI9JLLGF3WMmTYkVVF3xoZ2hsKKjVetTtMwuj8G1FuMkiurweNSogmRvbnBfhwp0FPyA2MaiQB463uHIZaUnsvPEdbZasy52FCJRx7rX/uMQQuP9YHt2NXhIw6ZiYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759389006; c=relaxed/simple;
-	bh=sELlGHCc4kRVm7My2Uc1y53/bYZcqV/KDmFdw+1+n7o=;
+	s=arc-20240116; t=1759389153; c=relaxed/simple;
+	bh=1gb/swripx3/MXiyUGDtjMa1SfvR17ce79MfPEEbrq4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Mh+K8jcx8tbR5+5ZQvmkqfzJMKKLjwDyX733NlgIVwhzfOZ5r0zX6k4KmFwpGyYNCltq4ND87FFYCc4CWb8gPyd7cPqmeIr6WPamak04SMxLB5ZqOMX62d729WIELG/j1tVz1/Hdn9hkEuqdCn7vCQuSydxV76SIjfkgSJw5Wv0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EUiue1v2; arc=none smtp.client-ip=192.198.163.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=X8q1IpndIFnRtImcYTdkz01dSbPmoL2o55ttDzSfbpP2lmk5QXpZk6QM4PdqvgUpA46nBmCo6yPy6YaZBcFyMervogU8/04x/WJh8RJarca9VoKNx2YAUtK03gU2IqI5fL/PaB5QhU+9ONB1HFjOgzwXQI6gPAUTgtJMUd6L9Yo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mLvQjPE/; arc=none smtp.client-ip=198.175.65.21
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1759389004; x=1790925004;
+  t=1759389151; x=1790925151;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=sELlGHCc4kRVm7My2Uc1y53/bYZcqV/KDmFdw+1+n7o=;
-  b=EUiue1v25gYBvC4SajAcKPSXU749Y9VvtXAMSB61Xio7ophCvVoYNth0
-   m3XQUH4tYkpGNc5xMhNWVzucvQvwlrAJ7SptUFOxD1lcniFrnLgS0sRpU
-   dARJ1fi71+zVC8/yb/VKxUqkTk3TsM+68aX/F/efGNJGU0SmEwnromKd+
-   GX+Wzbn1ZEBj9SksDI3DmN0s0IFYC3pSkRDNAjtWRmJSYQkAJ3RfvZoYD
-   fZyWb4+whokxQBtV3DE7zFYlL4HiWAetypQR3Baju1p4qOPssYeuQH/Kx
-   I94HB/tre6hP20w//S7JlGajn8tG6TyKLfQzQthMAQQWp+aLFjSKC6OiR
+  bh=1gb/swripx3/MXiyUGDtjMa1SfvR17ce79MfPEEbrq4=;
+  b=mLvQjPE/iggH9e91J2YAqH43GgesgC9i3swL5h0uNES5AGqr8WqIz6w0
+   JEuufjX/iZ1BxcbB//IHNcyEVMZntsdoNQArDDCB8HMaHMGJuEDDInpCg
+   9UIhOJ1n97/X/Iy3uV/gSVMqy27BwWicN0pZY3d5+gU5IEfebadNDkm/L
+   tZQTkAhk8uBX4pjOfga5xsqLp4rRys0W0O/DJovIxcmF2vKjV1gv/Zc9q
+   2pcenf4WUkgyPEzrK1qFzurtahcr0EqRXd71q1b73sfIHXMmG1U2ZgBdx
+   PEOuQzMAiA766BmJYLjv/P/dG7KLXqfxpc/nIsm/87/10ys05xyrc6yAH
    g==;
-X-CSE-ConnectionGUID: 0N/rSAHwQHGqIAjCi0ANeQ==
-X-CSE-MsgGUID: M03BPCN3TyOJ9AZ6m6s1/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="60706467"
-X-IronPort-AV: E=Sophos;i="6.18,308,1751266800"; 
-   d="scan'208";a="60706467"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 00:10:03 -0700
-X-CSE-ConnectionGUID: QBOa0qR2RL6E/nk6WrR/Pw==
-X-CSE-MsgGUID: TLXtgrPfRCiz4sQITSQxrg==
+X-CSE-ConnectionGUID: 9ZEIp4zPQnearRFyO4BtlA==
+X-CSE-MsgGUID: ry9D1h1FR16OUfQtpe4qnQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="61585788"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="61585788"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 00:12:30 -0700
+X-CSE-ConnectionGUID: YGfV02wcSSiiNHv8iKFd/g==
+X-CSE-MsgGUID: OvmL0KWGTyWMBPe1yfJung==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.18,308,1751266800"; 
-   d="scan'208";a="178095675"
+   d="scan'208";a="179390720"
 Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.175])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 00:09:56 -0700
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 00:12:24 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id D4AE8121096;
-	Thu, 02 Oct 2025 10:09:52 +0300 (EEST)
-Date: Thu, 2 Oct 2025 10:09:52 +0300
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 71B86121096;
+	Thu, 02 Oct 2025 10:12:21 +0300 (EEST)
+Date: Thu, 2 Oct 2025 10:12:21 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
@@ -91,14 +91,14 @@ Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
 	Ricardo Ribalda Delgado <ribalda@kernel.org>,
 	Hans de Goede <hdegoede@redhat.com>,
 	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 39/66] media: Documentation: Add subdev configuration
- models, raw sensor model
-Message-ID: <aN4lQPK5Mqve2bUI@kekkonen.localdomain>
+Subject: Re: [PATCH v11 41/66] media: Documentation: Add scaling and
+ post-scaler crop for common raw
+Message-ID: <aN4l1S6C8t2fenyJ@kekkonen.localdomain>
 References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-40-sakari.ailus@linux.intel.com>
- <osdr2eavm23pzxrd73v4xscdtaafon3vllhzcg5r6eoqwclsfk@xgfnicn6iboj>
- <aM1J9LsbpueEr30x@kekkonen.localdomain>
- <5fwlztz2q2fewyml774my3sdw3wv5wdhnl6p4mfbubm4erm5ft@sthie2bobklf>
+ <20250825095107.1332313-42-sakari.ailus@linux.intel.com>
+ <mqouvw4ecezulohznuovrg4zcqcnugp6l77mdqqgogdawygu24@j5c3mgvf757x>
+ <aM1Pv0oXpmw8sVn8@kekkonen.localdomain>
+ <fgcmwxfbeavfv2m7gs36ck7rzsncfj2k27k7upb3rt6fyrxz5i@5mvd5mmdz3fn>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -107,326 +107,101 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5fwlztz2q2fewyml774my3sdw3wv5wdhnl6p4mfbubm4erm5ft@sthie2bobklf>
+In-Reply-To: <fgcmwxfbeavfv2m7gs36ck7rzsncfj2k27k7upb3rt6fyrxz5i@5mvd5mmdz3fn>
 
 Hi Jacopo,
 
-On Thu, Sep 25, 2025 at 12:31:09PM +0200, Jacopo Mondi wrote:
+On Thu, Sep 25, 2025 at 12:45:46PM +0200, Jacopo Mondi wrote:
 > Hi Sakari
 > 
-> On Fri, Sep 19, 2025 at 03:17:56PM +0300, Sakari Ailus wrote:
+> On Fri, Sep 19, 2025 at 03:42:39PM +0300, Sakari Ailus wrote:
 > > Hi Jacopo,
 > >
-> > On Mon, Sep 01, 2025 at 07:09:29PM +0200, Jacopo Mondi wrote:
+> > On Mon, Sep 01, 2025 at 07:12:23PM +0200, Jacopo Mondi wrote:
 > > > Hi Sakari
 > > >
-> > > On Mon, Aug 25, 2025 at 12:50:40PM +0300, Sakari Ailus wrote:
-> > > > Sub-device configuration models define what V4L2 API elements are
-> > > > available on a compliant sub-device and how do they behave.
-> > > >
-> > > > The patch also adds a model for common raw sensors.
+> > > On Mon, Aug 25, 2025 at 12:50:42PM +0300, Sakari Ailus wrote:
+> > > > Document scaling and post-scaler digital crop operations for the common
+> > > > raw sensor model.
 > > > >
 > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > > > > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
 > > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
-> > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 > > > > ---
-> > > >  .../media/drivers/camera-sensor.rst           |   4 +
-> > > >  .../media/v4l/common-raw-sensor.dia           | 442 ++++++++++++++++++
-> > > >  .../media/v4l/common-raw-sensor.svg           | 134 ++++++
-> > > >  .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
-> > > >  .../media/v4l/subdev-config-model.rst         | 230 +++++++++
-> > > >  5 files changed, 812 insertions(+)
-> > > >  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.dia
-> > > >  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.svg
-> > > >  create mode 100644 Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > > >  .../media/v4l/subdev-config-model.rst         | 24 +++++++++++++++----
+> > > >  1 file changed, 19 insertions(+), 5 deletions(-)
 > > > >
-> > > > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > > > index cbbfbb0d8273..39f3f91c6733 100644
-> > > > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > > > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > > > @@ -18,6 +18,8 @@ binning functionality. The sensor drivers belong to two distinct classes, freely
-> > > >  configurable and register list-based drivers, depending on how the driver
-> > > >  configures this functionality.
-> > > >
-> > > > +Also see :ref:`media_subdev_config_model_common_raw_sensor`.
-> > > > +
-> > > >  Freely configurable camera sensor drivers
-> > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > >
-> > > > @@ -118,6 +120,8 @@ values programmed by the register sequences. The default values of these
-> > > >  controls shall be 0 (disabled). Especially these controls shall not be inverted,
-> > > >  independently of the sensor's mounting rotation.
-> > > >
-> > > > +.. _media_using_camera_sensor_drivers_embedded_data:
-> > > > +
-> > > >  Embedded data
-> > > >  -------------
-> > > >
-> > > > diff --git a/Documentation/userspace-api/media/v4l/common-raw-sensor.dia b/Documentation/userspace-api/media/v4l/common-raw-sensor.dia
-> > > > new file mode 100644
-> > > > index 000000000000..24b3f2b2a626
-> > > > --- /dev/null
-> > > > +++ b/Documentation/userspace-api/media/v4l/common-raw-sensor.dia
-> > >
-> > > [snip]
-> > >
-> > > > diff --git a/Documentation/userspace-api/media/v4l/common-raw-sensor.svg b/Documentation/userspace-api/media/v4l/common-raw-sensor.svg
-> > > > new file mode 100644
-> > > > index 000000000000..1d6055da2519
-> > > > --- /dev/null
-> > > > +++ b/Documentation/userspace-api/media/v4l/common-raw-sensor.svg
-> > >
-> > > [snip]
-> > >
-> > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > index bb86cadfad1c..b0774b9a9b71 100644
-> > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > @@ -846,3 +846,5 @@ stream while it may be possible to enable and disable the embedded data stream.
-> > > >
-> > > >  The embedded data format does not need to be configured on the sensor's pads as
-> > > >  the format is dictated by the pixel data format in this case.
-> > > > +
-> > > > +.. include:: subdev-config-model.rst
 > > > > diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> > > > new file mode 100644
-> > > > index 000000000000..1e6c58931ea0
-> > > > --- /dev/null
+> > > > index 1e6c58931ea0..c1b9b74cbcef 100644
+> > > > --- a/Documentation/userspace-api/media/v4l/subdev-config-model.rst
 > > > > +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> > > > @@ -0,0 +1,230 @@
-> > > > +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
+> > > > @@ -139,11 +139,18 @@ sub-sampling to achieve the desired size.
+> > > >
+> > > >  The digital crop operation takes place after binning and sub-sampling. It is
+> > > >  configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
+> > > > -0/0. The resulting image size is further output by the sensor.
+> > > > +0/0.
 > > > > +
-> > > > +.. _media_subdev_config_model:
-> > > > +
-> > > > +Sub-device configuration models
-> > > > +===============================
-> > > > +
-> > > > +The V4L2 specification defines a subdev API that exposes three type of
-> > > > +configuration elements: formats, selection rectangles and controls. The
-> > > > +specification contains generic information about how those configuration
-> > > > +elements behave, but not precisely how they apply to particular hardware
-> > > > +features. We leave some leeway to drivers to decide how to map selection
-> > > > +rectangles to device features, as long as they comply with the V4L2
-> > > > +specification. This is needed as hardware features differ between devices, so
-> > > > +it's the driver's responsibility to handle this mapping.
-> > > > +
-> > > > +Unfortunately, this lack of clearly defined mapping in the specification has led
-> > > > +to different drivers mapping the same hardware features to different API
-> > > > +elements, or implementing the API elements with slightly different
-> > > > +behaviours. Furthermore, many drivers have implemented selection rectangles in
-> > > > +ways that do not comply with the V4L2 specification. All of this makes userspace
-> > > > +development difficult.
-> > > > +
-> > > > +Sub-device configuration models specify in detail what the user space can expect
-> > > > +from a sub-device in terms of V4L2 sub-device interface support, semantics
-> > > > +included.
-> > > > +
-> > > > +A sub-device may implement more than one configuration model at the same
-> > > > +time. The implemented configuration models can be obtained from the sub-device's
-> > > > +``V4L2_CID_CONFIG_MODEL`` control.
-> > > > +
-> > > > +.. _media_subdev_config_model_common_raw_sensor:
-> > > > +
-> > > > +Common raw camera sensor model
-> > > > +------------------------------
-> > > > +
-> > > > +The common raw camera sensor model defines a set of enumeration and
-> > > > +configuration interfaces (formats, selections etc.) that cover the vast majority
-> > > > +of functionality of raw camera sensors. Not all of the interfaces are
-> > > > +necessarily offered by all drivers.
-> > > > +
-> > > > +A sub-device complies with the common raw sensor model if the
-> > > > +``V4L2_CONFIG_MODEL_COMMON_RAW_SENSOR`` bit is set in the
-> > > > +``V4L2_CID_CONFIG_MODEL`` control of the sub-device.
-> > > > +
-> > > > +The common raw camera sensor model is aligned with
-> > > > +:ref:`media_using_camera_sensor_drivers`. Please refer to that regarding aspects
-> > > > +not specified here.
-> > > > +
-> > > > +Each camera sensor implementing the common raw sensor model exposes a single
-> > > > +V4L2 sub-device. The sub-device contains a single source pad (0) and two or more
-> > > > +internal pads: one or more image data internal pads (starting from 1) and
-> > > > +optionally an embedded data pad.
-> > > > +
-> > > > +Additionally, further internal pads may be supported for other features. Using
-> > > > +more than one image data internal pad or more than one non-image data pad
-> > > > +requires these pads documented separately for the given device. The indices of
-> > > > +the image data internal pads shall be lower than those of the non-image data
-> > > > +pads.
-> > > > +
-> > > > +This is shown in :ref:`media_subdev_config_model_common_raw_sensor_subdev`.
-> > >
-> > > possibly doesn't need a link as the image is just here below
-> > >
-> > > > +
-> > > > +.. _media_subdev_config_model_common_raw_sensor_subdev:
-> > > > +
-> > > > +.. kernel-figure:: common-raw-sensor.svg
-> > > > +    :alt:    common-raw-sensor.svg
-> > > > +    :align:  center
-> > > > +
-> > > > +    **Common raw sensor sub-device with n pads (n == 2)**
-> > > > +
-> > > > +Routes
-> > > > +^^^^^^
-> > > > +
-> > > > +A sub-device conforming to common raw camera sensor model implements the
-> > > > +following routes.
-> > > > +
-> > > > +.. flat-table:: Routes
-> > > > +    :header-rows: 1
-> > > > +
-> > > > +    * - Sink pad/stream
-> > > > +      - Source pad/stream
-> > > > +      - Static (X/M(aybe)/-)
-> > > > +      - Mandatory (X/-)
-> > > > +      - Synopsis
-> > > > +    * - 1/0
-> > > > +      - 0/0
-> > > > +      - X
-> > > > +      - X
-> > > > +      - Image data
-> > > > +    * - 2/0
-> > > > +      - 0/1
-> > > > +      - M
+> > > > +The scaling operation is performed after the digital crop. It is configured by
+> > > > +setting the ``V4L2_SEL_TGT_COMPOSE`` rectangle on (pad, stream) pair 0/0,
+> > > > +relative to the digital crop.
+> > > >
+> > > >  The sensor's output mbus code is configured by setting the format on the (pad,
+> > > > -stream) pair 0/0. When setting the format, always use the same width and height
+> > > > -as for the digital crop setting.
+> > > > +stream) pair 0/0. The width and height fields are used to configure post-scaler
+> > > > +digital crop if supported by the driver, affecting the right and bottom edges of
+> > > > +the frame. If post-scaler digital crop is not supported, the width and height
+> > > > +fields of the format will match the compose rectangle sizes applied on the same
+> > > > +0/0 (pad, stream) pair.
+> > > >
+> > > >  Drivers may only support some or even none of these configurations, in which
+> > > >  case they do not expose the corresponding selection rectangles. If any selection
+> > > > @@ -201,12 +208,19 @@ Also refer to :ref:`Selection targets <v4l2-selection-targets-table>`.
+> > > >        - X
+> > > >        - Digital crop. This rectangle is relative to the ``V4L2_SEL_TGT_COMPOSE``
+> > > >          rectangle on (pad, stream) pair 1/0.
+> > > > +    * - 0/0
+> > > > +      - ``V4L2_SEL_TGT_COMPOSE``
 > > > > +      - \-
-> > > > +      - Embedded data
-> > > > +
-> > > > +Support for the embedded data stream is optional. Drivers supporting the
-> > > > +embedded data stream may allow disabling and enabling the route when the
-> > > > +streaming is disabled.
+> > > > +      - X
+> > > > +      - Scaling. This rectangle is relative to the ``V4L2_SEL_TGT_CROP``
+> > > > +        rectangle on (pad, stream) pair 0/0.
+> > > >      * - 0/0
+> > > >        - Format
+> > > >        - X
+> > > >        - X
+> > > > -      - Image data source format. Always assign the width and height fields of
+> > > > -        the format to the same values than for the ``V4L2_SEL_TGT_CROP``
+> > > > +      - Image data source format and post-scaler crop. The width and height
+> > > > +        fields of the format, used to configure post-scaler crop on the right
+> > > > +        and bottom edges of the image, are related to the ``V4L2_SEL_TGT_COMPOSE``
 > > >
-> > > I would
+> > > Reviewed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > > >
-> > > s/when the streaming is disabled//
+> > > Why not squashing it with #40 that has just introduced the section you
+> > > are here modifying ?
 > >
-> > Sounds good.
+> > One of the matters that was open regarding this set was whether to include
+> > scaling. I'm fine with squashing this patch once we conclude that.
 > >
-> > >
-> > > > +
-> > > > +Sensor pixel array size, cropping and binning
-> > > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > > +
-> > > > +The sensor's pixel array is divided into one or more areas. The areas around the
-> > > > +edge of the pixel array, usually one or more sides, may contain optical black
-> > >
-> > > You say that "the pixel array is divided into one or more areas" and
-> > > then list "the areas around the edge of the pixel array" which is confusing
-> > >
-> > > I think it would be better as
-> > >
-> > > The sensor's full pixel array is divided into one or more areas, one
-> > > (or multiple) active area which contains visible pixels surrounded,
-> > > usually on one or more sides, by non-active areas which may contain
-> > > optical black pixels, dummy pixels and other non-image pixels. The
-> > > entire pixel array areas size, including the active and non-active
-> > > portions is conveyed by the format on (pad, stream) pair 1/0.
-> > >
-> > > This would also better define the "visible pixels" term which is used
-> > > in the rest of the documentation.
-> >
-> > There indeed were issues in the terms used in the original text. How about:
-> >
-> > The sensor's pixel array is divided into one or more areas. The areas around the
-> > the visible area in the pixel array, usually one or more sides, may contain
 > 
-> I still feel that "active area that contains visible pixels" better
-> defines what "visibile area" is... not a problem anyway
+> I recall there were discussion initially, but I don't remember the
+> exact issue :)
+> 
+> Was it because this is feature rarely available and we just want to
+> wait for more users to standardize on an API or was there something
+> else I'm missing ?
 
-How about "visible pixel area"?
+It's rare. I'd like to have Laurent's opinion on this, too.
 
-> 
-> > optical black pixels, dummy pixels and other non-image pixels. The full size of
-> > the pixel array that may be captured is conveyed by the format on (pad, stream)
-> > pair 1/0.
-> >
-> > A rectangle within the pixel array contains the visible pixels. Capturing the
-> > non-visible pixels outside the visible pixel area may be supported by the
-> > sensor. The visible pixel area corresponds to the ``V4L2_SEL_TGT_CROP_DEFAULT``
-> > selection target on (pad, stream) pair 1/0.
-> >
-> 
-> Just for sake of discussion: in libcamera we support multiple,
-> possible overlapping, active pixel areas:
-> https://git.libcamera.org/libcamera/libcamera.git/tree/src/libcamera/property_ids_core.yaml#n594
-> 
-> tbh I don't know how common this is, but as far as I can tell we won't
-> be able to describe them here
-
-Do you have a sensor that would support this?
-
-> 
-> 
-> > >
-> > > > +
-> > > > +A rectangle within the pixel array contains the visible pixels. Capturing the
-> > >
-> > > If you accept the above, you can drop the first sentence here
-> > >
-> > > > +non-visible pixels outside the visible pixel area may be supported by the
-> > > > +sensor. The visible pixel area corresponds to the ``V4L2_SEL_TGT_CROP_DEFAULT``
-> > > > +selection target on (pad, stream) pair 1/0.
-> > > > +
-> > > > +Sensors can perform multiple operations that affect the output image size. First
-> > > > +of these is the analogue crop. Analogue crop limits the area of the pixel array
-> > >
-> > > s/First one of these/The first one of these/
-> >
-> > Yes.
-> >
-> > >
-> > > > +which the sensor will read, affecting sensor timing as well. The granularity of
-> > > > +the analogue crop configuration varies greatly across sensors: some sensors
-> > > > +support only a few different analogue crop configurations whereas others may
-> > > > +support anything divisible by a given number of pixels. The analogue crop
-> > > > +configuration corresponds to the ``V4L2_SEL_TGT_CROP`` selection target on (pad,
-> > > > +stream) pair 1/0. The default analogue crop rectangle corresponds to the visible
-> > > > +pixel area.
-> > > > +
-> > > > +In the next step, binning is performed on the image data read from camera
-> > > > +sensor's pixel array, as determined by the analogue crop configuration. Enabling
-> > > > +binning will effectively result in an image smaller than the original by given
-> > > > +binning factors horizontally and vertically. Typical values are 1/2 and 1/3 but
-> > > > +others may well be supported by the hardware as well.
-> > > > +
-> > > > +Sub-sampling follows binning. Sub-sampling, like binning, reduces the size of
-> > > > +the image by including only a subset of samples read from the sensor's pixel
-> > > > +matrix, typically every n'th pixel horizontally and vertically, taking the
-> > > > +sensor's color pattern into account. Sub-sampling is generally configurable
-> > > > +separately horizontally and vertically.
-> > > > +
-> > > > +Binning and sub-sampling are configured using the ``V4L2_SEL_TGT_COMPOSE``
-> > >
-> > > s/Binning and sub-sampling are/The combined effect of binning and
-> > > sub-sampling is/
-> >
-> > Yes.
-> >
-> > >
-> > > > +rectangle, relative to the analogue crop rectangle, on (pad, stream) pair
-> > > > +1/0. The driver implementation determines how to configure binning and
-> > > > +sub-sampling to achieve the desired size.
-> > > > +
-> > > > +The digital crop operation takes place after binning and sub-sampling. It is
-> > > > +configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
-> > > > +0/0. The resulting image size is further output by the sensor.
-> > >
-> > > by the sensor on the bus.
-> > >
-> > > ?
-> >
-> > We should in fact get rid of the word "bus" in this context as the CSI-2
-> > interface is not an actual (addressable) bus. How about "sensor's data
-> > interface"? Someone will probably ask what that data interface is. :-)
-> 
-> True :) up to you!
-
-I'll use the data interface here.
+What's also possible is that we don't apply it now but only do so if we get
+a device that benefits from it. It may well be we won't; only sensors I've
+ever seen supporting this are CCS compliant and they won't use the common
+raw sensor model.
 
 -- 
-Kind regards,
+Regards,
 
 Sakari Ailus
 
