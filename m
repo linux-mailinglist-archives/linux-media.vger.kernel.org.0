@@ -1,203 +1,177 @@
-Return-Path: <linux-media+bounces-43637-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43638-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA741BB3EA8
-	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 14:40:50 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1BE8BB3ED5
+	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 14:46:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 62C027AF75B
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 12:39:07 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 5FB3A2A6EAC
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 12:46:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5250310624;
-	Thu,  2 Oct 2025 12:40:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8F6528460;
+	Thu,  2 Oct 2025 12:45:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="FI0IxCa1"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="EwxJL9PQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 818FD30AD1B
-	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 12:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B2E429CE1
+	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 12:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759408842; cv=none; b=CiRjDp+x7PAQe43AshSEuY3OLydTZtGtwqKkbFcR2yBHvV6tkCr2okf9OQWeGMrTRNFF1clcWaWeejFY3Ue6ETkr0z/8nF6earbUGJn89SmUS58sHl42aQGLMapfM0RSY6kKZGwcpUBqzYOzEL52ee4/eu1CbbXPz4Pumh06xWk=
+	t=1759409157; cv=none; b=i9nSwEnKAdKj7XF4vlRRx9hvLgTEIcCNwMgoxUP/6PxvXUiwyCJsp+X2I74QlMCxWtNBrT6GEZuiVBWuczh/2bgOw8iLKyv0aTaqcTQzi+e0TXdeCWL1YZKNR9r3q1GTJLtPvI+GDKonnAZO6XOAiXAx3U3DjbDYhEIEbS28o00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759408842; c=relaxed/simple;
-	bh=dqw7ChviJ3egtYgDVIDKcHGr1DxNENX9MEkcL5O+J18=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=I9GrKTmGloAt/jNh1S1ns8YZZfTU54uIn7uf8KeoaIKKUFvxw5bnUik3+yJm71UoBgY/MmRhUQUygbjec1yG4FaT1hUCqQ+xlSpqh6Unb1hxeghujQ357ZXUWIKURPWfbNoImrb05SpULH+n8aMLXR5T7z1WDZFllr4JAgCgv5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=FI0IxCa1; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-875d55217a5so104402685a.2
-        for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 05:40:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1759408839; x=1760013639; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=9tG3CglHbeY/0AI4Rz2tx44tc/toPYUH7TVppo+t14c=;
-        b=FI0IxCa1zBrmxcw58Kkl978uJV9+qq15rhpj36+DGSfWp2WAZfbUxPafj9owYS0NeO
-         +THpUGtsPPDowqosEXBM8DGd9qkoScfG9fX0K6femHngWXa+ivtqbxLXR6uj5fufGgBd
-         JML4X0na4Kmw7g8MCErUWXXc2bMK00L23rrUS9y5XVoZ/SaHlaTTCK5PhBIYmLVX9vsR
-         2EDsggb7oR0UP4HAZa4kxiAG5364ISzC+eveLHQy/aW1SYRMZGg2f6z593TaAexkyUG+
-         onr4cuv4zzYzQpuMOZCer1575VuCZOhqgG6N2+/IxmarouRxD27/NKG0NtHIZDLdcxGP
-         cgEg==
+	s=arc-20240116; t=1759409157; c=relaxed/simple;
+	bh=OzzFAPU7JWZ8TpzU3HuOCxPSNDtVN3f9jsR9IwNrpvo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MrGdtVanFs5UeW62vcXHtO/gb2CayJ4R240ZDh/5rxX2B44xu5g7dO6qsYU8oJZ2TC1zhJwh6xFoLHCdGHtCgGTG/w2dNHBF65AwAqWIjcMB6z5zUBX4lfZ40DX3kdWStPpDIBNQ5r8hH93F/8Kg786PxV5o/eyA7LDyAVB4T7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=EwxJL9PQ; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5929l6bI031252
+	for <linux-media@vger.kernel.org>; Thu, 2 Oct 2025 12:45:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	YY2yji4SSSuA6J/yxS5x4trG7A7YFsSGcBCsY+ncM5o=; b=EwxJL9PQC7aJuoqn
+	LdT9BOUTUxKZRh2dmiDMqqKRZ1wK9Dty8AkT/SPyPw52V+Ty9WWSu7KezbR6s6nP
+	HsNY902d1nePKn1WyA75BO2DOMlvpUl+5scfZNG6LbO4m1G5s66rly/8/iTjfYc7
+	g/Z10GXWozFzm/bMIpTQGwR3RP/S7dmXvqm3yhW2Tjd30Xfct8IOMp7KezoPfADJ
+	PGZY0yBK0YXIbJeG35boExCos6Rs4fgbd+yMAWkWAwi127PvkuPY5SK77/CEtjYF
+	T26fCu3re4msgHrScgex0SE0Fz6Ypa+nalasGcdK64pp3c39dyjZVKZqNOnoEcvR
+	NYdrhg==
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e6vr7ryb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 12:45:54 +0000 (GMT)
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4e231785cc3so4042581cf.1
+        for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 05:45:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759408839; x=1760013639;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9tG3CglHbeY/0AI4Rz2tx44tc/toPYUH7TVppo+t14c=;
-        b=o1oejQrlR0vYI3xKpZCQOEp68kEpc6/IF4L+RFp5YiLhMOupyY2x3B06Qv/VuTgTwj
-         SoadRzvivFXAQyGR+KIIAffKzX++m3+gnnGtIAlbkVxApCtczr2qMb3rj6lUzplt1JGP
-         5/BpNc3J3LiUm+0ZvHDwiy+hJDFwSL1XVit8/UEFzvUq2FzwnbYzTvEKiNPckju60zbm
-         ck2aQpUF7/xWVSHz45ghqN1qb27GoBQNcCD9gIqmcO+BjnWkqeqCwJPXoa3hrSabaOFK
-         JceDoWd0BjRbL7ptT49FGwqUkHQPdgOrbTMfekzHZL0/rpuRCRyRa+1cjEzx5vBu2/TO
-         EI9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVL+1SH9e6espY8m9kHQAiiiPXwZVHsEufDf/W47l6N4FNO2FjAIe+CaaOV2hfGuJ4fxViZfGC+m3cAIg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxvn+3FpMDu5oT+c2YjTC0+hdaYHp6XnSep9NppGF3QkCL+etQO
-	lnVVdWOpH7RlO2s7xZuTBktmE1sk0HxNzsKyqjos4IXj/WvEwPodZy+gvWBXdMOgO8c=
-X-Gm-Gg: ASbGncvrWVJoUhy+WRrxx57zVNqSISj7dqhmwqad+v3/5L4tj+NxRf/pDzranbMafHb
-	7tZ3A7hN6mAoJAr5O1A0tB+ljk2SfPf+Z4+kuOBjcWvPUM/1v32XbJDacVMUHjFp9BEIAluRF/9
-	x+4Y9n2Xn1sd+OtNvoO27BF2s97RoTHS0WGbtrZXTMxqIEyIUyjIFNGVXWiZiDKj+WZTqaxNJvb
-	aPMzugwJOV4e8BWQZzB3KY9otxjyQqGaT52CoWRbKMu40zvNP5fN1ozxpD+slvp7WgFaoJst4pR
-	4FbJUvZe4BRliq9vHrgR1zPgJ4CHXdFFzi9P0xfDbQLBlkyaeZZCG3BGQ1v53/RyxKfo7+hHXBr
-	jw219dT4HlJbLr3J3uAw1SN1qa5f9eaH1PZnk/IsZk0d5dEHfPpb4aVESrewpNEg=
-X-Google-Smtp-Source: AGHT+IHfFbRDc0lxQJHEnEb/USvJWquapfe/e1sD30gNrrrl/FzbGv+DojWArzyJNLJRhyT1vMSzeQ==
-X-Received: by 2002:a05:620a:1a0c:b0:85e:5022:33b7 with SMTP id af79cd13be357-8737780ae60mr1022559585a.72.1759408837081;
-        Thu, 02 Oct 2025 05:40:37 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:17:ebd3::5ac? ([2606:6d00:17:ebd3::5ac])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-87771129fcdsm200898385a.13.2025.10.02.05.40.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 05:40:36 -0700 (PDT)
-Message-ID: <9ca0e8b7b644637101f8bbc3f69cb71f20665f04.camel@ndufresne.ca>
-Subject: Re: [PATCH v12 2/9] dma-buf: dma-heap: export declared functions
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Maxime Ripard <mripard@redhat.com>, Jens Wiklander
-	 <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	op-tee@lists.trustedfirmware.org, linux-arm-kernel@lists.infradead.org, 
- Olivier Masse <olivier.masse@nxp.com>, Thierry Reding
- <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>,  Sumit Semwal
- <sumit.semwal@linaro.org>, Benjamin Gaignard
- <benjamin.gaignard@collabora.com>, Brian Starkey	 <Brian.Starkey@arm.com>,
- John Stultz <jstultz@google.com>, "T . J . Mercier"	
- <tjmercier@google.com>, Christian =?ISO-8859-1?Q?K=F6nig?=	
- <christian.koenig@amd.com>, Sumit Garg <sumit.garg@kernel.org>, Matthias
- Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
- <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com,
- Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone
- <daniel@fooishbar.org>, Rouven Czerwinski	 <rouven.czerwinski@linaro.org>,
- robin.murphy@arm.com, Sumit Garg	 <sumit.garg@oss.qualcomm.com>
-Date: Thu, 02 Oct 2025 08:40:35 -0400
-In-Reply-To: <20251002-shaggy-mastiff-of-elevation-c8e1f0@houat>
-References: <20250911135007.1275833-1-jens.wiklander@linaro.org>
-	 <20250911135007.1275833-3-jens.wiklander@linaro.org>
-	 <20251002-shaggy-mastiff-of-elevation-c8e1f0@houat>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-45N4bvp/oD9a6lFdlKUD"
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+        d=1e100.net; s=20230601; t=1759409153; x=1760013953;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YY2yji4SSSuA6J/yxS5x4trG7A7YFsSGcBCsY+ncM5o=;
+        b=mQ+0i+6sdKqiQXcIBcDS0oMC5D3964EDo6o/xtUKEQ3eI4mp1q6jxAhJzPm8MQ4JYX
+         8WmVGO6DNE1QmyWfhwoNmCOaMGEKcjx9hMqtm/ulhwbYo+Kqz/9ClcZRUQId+l8uCMRH
+         77qenHVow8Nii1rjpFuBBAHZUe1etPN6Ht0PiOgGwMAp507YTFHZGqzsqUgeUztXBiOq
+         Q83A6KWhsItPpllq7sOW+pAjaUE43LoCtx0toJrq4rek6C81CSk9DRPvwVIJBadzsO3F
+         0I71PhgCJE/OLxbKxCgqj1xby1eAmryMtV6XbBuEiAZyRMjfOj2DjgIU9YNdjkpsubv5
+         M36A==
+X-Gm-Message-State: AOJu0Yx9Uo9aN66TgpukRnHtvAFJTrEKoLd6gCavFWS7uiIYpOB9l1Z5
+	dx5BAfONzbkbhFJDwI6YYk/yMLMsTuTkfZ9OYXI0C9ADIyaEjCL5kd6nNPaQpxyCbyBl15rrjvc
+	22KtxmXKCCg7gkMd4GqZtMHtUw6i0rxLadNmYcRmXaTr4INYKnIwltRK0O4lDCc+YgQ==
+X-Gm-Gg: ASbGncu4vHOYA8hsvqbuj/SQor3skYGQbmLfrAC6I3WE4H8Ps7oCiSQN5RBEORjxx7A
+	5mUq17YRw+bdHkfIIqqandxDKCCxs02OoDKwZFikkRjzO3RYlfI2FPV/dPoF+bAVa87RdCOE00l
+	sab1OVicA+8QzzlN9dfV0bPu7XnPtDVIFRuHH35k4UbcFHWUXog0H9MJLOTEBnkswIBXfaW29Qd
+	H29kmNeATBqqhrn9OHy5RGuY7O+Y+A/o/CJQK8XdEL4Ye4FtK5fZvYUF+BuO3ilBxe+b5HL84A9
+	Y5CkgAMyZE/4ctQY32PveMPuVaXOXIDJ9hajbinB+fI5BNTjDjLdMCU8qMw9qKGIy2fMwWUxY5P
+	9ozm6M1FjpJ6N0/+eWgKd5HZTd4k=
+X-Received: by 2002:a05:622a:547:b0:4b7:a9cf:91f with SMTP id d75a77b69052e-4e41db8694cmr60789681cf.8.1759409153129;
+        Thu, 02 Oct 2025 05:45:53 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGbmbyMEl5laym4ZtpLS7VwZdkHI9TTQtdN0M0ejOF2Wn4yjL/VQhmP9xk0GUaubrnM6JYvaA==
+X-Received: by 2002:a05:622a:547:b0:4b7:a9cf:91f with SMTP id d75a77b69052e-4e41db8694cmr60789321cf.8.1759409152494;
+        Thu, 02 Oct 2025 05:45:52 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b4865e7c47fsm203494966b.37.2025.10.02.05.45.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Oct 2025 05:45:51 -0700 (PDT)
+Message-ID: <1be80052-3ba5-46de-804a-de995f8db5d4@oss.qualcomm.com>
+Date: Thu, 2 Oct 2025 14:45:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 3/4] arm64: dts: qcom: qcm6490-fairphone-fp5: Enable CCI
+ pull-up
+To: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+        Daniel Scally <djrscally@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        =?UTF-8?Q?Andr=C3=A9_Apitzsch?=
+ <git@apitzsch.eu>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Wolfram Sang <wsa@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+References: <20251002-dw9800-driver-v1-0-c305328e44f0@fairphone.com>
+ <20251002-dw9800-driver-v1-3-c305328e44f0@fairphone.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <20251002-dw9800-driver-v1-3-c305328e44f0@fairphone.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: qyEb8grc6faXezhV1e24gAjGBAZQs4ez
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDAxNyBTYWx0ZWRfX8y1dOSRq56vn
+ YFV65v3Z8zzNDW5k5trFLplQcOAaOa9nqiDwoO/U9z2dK56XLU92LkaTyhRCoY7cqWBoDIErsrm
+ Dcf7rOIBZNeuo4XhVWoI1pURd2APKHry3pZyYxyE4OU67Ax9L31HMXlFDZdgn4DzJaof9I9aq9t
+ IUsmbjLHXDBCYf8FqzVetMT8iZwKJW8B+xgAPA4S8yg1at0TP735y5cJ2CqaxL+bFjtnKjSN8ah
+ YpFbGO6D0E1/qkYtJoA/h3frnyqD430xYdx1n3eFUGHiao3uoiwFieg5BHHh0m07SwyiHaTUKWx
+ mDqP3CBX5HoFV7Iq/5AVlXmIlJl1tIKjtnj6sb18cOWxB/xuL03P5+thU8Lb4BoBOkgFU3s+Pt2
+ hB49Rc8Hk8pelxmNuhiEuIumktXxCA==
+X-Authority-Analysis: v=2.4 cv=IeiKmGqa c=1 sm=1 tr=0 ts=68de7402 cx=c_pps
+ a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=6H0WHjuAAAAA:8 a=Q18OPwUwxCoJDF6_gJkA:9
+ a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22 a=Soq9LBFxuPC4vsCAQt-j:22
+X-Proofpoint-ORIG-GUID: qyEb8grc6faXezhV1e24gAjGBAZQs4ez
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-02_05,2025-10-02_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 clxscore=1015 priorityscore=1501 bulkscore=0
+ suspectscore=0 spamscore=0 adultscore=0 impostorscore=0 phishscore=0
+ malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
+ definitions=main-2509270017
 
+On 10/2/25 12:15 PM, Griffin Kroah-Hartman wrote:
+> Enable vreg_l6p which is used as a pull-up for the CCI busses, to make
+> sure I2C communication works as expected.
+> 
+> Signed-off-by: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
+> ---
 
---=-45N4bvp/oD9a6lFdlKUD
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Makes me wonder if we should maybe extend the CCI definition
+(or maybe the common i2c-bus binding?) to accept an external
+pull-up supply, as this is a common problem.. (+Bryan, Wolfram)
 
-Le jeudi 02 octobre 2025 =C3=A0 09:47 +0200, Maxime Ripard a =C3=A9crit=C2=
-=A0:
-> Hi,
->=20
-> On Thu, Sep 11, 2025 at 03:49:43PM +0200, Jens Wiklander wrote:
-> > Export the dma-buf heap functions to allow them to be used by the OP-TE=
-E
-> > driver. The OP-TEE driver wants to register and manage specific secure
-> > DMA heaps with it.
-> >=20
-> > Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
-> > Reviewed-by: T.J. Mercier <tjmercier@google.com>
-> > Acked-by: Sumit Semwal <sumit.semwal@linaro.org>
-> > Signed-off-by: Jens Wiklander <jens.wiklander@linaro.org>
-> > ---
-> > =C2=A0drivers/dma-buf/dma-heap.c | 4 ++++
-> > =C2=A01 file changed, 4 insertions(+)
-> >=20
-> > diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
-> > index 3cbe87d4a464..8ab49924f8b7 100644
-> > --- a/drivers/dma-buf/dma-heap.c
-> > +++ b/drivers/dma-buf/dma-heap.c
-> > @@ -11,6 +11,7 @@
-> > =C2=A0#include <linux/dma-buf.h>
-> > =C2=A0#include <linux/dma-heap.h>
-> > =C2=A0#include <linux/err.h>
-> > +#include <linux/export.h>
-> > =C2=A0#include <linux/list.h>
-> > =C2=A0#include <linux/nospec.h>
-> > =C2=A0#include <linux/syscalls.h>
-> > @@ -202,6 +203,7 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
-> > =C2=A0{
-> > =C2=A0	return heap->priv;
-> > =C2=A0}
-> > +EXPORT_SYMBOL_NS_GPL(dma_heap_get_drvdata, "DMA_BUF_HEAP");
-> > =C2=A0
-> > =C2=A0/**
-> > =C2=A0 * dma_heap_get_name - get heap name
-> > @@ -214,6 +216,7 @@ const char *dma_heap_get_name(struct dma_heap *heap=
-)
-> > =C2=A0{
-> > =C2=A0	return heap->name;
-> > =C2=A0}
-> > +EXPORT_SYMBOL_NS_GPL(dma_heap_get_name, "DMA_BUF_HEAP");
-> > =C2=A0
-> > =C2=A0/**
-> > =C2=A0 * dma_heap_add - adds a heap to dmabuf heaps
-> > @@ -303,6 +306,7 @@ struct dma_heap *dma_heap_add(const struct
-> > dma_heap_export_info *exp_info)
-> > =C2=A0	kfree(heap);
-> > =C2=A0	return err_ret;
-> > =C2=A0}
-> > +EXPORT_SYMBOL_NS_GPL(dma_heap_add, "DMA_BUF_HEAP");
->=20
-> It's not clear to me why we would need to export those symbols.
->=20
-> As far as I know, heaps cannot be removed, and compiling them as module
-> means that we would be able to remove them.
->=20
-> Now, if we don't expect the users to be compiled as modules, then we
-> don't need to export these symbols at all.
+We could then shut down the regulator when cameras are not
+in use, preserving some trace amounts of power.
 
-Maybe I'm getting out of topic, sorry if its the case, but making that a ha=
-rd
-rule seems very limiting. Didn't we said that a heap driver could be made t=
-o
-represent memory region on a remote device such as an eGPU ?
+Or maybe L6P is already used as a pull-up supply for more things
+onboard and should be always-on either way? Could you please
+check that, Griffin?
 
-Nicolas
+Konrad
 
->=20
-> Am I missing something?
->=20
-> Maxime
-
---=-45N4bvp/oD9a6lFdlKUD
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaN5ywwAKCRDZQZRRKWBy
-9KyVAP0e+zNS/qwzQzV67XRNZS/HR4iYLotJyohgk+o985wA0gD/cUs7EW6a2cas
-LUv2nPsRzhxVleDso0vC+2RD1vBV7wE=
-=kgiD
------END PGP SIGNATURE-----
-
---=-45N4bvp/oD9a6lFdlKUD--
+>  arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> index e115b6a52b299ef663ccfb614785f8f89091f39d..2dd2c452592aa6b0ac826f19eb9cb1a8b90cee47 100644
+> --- a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> +++ b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> @@ -749,6 +749,8 @@ vreg_l6p: ldo6 {
+>  				regulator-name = "vreg_l6p";
+>  				regulator-min-microvolt = <1700000>;
+>  				regulator-max-microvolt = <1904000>;
+> +				/* Pull-up for CCI I2C busses */
+> +				regulator-always-on;
+>  			};
+>  
+>  			vreg_l7p: ldo7 {
+> 
 
