@@ -1,106 +1,118 @@
-Return-Path: <linux-media+bounces-43650-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43651-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52ACFBB41BB
-	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 15:57:14 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6D72BB422E
+	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 16:06:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 29B91169696
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 13:57:13 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 53846173277
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 14:05:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 40A3F3126A9;
-	Thu,  2 Oct 2025 13:57:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE012310651;
+	Thu,  2 Oct 2025 14:05:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b="WC+GgCRM"
+	dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b="CMBo4wuA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mail.zeus03.de (zeus03.de [194.117.254.33])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13122FDC57;
-	Thu,  2 Oct 2025 13:57:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759413427; cv=pass; b=iTDLAIab4b7yJB11SBBbFYO5DhHJWT/qcFpC0Vvg5a72trveNvDOaCEhPLq0yevcz6+jC2oliVhuN54KsYWybceL6T8x/CpQh7hbOB9bhsu/6JRtn+oVmaMGfuSc0qKi0Slqz1zyzaUGcrsjFtvRnJHolBAPRNM7SK8T71+bcj4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759413427; c=relaxed/simple;
-	bh=Ok5pSYkCP+/FhekfWSWWtu2WHxUnBvpGJxRbXYg+Yv0=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Ifk4XCCtHLUogTsG4pRUT6+c9D1xITF5p5j63+JWdA6PKlyWAxDQuuOJBe4Gcy5XVyks6Xg7ezfqhOpljBsGuL7vRYtyPrVSFc/BKoRoDw3KwqCeNBSXH9mYhytxoOqyQcOdUYvLbIDCWSE18m0nByrQx/LwQqM6CCweA0b+1JY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=dmitry.osipenko@collabora.com header.b=WC+GgCRM; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1759413397; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=HvKELj6L309KmxqweKIZPDtJYgI2Rmd9dAkfzWFIAydZrAc4ixyXGrG7o9CMbefRCnVtlMaEwnJwRAPNMgdkl6TNRZTdpL07/MHt7gKIVvMPAnUPDWQSIHDKpZIlZNg74DJ0JllNz0yvGx/IPdxrBlpuUlmuNAnGeAnvowhEJUI=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1759413397; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=+RokhR3NYc9QVJTPoxwDFl0IYtcx2jvPruZ0+Di9ZLM=; 
-	b=lDy6DLQHdTPs6vd8oOyjHLMUvxiUn333gnJj1oVtKMPTbg06EQDQvOpbqydC36q13aKUNkMhglySy5JtLaQ9xgdEPVWnVTa97/PdIRva+4UahyRzm6C9ky/jr+72vt02xVy388k3hM6aLVrRlnuCSJbKGIyhc4jRaHCCz3vnobY=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=dmitry.osipenko@collabora.com;
-	dmarc=pass header.from=<dmitry.osipenko@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759413397;
-	s=zohomail; d=collabora.com; i=dmitry.osipenko@collabora.com;
-	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:From:From:To:To:Cc:Cc:References:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
-	bh=+RokhR3NYc9QVJTPoxwDFl0IYtcx2jvPruZ0+Di9ZLM=;
-	b=WC+GgCRMRaOLDhTp55x40MoTelBoXsit3/byUnSdz2z+CqBkOaR5dhJmAvmQo52F
-	AerHXtZLzRl0MIIjXDIzOREhaPUc/VqF/BANPjI2umbbXpw3XsG2EmxRghT3me6vh14
-	ZCt4wBjgIkM8gNMwqY2y5JXJvyScmZnDldDrQZF4=
-Received: by mx.zohomail.com with SMTPS id 1759413396392655.4400354007636;
-	Thu, 2 Oct 2025 06:56:36 -0700 (PDT)
-Message-ID: <90043066-055d-43a1-97c9-dee118b8a101@collabora.com>
-Date: Thu, 2 Oct 2025 16:56:31 +0300
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 540472F3614
+	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 14:05:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=194.117.254.33
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759413942; cv=none; b=WYMS/BEPqlPFYzeU6IRYtVebBjXLN28abL0G8nfurD8Hmig6Vi8YFqSZshwKYzXzy27eSrP5swl+FD1ponW6Q4RatRZIacMJhT+6fQ+e/Cp1vXkh3iUVebPevPuQCBJmaOb4xDOeSTI6AwSY6j+h1rf+7odUoMNoExhrZ9FgmGY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759413942; c=relaxed/simple;
+	bh=LYm9D5vlhSiUy616cHQLJ5BvEm6YIL752SKqypsFb5w=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Fnwo0/w4F+fxIm7GY6QgEp7Pw2NnYJyj0Ecmko5fxwDKGXyqsKWE5oEIRnWFvzx955D9XyyGAxdwj0OSLzUCgo6KeHQ8QA8H0TNSntnl7F/3iCFFB397OP0mL95pW0YS1c5e+yZIiVgdtSKvu2EAPNfxuieKNFeUvyUpMHXyWhc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com; spf=pass smtp.mailfrom=sang-engineering.com; dkim=pass (2048-bit key) header.d=sang-engineering.com header.i=@sang-engineering.com header.b=CMBo4wuA; arc=none smtp.client-ip=194.117.254.33
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sang-engineering.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sang-engineering.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	sang-engineering.com; h=date:from:to:cc:subject:message-id
+	:references:mime-version:content-type:in-reply-to; s=k1; bh=LYm9
+	D5vlhSiUy616cHQLJ5BvEm6YIL752SKqypsFb5w=; b=CMBo4wuAPtjTjtjdpLmm
+	qn8XDWdQSJRTAPrvIx1iDiclurdwEuFzB3C08f9exHfxyBopLh/0e1hp0TV+WTJy
+	dqpycYiHLylx89u9xJQQ7Pr7tdMH3gSqWtgTlflVHxwkWh7MMWYLz8NdB+ejvSQN
+	Ck0HXEuFewJGt09bxpI7+kFeMIryT65lq068YL6794IQQ0uQ4NFPjk89YiuDdA5F
+	hzyHONjOVLzh9c2/rT8TbOVqHBja7VToYNh1mXwIqJnKBxJ0g5StwVmwZ4XS8Jsf
+	ZpwNsSCW4b0tWQChSWq3MSzFjafkkH/E/VqqF5HuNFlPIfAntcCHneiXmIrErcZ6
+	eg==
+Received: (qmail 295296 invoked from network); 2 Oct 2025 16:05:36 +0200
+Received: by mail.zeus03.de with UTF8SMTPSA (TLS_AES_256_GCM_SHA384 encrypted, authenticated); 2 Oct 2025 16:05:36 +0200
+X-UD-Smtp-Session: l3s3148p1@2PCrei1AIOIgAwDPXwQHAL/S9V79e5yL
+Date: Thu, 2 Oct 2025 16:05:35 +0200
+From: Wolfram Sang <wsa+renesas@sang-engineering.com>
+To: Luca Weiss <luca.weiss@fairphone.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Griffin Kroah-Hartman <griffin.kroah@fairphone.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Daniel Scally <djrscally@gmail.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	=?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Wolfram Sang <wsa@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 3/4] arm64: dts: qcom: qcm6490-fairphone-fp5: Enable CCI
+ pull-up
+Message-ID: <aN6Gr5FcfYpKgAFM@shikoro>
+References: <20251002-dw9800-driver-v1-0-c305328e44f0@fairphone.com>
+ <20251002-dw9800-driver-v1-3-c305328e44f0@fairphone.com>
+ <1be80052-3ba5-46de-804a-de995f8db5d4@oss.qualcomm.com>
+ <DD7V3G4RLB2I.QYT4BWT1LA5U@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] media: synopsys: hdmirx: Detect broken interrupt
-From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-To: Sebastian Reichel <sebastian.reichel@collabora.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@xs4all.nl>, jose.abreu@synopsys.com,
- nelson.costa@synopsys.com, shawn.wen@rock-chips.com,
- nicolas.dufresne@collabora.com, kernel@collabora.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-rockchip@lists.infradead.org
-References: <20251001175044.502393-1-dmitry.osipenko@collabora.com>
- <do3p4ncc6issxwqam3oeo54xtoi6jvw7maeprdbfkdn3b3aabr@ilwktxqyf4ap>
- <bb66bc81-2b20-48bb-87bd-6c34b35f4cd8@collabora.com>
-Content-Language: en-US
-In-Reply-To: <bb66bc81-2b20-48bb-87bd-6c34b35f4cd8@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ZohoMailClient: External
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="iN8q4H5XPZs0qq2D"
+Content-Disposition: inline
+In-Reply-To: <DD7V3G4RLB2I.QYT4BWT1LA5U@fairphone.com>
 
-On 10/2/25 16:36, Dmitry Osipenko wrote:
-> Hi,
-> 
-> On 10/2/25 16:18, Sebastian Reichel wrote:
->>> +	*val = status & PHYCREG_CR_PARA_RD_DATA_MASK;
->>> +
->>> +	return 0;
->>> +}
->> Do you expect this to be used in other places in the driver? In that
->> case there should probably be some locking, since the hardware interface
->> obviously cannot handle concurrency. Otherwise maybe add a comment,
->> that the function may not be called if concurrency is possible?
-> 
-> Don't expect this function to be used in other places and haven't added
-> locking on purpose to keep the code cleaner. Will add the comment.
-> 
-> Thanks for all suggestions.
-> 
 
-On a second thought, this would be a case where the guard() thingy would
-be useful and help keeping code clean, will use it in v2.
+--iN8q4H5XPZs0qq2D
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
--- 
-Best regards,
-Dmitry
+
+> Unfortunately though this effort has stalled some years ago. There is
+> "struct regulator *bus_regulator;" in "struct i2c_adapter" already and
+> vbus-supply is documented in i2c-mt65xx but afaik this not functional
+> because some code was ripped out ago because of some AMDGPU regressions.
+
+Thanks for mentioning this. It all sounded familiar to me but I couldn't
+put my finger exactly.
+
+
+--iN8q4H5XPZs0qq2D
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAmjehqsACgkQFA3kzBSg
+KbbIAQ//QfAX8m49uUj1J5d915zmYl1ga2ibjh9XM98MLwfWVTrbBKLi8aoYwru5
+3n32muazTU8syFw9hftxJjKs7beuNJ7vBytCP+mvs/d3y976Ff6xM+kFnKUWiIb5
+v2wP3ECPOTeHO+OXG2pDIuLDpfjLlFVaO0nGbg1dnTmSvqnHbvOklmPAjqgehY78
+C4pCYZkaIsMPrRrp/lutY+W39Ua8v9B4BRaqYjepzq5u86+zaU/S3hglhrNt+MzX
+bONZqbB4HQKfYuZrcWtXIlATp1SAc7LnbAbJ6CU/gHheEUaQA8Fdw3Yn7CR3MGPn
+eVmkSv/U+8UIbFs1DY5UAv8oOnq+jqIVKrlcI36V9ftmmbsWkN4AE7mL6gpWuZZv
+C9olQqGYid0OJXe5qcU8gHOFvdj4Vspr7rbD4oQC20SF/6A0w/d1QEQPGt/fN1BY
+ppCM/MDH2R8Hw2Heibr1NDM62n7n5090UmTSPjZau4ksQuxJyga8sKvM9OAKMyk+
+8qAwilsIUxYcZYTT9DRrVJEyWGQxJp0LwO8N9FkN+eDiaY/BmPqFl33C79EU4WC9
+4705Uq5xK7f+v/Yts9ZqtIDILbSA2q0QRHcSeH2EK3PpJEvClgu7xVCPTz73Hkvb
+v9poLEjcB0lxNihio4NoTRHkWDtOS1Opds2CqwzTRDkcSvUk1tQ=
+=dsTU
+-----END PGP SIGNATURE-----
+
+--iN8q4H5XPZs0qq2D--
 
