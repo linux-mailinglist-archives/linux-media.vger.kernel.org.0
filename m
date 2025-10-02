@@ -1,80 +1,68 @@
-Return-Path: <linux-media+bounces-43519-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43520-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 052EABB24C9
-	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 03:52:57 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 758E3BB24D9
+	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 03:56:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 973BA1896060
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 01:53:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 357AD323591
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 01:56:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9861314A09C;
-	Thu,  2 Oct 2025 01:52:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 680B514A0BC;
+	Thu,  2 Oct 2025 01:55:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MnjpTqpb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="X1DyomqN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D22EA18024;
-	Thu,  2 Oct 2025 01:52:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7B4AA59;
+	Thu,  2 Oct 2025 01:55:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759369966; cv=none; b=JeTN/+9e7Zym3Gy7RnJh9L+y4eotcxmBIfzl8DULUGj+ms4XIwv1u3ZDm9C/P7MvM4lt+1UTh0MQO3MbyyRM8A0rlOZ91CFgPkMHEUOSSIpRUZOD6fBHwWyajYKnuNYJ5ZOZEJPgDErluJH8bqnn4lK1HCjG17lveTAgK8DTFWM=
+	t=1759370156; cv=none; b=gMjKJ4Lvw/vheJ5ptdGWcj69cWFfn4BXq4vcta5mvkFCvCWS12TMVfxza/Mw7Z5cdAZ7hnfMUUDE/W5jw9mLkh+b2o29WqUocQPp9558XbzWjEus+eCHWO94Ka+752Icr/AQnENSnA2IEPkDbmIyqLxnAiP5tnvTFjtX+YUz8b8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759369966; c=relaxed/simple;
-	bh=tspc5d34DMU8IoQ9+1NwNhd7W1LOMvs3/Io1z+Hqf/U=;
+	s=arc-20240116; t=1759370156; c=relaxed/simple;
+	bh=ZN56j925KOx2NOWxUKPJw4pVZQ1QLf2h/f5H/p96b4Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j2kMN7o1BUe/xsoZ52LL48E391FPs7Bdu4BCly+XXqp89aJG4yo5t+Aby5x/lhDQd+ucZSiI1Ugn2hZqVd84r/jU53Il1QT6JOOQnLKhnsY8QZEDu23XEcDVNXzhPk78rImbg10lGyfQ1F2FWGviyGUcw4pQbqU7wbLFhoqpg1Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MnjpTqpb; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 294D2C4CEF1;
-	Thu,  2 Oct 2025 01:52:45 +0000 (UTC)
+	 Content-Type:Content-Disposition:In-Reply-To; b=aLtwYlnete2B824ZIAV+ZZ7mcSEvgriAclwyjXmEVCFasTE1QtWb92UDsePLOrFzmi2FL4/tPCbbZ4zcFA3RZTlIcFMcnPAqxbyLRZqMzRLwPcQEic4jkTgEpOtlnVO6VJgxtzCBoU60wjUgzzBHUgf5ZYlTtFurkC5TRVvjm3Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=X1DyomqN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DE9DEC4CEF1;
+	Thu,  2 Oct 2025 01:55:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759369965;
-	bh=tspc5d34DMU8IoQ9+1NwNhd7W1LOMvs3/Io1z+Hqf/U=;
+	s=k20201202; t=1759370156;
+	bh=ZN56j925KOx2NOWxUKPJw4pVZQ1QLf2h/f5H/p96b4Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MnjpTqpbFG9MFq6gvjiBtfQVNK4EwzZChhlbPJLMjbxdmuRiewsYbSUm9ebQExjtB
-	 nkSyZUyL2K0c4psuhC7Wp878c1IvuromCF7g91w9nNDi0cC1rj12zCgcDuXswV5U/d
-	 BZA82QlODS8ZzZm0bPYrGZgBvbz3aHe4mUFSo0JSLNXseU2uktQlcVrTAyHovwUCo2
-	 0BE6u4QQbXO9B4MU9ZSjI+RGQtQ0nUhI7tEqGz72GElbWO9RArlWZbDuRRjbt2X0Cc
-	 vQOn6kxILSquGwQWbgUxaawS5DmEuyDhuqsL65/ntNYq54bPiaLYnkxz4UZ0sjvWaj
-	 Pac/IUS0OLt8w==
-Date: Wed, 1 Oct 2025 20:52:44 -0500
+	b=X1DyomqN1jZE0AeVjF46cebFyl49wbDDonzHFqL5z6TLrczrjCTt3ZxGvlFQzq6By
+	 5uCmrphk/3wa3i32tydbZGpnraY8irEsYKbCdx4WXtF5jKO2TGRa72H+OASx+Up9nd
+	 niAKTuSWJro8kyJ4g4BznHqBsAGhW4vi51j2uYkHMP/kc4+7d5h7IB/lEn6J7/mAnn
+	 oaghXtLa0cDr40LVQy+Ikw+rvEUc5voPg6uCwUOa/VBmhWjIhbEsCpQv9ZQnD4tffG
+	 Gi7DfkSbjLYpAlr+F9FA0f9nhHpQ3xyofcXvH32VE2XhZmjh2UNoZi4qQLESRJbapn
+	 AsYpHgY0jtCVw==
+Date: Wed, 1 Oct 2025 20:55:54 -0500
 From: Rob Herring <robh@kernel.org>
 To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Prashant Gaikwad <pgaikwad@nvidia.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Jonas =?iso-8859-1?Q?Schw=F6bel?= <jonasschwoebel@yahoo.de>,
-	Dmitry Osipenko <digetx@gmail.com>,
-	Charan Pedumuru <charan.pedumuru@gmail.com>,
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
-	Aaron Kling <webgeek1234@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
-	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 20/22] dt-bindings: display: tegra: document Tegra20
- and Tegra30 CSI
-Message-ID: <20251002015244.GA2836647-robh@kernel.org>
-References: <20250925151648.79510-1-clamor95@gmail.com>
- <20250925151648.79510-21-clamor95@gmail.com>
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hansg@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Jingjing Xiong <jingjing.xiong@intel.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: document Sony IMX111
+ CMOS sensor
+Message-ID: <20251002015554.GA2880078-robh@kernel.org>
+References: <20250925152806.80386-1-clamor95@gmail.com>
+ <20250925152806.80386-2-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -83,94 +71,84 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250925151648.79510-21-clamor95@gmail.com>
+In-Reply-To: <20250925152806.80386-2-clamor95@gmail.com>
 
-On Thu, Sep 25, 2025 at 06:16:46PM +0300, Svyatoslav Ryhel wrote:
-> Document CSI HW block found in Tegra20 and Tegra30 SoC.
+On Thu, Sep 25, 2025 at 06:28:05PM +0300, Svyatoslav Ryhel wrote:
+> Add bindings for Sony IMX111 CMOS Digital Image Sensor found in LG
+> Optimus 4X (P880) and Optimus Vu (P895) smartphones.
 > 
 > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > ---
->  .../display/tegra/nvidia,tegra20-csi.yaml     | 135 ++++++++++++++++++
->  1 file changed, 135 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+>  .../bindings/media/i2c/sony,imx111.yaml       | 112 ++++++++++++++++++
+>  1 file changed, 112 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml
 > new file mode 100644
-> index 000000000000..817b3097846b
+> index 000000000000..a70017588891
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
-> @@ -0,0 +1,135 @@
+> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml
+> @@ -0,0 +1,112 @@
 > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-csi.yaml#
+> +$id: http://devicetree.org/schemas/media/i2c/sony,imx111.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: NVIDIA Tegra20 CSI controller
+> +title: Sony IMX111 8MP CMOS Digital Image Sensor
 > +
 > +maintainers:
 > +  - Svyatoslav Ryhel <clamor95@gmail.com>
 > +
+> +description:
+> +  IMX111 sensor is a Sony CMOS active pixel digital image sensor with an active
+> +  array size of 2464H x 3280V. It is programmable through I2C interface. Image
+> +  data is sent through MIPI CSI-2, through 1 or 2 lanes.
+> +
+> +allOf:
+> +  - $ref: /schemas/media/video-interface-devices.yaml#
+> +  - $ref: /schemas/nvmem/nvmem-consumer.yaml#
+> +
 > +properties:
 > +  compatible:
-> +    enum:
-> +      - nvidia,tegra20-csi
-> +      - nvidia,tegra30-csi
+> +    const: sony,imx111
 > +
 > +  reg:
 > +    maxItems: 1
 > +
-> +  clocks: true
-> +  clock-names: true
-> +
-> +  avdd-dsi-csi-supply:
-> +    description: DSI/CSI power supply. Must supply 1.2 V.
-> +
-> +  power-domains:
+> +  clocks:
+> +    description: EXTCLK with possible frequency from 6 to 54 MHz
 > +    maxItems: 1
 > +
-> +  "#nvidia,mipi-calibrate-cells":
-> +    description:
-> +      The number of cells in a MIPI calibration specifier. Should be 1.
-> +      The single cell specifies an id of the pad that need to be
-> +      calibrated for a given device. Valid pad ids for receiver would be
-> +      0 for CSI-A; 1 for CSI-B; 2 for DSI-A and 3 for DSI-B.
-> +    $ref: /schemas/types.yaml#/definitions/uint32
-> +    const: 1
-
-Sorry I didn't bring this up before, but is this ever not 1? If it is 
-fixed, then you don't really need the property. I prefer it just be 
-fixed rather than getting a bunch of vendor specific #foo-cells.
-
-
+> +  reset-gpios:
+> +    maxItems: 1
 > +
-> +  "#address-cells":
-> +    const: 1
+> +  iovdd-supply:
+> +    description: Digital IO power supply (1.8V)
 > +
-> +  "#size-cells":
-> +    const: 0
+> +  dvdd-supply:
+> +    description: Digital power supply (1.2V)
 > +
-> +patternProperties:
-> +  "^channel@[0-1]$":
-> +    type: object
-> +    description: channel 0 represents CSI-A and 1 represents CSI-B
+> +  avdd-supply:
+> +    description: Analog power supply (2.7V)
+> +
+> +  port:
 > +    additionalProperties: false
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
 > +
 > +    properties:
-> +      reg:
-> +        maximum: 1
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
 > +
-> +      nvidia,mipi-calibrate:
-> +        description: Should contain a phandle and a specifier specifying
-> +          which pad is used by this CSI channel and needs to be calibrated.
-> +        $ref: /schemas/types.yaml#/definitions/phandle-array
+> +        properties:
+> +          data-lanes: true
+> +          bus-type: true
 
-Sounds like only one entry? Then 'maxItems: 1' is needed. If you drop 
-#nvidia,mipi-calibrate-cells, then you need to define the arg size too:
+I assume not *bus* types are supported, so this should constrain it to 
+valid ones. If it is only 1 type, you shouldn't really need the type in 
+DT.
 
-items:
-  - items:
-      - description: phandle to ...
-      - description: what the arg contains.
+Rob
 
 
