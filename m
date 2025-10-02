@@ -1,312 +1,241 @@
-Return-Path: <linux-media+bounces-43645-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43646-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [147.75.199.223])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5554BBB4035
-	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 15:19:44 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [IPv6:2604:1380:40f1:3f00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 13CE3BB407A
+	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 15:28:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ny.mirrors.kernel.org (Postfix) with ESMTPS id B2BD8169022
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 13:19:28 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id C0F1A7A98FB
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 13:27:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C650311952;
-	Thu,  2 Oct 2025 13:19:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8057E311956;
+	Thu,  2 Oct 2025 13:28:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b="A3CtyCiu"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="MeyBMHX5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E188A2D1936;
-	Thu,  2 Oct 2025 13:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759411159; cv=pass; b=aGBVvR6zWBkZfwkeqTLllSZnK94e5xIPb8fQpnUIWnfykRkc8dYIymUR0+VPS6QiqBigDmpasvk19gI6wBbV/0BZnEEvUO1SKjDRMlqH6HMcKuXyHlCmc7M3nymHvhAcrL8rfa/90Z1pV2VRhHkUAWUvf7t9UV7HICii2up8aF8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759411159; c=relaxed/simple;
-	bh=XTmLW4q7cfJmF1GIlA8/Rq0722l7Zyvhzrfzr4Yu5qc=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 532AE2EBDC2;
+	Thu,  2 Oct 2025 13:28:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1759411716; cv=none; b=afItJJjmACfaHbwtFOpwpJafaoBdKdeDnV0XnPyH7gDlMeAYvl1QfMcv1yN9nL3b7QUJ1Js+chN9qciZ2/TpMjSu9G56VEPQiYWfWX/4x/PmWAYpRx4jHDoaIQoEsa9ZS9CJm7j5T1Tq7GkT0ROUxPgcQ14N2JZnsxggo/S0lAQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1759411716; c=relaxed/simple;
+	bh=Krim6KfdUDcOot+dYFmX1ucaTo3qrXvukfN3FFVRIJI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=B+zjcPdgfrSi8ym40eMdTAAiNTFCbHZpqfxP2z3XJrKQ3Z4DODH8A3BrCkKqUbPRR9hLywB5+lz86ZuH9WC6jG2utpJ7yKyy9K9PFnNiosIpD0q79C3L+jJ2yhy0mvuAvosdSfZFMZXK8hILU9tJ3Bpeq1WNViouWmIjmN8IsOU=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=sebastian.reichel@collabora.com header.b=A3CtyCiu; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-ARC-Seal: i=1; a=rsa-sha256; t=1759411127; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=YJgScdIEFOvtA2GkAzOXaIhzvg2blpR58HQHojl2TmiT47Gx069KQyjYZJE/DqpxHIxIE0DDI1XNij9lvq8VvYioXgnUp/M0yD55ipv3m8rRnHlyKhLOGFJmuoVDzhP5ThzoqF2rKPo4sowncRNt0XhVMPqV6uLJmlQowm6a1Ak=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1759411127; h=Content-Type:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=W6BSTdVZnFTxPyRB6ZqS8dnVm1Cj7O4bo/Y5zLmoSVM=; 
-	b=L4MXO4/tLN+vn2j8JD/C+u3Bo0CK3GrLOQ8OUx6ZcuKnH8oBdtMwbhkjzxTIomJ5mo3aDXdbPMXhsmfTF7uZygCmqBTwnQ7gGMKNtPK/SicS8SjahKBVse8PGnTERnpNEif6jqB6KNqKaePyjjIEHfZ1PxDKhuAltrw3ypKifIk=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=sebastian.reichel@collabora.com;
-	dmarc=pass header.from=<sebastian.reichel@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1759411127;
-	s=zohomail; d=collabora.com; i=sebastian.reichel@collabora.com;
-	h=Date:Date:From:From:To:To:Cc:Cc:Subject:Subject:Message-ID:References:MIME-Version:Content-Type:In-Reply-To:Message-Id:Reply-To;
-	bh=W6BSTdVZnFTxPyRB6ZqS8dnVm1Cj7O4bo/Y5zLmoSVM=;
-	b=A3CtyCiuea4cdi3Y8LPB6IgL+h5FK7Le492q6ANQL++vsn6AFrClNFo9itzl+Wth
-	6K/j40nCV+pj+am9lrbRfTMLzVNpSUogy1jQ0RTVS9tkO5UuaIq8hlHJ9f6TwxBtIIO
-	0T1QhiPg+w0TLyxRpBMq/SD+RSVEIgNG/npaf6Ao=
-Received: by mx.zohomail.com with SMTPS id 1759411125401535.0475115871203;
-	Thu, 2 Oct 2025 06:18:45 -0700 (PDT)
-Received: by venus (Postfix, from userid 1000)
-	id 4FB6218077C; Thu, 02 Oct 2025 15:18:41 +0200 (CEST)
-Date: Thu, 2 Oct 2025 15:18:41 +0200
-From: Sebastian Reichel <sebastian.reichel@collabora.com>
-To: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, jose.abreu@synopsys.com, nelson.costa@synopsys.com, 
-	shawn.wen@rock-chips.com, nicolas.dufresne@collabora.com, kernel@collabora.com, 
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v1] media: synopsys: hdmirx: Detect broken interrupt
-Message-ID: <do3p4ncc6issxwqam3oeo54xtoi6jvw7maeprdbfkdn3b3aabr@ilwktxqyf4ap>
-References: <20251001175044.502393-1-dmitry.osipenko@collabora.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pEvNt+zp1BhAb/h/qz6W2rrDXQRV24NIHBU/+7cgjqgbSRzGg5BRLmb6dQY7LbqjkMjdJDQ7jO+gUJYosZA4WxZDQv5AmjyZSzwZayQfhzaIvDASiGQH+ymkXMqOyUAFAnk1bvPT9X1uhDux7GPfm+g3XUJpxYfiXIZL99fyMrQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=MeyBMHX5; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 59503929;
+	Thu,  2 Oct 2025 15:27:00 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1759411620;
+	bh=Krim6KfdUDcOot+dYFmX1ucaTo3qrXvukfN3FFVRIJI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=MeyBMHX5vIMs0CfW5p5FT2QnAe5FBNutcB7oNBjZNYPH4rT2t35DSRTrDzNS1mvSa
+	 XzGKa1KfvwpOBLvQbFKeY+Q5eV1y8MQLjbx9a/tPXXM+1ZDP1uMGT1Xs49fXGA/C2b
+	 ofchMtbQAnGOG5SKtg62Ub/BELy51m+7FAyfEuPU=
+Date: Thu, 2 Oct 2025 15:28:27 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Anthony McGivern <anthony.mcgivern@arm.com>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	"bcm-kernel-feedback-list@broadcom.com" <bcm-kernel-feedback-list@broadcom.com>, "florian.fainelli@broadcom.com" <florian.fainelli@broadcom.com>, 
+	"hverkuil@kernel.org" <hverkuil@kernel.org>, "kernel-list@raspberrypi.com" <kernel-list@raspberrypi.com>, 
+	"Kieran Bingham (kieran.bingham@ideasonboard.com)" <kieran.bingham@ideasonboard.com>, 
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>, "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, 
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
+	"linux-rpi-kernel@lists.infradead.org" <linux-rpi-kernel@lists.infradead.org>, "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>, 
+	"mchehab@kernel.org" <mchehab@kernel.org>, "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>, 
+	"tfiga@chromium.org" <tfiga@chromium.org>, 
+	"tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v2 12/27] media: v4l2-subdev: Introduce v4l2 subdev
+ context
+Message-ID: <ybsoposvudskkmzua5u33cq2jcstm7pzoklzutwazn2bvqobvo@pwsdlwtohcw3>
+References: <DU0PR08MB8836559555E586FCD5AE1CBA811FA@DU0PR08MB8836.eurprd08.prod.outlook.com>
+ <pdxsi4fskze6mvgro5foa3jvmrvl3ihmksnzukonoihkb5xum5@kph26jtiayda>
+ <20250930101626.GE25784@pendragon.ideasonboard.com>
+ <2efcfe19bafd1276e9fc71b72e251443f313d693.camel@collabora.com>
+ <413937a1-bf4c-4926-945f-7df39869f215@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="mhs7pk4kudawg6xk"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251001175044.502393-1-dmitry.osipenko@collabora.com>
-X-Zoho-Virus-Status: 1
-X-Zoho-Virus-Status: 1
-X-Zoho-AV-Stamp: zmail-av-1.4.3/259.363.73
-X-ZohoMailClient: External
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <413937a1-bf4c-4926-945f-7df39869f215@arm.com>
 
+Hi Anthony
+   thanks for the details
 
---mhs7pk4kudawg6xk
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v1] media: synopsys: hdmirx: Detect broken interrupt
-MIME-Version: 1.0
+On Thu, Oct 02, 2025 at 08:42:56AM +0100, Anthony McGivern wrote:
+>
+> Hi all,
+>
+> On 30/09/2025 13:58, Nicolas Dufresne wrote:
+> > Hi Laurent,
+> >
+> > Le mardi 30 septembre 2025 à 13:16 +0300, Laurent Pinchart a écrit :
+> >> On Tue, Sep 30, 2025 at 11:53:39AM +0200, Jacopo Mondi wrote:
+> >>> On Thu, Sep 25, 2025 at 09:26:56AM +0000, Anthony McGivern wrote:
+> >>>> On Thu, Jul 24, 2025 at 16:10:19 +0200, Jacopo Mondi write:
+> >>>>> Introduce a new type in v4l2 subdev that represents a v4l2 subdevice
+> >>>>> contex. It extends 'struct media_entity_context' and is intended to be
+> >>>>> extended by drivers that can store driver-specific information
+> >>>>> in their derived types.
+> >>>>>
+> >>>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> >>>>
+> >>>> I am interested in how the sub-device context will handle the
+> >>>> Streams API? Looking at the commits the
+> >>>> v4l2_subdev_enable/disable_streams functions still appear to operate
+> >>>> on the main sub-device only. I take it we would have additional
+> >>>> context-aware functions here that can fetch the subdev state from
+> >>>> the sub-device context, though I imagine some fields will have to be
+> >>>> moved into the context such as s_stream_enabled, or even
+> >>>> enabled_pads for non stream-aware drivers?
+> >>>
+> >>> mmm good question, I admit I might have not considered that part yet.
+> >>>
+> >>> Streams API should go in a soon as Sakari's long awaited series hits
+> >>> mainline, and I will certainly need to rebase soon, so I'll probably
+> >>> get back to this.
+> >>>
+> >>> Have you any idea about how this should be designed ?
+>
+> Hmm, while I haven't thought of a full implementation I did some testing
+> where I added a v4l2_subdev_context_enable_streams and it's respective
+> disable_streams. These would provide the v4l2_subdev_context so that
+> when the subdev state was fetched it would retrieve it from the context.
+> I think this would work with the streams API, however for drivers that don't
+> support this it will not since the fields such as enabled_pads are located
+> in the v4l2_subdev struct itself. Assuming these fields are only used in the
+> V4L2 core (haven't checked this fully) potentially they could be moved into
+> subdev state?
+>
+> There were some other areas that I found when trying to implement this
+> in the driver we are working on, for example media_pad_remote_pad_unique()
+> only uses the media_pad struct, meaning multi-context would not work here,
+> atleast in the way I expected. Perhaps this is where we have some differing
+> thoughts on how it would be used. See some details below about the driver we
+> are working on.
+>
+> >>
+> >> Multi-context is designed for memory to memory pipelines, as inline
+> >> pipelines can't be time-multiplexed (at least not without very specific
+> >> hardware designs that I haven't encountered in SoCs so far). In a
+> >
+> > I probably don't understand what you mean here, since I know you are well aware
+> > of the ISP design on RK3588. It has two cores, which allow handling up to 2
+> > sensors inline, but once you need more stream, you should have a way to
+> > reconfigure the pipeline and use one or both cores in a m2m (multi-context)
+> > fashion to extend its capability (balancing the resolutions and rate as usual).
+> >
+> > Perhaps you mean this specific case is already covered by the stream API
+> > combined with other floating proposal ? I think most of us our missing the big
+> > picture and just see organic proposals toward goals documented as un-related,
+> > but that actually looks related.
+> >
+> > Nicolas
+> >
+> >> memory-to-memory pipeline I expect the .enable/disable_streams()
+> >> operation to not do much, as the entities in the pipeline operate based
+> >> on buffers being queued on the input and output video devices. We may
+> >> still need to support this in the multi-context framework, depending on
+> >> the needs of drivers.
+> >>
+> >> Anthony, could you perhaps share some information about the pipeline
+> >> you're envisioning and the type of subdev that you think would cause
+> >> concerns ?
+>
+> I am currently working on a driver for the Mali-C720 ISP. See the link
+> below for the developer page relating to this for some details:
+>
+> https://developer.arm.com/Processors/Mali-C720AE
+>
+> To summarize, it is capable of supporting up to 16 sensors, either through
+> streaming inputs or memory-to-memory modesn and uses a hardware context manager
 
-Hello Dmitry,
+Could you help me better grasp this part ? Can the device work in m2m and inline
+mode at the same time ? IOW can you assign some of the input ports to
+the streaming part and reserve other input ports for m2m ? I'm
+interested in understanding which parts of the system is capable of
+reading from memory and which part is instead fed from the CSI-2
+receiver pipeline
 
-On Wed, Oct 01, 2025 at 08:50:44PM +0300, Dmitry Osipenko wrote:
-> Downstream version of RK3588 U-Boot uses customized TF-A that remaps
-> HDMIRX hardware interrupt, routing it via firmware that isn't supported
-> by upstream driver.
->=20
-> Detect broken interrupt and print a clarifying error message about a need
-> to use open-source TF-A with this driver.
->=20
-> Signed-off-by: Dmitry Osipenko <dmitry.osipenko@collabora.com>
-> ---
->  .../platform/synopsys/hdmirx/snps_hdmirx.c    | 85 ++++++++++++++++++-
->  .../platform/synopsys/hdmirx/snps_hdmirx.h    |  2 +
->  2 files changed, 85 insertions(+), 2 deletions(-)
->=20
-> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c b/drive=
-rs/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> index b7d278b3889f..faca601d72a4 100644
-> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
-> @@ -138,6 +138,7 @@ struct snps_hdmirx_dev {
->  	struct clk_bulk_data *clks;
->  	struct regmap *grf;
->  	struct regmap *vo1_grf;
-> +	struct completion cr_read_done;
->  	struct completion cr_write_done;
->  	struct completion timer_base_lock;
->  	struct completion avi_pkt_rcv;
-> @@ -796,6 +797,41 @@ static int wait_reg_bit_status(struct snps_hdmirx_de=
-v *hdmirx_dev, u32 reg,
->  	return 0;
->  }
-> =20
-> +static int hdmirx_phy_register_read(struct snps_hdmirx_dev *hdmirx_dev,
-> +				    u32 phy_reg, u32 *val)
-> +{
-> +	struct device *dev =3D hdmirx_dev->dev;
-> +	u32 status;
-> +
-> +	reinit_completion(&hdmirx_dev->cr_read_done);
-> +	/* clear irq status */
-> +	hdmirx_clear_interrupt(hdmirx_dev, MAINUNIT_2_INT_CLEAR, 0xffffffff);
-> +	/* en irq */
-> +	hdmirx_update_bits(hdmirx_dev, MAINUNIT_2_INT_MASK_N,
-> +			   PHYCREG_CR_READ_DONE, PHYCREG_CR_READ_DONE);
-> +	/* write phy reg addr */
-> +	hdmirx_writel(hdmirx_dev, PHYCREG_CONFIG1, phy_reg);
-> +	/* config read enable */
-> +	hdmirx_writel(hdmirx_dev, PHYCREG_CONTROL, PHYCREG_CR_PARA_READ_P);
-> +
-> +	if (!wait_for_completion_timeout(&hdmirx_dev->cr_read_done,
-> +					 msecs_to_jiffies(20))) {
-> +		dev_err(dev, "%s wait cr read done failed\n", __func__);
-> +		return -ETIMEDOUT;
-> +	}
-> +
-> +	/* read phy reg value */
-> +	status =3D hdmirx_readl(hdmirx_dev, PHYCREG_STATUS);
-> +	if (!(status & PHYCREG_CR_PARA_DATAVALID)) {
-> +		dev_err(dev, "%s cr read failed\n", __func__);
-> +		return -EINVAL;
-> +	}
-> +
-> +	*val =3D status & PHYCREG_CR_PARA_RD_DATA_MASK;
-> +
-> +	return 0;
-> +}
+> to schedule each context to be processed. There are four video inputs, each
+> supporting four virtual channels. On the processing side, there are two parallel
 
-Do you expect this to be used in other places in the driver? In that
-case there should probably be some locking, since the hardware interface
-obviously cannot handle concurrency. Otherwise maybe add a comment,
-that the function may not be called if concurrency is possible?
+Similar in spirit to the previous question: "each input supports 4 virtual
+channels": does the 4 streams get demuxed to memory ? Or do they get
+demuxed to internal bus connected to the processing pipes ?
 
->  static int hdmirx_phy_register_write(struct snps_hdmirx_dev *hdmirx_dev,
->  				     u32 phy_reg, u32 val)
->  {
-> @@ -1814,6 +1850,13 @@ static void mainunit_2_int_handler(struct snps_hdm=
-irx_dev *hdmirx_dev,
->  		*handled =3D true;
->  	}
-> =20
-> +	if (status & PHYCREG_CR_READ_DONE) {
-> +		hdmirx_update_bits(hdmirx_dev, MAINUNIT_2_INT_MASK_N,
-> +				   PHYCREG_CR_READ_DONE, 0);
-> +		complete(&hdmirx_dev->cr_read_done);
-> +		*handled =3D true;
-> +	}
-> +
->  	if (status & TMDSVALID_STABLE_CHG) {
->  		process_signal_change(hdmirx_dev);
->  		v4l2_dbg(2, debug, v4l2_dev, "%s: TMDSVALID_STABLE_CHG\n", __func__);
-> @@ -2313,18 +2356,52 @@ static void hdmirx_disable_all_interrupts(struct =
-snps_hdmirx_dev *hdmirx_dev)
->  	hdmirx_clear_interrupt(hdmirx_dev, CEC_INT_CLEAR, 0xffffffff);
->  }
-> =20
-> -static void hdmirx_init(struct snps_hdmirx_dev *hdmirx_dev)
-> +static int hdmirx_detect_broken_interrupt(struct snps_hdmirx_dev *hdmirx=
-_dev)
-> +{
-> +	int err;
-> +	u32 val;
-> +
-> +	enable_irq(hdmirx_dev->hdmi_irq);
-> +
-> +	hdmirx_writel(hdmirx_dev, PHYCREG_CONFIG0, 0x3);
-> +
-> +	err =3D hdmirx_phy_register_read(hdmirx_dev,
-> +				       HDMIPCS_DIG_CTRL_PATH_MAIN_FSM_FSM_CONFIG,
-> +				       &val);
-> +
-> +	disable_irq(hdmirx_dev->hdmi_irq);
-> +
-> +	if (err)
-> +		return dev_err_probe(hdmirx_dev->dev, err,
-> +				     "interrupt not functioning, open-source TF-A is required by thi=
-s driver\n");
-> +
-> +	return 0;
+> processing pipelines, one optimized for human vision and the other for computer
+> vision. These feed into numerous output pipelines, including four crop+scaler
+> pipes who can each independently select whether to use the HV or CV pipe as
+> its input.
+>
+> As such, our driver has a multi-layer topology to facilitate this configurability.
 
-I think it's better to just return err here (without dev_err_probe) [...]
+What do you mean by multi-layer ? :)
 
-> +}
-> +
-> +static int hdmirx_init(struct snps_hdmirx_dev *hdmirx_dev)
->  {
-> +	int ret;
-> +
->  	hdmirx_update_bits(hdmirx_dev, PHY_CONFIG, PHY_RESET | PHY_PDDQ, 0);
-> =20
->  	regmap_write(hdmirx_dev->vo1_grf, VO1_GRF_VO1_CON2,
->  		     (HDMIRX_SDAIN_MSK | HDMIRX_SCLIN_MSK) |
->  		     ((HDMIRX_SDAIN_MSK | HDMIRX_SCLIN_MSK) << 16));
-> +
-> +	/*
-> +	 * RK3588 downstream version of TF-A remaps HDMIRX interrupt and
-> +	 * requires use of a vendor-specific FW API by the driver that we
-> +	 * don't support in this driver.
-> +	 */
-> +	ret =3D hdmirx_detect_broken_interrupt(hdmirx_dev);
+> With some small changes to Libcamera I have all of the output pipelines implemented
+> and the media graph is correctly configured, but we would like to update the driver
+> to support multi-context.
 
-[...] and have the dev_err_probe() moved to this place, so that the
-comment about the Rockchip vendor TF-A is directly in front of the
-error message.
+Care to share a .dot representation of the media graph ?
 
-Otherwise LGTM.
+>
+> My understanding intially was each context could have it's own topology configured
+> while using the same sub-devices. For example, context 0 may link our crop+scaler
+> pipes to human vision, whereas context 1 uses computer vision. Similarly, our input
+> sub-device uses internal routing to route from the desired sensor to it's context.
+> It would by my thoughts that the input sub-device here would be shared across every
+> context but could route the sensor data to the necessary contexts. With the current
+> implementation, we make large use of the streams API and have many links to configure
+> based on the usecase so in our case any multi-context integration would also need
+> to support this.
+>
 
-Greetings,
+Media link state and routing I think make sense in the perspective of
+contexts. I still feel like for ISP pipelines we could do with just
+media links, but routing can be used as well (and in facts we already
+do in the C55 iirc). At this time there is no support in this series
+for this simply because it's not a feature I need.
 
--- Sebastian
+As Laurent said, the stream API are mostly designed to represent data
+streams multiplexed on the same physical bus, with CSI-2 being the
+main use case for now, and I admit I'm still not sure if and how they
+have to be considered when operated with contexts.
 
->  	/*
->  	 * Some interrupts are enabled by default, so we disable
->  	 * all interrupts and clear interrupts status first.
->  	 */
->  	hdmirx_disable_all_interrupts(hdmirx_dev);
-> +
-> +	return ret;
->  }
-> =20
->  /* hdmi-4k-300mhz EDID produced by v4l2-ctl tool */
-> @@ -2610,6 +2687,7 @@ static int hdmirx_probe(struct platform_device *pde=
-v)
->  	mutex_init(&hdmirx_dev->work_lock);
->  	spin_lock_init(&hdmirx_dev->rst_lock);
-> =20
-> +	init_completion(&hdmirx_dev->cr_read_done);
->  	init_completion(&hdmirx_dev->cr_write_done);
->  	init_completion(&hdmirx_dev->timer_base_lock);
->  	init_completion(&hdmirx_dev->avi_pkt_rcv);
-> @@ -2623,7 +2701,10 @@ static int hdmirx_probe(struct platform_device *pd=
-ev)
->  	hdmirx_dev->timings =3D cea640x480;
-> =20
->  	hdmirx_enable(dev);
-> -	hdmirx_init(hdmirx_dev);
-> +
-> +	ret =3D hdmirx_init(hdmirx_dev);
-> +	if (ret)
-> +		goto err_pm;
-> =20
->  	v4l2_dev =3D &hdmirx_dev->v4l2_dev;
->  	strscpy(v4l2_dev->name, dev_name(dev), sizeof(v4l2_dev->name));
-> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h b/drive=
-rs/media/platform/synopsys/hdmirx/snps_hdmirx.h
-> index 220ab99ca611..a719439d3ca0 100644
-> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
-> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
-> @@ -114,6 +114,8 @@
->  #define PHYCREG_CR_PARA_WRITE_P			BIT(1)
->  #define PHYCREG_CR_PARA_READ_P			BIT(0)
->  #define PHYCREG_STATUS				0x00f4
-> +#define PHYCREG_CR_PARA_DATAVALID		BIT(24)
-> +#define PHYCREG_CR_PARA_RD_DATA_MASK		GENMASK(15, 0)
-> =20
->  #define MAINUNIT_STATUS				0x0150
->  #define TMDSVALID_STABLE_ST			BIT(1)
-> --=20
-> 2.51.0
->=20
+My general rule of thumb to decide if a point in the pipeline should
+be context aware or not is: "can its configuration change on a
+per-frame bases ?". If yes, then it means it is designed to be
+time-multiplex between different contexts. If not, maybe I'm
+oversimplifying here, then there is no need to alternate its usage on
+a per-context base and a properly designed link/routing setup should
+do.
 
---mhs7pk4kudawg6xk
-Content-Type: application/pgp-signature; name="signature.asc"
+I've discussed yesterday with Micheal if contexts could also be used
+for partitioning a graph (making sure two non-overlapping partitions
+of the pipeline can be used at the same time by two different
+applications). I guess you could, but that's not the primary target,
+as if the pipeline is properly designed you should be able to properly
+partition it using media links and routing.
 
------BEGIN PGP SIGNATURE-----
+Happy to discuss your use case in more detail though to make sure
+that, even not all the required features are there in this first
+version, we're not designing something that makes it impossible to
+support them in future.
 
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAmjee60ACgkQ2O7X88g7
-+poPkg/9EfkO3SmSc5rQCPAJwS7QVrzKEc9Q6r3LgcDP+DMn/4yriaBuZ3J5YNQi
-tzwc9tK1u2ye+AOUGyFZ7s28B/AwIWpRVkTWguZ5ElfAbfsq8HvzGyjTjila16jT
-d9Idp9xgCjv6ees1ZatWyEWx2lQ+moT1j3pKT2+XYln94R3/fBcZ2eaI67CJubPb
-Wn9tPYFG4aVaImrptutHSfGjlDJe6vX7UFYLNEvxCF8bo2NfEIXvGwHeI5/Y4Pmh
-pZEAvrwKt1dPS8cBWrVlq3WCCVEEvZONZzCd7UWc1JSTwf/+jdiXhhA44xoaJhQ5
-UjP3fGT06s7LqbJuiCLHyBrC4Gy1hPnjGFFxRfDVy/0InyXxdstAjvCGRv3LJPAy
-vMajzZPmP9FvmbfR0W0FXcRd+K+wGpekLrb49HZlilerxjIPfOU0C2+fapwb2QPf
-V7jBOur4a/jfg4GQOpqleIAQAy0yozLZ76Rj5Aos7rJWZ22xUfI+K5V49cP9eruP
-oMqBmvQijqJbmehY4CzR2LSrGol+ZRagdUwipCy4MP8w4MZ8YOKtOroAHJR+06Xc
-Q9eELIl3jI55GwdkPkUBX8uxiCzx3VO2g1IX10Q4Z0iDqYSvVf4ffwL5sEFWEtAq
-BNUJd7vHgm9125kXtjmIL+nSrPSvBCbe2DqaGFQAO/28wBN7oEc=
-=2pPB
------END PGP SIGNATURE-----
-
---mhs7pk4kudawg6xk--
+> Anthony
 
