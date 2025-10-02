@@ -1,87 +1,148 @@
-Return-Path: <linux-media+bounces-43659-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43660-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BA1CBB445B
-	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 17:10:22 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 14715BB44B2
+	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 17:21:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 561E23A227A
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 15:10:19 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id 000A617B5E0
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 15:21:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 02A191891A9;
-	Thu,  2 Oct 2025 15:10:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AEB7419D8AC;
+	Thu,  2 Oct 2025 15:21:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HGLhqHlj"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="hDG7KqqK"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D09113A3ED;
-	Thu,  2 Oct 2025 15:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 112E92CCC0;
+	Thu,  2 Oct 2025 15:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759417810; cv=none; b=T9Gb3Os+s7Rs9K+8VBbaJVFghrTtQFdi5HwNe5wj4vPte6dyTwHJH7JHBJkQbBtssu3UTLkPM/hTNPa2felibKghYbGpZTY8NqE38SuraunZ9BTb0bg/Sw+5g6chdlvKIks7xFgDNXO8OaEel8QqF4zKFOjo98x3/V3fluRIc04=
+	t=1759418464; cv=none; b=Fc4NGWodkNZcDsSZBaOZJyDlzEPEm076ZHwvjifxxLn0PNl2XBUjQjbt9ZZR3Xir+vuN7cDn/9wTO7EvV7mFubUib+VsIf9usyGkzkYFgxnxJD3B2Q3BwcDnZ4TTKpaJcqz3QGrXmaDHVgFd//dzcgDQyv5A+e4h636K2qzIfnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759417810; c=relaxed/simple;
-	bh=1aZuQfi+pZDD1ofS4Cuo2jicwE7//IUzb1S7RW+8ahk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QY7W5GiZAtlSVKUPEbcJeZLadT0MVniUm+Q4vFdCNFs1mkJHyBwZoACeWM0dye0DiAGz+07/YqckjuyOCRXhzWUcerey0JCLSiIp5Q5lITIPMd1sC157c8d2uTI9OLH7Eu/HRAsB8nM23HIYde78S0xmgPm8Ais/tHa3LyRyzy0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HGLhqHlj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 019C4C4CEF4;
-	Thu,  2 Oct 2025 15:10:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759417810;
-	bh=1aZuQfi+pZDD1ofS4Cuo2jicwE7//IUzb1S7RW+8ahk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=HGLhqHljOP+Hwrn5PI/mvp+KeGmQedh2CoeUeUF/CFVQDw45CcicBe4KgCZfVL5tw
-	 rDTcUpCTji8nA3mcfY6pO10lcsAQbYYtAgUJ7rgdLJUyRBBUdQYi0RVPTcSnATjm9c
-	 NdjqyHdpBhVkzLYbu64xrIbUmaVK6Niu8Vkn1R35VfLIcdMSTel31j1bdCm6k05LN4
-	 JF8b0f/FyXMMG4l3NZct3oVbUMpRalerdxwIZclnmomUs1l+P0SnlO8+XoqBBhVXpq
-	 2AFUl+UG45FNwXb13zF4JJxImW+lBfQwhOeYUyoxfsJA4U1up2/DX59fnkXjxdcuQl
-	 5U5tJ+RHQxYqA==
-Message-ID: <9b648a53-2847-4358-b1f0-46cf92918838@kernel.org>
-Date: Thu, 2 Oct 2025 16:10:03 +0100
+	s=arc-20240116; t=1759418464; c=relaxed/simple;
+	bh=wpMI6K9jf8cxnVOXCIV9BDWS/xQlCr9Uira4EJEMdr8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HIXMx/3M4Sumw5/1vfDdosX+x46WrJ7CABtTIwL4SaDabFvNgUt0VsXL2ntsQdihgdJzmSp3bamSv/Sc6Jnrxs1s55PDHm/JZwwuqS3I5vWl+riHsHYVoELl4hPpqjtsftsHOWpNJ+q7jIfOxiVuBVhYySjuHEyXIePwLMXsGNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=hDG7KqqK; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759418462; x=1790954462;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=wpMI6K9jf8cxnVOXCIV9BDWS/xQlCr9Uira4EJEMdr8=;
+  b=hDG7KqqKezmBP0cfvCjLK2P/WoZqIPhFXbUZZVTCKvZUSKgMxbmp7wmj
+   QIyY0om7h39AJMOOAterll2T+Ao+W9gWqs2roNVDzb5yTZDfpZXuS1FTj
+   if9Csqzxm3RpfUWD+jqqy5IYyoHaYtKRgewnOLL4EzkCZRvIXxnnlvG0E
+   l4EYiUHQM7jCTnhZI4OXqYDEGd//Zn5TI3YsUgiZN3C2DOHm+gRLd3Q81
+   nURI7aFp0/mgmN8QGLyiB6Sr+YkxMHd0NK0wJySAA75QAPCClFo5F0u4q
+   411gYDl/AqsJd3wxl+ATmlXIuS9lvjr/GTQHLBEXBcG/kEGV8TAejec2r
+   A==;
+X-CSE-ConnectionGUID: Ty+4gfzkR3ezG4BA77HfCQ==
+X-CSE-MsgGUID: 2l4RTd4sTMKOkV/p39kXIw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="73134327"
+X-IronPort-AV: E=Sophos;i="6.18,309,1751266800"; 
+   d="scan'208";a="73134327"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 08:21:01 -0700
+X-CSE-ConnectionGUID: JNn/PG/jR3WevUnXl40jbA==
+X-CSE-MsgGUID: ppAn+mkURAWVybHWGi/kHA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,309,1751266800"; 
+   d="scan'208";a="209762262"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.245.228])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 08:20:58 -0700
+Date: Thu, 2 Oct 2025 18:20:54 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Alexandr Sapozhnkiov <alsp705@gmail.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH 5.10] gpu/i915: fix error return in mmap_offset_attach()
+Message-ID: <aN6YVtnJ3Guh43n5@intel.com>
+References: <20251002084828.11-1-alsp705@gmail.com>
+ <aN6EbmgZYchyMHRn@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] media: iris: Add platform data for kaanapali
-To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Philipp Zabel <p.zabel@pengutronix.de>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Vishnu Reddy <quic_bvisredd@quicinc.com>
-References: <20250925-knp_video-v1-0-e323c0b3c0cd@oss.qualcomm.com>
- <6coQBLcMhtSC05UJ1LeFI-ENB0OMl-7isRS0XM7D-NIAcFVw-PtV8TrY8xd6GM9-xI9zab6t5zOzKPzi355DgA==@protonmail.internalid>
- <20250925-knp_video-v1-8-e323c0b3c0cd@oss.qualcomm.com>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20250925-knp_video-v1-8-e323c0b3c0cd@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aN6EbmgZYchyMHRn@intel.com>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On 25/09/2025 00:14, Vikash Garodia wrote:
-> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> index d6d4a9fdfc189797f903dfeb56d931741b405ee2..465943db0c6671e9b564b40e31ce6ba2d645a84c 100644
-> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
-> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
-> @@ -46,6 +46,7 @@ extern struct iris_platform_data sm8250_data;
->   extern struct iris_platform_data sm8550_data;
->   extern struct iris_platform_data sm8650_data;
->   extern struct iris_platform_data sm8750_data;
-> +extern struct iris_platform_data kaanapali_data;
+On Thu, Oct 02, 2025 at 09:55:58AM -0400, Rodrigo Vivi wrote:
+> On Thu, Oct 02, 2025 at 11:48:26AM +0300, Alexandr Sapozhnkiov wrote:
+> > From: Alexandr Sapozhnikov <alsp705@gmail.com>
+> 
+> About the subject, this is not just a 5.10 kernel issue.
+> This code is the current code in our tip.
+> So this needs to target drm-tip branch, and then Cc stable
+> and perhaps a Fixes: tag.
+> 
+> > 
+> > In the drm_vma_node_allow function, kmalloc may 
+> > return NULL, in which case the file element will not be 
+> > added to the mmo->vma_node list. It would be good to 
+> > not ignore this event, but at least log an error message.
+> > 
+> > Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> > 
+> > Signed-off-by: Alexandr Sapozhnikov <alsp705@gmail.com>
+> > ---
+> >  drivers/gpu/drm/i915/gem/i915_gem_mman.c | 7 +++++--
+> >  1 file changed, 5 insertions(+), 2 deletions(-)
+> > 
+> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> > index a2195e28b625..adaef8f09d59 100644
+> > --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> > @@ -706,8 +706,11 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
+> >  	mmo = insert_mmo(obj, mmo);
+> >  	GEM_BUG_ON(lookup_mmo(obj, mmap_type) != mmo);
+> >  out:
+> > -	if (file)
+> > -		drm_vma_node_allow_once(&mmo->vma_node, file);
+> > +	if (file) {
+> > +		err = drm_vma_node_allow_once(&mmo->vma_node, file);
+> > +		if (err)
+> 
+> perhaps we also need to drm_vma_offset_remove here?
+> I mean... honest question, doubt here. Is there any further clean-up needed?
 
-I've just noticed, this breaks alphanumeric ordering.
+Yeah, mmo->vma_node has already been linked to varius places here.
+So this will lead to use-after-free in short order.
 
----
-bod
+With the current code if this fails then I think all that ends up
+happening is that subsequent mmap() will fail. Maybe that's just
+fine?
+
+> 
+> > +			goto err;
+> > +	}
+> >  	return mmo;
+> >  
+> >  err:
+> > -- 
+> > 2.43.0
+> > 
+
+-- 
+Ville Syrjälä
+Intel
 
