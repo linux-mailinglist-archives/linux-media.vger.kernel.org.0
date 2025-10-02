@@ -1,185 +1,160 @@
-Return-Path: <linux-media+bounces-43667-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43668-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7225BBB4870
-	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 18:25:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A9C4BB49BC
+	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 19:00:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sy.mirrors.kernel.org (Postfix) with ESMTPS id D95867B68D0
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 16:23:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9F58C3C2AD7
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 17:00:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1815D258ED9;
-	Thu,  2 Oct 2025 16:25:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BE7D26CE26;
+	Thu,  2 Oct 2025 17:00:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KrtQrtZo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PYPazlgO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03AD72580F2
-	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 16:25:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9E0715853B;
+	Thu,  2 Oct 2025 17:00:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759422317; cv=none; b=IWfKom5uPANtvzc+oCi0xO/Zy//ETM2315WgR3TZKycnpDgjGmMbEkPbkL7bs4PyxUV3nkwR1JGbT0uuqcuUUT8bJJQ0jJVTBiCWo7m7L2oqzM9I1wPv78amYyiCAYCtHK2QZacC6LOW8q0/YHCpEpqNRQUNwbIvs2yiTv1YN4c=
+	t=1759424404; cv=none; b=Hb0AZDmhk7llAUsCkIuAfLkdtbm84GczcSv8JWUyDg83IwSG3uLmG76q4EzxNJSTVXzIbso8lhgbCWjz3E/0GBqq2JaewSWVfwfH2QaoCKLmXh/gBBVspuvKv5ZVY8laHhDFlJ3d0tKi48KC2fvorfd3O+bbhnUYAzt7wYLKCDo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759422317; c=relaxed/simple;
-	bh=Dye5xG6ZBlkFS8UnTaxhmHjl4qw3h7OPv8XQMDNn3/M=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=abEjTLOwBLMCUy3WaIPGIUOYjj9sBVgrLOCsVyiENGfF1ZlDPKrDMF6+J+S9A6a+MLjcdwPAfR9rAbhHX6DE3LBQcw395l2JdtAh3SxCppxnaIj1amdMQTzA9gnSNbwvJyqPgkWsQJvml17oGfhEq35xuOWXxCqUbQRy80Q1igg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KrtQrtZo; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-3304a57d842so1183014a91.3
-        for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 09:25:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759422315; x=1760027115; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3b4jK+m/8RWobuO0NphPEVc1dDtXHYNNnhWnKlc2Ffk=;
-        b=KrtQrtZopp5TgSs97FnKYffUrlLK6trfIlDj0zUSiMIJPEZsCWGvMQ8OW+DrWurZvs
-         tZi+BNnHABWOH6hDccKKsu12U2aOGhLKfb3Dbnmu0X1A5TNxUvbLBpVisK6XyQHra5ol
-         uQq55jk3YMhADvoQBmj6FfYyHWGfkXyisOgwn+1NVw1PCQ7y2X7QMHJ8mB3CcQSd8Gc6
-         6SZ/B+JIcoWemc/N31qDc43UR7Vz9gDOkzCSBkwww0vTyG3D/1IyF/URvKplNMUOBVVm
-         LDoH0BkfomkaxSf2CGti5uE6/Kvof4diFiDPz2F8arWZNqXjUp00sEW0fWPQpbPDJJfR
-         8Jhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759422315; x=1760027115;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3b4jK+m/8RWobuO0NphPEVc1dDtXHYNNnhWnKlc2Ffk=;
-        b=gzHKsrmlhS7nfLhqe3TMaGlG0crC99LGUeiWf229Ih/VIxQwkuh9QDKCITG0x42pcm
-         3kExXKtfxymYpPxXM8e0YwEbStkH3Eci/+g9s8fzI79/8ggpWFePKRbRpCDETsY0OTQP
-         8vcaC2Zg0iXQidIzrY9sVhreJeTxTGeC12gA9ndfJRzto4+CiOeLDmwk0cFxNA1WmYIN
-         XyFEibXEQZPafbmXlFkf3lesgF+KRx+lbIFGgiuTgaZe579aHr/keVuM6BncMVv+9xRq
-         pxHFXWi1X7un1WjPAJMmUxqnF0KamWKTq0l3vRM0UxaaMS0CF9rrXSkyRDj7rhWmHG4d
-         V5Gw==
-X-Forwarded-Encrypted: i=1; AJvYcCU5tDr7FnPc1V/ULGOYRi+8Zk4Yiq8mxCkHmvPpeFMNvRBof1xNvEdNpRKhWPwoeDyoDkfZMBykAZIrvw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy0uhzuYxO7yxo9oWYFpM2k42dGLsSQsjLRtpNNtsViB/K8uYZI
-	2qzXu4bL2qPO2nQQvKvSIKGFyyGdAixkDxFPY0mtjPYG4E755oKLM8T0zgVxvj/DV1cSdwAFGh+
-	Dx5K1AleFwU/hLedNiNzkL7FCazjepJo=
-X-Gm-Gg: ASbGnctDdqXszMh2YgTCUFM0v1g5d21e0ROr9a5VIQSmOOrbJ9w45P6cJ7zipB3zV3v
-	kkUEBILqO4hYrGrOWAMInz/A2th+hxlrQYqOthDFed4UWlSzcKq8wcOcflsdIHeA8JO8Zkk7jYh
-	h/XNHRc01uc/oC7WWGbup9ml8lDLiqWODZUfTgazkN/XUW3ZF4FcWE+el8V34PJBM6CBIA8fpiZ
-	sjCy69D4JEI7kDM5ipzocboZjYAbIw=
-X-Google-Smtp-Source: AGHT+IHE/zk/UTkg8cQuQgjzmknU1P4NQ77O2Frb3S1sd6aKc/XPDhOrrz+zfZ4f19CBYGkA2+apVfUO9bhD8Hpgsxo=
-X-Received: by 2002:a17:90b:4d08:b0:335:2b86:f319 with SMTP id
- 98e67ed59e1d1-339a6f76fdcmr9571286a91.35.1759422315195; Thu, 02 Oct 2025
- 09:25:15 -0700 (PDT)
+	s=arc-20240116; t=1759424404; c=relaxed/simple;
+	bh=GUZV8YmlzjH2/RShYbeKv2H7/Ifr0wYLQQDZqdP58hg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nrZoBsqFNLqB4krOqDf1dhVBoy9lxrxkv1i83vOXvMd4J5DXbc0Z9yVSVahxIWZrmJrtYxWZPIj7NITJVhSYGJgeGSHfNsz+1h+Bi5ObpWVTWJEHS/KH2TgEsBfuA4m6aLCfryCS6+INKnqXqk7Xtl9/9GlRwitXpr/cceL2VDg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PYPazlgO; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759424401; x=1790960401;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=GUZV8YmlzjH2/RShYbeKv2H7/Ifr0wYLQQDZqdP58hg=;
+  b=PYPazlgOAv768vAXYE1RO/q7Dle+Vsf/rFoRxVI/+dMMqubcrCNR7K7K
+   PgMtUH5HzcyaOt7OCLbDJojg4dAG0pLTh0P1mwY0B+gdLQORELYRWwFvD
+   mPuMFVglMQsmbQYsl/EH5nav4QqnnSf1E8je+LX2EbP7gjrp3tt+ZNbTX
+   s6ADilTIl9GRB2VJDx8cSZipkQBWlwHZoCBuK2C/OgcMd/kDY1qB50XRs
+   sh5eG6j5P8iG86lpK9CcH64325LSHXh+i+caKvZ62IDLYCAqFzUwL99Zu
+   Ceck2OrZ83v18FfnjtmfGZUpbJAW17Og2ZS3SsB8aV8pN4DnOxbthzB9P
+   w==;
+X-CSE-ConnectionGUID: jkQWybxrQ++gCMegve5gpA==
+X-CSE-MsgGUID: PEh0n7EsSQiXmZVsdu0psA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="79138648"
+X-IronPort-AV: E=Sophos;i="6.18,310,1751266800"; 
+   d="scan'208";a="79138648"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 10:00:00 -0700
+X-CSE-ConnectionGUID: EMqVWqnuTA+mZUl+yGD9ng==
+X-CSE-MsgGUID: 0ejGAm0WTWyO4bgIcrxGFQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,310,1751266800"; 
+   d="scan'208";a="183488996"
+Received: from fpallare-mobl4.ger.corp.intel.com (HELO localhost) ([10.245.245.228])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 09:59:56 -0700
+Date: Thu, 2 Oct 2025 19:59:54 +0300
+From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To: Rodrigo Vivi <rodrigo.vivi@intel.com>
+Cc: Alexandr Sapozhnkiov <alsp705@gmail.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
+	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+	lvc-project@linuxtesting.org
+Subject: Re: [PATCH 5.10] gpu/i915: fix error return in mmap_offset_attach()
+Message-ID: <aN6vivjT61-MXVlt@intel.com>
+References: <20251002084828.11-1-alsp705@gmail.com>
+ <aN6EbmgZYchyMHRn@intel.com>
+ <aN6YVtnJ3Guh43n5@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250818-imx8_isi-v1-1-e9cfe994c435@gocontroll.com>
- <20250820140154.GB6190@pendragon.ideasonboard.com> <a9283349-c58d-47e6-ac33-77b5a6b893fe@gocontroll.com>
- <20250820141439.GA10547@pendragon.ideasonboard.com>
-In-Reply-To: <20250820141439.GA10547@pendragon.ideasonboard.com>
-From: ChaosEsque Team <chaosesqueteam@gmail.com>
-Date: Thu, 2 Oct 2025 12:30:12 -0400
-X-Gm-Features: AS18NWDGHOBDrSguIYms66P-zFEY8uoL7wGfB2jgVSBuHpouvKYa_JLzhedGeUA
-Message-ID: <CALC8CXf2RTYz2YjbFHsbdjDSSAt3Jdv1NBbBQs4jRPmwkuUuXA@mail.gmail.com>
-Subject: Re: [PATCH] media: nxp: imx8-isi: Check whether pad is non-NULL
- before access
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: Maud Spierings <maudspierings@gocontroll.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Shawn Guo <shawnguo@kernel.org>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>, 
-	Fabio Estevam <festevam@gmail.com>, Stefan Riedmueller <s.riedmueller@phytec.de>, 
-	Jacopo Mondi <jacopo@jmondi.org>, Christian Hemp <c.hemp@phytec.de>, Guoniu Zhou <guoniu.zhou@nxp.com>, 
-	Dong Aisheng <aisheng.dong@nxp.com>, linux-media@vger.kernel.org, imx@lists.linux.dev, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aN6YVtnJ3Guh43n5@intel.com>
+X-Patchwork-Hint: comment
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Maud... Laurent
-Yea you a Mad Lad.
+On Thu, Oct 02, 2025 at 06:20:54PM +0300, Ville Syrjälä wrote:
+> On Thu, Oct 02, 2025 at 09:55:58AM -0400, Rodrigo Vivi wrote:
+> > On Thu, Oct 02, 2025 at 11:48:26AM +0300, Alexandr Sapozhnkiov wrote:
+> > > From: Alexandr Sapozhnikov <alsp705@gmail.com>
+> > 
+> > About the subject, this is not just a 5.10 kernel issue.
+> > This code is the current code in our tip.
+> > So this needs to target drm-tip branch, and then Cc stable
+> > and perhaps a Fixes: tag.
+> > 
+> > > 
+> > > In the drm_vma_node_allow function, kmalloc may 
+> > > return NULL, in which case the file element will not be 
+> > > added to the mmo->vma_node list. It would be good to 
+> > > not ignore this event, but at least log an error message.
+> > > 
+> > > Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> > > 
+> > > Signed-off-by: Alexandr Sapozhnikov <alsp705@gmail.com>
+> > > ---
+> > >  drivers/gpu/drm/i915/gem/i915_gem_mman.c | 7 +++++--
+> > >  1 file changed, 5 insertions(+), 2 deletions(-)
+> > > 
+> > > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> > > index a2195e28b625..adaef8f09d59 100644
+> > > --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> > > +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
+> > > @@ -706,8 +706,11 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
+> > >  	mmo = insert_mmo(obj, mmo);
+> > >  	GEM_BUG_ON(lookup_mmo(obj, mmap_type) != mmo);
+> > >  out:
+> > > -	if (file)
+> > > -		drm_vma_node_allow_once(&mmo->vma_node, file);
+> > > +	if (file) {
+> > > +		err = drm_vma_node_allow_once(&mmo->vma_node, file);
+> > > +		if (err)
+> > 
+> > perhaps we also need to drm_vma_offset_remove here?
+> > I mean... honest question, doubt here. Is there any further clean-up needed?
+> 
+> Yeah, mmo->vma_node has already been linked to varius places here.
+> So this will lead to use-after-free in short order.
+> 
+> With the current code if this fails then I think all that ends up
+> happening is that subsequent mmap() will fail. Maybe that's just
+> fine?
 
-On Wed, Aug 20, 2025 at 10:19=E2=80=AFAM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> On Wed, Aug 20, 2025 at 04:07:55PM +0200, Maud Spierings wrote:
-> > On 8/20/25 16:01, Laurent Pinchart wrote:
-> > > On Mon, Aug 18, 2025 at 02:31:43PM +0200, Maud Spierings via B4 Relay=
- wrote:
-> > >> From: Maud Spierings <maudspierings@gocontroll.com>
-> > >>
-> > >> media_pad_remote_pad_first() can return NULL if no valid link is fou=
-nd.
-> > >> Check for this possibility before dereferencing it in the next line.
-> > >>
-> > >> Reported/investigated in [1]:
-> > >>
-> > >> Link: https://lore.kernel.org/all/1536a61b-b405-4762-9fb4-7e257f95e4=
-9e@gocontroll.com/ [1]
-> > >> Fixes: cf21f328fcaf ("media: nxp: Add i.MX8 ISI driver")
-> > >> Signed-off-by: Maud Spierings <maudspierings@gocontroll.com>
-> > >> ---
-> > >> I'm not sure if this should be a dev_dbg(), just following the patte=
-rn
-> > >> around it for now, also not sure if EPIPE is the correct error.
-> > >
-> > > I've submitted
-> > > https://lore.kernel.org/linux-media/20250820140021.8026-1-laurent.pin=
-chart@ideasonboard.com,
-> > > which should fix this issue in a more generic way.
-> >
-> > Saw it, but I think my patch technically is still correct as the
-> > function documentation states it can potentially return NULL right? [1]
->
-> The function documentation states
->
-> "returns a pointer to the pad at the remote end of the first found
-> enabled link, or NULL if no enabled link has been found."
->
-> The MUST_CONNECT flag ensures that there is an enabled link, so the
-> function can't return NULL.
->
-> > Link:
-> > https://www.kernel.org/doc/html/latest/driver-api/media/mc-core.html [1=
-]
-> >
-> > I will test you patches tomorrow.
-> >
-> > >> ---
-> > >>   drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c | 7 ++++++=
-+
-> > >>   1 file changed, 7 insertions(+)
-> > >>
-> > >> diff --git a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c=
- b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-> > >> index ede6cc74c0234049fa225ad82aaddaad64aa53d7..1ed8b031178b7d934b04=
-a8752747f556bd1fc5a9 100644
-> > >> --- a/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-> > >> +++ b/drivers/media/platform/nxp/imx8-isi/imx8-isi-crossbar.c
-> > >> @@ -160,6 +160,13 @@ mxc_isi_crossbar_xlate_streams(struct mxc_isi_c=
-rossbar *xbar,
-> > >>    }
-> > >>
-> > >>    pad =3D media_pad_remote_pad_first(&xbar->pads[sink_pad]);
-> > >> +
-> > >> +  if (pad =3D=3D NULL) {
-> > >> +          dev_dbg(xbar->isi->dev, "no valid link found to pad %u\n"=
-,
-> > >> +                  sink_pad);
-> > >> +          return ERR_PTR(-EPIPE);
-> > >> +  }
-> > >> +
-> > >>    sd =3D media_entity_to_v4l2_subdev(pad->entity);
-> > >>    if (!sd) {
-> > >>            dev_dbg(xbar->isi->dev,
-> > >>
-> > >> ---
-> > >> base-commit: 3ac864c2d9bb8608ee236e89bf561811613abfce
-> > >> change-id: 20250818-imx8_isi-954898628bb6
->
-> --
-> Regards,
->
-> Laurent Pinchart
->
+Hmm, or maybe it would be better to just directly return an error
+here without freeing/cleaning up anything. Looks to me like that
+should work fine as well, and userspace would get the error
+immediately instead of later.
+
+> 
+> > 
+> > > +			goto err;
+> > > +	}
+> > >  	return mmo;
+> > >  
+> > >  err:
+> > > -- 
+> > > 2.43.0
+> > > 
+> 
+> -- 
+> Ville Syrjälä
+> Intel
+
+-- 
+Ville Syrjälä
+Intel
 
