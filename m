@@ -1,392 +1,207 @@
-Return-Path: <linux-media+bounces-43635-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43636-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9D29BB3E81
-	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 14:38:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B89C4BB3E8A
+	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 14:38:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F02919C7EA3
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 12:38:36 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 73E7D3A9D50
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 12:38:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6EAF33101D0;
-	Thu,  2 Oct 2025 12:38:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6663912B94;
+	Thu,  2 Oct 2025 12:38:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="czOtJEs5"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="XR5+Rxpp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA91230CD84
-	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 12:38:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 47112243969
+	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 12:38:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759408685; cv=none; b=aZyhBmJ4OEKAFrUuabK784EpmohTfs1b+p5iBn1AJpalgKObtl+bSx9Pcx+eK2sJsOYsuYWUDwMMgGyFLNdIh4/KIyBNu+ozW8EYLMkrhFeAgeRdQMUuFM8hWKMc7gWqHWjMm9fuynQrBggPj4bC1UrRXXMDaBfH2JCgU+ygD4s=
+	t=1759408726; cv=none; b=GrcJ/h9+0X0FrwLWQLPCdSRwTXqUBc/DSIlbgfrAz6CS1is0Qw73ILbbNQEYlKgHScFLFF6XlAW+Js7CmpuJ0pB72o+9mEhPV1XUnh6daP/CXXAvxh0VocryFi2ZYPlJ4SZInEfFBQqUfzz/Z4ZZjKpHrdQGygn1yhdyDFaxwYM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759408685; c=relaxed/simple;
-	bh=0d4GnoqxtkOwWQrPiHjtNf6Gn71YfqDC+uHjCJZ31cw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=T/rpoSufikAspUT7xU2rWfw4wiA0Y/9sFX9Usw1qEUvnCJNrRcVWQiMw6d80kYEGG4XCJdxDAtOOoNuuA0Dmt7TpQTm3W07EuM51Wtttxl0k5vHlZ+pji96aoJGiGVmCPNPR7zQdPEUx9LWsalGSAxJs+Vf9Idl0iKcenyUyljA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=czOtJEs5; arc=none smtp.client-ip=209.85.219.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-7ea50f94045so23362856d6.1
-        for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 05:38:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1759408682; x=1760013482; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=NHfRQ+iuxKkzwVBnfyZ6vWnoqN5WJp/4cKj2bT9r2oU=;
-        b=czOtJEs5xzHUnZDTRsJw6agtIa7Fv9iNVKysxJb5DAxbjJ68HE+SeWnK1j/YqKFzFe
-         2CpXFQzPYO6gUQIwpx2P/S8iZFldAY/W//w/w2zxshStQ+wxDSH9kqZzxJp9k2rGBi7W
-         dWdJgBQ0xJbYxZyXN3TwgecsZgnY8WxYzBm1djQYKFVZQlNV0yYrPPeT2S1xTnuFjUC/
-         5ixnmgzRKta0WEY7KpTOxIvl1Z1FVqsp0bA4MzlnkOqyVtOwbwZznyDv5fSet630hZmu
-         hMLkEB+UQ10wUI0GaHrlrYVvZWzugYyG5vHH1f3fKwQPo/6l1t4G7VrrjNlAtuPAfxJ2
-         9Llw==
+	s=arc-20240116; t=1759408726; c=relaxed/simple;
+	bh=JoTpebV7V96biw3EheKAjNzYj37O9gWPZmqstlVnR6Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SVf9WRFQ6Zfc6hxbBBUGBomSDqqhurJbjcoC6GDRvah9WfRxST3OCd8G/F9ZHzEuBkvu1r9+Lq5UKIQ0v24AbvT8fMnCiYRzdt9/vbkFrbB1hCsxzkuwMFkTdv3l05bgjf3/wUVstVVz3rk7ZLNIAauqAGXKaytsFd8V0blptEg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=XR5+Rxpp; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5928s4pW009721
+	for <linux-media@vger.kernel.org>; Thu, 2 Oct 2025 12:38:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	ka4vSUaqedydTrNivypQmftzrwbGugZn+Pmm7FW9LBE=; b=XR5+Rxpp1fQ+fCXT
+	6QYnzklnGKEv92aF0Q63t/KX+nPqKUsOGeGwQkyWm9xTeXKE6mZ3yz7ZWxWtX6CE
+	YG4Kg5hJfdiT9xTMG2TMxjbvwG8fuLoDefDCXR9MVs/VCMuYPCVDZNVHHhOF795f
+	9uXeob1WhRoL99V3xR/7s3epXuQ9uAA0HPB8X4S7yIrknExl8lGT5B5Jjwg5//We
+	xc+v35GEbHt1n99Gn/9nGxlJmrLNaSEfkhN6Oanvcdu4C1sgJz10jMmpKa6DX/rG
+	hJGCD94doa2l9u5m3D36Xf0jML1wNve4L8lA/ZHMKOPsRCVP/xJkU2qmm46zr/HJ
+	Vmab0w==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e93hqemu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 12:38:44 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4e0f9bedf1aso2720581cf.0
+        for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 05:38:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759408682; x=1760013482;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=NHfRQ+iuxKkzwVBnfyZ6vWnoqN5WJp/4cKj2bT9r2oU=;
-        b=bzUXgLzw6rKVSX2XwfAM6gUmz0AfiqQcgu1uLHHh6MyCSv9iUweY3VYmhTg7gWJDSp
-         9rOaE71oh/doO78VbW8DxnTi/BRGkV8Ks/U4jyw6QsRrkfMZqozoH5AAKaxMnx1M1/yP
-         0ccXI5vt6ThX5MNds/uEGQW2c4TTDUYoEKOrygWwKLTGWzkD5uXNGTeHvdMBOlVi2Ykt
-         YXKfsbwYLtNs3v/C9Hv3VBzPtDGVMkUBBZxzITB2lag21XDJ01YExk7hPxOzl5l07Bor
-         NCITqg92uUfIugeOiXgvSSLz9ZkKb5aoaaIOIhnCxYE/JM7XEHnEgnOEohUpDDG5GHHC
-         ppqg==
-X-Gm-Message-State: AOJu0YyCNhvCxZNhOwlF6GoLSNj8/25aXgT1k0vOtm+7YT34zXrjwaPg
-	Bqw0dr+RwsVHgzqoUmVkl1GlfInjvBGlvzZHGjjmRbvRofAPWV4a2unGuplFxEfpDQQ=
-X-Gm-Gg: ASbGncv/NVAnpKbZm3f8Pyex9q1T2RNnIpyhgAl0O7L/VhrLPYoaZ8S21T2aGk8vAaf
-	qvcgcQUapfNwTpSG2feoN4dQ24GIQ4rsnbegbIBD4VxFIoVYDx+TYCAErpD+WNKPiJjWubKrerw
-	YVVsRg/+IS0vFBn3Xgw5t/7zxbi25hE0Eagaaq8knsbWouJp0AzgGlTAz34Jm8zTXFrJlHR9QUR
-	qh1gUpgI05HaoL6uyRYg0JD0zHWC+fnybVULRF+6BZcnSdn1bH35HQf8dRgiKeJK6Ii8CZ10KTh
-	wYnrIyqaY9/FdfpPHJ/L7ckm/iVrG7Lp8fLHSjOIuAtc3IJ4OIEUqy0TchbVoAnxU4ADjVZWX+5
-	iHQbsejDnWb6tYxCdHiUPwLeLcnTYLAQfuWWpy1TCALZlDd3xRh/h
-X-Google-Smtp-Source: AGHT+IECtCSMYodlKeFTIOb8HiB8SZxVCHzIO6URism5fJlGRY+TVm9sBlQVd3VRXMwFRSiYAn8NFg==
-X-Received: by 2002:ad4:5c45:0:b0:84d:5b71:8a99 with SMTP id 6a1803df08f44-878b96f1074mr37155496d6.3.1759408682453;
-        Thu, 02 Oct 2025 05:38:02 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:17:ebd3::5ac? ([2606:6d00:17:ebd3::5ac])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-878bd783b3esm18801766d6.36.2025.10.02.05.38.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 05:38:01 -0700 (PDT)
-Message-ID: <ec3e93e72e326db4e61fed33ade0547935ab6dca.camel@ndufresne.ca>
-Subject: Re: [PATCH 5/5] media: iris: Add internal buffer calculation for
- AV1 decoder
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Bryan O'Donoghue <bod@kernel.org>, Deepa Guthyappa Madivalara	
- <deepa.madivalara@oss.qualcomm.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>,  Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,  Abhinav Kumar
- <abhinav.kumar@linux.dev>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-arm-msm@vger.kernel.org
-Date: Thu, 02 Oct 2025 08:38:00 -0400
-In-Reply-To: <e273f195-fb5e-4b4f-bf97-63ea51ed875f@kernel.org>
-References: <20251001-av1_irisdecoder-v1-0-9fb08f3b96a0@oss.qualcomm.com>
-	 <mbltuHnjNkwD91EqWND77oi8XN26tEarsTmT_fLVkZQYkc7-V_RpAVWo8KC8AnzeyV74zXurscVRHHfAL35xFw==@protonmail.internalid>
-	 <20251001-av1_irisdecoder-v1-5-9fb08f3b96a0@oss.qualcomm.com>
-	 <e273f195-fb5e-4b4f-bf97-63ea51ed875f@kernel.org>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-cPfiuid/iXTdUGeROojX"
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+        d=1e100.net; s=20230601; t=1759408723; x=1760013523;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ka4vSUaqedydTrNivypQmftzrwbGugZn+Pmm7FW9LBE=;
+        b=VVjsHTNkwy8f6hR88Ohmnyt1bt+IVsJdZ+LPxD86z8e0gaUcNU9VeHUaW20wN4is23
+         G3cHkNLCIRJ2jXoXhvj8xqRi7YlnPWXOa2kaUR0NZ31DZp3B2abDUpBuIItknQRB02n9
+         9/c4en8wTaGbKQCQD+xkrhqRJCI1rgxpUAMjjTJqDymymsVOeMkYjJL8mP7iMkD/Pr7d
+         CmmilUKy0tLqYJdjmkZc3Znu9mKeVOk3MI7X1ND8CLgNAFd5HxUSPsaIIYRQlNIAWilE
+         Ab4dIj5j0O01MvDKpwPOHrsQQANzYMd36ANssxa0gKOzFGHZM+O+8DJZVjbb/Ief8BTb
+         pzyw==
+X-Forwarded-Encrypted: i=1; AJvYcCXJi56Si6FY39GgBdtbqR659C/w08ETfYmErj1h9d5pQ1LWq5cgcHDF+S8oMoyKl2bgGpzus3Mdh9PjBA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzDhupwfib/W87pmha6qMNTDBgmgH7L7gB/Uunfy1R1DVLoyHCR
+	q5MMxUbl4JltEDHZW+WyxlosdY0tMtCOwQ8nwV6XSh8ejb0owSYHycJ4O6WlExmuSO3crMSW0ou
+	iLp+VX2FkVx8WL7i9neeQK1d8aw/TVvMyDT9AjXpt4UmaRolYpEorRnOuyuaaskxUbaGTk3G1pw
+	==
+X-Gm-Gg: ASbGncsbB3zRD5LEVg5NeOTcGUwUI/cAKuK/e+1K6hPUQC2UwHqbdg8UHVxCpX3KkYT
+	drwc0cJt62zUuPsim9L6G+Rc5ImBiHYdh8M2KoCUcP8x8uEzryeGQjpiVL2JfgbBMh9p1XXC4f+
+	kE4XU6iMNrv4Eroq7W1nhcVi3HaD42mebv4MWoE2XBHC2Jqz4LyM3phcksS9XnufOQVmsjVjlEr
+	5yb9cINNn6z3V9kIImsE8o6w03lhKHqjdv1z+m2X30UHK3rBPJI4pFEegpJJX+Q5dtmb7wxpMzl
+	qTuWAvcvKU7EqmVSbwIdQ/PI/23+8YQYIif4E7Fu4vJhT2z1zfUjrO5mrCwGsr6ST9j1YwRlbYf
+	pTjhnSSPZlbtAwE9/2mj5eXpcNVA=
+X-Received: by 2002:a05:622a:1885:b0:4b5:e9b6:c96 with SMTP id d75a77b69052e-4e41ca1d0ffmr57975831cf.7.1759408722291;
+        Thu, 02 Oct 2025 05:38:42 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGkp00Jt4psYTQ5776O18UueNYH08Ny4s0mfMgd2c/IbEteEXwJb+TanpI9sUG5rEVJVw+f9Q==
+X-Received: by 2002:a05:622a:1885:b0:4b5:e9b6:c96 with SMTP id d75a77b69052e-4e41ca1d0ffmr57975531cf.7.1759408721613;
+        Thu, 02 Oct 2025 05:38:41 -0700 (PDT)
+Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b486970b36fsm198669866b.62.2025.10.02.05.38.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Oct 2025 05:38:41 -0700 (PDT)
+Message-ID: <7933f6e4-e8e7-4d35-9295-e6b91adcc128@oss.qualcomm.com>
+Date: Thu, 2 Oct 2025 14:38:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: qcom: vpu: fix the firmware binary name for qcm6490
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Dikshita Agarwal <quic_dikshita@quicinc.com>, linux-firmware@kernel.org,
+        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <iksemnwiytrp5aelmhehyoexwzj6iem5b66qfr65nviad2fl6f@3qkn23jnzl2z>
+ <5ea8f6e4-04c7-092c-2acd-24e18c0bf641@quicinc.com>
+ <imo4dxtegwq6fiu6k65ztmezuc7mjlnpnpeapfqn5ogmytj6se@6z4akhw4ymp7>
+ <5fdb8fff-d07b-c15a-3f40-eb088e3ff94e@quicinc.com>
+ <2llwkhpwbkzqyvyoul2nwxf33d6jhuliblqng4u2bjtmsq7hlj@je3qrtntspap>
+ <5a03b200-4e1f-082a-c83a-cb46ad4cea09@quicinc.com>
+ <zj2dreqyj7fnhiophdtevhuaohlpk3uoccrslkqt5wjt2jhiip@gqnasgvu7ipq>
+ <yeJvz1BmQX5QCjBXnjFbGz8gclNViebyCcZC1Rz2tfocg3MxOAncJZruBARGqAzxG_1UJmw35EUBl80KQy5Sqw==@protonmail.internalid>
+ <f1e9ddb0-683d-4c91-f39b-6954c23f7f75@quicinc.com>
+ <015dc909-ad0b-4367-8dac-bed53c4f7f9b@linaro.org>
+ <k4al7vwl4qruiv7olqlj3qe4gah6qrboyzsbnvfarlgr3amili@wjmkthnxsgmf>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <k4al7vwl4qruiv7olqlj3qe4gah6qrboyzsbnvfarlgr3amili@wjmkthnxsgmf>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDA0MSBTYWx0ZWRfX+9F/7HZEvWfe
+ dkl4anzLJ2UgpN1gGEtkQ9OcpHTlnnDjh/kAG+6Dd4mHbG4Uu9ftjqhGjTHbLzZZ7URjP2afQfm
+ 7oGFZTm5KMLRETwVhsQNusXhH7VjuZxkm4TVNs0Rk+NeMuxa1N73syxsRJyhnDMIwmwK7dFDwHY
+ Fnppx+wm9HEK5733Imolb5FtP84LAR2F3rhLyKNSQdNOyxzZ8CrDJDeVw/IcuenrWrMbMBWEcMV
+ kAOJkhin7QyCFuTxM20T/t+UANwsb+8+Ci1vQ5T/cjhS1iXhAlzxiNrQ3pPwN4lTPVaJl+s92V+
+ AIUF9xG2ZRVBLVM7UlvlNPLPAj9Bop1Nu5fjJfxxkLi8l+HDIwoy473Jvg4ZzlPKsTHkKw/lg7b
+ n4arlG5wpKfw2jfc1gvAPB1wCyUQ3A==
+X-Proofpoint-GUID: DiLsgBsbwvAz8QgLb4xJk0DQSNjY-WQ-
+X-Proofpoint-ORIG-GUID: DiLsgBsbwvAz8QgLb4xJk0DQSNjY-WQ-
+X-Authority-Analysis: v=2.4 cv=Rfydyltv c=1 sm=1 tr=0 ts=68de7254 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=WSL5uPrEunBkvogVw_sA:9
+ a=QEXdDO2ut3YA:10 a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-02_05,2025-10-02_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 bulkscore=0 adultscore=0 lowpriorityscore=0
+ impostorscore=0 clxscore=1015 malwarescore=0 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270041
 
+On 9/24/25 6:16 PM, Dmitry Baryshkov wrote:
+> On Wed, Sep 24, 2025 at 01:55:22PM +0100, Bryan O'Donoghue wrote:
+>> On 24/09/2025 11:43, Dikshita Agarwal wrote:
+>>>>> I understand your concern. To clarify, we are not removing support for the
+>>>>> existing Gen1 firmware, so backward compatibility remains intact.
+>>>>>
+>>>>> We are simply adding support for Gen2 firmware for this architecture. As a
+>>>>> result, QCM6490 will support both Gen1 firmware (with the Venus driver) and
+>>>>> Gen2 firmware (via Qualcomm's video driver [1]).
+>>
+>> I agree with Dmitry here.
+>>
+>> Its not possible to disjunct upstream HFI6xx @ the firmware level between
+>> Venus and Iris because the DTS would have to point to a particular firmware
+>> depending on which driver you wanted to run, which would make the DT
+>> dependent on the driver, which is not allowed.
+> 
+> The only possible way to make that work would be to:
+> - make iris driver detect the firmware interface and then use either
+>   gen1 or gen2 interface
+> - make that into the upstream kernel
+> - drop venus support for sc7280
 
---=-cPfiuid/iXTdUGeROojX
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+We talked a little internally and the benefit of moving 7280 to gen2
+is basically that it would get more fw updates.. which is utmost
+desirable from our POV.
 
-Hi,
+My understanding and recollections are that:
 
-Le jeudi 02 octobre 2025 =C3=A0 00:30 +0100, Bryan O'Donoghue a =C3=A9crit=
-=C2=A0:
-> On 01/10/2025 20:00, Deepa Guthyappa Madivalara wrote:
-> > Implement internal buffer count and size calculations for AV1 decoder.
-> >=20
-> > Signed-off-by: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcom=
-m.com>
-> > ---
-> > =C2=A0 drivers/media/platform/qcom/iris/iris_buffer.h=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0=C2=A0 1 +
-> > =C2=A0 .../platform/qcom/iris/iris_hfi_gen2_command.c=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0=C2=A0 1 -
-> > =C2=A0 drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 255 +++++++=
-+++++++++++++-
-> > =C2=A0 drivers/media/platform/qcom/iris/iris_vpu_buffer.h | 105 +++++++=
-++
-> > =C2=A0 4 files changed, 357 insertions(+), 5 deletions(-)
-> >=20
-> > diff --git a/drivers/media/platform/qcom/iris/iris_buffer.h b/drivers/m=
-edia/platform/qcom/iris/iris_buffer.h
-> > index 5ef365d9236c7cbdee24a4614789b3191881968b..75bb767761824c4c02e0df9=
-b765896cc093be333 100644
-> > --- a/drivers/media/platform/qcom/iris/iris_buffer.h
-> > +++ b/drivers/media/platform/qcom/iris/iris_buffer.h
-> > @@ -27,6 +27,7 @@ struct iris_inst;
-> > =C2=A0=C2=A0 * @BUF_SCRATCH_1: buffer to store decoding/encoding contex=
-t data for HW
-> > =C2=A0=C2=A0 * @BUF_SCRATCH_2: buffer to store encoding context data fo=
-r HW
-> > =C2=A0=C2=A0 * @BUF_VPSS: buffer to store VPSS context data for HW
-> > + * @BUF_PARTIAL: buffer for AV1 IBC data
-> > =C2=A0=C2=A0 * @BUF_TYPE_MAX: max buffer types
-> > =C2=A0=C2=A0 */
-> > =C2=A0 enum iris_buffer_type {
-> > diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c b=
-/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> > index e3a8b031b3f191a6d18e1084db34804a8172439c..000bf75ba74ace5e1058591=
-0cda02975b0c34304 100644
-> > --- a/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> > +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen2_command.c
-> > @@ -488,7 +488,6 @@ static int iris_hfi_gen2_set_linear_stride_scanline=
-(struct iris_inst *inst, u32
-> >=20
-> > =C2=A0 static int iris_hfi_gen2_set_tier(struct iris_inst *inst, u32 pl=
-ane)
-> > =C2=A0 {
-> > -	struct iris_inst_hfi_gen2 *inst_hfi_gen2 =3D to_iris_inst_hfi_gen2(in=
-st);
-> > =C2=A0=C2=A0	u32 port =3D iris_hfi_gen2_get_port(inst, V4L2_BUF_TYPE_VI=
-DEO_OUTPUT_MPLANE);
-> > =C2=A0=C2=A0	u32 tier =3D inst->fw_caps[TIER].value;
-> >=20
-> > diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c b/drive=
-rs/media/platform/qcom/iris/iris_vpu_buffer.c
-> > index 4463be05ce165adef6b152eb0c155d2e6a7b3c36..17d3a7ae79e994257d59690=
-6cb4c17250a11a0cb 100644
-> > --- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-> > +++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
-> > @@ -9,6 +9,14 @@
-> > =C2=A0 #include "iris_hfi_gen2_defines.h"
-> >=20
-> > =C2=A0 #define HFI_MAX_COL_FRAME 6
-> > +#define HFI_COLOR_FORMAT_YUV420_NV12_UBWC_Y_TILE_HEIGHT (8)
-> > +#define HFI_COLOR_FORMAT_YUV420_NV12_UBWC_Y_TILE_WIDTH (32)
-> > +#define HFI_COLOR_FORMAT_YUV420_NV12_UBWC_UV_TILE_HEIGHT (8)
-> > +#define HFI_COLOR_FORMAT_YUV420_NV12_UBWC_UV_TILE_WIDTH (16)
-> > +#define HFI_COLOR_FORMAT_YUV420_TP10_UBWC_Y_TILE_HEIGHT (4)
-> > +#define HFI_COLOR_FORMAT_YUV420_TP10_UBWC_Y_TILE_WIDTH (48)
-> > +#define HFI_COLOR_FORMAT_YUV420_TP10_UBWC_UV_TILE_HEIGHT (4)
-> > +#define HFI_COLOR_FORMAT_YUV420_TP10_UBWC_UV_TILE_WIDTH (24)
-> >=20
-> > =C2=A0 #ifndef SYSTEM_LAL_TILE10
-> > =C2=A0 #define SYSTEM_LAL_TILE10 192
-> > @@ -39,6 +47,31 @@ static u32 hfi_buffer_bin_h264d(u32 frame_width, u32=
- frame_height, u32 num_vpp_p
-> > =C2=A0=C2=A0	return size_h264d_hw_bin_buffer(n_aligned_w, n_aligned_h, =
-num_vpp_pipes);
-> > =C2=A0 }
-> >=20
-> > +static u32 size_av1d_hw_bin_buffer(u32 frame_width, u32 frame_height, =
-u32 num_vpp_pipes)
-> > +{
-> > +	u32 size_yuv, size_bin_hdr, size_bin_res;
-> > +
-> > +	size_yuv =3D ((frame_width * frame_height) <=3D BIN_BUFFER_THRESHOLD)=
- ?
-> > +		((BIN_BUFFER_THRESHOLD * 3) >> 1) :
-> > +		((frame_width * frame_height * 3) >> 1);
-> > +	size_bin_hdr =3D size_yuv * AV1_CABAC_HDR_RATIO_HD_TOT;
-> > +	size_bin_res =3D size_yuv * AV1_CABAC_RES_RATIO_HD_TOT;
-> > +	size_bin_hdr =3D ALIGN(size_bin_hdr / num_vpp_pipes,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0 DMA_ALIGNMENT) * num_vpp_pipes;
-> > +	size_bin_res =3D ALIGN(size_bin_res / num_vpp_pipes,
-> > +			=C2=A0=C2=A0=C2=A0=C2=A0 DMA_ALIGNMENT) * num_vpp_pipes;
-> > +
-> > +	return size_bin_hdr + size_bin_res;
-> > +}
-> > +
-> > +static u32 hfi_buffer_bin_av1d(u32 frame_width, u32 frame_height, u32 =
-num_vpp_pipes)
-> > +{
-> > +	u32 n_aligned_h =3D ALIGN(frame_height, 16);
-> > +	u32 n_aligned_w =3D ALIGN(frame_width, 16);
-> > +
-> > +	return size_av1d_hw_bin_buffer(n_aligned_w, n_aligned_h, num_vpp_pipe=
-s);
-> > +}
-> > +
-> > =C2=A0 static u32 size_h265d_hw_bin_buffer(u32 frame_width, u32 frame_h=
-eight, u32 num_vpp_pipes)
-> > =C2=A0 {
-> > =C2=A0=C2=A0	u32 product =3D frame_width * frame_height;
-> > @@ -110,6 +143,20 @@ static u32 hfi_buffer_comv_h265d(u32 frame_width, =
-u32 frame_height, u32 _comv_bu
-> > =C2=A0=C2=A0	return (_size * (_comv_bufcount)) + 512;
-> > =C2=A0 }
->=20
-> What's this alignment stuffed onto the end about ?
->=20
-> Please guys give these magic numbers meaningful names.
+* Because Iris already supports 8250, it's only a short walk away from
+  supporting 7280-gen1. We could then also add support for 7280-gen2 and
+  detect the supported firmware interface at runtime.
 
-That would be nice, then I'll be able to document that for Hantro AV1 decod=
-er
-too. It was assumed when we picked the driver that the table was hardware
-specific, but if its not, a drivers/media/v4l2-core/v4l2-av1.c is welcome.
+* If the Venus driver would be loaded instead, it would also be taught
+  to reject gen2 firwmare if that is supplied (before eventually getting
+  sunset, hopefully..).
 
->> drivers/media/platform/verisilicon/hantro_hw.h:555=20
-static inline size_t
-hantro_av1_mv_size(unsigned int width, unsigned int height)
-{
-	size_t num_sbs =3D hantro_av1_num_sbs(width) * hantro_av1_num_sbs(height);
+* The current gen1 firmware could be kept in linux-firmware parallel to
+  vpu_whatever_gen2.mbn.
 
-	return ALIGN(num_sbs * 384, 16) * 2 + 512;
-}
+* Iris could be then taught to expect vpu_whatever_gen2.mbn first, and if
+  that is not found, attempt to load vpu_whatever.mbn (for the gen1 intf)
 
->=20
-> > +static u32 hfi_buffer_comv_av1d(u32 frame_width, u32 frame_height, u32=
- comv_bufcount)
-> > +{
-> > +	u32 size;
-> > +
-> > +	size =3D=C2=A0 2 * ALIGN(MAX(((frame_width + 63) / 64) *
-> > +		((frame_height + 63) / 64) * 512,
+WDYT?
 
-This looks like div_round_up()  ?
+Konrad
 
-> > +		((frame_width + 127) / 128) *
-> > +		((frame_height + 127) / 128) * 2816),
-> > +		DMA_ALIGNMENT);
-> > +	size *=3D comv_bufcount;
->=20
->=20
-> I'm sure this calculation is right and produces the correct value in all=
-=20
-> instances - probably anyway but also does it ?
->=20
-> It is not obvious looking at this code that it is obviously correct.
->=20
-> I have a similar comment for alot of these Iris patches - we end up with=
-=20
-> highly complex calculations using magic numbers which my guess would be=
-=20
-> even people immersed in the firmware/driver/silicon development have a=
-=20
-> hard time looking at and "just knowing" the code is correct.
->=20
-> Please reduce these calculations down to some kind of define that - for=
-=20
-> example an intelligent programmer - an oxymoron of a term I accept -=20
-> could read the code and actually understand what is going on.
->=20
-> That programmer might even be yourself. You should be able to come along=
-=20
-> in two, five, eight years time, look at a code snippet and pretty much=
-=20
-> understand what it is doing and why without having to have a deep=20
-> epiphany when doing it.
->=20
-> These complex clauses stuffed with magic numbers and sometimes bitshfts=
-=20
-> with a few alignments thrown in for good measure are inscrutable.
-
-I agree with this, when the driver is not from the hardware maker, this can=
- be
-justified, but since you have full access to the documentation and probably=
- can
-ask the designers, it would be nicer to replace 64, 128, 512 and 2816 by na=
-med
-macro or const. Its not a blame, many drivers are like this already.
-
-Nicolas
-
->=20
-> > +	return size;
-> > +}
-> > +
-> > =C2=A0 static u32 size_h264d_bse_cmd_buf(u32 frame_height)
-> > =C2=A0 {
-> > =C2=A0=C2=A0	u32 height =3D ALIGN(frame_height, 32);
-> > @@ -174,6 +221,20 @@ static u32 hfi_buffer_persist_h264d(void)
-> > =C2=A0=C2=A0		=C2=A0=C2=A0=C2=A0 DMA_ALIGNMENT);
-> > =C2=A0 }
-> >=20
-> > +static u32 hfi_buffer_persist_av1d(u32 max_width, u32 max_height, u32 =
-total_ref_count)
-> > +{
-> > +	u32 comv_size, size;
-> > +
-> > +	comv_size =3D=C2=A0 hfi_buffer_comv_av1d(max_width, max_height, total=
-_ref_count);
-> > +	size =3D ALIGN((SIZE_AV1D_SEQUENCE_HEADER * 2 + SIZE_AV1D_METADATA +
-> > +	AV1D_NUM_HW_PIC_BUF * (SIZE_AV1D_TILE_OFFSET + SIZE_AV1D_QM) +
-> > +	AV1D_NUM_FRAME_HEADERS * (SIZE_AV1D_FRAME_HEADER +
-> > +	2 * SIZE_AV1D_PROB_TABLE) + comv_size + HDR10_HIST_EXTRADATA_SIZE +
-> > +	SIZE_AV1D_METADATA * AV1D_NUM_HW_PIC_BUF), DMA_ALIGNMENT);
-> > +
-> > +	return ALIGN(size, DMA_ALIGNMENT);
-> > +}
-> > +
-> > =C2=A0 static u32 hfi_buffer_non_comv_h264d(u32 frame_width, u32 frame_=
-height, u32 num_vpp_pipes)
-> > =C2=A0 {
-> > =C2=A0=C2=A0	u32 size_bse =3D size_h264d_bse_cmd_buf(frame_height);
-> > @@ -459,6 +520,148 @@ static u32 hfi_buffer_line_h264d(u32 frame_width,=
- u32 frame_height,
-> > =C2=A0=C2=A0	return ALIGN((size + vpss_lb_size), DMA_ALIGNMENT);
-> > =C2=A0 }
-> >=20
-> > +static u32 size_av1d_lb_opb_wr1_nv12_ubwc(u32 frame_width, u32 frame_h=
-eight)
-> > +{
-> > +	u32 y_width, y_width_a =3D 128;
-> > +
-> > +	y_width =3D ALIGN(frame_width, y_width_a);
-> > +
-> > +	return (256 * ((y_width + 31) / 32 + (AV1D_MAX_TILE_COLS - 1)));
-> > +}
-> > +
-> > +static u32 size_av1d_lb_opb_wr1_tp10_ubwc(u32 frame_width, u32 frame_h=
-eight)
-> > +{
-> > +	u32 y_width, y_width_a =3D 256;
-> > +
-> > +	y_width =3D ALIGN(frame_width, 192);
-> > +	y_width =3D ALIGN(y_width * 4 / 3, y_width_a);
-> > +
-> > +	return (256 * ((y_width + 47) / 48 + (AV1D_MAX_TILE_COLS - 1)));
->=20
-> y_width is a thing times 4 divided by 3 aligned to 192.
->=20
-> OK
->=20
-> Then we return 256 * ((y_width + 47?) / 48 + (A_DEFINE_NICE - 1)));
->=20
-> 47 ? The magic number in the routine above is 31.
->=20
-> I don't think I'd be comfortable giving an RB for this. You guys need to=
-=20
-> take steps to make your code more digestable - zapping the complex=20
-> bit-shifts and magic numbers.
->=20
-> I don't see how a reviewer can really be expected to fit this into their=
-=20
-> head and say "yep LGTM" needs to be decoded both for the sake of the=20
-> reviewer and for future coders, perhaps even future you trying to figure=
-=20
-> out where the bug is..
->=20
-> ---
-> bod
-
---=-cPfiuid/iXTdUGeROojX
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaN5yKAAKCRDZQZRRKWBy
-9GM5AP9PQ+96ubSTSmSoYKcEFZCqxdJf2kQ0fNvVju9/TUwmZwD/V7e+K4h1x6zM
-cjQ68tEKISQ5BcqGwLuPHsxOmUHKaQI=
-=5wKo
------END PGP SIGNATURE-----
-
---=-cPfiuid/iXTdUGeROojX--
+> 
+>>
+>>>>> Additionally, as part of our plan to transition all Venus-supported targets
+>>>>> to the Iris driver, SC7280 will continue to use Gen1 HFI and Gen1 firmware
+>>>>> to maintain backward compatibility.
+>>>> Dikshita, this is nonsense. Venus and Iris drivers are supposed to be
+>>>> interchangeable for the hardware they both support, until the venus
+>>>> driver drops support for V6 hardware. At that point it's expected that
+>>>> there will be no V6 support in Venus driver.
+>>>>
+>>>> You can not simply upgrade to Gen2 firmware as if nothing happened.
+>>>> Consider a device node on SC7280 / QCS6490 with the firmware-name
+>>>> pointing to OEM-signed firmware. Both Venus and Iris drivers would
+>>>> happily consume the device node and try to work with it. One will work,
+>>>> another one will fail. This is definitely not what we have agreed upon,
+>>>> when you started adding Iris driver.
+>>> @Vikash, could you please chime in?
+>>
+>> It would OTOH be possible _only_ release a HFI6xx Gen2 firmware for a new
+>> SoC that doesn't appear upstream yet but, that's not the case with
+>> 7280/6490.
+> 
 
