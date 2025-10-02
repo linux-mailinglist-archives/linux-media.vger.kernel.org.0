@@ -1,394 +1,432 @@
-Return-Path: <linux-media+bounces-43528-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43529-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90A37BB29DB
-	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 08:21:05 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CF1BB2A95
+	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 09:10:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 400594212A4
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 06:21:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6DD9619C473E
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 07:10:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 970842517AA;
-	Thu,  2 Oct 2025 06:20:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CBCB027A454;
+	Thu,  2 Oct 2025 07:10:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E0oN3lnc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EUiue1v2"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B92152494ED
-	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 06:20:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6D3E23F294
+	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 07:10:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759386053; cv=none; b=ounZvhyrZV5KwqDrsYEi5bfrYcL2shYxtkitdXakaPwD37EKhv0qqCBB0EfpUVJtFmUbgNeSiTPCY8mbDO4pY6o5ODJoWDvdXiq4rCF8VDUNOUazBznzKexR5jHSp6fjIwuA5tcOqCJ42GkGcKkX/6xNFs0jNOM6ZilhgWhLZhU=
+	t=1759389006; cv=none; b=piRsptxgaZvJO/07kb+j9gcAjU/Oek9LR2esP1kQAbFoh6j3bfqOeXBqPGrc0dMtTdujxcmeYuHOkuZ4oL8WtUhm3pt2BBFrhSgL1rL8Xi97csBCY/pdFpriFIFq9Qaht8409omkhl6ZwbdF0SiurYchExM3KlXvxiX64JZOT7U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759386053; c=relaxed/simple;
-	bh=UNOlGRUb2F62rGzVEa0QkuGjIMpHnAX408mUBw31bhY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Rr0DnBylcm7FhieeqqadGPllHIaXwFvrqCyG06yctqNbWvQ4CwlhprKFueM1UOPlGHt5qxFPfKNZp0OcSbD/vLD98egCq2Aowu3tWiwiKOapEhd98LPUz00lBYV7k9JEhy+jcImavpU05qkvTwKutclj+ZbcjnV0PTdh8TeJDGY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E0oN3lnc; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-3f0ae439b56so320420f8f.3
-        for <linux-media@vger.kernel.org>; Wed, 01 Oct 2025 23:20:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759386048; x=1759990848; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oRTBM8LnR/gK/57/NUtGMW396PKa7QUFyM6GxtmZzcw=;
-        b=E0oN3lnc59W2KB5Gaie3GBYyi5o5MPYYuwoz+HTuzMOSYgxacgW5iV7XsRGaj/4z08
-         tXOTG8RIJ+0w69jGO/FevHPBowiVcyr4b3Hl2KT16GRoZWvSH3JtfNWfHS4Ji3h06Xfe
-         8EdZCfglKrNcDWGOIwy9TpnsNIg9XsJbOFqZ0CDmNCbZ18tDaMEKPJ5eQksanhDG2rQ/
-         lqmEpKA7ofkvB1tDWWk/NGjJWTc0Mcj/dDnTTHM5YLipi3g2NppqZxBq83K6AV72atRv
-         6NJ2CRc6ly/bfkp+WLpX7BZZjmPoAumWgPFdmXDBj+5kosyqjcHy8OV3Tzllue5vXvbH
-         6sGA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759386048; x=1759990848;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oRTBM8LnR/gK/57/NUtGMW396PKa7QUFyM6GxtmZzcw=;
-        b=SrLsgAH0UdXdhrvEba2BydN1RmNCJtHMWHhQaiYrhI6Ne1On05Uxckwko/n+NFJ6HA
-         KKjs51IfWl1oJhhoCAyttckIH11c2w43gRjISzW093tEaMTy0ZHx6ONlqNoQi5BW2Uir
-         juJZdtRp8b6eJFNL9Mu7G8v2YPX2bxISNsRpuBk6A/9NF8rHj/cecex6gPILLcC+lNNK
-         BPVoK69n0d0kPUsrcXOWhVVVsjshOk8QQGgrkTJaavMT5ckz1uQP/Br1gurHFUl/P2Rq
-         6qDoS2X0P2FQr277aLNX181fXjzmuFUSwOuZb+ZGpJB628c2aCvtwF8nq9gRm0PmWCn0
-         fMoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUPNSZOlwsJBn3v5ycIfhS7LdceFSny2eGI5yijsF8dIsV7oK6F/rdbPLgfYoxzc2SXKmEuPfi1A+dE1w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzR1xtR8dqVHbs3nbGtL0xbypH5WrTMKOPiPUz/qSEUlLL5hopL
-	qRXhzxiHfj2YJXhWSGqh+oK5xUnUSQAeIhQSz+Gz8qj3w0sTVSj1FO1qivv/I12POOSrBwGDMLD
-	WG0pmoxYPTv/XdfCQV2ZEUL6vvPP+ncs=
-X-Gm-Gg: ASbGncv3/fXTrBC7K5dB0bPg7iVjYo44njPyksx/+pHjsc3fGw+vvy97ReG1QxPk1JC
-	eJfk0w7h1970P7IsTOiBVVAkgjlUXaugj9bw8YJJw2AthRIKZsuot8fvGwBZIvatUBdvqjE9ECO
-	7s7YglMr75zXQ3Iq1CFFYLACtMZ2gX8JCvXGNLWe3zgYQY9ZgyBvv4vbinrXHXcXIgRRLBSZAlj
-	nFUNC4ZJf8YWczP/PfVnIOCam8kaSp9
-X-Google-Smtp-Source: AGHT+IG9I4dMog6DxhWZOtxZxWspqecPS6EJtfodnZXn/7hJIjt8sWMqMJeo+ECpmT/FYt/a4eXCECTuucjee6Wbagg=
-X-Received: by 2002:a5d:64e6:0:b0:3ec:e152:e2ce with SMTP id
- ffacd0b85a97d-4255780b3bfmr4279258f8f.32.1759386047845; Wed, 01 Oct 2025
- 23:20:47 -0700 (PDT)
+	s=arc-20240116; t=1759389006; c=relaxed/simple;
+	bh=sELlGHCc4kRVm7My2Uc1y53/bYZcqV/KDmFdw+1+n7o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Mh+K8jcx8tbR5+5ZQvmkqfzJMKKLjwDyX733NlgIVwhzfOZ5r0zX6k4KmFwpGyYNCltq4ND87FFYCc4CWb8gPyd7cPqmeIr6WPamak04SMxLB5ZqOMX62d729WIELG/j1tVz1/Hdn9hkEuqdCn7vCQuSydxV76SIjfkgSJw5Wv0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EUiue1v2; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759389004; x=1790925004;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=sELlGHCc4kRVm7My2Uc1y53/bYZcqV/KDmFdw+1+n7o=;
+  b=EUiue1v25gYBvC4SajAcKPSXU749Y9VvtXAMSB61Xio7ophCvVoYNth0
+   m3XQUH4tYkpGNc5xMhNWVzucvQvwlrAJ7SptUFOxD1lcniFrnLgS0sRpU
+   dARJ1fi71+zVC8/yb/VKxUqkTk3TsM+68aX/F/efGNJGU0SmEwnromKd+
+   GX+Wzbn1ZEBj9SksDI3DmN0s0IFYC3pSkRDNAjtWRmJSYQkAJ3RfvZoYD
+   fZyWb4+whokxQBtV3DE7zFYlL4HiWAetypQR3Baju1p4qOPssYeuQH/Kx
+   I94HB/tre6hP20w//S7JlGajn8tG6TyKLfQzQthMAQQWp+aLFjSKC6OiR
+   g==;
+X-CSE-ConnectionGUID: 0N/rSAHwQHGqIAjCi0ANeQ==
+X-CSE-MsgGUID: M03BPCN3TyOJ9AZ6m6s1/g==
+X-IronPort-AV: E=McAfee;i="6800,10657,11569"; a="60706467"
+X-IronPort-AV: E=Sophos;i="6.18,308,1751266800"; 
+   d="scan'208";a="60706467"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 00:10:03 -0700
+X-CSE-ConnectionGUID: QBOa0qR2RL6E/nk6WrR/Pw==
+X-CSE-MsgGUID: TLXtgrPfRCiz4sQITSQxrg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,308,1751266800"; 
+   d="scan'208";a="178095675"
+Received: from bergbenj-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.175])
+  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2025 00:09:56 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id D4AE8121096;
+	Thu, 02 Oct 2025 10:09:52 +0300 (EEST)
+Date: Thu, 2 Oct 2025 10:09:52 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 39/66] media: Documentation: Add subdev configuration
+ models, raw sensor model
+Message-ID: <aN4lQPK5Mqve2bUI@kekkonen.localdomain>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-40-sakari.ailus@linux.intel.com>
+ <osdr2eavm23pzxrd73v4xscdtaafon3vllhzcg5r6eoqwclsfk@xgfnicn6iboj>
+ <aM1J9LsbpueEr30x@kekkonen.localdomain>
+ <5fwlztz2q2fewyml774my3sdw3wv5wdhnl6p4mfbubm4erm5ft@sthie2bobklf>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250925151648.79510-1-clamor95@gmail.com> <3665995.U7HbjWM52l@senjougahara>
- <CAPVz0n3CrVufs8vbw8XnYuwoZoQ2Xsi3V4HimgT0=4RQySzvaw@mail.gmail.com> <3862885.G96rZvMJ2N@senjougahara>
-In-Reply-To: <3862885.G96rZvMJ2N@senjougahara>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Thu, 2 Oct 2025 09:20:36 +0300
-X-Gm-Features: AS18NWD2rw-jNTiwDDXFJSZS6WdVYt-M8PE-7b82qk0Xm-jz28tlJ9BCRahpUc8
-Message-ID: <CAPVz0n2shn41h4z4PoMdtCXzj+96ak69TCqt7Ag5qpqdWi6UWA@mail.gmail.com>
-Subject: Re: [PATCH v3 15/22] staging: media: tegra-video: tegra20: simplify
- format align calculations
-To: Mikko Perttunen <mperttunen@nvidia.com>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
-	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
-	Prashant Gaikwad <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, 
-	Stephen Boyd <sboyd@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	=?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
-	Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>, 
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
-	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
-	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5fwlztz2q2fewyml774my3sdw3wv5wdhnl6p4mfbubm4erm5ft@sthie2bobklf>
 
-=D1=87=D1=82, 2 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 09:12=
- Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Thursday, October 2, 2025 2:41=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > =D1=87=D1=82, 2 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 0=
-7:00 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+Hi Jacopo,
+
+On Thu, Sep 25, 2025 at 12:31:09PM +0200, Jacopo Mondi wrote:
+> Hi Sakari
+> 
+> On Fri, Sep 19, 2025 at 03:17:56PM +0300, Sakari Ailus wrote:
+> > Hi Jacopo,
+> >
+> > On Mon, Sep 01, 2025 at 07:09:29PM +0200, Jacopo Mondi wrote:
+> > > Hi Sakari
 > > >
-> > > On Wednesday, October 1, 2025 4:59=E2=80=AFPM Svyatoslav Ryhel wrote:
-> > > > =D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=
-=BE 10:51 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > > > >
-> > > > > On Wednesday, October 1, 2025 2:35=E2=80=AFPM Svyatoslav Ryhel wr=
-ote:
-> > > > > > =D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =
-=D0=BE 08:07 Svyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5=
-:
-> > > > > > >
-> > > > > > > =D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80=
-. =D0=BE 07:38 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=
-=D0=B5:
-> > > > > > > >
-> > > > > > > > On Friday, September 26, 2025 12:16=E2=80=AFAM Svyatoslav R=
-yhel wrote:
-> > > > > > > > > Simplify format align calculations by slightly modifying =
-supported formats
-> > > > > > > > > structure. Adjusted U and V offset calculations for plana=
-r formats since
-> > > > > > > > > YUV420P bits per pixel is 12 (1 full plane for Y + 2 * 1/=
-4 planes for U
-> > > > > > > > > and V) so stride is width * 3/2, but offset must be calcu=
-lated with plain
-> > > > > > > > > width since each plain has stride width * 1. This aligns =
-with downstream
-> > > > > > > >
-> > > > > > > > plane
-> > > > > > > >
-> > > > > > > > > behavior which uses same approach for offset calculations=
-.
-> > > > > > > > >
-> > > > > > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > > > > > > > > ---
-> > > > > > > > >  drivers/staging/media/tegra-video/tegra20.c | 58 +++++++=
-++------------
-> > > > > > > > >  drivers/staging/media/tegra-video/vi.h      |  3 +-
-> > > > > > > > >  2 files changed, 27 insertions(+), 34 deletions(-)
-> > > > > > > > >
-> > > > > > > > > diff --git a/drivers/staging/media/tegra-video/tegra20.c =
-b/drivers/staging/media/tegra-video/tegra20.c
-> > > > > > > > > index 7c3ff843235d..b7a39723dfc2 100644
-> > > > > > > > > --- a/drivers/staging/media/tegra-video/tegra20.c
-> > > > > > > > > +++ b/drivers/staging/media/tegra-video/tegra20.c
-> > > > > > > > > @@ -280,20 +280,8 @@ static void tegra20_fmt_align(struct=
- v4l2_pix_format *pix, unsigned int bpp)
-> > > > > > > > >       pix->width  =3D clamp(pix->width,  TEGRA20_MIN_WIDT=
-H,  TEGRA20_MAX_WIDTH);
-> > > > > > > > >       pix->height =3D clamp(pix->height, TEGRA20_MIN_HEIG=
-HT, TEGRA20_MAX_HEIGHT);
-> > > > > > > > >
-> > > > > > > > > -     switch (pix->pixelformat) {
-> > > > > > > > > -     case V4L2_PIX_FMT_UYVY:
-> > > > > > > > > -     case V4L2_PIX_FMT_VYUY:
-> > > > > > > > > -     case V4L2_PIX_FMT_YUYV:
-> > > > > > > > > -     case V4L2_PIX_FMT_YVYU:
-> > > > > > > > > -             pix->bytesperline =3D roundup(pix->width, 2=
-) * 2;
-> > > > > > > > > -             pix->sizeimage =3D roundup(pix->width, 2) *=
- 2 * pix->height;
-> > > > > > > > > -             break;
-> > > > > > > > > -     case V4L2_PIX_FMT_YUV420:
-> > > > > > > > > -     case V4L2_PIX_FMT_YVU420:
-> > > > > > > > > -             pix->bytesperline =3D roundup(pix->width, 8=
-);
-> > > > > > > > > -             pix->sizeimage =3D roundup(pix->width, 8) *=
- pix->height * 3 / 2;
-> > > > > > > > > -             break;
-> > > > > > > > > -     }
-> > > > > > > > > +     pix->bytesperline =3D DIV_ROUND_UP(pix->width * bpp=
-, 8);
-> > > > > > > > > +     pix->sizeimage =3D pix->bytesperline * pix->height;
-> > > > > > > > >  }
-> > > > > > > > >
-> > > > > > > > >  /*
-> > > > > > > > > @@ -305,6 +293,7 @@ static void tegra20_channel_queue_set=
-up(struct tegra_vi_channel *chan)
-> > > > > > > > >  {
-> > > > > > > > >       unsigned int stride =3D chan->format.bytesperline;
-> > > > > > > > >       unsigned int height =3D chan->format.height;
-> > > > > > > > > +     unsigned int width =3D chan->format.width;
-> > > > > > > > >
-> > > > > > > > >       chan->start_offset =3D 0;
-> > > > > > > > >
-> > > > > > > > > @@ -321,8 +310,8 @@ static void tegra20_channel_queue_set=
-up(struct tegra_vi_channel *chan)
-> > > > > > > > >
-> > > > > > > > >       case V4L2_PIX_FMT_YUV420:
-> > > > > > > > >       case V4L2_PIX_FMT_YVU420:
-> > > > > > > > > -             chan->addr_offset_u =3D stride * height;
-> > > > > > > > > -             chan->addr_offset_v =3D chan->addr_offset_u=
- + stride * height / 4;
-> > > > > > > > > +             chan->addr_offset_u =3D width * height;
-> > > > > > > > > +             chan->addr_offset_v =3D chan->addr_offset_u=
- + width * height / 4;
-> > > > > > > > >
-> > > > > > > > >               /* For YVU420, we swap the locations of the=
- U and V planes. */
-> > > > > > > > >               if (chan->format.pixelformat =3D=3D V4L2_PI=
-X_FMT_YVU420)
-> > > > > > > > > @@ -332,14 +321,14 @@ static void tegra20_channel_queue_s=
-etup(struct tegra_vi_channel *chan)
-> > > > > > > > >               chan->start_offset_v =3D chan->addr_offset_=
-v;
-> > > > > > > > >
-> > > > > > > > >               if (chan->vflip) {
-> > > > > > > > > -                     chan->start_offset   +=3D stride * =
-(height - 1);
-> > > > > > > > > -                     chan->start_offset_u +=3D (stride /=
- 2) * ((height / 2) - 1);
-> > > > > > > > > -                     chan->start_offset_v +=3D (stride /=
- 2) * ((height / 2) - 1);
-> > > > > > > > > +                     chan->start_offset   +=3D width * (=
-height - 1);
-> > > > > > > > > +                     chan->start_offset_u +=3D (width / =
-2) * ((height / 2) - 1);
-> > > > > > > > > +                     chan->start_offset_v +=3D (width / =
-2) * ((height / 2) - 1);
-> > > > > > > > >               }
-> > > > > > > > >               if (chan->hflip) {
-> > > > > > > > > -                     chan->start_offset   +=3D stride - =
-1;
-> > > > > > > > > -                     chan->start_offset_u +=3D (stride /=
- 2) - 1;
-> > > > > > > > > -                     chan->start_offset_v +=3D (stride /=
- 2) - 1;
-> > > > > > > > > +                     chan->start_offset   +=3D width - 1=
-;
-> > > > > > > > > +                     chan->start_offset_u +=3D (width / =
-2) - 1;
-> > > > > > > > > +                     chan->start_offset_v +=3D (width / =
-2) - 1;
-> > > > > > > > >               }
-> > > > > > > > >               break;
-> > > > > > > > >       }
-> > > > > > > > > @@ -576,20 +565,23 @@ static const struct tegra_vi_ops te=
-gra20_vi_ops =3D {
-> > > > > > > > >       .vi_stop_streaming =3D tegra20_vi_stop_streaming,
-> > > > > > > > >  };
-> > > > > > > > >
-> > > > > > > > > -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)    \
-> > > > > > > > > -{                                                    \
-> > > > > > > > > -     .code    =3D MEDIA_BUS_FMT_##MBUS_CODE,           \
-> > > > > > > > > -     .bpp     =3D BPP,                                 \
-> > > > > > > > > -     .fourcc  =3D V4L2_PIX_FMT_##FOURCC,               \
-> > > > > > > > > +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_COD=
-E, BPP, FOURCC)      \
-> > > > > > > > > +{                                                       =
-             \
-> > > > > > > > > +     .img_dt         =3D TEGRA_IMAGE_DT_##DATA_TYPE,    =
-               \
-> > > > > > > > > +     .bit_width      =3D BIT_WIDTH,                     =
-               \
-> > > > > > > > > +     .code           =3D MEDIA_BUS_FMT_##MBUS_CODE,     =
-               \
-> > > > > > > > > +     .bpp            =3D BPP,                           =
-               \
-> > > > > > > > > +     .fourcc         =3D V4L2_PIX_FMT_##FOURCC,         =
-               \
-> > > > > > > > >  }
-> > > > > > > > >
-> > > > > > > > >  static const struct tegra_video_format tegra20_video_for=
-mats[] =3D {
-> > > > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
-> > > > > > > > > -     TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
-> > > > > > > > > -     TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
-> > > > > > > > > -     TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
-> > > > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
-> > > > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
-> > > > > > > > > +     /* YUV422 */
-> > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 16, UYVY=
-),
-> > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 16, VYUY=
-),
-> > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 16, YUYV=
-),
-> > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16, YVYU=
-),
-> > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YUV4=
-20),
-> > > > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YVU4=
-20),
-> > > > > > > > >  };
-> > > > > > > >
-> > > > > > > > Looking at the code, BPP seems to only be used for the line=
- stride (i.e. bytes per line) calculation. I think we should just make it 8=
- for the planar formats (possibly with an explaining comment). With the cur=
-rent code, we end up with 'bytesperline' variables in places not being the =
-actual bytes per line, which is confusing.
-> > > > > > > >
-> > > > > > > > Actually, we can then just make the 'bpp' field be bytes pe=
-r pixel as it was before to avoid the discrepancy with Tegra210.
-> > > > > > > >
-> > > > > > >
-> > > > > > > No, this code is actually cleaner and in sync with what downs=
-tream
-> > > > > > > does, Tegra210 bytes per pixel is confusing since it totally =
-neglects
-> > > > > > > formats with fractional bytes per pixel, it is impossible to =
-set there
-> > > > > > > 3/2 for example, which is used by YUV420.
-> > > > > > >
-> > > > > > > According to downstream code bytes_per_line =3D
-> > > > > > > soc_mbus_bytes_per_line..., downstream directly name is bytes=
-_per_line
-> > > > > > > and soc_mbus_bytes_per_line returns width * 3 / 2 which is co=
-rrect
-> > > > > > > calculation (12 bits). Meanwhile for planar formats Tegra has=
- 3
-> > > > > > > different buffers so with offset calculation plain width must=
- be used
-> > > > > > > (which matches downstream).
-> > > > > > >
-> > > > > >
-> > > > > > If you mean use of BPP by VI, I can propose removing bytesperli=
-ne and
-> > > > > > sizeimage configuration from VI entirely and leave this to per-=
-SoC
-> > > > > > fmt_align function which does this already anyway and guards ev=
-ery
-> > > > > > time those values are referred. This way there will be no insta=
-nces
-> > > > > > where "places not being the actual bytes per line" comes true.
-> > > > >
-> > > > > Without trying myself, I'm not sure what approach is the cleanest=
-. In any case, the downstream code is just wrong (or incorrectly named), so=
- we shouldn't defer to it in this matter. I don't see a reason to keep the =
-value '12' either if it doesn't serve any purpose (admittedly if we changed=
- it to 8 or 1, 'bpp' would be a confusing name for it, but explainable with=
- a comment and improve-able later) I don't mind having an if/switch stateme=
-nt for the planar formats to use a '8' as multiplier instead of '12' if we =
-need to keep the '12'. But the main thing I want to avoid is a bytesperline=
-/stride variable that isn't the line stride in bytes.
-> > > > >
+> > > On Mon, Aug 25, 2025 at 12:50:40PM +0300, Sakari Ailus wrote:
+> > > > Sub-device configuration models define what V4L2 API elements are
+> > > > available on a compliant sub-device and how do they behave.
 > > > >
-> > > > I am proposing you a solution, handle bytesperline and sizeimage in
-> > > > per-SoC fmt_align function.
-> > >
-> > > Ok, I think that sounds good. It's good to consolidate the calculatio=
-n in one place.
-> > >
+> > > > The patch also adds a model for common raw sensors.
 > > > >
-> > > > 12 represents amount of bits used per pixel, 8 for Y plane, 2 for U
-> > > > plane and 2 for V plane, total is 12. "but explainable with a comme=
-nt
-> > > > and improve-able later" why then we cannot use 12 with a comment? t=
-his
-> > > > is all arbitrary. Downstream is not wrong from this perspective, yo=
-u
-> > > > don't take into account that YUV420 is planar and it uses 3 planes =
-a
-> > > > whole Y plane and 1/4 of U and V which in total results in wigth + =
-2 *
-> > > > 1/4 width which is width * 3/2
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+> > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > ---
+> > > >  .../media/drivers/camera-sensor.rst           |   4 +
+> > > >  .../media/v4l/common-raw-sensor.dia           | 442 ++++++++++++++++++
+> > > >  .../media/v4l/common-raw-sensor.svg           | 134 ++++++
+> > > >  .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
+> > > >  .../media/v4l/subdev-config-model.rst         | 230 +++++++++
+> > > >  5 files changed, 812 insertions(+)
+> > > >  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.dia
+> > > >  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.svg
+> > > >  create mode 100644 Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > > >
+> > > > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > > index cbbfbb0d8273..39f3f91c6733 100644
+> > > > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > > @@ -18,6 +18,8 @@ binning functionality. The sensor drivers belong to two distinct classes, freely
+> > > >  configurable and register list-based drivers, depending on how the driver
+> > > >  configures this functionality.
+> > > >
+> > > > +Also see :ref:`media_subdev_config_model_common_raw_sensor`.
+> > > > +
+> > > >  Freely configurable camera sensor drivers
+> > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > >
+> > > > @@ -118,6 +120,8 @@ values programmed by the register sequences. The default values of these
+> > > >  controls shall be 0 (disabled). Especially these controls shall not be inverted,
+> > > >  independently of the sensor's mounting rotation.
+> > > >
+> > > > +.. _media_using_camera_sensor_drivers_embedded_data:
+> > > > +
+> > > >  Embedded data
+> > > >  -------------
+> > > >
+> > > > diff --git a/Documentation/userspace-api/media/v4l/common-raw-sensor.dia b/Documentation/userspace-api/media/v4l/common-raw-sensor.dia
+> > > > new file mode 100644
+> > > > index 000000000000..24b3f2b2a626
+> > > > --- /dev/null
+> > > > +++ b/Documentation/userspace-api/media/v4l/common-raw-sensor.dia
 > > >
-> > > Yes -- but AIUI, the only thing the bpp value is used for the bytespe=
-rline calculation. When we add the special case for planar formats, which d=
-oesn't use the bpp value, then the value 12 is never used anywhere. We shou=
-ld at least have a comment saying it is unused. (At that point, we could ju=
-st hardcode the bpp values in the fmt_align function -- but I don't mind ei=
-ther way.)
+> > > [snip]
 > > >
-> > https://ffmpeg.org/pipermail/ffmpeg-user/2023-June/056488.html
->
-> I understand very well that for YUV420, each pixel has 12 bits of color i=
-nformation. But how many bits of color information each pixel has is not us=
-eful in the context of this driver. The number of bytes per line is not rel=
-ated to how many bits of color information each pixel has for planar format=
-s.
+> > > > diff --git a/Documentation/userspace-api/media/v4l/common-raw-sensor.svg b/Documentation/userspace-api/media/v4l/common-raw-sensor.svg
+> > > > new file mode 100644
+> > > > index 000000000000..1d6055da2519
+> > > > --- /dev/null
+> > > > +++ b/Documentation/userspace-api/media/v4l/common-raw-sensor.svg
+> > >
+> > > [snip]
+> > >
+> > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > index bb86cadfad1c..b0774b9a9b71 100644
+> > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > @@ -846,3 +846,5 @@ stream while it may be possible to enable and disable the embedded data stream.
+> > > >
+> > > >  The embedded data format does not need to be configured on the sensor's pads as
+> > > >  the format is dictated by the pixel data format in this case.
+> > > > +
+> > > > +.. include:: subdev-config-model.rst
+> > > > diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > > > new file mode 100644
+> > > > index 000000000000..1e6c58931ea0
+> > > > --- /dev/null
+> > > > +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > > > @@ -0,0 +1,230 @@
+> > > > +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
+> > > > +
+> > > > +.. _media_subdev_config_model:
+> > > > +
+> > > > +Sub-device configuration models
+> > > > +===============================
+> > > > +
+> > > > +The V4L2 specification defines a subdev API that exposes three type of
+> > > > +configuration elements: formats, selection rectangles and controls. The
+> > > > +specification contains generic information about how those configuration
+> > > > +elements behave, but not precisely how they apply to particular hardware
+> > > > +features. We leave some leeway to drivers to decide how to map selection
+> > > > +rectangles to device features, as long as they comply with the V4L2
+> > > > +specification. This is needed as hardware features differ between devices, so
+> > > > +it's the driver's responsibility to handle this mapping.
+> > > > +
+> > > > +Unfortunately, this lack of clearly defined mapping in the specification has led
+> > > > +to different drivers mapping the same hardware features to different API
+> > > > +elements, or implementing the API elements with slightly different
+> > > > +behaviours. Furthermore, many drivers have implemented selection rectangles in
+> > > > +ways that do not comply with the V4L2 specification. All of this makes userspace
+> > > > +development difficult.
+> > > > +
+> > > > +Sub-device configuration models specify in detail what the user space can expect
+> > > > +from a sub-device in terms of V4L2 sub-device interface support, semantics
+> > > > +included.
+> > > > +
+> > > > +A sub-device may implement more than one configuration model at the same
+> > > > +time. The implemented configuration models can be obtained from the sub-device's
+> > > > +``V4L2_CID_CONFIG_MODEL`` control.
+> > > > +
+> > > > +.. _media_subdev_config_model_common_raw_sensor:
+> > > > +
+> > > > +Common raw camera sensor model
+> > > > +------------------------------
+> > > > +
+> > > > +The common raw camera sensor model defines a set of enumeration and
+> > > > +configuration interfaces (formats, selections etc.) that cover the vast majority
+> > > > +of functionality of raw camera sensors. Not all of the interfaces are
+> > > > +necessarily offered by all drivers.
+> > > > +
+> > > > +A sub-device complies with the common raw sensor model if the
+> > > > +``V4L2_CONFIG_MODEL_COMMON_RAW_SENSOR`` bit is set in the
+> > > > +``V4L2_CID_CONFIG_MODEL`` control of the sub-device.
+> > > > +
+> > > > +The common raw camera sensor model is aligned with
+> > > > +:ref:`media_using_camera_sensor_drivers`. Please refer to that regarding aspects
+> > > > +not specified here.
+> > > > +
+> > > > +Each camera sensor implementing the common raw sensor model exposes a single
+> > > > +V4L2 sub-device. The sub-device contains a single source pad (0) and two or more
+> > > > +internal pads: one or more image data internal pads (starting from 1) and
+> > > > +optionally an embedded data pad.
+> > > > +
+> > > > +Additionally, further internal pads may be supported for other features. Using
+> > > > +more than one image data internal pad or more than one non-image data pad
+> > > > +requires these pads documented separately for the given device. The indices of
+> > > > +the image data internal pads shall be lower than those of the non-image data
+> > > > +pads.
+> > > > +
+> > > > +This is shown in :ref:`media_subdev_config_model_common_raw_sensor_subdev`.
+> > >
+> > > possibly doesn't need a link as the image is just here below
+> > >
+> > > > +
+> > > > +.. _media_subdev_config_model_common_raw_sensor_subdev:
+> > > > +
+> > > > +.. kernel-figure:: common-raw-sensor.svg
+> > > > +    :alt:    common-raw-sensor.svg
+> > > > +    :align:  center
+> > > > +
+> > > > +    **Common raw sensor sub-device with n pads (n == 2)**
+> > > > +
+> > > > +Routes
+> > > > +^^^^^^
+> > > > +
+> > > > +A sub-device conforming to common raw camera sensor model implements the
+> > > > +following routes.
+> > > > +
+> > > > +.. flat-table:: Routes
+> > > > +    :header-rows: 1
+> > > > +
+> > > > +    * - Sink pad/stream
+> > > > +      - Source pad/stream
+> > > > +      - Static (X/M(aybe)/-)
+> > > > +      - Mandatory (X/-)
+> > > > +      - Synopsis
+> > > > +    * - 1/0
+> > > > +      - 0/0
+> > > > +      - X
+> > > > +      - X
+> > > > +      - Image data
+> > > > +    * - 2/0
+> > > > +      - 0/1
+> > > > +      - M
+> > > > +      - \-
+> > > > +      - Embedded data
+> > > > +
+> > > > +Support for the embedded data stream is optional. Drivers supporting the
+> > > > +embedded data stream may allow disabling and enabling the route when the
+> > > > +streaming is disabled.
+> > >
+> > > I would
+> > >
+> > > s/when the streaming is disabled//
+> >
+> > Sounds good.
+> >
+> > >
+> > > > +
+> > > > +Sensor pixel array size, cropping and binning
+> > > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > > > +
+> > > > +The sensor's pixel array is divided into one or more areas. The areas around the
+> > > > +edge of the pixel array, usually one or more sides, may contain optical black
+> > >
+> > > You say that "the pixel array is divided into one or more areas" and
+> > > then list "the areas around the edge of the pixel array" which is confusing
+> > >
+> > > I think it would be better as
+> > >
+> > > The sensor's full pixel array is divided into one or more areas, one
+> > > (or multiple) active area which contains visible pixels surrounded,
+> > > usually on one or more sides, by non-active areas which may contain
+> > > optical black pixels, dummy pixels and other non-image pixels. The
+> > > entire pixel array areas size, including the active and non-active
+> > > portions is conveyed by the format on (pad, stream) pair 1/0.
+> > >
+> > > This would also better define the "visible pixels" term which is used
+> > > in the rest of the documentation.
+> >
+> > There indeed were issues in the terms used in the original text. How about:
+> >
+> > The sensor's pixel array is divided into one or more areas. The areas around the
+> > the visible area in the pixel array, usually one or more sides, may contain
+> 
+> I still feel that "active area that contains visible pixels" better
+> defines what "visibile area" is... not a problem anyway
 
-No, it has direct impact. This is how buffer size / image size is
-calculated since we place each plane consecutive. And bytes per line
-is used specifically in image size calculation. This is common part
-with non-planar formats. Then since Tegra provides a dedicated
-channels/buffers for each plane, configuration of planar format
-includes an additional step with calculation for each plane.
+How about "visible pixel area"?
 
->
->
->
+> 
+> > optical black pixels, dummy pixels and other non-image pixels. The full size of
+> > the pixel array that may be captured is conveyed by the format on (pad, stream)
+> > pair 1/0.
+> >
+> > A rectangle within the pixel array contains the visible pixels. Capturing the
+> > non-visible pixels outside the visible pixel area may be supported by the
+> > sensor. The visible pixel area corresponds to the ``V4L2_SEL_TGT_CROP_DEFAULT``
+> > selection target on (pad, stream) pair 1/0.
+> >
+> 
+> Just for sake of discussion: in libcamera we support multiple,
+> possible overlapping, active pixel areas:
+> https://git.libcamera.org/libcamera/libcamera.git/tree/src/libcamera/property_ids_core.yaml#n594
+> 
+> tbh I don't know how common this is, but as far as I can tell we won't
+> be able to describe them here
+
+Do you have a sensor that would support this?
+
+> 
+> 
+> > >
+> > > > +
+> > > > +A rectangle within the pixel array contains the visible pixels. Capturing the
+> > >
+> > > If you accept the above, you can drop the first sentence here
+> > >
+> > > > +non-visible pixels outside the visible pixel area may be supported by the
+> > > > +sensor. The visible pixel area corresponds to the ``V4L2_SEL_TGT_CROP_DEFAULT``
+> > > > +selection target on (pad, stream) pair 1/0.
+> > > > +
+> > > > +Sensors can perform multiple operations that affect the output image size. First
+> > > > +of these is the analogue crop. Analogue crop limits the area of the pixel array
+> > >
+> > > s/First one of these/The first one of these/
+> >
+> > Yes.
+> >
+> > >
+> > > > +which the sensor will read, affecting sensor timing as well. The granularity of
+> > > > +the analogue crop configuration varies greatly across sensors: some sensors
+> > > > +support only a few different analogue crop configurations whereas others may
+> > > > +support anything divisible by a given number of pixels. The analogue crop
+> > > > +configuration corresponds to the ``V4L2_SEL_TGT_CROP`` selection target on (pad,
+> > > > +stream) pair 1/0. The default analogue crop rectangle corresponds to the visible
+> > > > +pixel area.
+> > > > +
+> > > > +In the next step, binning is performed on the image data read from camera
+> > > > +sensor's pixel array, as determined by the analogue crop configuration. Enabling
+> > > > +binning will effectively result in an image smaller than the original by given
+> > > > +binning factors horizontally and vertically. Typical values are 1/2 and 1/3 but
+> > > > +others may well be supported by the hardware as well.
+> > > > +
+> > > > +Sub-sampling follows binning. Sub-sampling, like binning, reduces the size of
+> > > > +the image by including only a subset of samples read from the sensor's pixel
+> > > > +matrix, typically every n'th pixel horizontally and vertically, taking the
+> > > > +sensor's color pattern into account. Sub-sampling is generally configurable
+> > > > +separately horizontally and vertically.
+> > > > +
+> > > > +Binning and sub-sampling are configured using the ``V4L2_SEL_TGT_COMPOSE``
+> > >
+> > > s/Binning and sub-sampling are/The combined effect of binning and
+> > > sub-sampling is/
+> >
+> > Yes.
+> >
+> > >
+> > > > +rectangle, relative to the analogue crop rectangle, on (pad, stream) pair
+> > > > +1/0. The driver implementation determines how to configure binning and
+> > > > +sub-sampling to achieve the desired size.
+> > > > +
+> > > > +The digital crop operation takes place after binning and sub-sampling. It is
+> > > > +configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
+> > > > +0/0. The resulting image size is further output by the sensor.
+> > >
+> > > by the sensor on the bus.
+> > >
+> > > ?
+> >
+> > We should in fact get rid of the word "bus" in this context as the CSI-2
+> > interface is not an actual (addressable) bus. How about "sensor's data
+> > interface"? Someone will probably ask what that data interface is. :-)
+> 
+> True :) up to you!
+
+I'll use the data interface here.
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
