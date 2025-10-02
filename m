@@ -1,88 +1,88 @@
-Return-Path: <linux-media+bounces-43595-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43596-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 449CCBB3764
-	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 11:35:55 +0200 (CEST)
+Received: from ny.mirrors.kernel.org (ny.mirrors.kernel.org [IPv6:2604:1380:45d1:ec00::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 47956BB380C
+	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 11:41:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id BB8B7189E40C
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 09:36:17 +0000 (UTC)
+	by ny.mirrors.kernel.org (Postfix) with ESMTPS id BF91F17A104
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 09:41:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A9EB2FBE1C;
-	Thu,  2 Oct 2025 09:35:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9497E2FF66A;
+	Thu,  2 Oct 2025 09:41:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="b9loSckW"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="EuXulkm6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E4A12F0C79
-	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 09:35:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E4A72FC87E
+	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 09:41:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759397741; cv=none; b=q3ERf1mQZHcjQqRqGbWNTty9VGjvnRkIorTtgrd2YXCo/ZfDJlmDqcBnbsIcuwN035o8eWHBWzj8cxoSk251i2B88M0VQVOUfQmBZ8s5Ms/YUMNBBSW7BVUCYaYlNT3YdPOCrP+3eOnD8CQTPCs0ZsZn5rb5Xosc6qkvt8Tkxzg=
+	t=1759398074; cv=none; b=iJyt7aXzRNA9snDw6qf3z7gbaw2W/1m+i00Mk550i7Ph14g3RPHCWGj/gknriHGrdIcOp5t93sALQqgy/iOoWlDcW7NrX3mgpLOPLcUON0523KefKYkhF5lqxAE9SxuQgFnvu5YQr1AlxbVlr7DmfqceFRuRmhHBs/9GPtFvHak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759397741; c=relaxed/simple;
-	bh=gquL8oJDS2qFfBrJhZFm5Nd4V2FEnYQdeixhavh1kxc=;
+	s=arc-20240116; t=1759398074; c=relaxed/simple;
+	bh=2+RRAWyE3suax71TISctQT8u03cKa4jIUKTkgo65cH4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SRCbswJBNLg/X9+6UDJgJl7ESGfEqwgsYwLPD5ssijOnnq7tVgKPcndLhJTPIYlWWUAkuyS7pcJVb41kWM966tbePgo6nu6jVKgKQwr/7QW8OmM5Y5YgOfJWRY8jFmgSprnNsExiEDlvyYhZ7yc/VThi6nDm9jpb5aGC1mdT95E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=b9loSckW; arc=none smtp.client-ip=205.220.180.131
+	 In-Reply-To:Content-Type; b=BsShvtB/wu0MKFMoC/CZLkLeH4d0pR8n+xW+6IaO6ddvph05CzWoa0aZCDtT74m4S9Btp+2VXgW48MKCs+Ju/aQ47l7s+kx3jYssbj/S3JFaeVJgj9f0QHyfubQS4Xgm6R+7HJT+8yLV333L6wD30kthrImc4lkJWM2WsWfLLYE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=EuXulkm6; arc=none smtp.client-ip=205.220.180.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5929Vlt8018009
-	for <linux-media@vger.kernel.org>; Thu, 2 Oct 2025 09:35:39 GMT
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5925kd8o008512
+	for <linux-media@vger.kernel.org>; Thu, 2 Oct 2025 09:41:11 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
 	cc:content-transfer-encoding:content-type:date:from:in-reply-to
 	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	iXCeCzOyszl1VAgljz9D6QG5m7XLiun3jSNKMsVM03E=; b=b9loSckWVIAmnYFk
-	SMUe7uXkOrmfkLCVkvPu0PWCpYBoRxh8BEoVQCMxGX/HGj8jYPuoM4LO++T7ThVm
-	ywu8gBXCAf2b/f/VXq7lNWrK5u4CfI/YOBpeXaaj8UpGTOMbyxjyTpYtGaN7A8Pc
-	zksyxijuielQA74kAjoJh6pr2t/FmHhqTS9Z/aQq74Ogm5l3cb4KFeW+pvAw3r0z
-	z+ymNx8YIsIaVEmJYXTI4i+4CH1oHiJsEsKooCGWAwWQHfd5aW1Gt11J/Z6ErbwM
-	N8HrzJg/jaKwtsMNGFVwHEd4pnKJP8fDgtRiumqcRcPMyoh73cum9+IUoWw319wU
-	4nAeww==
-Received: from mail-pj1-f72.google.com (mail-pj1-f72.google.com [209.85.216.72])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49fyrf8wvt-1
+	Z4CJbkv1E7Ldtfiyrw9vrB/hvoYfQbk84yyOwtlJNz8=; b=EuXulkm6i9qi73ZC
+	ixdp4+t+0n/M4f1rI11MCWmSiTuOGIP2Y0KbFgn7pDzlg6VRrGx1xCl+rpOr4Dfl
+	T1sxs/Ykds5QttvZD22+l0nH11UdW7jBdWpyYDe2oB6WXRjl+eTvKUF25lnSOW+Y
+	0D3X9u2S2Rl8hhrNPcuhm+RJB1ZAqKmmBEzEnOxXDerhbJXOcCdJmQ4T7DekePsW
+	DHoeN7teK5tCbW1X1X7XuykTzphuzxR+xZCwANgYZgmrMkCbv2h4qDCCsDJJS7yy
+	8dSooBiG3UcyWtOqXWs1oqdsMC8DbYQJIc+ucjahSoxfxUKzb1XRgdAO2+by9sph
+	UU9a0A==
+Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49hkhh0j03-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 09:35:38 +0000 (GMT)
-Received: by mail-pj1-f72.google.com with SMTP id 98e67ed59e1d1-32eb864fe90so1293252a91.3
-        for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 02:35:38 -0700 (PDT)
+	for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 09:41:11 +0000 (GMT)
+Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-3305c08d975so881250a91.3
+        for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 02:41:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759397737; x=1760002537;
+        d=1e100.net; s=20230601; t=1759398070; x=1760002870;
         h=content-transfer-encoding:in-reply-to:from:references:cc:to
          :content-language:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iXCeCzOyszl1VAgljz9D6QG5m7XLiun3jSNKMsVM03E=;
-        b=NmuhpzJfjWtlT9wh4oqohpxBRRWvPTmzlaQKsC1fIlwva7uouM7cItbJIK3WGXnr3A
-         KHC8NVux7LwsCwFxh+KFiC2NeoKahP8RKEoHk/TjMLFBaeFmubrm1cW+32I43sX741wc
-         wiGveCGqoEkjGm+FwNAjF9uG16rKUfKDls/GcDyLrxDeFindS2slYtJ2DH88EzFM5ROK
-         phhRFeyRu7vkw7PjlY/hrM7VXRCYdnYP5PAtAs0JltPrl+Z6MOer+VF4CuWF0bUtoCsN
-         PKH/546Zrp0PuJhWEE2Fd5uan81btJhrzDYKdS4Y+xuHIAByASydZgmOBYDC94wdjfWI
-         sBzA==
-X-Forwarded-Encrypted: i=1; AJvYcCXXhfYBoeHoEmrW/Zd7ySj0Xc1Kxl0UIwGNUfUiMGdVRHKiKcipbC07Hg77txKyNw8gbRZrT45KpH1VoQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxYtrwGLVAidK9981mXUIP11HV4DIShm7We3OBr3yXNNhty/E+f
-	NDRRgmvIdH0xPCBXmBl2yGHan3RvHefYfeCbMKGAB4RvEGUKtoHRukcpKPyX3fQdSkoc9Uwd3/j
-	ak2K7u1QNmve+fvVcZsViDbuSU2TnRU9OZVE8RzBlIU66zeA2+f0fFDC/kNge7WwlNQ==
-X-Gm-Gg: ASbGncvZcqDK6ykl6Nss8uF2AYqfOrEE45FZiTM7KfcUH9sJJzzw/zqzZvdBH4Qx7sw
-	eoLm/tbnQJ/p4KjBK04wKjk+TW8uF1ZIClIImixzbCOm9jSi//GQf6FFc/3+34dk7CWwIWTNP1i
-	CQKVOm9+O3WdGE01kkJPAF6d6z8pwB9Iqrfj1iVyLJZIAG4FKSY2NCdcyEN20tppGekwxr7HX/q
-	2QaqgTUaKetvUBjogpH9Wi6GEEyYqm/hVKBhXP7ozmyXnmRYF1u4LAVBZSUhUttb1Mvrba12ToL
-	KGBLX7SsVOFGCreG6B728H/03Qdup8XkszxanFlpaIZ/opwHPnWQh2GqvPdnNuBtGGAqjFeuQIe
-	ooC0=
-X-Received: by 2002:a17:90b:4a87:b0:32b:623d:ee91 with SMTP id 98e67ed59e1d1-339a6f36e19mr7456605a91.27.1759397737498;
-        Thu, 02 Oct 2025 02:35:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGUdKY/s60So/cK9CP2fZSoDUz/GJTA6OYSgtEOsSuT0tjAiYtF/JKWQr4BbsZy/WrKkHirUQ==
-X-Received: by 2002:a17:90b:4a87:b0:32b:623d:ee91 with SMTP id 98e67ed59e1d1-339a6f36e19mr7456584a91.27.1759397737057;
-        Thu, 02 Oct 2025 02:35:37 -0700 (PDT)
+        bh=Z4CJbkv1E7Ldtfiyrw9vrB/hvoYfQbk84yyOwtlJNz8=;
+        b=vIn3x+ZBPU8OkKPP8iQgoGLjDlDnR+ah6cVqou5Fr7wgVqydO8Tphux8MAxKbMlXRh
+         GmJ3u8l9YLDngW1wjXs3XDVqw2AxbL8L5aB1PVPFmKu82tSfKeL5y0nhcq6OWIoSriI6
+         Cz8kSxdovG7e7eEcEQrPG51LBQ39FWgGy2jpCQSscZO1aO3KhfwmyMcHbFi/KM4cb/Xf
+         k3xYV0VIRKxfT9Zitjnd87bp7KhSLQC/Z0vL0TrgWBoKW6QhhH/sxIbCr7TuR+ro0lls
+         xSg2w9lyK56eC/LM4poIkUtmoF73jJCBH3hcaiWZ1cEjoq9xYaNsPE3u4bjGmh98PBKy
+         BdcA==
+X-Forwarded-Encrypted: i=1; AJvYcCU4kJ4s0MQDb9QB0okpYG/Kc9LSJfI4qbZlovACpvmf1i6nAeXmaPlC0GyeiiC7x+1p1GWUN0X9w1VIvA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHr5aJtmMt+S28XW4gz7lkcZMVMQusSUZsVgmj6+V8ILFqCJLP
+	gZXez7SulPzGw2TqL7o/F3gkxwkK1iP9Yg7MramzNfXVtEL8JgqSPrLYwOCC7UiQboajUHPseaZ
+	qDvJ5LpCDKRpsUCTlJ3gs6fgYandK4LUvlH/KrIb/fVh3Z5mydriN9JuRglOQZDxAHw==
+X-Gm-Gg: ASbGncuRovWhU2krvB/iKHRs3BF91DTDW+eYrfNpuAhUriVPaNUAPNIKBNKUxLPvpU+
+	ltRgvdaXfHJbsup2pnQGIKB28//oq7JwJQQaBsk6lfrOXyVY44oSzJY8vC05PujevTkJgb9VmCA
+	Q7Ybm1Dsoq3t+StrH4rbyBXA9eJ3FGi6HKHJ+pnT27YA2ymwH83IFFr1SYU386ZOmrS8IWZ2JK4
+	+mgnoPgeT/wpiSGFLzeQWdCTayWz6vHafvK1nmP3zf+RrLgsgBXl3fO5Za4iLCZloeccdRVuZ7p
+	iiJq5RIPsbruyGe2G6s3e72Om++5taQvRpD7gvU/Uvwjh5d5i7iruPdUSTWFN0C3Y93FwdkkvU9
+	MZCU=
+X-Received: by 2002:a17:90b:1a91:b0:32e:1b1c:f8b8 with SMTP id 98e67ed59e1d1-339a6f58396mr8008610a91.26.1759398069899;
+        Thu, 02 Oct 2025 02:41:09 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGrQXdvyBSld64O1fXcWJnNXjuF1iF9neRdC1GOocwtAa/1NbRXNWOkpTU61PS7Mqc8K7jbKA==
+X-Received: by 2002:a17:90b:1a91:b0:32e:1b1c:f8b8 with SMTP id 98e67ed59e1d1-339a6f58396mr8008587a91.26.1759398069409;
+        Thu, 02 Oct 2025 02:41:09 -0700 (PDT)
 Received: from [10.204.101.186] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a6ff0d4esm4593006a91.17.2025.10.02.02.35.30
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a701c061sm4473608a91.22.2025.10.02.02.41.05
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 02 Oct 2025 02:35:35 -0700 (PDT)
-Message-ID: <404e40cf-8c51-d12c-d39c-6cc83779e3ca@oss.qualcomm.com>
-Date: Thu, 2 Oct 2025 15:05:29 +0530
+        Thu, 02 Oct 2025 02:41:08 -0700 (PDT)
+Message-ID: <9b8d587d-553f-47aa-7203-a2a573208990@oss.qualcomm.com>
+Date: Thu, 2 Oct 2025 15:11:03 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -91,10 +91,11 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
  Thunderbird/102.15.1
-Subject: Re: [PATCH 5/8] media: iris: Move vpu register defines to common
- header file
+Subject: Re: [PATCH 7/8] media: iris: Introduce vpu ops for vpu4 with
+ necessary hooks
 Content-Language: en-US
-To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+To: Vishnu Reddy <quic_bvisredd@quicinc.com>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
         Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
         Abhinav Kumar <abhinav.kumar@linux.dev>,
         Bryan O'Donoghue <bod@kernel.org>,
@@ -105,69 +106,106 @@ To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
  <conor+dt@kernel.org>,
         Philipp Zabel <p.zabel@pengutronix.de>
 Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vishnu Reddy <quic_bvisredd@quicinc.com>
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
 References: <20250925-knp_video-v1-0-e323c0b3c0cd@oss.qualcomm.com>
- <20250925-knp_video-v1-5-e323c0b3c0cd@oss.qualcomm.com>
- <ab28a715-6b5e-4adc-8889-f47ee2e18d5c@oss.qualcomm.com>
+ <20250925-knp_video-v1-7-e323c0b3c0cd@oss.qualcomm.com>
+ <3355306e-4059-4af5-8865-3b5335356382@oss.qualcomm.com>
+ <68686586-f161-c6c6-cd3f-c5eb87e33954@quicinc.com>
 From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <ab28a715-6b5e-4adc-8889-f47ee2e18d5c@oss.qualcomm.com>
+In-Reply-To: <68686586-f161-c6c6-cd3f-c5eb87e33954@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: PV1GgbCRtMGu7ceUyE8hA7SKkVnt58jU
-X-Proofpoint-GUID: PV1GgbCRtMGu7ceUyE8hA7SKkVnt58jU
-X-Authority-Analysis: v=2.4 cv=etzSD4pX c=1 sm=1 tr=0 ts=68de476a cx=c_pps
- a=RP+M6JBNLl+fLTcSJhASfg==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-GUID: wk37b1m01wHyJlP6UM_mrOvjwhE01jSb
+X-Authority-Analysis: v=2.4 cv=cILtc1eN c=1 sm=1 tr=0 ts=68de48b7 cx=c_pps
+ a=vVfyC5vLCtgYJKYeQD43oA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
  a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
- a=xrcbAuTPtFrA5IWV9RAA:9 a=QEXdDO2ut3YA:10 a=iS9zxrgQBfv6-_F4QbHw:22
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI5MDE3NSBTYWx0ZWRfXyzZ9UCjC3Pez
- tCzY7YbzTwCzbIxupEfRRb/6EEXl5bKhPy0IANAGW+ZSuY+/9NH7cMBmPFG1hXM+CeJeezuKzTh
- Pja1+HhGuvoFpSTmfv6qtUNABovbcL7OGFnVrU5TSK1wUME8NOcxi5y1rdVuj8isi5EHElNsagp
- wWtToINScr6da9gGZWkAZAcw+w/hfKV9JralsU8uhLd6KprUKh+Ja6dW6H6ruodPcRpDTwvNk5g
- eqzKzxtB/t6ll2w1k5K8TEFvbztC+crMMHxEOi+qoR0aQ3AH2M9M4INC0aGmKjIDH1d9PRgOVXc
- LQZXLtpjEsK2dlh0q+F3fU94pcHqOJqA4BxcJzRT5ZKroxIArB8hFEYhWOtIHTHDHVU4HOmGvik
- jqd6XIf0c/lrWxYqv6upsqzEf7giQA==
+ a=bkvKUzPmFnKcqkYD6asA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=rl5im9kqc5Lf4LNbBjHf:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDAyMDA0NyBTYWx0ZWRfXzmZoAoSm4IuC
+ mZtDlfo5xrR3lliv8OSKmUfMR0HB1UPFQnorlM/48kMyFNKAD5/rvIv7fcJodF6HoPv4gtgWu+g
+ +WJX25MIJHZk8lMIrXZHiohKQa8R8KwF5Z/lw2hu9PV7yX2L701zOzp4wbwo0gTW79298E6SZmC
+ o+cSWR/+MY5Ou3TQ3hOnqOT+1Dxi9IynMfBSzMN21zsvJEd3UiXWsckg7Wu+UG6MqWsZXJa37qN
+ obX3iuVi3jWfZphJpDcCw4e9j9mA/7n8O90nqle0aCceL45m+M85FZWpS68U//Tvgg2SVaAUhGB
+ 03aVZ1qDOlEDWr9XKjwPMw+hhKZMEjlP/oRcZTK5hmAqKioTR7gMsme4cGJC5G6vhLiPJ6KVdYJ
+ mmMzzgiqzIqiBhcov/fXXrvph9CErw==
+X-Proofpoint-ORIG-GUID: wk37b1m01wHyJlP6UM_mrOvjwhE01jSb
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
  definitions=2025-10-02_03,2025-10-02_02,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 impostorscore=0 adultscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509290175
+ spamscore=0 phishscore=0 lowpriorityscore=0 priorityscore=1501
+ impostorscore=0 bulkscore=0 clxscore=1015 malwarescore=0 adultscore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
+ definitions=main-2510020047
 
 
-On 9/25/2025 2:40 PM, Konrad Dybcio wrote:
-> On 9/25/25 1:14 AM, Vikash Garodia wrote:
->> Some of vpu4 register defines are common with vpu3x. Move those into the
->> common register defines header. This is done to reuse the defines for
->> vpu4 in subsequent patch which enables the power sequence for vpu4.
+On 9/29/2025 11:15 AM, Vishnu Reddy wrote:
+> 
+> 
+> On 9/25/2025 2:48 PM, Konrad Dybcio wrote:
+>> On 9/25/25 1:14 AM, Vikash Garodia wrote:
+>>> Add power sequence for vpu4 by reusing from previous generation wherever
+>>> possible. Hook up vpu4 op with vpu4 specific implemtation or resue from
+>>> earlier generation wherever feasible, like clock calculation in this
+>>> case.
+>>>
+>>> Co-developed-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
+>>> Signed-off-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
+>>> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+>>> ---
 >>
->> Co-developed-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
->> Signed-off-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
->> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
->> ---
->>  drivers/media/platform/qcom/iris/iris_vpu3x.c      | 36 ----------------------
->>  drivers/media/platform/qcom/iris/iris_vpu_common.c | 23 --------------
->>  .../platform/qcom/iris/iris_vpu_register_defines.h | 29 +++++++++++++++++
+>> [...]
+>>
+>>> +#include <linux/iopoll.h>
+>>> +#include <linux/reset.h>
+>>> +#include "iris_instance.h"
+>>> +#include "iris_vpu_common.h"
+>>> +#include "iris_vpu_register_defines.h"
+>>> +
+>>> +#define WRAPPER_EFUSE_MONITOR            (WRAPPER_BASE_OFFS + 0x08)
+>>> +#define AON_WRAPPER_MVP_NOC_RESET_SYNCRST    (AON_MVP_NOC_RESET + 0x08)
+>>> +#define CPU_CS_APV_BRIDGE_SYNC_RESET        (CPU_BASE_OFFS + 0x174)
+>>> +#define DISABLE_VIDEO_APV_BIT            BIT(27)
+>>> +#define DISABLE_VIDEO_VPP1_BIT            BIT(28)
+>>> +#define DISABLE_VIDEO_VPP0_BIT            BIT(29)
+>>> +#define CORE_CLK_HALT                BIT(0)
+>>> +#define APV_CLK_HALT                BIT(1)
+>>> +#define CORE_PWR_ON                BIT(1)
+>>> +
+>>> +static int iris_vpu4x_genpd_set_hwmode(struct iris_core *core, bool hw_mode)
+>>> +{
+>>> +    u32 value = readl(core->reg_base + WRAPPER_EFUSE_MONITOR);
+>>
+>> I think this could use some explanations.
+>>
+>> I'll go ahead and assume that the eFuse tells us that parts of the
+>> IP are disables (hopefully not all three at once.. we shouldn't
+>> advertise the v4l2 device then, probably)
+>>
+>> You read back the fuse register a lot, even though I presume it's not
+>> supposed to change at runtime. How about we add:
+>>
+>> bool vpp0_fused_off
+>> bool vpp1_fused_off
+>> bool apv_fused_off
+>>
+>> instead?
+>>
 > 
-> This is a slippery slope. I think it's better if you explicitly say
-> the header file contains the register map of VPU3 instead, as let's say
-> VPU5 may add a random register in the middle (pushing some existing ones
-> +0x4 down). Such changes are annoying to debug, and we've unfortunately
-> been there on Adreno..
+>  Hi Konrad, Thanks for your review and suggestion.
 > 
-> Because you're using this for a single common function that is both acting
-> upon the same registers and performing the same operations on them across
-> VPU35 and VPU4, it's okay to de-static-ize the function from iris_vpu3.c and
-> refer to it from vpu4 ops, keeping the register map private to the former
-> file which I think will end up less error-prone for the future.
+>  The poweroff and poweron ops will be called in each test. There is no
+>  ops available that called onetime only to cache these values.
+>  And, to create any variable, Need to add as static global in this file
+>  because these are specific to this platform and I feel it's not
+>  recommended code to add into any common structures as a member.
+> 
+>  Do you have any suggestion from your side how this can be do it in a
+>  simple way?
 
-Appreciate your thoughts on this and trying to bring the design issues faced in
-adreno. I peeked into vpu5 register map, and it follows the offsets from vpu4
-and should reuse them from "iris_vpu_register_defines.h". IMO, we should be good
-in reusing them for vpu4 and atleast for next generation.
+IMO, its a fair point from Konrad to avoid register read multiple times. We will
+recheck this and optimize it to the extent possible.
 
 Regards,
 Vikash
