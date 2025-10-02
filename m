@@ -1,212 +1,212 @@
-Return-Path: <linux-media+bounces-43697-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43698-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B3FCBB581D
-	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 23:44:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B91F2BB582A
+	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 23:52:44 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3BD783A6A19
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 21:44:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3967F3C7C32
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 21:52:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FEC6283C9C;
-	Thu,  2 Oct 2025 21:44:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BB7326FDA5;
+	Thu,  2 Oct 2025 21:52:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qCGBi/4N"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="chc9yJ/K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489547081C;
-	Thu,  2 Oct 2025 21:44:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AB8CC148
+	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 21:52:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759441467; cv=none; b=iU0w5F1QxxBJ4hCMMK3vl+nWCDvF+4BoBGvEs1X+7K0cZw+2Z64D1M6x2JOvHiWU1l8ZiWdpFyp7op8oA3EoeAOEABBTYsB2bD4byJ6Pv1xkyHDO3jmREK7UM3boxgEZ6KhLfgReYCreUM9FM760SgaZ8mktrQobFDyM3nsXzIU=
+	t=1759441945; cv=none; b=QC9URM1AuJStS1Gz3uhqTfTQxB3egh84owqdPPPrIJQNkoqI2uOmnrgPl/I5XqQWkWPX8cjP3bNrAkRYWUpu5NeAnXABERcYy0NTrx5yg0LWw9a8pgy3XlLJG3qWwDdkUsCYnoguoRGFiFrO3NpRF3NczCkyN5vV/egKkhF40bA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759441467; c=relaxed/simple;
-	bh=vdCdPdFwsJMMeXs4fFvCyFSm56dK+WwqeX0uDW72egY=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=pogLz8F+xZiiQgPjBn11P0zIaczc+ym7muokVriks5HFEKNhMdVSdrT0rL6zkEm1dVimB2RU6iXE/i9uD1KZamYwu4w8Cen+Cllq8Xdk549YZyeo1whVjj0CY2Hv22sRugrlWjVT5bPS60k3SoGT3vxEvtlRGOMxdT+CNlbnUBw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qCGBi/4N; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1ACBCF06;
-	Thu,  2 Oct 2025 23:42:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1759441372;
-	bh=vdCdPdFwsJMMeXs4fFvCyFSm56dK+WwqeX0uDW72egY=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=qCGBi/4NLGhL50yZ8HswAtm5fhy64XVceEcH4gsVFTSHUKvmADZfZ3Dve0fwSCUhq
-	 hoWMRD0zCeOlw+Fhl9lg6CoeM0QW/cMGYDCIXJtsNrCxb0srjXwz+9lU0H1Oxn8CZa
-	 EOHKzcHZJdLieWgc/DjpTLGf0/usnithmHeTiuL0=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1759441945; c=relaxed/simple;
+	bh=NIz7qPlfFJG/HN+nuGY6ykVtXvMslI+s24hTeB2sKsU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OdHJvtUz0dWzFWwfK6qvhg3uxGG35xHw+Ao7olnhxwN8CFguuce1jhcCDbhmXGTMSVfVVxhHS/XCdAs7h8Y6uzaqFVMffxLlaDg73JfAz35JaXyyXXokZerN9tZ7RLv2i3KjTaCCxYGjCulJM9/FG15k2wKBClH1kpCGuRw9co0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=chc9yJ/K; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5929Me8H009667
+	for <linux-media@vger.kernel.org>; Thu, 2 Oct 2025 21:52:22 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	4jqMHq5TfRmj3TbrSeyiMOMkIWH6OS1IpBWFPEro1KI=; b=chc9yJ/KgXIArOvy
+	TnPszPDn5q4GGOCo4s5IIg8OwAR4IgmNYT9C9U3IgoAAOEiWBKWII9ahx+a9l+yE
+	i3/sywBuGh2b0HASnRdgdBqYo4N+qZPjnv+6eEL+HXOyP8SWfMgnEbqiBn9zyiRh
+	Gg9t1vQKmRZNMmnOftNxPNHpr6SmrgIpK+dlHlZjk5XHMIW0erzNnWyBhE1n461a
+	U4yyHIgGvntxlPMLXgjnK2shwmqGCaAzrRjoPsiMDIVp1LMsOKp880RFSoJx5V8p
+	TXVvkwDAR7z6h1FDhN7mT6pNXa/WH664xeP0NZquXIipFXOJOQE8DO1U55ZBYi3s
+	GDte6A==
+Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49e93hrsxh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 21:52:22 +0000 (GMT)
+Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-3306bae2119so605363a91.0
+        for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 14:52:22 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759441942; x=1760046742;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4jqMHq5TfRmj3TbrSeyiMOMkIWH6OS1IpBWFPEro1KI=;
+        b=qqHULc9gNigbRgBvjs2Mwd+Fysc6XdHsyY2z/yhnSXJpI74rJqiCcEQou/ihWOjJP7
+         k9irUmzZvuaLNB+J5ATxXtHtnWX/D6a68jpk4dZy9pWwqkydLi1pcCOoTa2ZvKERYLUR
+         pG7mxtlxy+XDjRXMGNIIGInv2+Gbj77/TpzogPsE4P5xjfkXrvTy29XrWH/5IYoEulR2
+         WLzqJEIAV+UZm27qgpUtlk5A70jKowesVCSiEy1AXiJNcazZmJBolWq1AeG4tfBkf+0W
+         1cSHuPfX3hzJ+aeE3rIDtBPPB5gy90JvxEc1GnBlsBiso7UmVCtB42SjX8rsDLQQmG2r
+         pdOw==
+X-Gm-Message-State: AOJu0YzVi8pbiTT0N88x7DY+X2ypVwfj9oG+0+XpN5nDDNlBxPHwGaqO
+	y8wdT7q4bMjRpWIFmIxQ2+A/r0XZKGYKQbarAF5uTvvmCm8AlyTXZGKMcF/UDNA/Z8XP2wOh+wL
+	EptqwxqhHV4489ShSSgGP22o/7VQnZ43nz1fmC5jceP3qvLtHIpbQ/FBPg/RvxWDsEA==
+X-Gm-Gg: ASbGncuFQg0o7848PdYen3y4qXBmckhFP3/ud9wXRTt/8XroB8sPSMzfJsnu8yPUlcR
+	ITqQM2kj1oDXlu4Arzt9wecLvNYwdXZ4kbP6Fc/y0Ge2CFT46k7ajmcvEDa/iuT86KDyEFByx+Y
+	StwTX/2kSXFO/dhpnKJtGtwfGY7I0/BwjusyMaR/GZjCNfSj1c3D+Vw6F38/QTAcLxlqjMw06sN
+	O3iz+YY7L1KGl8Flh9APYKP5sXjFbcpvaHzCx+0PrDrCO6qxOWs+0cXpBNrpvES01STcVPEqws9
+	vtCm2maYYEXRSUh2zYDijoxGpSfgZoEHr0wMrwvMtkuAHNY65OIC6fzNul+CzRZdR+WQDICssq1
+	MSaLTMeDFzXokHvZ+bEOMCtWM3jIU5+lp
+X-Received: by 2002:a17:90b:3ec2:b0:330:68e3:ce7e with SMTP id 98e67ed59e1d1-339c276da6amr451947a91.2.1759441941683;
+        Thu, 02 Oct 2025 14:52:21 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFT8xRXZ+4q0hThcIHkyNTAl5biizcaSooNRPVF8MFksLOncOW7VixIeqV7oJFecz027FfPsg==
+X-Received: by 2002:a17:90b:3ec2:b0:330:68e3:ce7e with SMTP id 98e67ed59e1d1-339c276da6amr451936a91.2.1759441941234;
+        Thu, 02 Oct 2025 14:52:21 -0700 (PDT)
+Received: from [10.71.110.242] (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-339a701bf79sm5849439a91.20.2025.10.02.14.52.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Oct 2025 14:52:20 -0700 (PDT)
+Message-ID: <bebe83bf-bfd7-437f-9820-c907a12d5624@oss.qualcomm.com>
+Date: Thu, 2 Oct 2025 14:52:19 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <20250922182003.3712101-2-stefan.klug@ideasonboard.com>
-References: <20250922182003.3712101-2-stefan.klug@ideasonboard.com>
-Subject: Re: [PATCH v3] media: rkisp1: Improve frame sequence correctness on stats and params buffers
-From: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Stefan Klug <stefan.klug@ideasonboard.com>, linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-To: Dafna Hirschfeld <dafna@fastmail.com>, Heiko Stuebner <heiko@sntech.de>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Stefan Klug <stefan.klug@ideasonboard.com>, linux-media@vger.kernel.org
-Date: Thu, 02 Oct 2025 22:44:19 +0100
-Message-ID: <175944145933.3917877.5417697383444150190@ping.linuxembedded.co.uk>
-User-Agent: alot/0.9.1
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] media: uapi: videodev2: Add support for AV1 stateful
+ decoder
+To: Nicolas Dufresne <nicolas@ndufresne.ca>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+References: <20251001-av1_irisdecoder-v1-0-9fb08f3b96a0@oss.qualcomm.com>
+ <20251001-av1_irisdecoder-v1-1-9fb08f3b96a0@oss.qualcomm.com>
+ <dfe8bdbbf12ec54c7a27888f911082ab63d6030f.camel@ndufresne.ca>
+Content-Language: en-US
+From: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>
+In-Reply-To: <dfe8bdbbf12ec54c7a27888f911082ab63d6030f.camel@ndufresne.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI3MDA0MSBTYWx0ZWRfX9k/Bg2uo70M7
+ 0ySq8cI1Rn19B2SGRZhyHk1lrwO7C9Wx+IJ+VNHig1E2Cp0tkRyxfKT+N0YRooWyjRsQxk2tsr9
+ Adha3LhWU+vMyIV8abVoIq7++pZbe83gxHHmYwvm6uDil3+EiSBczia3l6Pw5O0WzqQ3UZuhtgw
+ OSaacxjPL+dn9khHCCP4Orf4Gz4d0NyQcOnBT0+K93lxyD5D4KAwHDliY4BOrKbQekmGEunkz5g
+ 8B6KaPDa8hhs8dVU56trNigx+MSyvehSly40NZ22A5LxbwQKcCif9gQ7hCL8MZV+yk9gwxDNUVv
+ gkA/D4pSu2ouDLZpMVqkJ1ISXzFeeGYBGHPmarDA7GsqePpxfEMtvs2QNHdXTnrQ7+jWDOEf9cd
+ fSvZynUYSONBI5/ivbJ1YOGBv4qZuw==
+X-Proofpoint-GUID: na_sO4h9Ltr2ltpBlev0WuUazHDCQsSK
+X-Proofpoint-ORIG-GUID: na_sO4h9Ltr2ltpBlev0WuUazHDCQsSK
+X-Authority-Analysis: v=2.4 cv=Rfydyltv c=1 sm=1 tr=0 ts=68def416 cx=c_pps
+ a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=KIgxDb2ibSJr1G8uLA8A:9
+ a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22
+ a=HhbK4dLum7pmb74im6QT:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-02_08,2025-10-02_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 priorityscore=1501 bulkscore=0 adultscore=0 lowpriorityscore=0
+ impostorscore=0 clxscore=1015 malwarescore=0 spamscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509270041
 
-Quoting Stefan Klug (2025-09-22 19:19:57)
-> On the rkisp1 (in my case on a NXP i.MX8 M Plus) the ISP interrupt
-> handler is sometimes called with RKISP1_CIF_ISP_V_START (start of frame)
-> and RKISP1_CIF_ISP_FRAME (end of frame) being set at the same time. In
-> commit 8524fa22fd2f ("media: staging: rkisp1: isp: add a warning and
-> debugfs var for irq delay") a warning was added for that. There are two
-> cases where this condition can occur:
->=20
-> 1. The v-sync and the frame-end belong to the same frame. This means,
->    the irq was heavily delayed and the warning is likely appropriate.
->=20
-> 2. The v-sync belongs to the next frame. This can happen if the vertical
->    blanking between two frames is very short.
->=20
-> The current code always handles case 1 although case 2 is in my
-> experience the more common case and happens in regular usage. This leads
-> to incorrect sequence numbers on stats and params buffers which in turn
-> breaks the regulation in user space. Fix that by adding a frame_active
-> flag to distinguish between these cases and handle the start of frame
-> either at the beginning or at the end of the rkisp1_isp_isr().
->=20
-> Signed-off-by: Stefan Klug <stefan.klug@ideasonboard.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Ooops I replied to a previous version. Isn't email review fun.
-
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
-
->=20
-> ---
->=20
-> Hi all,
->=20
-> Here is an updated version of the patch with a fix for a typo that was
-> spotted in the last review.
->=20
-> Changes in v3:
-> - Fixed typo in comment
-> - Collected r-by tag
->=20
-> Changes in v2:
-> - Removed test for !frame_active in second v_start handler
-> - Improved comments
->=20
-> Best regards,
-> Stefan
->=20
-> ---
->  .../platform/rockchip/rkisp1/rkisp1-common.h  |  1 +
->  .../platform/rockchip/rkisp1/rkisp1-isp.c     | 27 +++++++++++++++----
->  2 files changed, 23 insertions(+), 5 deletions(-)
->=20
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h b/dri=
-vers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> index ca952fd0829b..adf23416de9a 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-common.h
-> @@ -222,6 +222,7 @@ struct rkisp1_isp {
->         struct media_pad pads[RKISP1_ISP_PAD_MAX];
->         const struct rkisp1_mbus_info *sink_fmt;
->         __u32 frame_sequence;
-> +       bool frame_active;
->  };
-> =20
->  /*
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/driver=
-s/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> index 8c29a1c9309a..660c1fd7efcc 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> @@ -965,6 +965,7 @@ static int rkisp1_isp_s_stream(struct v4l2_subdev *sd=
-, int enable)
->         }
-> =20
->         isp->frame_sequence =3D -1;
-> +       isp->frame_active =3D false;
-> =20
->         sd_state =3D v4l2_subdev_lock_and_get_active_state(sd);
-> =20
-> @@ -1086,12 +1087,15 @@ void rkisp1_isp_unregister(struct rkisp1_device *=
-rkisp1)
->   * Interrupt handlers
->   */
-> =20
-> -static void rkisp1_isp_queue_event_sof(struct rkisp1_isp *isp)
-> +static void rkisp1_isp_sof(struct rkisp1_isp *isp)
->  {
->         struct v4l2_event event =3D {
->                 .type =3D V4L2_EVENT_FRAME_SYNC,
->         };
-> =20
-> +       isp->frame_sequence++;
-> +       isp->frame_active =3D true;
-> +
->         event.u.frame_sync.frame_sequence =3D isp->frame_sequence;
->         v4l2_event_queue(isp->sd.devnode, &event);
->  }
-> @@ -1111,15 +1115,20 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
-> =20
->         rkisp1_write(rkisp1, RKISP1_CIF_ISP_ICR, status);
-> =20
-> -       /* Vertical sync signal, starting generating new frame */
-> -       if (status & RKISP1_CIF_ISP_V_START) {
-> -               rkisp1->isp.frame_sequence++;
-> -               rkisp1_isp_queue_event_sof(&rkisp1->isp);
-> +       /*
-> +        * Vertical sync signal, starting new frame. Defer handling of vs=
-ync
-> +        * after RKISP1_CIF_ISP_FRAME if the previous frame was not compl=
-eted
-> +        * yet.
-> +        */
-> +       if (status & RKISP1_CIF_ISP_V_START && !rkisp1->isp.frame_active)=
- {
-> +               status &=3D ~RKISP1_CIF_ISP_V_START;
-> +               rkisp1_isp_sof(&rkisp1->isp);
->                 if (status & RKISP1_CIF_ISP_FRAME) {
->                         WARN_ONCE(1, "irq delay is too long, buffers migh=
-t not be in sync\n");
->                         rkisp1->debug.irq_delay++;
->                 }
->         }
-> +
->         if (status & RKISP1_CIF_ISP_PIC_SIZE_ERROR) {
->                 /* Clear pic_size_error */
->                 isp_err =3D rkisp1_read(rkisp1, RKISP1_CIF_ISP_ERR);
-> @@ -1138,6 +1147,7 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
->         if (status & RKISP1_CIF_ISP_FRAME) {
->                 u32 isp_ris;
-> =20
-> +               rkisp1->isp.frame_active =3D false;
->                 rkisp1->debug.complete_frames++;
-> =20
->                 /* New frame from the sensor received */
-> @@ -1152,5 +1162,12 @@ irqreturn_t rkisp1_isp_isr(int irq, void *ctx)
->                 rkisp1_params_isr(rkisp1);
->         }
-> =20
-> +       /*
-> +        * Deferred handling of vsync if RKISP1_CIF_ISP_V_START and
-> +        * RKISP1_CIF_ISP_FRAME occurred in the same irq.
-> +        */
-> +       if (status & RKISP1_CIF_ISP_V_START)
-> +               rkisp1_isp_sof(&rkisp1->isp);
-> +
->         return IRQ_HANDLED;
->  }
-> --=20
-> 2.48.1
+On 10/2/2025 12:42 PM, Nicolas Dufresne wrote:
+> Hi,
 >
+> Le mercredi 01 octobre 2025 à 12:00 -0700, Deepa Guthyappa Madivalara a écrit :
+>> Introduce a new pixel format, V4L2_PIX_FMT_AV1, to the
+>> Video4Linux2(V4L2) API. This format is intended for AV1
+>> bitstreams in stateful decoding/encoding workflows.
+>> The fourcc code 'AV10' is used to distinguish
+>> this format from the existing V4L2_PIX_FMT_AV1_FRAME,
+>> which is used for stateless AV1 decoder implementation.
+>>
+>> Signed-off-by: Deepa Guthyappa Madivalara <deepa.madivalara@oss.qualcomm.com>
+>> ---
+>>   Documentation/userspace-api/media/v4l/pixfmt-compressed.rst | 8 ++++++++
+>>   include/uapi/linux/videodev2.h                              | 1 +
+>>   2 files changed, 9 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+>> b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+>> index
+>> 806ed73ac474ce0e6df00f902850db9fd0db240e..043ec57d7d48a36005f2a0121a5bc7b733d0
+>> 6590 100644
+>> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+>> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+>> @@ -274,6 +274,14 @@ Compressed Formats
+>>           of macroblocks to decode a full corresponding frame to the matching
+>>           capture buffer.
+>>   
+>> +    * .. _V4L2-PIX-FMT-AV1:
+>> +
+>> +      - ``V4L2_PIX_FMT_AV1``
+>> +      - 'AV10'
+>> +      - AV1 compressed video frame. This format is adapted for implementing
+>> AV1
+>> +        pipeline as stateful video decoder. The decoder expects one Temporal
+> I would do a small edit here. Instead of stating that this is for decoders, I
+> would rather document the intended behaviour for video codec. This way the spec
+> remains open for CAPTURE driver to produce AV1 in the future, or OUTPUT driver
+> consuming it in the future.
+>
+>> +        Unit per buffer from OBU-stream or AnnexB.
+>> +        The encoder generates one Temporal Unit per buffer.
+> Otherwise I'm fine with the proposal of using TU aligned. Similar to other
+> codecs, we can always allow adapting the behaviour using controls, keeping this
+> as the mandatory default so it just works regardless of the HW we run on.
+>
+> regards,
+> Nicolas
+
+Agreed. Thank you. I will update it in the next patch.
+
+Regards,
+Deepa
+
+>>   .. raw:: latex
+>>   
+>>       \normalsize
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index
+>> becd08fdbddb857f8f2bf205d2164dc6e20e80b2..4c07ad6afd45d6a56d19d65fd25f091d8172
+>> 5823 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -775,6 +775,7 @@ struct v4l2_pix_format {
+>>   #define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264
+>> parsed slices */
+>>   #define V4L2_PIX_FMT_HEVC_SLICE v4l2_fourcc('S', '2', '6', '5') /* HEVC
+>> parsed slices */
+>>   #define V4L2_PIX_FMT_AV1_FRAME v4l2_fourcc('A', 'V', '1', 'F') /* AV1 parsed
+>> frame */
+>> +#define V4L2_PIX_FMT_AV1      v4l2_fourcc('A', 'V', '1', '0') /* AV1
+>> (stateful) */
+>>   #define V4L2_PIX_FMT_SPK      v4l2_fourcc('S', 'P', 'K', '0') /* Sorenson
+>> Spark */
+>>   #define V4L2_PIX_FMT_RV30     v4l2_fourcc('R', 'V', '3', '0') /* RealVideo 8
+>> */
+>>   #define V4L2_PIX_FMT_RV40     v4l2_fourcc('R', 'V', '4', '0') /* RealVideo 9
+>> & 10 */
 
