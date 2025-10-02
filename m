@@ -1,155 +1,224 @@
-Return-Path: <linux-media+bounces-43535-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43537-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85020BB2BE9
-	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 09:54:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90E83BB2C54
+	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 10:07:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 16E8419C3AD4
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 07:55:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 49E3F4246B3
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 08:07:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A5ABE2D1F7B;
-	Thu,  2 Oct 2025 07:54:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 347782D239B;
+	Thu,  2 Oct 2025 08:06:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SmUTP5N6"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="jNA4/TK3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976C41DD9AD
-	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 07:54:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D74E208CA;
+	Thu,  2 Oct 2025 08:06:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759391686; cv=none; b=TAfLVc2Ng38hnZ3Ixn2IQTanX1eJgi/pee3V7H18nqHzs+66hzCY7t8mNEKuWmW7nuS7dcS6K1U7JZe9ku8Aho0Q8W699vh8Jutz14JmDWQAcKuE0W7MPNiDoZe1S5GeD4DWfbHCiKkBp94rK+Oc2TpEsRMtihXCFCkjRelYJ5E=
+	t=1759392415; cv=none; b=VQ4+dfP7Gj7QyTR8y2Iiov3lwKE9MNzfjOwLSF+Hap05ROywMXo/kp4KvHbqCamvhFVba37WYUbVEyn0zkm2Qv3pY1VOSB2wECzk1zND6as4pD9oZHq+pK84VztGG9VvOFd2cBEzqQV8HIcIvojredNOvQeaWm6vrCLxXPkArlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759391686; c=relaxed/simple;
-	bh=WSAv+LklGTDBmAJg9JWePc59MIDbYN30xXPqFRoxrGA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fhVnbe626bJsb92sWrBH+wWcN0JxYUsy8vMZ701iBH27SGW5hyrUCVMh8Efw8GzaYJnjcSxQOmSMudB7e26Xv54vGZQxLdsKU1sepiMhpgjaPS/cMDg/rgScKqPGtyA7ALTokaekYT0xAVZNz6yssdQsFe4qfGM720/Q+Op2JKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SmUTP5N6; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1759391683;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=f5NgAjs0FgUvOjNKCgOViw/s6WyhuboPXgN8L2oduk0=;
-	b=SmUTP5N6n2tC2XO2a5xgoxLAO/X78ISI4HrcL0iGg3wVcJ3KGtpk3A3cjR/IJfgSZgj+m5
-	u0ROPESKRQ/Mfee6vYODGlojPB+PVJy7bhmQE/HVwxf+xM3uGpZK0FaWC5LJ3z71NyQxAk
-	vYlGWk3e7cNRH2RAOMUbQW1kLJzCuGw=
-Received: from mail-wr1-f70.google.com (mail-wr1-f70.google.com
- [209.85.221.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-497-F1IZFMlQPFGVBL1opvMZ8g-1; Thu, 02 Oct 2025 03:54:42 -0400
-X-MC-Unique: F1IZFMlQPFGVBL1opvMZ8g-1
-X-Mimecast-MFC-AGG-ID: F1IZFMlQPFGVBL1opvMZ8g_1759391681
-Received: by mail-wr1-f70.google.com with SMTP id ffacd0b85a97d-3ee12ab7f33so569419f8f.2
-        for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 00:54:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759391681; x=1759996481;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=f5NgAjs0FgUvOjNKCgOViw/s6WyhuboPXgN8L2oduk0=;
-        b=emr/4CpY9LaZ5LalTT1gtvqxA3ra7/hDsTbKrfgMYvJODzXW+OAlADEtD3l4RULl9W
-         V86KgWttLJKGYrVHWgCx2RixYVjBggqCQ3g1h/2Waq8vF+GuqSoFeE/efOCBlGOGnEw6
-         +1UNtSGPLCoU4a7XzXWOgsgFFID7Xo4YODT2xF7SA9/pPnFO7tbr79DQStTN7N8KLHy0
-         Ih5trTqbBfb8SnYWTLDDi4zvCdUkhczYf3YM1AFRBnGHAXdJLoY5/XtQSae0R07wJg5k
-         lcILTc1tFs17WRaGppo7LcxVjPjLBFGJBW3V8li1Jal45FyLW5OfI60ZnvtdWwkAjPPe
-         HXMA==
-X-Forwarded-Encrypted: i=1; AJvYcCW7mFq4QhNDqy7tFApP3xWx3XXzdNbwxGBTcf/eDE4F9qtNXGFy3IbU1aWgK5uZveKbMKypJiMD7PYlJg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8bbQNtKcAFRnHx3M4QP1c5y3CubtH/95KptXueY1tCMbKQvbi
-	LqEXV3ncMoum2/nFoKtLaQ36IDewCY47gQU/1o944A1JV6jVzJbgAs49yJZMixTHkFNrzdkUZ+q
-	lmtgO3t/xnofHTrvDTXfQU5qFsisAPCVfauA6saj41X1JKHJ5PdWUJyhfzeF3hZGA
-X-Gm-Gg: ASbGncvISaTBwIPf/XL4UBIWCl84qMQokCf5laOuJs8d6TE2/2m2jiCUH8nHN9eWstG
-	tGp57qwFU6HmtW/S07mpIhSP5isUCA8RWTZNmuAf4AZ7h7hViECCc90f7styZa/AtvApUAAQEay
-	WgDicFqAUo0sQShtLTA/GZE/V4pFni5sQc4koTGxZX+DxWKAsU7hJSl3w1j66aSIqtlmN+/wP+V
-	KOXjkQR2EU/cLqNSCiduAOPs1WSFNpRk0lXWYuadF1FnKsHX0y/3Rkjqd8pl+5K3dmWijkIREYA
-	pIlUhbhte6SfdiUrTUA6eg==
-X-Received: by 2002:a05:6000:4282:b0:40e:31a2:7efe with SMTP id ffacd0b85a97d-425577f4cb8mr4951712f8f.14.1759391680657;
-        Thu, 02 Oct 2025 00:54:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHKgb2wuYS24zodpwDlxRHEFq5J/MXUUrEeNEVo0zphJwnjV4MGibFNyYvpxnYvHco/UT9a7w==
-X-Received: by 2002:a05:6000:4282:b0:40e:31a2:7efe with SMTP id ffacd0b85a97d-425577f4cb8mr4951692f8f.14.1759391680190;
-        Thu, 02 Oct 2025 00:54:40 -0700 (PDT)
-Received: from localhost ([2a01:e0a:b25:f902::ff])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8b0068sm2484557f8f.26.2025.10.02.00.54.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 00:54:39 -0700 (PDT)
-Date: Thu, 2 Oct 2025 09:54:39 +0200
-From: Maxime Ripard <mripard@redhat.com>
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, op-tee@lists.trustedfirmware.org, 
-	linux-arm-kernel@lists.infradead.org, Olivier Masse <olivier.masse@nxp.com>, 
-	Thierry Reding <thierry.reding@gmail.com>, Yong Wu <yong.wu@mediatek.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard <benjamin.gaignard@collabora.com>, 
-	Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>, 
-	"T . J . Mercier" <tjmercier@google.com>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Sumit Garg <sumit.garg@kernel.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, azarrabi@qti.qualcomm.com, 
-	Simona Vetter <simona.vetter@ffwll.ch>, Daniel Stone <daniel@fooishbar.org>, 
-	Rouven Czerwinski <rouven.czerwinski@linaro.org>, robin.murphy@arm.com, Sumit Garg <sumit.garg@oss.qualcomm.com>
-Subject: Re: [PATCH v12 3/9] tee: implement protected DMA-heap
-Message-ID: <20251002-sceptical-goose-of-fame-7b33d6@houat>
-References: <20250911135007.1275833-1-jens.wiklander@linaro.org>
- <20250911135007.1275833-4-jens.wiklander@linaro.org>
+	s=arc-20240116; t=1759392415; c=relaxed/simple;
+	bh=LYBxpvG4GsirP480o2Qg+ZasVLpxAcnoTORF94FBFkY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PD3x1FFv4EtZRMRgVFmauEjzibPU7QaaZcZoWV/d404ZI7Aa1zhB2KiKFMZ6CxSO80fZ0+1QCIGd4jEhgnJi05zkDAhvstvq4uNwagcBSt+Zmuf+6U0GgvAUSCQMVw3pTvN/m5Nt+CK9x+UJM7auGjrZCGmiHxRKjoOqAJ2gCao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=jNA4/TK3; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1759392411;
+	bh=LYBxpvG4GsirP480o2Qg+ZasVLpxAcnoTORF94FBFkY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jNA4/TK3XbUqcfns14QYCxIrMJl6UClvARaH4rkiiyqAGChoD8O/9NBVTUmRuVEBj
+	 vhZQFqB2y+72V+REWDgsTN1rzCUTVB19xMa5POYYTm9+NOM0nUsObwq4PwPq5HQ9AN
+	 ul6McVeGg135Nuxvnnc3ZTZ3h6GeD3kIVusHn+hRlGbqkU2WYpEznTnU8hLVOlHgzw
+	 w0u/6vtta1FI0sHN+y9o0CUW0rta3YQwgvJIZTlqjPV1hecwL2b5k1FmF4hqn33GaP
+	 b6JWepkWs9EgXJlkI5t5zf2x4RuScMbD0OsF9fjJASRRWKdJJ9yngTqHGge4rPqRgr
+	 6TfHPa5tXluMA==
+Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mriesch)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 018BB17E0C54;
+	Thu,  2 Oct 2025 10:06:50 +0200 (CEST)
+Message-ID: <494d4bed-4357-48a1-9313-2b1b70e8e699@collabora.com>
+Date: Thu, 2 Oct 2025 10:06:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="ucqtnbt2ioahlqrj"
-Content-Disposition: inline
-In-Reply-To: <20250911135007.1275833-4-jens.wiklander@linaro.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 12/27] media: v4l2-subdev: Introduce v4l2 subdev
+ context
+To: Anthony McGivern <anthony.mcgivern@arm.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: "bcm-kernel-feedback-list@broadcom.com"
+ <bcm-kernel-feedback-list@broadcom.com>,
+ "florian.fainelli@broadcom.com" <florian.fainelli@broadcom.com>,
+ "hverkuil@kernel.org" <hverkuil@kernel.org>,
+ "kernel-list@raspberrypi.com" <kernel-list@raspberrypi.com>,
+ "Kieran Bingham (kieran.bingham@ideasonboard.com)"
+ <kieran.bingham@ideasonboard.com>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+ "linux-rpi-kernel@lists.infradead.org"
+ <linux-rpi-kernel@lists.infradead.org>,
+ "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+ "mchehab@kernel.org" <mchehab@kernel.org>,
+ "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+ "tfiga@chromium.org" <tfiga@chromium.org>,
+ "tomi.valkeinen@ideasonboard.com" <tomi.valkeinen@ideasonboard.com>
+References: <DU0PR08MB8836559555E586FCD5AE1CBA811FA@DU0PR08MB8836.eurprd08.prod.outlook.com>
+ <pdxsi4fskze6mvgro5foa3jvmrvl3ihmksnzukonoihkb5xum5@kph26jtiayda>
+ <20250930101626.GE25784@pendragon.ideasonboard.com>
+ <2efcfe19bafd1276e9fc71b72e251443f313d693.camel@collabora.com>
+ <413937a1-bf4c-4926-945f-7df39869f215@arm.com>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <413937a1-bf4c-4926-945f-7df39869f215@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
+Hi Anthony, hi all,
 
---ucqtnbt2ioahlqrj
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Subject: Re: [PATCH v12 3/9] tee: implement protected DMA-heap
-MIME-Version: 1.0
+On 10/2/25 09:42, Anthony McGivern wrote:
+> 
+> Hi all,
+> 
+> On 30/09/2025 13:58, Nicolas Dufresne wrote:
+>> Hi Laurent,
+>>
+>> Le mardi 30 septembre 2025 à 13:16 +0300, Laurent Pinchart a écrit :
+>>> On Tue, Sep 30, 2025 at 11:53:39AM +0200, Jacopo Mondi wrote:
+>>>> On Thu, Sep 25, 2025 at 09:26:56AM +0000, Anthony McGivern wrote:
+>>>>> On Thu, Jul 24, 2025 at 16:10:19 +0200, Jacopo Mondi write:
+>>>>>> Introduce a new type in v4l2 subdev that represents a v4l2 subdevice
+>>>>>> contex. It extends 'struct media_entity_context' and is intended to be
+>>>>>> extended by drivers that can store driver-specific information
+>>>>>> in their derived types.
+>>>>>>
+>>>>>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>>>>>
+>>>>> I am interested in how the sub-device context will handle the
+>>>>> Streams API? Looking at the commits the
+>>>>> v4l2_subdev_enable/disable_streams functions still appear to operate
+>>>>> on the main sub-device only. I take it we would have additional
+>>>>> context-aware functions here that can fetch the subdev state from
+>>>>> the sub-device context, though I imagine some fields will have to be
+>>>>> moved into the context such as s_stream_enabled, or even
+>>>>> enabled_pads for non stream-aware drivers?
+>>>>
+>>>> mmm good question, I admit I might have not considered that part yet.
+>>>>
+>>>> Streams API should go in a soon as Sakari's long awaited series hits
+>>>> mainline, and I will certainly need to rebase soon, so I'll probably
+>>>> get back to this.
+>>>>
+>>>> Have you any idea about how this should be designed ?
+> 
+> Hmm, while I haven't thought of a full implementation I did some testing
+> where I added a v4l2_subdev_context_enable_streams and it's respective
+> disable_streams. These would provide the v4l2_subdev_context so that
+> when the subdev state was fetched it would retrieve it from the context.
+> I think this would work with the streams API, however for drivers that don't
+> support this it will not since the fields such as enabled_pads are located
+> in the v4l2_subdev struct itself. Assuming these fields are only used in the
+> V4L2 core (haven't checked this fully) potentially they could be moved into
+> subdev state?
+> 
+> There were some other areas that I found when trying to implement this
+> in the driver we are working on, for example media_pad_remote_pad_unique()
+> only uses the media_pad struct, meaning multi-context would not work here,
+> atleast in the way I expected. Perhaps this is where we have some differing
+> thoughts on how it would be used. See some details below about the driver we
+> are working on.
+> 
+>>>
+>>> Multi-context is designed for memory to memory pipelines, as inline
+>>> pipelines can't be time-multiplexed (at least not without very specific
+>>> hardware designs that I haven't encountered in SoCs so far). In a
+>>
+>> I probably don't understand what you mean here, since I know you are well aware
+>> of the ISP design on RK3588. It has two cores, which allow handling up to 2
+>> sensors inline, but once you need more stream, you should have a way to
+>> reconfigure the pipeline and use one or both cores in a m2m (multi-context)
+>> fashion to extend its capability (balancing the resolutions and rate as usual).
+>>
+>> Perhaps you mean this specific case is already covered by the stream API
+>> combined with other floating proposal ? I think most of us our missing the big
+>> picture and just see organic proposals toward goals documented as un-related,
+>> but that actually looks related.
+>>
+>> Nicolas
+>>
+>>> memory-to-memory pipeline I expect the .enable/disable_streams()
+>>> operation to not do much, as the entities in the pipeline operate based
+>>> on buffers being queued on the input and output video devices. We may
+>>> still need to support this in the multi-context framework, depending on
+>>> the needs of drivers.
+>>>
+>>> Anthony, could you perhaps share some information about the pipeline
+>>> you're envisioning and the type of subdev that you think would cause
+>>> concerns ?
+> 
+> I am currently working on a driver for the Mali-C720 ISP. See the link
+> below for the developer page relating to this for some details:
+> 
+> https://developer.arm.com/Processors/Mali-C720AE
+> 
+> To summarize, it is capable of supporting up to 16 sensors, either through
+> streaming inputs or memory-to-memory modesn and uses a hardware context manager
+> to schedule each context to be processed. There are four video inputs, each
+> supporting four virtual channels. On the processing side, there are two parallel
+> processing pipelines, one optimized for human vision and the other for computer
+> vision. These feed into numerous output pipelines, including four crop+scaler
+> pipes who can each independently select whether to use the HV or CV pipe as
+> its input.
+> 
+> As such, our driver has a multi-layer topology to facilitate this configurability.
+> With some small changes to Libcamera I have all of the output pipelines implemented
+> and the media graph is correctly configured, but we would like to update the driver
+> to support multi-context.
+> 
+> My understanding intially was each context could have it's own topology configured
+> while using the same sub-devices. For example, context 0 may link our crop+scaler
 
-On Thu, Sep 11, 2025 at 03:49:44PM +0200, Jens Wiklander wrote:
-> +static const char *heap_id_2_name(enum tee_dma_heap_id id)
-> +{
-> +	switch (id) {
-> +	case TEE_DMA_HEAP_SECURE_VIDEO_PLAY:
-> +		return "protected,secure-video";
-> +	case TEE_DMA_HEAP_TRUSTED_UI:
-> +		return "protected,trusted-ui";
-> +	case TEE_DMA_HEAP_SECURE_VIDEO_RECORD:
-> +		return "protected,secure-video-record";
-> +	default:
-> +		return NULL;
-> +	}
-> +}
++1
 
-We've recently agreed on a naming guideline (even though it's not merged yet)
+I agree that having a notion of topology/graph partition/graph
+configuration in the context will facilitate the support for the vast
+amount of possible configurations and use cases that modern image
+processing pipelines offer.
 
-https://lore.kernel.org/r/20250728-dma-buf-heap-names-doc-v4-1-f73f71cf0dfd@kernel.org
+I had a chat with Jacopo yesterday and (I think) we found that the media
+graph configuration (routing, linking, ...) could be embedded in the
+media context (maybe in the form of a media state).
 
-Secure and trusted should be defined I guess, because secure and
-protected at least seem redundant to me.
+Best regards,
+Michael
 
-Maxime
-
---ucqtnbt2ioahlqrj
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaN4vvgAKCRAnX84Zoj2+
-dh5DAYCtjelmpXHr50Khpzx9gOlMaEclQyCYsx0ccN3NkEfrV19Dn1EcsuWOsMM8
-FnSLI0wBf20rXmWeBPjWcAcR1B39X7YSjO3A7FgWI4aIrvvEGff3VbIQIgq5c/ST
-75QC6+0wWg==
-=iJBu
------END PGP SIGNATURE-----
-
---ucqtnbt2ioahlqrj--
+> pipes to human vision, whereas context 1 uses computer vision. Similarly, our input
+> sub-device uses internal routing to route from the desired sensor to it's context.
+> It would by my thoughts that the input sub-device here would be shared across every
+> context but could route the sensor data to the necessary contexts. With the current
+> implementation, we make large use of the streams API and have many links to configure
+> based on the usecase so in our case any multi-context integration would also need
+> to support this.
+> 
+> Anthony
+> 
 
 
