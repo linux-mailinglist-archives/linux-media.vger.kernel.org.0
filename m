@@ -1,188 +1,351 @@
-Return-Path: <linux-media+bounces-43524-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43525-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 181A0BB2867
-	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 07:22:54 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id D3E17BB28B4
+	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 07:41:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF0CE3C699A
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 05:22:52 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 988C07B0FC1
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 05:39:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0902C28505A;
-	Thu,  2 Oct 2025 05:22:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8514E23D7DF;
+	Thu,  2 Oct 2025 05:41:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WKGxZJVE"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gHvJgZel"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9025264FB5
-	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 05:22:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E0BF205E3B
+	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 05:41:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759382563; cv=none; b=CLtfCBqjfEl0Xd4EDYQwOasHSHhfFXkC2XsP2GaMqgQiZkm8B21SbZ/e/nK1E4NgpkvuWbPCnKZOKG6XxybISnwhLKGR2OOpDnYFgcVSgpZbQs4QasJVvPe5vyvyNiO1AKq40ZjE9VMDmuIyTKy0bk4TbD5QfHQzNr2RLvKYx+0=
+	t=1759383684; cv=none; b=XAo3CkRnEKhZwY1cgRDduaNM0732DVTQ47aZjRodi4al+5FuMhavIJqLvLCkHPGIZnNB1qbFYe/5F2MCL/uYBtgKUTglZYG7lDVlcTZlalautfWeXDXCfrHqHb5BBe377KmZyTKGh5JVf2uq9XM81dauUzjck5xHKqu9mT1Hddg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759382563; c=relaxed/simple;
-	bh=+UEvtO4ohS3SCkCNVu2PUUuKQQlaqciarVlUS651gmA=;
+	s=arc-20240116; t=1759383684; c=relaxed/simple;
+	bh=Ai80diU9GPDY7knZLsq6IsnKb4K24eNVuQ/3Dm7XhyQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rJnB95qRYz1r1hPHmZ6bRiCx9gGR/wjanc35J3AQtzRI/8C/3tp1t8oINgNlcCdSQ0V8QDlQZMoWDKH5d/ptKn6i9cTkNnCGcfeqW6QDGhAgg5D4My363IIgX2NaJZQf+hsKFQa+xg7h94IbtZVfmUakAKFc7vdF287qtoOsOdU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WKGxZJVE; arc=none smtp.client-ip=209.85.221.45
+	 To:Cc:Content-Type; b=AxYT7Igp0hUez1b96HOpys9kmtHpZ7nE3j/Wr7yP9x0nW4tHXpNqyPKqSzv8w3cFFxp0zJZinMvTUyGsP7KEOXjBhVIZ/GtGiiugPQ+JOlpRgDEqs+KYPwKbtElPRzjUkXxHL52vBUB128tclDu6plA35A34fMhHXTt9rJSXeaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gHvJgZel; arc=none smtp.client-ip=209.85.128.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-414f48bd785so328516f8f.1
-        for <linux-media@vger.kernel.org>; Wed, 01 Oct 2025 22:22:40 -0700 (PDT)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-46e6a6a5e42so1637325e9.0
+        for <linux-media@vger.kernel.org>; Wed, 01 Oct 2025 22:41:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759382559; x=1759987359; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1759383680; x=1759988480; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kIoTAVA9sjHnC7mbYGlDJX9XNa4jYRX+mhTFjapnGcE=;
-        b=WKGxZJVE9bc9SdJlNJbo6f51KykHP+8ayxVAoueB945lem4+eUB16Iscu5i2SEmc69
-         AetrqMXauSPz/IixB1UKxkh5VDFNZdYRXXZj+bzrw2MsWo18aD7PQcgREI+iYYDAr5vZ
-         KPEFpPs2JQ3T1P8+86RYn7R/Rtp5/zFvq+LUCXtObyYhdzkjToAS0ulqjpnikjOPs1UO
-         q2kMkeSiR7uPHwtLWPhjsH1DA6IXnzPVGoA9V8gRfHiIU5NxB1pBDeG6YBAKSYH0FNnC
-         HSjNLCKDdp6GHMzheLmA6vvv2tmWWYCIq7kCTlZ9iL4ll3s63IPYAg77//QIVB8VWX2P
-         JRyg==
+        bh=iw/qgubo4TZ1yBojXtnFrrecbLmrkuMUyWqeArG5GDM=;
+        b=gHvJgZelF6s25CysQYZTap94EzX0LECgmFGEWFpD1L8PjRSSdJp8DHUCBaqDxDXZZc
+         2WjcJ2ngMZMXeXc5Wk3EUvVpqt42gxaGpzrCs7XnJeiDarPzp0iogIlgNVvTqFRc6nlY
+         TAvTgUsMaZD+IVNCCdgQWBYgveG4qlpj32yrt+qBkkYyZF0uViwVcG5PNzLIXruZjW+a
+         Y4eLt7sUubcnjRjqCMVzElzXGXpj7E7NC9GDJFSqYCH+Y+hNihVcWJ1H0YZpjTSHeqbq
+         nP/FYdWBqaJBk1GZ901tSsw52fR2oCWJQrLMAfxqRt6X+PemcESsI5L8OTZbiq7kyeFJ
+         3zXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759382559; x=1759987359;
+        d=1e100.net; s=20230601; t=1759383680; x=1759988480;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kIoTAVA9sjHnC7mbYGlDJX9XNa4jYRX+mhTFjapnGcE=;
-        b=R1A1GA2HVgo1N1sdQVeV7nvh0bIDSpa1BV19G+fYHSFKSi7XA/7EzEV37m+yP5D/WJ
-         lLL+bm8PhHdwetPkR7gRLifwmkb3IS5DMW8/jHne6b8j4ZzZa+pmjlijVgzgiJaMBnM7
-         SNmsz2bMapZIn2W1zwl1ojcKiodKthxSPhao0O/7HJJaTak6Wh3uzMov9m9mKaUgqZbb
-         wTgYDrIEKEqKVxKAyXZQuDUstQ6qwkYGP8pLQVQSoinHptHCy6AJooN40L7ArCXmRjHV
-         ha4fp0mEvIXgWqTjGTXAP8vGTWBub8lfS4AJ7vkPSL96zfl+ip/UIyakiH/Eg33Qjk2b
-         iN8A==
-X-Forwarded-Encrypted: i=1; AJvYcCVKWvi2kOQRXGrVQGR4zhlWNxmrrZL53L3my8t1wBe9T7f0LSlD/yCgt2FJQph8bSB6YG0jTyYX2YjZEQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyd0adp1ho06U8A617wbYtrrZktbgmBJFNOKB+zqnn2urClHqQT
-	3F5IbljrdcXMLuQf9M7mWPlYaFlNNfvO58zk3egGZ9qsqUb+uGUOMQmxCcSey9/qSkRgN79Sivv
-	nSHaPqOWkfWo2UxFMaSZ0x/TrCTLcrUs=
-X-Gm-Gg: ASbGnctRMyfT2obTH6NEUJM/7qSrCZywGbXcpzWxNbH+PFi9Nng2tHtPt5eBBF/HZjh
-	oVSbaZbsU8lUsZuAdjjUgVDDGr73TMjwUddrVLXxfUDF9zCyONpGjw2Gp04/Td9waYuEzfO/YQQ
-	RfasTio6LYPkppsHQp8w0H1xpyQ0Le1Y4kduwelN0gI1oLAf6AAHqs13u8TN9iLKOJH/MNBv4en
-	Dc7hnvPs1J1IQ8pIDXutOo3XYjK2Kbx
-X-Google-Smtp-Source: AGHT+IG0e+DFVcA7EGV4f6gb3cVHuiVS4JYjGsGK6v4oRblkAeW4rQLj6q0R0ldwH/G+/sN3B7OHJYVi23raS5THltw=
-X-Received: by 2002:a5d:5f52:0:b0:3ff:d5c5:6b03 with SMTP id
- ffacd0b85a97d-4255781466fmr4232925f8f.35.1759382558942; Wed, 01 Oct 2025
- 22:22:38 -0700 (PDT)
+        bh=iw/qgubo4TZ1yBojXtnFrrecbLmrkuMUyWqeArG5GDM=;
+        b=PWn6bmQGev8dD42iQ3l7+kow+pgrtjUMvz2hDWy4TpTT+Gc5+/DS3zI8V2MNnhiq2n
+         T5jc5E7H6y0HIQ12mZPBd6yBgE2vXhGL9O0xp182EcWbAgTNDSr8PqCpjSW0u91Zc1ca
+         G54e+iZ/ThjsAdcrqU6GfowGiKWxImLDTk+TWjaikIgy+UhqhE90frNwbFI5jtICRzjA
+         8N4SgZPt6YsUXWw1lwFhAM9qcuwo5PqQSO56ei4T4uBJtcBtGxcQAk5FlCE8EDfgUMQa
+         00VybEAbXfgevFnuvxeUZtssa5xD9SM9KzqC8KiIdL5+X5px8cJD0ReFSa6s55f0mWnQ
+         3kBw==
+X-Forwarded-Encrypted: i=1; AJvYcCXHEU/eNX24QUDiartg2qX5AKJMsMMlVMITK57JEMDbrmKS2fAD4CvUudi+j7C7OQRDA3IWSBV6qsg9Mw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxf+Ul2YxLpfmLkV+iSPC0MNtCH7qU4WJIZcwywy7DT9EHuP7t7
+	p3vOQa/iuSdlkBD0YnOPHs9MoOovjRoBBZQ4tkJnn15clUeivSSmG0zawFa67IS7n4HT56aCtSK
+	9kXZ35b1AlUOr2Ib2N2a2b3+kzhwLGEU=
+X-Gm-Gg: ASbGncsbTBVa3DSv1GzxPhuSVGObb9WorkkKw8rFSfz/ujcCzsafBhjaQJuVIt5pi5K
+	oQqCwOQwcwY4pTG/aXdocXI6nzCkD/9u+Rgj8PvXY7QroSYbn/hpdlwxmK4A4Y/91co0o6uHMKZ
+	2OAIoYKpfQC3GuIF+FwvBigGpNCS6GcHWEx1v3Jcnf6cp1PRG/xFxKdpsofio7c5lGmv84NW6pd
+	tM8jpDbmec3sqnqtrGGx77dn5mlODwS
+X-Google-Smtp-Source: AGHT+IFm/oIsu7qDsX0wfkX/4rRGyXmNcjKCahVY0oyxsCw63+YdrtS8dwwkbketu33GXtMJGpAGQtg0qQ1vRQGYOmk=
+X-Received: by 2002:a05:600c:3b08:b0:468:4350:c84d with SMTP id
+ 5b1f17b1804b1-46e6125ce14mr42980075e9.7.1759383680157; Wed, 01 Oct 2025
+ 22:41:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250925152806.80386-1-clamor95@gmail.com> <20250925152806.80386-2-clamor95@gmail.com>
- <20251002015554.GA2880078-robh@kernel.org>
-In-Reply-To: <20251002015554.GA2880078-robh@kernel.org>
+References: <20250925151648.79510-1-clamor95@gmail.com> <2368735.QZUTf85G27@senjougahara>
+ <CAPVz0n2pibxHzZS_s2i6ZzP1FEcUYCuH=aP8oM18RoivF4xY9A@mail.gmail.com> <3665995.U7HbjWM52l@senjougahara>
+In-Reply-To: <3665995.U7HbjWM52l@senjougahara>
 From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Thu, 2 Oct 2025 08:22:27 +0300
-X-Gm-Features: AS18NWCy4o_ayBLITcbOWaJzzbRVpQSybS31RCoaoa8CEb7E1WnQEhadEGX4bl0
-Message-ID: <CAPVz0n150FGUvgmxM8tLyQanWjhsmi4j=DaSa-JW2JSjCM4=tw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: document Sony IMX111 CMOS sensor
-To: Rob Herring <robh@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Dongcheng Yan <dongcheng.yan@intel.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Jingjing Xiong <jingjing.xiong@intel.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
+Date: Thu, 2 Oct 2025 08:41:08 +0300
+X-Gm-Features: AS18NWAY9WH6L95JzNeP4gxJ8y1IYPL2iVYCINKH0_51pXstYWsOZz_yoi4fL60
+Message-ID: <CAPVz0n3CrVufs8vbw8XnYuwoZoQ2Xsi3V4HimgT0=4RQySzvaw@mail.gmail.com>
+Subject: Re: [PATCH v3 15/22] staging: media: tegra-video: tegra20: simplify
+ format align calculations
+To: Mikko Perttunen <mperttunen@nvidia.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Prashant Gaikwad <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Linus Walleij <linus.walleij@linaro.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
+	=?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+	Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>, 
+	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-=D1=87=D1=82, 2 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 04:55=
- Rob Herring <robh@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+=D1=87=D1=82, 2 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 07:00=
+ Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
 >
-> On Thu, Sep 25, 2025 at 06:28:05PM +0300, Svyatoslav Ryhel wrote:
-> > Add bindings for Sony IMX111 CMOS Digital Image Sensor found in LG
-> > Optimus 4X (P880) and Optimus Vu (P895) smartphones.
+> On Wednesday, October 1, 2025 4:59=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > =D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 1=
+0:51 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > >
+> > > On Wednesday, October 1, 2025 2:35=E2=80=AFPM Svyatoslav Ryhel wrote:
+> > > > =D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=
+=BE 08:07 Svyatoslav Ryhel <clamor95@gmail.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> > > > >
+> > > > > =D1=81=D1=80, 1 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =
+=D0=BE 07:38 Mikko Perttunen <mperttunen@nvidia.com> =D0=BF=D0=B8=D1=88=D0=
+=B5:
+> > > > > >
+> > > > > > On Friday, September 26, 2025 12:16=E2=80=AFAM Svyatoslav Ryhel=
+ wrote:
+> > > > > > > Simplify format align calculations by slightly modifying supp=
+orted formats
+> > > > > > > structure. Adjusted U and V offset calculations for planar fo=
+rmats since
+> > > > > > > YUV420P bits per pixel is 12 (1 full plane for Y + 2 * 1/4 pl=
+anes for U
+> > > > > > > and V) so stride is width * 3/2, but offset must be calculate=
+d with plain
+> > > > > > > width since each plain has stride width * 1. This aligns with=
+ downstream
+> > > > > >
+> > > > > > plane
+> > > > > >
+> > > > > > > behavior which uses same approach for offset calculations.
+> > > > > > >
+> > > > > > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > > > > > ---
+> > > > > > >  drivers/staging/media/tegra-video/tegra20.c | 58 +++++++++--=
+----------
+> > > > > > >  drivers/staging/media/tegra-video/vi.h      |  3 +-
+> > > > > > >  2 files changed, 27 insertions(+), 34 deletions(-)
+> > > > > > >
+> > > > > > > diff --git a/drivers/staging/media/tegra-video/tegra20.c b/dr=
+ivers/staging/media/tegra-video/tegra20.c
+> > > > > > > index 7c3ff843235d..b7a39723dfc2 100644
+> > > > > > > --- a/drivers/staging/media/tegra-video/tegra20.c
+> > > > > > > +++ b/drivers/staging/media/tegra-video/tegra20.c
+> > > > > > > @@ -280,20 +280,8 @@ static void tegra20_fmt_align(struct v4l=
+2_pix_format *pix, unsigned int bpp)
+> > > > > > >       pix->width  =3D clamp(pix->width,  TEGRA20_MIN_WIDTH,  =
+TEGRA20_MAX_WIDTH);
+> > > > > > >       pix->height =3D clamp(pix->height, TEGRA20_MIN_HEIGHT, =
+TEGRA20_MAX_HEIGHT);
+> > > > > > >
+> > > > > > > -     switch (pix->pixelformat) {
+> > > > > > > -     case V4L2_PIX_FMT_UYVY:
+> > > > > > > -     case V4L2_PIX_FMT_VYUY:
+> > > > > > > -     case V4L2_PIX_FMT_YUYV:
+> > > > > > > -     case V4L2_PIX_FMT_YVYU:
+> > > > > > > -             pix->bytesperline =3D roundup(pix->width, 2) * =
+2;
+> > > > > > > -             pix->sizeimage =3D roundup(pix->width, 2) * 2 *=
+ pix->height;
+> > > > > > > -             break;
+> > > > > > > -     case V4L2_PIX_FMT_YUV420:
+> > > > > > > -     case V4L2_PIX_FMT_YVU420:
+> > > > > > > -             pix->bytesperline =3D roundup(pix->width, 8);
+> > > > > > > -             pix->sizeimage =3D roundup(pix->width, 8) * pix=
+->height * 3 / 2;
+> > > > > > > -             break;
+> > > > > > > -     }
+> > > > > > > +     pix->bytesperline =3D DIV_ROUND_UP(pix->width * bpp, 8)=
+;
+> > > > > > > +     pix->sizeimage =3D pix->bytesperline * pix->height;
+> > > > > > >  }
+> > > > > > >
+> > > > > > >  /*
+> > > > > > > @@ -305,6 +293,7 @@ static void tegra20_channel_queue_setup(s=
+truct tegra_vi_channel *chan)
+> > > > > > >  {
+> > > > > > >       unsigned int stride =3D chan->format.bytesperline;
+> > > > > > >       unsigned int height =3D chan->format.height;
+> > > > > > > +     unsigned int width =3D chan->format.width;
+> > > > > > >
+> > > > > > >       chan->start_offset =3D 0;
+> > > > > > >
+> > > > > > > @@ -321,8 +310,8 @@ static void tegra20_channel_queue_setup(s=
+truct tegra_vi_channel *chan)
+> > > > > > >
+> > > > > > >       case V4L2_PIX_FMT_YUV420:
+> > > > > > >       case V4L2_PIX_FMT_YVU420:
+> > > > > > > -             chan->addr_offset_u =3D stride * height;
+> > > > > > > -             chan->addr_offset_v =3D chan->addr_offset_u + s=
+tride * height / 4;
+> > > > > > > +             chan->addr_offset_u =3D width * height;
+> > > > > > > +             chan->addr_offset_v =3D chan->addr_offset_u + w=
+idth * height / 4;
+> > > > > > >
+> > > > > > >               /* For YVU420, we swap the locations of the U a=
+nd V planes. */
+> > > > > > >               if (chan->format.pixelformat =3D=3D V4L2_PIX_FM=
+T_YVU420)
+> > > > > > > @@ -332,14 +321,14 @@ static void tegra20_channel_queue_setup=
+(struct tegra_vi_channel *chan)
+> > > > > > >               chan->start_offset_v =3D chan->addr_offset_v;
+> > > > > > >
+> > > > > > >               if (chan->vflip) {
+> > > > > > > -                     chan->start_offset   +=3D stride * (hei=
+ght - 1);
+> > > > > > > -                     chan->start_offset_u +=3D (stride / 2) =
+* ((height / 2) - 1);
+> > > > > > > -                     chan->start_offset_v +=3D (stride / 2) =
+* ((height / 2) - 1);
+> > > > > > > +                     chan->start_offset   +=3D width * (heig=
+ht - 1);
+> > > > > > > +                     chan->start_offset_u +=3D (width / 2) *=
+ ((height / 2) - 1);
+> > > > > > > +                     chan->start_offset_v +=3D (width / 2) *=
+ ((height / 2) - 1);
+> > > > > > >               }
+> > > > > > >               if (chan->hflip) {
+> > > > > > > -                     chan->start_offset   +=3D stride - 1;
+> > > > > > > -                     chan->start_offset_u +=3D (stride / 2) =
+- 1;
+> > > > > > > -                     chan->start_offset_v +=3D (stride / 2) =
+- 1;
+> > > > > > > +                     chan->start_offset   +=3D width - 1;
+> > > > > > > +                     chan->start_offset_u +=3D (width / 2) -=
+ 1;
+> > > > > > > +                     chan->start_offset_v +=3D (width / 2) -=
+ 1;
+> > > > > > >               }
+> > > > > > >               break;
+> > > > > > >       }
+> > > > > > > @@ -576,20 +565,23 @@ static const struct tegra_vi_ops tegra2=
+0_vi_ops =3D {
+> > > > > > >       .vi_stop_streaming =3D tegra20_vi_stop_streaming,
+> > > > > > >  };
+> > > > > > >
+> > > > > > > -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)    \
+> > > > > > > -{                                                    \
+> > > > > > > -     .code    =3D MEDIA_BUS_FMT_##MBUS_CODE,           \
+> > > > > > > -     .bpp     =3D BPP,                                 \
+> > > > > > > -     .fourcc  =3D V4L2_PIX_FMT_##FOURCC,               \
+> > > > > > > +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE, B=
+PP, FOURCC)      \
+> > > > > > > +{                                                           =
+         \
+> > > > > > > +     .img_dt         =3D TEGRA_IMAGE_DT_##DATA_TYPE,        =
+           \
+> > > > > > > +     .bit_width      =3D BIT_WIDTH,                         =
+           \
+> > > > > > > +     .code           =3D MEDIA_BUS_FMT_##MBUS_CODE,         =
+           \
+> > > > > > > +     .bpp            =3D BPP,                               =
+           \
+> > > > > > > +     .fourcc         =3D V4L2_PIX_FMT_##FOURCC,             =
+           \
+> > > > > > >  }
+> > > > > > >
+> > > > > > >  static const struct tegra_video_format tegra20_video_formats=
+[] =3D {
+> > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
+> > > > > > > -     TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
+> > > > > > > -     TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
+> > > > > > > -     TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
+> > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
+> > > > > > > -     TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
+> > > > > > > +     /* YUV422 */
+> > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 16, UYVY),
+> > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 16, VYUY),
+> > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 16, YUYV),
+> > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 16, YVYU),
+> > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YUV420),
+> > > > > > > +     TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 12, YVU420),
+> > > > > > >  };
+> > > > > >
+> > > > > > Looking at the code, BPP seems to only be used for the line str=
+ide (i.e. bytes per line) calculation. I think we should just make it 8 for=
+ the planar formats (possibly with an explaining comment). With the current=
+ code, we end up with 'bytesperline' variables in places not being the actu=
+al bytes per line, which is confusing.
+> > > > > >
+> > > > > > Actually, we can then just make the 'bpp' field be bytes per pi=
+xel as it was before to avoid the discrepancy with Tegra210.
+> > > > > >
+> > > > >
+> > > > > No, this code is actually cleaner and in sync with what downstrea=
+m
+> > > > > does, Tegra210 bytes per pixel is confusing since it totally negl=
+ects
+> > > > > formats with fractional bytes per pixel, it is impossible to set =
+there
+> > > > > 3/2 for example, which is used by YUV420.
+> > > > >
+> > > > > According to downstream code bytes_per_line =3D
+> > > > > soc_mbus_bytes_per_line..., downstream directly name is bytes_per=
+_line
+> > > > > and soc_mbus_bytes_per_line returns width * 3 / 2 which is correc=
+t
+> > > > > calculation (12 bits). Meanwhile for planar formats Tegra has 3
+> > > > > different buffers so with offset calculation plain width must be =
+used
+> > > > > (which matches downstream).
+> > > > >
+> > > >
+> > > > If you mean use of BPP by VI, I can propose removing bytesperline a=
+nd
+> > > > sizeimage configuration from VI entirely and leave this to per-SoC
+> > > > fmt_align function which does this already anyway and guards every
+> > > > time those values are referred. This way there will be no instances
+> > > > where "places not being the actual bytes per line" comes true.
+> > >
+> > > Without trying myself, I'm not sure what approach is the cleanest. In=
+ any case, the downstream code is just wrong (or incorrectly named), so we =
+shouldn't defer to it in this matter. I don't see a reason to keep the valu=
+e '12' either if it doesn't serve any purpose (admittedly if we changed it =
+to 8 or 1, 'bpp' would be a confusing name for it, but explainable with a c=
+omment and improve-able later) I don't mind having an if/switch statement f=
+or the planar formats to use a '8' as multiplier instead of '12' if we need=
+ to keep the '12'. But the main thing I want to avoid is a bytesperline/str=
+ide variable that isn't the line stride in bytes.
+> > >
 > >
-> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> > ---
-> >  .../bindings/media/i2c/sony,imx111.yaml       | 112 ++++++++++++++++++
-> >  1 file changed, 112 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,im=
-x111.yaml
+> > I am proposing you a solution, handle bytesperline and sizeimage in
+> > per-SoC fmt_align function.
+>
+> Ok, I think that sounds good. It's good to consolidate the calculation in=
+ one place.
+>
 > >
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx111.ya=
-ml b/Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml
-> > new file mode 100644
-> > index 000000000000..a70017588891
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx111.yaml
-> > @@ -0,0 +1,112 @@
-> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/sony,imx111.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Sony IMX111 8MP CMOS Digital Image Sensor
-> > +
-> > +maintainers:
-> > +  - Svyatoslav Ryhel <clamor95@gmail.com>
-> > +
-> > +description:
-> > +  IMX111 sensor is a Sony CMOS active pixel digital image sensor with =
-an active
-> > +  array size of 2464H x 3280V. It is programmable through I2C interfac=
-e. Image
-> > +  data is sent through MIPI CSI-2, through 1 or 2 lanes.
-> > +
-> > +allOf:
-> > +  - $ref: /schemas/media/video-interface-devices.yaml#
-> > +  - $ref: /schemas/nvmem/nvmem-consumer.yaml#
-> > +
-> > +properties:
-> > +  compatible:
-> > +    const: sony,imx111
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    description: EXTCLK with possible frequency from 6 to 54 MHz
-> > +    maxItems: 1
-> > +
-> > +  reset-gpios:
-> > +    maxItems: 1
-> > +
-> > +  iovdd-supply:
-> > +    description: Digital IO power supply (1.8V)
-> > +
-> > +  dvdd-supply:
-> > +    description: Digital power supply (1.2V)
-> > +
-> > +  avdd-supply:
-> > +    description: Analog power supply (2.7V)
-> > +
-> > +  port:
-> > +    additionalProperties: false
-> > +    $ref: /schemas/graph.yaml#/$defs/port-base
-> > +
-> > +    properties:
-> > +      endpoint:
-> > +        $ref: /schemas/media/video-interfaces.yaml#
-> > +        unevaluatedProperties: false
-> > +
-> > +        properties:
-> > +          data-lanes: true
-> > +          bus-type: true
+> > 12 represents amount of bits used per pixel, 8 for Y plane, 2 for U
+> > plane and 2 for V plane, total is 12. "but explainable with a comment
+> > and improve-able later" why then we cannot use 12 with a comment? this
+> > is all arbitrary. Downstream is not wrong from this perspective, you
+> > don't take into account that YUV420 is planar and it uses 3 planes a
+> > whole Y plane and 1/4 of U and V which in total results in wigth + 2 *
+> > 1/4 width which is width * 3/2
 >
-> I assume not *bus* types are supported, so this should constrain it to
-> valid ones. If it is only 1 type, you shouldn't really need the type in
-> DT.
+> Yes -- but AIUI, the only thing the bpp value is used for the bytesperlin=
+e calculation. When we add the special case for planar formats, which doesn=
+'t use the bpp value, then the value 12 is never used anywhere. We should a=
+t least have a comment saying it is unused. (At that point, we could just h=
+ardcode the bpp values in the fmt_align function -- but I don't mind either=
+ way.)
 >
-
-Better, properties can be dropped and only required left with
-data-lanes and link-frequencies. Thank you for a hint
-
-> Rob
->
+https://ffmpeg.org/pipermail/ffmpeg-user/2023-June/056488.html
 
