@@ -1,256 +1,169 @@
-Return-Path: <linux-media+bounces-43618-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43620-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9CA8BB39DA
-	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 12:19:50 +0200 (CEST)
+Received: from sy.mirrors.kernel.org (sy.mirrors.kernel.org [147.75.48.161])
+	by mail.lfdr.de (Postfix) with ESMTPS id DACE5BB3A07
+	for <lists+linux-media@lfdr.de>; Thu, 02 Oct 2025 12:22:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 33EE03BE6B8
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 10:19:48 +0000 (UTC)
+	by sy.mirrors.kernel.org (Postfix) with ESMTPS id 957837B1628
+	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 10:20:36 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E53253090D2;
-	Thu,  2 Oct 2025 10:19:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2EE4827146B;
+	Thu,  2 Oct 2025 10:22:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jAP+Bajw"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="k8ldR8TU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 843E13093BB;
-	Thu,  2 Oct 2025 10:19:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD26D2EDD76
+	for <linux-media@vger.kernel.org>; Thu,  2 Oct 2025 10:22:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759400351; cv=none; b=BLvAzym/WNc8Dwle5+2ineolnxYj93RCRtolbEZKnPfh2CceAZCSrlUatZ9qySs7RFNRMtcw0HZrZIs6S9QRtkuMZZNiynbKkPlMkFXInvfQIrYqHF9krJyv9lSClp7rR2lJ/XL7s1cYaCqZ4sPonMkJHD30/370etsukHf+kCk=
+	t=1759400529; cv=none; b=uSdqcoASuy6d9hm2/Uq/SXns93KapuNEwPqeV+3EEncwW06J5DjpGQIWxP/sX3+1+9VZQRXMTSOnloUCyezIaaMohBXCy7fmB5Ddhq9F53Fu+jM6neoB06a9JOUQzcdU5FLz6E2QJKClOacu799VklH8c7cs54llww+y+7vCyyI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759400351; c=relaxed/simple;
-	bh=P5FfwaZ45itNvpSh3qSHpUV5794nSwMnfag59fowxIk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Axfso1h/jS+e9IHgx1XeCvrN5vO16ZXChgAfqV5bjUDMTT7/+MiF6r1GKA6w/KyBAkdWywkHpImXdLiG2sj/10gxGjNzLXKpVnnqcuLscHQ2w4fzvBoRSsPB0gjsZyO2o59u0NqwIho5IHOcbLyjO9m29SstczLjHd/000sBlJI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jAP+Bajw; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [127.0.1.1] (cpc141996-chfd3-2-0-cust928.12-3.cable.virginm.net [86.13.91.161])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8694A1E79;
-	Thu,  2 Oct 2025 12:17:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1759400238;
-	bh=P5FfwaZ45itNvpSh3qSHpUV5794nSwMnfag59fowxIk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=jAP+BajwrcJxanltsVfzsFjdgV59uEpX785KjEZRq7Fy1hc8qT19QnuSr4gy5k46c
-	 OFOCfiz0TP9VO/quWVdV8XlIEjLilovv1x4MMEkH6gTekxqba2sj3I/q8ErIl+ckya
-	 u2DHpmXXWrEZvcoM8pSfkNdgMVQKnjGLoawEhIWc=
-From: Daniel Scally <dan.scally@ideasonboard.com>
-Date: Thu, 02 Oct 2025 11:18:34 +0100
-Subject: [PATCH v12 15/15] Documentation: mali-c55: Document the mali-c55
- parameter setting
+	s=arc-20240116; t=1759400529; c=relaxed/simple;
+	bh=KFPLhcvce8+mQ4obDysEFr7M9Qqhm83pW1HLWuVCrzA=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=H/KysPm8hPwyQnTJLfJqaiVfN6vtWfSRXoTOa5m8Yz9mBDdsLcVYv+uDYw/plr/LUuulyqPFeOy2pdqUl9fS7aGiIX3gpenoZxUbKZwXBVf40ROhEIwqJzgDCJx10332Cs0QlRaFX1t9IgmjFIOrJsaPZg6pyreKZ/XIi8Od8vM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=k8ldR8TU; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-631787faf35so1743746a12.3
+        for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 03:22:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1759400526; x=1760005326; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=oeiyxphdp3FpXWm94GNIfpVrA+00q3hmgfltim/4eOU=;
+        b=k8ldR8TUbFvKY3dMRUsPS24Lnck8Na262IB5DDqDcXCNiDJxzCnK6wCd62lyJ1lAn1
+         nxQMvpFsRu+GyhZI/ZzyBjMLSIbbhX22ykRklm8VYTOJSl3G5dnqkh8HlYcLSRIBOYU2
+         ZUsxdWsDhQLWlBOGHa8uIW/BEUvgd3sVirEjWSbejcB65XEnvxhATcB339y/GDzrsDKa
+         wPtSarzNiYTBv1mOfE99Xdpv9HZHD39Jn9sQdCiSR9LnYlMcWI+2dGEDqxwvWkK9vwHp
+         vc6QZlUxPV30GR5Wp45uHawfjK5/cki9rG9CVc6mqC5rELQCLoBeUdntwRzTQckSyGjt
+         md1A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759400526; x=1760005326;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oeiyxphdp3FpXWm94GNIfpVrA+00q3hmgfltim/4eOU=;
+        b=nRm01Kz49d3JrvgI5ZQ/BtuchqN8JzafBKMLYHUJ7PcXL2pE8ZfK9zLA75e7szRtTP
+         sPCXTurosR8jewIUFf8xb4fSZUVqKQqoYLaw8iDrXETz2TNzlDRab7Mm5CMjCNNiJpb3
+         hBIpLDANVx/Vy9jbXuJdZ7nkidg/pXnMishdP/mvFpgVE7up8w0hUwR1KK4vpnyj0xmQ
+         j5JKBRt6JSxk0YuyaGstz5S8ty9VUpQMZU/T0iIUhcdkrzYHKZS1IvCpw2LI2RfggU0W
+         mvZGbhggNr9Fitur7eQXjYw2BBFCCT24e/Bwocv3YZSN5g+4bmsCSjuje8mQtjJccp6q
+         dEqw==
+X-Forwarded-Encrypted: i=1; AJvYcCW6vSDWbXwOrAnz24o0pumadF6NkXZF97ZpAZjC98MMWYYijy2NvZ/gpJqpbNkSqBez7bHycJfUSUSxDQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNpmIGlqvdeuUB5a9eZtEkZIqnaVWE8xSY3aejgR2Qx76wRcWg
+	cBi43rjJEDxoZvGtJyDK9g/Xnt8bG06mdxyWb1SnjZu3yQ1JLH8q35PFXhVKOm4V3Sc=
+X-Gm-Gg: ASbGncuI6dG7esNfb1huvX0v3+5Yj4FVO/F+wIXfVf2nJ9eS4qZQeDlkw0zR+l1F5Op
+	uwtTzk3S4s1RqmugMiSFWtQRPZynspiqO/FMsd9w5IhoYuxKcotDI3OV1JQxZDkonGOReoKb6G2
+	VZYp0f/o20fYDcX1yA1hlclCSOB+X7z0LsqD/Dn/j9T0FnmGirKalYIkBTJfOg6MjasLHfXR9gd
+	r18YTYSmdnMhkzrhvErzhoe682cZqjSNEALVWWxTmC38qLThIDzrzXWlFYiiOpYKo8B6ZOZtuCF
+	uufcOREO5wouBuFIey+JIlxEw3AqMnlISOL6Vj6qMXWZx3M/kJDWNqE2Iv1qnFFkoPU5pPVrpy2
+	S+neK9N62KZAZJtek7kcTfgtnHaAkC+zhuzdmWUD20P4jIDgW9j+4oHbeDaa2IcIZdZPeb2Zrmm
+	X9ZIUQFy39jpfVsxXtPvYKZuVb0MM=
+X-Google-Smtp-Source: AGHT+IFlPW8rmREopOYD1ffL5rQR075BadaUVl2h1wYxunv5yBlFe80ZtrFLuMWhLlswGcWI/Kz3KQ==
+X-Received: by 2002:a17:907:d14:b0:b10:4355:2e63 with SMTP id a640c23a62f3a-b46e516b397mr787392666b.46.1759400526066;
+        Thu, 02 Oct 2025 03:22:06 -0700 (PDT)
+Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b4865e7e8b7sm172388266b.40.2025.10.02.03.22.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 02 Oct 2025 03:22:05 -0700 (PDT)
+Message-ID: <25e6e163-f91f-4fe5-9454-641914d2eb43@linaro.org>
+Date: Thu, 2 Oct 2025 11:22:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: qcom: vpu: fix the firmware binary name for qcm6490
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+To: Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: linux-firmware@kernel.org,
+ "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+References: <f5965570-9c49-860d-5de6-bc5a3056d9ad@quicinc.com>
+ <w2zhq4nedrzjb7znmjqhixbk7ncxqedjsi5mapsfwfe7pqcnrn@36aeageuuhs7>
+ <dcd27cce-7558-d055-caf7-3bf56ff31fdc@quicinc.com>
+ <iksemnwiytrp5aelmhehyoexwzj6iem5b66qfr65nviad2fl6f@3qkn23jnzl2z>
+ <5ea8f6e4-04c7-092c-2acd-24e18c0bf641@quicinc.com>
+ <imo4dxtegwq6fiu6k65ztmezuc7mjlnpnpeapfqn5ogmytj6se@6z4akhw4ymp7>
+ <5fdb8fff-d07b-c15a-3f40-eb088e3ff94e@quicinc.com>
+ <2llwkhpwbkzqyvyoul2nwxf33d6jhuliblqng4u2bjtmsq7hlj@je3qrtntspap>
+ <5a03b200-4e1f-082a-c83a-cb46ad4cea09@quicinc.com>
+ <zj2dreqyj7fnhiophdtevhuaohlpk3uoccrslkqt5wjt2jhiip@gqnasgvu7ipq>
+ <yeJvz1BmQX5QCjBXnjFbGz8gclNViebyCcZC1Rz2tfocg3MxOAncJZruBARGqAzxG_1UJmw35EUBl80KQy5Sqw==@protonmail.internalid>
+ <f1e9ddb0-683d-4c91-f39b-6954c23f7f75@quicinc.com>
+ <015dc909-ad0b-4367-8dac-bed53c4f7f9b@linaro.org>
+Content-Language: en-US
+In-Reply-To: <015dc909-ad0b-4367-8dac-bed53c4f7f9b@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251002-c55-v12-15-3eda2dba9554@ideasonboard.com>
-References: <20251002-c55-v12-0-3eda2dba9554@ideasonboard.com>
-In-Reply-To: <20251002-c55-v12-0-3eda2dba9554@ideasonboard.com>
-To: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org
-Cc: Anthony.McGivern@arm.com, jacopo.mondi@ideasonboard.com, 
- nayden.kanchev@arm.com, robh+dt@kernel.org, mchehab@kernel.org, 
- krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
- jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com, 
- laurent.pinchart@ideasonboard.com, dan.scally@ideasonboard.com, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6164;
- i=dan.scally@ideasonboard.com; h=from:subject:message-id;
- bh=P5FfwaZ45itNvpSh3qSHpUV5794nSwMnfag59fowxIk=;
- b=owEBbQKS/ZANAwAKAchJV3psRXUyAcsmYgBo3lF7ffaCm+Kmumif/DHJNdBNjH7coxlnIs7rQ
- Db5Kno0p/iJAjMEAAEKAB0WIQQqyuwyDnZdb+mxmm/ISVd6bEV1MgUCaN5RewAKCRDISVd6bEV1
- Mv4OD/9prvxhxV8E3Vyq2DBnpG1npZHAoskT1qjpr5b4jBH/CPVICItF278tIC2zk8sL0usdsRz
- ASjNP86ZDDC3xCVPFMiDvVR//9/ZUZ7EAWfy83DO2bM3Sg7XTD7nazdPiVE2Xwe/lplINVmRJTG
- Immz+bniq5EWajzlUznI06nKzvKi/IqIWczznx1kgweKnll81e9I8S5ScPbn1mGsazrpD1m2pSn
- EqRSsa19rd9eEW83sxou9Q77pU7QmGVTcZW/K246dN1jXvcRgXkdL/mRUVuAOgFhLRvMgsVa8E8
- EvAar4DRnvkV2xOJ2EHBcjQiMPXuy0LCCk5gSGl3vaD4lOOKY9fe2TJNbKgfqdJmqXaopH6LFiV
- WKwm3iTSltNXnzBFck1cMD62vy1pgNtUdYVa+0wCSXZSJ42r+rGVOQyD6jhD+aYAhZwsDOJlcpp
- n02gMF7rj1tDu+2cIj/oFo6tr2jhxxL2Xp+TdKuWc6+JhJh+L2bO84nU3VTy21j7B2KZJcBv3Jb
- 2p/3O5TmF7pmZYxwcY8Od0m2Kxr/eIzGXoJwDS3zHb5mAUsJwpS41Oxk+y2cEDzGRyNTjTOsN+F
- Ox6DbviTJGQ6ZoneoJgsHownh4ApvzZcIhzjhmAMw9I3fnB5QE94TBclL2+GLcFj42yxpdW7US/
- RDi09vUeU3QPryg==
-X-Developer-Key: i=dan.scally@ideasonboard.com; a=openpgp;
- fpr=EEC699ACA1B7CB5D31330C0BBD501C2A3546CCF6
 
-Document the mali-c55 parameter setting by expanding the relevant
-pages in both admin-guide/ and userspace-api/.
+On 24/09/2025 13:55, Bryan O'Donoghue wrote:
+> On 24/09/2025 11:43, Dikshita Agarwal wrote:
+>>>> I understand your concern. To clarify, we are not removing support 
+>>>> for the
+>>>> existing Gen1 firmware, so backward compatibility remains intact.
+>>>>
+>>>> We are simply adding support for Gen2 firmware for this 
+>>>> architecture. As a
+>>>> result, QCM6490 will support both Gen1 firmware (with the Venus 
+>>>> driver) and
+>>>> Gen2 firmware (via Qualcomm's video driver [1]).
+> 
+> I agree with Dmitry here.
+> 
+> Its not possible to disjunct upstream HFI6xx @ the firmware level 
+> between Venus and Iris because the DTS would have to point to a 
+> particular firmware depending on which driver you wanted to run, which 
+> would make the DT dependent on the driver, which is not allowed.
+> 
+>>>> Additionally, as part of our plan to transition all Venus-supported 
+>>>> targets
+>>>> to the Iris driver, SC7280 will continue to use Gen1 HFI and Gen1 
+>>>> firmware
+>>>> to maintain backward compatibility.
+>>> Dikshita, this is nonsense. Venus and Iris drivers are supposed to be
+>>> interchangeable for the hardware they both support, until the venus
+>>> driver drops support for V6 hardware. At that point it's expected that
+>>> there will be no V6 support in Venus driver.
+>>>
+>>> You can not simply upgrade to Gen2 firmware as if nothing happened.
+>>> Consider a device node on SC7280 / QCS6490 with the firmware-name
+>>> pointing to OEM-signed firmware. Both Venus and Iris drivers would
+>>> happily consume the device node and try to work with it. One will work,
+>>> another one will fail. This is definitely not what we have agreed upon,
+>>> when you started adding Iris driver.
+>> @Vikash, could you please chime in?
+> 
+> It would OTOH be possible _only_ release a HFI6xx Gen2 firmware for a 
+> new SoC that doesn't appear upstream yet but, that's not the case with 
+> 7280/6490.
+> 
+> ---
+> bod
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Acked-by: Nayden Kanchev  <nayden.kanchev@arm.com>
-Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+So discussing this with Vikash and some other qcom folks, I realised the 
+DT binding at the moment doesn't depend on the firmware name, so my 
+concern making the DT depend on the driver is not a real problem.
+
+I think in fact it should be possible to point venus @ the gen1 firmware 
+file while pointing iris @ the gen2 file.
+
+Unless there's something here I'm missing, that should work for the 
+update and the agreement.
+
+Dmitry ?
+
 ---
-Changes in v12:
-
-	- None
-
-Changes in v11:
-
-	- Updated the documentation to account for the use of the
-	  V4L2 extensible params
-
-Changes in v10:
-
-	- None
-
-Changes in v9:
-
-	- None
-
-Changes in v8:
-
-	- None
-
-Changes in v7:
-
-	- None
-
-Changes in v7:
-
-	- None
-
-Changes in v6:
-
-	- Minor rewording
-
-Changes in v5:
-
-	- New patch
----
- Documentation/admin-guide/media/mali-c55.rst       | 19 ++++++-
- .../media/v4l/metafmt-arm-mali-c55.rst             | 66 +++++++++++++++++++++-
- 2 files changed, 80 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/admin-guide/media/mali-c55.rst b/Documentation/admin-guide/media/mali-c55.rst
-index 03723e0e8e43f17a04ede0032b2ddbfdb859d1e3..315f982000c48e46a2be0e7210b657d5af611e14 100644
---- a/Documentation/admin-guide/media/mali-c55.rst
-+++ b/Documentation/admin-guide/media/mali-c55.rst
-@@ -387,9 +387,24 @@ the processing flow the statistics can be drawn from::
-                        +-------------+   |    +-------------+
-                                          +-->  AWB-1
- 
--At present all statistics are drawn from the 0th tap point for each algorithm;
-+By default all statistics are drawn from the 0th tap point for each algorithm;
- I.E. AEXP statistics from AEXP-0 (A), AWB statistics from AWB-0 and AF
--statistics from AF-0. In the future this will be configurable.
-+statistics from AF-0. This is configurable for AEXP and AWB statsistics through
-+programming the ISP's parameters.
-+
-+.. _mali-c55-3a-params:
-+
-+Programming ISP Parameters
-+==========================
-+
-+The ISP can be programmed with various parameters from userspace to apply to the
-+hardware before and during video stream. This allows userspace to dynamically
-+change values such as black level, white balance and lens shading gains and so
-+on.
-+
-+The buffer format and how to populate it are described by the
-+:ref:`V4L2_META_FMT_MALI_C55_PARAMS <v4l2-meta-fmt-mali-c55-params>` format,
-+which should be set as the data format for the `mali-c55 3a params` video node.
- 
- References
- ==========
-diff --git a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-index 0bda9740a6be20df541ac7cf78e45e510f79ad19..49d6b8080ecec1013a93f5283a00a3fa0d7ebb17 100644
---- a/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-+++ b/Documentation/userspace-api/media/v4l/metafmt-arm-mali-c55.rst
-@@ -1,10 +1,11 @@
- .. SPDX-License-Identifier: GPL-2.0
- 
-+.. _v4l2-meta-fmt-mali-c55-params:
- .. _v4l2-meta-fmt-mali-c55-stats:
- 
--*************************************
--V4L2_META_FMT_MALI_C55_STATS ('C55S')
--*************************************
-+*****************************************************************************
-+V4L2_META_FMT_MALI_C55_STATS ('C55S'), V4L2_META_FMT_MALI_C55_PARAMS ('C55P')
-+*****************************************************************************
- 
- 3A Statistics
- =============
-@@ -23,6 +24,65 @@ of the C structure :c:type:`mali_c55_stats_buffer` defined in
- 
- For details of the statistics see :c:type:`mali_c55_stats_buffer`.
- 
-+Configuration Parameters
-+========================
-+
-+The configuration parameters are passed to the
-+:ref:`mali-c55 3a params <mali-c55-3a-params>` metadata output video node, using
-+the :c:type:`v4l2_meta_format` interface. Rather than a single struct containing
-+sub-structs for each configurable area of the ISP, parameters for the Mali-C55
-+use the V4L2 extensible parameters system, through which groups of parameters
-+are defined as distinct structs or "blocks" which may be added to the data
-+member of :c:type:`v4l2_params_buffer`. Userspace is responsible for populating
-+the data member with the blocks that need to be configured by the driver, but
-+need not populate it with **all** the blocks, or indeed with any at all if there
-+are no configuration changes to make. Populated blocks **must** be consecutive
-+in the buffer. To assist both userspace and the driver in identifying the
-+blocks each block-specific struct embeds :c:type:`v4l2_params_block_header` as
-+its first member and userspace must populate the type member with a value from
-+:c:type:`mali_c55_param_block_type`. Once the blocks have been populated
-+into the data buffer, the combined size of all populated blocks shall be set in
-+the data_size member of :c:type:`v4l2_params_buffer`. For example:
-+
-+.. code-block:: c
-+
-+	struct v4l2_params_buffer *params =
-+		(struct v4l2_params_buffer *)buffer;
-+
-+	params->version = MALI_C55_PARAM_BUFFER_V1;
-+	params->data_size = 0;
-+
-+	void *data = (void *)params->data;
-+
-+	struct mali_c55_params_awb_gains *gains =
-+		(struct mali_c55_params_awb_gains *)data;
-+
-+	gains->header.type = MALI_C55_PARAM_BLOCK_AWB_GAINS;
-+	gains->header.flags |= V4L2_PARAMS_FL_BLOCK_ENABLE;
-+	gains->header.size = sizeof(struct mali_c55_params_awb_gains);
-+
-+	gains->gain00 = 256;
-+	gains->gain00 = 256;
-+	gains->gain00 = 256;
-+	gains->gain00 = 256;
-+
-+	data += sizeof(struct mali_c55_params_awb_gains);
-+	params->data_size += sizeof(struct mali_c55_params_awb_gains);
-+
-+	struct mali_c55_params_sensor_off_preshading *blc =
-+		(struct mali_c55_params_sensor_off_preshading *)data;
-+
-+	blc->header.type = MALI_C55_PARAM_BLOCK_SENSOR_OFFS;
-+	blc->header.flags |= V4L2_PARAMS_FL_BLOCK_ENABLE;
-+	blc->header.size = sizeof(struct mali_c55_params_sensor_off_preshading);
-+
-+	blc->chan00 = 51200;
-+	blc->chan01 = 51200;
-+	blc->chan10 = 51200;
-+	blc->chan11 = 51200;
-+
-+	params->total_size += sizeof(struct mali_c55_params_sensor_off_preshading);
-+
- Arm Mali-C55 uAPI data types
- ============================
- 
-
--- 
-2.43.0
-
+bod
 
