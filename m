@@ -1,364 +1,176 @@
-Return-Path: <linux-media+bounces-43708-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43709-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31FBBB6016
-	for <lists+linux-media@lfdr.de>; Fri, 03 Oct 2025 08:56:36 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id DD6B4BB6202
+	for <lists+linux-media@lfdr.de>; Fri, 03 Oct 2025 09:04:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0B2B71AE0098
-	for <lists+linux-media@lfdr.de>; Fri,  3 Oct 2025 06:56:56 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AB68B4E6750
+	for <lists+linux-media@lfdr.de>; Fri,  3 Oct 2025 07:04:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54753223DED;
-	Fri,  3 Oct 2025 06:56:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4A69A228CBC;
+	Fri,  3 Oct 2025 07:04:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b="aMjNO8Aj";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PNYMaREd"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MPlYBMjM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from flow-b4-smtp.messagingengine.com (flow-b4-smtp.messagingengine.com [202.12.124.139])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DC6AB6FBF;
-	Fri,  3 Oct 2025 06:56:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.139
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6ECF5158DAC;
+	Fri,  3 Oct 2025 07:04:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759474575; cv=none; b=MB7jrvbCUOe5nbIEukNBcocHsRAtoCMAMvtVuNyrrKF6GsRBbI2Hzi9s8oZgt1L41zVsuaf4GRyYvo+D5YFX2JhLQTd7KNk30qPstOpE3ZaHvWOmztYWXe+F3cCAPWv6LGdZFH5bGQPD0oifQ3AE/1Rts2BTtCtmdX4IKKEgHeg=
+	t=1759475064; cv=none; b=CHfBh9sP80vFzZud/bLViqdWl7/ExP0ToOccWifXv71UiVTf0OFDr/WEFAy4K+cRQt8GVJTv71YBkfLc93vVf89oOHi3jqpwBJMLLb5/rb5NzwXPtRmw2xdnFaAeBiKutnoEor3E5fEa4t9KRniMw8px9EhyfVfpVdlNoBExzj0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759474575; c=relaxed/simple;
-	bh=VsY56m5kSuveBNBUNSkmOpL9Gd42blVivMz56qhfGfQ=;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:In-reply-to:
-	 References:Date:Message-id; b=a6io9gre06xe/zyNQk1QLhmROFn3dMe6gExIFxhEbCnphs63D5lkpDX6yRGldZFEV/bhZrU2m15gq0su1+xJMM24wHiVEO63zXTe5HNwG3TwhVK9FsAmLhlLPr8QLG3vmA+j5QpKpfT6gMUS8hRJS52CcfnGS6cwQEga06hdS8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net; spf=pass smtp.mailfrom=ownmail.net; dkim=pass (2048-bit key) header.d=ownmail.net header.i=@ownmail.net header.b=aMjNO8Aj; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PNYMaREd; arc=none smtp.client-ip=202.12.124.139
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ownmail.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ownmail.net
-Received: from phl-compute-10.internal (phl-compute-10.internal [10.202.2.50])
-	by mailflow.stl.internal (Postfix) with ESMTP id C4B9A130000D;
-	Fri,  3 Oct 2025 02:56:07 -0400 (EDT)
-Received: from phl-mailfrontend-01 ([10.202.2.162])
-  by phl-compute-10.internal (MEProxy); Fri, 03 Oct 2025 02:56:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ownmail.net; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to; s=fm2; t=
-	1759474567; x=1759481767; bh=j+Jw5iNM6nGAnWO3sjaDIDEUdkjo7ZX+LLz
-	qd/P1hYw=; b=aMjNO8AjVn+sj0yKUl+VzgbYszqPNGJNtAPbUQGn88a5UP2eiqs
-	R5yiWdKir92SSE469eXj/b+AHudi0OVXOIY6cS5YPi4E1B06RLjJ+yZPq4inyozE
-	Q+B2H/gKkTXrrQ2uYPkaRXH7k9U3Y58+RCC7RD56mFR5x5KoRAcvgQv9tL7Zpc+/
-	9N6venAGi7v2ylACMFGp9jJlqUne0QvLZGDqcm3MhRqSBzJwu12eGO57hRoA4sro
-	NgXvxEQkBwxT5LSMI5KUZlWIDFBwzR+gvhw0a1r/a6Ty5zl4GCufIIlts3fIye4p
-	JrHYaG8ko/FiP2kNmiy/58lOphRDKpSPmnw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1759474567; x=
-	1759481767; bh=j+Jw5iNM6nGAnWO3sjaDIDEUdkjo7ZX+LLzqd/P1hYw=; b=P
-	NYMaREdofJEjMxoqFbSBZZKryi4ZwnfANONgeT2a1dj37Y+FNVWf603dzC5NuApe
-	8PxvyO6Q6DBCiVJrM8k6zEMwDy/cTTk1TtsSqwegcfRU11nONgZXR4em3KQPmyim
-	OI2gDy6Ogzt7ifj6Ked0HHw1xR170gEX2viFcftT+WOsW+lFe503bLpkWDvr4Z7s
-	cukyNO+ucMr7L3wCcGGdohDGSTdNWryH23xV6KBGaW3B+CI6PeIG9IouSZuBOKBC
-	dKquqjsLUyCcaEnlM82UDPgSN/S1V02Qz83CuSnTbFMrLbBbQ9AXPWab7L0GXpjN
-	gaLZmR2+e/ZuDrFlmXzew==
-X-ME-Sender: <xms:gnPfaMkIJPG7oVHmiGGRa0CpjJx7RohXVYjkJGIiEh2iOGlLIXvz7Q>
-    <xme:gnPfaL7yl9NUDnF6WrW14T4q-2gvfr53xNr0E_QiaHexrYaF0oruSqWMxAHBv_X-7
-    he83VGHvZW4PzWgKOTeAohnaiAhTYeXu9Rhj5h50nInJJpCUvI>
-X-ME-Received: <xmr:gnPfaKZHZu3YD6tKEjPzMoNoGzkIMDN3Z50sJg_3-6-KPUiHJtc04hN2x1QY170mpQr7__pL7KtyMY1QmrIBnneKxaREGagaO6Gn7NBgViHv>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdekkedvfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpegtgfgghffvvefujghffffkrhesthejredttddtjeenucfhrhhomheppfgvihhluehr
-    ohifnhcuoehnvghilhgssehofihnmhgrihhlrdhnvghtqeenucggtffrrghtthgvrhhnpe
-    duteefhfduveehvdefueefvdffkeevkefgtdefgffgkeehjeeghfetiefhgffgleenucev
-    lhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpehnvghilhgsse
-    hofihnmhgrihhlrdhnvghtpdhnsggprhgtphhtthhopedugeelpdhmohguvgepshhmthhp
-    ohhuthdprhgtphhtthhopehhphgrseiihihtohhrrdgtohhmpdhrtghpthhtoheplhhinh
-    hksehvihhvohdrtghomhdprhgtphhtthhopehrtghusehvghgvrhdrkhgvrhhnvghlrdho
-    rhhgpdhrtghpthhtohepnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhinhhugidqnhhfshesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphht
-    thhopehlihhnuhigqdhmohguuhhlvghssehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtg
-    hpthhtoheplhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgt
-    phhtthhopehlihhnuhigqdhkvghrnhgvlhesvhhgvghrrdhkvghrnhgvlhdrohhrghdprh
-    gtphhtthhopehlihhnuhigqdhiuggvsehvghgvrhdrkhgvrhhnvghlrdhorhhg
-X-ME-Proxy: <xmx:gnPfaG0eLIXy_hVmmU0ah6RiWYe432JzyxABI3_ZePEgQyvaESbQMg>
-    <xmx:gnPfaFi8VKDei6hK_Kzm4HvejB1DcIxxW5AGQspQu-BZ0cfQX60vkQ>
-    <xmx:gnPfaNiFoyBB5wKfL7gCcU3cs9PS5_p6fTSHi4mNminIEilZsHOtZA>
-    <xmx:gnPfaDgIFdYh7LlGgsMY4-Bc3EDv7jElWaw_NOfwLw-Yk1w7kum8UQ>
-    <xmx:h3PfaFqY121yl6e12RmJDdKdPbf2ATm6GquMeKQ2MvsNf-5FbRc2NBdT>
-Feedback-ID: iab3e480c:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Fri,
- 3 Oct 2025 02:55:17 -0400 (EDT)
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+	s=arc-20240116; t=1759475064; c=relaxed/simple;
+	bh=LKhj0OA+zjMDWjybsyr4HohQ8bxE77BsEL62Ioho1Uo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=k4+ojap+iH7B0dafLhfKkB+jIUFZK2S+HJzAXa0oFFzEZpgIZIHCsY5TGdQQ0RmIXnshMT4cNX7JBMRip64uk2JBHIoKz3Op+VmY26ytsKjBEbT8RM2cm3Z5dtCoLvpMMVKckuG7WugMKaHG5X45EnajM18uKIai52BAMW+QfHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MPlYBMjM; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759475063; x=1791011063;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=LKhj0OA+zjMDWjybsyr4HohQ8bxE77BsEL62Ioho1Uo=;
+  b=MPlYBMjMwRBpjgraoPTxF/BaPF2t8OMU8D+1/wjlAI458UO5LzZubbR0
+   CuPlpaKl7path8i32qpSXjR9IrNEeUD7moI5yaUfW+TOe6gdE3s5KSILc
+   vxs11HEvWrz++hFOCAQko2/7uzVu+cUeOwO15Cpn7D6qpbF3bLTJ3D1Um
+   m9xEu85OCgxShNS+YwCZt5MYSEQtE7aoz/WIeEUFPndjKvtOGxj4DG+1Q
+   fxLgHv1GQCO2h3Czt1olv2NNpITWQQMbvgSOp9KrjIQCOve7n3ybBrqbv
+   Eh2OI7PlWHF1+qb516Tba59KCUGUKB/okxdJWBt/YpsvRCVag43SuJGgs
+   Q==;
+X-CSE-ConnectionGUID: Syxi96T2QVa1LhRzFGJbnw==
+X-CSE-MsgGUID: ykL87sHtQ8eHca6jsvtxYA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11570"; a="72861908"
+X-IronPort-AV: E=Sophos;i="6.18,311,1751266800"; 
+   d="scan'208";a="72861908"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 00:04:21 -0700
+X-CSE-ConnectionGUID: 2th5oiOfQK268i7sh60v4g==
+X-CSE-MsgGUID: Z4V95aTfT7+ICcxDtYd6mQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,311,1751266800"; 
+   d="scan'208";a="179170648"
+Received: from abityuts-desk.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.72])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 00:04:18 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 3EECE121186;
+	Fri, 03 Oct 2025 10:04:15 +0300 (EEST)
+Date: Fri, 3 Oct 2025 10:04:15 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+	Daniel Scally <djrscally@gmail.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
+Subject: Re: [PATCH 2/4] media: i2c: dw9719: Add DW9800K support
+Message-ID: <aN91bwetQGrpj6of@kekkonen.localdomain>
+References: <20251002-dw9800-driver-v1-0-c305328e44f0@fairphone.com>
+ <20251002-dw9800-driver-v1-2-c305328e44f0@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: NeilBrown <neilb@ownmail.net>
-To: "Byungchul Park" <byungchul@sk.com>
-Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
- torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
- linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
- linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
- will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
- joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
- duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
- tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
- amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
- linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
- minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
- sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
- penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
- ngupta@vflare.org, linux-block@vger.kernel.org, josef@toxicpanda.com,
- linux-fsdevel@vger.kernel.org, jack@suse.cz, jlayton@kernel.org,
- dan.j.williams@intel.com, hch@infradead.org, djwong@kernel.org,
- dri-devel@lists.freedesktop.org, rodrigosiqueiramelo@gmail.com,
- melissa.srw@gmail.com, hamohammed.sa@gmail.com, harry.yoo@oracle.com,
- chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
- max.byungchul.park@gmail.com, boqun.feng@gmail.com, longman@redhat.com,
- yunseong.kim@ericsson.com, ysk@kzalloc.com, yeoreum.yun@arm.com,
- netdev@vger.kernel.org, matthew.brost@intel.com, her0gyugyu@gmail.com,
- corbet@lwn.net, catalin.marinas@arm.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- luto@kernel.org, sumit.semwal@linaro.org, gustavo@padovan.org,
- christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
- lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, rppt@kernel.org,
- surenb@google.com, mcgrof@kernel.org, petr.pavlu@suse.com,
- da.gomez@kernel.org, samitolvanen@google.com, paulmck@kernel.org,
- frederic@kernel.org, neeraj.upadhyay@kernel.org, joelagnelf@nvidia.com,
- josh@joshtriplett.org, urezki@gmail.com, mathieu.desnoyers@efficios.com,
- jiangshanlai@gmail.com, qiang.zhang@linux.dev, juri.lelli@redhat.com,
- vincent.guittot@linaro.org, dietmar.eggemann@arm.com, bsegall@google.com,
- mgorman@suse.de, vschneid@redhat.com, chuck.lever@oracle.com,
- okorniev@redhat.com, Dai.Ngo@oracle.com, tom@talpey.com,
- trondmy@kernel.org, anna@kernel.org, kees@kernel.org,
- bigeasy@linutronix.de, clrkwllms@kernel.org, mark.rutland@arm.com,
- ada.coupriediaz@arm.com, kristina.martsenko@arm.com,
- wangkefeng.wang@huawei.com, broonie@kernel.org, kevin.brodsky@arm.com,
- dwmw@amazon.co.uk, shakeel.butt@linux.dev, ast@kernel.org,
- ziy@nvidia.com, yuzhao@google.com, baolin.wang@linux.alibaba.com,
- usamaarif642@gmail.com, joel.granados@kernel.org,
- richard.weiyang@gmail.com, geert+renesas@glider.be,
- tim.c.chen@linux.intel.com, linux@treblig.org,
- alexander.shishkin@linux.intel.com, lillian@star-ark.net,
- chenhuacai@kernel.org, francesco@valla.it, guoweikang.kernel@gmail.com,
- link@vivo.com, jpoimboe@kernel.org, masahiroy@kernel.org,
- brauner@kernel.org, thomas.weissschuh@linutronix.de, oleg@redhat.com,
- mjguzik@gmail.com, andrii@kernel.org, wangfushuai@baidu.com,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, linux-arch@vger.kernel.org,
- linux-modules@vger.kernel.org, rcu@vger.kernel.org,
- linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v17 28/47] dept: add documentation for dept
-In-reply-to: <20251002081247.51255-29-byungchul@sk.com>
-References: <20251002081247.51255-1-byungchul@sk.com>,
- <20251002081247.51255-29-byungchul@sk.com>
-Date: Fri, 03 Oct 2025 16:55:14 +1000
-Message-id: <175947451487.247319.6809470356431942803@noble.neil.brown.name>
-Reply-To: NeilBrown <neil@brown.name>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251002-dw9800-driver-v1-2-c305328e44f0@fairphone.com>
 
-On Thu, 02 Oct 2025, Byungchul Park wrote:
-> This document describes the concept and APIs of dept.
+Hi Griffin,
+
+Thank you for the set.
+
+On Thu, Oct 02, 2025 at 12:15:34PM +0200, Griffin Kroah-Hartman wrote:
+> The DW9800K is a similar part to the DW9719. The method for operation is
+> the same as the DW9719, but the register set is different. Add support
+> for this part to the existing dw9719 driver.
+> 
+> Tested on the Fairphone 5 smartphone.
+> 
+> Signed-off-by: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
+> ---
+>  drivers/media/i2c/dw9719.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+> 
+> diff --git a/drivers/media/i2c/dw9719.c b/drivers/media/i2c/dw9719.c
+> index 3627e78b8b6668933c4ecd92231465ce4105ff0c..172479f2c9f63f6b2a1f6eccf8184142edb383b9 100644
+> --- a/drivers/media/i2c/dw9719.c
+> +++ b/drivers/media/i2c/dw9719.c
+> @@ -68,6 +68,9 @@
+>  #define DW9761_VCM_PRELOAD		CCI_REG8(8)
+>  #define DW9761_DEFAULT_VCM_PRELOAD	0x73
+>  
+> +#define DW9800K_DEFAULT_SAC		1
+> +#define DW9800K_MODE_SAC_SHIFT		6
+> +#define DW9800K_DEFAULT_VCM_FREQ		0x10
+>  
+>  #define to_dw9719_device(x) container_of(x, struct dw9719_device, sd)
+>  
+> @@ -75,6 +78,7 @@ enum dw9719_model {
+>  	DW9718S,
+>  	DW9719,
+>  	DW9761,
+> +	DW9800K,
+>  };
+>  
+>  struct dw9719_device {
+> @@ -137,6 +141,12 @@ static int dw9719_power_up(struct dw9719_device *dw9719, bool detect)
+>  			goto props;
+>  		}
+>  
+> +		if (dw9719->model == DW9800K) {
+> +			dw9719->sac_mode = DW9800K_DEFAULT_SAC;
+> +			dw9719->vcm_freq = DW9800K_DEFAULT_VCM_FREQ;
+> +			goto props;
+> +		}
+
+How about using switch() instead?
+
+> +
+>  		ret = cci_read(dw9719->regmap, DW9719_INFO, &val, NULL);
+>  		if (ret < 0)
+>  			return ret;
+> @@ -177,6 +187,12 @@ static int dw9719_power_up(struct dw9719_device *dw9719, bool detect)
+>  	}
+>  
+>  	switch (dw9719->model) {
+> +	case DW9800K:
+> +		cci_write(dw9719->regmap, DW9719_CONTROL, DW9719_ENABLE_RINGING, &ret);
+> +		cci_write(dw9719->regmap, DW9719_MODE,
+> +				  dw9719->sac_mode << DW9800K_MODE_SAC_SHIFT, &ret);
+
+Indentation.
+
+> +		cci_write(dw9719->regmap, DW9719_VCM_FREQ, dw9719->vcm_freq, &ret);
+> +		break;
+>  	case DW9718S:
+>  		/* Datasheet says [OCP/UVLO] should be disabled below 2.5V */
+>  		dw9719->sac_mode &= DW9718S_CONTROL_SAC_MASK;
+> @@ -426,6 +442,7 @@ static const struct of_device_id dw9719_of_table[] = {
+>  	{ .compatible = "dongwoon,dw9718s", .data = (const void *)DW9718S },
+>  	{ .compatible = "dongwoon,dw9719", .data = (const void *)DW9719 },
+>  	{ .compatible = "dongwoon,dw9761", .data = (const void *)DW9761 },
+> +	{ .compatible = "dongwoon,dw9800k", .data = (const void *)DW9800K },
+>  	{ }
+>  };
+>  MODULE_DEVICE_TABLE(of, dw9719_of_table);
 > 
 
-Thanks for the documentation.  I've been trying to understand it.
+-- 
+Regards,
 
-
-> +How DEPT works
-> +--------------
-> +
-> +Let's take a look how DEPT works with the 1st example in the section
-> +'Limitation of lockdep'.
-> +
-> +   context X	   context Y	   context Z
-> +
-> +		   mutex_lock A
-> +   folio_lock B
-> +		   folio_lock B <- DEADLOCK
-> +				   mutex_lock A <- DEADLOCK
-> +				   folio_unlock B
-> +		   folio_unlock B
-> +		   mutex_unlock A
-> +				   mutex_unlock A
-> +
-> +Adding comments to describe DEPT's view in terms of wait and event:
-> +
-> +   context X	   context Y	   context Z
-> +
-> +		   mutex_lock A
-> +		   /* wait for A */
-> +   folio_lock B
-> +   /* wait for A */
-> +   /* start event A context */
-> +
-> +		   folio_lock B
-> +		   /* wait for B */ <- DEADLOCK
-> +		   /* start event B context */
-> +
-> +				   mutex_lock A
-> +				   /* wait for A */ <- DEADLOCK
-> +				   /* start event A context */
-> +
-> +				   folio_unlock B
-> +				   /* event B */
-> +		   folio_unlock B
-> +		   /* event B */
-> +
-> +		   mutex_unlock A
-> +		   /* event A */
-> +				   mutex_unlock A
-> +				   /* event A */
-> +
-
-I can't see the value of the above section.
-The first section with no comments is useful as it is easy to see the
-deadlock being investigate.  The section below is useful as it add
-comments to explain how DEPT sees the situation.  But the above section,
-with some but not all of the comments, does seem (to me) to add anything
-useful.
-
-> +Adding more supplementary comments to describe DEPT's view in detail:
-> +
-> +   context X	   context Y	   context Z
-> +
-> +		   mutex_lock A
-> +		   /* might wait for A */
-> +		   /* start to take into account event A's context */
-
-What do you mean precisely by "context".
-You use the word in the heading "context X  context Y  context Z"
-so it seems like "context" means "task" or "process".  But then as I
-read on, I think - maybe it means something else.  If it does, then you
-should use different words.  Maybe "task X ..." in the heading.
-
-If the examples that follow It seems that the "context" for event A
-starts at "mutex lock A" when it (possibly) waits for a mutex and ends
-at "mutex unlock A" - which are both in the same process.  Clearly
-various other events that happen between these two points in the same
-process could be seen as the "context" for event A.
-
-However event B starts in "context X" with "folio_lock B" and ends in
-"context Z" or "context Y" with "folio_unlock B".  Is that right?
-
-My question then is: how do you decide which, of all the event in all
-the processes in all the system, between the start[S] and the end[E] are
-considered to be part of the "context" of event A.
-
-I think it would help me if you defined what a "context" is earlier.
-What sorts of things appear in a context?
-
-Thanks,
-NeilBrown
-
-
-> +		   /* 1 */
-> +   folio_lock B
-> +   /* might wait for B */
-> +   /* start to take into account event B's context */
-> +   /* 2 */
-> +
-> +		   folio_lock B
-> +		   /* might wait for B */ <- DEADLOCK
-> +		   /* start to take into account event B's context */
-> +		   /* 3 */
-> +
-> +				   mutex_lock A
-> +				   /* might wait for A */ <- DEADLOCK
-> +				   /* start to take into account
-> +				      event A's context */
-> +				   /* 4 */
-> +
-> +				   folio_unlock B
-> +				   /* event B that's been valid since 2 */
-> +		   folio_unlock B
-> +		   /* event B that's been valid since 3 */
-> +
-> +		   mutex_unlock A
-> +		   /* event A that's been valid since 1 */
-> +
-> +				   mutex_unlock A
-> +				   /* event A that's been valid since 4 */
-> +
-> +Let's build up dependency graph with this example. Firstly, context X:
-> +
-> +   context X
-> +
-> +   folio_lock B
-> +   /* might wait for B */
-> +   /* start to take into account event B's context */
-> +   /* 2 */
-> +
-> +There are no events to create dependency. Next, context Y:
-> +
-> +   context Y
-> +
-> +   mutex_lock A
-> +   /* might wait for A */
-> +   /* start to take into account event A's context */
-> +   /* 1 */
-> +
-> +   folio_lock B
-> +   /* might wait for B */
-> +   /* start to take into account event B's context */
-> +   /* 3 */
-> +
-> +   folio_unlock B
-> +   /* event B that's been valid since 3 */
-> +
-> +   mutex_unlock A
-> +   /* event A that's been valid since 1 */
-> +
-> +There are two events. For event B, folio_unlock B, since there are no
-> +waits between 3 and the event, event B does not create dependency. For
-> +event A, there is a wait, folio_lock B, between 1 and the event. Which
-> +means event A cannot be triggered if event B does not wake up the wait.
-> +Therefore, we can say event A depends on event B, say, 'A -> B'. The
-> +graph will look like after adding the dependency:
-> +
-> +   A -> B
-> +
-> +   where 'A -> B' means that event A depends on event B.
-> +
-> +Lastly, context Z:
-> +
-> +   context Z
-> +
-> +   mutex_lock A
-> +   /* might wait for A */
-> +   /* start to take into account event A's context */
-> +   /* 4 */
-> +
-> +   folio_unlock B
-> +   /* event B that's been valid since 2 */
-> +
-> +   mutex_unlock A
-> +   /* event A that's been valid since 4 */
-> +
-> +There are also two events. For event B, folio_unlock B, there is a
-> +wait, mutex_lock A, between 2 and the event - remind 2 is at a very
-> +start and before the wait in timeline. Which means event B cannot be
-> +triggered if event A does not wake up the wait. Therefore, we can say
-> +event B depends on event A, say, 'B -> A'. The graph will look like
-> +after adding the dependency:
-> +
-> +    -> A -> B -
-> +   /           \
-> +   \           /
-> +    -----------
-> +
-> +   where 'A -> B' means that event A depends on event B.
-> +
-> +A new loop has been created. So DEPT can report it as a deadlock. For
-> +event A, mutex_unlock A, since there are no waits between 4 and the
-> +event, event A does not create dependency. That's it.
-> +
-> +CONCLUSION
-> +
-> +DEPT works well with any general synchronization mechanisms by focusing
-> +on wait, event and its context.
-> +
+Sakari Ailus
 
