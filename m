@@ -1,207 +1,409 @@
-Return-Path: <linux-media+bounces-43736-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43737-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 728B3BB6FBB
-	for <lists+linux-media@lfdr.de>; Fri, 03 Oct 2025 15:21:33 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E9CBB6FEB
+	for <lists+linux-media@lfdr.de>; Fri, 03 Oct 2025 15:23:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A5B28487424
-	for <lists+linux-media@lfdr.de>; Fri,  3 Oct 2025 13:14:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12F9D4A0534
+	for <lists+linux-media@lfdr.de>; Fri,  3 Oct 2025 13:16:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AAD302FF144;
-	Fri,  3 Oct 2025 13:09:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52757192D8A;
+	Fri,  3 Oct 2025 13:15:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="F1MgLOHN"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OgKMsy+q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com (fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com [63.178.132.221])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E284B2F83DB;
-	Fri,  3 Oct 2025 13:09:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=63.178.132.221
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E151522F
+	for <linux-media@vger.kernel.org>; Fri,  3 Oct 2025 13:15:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759496990; cv=none; b=PI5Ug58S5BWZJ5L4+jQTSlvYL7A7I/apkZSf8INFi8MxQWUpg0Gi2TqKZgaa4imXBvr1EdgORWC9KqejWiPHyAIdC46ts9VGv5ko4WyiyKfvtCbh8xs/ArnTNuphG5Z7xqRmc3Bgcokfa1GWTqsuqZ1uxGop0BasUDZiRjwK1us=
+	t=1759497347; cv=none; b=SIxkdKZG/dVJmmN586vtN7kJUwaTRPCUKb6wKZ/Dkxexs/CHcfvtYv/M+BJ9RheHR/IQY02/j1skL6GF7yWaFVMtpnofXfcRlxvwBHBiq40vTKLyEwYFXhcxI8wptAdDwBoV3e9oX7nzJxPdhWyhWitoupqFagvT8BePs2X3tjE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759496990; c=relaxed/simple;
-	bh=V2L3IilwofpV6SrsfVTvut5ipDXkokIOm+dTBT4i7eQ=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tlBmNQKcrtfllL8oY01VyGgQyNypef8o8vT8QcG4WmhIAKQJVqLz0/D2FpuRUKs1wNQ0e1fIQ9EPgtcSFXBKJy5PT5sqSsriNtN3+eZq5TRr3wrLqJNhga/mDJFj5BMn0RjUncjVO5P5HwE2e97V3JD3b0Yah0vpHqz0jk4WpoU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=F1MgLOHN; arc=none smtp.client-ip=63.178.132.221
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
-  t=1759496988; x=1791032988;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=k0dUe76w+6n5/NfsPbyefGVCom+xh3GGcFcV3Olhmks=;
-  b=F1MgLOHNKJs1pwOQyhwNxvqAE5UQgezpHn13sdYpbvq6VzWp25Wl6Oll
-   90swpvdWyQ0aiZNTvzK4CfUvF2SS7LzIPpduQv5AcKsJHbsnFZIpGT/e9
-   Ae/3UGP6QZYkJl695GVpJNTP/pKirpfm8TKk8IhhgAnAcKVsxI9NcCmNg
-   uPnHYdXFkAI6rO15Ir8GyRWUYJqzCKi0ccucxOttmt3XTeNtI6ob2x5TF
-   CU2OEVmaCE3MPpX3aEc4qxCCAp53656UBhVPVbOKtmdIbXI2qXhUm2w/D
-   ur1CgGqHfWN/ZnKrvwfdb/sCV4XXJcaTDEmeDQZbPqtyJt2tAQdSTuQ3n
-   Q==;
-X-CSE-ConnectionGUID: pOpShtCIQUC1YxeGDT1KYw==
-X-CSE-MsgGUID: OAQmpc4qS2az1wjc1pwbrA==
-X-IronPort-AV: E=Sophos;i="6.18,312,1751241600"; 
-   d="scan'208";a="2963326"
-Received: from ip-10-6-3-216.eu-central-1.compute.internal (HELO smtpout.naws.eu-central-1.prod.farcaster.email.amazon.dev) ([10.6.3.216])
-  by internal-fra-out-013.esa.eu-central-1.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 13:09:44 +0000
-Received: from EX19MTAEUA001.ant.amazon.com [54.240.197.233:13822]
- by smtpin.naws.eu-central-1.prod.farcaster.email.amazon.dev [10.0.22.27:2525] with esmtp (Farcaster)
- id 337663a1-1fe2-42ad-b6e4-6137698a0a8d; Fri, 3 Oct 2025 13:09:43 +0000 (UTC)
-X-Farcaster-Flow-ID: 337663a1-1fe2-42ad-b6e4-6137698a0a8d
-Received: from EX19D018EUA004.ant.amazon.com (10.252.50.85) by
- EX19MTAEUA001.ant.amazon.com (10.252.50.223) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
- Fri, 3 Oct 2025 13:09:39 +0000
-Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
- (172.19.116.181) by EX19D018EUA004.ant.amazon.com (10.252.50.85) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Fri, 3 Oct 2025
- 13:09:12 +0000
-From: Eliav Farber <farbere@amazon.com>
-To: <gregkh@linuxfoundation.org>, <jdike@addtoit.com>, <richard@nod.at>,
-	<anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>,
-	<luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>,
-	<tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <james.morse@arm.com>,
-	<rric@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
-	<maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
-	<tzimmermann@suse.de>, <robdclark@gmail.com>, <sean@poorly.run>,
-	<jdelvare@suse.com>, <linux@roeck-us.net>, <linus.walleij@linaro.org>,
-	<dmitry.torokhov@gmail.com>, <maz@kernel.org>, <wens@csie.org>,
-	<jernej.skrabec@gmail.com>, <agk@redhat.com>, <snitzer@redhat.com>,
-	<dm-devel@redhat.com>, <davem@davemloft.net>, <kuba@kernel.org>,
-	<mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@canonical.com>,
-	<malattia@linux.it>, <hdegoede@redhat.com>, <mgross@linux.intel.com>,
-	<jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
-	<sakari.ailus@linux.intel.com>, <clm@fb.com>, <josef@toxicpanda.com>,
-	<dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>,
-	<adilger.kernel@dilger.ca>, <dushistov@mail.ru>,
-	<luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <pmladek@suse.com>,
-	<senozhatsky@chromium.org>, <andriy.shevchenko@linux.intel.com>,
-	<linux@rasmusvillemoes.dk>, <minchan@kernel.org>, <ngupta@vflare.org>,
-	<akpm@linux-foundation.org>, <yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>,
-	<pablo@netfilter.org>, <kadlec@netfilter.org>, <fw@strlen.de>,
-	<jmaloy@redhat.com>, <ying.xue@windriver.com>, <shuah@kernel.org>,
-	<willy@infradead.org>, <farbere@amazon.com>, <sashal@kernel.org>,
-	<quic_akhilpo@quicinc.com>, <ruanjinjie@huawei.com>,
-	<David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-	<linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>,
-	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
-	<linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
-	<linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>,
-	<linux-sunxi@lists.linux.dev>, <linux-media@vger.kernel.org>,
-	<netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
-	<platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
-	<linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>,
-	<linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>,
-	<linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>,
-	<coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
-	<linux-kselftest@vger.kernel.org>, <stable@vger.kernel.org>
-CC: Arnd Bergmann <arnd@kernel.org>, Christoph Hellwig <hch@infradead.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>, "Jason A. Donenfeld"
-	<Jason@zx2c4.com>, Jens Axboe <axboe@kernel.dk>, Lorenzo Stoakes
-	<lorenzo.stoakes@oracle.com>, Mateusz Guzik <mjguzik@gmail.com>, "Pedro
- Falcato" <pedro.falcato@gmail.com>
-Subject: [PATCH v2 19/19 5.15.y] minmax.h: remove some #defines that are only expanded once
-Date: Fri, 3 Oct 2025 13:00:06 +0000
-Message-ID: <20251003130006.41681-20-farbere@amazon.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251003130006.41681-1-farbere@amazon.com>
-References: <20251003130006.41681-1-farbere@amazon.com>
+	s=arc-20240116; t=1759497347; c=relaxed/simple;
+	bh=gFgpB3WEb+h26rTJFR1m3nBeihD1sRBDTulf1YLoVWU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kz/gwwoOq6X1oXaGGfNtDMMkx8bcYW608ku3WgTZp7sxy/6r5U4JpBipxgDSyeUfR42B1EhOsAhS4HXEUeRCzgMyIsmPk1WA1sKyBLaKeJwfGhogrodRlCJcp2AxehcjtpOTczLKg0QCZInqZax4aqj2LP27D+tG0O45PxUCyNc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OgKMsy+q; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1759497345; x=1791033345;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=gFgpB3WEb+h26rTJFR1m3nBeihD1sRBDTulf1YLoVWU=;
+  b=OgKMsy+qfLX/cZUSWdlrK2xLGzgKJurdG09rSILzfWTcpu5S0Ylo8LRq
+   LDYYKAEYA6NHMyPKnyMq3hs2nafoWvmPgpdLOK+2aZgCfsxV3YEa3ODmz
+   1MMqsN4nK12iA1sUTVaSjYmNKloOmNdE+NrYfolALv5AV5jpPp0vrnWi/
+   J2TatwjMFavl5DTWq3oeli9S4uZJ7WRq4C1dZV3OUDN9QWqiwGZypiXsK
+   lwfc6ehyY7P96O0j5MGEcbLjpmYWqYiFaDFbiMjgwY6N2BwpgqqyPCrPk
+   nocds7GUXNNzq5MwjYcx4ksI6cslMH96h4ozrU/vpZ7LIROngovoi+Azr
+   g==;
+X-CSE-ConnectionGUID: wVnY+b+NTZytkNqG/A0zuw==
+X-CSE-MsgGUID: S2y+/yzqQfGombBW4StyDg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11571"; a="64393542"
+X-IronPort-AV: E=Sophos;i="6.18,312,1751266800"; 
+   d="scan'208";a="64393542"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 06:15:45 -0700
+X-CSE-ConnectionGUID: 5XjWyYygSAWvZbT+na++8g==
+X-CSE-MsgGUID: TCle25uDQN+RKaDFVGKkfw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.18,312,1751266800"; 
+   d="scan'208";a="178892702"
+Received: from ncintean-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.165])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Oct 2025 06:15:38 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id D953A11FB9B;
+	Fri, 03 Oct 2025 16:15:34 +0300 (EEST)
+Date: Fri, 3 Oct 2025 16:15:34 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Subject: Re: [PATCH v11 39/66] media: Documentation: Add subdev configuration
+ models, raw sensor model
+Message-ID: <aN_MdmDhQPyLnQqD@kekkonen.localdomain>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-40-sakari.ailus@linux.intel.com>
+ <osdr2eavm23pzxrd73v4xscdtaafon3vllhzcg5r6eoqwclsfk@xgfnicn6iboj>
+ <aM1J9LsbpueEr30x@kekkonen.localdomain>
+ <5fwlztz2q2fewyml774my3sdw3wv5wdhnl6p4mfbubm4erm5ft@sthie2bobklf>
+ <aN4lQPK5Mqve2bUI@kekkonen.localdomain>
+ <kblfpuqfj2d6vkagspnqdhztno2js3wljdrsv2wpeywuwyzg5x@xt7rjhh5wt76>
+ <r3kv25lxbyjtuufb2ze27wp5gbqnbgnps2ytk2gy2qkaeiijdd@ydn4ptkze2qp>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: EX19D046UWA004.ant.amazon.com (10.13.139.76) To
- EX19D018EUA004.ant.amazon.com (10.252.50.85)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <r3kv25lxbyjtuufb2ze27wp5gbqnbgnps2ytk2gy2qkaeiijdd@ydn4ptkze2qp>
 
-From: David Laight <David.Laight@ACULAB.COM>
+Hi Jacopo,
 
-[ Upstream commit 2b97aaf74ed534fb838d09867d09a3ca5d795208 ]
+On Fri, Oct 03, 2025 at 09:10:06AM +0200, Jacopo Mondi wrote:
+> Hi Sakari,
+> 
+> On Thu, Oct 02, 2025 at 09:22:32AM +0200, Jacopo Mondi wrote:
+> > Hi Sakari
+> >
+> > On Thu, Oct 02, 2025 at 10:09:52AM +0300, Sakari Ailus wrote:
+> > > Hi Jacopo,
+> > >
+> > > On Thu, Sep 25, 2025 at 12:31:09PM +0200, Jacopo Mondi wrote:
+> > > > Hi Sakari
+> > > >
+> > > > On Fri, Sep 19, 2025 at 03:17:56PM +0300, Sakari Ailus wrote:
+> > > > > Hi Jacopo,
+> > > > >
+> > > > > On Mon, Sep 01, 2025 at 07:09:29PM +0200, Jacopo Mondi wrote:
+> > > > > > Hi Sakari
+> > > > > >
+> > > > > > On Mon, Aug 25, 2025 at 12:50:40PM +0300, Sakari Ailus wrote:
+> > > > > > > Sub-device configuration models define what V4L2 API elements are
+> > > > > > > available on a compliant sub-device and how do they behave.
+> > > > > > >
+> > > > > > > The patch also adds a model for common raw sensors.
+> > > > > > >
+> > > > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > > > > > > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > > > > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > > Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+> > > > > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > > > > > > ---
+> > > > > > >  .../media/drivers/camera-sensor.rst           |   4 +
+> > > > > > >  .../media/v4l/common-raw-sensor.dia           | 442 ++++++++++++++++++
+> > > > > > >  .../media/v4l/common-raw-sensor.svg           | 134 ++++++
+> > > > > > >  .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
+> > > > > > >  .../media/v4l/subdev-config-model.rst         | 230 +++++++++
+> > > > > > >  5 files changed, 812 insertions(+)
+> > > > > > >  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.dia
+> > > > > > >  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.svg
+> > > > > > >  create mode 100644 Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > > > > > >
+> > > > > > > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > > > > > index cbbfbb0d8273..39f3f91c6733 100644
+> > > > > > > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > > > > > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > > > > > > @@ -18,6 +18,8 @@ binning functionality. The sensor drivers belong to two distinct classes, freely
+> > > > > > >  configurable and register list-based drivers, depending on how the driver
+> > > > > > >  configures this functionality.
+> > > > > > >
+> > > > > > > +Also see :ref:`media_subdev_config_model_common_raw_sensor`.
+> > > > > > > +
+> > > > > > >  Freely configurable camera sensor drivers
+> > > > > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > > > > > >
+> > > > > > > @@ -118,6 +120,8 @@ values programmed by the register sequences. The default values of these
+> > > > > > >  controls shall be 0 (disabled). Especially these controls shall not be inverted,
+> > > > > > >  independently of the sensor's mounting rotation.
+> > > > > > >
+> > > > > > > +.. _media_using_camera_sensor_drivers_embedded_data:
+> > > > > > > +
+> > > > > > >  Embedded data
+> > > > > > >  -------------
+> > > > > > >
+> > > > > > > diff --git a/Documentation/userspace-api/media/v4l/common-raw-sensor.dia b/Documentation/userspace-api/media/v4l/common-raw-sensor.dia
+> > > > > > > new file mode 100644
+> > > > > > > index 000000000000..24b3f2b2a626
+> > > > > > > --- /dev/null
+> > > > > > > +++ b/Documentation/userspace-api/media/v4l/common-raw-sensor.dia
+> > > > > >
+> > > > > > [snip]
+> > > > > >
+> > > > > > > diff --git a/Documentation/userspace-api/media/v4l/common-raw-sensor.svg b/Documentation/userspace-api/media/v4l/common-raw-sensor.svg
+> > > > > > > new file mode 100644
+> > > > > > > index 000000000000..1d6055da2519
+> > > > > > > --- /dev/null
+> > > > > > > +++ b/Documentation/userspace-api/media/v4l/common-raw-sensor.svg
+> > > > > >
+> > > > > > [snip]
+> > > > > >
+> > > > > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > > > > index bb86cadfad1c..b0774b9a9b71 100644
+> > > > > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
+> > > > > > > @@ -846,3 +846,5 @@ stream while it may be possible to enable and disable the embedded data stream.
+> > > > > > >
+> > > > > > >  The embedded data format does not need to be configured on the sensor's pads as
+> > > > > > >  the format is dictated by the pixel data format in this case.
+> > > > > > > +
+> > > > > > > +.. include:: subdev-config-model.rst
+> > > > > > > diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > > > > > > new file mode 100644
+> > > > > > > index 000000000000..1e6c58931ea0
+> > > > > > > --- /dev/null
+> > > > > > > +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
+> > > > > > > @@ -0,0 +1,230 @@
+> > > > > > > +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
+> > > > > > > +
+> > > > > > > +.. _media_subdev_config_model:
+> > > > > > > +
+> > > > > > > +Sub-device configuration models
+> > > > > > > +===============================
+> > > > > > > +
+> > > > > > > +The V4L2 specification defines a subdev API that exposes three type of
+> > > > > > > +configuration elements: formats, selection rectangles and controls. The
+> > > > > > > +specification contains generic information about how those configuration
+> > > > > > > +elements behave, but not precisely how they apply to particular hardware
+> > > > > > > +features. We leave some leeway to drivers to decide how to map selection
+> > > > > > > +rectangles to device features, as long as they comply with the V4L2
+> > > > > > > +specification. This is needed as hardware features differ between devices, so
+> > > > > > > +it's the driver's responsibility to handle this mapping.
+> > > > > > > +
+> > > > > > > +Unfortunately, this lack of clearly defined mapping in the specification has led
+> > > > > > > +to different drivers mapping the same hardware features to different API
+> > > > > > > +elements, or implementing the API elements with slightly different
+> > > > > > > +behaviours. Furthermore, many drivers have implemented selection rectangles in
+> > > > > > > +ways that do not comply with the V4L2 specification. All of this makes userspace
+> > > > > > > +development difficult.
+> > > > > > > +
+> > > > > > > +Sub-device configuration models specify in detail what the user space can expect
+> > > > > > > +from a sub-device in terms of V4L2 sub-device interface support, semantics
+> > > > > > > +included.
+> > > > > > > +
+> > > > > > > +A sub-device may implement more than one configuration model at the same
+> > > > > > > +time. The implemented configuration models can be obtained from the sub-device's
+> > > > > > > +``V4L2_CID_CONFIG_MODEL`` control.
+> > > > > > > +
+> > > > > > > +.. _media_subdev_config_model_common_raw_sensor:
+> > > > > > > +
+> > > > > > > +Common raw camera sensor model
+> > > > > > > +------------------------------
+> > > > > > > +
+> > > > > > > +The common raw camera sensor model defines a set of enumeration and
+> > > > > > > +configuration interfaces (formats, selections etc.) that cover the vast majority
+> > > > > > > +of functionality of raw camera sensors. Not all of the interfaces are
+> > > > > > > +necessarily offered by all drivers.
+> > > > > > > +
+> > > > > > > +A sub-device complies with the common raw sensor model if the
+> > > > > > > +``V4L2_CONFIG_MODEL_COMMON_RAW_SENSOR`` bit is set in the
+> > > > > > > +``V4L2_CID_CONFIG_MODEL`` control of the sub-device.
+> > > > > > > +
+> > > > > > > +The common raw camera sensor model is aligned with
+> > > > > > > +:ref:`media_using_camera_sensor_drivers`. Please refer to that regarding aspects
+> > > > > > > +not specified here.
+> > > > > > > +
+> > > > > > > +Each camera sensor implementing the common raw sensor model exposes a single
+> > > > > > > +V4L2 sub-device. The sub-device contains a single source pad (0) and two or more
+> > > > > > > +internal pads: one or more image data internal pads (starting from 1) and
+> > > > > > > +optionally an embedded data pad.
+> > > > > > > +
+> > > > > > > +Additionally, further internal pads may be supported for other features. Using
+> > > > > > > +more than one image data internal pad or more than one non-image data pad
+> > > > > > > +requires these pads documented separately for the given device. The indices of
+> > > > > > > +the image data internal pads shall be lower than those of the non-image data
+> > > > > > > +pads.
+> > > > > > > +
+> > > > > > > +This is shown in :ref:`media_subdev_config_model_common_raw_sensor_subdev`.
+> > > > > >
+> > > > > > possibly doesn't need a link as the image is just here below
+> > > > > >
+> > > > > > > +
+> > > > > > > +.. _media_subdev_config_model_common_raw_sensor_subdev:
+> > > > > > > +
+> > > > > > > +.. kernel-figure:: common-raw-sensor.svg
+> > > > > > > +    :alt:    common-raw-sensor.svg
+> > > > > > > +    :align:  center
+> > > > > > > +
+> > > > > > > +    **Common raw sensor sub-device with n pads (n == 2)**
+> > > > > > > +
+> > > > > > > +Routes
+> > > > > > > +^^^^^^
+> > > > > > > +
+> > > > > > > +A sub-device conforming to common raw camera sensor model implements the
+> > > > > > > +following routes.
+> > > > > > > +
+> > > > > > > +.. flat-table:: Routes
+> > > > > > > +    :header-rows: 1
+> > > > > > > +
+> > > > > > > +    * - Sink pad/stream
+> > > > > > > +      - Source pad/stream
+> > > > > > > +      - Static (X/M(aybe)/-)
+> > > > > > > +      - Mandatory (X/-)
+> > > > > > > +      - Synopsis
+> > > > > > > +    * - 1/0
+> > > > > > > +      - 0/0
+> > > > > > > +      - X
+> > > > > > > +      - X
+> > > > > > > +      - Image data
+> > > > > > > +    * - 2/0
+> > > > > > > +      - 0/1
+> > > > > > > +      - M
+> > > > > > > +      - \-
+> > > > > > > +      - Embedded data
+> > > > > > > +
+> > > > > > > +Support for the embedded data stream is optional. Drivers supporting the
+> > > > > > > +embedded data stream may allow disabling and enabling the route when the
+> > > > > > > +streaming is disabled.
+> > > > > >
+> > > > > > I would
+> > > > > >
+> > > > > > s/when the streaming is disabled//
+> > > > >
+> > > > > Sounds good.
+> > > > >
+> > > > > >
+> > > > > > > +
+> > > > > > > +Sensor pixel array size, cropping and binning
+> > > > > > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> > > > > > > +
+> > > > > > > +The sensor's pixel array is divided into one or more areas. The areas around the
+> > > > > > > +edge of the pixel array, usually one or more sides, may contain optical black
+> > > > > >
+> > > > > > You say that "the pixel array is divided into one or more areas" and
+> > > > > > then list "the areas around the edge of the pixel array" which is confusing
+> > > > > >
+> > > > > > I think it would be better as
+> > > > > >
+> > > > > > The sensor's full pixel array is divided into one or more areas, one
+> > > > > > (or multiple) active area which contains visible pixels surrounded,
+> > > > > > usually on one or more sides, by non-active areas which may contain
+> > > > > > optical black pixels, dummy pixels and other non-image pixels. The
+> > > > > > entire pixel array areas size, including the active and non-active
+> > > > > > portions is conveyed by the format on (pad, stream) pair 1/0.
+> > > > > >
+> > > > > > This would also better define the "visible pixels" term which is used
+> > > > > > in the rest of the documentation.
+> > > > >
+> > > > > There indeed were issues in the terms used in the original text. How about:
+> > > > >
+> > > > > The sensor's pixel array is divided into one or more areas. The areas around the
+> > > > > the visible area in the pixel array, usually one or more sides, may contain
+> > > >
+> > > > I still feel that "active area that contains visible pixels" better
+> > > > defines what "visibile area" is... not a problem anyway
+> > >
+> > > How about "visible pixel area"?
+> >
+> > fine with me
+> >
+> 
+> A recent discussion on libcamera made me wonder a few things
+> 
+> https://patchwork.libcamera.org/patch/24547/
+> 
+> In the current world (pre-RAW sensor model) the situation can be
+> summarized as
+> 
+> TGT_NATIVE_SIZE = full pixel array (readable and non readable)
+> TGT_CROP_BOUNDS = readable pixel array (visible and non visibile pixels)
 
-The bodies of __signed_type_use() and __unsigned_type_use() are much the
-same size as their names - so put the bodies in the only line that expands
-them.
+Crop bounds is generally the same as native size.
 
-Similarly __signed_type() is defined separately for 64bit and then used
-exactly once just below.
+> TGT_CROP_DEFAULT = visible pixels
 
-Change the test for __signed_type from CONFIG_64BIT to one based on gcc
-defined macros so that the code is valid if it gets used outside of a
-kernel build.
+The default could exclude not-so-great pixels, too.
 
-Link: https://lkml.kernel.org/r/9386d1ebb8974fbabbed2635160c3975@AcuMS.aculab.com
-Signed-off-by: David Laight <david.laight@aculab.com>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Arnd Bergmann <arnd@kernel.org>
-Cc: Christoph Hellwig <hch@infradead.org>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>
-Cc: Jason A. Donenfeld <Jason@zx2c4.com>
-Cc: Jens Axboe <axboe@kernel.dk>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Mateusz Guzik <mjguzik@gmail.com>
-Cc: Matthew Wilcox <willy@infradead.org>
-Cc: Pedro Falcato <pedro.falcato@gmail.com>
-Signed-off-by: Andrew Morton <akpm@linux-foundation.org>
-Signed-off-by: Eliav Farber <farbere@amazon.com>
----
- include/linux/minmax.h | 14 ++++++--------
- 1 file changed, 6 insertions(+), 8 deletions(-)
+> TGT_CROP = analgoue crop
 
-diff --git a/include/linux/minmax.h b/include/linux/minmax.h
-index 2bbdd5b5e07e..eaaf5c008e4d 100644
---- a/include/linux/minmax.h
-+++ b/include/linux/minmax.h
-@@ -46,10 +46,8 @@
-  * comparison, and these expressions only need to be careful to not cause
-  * warnings for pointer use.
-  */
--#define __signed_type_use(ux) (2 + __is_nonneg(ux))
--#define __unsigned_type_use(ux) (1 + 2 * (sizeof(ux) < 4))
- #define __sign_use(ux) (is_signed_type(typeof(ux)) ? \
--	__signed_type_use(ux) : __unsigned_type_use(ux))
-+	(2 + __is_nonneg(ux)) : (1 + 2 * (sizeof(ux) < 4)))
- 
- /*
-  * Check whether a signed value is always non-negative.
-@@ -57,7 +55,7 @@
-  * A cast is needed to avoid any warnings from values that aren't signed
-  * integer types (in which case the result doesn't matter).
-  *
-- * On 64-bit any integer or pointer type can safely be cast to 'long'.
-+ * On 64-bit any integer or pointer type can safely be cast to 'long long'.
-  * But on 32-bit we need to avoid warnings about casting pointers to integers
-  * of different sizes without truncating 64-bit values so 'long' or 'long long'
-  * must be used depending on the size of the value.
-@@ -66,12 +64,12 @@
-  * them, but we do not use s128 types in the kernel (we do use 'u128',
-  * but they are handled by the !is_signed_type() case).
-  */
--#ifdef CONFIG_64BIT
--  #define __signed_type(ux) long
-+#if __SIZEOF_POINTER__ == __SIZEOF_LONG_LONG__
-+#define __is_nonneg(ux) statically_true((long long)(ux) >= 0)
- #else
--  #define __signed_type(ux) typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L))
-+#define __is_nonneg(ux) statically_true( \
-+	(typeof(__builtin_choose_expr(sizeof(ux) > 4, 1LL, 1L)))(ux) >= 0)
- #endif
--#define __is_nonneg(ux) statically_true((__signed_type(ux))(ux) >= 0)
- 
- #define __types_ok(ux, uy) \
- 	(__sign_use(ux) & __sign_use(uy))
+This could include digital crop as well.
+
+> 
+> where:
+> - visibile = pixels used for image capture purpose
+> - non-visible = optically black, dummies etc
+> 
+> With the RAW sensor model:
+> 
+> format(1/0) = readable pixel array (visible and non visible)
+> TGT_CROP_DEFAULT(1/0) = visible pixel area
+> TGT_CROP(1/0) = analogue crop
+> TGT_COMPOSE(1/0) = binning/skipping
+> 
+> Have we lost the ability to report the full pixel array size (readable
+> and not readable) ? Is this intentional ? As if pixels cannot be read
+> out they basically do no exist, and the information on the actual
+> number of pixels (including non readable ones) should be kept
+> somewhere else (like the libcamera sensor properties database) ?
+
+I'd keep this information in the user space if needed. There's little
+software could presumably do with this information.
+
+> 
+> All the discussion about readable/non-readable, visible/non-visibile
+> and active and inactive areas make me think we would benefit from
+> presenting a small glossary at the beginning of the "Sensor pixel
+> array size, cropping and binning" paragraph ?
+
+The text does not discuss active or inactive areas. I'd add some terms into
+the main glossary if needed -- they are used outside this file, too.
+
 -- 
-2.47.3
+Regards,
 
+Sakari Ailus
 
