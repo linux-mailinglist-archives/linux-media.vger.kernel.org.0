@@ -1,455 +1,263 @@
-Return-Path: <linux-media+bounces-43710-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43711-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 989AABB624A
-	for <lists+linux-media@lfdr.de>; Fri, 03 Oct 2025 09:10:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98308BB630B
+	for <lists+linux-media@lfdr.de>; Fri, 03 Oct 2025 09:40:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 393F719E82F5
-	for <lists+linux-media@lfdr.de>; Fri,  3 Oct 2025 07:10:46 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3604519E83E0
+	for <lists+linux-media@lfdr.de>; Fri,  3 Oct 2025 07:41:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C94A22D4E9;
-	Fri,  3 Oct 2025 07:10:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFCEE24BBFD;
+	Fri,  3 Oct 2025 07:40:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PMYfUfBF"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="kcGilSg3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D361A3165
-	for <linux-media@vger.kernel.org>; Fri,  3 Oct 2025 07:10:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6DC62475C2;
+	Fri,  3 Oct 2025 07:40:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759475417; cv=none; b=sredxzskvveqB3Ht88iNSaAt+Yz7YTOry07MIa0538J0+sJRK+ykvxRCuvPs3YJ65kocgybnX6qZaJvEKVh8PF/scL2MjvFm1uSIRCb8L0SJ93nRHVXCiJvcvqXiiK9WReG0IVdmurHPqCFZ8Wh1LBApBXS0pek3iRJxKp8UTw4=
+	t=1759477245; cv=none; b=TL8iX9v7+AlCHtk3koEYB5BHdUh0CZYdGFqMw8KlWp9DKjMxqpxXKYFpFinqn7OfCKY+VRxiuIABVWVPXaF7as6xsD/WsQB6VTJXqQh2uZPYKvkImi+ImXAT+N++AS1iFE6224ZEOma7j7Ch/ZJML3DFdUztEb9MrQE+AhGuZ8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759475417; c=relaxed/simple;
-	bh=gj7+9D9RLHDV1qisbwdoxFaDOAnpygRdOiiZJLNrn3s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bAmTFYXKbPkByKz0au6nVnW+cw5ciwqlLWQw4WJ9MHUXR0ucq/0ATU6h6jOGpQ47wmYbWcEIkcqoUlAFmKbUcHyMgBIuDM0GrT6liDKxLnbObAzgVO1/CcuNCc2F7xQKpoAFKadTh2YH+00ihQ9G5CM8YYW2mOzNgZcR+LQ97AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PMYfUfBF; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id E241CC7A;
-	Fri,  3 Oct 2025 09:08:38 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1759475319;
-	bh=gj7+9D9RLHDV1qisbwdoxFaDOAnpygRdOiiZJLNrn3s=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PMYfUfBFpnohuiYZMWYnjrgqMSqoyaEyeAXnUSx0StWicyzIjHR0iTRLRNC3X1+ht
-	 d6negByT026twhrmUI9gZ68vYeo9Tc1EhoxDWbNzZRlxbmj+PN3UhrwDuT1CnWjAcy
-	 9ywLHNzD1H6ZDM3q74XRdvS1tp6nEzop0MrtUl6M=
-Date: Fri, 3 Oct 2025 09:10:06 +0200
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	linux-media@vger.kernel.org, hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, 
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, 
-	Alexander Shiyan <eagle.alexander923@gmail.com>, Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Tommaso Merciai <tomm.merciai@gmail.com>, Umang Jain <umang.jain@ideasonboard.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Sylvain Petinot <sylvain.petinot@foss.st.com>, 
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
-	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
-	"Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, 
-	"Wang, Hongju" <hongju.wang@intel.com>, Stefan Klug <stefan.klug@ideasonboard.com>, 
-	Mirela Rabulea <mirela.rabulea@nxp.com>, =?utf-8?B?QW5kcsOp?= Apitzsch <git@apitzsch.eu>, 
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Kieran Bingham <kieran.bingham@ideasonboard.com>, 
-	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, Mehdi Djait <mehdi.djait@linux.intel.com>, 
-	Ricardo Ribalda Delgado <ribalda@kernel.org>, Hans de Goede <hdegoede@redhat.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-Subject: Re: [PATCH v11 39/66] media: Documentation: Add subdev configuration
- models, raw sensor model
-Message-ID: <r3kv25lxbyjtuufb2ze27wp5gbqnbgnps2ytk2gy2qkaeiijdd@ydn4ptkze2qp>
-References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
- <20250825095107.1332313-40-sakari.ailus@linux.intel.com>
- <osdr2eavm23pzxrd73v4xscdtaafon3vllhzcg5r6eoqwclsfk@xgfnicn6iboj>
- <aM1J9LsbpueEr30x@kekkonen.localdomain>
- <5fwlztz2q2fewyml774my3sdw3wv5wdhnl6p4mfbubm4erm5ft@sthie2bobklf>
- <aN4lQPK5Mqve2bUI@kekkonen.localdomain>
- <kblfpuqfj2d6vkagspnqdhztno2js3wljdrsv2wpeywuwyzg5x@xt7rjhh5wt76>
+	s=arc-20240116; t=1759477245; c=relaxed/simple;
+	bh=OlPNZlIp+KgkC76S6neJVFAlwbw4/Ogi6jZu1le8B1Y=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QN+Uy3nOqibsV2/M3/V96+YuqEnXuePqhQhK7RciRZBlX6gV/TOgFEsq45udORU3k1Omk78CsftMk1bplhGhAqoOzaMX2XvS1uoJ5iEhoLAM5B4dFCrn3cv0HACPxE9wn2gCyOvhu8s63UNuUCxCOMHAz2OoUGdVyS3lLFqDFZs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=kcGilSg3; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1759477240;
+	bh=OlPNZlIp+KgkC76S6neJVFAlwbw4/Ogi6jZu1le8B1Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=kcGilSg3fMklsLUAapEjz/5MC/SPFGplOcrjTR06rLQUXmywlgD87PACCIasW4ngs
+	 SLChjarc/w0TDRl3rZsqWJC6oqXHCbFrbwsMVxVLGdRN5G41zVAPtX8eLgk5b1I+9z
+	 /XLLqE+wS74gf2zewQlqTQD03rsvxfXOFyUrg6wBjWG07LXEgDEPcAoCDtzY6eUegv
+	 aH3dT9LVgluKq5neC5hAyExYQANP/6D9PlSX4WstJVipMTBxl06qr9Oa7yL9hJZkxd
+	 jaKec4qYHCwqS9bQzfxwplA2s1UzVJYF8BAqMY6xp2LwKUV9JfyNX0W8IHk7FMSCzB
+	 j7bjitWjJO65A==
+Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mriesch)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 29B1F17E0E30;
+	Fri,  3 Oct 2025 09:40:40 +0200 (CEST)
+Message-ID: <1ba4a5b3-abe8-4580-abf5-1e0fe19f9fb5@collabora.com>
+Date: Fri, 3 Oct 2025 09:40:39 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <kblfpuqfj2d6vkagspnqdhztno2js3wljdrsv2wpeywuwyzg5x@xt7rjhh5wt76>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 06/26] media: v4l2-ioctl: Introduce VIDIOC_BIND_CONTEXT
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>,
+ Kieran Bingham <kieran.bingham@ideasonboard.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Tomasz Figa
+ <tfiga@chromium.org>, Marek Szyprowski <m.szyprowski@samsung.com>,
+ Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>,
+ Florian Fainelli <florian.fainelli@broadcom.com>,
+ Broadcom internal kernel review list
+ <bcm-kernel-feedback-list@broadcom.com>, Hans Verkuil <hverkuil@kernel.org>,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+References: <20250717-multicontext-mainline-2025-v1-0-81ac18979c03@ideasonboard.com>
+ <20250717-multicontext-mainline-2025-v1-6-81ac18979c03@ideasonboard.com>
+ <b8e03fd2-3a44-48bb-8707-4aecabbbfd9c@collabora.com>
+ <wkeizorbd2celujqgs63gzsk5nzsdtoabzg2ocdcsmg3djvl7u@hgh6ridrdwiy>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <wkeizorbd2celujqgs63gzsk5nzsdtoabzg2ocdcsmg3djvl7u@hgh6ridrdwiy>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Sakari,
+Hi Jacopo,
 
-On Thu, Oct 02, 2025 at 09:22:32AM +0200, Jacopo Mondi wrote:
-> Hi Sakari
->
-> On Thu, Oct 02, 2025 at 10:09:52AM +0300, Sakari Ailus wrote:
-> > Hi Jacopo,
-> >
-> > On Thu, Sep 25, 2025 at 12:31:09PM +0200, Jacopo Mondi wrote:
-> > > Hi Sakari
-> > >
-> > > On Fri, Sep 19, 2025 at 03:17:56PM +0300, Sakari Ailus wrote:
-> > > > Hi Jacopo,
-> > > >
-> > > > On Mon, Sep 01, 2025 at 07:09:29PM +0200, Jacopo Mondi wrote:
-> > > > > Hi Sakari
-> > > > >
-> > > > > On Mon, Aug 25, 2025 at 12:50:40PM +0300, Sakari Ailus wrote:
-> > > > > > Sub-device configuration models define what V4L2 API elements are
-> > > > > > available on a compliant sub-device and how do they behave.
-> > > > > >
-> > > > > > The patch also adds a model for common raw sensors.
-> > > > > >
-> > > > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > > > > > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-> > > > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > Reviewed-by: Mirela Rabulea <mirela.rabulea@nxp.com>
-> > > > > > Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > > > > > ---
-> > > > > >  .../media/drivers/camera-sensor.rst           |   4 +
-> > > > > >  .../media/v4l/common-raw-sensor.dia           | 442 ++++++++++++++++++
-> > > > > >  .../media/v4l/common-raw-sensor.svg           | 134 ++++++
-> > > > > >  .../userspace-api/media/v4l/dev-subdev.rst    |   2 +
-> > > > > >  .../media/v4l/subdev-config-model.rst         | 230 +++++++++
-> > > > > >  5 files changed, 812 insertions(+)
-> > > > > >  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.dia
-> > > > > >  create mode 100644 Documentation/userspace-api/media/v4l/common-raw-sensor.svg
-> > > > > >  create mode 100644 Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> > > > > >
-> > > > > > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > > > > > index cbbfbb0d8273..39f3f91c6733 100644
-> > > > > > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > > > > > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
-> > > > > > @@ -18,6 +18,8 @@ binning functionality. The sensor drivers belong to two distinct classes, freely
-> > > > > >  configurable and register list-based drivers, depending on how the driver
-> > > > > >  configures this functionality.
-> > > > > >
-> > > > > > +Also see :ref:`media_subdev_config_model_common_raw_sensor`.
-> > > > > > +
-> > > > > >  Freely configurable camera sensor drivers
-> > > > > >  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > > > > >
-> > > > > > @@ -118,6 +120,8 @@ values programmed by the register sequences. The default values of these
-> > > > > >  controls shall be 0 (disabled). Especially these controls shall not be inverted,
-> > > > > >  independently of the sensor's mounting rotation.
-> > > > > >
-> > > > > > +.. _media_using_camera_sensor_drivers_embedded_data:
-> > > > > > +
-> > > > > >  Embedded data
-> > > > > >  -------------
-> > > > > >
-> > > > > > diff --git a/Documentation/userspace-api/media/v4l/common-raw-sensor.dia b/Documentation/userspace-api/media/v4l/common-raw-sensor.dia
-> > > > > > new file mode 100644
-> > > > > > index 000000000000..24b3f2b2a626
-> > > > > > --- /dev/null
-> > > > > > +++ b/Documentation/userspace-api/media/v4l/common-raw-sensor.dia
-> > > > >
-> > > > > [snip]
-> > > > >
-> > > > > > diff --git a/Documentation/userspace-api/media/v4l/common-raw-sensor.svg b/Documentation/userspace-api/media/v4l/common-raw-sensor.svg
-> > > > > > new file mode 100644
-> > > > > > index 000000000000..1d6055da2519
-> > > > > > --- /dev/null
-> > > > > > +++ b/Documentation/userspace-api/media/v4l/common-raw-sensor.svg
-> > > > >
-> > > > > [snip]
-> > > > >
-> > > > > > diff --git a/Documentation/userspace-api/media/v4l/dev-subdev.rst b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > > index bb86cadfad1c..b0774b9a9b71 100644
-> > > > > > --- a/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > > +++ b/Documentation/userspace-api/media/v4l/dev-subdev.rst
-> > > > > > @@ -846,3 +846,5 @@ stream while it may be possible to enable and disable the embedded data stream.
-> > > > > >
-> > > > > >  The embedded data format does not need to be configured on the sensor's pads as
-> > > > > >  the format is dictated by the pixel data format in this case.
-> > > > > > +
-> > > > > > +.. include:: subdev-config-model.rst
-> > > > > > diff --git a/Documentation/userspace-api/media/v4l/subdev-config-model.rst b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> > > > > > new file mode 100644
-> > > > > > index 000000000000..1e6c58931ea0
-> > > > > > --- /dev/null
-> > > > > > +++ b/Documentation/userspace-api/media/v4l/subdev-config-model.rst
-> > > > > > @@ -0,0 +1,230 @@
-> > > > > > +.. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-> > > > > > +
-> > > > > > +.. _media_subdev_config_model:
-> > > > > > +
-> > > > > > +Sub-device configuration models
-> > > > > > +===============================
-> > > > > > +
-> > > > > > +The V4L2 specification defines a subdev API that exposes three type of
-> > > > > > +configuration elements: formats, selection rectangles and controls. The
-> > > > > > +specification contains generic information about how those configuration
-> > > > > > +elements behave, but not precisely how they apply to particular hardware
-> > > > > > +features. We leave some leeway to drivers to decide how to map selection
-> > > > > > +rectangles to device features, as long as they comply with the V4L2
-> > > > > > +specification. This is needed as hardware features differ between devices, so
-> > > > > > +it's the driver's responsibility to handle this mapping.
-> > > > > > +
-> > > > > > +Unfortunately, this lack of clearly defined mapping in the specification has led
-> > > > > > +to different drivers mapping the same hardware features to different API
-> > > > > > +elements, or implementing the API elements with slightly different
-> > > > > > +behaviours. Furthermore, many drivers have implemented selection rectangles in
-> > > > > > +ways that do not comply with the V4L2 specification. All of this makes userspace
-> > > > > > +development difficult.
-> > > > > > +
-> > > > > > +Sub-device configuration models specify in detail what the user space can expect
-> > > > > > +from a sub-device in terms of V4L2 sub-device interface support, semantics
-> > > > > > +included.
-> > > > > > +
-> > > > > > +A sub-device may implement more than one configuration model at the same
-> > > > > > +time. The implemented configuration models can be obtained from the sub-device's
-> > > > > > +``V4L2_CID_CONFIG_MODEL`` control.
-> > > > > > +
-> > > > > > +.. _media_subdev_config_model_common_raw_sensor:
-> > > > > > +
-> > > > > > +Common raw camera sensor model
-> > > > > > +------------------------------
-> > > > > > +
-> > > > > > +The common raw camera sensor model defines a set of enumeration and
-> > > > > > +configuration interfaces (formats, selections etc.) that cover the vast majority
-> > > > > > +of functionality of raw camera sensors. Not all of the interfaces are
-> > > > > > +necessarily offered by all drivers.
-> > > > > > +
-> > > > > > +A sub-device complies with the common raw sensor model if the
-> > > > > > +``V4L2_CONFIG_MODEL_COMMON_RAW_SENSOR`` bit is set in the
-> > > > > > +``V4L2_CID_CONFIG_MODEL`` control of the sub-device.
-> > > > > > +
-> > > > > > +The common raw camera sensor model is aligned with
-> > > > > > +:ref:`media_using_camera_sensor_drivers`. Please refer to that regarding aspects
-> > > > > > +not specified here.
-> > > > > > +
-> > > > > > +Each camera sensor implementing the common raw sensor model exposes a single
-> > > > > > +V4L2 sub-device. The sub-device contains a single source pad (0) and two or more
-> > > > > > +internal pads: one or more image data internal pads (starting from 1) and
-> > > > > > +optionally an embedded data pad.
-> > > > > > +
-> > > > > > +Additionally, further internal pads may be supported for other features. Using
-> > > > > > +more than one image data internal pad or more than one non-image data pad
-> > > > > > +requires these pads documented separately for the given device. The indices of
-> > > > > > +the image data internal pads shall be lower than those of the non-image data
-> > > > > > +pads.
-> > > > > > +
-> > > > > > +This is shown in :ref:`media_subdev_config_model_common_raw_sensor_subdev`.
-> > > > >
-> > > > > possibly doesn't need a link as the image is just here below
-> > > > >
-> > > > > > +
-> > > > > > +.. _media_subdev_config_model_common_raw_sensor_subdev:
-> > > > > > +
-> > > > > > +.. kernel-figure:: common-raw-sensor.svg
-> > > > > > +    :alt:    common-raw-sensor.svg
-> > > > > > +    :align:  center
-> > > > > > +
-> > > > > > +    **Common raw sensor sub-device with n pads (n == 2)**
-> > > > > > +
-> > > > > > +Routes
-> > > > > > +^^^^^^
-> > > > > > +
-> > > > > > +A sub-device conforming to common raw camera sensor model implements the
-> > > > > > +following routes.
-> > > > > > +
-> > > > > > +.. flat-table:: Routes
-> > > > > > +    :header-rows: 1
-> > > > > > +
-> > > > > > +    * - Sink pad/stream
-> > > > > > +      - Source pad/stream
-> > > > > > +      - Static (X/M(aybe)/-)
-> > > > > > +      - Mandatory (X/-)
-> > > > > > +      - Synopsis
-> > > > > > +    * - 1/0
-> > > > > > +      - 0/0
-> > > > > > +      - X
-> > > > > > +      - X
-> > > > > > +      - Image data
-> > > > > > +    * - 2/0
-> > > > > > +      - 0/1
-> > > > > > +      - M
-> > > > > > +      - \-
-> > > > > > +      - Embedded data
-> > > > > > +
-> > > > > > +Support for the embedded data stream is optional. Drivers supporting the
-> > > > > > +embedded data stream may allow disabling and enabling the route when the
-> > > > > > +streaming is disabled.
-> > > > >
-> > > > > I would
-> > > > >
-> > > > > s/when the streaming is disabled//
-> > > >
-> > > > Sounds good.
-> > > >
-> > > > >
-> > > > > > +
-> > > > > > +Sensor pixel array size, cropping and binning
-> > > > > > +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > > > > > +
-> > > > > > +The sensor's pixel array is divided into one or more areas. The areas around the
-> > > > > > +edge of the pixel array, usually one or more sides, may contain optical black
-> > > > >
-> > > > > You say that "the pixel array is divided into one or more areas" and
-> > > > > then list "the areas around the edge of the pixel array" which is confusing
-> > > > >
-> > > > > I think it would be better as
-> > > > >
-> > > > > The sensor's full pixel array is divided into one or more areas, one
-> > > > > (or multiple) active area which contains visible pixels surrounded,
-> > > > > usually on one or more sides, by non-active areas which may contain
-> > > > > optical black pixels, dummy pixels and other non-image pixels. The
-> > > > > entire pixel array areas size, including the active and non-active
-> > > > > portions is conveyed by the format on (pad, stream) pair 1/0.
-> > > > >
-> > > > > This would also better define the "visible pixels" term which is used
-> > > > > in the rest of the documentation.
-> > > >
-> > > > There indeed were issues in the terms used in the original text. How about:
-> > > >
-> > > > The sensor's pixel array is divided into one or more areas. The areas around the
-> > > > the visible area in the pixel array, usually one or more sides, may contain
-> > >
-> > > I still feel that "active area that contains visible pixels" better
-> > > defines what "visibile area" is... not a problem anyway
-> >
-> > How about "visible pixel area"?
->
-> fine with me
->
+On 10/2/25 10:48, Jacopo Mondi wrote:
+> Hi Michael
+> 
+> On Wed, Oct 01, 2025 at 11:41:38PM +0200, Michael Riesch wrote:
+>> Hi Jacopo,
+>>
+>> On 7/17/25 12:45, Jacopo Mondi wrote:
+>>> Introduce a new ioctl in V4L2 to allocate a video device context and
+>>> associate it with a media device context.
+>>>
+>>> The ioctl is valid only if support for MEDIA_CONTROLLER is compiled in
+>>> as it calls into the entity ops to let driver allocate a new context and
+>>> binds the newly created context with the media context associated
+>>> with the file descriptor provided by userspace as the new ioctl
+>>> argument.
+>>
+>> I would have expected that the execution context of the video device
+>> already exists and is not allocated at ioctl call time. If I understand
+> 
+> If userspace doesn't use contexts, why pre-allocate it ?
 
-A recent discussion on libcamera made me wonder a few things
+This is more along the lines "if it keeps things simple, why not". But I
+am still diving into this and may have not gotten the complete picture yet.
 
-https://patchwork.libcamera.org/patch/24547/
+> See also below on the implications of using a context regardless of
+> userspace actions
+> 
+>> it correctly
+>>
+>>  - after opening a video device, no context is allocated, but in
+>>    v4l2_fh_release the reference counter of the context is decreased.
+>>    This smells fishy. Note that the user may not call the ioctl.
+> 
+> As far as I can see v4l2_fh_release() calls:
+> 
+> void video_device_context_put(struct video_device_context *ctx)
+> {
+>        if (!ctx)
+>                return;
+> 
+>        media_entity_context_put(&ctx->base);
+> }
+> 
+> which is safe is !ctx
 
-In the current world (pre-RAW sensor model) the situation can be
-summarized as
+Ack.
 
-TGT_NATIVE_SIZE = full pixel array (readable and non readable)
-TGT_CROP_BOUNDS = readable pixel array (visible and non visibile pixels)
-TGT_CROP_DEFAULT = visible pixels
-TGT_CROP = analgoue crop
+> 
+>>  - after opening a video device there is no context. This could imply
+>>    that two operating modes are required (with a context and without a
+>>    context), which would seem unnecessarily complex.
+> 
+> You'll find out later on that I have introduced a default context for
+> this purpose
 
-where:
-- visibile = pixels used for image capture purpose
-- non-visible = optically black, dummies etc
+Right, I'll check this out.
 
-With the RAW sensor model:
+> 
+>>  - What happens if the VIDIOC_BIND_CONTEXT ioctl is called more than
+>>    once? (IIUC vfh->context gets overwritten but the old context is not
+>>    released)
+> 
+> Do you mean:
+> 
+> - Multiple file handles representing the same video device are bound
+>   multiple times to the same media device context ?
+> 
+>   media_device_bind_context() called from v4l_bind_context() returns an error
+> 
+> - An already bound video device fh is bound to (different) media
+>   device contexts ?
+> 
+>   I should probably
+> 
+>   if (vfh->context)
+>         return -EINVAL;
+> 
+>   in v4l_bind_context()
+> 
+>   As an already bound context cannot be re-bound. There currently is
+>   not un-binding mechanism, it is required to close a file handle to
+>   unbind.
 
-format(1/0) = readable pixel array (visible and non visible)
-TGT_CROP_DEFAULT(1/0) = visible pixel area
-TGT_CROP(1/0) = analogue crop
-TGT_COMPOSE(1/0) = binning/skipping
+The latter. The check you proposed should do the trick.
 
-Have we lost the ability to report the full pixel array size (readable
-and not readable) ? Is this intentional ? As if pixels cannot be read
-out they basically do no exist, and the information on the actual
-number of pixels (including non readable ones) should be kept
-somewhere else (like the libcamera sensor properties database) ?
+>> (Just found that a later patch introduces default contexts. Should this
+>> address the comments above, consider rearranging the patches so that
+>> default contexts are introduced first.)
+> 
+> To be honest I don't see much difference. I'll see if it's practical
+> to do so or not.
+> 
+>>
+>>> The newly allocated video context is then stored in the v4l2-fh that
+>>> represent the open file handle on which the ioctl has been called.
+>>
+>> Couldn't the same be achieved by
+>>  - v4l2_fh_open allocates a new context
+>>  - v4l2_fh_release releases it (already implemented)
+>>  - ioctl takes the existing context and binds it to the media device
+>>    context
+>> Then,
+>>  - open/release are symmetric and not fishy
+> 
+> Why do you think video_device_context_put() is fishy ?
 
-All the discussion about readable/non-readable, visible/non-visibile
-and active and inactive areas make me think we would benefit from
-presenting a small glossary at the beginning of the "Sensor pixel
-array size, cropping and binning" paragraph ?
+Not the video_device_context_put itself, but I expected "open()
+allocates something, close() release that something". But apparently
+there is a good reason to deviate from that...
 
-> >
-> > >
-> > > > optical black pixels, dummy pixels and other non-image pixels. The full size of
-> > > > the pixel array that may be captured is conveyed by the format on (pad, stream)
-> > > > pair 1/0.
-> > > >
-> > > > A rectangle within the pixel array contains the visible pixels. Capturing the
-> > > > non-visible pixels outside the visible pixel area may be supported by the
-> > > > sensor. The visible pixel area corresponds to the ``V4L2_SEL_TGT_CROP_DEFAULT``
-> > > > selection target on (pad, stream) pair 1/0.
-> > > >
-> > >
-> > > Just for sake of discussion: in libcamera we support multiple,
-> > > possible overlapping, active pixel areas:
-> > > https://git.libcamera.org/libcamera/libcamera.git/tree/src/libcamera/property_ids_core.yaml#n594
-> > >
-> > > tbh I don't know how common this is, but as far as I can tell we won't
-> > > be able to describe them here
-> >
-> > Do you have a sensor that would support this?
-> >
->
-> Not really. Do you think it is a valid use case ?
->
-> I'm just mentioning it because in libcamera we prepared for that but
-> I personally never had to deal with anything like this
->
-> > >
-> > >
-> > > > >
-> > > > > > +
-> > > > > > +A rectangle within the pixel array contains the visible pixels. Capturing the
-> > > > >
-> > > > > If you accept the above, you can drop the first sentence here
-> > > > >
-> > > > > > +non-visible pixels outside the visible pixel area may be supported by the
-> > > > > > +sensor. The visible pixel area corresponds to the ``V4L2_SEL_TGT_CROP_DEFAULT``
-> > > > > > +selection target on (pad, stream) pair 1/0.
-> > > > > > +
-> > > > > > +Sensors can perform multiple operations that affect the output image size. First
-> > > > > > +of these is the analogue crop. Analogue crop limits the area of the pixel array
-> > > > >
-> > > > > s/First one of these/The first one of these/
-> > > >
-> > > > Yes.
-> > > >
-> > > > >
-> > > > > > +which the sensor will read, affecting sensor timing as well. The granularity of
-> > > > > > +the analogue crop configuration varies greatly across sensors: some sensors
-> > > > > > +support only a few different analogue crop configurations whereas others may
-> > > > > > +support anything divisible by a given number of pixels. The analogue crop
-> > > > > > +configuration corresponds to the ``V4L2_SEL_TGT_CROP`` selection target on (pad,
-> > > > > > +stream) pair 1/0. The default analogue crop rectangle corresponds to the visible
-> > > > > > +pixel area.
-> > > > > > +
-> > > > > > +In the next step, binning is performed on the image data read from camera
-> > > > > > +sensor's pixel array, as determined by the analogue crop configuration. Enabling
-> > > > > > +binning will effectively result in an image smaller than the original by given
-> > > > > > +binning factors horizontally and vertically. Typical values are 1/2 and 1/3 but
-> > > > > > +others may well be supported by the hardware as well.
-> > > > > > +
-> > > > > > +Sub-sampling follows binning. Sub-sampling, like binning, reduces the size of
-> > > > > > +the image by including only a subset of samples read from the sensor's pixel
-> > > > > > +matrix, typically every n'th pixel horizontally and vertically, taking the
-> > > > > > +sensor's color pattern into account. Sub-sampling is generally configurable
-> > > > > > +separately horizontally and vertically.
-> > > > > > +
-> > > > > > +Binning and sub-sampling are configured using the ``V4L2_SEL_TGT_COMPOSE``
-> > > > >
-> > > > > s/Binning and sub-sampling are/The combined effect of binning and
-> > > > > sub-sampling is/
-> > > >
-> > > > Yes.
-> > > >
-> > > > >
-> > > > > > +rectangle, relative to the analogue crop rectangle, on (pad, stream) pair
-> > > > > > +1/0. The driver implementation determines how to configure binning and
-> > > > > > +sub-sampling to achieve the desired size.
-> > > > > > +
-> > > > > > +The digital crop operation takes place after binning and sub-sampling. It is
-> > > > > > +configured by setting the ``V4L2_SEL_TGT_CROP`` rectangle on (pad, stream) pair
-> > > > > > +0/0. The resulting image size is further output by the sensor.
-> > > > >
-> > > > > by the sensor on the bus.
-> > > > >
-> > > > > ?
-> > > >
-> > > > We should in fact get rid of the word "bus" in this context as the CSI-2
-> > > > interface is not an actual (addressable) bus. How about "sensor's data
-> > > > interface"? Someone will probably ask what that data interface is. :-)
-> > >
-> > > True :) up to you!
-> >
-> > I'll use the data interface here.
->
-> It's fine, thanks!
->
-> >
-> > --
-> > Kind regards,
-> >
-> > Sakari Ailus
+> 
+>>  - after open but before the ioctl call the user can safely operate on a
+>>    context
+> 
+> If we always operate on a per-file-handle context even before binding
+> it, all the operations performed by an application, even it doesn't
+> use contexts, will be isolated from the rest of the world.
+> 
+> This might seem desirable, but changes the semantic of all the v4l2
+> operations and an application that doesn't use context that runs on a
+> driver ported to use context will suddenly find all its configuration
+> to be transient and tied to the lifetime of an open file handle
+> instead of being device-persistent.
+> 
+> Using a default, device-wise, default context allows instead existing
+> applications that do not use contexts to operate as they are used to,
+> with all the setting/configurations being stored in a persistent
+> place.
+
+... and there it is. Did not have that in mind, thanks for pointing it out.
+
+> 
+> [...]
+>>>
+>>> +/*
+>>> + *     V I D E O   D E V I C E   C O N T E X T
+>>> + */
+>>> +
+>>> +struct v4l2_context {
+>>> +	__u32 context_fd;
+>>
+>> Reserve some space for the future?
+>>
+> 
+> Might be a good idea. I can't tell how much space we should reserve
+> though :)
+
+Prediction is difficult, especially about the future. But having zero
+reserve sounds like something we could regret at some point down the
+road. __u32 reserved[3]; ?
+
+Best regards,
+Michael
+
+> 
+>>> +};
+>>> +
+>>>  /*
+>>>   *	M E M O R Y - M A P P I N G   B U F F E R S
+>>>   */
+>>> @@ -2818,6 +2826,9 @@ struct v4l2_remove_buffers {
+>>>  #define VIDIOC_REMOVE_BUFS	_IOWR('V', 104, struct v4l2_remove_buffers)
+>>>
+>>>
+>>> +/* Context handling */
+>>> +#define VIDIOC_BIND_CONTEXT	_IOW('V', 105, struct v4l2_context)
+>>> +
+>>>  /* Reminder: when adding new ioctls please add support for them to
+>>>     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
+>>>
+>>>
+>>
+>> Best regards,
+>> Michael
+>>
+
 
