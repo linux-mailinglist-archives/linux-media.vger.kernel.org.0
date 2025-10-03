@@ -1,248 +1,159 @@
-Return-Path: <linux-media+bounces-43700-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43701-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id A36C9BB59A0
-	for <lists+linux-media@lfdr.de>; Fri, 03 Oct 2025 01:20:46 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 56674BB5B29
+	for <lists+linux-media@lfdr.de>; Fri, 03 Oct 2025 03:02:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8BB004E76D5
-	for <lists+linux-media@lfdr.de>; Thu,  2 Oct 2025 23:20:34 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D0564342F29
+	for <lists+linux-media@lfdr.de>; Fri,  3 Oct 2025 01:02:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8562D2BDC3D;
-	Thu,  2 Oct 2025 23:20:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED50A169AE6;
+	Fri,  3 Oct 2025 01:01:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="UlZXQBIH";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="UPWCT2uX"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hnNKf5L5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from flow-b1-smtp.messagingengine.com (flow-b1-smtp.messagingengine.com [202.12.124.136])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAD99288530;
-	Thu,  2 Oct 2025 23:20:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3735D4C8F
+	for <linux-media@vger.kernel.org>; Fri,  3 Oct 2025 01:01:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759447213; cv=none; b=p2bQPuwC/u9KevDZ3EAXC4W+J4uwW1Jb3j8nFmg1oV0NH5+wpRUJZ1kRHKR00OTa1w3a6IccgPOevQafD6J8mDa+Z5vuFdXSukCrzfYZrogWsqj4OC1+EUHZNDzCEiVNQyhjy7m+18AwkLyQaGkwOzcP1I5o84PonqJlhpM1IvE=
+	t=1759453313; cv=none; b=EPxxgv05ovSYe1kwUqVM5KWRc/us6yuattYu4r2Vb0xzy0zvrDJmPYG/wnI8JmvrJCQqQ8sZ7g9QBgZYpmoTwpS4u+pNtoT+QnL2yii+b3iK//8/WlBl1fEU+QxfJBiMQtMWr3miH7Vteqr5WIAINnwI/UKL90pYNEkV9vGvrK4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759447213; c=relaxed/simple;
-	bh=BR/jqWo92itmdMH1ocfUuKDAP7WulChibnIwAiSXhT4=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=As55O0BgHHu7XadPt6rE8gWYgT1KYrbqPzeVZGWgC5JFMIasraf95uQ+Xd16EXZcK4J5Z1KOPYSUcJZhHASyGrDj5IfenDbmLy4YpVNuJ7mk1Frg/O0JkIGOztW6eK+6l2sWg+PLUHk+LTAtWw4lg/mSmQe2zIAawEffjygT5Jc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=UlZXQBIH; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=UPWCT2uX; arc=none smtp.client-ip=202.12.124.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailflow.stl.internal (Postfix) with ESMTP id DB1F41300343;
-	Thu,  2 Oct 2025 19:20:09 -0400 (EDT)
-Received: from phl-imap-02 ([10.202.2.81])
-  by phl-compute-04.internal (MEProxy); Thu, 02 Oct 2025 19:20:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1759447209;
-	 x=1759454409; bh=8eLJoj9XRO384G/VvXT2HeFOAWEdoc6vPNt14uKR73A=; b=
-	UlZXQBIHPI3UaJe+qvjb/0azu1Oe5qtfVSOgfR9F74ejhfdVcoLT5yCscAFxGXg8
-	pwym4mpSChHvERlZa3eyvyx08BV44zMw3YGN0tM+vPnhSUz76Sq/1sLgdMvN//1t
-	MgHWqimhr0AzYrwUzdnliiWe0Dm9Z34Ogn+/sldz60VOggZ3d7nAO9W0sjAS+ODa
-	YJDWUIJqUD3rBGsCWCRyC9s7i9AA9pS/qByHexvhH8G1gQsu2dD8k1LeI24HGUWh
-	/03Dje8K6N7L4VyDIt3NIojzwr6tdgIOBwfeBK5umF7roU56mWwwY3FulE7R0j2n
-	QUpOkKf5lBp7bdgkzhLbPw==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1759447209; x=
-	1759454409; bh=8eLJoj9XRO384G/VvXT2HeFOAWEdoc6vPNt14uKR73A=; b=U
-	PWCT2uXT/GxiygPtmHbccRddiUfCEYjhtJdXJccb/5YerEHrZjTt4d9N2RDQu1Wk
-	qyOu+HowFfq+mSzSu4jBKZpxK4j61odikvauJS62BQvPo05HzMc2V0Q02lDG/KuV
-	xFOFsUSRnUOVxEuk/jp9b7DJX/6hFCwfMhDmrQ+Gjgp+bzUnTy9kM9MFcHK3eQR5
-	T9dRhCCh7CnFM2shDd7H9AIA40TS7O85KP3muQgcpbkTId7BGzFMnUMJQzEW6cKC
-	RXT0xfdCbnheksb/9HE80aFjG/+J9g7pqLK4D083rrfitbbZ+Xq2jg/7x8JM1H12
-	rJ7EgoklB90Zb+f1OtOPw==
-X-ME-Sender: <xms:pwjfaGV4JN0Ma44cNnMBrUtL97DgMZmD0pMjmYN8l-menv5GZtsfLg>
-    <xme:pwjfaNbUXFszpshl1sBUhW_dmCbyy6ss_a2I-2pSkgussU5ZHyuAg_MFZejD8O402
-    j78984Anpb1DwJaQlM1svAPgMii0eUG1MbwQfJ4GQa5C5t5JGIzwDY>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdekjeefvdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpuffrtefokffrpgfnqfghnecuuegr
-    ihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjug
-    hrpefoggffhffvvefkjghfufgtgfesthejredtredttdenucfhrhhomhepfdetrhhnugcu
-    uegvrhhgmhgrnhhnfdcuoegrrhhnugesrghrnhgusgdruggvqeenucggtffrrghtthgvrh
-    hnpefhtdfhvddtfeehudekteeggffghfejgeegteefgffgvedugeduveelvdekhfdvieen
-    ucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfhhrohhmpegrrhhnug
-    esrghrnhgusgdruggvpdhnsggprhgtphhtthhopeegledpmhhouggvpehsmhhtphhouhht
-    pdhrtghpthhtohepughrihdquggvvhgvlheslhhishhtshdrfhhrvggvuggvshhkthhoph
-    drohhrghdprhgtphhtthhopehlihhnuhigqdgrrhhmqdhkvghrnhgvlheslhhishhtshdr
-    ihhnfhhrrgguvggrugdrohhrghdprhgtphhtthhopehlihhnrghrohdqmhhmqdhsihhgse
-    hlihhsthhsrdhlihhnrghrohdrohhrghdprhgtphhtthhopehlihhnuhigqdhrthdquggv
-    vhgvlheslhhishhtshdrlhhinhhugidruggvvhdprhgtphhtthhopegtohhrsggvtheslh
-    ifnhdrnhgvthdprhgtphhtthhopehthihtshhosehmihhtrdgvughupdhrtghpthhtohep
-    jhhovghlrghgnhgvlhhfsehnvhhiughirgdrtghomhdprhgtphhtthhopeiiihihsehnvh
-    hiughirgdrtghomhdprhgtphhtthhopegurghmihgvnhdrlhgvmhhorghlsehophgvnhhs
-    ohhurhgtvgdrfigutgdrtghomh
-X-ME-Proxy: <xmx:pwjfaJ2BSQWnOhQ8IplrbbGK-gyE5_grSXYP3j9439lOC_jvlo5zZA>
-    <xmx:pwjfaGp-w5NGLIBr_AoLUes9YDJp8xiczs-IYhNS4F_HgHxvLrrzZA>
-    <xmx:pwjfaHE7EXWw8nb_0yF2EO6HFQilk8UVSNu6kLKe14icznmhBIcCwA>
-    <xmx:pwjfaI62HivFrwmWVnm93cq4CY8LYM9QpIUA5yL17t5fpoJyAMu_1w>
-    <xmx:qQjfaCYKV7n5Om4PDcHknSXz-bYbngxY5RgrPIa40VVrCIhGD4C03q0Q>
-Feedback-ID: i56a14606:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 38369700065; Thu,  2 Oct 2025 19:20:07 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	s=arc-20240116; t=1759453313; c=relaxed/simple;
+	bh=kcfQngdf9mp5K4iH0H4erth5pO86ZLztAKVx5whRZgo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pvwBnuDjs5F4oMWqniVgn0tGsReUA0/xy/5mQG5xbiLOMzdLPT8Xryqb9goq/hxffUhijue695rXLP9lBPO13WCY0aUX1IfjJe4u5QZDVIdqYXis6twFTx0gMBCsp1RHlPZkGIKif8yN1VUF8mR4TlPCo4MMxSdPjvKVXO7cNh8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hnNKf5L5; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 592NmVxs018009
+	for <linux-media@vger.kernel.org>; Fri, 3 Oct 2025 01:01:47 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=dh9YkkEp3hAIulmgUloRVWSZ
+	ugF2SH1EUCN+CS8/kA0=; b=hnNKf5L5zafCeUF3wcfyAkAjYDE8usBD8ybTanxV
+	DRCqdYB6G0l3eWXrcoTjvJpdQXaJsyvprbLmBsm07xWYa2ev2SVGNg1ubYMuLvYJ
+	janwBUEjIxrAIL1ZXW1ksM3qG6WsAps5hAUL7uxh8h5U65CQ3BYCbkUgtbLNF2+G
+	yX0mclnl8xKKRNcXe5i4zwIZs/wf7mvJpEcdW/R9ynsNHCsgZGzfAXllohoMNXO5
+	NUU/LwfR3K7LZQlNAQ2iglKJ1TylpaIMXN7i8OAIsritRJLnKs6GYph1XOjlV9fj
+	xUOqRM91pjwZf69m14PsKkIbkQQtKIKcsM9n/cSFqWJGFg==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49fyrfaxn9-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 03 Oct 2025 01:01:46 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4dfc05dec2fso62369051cf.3
+        for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 18:01:46 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759453306; x=1760058106;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dh9YkkEp3hAIulmgUloRVWSZugF2SH1EUCN+CS8/kA0=;
+        b=hHFsH6rpglfd1GJ1SQBTQKCbbdZQX7gl12Ly3h3SxXRshYBy+iTMu6pMAs4nPUqRD8
+         9HSK15GwMie3YlexokJP0Ur69MKM701ABW8RW+zZJEe67SQM18S99Mtl6e5Dv3M1i3fC
+         oK0TpRxqX+IA67XZNQ/+LRB5Luwo6kAgUMZN0dfunNRoKpBK7zJiPb3Uioy6yDHlIolU
+         duZ+CvCuSnigoyEmPHhF7DEYaz3KeRm8JRcduJelYTd9wRrYT5Kunqjh7PC04ivnX8ma
+         bMzmmxYnn4E72//1NX/FTgRrN211S/1M4oYP7sbgPZhPObNyWbXOI8CwEM4PAUKkZJmP
+         upHg==
+X-Forwarded-Encrypted: i=1; AJvYcCWO6R4xu/pHLvFlb6EUzAYYBriXSgXTaw594wXcimDTwMoS7lGuw5/zZwkluxg3evOqf7X6cgLfJeX9Qg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxLLC6GL3NTRZcG+HLpaVMYJn+R0scIZFrlA8bd/4psWT8BDqUw
+	BwJeOf92ioGzoK6qK3yg0xhtcM2/banyvrT7lP3OQ1n3vTWOiMxpq7ZTX4bfxWy0cT0auSGn4bd
+	wwwBtsfAKR2qjgquzL0ZejK+vVmM83Z2T0bZlFxppj/cyI4YfTh7XlH24n5UTRmLawA==
+X-Gm-Gg: ASbGncur/JRKtWLp/hkGksp+X5eu4oFvrqGfyS40yec2sd/JOiXybC/S7nRm6abfdMU
+	6xb7YVoiEjJWdziERFccAzV6yw3QbXDiBryru4QqJ0QQC3JWUF9NfOXO/eIjaXV9I06bMWPXXXE
+	NhAZ9eyCTQf8g/XuDCSnmygUHX6YUCSE2gpvykhAetkajNLR4bMRCW8sWx59Vi3f3MHmasL6684
+	tAxEGy1oFwnaVhA4HKOxqtqFG3h3WEkrQAhjaUpU1AQszRxjI8H0mvpOxW3phZOfROannIPx+Kc
+	pdyLDQyZTnQPu1JRc2W+DCt4d5JG+BX+AwvLWhmlC7+Orgm4q7PBAql62wMExfm0H2G1/mBdy4I
+	tEmEUWDyZ45PKfergZpnTuYHSGv5RpkFLyAzFwoAiHPCZopw3yAsdfPG4/Q==
+X-Received: by 2002:a05:622a:513:b0:4b7:a2d0:6a25 with SMTP id d75a77b69052e-4e576aa04ccmr18451011cf.33.1759453305941;
+        Thu, 02 Oct 2025 18:01:45 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH9BmvqzosoowW6VCyy3rFX0j0lkiT5wpoPj+C0NBulvC0lFPDrWnzziuy/9w+RwBOQ5gbZ2Q==
+X-Received: by 2002:a05:622a:513:b0:4b7:a2d0:6a25 with SMTP id d75a77b69052e-4e576aa04ccmr18450401cf.33.1759453305371;
+        Thu, 02 Oct 2025 18:01:45 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58b0118dd2esm1299405e87.80.2025.10.02.18.01.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 02 Oct 2025 18:01:43 -0700 (PDT)
+Date: Fri, 3 Oct 2025 04:01:39 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        linux-firmware@kernel.org,
+        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: qcom: vpu: fix the firmware binary name for qcm6490
+Message-ID: <hsj3ravxgkhnbnks7wl47qqwsef3loi44jkgahzgx2m7k4sjld@endp4nl3h6ek>
+References: <2llwkhpwbkzqyvyoul2nwxf33d6jhuliblqng4u2bjtmsq7hlj@je3qrtntspap>
+ <5a03b200-4e1f-082a-c83a-cb46ad4cea09@quicinc.com>
+ <zj2dreqyj7fnhiophdtevhuaohlpk3uoccrslkqt5wjt2jhiip@gqnasgvu7ipq>
+ <yeJvz1BmQX5QCjBXnjFbGz8gclNViebyCcZC1Rz2tfocg3MxOAncJZruBARGqAzxG_1UJmw35EUBl80KQy5Sqw==@protonmail.internalid>
+ <f1e9ddb0-683d-4c91-f39b-6954c23f7f75@quicinc.com>
+ <015dc909-ad0b-4367-8dac-bed53c4f7f9b@linaro.org>
+ <k4al7vwl4qruiv7olqlj3qe4gah6qrboyzsbnvfarlgr3amili@wjmkthnxsgmf>
+ <7933f6e4-e8e7-4d35-9295-e6b91adcc128@oss.qualcomm.com>
+ <CAO9ioeUXsb9UisWbc763-2SvU_-2Ce7qmQ27Wzwt-fWSzHBAeQ@mail.gmail.com>
+ <b7623cb3-07d6-49be-a8d7-f9512f3cb6ef@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: Aghr8S2aY07B
-Date: Fri, 03 Oct 2025 01:19:33 +0200
-From: "Arnd Bergmann" <arnd@arndb.de>
-To: "Mathieu Desnoyers" <mathieu.desnoyers@efficios.com>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- "Byungchul Park" <byungchul@sk.com>
-Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
- "Linus Torvalds" <torvalds@linux-foundation.org>,
- "Damien Le Moal" <damien.lemoal@opensource.wdc.com>,
- linux-ide@vger.kernel.org, "Andreas Dilger" <adilger.kernel@dilger.ca>,
- linux-ext4@vger.kernel.org, "Ingo Molnar" <mingo@redhat.com>,
- "Peter Zijlstra" <peterz@infradead.org>, "Will Deacon" <will@kernel.org>,
- "Thomas Gleixner" <tglx@linutronix.de>,
- "Steven Rostedt" <rostedt@goodmis.org>,
- "Joel Fernandes" <joel@joelfernandes.org>,
- "Sasha Levin" <sashal@kernel.org>,
- "Daniel Vetter" <daniel.vetter@ffwll.ch>, duyuyang@gmail.com,
- "Johannes Berg" <johannes.berg@intel.com>, "Tejun Heo" <tj@kernel.org>,
- "Theodore Ts'o" <tytso@mit.edu>, "Matthew Wilcox" <willy@infradead.org>,
- "Dave Chinner" <david@fromorbit.com>,
- "Amir Goldstein" <amir73il@gmail.com>, kernel-team@lge.com,
- linux-mm@kvack.org, "Andrew Morton" <akpm@linux-foundation.org>,
- "Michal Hocko" <mhocko@kernel.org>, "Minchan Kim" <minchan@kernel.org>,
- "Johannes Weiner" <hannes@cmpxchg.org>, vdavydov.dev@gmail.com,
- "SeongJae Park" <sj@kernel.org>, jglisse@redhat.com,
- "Dennis Zhou" <dennis@kernel.org>, "Christoph Lameter" <cl@linux.com>,
- "Pekka Enberg" <penberg@kernel.org>,
- "David Rientjes" <rientjes@google.com>,
- "Vlastimil Babka" <vbabka@suse.cz>, ngupta@vflare.org,
- linux-block@vger.kernel.org, "Josef Bacik" <josef@toxicpanda.com>,
- linux-fsdevel@vger.kernel.org, "Jan Kara" <jack@suse.cz>,
- "Jeff Layton" <jlayton@kernel.org>,
- "Dan Williams" <dan.j.williams@intel.com>,
- "Christoph Hellwig" <hch@infradead.org>,
- "Darrick J. Wong" <djwong@kernel.org>, dri-devel@lists.freedesktop.org,
- rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
- hamohammed.sa@gmail.com, harry.yoo@oracle.com, chris.p.wilson@intel.com,
- "Gwan-gyeong Mun" <gwan-gyeong.mun@intel.com>,
- max.byungchul.park@gmail.com, "Boqun Feng" <boqun.feng@gmail.com>,
- "Waiman Long" <longman@redhat.com>, yunseong.kim@ericsson.com,
- ysk@kzalloc.com, "Yeoreum Yun" <yeoreum.yun@arm.com>,
- Netdev <netdev@vger.kernel.org>,
- "Matthew Brost" <matthew.brost@intel.com>, her0gyugyu@gmail.com,
- "Jonathan Corbet" <corbet@lwn.net>,
- "Catalin Marinas" <catalin.marinas@arm.com>,
- "Borislav Petkov" <bp@alien8.de>,
- "Dave Hansen" <dave.hansen@linux.intel.com>, x86@kernel.org,
- "H. Peter Anvin" <hpa@zytor.com>, "Andy Lutomirski" <luto@kernel.org>,
- "Sumit Semwal" <sumit.semwal@linaro.org>, gustavo@padovan.org,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- "Andi Shyti" <andi.shyti@kernel.org>,
- "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- "Mike Rapoport" <rppt@kernel.org>,
- "Suren Baghdasaryan" <surenb@google.com>,
- "Luis Chamberlain" <mcgrof@kernel.org>,
- "Petr Pavlu" <petr.pavlu@suse.com>, da.gomez@kernel.org,
- "Sami Tolvanen" <samitolvanen@google.com>,
- "Paul E. McKenney" <paulmck@kernel.org>,
- "Frederic Weisbecker" <frederic@kernel.org>, neeraj.upadhyay@kernel.org,
- joelagnelf@nvidia.com, "Josh Triplett" <josh@joshtriplett.org>,
- "Uladzislau Rezki (Sony)" <urezki@gmail.com>,
- "Lai Jiangshan" <jiangshanlai@gmail.com>, qiang.zhang@linux.dev,
- "Juri Lelli" <juri.lelli@redhat.com>,
- "Vincent Guittot" <vincent.guittot@linaro.org>,
- "Dietmar Eggemann" <dietmar.eggemann@arm.com>,
- "Benjamin Segall" <bsegall@google.com>, "Mel Gorman" <mgorman@suse.de>,
- "Valentin Schneider" <vschneid@redhat.com>,
- "Chuck Lever" <chuck.lever@oracle.com>, neil@brown.name,
- okorniev@redhat.com, "Dai Ngo" <Dai.Ngo@oracle.com>,
- "Tom Talpey" <tom@talpey.com>, trondmy@kernel.org,
- "Anna Schumaker" <anna@kernel.org>, "Kees Cook" <kees@kernel.org>,
- "Sebastian Andrzej Siewior" <bigeasy@linutronix.de>,
- "Clark Williams" <clrkwllms@kernel.org>,
- "Mark Rutland" <mark.rutland@arm.com>, ada.coupriediaz@arm.com,
- kristina.martsenko@arm.com, "Kefeng Wang" <wangkefeng.wang@huawei.com>,
- "Mark Brown" <broonie@kernel.org>,
- "Kevin Brodsky" <kevin.brodsky@arm.com>,
- "David Woodhouse" <dwmw@amazon.co.uk>,
- "Shakeel Butt" <shakeel.butt@linux.dev>,
- "Alexei Starovoitov" <ast@kernel.org>, "Zi Yan" <ziy@nvidia.com>,
- "Yu Zhao" <yuzhao@google.com>,
- "Baolin Wang" <baolin.wang@linux.alibaba.com>, usamaarif642@gmail.com,
- joel.granados@kernel.org, "Wei Yang" <richard.weiyang@gmail.com>,
- "Geert Uytterhoeven" <geert+renesas@glider.be>,
- tim.c.chen@linux.intel.com, linux <linux@treblig.org>,
- "Alexander Shishkin" <alexander.shishkin@linux.intel.com>,
- lillian@star-ark.net, "Huacai Chen" <chenhuacai@kernel.org>,
- francesco@valla.it, guoweikang.kernel@gmail.com, link@vivo.com,
- "Josh Poimboeuf" <jpoimboe@kernel.org>,
- "Masahiro Yamada" <masahiroy@kernel.org>,
- "Christian Brauner" <brauner@kernel.org>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <thomas.weissschuh@linutronix.de>,
- "Oleg Nesterov" <oleg@redhat.com>, "Mateusz Guzik" <mjguzik@gmail.com>,
- "Andrii Nakryiko" <andrii@kernel.org>, wangfushuai@baidu.com,
- linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- linux-i2c@vger.kernel.org, Linux-Arch <linux-arch@vger.kernel.org>,
- linux-modules@vger.kernel.org, rcu <rcu@vger.kernel.org>,
- linux-nfs@vger.kernel.org, linux-rt-devel@lists.linux.dev
-Message-Id: <3bbe14af-ccdc-4c78-a7ca-d4ed39fa6b5d@app.fastmail.com>
-In-Reply-To: <63034035-03e4-4184-afce-7e1a897a90e9@efficios.com>
-References: <20251002081247.51255-1-byungchul@sk.com>
- <20251002081247.51255-2-byungchul@sk.com>
- <2025100230-grafted-alias-22a2@gregkh>
- <63034035-03e4-4184-afce-7e1a897a90e9@efficios.com>
-Subject: Re: [PATCH v17 01/47] llist: move llist_{head,node} definition to types.h
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b7623cb3-07d6-49be-a8d7-f9512f3cb6ef@linaro.org>
+X-Proofpoint-ORIG-GUID: KCOVfRV6d9rZlY6ZGnmQ1WuPhQaS1UV8
+X-Proofpoint-GUID: KCOVfRV6d9rZlY6ZGnmQ1WuPhQaS1UV8
+X-Authority-Analysis: v=2.4 cv=etzSD4pX c=1 sm=1 tr=0 ts=68df207a cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=clFx2iI0x2tc5NYfKV8A:9 a=CjuIK1q_8ugA:10
+ a=kacYvNCVWA4VmyqE58fU:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI5MDE3NSBTYWx0ZWRfX8slsM4LmMQM/
+ DJM316ETOE2yLvzaRtuQjIFQrCUzIqPzovrKCtFqwA51/mayriMWkbqIligrTFy6ODY5fQmsG0L
+ zCUX5Uo+Dy8IuJTfiMygRy9+KiTA1T/WCPKWTShVs9hAs9Kd4D7AMvJ21KTGKKh9NTL4KG1a5Xx
+ Rg3kzxiL+Ln9ybqkhzAltVjk24jG1vHqKjgzwGhYPs4UsB2ZTTpYzfSu4qMBGDUY1E5ZO5uZsIY
+ hJX5fDacsiRCN+ww0DMQa+J9B2yrnqqL/DCoZeVZEPbtOrL0jIT2CYOSUngLhq3hE5TWJ40KXyC
+ m1FT6lTOqehCi5LVcaR8F469IICNl2gFZyJTAL+v2bY5nJABh44TxQjEQk4DBvXl/mivhcvhjEw
+ WE9Bq6s9RfMYtXe7p61FnEDxgyUlHA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-02_09,2025-10-02_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 malwarescore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 adultscore=0 bulkscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509290175
 
-On Thu, Oct 2, 2025, at 15:53, Mathieu Desnoyers wrote:
-> On 2025-10-02 04:24, Greg KH wrote:
->> On Thu, Oct 02, 2025 at 05:12:01PM +0900, Byungchul Park wrote:
->>> llist_head and llist_node can be used by some other header files.  For
->>> example, dept for tracking dependencies uses llist in its header.  To
->>> avoid header dependency, move them to types.h.
->> 
->> If you need llist in your code, then include llist.h.  Don't force all
->> types.h users to do so as there is not a dependency in types.h for
->> llist.h.
->> 
->> This patch shouldn't be needed as you are hiding "header dependency" for
->> other files.
->
-> I agree that moving this into a catch-all types.h is not what we should
-> aim for.
->
-> However, it's a good practice to move the type declarations to a
-> separate header file, so code that only cares about type and not
-> implementation of static inline functions can include just that.
->
-> Perhaps we can move struct llist_head and struct llist_node to a new
-> include/linux/llist_types.h instead ?
+On Thu, Oct 02, 2025 at 04:07:37PM +0100, Bryan O'Donoghue wrote:
+> On 02/10/2025 15:59, Dmitry Baryshkov wrote:
+> > > * Iris could be then taught to expect vpu_whatever_gen2.mbn first, and if
+> > >    that is not found, attempt to load vpu_whatever.mbn (for the gen1 intf)
+> > > 
+> > > WDYT?
+> > Well, I think that potentially complicates the driver by requiring
+> > support for both HFIs for the same platform, it requires detection,
+> 
+> Doesn't have to be anything more complicated than a reserved string name.
+> 
+> BTW you're right the main reason to support this is - in effect - ending of
+> support for gen1 firmware.
+> 
+> But then in reality if that is the direction of travel, its in the interests
+> of upstream and users to make the transition.
 
-We have around a dozen types of linked lists, and the most common
-two of them are currently defined in linux/types.h, while the
-rest of them are each defined in the same header as the inteface
-definition.
+Okay. I did a quick comparison. FP5 has gen1 firmware, is vendor-signed
+with the T2Mobile cert and I assume it is fused. We were going to drop
+support for sc7280 from venus in favour of supporting it in iris. What
+would be a migration plan for FP5 users?
 
-Duplicating each of those headers by splitting out the trivial
-type definition doesn't quite seem right either, as we'd end
-up with even more headers that have to be included indirectly
-in each compilation unit.
-
-Maybe a shared linux/list_types.h would work, to specifically
-contain all the list_head variants that are meant to be included
-in larger structures?
-
-    Arnd
+-- 
+With best wishes
+Dmitry
 
