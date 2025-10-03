@@ -1,105 +1,101 @@
-Return-Path: <linux-media+bounces-43701-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43702-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56674BB5B29
-	for <lists+linux-media@lfdr.de>; Fri, 03 Oct 2025 03:02:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E6EBB5B72
+	for <lists+linux-media@lfdr.de>; Fri, 03 Oct 2025 03:12:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D0564342F29
-	for <lists+linux-media@lfdr.de>; Fri,  3 Oct 2025 01:02:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5E6FE19E6369
+	for <lists+linux-media@lfdr.de>; Fri,  3 Oct 2025 01:13:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED50A169AE6;
-	Fri,  3 Oct 2025 01:01:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="hnNKf5L5"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8ED9D1F09AD;
+	Fri,  3 Oct 2025 01:12:18 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3735D4C8F
-	for <linux-media@vger.kernel.org>; Fri,  3 Oct 2025 01:01:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E2B1D54774;
+	Fri,  3 Oct 2025 01:12:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759453313; cv=none; b=EPxxgv05ovSYe1kwUqVM5KWRc/us6yuattYu4r2Vb0xzy0zvrDJmPYG/wnI8JmvrJCQqQ8sZ7g9QBgZYpmoTwpS4u+pNtoT+QnL2yii+b3iK//8/WlBl1fEU+QxfJBiMQtMWr3miH7Vteqr5WIAINnwI/UKL90pYNEkV9vGvrK4=
+	t=1759453938; cv=none; b=JMAQPm0ZlUkjXaoyI3jwCj7z6yOaytdVHfcSulpbaHyWqi0brsypjeaGZbwjE/DbMHaxo1SXHhZUQ9ukfCLi6eFSNluveyw40XbcgRprR3R5ahq+/U0Zbrs7vsuu8FVOVdDBEpda0YesDFYTst9n4IsCMFc8Onx/zzMD7eA/bgc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759453313; c=relaxed/simple;
-	bh=kcfQngdf9mp5K4iH0H4erth5pO86ZLztAKVx5whRZgo=;
+	s=arc-20240116; t=1759453938; c=relaxed/simple;
+	bh=jqNbqnfs7B8WuSF26Geu0v/uXfznc4Wl0LNfRtCJUUM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pvwBnuDjs5F4oMWqniVgn0tGsReUA0/xy/5mQG5xbiLOMzdLPT8Xryqb9goq/hxffUhijue695rXLP9lBPO13WCY0aUX1IfjJe4u5QZDVIdqYXis6twFTx0gMBCsp1RHlPZkGIKif8yN1VUF8mR4TlPCo4MMxSdPjvKVXO7cNh8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=hnNKf5L5; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 592NmVxs018009
-	for <linux-media@vger.kernel.org>; Fri, 3 Oct 2025 01:01:47 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=dh9YkkEp3hAIulmgUloRVWSZ
-	ugF2SH1EUCN+CS8/kA0=; b=hnNKf5L5zafCeUF3wcfyAkAjYDE8usBD8ybTanxV
-	DRCqdYB6G0l3eWXrcoTjvJpdQXaJsyvprbLmBsm07xWYa2ev2SVGNg1ubYMuLvYJ
-	janwBUEjIxrAIL1ZXW1ksM3qG6WsAps5hAUL7uxh8h5U65CQ3BYCbkUgtbLNF2+G
-	yX0mclnl8xKKRNcXe5i4zwIZs/wf7mvJpEcdW/R9ynsNHCsgZGzfAXllohoMNXO5
-	NUU/LwfR3K7LZQlNAQ2iglKJ1TylpaIMXN7i8OAIsritRJLnKs6GYph1XOjlV9fj
-	xUOqRM91pjwZf69m14PsKkIbkQQtKIKcsM9n/cSFqWJGFg==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49fyrfaxn9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 03 Oct 2025 01:01:46 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4dfc05dec2fso62369051cf.3
-        for <linux-media@vger.kernel.org>; Thu, 02 Oct 2025 18:01:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759453306; x=1760058106;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dh9YkkEp3hAIulmgUloRVWSZugF2SH1EUCN+CS8/kA0=;
-        b=hHFsH6rpglfd1GJ1SQBTQKCbbdZQX7gl12Ly3h3SxXRshYBy+iTMu6pMAs4nPUqRD8
-         9HSK15GwMie3YlexokJP0Ur69MKM701ABW8RW+zZJEe67SQM18S99Mtl6e5Dv3M1i3fC
-         oK0TpRxqX+IA67XZNQ/+LRB5Luwo6kAgUMZN0dfunNRoKpBK7zJiPb3Uioy6yDHlIolU
-         duZ+CvCuSnigoyEmPHhF7DEYaz3KeRm8JRcduJelYTd9wRrYT5Kunqjh7PC04ivnX8ma
-         bMzmmxYnn4E72//1NX/FTgRrN211S/1M4oYP7sbgPZhPObNyWbXOI8CwEM4PAUKkZJmP
-         upHg==
-X-Forwarded-Encrypted: i=1; AJvYcCWO6R4xu/pHLvFlb6EUzAYYBriXSgXTaw594wXcimDTwMoS7lGuw5/zZwkluxg3evOqf7X6cgLfJeX9Qg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxLLC6GL3NTRZcG+HLpaVMYJn+R0scIZFrlA8bd/4psWT8BDqUw
-	BwJeOf92ioGzoK6qK3yg0xhtcM2/banyvrT7lP3OQ1n3vTWOiMxpq7ZTX4bfxWy0cT0auSGn4bd
-	wwwBtsfAKR2qjgquzL0ZejK+vVmM83Z2T0bZlFxppj/cyI4YfTh7XlH24n5UTRmLawA==
-X-Gm-Gg: ASbGncur/JRKtWLp/hkGksp+X5eu4oFvrqGfyS40yec2sd/JOiXybC/S7nRm6abfdMU
-	6xb7YVoiEjJWdziERFccAzV6yw3QbXDiBryru4QqJ0QQC3JWUF9NfOXO/eIjaXV9I06bMWPXXXE
-	NhAZ9eyCTQf8g/XuDCSnmygUHX6YUCSE2gpvykhAetkajNLR4bMRCW8sWx59Vi3f3MHmasL6684
-	tAxEGy1oFwnaVhA4HKOxqtqFG3h3WEkrQAhjaUpU1AQszRxjI8H0mvpOxW3phZOfROannIPx+Kc
-	pdyLDQyZTnQPu1JRc2W+DCt4d5JG+BX+AwvLWhmlC7+Orgm4q7PBAql62wMExfm0H2G1/mBdy4I
-	tEmEUWDyZ45PKfergZpnTuYHSGv5RpkFLyAzFwoAiHPCZopw3yAsdfPG4/Q==
-X-Received: by 2002:a05:622a:513:b0:4b7:a2d0:6a25 with SMTP id d75a77b69052e-4e576aa04ccmr18451011cf.33.1759453305941;
-        Thu, 02 Oct 2025 18:01:45 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH9BmvqzosoowW6VCyy3rFX0j0lkiT5wpoPj+C0NBulvC0lFPDrWnzziuy/9w+RwBOQ5gbZ2Q==
-X-Received: by 2002:a05:622a:513:b0:4b7:a2d0:6a25 with SMTP id d75a77b69052e-4e576aa04ccmr18450401cf.33.1759453305371;
-        Thu, 02 Oct 2025 18:01:45 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58b0118dd2esm1299405e87.80.2025.10.02.18.01.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 02 Oct 2025 18:01:43 -0700 (PDT)
-Date: Fri, 3 Oct 2025 04:01:39 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        linux-firmware@kernel.org,
-        "Vikash Garodia (QUIC)" <quic_vgarodia@quicinc.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: qcom: vpu: fix the firmware binary name for qcm6490
-Message-ID: <hsj3ravxgkhnbnks7wl47qqwsef3loi44jkgahzgx2m7k4sjld@endp4nl3h6ek>
-References: <2llwkhpwbkzqyvyoul2nwxf33d6jhuliblqng4u2bjtmsq7hlj@je3qrtntspap>
- <5a03b200-4e1f-082a-c83a-cb46ad4cea09@quicinc.com>
- <zj2dreqyj7fnhiophdtevhuaohlpk3uoccrslkqt5wjt2jhiip@gqnasgvu7ipq>
- <yeJvz1BmQX5QCjBXnjFbGz8gclNViebyCcZC1Rz2tfocg3MxOAncJZruBARGqAzxG_1UJmw35EUBl80KQy5Sqw==@protonmail.internalid>
- <f1e9ddb0-683d-4c91-f39b-6954c23f7f75@quicinc.com>
- <015dc909-ad0b-4367-8dac-bed53c4f7f9b@linaro.org>
- <k4al7vwl4qruiv7olqlj3qe4gah6qrboyzsbnvfarlgr3amili@wjmkthnxsgmf>
- <7933f6e4-e8e7-4d35-9295-e6b91adcc128@oss.qualcomm.com>
- <CAO9ioeUXsb9UisWbc763-2SvU_-2Ce7qmQ27Wzwt-fWSzHBAeQ@mail.gmail.com>
- <b7623cb3-07d6-49be-a8d7-f9512f3cb6ef@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=hIu+zWINX7xDtEZI9/fn7eiOhgaTz3WSqy7bqGUba/lvd0k2iTBOcA6+PT/dXD0ascGHeUnFHeuJlgXmZmBc4m93Kf/Cb3IS6nZ29gYEH5RhPoAoQXpOAtoJJmsruDGzB0yXtY3lhePjNUpfFC2lpwvH5rMvi7aBNfXBOL4YO+8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-c2dff70000001609-92-68df22e72a30
+Date: Fri, 3 Oct 2025 10:12:01 +0900
+From: Byungchul Park <byungchul@sk.com>
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
+	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
+	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
+	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
+	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
+	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
+	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
+	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
+	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
+	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
+	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
+	sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
+	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
+	ngupta@vflare.org, linux-block@vger.kernel.org,
+	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
+	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
+	djwong@kernel.org, dri-devel@lists.freedesktop.org,
+	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
+	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
+	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
+	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
+	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
+	yeoreum.yun@arm.com, netdev@vger.kernel.org,
+	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
+	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
+	x86@kernel.org, hpa@zytor.com, luto@kernel.org,
+	sumit.semwal@linaro.org, gustavo@padovan.org,
+	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
+	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
+	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
+	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
+	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
+	qiang.zhang@linux.dev, juri.lelli@redhat.com,
+	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
+	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
+	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
+	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
+	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
+	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
+	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
+	broonie@kernel.org, kevin.brodsky@arm.com, dwmw@amazon.co.uk,
+	shakeel.butt@linux.dev, ast@kernel.org, ziy@nvidia.com,
+	yuzhao@google.com, baolin.wang@linux.alibaba.com,
+	usamaarif642@gmail.com, joel.granados@kernel.org,
+	richard.weiyang@gmail.com, geert+renesas@glider.be,
+	tim.c.chen@linux.intel.com, linux@treblig.org,
+	alexander.shishkin@linux.intel.com, lillian@star-ark.net,
+	chenhuacai@kernel.org, francesco@valla.it,
+	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
+	masahiroy@kernel.org, brauner@kernel.org,
+	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
+	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
+	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
+	linux-rt-devel@lists.linux.dev
+Subject: Re: [PATCH v17 08/47] x86_64, dept: add support
+ CONFIG_ARCH_HAS_DEPT_SUPPORT to x86_64
+Message-ID: <20251003011201.GD75385@system.software.com>
+References: <20251002081247.51255-1-byungchul@sk.com>
+ <20251002081247.51255-9-byungchul@sk.com>
+ <cd056d80-aadd-4f8a-8aad-c34b55686fac@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -108,52 +104,102 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <b7623cb3-07d6-49be-a8d7-f9512f3cb6ef@linaro.org>
-X-Proofpoint-ORIG-GUID: KCOVfRV6d9rZlY6ZGnmQ1WuPhQaS1UV8
-X-Proofpoint-GUID: KCOVfRV6d9rZlY6ZGnmQ1WuPhQaS1UV8
-X-Authority-Analysis: v=2.4 cv=etzSD4pX c=1 sm=1 tr=0 ts=68df207a cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=clFx2iI0x2tc5NYfKV8A:9 a=CjuIK1q_8ugA:10
- a=kacYvNCVWA4VmyqE58fU:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwOTI5MDE3NSBTYWx0ZWRfX8slsM4LmMQM/
- DJM316ETOE2yLvzaRtuQjIFQrCUzIqPzovrKCtFqwA51/mayriMWkbqIligrTFy6ODY5fQmsG0L
- zCUX5Uo+Dy8IuJTfiMygRy9+KiTA1T/WCPKWTShVs9hAs9Kd4D7AMvJ21KTGKKh9NTL4KG1a5Xx
- Rg3kzxiL+Ln9ybqkhzAltVjk24jG1vHqKjgzwGhYPs4UsB2ZTTpYzfSu4qMBGDUY1E5ZO5uZsIY
- hJX5fDacsiRCN+ww0DMQa+J9B2yrnqqL/DCoZeVZEPbtOrL0jIT2CYOSUngLhq3hE5TWJ40KXyC
- m1FT6lTOqehCi5LVcaR8F469IICNl2gFZyJTAL+v2bY5nJABh44TxQjEQk4DBvXl/mivhcvhjEw
- WE9Bq6s9RfMYtXe7p61FnEDxgyUlHA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-02_09,2025-10-02_03,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 clxscore=1015 suspectscore=0 malwarescore=0
- priorityscore=1501 spamscore=0 impostorscore=0 adultscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2509290175
+In-Reply-To: <cd056d80-aadd-4f8a-8aad-c34b55686fac@intel.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SXUyTZxTH87zf7ax7LSx7gOxincbFbDiU6DFTx7zZs0ySZV6YuCzjzfrG
+	NpbCWkEhshULHSDbus7OWCNT0LZUjLVQhvELcWIgU4sLrDFYdCDSmfoBBQbabu3UzJuTX87/
+	f/7nXByBVofZbEFv3C6bjJJBwykZZWxB89t3NSO6d+YuvgVD1d0MTMfrGEg4enlo66imYMqf
+	5MB5e4yDB+5GBK7xAzw8vnKNhn3OEILJ6C0EE/5vEHT0RhCc9e7m4I49SMPvYwvB2nKCgwP7
+	rFSqTFAw5/bx8FvLMANuyxK4+b2TgZHLNhbaGsdpCIwOsdDb9ScFjf4gC32uVgZCP3zLwvH7
+	zRzcm3HTEDxfm1p4ZIYB21SSBduRkxScq7tFwVFvjIW7roMUtAecNAw5fuZg3nMJwbEBBoKX
+	ZnnwP/JwUD01guBv/ygLB+N5cDwxhAryyGztdwxpa2pD5PG8A5H4UStNatp3kPnpQY70N2Ny
+	ynWTJzXnbvDkUKCM1PwaY0nLmShFDk9OsyTgq+fI/atXeXLY4qQ/ztqiXKuVDfpy2bR8fZFS
+	1xdKUKU/Zu607U9yFmR/uQEpBCzm4/bhEPWcbf31KM2MuBjPnuz6r8+JS3E4PEenOTPF/a0e
+	vgEpBVr8JQcPdIymBEHIECU8Prg07VGJgO1XjnFpj1rci7CjeYR/KizCffvHmDTT4jIcTkap
+	9Cwt5mBPUkijQlyHO8+8lHa8Ir6BuzsvPzstosANrZufcha+4A0zdiS6Xgh1vRDq+j/0EKJ9
+	SK03lhdLekN+rq7CqN+Z+0VJcQCl/s1d9eTTLjQZ2tSDRAFpFqhIaUSnZqVyc0VxD8ICrclU
+	FXmHdWqVVqqolE0ln5vKDLK5B+UIjOZV1YqZHVq1uFXaLm+T5VLZ9FylBEW2Ba2xriuqX++z
+	ONWrNzZFHn72Qe5WQ+27GwrNkQLtRGVB2XXHh4mMf/7o9DasdH4dTRTG3vvyp4WS+80bde93
+	L6lYw3kGK7VPHp7+JMe6Kx64c69EsydbUVhwjcnKX6VjejaWbFgVqXptd99Xxi0K+65o0LfY
+	/Fc8Y+/rKwfEtR/F8qqaNIxZJ+Uto01m6V88HssYawMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxbZRTHfe69fe6lrnpX67gBP1UXMpZtLvHlTDddNJEnJhK/kTgj3Gx3
+	tgItayeOJTMwKOJ8oRTbhpa5yrKCwAaDiiBjYTSyAGsEYY4orLAVWDOQbCuU8lLsjTHuy8nv
+	5P/7J+fD4Wj1uiKF0xuOSyaDmKfFSkaZ+XrprjltUPdiiz8J/ijpZWApUsFAbUszhoq2GgUM
+	X2pCEFyqQBBdc9Ng6dpkYMPWz0Ik9hcLmz39CBwjNhqafSUUPGqNY7jvf4jAPh3C4AyXMLDo
+	/RqBa9bNQvjXDFgIditgc3KOglvL8wi8oTgFod4vEGw4cuFcXTuGtcBvNDjtwwh+mJ6k4WF4
+	CsG91oTh67+NoKfhNIYZ6080jIaegrGlRQwD9q8wLIzUUvB3KwbP6R4FnHXbEJSeb8HgONvG
+	QNfULyyM3F+nYMJho6Cp7T0IemcZGLLWUYkjE9blZHA7S6nEuEeB/WI3BTFvIws3zk8w4C3e
+	Du7AqALuNLhYWJ/eC5seI/Q3zbEwWWlnDjoQiVq+ZUhjewdFLL9vYNL8fTMia6s2RCIXSmli
+	sSZW//wiTcraPyMXhuYxWV26iUnPsochg3UCqQrsIl2uSZaUXf2Tff+1D5T7j0h5+kLJtOeN
+	HKVuYHiDKqjWnCivieNiZH36DEriBP4loXzwSyQzw78gRC93UjJjPk0YH4/RMmsSPPhjPXsG
+	KTma/zlVGPHdTQQc9wwvCrM302RHxYNgDTRh2VHz3yHBVhdk/w22CgM1IUZmmk8XxuNhSu7S
+	fKpQH+dkTOIPCB1XnpSNZ/nnhd6O65QVqVyPlV2PlV3/lz2IbkQavaEwX9TnvbzbnKsrMuhP
+	7D5szG9DiZ/0nlqv6kSR0Yw+xHNIu0VFCm7r1Aqx0FyU34cEjtZqVDkNEzq16ohYdFIyGbNN
+	n+ZJ5j6UyjHaZNW7WVKOmv9YPC7lSlKBZPovpbiklGL0+cyHHdcisU+iD7jgmwaDfVv4Wpbx
+	HW9a7luDW/btq88m16PPKX3dEf+NU+LBsnFjdWwl+eITH1UGZtPT9vi5ZRgdW3DGdmRGs1Nq
+	pjKPDe089vahVysOvbIy1b7jlm9mNStc2deycrRz9ZtqV7hkTOPMliyXarfXejLCuNxapdUy
+	Zp24N502mcV/AI9Fdl+PAwAA
+X-CFilter-Loop: Reflected
 
-On Thu, Oct 02, 2025 at 04:07:37PM +0100, Bryan O'Donoghue wrote:
-> On 02/10/2025 15:59, Dmitry Baryshkov wrote:
-> > > * Iris could be then taught to expect vpu_whatever_gen2.mbn first, and if
-> > >    that is not found, attempt to load vpu_whatever.mbn (for the gen1 intf)
-> > > 
-> > > WDYT?
-> > Well, I think that potentially complicates the driver by requiring
-> > support for both HFIs for the same platform, it requires detection,
+On Thu, Oct 02, 2025 at 08:22:29AM -0700, Dave Hansen wrote:
+> On 10/2/25 01:12, Byungchul Park wrote:
+> > dept needs to notice every entrance from user to kernel mode to treat
+> > every kernel context independently when tracking wait-event dependencies.
+> > Roughly, system call and user oriented fault are the cases.
 > 
-> Doesn't have to be anything more complicated than a reserved string name.
-> 
-> BTW you're right the main reason to support this is - in effect - ending of
-> support for gen1 firmware.
-> 
-> But then in reality if that is the direction of travel, its in the interests
-> of upstream and users to make the transition.
+> "Roughly"?
 
-Okay. I did a quick comparison. FP5 has gen1 firmware, is vendor-signed
-with the T2Mobile cert and I assume it is fused. We were going to drop
-support for sc7280 from venus in favour of supporting it in iris. What
-would be a migration plan for FP5 users?
+I will change it to a better one.
 
--- 
-With best wishes
-Dmitry
+> >  #define __SYSCALL(nr, sym) extern long __x64_##sym(const struct pt_regs *);
+> >  #define __SYSCALL_NORETURN(nr, sym) extern long __noreturn __x64_##sym(const struct pt_regs *);
+> > @@ -86,6 +87,12 @@ static __always_inline bool do_syscall_x32(struct pt_regs *regs, int nr)
+> >  /* Returns true to return using SYSRET, or false to use IRET */
+> >  __visible noinstr bool do_syscall_64(struct pt_regs *regs, int nr)
+> >  {
+> > +     /*
+> > +      * This is a system call from user mode.  Make dept work with a
+> > +      * new kernel mode context.
+> > +      */
+> > +     dept_update_cxt();
+> > +
+> >       add_random_kstack_offset();
+> >       nr = syscall_enter_from_user_mode(regs, nr);
+> 
+> Please take a look in syscall_enter_from_user_mode(). You'll see the
+> quite nicely-named function: enter_from_user_mode(). That might be a
+> nice place to put code that you want to run when the kernel is entered
+> from user mode.
+
+I wanted to put dept_update_cxt() to the very beginning of c code but..
+yeah enter_from_user_mode() looks fine or even better.  Thanks a lot.
+
+> > diff --git a/arch/x86/mm/fault.c b/arch/x86/mm/fault.c
+> > index 998bd807fc7b..017edb75f0a0 100644
+> > --- a/arch/x86/mm/fault.c
+> > +++ b/arch/x86/mm/fault.c
+> > @@ -19,6 +19,7 @@
+> >  #include <linux/mm_types.h>
+> >  #include <linux/mm.h>                        /* find_and_lock_vma() */
+> >  #include <linux/vmalloc.h>
+> > +#include <linux/dept.h>
+> >
+> >  #include <asm/cpufeature.h>          /* boot_cpu_has, ...            */
+> >  #include <asm/traps.h>                       /* dotraplinkage, ...           */
+> > @@ -1219,6 +1220,12 @@ void do_user_addr_fault(struct pt_regs *regs,
+> >       tsk = current;
+> >       mm = tsk->mm;
+> >
+> > +     /*
+> > +      * This fault comes from user mode.  Make dept work with a new
+> > +      * kernel mode context.
+> > +      */
+> > +     dept_update_cxt();
+> No, this fault does not come from user mode. That's why we call it "user
+> addr" fault, not "user mode" fault. You end up here if, for instance,
+> the kernel faults doing a copy_from_user().
+
+My bad.  Thank you.  I will fix it.  Thank you very much.
+
+	Byungchul
 
