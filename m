@@ -1,100 +1,117 @@
-Return-Path: <linux-media+bounces-43748-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43749-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70C1CBB7EC7
-	for <lists+linux-media@lfdr.de>; Fri, 03 Oct 2025 20:50:25 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C8CDBB89CB
+	for <lists+linux-media@lfdr.de>; Sat, 04 Oct 2025 07:50:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6163C4EAF0A
-	for <lists+linux-media@lfdr.de>; Fri,  3 Oct 2025 18:50:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 357133A5469
+	for <lists+linux-media@lfdr.de>; Sat,  4 Oct 2025 05:50:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7815B2DF155;
-	Fri,  3 Oct 2025 18:50:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B5DBF1E501C;
+	Sat,  4 Oct 2025 05:50:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qlA2EZ7D"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=jdstroy.cf header.i=@jdstroy.cf header.b="Xfg8Qixf";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=iad1.rp.oracleemaildelivery.com header.i=@iad1.rp.oracleemaildelivery.com header.b="vmbpVXXc"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from adg154cb126.iad1.oracleemaildelivery.com (adg154cb126.iad1.oracleemaildelivery.com [147.154.32.126])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEBB52DECA3;
-	Fri,  3 Oct 2025 18:50:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C2B3FB31
+	for <linux-media@vger.kernel.org>; Sat,  4 Oct 2025 05:50:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=147.154.32.126
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759517408; cv=none; b=mK+BD/oSwSjklFoA+pJtjmb7rShho+TpisqVEN2Sbib0ykDFLnL1C4F565eDzQs6XODXrt7uyIFqRo4IqBa6edXdSyTKQ6yVOaWVr7JnmGf5ClorCIc6tPNbs21/zYo+2T39G7VDl0dr7WjUIUVWi+i75ho8Sn+ixFxaHqNMdP0=
+	t=1759557022; cv=none; b=PrZBD/TSoj2Gpexi9MvhVjkCUFYPIwFh2qfwjVI3wQgwDUku/av7CwCQzBu1QIjzHWbBvmThfXCpc7Hng4E6DVwiLh/w5eYiQIneuo791vrfAl6NaPb9iUFgxetWi/xFsPqywf/9nyBnClMC6Ue/FLN51K0QSNnwq+IHUro3NaA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759517408; c=relaxed/simple;
-	bh=BzHCgdnh4u1K9vziVNYN9RLlQWl3aVaEvR81Dj9kN4I=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YRiyCYZN2Zu6VY06voetOfkBUAkXu9E/ABEN3kkIKwG83BP+DB2ZoutP2vlfQwar2brjT/bdwesmd3rL+v2Zg+ykH2suZ/0U0ALrnb7lujvpc3lFyQoOQMCogIXSwGNuVgLsaVThq1adgpsyE5lkwFGyljmTGT5BotSS8N5Gcxc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qlA2EZ7D; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA096C4CEF5;
-	Fri,  3 Oct 2025 18:50:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759517408;
-	bh=BzHCgdnh4u1K9vziVNYN9RLlQWl3aVaEvR81Dj9kN4I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qlA2EZ7DMRWKJIi06Yk5nf6ddrH6QhjXENHv7U00iBTVK9rNH9rCHJ14O7wdDLXwy
-	 fC0lR2l4nE2A0vLQEkcZpR23PHNRp8IYJ6PUev4Uvi0MPiRKnvuIIzFl9PxMjNHQRL
-	 vgpfGA1ig0UBreHE5je0IOklxdtySK7NVjyEkoZpEl8kbz+6bZSSso4B/pbLxMVCFy
-	 P/bRShd8eixVb+180h7ImOMmeNj8JbeP6OTpFjD1tlO+TEqPbU5YotHd+xVvqcbFdR
-	 wZIk7OsELSV3/ARIz7bY3mbKQupa7M52vWCtipjySjVrthGqAfwZfPcB2hAQwMUT18
-	 5wZhULFzanFRg==
-Date: Fri, 3 Oct 2025 20:50:04 +0200
-From: Andi Shyti <andi.shyti@kernel.org>
-To: Jyothi Kumar Seerapu <jyothi.seerapu@oss.qualcomm.com>
-Cc: Vinod Koul <vkoul@kernel.org>, 
-	Mukesh Kumar Savaliya <quic_msavaliy@quicinc.com>, Viken Dadhaniya <quic_vdadhani@quicinc.com>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	linux-arm-msm@vger.kernel.org, dmaengine@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-i2c@vger.kernel.org, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, quic_vtanuku@quicinc.com
-Subject: Re: [PATCH v8 2/2] i2c: i2c-qcom-geni: Add Block event interrupt
- support
-Message-ID: <3lgris6k6ewqjdcfmmovygstqrqjx2jidtr3hb3v47gpgadkka@wlua7qpd7ahf>
-References: <20250925120035.2844283-1-jyothi.seerapu@oss.qualcomm.com>
- <20250925120035.2844283-3-jyothi.seerapu@oss.qualcomm.com>
+	s=arc-20240116; t=1759557022; c=relaxed/simple;
+	bh=qHcJ0+4WAFjk1FY5e642yXljByoJwEau/mMsII2l86s=;
+	h=Message-id:Date:MIME-version:To:From:Subject:Content-type; b=DEqbKWvnXz6qzHsS9RqNoTtEbuNrYV/0qWSoqtaJh7UiGcScFUKdWhzbYkY+id2bPamg5AKHt6kZgR8+/mWEDsAH3uz7R9ge9YVWBirfbb+kAjuQRaZSpbRlAYj6RSlU4Mwi3vl9B8fvh5FRfmF8kDo4I4rCV/oOIClBWCgJ/qg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jdstroy.cf; spf=pass smtp.mailfrom=iad1.rp.oracleemaildelivery.com; dkim=pass (2048-bit key) header.d=jdstroy.cf header.i=@jdstroy.cf header.b=Xfg8Qixf; dkim=pass (2048-bit key) header.d=iad1.rp.oracleemaildelivery.com header.i=@iad1.rp.oracleemaildelivery.com header.b=vmbpVXXc; arc=none smtp.client-ip=147.154.32.126
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=jdstroy.cf
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iad1.rp.oracleemaildelivery.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=mail-us-202304;
+ d=jdstroy.cf;
+ h=Date:To:From:Subject:Message-Id:MIME-Version:Sender:List-Unsubscribe:List-Unsubscribe-Post;
+ bh=EBKXCHiDqx1vKsiq/j4vUe/aYxXl4yHAcjbCQIO0zUE=;
+ b=Xfg8Qixf76Yf7d2orXi5ABVAoGkwhUuSofsRDo7iYStQ5vucKz3Fsmlb9mZ7c9n9MezwwsbFNykv
+   yyNppisbMf+ZghdAoNLuNIU8ky9ZUnAfCdTdXS0zo8bzlA+3dD4kYKoz7Bp6E89YiDlr4YECYf90
+   97a9ZJm22YVoQVSpmB9xxxiunrv/OvbuJf4NYzGNyYVXPWxuTYq5TT+OsTev9J259hH0lJSxGIsX
+   RybvD60lHRog1cWA2HxzW6oINYhicGnmAhTGjwESVJh68PrkAp2gZ3mjDtHZiRWXUZ8RM3v0x0nb
+   9WDdnh18P/GsOiJbN3QpzbqHylu8MR2JVJcfBg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; s=prod-iad-20200707;
+ d=iad1.rp.oracleemaildelivery.com;
+ h=Date:To:From:Subject:Message-Id:MIME-Version:Sender:List-Unsubscribe:List-Unsubscribe-Post;
+ bh=EBKXCHiDqx1vKsiq/j4vUe/aYxXl4yHAcjbCQIO0zUE=;
+ b=vmbpVXXcFYzYxJ7gM+od/bTu6/SXtvz5YBwCPtO06ONvyxXjIMZb7pZyGgdn42UKUmbuF8GqAodD
+   pJBL+Z7/yAn4jIhqHJFtYcHQu0kzJ3z8Z8xh1R/LJT7p6/TRxdJDHQNxZovjcihjnw12WL4e1JD+
+   hpijQ6F+21IFaUbkQbMFTjymVAPIAU/siQcrj3dHKONkDk0saO+QJf2Zy0luMRi6GuMtdWH0TSrv
+   pZozMGlAAvFHGOyaYDVKz+qzmSh1UK9bLRNXQ2NTzphbSRGyQB7+TmER5t+IOpCJ5lHEGMHXdayH
+   K1TqL8ZwQ5VkeMVQM9qC5CGTaac91jM5yWwAPg==
+Received: by omta-ad3-fd3-301-us-ashburn-1.omtaad3.vcndpiad.oraclevcn.com
+ (Oracle Communications Messaging Server 8.1.0.1.20250909 64bit (built Sep  9
+ 2025))
+ with ESMTPS id <0T3L001I9EVU2220@omta-ad3-fd3-301-us-ashburn-1.omtaad3.vcndpiad.oraclevcn.com> for
+ linux-media@vger.kernel.org; Sat, 04 Oct 2025 05:50:18 +0000 (GMT)
+List-Unsubscribe-Post: List-Unsubscribe=One-Click
+Message-id: <d90b5072-3a10-44ea-93e3-0077fbcbd509@jdstroy.cf>
+Date: Fri, 3 Oct 2025 19:50:17 -1000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250925120035.2844283-3-jyothi.seerapu@oss.qualcomm.com>
+MIME-version: 1.0
+User-Agent: Mozilla Thunderbird
+Content-language: en-US
+To: linux-media@vger.kernel.org
+From: John Stroy <kernel.org_202510040544.1952@jdstroy.cf>
+Subject: [PATCH v4l-utils] utils/keytable/rc_keymaps: add zune_hddock.toml
+Content-type: text/plain; charset=UTF-8; format=flowed
+Content-transfer-encoding: 8bit
+Reporting-Meta:
+ AAF8prTF+AsI15k619vKtzFRHTNLdpusrP591i7nAa4ZSnCtisRvAJi5qN89aoeK
+ mYJxj2BIkcaeGO2Qry8pqv4TKDgUCwTiNJjOj7XcaJe0zNvZqqKzcRQOF+EgWRsl
+ 459fLVMIDQWBZVTE+MAwfss/q2cRdniwdQzTPtuHWRscITY8nAou3MzSb9dcXmyz
+ 4znwvgdvXn15K5JDA1LwBPCGCfrYgbL4+LfdXt4m4iworyeuCqEoBgj6MtRG58Dw
+ ClzVKRktYqc0awgdinpYrt+DoBOpm83p0nPkvZ4o2K2oJPSAVp0cxnghRIiNmetX
+ zySx8jlz8ElhytyX8+GRsGEwwpp7PVT4Q6wBZeZYG7y8+TWsWULwHyC+VEw/z35s
+ HYGgn8aa/4+ZIbWC6WINpxdaZ2/e8x0EDw0KmAIlVBFEwUZoUy3wlA3jF5azB9uS VXTYWqFUJGg=
 
-On Thu, Sep 25, 2025 at 05:30:35PM +0530, Jyothi Kumar Seerapu wrote:
-> From: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
-> 
-> The I2C driver gets an interrupt upon transfer completion.
-> When handling multiple messages in a single transfer, this
-> results in N interrupts for N messages, leading to significant
-> software interrupt latency.
-> 
-> To mitigate this latency, utilize Block Event Interrupt (BEI)
-> mechanism. Enabling BEI instructs the hardware to prevent interrupt
-> generation and BEI is disabled when an interrupt is necessary.
-> 
-> Large I2C transfer can be divided into chunks of messages internally.
-> Interrupts are not expected for the messages for which BEI bit set,
-> only the last message triggers an interrupt, indicating the completion of
-> N messages. This BEI mechanism enhances overall transfer efficiency.
-> 
-> BEI optimizations are currently implemented for I2C write transfers only,
-> as there is no use case for multiple I2C read messages in a single transfer
-> at this time.
-> 
-> Signed-off-by: Jyothi Kumar Seerapu <quic_jseerapu@quicinc.com>
+Add Zune HD Dock remote control (Model 1401) data.
 
-Because this series is touching multiple subsystems, I'm going to
-ack it:
+Signed-off-by: jdstroy <jdstroy@users.noreply.github.com>
+---
+  utils/keytable/rc_keymaps/zune_hddock.toml | 17 +++++++++++++++++
+  1 file changed, 17 insertions(+)
+  create mode 100644 utils/keytable/rc_keymaps/zune_hddock.toml
 
-Acked-by: Andi Shyti <andi.shyti@kernel.org>
+diff --git a/utils/keytable/rc_keymaps/zune_hddock.toml 
+b/utils/keytable/rc_keymaps/zune_hddock.toml
+new file mode 100644
+index 00000000..a38fc75e
+--- /dev/null
++++ b/utils/keytable/rc_keymaps/zune_hddock.toml
+@@ -0,0 +1,17 @@
++[[protocols]]
++name = "zune_hd_dock"
++protocol = "rc6"
++variant = "rc6_mce"
++[protocols.scancodes]
++0x800f640d = "KEY_SELECT"
++0x800f6410 = "KEY_VOLUMEUP"
++0x800f6411 = "KEY_VOLUMEDOWN"
++0x800f641e = "KEY_UP"
++0x800f641f = "KEY_DOWN"
++0x800f6420 = "KEY_LEFT"
++0x800f6421 = "KEY_RIGHT"
++0x800f6422 = "KEY_ENTER"
++0x800f6423 = "KEY_BACK"
++0x800f6427 = "KEY_PREVIOUSSONG"
++0x800f6426 = "KEY_NEXTSONG"
++0x800f646e = "KEY_PLAYPAUSE"
+--
+2.43.0
 
-We are waiting for someone from DMA to ack it (Vinod or Sinan).
-
-Thanks,
-Andi
 
