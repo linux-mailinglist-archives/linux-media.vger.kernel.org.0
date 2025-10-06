@@ -1,160 +1,200 @@
-Return-Path: <linux-media+bounces-43796-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43797-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 72AFBBBF084
-	for <lists+linux-media@lfdr.de>; Mon, 06 Oct 2025 20:55:23 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id E32A4BBF25D
+	for <lists+linux-media@lfdr.de>; Mon, 06 Oct 2025 22:05:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 46BB24E89FD
-	for <lists+linux-media@lfdr.de>; Mon,  6 Oct 2025 18:55:22 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 692943C3EC1
+	for <lists+linux-media@lfdr.de>; Mon,  6 Oct 2025 20:05:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6D1B92DEA83;
-	Mon,  6 Oct 2025 18:55:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 877042DC328;
+	Mon,  6 Oct 2025 20:05:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="SLuhxf/3"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iC53j0zX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A272D2459F8;
-	Mon,  6 Oct 2025 18:55:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.171.202.116
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCAF1487F6
+	for <linux-media@vger.kernel.org>; Mon,  6 Oct 2025 20:05:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759776909; cv=none; b=YtjssVHSgYK8rasiYDjkNQkZa3inWXe6OVUL4b4Newt3VussPjWcz+V4DdCJLi28GPTLPTHXoWSvqSN3nO/fL9XJ2YQzfYDYzr1IK9OOZTH0a5aamujl1yCB8Ni0sRg3/0WGAjGSBuLINOGcpViIybTg+0FrF0zee9pvZ1Q2/h8=
+	t=1759781110; cv=none; b=P7SBOx3dJt+fhSo1+BZNJuzP1+EEVjODhhrOkGskadFXIshAXcDwyXjbTtFftHGGB67Ni2seW7uBN9Cu1mCGz+mcDUAv3utLT+AAHWkPaikjU3szi/i9LruwGebzIA07/LRd+GafnRjrHtfUcZAHDLkY/fWYrZPy5cZPRcD5pSU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759776909; c=relaxed/simple;
-	bh=zATYGJ5s94ipPbFwAl7MAY7cDQkGbW0aMQw7dvwOS7Y=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
-	 References:In-Reply-To; b=YvEvpKcCjaUzRsay34QZ/2J72vorXeZMWNQQwhjhhgA1vziCj01UNa8I4M8EXJaVdqQwB27/8o5MDx1yvrwRs8n8DHj2eRB468qWgCpxvoCS5is7igF3M52tBBA0vO6Pl8wDaSKdqCTNDfIfah3VRMwBf9cko0ZElD/Wx+X1x0I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=SLuhxf/3; arc=none smtp.client-ip=185.171.202.116
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-04.galae.net (Postfix) with ESMTPS id 52BFFC085D2;
-	Mon,  6 Oct 2025 18:54:41 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 60899606B7;
-	Mon,  6 Oct 2025 18:54:59 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1C559102F2116;
-	Mon,  6 Oct 2025 20:54:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1759776897; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=KEzW3jit24CmXPxdwBbp7La6xIwBqgbqQZqEtvxRu/Q=;
-	b=SLuhxf/3XYFe9lSvtSeMg9+E9K5RRLzpeO6V1c2rDu+XPhBiz9+8CC4HkyDTDVE/k20H6P
-	mUw0uLt/vC1lUh/ptOhnnN8s02feywmxLly41Gn7Beb+CryrbBeU3h6VkynVX2v4t9fRTi
-	3e48jHMLpg2HeiMGvVWTkIi2YToLzMywVXpG6Nf0uFRKXHRhrrdGVLCUdyhBhRH9oBlmX/
-	HUg29WHlMfpvRBX/GpCd0eFB4Avn/1q/OnnDDz2h46/KHmYKXa2ljekJVxfmHKCqTPGgsj
-	sU9xl8XMOy8Q5/T9K6xwDjAlgwkSW3O8LqIiudrODya8XLUfODnncHp1fGWUZw==
+	s=arc-20240116; t=1759781110; c=relaxed/simple;
+	bh=ZarTCEKrYJ2uwCZ0DY8fR+K1qpA/Zk8TxurjsZ7MzJI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Nq1BP/h2Gr0fY++dFxTVS/IWquJMaxkHBl1q3lS2sj+AF/Qg3NY3gvMjawQ3x4JxalSUVZnqsHTlZvX4YI8Xg6+NSXAJuZnQzqzIo0hSRWG6QhBRG89fH3uzEMrVPBebePGfvwnv5Kp0ljeeWeiRS77jZ2PadgFTBM372gu7XSI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iC53j0zX; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 596GlvtN028753
+	for <linux-media@vger.kernel.org>; Mon, 6 Oct 2025 20:05:05 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	jXF0p/uNDuCc8V4ymUfNTV4xeJ1S0VxZNmP+RnJGw5c=; b=iC53j0zXs9ytKQKy
+	X8fefj4moZ0rQP4gUwPsHF8y7HdRlXy8TJ9oQE7VwOReOwehZorKH6/H/Tc0nHth
+	B0teVpPgH/BKljbXCEGXIp6POU3wMM9/jiDy2MyZ8tJ/yP9KYPuLjJdZp7Pk3H5T
+	Z2vvqNJtRCiU0+ppQX8GeN3+xunE2TY9zsCBw7IPWBWg8Po2AjAIwgUF9AF8jGE2
+	bFciQMBWgTlkdpKnYIWmEGozK4f1kbcok+ZMf99qFbbEGi6JU4RZBZRcgroS+guC
+	ueB4rOAGSNzorqOEtjZSYLUQGxrBHE7KbXpkV5PwsW/llwkgE6F8hHJMNrJrtDlJ
+	hEgu/w==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jtwgn39u-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 06 Oct 2025 20:05:05 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8645d397860so1665059585a.2
+        for <linux-media@vger.kernel.org>; Mon, 06 Oct 2025 13:05:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759781105; x=1760385905;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=jXF0p/uNDuCc8V4ymUfNTV4xeJ1S0VxZNmP+RnJGw5c=;
+        b=tVW83ylWVv3yH4ZdfJVnQgeRDpFhv+16n4AW01LMwfsbHLlrwgISx9japvtbUfkZqL
+         WCaKeyKTG2kLRloxugtEOfoo0+UQb1+HSJwU1SR4peT/SxY5GrEThfb4Maszs6yahXTA
+         gwkaFmaFIJKb899nv2rFWnCo7LcPFtam1cQU7EwnQQ+SBz5tE/09JiHfFCWnw0Mfzq9o
+         QUlOrJuqLBAFXjpjdNlEouwug+N1V57tK6b3wIf9+gNwOVbK/okwTDwJRNSca3WG5Jyd
+         5TlDp3LzOmDHbnvnLZ5WqBfauh/CCFbDoyRtOAboPWWJ0tQ288kBSkeuQBD+b2OXVpw8
+         9LIw==
+X-Forwarded-Encrypted: i=1; AJvYcCXsVt93yq62DWXsAB6Yz25puqoXdGMo9yL1XbAD+UcKtm3EU07JbxLhJ9duxtSBRk0QrJDzkiyHqtVm0g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YywLUqDNQVePHoS6TJKr30vP5PKwfe7ticY68ftItfAaUML2wve
+	0mHtyK/9M+CoyP6BNnhrwVERIrArTvLe7fIQgp/V5lp50a0aM32C9xfGREorlO3xCKP4XRoVYoc
+	dnBw344tmbdsTMMVlyVK+KCNXHdrWnOu3WKZUa6PrkZRFpa3O5nggS3M25qRsQ9rqcgqGDgJTvP
+	KJdezecLqstcLMmz5w48in6QrspfSqz9F5o7isUCXk
+X-Gm-Gg: ASbGncuggzSBTVKPfdJhFLRvJrJjxqtFtDYPt39IPbBI2LKiXJwpG1jq6uU6r3jG+FN
+	WsGXwLIXJLTvX4T12zCtFtGOUP7l/Zz5UEwhYHwmejR9BK/pO++EXMQMXSQqUkFjbsqUloOT3GI
+	Npt93gFaHe81lAHPiamn7UONA9S056dJjilzab5GklOWyi73B7ULvhVs48ZAU=
+X-Received: by 2002:a05:620a:454b:b0:813:ccb9:509f with SMTP id af79cd13be357-87a36779e54mr1714651785a.5.1759781104771;
+        Mon, 06 Oct 2025 13:05:04 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGne7xfNe8unOt/NAN2kz9eXzbxLkQJRAiVoCvhjk3dUQt0hM9XFf85nEv411q3AVZgczfBFN7PoifKbBhxgqI=
+X-Received: by 2002:a05:620a:454b:b0:813:ccb9:509f with SMTP id
+ af79cd13be357-87a36779e54mr1714645985a.5.1759781104330; Mon, 06 Oct 2025
+ 13:05:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
+MIME-Version: 1.0
+References: <20250924-knp-cam-v1-0-b72d6deea054@oss.qualcomm.com> <20250924-knp-cam-v1-2-b72d6deea054@oss.qualcomm.com>
+In-Reply-To: <20250924-knp-cam-v1-2-b72d6deea054@oss.qualcomm.com>
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Date: Mon, 6 Oct 2025 22:04:53 +0200
+X-Gm-Features: AS18NWBIGvGcnNKBag4b27Z_4By6kHKqpoHvsZREdDDpJpvbwz1h4h67ThPGt84
+Message-ID: <CAFEp6-1o11B9o3HjdJY-xQhDXquOTknXo0JeW=HfpTxXcEaK3g@mail.gmail.com>
+Subject: Re: [PATCH 2/6] dt-bindings: media: camss: Add qcom,kaanapali-camss binding
+To: Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
+Cc: Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        "Bryan O'Donoghue" <bod@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+        linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, aiqun.yu@oss.qualcomm.com,
+        tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
+        yijie.yang@oss.qualcomm.com
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 06 Oct 2025 20:54:38 +0200
-Message-Id: <DDBGU9ELXIAW.1RLHSNOPVR9B3@bootlin.com>
-Cc: "David Airlie" <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>,
- "Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, "Maxime Ripard"
- <mripard@kernel.org>, "Thomas Zimmermann" <tzimmermann@suse.de>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Conor Dooley" <conor+dt@kernel.org>, "Thierry Reding"
- <thierry.reding@gmail.com>, "Jonathan Hunter" <jonathanh@nvidia.com>,
- "Sowjanya Komatineni" <skomatineni@nvidia.com>, "Prashant Gaikwad"
- <pgaikwad@nvidia.com>, "Michael Turquette" <mturquette@baylibre.com>,
- "Stephen Boyd" <sboyd@kernel.org>, "Linus Walleij"
- <linus.walleij@linaro.org>, "Mauro Carvalho Chehab" <mchehab@kernel.org>,
- "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>,
- =?utf-8?q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, "Dmitry
- Osipenko" <digetx@gmail.com>, "Charan Pedumuru"
- <charan.pedumuru@gmail.com>, "Diogo Ivo" <diogo.ivo@tecnico.ulisboa.pt>,
- "Aaron Kling" <webgeek1234@gmail.com>, "Arnd Bergmann" <arnd@arndb.de>,
- <dri-devel@lists.freedesktop.org>, <devicetree@vger.kernel.org>,
- <linux-tegra@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
- <linux-media@vger.kernel.org>, <linux-clk@vger.kernel.org>,
- <linux-gpio@vger.kernel.org>, <linux-staging@lists.linux.dev>
-Subject: Re: [PATCH v3 15/22] staging: media: tegra-video: tegra20: simplify
- format align calculations
-From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
-To: "Svyatoslav Ryhel" <clamor95@gmail.com>, "Mikko Perttunen"
- <mperttunen@nvidia.com>
-X-Mailer: aerc 0.20.1
-References: <20250925151648.79510-1-clamor95@gmail.com>
- <3665995.U7HbjWM52l@senjougahara>
- <CAPVz0n3CrVufs8vbw8XnYuwoZoQ2Xsi3V4HimgT0=4RQySzvaw@mail.gmail.com>
- <3862885.G96rZvMJ2N@senjougahara>
- <CAPVz0n2shn41h4z4PoMdtCXzj+96ak69TCqt7Ag5qpqdWi6UWA@mail.gmail.com>
-In-Reply-To: <CAPVz0n2shn41h4z4PoMdtCXzj+96ak69TCqt7Ag5qpqdWi6UWA@mail.gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAxOSBTYWx0ZWRfX5t6gdAPkdl6u
+ aPl+AXfjQ5AJEit/Z7grDdR6Nh6Wtd17FB6p9xsaFoc3AGishIZWcHlMXhfERiP51rI9b8r3hnZ
+ +hgniDY1vgP0vCL2bu9zNknnhc11PRU/V84NJ3/u1YURPHl4lF5WMLvfRmhFUff1nxQY4VsD3TN
+ Oagtp2qneouHdzyEmnCzaSExGuIM9tLGobI13hpsQfgs5SgMX1QACNl6iF81pZvZ+lH+P91Lhhc
+ iZPQCRVHPfW9PQMLx5ou1GYAEDc1IfJKDfEP+k37K4ciUSKULMOoMGtUAjU+ZhWsOI4aQXjX+MF
+ vZRSk02yMCa2PCGYOgVA0XoM2BXYEOuo3tQP4IqFFZ3nOFpEaprXHBREVcPrd0HY0feIT5YjVIy
+ DwR439XJ9FEJdvWMEZbb8GQl1Av3zg==
+X-Authority-Analysis: v=2.4 cv=B6O0EetM c=1 sm=1 tr=0 ts=68e420f1 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10
+ a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=AMVQ22f2qhwqeWk0KgQA:9 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=sptkURWiP4Gy88Gu7hUp:22
+X-Proofpoint-GUID: KqoNhdicVXWEcEohF2fjEP5WEl9WNHyF
+X-Proofpoint-ORIG-GUID: KqoNhdicVXWEcEohF2fjEP5WEl9WNHyF
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-06_06,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 priorityscore=1501 lowpriorityscore=0 adultscore=0
+ impostorscore=0 spamscore=0 bulkscore=0 phishscore=0 malwarescore=0
+ suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
+ definitions=main-2510040019
 
-Hello Svyatoslav,
+Hi folks,
 
-On Thu Oct 2, 2025 at 8:20 AM CEST, Svyatoslav Ryhel wrote:
->> > > > 12 represents amount of bits used per pixel, 8 for Y plane, 2 for =
-U
->> > > > plane and 2 for V plane, total is 12. "but explainable with a comm=
-ent
->> > > > and improve-able later" why then we cannot use 12 with a comment? =
-this
->> > > > is all arbitrary. Downstream is not wrong from this perspective, y=
-ou
->> > > > don't take into account that YUV420 is planar and it uses 3 planes=
- a
->> > > > whole Y plane and 1/4 of U and V which in total results in wigth +=
- 2 *
->> > > > 1/4 width which is width * 3/2
->> > >
->> > > Yes -- but AIUI, the only thing the bpp value is used for the bytesp=
-erline calculation. When we add the special case for planar formats, which =
-doesn't use the bpp value, then the value 12 is never used anywhere. We sho=
-uld at least have a comment saying it is unused. (At that point, we could j=
-ust hardcode the bpp values in the fmt_align function -- but I don't mind e=
-ither way.)
->> > >
->> > https://ffmpeg.org/pipermail/ffmpeg-user/2023-June/056488.html
->>
->> I understand very well that for YUV420, each pixel has 12 bits of color =
-information. But how many bits of color information each pixel has is not u=
-seful in the context of this driver. The number of bytes per line is not re=
-lated to how many bits of color information each pixel has for planar forma=
-ts.
+On Thu, Sep 25, 2025 at 2:03=E2=80=AFAM Jingyi Wang
+<jingyi.wang@oss.qualcomm.com> wrote:
 >
-> No, it has direct impact. This is how buffer size / image size is
-> calculated since we place each plane consecutive. And bytes per line
-> is used specifically in image size calculation. This is common part
-> with non-planar formats. Then since Tegra provides a dedicated
-> channels/buffers for each plane, configuration of planar format
-> includes an additional step with calculation for each plane.
+> From: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+>
+> Add bindings for qcom,kaanapali-camss in order to support the camera
+> subsystem for Kaanapali.
+>
+> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+> Signed-off-by: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
+> ---
+>  .../bindings/media/qcom,kaanapali-camss.yaml       | 494 +++++++++++++++=
+++++++
+>  1 file changed, 494 insertions(+)
+>
+> diff --git a/Documentation/devicetree/bindings/media/qcom,kaanapali-camss=
+.yaml b/Documentation/devicetree/bindings/media/qcom,kaanapali-camss.yaml
+> new file mode 100644
+> index 000000000000..ed0fe6774700
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,kaanapali-camss.yaml
+> @@ -0,0 +1,494 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,kaanapali-camss.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm Kaanapali Camera Subsystem (CAMSS)
+> +
+> +maintainers:
+> +  - Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+> +
+> +description:
+> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,kaanapali-camss
+> +
+> +  reg:
+> +    maxItems: 16
+> +
+> +  reg-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csid_lite0
+> +      - const: csid_lite1
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: csiphy3
+> +      - const: csiphy4
+> +      - const: csiphy5
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe2
+> +      - const: vfe_lite0
+> +      - const: vfe_lite1
 
-Sorry, I haven't followed the discussion in detail, but I tested you series
-on Tegra20 VIP and capture does not work, with a SIGSEGV in
-gstreamer. Bisecting pointed to this as the first commit where the issue
-happens.
+Wouldn't it make sense to simplify this and have different camss nodes
+for the 'main' and 'lite' paths?
 
-I compared the input and output values of tegra20_fmt_align() at this
-commit and at the previous one, and this is the result:
-
-                       before this patch     with this patch
-  At function entry:
-  bpp                        1                     12
-  pix->width                 640                   640
-  pix->height                480                   480
-  		          =20
-  On return:       =20
-  pix->bytesperline          640                   960
-  pix->sizeimage             460800                460800
-
-I hope these info will help.
-
-Best regards,
-Luca
-
---
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+[...]
 
