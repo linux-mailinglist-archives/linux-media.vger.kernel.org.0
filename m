@@ -1,200 +1,172 @@
-Return-Path: <linux-media+bounces-43797-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43798-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E32A4BBF25D
-	for <lists+linux-media@lfdr.de>; Mon, 06 Oct 2025 22:05:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36DC4BBF318
+	for <lists+linux-media@lfdr.de>; Mon, 06 Oct 2025 22:32:00 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 692943C3EC1
-	for <lists+linux-media@lfdr.de>; Mon,  6 Oct 2025 20:05:16 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E6A363BF9A8
+	for <lists+linux-media@lfdr.de>; Mon,  6 Oct 2025 20:31:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 877042DC328;
-	Mon,  6 Oct 2025 20:05:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BF7E2DCBEB;
+	Mon,  6 Oct 2025 20:31:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="iC53j0zX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Jl/uolcw"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDCAF1487F6
-	for <linux-media@vger.kernel.org>; Mon,  6 Oct 2025 20:05:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 468D0136358;
+	Mon,  6 Oct 2025 20:31:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759781110; cv=none; b=P7SBOx3dJt+fhSo1+BZNJuzP1+EEVjODhhrOkGskadFXIshAXcDwyXjbTtFftHGGB67Ni2seW7uBN9Cu1mCGz+mcDUAv3utLT+AAHWkPaikjU3szi/i9LruwGebzIA07/LRd+GafnRjrHtfUcZAHDLkY/fWYrZPy5cZPRcD5pSU=
+	t=1759782710; cv=none; b=i/TbNdBIhKgpEUi7ARZulKEFEhASYIRfdzQoS85uck4ZjzlrKnZGYYWO6NEUnuFix+680rNHoMknMY3PixW/uBhzC+D0Mcv9EiBDcnJyCY+om7JANxpUzwCCDkpzIu3oXkn4mzG9G7YGzXkDRI+8nNxiTjuxItnh02pqF5ufkvc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759781110; c=relaxed/simple;
-	bh=ZarTCEKrYJ2uwCZ0DY8fR+K1qpA/Zk8TxurjsZ7MzJI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Nq1BP/h2Gr0fY++dFxTVS/IWquJMaxkHBl1q3lS2sj+AF/Qg3NY3gvMjawQ3x4JxalSUVZnqsHTlZvX4YI8Xg6+NSXAJuZnQzqzIo0hSRWG6QhBRG89fH3uzEMrVPBebePGfvwnv5Kp0ljeeWeiRS77jZ2PadgFTBM372gu7XSI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=iC53j0zX; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 596GlvtN028753
-	for <linux-media@vger.kernel.org>; Mon, 6 Oct 2025 20:05:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	jXF0p/uNDuCc8V4ymUfNTV4xeJ1S0VxZNmP+RnJGw5c=; b=iC53j0zXs9ytKQKy
-	X8fefj4moZ0rQP4gUwPsHF8y7HdRlXy8TJ9oQE7VwOReOwehZorKH6/H/Tc0nHth
-	B0teVpPgH/BKljbXCEGXIp6POU3wMM9/jiDy2MyZ8tJ/yP9KYPuLjJdZp7Pk3H5T
-	Z2vvqNJtRCiU0+ppQX8GeN3+xunE2TY9zsCBw7IPWBWg8Po2AjAIwgUF9AF8jGE2
-	bFciQMBWgTlkdpKnYIWmEGozK4f1kbcok+ZMf99qFbbEGi6JU4RZBZRcgroS+guC
-	ueB4rOAGSNzorqOEtjZSYLUQGxrBHE7KbXpkV5PwsW/llwkgE6F8hHJMNrJrtDlJ
-	hEgu/w==
-Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jtwgn39u-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 06 Oct 2025 20:05:05 +0000 (GMT)
-Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-8645d397860so1665059585a.2
-        for <linux-media@vger.kernel.org>; Mon, 06 Oct 2025 13:05:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759781105; x=1760385905;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jXF0p/uNDuCc8V4ymUfNTV4xeJ1S0VxZNmP+RnJGw5c=;
-        b=tVW83ylWVv3yH4ZdfJVnQgeRDpFhv+16n4AW01LMwfsbHLlrwgISx9japvtbUfkZqL
-         WCaKeyKTG2kLRloxugtEOfoo0+UQb1+HSJwU1SR4peT/SxY5GrEThfb4Maszs6yahXTA
-         gwkaFmaFIJKb899nv2rFWnCo7LcPFtam1cQU7EwnQQ+SBz5tE/09JiHfFCWnw0Mfzq9o
-         QUlOrJuqLBAFXjpjdNlEouwug+N1V57tK6b3wIf9+gNwOVbK/okwTDwJRNSca3WG5Jyd
-         5TlDp3LzOmDHbnvnLZ5WqBfauh/CCFbDoyRtOAboPWWJ0tQ288kBSkeuQBD+b2OXVpw8
-         9LIw==
-X-Forwarded-Encrypted: i=1; AJvYcCXsVt93yq62DWXsAB6Yz25puqoXdGMo9yL1XbAD+UcKtm3EU07JbxLhJ9duxtSBRk0QrJDzkiyHqtVm0g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YywLUqDNQVePHoS6TJKr30vP5PKwfe7ticY68ftItfAaUML2wve
-	0mHtyK/9M+CoyP6BNnhrwVERIrArTvLe7fIQgp/V5lp50a0aM32C9xfGREorlO3xCKP4XRoVYoc
-	dnBw344tmbdsTMMVlyVK+KCNXHdrWnOu3WKZUa6PrkZRFpa3O5nggS3M25qRsQ9rqcgqGDgJTvP
-	KJdezecLqstcLMmz5w48in6QrspfSqz9F5o7isUCXk
-X-Gm-Gg: ASbGncuggzSBTVKPfdJhFLRvJrJjxqtFtDYPt39IPbBI2LKiXJwpG1jq6uU6r3jG+FN
-	WsGXwLIXJLTvX4T12zCtFtGOUP7l/Zz5UEwhYHwmejR9BK/pO++EXMQMXSQqUkFjbsqUloOT3GI
-	Npt93gFaHe81lAHPiamn7UONA9S056dJjilzab5GklOWyi73B7ULvhVs48ZAU=
-X-Received: by 2002:a05:620a:454b:b0:813:ccb9:509f with SMTP id af79cd13be357-87a36779e54mr1714651785a.5.1759781104771;
-        Mon, 06 Oct 2025 13:05:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGne7xfNe8unOt/NAN2kz9eXzbxLkQJRAiVoCvhjk3dUQt0hM9XFf85nEv411q3AVZgczfBFN7PoifKbBhxgqI=
-X-Received: by 2002:a05:620a:454b:b0:813:ccb9:509f with SMTP id
- af79cd13be357-87a36779e54mr1714645985a.5.1759781104330; Mon, 06 Oct 2025
- 13:05:04 -0700 (PDT)
+	s=arc-20240116; t=1759782710; c=relaxed/simple;
+	bh=TlXHhMMgPTT/CKQuw+PRtgSXuw4hONNTSte45Q6CtDQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mWdT8+vGzURafMxtTgQ3WmeIvB9FbH4zdYgRAxKI6Vt8fnewtbF+ZulAYt50FlUplxIacQ2QDHmg1TflYaQnd6tMASQMuq9lxkooSEcPCa1qOODZcvUhyS4XjVrHSICkOVybxI8MznD4UbhjVJz4U9D0WUwwhcJiUPlEnOjKW/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Jl/uolcw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 901EEC4CEF5;
+	Mon,  6 Oct 2025 20:31:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759782709;
+	bh=TlXHhMMgPTT/CKQuw+PRtgSXuw4hONNTSte45Q6CtDQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Jl/uolcwE8I788cHiBxoYwA1rpA2krrryILkEMUHy/ze/mxH9gdgxoFo9kQSY5bFz
+	 R5uH1VEClD37gc3mOORe+iwwQZAPhDyLnoDJ2V0jEG7owlCEMY3CwBa3D5Fr3kQ/Qn
+	 R+zzAFpshEF3aUoGJudHyfQQrXenGycAmUfYXIWPIicwuJdUH8s3OTkyqkwfYAtQiw
+	 5dTwNAPEgq3chztZJOyBiHPyoG3aJB5PN4kBxFaprkiHU3RFESC8TAdUczCPNQmTMA
+	 ROVbx5xw1EVO+pLKH+PJ7++IfWmv0eopWZT3UVxdKeMG7wYXA349SQE6Q/snHQHv96
+	 JeV21kd75K3Pg==
+Date: Mon, 6 Oct 2025 15:31:48 -0500
+From: Rob Herring <robh@kernel.org>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Thierry Reding <thierry.reding@gmail.com>,
+	Jonathan Hunter <jonathanh@nvidia.com>,
+	Sowjanya Komatineni <skomatineni@nvidia.com>,
+	Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	Prashant Gaikwad <pgaikwad@nvidia.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Mikko Perttunen <mperttunen@nvidia.com>,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Jonas =?iso-8859-1?Q?Schw=F6bel?= <jonasschwoebel@yahoo.de>,
+	Dmitry Osipenko <digetx@gmail.com>,
+	Charan Pedumuru <charan.pedumuru@gmail.com>,
+	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+	Aaron Kling <webgeek1234@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+	dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+	linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 20/22] dt-bindings: display: tegra: document Tegra20
+ and Tegra30 CSI
+Message-ID: <20251006203148.GA523657-robh@kernel.org>
+References: <20250925151648.79510-1-clamor95@gmail.com>
+ <20250925151648.79510-21-clamor95@gmail.com>
+ <20251002015244.GA2836647-robh@kernel.org>
+ <CAPVz0n1By+akzp0t+GfF9nRzZ27NwYEikXxQ+=M=W2NEGpLNFw@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250924-knp-cam-v1-0-b72d6deea054@oss.qualcomm.com> <20250924-knp-cam-v1-2-b72d6deea054@oss.qualcomm.com>
-In-Reply-To: <20250924-knp-cam-v1-2-b72d6deea054@oss.qualcomm.com>
-From: Loic Poulain <loic.poulain@oss.qualcomm.com>
-Date: Mon, 6 Oct 2025 22:04:53 +0200
-X-Gm-Features: AS18NWBIGvGcnNKBag4b27Z_4By6kHKqpoHvsZREdDDpJpvbwz1h4h67ThPGt84
-Message-ID: <CAFEp6-1o11B9o3HjdJY-xQhDXquOTknXo0JeW=HfpTxXcEaK3g@mail.gmail.com>
-Subject: Re: [PATCH 2/6] dt-bindings: media: camss: Add qcom,kaanapali-camss binding
-To: Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
-        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>
-Cc: Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        "Bryan O'Donoghue" <bod@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
-        linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, aiqun.yu@oss.qualcomm.com,
-        tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
-        yijie.yang@oss.qualcomm.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAxOSBTYWx0ZWRfX5t6gdAPkdl6u
- aPl+AXfjQ5AJEit/Z7grDdR6Nh6Wtd17FB6p9xsaFoc3AGishIZWcHlMXhfERiP51rI9b8r3hnZ
- +hgniDY1vgP0vCL2bu9zNknnhc11PRU/V84NJ3/u1YURPHl4lF5WMLvfRmhFUff1nxQY4VsD3TN
- Oagtp2qneouHdzyEmnCzaSExGuIM9tLGobI13hpsQfgs5SgMX1QACNl6iF81pZvZ+lH+P91Lhhc
- iZPQCRVHPfW9PQMLx5ou1GYAEDc1IfJKDfEP+k37K4ciUSKULMOoMGtUAjU+ZhWsOI4aQXjX+MF
- vZRSk02yMCa2PCGYOgVA0XoM2BXYEOuo3tQP4IqFFZ3nOFpEaprXHBREVcPrd0HY0feIT5YjVIy
- DwR439XJ9FEJdvWMEZbb8GQl1Av3zg==
-X-Authority-Analysis: v=2.4 cv=B6O0EetM c=1 sm=1 tr=0 ts=68e420f1 cx=c_pps
- a=HLyN3IcIa5EE8TELMZ618Q==:117 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10
- a=gEfo2CItAAAA:8 a=EUspDBNiAAAA:8 a=AMVQ22f2qhwqeWk0KgQA:9 a=QEXdDO2ut3YA:10
- a=bTQJ7kPSJx9SKPbeHEYW:22 a=sptkURWiP4Gy88Gu7hUp:22
-X-Proofpoint-GUID: KqoNhdicVXWEcEohF2fjEP5WEl9WNHyF
-X-Proofpoint-ORIG-GUID: KqoNhdicVXWEcEohF2fjEP5WEl9WNHyF
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-06_06,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 lowpriorityscore=0 adultscore=0
- impostorscore=0 spamscore=0 bulkscore=0 phishscore=0 malwarescore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2509150000
- definitions=main-2510040019
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAPVz0n1By+akzp0t+GfF9nRzZ27NwYEikXxQ+=M=W2NEGpLNFw@mail.gmail.com>
 
-Hi folks,
+On Thu, Oct 02, 2025 at 08:14:22AM +0300, Svyatoslav Ryhel wrote:
+> чт, 2 жовт. 2025 р. о 04:52 Rob Herring <robh@kernel.org> пише:
+> >
+> > On Thu, Sep 25, 2025 at 06:16:46PM +0300, Svyatoslav Ryhel wrote:
+> > > Document CSI HW block found in Tegra20 and Tegra30 SoC.
+> > >
+> > > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > > ---
+> > >  .../display/tegra/nvidia,tegra20-csi.yaml     | 135 ++++++++++++++++++
+> > >  1 file changed, 135 insertions(+)
+> > >  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+> > > new file mode 100644
+> > > index 000000000000..817b3097846b
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+> > > @@ -0,0 +1,135 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/display/tegra/nvidia,tegra20-csi.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: NVIDIA Tegra20 CSI controller
+> > > +
+> > > +maintainers:
+> > > +  - Svyatoslav Ryhel <clamor95@gmail.com>
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    enum:
+> > > +      - nvidia,tegra20-csi
+> > > +      - nvidia,tegra30-csi
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks: true
+> > > +  clock-names: true
+> > > +
+> > > +  avdd-dsi-csi-supply:
+> > > +    description: DSI/CSI power supply. Must supply 1.2 V.
+> > > +
+> > > +  power-domains:
+> > > +    maxItems: 1
+> > > +
+> > > +  "#nvidia,mipi-calibrate-cells":
+> > > +    description:
+> > > +      The number of cells in a MIPI calibration specifier. Should be 1.
+> > > +      The single cell specifies an id of the pad that need to be
+> > > +      calibrated for a given device. Valid pad ids for receiver would be
+> > > +      0 for CSI-A; 1 for CSI-B; 2 for DSI-A and 3 for DSI-B.
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    const: 1
+> >
+> > Sorry I didn't bring this up before, but is this ever not 1? If it is
+> > fixed, then you don't really need the property. I prefer it just be
+> > fixed rather than getting a bunch of vendor specific #foo-cells.
+> >
+> 
+> This is not an introduction of property, such property already exists
+> in Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml
+> and is used in multiple device trees. As I have told before, in case
+> of Tegra30 and Tegra20 CSI block combines mipi calibration function
+> and CSI function, in Tegra114+ mipi calibration got a dedicated
+> hardware block which is already supported. This property here is used
+> to align with mipi-calibration logic used by Tegra114+
 
-On Thu, Sep 25, 2025 at 2:03=E2=80=AFAM Jingyi Wang
-<jingyi.wang@oss.qualcomm.com> wrote:
->
-> From: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
->
-> Add bindings for qcom,kaanapali-camss in order to support the camera
-> subsystem for Kaanapali.
->
-> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
-> Signed-off-by: Jingyi Wang <jingyi.wang@oss.qualcomm.com>
-> ---
->  .../bindings/media/qcom,kaanapali-camss.yaml       | 494 +++++++++++++++=
-++++++
->  1 file changed, 494 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/media/qcom,kaanapali-camss=
-.yaml b/Documentation/devicetree/bindings/media/qcom,kaanapali-camss.yaml
-> new file mode 100644
-> index 000000000000..ed0fe6774700
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/qcom,kaanapali-camss.yaml
-> @@ -0,0 +1,494 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/qcom,kaanapali-camss.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Qualcomm Kaanapali Camera Subsystem (CAMSS)
-> +
-> +maintainers:
-> +  - Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
-> +
-> +description:
-> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
-> +
-> +properties:
-> +  compatible:
-> +    const: qcom,kaanapali-camss
-> +
-> +  reg:
-> +    maxItems: 16
-> +
-> +  reg-names:
-> +    items:
-> +      - const: csid0
-> +      - const: csid1
-> +      - const: csid2
-> +      - const: csid_lite0
-> +      - const: csid_lite1
-> +      - const: csiphy0
-> +      - const: csiphy1
-> +      - const: csiphy2
-> +      - const: csiphy3
-> +      - const: csiphy4
-> +      - const: csiphy5
-> +      - const: vfe0
-> +      - const: vfe1
-> +      - const: vfe2
-> +      - const: vfe_lite0
-> +      - const: vfe_lite1
+Okay.
 
-Wouldn't it make sense to simplify this and have different camss nodes
-for the 'main' and 'lite' paths?
+You will have to continue to tell me again if my past questions are not 
+addressed in the commit message. A review only last week was 100+ 
+patches ago. Don't expect I'll remember nor go re-read prior versions. 
 
-[...]
+Ideally, we don't define the type of a property more than once. So this 
+should really first be moved to its own shared schema that's referenced 
+here and in the original user. Then it is perfectly clear reading the 
+patches that this is not a new property.
+
+Rob
 
