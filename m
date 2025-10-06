@@ -1,211 +1,170 @@
-Return-Path: <linux-media+bounces-43789-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43790-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 770CBBBE377
-	for <lists+linux-media@lfdr.de>; Mon, 06 Oct 2025 15:47:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 99C12BBE486
+	for <lists+linux-media@lfdr.de>; Mon, 06 Oct 2025 16:09:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3CC681893460
-	for <lists+linux-media@lfdr.de>; Mon,  6 Oct 2025 13:47:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E259D3B765C
+	for <lists+linux-media@lfdr.de>; Mon,  6 Oct 2025 14:09:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 78FD32D29D9;
-	Mon,  6 Oct 2025 13:47:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7622D2D4B52;
+	Mon,  6 Oct 2025 14:09:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CbNMaU6S"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="HqPRy82Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6572D0C7B
-	for <linux-media@vger.kernel.org>; Mon,  6 Oct 2025 13:47:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 764F129B8C2
+	for <linux-media@vger.kernel.org>; Mon,  6 Oct 2025 14:09:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759758439; cv=none; b=Qb6HkCdQOp8gRw0fgv9Gce0kkgd1CWrAtQCwXAqQvdWfBy1NaSofooHCCq/OxrXAIZNWnWpugn9ZVrtTCrATOQPaZLVcXfnhcIBMLw7+dWBCKvu8Z0iZdrcpxiKe7PGOhmgl/PolAYgCHQFNyXFBfz7/4c/OskgUg2od1rELKpE=
+	t=1759759780; cv=none; b=VWU7G0Xvjk/aAuXFQelDf+uVtKoHjUhfAQ+a245cWZYGqwTKgLkpVF2co5kdZsRRYYq4deeIbcgKiMX8IEjDp5aL1+TDN5Hs4lWvBZ4c6ANCRc2rSxS4F4aCPD5wcOc7ziou1VHiDEsBHlYSwUR+fIXMAZBKO231uytmsUoa2TM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759758439; c=relaxed/simple;
-	bh=Qqvm7wqhXhSg7CS1wtsPyJkYchj+aCuut8S1ZJ8L8WY=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OqzueXvoNpARzl+CeGLJNJYhoWJpcUkNq82VTJYd4Bud3409RLhUuO1UmG+X5Ay2KEViSV3LcnWlR7AWXrxmVDLrpdnN4Zxb0pXz2A1LqWceFgsHcaVxFEvvORv5jBs8nFotSlqipKY/amgK2z/2Vh1i4Ze1AUg2SDr5JiFsMQ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CbNMaU6S; arc=none smtp.client-ip=209.85.221.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-4256866958bso2016881f8f.1
-        for <linux-media@vger.kernel.org>; Mon, 06 Oct 2025 06:47:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759758435; x=1760363235; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JUjSFz6fN2wSOyWGzwAwR2J1COdGWDGN7frdNiRq5kw=;
-        b=CbNMaU6Sx6paXesv5JIZlvk4lpoB8DUdAqJ+DYPfJGDB1CaHM5kpnC6ec9jOtNmo7N
-         BY1AhGZS1vh8SvTfaBp4E7b9lIS2kVQYs8wHMAvp0ijJj1WBfORsaLiS0E7pREilgZWt
-         K11URYgRUHPfEB63HSUKlLp0Id8bXVe8o+FJCrcqxQIE8EeWsO/ZDoAppj00WlyJYGWl
-         99hUBlnsr5yub+OvfR6cSq+D53ON87QBBVkXqPunbLn70B1hqTiGZggft2qW1ZmbV7Ra
-         A9XFpV6A7kEW/qQZUIvrzTiBHzWUTfBm7j98w6YXYTZ93fcrsQz7tfPIidXTZYSQObXb
-         XuXg==
+	s=arc-20240116; t=1759759780; c=relaxed/simple;
+	bh=+Ac5cJDdDTJOQVETiuUSs4LHivS3FpAmbvBAbBep0jU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=sX1o0ThSyrnHnYH1fSOFFmcmiX8kNkybeggkP6M7TXIGRKeGoPvFQWWuH0h6u4x0wjROWf57PBac6NXoVDEVsg/Xp+CuW1iEta5oJ7e98Xz4Ys2Zd35TgfsDKISc9toHWkDo9aHD5kJXx4QBuUuqT/DIZh9w7FJlT3jCIYJgKcA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=HqPRy82Q; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59618E9B019977
+	for <linux-media@vger.kernel.org>; Mon, 6 Oct 2025 14:09:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	GB29UCMLBPXo5eLdPjvIY/VLAFer3OBUfViSSQUTz/4=; b=HqPRy82QW9dvo6V9
+	ZeLHR1a+pjiex41d81XSc+lXdIouV9OoeMLKggKrxaxBJsYRhMVD4EhnyluvKqa1
+	e1mWUjSS2ixA7Al4vx5kR5g4UHaftia6Fqrrxcwx5EE/WwIe4Q/xtWQfJyoXyndl
+	rpXhpa51BoKonI/WtZR8D39pVuFBU7QbGm0JJ7YnswydRT5vmi7PqMP45wc7SdHH
+	tjyEWVcL60jVbqhe4mwkuiSPjSw6ppPrwhA/eglD5bk/EVAxQ9tqW6D52/SlC4B8
+	PRtqHL4hJbuQnUXgYVuGsUgeZcQjywlM8TO4h652Zo7QBfEDtmxQ+qyeGksA6qut
+	FOTPaw==
+Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jut1m0he-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 06 Oct 2025 14:09:37 +0000 (GMT)
+Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-26985173d8eso83231765ad.1
+        for <linux-media@vger.kernel.org>; Mon, 06 Oct 2025 07:09:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759758435; x=1760363235;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=JUjSFz6fN2wSOyWGzwAwR2J1COdGWDGN7frdNiRq5kw=;
-        b=U0t4w3PYZN/6c1raYql+t5f5t7Vxsl8oCP66JdSw5S7ppTPPQZnQnvEa5FmKNmTzqX
-         jjq3sPcy2yCJQuLXoempCVuBPhLe5J0XQDSngiwaTdeEK6plATx7NF+ZiMo1mveXnxxh
-         F/MW6ISRak0S6bmy5t8UZ8ejbPjGTEy8AqGNMaPgfd3cAT5pCX7Kb/idcyGL+zIUe9ne
-         zrXqHchyCGbJ9qLLEw2fGklr5KhVwgD5LlyJFSzrEYODK2dxHEnejwpJwiw9nDvK1Ydr
-         tTpeOHMD4A5cn/Dx6uOG21yH/3Qu3XHSduKfM+alcUj8y1RHcKPBi5wR3/MmMzZnd1V8
-         9+Tg==
-X-Forwarded-Encrypted: i=1; AJvYcCXkzUTq63xfwJiVNUpUpKcTXQKLnWUIM8zMhk+ibrI0wx75fiDqf+5UaJ6ZAHqpX2C1yEqSeM7idTCXFQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwRdPVutTV+IEN+QetVMaWEJYQr4KJD8/OIszhsl1oYldv2k2Z8
-	WCeZUX/Bt51vKRxISGuE2jfKMFQ1t4nFPMyRaXeC3bAxNYVnPAkSrzvPrWOx+xB9
-X-Gm-Gg: ASbGncugPn1Q8Fu54A1UuVI92UBFnaCHvRi9GeIjW4/ph6bLevf18QihoI5p/11Y4dL
-	u4BqDB/44HeInoVe7GnqCuw/KmHRFT8oUFSyUyiC5WPHTP9KaUXYHrD1DFZ34bd4dKkF3WZrgin
-	2qSRN40SU5ZnqLnObCwCY5F+JXAYyVR/4b4O5joQySxvgd/hNTrL4KdpoErvEcnsQuQtr1131UZ
-	d/6EugQQ62GzxEB8gq/vQ/XExdJu88O39Fx1LIv1MCMNCf3WnLjXVMIaamRp7Zhh9SI7Sfg7D0u
-	8qrGnZZSmid5mfUKRXR9XNIM9LySr8H/oMGcJy9i0Ti7OEn6nbrrdRBZEqeCNlfpWw507kmyT2d
-	nWzDEgBGwBNTErxNw/9ix/b8+dytX/TRt8zs7k0nKY1WOuGaC4wqXZoTXKgl/gtr+ZLa78g==
-X-Google-Smtp-Source: AGHT+IHghnHYTHQMZ74bXvaml49IhX11dZtX5PjRksFkQP9ERbo3nu+xG5MfUzWuLRJts3bUM0z8Ew==
-X-Received: by 2002:a05:6000:610:b0:3fe:d6df:c679 with SMTP id ffacd0b85a97d-425671c1c62mr8200162f8f.55.1759758435309;
-        Mon, 06 Oct 2025 06:47:15 -0700 (PDT)
-Received: from able.fritz.box ([2a00:e180:1585:c600:2084:c9fe:598c:ebd])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8b0068sm20966125f8f.26.2025.10.06.06.47.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 06 Oct 2025 06:47:14 -0700 (PDT)
-From: "=?UTF-8?q?Christian=20K=C3=B6nig?=" <ckoenig.leichtzumerken@gmail.com>
-X-Google-Original-From: =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>
-To: sumit.semwal@linaro.org,
-	linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	simona.vetter@ffwll.ch
-Subject: [PATCH 2/2] dma-buf: improve sg_table debugging hack
-Date: Mon,  6 Oct 2025 15:47:13 +0200
-Message-ID: <20251006134713.1846-2-christian.koenig@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251006134713.1846-1-christian.koenig@amd.com>
-References: <20251006134713.1846-1-christian.koenig@amd.com>
+        d=1e100.net; s=20230601; t=1759759777; x=1760364577;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=GB29UCMLBPXo5eLdPjvIY/VLAFer3OBUfViSSQUTz/4=;
+        b=f6dg1+wVuO7FjZGSQGzWyb1x1l3YlI0tmAm8csSuTxFUyhqWQRnCHXK93rsU4L1U3B
+         353oSdRLKuKL1DvG1Lg68pkd9sVFvpXakaeUTBuOCzDi/0JBDP7b5x/aitGmQxoJAefg
+         O4YaTEkJL5xIcyeYlAd7I0fGi7JP3qtbPjdwASryh8RusEEdZJLxFSw001cphy8Xb4FM
+         jTff9izs5nVdz7eqbSQEw86l8lE7QgWc9pD6SjyPIjx11bGx2zJWAfDnm7Wv6jVV2pYm
+         a5YounvR60mXfaSBHEiw7b2WIW/k5uN7SolVDBdFYT28glwlp27LnXUPYL1IEM2lwjYV
+         KSmQ==
+X-Gm-Message-State: AOJu0YzMZ5YBjgmIwpJDWQhmpdRLZyT3nddDcd66Xht7/k4TyYN4e952
+	0FLF02YVTXpsovA5oydWElZdS2lSheZ1J2PpdztY9aFjs4LTzPibzUTW1Kwe9GmHEcSaGO7gx7K
+	DQqbstP3nfWEdA6Ep1zzbYZbDfbnKg3MqfkMCOLXPyrD/SbV0XycZ7wXfhUlgDGDhhg==
+X-Gm-Gg: ASbGnctSDWiDOBmbzAmp0QgLUvsvO0jzZm1tjA3IHSh9HR3sIWBjfDRKrLSZAWDVmS2
+	IbosMtpj/HCJG/919ufj7YVCLo90o0PwnHXuhYYsuhBNqsO2me2xB71QsbmmRvdMkuGvVo0pdFE
+	tNq6lBkBBG6KkdZA/wvczkzwXbm9XYDPEjJCQkxOq4cFq2isZG7dhpAO36Zch0CABEpjClazdZQ
+	OXQ0KxQGQLiay+hXb+Yguo3MfOsdQA1OYBFI+lLNU1nzF0OVZRPnfSpUka3Xmkeu4lN9d+1nnDV
+	wiQOoO3+a2fKOt9Sw1Z+G0PHJzOr04E8CHbJOjmcF49ULcEMlDXex25fZIiD0fflZR0jiwG9s1W
+	vhkQ=
+X-Received: by 2002:a17:902:ef09:b0:278:9051:8e9c with SMTP id d9443c01a7336-28e9a65bbe4mr151249455ad.42.1759759776705;
+        Mon, 06 Oct 2025 07:09:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHxq1GEAbYHAQEO8/Ijrp/7z7LdukF6tnpYf0+ClvsrQbBiRXSi+LJNN1E6SVrt66M4621L7w==
+X-Received: by 2002:a17:902:ef09:b0:278:9051:8e9c with SMTP id d9443c01a7336-28e9a65bbe4mr151249005ad.42.1759759776277;
+        Mon, 06 Oct 2025 07:09:36 -0700 (PDT)
+Received: from [192.168.0.166] ([49.205.253.54])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-28e8d1b8796sm134519245ad.77.2025.10.06.07.09.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 06 Oct 2025 07:09:35 -0700 (PDT)
+Message-ID: <fd9860aa-23c9-b223-2139-a2da93191410@oss.qualcomm.com>
+Date: Mon, 6 Oct 2025 19:39:28 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.15.1
+Subject: Re: [PATCH] media: iris: Fix ffmpeg corrupted frame error
+Content-Language: en-US
+To: Vishnu Reddy <quic_bvisredd@quicinc.com>,
+        dikshita.agarwal@oss.qualcomm.com, abhinav.kumar@linux.dev,
+        bod@kernel.org, mchehab@kernel.org, hverkuil@kernel.org,
+        stefan.schmidt@linaro.org
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org, stable@vger.kernel.org
+References: <20251006091819.2725617-1-quic_bvisredd@quicinc.com>
+From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+In-Reply-To: <20251006091819.2725617-1-quic_bvisredd@quicinc.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-GUID: vlmyNolNrfYlmM9G42JeZ2kdwN-8VoXa
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAyNyBTYWx0ZWRfX+RMAMWHhF8o4
+ FOKiX/rInGG1bk2kyQJlUGn7a1gFa2rcs17Munnz3d+FdRKNf5jvP8mi8CnaGJFpv6s+i+VLnsZ
+ 2Synfdt6rW+07EQCdE9pK9YY8+WFUHZ7aDPTsfbjUCsdWeuMVGqC7L6cyRn98doT8+aT4nhN2qh
+ lxWmo+TJy5GLZ4rbT1gJthHj4bVIYUSLx4NpIB2JrTGILitjf88aYOParva3Rh0qqFPCtj4pSQL
+ hOHmuEdAn0/nmVSeW7p6L4GZGfakR72AVkc9N6uCv3eYrVI1cnbrmuED0LhdN0+VjmP8EvntxKH
+ R3VMwGGuvkNeR+r4MklDEgantxk70onjEYxUUnscW62V73dE63CgyM2xtltlJNTOOBag+wJc183
+ EiBBfabBYqF9kA6qXpLv5qf2jR0Ouw==
+X-Authority-Analysis: v=2.4 cv=Vqcuwu2n c=1 sm=1 tr=0 ts=68e3cda1 cx=c_pps
+ a=IZJwPbhc+fLeJZngyXXI0A==:117 a=kO0dpjAoeuYzon0q5oXcQQ==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
+ a=EUspDBNiAAAA:8 a=kcjkJnMakA67_LZCmskA:9 a=QEXdDO2ut3YA:10
+ a=uG9DUKGECoFWVXl0Dc02:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: vlmyNolNrfYlmM9G42JeZ2kdwN-8VoXa
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-06_04,2025-10-02_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 malwarescore=0 spamscore=0 priorityscore=1501
+ suspectscore=0 bulkscore=0 clxscore=1015 impostorscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040027
 
-Instead of just mangling the page link create a copy of the sg_table
-but only copy over the DMA addresses and not the pages.
 
-Still quite a hack but this at least allows the exporter to properly
-keeps it's sg_table intact.
+On 10/6/2025 2:48 PM, Vishnu Reddy wrote:
+> When the ffmpeg decoder is running, the driver receives the
+> V4L2_BUF_FLAG_KEYFRAME flag in the input buffer. The driver then forwards
+> this flag information to the firmware. The firmware, in turn, copies the
+> input buffer flags directly into the output buffer flags. Upon receiving
+> the output buffer from the firmware, the driver observes that the buffer
+> contains the HFI_BUFFERFLAG_DATACORRUPT flag. The root cause is that both
+> V4L2_BUF_FLAG_KEYFRAME and HFI_BUFFERFLAG_DATACORRUPT are the same value.
+> As a result, the driver incorrectly interprets the output frame as
+> corrupted, even though the frame is actually valid. This misinterpretation
+> causes the driver to report an error and skip good frames, leading to
+> missing frames in the final video output and triggering ffmpeg's "corrupt
+> decoded frame" error.
+> 
+> To resolve this issue, the input buffer flags should not be sent to the
+> firmware during decoding, since the firmware does not require this
+> information.
+> 
+> Fixes: 17f2a485ca67 ("media: iris: implement vb2 ops for buf_queue and firmware response")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
+> ---
+>  drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+> index e1788c266bb1..4de03f31eaf3 100644
+> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
+> @@ -282,7 +282,7 @@ static int iris_hfi_gen1_queue_input_buffer(struct iris_inst *inst, struct iris_
+>  		com_ip_pkt.shdr.session_id = inst->session_id;
+>  		com_ip_pkt.time_stamp_hi = upper_32_bits(buf->timestamp);
+>  		com_ip_pkt.time_stamp_lo = lower_32_bits(buf->timestamp);
+> -		com_ip_pkt.flags = buf->flags;
+> +		com_ip_pkt.flags = 0;
+>  		com_ip_pkt.mark_target = 0;
+>  		com_ip_pkt.mark_data = 0;
+>  		com_ip_pkt.offset = buf->data_offset;
 
-This is important for example for the system DMA-heap which needs it's
-sg_table to sync CPU writes with device accesses.
-
-Signed-off-by: Christian König <christian.koenig@amd.com>
----
- drivers/dma-buf/dma-buf.c | 68 +++++++++++++++++++++++++++++++--------
- 1 file changed, 54 insertions(+), 14 deletions(-)
-
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 2305bb2cc1f1..1fe5781d8862 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -828,21 +828,59 @@ void dma_buf_put(struct dma_buf *dmabuf)
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_put, "DMA_BUF");
- 
--static void mangle_sg_table(struct sg_table *sg_table)
-+static int dma_buf_mangle_sg_table(struct sg_table **sg_table)
- {
--#ifdef CONFIG_DMABUF_DEBUG
--	int i;
--	struct scatterlist *sg;
--
--	/* To catch abuse of the underlying struct page by importers mix
--	 * up the bits, but take care to preserve the low SG_ bits to
--	 * not corrupt the sgt. The mixing is undone on unmap
--	 * before passing the sgt back to the exporter.
-+	struct sg_table *to, *from = *sg_table;
-+	struct scatterlist *to_sg, *from_sg;
-+	int i, ret;
-+
-+	if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
-+		return 0;
-+
-+	/*
-+	 * To catch abuse of the underlying struct page by importers copy the
-+	 * sg_table without copying the page_link and give only the copy back to
-+	 * the importer.
- 	 */
--	for_each_sgtable_sg(sg_table, sg, i)
--		sg->page_link ^= ~0xffUL;
--#endif
-+	to = kzalloc(sizeof(*to), GFP_KERNEL);
-+	if (!to)
-+		return -ENOMEM;
- 
-+	ret = sg_alloc_table(to, from->nents, GFP_KERNEL);
-+	if (ret)
-+		goto free_to;
-+
-+	to_sg = to->sgl;
-+	for_each_sgtable_dma_sg(from, from_sg, i) {
-+		sg_set_page(to_sg, NULL, 0, 0);
-+                sg_dma_address(to_sg) = sg_dma_address(from_sg);
-+                sg_dma_len(to_sg) = sg_dma_len(from_sg);
-+		to_sg = sg_next(to_sg);
-+	}
-+
-+	/*
-+	 * Store the original sg_table in the first page_link of the copy so
-+	 * that we can revert everything back again on unmap.
-+	 */
-+	to->sgl[0].page_link = (unsigned long)from;
-+	*sg_table = to;
-+	return 0;
-+
-+free_to:
-+	kfree(to);
-+	return ret;
-+}
-+
-+static void dma_buf_demangle_sg_table(struct sg_table **sg_table)
-+{
-+	struct sg_table *copy = *sg_table;
-+
-+	if (!IS_ENABLED(CONFIG_DMABUF_DEBUG))
-+		return;
-+
-+	*sg_table = (void *)copy->sgl[0].page_link;
-+	sg_free_table(copy);
-+	kfree(copy);
- }
- 
- static inline bool
-@@ -1139,7 +1177,9 @@ struct sg_table *dma_buf_map_attachment(struct dma_buf_attachment *attach,
- 		if (ret < 0)
- 			goto error_unmap;
- 	}
--	mangle_sg_table(sg_table);
-+	ret = dma_buf_mangle_sg_table(&sg_table);
-+	if (ret)
-+		goto error_unmap;
- 
- 	if (IS_ENABLED(CONFIG_DMA_API_DEBUG)) {
- 		struct scatterlist *sg;
-@@ -1220,7 +1260,7 @@ void dma_buf_unmap_attachment(struct dma_buf_attachment *attach,
- 
- 	dma_resv_assert_held(attach->dmabuf->resv);
- 
--	mangle_sg_table(sg_table);
-+	dma_buf_demangle_sg_table(&sg_table);
- 	attach->dmabuf->ops->unmap_dma_buf(attach, sg_table, direction);
- 
- 	if (dma_buf_pin_on_map(attach))
--- 
-2.43.0
-
+Reviewed-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
 
