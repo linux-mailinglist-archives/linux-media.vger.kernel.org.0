@@ -1,80 +1,81 @@
-Return-Path: <linux-media+bounces-43833-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43834-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB5A5BC138A
-	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 13:32:38 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 344BFBC13BD
+	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 13:38:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 960C93A7355
-	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 11:32:37 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 98E104F22F9
+	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 11:38:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6168F215043;
-	Tue,  7 Oct 2025 11:32:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 632622D9796;
+	Tue,  7 Oct 2025 11:38:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Pt1FOcF3"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wo2smy7v"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+Received: from mail-ed1-f45.google.com (mail-ed1-f45.google.com [209.85.208.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6CA678F3A
-	for <linux-media@vger.kernel.org>; Tue,  7 Oct 2025 11:32:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CAE62D94A0
+	for <linux-media@vger.kernel.org>; Tue,  7 Oct 2025 11:38:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759836746; cv=none; b=s32rTOLIWMbBdpHkzSlo7Zrfpiyr2o16IWUMR+nBo+lKNfPcjtjfUoLKUsmSVybrM5B+OiNxjFWArV99KOu/rVBMmhdSK3b3WJCNL4NM6zSRI3b2Wr7obQvo3ATFyZoyPQpHHk2AYvPGqYEijRjdDDu+MRQrXK2cipzAf7oFuu8=
+	t=1759837095; cv=none; b=C4QtpcXK77XJKcoQu3iI2K3/DBPaDCuj8QHl/JbTWO8ZnQWSYTd7YhbgcYEFLgXn/vbtUIF2tLlVe+4PCUBxPIg6j8DcDgvxpi5R+NA/FWuXLC9RurCrsMMoDwYfQTVV08VtrDh71lDCtzj0TiK6ZUQ1E2UuGhndeDuezGBEtek=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759836746; c=relaxed/simple;
-	bh=A4j+7JTxsbiZRzdRZU7yWqXtGFdx3Ok4jN8NDV+qcoE=;
+	s=arc-20240116; t=1759837095; c=relaxed/simple;
+	bh=AR4v9eUGDhYNQtY1HeNc04PQ//e5S/yDedZGfJKBHh8=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j11BgoxnDukoMhX4NYpDVHNZseGBuTydl8d8Zbl9isJecSt/PcgyJ4N87yP2Voo7O4A3jszn0yed4wFuPyXoOG5M25bxyGrxmXQEwEMtKNR2/x6YMb6kmC4SQufoZRKn31YNS5/uBjjLmyy1kHeAoUA1BXDnhF2ZWuRSpSlBUZU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Pt1FOcF3; arc=none smtp.client-ip=209.85.208.49
+	 In-Reply-To:Content-Type; b=WNiSp8I0VeHQUokBGExwGp2Av1wTkHFKV3NVaa6ryQeVK8GZLN5MxmUc3j8T1ar6PlBjDrJ3hX3vV5jxhCdFQHAeHRW58Ek8s71la4F7rOJ9eB+g7yDturEEzd5HqUHXLk0syub9a/QoImlbgzdMsBedcWshaINalEJ1qPM+/Uw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wo2smy7v; arc=none smtp.client-ip=209.85.208.45
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-62ec5f750f7so10356845a12.3
-        for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 04:32:24 -0700 (PDT)
+Received: by mail-ed1-f45.google.com with SMTP id 4fb4d7f45d1cf-6364eb29e74so11735144a12.0
+        for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 04:38:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1759836743; x=1760441543; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1759837091; x=1760441891; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=ZC6d70RCI062m/NmlsWdu8eeof6vN1BlqZdvcy2VsBI=;
-        b=Pt1FOcF3RTBT5yloMcq2p9lwgpCN1IgOzyOmI1JflZvqpN80MCkjKkD3lTi9INjkpK
-         0PRNpeU2G4v3oyi2EeyDt47h2rf02Lc86qf4wpOl3Kqr3b7gH25d1Z1S1GCQ6+2Aee5H
-         PFmIDTVILWL757DkV0L66wgBlQQVHb4UyeKDZcJKCysc7NaOVJ5s8bgRAeLNhN+ocvX4
-         lK4JzeuOE7pqyoqFyP2XeSXmho8L3h19tiankhIHpRqRzzLgIXNiyaoX7gORPuITKIow
-         MnXBE7GnzIw5TzpJIomffd/yHLq19B4tp/vX6NGwe0ROZQ+N2fP3Gk1bAD96vz8Jw8/a
-         B6Bg==
+        bh=ml4LEpVTJVXyrvhWASdbj9I+fhI5yZyg6wx5UdWe8k8=;
+        b=wo2smy7vYZrTD9Q0Cx5Z5mqKasYKeeG7J1IOXsE2sMUfSwXiUG0nWjZZlnx+bObFma
+         zlaXZFdGKz1nvMMHzK3mksdabpzXNYx8V9Yy/hMtFpODdkE2/9n6wkOQDpxjOHeshYTB
+         +iWFPXXsfUOgqErrgY8yftdbIQHi6RGjifvNhly7N8pLmY4WWz4YsxRBSr6/46HFXUdP
+         9/BbPlqqxRxw4tTV8Zn+L21B8SBhxvQJGSz26cmr+2wsYo96DCRajLOUnvyQMYmhzjJR
+         yD10lzALjZYAb1Ww/bcRenMCzWhmZTFj2gW2fJXTOVuGkh1wY8JbVddYljVxhzoDFwqt
+         XBdQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759836743; x=1760441543;
+        d=1e100.net; s=20230601; t=1759837091; x=1760441891;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=ZC6d70RCI062m/NmlsWdu8eeof6vN1BlqZdvcy2VsBI=;
-        b=U5wjGTNUVuyAwndt6A+6IEib7iKT29zCgndLXLZWpDCRFK8oMOdsBw5upHFa7DB8bq
-         ZWcCi3hd/id2t+Vd2SOS4ff+x6+prULPdnijDB9rkqg3p2kIVyW9qndbQcZfhsvCJN39
-         +5SJ1eHtz+Y6SeOiowG1ZJJI3cjfdAJZjPXfJXDT6UM5fnWxcdGB3JurvMAPlBgbd9dX
-         quEEI8TuAc1s9HfVsynY9f4GjwgLRDvb5f3TcxtEgWzyAH5i5GiBWCa7l5X1NVXi7t9M
-         3VITOguR1vLbhkMGScb/Nlo/yOl5vzUI7y6Dkbt/7llqkO784z/rJz+irWQOxNB4W9fB
-         kFAg==
-X-Gm-Message-State: AOJu0YzRIu+tdanChKoIOP6aN+z7tdkfF4cvrqyES3KA7tFJOL1jpVs4
-	of0JRhHrd56m1M21jq9ptio4X0FqRzhBFzYPZuCkW+5DuOu/VfuHGIS6H7cvdHQOtMo=
-X-Gm-Gg: ASbGnct9ctRWuTvOkQybfn2EnJkFclsx6tLl43KtKjSBbf9mPoZpKO0T/Dn/kMTTu4C
-	KK0mat/qXOQC0nc1qUdrh4m9kxu46mce76oT3LgcxZPANOaup6h52R25rrxLmJxSVKgesxpIaAj
-	C1I7D5kE1DQttNqDf79ISJxCupS0fVz+Bs7aU9V/dVHg+IEIFKtohA4m0b6WImOrb1tqTfosS8F
-	yljCDRF5f5J3Xsk4AMNdiDrZwWiUP2m+Q3bcz6EwB0nVN0sFGBKQ35xovZarkH5JDmDa7AGjLfb
-	QHTmCrr8yG8fqbIvSeGNHMDYZyXOxoOIMZrh8UJL/X61mWkaOrY8MaTmjOk9yaiba7ehBn5LvnS
-	STrPV8GQBAFgCJkhukc+Px+e4Pzzv50fxgwKnwmbp1Dx30LNIswXEOtcZCbSRWf+0CqgkaI9qFn
-	PwEMhPgvTIG48M1av+
-X-Google-Smtp-Source: AGHT+IFjZJgPkdCZvczYKSg21gtQzjZuEg71RmQ8o+OjBKMXLb1coIMLo0/KuBwAPewegCHdx5P6fQ==
-X-Received: by 2002:a17:907:268b:b0:b40:6e13:1a7f with SMTP id a640c23a62f3a-b49c2a5788dmr2192509666b.27.1759836743118;
-        Tue, 07 Oct 2025 04:32:23 -0700 (PDT)
+        bh=ml4LEpVTJVXyrvhWASdbj9I+fhI5yZyg6wx5UdWe8k8=;
+        b=DAGSGBdPY0mJiIpT3S+jUbIP27NeLHChAC6Z8DTv7sJmwUG4CjI+VGdoCQjOM7C4Jc
+         jIiTybmnyeWM+Igml9GSggbp1Ca2ADeO/b/F4TmJO3pzQKNKGg4g9N7Y+BFXql9/J5Qs
+         +1jFvS1MFrpXqdqIPw/thkDteS/jOnigP7FZ2Y4BdDJeTnHa7/0oxMULiD8/HPOZ1FXT
+         Vpud9/X85pAA2otLFQjx+jL6caDY1ZMy4oTUOML/zhSpY+gKUXA5MlOIBaMahIJXwpW4
+         vMCCBHPCgOHa97B6DJXeNbgUzP+jeoXmV1wFwZByY/KetKb9vYK1ZRlzUOWuLGwNFH7G
+         FXUQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVUAoOpsYHw2cJS16GJo4SoCzzXxs19nTnU8BcmvAHOcTKD8rRly6WKM11KEpiDiW2sk128/JJSa5mREg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx2eJKAY3842bmPPLEfsQSWzbTUKYbj3npBIJvqEP0BuBfDFCok
+	okFw1HGtPyanOpNx62W7UPM0a7t1PuP4+qjsYAD5tKsusWZOTtLSCt4DEZs8nGWLe48=
+X-Gm-Gg: ASbGncsOMZTZ6bZRGkWM2t/+Nj32D4QnU+XTw3CuT4EGdKhpdCUlJoGvofiAh8By8+G
+	qsyxX+F8GUa05yILauBEkoh3J2jPVBtkF+mqnll8lIti7oOlABDRsckd+sj02mjj3zqEZq5M3yh
+	N5+ebYaEBeS561tg65Cuv6kX0r9pZRstLZz1qJv00ufcM4Qu80fKqs95LAPfPFMFj8XWiVOH7NI
+	f5ijgkNzoylx+bUqoM9GQpOJwis2vDGSaHif6SK62Y/qPjr2DOkuO0QuA/8b0sX2fPi7EDB4mmS
+	f8tceyNeIholxU0P5dPvyzHnbY1Nb7AUdM3pC/QIPWoFFwpaRR4IGXgXX2c/g1KAol6naqrZ702
+	VJb3oT9SMyPE30+zFcjn+wfX4aqH4hl3qtYpS8bQP5nErZHXCDEcsCh5f9vVzC6DDR7lbyTqa3+
+	nfwc9qF63JD9nUeC4u
+X-Google-Smtp-Source: AGHT+IGRGfFEPmDIsh6CnYypDkCoLqPl3lzoN0Kez0PhVDQ7AyOqIyogj/xm1iA3ddUkIdKbeJyTsg==
+X-Received: by 2002:a05:6402:27d4:b0:636:21b3:25a4 with SMTP id 4fb4d7f45d1cf-639348ddf20mr18989792a12.10.1759837091307;
+        Tue, 07 Oct 2025 04:38:11 -0700 (PDT)
 Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63788111f1fsm12371986a12.36.2025.10.07.04.32.22
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6376b3abcd7sm12224132a12.2.2025.10.07.04.38.09
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Oct 2025 04:32:22 -0700 (PDT)
-Message-ID: <3a07850b-90bb-4035-91ce-9f361c635df5@linaro.org>
-Date: Tue, 7 Oct 2025 12:32:21 +0100
+        Tue, 07 Oct 2025 04:38:10 -0700 (PDT)
+Message-ID: <41899b79-7b12-4f94-a55a-7d365336a147@linaro.org>
+Date: Tue, 7 Oct 2025 12:38:08 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -82,62 +83,97 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: iris: Fix ffmpeg corrupted frame error
-To: Vishnu Reddy <quic_bvisredd@quicinc.com>,
- vikash.garodia@oss.qualcomm.com, dikshita.agarwal@oss.qualcomm.com,
- abhinav.kumar@linux.dev, mchehab@kernel.org, hverkuil@kernel.org,
- stefan.schmidt@linaro.org
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <9UYDQ7nzBQ9Uqb5q4mG8WWKGLEZNPSvgV1vw6mmYS0wY2VKS5F11n8IaesvJsKYBvndy99tKFqGoak5MzQVZIA==@protonmail.internalid>
- <20251006091819.2725617-1-quic_bvisredd@quicinc.com>
+Subject: Re: [PATCH v2] media: venus: prevent potential integer overflow in
+ decide_core()
+To: Pavel Zhigulin <Pavel.Zhigulin@kaspersky.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
+References: <gpZbbJubwhdMWqv7EprxhkTnwMAvvFs-qxjUEDxb-sji4H2XnPw8M02B6QLs7mrG_EXAgAjmhLVaMZfaVRoAKQ==@protonmail.internalid>
+ <20251007103043.1969715-1-Pavel.Zhigulin@kaspersky.com>
 From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-In-Reply-To: <20251006091819.2725617-1-quic_bvisredd@quicinc.com>
+In-Reply-To: <20251007103043.1969715-1-Pavel.Zhigulin@kaspersky.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 06/10/2025 10:18, Vishnu Reddy wrote:
-> When the ffmpeg decoder is running, the driver receives the
-> V4L2_BUF_FLAG_KEYFRAME flag in the input buffer. The driver then forwards
-> this flag information to the firmware. The firmware, in turn, copies the
-> input buffer flags directly into the output buffer flags. Upon receiving
-> the output buffer from the firmware, the driver observes that the buffer
-> contains the HFI_BUFFERFLAG_DATACORRUPT flag. The root cause is that both
-> V4L2_BUF_FLAG_KEYFRAME and HFI_BUFFERFLAG_DATACORRUPT are the same value.
-> As a result, the driver incorrectly interprets the output frame as
-> corrupted, even though the frame is actually valid. This misinterpretation
-> causes the driver to report an error and skip good frames, leading to
-> missing frames in the final video output and triggering ffmpeg's "corrupt
-> decoded frame" error.
+On 07/10/2025 11:30, Pavel Zhigulin wrote:
+> The function 'decide_core()' contains the following code:
 > 
-> To resolve this issue, the input buffer flags should not be sent to the
-> firmware during decoding, since the firmware does not require this
-> information.
+> 	cur_inst_load = load_per_instance(inst);
+> 	cur_inst_load *= inst->clk_data.vpp_freq;
+> 	...
+> 	cur_inst_lp_load = load_per_instance(inst);
+> 	cur_inst_lp_load *= inst->clk_data.low_power_freq;
 > 
-> Fixes: 17f2a485ca67 ("media: iris: implement vb2 ops for buf_queue and firmware response")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
+> This can lead to an integer overflow because the variables
+> 'cur_inst_load' and 'cur_inst_lp_load' are of type u32.
+> 
+> The overflow can occur in the following scenario:
+> 
+>    1. The current FPS is 240 (VENUS_MAX_FPS constant).
+>       The processed image frame has a resolution of 4096x4096 pixels.
+>    2. According to 'codec_freq_data':
+>         - 'inst->clk_data.low_power_freq' can be up to 320
+>         - 'inst->clk_data.vpp_freq' can be up to 675
+>       (see drivers/media/platform/qcom/venus/hfi_platform_v4.c
+>        and drivers/media/platform/qcom/venus/hfi_platform_v6.c)
+>    3. 'load_per_instance()' returns 15728640 under these conditions.
+>    4. As a result:
+>         cur_inst_load *= inst->clk_data.vpp_freq → 10616832000
+>         cur_inst_lp_load *= inst->clk_data.low_power_freq → 5033164800
+> 
+> The proposed fix changes the type of these variables from u32 to u64
+> to prevent overflow.
+> 
+> Found by Linux Verification Center (linuxtesting.org) with SVACE.
+> 
+> Fixes: 3cfe5815ce0e ("media: venus: Enable low power setting for encoder")
+> Signed-off-by: Pavel Zhigulin <Pavel.Zhigulin@kaspersky.com>
 > ---
->   drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> v2: Revert min_coreid and min_lp_coreid to u32 as
+>      Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com> suggested
+> 	during review
+> v1: https://lore.kernel.org/all/20251006154041.1804800-1-Pavel.Zhigulin@kaspersky.com/
+>   drivers/media/platform/qcom/venus/pm_helpers.c | 9 +++++----
+>   1 file changed, 5 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> index e1788c266bb1..4de03f31eaf3 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> @@ -282,7 +282,7 @@ static int iris_hfi_gen1_queue_input_buffer(struct iris_inst *inst, struct iris_
->   		com_ip_pkt.shdr.session_id = inst->session_id;
->   		com_ip_pkt.time_stamp_hi = upper_32_bits(buf->timestamp);
->   		com_ip_pkt.time_stamp_lo = lower_32_bits(buf->timestamp);
-> -		com_ip_pkt.flags = buf->flags;
-> +		com_ip_pkt.flags = 0;
->   		com_ip_pkt.mark_target = 0;
->   		com_ip_pkt.mark_data = 0;
->   		com_ip_pkt.offset = buf->data_offset;
+> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
+> index f0269524ac70..eec49590e806 100644
+> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
+> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+> @@ -582,9 +582,9 @@ static int move_core_to_power_save_mode(struct venus_core *core,
+>   }
+> 
+>   static void
+> -min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load, bool low_power)
+> +min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u64 *min_load, bool low_power)
+>   {
+> -	u32 mbs_per_sec, load, core1_load = 0, core2_load = 0;
+> +	u64 mbs_per_sec, load, core1_load = 0, core2_load = 0;
+>   	u32 cores_max = core_num_max(inst);
+>   	struct venus_core *core = inst->core;
+>   	struct venus_inst *inst_pos;
+> @@ -639,8 +639,9 @@ static int decide_core(struct venus_inst *inst)
+>   {
+>   	const u32 ptype = HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE;
+>   	struct venus_core *core = inst->core;
+> -	u32 min_coreid, min_load, cur_inst_load;
+> -	u32 min_lp_coreid, min_lp_load, cur_inst_lp_load;
+> +	u32 min_coreid, min_lp_coreid;
+> +	u64 min_load, cur_inst_load;
+> +	u64 min_lp_load, cur_inst_lp_load;
+>   	struct hfi_videocores_usage_type cu;
+>   	unsigned long max_freq = ULONG_MAX;
+>   	struct device *dev = core->dev;
 > --
-> 2.34.1
+> 2.43.0
 > 
+
+Contingent on passing tests.
 
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
