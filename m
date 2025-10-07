@@ -1,173 +1,120 @@
-Return-Path: <linux-media+bounces-43835-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43836-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0BD9BC13D4
-	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 13:38:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AAC3BC1437
+	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 13:52:48 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 47934188B5AF
-	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 11:39:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 596643BEC93
+	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 11:52:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48CA42DAFBB;
-	Tue,  7 Oct 2025 11:38:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7DA922DC336;
+	Tue,  7 Oct 2025 11:52:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="f5opgIXz"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="RvnpCRIB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331BC1A58D
-	for <linux-media@vger.kernel.org>; Tue,  7 Oct 2025 11:38:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2CEC35972;
+	Tue,  7 Oct 2025 11:52:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759837105; cv=none; b=q6hxPMgsNAoIkNz0YOlltHaxgIFalKGS6ar51nmVK1mB77U+CD5EiZ8fOpo9xsqaGex8d8R5ReIDhPBX/RKbrM63Z+uQFJW16aTss2S49LX4BfR/wFRYZVLPNfZ9FShwuZ7S5fovdkvMpTcAmICiOGUOvartyJayt6S72r625cY=
+	t=1759837958; cv=none; b=sNzd0aASk/iwIt4eBNP0Q9Z0xg3yeeFCEz23BMs3rhBdWs747FotMzIIAexybTqGbkQiE2kszRLbssQqG3TzAdJjnHJHJcRDBDIrQChnItP8PxFyAZSfEunwd+sodVtreivTa7YHYqCmvayEVkCk+s3UvN6Tpn8Il7PCoIguxSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759837105; c=relaxed/simple;
-	bh=ZXrGelmvQas8vmmTp/wX0exf21knoe1W83mDfua+9fw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FKOMKcrH2FmbUn4wM6xsHTzPCEJolWnZ8sBfCM7WNknhKA3hzbeoBQJBmbTedIadrVxIekPLofvIRC4FTrCK8+iETrBW4jbuUlxHE0tT78fa8muLvjmFt1Egh4fm786TM+xWvJpOK5dB2Wa2t5T/DrrH2sAk1tZATRE8//8BqUY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=f5opgIXz; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5973h0Y6023921
-	for <linux-media@vger.kernel.org>; Tue, 7 Oct 2025 11:38:21 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	GCYeVPjY1mm3YEzAO8t9rcepeUOr5QIFPQ94aq1HS8A=; b=f5opgIXzjj32H8O2
-	GznYGxX7b9hB7zfT+3AMVvQ1pink7gbD5s75hTBwmdY9fop0FyRPss6FpvsX4iJm
-	ieMfCKXwwsvaDQA9ibIcq8G5h8CTF19JfPuapbTFQ64why/7SgMqsKtptku/ncxX
-	E7sBbKsKIakPF9RF+X39F1iP4nX6/nBoh+/vHrc2E7NPj8VgIHCLxVq0pxkM8KyV
-	htbGGg/KTmp1jmr3nNxDNWzzlFtt9fBaljuYtbq4RIH5ragoacVHNu5Mp8yZnHyE
-	HBCnyBDTTwinimNRtcOHSbdCebsOHem4dHqb0qqgadoVPdTe2UVClST0ORpwcLeE
-	bLFK2w==
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49mg6aarye-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 11:38:20 +0000 (GMT)
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-b5509ed1854so3705545a12.0
-        for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 04:38:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759837100; x=1760441900;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=GCYeVPjY1mm3YEzAO8t9rcepeUOr5QIFPQ94aq1HS8A=;
-        b=V4R4f3Cna+GZkY67rYGQHI/3MFSCpwR/v9W3fGNAJww8VrZnkMXYEIaa6suhSL8yef
-         UWjJwe9v45QIPhzqT1T2sVA0lczmExk1IkO8nzrsFNmHm3RFP33pY6MNttXfkWKZf78I
-         AWbEt87EPNytrzXiZziZbMazfyQn53wXOBxviuZ2wANVTBBMjOVpOh4LpgHNmxkgdmQd
-         n8sMjlTErxYqFORp3/cCWz0VvGZmrqRTJBeUTU+dCBcznplL/yoSdMlgT+GlQC2I1UYD
-         74E34lxvDYd7kwM6C6ZuaRZ8XCS7+Jt+g+kffIiSVCyZMjXkkDxQaXvrXg7cjUwxWR6b
-         d9kA==
-X-Gm-Message-State: AOJu0YyuN/nNUxnBrIJHxiBAF2ZktZP5TjSeax5cVS9l6PpQgdMVkdo8
-	9Y9wH7Bo4AemmWVINUjRkC5wGY0gny1jgJA86jYCVvUxpVHMem9SkhmM/0gXD+MZ2oxD87xuFAC
-	CW++bmgwSMhbkmnhMxokhrSmvccp+WzeYisR866lmN1QMfkU0ijSMsmv1Q5StB7KnTg==
-X-Gm-Gg: ASbGncsaWMfa529Bcz9FcE2zJR/ORNfFdzbyPZpNKFtEIF3XVrwzs1KaFntWGPprGEX
-	0/CZLXhN0MJeP7SzZrL/fY6BHhGjTU7lKj/Q/DMFu7AA8hk2jGQdyW7itX3Z6ETljxFza2kXMHO
-	+yax9RBMGSBiAEKL4W5I/pkXecRH8FGVy0emCES9polSpJ0qqMUtHHqEuc5C3fY4vMOmqjciW2W
-	Aty+3GoagH5sTG+EFuKnLpMjnAJ0aFDpnTHo3AAedWSzXhs7PObHTWfcREjp3oVJCfJeuDfPSTm
-	tb7+wYvDlbOLFDnzssMWkLZtO3oufB3ChKnKJ8uk77jM6vZJkoQFQy5RpB3rOMUNjRPdT0X1kgn
-	HLg==
-X-Received: by 2002:a05:6a20:12d6:b0:2c6:cdcc:5dc0 with SMTP id adf61e73a8af0-32b61e6d11emr21191693637.16.1759837099740;
-        Tue, 07 Oct 2025 04:38:19 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGjww+c/j8M44jX9PgI+h6Etypkqn272KmpewHvoFomBsMZzaaIb9jb1O3bbZyUinW/tDhShQ==
-X-Received: by 2002:a05:6a20:12d6:b0:2c6:cdcc:5dc0 with SMTP id adf61e73a8af0-32b61e6d11emr21191635637.16.1759837099017;
-        Tue, 07 Oct 2025 04:38:19 -0700 (PDT)
-Received: from [10.0.0.3] ([106.222.229.252])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b6099ad926fsm14634202a12.5.2025.10.07.04.38.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Oct 2025 04:38:18 -0700 (PDT)
-Message-ID: <aff68f3b-298a-2cb0-c312-808d7efce6f3@oss.qualcomm.com>
-Date: Tue, 7 Oct 2025 17:08:13 +0530
+	s=arc-20240116; t=1759837958; c=relaxed/simple;
+	bh=2AJflxKtq5+v/023pQVHuifTumNDGfX1QboKFC1H4FU=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=OIvIzqPSRL0HTBHm42YOGn7/4JxOdua8rlDLrjibFHf68Q/tzd84CcN+0R6ElJeCrSoyDapAN7Xi9buvT18xxUb3OQJr2eAwVgPqCQQdPMkQDJXCFhm78VwJAvxL1iLSuQjWIa1iMS63UyipBn/f5TlJpoutCT/+FfPB4E4xc0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=RvnpCRIB; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:b33c:92a2:e532:1826:f0a3])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21363669;
+	Tue,  7 Oct 2025 13:50:53 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1759837854;
+	bh=2AJflxKtq5+v/023pQVHuifTumNDGfX1QboKFC1H4FU=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=RvnpCRIBN+6SjgAtNl6l0INcZPkGtNBUIKyRveCE3j0hGKx4f6kGbakDhkxMySU18
+	 6DlIiNWg0tnHE+0bK1hykgW6u/RE15anNDIEnhy/SMoM4Pt1SOFKhFylS6ySWldHtO
+	 37/Fnwu+TDbxNALcv14a2zvCrWWp0PqIviNSiAEM=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] media: iris: Fix ffmpeg corrupted frame error
-Content-Language: en-US
-To: Vishnu Reddy <quic_bvisredd@quicinc.com>, vikash.garodia@oss.qualcomm.com,
-        abhinav.kumar@linux.dev, bod@kernel.org, mchehab@kernel.org,
-        hverkuil@kernel.org, stefan.schmidt@linaro.org
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, stable@vger.kernel.org
-References: <20251006091819.2725617-1-quic_bvisredd@quicinc.com>
-From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-In-Reply-To: <20251006091819.2725617-1-quic_bvisredd@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=QtdTHFyd c=1 sm=1 tr=0 ts=68e4fbac cx=c_pps
- a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=L4UNg9I9cQSOxNpRiiGXlA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8
- a=EUspDBNiAAAA:8 a=kcjkJnMakA67_LZCmskA:9 a=QEXdDO2ut3YA:10
- a=_Vgx9l1VpLgwpw_dHYaR:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: u056L8GUVITm_6OjGL8DJwaa5OSWy80_
-X-Proofpoint-GUID: u056L8GUVITm_6OjGL8DJwaa5OSWy80_
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA2MDEyMSBTYWx0ZWRfX2r/LLh2iOjah
- +Ch5yeTUG2oeWLp1S8r0kiyz0dObD8eZZmYWcT4gRskzwtVSZiXITcwq5jLOGS5QUtFkHFvvPSQ
- KE+ylJgesrbEprq+PoTfWmokiIN0Xw/vfA+7BGASUg8Nlz52to5obrM5mn6snFmfCisrEOm9MAu
- aGjM0enLUpEl4CkNbEvzp0GCQRGKtog3L5xKJ1ujyOr+wotMBL7CPG01ZdCRUgBuHo3WVPzRXP1
- vJpTOc91y3NtD0XlEPR2xA5d0qIFBKiG75tYski+kmymkmJh881Iyv54vZaHDm1fhSyqPh5bsrW
- KUSZpXF4BJjY5Mmmn3nxnNVA1EC5no+50pLIEp++vmG2X+CQ0z1nj8Sgvdj2oIqvwyFGcMyBTO+
- ZALgAHQq53Z1qtZkZAA8qGgqjpeoyQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-06_07,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 malwarescore=0 lowpriorityscore=0 bulkscore=0
- adultscore=0 clxscore=1015 suspectscore=0 spamscore=0 priorityscore=1501
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510060121
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <4534a09b-7eef-4e61-835a-c70d07df3416@ideasonboard.com>
+References: <20250911102832.1583440-1-r-donadkar@ti.com> <20250911102832.1583440-12-r-donadkar@ti.com> <4534a09b-7eef-4e61-835a-c70d07df3416@ideasonboard.com>
+Subject: Re: [PATCH v7 11/16] media: ti: j721e-csi2rx: add multistream support
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Cc: y-abhilashchandra@ti.com, devarsht@ti.com, s-jain1@ti.com, vigneshr@ti.com, mchehab@kernel.org, robh@kernel.org, krzk+dt@kernel.org, p.zabel@pengutronix.de, conor+dt@kernel.org, sakari.ailus@linux.intel.com, hverkuil-cisco@xs4all.nl, changhuang.liang@starfivetech.com, jack.zhu@starfivetech.com, sjoerd@collabora.com, hverkuil+cisco@kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, devicetree@vger.kernel.org
+To: Rishikesh Donadkar <r-donadkar@ti.com>, Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, jai.luthra@linux.dev, laurent.pinchart@ideasonboard.com, mripard@kernel.org
+Date: Tue, 07 Oct 2025 17:22:22 +0530
+Message-ID: <175983794202.36451.17500767517117494893@freya>
+User-Agent: alot/0.12.dev28+gd2c823fe
 
+Hi Tomi,
 
+Quoting Tomi Valkeinen (2025-09-25 17:47:38)
+> Hi,
+>=20
+> On 11/09/2025 13:28, Rishikesh Donadkar wrote:
+> > From: Jai Luthra <j-luthra@ti.com>
+> >=20
+> > Each CSI2 stream can be multiplexed into 4 independent streams, each
+> > identified by its virtual channel number. To capture this multiplexed
+>=20
+> The split can also be done with the datatype. I don't see it supported
+> in the driver, but afaics the HW supports it. Was there a reason not to
+> support DT filtering? I would think it would be very simple addition.
+>=20
 
-On 10/6/2025 2:48 PM, Vishnu Reddy wrote:
-> When the ffmpeg decoder is running, the driver receives the
-> V4L2_BUF_FLAG_KEYFRAME flag in the input buffer. The driver then forwards
-> this flag information to the firmware. The firmware, in turn, copies the
-> input buffer flags directly into the output buffer flags. Upon receiving
-> the output buffer from the firmware, the driver observes that the buffer
-> contains the HFI_BUFFERFLAG_DATACORRUPT flag. The root cause is that both
-> V4L2_BUF_FLAG_KEYFRAME and HFI_BUFFERFLAG_DATACORRUPT are the same value.
-> As a result, the driver incorrectly interprets the output frame as
-> corrupted, even though the frame is actually valid. This misinterpretation
-> causes the driver to report an error and skip good frames, leading to
-> missing frames in the final video output and triggering ffmpeg's "corrupt
-> decoded frame" error.
-> 
-> To resolve this issue, the input buffer flags should not be sent to the
-> firmware during decoding, since the firmware does not require this
-> information.
-> 
-> Fixes: 17f2a485ca67 ("media: iris: implement vb2 ops for buf_queue and firmware response")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
-> ---
->  drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> index e1788c266bb1..4de03f31eaf3 100644
-> --- a/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> +++ b/drivers/media/platform/qcom/iris/iris_hfi_gen1_command.c
-> @@ -282,7 +282,7 @@ static int iris_hfi_gen1_queue_input_buffer(struct iris_inst *inst, struct iris_
->  		com_ip_pkt.shdr.session_id = inst->session_id;
->  		com_ip_pkt.time_stamp_hi = upper_32_bits(buf->timestamp);
->  		com_ip_pkt.time_stamp_lo = lower_32_bits(buf->timestamp);
-> -		com_ip_pkt.flags = buf->flags;
-> +		com_ip_pkt.flags = 0;
->  		com_ip_pkt.mark_target = 0;
->  		com_ip_pkt.mark_data = 0;
->  		com_ip_pkt.offset = buf->data_offset;
+I believe DT filtering should work as-is with the current driver, given we
+program the SHIM DMACNTX register with the correct datatype depending upon
+the v4l2 format of the video node.
 
-Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+So if there is multi-stream source with two different datatypes, it should
+be possible to route it to different video devices and it "just" works. But
+I agree that it would be good if it can be tested once, and this commit
+message can mention that both VC and DT based filtering is supported.
+
+Rishikesh, would you be able to use an IMX219 to test capturing embedded
+data and frame data?
+
+>  Tomi
+>=20
 
 Thanks,
-Dikshita
+    Jai
+
+> > stream, the application needs to tell the driver how it wants to route
+> > the data. It needs to specify which context should process which stream.
+> > This is done via the new routing APIs.
+> >=20
+> > Add ioctls to accept routing information from the application and save
+> > that in the driver. This can be used when starting streaming on a
+> > context to determine which route and consequently which virtual channel
+> > it should process.
+> >=20
+> > Support the new enable_stream()/disable_stream() APIs in the subdev
+> > instead of s_stream() hook.
+> >=20
+> > De-assert the pixel interface reset on first start_streaming() and asse=
+rt
+> > it on the last stop_streaming().
+> >=20
+> > Reviewed-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+> > Co-developed-by: Pratyush Yadav <p.yadav@ti.com>
+> > Signed-off-by: Pratyush Yadav <p.yadav@ti.com>
+> > Signed-off-by: Jai Luthra <j-luthra@ti.com>
+> > Co-developed-by: Rishikesh Donadkar <r-donadkar@ti.com>
+> > Signed-off-by: Rishikesh Donadkar <r-donadkar@ti.com>
+
+[snip]
 
