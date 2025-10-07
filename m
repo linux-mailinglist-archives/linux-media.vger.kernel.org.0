@@ -1,185 +1,1007 @@
-Return-Path: <linux-media+bounces-43871-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43872-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 45AC8BC2895
-	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 21:40:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1820FBC289B
+	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 21:41:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5724E4F11DD
-	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 19:40:50 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C0CD84EFFAD
+	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 19:41:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9F902E7180;
-	Tue,  7 Oct 2025 19:40:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A84E42E62C7;
+	Tue,  7 Oct 2025 19:41:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ldUfMuOt"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="q7uz4mbh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f173.google.com (mail-qk1-f173.google.com [209.85.222.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD5241D5CFE
-	for <linux-media@vger.kernel.org>; Tue,  7 Oct 2025 19:40:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 958C9221F1F
+	for <linux-media@vger.kernel.org>; Tue,  7 Oct 2025 19:41:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759866043; cv=none; b=hb+xjoKlHWa6NnetkyCeNIISAZepy5U2nVcFukxnpT7W0jEU4V/D9N8Hrij8PyAoOOVsn9MIGgrIa2gsHGvVkCs8JOZG6Sh2SknsaIB8G9KRUt1x3PfXDeG8EuB0TVVot4DHwaXwOYsZ07Xip5BHDxPUfCgS5ytaXJSZUafsTVA=
+	t=1759866098; cv=none; b=OIGjeanprVq3XoTFz2JPE4lu0nPzmqP1VDm1rQvc04CZg09/32fgFBObsdm3fQ2/iDdf8jsYK9/GgCmXBYEzAW0QSTow2VA1h9DaAXym0E/FtGAtraEv3ojCM/tT1Or8hqKI9Dx9Cq12hsl89MGnAgA1YJi9kas4Jzkf3cH+90c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759866043; c=relaxed/simple;
-	bh=D7ZkhlZq4rrhOOE1yx3UARlNJNENNDqA5qj8a7YIoOs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KQ77g6w7kU3V/tkkFc1cQzyKgjtG/8s+DQZ1DBjI0+/R6n10F/4KWQX6Qsxdgy/af7BiegHRkyB+pF3mqd04rKjN/UE3PHJz0gw9DyZTHvW8AQXKJYTx2wjvwJpkLUK/WG0wIluIRq/jV4zmMDw1CCfj5/AUS9K4Z5qTq1kX2PQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ldUfMuOt; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 597ET8N9020409
-	for <linux-media@vger.kernel.org>; Tue, 7 Oct 2025 19:40:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=zRVyyLcHmLBQYrxiD1/MlIFw
-	etnbNSLSE4DimTBWHJM=; b=ldUfMuOtYVn8Eql/MRna7sGHzT/raL/wJS1BMGQF
-	i6KiQ4FLMpZnaYldJykYa9If8Djefan+a6ZfqBHSyFavqBmMVAmMtswREpDatHhd
-	t98b8v+E/G2dj6hX08VVOciEbOcKzT2F/9swi3n03JYpXPiYfUfodLR7rKBHhor/
-	rdpfc2r32CVtxZzDZaXnESBwaRbl9zD+TEfJQ5JkYqf8Wm/IhiyKYfinxMcHjBog
-	l25iivr0b0bSRXrxCapIrbvV9Xr/Rg1Wt3hQC1dqllv5EZ18w3tR0RYI3E3m4T5C
-	WJEV1F3QLgCW3BD+a3AX3z5N6eR2S8cuuZhidmGpimGixg==
-Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49js9e0jqj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 19:40:41 +0000 (GMT)
-Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-269af520712so72588755ad.2
-        for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 12:40:41 -0700 (PDT)
+	s=arc-20240116; t=1759866098; c=relaxed/simple;
+	bh=xUE4JKzAlK3LLabFotaUGu0s7YnTFEcy/kjql5VAt7U=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=a/73vmrqNJnfR74zYCajeh8bKivzzXf6NS2pJxxU67bDcVPKx2WM4Uak7EcQiocTYbSfuMSSAZ3yU96QXz7vdY4kGwEaZA0qn7lrfKXFONI0Cc/jM3Usi1ZU+hwQ1jDRSQj8eluag+iEaWlKIu+TxEHLM56F9N+k9eJ0L/que2U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=q7uz4mbh; arc=none smtp.client-ip=209.85.222.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f173.google.com with SMTP id af79cd13be357-85a4ceb4c3dso639202585a.3
+        for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 12:41:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1759866094; x=1760470894; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=Xyp9/UYniF0lQ9A+jo/Czk31fjWwfzMptlEx0jEWYA8=;
+        b=q7uz4mbh92brJ7MdTl4ZifdkO/8jEtymmgnkYEVvt5KZnMtLUvrEQ4o3M4dsAN8E7s
+         bjMJP6VxbDuqn3M+Ocxkm6UuhVrcvN+pTa4lhC+BgVfxWpXJDV1iQ3G4ohB3EdmR2nzo
+         /8zKI0Q80EWNiv4Lh0qXp1WQvNofdgYo0g246QT5BrO4htxyORpU5OAE/TLJAPKEn3kr
+         oBnENl9i5AM5bqdkU4enEtT4eT66xxYac58Cfbonk5WAgxU43JXTPIPQZcpLT1iPNIHt
+         ZU3zfK5C2edCekCSCc2QZ8RC4lsps44HNLJgZ1hyUkCbOTxb+f4a2Hhjps9JeEsd16V0
+         QQHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759866040; x=1760470840;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zRVyyLcHmLBQYrxiD1/MlIFwetnbNSLSE4DimTBWHJM=;
-        b=nw/39nx8s6XvH65z1um75IFO+wSDhufXpv4mSuKUyNpBlVde2CwQjK4SQxCx98RLcg
-         1X6BwHt871yLscGTwO3pFkF1CDq7UXfrXFY/uPkipos5Gr1qT54Zt4W6cjKRUGSluIP1
-         bUMpyBFkLletpfNsCM4zT8w557irEs/qQ5Cm3SglyVeC3d6N6mJYKYo1YXPDw1v82EMZ
-         ews3aUcQL7FusMbsE0QUu+2poWVgro9h6YPyN2a04wh4pg71t3fHDnPR6akQxLBvp+NN
-         7I0E4eBz2sdbefquKVKkta5qLy67nu4sWbuTyMA7zbzBcb0lpeHRTNqbfZ26fQYSBAb4
-         Vyyw==
-X-Forwarded-Encrypted: i=1; AJvYcCVGqRlcl3/QxWnNXIqeISVLOEk+uuyehCmPuzh///zoXe53ae0FAZ3/dkoVvCN1O2mZuzKclKCtO1gIKQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQ9VK92JATMYum8FK7/cTDZsFbSm6/WUrIlkVWTEawt8A+ghG9
-	dK3I8wdmObrwoNH6aP4pte5Ue+Httkg7SHHmVwYM6z9k58xKHJwczqX+/1TBiAGPe7kmpiWmTtp
-	wxpAl6SZgNAvuDWQeM1+ySYZAXCUpamwJ5aaK79w3WVKhm1U4mbpDTqTCj1+aeZFhg2B9wmtR+a
-	8/Alsl+LHIxtOiPaGLebo/nN9bH3QQ11g6WmnOSjV/
-X-Gm-Gg: ASbGncv5xzBsyOblTW1YsU8e6LjKP4qgL7Z0yF84iq7PZe8NiV5itX9sklSctLOm/4X
-	9YWqLG2yZvTTy+Wn5MS13tllXU1wjy8MY1Ta8LqmxaDgjm5AtAppMrgaKVWaQyrBoLyO09ooC0o
-	ZA0LSN5kZ+zKkVHihz/93cF1lUg5QcFNe7YBbrrTUfIRohOFgz6XRZdn6RoAk=
-X-Received: by 2002:a17:902:c94f:b0:271:479d:3ddc with SMTP id d9443c01a7336-290273748efmr12446895ad.15.1759866040157;
-        Tue, 07 Oct 2025 12:40:40 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IG+dVRqwjwJl7kD+ARCzJSVvE6jTzrfhb+BR8YQ8ETw8QZmMayb5mDuvn4/kUWIZbnEoUdVaCMbrcVzyKuWL4M=
-X-Received: by 2002:a17:902:c94f:b0:271:479d:3ddc with SMTP id
- d9443c01a7336-290273748efmr12446515ad.15.1759866039674; Tue, 07 Oct 2025
- 12:40:39 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1759866094; x=1760470894;
+        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Xyp9/UYniF0lQ9A+jo/Czk31fjWwfzMptlEx0jEWYA8=;
+        b=mLrXrbhdpyqjg7Sy5ZpkFq9Z5Gfpi8PwmJVC6YZLkFHHtiwyeN4t9iGyl5hUwkdUgl
+         Vcyo2oDSavWtS9v8LYnQvcYVJuIeiOKd0hrRTdtk8CZ7lEGCy1a9QiXY4KsY76/clusg
+         0aspg6zrzxtx4ZwanPhJpiEkBYRzCA08j+PcT5StaGbdwL+HZ4Qw5QyMHy69FraG6kEn
+         FrLdbpH5xxNXuQvcGC0Pn5mtCwR64kvdCv8vcv98PrewemX6x+f8K69c0smRAbed1qtQ
+         h6+sFwyJC90TgJ5dIQPGdgaoocxGM7OR+ZPFdMnATaSg3C2yxmrWzTqVwMNDIOjywb3C
+         OV0w==
+X-Gm-Message-State: AOJu0YzE1bgr2C+ddAOPrdo/qGlS1I+zzhCvvT38IYFPEm+KAI8oS2xV
+	j6rVsJixbN5/ReLfr8SNn1nBqSAuEW11dKmoTyKWtsCBMMgh3KfFFfl7eAA29Adj5b8wkNkzEuG
+	0oMSA
+X-Gm-Gg: ASbGncs5E3Wgz0cIrW5++yRInt/miZBoZYteYanZVtTghRa3xLKYlmC8DGr4WSuyFjV
+	voFTLUoGlatZqsgWBl8nEDKOLVz/gQvnJVzL1SW6qK+7id5s5UKBN9g3+m6zI+h2/4xcQQGqFYL
+	sUmhDyd40vzoUgSiPD39ySt5k65rix9CAF2ozuJ3OxNxsTi4Ff6pmnxiewefEEtFUYHFt14R2fC
+	W33haoSdAY8fLPEhK6rS+MYYAA38dLhn78H9dOrlgKTT4W0jBY07xOyosNX/gS84EjQqy3YhLjg
+	I4sKI0vAF/Y/tGh4UXKah2cGMkDpY1E7JHocv8ToNSeq1qV53gTH2z0J2Byz9reK3s0mDzHOcxF
+	606q3AH+1FF27h1GYe3TZY/6WVGjO/NxtO7NsJuv0hTNItsF+QAM8
+X-Google-Smtp-Source: AGHT+IH0BpQ6UjRKQOhrHrjgYPTTg2Bohpcrrx2YDPPaGahj2qh6KSiNBJ+EUxMv60NxlPPOuzdESg==
+X-Received: by 2002:a05:620a:1922:b0:7e0:f0bb:b1a4 with SMTP id af79cd13be357-88352f83bf7mr149247885a.27.1759866094144;
+        Tue, 07 Oct 2025 12:41:34 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:17:ebd3::c41? ([2606:6d00:17:ebd3::c41])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-878be61fb57sm148591296d6.62.2025.10.07.12.41.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Oct 2025 12:41:32 -0700 (PDT)
+Message-ID: <cfe8d17416184f11a93e56872c30a6bcaf017ef5.camel@ndufresne.ca>
+Subject: Re: [PATCH 16/16] media: rockchip: rga: add rga3 support
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Sven =?ISO-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>, Jacob Chen
+	 <jacob-chen@iotwrt.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
+ Mauro Carvalho Chehab
+	 <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Rob Herring
+	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+	 <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, kernel@pengutronix.de
+Date: Tue, 07 Oct 2025 15:41:31 -0400
+In-Reply-To: <20251007-spu-rga3-v1-16-36ad85570402@pengutronix.de>
+References: <20251007-spu-rga3-v1-0-36ad85570402@pengutronix.de>
+	 <20251007-spu-rga3-v1-16-36ad85570402@pengutronix.de>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-8IpBQNeH+w/N59wcfeQm"
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
- <5qsgbqml367yq6g5vb4lotrzulojqhi5zlwwribze373a63qrn@rxi4kwyt66m2>
- <4f38058d-a2f1-4ac5-b234-228cfb2e85ff@kernel.org> <1ad2ca1e-1d57-4ad8-a057-ab0d804f1d49@oss.qualcomm.com>
- <7da769b4-88e9-401f-bb21-0ff123818b9c@kernel.org> <6840d462-8269-4359-a6e5-d154842b62db@oss.qualcomm.com>
- <af0da28c-3ca0-41dc-aaa4-572723ea74bf@linaro.org> <klhvgzizub33f46buqsog54wqksqp24a5tijwyv355l2ao2imo@wdkojfebc6s2>
- <e1a6e75a-2a5d-44a2-8bbc-140eb86d1806@linaro.org> <2hh3zkdwgqbdurpr4tibr3gjat6arwl3dd3gxakdaagafwjdrm@aj5em4tbsjen>
- <Ujyoj3HGLVFhS2b0XzcYAMjSiCAuO-lSJ8PMEQLOaaX83tk_0D5zjrL0VDyZAmD3i4zLB3ElKSZBltISb5jJHA==@protonmail.internalid>
- <4a32bbec-2baf-4210-a7c1-1ddcd45d30c8@oss.qualcomm.com> <SuwJuCIcLVJwN3YeN1il6tB9wO9OH6bYcnbRpxpuI9Dl7piYLN-hVdnyv0Mal6N-W5pi2aCZI8MxHZDEkoE63A==@protonmail.internalid>
- <4d87d1ca-55b2-426e-aa73-e3fd8c6fe7bd@kernel.org> <10a8ccda-4e27-4b06-9a0e-608d6ade5354@nxsw.ie>
- <4cb4a92d-2f20-47c7-881e-aadcc6f83aa0@kernel.org>
-In-Reply-To: <4cb4a92d-2f20-47c7-881e-aadcc6f83aa0@kernel.org>
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Date: Tue, 7 Oct 2025 22:40:28 +0300
-X-Gm-Features: AS18NWAaoQ5_donNvs5cRR9zinLJkB8j3htGBq4bb5DPMqN-vCS5ghvUUvjFqrc
-Message-ID: <CAO9ioeXqx4MoHNDiM4Pbp_evxEAACP0HhJ+8Fgqhhq60sCThdg@mail.gmail.com>
-Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video node
-To: "Bryan O'Donoghue" <bod@kernel.org>
-Cc: "Bryan O'Donoghue" <bod.linux@nxsw.ie>,
-        Charan Teja Kalla <charan.kalla@oss.qualcomm.com>,
-        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
+
+
+--=-8IpBQNeH+w/N59wcfeQm
 Content-Type: text/plain; charset="UTF-8"
-X-Authority-Analysis: v=2.4 cv=Hrl72kTS c=1 sm=1 tr=0 ts=68e56cb9 cx=c_pps
- a=cmESyDAEBpBGqyK7t0alAg==:117 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10
- a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=jBGDKH9zBieggSXl3VwA:9 a=QEXdDO2ut3YA:10
- a=1OuFwYUASf3TG4hYMiVC:22
-X-Proofpoint-GUID: c3s-winJ1iagI8uFkcP6ePc7eNvb4NnC
-X-Proofpoint-ORIG-GUID: c3s-winJ1iagI8uFkcP6ePc7eNvb4NnC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAwNCBTYWx0ZWRfX9dcQz3gbnyJ0
- ijZjTTwj6/cl3FKjjJyBCPGkQaEl3aTQ4Kvv5Uaa8TMKR+lq9CMqGMMVKjoRh7t+dyVocuHpfWR
- oTxlFHHjOu1ntYrfT+vBrqIaAR2HehEChJXeVUdhdBit3vEcvF4ux6Ys9CkOK/Xw2xped+G7lFJ
- 8u0dl/qhO6nCL2pzlkG0k71cKi+BBjNLpLQ4Urxiha/k4DCyv12+yPE0ciPbaw3CGclSTKutdmV
- r73jolGVR1NVMXWxiauLplIB2i43tqtyEHqxUP1dvMbidE/uLL0+PG+JZv6TPaZcFhebiGUmLUF
- GTKjYtuQJ/t/GgV9JHaQIksfTrY8rxVAd2u2u2iKp3i/0ovfr4usLE3Lsq9QCvXrLTEA2LT/Gaz
- 13ptHDnijTtPoZ0SScjdRBdaO6t9dw==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-07_02,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 phishscore=0 spamscore=0 adultscore=0 lowpriorityscore=0
- bulkscore=0 priorityscore=1501 malwarescore=0 impostorscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040004
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 7 Oct 2025 at 17:44, Bryan O'Donoghue <bod@kernel.org> wrote:
->
-> On 07/10/2025 15:29, Bryan O'Donoghue wrote:
-> > On 07/10/2025 15:25, Bryan O'Donoghue wrote:
-> >> Rob suggested using an implicit index for function id
-> >>
-> >> https://lore.kernel.org/all/CAL_JsqK9waZK=i+ov0jV-
-> >> PonWSfddwHvE94Q+pks4zAEtKc+yg@mail.gmail.com/
-> >>
-> >> Couldn't we list the entire set of iommus - then detach - subsequently
-> >> re-attaching in our platform code with FUNCTION_IDs we keep listed in
-> >> our drivers ?
-> >>
-> >> That way the DT is complete and correct, we have a compliant upstream DT
-> >> but we also find a way to make the FUNCTION_ID specific setup we need.
-> >
-> > i.e. you can keep the FUNCTION_ID "metadata" in the driver and associate
-> > specific iommu indexes with the FUNCTION_ID you want in there.
-> >
-> > That way you could have multiple FUNCTION_ID smmu entries in the DT and
-> > just associate the DT indexes locally in drivers/platform/qcom/
-> > iris_metadata_goes_here.c
-> >
-> > ---
-> > bod
->
-> Actually why can't we specify FUNCTION_ID in the iommus = <entries>
->
-> Surely we could do
->
->      #iommu-cells = <4>;
+Hi,
 
-Because #iommu-cells is a part of the apps_smmu: device rather than a
-part ofthe iris/venus/GPU/display/etc.
-
->      iommus = <&apps_smmu 0x420 0x2 FUNCTION_ID>;
->
-> and encode the real data we need directly in the iommus list...
->
+Le mardi 07 octobre 2025 =C3=A0 10:32 +0200, Sven P=C3=BCschel a =C3=A9crit=
+=C2=A0:
+> Add support for the RGA3 unit contained in the RK3588.
+>=20
+> Only a basic feature set consisting of scaling and color conversion is
+> implemented. Advanced features like rotation and cropping will just be
+> ignored. Also the BT601F color space conversion is currently hard coded.
+>=20
+> The register address defines were copied from the
+> vendor Rockchip kernel sources and slightly adjusted to not start at 0
+> again for the cmd registers.
+>=20
+> Signed-off-by: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
 > ---
-> bod
+> =C2=A0drivers/media/platform/rockchip/rga/Makefile=C2=A0 |=C2=A0=C2=A0 2 =
++-
+> =C2=A0drivers/media/platform/rockchip/rga/rga.c=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 4 +
+> =C2=A0drivers/media/platform/rockchip/rga/rga.h=C2=A0=C2=A0=C2=A0=C2=A0 |=
+=C2=A0=C2=A0 2 +-
+> =C2=A0drivers/media/platform/rockchip/rga/rga3-hw.c | 490 +++++++++++++++=
++++++++++++
+> =C2=A0drivers/media/platform/rockchip/rga/rga3-hw.h | 186 ++++++++++
+> =C2=A05 files changed, 682 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/rockchip/rga/Makefile b/drivers/media=
+/platform/rockchip/rga/Makefile
+> index 1bbecdc3d8df2ce286652f5544c4a3b52a6d28cf..7326a548f3dc7618403e98974=
+b8c60d45f556fef 100644
+> --- a/drivers/media/platform/rockchip/rga/Makefile
+> +++ b/drivers/media/platform/rockchip/rga/Makefile
+> @@ -1,4 +1,4 @@
+> =C2=A0# SPDX-License-Identifier: GPL-2.0-only
+> -rockchip-rga-objs :=3D rga.o rga-hw.o rga-buf.o
+> +rockchip-rga-objs :=3D rga.o rga-hw.o rga3-hw.o rga-buf.o
+> =C2=A0
+> =C2=A0obj-$(CONFIG_VIDEO_ROCKCHIP_RGA) +=3D rockchip-rga.o
+> diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/pl=
+atform/rockchip/rga/rga.c
+> index 3b5d2eb8e109f44af76dd2240a239b1fa8a78cee..9d15104fcc1a45553af33bfd6=
+37bba0a86329c17 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.c
+> +++ b/drivers/media/platform/rockchip/rga/rga.c
+> @@ -805,6 +805,10 @@ static const struct of_device_id rockchip_rga_match[=
+] =3D {
+> =C2=A0		.compatible =3D "rockchip,rk3399-rga",
+> =C2=A0		.data =3D &rga2_hw,
+> =C2=A0	},
+> +	{
+> +		.compatible =3D "rockchip,rk3588-rga3",
+> +		.data =3D &rga3_hw,
+> +	},
+> =C2=A0	{},
+> =C2=A0};
+> =C2=A0
+> diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/pl=
+atform/rockchip/rga/rga.h
+> index dc4bb85707d12f5378c4891098cd7ea4a4d75e2d..350a4e07cb2ee237fc3676d59=
+4e1e7298a028afb 100644
+> --- a/drivers/media/platform/rockchip/rga/rga.h
+> +++ b/drivers/media/platform/rockchip/rga/rga.h
+> @@ -169,6 +169,6 @@ static inline bool rga_has_internal_iommu(const struc=
+t rockchip_rga *rga)
+> =C2=A0	return rga->hw->has_internal_iommu;
+> =C2=A0}
+> =C2=A0
+> -extern const struct rga_hw rga2_hw;
+> +extern const struct rga_hw rga2_hw, rga3_hw;
+> =C2=A0
+> =C2=A0#endif
+> diff --git a/drivers/media/platform/rockchip/rga/rga3-hw.c b/drivers/medi=
+a/platform/rockchip/rga/rga3-hw.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..6e4cd2f96cf866880316c7592=
+4f7a4c339851448
+> --- /dev/null
+> +++ b/drivers/media/platform/rockchip/rga/rga3-hw.c
+> @@ -0,0 +1,490 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * Copyright (C) Pengutronix e.K.
+> + * Author: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
+> + */
+> +
+> +#include <linux/pm_runtime.h>
+> +#include <linux/bitfield.h>
+> +#include <linux/delay.h>
+> +#include <linux/printk.h>
+> +
+> +#include <media/v4l2-common.h>
+> +
+> +#include "rga3-hw.h"
+> +#include "rga.h"
+> +
+> +static unsigned int rga3_get_scaling(unsigned int src, unsigned int dst)
 
+Would be nice to summarize what you are calculating here.
 
+> +{
+> +	if (dst > src) {
+> +		if (((src - 1) << 16) % (dst - 1) =3D=3D 0)
+> +			return ((src - 1) << 16) / (dst - 1) - 1;
+> +		else
+> +			return ((src - 1) << 16) / (dst - 1);
+> +	} else {
+> +		return ((dst - 1) << 16) / (src - 1) + 1;
+> +	}
 
--- 
-With best wishes
-Dmitry
+Its unclear to me why the various -1, and why the factor get reversed depen=
+ding
+up or down scale.
+
+> +}
+> +
+> +static bool rga3_has_alpha(const struct rga3_fmt *fmt)
+> +{
+> +	return fmt->hw_format >=3D RGA3_COLOR_FMT_FIRST_HAS_ALPHA &&
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->fourcc !=3D V4L2_PIX_FMT_BGRX=
+32 &&
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->fourcc !=3D V4L2_PIX_FMT_XBGR=
+32 &&
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->fourcc !=3D V4L2_PIX_FMT_RGBX=
+32 &&
+> +	=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 fmt->fourcc !=3D V4L2_PIX_FMT_XRGB=
+32;
+
+Would be nice to extend v4l2-common ?
+
+> +}
+> +
+> +static bool rga3_can_capture(const struct rga3_fmt *fmt)
+> +{
+> +	return fmt->hw_format <=3D RGA3_COLOR_FMT_LAST_OUTPUT;
+> +}
+> +
+> +static void rga3_cmd_set_trans_info(struct rga_ctx *ctx)
+
+Not obvious some the function name, can you add a comment block.
+
+> +{
+> +	struct rockchip_rga *rga =3D ctx->rga;
+> +	u32 *cmd =3D rga->cmdbuf_virt;
+> +	unsigned int src_h, src_w, dst_h, dst_w;
+> +	unsigned int reg;
+> +	u16 hor_scl_fac, ver_scl_fac;
+> +
+> +	src_h =3D ctx->in.crop.height;
+> +	src_w =3D ctx->in.crop.width;
+> +	dst_h =3D ctx->out.crop.height;
+> +	dst_w =3D ctx->out.crop.width;
+
+There is no position component to these rectangle ? It is a bit confusing t=
+o
+called cropped rectangles as src and dest only.
+
+> +
+> +	reg =3D RGA3_WIN0_RD_CTRL - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] |=3D FIELD_PREP(RGA3_WIN_SCALE_HOR_UP, dst_w > src_w)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 FIELD_PREP(RGA3_WIN_SCALE_HOR_B=
+YPASS, dst_w =3D=3D src_w)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 FIELD_PREP(RGA3_WIN_SCALE_VER_U=
+P, dst_h > src_h)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 FIELD_PREP(RGA3_WIN_SCALE_VER_B=
+YPASS, dst_h =3D=3D src_h);
+> +
+> +	/* stride needs to be in words */
+> +	reg =3D RGA3_WIN0_VIR_STRIDE - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] =3D ctx->in.pix.plane_fmt[0].bytesperline >> 2;
+> +	reg =3D RGA3_WIN0_UV_VIR_STRIDE - RGA3_FIRST_CMD_REG;
+> +	if (ctx->in.pix.num_planes >=3D 2)
+> +		cmd[reg >> 2] =3D ctx->in.pix.plane_fmt[1].bytesperline >> 2;
+> +	else
+> +		cmd[reg >> 2] =3D ctx->in.pix.plane_fmt[0].bytesperline >> 2;
+
+I find this pattern a bit hacky, and hiding what its for. My reading this i=
+s
+that if num_planes =3D=3D 1, the driver does not know how many planes there=
+ is, due
+to legacy single plane formats, such as NV12 (in contrast to NV12M). So it =
+just
+repeat the stride in all places.
+
+That where is bugs me, since you use >=3D2 if the number of planes if 3, th=
+e third
+stride is missing, but would also not be equal. If the HW is limited to NV =
+style
+of format, then don't use >=3D2, but rather =3D=3D 2. And comment about it.
+
+> +	reg =3D RGA3_WR_VIR_STRIDE - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] =3D ctx->out.pix.plane_fmt[0].bytesperline >> 2;
+> +	reg =3D RGA3_WR_PL_VIR_STRIDE - RGA3_FIRST_CMD_REG;
+> +	if (ctx->out.pix.num_planes >=3D 2)
+> +		cmd[reg >> 2] =3D ctx->out.pix.plane_fmt[1].bytesperline >> 2;
+> +	else
+> +		cmd[reg >> 2] =3D ctx->out.pix.plane_fmt[0].bytesperline >> 2;
+> +
+> +	reg =3D RGA3_WIN0_ACT_SIZE - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] =3D FIELD_PREP(RGA3_WIDTH, src_w)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | FIELD_PREP(RGA3_HEIGHT, src_h);
+> +	reg =3D RGA3_WIN0_SRC_SIZE - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] =3D FIELD_PREP(RGA3_WIDTH, src_w)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | FIELD_PREP(RGA3_HEIGHT, src_h);
+
+Just guessing, because the code is not clear, but is that ACT (actual) and =
+SRC
+(source). Someone the original image size, and the source rectangle ? In wh=
+ich
+case, is it ok to pass twice the cropped size ?
+
+> +
+> +	reg =3D RGA3_WIN0_DST_SIZE - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] =3D FIELD_PREP(RGA3_WIDTH, dst_w)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | FIELD_PREP(RGA3_HEIGHT, dst_h);
+> +
+> +	hor_scl_fac =3D rga3_get_scaling(src_w, dst_w);
+> +	ver_scl_fac =3D rga3_get_scaling(src_h, dst_h);
+> +	reg =3D RGA3_WIN0_SCL_FAC - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] =3D FIELD_PREP(RGA3_SCALE_HOR_FAC, hor_scl_fac)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | FIELD_PREP(RGA3_SCALE_VER_FAC, ver_sc=
+l_fac);
+> +
+> +	if (rga3_has_alpha(ctx->in.fmt)) {
+> +		/* copy alpha from input */
+
+Fair enough, I'd appreciate in the commit message to have an overview of al=
+l the
+features that are not covered by the driver. Notably you don't support the
+second window for blits (V4L2 does not have enough CID to do that either), =
+you
+don't seem to fully support S_SELECTION, this is a bit annoying, no backgro=
+und
+colors, rotation, and probably more stuff I forget about.
+
+> +		reg =3D RGA3_OVLP_TOP_ALPHA - RGA3_FIRST_CMD_REG;
+> +		cmd[reg >> 2] =3D FIELD_PREP(RGA3_ALPHA_SELECT_MODE, 1)
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | FIELD_PREP(RGA3_ALPHA_BLEND_MODE, 1)=
+;
+> +		reg =3D RGA3_OVLP_BOT_ALPHA - RGA3_FIRST_CMD_REG;
+> +		cmd[reg >> 2] =3D FIELD_PREP(RGA3_ALPHA_SELECT_MODE, 1)
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | FIELD_PREP(RGA3_ALPHA_BLEND_MODE, 1)=
+;
+> +	} else {
+> +		/* just use a 255 alpha value */
+> +		reg =3D RGA3_OVLP_TOP_CTRL - RGA3_FIRST_CMD_REG;
+> +		cmd[reg >> 2] =3D FIELD_PREP(RGA3_OVLP_GLOBAL_ALPHA, 0xff)
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | FIELD_PREP(RGA3_OVLP_COLOR_MODE, 1);
+> +		reg =3D RGA3_OVLP_BOT_CTRL - RGA3_FIRST_CMD_REG;
+> +		cmd[reg >> 2] =3D FIELD_PREP(RGA3_OVLP_GLOBAL_ALPHA, 0xff)
+> +			=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | FIELD_PREP(RGA3_OVLP_COLOR_MODE, 1);
+
+Have you considered implementing V4L2_CID_ALPHA_COMPONENT ?
+
+> +	}
+> +}
+> +
+> +static void rga3_cmd_set_win0_addr(struct rga_ctx *ctx,
+> +				=C2=A0=C2=A0 const struct rga_addrs *addrs)
+> +{
+> +	u32 *cmd =3D ctx->rga->cmdbuf_virt;
+> +	unsigned int reg;
+> +
+> +	reg =3D RGA3_WIN0_Y_BASE - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] =3D addrs->y_addr;
+> +	reg =3D RGA3_WIN0_U_BASE - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] =3D addrs->u_addr;
+> +}
+> +
+> +static void rga3_cmd_set_wr_addr(struct rga_ctx *ctx,
+> +				 const struct rga_addrs *addrs)
+> +{
+> +	u32 *cmd =3D ctx->rga->cmdbuf_virt;
+> +	unsigned int reg;
+> +
+> +	reg =3D RGA3_WR_Y_BASE - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] =3D addrs->y_addr;
+> +	reg =3D RGA3_WR_U_BASE - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] =3D addrs->u_addr;
+> +}
+> +
+> +static void rga3_cmd_set_win0_format(struct rga_ctx *ctx)
+> +{
+> +	u32 *cmd =3D ctx->rga->cmdbuf_virt;
+> +	const struct rga3_fmt *in =3D ctx->in.fmt;
+> +	const struct rga3_fmt *out =3D ctx->out.fmt;
+> +	const struct v4l2_format_info *in_fmt, *out_fmt;
+> +	unsigned int src_h, src_w, dst_h, dst_w;
+> +	bool r2y, y2r;
+> +	u8 rd_format;
+> +	unsigned int reg;
+> +
+> +	src_h =3D ctx->in.crop.height;
+> +	src_w =3D ctx->in.crop.width;
+> +	dst_h =3D ctx->out.crop.height;
+> +	dst_w =3D ctx->out.crop.width;
+> +
+> +	in_fmt =3D v4l2_format_info(in->fourcc);
+> +	out_fmt =3D v4l2_format_info(out->fourcc);
+> +	r2y =3D v4l2_is_format_rgb(in_fmt) && v4l2_is_format_yuv(out_fmt);
+> +	y2r =3D v4l2_is_format_yuv(in_fmt) && v4l2_is_format_rgb(out_fmt);
+> +
+> +	if (in->semi_planar)
+> +		rd_format =3D RGA3_RDWR_FORMAT_SEMI_PLANAR;
+> +	else
+> +		rd_format =3D RGA3_RDWR_FORMAT_INTERLEAVED;
+> +
+> +	reg =3D RGA3_WIN0_RD_CTRL - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] |=3D FIELD_PREP(RGA3_WIN_PIC_FORMAT, in->hw_format)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 FIELD_PREP(RGA3_WIN_YC_SWAP, in=
+->yc_swap)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 FIELD_PREP(RGA3_WIN_RBUV_SWAP, =
+in->rbuv_swap)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 FIELD_PREP(RGA3_WIN_RD_FORMAT, =
+rd_format)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 FIELD_PREP(RGA3_WIN_R2Y, r2y)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 FIELD_PREP(RGA3_WIN_Y2R, y2r)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 FIELD_PREP(RGA3_WIN_CSC_MODE, R=
+GA3_WIN_CSC_MODE_BT601_F);
+
+I don't think I saw code in the v4l2 part the enforce that only that conver=
+sion
+is allowed. Just picking a hidden CSC and pixel transfer make your driver
+unusable in real world.
+
+My take is that a driver that implement CSC should be really serious about =
+the
+CSC aspect. So if you'd like to get a subset in a first iteration, make sur=
+e
+that the v4l2_format will perfectly reflect that subset so userspace does n=
+ot
+fooled into producing pad colors. In short, this driver only have 2 jobs at=
+ the
+moment, scale and CSC. Let do that well ?
+
+> +}
+> +
+> +static void rga3_cmd_enable_win0(struct rga_ctx *ctx)
+> +{
+> +	u32 *cmd =3D ctx->rga->cmdbuf_virt;
+> +	unsigned int reg;
+> +
+> +	reg =3D RGA3_WIN0_RD_CTRL - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] |=3D FIELD_PREP(RGA3_WIN_ENABLE, 1);
+> +}
+> +
+> +static void rga3_cmd_set_wr_format(struct rga_ctx *ctx)
+> +{
+> +	u32 *cmd =3D ctx->rga->cmdbuf_virt;
+> +	const struct rga3_fmt *out =3D ctx->out.fmt;
+> +	u8 wr_format;
+> +	unsigned int reg;
+> +
+> +	if (out->semi_planar)
+> +		wr_format =3D RGA3_RDWR_FORMAT_SEMI_PLANAR;
+> +	else
+> +		wr_format =3D RGA3_RDWR_FORMAT_INTERLEAVED;
+> +
+> +	reg =3D RGA3_WR_CTRL - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] |=3D FIELD_PREP(RGA3_WR_PIC_FORMAT, out->hw_format)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 FIELD_PREP(RGA3_WR_YC_SWAP, out=
+->yc_swap)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 FIELD_PREP(RGA3_WR_RBUV_SWAP, o=
+ut->rbuv_swap)
+> +		=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 FIELD_PREP(RGA3_WR_FORMAT, wr_f=
+ormat);
+> +}
+> +
+> +static void rga3_cmd_disable_wr_limitation(struct rga_ctx *ctx)
+> +{
+> +	u32 *cmd =3D ctx->rga->cmdbuf_virt;
+> +	unsigned int reg;
+> +
+> +	/* Use the max value to avoid limiting the write speed */
+> +	reg =3D RGA3_WR_CTRL - RGA3_FIRST_CMD_REG;
+> +	cmd[reg >> 2] |=3D FIELD_PREP(RGA3_WR_SW_OUTSTANDING_MAX, 63);
+
+No issue with the code, but quite an interesting feature. We did discussed =
+in
+pas about using the target framerate (well frame duration in v4l2) to avoid
+bursting the memory.
+
+> +}
+> +
+> +static void rga3_cmd_set(struct rga_ctx *ctx,
+> +			 struct rga_vb_buffer *src, struct rga_vb_buffer *dst)
+> +{
+> +	struct rockchip_rga *rga =3D ctx->rga;
+> +
+> +	memset(rga->cmdbuf_virt, 0, RGA3_CMDBUF_SIZE * 4);
+> +
+> +	rga3_cmd_set_win0_addr(ctx, &src->dma_addrs);
+> +	rga3_cmd_set_wr_addr(ctx, &dst->dma_addrs);
+> +
+> +	rga3_cmd_set_win0_format(ctx);
+> +	rga3_cmd_enable_win0(ctx);
+> +	rga3_cmd_set_trans_info(ctx);
+> +	rga3_cmd_set_wr_format(ctx);
+> +	rga3_cmd_disable_wr_limitation(ctx);
+> +
+> +	rga_write(rga, RGA3_CMD_ADDR, rga->cmdbuf_phy);
+> +
+> +	/* sync CMD buf for RGA */
+> +	dma_sync_single_for_device(rga->dev, rga->cmdbuf_phy,
+> +				=C2=A0=C2=A0 PAGE_SIZE, DMA_BIDIRECTIONAL);
+> +}
+> +
+> +static void rga3_hw_start(struct rockchip_rga *rga,
+> +			=C2=A0 struct rga_vb_buffer *src, struct rga_vb_buffer *dst)
+> +{
+> +	struct rga_ctx *ctx =3D rga->curr;
+> +
+> +	rga3_cmd_set(ctx, src, dst);
+> +
+> +	/* set to master mode and start the conversion */
+> +	rga_write(rga, RGA3_SYS_CTRL,
+> +		=C2=A0 FIELD_PREP(RGA3_CMD_MODE, RGA3_CMD_MODE_MASTER));
+> +	rga_write(rga, RGA3_INT_EN,
+> +		=C2=A0 FIELD_PREP(RGA3_INT_FRM_DONE, 1) |
+> +		=C2=A0 FIELD_PREP(RGA3_INT_DMA_READ_BUS_ERR, 1) |
+> +		=C2=A0 FIELD_PREP(RGA3_INT_WIN0_FBC_DEC_ERR, 1) |
+> +		=C2=A0 FIELD_PREP(RGA3_INT_WIN0_HOR_ERR, 1) |
+> +		=C2=A0 FIELD_PREP(RGA3_INT_WIN0_VER_ERR, 1) |
+> +		=C2=A0 FIELD_PREP(RGA3_INT_WR_VER_ERR, 1) |
+> +		=C2=A0 FIELD_PREP(RGA3_INT_WR_HOR_ERR, 1) |
+> +		=C2=A0 FIELD_PREP(RGA3_INT_WR_BUS_ERR, 1) |
+> +		=C2=A0 FIELD_PREP(RGA3_INT_WIN0_IN_FIFO_WR_ERR, 1) |
+> +		=C2=A0 FIELD_PREP(RGA3_INT_WIN0_IN_FIFO_RD_ERR, 1) |
+> +		=C2=A0 FIELD_PREP(RGA3_INT_WIN0_HOR_FIFO_WR_ERR, 1) |
+> +		=C2=A0 FIELD_PREP(RGA3_INT_WIN0_HOR_FIFO_RD_ERR, 1) |
+> +		=C2=A0 FIELD_PREP(RGA3_INT_WIN0_VER_FIFO_WR_ERR, 1) |
+> +		=C2=A0 FIELD_PREP(RGA3_INT_WIN0_VER_FIFO_RD_ERR, 1));
+> +	rga_write(rga, RGA3_CMD_CTRL,
+> +		=C2=A0 FIELD_PREP(RGA3_CMD_LINE_START_PULSE, 1));
+> +}
+> +
+> +static void rga3_soft_reset(struct rockchip_rga *rga)
+> +{
+> +	u32 i;
+> +
+> +	rga_write(rga, RGA3_SYS_CTRL,
+> +		=C2=A0 FIELD_PREP(RGA3_CCLK_SRESET, 1) |
+> +		=C2=A0 FIELD_PREP(RGA3_ACLK_SRESET, 1));
+> +
+> +	for (i =3D 0; i < RGA3_RESET_TIMEOUT; i++) {
+> +		if (FIELD_GET(RGA3_RO_SRST_DONE, rga_read(rga, RGA3_RO_SRST)))
+> +			break;
+> +
+> +		udelay(1);
+
+Did you measure this IP soft reset speed ? Perhaps this delay can be tune t=
+o
+avoid hugging on a CPU core ?
+
+> +	}
+> +
+> +	if (i =3D=3D RGA3_RESET_TIMEOUT)
+> +		pr_err("Timeout of %d usec reached while waiting for an rga3 soft rese=
+t\n", i);
+
+What next if it failed ? System lockup, or just bunch of errors ?
+
+> +
+> +	rga_write(rga, RGA3_SYS_CTRL, 0);
+> +	rga_iommu_restore(rga);
+> +}
+> +
+> +static enum rga_irq_result rga3_handle_irq(struct rockchip_rga *rga)
+> +{
+> +	u32 intr;
+> +
+> +	intr =3D rga_read(rga, RGA3_INT_RAW);
+> +	/* clear all interrupts */
+> +	rga_write(rga, RGA3_INT_CLR, intr);
+> +
+> +	if (FIELD_GET(RGA3_INT_FRM_DONE, intr))
+> +		return RGA_IRQ_DONE;
+> +	if (FIELD_GET(RGA3_INT_DMA_READ_BUS_ERR, intr) ||
+> +	=C2=A0=C2=A0=C2=A0 FIELD_GET(RGA3_INT_WIN0_FBC_DEC_ERR, intr) ||
+> +	=C2=A0=C2=A0=C2=A0 FIELD_GET(RGA3_INT_WIN0_HOR_ERR, intr) ||
+> +	=C2=A0=C2=A0=C2=A0 FIELD_GET(RGA3_INT_WIN0_VER_ERR, intr) ||
+> +	=C2=A0=C2=A0=C2=A0 FIELD_GET(RGA3_INT_WR_VER_ERR, intr) ||
+> +	=C2=A0=C2=A0=C2=A0 FIELD_GET(RGA3_INT_WR_HOR_ERR, intr) ||
+> +	=C2=A0=C2=A0=C2=A0 FIELD_GET(RGA3_INT_WR_BUS_ERR, intr) ||
+> +	=C2=A0=C2=A0=C2=A0 FIELD_GET(RGA3_INT_WIN0_IN_FIFO_WR_ERR, intr) ||
+> +	=C2=A0=C2=A0=C2=A0 FIELD_GET(RGA3_INT_WIN0_IN_FIFO_RD_ERR, intr) ||
+> +	=C2=A0=C2=A0=C2=A0 FIELD_GET(RGA3_INT_WIN0_HOR_FIFO_WR_ERR, intr) ||
+> +	=C2=A0=C2=A0=C2=A0 FIELD_GET(RGA3_INT_WIN0_HOR_FIFO_RD_ERR, intr) ||
+> +	=C2=A0=C2=A0=C2=A0 FIELD_GET(RGA3_INT_WIN0_VER_FIFO_WR_ERR, intr) ||
+> +	=C2=A0=C2=A0=C2=A0 FIELD_GET(RGA3_INT_WIN0_VER_FIFO_RD_ERR, intr)) {
+> +		rga3_soft_reset(rga);
+> +		return RGA_IRQ_ERROR;
+
+Are you certain all these errors are fatal in the first place ? That being =
+said,
+since you "soft reset", I bet this basically abort any pending operation, s=
+o it
+should not matter.
+
+> +	}
+> +
+> +	return RGA_IRQ_IGNORE;
+> +}
+> +
+> +static void rga3_get_version(struct rockchip_rga *rga)
+> +{
+> +	u32 version =3D rga_read(rga, RGA3_VERSION_NUM);
+> +
+> +	rga->version.major =3D FIELD_GET(RGA3_VERSION_NUM_MAJOR, version);
+> +	rga->version.minor =3D FIELD_GET(RGA3_VERSION_NUM_MINOR, version);
+> +}
+> +
+> +static struct rga3_fmt rga3_formats[] =3D {
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_RGB24,
+> +		.hw_format =3D RGA3_COLOR_FMT_BGR888,
+> +		.rbuv_swap =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_BGR24,
+> +		.hw_format =3D RGA3_COLOR_FMT_BGR888,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_ABGR32,
+> +		.hw_format =3D RGA3_COLOR_FMT_BGRA8888,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_RGBA32,
+> +		.hw_format =3D RGA3_COLOR_FMT_BGRA8888,
+> +		.rbuv_swap =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_XBGR32,
+> +		.hw_format =3D RGA3_COLOR_FMT_BGRA8888,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_RGBX32,
+> +		.hw_format =3D RGA3_COLOR_FMT_BGRA8888,
+> +		.rbuv_swap =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_RGB565,
+> +		.hw_format =3D RGA3_COLOR_FMT_BGR565,
+> +		.rbuv_swap =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_NV12M,
+> +		.hw_format =3D RGA3_COLOR_FMT_YUV420,
+> +		.semi_planar =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_NV12,
+> +		.hw_format =3D RGA3_COLOR_FMT_YUV420,
+> +		.semi_planar =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_NV21M,
+> +		.hw_format =3D RGA3_COLOR_FMT_YUV420,
+> +		.rbuv_swap =3D 1,
+> +		.semi_planar =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_NV21,
+> +		.hw_format =3D RGA3_COLOR_FMT_YUV420,
+> +		.rbuv_swap =3D 1,
+> +		.semi_planar =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_NV16M,
+> +		.hw_format =3D RGA3_COLOR_FMT_YUV422,
+> +		.semi_planar =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_NV16,
+> +		.hw_format =3D RGA3_COLOR_FMT_YUV422,
+> +		.semi_planar =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_NV61M,
+> +		.hw_format =3D RGA3_COLOR_FMT_YUV422,
+> +		.rbuv_swap =3D 1,
+> +		.semi_planar =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_NV61,
+> +		.hw_format =3D RGA3_COLOR_FMT_YUV422,
+> +		.rbuv_swap =3D 1,
+> +		.semi_planar =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_YUYV,
+> +		.hw_format =3D RGA3_COLOR_FMT_YUV422,
+> +		.yc_swap =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_YVYU,
+> +		.hw_format =3D RGA3_COLOR_FMT_YUV422,
+> +		.yc_swap =3D 1,
+> +		.rbuv_swap =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_UYVY,
+> +		.hw_format =3D RGA3_COLOR_FMT_YUV422,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_VYUY,
+> +		.hw_format =3D RGA3_COLOR_FMT_YUV422,
+> +		.rbuv_swap =3D 1,
+
+Any chance you could add 10bit formats ? It can handle NV15 and P010. So fa=
+r
+this had been the main reason people have been interested in RGA3 (that and=
+ its
+AFBC feature, but the later is quite some more work, since we don't have th=
+e
+common code to compute the header sizes in media/ yet).
+
+> +	},
+> +	/* Input only formats last to keep rga3_enum_format simple */
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_ARGB32,
+> +		.hw_format =3D RGA3_COLOR_FMT_ABGR8888,
+> +		.rbuv_swap =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_BGRA32,
+> +		.hw_format =3D RGA3_COLOR_FMT_ABGR8888,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_XRGB32,
+> +		.hw_format =3D RGA3_COLOR_FMT_ABGR8888,
+> +		.rbuv_swap =3D 1,
+> +	},
+> +	{
+> +		.fourcc =3D V4L2_PIX_FMT_BGRX32,
+> +		.hw_format =3D RGA3_COLOR_FMT_ABGR8888,
+> +	},
+> +};
+> +
+> +static int rga3_enum_format(struct v4l2_fmtdesc *f)
+> +{
+> +	struct rga3_fmt *fmt;
+> +
+> +	if (f->index >=3D ARRAY_SIZE(rga3_formats))
+> +		return -EINVAL;
+> +
+> +	fmt =3D &rga3_formats[f->index];
+> +	if (V4L2_TYPE_IS_CAPTURE(f->type) && !rga3_can_capture(fmt))
+> +		return -EINVAL;
+> +
+> +	f->pixelformat =3D fmt->fourcc;
+> +	return 0;
+> +}
+> +
+> +static void *rga3_try_format(u32 *fourcc, bool is_output)
+
+This is not really a try_format function, but a tiny subset. If you really =
+like
+the "try", perhaps call it rga3_try_pixelformat() ?=20
+
+> +{
+> +	unsigned int i;
+> +
+> +	if (!fourcc)
+> +		return &rga3_formats[0];
+> +
+> +	for (i =3D 0; i < ARRAY_SIZE(rga3_formats); i++) {
+> +		if (!is_output && !rga3_can_capture(&rga3_formats[i]))
+> +			continue;
+> +
+> +		if (rga3_formats[i].fourcc =3D=3D *fourcc)
+> +			return &rga3_formats[i];
+> +	}
+> +
+> +	*fourcc =3D rga3_formats[0].fourcc;
+> +	return &rga3_formats[0];
+> +}
+> +
+> +const struct rga_hw rga3_hw =3D {
+> +	.card_type =3D "rga3",
+> +	.has_internal_iommu =3D false,
+> +	.cmdbuf_size =3D RGA3_CMDBUF_SIZE,
+> +	.min_width =3D RGA3_MIN_WIDTH,
+> +	.min_height =3D RGA3_MIN_HEIGHT,
+> +	.max_width =3D RGA3_MAX_INPUT_WIDTH,
+> +	.max_height =3D RGA3_MAX_INPUT_HEIGHT,
+> +
+> +	.start =3D rga3_hw_start,
+> +	.handle_irq =3D rga3_handle_irq,
+> +	.get_version =3D rga3_get_version,
+> +	.enum_format =3D rga3_enum_format,
+> +	.try_format =3D rga3_try_format,
+> +};
+> diff --git a/drivers/media/platform/rockchip/rga/rga3-hw.h b/drivers/medi=
+a/platform/rockchip/rga/rga3-hw.h
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..3829469e310706c11ecc52f40=
+d3d1eb43a61d9c2
+> --- /dev/null
+> +++ b/drivers/media/platform/rockchip/rga/rga3-hw.h
+> @@ -0,0 +1,186 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +/*
+> + * Copyright (C) Pengutronix e.K.
+> + * Author: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
+> + */
+> +#ifndef __RGA3_HW_H__
+> +#define __RGA3_HW_H__
+> +
+> +#include <linux/types.h>
+> +
+> +#define RGA3_CMDBUF_SIZE 0x2e
+> +
+> +#define RGA3_MIN_WIDTH 128
+> +#define RGA3_MIN_HEIGHT 128
+> +#define RGA3_MAX_INPUT_WIDTH (8192 - 16)
+> +#define RGA3_MAX_INPUT_HEIGHT (8192 - 16)
+> +#define RGA3_RESET_TIMEOUT 1000
+> +
+> +/* Registers address */
+> +/* sys reg */
+> +#define RGA3_SYS_CTRL				0x000
+> +#define RGA3_CMD_CTRL				0x004
+> +#define RGA3_CMD_ADDR				0x008
+> +#define RGA3_MI_GROUP_CTRL			0x00c
+> +#define RGA3_ARQOS_CTRL				0x010
+> +#define RGA3_VERSION_NUM			0x018
+> +#define RGA3_VERSION_TIM			0x01c
+> +#define RGA3_INT_EN				0x020
+> +#define RGA3_INT_RAW				0x024
+> +#define RGA3_INT_MSK				0x028
+> +#define RGA3_INT_CLR				0x02c
+> +#define RGA3_RO_SRST				0x030
+> +#define RGA3_STATUS0				0x034
+> +#define RGA3_SCAN_CNT				0x038
+> +#define RGA3_CMD_STATE				0x040
+> +
+> +/* cmd reg */
+> +#define RGA3_WIN0_RD_CTRL			0x100
+> +#define RGA3_FIRST_CMD_REG			RGA3_WIN0_RD_CTRL
+> +#define RGA3_WIN0_Y_BASE			0x110
+> +#define RGA3_WIN0_U_BASE			0x114
+> +#define RGA3_WIN0_V_BASE			0x118
+> +#define RGA3_WIN0_VIR_STRIDE			0x11c
+> +#define RGA3_WIN0_FBC_OFF			0x120
+> +#define RGA3_WIN0_SRC_SIZE			0x124
+> +#define RGA3_WIN0_ACT_OFF			0x128
+> +#define RGA3_WIN0_ACT_SIZE			0x12c
+> +#define RGA3_WIN0_DST_SIZE			0x130
+> +#define RGA3_WIN0_SCL_FAC			0x134
+> +#define RGA3_WIN0_UV_VIR_STRIDE			0x138
+> +#define RGA3_WIN1_RD_CTRL			0x140
+> +#define RGA3_WIN1_Y_BASE			0x150
+> +#define RGA3_WIN1_U_BASE			0x154
+> +#define RGA3_WIN1_V_BASE			0x158
+> +#define RGA3_WIN1_VIR_STRIDE			0x15c
+> +#define RGA3_WIN1_FBC_OFF			0x160
+> +#define RGA3_WIN1_SRC_SIZE			0x164
+> +#define RGA3_WIN1_ACT_OFF			0x168
+> +#define RGA3_WIN1_ACT_SIZE			0x16c
+> +#define RGA3_WIN1_DST_SIZE			0x170
+> +#define RGA3_WIN1_SCL_FAC			0x174
+> +#define RGA3_WIN1_UV_VIR_STRIDE			0x178
+> +#define RGA3_OVLP_CTRL				0x180
+> +#define RGA3_OVLP_OFF				0x184
+> +#define RGA3_OVLP_TOP_KEY_MIN			0x188
+> +#define RGA3_OVLP_TOP_KEY_MAX			0x18c
+> +#define RGA3_OVLP_TOP_CTRL			0x190
+> +#define RGA3_OVLP_BOT_CTRL			0x194
+> +#define RGA3_OVLP_TOP_ALPHA			0x198
+> +#define RGA3_OVLP_BOT_ALPHA			0x19c
+> +#define RGA3_WR_CTRL				0x1a0
+> +#define RGA3_WR_FBCE_CTRL			0x1a4
+> +#define RGA3_WR_VIR_STRIDE			0x1a8
+> +#define RGA3_WR_PL_VIR_STRIDE			0x1ac
+> +#define RGA3_WR_Y_BASE				0x1b0
+> +#define RGA3_WR_U_BASE				0x1b4
+> +#define RGA3_WR_V_BASE				0x1b8
+> +
+> +/* Registers value */
+> +#define RGA3_COLOR_FMT_YUV420		0x0
+> +#define RGA3_COLOR_FMT_YUV422		0x1
+> +#define RGA3_COLOR_FMT_YUV420_10B	0x2
+> +#define RGA3_COLOR_FMT_YUV422_10B	0x3
+> +/*
+> + * Use memory ordering names
+> + * instead of the datasheet naming RGB formats in big endian order
+> + */
+> +#define RGA3_COLOR_FMT_BGR565		0x4
+> +#define RGA3_COLOR_FMT_BGR888		0x5
+> +#define RGA3_COLOR_FMT_FIRST_HAS_ALPHA	RGA3_COLOR_FMT_BGRA8888
+> +#define RGA3_COLOR_FMT_BGRA8888		0x6
+> +#define RGA3_COLOR_FMT_LAST_OUTPUT	RGA3_COLOR_FMT_BGRA8888
+> +/* the following are only supported as inputs */
+> +#define RGA3_COLOR_FMT_ABGR8888		0x7
+> +/*
+> + * the following seem to be unnecessary,
+> + * as they can be achieved with RB swaps
+> + */
+> +#define RGA3_COLOR_FMT_RGBA8888		0x8
+> +#define RGA3_COLOR_FMT_ARGB8888		0x9
+> +
+> +#define RGA3_RDWR_FORMAT_SEMI_PLANAR	0x1
+> +#define RGA3_RDWR_FORMAT_INTERLEAVED	0x2
+> +
+> +#define RGA3_CMD_MODE_MASTER 0x1
+> +
+> +#define RGA3_WIN_CSC_MODE_BT601_F 0x2
+> +
+> +/* RGA masks */
+> +/* SYS_CTRL */
+> +#define RGA3_CCLK_SRESET BIT(4)
+> +#define RGA3_ACLK_SRESET BIT(3)
+> +#define RGA3_CMD_MODE BIT(1)
+> +
+> +/* CMD_CTRL */
+> +#define RGA3_CMD_LINE_START_PULSE BIT(0)
+> +
+> +/* VERSION_NUM */
+> +#define RGA3_VERSION_NUM_MAJOR GENMASK(31, 28)
+> +#define RGA3_VERSION_NUM_MINOR GENMASK(27, 20)
+> +
+> +/* INT_* */
+> +#define RGA3_INT_FRM_DONE BIT(0)
+> +#define RGA3_INT_DMA_READ_BUS_ERR BIT(2)
+> +#define RGA3_INT_WIN0_FBC_DEC_ERR BIT(5)
+> +#define RGA3_INT_WIN0_HOR_ERR BIT(6)
+> +#define RGA3_INT_WIN0_VER_ERR BIT(7)
+> +#define RGA3_INT_WR_VER_ERR BIT(13)
+> +#define RGA3_INT_WR_HOR_ERR BIT(14)
+> +#define RGA3_INT_WR_BUS_ERR BIT(15)
+> +#define RGA3_INT_WIN0_IN_FIFO_WR_ERR BIT(16)
+> +#define RGA3_INT_WIN0_IN_FIFO_RD_ERR BIT(17)
+> +#define RGA3_INT_WIN0_HOR_FIFO_WR_ERR BIT(18)
+> +#define RGA3_INT_WIN0_HOR_FIFO_RD_ERR BIT(19)
+> +#define RGA3_INT_WIN0_VER_FIFO_WR_ERR BIT(20)
+> +#define RGA3_INT_WIN0_VER_FIFO_RD_ERR BIT(21)
+> +
+> +/* RO_SRST */
+> +#define RGA3_RO_SRST_DONE GENMASK(5, 0)
+> +
+> +/* *_SIZE */
+> +#define RGA3_HEIGHT GENMASK(28, 16)
+> +#define RGA3_WIDTH GENMASK(12, 0)
+> +
+> +/* SCL_FAC */
+> +#define RGA3_SCALE_VER_FAC GENMASK(31, 16)
+> +#define RGA3_SCALE_HOR_FAC GENMASK(15, 0)
+> +
+> +/* WINx_CTRL */
+> +#define RGA3_WIN_CSC_MODE GENMASK(27, 26)
+> +#define RGA3_WIN_R2Y BIT(25)
+> +#define RGA3_WIN_Y2R BIT(24)
+> +#define RGA3_WIN_SCALE_VER_UP BIT(23)
+> +#define RGA3_WIN_SCALE_VER_BYPASS BIT(22)
+> +#define RGA3_WIN_SCALE_HOR_UP BIT(21)
+> +#define RGA3_WIN_SCALE_HOR_BYPASS BIT(20)
+> +#define RGA3_WIN_YC_SWAP BIT(13)
+> +#define RGA3_WIN_RBUV_SWAP BIT(12)
+> +#define RGA3_WIN_RD_FORMAT GENMASK(9, 8)
+> +#define RGA3_WIN_PIC_FORMAT GENMASK(7, 4)
+> +#define RGA3_WIN_ENABLE BIT(0)
+> +
+> +/* COLOR_CTRL */
+> +#define RGA3_OVLP_GLOBAL_ALPHA GENMASK(23, 16)
+> +#define RGA3_OVLP_COLOR_MODE BIT(0)
+> +
+> +/* ALPHA_CTRL */
+> +#define RGA3_ALPHA_SELECT_MODE BIT(4)
+> +#define RGA3_ALPHA_BLEND_MODE GENMASK(3, 2)
+> +
+> +/* WR_CTRL */
+> +#define RGA3_WR_YC_SWAP BIT(20)
+> +#define RGA3_WR_SW_OUTSTANDING_MAX GENMASK(18, 13)
+> +#define RGA3_WR_RBUV_SWAP BIT(12)
+> +#define RGA3_WR_FORMAT GENMASK(9, 8)
+> +#define RGA3_WR_PIC_FORMAT GENMASK(7, 4)
+> +
+> +struct rga3_fmt {
+> +	u32 fourcc;
+> +	u8 hw_format;
+> +	bool rbuv_swap;
+> +	bool yc_swap;
+> +	bool semi_planar;
+> +};
+> +
+> +#endif
+
+--=-8IpBQNeH+w/N59wcfeQm
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaOVs6wAKCRDZQZRRKWBy
+9JvWAQChBy8KSv0D+uWwszUQ/JiraZDPj5zjEfnzGPtWhojIxAD9H8Fj/NGreVBl
+Z+BepW/MlIkKpYA1yvo/4mSlPiYUJwY=
+=KRDy
+-----END PGP SIGNATURE-----
+
+--=-8IpBQNeH+w/N59wcfeQm--
 
