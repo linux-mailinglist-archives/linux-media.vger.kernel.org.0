@@ -1,164 +1,144 @@
-Return-Path: <linux-media+bounces-43867-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43868-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FD09BC2727
-	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 20:54:40 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8F2B6BC283E
+	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 21:35:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 782934E3F1A
-	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 18:54:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5ABCF19A2E82
+	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 19:35:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CF79F2E9EA6;
-	Tue,  7 Oct 2025 18:54:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC34B2DA76C;
+	Tue,  7 Oct 2025 19:35:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="kzchrdik"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CmJZvMEa"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f46.google.com (mail-qv1-f46.google.com [209.85.219.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB84E205E25
-	for <linux-media@vger.kernel.org>; Tue,  7 Oct 2025 18:54:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CE91DE4FB
+	for <linux-media@vger.kernel.org>; Tue,  7 Oct 2025 19:35:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759863269; cv=none; b=Ssgz2OM6upSZOwO/739UMMRtybWfyFSnzzh+is3myKw9arfTLaPfTbbHW8W3O4vcMJmYA9JRWEi0AaZgMFmxwWeawXC8fwAVfYf8ClxhGqCYOVXgTlzFk432afgc7x6wrVAoljlaTKHrHrLi4+k78sVPHJslXvpOWLf5ol3hhC0=
+	t=1759865705; cv=none; b=h5viTydfRTa1aiJFR2GL/xP1xvIBSAh4FXLwuXdwtK4Sm9N99nSaCXbIkSmEH5WP5p5MgL6j9KZD2emssYD0juKZTHxQgfxjrAv+D3629z0C5XGOP+4YnoQwUmdSn/IjdJ1zpVcmJiccOus2Ngr+4H+XIeBCe+5sA6up1x55wK0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759863269; c=relaxed/simple;
-	bh=fyqYBk39edhoU3hvwcDq4RniKRvu8ih3vY+jGbKyhzg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=cfUeib2Oh1ADUe1C+t+UdQK/yc+tQp9TMlqANT6EcZidYCw+4WAfYmbJvjkM7+LAGh8VbfBpu6ewGsQi1noZffgQ1JwSqGr7WGIxIvBuoDgOFMchXls4lt7KCCWeC3PnGYYr0v+gTRjG44QtmDWAjGrt1W6ItqPCwk9iJXsSqcs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=kzchrdik; arc=none smtp.client-ip=209.85.219.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qv1-f46.google.com with SMTP id 6a1803df08f44-79a7d439efbso60626076d6.0
-        for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 11:54:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1759863266; x=1760468066; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=fyqYBk39edhoU3hvwcDq4RniKRvu8ih3vY+jGbKyhzg=;
-        b=kzchrdikhUv21qCVt4IxSIPMLRVM4SC76uhM2gu6HjFUkhkzfBNFt29NdwLE8K6k34
-         Ml2dBZGS1Blztn4jaW/LGIku4raD5T78ksaC3qXXWuuJ0JzfqTaBFrMlsCNXzItRsc5R
-         33yZ1igkFNMfeyHfTp8b5avbMKs+n0GVRSUSBMlsk4ciF/MGq0JcJMcSuhpwTqiuhZf/
-         zAQzUE4DvbUW+H1sLQT2HJ9r9Y6jDoyqd1fad1d3ZIWlEVmAreM3KSS+bponKXUgFH4J
-         TGlfHQyHMP3eLdkA6Dehqjv3SYOFih9Q3XCIMdiENYA390nFQpYiLWP5BjlkWYWXcz8c
-         mSnA==
+	s=arc-20240116; t=1759865705; c=relaxed/simple;
+	bh=wig0ZZyUy6dvUMp7li1+6/VNLVxhlEr3/MEMi8fh3UE=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=Nl0KLZZ3G9wlTWDkpPSdkfPqNCZNU933a9bxuWrmJZojmkyngbjeXaUrZmlF5fLqM2ygODHUNKVlNsJjaEw5r9TlLCJZ0d1M9DO/qJqXrdyrSL6MSIesiQf9GfjBAsxMuNHlKQFvOKXjqvrlYLI5HbjBaYLTlqcl9Ow+P+TXqKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CmJZvMEa; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 597ET5WH025699
+	for <linux-media@vger.kernel.org>; Tue, 7 Oct 2025 19:35:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:message-id:mime-version:subject:to; s=
+	qcppdkim1; bh=PvaVJoAJ0Gijus/RZwgfHF8MqLW4IcqzozVAjzVGhEY=; b=Cm
+	JZvMEajRwKNXGpNzosoJA4NQn9MIt49ruOyIEiOYpZ49RItE9q+KLKVaJFarenxE
+	kQh24oSfGoqFqCqXL2OqOtmAC1P7+CNQOjFABtnMnlrU5tiqLcP7Q7AC2Pg0Ujee
+	7poRyDgBTODUA21HLgsZ6nE3T9sgw7n0X5kTO0JwEUEXzm4ZojfeVtte8Y/XsvNG
+	hJpIJAKNyVe78VfDu1cr1ijKo0NOEnuYW9Ms46JlDLat01uvFndudxCGEpmz4Rs4
+	QHXaWzuKYDvYw/ZgNHv2H89lyaijdO/eRqpYqIFO0gggzSWHgLywuYpPHg4S+Dm0
+	Fr87B4pzsF0ChIloT31w==
+Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49juy70bwv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 19:35:02 +0000 (GMT)
+Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4d77ae03937so176600711cf.3
+        for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 12:35:02 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759863266; x=1760468066;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=fyqYBk39edhoU3hvwcDq4RniKRvu8ih3vY+jGbKyhzg=;
-        b=hhJPFyjLvF3jabbLZ7vsA+60EWvMs2292pxQna3bpT4nIF7/qkVs5mNQCnOPhSFA9P
-         EJgYWy4m8HbA+NXLR3OyJF+Yi6n6nO14ckSkelzXNWoSK+aEem69ckyT0sSgi7jp5e//
-         q8EwTWP6PxqezwIw46PJHmezz2sdhvdSp1z+xe3CNFbFDQbANVdh7WayKrN414Ovn5Ig
-         egpwZlXXGJ/ee/fpw6cMIFglJqA+nTgp8KJbr1u74br8YZEv2nYWKlexqy794ZC/BaFt
-         S05lBjAg78mzQOcLcgHECTQclfkCHYidvEmH7JkTL9a/X5yPBIqO3V0z2At2qCS8oO0H
-         6IFQ==
-X-Gm-Message-State: AOJu0YwMueOdt5YpIrt25+YJgTQ7icrO9UnW/4xyQYM/OA15QA9CCQG3
-	r8iIov+w3f0S52+h1nE83HBr8jXJlbgSH8dZ+xEla/zZc/GGOWK0fSPlNqt6Mrnu5dz1VVFcRwb
-	b+BUQ
-X-Gm-Gg: ASbGncvDGpsIkcFqwlRzsYXovTc9lmczfSxaj6FMwnUd6t+H1soY8iy76IMuKxdSsPi
-	masLBTlm6HUHhONt/eZlld3/8TyoRb1vMt/9Mgvhbbt3O3bgZ8di2XT+/7GQjRUkcCLU1nVVQ/Y
-	x2O/5aIseRW3iJoQyS867l0jp15Fx+CkTQrRgvUoE5Lzl2DueG8dZRlFm7JbJA8If7Xdiq3emHu
-	JmnrjAT+tCguhtQZHGNJRot5LdmbHvnTXiCGpx4O/xDLIucCAUg10uf6dJmU4gZo+MssWhKcznd
-	nA3H89jsRl7KqTLNpQ0HXuDrI8fj2smukVeI1qVBF72i5X0tfIC1WBSXn4lKQ8hz2HCfoMFg+/G
-	3vnkxDO9migkXu8B9nthW5uk0ySnGvYW7iz2raKszmGzOV6n3VbKZ
-X-Google-Smtp-Source: AGHT+IEixUIOgl0MCHeaJ3U9YoVpppcjNIJi8FhlBiYJXzIZViLBMX0i5qQwH5C+bK/YoahAmV9Giw==
-X-Received: by 2002:a05:6214:5012:b0:879:db53:df0 with SMTP id 6a1803df08f44-87b2efe7106mr6252686d6.46.1759863266399;
-        Tue, 07 Oct 2025 11:54:26 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:17:ebd3::c41? ([2606:6d00:17:ebd3::c41])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-878be61f6bcsm146805896d6.65.2025.10.07.11.54.24
+        d=1e100.net; s=20230601; t=1759865701; x=1760470501;
+        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PvaVJoAJ0Gijus/RZwgfHF8MqLW4IcqzozVAjzVGhEY=;
+        b=jZtUKhM04WNbrFBwIKZMc0m4zaMoKH8/rWEbMnCK0NDbtCsvDCdo36lldRnKGWQUC+
+         wTOsleO4/TuboNO29dGM0uqh/qzPoqaSL9wU+KFFWXSNNSCx4DgbOp9t2850F1Qlalaf
+         KZzre19f724vLet3GdFGX0L/flr8dpXrDgYLJSjlCiPAKCYAErTWFcYuFH2WNY5ECkqD
+         T/2/WvK6jOzNI9iqVC1sjNYuoGWAt1vFamHy4gPXzwy1Gb2huOUo+rloINIKGnUHqlOR
+         ABsBBaLp8MuscnDLROU/iF0uWOkYouruQwRGaMe+q3PiKnXFVWOCuUiYg1uVX2QSPAun
+         Zb/A==
+X-Forwarded-Encrypted: i=1; AJvYcCWRZq51x0dv8aLdw+rA++Yn/2yh4zOsdqMKPaENOG1HhP4e/VEAFzKZ++D8SSB5AF1z8XDPtODSdno8QQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzO4dvaJyUrBXcmVvHn3i86ESUMbQFK9bTMBvreiHmn4DkDYVXO
+	9LfH5g1O7a+kFmdBJIHq8tpJtIBkpi7GXH94IsYftk/gI8xpt6049dhBK/Xr45H5tHz1JRvHVne
+	CxsG/VqsBggA8vhe2zoiYR4TtZiftC9DP+aJWP06DA7hOnLO3qCIOS4zReB9O9+wHXw==
+X-Gm-Gg: ASbGnctlOLKh66KUzG92ZfFjrr7A9nfuSAySxIrxo6PFhqPP0AixMwLZwtj30kGw41A
+	NkxkDPAYduCq+Gfj1IHANWTHqL76puD/Ra919haFJNlbBesF4yYGnXhW4L8/FMVYhSfNsXOJaMm
+	QGFdu3aIx4RwQ5LluqtJAE7v0jnRBGgBjUwxUrW/frSUJFQJ5Xt6Gk8XOEnduLqoVJM82b9CntR
+	4j7i+FRLlQqCmohzTpwzCRByGtlIcdIoyc2SRWeZWiaNsxx0RMxUhRRv7IvUg88xbs5WGr5rezS
+	5Jo1QJYoALasGnHhiy5iKpi8A7Mixisw/jFPx9LdaiedsXU6b5hrRF1LUIu5lZG6UAE2GO4+YvY
+	IlrIDTRLbzwoozVi6DIerLxjziB9dpkJDiUL2SI9hsBqQYYsd94uTxFXy+A==
+X-Received: by 2002:a05:622a:554:b0:4dd:e207:fe2 with SMTP id d75a77b69052e-4e6ead771bemr10781221cf.41.1759865701276;
+        Tue, 07 Oct 2025 12:35:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFhYB5jrIhIsoEiveBcI1+5csRppnfeSgR0nJsMQlBnsHGl4MPh8xoRA6HHDibeJe3352O9Qg==
+X-Received: by 2002:a05:622a:554:b0:4dd:e207:fe2 with SMTP id d75a77b69052e-4e6ead771bemr10780851cf.41.1759865700740;
+        Tue, 07 Oct 2025 12:35:00 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58b0118d3e6sm6348563e87.63.2025.10.07.12.34.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 11:54:25 -0700 (PDT)
-Message-ID: <46a1915e81b027d1c344eed0477683dd3a68d810.camel@ndufresne.ca>
-Subject: Re: [PATCH 16/16] media: rockchip: rga: add rga3 support
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Krzysztof Kozlowski <krzk@kernel.org>, Sven =?ISO-8859-1?Q?P=FCschel?=	
- <s.pueschel@pengutronix.de>, Jacob Chen <jacob-chen@iotwrt.com>, Ezequiel
- Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
- <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, kernel@pengutronix.de
-Date: Tue, 07 Oct 2025 14:54:24 -0400
-In-Reply-To: <bf989d9f-9e8e-4acc-b502-1674ce215318@kernel.org>
-References: <20251007-spu-rga3-v1-0-36ad85570402@pengutronix.de>
-	 <20251007-spu-rga3-v1-16-36ad85570402@pengutronix.de>
-	 <bf989d9f-9e8e-4acc-b502-1674ce215318@kernel.org>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-I9QXmLgSnsRRCh9PPEnb"
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+        Tue, 07 Oct 2025 12:34:59 -0700 (PDT)
+Date: Tue, 7 Oct 2025 22:34:58 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+        Dikshita Agarwal <quic_dikshita@quicinc.com>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>
+Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org
+Subject: media: qcom: iris: crashes on SM8250 / RB5 board
+Message-ID: <rs3olaoudntfrnsgpg4nivtnyrdfqsvb3flnr6mcejih3me6zd@udzutvmmkj45>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+X-Authority-Analysis: v=2.4 cv=IrITsb/g c=1 sm=1 tr=0 ts=68e56b66 cx=c_pps
+ a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=x6icFKpwvdMA:10 a=fREZMqYHaUzqRmr5ttQA:9 a=CjuIK1q_8ugA:10
+ a=kacYvNCVWA4VmyqE58fU:22 a=HhbK4dLum7pmb74im6QT:22
+X-Proofpoint-GUID: 9PpGpjxhbSrUAzaEGwPhSAbgQHRnMPDn
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAyOSBTYWx0ZWRfX7kRBP8pW6V9s
+ UQwVlaZOz8Ii8QKPjUNpceLgRhQno9UO36Z3yKhTPlN/pSsYbQJLYfHpHOitwZveLm7e+QHluaA
+ cjVfSl2K+7gVWl01T7+sMkZrUZuT0Io+feyZZ1KqtYzwpeCbaB7TIzlXYa9D3YTEJRUcvMhocUP
+ 72Sk3BMmbmjbR7z+0APObD3iq6J7ebja9+1XMVaKOQP7dw5meZaewqr0v3qzHTpeYyYBvrdPgKL
+ z9yLI1Mkvh3PJWiOTianz0uDigBOL3TAyB9GglPUC/b3y908yxH488R73tdb62z/2CFxpTbAYey
+ pT5A+fKDVhcuAFoYIqdMCIaW+5NFdZuej0nW56wbwpWN1pb7lipBgFCXlSJ0TIhZ4QSGjnOl29j
+ NVNN/DDJbPkzs9sMDoGJ65q9Q7wXAA==
+X-Proofpoint-ORIG-GUID: 9PpGpjxhbSrUAzaEGwPhSAbgQHRnMPDn
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-07_02,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 priorityscore=1501 bulkscore=0 clxscore=1015 malwarescore=0
+ spamscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040029
 
+Hello,
 
---=-I9QXmLgSnsRRCh9PPEnb
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+I've tried running fluster testsuite against the Iris driver on the
+Qualcomm Robotics RB5 (QRB5165 / SM8250) and I noticed several
+instabilities:
 
-Hi Krzysztof,
+The following VP9 tests cause the board to reset badly:
 
-Le mardi 07 octobre 2025 =C3=A0 17:39 +0900, Krzysztof Kozlowski a =C3=A9cr=
-it=C2=A0:
-> On 07/10/2025 17:32, Sven P=C3=BCschel wrote:
-> > Add support for the RGA3 unit contained in the RK3588.
-> >=20
-> > Only a basic feature set consisting of scaling and color conversion is
-> > implemented. Advanced features like rotation and cropping will just be
-> > ignored. Also the BT601F color space conversion is currently hard coded=
-.
-> >=20
-> > The register address defines were copied from the
-> > vendor Rockchip kernel sources and slightly adjusted to not start at 0
-> > again for the cmd registers.
-> >=20
-> > Signed-off-by: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
-> > ---
-> > =C2=A0drivers/media/platform/rockchip/rga/Makefile=C2=A0 |=C2=A0=C2=A0 =
-2 +-
-> > =C2=A0drivers/media/platform/rockchip/rga/rga.c=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0=C2=A0 4 +
-> > =C2=A0drivers/media/platform/rockchip/rga/rga.h=C2=A0=C2=A0=C2=A0=C2=A0=
- |=C2=A0=C2=A0 2 +-
-> > =C2=A0drivers/media/platform/rockchip/rga/rga3-hw.c | 490
-> > ++++++++++++++++++++++++++
-> > =C2=A0drivers/media/platform/rockchip/rga/rga3-hw.h | 186 ++++++++++
-> > =C2=A05 files changed, 682 insertions(+), 2 deletions(-)
->=20
-> Your order of patches is a mess. DTS cannot be in the middle. In fact,
-> DTS should not be even in this patchset, because you are targeting media.
+            vp90-2-05-resize.ivf
+            vp90-2-18-resize.ivf
+            vp90-2-21-resize_inter_640x360_5_1-2.webm
+            vp90-2-21-resize_inter_640x360_5_3-4.webm
+            vp90-2-21-resize_inter_640x360_7_1-2.webm
+            vp90-2-21-resize_inter_640x360_7_3-4.webm
 
-Indeed, order is broken, though I do appreciate having the DTS as part of t=
-he
-submission, this way I don't have to chase for them when testing. That bein=
-g
-said, a link or message ID in the cover later would be as good.
+Testing H.265 with JCT-VC-HEVC_V1 passes with -j 1, but quickly resets
+the board with 8 paralell jobs (the fluster's default on that device).
 
-Nicolas
+Neither H.265 nor VP9 testsuites crash if I use Venus driver.
 
->=20
-> Best regards,
-> Krzysztof
-
---=-I9QXmLgSnsRRCh9PPEnb
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaOVh4AAKCRDZQZRRKWBy
-9O1JAQCgbiRyx2yEWIDJARh2LE+kwcz/R5TwyiD48kcAsBRc3gEAj9DcD7rTLpzu
-68L0DpQYyIRrsE94HVozLhgCExOv9gk=
-=P0io
------END PGP SIGNATURE-----
-
---=-I9QXmLgSnsRRCh9PPEnb--
+-- 
+With best wishes
+Dmitry
 
