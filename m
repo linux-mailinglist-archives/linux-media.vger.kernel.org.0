@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-43822-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43823-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id C77E3BC0BC5
-	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 10:41:30 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCC71BC0C19
+	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 10:43:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8E8F418922B7
-	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 08:41:50 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C9D7E4F6006
+	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 08:41:52 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E909B2D6E66;
-	Tue,  7 Oct 2025 08:38:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 263252D7DF6;
+	Tue,  7 Oct 2025 08:39:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mBNXcNdr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nWk74one"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 191AA4C9D;
-	Tue,  7 Oct 2025 08:38:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5382561C2;
+	Tue,  7 Oct 2025 08:39:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759826319; cv=none; b=a97jXaEDuj4fwXhAVaf0T/U/9E5rQ39N+Bo2eTROsC5OCVgFG99jmYMIbnCSo9Gpabk7Ot/OzCdKiaU1Puhji0WHA40YrdG/Fc/Ikfi9Z4oDYmjXl3+1Uq2DXlCIQ+E55QQv84U1Aci6PEU6y5IpmkqoAp3smFmT95D71eLl2RU=
+	t=1759826369; cv=none; b=H+iAsKp35ntqiyNU1QdSdNCpU21wbpyEXMyYoeLytj2acHrVj1N9U9xIajueHxaZBISQj5Y05ejLk8E9xTcxsH7wgJjlLpDrZKgiM8ER5cqPPe75S4zp1fNI6PC7Fxp9CR+qSwij4ul9aKGVMWsiGemhB49Ijc5BE9g+LuivAGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759826319; c=relaxed/simple;
-	bh=5qfAOY91alRr3e4nKv4ZlXn5Fa6lg2X17V+MXXHFttI=;
+	s=arc-20240116; t=1759826369; c=relaxed/simple;
+	bh=/C23iB6hG80aHSfbPIQHZRkbT6oo4Wb0yA1Motn9ZLs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=uWKOINQjIdX7qQympPoxz5GjpurR5GEfYNlaVA739vfmvethR+GRbATgIg40paj503qKNCPrqzJFb7+az0GvlOjKE1Ny7etJJtR1idvXqpcanyzUYU0Tp/uYZtnqPwZQyTUZ/+SxdGHCalmJxBVja4wUdI9ni4IB9oHcRxI0Cp0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mBNXcNdr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86BF2C4CEF1;
-	Tue,  7 Oct 2025 08:38:32 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=GWhr65mcjTwOzqD5wMWeJVxbENGjV5ItQgTtv1biA1iVzZiWrQJW7hmb2smWlt+uS6p7K35EfW1QlUojWsA1XjMKEEPkMB3Oiw80MjAHjMcaKomxGVyRqo+jxFjBhdB4EzUVWSFe6aswTACCm5q+KdO6+BgcDsih1DEUKng3qRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nWk74one; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 300C7C4CEF1;
+	Tue,  7 Oct 2025 08:39:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759826317;
-	bh=5qfAOY91alRr3e4nKv4ZlXn5Fa6lg2X17V+MXXHFttI=;
+	s=k20201202; t=1759826368;
+	bh=/C23iB6hG80aHSfbPIQHZRkbT6oo4Wb0yA1Motn9ZLs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=mBNXcNdrMhlUS15PHBr9WakiXmp+gSiOMYXdXN948Q9PoeegPNuxtcNRShu/VuAwK
-	 9lXIenGSdt7jYGJ3kX0hba6cDjZvyX9B8Ep01QSZKm5HRGaivlpsj7ye2qP7+yT2et
-	 LcUBQ/pyAWCqr9cVvM2Aq7arhQnAXWBm5MpJ4UuwIpw9zgTp9pSDzHQ/vz62E7wcLp
-	 m1UitEFsxIoS0BEoQIvU8e54RaSR/dn8cTb4LcmeneS3i45Isx/x/eAjpaP67NMWxi
-	 LNX2uPBD8irlZZ9J2CIjEheuSOJ+wgDtgf6q+QLDMAAkEwmkD15Yb5OvEjOfBWpJ9q
-	 MuhgPBC7ySOvA==
-Message-ID: <c4b0f1d0-cebd-4381-b2c0-20c177c0732c@kernel.org>
-Date: Tue, 7 Oct 2025 17:38:29 +0900
+	b=nWk74onezSRqVhn/e/QYXHPDyxYB/VWAQovtpleU5X2n9VagrwVRQrFoxNOiivo2e
+	 0pqv3P4zT5BDxklaTYuroG+FZLUVzh6Nuqos5nzsoO4q1tv7OEMN0nUdKjy6E9L+By
+	 vYHoSkGnt2q451tFuw5I/zcklckq+JuFA8bW/h+6LTGtu7Q8+hC3zsbB0SIFJnwrYl
+	 hunsIadsv8Euwg2X7gG5BxHWNb40Jnm11r+pa6Wh4CqGplizr5WRLwQuLxtJPzTDWY
+	 eEtA7HIFZmCcqdb+MQ2lMivUjwbwOb1a9sta+ARtZn6UFkjk63sbxsQNdio82V436J
+	 Uj0cRk4/gvyKw==
+Message-ID: <15c23554-b51e-4656-81bc-a890c8c989a9@kernel.org>
+Date: Tue, 7 Oct 2025 17:39:20 +0900
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,7 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 13/16] media: dt-bindings: media: rockchip-rga: add
- rockchip,rk3588-rga3
+Subject: Re: [PATCH 15/16] arm64: dts: rockchip: increase rga3 clock speed
 To: =?UTF-8?Q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>,
  Jacob Chen <jacob-chen@iotwrt.com>,
  Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
@@ -62,7 +61,7 @@ Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  devicetree@vger.kernel.org, kernel@pengutronix.de
 References: <20251007-spu-rga3-v1-0-36ad85570402@pengutronix.de>
- <20251007-spu-rga3-v1-13-36ad85570402@pengutronix.de>
+ <20251007-spu-rga3-v1-15-36ad85570402@pengutronix.de>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -108,33 +107,32 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251007-spu-rga3-v1-13-36ad85570402@pengutronix.de>
+In-Reply-To: <20251007-spu-rga3-v1-15-36ad85570402@pengutronix.de>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 On 07/10/2025 17:32, Sven Püschel wrote:
-> Add a new compatible for the rk3588 Rockchip SoC, which features an
-> RGA3, which is described in the TRM Part2.
+> Increase the RGA3 clock speed to get the maximal possible frames
+> per second. By default the core and axi clock is set to 375Mhz.
 > 
 > Signed-off-by: Sven Püschel <s.pueschel@pengutronix.de>
 > ---
->  Documentation/devicetree/bindings/media/rockchip-rga.yaml | 1 +
->  1 file changed, 1 insertion(+)
+>  arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 4 ++++
+>  1 file changed, 4 insertions(+)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/rockchip-rga.yaml b/Documentation/devicetree/bindings/media/rockchip-rga.yaml
-> index ac17cda65191be047fc61d0c806f806c6af07c7b..11e86333c56aab55d9358dc88e45e7c1ebfaae9e 100644
-> --- a/Documentation/devicetree/bindings/media/rockchip-rga.yaml
-> +++ b/Documentation/devicetree/bindings/media/rockchip-rga.yaml
-> @@ -20,6 +20,7 @@ properties:
->      oneOf:
->        - const: rockchip,rk3288-rga
->        - const: rockchip,rk3399-rga
-> +      - const: rockchip,rk3588-rga3
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+> index 08885d9c19e0c104ab0f723ec161b83998cfb9c7..57e320267bb629893bb884bf4e8d6bbc22f8d628 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+> @@ -1179,6 +1179,8 @@ rga3_core0: rga@fdb60000 {
+>  		interrupt-names = "rga3_core0_irq";
+>  		clocks = <&cru ACLK_RGA3_0>, <&cru HCLK_RGA3_0>, <&cru CLK_RGA3_0_CORE>;
+>  		clock-names = "aclk", "hclk", "sclk";
+> +		assigned-clocks = <&cru CLK_RGA3_0_CORE>, <&cru ACLK_RGA3_0>;
+> +		assigned-clock-rates = <800000000>, <800000000>;
 
-There is already rk3588-rga, so please explain in commit msg
-differences, including compatibility or lack thereof. I am confused why
-there are two completely different 2D accelerators simultaneously on
-that SoC.
+You just added these nodes, so this must be squashed. Do not add
+incomplete code which immediately you fix.
 
 Best regards,
 Krzysztof
