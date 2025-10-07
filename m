@@ -1,178 +1,174 @@
-Return-Path: <linux-media+bounces-43862-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43863-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D0AEBC2597
-	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 20:14:38 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 46C12BC25A0
+	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 20:15:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D4EDC3AB8A0
-	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 18:14:36 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C170234F0F2
+	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 18:15:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 94D172EAB76;
-	Tue,  7 Oct 2025 18:12:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0CEB2EB5A6;
+	Tue,  7 Oct 2025 18:12:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="SnzNFG4Y"
+	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="GHskeJ5i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f180.google.com (mail-qk1-f180.google.com [209.85.222.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B4BC2EA730;
-	Tue,  7 Oct 2025 18:12:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D7632E8B7E
+	for <linux-media@vger.kernel.org>; Tue,  7 Oct 2025 18:12:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759860766; cv=none; b=V62p2t2VmdsfAPCwM40o632M1xHQZ5AGCuGseJPHl0f5n2xW57KDcHG7miAoEwou7+I/gqmAxkwlrIc+arFAER0s0/SqY5R6HSgOopsRkzIFf6wAZFOhGd7cV8KCMo6EHMPZXfLU7YJZfpIU3h5fhizqVCRXoljvUem0wztysnI=
+	t=1759860773; cv=none; b=YiUH3b9gJEHku99ItZHHPFn1SmdQEAKDch1xuY4LxklATDNcIuEWfj27cXRJNf1JfVQRRlhtsfEqJwCk2E5qkN+oB+3TNummEYHbd7bjchLGBoZRn4Rz5YJbaNxzuzLojCxK9tGAYwrMWf3bK7KtbksNsWKCTn/isnTZt9akEvI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759860766; c=relaxed/simple;
-	bh=fRNAq+7Vwl4fQf6vUPlq/4N8C9MKRnK183sb4wt4bYA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WP/dvZ9K/DaBk7Cm62PJsGOWwrxfNAqYmL0SHfBPMnyEAUNuL0fuqtPF998tPFfTUUMmCo+A1mRltnnXGs4oNjuz2TRNX9gPAVpI2YnzIKpzR7p34KS4ikkaHLueYXOfjo/LD1GRSK0WHN4afzwk8N6lQFmDieTpU66yNJQ9d/s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=SnzNFG4Y; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from [192.168.1.102] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2FD11176E;
-	Tue,  7 Oct 2025 20:10:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1759860658;
-	bh=fRNAq+7Vwl4fQf6vUPlq/4N8C9MKRnK183sb4wt4bYA=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=SnzNFG4YPniiEOt0x1ZOG/nQenfRyoxwc3wvuk96Q25nSXihj1g/y/pVkIRDObXWv
-	 6tCQ/nPy9R+7D5hXnR2XWzoYsoiej4vpPs4880lsEFutWATUQyNR2KkJ0bzqd97NCQ
-	 D9+shzw1qHdjddq4KFJgjGmARFuksQkcSu2ZfkQU=
-From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Tue, 07 Oct 2025 20:12:17 +0200
-Subject: [PATCH v6 8/8] media: Documentation: kapi: Add v4l2 generic ISP
- support
+	s=arc-20240116; t=1759860773; c=relaxed/simple;
+	bh=8SHmDoHdQmKTfiI5PMccAlbyA1V46slp40pEW9LImx8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=P9ikKv+/KmZKUy3shZIPdOkKs1oD1o3zQMVqafGZo5XVhRXq/iPs2yabBEry+DEexbA5qCEMbLX2WNPieLXwcqFWAeuqgJihElrS/MfL6lNjiNkrlWiI50aLkCBvFy1XLrZwTUR0/CVq76w/OSfNKxZzDT10rOXc9HiG1BFuEEQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=GHskeJ5i; arc=none smtp.client-ip=209.85.222.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
+Received: by mail-qk1-f180.google.com with SMTP id af79cd13be357-856cbf74c4aso813589785a.2
+        for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 11:12:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1759860770; x=1760465570; darn=vger.kernel.org;
+        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=8SHmDoHdQmKTfiI5PMccAlbyA1V46slp40pEW9LImx8=;
+        b=GHskeJ5iOGKUF0EhQL5GEL/fKpWwQO2j5EZT4v+Xghzwol/ZHwKO9XTIDVndG9KvFt
+         lpoQvb5UfDCGsrTvZIawsNbC/tBSVgz7zj6kRKw7Dz5ItsuvgwqewY+IhqrfPACLLisn
+         f2AIjKn9EQjXiCH4O4orSGZ7NaOL6KmP2884P+Zlzbo0q/AIp4g3jLpg0fa4+e3UjNjj
+         rd8q0/rLhx3cTYRl1swLVrvo3Gibnq4bzOW6keffIjCuAPgz6NJJ/MzL7SvTXcQZN6+C
+         X7WgxzpKqdCdgNUpYcAQUbOIs02WnasJCbIjfAygCi7mOPTXEJA1RVZkYfQiEL7YSnbe
+         Fm5A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759860770; x=1760465570;
+        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
+         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8SHmDoHdQmKTfiI5PMccAlbyA1V46slp40pEW9LImx8=;
+        b=ty5CBJjUYXnQiZCl2gz7evxI9kNYAKww/Dpf4Kavl4QfO2VIkZTOrbTnKH+Xgph95C
+         gt1FkwRp4ZzcYVQ4UcK542FJlCEJuYEe1KYrgeHBCCYd8CunG2XL5MFUn8EqYRp8gkGE
+         mPte0oH6jO+55Is1nDMEgJGtJdARLRcgpCL82Jk3NiwznfTknPHOC6eERskJDcAAbc3/
+         7JwnZCwbQI7KoyzKwBuH7hFSiQNLkLoKcuA1gr6TZEF7v6EpfGPRatmV6Ov9yXlx+7nT
+         q4MYZOjFWrY1HmYZj2sc9Xeg49KbWBveRP7xaQiUwOp8CPtw3NqLFtse6fA2lZxWhvDQ
+         vGFA==
+X-Gm-Message-State: AOJu0YwPi3nbqCjQhpRWvOa2nZV53pLRIXp70mmrxsYS1YGbh78ufK0S
+	LF3/DkbnHC6II6/ztQOIPTq54OuyAROVR8FSsIdcyaWUEJIOolQyDiTqPh07AoCUXN97sCkUdeq
+	PqHae
+X-Gm-Gg: ASbGncuE8Jsf3wZpAk+Nqs63TOspIRGagRhm9ACZTZyf9cM9GjU3JtqP8F7auteP5U4
+	EYrgOpPz63/KLfl9gTP+KdtSKiIzcbcCFtNztVGaXgugPPXeHceQMx0Cl631L6n8X1s4K0p+noz
+	bbfdNjiDBWg3+PfYhtxh7CxQGnj2yzQiFiaHhFLCYGwG7KurjWU1RBXMt6YHO9uQAaMKtxkaVLn
+	ZAQUP6xVjGbl3Ibyuv+CilmMHbtEfnLEVAKpFQYvxMeCJuSNSAKFsL4fxluYP5Fd9rfQWW7CDgR
+	xq4FnkPmnrpqcTVtvQwyxU++aZRGVfUmx68LVx4Dq27kWvsThnzxA40U7yJ0IS9xMmbXYcaSfB+
+	6UzC60cGYfxWbd81CEtDaVxlxmvProy3X2j2iyCKrhHfs8XzWaBnM
+X-Google-Smtp-Source: AGHT+IFJwiFyqdn6vHfsVW5AqTzfPU59JdPTe9jsCTVyjegINt2FetoGEQEhtGUGJnu4FO7lY33Vsw==
+X-Received: by 2002:a05:620a:1a8e:b0:878:671f:7395 with SMTP id af79cd13be357-8835410ff67mr108686985a.69.1759860770343;
+        Tue, 07 Oct 2025 11:12:50 -0700 (PDT)
+Received: from ?IPv6:2606:6d00:17:ebd3::c41? ([2606:6d00:17:ebd3::c41])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-877794b8c0esm1649064985a.45.2025.10.07.11.12.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Oct 2025 11:12:49 -0700 (PDT)
+Message-ID: <dd5f934f222116a29ef5ec19a52a9b3ae7433de9.camel@ndufresne.ca>
+Subject: Re: [PATCH 13/16] media: dt-bindings: media: rockchip-rga: add
+ rockchip,rk3588-rga3
+From: Nicolas Dufresne <nicolas@ndufresne.ca>
+To: Krzysztof Kozlowski <krzk@kernel.org>, Sven =?ISO-8859-1?Q?P=FCschel?=	
+ <s.pueschel@pengutronix.de>, Jacob Chen <jacob-chen@iotwrt.com>, Ezequiel
+ Garcia <ezequiel@vanguardiasur.com.ar>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,  Conor Dooley
+ <conor+dt@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, kernel@pengutronix.de
+Date: Tue, 07 Oct 2025 14:12:48 -0400
+In-Reply-To: <c4b0f1d0-cebd-4381-b2c0-20c177c0732c@kernel.org>
+References: <20251007-spu-rga3-v1-0-36ad85570402@pengutronix.de>
+	 <20251007-spu-rga3-v1-13-36ad85570402@pengutronix.de>
+	 <c4b0f1d0-cebd-4381-b2c0-20c177c0732c@kernel.org>
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-7gUIbCmFrGsfnm1LXQ2d"
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251007-extensible-parameters-validation-v6-8-5f719d9f39e5@ideasonboard.com>
-References: <20251007-extensible-parameters-validation-v6-0-5f719d9f39e5@ideasonboard.com>
-In-Reply-To: <20251007-extensible-parameters-validation-v6-0-5f719d9f39e5@ideasonboard.com>
-To: Dafna Hirschfeld <dafna@fastmail.com>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Keke Li <keke.li@amlogic.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Heiko Stuebner <heiko@sntech.de>, Dan Scally <dan.scally@ideasonboard.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Antoine Bouyer <antoine.bouyer@nxp.com>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=4037;
- i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
- bh=fRNAq+7Vwl4fQf6vUPlq/4N8C9MKRnK183sb4wt4bYA=;
- b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBo5VgI0xwJGet2PlIF1bFPXELitwqxSqG/wm5Hq
- ap8bvh9LpiJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaOVYCAAKCRByNAaPFqFW
- PMrHD/9urGh/V7FTx039JFkbeV+uzEENfmfp1T/iAziV4l0Od0YI3HoiqZb1lcoFIaITXiVNAAr
- I8NoecyNdI7D5zoX2NtS7oP25sA1N9Y90BMmxq9bxUwthJLkK9wET4fmA92G6EEQQ5v4MXoZ0UB
- j/dArouVAkAn7bS2mYNhJObclv4FnyxXzizJea+baEQ6ZFy0oOCdYjwn8IUdvac/+APINGM5QYG
- sqlxAfQS0wotcywyxoHn+N/v2Qsy+hQK1jrHhUgYoafjk+B2xBJEfpD8S7g0aa+gRav0O5iXJU6
- erNEt1gROljj6O03TznmHMxez0820oy3Gi5igjOAVf0b68jFLoLqMMqfptjuZLZkDzksJiZ7Xv0
- 4tt9X32gijv5T26PBj6blkSDIXjAPDxi8FgNZLJr+8uKZ51uw/A0KuKEYHj4GmRje7hmiU+0SOB
- BqCLGwrPOhBTxgVU1xysmK1K4TP4VuNwk9JURCzx2d4dYirKHg2DDfLeKFBZHDdzUJEyVOJDUKA
- oRCW5j1bGBFt7d6j7WLhiCkb7ybVYUpOYSP9YCfF5Spy2Ki1YBS1t5V3lL9L/Jsc/qQD7S3KpmQ
- koKdjSiSun4YfuLHjf2QHzRvU0CGUDDbLuq5MAquOMETr8jdBBJB7JzmD1j39n/+wMudjkb6ZVa
- tC1NXOXKr338zSg==
-X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
- fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
-Add to the driver-api documentation the v4l2-isp.h types and
-helpers documentation.
 
-Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
-Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
----
- Documentation/driver-api/media/v4l2-core.rst |  1 +
- Documentation/driver-api/media/v4l2-isp.rst  | 49 ++++++++++++++++++++++++++++
- MAINTAINERS                                  |  1 +
- 3 files changed, 51 insertions(+)
+--=-7gUIbCmFrGsfnm1LXQ2d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/Documentation/driver-api/media/v4l2-core.rst b/Documentation/driver-api/media/v4l2-core.rst
-index ad987c34ad2a8460bb95e97adc4d850d624e0b81..a5f5102c64cca57b57b54ab95882b26286fb27de 100644
---- a/Documentation/driver-api/media/v4l2-core.rst
-+++ b/Documentation/driver-api/media/v4l2-core.rst
-@@ -27,3 +27,4 @@ Video4Linux devices
-     v4l2-common
-     v4l2-tveeprom
-     v4l2-jpeg
-+    v4l2-isp
-diff --git a/Documentation/driver-api/media/v4l2-isp.rst b/Documentation/driver-api/media/v4l2-isp.rst
-new file mode 100644
-index 0000000000000000000000000000000000000000..42c2550602979609e92a09e3cd1fe3dcbafd6416
---- /dev/null
-+++ b/Documentation/driver-api/media/v4l2-isp.rst
-@@ -0,0 +1,49 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+V4L2 generic ISP parameters and statistics support
-+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+
-+Design rationale
-+================
-+
-+ISP configuration parameters and statistics are processed and collected by
-+drivers and exchanged with userspace through data types that usually
-+reflect the ISP peripheral registers layout.
-+
-+Each ISP driver defines its own metadata capture format for parameters and
-+a metadata output format for statistics. The buffer layout is realized by a
-+set of C structures that reflects the registers layout. The number and types
-+of C structures is fixed by the format definition and becomes part of the Linux
-+kernel uAPI/uABI interface.
-+
-+Because of the hard requirement of backward compatibility when extending the
-+user API/ABI interface, modifying an ISP driver capture or output metadata
-+format after it has been accepted by mainline is very hard if not impossible.
-+
-+It generally happens, in facts, that after the first accepted revision of an
-+ISP driver the buffer layout need to be modified, either to support new hardware
-+blocks, fix bugs found later on or support different revisions of the same IP.
-+
-+Each of these situation would require defining a new metadata format, making it
-+really hard to maintain and extend drivers and requiring userspace to use a
-+the correct format depending on the kernel revision in use.
-+
-+V4L2 ISP configuration parameters
-+=================================
-+
-+For these reasons, Video4Linux2 defines generic types for ISP configuration
-+parameters and statistics. Drivers are still expected to define their own
-+formats for their metadata output and capture nodes, but the buffer layout can
-+be defined using the extensible and versioned types defined by
-+include/uapi/linux/media/v4l2-isp.h.
-+
-+Drivers are expected to provide the definitions of their supported ISP blocks,
-+the control flags and the expected maximum size of a buffer.
-+
-+For driver developers a set of helper functions to assist them with validation
-+of the buffer received from userspace is available in the form of helper
-+functions in drivers/media/v4l2-core/v4l2-isp.c
-+
-+V4L2 ISP support driver documentation
-+=====================================
-+.. kernel-doc:: include/media/v4l2-isp.h
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ce57cf3774f6270bfaeffcea8fa63bcbd0a90dbd..ea3ef6544b44df404edcf7926a2802d63f0a40de 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -26414,6 +26414,7 @@ V4L2 GENERIC ISP PARAMETERS AND STATISTIC FORMATS
- M:	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-+F:	Documentation/driver-api/media/v4l2-isp.rst
- F:	Documentation/userspace-api/media/v4l/v4l2-isp.rst
- F:	drivers/media/v4l2-core/v4l2-isp.c
- F:	include/media/v4l2-isp.h
+Hi,
 
--- 
-2.51.0
+Le mardi 07 octobre 2025 =C3=A0 17:38 +0900, Krzysztof Kozlowski a =C3=A9cr=
+it=C2=A0:
+> On 07/10/2025 17:32, Sven P=C3=BCschel wrote:
+> > Add a new compatible for the rk3588 Rockchip SoC, which features an
+> > RGA3, which is described in the TRM Part2.
 
+Please write something here. You can't explain why RK did this, but at leas=
+t
+explain what are the differences and additional feature. It should also be =
+super
+clear through your patchset everything you didn't support, since when readi=
+ng
+your set, it really have nothing extra implemented.
+
+> >=20
+> > Signed-off-by: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
+> > ---
+> > =C2=A0Documentation/devicetree/bindings/media/rockchip-rga.yaml | 1 +
+> > =C2=A01 file changed, 1 insertion(+)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/media/rockchip-rga.yaml
+> > b/Documentation/devicetree/bindings/media/rockchip-rga.yaml
+> > index
+> > ac17cda65191be047fc61d0c806f806c6af07c7b..11e86333c56aab55d9358dc88e45e=
+7c1eb
+> > faae9e 100644
+> > --- a/Documentation/devicetree/bindings/media/rockchip-rga.yaml
+> > +++ b/Documentation/devicetree/bindings/media/rockchip-rga.yaml
+> > @@ -20,6 +20,7 @@ properties:
+> > =C2=A0=C2=A0=C2=A0=C2=A0 oneOf:
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: rockchip,rk3288-rga
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: rockchip,rk3399-rga
+> > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 - const: rockchip,rk3588-rga3
+>=20
+> There is already rk3588-rga, so please explain in commit msg
+> differences, including compatibility or lack thereof. I am confused why
+> there are two completely different 2D accelerators simultaneously on
+> that SoC.
+
+It is quite strange hardware design, but this is really how the hardware is=
+. I
+personally don't expect an explanation from a third party. Its a mirror of =
+the
+VOP2 planes really.
+
+Nicolas
+
+>=20
+> Best regards,
+> Krzysztof
+
+--=-7gUIbCmFrGsfnm1LXQ2d
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaOVYIAAKCRDZQZRRKWBy
+9Go6AP9e4y2IiSL2I+67c8y9Mn1TNSV8ucapX8SFj5r6BqkeaAD/ebUK9jFL041m
+do23vyGkPpDC61NKSkX4f+0FGc9xDwc=
+=HOjH
+-----END PGP SIGNATURE-----
+
+--=-7gUIbCmFrGsfnm1LXQ2d--
 
