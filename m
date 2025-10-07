@@ -1,289 +1,215 @@
-Return-Path: <linux-media+bounces-43853-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43854-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 652AABC2519
-	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 20:06:20 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id EB918BC2567
+	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 20:12:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1F1EB3BC594
-	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 18:06:19 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A8F4A4EFAB7
+	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 18:12:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1F3E7218ACA;
-	Tue,  7 Oct 2025 18:06:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 13BE621D3E8;
+	Tue,  7 Oct 2025 18:12:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="tmwKodxh"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Vz2e1Knn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91F7A2116E9
-	for <linux-media@vger.kernel.org>; Tue,  7 Oct 2025 18:06:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEEA21DE3DB;
+	Tue,  7 Oct 2025 18:12:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759860372; cv=none; b=qrwPk+tRwOqn9yuwCYmDXR8FNMnYJwPWo2GRzFl3lyAPhK44PKWvhFe4kX98r69GiRSP9jWv91ZJ6IImiZqU1EkFvgraKNkrwXU+N3vmQiQ8ETDJReSIYxRS+u9Z7vMa1X9jME0sNGHeWjL4BLfxULuT6he9gADpjxpiJ8Bnk28=
+	t=1759860751; cv=none; b=UqBG8wxtEjaSKVmogud+XHK6WA1pn0grYrS5LMAQb9Z4UTl5Wo9K9aX3DUjwG3YEX7eOz4cPgohk2zDkyhcx2fVfDLfhFKSurAdTEGf6yiVdAx5HZymHEIhOIR5xIHg3f4EwSW76AadsJ5m/Q5PFOBIkSK0ePc9XUgw7ybVdS8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759860372; c=relaxed/simple;
-	bh=jtt1r2V4Z3YHNsWmjgCrTd5nGu1x0RVKYwRh9BZVydc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PWQw3XceCIV4RAACvABV+a0rpRSBaaCl8F8jaZnNPCcu9HFptjI9S8CdWeSGHhnO9eCKcGngvM3p7aIBU/nCLgfPvoUt+fpxqDpLapcrxuiyvuzeztBZ0gOMvsQve3gGjx0I2RUqzHEg7PX0f8Xk0/8moCBnI9THDbHV9hxpNa4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=tmwKodxh; arc=none smtp.client-ip=209.85.222.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-854fcb187b2so757995385a.2
-        for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 11:06:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1759860369; x=1760465169; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=ch7TyWwa1EZJeBseqB4xaWFqVYs5eXriLyyqsfuTad8=;
-        b=tmwKodxhKLxCZYU1bKztQUiQvW1cN6JGv7MOO3JkEdQs1C+FQJqcViflu7dLNkfKk2
-         8HW3Xcd6twaeiFgZrtXl71m+j6f+fPzdfYcQdQXrKF4/HaqvDkSprtvnHGAp+xyRxq+1
-         MetEVc4zmm32KSLjqsz8ND4DGb1uNcqdYVQi1zyHF8nTz0d8dE5/iU+YSDHxWAcY/vcl
-         30jXkF84yC5I5hMJvkUmfu3Ol3JCxvh/x8HAt1FXbw3yvJCd5g4K2Elts3oSjTdE3Tf6
-         ZFvbI3B5mwI6zoXNTNN5fEBA4YvmMPSbRDm62R7bHH700uX7gW1COfzBiMMiymi0FktA
-         3zQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759860369; x=1760465169;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ch7TyWwa1EZJeBseqB4xaWFqVYs5eXriLyyqsfuTad8=;
-        b=plLd8pvj7DFGx7OrNEZf/lfQRLV+9BtbtpO7xCFQkg0dZuZifJAUwX1Vo2hGl3bRRv
-         vLUhiR+zWjEVh8C9r3J4CelaL1gEg6GkWi3wW4v+BN/RchjehVoMdmK4zStB2EqlRAiA
-         EkowB493DEus6YVTNY2OfnkWqVdDTWF3J6UXas+xs+o6KHw50co7SBbo9jL6CRY+ijY5
-         B6zDNk/q1tcYNHQU4sZafm2Jpqx6cLdNy4/weNvZkFNtI3+FtnxX/Ax8G6Znj1Rkf/Zn
-         Yq5xdQuOiQxISzWKWAO3Xx+O8BYioM8rW+kDR+hxP+ZMP+BcFZX2cZXClNfwUZJAIGOt
-         JWzw==
-X-Gm-Message-State: AOJu0Ywn0z7dCIWs/0UQOprUt7UMKKgaoACpkAfSR91YczY1AVb2lc8C
-	VGr87dfpMeN6OgSq6Hd29Q1bjReAVu0blynUSBVYTk5rA1/h+ucvucusyp5FVQy/niw=
-X-Gm-Gg: ASbGncvixIY2tEhEAZLEfYvpUMKpLEAtqyo6SuuvFR0jvBHMjYuA2zbb+DdRUrOoLPp
-	hVSm+R9FbJl+PzLCPU3V33S7Zb/AkPiasBHw+oNnxUXhB2Oz8Z3mUO+S2CprLsBGM/M8aFbHIZi
-	OU5nnSrTBQttLCQTA5ECbVtk7z5F/NZUPirOjPjnVdV68xcgMvahlDkR8BgAM9G6JZtsp/DvTuP
-	7hAQtgN7NtHcvmUmtNO75kP5Ty6fWUZxb9cVqY0zLMmTzBYHPG4fy/gy1urYPRBXaDEC2q2lKLt
-	h2ixlTIy13Qk3W9tk5OVOF6HDp6dWfOOMCf5sngPj2U8KuqqsrO1yuBCmTDyXvFQ9j7OYqhZGmw
-	nS1/nce8HFlm93c+1YyaJ1Pt7ps1pzBK5vh23iWUG0hy1BY/QnxfESumVKSRM/C4=
-X-Google-Smtp-Source: AGHT+IEd8+PaBlkFCf4TWlgW17RetR7onOYSu6eacanLHMSo1S6DckxwyV/Bqe+3v64BuZQrTcO0Vg==
-X-Received: by 2002:a05:620a:4891:b0:860:a923:c114 with SMTP id af79cd13be357-8835088d4e8mr120315085a.26.1759860369140;
-        Tue, 07 Oct 2025 11:06:09 -0700 (PDT)
-Received: from ?IPv6:2606:6d00:17:ebd3::c41? ([2606:6d00:17:ebd3::c41])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-877796a1de6sm1488995285a.49.2025.10.07.11.06.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 11:06:08 -0700 (PDT)
-Message-ID: <3c62e3c837d534ef5bc21a95ec1dc408c38cb8a0.camel@ndufresne.ca>
-Subject: Re: [PATCH 00/16] media: platform: rga: Add RGA3 support
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Sven =?ISO-8859-1?Q?P=FCschel?= <s.pueschel@pengutronix.de>, Jacob Chen
-	 <jacob-chen@iotwrt.com>, Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
- Mauro Carvalho Chehab
-	 <mchehab@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Rob Herring
-	 <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
-	 <conor+dt@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org, 
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, kernel@pengutronix.de
-Date: Tue, 07 Oct 2025 14:06:06 -0400
-In-Reply-To: <20251007-spu-rga3-v1-0-36ad85570402@pengutronix.de>
-References: <20251007-spu-rga3-v1-0-36ad85570402@pengutronix.de>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-IcsCjmyMK96ZjT/TchVY"
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	s=arc-20240116; t=1759860751; c=relaxed/simple;
+	bh=gbwSb+M2JrSH33bodVuUqoPd/14uVBjBJyRlfa3sAWM=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=bPL/kalSerpTYZlou3iYPbNmKUld6zdJ2HgNq8ytyVu/x/323oca9UIkkrxZ+vNB6NbmEsbj/K6+mvB8cn3NMV9sfqzRdDaKFTLsttTDJAByLOuFdekOxQGHbw4hRBQUHQ6TJr+jVbVDJqYTi6LIqewcy9Rw7egSSgiq/nEkdvU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Vz2e1Knn; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from [192.168.1.102] (93-61-96-190.ip145.fastwebnet.it [93.61.96.190])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 39C3E63F;
+	Tue,  7 Oct 2025 20:10:51 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1759860651;
+	bh=gbwSb+M2JrSH33bodVuUqoPd/14uVBjBJyRlfa3sAWM=;
+	h=From:Subject:Date:To:Cc:From;
+	b=Vz2e1KnnhPzKThK190H1L9XLkD9Nyyc7150ZK6qm4ViXbKEQCAdZvChdwnnBXvkfj
+	 RnQchW/o37ocbjUcFnMc7fzwZcPxTSkoxlAnmLWk3riIJbKELuookY/if1Uii40WiY
+	 Dbeh8TaTQbX5egfNI6iBUTqlvBJNQfZy4DgA+Xek=
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Subject: [PATCH v6 0/8] media: Introduce V4L2 generic ISP support
+Date: Tue, 07 Oct 2025 20:12:09 +0200
+Message-Id: <20251007-extensible-parameters-validation-v6-0-5f719d9f39e5@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAPlX5WgC/43QTWrDMBAF4KsErauiX0vqqvcoXUijUSNIrCAZk
+ xJ898qBkixq6uUbmO8NcyMNa8ZG3g43UnHOLZexh+HlQODoxy+kOfZMBBOaGcYpXiccWw4npBd
+ f/RknrI3O/pSjn/oyBSt5MkkDsEA6c6mY8vVe8fHZ8zG3qdTve+PM1+kvbv/HZ04ZdQmEAQdGW
+ HjPEX0rYyi+xlcoZ7J2zOLJ5WyHK7prEKzjFkEpueHKh2u52+HK9d4IjFmpbJBsw1VPrthzr+q
+ uZAm1dw4CTxuufriO6x2u7i4OMTilBuvTX39YluUHAMk8izcCAAA=
+X-Change-ID: 20250701-extensible-parameters-validation-c831f7f5cc0b
+To: Dafna Hirschfeld <dafna@fastmail.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Keke Li <keke.li@amlogic.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Heiko Stuebner <heiko@sntech.de>, Dan Scally <dan.scally@ideasonboard.com>, 
+ Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Antoine Bouyer <antoine.bouyer@nxp.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org, 
+ Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=5669;
+ i=jacopo.mondi@ideasonboard.com; h=from:subject:message-id;
+ bh=gbwSb+M2JrSH33bodVuUqoPd/14uVBjBJyRlfa3sAWM=;
+ b=owEBbQKS/ZANAwAKAXI0Bo8WoVY8AcsmYgBo5VgG2/Rg0CgygNPuVnfe3pSoCuNHIvk0GhXGO
+ 3RqM93ISrKJAjMEAAEKAB0WIQS1xD1IgJogio9YOMByNAaPFqFWPAUCaOVYBgAKCRByNAaPFqFW
+ PGJhD/9PkwTHYEqu4Gq1T94O0inBw5pVtdpTzV2oTbhhdeT5Btsym15AoQybysewHXnB3m8r9ak
+ rwkGZsfIWaDQXJVNHyhhkuB2DBsfnBd9Ft3+Z2lG0poDLqnLltEGcW5qy6HoUsa6x/QWGDyQ8z3
+ RBsVDdnlkKHYTuJbRN1TJ521ZVzjiK1Ps9b1sGnZp4Oyklo85YiX/2W8bLfWWNCncxiFtM+NnrF
+ LL476INu/O+p1e6ZP2OPK+Da5si3Qs6lKv4h62ou2jZExGEHGr7VyoJ+LJUeTM101x+cx8A5oB3
+ bNhBnkp68UFQ7d5PTgmuozu1iRymLTG/z8q6TLrqHsgOVvc0fIYA1wSkMpdLZ3qaUMAjsmNJpVR
+ TZ5XxKXELuS9u/WznZ6xAFgENKQmetVNIbb7vrUhbx8BCLn/+425VRv60U6y69CFATN/JauarZk
+ KbuatMUkk3lh3MHQbglIE07KflTKlkcMxl5Qrua6uB1IhPHKr+vWGXQmVs2LhMz9s2ot055Et2k
+ EzzsZobc7UjUltsTnMCzX1aRKr0cYKpzkMsZONnCZJMzqdvK8AaaRsYwxIEFsiOtkjIBNlLtzTG
+ dnkWR25h9y5ApqnFmb76HD/chk91A5S5S1sFN30RENajiM9jh9qHjznPQY4/+7FrRYK+kgQROxK
+ ZSB9aQ9XDK3f/zg==
+X-Developer-Key: i=jacopo.mondi@ideasonboard.com; a=openpgp;
+ fpr=72392EDC88144A65C701EA9BA5826A2587AD026B
 
+Extensible parameters meta formats have been introduced in the Linux
+kernel v6.12 initially to support different revision of the RkISP1 ISP
+implemented in different SoC. In order to avoid breaking userspace
+everytime an ISP configuration block is added or modified in the uAPI
+these new formats, which are versionated and extensible by their
+definition have been introduced.
 
---=-IcsCjmyMK96ZjT/TchVY
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+See for reference:
+e9d05e9d5db1 ("media: uapi: rkisp1-config: Add extensible params format")
+6c53a7b68c5d ("media: rkisp1: Implement extensible params support")
 
-Hi,
+The Amlogic C3 ISP driver followed shortly, introducing an extensible
+format for the ISP configuration:
 
-Le mardi 07 octobre 2025 =C3=A0 10:31 +0200, Sven P=C3=BCschel a =C3=A9crit=
-=C2=A0:
-> This series adds support for the Raster Graphic Acceleration 3 (RGA3)
-> peripheral, which is included in the RK3588 SoC. Unlike the RGA2 it
-> can use the existing rockchip-iommu-v2 driver to handle iommu mappings.
-> Also the RK3588 contains two independent RGA3 cores.
+6d406187ebc0 ("media: uapi: Add stats info and parameters buffer for C3 ISP")
 
-Thanks for working on this.
+with a very similar, if not identical, implementation of the routines to
+validate and handle the ISP configuration in the ISP driver in the
+c3-isp-params.c file.
 
->=20
-> Only scaling and format conversions between common 8bit RGB/YUV formats
-> are implemented. Also the color space conversion is fixed to BT601F.
-> This already allows a practical usage of the RGA3.
+fb2e135208f3 ("media: platform: Add C3 ISP driver")
 
-This seems quite limiting, can we expect an update on this, can't be that h=
-ard
-to fully implement.
+With the recent upstreaming attempt of the Mali C55 ISP driver from Dan,
+a third user of extensible parameters is going to be itroduced in the
+kernel, duplicating again in the driver the procedure for validating and
+handling the ISP configuration blocks
 
->=20
-> This was tested on a Radxa Rock 5T. With the increased clock speeds in
-> the devicetree around 160 fps were measured when scaling and converting
+https://patchwork.linuxtv.org/project/linux-media/patch/20250624-c55-v10-15-54f3d4196990@ideasonboard.com/
 
-This is quite vague, I've checked the patch and you didn't extend either th=
-ere.
-Is that an overclock or was it miss-configured ? Does RK implement a devfre=
-q ?
-Should that be moved with a voltage adjustement ? Is there any thermal near=
-by we
-should monitor ?
+To avoid duplicating again the validation routines and common types
+definition, this series introduces v4l2-isp.c/.h for the kAPI
+and v4l2-isp.h for the uAPI and re-organize the RkISP1
+and Amlogic C3 drivers to use the common types and the helper validation
+routines.
 
-> from RGBA 480x360 to NV12 3840x2160. Without the clock speed scaling a
-> default clock division factor of 2 is used and only around 80 fps are
-> reached with one core. The v4l2-compliance tests only complain about
-> the already failing colorspace propagation:
+The v4l2-isp abstraction will be augmented to support statistcs as well.
 
+If the here proposed approach is accepted, I propose to rebase the Mali
+C55 driver on top of this series, to use the new common types and
+helpers.
 
-Did you do any more format testing to validation all supported combinations=
- ?
-This is a tool [0] you can use to test this using GStreamer and how to use =
-it
-[1].
+Tested on Mali C55 and RkISP1 with camshark
 
+Thanks
+  j
 
-[0] https://gitlab.collabora.com/mediatek/aiot/lava-test-definitions/-/tree=
-/main/avvideocompare?ref_type=3Dheads
-[1] https://gitlab.collabora.com/mediatek/aiot/linux/-/blob/mediatek-next/.=
-gitlab-ci.yml?ref_type=3Dheads#L282
->=20
-> =C2=A0 v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
-> =C2=A0 ...
-> =C2=A0=C2=A0		fail: v4l2-test-formats.cpp(923): fmt_cap.g_colorspace() !=
-=3D
-> col
-> =C2=A0=C2=A0	test VIDIOC_S_FMT: FAIL
-> =C2=A0 ...
-> =C2=A0 Total for rockchip-rga device /dev/video0: 47, Succeeded: 46, Fail=
-ed: 1,
-> Warnings: 0
->=20
-> =C2=A0 v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
-> =C2=A0 ...
-> =C2=A0=C2=A0		fail: v4l2-test-formats.cpp(923): fmt_cap.g_colorspace() !=
-=3D
-> col
-> =C2=A0=C2=A0	test VIDIOC_S_FMT: FAIL
-> =C2=A0 ...
-> =C2=A0 Total for rockchip-rga device /dev/video1: 47, Succeeded: 46, Fail=
-ed: 1,
-> Warnings: 0
->=20
-> =C2=A0 v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
-> =C2=A0 ...
-> =C2=A0=C2=A0		fail: v4l2-test-formats.cpp(923): fmt_cap.g_colorspace() !=
-=3D
-> col
-> =C2=A0=C2=A0	test VIDIOC_S_FMT: FAIL
-> =C2=A0 ...
-> =C2=A0 Total for rockchip-rga device /dev/video2: 47, Succeeded: 46, Fail=
-ed: 1,
-> Warnings: 0
->=20
-> Each RGA core is a separate /dev/video device. To distinguish the RGA2
-> core from the RGA3 cores the Card type is set accordingly. Combining all
-> cores into a single device and scheduling tasks to the best core might
-> be a future improvement, if it is desired by upstream to handle the
-> scheduling and selection in kernel space.
+Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+---
+Changes in v6:
+- Rename all symbols to v4l2_isp
+- Changed the interface of the two buffer validation functions
+- Reworked the rkisp1 and c3 porting accordingly
+- Updated documentation
+- I have moved v4l2_params_buffer_size() from uAPI because it was
+  convenient for linux but not required in userspace
+- Link to v5: https://lore.kernel.org/r/20250915-extensible-parameters-validation-v5-0-e6db94468af3@ideasonboard.com
 
-It took me some time to understand why you spoke about multicore here. You
-forgot to say here that you add RGA3 into RGA2 driver. Some information on =
-why
-you went that path instead of a separate driver.
+Changes in v5:
+- Move everything to v4l2-isp prefix except from format documentation
+  which still is about 'extensible-parameters' (to be paired in future
+  with extensbile-stats)
+- Simplify documentation and move it part to the driver-api
+  Documentation
+- Remove 'group' and 'features' from the generic handlers definition and
+  adjust rkisp1 accordingly
+- Link to v4: https://lore.kernel.org/r/20250820-extensible-parameters-validation-v4-0-30fe5a99cb1f@ideasonboard.com
 
-=46rom high level view, I don't think its a good idea to multi-plex over
-heterogeneous core. They may not even produce the exact same pixels for the=
- same
-operation. They also don't share the same MMU, and at first glance, the use=
- of
-rkiommu in RGA3 means it can no longer handle CPU cache (though I don't kno=
-w if
-this is implemented/supported in upstream RGA2 driver).
+Changes in v4:
+- Fix the definition of V4L2_PARAMS_FL_PLATFORM_FLAGS
+- Add __counted_by() attribute to the data[] flexible-array member of
+  v4l2_params_buffer
+- Minor style change
+- Link to v3: https://lore.kernel.org/r/20250819-extensible-parameters-validation-v3-0-9dc008348b30@ideasonboard.com
 
->=20
-> Patch 1-2 are general cleanups
-> Patch 3-12 prepare the rga driver for the RGA3
-> Patch 13 documments the RGA3 compatible value
-> Patch 14 adds the RGA3 cores to the rk3588 dtsi
-> Patch 15 increases the RGA3 core clock speeds
-> Patch 16 adds RGA3 support to the rga driver
->=20
-> Signed-off-by: Sven P=C3=BCschel <s.pueschel@pengutronix.de>
-> ---
-> Sven P=C3=BCschel (16):
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rockchip: rga: use clk_bulk api
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rockchip: rga: use stride for offse=
-t calculation
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rockchip: rga: align stride to 16 b=
-ytes
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rockchip: rga: move hw specific par=
-ts to a dedicated struct
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rockchip: rga: use card type to spe=
-cify rga type
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rockchip: rga: change offset to dma=
-_addresses
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rockchip: rga: support external iom=
-mus
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rockchip: rga: remove size from rga=
-_frame
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rockchip: rga: remove stride from r=
-ga_frame
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rockchip: rga: move rga_fmt to rga-=
-hw.h
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rockchip: rga: add iommu restore fu=
-nction
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rockchip: rga: handle error interru=
-pt
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: dt-bindings: media: rockchip-rga: a=
-dd rockchip,rk3588-rga3
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 arm64: dts: rockchip: add rga3 dt nodes
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 arm64: dts: rockchip: increase rga3 clock =
-speed
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: rockchip: rga: add rga3 support
->=20
-> =C2=A0.../devicetree/bindings/media/rockchip-rga.yaml=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 1 +
-> =C2=A0arch/arm64/boot/dts/rockchip/rk3588-base.dtsi=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 50 +++
-> =C2=A0drivers/media/platform/rockchip/rga/Makefile=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> =C2=A0drivers/media/platform/rockchip/rga/rga-buf.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 78 ++--
-> =C2=A0drivers/media/platform/rockchip/rga/rga-hw.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 | 356 ++++++++++++---
-> =C2=A0drivers/media/platform/rockchip/rga/rga-hw.h=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 15 +-
-> =C2=A0drivers/media/platform/rockchip/rga/rga.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 404 ++++++-----------
-> =C2=A0drivers/media/platform/rockchip/rga/rga.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 74 ++--
-> =C2=A0drivers/media/platform/rockchip/rga/rga3-hw.c=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 490
-> +++++++++++++++++++++
-> =C2=A0drivers/media/platform/rockchip/rga/rga3-hw.h=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 186 ++++++++
-> =C2=A010 files changed, 1246 insertions(+), 410 deletions(-)
-> ---
-> base-commit: afb100a5ea7a13d7e6937dcd3b36b19dc6cc9328
-> change-id: 20251001-spu-rga3-8a00e018b120
->=20
-> Best regards,
+Changes in v3:
+- Rebased on latest media-committers/next
+- Take in Dan's suggestion in block size validation
+- Documentation minor spelling fixes
+- Link to v2: https://lore.kernel.org/r/20250710-extensible-parameters-validation-v2-0-7ec8918ec443@ideasonboard.com
 
---=-IcsCjmyMK96ZjT/TchVY
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
+Changes in v2:
+- Make v4l2_params_buffer directly usable
+- Centralize ENABLE/DISABLE flags definition and validation
+- Take in Dan's v4l2_params_buffer_size()
+- Allow blocks to only contain the header if they're going to be
+  disabled
+- Documentation fixes as reported by Nicolas
+- Link to v1: https://lore.kernel.org/r/20250708-extensible-parameters-validation-v1-0-9fc27c9c728c@ideasonboard.com
 
------BEGIN PGP SIGNATURE-----
+---
+Jacopo Mondi (8):
+      media: uapi: Introduce V4L2 generic ISP types
+      media: uapi: Convert RkISP1 to V4L2 extensible params
+      media: uapi: Convert Amlogic C3 to V4L2 extensible params
+      media: Documentation: uapi: Add V4L2 ISP documentation
+      media: v4l2-core: Introduce v4l2-isp.c
+      media: rkisp1: Use v4l2-isp for validation
+      media: amlogic-c3: Use v4l2-isp for validation
+      media: Documentation: kapi: Add v4l2 generic ISP support
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaOVWjgAKCRDZQZRRKWBy
-9MYwAQDAFCIsXy2vnCz1b/y+9mKp3XI/R9oRTPcTXia35pLGywD/SLpU/azQOYuj
-Eq4VTAEBMAbKxVFBtmRPL+5Gb/F4cAg=
-=pSPZ
------END PGP SIGNATURE-----
+ Documentation/driver-api/media/v4l2-core.rst       |   1 +
+ Documentation/driver-api/media/v4l2-isp.rst        |  49 ++++++
+ .../userspace-api/media/v4l/meta-formats.rst       |   1 +
+ Documentation/userspace-api/media/v4l/v4l2-isp.rst | 121 ++++++++++++++
+ MAINTAINERS                                        |  10 ++
+ drivers/media/platform/amlogic/c3/isp/Kconfig      |   1 +
+ .../media/platform/amlogic/c3/isp/c3-isp-params.c  | 125 ++++----------
+ drivers/media/platform/rockchip/rkisp1/Kconfig     |   1 +
+ .../media/platform/rockchip/rkisp1/rkisp1-params.c | 183 +++++++++------------
+ drivers/media/v4l2-core/Kconfig                    |   4 +
+ drivers/media/v4l2-core/Makefile                   |   1 +
+ drivers/media/v4l2-core/v4l2-isp.c                 | 114 +++++++++++++
+ include/media/v4l2-isp.h                           |  91 ++++++++++
+ include/uapi/linux/media/amlogic/c3-isp-config.h   |  90 +++-------
+ include/uapi/linux/media/v4l2-isp.h                |  82 +++++++++
+ include/uapi/linux/rkisp1-config.h                 | 105 +++---------
+ 16 files changed, 632 insertions(+), 347 deletions(-)
+---
+base-commit: afb100a5ea7a13d7e6937dcd3b36b19dc6cc9328
+change-id: 20250701-extensible-parameters-validation-c831f7f5cc0b
 
---=-IcsCjmyMK96ZjT/TchVY--
+Best regards,
+-- 
+Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+
 
