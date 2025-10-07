@@ -1,41 +1,41 @@
-Return-Path: <linux-media+bounces-43806-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43805-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78B5FBC0ABC
-	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 10:37:12 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B47ABC0A6F
+	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 10:35:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F0D03E02F0
-	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 08:35:13 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 500FD189FB5A
+	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 08:35:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C99362DAFCB;
-	Tue,  7 Oct 2025 08:33:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A71592DA765;
+	Tue,  7 Oct 2025 08:33:03 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AAF382D94BF
-	for <linux-media@vger.kernel.org>; Tue,  7 Oct 2025 08:33:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00D6D2D9493
+	for <linux-media@vger.kernel.org>; Tue,  7 Oct 2025 08:33:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759825983; cv=none; b=agEf25CLJMTStn+uZ0MnntaM/cNm+LHVzJsZkRQ71S8/618Z6/ggAYZ+yHedhtA6NaWlrWe9Otjoxqo8br4EuTJkM5BuDOjp+7LaItQmOSXiJy8nc+5GDGU3SQaICpKp3xBI2+Ja1EF2LMTae64gXRGim/fkE3nsQoLb4RiEr/Q=
+	t=1759825982; cv=none; b=tOmladmPaUUDDA++VpVjGJtu+hMUBarEMsBhGLZAtkQW6bM5zRD/m05ZsMCKY/qYthSmm0BYWSXmOa1UX1e3GIDCFEr5R+Z7xpNOmiugXUOBoPub+OCsZV/YDgbUbZEtdVgxGXqnHYxwn3v9xCDWhDh8vTgrZ8YlurgJAvDhzeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759825983; c=relaxed/simple;
-	bh=vuBdnzuaH7X5m646CgvtenVd8ZAWVRzO2D8qxSRPKXQ=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=mERr4E6t3E0l208jDG5FZ/VrEO2GCx77U2Upps4GiVh6BtlWg+QqK09uIt0FUvYmZnSH9T1uXVcHOdYTVqBwHhBWolDOXhDaOzMhDwLgIT8AiDs7LJDovi+gl1NMSBx6isA3a/Ov07TdaTvYckNsJTj19uMmKlvdaIRgUfMx6Ps=
+	s=arc-20240116; t=1759825982; c=relaxed/simple;
+	bh=AVBfmsk8JAu4BzoU++vEPTxRzQ+o+Bv6YjgzmWEgqjY=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=ZYzWjrgW+LxRdXL13CSNJvc8f0mcEqLJuU/yuhg/nnkmfL5fqpbxf8MwoYnFKf/1V8oZwTC7+9a67mMQDd9XfSDurNjXHGAhK/cUWBv9mGv8IbH2Xn1jiuldHsCjzY3XOZknFkHjE5EzXlrb0t3hShvU95XtYP+QncyzMfup41w=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
 Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=peter.mobile.pengutronix.de)
 	by metis.whiteo.stw.pengutronix.de with esmtp (Exim 4.92)
 	(envelope-from <s.pueschel@pengutronix.de>)
-	id 1v637o-0002Hb-2P; Tue, 07 Oct 2025 10:32:48 +0200
+	id 1v637o-0002Hb-R4; Tue, 07 Oct 2025 10:32:48 +0200
 From: =?utf-8?q?Sven_P=C3=BCschel?= <s.pueschel@pengutronix.de>
-Subject: [PATCH 00/16] media: platform: rga: Add RGA3 support
-Date: Tue, 07 Oct 2025 10:31:53 +0200
-Message-Id: <20251007-spu-rga3-v1-0-36ad85570402@pengutronix.de>
+Date: Tue, 07 Oct 2025 10:31:54 +0200
+Subject: [PATCH 01/16] media: rockchip: rga: use clk_bulk api
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -44,10 +44,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
-X-B4-Tracking: v=1; b=H4sIAPnP5GgC/6tWKk4tykwtVrJSqFYqSi3LLM7MzwNyDHUUlJIzE
- vPSU3UzU4B8JSMDI1NDAwND3eKCUt2i9ERjXYtEA4NUA0OLJEMjAyWg8oKi1LTMCrBR0bG1tQA
- JWi1/WgAAAA==
-X-Change-ID: 20251001-spu-rga3-8a00e018b120
+Message-Id: <20251007-spu-rga3-v1-1-36ad85570402@pengutronix.de>
+References: <20251007-spu-rga3-v1-0-36ad85570402@pengutronix.de>
+In-Reply-To: <20251007-spu-rga3-v1-0-36ad85570402@pengutronix.de>
 To: Jacob Chen <jacob-chen@iotwrt.com>, 
  Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>, 
  Mauro Carvalho Chehab <mchehab@kernel.org>, 
@@ -64,93 +63,139 @@ X-SA-Exim-Mail-From: s.pueschel@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-media@vger.kernel.org
 
-This series adds support for the Raster Graphic Acceleration 3 (RGA3)
-peripheral, which is included in the RK3588 SoC. Unlike the RGA2 it
-can use the existing rockchip-iommu-v2 driver to handle iommu mappings.
-Also the RK3588 contains two independent RGA3 cores.
-
-Only scaling and format conversions between common 8bit RGB/YUV formats
-are implemented. Also the color space conversion is fixed to BT601F.
-This already allows a practical usage of the RGA3.
-
-This was tested on a Radxa Rock 5T. With the increased clock speeds in
-the devicetree around 160 fps were measured when scaling and converting
-from RGBA 480x360 to NV12 3840x2160. Without the clock speed scaling a
-default clock division factor of 2 is used and only around 80 fps are
-reached with one core. The v4l2-compliance tests only complain about
-the already failing colorspace propagation:
-
-  v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
-  ...
-  		fail: v4l2-test-formats.cpp(923): fmt_cap.g_colorspace() != col
-  	test VIDIOC_S_FMT: FAIL
-  ...
-  Total for rockchip-rga device /dev/video0: 47, Succeeded: 46, Failed: 1, Warnings: 0
-
-  v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
-  ...
-  		fail: v4l2-test-formats.cpp(923): fmt_cap.g_colorspace() != col
-  	test VIDIOC_S_FMT: FAIL
-  ...
-  Total for rockchip-rga device /dev/video1: 47, Succeeded: 46, Failed: 1, Warnings: 0
-
-  v4l2-compliance 1.28.1, 64 bits, 64-bit time_t
-  ...
-  		fail: v4l2-test-formats.cpp(923): fmt_cap.g_colorspace() != col
-  	test VIDIOC_S_FMT: FAIL
-  ...
-  Total for rockchip-rga device /dev/video2: 47, Succeeded: 46, Failed: 1, Warnings: 0
-
-Each RGA core is a separate /dev/video device. To distinguish the RGA2
-core from the RGA3 cores the Card type is set accordingly. Combining all
-cores into a single device and scheduling tasks to the best core might
-be a future improvement, if it is desired by upstream to handle the
-scheduling and selection in kernel space.
-
-Patch 1-2 are general cleanups
-Patch 3-12 prepare the rga driver for the RGA3
-Patch 13 documments the RGA3 compatible value
-Patch 14 adds the RGA3 cores to the rk3588 dtsi
-Patch 15 increases the RGA3 core clock speeds
-Patch 16 adds RGA3 support to the rga driver
+Use the clk_bulk API to avoid code duplication for each of the three
+clocks.
 
 Signed-off-by: Sven Püschel <s.pueschel@pengutronix.de>
 ---
-Sven Püschel (16):
-      media: rockchip: rga: use clk_bulk api
-      media: rockchip: rga: use stride for offset calculation
-      media: rockchip: rga: align stride to 16 bytes
-      media: rockchip: rga: move hw specific parts to a dedicated struct
-      media: rockchip: rga: use card type to specify rga type
-      media: rockchip: rga: change offset to dma_addresses
-      media: rockchip: rga: support external iommus
-      media: rockchip: rga: remove size from rga_frame
-      media: rockchip: rga: remove stride from rga_frame
-      media: rockchip: rga: move rga_fmt to rga-hw.h
-      media: rockchip: rga: add iommu restore function
-      media: rockchip: rga: handle error interrupt
-      media: dt-bindings: media: rockchip-rga: add rockchip,rk3588-rga3
-      arm64: dts: rockchip: add rga3 dt nodes
-      arm64: dts: rockchip: increase rga3 clock speed
-      media: rockchip: rga: add rga3 support
+ drivers/media/platform/rockchip/rga/rga.c | 64 ++++---------------------------
+ drivers/media/platform/rockchip/rga/rga.h |  5 +--
+ 2 files changed, 9 insertions(+), 60 deletions(-)
 
- .../devicetree/bindings/media/rockchip-rga.yaml    |   1 +
- arch/arm64/boot/dts/rockchip/rk3588-base.dtsi      |  50 +++
- drivers/media/platform/rockchip/rga/Makefile       |   2 +-
- drivers/media/platform/rockchip/rga/rga-buf.c      |  78 ++--
- drivers/media/platform/rockchip/rga/rga-hw.c       | 356 ++++++++++++---
- drivers/media/platform/rockchip/rga/rga-hw.h       |  15 +-
- drivers/media/platform/rockchip/rga/rga.c          | 404 ++++++-----------
- drivers/media/platform/rockchip/rga/rga.h          |  74 ++--
- drivers/media/platform/rockchip/rga/rga3-hw.c      | 490 +++++++++++++++++++++
- drivers/media/platform/rockchip/rga/rga3-hw.h      | 186 ++++++++
- 10 files changed, 1246 insertions(+), 410 deletions(-)
----
-base-commit: afb100a5ea7a13d7e6937dcd3b36b19dc6cc9328
-change-id: 20251001-spu-rga3-8a00e018b120
+diff --git a/drivers/media/platform/rockchip/rga/rga.c b/drivers/media/platform/rockchip/rga/rga.c
+index 776046de979aa0ded6734216bf179c32ae8fe5a9..6438119a6c7aeff1e89e7aa95dcd5d2921fefa08 100644
+--- a/drivers/media/platform/rockchip/rga/rga.c
++++ b/drivers/media/platform/rockchip/rga/rga.c
+@@ -702,48 +702,10 @@ static const struct video_device rga_videodev = {
+ 	.device_caps = V4L2_CAP_VIDEO_M2M_MPLANE | V4L2_CAP_STREAMING,
+ };
+ 
+-static int rga_enable_clocks(struct rockchip_rga *rga)
+-{
+-	int ret;
+-
+-	ret = clk_prepare_enable(rga->sclk);
+-	if (ret) {
+-		dev_err(rga->dev, "Cannot enable rga sclk: %d\n", ret);
+-		return ret;
+-	}
+-
+-	ret = clk_prepare_enable(rga->aclk);
+-	if (ret) {
+-		dev_err(rga->dev, "Cannot enable rga aclk: %d\n", ret);
+-		goto err_disable_sclk;
+-	}
+-
+-	ret = clk_prepare_enable(rga->hclk);
+-	if (ret) {
+-		dev_err(rga->dev, "Cannot enable rga hclk: %d\n", ret);
+-		goto err_disable_aclk;
+-	}
+-
+-	return 0;
+-
+-err_disable_aclk:
+-	clk_disable_unprepare(rga->aclk);
+-err_disable_sclk:
+-	clk_disable_unprepare(rga->sclk);
+-
+-	return ret;
+-}
+-
+-static void rga_disable_clocks(struct rockchip_rga *rga)
+-{
+-	clk_disable_unprepare(rga->sclk);
+-	clk_disable_unprepare(rga->hclk);
+-	clk_disable_unprepare(rga->aclk);
+-}
+-
+ static int rga_parse_dt(struct rockchip_rga *rga)
+ {
+ 	struct reset_control *core_rst, *axi_rst, *ahb_rst;
++	int ret;
+ 
+ 	core_rst = devm_reset_control_get(rga->dev, "core");
+ 	if (IS_ERR(core_rst)) {
+@@ -775,22 +737,10 @@ static int rga_parse_dt(struct rockchip_rga *rga)
+ 	udelay(1);
+ 	reset_control_deassert(ahb_rst);
+ 
+-	rga->sclk = devm_clk_get(rga->dev, "sclk");
+-	if (IS_ERR(rga->sclk)) {
+-		dev_err(rga->dev, "failed to get sclk clock\n");
+-		return PTR_ERR(rga->sclk);
+-	}
+-
+-	rga->aclk = devm_clk_get(rga->dev, "aclk");
+-	if (IS_ERR(rga->aclk)) {
+-		dev_err(rga->dev, "failed to get aclk clock\n");
+-		return PTR_ERR(rga->aclk);
+-	}
+-
+-	rga->hclk = devm_clk_get(rga->dev, "hclk");
+-	if (IS_ERR(rga->hclk)) {
+-		dev_err(rga->dev, "failed to get hclk clock\n");
+-		return PTR_ERR(rga->hclk);
++	ret = devm_clk_bulk_get(rga->dev, ARRAY_SIZE(rga->clks), rga->clks);
++	if (ret) {
++		dev_err(rga->dev, "failed to get clocks\n");
++		return ret;
+ 	}
+ 
+ 	return 0;
+@@ -939,7 +889,7 @@ static int __maybe_unused rga_runtime_suspend(struct device *dev)
+ {
+ 	struct rockchip_rga *rga = dev_get_drvdata(dev);
+ 
+-	rga_disable_clocks(rga);
++	clk_bulk_disable_unprepare(ARRAY_SIZE(rga->clks), rga->clks);
+ 
+ 	return 0;
+ }
+@@ -948,7 +898,7 @@ static int __maybe_unused rga_runtime_resume(struct device *dev)
+ {
+ 	struct rockchip_rga *rga = dev_get_drvdata(dev);
+ 
+-	return rga_enable_clocks(rga);
++	return clk_bulk_prepare_enable(ARRAY_SIZE(rga->clks), rga->clks);
+ }
+ 
+ static const struct dev_pm_ops rga_pm = {
+diff --git a/drivers/media/platform/rockchip/rga/rga.h b/drivers/media/platform/rockchip/rga/rga.h
+index 72a28b120fabfdce39e7773358d0c9528019e882..a922fac0c01a3627f5149c78a1560341428a4fc1 100644
+--- a/drivers/media/platform/rockchip/rga/rga.h
++++ b/drivers/media/platform/rockchip/rga/rga.h
+@@ -6,6 +6,7 @@
+ #ifndef __RGA_H__
+ #define __RGA_H__
+ 
++#include <linux/clk.h>
+ #include <linux/platform_device.h>
+ #include <media/videobuf2-v4l2.h>
+ #include <media/v4l2-ctrls.h>
+@@ -81,9 +82,7 @@ struct rockchip_rga {
+ 	struct device *dev;
+ 	struct regmap *grf;
+ 	void __iomem *regs;
+-	struct clk *sclk;
+-	struct clk *aclk;
+-	struct clk *hclk;
++	struct clk_bulk_data clks[3];
+ 	struct rockchip_rga_version version;
+ 
+ 	/* vfd lock */
 
-Best regards,
 -- 
-Sven Püschel <s.pueschel@pengutronix.de>
+2.51.0
 
 
