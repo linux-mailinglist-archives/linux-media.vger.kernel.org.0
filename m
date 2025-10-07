@@ -1,144 +1,186 @@
-Return-Path: <linux-media+bounces-43868-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43869-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F2B6BC283E
-	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 21:35:12 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 04EBFBC285F
+	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 21:38:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5ABCF19A2E82
-	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 19:35:35 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C04B04F047B
+	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 19:38:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC34B2DA76C;
-	Tue,  7 Oct 2025 19:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7D55C2E092E;
+	Tue,  7 Oct 2025 19:38:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CmJZvMEa"
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Yb0ixHZ9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CE91DE4FB
-	for <linux-media@vger.kernel.org>; Tue,  7 Oct 2025 19:35:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E4AE19067C;
+	Tue,  7 Oct 2025 19:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.246.84.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759865705; cv=none; b=h5viTydfRTa1aiJFR2GL/xP1xvIBSAh4FXLwuXdwtK4Sm9N99nSaCXbIkSmEH5WP5p5MgL6j9KZD2emssYD0juKZTHxQgfxjrAv+D3629z0C5XGOP+4YnoQwUmdSn/IjdJ1zpVcmJiccOus2Ngr+4H+XIeBCe+5sA6up1x55wK0=
+	t=1759865882; cv=none; b=Da6DrBqBZ4FOddZG166H/gxotEadje67jFeZhH8dmDRqnWPvr5K3xa/Me4FVAjgyYnugj2B/RuTCXQ3XJBPvUHAYqspLOSSEr97b8cUTmrrW40DARbMOVWGM2KMROT9ZSUQ+LJc7RZmP6auBDXIsaPDQEu/B9AP79teUQqQ/2qE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759865705; c=relaxed/simple;
-	bh=wig0ZZyUy6dvUMp7li1+6/VNLVxhlEr3/MEMi8fh3UE=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
-	 Content-Disposition; b=Nl0KLZZ3G9wlTWDkpPSdkfPqNCZNU933a9bxuWrmJZojmkyngbjeXaUrZmlF5fLqM2ygODHUNKVlNsJjaEw5r9TlLCJZ0d1M9DO/qJqXrdyrSL6MSIesiQf9GfjBAsxMuNHlKQFvOKXjqvrlYLI5HbjBaYLTlqcl9Ow+P+TXqKo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CmJZvMEa; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 597ET5WH025699
-	for <linux-media@vger.kernel.org>; Tue, 7 Oct 2025 19:35:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-type:date:from:message-id:mime-version:subject:to; s=
-	qcppdkim1; bh=PvaVJoAJ0Gijus/RZwgfHF8MqLW4IcqzozVAjzVGhEY=; b=Cm
-	JZvMEajRwKNXGpNzosoJA4NQn9MIt49ruOyIEiOYpZ49RItE9q+KLKVaJFarenxE
-	kQh24oSfGoqFqCqXL2OqOtmAC1P7+CNQOjFABtnMnlrU5tiqLcP7Q7AC2Pg0Ujee
-	7poRyDgBTODUA21HLgsZ6nE3T9sgw7n0X5kTO0JwEUEXzm4ZojfeVtte8Y/XsvNG
-	hJpIJAKNyVe78VfDu1cr1ijKo0NOEnuYW9Ms46JlDLat01uvFndudxCGEpmz4Rs4
-	QHXaWzuKYDvYw/ZgNHv2H89lyaijdO/eRqpYqIFO0gggzSWHgLywuYpPHg4S+Dm0
-	Fr87B4pzsF0ChIloT31w==
-Received: from mail-qt1-f199.google.com (mail-qt1-f199.google.com [209.85.160.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49juy70bwv-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 19:35:02 +0000 (GMT)
-Received: by mail-qt1-f199.google.com with SMTP id d75a77b69052e-4d77ae03937so176600711cf.3
-        for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 12:35:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759865701; x=1760470501;
-        h=content-disposition:mime-version:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PvaVJoAJ0Gijus/RZwgfHF8MqLW4IcqzozVAjzVGhEY=;
-        b=jZtUKhM04WNbrFBwIKZMc0m4zaMoKH8/rWEbMnCK0NDbtCsvDCdo36lldRnKGWQUC+
-         wTOsleO4/TuboNO29dGM0uqh/qzPoqaSL9wU+KFFWXSNNSCx4DgbOp9t2850F1Qlalaf
-         KZzre19f724vLet3GdFGX0L/flr8dpXrDgYLJSjlCiPAKCYAErTWFcYuFH2WNY5ECkqD
-         T/2/WvK6jOzNI9iqVC1sjNYuoGWAt1vFamHy4gPXzwy1Gb2huOUo+rloINIKGnUHqlOR
-         ABsBBaLp8MuscnDLROU/iF0uWOkYouruQwRGaMe+q3PiKnXFVWOCuUiYg1uVX2QSPAun
-         Zb/A==
-X-Forwarded-Encrypted: i=1; AJvYcCWRZq51x0dv8aLdw+rA++Yn/2yh4zOsdqMKPaENOG1HhP4e/VEAFzKZ++D8SSB5AF1z8XDPtODSdno8QQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzO4dvaJyUrBXcmVvHn3i86ESUMbQFK9bTMBvreiHmn4DkDYVXO
-	9LfH5g1O7a+kFmdBJIHq8tpJtIBkpi7GXH94IsYftk/gI8xpt6049dhBK/Xr45H5tHz1JRvHVne
-	CxsG/VqsBggA8vhe2zoiYR4TtZiftC9DP+aJWP06DA7hOnLO3qCIOS4zReB9O9+wHXw==
-X-Gm-Gg: ASbGnctlOLKh66KUzG92ZfFjrr7A9nfuSAySxIrxo6PFhqPP0AixMwLZwtj30kGw41A
-	NkxkDPAYduCq+Gfj1IHANWTHqL76puD/Ra919haFJNlbBesF4yYGnXhW4L8/FMVYhSfNsXOJaMm
-	QGFdu3aIx4RwQ5LluqtJAE7v0jnRBGgBjUwxUrW/frSUJFQJ5Xt6Gk8XOEnduLqoVJM82b9CntR
-	4j7i+FRLlQqCmohzTpwzCRByGtlIcdIoyc2SRWeZWiaNsxx0RMxUhRRv7IvUg88xbs5WGr5rezS
-	5Jo1QJYoALasGnHhiy5iKpi8A7Mixisw/jFPx9LdaiedsXU6b5hrRF1LUIu5lZG6UAE2GO4+YvY
-	IlrIDTRLbzwoozVi6DIerLxjziB9dpkJDiUL2SI9hsBqQYYsd94uTxFXy+A==
-X-Received: by 2002:a05:622a:554:b0:4dd:e207:fe2 with SMTP id d75a77b69052e-4e6ead771bemr10781221cf.41.1759865701276;
-        Tue, 07 Oct 2025 12:35:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFhYB5jrIhIsoEiveBcI1+5csRppnfeSgR0nJsMQlBnsHGl4MPh8xoRA6HHDibeJe3352O9Qg==
-X-Received: by 2002:a05:622a:554:b0:4dd:e207:fe2 with SMTP id d75a77b69052e-4e6ead771bemr10780851cf.41.1759865700740;
-        Tue, 07 Oct 2025 12:35:00 -0700 (PDT)
-Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58b0118d3e6sm6348563e87.63.2025.10.07.12.34.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 07 Oct 2025 12:34:59 -0700 (PDT)
-Date: Tue, 7 Oct 2025 22:34:58 +0300
-From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org
-Subject: media: qcom: iris: crashes on SM8250 / RB5 board
-Message-ID: <rs3olaoudntfrnsgpg4nivtnyrdfqsvb3flnr6mcejih3me6zd@udzutvmmkj45>
+	s=arc-20240116; t=1759865882; c=relaxed/simple;
+	bh=6AKFpL6na3bt8D8QEpmSTN5t9tbazOeWjvoxMIAmQhI=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=p3cHWst/1E+HCHU1OIO8fEyzX4OaWMSUYAJhvbr4U6jJjHOnpXzzpPn8aXlS9sEJgl3YUdDc3qpgi1wZWQLJfH0VP5rHeAXYX8a1E7oiINwbkmbP1UdMrYGnRF3lIHPpT9PFTT3eyxM0/YfJiapkkqjtkT6eQeO6ZFvnm+xXeRY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Yb0ixHZ9; arc=none smtp.client-ip=185.246.84.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id A3BD91A11D1;
+	Tue,  7 Oct 2025 19:37:57 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 64481606C8;
+	Tue,  7 Oct 2025 19:37:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5D315102F2176;
+	Tue,  7 Oct 2025 21:37:40 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1759865875; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=4GcWK5Hme5WCrSE/n/v4fGwUF3MXcCwR4mya1TPBBHw=;
+	b=Yb0ixHZ9OCx4HZ8HP9niaBIyueqHaMT7Ipq0pdbnE0i4WY2Ng5Mg+xgzwQs68bH/pNFSnk
+	K3AKjz+LtGvdzXCI1pVRMaVajrNkDgV6T5la1kzbEkvO28RA5r/VjCtVzJZfaDnJ1ny4Wl
+	6KEJdUNvPwq6X/+cD1wiTbpZWX/ZgZMZelEhB5JIPCUEMSjMEv/EUiNDyS9WxcTRj1jGH9
+	Pmf9mTOaneqZOH7bbSjI/4lSZy3ddI5yqsTN+B2cw4t3rFZIQwvjQl/WkCajGxbS2rmo7e
+	uNZfenJmiQWnR1Dy0NIEQfAkP63mKj4DkpwzjClaKNW0XzyyD36AcUVIXw4vIg==
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Authority-Analysis: v=2.4 cv=IrITsb/g c=1 sm=1 tr=0 ts=68e56b66 cx=c_pps
- a=WeENfcodrlLV9YRTxbY/uA==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=x6icFKpwvdMA:10 a=fREZMqYHaUzqRmr5ttQA:9 a=CjuIK1q_8ugA:10
- a=kacYvNCVWA4VmyqE58fU:22 a=HhbK4dLum7pmb74im6QT:22
-X-Proofpoint-GUID: 9PpGpjxhbSrUAzaEGwPhSAbgQHRnMPDn
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAyOSBTYWx0ZWRfX7kRBP8pW6V9s
- UQwVlaZOz8Ii8QKPjUNpceLgRhQno9UO36Z3yKhTPlN/pSsYbQJLYfHpHOitwZveLm7e+QHluaA
- cjVfSl2K+7gVWl01T7+sMkZrUZuT0Io+feyZZ1KqtYzwpeCbaB7TIzlXYa9D3YTEJRUcvMhocUP
- 72Sk3BMmbmjbR7z+0APObD3iq6J7ebja9+1XMVaKOQP7dw5meZaewqr0v3qzHTpeYyYBvrdPgKL
- z9yLI1Mkvh3PJWiOTianz0uDigBOL3TAyB9GglPUC/b3y908yxH488R73tdb62z/2CFxpTbAYey
- pT5A+fKDVhcuAFoYIqdMCIaW+5NFdZuej0nW56wbwpWN1pb7lipBgFCXlSJ0TIhZ4QSGjnOl29j
- NVNN/DDJbPkzs9sMDoGJ65q9Q7wXAA==
-X-Proofpoint-ORIG-GUID: 9PpGpjxhbSrUAzaEGwPhSAbgQHRnMPDn
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-07_02,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 priorityscore=1501 bulkscore=0 clxscore=1015 malwarescore=0
- spamscore=0 phishscore=0 impostorscore=0 lowpriorityscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040029
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 07 Oct 2025 21:37:39 +0200
+Message-Id: <DDCCDQMTQG55.1K25Y3U0JE15Q@bootlin.com>
+Cc: "Mikko Perttunen" <mperttunen@nvidia.com>, "David Airlie"
+ <airlied@gmail.com>, "Simona Vetter" <simona@ffwll.ch>, "Maarten Lankhorst"
+ <maarten.lankhorst@linux.intel.com>, "Maxime Ripard" <mripard@kernel.org>,
+ "Thomas Zimmermann" <tzimmermann@suse.de>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley"
+ <conor+dt@kernel.org>, "Thierry Reding" <thierry.reding@gmail.com>,
+ "Jonathan Hunter" <jonathanh@nvidia.com>, "Sowjanya Komatineni"
+ <skomatineni@nvidia.com>, "Prashant Gaikwad" <pgaikwad@nvidia.com>,
+ "Michael Turquette" <mturquette@baylibre.com>, "Stephen Boyd"
+ <sboyd@kernel.org>, "Linus Walleij" <linus.walleij@linaro.org>, "Mauro
+ Carvalho Chehab" <mchehab@kernel.org>, "Greg Kroah-Hartman"
+ <gregkh@linuxfoundation.org>, =?utf-8?q?Jonas_Schw=C3=B6bel?=
+ <jonasschwoebel@yahoo.de>, "Dmitry Osipenko" <digetx@gmail.com>, "Charan
+ Pedumuru" <charan.pedumuru@gmail.com>, "Diogo Ivo"
+ <diogo.ivo@tecnico.ulisboa.pt>, "Aaron Kling" <webgeek1234@gmail.com>,
+ "Arnd Bergmann" <arnd@arndb.de>, <dri-devel@lists.freedesktop.org>,
+ <devicetree@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <linux-clk@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+ <linux-staging@lists.linux.dev>
+Subject: Re: [PATCH v3 15/22] staging: media: tegra-video: tegra20: simplify
+ format align calculations
+From: "Luca Ceresoli" <luca.ceresoli@bootlin.com>
+To: "Svyatoslav Ryhel" <clamor95@gmail.com>
+X-Mailer: aerc 0.20.1
+References: <20250925151648.79510-1-clamor95@gmail.com>
+ <3665995.U7HbjWM52l@senjougahara>
+ <CAPVz0n3CrVufs8vbw8XnYuwoZoQ2Xsi3V4HimgT0=4RQySzvaw@mail.gmail.com>
+ <3862885.G96rZvMJ2N@senjougahara>
+ <CAPVz0n2shn41h4z4PoMdtCXzj+96ak69TCqt7Ag5qpqdWi6UWA@mail.gmail.com>
+ <DDBGU9ELXIAW.1RLHSNOPVR9B3@bootlin.com>
+ <CAPVz0n3EB-tw0af+O4acmbvXNHkH62t5v3r3O0nedLs_XJ39PA@mail.gmail.com>
+In-Reply-To: <CAPVz0n3EB-tw0af+O4acmbvXNHkH62t5v3r3O0nedLs_XJ39PA@mail.gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-Hello,
+Hello Svyatoslav,
 
-I've tried running fluster testsuite against the Iris driver on the
-Qualcomm Robotics RB5 (QRB5165 / SM8250) and I noticed several
-instabilities:
+On Tue Oct 7, 2025 at 6:02 PM CEST, Svyatoslav Ryhel wrote:
+> =D0=BF=D0=BD, 6 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 21:=
+55 Luca Ceresoli <luca.ceresoli@bootlin.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>>
+>> Hello Svyatoslav,
+>>
+>> On Thu Oct 2, 2025 at 8:20 AM CEST, Svyatoslav Ryhel wrote:
+>> >> > > > 12 represents amount of bits used per pixel, 8 for Y plane, 2 f=
+or U
+>> >> > > > plane and 2 for V plane, total is 12. "but explainable with a c=
+omment
+>> >> > > > and improve-able later" why then we cannot use 12 with a commen=
+t? this
+>> >> > > > is all arbitrary. Downstream is not wrong from this perspective=
+, you
+>> >> > > > don't take into account that YUV420 is planar and it uses 3 pla=
+nes a
+>> >> > > > whole Y plane and 1/4 of U and V which in total results in wigt=
+h + 2 *
+>> >> > > > 1/4 width which is width * 3/2
+>> >> > >
+>> >> > > Yes -- but AIUI, the only thing the bpp value is used for the byt=
+esperline calculation. When we add the special case for planar formats, whi=
+ch doesn't use the bpp value, then the value 12 is never used anywhere. We =
+should at least have a comment saying it is unused. (At that point, we coul=
+d just hardcode the bpp values in the fmt_align function -- but I don't min=
+d either way.)
+>> >> > >
+>> >> > https://ffmpeg.org/pipermail/ffmpeg-user/2023-June/056488.html
+>> >>
+>> >> I understand very well that for YUV420, each pixel has 12 bits of col=
+or information. But how many bits of color information each pixel has is no=
+t useful in the context of this driver. The number of bytes per line is not=
+ related to how many bits of color information each pixel has for planar fo=
+rmats.
+>> >
+>> > No, it has direct impact. This is how buffer size / image size is
+>> > calculated since we place each plane consecutive. And bytes per line
+>> > is used specifically in image size calculation. This is common part
+>> > with non-planar formats. Then since Tegra provides a dedicated
+>> > channels/buffers for each plane, configuration of planar format
+>> > includes an additional step with calculation for each plane.
+>>
+>> Sorry, I haven't followed the discussion in detail, but I tested you ser=
+ies
+>> on Tegra20 VIP and capture does not work, with a SIGSEGV in
+>> gstreamer. Bisecting pointed to this as the first commit where the issue
+>> happens.
+>>
+>> I compared the input and output values of tegra20_fmt_align() at this
+>> commit and at the previous one, and this is the result:
+>>
+>>                        before this patch     with this patch
+>>   At function entry:
+>>   bpp                        1                     12
+>>   pix->width                 640                   640
+>>   pix->height                480                   480
+>>
+>>   On return:
+>>   pix->bytesperline          640                   960
+>>   pix->sizeimage             460800                460800
+>>
+>> I hope these info will help.
+>
+> Which command did you use? I have tested with ffmpeg and
+> yuv422/yuv420p and it worked perfectly fine.
 
-The following VP9 tests cause the board to reset badly:
+I have a simple testing script that runs these commands, with
+VNODE=3D"/dev/video0":
 
-            vp90-2-05-resize.ivf
-            vp90-2-18-resize.ivf
-            vp90-2-21-resize_inter_640x360_5_1-2.webm
-            vp90-2-21-resize_inter_640x360_5_3-4.webm
-            vp90-2-21-resize_inter_640x360_7_1-2.webm
-            vp90-2-21-resize_inter_640x360_7_3-4.webm
+v4l2-ctl -d ${VNODE} --set-ctrl horizontal_flip=3D1 --set-ctrl vertical_fli=
+p=3D1
 
-Testing H.265 with JCT-VC-HEVC_V1 passes with -j 1, but quickly resets
-the board with 8 paralell jobs (the fluster's default on that device).
+gst-launch-1.0 -ve v4l2src device=3D${VNODE} num-buffers=3D500 \
+  ! video/x-raw,width=3D640,height=3D480,framerate=3D50/1,format=3DI420 \
+  ! videorate drop-only=3Dtrue skip-to-first=3Dtrue \
+  ! video/x-raw,framerate=3D50/4 \
+  ! queue \
+  ! avenc_mpeg4 \
+  ! mp4mux \
+  ! filesink location=3D/tmp/grab.mp4
 
-Neither H.265 nor VP9 testsuites crash if I use Venus driver.
+Luca
 
--- 
-With best wishes
-Dmitry
+--
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
