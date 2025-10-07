@@ -1,201 +1,103 @@
-Return-Path: <linux-media+bounces-43880-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43881-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC940BC2BC2
-	for <lists+linux-media@lfdr.de>; Tue, 07 Oct 2025 23:23:41 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85143BC2D25
+	for <lists+linux-media@lfdr.de>; Wed, 08 Oct 2025 00:10:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0F24A347153
-	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 21:23:41 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 523304E618A
+	for <lists+linux-media@lfdr.de>; Tue,  7 Oct 2025 22:10:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72F78246BB7;
-	Tue,  7 Oct 2025 21:23:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09BB0258EF6;
+	Tue,  7 Oct 2025 22:10:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tc1cRKtx";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="aPxvBVdt";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="tc1cRKtx";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="aPxvBVdt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YpOqehRD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20018244670
-	for <linux-media@vger.kernel.org>; Tue,  7 Oct 2025 21:23:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5004B1E3DCD;
+	Tue,  7 Oct 2025 22:10:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759872212; cv=none; b=pMLsy+RFgv+WZDUalMDf7js7SoQIMIdeqSIEahO1gPxpVFuZuAZ68n5Da/Icxep3jpaOti1oawYxngcHcPzTXR8kZHLpSrHG7XMOt4+5cAhoO1c/nNaAybyYQwU/eXTEJridUYGpdjn2FusuMITIYhKwQQxIxRMddn+5zAMuWxY=
+	t=1759875035; cv=none; b=c6Fl6LzDrI3J8rpTkAnJxYlJKnzcCRvsOPYm+6XlsjA/xgjnSdNcybugSaiEKeGRrT7cko8Q0xITgNj67cuubB0xA82wqbONwJvkKyE2Ta5cGResckyOXowg3BPE5pYIOfS4Ls7vH32nT2i0iN5XRZaWxPj6CMBGmSuKbcbHMGw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759872212; c=relaxed/simple;
-	bh=YyYA+OXDy55kJbYaMT/7VbmB31M8xsq4KEAxQ2YITcU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=o5GUPAzqoz/GZjvpxzpTKpbthnp9bHRu8uABNqISEdSzMKCiHONWxPU/V5nckiE9hH1biIg9brI+hefrBehU0JguX3/JP0C85jnsjwe2Pa4Ofd645kHoFfLuEfxNKtSiluA9u9c35A/Z6iKiJSTuaYnOLSg+unDCS2bKqhgeOWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tc1cRKtx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=aPxvBVdt; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=tc1cRKtx; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=aPxvBVdt; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 33EE8336F1;
-	Tue,  7 Oct 2025 21:23:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1759872209;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fSW6s0xFTBjNpOrglwzoHKOoMpDQchDWIDZB/oPFhRw=;
-	b=tc1cRKtx6tL8LoF7fN/wSJukiw0lfxeERLcCDxrpswbM6n5eqZgeEGbx0TF0kaPvqc8aIc
-	XwVUWX7E8vw0fqjUOnJq27K3lBZDRhnXqQgsLzf5WSIpSIb8ZtF+cKL+GN192kjgEWNuJm
-	Dq5Do2khlOOMj0jAAgCc6a1Jspg2b9M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1759872209;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fSW6s0xFTBjNpOrglwzoHKOoMpDQchDWIDZB/oPFhRw=;
-	b=aPxvBVdtmPLMCzW5SW71b19JlqaStxWuHxcePDu/iU9wmbpeYwGvBrEJi2humL/HQz5OjL
-	PD1MpQPrpR0AetAg==
-Authentication-Results: smtp-out1.suse.de;
-	none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1759872209;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fSW6s0xFTBjNpOrglwzoHKOoMpDQchDWIDZB/oPFhRw=;
-	b=tc1cRKtx6tL8LoF7fN/wSJukiw0lfxeERLcCDxrpswbM6n5eqZgeEGbx0TF0kaPvqc8aIc
-	XwVUWX7E8vw0fqjUOnJq27K3lBZDRhnXqQgsLzf5WSIpSIb8ZtF+cKL+GN192kjgEWNuJm
-	Dq5Do2khlOOMj0jAAgCc6a1Jspg2b9M=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1759872209;
-	h=from:from:reply-to:reply-to:date:date:message-id:message-id:to:to:
-	 cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=fSW6s0xFTBjNpOrglwzoHKOoMpDQchDWIDZB/oPFhRw=;
-	b=aPxvBVdtmPLMCzW5SW71b19JlqaStxWuHxcePDu/iU9wmbpeYwGvBrEJi2humL/HQz5OjL
-	PD1MpQPrpR0AetAg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id AB7DB13693;
-	Tue,  7 Oct 2025 21:23:27 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id wdEfHc+E5WhSNQAAD6G6ig
-	(envelope-from <pvorel@suse.cz>); Tue, 07 Oct 2025 21:23:27 +0000
-Date: Tue, 7 Oct 2025 23:23:25 +0200
-From: Petr Vorel <pvorel@suse.cz>
-To: Andi Shyti <andi.shyti@kernel.org>
-Cc: Alexandr Sapozhnkiov <alsp705@gmail.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	David Airlie <airlied@gmail.com>, Daniel Vetter <daniel@ffwll.ch>,
-	intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-	lvc-project@linuxtesting.org
-Subject: Re: [PATCH 5.10] gpu/i915: fix error return in mmap_offset_attach()
-Message-ID: <20251007212325.GA160168@pevik>
-Reply-To: Petr Vorel <pvorel@suse.cz>
-References: <20251002084828.11-1-alsp705@gmail.com>
- <ris5iw6gdn7squdjpo5kapdyd7jqwbzy3kbpnzspp7jhpm4tlj@osq47p45ydcv>
+	s=arc-20240116; t=1759875035; c=relaxed/simple;
+	bh=QAW7uD6qTbhsNZMM2sAsp3q/WD1SmcNoYl5uJPZlhHc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aY/tTwPv8D/4yRXjQgCkiPUG0IcYc1Y6UgUzUrGRelE+zP7e+yB8geVbt1s96k6fa/0a/gPKl2i+Ip0D7oDxOnyJh93PAnSDeE4HsdSXmkqf8t1ZcevLVXfb4LIonmptJ7JY2Ckcb9Aqb4OoJdbhR3UtKtR4ms9FeuMBOGm6SQc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YpOqehRD; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BDC07C4CEF1;
+	Tue,  7 Oct 2025 22:10:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759875034;
+	bh=QAW7uD6qTbhsNZMM2sAsp3q/WD1SmcNoYl5uJPZlhHc=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=YpOqehRDJt0iEnS0e24rkpgTxlpSX6raj9a/EwELbkbTKa8Pec9kOTqmwVAL9xh/g
+	 4uIcjjGiop958qtSJd9syIHJ/xM+8DYw0GH0yHD/zVq+PrDeTGfZGWXkkgskFq3yql
+	 DoqDOpSj0OsYO3+HgOAz22YRp2Y/5q2A1ca7IvU7WjG5hDLwjP9toW2AvM453HNZr4
+	 whyUEMQWaNlpohN8OAtjZucimj3mgObQ/Vq5k7wsYRzGedqfNesCrE9juuejVz8E6h
+	 7cIlsFlAe/HyurtAjMwmnTp3Eq2hycOzVsdSX18DdxxONqT2W+1MvYk5U8FRodklKv
+	 DIrobctswvKwg==
+Message-ID: <1481129e-3803-498b-bfe5-003c194f629c@kernel.org>
+Date: Tue, 7 Oct 2025 23:10:28 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <ris5iw6gdn7squdjpo5kapdyd7jqwbzy3kbpnzspp7jhpm4tlj@osq47p45ydcv>
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.50 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_RHS_NOT_FQDN(0.50)[];
-	HAS_REPLYTO(0.30)[pvorel@suse.cz];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_RATELIMITED(0.00)[rspamd.com];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	TO_DN_SOME(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[13];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FREEMAIL_CC(0.00)[gmail.com,linux.intel.com,intel.com,ursulin.net,ffwll.ch,lists.freedesktop.org,vger.kernel.org,linuxtesting.org];
-	MISSING_XM_UA(0.00)[];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo];
-	REPLYTO_EQ_FROM(0.00)[]
-X-Spam-Flag: NO
-X-Spam-Score: -3.50
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
+ node
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Bryan O'Donoghue <bod.linux@nxsw.ie>,
+ Charan Teja Kalla <charan.kalla@oss.qualcomm.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
+ <6840d462-8269-4359-a6e5-d154842b62db@oss.qualcomm.com>
+ <af0da28c-3ca0-41dc-aaa4-572723ea74bf@linaro.org>
+ <klhvgzizub33f46buqsog54wqksqp24a5tijwyv355l2ao2imo@wdkojfebc6s2>
+ <e1a6e75a-2a5d-44a2-8bbc-140eb86d1806@linaro.org>
+ <2hh3zkdwgqbdurpr4tibr3gjat6arwl3dd3gxakdaagafwjdrm@aj5em4tbsjen>
+ <Ujyoj3HGLVFhS2b0XzcYAMjSiCAuO-lSJ8PMEQLOaaX83tk_0D5zjrL0VDyZAmD3i4zLB3ElKSZBltISb5jJHA==@protonmail.internalid>
+ <4a32bbec-2baf-4210-a7c1-1ddcd45d30c8@oss.qualcomm.com>
+ <SuwJuCIcLVJwN3YeN1il6tB9wO9OH6bYcnbRpxpuI9Dl7piYLN-hVdnyv0Mal6N-W5pi2aCZI8MxHZDEkoE63A==@protonmail.internalid>
+ <4d87d1ca-55b2-426e-aa73-e3fd8c6fe7bd@kernel.org>
+ <10a8ccda-4e27-4b06-9a0e-608d6ade5354@nxsw.ie>
+ <4cb4a92d-2f20-47c7-881e-aadcc6f83aa0@kernel.org>
+ <I1DbPl0-zSS8tu3k8v0O-6DQdXnwza-Y3Os6GXsSDbOOhVbi3-F8jfL4q7QdkYo2zLv_s8Hy9v1PI3SiGCuDdQ==@protonmail.internalid>
+ <CAO9ioeXqx4MoHNDiM4Pbp_evxEAACP0HhJ+8Fgqhhq60sCThdg@mail.gmail.com>
+From: Bryan O'Donoghue <bod@kernel.org>
+Content-Language: en-US
+In-Reply-To: <CAO9ioeXqx4MoHNDiM4Pbp_evxEAACP0HhJ+8Fgqhhq60sCThdg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-> Hi,
+On 07/10/2025 20:40, Dmitry Baryshkov wrote:
+>> Surely we could do
+>>
+>>       #iommu-cells = <4>;
+> Because #iommu-cells is a part of the apps_smmu: device rather than a
+> part ofthe iris/venus/GPU/display/etc.
 
-> On Thu, Oct 02, 2025 at 11:48:26AM +0300, Alexandr Sapozhnkiov wrote:
-> > From: Alexandr Sapozhnikov <alsp705@gmail.com>
+What's to stop us extending the definition for qcom platforms ?
 
-> > In the drm_vma_node_allow function, kmalloc may 
-> > return NULL, in which case the file element will not be 
-> > added to the mmo->vma_node list. It would be good to 
-> > not ignore this event, but at least log an error message.
+Rather than jumping through hoops in drivers, we can just encode the 
+data in the DT.
 
-> > Found by Linux Verification Center (linuxtesting.org) with SVACE.
-
-> > Signed-off-by: Alexandr Sapozhnikov <alsp705@gmail.com>
-> > ---
-> >  drivers/gpu/drm/i915/gem/i915_gem_mman.c | 7 +++++--
-> >  1 file changed, 5 insertions(+), 2 deletions(-)
-
-> > diff --git a/drivers/gpu/drm/i915/gem/i915_gem_mman.c b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> > index a2195e28b625..adaef8f09d59 100644
-> > --- a/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> > +++ b/drivers/gpu/drm/i915/gem/i915_gem_mman.c
-> > @@ -706,8 +706,11 @@ mmap_offset_attach(struct drm_i915_gem_object *obj,
-> >  	mmo = insert_mmo(obj, mmo);
-> >  	GEM_BUG_ON(lookup_mmo(obj, mmap_type) != mmo);
-> >  out:
-> > -	if (file)
-> > -		drm_vma_node_allow_once(&mmo->vma_node, file);
-> > +	if (file) {
-> > +		err = drm_vma_node_allow_once(&mmo->vma_node, file);
-> > +		if (err)
-> > +			goto err;
-> > +	}
-
-> NACK here! You have received several reviews on this patch and
-> didn't react to them. Please, read carefully the reviews you
-> received and send a second version of the patch.
-
-> Please do use versioning properly in your title and add a
-> changelog.
-
-> Before sending patches, please read the documentation[*].
-
-> Andi
-
-> [*] https://www.kernel.org/doc/html/v4.17/process/submitting-patches.html
-
-Maybe read the latest version.
-https://www.kernel.org/doc/html/latest/process/submitting-patches.html
-
-Kind regards,
-Petr
-
-> >  	return mmo;
-
-> >  err:
-> > -- 
-> > 2.43.0
-
+---
+bod
 
