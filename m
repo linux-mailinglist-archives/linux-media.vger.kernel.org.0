@@ -1,213 +1,205 @@
-Return-Path: <linux-media+bounces-43901-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43902-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3153BC35E5
-	for <lists+linux-media@lfdr.de>; Wed, 08 Oct 2025 07:16:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0EBBC364F
+	for <lists+linux-media@lfdr.de>; Wed, 08 Oct 2025 07:45:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id DD7DB4E38C1
-	for <lists+linux-media@lfdr.de>; Wed,  8 Oct 2025 05:16:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 01B243BE709
+	for <lists+linux-media@lfdr.de>; Wed,  8 Oct 2025 05:45:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9AD9120487E;
-	Wed,  8 Oct 2025 05:16:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ED1592EA494;
+	Wed,  8 Oct 2025 05:45:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LOHpaPM5"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dJI89l/0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74F2454652
-	for <linux-media@vger.kernel.org>; Wed,  8 Oct 2025 05:16:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67620192D68
+	for <linux-media@vger.kernel.org>; Wed,  8 Oct 2025 05:45:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759900567; cv=none; b=qZ/nxJtPOkNYpBCjAaKX4gz4DT8oEb453CgdUbtnET6tEna+1i+2xdfE2JGIxgXT2kAfvsiSmyhHqdegHArZoPXD+V7gry3GbW7IaoO8R/c4Inhi5z6hCGZ1GDaXaVLBqf8Oe5S098++HbH6G3MYuAGCjNOiEeX/9P90G9kwgxE=
+	t=1759902310; cv=none; b=RZHHRTRFfQH4VXmNnuSdD3gb4OaljVAXD/HxxbooH7AThLVbol8s4mXoUtIXtpoM0q04NTpDvZoewObKmIhh6EImYlbFKB8cSYqYb2GBESFx7/5ndl/qkkK0eOJgKje2PcCXZ0HAkN/DCyep1b7nNMXqDac48owBecw37HDOIcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759900567; c=relaxed/simple;
-	bh=Xk94Vuc6seJLdFlhJl0nzWNmxlsrdyIWoO3t0wdkjEo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=k3QmWwYA1ym4f2e6pAhq+trLPfoeeSNPzryQwLu/bPR7dpExedMPYZsf5v3cxBOQkX5yshINB3ht7mpQYPq07eWMuA8MpzWp22rtBLrR+zbA4a8XblvPcox1b9O8eNf39M1Jm0eXnsKexIVTg1fb5M7wVCvM3yavK944cKgCeDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LOHpaPM5; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59804RqC024648
-	for <linux-media@vger.kernel.org>; Wed, 8 Oct 2025 05:16:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	zN3inemXqS9KNGoW5/uyVfSNbK9UhPopJTspFYvxv78=; b=LOHpaPM5Vf0Tp2cb
-	fACNshV1ouHsFjzI5o50H3M2xZ8pCUMsYOcPoIKwpeUl0ImRUOGffZg4FkAYtUhV
-	TVKpb/GJRRx4OrlExfio7NfBIfayAQyS4xd2v8MozB4xe2/5uOrJZHtcpK6/Blwk
-	/QIMBRAfP7xX5QqOZXiExhQMfFw6UPBodmGPdpxKNE+2aeLavTNtAfqhM0LlBvXx
-	61J40quY5u1S2wSUhui9/HdYnBvXJJZF1vVo9cq1nGCVlLhKWquHB0XXxbwB+GxP
-	HNcAqelur5MjmEbG2G9QB6aS+Iqd6YGyNA5VWEOBfNVXCVl+GNhxZSY6KhvQ/H7Z
-	JSHYew==
-Received: from mail-pj1-f71.google.com (mail-pj1-f71.google.com [209.85.216.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jtk71ejc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 08 Oct 2025 05:16:04 +0000 (GMT)
-Received: by mail-pj1-f71.google.com with SMTP id 98e67ed59e1d1-32ec69d22b2so6802838a91.1
-        for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 22:16:04 -0700 (PDT)
+	s=arc-20240116; t=1759902310; c=relaxed/simple;
+	bh=y3ENnxsjvGdO+/N1hWTYhRava8fqxMcu3LUBH2wKiGc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uinldYZcAMSubsg+jftjuI9K+/i5p4JkE0FyTsBuGTTBnUTpLpUGuOrdJVq9yfpS14+Yokr0YVwjbl675EV3bWypUufOwXBXoLOVVldaqhM8RIJQFmSW1WKE9DOJ1cS24smS79s1gmze47E2Q6pkA5LzV3pvzkVwMRSkpkFj0l8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dJI89l/0; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-46e4ad36541so74698965e9.0
+        for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 22:45:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759902307; x=1760507107; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nMrA9ECVAZwUgiOwDSSBvdQk3vkFdAvd5oJUQqsaClA=;
+        b=dJI89l/0XyujkW5L/n7t2uL8uv2MH2+jiQpPnSCKIjaxqsIjR+pR2Y/hkLAGKwAOlF
+         lDxPtFiezq83rmcdZjS1YXIhJwgYWrEbeEcL2U6PcgI9WJgFNBLdAVtFb4xGmMzSs/kq
+         +DgNuIaCrmSv+q3MoiE7kstdaDWo7w7W72c3Gku/3xbQD7xo3szNKxRk+FkkgAa+qYIc
+         3tkQ2y+LbQLJrtTl5vaIjKko5Q+cFYdtfjCpHL9VFqgMUVosMSfbWkStMne2Ppr7IirM
+         ovRLVNZu6cYHssyaR+ZZdrlgZfScNBI1QAvA+J09WH4z/KMw3Rnxs4Ot2eGpds5j291l
+         ka9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759900562; x=1760505362;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zN3inemXqS9KNGoW5/uyVfSNbK9UhPopJTspFYvxv78=;
-        b=TS7XpVGI4w9DPn9pZp2uomsRoGf2b8yDFCuZYxaiC7TKLpJLKyRmKgP40Oc0We5Jvz
-         jKdso54FPory+PwsSxPvua0Gc/t/gN7TdNZIy3gs/WQL0lax5cLtoKjbKbocXID3pV2J
-         rH3LF/vl5tyMjEPmhPvnHWQzpP+fRUV+BKASTGTcGRtJxt9HFEutYiTufV7Z9MgZlDxR
-         wc6lmIny8rXM0v8VGnfsEAnqfQXlG29bTwoEsL15p4Q/JirgFR/sFa3+gGAQP7YmT1vn
-         7tLGfK+Wjak8Oyo4t5dO7mS0n4+95oVxUO03AK55WwqC/rMzhgGFjkhQUS4bmafvRDUP
-         wBQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVfcbztjnzAbQ4hbA242T5mYTn6ZeaEj1n7wPI7rDQNZt38GPkxkYDpBpWDgXdNe1K02k3vUa0uRkkOWg==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyu9Q8tf85Mk/FD4aXQIm1GOzzhcEUuKkDyeYqOYurFu3TWytsH
-	1G71ZZwbbpelVPFOibTyf1X7zzyKYdNcLk9rGw0a8WL/LwPh1X+QHnh/NJFDA8/N43B6BHS/9B9
-	Cha+6faxzPGa0x/+5kD49PNLhipjzzcTxI75oZx4pihHEG3mjWUwiMi8UMMpFH1XRmw==
-X-Gm-Gg: ASbGncv2u1MX+UT2p1KkDOXjqD9M4c8BWamSNP+ENgmuT5nmX2/nlkMaUSsdDs2Bs2w
-	rvC/3FHI1o0aZCcjuCVQ2AoanE3pcE0BzoUsnqARdlQsViDGBc2Vp2n9jHjrOdRw5OOvXkMfREZ
-	0O0u4odHRtjK6NDhLw34TTlmCiZbZl1efHf50A9yNJh5LQOy36MTxC4XZybOvy47/vTHPI3CjVY
-	GX1oS8y1NT401y6xwUgVJ9+0gwKHq82k+LqpPRbfNKPEG5Q3MvIfkg23qXhP45rLliM5LE1NDoe
-	+uv/3EQ9yRfbCs/mnsu+C0iNVcWUipNFZKE4gRc4+qRqHKIafa7n5DUCAkg4Q0xTpmgK8qA8F4t
-	c6Q==
-X-Received: by 2002:a17:90b:3ec4:b0:32e:51dd:46dd with SMTP id 98e67ed59e1d1-33b5116b782mr2662519a91.16.1759900562231;
-        Tue, 07 Oct 2025 22:16:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHJfXchZYLk7AwCGFqllzQgE2NliGSPz5KcimSGlsyuUs5e0R13CuQuC6i02t0y4fizJxZ2tA==
-X-Received: by 2002:a17:90b:3ec4:b0:32e:51dd:46dd with SMTP id 98e67ed59e1d1-33b5116b782mr2662477a91.16.1759900561622;
-        Tue, 07 Oct 2025 22:16:01 -0700 (PDT)
-Received: from [10.0.0.3] ([106.222.229.252])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-33b5114acb7sm1714505a91.24.2025.10.07.22.15.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 07 Oct 2025 22:16:01 -0700 (PDT)
-Message-ID: <1530abc3-158b-a3e5-54a6-d96b24178406@oss.qualcomm.com>
-Date: Wed, 8 Oct 2025 10:45:56 +0530
+        d=1e100.net; s=20230601; t=1759902307; x=1760507107;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nMrA9ECVAZwUgiOwDSSBvdQk3vkFdAvd5oJUQqsaClA=;
+        b=wu17OG5yTZhmNI9am8XDbn2i1cTU+e1Vq4wOAo/FNwc7fIvUNDvMWyqMsqZLUtMpmS
+         dPnP0I+GF+ztkjYruSygh9YKKsqrtFcDfHNPfuareSUIJHwZIYDZZERR1Rjwrz+FD1sR
+         wgYV5KYS7zIRawZ4EMmp/m3Tcwid5vwcm4yqdyVtW46HCmB2TfP38haWWMrkLj588dgF
+         PGun3HZt5HHIWnacXWlPDXH6eFf29jCrynr4H/zFCnbYiZxSL5Hhlj2ofrHrOlTjZrk7
+         2yYIzo/9crMQFSV1ZkA8jIzBGGHn8Oau2B8QAmVukAJbqG5gBQtX2a+R4zITLFUiNBZQ
+         aGuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXvfeFonpobdvBdXn8DcWg2CZsowyODxLcWtK8g9b/l3Wdcq05ONFCxZRWhJ3ImI1JUVGTWeaADfS0Kjw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxOTrdwBXIRaMHJN7OHjKUdDoR5ktJ9D4y5Wmal71Q9YdNROCjc
+	G/xtDZjq/k5jnfIK7HEzAbBXjWH6x7/B2qnrCm/fSVcAdcBtzODz1Hjb8BIbiXqm4oAQnEiJ1pb
+	drIsfn2rKNdQuHmfAovEjUy8ynm6+Ma8=
+X-Gm-Gg: ASbGncuJwfEgAA5VaX2bf4UCtJvQmcD41dDGJ5/l17uqXDOM3o6jH4vz34ZEh76Scxs
+	fuRaAzLW8RV+9u4F7wW9qk9plt4oa7Ap5EwQY0QJ+RKv9wW9FwdkZvq1kATpvzJ3fGVPS8TUGvb
+	ztsncTKTx9j9ey4Y5IcKCVh5g4shaiMRerY5vpCbu9J3lBff2jlVhr1mP1bcwPnU8MlbVklgyce
+	K4zvBOg+mrNDgilnbmiQWpAKx90AwEVQ47iY1D0umA=
+X-Google-Smtp-Source: AGHT+IGztvS3EO/cNIRYVGvR4DZ8zwLuITrFfy/EcAWJFbzbd68GMfyHQ8W0cNkfgVipNkMiDx6l2VYQHC3kXlqK76Q=
+X-Received: by 2002:a05:600c:34cc:b0:46e:3550:9390 with SMTP id
+ 5b1f17b1804b1-46fa9af18ffmr13448945e9.20.1759902306398; Tue, 07 Oct 2025
+ 22:45:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v2] media: venus: prevent potential integer overflow in
- decide_core()
-Content-Language: en-US
-To: Pavel Zhigulin <Pavel.Zhigulin@kaspersky.com>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab
- <mchehab@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, lvc-project@linuxtesting.org
-References: <20251007103043.1969715-1-Pavel.Zhigulin@kaspersky.com>
-From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-In-Reply-To: <20251007103043.1969715-1-Pavel.Zhigulin@kaspersky.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAxNyBTYWx0ZWRfX+LwonxR8PEJV
- SNIgzaQD4ccVCIKYkw1IbsodaZzBE1LiOZImdoTl2xO68PA8AERc1W5gQjFJLjIJzmOoEZlKN/7
- zPaTIskcXLeA/Q7ooZNDKpRWdRWFW+qevaoulAEAT3PIn2boA9o9ZxG8zvYqGnWdUiti+lraxek
- GYVojy9QyIiXY9QfCqfLSddQkd6O1QI3vvavydpyIcoOhM/gFTeoZ1hRIeVaNYNO4lltL9geyYi
- G4Z6EPSwXn9uez7Z4OkOVZEnYIJ+ttx2bBkhTbqdEikrnuaUwjZgn9pZHGUsaGZPdYk/6jrX72w
- AGMb+uc436I3jaD7ccTIltriUfvhi6pPlG5g3Y8sJi8fEzE7pyKMcdu9zU7m19phI08joHUCBYt
- ClWf1aj1LcndPPluupfniFPHttqUww==
-X-Authority-Analysis: v=2.4 cv=do3Wylg4 c=1 sm=1 tr=0 ts=68e5f394 cx=c_pps
- a=UNFcQwm+pnOIJct1K4W+Mw==:117 a=L4UNg9I9cQSOxNpRiiGXlA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=ACEZY41XAAAA:8
- a=HH5vDtPzAAAA:8 a=EUspDBNiAAAA:8 a=E45_vJ1-3OPGenHQyXEA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=uKXjsCUrEbL0IQVhDsJ9:22 a=QM_-zKB-Ew0MsOlNKMB5:22
-X-Proofpoint-GUID: 1xbbGdnDSIJIaZwbXLHVpAYwnhekdKds
-X-Proofpoint-ORIG-GUID: 1xbbGdnDSIJIaZwbXLHVpAYwnhekdKds
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-07_02,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 adultscore=0 lowpriorityscore=0 phishscore=0 clxscore=1015
- malwarescore=0 spamscore=0 impostorscore=0 priorityscore=1501 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040017
+References: <20250925151648.79510-1-clamor95@gmail.com> <3665995.U7HbjWM52l@senjougahara>
+ <CAPVz0n3CrVufs8vbw8XnYuwoZoQ2Xsi3V4HimgT0=4RQySzvaw@mail.gmail.com>
+ <3862885.G96rZvMJ2N@senjougahara> <CAPVz0n2shn41h4z4PoMdtCXzj+96ak69TCqt7Ag5qpqdWi6UWA@mail.gmail.com>
+ <DDBGU9ELXIAW.1RLHSNOPVR9B3@bootlin.com> <CAPVz0n3EB-tw0af+O4acmbvXNHkH62t5v3r3O0nedLs_XJ39PA@mail.gmail.com>
+ <DDCCDQMTQG55.1K25Y3U0JE15Q@bootlin.com>
+In-Reply-To: <DDCCDQMTQG55.1K25Y3U0JE15Q@bootlin.com>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Wed, 8 Oct 2025 08:44:54 +0300
+X-Gm-Features: AS18NWDLUfrT6G2ttxsWBntZhVB5Szu88XFWQNFiBezo9FYR32OuHM_dRjRAWzM
+Message-ID: <CAPVz0n2y230JejNiTk3yT_6voauX1REu=fx21pFbsBByo=X2aA@mail.gmail.com>
+Subject: Re: [PATCH v3 15/22] staging: media: tegra-video: tegra20: simplify
+ format align calculations
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Mikko Perttunen <mperttunen@nvidia.com>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Sowjanya Komatineni <skomatineni@nvidia.com>, Prashant Gaikwad <pgaikwad@nvidia.com>, 
+	Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>, 
+	Linus Walleij <linus.walleij@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+	Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>, 
+	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+=D0=B2=D1=82, 7 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 22:37=
+ Luca Ceresoli <luca.ceresoli@bootlin.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> Hello Svyatoslav,
+>
+> On Tue Oct 7, 2025 at 6:02 PM CEST, Svyatoslav Ryhel wrote:
+> > =D0=BF=D0=BD, 6 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 2=
+1:55 Luca Ceresoli <luca.ceresoli@bootlin.com> =D0=BF=D0=B8=D1=88=D0=B5:
+> >>
+> >> Hello Svyatoslav,
+> >>
+> >> On Thu Oct 2, 2025 at 8:20 AM CEST, Svyatoslav Ryhel wrote:
+> >> >> > > > 12 represents amount of bits used per pixel, 8 for Y plane, 2=
+ for U
+> >> >> > > > plane and 2 for V plane, total is 12. "but explainable with a=
+ comment
+> >> >> > > > and improve-able later" why then we cannot use 12 with a comm=
+ent? this
+> >> >> > > > is all arbitrary. Downstream is not wrong from this perspecti=
+ve, you
+> >> >> > > > don't take into account that YUV420 is planar and it uses 3 p=
+lanes a
+> >> >> > > > whole Y plane and 1/4 of U and V which in total results in wi=
+gth + 2 *
+> >> >> > > > 1/4 width which is width * 3/2
+> >> >> > >
+> >> >> > > Yes -- but AIUI, the only thing the bpp value is used for the b=
+ytesperline calculation. When we add the special case for planar formats, w=
+hich doesn't use the bpp value, then the value 12 is never used anywhere. W=
+e should at least have a comment saying it is unused. (At that point, we co=
+uld just hardcode the bpp values in the fmt_align function -- but I don't m=
+ind either way.)
+> >> >> > >
+> >> >> > https://ffmpeg.org/pipermail/ffmpeg-user/2023-June/056488.html
+> >> >>
+> >> >> I understand very well that for YUV420, each pixel has 12 bits of c=
+olor information. But how many bits of color information each pixel has is =
+not useful in the context of this driver. The number of bytes per line is n=
+ot related to how many bits of color information each pixel has for planar =
+formats.
+> >> >
+> >> > No, it has direct impact. This is how buffer size / image size is
+> >> > calculated since we place each plane consecutive. And bytes per line
+> >> > is used specifically in image size calculation. This is common part
+> >> > with non-planar formats. Then since Tegra provides a dedicated
+> >> > channels/buffers for each plane, configuration of planar format
+> >> > includes an additional step with calculation for each plane.
+> >>
+> >> Sorry, I haven't followed the discussion in detail, but I tested you s=
+eries
+> >> on Tegra20 VIP and capture does not work, with a SIGSEGV in
+> >> gstreamer. Bisecting pointed to this as the first commit where the iss=
+ue
+> >> happens.
+> >>
+> >> I compared the input and output values of tegra20_fmt_align() at this
+> >> commit and at the previous one, and this is the result:
+> >>
+> >>                        before this patch     with this patch
+> >>   At function entry:
+> >>   bpp                        1                     12
+> >>   pix->width                 640                   640
+> >>   pix->height                480                   480
+> >>
+> >>   On return:
+> >>   pix->bytesperline          640                   960
+> >>   pix->sizeimage             460800                460800
+> >>
+> >> I hope these info will help.
+> >
+> > Which command did you use? I have tested with ffmpeg and
+> > yuv422/yuv420p and it worked perfectly fine.
+>
+> I have a simple testing script that runs these commands, with
+> VNODE=3D"/dev/video0":
+>
+> v4l2-ctl -d ${VNODE} --set-ctrl horizontal_flip=3D1 --set-ctrl vertical_f=
+lip=3D1
+>
+> gst-launch-1.0 -ve v4l2src device=3D${VNODE} num-buffers=3D500 \
+>   ! video/x-raw,width=3D640,height=3D480,framerate=3D50/1,format=3DI420 \
+>   ! videorate drop-only=3Dtrue skip-to-first=3Dtrue \
+>   ! video/x-raw,framerate=3D50/4 \
+>   ! queue \
+>   ! avenc_mpeg4 \
+>   ! mp4mux \
+>   ! filesink location=3D/tmp/grab.mp4
+>
+> Luca
 
+I can reproduce what you are observing. ok, I will drop this commit.
 
-On 10/7/2025 4:00 PM, Pavel Zhigulin wrote:
-> The function 'decide_core()' contains the following code:
-> 
-> 	cur_inst_load = load_per_instance(inst);
-> 	cur_inst_load *= inst->clk_data.vpp_freq;
-> 	...
-> 	cur_inst_lp_load = load_per_instance(inst);
-> 	cur_inst_lp_load *= inst->clk_data.low_power_freq;
-> 
-> This can lead to an integer overflow because the variables
-> 'cur_inst_load' and 'cur_inst_lp_load' are of type u32.
-> 
-> The overflow can occur in the following scenario:
-> 
->   1. The current FPS is 240 (VENUS_MAX_FPS constant).
->      The processed image frame has a resolution of 4096x4096 pixels.
->   2. According to 'codec_freq_data':
->        - 'inst->clk_data.low_power_freq' can be up to 320
->        - 'inst->clk_data.vpp_freq' can be up to 675
->      (see drivers/media/platform/qcom/venus/hfi_platform_v4.c
->       and drivers/media/platform/qcom/venus/hfi_platform_v6.c)
->   3. 'load_per_instance()' returns 15728640 under these conditions.
->   4. As a result:
->        cur_inst_load *= inst->clk_data.vpp_freq → 10616832000
->        cur_inst_lp_load *= inst->clk_data.low_power_freq → 5033164800
-> 
-> The proposed fix changes the type of these variables from u32 to u64
-> to prevent overflow.
-> 
-> Found by Linux Verification Center (linuxtesting.org) with SVACE.
-> 
-> Fixes: 3cfe5815ce0e ("media: venus: Enable low power setting for encoder")
-> Signed-off-by: Pavel Zhigulin <Pavel.Zhigulin@kaspersky.com>
-> ---
-> v2: Revert min_coreid and min_lp_coreid to u32 as
->     Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com> suggested
-> 	during review
-> v1: https://lore.kernel.org/all/20251006154041.1804800-1-Pavel.Zhigulin@kaspersky.com/
->  drivers/media/platform/qcom/venus/pm_helpers.c | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index f0269524ac70..eec49590e806 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -582,9 +582,9 @@ static int move_core_to_power_save_mode(struct venus_core *core,
->  }
-> 
->  static void
-> -min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u32 *min_load, bool low_power)
-> +min_loaded_core(struct venus_inst *inst, u32 *min_coreid, u64 *min_load, bool low_power)
->  {
-> -	u32 mbs_per_sec, load, core1_load = 0, core2_load = 0;
-> +	u64 mbs_per_sec, load, core1_load = 0, core2_load = 0;
->  	u32 cores_max = core_num_max(inst);
->  	struct venus_core *core = inst->core;
->  	struct venus_inst *inst_pos;
-> @@ -639,8 +639,9 @@ static int decide_core(struct venus_inst *inst)
->  {
->  	const u32 ptype = HFI_PROPERTY_CONFIG_VIDEOCORES_USAGE;
->  	struct venus_core *core = inst->core;
-> -	u32 min_coreid, min_load, cur_inst_load;
-> -	u32 min_lp_coreid, min_lp_load, cur_inst_lp_load;
-> +	u32 min_coreid, min_lp_coreid;
-> +	u64 min_load, cur_inst_load;
-> +	u64 min_lp_load, cur_inst_lp_load;
->  	struct hfi_videocores_usage_type cu;
->  	unsigned long max_freq = ULONG_MAX;
->  	struct device *dev = core->dev;
 > --
-> 2.43.0
-> 
-LGTM now.
-
-Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-
-Thanks,
-Dikshita
+> Luca Ceresoli, Bootlin
+> Embedded Linux and Kernel engineering
+> https://bootlin.com
 
