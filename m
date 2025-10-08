@@ -1,136 +1,213 @@
-Return-Path: <linux-media+bounces-43891-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43892-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBFB7BC3439
-	for <lists+linux-media@lfdr.de>; Wed, 08 Oct 2025 06:00:14 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8AA6BC34DE
+	for <lists+linux-media@lfdr.de>; Wed, 08 Oct 2025 06:33:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C823019E03EA
-	for <lists+linux-media@lfdr.de>; Wed,  8 Oct 2025 04:00:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 669623C5AB6
+	for <lists+linux-media@lfdr.de>; Wed,  8 Oct 2025 04:33:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 920E02BEC32;
-	Wed,  8 Oct 2025 03:59:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2631629B20D;
+	Wed,  8 Oct 2025 04:33:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Vv68HgJE"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Ij/OZpbL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB3DC2BE036;
-	Wed,  8 Oct 2025 03:59:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D192729AAE3
+	for <linux-media@vger.kernel.org>; Wed,  8 Oct 2025 04:33:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759895978; cv=none; b=QKNNI6lcPxlYpI/MSkHO2+UKoYCDJRRNNWJO0qoKJWwGccPq4CH9siOJQQLgmNINYzqIq0ksrhRsyfzET6BdKdHVm+6nCE16Cox+SzHSi4Plpkd+iO6Q5XapfXmOuNlr39ni9JWIaTKVg3EuggDPzBkYZJpoaywuBlaqawKS95o=
+	t=1759897994; cv=none; b=I0nmBDWgI4s5XqVqvp0+SY7qkkdmI7jjH/q95Ttiqy01iqjRlKkwaITW+NRCjq6K7yvD6lWBW/qoNLHGLBR0GfxTNTAUMZ5sG8h9KV3CQW1CbunOWOhfJYkRZV3vBQNvpeMEJ1sEWxOXgWpurTSPOkOa63lCIPyyLukJIdoGOOQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759895978; c=relaxed/simple;
-	bh=/WAB5MfGBmvDQJ4UC5RStzDxPybbW2rZG0FUWgjN0gw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=htJMMPFPHhEjIrtlrMTR7cXRhXzF8t+dOEc8QNZHTi9Zx0Zrodzx8BrT0LDU+IBpB0VjpnIr2Kehze6RU0ZIgSDGI292SYUtvc6hw2/a3xMpSOwIV4bymjT+xz2zCAqhm/ctNr7PD0PwnzLA/oDOZWUeb9Su4VG6y76TQeYTwF8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Vv68HgJE; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71941C4CEFF;
-	Wed,  8 Oct 2025 03:59:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759895978;
-	bh=/WAB5MfGBmvDQJ4UC5RStzDxPybbW2rZG0FUWgjN0gw=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Vv68HgJEsyCeLlY8CO4rpXYMTZapQDaiwnzYkzOfGL29Dn3s6aStlzvCbpwhrBlL/
-	 CfWgaTDopGP1F6nXuYhlbbn41NqciR20Znai7B9MwubAibXGr9Dz/9EMD7IvkidBVK
-	 nwvVFT5cpF2QVG+TqTzqGmQ4zmxJGqi70XndFFiM2/f57IVFlUWLu8zk34X6LfMC9N
-	 HVsmL3cxSshslfXFudgva2eG15BipiayRAiWJseHZX04CifVTjVoWQ9Q/kCfGc4QXt
-	 nz08kCPJ07Wth2JBr/t8Haklzb4OxnTBZH/gOursbDQipObCMGg+dYGBMT4bpC0bEa
-	 8JBCa4fcAtArQ==
-From: Kees Cook <kees@kernel.org>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Kees Cook <kees@kernel.org>,
-	Rusty Russell <rusty@rustcorp.com.au>,
-	Petr Pavlu <petr.pavlu@suse.com>,
-	Daniel Gomez <da.gomez@kernel.org>,
-	Sami Tolvanen <samitolvanen@google.com>,
-	linux-modules@vger.kernel.org,
-	Malcolm Priestley <tvboxspy@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	=?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
-	linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH 3/3] module: Add compile-time check for embedded NUL characters
-Date: Tue,  7 Oct 2025 20:59:35 -0700
-Message-Id: <20251008035938.838263-3-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20251008033844.work.801-kees@kernel.org>
-References: <20251008033844.work.801-kees@kernel.org>
+	s=arc-20240116; t=1759897994; c=relaxed/simple;
+	bh=fvPWdThtzVXnEcTCBEUKwE9cNmEthjmnIpUjf2Z9U30=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=hq7Q+Hvq41nRdRrIbWrv5dMg9fOQtX9WzZBXWHXkVx1a2Iyqy1Njn+HXghIlQI92qfOnDBMVE4ncl0NS1g4QHzRcV3H4ci5eu3pTjn8n0+tCUiYNSgKmKUppzqNBKNWleLM8xorfemFptVnOuVgoa7O6MplL3kRN2AGvF0+xdgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Ij/OZpbL; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59803XEV028388
+	for <linux-media@vger.kernel.org>; Wed, 8 Oct 2025 04:33:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=tV+fAcMEfIF7YDUmtKrzRM
+	DSxQ2QEUdhZrGwlyS3Css=; b=Ij/OZpbLMH3dTQ71tWfOELiW4Adrg0UHXbL4Yj
+	CCCL8Pq9+r7LXx1xa5VAEKOkkwbSPaonjNkuOgRwZkqSfKjnLom1rrlb1LDZPBML
+	OsW9CWlj/Gr75Zqb/OKoCIc5To8mnHkNumDB8Q9X7qPQdyvtUgwNkwSrEQDOXhMv
+	H0BtjdFXnNmRLXH/SyOH3hSqxanwiEw6mgxBtpO6lDnQca1BrayHvdiT1W7/cDB8
+	T1TFSUS4WGl0YViUjhQnAqnh38ZjSgMlhVWmjZVESHrl3KHoPa6NN+PhJ6+wFCC7
+	ys2pxKsdvzGJBYpmb3s5IH1SsRqF5tUIM8dumQTJuZ5Uwy6Q==
+Received: from mail-qt1-f198.google.com (mail-qt1-f198.google.com [209.85.160.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49n89hh2eu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 08 Oct 2025 04:33:12 +0000 (GMT)
+Received: by mail-qt1-f198.google.com with SMTP id d75a77b69052e-4df80d0d4aaso135935061cf.2
+        for <linux-media@vger.kernel.org>; Tue, 07 Oct 2025 21:33:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1759897991; x=1760502791;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tV+fAcMEfIF7YDUmtKrzRMDSxQ2QEUdhZrGwlyS3Css=;
+        b=pVEObnifNjQxdhZvx4AAJuAva7ZlRGVCDXPhQ6VZMwPydaPvIJs5EYkMld/49hXusC
+         H9eI+FDAd7C6RfGOYuU6vwehGB86hEH9dCtfaBG0eFQUokKZmO2aGGrfvlP3j74bEBQi
+         qFe+HbbJYWB7DfUEEfXkTUE6sK9IJ+qmXrdbcG07HSgm5WzQDi1N7awIkxD4qnxzMuXA
+         WJ3HS2DI4xWXgIx9GtcbZ+mrHCScx28ktBEDPwXHtI1gOqBBS8a+qtfcjKVzXLd9yuRI
+         5g64I6IJ6oKwcTOIzgSLHyfXwDL2tjMyTiYQZnMrvbQvNlfgDPJU9wHKaV0PjEkKKlJp
+         rVoQ==
+X-Gm-Message-State: AOJu0YzjNGiCcbBXRtKBMWXwucmMlTokGDWFMBkhKi2zfuXOon/a4ZTh
+	1Ht54ge66/Asphu5eU2pXZrXE/EAn0HrQ6LKUHtewSRzOez+kH3FZf85ZKb4QcrnKTIPHpwWRLV
+	qi7MkgiNzVzye3VE4WCukToy819syKRPKdPDgvcWrDU7ACcuTQ44YEoM98MzLTS9o1w==
+X-Gm-Gg: ASbGnct2mB4m0mPUrQ/FqEtfi8kWlsxLOxFQIDfXdsL2wfyfsBIokURkwd6WLl8C90x
+	+e3KqnNuU3KopsnSc2eZdDUcISD8PL36XlsCyEBJD2Q3qh2xhFPzQwGnGBd8A52u7Nr4PMsRw85
+	gnem7WNz/Ahfn4Yey1S03SqDDgXECnjEY/b1N6pEZRCATWBQKpV8sfN1+R+G1R2EBKtD15ROVXF
+	4f/+WYp8JAGnT4h+Ca1Vtky0xZmlg3Yn75KGppfsAEZ9ktheMES8kyTnnHmLaPOsLPm1MJPun9P
+	NRCUYijhgZRaSmmN+eXZ523VJx8XPXetLdzkVK3nVHRB2tZL9iU79NB6nQo4BR/7eyaxr/dFDjo
+	lj+LAWFkDto92n6GS1XHiOv+vZ0KfUjOvcgSzT3jUpjetUPNSQZEfc2ZT7A==
+X-Received: by 2002:ac8:7d0a:0:b0:4e4:beb1:73d4 with SMTP id d75a77b69052e-4e6eacf551amr32722251cf.31.1759897990511;
+        Tue, 07 Oct 2025 21:33:10 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IE5cqPTMIUFXW/ckUwg2o1NmQTEyVte2AvoF3DXTDqNpQo2egjDieyitjMzxfNnimbEIu2bng==
+X-Received: by 2002:ac8:7d0a:0:b0:4e4:beb1:73d4 with SMTP id d75a77b69052e-4e6eacf551amr32722141cf.31.1759897990051;
+        Tue, 07 Oct 2025 21:33:10 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-58b0119f461sm6751107e87.107.2025.10.07.21.33.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 07 Oct 2025 21:33:08 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH 0/8] media: iris: port support for Qualcomm SC7280
+Date: Wed, 08 Oct 2025 07:32:58 +0300
+Message-Id: <20251008-iris-sc7280-v1-0-def050ba5e1f@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=2357; i=kees@kernel.org; h=from:subject; bh=/WAB5MfGBmvDQJ4UC5RStzDxPybbW2rZG0FUWgjN0gw=; b=owGbwMvMwCVmps19z/KJym7G02pJDBlPHy7beiD4Ye+RjYysL/hj7gZ84zy1yMJs5jQdha1RK 7UXnZ0Z1lHKwiDGxSArpsgSZOce5+Lxtj3cfa4izBxWJpAhDFycAjCR7L2MDB8vy8zWENNNkJ6l kDW/8JyFxXLLUI5uj105ImpJyRc/7wCqEFluxNv3JOZG473PE7o1t+8W6/mkvqlCdoZ1xY9HiZV cAA==
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHrp5WgC/x3MQQqAIBBA0avIrBPUKK2rRIvSsWZj4UAE4t2Tl
+ m/xfwHGTMgwiwIZH2K6UoPuBPhzSwdKCs1glBm0UqOkTCzZW+OUjGG3k42md8FBK+6Mkd7/tqy
+ 1fmIDNK1dAAAA
+X-Change-ID: 20251006-iris-sc7280-fdb797f238d8
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3433;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=fvPWdThtzVXnEcTCBEUKwE9cNmEthjmnIpUjf2Z9U30=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBo5emCaMIPwoiG8mOozyw2v5/0eCFjb0PfXeUuA
+ 60Wt1Nv5ceJATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaOXpggAKCRCLPIo+Aiko
+ 1QGFB/48mauTY+lGnxyqQqV5UMiXhh7qTJUDdJANarZRtbV7cDX10TnZ/iYydFNIaacTe+jls2w
+ bU7KeUhn7ReOeyjqAvf3nGY3KBCcy0QiOI9W5gYWYKh9kh0qYGZQkFlg+JWzb+jYY2HvDhHdYJl
+ KRlEoZVCybMnHNIPp3cMNWPQZCCq35/VHxA+TiY3jRF+GUOa5mKvHVj/3sdQXZUjcmK/OCIPQs2
+ IDL0uIh7p6UsJUp0hvDwD8v/G2hY2nXKu2kcgUU/cGXl3iEogGNXLcWXAt6P5/IsBjnousQGov2
+ jeLdRYbivufCLN4tBEhl6TDLt5NH74yy4Wn8r+ZVU/UvorM/
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA3MDE0NiBTYWx0ZWRfX+i5pNkFIGYGK
+ GqGBJSGQ3Ihcf+WzgBbomJGNZ16iLo4Wg91Wx97oVkeSRZJsTzGV7WvSyimYKk8A+7A8tIU/hj7
+ G9Rau933z4jpB4nvzpBtzA03Fy5AuAB4RtYdLZtVQv6kCBeJv2MdMXA56iW5Z9DlyOg2QTqDhM4
+ /ErYWhbUQ/udqBMGUk8yNt71AZwxEIdtUOoFsP+3TnC/IkDnGQbli9oEQHTr60wf+8YeJLsj6G5
+ 8KDskBw+A3m+MuN+cTp5bLs381z7prCCTdk9t9ey+Tyms6N5a8Xze/CMGGletg7yUHnxVy0ib+x
+ 3WKb5tHcZ49KYNzvBMjkH3p6S8tJXB91WynsLyMoiv1ritC5t12r8OM5Q8GTLi8qEy1Lzz03eTy
+ 3ZFLDNZ6ktImxv/BdiyfROBi2ZexEA==
+X-Proofpoint-ORIG-GUID: upvCVSXUfWEs1x65D-qzaQxyAL3-PJeD
+X-Proofpoint-GUID: upvCVSXUfWEs1x65D-qzaQxyAL3-PJeD
+X-Authority-Analysis: v=2.4 cv=cKbtc1eN c=1 sm=1 tr=0 ts=68e5e988 cx=c_pps
+ a=mPf7EqFMSY9/WdsSgAYMbA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=x6icFKpwvdMA:10 a=EUspDBNiAAAA:8 a=-0qgCpxBxD2pDo7pzZoA:9 a=QEXdDO2ut3YA:10
+ a=dawVfQjAaf238kedN5IG:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-07_02,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 suspectscore=0 malwarescore=0 spamscore=0 priorityscore=1501
+ adultscore=0 impostorscore=0 lowpriorityscore=0 bulkscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510070146
 
-Long ago, the kernel module license checks were bypassed by embedding a
-NUL character in the MODULE_LICENSE() string[1]. By using a string like
-"GPL\0proprietary text", the kernel would only read "GPL" due to C string
-termination at the NUL byte, allowing proprietary modules to avoid kernel
-tainting and access GPL-only symbols.
+Port Support for the Qualcomm SC7280 aka QCM6490 aka QCS6490 platform
+from the existing venus driver to the newer Iris driver. The firmware on
+this platform uses the older, gen1 HFI, which puts it close to SM8250
+from both the hardware and interface point of view.
 
-The MODULE_INFO() macro stores these strings in the .modinfo ELF
-section, and get_next_modinfo() uses strcmp()-family functions
-which stop at the first NUL. This split the embedded string into two
-separate .modinfo entries, with only the first part being processed by
-license_is_gpl_compatible().
+Test results:
 
-Add a compile-time check using _Static_assert that compares the full
-string length (sizeof - 1) against __builtin_strlen(), which stops at
-the first NUL. If they differ, compilation fails with a clear error
-message.
+$ ./fluster.py r -d GStreamer-H.264-V4L2-Gst1.0 -ts JVT-AVC_V1
+...
+Ran 77/135 tests successfully               in 17.010 secs
 
-While this check can still be circumvented by modifying the ELF binary
-post-compilation, it prevents accidental embedded NULs and forces
-intentional abuse to require deliberate binary manipulation rather than
-simple source-level tricks.
+$ ./fluster.py r -d GStreamer-H.265-V4L2-Gst1.0 -ts JCT-VC-HEVC_V1 -j 1
 
-Build tested with test modules containing both valid and invalid license
-strings. The check correctly rejects:
+Only WPP_E_ericsson_MAIN_2 succeeds, this needs to be investigated later
 
-    MODULE_LICENSE("GPL\0proprietary")
+After removing several test vectors and running single-threaded:
+$ ./fluster.py r -d GStreamer-VP9-V4L2-Gst1.0 -ts VP9-TEST-VECTORS -j 1
+Ran 219/292 tests successfully               in 134.749 secs
 
-while accepting normal declarations:
+Disabled tests:
 
-    MODULE_LICENSE("GPL")
+            "name": "vp90-2-18-resize.ivf",
+            "name": "vp90-2-21-resize_inter_1920x1080_5_1-2.webm",
+            "name": "vp90-2-21-resize_inter_1920x1080_5_3-4.webm",
+            "name": "vp90-2-21-resize_inter_1920x1080_7_1-2.webm",
+            "name": "vp90-2-21-resize_inter_1920x1080_7_3-4.webm",
+            "name": "vp90-2-21-resize_inter_320x180_5_1-2.webm",
+            "name": "vp90-2-21-resize_inter_320x180_5_3-4.webm",
+            "name": "vp90-2-21-resize_inter_320x180_7_1-2.webm",
+            "name": "vp90-2-21-resize_inter_320x180_7_3-4.webm",
+            "name": "vp90-2-21-resize_inter_640x360_5_1-2.webm",
+            "name": "vp90-2-21-resize_inter_640x360_5_3-4.webm",
+            "name": "vp90-2-21-resize_inter_640x360_7_1-2.webm",
+            "name": "vp90-2-21-resize_inter_640x360_7_3-4.webm",
 
-Link: https://lwn.net/Articles/82305/ [1]
-Suggested-by: Rusty Russell <rusty@rustcorp.com.au>
-Signed-off-by: Kees Cook <kees@kernel.org>
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 ---
-Cc: Luis Chamberlain <mcgrof@kernel.org>
-Cc: Petr Pavlu <petr.pavlu@suse.com>
-Cc: Daniel Gomez <da.gomez@kernel.org>
-Cc: Sami Tolvanen <samitolvanen@google.com>
-Cc: <linux-modules@vger.kernel.org>
----
- include/linux/moduleparam.h | 3 +++
- 1 file changed, 3 insertions(+)
+Dmitry Baryshkov (8):
+      media: iris: turn platform caps into constants
+      media: iris: turn platform data into constants
+      media: iris: stop copying r/o data
+      media: iris: stop encoding PIPE value into fw_caps
+      media: iris: remove duplicateion between generic gen2 data and qcs8300
+      media: iris: rename sm8250 platform file to gen1
+      media: iris: move common register definitions to the header
+      media: iris: enable support for SC7280 platform
 
-diff --git a/include/linux/moduleparam.h b/include/linux/moduleparam.h
-index 6907aedc4f74..160f1678fafa 100644
---- a/include/linux/moduleparam.h
-+++ b/include/linux/moduleparam.h
-@@ -26,6 +26,9 @@
- 
- /* Generic info of form tag = "info" */
- #define MODULE_INFO(tag, info)					  \
-+	_Static_assert(						  \
-+		sizeof(info) - 1 == __builtin_strlen(info),	  \
-+		"MODULE_INFO(" #tag ", ...) contains embedded NUL byte"); \
- 	static const char __UNIQUE_ID(modinfo)[]			  \
- 		__used __section(".modinfo") __aligned(1)		  \
- 		= __MODULE_INFO_PREFIX __stringify(tag) "=" info
+ drivers/media/platform/qcom/iris/Makefile          |   2 +-
+ drivers/media/platform/qcom/iris/iris_core.h       |   4 +-
+ drivers/media/platform/qcom/iris/iris_ctrls.c      | 246 ++++-----
+ drivers/media/platform/qcom/iris/iris_instance.h   |   3 +-
+ .../platform/qcom/iris/iris_platform_common.h      |  25 +-
+ ...iris_platform_sm8250.c => iris_platform_gen1.c} |  76 ++-
+ .../media/platform/qcom/iris/iris_platform_gen2.c  |  44 +-
+ .../platform/qcom/iris/iris_platform_qcs8300.h     | 550 ---------------------
+ drivers/media/platform/qcom/iris/iris_probe.c      |   4 +
+ drivers/media/platform/qcom/iris/iris_vdec.c       |   5 +-
+ drivers/media/platform/qcom/iris/iris_venc.c       |   5 +-
+ drivers/media/platform/qcom/iris/iris_vpu2.c       | 130 +++++
+ drivers/media/platform/qcom/iris/iris_vpu3x.c      |  35 --
+ drivers/media/platform/qcom/iris/iris_vpu_common.c |  43 --
+ drivers/media/platform/qcom/iris/iris_vpu_common.h |   1 +
+ .../platform/qcom/iris/iris_vpu_register_defines.h |  56 +++
+ 16 files changed, 440 insertions(+), 789 deletions(-)
+---
+base-commit: 47a8d4b89844f5974f634b4189a39d5ccbacd81c
+change-id: 20251006-iris-sc7280-fdb797f238d8
+
+Best regards,
 -- 
-2.34.1
+With best wishes
+Dmitry
 
 
