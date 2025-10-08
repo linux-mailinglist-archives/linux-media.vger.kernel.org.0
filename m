@@ -1,223 +1,260 @@
-Return-Path: <linux-media+bounces-43958-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43959-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 23E93BC589C
-	for <lists+linux-media@lfdr.de>; Wed, 08 Oct 2025 17:16:57 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 854D4BC5955
+	for <lists+linux-media@lfdr.de>; Wed, 08 Oct 2025 17:30:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3E6E64F8E3C
-	for <lists+linux-media@lfdr.de>; Wed,  8 Oct 2025 15:15:22 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3165A350CE9
+	for <lists+linux-media@lfdr.de>; Wed,  8 Oct 2025 15:30:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4FC122F28E0;
-	Wed,  8 Oct 2025 15:15:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 39F592F49F7;
+	Wed,  8 Oct 2025 15:30:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="GCRBxZ6g"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="ZffK1v+V"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.83.148.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 74B6D29B237;
-	Wed,  8 Oct 2025 15:15:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A7E1369B4;
+	Wed,  8 Oct 2025 15:30:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.83.148.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759936516; cv=none; b=WAOf99bUdPNZrR+mLBxv0+a8tt8cqs7D51x/9+zrY6OajGD2aztrPJPIzRLv0O1wRQWVFXrKo2kfRRC+yOSyY+kHuwD5hYYBrxKX2StEMG8532RFsUWsUSOVlTCVk5D5r2lxOdANgH6XqrrljrFeU36iU6tIxZzShZgZ4MUXkQg=
+	t=1759937410; cv=none; b=isBXDnmXV65LuN/vBr06I4y4wDdlMpxYCIlfSPdVlnKi4lOhpUsym34j4vPtJcsqYyJsaWQ3OYsQbSc8ObQJhAUVn2Llr/nqmHTMuKMgoUP0GzAieERXshiy5suPZTsc7xVzrHg5QBG6E047Eo3f+o2k8dpqlLUkGWDUbfmIdZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759936516; c=relaxed/simple;
-	bh=VdzRbghzx9tKG45gmYan50SlLliMvfwAY1/jwnx03WQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=o2W3pRW4p9hQnOlQ/liRuVrSd10J/KgOWy+my0FA00UT26rdALgEzOhYeX/GfOHG8HsVkmqXXFhHYV5CGewJKVVKPFB34moSiYTS48RGmJ/62BiwCMa7fyVDz/4QKd1int6Ey48qxnXVJvBkH9kd+Rwq0I9hcpVXcSBK/r8uh4Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=GCRBxZ6g; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1759936512;
-	bh=VdzRbghzx9tKG45gmYan50SlLliMvfwAY1/jwnx03WQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=GCRBxZ6gEVeXI5Y4D5QXlQ1dTLzCttbxT8c6CUN0Bmux0aCaFpQhS04l3ergWCr9Y
-	 PzieyrQymwBIP/zGk9GRt+u4UeRxj+BS4YBb5d3IL6Z8E6p0TWV9gWgBAj0wxeWu+Y
-	 au9ujWJr7qyAjLTj8gvnrgxwcRu4PTXbny+L+lYOGy8V8E/+q0mWxFlVCyOUgdmknr
-	 bXssCD00QO9a2NHHzamwOzwBHSZxbulmVCzQ9lrdGIczYiKW16eHCy8G8rUYW+pNzy
-	 TSxVIs5Lz7SIPt0piguMyO6JufsHWZzqonvFJSBBWV6MKbmGKbeEdLvFopcrNpMoZE
-	 ye+3RO44AhAHw==
-Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 41EB317E0DB7;
-	Wed,  8 Oct 2025 17:15:11 +0200 (CEST)
-Message-ID: <1c064a20-15bc-4e7d-ab76-bdbcc2a2465c@collabora.com>
-Date: Wed, 8 Oct 2025 17:15:10 +0200
+	s=arc-20240116; t=1759937410; c=relaxed/simple;
+	bh=6340XCFQyQytI7TkwLqakkxrDScFOp1b0uWEs4s6VVg=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=biBmfZoSDh7nHInd8MceQgHN1YlF34jfbUWkeF1F2lLPgLPrprFaqFUQwDKMLOfZRy/uHrK4lVpTEGtNrvd3DNy5CAqid4Ey+hlucWY+fqi9iBqxKVY04HM46n63QW1Pr3TxRK7VO5dTDnXlfnswIl/HBersJFJbWCY8TqJL4FM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=ZffK1v+V; arc=none smtp.client-ip=35.83.148.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1759937408; x=1791473408;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6cTKEV+ZWAzAeKhYDhuZKam17XzSPB7XFB7f4qhxTuM=;
+  b=ZffK1v+V9cJk7Ln8PPoM6h32O7MmClcv5CvqttJ3ezOtVpg3ceTKKofD
+   MI0qhOR35KSlZ1gw6zAddFAlNn7hyRi6VoqQv9pdpXE5WIAbWt5+lVZen
+   913JUgk8yxnpwLJh/kcJyZnagZYufS6jO3T1zQzsP9xfNXoMiIlup2Iiv
+   0FeZ1t6dn8lw5ZTW4LvyKtsXBLRIBUAiybjkzsjli8MZPQIeAp9wH410x
+   ks9hX38K3o0J50CQ+dnuhPdTulot05nBxVeHFB4mv00lnbcerjW7r0Iuj
+   8P+RudYuXWOFm2/nEDztt+QelsVXJldGLlI/3O0mKRculOd4x9ULgJ4Vs
+   g==;
+X-CSE-ConnectionGUID: +r/ORJCDT3mdkeM9bLhVCA==
+X-CSE-MsgGUID: 5xwXbkFvQYqm5UYp+BBs7A==
+X-IronPort-AV: E=Sophos;i="6.19,213,1754956800"; 
+   d="scan'208";a="4330400"
+Received: from ip-10-5-6-203.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.6.203])
+  by internal-pdx-out-014.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Oct 2025 15:30:06 +0000
+Received: from EX19MTAUWC002.ant.amazon.com [10.0.38.20:22420]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.27.3:2525] with esmtp (Farcaster)
+ id 93ca9f84-9d14-4911-90f5-a97300a639c2; Wed, 8 Oct 2025 15:30:06 +0000 (UTC)
+X-Farcaster-Flow-ID: 93ca9f84-9d14-4911-90f5-a97300a639c2
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWC002.ant.amazon.com (10.250.64.143) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Wed, 8 Oct 2025 15:30:05 +0000
+Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
+ (172.19.116.181) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Wed, 8 Oct 2025
+ 15:29:52 +0000
+From: Eliav Farber <farbere@amazon.com>
+To: <gregkh@linuxfoundation.org>, <jdike@addtoit.com>, <richard@nod.at>,
+	<anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>,
+	<luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>,
+	<tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <james.morse@arm.com>,
+	<rric@kernel.org>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+	<maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+	<tzimmermann@suse.de>, <robdclark@gmail.com>, <sean@poorly.run>,
+	<jdelvare@suse.com>, <linux@roeck-us.net>, <linus.walleij@linaro.org>,
+	<dmitry.torokhov@gmail.com>, <maz@kernel.org>, <wens@csie.org>,
+	<jernej.skrabec@gmail.com>, <agk@redhat.com>, <snitzer@redhat.com>,
+	<dm-devel@redhat.com>, <davem@davemloft.net>, <kuba@kernel.org>,
+	<mcoquelin.stm32@gmail.com>, <krzysztof.kozlowski@canonical.com>,
+	<malattia@linux.it>, <hdegoede@redhat.com>, <mgross@linux.intel.com>,
+	<jejb@linux.ibm.com>, <martin.petersen@oracle.com>,
+	<sakari.ailus@linux.intel.com>, <clm@fb.com>, <josef@toxicpanda.com>,
+	<dsterba@suse.com>, <jack@suse.com>, <tytso@mit.edu>,
+	<adilger.kernel@dilger.ca>, <dushistov@mail.ru>,
+	<luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <pmladek@suse.com>,
+	<senozhatsky@chromium.org>, <andriy.shevchenko@linux.intel.com>,
+	<linux@rasmusvillemoes.dk>, <minchan@kernel.org>, <ngupta@vflare.org>,
+	<akpm@linux-foundation.org>, <yoshfuji@linux-ipv6.org>, <dsahern@kernel.org>,
+	<pablo@netfilter.org>, <kadlec@netfilter.org>, <fw@strlen.de>,
+	<jmaloy@redhat.com>, <ying.xue@windriver.com>, <shuah@kernel.org>,
+	<willy@infradead.org>, <farbere@amazon.com>, <sashal@kernel.org>,
+	<quic_akhilpo@quicinc.com>, <ruanjinjie@huawei.com>,
+	<David.Laight@ACULAB.COM>, <herve.codina@bootlin.com>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
+	<linux-um@lists.infradead.org>, <linux-edac@vger.kernel.org>,
+	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+	<linux-arm-msm@vger.kernel.org>, <freedreno@lists.freedesktop.org>,
+	<linux-hwmon@vger.kernel.org>, <linux-input@vger.kernel.org>,
+	<linux-sunxi@lists.linux.dev>, <linux-media@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+	<platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>,
+	<linux-ext4@vger.kernel.org>, <linux-sparse@vger.kernel.org>,
+	<linux-mm@kvack.org>, <netfilter-devel@vger.kernel.org>,
+	<coreteam@netfilter.org>, <tipc-discussion@lists.sourceforge.net>,
+	<linux-kselftest@vger.kernel.org>, <stable@vger.kernel.org>
+Subject: [PATCH v3 00/19 5.15.y] Backport minmax.h updates from v6.17-rc7
+Date: Wed, 8 Oct 2025 15:29:25 +0000
+Message-ID: <20251008152946.29285-1-farbere@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 08/13] media: rockchip: rkcif: add support for mipi
- csi-2 capture
-To: Mehdi Djait <mehdi.djait@linux.intel.com>
-Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
- =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Markus Elfring <Markus.Elfring@web.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Kever Yang <kever.yang@rock-chips.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Collabora Kernel Team <kernel@collabora.com>,
- Paul Kocialkowski <paulk@sys-base.io>,
- Alexander Shiyan <eagle.alexander923@gmail.com>,
- Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
-References: <20240220-rk3568-vicap-v10-0-62d8a7b209b4@collabora.com>
- <20240220-rk3568-vicap-v10-8-62d8a7b209b4@collabora.com>
- <rpaa2jspgmw3do5y367kq4pvvtpboeu7gjd4chmh6pgztmj6ar@ckh7jxvfuhlg>
-Content-Language: en-US
-From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <rpaa2jspgmw3do5y367kq4pvvtpboeu7gjd4chmh6pgztmj6ar@ckh7jxvfuhlg>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: EX19D032UWA001.ant.amazon.com (10.13.139.62) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-Hi Mehdi,
+This series backports 19 patches to update minmax.h in the 5.15.y branch,
+aligning it with v6.17-rc7.
 
-On 8/19/25 18:46, Mehdi Djait wrote:
-> Hi Michael,
-> 
-> I am seeing IOMMU page faults: See below.
+The ultimate goal is to synchronize all longterm branches so that they
+include the full set of minmax.h changes.
 
-Sorry for the late reply. I had to get a similar setup first. Now I have
-a Radxa ROCK 3A and a Radxa Camera 8M (with the Sony IMX219 sensor,
-should be 100% compatible to the RasPi Cam v2.1) on my table.
+6.12.y was already backported and changes are part of v6.12.49.
+6.6.y was already backported and changes are part of v6.6.109.
+6.1.y was already backported and changes are currently in the 6.1-stable
+tree.
 
-> On Tue, Aug 19, 2025 at 01:26:00AM +0200, Michael Riesch via B4 Relay wrote:
->> From: Michael Riesch <michael.riesch@collabora.com>
->>
->> The RK3568 Video Capture (VICAP) unit features a MIPI CSI-2 capture
->> interface that can receive video data and write it into system memory
->> using the ping-pong scheme. Add support for it.
->>
->> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
->> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
-> 
-> [..]
-> 
->>  irqreturn_t rkcif_mipi_isr(int irq, void *ctx)
->>  {
->> +	struct device *dev = ctx;
->> +	struct rkcif_device *rkcif = dev_get_drvdata(dev);
->>  	irqreturn_t ret = IRQ_NONE;
->> +	u32 intstat;
->> +
->> +	for (unsigned int i = 0; i < rkcif->match_data->mipi->mipi_num; i++) {
->> +		enum rkcif_interface_index index = RKCIF_MIPI_BASE + i;
->> +		struct rkcif_interface *interface = &rkcif->interfaces[index];
->> +
->> +		intstat = rkcif_mipi_read(interface, RKCIF_MIPI_INTSTAT);
->> +		rkcif_mipi_write(interface, RKCIF_MIPI_INTSTAT, intstat);
->> +
->> +		for (unsigned int j = 0; j < interface->streams_num; j++) {
->> +			struct rkcif_stream *stream = &interface->streams[j];
-> 
-> In the TRM you can see in the MIPI_INTSTAT interrupts to detect
-> overflows: why not activate them ?
-> 
-> something like this:
-> 
-> #define RKCIF_MIPI_INT_Y_OVERFLOW(id)          BIT(16)
-> #define RKCIF_MIPI_INT_UV_OVERFLOW(id)         BIT(17)
-> #define RKCIF_MIPI_INT_FIFO_OVERFLOW(id)       BIT(18)
-> #define RKCIF_MIPI_INT_CSI2RX_FIFO_OVERFLOW(id)        BIT(20)
-> 
-> and then OR them with the int_mask in rkcif_mipi_start_streaming()
-> 
-> and then you can log the err if something happened ?
+The key motivation is to bring in commit d03eba99f5bf ("minmax: allow
+min()/max()/clamp() if the arguments have the same signedness"), which
+is missing in kernel 5.10.y.
 
-I have not needed these interrupts yet. They can be added any time
-whenever they are required. (Patches welcome :-))
+In mainline, this change enables min()/max()/clamp() to accept mixed
+argument types, provided both have the same signedness. Without it,
+backported patches that use these forms may trigger compiler warnings,
+which escalate to build failures when -Werror is enabled.
 
->> +
->> +			if (intstat & RKCIF_MIPI_INT_FRAME0_END(stream->id) ||
->> +			    intstat & RKCIF_MIPI_INT_FRAME1_END(stream->id)) {
->> +				ret = IRQ_HANDLED;
->> +
->> +				if (stream->stopping) {
->> +					rkcif_mipi_stop_streaming(stream);
->> +					wake_up(&stream->wq_stopped);
->> +					continue;
->> +				}
->> +
->> +				rkcif_stream_pingpong(stream);
->> +			}
->> +		}
->> +	}
->>  
->>  	return ret;
->>  }
-> 
-> Now to the IOMMU page faults:
-> 
-> Camera Sensor: IMX219
-> Frame Size: 1920x1080
-> Format: SRGGB10P
-> 
-> Packed SRGGB10
-> --> Every four consecutive samples are packed into 5 bytes
-> --> Stride = 2400 bytes (1920 * 5/4)
-> 
-> So the imagesize = 1080 * 2400 = 2 592 000
-> 
-> in __vb2_buf_mem_alloc() the size of the buf will be PAGE_ALIGNED in:
-> PAGE_ALIGN(vb->planes[plane].length);
-> 
-> So we allocate a buffer with the size: 2 592 768 -> hex = 0x297000
-> 
-> In rkcif_mipi_queue_buffer():
-> We will queue a total of two buffers to the HW (2 because of pingpong)
-> The first buffer will have the address: 0x00000000ffc00000
-> 
-> We start to capture and then this happens:
-> 
-> rk_iommu fdfe0800.iommu: Page fault at 0x00000000ffe79000 of type write
-> rk_iommu fdfe0800.iommu: iova = 0x00000000ffe79000: dte_index: 0x3ff pte_index: 0x279 page_offset: 0x0
-> rk_iommu fdfe0800.iommu: mmu_dte_addr: 0x0000000012cc8000 dte@0x0000000012cc8ffc: 0x11a0d001 valid: 1 pte@0x0000000011a0d9e4: 0x31b79006 valid: 0 page@0x0000000000000000 flags: 0x0
-> 
-> With:
-> 0xffe79000 = 0xffc00000 (buffer address) + 0x297000 (buffersize)
-> 
-> --> So the VICAP is overflowing the buffer even though everything was
-> correctly configured ?! (If I understood everything correctly ofc.)
+Changes in v3:
+- Fix fs/erofs/zdata.h in patch 06/19 to use MIN_T instead of min_t to
+  fix build on the following patch (07/19):
+In file included from ./include/linux/kernel.h:16,
+                 from ./include/linux/list.h:9,
+                 from ./include/linux/wait.h:7,
+                 from ./include/linux/wait_bit.h:8,
+                 from ./include/linux/fs.h:6,
+                 from fs/erofs/internal.h:10,
+                 from fs/erofs/zdata.h:9,
+                 from fs/erofs/zdata.c:6:
+fs/erofs/zdata.c: In function ‘z_erofs_decompress_pcluster’:
+fs/erofs/zdata.h:185:61: error: ISO C90 forbids variable length array ‘pages_onstack’ [-Werror=vla]
+  185 |         min_t(unsigned int, THREAD_SIZE / 8 / sizeof(struct page *), 96U)
+      |                                                             ^~~~
+./include/linux/minmax.h:49:23: note: in definition of macro ‘__cmp_once_unique’
+   49 |         ({ type ux = (x); type uy = (y); __cmp(op, ux, uy); })
+      |                       ^
+./include/linux/minmax.h:164:27: note: in expansion of macro ‘__cmp_once’
+  164 | #define min_t(type, x, y) __cmp_once(min, type, x, y)
+      |                           ^~~~~~~~~~
+fs/erofs/zdata.h:185:9: note: in expansion of macro ‘min_t’
+  185 |         min_t(unsigned int, THREAD_SIZE / 8 / sizeof(struct page *), 96U)
+      |         ^~~~~
+fs/erofs/zdata.c:847:36: note: in expansion of macro ‘Z_EROFS_VMAP_ONSTACK_PAGES’
+  847 |         struct page *pages_onstack[Z_EROFS_VMAP_ONSTACK_PAGES];
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~
+cc1: all warnings being treated as errors
 
-I could reproduce this behavior and found that the (hardcoded) virtual
-line width needs to be adjusted accordingly. It was set to width * 2,
-and it needs to be set to width * 10 / 8.
+- Increase test coverage using `make allyesconfig` and
+  `make allmodconfig` for arm64, arm, x86_64 and i386 architectures.
 
-> I also see the same problem with the SRGGB8 format. It also happens in
-> the downstream Radxa/Rockchip Kernel.
+Changes in v2:
+- Fix the order of patches 6 - 10 according to order in mainline branch.
+- Use same style of [ Upstream commit <HASH> ] in all patches.
 
-Strange that the downstream kernel has issues with that. Anyway, this
-shouldn't be the issue here...
+Andy Shevchenko (1):
+  minmax: deduplicate __unconst_integer_typeof()
 
-> Do you see the same problem ?
+David Laight (8):
+  minmax: fix indentation of __cmp_once() and __clamp_once()
+  minmax.h: add whitespace around operators and after commas
+  minmax.h: update some comments
+  minmax.h: reduce the #define expansion of min(), max() and clamp()
+  minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+  minmax.h: move all the clamp() definitions after the min/max() ones
+  minmax.h: simplify the variants of clamp()
+  minmax.h: remove some #defines that are only expanded once
 
-... but I could reproduce this behavior as well and trace it back to the
-same root cause. Here, we need width * 1, of course.
+Herve Codina (1):
+  minmax: Introduce {min,max}_array()
 
-I'll integrate the fix in v12, please stay tuned!
+Linus Torvalds (8):
+  minmax: avoid overly complicated constant expressions in VM code
+  minmax: add a few more MIN_T/MAX_T users
+  minmax: simplify and clarify min_t()/max_t() implementation
+  minmax: make generic MIN() and MAX() macros available everywhere
+  minmax: don't use max() in situations that want a C constant
+    expression
+  minmax: simplify min()/max()/clamp() implementation
+  minmax: improve macro expansion and type checking
+  minmax: fix up min3() and max3() too
 
-Best regards,
-Michael
+Matthew Wilcox (Oracle) (1):
+  minmax: add in_range() macro
+
+ arch/arm/mm/pageattr.c                        |   6 +-
+ arch/um/drivers/mconsole_user.c               |   2 +
+ arch/x86/mm/pgtable.c                         |   2 +-
+ drivers/edac/sb_edac.c                        |   4 +-
+ drivers/edac/skx_common.h                     |   1 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu.h           |   2 +
+ .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
+ .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
+ .../amd/pm/swsmu/smu11/sienna_cichlid_ppt.c   |   2 +
+ .../drm/arm/display/include/malidp_utils.h    |   2 +-
+ .../display/komeda/komeda_pipeline_state.c    |  24 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   6 -
+ drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
+ drivers/hwmon/adt7475.c                       |  24 +-
+ drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
+ drivers/irqchip/irq-sun6i-r.c                 |   2 +-
+ drivers/md/dm-integrity.c                     |   4 +-
+ drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
+ .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   |  18 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
+ drivers/net/fjes/fjes_main.c                  |   4 +-
+ drivers/nfc/pn544/i2c.c                       |   2 -
+ drivers/platform/x86/sony-laptop.c            |   1 -
+ drivers/scsi/isci/init.c                      |   6 +-
+ .../pci/hive_isp_css_include/math_support.h   |   5 -
+ drivers/virt/acrn/ioreq.c                     |   4 +-
+ fs/btrfs/misc.h                               |   2 -
+ fs/btrfs/tree-checker.c                       |   2 +-
+ fs/erofs/zdata.h                              |   2 +-
+ fs/ext2/balloc.c                              |   2 -
+ fs/ext4/ext4.h                                |   2 -
+ fs/ufs/util.h                                 |   6 -
+ include/linux/compiler.h                      |   9 +
+ include/linux/minmax.h                        | 264 +++++++++++++-----
+ kernel/trace/preemptirq_delay_test.c          |   2 -
+ lib/btree.c                                   |   1 -
+ lib/decompress_unlzma.c                       |   2 +
+ lib/logic_pio.c                               |   3 -
+ lib/vsprintf.c                                |   2 +-
+ lib/zstd/zstd_internal.h                      |   2 -
+ mm/zsmalloc.c                                 |   1 -
+ net/ipv4/proc.c                               |   2 +-
+ net/ipv6/proc.c                               |   2 +-
+ net/netfilter/nf_nat_core.c                   |   6 +-
+ net/tipc/core.h                               |   2 +-
+ net/tipc/link.c                               |  10 +-
+ tools/testing/selftests/vm/mremap_test.c      |   2 +
+ 48 files changed, 290 insertions(+), 184 deletions(-)
+
+-- 
+2.47.3
 
 
