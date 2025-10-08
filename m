@@ -1,88 +1,84 @@
-Return-Path: <linux-media+bounces-44007-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44008-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E274BC63B9
-	for <lists+linux-media@lfdr.de>; Wed, 08 Oct 2025 20:03:36 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CE43BC641C
+	for <lists+linux-media@lfdr.de>; Wed, 08 Oct 2025 20:13:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AF6284EC5E2
-	for <lists+linux-media@lfdr.de>; Wed,  8 Oct 2025 18:03:33 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2597719E3BFF
+	for <lists+linux-media@lfdr.de>; Wed,  8 Oct 2025 18:13:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 03BCA2BE7AD;
-	Wed,  8 Oct 2025 18:03:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 366602BEFF3;
+	Wed,  8 Oct 2025 18:13:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WOd7W58k"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Pfkj4j42"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0566D19E7F7
-	for <linux-media@vger.kernel.org>; Wed,  8 Oct 2025 18:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B169D20296E
+	for <linux-media@vger.kernel.org>; Wed,  8 Oct 2025 18:13:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759946609; cv=none; b=Daf2VoJ1zWnBlpoJ1jw1AwI3Sh1VYC8kllt+LJpZrf7s8i7pYwoxKXfBZFCyrCmLveros0rAFGF2mHihrtQAOxHSxo0UFed0tqCZxWlfYOaaWfh7DZ8k3mPLqxvKmhSJ1gFlFbvgR6JXaZy+TXsdVcD27IafXBR7yksp8PmWQDM=
+	t=1759947201; cv=none; b=Jp8h8IMoSE7C9rTSfpEAck4OLzt1rubBE/ltcbPVmV1mqMEhcbIZTflJqbBit37NzCgeQU3Mn9puhwtqdZ+HIH40JqleoNBuUM5H+TlLH3eW0kC8rmR2Ua2WC26A5JegH26alcJrvECc3lebAcAnQM6jPrY5Q1+rOoFOpkoQOZQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759946609; c=relaxed/simple;
-	bh=QykquTIZ2jLmxb0VLUnWWhmZGhsfGC7/GqGvSPSjgiE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Wk5qR+ptkcEWEgdZtuAXELc6fvYYiObrj05EP96s3OSxflp9ipKfhpDuaYHr6zwKyJaQpiaCMlRbodpyHZnGzfXPArE7z0fYeSxXHNR3yxFOUe+nMUugDSJivdH4oFUhz0BAXGdN6gjdMG01et8uFAREzdLLcqU63vqUa7xfIA8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WOd7W58k; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598HAx32024940
-	for <linux-media@vger.kernel.org>; Wed, 8 Oct 2025 18:03:27 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	VAZrOlnHPn14DgXDTf4mZHirlOOxow8QFnRlxfGqzt0=; b=WOd7W58kmitYxgJI
-	4ol1S5dJq1genoJT8IdDlnApjClOC/FxAtqwBoyr4TVMlWAOpiRcWd94+zV8PIs4
-	fVzme273AoVqRFBYatJUkG0h8dSjWLFbbwZeVUDDDl2b0iqQsEWc5nrm8wLy9zB+
-	oTec+hf4zUGf3x2F68fht/EO2TYcy/m3ftCncTRMEUOwazqQqu0iyupAnEj2bZZQ
-	BZY9+7IW6F5z07uxiNF500j7lUo3JfYsKbAWGnD95qvY5ToVaFjgFUNdSPHVCOHD
-	LH9IuEYAZF5T4l+4R13YeIXPp/BroSCnEJQAibtJptvFXNjLv6pOLerpU3KkmXWK
-	//TVqQ==
-Received: from mail-pl1-f199.google.com (mail-pl1-f199.google.com [209.85.214.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4n85en-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 08 Oct 2025 18:03:27 +0000 (GMT)
-Received: by mail-pl1-f199.google.com with SMTP id d9443c01a7336-28d1747f23bso1017735ad.3
-        for <linux-media@vger.kernel.org>; Wed, 08 Oct 2025 11:03:27 -0700 (PDT)
+	s=arc-20240116; t=1759947201; c=relaxed/simple;
+	bh=36ue2/oISu0v/nQUK5kO093jV/5kJTeP+0x6O0ag2uY=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=pYaOY/BJyqIHJOCqx63YToJpQ/xs9Bv5WXG0DIaniQIBueBsA4+bVyAQlSczyxrJRP04Z5mtb4gaHyQOJw8lYHUER2vyByEFWcTNqkokTXuJrV2pUF8N7FlG7k1RvfoKvICfCJ0qAZXJpxdYPJbu4ow7WIu7z6qqoCVkryVgX2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Pfkj4j42; arc=none smtp.client-ip=209.85.128.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-46e6ba26c50so867575e9.2
+        for <linux-media@vger.kernel.org>; Wed, 08 Oct 2025 11:13:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1759947198; x=1760551998; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fZaXt+gShwcST4niGAvItceQr0XW4MXQVlljb1xZ9gY=;
+        b=Pfkj4j42xajNCMRf/4tJzIoZ8hC53MHwQhoT2MW7UJiktNu1GCcOl8t5tVmsKzx0+v
+         QSAKElp5pheEAXDgYnqLHf2wf4IanKM1XzObtTiBDuTlMnV05MT6JEATlV2EpDap5o1J
+         ohaop2olpJjUK0z/8RqVGHFGGwGLavcDNuShubbJRIkdYqYltr4HfViepWisB6Uqkfs2
+         XuSH4BzXNt232haaVD/SsaRmqLuPCAwL0G5HxYxtKkabzwD6hos/QrLFg4kbKw9Xca0z
+         wP23cAleXnQqxrWoMbpX2UHf41jo8AVEBENZu8zM2hyC54RLdWEVnrrMFMmYiLv6xCUp
+         eZuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759946606; x=1760551406;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VAZrOlnHPn14DgXDTf4mZHirlOOxow8QFnRlxfGqzt0=;
-        b=okJ18eAUw3zRUuHdD3nVRqwaXBDYMpwIWJMNnCTLeXIUkqCQqqvrnr3FR5Qwvl70XD
-         R3TWo7/4PkSN/Cv6znU8yMDtfUHWSQKn3fuEMRevtU+NH3SpGqBVDzLjRQxSlWxXGqbA
-         zO8jbwuC/YoL1+6ZNoyZVdFIWYnWGuRxJvnmkV4lAcgI/liRr+Et9L+X1L9xWps6a7Ol
-         F/LnZ2n9pGXz19pUPU1e02qN2EzqzPQsq4N7rmQXft2N2gqXAwFBHn8JYA6fwgFUa70m
-         EB2vxxhl4eSA15wMILcbPmlheughhRIXwx/cuWc9OjkwOBLg2zyw3Rso08NtcpIr2ACd
-         +SLw==
-X-Forwarded-Encrypted: i=1; AJvYcCXzgakk4/E/pzNKOCTycprmKT1NWMh570711B2NPup6IYFnaf/gC1p+Gz2fkM9g8fu6wOq+wmCO5z4VpQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywx5Wciot7z0tCkSQf48e4WTHz18dA9xnxldlz4N1FN97Ltyv6p
-	KET3rtmXtke3TB4U16QcTzAooo0MSkeC6FBU6IjXAhHTEVmxLjYsTPrZxD+lqtkNSeriLANTqZ6
-	u8h23Hvk8klyHMd2AeyZl5TSfXqBtuKHx6lW1En6ewRQZe6Ww2ZLd29U/NGZx2n1zUQ==
-X-Gm-Gg: ASbGncsOIyFfhH1hTLVawi674un4j5FHTSW2JJ3I8poH2K3iHLmg0XXN/n6vlfdgbTd
-	dbiRlf9q9LjrEKIb56IAbHiPr9DZ4vGKsG5LO8xY+RBmMyPndI8Ubpg7shcX7OXeXAbFT9Tu2XM
-	BOuS2eZxoZMie67FyI0ViATh1oWiU0wMO40aVP2yZZUHjUdLhjn5HIsXLbSZLQC4PcEUCJJzQIc
-	2AqKqTkny/2F9F74yK/QDReYqNJ8RXVey7+S8H4a+x011sL2+K1198NxLji2+jkmkWrVIsc8N3Q
-	fD3q71vINMJKTVVrnsIwVHnVn1+gq+t5JM5CpCJuxjtgFR4rb2rP5fHj+ObVzNATnPNTxSe0tB1
-	5
-X-Received: by 2002:a17:903:fa6:b0:27e:ea82:5ce8 with SMTP id d9443c01a7336-290273748e4mr55866405ad.14.1759946605881;
-        Wed, 08 Oct 2025 11:03:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEwH3bBMKa9ZlQO/2aapjl36/O5H4D7oAkI+cnOYUVZeGt5Ph5Cd3mta1vBN4JAMeEsyEvGaA==
-X-Received: by 2002:a17:903:fa6:b0:27e:ea82:5ce8 with SMTP id d9443c01a7336-290273748e4mr55865825ad.14.1759946605263;
-        Wed, 08 Oct 2025 11:03:25 -0700 (PDT)
-Received: from [192.168.1.6] ([122.181.205.161])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f36929sm3463065ad.95.2025.10.08.11.03.20
+        d=1e100.net; s=20230601; t=1759947198; x=1760551998;
+        h=content-transfer-encoding:in-reply-to:organization:autocrypt
+         :content-language:references:cc:to:subject:reply-to:from:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=fZaXt+gShwcST4niGAvItceQr0XW4MXQVlljb1xZ9gY=;
+        b=s5ps1/ogRKX0NpUeqirKesEfFIMu0BpyxAkZaM8RcA6eYFp9jyJMUeRtXEmlqfYUnn
+         k0dLc9NgUUnTxZEK6oD3jNe+Ckb6DvGlNJ5VDTLFaI6o7nd3T2n9j6giu4KvhEp+9l0s
+         iT8w4xZqbNccKM02l8YU3Ho/ntI8wQe40DmP4+Q//krLOuJThyIP2ihJkQC4MdMb9jSI
+         o+VPZLGYRgsNdN8wEz5p5eT+wrnxcQ3vJqjR9JDbiKAp77ZdRl+MSBq9f+4DoMEo1xQL
+         o57xgAyOgFrbDByUFtPOSS1Ol2L/VnvF1NptXK5kDlqJawpoxNnVv4g9pfKFr6YQp8f7
+         zvPw==
+X-Forwarded-Encrypted: i=1; AJvYcCXOatiyVlht3u/Wl/7VGTXrTm1UGKuPVH1isDjNAoKISKfb8X/bULFmtdW2qQnmeV2URLH9D9DjT4SiHg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyR0e9pNqRw7LkMgDXMrxUoGwDKv+mIMjmtEl6GjtBJ7jsDzwjO
+	cgDG2ZvaTb4xWfEPQm9RmCE0lc/HmONRDugyD/4uJIz4ALmKALr73XCavSe6FfbwXlh5FV7owZ3
+	b+eg/
+X-Gm-Gg: ASbGncsidnauXX3Y1Ump4Tjz6oFR7uq70URp3xj9gUOYVaOZowp4kkoL5aiiJbEMzs6
+	I0qkXkzLA7iuSZ/Cf4BN9SWfeYOvp+4PUv1OnOqK7O7AcZBKq1m2haZmmbaBxiLL0TzVrxmpPkm
+	sy0FG5a/7pEjXcl3Iu3B+KMmQlaAG3e5G1Znfotj4HkvjlTQqTyISPKK5peUQTstu/bY+PvqWrn
+	9ou5wKT+jDSfqAS8Y9fU3U7ruxO9qlL9TbllrrVHd99Wg4haLvJ8qbpuvoTbNRH0VQg7WWR1aqu
+	Q87ke/zKab6mqZNU6h8k4Yr2Lau6aoKaT7Rw7Oy/3XPwpbCfzC2zUCEkKpaiwzzMs1D+jnvkEII
+	wOb1ucK3gEdexSIM4Z0iDEYUmyVSwlsFhJ+NP6YgfWbjqY8I8I9NSfnoN3APbP+2flYcZsHRHXH
+	qdKNE+YVmwVWGRJhvU7KM=
+X-Google-Smtp-Source: AGHT+IH66uhKvXnvTehKe3lInuC7qmM/YcfilA/g+9CQ8oNy3NiDtUo8BeUgAB3WyYNGUPEby1HO9Q==
+X-Received: by 2002:a05:600c:8b16:b0:46e:4004:a296 with SMTP id 5b1f17b1804b1-46fa9a965a9mr35155715e9.9.1759947197837;
+        Wed, 08 Oct 2025 11:13:17 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:3d9:2080:b264:afbc:dee:3d? ([2a01:e0a:3d9:2080:b264:afbc:dee:3d])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4255d8f0853sm31405791f8f.50.2025.10.08.11.13.17
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Oct 2025 11:03:24 -0700 (PDT)
-Message-ID: <1516f21e-aee3-42cf-b75e-61142dc9578d@oss.qualcomm.com>
-Date: Wed, 8 Oct 2025 23:33:17 +0530
+        Wed, 08 Oct 2025 11:13:17 -0700 (PDT)
+Message-ID: <45f68b22-4514-4ddf-95e7-e00f45561307@linaro.org>
+Date: Wed, 8 Oct 2025 20:13:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -90,123 +86,79 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
- node
-To: Bryan O'Donoghue <bod@kernel.org>, Bryan O'Donoghue <bod.linux@nxsw.ie>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Vikash Garodia <quic_vgarodia@quicinc.com>,
-        Dikshita Agarwal <quic_dikshita@quicinc.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
- <4f38058d-a2f1-4ac5-b234-228cfb2e85ff@kernel.org>
- <1ad2ca1e-1d57-4ad8-a057-ab0d804f1d49@oss.qualcomm.com>
- <7da769b4-88e9-401f-bb21-0ff123818b9c@kernel.org>
- <6840d462-8269-4359-a6e5-d154842b62db@oss.qualcomm.com>
- <af0da28c-3ca0-41dc-aaa4-572723ea74bf@linaro.org>
- <klhvgzizub33f46buqsog54wqksqp24a5tijwyv355l2ao2imo@wdkojfebc6s2>
- <e1a6e75a-2a5d-44a2-8bbc-140eb86d1806@linaro.org>
- <2hh3zkdwgqbdurpr4tibr3gjat6arwl3dd3gxakdaagafwjdrm@aj5em4tbsjen>
- <Ujyoj3HGLVFhS2b0XzcYAMjSiCAuO-lSJ8PMEQLOaaX83tk_0D5zjrL0VDyZAmD3i4zLB3ElKSZBltISb5jJHA==@protonmail.internalid>
- <4a32bbec-2baf-4210-a7c1-1ddcd45d30c8@oss.qualcomm.com>
- <SuwJuCIcLVJwN3YeN1il6tB9wO9OH6bYcnbRpxpuI9Dl7piYLN-hVdnyv0Mal6N-W5pi2aCZI8MxHZDEkoE63A==@protonmail.internalid>
- <4d87d1ca-55b2-426e-aa73-e3fd8c6fe7bd@kernel.org>
- <10a8ccda-4e27-4b06-9a0e-608d6ade5354@nxsw.ie>
- <4cb4a92d-2f20-47c7-881e-aadcc6f83aa0@kernel.org>
-Content-Language: en-US
-From: Charan Teja Kalla <charan.kalla@oss.qualcomm.com>
-In-Reply-To: <4cb4a92d-2f20-47c7-881e-aadcc6f83aa0@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Authority-Analysis: v=2.4 cv=ZJzaWH7b c=1 sm=1 tr=0 ts=68e6a76f cx=c_pps
- a=JL+w9abYAAE89/QcEU+0QA==:117 a=6JKELlXEPSgWT0DDZg8VgQ==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=QyXUC8HyAAAA:8
- a=pGLkceISAAAA:8 a=fHmCkQyIX7tJ2GRZnMsA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=324X-CrmTo6CU4MGRt3R:22
-X-Proofpoint-ORIG-GUID: gUNjhClq1m7LOprmUQ-RELAhpJTS8l0E
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX7VIZ8ucEPT8N
- QXg0QWqEpfaibV3s7LxcS9yp+5Yt94C8Pc2/7hh9p0AsH5T0oFf5zI6O5KXUHICsCre+jDafuvu
- snVhWCKMO2dix+MrvkS0fdRrhfVHPPzWTX0RxyCoOhQ+mecYfVqswk09Yrmp0dZiGVDGrmnqG8G
- Eoqi+LZbAPt5ym86ltMVU/J2Oo4Vq4aYGXQxXEjkAYJB6d80/YFK38EhEqK6TmumS6sGiLW6Xkz
- I3oPJozLPNOLR5dFY2owbNpopgDSc8RF4rI6N6atjJX3vmkyvu2Q7kmllaKG3u3734n1EeT+ryb
- gCAFan+wHgRsh0mqV4HAHr4yRzwXNG492aNJ+og6BlrwBj5TmYWiZsGPQ16xud1KIB/1pnWXROF
- Yf85413jHL+OfCy3W3ZTSa/PXO9w8w==
-X-Proofpoint-GUID: gUNjhClq1m7LOprmUQ-RELAhpJTS8l0E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-08_05,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 clxscore=1015 malwarescore=0 lowpriorityscore=0
- phishscore=0 priorityscore=1501 impostorscore=0 suspectscore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
+From: Neil Armstrong <neil.armstrong@linaro.org>
+Reply-To: Neil Armstrong <neil.armstrong@linaro.org>
+Subject: Re: [PATCH 03/25] media: meson-g2d: Drop unneeded v4l2_m2m_get_vq()
+ NULL check
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Kevin Hilman <khilman@baylibre.com>, Jerome Brunet <jbrunet@baylibre.com>,
+ Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+References: <20251008175052.19925-1-laurent.pinchart@ideasonboard.com>
+ <20251008175052.19925-4-laurent.pinchart@ideasonboard.com>
+Content-Language: en-US, fr
+Autocrypt: addr=neil.armstrong@linaro.org; keydata=
+ xsBNBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
+ GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
+ BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
+ qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
+ 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
+ AAHNKk5laWwgQXJtc3Ryb25nIDxuZWlsLmFybXN0cm9uZ0BsaW5hcm8ub3JnPsLAkQQTAQoA
+ OwIbIwULCQgHAwUVCgkICwUWAgMBAAIeAQIXgBYhBInsPQWERiF0UPIoSBaat7Gkz/iuBQJk
+ Q5wSAhkBAAoJEBaat7Gkz/iuyhMIANiD94qDtUTJRfEW6GwXmtKWwl/mvqQtaTtZID2dos04
+ YqBbshiJbejgVJjy+HODcNUIKBB3PSLaln4ltdsV73SBcwUNdzebfKspAQunCM22Mn6FBIxQ
+ GizsMLcP/0FX4en9NaKGfK6ZdKK6kN1GR9YffMJd2P08EO8mHowmSRe/ExAODhAs9W7XXExw
+ UNCY4pVJyRPpEhv373vvff60bHxc1k/FF9WaPscMt7hlkbFLUs85kHtQAmr8pV5Hy9ezsSRa
+ GzJmiVclkPc2BY592IGBXRDQ38urXeM4nfhhvqA50b/nAEXc6FzqgXqDkEIwR66/Gbp0t3+r
+ yQzpKRyQif3OwE0ETVkGzwEIALyKDN/OGURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYp
+ QTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXMcoJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+
+ SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hiSvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY
+ 4yG6xI99NIPEVE9lNBXBKIlewIyVlkOaYvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoM
+ Mtsyw18YoX9BqMFInxqYQQ3j/HpVgTSvmo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUX
+ oUk33HEAEQEAAcLAXwQYAQIACQUCTVkGzwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfn
+ M7IbRuiSZS1unlySUVYu3SD6YBYnNi3G5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa3
+ 3eDIHu/zr1HMKErm+2SD6PO9umRef8V82o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCS
+ KmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy
+ 4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJC3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTT
+ QbM0WUIBIcGmq38+OgUsMYu4NzLu7uZFAcmp6h8g
+Organization: Linaro
+In-Reply-To: <20251008175052.19925-4-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-
-On 10/7/2025 8:14 PM, Bryan O'Donoghue wrote:
-> On 07/10/2025 15:29, Bryan O'Donoghue wrote:
->> On 07/10/2025 15:25, Bryan O'Donoghue wrote:
->>> Rob suggested using an implicit index for function id
->>>
->>> https://lore.kernel.org/all/CAL_JsqK9waZK=i+ov0jV-
->>> PonWSfddwHvE94Q+pks4zAEtKc+yg@mail.gmail.com/
->>>
->>> Couldn't we list the entire set of iommus - then detach - subsequently
->>> re-attaching in our platform code with FUNCTION_IDs we keep listed in
->>> our drivers ?
->>>
-
-TMK, there is no api exist to detach a device once it is attached to
-smmu. We used to have one but removed[1], not sure how well it will be
-received to introduce it again.
-
-There is other problem exist attaching the entire set of iommus in the
-first place: Usually writes to SMR registers are protected through
-emulation by hyp. Thus adding the sids of protected/non-protected
-usecases in the same iommu set will not allowed by the
-hypervisors(eg:gunyah), as all will end up in using the same context
-bank, thus there can be failure to attach to smmu in the first place.
-
-
-[1]
-https://lore.kernel.org/all/20230110025408.667767-1-baolu.lu@linux.intel.com/
-
->>> That way the DT is complete and correct, we have a compliant upstream DT
->>> but we also find a way to make the FUNCTION_ID specific setup we need.
->>
->> i.e. you can keep the FUNCTION_ID "metadata" in the driver and
->> associate specific iommu indexes with the FUNCTION_ID you want in there.
->>
->> That way you could have multiple FUNCTION_ID smmu entries in the DT
->> and just associate the DT indexes locally in drivers/platform/qcom/
->> iris_metadata_goes_here.c
->>
->> ---
->> bod
+On 10/8/25 19:50, Laurent Pinchart wrote:
+> The v4l2_m2m_get_vq() function never returns NULL. The check was
+> probably intended to catch invalid format types, but that's not needed
+> as the V4L2 core picks the appropriate VIDIOC_G_FMT ioctl handler based
+> on the format type, so the type can't be incorrect. Drop the unneeded
+> return value check and, as the return value is not used for other
+> purposes and the function has no side effect, the function call as well.
 > 
-> Actually why can't we specify FUNCTION_ID in the iommus = <entries>
-> 
-> Surely we could do
-> 
->     #iommu-cells = <4>;
->     iommus = <&apps_smmu 0x420 0x2 FUNCTION_ID>;
-> 
-> and encode the real data we need directly in the iommus list...
-> 
-
-Since it is the smmu device property , this suggestion expects all the
-devices, not just video, to define additional argument. Does this look
-valid?
-
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > ---
-> bod
+>   drivers/media/platform/amlogic/meson-ge2d/ge2d.c | 5 -----
+>   1 file changed, 5 deletions(-)
+> 
+> diff --git a/drivers/media/platform/amlogic/meson-ge2d/ge2d.c b/drivers/media/platform/amlogic/meson-ge2d/ge2d.c
+> index 0c004bb8ba05..a9323b383547 100644
+> --- a/drivers/media/platform/amlogic/meson-ge2d/ge2d.c
+> +++ b/drivers/media/platform/amlogic/meson-ge2d/ge2d.c
+> @@ -627,13 +627,8 @@ static int vidioc_s_fmt_cap(struct file *file, void *priv, struct v4l2_format *f
+>   static int vidioc_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
+>   {
+>   	struct ge2d_ctx *ctx = priv;
+> -	struct vb2_queue *vq;
+>   	struct ge2d_frame *frm;
+>   
+> -	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+> -	if (!vq)
+> -		return -EINVAL;
+> -
+>   	frm = get_frame(ctx, f->type);
+>   
+>   	f->fmt.pix = frm->pix_fmt;
 
+Reviewed-by: Neil Armstrong <neil.armstrong@linaro.org>
 
