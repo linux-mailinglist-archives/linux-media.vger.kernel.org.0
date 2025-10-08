@@ -1,238 +1,342 @@
-Return-Path: <linux-media+bounces-43951-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-43952-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0461BC440A
-	for <lists+linux-media@lfdr.de>; Wed, 08 Oct 2025 12:09:00 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 69DAEBC46F6
+	for <lists+linux-media@lfdr.de>; Wed, 08 Oct 2025 12:48:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id C4C831885CA2
-	for <lists+linux-media@lfdr.de>; Wed,  8 Oct 2025 10:09:20 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 58E5E1891749
+	for <lists+linux-media@lfdr.de>; Wed,  8 Oct 2025 10:49:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C54262F532D;
-	Wed,  8 Oct 2025 10:08:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 528222F3609;
+	Wed,  8 Oct 2025 10:48:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="d382UR+x"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="XoV7J2Dd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D56F42E2DEF
-	for <linux-media@vger.kernel.org>; Wed,  8 Oct 2025 10:08:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 921662EC0A3
+	for <linux-media@vger.kernel.org>; Wed,  8 Oct 2025 10:48:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759918130; cv=none; b=nok4FbDhxuKiDDaJMhhPbkN7AW22OPxXL/qAAU1CoQkhj408RYdMs8fIVUs3GJ5rWbHLWa8Ppue9VVx8ZivofZR7WJ9T6AMPXibmwO1q3QNjSp3L7SROQdpHjTMkodmVzShm0FVhTKplxieyhJeELbiRwXBu0lEItLzayT4JD5I=
+	t=1759920523; cv=none; b=sScYmf5tMOkvsk++5a93hOwr4A7lihLgpi3M9iKBg+pcykrUoRTHqGD9ESYCADSgd2FfuS1md4mAbD050dPm4zIrvYJ4Jdgsdym36vNlVDn7t1VXDYVRjhhwvL0DXsFnMuYOuL7KsYdem/JRyOI6NSzb1ULpyF+B7DDWhmPPrKs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759918130; c=relaxed/simple;
-	bh=zuOs8T7fLtRsx2rbN/SbWVW9SGMe07Bf6XP12sXbvSk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QWSmt3k62gAfomdQ2X98Koe56Ave8HVojLDD2Dj3KaI27GDHkQ0A1REoT75CeJwTbQGSjz0KLhxJI7AGaiSqMGLalrrJfJKa4H7nz5UQ+t/kei3u1+f3BEgovrNBEQbgnCF957UFMA+hk01f+dfSpwYaUUC96PMbsvtJWEg4s9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=d382UR+x; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59890MJg021114
-	for <linux-media@vger.kernel.org>; Wed, 8 Oct 2025 10:08:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Yb77uwPvrX0HmHHrh/7RbLO2O8/7B/9lfzBzQHCPdJU=; b=d382UR+x20GSYTni
-	aSJ6aH0t1OBNTWqYDFFN6sDYgskDXgHkYZxXQ9x6kXEQ5NdPufUz8o/g0ds4OsMl
-	Iq6J6p3a6GAPyTOg+KyD07hpDhceuBJCQzcUFzd+x+DorywEJIILxgvR78lRj7Ee
-	s1DGW9/f3tbOAnkAEdR7vniuhedczox2vlqHwfzMIUhFMcsIsfHatNACIUq/n/2Y
-	2CVAPe9V66CcazTXes0Sgd9Sat5jhQRdtbGCJEFm6ZhmxvwQMdY99IIwlliawMbV
-	16MBsfYpsd0J9efxOZX2sJZLN3Ac02Sn7a6PQg8Xap0NX1HHe9ITBlnTct9nCzBZ
-	mqgx+w==
-Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com [209.85.160.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49jut1t0jx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 08 Oct 2025 10:08:48 +0000 (GMT)
-Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-4e0f9bedf1aso22533561cf.0
-        for <linux-media@vger.kernel.org>; Wed, 08 Oct 2025 03:08:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759918127; x=1760522927;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Yb77uwPvrX0HmHHrh/7RbLO2O8/7B/9lfzBzQHCPdJU=;
-        b=ULd6x3X8Y6h38boy1Nt24yAgXjDj74xtlmjCLUN275RLXKoUxycEwSkmFKePLvfneS
-         4vTfArlqN6+zLp0e+34AGp9m4XQZymvY3oxOv0suPz/Vv0Z+XLMi/p5DIKAfkuOb3TAC
-         OJN5VL80AOqUuzlcvORUL2JDnFZw55aDMQFZ7cLJQr1+CBZjDqeji0vMvt1IGz48aI78
-         hOV4p6ZEHcLK8Rl90GKAqm5HJSLlH/uOxSkcvM1Z3psQnvv1XQ3R6JJPc9xdtnoHK+J9
-         M5/NjRW1D520/y8YOAXrCmZQF8GVatvbgo6aAWg+8rrIJhbIX3l1aXvGlHT51sDg0LzQ
-         rwtQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWi2Q86PwPdZvmyhxcFwp21PhlvSXqOdMC3ZU+72lm8JSl3cqrhztATlhuUzVycvooHMq+QSckbBHJcxQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxbm3vZVoID0xPcyQKbYUnUxpiTYutwfVvHKxaZgRryHQICF4Fu
-	N4ay/kn76scamwnjgNWNdbr4ci+uAIARx+ePV98NTT9N+CqkEmWwjnkSJBN3HWOvrrnwVMib+F+
-	YxpiybjIfmZIt4mBas6YKNEV0+QVmMFkIDlsIqu+OuwXhUyTaMrz4t1vuyasAKq6pBg==
-X-Gm-Gg: ASbGncuIAdRqQeoYLe/XUSWR8Cn2jMjrve6qekIEd7Z0CO2VBQxqRvZt33w13Iz6att
-	KjMZxYTvgHQcVtFtrIBTliXmMlS+8TL734QqYdVjcxqB4oRdomh64nw6dYecC/SYNHACYrvKJZa
-	MbiBbsJwzojoXBExKQYFXfuEkJwTc5dpeAKgPa+qMAoQMVBWpJcRVlwKKt6oue4c5TeqMq/K48J
-	6mz1zLrJ8Vg2COKTmNkH1MIKUFP8nSC3VEFY/I9XMNj1WZRTy2GGlxAQVjFjAjh1DAwuLLINloi
-	rFVbzFCaGc0VZx8j06g9wXSK6T5fTk6vW8hpyQNbkn6DaAY6gGHqJKUY37ryd7duQQsGy2vjKzC
-	0fHWVUSRLDqcP4bEkLuXNw98Xmok=
-X-Received: by 2002:a05:622a:cc:b0:4b5:eaee:1c04 with SMTP id d75a77b69052e-4e6eac002f8mr24163931cf.0.1759918126539;
-        Wed, 08 Oct 2025 03:08:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGq5cTLJ2mJwk3+csFy7Zr1eDTsQM6gCeFtxrIkdUO4dqhY8aZdotYTGDmV81/UlCQ7NMHKtg==
-X-Received: by 2002:a05:622a:cc:b0:4b5:eaee:1c04 with SMTP id d75a77b69052e-4e6eac002f8mr24163651cf.0.1759918126006;
-        Wed, 08 Oct 2025 03:08:46 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b48652a9ebbsm1618598366b.7.2025.10.08.03.08.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Oct 2025 03:08:45 -0700 (PDT)
-Message-ID: <5135823c-f2e4-4873-9e3a-9d190cac0113@oss.qualcomm.com>
-Date: Wed, 8 Oct 2025 12:08:43 +0200
+	s=arc-20240116; t=1759920523; c=relaxed/simple;
+	bh=JlftSGA/3DatEzrKZCn9ol9SM6Se6tNb/956D/iX8E8=;
+	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=P6nq971ZeWZXZRxX432FlFuMKNWHIDX31aAMjVRUqpTXNxi9FEEK/eyMhhcjyQSCAppXeb6lCOXhJ0XkAYxB566bVUpDk82MKs7LQyt8YwHJyaZDx6MUX9PtgNtNswlDa6J4+cCDO5QE/9O7S2ggEbEfatwuo2Vn0+jO3sjIQOM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=XoV7J2Dd; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
+	; s=s1; h=Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:
+	References:In-Reply-To:Message-ID:To:From:Date:Sender:Reply-To:Cc:Content-ID:
+	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+	:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:List-Subscribe:
+	List-Post:List-Owner:List-Archive;
+	bh=dnTT0NoICH9PwIoUqzckT6u6Wmb75ap6xcPCbTUHY/s=; b=XoV7J2DdaH0xD+fyb1ZSfrsCsR
+	ptnTyvYaNy9hwPGiDDJnpM5bVWiCYkHQ5AoUd5fRhT5TD/BrbVPruIRNlaBdFL/JH5bFGxIl8Dxb5
+	PA+8vAwbdLZQESOZ3wcFL+bV3eHf9dfWldd4yZYzvRS9qd9OD3PSV18+ujE6EEX8K4HKgfA/QE6oJ
+	Zzaz9BVzGBzamg3qMqEnH/nQJg+ZFm3GweVq0DMfzS47Ig+GX0ez5QvEO1LW9JOucFQmZL62PhSYU
+	mDtW83xoGk8LWwCyHZiFXXJIl/tgDzTU1m+qSO/1sYGGx/egMDmBjgWGHhcAu+3VMHIT2E805ycBE
+	QJAI+gzA==;
+Received: from builder.linuxtv.org ([140.211.167.10])
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1v6Riq-0004Dy-2v;
+	Wed, 08 Oct 2025 10:48:40 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+	by builder.linuxtv.org with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1v6Riq-00FUOI-1E;
+	Wed, 08 Oct 2025 10:48:40 +0000
+Date: Wed, 8 Oct 2025 10:48:40 +0000 (UTC)
+From: Jenkins Builder Robot  <jenkins@linuxtv.org>
+To: mchehab@kernel.org, linux-media@vger.kernel.org,
+	libcamera-devel@lists.libcamera.org
+Message-ID: <1536071323.1.1759920520375@builder.linuxtv.org>
+In-Reply-To: <1006863942.2.1759439918001@builder.linuxtv.org>
+References: <1006863942.2.1759439918001@builder.linuxtv.org>
+Subject: Build failed in Jenkins: libcamera #1496
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] arm64: dts: qcom: sdm670-google-sargo: add imx355
- front camera
-To: Richard Acayan <mailingradian@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Cc: Robert Mader <robert.mader@collabora.com>
-References: <20250905215516.289998-6-mailingradian@gmail.com>
- <20250905215516.289998-10-mailingradian@gmail.com>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <20250905215516.289998-10-mailingradian@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: EjD3hvwdjejxnn3We6j6uQ0H9mldSgUc
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA0MDAyNyBTYWx0ZWRfX2UnScY15JDJj
- i4xZCqvA8ixcVUS9iwLalRGO1p7OPTMwrr/GiGc22299gID5bqWjGw/NPD46bjILRD89Q32ZPGO
- QGEoUykggWjus7oyx1to8WWmaGEnDsHbGMgYCFXa8XPhrsPcEwE686LvORiHKYv2uUGClFGARCe
- xluY5/yObOsi4tT+XhZ6IGIpCsqqN1XL3+0RGFKBS8WWF/ArJl5dslULKnm/BvrQmpo34zTrQH/
- hkYFCywNxz9b0DiIezTaoPQjQXQeGAQPJ+Cn6J6APs4ZN6j1NiRB6CHtA10/8k28JV53wY1bSsa
- BKnGz5RM8i0azLSBfRH5PnRzDLpAXErebyXZCyv4Folt9o0jLxS4CZq17tvtOmIxDmMi0rSbbrA
- XH/M9HiTEwPz7E+1+ahBUqJsWKfsbA==
-X-Authority-Analysis: v=2.4 cv=Vqcuwu2n c=1 sm=1 tr=0 ts=68e63830 cx=c_pps
- a=JbAStetqSzwMeJznSMzCyw==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=QX4gbG5DAAAA:8 a=pGLkceISAAAA:8
- a=CiInEcA6Zl_SvUJEBKkA:9 a=QEXdDO2ut3YA:10 a=uxP6HrT_eTzRwkO_Te1X:22
- a=AbAUZ8qAyYyZVLSsDulk:22
-X-Proofpoint-ORIG-GUID: EjD3hvwdjejxnn3We6j6uQ0H9mldSgUc
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-08_03,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 adultscore=0 malwarescore=0 spamscore=0 priorityscore=1501
- suspectscore=0 bulkscore=0 clxscore=1015 impostorscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2509150000 definitions=main-2510040027
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: libcamera
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 
-On 9/5/25 11:55 PM, Richard Acayan wrote:
-> The Sony IMX355 is the front camera on the Pixel 3a, mounted in portrait
-> mode. It is connected to CSIPHY1 and CCI I2C1, and uses MCLK2. Add
-> support for it.
-> 
-> Co-developed-by: Robert Mader <robert.mader@collabora.com>
-> Signed-off-by: Robert Mader <robert.mader@collabora.com>
-> Signed-off-by: Richard Acayan <mailingradian@gmail.com>
-> ---
+See <https://builder.linuxtv.org/job/libcamera/1496/display/redirect?page=changes>
 
-[...]
+Changes:
 
-> +	cam_front_ldo: cam-front-ldo-regulator {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "cam_front_ldo";
-> +		regulator-min-microvolt = <1352000>;
-> +		regulator-max-microvolt = <1352000>;
-> +		regulator-enable-ramp-delay = <135>;
-> +
-> +		gpios = <&pm660l_gpios 4 GPIO_ACTIVE_HIGH>;
-> +		enable-active-high;
-> +
-> +		pinctrl-0 = <&cam_front_ldo_pin>;
-> +		pinctrl-names = "default";
-> +	};
-> +
-> +	cam_vio_ldo: cam-vio-ldo-regulator {
-> +		compatible = "regulator-fixed";
-> +		regulator-name = "cam_vio_ldo";
-> +		regulator-min-microvolt = <1800000>;
-> +		regulator-max-microvolt = <1800000>;
-> +		regulator-enable-ramp-delay = <233>;
-> +
-> +		gpios = <&pm660_gpios 13 GPIO_ACTIVE_HIGH>;
-> +		enable-active-high;
+[kieran.bingham] ipa: rpi: pisp: Add decompand support using PiSP hardware block
 
-You say active-high for both regulators here..
+[kieran.bingham] ipa: rpi: Add FE globals as a parameter to applyDecompand()
+
+[kieran.bingham] ipa: rpi: pisp: Add a DecompandAlgorithm class
+
+[kieran.bingham] ipa: rpi: pisp: Allow an initial decompand curve to be set on the FE
 
 
-> +&cci {
-> +	pinctrl-0 = <&cci1_default &cam_mclk_default>;
+------------------------------------------
+[...truncated 23.96 KiB...]
+[142/347] Generating src/libcamera/ipa/vimc_ipa_interface.cpp with a custom command
+[143/347] Generating src/libcamera/ipa/core_ipa_interface.cpp with a custom command
+[144/347] Generating include/libcamera/ipa/ipu3_ipa_interface_h with a custom command (wrapped by meson to set env)
+[145/347] Generating include/libcamera/ipa/ipu3_proxy_h with a custom command (wrapped by meson to set env)
+[146/347] Generating include/libcamera/ipa/soft_ipa_serializer_h with a custom command (wrapped by meson to set env)
+[147/347] Generating include/libcamera/ipa/soft_proxy_h with a custom command (wrapped by meson to set env)
+[148/347] Linking target src/libcamera/base/libcamera-base.so.0.5.2
+[149/347] Generating include/libcamera/ipa/ipu3_ipa_serializer_h with a custom command (wrapped by meson to set env)
+[150/347] Generating src/libcamera/ipa_pub_key_cpp with a custom command
+writing RSA key
+[151/347] Generating include/libcamera/ipa/soft_ipa_interface_h with a custom command (wrapped by meson to set env)
+[152/347] Compiling C object src/android/libcamera_metadata.a.p/metadata_camera_metadata.c.o
+[153/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/camera.cpp.o
+[154/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/camera_manager.cpp.o
+[155/347] Generating src/libcamera/proxy/ipu3_proxy_cpp with a custom command (wrapped by meson to set env)
+[156/347] Generating src/libcamera/proxy/soft_proxy_cpp with a custom command (wrapped by meson to set env)
+[157/347] Generating src/libcamera/version.cpp with a custom command
+[158/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/color_space.cpp.o
+[159/347] Generating src/libcamera/controls_ids_cpp with a custom command (wrapped by meson to set env)
+[160/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/meson-generated_.._proxy_ipu3_ipa_proxy.cpp.o
+[161/347] Generating src/libcamera/properties_ids_cpp with a custom command (wrapped by meson to set env)
+[162/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/meson-generated_.._proxy_soft_ipa_proxy.cpp.o
+[163/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/controls.cpp.o
+[164/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/meson-generated_.._control_ids.cpp.o
+[165/347] Generating src/libcamera/proxy/worker/ipu3_proxy_worker with a custom command (wrapped by meson to set env)
+[166/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/fence.cpp.o
+[167/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/meson-generated_.._property_ids.cpp.o
+[168/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/framebuffer.cpp.o
+[169/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/framebuffer_allocator.cpp.o
+[170/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/geometry.cpp.o
+[171/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/orientation.cpp.o
+[172/347] Generating symbol file src/libcamera/base/libcamera-base.so.0.5.2.p/libcamera-base.so.0.5.2.symbols
+[173/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pixel_format.cpp.o
+[174/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/transform.cpp.o
+[175/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/stream.cpp.o
+[176/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/request.cpp.o
+[177/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/bayer_format.cpp.o
+[178/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/byte_stream_buffer.cpp.o
+[179/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/camera_controls.cpp.o
+[180/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/camera_lens.cpp.o
+[181/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/clock_recovery.cpp.o
+[182/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/control_validator.cpp.o
+[183/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/converter.cpp.o
+[184/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/debug_controls.cpp.o
+[185/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/control_serializer.cpp.o
+[186/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/delayed_controls.cpp.o
+[187/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/device_enumerator_sysfs.cpp.o
+[188/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/device_enumerator.cpp.o
+[189/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/dma_buf_allocator.cpp.o
+[190/347] Generating src/libcamera/proxy/worker/soft_proxy_worker with a custom command (wrapped by meson to set env)
+[191/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/formats.cpp.o
+[192/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipa_data_serializer.cpp.o
+[193/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipa_interface.cpp.o
+[194/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipa_controls.cpp.o
+[195/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/global_configuration.cpp.o
+[196/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipa_manager.cpp.o
+[197/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipa_module.cpp.o
+[198/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipa_proxy.cpp.o
+[199/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipc_pipe.cpp.o
+[200/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipc_pipe_unixsocket.cpp.o
+[201/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/ipc_unixsocket.cpp.o
+[202/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/matrix.cpp.o
+[203/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/media_object.cpp.o
+[204/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/mapped_framebuffer.cpp.o
+[205/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/media_device.cpp.o
+[206/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/media_pipeline.cpp.o
+[207/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/process.cpp.o
+[208/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pipeline_handler.cpp.o
+[209/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pub_key.cpp.o
+[210/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/shared_mem_object.cpp.o
+[211/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/source_paths.cpp.o
+[212/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/sysfs.cpp.o
+[213/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/v4l2_pixelformat.cpp.o
+[214/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/vector.cpp.o
+[215/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/v4l2_device.cpp.o
+[216/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/v4l2_videodevice.cpp.o
+[217/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/v4l2_subdevice.cpp.o
+[218/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/converter_converter_v4l2_m2m.cpp.o
+[219/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/yaml_parser.cpp.o
+[220/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pipeline_ipu3_cio2.cpp.o
+[221/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pipeline_ipu3_frames.cpp.o
+[222/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pipeline_ipu3_imgu.cpp.o
+[223/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/sensor_camera_sensor_properties.cpp.o
+[224/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/sensor_camera_sensor.cpp.o
+[225/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pipeline_ipu3_ipu3.cpp.o
+[226/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pipeline_uvcvideo_uvcvideo.cpp.o
+[227/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/sensor_camera_sensor_legacy.cpp.o
+[228/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/pipeline_simple_simple.cpp.o
+[229/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/software_isp_debayer.cpp.o
+[230/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/sensor_camera_sensor_raw.cpp.o
+[231/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/software_isp_debayer_cpu.cpp.o
+[232/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/software_isp_swstats_cpu.cpp.o
+[233/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/tracepoints.cpp.o
+[234/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/software_isp_software_isp.cpp.o
+[235/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/device_enumerator_udev.cpp.o
+[236/347] Linking static target src/android/libcamera_metadata.a
+[237/347] Compiling C++ object src/android/libcamera-hal.so.p/camera3_hal.cpp.o
+[238/347] Compiling C++ object src/libcamera/proxy/worker/ipu3_ipa_proxy.p/meson-generated_.._ipu3_ipa_proxy_worker.cpp.o
+[239/347] Compiling C++ object src/libcamera/proxy/worker/soft_ipa_proxy.p/meson-generated_.._soft_ipa_proxy_worker.cpp.o
+[240/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_capabilities.cpp.o
+[241/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_hal_manager.cpp.o
+[242/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_hal_config.cpp.o
+[243/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_metadata.cpp.o
+[244/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_device.cpp.o
+[245/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_ops.cpp.o
+[246/347] Compiling C++ object src/android/libcamera-hal.so.p/hal_framebuffer.cpp.o
+[247/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_request.cpp.o
+[248/347] Compiling C++ object src/android/libcamera-hal.so.p/camera_stream.cpp.o
+[249/347] Compiling C++ object src/android/libcamera-hal.so.p/yuv_post_processor_yuv.cpp.o
+[250/347] Compiling C++ object src/android/libcamera-hal.so.p/jpeg_thumbnailer.cpp.o
+[251/347] Compiling C object src/android/libcamera-hal.so.p/mm_libhardware_stub.c.o
+[252/347] Compiling C++ object src/android/libcamera-hal.so.p/jpeg_exif.cpp.o
+[253/347] Compiling C++ object src/ipa/libipa/libipa.a.p/algorithm.cpp.o
+[254/347] Compiling C++ object src/android/libcamera-hal.so.p/mm_generic_camera_buffer.cpp.o
+[255/347] Compiling C++ object src/ipa/libipa/libipa.a.p/awb_bayes.cpp.o
+[256/347] Compiling C++ object src/android/libcamera-hal.so.p/jpeg_encoder_libjpeg.cpp.o
+[257/347] Compiling C++ object src/android/libcamera-hal.so.p/mm_generic_frame_buffer_allocator.cpp.o
+[258/347] Compiling C++ object src/android/libcamera-hal.so.p/jpeg_post_processor_jpeg.cpp.o
+[259/347] Compiling C++ object src/ipa/libipa/libipa.a.p/agc_mean_luminance.cpp.o
+[260/347] Compiling C++ object src/ipa/libipa/libipa.a.p/awb.cpp.o
+[261/347] Compiling C++ object src/ipa/libipa/libipa.a.p/awb_grey.cpp.o
+[262/347] Compiling C++ object src/ipa/libipa/libipa.a.p/colours.cpp.o
+[263/347] Compiling C++ object src/ipa/libipa/libipa.a.p/exposure_mode_helper.cpp.o
+[264/347] Compiling C++ object src/ipa/libipa/libipa.a.p/fc_queue.cpp.o
+[265/347] Compiling C++ object src/ipa/libipa/libipa.a.p/fixedpoint.cpp.o
+[266/347] Compiling C++ object src/ipa/libipa/libipa.a.p/camera_sensor_helper.cpp.o
+[267/347] Compiling C++ object src/ipa/libipa/libipa.a.p/histogram.cpp.o
+[268/347] Compiling C++ object src/ipa/libipa/libipa.a.p/interpolator.cpp.o
+[269/347] Compiling C++ object src/ipa/libipa/libipa.a.p/lsc_polynomial.cpp.o
+[270/347] Compiling C++ object src/ipa/libipa/libipa.a.p/lux.cpp.o
+[271/347] Compiling C++ object src/ipa/libipa/libipa.a.p/module.cpp.o
+[272/347] Compiling C++ object src/ipa/libipa/libipa.a.p/pwl.cpp.o
+[273/347] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/ipa_context.cpp.o
+[274/347] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_af.cpp.o
+[275/347] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_agc.cpp.o
+[276/347] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_awb.cpp.o
+[277/347] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_blc.cpp.o
+[278/347] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/ipu3.cpp.o
+[279/347] Compiling C++ object src/ipa/ipu3/ipa_ipu3.so.p/algorithms_tone_mapping.cpp.o
+[280/347] Compiling C++ object src/ipa/simple/ipa_soft_simple.so.p/ipa_context.cpp.o
+[281/347] Linking static target src/ipa/libipa/libipa.a
+[282/347] Compiling C++ object src/ipa/simple/ipa_soft_simple.so.p/algorithms_awb.cpp.o
+[283/347] Compiling C++ object src/ipa/simple/ipa_soft_simple.so.p/algorithms_agc.cpp.o
+[284/347] Compiling C++ object src/ipa/simple/ipa_soft_simple.so.p/soft_simple.cpp.o
+[285/347] Compiling C++ object src/apps/common/libapps.a.p/image.cpp.o
+[286/347] Compiling C++ object src/ipa/simple/ipa_soft_simple.so.p/algorithms_blc.cpp.o
+[287/347] Compiling C++ object src/ipa/simple/ipa_soft_simple.so.p/algorithms_ccm.cpp.o
+[288/347] Compiling C++ object src/ipa/simple/ipa_soft_simple.so.p/algorithms_lut.cpp.o
+[289/347] Compiling C++ object src/apps/common/libapps.a.p/ppm_writer.cpp.o
+[290/347] Compiling C++ object src/apps/common/libapps.a.p/options.cpp.o
+[291/347] Compiling C++ object src/apps/common/libapps.a.p/stream_options.cpp.o
+[292/347] Compiling C++ object src/apps/common/libapps.a.p/event_loop.cpp.o
+[293/347] Compiling C++ object src/apps/lc-compliance/lc-compliance.p/environment.cpp.o
+[294/347] Compiling C++ object src/apps/common/libapps.a.p/dng_writer.cpp.o
+[295/347] Compiling C++ object src/apps/lc-compliance/lc-compliance.p/helpers_capture.cpp.o
+[296/347] Compiling C++ object src/apps/lc-compliance/lc-compliance.p/main.cpp.o
+[297/347] Compiling C++ object src/apps/lc-compliance/lc-compliance.p/test_base.cpp.o
+[298/347] Compiling C++ object src/apps/cam/cam.p/frame_sink.cpp.o
+[299/347] Compiling C++ object src/apps/lc-compliance/lc-compliance.p/tests_capture_test.cpp.o
+[300/347] Linking static target src/apps/common/libapps.a
+[301/347] Compiling C++ object src/apps/cam/cam.p/capture_script.cpp.o
+[302/347] Compiling C++ object src/apps/lc-compliance/lc-compliance.p/.._.._.._subprojects_googletest-release-1.11.0_googletest_src_gtest-all.cc.o
+[303/347] Compiling C++ object src/apps/cam/cam.p/file_sink.cpp.o
+[304/347] Compiling C++ object src/apps/cam/cam.p/camera_session.cpp.o
+[305/347] Compiling C++ object src/apps/cam/cam.p/main.cpp.o
+[306/347] Compiling C++ object src/apps/cam/cam.p/sdl_texture.cpp.o
+[307/347] Compiling C++ object src/apps/cam/cam.p/sdl_sink.cpp.o
+[308/347] Compiling C++ object src/apps/cam/cam.p/kms_sink.cpp.o
+[309/347] Compiling C++ object src/apps/cam/cam.p/drm.cpp.o
+[310/347] Compiling C++ object src/apps/ipa-verify/ipa_verify.p/main.cpp.o
+[311/347] Compiling C++ object src/apps/cam/cam.p/sdl_texture_yuv.cpp.o
+[312/347] Compiling C++ object src/apps/cam/cam.p/sdl_texture_1plane.cpp.o
+[313/347] Compiling C++ object src/apps/cam/cam.p/sdl_texture_mjpg.cpp.o
+[314/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamera-utils.cpp.o
+[315/347] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_camera.cpp.o
+[316/347] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_camera_file.cpp.o
+[317/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcameraallocator.cpp.o
+[318/347] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_compat.cpp.o
+[319/347] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_camera_proxy.cpp.o
+[320/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerapad.cpp.o
+[321/347] Compiling C++ object src/v4l2/v4l2-compat.so.p/v4l2_compat_manager.cpp.o
+[322/347] Generating Documentation/doxyfile-public with a custom command
+[323/347] Generating src/gstreamer/gstlibcamera-controls.cpp with a custom command (wrapped by meson to set env)
+[324/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamera.cpp.o
+[325/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerapool.cpp.o
+[326/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcameraprovider.cpp.o
+[327/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/gstlibcamerasrc.cpp.o
+[328/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/meson-generated_.._version.cpp.o
+[329/347] Compiling C++ object src/gstreamer/libgstlibcamera.so.p/meson-generated_.._gstlibcamera-controls.cpp.o
+[330/347] Compiling C++ object src/libcamera/libcamera.so.0.5.2.p/meson-generated_.._ipa_pub_key.cpp.o
+[331/347] Generating Documentation/doxygen-public with a custom command
+[332/347] Linking target src/libcamera/libcamera.so.0.5.2
+[333/347] Generating symbol file src/libcamera/libcamera.so.0.5.2.p/libcamera.so.0.5.2.symbols
+[334/347] Linking target src/libcamera/proxy/worker/ipu3_ipa_proxy
+[335/347] Linking target src/gstreamer/libgstlibcamera.so
+[336/347] Linking target src/apps/ipa-verify/ipa_verify
+[337/347] Linking target src/libcamera/proxy/worker/soft_ipa_proxy
+[338/347] Linking target src/apps/lc-compliance/lc-compliance
+[339/347] Linking target src/ipa/ipu3/ipa_ipu3.so
+[340/347] Linking target src/ipa/simple/ipa_soft_simple.so
+[341/347] Generating src/ipa/ipu3/ipa_ipu3.so.sign with a custom command
+[342/347] Generating src/ipa/simple/ipa_soft_simple.so.sign with a custom command
+[343/347] Linking target src/android/libcamera-hal.so
+[344/347] Linking target src/v4l2/v4l2-compat.so
+[345/347] Linking target src/apps/cam/cam
+[346/347] Generating Documentation/doxygen-internal with a custom command
+warning: source '<https://builder.linuxtv.org/job/libcamera/ws/build/src/libcamera/libcamera.so'> is not a readable file or directory... skipping.
+warning: source '<https://builder.linuxtv.org/job/libcamera/ws/build/src/libcamera/libcamera.so.0.5'> is not a readable file or directory... skipping.
+[347/347] Generating Documentation/documentation with a custom command
+FAILED: Documentation/html 
+/var/lib/jenkins/.local/bin/sphinx-build -D release=v0.5.2+121-b320b20d -q -W -b html -c Documentation <https://builder.linuxtv.org/job/libcamera/ws/Documentation> Documentation/html
 
-mclk belongs to the camera device
+Theme error!
 
-[...]
+Versions
+========
 
-> +&pm660_gpios {
-> +	cam_vio_pin: cam-vio-state {
-> +		pins = "gpio13";
-> +		function = "normal";
-> +		power-source = <0>;
-> +		output-low;
-> +	};
-> +};
-> +
->  &pm660_rradc {
->  	status = "okay";
->  };
-> @@ -509,6 +604,13 @@ led-0 {
->  };
->  
->  &pm660l_gpios {
-> +	cam_front_ldo_pin: cam-front-state {
-> +		pins = "gpio4";
-> +		function = "normal";
-> +		power-source = <0>;
-> +		output-low;
-> +	};
+* Platform:         linux; (Linux-6.1.0-17-amd64-x86_64-with-glibc2.36)
+* Python version:   3.11.2 (CPython)
+* Sphinx version:   8.2.3
+* Docutils version: 0.21.2
+* Jinja2 version:   3.1.2
+* Pygments version: 2.19.2
 
-..and then you set these pins to output-low
+Last Messages
+=============
 
-drop the output- properties as they shouldn't really be used anyway
-and please settle on which way is "on"
+None.
+
+Loaded Extensions
+=================
+
+None.
+
+Traceback
+=========
+
+      File "/var/lib/jenkins/.local/lib/python3.11/site-packages/sphinx/theming.py", line 228, in create
+        raise ThemeError(__('no theme named %r found (missing theme.toml?)') % name)
+    sphinx.errors.ThemeError: no theme named 'sphinx_book_theme' found (missing theme.toml?)
 
 
-> +
->  	vol_up_pin: vol-up-state {
->  		pins = "gpio7";
->  		function = "normal";
-> @@ -548,6 +650,20 @@ &sdhc_1 {
->  &tlmm {
->  	gpio-reserved-ranges = <0 4>, <81 4>;
->  
-> +	cam_front_default: cam-front-default-state {
-> +		pins = "gpio9";
-> +		function = "gpio";
-> +		drive-strength = <2>;
-> +		bias-disable;
-> +	};
-> +
-> +	cam_mclk_default: cam-default-state {
-> +		pins = "gpio15";
-> +		function = "cam_mclk";
-> +		drive-strength = <2>;
-> +		bias-disable;
-> +	};
+The full traceback has been saved in:
+/tmp/sphinx-err-pfoyk555.log
 
-this mclk definition you can push to the SoC DTSI becuase it's as
-common as it gets for an internal function..
-
-Konrad
+To report this error to the developers, please open an issue at <https://github.com/sphinx-doc/sphinx/issues/>. Thanks!
+Please also report this if it was a user error, so that a better error message can be provided next time.
+ninja: build stopped: subcommand failed.
+Build step 'Execute shell' marked build as failure
 
