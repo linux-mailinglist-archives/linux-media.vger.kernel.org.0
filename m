@@ -1,63 +1,67 @@
-Return-Path: <linux-media+bounces-44125-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44124-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FE5ABC9E6C
-	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 18:00:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D651BC9E62
+	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 18:00:21 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7D2D84FBC74
-	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 16:00:39 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1D7C23B629C
+	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 16:00:20 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8445B2F532F;
-	Thu,  9 Oct 2025 15:55:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4EDE823371B;
+	Thu,  9 Oct 2025 15:55:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="PXIdQCQ7"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Lat76oqH"
 X-Original-To: linux-media@vger.kernel.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E40B22D781;
-	Thu,  9 Oct 2025 15:55:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343F622D781;
+	Thu,  9 Oct 2025 15:55:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760025331; cv=none; b=FW4EE/gQ06dIXSbcvFTqfo72JZSJaiwR7Vkh38nwunM578G/HmH6he1FzbIz6Y2EPEsB6o1AH03wBXqoqhE+oJT9qKJXvCzfgDoKpU44S2AfFQ8XoQsw0lGT3KAeQTsdbuQZiSE/NV55SwXdMMN/o8HN1lXT0HvImVpZdFc9Rpc=
+	t=1760025322; cv=none; b=seBv7tP3HDu0tiijrZ5Yy2p9Y1H4J06rPt80zBFwo6I9PV4p9OeNs94B4jvE4oSuW+zbKZjiFPnZPjeMDjBODRN4TsCivfd0WLKV4cGXBwAOAwDiJ+zWug4y2qQe8CfL5nF/l1V8sJeO4ruA6t3ZfJZFFfr076Y23a28gYG7SW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760025331; c=relaxed/simple;
-	bh=Ldr0J4d8oLQ9xg/bEwW76/C7Vo+NvP/FYftwus6rV+g=;
+	s=arc-20240116; t=1760025322; c=relaxed/simple;
+	bh=2Se7zj33Lgo/YtUKTOpJ2DSK5Pf7p9rJmkBLoSnWiHc=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=M/oAXDDGeWZdTwGMQZftliiPZCWjpKiagKgAAh+86dq2igtdri6ZQ4OUxXaWN5b3Kusxs5IDFMGyY3+NWfUpdaN2cy0O2OVtegDzbEpna9IaHiGW887jY4vLtq7KeluL07ILdTWQlASaJxKVcLOZsXTIflBPznkKRRFKtVD6Z7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=PXIdQCQ7; arc=none smtp.client-ip=68.232.153.233
+	 MIME-Version:Content-Type; b=thEQbivUUcptO+Y5rlK7GtZUQ6XMymQGXMutocWT8n8RkcRHU5Sj/SVe7Z3x9JEbh8BsMqEBHC1a/W5U0cabSHHeUXpyLapLGdR9Dgi/am7zisp62mosGDK4RJdn34xrRRzRWpqGJ0472JExJNgqGNEyUOeqECorfkYOtBq8omA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=Lat76oqH; arc=none smtp.client-ip=68.232.154.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1760025330; x=1791561330;
+  t=1760025321; x=1791561321;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=Ldr0J4d8oLQ9xg/bEwW76/C7Vo+NvP/FYftwus6rV+g=;
-  b=PXIdQCQ7bujYEgFqRDerd5HnnJbHAXnUbN/ofMxqEdAHL1sOXc7I6U7j
-   I7ZpNNUd2nJTd4L9wmWqq7fRFf+5tWNimraeddatpQikKQwmenx0DGAVn
-   eLhPawieYVqS6ODs23GeLJXJHv5pbdY00jchbXcdlbxHNUGTZitW4LjXO
-   Z5ATc0WNPE7zqgLrW5sxX8Oj03YChtoqZa/NGbqNF719ZMR92afiNmf0v
-   qvEoUOFXWSRdpGL4Q76bXuU7JNJx3zJYz2uvMhqUKIy5cTI/EWyARFLfm
-   3Etq2Jc9O0V83ciU7cYiYOpCGzpqPjxWL1a+tvPnHH68UKC4u7e0X4UKf
-   w==;
-X-CSE-ConnectionGUID: oiXu0ae6SEGA7hK0w89rgw==
-X-CSE-MsgGUID: QSddFo6vQrKs2L3VXBkHtQ==
+  bh=2Se7zj33Lgo/YtUKTOpJ2DSK5Pf7p9rJmkBLoSnWiHc=;
+  b=Lat76oqH5XxuMIrYEAmXB3RHC7CU0I5CwtyNSheFvdWfnpklX7ci+oDd
+   U9sbOpumIlWyxoakXfiIWTQctJoJ0RZPq2l25mKbYG8E1OhWx0zN9GkBy
+   RXdh8f68eEtMrLmCVubqEix/yDMAf+BdbQ36YHz5h5SXfAKci0Ua6+pku
+   T7symft7ZG+hm1LBrCyoY0Be2NmZPi3/JtU8JkXUFHGgLJW4ejNS3PNAU
+   kJt46GZZWuHP8VvBucF5utmWlbVKHDYR5IBBdYSQgF6eB9XADRVA+cE7g
+   3Jhj+E2btVxh5D32EOa+TdsfucQNV5DmrpsUjUTT10gXE3huWEl6pRuPp
+   A==;
+X-CSE-ConnectionGUID: zFf2VAeJSDmWhPAONYY24w==
+X-CSE-MsgGUID: 7xgqSkgPTC+yiXsQ9TcNyg==
 X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; 
-   d="scan'208";a="278928772"
+   d="scan'208";a="214905374"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Oct 2025 08:55:29 -0700
-Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Oct 2025 08:55:19 -0700
+Received: from chn-vm-ex1.mchp-main.com (10.10.87.30) by
+ chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Thu, 9 Oct 2025 08:55:05 -0700
+ 15.1.2507.58; Thu, 9 Oct 2025 08:55:14 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
+ chn-vm-ex1.mchp-main.com (10.10.87.30) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.20; Thu, 9 Oct 2025 08:55:13 -0700
 Received: from che-lt-i64410lx.microchip.com (10.10.85.11) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Thu, 9 Oct 2025 08:54:57 -0700
+ 15.1.2507.58 via Frontend Transport; Thu, 9 Oct 2025 08:55:05 -0700
 From: Balamanikandan Gunasundar <balamanikandan.gunasundar@microchip.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
 CC: Eugen Hristev <eugen.hristev@linaro.org>, Chas Williams
@@ -71,11 +75,10 @@ CC: Eugen Hristev <eugen.hristev@linaro.org>, Chas Williams
 	<dan.scally+renesas@ideasonboard.com>, Tomi Valkeinen
 	<tomi.valkeinen@ideasonboard.com>, <linux-kernel@vger.kernel.org>,
 	<linux-media@vger.kernel.org>, <linux-atm-general@lists.sourceforge.net>,
-	<netdev@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	Balamanikandan Gunasundar <balamanikandan.gunasundar@microchip.com>
-Subject: [PATCH 13/18] media: microchip-isc: Store histogram data of all channels
-Date: Thu, 9 Oct 2025 21:22:46 +0530
-Message-ID: <20251009155251.102472-14-balamanikandan.gunasundar@microchip.com>
+	<netdev@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH 14/18] media: microchip-isc: fix histogram state initialization order
+Date: Thu, 9 Oct 2025 21:22:47 +0530
+Message-ID: <20251009155251.102472-15-balamanikandan.gunasundar@microchip.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251009155251.102472-1-balamanikandan.gunasundar@microchip.com>
 References: <20251009155251.102472-1-balamanikandan.gunasundar@microchip.com>
@@ -88,57 +91,33 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Store the histogram data for all 4 channels(R, B, GR, GB). The data of each
-channel is available on one interrupt. We need 4 interrupt cycles to get
-all four channels. Store all the channels in a 2D array. This data is later
-passed to the application buffer when it requests for a dequeue.
+From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
 
-Signed-off-by: Balamanikandan Gunasundar <balamanikandan.gunasundar@microchip.com>
+Move hist_stat assignment before profile update to ensure histogram state
+is properly set when update_profile triggers register writes. This prevents
+race conditions during histogram initialization.
+
+Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
 ---
- drivers/media/platform/microchip/microchip-isc-base.c  | 2 +-
- drivers/media/platform/microchip/microchip-isc-stats.c | 2 +-
- drivers/media/platform/microchip/microchip-isc.h       | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ drivers/media/platform/microchip/microchip-isc-base.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/drivers/media/platform/microchip/microchip-isc-base.c
-index e9bd191f042b..6651be6fcb57 100644
+index 6651be6fcb57..e9f14de7ae32 100644
 --- a/drivers/media/platform/microchip/microchip-isc-base.c
 +++ b/drivers/media/platform/microchip/microchip-isc-base.c
-@@ -1225,7 +1225,7 @@ static void isc_hist_count(struct isc_device *isc, u32 *min, u32 *max)
- 	struct regmap *regmap = isc->regmap;
- 	struct isc_ctrls *ctrls = &isc->ctrls;
- 	u32 *hist_count = &ctrls->hist_count[ctrls->hist_id];
--	u32 *hist_entry = &ctrls->hist_entry[0];
-+	u32 *hist_entry = &ctrls->hist_entry[ctrls->hist_id][0];
- 	u32 i;
+@@ -275,10 +275,10 @@ static void isc_set_histogram(struct isc_device *isc, bool enable)
+ 			     ISC_HIS_CTRL_EN);
+ 		regmap_write(regmap, ISC_INTEN, ISC_INT_HISDONE);
+ 		ctrls->hist_id = ISC_HIS_CFG_MODE_GR;
++		ctrls->hist_stat = HIST_ENABLED;
+ 		isc_update_profile(isc);
+ 		regmap_write(regmap, ISC_CTRLEN, ISC_CTRL_HISREQ);
  
- 	*min = 0;
-diff --git a/drivers/media/platform/microchip/microchip-isc-stats.c b/drivers/media/platform/microchip/microchip-isc-stats.c
-index d7813c9d95ac..1f3d1ea75005 100644
---- a/drivers/media/platform/microchip/microchip-isc-stats.c
-+++ b/drivers/media/platform/microchip/microchip-isc-stats.c
-@@ -298,7 +298,7 @@ static void isc_stats_fill_data(struct isc_stats *stats,
- 
- 	/* Copy existing histogram data from AWB work function */
- 	for (c = 0; c < HIST_BAYER; c++) {
--		memcpy(pbuf->hist[c].hist_bins, isc->full_hist_data[c],
-+		memcpy(pbuf->hist[c].hist_bins, &isc->ctrls.hist_entry[0][c],
- 		       sizeof(pbuf->hist[c].hist_bins));
- 
- 		pbuf->hist[c].hist_min = ctrls->hist_minmax[c][HIST_MIN_INDEX];
-diff --git a/drivers/media/platform/microchip/microchip-isc.h b/drivers/media/platform/microchip/microchip-isc.h
-index 35dfd2501ea2..fcb20669ef69 100644
---- a/drivers/media/platform/microchip/microchip-isc.h
-+++ b/drivers/media/platform/microchip/microchip-isc.h
-@@ -151,7 +151,7 @@ struct isc_ctrls {
- 	u32 gain[HIST_BAYER];
- 	s32 offset[HIST_BAYER];
- 
--	u32 hist_entry[HIST_ENTRIES];
-+	u32 hist_entry[HIST_BAYER][HIST_ENTRIES];
- 	u32 hist_count[HIST_BAYER];
- 	u8 hist_id;
- 	u8 hist_stat;
+-		ctrls->hist_stat = HIST_ENABLED;
+ 	} else {
+ 		regmap_write(regmap, ISC_INTDIS, ISC_INT_HISDONE);
+ 		regmap_write(regmap, ISC_HIS_CTRL + isc->offsets.his,
 -- 
 2.34.1
 
