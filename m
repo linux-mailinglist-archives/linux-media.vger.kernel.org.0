@@ -1,194 +1,148 @@
-Return-Path: <linux-media+bounces-44040-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44041-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49B54BC7446
-	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 05:05:53 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 33F54BC7681
+	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 07:12:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 320B8189B63F
-	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 03:06:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2E9D2189BD7D
+	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 05:13:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3803A216E23;
-	Thu,  9 Oct 2025 03:05:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC67225D1F7;
+	Thu,  9 Oct 2025 05:12:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ND241/W6"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E4e7agll"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B2A212B2F
-	for <linux-media@vger.kernel.org>; Thu,  9 Oct 2025 03:05:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 761B025D202
+	for <linux-media@vger.kernel.org>; Thu,  9 Oct 2025 05:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759979144; cv=none; b=W+gOaPxbUbvM9bAzL32iWTw4xroaswWW7yrciqPQiBVqeUad19Ttqd+voyDJKGgv4fBR0oz+HjapJNjGDjjNZg8fq3Dkq+O8umweWbpQmgNkogWcyRNIuGsqlutj0XETRBoy6MFkZEjEZkd2O7hK9Qi43KRRvDPNgJNwzJ+89vw=
+	t=1759986746; cv=none; b=EncskEdm2iOjPXFRLanxH0o298XiiGJkFZ3jZDp73ZOZrjKuK83E/Xd8YcRixWzxoAfjq6vsAjzAog79zJ7q2Ac7bzdZA1j1cqMi9EwntugOH+dmPZh6JD8n5hMLV3Jpr/jDEAIZuJx099o1CkPnwXw2GwgCVJhmde/XcWidcT8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759979144; c=relaxed/simple;
-	bh=adDtwrABqJItP/LyGiv+12nt0zW4ItDbkMVAAXVZyZs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pne+bTtfrieVQW9QiIZuQBsLcf+7ozxGaOkuRhP40xi08+DXHX8VPIOcXcmUkzrhijqlRHInljNFsb5Mc57k7isQRj2EvCeVzWp+QT78g3ZqggFuX7CZMVbcf+XrN2c9yEHO74r2/3FF06oY0yoNgsOcdKMq7peMVWoVttqCfAA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ND241/W6; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598I5dKK013793
-	for <linux-media@vger.kernel.org>; Thu, 9 Oct 2025 03:05:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	maw0nAtOoBVHhqJ9ExerU0/ECtcBryU6vpXt6hYX7LY=; b=ND241/W6roZpTLMY
-	8lUSgg8HBk+LobuHZI6DurU0YtpM1lVcdu49kvkvHfia6vg8KMA8LTNv3d3fLoPv
-	aPzhoQTGWwc48lgdBV8VZdRWVP7PV9IAXi4Sis6ZiHTejJG/NeQRhTOz9AL1aQ3O
-	VupH+Bq11JzqA/S/qA7U6ibACD0C7zXGqjrDNT+2JZH8SeAHUoZoKmFtznMRFeQV
-	Mdl95/Z6iEk/6mIGhBvYshkpFOJq2xEZh3TOyWpFiWxj50RQDZZoO82QHiQ7kRj7
-	pVKCNC5sVxd/HpRbB3TuKdunx8/LE7v9Gng5KMFxvZpnMwOjpWskaXCg6VHdYJiv
-	KTmPdQ==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4j195p-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 09 Oct 2025 03:05:42 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-277f0ea6fc6so18018705ad.2
-        for <linux-media@vger.kernel.org>; Wed, 08 Oct 2025 20:05:42 -0700 (PDT)
+	s=arc-20240116; t=1759986746; c=relaxed/simple;
+	bh=g69ct24MmjxArPvb4htIE2j+DUcuAxYXbKaKt9nNwNo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J22c/Z2NJWU4kJD/MOl6cHFm0zvzba45lpe+sH6vtXBntB9ZFLhrC3vNOWEvbmmJ79JEWyplBVqXeYaAOtNOetyHKwFXL4eYjzW0DByt1PXJPcWYl3Pr5L95EYCI0CMQClXG2IlvZIn582sxz4lnmUdUO3RoSs0BRajquDWiWLc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E4e7agll; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3ee12332f3dso549811f8f.2
+        for <linux-media@vger.kernel.org>; Wed, 08 Oct 2025 22:12:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1759986743; x=1760591543; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=MAc4vwDFuA0RvRFYPmaQPlYUcz1xA/Dd48r7PtXPvic=;
+        b=E4e7agllQnLM6hFBvGfLWoi/8M+39pIb1nkfi5LO3p+AxVNHgLR3GbCculbNlqweyb
+         4csUgn9whveHADhFW0tUQM9mCbCOcCK6H6q7uInewWjCoOXIqxDYzSO5FyOYIadOWBBC
+         9PyZ467fiM+2RJUi0rrIUTwVkf+QbHnmn+EXvQUjbwD4XHDRN+fO/VmWhunTjNK3ZZLG
+         0P72nmZo1zatv4WJd+GMDiFFNY33N/KbfJG/7KB4nEJe4HSU7+GKkVWy+SEwTa6FQORx
+         Ye+hZboIXtSW8y7MHp5jrGq1aKr7qk0EGQch15JzDrYsq6Le0rMB1csCg0FvPfyJktNT
+         Tjug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759979141; x=1760583941;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=maw0nAtOoBVHhqJ9ExerU0/ECtcBryU6vpXt6hYX7LY=;
-        b=D9yAPcpcf9oxstuyEuarpENVwIkh63A0SzqyYi/qO57CTQEvBvByH2Gx/QNJgUESF2
-         2vyofqPsK7t2nvbpzvLM8g+lweGhNF48kCLpvtuJXsro4ncA8Enx9qdhkyV0OJJX60OV
-         tzGzxB4jIkagZoFHvpdnOLfrxpBHhjz3LcHc8JJQRuNWbAiEUZWsA04/Hf186zfa4nMX
-         Ioy257FO420hdTUuY7Az4Xe7FDq9MLv6N5CSFunRdd8BNh2XFHsR/GNGnt5dMRHkVAkR
-         1Uz+/dLzYH9g1PP4GbQtaX/Ah2q/iKHuLltigkXx+S93Zduzw7DQVUgfOX5i+U46dSp1
-         kSVg==
-X-Forwarded-Encrypted: i=1; AJvYcCWsqFVar1NUTwhHp4TxKLV0r8k4DjYOQ9+NorDCf1tkRkZsjAyU55oYd1210J2MoTt3A1F2uZ0r6EuU9w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyC4EDgpirMDvPI543ft8rJgurnEaE7W+uNJchxr+1k0uCdje2N
-	2bDtJMCwClvymMlwobkUDS1XuFvu+4ShdcpcppVSkc+DdoFXSn1m2e+lfIe2TWSmyaOLRB1gQiZ
-	afyOWDgmxsjp/04laK4MXUgGiFAGb6dT/KysR5mNEdOwcyL1/z+QWYC+RrHE5yig5Og==
-X-Gm-Gg: ASbGnctTNALmgp3HpKGJVq83LtO9ZKo15LUK59HzsTiFLhvSSeIQQ2N0tGpUNdneFb5
-	n1/RfQLiWarP9KqmdPGh61Uf43BuKVp2TvDbVJxkAXHSodKbuXGzYH257nz18g+HmruTbarQ8TZ
-	+OPkAx9jObAVpR1FHGfXkEBGSOkryj1gzIrjEUn5mAaHFlqflGx04Lyllm8zymAMplszEyQ/UQW
-	xNe5DaNDORZ0uPwaZ3a8DNq26H29YoT9FEKKUacCmK6o+GsBgP35FCJP2DIr4v9QlAKV43KKM5K
-	hoclRrJdPPChvvlokhbiRhNu5LyR+OeFyaulakPrRWQBFbGogYPcS5SAWce3sgV51+wUaQF9qJF
-	p9z5b
-X-Received: by 2002:a17:903:37c3:b0:269:a4ed:13c9 with SMTP id d9443c01a7336-290273ee214mr75265245ad.30.1759979141306;
-        Wed, 08 Oct 2025 20:05:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEnBY9dBUVR4JO7ffBEWJAcyiS5SqEqUqPfk7J2CB3UN/A0lC50/P3L8vjezocgdBSm41IWow==
-X-Received: by 2002:a17:903:37c3:b0:269:a4ed:13c9 with SMTP id d9443c01a7336-290273ee214mr75264785ad.30.1759979140837;
-        Wed, 08 Oct 2025 20:05:40 -0700 (PDT)
-Received: from [192.168.0.166] ([49.205.248.131])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f56c04sm11854475ad.110.2025.10.08.20.05.35
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 08 Oct 2025 20:05:39 -0700 (PDT)
-Message-ID: <1151394a-5f76-5ba8-bd5b-0635a9a57be6@oss.qualcomm.com>
-Date: Thu, 9 Oct 2025 08:35:33 +0530
+        d=1e100.net; s=20230601; t=1759986743; x=1760591543;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=MAc4vwDFuA0RvRFYPmaQPlYUcz1xA/Dd48r7PtXPvic=;
+        b=ZvMDOKQWvhb49kniJOnUSAIhEcVtyoav1DeQzk0Wb0Y3O7yXALxgUyAoTtjGm1cGa/
+         SNFXQK1/vOOX1XFd3wUKEu688I56LFQ8ytYQxbzYMG5HZImF6CIU9DUV5K/M192tvzmJ
+         U/0FWoz8gS73eGU7aMAGmOik0MyokKRCNP6FhAPfyloXvAK3nvPEO0EQpr45Gb37XGIs
+         tJ9SSqzpK3wFNBCtkkakErDkDHik4o2iiEWsmcL9i6GP3pz/NULFIbUtQr1OJC3DtUpz
+         /qt4hRCPfLIHB6fyuqY0ig6V17Ap0nyHCCETjL4mTeuIYMqLTGqi8Kv7Huj2GTUK0PeO
+         oo/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWmR9/VM3ug+FaPlhNUn9lqQYMqrEJXGx6qwblU1V38S+pMY/15sWVvS3zfDT81beXz/23yGs+Frop8OQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxF+sfHC6/SpWPHjOSvrM8vde94k3xPD/ldgYuVJn56st11BivJ
+	Hmdwswj8w383T5N6pezd3OqmEqWmu3BdFJvYCTUnWPkQPRSS3yYe61JkjuqmRf1e723gz2XtWGe
+	h6WR8s+YyzbZjRnxCKA+HWpxcx1lEe20=
+X-Gm-Gg: ASbGncsg1lBtzA6w8npeTxG0a8t5aVwCiztml4abgmY5AGGlg8pcf7jNvOi83mj5neO
+	GtbSy1MzLf+SL7KCnuW7vPnK/gAckom2GUlKOe5WrAXRnS8Z7IwTGvu39J9kACwE79X3tte1SBx
+	6yb8nDUc9cmAtiyxH11uOnMgZeuPenzLhWMiOj7CcZZV6YMQZJJSMUYXNYCVk40BPZTCp5PA0CC
+	3SfaEwWT7s01OLs9hYE3zYeA7vIqIpf
+X-Google-Smtp-Source: AGHT+IHEqPFGpsLkjdTJExInkzeCUrYeoBDzsTotN3s9CHFAoYRfgbeWdXnEHXE7zwgYrarYKck5hazoT/ajbub9quM=
+X-Received: by 2002:a05:6000:1a85:b0:3eb:60a6:3167 with SMTP id
+ ffacd0b85a97d-4266e8f7f02mr3364005f8f.32.1759986742670; Wed, 08 Oct 2025
+ 22:12:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [RFC PATCH 0/3] Introduce iommu-map-masked for platform devices
-Content-Language: en-US
-To: Rob Herring <robh@kernel.org>,
-        Charan Teja Kalla <charan.kalla@oss.qualcomm.com>
-Cc: joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
-        saravanak@google.com, conor+dt@kernel.org, mchehab@kernel.org,
-        bod@kernel.org, krzk+dt@kernel.org, abhinav.kumar@linux.dev,
-        dikshita.agarwal@oss.qualcomm.com, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-References: <20250928171718.436440-1-charan.kalla@oss.qualcomm.com>
- <CAL_JsqK9waZK=i+ov0jV-PonWSfddwHvE94Q+pks4zAEtKc+yg@mail.gmail.com>
-From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <CAL_JsqK9waZK=i+ov0jV-PonWSfddwHvE94Q+pks4zAEtKc+yg@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: rY5N6qcH_5XNHfdDU6w4Whf0mi-pkION
-X-Proofpoint-ORIG-GUID: rY5N6qcH_5XNHfdDU6w4Whf0mi-pkION
-X-Authority-Analysis: v=2.4 cv=f91FxeyM c=1 sm=1 tr=0 ts=68e72686 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=5kJkhVZBw43gkfrlxLPpYw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8
- a=EUspDBNiAAAA:8 a=sGZhk1M-rbKiZVnir_gA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=uG9DUKGECoFWVXl0Dc02:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX3brml9KdtHIo
- nNrsQDdnAhYn95wotIxlqOfBgqX7FZmmErORc9Nmikt+q4YyuOdJ2/LtIonDE+CyW//GynuPHhq
- dRMudY/FcCi6M+BoJE+W7r5IQjuCpGFfHw1SbK0U4j+MMA/hAKUwXVTSkCs44TeBLiXUMJWvImq
- lmrIb8fH+59aPEVyghmhgVcJGXNno4KjNUBqlZM0fqlq/oY3511BXPWxfNyfayDE0CM8RGAIbnb
- CPRah5KWdS/0tmRW08v9V13mKswznqEgMOqYNkU0KkTDkoOwR+xuxlczthoF3YZfqMBXbN2/yKQ
- bTDe9JcSC+Cg9bictkOV1PhomYZzdHMLWzjhVfoycrxpBLlkwS+d6ucV+Ud87Xa4Cu8AxcE620o
- PPQqm2MECL1mCqumbJie8vD3MISj4g==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-09_01,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 clxscore=1015 adultscore=0 priorityscore=1501 malwarescore=0
- suspectscore=0 lowpriorityscore=0 impostorscore=0 bulkscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
+References: <20251008073046.23231-1-clamor95@gmail.com> <20251008073046.23231-12-clamor95@gmail.com>
+ <20251008-craving-composite-81aa70b6e882@spud>
+In-Reply-To: <20251008-craving-composite-81aa70b6e882@spud>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Thu, 9 Oct 2025 08:12:11 +0300
+X-Gm-Features: AS18NWCooDACEZg9v1dc4kKxxOAalz7xHeMkJMNqgQiJE_XE0BU4PgbUW_JYKFI
+Message-ID: <CAPVz0n1OEA=WHTzBtVBLQ=6vTAwG_uP1tC3Vbrb67wZDUtyVYA@mail.gmail.com>
+Subject: Re: [PATCH v4 11/24] dt-bindings: display: tegra: document Tegra132
+ MIPI calibration device
+To: Conor Dooley <conor@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Thierry Reding <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>, 
+	Sowjanya Komatineni <skomatineni@nvidia.com>, Luca Ceresoli <luca.ceresoli@bootlin.com>, 
+	Prashant Gaikwad <pgaikwad@nvidia.com>, Michael Turquette <mturquette@baylibre.com>, 
+	Stephen Boyd <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>, 
+	Dmitry Osipenko <digetx@gmail.com>, Charan Pedumuru <charan.pedumuru@gmail.com>, 
+	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling <webgeek1234@gmail.com>, 
+	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org, 
+	linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+=D1=87=D1=82, 9 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 00:14=
+ Conor Dooley <conor@kernel.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Wed, Oct 08, 2025 at 10:30:33AM +0300, Svyatoslav Ryhel wrote:
+> > Document MIPI calibration device found in Tegra132.
+>
+> Could you explain why a fallback is not suitable? The patchset is really
+> too big for me to trivially check that the change is correct.
 
-On 9/29/2025 1:53 AM, Rob Herring wrote:
-> On Sun, Sep 28, 2025 at 12:17 PM Charan Teja Kalla
-> <charan.kalla@oss.qualcomm.com> wrote:
->>
->> This series introduces a new iommu property called iommu-map-masked(may
->> be there is a better name), which is used to represent the IOMMU
->> specifier pairs for each function of a __multi-functional platform
->> device__, where each function can emit unique master id(s) that can be
->> associated with individual translation context.
->>
->> Currently, the iommu configuration - at least for arm architecture-
->> requires all the functions of a platform device will be represented
->> under single dt node thus endup in using only a single translation
->> context.
->>
->> A simple solution to associate individual translation context for each
->> function of a device can be through creating per function child nodes in
->> the device tree, but dt is only to just represent the soc layout to
->> linux kernel.
->>
->> Supporting such cases requires a new iommu property called,
->> iommu-map-masked(taking cue from iommu-map for pci devices) and syntax
->> is:
->>    iommu-map-masked = <FUNCTION_ID1 &iommu ID1 MASK1>,
->>                       <FUNCTION_ID2 &iommu ID2 MASK2>;
->> NOTE: As an RFC, it is considered that this property always expects 4
->> cells.
->>
->> During the probe phase of the driver for a multi-functional device
->> behind an IOMMU, a child device is instantiated for each FUNCTION_ID.
->> The call to of_dma_configure_id() on each child sets up the IOMMU
->> configuration, ensuring that each function of the device is associated
->> with a distinct translation context.
->>
->> This property can also be used in association with 'iommus=' when dt
->> bindings requires the presence of 'iommus=', example[2]. For these
->> cases, representation will be(on arm64):
->>    iommus = <&iommu sid mask>; //for default function.
->>    iommu-map-masked = <FUNCTION_ID &iommu sid mask>;//additional
->> function.
-> 
-> Where does the FUNCTION_ID value come from?
-> 
-> Why can't you just have multiple "iommus" entries where the index
-> defines the default and any FUNCTION_ID entries? What's in each index
-> is specific to the device.
+First of all, this compatible already exists in Linux kernel, I have
+just documented it to satisfy warnings. Secondly, each Tegra SoC
+generation has unique set of registers which should be configured.
+They all differ, hence fallback is not suitable here.
 
-Are you trying to suggest something like this [1] ? I am not sure, if extending
-the iommus would get us "unique" devices where those SIDs (from different
-function_id) can be associated with respective device. AFAIU, existing iommus
-entries associates all of them in same device.
-
-[1]
-https://lore.kernel.org/linux-media/9bae595a-597e-46e6-8eb2-44424fe21db6@linaro.org/
-
-Regards,
-Vikash
-> 
-> Rob
+> With an explanation,
+> Acked-by: Conor Dooley <conor.dooley@microchip.com>
+>
+> >
+> > Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> > ---
+> >  .../devicetree/bindings/display/tegra/nvidia,tegra114-mipi.yaml  | 1 +
+> >  1 file changed, 1 insertion(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/display/tegra/nvidia,teg=
+ra114-mipi.yaml b/Documentation/devicetree/bindings/display/tegra/nvidia,te=
+gra114-mipi.yaml
+> > index 193ddb105283..9a500f52f01d 100644
+> > --- a/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-m=
+ipi.yaml
+> > +++ b/Documentation/devicetree/bindings/display/tegra/nvidia,tegra114-m=
+ipi.yaml
+> > @@ -18,6 +18,7 @@ properties:
+> >      enum:
+> >        - nvidia,tegra114-mipi
+> >        - nvidia,tegra124-mipi
+> > +      - nvidia,tegra132-mipi
+> >        - nvidia,tegra210-mipi
+> >        - nvidia,tegra186-mipi
+> >
+> > --
+> > 2.48.1
+> >
 
