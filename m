@@ -1,55 +1,48 @@
-Return-Path: <linux-media+bounces-44059-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44060-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9713BBC836D
-	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 11:11:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 107F5BC8388
+	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 11:11:58 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 78DCD4EB012
-	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 09:11:05 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D218A4F773F
+	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 09:11:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1BA112D6409;
-	Thu,  9 Oct 2025 09:09:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1FEBF2D5A0C;
+	Thu,  9 Oct 2025 09:11:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="m/mU67td"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gSzFs/fM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23F162D3EEB;
-	Thu,  9 Oct 2025 09:09:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 696232D4816;
+	Thu,  9 Oct 2025 09:11:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760000998; cv=none; b=sPi7Xvwz3LD3ikHRQUbn4rikSoWPboJHP5EmJ3p81OOu32Y469SAxC98HzL9agNv4ZJ0wxfy+VwWcAlqQ24EuScb62pYBqL2tTBSwA9YuG59x0UbRRd8QRXLdisnlPdWRCfYEAP9sWuGIUnqq073NjnotbYWrhmgTd2ixVhCenY=
+	t=1760001084; cv=none; b=nJHA11vQ6Ctcrpty/oXeg7m9dRZtHp/qgoQ4KetKGXdjSP2vNDTvHmoqfIpjEPASaa3mczhNs5ALX9guIxg2AMiDvMjS70zZ3DoFULarWh5+Ghyt5PUpErRLye80A5ilAMeWEtC512JT5eJdnMgtK41Y407QnApwkRa74Fz9k9Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760000998; c=relaxed/simple;
-	bh=AcqsttLfCgUKRY2r8lxvg8B5ELVPZ326fY9rGZgWLBk=;
+	s=arc-20240116; t=1760001084; c=relaxed/simple;
+	bh=Iot5EMmXTHoc/N/PLOuas5qaO8L0GuL9b3r5UvjGuKo=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VpTAi96kuGip5HaZC0E6yiwj6p/7LcIyOy1uJ0uKVfpBceYy+VpKGqqfsO9EDKRFOAUDZo5YuU0zn4gNV3KAZGx9CtKoQIht+mNd9ri4xxYKlWhPuXAEzO4bPFQ96vAqdEeIAhwPiSj4tjq+kzEivSyIOB848rkDgHhUUEc0Vjo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=m/mU67td; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1760000994;
-	bh=AcqsttLfCgUKRY2r8lxvg8B5ELVPZ326fY9rGZgWLBk=;
+	 In-Reply-To:Content-Type; b=Z1D6bHsVhHm6jzmrkQ6Ebc30StPr1F0fdsG9r8D+ZMUVE0n4rmdfnYDEAOCXTkOqeuh0/GHl6h7D2eNVwlHIh6ZKK5T1s39gXAmlMBOJmLMD18q0JPn8cSNcbplNFDsMa3FHtKOE++DZnxRWQvKelCOqHZwj8rZFuJVM4QrSp7E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gSzFs/fM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8197C4CEE7;
+	Thu,  9 Oct 2025 09:11:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760001084;
+	bh=Iot5EMmXTHoc/N/PLOuas5qaO8L0GuL9b3r5UvjGuKo=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=m/mU67tdjO3bz+vCLFSWfRxnNfwPHSAIihfAM8Vx/4cXTKE9Gwv5OyV7SsQ/uPFj4
-	 sBs/NevXn8898ySOSvA1whDo/gxDWzOBnMpnxC6Grb51YuaI2Rf1G/d1GvoTp6XaIP
-	 tMEBsH/6tNzydUa4b49Q5VRDA5YT7hqcSbHZXm5cS94ZiwKrCGIiTjBLUVlEwQOtJl
-	 oi3dCJKUItFpqsEYUSOB5/M0GZTzD9KOz2UCAmVQWcy/bAbt2wR9LbLTiY3O90rhfF
-	 w2bqDRewhtokrF2Q9EZwlMBuDxRf9dXMGy1ZHmcraumPgrUVX/1z91D83pcHMEP7qU
-	 Grz/Igl6rgLWg==
-Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1EC2B17E1060;
-	Thu,  9 Oct 2025 11:09:53 +0200 (CEST)
-Message-ID: <ed05be87-b1c5-4a73-8e68-521075eb080c@collabora.com>
-Date: Thu, 9 Oct 2025 11:09:52 +0200
+	b=gSzFs/fMb4dy+YJevpZXQkV4tmzzTQcXahRIPCI4zeugaqdchr5tEjevYwqb+u5sx
+	 q1NnqtCNn0Y+RU2dX035hz1Hzl0rrzZG4+9mS/JXjo8Bt7DOJZf3DbK/clasTJOh4O
+	 CP4lSSOpzbj4sAFhgKau95EuYjEFCdEcQAdGEDR788OqZedOscHf+z9QIhAsPxSPFV
+	 ntD7lNXkEAxjJ/ELVvl/0ene5uoXpbiaoQ6HmWxCIRmbs59idAd8RAVGq7g2Vx149K
+	 fgjPvtPZn3qikFBd2bHLHgJzXudYKaaKxnDfcYNjp3qIbi7fNYXtY3dCU9no080mAi
+	 H/yoaahOD7myw==
+Message-ID: <e15f156c-cb38-4566-b275-ba156a7b598d@kernel.org>
+Date: Thu, 9 Oct 2025 18:11:13 +0900
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,247 +50,113 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 05/17] media: dt-bindings: add rockchip rk3568 mipi
- csi-2 receiver
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
+Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
+ node
+To: Bryan O'Donoghue <bod@kernel.org>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Markus Elfring <Markus.Elfring@web.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Kever Yang <kever.yang@rock-chips.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Collabora Kernel Team <kernel@collabora.com>,
- Paul Kocialkowski <paulk@sys-base.io>,
- Alexander Shiyan <eagle.alexander923@gmail.com>,
- Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
- Bryan O'Donoghue <bod@kernel.org>
-References: <20240220-rk3568-vicap-v11-0-af0eada54e5d@collabora.com>
- <20240220-rk3568-vicap-v11-5-af0eada54e5d@collabora.com>
- <aOVxcQV-8c9m6Stg@kekkonen.localdomain>
+ Charan Teja Kalla <charan.kalla@oss.qualcomm.com>,
+ Bryan O'Donoghue <bod.linux@nxsw.ie>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
+ <4d87d1ca-55b2-426e-aa73-e3fd8c6fe7bd@kernel.org>
+ <10a8ccda-4e27-4b06-9a0e-608d6ade5354@nxsw.ie>
+ <4cb4a92d-2f20-47c7-881e-aadcc6f83aa0@kernel.org>
+ <1516f21e-aee3-42cf-b75e-61142dc9578d@oss.qualcomm.com>
+ <9bae595a-597e-46e6-8eb2-44424fe21db6@linaro.org>
+ <MMSKAu89Ew7StAeFBV442KfKNzmqbTSQ-maFG35Jr9d8PkUV2L4sx44R2DRevXA8mC45vkA398l2mvVzarZwew==@protonmail.internalid>
+ <bcfbf35b-69ed-4f39-8312-6a53123cd898@kernel.org>
+ <d46c0335-99d6-469f-a61f-aca4c851f745@kernel.org>
+ <GyrcG3qBN7c5C7ajCs3EV81hWvuaVbg64CpzQ-X3d_p6EauoiKxSoG2aOKE21-j12SWFjNDjV-kVSwYYqVm_lQ==@protonmail.internalid>
+ <a0dc93ec-e35c-409b-8dfb-1642c92a9f0c@kernel.org>
+ <98e6acf8-80d7-4894-b4ce-ce74660722ef@kernel.org>
+ <soFAWqHDNosrZui972Ip7EvMCfB6tepD-HxHkc17RKmilPJpQZjMzni9LmMOpvKumHqFEibe5FdNkkJG8DKlcw==@protonmail.internalid>
+ <5085c857-f6e8-4faf-b61a-a9ee562ccf06@kernel.org>
+ <7ba3953a-166f-4c67-8f54-666b0c488b12@kernel.org>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <aOVxcQV-8c9m6Stg@kekkonen.localdomain>
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <7ba3953a-166f-4c67-8f54-666b0c488b12@kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Sakari,
-
-On 10/7/25 22:00, Sakari Ailus wrote:
-> Hi Michael,
+On 09/10/2025 17:38, Bryan O'Donoghue wrote:
+> On 09/10/2025 02:04, Krzysztof Kozlowski wrote:
+>>> The iommu description for this platform basically lacks the data that
+>>> _should_ be there -> FUNCTION_ID.
+>> No. The index tells that already.
 > 
-> On Wed, Sep 17, 2025 at 05:38:45PM +0200, Michael Riesch via B4 Relay wrote:
->> From: Michael Riesch <michael.riesch@collabora.com>
->>
->> Add documentation for the Rockchip RK3568 MIPI CSI-2 Receiver.
->>
->> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
->> Reviewed-by: Bryan O'Donoghue <bod@kernel.org>
->> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
->> ---
->>  .../bindings/media/rockchip,rk3568-mipi-csi.yaml   | 144 +++++++++++++++++++++
->>  MAINTAINERS                                        |   6 +
->>  2 files changed, 150 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi.yaml b/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi.yaml
->> new file mode 100644
->> index 000000000000..8cbab93b4b85
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi.yaml
->> @@ -0,0 +1,144 @@
->> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/rockchip,rk3568-mipi-csi.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Rockchip RK3568 MIPI CSI-2 Receiver
->> +
->> +maintainers:
->> +  - Michael Riesch <michael.riesch@collabora.com>
->> +
->> +description:
->> +  The Rockchip RK3568 MIPI CSI-2 Receiver is a CSI-2 bridge with one input port
->> +  and one output port. It receives the data with the help of an external
->> +  MIPI PHY (C-PHY or D-PHY) and passes it to the Rockchip RK3568 Video Capture
->> +  (VICAP) block.
->> +
->> +properties:
->> +  compatible:
->> +    oneOf:
->> +      - items:
->> +          - enum:
->> +              - rockchip,rk3588-mipi-csi
->> +          - const: rockchip,rk3568-mipi-csi
->> +      - const: rockchip,rk3568-mipi-csi
->> +
->> +  reg:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    items:
->> +      - description: Interrupt that signals changes in CSI2HOST_ERR1.
->> +      - description: Interrupt that signals changes in CSI2HOST_ERR2.
->> +
->> +  interrupt-names:
->> +    items:
->> +      - const: irq1
->> +      - const: irq2
->> +
->> +  clocks:
->> +    maxItems: 1
->> +
->> +  phys:
->> +    maxItems: 1
->> +    description: MIPI C-PHY or D-PHY.
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description: Input port node. Connect to e.g., a MIPI CSI-2 image sensor.
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: video-interfaces.yaml#
->> +            unevaluatedProperties: false
->> +
->> +            properties:
->> +              bus-type:
->> +                enum: [1, 4]
->> +
->> +              data-lanes:
->> +                minItems: 1
->> +                maxItems: 4
->> +
->> +            required:
->> +              - bus-type
->> +              - data-lanes
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/properties/port
->> +        description: Output port connected to a RK3568 VICAP port.
+> Hmm.
+>>> The rule is that the DT should really describe the hardware right ?
+>> It already does. Same as I wrote on IRC, DT already has all the
+>> information. Entry 0 has function ID-foo. Entry 1 has function ID-bar.
+>> Entry 2 has function ID-bar or whatever.
 > 
-> As the VICAP port appears to be a DVP/Bt.565 receiver, also this output can
-> presumably be connected elsewhere, too.
+> That's the part I don't believe is true its a 1:Many relationship 
+> between FUNCTION_ID:SIDs
+> 
+> Let me check the docs...
+> 
+> Here's the example I gave on IRC for lore
+> 
+> SID 0x1940 maps to AC_VM_HLOS (Linux)
+> SID 0x1941 maps to AC_VM_CP_BITSTREAM - protected bitstream
+> SID 0x1945 maps to AC_WM_CP_BITSTREAM
+> 
 
-Not quite. One VICAP port is the DVP (and can receive BT.656, amongst
-others), but there may be one or more ports that are connected to the
-MIPI CSI-2 receiver(s). See the VICAP binding.
-
-> Either way, aren't signal polarity or sampling related properties relevant
-> here, too, and perhaps more so for the VICAP bindings?
-
-No, I don't think so. This is some internal HW connection. No idea how
-Rockchip glued the MIPI CSI-2 receiver(s) to the corresponding VICAP
-port(s), and there is nothing one could tweak or adjust or configure...
+I responded to this on IRC... Nothing proves here that 1:many cannot be
+done.
 
 Best regards,
-Michael
-
-> See e.g.
-> Documentation/devicetree/bindings/media/allwinner,sun4i-a10-csi.yaml .
-> 
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  resets:
->> +    maxItems: 1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - clocks
->> +  - phys
->> +  - ports
->> +  - power-domains
->> +  - resets
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    #include <dt-bindings/clock/rk3568-cru.h>
->> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
->> +    #include <dt-bindings/media/video-interfaces.h>
->> +    #include <dt-bindings/power/rk3568-power.h>
->> +
->> +    soc {
->> +        interrupt-parent = <&gic>;
->> +        #address-cells = <2>;
->> +        #size-cells = <2>;
->> +
->> +        csi: csi@fdfb0000 {
->> +            compatible = "rockchip,rk3568-mipi-csi";
->> +            reg = <0x0 0xfdfb0000 0x0 0x10000>;
->> +            interrupts = <GIC_SPI 8 IRQ_TYPE_LEVEL_HIGH>,
->> +                         <GIC_SPI 9 IRQ_TYPE_LEVEL_HIGH>;
->> +            interrupt-names = "irq1", "irq2";
->> +            clocks = <&cru PCLK_CSI2HOST1>;
->> +            phys = <&csi_dphy>;
->> +            power-domains = <&power RK3568_PD_VI>;
->> +            resets = <&cru SRST_P_CSI2HOST1>;
->> +
->> +            ports {
->> +                #address-cells = <1>;
->> +                #size-cells = <0>;
->> +
->> +                csi_in: port@0 {
->> +                    reg = <0>;
->> +
->> +                    csi_input: endpoint {
->> +                        bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
->> +                        data-lanes = <1 2 3 4>;
->> +                        remote-endpoint = <&imx415_output>;
->> +                    };
->> +                };
->> +
->> +                csi_out: port@1 {
->> +                    reg = <1>;
->> +
->> +                    csi_output: endpoint {
->> +                        remote-endpoint = <&vicap_mipi_input>;
->> +                    };
->> +                };
->> +            };
->> +        };
->> +    };
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 4c39b9fd80bb..2ac4b7a5b255 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -21797,6 +21797,12 @@ F:	Documentation/userspace-api/media/v4l/metafmt-rkisp1.rst
->>  F:	drivers/media/platform/rockchip/rkisp1
->>  F:	include/uapi/linux/rkisp1-config.h
->>  
->> +ROCKCHIP MIPI CSI-2 RECEIVER DRIVER
->> +M:	Michael Riesch <michael.riesch@collabora.com>
->> +L:	linux-media@vger.kernel.org
->> +S:	Maintained
->> +F:	Documentation/devicetree/bindings/media/rockchip,rk3568-mipi-csi.yaml
->> +
->>  ROCKCHIP RK3568 RANDOM NUMBER GENERATOR SUPPORT
->>  M:	Daniel Golle <daniel@makrotopia.org>
->>  M:	Aurelien Jarno <aurelien@aurel32.net>
->>
-> 
-
+Krzysztof
 
