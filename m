@@ -1,140 +1,163 @@
-Return-Path: <linux-media+bounces-44049-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44050-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id D25C6BC794E
-	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 08:50:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7BF6DBC7989
+	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 08:56:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C2AE44EC571
-	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 06:50:44 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5323A4F4300
+	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 06:56:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24E552D0267;
-	Thu,  9 Oct 2025 06:50:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B9062D0602;
+	Thu,  9 Oct 2025 06:55:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mjiuAZ7F"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="MYFsdviU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
+Received: from mail-lf1-f45.google.com (mail-lf1-f45.google.com [209.85.167.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E08D21EA7D2
-	for <linux-media@vger.kernel.org>; Thu,  9 Oct 2025 06:50:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26DC519047A
+	for <linux-media@vger.kernel.org>; Thu,  9 Oct 2025 06:55:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759992638; cv=none; b=SNAaYqBidrzRfwmTXJgLvV8bRWPP2B4dprMreQkFSssHG87h7zZGfdcKDIKZEP/un+yrNJo7WrGdKHjpm58gKMkZTKvTJ4CYYgV+19c4LQwYOnTTIGtHBHUQIfKkgvkVlOY2AD0RKbLfxADpSg3zrMD8k++MAHiFLyzNlml54b0=
+	t=1759992958; cv=none; b=QT64u0DPfP1FAgvF1uYatfaGNM/3JON09BquwWaPBi9fa/JKznmLR3brjQYJrtT/sUUP21KdtmX+7DG1vYeIrMHbKqNOO/l7QBx8dD9WxV7brOaz7sPcl+RtNQb3Us1lGGKj7FcPEBbhh0JDhxrZIPwPRNnX/cEUtYPmljcrs5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759992638; c=relaxed/simple;
-	bh=EjW0hP5FbYNYPJ9yWAHL7ZiHj76ewphEw9EXSJMEoCM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=UhjK0Pn6FZmo6teYft+qfs8z59PMRwsHQWtcYpa+ggjzj3jUNYcBVduMmvqr8jSVE6FzaWul0Qxn7214O6KGCNtZZR+DtvL4oFmZJPZGUXAyXsDXBkS7E+BQAGN9ESrxNKyiiBCv6GhxY66HuBx0f0iS7Sa+Dh9IKiQvrW2iW5Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mjiuAZ7F; arc=none smtp.client-ip=209.85.208.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-6394b4ff908so1075037a12.3
-        for <linux-media@vger.kernel.org>; Wed, 08 Oct 2025 23:50:36 -0700 (PDT)
+	s=arc-20240116; t=1759992958; c=relaxed/simple;
+	bh=bL8yGAY+yC/fJM3mQOEJxhjHU9NM9bLCYt2JkSij1+M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hbKKsDXzE/WL7bTE2K24iGZvVwWMXqG+17Bn2FCxYXAnJmInlIc/opCVhtJr1k2yH64wmlP/C8vhp69ZA2s4RjN0VJOvcTZKLB3RmZikvnscODCfdm8JQRakk3xPUuVRAxf/aQBu77nzZXrcCoP2bfSx6q3ISqm3I8eFqS/1y4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=MYFsdviU; arc=none smtp.client-ip=209.85.167.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-57b8fc6097fso698631e87.1
+        for <linux-media@vger.kernel.org>; Wed, 08 Oct 2025 23:55:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1759992635; x=1760597435; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9K3jcLU+F0b0kSwu1qTzDutZ00flbA5j0Seew04z2kw=;
-        b=mjiuAZ7F62xpXe3On81FutKyYLhKQhJGETFIepDi56Ni2YuM+HLEklHiIIWFPQBvCx
-         ZSFBb8KBLL259r19b99neKPHtpmc68FScDtiNOWqOxqcTq6qe2IEu2cY/eB1izGX/365
-         jovJfOqr9HKAZIdI/35KtrNqa2/1hWovRUuelmPhoonkGDs1yJxOJEkOSivIiTF09HTz
-         481aX2ENvo92pqUoAPmotnEkTryTPEakycWnOYczZIypgZKmhHKX8p6IebUBC5nLTUr2
-         gmy/wxeoQ/NM9rSs9+6KAXw93VljGyMZie/E9JWon6IwJ1PSn6DZ8hRGe17WVQpVSJ2/
-         3SOg==
+        d=chromium.org; s=google; t=1759992954; x=1760597754; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=u4ni4TTOgAgYqtC2qaw+7bRQCgY9vHSh+QRiaiZcYqA=;
+        b=MYFsdviUIcfBZrM2Xi5n2SOm3No+SV03Vys4mfJdMcx3SWd0M3GJTQLV1Tpgw0/DEB
+         QiUzPHx2RSWTdiWjCbzLm/ITUecCcmh8DUjFvMRZq/z2P1JoFbWegrxCCsFi2OorJP4g
+         5/P9mva5iAttaWDB5XlyjRuU7kLbKPUPWgMF0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1759992635; x=1760597435;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9K3jcLU+F0b0kSwu1qTzDutZ00flbA5j0Seew04z2kw=;
-        b=PRGOlUBN5jrFwhKSgkpVZQAd2jEKfq1goY2iyuW8JzeZ5r6WfNnJYCxdTCHT++Pjn4
-         fte4tNTwb6rt2LmybutrKqseVnhEt29XQ7l5UBX+1x6bYjPUj1F+FvcI140ERP0Y6TE9
-         wfaaL8tXalgjgkr0kXhrcwzsL4JFLC4ZtHgLoZejLn8U2fgowcO3sNvrA7lIAuY+yVV/
-         xu/YTa8Hr090r3RcHzWBI3/RCfnzPw0cDAnFXRTxQ4wBK67Kz6S7iCYlfA5RSVbzUwWQ
-         /4mzF9RjiiBirBsPQlm5H+kNtog6F34Lz1sAkTFdILHG1qnJeFe+wHigcCqFHfVdn3WZ
-         76vA==
-X-Forwarded-Encrypted: i=1; AJvYcCXCQ7R8LPgynJ3adJ9k5R5VsXHLmZ64tlO/8ocfKgLmCmwJN7+xN+SiFxhT7SlenTYKM6DOvVyeNFJf8w==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOfdEOLRPsqNgltqYY9UYEw9m9yu9laNTAT4zPXy7nHI40ek5b
-	vEl86oRyAOEpUSzcx/dmN5UDlwjrGI8dIudYFxuXSPmjfjZNdHA+cHsx
-X-Gm-Gg: ASbGncsOjqpDuk9VtAnOeq132fnrC5f3GvD95sxSGMmPEr5yDdxHBW/WRadaKN0ioiC
-	IXT4cLdGv1QeqsdZn/BLeeQGa8bDDyyoeOB8vE/Fy58m0AwHtA7enwJHMJXzpymmfIAt+m1nGI4
-	8j2pexXVZcXZZ3PF0kQHN7SgeMLmOJvJWNZ/7Ey97I9GGJ8LsIhDUOJYZu0bniJeLMLbfljM5c8
-	4DitQG7RE3I89Xh6yyodMdUYD1yH4qHyxK2A15G+bVf9DlPv4r859Jz4MgxGOK1YTbamKqcjUQT
-	JG1bPArMGMzwTfLZfAInqsLQOxUPzk4fTz813jYoOT6S/RMTIwCrv9HGdreOQIozT8+pAF6brGI
-	Ut5kw+UFcxfV8rqRO7qSzAk3YrcaidVxWOg1yiF1eaVViYQS5PmkDeLm3LYE=
-X-Google-Smtp-Source: AGHT+IG8Ud5fo/RqGDQh+pFaXna1RgG6zPI71+duC2ptc9c7lcQdelbdLg9f2SiIK3mM5gHnQpaK4Q==
-X-Received: by 2002:a05:6402:510e:b0:633:d65a:af0e with SMTP id 4fb4d7f45d1cf-639d5c59a53mr6110460a12.28.1759992635029;
-        Wed, 08 Oct 2025 23:50:35 -0700 (PDT)
-Received: from foxbook (bff184.neoplus.adsl.tpnet.pl. [83.28.43.184])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-639f3cdbec1sm1715007a12.20.2025.10.08.23.50.33
-        (version=TLS1_2 cipher=AES128-SHA bits=128/128);
-        Wed, 08 Oct 2025 23:50:34 -0700 (PDT)
-Date: Thu, 9 Oct 2025 08:50:30 +0200
-From: Michal Pecio <michal.pecio@gmail.com>
-To: Angel4005 <ooara1337@gmail.com>
-Cc: Bagas Sanjaya <bagasdotme@gmail.com>, linux-media@vger.kernel.org,
- linux-uvc-devel@lists.sourceforge.net, Linux Regressions
- <regressions@lists.linux.dev>, Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [REGRESSION] uvcvideo: Grandstream GUV3100 (2bab:0011) broken
- on recent kernels (including LTS)
-Message-ID: <20251009085030.2d360284.michal.pecio@gmail.com>
-In-Reply-To: <aObw4BRRheGO3_cg@archie.me>
-References: <CAOzBiVuS7ygUjjhCbyWg-KiNx+HFTYnqH5+GJhd6cYsNLT=DaA@mail.gmail.com>
-	<aObw4BRRheGO3_cg@archie.me>
+        d=1e100.net; s=20230601; t=1759992954; x=1760597754;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=u4ni4TTOgAgYqtC2qaw+7bRQCgY9vHSh+QRiaiZcYqA=;
+        b=AcudFuYoJrvnY+aWkgQa+o0kUgBV9c+BIAFoXUQl2fkc45J1mdEWglReSSA3kvhx+C
+         e+HotsohSdBQaTpWkim/VLCOjkSff5tEForrKboaeCYoMAWxpwb89Yb3dYeJHCt6YBHk
+         5L8nGbdHtnCHsx/kiE/c+UeNGn0X9ebY5Qxrm3UQG1s8S6fcQ7jAxo27GIdvEiAZ8OEZ
+         k7KLSL3ZTSS1Du5LMou+lcf6x9EZchiQpyR9EE/8yCOMyAaxVHHyoJLhl0NUSPBbjmv9
+         WfFxu9Ghz2Q29OYBqVQ8NI4YY8RflenG25Qc8GEfKduFMWWWqoWY8kwQAMOXFzicF89T
+         WviQ==
+X-Gm-Message-State: AOJu0YyXFzPfc7H0CIWmvs/2DaB7IeQ1+3HHo27u9mQmMD/T0R2/gt7W
+	vPhhk3YH3PxcgiMRWM/fhl1Eei2i+rjtYCy29sOpeIG+Fa9N7JOSQLaBUHlGPl8Z28Xj0lebcxs
+	Sbho=
+X-Gm-Gg: ASbGnctq0FwHNdzRJJKfcHA5tLXW5YkN8if9OlnDxhcRfpy9b6awKDo9cKYq0gpLfac
+	+gwB2NgXZXD/F3euWIMTXuP83++iX2ISy+GjmJVrlgdV65khrsUylWcHWwPs0tM6dyKGubGg4kg
+	tP/qeEal3WNFNEBHSAI6NRWSDsncwphE8fhvfGkNMUiUxZztu2xAPyVhnExLFfOTOgYbVs5KZBu
+	noQ9ypCnW/kKlbJeTHi6jFyp6VOc8mUEO9WawLdormvScP27rqnZ2fLhY6hu80rnLCb2ZVf8VXC
+	he3uOl+lIIVvUs0jAvlLKkSomnX15hVLu4RvEG1Ch+0ywnHSME8Rw5PVrILthGcM2UPqa56R6oH
+	dMdx9Se1/VLvEgDdTnnuxGbkIaKHzybAR1X7qI3XVmdeTNJw05567/zwN+iJ4PDGpjlpk8PBIRg
+	gwAwLC4WdZk+BgPsR5Ekc=
+X-Google-Smtp-Source: AGHT+IFpSXqij4QVVq9IZpE80TQZb++lQNHmuDtxx9jztg0nhZ12VeWUhD2wFCKcgZ76z2YDQnVCnw==
+X-Received: by 2002:a05:6512:1325:b0:57e:f60:2330 with SMTP id 2adb3069b0e04-5906dc122b7mr1570249e87.21.1759992954058;
+        Wed, 08 Oct 2025 23:55:54 -0700 (PDT)
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5907ac00a21sm782467e87.4.2025.10.08.23.55.53
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 08 Oct 2025 23:55:53 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-57ea78e0618so769370e87.0
+        for <linux-media@vger.kernel.org>; Wed, 08 Oct 2025 23:55:53 -0700 (PDT)
+X-Received: by 2002:a05:6512:238c:b0:55f:4bf6:efeb with SMTP id
+ 2adb3069b0e04-5906dd73cb8mr2120109e87.43.1759992952571; Wed, 08 Oct 2025
+ 23:55:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <CAOzBiVuS7ygUjjhCbyWg-KiNx+HFTYnqH5+GJhd6cYsNLT=DaA@mail.gmail.com>
+In-Reply-To: <CAOzBiVuS7ygUjjhCbyWg-KiNx+HFTYnqH5+GJhd6cYsNLT=DaA@mail.gmail.com>
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Thu, 9 Oct 2025 08:55:39 +0200
+X-Gmail-Original-Message-ID: <CANiDSCst6-1g2vPSF4YnEbH6DFcz+WYEwGHc08kGyuH4OZ+adA@mail.gmail.com>
+X-Gm-Features: AS18NWB4BYMzyzfeygc6_ZCriwtIJZfsDwmFGGZpOez4mXrLQj8Q-r5EoC6ZRag
+Message-ID: <CANiDSCst6-1g2vPSF4YnEbH6DFcz+WYEwGHc08kGyuH4OZ+adA@mail.gmail.com>
+Subject: Re: [REGRESSION] uvcvideo: Grandstream GUV3100 (2bab:0011) broken on
+ recent kernels (including LTS)
+To: Angel4005 <ooara1337@gmail.com>, Hans de Goede <hansg@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-uvc-devel@lists.sourceforge.net
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, 9 Oct 2025 06:16:48 +0700, Bagas Sanjaya wrote:
-> On Wed, Oct 08, 2025 at 03:56:20PM +0300, Angel4005 wrote:
-> > Hello,
-> >=20
-> > I encountered regression (breakage) for the Grandstream GUV3100
-> > webcam (ID 2bab:0011) in the uvcvideo driver.
-> >=20
-> > Testing showed that the camera WORKS on kernel 6.16.8.arch3-1.
-> >=20
-> > However, it does NOT WORK on newer kernel versions, including the
-> > latest stable version (6.17.1.arch1-1) and the latest LTS kernel
-> > version (6.12.51-1).
-> >=20
-> > Problem: The driver finds the device but cannot start the video
-> > stream, resulting in an error in dmesg: =E2=80=9CNo streaming interface
-> > found for terminal 65535.=E2=80=9D
+Hi Angel
 
-Hi Angel4005,
+Thank you very much for the detailed report.
 
-As you are on Arch, can you try v6.12.48 LTS from the package archive?
-It was released on the same day as v6.16.8 so it's hopefully good too.
+Your device has two entities with the same id:
+VideoControl Interface Descriptor:
+        bLength                31
+        bDescriptorType        36
+        bDescriptorSubtype      6 (EXTENSION_UNIT)
+        bUnitID                 4
 
-If you can find the exact v6.12 series release which introduced the
-breakage things may get easier, because there are much fewer commits
-to worry about between releases in those LTS series.
 
-These are the only drivers/media changes between v6.12.48 and v6.12.51:
+ideoControl Interface Descriptor:
+        bLength                 9
+        bDescriptorType        36
+        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
+        bTerminalID             4
+        wTerminalType      0x0101 USB Streaming
+        bAssocTerminal          0
+        bSourceID               3
+        iTerminal               0
 
-000b2a6bed7f media: uvcvideo: Mark invalid entities with id UVC_INVALID_ENT=
-ITY_ID
-fd5d3e6b149e media: rc: fix races with imon_disconnect()
-effb1c19583b media: tuner: xc5000: Fix use-after-free in xc5000_release
-514a519baa9e media: b2c2: Fix use-after-free causing by irq_check_work in f=
-lexcop_pci_remove
+And that confuses the code. We have recently introduced a change that
+has probably triggered the regression
+https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/drivers/media/usb/uvc?id=0e2ee70291e64a30fe36960c85294726d34a103e
 
-Perhaps the first one? Consider this dmesg line:
+Do you know the commercial name of the device and if it is available to buy?
 
-[  363.700829] usb 1-1.3: No streaming interface found for terminal 65535.
+Could you try this patch and let me know if it fixes the issue?
 
-There is also a few drivers/usb changes, but I doubt they are relevant.
+diff --git a/drivers/media/usb/uvc/uvc_driver.c
+b/drivers/media/usb/uvc/uvc_driver.c
+index fa61f1d0ea2c..81937501fb0c 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -167,11 +167,23 @@ static struct uvc_entity
+*uvc_entity_by_reference(struct uvc_device *dev,
 
-Regards,
-Michal
+ static struct uvc_streaming *uvc_stream_by_id(struct uvc_device *dev, int id)
+ {
+-       struct uvc_streaming *stream;
++       struct uvc_streaming *stream, *last_entry;
++       unsigned int count = 0;
+
+        list_for_each_entry(stream, &dev->streams, list) {
+                if (stream->header.bTerminalLink == id)
+                        return stream;
++               count += 1;
++               last_entry = stream;
++       }
++
++       /*
++        * If the streaming entity has an invalid id, but it is the only
++        * one available, use it.
++        */
++       if (count == 1 && id == UVC_INVALID_ENTITY_ID) {
++               dev_err(&dev->intf->dev, "Heuristics triggered\n");
++               return last_entry;
+        }
+
+        return NULL;
+
+
+Thanks
 
