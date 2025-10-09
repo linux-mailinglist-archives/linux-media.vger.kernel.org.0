@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-44112-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44118-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2292DBC9DF5
-	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 17:54:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E730CBC9E5F
+	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 18:00:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id DAF041A62BA0
-	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 15:55:05 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 06047188C2EF
+	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 15:58:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA79D225A39;
-	Thu,  9 Oct 2025 15:54:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 595EB2EDD76;
+	Thu,  9 Oct 2025 15:54:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Sin7atMa"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="O+Beovpz"
 X-Original-To: linux-media@vger.kernel.org
 Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D63521C9E5;
-	Thu,  9 Oct 2025 15:54:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 279742EDD53;
+	Thu,  9 Oct 2025 15:54:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760025250; cv=none; b=oAmVGlQhR7pU7Pf8n1xCXMa/8sjQ6Uf6eWoxKPpAZHdn+pJ74cHirx+CLCfjkPkk6Nh7u8uN1HfP/h0jGz0nOTAPr3/hdzsBEBPOmr1j+Dj789woW7FuBrKgf1mD2v7PD3tC7ZEnnFJcgXOFlr4MNuQ2aSbeC/W2yPnT/YAv0TM=
+	t=1760025281; cv=none; b=jRtZhAq1ishZQ/RuOok9a+F0PpHnBjKZjLl9n3LxY/I8hg5ZZqn6QK/xBMzS7EdXobRw5moFSJar3MzaxitwaFm2lHqK0mSgUGT0gpeRWe8bAp68qeq/0GTyhZ21GotbF7goTR5iFbAuYIIBFugciirzxn4KhxNPhHT0WYT8GRg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760025250; c=relaxed/simple;
-	bh=HhopEnfXxoWrfgJ4xCvMufOgsASq4oytV0XNPkQ6TFE=;
+	s=arc-20240116; t=1760025281; c=relaxed/simple;
+	bh=eJf4UTMPqJkln5EdhKh/6cOT12g2cjSMKWCXo8sdgV8=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=OiUHFjS7EtcMYFO8ZDfHe3JrOgsVeqI4PvXJSLQG9m52W0CfF9nODVoi5cqyCRqMPGFm103Ty44XJj31UgVeyBdcBWObIJXX4EloHcU1Em+qHFhHz0pUaaU4rnkjVXlaDkk0dAi4nLbbjw2g6C9qcBlqGJMriwa8rGqGD7SLh9Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=Sin7atMa; arc=none smtp.client-ip=68.232.154.123
+	 MIME-Version:Content-Type; b=sagpgkmCZ5ktUnhq8L/Ow8IMZTGZbChLRb7zlFZqyEe+4AMw1RWY8vHnJBKQyo4RAS8WgJ6YYIfoIwHXrD1Jed8youEI/gyN8tSPiAH5MnBzXAErl1MTLBO5QzNVpbpY2O8RfIv0f8IQ3VuAYJu/KzZqvTNqRzZ651fr6gspRm0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=O+Beovpz; arc=none smtp.client-ip=68.232.154.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1760025248; x=1791561248;
+  t=1760025280; x=1791561280;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=HhopEnfXxoWrfgJ4xCvMufOgsASq4oytV0XNPkQ6TFE=;
-  b=Sin7atMadVcqy9lC/66NF77ARADG8Lx/fOR+Qu7YhgrwZJx/n+xaNkEW
-   vWtoPBlIHs+uBsB4weWo/6onlzMPOh+HasC4DX5ACVtV0SJ+39TgERa6U
-   OrQYC/75CHTRs2VcDZobVpB+BF2SqGlKpnyB7ufphKsW/JyID+IYUEdzB
-   86lQnrMYxS5Q0VP5RJSe5tm4BAreLRvVF0ocw0lo/8vmHinxNI20+wBps
-   frUpN/n2fspqmRl1KoODndxGoBt1iV3gqZB9GA+/e29oXyLWPFg+J5EAU
-   tbrEuWG3ZIlQBxCht6cDiT4f/iehYTT1z62Pd4UGPSdRTli2JK+EwqbWM
-   A==;
-X-CSE-ConnectionGUID: /pWBC8reTeqGekq1nPl3zQ==
-X-CSE-MsgGUID: D+FGj4Y6S3azHFbGcI4IEg==
+  bh=eJf4UTMPqJkln5EdhKh/6cOT12g2cjSMKWCXo8sdgV8=;
+  b=O+BeovpzfW8qjlYYieSxwrjGrPqguRlGEU9uDCpByJ03KTUfjxfexsRt
+   T34dBWRl7A9n8FDCCzQ5Ayi63faeDkyhFb1WjUfe3FNR1VggAkBp4wZYj
+   Zu7RuZL3tRRPGEJAK8SKFaVLNfhe6OjIAscA1BPYGCBuz+yQiJjS2iao2
+   1tgg0gjMlS2ZiD8nW47Zdv76+uYcnI56tvo0XrOuksiLBfiwsY0msN/Eh
+   QNh2IqbXxAIodkbD5crC3e/+h8Zyxi4VclGqUw/EtAWdX4KjxKrnr0Oby
+   Gkx5wiW4r2TdsIQNuxrNy9DoMP4OF6oApj6EK7eJ05R5b3LwGdq81IyFZ
+   Q==;
+X-CSE-ConnectionGUID: /X4p8s51R2m1uwZxUki7lw==
+X-CSE-MsgGUID: qBNcf2BOSxaZUSryRrMOiQ==
 X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; 
-   d="scan'208";a="48057848"
+   d="scan'208";a="214905334"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Oct 2025 08:53:58 -0700
-Received: from chn-vm-ex2.mchp-main.com (10.10.87.31) by
+  by esa6.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Oct 2025 08:54:38 -0700
+Received: from chn-vm-ex3.mchp-main.com (10.10.87.32) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Thu, 9 Oct 2025 08:53:58 -0700
+ 15.1.2507.58; Thu, 9 Oct 2025 08:54:06 -0700
 Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
- chn-vm-ex2.mchp-main.com (10.10.87.31) with Microsoft SMTP Server
+ chn-vm-ex3.mchp-main.com (10.10.87.32) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.20; Thu, 9 Oct 2025 08:53:58 -0700
+ 15.2.1748.10; Thu, 9 Oct 2025 08:54:06 -0700
 Received: from che-lt-i64410lx.microchip.com (10.10.85.11) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Thu, 9 Oct 2025 08:53:50 -0700
+ 15.1.2507.58 via Frontend Transport; Thu, 9 Oct 2025 08:53:58 -0700
 From: Balamanikandan Gunasundar <balamanikandan.gunasundar@microchip.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
 CC: Eugen Hristev <eugen.hristev@linaro.org>, Chas Williams
@@ -76,9 +76,9 @@ CC: Eugen Hristev <eugen.hristev@linaro.org>, Chas Williams
 	<tomi.valkeinen@ideasonboard.com>, <linux-kernel@vger.kernel.org>,
 	<linux-media@vger.kernel.org>, <linux-atm-general@lists.sourceforge.net>,
 	<netdev@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
-Subject: [PATCH 05/18] media: microchip-isc: Use channel averages for Grey World AWB
-Date: Thu, 9 Oct 2025 21:22:38 +0530
-Message-ID: <20251009155251.102472-6-balamanikandan.gunasundar@microchip.com>
+Subject: [PATCH 06/18] media: microchip-isc: Add range based black level correction
+Date: Thu, 9 Oct 2025 21:22:39 +0530
+Message-ID: <20251009155251.102472-7-balamanikandan.gunasundar@microchip.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251009155251.102472-1-balamanikandan.gunasundar@microchip.com>
 References: <20251009155251.102472-1-balamanikandan.gunasundar@microchip.com>
@@ -93,98 +93,49 @@ Content-Type: text/plain
 
 From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
 
-Replace pixel counting with actual pixel intensity averages in Grey
-World algorithm for more accurate white balance calculation.This
-provides better color correction especially in mixed lighting
-conditions.
+Add adaptive black level offset based on histogram minimum and pixel
+statistics. Apply conservative correction for high black levels and
+gentle correction for low levels to prevent overcorrection and improve
+dynamic range.
 
 Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
 ---
- .../platform/microchip/microchip-isc-base.c   | 35 ++++++++++---------
- 1 file changed, 19 insertions(+), 16 deletions(-)
+ .../platform/microchip/microchip-isc-base.c   | 22 ++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/drivers/media/platform/microchip/microchip-isc-base.c
-index 956bdea830e3..bb2dd69a83f0 100644
+index bb2dd69a83f0..2706a27a2506 100644
 --- a/drivers/media/platform/microchip/microchip-isc-base.c
 +++ b/drivers/media/platform/microchip/microchip-isc-base.c
-@@ -1317,7 +1317,6 @@ static void isc_hist_count(struct isc_device *isc, u32 *min, u32 *max)
- static void isc_wb_update(struct isc_ctrls *ctrls)
- {
- 	struct isc_device *isc = container_of(ctrls, struct isc_device, ctrls);
--	u32 *hist_count = &ctrls->hist_count[0];
- 	u32 c, offset[4];
- 	u64 avg = 0;
- 	/* We compute two gains, stretch gain and grey world gain */
-@@ -1328,10 +1327,10 @@ static void isc_wb_update(struct isc_ctrls *ctrls)
- 	 * them towards the green channel.
- 	 * Thus we want to keep Green as fixed and adjust only Red/Blue
- 	 * Compute the average of the both green channels first
-+	 * Use channel averages for Grey World algorithm
- 	 */
--	avg = (u64)hist_count[ISC_HIS_CFG_MODE_GR] +
--		(u64)hist_count[ISC_HIS_CFG_MODE_GB];
--	avg >>= 1;
-+	avg = (ctrls->channel_avg[ISC_HIS_CFG_MODE_GR] +
-+			ctrls->channel_avg[ISC_HIS_CFG_MODE_GB]) >> 1;
- 
- 	dev_dbg(isc->dev, "isc wb: green components average %llu\n", avg);
- 
-@@ -1340,6 +1339,11 @@ static void isc_wb_update(struct isc_ctrls *ctrls)
- 		return;
- 
- 	for (c = ISC_HIS_CFG_MODE_GR; c <= ISC_HIS_CFG_MODE_B; c++) {
-+		u32 hist_min = ctrls->hist_minmax[c][HIST_MIN_INDEX];
-+		u32 hist_max = ctrls->hist_minmax[c][HIST_MAX_INDEX];
-+		u32 channel_avg = ctrls->channel_avg[c];
-+		u32 total_pixels = ctrls->total_pixels[c];
-+
- 		/*
- 		 * the color offset is the minimum value of the histogram.
+@@ -1349,7 +1349,27 @@ static void isc_wb_update(struct isc_ctrls *ctrls)
  		 * we stretch this color to the full range by substracting
-@@ -1373,23 +1377,21 @@ static void isc_wb_update(struct isc_ctrls *ctrls)
- 		 * decimals
+ 		 * this value from the color component.
  		 */
- 		s_gain[c] = (HIST_ENTRIES << 9) /
--			(ctrls->hist_minmax[c][HIST_MAX_INDEX] -
--			ctrls->hist_minmax[c][HIST_MIN_INDEX] + 1);
-+			(hist_max - hist_min + 1);
- 
- 		/*
--		 * Now we have to compute the gain w.r.t. the average.
--		 * Add/lose gain to the component towards the average.
--		 * If it happens that the component is zero, use the
--		 * fixed point value : 1.0 gain.
-+		 * Grey World gain using channel averages
-+		 * This is much more accurate than using hist_count
- 		 */
--		if (hist_count[c])
--			gw_gain[c] = div_u64(avg << 9, hist_count[c]);
-+		if (channel_avg > 0 && total_pixels > 1000)
-+			gw_gain[c] = div64_u64((avg << 9), channel_avg);
- 		else
- 			gw_gain[c] = 1 << 9;
- 
- 		dev_dbg(isc->dev,
--			"isc wb: component %d, s_gain %u, gw_gain %u\n",
--			c, s_gain[c], gw_gain[c]);
-+			"isc wb: component %d, black_level=%u, avg=%u, s_gain=%u, gw_gain=%u",
-+			c, hist_min, channel_avg, s_gain[c], gw_gain[c]);
+-		offset[c] = ctrls->hist_minmax[c][HIST_MIN_INDEX];
++		if (hist_min > 5 && hist_min < 60 && total_pixels > 1000) {
++			/*
++			 * Basic adaptive black level offset correction
++			 * (Simplified version for kernel fallback)
++			 */
++			if (hist_min > 20)
++				/* Conservative for high levels */
++				offset[c] = hist_min - 4;
++			else if (hist_min > 10)
++				/* Moderate correction */
++				offset[c] = hist_min - 2;
++			else
++				/* Gentle correction */
++				offset[c] = hist_min - 1;
 +
- 		/* multiply both gains and adjust for decimals */
- 		ctrls->gain[c] = s_gain[c] * gw_gain[c];
- 		ctrls->gain[c] >>= 9;
-@@ -1397,8 +1399,9 @@ static void isc_wb_update(struct isc_ctrls *ctrls)
- 		/* make sure we are not out of range */
- 		ctrls->gain[c] = clamp_val(ctrls->gain[c], 0, GENMASK(12, 0));
- 
--		dev_dbg(isc->dev, "isc wb: component %d, final gain %u\n",
--			c, ctrls->gain[c]);
-+		dev_dbg(isc->dev,
-+			"isc wb: component %d, final gain %u, offset %d\n",
-+			c, ctrls->gain[c], ctrls->offset[c]);
- 	}
- }
- 
++			offset[c] = max(1U, offset[c]);  /* Ensure minimum of 1 */
++		} else {
++			/* Use default behavior for edge cases */
++			offset[c] = hist_min;
++		}
++
+ 		/*
+ 		 * The offset is always at least 1. If the offset is 1, we do
+ 		 * not need to adjust it, so our result must be zero.
 -- 
 2.34.1
 
