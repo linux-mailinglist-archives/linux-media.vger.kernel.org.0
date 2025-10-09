@@ -1,93 +1,72 @@
-Return-Path: <linux-media+bounces-44038-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44039-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96B67BC73EC
-	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 04:53:14 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 74D46BC7401
+	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 04:56:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 81125189FDEC
-	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 02:53:37 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 572274E2DCB
+	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 02:56:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A4961DA60D;
-	Thu,  9 Oct 2025 02:53:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBC1B1DA60D;
+	Thu,  9 Oct 2025 02:56:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="SDxpMq/O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jve+KSKh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F37A7147C9B;
-	Thu,  9 Oct 2025 02:53:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 436D3147C9B;
+	Thu,  9 Oct 2025 02:56:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759978387; cv=none; b=ttVkMGi4pERP17IOnQac+RoFCM4F3ZIc8I8THzOxCRclgvjM910tTRAZk8GPIidy6w9RsdTTA1jLYaj3mhT9vXeRC2Am+S3DRDOCkIfnaAxZWi01slRsi8AHVvSuud/k8JKV+O9S1myTqwIHkCr6uNJCfNq++lmRl+qWjINVsQM=
+	t=1759978571; cv=none; b=RJtaxEgTTRA/8vD7+UnprM/cmEw+2k+vTicMSv3H3Mgx5v9bR8e8r9u1rpO1gzWGMt9ztpywyzgHX2XchWVB/XkWdhqMG2n9UXiDykDCra1rC+4LeQTv6HlAbY6UbKdmczjRhNIWq8qOWyarGASf+SkbigUIQu1fS+uohmHvstY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759978387; c=relaxed/simple;
-	bh=PZkP2iwejsibDir07G4hGghuPvQs2LumiFFkm7qI4Ao=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=FY/A0JUWxTSn5cZLg+7n5t3eNLDXN08ZISe9zMpUpLQ1MrPk2CGWYuZiMsHVbwS7yRtCosaWCCsujWeS358aHbiCNOM1CrC+duY5nboIwl2TYtklQi1tDVcVH8FMT2vTBHuF0kPXPmHBqHYW1xlFndPReZhoFANpo3imQsVd7SE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=SDxpMq/O; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 598I5G18004415;
-	Thu, 9 Oct 2025 02:52:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	Gtfn0roKHYaEpWWdUwjuUbhlnlojITr0mf1GX/TDhOE=; b=SDxpMq/O23qlJwNc
-	yu2AlMGFaeTL+dgyTQcp6A3sC99jR4HhLzNqSesc0azLVS3yAVpEwQ/s1fuPGpP4
-	4jG4Wkn5W92NoxD4Pwz9V4TmtwMmqqA4i3ZUDFg0EuJ6vqV8IggqHCDjkjZCobp9
-	75Mz7gnuGWHtrA5iCpj+XI4hKLz7WD8U2IlyFPU0UhRqACBF0mZOFYdrcDqeutXo
-	ZrpeCGtTUKiKguxRi/NIBAZ18AirZiU86V27OvPVMVolNkfC9CFbWO4s+dBUwI/N
-	oOqlStUNGqn2LtuuiDnOx0/pb6xUkVog3G5U3iygmy+SLjuvJ7Ed5fU4HdDwWZ1d
-	TzHPDQ==
-Received: from nasanppmta03.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4ks7p2-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 09 Oct 2025 02:52:50 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5992qnQT024105
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 9 Oct 2025 02:52:49 GMT
-Received: from [10.216.44.193] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Wed, 8 Oct
- 2025 19:52:44 -0700
-Message-ID: <0c0b6491-1def-d055-b689-2bb99f4306df@quicinc.com>
-Date: Thu, 9 Oct 2025 08:22:41 +0530
+	s=arc-20240116; t=1759978571; c=relaxed/simple;
+	bh=/L9DrTEALOgY5Wmjtt3i0oB/Xl3MAwLmrrfkO95rfn0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dun0jzySlSHs2LXZY8IOfIcvWwkVptT/1OHOo/flSS5dRoOrZgvSFinl4+qOP9j6tYgixHXbw0SGE8HUnBvXZAZKSnT+52CEvRu99jNzNn8tYgnhsX7+IkmVM13gZ+SHVDc6FAgFb3wSSoppsWGS82UmSEonwGIl5lfaCoLd+2I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jve+KSKh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9AAD6C4CEE7;
+	Thu,  9 Oct 2025 02:56:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759978569;
+	bh=/L9DrTEALOgY5Wmjtt3i0oB/Xl3MAwLmrrfkO95rfn0=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jve+KSKhnLyY8l1YhGNfNC6WkwT2LTBJ+4Ps99EVMXx1yJN634wBc1TCJjjzyulYG
+	 YLlhSNZtGoVxOCeIebBMDqaVJ2OSSc6JZ1Hl3Ah4ut/r0gV0PZjese4/rzOoQ0HNsr
+	 BNYN6vaklz7xw7wYP13rLJkJXr5sIsqyZDjoFUV0b0Uc72Cs70KZqUJ7vSbqiiJGe7
+	 FxN7iczebyfD4I676v/oa/Ia4mNoq1EDBjljhjHTIrhABS0/ajXYiUu6orOPPhmYwE
+	 Q3NkRwqvRQeziqh3D8KEXahZHZrPZ0l7DM4K9z0kq9cYXr3J7plFShOm8pmiCrNahM
+	 Jl1Tif4FM6D3A==
+Message-ID: <18eebc8a-4965-4d92-8199-429144500431@kernel.org>
+Date: Thu, 9 Oct 2025 11:55:58 +0900
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
  node
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>, Bryan O'Donoghue <bod@kernel.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Charan Teja Kalla
-	<charan.kalla@oss.qualcomm.com>,
-        Bryan O'Donoghue <bod.linux@nxsw.ie>,
-        "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Dikshita Agarwal
-	<quic_dikshita@quicinc.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        "Mauro
- Carvalho Chehab" <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bod@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Charan Teja Kalla <charan.kalla@oss.qualcomm.com>,
+ Bryan O'Donoghue <bod.linux@nxsw.ie>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
- <4a32bbec-2baf-4210-a7c1-1ddcd45d30c8@oss.qualcomm.com>
  <SuwJuCIcLVJwN3YeN1il6tB9wO9OH6bYcnbRpxpuI9Dl7piYLN-hVdnyv0Mal6N-W5pi2aCZI8MxHZDEkoE63A==@protonmail.internalid>
  <4d87d1ca-55b2-426e-aa73-e3fd8c6fe7bd@kernel.org>
  <10a8ccda-4e27-4b06-9a0e-608d6ade5354@nxsw.ie>
@@ -101,83 +80,102 @@ References: <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
  <a0dc93ec-e35c-409b-8dfb-1642c92a9f0c@kernel.org>
  <98e6acf8-80d7-4894-b4ce-ce74660722ef@kernel.org>
  <5085c857-f6e8-4faf-b61a-a9ee562ccf06@kernel.org>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <5085c857-f6e8-4faf-b61a-a9ee562ccf06@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+ <0c0b6491-1def-d055-b689-2bb99f4306df@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <0c0b6491-1def-d055-b689-2bb99f4306df@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfXxqvEwSha6c+s
- tVQH7Uaziht8KROR5d/2vOw0rF9FlLRD+10ENxz9ubmTVwEb3DztoJG27OAmYgXF5lywL4+aFSb
- sqE6U1PS2jnaoLeQkAXELZG0bAeMPVf14rFPYLzb4PbTO/V2uMI/+GuVh/fRhChJ1PPpsPGXyc7
- y1YLSAmA2WmdW19p3xnYEh6krv3QgwqXKGnSGFNghE6ksuz/PHsMWBj7lBgv1OVGPLt+I0nKHTT
- KEYuN/k4JzO9wm0HY6wmRrBnCxF8SpYWA0nx68ZnfbfwtBex8UwcBz1G80dKOYIvcF4lgPvrOI6
- L2LL3iYLnR95CStVPaHh5Ss1P4L02XdcygY48tBy2t0GDk3RnyDNNV1rm31I4s/FA4BNkoOFPxE
- hLy3YAPeob2UUbZSc5jfr6D4NK+tHA==
-X-Proofpoint-GUID: sOdZcMY9FRTU-0MvnQewv-pG5vYJFKR7
-X-Proofpoint-ORIG-GUID: sOdZcMY9FRTU-0MvnQewv-pG5vYJFKR7
-X-Authority-Analysis: v=2.4 cv=SJxPlevH c=1 sm=1 tr=0 ts=68e72382 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10
- a=zS5Hj0bcTTPWjRSGFTUA:9 a=QEXdDO2ut3YA:10 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-09_01,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 suspectscore=0 impostorscore=0 spamscore=0 phishscore=0
- clxscore=1011 bulkscore=0 lowpriorityscore=0 priorityscore=1501 adultscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
 
-
-On 10/9/2025 6:34 AM, Krzysztof Kozlowski wrote:
-> On 09/10/2025 09:55, Bryan O'Donoghue wrote:
->> On 09/10/2025 01:47, Krzysztof Kozlowski wrote:
->>>> Maybe it would be possible to also use an inferred FUNCTION_ID somehow
->>>> though TBH I think that's a work-around.
->>> Three months ago I gave you the answer for that - it is inferred by
->>> index on the list.
+On 09/10/2025 11:52, Vikash Garodia wrote:
+> 
+> On 10/9/2025 6:34 AM, Krzysztof Kozlowski wrote:
+>> On 09/10/2025 09:55, Bryan O'Donoghue wrote:
+>>> On 09/10/2025 01:47, Krzysztof Kozlowski wrote:
+>>>>> Maybe it would be possible to also use an inferred FUNCTION_ID somehow
+>>>>> though TBH I think that's a work-around.
+>>>> Three months ago I gave you the answer for that - it is inferred by
+>>>> index on the list.
+>>>
+>>> But at least as I understand it, you can have multiple SID entries that 
+>>> need to map to a FUNCTION_ID which means you need to encode that 
+>>> inferred indexing in your driver.
 >>
->> But at least as I understand it, you can have multiple SID entries that 
->> need to map to a FUNCTION_ID which means you need to encode that 
->> inferred indexing in your driver.
-> 
-> Yes.
-> 
+>> Yes.
 >>
->> So you can't have the iommu code just know what to do.. it has to be 
->> driver specific.
-> 
-> Yes.
-> 
+>>>
+>>> So you can't have the iommu code just know what to do.. it has to be 
+>>> driver specific.
 >>
->> The iommu description for this platform basically lacks the data that 
->> _should_ be there -> FUNCTION_ID.
-> 
-> No. The index tells that already.
-
-Hardware1 can have 2 iommus entries for FUNCTION_ID_1, while Hardware2 can have
-3 iommus entry. It would be good to keep this info in devicetree, as it is still
-hardware specific (function_id is the hardware identifier).
-Defaulting the index would imply, the common device driver would need to book
-keep the iommus and hardware id in driver for every SOC. Any mismatch in order
-in DT and driver table would result in error too.
-
-More importantly, this need to be agreed by IOMMU maintainer to extend the
-iommus property.
-
-Regards,
-Vikash
-> 
+>> Yes.
 >>
->> The rule is that the DT should really describe the hardware right ?
+>>>
+>>> The iommu description for this platform basically lacks the data that 
+>>> _should_ be there -> FUNCTION_ID.
+>>
+>> No. The index tells that already.
 > 
-> It already does. Same as I wrote on IRC, DT already has all the
-> information. Entry 0 has function ID-foo. Entry 1 has function ID-bar.
-> Entry 2 has function ID-bar or whatever.
+> Hardware1 can have 2 iommus entries for FUNCTION_ID_1, while Hardware2 can have
+> 3 iommus entry. It would be good to keep this info in devicetree, as it is still
+> hardware specific (function_id is the hardware identifier).
+> Defaulting the index would imply, the common device driver would need to book
+
+You don't "defaulting the index" but control the indices. All what you
+wrote is just irrelevant.
+
+> keep the iommus and hardware id in driver for every SOC. Any mismatch in order
+> in DT and driver table would result in error too.
+
+It's irrelevant. You write buggy code, you are responsible for it.
+
 > 
-> Best regards,
-> Krzysztof
+> More importantly, this need to be agreed by IOMMU maintainer to extend the
+> iommus property.
+Luckily they are not hiding...
+
+Best regards,
+Krzysztof
 
