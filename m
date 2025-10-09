@@ -1,205 +1,184 @@
-Return-Path: <linux-media+bounces-44061-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44062-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79F31BC841F
-	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 11:19:45 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 05204BC8497
+	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 11:23:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AE9034F7D07
-	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 09:19:43 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 42BF74F8B28
+	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 09:23:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B947F2C0F68;
-	Thu,  9 Oct 2025 09:19:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9FC22D23BF;
+	Thu,  9 Oct 2025 09:23:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="pTAlmZbQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bB+k4VwO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3801212568
-	for <linux-media@vger.kernel.org>; Thu,  9 Oct 2025 09:19:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACFB02D3EF8
+	for <linux-media@vger.kernel.org>; Thu,  9 Oct 2025 09:23:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760001578; cv=none; b=bEYjoggQgQrSh1T3TKHXmXnJDtu++jZnzN3t6oDzAiCC0cjzrhdgt+SubfNPsu55kbIp/VHrb9V53M2JoIRukJNM4Yyxew44blY6/N7HXH/U2i4L8DtjZTmONfBopaz1BvA6ObfpY89w6IQTd1iph3h/neidzAx0fTxgkpxHOLg=
+	t=1760001792; cv=none; b=D6XmHfBsdcpXLQwMchVw7BJ/0vnUJ9icRBXRcte5JLedCO62jbUWl3+CqjbrhZ6eQtQlPBJG26Z+Y3ehuVVM6xfdQAnxs/cTH+/xeECNA6d1zLOHYnMVYaC5LyrTkMLZwG+bs07muPiOERITmrVVlb7HHhw8Mp8egyYDgC73f0o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760001578; c=relaxed/simple;
-	bh=rL2huFCoecuT5szCUTmVqW1ZGomFSlEpfa9WmNVvulI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=B9z7dbGqH0TyxHxuWOmccdN/PqZ3k8MReF9vEKF2S5TxtYzFf8hayj+OwKLQUDSYgUUE66z/dyE4P6IHfzsGkElhBDGddlbQlJweSYiklkqMalGm8nbifxQYfw8YLHbewJ2oJB3VfYkfnV2fP4OG6JIpimRpVfU67r5LUgo+83g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=pTAlmZbQ; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5996EhdC022547
-	for <linux-media@vger.kernel.org>; Thu, 9 Oct 2025 09:19:35 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	3s2fVbPRluI7eDHiaLG3gvuhMixD8+CyT+KTHVqigFY=; b=pTAlmZbQptxQFEKv
-	8jRisGHCORuqRmA9o2/5JouEE+y8ybJ9itpSvdmP0hmhqGTJ3BUrT1iWKbXsxzIJ
-	hJSRjIumHn6lK0+X1FZRRT1ipls/dnj13KJkpB9oKEHMzRD3fNopCTGbXbQTkXeZ
-	5PayGovQS1QYVvR2HPV1ePEVwhpRh/Q3cwwMu6ZUONAUVg2QRahH0XR7p7EtxXrF
-	LXI7/wAayVO900/G/VK7QT/sJoVILIIf6tDy8o8xe+iU3HxIOZFO5YG92tUVYziG
-	dVjEdGn3oz9yV3IwyfO8/xmxFf13yOyk7pmnnwIMsQy/pprlzLoTwuIvmnbhkToc
-	evvTgg==
-Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4sj6ty-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 09 Oct 2025 09:19:35 +0000 (GMT)
-Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-87bb67409e1so2063666d6.0
-        for <linux-media@vger.kernel.org>; Thu, 09 Oct 2025 02:19:35 -0700 (PDT)
+	s=arc-20240116; t=1760001792; c=relaxed/simple;
+	bh=K+0Ba+82N8MCM6Hljp4i+icfg2zO2VJ6uwVVJphVHOg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=mJB+Mk2aKgbQ3WrrzWvycPA2Jcdlx8GQoJY6WvHfj/NojqChuuUlIN3i7Ncy1FMLO7BW2nZ8JYKRJ7ClYw4A9UML8TF8+ZPHwvRTWqufsktpdmfHtVzu5AVZE8APKg7MVvHfQDsUIBHhRnv65KClNhhLr6l32giDGM9jd7fci6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bB+k4VwO; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-4e3117ea7a2so9677421cf.2
+        for <linux-media@vger.kernel.org>; Thu, 09 Oct 2025 02:23:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760001789; x=1760606589; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=z1yLxYHd/VAyHskeRRUQa8GUquaKhTgykXvAi3d9N/0=;
+        b=bB+k4VwOVQBa5mR+4/X12ZqUrb675RI4N3qQ7ff0SWeeVLq4r0ZA+4tbK0rDtyPboD
+         f7Y1hmg7RpTPUswXVzpcKWwL5rPz+QzBEu1wl8p13lJrhlzK0bPm4n/fyLoAkKzuWPiv
+         xb+o5SB7hMMXGznBVBICIat61mNnD6EFWJS5XGgIsqjY1+nNFmAweNfHhYgnwz/YNE+P
+         TBjuSutmj2vYkmiZB8t6rpzVTKES6tc1+JxCJpDtknmJpYEY1Oxop1plfgeNiFCGvhhD
+         JrhxFryhMHti7GRB6IHolYBHFDYtw8rA8X91US4ouezma25K3ANblNGTR4u4+rdCFHtr
+         rKJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760001574; x=1760606374;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=3s2fVbPRluI7eDHiaLG3gvuhMixD8+CyT+KTHVqigFY=;
-        b=kpKwpYYrxnRfL84v5tycoDyABz5BUK2bf6ROxk2+nxtAFsA4C8X5PpHOcsyOeQDKRH
-         2dSRwrNlzwq8JEAxV1OCbDJEHe8ExbTOYuqMOma/wkO7cbxKK+96nURwRUhJ76cBuEpj
-         CyDPjdP6xrJgMccD7Q98diXBg7NtLL+aEw8iAREv6zmyEZHLicTdO3k9MRbMCRb/eNzo
-         p7sZi2qTUPvrVs8XkvBMPize19RjENM5MfMRSBRY3fH27uOghUhnQRozuypu0kmeqmo0
-         T2dhLbzp1cPZug4Y/+3jo2D2R0R/4yNmdTnJTt3WQeiFZNXNrqhuukdYmhb1OnViecBP
-         XtPg==
-X-Forwarded-Encrypted: i=1; AJvYcCWJ+r4GgOBIhaejhDg0Z8ee6Q/ZVmj87IzHSijakpI/QR+RepdxuX7cUJMqYbym4PhIAXr8wKo890jmFA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzs0nzETxAnS82NWaBbzTBrrM+3F8c0r8ZKyB5NYmnGJA/8u56w
-	s8DzEZX+mqL4McY7DfKShQhywaYk20HIMCyRJeMvsqNxsztx+fSp+KoPRdZRfZYLTq8FPK+jouj
-	bIQKIzuNa5ClAbpVs8m1hC3a5St6CWKTgte1DCyBVrdpGtvVVjhK3ATSGLNIfAt8E6w==
-X-Gm-Gg: ASbGnctYfoOdHR0wE2/9zuKdxfubft9C7I5heafTQslovqpiJel8BNC25vbMXhm/Iw0
-	BGE0Zy9LVLtOK257rhUoRdl6ArElr/hzzYuuDL9OK4JqWORQCwv9QpGys2Op7wd8IPHJySGgWxc
-	dVVOmkJ6yBMj27fg8A9aEwKs9ioAT5HwcRfeMBEqvNHmgbFtGS/8ecvYYJI50yzvi4m48eAVTUB
-	skeAXEXtXP7SFAz7NT0pREZQm7CuM/p3yyz3tEYYNMpbHpVb/9e8jgP3ADg1/vHoiI8yXowq+Tj
-	VfDGFes4dB4TGpbT/eOw2URzyw9YpT4OB4ZCyiZ90sSmoEuPIDmYk2GNNOaC4DPA7eZozyohODt
-	xT+XGOiy3FmHCCXWtF5AfG+7C/no=
-X-Received: by 2002:a05:6214:20ca:b0:78d:8226:756b with SMTP id 6a1803df08f44-87b2ef6cfbamr57118316d6.5.1760001574287;
-        Thu, 09 Oct 2025 02:19:34 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH2A1qU6LGjzQ74Et+6jXPQ4yzYwrsyoGAKooxWn5Jtt1h+1kAwu/8fhUl8mDlFd2X7Bmfg6Q==
-X-Received: by 2002:a05:6214:20ca:b0:78d:8226:756b with SMTP id 6a1803df08f44-87b2ef6cfbamr57118096d6.5.1760001573829;
-        Thu, 09 Oct 2025 02:19:33 -0700 (PDT)
-Received: from [192.168.149.223] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-639f4106c60sm1931662a12.43.2025.10.09.02.19.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Oct 2025 02:19:33 -0700 (PDT)
-Message-ID: <1118c126-4332-4f9b-afb8-d3da4fa7fa87@oss.qualcomm.com>
-Date: Thu, 9 Oct 2025 11:19:31 +0200
+        d=1e100.net; s=20230601; t=1760001789; x=1760606589;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=z1yLxYHd/VAyHskeRRUQa8GUquaKhTgykXvAi3d9N/0=;
+        b=i4GeqVJJE4RR3b65zDKvuKBpRSOJgxIBrS0uvTqrmtUMmRS80k+JOH5/lK+1xo9LoK
+         wVBozFn776JsIt/4E4CqP7uiiHKG8OuvjWvD0Fh0li0QZ0JrR+cb3wypuWAQA6D2ZX0B
+         1/1Rc12vhfV5an3Jaj9lAW+cOP0KKG2mNzRx36TVxgXpMJH5q9c7dGvDVOstlc0oIVjV
+         UFOtucD/XJlH3OLI0cTuj96QYpXM380azwSTtBM2iR/ruw9gA/MA3pv9j7o1ku0+ERzv
+         xw5Eth79c6GKOe0mJIO/bpOducBExwOb+RW7jyMtx7u6QOzkyReoRq/wBjqSLeu2rtXE
+         oA/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVx48zksvPYCw8L6KbMSv8fM1j/80cwnyRbx2kSnLnuiUM7UnjDVxWO78S6n20bZy8i6DzAXHvbUPLBIw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzNudDkHwWQobFCWmFCqvBxe7C7PFlIn6prhVmJrMyCyhIUPAp4
+	HrCW3+hGyFogjAct7/owf1DAcEvUgcskTI+wYkktFwKa7ZKWdCXSL3k37opYblTftKWlFEClI0T
+	D0MpiWzDaqwpRaRcjFCaPY5er25AHOYLsC8Mj4qw=
+X-Gm-Gg: ASbGnctbWQRLc6eaBCu7i3fNykoYOtfn7d7hZNNeO3sfkOBQ0YTLQ2vB4gSaZFAGPJi
+	GYcD6G+L9SVW9+Le89fbKtwKezMt1W7TmcGMGK0W5EzL6INROCXTVHxcYoWw1c2GlVf0yjzGLTW
+	O4mIvdu7W42ED6aHc4KwEl5w0bEx+iGAxp9CZ8wXt9LsdY4Y+fSzzTjNbLiCtVan0mL0ya8COtt
+	EFlkNfSJFgky2/uDRGTrPs1OMKA2A==
+X-Google-Smtp-Source: AGHT+IHHmFKNcM+qG9Ij/zlh4ibLVQGCbykaaPSVFBsTOpIrBepCkmbANHFLxNsngMgcNnn9CLc1ZxAdPI3vOGc/N3k=
+X-Received: by 2002:a05:622a:1f8e:b0:4cb:7edc:352d with SMTP id
+ d75a77b69052e-4e6ead4c8e6mr89182291cf.45.1760001789490; Thu, 09 Oct 2025
+ 02:23:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 8/8] media: iris: enable support for SC7280 platform
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20251008-iris-sc7280-v1-0-def050ba5e1f@oss.qualcomm.com>
- <20251008-iris-sc7280-v1-8-def050ba5e1f@oss.qualcomm.com>
- <3f1979d4-1438-4c9d-99db-d97a09c5c35b@oss.qualcomm.com>
- <gdui5coiazt5ynuz6c6mr5slau33vuewr55vx53m5zzyi537at@cs7dbgirijuw>
-Content-Language: en-US
-From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-In-Reply-To: <gdui5coiazt5ynuz6c6mr5slau33vuewr55vx53m5zzyi537at@cs7dbgirijuw>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: GFEHXyMAjyPa569AwviXHlm3nJOI18vu
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfX5BZbC1TjetgZ
- 3FyB/d83RcMPlPx9QzSnHlHfJ87OdpiAk2V+gi0Ya/sETsV5aos4t75uutP1DVfqfdFDdXUOoJB
- Xbq6vcqmpiwp+uiTsupLUL5jwIPD74UAp/a+OxrDYnFa8IhJNeDopWtR0K7TcRay9m+3tKDTPcC
- dn9KgcUprhGUnE3GPnl9bal7fUcCCMjZeb5zPxvluQOuMC1JAzUD+JkMbONozbGT9sis8V0sXEr
- O+qPsIIrQnm2DAuAZNLV4xOE4PfF2vnMdLY8UupZcHOD+WEKyRtQv+5t2u2aTTRlkGcIVmPym0I
- q2ve0uDPSHhvEzt/R65q27FRKmxXvhsEA0MnXDZcxMAOwhw1W1UzXUcOEq3qyHkx7s5uvrNdwmK
- O9TgJEs3myaOlmSX2Jkka9JPscIFgA==
-X-Authority-Analysis: v=2.4 cv=SfL6t/Ru c=1 sm=1 tr=0 ts=68e77e27 cx=c_pps
- a=oc9J++0uMp73DTRD5QyR2A==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=LpQP-O61AAAA:8 a=4qWUmPOJchojXs7f-_4A:9
- a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22 a=pioyyrs4ZptJ924tMmac:22
-X-Proofpoint-ORIG-GUID: GFEHXyMAjyPa569AwviXHlm3nJOI18vu
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-09_03,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- adultscore=0 clxscore=1015 malwarescore=0 bulkscore=0 priorityscore=1501
- suspectscore=0 impostorscore=0 lowpriorityscore=0 phishscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
+References: <CAOzBiVuS7ygUjjhCbyWg-KiNx+HFTYnqH5+GJhd6cYsNLT=DaA@mail.gmail.com>
+ <CANiDSCst6-1g2vPSF4YnEbH6DFcz+WYEwGHc08kGyuH4OZ+adA@mail.gmail.com>
+In-Reply-To: <CANiDSCst6-1g2vPSF4YnEbH6DFcz+WYEwGHc08kGyuH4OZ+adA@mail.gmail.com>
+From: Angel4005 <ooara1337@gmail.com>
+Date: Thu, 9 Oct 2025 12:22:57 +0300
+X-Gm-Features: AS18NWApUVhTXfK1fYNZwTFX9vQpSs7WPswBmqDyPw72vdP87h0bwUP9SKVOsGU
+Message-ID: <CAOzBiVv2yzmawqLk-womOJFpx_dAWW9z6EmSqxADyVOPHTaymw@mail.gmail.com>
+Subject: Re: [REGRESSION] uvcvideo: Grandstream GUV3100 (2bab:0011) broken on
+ recent kernels (including LTS)
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Hans de Goede <hansg@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	linux-media@vger.kernel.org, linux-uvc-devel@lists.sourceforge.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 10/8/25 9:25 PM, Dmitry Baryshkov wrote:
-> On Wed, Oct 08, 2025 at 10:26:02AM +0200, Konrad Dybcio wrote:
->> On 10/8/25 6:33 AM, Dmitry Baryshkov wrote:
->>> As a part of migrating code from the old Venus driver to the new Iris
->>> one, add support for the SC7280 platform. It is very similar to SM8250,
->>> but it (currently) uses no reset controls (there is an optional
->>> GCC-generated reset, it will be added later) and no AON registers
->>> region. The Venus driver names this platform "IRIS2_1", so the ops in
->>
->> Which we've learnt in the past is "IRIS2, 1-pipe"
-> 
-> Well, I'm open for better suggestions. iris_vpu2_no_aon_ops?
+Hello,
 
-[...]
+Thank you very much for your quick and helpful responses!
 
->>> +	writel(CTL_AXI_CLK_HALT | CTL_CLK_HALT,
->>> +	       core->reg_base + WRAPPER_TZ_CTL_AXI_CLOCK_CONFIG);
->>> +	writel(RESET_HIGH, core->reg_base + WRAPPER_TZ_QNS4PDXFIFO_RESET);
->>> +	writel(0x0, core->reg_base + WRAPPER_TZ_QNS4PDXFIFO_RESET);
->>> +	writel(0x0, core->reg_base + WRAPPER_TZ_CTL_AXI_CLOCK_CONFIG);
->>> +
->>> +disable_power:
->>> +	iris_disable_unprepare_clock(core, IRIS_AHB_CLK);
->>
->> ..for this line
-> 
-> Not only. You missed the absense of AON_WRAPPER_MVP_NOC_LPI_CONTROL /
-> AON_WRAPPER_MVP_NOC_LPI_STATUS. Which in theory can become a flag in
-> iris_platform_data.
-> 
->>
->> but this could be added to that one instead, since both clk APIs and the
->> Iris wrappers around it are happy to consume a null pointer (funnily
->> enough this one returns !void and is never checked)
->>
->> similar story for other func additions
-> 
-> In fact, initially I had them merged, but then I couldn't find an
-> elegant way to handle AON regs. I can squash them back, if that's the
-> consensus. Any idea regarding AON regs?
+I confirm that the problem seems to be related to duplicate IDs in the
+descriptor of my Grandstream GUV3100 device.
 
-Digging in techpack/video, I found:
+Unfortunately, I was unable to test the proposed patch, as kernel
+building is beyond my current capabilities. I am not experienced in
+such matters and do not want to risk the stability of my system.
 
-commit c543f70aca8d40c593b8ad342d42e913a422c552
-Author: Priyanka Gujjula <pgujjula@codeaurora.org>
-Date:   Fri Feb 14 13:38:31 2020 +0530
+The exact breaking point when the camera stopped working was found:
 
-    msm: vidc: Skip AON register programming for lagoon
-    
-    AON register programming is used to set NOC to low
-    power mode during IRIS2 power off sequence. However
-    AON register memory map is not applicable and hence
-    skipping AON register programming for lagoon.
-    
-    Change-Id: Ib63248d118ed9fecfa5fa87925e8f69625dc1ba8
-    Signed-off-by: Priyanka Gujjula <pgujjula@codeaurora.org>
+* Last known WORKING kernel (GOOD): 6.12.50-1-lts
+* First known NON-WORKING kernel (BAD): 6.12.51-1-lts
 
+I hope this information will help pinpoint the commit that caused the
+regression.
 
-lagoon being a downstream codename of the aforementioned sm6350
+Thank you very much for your help, guidance, and understanding!
 
-Meaning yeah it's bus topology.. so I think an if-statement within
-a common flow would be what we want here..
-
-perhaps
-
-if (core->iris_platform_data->num_vpp_pipe == 1)
-
-just like venus and downstream do for the most part, and kick the
-can down the road.. In an unlikely event someone decides to implement
-IRIS2_1 on a brand new SoC, we can delay our worries..
-
-Konrad
+=D1=87=D1=82, 9 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 09:55=
+ Ricardo Ribalda <ribalda@chromium.org> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> Hi Angel
+>
+> Thank you very much for the detailed report.
+>
+> Your device has two entities with the same id:
+> VideoControl Interface Descriptor:
+>         bLength                31
+>         bDescriptorType        36
+>         bDescriptorSubtype      6 (EXTENSION_UNIT)
+>         bUnitID                 4
+>
+>
+> ideoControl Interface Descriptor:
+>         bLength                 9
+>         bDescriptorType        36
+>         bDescriptorSubtype      3 (OUTPUT_TERMINAL)
+>         bTerminalID             4
+>         wTerminalType      0x0101 USB Streaming
+>         bAssocTerminal          0
+>         bSourceID               3
+>         iTerminal               0
+>
+> And that confuses the code. We have recently introduced a change that
+> has probably triggered the regression
+> https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/drivers/media/usb/uvc?id=3D0e2ee70291e64a30fe36960c85294726d34a103e
+>
+> Do you know the commercial name of the device and if it is available to b=
+uy?
+>
+> Could you try this patch and let me know if it fixes the issue?
+>
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c
+> b/drivers/media/usb/uvc/uvc_driver.c
+> index fa61f1d0ea2c..81937501fb0c 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -167,11 +167,23 @@ static struct uvc_entity
+> *uvc_entity_by_reference(struct uvc_device *dev,
+>
+>  static struct uvc_streaming *uvc_stream_by_id(struct uvc_device *dev, in=
+t id)
+>  {
+> -       struct uvc_streaming *stream;
+> +       struct uvc_streaming *stream, *last_entry;
+> +       unsigned int count =3D 0;
+>
+>         list_for_each_entry(stream, &dev->streams, list) {
+>                 if (stream->header.bTerminalLink =3D=3D id)
+>                         return stream;
+> +               count +=3D 1;
+> +               last_entry =3D stream;
+> +       }
+> +
+> +       /*
+> +        * If the streaming entity has an invalid id, but it is the only
+> +        * one available, use it.
+> +        */
+> +       if (count =3D=3D 1 && id =3D=3D UVC_INVALID_ENTITY_ID) {
+> +               dev_err(&dev->intf->dev, "Heuristics triggered\n");
+> +               return last_entry;
+>         }
+>
+>         return NULL;
+>
+>
+> Thanks
 
