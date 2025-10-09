@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-44116-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44113-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC188BC9E25
-	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 17:57:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3EAF4BC9DFE
+	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 17:54:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7F748188AB1B
-	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 15:56:58 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EB028424193
+	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 15:54:57 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DFB2C2EB84B;
-	Thu,  9 Oct 2025 15:54:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 52BE52288E3;
+	Thu,  9 Oct 2025 15:54:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="Uu1pPfmZ"
+	dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b="S2LzKHiZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.153.233])
+Received: from esa.microchip.iphmx.com (esa.microchip.iphmx.com [68.232.154.123])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C661A2D0625;
-	Thu,  9 Oct 2025 15:54:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.153.233
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A53221544;
+	Thu,  9 Oct 2025 15:54:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=68.232.154.123
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760025260; cv=none; b=tYvELHBtRdfz+IQKLqVu+rvRCwWvAKYTtEGrPLAOFmIlr6NO3JxA6LmA3IrKsS4F+cy9u+PYTNLiJLC4/4ZeghhEiKdDqk4RBRP6OEu2DnuxI5FjquQ79M8SELygTojRjtIHP8V2YAsl08PXxfCurH5dPCiYgZSAdFnlhW23p8c=
+	t=1760025250; cv=none; b=s40EzBFMsVAg42CtvwPRezm93TYXWcuURrV6Ex615N1Of9wgL0NIabzVYKASJYA9Sx6WpS/ZU/036o7wbPIMUN7TKk/7ypvIi6wtwTvACLQRsCJFPSjfHnqHFE/rRAPrbSEiRtov5Eaoch1XzgnXEMrRbEjtDRQ0ZXOpsOWL0/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760025260; c=relaxed/simple;
-	bh=qXM0Jk9e9PDmlzrnKOt8OyL9XYsdR0MVRMfDApa5rJg=;
+	s=arc-20240116; t=1760025250; c=relaxed/simple;
+	bh=gV8/pv5K8wTbaSSqyaWEvyuWsfTPKr+MZKnDEQREMBY=;
 	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=A1k5smb6gMqwAMktPTGMqsYjVmjxS/jWof8gdch63qgPthDRYTa59cRgUT+KNUQIKcsV6tLxENSj9Vua2KwnqgD6SGyvJ4VQnH4DWBQAUZR69EXvb1uDNh7i6ad3HMQkuIHyiLsRC6qQIWCQbO4iA0aA3Fvh137vNkYJIQQdwyo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=Uu1pPfmZ; arc=none smtp.client-ip=68.232.153.233
+	 MIME-Version:Content-Type; b=AxStnfXkjf7xijadNLh/dMkDNhogwQNct8ENc1W39s/MpIisZ/Mcp68SrLoHiNtR0gTogSzed0o176BbI+9o6IKWdUWy/STLu3nq4j+2UUo/pST5yW7rWryXjSutdAir+Z0C5uIZG5EEpBotcVhG7rYzfcwPG2iHBNniiYDRTn8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com; spf=pass smtp.mailfrom=microchip.com; dkim=pass (2048-bit key) header.d=microchip.com header.i=@microchip.com header.b=S2LzKHiZ; arc=none smtp.client-ip=68.232.154.123
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=microchip.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=microchip.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1760025259; x=1791561259;
+  t=1760025249; x=1791561249;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=qXM0Jk9e9PDmlzrnKOt8OyL9XYsdR0MVRMfDApa5rJg=;
-  b=Uu1pPfmZJnikLzsIp3wwKa6/XHGkmKiy1kk0HmLxJYyxKbbj5J/t42Ai
-   a2G9BYF7sj2QgfyVctUXE8gWkLvEvlWYJMqPjF+cWnfHU8BgjyMmLqnKh
-   o6cj+1PsQf3ayY4diHt8/Wfg/VpZFu4k1hyLjFTrUBLIhXWTQcCU6LjUH
-   S+K5lBg419pFKPA9vnnxQhqN4p0Wew67eMa+3BCmAnANHob+F9uU8LLHJ
-   rXEgfSaiYlyU4VesNJURg9HT8RDx+Cgd0yBihKnaJTAp6O6GAVC8jH6ZF
-   Ukga+moEGDnAOYS45xZ6ohorP8dJ4cP4VjLx5xKYt9wpgGxjWoy5IyMuH
-   w==;
-X-CSE-ConnectionGUID: lBmy0Ek5QtOpGZTOa4YF8Q==
-X-CSE-MsgGUID: frcHL7zpRxCKgrAqNEreXA==
+  bh=gV8/pv5K8wTbaSSqyaWEvyuWsfTPKr+MZKnDEQREMBY=;
+  b=S2LzKHiZsWr6hCCShA1lyzGnmdVl7fFXD9k70mg4Q7k5ImbVzfxDcTZK
+   XONo389/07QO94nwSIn/xQAw+JJnW8xyWMl8X/dNHcGUNyCwnuRmMbOSC
+   ZpU1FhGsrIKfFPhHjsSGXUQqZzBPuVHvPmj1JhFEvQv8JiG1X19ioIeeC
+   1Aii1mD8zjwIJHmLbc2bGKsLCp2U+W0UIKwlpYDX3FtOhYjj695FT865m
+   eG/lfIi+CkcjmfeHwzKSuX0vjojZC8JWt6i+L+Yu84izMerstsOK/466b
+   8pJ6YIM6hkVb1HCUWB/p1EfPi80W4PQ+JOshIKZ2TpIWlfG1B5dN+kFvx
+   Q==;
+X-CSE-ConnectionGUID: cxE1NKlcTy6ijIhpLPFRrQ==
+X-CSE-MsgGUID: Sns/tTj6S8uMW/FVFJg3sA==
 X-IronPort-AV: E=Sophos;i="6.19,216,1754982000"; 
-   d="scan'208";a="278928715"
+   d="scan'208";a="48057851"
 X-Amp-Result: SKIPPED(no attachment in message)
 Received: from unknown (HELO email.microchip.com) ([170.129.1.10])
-  by esa5.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Oct 2025 08:54:11 -0700
-Received: from chn-vm-ex1.mchp-main.com (10.10.87.30) by
- chn-vm-ex04.mchp-main.com (10.10.85.152) with Microsoft SMTP Server
+  by esa2.microchip.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES128-GCM-SHA256; 09 Oct 2025 08:53:59 -0700
+Received: from chn-vm-ex3.mchp-main.com (10.10.87.32) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.58; Thu, 9 Oct 2025 08:53:35 -0700
+ 15.1.2507.58; Thu, 9 Oct 2025 08:53:43 -0700
 Received: from chn-vm-ex01.mchp-main.com (10.10.87.71) by
- chn-vm-ex1.mchp-main.com (10.10.87.30) with Microsoft SMTP Server
+ chn-vm-ex3.mchp-main.com (10.10.87.32) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.20; Thu, 9 Oct 2025 08:53:35 -0700
+ 15.2.1748.10; Thu, 9 Oct 2025 08:53:42 -0700
 Received: from che-lt-i64410lx.microchip.com (10.10.85.11) by
  chn-vm-ex01.mchp-main.com (10.10.85.143) with Microsoft SMTP Server id
- 15.1.2507.58 via Frontend Transport; Thu, 9 Oct 2025 08:53:28 -0700
+ 15.1.2507.58 via Frontend Transport; Thu, 9 Oct 2025 08:53:35 -0700
 From: Balamanikandan Gunasundar <balamanikandan.gunasundar@microchip.com>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>
 CC: Eugen Hristev <eugen.hristev@linaro.org>, Chas Williams
@@ -75,11 +75,10 @@ CC: Eugen Hristev <eugen.hristev@linaro.org>, Chas Williams
 	<dan.scally+renesas@ideasonboard.com>, Tomi Valkeinen
 	<tomi.valkeinen@ideasonboard.com>, <linux-kernel@vger.kernel.org>,
 	<linux-media@vger.kernel.org>, <linux-atm-general@lists.sourceforge.net>,
-	<netdev@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	Balamanikandan Gunasundar <balamanikandan.gunasundar@microchip.com>
-Subject: [PATCH 02/18] media: platform: microchip: Include DPC modules flags in pipeline
-Date: Thu, 9 Oct 2025 21:22:35 +0530
-Message-ID: <20251009155251.102472-3-balamanikandan.gunasundar@microchip.com>
+	<netdev@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>
+Subject: [PATCH 03/18] media: microchip-isc: Enable GDC and CBC module flags for RGB formats
+Date: Thu, 9 Oct 2025 21:22:36 +0530
+Message-ID: <20251009155251.102472-4-balamanikandan.gunasundar@microchip.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20251009155251.102472-1-balamanikandan.gunasundar@microchip.com>
 References: <20251009155251.102472-1-balamanikandan.gunasundar@microchip.com>
@@ -92,29 +91,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 
-Add DPC_DPCENABLE, DPC_GDCENABLE, and DPC_BLCENABLE enable bits to
-ISC_SAMA7G5_PIPELINE macro to prevent isc_sama7g5_adapt_pipeline() from
-masking out DPC modules during pipeline configuration
+From: Balakrishnan Sambath <balakrishnan.s@microchip.com>
 
-Signed-off-by: Balamanikandan Gunasundar <balamanikandan.gunasundar@microchip.com>
+Include DPC_GDCENABLE and CBC_ENABLE flags in pipeline configuration for
+RGB raw formats to enable green disparity correction and
+contrast/brightness control.
+
+Signed-off-by: Balakrishnan Sambath <balakrishnan.s@microchip.com>
 ---
- drivers/media/platform/microchip/microchip-sama7g5-isc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/platform/microchip/microchip-isc-base.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/platform/microchip/microchip-sama7g5-isc.c b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
-index 36c3f4ba1962..03f7a46acd47 100644
---- a/drivers/media/platform/microchip/microchip-sama7g5-isc.c
-+++ b/drivers/media/platform/microchip/microchip-sama7g5-isc.c
-@@ -59,7 +59,8 @@
- #define ISC_SAM9X7_MAX_SUPPORT_HEIGHT   1920
- 
- #define ISC_SAMA7G5_PIPELINE \
--	(WB_ENABLE | CFA_ENABLE | CC_ENABLE | GAM_ENABLES | CSC_ENABLE | \
-+	(DPC_DPCENABLE | DPC_GDCENABLE | DPC_BLCENABLE | \
-+	WB_ENABLE | CFA_ENABLE | CC_ENABLE | GAM_ENABLES | CSC_ENABLE | \
- 	CBC_ENABLE | SUB422_ENABLE | SUB420_ENABLE)
- 
- /* This is a list of the formats that the ISC can *output* */
+diff --git a/drivers/media/platform/microchip/microchip-isc-base.c b/drivers/media/platform/microchip/microchip-isc-base.c
+index a7cdc743fda7..c138e92a1aca 100644
+--- a/drivers/media/platform/microchip/microchip-isc-base.c
++++ b/drivers/media/platform/microchip/microchip-isc-base.c
+@@ -787,7 +787,7 @@ static int isc_try_configure_pipeline(struct isc_device *isc)
+ 		if (ISC_IS_FORMAT_RAW(isc->try_config.sd_format->mbus_code)) {
+ 			isc->try_config.bits_pipeline = CFA_ENABLE |
+ 				WB_ENABLE | GAM_ENABLES | DPC_BLCENABLE |
+-				CC_ENABLE;
++				DPC_GDCENABLE | CBC_ENABLE | CC_ENABLE;
+ 		} else {
+ 			isc->try_config.bits_pipeline = 0x0;
+ 		}
 -- 
 2.34.1
 
