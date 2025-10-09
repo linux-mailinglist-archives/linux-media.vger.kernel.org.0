@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-44032-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44033-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 523A6BC700D
-	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 02:27:06 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 91605BC701C
+	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 02:32:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F2EBA4E3093
-	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 00:27:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4D1DA3E259B
+	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 00:32:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6BEB18DB0D;
-	Thu,  9 Oct 2025 00:26:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9C6EE19047A;
+	Thu,  9 Oct 2025 00:32:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="goMbxqXr"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dBx0JrZF"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 37F661096F;
-	Thu,  9 Oct 2025 00:26:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5D07173;
+	Thu,  9 Oct 2025 00:32:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759969615; cv=none; b=nxYl0Wuf+mxSh8nbKREYg3T+u+dUKaWlmaySyl/Hq8+9JJIEhOcvNK2453K/oGnHD6Nb2ynvFZXdlbZl5LzLWJCvYuMGDvIIy9nNc4PqC4Kn0nOW1hhdytjYRzVezS4GAWO2TVf7cKznluqbW3TZtcErag2h3oh8V4H3jiP/GrM=
+	t=1759969936; cv=none; b=HGsJNOisyI9DVUQqCey2UuzT7d5+4mELMib6l4tLGnDCFxcmdxrgvgMxDhz2EOX1F9TVRNsaK+k56f05r576L4mn+TS66r6cgVF+/64sG4SacXsYLeW+m3U6W3wtjvXXKSXKARpWM0sUhcWExlyf1mRtonJHWDh5U5APGJogzyo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759969615; c=relaxed/simple;
-	bh=NTZOj9046h7xAft3krHWfXm/mCYPdn9MS2UGaxNZUto=;
+	s=arc-20240116; t=1759969936; c=relaxed/simple;
+	bh=kWpLlcPiCbJutncPlmjdHXQbcAsO41pQ0yvyL9CXkoQ=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kF2lQYh0cuZyhX5N7Ac66d7ehFOCUnmDLi12yap26E/tFDSyjJGyxsijLfwkkEXPw+/83vjW2n+NRZylvBIkWaoQq5vYL1Wev4y6gETf7varWuhOdTEktuPqvqueeRbu1vZbTs5kfSTgj9F5MLWZSBVt4yJ3oh7YOMOgGMRw+ro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=goMbxqXr; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1B9B4C4CEE7;
-	Thu,  9 Oct 2025 00:26:46 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=g19AsaGShJaw/cFcaMmgmcA3j1uBoDNItdgVcgSGfPAaxp57D+MRVQ41Yejlf2MZM3nWCM0zeSR/b1rwvN2aFATzvSPOFMbspGi+mWFJz2BOYERSorfTMS4shDd5dVjPJcMiVuOP5Tu9/vLDY9BvseL87LXHrDPfZre48ntnxqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dBx0JrZF; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 918FAC4CEE7;
+	Thu,  9 Oct 2025 00:32:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1759969614;
-	bh=NTZOj9046h7xAft3krHWfXm/mCYPdn9MS2UGaxNZUto=;
+	s=k20201202; t=1759969934;
+	bh=kWpLlcPiCbJutncPlmjdHXQbcAsO41pQ0yvyL9CXkoQ=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=goMbxqXr4MWFYmCePEx7Xg7V26wqq/gs4vIWNe6wIVggKbHkW6+DqbcHi7tDvtRIF
-	 9DaPYBpQo6B3Ifc3a0UHmNX8ALV68uPzznohRAJYjG73s0PYWsp8uTbxd5qut1l1X9
-	 4EPPtzxg/sclnOPdqMi5WlsEdvvlNEbhveL9e136Krg9LogQwbojJzLVmDTkHiVyMv
-	 jx8mWIP7Lru8RL+IniPW8vMu+ggm12zs1QPjkmvxP9dDZ2Mp6Plc1VnSA/rdWgx/cW
-	 7D661dH39RjFrztPPG3688LFI69WRL2DzeEXISx5/08OjrmeUe8mhFfVGH1Q/LtlUg
-	 uuT9qTCKUfCZA==
-Message-ID: <1d36569c-55b9-4390-87d1-fd0c2f837014@kernel.org>
-Date: Thu, 9 Oct 2025 09:26:43 +0900
+	b=dBx0JrZF0JKhv0vBk4+DtiFvSCRMM3AsbB3NJ9ndBJoC35TASb/qWchIT7UOApSms
+	 3CaLeH7Jro/svmcCSjfnhTiEPQA4aQtmhljNL+nCH2+aGarTGDoRkcuPFDLqDVO/0R
+	 SO/ljGXsr0k7RqpSxNz1SCaBiqjBkbrY3oEFJZ4kphEBQVyxDCWGoA+yu0aLR9DlFm
+	 U3XSQ+THzI77fOMsAaqFtnVK/Gz7RCVJ09K2fS/rFAmDyyVmopnlLLSPj1Ze+XfqeX
+	 CMjoPheUUwqGa8/zzcuM1zji7xlNf2f+Bxo0lgfqjOIAP9IOphnmUGZssswqlptQph
+	 /5x8HO5lA4RyQ==
+Message-ID: <bcfbf35b-69ed-4f39-8312-6a53123cd898@kernel.org>
+Date: Thu, 9 Oct 2025 09:32:05 +0900
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,18 +50,37 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/3] Introduce iommu-map-masked for platform devices
-To: Rob Herring <robh@kernel.org>,
- Charan Teja Kalla <charan.kalla@oss.qualcomm.com>
-Cc: joro@8bytes.org, will@kernel.org, robin.murphy@arm.com,
- saravanak@google.com, conor+dt@kernel.org, mchehab@kernel.org,
- bod@kernel.org, krzk+dt@kernel.org, abhinav.kumar@linux.dev,
- vikash.garodia@oss.qualcomm.com, dikshita.agarwal@oss.qualcomm.com,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- iommu@lists.linux.dev
-References: <20250928171718.436440-1-charan.kalla@oss.qualcomm.com>
- <CAL_JsqK9waZK=i+ov0jV-PonWSfddwHvE94Q+pks4zAEtKc+yg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
+ node
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Charan Teja Kalla <charan.kalla@oss.qualcomm.com>,
+ Bryan O'Donoghue <bod@kernel.org>, Bryan O'Donoghue <bod.linux@nxsw.ie>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
+ <1ad2ca1e-1d57-4ad8-a057-ab0d804f1d49@oss.qualcomm.com>
+ <7da769b4-88e9-401f-bb21-0ff123818b9c@kernel.org>
+ <6840d462-8269-4359-a6e5-d154842b62db@oss.qualcomm.com>
+ <af0da28c-3ca0-41dc-aaa4-572723ea74bf@linaro.org>
+ <klhvgzizub33f46buqsog54wqksqp24a5tijwyv355l2ao2imo@wdkojfebc6s2>
+ <e1a6e75a-2a5d-44a2-8bbc-140eb86d1806@linaro.org>
+ <2hh3zkdwgqbdurpr4tibr3gjat6arwl3dd3gxakdaagafwjdrm@aj5em4tbsjen>
+ <Ujyoj3HGLVFhS2b0XzcYAMjSiCAuO-lSJ8PMEQLOaaX83tk_0D5zjrL0VDyZAmD3i4zLB3ElKSZBltISb5jJHA==@protonmail.internalid>
+ <4a32bbec-2baf-4210-a7c1-1ddcd45d30c8@oss.qualcomm.com>
+ <SuwJuCIcLVJwN3YeN1il6tB9wO9OH6bYcnbRpxpuI9Dl7piYLN-hVdnyv0Mal6N-W5pi2aCZI8MxHZDEkoE63A==@protonmail.internalid>
+ <4d87d1ca-55b2-426e-aa73-e3fd8c6fe7bd@kernel.org>
+ <10a8ccda-4e27-4b06-9a0e-608d6ade5354@nxsw.ie>
+ <4cb4a92d-2f20-47c7-881e-aadcc6f83aa0@kernel.org>
+ <1516f21e-aee3-42cf-b75e-61142dc9578d@oss.qualcomm.com>
+ <9bae595a-597e-46e6-8eb2-44424fe21db6@linaro.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,61 +126,64 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <CAL_JsqK9waZK=i+ov0jV-PonWSfddwHvE94Q+pks4zAEtKc+yg@mail.gmail.com>
+In-Reply-To: <9bae595a-597e-46e6-8eb2-44424fe21db6@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 29/09/2025 05:23, Rob Herring wrote:
-> On Sun, Sep 28, 2025 at 12:17 PM Charan Teja Kalla
-> <charan.kalla@oss.qualcomm.com> wrote:
+On 09/10/2025 09:10, Bryan O'Donoghue wrote:
+> On 08/10/2025 19:03, Charan Teja Kalla wrote:
+>>>>> Couldn't we list the entire set of iommus - then detach - subsequently
+>>>>> re-attaching in our platform code with FUNCTION_IDs we keep listed in
+>>>>> our drivers ?
+>>>>>
+>> TMK, there is no api exist to detach a device once it is attached to
+>> smmu. We used to have one but removed[1], not sure how well it will be
+>> received to introduce it again.
 >>
->> This series introduces a new iommu property called iommu-map-masked(may
->> be there is a better name), which is used to represent the IOMMU
->> specifier pairs for each function of a __multi-functional platform
->> device__, where each function can emit unique master id(s) that can be
->> associated with individual translation context.
+>> There is other problem exist attaching the entire set of iommus in the
+>> first place: Usually writes to SMR registers are protected through
+>> emulation by hyp. Thus adding the sids of protected/non-protected
+>> usecases in the same iommu set will not allowed by the
+>> hypervisors(eg:gunyah), as all will end up in using the same context
+>> bank, thus there can be failure to attach to smmu in the first place.
 >>
->> Currently, the iommu configuration - at least for arm architecture-
->> requires all the functions of a platform device will be represented
->> under single dt node thus endup in using only a single translation
->> context.
 >>
->> A simple solution to associate individual translation context for each
->> function of a device can be through creating per function child nodes in
->> the device tree, but dt is only to just represent the soc layout to
->> linux kernel.
+>> [1]
+>> https://lore.kernel.org/all/20230110025408.667767-1- 
+>> baolu.lu@linux.intel.com/
 >>
->> Supporting such cases requires a new iommu property called,
->> iommu-map-masked(taking cue from iommu-map for pci devices) and syntax
->> is:
->>    iommu-map-masked = <FUNCTION_ID1 &iommu ID1 MASK1>,
->>                       <FUNCTION_ID2 &iommu ID2 MASK2>;
->> NOTE: As an RFC, it is considered that this property always expects 4
->> cells.
->>
->> During the probe phase of the driver for a multi-functional device
->> behind an IOMMU, a child device is instantiated for each FUNCTION_ID.
->> The call to of_dma_configure_id() on each child sets up the IOMMU
->> configuration, ensuring that each function of the device is associated
->> with a distinct translation context.
->>
->> This property can also be used in association with 'iommus=' when dt
->> bindings requires the presence of 'iommus=', example[2]. For these
->> cases, representation will be(on arm64):
->>    iommus = <&iommu sid mask>; //for default function.
->>    iommu-map-masked = <FUNCTION_ID &iommu sid mask>;//additional
->> function.
+>>>>> That way the DT is complete and correct, we have a compliant upstream DT
+>>>>> but we also find a way to make the FUNCTION_ID specific setup we need.
+>>>> i.e. you can keep the FUNCTION_ID "metadata" in the driver and
+>>>> associate specific iommu indexes with the FUNCTION_ID you want in there.
+>>>>
+>>>> That way you could have multiple FUNCTION_ID smmu entries in the DT
+>>>> and just associate the DT indexes locally in drivers/platform/qcom/
+>>>> iris_metadata_goes_here.c
+>>>>
+>>>> ---
+>>>> bod
+>>> Actually why can't we specify FUNCTION_ID in the iommus = <entries>
+>>>
+>>> Surely we could do
+>>>
+>>>      #iommu-cells = <4>;
+>>>      iommus = <&apps_smmu 0x420 0x2 FUNCTION_ID>;
+>>>
+>>> and encode the real data we need directly in the iommus list...
+>>>
+>> Since it is the smmu device property , this suggestion expects all the
+>> devices, not just video, to define additional argument. Does this look
+>> valid?
 > 
-> Where does the FUNCTION_ID value come from?
+> If it is legitimate meta-data for the SMMU setup then why _shouldn't_ it 
+> go into the DT ?
 > 
-> Why can't you just have multiple "iommus" entries where the index
-> defines the default and any FUNCTION_ID entries? What's in each index
-> is specific to the device.
 
-
-We discussed the problem earlier and that is what I asked them to do.
-Apparently I was just ignored so now two maintainers say the same. We
-can get ignored still and the third maintainer will have to tell this.
+We talked about this two or three months ago. I don't understand why you
+just ignored that entire part and come with new binding just to not
+touch iommu code. List of entries in iommu must have strict order, just
+like for every other list, and you should rely on that.
 
 
 Best regards,
