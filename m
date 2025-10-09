@@ -1,93 +1,72 @@
-Return-Path: <linux-media+bounces-44066-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44067-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 36FE1BC88B5
-	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 12:41:45 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B73F9BC8915
+	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 12:45:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B72FA3E6137
-	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 10:41:34 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 3C3BE350CAE
+	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 10:45:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 09B4B2DA760;
-	Thu,  9 Oct 2025 10:41:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1A49A2DD5E2;
+	Thu,  9 Oct 2025 10:45:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="NIiP8vBY"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOiaczP3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 846202D8785;
-	Thu,  9 Oct 2025 10:41:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A5DC27587D;
+	Thu,  9 Oct 2025 10:45:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760006487; cv=none; b=KmjWynhnNaNdy1TTgf3WYM3e0sYc0fBeZ9TlzsYv/nmJgU2au7MSJj3UQCvR713bwYQwTIgVZrtNEaPZe2kh++fmiSrWLGo6z48WSLV3nBUfe4GnrPWpF29wId9O6o9416WRLvunp1z5pHrg7uX5a9J79NmJBU3hgTTaMFTPWNk=
+	t=1760006739; cv=none; b=Bk1PHkD3mMYdbhsbO6KgVf9zmdzlfHQ5o7ksL59OVosXY/1t/4ELmWq6xR1t9OPRtYASgT4C6lxJsFmOSFbeyhAL07J+69SxlksXbLQyun9Lj4T21XaoQl6D4QVDjhO+55SJYWj5mMCr+GaWHDeF2gDqG6qeLKOK3tGAaYYtwQw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760006487; c=relaxed/simple;
-	bh=iv1uYnWFWnJuO/yz+MCLq17avoNfVhzN83T1zNalVnY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=rukHdCpw+46Y6aWkfboTrHpfmtTbMRRkdEvQpjj45fm/mGvdecfobzeb8oOCWZS2XxqVSwrJb24KH5zdkFAcKsMfakjzAo9f8Hec2t7GLihx1HUajSc5/TxozUSQ3aOsrChUG/IuQET18hQcMxolleHKhrkGJdhN4wgP7xuILcI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=NIiP8vBY; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5998V3EM031866;
-	Thu, 9 Oct 2025 10:41:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	w71AKsbRL+zDePTO8qqcFmW7+B619v+AU/CT6nw/bTo=; b=NIiP8vBYZovnOsFn
-	IoWhOpJotnpEqKyJXaVoGdjHTXpFwvFchih5p5etCeK7Fm/rXo8Fbeh9pRcO4KIF
-	Kqhxi2PBdrgWOffJKebrdUHXCY6VtzuwrJkhko0bqEqxWqNH0ZxW1BX4JFStYf9o
-	Gh9cCwN2k2QrIu0x48+L0KF61jLC9FQX1o7PtxVh/eSwAUV2CdQ4gc2xbFZtvnaJ
-	IwsgL4KltfyLrgzpVz7aIUI88IN01QEA7+5EifGZNL6Ud5ermy7d2l6HB5KS1jlA
-	M116xfOynWOsZGz8oAAKKiIyffFxdhYC49f+5Akw1o5cWHrsFBzLmtrpXDHBE3t4
-	+2huQA==
-Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49p9m0rbxh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 09 Oct 2025 10:41:09 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 599Af8Pu012011
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 9 Oct 2025 10:41:08 GMT
-Received: from [10.216.43.164] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Thu, 9 Oct
- 2025 03:40:34 -0700
-Message-ID: <4fac8b52-180d-7b79-f0d9-52c0f94186da@quicinc.com>
-Date: Thu, 9 Oct 2025 16:10:31 +0530
+	s=arc-20240116; t=1760006739; c=relaxed/simple;
+	bh=9id8tIe9NIzz9DBiDJqfu/qHT/QjpNPhNBm5D/is+RE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=AS9lTM3NOPIo8c4PsJbXNMpMKh8kZqD/PRvC+5DJFZJJ7PbkvvMuwk1kRNmFIxsarkYvL7cxryE+qcXG9DG8U4/WuZQ2uCycd8C1VTUj5VQFj8gRroCfRCFu6g7x4Uxuthq81Quwkfj6hLTRnSwkHBjZXmdyAtqQ4IZfzFFjrxE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOiaczP3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B33BEC4CEF5;
+	Thu,  9 Oct 2025 10:45:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760006738;
+	bh=9id8tIe9NIzz9DBiDJqfu/qHT/QjpNPhNBm5D/is+RE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=jOiaczP3pa99lF0dQOZr7Ny8ZJkO7HOAtoSa09D/YXDHFRdx5xuOzhn3jcdxYa4nc
+	 GxYSDA52qXccpp5U27xe1Uz0u4TZubI1ImhPEMfjNfm5D6tBVxgSlWy4PGS/8aKMxV
+	 JOWxK6D+VprY7gcaPjtGdQ39fP1yefK3IZeJZ631VEh8GjOqNjDKzUtIIbc56JgLUS
+	 t8khzpslvLvbyiT+fd7wfYIcPhJCtDIvW2lPetiI45we6LjN7BzxgU3Mv9GpEWFVYW
+	 snL5A11rASW64u52zor1Up6cDvQFl29z9+YgO6a0gMm9GWIG/1hwD6OC0C8YqY4gis
+	 Vtr0CuJZj9AMg==
+Message-ID: <e8dfad82-ab07-40e9-9296-859168142611@kernel.org>
+Date: Thu, 9 Oct 2025 19:45:28 +0900
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
  node
-Content-Language: en-US
-To: Krzysztof Kozlowski <krzk@kernel.org>, Bryan O'Donoghue <bod@kernel.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Charan Teja Kalla
-	<charan.kalla@oss.qualcomm.com>,
-        Bryan O'Donoghue <bod.linux@nxsw.ie>,
-        "Dmitry Baryshkov" <dmitry.baryshkov@oss.qualcomm.com>
-CC: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Dikshita Agarwal
-	<quic_dikshita@quicinc.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        "Mauro
- Carvalho Chehab" <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>
+To: Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Bryan O'Donoghue <bod@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Charan Teja Kalla <charan.kalla@oss.qualcomm.com>,
+ Bryan O'Donoghue <bod.linux@nxsw.ie>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
 References: <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
- <10a8ccda-4e27-4b06-9a0e-608d6ade5354@nxsw.ie>
  <4cb4a92d-2f20-47c7-881e-aadcc6f83aa0@kernel.org>
  <1516f21e-aee3-42cf-b75e-61142dc9578d@oss.qualcomm.com>
  <9bae595a-597e-46e6-8eb2-44424fe21db6@linaro.org>
@@ -101,69 +80,92 @@ References: <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
  <5085c857-f6e8-4faf-b61a-a9ee562ccf06@kernel.org>
  <7ba3953a-166f-4c67-8f54-666b0c488b12@kernel.org>
  <e15f156c-cb38-4566-b275-ba156a7b598d@kernel.org>
-From: Vikash Garodia <quic_vgarodia@quicinc.com>
-In-Reply-To: <e15f156c-cb38-4566-b275-ba156a7b598d@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+ <4fac8b52-180d-7b79-f0d9-52c0f94186da@quicinc.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <4fac8b52-180d-7b79-f0d9-52c0f94186da@quicinc.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=a/U9NESF c=1 sm=1 tr=0 ts=68e79145 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10
- a=QX6zwKueRfnGSD8Ekp0A:9 a=QEXdDO2ut3YA:10 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: WohGYkK-oir618Q5Xxmhmw45nsWRvMrx
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA5MDA0NyBTYWx0ZWRfX1exSD3oyrq6q
- WgArgC7e0Lszp+gMvvDX1gdX1+n0l3OcgrcQd98rktuin18SavO06338alda1MJpbBwENVizI/1
- pKE7D1bhbizBHbCXNbG0PpmTg0cM5EvrxLQptgfWOVjtfmuYQjUww0r2VNj1h1nHkPfTPTvjzKz
- 8h886U0dHoKaD1pDZD4Y/ONezOIHhN2Eli/ywCq0iRLiIaAKy94g6DyP+dC9tvZpE7/CXMMCE9W
- QA7l7qnuJOOqm9zlwebn0h3MGl1qmvkjdaMHNL+Lga5YJUqj2T/sTtvRUmI7HRPIiat1qFi06l+
- yKXRC6qu1KqYBe2nzU56QhbxjsclhI3iv93l9GzNF3D0TCth8nFd/yghXX4d7vETEDfaImnx6su
- oex33kZFyFnVAsFP5HCsudGwRZYRdQ==
-X-Proofpoint-ORIG-GUID: WohGYkK-oir618Q5Xxmhmw45nsWRvMrx
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-09_03,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 bulkscore=0 phishscore=0 suspectscore=0 adultscore=0
- spamscore=0 lowpriorityscore=0 impostorscore=0 malwarescore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510090047
 
-
-On 10/9/2025 2:41 PM, Krzysztof Kozlowski wrote:
-> On 09/10/2025 17:38, Bryan O'Donoghue wrote:
->> On 09/10/2025 02:04, Krzysztof Kozlowski wrote:
->>>> The iommu description for this platform basically lacks the data that
->>>> _should_ be there -> FUNCTION_ID.
->>> No. The index tells that already.
->>
->> Hmm.
->>>> The rule is that the DT should really describe the hardware right ?
->>> It already does. Same as I wrote on IRC, DT already has all the
->>> information. Entry 0 has function ID-foo. Entry 1 has function ID-bar.
->>> Entry 2 has function ID-bar or whatever.
->>
->> That's the part I don't believe is true its a 1:Many relationship 
->> between FUNCTION_ID:SIDs
->>
->> Let me check the docs...
->>
->> Here's the example I gave on IRC for lore
->>
->> SID 0x1940 maps to AC_VM_HLOS (Linux)
->> SID 0x1941 maps to AC_VM_CP_BITSTREAM - protected bitstream
->> SID 0x1945 maps to AC_WM_CP_BITSTREAM
->>
+On 09/10/2025 19:40, Vikash Garodia wrote:
 > 
-> I responded to this on IRC... Nothing proves here that 1:many cannot be
-> done.
-
-Kaanapali already has 1:Many relationship for FUNCTION_ID:SIDs.
-
+> On 10/9/2025 2:41 PM, Krzysztof Kozlowski wrote:
+>> On 09/10/2025 17:38, Bryan O'Donoghue wrote:
+>>> On 09/10/2025 02:04, Krzysztof Kozlowski wrote:
+>>>>> The iommu description for this platform basically lacks the data that
+>>>>> _should_ be there -> FUNCTION_ID.
+>>>> No. The index tells that already.
+>>>
+>>> Hmm.
+>>>>> The rule is that the DT should really describe the hardware right ?
+>>>> It already does. Same as I wrote on IRC, DT already has all the
+>>>> information. Entry 0 has function ID-foo. Entry 1 has function ID-bar.
+>>>> Entry 2 has function ID-bar or whatever.
+>>>
+>>> That's the part I don't believe is true its a 1:Many relationship 
+>>> between FUNCTION_ID:SIDs
+>>>
+>>> Let me check the docs...
+>>>
+>>> Here's the example I gave on IRC for lore
+>>>
+>>> SID 0x1940 maps to AC_VM_HLOS (Linux)
+>>> SID 0x1941 maps to AC_VM_CP_BITSTREAM - protected bitstream
+>>> SID 0x1945 maps to AC_WM_CP_BITSTREAM
+>>>
+>>
+>> I responded to this on IRC... Nothing proves here that 1:many cannot be
+>> done.
 > 
-> Best regards,
-> Krzysztof
+> Kaanapali already has 1:Many relationship for FUNCTION_ID:SIDs.
+
+Sun is a star. How is that related? I am not going to duplicate
+arguments from IRC, especially to that pointless argument. Read again
+discussion on IRC.
+
+Best regards,
+Krzysztof
 
