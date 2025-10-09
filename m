@@ -1,55 +1,48 @@
-Return-Path: <linux-media+bounces-44056-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44057-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id DED52BC80A6
-	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 10:26:17 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 77499BC8124
+	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 10:38:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D2E31886CD4
-	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 08:26:40 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 36FBA3B5ED9
+	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 08:38:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C34CC2D0C7A;
-	Thu,  9 Oct 2025 08:26:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9B3F2C027C;
+	Thu,  9 Oct 2025 08:38:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="dxxWF89a"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ncgEQSIy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D82A34BA3F;
-	Thu,  9 Oct 2025 08:26:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F98534BA38;
+	Thu,  9 Oct 2025 08:38:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1759998369; cv=none; b=CXvfRUF2IBOX2y2a+l3qWIZJNkDewu0ksjq+PlW4cJVfkL2wHB/THZxRyp4vEALtHaplCCWR8oHFg9JVAT3Vc0JcIB4VmsWipzSZDIqQ29MaGKIirb/0GIx6gYdwBmH8fOyne+jVU+94SR4xsz6FHYBGiXz+yHe5AXRnQrGrrn8=
+	t=1759999091; cv=none; b=AalnT+QPiKinMCu+1guthmcheofWgUX+ZeVa/a7MSiqVqSp3kijqqoe/WP2h54CFXbpxqw/m5IdxK3z6q+i4so4at9Ll+2R9RkC6l1Dm3okMzfYsEV/HAWFEqxFnUazNjNkisbSNjFZk/sIs+jgrrO9w8xOL95/Qdq1Xpq7x8Ug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1759998369; c=relaxed/simple;
-	bh=wSWyJi0/TAO8GU/SWsIP6i2YbWjUCFhoiqvW6k3QEso=;
+	s=arc-20240116; t=1759999091; c=relaxed/simple;
+	bh=a+tmJW52l+C47Xfe44WbKAMzHqsgzWS+A4gTMEC4+50=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=PB1HXZmsEtlfkIUYnG5iMrKorveug3P2ea9xas3nyvXM6w9kvwYiCcUIXSioxZlKpwfvVt6zruD4+TbJ079h0c9UHZnjdTYiFBl8H21h/5aClhoU77MIUhzwH6JHTitApRFdn9CQo0aeE+GvirtzkYOmEmZ+YFXRc4u/mzXb1Mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=dxxWF89a; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1759998364;
-	bh=wSWyJi0/TAO8GU/SWsIP6i2YbWjUCFhoiqvW6k3QEso=;
+	 In-Reply-To:Content-Type; b=VAt56FLw1WX4GuaztcDaLWQkh01izUrx82SkU8Hixnszq5ga70084j9YAqiBWMIlTRpK0M8LKTCYbWJyqgo6zQQqo9eDpWYes3UXwoFHHkrC9qSZHkQtT9kQkkaDCFH+T6DTpb/D3W31xVw4Y9LQRZ8G+IybyBUvgP8wm4KlfxY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ncgEQSIy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62D3CC4CEE7;
+	Thu,  9 Oct 2025 08:38:07 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1759999090;
+	bh=a+tmJW52l+C47Xfe44WbKAMzHqsgzWS+A4gTMEC4+50=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dxxWF89a8zWRFH2gqgMnQGPculxLXFfzfHKak7sxhi81EWQh1toN1aJFOVF4g49MD
-	 ktYlB5mOK10wkFBcTFE4XmBdPIVT4TQbZzK/L83/d2dGEpUdkmJOA0nBvc8FsnSgqo
-	 rGnTc5nk2bb3U3q7GyqnmA9bGhSK2dmkdqAizPVzBTGa/zv3fMpub7ulV684L2AClp
-	 BozDZ8XSoxEyiFY6ZSQhBeR5ST7lAn6syDT4C5asgfzDPBwP50fq7TemyfRKEN4ZNe
-	 9rIxvTJLQVivzOQps6YOZHt3RhkacMQ0uERdFYtkmcUicuDHH30wsXSCoYYQ6pubBs
-	 iRPjr1FwSfdHQ==
-Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 152ED17E12DA;
-	Thu,  9 Oct 2025 10:26:03 +0200 (CEST)
-Message-ID: <c8cf6ce8-87e9-41ef-875f-e1f8f103ac78@collabora.com>
-Date: Thu, 9 Oct 2025 10:26:02 +0200
+	b=ncgEQSIymNaCXW0g7/W1ZVhP8A0hAuoKyvSoLz9wTu9dGnpkcP+B3suYPJbUfzRDv
+	 CGzXBqqM3Id0WlAZ7Z+lapFKq8wUd6jsIekBGFt/0LLPzIIoRnU10KL2CiuJ5iwv7M
+	 teOFFb1oR7Shm/sk/MmIdi0os3NuqioR9vjRuBEd0H4S2pLP82fRZsTf9YbhwbPyCw
+	 vspRCse7nQsv2OryOft+UlwWKbCpRCDsxRnazpNPxKjsQCchVqygCaJoxchLN2DZ8m
+	 3BqggeuAJKMihMG9bPEdnLE3h4dasslUOqoE6t6WD/14deaaYaXiyx4RpOAer5Qm5Q
+	 d6IaVbtspoNsg==
+Message-ID: <7ba3953a-166f-4c67-8f54-666b0c488b12@kernel.org>
+Date: Thu, 9 Oct 2025 09:38:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,247 +50,69 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v11 10/17] media: rockchip: rkcif: add support for px30
- vip dvp capture
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mehdi Djait <mehdi.djait@linux.intel.com>,
- Maxime Chevallier <maxime.chevallier@bootlin.com>,
- =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- Gerald Loacker <gerald.loacker@wolfvision.net>,
+Subject: Re: [PATCH v3 0/5] Introduce "non-pixel" sub node within iris video
+ node
+To: Krzysztof Kozlowski <krzk@kernel.org>,
  Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
- Markus Elfring <Markus.Elfring@web.de>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
- <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Kever Yang <kever.yang@rock-chips.com>,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Collabora Kernel Team <kernel@collabora.com>,
- Paul Kocialkowski <paulk@sys-base.io>,
- Alexander Shiyan <eagle.alexander923@gmail.com>,
- Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
-References: <20240220-rk3568-vicap-v11-0-af0eada54e5d@collabora.com>
- <20240220-rk3568-vicap-v11-10-af0eada54e5d@collabora.com>
- <aOV0SrQWlVUTx1-R@kekkonen.localdomain>
+ Charan Teja Kalla <charan.kalla@oss.qualcomm.com>,
+ Bryan O'Donoghue <bod.linux@nxsw.ie>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Vikash Garodia <quic_vgarodia@quicinc.com>,
+ Dikshita Agarwal <quic_dikshita@quicinc.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <7b6db4fa-2f73-376d-4eb3-64c1c7e6cda3@quicinc.com>
+ <4d87d1ca-55b2-426e-aa73-e3fd8c6fe7bd@kernel.org>
+ <10a8ccda-4e27-4b06-9a0e-608d6ade5354@nxsw.ie>
+ <4cb4a92d-2f20-47c7-881e-aadcc6f83aa0@kernel.org>
+ <1516f21e-aee3-42cf-b75e-61142dc9578d@oss.qualcomm.com>
+ <9bae595a-597e-46e6-8eb2-44424fe21db6@linaro.org>
+ <MMSKAu89Ew7StAeFBV442KfKNzmqbTSQ-maFG35Jr9d8PkUV2L4sx44R2DRevXA8mC45vkA398l2mvVzarZwew==@protonmail.internalid>
+ <bcfbf35b-69ed-4f39-8312-6a53123cd898@kernel.org>
+ <d46c0335-99d6-469f-a61f-aca4c851f745@kernel.org>
+ <GyrcG3qBN7c5C7ajCs3EV81hWvuaVbg64CpzQ-X3d_p6EauoiKxSoG2aOKE21-j12SWFjNDjV-kVSwYYqVm_lQ==@protonmail.internalid>
+ <a0dc93ec-e35c-409b-8dfb-1642c92a9f0c@kernel.org>
+ <98e6acf8-80d7-4894-b4ce-ce74660722ef@kernel.org>
+ <soFAWqHDNosrZui972Ip7EvMCfB6tepD-HxHkc17RKmilPJpQZjMzni9LmMOpvKumHqFEibe5FdNkkJG8DKlcw==@protonmail.internalid>
+ <5085c857-f6e8-4faf-b61a-a9ee562ccf06@kernel.org>
+From: Bryan O'Donoghue <bod@kernel.org>
 Content-Language: en-US
-From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <aOV0SrQWlVUTx1-R@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <5085c857-f6e8-4faf-b61a-a9ee562ccf06@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Hi Sakari,
+On 09/10/2025 02:04, Krzysztof Kozlowski wrote:
+>> The iommu description for this platform basically lacks the data that
+>> _should_ be there -> FUNCTION_ID.
+> No. The index tells that already.
 
-Thanks for the review.
+Hmm.
+>> The rule is that the DT should really describe the hardware right ?
+> It already does. Same as I wrote on IRC, DT already has all the
+> information. Entry 0 has function ID-foo. Entry 1 has function ID-bar.
+> Entry 2 has function ID-bar or whatever.
 
-On 10/7/25 22:12, Sakari Ailus wrote:
-> [...]
->>  
->>  static const char *const rk3568_vicap_clks[] = {
->> @@ -62,11 +64,21 @@ MODULE_DEVICE_TABLE(of, rkcif_plat_of_match);
->>  
->>  static int rkcif_register(struct rkcif_device *rkcif)
->>  {
->> +	int ret;
->> +
->> +	ret = rkcif_dvp_register(rkcif);
->> +	if (ret && ret != -ENODEV)
->> +		goto err;
-> 
-> 	return ret == -ENODEV ? 0 : ret;
+That's the part I don't believe is true its a 1:Many relationship 
+between FUNCTION_ID:SIDs
 
-This is written in that way so that the patch 12/17 does not need to
-modify recently added lines and simply needs to add new lines. OK with that?
+Let me check the docs...
 
-> 
->> +
->>  	return 0;
->> +
->> +err:
->> +	return ret;
->>  }
->>  
->>  static void rkcif_unregister(struct rkcif_device *rkcif)
->>  {
->> +	rkcif_dvp_unregister(rkcif);
->>  }
->>  
->>  static int rkcif_notifier_bound(struct v4l2_async_notifier *notifier,
->> @@ -111,6 +123,9 @@ static irqreturn_t rkcif_isr(int irq, void *ctx)
->>  {
->>  	irqreturn_t ret = IRQ_NONE;
->>  
->> +	if (rkcif_dvp_isr(irq, ctx) == IRQ_HANDLED)
->> +		ret = IRQ_HANDLED;
->> +
->>  	return ret;
->>  }
->>  
->> diff --git a/drivers/media/platform/rockchip/rkcif/rkcif-regs.h b/drivers/media/platform/rockchip/rkcif/rkcif-regs.h
->> new file mode 100644
->> index 000000000000..d50b6e14b5af
->> --- /dev/null
->> +++ b/drivers/media/platform/rockchip/rkcif/rkcif-regs.h
->> @@ -0,0 +1,131 @@
->> +/* SPDX-License-Identifier: GPL-2.0 */
->> +/*
->> + * Rockchip Camera Interface (CIF) Driver
->> + *
->> + * Copyright (C) 2018 Rockchip Electronics Co., Ltd.
->> + * Copyright (C) 2023 Mehdi Djait <mehdi.djait@bootlin.com>
->> + * Copyright (C) 2025 Michael Riesch <michael.riesch@wolfvision.net>
->> + */
->> +
->> +#ifndef _RKCIF_REGS_H
->> +#define _RKCIF_REGS_H
->> +
->> +#define RKCIF_REGISTER_NOTSUPPORTED	      0x420000
->> +#define RKCIF_FETCH_Y(VAL)		      ((VAL) & 0x1fff)
->> +#define RKCIF_XY_COORD(x, y)		       (((y) << 16) | (x))
-> 
-> Why the use of spaces for alignment to a column not divisible by 8? For a
-> new header that doesn't seem to make sense.
+Here's the example I gave on IRC for lore
 
-Hm. I use clang-format to format my code and apparently it looks for the
-longest define name (RKCIF_FORMAT_BT1120_CLOCK_DOUBLE_EDGES ex aequo
-with others) and adds a space there. The other defines are aligned to
-that one. I don't think this behavior of clang-format can be adjusted
-(only option would be not to align anything, i.e.,
+SID 0x1940 maps to AC_VM_HLOS (Linux)
+SID 0x1941 maps to AC_VM_CP_BITSTREAM - protected bitstream
+SID 0x1945 maps to AC_WM_CP_BITSTREAM
 
-#define RKCIF_REGISTER_NOTSUPPORTED 0x420000
-#define RKCIF_FETCH_Y(VAL) ((VAL) & 0x1fff)
-#define RKCIF_XY_COORD(x, y) (((y) << 16) | (x))
-...
+The xls for these mappings runs to a few hundred lines.
 
-If you don't find what clang-format produces appropriate, I'll change it
-manually. Is there any strict rule? What should it look like in the end?
-Align with tabs only to something divisible by 8?
+Seems to me like a good argument - at least for the qcom iommus to add a 
+cell entry and then teach the generic iommu code about it.
 
-Best regards,
-Michael
-
-> 
->> +
->> +/* DVP register contents */
->> +#define RKCIF_CTRL_ENABLE_CAPTURE	       BIT(0)
->> +#define RKCIF_CTRL_MODE_PINGPONG	       BIT(1)
->> +#define RKCIF_CTRL_MODE_LINELOOP	       BIT(2)
->> +#define RKCIF_CTRL_AXI_BURST_16		       (0xf << 12)
->> +
->> +#define RKCIF_INTEN_FRAME_END_EN	       BIT(0)
->> +#define RKCIF_INTEN_LINE_ERR_EN		       BIT(2)
->> +#define RKCIF_INTEN_BUS_ERR_EN		       BIT(6)
->> +#define RKCIF_INTEN_SCL_ERR_EN		       BIT(7)
->> +#define RKCIF_INTEN_PST_INF_FRAME_END_EN       BIT(9)
->> +
->> +#define RKCIF_INTSTAT_CLS		       0x3ff
->> +#define RKCIF_INTSTAT_FRAME_END		       BIT(0)
->> +#define RKCIF_INTSTAT_LINE_END		       BIT(1)
->> +#define RKCIF_INTSTAT_LINE_ERR		       BIT(2)
->> +#define RKCIF_INTSTAT_PIX_ERR		       BIT(3)
->> +#define RKCIF_INTSTAT_DFIFO_OF		       BIT(5)
->> +#define RKCIF_INTSTAT_BUS_ERR		       BIT(6)
->> +#define RKCIF_INTSTAT_PRE_INF_FRAME_END	       BIT(8)
->> +#define RKCIF_INTSTAT_PST_INF_FRAME_END	       BIT(9)
->> +#define RKCIF_INTSTAT_FRAME_END_CLR	       BIT(0)
->> +#define RKCIF_INTSTAT_LINE_END_CLR	       BIT(1)
->> +#define RKCIF_INTSTAT_LINE_ERR_CLR	       BIT(2)
->> +#define RKCIF_INTSTAT_PST_INF_FRAME_END_CLR    BIT(9)
->> +#define RKCIF_INTSTAT_ERR		       0xfc
->> +
->> +#define RKCIF_FRAME_STAT_CLS		       0x00
->> +#define RKCIF_FRAME_FRM0_STAT_CLS	       0x20
->> +
->> +#define RKCIF_FORMAT_VSY_HIGH_ACTIVE	       BIT(0)
->> +#define RKCIF_FORMAT_HSY_LOW_ACTIVE	       BIT(1)
->> +
->> +#define RKCIF_FORMAT_INPUT_MODE_YUV	       (0x00 << 2)
->> +#define RKCIF_FORMAT_INPUT_MODE_PAL	       (0x02 << 2)
->> +#define RKCIF_FORMAT_INPUT_MODE_NTSC	       (0x03 << 2)
->> +#define RKCIF_FORMAT_INPUT_MODE_BT1120	       (0x07 << 2)
->> +#define RKCIF_FORMAT_INPUT_MODE_RAW	       (0x04 << 2)
->> +#define RKCIF_FORMAT_INPUT_MODE_JPEG	       (0x05 << 2)
->> +#define RKCIF_FORMAT_INPUT_MODE_MIPI	       (0x06 << 2)
->> +
->> +#define RKCIF_FORMAT_YUV_INPUT_ORDER_UYVY      (0x00 << 5)
->> +#define RKCIF_FORMAT_YUV_INPUT_ORDER_YVYU      (0x01 << 5)
->> +#define RKCIF_FORMAT_YUV_INPUT_ORDER_VYUY      (0x02 << 5)
->> +#define RKCIF_FORMAT_YUV_INPUT_ORDER_YUYV      (0x03 << 5)
->> +#define RKCIF_FORMAT_YUV_INPUT_422	       (0x00 << 7)
->> +#define RKCIF_FORMAT_YUV_INPUT_420	       BIT(7)
->> +
->> +#define RKCIF_FORMAT_INPUT_420_ORDER_ODD       BIT(8)
->> +
->> +#define RKCIF_FORMAT_CCIR_INPUT_ORDER_EVEN     BIT(9)
->> +
->> +#define RKCIF_FORMAT_RAW_DATA_WIDTH_8	       (0x00 << 11)
->> +#define RKCIF_FORMAT_RAW_DATA_WIDTH_10	       (0x01 << 11)
->> +#define RKCIF_FORMAT_RAW_DATA_WIDTH_12	       (0x02 << 11)
->> +
->> +#define RKCIF_FORMAT_YUV_OUTPUT_422	       (0x00 << 16)
->> +#define RKCIF_FORMAT_YUV_OUTPUT_420	       BIT(16)
->> +
->> +#define RKCIF_FORMAT_OUTPUT_420_ORDER_EVEN     (0x00 << 17)
->> +#define RKCIF_FORMAT_OUTPUT_420_ORDER_ODD      BIT(17)
->> +
->> +#define RKCIF_FORMAT_RAWD_DATA_LITTLE_ENDIAN   (0x00 << 18)
->> +#define RKCIF_FORMAT_RAWD_DATA_BIG_ENDIAN      BIT(18)
->> +
->> +#define RKCIF_FORMAT_UV_STORAGE_ORDER_UVUV     (0x00 << 19)
->> +#define RKCIF_FORMAT_UV_STORAGE_ORDER_VUVU     BIT(19)
->> +
->> +#define RKCIF_FORMAT_BT1120_CLOCK_SINGLE_EDGES (0x00 << 24)
->> +#define RKCIF_FORMAT_BT1120_CLOCK_DOUBLE_EDGES BIT(24)
->> +#define RKCIF_FORMAT_BT1120_TRANSMIT_INTERFACE (0x00 << 25)
->> +#define RKCIF_FORMAT_BT1120_TRANSMIT_PROGRESS  BIT(25)
->> +#define RKCIF_FORMAT_BT1120_YC_SWAP	       BIT(26)
->> +
->> +#define RKCIF_SCL_CTRL_ENABLE_SCL_DOWN	       BIT(0)
->> +#define RKCIF_SCL_CTRL_ENABLE_SCL_UP	       BIT(1)
->> +#define RKCIF_SCL_CTRL_ENABLE_YUV_16BIT_BYPASS BIT(4)
->> +#define RKCIF_SCL_CTRL_ENABLE_RAW_16BIT_BYPASS BIT(5)
->> +#define RKCIF_SCL_CTRL_ENABLE_32BIT_BYPASS     BIT(6)
->> +#define RKCIF_SCL_CTRL_DISABLE_32BIT_BYPASS    (0x00 << 6)
->> +
->> +#define RKCIF_INTSTAT_F0_READY		       BIT(0)
->> +#define RKCIF_INTSTAT_F1_READY		       BIT(1)
->> +
->> +/* GRF register offsets and contents */
->> +#define RK3568_GRF_VI_CON0		       0x340
->> +#define RK3568_GRF_VI_CON1		       0x344
->> +#define RK3568_GRF_VI_STATUS0		       0x348
->> +
->> +#define RK3568_GRF_VI_CON1_CIF_DATAPATH	       BIT(9)
->> +#define RK3568_GRF_VI_CON1_CIF_CLK_DELAYNUM    GENMASK(6, 0)
->> +
->> +#define RK3568_GRF_WRITE_ENABLE(x)	       ((x) << 16)
->> +
->> +enum rkcif_dvp_register_index {
->> +	RKCIF_DVP_CTRL,
->> +	RKCIF_DVP_INTEN,
->> +	RKCIF_DVP_INTSTAT,
->> +	RKCIF_DVP_FOR,
->> +	RKCIF_DVP_LINE_NUM_ADDR,
->> +	RKCIF_DVP_FRM0_ADDR_Y,
->> +	RKCIF_DVP_FRM0_ADDR_UV,
->> +	RKCIF_DVP_FRM1_ADDR_Y,
->> +	RKCIF_DVP_FRM1_ADDR_UV,
->> +	RKCIF_DVP_VIR_LINE_WIDTH,
->> +	RKCIF_DVP_SET_SIZE,
->> +	RKCIF_DVP_SCL_CTRL,
->> +	RKCIF_DVP_CROP,
->> +	RKCIF_DVP_FRAME_STATUS,
->> +	RKCIF_DVP_LAST_LINE,
->> +	RKCIF_DVP_LAST_PIX,
->> +	RKCIF_DVP_REGISTER_MAX
->> +};
->> +
->> +#endif
->>
-> 
-
+---
+bod
 
