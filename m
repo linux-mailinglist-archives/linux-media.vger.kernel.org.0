@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-44073-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44074-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5468EBC8CC8
-	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 13:28:07 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7E84BC8CFB
+	for <lists+linux-media@lfdr.de>; Thu, 09 Oct 2025 13:29:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B75A219E8470
-	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 11:28:22 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D71644F9382
+	for <lists+linux-media@lfdr.de>; Thu,  9 Oct 2025 11:28:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0D5C2E264C;
-	Thu,  9 Oct 2025 11:27:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 835012E5B1E;
+	Thu,  9 Oct 2025 11:27:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="UOulTCCa"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="GdHTDrYU"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E2D2DFF19;
-	Thu,  9 Oct 2025 11:27:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA9772DEA89;
+	Thu,  9 Oct 2025 11:27:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760009239; cv=none; b=GzUh7WvIxNbCPi4Y8LJMzocqmgn6zyb8Duiz6URrfAOSJMgILye9dBkXxBOI+co4kYZayaHrYWVUrUN48XzhpfCHdC/KgHEd8nEY4oVUCyvMoCw3TmRM5h8yFTztjc0hvZqzqcwmii1sQoXKIawDTFWIgLmehvhBVPYWy2Ob5B0=
+	t=1760009240; cv=none; b=CIq8GQ63GTfVOG8FRZ3OwL0UkLqhoOUoecqD0Vb0vUtBW6l9kn0M+t56BSRrQuuGgGrnS+KTdQ8GJ/BkeYxMLw14My0rjADQza2qvDY66pzMzE3o1b8cgYVojNmcEl+Iplxk42T0rfH5cZqi3i0BuqFgqWTUhldcvPk91weIfFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760009239; c=relaxed/simple;
-	bh=LqNf9G4TezAI4eWSqZ+IBL1wUm/GBm38nClar9fLGMI=;
+	s=arc-20240116; t=1760009240; c=relaxed/simple;
+	bh=8yYyWkZiJJsYeW345sz5gfJX+xO2eBRcOdxAaPWHPsI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HTQA18Xi35DDD+3ByvE2tHTew29I3MqCINpW2FvY57NxJ0dHxfGNgcer+xqYG3U827mHinHq1dv5O8MO6sljirvbdEUgRQeNBlwmoHEULgn0Tzz/Rs6ZksHZe6fLlKBjhYXlcy80z6n9Xvi5ivLIwFiTqG88+nqDytnDDrWlPLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=UOulTCCa; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:Content-Type; b=KFfz088Fz8Axf/4R7HeX9gUrAJdbiX1bO58m/+MBWs7TcG3PnE7W9+EWC8YnKvli4CCDbA23EKHUkqn8I21G7nWQO8veP8A/vq5BwH3G08TdDC4rxZcRyLExTBP0NNaypLy+cpN9ZthQ0MxhwC2vzZ/4/7L1CvMAAzJJ3ELeovc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=GdHTDrYU; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1760009235;
-	bh=LqNf9G4TezAI4eWSqZ+IBL1wUm/GBm38nClar9fLGMI=;
+	s=mail; t=1760009237;
+	bh=8yYyWkZiJJsYeW345sz5gfJX+xO2eBRcOdxAaPWHPsI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UOulTCCa5xTOoJe4nnEF2b4RBs7Nf/b4svaVgS2s59ae/s7XULTyVOK3ZMmVpvgWp
-	 xUR+8qPeVCvVwY5F+r1dT052JN5qc5HSUb8MQ4gRcEVUdzo+1sUytnqro7r/BRPw4O
-	 X3uS8fbv1hVtrCNu/+f6dgxxupnO1v6kv/9h39UERnzkxvRYkTNWlmBI32cP75Pk6Z
-	 4AiLa/Xpba/mS41qaqaKJh/HiTCd3CimZZgJEFvmWRsVwnaqY+JUXFc2V824B28W6C
-	 CAQKWpv4+8Zi2xUYeai/KTptkDqLWF8roFUdSlaHYfiRGo3zquwWW1obdomK+nV0Qp
-	 ULung9zzWHvGg==
+	b=GdHTDrYUjyY+hNDLtc/GWgG71srg8R0g/MfsuijCxhpb5hW/b6J1WZo5P0CI0dSRZ
+	 7W00otLOIgeVmFJ+GSWPToZ1gojK0jWBFK2v3cKp+4Wo8WwCQbXCp4KgrbopCPNkiC
+	 678ZbBrnNawUWOEklAETh7Qd01inhsAYyWQN6PB6mOFAG2wlJg1HF0Ihx5UalGLHz/
+	 Co065qHcnXBSUqq4MdWv7YWt+7QXWwICjy1rUxjL+D+2FdYd0zZNu6AbZ7lkVQ0AfO
+	 ATLYSh4f3smMFpvM6bT4b8MiVKe8udTrBzuDoVxVpz51VKuKDA5UKkROVOyTyiLwif
+	 tw5z8LgUNGvZA==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id A503317E0A30;
-	Thu,  9 Oct 2025 13:27:14 +0200 (CEST)
-Message-ID: <bac4b2f1-3049-41ce-9ba8-3ac8f9ba4996@collabora.com>
-Date: Thu, 9 Oct 2025 13:27:14 +0200
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 408E117E136C;
+	Thu,  9 Oct 2025 13:27:16 +0200 (CEST)
+Message-ID: <3c97025f-289e-48a3-9b58-3d469cba7366@collabora.com>
+Date: Thu, 9 Oct 2025 13:27:16 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,8 +57,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 07/20] mailbox: mtk-cmdq: Add mminfra_offset
- configuration for DRAM transaction
+Subject: Re: [PATCH v7 02/20] mailbox: mtk-cmdq: Refine DMA address handling
+ for the command buffer
 To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
@@ -76,149 +76,186 @@ Cc: Matthias Brugger <matthias.bgg@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 References: <20250827114006.3310175-1-jason-jh.lin@mediatek.com>
- <20250827114006.3310175-8-jason-jh.lin@mediatek.com>
+ <20250827114006.3310175-3-jason-jh.lin@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20250827114006.3310175-8-jason-jh.lin@mediatek.com>
+In-Reply-To: <20250827114006.3310175-3-jason-jh.lin@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Il 27/08/25 13:37, Jason-JH Lin ha scritto:
-> The GCE in MT8196 is placed in MMINFRA and requires all addresses
-> in GCE instructions for DRAM transactions to be IOVA.
+> GCE can only fetch the command buffer address from a 32-bit register.
+> Some SoCs support a 35-bit command buffer address for GCE, which
+> requires a right shift of 3 bits before setting the address into
+> the 32-bit register. A comment has been added to the header of
+> cmdq_get_shift_pa() to explain this requirement.
 > 
-> Due to MMIO, if the GCE needs to access a hardware register at
-> 0x1000_0000, but the SMMU is also mapping a DRAM block at 0x1000_0000,
-> the MMINFRA will not know whether to write to the hardware register or
-> the DRAM.
-> To solve this, MMINFRA treats addresses greater than 2G as data paths
-> and those less than 2G as config paths because the DRAM start address
-> is currently at 2G (0x8000_0000). On the data path, MMINFRA remaps
-> DRAM addresses by subtracting 2G, allowing SMMU to map DRAM addresses
-> less than 2G.
-> For example, if the DRAM start address 0x8000_0000 is mapped to
-> IOVA=0x0, when GCE accesses IOVA=0x0, it must add a 2G offset to
-> the address in the GCE instruction. MMINFRA will then see it as a
-> data path (IOVA >= 2G) and subtract 2G, allowing GCE to access IOVA=0x0.
+> To prevent the GCE command buffer address from being DMA mapped beyond
+> its supported bit range, the DMA bit mask for the device is set during
+> initialization.
 > 
-> Since the MMINFRA remap subtracting 2G is done in hardware and cannot
-> be configured by software, the address of DRAM in GCE instruction must
-> always add 2G to ensure proper access. After that, the shift functions
-> do more than just shift addresses, so the APIs were renamed to
-> cmdq_convert_gce_addr() and cmdq_revert_gce_addr().
+> Additionally, to ensure the correct shift is applied when setting or
+> reading the register that stores the GCE command buffer address,
+> new APIs, cmdq_reg_shift_addr() and cmdq_reg_revert_addr(), have been
+> introduced for consistent operations on this register.
 > 
-> This 2G adjustment is referred to as mminfra_offset in the CMDQ driver.
-> CMDQ helper can get the mminfra_offset from the cmdq_mbox_priv of
-> cmdq_pkt and add the mminfra_offset to the DRAM address in GCE
-> instructions.
+> The variable type for the command buffer address has been standardized
+> to dma_addr_t to prevent handling issues caused by type mismatches.
 > 
+> Fixes: 0858fde496f8 ("mailbox: cmdq: variablize address shift in platform")
 > Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
 > ---
->   drivers/mailbox/mtk-cmdq-mailbox.c       | 22 ++++++++++++----------
->   include/linux/mailbox/mtk-cmdq-mailbox.h |  1 +
->   2 files changed, 13 insertions(+), 10 deletions(-)
+>   drivers/mailbox/mtk-cmdq-mailbox.c       | 43 ++++++++++++++++--------
+>   include/linux/mailbox/mtk-cmdq-mailbox.h | 10 ++++++
+>   2 files changed, 39 insertions(+), 14 deletions(-)
 > 
 > diff --git a/drivers/mailbox/mtk-cmdq-mailbox.c b/drivers/mailbox/mtk-cmdq-mailbox.c
-> index a9e8895d14df..373effbcfa40 100644
+> index 532929916e99..a60486cbb533 100644
 > --- a/drivers/mailbox/mtk-cmdq-mailbox.c
 > +++ b/drivers/mailbox/mtk-cmdq-mailbox.c
-> @@ -94,20 +94,21 @@ struct cmdq {
->   struct gce_plat {
->   	u32 thread_nr;
->   	u8 shift;
-> +	dma_addr_t mminfra_offset;
->   	bool control_by_sw;
->   	bool sw_ddr_en;
->   	bool gce_vm;
+> @@ -92,6 +92,16 @@ struct gce_plat {
 >   	u32 gce_num;
 >   };
 >   
-> -static inline u32 cmdq_reg_shift_addr(dma_addr_t addr, const struct gce_plat *pdata)
-> +static inline u32 cmdq_convert_gce_addr(dma_addr_t addr, const struct gce_plat *pdata)
+> +static inline u32 cmdq_reg_shift_addr(dma_addr_t addr, const struct gce_plat *pdata)
 
-You are adding those functions in a previous commit - please, just give them a good
-and right name from the beginning and don't change it anymore in any later commit.
+cmdq_format_gce_addr() or cmdq_pa_to_gce_addr()
 
-The code, anyway, looks okay.
+(or cmdq_va_to_gce_addr() if this is not a physical address)
+
+explains what you're doing here a bit better I think.
+
+> +{
+> +	return (addr >> pdata->shift);
+
+You don't need parenthesis; just `return addr >> pdata->shift;` is fine
+
+> +}
+> +
+> +static inline dma_addr_t cmdq_reg_revert_addr(u32 addr, const struct gce_plat *pdata)
+
+cmdq_gce_to_pa_addr() or cmdq_get_pa_addr() perhaps? :-)
+
+(same comments for s/pa/va/g if this is not physical address)
+
+Everything else looks ok.
 
 Cheers,
 Angelo
 
+> +{
+> +	return ((dma_addr_t)addr << pdata->shift);
+> +}
+> +
+>   u8 cmdq_get_shift_pa(struct mbox_chan *chan)
 >   {
-> -	return (addr >> pdata->shift);
-> +	return ((addr + pdata->mminfra_offset) >> pdata->shift);
->   }
->   
-> -static inline dma_addr_t cmdq_reg_revert_addr(u32 addr, const struct gce_plat *pdata)
-> +static inline dma_addr_t cmdq_revert_gce_addr(u32 addr, const struct gce_plat *pdata)
->   {
-> -	return ((dma_addr_t)addr << pdata->shift);
-> +	return (((dma_addr_t)addr << pdata->shift) - pdata->mminfra_offset);
->   }
->   
->   void cmdq_get_mbox_priv(struct mbox_chan *chan, struct cmdq_mbox_priv *priv)
-> @@ -115,6 +116,7 @@ void cmdq_get_mbox_priv(struct mbox_chan *chan, struct cmdq_mbox_priv *priv)
 >   	struct cmdq *cmdq = container_of(chan->mbox, struct cmdq, mbox);
->   
->   	priv->shift_pa = cmdq->pdata->shift;
-> +	priv->mminfra_offset = cmdq->pdata->mminfra_offset;
->   }
->   EXPORT_SYMBOL(cmdq_get_mbox_priv);
->   
-> @@ -254,7 +256,7 @@ static void cmdq_task_insert_into_thread(struct cmdq_task *task)
+> @@ -188,13 +198,12 @@ static void cmdq_task_insert_into_thread(struct cmdq_task *task)
 >   	struct cmdq_task *prev_task = list_last_entry(
 >   			&thread->task_busy_list, typeof(*task), list_entry);
 >   	u64 *prev_task_base = prev_task->pkt->va_base;
-> -	u32 shift_addr = cmdq_reg_shift_addr(task->pa_base, task->cmdq->pdata);
-> +	u32 shift_addr = cmdq_convert_gce_addr(task->pa_base, task->cmdq->pdata);
+> +	u32 shift_addr = cmdq_reg_shift_addr(task->pa_base, task->cmdq->pdata);
 >   
 >   	/* let previous task jump to this task */
 >   	dma_sync_single_for_cpu(dev, prev_task->pa_base,
-> @@ -326,7 +328,7 @@ static void cmdq_thread_irq_handler(struct cmdq *cmdq,
+>   				prev_task->pkt->cmd_buf_size, DMA_TO_DEVICE);
+> -	prev_task_base[CMDQ_NUM_CMD(prev_task->pkt) - 1] =
+> -		(u64)CMDQ_JUMP_BY_PA << 32 |
+> -		(task->pa_base >> task->cmdq->pdata->shift);
+> +	prev_task_base[CMDQ_NUM_CMD(prev_task->pkt) - 1] = (u64)CMDQ_JUMP_BY_PA << 32 | shift_addr;
+>   	dma_sync_single_for_device(dev, prev_task->pa_base,
+>   				   prev_task->pkt->cmd_buf_size, DMA_TO_DEVICE);
+>   
+> @@ -237,7 +246,8 @@ static void cmdq_thread_irq_handler(struct cmdq *cmdq,
+>   				    struct cmdq_thread *thread)
+>   {
+>   	struct cmdq_task *task, *tmp, *curr_task = NULL;
+> -	u32 curr_pa, irq_flag, task_end_pa;
+> +	u32 irq_flag, shift_addr;
+> +	dma_addr_t curr_pa, task_end_pa;
+>   	bool err;
+>   
+>   	irq_flag = readl(thread->base + CMDQ_THR_IRQ_STATUS);
+> @@ -259,7 +269,8 @@ static void cmdq_thread_irq_handler(struct cmdq *cmdq,
+>   	else
 >   		return;
 >   
->   	shift_addr = readl(thread->base + CMDQ_THR_CURR_ADDR);
-> -	curr_pa = cmdq_reg_revert_addr(shift_addr, cmdq->pdata);
-> +	curr_pa = cmdq_revert_gce_addr(shift_addr, cmdq->pdata);
+> -	curr_pa = readl(thread->base + CMDQ_THR_CURR_ADDR) << cmdq->pdata->shift;
+> +	shift_addr = readl(thread->base + CMDQ_THR_CURR_ADDR);
+> +	curr_pa = cmdq_reg_revert_addr(shift_addr, cmdq->pdata);
 >   
 >   	list_for_each_entry_safe(task, tmp, &thread->task_busy_list,
 >   				 list_entry) {
-> @@ -477,9 +479,9 @@ static int cmdq_mbox_send_data(struct mbox_chan *chan, void *data)
+> @@ -378,7 +389,8 @@ static int cmdq_mbox_send_data(struct mbox_chan *chan, void *data)
+>   	struct cmdq_thread *thread = (struct cmdq_thread *)chan->con_priv;
+>   	struct cmdq *cmdq = dev_get_drvdata(chan->mbox->dev);
+>   	struct cmdq_task *task;
+> -	unsigned long curr_pa, end_pa;
+> +	u32 shift_addr;
+> +	dma_addr_t curr_pa, end_pa;
+>   	int ret;
+>   
+>   	/* Client should not flush new tasks if suspended. */
+> @@ -409,20 +421,20 @@ static int cmdq_mbox_send_data(struct mbox_chan *chan, void *data)
 >   		 */
 >   		WARN_ON(cmdq_thread_reset(cmdq, thread) < 0);
 >   
-> -		shift_addr = cmdq_reg_shift_addr(task->pa_base, cmdq->pdata);
-> +		shift_addr = cmdq_convert_gce_addr(task->pa_base, cmdq->pdata);
->   		writel(shift_addr, thread->base + CMDQ_THR_CURR_ADDR);
-> -		shift_addr = cmdq_reg_shift_addr(task->pa_base + pkt->cmd_buf_size, cmdq->pdata);
-> +		shift_addr = cmdq_convert_gce_addr(task->pa_base + pkt->cmd_buf_size, cmdq->pdata);
->   		writel(shift_addr, thread->base + CMDQ_THR_END_ADDR);
+> -		writel(task->pa_base >> cmdq->pdata->shift,
+> -		       thread->base + CMDQ_THR_CURR_ADDR);
+> -		writel((task->pa_base + pkt->cmd_buf_size) >> cmdq->pdata->shift,
+> -		       thread->base + CMDQ_THR_END_ADDR);
+> +		shift_addr = cmdq_reg_shift_addr(task->pa_base, cmdq->pdata);
+> +		writel(shift_addr, thread->base + CMDQ_THR_CURR_ADDR);
+> +		shift_addr = cmdq_reg_shift_addr(task->pa_base + pkt->cmd_buf_size, cmdq->pdata);
+> +		writel(shift_addr, thread->base + CMDQ_THR_END_ADDR);
 >   
 >   		writel(thread->priority, thread->base + CMDQ_THR_PRIORITY);
-> @@ -488,9 +490,9 @@ static int cmdq_mbox_send_data(struct mbox_chan *chan, void *data)
+>   		writel(CMDQ_THR_IRQ_EN, thread->base + CMDQ_THR_IRQ_ENABLE);
+>   		writel(CMDQ_THR_ENABLED, thread->base + CMDQ_THR_ENABLE_TASK);
 >   	} else {
 >   		WARN_ON(cmdq_thread_suspend(cmdq, thread) < 0);
->   		shift_addr = readl(thread->base + CMDQ_THR_CURR_ADDR);
-> -		curr_pa = cmdq_reg_revert_addr(shift_addr, cmdq->pdata);
-> +		curr_pa = cmdq_revert_gce_addr(shift_addr, cmdq->pdata);
->   		shift_addr = readl(thread->base + CMDQ_THR_END_ADDR);
-> -		end_pa = cmdq_reg_revert_addr(shift_addr, cmdq->pdata);
-> +		end_pa = cmdq_revert_gce_addr(shift_addr, cmdq->pdata);
+> -		curr_pa = readl(thread->base + CMDQ_THR_CURR_ADDR) <<
+> -			cmdq->pdata->shift;
+> -		end_pa = readl(thread->base + CMDQ_THR_END_ADDR) <<
+> -			cmdq->pdata->shift;
+> +		shift_addr = readl(thread->base + CMDQ_THR_CURR_ADDR);
+> +		curr_pa = cmdq_reg_revert_addr(shift_addr, cmdq->pdata);
+> +		shift_addr = readl(thread->base + CMDQ_THR_END_ADDR);
+> +		end_pa = cmdq_reg_revert_addr(shift_addr, cmdq->pdata);
 >   		/* check boundary */
 >   		if (curr_pa == end_pa - CMDQ_INST_SIZE ||
 >   		    curr_pa == end_pa) {
+> @@ -656,6 +668,9 @@ static int cmdq_probe(struct platform_device *pdev)
+>   	if (err)
+>   		return err;
+>   
+> +	dma_set_coherent_mask(dev,
+> +			      DMA_BIT_MASK(sizeof(u32) * BITS_PER_BYTE + cmdq->pdata->shift));
+> +
+>   	cmdq->mbox.dev = dev;
+>   	cmdq->mbox.chans = devm_kcalloc(dev, cmdq->pdata->thread_nr,
+>   					sizeof(*cmdq->mbox.chans), GFP_KERNEL);
 > diff --git a/include/linux/mailbox/mtk-cmdq-mailbox.h b/include/linux/mailbox/mtk-cmdq-mailbox.h
-> index 73b70be4a8a7..07c1bfbdb8c4 100644
+> index 4c1a91b07de3..e1555e06e7e5 100644
 > --- a/include/linux/mailbox/mtk-cmdq-mailbox.h
 > +++ b/include/linux/mailbox/mtk-cmdq-mailbox.h
-> @@ -72,6 +72,7 @@ struct cmdq_cb_data {
->   
->   struct cmdq_mbox_priv {
->   	u8 shift_pa;
-> +	dma_addr_t mminfra_offset;
+> @@ -77,6 +77,16 @@ struct cmdq_pkt {
+>   	size_t			buf_size; /* real buffer size */
 >   };
 >   
->   struct cmdq_pkt {
+> +/**
+> + * cmdq_get_shift_pa() - get the shift bits of physical address
+> + * @chan: mailbox channel
+> + *
+> + * GCE can only fetch the command buffer address from a 32-bit register.
+> + * Some SOCs support more than 32-bit command buffer address for GCE, which
+> + * requires some shift bits to make the address fit into the 32-bit register.
+> + *
+> + * Return: the shift bits of physical address
+> + */
+>   u8 cmdq_get_shift_pa(struct mbox_chan *chan);
+>   
+>   #endif /* __MTK_CMDQ_MAILBOX_H__ */
 
 
 
