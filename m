@@ -1,255 +1,205 @@
-Return-Path: <linux-media+bounces-44157-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44158-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C5A2BCC6B9
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 11:46:01 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 16068BCC6E3
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 11:48:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 8581035522A
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 09:46:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0794A1A65C4A
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 09:48:39 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C77502D73B2;
-	Fri, 10 Oct 2025 09:45:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 316672ED154;
+	Fri, 10 Oct 2025 09:48:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YfGoA2WX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Kp4alx/I"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1712D661E
-	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 09:45:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B97428EA72
+	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 09:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760089557; cv=none; b=s+92S6sbzZPFrp8eL/am/ogjgkF1hrI6Q5O6Op+otLI3kfEryvP/BEyWxXcuUdoGFI3P5iL7eYdc/JGIfOzMr/hI4N1CNMQGl1PlTXD4WXepo5N8TEwARvFh8b4iehN1P0DwO1wFKrjI0d4XJRO5m1TEVLcFlF4PwePqNGg9yqQ=
+	t=1760089688; cv=none; b=XxVCg5sQl2roHxLv2afjj2M9ubhD5w07/GviT0plJ+K0JsOwEFfHXh5L5FA6CIJqHG88IHsgaXEJjYSRKr5E8yQeUU//tF8/BeCGOf5l2Vvp+Yz0yqyV8yD7ZfTK+Dh+plar1t84WfhoIa8I28rjgPNiwdSgyDT0nTQLKiBi6NY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760089557; c=relaxed/simple;
-	bh=Fg3OSnxnx4Qub5sZTMRnJ8/d0FjHUiqOO1KXCwtWsQE=;
-	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
-	 To:Date:Message-ID; b=mjKGyjAHeZ3XoCLVmW7XWw37mLdBxY34TlmCLopKXpbdMH7qoYodfGHakUv2PETQ/1pLox+pgImuQLySVZdiTDukGZGhpmhB3ze62Ik2s0XYrBEAQOLBZcx+QqOSqU/1fYeF1jnTTmaP5MyyYATnfENXd/H86N10zp7QtXBK/MA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YfGoA2WX reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:22d7:7fc4:7ab4:3e13])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D27072C5;
-	Fri, 10 Oct 2025 11:44:16 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1760089457;
-	bh=Fg3OSnxnx4Qub5sZTMRnJ8/d0FjHUiqOO1KXCwtWsQE=;
-	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
-	b=YfGoA2WXECQgjOguxea6LpFgXoXfPGVSqmi6tKlGAVLBQjjCP7fZ5inXtMP+T49s/
-	 deMkbCh4/yWAJVcIIcfATbpoRcCVMb54AO17UstYfGoVW8mJ8z9t+5EEi+82MKTnDB
-	 FZ0i96KmnrEKm/+IO0x0QiIT3DT1oqnjTl/LVM0A=
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1760089688; c=relaxed/simple;
+	bh=4fffIZdp1pIPcRes1P+3XoyFt39EncGvfHXrJUrVQQ0=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=LPeo4IhIWwuByrZImd5TItdMW1Zgn0m6O6Oa7jha+EDipcDnyzxTY8vKfS8E/AzLWZlLC6bU7uE1vG+4VEztJALgH0791tS9o2DOmBN5sVuITS7l5W0XBuIl7NdohtMCLYSq+sePgQ37bQ5I54GBMEusGqHl3i5xJYYBmTgs4LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Kp4alx/I; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DD621C4CEF1;
+	Fri, 10 Oct 2025 09:48:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760089684;
+	bh=4fffIZdp1pIPcRes1P+3XoyFt39EncGvfHXrJUrVQQ0=;
+	h=Date:From:Subject:To:Cc:From;
+	b=Kp4alx/IPJ8stkp2dJuyS4ffh3O/Z9FixGbvvRsSdx+89vDExe8a6z+pUfR6GJG6g
+	 iRzuQ0XFDOObfVCSQfhm+ObaNWOZEV0ZquYq27gV8rfYVMUcpmnRZKOf8n7NfJ74Af
+	 F6NTbb2ap1nM4oRgjc1e/AOWE5cZRYaroY+IRyodFXFWRtsrDG9YDrCH1qHaVCB6iI
+	 ApQgcieglDpeWLgHFqbVeiaIlf5LjmFVlh9PxUxylmEcPgVqi5f4AhqpOCcIofqOJp
+	 LaX2Tn9K8sJ95jsplECIANk/jB6M5Oa1RtRO1Y+MS5w0F6ilfEXStQR0S+hW1512LH
+	 11VXSW14+clJg==
+Message-ID: <063bd6f7-e9c0-4dfa-babe-cd004cfc4552@kernel.org>
+Date: Fri, 10 Oct 2025 11:48:01 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-In-Reply-To: <mseqfltfao5jqubs22asrzzrj2tnsf5bdmlvsmncwj4ss3gxmu@wk2lmramiy3a>
-References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com> <osdr2eavm23pzxrd73v4xscdtaafon3vllhzcg5r6eoqwclsfk@xgfnicn6iboj> <aM1J9LsbpueEr30x@kekkonen.localdomain> <5fwlztz2q2fewyml774my3sdw3wv5wdhnl6p4mfbubm4erm5ft@sthie2bobklf> <aN4lQPK5Mqve2bUI@kekkonen.localdomain> <kblfpuqfj2d6vkagspnqdhztno2js3wljdrsv2wpeywuwyzg5x@xt7rjhh5wt76> <r3kv25lxbyjtuufb2ze27wp5gbqnbgnps2ytk2gy2qkaeiijdd@ydn4ptkze2qp> <aN_MdmDhQPyLnQqD@kekkonen.localdomain> <zq3gzieoqd4eieghjetm6sus5s7i6niplommnubl4d4rskbhra@v7gslcsg5hce> <mseqfltfao5jqubs22asrzzrj2tnsf5bdmlvsmncwj4ss3gxmu@wk2lmramiy3a>
-Subject: Re: [PATCH v11 39/66] media: Documentation: Add subdev configuration models, raw sensor model
-From: Stefan Klug <stefan.klug@ideasonboard.com>
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Content-Language: en-US, nl
+Subject: [PATCH] media: v4l2-event: keep place in event list when combining
+ events
+To: Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	linux-media@vger.kernel.org, hans@jjverkuil.nl,
-	laurent.pinchart@ideasonboard.com,
-	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
-	Alexander Shiyan <eagle.alexander923@gmail.com>,
-	Dave Stevenson <dave.stevenson@raspberrypi.com>,
-	Tommaso Merciai <tomm.merciai@gmail.com>,
-	Umang Jain <umang.jain@ideasonboard.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-	Julien Massot <julien.massot@collabora.com>,
-	Naushir Patuck <naush@raspberrypi.com>,
-	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
-	"Cao, Bingbu" <bingbu.cao@intel.com>,
-	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
-	"Wang, Hongju" <hongju.wang@intel.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	=?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>,
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
-	Kieran Bingham <kieran.bingham@ideasonboard.com>,
-	Stanislaw Gruszka <"sta nislaw.gruszka"@linux.intel.com>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	Ricardo Ribalda Delgado <ribalda@kernel.org>,
-	Hans de Goede <hdegoede@redhat.com>,
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Date: Fri, 10 Oct 2025 11:45:49 +0200
-Message-ID: <176008954951.211618.7730648133265251067@localhost>
-User-Agent: alot/0.12.dev8+g2c003385c862.d20250602
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Nicolas Dufresne <nicolas@ndufresne.ca>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Sakari, hi Jacopo,
+When subscribing to an event a fixed circular buffer of N (N >= 1) events
+is allocated for that file handle.
 
-Quoting Jacopo Mondi (2025-10-07 16:01:11)
-> Hi again Sakari,
->    cc Kieran and Stefan
->=20
-> Stefan and Kieran brought to my attention a use case I would like to
-> discuss with you
->=20
-> On Fri, Oct 03, 2025 at 03:25:19PM +0200, Jacopo Mondi wrote:
-> > Hi Sakari,
-> >
-> > On Fri, Oct 03, 2025 at 04:15:34PM +0300, Sakari Ailus wrote:
-> > > Hi Jacopo,
-> >
-> > [snip]
-> >
-> > > > >
-> > > >
-> > > > A recent discussion on libcamera made me wonder a few things
-> > > >
-> > > > https://patchwork.libcamera.org/patch/24547/
-> > > >
-> > > > In the current world (pre-RAW sensor model) the situation can be
-> > > > summarized as
-> > > >
-> > > > TGT_NATIVE_SIZE =3D full pixel array (readable and non readable)
-> > > > TGT_CROP_BOUNDS =3D readable pixel array (visible and non visibile =
-pixels)
-> > >
-> > > Crop bounds is generally the same as native size.
-> > >
-> >
-> > I checked two sensors datasheet for this yesterday and both of them
-> > had parts of the pixel array that cannot be read out
-> >
-> > > > TGT_CROP_DEFAULT =3D visible pixels
-> > >
-> > > The default could exclude not-so-great pixels, too.
-> > >
-> >
-> > ok, suggested pixel array area used for image capture purposes then
-> >
-> > > > TGT_CROP =3D analgoue crop
-> > >
-> > > This could include digital crop as well.
-> > >
-> >
-> > Yes it might, not all sensor drivers behaves the same indeed
-> >
-> > > >
-> > > > where:
-> > > > - visibile =3D pixels used for image capture purpose
-> > > > - non-visible =3D optically black, dummies etc
-> > > >
-> > > > With the RAW sensor model:
-> > > >
-> > > > format(1/0) =3D readable pixel array (visible and non visible)
-> > > > TGT_CROP_DEFAULT(1/0) =3D visible pixel area
-> > > > TGT_CROP(1/0) =3D analogue crop
-> > > > TGT_COMPOSE(1/0) =3D binning/skipping
-> > > >
-> > > > Have we lost the ability to report the full pixel array size (reada=
-ble
-> > > > and not readable) ? Is this intentional ? As if pixels cannot be re=
-ad
-> > > > out they basically do no exist, and the information on the actual
-> > > > number of pixels (including non readable ones) should be kept
-> > > > somewhere else (like the libcamera sensor properties database) ?
-> > >
-> > > I'd keep this information in the user space if needed. There's little
-> > > software could presumably do with this information.
-> > >
-> >
-> > Agreed, there is no value I can think of in having this information in
-> > drivers
-> >
->=20
-> So, Kieran and Stefan are working with a sensor whose driver was
-> initially upstreamed with a wrong "readable pixel array"
-> (TGT_CROP_BOUNDS). The developer later realized there was more of the
-> pixel array to read and there was a use for the non-image pixels like
-> OB ones.
->=20
-> With the current model this is fine (sort of), as all rectangles are
-> expressed with the TGT_NATIVE size reference. TGT_BOUNDS might
-> increases but TGT_CROP_DEFAULT and TGT_CROP are still valid both in the
-> driver but also in userspace, which might have encoded some known
-> "tested" configurations.
->=20
-> With the new model we lose the information reported by TGT_NATIVE and
-> all rectangles will be expressed with the format on 1/0 as reference.
-> If the format changes because we later find out there were portions of
-> the pixel array that could have been read out, all other rectangles
-> will have to change as well, both in the driver (which is ok-ish) but
-> also in userspace, which we have no control on.
->=20
-> Stefan and Kieran could elaborate more on this, but basically, the
-> physical array is the only fixed reference we could actually count on.
-> Other rectangles, are subject to the driver developer understanding of
-> how the device work, which as we know very well, can change over time.
->=20
-> Now, if you agree this is something to be concerned on, I presume the
-> fix is quite easy
->=20
->          format(1/0) =3D physical pixel array size
->          TGT_CROP_BOUNDS(1/0) =3D readable pixel array (visible and non v=
-isible)
->          TGT_CROP_DEFAULT(1/0) =3D visible pixel area
->          TGT_CROP(1/0) =3D analogue crop
->          TGT_COMPOSE(1/0) =3D binning/skipping
->=20
-> which basically only require re-introducing the use of CROP_BOUNDS in
-> the RAW camera model specification.
+New events of the same type are added to that buffer and eventually the
+oldest event is removed from the buffer when VIDIOC_DQEVENT is called.
 
-Thanks Jacopo for writing that up. Maybe a little addition on that
-matter. To our (especially Kierans) experience all the rectangles tend
-to be unexpectedly difficult to handle when you try to configure the
-sensors in a pixel perfect manner (having binned and non binned modes
-cover exactly the same area in all possible flipping configurations).
-The datasheets I'm aware of use the physical pixel array as common
-coordinate system to describe the geometry. Adding the readable pixel
-array as "artificial" coordinate system makes it difficult to match the
-values reported by a v4l driver with the datasheets at hand.
+If the circular buffer is full, then the event framework will
+merge the two oldest events (what 'merge' means is event type
+specific).
 
-Another time where this comes into play is lens shading correction where
-you would want to describe the LSC against one reference coordinate
-system that ideally never ever changes.
+So far, so good.
 
-To add to the confusion I'd love to have another rectangle added to the
-list. I don't have a proper name for it. The intent would be to
-distinguish between the "readable pixel array" and the "light exposed
-pixel array". So the list would become:
+There is also a per-filehandle list of pending events for all event
+types. VIDIOC_DQEVENT always dequeues the oldest of that event list,
+and that event is removed from the corresponding circular buffer.
 
-    format(1/0) =3D physical pixel array size
-    TGT_CROP_BOUNDS(1/0) =3D readable pixel array (visible and non visible)
-    TGT_CROP_VISIBLE(1/0) =3D visible pixel area including "flesh" for ISP
-    TGT_CROP_DEFAULT(1/0) =3D Recommended "good" pixels
-    TGT_CROP(1/0) =3D analogue crop
-    TGT_COMPOSE(1/0) =3D binning/skipping
+The problem occurs when the circular buffer is full and a new event
+arrives. Then the two oldest events are merged, but instead of
+keeping the position in the list of pending events, the merged
+event is added to the *end* of the list of pending events.
 
-The idea is to be able to capture a larger image from the sensor for ISP
-processing and then cut it down to CROP_DEFAULT. This way we can prevent
-interpolation seams at the edges. Maybe the naming is bad and we should
-make CROP_BOUNDS the recommended area and add CROP_READABLE to denote
-the readable pixels...
+So if a lot of events are generated, then events can continually
+be pushed to the end of the list of pending events, and so are never
+or much later dequeued by the application.
 
->=20
-> What do you think ?
+Effectively this is a denial-of-service situation were the
+event is never seen by the application even though there are
+actually a lot of events.
 
-Best regards,
-Stefan
+So if you subscribe to events from control A and B, then
+change control A, then change control B, then change control A
+again, and now call VIDIOC_DQEVENT, you will get the event from
+control B followed by A, even though A was changed first.
 
->=20
-> > > >
-> > > > All the discussion about readable/non-readable, visible/non-visibile
-> > > > and active and inactive areas make me think we would benefit from
-> > > > presenting a small glossary at the beginning of the "Sensor pixel
-> > > > array size, cropping and binning" paragraph ?
-> > >
-> > > The text does not discuss active or inactive areas. I'd add some term=
-s into
-> > > the main glossary if needed -- they are used outside this file, too.
-> > >
-> > > --
-> > > Regards,
-> > >
-> > > Sakari Ailus
+This patch keeps the oldest event in its place in the 'pending
+events' list rather then moving it to the end, and in the test
+above you will now receive the event from control A first.
+
+Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+Fixes: c53c2549333b ("[media] v4l2-event: Add v4l2_subscribed_event_ops")
+Cc: <stable@vger.kernel.org>
+---
+ drivers/media/v4l2-core/v4l2-event.c | 65 ++++++++++++++++++++--------
+ 1 file changed, 47 insertions(+), 18 deletions(-)
+
+diff --git a/drivers/media/v4l2-core/v4l2-event.c b/drivers/media/v4l2-core/v4l2-event.c
+index 3898ff7edddb..1bc1e2f8c3d7 100644
+--- a/drivers/media/v4l2-core/v4l2-event.c
++++ b/drivers/media/v4l2-core/v4l2-event.c
+@@ -104,41 +104,70 @@ static void __v4l2_event_queue_fh(struct v4l2_fh *fh,
+ {
+ 	struct v4l2_subscribed_event *sev;
+ 	struct v4l2_kevent *kev;
+-	bool copy_payload = true;
+
+ 	/* Are we subscribed? */
+ 	sev = v4l2_event_subscribed(fh, ev->type, ev->id);
+ 	if (sev == NULL)
+ 		return;
+
+-	/* Increase event sequence number on fh. */
+-	fh->sequence++;
+-
+ 	/* Do we have any free events? */
+ 	if (sev->in_use == sev->elems) {
+-		/* no, remove the oldest one */
+-		kev = sev->events + sev_pos(sev, 0);
+-		list_del(&kev->list);
+-		sev->in_use--;
+-		sev->first = sev_pos(sev, 1);
+-		fh->navailable--;
++		/*
++		 * No, so we have to make space.
++		 *
++		 * This is a bit tricky: the easy solution is to drop the oldest
++		 * event from the fh->available list and add the new one to
++		 * the end of the list. However, that can lead to situation
++		 * were, if there are a lot of events, the oldest event keeps
++		 * being removed before it can be dequeued by the application.
++		 * Effectively this is a denial-of-service situation were the
++		 * event is never seen by the application even though there are
++		 * actually a lot of events.
++		 *
++		 * So instead we take care to keep the oldest event in its
++		 * place, and instead either replace the event content with
++		 * the new event (if sev->elems == 1) or merge the 2nd oldest
++		 * event with the oldest event.
++		 */
++		struct v4l2_kevent *oldest = sev->events + sev_pos(sev, 0);
++		struct v4l2_kevent *second_oldest;
++
+ 		if (sev->elems == 1) {
+ 			if (sev->ops && sev->ops->replace) {
+-				sev->ops->replace(&kev->event, ev);
+-				copy_payload = false;
++				/* Replace the oldest event with the new event */
++				sev->ops->replace(&oldest->event, ev);
++			} else {
++				oldest->event.u = ev->u;
+ 			}
+-		} else if (sev->ops && sev->ops->merge) {
+-			struct v4l2_kevent *second_oldest =
+-				sev->events + sev_pos(sev, 0);
+-			sev->ops->merge(&kev->event, &second_oldest->event);
++			wake_up_all(&fh->wait);
++			return;
+ 		}
++		second_oldest = sev->events + sev_pos(sev, 1);
++		if (sev->ops && sev->ops->merge) {
++			/* Merge the oldest event with the 2nd oldest event */
++			sev->ops->merge(&oldest->event, &second_oldest->event);
++		}
++
++		/*
++		 * Replace the oldest event with the second oldest event in the
++		 * event list.
++		 */
++		second_oldest->event.sequence = oldest->event.sequence;
++		second_oldest->ts = oldest->ts;
++		list_del(&second_oldest->list);
++		list_replace_init(&oldest->list, &second_oldest->list);
++		sev->first = sev_pos(sev, 1);
++		sev->in_use--;
++		fh->navailable--;
+ 	}
+
++	/* Increase event sequence number on fh. */
++	fh->sequence++;
++
+ 	/* Take one and fill it. */
+ 	kev = sev->events + sev_pos(sev, sev->in_use);
+ 	kev->event.type = ev->type;
+-	if (copy_payload)
+-		kev->event.u = ev->u;
++	kev->event.u = ev->u;
+ 	kev->event.id = ev->id;
+ 	kev->ts = ts;
+ 	kev->event.sequence = fh->sequence;
+-- 
+2.51.0
+
 
