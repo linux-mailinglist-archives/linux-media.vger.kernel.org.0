@@ -1,226 +1,149 @@
-Return-Path: <linux-media+bounces-44182-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44184-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7366ABCDCA0
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 17:26:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2C66BCE644
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 21:30:47 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C9CAC3BBE49
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 15:22:16 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E5BB619A808B
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 19:31:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45C202F90CE;
-	Fri, 10 Oct 2025 15:22:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92CAE2737F2;
+	Fri, 10 Oct 2025 19:30:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="g5tHERIN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RkNCtU8Q"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-qv1-f42.google.com (mail-qv1-f42.google.com [209.85.219.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13D432F618B
-	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 15:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA25D213236
+	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 19:30:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760109731; cv=none; b=YhNS+YwkPphb1SFz8jO61lhbOAdIamyR8x7mjOdKxXo4j+ETOtllA0rC07Y1/d2tDYWVyibaMGjjnTBlcQRH06/WCLyUrKM1hrLj1HpdaybGPlPhJ6olP3CqEMbKuBNeuUoYe70rqo46AZLffz4jZ87UDHOJmnsYul9NdHwOvbs=
+	t=1760124638; cv=none; b=agR0xdxzWVDXOfzPC+oI+evqhl6PCxhIN0orGF3HPy+v2Ozf13wuJewoWjq6lcuGSOONJBuAXbbW0yDVLaAASB6MsbNdmgIqM+FIScRGwI7xAKloRTz8zLnUlJxK00yHEAV/0pLDdHPJNdJaGcPRngiBLSQ6fj6qObpuwb5VQGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760109731; c=relaxed/simple;
-	bh=2PKdxMA1HganctX7RW/CB5o5Be6xSgi1KfvR5mJawfI=;
+	s=arc-20240116; t=1760124638; c=relaxed/simple;
+	bh=UO7tWaC1D06ILgslhIE6Vp+GGNOSccu5h6NsvDEB6bI=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pUpPRZuVZBql3khrCSH4rSSMnhsBJBbSEBCaDmFbmnpbl3XQvvNYuEsPffTl/0D03gdwNVu3RSR+h7wVlwhcAlfwhSoE50EmmhK+bmJ/bRJpyXIw9kus8UO3z2id9l0IEVH4EhvmkjtZBlDg9nF8wy6QIJcmqoq4oicN7fV0q4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=g5tHERIN; arc=none smtp.client-ip=209.85.219.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-qv1-f42.google.com with SMTP id 6a1803df08f44-7970e8d1cfeso28749546d6.1
-        for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 08:22:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760109729; x=1760714529; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zBWojHDlaauN5nb0SQ3Tn1o+DkFRZqicGyLE19z7qRk=;
-        b=g5tHERINTwFEHRpAI2mji4+ZruVFxvPY2dwES+QipdUcIUpaIUwKih0TIm6kcxIP5o
-         xaADAScT8OqqjUQpifzKA+486rySyYLVaSxvMT3I/vtizluHSjzYa+jphjq4Roek7JV0
-         Sl/xSQCQxE4NryfHKttUHSjpvtgrf6W4+c2czAXSyE/bDqlFEkmgnz3ktT01kbvrnhju
-         8cCZkTPtDSJaTlTfZPUa8S0NNLoholzb37Cl2gPKAaAdEuPJDonetHr/84HeD4cFvlhG
-         uCKnbz8KUEn7st7yAGpWiuGrrhJ+9oaygH8CZ67CM62o2nXuLhK7EZEyHV07i2nRAVF7
-         DQoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760109729; x=1760714529;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=zBWojHDlaauN5nb0SQ3Tn1o+DkFRZqicGyLE19z7qRk=;
-        b=hulge9mVLMCWup4iPo8yRd4/otYY1xa2ud24UnVe/6ir7jeT4YhpCWW0odMzknZbA0
-         VHPtQl7aFpNykF8k+OjOxiIa3KiX5dSQLfSa4yQMSuLhrbas1xvYNsJHnNvwteADrMGC
-         QJGJwEvIU5vX+qXwmtA0aq+atm4lk0uA74grxdjWEdItq4ofUpLrebGK+sO6eTF7QLsz
-         MVE11k5hWJ0Ejxt4iGISOpQbZHR448YHi3Qb3lCcpk06mC1a3/9Qg8sGMfKTXH4npBrP
-         fBxpMIzuwS/cmBABs3I84P71Fv61IIqPN4MMv2hViFtKJAO8agoc7OysqMpnu3Sypot+
-         w9xg==
-X-Gm-Message-State: AOJu0YxSTp2nSN63gVXcbALaqiI8AQFlAG+QhZnYQspkOpZ2JcsRelxp
-	+zANxB1/0CL5ESsR7kjr1vDtwcv+FWvNZG+IoObiRT4loQNAWKxG4QA4Ln6mrlNErUDjLwTwV3b
-	J83vMv3G3kj5ZYRBmWGKekA3IHbPjTEkDNeAKAJI=
-X-Gm-Gg: ASbGncumWLLr/0zno5dnWR/8pGFHGxsCz1JZaB7VB0Jg/AUm4D9b+6saDq5T2hZicge
-	1JlGXh5Fu37uZqi1oNWWkle4FYORv5k0upzRUvgjuiagWyiqzjJU38mm/As3CXBRr85oAZRPb6K
-	pBI3crESonzFNuXg5c9UzQgszil8waQm7A6Kn3nL+/D0GhpI29+CxvbZAT6au4yMiwdvZPmV1hB
-	v84DvLKEpO+j/qfHHXFBtllvEp0ZB2mOiFSFc+swVl+zC3L
-X-Google-Smtp-Source: AGHT+IGAz0iQ5pDP+E16RxYq2nI2RkvXRrBQ9tsXrAj87aEPvRtJI6auIgKxu18x0WEDkdN4g6rjJAppnBG5H0ndmPw=
-X-Received: by 2002:ac8:7757:0:b0:4e6:eabe:60f3 with SMTP id
- d75a77b69052e-4e6ead77147mr136575901cf.44.1760109728439; Fri, 10 Oct 2025
- 08:22:08 -0700 (PDT)
+	 To:Cc:Content-Type; b=sXLxM6PEwee44JPOmPjv2bGknBxL4J2OVbdFL1GOGnRT94+Hp1sdqT+t4rUVfEBSMBPn1H0w9jU52gxQYJw90TZCOZTeUBLvvn39YTl0R01mh1OZVtz/U/IdcKDe7rOoeXSOMQ1GgUqmna0Bc094uM5MW7VyPRK6TTkPjln99k4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RkNCtU8Q; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CC98C4AF09
+	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 19:30:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760124637;
+	bh=UO7tWaC1D06ILgslhIE6Vp+GGNOSccu5h6NsvDEB6bI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=RkNCtU8QTeCBdWpLHhNr8JvrU3SuLc+1RKV/B5DWkkchSXpVbewLPEGu9PteSIC59
+	 3QdUV0p1QZHp+XhVjKliK0wvXSdB1RU5a+CyZxjimdAkkEp5C2xHmsIcspGs72E0Lk
+	 cyObdDJQL2lwFThzP/75aTtYq1Rg+WwTXzxuf5I/WZflCtsZ6JwrjI1V1vO6mFvs05
+	 WXMcevad9JypeFhT7/uwXWjFcL+u+BZQ80FRHRXSyCarsMyxQ97kXJWkBlv02hVeDW
+	 nUw04T6EMyGqqoQYGxSvUHP+TG9k6oSLAKGh4+rIvWYp5GUXc/FJOhGX6qNXxLvulc
+	 NRaGMKALZ1/8g==
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b3d196b7eeeso392772566b.0
+        for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 12:30:37 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWprCWA9PKQb5t8+nv0hc2ReacGIEznXUWZsMbHjE20yTOouDSse8h3embk2CUVy9jVPHHCoYGKUhl65A==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyONl43dmuFRC70wYYqzzblruCQ761a8qyFzFz86LcOk0SmvQEj
+	um5XnWGWmeqSjtkG8U8EwfT2D/ta8SbIK+Qa+gZ8eYQBXnOcg+w0PRMKGKgMVbAZq0ogP/uZzut
+	c+5uKE5ywcTsKZd+Y3GK5p0qdjoJHZA==
+X-Google-Smtp-Source: AGHT+IFrGZS8VdfbsjL7y3HXA+QaopPkTmxI0XGy8rPLFJbEh/CBDAxBRtvMMLAceU+RXRafaXg83rsGiK6CrH/c2zI=
+X-Received: by 2002:a17:907:3e8c:b0:b48:4966:91a5 with SMTP id
+ a640c23a62f3a-b50aba9e585mr1400916466b.30.1760124635939; Fri, 10 Oct 2025
+ 12:30:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAB-99LvD2cCmPt91Kh-1Zj69=_xczV6oUA7soAfFXQBcZxA+pQ@mail.gmail.com>
-In-Reply-To: <CAB-99LvD2cCmPt91Kh-1Zj69=_xczV6oUA7soAfFXQBcZxA+pQ@mail.gmail.com>
-From: Forest Crossman <cyrozap@gmail.com>
-Date: Fri, 10 Oct 2025 10:22:00 -0500
-X-Gm-Features: AS18NWCt8ca6-UfnI0GYk4ZMZgYfUPhRhwMxXyF2o-PHWS2h-UaXgyXBN28BjHs
-Message-ID: <CAO3ALPx9FK=ayO8WWt7zguTfaA=e5q2wxUPc1ojpPFqFvstxBA@mail.gmail.com>
-Subject: Re: Support for Mygica A681B (ATSC/QAM USB tuner)
-To: Michael Goffioul <michael.goffioul@gmail.com>
-Cc: linux-media@vger.kernel.org
+References: <20250926-ethos-v3-0-6bd24373e4f5@kernel.org> <20250926-ethos-v3-1-6bd24373e4f5@kernel.org>
+ <aNrVwn1ibQmB/rKJ@lizhi-Precision-Tower-5810>
+In-Reply-To: <aNrVwn1ibQmB/rKJ@lizhi-Precision-Tower-5810>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 10 Oct 2025 14:30:24 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqJkOVOVNvnePGE5G0HmbxxXPK1a=1qjOEk-G4ZZ3wf6Ew@mail.gmail.com>
+X-Gm-Features: AS18NWBBQSTOplEO26OgX73Pts2y8G-I5Seb0FzonJgu4d7oZEgcPiz1tLe4anM
+Message-ID: <CAL_JsqJkOVOVNvnePGE5G0HmbxxXPK1a=1qjOEk-G4ZZ3wf6Ew@mail.gmail.com>
+Subject: Re: [PATCH v3 1/2] dt-bindings: npu: Add Arm Ethos-U65/U85
+To: Frank Li <Frank.li@nxp.com>
+Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Steven Price <steven.price@arm.com>, 
+	Daniel Stone <daniel@fooishbar.org>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Jun 22, 2025 at 8:46=E2=80=AFPM Michael Goffioul
-<michael.goffioul@gmail.com> wrote:
+On Mon, Sep 29, 2025 at 1:54=E2=80=AFPM Frank Li <Frank.li@nxp.com> wrote:
 >
-> Hi,
+> On Fri, Sep 26, 2025 at 03:00:48PM -0500, Rob Herring (Arm) wrote:
+> > Add a binding schema for Arm Ethos-U65/U85 NPU. The Arm Ethos-U NPUs ar=
+e
+> > designed for edge AI inference applications.
+> >
+> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> > ---
+> >  .../devicetree/bindings/npu/arm,ethos.yaml         | 79 ++++++++++++++=
+++++++++
+> >  1 file changed, 79 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/npu/arm,ethos.yaml b/Doc=
+umentation/devicetree/bindings/npu/arm,ethos.yaml
+> > new file mode 100644
+> > index 000000000000..716c4997f976
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/npu/arm,ethos.yaml
+> > @@ -0,0 +1,79 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only OR BSD-2-Clause
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/npu/arm,ethos.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Arm Ethos U65/U85
+> > +
+> > +maintainers:
+> > +  - Rob Herring <robh@kernel.org>
+> > +
+> > +description: >
+> > +  The Arm Ethos-U NPUs are designed for IoT inference applications. Th=
+e NPUs
+> > +  can accelerate 8-bit and 16-bit integer quantized networks:
+> > +
+> > +    Transformer networks (U85 only)
+> > +    Convolutional Neural Networks (CNN)
+> > +    Recurrent Neural Networks (RNN)
+> > +
+> > +  Further documentation is available here:
+> > +
+> > +    U65 TRM: https://developer.arm.com/documentation/102023/
+> > +    U85 TRM: https://developer.arm.com/documentation/102685/
+> > +
+> > +properties:
+> > +  compatible:
+> > +    oneOf:
+> > +      - items:
+> > +          - enum:
+> > +              - fsl,imx93-npu
+> > +          - const: arm,ethos-u65
+> > +      - items:
+> > +          - {}
 >
-> I have a Mygica A681B USB tuner and I'm wondering whether there's any
-> hope to have it supported by the Linux kernel. I've attached the lsusb
-> output for the device at the end of this email.
+> what's means {} here ?, just not allow arm,ethos-u85 alone?
+
+Yes, u85 support is currently on a FVP model. The naming for it isn't
+really clear yet nor is it clear if it ever will be. So really just a
+placeholder until there is a chip using it. It keeps folks from using
+just the fallback.
+
 >
-> So far, I've downloaded the Linux driver from Geniatech web site. This
-> is made for Ubuntu 20 and kernel 5.4. From what I can tell from the
-> driver sources, the device 1f4d:692f seems to use a mxl692 frontend
-> driver, but it uses a binary-only mxl692_fe.o module, without
-> providing the source code for it. Kernel 6 includes its own mxl692
-> driver, however it appears to use a different interface/API (and
-> apparently also a firmware blob that does not look to be easy to
-> find...).
->
-> Any help or hint would be greatly appreciated.
->
-> Michael.
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
 
-Hi, Michael,
-
-I've recently submitted some patches [1] to enable support for the
-A681B and its more-compact USB-C sibling, the PT682C. The patches are
-not yet ready for mainline (hence why I marked them "RFC"), but
-they're good enough to get the hardware working and streaming TV from
-over the air. If you're willing to patch your kernel, the patches
-should get you up and running while you wait for support in mainline
-or your distro's kernel.
-
-Also, while the cover letter for the patch series contains a link to a
-script I wrote to download and extract the firmware image from the
-Windows driver, I recently learned that the firmware can simply be
-downloaded directly from here [2].
-
-I hope this helps!
-
-Forest
-
-[1]: https://lore.kernel.org/linux-media/20251001051534.925714-1-cyrozap@gm=
-ail.com/T/
-[2]: https://github.com/LibreELEC/dvb-firmware/blob/90261ae2934329f6ca84dd6=
-c72d10d0777bf4b0e/firmware/dvb-demod-mxl692.fw
-
-
-> =3D=3D=3D
->
-> Bus 001 Device 008: ID 1f4d:692f G-Tek Electronics Group USB Stick
-> Device Descriptor:
->   bLength                18
->   bDescriptorType         1
->   bcdUSB               2.00
->   bDeviceClass            0 [unknown]
->   bDeviceSubClass         0 [unknown]
->   bDeviceProtocol         0
->   bMaxPacketSize0        64
->   idVendor           0x1f4d G-Tek Electronics Group
->   idProduct          0x692f USB Stick
->   bcdDevice            8.00
->   iManufacturer           1 Gen
->   iProduct                2 USB Stick
->   iSerial                 3 2017.12.09
->   bNumConfigurations      1
->   Configuration Descriptor:
->     bLength                 9
->     bDescriptorType         2
->     wTotalLength       0x002e
->     bNumInterfaces          1
->     bConfigurationValue     1
->     iConfiguration          4 Def
->     bmAttributes         0x80
->       (Bus Powered)
->     MaxPower              500mA
->     Interface Descriptor:
->       bLength                 9
->       bDescriptorType         4
->       bInterfaceNumber        0
->       bAlternateSetting       0
->       bNumEndpoints           4
->       bInterfaceClass       255 Vendor Specific Class
->       bInterfaceSubClass      1 [unknown]
->       bInterfaceProtocol      1
->       iInterface              0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x81  EP 1 IN
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x01  EP 1 OUT
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x82  EP 2 IN
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
->       Endpoint Descriptor:
->         bLength                 7
->         bDescriptorType         5
->         bEndpointAddress     0x86  EP 6 IN
->         bmAttributes            2
->           Transfer Type            Bulk
->           Synch Type               None
->           Usage Type               Data
->         wMaxPacketSize     0x0200  1x 512 bytes
->         bInterval               0
-> Device Qualifier (for other device speed):
->   bLength                10
->   bDescriptorType         6
->   bcdUSB               2.00
->   bDeviceClass            0 [unknown]
->   bDeviceSubClass         0 [unknown]
->   bDeviceProtocol         0
->   bMaxPacketSize0        64
->   bNumConfigurations      1
-> Device Status:     0x0000
->   (Bus Powered)
->
+Thanks,
+Rob
 
