@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-44172-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44173-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE73BCCC8B
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 13:35:16 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C78BBCCCA0
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 13:40:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B5C8B19E630B
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 11:35:39 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 93B304E2066
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 11:40:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1660A283CB8;
-	Fri, 10 Oct 2025 11:35:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3A08285CBB;
+	Fri, 10 Oct 2025 11:40:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kWELRjjG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="spuL7DT/"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7101725A2DA
-	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 11:35:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D384414
+	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 11:40:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760096110; cv=none; b=AlnvjPotY1+xp9Ash3wz183d4TVyWrY5VKH/IAc7VJNKb/Z/7Uhlt6OyiNeI04mwmtHw8Zo0twNmfbeEe5gK1YQzLhEcHIba1FNGsJzcW+TpP760/nrBXXmE8oBfXUaqAm/lCEbCj+xlOm97VOwXCbAs2p4e8v1vwWm3aFs6+iY=
+	t=1760096423; cv=none; b=jF3pOyARzNw+YKkHTXrsbihnjsRLuZbLvTHiTDd59EyNI0dNv0QHZ2PFYUcCYtSMl+Olb2qu1nHD/Tr3+LXJHhOKM14YnLzVGK4orOkHj0y16+kqIuBKWhq5eHwDGyj+R9NcmV//ChHlXaB/GyGoUIzBo/XTZUqctecQBAoC4k8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760096110; c=relaxed/simple;
-	bh=xzxUay2tR3oYS9wXd2Ypoq4LpJHFfDK4i5UzMHFX+1E=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=uVJh5hslYH758o+4ajOrM49CCUvcKCqVMbyL5VdNzWq2oFzV2/TleWwmIddZTm8WKlPDqkWl/CV/nkexDLHnYe0MhZ+qJUYDX0N8pfkS2TVHOjU1pYDDg1yKSpIGya0ds2AZ9+Kj66+4duybb+aoaWSao+NMNa8MdfdCJdLj8oA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kWELRjjG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9C137C4CEF1;
-	Fri, 10 Oct 2025 11:35:04 +0000 (UTC)
+	s=arc-20240116; t=1760096423; c=relaxed/simple;
+	bh=nn/GMVCScDY9xI1dC+YXskWOoLPwlMQ1KT/MboWQobM=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=b5Iy9IcJQqgCuzp63/FByiS0SfbeB/y0x0aAcei7CixIPQykU5m3Ji0gAuk4o2ALBD4vIAW7C8vsvacM0Z8kRaaUZgeTVDFOEaw4LXw1dQZqtz6hnc+Nf0YvISvUzvV6XngYaXfQ/pxmMqpqJc0bmGbotqpIC8/Ed4smPDDz0Ag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=spuL7DT/; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4FFEC4CEF1;
+	Fri, 10 Oct 2025 11:40:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760096105;
-	bh=xzxUay2tR3oYS9wXd2Ypoq4LpJHFfDK4i5UzMHFX+1E=;
+	s=k20201202; t=1760096423;
+	bh=nn/GMVCScDY9xI1dC+YXskWOoLPwlMQ1KT/MboWQobM=;
 	h=Date:From:Subject:To:Cc:From;
-	b=kWELRjjG1Dnev5ZF4zPHhhCIxnx1xub58eeS7JL2MmiMfduxsuqyWZ82ZdXC8D6Y1
-	 qnZ3N4zGXoMJmEL5W4z5f6QrGiK4puvM16vCrZAXEgIP6HrW10SoWBIgXriw2xn2KZ
-	 O253j8u4pfjimSGCcs6PYJOOSgDDfdd65O9oQG7E1H5pRofnrKnngAis7nplxdsTDt
-	 TiXreKJjJ6GiI673IPs5NfFEGzJvtXZPKY/G3OObWHPlHCp7y/3P/H6cFLzV1TlD8h
-	 VgntAj37Jw5vKF3emWaXRBzpMOTTsPXDSX6e4NIycMM9pAZ+vbM+fg3CH2WM9BF/M1
-	 3lKfILpWBhC/g==
-Message-ID: <d4319e94-15c5-43a6-9bab-b9eb1d6c0d7c@kernel.org>
-Date: Fri, 10 Oct 2025 13:35:02 +0200
+	b=spuL7DT/lFYeR7bNabzQe6rIqJDMv5EtSwlJouRA32BIUF/kyAkc4/jb4g2Y4i1Oq
+	 ao4XXiQw84X6fwwfTcUb7i1HlzA1bUdmpIjk/YGgRWI/F4ReVI4hW79+mJ2p7NDfjI
+	 zaMJl8fi6cq0wBPy4XFD44LP+cy//nN31/HD4f+/1oD88NtR7iN5oejdb8iuw/7vDQ
+	 9zUZXUQcmAKL1QkJZ/Czqg9ZDlTlmlzo0n/PeZ2NySDEMC2QJQN9lki5rEsGHcqmNk
+	 LicdMmICRA/Cb/WcsiQvRl7ukVuwS8CGgQOliRwhhAlH7Ac0boBJxpLQ37kZgbnmMK
+	 i9AQQNy9Pc1mw==
+Message-ID: <28645f94-f8ab-45bd-95d0-e65435fe99d6@kernel.org>
+Date: Fri, 10 Oct 2025 13:40:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,8 +51,7 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
 Content-Language: en-US, nl
-Subject: [PATCHv2] media: v4l2-event: keep place in event list when combining
- events
+Subject: [PATCHv2] v4l2-compliance: add event order test
 To: Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
@@ -61,142 +60,131 @@ Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-When subscribing to an event a fixed circular buffer of N (N >= 1) events
-is allocated for that file handle.
+Add a new vivid-specific test to verify the order in which control events
+arrive and whether the correct sequence counters are reported.
 
-New events of the same type are added to that buffer and eventually the
-oldest event is removed from the buffer when VIDIOC_DQEVENT is called.
+This verifies the behavior of this kernel patch:
 
-If the circular buffer is full, then the event framework will
-merge the two oldest events (what 'merge' means is event type
-specific).
-
-So far, so good.
-
-There is also a per-filehandle list of pending events for all event
-types. VIDIOC_DQEVENT always dequeues the oldest of that event list,
-and that event is removed from the corresponding circular buffer.
-
-The problem occurs when the circular buffer is full and a new event
-arrives. Then the two oldest events are merged, but instead of
-keeping the position in the list of pending events, the merged
-event is added to the *end* of the list of pending events.
-
-So if a lot of events are generated, then events can continually
-be pushed to the end of the list of pending events, and so are never
-or much later dequeued by the application.
-
-Effectively this is a denial-of-service situation were the
-event is never seen by the application even though there are
-actually a lot of events.
-
-So if you subscribe to events from control A and B, then
-change control A, then change control B, then change control A
-again, and now call VIDIOC_DQEVENT, you will get the event from
-control B followed by A, even though A was changed first.
-
-This patch keeps the oldest event in its place in the 'pending
-events' list rather then moving it to the end, and in the test
-above you will now receive the event from control A first.
+https://patchwork.linuxtv.org/project/linux-media/patch/d4319e94-15c5-43a6-9bab-b9eb1d6c0d7c@kernel.org/
 
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
-Fixes: c53c2549333b ("[media] v4l2-event: Add v4l2_subscribed_event_ops")
-Cc: <stable@vger.kernel.org>
 ---
-Changes since v1:
-- fh->sequence was not incremented when replacing an event. Just drop that
-  change and keep the original code (i.e. incrementing the sequence counter
-  at the beginning).
+Changes since v1: validate sequence counters in the events.
 ---
- drivers/media/v4l2-core/v4l2-event.c | 59 +++++++++++++++++++++-------
- 1 file changed, 44 insertions(+), 15 deletions(-)
+ utils/v4l2-compliance/v4l2-compliance.cpp    |  2 +
+ utils/v4l2-compliance/v4l2-compliance.h      |  4 ++
+ utils/v4l2-compliance/v4l2-test-controls.cpp | 62 ++++++++++++++++++++
+ 3 files changed, 68 insertions(+)
 
-diff --git a/drivers/media/v4l2-core/v4l2-event.c b/drivers/media/v4l2-core/v4l2-event.c
-index 3898ff7edddb..919cdd46a2c2 100644
---- a/drivers/media/v4l2-core/v4l2-event.c
-+++ b/drivers/media/v4l2-core/v4l2-event.c
-@@ -104,7 +104,6 @@ static void __v4l2_event_queue_fh(struct v4l2_fh *fh,
+diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+index b82d7dad..cdb30e4d 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.cpp
++++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+@@ -1440,6 +1440,8 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+ 		printf("\ttest VIDIOC_G/S_CTRL: %s\n", ok(testSimpleControls(&node)));
+ 		printf("\ttest VIDIOC_G/S/TRY_EXT_CTRLS: %s\n", ok(testExtendedControls(&node)));
+ 		printf("\ttest VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: %s\n", ok(testEvents(&node)));
++		if (is_vivid)
++			printf("\ttest Control Events: %s\n", ok(testVividEvents(&node)));
+ 		printf("\ttest VIDIOC_G/S_JPEGCOMP: %s\n", ok(testJpegComp(&node)));
+ 		printf("\tStandard Controls: %d Private Controls: %d\n",
+ 		       node.std_controls - node.std_compound_controls,
+diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+index 4a7af5f5..36b2f463 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.h
++++ b/utils/v4l2-compliance/v4l2-compliance.h
+@@ -82,7 +82,10 @@ enum poll_mode {
+ #define VIVID_CID_REQ_VALIDATE_ERROR	(VIVID_CID_VIVID_BASE + 72)
+
+ #define VIVID_CID_CUSTOM_BASE		(V4L2_CID_USER_BASE | 0xf000)
++#define VIVID_CID_BOOLEAN		(VIVID_CID_CUSTOM_BASE + 1)
++#define VIVID_CID_INTEGER		(VIVID_CID_CUSTOM_BASE + 2)
+ #define VIVID_CID_INTEGER64		(VIVID_CID_CUSTOM_BASE + 3)
++#define VIVID_CID_MENU			(VIVID_CID_CUSTOM_BASE + 4)
+ #define VIVID_CID_STRING		(VIVID_CID_CUSTOM_BASE + 5)
+ #define VIVID_CID_AREA			(VIVID_CID_CUSTOM_BASE + 11)
+ #define VIVID_CID_RO_INTEGER		(VIVID_CID_CUSTOM_BASE + 12)
+@@ -355,6 +358,7 @@ int testQueryControls(struct node *node);
+ int testSimpleControls(struct node *node);
+ int testExtendedControls(struct node *node);
+ int testEvents(struct node *node);
++int testVividEvents(struct node *node);
+ int testVividDisconnect(struct node *node);
+ int testJpegComp(struct node *node);
+
+diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-compliance/v4l2-test-controls.cpp
+index e4925ca3..a115a00a 100644
+--- a/utils/v4l2-compliance/v4l2-test-controls.cpp
++++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
+@@ -1218,6 +1218,68 @@ int testEvents(struct node *node)
+ 	return 0;
+ }
+
++int testVividEvents(struct node *node)
++{
++	struct v4l2_control ctrl = {};
++	struct v4l2_event_subscription sub = {};
++	struct v4l2_event ev = {};
++	__u32 seq_1st;
++	int val_bool, val_int;
++
++	sub.type = V4L2_EVENT_CTRL;
++	sub.id = VIVID_CID_BOOLEAN;
++	sub.flags = V4L2_EVENT_SUB_FL_ALLOW_FEEDBACK;
++	fail_on_test(doioctl(node, VIDIOC_SUBSCRIBE_EVENT, &sub));
++	sub.id = VIVID_CID_INTEGER;
++	fail_on_test(doioctl(node, VIDIOC_SUBSCRIBE_EVENT, &sub));
++	sub.id = VIVID_CID_MENU;
++	fail_on_test(doioctl(node, VIDIOC_SUBSCRIBE_EVENT, &sub));
++
++	ctrl.id = VIVID_CID_INTEGER;
++	fail_on_test(doioctl(node, VIDIOC_G_CTRL, &ctrl));
++	val_int = ctrl.value;
++	ctrl.value = val_int + 1;
++	fail_on_test(doioctl(node, VIDIOC_S_CTRL, &ctrl));
++	ctrl.id = VIVID_CID_BOOLEAN;
++	fail_on_test(doioctl(node, VIDIOC_G_CTRL, &ctrl));
++	val_bool = ctrl.value = !ctrl.value;
++	fail_on_test(doioctl(node, VIDIOC_S_CTRL, &ctrl));
++	ctrl.id = VIVID_CID_INTEGER;
++	fail_on_test(doioctl(node, VIDIOC_G_CTRL, &ctrl));
++	ctrl.value = val_int + 2;
++	fail_on_test(doioctl(node, VIDIOC_S_CTRL, &ctrl));
++	ctrl.id = VIVID_CID_MENU;
++	fail_on_test(doioctl(node, VIDIOC_G_CTRL, &ctrl));
++	ctrl.value = ctrl.value == 3 ? 2 : 3;
++	fail_on_test(doioctl(node, VIDIOC_S_CTRL, &ctrl));
++
++	fail_on_test(doioctl(node, VIDIOC_DQEVENT, &ev));
++	fail_on_test(ev.pending != 2);
++	fail_on_test(ev.type != V4L2_EVENT_CTRL);
++	fail_on_test(ev.id != VIVID_CID_INTEGER);
++	fail_on_test(ev.u.ctrl.value != val_int + 2);
++	seq_1st = ev.sequence;
++
++	fail_on_test(doioctl(node, VIDIOC_DQEVENT, &ev));
++	fail_on_test(ev.pending != 1);
++	fail_on_test(ev.type != V4L2_EVENT_CTRL);
++	fail_on_test(ev.id != VIVID_CID_BOOLEAN);
++	fail_on_test(ev.u.ctrl.value != val_bool);
++	fail_on_test(ev.sequence != seq_1st + 1);
++
++	fail_on_test(doioctl(node, VIDIOC_DQEVENT, &ev));
++	fail_on_test(ev.pending);
++	fail_on_test(ev.type != V4L2_EVENT_CTRL);
++	fail_on_test(ev.id != VIVID_CID_MENU);
++	fail_on_test(ev.u.ctrl.value != ctrl.value);
++	fail_on_test(ev.sequence != seq_1st + 3);
++
++	sub.type = V4L2_EVENT_ALL;
++	sub.id = 0;
++	fail_on_test(doioctl(node, VIDIOC_UNSUBSCRIBE_EVENT, &sub));
++	return 0;
++}
++
+ int testVividDisconnect(struct node *node)
  {
- 	struct v4l2_subscribed_event *sev;
- 	struct v4l2_kevent *kev;
--	bool copy_payload = true;
-
- 	/* Are we subscribed? */
- 	sev = v4l2_event_subscribed(fh, ev->type, ev->id);
-@@ -116,29 +115,59 @@ static void __v4l2_event_queue_fh(struct v4l2_fh *fh,
-
- 	/* Do we have any free events? */
- 	if (sev->in_use == sev->elems) {
--		/* no, remove the oldest one */
--		kev = sev->events + sev_pos(sev, 0);
--		list_del(&kev->list);
--		sev->in_use--;
--		sev->first = sev_pos(sev, 1);
--		fh->navailable--;
-+		/*
-+		 * No, so we have to make space.
-+		 *
-+		 * This is a bit tricky: the easy solution is to drop the oldest
-+		 * event from the fh->available list and add the new one to
-+		 * the end of the list. However, that can lead to situation
-+		 * were, if there are a lot of events, the oldest event keeps
-+		 * being removed before it can be dequeued by the application.
-+		 * Effectively this is a denial-of-service situation were the
-+		 * event is never seen by the application even though there are
-+		 * actually a lot of events.
-+		 *
-+		 * So instead we take care to keep the oldest event in its
-+		 * place, and instead either replace the event content with
-+		 * the new event (if sev->elems == 1) or merge the 2nd oldest
-+		 * event with the oldest event.
-+		 */
-+		struct v4l2_kevent *oldest = sev->events + sev_pos(sev, 0);
-+		struct v4l2_kevent *second_oldest;
-+
- 		if (sev->elems == 1) {
- 			if (sev->ops && sev->ops->replace) {
--				sev->ops->replace(&kev->event, ev);
--				copy_payload = false;
-+				/* Replace the oldest event with the new event */
-+				sev->ops->replace(&oldest->event, ev);
-+			} else {
-+				oldest->event.u = ev->u;
- 			}
--		} else if (sev->ops && sev->ops->merge) {
--			struct v4l2_kevent *second_oldest =
--				sev->events + sev_pos(sev, 0);
--			sev->ops->merge(&kev->event, &second_oldest->event);
-+			wake_up_all(&fh->wait);
-+			return;
- 		}
-+		second_oldest = sev->events + sev_pos(sev, 1);
-+		if (sev->ops && sev->ops->merge) {
-+			/* Merge the oldest event with the 2nd oldest event */
-+			sev->ops->merge(&oldest->event, &second_oldest->event);
-+		}
-+
-+		/*
-+		 * Replace the oldest event with the second oldest event in the
-+		 * event list.
-+		 */
-+		second_oldest->event.sequence = oldest->event.sequence;
-+		second_oldest->ts = oldest->ts;
-+		list_del(&second_oldest->list);
-+		list_replace_init(&oldest->list, &second_oldest->list);
-+		sev->first = sev_pos(sev, 1);
-+		sev->in_use--;
-+		fh->navailable--;
- 	}
-
- 	/* Take one and fill it. */
- 	kev = sev->events + sev_pos(sev, sev->in_use);
- 	kev->event.type = ev->type;
--	if (copy_payload)
--		kev->event.u = ev->u;
-+	kev->event.u = ev->u;
- 	kev->event.id = ev->id;
- 	kev->ts = ts;
- 	kev->event.sequence = fh->sequence;
+ 	// Test that disconnecting a device will wake up any processes
 -- 
 2.51.0
 
