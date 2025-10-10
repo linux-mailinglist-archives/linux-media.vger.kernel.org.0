@@ -1,47 +1,80 @@
-Return-Path: <linux-media+bounces-44173-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44174-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C78BBCCCA0
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 13:40:29 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 70BDDBCCD0A
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 14:02:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 93B304E2066
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 11:40:27 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id BC39935358C
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 12:02:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D3A08285CBB;
-	Fri, 10 Oct 2025 11:40:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 76EDD288C25;
+	Fri, 10 Oct 2025 12:02:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="spuL7DT/"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IHIaMYOQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D384414
-	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 11:40:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 22B9A221FB6
+	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 12:01:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760096423; cv=none; b=jF3pOyARzNw+YKkHTXrsbihnjsRLuZbLvTHiTDd59EyNI0dNv0QHZ2PFYUcCYtSMl+Olb2qu1nHD/Tr3+LXJHhOKM14YnLzVGK4orOkHj0y16+kqIuBKWhq5eHwDGyj+R9NcmV//ChHlXaB/GyGoUIzBo/XTZUqctecQBAoC4k8=
+	t=1760097720; cv=none; b=L72MwryC8crIjCvbvi7o7KMS7Xc8Swp7V0KvoGS0JlWSxoYnFA21gGnLFkKzaYvl7rihtm/VwCpe26LuGLValsAzzB47ugY87x4gDAznKL/U+q9jUmAPscidaPJQye7z5vt90Bb2tHn8ot8m9d6S8ShqVg5/RTB1Jzj2ZmRT+h4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760096423; c=relaxed/simple;
-	bh=nn/GMVCScDY9xI1dC+YXskWOoLPwlMQ1KT/MboWQobM=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:Content-Type; b=b5Iy9IcJQqgCuzp63/FByiS0SfbeB/y0x0aAcei7CixIPQykU5m3Ji0gAuk4o2ALBD4vIAW7C8vsvacM0Z8kRaaUZgeTVDFOEaw4LXw1dQZqtz6hnc+Nf0YvISvUzvV6XngYaXfQ/pxmMqpqJc0bmGbotqpIC8/Ed4smPDDz0Ag=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=spuL7DT/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4FFEC4CEF1;
-	Fri, 10 Oct 2025 11:40:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760096423;
-	bh=nn/GMVCScDY9xI1dC+YXskWOoLPwlMQ1KT/MboWQobM=;
-	h=Date:From:Subject:To:Cc:From;
-	b=spuL7DT/lFYeR7bNabzQe6rIqJDMv5EtSwlJouRA32BIUF/kyAkc4/jb4g2Y4i1Oq
-	 ao4XXiQw84X6fwwfTcUb7i1HlzA1bUdmpIjk/YGgRWI/F4ReVI4hW79+mJ2p7NDfjI
-	 zaMJl8fi6cq0wBPy4XFD44LP+cy//nN31/HD4f+/1oD88NtR7iN5oejdb8iuw/7vDQ
-	 9zUZXUQcmAKL1QkJZ/Czqg9ZDlTlmlzo0n/PeZ2NySDEMC2QJQN9lki5rEsGHcqmNk
-	 LicdMmICRA/Cb/WcsiQvRl7ukVuwS8CGgQOliRwhhAlH7Ac0boBJxpLQ37kZgbnmMK
-	 i9AQQNy9Pc1mw==
-Message-ID: <28645f94-f8ab-45bd-95d0-e65435fe99d6@kernel.org>
-Date: Fri, 10 Oct 2025 13:40:20 +0200
+	s=arc-20240116; t=1760097720; c=relaxed/simple;
+	bh=kPRMI+tX+SAktSw62vIiHfaL8Bu0DpE6vapi2eb3NmI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BKv+yGiKlh2VwMB1I8K3RHMxZz6Ec062JsrVZ0PS1AvRPUiZwv4GX3Rc/Z2BbG8CH9Ruw2vO+RDLJLPIVx/qYeS7rpyojxPXfFWdlsuEfVJgBZhFiE8ljm6BF1v7I4yxsIWgt5oKjqACHyjPlvranVso/ZmG/FbQ00kFWP0Tz6k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IHIaMYOQ; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b48d8deafaeso457755966b.1
+        for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 05:01:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760097717; x=1760702517; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=s90KB/NTrY2uO7MTlr/2on1AH8hzlT2J0wqk/Ex7Qg0=;
+        b=IHIaMYOQnTcz0uhyYwn5zMFmwYnGKbiFAkMusqnePKqLNuwhGft7skvVjxu1BvBISv
+         cUEUNOhfjMBX4P7MC4fkutJkvPtXx/N0t2aB+SdJXld2v/962q4/6g+GyRgUSTIwawqk
+         /+llb4GiSS3Dqf5QgZPm453wGL9imy48skja9desvEOosu/LWhEzk5GD1ECyZs3SjTvE
+         6qtnL3jhOwrkP1GlCJOazVR09MV/aRyqNYgprzJfwuH7Vp/2UcG/JvYIuAbpEBYDdyS5
+         EFJDZOz8wc3W4IqPWxwvI4l6SYQDblahHfh3k4biDSwFbdBBETRuz5CS11jcLXEA4s90
+         tNNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760097717; x=1760702517;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=s90KB/NTrY2uO7MTlr/2on1AH8hzlT2J0wqk/Ex7Qg0=;
+        b=wSV4Za6fcz6YlK4oSHezJeDav0hjyMIdMIskPuLKRXRMo5ur4OmKlZbDKobovOjAha
+         9vPy9P/4qpdxyw950vTq75LIMv03Egana8oseq5+W6E5eS02WGCh+5O/ohCweFFZpFrw
+         OPWUJ6hjXLwROPQtrXks2yF8/KpZ2QFtevPm93nzTbz+d3iGfrD1ryRgmH+nhgHXdTJD
+         SaL9YL1vnX5Peo0gZZaZ+PYTNtH2WcVnVlaPLZbi+vlOO06XegGlvP4d0uhhZbWVytX+
+         kV22IvfCBNg5EzZx7D+uDZ2Rp+AJzXGomzFrorthh3dd/jBzL3lfrALp/qYY6h5TiiEJ
+         Loaw==
+X-Gm-Message-State: AOJu0YyXafSIBXwqxviNkFObuT7eybDlt6aINSl2c3/q/vmAW5jJsvhg
+	ETGe2qYOXthLF8MaoTmDHC19bq5OuMtdWM6h8W3o2mzqTKOmxb61dhCiN2vD+6wfsmA=
+X-Gm-Gg: ASbGncssaxbEd0li7er+AuXhh0lz/DAh3NBwC2Ldk4BARttcE3gvOfzV7e9M/SCphHh
+	/WRDAS3SslejI52H2oIUdIlx8KT3Z2yoqfLFq/hFHNyDmNd/8X7q/RjeXhsgPDrSWW8DPU9BKL3
+	GeIULCP4tmlKyWxSuBkzEaKdACGlEphEs/cA8mS7mzyN9DdokG8gRW/8tDaOCETHL6KeIsOvIjF
+	x0UZvsf73X4QuhFE9SoA2w83QsN5VyGqs9cZewz1lFjc242cGV8DcrP26C9Ps0LQf6CY4xg+MSB
+	5GR0l7OzygX6ev2IC5CecbVU0TTemtFq6k503GXQgZBupo7Sp96GS1wl5vlBcMQhRwyKgPJongl
+	noWej9FQ3Vyph3oujUyZ7WxP8bYbln5OhPRQaF1XMMaj5tNScnMCkssqVfsoriwjVru7GHpj18S
+	ixfbhKp7FhaM0=
+X-Google-Smtp-Source: AGHT+IHFEbOgc0ODAF0VuKf0ziv5aS2t3f+mpFW0dy7lOT4Bfjw96VQjQByGIVRZZDYAlQhb3Y/lvg==
+X-Received: by 2002:a17:907:7f0b:b0:b3f:f207:b755 with SMTP id a640c23a62f3a-b50aa48d873mr1107494166b.6.1760097717302;
+        Fri, 10 Oct 2025 05:01:57 -0700 (PDT)
+Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d5cada4fsm229334066b.6.2025.10.10.05.01.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 10 Oct 2025 05:01:56 -0700 (PDT)
+Message-ID: <f71052d2-8969-436d-9109-d5abe70b81a4@linaro.org>
+Date: Fri, 10 Oct 2025 13:01:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -49,143 +82,51 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Content-Language: en-US, nl
-Subject: [PATCHv2] v4l2-compliance: add event order test
-To: Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+Subject: Re: [PATCH v11 06/17] media: rockchip: add driver for the rockchip
+ mipi csi-2 receiver
+To: michael.riesch@collabora.com, Mehdi Djait <mehdi.djait@linux.intel.com>,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ =?UTF-8?Q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+ Gerald Loacker <gerald.loacker@wolfvision.net>,
+ Markus Elfring <Markus.Elfring@web.de>,
  Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring
+ <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Kever Yang <kever.yang@rock-chips.com>,
  Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Collabora Kernel Team <kernel@collabora.com>,
+ Paul Kocialkowski <paulk@sys-base.io>,
+ Alexander Shiyan <eagle.alexander923@gmail.com>,
+ Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org
+References: <20240220-rk3568-vicap-v11-0-af0eada54e5d@collabora.com>
+ <20240220-rk3568-vicap-v11-6-af0eada54e5d@collabora.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20240220-rk3568-vicap-v11-6-af0eada54e5d@collabora.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-Add a new vivid-specific test to verify the order in which control events
-arrive and whether the correct sequence counters are reported.
+On 17/09/2025 16:38, Michael Riesch via B4 Relay wrote:
+> From: Michael Riesch <michael.riesch@collabora.com>
+> 
+> The Rockchip RK3568 MIPI CSI-2 Receiver is a CSI-2 bridge with one
+> input port and one output port. It receives the data with the help
+> of an external MIPI PHY (C-PHY or D-PHY) and passes it to the
+> Rockchip RK3568 Video Capture (VICAP) block.
+> 
+> Add a V4L2 subdevice driver for this unit.
+> 
+> Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
+> Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
+I've been stealing ideas from this patch series for some time now.
 
-This verifies the behavior of this kernel patch:
-
-https://patchwork.linuxtv.org/project/linux-media/patch/d4319e94-15c5-43a6-9bab-b9eb1d6c0d7c@kernel.org/
-
-Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
----
-Changes since v1: validate sequence counters in the events.
----
- utils/v4l2-compliance/v4l2-compliance.cpp    |  2 +
- utils/v4l2-compliance/v4l2-compliance.h      |  4 ++
- utils/v4l2-compliance/v4l2-test-controls.cpp | 62 ++++++++++++++++++++
- 3 files changed, 68 insertions(+)
-
-diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
-index b82d7dad..cdb30e4d 100644
---- a/utils/v4l2-compliance/v4l2-compliance.cpp
-+++ b/utils/v4l2-compliance/v4l2-compliance.cpp
-@@ -1440,6 +1440,8 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
- 		printf("\ttest VIDIOC_G/S_CTRL: %s\n", ok(testSimpleControls(&node)));
- 		printf("\ttest VIDIOC_G/S/TRY_EXT_CTRLS: %s\n", ok(testExtendedControls(&node)));
- 		printf("\ttest VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: %s\n", ok(testEvents(&node)));
-+		if (is_vivid)
-+			printf("\ttest Control Events: %s\n", ok(testVividEvents(&node)));
- 		printf("\ttest VIDIOC_G/S_JPEGCOMP: %s\n", ok(testJpegComp(&node)));
- 		printf("\tStandard Controls: %d Private Controls: %d\n",
- 		       node.std_controls - node.std_compound_controls,
-diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
-index 4a7af5f5..36b2f463 100644
---- a/utils/v4l2-compliance/v4l2-compliance.h
-+++ b/utils/v4l2-compliance/v4l2-compliance.h
-@@ -82,7 +82,10 @@ enum poll_mode {
- #define VIVID_CID_REQ_VALIDATE_ERROR	(VIVID_CID_VIVID_BASE + 72)
-
- #define VIVID_CID_CUSTOM_BASE		(V4L2_CID_USER_BASE | 0xf000)
-+#define VIVID_CID_BOOLEAN		(VIVID_CID_CUSTOM_BASE + 1)
-+#define VIVID_CID_INTEGER		(VIVID_CID_CUSTOM_BASE + 2)
- #define VIVID_CID_INTEGER64		(VIVID_CID_CUSTOM_BASE + 3)
-+#define VIVID_CID_MENU			(VIVID_CID_CUSTOM_BASE + 4)
- #define VIVID_CID_STRING		(VIVID_CID_CUSTOM_BASE + 5)
- #define VIVID_CID_AREA			(VIVID_CID_CUSTOM_BASE + 11)
- #define VIVID_CID_RO_INTEGER		(VIVID_CID_CUSTOM_BASE + 12)
-@@ -355,6 +358,7 @@ int testQueryControls(struct node *node);
- int testSimpleControls(struct node *node);
- int testExtendedControls(struct node *node);
- int testEvents(struct node *node);
-+int testVividEvents(struct node *node);
- int testVividDisconnect(struct node *node);
- int testJpegComp(struct node *node);
-
-diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-compliance/v4l2-test-controls.cpp
-index e4925ca3..a115a00a 100644
---- a/utils/v4l2-compliance/v4l2-test-controls.cpp
-+++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
-@@ -1218,6 +1218,68 @@ int testEvents(struct node *node)
- 	return 0;
- }
-
-+int testVividEvents(struct node *node)
-+{
-+	struct v4l2_control ctrl = {};
-+	struct v4l2_event_subscription sub = {};
-+	struct v4l2_event ev = {};
-+	__u32 seq_1st;
-+	int val_bool, val_int;
-+
-+	sub.type = V4L2_EVENT_CTRL;
-+	sub.id = VIVID_CID_BOOLEAN;
-+	sub.flags = V4L2_EVENT_SUB_FL_ALLOW_FEEDBACK;
-+	fail_on_test(doioctl(node, VIDIOC_SUBSCRIBE_EVENT, &sub));
-+	sub.id = VIVID_CID_INTEGER;
-+	fail_on_test(doioctl(node, VIDIOC_SUBSCRIBE_EVENT, &sub));
-+	sub.id = VIVID_CID_MENU;
-+	fail_on_test(doioctl(node, VIDIOC_SUBSCRIBE_EVENT, &sub));
-+
-+	ctrl.id = VIVID_CID_INTEGER;
-+	fail_on_test(doioctl(node, VIDIOC_G_CTRL, &ctrl));
-+	val_int = ctrl.value;
-+	ctrl.value = val_int + 1;
-+	fail_on_test(doioctl(node, VIDIOC_S_CTRL, &ctrl));
-+	ctrl.id = VIVID_CID_BOOLEAN;
-+	fail_on_test(doioctl(node, VIDIOC_G_CTRL, &ctrl));
-+	val_bool = ctrl.value = !ctrl.value;
-+	fail_on_test(doioctl(node, VIDIOC_S_CTRL, &ctrl));
-+	ctrl.id = VIVID_CID_INTEGER;
-+	fail_on_test(doioctl(node, VIDIOC_G_CTRL, &ctrl));
-+	ctrl.value = val_int + 2;
-+	fail_on_test(doioctl(node, VIDIOC_S_CTRL, &ctrl));
-+	ctrl.id = VIVID_CID_MENU;
-+	fail_on_test(doioctl(node, VIDIOC_G_CTRL, &ctrl));
-+	ctrl.value = ctrl.value == 3 ? 2 : 3;
-+	fail_on_test(doioctl(node, VIDIOC_S_CTRL, &ctrl));
-+
-+	fail_on_test(doioctl(node, VIDIOC_DQEVENT, &ev));
-+	fail_on_test(ev.pending != 2);
-+	fail_on_test(ev.type != V4L2_EVENT_CTRL);
-+	fail_on_test(ev.id != VIVID_CID_INTEGER);
-+	fail_on_test(ev.u.ctrl.value != val_int + 2);
-+	seq_1st = ev.sequence;
-+
-+	fail_on_test(doioctl(node, VIDIOC_DQEVENT, &ev));
-+	fail_on_test(ev.pending != 1);
-+	fail_on_test(ev.type != V4L2_EVENT_CTRL);
-+	fail_on_test(ev.id != VIVID_CID_BOOLEAN);
-+	fail_on_test(ev.u.ctrl.value != val_bool);
-+	fail_on_test(ev.sequence != seq_1st + 1);
-+
-+	fail_on_test(doioctl(node, VIDIOC_DQEVENT, &ev));
-+	fail_on_test(ev.pending);
-+	fail_on_test(ev.type != V4L2_EVENT_CTRL);
-+	fail_on_test(ev.id != VIVID_CID_MENU);
-+	fail_on_test(ev.u.ctrl.value != ctrl.value);
-+	fail_on_test(ev.sequence != seq_1st + 3);
-+
-+	sub.type = V4L2_EVENT_ALL;
-+	sub.id = 0;
-+	fail_on_test(doioctl(node, VIDIOC_UNSUBSCRIBE_EVENT, &sub));
-+	return 0;
-+}
-+
- int testVividDisconnect(struct node *node)
- {
- 	// Test that disconnecting a device will wake up any processes
--- 
-2.51.0
-
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
