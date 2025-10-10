@@ -1,517 +1,327 @@
-Return-Path: <linux-media+bounces-44168-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44169-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA8E3BCC883
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 12:27:03 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 816B8BCC9F3
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 12:56:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 22C4B425795
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 10:26:15 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F2C42355103
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 10:56:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A9D8D28466A;
-	Fri, 10 Oct 2025 10:26:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E9642868A1;
+	Fri, 10 Oct 2025 10:56:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="X5N5/i16"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p8c7dA3u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BL0PR03CU003.outbound.protection.outlook.com (mail-eastusazon11012064.outbound.protection.outlook.com [52.101.53.64])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF563222587;
-	Fri, 10 Oct 2025 10:26:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.53.64
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760091971; cv=fail; b=HRBG/Qr2lVCun7UGHxPhQ+liGXYkB0yCVAE+XrtYE+8YPS3sz+ulyRuV5Gpxx0Wzj12+VVP0jj8Mq6mvkTeStsnx6u/aKetWBqVyx4t4Wgvne0+mYJ8UO0s0v/PmqpxtBLw7yv2GeRCicVTkhbTZ3Lk3TJAhSiBB+S3+qBaMWzA=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760091971; c=relaxed/simple;
-	bh=E+22hTR/R0/+FYFtOBZ+BJ80fqOMx6wapz2JarLxKE0=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=r46sypegxyE9XINMm2CU4C4w2neoWAcqWyGHZlDW+x+hP1bEoCF6MuC5Q82CNOxjkE0b+uh2BXWaDi5vhPBdT/+8ddkKQKK3bf4oXvx9lrous5njFzaebq+1xCCK2ptiGM1FYRwsH/wctEb4NSElosOeV4WALYXQSWSBtOt2g+I=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=X5N5/i16; arc=fail smtp.client-ip=52.101.53.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qJ6ts9GAAtBHa8mPHe/BsQRGApjB/OZn2Lzdkj2gpzyWZfJNIYT8obvxmIKcLbKx0+5tpmrIsZ3i5lCAZblxUJlH8RPjJMywUIQmbQ1+9VlQgXAwgbEad9i36ZlF7j6E+4W7m5dIGOn4l8cU9/cRWmphuTdfbIY40MjTJNM2C6hClHRD1LbGs+OcWg+6hYgU0IMEh7dPhCyT3KvCd2qenrsqoLPuGxlbWHzjreVAhuNl+zHuqVW1yoQjF+q4yJ2w5LDrKcPso4K1ij2BKkY471Z1NAPi5c/0lNsrFMtNH14EMbBaweh99+F3vn2JMFFljXHw+FWCv/ZUBYZ9coUyfw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=sSMSLOybLksH4OpppeJV742N9pVZzJ2D6Xyuw9hQdzw=;
- b=fIJzPOg7sF/HmXyfT7ujc3xQY5++bw5g1lXLvfQ00nmeO0CPgq3G3ZXIxTATj5wQdjvBpZvQMZQgMFPgbihmb0/9Z4dSBHOF65nttAiMz+KYB6wEYIsQrGG3YsrOWh6S0Wy/bs92V1mGMEv0alOc0f413l9JFFVPfMc0sQA0o1rJ6UwBJvONEZspVeXmDXaZCE8yx6WccOU9KD2lqgjhxUwtmdFWbTU4QmDVJPZowkcA/5dZygXRXKb0kpQY9KXx2Yv/eDQBWSyCmxfO5F14e8MwQHXDfqp2qVhoiEWbUyN5dpB2CJDTJsvI/6O6gB1hVIwW2BxHSfr7Djv9ht+r5g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=sSMSLOybLksH4OpppeJV742N9pVZzJ2D6Xyuw9hQdzw=;
- b=X5N5/i16oYQiJGnwAVlVEQtjCJFDmzU3ZraCjMUFhtK0GK6rmjaF31GJ+6I+8kihD6Axo4oipTTKee1Hhf1FR1xa6JXoeeLdTgmBn8pBcmKpBHbc7D+xPzs0BgiZ/W/535n5hkLRNb0fk7ac3FWL07z7oKxWbYSlXWhw3by6Rkc=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from LV9PR12MB9829.namprd12.prod.outlook.com (2603:10b6:408:2eb::9)
- by SA1PR12MB9514.namprd12.prod.outlook.com (2603:10b6:806:458::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.10; Fri, 10 Oct
- 2025 10:26:04 +0000
-Received: from LV9PR12MB9829.namprd12.prod.outlook.com
- ([fe80::c47f:251d:7b84:e6b4]) by LV9PR12MB9829.namprd12.prod.outlook.com
- ([fe80::c47f:251d:7b84:e6b4%6]) with mapi id 15.20.9203.009; Fri, 10 Oct 2025
- 10:26:04 +0000
-Message-ID: <dbc92a53-a332-4e57-a37a-7a146b067fcd@amd.com>
-Date: Fri, 10 Oct 2025 18:25:48 +0800
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 4/7] media: platform: amd: isp4 subdev and firmware
- loading handling added
-To: Sultan Alsawaf <sultan@kerneltoast.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
- laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
- sakari.ailus@linux.intel.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
- gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com, Dominic.Antony@amd.com,
- mario.limonciello@amd.com, richard.gong@amd.com, anson.tsao@amd.com,
- Alexey Zagorodnikov <xglooom@gmail.com>
-References: <20250911100847.277408-1-Bin.Du@amd.com>
- <20250911100847.277408-5-Bin.Du@amd.com> <aNJK_tZe99_jWNdR@sultan-box>
- <c63a56cb-23d0-4c5a-8e1a-0dfe17ff1786@amd.com> <aNzXJaH_yGu1UrV2@sultan-box>
-Content-Language: en-US
-From: "Du, Bin" <bin.du@amd.com>
-In-Reply-To: <aNzXJaH_yGu1UrV2@sultan-box>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: KU2P306CA0004.MYSP306.PROD.OUTLOOK.COM
- (2603:1096:d10:14::19) To LV9PR12MB9829.namprd12.prod.outlook.com
- (2603:10b6:408:2eb::9)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC83E28136F
+	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 10:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760093805; cv=none; b=ufo4YKjvQNi8e1SRtDVJEh0MFZD+qeJgY4stVwfUgWzBXUwfui74VHBw0I2FOvU8hl2yA4S7jcEDtdxRMtAQsU7Yzt0r2SAVGUkMIA/hr0yPxvNTOw3U3tE3cIowQjvTxQ4eQptmZib8dUGelVR3Q3i9UQmCyRcKdtOEUBJZlgw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760093805; c=relaxed/simple;
+	bh=YBfQLBPpCdOoJV/gzUeLJYUYb6dV63M4sLsdO3yP0Ww=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=NGyWB56MAdxUusJHeGpDtnJpM5TErG+AsQfBk+6c9G9g8xR0GaLQOMpNgNC6MeEnSyCry4T6c2usH1afpgEDccJYyha/KhUoRF+oRj2/nPmizhfG1HblvOzCSx8oYGmXeApKo1pIwwqfbKwUmufvsdr5WNRNlsTDDGhJ4Kd82fM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p8c7dA3u reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 21A30593;
+	Fri, 10 Oct 2025 12:55:05 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1760093705;
+	bh=YBfQLBPpCdOoJV/gzUeLJYUYb6dV63M4sLsdO3yP0Ww=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=p8c7dA3uzkBlgh+GwwubUVSgUN5mcSo58NVmdNytqtSWu8SFvpDYXX3e3KJQPHs2/
+	 wabfTkKmp6dbZZJ7rimEdMDBpO5t+esK5bsHyTwhjR/SflzWz82qSVQtl++LvfXe+r
+	 Ybigiin71McGzf4w9o6Gb5B4ieJlgX9seMPp5u+Q=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: LV9PR12MB9829:EE_|SA1PR12MB9514:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0c8805ed-fba0-4029-81a3-08de07e76a55
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?dzlTTFI4aWQwN2JSQkdkMFdCZkdnWEZQRjFPaFdQVHRFc2dtZnZrZ2VjcTNl?=
- =?utf-8?B?TUdWVDNDVXYzbUY4aE1BekZCZEkvNnJaK2RTaVlMR3VTSzQ2dlpUMHlqTnBM?=
- =?utf-8?B?eCthaFNVbWQxYjRHQnh6NDMxemdybzA5OEZvY3lpMkZWZGJ1UTBSUGhTeVJ1?=
- =?utf-8?B?Z3VVTGYrdnFsQzJkVUd6MVcvYUY2S09rOU5ZR1dwamUzWmROVXM1L0t0d0FJ?=
- =?utf-8?B?SFV1RWVFR0NmV0NRVkRRYkFoUHYxTjB5QWRhWGxOWi84TVo4WitRLzVQQng3?=
- =?utf-8?B?RmJmZXZLbWw5elkvVC9KSVdrcDA0TCtSNUdPRXZCMHFCN1d1d2VmZlI2VS9B?=
- =?utf-8?B?QTc0aTVVeXd2Qlo0Nk96cURYNVc4a2U0b1gveHkvZ21MWkJvMHlVNVdvVTJY?=
- =?utf-8?B?V29vbFdwZXZxZk92S1pNaWNERmtoRFgzZGR2azFDLzI5TEJwTno0RHlzVmdJ?=
- =?utf-8?B?RHpFVnFhYTgyQjdHaGNHb0thVU5kVHFRYTgxOC8vOGROTEt0djIxK3lSSytF?=
- =?utf-8?B?THZLa2VUemhCS1hZVVduUUFNUmNZbHVvbkVQVVFlUU83cG1iZDdON2g4SSsz?=
- =?utf-8?B?RHBqNVl4OC9uV3prS2tkNHdZV0tSbDFKY1E4b2p1L0xYTlp3Y2ljSGo2S1RE?=
- =?utf-8?B?WXY4WjU1NlRzb1N1MlpHMmtPbmtibEJ0dWZySHp4blJUMXhoR2t0bnZDc1BN?=
- =?utf-8?B?NFNWaUYveDR2VEw4Qk1iREV6dEhWSW43VkVwQk1vNG9EMDRyQXJKOTQzUUIx?=
- =?utf-8?B?aU51S3BMUjNvVUp6czFrcFZYQUZ6aG9tZVp5WTcrMUNuTGtGWllNTDhxTGZ4?=
- =?utf-8?B?SE1LNGh4QVlhN2lOZS9PaVRkTmJIa2xMZjJSbmplRWpLTHRTM0U1dHpYeGRI?=
- =?utf-8?B?UE9wWDAwWlJQVVZaNU10bUNneVlLa05tVnE1K0ZJZWdLaW55ekd6ZGJmRytz?=
- =?utf-8?B?TzFKbWg4WXY4d1dtZWY4aDZqR3JCRjRWMEtscUlVbll2QUZ6SndtckMrK3Yz?=
- =?utf-8?B?VnFZSExDdm9obkZibzhINmoxTjJva24vYWxzeUlHa2FXNTJpQlZHUEdiQXI4?=
- =?utf-8?B?VnB2ZjQ4ckwzMzZxS2FrOUFkeXluYm15NXB4SU9yVkZnSXU0aVNVRW1pSWRT?=
- =?utf-8?B?Q2VYS3ViSm9QcmhLb0UrcTU5Y1RQdTBRUCt1SU44QUFNbmk0cGJ0V3dqSzlI?=
- =?utf-8?B?cHhSUXF6bmZpYVJLVmt5bmVOb0I1ODQ2KzBrYzFXa0dqQVlPOGVXbjh6aUU4?=
- =?utf-8?B?MEloNDJRcE9vODVwSVJNOG9zdFI3MSsyeTRtc1VRakROTFp0cHNkdVBjOU5w?=
- =?utf-8?B?UzV0MmdoZFRON29Eb0lSNFRVSjdwbXBUMklxanlYUkNNOE84cEgrYzZYa0lS?=
- =?utf-8?B?Nm1oazZNQ296VXdzajZRSDZySjVXQ2FCanB2RHF5OTdSNk14dmJjcnI2aGFH?=
- =?utf-8?B?aWgzWlZSeEJ3a0Q0cERneUJFajhyN3FadnR2YmUvM0MrU3dmc3NkQjRJWUhB?=
- =?utf-8?B?MGZDQVVhcElWR2xkelZoU2tBbVVudEpTZVFFek1CNDVVS3lZdVRNS0hHb2VB?=
- =?utf-8?B?bHBuL3lFNlU5VHpma3E0dWdpdCt6VmFMUlplelZqNzQxZWkzd3RYejMwQms5?=
- =?utf-8?B?dysxczIzUFZYRU9yakUzNERaQ2w1anluVitRVWxHYUczeXE4b0h6amwvZUEw?=
- =?utf-8?B?TERDaHlMc0ZEai9NSSt1QnNwdldjNGwxQWIzWHZxcCtCaDZjQlNkczJIQ3pF?=
- =?utf-8?B?T0tSc3U1QjM3OUw2RUc5Q213SEZRc1JQczV2Tmg3RzhDVEhCUWs0Zmw3ZGJt?=
- =?utf-8?B?amxiSzdVTlJmSDNoYm1aWlYvYlgwTGdodi81V0Yva1RZd1dBeGtFaDc1blNS?=
- =?utf-8?B?MVFPUUhNTlkweFVkUUh0SG1pRHFQQWUzaXA2M3hJcGdsYzZjZ3BYSWQwWndy?=
- =?utf-8?Q?fLlsPMKJcPkMYJGa/cgdxZmE5DdCG7hv?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:LV9PR12MB9829.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aVJNVEc0eDd5bjVZY0EyL0lzeWU4ZmJCSWc3bWdrWTJrbDNkYUJWb3RBZ1VN?=
- =?utf-8?B?Nk91aVp1TFpXandlTStxQTRSazltN2hqUDVzcjBudVJYMVZWemoxTUVaYUw1?=
- =?utf-8?B?Tk5SdDlNOHJtN0lPN3JtTDBRVlVlbWZQZGRpQTV6WVBnWDFpRi9KY1BkNk5D?=
- =?utf-8?B?RUkwNDA1SGtiMFJjNi9XOEo0MG1MR24yTjFFMHNXencySlRQMndFL013dEFn?=
- =?utf-8?B?RmUwdmFTWkREcFFoa2tiYzQ5eXNaZmd6Q25LY0F2bG1xbEJmSElXYzhVQWc4?=
- =?utf-8?B?V2ZNODl1aUFnWVNGbzJrSkNEbmFBZGZRUkRLaE5id3M3K3IrOFhUdUwzWUsy?=
- =?utf-8?B?bnhJWXUyQ0d0ZTR6UkgvRnBmQ2N3YzVIM3BSQjNTUm95WVhnMjQwK1JRM2lZ?=
- =?utf-8?B?SEp1NEdUL3BuamF4U2Y0NGxNU2dsaEZhZkQyV2lwTEZ1WTEzeEx2eTdFc3hL?=
- =?utf-8?B?STFxdG5DTDZpaStrRm5oZGJBVnpKY1h2VmJKNVRreWZ6aXlJQWVzemhydFhC?=
- =?utf-8?B?a1R1L2xBL05ldlpaUWVKUXFCMDhCeTJlQVc1L3lnZkpzUFRsbEwyeGJGMktC?=
- =?utf-8?B?QnFlVlk2NXRGaUhIYzRieHFFLzB0QktTOTVCQThub2c3NUZvOS9KMTdtRVBh?=
- =?utf-8?B?Y0lzcS9rWmNCekJPVFJVb3M4RGZ1WmlBM1BndjdqbXlteDFzTHVBeGwybHp2?=
- =?utf-8?B?dGpsRkdZRDFrUEZmdXM3dDF1bzBSQmEvcGVKRzZZell6UDlJWXpybXdDRmty?=
- =?utf-8?B?bWJqbUZLR3BhN2NxditHQlZrMFBZVTFLOERYNVFZQXduRUExMXdhMFVuV1BK?=
- =?utf-8?B?TmFIa0RrTGVyNmpZM3M3QjhiVTB4bEFkdWFZVlk5aFh4YmhzVXN5cGRtUWs5?=
- =?utf-8?B?cUxZZUx2dHk4L3phV3laaDVOeWx2RmVyT2dPdHJEaEZUTHJ5clBZUG41MWNK?=
- =?utf-8?B?dEl0bGFEMVNHTDYycnhQMXJGbEZKWllRcGpXdVliRWg2amxVdGxZM0QxS1BU?=
- =?utf-8?B?SmRseXRodml1T3J6NFpzZmptR2xJZVJTUVF5VlFHYUpGR1ZKM3VYcmdKRHdI?=
- =?utf-8?B?RU8zcXVacCtSQUorVkJaaHZnMW04dkZ3a3g0dFUrM2krck5pY3laM0Zhc1pw?=
- =?utf-8?B?eTEya1lYblhuWktzQlhFTjRyZVBUbkcvRW54RllYRjM1cXZoL2ZOcjF2WmNT?=
- =?utf-8?B?U3I3Si9SeHFoc3BIYmRqV0FESVJFT3hPeXdJcElnQWluNWFCVk9QaGJHd1Br?=
- =?utf-8?B?WHo0cXAvMm1TZjFweTk2UUZQWEFRV3pLOUV0OTl5VW15SnhYMDloVEFYYlJs?=
- =?utf-8?B?UiszcSt4UTlGUnN5S3AxZ0JSZ1p0dzNFbFlrNkVDdGh4RWpoSjBnTUpGcGhZ?=
- =?utf-8?B?RVhlcndVR3ZjNUZEMHVDallQeGcrVXNtVGV3QkhPS1psZFlsYndubjlGcXJC?=
- =?utf-8?B?NnFuOXNBTWV3dkZuc2lPcWtFQ1FMMnlVOGM0Y2VKSUxxcGxUeUJTb2x1UHk0?=
- =?utf-8?B?aXdGQ29LQmhKVlEzTy9TVUJ2R091SldMdkttUFkreUFBdm5sVXNweFFHaGNI?=
- =?utf-8?B?QTFNeFIrSnF2dFRsY0ZMQ1JaZzAzNHo4SHhQa3R4ODBrQ0M1QVpFejRrNVc3?=
- =?utf-8?B?UFl1bHB3Z2U4TXp4SDNmQ1dsS2VrTHBxdzQ5TnUxclIrNGJoN1ZrV2M2bHha?=
- =?utf-8?B?d0l0Rm5pSGY4cXFxWURYVVFscEpGSDZvcG1rS1c3TWtjVmZKRnBDSDBKczhG?=
- =?utf-8?B?bTZkV2M1Q2I0SlR0UGR1eTU5NHdUZTdIUVVkSFFiemUwMFZMSDUwWjhtdEIx?=
- =?utf-8?B?T1VicjE2Z0hRZHVIRHBKNVFTR3VDV0xETXV6OFU4eWhqS3NqQ3AvRGZDUnpQ?=
- =?utf-8?B?ZWxZY0p1OEdKbG9xVTJUMXFBSFJjOXpoOERWV2ovZEdXZXRwYjQ5cFRWcXF3?=
- =?utf-8?B?cmNVYlVCdXZReFJYcEFhQ1dvOWMrYkFoK3FTaTZ1U05QcHJFa1BJSEx6MXBy?=
- =?utf-8?B?NzlwcGkxRzBZaW5BQiszRWZPckEvaFF1bG13NERJTVJYbnk3V0NJKzNxSUhC?=
- =?utf-8?B?THNISXRta3RldmYwd1ZQcVBOWHRDbW91R3p3RGdodmVvQ01pano2bHhvaWth?=
- =?utf-8?Q?pWtc=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0c8805ed-fba0-4029-81a3-08de07e76a55
-X-MS-Exchange-CrossTenant-AuthSource: LV9PR12MB9829.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Oct 2025 10:26:03.9427
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Td/j0+PopSssMiFJnfmmDA1nY/9LjnTgMcrf3JAmneH/SQ1LNQC62n6q2LpZAEUk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR12MB9514
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <176008954951.211618.7730648133265251067@localhost>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com> <aM1J9LsbpueEr30x@kekkonen.localdomain> <5fwlztz2q2fewyml774my3sdw3wv5wdhnl6p4mfbubm4erm5ft@sthie2bobklf> <aN4lQPK5Mqve2bUI@kekkonen.localdomain> <kblfpuqfj2d6vkagspnqdhztno2js3wljdrsv2wpeywuwyzg5x@xt7rjhh5wt76> <r3kv25lxbyjtuufb2ze27wp5gbqnbgnps2ytk2gy2qkaeiijdd@ydn4ptkze2qp> <aN_MdmDhQPyLnQqD@kekkonen.localdomain> <zq3gzieoqd4eieghjetm6sus5s7i6niplommnubl4d4rskbhra@v7gslcsg5hce> <mseqfltfao5jqubs22asrzzrj2tnsf5bdmlvsmncwj4ss3gxmu@wk2lmramiy3a> <176008954951.211618.7730648133265251067@localhost>
+Subject: Re: [PATCH v11 39/66] media: Documentation: Add subdev configuration models, raw sensor model
+From: Kieran Bingham <kieran.bingham@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Stanislaw Gruszka <"sta nislaw.gruszka"@linux.intel.com>,
+	Mehdi Djait <"m ehdi.djait"@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, Stefan Klug <stefan.klug@ideasonboard.com>
+Date: Fri, 10 Oct 2025 11:56:37 +0100
+Message-ID: <176009379794.935713.4919963263447609305@ping.linuxembedded.co.uk>
+User-Agent: alot/0.9.1
 
-Thanks, Sultan. sorry for the delayed response due to the long public 
-holiday here.
+Quoting Stefan Klug (2025-10-10 10:45:49)
+> Hi Sakari, hi Jacopo,
+>=20
+> Quoting Jacopo Mondi (2025-10-07 16:01:11)
+> > Hi again Sakari,
+> >    cc Kieran and Stefan
+> >=20
+> > Stefan and Kieran brought to my attention a use case I would like to
+> > discuss with you
+> >=20
+> > On Fri, Oct 03, 2025 at 03:25:19PM +0200, Jacopo Mondi wrote:
+> > > Hi Sakari,
+> > >
+> > > On Fri, Oct 03, 2025 at 04:15:34PM +0300, Sakari Ailus wrote:
+> > > > Hi Jacopo,
+> > >
+> > > [snip]
+> > >
+> > > > > >
+> > > > >
+> > > > > A recent discussion on libcamera made me wonder a few things
+> > > > >
+> > > > > https://patchwork.libcamera.org/patch/24547/
+> > > > >
+> > > > > In the current world (pre-RAW sensor model) the situation can be
+> > > > > summarized as
+> > > > >
+> > > > > TGT_NATIVE_SIZE =3D full pixel array (readable and non readable)
+> > > > > TGT_CROP_BOUNDS =3D readable pixel array (visible and non visibil=
+e pixels)
+> > > >
+> > > > Crop bounds is generally the same as native size.
+> > > >
+> > >
+> > > I checked two sensors datasheet for this yesterday and both of them
+> > > had parts of the pixel array that cannot be read out
+> > >
+> > > > > TGT_CROP_DEFAULT =3D visible pixels
+> > > >
+> > > > The default could exclude not-so-great pixels, too.
+> > > >
+> > >
+> > > ok, suggested pixel array area used for image capture purposes then
+> > >
+> > > > > TGT_CROP =3D analgoue crop
+> > > >
+> > > > This could include digital crop as well.
+> > > >
+> > >
+> > > Yes it might, not all sensor drivers behaves the same indeed
+> > >
+> > > > >
+> > > > > where:
+> > > > > - visibile =3D pixels used for image capture purpose
+> > > > > - non-visible =3D optically black, dummies etc
+> > > > >
+> > > > > With the RAW sensor model:
+> > > > >
+> > > > > format(1/0) =3D readable pixel array (visible and non visible)
+> > > > > TGT_CROP_DEFAULT(1/0) =3D visible pixel area
+> > > > > TGT_CROP(1/0) =3D analogue crop
+> > > > > TGT_COMPOSE(1/0) =3D binning/skipping
+> > > > >
+> > > > > Have we lost the ability to report the full pixel array size (rea=
+dable
+> > > > > and not readable) ? Is this intentional ? As if pixels cannot be =
+read
+> > > > > out they basically do no exist, and the information on the actual
+> > > > > number of pixels (including non readable ones) should be kept
+> > > > > somewhere else (like the libcamera sensor properties database) ?
+> > > >
+> > > > I'd keep this information in the user space if needed. There's litt=
+le
+> > > > software could presumably do with this information.
+> > > >
+> > >
+> > > Agreed, there is no value I can think of in having this information in
+> > > drivers
+> > >
+> >=20
+> > So, Kieran and Stefan are working with a sensor whose driver was
+> > initially upstreamed with a wrong "readable pixel array"
+> > (TGT_CROP_BOUNDS). The developer later realized there was more of the
+> > pixel array to read and there was a use for the non-image pixels like
+> > OB ones.
+> >=20
+> > With the current model this is fine (sort of), as all rectangles are
+> > expressed with the TGT_NATIVE size reference. TGT_BOUNDS might
+> > increases but TGT_CROP_DEFAULT and TGT_CROP are still valid both in the
+> > driver but also in userspace, which might have encoded some known
+> > "tested" configurations.
+> >=20
+> > With the new model we lose the information reported by TGT_NATIVE and
+> > all rectangles will be expressed with the format on 1/0 as reference.
+> > If the format changes because we later find out there were portions of
+> > the pixel array that could have been read out, all other rectangles
+> > will have to change as well, both in the driver (which is ok-ish) but
+> > also in userspace, which we have no control on.
+> >=20
+> > Stefan and Kieran could elaborate more on this, but basically, the
+> > physical array is the only fixed reference we could actually count on.
+> > Other rectangles, are subject to the driver developer understanding of
+> > how the device work, which as we know very well, can change over time.
+> >=20
+> > Now, if you agree this is something to be concerned on, I presume the
+> > fix is quite easy
+> >=20
+> >          format(1/0) =3D physical pixel array size
+> >          TGT_CROP_BOUNDS(1/0) =3D readable pixel array (visible and non=
+ visible)
+> >          TGT_CROP_DEFAULT(1/0) =3D visible pixel area
+> >          TGT_CROP(1/0) =3D analogue crop
+> >          TGT_COMPOSE(1/0) =3D binning/skipping
+> >=20
+> > which basically only require re-introducing the use of CROP_BOUNDS in
+> > the RAW camera model specification.
+>=20
+> Thanks Jacopo for writing that up. Maybe a little addition on that
+> matter. To our (especially Kierans) experience all the rectangles tend
+> to be unexpectedly difficult to handle when you try to configure the
+> sensors in a pixel perfect manner (having binned and non binned modes
+> cover exactly the same area in all possible flipping configurations).
+> The datasheets I'm aware of use the physical pixel array as common
+> coordinate system to describe the geometry. Adding the readable pixel
+> array as "artificial" coordinate system makes it difficult to match the
+> values reported by a v4l driver with the datasheets at hand.
+>=20
+> Another time where this comes into play is lens shading correction where
+> you would want to describe the LSC against one reference coordinate
+> system that ideally never ever changes.
+>=20
+> To add to the confusion I'd love to have another rectangle added to the
+> list. I don't have a proper name for it. The intent would be to
+> distinguish between the "readable pixel array" and the "light exposed
+> pixel array". So the list would become:
+>=20
+>     format(1/0) =3D physical pixel array size
+>     TGT_CROP_BOUNDS(1/0) =3D readable pixel array (visible and non visibl=
+e)
+>     TGT_CROP_VISIBLE(1/0) =3D visible pixel area including "flesh" for ISP
+>     TGT_CROP_DEFAULT(1/0) =3D Recommended "good" pixels
+>     TGT_CROP(1/0) =3D analogue crop
+>     TGT_COMPOSE(1/0) =3D binning/skipping
+>=20
+> The idea is to be able to capture a larger image from the sensor for ISP
+> processing and then cut it down to CROP_DEFAULT. This way we can prevent
+> interpolation seams at the edges. Maybe the naming is bad and we should
+> make CROP_BOUNDS the recommended area and add CROP_READABLE to denote
+> the readable pixels...
 
-On 10/1/2025 3:24 PM, Sultan Alsawaf wrote:
-> On Tue, Sep 30, 2025 at 03:30:49PM +0800, Du, Bin wrote:
->> On 9/23/2025 3:23 PM, Sultan Alsawaf wrote:
->>> On Thu, Sep 11, 2025 at 06:08:44PM +0800, Bin Du wrote:
->>>> Isp4 sub-device is implementing v4l2 sub-device interface. It has one
->>>> capture video node, and supports only preview stream. It manages firmware
->>>> states, stream configuration. Add interrupt handling and notification for
->>>> isp firmware to isp-subdevice.
->>>>
->>>> Co-developed-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
->>>> Signed-off-by: Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>
->>>> Signed-off-by: Bin Du <Bin.Du@amd.com>
->>>> Tested-by: Alexey Zagorodnikov <xglooom@gmail.com>
->>>
->>> [snip]
->>>
->>>> +++ b/drivers/media/platform/amd/isp4/isp4.c
->>>> @@ -5,13 +5,19 @@
->>>>    #include <linux/pm_runtime.h>
->>>>    #include <linux/vmalloc.h>
->>>> +
->>>> +#include <media/v4l2-fwnode.h>
->>>>    #include <media/v4l2-ioctl.h>
->>>>    #include "isp4.h"
->>>> -
->>>> -#define VIDEO_BUF_NUM 5
->>>> +#include "isp4_hw_reg.h"
->>>>    #define ISP4_DRV_NAME "amd_isp_capture"
->>>> +#define ISP4_FW_RESP_RB_IRQ_STATUS_MASK \
->>>> +	(ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT9_INT_MASK  | \
->>>> +	 ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT10_INT_MASK | \
->>>> +	 ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT11_INT_MASK | \
->>>> +	 ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT12_INT_MASK)
->>>>    /* interrupt num */
->>>>    static const u32 isp4_ringbuf_interrupt_num[] = {
->>>> @@ -21,19 +27,95 @@ static const u32 isp4_ringbuf_interrupt_num[] = {
->>>>    	4, /* ISP_4_1__SRCID__ISP_RINGBUFFER_WPT12 */
->>>>    };
->>>> -#define to_isp4_device(dev) \
->>>> -	((struct isp4_device *)container_of(dev, struct isp4_device, v4l2_dev))
->>>> +#define to_isp4_device(dev) container_of(dev, struct isp4_device, v4l2_dev)
->>>> +
->>>> +static void isp4_wake_up_resp_thread(struct isp4_subdev *isp, u32 index)
->>>> +{
->>>> +	if (isp && index < ISP4SD_MAX_FW_RESP_STREAM_NUM) {
->>>> +		struct isp4sd_thread_handler *thread_ctx =
->>>> +				&isp->fw_resp_thread[index];
->>>> +
->>>> +		thread_ctx->wq_cond = 1;
->>>> +		wake_up_interruptible(&thread_ctx->waitq);
->>>> +	}
->>>> +}
->>>> +
->>>> +static void isp4_resp_interrupt_notify(struct isp4_subdev *isp, u32 intr_status)
->>>> +{
->>>> +	bool wake = (isp->ispif.status == ISP4IF_STATUS_FW_RUNNING);
->>>> +
->>>> +	u32 intr_ack = 0;
->>>> +
->>>> +	/* global response */
->>>> +	if (intr_status &
->>>> +	    ISP_SYS_INT0_STATUS__SYS_INT_RINGBUFFER_WPT12_INT_MASK) {
->>>> +		if (wake)
->>>> +			isp4_wake_up_resp_thread(isp, 0);
->>>> +
->>>> +		intr_ack |= ISP_SYS_INT0_ACK__SYS_INT_RINGBUFFER_WPT12_ACK_MASK;
->>>
->>> The INT_MASKs and ACK_MASKs are the same; perhaps the ACK_MASKs can just be
->>> removed so you can just write intr_status to ISP_SYS_INT0_ACK instead?
->>>
->>
->> These macro definitions are automatically generated from the IP design by
->> the hardware team. INT_MASK and ACK_MASK represent specific bits in
->> different registers—the status and acknowledgment registers, respectively.
->> While their values are currently the same, they could differ depending on
->> the IP design. I prefer to keep both definitions to maintain clarity.
-> 
-> Sure, no problem.
-> 
->>>> +
->>>> +	/* clear ISP_SYS interrupts */
->>>> +	isp4hw_wreg(ISP4_GET_ISP_REG_BASE(isp), ISP_SYS_INT0_ACK, intr_ack);
->>>> +}
->>>>    static irqreturn_t isp4_irq_handler(int irq, void *arg)
->>>>    {
->>>> +	struct isp4_device *isp_dev = dev_get_drvdata(arg);
->>>
->>> This is technically a data race because setting drvdata and reading drvdata do
->>> not use WRITE_ONCE() and READ_ONCE(), respectively. And enabling the IRQ before
->>> the handler is allowed to do anything is why that `if (!isp_dev)` check exists,
->>> because that is another race.
->>>
->>> Instead, pass the isp_dev pointer through the private pointer of
->>> devm_request_irq() and add IRQ_NOAUTOEN so the IRQ is enabled by default. Then,
->>> when it is safe for the IRQ to run, enable it with enable_irq().
->>>
->>> That way you can delete the `if (!isp_dev)` check and resolve the two races.
->>>
->>
->> Good deep insight, suppose you mean use IRQ_NOAUTOEN to make irq default
->> disabled. Sure, will add support to dynamically enable/disable IRQ during
->> camera open/close and remove unnecessary check.
-> 
-> Sorry for the typo, meant to say default disabled indeed. :)
-> 
+I think this is important - and in IMX283 - it seems to be exactly what
+the datasheet is ultimately recommending.
 
-No worries, got your point :)
+> > What do you think ?
+>=20
+> Best regards,
+> Stefan
+>=20
+> >=20
+> > > > >
+> > > > > All the discussion about readable/non-readable, visible/non-visib=
+ile
+> > > > > and active and inactive areas make me think we would benefit from
+> > > > > presenting a small glossary at the beginning of the "Sensor pixel
+> > > > > array size, cropping and binning" paragraph ?
 
->>>> +	u32 r1;
->>>> +
->>>> +	if (!isp_dev)
->>>> +		goto error_drv_data;
->>>> +
->>>> +	isp = &isp_dev->isp_sdev;
->>>> +	/* check ISP_SYS interrupts status */
->>>> +	r1 = isp4hw_rreg(ISP4_GET_ISP_REG_BASE(isp), ISP_SYS_INT0_STATUS);
->>>> +
->>>> +	isp_sys_irq_status = r1 & ISP4_FW_RESP_RB_IRQ_STATUS_MASK;
->>>
->>> There are four IRQs (one for each stream) but any one of the IRQs can result in
->>> a notification for _all_ streams. Each IRQ should only do the work of its own
->>> stream.
->>>
->>> You can do this by passing devm_request_irq() a private pointer to indicate the
->>> mapping between a stream and its IRQ, so that isp4_irq_handler() can know which
->>> stream it should look at.
->>>
->>
->> Will do optimization to remove unused IRQs and keep only necessary ones
->> (reduce from 4 to 2), actually an IRQ won't result in notification to all
->> streams, please check the implementation of isp4_resp_interrupt_notify, it
->> will only wake up IRQ corresponding stream processing thread.
-> 
-> What I mean is that the IRQ for one stream can wake a different stream if it is
-> also ready at the same time according to the interrupt status register.
-> 
+Oh yes, some sort of nicely interpretable description of "this rectangle
+is expected to be this equivalent set of pixels" would be helpful. I've
+found it so hard to identify which the right rectangle is here :D
 
-Yes, you are correct, besides its own stream, the IRQ may wake a 
-different stream if it is ready too in the IRQ status register. But i 
-believe the shared irq handler can improve the performance without 
-negative effects. The peseudo code of isp4_irq_handler works like this 
-(take your below example)
-irqreturn_t isp4_irq_handler(...)
-{
-	status = read_irq_status();
-	if(status & WPT9)
-		isp4_wake_up_resp_thread(isp, 1);
-	if(status & WPT10)
-		isp4_wake_up_resp_thread(isp, 2)
-         ack_irq_status(status);
-	return IRQ_HANDLED;
-}
-Which means the first isp4_irq_handler can process all IRQs at that 
-time. For the second isp4_irq_handler, because the irq status is cleared 
-by the first isp4_irq_handler, it just does nothing and quit. So even if 
-isp4_irq_handler doen't know exactly which IRQ triggers it, there's no 
-harm as far as I can tell, not sure if I missed something.
 
-> Assume we have ISP_IRQ 0 and 1 for streams 1 (WPT9) and 2 (WPT10), respectively.
-> Consider the following sequence of events:
-> 
->      ISP_IRQ0 (WPT9)			ISP_IRQ1 (WPT10)
->      ---------------			----------------
->      <interrupt fires>			<interrupt fires>
->      isp4_irq_handler()			isp4_irq_handler()
->      isp_sys_irq_status = WPT9|WPT10	isp_sys_irq_status = WPT9|WPT10
-> 
->      isp4_wake_up_resp_thread(isp, 1)	isp4_wake_up_resp_thread(isp, 1)
-> 					// ^ woke up WPT9 from WPT10 IRQ!
-> 
->      isp4_wake_up_resp_thread(isp, 2)	isp4_wake_up_resp_thread(isp, 2)
->      // ^ woke up WPT10 from WPT9 IRQ!
-> 
-> The problem is that isp4_irq_handler() doesn't know which IRQ triggered the call
-> into isp4_irq_handler().
-> 
->>>> +static int isp4sd_init_meta_buf(struct isp4_subdev *isp_subdev)
->>>> +{
->>>> +	struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
->>>> +	struct isp4_interface *ispif = &isp_subdev->ispif;
->>>> +	struct device *dev = isp_subdev->dev;
->>>> +	u32 i;
->>>> +
->>>> +	for (i = 0; i < ISP4IF_MAX_STREAM_BUF_COUNT; i++) {
->>>> +		if (!sensor_info->meta_info_buf[i]) {
->>>> +			sensor_info->meta_info_buf[i] = ispif->metainfo_buf_pool[i];
->>>> +			if (!sensor_info->meta_info_buf[i]) {
->>>> +				dev_err(dev, "invalid %u meta_info_buf fail\n", i);
->>>> +				return -ENOMEM;
->>>> +			}
->>>> +		}
->>>> +	}
->>>> +
->>>> +	return 0;
->>>> +}
->>>
->>> What is the point of metainfo_buf_pool? Especially since metainfo_buf_pool[i] is
->>> not set to NULL after this "allocation" occurs.
->>>
->>> I think isp4sd_init_meta_buf() and metainfo_buf_pool are unnecessary and can be
->>> factored out.
->>>
->>
->> I suppose you mean meta_info_buf, will remove it together with
->> isp4sd_init_meta_buf() and use metainfo_buf_pool from ispif directly which
->> is vital for ISP FW to carry response info.
-> 
-> I was thinking that metainfo_buf_pool could be renamed to meta_info_buf and then
-> the old meta_info_buf could be deleted. Same result either way. :)
-> 
+I'm also weary that we might need to find a way to convey the
+relationship between binning mode restrictions/offsets too.
 
-Sure, will do that in the next version.
+The IMX283 2x2 and 3x3 binning modes produce offset outputs:
 
->>>> +	init_waitqueue_head(&thread_ctx->waitq);
->>>> +	timeout = msecs_to_jiffies(ISP4SD_WAIT_RESP_IRQ_TIMEOUT);
->>>> +
->>>> +	dev_dbg(dev, "[%u] started\n", para->idx);
->>>> +
->>>> +	while (true) {
->>>> +		wait_event_interruptible_timeout(thread_ctx->waitq,
->>>> +						 thread_ctx->wq_cond != 0,
->>>> +						 timeout);
->>>
->>> Why is there a timeout? What does the timeout even do since the return value of
->>> wait_event_interruptible_timeout() is not checked? Doesn't that mean that once
->>> the timeout is hit, isp4sd_fw_resp_func() will be called for nothing?
->>>
->>> I observe that most of the time spent by these kthreads is due to the constant
->>> wake-ups from the very short 5 ms timeout. This is bad for energy efficiency and
->>> creates needless overhead.
->>>
->>
->> Good catch, previouly before IRQ is really enabled, this is to make sure ISP
->> can work normally even for 120fps sensor, since now IRQ is enabled, we can
->> increase the timeout value to like 200ms to avoid the unwanted timeout
->> caused wake-ups.
-> 
-> What should the kthread do when there is a timeout though? Is the timeout
-> necessary to detect when FW is no longer responding? If so, shouldn't there be
-> error handling?
-> 
-> If the timeout isn't used to check for error then I think it should be removed.
-> 
+vwinpos is the coordinate programmed to the sensor to get a position -
+and we have tooling in camshark that lets us determine the exact pixels
+we capture from any mode to see what was really produced by the sensor:
 
-Yes, good suggestion, will remove the timeout in the next version
 
->>>> +		thread_ctx->wq_cond = 0;
->>>> +
->>>> +		if (kthread_should_stop()) {
->>>> +			dev_dbg(dev, "[%u] quit\n", para->idx);
->>>> +			break;
->>>> +		}
->>>> +
->>>> +		guard(mutex)(&thread_ctx->mutex);
->>>> +		isp4sd_fw_resp_func(isp_subdev, stream_id);
->>>> +	}
->>>> +
->>>> +	mutex_destroy(&thread_ctx->mutex);
->>>> +
->>>> +	return 0;
->>>> +}
-> 
-> [snip]
-> 
->>>> +
->>>> +static int isp4sd_pwroff_and_deinit(struct isp4_subdev *isp_subdev)
->>>> +{
->>>> +	struct isp4sd_sensor_info *sensor_info = &isp_subdev->sensor_info;
->>>> +	unsigned int perf_state = ISP4SD_PERFORMANCE_STATE_LOW;
->>>> +	struct isp4_interface *ispif = &isp_subdev->ispif;
->>>> +
->>>> +	struct device *dev = isp_subdev->dev;
->>>> +	u32 cnt;
->>>> +	int ret;
->>>> +
->>>> +	mutex_lock(&isp_subdev->ops_mutex);
->>>> +
->>>> +	if (sensor_info->status == ISP4SD_START_STATUS_STARTED) {
->>>> +		dev_err(dev, "fail for stream still running\n");
->>>> +		mutex_unlock(&isp_subdev->ops_mutex);
->>>> +		return -EINVAL;
->>>> +	}
->>>> +
->>>> +	sensor_info->status = ISP4SD_START_STATUS_NOT_START;
->>>> +	cnt = isp4sd_get_started_stream_count(isp_subdev);
->>>> +	if (cnt > 0) {
->>>> +		dev_dbg(dev, "no need power off isp_subdev\n");
->>>> +		mutex_unlock(&isp_subdev->ops_mutex);
->>>> +		return 0;
->>>> +	}
->>>> +
->>>> +	isp4if_stop(ispif);
->>>> +
->>>> +	ret = dev_pm_genpd_set_performance_state(dev, perf_state);
->>>> +	if (ret)
->>>> +		dev_err(dev,
->>>> +			"fail to set isp_subdev performance state %u,ret %d\n",
->>>> +			perf_state, ret);
->>>> +	isp4sd_stop_resp_proc_threads(isp_subdev);
->>>> +	dev_dbg(dev, "isp_subdev stop resp proc streads suc");
->>>> +	/* hold ccpu reset */
->>>> +	isp4hw_wreg(isp_subdev->mmio, ISP_SOFT_RESET, 0x0);
->>>> +	isp4hw_wreg(isp_subdev->mmio, ISP_POWER_STATUS, 0);
->>>> +	ret = pm_runtime_put_sync(dev);
->>>> +	if (ret)
->>>> +		dev_err(dev, "power off isp_subdev fail %d\n", ret);
->>>> +	else
->>>> +		dev_dbg(dev, "power off isp_subdev suc\n");
->>>> +
->>>> +	ispif->status = ISP4IF_STATUS_PWR_OFF;
->>>> +	isp4if_clear_cmdq(ispif);
->>>> +	isp4sd_module_enable(isp_subdev, false);
->>>> +
->>>> +	msleep(20);
->>>
->>> What is this msleep for?
->>>
->>
->> This is the HW requirement, at least 20ms is needed for the possible quickly
->> open followed.
-> 
-> Add a comment explaining the HW requirement for this msleep.
-> 
+```
+'Sensor Native' ?
+pixel (row)   -8 -7 -6 -5 -4 -3 -2 -1  0  1  2  3  4  5  6  7  8  9  10 11 =
+12 13 14 15 16
+native pixels  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  =
+|  |  |  |  |
 
-Sure, will add comments to make it clear
 
-> Sultan
+vwinpos       -4    -3    -2    -1     0     1     2     3     4     5     =
+6     7     8
+no-binning     |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  |  =
+|  |  |  |  |
 
--- 
-Regards,
-Bin
 
+vwinpos             -3          -2          -1           0           1     =
+      2     =20
+/2 binning     |     |     |     |     |     |     |     |     |     |     =
+|     |     |
+
+
+vwinpos        0                 1                 2                 3     =
+            4
+/3 binning     |        |        |        |        |        |        |     =
+   |        |
+```
+
+
+To fix this - I'm moving the current '0' position for IMX283 to -2 in
+the non binned modes.
+
+That gives me a coordinate system where at least I can define an
+alignment for 2x2 and 3x3 binning every 12 pixels (as the lowest common
+multiplier).
+
+But - also murkies the water from the above rectanges as this sensor
+turns out to have 48 lines of pixels (24 bayer pair lines) 'less than
+zero' ... or at least those are the ones that are visible in light. I
+can read further below zero but only for black pixels.
+
+So in otherwords - I can't even make a corresponding coordinate
+rectangle that exactly matches the 'all readable' pixels or 'all
+illuminated pixels' ... Ayeeeeee...
+
+My lesson/take on this: Don't trust the datasheets. They lie :D
+
+--
+Kieran
+
+
+
+
+> > > >
+> > > > The text does not discuss active or inactive areas. I'd add some te=
+rms into
+> > > > the main glossary if needed -- they are used outside this file, too.
+> > > >
+> > > > --
+> > > > Regards,
+> > > >
+> > > > Sakari Ailus
 
