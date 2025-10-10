@@ -1,143 +1,109 @@
-Return-Path: <linux-media+bounces-44170-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44171-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6022BCCA91
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 13:00:21 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB483BCCB7B
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 13:14:42 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 67CDB3C25A1
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 11:00:20 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 836B64E2CD9
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 11:14:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC38A2857DE;
-	Fri, 10 Oct 2025 11:00:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 083802EDD6C;
+	Fri, 10 Oct 2025 11:14:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="ekbdCyXO"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="HLgTreB5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout1.w1.samsung.com (mailout1.w1.samsung.com [210.118.77.11])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8BB226E6F4
-	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 11:00:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 07B7E24167A;
+	Fri, 10 Oct 2025 11:14:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760094015; cv=none; b=sgVguVLOuXrb95eHWDj2nGqIVwhj12xvR4FiI8zXZTlr1fukv6hTehWB/7T3i5M5uL2i/iYE4DeDWw8+CNJHsvNBOrEWScAOKBGbDjY3huATCUpgi2YqwcKE0JeC/Q0Sue0gAGVnpkUwrEqenUUWoLqlorMRWheiSsK7hiO9vyA=
+	t=1760094875; cv=none; b=JjN9FyXeKqT1gBe2lOHp+l7LTVVfBtDLuM5TE6ApdQluc7ZjS6l4XvyCxQNzabWFyGr7Mx+04EbDkIirfn8pPeL91oDxs7g1VssLCPFNujy0MGXBJAiK4yjiMvSJlkvyQN5q1fVuMB5rVgbNjVS4r/GwL8Zrrtx4KeR94WDeXd0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760094015; c=relaxed/simple;
-	bh=dcPMJ7d3B3BLR+/RpRHQlWG5yTzuzmcCGqptVYwZ0P4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:Message-ID:MIME-Version:
-	 Content-Type:References; b=UK1LdxTFAk1AHrN4/TTcBC+VWE00spkRhi7vQSRVonTWtQbKC37twzaKTr+D8KAiNt+KyJQ+pymz25TgBzW9Oltz1UYJpYcXo31f5Sl8MbFZNpzhDhAw27/Kvjb2ERZUr5BWIPV7NqTuxs7LURvhxY8ytAwPy8bn6ccHDeRYLPY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=ekbdCyXO; arc=none smtp.client-ip=210.118.77.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
-	by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20251010110007euoutp0198334a56c1e281aced139f1d9abc40ab~tHCy5C9b_1521215212euoutp01Q;
-	Fri, 10 Oct 2025 11:00:07 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20251010110007euoutp0198334a56c1e281aced139f1d9abc40ab~tHCy5C9b_1521215212euoutp01Q
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1760094007;
-	bh=ir3x0swwBGd6XitlxOubmabNH2rY0f45K2OexaHZmP4=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ekbdCyXOMZGugMSo0+tQQkBAc4fpEMjXKT1yNIc0F5+IB8agcCFy04xR3j4PlkbDR
-	 s1KWGiNrQkm392seMJ+rvt46MMf2su6qOst3b7Q/eSQXO2Fo5cfr8dJvPCoRiQ+w9k
-	 TJ5SqyCJY5iFJFdZ32P1G+IqCfuQR9lKYvHa0Sag=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20251010110007eucas1p1e2052e63b1b36046298c3c2c4ad303b0~tHCyiyju42872228722eucas1p1Y;
-	Fri, 10 Oct 2025 11:00:07 +0000 (GMT)
-Received: from localhost (unknown [106.120.51.111]) by eusmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20251010110007eusmtip14117cd889c992a54b4345025b25e4516~tHCyfZrY43244032440eusmtip1g;
-	Fri, 10 Oct 2025 11:00:07 +0000 (GMT)
-From: Lukasz Stelmach <l.stelmach@samsung.com>
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, Marek Szyprowski
-	<m.szyprowski@samsung.com> 
-Subject: Re: [PATCH 20/25] media: samsung: s5p-g2d: Drop unneeded
- v4l2_m2m_get_vq() NULL check
-Date: Fri, 10 Oct 2025 13:00:01 +0200
-In-Reply-To: <20251008175052.19925-21-laurent.pinchart@ideasonboard.com>
-	(Laurent Pinchart's message of "Wed, 8 Oct 2025 20:50:47 +0300")
-Message-ID: <oypijd4is7m37y.fsf%l.stelmach@samsung.com>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/28.2 (gnu/linux)
+	s=arc-20240116; t=1760094875; c=relaxed/simple;
+	bh=mmFDUXArGPtUvHOrQ2jILNGevxhRGaAHHeRtvHFSaC0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uAI3StZNvXTGdyjiY57fV5eh04XMv6/5ig8Ep3d1FVayUa6o/tK3imZknh4nvsnqE6sPDNBgijsEANac+h8MB760IIsh0xEtbFkuGvsUUS0VD3x1psxclFEzgfDm0PjqTiMETyi18JjYREa/OaqGIBPmvxlkXYCuO1WOTkwOhu4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=HLgTreB5; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (82-203-166-19.bb.dnainternet.fi [82.203.166.19])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id B6669593;
+	Fri, 10 Oct 2025 13:12:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1760094777;
+	bh=mmFDUXArGPtUvHOrQ2jILNGevxhRGaAHHeRtvHFSaC0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HLgTreB5qJ4zGZIoixBsQONAUL0bBsvHKS2AswtZL8lQc/ptIceK/L+nCVw+3hqVl
+	 mFy5oAYm/h7eYoyxsOV7hUy5V24KDOKxW+El1qNpnq5W60ZHmtnRZxiTsXuqOfU6Yj
+	 Vo646t9o/Afhki6gLZCP0OVj1S5qeJ1Svyr+jIp4=
+Date: Fri, 10 Oct 2025 14:14:24 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Vikash Garodia <quic_vgarodia@quicinc.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: Re: [PATCH 15/25] media: qcom: iris: Drop unneeded v4l2_m2m_get_vq()
+ NULL check
+Message-ID: <20251010111424.GA28598@pendragon.ideasonboard.com>
+References: <20251008175052.19925-1-laurent.pinchart@ideasonboard.com>
+ <20251008175052.19925-16-laurent.pinchart@ideasonboard.com>
+ <e9e353e5-76b4-49a1-e845-c8fb3be91a62@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="=-=-="; micalg="pgp-sha256";
-	protocol="application/pgp-signature"
-X-CMS-MailID: 20251010110007eucas1p1e2052e63b1b36046298c3c2c4ad303b0
-X-Msg-Generator: CA
-X-RootMTR: 20251008175139eucas1p225b8b48b4152566f6a6eca0207961c1b
-X-EPHeader: CA
-X-CMS-RootMailID: 20251008175139eucas1p225b8b48b4152566f6a6eca0207961c1b
-References: <20251008175052.19925-1-laurent.pinchart@ideasonboard.com>
-	<CGME20251008175139eucas1p225b8b48b4152566f6a6eca0207961c1b@eucas1p2.samsung.com>
-	<20251008175052.19925-21-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <e9e353e5-76b4-49a1-e845-c8fb3be91a62@oss.qualcomm.com>
 
---=-=-=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Hi Dikshita,
 
-It was <2025-10-08 =C5=9Bro 20:50>, when Laurent Pinchart wrote:
-> The v4l2_m2m_get_vq() function never returns NULL. The check was
-> probably intended to catch invalid format types, but that's not needed
-> as the V4L2 core picks the appropriate VIDIOC_G_FMT ioctl handler based
-> on the format type, so the type can't be incorrect. Drop the unneeded
-> return value check and, as the return value is not used for other
-> purposes and the function has no side effect, the function call as well.
->
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/media/platform/samsung/s5p-g2d/g2d.c | 4 ----
->  1 file changed, 4 deletions(-)
->
+On Thu, Oct 09, 2025 at 07:23:20PM +0530, Dikshita Agarwal wrote:
+> On 10/8/2025 11:20 PM, Laurent Pinchart wrote:
+> > The v4l2_m2m_get_vq() function never returns NULL. The check may have
+> > been intended to catch invalid format types, but that's not needed as
+> > the V4L2 core picks the appropriate VIDIOC_S_FMT ioctl handler based on
+> > the format type, so the type can't be incorrect. Drop the unneeded
+> > return value check.
+> > 
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > ---
+> >  drivers/media/platform/qcom/iris/iris_vdec.c | 2 --
+> >  1 file changed, 2 deletions(-)
+> > 
+> > diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
+> > index d670b51c5839..1e9ffdbb6e18 100644
+> > --- a/drivers/media/platform/qcom/iris/iris_vdec.c
+> > +++ b/drivers/media/platform/qcom/iris/iris_vdec.c
+> > @@ -191,8 +191,6 @@ int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
+> >  	u32 codec_align;
+> >  
+> >  	q = v4l2_m2m_get_vq(inst->m2m_ctx, f->type);
+> > -	if (!q)
+> > -		return -EINVAL;
+> >  
+> >  	if (vb2_is_busy(q))
+> >  		return -EBUSY;
+> 
+> The same change would be required for iris_venc.c as well which is part of
+> linux-next[1]
 
-Reviewed-by: =C5=81ukasz Stelmach <l.stelmach@samsung.com>
+Thank you for noticing. I'll rebase this series on v6.18-rc1 once it
+gets released and will make sure iris_venc.c is addressed.
 
-> diff --git a/drivers/media/platform/samsung/s5p-g2d/g2d.c b/drivers/media=
-/platform/samsung/s5p-g2d/g2d.c
-> index ffed16a34493..7b0481c7f953 100644
-> --- a/drivers/media/platform/samsung/s5p-g2d/g2d.c
-> +++ b/drivers/media/platform/samsung/s5p-g2d/g2d.c
-> @@ -306,12 +306,8 @@ static int vidioc_enum_fmt(struct file *file, void *=
-prv, struct v4l2_fmtdesc *f)
->  static int vidioc_g_fmt(struct file *file, void *prv, struct v4l2_format=
- *f)
->  {
->  	struct g2d_ctx *ctx =3D prv;
-> -	struct vb2_queue *vq;
->  	struct g2d_frame *frm;
->=20=20
-> -	vq =3D v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
-> -	if (!vq)
-> -		return -EINVAL;
->  	frm =3D get_frame(ctx, f->type);
->  	if (IS_ERR(frm))
->  		return PTR_ERR(frm);
+> [1]: https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/tree/drivers/media/platform/qcom/iris/iris_venc.c#n271
 
-=2D-=20
-=C5=81ukasz Stelmach
-Samsung R&D Institute Poland
-Samsung Electronics
+-- 
+Regards,
 
---=-=-=
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEXpuyqjq9kGEVr9UQsK4enJilgBAFAmjo5zEACgkQsK4enJil
-gBCLEQf6AmaPcjoiunRnBc4iXTZhWRTMZQAaCNCSv1NeNza95+/aF18AwBnYq9q7
-AzLWKhAVaj5w1W7bCQFkcEmoPRKR4hB/QwnnCQZJ322bqzRgqhb8bMMw5myRFsiY
-3NQKCiZf4teMiE7FIG26t7JSDMX3UjGb/1Fn7gxy10LfSlS435Dixzq4w0G4SXI7
-TFJ+XfkDB9RvFHrK9ih7OpSkdZRlgGVnOD4qWVa0KH9i9u1c0q0ZSzFMkKPbJlmy
-kC8Z56LpjZpZzJk76yV/BdJ/qFBrPuWMGnDD14UWIAd/gKLTNv7MGtmUMkrOHzcr
-3u507zuMqpgOm039YYzWu5ZbMC47Sw==
-=rSgm
------END PGP SIGNATURE-----
---=-=-=--
+Laurent Pinchart
 
