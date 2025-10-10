@@ -1,134 +1,255 @@
-Return-Path: <linux-media+bounces-44156-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44157-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89845BCC533
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 11:22:35 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C5A2BCC6B9
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 11:46:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7B7DB1A6430C
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 09:22:48 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 8581035522A
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 09:46:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 605F726D4DE;
-	Fri, 10 Oct 2025 09:22:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C77502D73B2;
+	Fri, 10 Oct 2025 09:45:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="kl5cv36I"
+	dkim=fail reason="signature verification failed" (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="YfGoA2WX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDB06238171
-	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 09:22:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C1712D661E
+	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 09:45:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760088136; cv=none; b=P4IQZUUDmLy5I0ojQGlC+ZwdzriBgvI/RQh1AOl+4RoapoG49Wqy93YVcXTEst1EALnAaDTfl7WOqcXQio6KE/fAT3hRBBe0y6LfPgCijtltYUzAhh1dKaqZ5K+6XWe8ceuZe4skonzDBXQN1CMoZB2EqfZL/dCyTWmpJl3QPRk=
+	t=1760089557; cv=none; b=s+92S6sbzZPFrp8eL/am/ogjgkF1hrI6Q5O6Op+otLI3kfEryvP/BEyWxXcuUdoGFI3P5iL7eYdc/JGIfOzMr/hI4N1CNMQGl1PlTXD4WXepo5N8TEwARvFh8b4iehN1P0DwO1wFKrjI0d4XJRO5m1TEVLcFlF4PwePqNGg9yqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760088136; c=relaxed/simple;
-	bh=CzvDsWLampg9VAf/LvOkvSrTcQwH28X2GWyg/bdnTyo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=poRo+cCGX3ND2s/FA58vy1DvTCWMzE8jY3E/0EANlGcI53samxBUb2aMjNiCO+rISm9ZeQ2tN9H9lLQrGxMWyoS6PrQR8wtOzjIBgO8U0TSiz2Jh/2opiBiQB9tdnUvEkmu8s5CnwfJGsuaMhbIwyg+EbqEtzeUy5HI4UP4RO1w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=kl5cv36I; arc=none smtp.client-ip=209.85.167.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-57d5ccd73dfso1949443e87.0
-        for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 02:22:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1760088132; x=1760692932; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=yA5OiQ4i/rUoM5qYhKKP074hHPjtqMdjdXLHXj7WRdk=;
-        b=kl5cv36IFf7tclD5j/7Kf7zVg2djk6BRqEGJtmq+rXsccrviE4G9r9FxyRZIwYvdVF
-         rWg6kOlGnypd9ihik5Rj6M6ZpgvBwnl2TdH690F11Y9IWyAh+HSgUyyvjz5jYM4zjQZ0
-         olEXZwfhTUItASMPWE5lHw3GAtvL8Ec5lw5Pk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760088132; x=1760692932;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=yA5OiQ4i/rUoM5qYhKKP074hHPjtqMdjdXLHXj7WRdk=;
-        b=qS5hzLH9Wdc6R6j2TqkOsR1DUg9UgPUYLQxeduUT02EYgXZ4TA+uQZ5AH8gMEMl0Co
-         tjFXvd6JyU+zWlULrjWJVyQg2+F373mRxdX24NK3FP5a9bjAIDLikdDF6jJ8EmjQXlaH
-         PAo/lKspZKlSIDcOk0p+QIsl1TIqk/mc9TXvyzE+3FiW3gh5j+BZXi06r5k4ZjyXS8oQ
-         jc+6MrgcImmQvPkpUTlymGv48iSYetHWe62LtFO7bxDzo4j2VB5ycZpKYMuykjXVaqd2
-         Qo7J73nl0XZkYhm88rMpeO++lRw0NBLDWOEJx4DgAf6nKEV5lwm+WgfbAJA8OnVv0EWc
-         NwGg==
-X-Forwarded-Encrypted: i=1; AJvYcCVNV59ZLBYSD3NIApcY5rBP0IOWkshFrQxx5g6S4Ozl9Gqgd9mQGy3izaeCpkeg5tK6aUq7BtyYgZBO8A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzscZUWsBZsUGSnXj/FV51zOX3T/GZPIwIfD/VG0vTlOLC4bXlY
-	7GMnxjy63GWalpNHlzOp0oq6U6AvSR56NZXSYvulkXb+4aaEaziM8A8XVE6YHkds5qLYUDOBeo5
-	T9wU=
-X-Gm-Gg: ASbGncteS4RCO/tZnVYYeTiha8U4tva4SfCHSIeTACvsNeWurgDUkmfRFc5bstlH6ho
-	hnevyZdp+RjUmhVBl2JFTvMZG99ly1x5Bsca6ntORnhvpqxVPRqiqS8+TDHbDee0HbGuQW73qgp
-	cG7XeXh6Y4j4abivOxrIkZOI85JjBQezPEuNrmHNycPY9mqqkk9e4/i/WHTjYaKB8qqsrYmoLDw
-	D8YohKNlVDjos8X7Dz/hEpY/TaF15xz2BDYmdQLORnxQga1N0v+1s7jQUaqVtGpIw2lc8h6voy8
-	IAYYJCQFvKYdy6SbYzg1PJSZ2WQxlFuHHJft7crFwfyHtPbrAMo7m2ZFWGpldeJIhETvi4729V6
-	okbcOiLVupEFDFcBKkSy0lag2uOUzmsFaixKsn+9zkGmqsM9XA+VmaOHnpqCKgdfMM9UM/P4lIg
-	daeoyFO9e4CXoCEA==
-X-Google-Smtp-Source: AGHT+IHy2Qm1ByUhq1kpDLqDcyLfQepVtnj7NwtsEqJ+rS/k0tDxA/+swL4XZuM9LX6feec4sNXmsg==
-X-Received: by 2002:a05:6512:b29:b0:579:e5da:e530 with SMTP id 2adb3069b0e04-5906d87b299mr3247381e87.10.1760088131900;
-        Fri, 10 Oct 2025 02:22:11 -0700 (PDT)
-Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com. [209.85.167.46])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59088584812sm692039e87.122.2025.10.10.02.22.10
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Oct 2025 02:22:11 -0700 (PDT)
-Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-579d7104c37so2387183e87.3
-        for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 02:22:10 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWDDGFnAJHorijSMWTdpQQAutJi4ZHSocCXZ/D0Ga0IJeo5PIURKZPi5zwXUr3vp5OCIL2OZafA4WY8tA==@vger.kernel.org
-X-Received: by 2002:a05:6512:3f12:b0:576:dc1e:d6c9 with SMTP id
- 2adb3069b0e04-5906d87baafmr2977784e87.11.1760088129654; Fri, 10 Oct 2025
- 02:22:09 -0700 (PDT)
+	s=arc-20240116; t=1760089557; c=relaxed/simple;
+	bh=Fg3OSnxnx4Qub5sZTMRnJ8/d0FjHUiqOO1KXCwtWsQE=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=mjKGyjAHeZ3XoCLVmW7XWw37mLdBxY34TlmCLopKXpbdMH7qoYodfGHakUv2PETQ/1pLox+pgImuQLySVZdiTDukGZGhpmhB3ze62Ik2s0XYrBEAQOLBZcx+QqOSqU/1fYeF1jnTTmaP5MyyYATnfENXd/H86N10zp7QtXBK/MA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=fail (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=YfGoA2WX reason="signature verification failed"; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (unknown [IPv6:2a00:6020:448c:6c00:22d7:7fc4:7ab4:3e13])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D27072C5;
+	Fri, 10 Oct 2025 11:44:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1760089457;
+	bh=Fg3OSnxnx4Qub5sZTMRnJ8/d0FjHUiqOO1KXCwtWsQE=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=YfGoA2WXECQgjOguxea6LpFgXoXfPGVSqmi6tKlGAVLBQjjCP7fZ5inXtMP+T49s/
+	 deMkbCh4/yWAJVcIIcfATbpoRcCVMb54AO17UstYfGoVW8mJ8z9t+5EEi+82MKTnDB
+	 FZ0i96KmnrEKm/+IO0x0QiIT3DT1oqnjTl/LVM0A=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CO1PR18MB463349680603EC2C284B7FEFF71BA@CO1PR18MB4633.namprd18.prod.outlook.com>
- <CANiDSCtwhpCAgQY73phJE0okN+Smv_AbA6Q+w2tuTVW1_qcbDg@mail.gmail.com> <wm5gfxhvifqamhatze5pfeyzfm6hnyknd4ww2bf75nwmw3okyn@7jmk66eibia5>
-In-Reply-To: <wm5gfxhvifqamhatze5pfeyzfm6hnyknd4ww2bf75nwmw3okyn@7jmk66eibia5>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Fri, 10 Oct 2025 11:21:56 +0200
-X-Gmail-Original-Message-ID: <CANiDSCuwo2NnA_fcVVeTw2hSJn=KfxbuxkwjU7=+uEhasNzpzg@mail.gmail.com>
-X-Gm-Features: AS18NWAPzHNRmyOVCv95sZ7F2KHolfcZcGSMyykNA4IF0XlRHqwOJmhypj3CWW4
-Message-ID: <CANiDSCuwo2NnA_fcVVeTw2hSJn=KfxbuxkwjU7=+uEhasNzpzg@mail.gmail.com>
-Subject: Re: Realsense camera patch
-To: =?UTF-8?Q?Wojciech_G=C5=82adysz?= <kontra.wojciech.gladysz@gmail.com>
-Cc: Gladysz WojciechX <wojciechx.gladysz@realsenseai.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>, 
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, yogev.modlin@realsenseai.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <mseqfltfao5jqubs22asrzzrj2tnsf5bdmlvsmncwj4ss3gxmu@wk2lmramiy3a>
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com> <osdr2eavm23pzxrd73v4xscdtaafon3vllhzcg5r6eoqwclsfk@xgfnicn6iboj> <aM1J9LsbpueEr30x@kekkonen.localdomain> <5fwlztz2q2fewyml774my3sdw3wv5wdhnl6p4mfbubm4erm5ft@sthie2bobklf> <aN4lQPK5Mqve2bUI@kekkonen.localdomain> <kblfpuqfj2d6vkagspnqdhztno2js3wljdrsv2wpeywuwyzg5x@xt7rjhh5wt76> <r3kv25lxbyjtuufb2ze27wp5gbqnbgnps2ytk2gy2qkaeiijdd@ydn4ptkze2qp> <aN_MdmDhQPyLnQqD@kekkonen.localdomain> <zq3gzieoqd4eieghjetm6sus5s7i6niplommnubl4d4rskbhra@v7gslcsg5hce> <mseqfltfao5jqubs22asrzzrj2tnsf5bdmlvsmncwj4ss3gxmu@wk2lmramiy3a>
+Subject: Re: [PATCH v11 39/66] media: Documentation: Add subdev configuration models, raw sensor model
+From: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	linux-media@vger.kernel.org, hans@jjverkuil.nl,
+	laurent.pinchart@ideasonboard.com,
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>,
+	Alexander Shiyan <eagle.alexander923@gmail.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>,
+	Tommaso Merciai <tomm.merciai@gmail.com>,
+	Umang Jain <umang.jain@ideasonboard.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+	Julien Massot <julien.massot@collabora.com>,
+	Naushir Patuck <naush@raspberrypi.com>,
+	"Yan, Dongcheng" <dongcheng.yan@intel.com>,
+	"Cao, Bingbu" <bingbu.cao@intel.com>,
+	"Qiu, Tian Shu" <tian.shu.qiu@intel.com>,
+	"Wang, Hongju" <hongju.wang@intel.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	=?utf-8?q?Andr=C3=A9?= Apitzsch <git@apitzsch.eu>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	Kieran Bingham <kieran.bingham@ideasonboard.com>,
+	Stanislaw Gruszka <"sta nislaw.gruszka"@linux.intel.com>,
+	Mehdi Djait <mehdi.djait@linux.intel.com>,
+	Ricardo Ribalda Delgado <ribalda@kernel.org>,
+	Hans de Goede <hdegoede@redhat.com>,
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+Date: Fri, 10 Oct 2025 11:45:49 +0200
+Message-ID: <176008954951.211618.7730648133265251067@localhost>
+User-Agent: alot/0.12.dev8+g2c003385c862.d20250602
 
-Hi Wojciech
+Hi Sakari, hi Jacopo,
 
+Quoting Jacopo Mondi (2025-10-07 16:01:11)
+> Hi again Sakari,
+>    cc Kieran and Stefan
+>=20
+> Stefan and Kieran brought to my attention a use case I would like to
+> discuss with you
+>=20
+> On Fri, Oct 03, 2025 at 03:25:19PM +0200, Jacopo Mondi wrote:
+> > Hi Sakari,
+> >
+> > On Fri, Oct 03, 2025 at 04:15:34PM +0300, Sakari Ailus wrote:
+> > > Hi Jacopo,
+> >
+> > [snip]
+> >
+> > > > >
+> > > >
+> > > > A recent discussion on libcamera made me wonder a few things
+> > > >
+> > > > https://patchwork.libcamera.org/patch/24547/
+> > > >
+> > > > In the current world (pre-RAW sensor model) the situation can be
+> > > > summarized as
+> > > >
+> > > > TGT_NATIVE_SIZE =3D full pixel array (readable and non readable)
+> > > > TGT_CROP_BOUNDS =3D readable pixel array (visible and non visibile =
+pixels)
+> > >
+> > > Crop bounds is generally the same as native size.
+> > >
+> >
+> > I checked two sensors datasheet for this yesterday and both of them
+> > had parts of the pixel array that cannot be read out
+> >
+> > > > TGT_CROP_DEFAULT =3D visible pixels
+> > >
+> > > The default could exclude not-so-great pixels, too.
+> > >
+> >
+> > ok, suggested pixel array area used for image capture purposes then
+> >
+> > > > TGT_CROP =3D analgoue crop
+> > >
+> > > This could include digital crop as well.
+> > >
+> >
+> > Yes it might, not all sensor drivers behaves the same indeed
+> >
+> > > >
+> > > > where:
+> > > > - visibile =3D pixels used for image capture purpose
+> > > > - non-visible =3D optically black, dummies etc
+> > > >
+> > > > With the RAW sensor model:
+> > > >
+> > > > format(1/0) =3D readable pixel array (visible and non visible)
+> > > > TGT_CROP_DEFAULT(1/0) =3D visible pixel area
+> > > > TGT_CROP(1/0) =3D analogue crop
+> > > > TGT_COMPOSE(1/0) =3D binning/skipping
+> > > >
+> > > > Have we lost the ability to report the full pixel array size (reada=
+ble
+> > > > and not readable) ? Is this intentional ? As if pixels cannot be re=
+ad
+> > > > out they basically do no exist, and the information on the actual
+> > > > number of pixels (including non readable ones) should be kept
+> > > > somewhere else (like the libcamera sensor properties database) ?
+> > >
+> > > I'd keep this information in the user space if needed. There's little
+> > > software could presumably do with this information.
+> > >
+> >
+> > Agreed, there is no value I can think of in having this information in
+> > drivers
+> >
+>=20
+> So, Kieran and Stefan are working with a sensor whose driver was
+> initially upstreamed with a wrong "readable pixel array"
+> (TGT_CROP_BOUNDS). The developer later realized there was more of the
+> pixel array to read and there was a use for the non-image pixels like
+> OB ones.
+>=20
+> With the current model this is fine (sort of), as all rectangles are
+> expressed with the TGT_NATIVE size reference. TGT_BOUNDS might
+> increases but TGT_CROP_DEFAULT and TGT_CROP are still valid both in the
+> driver but also in userspace, which might have encoded some known
+> "tested" configurations.
+>=20
+> With the new model we lose the information reported by TGT_NATIVE and
+> all rectangles will be expressed with the format on 1/0 as reference.
+> If the format changes because we later find out there were portions of
+> the pixel array that could have been read out, all other rectangles
+> will have to change as well, both in the driver (which is ok-ish) but
+> also in userspace, which we have no control on.
+>=20
+> Stefan and Kieran could elaborate more on this, but basically, the
+> physical array is the only fixed reference we could actually count on.
+> Other rectangles, are subject to the driver developer understanding of
+> how the device work, which as we know very well, can change over time.
+>=20
+> Now, if you agree this is something to be concerned on, I presume the
+> fix is quite easy
+>=20
+>          format(1/0) =3D physical pixel array size
+>          TGT_CROP_BOUNDS(1/0) =3D readable pixel array (visible and non v=
+isible)
+>          TGT_CROP_DEFAULT(1/0) =3D visible pixel area
+>          TGT_CROP(1/0) =3D analogue crop
+>          TGT_COMPOSE(1/0) =3D binning/skipping
+>=20
+> which basically only require re-introducing the use of CROP_BOUNDS in
+> the RAW camera model specification.
 
-Thanks for collecting the lsusb info. Unfortunately neither b4 nor
-patchwork seem to understand the patch
+Thanks Jacopo for writing that up. Maybe a little addition on that
+matter. To our (especially Kierans) experience all the rectangles tend
+to be unexpectedly difficult to handle when you try to configure the
+sensors in a pixel perfect manner (having binned and non binned modes
+cover exactly the same area in all possible flipping configurations).
+The datasheets I'm aware of use the physical pixel array as common
+coordinate system to describe the geometry. Adding the readable pixel
+array as "artificial" coordinate system makes it difficult to match the
+values reported by a v4l driver with the datasheets at hand.
 
-ribalda@ribalda:~/work/linux$ b4 shazam
-wm5gfxhvifqamhatze5pfeyzfm6hnyknd4ww2bf75nwmw3okyn@7jmk66eibia5
-Grabbing thread from
-lore.kernel.org/all/wm5gfxhvifqamhatze5pfeyzfm6hnyknd4ww2bf75nwmw3okyn@7jmk66eibia5/t.mbox.gz
-Analyzing 4 messages in the thread
-No patches found.
+Another time where this comes into play is lens shading correction where
+you would want to describe the LSC against one reference coordinate
+system that ideally never ever changes.
 
-https://patchwork.linuxtv.org/project/linux-media/patch/wm5gfxhvifqamhatze5pfeyzfm6hnyknd4ww2bf75nwmw3okyn@7jmk66eibia5/
-The page URL requested
-(/project/linux-media/patch/wm5gfxhvifqamhatze5pfeyzfm6hnyknd4ww2bf75nwmw3okyn%407jmk66eibia5/)
-does not exist.
+To add to the confusion I'd love to have another rectangle added to the
+list. I don't have a proper name for it. The intent would be to
+distinguish between the "readable pixel array" and the "light exposed
+pixel array". So the list would become:
 
+    format(1/0) =3D physical pixel array size
+    TGT_CROP_BOUNDS(1/0) =3D readable pixel array (visible and non visible)
+    TGT_CROP_VISIBLE(1/0) =3D visible pixel area including "flesh" for ISP
+    TGT_CROP_DEFAULT(1/0) =3D Recommended "good" pixels
+    TGT_CROP(1/0) =3D analogue crop
+    TGT_COMPOSE(1/0) =3D binning/skipping
 
-Maybe you can try one of these two methods:
-https://git-send-email.io/
-https://b4.docs.kernel.org/en/latest/contributor/overview.html
+The idea is to be able to capture a larger image from the sensor for ISP
+processing and then cut it down to CROP_DEFAULT. This way we can prevent
+interpolation seams at the edges. Maybe the naming is bad and we should
+make CROP_BOUNDS the recommended area and add CROP_READABLE to denote
+the readable pixels...
 
+>=20
+> What do you think ?
 
-Thanks :)
+Best regards,
+Stefan
 
-
-
--- 
-Ricardo Ribalda
+>=20
+> > > >
+> > > > All the discussion about readable/non-readable, visible/non-visibile
+> > > > and active and inactive areas make me think we would benefit from
+> > > > presenting a small glossary at the beginning of the "Sensor pixel
+> > > > array size, cropping and binning" paragraph ?
+> > >
+> > > The text does not discuss active or inactive areas. I'd add some term=
+s into
+> > > the main glossary if needed -- they are used outside this file, too.
+> > >
+> > > --
+> > > Regards,
+> > >
+> > > Sakari Ailus
 
