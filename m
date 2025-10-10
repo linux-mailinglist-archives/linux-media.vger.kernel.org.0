@@ -1,370 +1,291 @@
-Return-Path: <linux-media+bounces-44185-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44186-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 513EDBCE6EF
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 21:54:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3C3BCE9F3
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 23:32:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 921124E502C
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 19:54:07 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F37D34F8432
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 21:32:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C37C3019CB;
-	Fri, 10 Oct 2025 19:53:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E62B8302CAE;
+	Fri, 10 Oct 2025 21:32:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Jddvg2QM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D+k1bZ0n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9551E3016E6
-	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 19:53:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4AB1F30277F
+	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 21:32:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760126037; cv=none; b=J74ryEphfY1Ad0iCnSO8Zo634ZPYL/EvwcDOjR15wjd1o3aYutxGyL+gr2Adbr81I6XZ+M86SysGxboKj/Jh+ZviTDHFKHxrUjf+rvPOKn6R1M9H61vys79+XaAk5RmoY5TRKLF8bG1EhlK3bFCirIVDNyjD17uRNJodtiJwMIg=
+	t=1760131957; cv=none; b=T4ttXDK4gma17TrI0e9ZBR7wsxmW1mJm6Rd+QV3iHELU8/ayrJYF9m7QTwUpihCd41TAjXSPnC420BSnBGhZV5eRHU2k7nfC5xw5KdjEZ8PV10dZvChp30NtkLcbsRkE1mf3K9FmC+eYMABA9wi2CUXTYs63+k0SkAweKrMh/Hg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760126037; c=relaxed/simple;
-	bh=5b/h/Rp35LUmB9SEWYk1Tv6h8r31mjMf3n8/iHHk8HY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=dOPTvSztEdGf1YuKfqJE0L0izwUuqPgJ0AU/jzRF9g0aHXlaFCzBMoxhqP0sA0fX+xQMq/8VBCiAPoO32uCriGUYC1AZZg5t3qEfhn2v+gl+DgImSQ1UyZJZVuXoXkYKXsxOa9jzt8JFdIPknVxUA2anJ1woRfAsHXALTjfO0gs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Jddvg2QM; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59AFVDHE018532
-	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 19:53:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	YFTq9SfFdhLMTERxwfmxv1dKsZDfHpEAvo+MIED1COs=; b=Jddvg2QMHQpfUDxi
-	lzLIoH2yNczGccUwZLzDOmQdCs4e5ew880EMdytwWrlDuYw7x2n49SMEvWwLCpKP
-	gEq8TjUELDtXwH7W9vc6LFS3vDF/LG9ajfQYEnbjOTPS0orCh0LjRTOhOOgYmOFY
-	qOp71Qlll4jv0Ed5y3mV3zkRtoQ9hFKgb2lx+p6CRRlQg3adQsFJbb+enJkQBUuS
-	IkdZZE7I69MLgagmvkVaMtazcH8iOW3VMVuRy1pHEg+daVB+FTbr2nTZK6aUCyBT
-	cpd/0V0XxxVNeXiMDkmK66JfOEQWizoQP6eIPrtMCX4AjPQbTALv+hzgWqCcIoRl
-	Y7p3LQ==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49nv4m7jrk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 19:53:53 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-27eeb9730d9so53624555ad.0
-        for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 12:53:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760126033; x=1760730833;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YFTq9SfFdhLMTERxwfmxv1dKsZDfHpEAvo+MIED1COs=;
-        b=oOnnUZAC4xe+vPkvsLjvBLRzKR4vdu0WaDPFWZHPmh1Zr6R+37B5kAckOoYdn1nGtG
-         YQJw6WMhGEP439O0LIZTRjfpgn1FNhxDZCoHd9qr20DXaden5+gnb8gs9TvIXx/ZFt2P
-         VlQ+DP+t8FUsbr55DCfPZHxdQql/PncAkdEIAMOAoA6XGwQqNigKyWnwtfTd6IeCKeih
-         OLAaTy5hKD77vpX7FIVGx83vaJthIvDsEsxYPJP+hGSxt+/EAdHUJh9fQPYUaSwWmhl/
-         ke/BX8lALCMuk2gYcf8QcXzhgW/3GqAHsarNbqxIa1eWFUyGpQpnb7ITUs9ZxmZdexn/
-         inbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXO8PECksWnu9maYTRWBMQksdFijiYLC8iOHHo57sDPcVaAt7q6Le115qMRwdTAmhWB6IXbi04tVBnwpg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNa87H7b5Aw10UvjTLAvfqTn0BR5Smj5/dkD/uOAOEA+L5+ZnT
-	HHqUy1OsdPawqmscAt+JuAyljRWhk3nVjx/9fyLXLEMbfb+haCNX8Tv+9ZxST5yxt5WAZLi/c0j
-	PnCG+9aoecfYUNFxat1Qh4WP2tFPHHlfHNvQmMmtosGmoG1E9I34v2hkmNuyYQfTQYQ==
-X-Gm-Gg: ASbGncsygpzFqx187cIib9h6OpDV2AifHT26u+IkCKIR95xri2pAQUZHpj/OYSZUu3X
-	rsaLwM44YgxydmrtMcVQGYt12dBNuJGBkkxzf4W1K5oYvtZ6zHelB5miNDeVW3knXMbYPmblZYA
-	JP12DZuuZ2GsozY5bon/JiCpMXXb0O0GDvfiiIILi1sZq3GGDQkjx0KwBNoLmhJUKf5I7F8DZEA
-	Ij2UwCGywLiHB1a8o/qSrD+8mgd325kazV3OBmXz84iRvElyY9f9iFbyJLlYuzf7j+1W108Efg2
-	2LoOaGsDRp/9jfpvaappW8el/nvyRn3EH7vpm4Q=
-X-Received: by 2002:a17:902:f650:b0:276:305b:14a7 with SMTP id d9443c01a7336-290273ef0ebmr165720285ad.33.1760126032673;
-        Fri, 10 Oct 2025 12:53:52 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE7+3w3vBsY6LYeccU+mN4KwyNGzOtDggHxqGdw7Hj3TVrWLuesSk97dfDRKHO97M+QBWfHTA==
-X-Received: by 2002:a17:902:f650:b0:276:305b:14a7 with SMTP id d9443c01a7336-290273ef0ebmr165719765ad.33.1760126031947;
-        Fri, 10 Oct 2025 12:53:51 -0700 (PDT)
-Received: from [192.168.1.3] ([122.181.197.191])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29034f4ae6csm64827695ad.108.2025.10.10.12.53.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 10 Oct 2025 12:53:51 -0700 (PDT)
-Message-ID: <c863f6a7-b117-4444-ae6d-1d525b572be2@oss.qualcomm.com>
-Date: Sat, 11 Oct 2025 01:23:43 +0530
+	s=arc-20240116; t=1760131957; c=relaxed/simple;
+	bh=ArWUSUq8CsQ/P/wD4tX39L5zyuywg/oQR6eI4rbEtmI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=c8IiTo7E5M2chMJSoM65TsIjxN8FdXGQKBlRXdsIYEmjxd6+OMcxcrNZMW1PyZdHU4RzFKck3QgCS8VsDFFwNibhk+65rlaIx2OlnG96Nsazct7qYFFQWDYKd3U23s2+WnEeOsIXuskcd6LbeoL0THI5PmXTgEtQQ2KW6CtPtsk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D+k1bZ0n; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E813AC116C6
+	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 21:32:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760131956;
+	bh=ArWUSUq8CsQ/P/wD4tX39L5zyuywg/oQR6eI4rbEtmI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=D+k1bZ0nFqoniRZZ+cDYGVVwQJSSy2z/JrK/z6/A7hVSAsrXW0duSCsltU23Yg2ox
+	 6SkyJy/SU+k7H2VzNq0CmoJFIeLMTxcl0hD7nMoGrQkLRgIr7aPD5FGq16/o6Ht+2M
+	 7hZ5lwpJ9Bmpz4vgpnSPsEU8o0t8Wc79RUkdxL0nKj4DBi+vMe+g+nIcPBXzdc9J7k
+	 ciL7Y41kYOXqgP3o+Y6+zBvNaiS1cEMOBicz65koAf9KRrp/97Ey9HxQVzeZrCn8B1
+	 A2rmouo8i/q/7zPaIanIE6cSFiB5w48QCU00UKIU01kJ6xxZwdHd24ICxT6bFcgKss
+	 dLm0CZ51xQbqQ==
+Received: by mail-ej1-f41.google.com with SMTP id a640c23a62f3a-b50206773adso649888566b.0
+        for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 14:32:36 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVnV5hFKGEgEOfL5VBqh0hIskVCZPjvJPrLCmZDGZcZHtZkqp/XJHjjC+Nx+dHm6zPOxAMz1UVi6WzdZA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxc0V1iz2Tg8lTAHBP37FM5l1WbZcVA6NXrBBSxWJBZtSepUIYi
+	hQREZrfxM98NQu1yXqlz88tZJh2qxOGqRHNrpDsjCc9614+bP9LZjmDpuvd9o4w/JGJR7JVrGIn
+	L8bfyPVZe2FgrCRwPGTUIFS6+zds+cA==
+X-Google-Smtp-Source: AGHT+IFexy1+T7e90A8g4k3s8jVRhUi34qlbue4tmM9kxCqG5lFhj6gYrjvGeC3ntN1XjkQ1Jf8fwLukEaWkt/6kFwE=
+X-Received: by 2002:a17:906:6a16:b0:b23:20e7:b480 with SMTP id
+ a640c23a62f3a-b50bedbf4f1mr1683334766b.18.1760131955101; Fri, 10 Oct 2025
+ 14:32:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/3] Introduce iommu-map-masked for platform devices
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Robin Murphy <robin.murphy@arm.com>
-Cc: joro@8bytes.org, will@kernel.org, saravanak@google.com,
-        conor+dt@kernel.org, robh@kernel.org, mchehab@kernel.org,
-        bod@kernel.org, krzk+dt@kernel.org, abhinav.kumar@linux.dev,
-        vikash.garodia@oss.qualcomm.com, dikshita.agarwal@oss.qualcomm.com,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        bjorn.andersson@oss.qualcomm.com, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, iommu@lists.linux.dev
-References: <20250928171718.436440-1-charan.kalla@oss.qualcomm.com>
- <aec0f40a-8346-4194-8b18-1022fe3366bb@arm.com>
- <0d0560cc-9757-4c7b-8de4-170148d99481@oss.qualcomm.com>
- <ead7cf8b-fbc4-4242-a9da-b313dded1abc@arm.com>
- <nzqte4glwtpjs5bhkxz43yhdufelxvqvzmg5tepudxwetimir3@bvlw5csjizsh>
- <9d3eeb9f-b8ea-48e5-a1d9-0865f63ef991@arm.com>
- <fhb4woejzh3r6v5dxvdiopnsbuwstucfuuzbiymxg4wrxrjc7t@dt3z3utq6lwd>
-Content-Language: en-US
-From: Charan Teja Kalla <charan.kalla@oss.qualcomm.com>
-In-Reply-To: <fhb4woejzh3r6v5dxvdiopnsbuwstucfuuzbiymxg4wrxrjc7t@dt3z3utq6lwd>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDA4MDEyMSBTYWx0ZWRfXwPqHxuLBpm7D
- 6a1iq9LgNN7pBnn9fnpFPsvg6ehmhMi2o1fKcipBcor39rYqSkP+zpyU8QlB/PDhT6pNKrfGain
- qmVzj7QQt5Rtbwj7HImj/orqz4trlVDLUSDb3yllRSBMgGFM7OiXO6Bd0iwnJqQE12lFQf6NifX
- XLncy2Xqaztn9f0HeZn25d5JSd05x69WiQ790WOrQzPY2YVJUy1lSPgp0BKmFOpmWe62PycX6G0
- W9OgZ5WxWCq2McviNJu6zLHOiJG2IfxI/waZVW6/mmia/wnzc2eg/yOH7750iaDuaQZ8Z57pHwF
- ZRO2x6vu8gVb8Lauqj744zD4Vvp1r4QB24n+V7cuMiVH8jEBpFg+W2WOzvrBAv2fhr1ugWwlk5O
- vrpSJe3iW4+Qk5Cv56muyx70oGJCwA==
-X-Authority-Analysis: v=2.4 cv=B6G0EetM c=1 sm=1 tr=0 ts=68e96451 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=2UNsNDcC2suIOuNS33efzA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=sTZWew2cqMYcmsX6pukA:9
- a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
-X-Proofpoint-GUID: qjPS9-l7CnaHLT4-cTcV9-WWm5UzproU
-X-Proofpoint-ORIG-GUID: qjPS9-l7CnaHLT4-cTcV9-WWm5UzproU
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-10_05,2025-10-06_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 lowpriorityscore=0 bulkscore=0 clxscore=1015 suspectscore=0
- malwarescore=0 adultscore=0 priorityscore=1501 phishscore=0 impostorscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510080121
+References: <20250926-ethos-v3-0-6bd24373e4f5@kernel.org> <20250926-ethos-v3-2-6bd24373e4f5@kernel.org>
+ <aNrce2up6ZxzMJpo@lizhi-Precision-Tower-5810>
+In-Reply-To: <aNrce2up6ZxzMJpo@lizhi-Precision-Tower-5810>
+From: Rob Herring <robh@kernel.org>
+Date: Fri, 10 Oct 2025 16:32:23 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqLbBKyWsMgq0-rooQd5LvxMjPkNtcYvff2fDoCoDxDoOA@mail.gmail.com>
+X-Gm-Features: AS18NWB70VVslCF2YO6NXRIQZkN1Oi2H4qa3p8YK7r-F05r60yMYia5RgwxjdvU
+Message-ID: <CAL_JsqLbBKyWsMgq0-rooQd5LvxMjPkNtcYvff2fDoCoDxDoOA@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] accel: Add Arm Ethos-U NPU driver
+To: Frank Li <Frank.li@nxp.com>
+Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	Robin Murphy <robin.murphy@arm.com>, Steven Price <steven.price@arm.com>, 
+	Daniel Stone <daniel@fooishbar.org>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, Sep 29, 2025 at 2:22=E2=80=AFPM Frank Li <Frank.li@nxp.com> wrote:
+>
+> On Fri, Sep 26, 2025 at 03:00:49PM -0500, Rob Herring (Arm) wrote:
+> > Add a driver for Arm Ethos-U65/U85 NPUs. The Ethos-U NPU has a
+> > relatively simple interface with single command stream to describe
+> > buffers, operation settings, and network operations. It supports up to =
+8
+> > memory regions (though no h/w bounds on a region). The Ethos NPUs
+> > are designed to use an SRAM for scratch memory. Region 2 is reserved
+> > for SRAM (like the downstream driver stack and compiler). Userspace
+> > doesn't need access to the SRAM.
+> >
+
+> ...
+> > +
+> > +static int ethosu_init(struct ethosu_device *ethosudev)
+> > +{
+> > +     int ret;
+> > +     u32 id, config;
+> > +
+> > +     ret =3D devm_pm_runtime_enable(ethosudev->base.dev);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     ret =3D pm_runtime_resume_and_get(ethosudev->base.dev);
+> > +     if (ret)
+> > +             return ret;
+> > +
+> > +     pm_runtime_set_autosuspend_delay(ethosudev->base.dev, 50);
+> > +     pm_runtime_use_autosuspend(ethosudev->base.dev);
+>
+> pm_runtime_use_autosuspend() should be after last register read
+> readl_relaxed(ethosudev->regs + NPU_REG_CONFIG);
+>
+> incase schedule happen between pm_runtime_use_autosuspend(ethosudev->base=
+.dev);
+> and readl().
+
+All the call does is enable autosuspend. I don't think it matters
+exactly when we enable it. We already did a get preventing autosuspend
+until we do a put.
+
+> > +     /* If PM is disabled, we need to call ethosu_device_resume() manu=
+ally. */
+> > +     if (!IS_ENABLED(CONFIG_PM)) {
+> > +             ret =3D ethosu_device_resume(ethosudev->base.dev);
+> > +             if (ret)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     ethosudev->npu_info.id =3D id =3D readl_relaxed(ethosudev->regs +=
+ NPU_REG_ID);
+> > +     ethosudev->npu_info.config =3D config =3D readl_relaxed(ethosudev=
+->regs + NPU_REG_CONFIG);
 
 
+> ...
+> > +
+> > +/**
+> > + * ethosu_gem_create_with_handle() - Create a GEM object and attach it=
+ to a handle.
+> > + * @file: DRM file.
+> > + * @ddev: DRM device.
+> > + * @size: Size of the GEM object to allocate.
+> > + * @flags: Combination of drm_ethosu_bo_flags flags.
+> > + * @handle: Pointer holding the handle pointing to the new GEM object.
+> > + *
+> > + * Return: Zero on success
+> > + */
+> > +int ethosu_gem_create_with_handle(struct drm_file *file,
+> > +                              struct drm_device *ddev,
+> > +                              u64 *size, u32 flags, u32 *handle)
+> > +{
+> > +     int ret;
+> > +     struct drm_gem_dma_object *mem;
+> > +     struct ethosu_gem_object *bo;
+>
+> move 'ret' here to keep reverise christmas tree order.
 
-On 10/9/2025 11:55 PM, Dmitry Baryshkov wrote:
->>> I really don't like the idea of extending the #iommu-cells. The ARM SMMU
->>> has only one cell, which is correct even for our platforms. The fact
->>> that we need to identify different IOMMU SIDs (and handle them in a
->>> differnt ways) is internal to the video device (and several other
->>> devices). There is nothing to be handled on the ARM SMMU side.
->> Huh? So if you prefer not to change anything, are you suggesting this series
->> doesn't need to exist at all? Now I'm thoroughly confused...
-> Hmm. We need changes, but I don't feel like adding the FUNCTION_ID to
-> #iommu-cells is the best idea.
-> 
->> If you want to use SMR masks, then you absolutely need #iommu-cells = 2,
->> because that is the SMMU binding for using SMR masks. It would definitely
-> I'm sorry. Yes, we have #iommu-cells = <2>.
-> 
->> not be OK to have some magic property trying to smuggle
->> IOMMU-driver-specific data contrary to what the IOMMU node itself says. As
->> for iommu-map, I don't see what would be objectionable about improving the
->> parsing to respect a real #iommu-cells value rather than hard-coding an
->> assumption. Yes, we'd probably need to forbid entries with length > 1
->> targeting IOMMUs with #iommu-cells > 1, since the notion of a linear
-> This will break e.g. PCIe on Qualcomm platforms:
-> 
->                         iommu-map = <0x0   &apps_smmu 0x1400 0x1>,
->                                     <0x100 &apps_smmu 0x1401 0x1>;
-> 
-> 
-> But this seems unlogical anyway wrt. apps_smmu having #iommu-cells =
-> <2>. It depends on ARM SMMU ignoring the second cell when it's not
-> present.
-> 
->> relationship between the input ID and the output specifier falls apart when
->> the specifier is complex, but that seems simple enough to implement and
->> document (even if it's too fiddly to describe in the schema itself), and
->> still certainly no worse than having another property that *is* just
->> iommu-map with implicit length = 1.
->>
->> And if you want individual StreamIDs for logical functions to be attachable
->> to distinct contexts then those functions absolutely must be visible to the
->> IOMMU layer and the SMMU driver as independent devices with their own unique
->> properties, which means either they come that way from the DT as of_platform
->> devices in the first place, or you implement a full bus_type abstraction
+Is that the order DRM likes? It's got to be the dumbest coding standard we =
+have.
 
-I don't want to dilute what Dmitry is saying here, but the below is what
-i can make out of Robin comments, please CMIW:
+> > +
+> > +     mem =3D drm_gem_dma_create(ddev, *size);
+> > +     if (IS_ERR(mem))
+> > +             return PTR_ERR(mem);
+> > +
+> > +     bo =3D to_ethosu_bo(&mem->base);
+> > +     bo->flags =3D flags;
+> > +
+> > +     /*
+> > +      * Allocate an id of idr table where the obj is registered
+> > +      * and handle has the id what user can see.
+> > +      */
+> > +     ret =3D drm_gem_handle_create(file, &mem->base, handle);
+> > +     if (!ret)
+> > +             *size =3D bo->base.base.size;
+> > +
+> > +     /* drop reference from allocate - handle holds it now. */
+> > +     drm_gem_object_put(&mem->base);
+> > +
+> > +     return ret;
+> > +}
+> > +
+> ...
+> > +
+> > +static void cmd_state_init(struct cmd_state *st)
+> > +{
+> > +     /* Initialize to all 1s to detect missing setup */
+> > +     memset(st, 0xff, sizeof(*st));
+> > +}
+> > +
+> > +static u64 cmd_to_addr(u32 *cmd)
+> > +{
+> > +     return ((u64)((cmd[0] & 0xff0000) << 16)) | cmd[1];
+>
+> will FIELD_PREP helpful?
 
-iommu {
-	#iommu-cells = <2>;
-}
+Like this?:
 
-video {
-   iommu = <iommu sid1 mask1>, <iommu sid2 mask2>;
-   #iommu-map-cells = 2; /* does it look weird to define here, even if
-it is SMMU property? */
-   iommu-map = <0 smmu sid3 mask3>,
-	       <0 smmu sid4 mask4>;
-};
+return ((u64)FIELD_PREP(GENMASK(23, 16), cmd[0]) << 32) | cmd[1];
 
-video driver calls of_dma_configure_id(, id) for each of the logical
-functionality, id is the index(which can be treated as SMMU identifier
-for logical function). Multiple smmu identifiers for a logical function
-can be represented as bitmap indices in 'id'...
+Questionable to me if that's better...
 
-The sample code below, based on #iommu-map-cells defined in video{}
-node,  on top of this RFC patch.
--------------------------------8888-------------------------------------
-diff --git a/drivers/iommu/of_iommu.c b/drivers/iommu/of_iommu.c
-index 2363de8f2fd6..ed5568278e2a 100644
---- a/drivers/iommu/of_iommu.c
-+++ b/drivers/iommu/of_iommu.c
-@@ -41,27 +41,24 @@ static int of_iommu_xlate(struct device *dev,
- 	return ret;
- }
+>
+> > +}
+> > +
+> > +static u64 dma_length(struct ethosu_validated_cmdstream_info *info,
+> > +                   struct dma_state *dma_st, struct dma *dma)
+> > +{
+> > +     s8 mode =3D dma_st->mode;
+> > +     u64 len =3D dma->len;
+> > +
+> > +     if (mode >=3D 1) {
+> > +             len +=3D dma->stride[0];
+> > +             len *=3D dma_st->size0;
+> > +     }
+> > +     if (mode =3D=3D 2) {
+> > +             len +=3D dma->stride[1];
+> > +             len *=3D dma_st->size1;
+> > +     }
+> > +     if (dma->region >=3D 0)
+> > +             info->region_size[dma->region] =3D max(info->region_size[=
+dma->region],
+> > +                                                  len + dma->offset);
+> > +
+> > +     return len;
+> > +}
+> > +
+> ...
+>
+> > +
+> > +static void ethosu_job_handle_irq(struct ethosu_device *dev)
+> > +{
+> > +     u32 status;
+> > +
+> > +     pm_runtime_mark_last_busy(dev->base.dev);
+>
+> I think don't need pm_runtime_mark_last_busy() here because
+> pm_runtime_put_autosuspend() already call pm_runtime_mark_last_busy().
+>
+> only mark last busy without pm_runtime_put() can't affect run time pm
+> state, still in active state.
 
--static int of_iommu_map_id(const __be32 *map, u32 id,
-+static int of_iommu_map_id(const __be32 *map, u32 idx, u32 id, u32
-cell_count,
- 				struct device *dev, void *data)
- {
- 	struct device_node *phandle_node;
- 	struct of_phandle_args *iommu_spec = data;
--	u32 id_base = be32_to_cpup(map + 0);
- 	u32 phandle = be32_to_cpup(map + 1);
--	u32 master_id0 = be32_to_cpup(map + 2);
--	u32 master_id1 = be32_to_cpup(map + 3);
--	int err;
-+	int err, i;
+Yes, agreed. Copied from rocket, so Tomeu, you may want to look at that.
 
- 	phandle_node = of_find_node_by_phandle(phandle);
- 	if (!phandle_node)
- 		return -ENODEV;
+>
+> > +
+> > +     status =3D readl_relaxed(dev->regs + NPU_REG_STATUS);
+> > +
+> > +     if (status & (STATUS_BUS_STATUS | STATUS_CMD_PARSE_ERR)) {
+> > +             dev_err(dev->base.dev, "Error IRQ - %x\n", status);
+> > +             drm_sched_fault(&dev->sched);
+> > +             return;
+> > +     }
+> > +
+> > +     scoped_guard(mutex, &dev->job_lock) {
+> > +             if (dev->in_flight_job) {
+> > +                     dma_fence_signal(dev->in_flight_job->done_fence);
+> > +                     pm_runtime_put_autosuspend(dev->base.dev);
+> > +                     dev->in_flight_job =3D NULL;
+> > +             }
+> > +     }
+> > +}
+> > +
+> ...
+> > +
+> > +int ethosu_job_init(struct ethosu_device *dev)
+> > +{
+> > +     struct drm_sched_init_args args =3D {
+> > +             .ops =3D &ethosu_sched_ops,
+> > +             .num_rqs =3D DRM_SCHED_PRIORITY_COUNT,
+> > +             .credit_limit =3D 1,
+> > +             .timeout =3D msecs_to_jiffies(JOB_TIMEOUT_MS),
+> > +             .name =3D dev_name(dev->base.dev),
+> > +             .dev =3D dev->base.dev,
+> > +     };
+> > +     int ret;
+> > +
+> > +     spin_lock_init(&dev->fence_lock);
+> > +     mutex_init(&dev->job_lock);
+> > +     mutex_init(&dev->sched_lock);
+>
+> now perfer use dev_mutex_init().
 
--	if (id != id_base)
-+	if (!test_bit(idx, (unsigned long*)&id))
- 		return -EAGAIN;
+$ git grep dev_mutex_init
+(END)
 
- 	iommu_spec->np = phandle_node;
--	iommu_spec->args[0] = master_id0;
--	iommu_spec->args[1] = master_id1;
-+	for (i = 0; i <= cell_count; ++i)
-+		iommu_spec->args[i] = be32_to_cpup(map + 2 + i);
-
- 	err = of_iommu_xlate(dev, iommu_spec);
- 	of_node_put(iommu_spec->np);
-@@ -76,7 +73,7 @@ static int of_iommu_configure_map_id_and_mask(struct
-device_node *master_np,
- 	struct of_phandle_args iommu_spec = { .args_count = 2 };
-
- 	return of_map_id_and_mask(master_np, *id,
--		 "iommu-map-masked", NULL,
-+		 "iommu-map", "iommu-map-mask",
- 		 &iommu_spec.np, NULL,
- 		 dev, (void *)&iommu_spec, of_iommu_map_id);
- }
-@@ -86,10 +83,14 @@ static int of_iommu_configure_dev_id(struct
-device_node *master_np,
- 				     const u32 *id)
- {
- 	struct of_phandle_args iommu_spec = { .args_count = 1 };
-+	u32 cell_count;
- 	int err;
--	bool iommu_map_masked = !!of_find_property(master_np,
-"iommu-map-masked", NULL);
-
--	if (iommu_map_masked)
-+	err = of_property_read_u32(master_np, "iommu-map-cells", &cell_count);
-+	if (err)
-+		return err;
-+
-+	if (cell_count > 1)
- 		return of_iommu_configure_map_id_and_mask(master_np, dev, id);
-
- 	err = of_map_id(master_np, *id, "iommu-map",
-diff --git a/drivers/of/base.c b/drivers/of/base.c
-index bb11125e9624..c42d77beed52 100644
---- a/drivers/of/base.c
-+++ b/drivers/of/base.c
-@@ -2065,12 +2065,15 @@ int of_map_id_and_mask(const struct device_node
-*np, u32 id,
- 	       const char *map_name, const char *map_mask_name,
- 	       struct device_node **target, u32 *id_out,
- 	       struct device *dev, void *data,
--	       int (*fn)(const __be32 *map, u32 id, struct device *dev, void
-*data))
-+	       int (*fn)(const __be32 *map, u32 idx, u32 id,
-+		       u32 cell_count, struct device *dev, void *data))
- {
-+	const char *cells_prop_name __free(kfree);
- 	u32 map_mask, masked_id;
-+	u32 cell_count;
- 	int map_len;
--	int ret;
- 	const __be32 *map = NULL;
-+	int ret, list_count, idx;
-
- 	if (!np || !map_name || (!target && !id_out))
- 		return -EINVAL;
-@@ -2084,7 +2087,16 @@ int of_map_id_and_mask(const struct device_node
-*np, u32 id,
- 		return 0;
- 	}
-
--	if (!map_len || map_len % (4 * sizeof(*map))) {
-+	cells_prop_name = kasprintf(GFP_KERNEL, "#%s-cells", map_name);
-+	ret = of_property_read_u32(np, cells_prop_name, &cell_count);
-+	if (ret == -EINVAL) // property doesn't defined
-+		cell_count = 1;
-+	else
-+		return ret;
-+
-+	/* syntax: [base iommu cell0 <cell1 ...celln> len] */
-+	list_count = 2 + cell_count + 1;
-+	if (!map_len || map_len % (list_count  * sizeof(*map))) {
- 		pr_err("%pOF: Error: Bad %s length: %d\n", np,
- 			map_name, map_len);
- 		return -EINVAL;
-@@ -2101,12 +2113,12 @@ int of_map_id_and_mask(const struct device_node
-*np, u32 id,
- 		of_property_read_u32(np, map_mask_name, &map_mask);
-
- 	masked_id = map_mask & id;
--	for ( ; map_len > 0; map_len -= 4 * sizeof(*map), map += 4) {
-+	for (idx = 0; map_len > 0; map_len -= list_count  * sizeof(*map), map
-+= list_count, idx++) {
- 		struct device_node *phandle_node;
- 		u32 id_base = be32_to_cpup(map + 0);
- 		u32 phandle = be32_to_cpup(map + 1);
- 		u32 out_base = be32_to_cpup(map + 2);
--		u32 id_len = be32_to_cpup(map + 3);
-+		u32 id_len = be32_to_cpup(map + cell_count - 1);
-
- 		if (id_base & ~map_mask) {
- 			pr_err("%pOF: Invalid %s translation - %s-mask (0x%x) ignores
-id-base (0x%x)\n",
-@@ -2115,8 +2127,14 @@ int of_map_id_and_mask(const struct device_node
-*np, u32 id,
- 			return -EFAULT;
- 		}
-
--		if (fn) {
--			ret = fn(map, id, dev, data);
-+		/* for >1 cell count, avoid the linear translation. It is
-+		 * expected that custom mapping managed in cb fn().
-+		 */
-+		if (cell_count > 2) {
-+			if (!fn)
-+				return -EINVAL;
-+			/* list of required indices is mentioned in id */
-+			ret = fn(map, idx, id, cell_count, dev, data);
- 			if (ret != -EAGAIN)
- 				break;
- 			continue;
-diff --git a/include/linux/of.h b/include/linux/of.h
-index 7f3890ab26d5..b7f38a43ffc7 100644
---- a/include/linux/of.h
-+++ b/include/linux/of.h
-@@ -464,7 +464,8 @@ int of_map_id_and_mask(const struct device_node *np,
-u32 id,
- 		const char *map_name, const char *map_mask_name,
- 		struct device_node **target, u32 *id_out,
- 		struct device *dev, void *data,
--		int (*fn)(const __be32 *map, u32 id, struct device *dev, void *data));
-+		int (*fn)(const __be32 *map, u32 id, u32 idx, u32 cell_count,
-+			struct device *dev, void *data));
-
- phys_addr_t of_dma_get_max_cpu_address(struct device_node *np);
-
-------------------------------------------------------------------------
-
-Thanks,
-Charan
+Huh??
 
