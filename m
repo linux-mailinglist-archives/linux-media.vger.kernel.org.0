@@ -1,147 +1,165 @@
-Return-Path: <linux-media+bounces-44144-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44145-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 22CF2BCBA10
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 06:19:31 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18B6EBCBA16
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 06:19:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3A17C19E1981
-	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 04:19:54 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC962405287
+	for <lists+linux-media@lfdr.de>; Fri, 10 Oct 2025 04:19:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C04D31FDE31;
-	Fri, 10 Oct 2025 04:19:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="KNnBjr0q"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7598A1F790F;
+	Fri, 10 Oct 2025 04:19:29 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-io1-f78.google.com (mail-io1-f78.google.com [209.85.166.78])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 95ED11C84CB
-	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 04:19:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73A6D36B
+	for <linux-media@vger.kernel.org>; Fri, 10 Oct 2025 04:19:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.78
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760069960; cv=none; b=LutlV4NXleehAIaRPk0Ged0PXyPN08DAo9XaEHrS1Q9Yh5VE1l03MZsr5BLJj3VSqwiHS9rtoLYmPAdU7HbE2gpWBnbt46qo5iuY0hAaoY3Gele1/gwfHLe8jYCsDvR8DYLrlh28lPzG2lt0rsLK2cZEXhQnR6cJAe8G0sAW9dU=
+	t=1760069969; cv=none; b=oistuZwQzawGu6MzeUX7zwIXKf1TWA/Avt96+B0qY3Q2fnPxwk4PrtqSj/czh4+F4LLvBjSQNLntkTCkFNMklatoU1g5IeBXQrUADdRslvDvERtimpfT93LsAm7/zQ/058aS/f22A0rJofuAuo+w25rX9+gX3NCKLJw9Hdq6C+w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760069960; c=relaxed/simple;
-	bh=xwBn4qXrK+XNYpR0WLdPTYV+y8T+IAIrJ3YSUkkzQC0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JPXS3mKADITkLuaPmH3QKfW+9YEl5D6VWlJ1m1NPvDas5Flwt3hS21ts7BNFIockk43wqfrmQrpPr/ksbT/wDH6GZtAkJFCW+kd5EZCxkq/72VCFyZGua5MlLZdHWyzRunM0NtiKiXBQrMrcWBXEwx6Pd/Axs6kXjj75UQbs0ok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=KNnBjr0q; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-46e37d6c21eso9532345e9.0
-        for <linux-media@vger.kernel.org>; Thu, 09 Oct 2025 21:19:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1760069956; x=1760674756; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=WwOa80v1gASmUxbIlKVNpJ7pC74JVx0S1JpZYmF7fT4=;
-        b=KNnBjr0q5HdJcHl5KW1xWguYCm47g8hx1IkMR1zE4/dtFOxJneZHF+e/vQhNMA/v46
-         0O/yBa5nz3V8GKiXGcCvZ8BYDNjtexNaajr+6UOLWEL1QFQFy8JJYVp6CoXJ13goGpv8
-         xWxommaivpJU2vOGQSxjRMkySIIkQzb1gSiDJ/0ExzOIZSfn7bvaJ8mzsj+HXJCcw04E
-         AQZgRYU786KIw6YRGsAalBf9+5ED4JRfj+EA4myMJMu/DNoiUC5ExCYd02Ix9eA5CN3m
-         zvUb4hMHwWpnRRB5GMkEofL0mUVA+iT81dRClswUTeRPQPCOrS44AB7x+gsGvMVDmofT
-         9TUA==
+	s=arc-20240116; t=1760069969; c=relaxed/simple;
+	bh=X4vWqucx5Kcwu2eSTvHDuRtPw9jJFsHk8sz1Or4c9i0=;
+	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=psPwfG4hgNvwZ+xndR7mX0MtUSj5Ldb8NZfQbtiaFewMBpuSwWmh40Uar5B/0WJqWSXoeQ0ndOJix2/3uKWsq9c7Glcgfmw1IlMyJEPEkMH0aeDD3HGwQGqwdGp1GiiUtETr1v+lszV5JdYcnqR03ofbcCfjpZ+r245YRt6EJIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.78
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
+Received: by mail-io1-f78.google.com with SMTP id ca18e2360f4ac-8870219dce3so456489339f.0
+        for <linux-media@vger.kernel.org>; Thu, 09 Oct 2025 21:19:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760069956; x=1760674756;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=WwOa80v1gASmUxbIlKVNpJ7pC74JVx0S1JpZYmF7fT4=;
-        b=RC6/HTAxqV5hJ1nCwTq61toGmq4B/tDmhHPPTAA4+SB14c+udIe/P8KxYy7aRMPJtc
-         Yumv9PbNxUvS2DvondpJj8ijWeLmqcA/DlfYX16WGmSp1jnWHfXkGf6LhTKgwfWTOYo5
-         CbdjPRdml1A4axHbILVD4U7aPBTGdBPNYX2vOAMMlwbTtpUD3nLaSyZksKatpB6TxR2o
-         J+Lh+RDZOspojxdLdLf51pe4qoAkua89pxLzgWjzYTrvAy2ifE2QhbaiQaCxPuwpXGTy
-         M+jqjovqDKlZ0I9Q9QpFWRFRDbvlFV6D1+k1mOZLSJbsaPXox29CTRUIc5Xfootzrcrw
-         89ug==
-X-Forwarded-Encrypted: i=1; AJvYcCVr8wKwdZcIOhMT5vgtBFp3gZFndOq28sGYP4M6f3aStDUs1v60fvgvn54vaS84symYu0FsRyXQ2D4oRw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGWwtAPW3ZXrwEJ6/lqzD4uHObz/H3mJeCCjV9DKYJM8OxANcJ
-	Lzor9jBqT2AtPRFXUlQFpO5jqs/g7aQg24LW1lV64ge0mPkjPFQ+9d3khL9mGNZLdI0=
-X-Gm-Gg: ASbGnct+CQMcvIhTG6Y9bFxS2K+7X1TaLg9/f8dZ3hUXLkhL2mEzutAXkBhO8PlGGNK
-	hFiiJzssTb88zCmUb6bfWsJT0L2cVbdW8cXYYVpm8/I1u08BuqGDdo4ID79YuRWTdAn1cGwFcBN
-	nRQYwnXAxffH92GZQpfF4pFUbm80Bi00LTY68fuIWJUDesIpqVAhDhsJkXc0yNmVbo0EZrEwbZq
-	iitKoQiX+zZXT2o5vrJl0q4gifZ4VxAFaA3vN/PRZ13dsRdwIZ3SUitVgSAwN3MUIIE5B192jx0
-	gQvAO3n3t21bRA7OXSOF/9ouesyFv2Abb8o2iUTIaclVaNO+6iiElAaJbvYThDRRDbNfKictT26
-	4lDv8TOF7WirJv7uYKn4PtvummqXvKaBhRR0WeAzMtlyqaZ3Qys6wN55BSvVbrQ==
-X-Google-Smtp-Source: AGHT+IGJgO2IvwgPLgeBx8x9ysG+IFbcbA482p2h3xQBgGrT2la38bcOWIrduOHO8n5qJqWFiyffew==
-X-Received: by 2002:a05:600c:a43:b0:46f:b32e:5094 with SMTP id 5b1f17b1804b1-46fb32e50fcmr30537085e9.32.1760069955819;
-        Thu, 09 Oct 2025 21:19:15 -0700 (PDT)
-Received: from [10.100.51.209] (nat2.prg.suse.com. [195.250.132.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb4982b30sm24491365e9.6.2025.10.09.21.19.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 09 Oct 2025 21:19:15 -0700 (PDT)
-Message-ID: <565d9afb-cdd0-44c0-a070-9c603689f123@suse.com>
-Date: Fri, 10 Oct 2025 06:19:14 +0200
+        d=1e100.net; s=20230601; t=1760069966; x=1760674766;
+        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yGQltiHAB8hMnc/QahGJ3qmDYxqfKV7yfoDqevYiDBM=;
+        b=vudDZI05xHE8v2d5w83iiG4C+HmpnOC0u+h2D8yA24AB5+ZQu+WxlcDHd6QzlMHUXa
+         7dmEE0nEuAHYKOg+TVsnoB8/k/FZAuGlwnrkjtOSaAWFUxWUa2+VpLkS06IK/JtA694/
+         uwi3O000DZ+2/R5zN/YElfuPZlozgdIRjf3Fyw+MHLtcyxRYr/xeb9Wkm34WMUFtibzY
+         MUwIIfawX+dM8oj4peYITDypJOB4c8u+8rucuTQxL2fZr6Out1X5BYPdaBaB+xUL1FZI
+         QIHSpVF/dZRCK3n0hOTJCdyEvK0mOHR8fiWcA3aVOCVV1Fut1WjoivlXZrdjPS1DnS+L
+         4ALA==
+X-Forwarded-Encrypted: i=1; AJvYcCUI6Tvy/x3PMww2AIUk2j+H4G/eqhyv6LNNUqjz0iock8YVSR6M+bvt+oSL0vMtB+LMjhwxQ8VnwFiBBg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz2wMVHgY97RD7zrCsyzdoOTsvBAk8QIqEUtxJj2YZKXkSoACjU
+	pORLnfRfqVW1qBY/4W5W78nK3BBwtu6p/hoxB2cr3zY2aU0ERyvvy53i4SVaZZ5GmrZd/lruEN5
+	AQBCdlkbzrTVcMnqujAuc20uu/xypo0dEeHAlT2DDdLouVVYT9atciDCghds=
+X-Google-Smtp-Source: AGHT+IFLyIC7w3GTy4an7qyQzYnUGImlJBgOEQ8FhxciyBeNEOe81IUTgHvK8Pz1FRTccr2G1exi3zkIw8VJtsKx18HvUGdIpyJW
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 3/3] module: Add compile-time check for embedded NUL
- characters
-To: Kees Cook <kees@kernel.org>
-Cc: Luis Chamberlain <mcgrof@kernel.org>,
- Rusty Russell <rusty@rustcorp.com.au>, Daniel Gomez <da.gomez@kernel.org>,
- Sami Tolvanen <samitolvanen@google.com>, linux-modules@vger.kernel.org,
- Hans Verkuil <hverkuil+cisco@kernel.org>,
- Malcolm Priestley <tvboxspy@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@kernel.org>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <20251010030348.it.784-kees@kernel.org>
- <20251010030610.3032147-3-kees@kernel.org>
-Content-Language: en-US
-From: Petr Pavlu <petr.pavlu@suse.com>
-In-Reply-To: <20251010030610.3032147-3-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Received: by 2002:a05:6602:134a:b0:91e:c3a4:537c with SMTP id
+ ca18e2360f4ac-93bd19a54edmr1211148939f.14.1760069966635; Thu, 09 Oct 2025
+ 21:19:26 -0700 (PDT)
+Date: Thu, 09 Oct 2025 21:19:26 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <68e8894e.050a0220.91a22.0056.GAE@google.com>
+Subject: [syzbot] [media?] KMSAN: uninit-value in pctv452e_i2c_msg
+From: syzbot <syzbot+480edd2cadb85ddb4bbe@syzkaller.appspotmail.com>
+To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On 10/10/25 5:06 AM, Kees Cook wrote:
-> Long ago, the kernel module license checks were bypassed by embedding a
-> NUL character in the MODULE_LICENSE() string[1]. By using a string like
-> "GPL\0proprietary text", the kernel would only read "GPL" due to C string
-> termination at the NUL byte, allowing proprietary modules to avoid kernel
-> tainting and access GPL-only symbols.
-> 
-> The MODULE_INFO() macro stores these strings in the .modinfo ELF
-> section, and get_next_modinfo() uses strcmp()-family functions
-> which stop at the first NUL. This split the embedded string into two
-> separate .modinfo entries, with only the first part being processed by
-> license_is_gpl_compatible().
-> 
-> Add a compile-time check using static_assert that compares the full
-> string length (sizeof - 1) against __builtin_strlen(), which stops at
-> the first NUL. If they differ, compilation fails with a clear error
-> message.
-> 
-> While this check can still be circumvented by modifying the ELF binary
-> post-compilation, it prevents accidental embedded NULs and forces
-> intentional abuse to require deliberate binary manipulation rather than
-> simple source-level tricks.
-> 
-> Build tested with test modules containing both valid and invalid license
-> strings. The check correctly rejects:
-> 
->     MODULE_LICENSE("GPL\0proprietary")
-> 
-> while accepting normal declarations:
-> 
->     MODULE_LICENSE("GPL")
-> 
-> Link: https://lwn.net/Articles/82305/ [1]
-> Suggested-by: Rusty Russell <rusty@rustcorp.com.au>
-> Signed-off-by: Kees Cook <kees@kernel.org>
+Hello,
 
-Reviewed-by: Petr Pavlu <petr.pavlu@suse.com>
+syzbot found the following issue on:
 
--- 
-Thanks,
-Petr
+HEAD commit:    9b0d551bcc05 Merge tag 'pull-misc' of git://git.kernel.org..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14e89a7c580000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=50fb29d81ff5a3df
+dashboard link: https://syzkaller.appspot.com/bug?extid=480edd2cadb85ddb4bbe
+compiler:       Debian clang version 20.1.8 (++20250708063551+0c9f909b7976-1~exp1~20250708183702.136), Debian LLD 20.1.8
+
+Unfortunately, I don't have any reproducer for this issue yet.
+
+Downloadable assets:
+disk image: https://storage.googleapis.com/syzbot-assets/90b0fb888152/disk-9b0d551b.raw.xz
+vmlinux: https://storage.googleapis.com/syzbot-assets/1120c646f284/vmlinux-9b0d551b.xz
+kernel image: https://storage.googleapis.com/syzbot-assets/df9bbfa8cbe6/bzImage-9b0d551b.xz
+
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+480edd2cadb85ddb4bbe@syzkaller.appspotmail.com
+
+=====================================================
+BUG: KMSAN: uninit-value in hex_string+0x681/0x740 lib/vsprintf.c:1220
+ hex_string+0x681/0x740 lib/vsprintf.c:1220
+ pointer+0x2c7/0x1bd0 lib/vsprintf.c:2520
+ vsnprintf+0xf8a/0x1bd0 lib/vsprintf.c:2930
+ vscnprintf+0x6d/0x120 lib/vsprintf.c:2991
+ printk_sprint+0x53/0x5c0 kernel/printk/printk.c:2189
+ vprintk_store+0xbb9/0x1530 kernel/printk/printk.c:2309
+ vprintk_emit+0x21a/0xb60 kernel/printk/printk.c:2399
+ vprintk_default+0x3f/0x50 kernel/printk/printk.c:2438
+ vprintk+0x36/0x50 kernel/printk/printk_safe.c:82
+ _printk+0x17e/0x1b0 kernel/printk/printk.c:2448
+ pctv452e_i2c_msg+0x82a/0x8f0 drivers/media/usb/dvb-usb/pctv452e.c:467
+ pctv452e_i2c_xfer+0x2e6/0x4c0 drivers/media/usb/dvb-usb/pctv452e.c:502
+ __i2c_transfer+0xecd/0x3110 drivers/i2c/i2c-core-base.c:-1
+ i2c_transfer+0x300/0x4b0 drivers/i2c/i2c-core-base.c:2317
+ i2c_transfer_buffer_flags+0x138/0x200 drivers/i2c/i2c-core-base.c:2345
+ i2c_master_recv include/linux/i2c.h:79 [inline]
+ i2cdev_read+0x1b2/0x3c0 drivers/i2c/i2c-dev.c:155
+ vfs_read+0x27c/0xf90 fs/read_write.c:570
+ ksys_pread64 fs/read_write.c:763 [inline]
+ __do_sys_pread64 fs/read_write.c:771 [inline]
+ __se_sys_pread64 fs/read_write.c:768 [inline]
+ __x64_sys_pread64+0x2ab/0x3b0 fs/read_write.c:768
+ x64_sys_call+0x3370/0x3e30 arch/x86/include/generated/asm/syscalls_64.h:18
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xd9/0x210 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+Uninit was created at:
+ slab_post_alloc_hook mm/slub.c:4953 [inline]
+ slab_alloc_node mm/slub.c:5245 [inline]
+ __kmalloc_cache_noprof+0x8f5/0x16b0 mm/slub.c:5719
+ kmalloc_noprof include/linux/slab.h:957 [inline]
+ pctv452e_i2c_msg+0x98/0x8f0 drivers/media/usb/dvb-usb/pctv452e.c:425
+ pctv452e_i2c_xfer+0x2e6/0x4c0 drivers/media/usb/dvb-usb/pctv452e.c:502
+ __i2c_transfer+0xecd/0x3110 drivers/i2c/i2c-core-base.c:-1
+ i2c_transfer+0x300/0x4b0 drivers/i2c/i2c-core-base.c:2317
+ i2c_transfer_buffer_flags+0x138/0x200 drivers/i2c/i2c-core-base.c:2345
+ i2c_master_recv include/linux/i2c.h:79 [inline]
+ i2cdev_read+0x1b2/0x3c0 drivers/i2c/i2c-dev.c:155
+ vfs_read+0x27c/0xf90 fs/read_write.c:570
+ ksys_pread64 fs/read_write.c:763 [inline]
+ __do_sys_pread64 fs/read_write.c:771 [inline]
+ __se_sys_pread64 fs/read_write.c:768 [inline]
+ __x64_sys_pread64+0x2ab/0x3b0 fs/read_write.c:768
+ x64_sys_call+0x3370/0x3e30 arch/x86/include/generated/asm/syscalls_64.h:18
+ do_syscall_x64 arch/x86/entry/syscall_64.c:63 [inline]
+ do_syscall_64+0xd9/0x210 arch/x86/entry/syscall_64.c:94
+ entry_SYSCALL_64_after_hwframe+0x77/0x7f
+
+CPU: 1 UID: 0 PID: 10013 Comm: syz.1.697 Not tainted syzkaller #0 PREEMPT(none) 
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 08/18/2025
+=====================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+
+If the report is already addressed, let syzbot know by replying with:
+#syz fix: exact-commit-title
+
+If you want to overwrite report's subsystems, reply with:
+#syz set subsystems: new-subsystem
+(See the list of subsystem names on the web dashboard)
+
+If the report is a duplicate of another one, reply with:
+#syz dup: exact-subject-of-another-report
+
+If you want to undo deduplication, reply with:
+#syz undup
 
