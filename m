@@ -1,170 +1,238 @@
-Return-Path: <linux-media+bounces-44268-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44269-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35D7DBD2AF9
-	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 13:02:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C300BD2C2B
+	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 13:21:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2AADD4E96D9
-	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 11:02:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 554393B1163
+	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 11:21:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBC1E305E0D;
-	Mon, 13 Oct 2025 11:01:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qYHE+Ell"
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 643402566E2;
+	Mon, 13 Oct 2025 11:21:07 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D66930597C;
-	Mon, 13 Oct 2025 11:01:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4C850222587;
+	Mon, 13 Oct 2025 11:21:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760353309; cv=none; b=lszhDEz94mGNBLhgk5Lbra6dCxj9tOZ34j6RELY98qvYebjwqDVV1c6A4f0zyQtzL64pXUG3WhvQA/VB9f0UmRdnqFTw/Xka+3My+8BIeOWHbHrTfo4sLtj1xgnRPECFTTt6X9lcVJCbEIMZo1WfXYBv6l350Cxw3UrylsKXKnY=
+	t=1760354466; cv=none; b=liC2R/ERi4PdyCxgC2yKnei1f2idFVhgNZGLlTn/L15qVmHrSAVbzRNXoJJda6f9t20bvC2rGSR5Mnk7JlhQdzLp42w9HLGM23CpHEfZGbIgMovpniLKsxmpsjfm7b9Hiz+bD7gqWf5aQYJAjh5426EfPsQLMA7929vKcoPKwZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760353309; c=relaxed/simple;
-	bh=iJSBhGjVFS2FVaaRfzW2soMJOd6n5yz2PYztK0cwd4o=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=IMYPnauaL2dgAEhcJc5SKtJ0mXNqKq+YZROrTlQs9D3QTDBypfbXrW+iTq3bGLXUQnNJgglAICBUjevD9KW6ijAS7I7k3R/KQUFlNXhiQILHHHV5YEUA7x7XoLi123vkCNdn0blTVfvLJnyiikE8coGT5xpxGnQOQqApvJJFIP0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qYHE+Ell; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6DBE6C4CEE7;
-	Mon, 13 Oct 2025 11:01:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760353308;
-	bh=iJSBhGjVFS2FVaaRfzW2soMJOd6n5yz2PYztK0cwd4o=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=qYHE+EllJhmRU+D56qVc+dAOrylJIHOKGzpINrZEig247PthLBHRyUI4i9k9kTQ4a
-	 xSGGd0UBCiv+NLrmrhB53L9QD63R11IoUn7917laDAhtS1g/lLloAR59PbYKAqBSVi
-	 8f6Y0OqTyhSQuai+GGiv/uYI+c8ea3NMX9AIQYaXf1Hg45gln+58dkvD6AmnepXEMl
-	 SWbxO6eD8sTcuXTf5n/UMpfK9mfUo87xCgcxjaKMb0SawmvScKWz/HBbl+L2oWxL9E
-	 o2C/3jVkRXLbA+t4sDZQ12zeSplEfdBOsE02bJo6ZX39XEotqyd2kt4OL4fTdvSgOB
-	 YV3cbGST/I72g==
-From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 13 Oct 2025 13:01:36 +0200
-Subject: [PATCH v4 4/4] media: gc2145: Fix the RGB MBUS format
+	s=arc-20240116; t=1760354466; c=relaxed/simple;
+	bh=tQje5bDbSj9y1kcqNgldXUREwqU4Y0MJp/r7D9wd3RA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=I4Dzs4yoMXmYYiRMnypCyEs634TgJj242LWsJzU7lHKz0Yp+t70SmX3henegqm3lqonukkefj4uQbRC4/wIEUshdDAMTXzSyPNum8BORaAAV5hbrQZ/BOYfZeM5ISWGdpE/wJpTp4EWoAPSALwyI92xmiJLLKX7OiGFEwbaXVTg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 531BF113E;
+	Mon, 13 Oct 2025 04:20:55 -0700 (PDT)
+Received: from [10.57.5.235] (unknown [10.57.5.235])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 90BB03F6A8;
+	Mon, 13 Oct 2025 04:20:57 -0700 (PDT)
+Message-ID: <8d88cd9d-16e8-43f9-8eb3-89862da1d0c1@arm.com>
+Date: Mon, 13 Oct 2025 12:20:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 0/3] Introduce iommu-map-masked for platform devices
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Cc: Charan Teja Kalla <charan.kalla@oss.qualcomm.com>, joro@8bytes.org,
+ will@kernel.org, saravanak@google.com, conor+dt@kernel.org, robh@kernel.org,
+ mchehab@kernel.org, bod@kernel.org, krzk+dt@kernel.org,
+ abhinav.kumar@linux.dev, vikash.garodia@oss.qualcomm.com,
+ dikshita.agarwal@oss.qualcomm.com,
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ bjorn.andersson@oss.qualcomm.com, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, iommu@lists.linux.dev
+References: <20250928171718.436440-1-charan.kalla@oss.qualcomm.com>
+ <aec0f40a-8346-4194-8b18-1022fe3366bb@arm.com>
+ <0d0560cc-9757-4c7b-8de4-170148d99481@oss.qualcomm.com>
+ <ead7cf8b-fbc4-4242-a9da-b313dded1abc@arm.com>
+ <nzqte4glwtpjs5bhkxz43yhdufelxvqvzmg5tepudxwetimir3@bvlw5csjizsh>
+ <9d3eeb9f-b8ea-48e5-a1d9-0865f63ef991@arm.com>
+ <fhb4woejzh3r6v5dxvdiopnsbuwstucfuuzbiymxg4wrxrjc7t@dt3z3utq6lwd>
+From: Robin Murphy <robin.murphy@arm.com>
+Content-Language: en-GB
+In-Reply-To: <fhb4woejzh3r6v5dxvdiopnsbuwstucfuuzbiymxg4wrxrjc7t@dt3z3utq6lwd>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251013-csi-bgr-rgb-v4-4-55eab2caa69f@kernel.org>
-References: <20251013-csi-bgr-rgb-v4-0-55eab2caa69f@kernel.org>
-In-Reply-To: <20251013-csi-bgr-rgb-v4-0-55eab2caa69f@kernel.org>
-To: Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Mats Randgaard <matrandg@cisco.com>, 
- Alain Volmat <alain.volmat@foss.st.com>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Hans Verkuil <hverkuil@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Hans Verkuil <hans.verkuil@cisco.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Maxime Ripard <mripard@kernel.org>
-X-Mailer: b4 0.14.2
 
-The GalaxyCore GC2145 is an MIPI-CSI2 sensor. Among others, it support
-the MIPI-CSI2 RGB565 format, listed in the driver as
-MEDIA_BUS_FMT_RGB565_1X16.
+On 2025-10-09 7:25 pm, Dmitry Baryshkov wrote:
+> On Thu, Oct 09, 2025 at 06:03:29PM +0100, Robin Murphy wrote:
+>> On 2025-10-09 2:19 pm, Dmitry Baryshkov wrote:
+>>> On Thu, Oct 09, 2025 at 11:46:55AM +0100, Robin Murphy wrote:
+>>>> On 2025-10-08 8:10 pm, Charan Teja Kalla wrote:
+>>>>>
+>>>>> On 9/29/2025 3:50 PM, Robin Murphy wrote:
+>>>>>>> USECASE [1]:
+>>>>>>> -----------
+>>>>>>> Video IP, 32bit, have 2 hardware sub blocks(or can be called as
+>>>>>>> functions) called as pixel and nonpixel blocks, that does decode and
+>>>>>>> encode of the video stream. These sub blocks are __configured__ to
+>>>>>>> generate different stream IDs.
+>>>>>>
+>>>>>> So please clarify why you can't:
+>>>>>>
+>>>>>> a) Describe the sub-blocks as individual child nodes each with their own
+>>>>>> distinct "iommus" property
+>>>>>>
+>>>>>
+>>>>> Thanks Robin for your time. Sorry for late reply as I really didn't have
+>>>>> concrete answer for this question.
+>>>>>
+>>>>> First let me clarify the word "sub blocks" -- This is just the logical
+>>>>> separation with no separate address space to really able to define them
+>>>>> as sub devices. Think of it like a single video IP with 2 dma
+>>>>> engines(used for pixel and non-pixel purpose).
+>>>>>
+>>>>> I should agree that the child-nodes in the device tree is the easy one
+>>>>> and infact, it is how being used in downstream.
+>>>>>
+>>>>> For upstream -- Since there is no real address space to interact with
+>>>>> these sub-blocks(or logical blocks), does it really qualify to define as
+>>>>> child nodes in the device tree? I see there is some push back[1].
+>>>>
+>>>> Who says you need an address space? Child nodes without "reg" properties,
+>>>> referenced by name, compatible or phandle, exist all over the place for all
+>>>> manner of reasons. If there are distinct logical functions with their own
+>>>> distinct hardware properties, then I would say having child nodes to
+>>>> describe and associate those properties with their respective functions is
+>>>> entirely natural and appropriate. The first example that comes to mind of
+>>>> where this is a well-established practice is PMICs - to pick one at random:
+>>>> Documentation/devicetree/bindings/regulator/qcom,rpmh-regulator.yaml
+>>>
+>>> Logical function, that's correct. And also note, for PMICs that practice
+>>> has bitten us back. For PM8008 we switched back to a non-subdevice
+>>> representation.
+>>>
+>>>> For bonus irony, you can't take the other approaches without inherently
+>>>> *introducing* a notional address space in the form of your logical function
+>>>> IDs anyway.
+>>>>
+>>>>>      > or:
+>>>>>>
+>>>>>> b) Use standard "iommu-map" which already supports mapping a masked
+>>>>>> input ID to an arbitrary IOMMU specifier
+>>>>>>
+>>>>>
+>>>>> I think clients is also required to program non-zero smr mask, where as
+>>>>> iommu-map just maps the id to an IOMMU specifier(sid). Please LMK if I
+>>>>> am unable to catch your thought here.
+>>>> An IOMMU specifier is whatever the target IOMMU node's #iommu-cells says it
+>>>> is. The fact that Linux's parsing code only works properly for #iommu-cells
+>>>> = 1 is not really a DT binding problem (other than it stemming from a loose
+>>>> assumption stated in the PCI binding's use of the property).
+>>>
+>>> I really don't like the idea of extending the #iommu-cells. The ARM SMMU
+>>> has only one cell, which is correct even for our platforms. The fact
+>>> that we need to identify different IOMMU SIDs (and handle them in a
+>>> differnt ways) is internal to the video device (and several other
+>>> devices). There is nothing to be handled on the ARM SMMU side.
+>>
+>> Huh? So if you prefer not to change anything, are you suggesting this series
+>> doesn't need to exist at all? Now I'm thoroughly confused...
+> 
+> Hmm. We need changes, but I don't feel like adding the FUNCTION_ID to
+> #iommu-cells is the best idea.
 
-Most CSI2 receiver drivers then map MEDIA_BUS_FMT_RGB565_1X16 to
-V4L2_PIX_FMT_RGB565.
+What? No, any function ID would be an *input* to a map, not part of the 
+output specifier; indeed it should never go anywhere near the IOMMU, I 
+don't think anyone suggested that.
 
-However, V4L2_PIX_FMT_RGB565 is defined as having its color components
-in the R, G and B order, from left to right. MIPI-CSI2 however defines
-the RGB565 format with blue first.
+>> If you want to use SMR masks, then you absolutely need #iommu-cells = 2,
+>> because that is the SMMU binding for using SMR masks. It would definitely
+> 
+> I'm sorry. Yes, we have #iommu-cells = <2>.
+> 
+>> not be OK to have some magic property trying to smuggle
+>> IOMMU-driver-specific data contrary to what the IOMMU node itself says. As
+>> for iommu-map, I don't see what would be objectionable about improving the
+>> parsing to respect a real #iommu-cells value rather than hard-coding an
+>> assumption. Yes, we'd probably need to forbid entries with length > 1
+>> targeting IOMMUs with #iommu-cells > 1, since the notion of a linear
+> 
+> This will break e.g. PCIe on Qualcomm platforms:
+> 
+>                          iommu-map = <0x0   &apps_smmu 0x1400 0x1>,
+>                                      <0x100 &apps_smmu 0x1401 0x1>;
+> 
+> 
+> But this seems unlogical anyway wrt. apps_smmu having #iommu-cells =
+> <2>. It depends on ARM SMMU ignoring the second cell when it's not
+> present.
 
-This essentially means that the R and B will be swapped compared to what
-V4L2_PIX_FMT_RGB565 defines.
+Urgh, yes, that's just broken already :(
 
-The proper MBUS format would be BGR565, so let's use that.
+At least they all seem to be a sufficiently consistent pattern that a 
+targeted workaround to detect old DTBs looks feasible (I'm thinking, if 
+iommu-map size % 4 == 0 and cells n*4 + 3 are all 1 and cells n*4 + 1 
+are all the same phandle to an IOMMU with #iommu-cells == 2, then parse 
+as if #iommu-cells == 1)
 
-Fixes: 03cc7fefbb09 ("media: i2c: gc2145: Galaxy Core GC2145 sensor support")
-Signed-off-by: Maxime Ripard <mripard@kernel.org>
----
- drivers/media/i2c/gc2145.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+>> relationship between the input ID and the output specifier falls apart when
+>> the specifier is complex, but that seems simple enough to implement and
+>> document (even if it's too fiddly to describe in the schema itself), and
+>> still certainly no worse than having another property that *is* just
+>> iommu-map with implicit length = 1.
+>>
+>> And if you want individual StreamIDs for logical functions to be attachable
+>> to distinct contexts then those functions absolutely must be visible to the
+>> IOMMU layer and the SMMU driver as independent devices with their own unique
+>> properties, which means either they come that way from the DT as of_platform
+>> devices in the first place, or you implement a full bus_type abstraction
+> 
+> Not necessarily. Tegra display driver creates a device for each context
+> on its own.
+No, the *display* driver does not; the host1x bus driver does, which is 
+the point I was making - that has a proper bus abstraction tied into the 
+IOMMU layer, such that the devices are correctly configured long before 
+the actual DRM driver(s) get anywhere near them.
 
-diff --git a/drivers/media/i2c/gc2145.c b/drivers/media/i2c/gc2145.c
-index b215963a2648b7423fc0ca42b300b6c586d2b994..3c179ccf19cd7ed016699d4de4eb81271c1e11ab 100644
---- a/drivers/media/i2c/gc2145.c
-+++ b/drivers/media/i2c/gc2145.c
-@@ -579,11 +579,11 @@ static const struct gc2145_format supported_formats[] = {
- 		.colorspace	= V4L2_COLORSPACE_SRGB,
- 		.datatype	= MIPI_CSI2_DT_YUV422_8B,
- 		.output_fmt	= 0x03,
- 	},
- 	{
--		.code		= MEDIA_BUS_FMT_RGB565_1X16,
-+		.code		= MEDIA_BUS_FMT_BGR565_1X16,
- 		.colorspace	= V4L2_COLORSPACE_SRGB,
- 		.datatype	= MIPI_CSI2_DT_RGB565,
- 		.output_fmt	= 0x06,
- 		.switch_bit	= true,
- 	},
-@@ -613,10 +613,25 @@ static const struct gc2145_format supported_formats[] = {
- 		.colorspace     = V4L2_COLORSPACE_RAW,
- 		.datatype       = MIPI_CSI2_DT_RAW8,
- 		.output_fmt     = 0x17,
- 		.row_col_switch = GC2145_SYNC_MODE_ROW_SWITCH,
- 	},
-+	{
-+	/*
-+	 * The driver was initially introduced with RGB565 support, but
-+	 * CSI really means BGR.
-+	 *
-+	 * Since we might have applications that would have hard-coded
-+	 * the RGB565, let's support both, with RGB being last to make
-+	 * sure it's only a last resort.
-+	 */
-+		.code		= MEDIA_BUS_FMT_RGB565_1X16,
-+		.colorspace	= V4L2_COLORSPACE_SRGB,
-+		.datatype	= MIPI_CSI2_DT_RGB565,
-+		.output_fmt	= 0x06,
-+		.switch_bit	= true,
-+	},
- };
- 
- struct gc2145_ctrls {
- 	struct v4l2_ctrl_handler handler;
- 	struct v4l2_ctrl *pixel_rate;
-@@ -658,12 +673,17 @@ static inline struct v4l2_subdev *gc2145_ctrl_to_sd(struct v4l2_ctrl *ctrl)
- }
- 
- static const struct gc2145_format *
- gc2145_get_format_code(struct gc2145 *gc2145, u32 code)
- {
-+	struct i2c_client *client = v4l2_get_subdevdata(&gc2145->sd);
- 	unsigned int i;
- 
-+	if (code == MEDIA_BUS_FMT_RGB565_1X16)
-+		dev_warn_once(&client->dev,
-+			      "RGB format isn't actually supported by the hardware. The application should be fixed to use BGR.");
-+
- 	for (i = 0; i < ARRAY_SIZE(supported_formats); i++) {
- 		if (supported_formats[i].code == code)
- 			break;
- 	}
- 
-@@ -696,11 +716,11 @@ static int gc2145_init_state(struct v4l2_subdev *sd,
- 	struct v4l2_rect *crop;
- 
- 	/* Initialize pad format */
- 	format = v4l2_subdev_state_get_format(state, 0);
- 	gc2145_update_pad_format(gc2145, &supported_modes[0], format,
--				 MEDIA_BUS_FMT_RGB565_1X16,
-+				 MEDIA_BUS_FMT_BGR565_1X16,
- 				 V4L2_COLORSPACE_SRGB);
- 
- 	/* Initialize crop rectangle. */
- 	crop = v4l2_subdev_state_get_crop(state, 0);
- 	*crop = supported_modes[0].crop;
+> In fact, using OF to create context devices is _less_
+> robust, because now the driver needs to sync, checking that there is a
+> subdevice, that it has probed, etc. Using manually created devices seems
+> better from my POV.
 
--- 
-2.51.0
+Huh? A simple call to of_platform_populate() is somehow less robust than 
+open-coding much of the same logic that of_platform_populate() does plus 
+a bunch of hackery to try to fake up an of_node to make the new device 
+appear to own the appropriate properties?
 
+Having entire sub-*drivers* for child devices or not is an orthogonal 
+issue regardless of whichever way they are created.
+>> which will have to be hooked up to the IOMMU layer. You cannot make IOMMU
+>> configuration "internal" to the actual client driver which is only allowed
+>> to bind *after* said IOMMU configuration has already been made.
+> 
+> I'm not sure I follow this, I'm sorry.
+I mean IOMMU configuration is designed to happen at device_add() time, 
+and client drivers must not assume otherwise (the mechanisms for 
+handling IOMMU drivers registering "late" from modules are internal 
+details that can and will change). If you're under the impression that a 
+straightforward platform driver for the video codec itself would be able 
+to invoke IOMMU configuration for the video codec platform device 
+(without unacceptable levels of hackery) then you are mistaken, sorry.
+
+Again, to be able to assign StreamIDs to different contexts, those 
+StreamIDs must uniquely belong to different struct devices. Thus in 
+terms of how you get to those struct devices from a DT representation, 
+either they come from distinct DT nodes with standard "iommus" 
+properties that the generic of_platform code can create and configure 
+accordingly, or you're doing a non-trivial amount of work to implement 
+your own bus layer like host1x_context_bus to manage your own type of 
+sub-device. There is no valid middle ground of trying to stuff 
+driver-specific knowledge of arbitrarily made-up function IDs into the 
+generic platform bus code.
+
+Thanks,
+Robin.
 
