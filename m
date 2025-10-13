@@ -1,46 +1,46 @@
-Return-Path: <linux-media+bounces-44323-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44322-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FDCCBD4A0E
-	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 17:58:08 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id B3C40BD48B9
+	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 17:51:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8CADA5483AD
-	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 15:42:30 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BCB51547FEA
+	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 15:42:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DE82B314B79;
-	Mon, 13 Oct 2025 15:26:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8998E314A80;
+	Mon, 13 Oct 2025 15:26:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VBFGKDqN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XGXUL/n8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4F6314B62;
-	Mon, 13 Oct 2025 15:26:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B93C430DED8;
+	Mon, 13 Oct 2025 15:26:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760369219; cv=none; b=HpJqpDdfxcGYgbSKnPr2JWCBxMySXXkZDFkxWah4xkxgRZ6TQ5WMxeBltnpfZKd6FrPXofpslK4hG6pmBUGY5A9fZzJVe5+V7PkIE4WNPPGG4HBsZiMW5WehPoKuhAjE/1+3i3jmrgiTgcUeG3t2OmD0/xN7VrHg0uqS+zk6oxw=
+	t=1760369215; cv=none; b=pNTKAajNQr+KjsJpy37m4u8sguDMwIaXtpoRgpB4nmaEg4LD72PBNGlD8HlycyIEtp9438INgKx10OjZYlOCFB4P563n0pbgPyTMW7kxaDZKdWMN8jHh2sivx8CiLUW+MwXd+x2+kAhDby+63Xz8APHMg6EYaertE2Kk4nlIUUc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760369219; c=relaxed/simple;
-	bh=gP55VKbohdKUFjUIbdAFjXKOGHoX+x5EdhnEOLcQ7QQ=;
+	s=arc-20240116; t=1760369215; c=relaxed/simple;
+	bh=sWj2rZyT42J/OYfkx+qu79O+85llJ4XsbCx+y5qZzZw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=aUpxKs+Jkm6TPScYINVclHNB7CNWC3PkNf8BVwCBZrV3V5gVhPLyK38rl954gOV1rGcS+RZN8HMu4XK9kz6J1mhL/10MaUEeEBH9BG6juTCrdm6m8V/1gPO7r0onNXmSShP6/MlRwUnL8t3i4WGsCeNohU3nYyd4RE4ykZtaogI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VBFGKDqN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D7D4C116B1;
-	Mon, 13 Oct 2025 15:26:58 +0000 (UTC)
+	 MIME-Version; b=Ng3RWqujI43NYrN0xEfWP8Hfm6taZ/qtaztp65fSZLGAI5gY3Oac0weF8gtBb9jLo2q2Hv/TdZjQJ9922B7OAvAKOqBCgchAQA+y0Sp0jRR8wKU6/YDw/LT+AFlhKE9pQMh8sMYu+TOsMgBa6wMeranC2olmKBzRUSqz63mzOjw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XGXUL/n8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D26A2C4CEE7;
+	Mon, 13 Oct 2025 15:26:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760369219;
-	bh=gP55VKbohdKUFjUIbdAFjXKOGHoX+x5EdhnEOLcQ7QQ=;
+	s=k20201202; t=1760369215;
+	bh=sWj2rZyT42J/OYfkx+qu79O+85llJ4XsbCx+y5qZzZw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=VBFGKDqNBy0xJePjSPwIh5MtWNEQFwHsevMHmHcBV5qcPGuvqZid9em7RPLMiGq4F
-	 qMKY9SyKL0NciEAq/rYuF6EbgGRndYQPjYeO1iksCcDIkldZu3fY3/LHnrcZfqiUoI
-	 NdYO1nup+k9vZEqA6weRmQgJwydWGadQODFVV3DfW67xHpUiNJBRwdhnymVPvrcTSR
-	 tH5XSM9HsbPSrJ6uJQ3dBSx6Ibw2Ntpo6Zp+cD3Tq6UbfdvZYV2gC2qOeqaw+Y0Z1A
-	 aQxgK4+gGQdcDvgKLXN5LdMAbgH60H5UulKgzaY0+9s2yaAome6GXMye0HSqbEAOEj
-	 ulYUgjpNsmsMw==
+	b=XGXUL/n8MebGFtbArYlkLWAwshlP7BxUyDbGFrxA7tRPbb+hqW7iPQf3vxeSnj6r2
+	 qyMXiIj9C9BDcZ2F0nCo6bRuMbB008fDQprxf9k+4qs/28tmANmSNOnpCu/cxJGrb+
+	 COka5HjkPCsWuwfgYVTAypLDEUbTY3kHhsnZpd3gQRea5XwLPJaHRqkEh3G7FaaNbI
+	 ckYAcFzI41VXtx3lufS5D1zKrJ1bnuqUWNCR9gTdAgyY2tIgLBP5DHqOmKUy/rRpZu
+	 dVHYyq/1RY2yPEja3+Lqr0G5FINVgnG7peq1zjmqJ9aem6yi9JJ+JJggSh0tyZTh4g
+	 E6DP1eCMSd9Wg==
 From: Leon Romanovsky <leon@kernel.org>
 To: Alex Williamson <alex.williamson@redhat.com>
 Cc: Leon Romanovsky <leonro@nvidia.com>,
@@ -65,9 +65,9 @@ Cc: Leon Romanovsky <leonro@nvidia.com>,
 	Sumit Semwal <sumit.semwal@linaro.org>,
 	Vivek Kasireddy <vivek.kasireddy@intel.com>,
 	Will Deacon <will@kernel.org>
-Subject: [PATCH v5 5/9] types: move phys_vec definition to common header
-Date: Mon, 13 Oct 2025 18:26:07 +0300
-Message-ID: <b520e4a2b7b6e0c873d4787aca400ca03821f8aa.1760368250.git.leon@kernel.org>
+Subject: [PATCH v5 8/9] vfio/pci: Enable peer-to-peer DMA transactions by default
+Date: Mon, 13 Oct 2025 18:26:10 +0300
+Message-ID: <a04c44aa4625a6edfadaf9c9e2c2afb460ad1857.1760368250.git.leon@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <cover.1760368250.git.leon@kernel.org>
 References: <cover.1760368250.git.leon@kernel.org>
@@ -81,56 +81,44 @@ Content-Transfer-Encoding: 8bit
 
 From: Leon Romanovsky <leonro@nvidia.com>
 
-Move the struct phys_vec definition from block/blk-mq-dma.c to
-include/linux/types.h to make it available for use across the kernel.
-
-The phys_vec structure represents a physical address range with a
-length, which is used by the new physical address-based DMA mapping
-API. This structure is already used by the block layer and will be
-needed by upcoming VFIO patches for dma-buf operations.
-
-Moving this definition to types.h provides a centralized location
-for this common data structure and eliminates code duplication
-across subsystems that need to work with physical address ranges.
+Make sure that all VFIO PCI devices have peer-to-peer capabilities
+enables, so we would be able to export their MMIO memory through DMABUF,
 
 Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
 ---
- block/blk-mq-dma.c    | 5 -----
- include/linux/types.h | 5 +++++
- 2 files changed, 5 insertions(+), 5 deletions(-)
+ drivers/vfio/pci/vfio_pci_core.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/block/blk-mq-dma.c b/block/blk-mq-dma.c
-index badef1d925b2..38f5c34ca223 100644
---- a/block/blk-mq-dma.c
-+++ b/block/blk-mq-dma.c
-@@ -6,11 +6,6 @@
- #include <linux/blk-mq-dma.h>
- #include "blk.h"
- 
--struct phys_vec {
--	phys_addr_t	paddr;
--	u32		len;
--};
--
- static bool __blk_map_iter_next(struct blk_map_iter *iter)
- {
- 	if (iter->iter.bi_size)
-diff --git a/include/linux/types.h b/include/linux/types.h
-index 6dfdb8e8e4c3..2bc56681b2e6 100644
---- a/include/linux/types.h
-+++ b/include/linux/types.h
-@@ -170,6 +170,11 @@ typedef u64 phys_addr_t;
- typedef u32 phys_addr_t;
+diff --git a/drivers/vfio/pci/vfio_pci_core.c b/drivers/vfio/pci/vfio_pci_core.c
+index ca9a95716a85..fe247d0e2831 100644
+--- a/drivers/vfio/pci/vfio_pci_core.c
++++ b/drivers/vfio/pci/vfio_pci_core.c
+@@ -28,6 +28,7 @@
+ #include <linux/nospec.h>
+ #include <linux/sched/mm.h>
+ #include <linux/iommufd.h>
++#include <linux/pci-p2pdma.h>
+ #if IS_ENABLED(CONFIG_EEH)
+ #include <asm/eeh.h>
  #endif
+@@ -2081,6 +2082,7 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
+ {
+ 	struct vfio_pci_core_device *vdev =
+ 		container_of(core_vdev, struct vfio_pci_core_device, vdev);
++	int ret;
  
-+struct phys_vec {
-+	phys_addr_t	paddr;
-+	u32		len;
-+};
-+
- typedef phys_addr_t resource_size_t;
+ 	vdev->pdev = to_pci_dev(core_vdev->dev);
+ 	vdev->irq_type = VFIO_PCI_NUM_IRQS;
+@@ -2090,6 +2092,9 @@ int vfio_pci_core_init_dev(struct vfio_device *core_vdev)
+ 	INIT_LIST_HEAD(&vdev->dummy_resources_list);
+ 	INIT_LIST_HEAD(&vdev->ioeventfds_list);
+ 	INIT_LIST_HEAD(&vdev->sriov_pfs_item);
++	ret = pcim_p2pdma_init(vdev->pdev);
++	if (ret != -EOPNOTSUPP)
++		return ret;
+ 	init_rwsem(&vdev->memory_lock);
+ 	xa_init(&vdev->ctx);
  
- /*
 -- 
 2.51.0
 
