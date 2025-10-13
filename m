@@ -1,219 +1,230 @@
-Return-Path: <linux-media+bounces-44225-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44226-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60623BD11DD
-	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 03:52:29 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3E59BD12B8
+	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 04:09:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id EE57C3BD52B
-	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 01:52:09 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 6A539347630
+	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 02:09:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7232326E719;
-	Mon, 13 Oct 2025 01:52:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C727222157B;
+	Mon, 13 Oct 2025 02:09:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="lW2n8z+P"
 X-Original-To: linux-media@vger.kernel.org
-Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1DF9CC8F0;
-	Mon, 13 Oct 2025 01:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 741111EB9FA
+	for <linux-media@vger.kernel.org>; Mon, 13 Oct 2025 02:09:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760320322; cv=none; b=mwGsGblIRpy9GJjhw8A7h15NCR9BG6psGhRcmt4TTDwyrJSzdPVZK6Ic67NJYOK2i5qqH22rggeFTI0YDgMMAzeMHaiuTJGqo8bRIkd2NCbEd0bsNmw9CSnzB+/Uwhyd2b58PPzvJQ3VLadu9EMHBBFvj9xbqIVmNfGlRTWK1Lc=
+	t=1760321345; cv=none; b=slABS4GGvK99mMfmjuiBZPTrYnrgFNy45LaEWpVuIZ/drLPb+YlsqxBreWR5AHt+Qde7t0d6nrE1vVWIL4fqwfZJNLMghAsAGb2th924StdBNMJV8YDNPsFKCAf4vXBHBgTKrMVskk7l3hkxlgw4TgvXUT8VWnOTu+0I8cd1qR0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760320322; c=relaxed/simple;
-	bh=JLOWSnpx0Jx+4ousG6zxmvmc2gs76d7SbTqSNRPCIXk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cGucXtd10GgY9HiF+9f/By0XIGj+QiCGctEpW74rzBuYtlyGRZc86yEMsWPmk49g4JrJ+CQ8rW/Ew/ju8zPkjjWwrHeVc+wjLX1ZhlXcOz3Ew2B2/fCte7hPzOuDePts1wI/wp8Bt83IsITd6jMtJEkaaO9Cs3jOc7yr5cErrQM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
-X-AuditID: a67dfc5b-c45ff70000001609-f8-68ec5b3b579e
-Date: Mon, 13 Oct 2025 10:51:49 +0900
-From: Byungchul Park <byungchul@sk.com>
-To: Mark Brown <broonie@kernel.org>
-Cc: linux-kernel@vger.kernel.org, kernel_team@skhynix.com,
-	torvalds@linux-foundation.org, damien.lemoal@opensource.wdc.com,
-	linux-ide@vger.kernel.org, adilger.kernel@dilger.ca,
-	linux-ext4@vger.kernel.org, mingo@redhat.com, peterz@infradead.org,
-	will@kernel.org, tglx@linutronix.de, rostedt@goodmis.org,
-	joel@joelfernandes.org, sashal@kernel.org, daniel.vetter@ffwll.ch,
-	duyuyang@gmail.com, johannes.berg@intel.com, tj@kernel.org,
-	tytso@mit.edu, willy@infradead.org, david@fromorbit.com,
-	amir73il@gmail.com, gregkh@linuxfoundation.org, kernel-team@lge.com,
-	linux-mm@kvack.org, akpm@linux-foundation.org, mhocko@kernel.org,
-	minchan@kernel.org, hannes@cmpxchg.org, vdavydov.dev@gmail.com,
-	sj@kernel.org, jglisse@redhat.com, dennis@kernel.org, cl@linux.com,
-	penberg@kernel.org, rientjes@google.com, vbabka@suse.cz,
-	ngupta@vflare.org, linux-block@vger.kernel.org,
-	josef@toxicpanda.com, linux-fsdevel@vger.kernel.org, jack@suse.cz,
-	jlayton@kernel.org, dan.j.williams@intel.com, hch@infradead.org,
-	djwong@kernel.org, dri-devel@lists.freedesktop.org,
-	rodrigosiqueiramelo@gmail.com, melissa.srw@gmail.com,
-	hamohammed.sa@gmail.com, harry.yoo@oracle.com,
-	chris.p.wilson@intel.com, gwan-gyeong.mun@intel.com,
-	max.byungchul.park@gmail.com, boqun.feng@gmail.com,
-	longman@redhat.com, yunseong.kim@ericsson.com, ysk@kzalloc.com,
-	yeoreum.yun@arm.com, netdev@vger.kernel.org,
-	matthew.brost@intel.com, her0gyugyu@gmail.com, corbet@lwn.net,
-	catalin.marinas@arm.com, bp@alien8.de, dave.hansen@linux.intel.com,
-	x86@kernel.org, hpa@zytor.com, luto@kernel.org,
-	sumit.semwal@linaro.org, gustavo@padovan.org,
-	christian.koenig@amd.com, andi.shyti@kernel.org, arnd@arndb.de,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
-	rppt@kernel.org, surenb@google.com, mcgrof@kernel.org,
-	petr.pavlu@suse.com, da.gomez@kernel.org, samitolvanen@google.com,
-	paulmck@kernel.org, frederic@kernel.org, neeraj.upadhyay@kernel.org,
-	joelagnelf@nvidia.com, josh@joshtriplett.org, urezki@gmail.com,
-	mathieu.desnoyers@efficios.com, jiangshanlai@gmail.com,
-	qiang.zhang@linux.dev, juri.lelli@redhat.com,
-	vincent.guittot@linaro.org, dietmar.eggemann@arm.com,
-	bsegall@google.com, mgorman@suse.de, vschneid@redhat.com,
-	chuck.lever@oracle.com, neil@brown.name, okorniev@redhat.com,
-	Dai.Ngo@oracle.com, tom@talpey.com, trondmy@kernel.org,
-	anna@kernel.org, kees@kernel.org, bigeasy@linutronix.de,
-	clrkwllms@kernel.org, mark.rutland@arm.com, ada.coupriediaz@arm.com,
-	kristina.martsenko@arm.com, wangkefeng.wang@huawei.com,
-	kevin.brodsky@arm.com, dwmw@amazon.co.uk, shakeel.butt@linux.dev,
-	ast@kernel.org, ziy@nvidia.com, yuzhao@google.com,
-	baolin.wang@linux.alibaba.com, usamaarif642@gmail.com,
-	joel.granados@kernel.org, richard.weiyang@gmail.com,
-	geert+renesas@glider.be, tim.c.chen@linux.intel.com,
-	linux@treblig.org, alexander.shishkin@linux.intel.com,
-	lillian@star-ark.net, chenhuacai@kernel.org, francesco@valla.it,
-	guoweikang.kernel@gmail.com, link@vivo.com, jpoimboe@kernel.org,
-	masahiroy@kernel.org, brauner@kernel.org,
-	thomas.weissschuh@linutronix.de, oleg@redhat.com, mjguzik@gmail.com,
-	andrii@kernel.org, wangfushuai@baidu.com, linux-doc@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-	linaro-mm-sig@lists.linaro.org, linux-i2c@vger.kernel.org,
-	linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
-	rcu@vger.kernel.org, linux-nfs@vger.kernel.org,
-	linux-rt-devel@lists.linux.dev
-Subject: Re: [PATCH v17 09/47] arm64, dept: add support
- CONFIG_ARCH_HAS_DEPT_SUPPORT to arm64
-Message-ID: <20251013015149.GC52546@system.software.com>
-References: <20251002081247.51255-1-byungchul@sk.com>
- <20251002081247.51255-10-byungchul@sk.com>
- <a7f41101-d80a-4cee-ada5-9c591321b1d7@sirena.org.uk>
- <20251003014641.GF75385@system.software.com>
- <b69ab7d0-ba5e-4d22-88ef-53e0ebf07869@sirena.org.uk>
+	s=arc-20240116; t=1760321345; c=relaxed/simple;
+	bh=AgfRFPNIsH1WIr3xx/ogQOdd+Y9OCJ1gSXza5s5JWdc=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=cc9MrKez1PoO3VkfHD3eXJX+ROB8+DeuYoHI8Gz9MbKumXxng0BmS/wQhoJavxpahS4mmZZ3W7BColzdULDLwN7D3eA9PgfR+tXXLsZTKBMrS2rmu1gZvTeTwDDqbqPSUvkIJalfdVqAeQ19PVIg2+9GFUbXifA35MTOxKo83Mk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=lW2n8z+P; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59CNplnU024108
+	for <linux-media@vger.kernel.org>; Mon, 13 Oct 2025 02:09:02 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=rVNME/kw5zI+jueIa3reIW
+	uhrTrDZRF75uY8XRp2EKg=; b=lW2n8z+P4eLkQzdyjjdc1WLiFS1iuNt/XlZNSz
+	Vrx/H8k+xFl7nCwrKGRV+EAbxPIu6NBqOSvj6/oQVldOdo0mGnXOlCbJ2qnvuH8D
+	YqZwskqFUM875fkuRxVyZNwqQcgbh3x22c3say2RQGTFcb2CHyZWXAOTGUkB5qKp
+	IdZzlkkyLzcA39WbP+IziiTiCRFbNTlcxcvJOPjmX1p8UicbVItBsrVrZuVGLtlo
+	SMNZO3Y0kJWDhNOuD5YOC15dhTF5KwJ4FAy91ESfcbyAHxyFYqwmVpQ44J5nqZ6W
+	pMx0NOWrprgpl5pLrMgY9HSNRAwge3/AHmlNIEYOyadmd52w==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qferty34-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 13 Oct 2025 02:09:02 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-8645d39787bso2839298885a.2
+        for <linux-media@vger.kernel.org>; Sun, 12 Oct 2025 19:09:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760321341; x=1760926141;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=rVNME/kw5zI+jueIa3reIWuhrTrDZRF75uY8XRp2EKg=;
+        b=YFuTW2MSOOXolPjR4fl6LED5Ip1rjJSrdFxQQO/y5ySFnaRbHlRqr1lkGDzipA/DUQ
+         6ut+V5TMehVGmAq/xzN6NNd3i1ZQScRtQKhh03IiCcyjqQgvHdtfynHZ8AM38EDAjOH7
+         bxUKPVFcA0bjExHAtIF1m2yvZg4YSdfbjDOX1AkVUvn12vXuUO99JC/Ojh0o8PgG5NFi
+         OFW144EqZnT6TSxIkNYR3ijbxrQCxR2vHbrjzQXs3N5BDvdfst+Tan1bOHoefZN1MnDO
+         78PLJXPx4u63x3qGomVsvtJBYI43ZHBuJc7RwC+MVfb9e2hLWtyc6lCwB1744XEyHOJT
+         wN1A==
+X-Gm-Message-State: AOJu0YzcZXps7TMRhWAA4QGImrIRsd0wImlVe74LYOLjtKBU1/DGW8bo
+	ayDG7QiAJpyI+wKI583FT9+n/qVgy0DXISqeP5utUvWBpAje3uqjSXJdswPkM0W0UOU9ie85DOu
+	ovtNmTxUyR2lNCKIlWx0+buKLvm42aLrUvVxFhOFRotLfDnnPrWuBe2PC7YysQIAvPg==
+X-Gm-Gg: ASbGncsFyPBjXzMdLsTeKw7Whogf99jUErWN8qV+leX1BP29vbTOUUWDuW92FrataC/
+	1MOgpMrb0U5ScjgQfpWn3Jw2OkM6MipMNtMXBKt7pLpCN+BdMhytjj5GGPZM/04oxFVzgh0LNDT
+	UxpfWMt0ZKYyfm1/Rj5In9mY51KXf6KlPYVCuFkU7usJ3cQHkoouW57qwWrDfYaA3w7YT5LbqjJ
+	38LmmxnMLhvRVKILFs4L0sObSOzP+rSAF0DArc0BVrVSS8KQgGuFYEYWSRlI+49TAPLfUtLcnBn
+	8qABU0m2OwjwuSZmSw6HP5FYxkG5fhuIl2VzYbQtA/tigPX3pDR1ZSRBsE/UaDvtUR81pkblURN
+	bDXutLrdm2C4fSEJ1oV69L2z6bP4MyQgTcvcVwCbtjjG1NfyjaH+F
+X-Received: by 2002:a05:620a:7087:b0:85e:8106:f7bc with SMTP id af79cd13be357-883544f549emr2740838885a.52.1760321341239;
+        Sun, 12 Oct 2025 19:09:01 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHlows1iclj8Y9TcAMERw/mrJ+xQbQKgM6LEH+BjuoTzLW15YGd+8v2B60LQtYzKOhiwXLNJQ==
+X-Received: by 2002:a05:620a:7087:b0:85e:8106:f7bc with SMTP id af79cd13be357-883544f549emr2740836085a.52.1760321340677;
+        Sun, 12 Oct 2025 19:09:00 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-590881e4f99sm3563419e87.7.2025.10.12.19.08.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 12 Oct 2025 19:08:58 -0700 (PDT)
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Subject: [PATCH v3 0/8] media: iris: port support for Qualcomm SC7280
+Date: Mon, 13 Oct 2025 05:08:54 +0300
+Message-Id: <20251013-iris-sc7280-v3-0-f3bceb77a250@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <b69ab7d0-ba5e-4d22-88ef-53e0ebf07869@sirena.org.uk>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02SW0hTcRzH+Z/bjqvBaVn9y54mYhdWLXv4QRfqITpRSSA9lKCNPLjltXkp
-	g0Aty8RqLVY5W00jWzqxpmVhg9LsYmiWJidxpl2cS82Yrou3tZNEvX34fS+/38OPJZVt9BJW
-	n5opGFK1ySpGTslH5par18cO69Z0N6ihK+8RBVdqHAy89xciKHgQoGDa9FQGF1+bSHDU5REw
-	1ORDcMmbR4G3eRsE3B4Cpi8mwbXyWgYumdsR1D3tReCy5zPQ6R9lwJbvosFaakJQ5dwVDDJQ
-	kRsBU/0aCNjSwH3OTEF9bp8MnO+aEYx39hPgKB4gwdW9Ekqu9jBQOD2OoPj2XRp6HQEa+vtE
-	GkTjZwSmAV8w5ehiwGOxEtDkHyagxT0mgwtvbAy0TLQQ4LPO0GCeKmSgeroLwVfjOA2lzb2y
-	zWt4x1UH4icnTIhvGh4l+Qn/W4ZvKcf8+VY1/8DilvE2ZxZ//aGX4Mt8fprvHtrIOytPM7zT
-	Z5LxPV0PGf5rW5uMf355ktodtk++IUFI1mcLhtWb9st1w8+2ph/HR6o+fkO56KyyCLEs5tbh
-	z760IhTyB1s9AzKJKS4CB4oGaYkZLhKL4i9S4lAuHL/94aKKkJwlubIwfHOk5o9pPhePp251
-	EhIrOMD5r9y0ZFJyAYQ722vJWWEeflHyiZKY5FZgccZLSEeQXLBohpXGIdwW/OmEmZF4QXDZ
-	o3vPiNnjekNwnztnlhfjx3aRMiLO8l+r5b9Wy79WGyIrkVKfmp2i1SevW6XLSdUfWXUgLcWJ
-	gl9WcWwq9j7ytcc0Io5FqrkKXcOQTklrszNyUhoRZklVqOL8yUGdUpGgzTkqGNLiDVnJQkYj
-	CmMp1SLF2u+HE5RcojZTSBKEdMHwVyXYkCW5KLJKE6Pes9sYGrDENbgOL/si2g5mjix6qb+1
-	feGd4ihrdF+SF3zdnl0VBbUvrafEjl91PTuqj2kil3vslZODZa6zJ6OWNmVfUEfds9hvzPsZ
-	0ywmjnVE168+FPcj651mg/GJe+flMx/Me1vHNGdiXbcr7D0RxfHLDIOio3/LnHBGRWXotJoV
-	pCFD+xupLkPHYQMAAA==
-X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0yTZxTHfd47zTrfVdA3EkOsIUYTnRovJ14WjTE+LupM/GA2P2inb2xD
-	KdgqiIkGKN0QF4UmLfMtTIRQkTJhhZl1rIbgRAWRuxChIlopSCteQIJcurcuRr+c/M7z///P
-	cz4cjlTN0As5neGEaDRo9GpGQSn2bjKv2HQwqF1VWq6Ahxl1FIyPZVNQUFnBQLb7Eg2t110I
-	+sezEUxMOUiweMIUzFgbWBib7GUh7G1AYG+zklBRk0HA26pZBkZuvUFgG/AzkD+cQcGo8xcE
-	0qCDheHbOyHUX0tD2BcgoPtdEIHTP0uAv+5nBDP2BLhcXM3AVHMLCfm2VgRXBnwkDFXJYk3D
-	YwTeskwGnuf+SUKH/0voHB9l4J7tPAOhtgICXlYxUJTppaHQYUVgLqlkwF7opsDz5G8W2kam
-	CeizWwlwufdAv3OQgqbcYkLeT3b9sQAc+WZCLkME2H6vJWDSWc7C/ZI+Cpzp8eBo7qDhaZnE
-	wvTAaggXJUGDK8CC76KNguuhFnqrDeEJywUKl1ffILClfYbBFb9VIDz13orwWKmZxJZcub0V
-	HCVxVnUqLm0KMvj9eBeDve+KKNxYLOC85hXYI/lYnHXzEbtv4w+KzUdFvS5FNH79zWGFNnhn
-	R7JZOOV69gqlowuqHBTFCfxaoTkwyEaY4uOFcM4QHWGGXyr09EySEY7mlwhdE14qByk4kr8S
-	K1wNVX4wzeMPCdPXOokIK3kQMlt8dMSk4sNI6GytJv8XvhLuXfJTESb55ULP7LAc4GSWB81y
-	kecofpvgz7IxEY6RP6u7cYfIRUrps7T0WVr6lC5CZDmK1hlSEjU6/bqVpgRtmkF3auWRpEQ3
-	ko/SeWY67y801rGzHvEcUn+h1NaOaFW0JsWUlliPBI5URyvzfhrSqpRHNWmnRWPSIeNJvWiq
-	R7EcpV6g/PaAeFjFH9OcEBNEMVk0flQJLmphOtqyL9aUsrXpReD1j3MPPugrJq5Z58Sp46yY
-	llKzFz/E27/b37X+eKOU/CB0Zvuyf580rrGUakpiPJ6ClwPtF1N72zNvikvtJ2Pchrqzc7o9
-	Umq3MN+2N3D82OVld2tuq3b/s+qIcX9h/AZXxq/DfecHF0m9qu93nauN2xzQPy9r0+5SUyat
-	ZvVy0mjS/Afz91sZkAMAAA==
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIADZf7GgC/23MywrCMBCF4VcpWZuSi2mjK99DXKS52AFrNKNBK
+ X1304Jgwc3AP3C+kaBP4JHsq5EknwEhXkvITUVsb65nT8GVJoIJxRlrKCRAirYVmtHgunbXBiG
+ 106QsbskHeC3a8VS6B3zE9F7wzOfv19ErJ3PKqPOBKdYZ5Xk4RMT6/jQXG4ehLofMXBY/BBdrQ
+ syEkoabLVONlX+IaZo+I1FfgPAAAAA=
+X-Change-ID: 20251006-iris-sc7280-fdb797f238d8
+To: Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4126;
+ i=dmitry.baryshkov@oss.qualcomm.com; h=from:subject:message-id;
+ bh=AgfRFPNIsH1WIr3xx/ogQOdd+Y9OCJ1gSXza5s5JWdc=;
+ b=owEBbQGS/pANAwAKAYs8ij4CKSjVAcsmYgBo7F84dnLTsRxim+bubpnpqjubTYehO6QPH+VTS
+ 7TOTSOJxD+JATMEAAEKAB0WIQRMcISVXLJjVvC4lX+LPIo+Aiko1QUCaOxfOAAKCRCLPIo+Aiko
+ 1Xz6B/442vaTiqIBvJ9Y29gxrG0skCJKEuiolYq1R/l+jMVbbNmCZQlzFOciC7+OWU/Nv5BDhyd
+ 7vPAs6x9nSx/e/ouZc/b17j2Ga7xVYRGY387pgWoLEJu4UibPOakDziJGRJlNG4JyxJlSNB6dqO
+ GNB4tBE+K6I0cmC9dkSG34Eb3rjkr233JSYBG2dKKx5cZ8exbV8E2Cro7H+eeuOMMeSwgILgJDd
+ 6bSpzXm2uzrxA+awSg55b84SAJYixij+xkV3dkulfRunhabVHJDwK7Kh5YCRvwlcsI7keaDaO9M
+ 0i7UAlTZ4rZKuFxKfROLhCyRCDeApU/rbRagyOXfyV+qr1Fh
+X-Developer-Key: i=dmitry.baryshkov@oss.qualcomm.com; a=openpgp;
+ fpr=8F88381DD5C873E4AE487DA5199BF1243632046A
+X-Authority-Analysis: v=2.4 cv=R64O2NRX c=1 sm=1 tr=0 ts=68ec5f3e cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=x6icFKpwvdMA:10 a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=gkQpJwJ0h16Q5Df4fnkA:9
+ a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: GtcZm5gTMUFLdHR3DgsnuiO8oxUEBbrs
+X-Proofpoint-ORIG-GUID: GtcZm5gTMUFLdHR3DgsnuiO8oxUEBbrs
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX4ZcJuYAajgc1
+ VrBWT7EcJmDoVr5RcLilCyA6/7lLDjffA1ndA2jSc1Pk5c1TJXjG8TS5Nfk0FAMIdoSCuRWR4F/
+ d8xJsRNOruVyfJfGXaXo2ZLf+ypJ+ySRkktKoB9UCYJjMGHE8QWYmtkhv1TX6bVN1R85GfGcdjY
+ LAdVahHKDmmCbbvNPvdWjJvndvZewGfsJb6ciKvNXHaM/6qPtdmH3aDEttb/EFuJ/U3I9JNGjaB
+ 3iRBH4hS5xBYOkPC9QZW0l9kep8nG/NHYwpcYAuHrapmegdFol5OvX0FO8StXcIKxfuyqb+WEE6
+ N/L9WSg4bGQUyxuzq4NPInwtHE8ayORJerAnfxwd9hLiLnH4fEUM3swu/xqTX4YF/M/sZDh1H8d
+ 5ds6sJrECe1MGG9QfASv2DTNLt1bxQ==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1117,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-13_01,2025-10-06_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 lowpriorityscore=0
+ priorityscore=1501 malwarescore=0 adultscore=0 impostorscore=0 clxscore=1015
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510110018
 
-On Fri, Oct 03, 2025 at 12:33:03PM +0100, Mark Brown wrote:
-> On Fri, Oct 03, 2025 at 10:46:41AM +0900, Byungchul Park wrote:
-> > On Thu, Oct 02, 2025 at 12:39:31PM +0100, Mark Brown wrote:
-> > > On Thu, Oct 02, 2025 at 05:12:09PM +0900, Byungchul Park wrote:
-> > > > dept needs to notice every entrance from user to kernel mode to treat
-> > > > every kernel context independently when tracking wait-event dependencies.
-> > > > Roughly, system call and user oriented fault are the cases.
-> 
-> > > > Make dept aware of the entrances of arm64 and add support
-> > > > CONFIG_ARCH_HAS_DEPT_SUPPORT to arm64.
-> 
-> > > The description of what needs to be tracked probably needs some
-> > > tightening up here, it's not clear to me for example why exceptions for
-> > > mops or the vector extensions aren't included here, or what the
-> > > distinction is with error faults like BTI or GCS not being tracked?
-> 
-> > Thanks for the feedback but I'm afraid I don't get you.  Can you explain
-> > in more detail with example?
-> 
-> Your commit log says we need to track every entrance from user mode to
-> kernel mode but the code only adds tracking to syscalls and some memory
-> faults.  The exception types listed above (and some others) also result
-> in entries to the kernel from userspace.
+Port Support for the Qualcomm SC7280 aka QCM6490 aka QCS6490 platform
+from the existing venus driver to the newer Iris driver. The firmware on
+this platform uses the older, gen1 HFI, which puts it close to SM8250
+from both the hardware and interface point of view.
 
-You're right.  Each kernel mode context needs to be tracked
-independently.  Just for your information, context ID is used for making
-DEPT only track waits and events within each context, preventing
-tracking those across independent contexts to avoid false positives.
+Test results:
 
-Currently, irq, fault, and system calls are covered.  It should be taken
-into account if any other exceptions can include waits and events anyway.
+$ ./fluster.py r -d GStreamer-H.264-V4L2-Gst1.0 -ts JVT-AVC_V1
+...
+Ran 77/135 tests successfully               in 17.010 secs
 
-> > JFYI, pairs of wait and its event need to be tracked to see if each
-> > event can be prevented from being reachable by other waits like:
-> 
-> >    context X				context Y
-> > 
-> >    lock L
-> >    ...
-> >    initiate event A context		start toward event A
-> >    ...					...
-> >    wait A // wait for event A and	lock L // wait for unlock L and
-> >           // prevent unlock L		       // prevent event A
-> >    ...					...
-> >    unlock L				unlock L
-> > 					...
-> > 					event A
-> 
-> > I meant things like this need to be tracked.
-> 
-> I don't think that's at all clear from the above context, and the
-> handling for some of the above exception types (eg, the vector
-> extensions) includes taking locks.
+$ ./fluster.py r -d GStreamer-H.265-V4L2-Gst1.0 -ts JCT-VC-HEVC_V1 -j 1
 
-A trivial thing to mention, each typical lock pair, lock and unlock, can
-only happen within each independent context, not across different
-contexts.  So the context ID is not necessary for typical locks.
+Only WPP_E_ericsson_MAIN_2 succeeds, this needs to be investigated later
 
-   exception X
+After removing several test vectors and running single-threaded:
+$ ./fluster.py r -d GStreamer-VP9-V4L2-Gst1.0 -ts VP9-TEST-VECTORS -j 1
+Ran 219/292 tests successfully               in 134.749 secs
 
-   lock A;
-   ...
-   unlock A; // already guarateed to unlock A in the context that lock A
-             // has been acqured in.
-   ...
-   finish exception X and return back to user mode;
+Disabled tests:
 
-But yes, as you concern, we should take into account all the exceptions
-if any can include general waits and events in it, to avoid unnecessary
-false positives.
+            "name": "vp90-2-18-resize.ivf",
+            "name": "vp90-2-21-resize_inter_1920x1080_5_1-2.webm",
+            "name": "vp90-2-21-resize_inter_1920x1080_5_3-4.webm",
+            "name": "vp90-2-21-resize_inter_1920x1080_7_1-2.webm",
+            "name": "vp90-2-21-resize_inter_1920x1080_7_3-4.webm",
+            "name": "vp90-2-21-resize_inter_320x180_5_1-2.webm",
+            "name": "vp90-2-21-resize_inter_320x180_5_3-4.webm",
+            "name": "vp90-2-21-resize_inter_320x180_7_1-2.webm",
+            "name": "vp90-2-21-resize_inter_320x180_7_3-4.webm",
+            "name": "vp90-2-21-resize_inter_640x360_5_1-2.webm",
+            "name": "vp90-2-21-resize_inter_640x360_5_3-4.webm",
+            "name": "vp90-2-21-resize_inter_640x360_7_1-2.webm",
+            "name": "vp90-2-21-resize_inter_640x360_7_3-4.webm",
 
-Thank you!
+Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+---
+Changes in v3:
+- Included the header file for the SC7280 platform (LKP)
+- Link to v2: https://lore.kernel.org/r/20251012-iris-sc7280-v2-0-d53a1a4056c3@oss.qualcomm.com
 
-	Byungchul
+Changes in v2:
+- Expanded commit messages to explain some of the changes (Konrad).
+- Moved platform_inst_cap_qcs8300 back to the header (Dikshita) and
+  added guarding ifdefs to the haders.
+- Merged SC7280-specific ops into the common implementations (Konrad).
+- Split SC7280-specific config bits to a separate header (following the
+  Gen2 split).
+- Link to v1: https://lore.kernel.org/r/20251008-iris-sc7280-v1-0-def050ba5e1f@oss.qualcomm.com
+
+---
+Dmitry Baryshkov (8):
+      media: iris: turn platform caps into constants
+      media: iris: turn platform data into constants
+      media: iris: stop copying r/o data
+      media: iris: stop encoding PIPE value into fw_caps
+      media: iris: remove duplicateion between generic gen2 data and qcs8300
+      media: iris: rename sm8250 platform file to gen1
+      media: iris: move common register definitions to the header
+      media: iris: enable support for SC7280 platform
+
+ drivers/media/platform/qcom/iris/Makefile          |   2 +-
+ drivers/media/platform/qcom/iris/iris_core.h       |   4 +-
+ drivers/media/platform/qcom/iris/iris_ctrls.c      | 246 +++++-----
+ drivers/media/platform/qcom/iris/iris_instance.h   |   3 +-
+ .../platform/qcom/iris/iris_platform_common.h      |  26 +-
+ ...iris_platform_sm8250.c => iris_platform_gen1.c} |  62 ++-
+ .../media/platform/qcom/iris/iris_platform_gen2.c  |  25 +-
+ .../platform/qcom/iris/iris_platform_qcs8300.h     | 534 +--------------------
+ .../platform/qcom/iris/iris_platform_sc7280.h      |  27 ++
+ drivers/media/platform/qcom/iris/iris_probe.c      |   4 +
+ drivers/media/platform/qcom/iris/iris_resources.c  |   2 +-
+ drivers/media/platform/qcom/iris/iris_vdec.c       |   5 +-
+ drivers/media/platform/qcom/iris/iris_venc.c       |   5 +-
+ drivers/media/platform/qcom/iris/iris_vpu2.c       |   6 +
+ drivers/media/platform/qcom/iris/iris_vpu3x.c      |  35 --
+ drivers/media/platform/qcom/iris/iris_vpu_common.c |  77 +--
+ .../platform/qcom/iris/iris_vpu_register_defines.h |  56 +++
+ 17 files changed, 345 insertions(+), 774 deletions(-)
+---
+base-commit: 0b2f041c47acb45db82b4e847af6e17eb66cd32d
+change-id: 20251006-iris-sc7280-fdb797f238d8
+
+Best regards,
+-- 
+With best wishes
+Dmitry
+
 
