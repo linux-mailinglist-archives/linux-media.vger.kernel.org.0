@@ -1,50 +1,50 @@
-Return-Path: <linux-media+bounces-44249-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44250-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7A826BD21BC
-	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 10:36:59 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EA95BD2183
+	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 10:36:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 326223A2ABA
-	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 08:35:58 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 76EEC1899804
+	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 08:36:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F26AE2F90D4;
-	Mon, 13 Oct 2025 08:35:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D68B02FB610;
+	Mon, 13 Oct 2025 08:35:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ar36uzXP"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="udRzakzM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B6952F8BF6;
-	Mon, 13 Oct 2025 08:35:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D2A2F9C32;
+	Mon, 13 Oct 2025 08:35:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760344527; cv=none; b=FJbLIf7occQ0vX/qZRaZeQwCoHS3MJX4MkhSad3ypdhX8hx9EPGlRkvHAqjVgKHX0eWhdgBR2qJA/jJOFKPKQC/LvHxClzB74//SY5vt22Mt6Mv1Gajv2V56EH1mSqWoi/0doXId81Yx3ndFsPYwQqgt7FZ4n/q9BXzhpk8612s=
+	t=1760344530; cv=none; b=TbxPjEWwTXCmCD9f940oVw5/uNeGUAtwYAbPyYHqEjslkRwCnAARTtML2mIVW1rEz+WW/JRgFDkSxBQ/ADO9zcrvfaTqYJsYX6lxnxNhTgUa6tSkWtFzWGl3GJBChCq+5RbCjUgfhxjj59ROIbJWPybhQbdAW+9zClL3Cs8Yx/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760344527; c=relaxed/simple;
-	bh=lUw9GHG4vdm6ouZncuqfKqupuE9bzmklFJzA4Z/pqzg=;
+	s=arc-20240116; t=1760344530; c=relaxed/simple;
+	bh=M2vThTE/nI9A0eTijjOxBfcDZbixVCE8PiHlBxnoWQA=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pDUdrYwkEbR43w/uT02skZOOQqIPpyKOaVRedzSZkdD/w/JM5dwo78W/gGuPylGgnsmobf+kOebv7UIpPpEHyIVmvR6u4paVXGtX+zQ7tucOtJahxPSrDRnyVrKmsB9g5XLxiao0nc6q9h8UE++1fySG5ryA69Auqa+Zp5sWglA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ar36uzXP; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76092C116B1;
-	Mon, 13 Oct 2025 08:35:26 +0000 (UTC)
+	 In-Reply-To:To:Cc; b=mtb05i4kEBv9Eg4OI1zScGqkbsVdBZhdlgrQUNGj0BNQqgUNpit1EAhhg06dsh2ZtFzKMtJdJ0YN/bZ4PV0qqvYA+5m19y1XULjhvc3CS6f6ahXpgB/Nsa8AcVrESdj4O1dW4VrF5ZaNanloBa5CFu6sRe0HC+iTG/u7BH7MA0g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=udRzakzM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CCE1C4CEFE;
+	Mon, 13 Oct 2025 08:35:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760344526;
-	bh=lUw9GHG4vdm6ouZncuqfKqupuE9bzmklFJzA4Z/pqzg=;
+	s=k20201202; t=1760344529;
+	bh=M2vThTE/nI9A0eTijjOxBfcDZbixVCE8PiHlBxnoWQA=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=ar36uzXPghn/6XpfCNjCmvOdqTHBYAt0yZtSKxOeTfb8iSPc6AW078/YPCytyh/NK
-	 uqSMbumS5lFRZDZuunYla3fzj49PpXjYHIwGE9CAtoauqqc75fA/JiXsUpPOjODKSQ
-	 bXSNYablIiFUbEY2p3OmDDJagf7NxlJf+z+Sf3ZNC2fqzloEFNlluP8+qv1eDZ9OCN
-	 VndYhufDiZ594L2Tk2lV/tWkgudaAtunB8UDwaIaxf1Xb2oqxQqYY0NKXzXVCnoriT
-	 LgPfMcZKDgKDCmRJcFocHjSllRSL7zm1CXynLnqk7XZHQjJuUq3Juq8oSOEQzLvLwh
-	 2Vcoh3qxPMNrg==
+	b=udRzakzMd65x34EnOiiJO3y0lmwBPB59JEsxf5CiiZGpioeiYJ2Z1WkKEAfdwPcSv
+	 Y25ihnMa3oxJIV79BNsn3ZKjjqXaBYwzBtpJhmQZP4onwtG2wtoLNTH+eQDs2dxnfn
+	 +1Mrwpopx9n9OrTNCi5M6vdZXhKwsn70zWwQCfL6R+AaTUKzmYhQjb4g/tePHoa5wN
+	 /+CSa2Kbnisjnx1m+8ePqyi3EkHGDshcQ81sZ1iHIi7VHY5QcE47KKfoIS/vhzm5xH
+	 e1y/V7epIlUYbY5eE3cQworkNeLzsbU4PmS72hjmcqL3M9fex5e+B4J/z37VpCMiVj
+	 zI5bn+jm7XRhw==
 From: Maxime Ripard <mripard@kernel.org>
-Date: Mon, 13 Oct 2025 10:35:17 +0200
-Subject: [PATCH v8 2/5] dma-buf: heaps: cma: Register list of CMA regions
- at boot
+Date: Mon, 13 Oct 2025 10:35:18 +0200
+Subject: [PATCH v8 3/5] dma: contiguous: Register reusable CMA regions at
+ boot
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,7 +53,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251013-dma-buf-ecc-heap-v8-2-04ce150ea3d9@kernel.org>
+Message-Id: <20251013-dma-buf-ecc-heap-v8-3-04ce150ea3d9@kernel.org>
 References: <20251013-dma-buf-ecc-heap-v8-0-04ce150ea3d9@kernel.org>
 In-Reply-To: <20251013-dma-buf-ecc-heap-v8-0-04ce150ea3d9@kernel.org>
 To: Sumit Semwal <sumit.semwal@linaro.org>, 
@@ -70,105 +70,53 @@ Cc: Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>,
  iommu@lists.linux.dev, Maxime Ripard <mripard@kernel.org>
 X-Mailer: b4 0.14.2
 
-In order to create a CMA heap instance for each CMA region found in the
-system, we need to register each of these instances.
+In order to create a CMA dma-buf heap instance for each CMA heap region
+in the system, we need to collect all of them during boot.
 
-While it would appear trivial, the CMA regions are created super early
-in the kernel boot process, before most of the subsystems are
-initialized. Thus, we can't just create an exported function to create a
-heap from the CMA region being initialized.
+They are created from two main sources: the reserved-memory regions in
+the device tree, and the default CMA region created from the
+configuration or command line parameters, if no default region is
+provided in the device tree.
 
-What we can do however is create a two-step process, where we collect
-all the CMA regions into an array early on, and then when we initialize
-the heaps we iterate over that array and create the heaps from the CMA
-regions we collected.
+Let's collect all the device-tree defined CMA regions flagged as
+reusable.
 
 Reviewed-by: T.J. Mercier <tjmercier@google.com>
 Signed-off-by: Maxime Ripard <mripard@kernel.org>
 ---
- MAINTAINERS                       |  1 +
- drivers/dma-buf/heaps/cma_heap.c  | 14 ++++++++++++++
- include/linux/dma-buf/heaps/cma.h | 16 ++++++++++++++++
- 3 files changed, 31 insertions(+)
+ kernel/dma/contiguous.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 46126ce2f968e4f9260263f1574ee29f5ff0de1c..c4edcc29368eec722432a85ac5c420a08c2680ea 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -7306,10 +7306,11 @@ T:	git https://gitlab.freedesktop.org/drm/misc/kernel.git
- F:	Documentation/driver-api/dma-buf.rst
- F:	Documentation/userspace-api/dma-buf-alloc-exchange.rst
- F:	drivers/dma-buf/
- F:	include/linux/*fence.h
- F:	include/linux/dma-buf.h
-+F:	include/linux/dma-buf/
- F:	include/linux/dma-resv.h
- K:	\bdma_(?:buf|fence|resv)\b
+diff --git a/kernel/dma/contiguous.c b/kernel/dma/contiguous.c
+index d9b9dcba6ff7cf5904ac93b72c061fd59072c41b..d67e95094749d45f43c1809c175e491a3f55b2e1 100644
+--- a/kernel/dma/contiguous.c
++++ b/kernel/dma/contiguous.c
+@@ -40,10 +40,11 @@
+ #include <asm/page.h>
  
- DMA GENERIC OFFLOAD ENGINE SUBSYSTEM
- M:	Vinod Koul <vkoul@kernel.org>
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 0df007111975447d555714d61ead9699287fd65a..2a901af635ed76cdb085915c03258c235e302792 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -12,10 +12,11 @@
- 
- #define pr_fmt(fmt) "cma_heap: " fmt
- 
- #include <linux/cma.h>
- #include <linux/dma-buf.h>
-+#include <linux/dma-buf/heaps/cma.h>
- #include <linux/dma-heap.h>
- #include <linux/dma-map-ops.h>
+ #include <linux/memblock.h>
  #include <linux/err.h>
- #include <linux/highmem.h>
- #include <linux/io.h>
-@@ -25,10 +26,23 @@
- #include <linux/slab.h>
- #include <linux/vmalloc.h>
+ #include <linux/sizes.h>
++#include <linux/dma-buf/heaps/cma.h>
+ #include <linux/dma-map-ops.h>
+ #include <linux/cma.h>
+ #include <linux/nospec.h>
  
- #define DEFAULT_CMA_NAME "default_cma_region"
+ #ifdef CONFIG_CMA_SIZE_MBYTES
+@@ -491,9 +492,13 @@ static int __init rmem_cma_setup(struct reserved_mem *rmem)
+ 	rmem->priv = cma;
  
-+static struct cma *dma_areas[MAX_CMA_AREAS] __initdata;
-+static unsigned int dma_areas_num __initdata;
-+
-+int __init dma_heap_cma_register_heap(struct cma *cma)
-+{
-+	if (dma_areas_num >= ARRAY_SIZE(dma_areas))
-+		return -EINVAL;
-+
-+	dma_areas[dma_areas_num++] = cma;
-+
-+	return 0;
-+}
-+
- struct cma_heap {
- 	struct dma_heap *heap;
- 	struct cma *cma;
- };
+ 	pr_info("Reserved memory: created CMA memory pool at %pa, size %ld MiB\n",
+ 		&rmem->base, (unsigned long)rmem->size / SZ_1M);
  
-diff --git a/include/linux/dma-buf/heaps/cma.h b/include/linux/dma-buf/heaps/cma.h
-new file mode 100644
-index 0000000000000000000000000000000000000000..e751479e21e703e24a5f799b4a7fc8bd0df3c1c4
---- /dev/null
-+++ b/include/linux/dma-buf/heaps/cma.h
-@@ -0,0 +1,16 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+#ifndef DMA_BUF_HEAP_CMA_H_
-+#define DMA_BUF_HEAP_CMA_H_
++	err = dma_heap_cma_register_heap(cma);
++	if (err)
++		pr_warn("Couldn't register CMA heap.");
 +
-+struct cma;
-+
-+#ifdef CONFIG_DMABUF_HEAPS_CMA
-+int dma_heap_cma_register_heap(struct cma *cma);
-+#else
-+static inline int dma_heap_cma_register_heap(struct cma *cma)
-+{
-+	return 0;
-+}
-+#endif // CONFIG_DMABUF_HEAPS_CMA
-+
-+#endif // DMA_BUF_HEAP_CMA_H_
+ 	return 0;
+ }
+ RESERVEDMEM_OF_DECLARE(cma, "shared-dma-pool", rmem_cma_setup);
+ #endif
 
 -- 
 2.51.0
