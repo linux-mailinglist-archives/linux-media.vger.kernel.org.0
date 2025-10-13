@@ -1,85 +1,85 @@
-Return-Path: <linux-media+bounces-44254-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44255-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79616BD2404
-	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 11:21:57 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F37BD2419
+	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 11:22:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 25FC23496E7
-	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 09:21:57 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E3F324ECEF4
+	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 09:22:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8DC6C2FD1DB;
-	Mon, 13 Oct 2025 09:21:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D60822FD1D5;
+	Mon, 13 Oct 2025 09:22:12 +0000 (UTC)
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-vk1-f178.google.com (mail-vk1-f178.google.com [209.85.221.178])
+Received: from mail-vk1-f177.google.com (mail-vk1-f177.google.com [209.85.221.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62EF02FD7A5
-	for <linux-media@vger.kernel.org>; Mon, 13 Oct 2025 09:21:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B3E42FD1B6
+	for <linux-media@vger.kernel.org>; Mon, 13 Oct 2025 09:22:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760347311; cv=none; b=uy6ZTK2MqNSJZi2oY4itrLnIztMcEiVY7panS8Ou7pBaB4XG1TUnJFLfjAXZbG2BQ8o8VDXcDjHL76In9pUZzSCBjFH21XV2Dj7tZJIupD/5i2m1TwphigTDM259OBFhFSHDE2rRHrJUEH9MC9IMTozNOlQtm7llWLZCJMLqGCU=
+	t=1760347332; cv=none; b=GQdDIdp8Sz9gdOQ+gicYv7+RZtA05VXtPtp5JVoBVfjyaCBTr7PSPC9kvgceDBpbocu98C+ywLL/YoztXJo2tnvRQfHTsjVK0xU1HjNEWsn6YhDB13umOe82fvnw0Mw14hlhEPuoxfKAyedOrDoklbi/l7Da5zF97/mAUE0jOmE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760347311; c=relaxed/simple;
+	s=arc-20240116; t=1760347332; c=relaxed/simple;
 	bh=RjZxcAfi3V9A5U9SAZfg5Y9LkVVCiWAYMVhIYAGJi8Q=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=K7pjrsJCRmliUomopG4iP0+B60ulyK2nFdcjbaUXmjaqyDW/jW5dtE+IPMPL+Y4qSFcWtoJsp5ehbLlBVBv3rwVxFl0UJNNiXT9fLRetpBjj91WMdFt/VAOdefvWwGePnP29K6XxMso2muI0FItfIdC1yGa2I7+sDwX/VUzSIfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.178
+	 To:Cc:Content-Type; b=cccxIzEkeTsoWIv2hQhxeGbVlDsFcGi5IjxYgmkttWXKOO2spz/zy1W2oXtnJndgsZrTYFBV9UfWcZqW8JcAprYs76RZiQco5lgI2ThtklVxoktOyopefHuCDSrsdAf1egQxYMhkh+SzQTmG5Jnzt8CWKIGKa0c/GbWyDszJIL4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.221.177
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-vk1-f178.google.com with SMTP id 71dfb90a1353d-54aa5f70513so951831e0c.2
-        for <linux-media@vger.kernel.org>; Mon, 13 Oct 2025 02:21:49 -0700 (PDT)
+Received: by mail-vk1-f177.google.com with SMTP id 71dfb90a1353d-54aa789f9b5so3344897e0c.1
+        for <linux-media@vger.kernel.org>; Mon, 13 Oct 2025 02:22:10 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760347308; x=1760952108;
+        d=1e100.net; s=20230601; t=1760347330; x=1760952130;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
         bh=LE7TmgC2chzOeWrOmbf8+Owl4JMPcc5AVh1uFAo2uoc=;
-        b=dRhz+cobfnskWHLxmjMohMYYU/NlUve8tdiELHaRZutccg9vNIhrcY48qjWJnWbO/P
-         +61krFn2ygeAsDR/n3KaIbFtA1tFyhoGc4B34tNiN0FciexrQFgyp24diQBgioEgrloX
-         QAxt3Z71M6skOJOHLGIJesBN6K44lEaSK/8hegBhMuXe3YaGLVYTx744s25zsiAukjbs
-         aMHdJNNiWtmILhYkOUVxcQuODYsD9j9/IHUnssibL+9pwbOad5SRxTJdPffL/lQsqXO0
-         LyvdpuM0FuOdLwFJYQFD9Wilk3XEfNh9h2I1KqMA3nWE5FkNGDpUOpzk8hVJsMMKehtS
-         mdIw==
-X-Gm-Message-State: AOJu0YzKz1CZDNbkd43fyjm1LVMVDe+2V7MXZ1jj3jivc79tWtrWvIQJ
-	EgcEJBp1ZDl/7TpknVI6hV0gnHVCAKK5Ash9NjwpsGCAcUqdCGa7Tf2U6n2Sq29a
-X-Gm-Gg: ASbGnculawuALhWVoXDxvgcPD7/SQfSb7ssXNxC/ZO72hoqTTP0egendYvepNx6uNZ1
-	ujaR2KdxxT4kxXEOOyQPFb1xLCZ2SSa7uUyHsEGR43854x16Hvdc/V1URDoJO8VowyWw7iZKJpu
-	6VICY3LDFQS3w8R9penJxzE8u5K2clh4m83HQIKWi7TT6g0dQer2IsxVt6Gk07s0+pmADog5Cp9
-	zjTxNUMIFTvswDw0F+ppgrA67qeFA9rKCuSqibDJfkcKQ5/lqMAoz3OKG02Rf+nDF8HX4yA3Umq
-	xy+V/Wy1q7No0WHx2uFj+JwQQxzweNHEs/CjeuQhf36SScIrmrpv7I+/O6dJGeETM9VtFfTbxEl
-	989uQ0g3fG0hnjge86Z1WYZVY6QUqjiHNR9vPMxFbKhiA15paLECTXZkyLSBoZV65u+CLzRk9m2
-	bpt7J1gch58XagKUMA7A==
-X-Google-Smtp-Source: AGHT+IEUHD7qlxShMNMdy+mWmtxXN29x5/WturwTDCv84Z4hxQ9Ayv4+uxz4bTehp3LXmRbQhk7RoQ==
-X-Received: by 2002:a05:6102:2c14:b0:5d6:1564:c09c with SMTP id ada2fe7eead31-5d61564c128mr1247791137.36.1760347307844;
-        Mon, 13 Oct 2025 02:21:47 -0700 (PDT)
-Received: from mail-ua1-f41.google.com (mail-ua1-f41.google.com. [209.85.222.41])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-930bf6cec14sm2641410241.8.2025.10.13.02.21.47
+        b=Zr9OlqjrlbLTVQBbuOACv/uKwQKKMKWsNTeKOhK+DDxRVBz85Z+Qwa5i9bv+Q+HliI
+         rzutSNn6xdFVo1x9+JkVxeI2nmVdfSUZgX51M7ndM0CLqWyapq3ZQ9qewvAm6RcErO7E
+         K5GypsVe1nY/ACaSHH8164nftaRCNByh+CfFdBnABlIlA/SMCbIdKi58Jh9lobnYibx5
+         oUvjB66liXxLAylz6MH5bbMfYM4wwItfY/5N4RiVK7bHlMfs8NN29v6+2yS/iAEFAy4B
+         zTBQ8cuml0wVbaNfjj6ZdyoC/fiEWoMUprIX3XDotVO6+65TIVjI6uSQamiMSSJ1aq8+
+         +TRQ==
+X-Gm-Message-State: AOJu0YzKbVyQgN/VeVAt0n9RDiJ/V/wmxPZYSdr+XzqgFNcNegMcOdoX
+	wUw574pGlfem2Uzht45YIaHXufiJ9Z3SLn8tQDv+oafxoaZiJeoYcONruTS8GQac
+X-Gm-Gg: ASbGncsO9CKY8fSupgOaFsrsKFTh20RKsogPxO4cc8FswSAk7xFde6DlPW3Zj/dsyb9
+	RbQVCMuL06Yqkms1x+rdZ23IgiT52rGC2xftZDDo8A+/W9xC2D0JjjFsbL5PUMMSqgxJksTBYq6
+	DFuYf7ye2ufJYmspNsvs7oseBgGIBfKlaSFLtZ8AXH3iL+AQcAwfGQALhMColUI3WUw+wAkfsC8
+	JARNBOODw1VLPjvmEX959xZ7UjvXaW0H0u5YjrGUUIxeHa5TvueLGK+mfum8sSAEQVeebWMbiUY
+	3gtWqfWHvcQaOuMN6za6xT0vFLdMywBbMaw0nSRREC56kdTIKyWpukvIT4DaNTeYT4NuJvytwXL
+	z5xECRNMT1+nNQtgvu58KDKhGFk6Us19CQ4Rst/EwCirGXto7SZbBY8DEasPLcHHVI1mVijY4Gu
+	DyK6oghxs=
+X-Google-Smtp-Source: AGHT+IFCdyMT9+F0BjkbNujm1pm6qwAjvFGdSJpc604L7sSvAmgrvpcQi5FziTV3ZL6ivhDXAydfCA==
+X-Received: by 2002:a05:6122:c83:b0:520:64ea:c479 with SMTP id 71dfb90a1353d-554b8b941a6mr7776011e0c.10.1760347329693;
+        Mon, 13 Oct 2025 02:22:09 -0700 (PDT)
+Received: from mail-vs1-f44.google.com (mail-vs1-f44.google.com. [209.85.217.44])
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-554d7f0fcc3sm2931456e0c.10.2025.10.13.02.22.09
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Oct 2025 02:21:47 -0700 (PDT)
-Received: by mail-ua1-f41.google.com with SMTP id a1e0cc1a2514c-91bdf1a4875so715433241.1
-        for <linux-media@vger.kernel.org>; Mon, 13 Oct 2025 02:21:47 -0700 (PDT)
-X-Received: by 2002:a05:6102:809a:b0:5d5:f6ae:38d6 with SMTP id
- ada2fe7eead31-5d5f6ae3be3mr4887066137.43.1760347306859; Mon, 13 Oct 2025
- 02:21:46 -0700 (PDT)
+        Mon, 13 Oct 2025 02:22:09 -0700 (PDT)
+Received: by mail-vs1-f44.google.com with SMTP id ada2fe7eead31-556f7e21432so3816727137.2
+        for <linux-media@vger.kernel.org>; Mon, 13 Oct 2025 02:22:09 -0700 (PDT)
+X-Received: by 2002:a05:6102:580a:b0:5d3:fed4:b012 with SMTP id
+ ada2fe7eead31-5d5e225c578mr7941230137.15.1760347328805; Mon, 13 Oct 2025
+ 02:22:08 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com> <20250812214620.30425-72-laurent.pinchart@ideasonboard.com>
-In-Reply-To: <20250812214620.30425-72-laurent.pinchart@ideasonboard.com>
+References: <20250812214620.30425-1-laurent.pinchart@ideasonboard.com> <20250812214620.30425-73-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20250812214620.30425-73-laurent.pinchart@ideasonboard.com>
 From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 13 Oct 2025 11:21:35 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVTSi6FDvsRziH9ZABR-PbtUK+ApUZCK1hGnKkCUQpEWQ@mail.gmail.com>
-X-Gm-Features: AS18NWBAvXq59rhsAhQQrBuQg2NKdE2kj1vgNldRd5rxMwh2dBzQBdR_oulGrYo
-Message-ID: <CAMuHMdVTSi6FDvsRziH9ZABR-PbtUK+ApUZCK1hGnKkCUQpEWQ@mail.gmail.com>
-Subject: Re: [PATCH v2 71/72] arm64: dts: renesas: aistarvision-mipi-adapter-2.1:
- Drop clock-frequency from camera sensor node
+Date: Mon, 13 Oct 2025 11:21:57 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVYvJFKuauJZyJqZe61G5TYpHMnaX_fFkRW-n63r5t8CQ@mail.gmail.com>
+X-Gm-Features: AS18NWAAm_gDezINKRgnhFXgpTjwG25pxtXA25pOO4Uvov585HnEMLG2OoHJPA4
+Message-ID: <CAMuHMdVYvJFKuauJZyJqZe61G5TYpHMnaX_fFkRW-n63r5t8CQ@mail.gmail.com>
+Subject: Re: [PATCH v2 72/72] arm64: dts: renesas: rzg2l-smarc: Drop
+ clock-frequency from camera sensor node
 To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc: linux-media@vger.kernel.org, Magnus Damm <magnus.damm@gmail.com>, 
 	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
