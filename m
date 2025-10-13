@@ -1,188 +1,271 @@
-Return-Path: <linux-media+bounces-44331-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44332-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C1BEBD552B
-	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 19:02:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id E4273BD5819
+	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 19:33:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 04C2B586D1E
-	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 16:16:32 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4FAF7404EBF
+	for <lists+linux-media@lfdr.de>; Mon, 13 Oct 2025 17:15:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA89230CD92;
-	Mon, 13 Oct 2025 16:02:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA6DE2D2481;
+	Mon, 13 Oct 2025 17:15:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="N2zCU/qG"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="ay1rwQ4u"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DAE930C60F
-	for <linux-media@vger.kernel.org>; Mon, 13 Oct 2025 16:02:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39D3225A33F
+	for <linux-media@vger.kernel.org>; Mon, 13 Oct 2025 17:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760371352; cv=none; b=lPu6jVVvZ7fchItzfkXEx5ncejAxV85Lassh/rWaMRiyLnU+7SOgiyDLyhRPaS7K1k+XDGkjzpd1hqEgoVRTOqoZMlknl8LOnNHKWnLUwLrN+X2DkcuNBuYhBsab39zHUXEmUTUxlTE5C37tcQCmx29GDGlD7H+oU4KurZR+NUM=
+	t=1760375746; cv=none; b=kF6yMF4FgmjX1ctndxt3XPzxzHPBquQd2GStVpCRU4fTdj4i9lWbI/XDL7EKnVbGLD8eEfdGYi11rdAwAtDhH6c5dL1jvxJxqf53HkCscYFZke2w+/x55MKOwOxghm+LB6WWqDvhQBi+WjY1fKVgYVA9yHtDLyAHuJoTVPL0jMI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760371352; c=relaxed/simple;
-	bh=7pmScWeJxb/SA9LfgnIE+RSHfO7kt+ZDsVcv07zsRtU=;
+	s=arc-20240116; t=1760375746; c=relaxed/simple;
+	bh=3I2q4FFig443RkOgcOSg/Q8Y/Y0YyCuhr6K3TbbGJFs=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=P3s1UdMIWyDN1AK5vPVUK0TIBLD5uW9BRl/Iazt3TPnf3MXbn436RK+lyh/h+olrZsUBKwjQYYbd0219yRVoiT15zMpiP4c0fERu4Q0F2b//ysiuiB59rOdkuyJmCt94Vyulmp+cJaqOk1puPrq9gaOY9M8bE7jj+QkcbLXwThg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=N2zCU/qG; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-b3e7cc84b82so816080366b.0
-        for <linux-media@vger.kernel.org>; Mon, 13 Oct 2025 09:02:30 -0700 (PDT)
+	 To:Cc:Content-Type; b=Sz2kh9CwPsImFT3XgIqMKtYQC0y1+F0xmZ7bytU6A29xbve5/IvKBHGAdPRcFqVzMP76LODoAcHLjv0T9/4r47EyMlUozQov8DpRblOPOPMGjDBcuNuY0U9lvH9l7xmAu0wSA9W7WDUs5bCAYDWrc/mxJ24TrpkjSRulYIpdCPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=ay1rwQ4u; arc=none smtp.client-ip=209.85.128.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-71d71bcac45so46035037b3.0
+        for <linux-media@vger.kernel.org>; Mon, 13 Oct 2025 10:15:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1760371349; x=1760976149; darn=vger.kernel.org;
+        d=raspberrypi.com; s=google; t=1760375743; x=1760980543; darn=vger.kernel.org;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=85zW8eAa0UUuhYK13qFSD0pz0Cqd0sUrz3cG+0d4BSc=;
-        b=N2zCU/qGJP4rqtlFaLVwct8FCtQTxPhMzuiZoB9ZBcMLXSPbEDt3UPSxZYgWgb1bTB
-         qY1ZTcLDXfEeMO1FlsYYblcEPiyyqoPIdOxTzqL35Zv+tOOrDnTLe0LZAOfi911aq0kS
-         shO4bI1rTY0eQgWLfdCVpniD7jJSgnPzY0PmM=
+        bh=E/O9t7TBwwt70z8OyoI7hWO+3GmPGXOYZ1mqjKP4ax4=;
+        b=ay1rwQ4u84LmPOj85u4C3qGVoB9oCBiAFZ4CmPsePj6isYZLPDsv2pLz7UDhevZFJg
+         sP9RV025vF/jJ+wxqAnVnh7KTe2Oq+IxPEIRGBceurnTLnQncEl2BJbSz6k5exCvKWKh
+         Wti5C6IVF9tQygnAYhP0CrvUYFmQF6aO0CVD3we0d5JNM626YTeLvHP/VzC1cLMR3hu2
+         M1+sXLZoDHZBgkusn7epWjONWZNKZa7RoQKx0fir6AsfX5kSWtEwEmkjoKUT2LwWvKcd
+         TyQjNPMaeMxOch2VcsYjHltd79fLvcXeCyjeuAqfPRgLBvZQ/gl0ruCAGiw0B+4W8q3x
+         aqGA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760371349; x=1760976149;
+        d=1e100.net; s=20230601; t=1760375743; x=1760980543;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=85zW8eAa0UUuhYK13qFSD0pz0Cqd0sUrz3cG+0d4BSc=;
-        b=mugVDtweWV19lAR2dx+gLAw5MDp0cTVzFVi6ElDLtF+ai77w/+V2ntr/lrzqKeSe0q
-         /iL5WKButHEIcdqRG6O/GqJPrv8Dr61FznT93Qnj5IzberC7f6sUsIbjEB3H/T+nUCxW
-         C6e5gNixy/1mtr0ei5JswmenE8qMEst46liq1NDRRdPpAau5E3QwlookBZfGjW+H4mbh
-         /5DjeIadjCpqiSjafdEGkhYnv40rs0EvOGB+gOWahlj41wbHmmSERRDaep09Murm+SQe
-         WrahBctOcfygy4KMsBOQ3kqfNmNoB488bDRRAYTQkaLjjPiTgeJbp+u2ElB4YV66QcbT
-         KBGg==
-X-Forwarded-Encrypted: i=1; AJvYcCVW7FpL6bEqWm0iHUnEOlHsZgc+EkujMljHF0RmdtYd18VFcEvGO+a6cmoyAppYjoqBWevnGNGuADIheQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyfZ0CUaM4DChVNaGY4NQTQ09vNJANSZwlFmIVejorSMYHJxEwS
-	VIV121oqwrIW12LUd71pLWWP66lavDrAuxmrDH5Wq85TbBhep+o7ehyEEnExXZM9muKUd9Ntgin
-	nRknIiE4e
-X-Gm-Gg: ASbGncvcfRV3fSZzfdWMhaY7pgl8dMMbOGmYH1m4uM0yLSNEb0uXp+795oOw3wKtWCF
-	nOUOqQady1P6JNTgw50jjEbD02vw5XboIksrWlzJm7gu5N040n7SuMob1zGxY5AvCsyFAEfeiIe
-	tsEAMuSdGEySmoQzU9/YwsmhhkL58Lch/eKm1gEGjW332FYBaT9VgcO+CEl30r02djCr1ETJLpb
-	IbWFwKGVa3Rpia4s3iojQVHgiw47633l/i7q5dvL3wuOF65i8ee5OQvApnhHsfODR4ytoC3lmm6
-	zvUt7+vZleYP5WLiso0a2V/8hsYnHo1pT3M7WMsISEWj535YJ0PtkdqSTZp6xao+8v5lZ6HVLFK
-	dnm+YvnZukN/Zd9BUO8q4UT9HSJArW7iLCD3912SP5hiMf+/DiiTociICVrZTK2mf9T2lphxNFc
-	wZoPI0vkmC7PGB2eCKlWGzO3oJ
-X-Google-Smtp-Source: AGHT+IE+UQcVSYOs/9dULd0lJfEcOFF+ImdzP+grQFNHRhOGV9T3V05hfSryDUC/J5AJ/+KM7d60YA==
-X-Received: by 2002:a17:907:86aa:b0:b3d:73e1:d810 with SMTP id a640c23a62f3a-b50ac4da07bmr2134395166b.49.1760371347896;
-        Mon, 13 Oct 2025 09:02:27 -0700 (PDT)
-Received: from mail-ej1-f43.google.com (mail-ej1-f43.google.com. [209.85.218.43])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b55d8c12b4csm981361366b.56.2025.10.13.09.02.27
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 13 Oct 2025 09:02:27 -0700 (PDT)
-Received: by mail-ej1-f43.google.com with SMTP id a640c23a62f3a-afcb7ae31caso943724266b.3
-        for <linux-media@vger.kernel.org>; Mon, 13 Oct 2025 09:02:27 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXeoZImgXliBrykLlHTNEOkUazGyw15b++0L46Ip8ZkA6O8GLlvcA2sAsdUURZGw2HqgLtfkLgwpUqNEg==@vger.kernel.org
-X-Received: by 2002:ac2:4c50:0:b0:55f:4ac2:a58c with SMTP id
- 2adb3069b0e04-5906dc0ff30mr6173104e87.22.1760370964286; Mon, 13 Oct 2025
- 08:56:04 -0700 (PDT)
+        bh=E/O9t7TBwwt70z8OyoI7hWO+3GmPGXOYZ1mqjKP4ax4=;
+        b=QBEpcWF5bK9JclWaCsNobMHmrhNX/37aSX8n4JV30gXyYVybVM1QPclIATjD0FXO6/
+         orfEaAMZ/XObrnIuvsEZCETuRCVxFNEqnvWECoHkKJ5CyxkbyQdBvqMS2gJ1i4B1NyKC
+         YKthDjZz/2mKgHAeLknYGMgvX37N0cmIvcJOAy3/2ti2tCjrGRQziLHmRE4IWdUeWaJp
+         rniCQXzLiE1fSRENjyi7iHZR1bmk7JOXd2e4jtR4Gy/pcMZqi0kJWXoHoq9ezwsDFUPL
+         JOj+diV2vE+1Lqp7XK2W3/9JrVgmtHLcuqtfKzsKubkXtZxl5wnOoPs+sC8VViPNc3qF
+         HSfQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVcLzVwBe0k7Jzj9/SVYCijEAiAdw3XGTHb+ZM8/parJU1jUUe2t6Llf2wKNNcE1aS0XkRQS1xezH7BuA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwVT6FYHSWf2wxftqO+1ugFgQJHs1zGMBLKpvwEhsPDtFKS44qI
+	wkuhYzimrs/JOdfjWbimTlvk3ln272nbj03R8jLQkDeGvsCXriTWhjQb05SJ/Jw38AzjlFYxq8S
+	0ZbxDv4dQkLWA5rtxaCM7MttaDi1uOcbbblFXCN0xkw==
+X-Gm-Gg: ASbGncuLiVMxpulY8987JRlZUvM94Q7Wyuhbqn9egO+Zi3YwD81S5xKrgDGO6PDvUSk
+	D2REj4nlnPlTpBUNjPLs/pIwtqcXjYiQWbIWi51fNT/QMbf0+TKvkf0Sre7ucPOtaak1EKf0k0Y
+	ZhHExfvMEP53XEEgJflAIOxDk5sxljYKv00+XzzWwMPwnglRPDHF9qOcq6Vo8+G9d1sK9mQ3S+2
+	FiRIgHzHNDv4S+dDYTSb2Z9QmveefHMME3269h7jbkVGkdCnBelC8nwBiTaBG7wHV4I
+X-Google-Smtp-Source: AGHT+IEJQxVlOKCAVa0DVQXanxZU/wRmCwxvEZFjpEQs8heimsDwqo/IVVaLPjOJJ5BS0gzpEBytppqvbIJCJP7Jy0g=
+X-Received: by 2002:a05:690e:192:b0:636:2424:e081 with SMTP id
+ 956f58d0204a3-63ccb91ccfcmr15814047d50.47.1760375742927; Mon, 13 Oct 2025
+ 10:15:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251013-ptr_err-v1-0-2c5efbd82952@chromium.org>
- <20251013-ptr_err-v1-10-2c5efbd82952@chromium.org> <176036780330.559803.287308146210017676@ping.linuxembedded.co.uk>
-In-Reply-To: <176036780330.559803.287308146210017676@ping.linuxembedded.co.uk>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 13 Oct 2025 17:55:51 +0200
-X-Gmail-Original-Message-ID: <CANiDSCsuPkdz0=U2b_mNh4TWTNztAd9qEwJaiMRdGy1sf3UEbA@mail.gmail.com>
-X-Gm-Features: AS18NWCmgLaH0rMvCIhheSPVtWPGKkpbEBd_aB_kzUyM4RaB_yHSiy8sRs-muw0
-Message-ID: <CANiDSCsuPkdz0=U2b_mNh4TWTNztAd9qEwJaiMRdGy1sf3UEbA@mail.gmail.com>
-Subject: Re: [PATCH 10/32] media: i2c: imx335: Use %pe format specifier
-To: Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc: Alim Akhtar <alim.akhtar@samsung.com>, Andrew-CT Chen <andrew-ct.chen@mediatek.com>, 
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, Bingbu Cao <bingbu.cao@intel.com>, 
-	Dafna Hirschfeld <dafna@fastmail.com>, Daniel Scally <djrscally@gmail.com>, 
-	Dave Stevenson <dave.stevenson@raspberrypi.com>, 
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>, Fabio Estevam <festevam@gmail.com>, 
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Hans Verkuil <hverkuil@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Jacopo Mondi <jacopo+renesas@jmondi.org>, 
-	Jacopo Mondi <jacopo@jmondi.org>, Julien Massot <julien.massot@collabora.com>, 
-	=?UTF-8?Q?Krzysztof_Ha=C5=82asa?= <khalasa@piap.pl>, 
-	Krzysztof Kozlowski <krzk@kernel.org>, 
-	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Leon Luo <leonl@leopardimaging.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Matthias Brugger <matthias.bgg@gmail.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	=?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>, 
-	Pengutronix Kernel Team <kernel@pengutronix.de>, Purism Kernel Team <kernel@puri.sm>, 
-	Rui Miguel Silva <rmfrfs@gmail.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Sascha Hauer <s.hauer@pengutronix.de>, Shawn Guo <shawnguo@kernel.org>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, Sylwester Nawrocki <s.nawrocki@samsung.com>, 
-	Tianshu Qiu <tian.shu.qiu@intel.com>, Tiffany Lin <tiffany.lin@mediatek.com>, 
-	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
-	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>, Yong Zhi <yong.zhi@intel.com>, 
-	Yunfei Dong <yunfei.dong@mediatek.com>, linux-input@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-mediatek@lists.infradead.org, 
-	imx@lists.linux.dev, linux-renesas-soc@vger.kernel.org, 
-	linux-rockchip@lists.infradead.org, linux-samsung-soc@vger.kernel.org, 
-	linux-staging@lists.linux.dev
+References: <20251013-csi-bgr-rgb-v4-0-55eab2caa69f@kernel.org> <20251013-csi-bgr-rgb-v4-3-55eab2caa69f@kernel.org>
+In-Reply-To: <20251013-csi-bgr-rgb-v4-3-55eab2caa69f@kernel.org>
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date: Mon, 13 Oct 2025 18:15:24 +0100
+X-Gm-Features: AS18NWDjci6nyrfFGGRKGOpjVpZ_rVKN8DS9ywVFxJuE59j0an_kT_LgO6q6NT4
+Message-ID: <CAPY8ntDnJexjt+wEBYdMXCPv7RUhJSoBupzcz+V9OiKQYK+yxw@mail.gmail.com>
+Subject: Re: [PATCH v4 3/4] media: tc358743: Fix the RGB MBUS format
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Mats Randgaard <matrandg@cisco.com>, 
+	Alain Volmat <alain.volmat@foss.st.com>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Hans Verkuil <hverkuil@kernel.org>, Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	Hans Verkuil <hans.verkuil@cisco.com>
 Content-Type: text/plain; charset="UTF-8"
 
-Hi Kieran
-
-On Mon, 13 Oct 2025 at 17:03, Kieran Bingham
-<kieran.bingham@ideasonboard.com> wrote:
+On Mon, 13 Oct 2025 at 12:01, Maxime Ripard <mripard@kernel.org> wrote:
 >
-> Quoting Ricardo Ribalda (2025-10-13 15:14:50)
-> > The %pe format specifier is designed to print error pointers. It prints
-> > a symbolic error name (eg. -EINVAL) and it makes the code simpler by
-> > omitting PTR_ERR().
-> >
-> > This patch fixes this cocci report:
-> > ./i2c/imx335.c:1013:3-10: WARNING: Consider using %pe to print PTR_ERR()
+> The tc358743 is an HDMI to MIPI-CSI2 bridge. It can output all three
+> HDMI 1.4 video formats: RGB 4:4:4, YCbCr 4:2:2, and YCbCr 4:4:4.
 >
-> Ohhh nice. Is this new ? First I've come across it.
+> RGB 4:4:4 is converted to the MIPI-CSI2 RGB888 video format, and listed
+> in the driver as MEDIA_BUS_FMT_RGB888_1X24.
+>
+> Most CSI2 receiver drivers then map MEDIA_BUS_FMT_RGB888_1X24 to
+> V4L2_PIX_FMT_RGB24.
+>
+> However, V4L2_PIX_FMT_RGB24 is defined as having its color components in
+> the R, G and B order, from left to right. MIPI-CSI2 however defines the
+> RGB888 format with blue first.
+>
+> This essentially means that the R and B will be swapped compared to what
+> V4L2_PIX_FMT_RGB24 defines.
+>
+> The proper MBUS format would be BGR888, so let's use that.
+>
+> Fixes: d32d98642de6 ("[media] Driver for Toshiba TC358743 HDMI to CSI-2 bridge")
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
 
-It is actually from 2019:
-https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=57f5677e535ba24b8926a7125be2ef8d7f09323c
+Apologies, I thought I'd already sent:
 
-I just learned about it because there is a new check in coccinelle :).
+Tested-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+Reviewed-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-It is pretty cool, but you need to be careful to check IS_ERR(ptr)
-before doing the printk, otherwise %pe will print the pointer value.
+Patches 1 and 2 look fine, but I'm not sure it's in my scope to give
+an R-b. I can do if it's worth it.
+Patch 4 also looks good as it copies this pattern, but I have no
+knowledge of that sensor.
 
-Regards!
+  Dave
 
+> ---
+>  drivers/media/i2c/tc358743.c | 53 ++++++++++++++++++++++++++++++++++++--------
+>  1 file changed, 44 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/media/i2c/tc358743.c b/drivers/media/i2c/tc358743.c
+> index a0ca19359c43145988535d7816012ef607555b87..feb089d8de724dd25801a0fb621c768542e05254 100644
+> --- a/drivers/media/i2c/tc358743.c
+> +++ b/drivers/media/i2c/tc358743.c
+> @@ -754,10 +754,11 @@ static void tc358743_set_ref_clk(struct v4l2_subdev *sd)
+>  }
+>
+>  static void tc358743_set_csi_color_space(struct v4l2_subdev *sd)
+>  {
+>         struct tc358743_state *state = to_state(sd);
+> +       struct device *dev = &state->i2c_client->dev;
+>
+>         switch (state->mbus_fmt_code) {
+>         case MEDIA_BUS_FMT_UYVY8_1X16:
+>                 v4l2_dbg(2, debug, sd, "%s: YCbCr 422 16-bit\n", __func__);
+>                 i2c_wr8_and_or(sd, VOUT_SET2,
+> @@ -769,11 +770,21 @@ static void tc358743_set_csi_color_space(struct v4l2_subdev *sd)
+>                 i2c_wr16_and_or(sd, CONFCTL, ~MASK_YCBCRFMT,
+>                                 MASK_YCBCRFMT_422_8_BIT);
+>                 mutex_unlock(&state->confctl_mutex);
+>                 break;
+>         case MEDIA_BUS_FMT_RGB888_1X24:
+> -               v4l2_dbg(2, debug, sd, "%s: RGB 888 24-bit\n", __func__);
+> +               /*
+> +                * The driver was initially introduced with RGB888
+> +                * support, but CSI really means BGR.
+> +                *
+> +                * Since we might have applications that would have
+> +                * hard-coded the RGB888, let's support both.
+> +                */
+> +               dev_warn_once(dev, "RGB format isn't actually supported by the hardware. The application should be fixed to use BGR.");
+> +               fallthrough;
+> +       case MEDIA_BUS_FMT_BGR888_1X24:
+> +               v4l2_dbg(2, debug, sd, "%s: BGR 888 24-bit\n", __func__);
+>                 i2c_wr8_and_or(sd, VOUT_SET2,
+>                                 ~(MASK_SEL422 | MASK_VOUT_422FIL_100) & 0xff,
+>                                 0x00);
+>                 i2c_wr8_and_or(sd, VI_REP, ~MASK_VOUT_COLOR_SEL & 0xff,
+>                                 MASK_VOUT_COLOR_RGB_FULL);
+> @@ -1430,15 +1441,30 @@ static int tc358743_log_status(struct v4l2_subdev *sd)
+>                         (i2c_rd16(sd, CSI_STATUS) & MASK_S_RXACT) ?
+>                         "yes" : "no");
+>         v4l2_info(sd, "Stopped: %s\n",
+>                         (i2c_rd16(sd, CSI_STATUS) & MASK_S_HLT) ?
+>                         "yes" : "no");
+> -       v4l2_info(sd, "Color space: %s\n",
+> -                       state->mbus_fmt_code == MEDIA_BUS_FMT_UYVY8_1X16 ?
+> -                       "YCbCr 422 16-bit" :
+> -                       state->mbus_fmt_code == MEDIA_BUS_FMT_RGB888_1X24 ?
+> -                       "RGB 888 24-bit" : "Unsupported");
+> +
+> +       switch (state->mbus_fmt_code) {
+> +       case MEDIA_BUS_FMT_BGR888_1X24:
+> +               /*
+> +                * The driver was initially introduced with RGB888
+> +                * support, but CSI really means BGR.
+> +                *
+> +                * Since we might have applications that would have
+> +                * hard-coded the RGB888, let's support both.
+> +                */
+> +       case MEDIA_BUS_FMT_RGB888_1X24:
+> +               v4l2_info(sd, "Color space: BGR 888 24-bit\n");
+> +               break;
+> +       case MEDIA_BUS_FMT_UYVY8_1X16:
+> +               v4l2_info(sd, "Color space: YCbCr 422 16-bit\n");
+> +               break;
+> +       default:
+> +               v4l2_info(sd, "Color space: Unsupported\n");
+> +               break;
+> +       }
+>
+>         v4l2_info(sd, "-----%s status-----\n", is_hdmi(sd) ? "HDMI" : "DVI-D");
+>         v4l2_info(sd, "HDCP encrypted content: %s\n",
+>                         hdmi_sys_status & MASK_S_HDCP ? "yes" : "no");
+>         v4l2_info(sd, "Input color space: %s %s range\n",
+> @@ -1771,24 +1797,32 @@ static int tc358743_enum_mbus_code(struct v4l2_subdev *sd,
+>                 struct v4l2_subdev_state *sd_state,
+>                 struct v4l2_subdev_mbus_code_enum *code)
+>  {
+>         switch (code->index) {
+>         case 0:
+> -               code->code = MEDIA_BUS_FMT_RGB888_1X24;
+> +               code->code = MEDIA_BUS_FMT_BGR888_1X24;
+>                 break;
+>         case 1:
+>                 code->code = MEDIA_BUS_FMT_UYVY8_1X16;
+>                 break;
+> +       case 2:
+> +               /*
+> +                * We need to keep RGB888 for backward compatibility,
+> +                * but we should list it last for userspace to pick BGR.
+> +                */
+> +               code->code = MEDIA_BUS_FMT_RGB888_1X24;
+> +               break;
+>         default:
+>                 return -EINVAL;
+>         }
+>         return 0;
+>  }
+>
+>  static u32 tc358743_g_colorspace(u32 code)
+>  {
+>         switch (code) {
+> +       case MEDIA_BUS_FMT_BGR888_1X24:
+>         case MEDIA_BUS_FMT_RGB888_1X24:
+>                 return V4L2_COLORSPACE_SRGB;
+>         case MEDIA_BUS_FMT_UYVY8_1X16:
+>                 return V4L2_COLORSPACE_SMPTE170M;
+>         default:
+> @@ -1822,11 +1856,12 @@ static int tc358743_set_fmt(struct v4l2_subdev *sd,
+>         struct tc358743_state *state = to_state(sd);
+>
+>         u32 code = format->format.code; /* is overwritten by get_fmt */
+>         int ret = tc358743_get_fmt(sd, sd_state, format);
+>
+> -       if (code == MEDIA_BUS_FMT_RGB888_1X24 ||
+> +       if (code == MEDIA_BUS_FMT_BGR888_1X24 ||
+> +           code == MEDIA_BUS_FMT_RGB888_1X24 ||
+>             code == MEDIA_BUS_FMT_UYVY8_1X16)
+>                 format->format.code = code;
+>         format->format.colorspace = tc358743_g_colorspace(format->format.code);
+>
+>         if (ret)
+> @@ -2242,11 +2277,11 @@ static int tc358743_probe(struct i2c_client *client)
+>         sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+>         err = media_entity_pads_init(&sd->entity, 1, &state->pad);
+>         if (err < 0)
+>                 goto err_hdl;
+>
+> -       state->mbus_fmt_code = MEDIA_BUS_FMT_RGB888_1X24;
+> +       state->mbus_fmt_code = MEDIA_BUS_FMT_BGR888_1X24;
+>
+>         sd->dev = &client->dev;
+>
+>         mutex_init(&state->confctl_mutex);
 >
 >
+> --
+> 2.51.0
 >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/i2c/imx335.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/imx335.c b/drivers/media/i2c/imx335.c
-> > index c043df2f15fb25b3a56422092f99a1fd9a508fa9..71ed9a0d84a252ee362621c4d38001508fb86d28 100644
-> > --- a/drivers/media/i2c/imx335.c
-> > +++ b/drivers/media/i2c/imx335.c
-> > @@ -1009,8 +1009,8 @@ static int imx335_parse_hw_config(struct imx335 *imx335)
-> >         imx335->reset_gpio = devm_gpiod_get_optional(imx335->dev, "reset",
-> >                                                      GPIOD_OUT_HIGH);
-> >         if (IS_ERR(imx335->reset_gpio)) {
-> > -               dev_err(imx335->dev, "failed to get reset gpio %ld\n",
-> > -                       PTR_ERR(imx335->reset_gpio));
-> > +               dev_err(imx335->dev, "failed to get reset gpio %pe\n",
-> > +                       imx335->reset_gpio);
->
-> Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
->
-> >                 return PTR_ERR(imx335->reset_gpio);
-> >         }
-> >
-> >
-> > --
-> > 2.51.0.760.g7b8bcc2412-goog
-> >
-
-
-
--- 
-Ricardo Ribalda
 
