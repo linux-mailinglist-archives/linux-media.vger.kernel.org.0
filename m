@@ -1,48 +1,55 @@
-Return-Path: <linux-media+bounces-44379-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44380-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C0D7BD8462
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 10:49:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id F269CBD84CE
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 10:55:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8F6724E6899
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 08:49:29 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E50494E6F3C
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 08:55:05 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE5582DF13D;
-	Tue, 14 Oct 2025 08:49:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3613B2E0B74;
+	Tue, 14 Oct 2025 08:54:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aFBx9bav"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="WaPc2BRM"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12A172D29CF;
-	Tue, 14 Oct 2025 08:49:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D31E2DE1FA;
+	Tue, 14 Oct 2025 08:54:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760431756; cv=none; b=Cs3CuDdiGLfPYUa4OxFckHEgenKenpUDkiPi4sgR3drfVW2vIYMHae3U7mBQItOg5YI56iJmFh5xNepPv+1UnFH2545e5y8HFdnV53hzKs0/KuIes3tAKOllEO0rfevhJV+bZrmJBpSd6bk41MQtUu+S+4WhnbXsq/ZBLjlw7Go=
+	t=1760432096; cv=none; b=R95odEbob44S+SJh8I37l3y72masKBMcVGL5ONOHkRibKGoNAJDBI0CVALNCv3bmBKoEpHBjwGyn2cz6PfnL4/R05TUvHY4qi2/z6r/uycCOfmWmXlU6UXIpGz5hNi1t3SefAbFkMYFzgSLORdvJVqGfk/UtKkrK5JSOHOG+Nlc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760431756; c=relaxed/simple;
-	bh=ZWsZSog7HrbpnMFVU+7KNiUIgCPM0oI+ET725s9AGU8=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=pGxwp1uySoV5KwzHl+/ziEQfMbswuytXlbF1RLcA+DPs9yDVBFQO5P25uuxJ37/ulZ89NUfLFEW59oNB2byir97vkqAFeeHFTI8lWcR2gRAzf748z3qlAu/mG981XAoXS0aSEYGY1P3c3oTtIdcDiDeIQLHJW9r1kkvBbHtdckI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aFBx9bav; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A4939C4CEE7;
-	Tue, 14 Oct 2025 08:49:14 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760431755;
-	bh=ZWsZSog7HrbpnMFVU+7KNiUIgCPM0oI+ET725s9AGU8=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=aFBx9bavSewQYx0m7wvFHJ6PS2qVBbu48OarvxkjOyk9gkuCAN7FNSzGIPppPaTpV
-	 BmofD7ZSlB3kQm1FaQgwoYqVm9IchNNQq8LAMVrkm0BsDauaUy3hXQR2SNuj6dlSOi
-	 r/5G4uQ+QocV4LhgoFaOk0lMXlNuGF1mEhRs5n27Q49UZJvWGVdMFkCuqrrtCpEhHs
-	 wQcWw+J4VMxeoTMjclQNl2lMKtq8aWCNKYXRvllXMBqF7UqhqE6vYxJLQbNWGEwNHJ
-	 ihWulbP34SilV7VwExQNkvuTJCncN9cvKuZs6p0iSPsDINbMgRqxzk4YjbFte52R8z
-	 j3f6oeNlQp9eg==
-Message-ID: <5247d3ed-fa93-4839-a867-3ab72c687977@kernel.org>
-Date: Tue, 14 Oct 2025 10:49:13 +0200
+	s=arc-20240116; t=1760432096; c=relaxed/simple;
+	bh=bepUQbrGttB/U3jbIE3oO/Sn/Mcj/LgtFELZpY005IE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=LtT2TSTTNJgkpGm1gpHMUXAQsIYVdMUQisDpoA+kraa/NLQUC1imr9AIgDQ1DT0mzczMjhpQYjAqnlFwyY/iXy6lAo78Khk8pVqWObo7ZLnx/4a5RYRHg36nVs2MGgSj97kCQ4Iy3z85A0NMwakhOfiqpniOT4tPl1jDKE2/uy4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=WaPc2BRM; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1760432092;
+	bh=bepUQbrGttB/U3jbIE3oO/Sn/Mcj/LgtFELZpY005IE=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=WaPc2BRMFp+RTe3E+BZ3HSPzFO/30hD0z7pwsBxev4SSXiKZW3DpSWLkm2/v67GZa
+	 UgX8aza9Qt1n56vlrTZGhQIsr7/+TnSiyb61TI/7xnAdbgq+ISSLDQCJMIQwpH1mBP
+	 PI+O5E8HQS5aM+ggKHGSHRYqfZaxUprVkJ4uWV7G7p7ShUY1JdvVDZm6Pt67SWMXFf
+	 OUcpbLYApV/84ezSRbYj8G1xd9sEKSHav0lOt9NhA6sUWIEH3egbO2vsQQHVbf7dOj
+	 b6QQaXuSAzPgsfN3se6c/D1+WWGAdl2RDnnsRjT643G7lNJt+OldRGaX3g40ybb4xw
+	 2F4GEtMKkFjTA==
+Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mriesch)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B55B917E04DA;
+	Tue, 14 Oct 2025 10:54:51 +0200 (CEST)
+Message-ID: <e4672b5e-8f22-4220-b666-4aad06787c71@collabora.com>
+Date: Tue, 14 Oct 2025 10:54:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,75 +57,141 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH] media: i2c: imx214: Exit early on control init errors
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Ricardo Ribalda <ribalda@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250829-imx214-smatch-v1-1-f3d1653b48e4@chromium.org>
-Content-Language: en-US, nl
-In-Reply-To: <20250829-imx214-smatch-v1-1-f3d1653b48e4@chromium.org>
+Subject: Re: [PATCH v7 8/8] media: Documentation: kapi: Add v4l2 generic ISP
+ support
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Dafna Hirschfeld <dafna@fastmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Keke Li <keke.li@amlogic.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Dan Scally <dan.scally@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Antoine Bouyer <antoine.bouyer@nxp.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+References: <20251014-extensible-parameters-validation-v7-0-6628bed5ca98@ideasonboard.com>
+ <20251014-extensible-parameters-validation-v7-8-6628bed5ca98@ideasonboard.com>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <20251014-extensible-parameters-validation-v7-8-6628bed5ca98@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 29/08/2025 14:21, Ricardo Ribalda wrote:
-> Now we try to initialize all the controls and at the very end check
-> ctrl_hdlr->error to check if one of them has failed.
+Hi Jacopo,
+
+Thanks for your efforts!
+
+On 10/14/25 10:01, Jacopo Mondi wrote:
+> Add to the driver-api documentation the v4l2-isp.h types and
+> helpers documentation.
 > 
-> This confuses smatch, who do not know how to track the state of
-> imx214->link_freq.
-> 
-> drivers/media/i2c/imx214.c:1109 imx214_ctrls_init() error: we previously assumed 'imx214->link_freq' could be null (see line 1017)
-> 
-> Fix this by exiting early on control initi errors.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
 > ---
-> Right now we are handling this with a quirk in media-ci, if Dan cannot
-> fix smatch in a kernel cycle we should merge this patch.
-> ---
->  drivers/media/i2c/imx214.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
+>  Documentation/driver-api/media/v4l2-core.rst |  1 +
+>  Documentation/driver-api/media/v4l2-isp.rst  | 49 ++++++++++++++++++++++++++++
+>  MAINTAINERS                                  |  1 +
+>  3 files changed, 51 insertions(+)
 > 
-> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-> index 94ebe625c9e6ee0fb67fe1d89b48b2f1bf58ffc6..7da9e8fa2b622adba53fa6b544bca9859da23e3e 100644
-> --- a/drivers/media/i2c/imx214.c
-> +++ b/drivers/media/i2c/imx214.c
-> @@ -1014,8 +1014,10 @@ static int imx214_ctrls_init(struct imx214 *imx214)
->  						   V4L2_CID_LINK_FREQ,
->  						   imx214->bus_cfg.nr_of_link_frequencies - 1,
->  						   0, imx214->bus_cfg.link_frequencies);
-> -	if (imx214->link_freq)
-> -		imx214->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +	if (!imx214->link_freq)
-> +		goto err_init_ctrl;
+> diff --git a/Documentation/driver-api/media/v4l2-core.rst b/Documentation/driver-api/media/v4l2-core.rst
+> index ad987c34ad2a8460bb95e97adc4d850d624e0b81..a5f5102c64cca57b57b54ab95882b26286fb27de 100644
+> --- a/Documentation/driver-api/media/v4l2-core.rst
+> +++ b/Documentation/driver-api/media/v4l2-core.rst
+> @@ -27,3 +27,4 @@ Video4Linux devices
+>      v4l2-common
+>      v4l2-tveeprom
+>      v4l2-jpeg
+> +    v4l2-isp
+> diff --git a/Documentation/driver-api/media/v4l2-isp.rst b/Documentation/driver-api/media/v4l2-isp.rst
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..42c2550602979609e92a09e3cd1fe3dcbafd6416
+> --- /dev/null
+> +++ b/Documentation/driver-api/media/v4l2-isp.rst
+> @@ -0,0 +1,49 @@
+> +.. SPDX-License-Identifier: GPL-2.0
 > +
-> +	imx214->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->  
->  	/*
->  	 * WARNING!
-> @@ -1101,6 +1103,7 @@ static int imx214_ctrls_init(struct imx214 *imx214)
->  
->  	ret = ctrl_hdlr->error;
->  	if (ret) {
-> +err_init_ctrl:
+> +V4L2 generic ISP parameters and statistics support
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +Design rationale
+> +================
+> +
+> +ISP configuration parameters and statistics are processed and collected by
+> +drivers and exchanged with userspace through data types that usually
+> +reflect the ISP peripheral registers layout.
+> +
+> +Each ISP driver defines its own metadata capture format for parameters and
+> +a metadata output format for statistics. The buffer layout is realized by a
+> +set of C structures that reflects the registers layout. The number and types
+> +of C structures is fixed by the format definition and becomes part of the Linux
+> +kernel uAPI/uABI interface.
+> +
+> +Because of the hard requirement of backward compatibility when extending the
+> +user API/ABI interface, modifying an ISP driver capture or output metadata
+> +format after it has been accepted by mainline is very hard if not impossible.
+> +
+> +It generally happens, in facts, that after the first accepted revision of an
 
-This label should move up two lines, before the 'ret = ctrl_hdlr->error;' line.
+s/in facts/in fact
 
-Otherwise 'ret' isn't set to the correct error.
+> +ISP driver the buffer layout need to be modified, either to support new hardware
 
-Regards,
+s/need/needs
 
-	Hans
+> +blocks, fix bugs found later on or support different revisions of the same IP.
+> +
+> +Each of these situation would require defining a new metadata format, making it
 
->  		v4l2_ctrl_handler_free(ctrl_hdlr);
->  		dev_err(imx214->dev, "failed to add controls: %d\n", ret);
->  		return ret;
+s/situation/situations
+
+> +really hard to maintain and extend drivers and requiring userspace to use a
+> +the correct format depending on the kernel revision in use.
+> +
+> +V4L2 ISP configuration parameters
+> +=================================
+> +
+> +For these reasons, Video4Linux2 defines generic types for ISP configuration
+> +parameters and statistics. Drivers are still expected to define their own
+> +formats for their metadata output and capture nodes, but the buffer layout can
+> +be defined using the extensible and versioned types defined by
+> +include/uapi/linux/media/v4l2-isp.h.
+> +
+> +Drivers are expected to provide the definitions of their supported ISP blocks,
+> +the control flags and the expected maximum size of a buffer.
+> +
+> +For driver developers a set of helper functions to assist them with validation
+> +of the buffer received from userspace is available in the form of helper
+> +functions in drivers/media/v4l2-core/v4l2-isp.c
+
+"helper function" is used twice, maybe:
+
+A set of helper functions that assist driver developers with the
+validation of the buffer received from userspace is available in
+drivers/media/v4l2-core/v4l2-isp.c
+?
+
+> +
+> +V4L2 ISP support driver documentation
+> +=====================================
+> +.. kernel-doc:: include/media/v4l2-isp.h
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 59ab4a34f72c0430a8d7966942acb2242ad923ca..3cc24092995bcb01051cc301ca212c32938cf745 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -26857,6 +26857,7 @@ V4L2 GENERIC ISP PARAMETERS AND STATISTIC FORMATS
+>  M:	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+> +F:	Documentation/driver-api/media/v4l2-isp.rst
+>  F:	Documentation/userspace-api/media/v4l/v4l2-isp.rst
+>  F:	drivers/media/v4l2-core/v4l2-isp.c
+>  F:	include/media/v4l2-isp.h
 > 
-> ---
-> base-commit: 16428e2449ab96cce27be6ab17b750b404c76c7c
-> change-id: 20250829-imx214-smatch-c4d4d47428d5
-> 
-> Best regards,
+
+With the comments above addressed,
+
+Reviewed-by: Michael Riesch <michael.riesch@collabora.com>
+
+Thanks and best regards,
+Michael
 
 
