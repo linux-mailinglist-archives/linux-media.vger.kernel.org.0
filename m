@@ -1,162 +1,232 @@
-Return-Path: <linux-media+bounces-44381-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44382-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0D84BD85EB
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 11:14:16 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 19D0EBD86B8
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 11:23:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BAAE73BD1F8
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 09:14:13 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0B6494F8D99
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 09:23:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CC682E7BB2;
-	Tue, 14 Oct 2025 09:14:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 209A12E7160;
+	Tue, 14 Oct 2025 09:23:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="LScykKpt"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="hDc+EcM3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16C0429E0E5
-	for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 09:14:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 490382080C1;
+	Tue, 14 Oct 2025 09:23:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760433247; cv=none; b=VgLU3W0+S90ZY8M0EPdQG0D2eRLnD1+RSbX6nyNCR494+gCaUXQvG7SXK17xJ/MESzQHwxTrSAAasskGRmKkzvMtLC5Qx+ntXgC5U4kkUzvkOG2YGi/7kNcVNoCz03mN2kZg0nGb8dpQIrxF3cz0mjMJ1gxpMa1YqhtV6UrtyNA=
+	t=1760433814; cv=none; b=Wle3vjpd5KFtWm2gGHZCheLjWeyAOona+hnV78Jpbr1UPOqOJI+V32KpFL3h8eDzaYmykrTTGvLwn4lVmL/0yXCV+nntm/ReWPx8PDuxd5DJvFFRJzRLHfrTtxMV2RRlRsTbSI4Focjk+yIWvBtRoLqrMlH3ay1t/K8sPm2il+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760433247; c=relaxed/simple;
-	bh=IEO5GJ8C1882uGhUZV4QiuHcocIcs0hflxYhOMUAtfA=;
+	s=arc-20240116; t=1760433814; c=relaxed/simple;
+	bh=c4Ter1k+l2031VS1wEDhFTTsF7XzTSEc5HpxZV87q0Y=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mZbz4nx5lgrRWYUC8mTzgKKdbgS8+GUJEw/QFfFg9yVyhdMrFsQkX6jk5C3F/mofsyVPEqQ4tTfhvWZ9JP9J6i+ugADZuN2gudZrcW50JF8hJRBkRqxpzpe4BnhVOGUkyCjxKioA0QGJKM0gmRnQTYD/MU0Wkx/3j13IAvHMV4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=LScykKpt; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59E87KHO031320
-	for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 09:14:05 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	FZxoGMWjRHyp3BpafyTGdmS0MvS+yG7JvkclL1HE0Ys=; b=LScykKpty6Knmini
-	6yKFH1hoM9+2LcSzxAtOsKXSYCs3j8VgHUutPfE+mZ1nGboSc+jESN0v02cUi7h2
-	HY/YjjLEfvY1gooUBEtf26/kK2mBcs7v9trJ4ibJMJqJVQTTYXXgcviN5SBqv8e3
-	ioQyF3pek2zGFhlnEXla/VCr9V4sTB5x3v93Qz2doPjdnSLcd6jrqzycg/MmTq4b
-	Sdn9XQ8tu3mG81w0H3b/KXZ9YiI2zYObGKY6lFCPldByQCBpi9lf5Af7QEe4aWKA
-	6BWHv9I9yBRudd9DoOCZkBDhR4uiwz6hSC5EBRVnSmlTCkjKLGJkZms1L9TDguU5
-	i5O8Kg==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qff0quv4-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 09:14:05 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-32eb2b284e4so15070056a91.1
-        for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 02:14:05 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760433244; x=1761038044;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=FZxoGMWjRHyp3BpafyTGdmS0MvS+yG7JvkclL1HE0Ys=;
-        b=JGKgqSOg3Msgm1CDZhgKa378leWLIc/i/iYhCyk04rpx5/6nY1q+N6DXzKh37b+rX5
-         ljaRPl/g9ys9EmAap6rB74CJIP32UzfOduLJE9Ny6dKwSFEDATfKXiGWCFy7rr9976PT
-         T4yuWGf6wtPTSlmi8DsyR+pLOgqzh0tHKb3moCfmsnHCZ2lz6XTshxzRSX5NBVFm8deh
-         ztGnEHaWKlejygssww9kSuKPOEw755A34CloBAFGRHt73fuCs/OWmVCpWc9ypj75Bxlv
-         k3qdIv4gRCh/lAsRasEA7EmGpoWcfeugZSf38VYGOd4+uDi0CiR/J0rtOUtQofHoktjq
-         JM0A==
-X-Forwarded-Encrypted: i=1; AJvYcCVUjnTQuORstU6NKsqrSAZZWE6LknQ1G4RdZPzoBTDcOK/htyUyaD/UdDNLABG/Kn38SlcgurtQ+wZ2mw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvTHuPR+ZwvUyV6ZJ5Jzu+lUXPuVHU6Ho+GpbqrpYaPUD98GyN
-	y8SD736SA5bQ1HCUJMxf0RD15+LnpgB8xkw4hreyJlv6xZyrpItkB6U9rLxfpfyd2ihOsBclO//
-	Sv2gOR2cXezHK1t8Ad5li250M9X4o6SUXt3RG9iKez/0IC0kghguvnao+eiqoYEFZe69h5vkGEw
-	==
-X-Gm-Gg: ASbGnctwIRYipxSaqxYLiaWAEfiB/9zrWAhGObocEX/Z7ObeSJD1f4QZa+4yfou/xgT
-	DAk2ZCMQvJHLQKOwlCwLbMFBwtlUWojEXuZucDzPUoH0PcHKIPT+OuaYnlsPVLw8B9PLPOSXP73
-	BqBMewrVAUySSOBnNd3VlcJQG5F9lAgKvowPfRAX+Mj7PJHZE/UJn/0RBNq7C3UcfKrEuWtSZOS
-	PBPD+isdbIZ9fAn1Wc26Q6N/AgDpJirIdHwsj8omU9IFUZKutxAkn4qNUDftihu6eTHLXFD2P31
-	/cvcwOtzJEFBYTwgc+nMTmaMpd3OXD+v/gLhtdmx7+ImSXmbD7G+2NFdfYoPe3CGMaioGHXW
-X-Received: by 2002:a17:90b:1b11:b0:32e:38b0:15f4 with SMTP id 98e67ed59e1d1-33b51149231mr36293138a91.7.1760433243888;
-        Tue, 14 Oct 2025 02:14:03 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFxl1mdYLPfjFXnyezI4s6jG6hmqyysfKVlYnjTAiWTUfifmOTrtuiwT49TasynB4ClpC7Zcw==
-X-Received: by 2002:a17:90b:1b11:b0:32e:38b0:15f4 with SMTP id 98e67ed59e1d1-33b51149231mr36293102a91.7.1760433243386;
-        Tue, 14 Oct 2025 02:14:03 -0700 (PDT)
-Received: from [10.206.101.41] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b67c6040d23sm5097761a12.38.2025.10.14.02.13.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Oct 2025 02:14:02 -0700 (PDT)
-Message-ID: <3802fe42-0c94-8c10-7b6c-6c3adf863ef9@oss.qualcomm.com>
-Date: Tue, 14 Oct 2025 14:43:56 +0530
+	 In-Reply-To:Content-Type; b=fIA85+tc4I7scqE0cgJoRTxMSKITKqBL42cJ17geMdJLWZ/eRwVF6MTBpfePhjgGw6tnbJ32taAs8r8jk6spuhKCRqotUGM9/gmRxrQ3P9g8/wwsi/wry8/vjrviyEHmkUx7QJHO+sPmeAHGZwDzZge3UGGON3wNVW8dO8it3cA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=hDc+EcM3; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1760433810;
+	bh=c4Ter1k+l2031VS1wEDhFTTsF7XzTSEc5HpxZV87q0Y=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hDc+EcM3MZWzV7bN9i3J9KDBnRw/5tWRtouPjs4rbezEI/f0qExavMyLOORUx9iob
+	 McMkjjWVowAuIGZRYz6OaRIhLDHfKilGEcJxid9LlNZFbx4cgLBCQmQNAQFJ+2iXDg
+	 l65D0PJ0gY2W9uYlnnudhHC8joSKi8BDFKNR+PTI5p9/ppNIsJcf23QMTxorYhpVwp
+	 pdwg2mrnoTrNX08j5wQbb1CVBlLsllIGAlBMxSRYZOuwxDsaNHDoA4EqaXceFQE+5x
+	 y8ou4ISkjpeZ1c/4n5LMMewvV/r75XvSACqMwnvDViKnG5Bct2JQQQcByG9Qlm041u
+	 OqQJWNecIHcFg==
+Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	(No client certificate requested)
+	(Authenticated sender: mriesch)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B52E317E1283;
+	Tue, 14 Oct 2025 11:23:29 +0200 (CEST)
+Message-ID: <e82e7c1d-b4ac-49a0-9b76-d101395c7040@collabora.com>
+Date: Tue, 14 Oct 2025 11:23:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 7/8] media: iris: move common register definitions to the
- header
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 4/8] media: Documentation: uapi: Add V4L2 ISP
+ documentation
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Dafna Hirschfeld <dafna@fastmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Keke Li <keke.li@amlogic.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Dan Scally <dan.scally@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Antoine Bouyer <antoine.bouyer@nxp.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+References: <20251014-extensible-parameters-validation-v7-0-6628bed5ca98@ideasonboard.com>
+ <20251014-extensible-parameters-validation-v7-4-6628bed5ca98@ideasonboard.com>
 Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-Cc: Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue
- <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20251008-iris-sc7280-v1-0-def050ba5e1f@oss.qualcomm.com>
- <20251008-iris-sc7280-v1-7-def050ba5e1f@oss.qualcomm.com>
- <b7eba4b5-1189-7506-4767-0ef3234fc6f2@oss.qualcomm.com>
- <dzorzudzpjipvlkwik3uylomwi2dy5ticxromzegzgi2jhibot@reqv5ul5ifuc>
-From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <dzorzudzpjipvlkwik3uylomwi2dy5ticxromzegzgi2jhibot@reqv5ul5ifuc>
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <20251014-extensible-parameters-validation-v7-4-6628bed5ca98@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAxOCBTYWx0ZWRfX7s2ZFYLQz2Vs
- A4N1LT3B7PsPMJsqyuYKpyJLYzIAkyjcbUAMKPnS0EtLYILvTX7sbySAQeHVah5Cgdxf3DbQOd8
- HfK/r1CQ1UfaefmIZvE4jPqm57OjXV5m33y5spgpBbFhsBTDJck5pGm8TZ6zMsNatq/LGORMiB6
- NpJGyyaKfd1+eYN5cOac9DJgyntQwfy3iPF5EEt9LS4SZ7FOEUeAwpDwTrvR+d7iQXtGd+CtNl/
- 47YOQAPG++CgrzyWfziW+y+gjopMInQJUxOtJKVPJXQcctQMYL/pjz9Thl7aW1C1Fzmt9t1htny
- LEGK2B7iYHTHafIyyvHj8HXi2y0b3KlIYsLWuYBcfseXPmhObDx3zl8h1UXtX8bzqzlxbluoLeH
- Gsdso8BtKzeAQeefAiU1zlaCXJ1xxg==
-X-Proofpoint-GUID: FWga346VSxUllgc-oY9peXCZVsyTvD1O
-X-Authority-Analysis: v=2.4 cv=PriergM3 c=1 sm=1 tr=0 ts=68ee145d cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=5uaAGIl7Ed98QgTpS4IA:9 a=QEXdDO2ut3YA:10
- a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-ORIG-GUID: FWga346VSxUllgc-oY9peXCZVsyTvD1O
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_02,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 adultscore=0 clxscore=1015 bulkscore=0 phishscore=0
- lowpriorityscore=0 spamscore=0 suspectscore=0 impostorscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510110018
 
+Hi Jacopo,
 
-On 10/9/2025 8:18 PM, Dmitry Baryshkov wrote:
-> On Thu, Oct 09, 2025 at 11:40:25AM +0530, Dikshita Agarwal wrote:
->>
->>
->> On 10/8/2025 10:03 AM, Dmitry Baryshkov wrote:
->>> Simplify adding new platforms by moving common registers definitions
->>> from VPU 3.x and "common" file to the header with other register
->>> defines.
->>>
->>
->> Similar to
->> https://lore.kernel.org/all/20250925-knp_video-v1-5-e323c0b3c0cd@oss.qualcomm.com/
->> ?
+Thanks for your efforts!
+
+On 10/14/25 10:00, Jacopo Mondi wrote:
+> [...]
+> +
+> +The uAPI/ABI problem
+> +--------------------
+> +
+> +By upstreaming the metadata formats that describe the parameters and statistics
+> +buffers layout, driver developers make them part of the Linux kernel ABI. As it
+> +sometimes happens for most peripherals in Linux, ISP drivers development is
+> +often an iterative process, where sometimes not all the hardware features are
+> +supported in the first version that lands in the kernel, and some parts of the
+> +interface have to later be modified for bug-fixes or improvements.
+
+Suggestion:
+
+As for most peripherals, ISP driver development in Linux is often an
+iterative process, in which not all of the hardware features are
+supported in the first version. The support for them and/or bug fixes
+may land in the kernel at a later stage.
+
+> +
+> +If any later bug-fix/improvement requires changes to the metadata formats,
+
+s/bug-fix/bug fix
+
+> +this is considered an ABI-breakage that is strictly forbidden by the Linux
+
+s/ABI-breakage/ABI breakage
+
+> +kernel policies. For this reason, any change in the ISP parameters and
+> +statistics buffer layout would require defining a new metadata format.
+> +
+> +For these reasons Video4Linux2 has introduced support for generic ISP parameters
+> +and statistics data types, designed with the goal of being:
+> +
+> +- Extensible: new features can be added later on without breaking the existing
+> +  interface
+> +- Versioned: different versions of the format can be defined without
+> +  breaking the existing interface
+> +
+> +ISP configuration
+> +=================
+> +
+> +Before the introduction of generic formats
+> +------------------------------------------
+> +
+> +Metadata cature formats that describe ISP configuration parameters were most
+
+s/cature/capture
+
+s/most the time/"most of the time" or "typically" or "usually" or
+"normally"?
+
+> +the time realized by defining C structures that reflect the ISP registers layout
+> +and gets populated by userspace before queueing the buffer to the ISP. Each
+
+s/gets/get
+
+> +C structure usually corresponds to one ISP *processing block*, with each block
+> +implementing one of the ISP supported features.
+> +
+> +The number of supported ISP blocks, the layout of their configuration data are
+> +fixed by the format definition, incurring the in the above described uAPI/uABI
+> +problems.
+
+incurring the described uAPI/ABI problems described above.
+
+> +
+> +Generic ISP parameters
+> +----------------------
+> +
+> +The generic ISP configuration parameters format is realized by a defining a
+> +single C structure that contains an header, followed by a binary buffer where
+
+s/an header/a header
+
+> +userspace programs a variable number of ISP configuration data block, one for
+> +each supported ISP feature.
+> +
+> +The :c:type:`v4l2_isp_params_buffer` structure defines the parameters buffer
+> +header which is followed by a binary buffer of ISP configuration parameters.
+> +Userspace shall correctly populate the buffer header with the versioning
+> +information and with the size (in bytes) of the binary data buffer where it will
+> +store the ISP blocks configuration.
+> +
+> +Each *ISP configuration block* is preceded by an header implemented by the
+> +:c:type:`v4l2_isp_params_block_header` structure, followed by the configuration
+> +parameters for that specific block, defined by the ISP driver specific data
+> +types.
+> +
+> +Userspace applications are responsible for correctly populating each block's
+> +header fields (type, flags and size) and the block-specific parameters.
+> +
+> +ISP Block enabling, disabling and configuration
+> +-----------------------------------------------
+> +
+> +When userspace wants to configure and enable an ISP block it shall fully
+> +populate the block configuration and set the V4L2_ISP_PARAMS_FL_BLOCK_ENABLE
+> +bit in the block header's `flags` field.
+> +
+> +When userspace simply wants to disable an ISP block the
+> +V4L2_ISP_PARAMS_FL_BLOCK_DISABLE bit should be set in block header's `flags`
+> +field. Drivers accept a configuration parameters block with no additional
+> +data after the header in this case.
+> +
+> +If the configuration of an already active ISP block has to be updated,
+> +userspace shall fully populate the ISP block parameters and omit setting the
+> +V4L2_ISP_PARAMS_FL_BLOCK_ENABLE and V4L2_ISP_PARAMS_FL_BLOCK_DISABLE bits in the
+> +header's `flags` field.
+> +
+> +Setting both the V4L2_ISP_PARAMS_FL_BLOCK_ENABLE and
+> +V4L2_ISP_PARAMS_FL_BLOCK_DISABLE bits in the flags field is not allowed and not
+> +accepted.
+> +
+> +Any further extension to the parameters layout that happens after the ISP driver
+> +has been merged in Linux can be implemented by adding new blocks definition
+> +without invalidating the existing ones.
+> +
+> +ISP statistics
+> +==============
+> +
+> +Support for generic statistics format is not yet implemented in Video4Linux2.
+> +
+> +V4L2 ISP uAPI data types
+> +========================
+> +
+> +.. kernel-doc:: include/uapi/linux/media/v4l2-isp.h
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index e9ac834d212f88222437e8d806800b2516d44f01..340353334299cd5eebf1f72132b7e91b6f5fdbfe 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -26857,6 +26857,7 @@ V4L2 GENERIC ISP PARAMETERS AND STATISTIC FORMATS
+>  M:	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+>  L:	linux-media@vger.kernel.org
+>  S:	Maintained
+> +F:	Documentation/userspace-api/media/v4l/v4l2-isp.rst
+>  F:	include/uapi/linux/media/v4l2-isp.h
+>  
+>  VF610 NAND DRIVER
 > 
-> Yes, but moving more registers. I can rebase on top of that series if it
-> lands first. Or I can just pick that patch into the series, to remove
-> the dependency. What would be yours / Bryan's preference?
-> 
 
-My vote would be to rebase this one on top of earlier one.
 
-Regards,
-Vikash
+With the comments above addressed,
+
+Reviewed-by: Michael Riesch <michael.riesch@collabora.com>
+
+Thanks and best regards,
+Michael
+
 
