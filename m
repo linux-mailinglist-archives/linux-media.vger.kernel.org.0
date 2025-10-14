@@ -1,48 +1,55 @@
-Return-Path: <linux-media+bounces-44399-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44400-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3078FBD8E07
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 13:03:24 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3AB2BBD8F3F
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 13:14:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C721424CBD
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 11:03:22 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 791444EBDFA
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 11:14:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FDFB1D7E4A;
-	Tue, 14 Oct 2025 11:03:14 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 402F8301712;
+	Tue, 14 Oct 2025 11:14:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSxnVfVQ"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="EL8Yic0P"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55A52FE566;
-	Tue, 14 Oct 2025 11:03:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261181D5174;
+	Tue, 14 Oct 2025 11:14:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760439792; cv=none; b=Gjses00qXpqkCnji95NAhcF+XCEyiuYE6MqI+sfcC7LUiQo0c1GHMNDi+jeCztA2kaCCC5PcVdsI4X5VteWJs6i1CXi6L0mzIrSsJlczp/OzCm812odp8WGkA31Nrobpr1b60db014GB3n/9s1CB0SIYI0bPBDU33mHgyJqVGos=
+	t=1760440489; cv=none; b=e7gN3lxSJVf1kxBGLivFDNXKt1GHDBbwwIIvw2Y6/xl6yhYHhLonfN54EWH6XJJ+nDS7Kn/yjkUIj2BTSkbSkHWfBrcVGOaHo0ch/JyGJPdzScGxv8L9PPw2KpmB/9a7rJEUqXXXZKHy7HXIwX1/SdtjtMokGJ2OGg7JHAjZEnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760439792; c=relaxed/simple;
-	bh=Ft+QUhp4GEql2Vv7pwZhfod9Y5RmF9GxI4x25ijGMbU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=ermN62bvg+IANBSARor+j3iEW7/DyKv5JB3+hyjTge3Vk1pTsgswY8+nOCe0S+VsDEkKQ5jfJucbWhlUmyyo9Ue7zTlGtnOwkHGtPeIuzCMT/xn9FUZUxNW26R2yd3gGeC4rrMWWSJI/gj8wyco5b3zr9cZ9VJjZProyD5TJWWE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSxnVfVQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBE63C4CEE7;
-	Tue, 14 Oct 2025 11:03:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760439792;
-	bh=Ft+QUhp4GEql2Vv7pwZhfod9Y5RmF9GxI4x25ijGMbU=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=ZSxnVfVQP5WNnXg45rAaeaBZsEcvcgYyO3ThVyjv+e5LRWJc+h7wrKZs7GbXURvxU
-	 6qkmUNB8EWNA11k6x4n2sAspdgPNk9JgMBQPN3haU8UiCCia5s19ueZouSxg2nssTl
-	 iIhx0JWR0J5yzlYVACgopFAR105i/gbNLZxR9TH72cY3oy5hF8wZ6p+FXVrJwuwIwp
-	 s1W6S4uxc+tMTHVZZyzz3jyUFPcaxWKicm6TaNUjO/htds/2yEAp8KR6cXwN/MM4zA
-	 ztfuOVyD/eSZ5l8AJSCgF5qMpDxK+Juz/eL8pR2QYXZo31vUu+8kyfDNxOBzg1Fffk
-	 ODfe021fNkWFg==
-Message-ID: <73945f29-7b1e-4738-ae50-1ae2a9c5c1df@kernel.org>
-Date: Tue, 14 Oct 2025 13:03:08 +0200
+	s=arc-20240116; t=1760440489; c=relaxed/simple;
+	bh=uN0y/sRuh1lI9GfXgbDpfnEWQa1UQxUePsZKVvigA1k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=SxOxT2hfAXa0L/FI59r3M+zJV1vu3kA2YMVJxq0Cs1MlnBErd6JmQRUB1GmMuTNwr8XLrhJEE2f1Vj34sRh3WDcVw3kPi9xNqSuT05+NP7OZo5fCZQhB42A1w1EEhWHzuKtrSC3LjsEOvzgxhqD3Rl+zTVHMoup+xnphovAs5/c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=EL8Yic0P; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1760440485;
+	bh=uN0y/sRuh1lI9GfXgbDpfnEWQa1UQxUePsZKVvigA1k=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=EL8Yic0PcUVrhjL8ZETYDpAEt4ZzhWsjXWdwIz5L6420R99+HYtLnbM6OVPWqj/az
+	 g6lgcCQVburgEDFaY7n+rrqmOlCzHISllVhM4NcxNulJNfrLHXi9F9Zk0FNKy1ciep
+	 R9NOdSew7g1CVWBphNVgu/bq6NyWBp3PtbJpGmklYNVSedRzApHp9P7omwSmCig8xr
+	 Y7saxVf8cx3mRWn7vY4ip6Snq+lrkZYd1Z3k2Azrr5UQ2+xn1c5Qkt9kfU5Gfu2+yC
+	 dDYRYMEN1BhKCqU58prXLOcWYs9XKYi9jRTRev7wMGsfzndClWYYfdMzDEwdXrd2Kd
+	 utwJJYv5Xrl6w==
+Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: mriesch)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id BF10D17E013C;
+	Tue, 14 Oct 2025 13:14:44 +0200 (CEST)
+Message-ID: <ef9de8e4-06bc-4805-81f5-be145f70c495@collabora.com>
+Date: Tue, 14 Oct 2025 13:14:44 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,237 +57,217 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: hverkuil+cisco@kernel.org
-Subject: Re: [PATCH v2 1/2] media: az6007: fix out-of-bounds in
- az6007_i2c_xfer()
-To: Jeongjun Park <aha310510@gmail.com>, mchehab@kernel.org,
- hverkuil@xs4all.nl
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org, syzbot+0192952caa411a3be209@syzkaller.appspotmail.com
-References: <20250908150730.24560-1-aha310510@gmail.com>
- <20250908150730.24560-2-aha310510@gmail.com>
-Content-Language: en-US, nl
-In-Reply-To: <20250908150730.24560-2-aha310510@gmail.com>
+Subject: Re: [PATCH v7 2/8] media: uapi: Convert RkISP1 to V4L2 extensible
+ params
+To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+ Dafna Hirschfeld <dafna@fastmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Keke Li <keke.li@amlogic.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Heiko Stuebner <heiko@sntech.de>, Dan Scally <dan.scally@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Antoine Bouyer <antoine.bouyer@nxp.com>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+References: <20251014-extensible-parameters-validation-v7-0-6628bed5ca98@ideasonboard.com>
+ <20251014-extensible-parameters-validation-v7-2-6628bed5ca98@ideasonboard.com>
+Content-Language: en-US
+From: Michael Riesch <michael.riesch@collabora.com>
+In-Reply-To: <20251014-extensible-parameters-validation-v7-2-6628bed5ca98@ideasonboard.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 08/09/2025 17:07, Jeongjun Park wrote:
-> Because the blen is not properly bounds-checked in __az6007_read/write,
-> it is easy to get out-of-bounds errors in az6007_i2c_xfer later.
+Hi Jacopo,
+
+On 10/14/25 10:00, Jacopo Mondi wrote:
+> With the introduction of common types for extensible parameters
+> format, convert the rkisp1-config.h header to use the new types.
 > 
-> Therefore, we need to add bounds-checking to __az6007_read/write to
-> resolve this.
+> Factor-out the documentation that is now part of the common header
+
+s/Factor-out/Factor out
+
+> and only keep the driver-specific on in place.
 > 
-> Cc: <stable@vger.kernel.org>
-> Reported-by: syzbot+0192952caa411a3be209@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=0192952caa411a3be209
-> Fixes: 786baecfe78f ("[media] dvb-usb: move it to drivers/media/usb/dvb-usb")
-> Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+> The conversion to use common types doesn't impact userspace as the
+> new types are either identical to the ones already existing in the
+> RkISP1 uAPI or are 1-to-1 type convertible.
+> 
+> Reviewed-by: Daniel Scally <dan.scally@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+
+Reviewed-by: Michael Riesch <michael.riesch@collabora.com>
+
+Thanks and best regards,
+Michael
+
 > ---
-> v2: Change to fix the root cause of oob
-> - Link to v1: https://lore.kernel.org/all/20250421105555.34984-1-aha310510@gmail.com/
-> ---
->  drivers/media/usb/dvb-usb-v2/az6007.c | 62 +++++++++++++++------------
->  1 file changed, 34 insertions(+), 28 deletions(-)
+>  include/uapi/linux/rkisp1-config.h | 107 +++++++++----------------------------
+>  1 file changed, 24 insertions(+), 83 deletions(-)
 > 
-> diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
-> index 65ef045b74ca..4202042bdb55 100644
-> --- a/drivers/media/usb/dvb-usb-v2/az6007.c
-> +++ b/drivers/media/usb/dvb-usb-v2/az6007.c
-> @@ -97,11 +97,17 @@ static struct mt2063_config az6007_mt2063_config = {
->  	.refclock = 36125000,
+> diff --git a/include/uapi/linux/rkisp1-config.h b/include/uapi/linux/rkisp1-config.h
+> index 3b060ea6eed71b87d79abc8401eae4e9c9f5323a..b2d2a71f7baff3833b20519264b58db7f168af90 100644
+> --- a/include/uapi/linux/rkisp1-config.h
+> +++ b/include/uapi/linux/rkisp1-config.h
+> @@ -7,8 +7,13 @@
+>  #ifndef _UAPI_RKISP1_CONFIG_H
+>  #define _UAPI_RKISP1_CONFIG_H
+>  
+> +#ifdef __KERNEL__
+> +#include <linux/build_bug.h>
+> +#endif /* __KERNEL__ */
+>  #include <linux/types.h>
+>  
+> +#include <linux/media/v4l2-isp.h>
+> +
+>  /* Defect Pixel Cluster Detection */
+>  #define RKISP1_CIF_ISP_MODULE_DPCC		(1U << 0)
+>  /* Black Level Subtraction */
+> @@ -1158,79 +1163,26 @@ enum rkisp1_ext_params_block_type {
+>  	RKISP1_EXT_PARAMS_BLOCK_TYPE_WDR,
 >  };
 >  
-> -static int __az6007_read(struct usb_device *udev, u8 req, u16 value,
-> -			    u16 index, u8 *b, int blen)
-> +static int __az6007_read(struct usb_device *udev, struct az6007_device_state *st,
-> +			    u8 req, u16 value, u16 index, u8 *b, int blen)
->  {
->  	int ret;
+> -#define RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE	(1U << 0)
+> -#define RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE	(1U << 1)
+> +/* For backward compatibility */
+> +#define RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE	V4L2_ISP_PARAMS_FL_BLOCK_DISABLE
+> +#define RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE	V4L2_ISP_PARAMS_FL_BLOCK_ENABLE
 >  
-> +	if (blen > sizeof(st->data)) {
-> +		pr_err("az6007: tried to read %d bytes, but I2C max size is %lu bytes\n",
-> +		       blen, sizeof(st->data));
-> +		return -EOPNOTSUPP;
-> +	}
+>  /* A bitmask of parameters blocks supported on the current hardware. */
+>  #define RKISP1_CID_SUPPORTED_PARAMS_BLOCKS	(V4L2_CID_USER_RKISP1_BASE + 0x01)
+>  
+>  /**
+> - * struct rkisp1_ext_params_block_header - RkISP1 extensible parameters block
+> - *					   header
+> + * rkisp1_ext_params_block_header - RkISP1 extensible parameters block header
+>   *
+>   * This structure represents the common part of all the ISP configuration
+> - * blocks. Each parameters block shall embed an instance of this structure type
+> - * as its first member, followed by the block-specific configuration data. The
+> - * driver inspects this common header to discern the block type and its size and
+> - * properly handle the block content by casting it to the correct block-specific
+> - * type.
+> + * blocks and is identical to :c:type:`v4l2_isp_params_block_header`.
+>   *
+> - * The @type field is one of the values enumerated by
+> + * The type field is one of the values enumerated by
+>   * :c:type:`rkisp1_ext_params_block_type` and specifies how the data should be
+> - * interpreted by the driver. The @size field specifies the size of the
+> - * parameters block and is used by the driver for validation purposes.
+> - *
+> - * The @flags field is a bitmask of per-block flags RKISP1_EXT_PARAMS_FL_*.
+> - *
+> - * When userspace wants to configure and enable an ISP block it shall fully
+> - * populate the block configuration and set the
+> - * RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE bit in the @flags field.
+> - *
+> - * When userspace simply wants to disable an ISP block the
+> - * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bit should be set in @flags field. The
+> - * driver ignores the rest of the block configuration structure in this case.
+> - *
+> - * If a new configuration of an ISP block has to be applied userspace shall
+> - * fully populate the ISP block configuration and omit setting the
+> - * RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits
+> - * in the @flags field.
+> - *
+> - * Setting both the RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE and
+> - * RKISP1_EXT_PARAMS_FL_BLOCK_DISABLE bits in the @flags field is not allowed
+> - * and not accepted by the driver.
+> - *
+> - * Userspace is responsible for correctly populating the parameters block header
+> - * fields (@type, @flags and @size) and the block-specific parameters.
+> - *
+> - * For example:
+> + * interpreted by the driver.
+>   *
+> - * .. code-block:: c
+> - *
+> - *	void populate_bls(struct rkisp1_ext_params_block_header *block) {
+> - *		struct rkisp1_ext_params_bls_config *bls =
+> - *			(struct rkisp1_ext_params_bls_config *)block;
+> - *
+> - *		bls->header.type = RKISP1_EXT_PARAMS_BLOCK_ID_BLS;
+> - *		bls->header.flags = RKISP1_EXT_PARAMS_FL_BLOCK_ENABLE;
+> - *		bls->header.size = sizeof(*bls);
+> - *
+> - *		bls->config.enable_auto = 0;
+> - *		bls->config.fixed_val.r = blackLevelRed_;
+> - *		bls->config.fixed_val.gr = blackLevelGreenR_;
+> - *		bls->config.fixed_val.gb = blackLevelGreenB_;
+> - *		bls->config.fixed_val.b = blackLevelBlue_;
+> - *	}
+> - *
+> - * @type: The parameters block type, see
+> - *	  :c:type:`rkisp1_ext_params_block_type`
+> - * @flags: A bitmask of block flags
+> - * @size: Size (in bytes) of the parameters block, including this header
+> + * The flags field is a bitmask of per-block flags RKISP1_EXT_PARAMS_FL_*.
+>   */
+> -struct rkisp1_ext_params_block_header {
+> -	__u16 type;
+> -	__u16 flags;
+> -	__u32 size;
+> -};
+> +#define rkisp1_ext_params_block_header v4l2_isp_params_block_header
+>  
+>  /**
+>   * struct rkisp1_ext_params_bls_config - RkISP1 extensible params BLS config
+> @@ -1588,27 +1540,14 @@ struct rkisp1_ext_params_wdr_config {
+>   * @RKISP1_EXT_PARAM_BUFFER_V1: First version of RkISP1 extensible parameters
+>   */
+>  enum rksip1_ext_param_buffer_version {
+> -	RKISP1_EXT_PARAM_BUFFER_V1 = 1,
+> +	RKISP1_EXT_PARAM_BUFFER_V1 = V4L2_ISP_PARAMS_VERSION_V1,
+>  };
+>  
+>  /**
+>   * struct rkisp1_ext_params_cfg - RkISP1 extensible parameters configuration
+>   *
+> - * This struct contains the configuration parameters of the RkISP1 ISP
+> - * algorithms, serialized by userspace into a data buffer. Each configuration
+> - * parameter block is represented by a block-specific structure which contains a
+> - * :c:type:`rkisp1_ext_params_block_header` entry as first member. Userspace
+> - * populates the @data buffer with configuration parameters for the blocks that
+> - * it intends to configure. As a consequence, the data buffer effective size
+> - * changes according to the number of ISP blocks that userspace intends to
+> - * configure and is set by userspace in the @data_size field.
+> - *
+> - * The parameters buffer is versioned by the @version field to allow modifying
+> - * and extending its definition. Userspace shall populate the @version field to
+> - * inform the driver about the version it intends to use. The driver will parse
+> - * and handle the @data buffer according to the data layout specific to the
+> - * indicated version and return an error if the desired version is not
+> - * supported.
+> + * This is the driver-specific implementation of
+> + * :c:type:`v4l2_isp_params_buffer`.
+>   *
+>   * Currently the single RKISP1_EXT_PARAM_BUFFER_V1 version is supported.
+>   * When a new format version will be added, a mechanism for userspace to query
+> @@ -1624,11 +1563,6 @@ enum rksip1_ext_param_buffer_version {
+>   * the maximum value represents the blocks supported by the kernel driver,
+>   * independently of the device instance.
+>   *
+> - * For each ISP block that userspace wants to configure, a block-specific
+> - * structure is appended to the @data buffer, one after the other without gaps
+> - * in between nor overlaps. Userspace shall populate the @data_size field with
+> - * the effective size, in bytes, of the @data buffer.
+> - *
+>   * The expected memory layout of the parameters buffer is::
+>   *
+>   *	+-------------------- struct rkisp1_ext_params_cfg -------------------+
+> @@ -1678,4 +1612,11 @@ struct rkisp1_ext_params_cfg {
+>  	__u8 data[RKISP1_EXT_PARAMS_MAX_SIZE];
+>  };
+>  
+> +#ifdef __KERNEL__
+> +/* Make sure the header is type-convertible to the generic v4l2 params one */
+> +static_assert((sizeof(struct rkisp1_ext_params_cfg) -
+> +	      RKISP1_EXT_PARAMS_MAX_SIZE) ==
+> +	      sizeof(struct v4l2_isp_params_buffer));
+> +#endif /* __KERNEL__ */
 > +
-
-Hmm, but the pointer 'b' doesn't always point to st->data, so it makes no sense to
-check against it.
-
->  	ret = usb_control_msg(udev,
->  			      usb_rcvctrlpipe(udev, 0),
->  			      req,
-> @@ -125,24 +131,30 @@ static int __az6007_read(struct usb_device *udev, u8 req, u16 value,
->  static int az6007_read(struct dvb_usb_device *d, u8 req, u16 value,
->  			    u16 index, u8 *b, int blen)
->  {
-> -	struct az6007_device_state *st = d->priv;
-> +	struct az6007_device_state *st = d_to_priv(d);
->  	int ret;
->  
->  	if (mutex_lock_interruptible(&st->mutex) < 0)
->  		return -EAGAIN;
->  
-> -	ret = __az6007_read(d->udev, req, value, index, b, blen);
-> +	ret = __az6007_read(d->udev, st, req, value, index, b, blen);
->  
->  	mutex_unlock(&st->mutex);
->  
->  	return ret;
->  }
->  
-> -static int __az6007_write(struct usb_device *udev, u8 req, u16 value,
-> -			     u16 index, u8 *b, int blen)
-> +static int __az6007_write(struct usb_device *udev, struct az6007_device_state *st,
-> +			    u8 req, u16 value, u16 index, u8 *b, int blen)
->  {
->  	int ret;
->  
-> +	if (blen > sizeof(st->data)) {
-> +		pr_err("az6007: tried to write %d bytes, but I2C max size is %lu bytes\n",
-> +		       blen, sizeof(st->data));
-> +		return -EOPNOTSUPP;
-> +	}
-> +
-
-This makes no sense...
-
->  	if (az6007_xfer_debug) {
->  		printk(KERN_DEBUG "az6007: OUT req: %02x, value: %04x, index: %04x\n",
->  		       req, value, index);
-> @@ -150,12 +162,6 @@ static int __az6007_write(struct usb_device *udev, u8 req, u16 value,
->  				     DUMP_PREFIX_NONE, b, blen);
->  	}
->  
-> -	if (blen > 64) {
-> -		pr_err("az6007: tried to write %d bytes, but I2C max size is 64 bytes\n",
-> -		       blen);
-> -		return -EOPNOTSUPP;
-> -	}
-> -
-
-...since it is capped at 64 bytes anyway. So just keep this check since it is more stringent
-than sizeof(st->data).
-
-Also, 'b' doesn't always point to st->data, so it makes no sense.
-
-I think this is all overkill.
-
-There are only a few places in this driver where you are reading or writing to/from a
-buffer. In most cases the length is hardcoded and clearly fits inside the buffer.
-
-Only is a few places do you need to check that the length <= sizeof(st->data), and
-that should just be added as an extra check.
-
-Note that the msg buffers (msg[i].buf) passed to az6007_i2c_xfer are guaranteed to
-have the right size for the length (msg[i].len). So you only need to check when
-using st->data as the buffer.
-
-Sorry for basically going back to the first patch (almost).
-
-Regards,
-
-	Hans
-
->  	ret = usb_control_msg(udev,
->  			      usb_sndctrlpipe(udev, 0),
->  			      req,
-> @@ -172,13 +178,13 @@ static int __az6007_write(struct usb_device *udev, u8 req, u16 value,
->  static int az6007_write(struct dvb_usb_device *d, u8 req, u16 value,
->  			    u16 index, u8 *b, int blen)
->  {
-> -	struct az6007_device_state *st = d->priv;
-> +	struct az6007_device_state *st = d_to_priv(d);
->  	int ret;
->  
->  	if (mutex_lock_interruptible(&st->mutex) < 0)
->  		return -EAGAIN;
->  
-> -	ret = __az6007_write(d->udev, req, value, index, b, blen);
-> +	ret = __az6007_write(d->udev, st, req, value, index, b, blen);
->  
->  	mutex_unlock(&st->mutex);
->  
-> @@ -775,7 +781,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
->  			value = addr | (1 << 8);
->  			length = 6 + msgs[i + 1].len;
->  			len = msgs[i + 1].len;
-> -			ret = __az6007_read(d->udev, req, value, index,
-> +			ret = __az6007_read(d->udev, st, req, value, index,
->  					    st->data, length);
->  			if (ret >= len) {
->  				for (j = 0; j < len; j++)
-> @@ -788,7 +794,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
->  			if (az6007_xfer_debug)
->  				printk(KERN_DEBUG "az6007: I2C W addr=0x%x len=%d\n",
->  				       addr, msgs[i].len);
-> -			if (msgs[i].len < 1) {
-> +			if (msgs[i].len < 1 && msgs[i].len > 64) {
->  				ret = -EIO;
->  				goto err;
->  			}
-> @@ -796,11 +802,8 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
->  			index = msgs[i].buf[0];
->  			value = addr | (1 << 8);
->  			length = msgs[i].len - 1;
-> -			len = msgs[i].len - 1;
-> -			for (j = 0; j < len; j++)
-> -				st->data[j] = msgs[i].buf[j + 1];
-> -			ret =  __az6007_write(d->udev, req, value, index,
-> -					      st->data, length);
-> +			ret =  __az6007_write(d->udev, st, req, value, index,
-> +					      &msgs[i].buf[1], length);
->  		} else {
->  			/* read bytes */
->  			if (az6007_xfer_debug)
-> @@ -815,10 +818,12 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
->  			value = addr;
->  			length = msgs[i].len + 6;
->  			len = msgs[i].len;
-> -			ret = __az6007_read(d->udev, req, value, index,
-> +			ret = __az6007_read(d->udev, st, req, value, index,
->  					    st->data, length);
-> -			for (j = 0; j < len; j++)
-> -				msgs[i].buf[j] = st->data[j + 5];
-> +			if (ret >= len) {
-> +				for (j = 0; j < len; j++)
-> +					msgs[i].buf[j] = st->data[j + 5];
-> +			}
->  		}
->  		if (ret < 0)
->  			goto err;
-> @@ -845,6 +850,7 @@ static const struct i2c_algorithm az6007_i2c_algo = {
->  
->  static int az6007_identify_state(struct dvb_usb_device *d, const char **name)
->  {
-> +	struct az6007_device_state *state = d_to_priv(d);
->  	int ret;
->  	u8 *mac;
->  
-> @@ -855,7 +861,7 @@ static int az6007_identify_state(struct dvb_usb_device *d, const char **name)
->  		return -ENOMEM;
->  
->  	/* Try to read the mac address */
-> -	ret = __az6007_read(d->udev, AZ6007_READ_DATA, 6, 0, mac, 6);
-> +	ret = __az6007_read(d->udev, state, AZ6007_READ_DATA, 6, 0, mac, 6);
->  	if (ret == 6)
->  		ret = WARM;
->  	else
-> @@ -864,9 +870,9 @@ static int az6007_identify_state(struct dvb_usb_device *d, const char **name)
->  	kfree(mac);
->  
->  	if (ret == COLD) {
-> -		__az6007_write(d->udev, 0x09, 1, 0, NULL, 0);
-> -		__az6007_write(d->udev, 0x00, 0, 0, NULL, 0);
-> -		__az6007_write(d->udev, 0x00, 0, 0, NULL, 0);
-> +		__az6007_write(d->udev, state, 0x09, 1, 0, NULL, 0);
-> +		__az6007_write(d->udev, state, 0x00, 0, 0, NULL, 0);
-> +		__az6007_write(d->udev, state, 0x00, 0, 0, NULL, 0);
->  	}
->  
->  	pr_debug("Device is on %s state\n",
-> --
+>  #endif /* _UAPI_RKISP1_CONFIG_H */
 > 
 
 
