@@ -1,151 +1,286 @@
-Return-Path: <linux-media+bounces-44398-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44399-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D270BBD8DE0
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 13:00:56 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3078FBD8E07
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 13:03:24 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 413CA1924E82
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 11:01:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C721424CBD
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 11:03:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 064782FF14C;
-	Tue, 14 Oct 2025 11:00:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6FDFB1D7E4A;
+	Tue, 14 Oct 2025 11:03:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="mf9AQlgT"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZSxnVfVQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7A3E2877F2
-	for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 11:00:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55A52FE566;
+	Tue, 14 Oct 2025 11:03:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760439631; cv=none; b=t4IMJcuX4YjB42HRihEqoYs8UGvFBWfIrMv2zNF00pKg5qC1r08eFxh3XllvtvZsbdfW2rCIjDZDzWNbGFRwuExF5tIXv7Ju+mEdPlMTucEN3qbOtk1ONNb5kEmaVnjS8r/6w2QzBTNtO074WEEdefv3k5mN6/7q0MFOm6nppfo=
+	t=1760439792; cv=none; b=Gjses00qXpqkCnji95NAhcF+XCEyiuYE6MqI+sfcC7LUiQo0c1GHMNDi+jeCztA2kaCCC5PcVdsI4X5VteWJs6i1CXi6L0mzIrSsJlczp/OzCm812odp8WGkA31Nrobpr1b60db014GB3n/9s1CB0SIYI0bPBDU33mHgyJqVGos=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760439631; c=relaxed/simple;
-	bh=xcEHefptRm3q+B/7MsjmtDUbajTynS8kek98wtLXEzc=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=TI+tCEfn1ZgjoS7YZs7oYpBAF1fY917cznVJuB9R4bo+QlTmrP1znRhK7RjS23niFG2q4EtMqFalfpzaLLcovqq05u0N+lxgS/SsIu+WA4dG2NDb4/4pGo9BVxYvcnlPA/lEaFRy1Bmw0focBnGCWv3MA8VoP+69ZI0vXEIvWdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=mf9AQlgT; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-59070c9111eso6343298e87.3
-        for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 04:00:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1760439626; x=1761044426; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=jjAPjhv4d448Try5P0FP2VsI1UmiEtL4eWhCUt/f9q8=;
-        b=mf9AQlgTA4U5NsEiNUucZFru0M7YYsnkzqo5Pz3G2gxIpBuWwJ3eWvXNvUYowOQ/P8
-         3Oe/CUenCD8YilSHzT1EIaSrJieK4XT9SPWVEdgY1b1+7YAg0KSCu/oTVCuUtQI+215H
-         x2AXSG1teaKrW51tZsBbFbNAeyWvDpUPuAjSs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760439626; x=1761044426;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=jjAPjhv4d448Try5P0FP2VsI1UmiEtL4eWhCUt/f9q8=;
-        b=qU3ZruZVwdU6DedHGICKqdH/wNcaY+J1FQnkimUt9IEJxU216rSB+UI1r0K3pekyYu
-         pUjnDDPporvxc7y+Z6RzbwXHmxIxELhL9kmkG3VjwYcxGYuhs/WsKMNmyiVrqmvT5keI
-         yc383IGM2Jy2hEoPkvTv3qrogQSvGpiECIjaBr1ZG3Amr7OygFPujT/n9vA6wu1M5vVZ
-         SbIYCksRMAUuvMqEehCnVELPBE2kx6T+B/6FVtImdzO5E9PwhJ+etXo5EgvAzRdXZimG
-         65vC2doTHpRqD0w06Qe6sLdH3pXfImzL0dfyskx3m8fVSt+A2zZAJmLakuFBQ4w4rjHz
-         l5Ug==
-X-Gm-Message-State: AOJu0YxoR5L4rBEpX4cqTvKWjHfaDDvD1EJIyce/7i+bwasmDkCknKr5
-	/xh5KoHhFNEWcyaQHdgOUBTRNNrMZDF7bfQ0DF1hAkxv9A4CliME1LqnJef8dF08O62D47NHoO3
-	sVamd90eD
-X-Gm-Gg: ASbGncuoGlqH+ZHYz0LakK0XuuHgbZHpmcbcX3kYFLoAxCIZ19tlR2twuDewPwqdF2l
-	7wi9oya+foOmKDKSpfHsF3zuXQ0AzkHrsZfboPwL+nXmRUyOLlOFBhFqD7C/9kNQeoU0hG8psmw
-	7O0rsqBZFME9IxQf1cnaaWXGf2IkwFVhvIOvQWGgVP1R56XVRL2yX2J0gB9YTImFyYjCG1jjOrB
-	mtuk5kHH/GMTMmz44k/S64AcgCY8OcIIG40ltcw/qSn4FbeuxmYKJPBTnOsJdVE9cOIUP1FGx9N
-	6mPsOFIrYrav0rfHO8CFI1L0ekxRI+Nd1qIFx+iAnrf9EHzBmYFYWtGJPwkJSFoetYzCLRU9IoZ
-	mtVTuL7mSdujuuKVEAl9nj8iUpbxCXe9+4J2/gOwIl1HGmFkpchaLsbcLNkk35Z561bGrH1uzF+
-	UE0PzYpb0vfNnVDcYsx+1H
-X-Google-Smtp-Source: AGHT+IFGWJThrVzinUTUKLlvxn1wPB2/v9XNcpskq+s3lKiZ/x5AJ/mF4Gm9gftYdVHKyFf+eUCPIw==
-X-Received: by 2002:a2e:beab:0:b0:36e:4481:9e89 with SMTP id 38308e7fff4ca-37609cf6b00mr66565701fa.11.1760439625479;
-        Tue, 14 Oct 2025 04:00:25 -0700 (PDT)
-Received: from ribalda.c.googlers.com (166.141.88.34.bc.googleusercontent.com. [34.88.141.166])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3762e77c9f9sm39153191fa.5.2025.10.14.04.00.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 14 Oct 2025 04:00:25 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 14 Oct 2025 11:00:17 +0000
-Subject: [PATCH v2] media: i2c: imx214: Exit early on control init errors
+	s=arc-20240116; t=1760439792; c=relaxed/simple;
+	bh=Ft+QUhp4GEql2Vv7pwZhfod9Y5RmF9GxI4x25ijGMbU=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=ermN62bvg+IANBSARor+j3iEW7/DyKv5JB3+hyjTge3Vk1pTsgswY8+nOCe0S+VsDEkKQ5jfJucbWhlUmyyo9Ue7zTlGtnOwkHGtPeIuzCMT/xn9FUZUxNW26R2yd3gGeC4rrMWWSJI/gj8wyco5b3zr9cZ9VJjZProyD5TJWWE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZSxnVfVQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BBE63C4CEE7;
+	Tue, 14 Oct 2025 11:03:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760439792;
+	bh=Ft+QUhp4GEql2Vv7pwZhfod9Y5RmF9GxI4x25ijGMbU=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=ZSxnVfVQP5WNnXg45rAaeaBZsEcvcgYyO3ThVyjv+e5LRWJc+h7wrKZs7GbXURvxU
+	 6qkmUNB8EWNA11k6x4n2sAspdgPNk9JgMBQPN3haU8UiCCia5s19ueZouSxg2nssTl
+	 iIhx0JWR0J5yzlYVACgopFAR105i/gbNLZxR9TH72cY3oy5hF8wZ6p+FXVrJwuwIwp
+	 s1W6S4uxc+tMTHVZZyzz3jyUFPcaxWKicm6TaNUjO/htds/2yEAp8KR6cXwN/MM4zA
+	 ztfuOVyD/eSZ5l8AJSCgF5qMpDxK+Juz/eL8pR2QYXZo31vUu+8kyfDNxOBzg1Fffk
+	 ODfe021fNkWFg==
+Message-ID: <73945f29-7b1e-4738-ae50-1ae2a9c5c1df@kernel.org>
+Date: Tue, 14 Oct 2025 13:03:08 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+User-Agent: Mozilla Thunderbird
+From: hverkuil+cisco@kernel.org
+Subject: Re: [PATCH v2 1/2] media: az6007: fix out-of-bounds in
+ az6007_i2c_xfer()
+To: Jeongjun Park <aha310510@gmail.com>, mchehab@kernel.org,
+ hverkuil@xs4all.nl
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, syzbot+0192952caa411a3be209@syzkaller.appspotmail.com
+References: <20250908150730.24560-1-aha310510@gmail.com>
+ <20250908150730.24560-2-aha310510@gmail.com>
+Content-Language: en-US, nl
+In-Reply-To: <20250908150730.24560-2-aha310510@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251014-imx214-smatch-v2-1-04218043086d@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAEAt7mgC/3WMwQ7CIBAFf6XZs5iyBUVP/ofpoQIte6A0UElNw
- 7+LvZt3mpfM7JBsJJvg3uwQbaZEYa6Apwa0G+bJMjKVAVuUrcIbI78hFyz5YdWOaWHqrgKVkVC
- dJdqRtqP37Cs7SmuInyOf+e/9V8qccTZ2hl9k9xLKiod2MXh6+3OIE/SllC9kAj1orQAAAA==
-X-Change-ID: 20250829-imx214-smatch-c4d4d47428d5
-To: Ricardo Ribalda <ribalda@kernel.org>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.2
 
-Now we try to initialize all the controls and at the very end check
-ctrl_hdlr->error to check if one of them has failed.
+On 08/09/2025 17:07, Jeongjun Park wrote:
+> Because the blen is not properly bounds-checked in __az6007_read/write,
+> it is easy to get out-of-bounds errors in az6007_i2c_xfer later.
+> 
+> Therefore, we need to add bounds-checking to __az6007_read/write to
+> resolve this.
+> 
+> Cc: <stable@vger.kernel.org>
+> Reported-by: syzbot+0192952caa411a3be209@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=0192952caa411a3be209
+> Fixes: 786baecfe78f ("[media] dvb-usb: move it to drivers/media/usb/dvb-usb")
+> Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+> ---
+> v2: Change to fix the root cause of oob
+> - Link to v1: https://lore.kernel.org/all/20250421105555.34984-1-aha310510@gmail.com/
+> ---
+>  drivers/media/usb/dvb-usb-v2/az6007.c | 62 +++++++++++++++------------
+>  1 file changed, 34 insertions(+), 28 deletions(-)
+> 
+> diff --git a/drivers/media/usb/dvb-usb-v2/az6007.c b/drivers/media/usb/dvb-usb-v2/az6007.c
+> index 65ef045b74ca..4202042bdb55 100644
+> --- a/drivers/media/usb/dvb-usb-v2/az6007.c
+> +++ b/drivers/media/usb/dvb-usb-v2/az6007.c
+> @@ -97,11 +97,17 @@ static struct mt2063_config az6007_mt2063_config = {
+>  	.refclock = 36125000,
+>  };
+>  
+> -static int __az6007_read(struct usb_device *udev, u8 req, u16 value,
+> -			    u16 index, u8 *b, int blen)
+> +static int __az6007_read(struct usb_device *udev, struct az6007_device_state *st,
+> +			    u8 req, u16 value, u16 index, u8 *b, int blen)
+>  {
+>  	int ret;
+>  
+> +	if (blen > sizeof(st->data)) {
+> +		pr_err("az6007: tried to read %d bytes, but I2C max size is %lu bytes\n",
+> +		       blen, sizeof(st->data));
+> +		return -EOPNOTSUPP;
+> +	}
+> +
 
-This confuses smatch, who do not know how to track the state of
-imx214->link_freq.
+Hmm, but the pointer 'b' doesn't always point to st->data, so it makes no sense to
+check against it.
 
-drivers/media/i2c/imx214.c:1109 imx214_ctrls_init() error: we previously assumed 'imx214->link_freq' could be null (see line 1017)
+>  	ret = usb_control_msg(udev,
+>  			      usb_rcvctrlpipe(udev, 0),
+>  			      req,
+> @@ -125,24 +131,30 @@ static int __az6007_read(struct usb_device *udev, u8 req, u16 value,
+>  static int az6007_read(struct dvb_usb_device *d, u8 req, u16 value,
+>  			    u16 index, u8 *b, int blen)
+>  {
+> -	struct az6007_device_state *st = d->priv;
+> +	struct az6007_device_state *st = d_to_priv(d);
+>  	int ret;
+>  
+>  	if (mutex_lock_interruptible(&st->mutex) < 0)
+>  		return -EAGAIN;
+>  
+> -	ret = __az6007_read(d->udev, req, value, index, b, blen);
+> +	ret = __az6007_read(d->udev, st, req, value, index, b, blen);
+>  
+>  	mutex_unlock(&st->mutex);
+>  
+>  	return ret;
+>  }
+>  
+> -static int __az6007_write(struct usb_device *udev, u8 req, u16 value,
+> -			     u16 index, u8 *b, int blen)
+> +static int __az6007_write(struct usb_device *udev, struct az6007_device_state *st,
+> +			    u8 req, u16 value, u16 index, u8 *b, int blen)
+>  {
+>  	int ret;
+>  
+> +	if (blen > sizeof(st->data)) {
+> +		pr_err("az6007: tried to write %d bytes, but I2C max size is %lu bytes\n",
+> +		       blen, sizeof(st->data));
+> +		return -EOPNOTSUPP;
+> +	}
+> +
 
-Fix this by exiting early on control initialization errors.
+This makes no sense...
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
-Right now we are handling this with a quirk in media-ci, if Dan cannot
-fix smatch in a kernel cycle we should merge this patch.
----
-Changes in v2:
-- Fix typo in commit message commit
-- Move error tag where it belongs (Thanks Hans!)
-- Link to v1: https://lore.kernel.org/r/20250829-imx214-smatch-v1-1-f3d1653b48e4@chromium.org
----
- drivers/media/i2c/imx214.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+>  	if (az6007_xfer_debug) {
+>  		printk(KERN_DEBUG "az6007: OUT req: %02x, value: %04x, index: %04x\n",
+>  		       req, value, index);
+> @@ -150,12 +162,6 @@ static int __az6007_write(struct usb_device *udev, u8 req, u16 value,
+>  				     DUMP_PREFIX_NONE, b, blen);
+>  	}
+>  
+> -	if (blen > 64) {
+> -		pr_err("az6007: tried to write %d bytes, but I2C max size is 64 bytes\n",
+> -		       blen);
+> -		return -EOPNOTSUPP;
+> -	}
+> -
 
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index 94ebe625c9e6ee0fb67fe1d89b48b2f1bf58ffc6..c66f0e18726c3fc15df91c37888a797bcea82134 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -1014,8 +1014,10 @@ static int imx214_ctrls_init(struct imx214 *imx214)
- 						   V4L2_CID_LINK_FREQ,
- 						   imx214->bus_cfg.nr_of_link_frequencies - 1,
- 						   0, imx214->bus_cfg.link_frequencies);
--	if (imx214->link_freq)
--		imx214->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	if (!imx214->link_freq)
-+		goto err_init_ctrl;
-+
-+	imx214->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
- 	/*
- 	 * WARNING!
-@@ -1099,6 +1101,7 @@ static int imx214_ctrls_init(struct imx214 *imx214)
- 
- 	v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx214_ctrl_ops, &props);
- 
-+err_init_ctrl:
- 	ret = ctrl_hdlr->error;
- 	if (ret) {
- 		v4l2_ctrl_handler_free(ctrl_hdlr);
+...since it is capped at 64 bytes anyway. So just keep this check since it is more stringent
+than sizeof(st->data).
 
----
-base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-change-id: 20250829-imx214-smatch-c4d4d47428d5
+Also, 'b' doesn't always point to st->data, so it makes no sense.
 
-Best regards,
--- 
-Ricardo Ribalda <ribalda@chromium.org>
+I think this is all overkill.
+
+There are only a few places in this driver where you are reading or writing to/from a
+buffer. In most cases the length is hardcoded and clearly fits inside the buffer.
+
+Only is a few places do you need to check that the length <= sizeof(st->data), and
+that should just be added as an extra check.
+
+Note that the msg buffers (msg[i].buf) passed to az6007_i2c_xfer are guaranteed to
+have the right size for the length (msg[i].len). So you only need to check when
+using st->data as the buffer.
+
+Sorry for basically going back to the first patch (almost).
+
+Regards,
+
+	Hans
+
+>  	ret = usb_control_msg(udev,
+>  			      usb_sndctrlpipe(udev, 0),
+>  			      req,
+> @@ -172,13 +178,13 @@ static int __az6007_write(struct usb_device *udev, u8 req, u16 value,
+>  static int az6007_write(struct dvb_usb_device *d, u8 req, u16 value,
+>  			    u16 index, u8 *b, int blen)
+>  {
+> -	struct az6007_device_state *st = d->priv;
+> +	struct az6007_device_state *st = d_to_priv(d);
+>  	int ret;
+>  
+>  	if (mutex_lock_interruptible(&st->mutex) < 0)
+>  		return -EAGAIN;
+>  
+> -	ret = __az6007_write(d->udev, req, value, index, b, blen);
+> +	ret = __az6007_write(d->udev, st, req, value, index, b, blen);
+>  
+>  	mutex_unlock(&st->mutex);
+>  
+> @@ -775,7 +781,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+>  			value = addr | (1 << 8);
+>  			length = 6 + msgs[i + 1].len;
+>  			len = msgs[i + 1].len;
+> -			ret = __az6007_read(d->udev, req, value, index,
+> +			ret = __az6007_read(d->udev, st, req, value, index,
+>  					    st->data, length);
+>  			if (ret >= len) {
+>  				for (j = 0; j < len; j++)
+> @@ -788,7 +794,7 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+>  			if (az6007_xfer_debug)
+>  				printk(KERN_DEBUG "az6007: I2C W addr=0x%x len=%d\n",
+>  				       addr, msgs[i].len);
+> -			if (msgs[i].len < 1) {
+> +			if (msgs[i].len < 1 && msgs[i].len > 64) {
+>  				ret = -EIO;
+>  				goto err;
+>  			}
+> @@ -796,11 +802,8 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+>  			index = msgs[i].buf[0];
+>  			value = addr | (1 << 8);
+>  			length = msgs[i].len - 1;
+> -			len = msgs[i].len - 1;
+> -			for (j = 0; j < len; j++)
+> -				st->data[j] = msgs[i].buf[j + 1];
+> -			ret =  __az6007_write(d->udev, req, value, index,
+> -					      st->data, length);
+> +			ret =  __az6007_write(d->udev, st, req, value, index,
+> +					      &msgs[i].buf[1], length);
+>  		} else {
+>  			/* read bytes */
+>  			if (az6007_xfer_debug)
+> @@ -815,10 +818,12 @@ static int az6007_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msgs[],
+>  			value = addr;
+>  			length = msgs[i].len + 6;
+>  			len = msgs[i].len;
+> -			ret = __az6007_read(d->udev, req, value, index,
+> +			ret = __az6007_read(d->udev, st, req, value, index,
+>  					    st->data, length);
+> -			for (j = 0; j < len; j++)
+> -				msgs[i].buf[j] = st->data[j + 5];
+> +			if (ret >= len) {
+> +				for (j = 0; j < len; j++)
+> +					msgs[i].buf[j] = st->data[j + 5];
+> +			}
+>  		}
+>  		if (ret < 0)
+>  			goto err;
+> @@ -845,6 +850,7 @@ static const struct i2c_algorithm az6007_i2c_algo = {
+>  
+>  static int az6007_identify_state(struct dvb_usb_device *d, const char **name)
+>  {
+> +	struct az6007_device_state *state = d_to_priv(d);
+>  	int ret;
+>  	u8 *mac;
+>  
+> @@ -855,7 +861,7 @@ static int az6007_identify_state(struct dvb_usb_device *d, const char **name)
+>  		return -ENOMEM;
+>  
+>  	/* Try to read the mac address */
+> -	ret = __az6007_read(d->udev, AZ6007_READ_DATA, 6, 0, mac, 6);
+> +	ret = __az6007_read(d->udev, state, AZ6007_READ_DATA, 6, 0, mac, 6);
+>  	if (ret == 6)
+>  		ret = WARM;
+>  	else
+> @@ -864,9 +870,9 @@ static int az6007_identify_state(struct dvb_usb_device *d, const char **name)
+>  	kfree(mac);
+>  
+>  	if (ret == COLD) {
+> -		__az6007_write(d->udev, 0x09, 1, 0, NULL, 0);
+> -		__az6007_write(d->udev, 0x00, 0, 0, NULL, 0);
+> -		__az6007_write(d->udev, 0x00, 0, 0, NULL, 0);
+> +		__az6007_write(d->udev, state, 0x09, 1, 0, NULL, 0);
+> +		__az6007_write(d->udev, state, 0x00, 0, 0, NULL, 0);
+> +		__az6007_write(d->udev, state, 0x00, 0, 0, NULL, 0);
+>  	}
+>  
+>  	pr_debug("Device is on %s state\n",
+> --
+> 
 
 
