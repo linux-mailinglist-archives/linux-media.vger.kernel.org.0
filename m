@@ -1,288 +1,159 @@
-Return-Path: <linux-media+bounces-44442-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44443-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E130BDA3D2
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 17:10:47 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 62EE5BDA47A
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 17:16:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1A9C019A50F1
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 15:09:39 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2F2B24FFD50
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 15:10:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C812A2F60D5;
-	Tue, 14 Oct 2025 15:07:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3C0C02D29D0;
+	Tue, 14 Oct 2025 15:10:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iJqOPkp9"
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="T0p9r5jB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E4D64296BBC;
-	Tue, 14 Oct 2025 15:07:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D76224244
+	for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 15:10:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760454467; cv=none; b=V1+wC6ekFODDqrsm7zU9IqiVeqnOnWuj5dHwSisztDuYSzuEVLg8gSuevB98UKTsN1ISrIhpF2zlMlBg3/p05MEUGP5ZxHqF+WyN4Z/zgD0mtn+p+HNcFiJpLu104NQjT/7rFl48uHCkS8UrFFdjB39KPOm3RJZNnuryyKuNIgM=
+	t=1760454613; cv=none; b=tJIKCMWjmtPQz7baeK7vDGt+wLHeqR8UZqW0Iyt9DI7m32348NrNk4mBop+kq09B++WKCz1DBSD2d4ES9vsqressZT8KL1xIu3ULc0ZWGOPyvC0AH7wMGGpES61oZ8DmOl/1nygU+FTgHVmOb1YRIFwd038kif76guZb+o6yrnA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760454467; c=relaxed/simple;
-	bh=VfJBAjGeZ69qDZyMXPOWy6vk7uqcmlxpP8so4FlcKuo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UbQ1Gc1UHLfztAgJWUQQsqFe/bmV+jyOHTxrYdLvRY/cm21X/7xcWqNg/7nIXWqbHINjzIf46K4St4Jh/ZrJXVnAzOl5XZvWLC8j9CaISJQPT0W/ZkyTgktVElnD21VHJ79Rxeu5oXSLvMCFvUjuwfWSbiPGm0GRyjUnHzaKj0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iJqOPkp9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 87A83C4CEE7;
-	Tue, 14 Oct 2025 15:07:40 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760454466;
-	bh=VfJBAjGeZ69qDZyMXPOWy6vk7uqcmlxpP8so4FlcKuo=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iJqOPkp9hf6ObiHA+lqDTQ+d3HSV1P/0EjLE6M9an7SYeSgMpzql3+qVqIuCpxKnG
-	 zrr8+EAHifcWrSjPUy+4Mhi02lzHCI3u2N0FUtf8yIgFXQ3C0m+94PpklCLu2S+ajN
-	 KRIcqnzOSw6Qv2VWmvEtMlRezoyVDEVmW2bAoivELemme4+p7wUcFZ53lA+kdZGu/d
-	 WLaU+90l0kRBJLpo8TfeDQZ9xHr6EHMeJ38nqAdPqoq03qihzGAqKh6UalzfAEbGY9
-	 pmHJ/b+QLJwHA226rE3Ni+IhynRTQUIhhlkkJZpKfjUftVB4Y9yE700UOfTqKM7icE
-	 aj7kh6YMXqqoA==
-Message-ID: <fb767586-a376-48eb-97b4-bf33061642b9@kernel.org>
-Date: Tue, 14 Oct 2025 16:07:37 +0100
+	s=arc-20240116; t=1760454613; c=relaxed/simple;
+	bh=+9sQqZFGj6pjO2HmOLKtnRlFSVSp+ASbakb0jxv6v+E=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=GqqwnnSJ16s/048l6eNYpxikZOg+uFO6o79mHYvItOWgoavwoMWRcg2RUneBD72DX7RbcwHrFE1fuBsLMtZgo44spvD9H3qRqA0AMR/2Uu0JyuKhS88yAl0e6O/oAjl92AB3/kDy1nSwsS3znBWjmvomVx1PaEySKO/O+zFn8YI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=T0p9r5jB; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-46e32139ef7so8713585e9.1
+        for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 08:10:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1760454610; x=1761059410; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+9sQqZFGj6pjO2HmOLKtnRlFSVSp+ASbakb0jxv6v+E=;
+        b=T0p9r5jBQg5JXq08Q+XBRrtiI/r2VoweFjuZsy73GRkwFH5Ouzm2qK3t/9bV5A93g5
+         XlkljYlPrDtgMk+CwpK+9DXgorSbaA8QE16rIHIz5zrtZCx2etQcCum9T+boiJKrmv4H
+         qe4+55uzRQeaFraZP3rP2dC6Q+03bRKBj+Fj0iIe6anEtOItOWi8BBfnee3vQKucUBoD
+         jBsLlkMtdHpzDcivNOzVdf+jNkv9xF9gZqemJLWoZ665zYrZoMj7U1PRp7M0nhexeGJD
+         8gWL5FYaUjKp0XsrdLu+CC3RRzApd3cZ4iV8FDZHZOf9jx0pGXeGojLFEtCIwvKiYAIV
+         yDfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760454610; x=1761059410;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+9sQqZFGj6pjO2HmOLKtnRlFSVSp+ASbakb0jxv6v+E=;
+        b=MLR0Q782x5TIC5meZm8jqXWV9c2n9xKSQ9j9cKE8NEhqTcxe9obQIPlLaygsFdyWd1
+         Mb5MPV1t3eddO7/bEWfn4/6HZdk12mpgTscKLJholtsadCcQ+PKY1mK2uZ1Hy+xQZEgL
+         iVImb4uq8S9AlxcuOu5oGvEYKVjSuv5x2dQ19T+VmOBEd6fbS1l87SIxKio+33JwTf4C
+         yw+DaZwDhBYqmW5Mo/0kgXYpRqjwooVVZk9c0J0j+4J2v7TpR+KS2JW1vQjU5XsYbBnA
+         842J35AbBjs80y9kfZPWcwNuX50WEbl7LbG9xCHhvAXtGEZPy7jUaWAbHRa4N1Xm0Ebg
+         rlVw==
+X-Forwarded-Encrypted: i=1; AJvYcCVJ5cbEv6YQQvnG2gBULv6YyvJYZB897L4RArcY+gIUHceTzRdTJdAIzEsJGQpPrhnwZMFvqvuDVedD3w==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrcfZgdVC0SRbHXL8gWBFOAr9rVfJDzQGhSC5cK3Q19Z4QkPP8
+	12aWhb3xbuyscTuSijicRHpeuWagG3t+biWZeYv6cVEePvsyCIsIqO9YS1KXRNE3sL0=
+X-Gm-Gg: ASbGncs6eBLXVmT8yw10D684RsqRIyPeLdg0gKU+SaKay3XoIEAs1f8mJom/LShNL8z
+	NnrG6YULDqKg/AQ6zi1e8Iq8wUvo96WfmMFgfN1mhr3BruKlp0zz8krITYCBgiJ0V8kAVXxDTh3
+	jbYEIk8mhE15LEjpFuwpff6PSVcrMXVfJi6yBZffz7kF8CD/ixkmHwy3Ds1ralFWUuEog0XfDlb
+	nu+/AcdDp46JBqGdPzWGe692BlQGTi227vFHdETwJo9yMJpUmIesp48+coZfRdI1aFEsDuOgvE7
+	/jKuHyXg5TqBfZs6FZy+dVIgVMb+dH7BKcDM/48NSk3sZKVHiAP/oYigbb7R5DTGAp6tXhI0qJ1
+	LL3j3enYsF7rG99VliduLi0Y=
+X-Google-Smtp-Source: AGHT+IGAXLObLFqWvdrlT8jNvhDt4TeOuL5i0Y/T3RwGkmTWxiheZJLoRR4en+J0WUHha4o/PPCBLQ==
+X-Received: by 2002:a05:600c:4e93:b0:45f:2919:5e9c with SMTP id 5b1f17b1804b1-46fa9a8ae60mr100424145e9.2.1760454609668;
+        Tue, 14 Oct 2025 08:10:09 -0700 (PDT)
+Received: from mordecai.tesarici.cz ([213.235.133.42])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-46fb489194dsm244369755e9.12.2025.10.14.08.10.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Oct 2025 08:10:09 -0700 (PDT)
+Date: Tue, 14 Oct 2025 17:10:03 +0200
+From: Petr Tesarik <ptesarik@suse.com>
+To: Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>
+Cc: Zhaoyang Huang <huangzhaoyang@gmail.com>, "zhaoyang.huang"
+ <zhaoyang.huang@unisoc.com>, Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Mel Gorman <mgorman@techsingularity.net>, Vlastimil Babka <vbabka@suse.cz>,
+ Sumit Semwal <sumit.semwal@linaro.org>, Benjamin Gaignard
+ <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>,
+ John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, steve.kang@unisoc.com
+Subject: Re: [PATCH 2/2] driver: dma-buf: use alloc_pages_bulk_list for
+ order-0 allocation
+Message-ID: <20251014171003.57bbfd63@mordecai.tesarici.cz>
+In-Reply-To: <ecba7133-699c-4f3e-927c-bad5bd4c36a3@amd.com>
+References: <20251014083230.1181072-1-zhaoyang.huang@unisoc.com>
+	<20251014083230.1181072-3-zhaoyang.huang@unisoc.com>
+	<87953097-a105-4775-88a5-9b3a676ff139@amd.com>
+	<CAGWkznGN7W-txq_G+xpZ6DtH_1DNorYc=CxqUjebo7qfB4Sxsw@mail.gmail.com>
+	<ecba7133-699c-4f3e-927c-bad5bd4c36a3@amd.com>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.50; x86_64-suse-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 0/3] Introduce iommu-map-masked for platform devices
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Robin Murphy <robin.murphy@arm.com>
-Cc: Charan Teja Kalla <charan.kalla@oss.qualcomm.com>, joro@8bytes.org,
- will@kernel.org, saravanak@google.com, conor+dt@kernel.org, robh@kernel.org,
- mchehab@kernel.org, krzk+dt@kernel.org, abhinav.kumar@linux.dev,
- vikash.garodia@oss.qualcomm.com, dikshita.agarwal@oss.qualcomm.com,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
- bjorn.andersson@oss.qualcomm.com, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, iommu@lists.linux.dev
-References: <20250928171718.436440-1-charan.kalla@oss.qualcomm.com>
- <aec0f40a-8346-4194-8b18-1022fe3366bb@arm.com>
- <0d0560cc-9757-4c7b-8de4-170148d99481@oss.qualcomm.com>
- <ead7cf8b-fbc4-4242-a9da-b313dded1abc@arm.com>
- <nzqte4glwtpjs5bhkxz43yhdufelxvqvzmg5tepudxwetimir3@bvlw5csjizsh>
- <9d3eeb9f-b8ea-48e5-a1d9-0865f63ef991@arm.com>
- <fhb4woejzh3r6v5dxvdiopnsbuwstucfuuzbiymxg4wrxrjc7t@dt3z3utq6lwd>
- <8d88cd9d-16e8-43f9-8eb3-89862da1d0c1@arm.com>
- <hOs24ZavnUyKYyNwBWwRpYnrsefzBfp95yuy9zyp1ByxR9_3VacGX1Yntt8pCE4w3gllPwvevs1AZqghmwKoFg==@protonmail.internalid>
- <zcgn4xw2xghyna2eysavujbzbiydyki7p7upzzv7one5mdyjy6@sj7f75kc4vwu>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-In-Reply-To: <zcgn4xw2xghyna2eysavujbzbiydyki7p7upzzv7one5mdyjy6@sj7f75kc4vwu>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 13/10/2025 13:31, Dmitry Baryshkov wrote:
-> On Mon, Oct 13, 2025 at 12:20:54PM +0100, Robin Murphy wrote:
->> On 2025-10-09 7:25 pm, Dmitry Baryshkov wrote:
->>> On Thu, Oct 09, 2025 at 06:03:29PM +0100, Robin Murphy wrote:
->>>> On 2025-10-09 2:19 pm, Dmitry Baryshkov wrote:
->>>>> On Thu, Oct 09, 2025 at 11:46:55AM +0100, Robin Murphy wrote:
->>>>>> On 2025-10-08 8:10 pm, Charan Teja Kalla wrote:
->>>>>>>
->>>>>>> On 9/29/2025 3:50 PM, Robin Murphy wrote:
->>>>>>>>> USECASE [1]:
->>>>>>>>> -----------
->>>>>>>>> Video IP, 32bit, have 2 hardware sub blocks(or can be called as
->>>>>>>>> functions) called as pixel and nonpixel blocks, that does decode and
->>>>>>>>> encode of the video stream. These sub blocks are __configured__ to
->>>>>>>>> generate different stream IDs.
->>>>>>>>
->>>>>>>> So please clarify why you can't:
->>>>>>>>
->>>>>>>> a) Describe the sub-blocks as individual child nodes each with their own
->>>>>>>> distinct "iommus" property
->>>>>>>>
->>>>>>>
->>>>>>> Thanks Robin for your time. Sorry for late reply as I really didn't have
->>>>>>> concrete answer for this question.
->>>>>>>
->>>>>>> First let me clarify the word "sub blocks" -- This is just the logical
->>>>>>> separation with no separate address space to really able to define them
->>>>>>> as sub devices. Think of it like a single video IP with 2 dma
->>>>>>> engines(used for pixel and non-pixel purpose).
->>>>>>>
->>>>>>> I should agree that the child-nodes in the device tree is the easy one
->>>>>>> and infact, it is how being used in downstream.
->>>>>>>
->>>>>>> For upstream -- Since there is no real address space to interact with
->>>>>>> these sub-blocks(or logical blocks), does it really qualify to define as
->>>>>>> child nodes in the device tree? I see there is some push back[1].
->>>>>>
->>>>>> Who says you need an address space? Child nodes without "reg" properties,
->>>>>> referenced by name, compatible or phandle, exist all over the place for all
->>>>>> manner of reasons. If there are distinct logical functions with their own
->>>>>> distinct hardware properties, then I would say having child nodes to
->>>>>> describe and associate those properties with their respective functions is
->>>>>> entirely natural and appropriate. The first example that comes to mind of
->>>>>> where this is a well-established practice is PMICs - to pick one at random:
->>>>>> Documentation/devicetree/bindings/regulator/qcom,rpmh-regulator.yaml
->>>>>
->>>>> Logical function, that's correct. And also note, for PMICs that practice
->>>>> has bitten us back. For PM8008 we switched back to a non-subdevice
->>>>> representation.
->>>>>
->>>>>> For bonus irony, you can't take the other approaches without inherently
->>>>>> *introducing* a notional address space in the form of your logical function
->>>>>> IDs anyway.
->>>>>>
->>>>>>>       > or:
->>>>>>>>
->>>>>>>> b) Use standard "iommu-map" which already supports mapping a masked
->>>>>>>> input ID to an arbitrary IOMMU specifier
->>>>>>>>
->>>>>>>
->>>>>>> I think clients is also required to program non-zero smr mask, where as
->>>>>>> iommu-map just maps the id to an IOMMU specifier(sid). Please LMK if I
->>>>>>> am unable to catch your thought here.
->>>>>> An IOMMU specifier is whatever the target IOMMU node's #iommu-cells says it
->>>>>> is. The fact that Linux's parsing code only works properly for #iommu-cells
->>>>>> = 1 is not really a DT binding problem (other than it stemming from a loose
->>>>>> assumption stated in the PCI binding's use of the property).
->>>>>
->>>>> I really don't like the idea of extending the #iommu-cells. The ARM SMMU
->>>>> has only one cell, which is correct even for our platforms. The fact
->>>>> that we need to identify different IOMMU SIDs (and handle them in a
->>>>> differnt ways) is internal to the video device (and several other
->>>>> devices). There is nothing to be handled on the ARM SMMU side.
->>>>
->>>> Huh? So if you prefer not to change anything, are you suggesting this series
->>>> doesn't need to exist at all? Now I'm thoroughly confused...
->>>
->>> Hmm. We need changes, but I don't feel like adding the FUNCTION_ID to
->>> #iommu-cells is the best idea.
->>
->> What? No, any function ID would be an *input* to a map, not part of the
->> output specifier; indeed it should never go anywhere near the IOMMU, I don't
->> think anyone suggested that.
-> 
-> It was Bryan, https://lore.kernel.org/linux-arm-msm/9bae595a-597e-46e6-8eb2-44424fe21db6@linaro.org
-> 
->>
->>>> If you want to use SMR masks, then you absolutely need #iommu-cells = 2,
->>>> because that is the SMMU binding for using SMR masks. It would definitely
->>>
->>> I'm sorry. Yes, we have #iommu-cells = <2>.
->>>
->>>> not be OK to have some magic property trying to smuggle
->>>> IOMMU-driver-specific data contrary to what the IOMMU node itself says. As
->>>> for iommu-map, I don't see what would be objectionable about improving the
->>>> parsing to respect a real #iommu-cells value rather than hard-coding an
->>>> assumption. Yes, we'd probably need to forbid entries with length > 1
->>>> targeting IOMMUs with #iommu-cells > 1, since the notion of a linear
->>>
->>> This will break e.g. PCIe on Qualcomm platforms:
->>>
->>>                           iommu-map = <0x0   &apps_smmu 0x1400 0x1>,
->>>                                       <0x100 &apps_smmu 0x1401 0x1>;
->>>
->>>
->>> But this seems unlogical anyway wrt. apps_smmu having #iommu-cells =
->>> <2>. It depends on ARM SMMU ignoring the second cell when it's not
->>> present.
->>
->> Urgh, yes, that's just broken already :(
->>
->> At least they all seem to be a sufficiently consistent pattern that a
->> targeted workaround to detect old DTBs looks feasible (I'm thinking, if
->> iommu-map size % 4 == 0 and cells n*4 + 3 are all 1 and cells n*4 + 1 are
->> all the same phandle to an IOMMU with #iommu-cells == 2, then parse as if
->> #iommu-cells == 1)
-> 
-> How do we handle the case of #iommu-cells = <2>? I.e. what should be the
-> "fixed" representation of the map above? Should we have usual cells and
-> one extra "length" just for the sake of it?
-> 
->                 iommu-map = <0x0   &apps_smmu 0x1400 0x0 0x1>,
->                             <0x100 &apps_smmu 0x1401 0x0 0x1>;
-> 
-> 
-> I really like the idea of fixing iommu-map as that would remove the need
-> for other properties, but
-> 
->>
->>>> relationship between the input ID and the output specifier falls apart when
->>>> the specifier is complex, but that seems simple enough to implement and
->>>> document (even if it's too fiddly to describe in the schema itself), and
->>>> still certainly no worse than having another property that *is* just
->>>> iommu-map with implicit length = 1.
->>>>
->>>> And if you want individual StreamIDs for logical functions to be attachable
->>>> to distinct contexts then those functions absolutely must be visible to the
->>>> IOMMU layer and the SMMU driver as independent devices with their own unique
->>>> properties, which means either they come that way from the DT as of_platform
->>>> devices in the first place, or you implement a full bus_type abstraction
->>>
->>> Not necessarily. Tegra display driver creates a device for each context
->>> on its own.
->> No, the *display* driver does not; the host1x bus driver does, which is the
->> point I was making - that has a proper bus abstraction tied into the IOMMU
->> layer, such that the devices are correctly configured long before the actual
->> DRM driver(s) get anywhere near them.
-> 
-> Ack. I agree. it's drivers/gpu/host1x/context, not drivers/gpu/drm/
-> 
->>
->>> In fact, using OF to create context devices is _less_
->>> robust, because now the driver needs to sync, checking that there is a
->>> subdevice, that it has probed, etc. Using manually created devices seems
->>> better from my POV.
->>
->> Huh? A simple call to of_platform_populate() is somehow less robust than
->> open-coding much of the same logic that of_platform_populate() does plus a
->> bunch of hackery to try to fake up an of_node to make the new device appear
->> to own the appropriate properties?
->>
->> Having entire sub-*drivers* for child devices or not is an orthogonal issue
->> regardless of whichever way they are created.
-> 
-> I was (again) looking at host1x. It doesn't fake of_node (nor does it
-> have actual OF nodes). Instead it just mapps IOMMUs directly to the
-> context devices. Compare this to misc/fastrpc.c, which has subdevices
-> and drivers to map contexts. The latter one looks less robust.
-> 
-> And from DT perspective compare:
-> 
-> 		fastrpc {
-> 			compatible = "qcom,fastrpc";
-> 			#address-cells = <1>;
-> 			#size-cells = <0>;
-> 
-> 			compute-cb@3 {
-> 				compatible = "qcom,fastrpc-compute-cb";
-> 				reg = <3>;
-> 				iommus = <&apps_smmu 0x1803 0x0>;
-> 			};
-> 
-> 			compute-cb@4 {
-> 				compatible = "qcom,fastrpc-compute-cb";
-> 				reg = <4>;
-> 				iommus = <&apps_smmu 0x1804 0x0>;
-> 			};
-> 
-> 			compute-cb@5 {
-> 				compatible = "qcom,fastrpc-compute-cb";
-> 				reg = <5>;
-> 				iommus = <&apps_smmu 0x1805 0x0>;
-> 			};
-> 		};
+On Tue, 14 Oct 2025 15:04:14 +0200
+Christian K=C3=B6nig <christian.koenig@amd.com> wrote:
 
-Sorry this is perfect.
+> On 14.10.25 14:44, Zhaoyang Huang wrote:
+> > On Tue, Oct 14, 2025 at 7:59=E2=80=AFPM Christian K=C3=B6nig
+> > <christian.koenig@amd.com> wrote: =20
+> >>
+> >> On 14.10.25 10:32, zhaoyang.huang wrote: =20
+> >>> From: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
+> >>>
+> >>> The size of once dma-buf allocation could be dozens MB or much more
+> >>> which introduce a loop of allocating several thousands of order-0 pag=
+es.
+> >>> Furthermore, the concurrent allocation could have dma-buf allocation =
+enter
+> >>> direct-reclaim during the loop. This commit would like to eliminate t=
+he
+> >>> above two affections by introducing alloc_pages_bulk_list in dma-buf's
+> >>> order-0 allocation. This patch is proved to be conditionally helpful
+> >>> in 18MB allocation as decreasing the time from 24604us to 6555us and =
+no
+> >>> harm when bulk allocation can't be done(fallback to single page
+> >>> allocation) =20
+> >>
+> >> Well that sounds like an absolutely horrible idea.
+> >>
+> >> See the handling of allocating only from specific order is *exactly* t=
+here to avoid the behavior of bulk allocation.
+> >>
+> >> What you seem to do with this patch here is to add on top of the behav=
+ior to avoid allocating large chunks from the buddy the behavior to allocat=
+e large chunks from the buddy because that is faster. =20
+> > emm, this patch doesn't change order-8 and order-4's allocation
+> > behaviour but just to replace the loop of order-0 allocations into
+> > once bulk allocation in the fallback way. What is your concern about
+> > this? =20
+>=20
+> As far as I know the bulk allocation favors splitting large pages into sm=
+aller ones instead of allocating smaller pages first. That's where the perf=
+ormance benefit comes from.
+>=20
+> But that is exactly what we try to avoid here by allocating only certain =
+order of pages.
 
-Each function id can be associated with a device and a compat string 
-associated with it.
+This is a good question, actually. Yes, bulk alloc will split large
+pages if there are insufficient pages on the pcp free list. But is
+dma-buf indeed trying to avoid it, or is it merely using an inefficient
+API? And does it need the extra speed? Even if it leads to increased
+fragmentation?
 
-There's no weirdness with iommu-map, you get a struct device for your 
-SID and you associate the SID with the FUNCTION_ID you want.
-
-In fact the FUNCTION_ID could conceivably be the reg. It could be stored 
-in platform code.
-
----
-bod
+Petr T
 
