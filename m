@@ -1,131 +1,141 @@
-Return-Path: <linux-media+bounces-44404-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44405-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id CA956BD9207
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 13:53:07 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFBAEBD91EF
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 13:52:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0BEBF542D48
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 11:52:27 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 26E9A18A70A3
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 11:53:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F422D3101DB;
-	Tue, 14 Oct 2025 11:52:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1990B3101D1;
+	Tue, 14 Oct 2025 11:52:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Bf9TjaCj"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="p8gsXycd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55C9230FC34;
-	Tue, 14 Oct 2025 11:52:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A58F3101B6;
+	Tue, 14 Oct 2025 11:52:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760442741; cv=none; b=ZcEIgtde9O/kyBDXudICgOcjuPMkzcV6tkShw9JBPZs9/lSQGYDXi2hffQHdP/rzBD6wDUVzUKCnG2+yGbF6/khmIUkOmw3RoEEHrQRhEhHRvcN31aMalLH274Ew/jQ7aPmKx9oa+NkoGpIb30ymnugkmOse64e6ulSapr32/WM=
+	t=1760442750; cv=none; b=JUO+dtNEvieH92L2l48EHNBbk5ntWpHEgmnGc+16rshof8n9OWcxNK2qsuJHcwj6QB6wAaHIjVY0X+rCSlnfB5HSzvVY4XAe+t3thP4yUQbViPRseZON9TbAi3OmFZ32CpkmUun4KuZPR/5y7eOJugn6DCA+M2tK4cd6GKaqL/Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760442741; c=relaxed/simple;
-	bh=6jYK4PZn1XRyhAZB96lG9ldxSf3c2FgryhczY+xLs5I=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=rD8yItNohTSzEHXWdD8EamemB5jzP/RSIiQcjRiznqSM4FIvGwjup79HkbzapaEf9i3e7uR+S+1ndaaiV48eEco/E0GA0IIP+wnD66FcW/LMi+tw7K4kh37ZJwDdAXZ+3/cyGFGiPqTxajxCf5k+KJ5mAEGZToKMi4iZRWTNOXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Bf9TjaCj; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CAFB8C113D0;
-	Tue, 14 Oct 2025 11:52:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760442740;
-	bh=6jYK4PZn1XRyhAZB96lG9ldxSf3c2FgryhczY+xLs5I=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=Bf9TjaCj6uivY824E3TvQyxKeaQa/AjA3v7hAlGfjJeuOHMJ3b4kPoY3jAdtB5Yl/
-	 bi04Y6K1YYDhlH89zRl61BxuRrXzpFFOMqrfLWtyIrmDYDlXpgpHjSOR+6uxkf9AtA
-	 pnoFQZ+TCgVP1ztsS/NepKq2TXv2Kz6VSFUf8podLwkG5ltPsd2MpW8Af10TqY7jor
-	 w3fi3kW1pdExRnw3UiSvx2tJXwwo07bPFcrTNF9CHEjUWH25E86AkwIaI4UAA2echD
-	 4qWFiFH+CB1rsxhRg0rRdXejPEUtNHXFmbCZNUEXXD/Hq1bzoETlzLN4tdYmi8ae/a
-	 ZdYGQp4afIzbg==
-Message-ID: <37ceef4f-4ed6-4554-9baf-3cddf3e36bd7@kernel.org>
+	s=arc-20240116; t=1760442750; c=relaxed/simple;
+	bh=3XVJuLXTqcUwfWrdJ5RIn39dvkfVJ7NKAlswAxMmqtk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ch2KmE/X6/nz5ziSWq3IB5XfjNt30zwkOh53PVgSxuG6eje2mvz2S02Rfkm2/eKZNkeNRZFrLqCQeSdF/gdpEUYjZ6R5dn033unqJv4MdnTM86AMorFVWrO7SNQURqa7+4RFUYTZNwooJa+2ZM+n6M3peQPrato5jEKRY1/2j2E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=p8gsXycd; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from ideasonboard.com (93-46-82-201.ip106.fastwebnet.it [93.46.82.201])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id C22B3C7B;
+	Tue, 14 Oct 2025 13:50:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1760442642;
+	bh=3XVJuLXTqcUwfWrdJ5RIn39dvkfVJ7NKAlswAxMmqtk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=p8gsXycdcA3BtZ7uS5smhn0oU3DLtZaFu41WcGnW99Wf2sh46ZnM8v/1cWyjefm0E
+	 7DeLaXAVKw+nIBtIsampBkDXrt5TYy6HQvxGaOgLQSQA/wiebRWih8jk3eNXGiPCiq
+	 9h3kVgyIcYP7+XexV3f+SxWlu77qkZy+xYRHxZkQ=
 Date: Tue, 14 Oct 2025 13:52:18 +0200
+From: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Andy Walls <awalls@md.metrocast.net>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>, Dan Carpenter <dan.carpenter@linaro.org>, stable@vger.kernel.org, 
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v4 0/2] media: pci: Fix invalid access to file *
+Message-ID: <3cqjf6pts5fzs5gziog3g3jay6txcvxshm554uqpzgb6ymnukh@dsbo27d47rol>
+References: <20250819-cx18-v4l2-fh-v4-0-9db1635d6787@ideasonboard.com>
+ <0627cfba-798a-482b-b335-cc78a609c150@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v2] media: i2c: imx214: Exit early on control init errors
-To: Ricardo Ribalda <ribalda@chromium.org>,
- Ricardo Ribalda <ribalda@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251014-imx214-smatch-v2-1-04218043086d@chromium.org>
-Content-Language: en-US, nl
-In-Reply-To: <20251014-imx214-smatch-v2-1-04218043086d@chromium.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <0627cfba-798a-482b-b335-cc78a609c150@kernel.org>
 
-On 14/10/2025 13:00, Ricardo Ribalda wrote:
-> Now we try to initialize all the controls and at the very end check
-> ctrl_hdlr->error to check if one of them has failed.
-> 
-> This confuses smatch, who do not know how to track the state of
-> imx214->link_freq.
-> 
-> drivers/media/i2c/imx214.c:1109 imx214_ctrls_init() error: we previously assumed 'imx214->link_freq' could be null (see line 1017)
-> 
-> Fix this by exiting early on control initialization errors.
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
-> Right now we are handling this with a quirk in media-ci, if Dan cannot
-> fix smatch in a kernel cycle we should merge this patch.
+Hi Hans
 
-OK, will you keep track of this? This patch is delegated to me, so if you tell me when
-it should be merged, then I can do that. And if it is fixed in smatch, then you can just
-drop this patch in patchwork, of course.
+On Tue, Oct 14, 2025 at 09:05:20AM +0200, Hans Verkuil wrote:
+> Hi Jacopo,
+>
+> On 19/08/2025 09:07, Jacopo Mondi wrote:
+> > Since commits
+> > 7b9eb53e8591 ("media: cx18: Access v4l2_fh from file")
+> > 9ba9d11544f9 ("media: ivtv: Access v4l2_fh from file")
+> >
+> > All the ioctl handlers access their private data structures
+> > from file *
+> >
+> > The ivtv and cx18 drivers call the ioctl handlers from their
+> > DVB layer without a valid file *, causing invalid memory access.
+> >
+> > The issue has been reported by smatch in
+> > "[bug report] media: cx18: Access v4l2_fh from file"
+> >
+> > Fix this by providing wrappers for the ioctl handlers to be
+> > used by the DVB layer that do not require a valid file *.
+>
+> This series should go to the fixes branch for v6.18, right?
+> This looks like a pure regression, so I think that makes sense.
+>
 
-Until then it just stays in my TODO list.
+I think so, yes
 
-Regards,
+> BTW, why is there a Link: tag in the cx18 patch? It just links to
+> the v1 of the patch and that doesn't add meaningful information.
+> Linus likes Link:, but only if it really adds useful information.
 
-	Hans
+Good question. I presume it's probably a copy&paste error, as it has no
+place in the patch.
 
-> ---
-> Changes in v2:
-> - Fix typo in commit message commit
-> - Move error tag where it belongs (Thanks Hans!)
-> - Link to v1: https://lore.kernel.org/r/20250829-imx214-smatch-v1-1-f3d1653b48e4@chromium.org
-> ---
->  drivers/media/i2c/imx214.c | 7 +++++--
->  1 file changed, 5 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-> index 94ebe625c9e6ee0fb67fe1d89b48b2f1bf58ffc6..c66f0e18726c3fc15df91c37888a797bcea82134 100644
-> --- a/drivers/media/i2c/imx214.c
-> +++ b/drivers/media/i2c/imx214.c
-> @@ -1014,8 +1014,10 @@ static int imx214_ctrls_init(struct imx214 *imx214)
->  						   V4L2_CID_LINK_FREQ,
->  						   imx214->bus_cfg.nr_of_link_frequencies - 1,
->  						   0, imx214->bus_cfg.link_frequencies);
-> -	if (imx214->link_freq)
-> -		imx214->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-> +	if (!imx214->link_freq)
-> +		goto err_init_ctrl;
-> +
-> +	imx214->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->  
->  	/*
->  	 * WARNING!
-> @@ -1099,6 +1101,7 @@ static int imx214_ctrls_init(struct imx214 *imx214)
->  
->  	v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &imx214_ctrl_ops, &props);
->  
-> +err_init_ctrl:
->  	ret = ctrl_hdlr->error;
->  	if (ret) {
->  		v4l2_ctrl_handler_free(ctrl_hdlr);
-> 
-> ---
-> base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-> change-id: 20250829-imx214-smatch-c4d4d47428d5
-> 
-> Best regards,
+Would you like me to resend or will you remove it ?
 
+
+>
+> Regards,
+>
+> 	Hans
+>
+> >
+> > Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
+> > ---
+> > Changes in v4:
+> > - Slightly adjust commit messages
+> > - Link to v3: https://lore.kernel.org/r/20250818-cx18-v4l2-fh-v3-0-5e2f08f3cadc@ideasonboard.com
+> >
+> > Changes in v3:
+> > - Change helpers to accept the type they're going to operate on instead
+> >   of using the open_id wrapper type as suggested by Laurent
+> > - Link to v2: https://lore.kernel.org/r/20250818-cx18-v4l2-fh-v2-0-3f53ce423663@ideasonboard.com
+> >
+> > Changes in v2:
+> > - Add Cc: stable@vger.kernel.org per-patch
+> >
+> > ---
+> > Jacopo Mondi (2):
+> >       media: cx18: Fix invalid access to file *
+> >       media: ivtv: Fix invalid access to file *
+> >
+> >  drivers/media/pci/cx18/cx18-driver.c |  9 +++------
+> >  drivers/media/pci/cx18/cx18-ioctl.c  | 30 +++++++++++++++++++-----------
+> >  drivers/media/pci/cx18/cx18-ioctl.h  |  8 +++++---
+> >  drivers/media/pci/ivtv/ivtv-driver.c | 11 ++++-------
+> >  drivers/media/pci/ivtv/ivtv-ioctl.c  | 22 +++++++++++++++++-----
+> >  drivers/media/pci/ivtv/ivtv-ioctl.h  |  6 ++++--
+> >  6 files changed, 52 insertions(+), 34 deletions(-)
+> > ---
+> > base-commit: a75b8d198c55e9eb5feb6f6e155496305caba2dc
+> > change-id: 20250818-cx18-v4l2-fh-7eaa6199fdde
+> >
+> > Best regards,
+>
 
