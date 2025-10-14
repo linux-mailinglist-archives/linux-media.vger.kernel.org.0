@@ -1,173 +1,404 @@
-Return-Path: <linux-media+bounces-44388-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44389-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 618A1BD8AD9
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 12:10:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E162BD8C57
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 12:29:53 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B492918A709A
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 10:11:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5A80F1922A9A
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 10:30:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4ACFD2ED14B;
-	Tue, 14 Oct 2025 10:10:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 82F7B2F6193;
+	Tue, 14 Oct 2025 10:29:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ENOCMBvR"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EqHNndW3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 343412EC0AB
-	for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 10:10:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DABA22EA720;
+	Tue, 14 Oct 2025 10:29:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760436651; cv=none; b=UxWhuHa9aEAK7ve4onE8Ud2PS23xPCN2kLl+6c1/s8+uMTIZhbNLI2PRJIo5oltnI1gc/EuxoBPKf2575M70D3h2tkM9Zqk8uZZdhtbZuqXQvyCriRdQMTXcabOftzJmEWOsyvuiVCh/SdiMhgzGMPYZBbMgjzHRKSBymn5PpWI=
+	t=1760437782; cv=none; b=b6aN3RcKG0mjcXESY3ro4iX1ALSWov7HBOH7lVWl6BPnyo8WnjlMzJU9CMlOlFHzaehHoHwSs2vf39fk1EZd//Sn5Bt1N3oZddJclUf/0fB59jEN96cwhHOuYSZ6NmBUQD8z3HTtmKjVkWAcPRrQIeBioOrQKZT5GglyQYBX1mo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760436651; c=relaxed/simple;
-	bh=6UNxFkPs7S0fth1zlm3KPMvDq2slzrLkx1c/5aAf7/o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gvzMBU8poPzvdgnh1g/ef8D92DvNGkDSuCnM+jbmxqWVP7Hrx4tx1yGQvwvMhP9gAn8tpA/i9SI7GgyfPH9g/SB2XCUJKzmJ30bOweI8a/ilKcp2Zt8X5V/v0RDx8+E4/9P/VuYLjC7d9rI+XdHjFcjI8nOXKX2V3HC5AKBccac=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ENOCMBvR; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59E87Nph021106
-	for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 10:10:49 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	+GDf+gAOY9mdDvVU8qCaZ3Le3uxmX96IsgcRA5hA398=; b=ENOCMBvReXNVx7ga
-	EOmOXAyXdH53PeiVHByaKn5Kj9ItG2NqsAfiLnOYhYzzWx4blee9BcF02t4kmF1V
-	rpN192Yfde/xFzrBfqmsDIOYMdb1zNfWRDZw4AFZ7yU/gDklvhabmz0A86zSctqW
-	XLFZILWJbSNltVWQ+DvyvCqzRtg2swzbAa3EjoYA9PfAyjtWBHmKVFiBVT1e01Eo
-	/HAgtSa5LWRik0bYhf9R55jn9rgUNXmrrDwkO2trHXRiWo9DEV6ZMtQTZbokyRve
-	SCKnXwaHDDMYqJYbzLbxDwhg8sLi7PHvg3lCVk81BI6ghjhO4fnO7QqZLA514ONs
-	cRGK6g==
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49s6mwjbcj-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 10:10:49 +0000 (GMT)
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-b5516e33800so12267023a12.0
-        for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 03:10:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760436648; x=1761041448;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+GDf+gAOY9mdDvVU8qCaZ3Le3uxmX96IsgcRA5hA398=;
-        b=AzOfjr4/txe1g14XDAhfODGHFqdIpPhiMSBCqw9pWXyjl9ZkxCRO7vyHjE5DuazfRw
-         oNX+TPkAhKnAO+tychcNBB3PTs2M+KRJt8VLVrvafKhL5xC1hcAYE9UahWgzjafBFcu8
-         PGYgzMJSitAzFcWINClRRiZKmy+TBvAqMSnkfl6u9bcgFURZAYeqhxzOjq65HVI1AxZK
-         UGw16gcHjCUJbZDUhRVG0ZDNbdXwTolQ+7SNyMaJVLTi3Sk7Nk/gp7EvIU7g2FgblDLB
-         QKiA/1mZMmckz3trT03wYWW9vUQ6TKZ51QW1GQYMl5qgojAC7yW5VFZkw1Tmqg5zmExJ
-         ut+A==
-X-Forwarded-Encrypted: i=1; AJvYcCUxXkT8b5uq+/jRs9ywmXaYSFLj3Tq1pqQ/2Hg641qtXBObc3XE64GGx0HS/RNHzzADtcN6sJhtwKnvHQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7uPCH6tlJEFH55PvvsIjcck0wqbiF6JuDOWGpXQ7UwcsyP5eg
-	gt1QtkWuapK5n4YKuB22+uH+wAop6YcoJPVRegfGNNVPWS6rS8IgZgbz7lHEonzOP0jtsR+yolw
-	xoa0TnGrrKG+OvbhZhlZTSNzWsTWP0ypYnsYy4PKPJC6XdqmjDzt5473L27PfBiRqjGrYrV9E4w
-	==
-X-Gm-Gg: ASbGnctHGbjkIHTAmYjSiTlr7Ad7DYucVuNRYqjIhJTAP0Qw7Iu3QwR0r7UwEvCqwaD
-	x89q8LVQbH89B1W3+RZHF3TBKwU9JseRVPriJBd8ZHbdUAswQYTaQfuwXhSefjEhGFiRlsYeTqH
-	vXNm+eNy9gC+9BHvi25nmhn+NiekBqzBYFmT1tNNiJ+0OjhwYJJVs3uWzDdlgKOsbvRH16leET+
-	vd75fH366kuKQwPE7/UB3IK9LCYhvt55Y3xTr9kRWIeb1WFUe7YYybuHElxkuX0LYOs2uMQfz+m
-	S+nroGVDVsoOL0b6tR8N3Hp7oRnn9gI7lmnNxh8mtfnKnuiGal3UmDKxqIojCPWFxWM9gr8L
-X-Received: by 2002:a05:6a20:2451:b0:24a:b9e:4a6c with SMTP id adf61e73a8af0-32da845e56amr32763019637.44.1760436648464;
-        Tue, 14 Oct 2025 03:10:48 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IH4+I2XVu7f/J1cjzoxMqKeCVBL6tL6m/uv3wlVqh90v+MzZWe5SVtdgYsVmRmojAWrthABug==
-X-Received: by 2002:a05:6a20:2451:b0:24a:b9e:4a6c with SMTP id adf61e73a8af0-32da845e56amr32762977637.44.1760436647980;
-        Tue, 14 Oct 2025 03:10:47 -0700 (PDT)
-Received: from [10.206.101.41] ([202.46.23.25])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992b060962sm14772927b3a.1.2025.10.14.03.10.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 14 Oct 2025 03:10:47 -0700 (PDT)
-Message-ID: <2d581ed7-f240-6b84-3bd9-eadc3c1041fa@oss.qualcomm.com>
-Date: Tue, 14 Oct 2025 15:40:39 +0530
+	s=arc-20240116; t=1760437782; c=relaxed/simple;
+	bh=E1jd3FCeCJCpobMOmX+i/2X+14vARAFZp8J4A6jMGJ8=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=HZHGBESvAxCjM7B1lOFP6EzdzxecxVCdbmSDEDc4X3GZ6RG8XonlzmkafLTB9z3lnbWiPLl3rBk5omHiv8/nExCjQeARjP8i48Y6KlQE6VL3V3D3o9pJX2rKWfBU3rJdKnEm1I0iVHVeQAmFYgA87Fp9prcv7hXeh72inbl6zi4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EqHNndW3; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 449FCC4CEE7;
+	Tue, 14 Oct 2025 10:29:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760437781;
+	bh=E1jd3FCeCJCpobMOmX+i/2X+14vARAFZp8J4A6jMGJ8=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=EqHNndW3oDYfNAjZxmu4zy4pjGTsKJqKMOkLC+GEwJFHDuzwjpzRia+uHELkhzCnZ
+	 GfxMx2/s9CDWnht7EWpyq0p4y5QgjQvCFxnnrLBFSBtCPi/Gd1Aoo6NRhRjvFC7bKo
+	 ACoLf7gqPnwdlOcyJ8ff0wP43IK2rWnXeEEOU2GUJDsUsT1EvoSbrXeeHvrxE1RmZt
+	 GXj4QGmFHLG8xreW6wiwxhPx2U26tSj9/ifLqxcguxaqQd1Pxw1ST7ZcXbjJVc973u
+	 KqmEET9LWIJoMwZ53cy/s5Ww9HRJsSvksavo0eWKTIayTH20FIwUqIMEAsZTDLjNy6
+	 GQi1xpOqgH4BA==
+Message-ID: <1b41205e-9af2-487f-889c-d6fb328dfbb2@kernel.org>
+Date: Tue, 14 Oct 2025 12:29:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH 7/8] media: iris: move common register definitions to the
- header
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-Cc: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20251008-iris-sc7280-v1-0-def050ba5e1f@oss.qualcomm.com>
- <20251008-iris-sc7280-v1-7-def050ba5e1f@oss.qualcomm.com>
- <b7eba4b5-1189-7506-4767-0ef3234fc6f2@oss.qualcomm.com>
- <dzorzudzpjipvlkwik3uylomwi2dy5ticxromzegzgi2jhibot@reqv5ul5ifuc>
- <3802fe42-0c94-8c10-7b6c-6c3adf863ef9@oss.qualcomm.com>
- <t5obao7tm34uilnzoa24shknvdtzqkc5uwek4cxwbof3tgqylb@jehfugyxvups>
-From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <t5obao7tm34uilnzoa24shknvdtzqkc5uwek4cxwbof3tgqylb@jehfugyxvups>
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v2] media: dvb-usb: az6027: fix out-of-bounds in
+ az6027_i2c_xfer()
+To: Jeongjun Park <aha310510@gmail.com>, mchehab@kernel.org,
+ hverkuil@kernel.org
+Cc: christophe.jaillet@wanadoo.fr, linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250907135335.308595-1-aha310510@gmail.com>
+Content-Language: en-US, nl
+In-Reply-To: <20250907135335.308595-1-aha310510@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEzMDA4MyBTYWx0ZWRfXxXAfueH9oaxa
- pGBzuA0kQEz9VnXDeDNwJHQR7vAXGB88T2RDQ6/JPK7U3koQ7oIj9hzyfefGPoWQLBr3ccu5+Q4
- SCZehP8JfDU9Wngd0IaJ4YzvLEri80YZkioQ+sQEvom/fgj9xiEU9oufnQcfLeOPznD1r51I00K
- EtEgEevFRFINNeCJp9wVKS7D12/i+6TqYLPckns0wC41Zw+9ZyIOe/43JnGFLnLS7VUIAHGhitF
- bLgLlkRoUScUu3+5fUnt/UvyYwGPpjrzHenJoaHHUGeYxg1uvOJjy+Ytc9wCkPaEB31v7THSb7l
- v2KaBmznBOgUTZzBywmwYeZ7T+MxyLt2P+Sp8SVRXpLOWfDJi5u2ZCEeE3E15ZA0eeQ04QjWBN6
- r9bd05fMM7eI7BX6tcoGvB18WQ4FDA==
-X-Authority-Analysis: v=2.4 cv=Fr4IPmrq c=1 sm=1 tr=0 ts=68ee21a9 cx=c_pps
- a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=ZePRamnt/+rB5gQjfz0u9A==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=UHACNdNzX4dSgP2fR3kA:9 a=QEXdDO2ut3YA:10
- a=x9snwWr2DeNwDh03kgHS:22
-X-Proofpoint-GUID: vFH8dMeDa0cwMTyxBTD-STMCrnYeLwoW
-X-Proofpoint-ORIG-GUID: vFH8dMeDa0cwMTyxBTD-STMCrnYeLwoW
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-14_02,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 spamscore=0 phishscore=0 malwarescore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510130083
 
-
-On 10/14/2025 3:21 PM, Dmitry Baryshkov wrote:
-> On Tue, Oct 14, 2025 at 02:43:56PM +0530, Vikash Garodia wrote:
->>
->> On 10/9/2025 8:18 PM, Dmitry Baryshkov wrote:
->>> On Thu, Oct 09, 2025 at 11:40:25AM +0530, Dikshita Agarwal wrote:
->>>>
->>>>
->>>> On 10/8/2025 10:03 AM, Dmitry Baryshkov wrote:
->>>>> Simplify adding new platforms by moving common registers definitions
->>>>> from VPU 3.x and "common" file to the header with other register
->>>>> defines.
->>>>>
->>>>
->>>> Similar to
->>>> https://lore.kernel.org/all/20250925-knp_video-v1-5-e323c0b3c0cd@oss.qualcomm.com/
->>>> ?
->>>
->>> Yes, but moving more registers. I can rebase on top of that series if it
->>> lands first. Or I can just pick that patch into the series, to remove
->>> the dependency. What would be yours / Bryan's preference?
->>>
->>
->> My vote would be to rebase this one on top of earlier one.
+On 07/09/2025 15:53, Jeongjun Park wrote:
+> msg[i].len is a user-controlled value, the current implementation easily
+> causes out-of-bounds errors in az6027_i2c_xfer().
 > 
-> Ack, I will rebase. Seeing that none of the patches in that series are
-> in R-B state, I will probably pick up just that patch into this series.
-> I hope it's fine with everybody.
+> Therefore, to prevent this, we need to strengthen bounds checking through
+> a comprehensive refactoring of az6027_usb_in_op/az6027_usb_out_op/
+> az6027_i2c_xfer.
 > 
+> Fixes: 786baecfe78f ("[media] dvb-usb: move it to drivers/media/usb/dvb-usb")
+> Signed-off-by: Jeongjun Park <aha310510@gmail.com>
+> ---
+> v2: Change to fix the root cause of oob
+> - Link to v1: https://lore.kernel.org/all/20250421115045.81394-1-aha310510@gmail.com/
+> ---
+>  drivers/media/usb/dvb-usb/az6027.c | 105 ++++++++++++++++++++---------
+>  1 file changed, 72 insertions(+), 33 deletions(-)
+> 
+> diff --git a/drivers/media/usb/dvb-usb/az6027.c b/drivers/media/usb/dvb-usb/az6027.c
+> index 056935d3cbd6..c021362e9b8a 100644
+> --- a/drivers/media/usb/dvb-usb/az6027.c
+> +++ b/drivers/media/usb/dvb-usb/az6027.c
+> @@ -296,12 +296,19 @@ static struct stb6100_config az6027_stb6100_config = {
+>  
+>  /* check for mutex FIXME */
+>  static int az6027_usb_in_op(struct dvb_usb_device *d, u8 req,
+> -			    u16 value, u16 index, u8 *b, int blen)
+> +			    u16 value, u16 index, u8 *b, int blen, int buf_size)
+>  {
+>  	int ret = -1;
+>  	if (mutex_lock_interruptible(&d->usb_mutex))
+>  		return -EAGAIN;
+>  
+> +	if (blen > buf_size) {
+> +		err("usb in %d bytes, but max size is %d bytes\n",
+> +			blen, buf_size);
+> +		ret = -EOPNOTSUPP;
+> +		goto end_unlock;
+> +	}
+> +
+>  	ret = usb_control_msg(d->udev,
+>  			      usb_rcvctrlpipe(d->udev, 0),
+>  			      req,
+> @@ -321,6 +328,7 @@ static int az6027_usb_in_op(struct dvb_usb_device *d, u8 req,
+>  	deb_xfer("in: req. %02x, val: %04x, ind: %04x, buffer: ", req, value, index);
+>  	debug_dump(b, blen, deb_xfer);
+>  
+> +end_unlock:
+>  	mutex_unlock(&d->usb_mutex);
+>  	return ret;
+>  }
+> @@ -330,16 +338,24 @@ static int az6027_usb_out_op(struct dvb_usb_device *d,
+>  			     u16 value,
+>  			     u16 index,
+>  			     u8 *b,
+> -			     int blen)
+> +			     int blen,
+> +			     int buf_size)
+>  {
+>  	int ret;
+>  
+> -	deb_xfer("out: req. %02x, val: %04x, ind: %04x, buffer: ", req, value, index);
+> -	debug_dump(b, blen, deb_xfer);
+> -
+>  	if (mutex_lock_interruptible(&d->usb_mutex))
+>  		return -EAGAIN;
+>  
+> +	if (blen > buf_size) {
+> +		err("usb out %d bytes, but max size is %d bytes\n",
+> +			blen, buf_size);
+> +		ret = -EOPNOTSUPP;
+> +		goto end_unlock;
+> +	}
+> +
+> +	deb_xfer("out: req. %02x, val: %04x, ind: %04x, buffer: ", req, value, index);
+> +	debug_dump(b, blen, deb_xfer);
+> +
+>  	ret = usb_control_msg(d->udev,
+>  			      usb_sndctrlpipe(d->udev, 0),
+>  			      req,
+> @@ -350,6 +366,7 @@ static int az6027_usb_out_op(struct dvb_usb_device *d,
+>  			      blen,
+>  			      2000);
+>  
+> +end_unlock:
+>  	if (ret != blen) {
+>  		warn("usb out operation failed. (%d)", ret);
+>  		mutex_unlock(&d->usb_mutex);
+> @@ -375,7 +392,7 @@ static int az6027_streaming_ctrl(struct dvb_usb_adapter *adap, int onoff)
+>  	index = 0;
+>  	blen = 0;
+>  
+> -	ret = az6027_usb_out_op(adap->dev, req, value, index, NULL, blen);
+> +	ret = az6027_usb_out_op(adap->dev, req, value, index, NULL, blen, 0);
+>  	if (ret != 0)
+>  		warn("usb out operation failed. (%d)", ret);
+>  
+> @@ -399,7 +416,7 @@ static int az6027_rc_query(struct dvb_usb_device *d, u32 *event, int *state)
+>  int az6027_power_ctrl(struct dvb_usb_device *d, int onoff)
+>  {
+>  	u8 v = onoff;
+> -	return az6027_usb_out_op(d,0xBC,v,3,NULL,1);
+> +	return az6027_usb_out_op(d,0xBC,v,3,NULL,1,0);
 
-Should be good. I can keep the patch in my series as well, in my next rev, so
-whichever lands first, Bryan can simply drop the patch in later series.
+Hmm, this will now just fail, right? Since 1 > 0. I wonder if this is a bug and the '1' should
+be '0'? Or if the USB core will just ignore the length if the buffer is NULL.
+
+I'm not familiar enough with that to be sure.
+
+>  }
+>  */
+>  
+> @@ -431,7 +448,7 @@ static int az6027_ci_read_attribute_mem(struct dvb_ca_en50221 *ca,
+>  	index = 0;
+>  	blen = 1;
+>  
+> -	ret = az6027_usb_in_op(d, req, value, index, b, blen);
+> +	ret = az6027_usb_in_op(d, req, value, index, b, blen, 12);
+>  	if (ret < 0) {
+>  		warn("usb in operation failed. (%d)", ret);
+>  		ret = -EINVAL;
+> @@ -468,7 +485,7 @@ static int az6027_ci_write_attribute_mem(struct dvb_ca_en50221 *ca,
+>  	index = value;
+>  	blen = 0;
+>  
+> -	ret = az6027_usb_out_op(d, req, value1, index, NULL, blen);
+> +	ret = az6027_usb_out_op(d, req, value1, index, NULL, blen, 0);
+>  	if (ret != 0)
+>  		warn("usb out operation failed. (%d)", ret);
+>  
+> @@ -504,7 +521,7 @@ static int az6027_ci_read_cam_control(struct dvb_ca_en50221 *ca,
+>  	index = 0;
+>  	blen = 2;
+>  
+> -	ret = az6027_usb_in_op(d, req, value, index, b, blen);
+> +	ret = az6027_usb_in_op(d, req, value, index, b, blen, 12);
+>  	if (ret < 0) {
+>  		warn("usb in operation failed. (%d)", ret);
+>  		ret = -EINVAL;
+> @@ -544,7 +561,7 @@ static int az6027_ci_write_cam_control(struct dvb_ca_en50221 *ca,
+>  	index = value;
+>  	blen = 0;
+>  
+> -	ret = az6027_usb_out_op(d, req, value1, index, NULL, blen);
+> +	ret = az6027_usb_out_op(d, req, value1, index, NULL, blen, 0);
+>  	if (ret != 0) {
+>  		warn("usb out operation failed. (%d)", ret);
+>  		goto failed;
+> @@ -575,7 +592,7 @@ static int CI_CamReady(struct dvb_ca_en50221 *ca, int slot)
+>  	index = 0;
+>  	blen = 1;
+>  
+> -	ret = az6027_usb_in_op(d, req, value, index, b, blen);
+> +	ret = az6027_usb_in_op(d, req, value, index, b, blen, 12);
+>  	if (ret < 0) {
+>  		warn("usb in operation failed. (%d)", ret);
+>  		ret = -EIO;
+> @@ -604,7 +621,7 @@ static int az6027_ci_slot_reset(struct dvb_ca_en50221 *ca, int slot)
+>  	index = 0;
+>  	blen = 0;
+>  
+> -	ret = az6027_usb_out_op(d, req, value, index, NULL, blen);
+> +	ret = az6027_usb_out_op(d, req, value, index, NULL, blen, 0);
+>  	if (ret != 0) {
+>  		warn("usb out operation failed. (%d)", ret);
+>  		goto failed;
+> @@ -616,7 +633,7 @@ static int az6027_ci_slot_reset(struct dvb_ca_en50221 *ca, int slot)
+>  	index = 0;
+>  	blen = 0;
+>  
+> -	ret = az6027_usb_out_op(d, req, value, index, NULL, blen);
+> +	ret = az6027_usb_out_op(d, req, value, index, NULL, blen, 0);
+>  	if (ret != 0) {
+>  		warn("usb out operation failed. (%d)", ret);
+>  		goto failed;
+> @@ -660,7 +677,7 @@ static int az6027_ci_slot_ts_enable(struct dvb_ca_en50221 *ca, int slot)
+>  	index = 0;
+>  	blen = 0;
+>  
+> -	ret = az6027_usb_out_op(d, req, value, index, NULL, blen);
+> +	ret = az6027_usb_out_op(d, req, value, index, NULL, blen, 0);
+>  	if (ret != 0) {
+>  		warn("usb out operation failed. (%d)", ret);
+>  		goto failed;
+> @@ -692,7 +709,7 @@ static int az6027_ci_poll_slot_status(struct dvb_ca_en50221 *ca, int slot, int o
+>  	index = 0;
+>  	blen = 1;
+>  
+> -	ret = az6027_usb_in_op(d, req, value, index, b, blen);
+> +	ret = az6027_usb_in_op(d, req, value, index, b, blen, 12);
+>  	if (ret < 0) {
+>  		warn("usb in operation failed. (%d)", ret);
+>  		ret = -EIO;
+> @@ -771,7 +788,7 @@ static int az6027_ci_init(struct dvb_usb_adapter *a)
+>  /*
+>  static int az6027_read_mac_addr(struct dvb_usb_device *d, u8 mac[6])
+>  {
+> -	az6027_usb_in_op(d, 0xb7, 6, 0, &mac[0], 6);
+> +	az6027_usb_in_op(d, 0xb7, 6, 0, &mac[0], 6, 6);
+>  	return 0;
+>  }
+>  */
+> @@ -831,7 +848,7 @@ static int az6027_frontend_poweron(struct dvb_usb_adapter *adap)
+>  	index = 3;
+>  	blen = 0;
+>  
+> -	ret = az6027_usb_out_op(adap->dev, req, value, index, NULL, blen);
+> +	ret = az6027_usb_out_op(adap->dev, req, value, index, NULL, blen, 0);
+>  	if (ret != 0)
+>  		return -EIO;
+>  
+> @@ -851,7 +868,7 @@ static int az6027_frontend_reset(struct dvb_usb_adapter *adap)
+>  	index = 3;
+>  	blen = 0;
+>  
+> -	ret = az6027_usb_out_op(adap->dev, req, value, index, NULL, blen);
+> +	ret = az6027_usb_out_op(adap->dev, req, value, index, NULL, blen, 0);
+>  	if (ret != 0)
+>  		return -EIO;
+>  
+> @@ -861,7 +878,7 @@ static int az6027_frontend_reset(struct dvb_usb_adapter *adap)
+>  	blen = 0;
+>  	msleep_interruptible(200);
+>  
+> -	ret = az6027_usb_out_op(adap->dev, req, value, index, NULL, blen);
+> +	ret = az6027_usb_out_op(adap->dev, req, value, index, NULL, blen, 0);
+>  	if (ret != 0)
+>  		return -EIO;
+>  
+> @@ -872,7 +889,7 @@ static int az6027_frontend_reset(struct dvb_usb_adapter *adap)
+>  	index = 3;
+>  	blen = 0;
+>  
+> -	ret = az6027_usb_out_op(adap->dev, req, value, index, NULL, blen);
+> +	ret = az6027_usb_out_op(adap->dev, req, value, index, NULL, blen, 0);
+>  	if (ret != 0)
+>  		return -EIO;
+>  
+> @@ -894,7 +911,7 @@ static int az6027_frontend_tsbypass(struct dvb_usb_adapter *adap, int onoff)
+>  	index = 0;
+>  	blen = 0;
+>  
+> -	ret = az6027_usb_out_op(adap->dev, req, value, index, NULL, blen);
+> +	ret = az6027_usb_out_op(adap->dev, req, value, index, NULL, blen, 0);
+>  	if (ret != 0)
+>  		return -EIO;
+>  
+> @@ -955,6 +972,7 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
+>  	u16 index;
+>  	u16 value;
+>  	int length;
+> +	int ret;
+>  	u8 req;
+>  	u8 *data;
+>  
+> @@ -981,7 +999,12 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
+>  			}
+>  			value = msg[i].buf[0] & 0x00ff;
+>  			length = 1;
+> -			az6027_usb_out_op(d, req, value, index, data, length);
+> +			ret = az6027_usb_out_op(d, req, value, index,
+> +						data, length, 256);
+> +			if (ret != 0) {
+> +				i = ret;
+> +				break;
+> +			}
+>  		}
+>  
+>  		if (msg[i].addr == 0xd0) {
+> @@ -995,7 +1018,13 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
+>  				index = (((msg[i].buf[0] << 8) & 0xff00) | (msg[i].buf[1] & 0x00ff));
+>  				value = msg[i].addr + (msg[i].len << 8);
+>  				length = msg[i + 1].len + 6;
+> -				az6027_usb_in_op(d, req, value, index, data, length);
+> +				ret = az6027_usb_in_op(d, req, value, index,
+> +							data, length, 256);
+> +				if (ret != 0) {
+> +					i = ret;
+> +					break;
+> +				}
+> +
+>  				len = msg[i + 1].len;
+>  				for (j = 0; j < len; j++)
+>  					msg[i + 1].buf[j] = data[j + 5];
+> @@ -1013,9 +1042,12 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
+>  				value = msg[i].addr + (2 << 8);
+>  				length = msg[i].len - 2;
+>  				len = msg[i].len - 2;
+> -				for (j = 0; j < len; j++)
+> -					data[j] = msg[i].buf[j + 2];
+> -				az6027_usb_out_op(d, req, value, index, data, length);
+> +				ret = az6027_usb_out_op(d, req, value, index,
+> +							&msg[i].buf[2], length, 256);
+> +				if (ret != 0) {
+> +					i = ret;
+> +					break;
+> +				}
+>  			}
+>  		}
+>  
+> @@ -1026,7 +1058,13 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
+>  				index = 0x0;
+>  				value = msg[i].addr;
+>  				length = msg[i].len + 6;
+> -				az6027_usb_in_op(d, req, value, index, data, length);
+> +				ret = az6027_usb_in_op(d, req, value, index,
+> +							data, length, 256);
+> +				if (ret != 0) {
+> +					i = ret;
+> +					break;
+> +				}
+> +
+>  				len = msg[i].len;
+>  				for (j = 0; j < len; j++)
+>  					msg[i].buf[j] = data[j + 5];
+> @@ -1042,11 +1080,12 @@ static int az6027_i2c_xfer(struct i2c_adapter *adap, struct i2c_msg msg[], int n
+>  				value = msg[i].addr + (1 << 8);
+>  				length = msg[i].len - 1;
+>  				len = msg[i].len - 1;
+> -
+> -				for (j = 0; j < len; j++)
+> -					data[j] = msg[i].buf[j + 1];
+> -
+> -				az6027_usb_out_op(d, req, value, index, data, length);
+> +				ret = az6027_usb_out_op(d, req, value, index,
+> +							&msg[i].buf[1], length, 256);
+> +				if (ret != 0) {
+> +					i = ret;
+> +					break;
+> +				}
+>  			}
+>  		}
+>  	}
+> --
+> 
 
 Regards,
-Vikash
+
+	Hans
 
