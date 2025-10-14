@@ -1,54 +1,54 @@
-Return-Path: <linux-media+bounces-44464-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44465-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E82ABDAD12
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 19:41:43 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EE9DBDAD2A
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 19:42:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 4AA64355AC4
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 17:41:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2E55E547B6D
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 17:41:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6673530BB8B;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0B883019DF;
 	Tue, 14 Oct 2025 17:41:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QjtggNmN"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L2FJK8et"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C2E973019DF
-	for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 17:41:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3BBAC30BB87
+	for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 17:41:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760463669; cv=none; b=PQ0T1OdbmaMtNU1UYU564S6EZERUoGTkdwAnDfKj4JFF9orNVTim2va/YpSKvDVOwV/+nTfJAn9xfgSr8UHoh8WFcD5Vn13ajAW9tZNj1YG2DQLITXiGMt9iSJEqHNBPjnMNTGQYMz50Eq/UpY+ZNJRTpCIIuwsu5dCnYGO4i5A=
+	t=1760463670; cv=none; b=nvEdbtZO/LNzm9R208iK0jtMXJRGI66Af8ZxBv/xuX0Z7DJZ/Nui0x+AUUb8yP7EDmKQyVyyiVN33c2PVo3EAZAG/zaIVoKp2ybkuP6x3JMOOfUTiZKjFEAdImr9PsXaQsAMQ8C4QXyyAdQermLPH5EN2/EJPtg2q6299J68YuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760463669; c=relaxed/simple;
-	bh=uQQfjzEYY3qGt32NpNMk407m0tDRx4Rzj5nlU1c3vNM=;
+	s=arc-20240116; t=1760463670; c=relaxed/simple;
+	bh=IqQZ4gRXExNwGTEkeOhHpIPCdkRDN5k9nngJXX7TA94=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=bygrnu5A9FyR8UHdgQOKqB12lsqJMgejOT322oENiFMXfE8AAaac+5wiFEwjkn/y+iKwPChHZbMkyr0OGt3aSrSkYlvQSQAbdOdSsztBsoLBUlwXuiX/nZ/bBgTs1vxMiRiWwGfay84fB9KbLSZWjSuEbWIp4ea9BuyrXt8b3tQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QjtggNmN; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17128C4CEF9;
-	Tue, 14 Oct 2025 17:41:06 +0000 (UTC)
+	 MIME-Version; b=EfSjboz2/znifZpCTDo4LNExNY2TyNQwHRsuOb02IuuVEgRGNowJA5xtpb3Ixhkn17dCqYyJ/gHafN2C61IKe/3YW+D7Kv2CcZvUACbzv1/ZigUdhm0c5p6KoSceiLEYnzHJfJpOGdgNK7z1JL75/XFPIaMMkKnro4tQraK3IbA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L2FJK8et; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E4878C4CEE7;
+	Tue, 14 Oct 2025 17:41:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760463668;
-	bh=uQQfjzEYY3qGt32NpNMk407m0tDRx4Rzj5nlU1c3vNM=;
+	s=k20201202; t=1760463670;
+	bh=IqQZ4gRXExNwGTEkeOhHpIPCdkRDN5k9nngJXX7TA94=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QjtggNmNyL2cPktJwNGterntdztLmvWUS/tfEFSdoEucUdHq0TZ+mnnZ7skVg/boi
-	 FGdobhYq7WMxpdyMlX7QL5PDOI5CrRIj2kGdefYypKpLYP6Gcid3KHH0rJeLmcEdYt
-	 C+K6IfTiXA6cx/i9hoKX2kxVteYA2b+790NkOZ6tk9zpM2H6QWvOWGxtsCEGOQimOA
-	 Jk+uWUunH3ZRxUJsI7M9xu7IdR2AWcjI32izgH5jLjiRN7PLwnvI1pN52tdWY+5FNl
-	 JTBtgeMAu9el3lfgkRHJfGndqhX4XOqdewA0k7qHRVDsAG7nuAKf2q5dMhZGVnyLX2
-	 suDyvI807W7wA==
+	b=L2FJK8etLa8LgcYRKocA92PS++1A/4WcKYA0Av+coxMjk6uPhJmo1hyfaqSi8Rlyi
+	 mESmbrMQxtHSkR44sSxGLmmDuB57KIFqkDhoK5ZOiIs3q8ZQkQU3wzSdYqxp6kf/wN
+	 YUJGTloQfKUTsF0wy1e5Zc1v6FxvGo7dGV0vru4cy9tLNr65fZMSlhZLMsAzQ6x6QJ
+	 Z4SEYShpJUrCxa30BfBcnpYPduReOItQF6vX9oRW9ECYn9xCI7YkuYQtmRDejW5Vy9
+	 0/wYXbCMZi3ekbAsZbypfAKTRE2Hjv+35OJgagGaG5LQEJMWgiXTooTeyaSJ8yUHEi
+	 KG+ILXCC1kgDw==
 From: Hans de Goede <hansg@kernel.org>
 To: Bingbu Cao <bingbu.cao@intel.com>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc: Hans de Goede <hansg@kernel.org>,
 	linux-media@vger.kernel.org
-Subject: [PATCH 17/25] media: i2c: ov01a10: Remove struct ov01a10_reg_list
-Date: Tue, 14 Oct 2025 19:40:25 +0200
-Message-ID: <20251014174033.20534-18-hansg@kernel.org>
+Subject: [PATCH 18/25] media: i2c: ov01a10: Replace exposure->min/step with direct define use
+Date: Tue, 14 Oct 2025 19:40:26 +0200
+Message-ID: <20251014174033.20534-19-hansg@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251014174033.20534-1-hansg@kernel.org>
 References: <20251014174033.20534-1-hansg@kernel.org>
@@ -60,67 +60,30 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-After the conversion to the CCI register access helpers, struct
-ov01a10_reg_list is only used inside struct ov01a10_link_freq_config.
-
-Simplify things by embedding the ov01a10_reg_list members directly into
-struct ov01a10_link_freq_config.
+The exposure minimum and step are constant use the defines for this
+instead of retrieving these from the exposure-control.
 
 Signed-off-by: Hans de Goede <hansg@kernel.org>
 ---
- drivers/media/i2c/ov01a10.c | 22 ++++++++--------------
- 1 file changed, 8 insertions(+), 14 deletions(-)
+ drivers/media/i2c/ov01a10.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
-index e8ccb295fdc9..805ed42d86f9 100644
+index 805ed42d86f9..c8b870cf6318 100644
 --- a/drivers/media/i2c/ov01a10.c
 +++ b/drivers/media/i2c/ov01a10.c
-@@ -98,13 +98,9 @@
- #define OV01A10_MEDIA_BUS_FMT		MEDIA_BUS_FMT_SBGGR10_1X10
- #define OV01A10_BAYER_PATTERN_SIZE	2 /* 2x2 */
+@@ -367,9 +367,8 @@ static int ov01a10_set_ctrl(struct v4l2_ctrl *ctrl)
+ 		exposure_max = fmt->height + ctrl->val -
+ 			       OV01A10_EXPOSURE_MAX_MARGIN;
+ 		__v4l2_ctrl_modify_range(ov01a10->exposure,
+-					 ov01a10->exposure->minimum,
+-					 exposure_max, ov01a10->exposure->step,
+-					 exposure_max);
++					 OV01A10_EXPOSURE_MIN, exposure_max,
++					 OV01A10_EXPOSURE_STEP, exposure_max);
+ 	}
  
--struct ov01a10_reg_list {
--	u32 num_of_regs;
--	const struct reg_sequence *regs;
--};
--
- struct ov01a10_link_freq_config {
--	const struct ov01a10_reg_list reg_list;
-+	const struct reg_sequence *regs;
-+	int regs_len;
- };
- 
- static const struct reg_sequence mipi_data_rate_720mbps[] = {
-@@ -238,10 +234,8 @@ static const s64 link_freq_menu_items[] = {
- 
- static const struct ov01a10_link_freq_config link_freq_configs[] = {
- 	{
--		.reg_list = {
--			.num_of_regs = ARRAY_SIZE(mipi_data_rate_720mbps),
--			.regs = mipi_data_rate_720mbps,
--		}
-+		.regs = mipi_data_rate_720mbps,
-+		.regs_len = ARRAY_SIZE(mipi_data_rate_720mbps),
- 	},
- };
- 
-@@ -551,12 +545,12 @@ static int ov01a10_set_mode(struct ov01a10 *ov01a10)
- 
- static int ov01a10_start_streaming(struct ov01a10 *ov01a10)
- {
--	const struct ov01a10_reg_list *reg_list;
-+	const struct ov01a10_link_freq_config *freq_cfg;
- 	int ret;
- 
--	reg_list = &link_freq_configs[ov01a10->link_freq_index].reg_list;
--	ret = regmap_multi_reg_write(ov01a10->regmap, reg_list->regs,
--				     reg_list->num_of_regs);
-+	freq_cfg = &link_freq_configs[ov01a10->link_freq_index];
-+	ret = regmap_multi_reg_write(ov01a10->regmap, freq_cfg->regs,
-+				     freq_cfg->regs_len);
- 	if (ret) {
- 		dev_err(ov01a10->dev, "failed to set plls\n");
- 		return ret;
+ 	if (!pm_runtime_get_if_in_use(ov01a10->dev))
 -- 
 2.51.0
 
