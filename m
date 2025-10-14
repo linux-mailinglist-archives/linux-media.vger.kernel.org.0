@@ -1,235 +1,231 @@
-Return-Path: <linux-media+bounces-44412-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44413-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1E82DBD95AB
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 14:34:21 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCDA0BD96DD
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 14:45:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 21C8B541F87
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 12:34:19 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AC14A5010FF
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 12:44:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CA6BD313551;
-	Tue, 14 Oct 2025 12:34:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 239D0313E06;
+	Tue, 14 Oct 2025 12:44:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gQF0Y6dc"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Bl2YBOjt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com [209.85.167.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B0DD2DE1E5;
-	Tue, 14 Oct 2025 12:34:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8562DE1E5
+	for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 12:44:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760445253; cv=none; b=EjHtIjhaKt7aAjMEEg9H4VEPbm6SeHRRR0NyD/o5F/lewtBkeyqorm4BXeGJRv8d2K+hr7N3rmIjTZMbKyre64WFqlBNRIqVbDV0i29ur6/wmlrKcC1V+y1dmBB5pzjghRNWZK/OAfLi/4Ar0Xb73lDuGsW6Gv61KXpzFg0g9V0=
+	t=1760445867; cv=none; b=GY/j1n3BNRkpnEZ6s88En5HNMGD6DuJuDVRzTb2Jot2TdYY+jEErP+IWrVJtk8oaomy+xyiCOrMrQYAVdQFzD+LgyNn/2d+iW2KNuiCa5b8y4h+yb54wTi1PgdjqCIL55Clqo1k4mldFmK8JyxEjF5cVif0N3xYvOJ0hxKBHXcU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760445253; c=relaxed/simple;
-	bh=GNg0lILA/EASTwnAkarlJXxI1zxHDTzHg9YaU1hS5Fs=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=aVtbN/GcOOHIfoCvpEedzoFQVjZPVSrcG2CGszufUwQqPXKl/9sm8mj5rUVZWCrKV8VHCJpNaI/6bWZLeZBc5fD/SAYEvgS6h6u5Xp4atQZxws4G3MaQfMqDXAC36iy9YvNG29clSOEys4SWrN7Zq24L7G/aBShTKfRFD4hYRiA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gQF0Y6dc; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CFDC7C4CEE7;
-	Tue, 14 Oct 2025 12:34:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760445252;
-	bh=GNg0lILA/EASTwnAkarlJXxI1zxHDTzHg9YaU1hS5Fs=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=gQF0Y6dcezXj0XBhp91YKYvi6f9489AxB6hJ2RzpGKbxAOs+lIXrw1+A0M52+Lio1
-	 iUnRwEDWz8+uYRtl+suOLv5dVv/XZfACvXqiVkqPJGyB84RMxTS/TKczE0n+ryYhsF
-	 NHoeQscfnARH1SakGvOlJ2iGlIMV+yDeSxK1SpQFojS9Qvy1/vyjJGWUlIMyEsKGES
-	 IL0rVeEmfP8oCqzsP7E+iwps1RRK97eGBr6sPMS9HeK9Nvk9OIL98ON+ume1cR/fWy
-	 7d3wseqIuK7FJ24j8rhUt4nH+K3Qwpgux3TOfEWmp4/qMq8ikm6AVarGOHM5CNkPdc
-	 a8fu3pevkG3CA==
-Message-ID: <a03637f5-a810-4620-8ba3-d502a4ce7dd3@kernel.org>
-Date: Tue, 14 Oct 2025 14:34:09 +0200
+	s=arc-20240116; t=1760445867; c=relaxed/simple;
+	bh=QyzRDHjbSAqNA3CNAxYa6LI244O6yFvaYevkEhd1FMA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DCfizum2EElT4Y/ZFGO/Z+Xr+iaoHWoj1tzyO59Lv+aORdik5QLnJaEl6iVZuRj2oV08aQQP+xvZr8aIwory9En3rcx4b6YNseSN4X3/DbUgxdwZ6jLmtnO95W8ZfsHLF7WQTsn38BcGVX9A+Qb4MVu2m06eL+YQiRX7vJUNQtg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Bl2YBOjt; arc=none smtp.client-ip=209.85.167.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-lf1-f47.google.com with SMTP id 2adb3069b0e04-57e7aae5af9so912582e87.0
+        for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 05:44:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1760445862; x=1761050662; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9oo6cb/h2//KSAhz8PhrLQfUB6XAbYAkngZFzEqMMVw=;
+        b=Bl2YBOjtM/gbRX0TYP8aRoMLdW8da2JME6geIo61xRvUBJ+wXufILVV2+2myv0iuMw
+         nWDkSHWcuyPgERPdbLcvpCIv4xDrwOOli70898cNjWXxCyCEgLsNsmsVQI9SNcZ5nDJS
+         nbM0baR56px4Z76do1TDmXikpUlOfTfE3AR3egmb2wnqIvYKyKBiCmIO48OUKoaAX0z3
+         nXLbi8Au1CdxrUSLbex4KvoWoRixrBm0/tG9ztq3FX0d7bJk1neyyathjDZ/5/yC+Obo
+         xI9ENu4XagHCLB+1evm8/UrftoVAEM+9JD7EdF/+AiXtINimbaJGAJ3QZ48FG7iATfJj
+         uF/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760445862; x=1761050662;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9oo6cb/h2//KSAhz8PhrLQfUB6XAbYAkngZFzEqMMVw=;
+        b=U2DXF7YVxGcCNEjtKfvRgQYQspRTRWNbBj/wyoHnd70YT6nTD39z34Z1wemMfjWjja
+         KndkhwIry5N2w9+6cx/s7xrlzsUiSbZt0HJr9iu447pUKKyK2ygPxNwxmZK5LeZDBwGI
+         8ZLxIPqtO6NJa7hUi888Pphe3NbVG8y8RtkWsaBJ8A4YExsU3QFQNTGXfib1VlcswBOR
+         Kbe8J25cannwnTmTtNVgWi5azV+iMzYjj5pP+i6MCF/RABQGq4uSskHIvQLaZAjao6XH
+         Xebnepbc7ETTqo/TDAARqXBd53ZWmxndGsg/hN8ifiWxzeuyaTCPeVCz6g8ZtdUSUds9
+         9Igw==
+X-Forwarded-Encrypted: i=1; AJvYcCWff4E1gGjt1qSgzkgjMLRFfJNVl/rB79z2Z8/j7ca8LIaoQVctlaOP6MefwSPmIa9suUt7xYYhuJfRfQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwluEjimPKRZxrUi/Q0OpIZTgGNb2oOhSQNr1oDRgqqYpsBTUVd
+	s+b2ywGT8X7PMucDCJ6cYvSWwxSXM0m2tD/YHmO+c5NVMbapenpJWc+ysGUt9SRjb360suE3pSY
+	B2QOalMm8tSTtjAjkMcEWJjZjgj685d0=
+X-Gm-Gg: ASbGnct60NHoT+GbOWiiXSB5xH0qSmtKLmKAkFwbXvwQdfO/ViYO3TbSSPtc4K8mj1H
+	0TlD7AudJUe/WPaoXhH2oyL9LmKwo7reYF3JSHA1VoF48uKgm3uNABhLkGIC7jMYl5HsJsiXpwE
+	DpeGkcCotUKqWAofKMDDq25IEGdZs9fnkJuJGoVEWYB52qLAo1T202W3a95rAZHkjyAXTQi+7n0
+	mlc0lVWx/hGZswmFTY4Siipcg8LKm5z5iiX7dN5S0kwt9/C
+X-Google-Smtp-Source: AGHT+IE6ZX1VGaVslNv8ZPr/UKniSljm0zQJqyI+Plq3kYLvNFNlsMtuo7K/t2++yV4p4PZdglaVsxwNfABC8vF2f6w=
+X-Received: by 2002:a2e:beab:0:b0:36b:d9d2:7352 with SMTP id
+ 38308e7fff4ca-37609cebacdmr36927351fa.1.1760445862122; Tue, 14 Oct 2025
+ 05:44:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v4 2/2] media: ivtv: Fix invalid access to file *
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
- Andy Walls <awalls@md.metrocast.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, stable@vger.kernel.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250819-cx18-v4l2-fh-v4-0-9db1635d6787@ideasonboard.com>
- <20250819-cx18-v4l2-fh-v4-2-9db1635d6787@ideasonboard.com>
-Content-Language: en-US, nl
-In-Reply-To: <20250819-cx18-v4l2-fh-v4-2-9db1635d6787@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20251014083230.1181072-1-zhaoyang.huang@unisoc.com>
+ <20251014083230.1181072-3-zhaoyang.huang@unisoc.com> <87953097-a105-4775-88a5-9b3a676ff139@amd.com>
+In-Reply-To: <87953097-a105-4775-88a5-9b3a676ff139@amd.com>
+From: Zhaoyang Huang <huangzhaoyang@gmail.com>
+Date: Tue, 14 Oct 2025 20:44:10 +0800
+X-Gm-Features: AS18NWC91XO6vcqGgvJynO5q8vzT5cvKYOwtu3JK2ou4LVmpJ0_YPTlGMwJ6WAA
+Message-ID: <CAGWkznGN7W-txq_G+xpZ6DtH_1DNorYc=CxqUjebo7qfB4Sxsw@mail.gmail.com>
+Subject: Re: [PATCH 2/2] driver: dma-buf: use alloc_pages_bulk_list for
+ order-0 allocation
+To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+Cc: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>, 
+	Mel Gorman <mgorman@techsingularity.net>, Vlastimil Babka <vbabka@suse.cz>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, 
+	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
+	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, linux-media@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+	linux-mm@kvack.org, linux-kernel@vger.kernel.org, steve.kang@unisoc.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 19/08/2025 09:07, Jacopo Mondi wrote:
-> Since commit 9ba9d11544f9 ("media: ivtv: Access v4l2_fh from file")
-> all ioctl handlers have been ported to operate on the file * first
-> function argument.
-> 
-> The ivtv DVB layer calls ivtv_init_on_first_open() when the driver
-> needs to start streaming. This function calls the s_input() and
-> s_frequency() ioctl handlers directly, but being called from the driver
-> context, it doesn't have a valid file * to pass them. This causes the
-> ioctl handlers to deference an invalid pointer.
-> 
-> Fix this by moving the implementation of those ioctls to two helper
-> functions.
-> 
-> The ivtv_do_s_input() helper accepts a struct ivtv * as first argument,
-> which is easily accessible in ivtv_init_on_first_open() as well as from
-> the file * argument of the ioctl handler.
-> 
-> The ivtv_s_frequency() takes an ivtv_stream * instead. The stream * can
-> safely be accessed in ivtv_init_on_first_open() where it is hard-coded
-> to the IVTV_ENC_STREAM_TYPE_MPG stream type, as well as from the ioctl
-> handler as a valid stream type is associated to each open file handle
-> depending on which video device node has been opened in the ivtv_open()
-> file operation.
-> 
-> The bug has been reported by Smatch.
-> 
-> Reported-by: Dan Carpenter <dan.carpenter@linaro.org>
-> Closes: https://lore.kernel.org/all/aKL4OMWsESUdX8KQ@stanley.mountain/
-> Fixes: 9ba9d11544f9 ("media: ivtv: Access v4l2_fh from file")
-> Cc: stable@vger.kernel.org
-> Reviewed-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-
-Tested-by: Hans Verkuil <hverkuil+cisco@kernel.org>
-
-I'll try the cx18 board next :-)
-
-Regards,
-
-	Hans
-
-> ---
->  drivers/media/pci/ivtv/ivtv-driver.c | 11 ++++-------
->  drivers/media/pci/ivtv/ivtv-ioctl.c  | 22 +++++++++++++++++-----
->  drivers/media/pci/ivtv/ivtv-ioctl.h  |  6 ++++--
->  3 files changed, 25 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/media/pci/ivtv/ivtv-driver.c b/drivers/media/pci/ivtv/ivtv-driver.c
-> index ecc20cd89926fe2ce4e472526a6b5fc0857615dd..7e2fb98cfccf02f701ceb4484dd1d330dd1dc867 100644
-> --- a/drivers/media/pci/ivtv/ivtv-driver.c
-> +++ b/drivers/media/pci/ivtv/ivtv-driver.c
-> @@ -1260,15 +1260,12 @@ static int ivtv_probe(struct pci_dev *pdev, const struct pci_device_id *pci_id)
->  
->  int ivtv_init_on_first_open(struct ivtv *itv)
->  {
-> -	struct v4l2_frequency vf;
->  	/* Needed to call ioctls later */
-> -	struct ivtv_open_id fh;
-> +	struct ivtv_stream *s = &itv->streams[IVTV_ENC_STREAM_TYPE_MPG];
-> +	struct v4l2_frequency vf;
->  	int fw_retry_count = 3;
->  	int video_input;
->  
-> -	fh.itv = itv;
-> -	fh.type = IVTV_ENC_STREAM_TYPE_MPG;
-> -
->  	if (test_bit(IVTV_F_I_FAILED, &itv->i_flags))
->  		return -ENXIO;
->  
-> @@ -1310,13 +1307,13 @@ int ivtv_init_on_first_open(struct ivtv *itv)
->  
->  	video_input = itv->active_input;
->  	itv->active_input++;	/* Force update of input */
-> -	ivtv_s_input(NULL, &fh, video_input);
-> +	ivtv_do_s_input(itv, video_input);
->  
->  	/* Let the VIDIOC_S_STD ioctl do all the work, keeps the code
->  	   in one place. */
->  	itv->std++;		/* Force full standard initialization */
->  	itv->std_out = itv->std;
-> -	ivtv_s_frequency(NULL, &fh, &vf);
-> +	ivtv_do_s_frequency(s, &vf);
->  
->  	if (itv->card->v4l2_capabilities & V4L2_CAP_VIDEO_OUTPUT) {
->  		/* Turn on the TV-out: ivtv_init_mpeg_decoder() initializes
-> diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.c b/drivers/media/pci/ivtv/ivtv-ioctl.c
-> index 8077a71d4850ec773caa20c3fca08f92f3117d69..dfbc842b22453868a2075935a81db7ae313ee46c 100644
-> --- a/drivers/media/pci/ivtv/ivtv-ioctl.c
-> +++ b/drivers/media/pci/ivtv/ivtv-ioctl.c
-> @@ -974,9 +974,8 @@ static int ivtv_g_input(struct file *file, void *fh, unsigned int *i)
->  	return 0;
->  }
->  
-> -int ivtv_s_input(struct file *file, void *fh, unsigned int inp)
-> +int ivtv_do_s_input(struct ivtv *itv, unsigned int inp)
->  {
-> -	struct ivtv *itv = file2id(file)->itv;
->  	v4l2_std_id std;
->  	int i;
->  
-> @@ -1017,6 +1016,11 @@ int ivtv_s_input(struct file *file, void *fh, unsigned int inp)
->  	return 0;
->  }
->  
-> +static int ivtv_s_input(struct file *file, void *fh, unsigned int inp)
-> +{
-> +	return ivtv_do_s_input(file2id(file)->itv, inp);
-> +}
-> +
->  static int ivtv_g_output(struct file *file, void *fh, unsigned int *i)
->  {
->  	struct ivtv *itv = file2id(file)->itv;
-> @@ -1065,10 +1069,9 @@ static int ivtv_g_frequency(struct file *file, void *fh, struct v4l2_frequency *
->  	return 0;
->  }
->  
-> -int ivtv_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf)
-> +int ivtv_do_s_frequency(struct ivtv_stream *s, const struct v4l2_frequency *vf)
->  {
-> -	struct ivtv *itv = file2id(file)->itv;
-> -	struct ivtv_stream *s = &itv->streams[file2id(file)->type];
-> +	struct ivtv *itv = s->itv;
->  
->  	if (s->vdev.vfl_dir)
->  		return -ENOTTY;
-> @@ -1082,6 +1085,15 @@ int ivtv_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *v
->  	return 0;
->  }
->  
-> +static int ivtv_s_frequency(struct file *file, void *fh,
-> +			    const struct v4l2_frequency *vf)
-> +{
-> +	struct ivtv_open_id *id = file2id(file);
-> +	struct ivtv *itv = id->itv;
-> +
-> +	return ivtv_do_s_frequency(&itv->streams[id->type], vf);
-> +}
-> +
->  static int ivtv_g_std(struct file *file, void *fh, v4l2_std_id *std)
->  {
->  	struct ivtv *itv = file2id(file)->itv;
-> diff --git a/drivers/media/pci/ivtv/ivtv-ioctl.h b/drivers/media/pci/ivtv/ivtv-ioctl.h
-> index 42c2516379fcbbd0640820ab0e3abe9bf00b57ea..edc05eb8e060fd64d7ff94f8f7f5c315a2fa6298 100644
-> --- a/drivers/media/pci/ivtv/ivtv-ioctl.h
-> +++ b/drivers/media/pci/ivtv/ivtv-ioctl.h
-> @@ -9,6 +9,8 @@
->  #ifndef IVTV_IOCTL_H
->  #define IVTV_IOCTL_H
->  
-> +struct ivtv;
-> +
->  u16 ivtv_service2vbi(int type);
->  void ivtv_expand_service_set(struct v4l2_sliced_vbi_format *fmt, int is_pal);
->  u16 ivtv_get_service_set(struct v4l2_sliced_vbi_format *fmt);
-> @@ -17,7 +19,7 @@ int ivtv_set_speed(struct ivtv *itv, int speed);
->  void ivtv_set_funcs(struct video_device *vdev);
->  void ivtv_s_std_enc(struct ivtv *itv, v4l2_std_id std);
->  void ivtv_s_std_dec(struct ivtv *itv, v4l2_std_id std);
-> -int ivtv_s_frequency(struct file *file, void *fh, const struct v4l2_frequency *vf);
-> -int ivtv_s_input(struct file *file, void *fh, unsigned int inp);
-> +int ivtv_do_s_frequency(struct ivtv_stream *s, const struct v4l2_frequency *vf);
-> +int ivtv_do_s_input(struct ivtv *itv, unsigned int inp);
->  
->  #endif
-> 
-
+On Tue, Oct 14, 2025 at 7:59=E2=80=AFPM Christian K=C3=B6nig
+<christian.koenig@amd.com> wrote:
+>
+> On 14.10.25 10:32, zhaoyang.huang wrote:
+> > From: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
+> >
+> > The size of once dma-buf allocation could be dozens MB or much more
+> > which introduce a loop of allocating several thousands of order-0 pages=
+.
+> > Furthermore, the concurrent allocation could have dma-buf allocation en=
+ter
+> > direct-reclaim during the loop. This commit would like to eliminate the
+> > above two affections by introducing alloc_pages_bulk_list in dma-buf's
+> > order-0 allocation. This patch is proved to be conditionally helpful
+> > in 18MB allocation as decreasing the time from 24604us to 6555us and no
+> > harm when bulk allocation can't be done(fallback to single page
+> > allocation)
+>
+> Well that sounds like an absolutely horrible idea.
+>
+> See the handling of allocating only from specific order is *exactly* ther=
+e to avoid the behavior of bulk allocation.
+>
+> What you seem to do with this patch here is to add on top of the behavior=
+ to avoid allocating large chunks from the buddy the behavior to allocate l=
+arge chunks from the buddy because that is faster.
+emm, this patch doesn't change order-8 and order-4's allocation
+behaviour but just to replace the loop of order-0 allocations into
+once bulk allocation in the fallback way. What is your concern about
+this?
+>
+> So this change here doesn't looks like it will fly very high. Please expl=
+ain what you're actually trying to do, just optimize allocation time?
+>
+> Regards,
+> Christian.
+>
+> > Signed-off-by: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
+> > ---
+> >  drivers/dma-buf/heaps/system_heap.c | 36 +++++++++++++++++++----------
+> >  1 file changed, 24 insertions(+), 12 deletions(-)
+> >
+> > diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heap=
+s/system_heap.c
+> > index bbe7881f1360..71b028c63bd8 100644
+> > --- a/drivers/dma-buf/heaps/system_heap.c
+> > +++ b/drivers/dma-buf/heaps/system_heap.c
+> > @@ -300,8 +300,8 @@ static const struct dma_buf_ops system_heap_buf_ops=
+ =3D {
+> >       .release =3D system_heap_dma_buf_release,
+> >  };
+> >
+> > -static struct page *alloc_largest_available(unsigned long size,
+> > -                                         unsigned int max_order)
+> > +static void alloc_largest_available(unsigned long size,
+> > +                 unsigned int max_order, unsigned int *num_pages, stru=
+ct list_head *list)
+> >  {
+> >       struct page *page;
+> >       int i;
+> > @@ -312,12 +312,19 @@ static struct page *alloc_largest_available(unsig=
+ned long size,
+> >               if (max_order < orders[i])
+> >                       continue;
+> >
+> > -             page =3D alloc_pages(order_flags[i], orders[i]);
+> > -             if (!page)
+> > +             if (orders[i]) {
+> > +                     page =3D alloc_pages(order_flags[i], orders[i]);
+> > +                     if (page) {
+> > +                             list_add(&page->lru, list);
+> > +                             *num_pages =3D 1;
+> > +                     }
+> > +             } else
+> > +                     *num_pages =3D alloc_pages_bulk_list(LOW_ORDER_GF=
+P, size / PAGE_SIZE, list);
+> > +
+> > +             if (list_empty(list))
+> >                       continue;
+> > -             return page;
+> > +             return;
+> >       }
+> > -     return NULL;
+> >  }
+> >
+> >  static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
+> > @@ -335,6 +342,8 @@ static struct dma_buf *system_heap_allocate(struct =
+dma_heap *heap,
+> >       struct list_head pages;
+> >       struct page *page, *tmp_page;
+> >       int i, ret =3D -ENOMEM;
+> > +     unsigned int num_pages;
+> > +     LIST_HEAD(head);
+> >
+> >       buffer =3D kzalloc(sizeof(*buffer), GFP_KERNEL);
+> >       if (!buffer)
+> > @@ -348,6 +357,8 @@ static struct dma_buf *system_heap_allocate(struct =
+dma_heap *heap,
+> >       INIT_LIST_HEAD(&pages);
+> >       i =3D 0;
+> >       while (size_remaining > 0) {
+> > +             num_pages =3D 0;
+> > +             INIT_LIST_HEAD(&head);
+> >               /*
+> >                * Avoid trying to allocate memory if the process
+> >                * has been killed by SIGKILL
+> > @@ -357,14 +368,15 @@ static struct dma_buf *system_heap_allocate(struc=
+t dma_heap *heap,
+> >                       goto free_buffer;
+> >               }
+> >
+> > -             page =3D alloc_largest_available(size_remaining, max_orde=
+r);
+> > -             if (!page)
+> > +             alloc_largest_available(size_remaining, max_order, &num_p=
+ages, &head);
+> > +             if (!num_pages)
+> >                       goto free_buffer;
+> >
+> > -             list_add_tail(&page->lru, &pages);
+> > -             size_remaining -=3D page_size(page);
+> > -             max_order =3D compound_order(page);
+> > -             i++;
+> > +             list_splice_tail(&head, &pages);
+> > +             max_order =3D folio_order(lru_to_folio(&head));
+> > +             size_remaining -=3D PAGE_SIZE * (num_pages << max_order);
+> > +             i +=3D num_pages;
+> > +
+> >       }
+> >
+> >       table =3D &buffer->sg_table;
+>
 
