@@ -1,161 +1,294 @@
-Return-Path: <linux-media+bounces-44407-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44408-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 91FE4BD9294
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 13:58:49 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7FFABD92A0
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 13:59:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D0CBD426074
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 11:58:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F0CC2188BB5F
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 11:59:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 199B5310629;
-	Tue, 14 Oct 2025 11:57:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA6EF310629;
+	Tue, 14 Oct 2025 11:59:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rKGG2qN/"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Xl0PpEZz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (mail-southcentralusazon11012023.outbound.protection.outlook.com [40.93.195.23])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BBD13D539;
-	Tue, 14 Oct 2025 11:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760443077; cv=none; b=GcKyMnp7WbJk0lg6vPorex0EPfX6j0j1yCDTBayVRuK4re/0xLJ9GCJ2xIzVNngA6YwdDuNtx8T0IgPzI4Y+YWh2N+LDldwVF2rTrrn2r+9YanMfntUi242CKhj5xDHJOPDsPzDcZAetKkgWKDZnq/nv47d5IjVmiqN7uxjQafE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760443077; c=relaxed/simple;
-	bh=MwFsTXJugioHv41ijTZirhY8i4xRXoi7Y4vCJ56SHUY=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=t5A7gQ+pHrgXqbOoDNul3f7P73x2OLUcPRaCDg+jMNCfg5OmVylJxLFzCqyV3oPf7TJRLyvIikTYAELVIKCQYnOSwFnhDsdLKM77hhg2s9fCgtmP2Vt+e3mJKduS4b07OC90w5hgXvgHXKx+RTCX+1eao2gHNle9BfD4/Meyres=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rKGG2qN/; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F6C3C4CEE7;
-	Tue, 14 Oct 2025 11:57:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760443076;
-	bh=MwFsTXJugioHv41ijTZirhY8i4xRXoi7Y4vCJ56SHUY=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=rKGG2qN/DFIWc+QTzf8G73nx++OTjbQi7n/3Qb45wM2YdJxAiGXnjkeUWgOH7Bdse
-	 f9UynPWYm/RHkQbJdyl6I09Si1ScilHmRZ5KV+geOmmM34yL1QQHsYj8qiAvMVVzS2
-	 w9D1YTIjOX6xW4LIA7w72cnh9IMPp3OaYkpXvFbTGicWcFpuyYzOiUk4wjaMwJwt6/
-	 7WKUGdwq6YE1qjiPOxzw6uHsuJFd7bnbg68vG1eoRdnAGwgk2kowUyy/9Dt2p+oiqa
-	 TC2XZHmvz9vyeukT4VaNcE1AKVyW+UNe1NPuVyvp86hiFyKwhLV9A7Jj9mgo5h/gWI
-	 qpRCvNpvsdWAg==
-Message-ID: <1efc306d-a786-4863-82c5-517f1d4f7899@kernel.org>
-Date: Tue, 14 Oct 2025 13:57:53 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 869F713D539;
+	Tue, 14 Oct 2025 11:59:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.93.195.23
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760443157; cv=fail; b=NHrMCa6RnwFbWNVasBzl8PTm0doyx9M9n5SNn86E8QiMAvE4Vo6znlBsJEYstDpnAapqWnCOFPojABagVGVaOl7SSReW4j97SDIWMgElKTnjDXvrw/f2HGTs3ecDoQYu7v3d98kwcEC5ZMy3cY8dfNbYc0i6SwXHK2GCqhhW4b8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760443157; c=relaxed/simple;
+	bh=y5bTIOQGyp+WAZsVpzIE1caUmFn8uBNPBt9Q9zMQIhE=;
+	h=Message-ID:Date:Subject:To:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=DMAFXUc+mbiDmy71SUZC5in5FAsmQMmsN9L2reyVCntSNhJ50Rdm/UxDYSSeg2w3yF86JDtqkwgtYSBcOnbOkZaHSVFc80gKLkBnKoSqj4Cr6N0sngWNyU460HM9FipuzN1o2OUetsPiG9KQ9rBYDZJQTQ4rTPUs3x+5dmzrtEA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Xl0PpEZz; arc=fail smtp.client-ip=40.93.195.23
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EDW4a/SQw7qv4waj8CNg91fN/5hT4Z+ODfOUVfStNv8Ek48zobOZLJhtWZiGDWxA1Q7Do24I9KWfWgr9qwprTRkU3vgLAHusqsCzuGP+hzUNR9gMtkOh/5KKQIntw05QGY+xBdiq2sk8gmFzxbKmjdFk/J3EpG6rf7N19MMxCgNhQMJXoqGpjM1vtZiYHr77DWqMZwFsciempx38ZqxUT8Vg6qXL3U8WK1rwqAkR0a35gUk5A9lLbHnej9Qf+LBFADMuWNa8EbaM2y3Gtc2haoUrDpMF4jLOdWiYmOH0jrLvRJtRZRh2d34Eb5X9P4xeWfRaJSluSkomy3cYOnKMqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IHR6M5XcQP1dJREB8H0ND1tPvBGceICJFd5Qf4uQylU=;
+ b=FXA0jJzwP+hxZPMgKAuy068nzMufAJ2HudQb3DK3bbd8U/5g30s7Qdejz/SNIO80p9w1S2LtMmTR5spFxc4F5NHn8pTN7cFB2X45bzai8fqnCC7TG/5QnXVnkKYvWACU6OectdmBdFdTKLVj/g+tTzBfyZVIRbDC5nebyDDci31IlkO9ky1ph9vfGxDie7uJe5NEEB6mNKflm2ZejehzqRSGPsFnlySuB4K15DubZUskTAsb7J5YXT/B/SwXc3LJfsTqe04HEx/mGMkOz0XioV6DUQ1zlusLdrPtsfMHVwSRKZ+oXSO79nvK0p+EB8rfrtw4IaZFuEHS/qyWuCmwFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IHR6M5XcQP1dJREB8H0ND1tPvBGceICJFd5Qf4uQylU=;
+ b=Xl0PpEZzmC6ydVX7Zdf7BIfnIYqoOT1Gr9uONAHdEJ216TfRIbChpUrQtEY/uijISurPdV8AGeiwvzw3tjQgiLd0lE6lsp86hjTC2lA1DwJ1w7/38t6pSlI0dv+La/768IlgO9gho49g+cGDSgZZJnBn/H6LLQl4MQe8vacXGAk=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com (2603:10b6:510:13c::22)
+ by PH7PR12MB9075.namprd12.prod.outlook.com (2603:10b6:510:2f0::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9203.12; Tue, 14 Oct
+ 2025 11:59:12 +0000
+Received: from PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5]) by PH7PR12MB5685.namprd12.prod.outlook.com
+ ([fe80::46fb:96f2:7667:7ca5%4]) with mapi id 15.20.9203.009; Tue, 14 Oct 2025
+ 11:59:12 +0000
+Message-ID: <87953097-a105-4775-88a5-9b3a676ff139@amd.com>
+Date: Tue, 14 Oct 2025 13:59:05 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] driver: dma-buf: use alloc_pages_bulk_list for
+ order-0 allocation
+To: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+ Mel Gorman <mgorman@techsingularity.net>, Vlastimil Babka <vbabka@suse.cz>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Benjamin Gaignard <benjamin.gaignard@collabora.com>,
+ Brian Starkey <Brian.Starkey@arm.com>, John Stultz <jstultz@google.com>,
+ "T . J . Mercier" <tjmercier@google.com>, linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+ Zhaoyang Huang <huangzhaoyang@gmail.com>, steve.kang@unisoc.com
+References: <20251014083230.1181072-1-zhaoyang.huang@unisoc.com>
+ <20251014083230.1181072-3-zhaoyang.huang@unisoc.com>
+Content-Language: en-US
+From: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
+In-Reply-To: <20251014083230.1181072-3-zhaoyang.huang@unisoc.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: BN9PR03CA0440.namprd03.prod.outlook.com
+ (2603:10b6:408:113::25) To PH7PR12MB5685.namprd12.prod.outlook.com
+ (2603:10b6:510:13c::22)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v4 0/2] media: pci: Fix invalid access to file *
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Andy Walls <awalls@md.metrocast.net>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
- Dan Carpenter <dan.carpenter@linaro.org>, stable@vger.kernel.org,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250819-cx18-v4l2-fh-v4-0-9db1635d6787@ideasonboard.com>
- <0627cfba-798a-482b-b335-cc78a609c150@kernel.org>
- <3cqjf6pts5fzs5gziog3g3jay6txcvxshm554uqpzgb6ymnukh@dsbo27d47rol>
-Content-Language: en-US, nl
-In-Reply-To: <3cqjf6pts5fzs5gziog3g3jay6txcvxshm554uqpzgb6ymnukh@dsbo27d47rol>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR12MB5685:EE_|PH7PR12MB9075:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9dd8c641-c58c-42f3-7421-08de0b19173d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|1800799024|376014|7416014|921020|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Nk1sMzdZV3pyekp4MmIwOWpzUzNkQ200bWd5S0F1RVUrZXpWSlo2ZHNkejB4?=
+ =?utf-8?B?V1grSEs2UTRRQXlTdnRUcUlaZHZyWDM2dTJuME1hTkR3YVYzVjdkV3ZjdSsw?=
+ =?utf-8?B?aVRlaFZyZkhCQ0ZhZ1lTR0VNK1JpSUdabmF2YUJrQm5DVWdVK1UwWWxpSVdk?=
+ =?utf-8?B?eW91bVdPdURRZFdMOEdPdG5mMmsrUTZVc1NackpYY2RCSVRIeEdDaWJwNEFw?=
+ =?utf-8?B?Wmx0Q2VpaW55ejdBZVFUU0RUUVdNMVBOQ0RmUHk1WWl4djl0WnEzM0REYzU3?=
+ =?utf-8?B?ZEVjOWlLM3J1QWRBTTNuRk55QWlYMU10WXJvMm9lUkF0Q1JLUXNESkNaYy9M?=
+ =?utf-8?B?VnNDamNldE54cXhZOUx2cTRsbEswZWtyUGxCYmcrZHFGWCtGMjZMWlpsblRM?=
+ =?utf-8?B?UmVwZHlDajdiVmpydWVQSTZ6anpVK3lFb1V0djJDc2dac1FZdWU0aWVkT0RG?=
+ =?utf-8?B?aHBFdEhiYndsSHhaNFhPelFpV0NuYkdrbEVwdlpPU3JFc1grZVFmeTRNSHVB?=
+ =?utf-8?B?RGFTTFF0N3JpWUVkaUpNR0JBN3p3R05Kb01nREJ6ZGY2aTc0alIxWEFBRUVS?=
+ =?utf-8?B?TXVyTVpwUVp2cE41cUtSY056UUdZZTZZc2FmS3VhS2ZtVVpLMUoraUszQlJD?=
+ =?utf-8?B?MXJHTjR3WVp2V3RpZllWc05pd2VIQ2s3MXhLSFZ3enk3cjZpdG9XRjE3YVhw?=
+ =?utf-8?B?Yk1TWk81RjlrY2E0b1pEcGVjMUlnZ1FZOWwyUFNvaE5pWFJjYmRUUmYxWjc5?=
+ =?utf-8?B?TTgyTzcxOUc3U2tPa2NvT0RlZEt3TWs5ZHEzREhmeUJHUExnRkR3dGhFWjNk?=
+ =?utf-8?B?QzFtbTI0L29BRG1aNVN1SVMvOG8vcyt6WVVHMGNLTzFwU1NpcVRMS3NOOHVP?=
+ =?utf-8?B?NjB0QVhJN212blcvTjhKSkNkeU55MXMwS0pKc0lrVzVtNy9uSitna2hsTzlL?=
+ =?utf-8?B?OU43ckF4RUFQdUZoVEp2MHJwNHM0RHdWaS9BZThPUUFHUWJEL1RmSXJ5a3RP?=
+ =?utf-8?B?SGhlY0dpc2d1RjRTUVdCSlJKaWRFSHJ0eHpkNHBndGZSb2xLcDFvMFpiRy9U?=
+ =?utf-8?B?TWJ2NWZhd0YxZTZZMHZtbnpmYjJwQnZiRDJVdGp6Y1E4bG9HQU5peml5NHNU?=
+ =?utf-8?B?Wll0MVEzcS90ZlduMWtDK1ovV0FnaGl6dzMzSmxldVprblZJbjhiQ0lVRysr?=
+ =?utf-8?B?cmVKZmNCcVZkSys1RE92b3NBUWczRytFazNEalBoWEFLeG5VMyt2UEhQcnZL?=
+ =?utf-8?B?cE12RmpMWkNkVUNkY0N0blFSYWNxTUl6aVlKYVVpQWh6SDZQTmdEOTQrMzc5?=
+ =?utf-8?B?OFpYb3ZVYmNCU1c0eHluVHZKMlpIdDQ0VXlGQktCY0l6Q2RzMm1NeTJrNEdG?=
+ =?utf-8?B?Y2ZxNHN2V3k1MklrNy81djlmK0k4dXVaUFFycEpaL0hiV3kxdUNuNE5zVlds?=
+ =?utf-8?B?dkgwd3RFa3UxWmxlYXZlUUIycGJ4Ujl1OWpYcWJXNHNqOHBhOUtKN0lWdmFm?=
+ =?utf-8?B?WVJrMmtOalR4blM1SW4wZjdDdVFUeG5UN1RYeGo4anlibjI5OHUrWjF3RGpD?=
+ =?utf-8?B?cHNtbmUra21vOHVFT1dUalhKSm1KNXlLbkJIdjQwbFlxcHd1ZFlsd3R1Vk5J?=
+ =?utf-8?B?U1lSRzRQWmFabnpaRFJkdDhuNnpiRDgwbkdvMCs0aDN2TUwzUmpCWTJ2YnFY?=
+ =?utf-8?B?aE1XUzQvcXo0eC9nNEpKQmxOYlNOTk1YVVFKa2ZaelFldHdJUTBXTW14dk9R?=
+ =?utf-8?B?MGtxTUVLVjhYNyt4VnFrcVk3VDh6UWNSd0xXNUcwN0pPUnNGbXVGczRLZ1dL?=
+ =?utf-8?B?SUJwS1Z2clMxWitCZU9mS0hreTBuUXdsMk5ZNFovSFRrUS8wSk9ZMnhuMjVT?=
+ =?utf-8?B?NTFpNXJsSmFCWnREUzNaZ092eGtaWSswWTVhVGZuSXdrZ1FZQmNXbXhaVVll?=
+ =?utf-8?B?Ukw2VStFdXlTTlNqK054bWlFNEx0dDF0M1RvYzN3M3J2RlBza1BqODFWMDln?=
+ =?utf-8?Q?59+vfenn+MDf1d4nW6nprStC62wUKM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR12MB5685.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(921020)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?d1BqbTFsdWUxdTI0VlNqc3Nub0tnamRsR1JYNXRJZDNkck9hRTZ1Z1pXTWZv?=
+ =?utf-8?B?MVdSUTNWQUhNOEFYdmtjNithcFo5Zlp3Q2RMSW1tdFNZSkFCRHFRNXhyTWU5?=
+ =?utf-8?B?TEtMRC9HT3pTdktpMmtackpXZEl5VDBHZzJXZ0hpRldQSEwxKzgrWWpmK3px?=
+ =?utf-8?B?S3VGKzhNY2xJdFVkSTJZWXBVOFEwYkg5akcwV3VGdld6NW1VcnFaTXBtUHZM?=
+ =?utf-8?B?ZEp0Z21NZkttdm9zajZCdWdmVzdNOS9aek1aTjFqNlh1bHlyZkdYaEsxYlRr?=
+ =?utf-8?B?UGJaeVZmMmpsTDlnNE9yZ3RHbFA5RG1LQjA2ZWhPNjFDQk4rbnhpcXJ2TWFO?=
+ =?utf-8?B?d1VYVjBublFkbVd5WFV5WXpxUmRpNHlGRkVpZ0dRQnhVMW5KYjVMQndHTUxI?=
+ =?utf-8?B?QjFKbS8zWjEwT1lrU1dHQXRzaXlaNTZIdXRucTBYMVAwbFZmUUtDaGJGeUlh?=
+ =?utf-8?B?bEd3YUs4c2xSdWhuT2w2S0hmRWxwVlFRdnRkUVl0QUp3OStsQTRMZ204Nlor?=
+ =?utf-8?B?bnFSd1hHVHQ0UGI0ZEp6bFRxdDE3R0E2OVArTUNzVlN3UWorOFRYSmIySjB4?=
+ =?utf-8?B?elU1VmtRK01PV0tQam9rcUVXa2JETlpiNFRLVHU3VGsrdkV3ejFWdkMrb2tS?=
+ =?utf-8?B?bkN1MVcybzJGanZtV3pqY3djZlR3Z1hoMmVrMmp6SU5CMVRERDRQZ29NQ1hR?=
+ =?utf-8?B?Y3lrWm1RZER4L0lKS1M0RWlUNXFmdFA2ZU9qRzNZOHQ5YmtYYUZ2NEVMaFUr?=
+ =?utf-8?B?TEdUL0IrdVhWQnV1MUZDZ0plSS9ZUEQzZ1J1WFFFc213M2dhT2s5Y2tiVFZL?=
+ =?utf-8?B?WFIzbStJZHk3emJXVkdyTnByamxnT0JRM2dnRlV2c0phQUYvYWh0VTNwcFBX?=
+ =?utf-8?B?Smo4M2hJTWpqTWdCUUQvV2ZrbWtQNWN5eEpoTEJtdFJHMmk4M1NGUU96cU1j?=
+ =?utf-8?B?UjdibkFEaGJ6T0NlV1pDU0FvODZrcFQ2cmRBSVdJM2JkeExEM1lQL0tzeTNC?=
+ =?utf-8?B?VTBaT2VFMCtBc0I0KzJLckJTOWdKTUpzUklwdDFlNGlDeEtxMk9NWEZwT3Vs?=
+ =?utf-8?B?VzJIdGFKSzVWYmlOanBwTW5jNDFFVzFydjMwcXlYV3BjcGFMUCtZUFR4bnBo?=
+ =?utf-8?B?WXA3ZndRRFBIUFRWYlRvWHA4VW1aK25qa0NqSk9uOWY3K1RtM25OV0RpSjJK?=
+ =?utf-8?B?cVRtYW9qYmE5bjh0Tzl5a002SDRHdnBZV3MxSVVLQVNMQmowKzR1NytuVWZj?=
+ =?utf-8?B?R0FpR3BFa3F3TmlSY3IvV3JPQUxsWnQ2RlgvVFpubGpwTWVJdG5rVHhDQ2dN?=
+ =?utf-8?B?WmNFNVZVcnc0a2FxQzBtQlBxcmhIVGJaWjEwZGU4UTIxVjlqUEtUTnNPUnd4?=
+ =?utf-8?B?QjJkR2c4SExoZ3pKbEY1WlBLbUl1dEFISGZBYzFWdTBMOHBLbmFZUEwyNHcx?=
+ =?utf-8?B?a1JIYTBzTy84NWIvbDFibHFuaU90aktYSE4zSFVwalV6WUQreWs1Qm1yT0Fa?=
+ =?utf-8?B?azdLTlU2TXhDKys3QlFLV1Uxd1JYSjJic0c3M1lIbDNYRVVZR2VDWWJoeXVD?=
+ =?utf-8?B?TXBjZG9QZnhwUzAydFNZRU9DeXpPRHNLTC9oTzlFUHBUdUQ4REJUSk01ZmZq?=
+ =?utf-8?B?VXlsQ2M5TFRtcFJLb0NKUTBqTVh0K0lxd1RWMHhDbjMwOVdVRmdDRHZIR1hm?=
+ =?utf-8?B?Rkd2ZzljOXFOSVdTMlNiSFNIeFJ4MmJZM0ZoS0ZLVkFZMGthU0JXUzhkTmR4?=
+ =?utf-8?B?YVlQWDhjTUNHNVRWN1JOckYwcVA4QzBwRUhUbzRPT3diekZ2VXRDVHZFQWd0?=
+ =?utf-8?B?Y3QyUDdteGtLOVE1Yk13N1d0SW5Oa2g5SEhYNFhld2xVR0Z0OThmWmtMRWhY?=
+ =?utf-8?B?ZU8zcTlnZGRCN1c3Q2VwYVRldWZZbGZqWXlaRU85UCt0bS90Y0pTQzFZSk9I?=
+ =?utf-8?B?ekg0SlNDSXdjRkNpYUhoSi9uQU9jTFRSa0pjZmE4S0pjSUVnZzJ3Q1c5YlBE?=
+ =?utf-8?B?MG9vdU1Pa3V3eVdrT3dBWlp5STVrZ0dpWXlBUUg3SVY5WDJiTEZveGY3ZmJp?=
+ =?utf-8?B?STQrVzIwbkxRZnlVNmFMbnk1RVlLQTBsUzRYQXYySVYwRzBESk02NjVLUStE?=
+ =?utf-8?Q?3sr3BBYZTWOH7DfQvfWsnWZKT?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9dd8c641-c58c-42f3-7421-08de0b19173d
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR12MB5685.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Oct 2025 11:59:12.6756
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: b7zpqaazeptUJ8E/pp0OYpXw3GSAyvD0xpcM65JfXAOyubpT9EEfhSAM/DX4et2g
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9075
 
-On 14/10/2025 13:52, Jacopo Mondi wrote:
-> Hi Hans
+On 14.10.25 10:32, zhaoyang.huang wrote:
+> From: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
 > 
-> On Tue, Oct 14, 2025 at 09:05:20AM +0200, Hans Verkuil wrote:
->> Hi Jacopo,
->>
->> On 19/08/2025 09:07, Jacopo Mondi wrote:
->>> Since commits
->>> 7b9eb53e8591 ("media: cx18: Access v4l2_fh from file")
->>> 9ba9d11544f9 ("media: ivtv: Access v4l2_fh from file")
->>>
->>> All the ioctl handlers access their private data structures
->>> from file *
->>>
->>> The ivtv and cx18 drivers call the ioctl handlers from their
->>> DVB layer without a valid file *, causing invalid memory access.
->>>
->>> The issue has been reported by smatch in
->>> "[bug report] media: cx18: Access v4l2_fh from file"
->>>
->>> Fix this by providing wrappers for the ioctl handlers to be
->>> used by the DVB layer that do not require a valid file *.
->>
->> This series should go to the fixes branch for v6.18, right?
->> This looks like a pure regression, so I think that makes sense.
->>
-> 
-> I think so, yes
-> 
->> BTW, why is there a Link: tag in the cx18 patch? It just links to
->> the v1 of the patch and that doesn't add meaningful information.
->> Linus likes Link:, but only if it really adds useful information.
-> 
-> Good question. I presume it's probably a copy&paste error, as it has no
-> place in the patch.
-> 
-> Would you like me to resend or will you remove it ?
+> The size of once dma-buf allocation could be dozens MB or much more
+> which introduce a loop of allocating several thousands of order-0 pages.
+> Furthermore, the concurrent allocation could have dma-buf allocation enter
+> direct-reclaim during the loop. This commit would like to eliminate the
+> above two affections by introducing alloc_pages_bulk_list in dma-buf's
+> order-0 allocation. This patch is proved to be conditionally helpful
+> in 18MB allocation as decreasing the time from 24604us to 6555us and no
+> harm when bulk allocation can't be done(fallback to single page
+> allocation)
 
-I would prefer a resend for these two patches, clearly marked as [PATCH for v6.18 v5 n/2]
-in the subject.
+Well that sounds like an absolutely horrible idea.
 
-Normally I'd just drop the Link: tag, but it's good to have this clearly marked
-as a fix for v6.18.
+See the handling of allocating only from specific order is *exactly* there to avoid the behavior of bulk allocation.
 
-I'll also see if I can do a quick test of these two patches with my ivtv and cx18
-boards. Just to make sure there are no other corner cases lurking in these drivers.
+What you seem to do with this patch here is to add on top of the behavior to avoid allocating large chunks from the buddy the behavior to allocate large chunks from the buddy because that is faster.
+
+So this change here doesn't looks like it will fly very high. Please explain what you're actually trying to do, just optimize allocation time?
 
 Regards,
+Christian.
 
-	Hans
-
+> Signed-off-by: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
+> ---
+>  drivers/dma-buf/heaps/system_heap.c | 36 +++++++++++++++++++----------
+>  1 file changed, 24 insertions(+), 12 deletions(-)
 > 
-> 
->>
->> Regards,
->>
->> 	Hans
->>
->>>
->>> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>> ---
->>> Changes in v4:
->>> - Slightly adjust commit messages
->>> - Link to v3: https://lore.kernel.org/r/20250818-cx18-v4l2-fh-v3-0-5e2f08f3cadc@ideasonboard.com
->>>
->>> Changes in v3:
->>> - Change helpers to accept the type they're going to operate on instead
->>>   of using the open_id wrapper type as suggested by Laurent
->>> - Link to v2: https://lore.kernel.org/r/20250818-cx18-v4l2-fh-v2-0-3f53ce423663@ideasonboard.com
->>>
->>> Changes in v2:
->>> - Add Cc: stable@vger.kernel.org per-patch
->>>
->>> ---
->>> Jacopo Mondi (2):
->>>       media: cx18: Fix invalid access to file *
->>>       media: ivtv: Fix invalid access to file *
->>>
->>>  drivers/media/pci/cx18/cx18-driver.c |  9 +++------
->>>  drivers/media/pci/cx18/cx18-ioctl.c  | 30 +++++++++++++++++++-----------
->>>  drivers/media/pci/cx18/cx18-ioctl.h  |  8 +++++---
->>>  drivers/media/pci/ivtv/ivtv-driver.c | 11 ++++-------
->>>  drivers/media/pci/ivtv/ivtv-ioctl.c  | 22 +++++++++++++++++-----
->>>  drivers/media/pci/ivtv/ivtv-ioctl.h  |  6 ++++--
->>>  6 files changed, 52 insertions(+), 34 deletions(-)
->>> ---
->>> base-commit: a75b8d198c55e9eb5feb6f6e155496305caba2dc
->>> change-id: 20250818-cx18-v4l2-fh-7eaa6199fdde
->>>
->>> Best regards,
->>
+> diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
+> index bbe7881f1360..71b028c63bd8 100644
+> --- a/drivers/dma-buf/heaps/system_heap.c
+> +++ b/drivers/dma-buf/heaps/system_heap.c
+> @@ -300,8 +300,8 @@ static const struct dma_buf_ops system_heap_buf_ops = {
+>  	.release = system_heap_dma_buf_release,
+>  };
+>  
+> -static struct page *alloc_largest_available(unsigned long size,
+> -					    unsigned int max_order)
+> +static void alloc_largest_available(unsigned long size,
+> +		    unsigned int max_order, unsigned int *num_pages, struct list_head *list)
+>  {
+>  	struct page *page;
+>  	int i;
+> @@ -312,12 +312,19 @@ static struct page *alloc_largest_available(unsigned long size,
+>  		if (max_order < orders[i])
+>  			continue;
+>  
+> -		page = alloc_pages(order_flags[i], orders[i]);
+> -		if (!page)
+> +		if (orders[i]) {
+> +			page = alloc_pages(order_flags[i], orders[i]);
+> +			if (page) {
+> +				list_add(&page->lru, list);
+> +				*num_pages = 1;
+> +			}
+> +		} else
+> +			*num_pages = alloc_pages_bulk_list(LOW_ORDER_GFP, size / PAGE_SIZE, list);
+> +
+> +		if (list_empty(list))
+>  			continue;
+> -		return page;
+> +		return;
+>  	}
+> -	return NULL;
+>  }
+>  
+>  static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
+> @@ -335,6 +342,8 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
+>  	struct list_head pages;
+>  	struct page *page, *tmp_page;
+>  	int i, ret = -ENOMEM;
+> +	unsigned int num_pages;
+> +	LIST_HEAD(head);
+>  
+>  	buffer = kzalloc(sizeof(*buffer), GFP_KERNEL);
+>  	if (!buffer)
+> @@ -348,6 +357,8 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
+>  	INIT_LIST_HEAD(&pages);
+>  	i = 0;
+>  	while (size_remaining > 0) {
+> +		num_pages = 0;
+> +		INIT_LIST_HEAD(&head);
+>  		/*
+>  		 * Avoid trying to allocate memory if the process
+>  		 * has been killed by SIGKILL
+> @@ -357,14 +368,15 @@ static struct dma_buf *system_heap_allocate(struct dma_heap *heap,
+>  			goto free_buffer;
+>  		}
+>  
+> -		page = alloc_largest_available(size_remaining, max_order);
+> -		if (!page)
+> +		alloc_largest_available(size_remaining, max_order, &num_pages, &head);
+> +		if (!num_pages)
+>  			goto free_buffer;
+>  
+> -		list_add_tail(&page->lru, &pages);
+> -		size_remaining -= page_size(page);
+> -		max_order = compound_order(page);
+> -		i++;
+> +		list_splice_tail(&head, &pages);
+> +		max_order = folio_order(lru_to_folio(&head));
+> +		size_remaining -= PAGE_SIZE * (num_pages << max_order);
+> +		i += num_pages;
+> +
+>  	}
+>  
+>  	table = &buffer->sg_table;
 
 
