@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-44386-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44387-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9384DBD8988
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 11:56:57 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 49B18BD8A86
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 12:07:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE7C6543F63
-	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 09:52:00 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9E35E18A6B0A
+	for <lists+linux-media@lfdr.de>; Tue, 14 Oct 2025 10:07:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97D1A2ECE8A;
-	Tue, 14 Oct 2025 09:51:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 72A662ECE8A;
+	Tue, 14 Oct 2025 10:06:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WzlsX3EB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="emG2uGWw"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D98552EA464;
-	Tue, 14 Oct 2025 09:51:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B05902D2497;
+	Tue, 14 Oct 2025 10:06:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760435510; cv=none; b=Y6TFZ4nir22F9CwgaZLM/f/Rx6tuGrjOgdtg0fpkyslc6sq+SASf5jQWCjaSpbiUa1/xXvBjE2/Wn6g3h+x/p7pIq/XXBu3SUJEn13Ikh4IfFttu5o0VldcuE4teWexMvWfiGHshzRGUY6+x1AH6shFjQQW1sQ51YJ1/JGpb3jg=
+	t=1760436416; cv=none; b=Q4miTkxG4sB02GkAYY9wmYdDObpdEN8rlbWaNDQXxYfK04jPRyMcidKwtkfthBPZ+NHf8l1WSQQDsAj9Cwco9H/pQ6yQ9QmeUKciXrIYjDKCOP8vAjO4kzVpGRFRoQX9jjtO3qJvISqsqWoz+WJcYzuQNTPH0E3CwLhtpNqiTrA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760435510; c=relaxed/simple;
-	bh=WqW5ZbUmABmzx1qaIZI77c81KCOJrnUC11x+N+bX780=;
+	s=arc-20240116; t=1760436416; c=relaxed/simple;
+	bh=vlKsjF/WzeVNZJtjW7yz45GlPnNggzp2rEQRTt+qMx8=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=lqupn1KoPdLforn6mjI4V4YdJ6IXohIKrH751DK9pWnoufFp04MsCK4ZA8ZdUEpGdMOflitI2k0dU2e5mgTeLiNAkgHG40UW3jssCRxVgtaRxlcKGRxoSf7V5wB6aRxQgahNpVzkrksqyRtEjCRawpLndyyqr4189jZ9kKG7yk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WzlsX3EB; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3FAFEC4CEE7;
-	Tue, 14 Oct 2025 09:51:47 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=JzIrnqRJ1LtQMOHKcTv1tR7DL5J5Du1fQpvsyuZutGKxyPqPFjIoJQxR0FqYfM17ew9DeHbz6LbOL7W658w18WMXRE8/3UQoHOZuFkTU5POKI9MvsnvpS2T2iZG7ejicn5Ud0v04Z78qrPXH2dOIv1MsaxmeOqpdAXqXnVevvLI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=emG2uGWw; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8DEA7C4CEE7;
+	Tue, 14 Oct 2025 10:06:54 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760435509;
-	bh=WqW5ZbUmABmzx1qaIZI77c81KCOJrnUC11x+N+bX780=;
+	s=k20201202; t=1760436416;
+	bh=vlKsjF/WzeVNZJtjW7yz45GlPnNggzp2rEQRTt+qMx8=;
 	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=WzlsX3EB+aY7QkdPLCjs0OjWUaQ9Xzbb/RCHrJ6usJdqe8nxX4j2dnJNhQmIogf8J
-	 SEEZXbhiZP/ECyE8ZKvaJkUdoyEVkkAg+r8h6tsVje5jKlzRhvO9f0x7uJGGgBXOVS
-	 F5CW7/+shHPOV/7YjyXIQheKeU8nmauAm1Q0clD0TEv8hrdxGVv80eFKNqFsPekGf9
-	 uWv8f6xC0O4LlOBhjVA90USRuArWlmVa7MnXUXqMKJz168dGuX7UMOBUHUtC05AE4u
-	 VxT1z8YRmYXgcCUOG0HsAOade3xRu+GiKFIjYud4dVZIbic0GOnUxtsIttReo8FtGG
-	 xComsdIi+Fz3g==
-Message-ID: <aa78a288-0a1e-4851-a2a5-4378e96da305@kernel.org>
-Date: Tue, 14 Oct 2025 11:51:45 +0200
+	b=emG2uGWwq7WOFnuNE32MS8Keoa4CA6KbIjZqesYktef4aX6Mo0CONPCRuEnv76kN1
+	 f4hF6/CT6kPvF2sUyfMQZMx8eKIS1cVMEsFSgmpSVS7k4VNJnSfmrz2Dv2Dru0tkDD
+	 b+DuY49KkTw4lTpFdwkRZtxCFCulKiJWX5GnH+2v2RF5Qt3LHkq2R8FL6sJ4reS7DY
+	 fBBQodxVpdHJs7/gqDYw5fFy4w6rrEOplf2jFTSW3Jy6TJgwiSRwLLEYZnVCfTeywn
+	 NqISKPRJe2hPHOAnPGiuDyV5JUdv/itXlFVZ46Z6l/7hU8PTUTPrt2DxQ5cs0Eb0ha
+	 uClTwYNpBTtSg==
+Message-ID: <1a6e25c6-820e-4610-80bb-518edca18bd5@kernel.org>
+Date: Tue, 14 Oct 2025 12:06:52 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,105 +51,90 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v2 RESEND] media: hackrf: fix to not free memory after the
- device is registered in hackrf_probe()
+Subject: Re: [PATCH v2 RESEND] media: as102: fix to not free memory after the
+ device is registered in as102_usb_probe()
 To: Jeongjun Park <aha310510@gmail.com>, mchehab@kernel.org,
- hverkuil@kernel.org
-Cc: laurent.pinchart+renesas@ideasonboard.com, crope@iki.fi,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- stable@vger.kernel.org,
- syzbot+6ffd76b5405c006a46b7@syzkaller.appspotmail.com,
- syzbot+f1b20958f93d2d250727@syzkaller.appspotmail.com
-References: <20250904054232.3848637-1-aha310510@gmail.com>
+ khoroshilov@ispras.ru
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+ stable@vger.kernel.org, syzbot+47321e8fd5a4c84088db@syzkaller.appspotmail.com
+References: <20250904054629.3849431-1-aha310510@gmail.com>
 Content-Language: en-US, nl
-In-Reply-To: <20250904054232.3848637-1-aha310510@gmail.com>
+In-Reply-To: <20250904054629.3849431-1-aha310510@gmail.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-Hi Jeongjun Park,
-
-On 04/09/2025 07:42, Jeongjun Park wrote:
-> In hackrf driver, the following race condition occurs:
+On 04/09/2025 07:46, Jeongjun Park wrote:
+> In as102_usb driver, the following race condition occurs:
 > ```
 > 		CPU0						CPU1
-> hackrf_probe()
->   kzalloc(); // alloc hackrf_dev
+> as102_usb_probe()
+>   kzalloc(); // alloc as102_dev_t
 >   ....
->   v4l2_device_register();
->   ....
-> 						open("/path/to/dev"); // open hackrf dev
+>   usb_register_dev();
+> 						open("/path/to/dev"); // open as102 dev
 > 						....
->   v4l2_device_unregister();
+>   usb_deregister_dev();
 >   ....
->   kfree(); // free hackrf_dev
+>   kfree(); // free as102_dev_t
 >   ....
-> 						ioctl(fd, ...);
-> 						  v4l2_ioctl();
-> 						    video_is_registered() // UAF!!
-> 						....
 > 						close(fd);
-> 						  v4l2_release() // UAF!!
-> 						    hackrf_video_release()
+> 						  as102_release() // UAF!!
+> 						    as102_usb_release()
 > 						      kfree(); // DFB!!
 > ```
 > 
-> When a V4L2 or video device is unregistered, the device node is removed so
-> new open() calls are blocked.
+> When a USB character device registered with usb_register_dev() is later
+> unregistered (via usb_deregister_dev() or disconnect), the device node is
+> removed so new open() calls fail. However, file descriptors that are
+> already open do not go away immediately: they remain valid until the last
+> reference is dropped and the driver's .release() is invoked.
 > 
-> However, file descriptors that are already open-and any in-flight I/O-do
-> not terminate immediately; they remain valid until the last reference is
-> dropped and the driver's release() is invoked.
+> In as102, as102_usb_probe() calls usb_register_dev() and then, on an
+> error path, does usb_deregister_dev() and frees as102_dev_t right away.
+> If userspace raced a successful open() before the deregistration, that
+> open FD will later hit as102_release() --> as102_usb_release() and access
+> or free as102_dev_t again, occur a race to use-after-free and
+> double-free vuln.
 > 
-> Therefore, freeing device memory on the error path after hackrf_probe()
-> has registered dev it will lead to a race to use-after-free vuln, since
-> those already-open handles haven't been released yet.
+> The fix is to never kfree(as102_dev_t) directly once usb_register_dev()
+> has succeeded. After deregistration, defer freeing memory to .release().
 > 
-> And since release() free memory too, race to use-after-free and 
-> double-free vuln occur.
-> 
-> To prevent this, if device is registered from probe(), it should be
-> modified to free memory only through release() rather than calling
-> kfree() directly.
+> In other words, let release() perform the last kfree when the final open
+> FD is closed.
 > 
 > Cc: <stable@vger.kernel.org>
-> Reported-by: syzbot+6ffd76b5405c006a46b7@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=6ffd76b5405c006a46b7
-> Reported-by: syzbot+f1b20958f93d2d250727@syzkaller.appspotmail.com
-> Closes: https://syzkaller.appspot.com/bug?extid=f1b20958f93d2d250727
-> Fixes: 8bc4a9ed8504 ("[media] hackrf: add support for transmitter")
+> Reported-by: syzbot+47321e8fd5a4c84088db@syzkaller.appspotmail.com
+> Closes: https://syzkaller.appspot.com/bug?extid=47321e8fd5a4c84088db
+> Fixes: cd19f7d3e39b ("[media] as102: fix leaks at failure paths in as102_usb_probe()")
 > Signed-off-by: Jeongjun Park <aha310510@gmail.com>
 > ---
 > v2: Fix incorrect patch description style and CC stable mailing list
-> - Link to v1: https://lore.kernel.org/all/20250822142729.1156816-1-aha310510@gmail.com/
+> - Link to v1: https://lore.kernel.org/all/20250822143539.1157329-1-aha310510@gmail.com/
 > ---
->  drivers/media/usb/hackrf/hackrf.c | 2 ++
->  1 file changed, 2 insertions(+)
+>  drivers/media/usb/as102/as102_usb_drv.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/media/usb/hackrf/hackrf.c b/drivers/media/usb/hackrf/hackrf.c
-> index 0b50de8775a3..d7a84422193d 100644
-> --- a/drivers/media/usb/hackrf/hackrf.c
-> +++ b/drivers/media/usb/hackrf/hackrf.c
-> @@ -1515,6 +1515,8 @@ static int hackrf_probe(struct usb_interface *intf,
->  	video_unregister_device(&dev->rx_vdev);
->  err_v4l2_device_unregister:
->  	v4l2_device_unregister(&dev->v4l2_dev);
+> diff --git a/drivers/media/usb/as102/as102_usb_drv.c b/drivers/media/usb/as102/as102_usb_drv.c
+> index e0ef66a522e2..abde5666b2ee 100644
+> --- a/drivers/media/usb/as102/as102_usb_drv.c
+> +++ b/drivers/media/usb/as102/as102_usb_drv.c
+> @@ -404,6 +404,7 @@ static int as102_usb_probe(struct usb_interface *intf,
+>  	as102_free_usb_stream_buffer(as102_dev);
+>  failed_stream:
+>  	usb_deregister_dev(intf, &as102_usb_class_driver);
+> +	return ret;
 
-Instead of v4l2_device_unregister() this should call v4l2_device_put().
-Otherwise the memory will never be freed since the v4l2_device refcount
-will never reach 0.
-
-> +	dev_dbg(&intf->dev, "failed=%d\n", ret);
-
-Drop this line, it doesn't add anything.
+Here too I wonder if the memory is actually freed. I suspect a usb_put_intf()
+is needed. I'm not a USB expert, though. But you should check if you didn't
+replace a UAF by a memory leak.
 
 Regards,
 
 	Hans
 
-> +	return ret;
->  err_v4l2_ctrl_handler_free_tx:
->  	v4l2_ctrl_handler_free(&dev->tx_ctrl_handler);
->  err_v4l2_ctrl_handler_free_rx:
+>  failed:
+>  	usb_put_dev(as102_dev->bus_adap.usb_dev);
+>  	usb_set_intfdata(intf, NULL);
 > --
 > 
 
