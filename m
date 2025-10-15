@@ -1,265 +1,99 @@
-Return-Path: <linux-media+bounces-44587-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44588-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52797BDEB48
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 15:18:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 014E9BDEB96
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 15:20:28 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id BA19E506A36
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 13:14:45 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4667F19C4C3A
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 13:20:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 66E3132779B;
-	Wed, 15 Oct 2025 13:13:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7FE331F0E56;
+	Wed, 15 Oct 2025 13:19:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="UZrwIeig"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="CyPIyU8n"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAB232ED2D;
-	Wed, 15 Oct 2025 13:13:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6C611DE2C9;
+	Wed, 15 Oct 2025 13:19:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760534033; cv=none; b=RzekQIOCvBtxDZYxMfxw4T17NxMNvFd5Ae51eiNBJqey6C+njfmdA4F7YTw1TNdlxqC5Hxqee3JRCzE/+MgKEjgE62tyO4b6F49HBj6DvgvWpj/PLfmtNTCo/+0kXqAX9Ia1wnCiaIAwlrGKjC+CMvGcR+X/aRdrvPOEpd10ZXo=
+	t=1760534393; cv=none; b=NLlSh64QTBK6nFCBP82VUsCgwFiAz9226E+bayoIdRl1e2TAbS+xe54JsPBZWM4mYjDHVSqyLOVtUxy8tWfxFKgar5vftanUB1sYq7KiTH99RqNfq814qft9pMhV8OJiP4zdkzTb8G2VLaUCu+IEQ087OY7uhVy7nGYss0Qxxo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760534033; c=relaxed/simple;
-	bh=ooewIjBhyvTwCZSTCoRQM/QWA6RIZRzk0Y+0zHMe4uc=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DLtQ2efNIZSyY5lVIDoxqH+zLUGHMzdm3gDNQkhmLAuRngwtL3dyOcpakhkcx1tIeFIv+SYcsRxpqnu0Ohjw1V8IuJT3eIxt3oAujtGreaSLRusdnl1VIDZjFjUJiKuDdQULQyjEZKnLcW2JV8X6uZm56N05IbtCRHE9PBfWmw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=UZrwIeig; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59FAtknE016695;
-	Wed, 15 Oct 2025 13:13:41 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	dZIz1JVvXwwCvQ5KmmtLT9pXfGy/6Pb9v1cxXYgaiGo=; b=UZrwIeigukCkICpv
-	gW8W0ayLXyX3LglAXPodoI7Bk06HujuedD5HbqcdBOG8ilOwu7lrQftbD4Ap9wbn
-	njZ9VJRcd7EgYdDDKBghYDebdWc2MC/ATzDTkjI4xx5kmTsNsCV8HqYv7RavmEsQ
-	ED9zuw0OsNOO/dIgccu9P0Wb8WNSvMHIvQebj6ONS7G2NDZTjb9+D6CzuCxO5mto
-	8HkWzArKMOdTA51mxjlYy8h56QVv4nouHUkPpW7tdOW/XgqvmK6ujIcnvhOzNacR
-	uswejXa8Mea2R2CcWXjaW7ErgG++ISndliEpxTxctwtlm5NPmhsalmzHGWdwaBk3
-	luYdkg==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49rtrt9e4q-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 15 Oct 2025 13:13:41 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 59FDDeRN013407
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 15 Oct 2025 13:13:40 GMT
-Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1748.24; Wed, 15 Oct 2025 06:13:34 -0700
-From: Vikram Sharma <quic_vikramsa@quicinc.com>
-To: <bryan.odonoghue@linaro.org>, <mchehab@kernel.org>, <robh@kernel.org>,
-        <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <andersson@kernel.org>,
-        <konradybcio@kernel.org>, <hverkuil-cisco@xs4all.nl>,
-        <cros-qcom-dts-watchers@chromium.org>, <catalin.marinas@arm.com>,
-        <will@kernel.org>
-CC: <linux-arm-kernel@lists.infradead.org>, <quic_svankada@quicinc.com>,
-        <quic_vikramsa@quicinc.com>, <quic_nihalkum@quicinc.com>,
-        <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Ravi Shankar
-	<quic_rshankar@quicinc.com>,
-        Vishal Verma <quic_vishverm@quicinc.com>
-Subject: [PATCH v4 3/3] arm64: dts: qcom: monaco-evk-camera: Add DT overlay
-Date: Wed, 15 Oct 2025 18:43:03 +0530
-Message-ID: <20251015131303.2797800-4-quic_vikramsa@quicinc.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20251015131303.2797800-1-quic_vikramsa@quicinc.com>
-References: <20251015131303.2797800-1-quic_vikramsa@quicinc.com>
+	s=arc-20240116; t=1760534393; c=relaxed/simple;
+	bh=l2nwmGl7BBebMnfQO55Dp8CWbUh3ixJkZIiDyPJUHn0=;
+	h=Content-Type:MIME-Version:In-Reply-To:References:Subject:From:Cc:
+	 To:Date:Message-ID; b=Eqp1KyZZJ7g93EEw43ovrRtVtnzcg/ptfqHJ6+dngqZ0ms2H5TnQbaLExN4aKKljbQYCBtW936K5IUOlK8upe1MdTaTUOy2XnayPe/UmTZQc0hL/FOSrqy+3JWgFCLfcUaXz2B21d1GrCtvdRn9vsSU8+dO7lV5kNzILw0ZCHFg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=CyPIyU8n; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (cpc89244-aztw30-2-0-cust6594.18-1.cable.virginm.net [86.31.185.195])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id CE0C7C72;
+	Wed, 15 Oct 2025 15:18:04 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1760534284;
+	bh=l2nwmGl7BBebMnfQO55Dp8CWbUh3ixJkZIiDyPJUHn0=;
+	h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+	b=CyPIyU8nMmkq/jUo9T7OtEgrNSNldVrEpY1dUEGG1h2dmAcqeCZBbHHh5iagoKC73
+	 GT5tklMld8PEzMgauhJ607sYctkX/tUhwyqkUfTaZCBxAt1vhcoSAT8TVPKMp06NYz
+	 OIvDLeNpoVh9+ugxknUnWHGpib+yuulNn0yc83Go=
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-ORIG-GUID: hnyg7KFWbtCdR_EydHRivDyf7_7Idtwt
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEzMDAyMiBTYWx0ZWRfXxbyBOQW/ywM0
- +oUqfrkt8ifeyQrTQqX8o/VkoPvWb4fk2xpyybvzGGs8Pr9DHqER7CfIjK8Kiq+e04Wd2nv1D5Z
- xz8URiXZ3ymEh7mHnnJJhA+ccobx83/t3my0DVgmuakbUY3uGsF1+98zULTK+pfwDqYHk1nOwMQ
- a45KrMuY34pNLxwCM4766MM7TVI74C5d+JNdU6IIxEGS6E7DonGeH1AUHjtIj7ouBm4mZHAOUa7
- ZUV5ZDGo+3Z/A/6lSRbdSKu4+sU449fh7yTtdVz91tiVkBuP4Uox3uxlBeTGWndXg2DqdCP6olK
- DiAXvMLFbqPsKoKPqTetsHZyEr8xApk8EsqVvM+tJgs1vGvP1BXohY/cTgs003Vnb5qt7ThrICt
- BmLzRf1PGfXP8Z7oZBEzBQuPL79U9g==
-X-Authority-Analysis: v=2.4 cv=SfD6t/Ru c=1 sm=1 tr=0 ts=68ef9e05 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=COk6AnOGAAAA:8 a=1o0OAiIl6arAuPHRMUsA:9 a=TjNXssC_j7lpFel5tvFf:22
- a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: hnyg7KFWbtCdR_EydHRivDyf7_7Idtwt
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-15_05,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 clxscore=1015 adultscore=0 phishscore=0 lowpriorityscore=0
- bulkscore=0 impostorscore=0 priorityscore=1501 spamscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510130022
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20251015075353.22625-18-laurent.pinchart@ideasonboard.com>
+References: <20251015075353.22625-1-laurent.pinchart@ideasonboard.com> <20251015075353.22625-18-laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH v2 17/25] media: renesas: fdp1: Drop unneeded v4l2_m2m_get_vq() NULL check
+From: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>, Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Date: Wed, 15 Oct 2025 14:19:41 +0100
+Message-ID: <176053438100.1246375.4312235042638260608@ping.linuxembedded.co.uk>
+User-Agent: alot/0.9.1
 
-From: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
+Quoting Laurent Pinchart (2025-10-15 08:53:40)
+> The v4l2_m2m_get_vq() function never returns NULL. The check was
+> probably intended to catch invalid format types, but that's not needed
+> as the V4L2 core picks the appropriate VIDIOC_G_FMT ioctl handler based
+> on the format type, so the type can't be incorrect. Drop the unneeded
+> return value check and, as the function has no side effect, the function
+> call as well.
+>=20
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Monaco EVK board does not include a camera sensor in its default hardware
-configuration. Introducing a device tree overlay to support optional
-integration of the IMX577 sensor via CSIPHY1.
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Camera reset is handled through an I2C expander, and power is enabled
-via TLMM GPIO74.
-
-An example media-ctl pipeline for the imx577 is:
-
-media-ctl --reset
-media-ctl -V '"imx577 3-001a":0[fmt:SRGGB10/4056x3040 field:none]'
-media-ctl -V '"msm_csiphy1":0[fmt:SRGGB10/4056x3040]'
-media-ctl -V '"msm_csid0":0[fmt:SRGGB10/4056x3040]'
-media-ctl -V '"msm_vfe0_rdi0":0[fmt:SRGGB10/4056x3040]'
-media-ctl -l '"msm_csiphy1":1->"msm_csid0":0[1]'
-media-ctl -l '"msm_csid0":1->"msm_vfe0_rdi0":0[1]'
-yavta -B capture-mplane -c -I -n 5 -f SRGGB10P -s 4056x3040 -F /dev/video1
-
-Co-developed-by: Ravi Shankar <quic_rshankar@quicinc.com>
-Signed-off-by: Ravi Shankar <quic_rshankar@quicinc.com>
-Co-developed-by: Vishal Verma <quic_vishverm@quicinc.com>
-Signed-off-by: Vishal Verma <quic_vishverm@quicinc.com>
-Signed-off-by: Nihal Kumar Gupta <quic_nihalkum@quicinc.com>
-Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
----
- arch/arm64/boot/dts/qcom/Makefile             |  4 +
- .../dts/qcom/monaco-evk-camera-imx577.dtso    | 96 +++++++++++++++++++
- 2 files changed, 100 insertions(+)
- create mode 100644 arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso
-
-diff --git a/arch/arm64/boot/dts/qcom/Makefile b/arch/arm64/boot/dts/qcom/Makefile
-index 296688f7cb26..4df3044639a4 100644
---- a/arch/arm64/boot/dts/qcom/Makefile
-+++ b/arch/arm64/boot/dts/qcom/Makefile
-@@ -36,6 +36,10 @@ lemans-evk-camera-csi1-imx577-dtbs	:= lemans-evk.dtb lemans-evk-camera-csi1-imx5
- 
- dtb-$(CONFIG_ARCH_QCOM)	+= lemans-evk-camera-csi1-imx577.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= monaco-evk.dtb
-+
-+monaco-evk-camera-imx577-dtbs	:= monaco-evk.dtb monaco-evk-camera-imx577.dtbo
-+dtb-$(CONFIG_ARCH_QCOM)	+= monaco-evk-camera-imx577.dtb
-+
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8216-samsung-fortuna3g.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-acer-a1-724.dtb
- dtb-$(CONFIG_ARCH_QCOM)	+= msm8916-alcatel-idol347.dtb
-diff --git a/arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso b/arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso
-new file mode 100644
-index 000000000000..2237f0fc4a14
---- /dev/null
-+++ b/arch/arm64/boot/dts/qcom/monaco-evk-camera-imx577.dtso
-@@ -0,0 +1,96 @@
-+// SPDX-License-Identifier: BSD-3-Clause
-+/*
-+ * Copyright (c) Qualcomm Technologies, Inc. and/or its subsidiaries.
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/clock/qcom,sa8775p-camcc.h>
-+#include <dt-bindings/gpio/gpio.h>
-+
-+&{/} {
-+	vreg_cam1_2p8: vreg-cam1-2p8 {
-+		compatible = "regulator-fixed";
-+		regulator-name = "vreg_cam1_2p8";
-+		startup-delay-us = <10000>;
-+		enable-active-high;
-+		gpio = <&tlmm 74 GPIO_ACTIVE_HIGH>;
-+	};
-+};
-+
-+&camss {
-+	vdda-phy-supply = <&vreg_l4a>;
-+	vdda-pll-supply = <&vreg_l5a>;
-+
-+	status = "okay";
-+
-+	ports {
-+		#address-cells = <1>;
-+		#size-cells = <0>;
-+
-+		port@1 {
-+			reg = <1>;
-+
-+			csiphy1_ep: endpoint {
-+				clock-lanes = <7>;
-+				data-lanes = <0 1 2 3>;
-+				remote-endpoint = <&imx577_ep1>;
-+			};
-+		};
-+	};
-+};
-+
-+&cci1 {
-+	pinctrl-0 = <&cci1_i2c0_default>;
-+	pinctrl-1 = <&cci1_i2c0_sleep>;
-+
-+	status = "okay";
-+};
-+
-+&cci1_i2c0 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	camera@1a {
-+		compatible = "sony,imx577";
-+		reg = <0x1a>;
-+
-+		reset-gpios = <&expander2 1 GPIO_ACTIVE_LOW>;
-+		pinctrl-0 = <&cam1_default>;
-+		pinctrl-names = "default";
-+
-+		clocks = <&camcc CAM_CC_MCLK1_CLK>;
-+		assigned-clocks = <&camcc CAM_CC_MCLK1_CLK>;
-+		assigned-clock-rates = <24000000>;
-+
-+		avdd-supply = <&vreg_cam1_2p8>;
-+
-+		port {
-+			imx577_ep1: endpoint {
-+				clock-lanes = <7>;
-+				link-frequencies = /bits/ 64 <600000000>;
-+				data-lanes = <0 1 2 3>;
-+				remote-endpoint = <&csiphy1_ep>;
-+			};
-+		};
-+	};
-+};
-+
-+&tlmm {
-+	cam1_default: cam1-default-state {
-+		mclk-pins {
-+			pins = "gpio68";
-+			function = "cam_mclk";
-+			drive-strength = <2>;
-+			bias-disable;
-+		};
-+
-+		ldo-avdd-pins {
-+			pins = "gpio74";
-+			function = "gpio";
-+			drive-strength = <2>;
-+			bias-disable;
-+		};
-+	};
-+};
--- 
-2.34.1
-
+> ---
+>  drivers/media/platform/renesas/rcar_fdp1.c | 3 ---
+>  1 file changed, 3 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/renesas/rcar_fdp1.c b/drivers/media/p=
+latform/renesas/rcar_fdp1.c
+> index e615c56083f1..3515601030ec 100644
+> --- a/drivers/media/platform/renesas/rcar_fdp1.c
+> +++ b/drivers/media/platform/renesas/rcar_fdp1.c
+> @@ -1409,9 +1409,6 @@ static int fdp1_g_fmt(struct file *file, void *priv=
+, struct v4l2_format *f)
+>         struct fdp1_ctx *ctx =3D file_to_ctx(file);
+>         struct fdp1_q_data *q_data;
+> =20
+> -       if (!v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type))
+> -               return -EINVAL;
+> -
+>         q_data =3D get_q_data(ctx, f->type);
+>         f->fmt.pix_mp =3D q_data->format;
+> =20
+> --=20
+> Regards,
+>=20
+> Laurent Pinchart
+>
 
