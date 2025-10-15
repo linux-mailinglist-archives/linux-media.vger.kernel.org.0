@@ -1,150 +1,161 @@
-Return-Path: <linux-media+bounces-44636-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44637-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E103BE0D93
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 23:43:47 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF45BE0E0E
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 23:56:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 462B05467AC
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 21:43:40 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 6D39B4F80DB
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 21:55:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 732373016F5;
-	Wed, 15 Oct 2025 21:43:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71F78304BB3;
+	Wed, 15 Oct 2025 21:55:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="CNcsUy3O"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XTvrSye8"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0127D3002D6
-	for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 21:43:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB046303A2E
+	for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 21:55:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760564613; cv=none; b=U91Sr1CJ8gp17bRQn7ZV+ubqmT7OVf9i8xYp+i9Bqdev5TjRkcwwXNBU1Hr1CjZK0vf3CKWhKBnGYXs98tz3VsQLlQ2uzdYgL9vkqvc9YzEc8J3/klb4OIJ4/S0AIUPGUX67msRUVZ52YoFT2dvoCVHuMBxk6vlrxFJgxTMN3/M=
+	t=1760565347; cv=none; b=WG5l8hepb3/MvsOX7f8A6BpNkSxHqK2IQwjD29TfIXeJG4vHSMeFbEIY8EKBfEP33ZLcKBabmBYUv9yfHpCLQZflNub9+JbLNI3tgz/CeA6TgFnD4JS6/oVI8ScD3AB/8x4cp7cD/niYow11FY2BlMR6vLEt6SWhts0PII7vbsM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760564613; c=relaxed/simple;
-	bh=AoGR0N/WRa1KwSM19W6VN8WXSjWSD6KuRKpcEKai8Iw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LpMm/T/NCE3CDVW3niw4EiLA2FjFCe1v6jYl6UMcpvo63d2WlYOQKaKQwOv6/8P/ExYn5UceifwXlZEk51R89PMprEQcvSFRSyK9pcwzLIrjwPcvm6cjoCg2CItQ9tOZww/CW4SJg1HiEueAiabZuNW7+KdsFhKD9l1Qx/6Se3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=CNcsUy3O; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3ee15b5435bso55870f8f.0
-        for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 14:43:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760564610; x=1761169410; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=zDF8d+4H3i2iv4u1yiFtrqUVQxc1Kn/G01hl0muKOgA=;
-        b=CNcsUy3Ol7xzE8L++OkzH05UyK7SGRYPqrU4282wKBhBI2fRgEKGcNutEjSlc91KE6
-         Q0uCV9hE6bWYje+NKSLt8Ny6rZDc+Ac4QySGlPCVaW1H4TafOzVzSH7yQIA9jbP3UpkV
-         Ufi5NZHL0Xv15ZRW2U8ePR1KPv8NmAuii7OVA9MavsQdRi5WvY0xU2t0dI9w6a4xSac0
-         s6NAay1hscAH8ibWpbug2wyG9Ox0EX4Y2+IC6f9n/MKAUWSOqOzjd27vZXnrqGXrmxpD
-         lm9IS0ZEYwqVXpqv3LNU0AAsWtfYQwR2yJAz3nVjFbM1i15QRAOUmxDssITWIVR6krEm
-         igjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760564610; x=1761169410;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=zDF8d+4H3i2iv4u1yiFtrqUVQxc1Kn/G01hl0muKOgA=;
-        b=pvowEVKzS2lydMVLYxsj7vgfSo8ACX9y7MOqy2O5RhhgLl8KAXE6MlZ7wreBML08kM
-         sqJB8rnfiLeqNNHtxgaFgRVsuddZeyt98bsAwKYNVe6SIHZJKFjjG2TmRfLdCawUIck7
-         hTiBPMRKwFSQftWxJNn8nDKiilXj4ZlLlL8OkW9u0Tcltz9k0P4SWQEkb5q74lE5YE0Y
-         rS2yc+Ox5leT2w7UElr6au8EIOEFnWckZw4l3uSXOpgwPtYArEVcfLi/UbAPsAE8MY+4
-         lixzYa7rA0yDkAl5L5svSu7AdA3hfLmqGmvaYID4HF+0qm0H2CrQ8Lqt9+wkE9/R5zUA
-         /zxA==
-X-Forwarded-Encrypted: i=1; AJvYcCUmZNhEkADK7deHhBOBuoskuUYrC6+G5AOr1X00wc3EFYi3cU9NoxlxUP9BcmtgbwwB/N31W2i7U5c4WA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yybdgg/6ogQggz+BDYOJfH+fR8wdZqZKsWq4CqJkStKLdTuVuDB
-	KvHFaxwUcbZ9rK1DCS4SeTP1Jf3QHnbMoSO0dWSW5XWYVJV61fw2wuBAsJAsQNXHhXw=
-X-Gm-Gg: ASbGncsR+6HSZ7UEpTNa9sbkm3ajwoBMYBn3UP4Z6nKCiVt0tEIr/5Fi9KfU/hvWPT9
-	hKyCa4aqTXRHwjJVLiik5JMyDcXKAh6U9RReq6BErr4z7M8bgNbyWTVTowJq4LwnoVNhAUaFZVe
-	nYvrFC2Q9LRhXrMrpVOFiY+T+7n1/3khBVaruYAcIKpnCALpHLfnPPzAfoQUEK5ky+wyn0LnAi7
-	NURLUGvlkVXzmEN/8vN/tPudrlFdp03yx1ltOCluij4YTRX7bxqe6DHyfuo6oQnmCrgAUZkXNxz
-	gpeAIPdCinBcg+O3aw44jJESa+ZbcLGmhMhW321I2JaK3uf8teJfpc8Hh556zgB0Hrq8v2QQI0W
-	FQq/+PhRnnMZ6qhH3HscsuBcdrtx3yebmG1egG1AJMiY8YfSMvF97ibGY6UgdDsEp0/plBx4abh
-	PtxcxXvN5RwC9Aj3P/WI7H7fGISZHfilBZyt3TWMMMURujX6bKH13nr/pK
-X-Google-Smtp-Source: AGHT+IGnQKKNQd7/bwUbO/GQuYepHvtuUzlr5o5rKuZYtYUxhm0e4zkPUt4aDvFWg6NhRrSxe6cX1w==
-X-Received: by 2002:a05:6000:310a:b0:414:a552:86b1 with SMTP id ffacd0b85a97d-4266e8e48ccmr20004387f8f.63.1760564610303;
-        Wed, 15 Oct 2025 14:43:30 -0700 (PDT)
-Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426fc54b32dsm1314209f8f.30.2025.10.15.14.43.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Oct 2025 14:43:29 -0700 (PDT)
-Message-ID: <0b6c157a-3d8d-4251-a704-31f8369f6a4e@linaro.org>
-Date: Wed, 15 Oct 2025 22:43:27 +0100
+	s=arc-20240116; t=1760565347; c=relaxed/simple;
+	bh=OFUZEAn0tJfrAUbL/6gUV+/vHKjKd4aU7a2bK6qndOU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hMz0dfj1nACnEASdWYVCQAKC/jUEy22bolKgBLzDp1UbxGq9e2Y97cIQPvE0IPhNrPt/35JrYrOY8sLoVWaOmNIZpQsj2XVrITi2jVL7K/RUNA5ieACJbuhgK5xhaaMxhqPmb0UITQr/rDzfFslsyU9coZn7NAY4op6ToDkXDL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XTvrSye8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 70FD9C113D0
+	for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 21:55:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760565347;
+	bh=OFUZEAn0tJfrAUbL/6gUV+/vHKjKd4aU7a2bK6qndOU=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=XTvrSye8LFx8I2EDZvSsssU9YDxQRmbmqRHNq8mr4JGiVimliYi1AnVP7b4fPYwBk
+	 +RXItK/h6ga30VZfNUIUCRqViNq/TEoBTBBAT/qyoYGyhA5uZ71K0K39dyO4M1+dIE
+	 3n2kFV9I4hTnwqSsp32+okXPWp35yrE4hKJey33ew9IbxD+Dc29TJ/w917qC4+cIBZ
+	 UDCCsIJGA+X2/B/dH1KQYLXYuliBREwLhSyHzMGlP+2PjtPVPlile8xwTNCb2Rko7z
+	 yjqZK/MR+tLdUGxeuk2yGm+H0a4+wskRo83Xd8EJKyXOQkG9Gs4Gz/sI/PMLaJJhBI
+	 210BLmVi4phPQ==
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b3e7cc84b82so12124666b.0
+        for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 14:55:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCV94SZuCHJYnrVn7QYQVjZFc+ewd6JJJbm80nlDDH75ii3+m19/uy33PQ+4Uo60MyURc64NkO8RN3PnFg==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxf4Vgvjft2YSgA1RsB3In1IzIhWJSICsCtgzAmznX1gBD+2YgV
+	K+gFM/MZQZzKncKWj3Z+1rwgQ6Yze255RI5A2KqeDwcUAmhfZumbty+BzKvcqgcZdxWrTvBQC0s
+	8bjSzvbA+CGqwg2sGIlTNVsf50WpQBg==
+X-Google-Smtp-Source: AGHT+IFHESWupx/CTqIl66Cowsu3EvMAI/+jJbfasG4ZKwZXkzIfC23I0vb6ITIupl3h7wZ6qWU0Vk2BmLWIuje8Wec=
+X-Received: by 2002:a17:906:ee89:b0:b3b:679d:7f4a with SMTP id
+ a640c23a62f3a-b50aa387331mr3022927066b.5.1760565346012; Wed, 15 Oct 2025
+ 14:55:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/6] dt-bindings: media: camss: Add
- qcom,kaanapali-camss binding
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
- <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, aiqun.yu@oss.qualcomm.com,
- tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
- yijie.yang@oss.qualcomm.com, Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
- Atiya Kailany <atiya.kailany@oss.qualcomm.com>
-References: <20251014-add-support-for-camss-on-kaanapali-v2-0-f5745ba2dff9@oss.qualcomm.com>
- <20251014-add-support-for-camss-on-kaanapali-v2-2-f5745ba2dff9@oss.qualcomm.com>
- <dce1018c-6165-407c-8f3d-40859cb36b11@linaro.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <dce1018c-6165-407c-8f3d-40859cb36b11@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <nzqte4glwtpjs5bhkxz43yhdufelxvqvzmg5tepudxwetimir3@bvlw5csjizsh>
+ <9d3eeb9f-b8ea-48e5-a1d9-0865f63ef991@arm.com> <fhb4woejzh3r6v5dxvdiopnsbuwstucfuuzbiymxg4wrxrjc7t@dt3z3utq6lwd>
+ <8d88cd9d-16e8-43f9-8eb3-89862da1d0c1@arm.com> <hOs24ZavnUyKYyNwBWwRpYnrsefzBfp95yuy9zyp1ByxR9_3VacGX1Yntt8pCE4w3gllPwvevs1AZqghmwKoFg==@protonmail.internalid>
+ <zcgn4xw2xghyna2eysavujbzbiydyki7p7upzzv7one5mdyjy6@sj7f75kc4vwu>
+ <fb767586-a376-48eb-97b4-bf33061642b9@kernel.org> <a4WDx80rJP1GnGNEK0OOD5lh-m-MiAvireXdpiM9ETLKZ084sBJ2UthU_QqRbU_nwD4XtsdiyEqQ0AhxguzJ6g==@protonmail.internalid>
+ <6gx74wxie4wcabq27wo5y7v36uuurez4jxlzanroepqazdlgtw@sdtv2ld47d3q>
+ <fa3c1732-328d-46a2-8514-2e7f9ca6c63f@kernel.org> <aE5RMDRfrr2wxUAqjjsBMcodNQxLsUT_Soi_LXMJXYcfmmeBSHnPM3e5JUPOb89tSfeI1jQbt9LfLCOXFBZFSA==@protonmail.internalid>
+ <mwthowuei7pcqp2b4hg5c45n47iakclkioumc6diyznhnldfv5@wloeoys224bg> <796770d1-024e-4967-a96a-b7f32b28ca64@kernel.org>
+In-Reply-To: <796770d1-024e-4967-a96a-b7f32b28ca64@kernel.org>
+From: Rob Herring <robh@kernel.org>
+Date: Wed, 15 Oct 2025 16:55:34 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKNS9meBRxhMQvEym+yOK2r9ddpn4Q-FKb1efSm9sT3Bw@mail.gmail.com>
+X-Gm-Features: AS18NWAIHJjzHLZj2uLa3SUxLobahI_sXDbl6LjepNIuAadyImOTozg2xUTbUqI
+Message-ID: <CAL_JsqKNS9meBRxhMQvEym+yOK2r9ddpn4Q-FKb1efSm9sT3Bw@mail.gmail.com>
+Subject: Re: [RFC PATCH 0/3] Introduce iommu-map-masked for platform devices
+To: "Bryan O'Donoghue" <bod@kernel.org>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Charan Teja Kalla <charan.kalla@oss.qualcomm.com>, joro@8bytes.org, will@kernel.org, 
+	saravanak@google.com, conor+dt@kernel.org, mchehab@kernel.org, 
+	krzk+dt@kernel.org, abhinav.kumar@linux.dev, vikash.garodia@oss.qualcomm.com, 
+	dikshita.agarwal@oss.qualcomm.com, 
+	Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, bjorn.andersson@oss.qualcomm.com, 
+	linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	iommu@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 15/10/2025 20:45, Vladimir Zapolskiy wrote:
->> +  power-domains:
->> +    items:
->> +      - description:
->> +          TFE0 GDSC - Thin Front End, Global Distributed Switch 
->> Controller.
->> +      - description:
->> +          TFE1 GDSC - Thin Front End, Global Distributed Switch 
->> Controller.
->> +      - description:
->> +          TFE2 GDSC - Thin Front End, Global Distributed Switch 
->> Controller.
->> +      - description:
->> +          Titan GDSC - Titan ISP Block Global Distributed Switch 
->> Controller.
->> +
->> +  power-domain-names:
->> +    items:
->> +      - const: tfe0
->> +      - const: tfe1
->> +      - const: tfe2
-> 
-> Please remove all 'tfeX' power domains, they are not going to be utilized
-> any time soon.
-> 
-> When 'power-domains' list is just a single Titan GDSC, 'power-domain-names'
-> property is not needed.
+On Wed, Oct 15, 2025 at 3:53=E2=80=AFAM Bryan O'Donoghue <bod@kernel.org> w=
+rote:
+>
+> On 14/10/2025 23:18, Dmitry Baryshkov wrote:
+> > On Tue, Oct 14, 2025 at 09:49:17PM +0100, Bryan O'Donoghue wrote:
+> >> On 14/10/2025 19:35, Dmitry Baryshkov wrote:
+> >>>> Each function id can be associated with a device and a compat string
+> >>>> associated with it.
+> >>> So, which part of the hardware is described by the -cb device? What d=
+oes
+> >>> it mean_here_?
+> >>
+> >> The non-pixel path video encoder, the tz video encoder...
+> >>
+> >> What's not clear about that ?
+> >
+> > Where do you have pixel encoders in the fastrpc device node?
+> >
+> > --
+> > With best wishes
+> > Dmitry
+>
+> Haha, no sorry I didn't mean to suggest that at all.
+>
+> I mean do something _like_ that, for these FUNCION_IDs.
+>
+> We could replicate that for a new iris add for say Glymur or Kanaapali.
+>
+> Sub-nodes of the main iris device. They have a real purpose in that the
+> 'device' requirement is full range IOVA for the SID and implicit
+> identification of the FUNCTION_ID with the compat string
+>
+> iris-video@0xdeadbeef {
+>         video@0 {
+>                 reg =3D <0>;  /* FUNCTION_ID HLOS could also go here */
+>                 compat =3D "qcom,glymur-iris";
+>
+>                 iommus =3D <&apps_smmu 0x1940 0x0000>;
+>         };
+>
+>         video@1 {
+>                 reg =3D <1>;
+>                 compat =3D "qcom,glymur-iris-non-pixel";
+>                 iommus =3D <&apps_smmu 0x1947 0x0000>;
+>         };
+> };
+>
+> The reg property could also be the function_id
+>
+> video@FUNC_ID_HLOS {
+>         reg =3D <FUNC_ID_HLOS>;
+>         ...
+> };
+>
+> There's no need for a new iommu specific property to help us fixup
+> sm8550 iommu definition.
+>
+> As I say if that error wasn't already in sm8550, we wouldn't be trying
+> to solve the problem this way.
+>
+> So lets solve the problem for Glymur and Kanaapali and then backport
+> upstream if we can or downstream if we can't.
+>
+> What we need are new devices what we will do with the data in
+> iommu-map-masked is make new devices. We are mapping data - iommu SID to
+> device and implicit FUNCTION_ID to a device.
+>
+> So we should be declaring devices, instead of burying the data in a new
+> property that is not obvious what it does or why it exists.
 
-Each one of these TFEs powers an individually power-collapsible TFEs.
+No, these aren't separate devices. Please stop going down this route.
 
-This is also so with the other xFE power-domains on previous SoC 
-generations.
-
-You'll need the TFEx power-domain to process any data on TFEx with the 
-'lite' versions being tied to the TOP GDSC.
-
-So please keep the power-domain list, TOP isn't enough.
-
----
-bod
+Rob
 
