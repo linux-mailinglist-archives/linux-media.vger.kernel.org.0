@@ -1,176 +1,222 @@
-Return-Path: <linux-media+bounces-44519-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44521-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3BA7BDD2B0
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 09:40:49 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 67003BDD38A
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 09:54:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1E00B505B68
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 07:34:38 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D51B04F13FD
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 07:54:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFB9D22156A;
-	Wed, 15 Oct 2025 07:33:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A721314B72;
+	Wed, 15 Oct 2025 07:54:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="WRAp6xul"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="bHz2suxZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88544311966
-	for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 07:33:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F136D313E3D;
+	Wed, 15 Oct 2025 07:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760513638; cv=none; b=eH7FqGhvWmTWF6xTpLrJNccmXk8BXHsDlSPSfudmZoo1ALNUhwgDaRvG+3YuFUxLuu3YvRpRqIA9rSmc/StMCa/QUhDhwY8ejkCTDa1sOSoVz/9kB1NPkNoGnkA2LBBhJGtliSEeaxVN6HCX0BHmPe1wDGNwbZ4c/KtBpzbNdRA=
+	t=1760514848; cv=none; b=pcZ1LOEtg6OliqGLNQNdXXy+zBmEJEvcKF4Mtorg1l7IREi14WLto+T8LyXTjRn+gul39qNr3U4JVRg6bdVsr5OJWSh0LR0Qry8Wb/JauyE5euw1tCiiZ1XKK1xwVumlbzltRB1jUB9KztpNrZ91W9/Vpxvg93r1FSS9IKOAOCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760513638; c=relaxed/simple;
-	bh=45HM6drHPjeXjt/LBUhL9wMbf/mH4ryZx0ziOuqJeMc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=j/vjw7kQSkkrT6jjZ6nThznU05deCrihMd6GqwLd0igYMvB6a4y2s3gcQhuFa/l73qjtNl5Z1+CqYTnsbFEGnX4hJJ8Yp5cv1uVY1Aa67SlQg/1rneHXfX4b4hBKJXMmYOZ+C9ka2EjVJAvvaxtUhgI3t/LV7U45G2KVO+cvow4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=WRAp6xul; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-57a960fe78fso7028099e87.2
-        for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 00:33:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1760513634; x=1761118434; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=Q3jdoENbhx6SecniHkE8uMx2hK2+MI3awNH17hg+n4I=;
-        b=WRAp6xul1jPItWAjoiLUD+OYczrUfiIVsGu4QWWAJyCzYzCIGXkOzW/g2nYo/UhujN
-         EVpkcPIuwXuB4l5LvhPTgX2nPXOBkkBdOBWOiJvS5CbWsrjo4hM6IEhNxPCV3cHz4gRc
-         uHSoJI2rx4e3tblQr+PzTpv1Dmkk2FcadL4IE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760513634; x=1761118434;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Q3jdoENbhx6SecniHkE8uMx2hK2+MI3awNH17hg+n4I=;
-        b=PFlJ1TLItxriHPhwQNUE9fs7QBXB36MgSVENr/3pebOKrhvq9Ub83jPuSlVRC4cxkV
-         ThhP97iQEGX4udHz5ukxgC9wlshtSqtPNHLe44nKhS66vIe4Gs+nDuxQEKgpPDFTKivw
-         a4/gg2XLXe22nseOcm8CQGWwGJ2ztTVg91k/BrpWpPbg1OGQtjh5Kro3/zfiA8EK6OW4
-         0ToMI0KXZWLwPy5q+LtHP0IDw9yM6pNjufv6y50Z37dCV/F15PP+jTrTMqQAwYUqXzJf
-         7LEH/8xWao+HlYu3eQ+wQC1eLMVd98JJ6jN9GndE9wbsy9CKI694PlG/iU4f6ntGyjN+
-         /V7A==
-X-Gm-Message-State: AOJu0YzfelSI+tmXzEbpuXXXIKoetXTkB3hHcOTygP+uAQk95x29zzWL
-	L0nN/USvyCIB5BhjQ2NeuiDQTsRqCa+SvSUYZ/RDPzRGvLw8Apd/1i4+MJMCOch0b4p9wIZ7Ihn
-	CeKI=
-X-Gm-Gg: ASbGnct2z1vpJ6zZgf61VNTcQRF6KicKNWuN5Zsz9n3cUc19lePcB31T61VrmrX35e8
-	2NMfOwcchf/anK+LouLpdVxfHTDlmYduKIXnfMKlw44Bq3LtpxW/hhpkfh9RXVuqTpBBjtyJNDM
-	sNPuN7NQjdvwfhN6dKvU+heTiWnZHzYr8iCXPOk8bmpiBOy+ute7N40c00fgR28++BssUsn4fqt
-	pFcZ9mDtKjtVUIQZjfC3wTMD9TbOhlJb456HXIUxL2duhiqqoMtqV5Uk7nBshdNiUHuR4AOO7xf
-	HkREXqeA8SNYMaq8WGwHKM0eufWV2IXPYgjJjODfwhN2sf7PmohFH571QREfFX0440A14AmAuEd
-	edzyqWcnvCPxVqWXOFC95zpXnUOOMAx0lWSaqElrbVmGHLfDCaS+UWuSMqD2K8Eohgmqyelj0Fs
-	Tn67lWSO7o3YLsuw==
-X-Google-Smtp-Source: AGHT+IGhb/gQZHU2jFBBJgrklD0+z0LOH1xKN7HHi0wGFpYK4zNTL7wmtFgqn0TgoM0YQGEIiHoHwA==
-X-Received: by 2002:a05:6512:3ba0:b0:579:f0fc:46f7 with SMTP id 2adb3069b0e04-5906de89a6bmr8064519e87.56.1760513634308;
-        Wed, 15 Oct 2025 00:33:54 -0700 (PDT)
-Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com. [209.85.167.48])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-590880631e3sm5989565e87.0.2025.10.15.00.33.53
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Oct 2025 00:33:53 -0700 (PDT)
-Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-591c98ebe90so479678e87.3
-        for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 00:33:53 -0700 (PDT)
-X-Received: by 2002:a05:6512:e93:b0:58b:8f:2cf3 with SMTP id
- 2adb3069b0e04-5906dc2dab5mr7726527e87.21.1760513633325; Wed, 15 Oct 2025
- 00:33:53 -0700 (PDT)
+	s=arc-20240116; t=1760514848; c=relaxed/simple;
+	bh=HMpyQc1vCbg200Ovi9oVcwwxqMAbktCljqyWnp6/pa4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=g3GACilGc0+zQlZBiPsnw7b47hzxC0/KrR0Z+KTwC8bjE6bOaU9yBec8wzOV6whittYBP9cjJX6wKGdR9uv/k+Jyzq6PvHEBHtGJ7tuizp+KIK3lu7dRQ0A2a6sxGaKU/YsGm5dNw2yXpeMsfTW+BUZLQ9UOwAO9oVhqBtLRPkg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=bHz2suxZ; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (87-94-110-32.bb.dnainternet.fi [87.94.110.32])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 7C3E8E92;
+	Wed, 15 Oct 2025 09:52:22 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1760514742;
+	bh=HMpyQc1vCbg200Ovi9oVcwwxqMAbktCljqyWnp6/pa4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=bHz2suxZQcf0OwK6sXgHCFZZ6iQ17jH8d09o9a4jKXrYvttYbKQiN193Zi3ckmrEb
+	 VOc063B/05xd/wZPm3lhzUiRSoCLduQif6EbnCkdyDb4f7fNTKbIFtfsUB7NowV2j5
+	 Xm/CYKIPh8yqEnxujxmRWLzg3Hf6LshKSceZbfRg=
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: linux-mediatek@lists.infradead.org,
+	imx@lists.linux.dev,
+	linux-amlogic@lists.infradead.org,
+	linux-renesas-soc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-arm-msm@vger.kernel.org
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Matthew Majewski <mattwmajewski@gmail.com>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+	Michael Tretter <m.tretter@pengutronix.de>,
+	Devarsh Thakkar <devarsht@ti.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+	"Bryan O'Donoghue" <bod@kernel.org>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Sylwester Nawrocki <s.nawrocki@samsung.com>,
+	Ming Qian <ming.qian@nxp.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Hans Verkuil <hverkuil+cisco@kernel.org>,
+	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Kevin Hilman <khilman@baylibre.com>,
+	Xavier Roumegue <xavier.roumegue@oss.nxp.com>,
+	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>,
+	Nikita Yushchenko <nikita.yoush@cogentembedded.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Zhou Peng <eagle.zhou@nxp.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
+	Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+	Neil Armstrong <neil.armstrong@linaro.org>,
+	Jiasheng Jiang <jiashengjiangcool@gmail.com>,
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Shawn Guo <shawnguo@kernel.org>,
+	=?UTF-8?q?=C5=81ukasz=20Stelmach?= <l.stelmach@samsung.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	Heiko Stuebner <heiko@sntech.de>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Yemike Abhilash Chandra <y-abhilashchandra@ti.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Jacob Chen <jacob-chen@iotwrt.com>,
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+	Bin Liu <bin.liu@mediatek.com>,
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Yunseong Kim <ysk@kzalloc.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Jerome Brunet <jbrunet@baylibre.com>,
+	Stefan Klug <stefan.klug@ideasonboard.com>
+Subject: [PATCH v2 00/25] media: v4l2-mem2mem: Reduce cargo-cult
+Date: Wed, 15 Oct 2025 10:53:23 +0300
+Message-ID: <20251015075353.22625-1-laurent.pinchart@ideasonboard.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251010030348.it.784-kees@kernel.org> <68ed624c.050a0220.3ba739.64ea@mx.google.com>
- <D1CBCBE2-3A54-410A-B15C-F1C621F9F56B@kernel.org> <CANiDSCu6xZAuSF5_M-4BMRc52hbSh_1QfDQqaeGR4iD5fdQjQg@mail.gmail.com>
- <202510141344.E0ABCD2C7@keescook>
-In-Reply-To: <202510141344.E0ABCD2C7@keescook>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Wed, 15 Oct 2025 09:33:40 +0200
-X-Gmail-Original-Message-ID: <CANiDSCsBAq3Yx4ybarUb_1NkQ-bvfXvWqb-DfqXatkiYJFZWiQ@mail.gmail.com>
-X-Gm-Features: AS18NWABMkXk00VBzGEAB6Lz910Tnzxu4PyT1r-8UGsY14p9fZu3iRa4oasfK50
-Message-ID: <CANiDSCsBAq3Yx4ybarUb_1NkQ-bvfXvWqb-DfqXatkiYJFZWiQ@mail.gmail.com>
-Subject: Re: [v2,0/3] module: Add compile-time check for embedded NUL characters
-To: Kees Cook <kees@kernel.org>, Dan Carpenter <dan.carpenter@linaro.org>
-Cc: linux-media@vger.kernel.org, 
-	Patchwork Integration <patchwork@media-ci.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Hi Dan
+Hello,
 
-On Tue, 14 Oct 2025 at 22:45, Kees Cook <kees@kernel.org> wrote:
->
-> On Tue, Oct 14, 2025 at 08:24:00AM +0200, Ricardo Ribalda wrote:
-> > Hi Kees
-> >
-> > Thanks for the report.
-> >
-> >
-> > On Tue, 14 Oct 2025 at 07:41, Kees Cook <kees@kernel.org> wrote:
-> > >
-> > >
-> > >
-> > > On October 13, 2025 1:34:20 PM PDT, Patchwork Integration <patchwork@media-ci.org> wrote:
-> > > >Dear Kees Cook:
-> > > >
-> > > >Thanks for your patches! Unfortunately the Media CI robot detected some
-> > > >issues:
-> > > >
-> > > ># Test static:test-smatch
-> > > >
-> > > >drivers/media/usb/usbtv/usbtv-core.c:157:1: error: bad constant expression
-> > >
-> > > Where can I find what this test actually does?
-> > >
-> > > >For more details, check the full report at:
-> > > >https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/85913402/artifacts/report.htm .
-> > >
-> > > This webserver appears to be misconfigured to send compressed output without the right headers? I can't actually view this URL.
-> >
-> > I will follow-up with fdo maintainers to figure out what happened.
-> > there. On the meantime you can use these url that seems to work:
-> > https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/85913402/artifacts/report.txt
-> > https://gitlab.freedesktop.org/linux-media/users/patchwork/-/jobs/85913398
-> >
-> > Basically sparse/smatch do not seem to understand the constant.
->
-> Yeah, I managed to find the actual scripts that are run for the
-> static-sparse/smatch tests. It looks like those tools aren't correctly
-> handling string literals for __builtin_strlen(), which is a constant for
-> constant arguments.
->
-> So, that's a C parsing bug in those tools (GCC and Clang are fine).
+The v4l2_m2m_get_vq() function never returns NULL, but many mem2mem
+drivers still check its return value and consider NULL as an error. This
+may have originated a long time ago from valid checks when
+v4l2_m2m_get_vq() could return NULL, with drivers then just copying the
+checks. This series attempts to stop the cargo-cult behaviour.
 
-Could you take a look at this patch:
-https://patchwork.linuxtv.org/project/linux-media/patch/20251010030610.3032147-3-kees@kernel.org/
+Patch 01/25 starts by explicitly stating in kerneldoc that the
+v4l2_m2m_get_vq() function never returns NULL. All the other patches
+drop NULL checks from drivers.
 
-Seems that sparse/smatch are not very happy about __builtin_strlen()
+I have carefully checked all patched locations in all drivers. They fall
+in 3 categories:
 
-Could you fix support for __builtin_strlen() in your tool?
+- Checks in the VIDIOC_G_FMT, VIDIOC_TRY_FMT and VIDIOC_S_FMT handlers:
+  Those may have been added to ensure that the format type has a valid
+  value, but that is ensured by the V4L2 ioctl core before calling the
+  handlers. The checks can be dropped without a need to replace them
+  with proper type checks.
 
-Once Kees lands his patch it will break all the CIs using
-sparse/smatch, including media-ci.
+- Checks in the VIDIOC_S_SELECTION handler: The only location where this
+  is performed has an explicit type check, so the NULL check can also be
+  dropped.
 
-Eg:
+- Checks in other locations where the type parameter to the
+  v4l2_m2m_get_vq() function is hardcoded: The hardcoded type is valid,
+  so the NULL check can't have been meant to check the type. It can also
+  be removed.
 
-drivers/media/pci/zoran/zr36060.c:33:1: error: bad constant expression
-drivers/media/usb/pvrusb2/pvrusb2-dvb.c:19:1: error: bad constant expression
-drivers/media/usb/pvrusb2/pvrusb2-dvb.c:19:1: error: bad constant expression
+There's no dependency between any of those patches so they can be merged
+in any order.
+
+Compared to v1, this version drops two more NULL checks, in the Mediatek
+vcodec encoder get format handler (09/25) and the Qualcomm iris venc set
+format handler (15/25).
+
+Laurent Pinchart (25):
+  media: v4l2-mem2mem: Document that v4l2_m2m_get_vq() never returns
+    NULL
+  media: allgro-dvt: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: meson-g2d: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: amphion: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: coda: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: imagination: e5010: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: m2m-deinterlace: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: mediatek: jpeg: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: mediatek: vcodec: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: dw100: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: imx-jpeg: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: imx-pxp: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: nxp: imx8-isi: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: mx2_emmaprp: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: qcom: iris: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: qcom: venus: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: renesas: fdp1: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: rcar_jpu: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: platform: rga: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: samsung: s5p-g2d: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: samsung: s5p-jpeg: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: stm32: dma2d: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: ti: vpe: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: vicodec: Drop unneeded v4l2_m2m_get_vq() NULL check
+  media: vim2m: Drop unneeded v4l2_m2m_get_vq() NULL check
+
+ drivers/media/platform/allegro-dvt/allegro-core.c  |  2 --
+ drivers/media/platform/amlogic/meson-ge2d/ge2d.c   |  5 -----
+ drivers/media/platform/amphion/vdec.c              |  2 --
+ drivers/media/platform/amphion/venc.c              |  2 --
+ .../media/platform/chips-media/coda/coda-common.c  |  4 ----
+ .../media/platform/imagination/e5010-jpeg-enc.c    |  4 ----
+ drivers/media/platform/m2m-deinterlace.c           |  7 -------
+ .../media/platform/mediatek/jpeg/mtk_jpeg_core.c   |  7 -------
+ .../mediatek/vcodec/decoder/mtk_vcodec_dec.c       |  7 -------
+ .../vcodec/decoder/vdec/vdec_av1_req_lat_if.c      |  2 --
+ .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c      |  2 --
+ .../mediatek/vcodec/encoder/mtk_vcodec_enc.c       | 14 --------------
+ drivers/media/platform/nxp/dw100/dw100.c           |  7 -------
+ drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c     |  4 ----
+ drivers/media/platform/nxp/imx-pxp.c               |  7 -------
+ drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c |  2 --
+ drivers/media/platform/nxp/mx2_emmaprp.c           |  7 -------
+ drivers/media/platform/qcom/iris/iris_vdec.c       |  2 --
+ drivers/media/platform/qcom/iris/iris_venc.c       |  2 --
+ drivers/media/platform/qcom/venus/vdec.c           |  2 --
+ drivers/media/platform/qcom/venus/venc.c           |  2 --
+ drivers/media/platform/renesas/rcar_fdp1.c         |  3 ---
+ drivers/media/platform/renesas/rcar_jpu.c          |  8 --------
+ drivers/media/platform/rockchip/rga/rga.c          |  4 ----
+ drivers/media/platform/samsung/s5p-g2d/g2d.c       |  4 ----
+ .../media/platform/samsung/s5p-jpeg/jpeg-core.c    |  7 -------
+ drivers/media/platform/st/stm32/dma2d/dma2d.c      |  5 -----
+ drivers/media/platform/ti/vpe/vpe.c                |  7 -------
+ drivers/media/test-drivers/vicodec/vicodec-core.c  |  7 -------
+ drivers/media/test-drivers/vim2m.c                 | 12 ------------
+ drivers/media/v4l2-core/v4l2-mem2mem.c             | 12 +-----------
+ include/media/v4l2-mem2mem.h                       |  3 +++
+ 32 files changed, 4 insertions(+), 161 deletions(-)
 
 
-
-Thanks :)
-
-
->
-> -Kees
->
-> --
-> Kees Cook
-
-
-
+base-commit: 082b86919b7a94de01d849021b4da820a6cb89dc
 -- 
-Ricardo Ribalda
+Regards,
+
+Laurent Pinchart
+
 
