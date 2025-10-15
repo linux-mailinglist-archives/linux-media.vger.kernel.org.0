@@ -1,54 +1,53 @@
-Return-Path: <linux-media+bounces-44524-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44525-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 585ABBDD393
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 09:54:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 61F1FBDD396
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 09:54:27 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 05D653521B9
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 07:54:24 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 340823B7160
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 07:54:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9EF33314A71;
-	Wed, 15 Oct 2025 07:54:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 974DA314D17;
+	Wed, 15 Oct 2025 07:54:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="AwG+gb1n"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="qVPDsfcs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EC03314D01
-	for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 07:54:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 881C32BDC23
+	for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 07:54:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760514855; cv=none; b=fT5l0At+fuUn4V71Zd3WfZwgv0GSoa8Rk97cMJosUKPeqv2HVZvZmQHM5r6gtaxld+Vx5o9gjY6Njb3G7IZPGnfScN93JdsBHU/F83wVx/2+poxvtzh2jqvEwJIGyGnqnu0gcTeVeZgayLqenSyiYIuC4PRoCX4ms3NnEmBsgUU=
+	t=1760514856; cv=none; b=gAOOTanJPfe5IJpGX3oyySAxfU/d8TAoNkA7+YjIIqSxHdOqAXYz15Hrw2P5TVf/gff2GZYNCgOHbDR3n9u4MHnb1aH5BYEm0nUlSUMc0suf7LnvPpPpE/mwk3XoWO+0YQWbd1V2vYj6qzCxw2JvmJ4u4Qy4qoywY6+I3v3/Hs8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760514855; c=relaxed/simple;
-	bh=/0B7zLuLLBn/F+1Mj4XJN7q3Z7xwjBzwUIhtm1FUook=;
+	s=arc-20240116; t=1760514856; c=relaxed/simple;
+	bh=/u7xUAVULdhha8dRBBpg5yxvcAOVtB3rl4tJcnCSyjw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XnjFPJ5hG1B78f3z5TTQSq4GqjeTkRT7SDeBQGxqirsZCelOpuyBhEW0deZjXmhSnuxp1emMHPuC3CVo8yoAcYrHtwBBzbK4YS6i01STQE+XDCCxln0jgJNFApaBDCWLXQfDH/XNR1/riG0JKI0fcrBFl4mC+VNImSBGJFqXICo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=AwG+gb1n; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=g54EjiNwRO7vsH+EML93Dgyh6ZrnXmHgyZvhmAE1KwYcvOuj5+TbLpq05hHF+C5vWtjZHYyYV56N4QB8Bp4M1GU28JFNRO+cGxST51/rZhrdN6JV6gChEUCRtFPshFA11WoHZEOJJQ0v5TtEJjMzTEx1wNf1jP0caT9cyVWBl/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=qVPDsfcs; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (87-94-110-32.bb.dnainternet.fi [87.94.110.32])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 36F1319AD;
-	Wed, 15 Oct 2025 09:52:30 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 0F4F9E92;
+	Wed, 15 Oct 2025 09:52:31 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1760514750;
-	bh=/0B7zLuLLBn/F+1Mj4XJN7q3Z7xwjBzwUIhtm1FUook=;
+	s=mail; t=1760514752;
+	bh=/u7xUAVULdhha8dRBBpg5yxvcAOVtB3rl4tJcnCSyjw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AwG+gb1nriQofnj108uo7omC5OoGyjXDrvA0u6wvr0z1BmIetBNBmcaH2M6UxXO+x
-	 ul0RXvWXfP71te9LbGhf41i/DEWXIVLCR+sZ6AMTzrkbE4BO3Pu32mu3XMTRh4RByN
-	 D87eAnMIe3sL1m/LCSGXjR7abhztFWGO4BEYPJw8=
+	b=qVPDsfcs88C5pUWEHFqIyWZn2F0HQLjLJh+u9kUm88wL0xjitPLKmeSno8vuiwbGv
+	 ZoACEfO+NhbbnSnduzHtwvp1H46pfIM9fPm177CP1a+akyNkRPQFgYUUciZZCHzEB+
+	 lY5Tvnk0J3qVTBzhtuXnk7hVZCQ4C9T0ENi1AX54=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: linux-media@vger.kernel.org
 Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Ming Qian <ming.qian@nxp.com>,
-	Zhou Peng <eagle.zhou@nxp.com>
-Subject: [PATCH v2 04/25] media: amphion: Drop unneeded v4l2_m2m_get_vq() NULL check
-Date: Wed, 15 Oct 2025 10:53:27 +0300
-Message-ID: <20251015075353.22625-5-laurent.pinchart@ideasonboard.com>
+	Philipp Zabel <p.zabel@pengutronix.de>
+Subject: [PATCH v2 05/25] media: coda: Drop unneeded v4l2_m2m_get_vq() NULL check
+Date: Wed, 15 Oct 2025 10:53:28 +0300
+Message-ID: <20251015075353.22625-6-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251015075353.22625-1-laurent.pinchart@ideasonboard.com>
 References: <20251015075353.22625-1-laurent.pinchart@ideasonboard.com>
@@ -67,37 +66,33 @@ the format type, so the type can't be incorrect. Drop the unneeded
 return value check.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
 ---
- drivers/media/platform/amphion/vdec.c | 2 --
- drivers/media/platform/amphion/venc.c | 2 --
- 2 files changed, 4 deletions(-)
+ drivers/media/platform/chips-media/coda/coda-common.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/drivers/media/platform/amphion/vdec.c b/drivers/media/platform/amphion/vdec.c
-index 32eef2fd1f2a..79790fbadc95 100644
---- a/drivers/media/platform/amphion/vdec.c
-+++ b/drivers/media/platform/amphion/vdec.c
-@@ -532,8 +532,6 @@ static int vdec_s_fmt_common(struct vpu_inst *inst, struct v4l2_format *f)
- 		return -EINVAL;
+diff --git a/drivers/media/platform/chips-media/coda/coda-common.c b/drivers/media/platform/chips-media/coda/coda-common.c
+index 9a57b042d9fd..33f712ff8556 100644
+--- a/drivers/media/platform/chips-media/coda/coda-common.c
++++ b/drivers/media/platform/chips-media/coda/coda-common.c
+@@ -790,8 +790,6 @@ static int coda_s_fmt(struct coda_ctx *ctx, struct v4l2_format *f,
+ 	struct vb2_queue *vq;
  
- 	q = v4l2_m2m_get_vq(inst->fh.m2m_ctx, f->type);
--	if (!q)
+ 	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
+-	if (!vq)
 -		return -EINVAL;
- 	if (vb2_is_busy(q))
- 		return -EBUSY;
  
-diff --git a/drivers/media/platform/amphion/venc.c b/drivers/media/platform/amphion/venc.c
-index c5c1f1fbaa80..319fbae70571 100644
---- a/drivers/media/platform/amphion/venc.c
-+++ b/drivers/media/platform/amphion/venc.c
-@@ -223,8 +223,6 @@ static int venc_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
- 	struct v4l2_pix_format_mplane *pix_mp = &f->fmt.pix_mp;
+ 	q_data = get_q_data(ctx, f->type);
+ 	if (!q_data)
+@@ -942,8 +940,6 @@ static int coda_s_fmt_vid_out(struct file *file, void *priv,
+ 	ctx->codec = codec;
  
- 	q = v4l2_m2m_get_vq(inst->fh.m2m_ctx, f->type);
--	if (!q)
+ 	dst_vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
+-	if (!dst_vq)
 -		return -EINVAL;
- 	if (vb2_is_busy(q))
- 		return -EBUSY;
  
+ 	/*
+ 	 * Setting the capture queue format is not possible while the capture
 -- 
 Regards,
 
