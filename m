@@ -1,64 +1,64 @@
-Return-Path: <linux-media+bounces-44575-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44576-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D60B0BDE4FE
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 13:42:47 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC67EBDE50D
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 13:44:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5149D3AEEA5
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 11:42:46 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2181250333D
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 11:44:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0DA99322778;
-	Wed, 15 Oct 2025 11:42:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE871322A11;
+	Wed, 15 Oct 2025 11:44:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cXP72WUb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="E2oEuqv3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC7B32FFFB0;
-	Wed, 15 Oct 2025 11:42:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B346A215789;
+	Wed, 15 Oct 2025 11:43:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760528560; cv=none; b=bpHvYfn0r5BF1WIOCHlU73iy68ArUmFbwGVlaYASQRiwOXLjNTr+CzwVfzilQ+eG28PoMH23sQLvC9PtwsK5ocqt94W9T8tD8kbCurW+vfGm0zEUaXVCHGHlc9KpUc7+xuvUaHGnX7bUKybPgNzWm4FYOG/pd/21MxuRNYjH3fk=
+	t=1760528640; cv=none; b=j57Iy3dXQU5mzLxyVGEJ99ZqhibMmm4PDDYyZuOVhosicMIPLNI54Ub8Wo0qDpeq/tuOhmLA/+Fg1KpWvhBOPM85Bwhtng/8WWYNoIBuqfofu+wVRz6e5yQWitbGTIE2/gQ4vwEitl1DoIDZB4OmysMKI2LQ9G1JYUx0eZG3Oao=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760528560; c=relaxed/simple;
-	bh=pFu+OWGmKrNiW7IbMpvyiGL3vcu2W3CPoANkyq6Cw98=;
+	s=arc-20240116; t=1760528640; c=relaxed/simple;
+	bh=miYSu1LPLdNXLFjYZeB5thUSy7spz6vtTLvEDGYlY9s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QKTSU4X5+huYe/4iVaVtmGfpB9L7p3cRpN2ve24PHgQ51jlk3LRl9VvZGA9ebqqAi3dxpK/51A1YvJ3Lc5Ayy21terNfjNU8mnW30Hk/VXThX9z/PfO1Fh+iQvrjDDceURfxxizbE4mJhLvHfLgLGRg8EYGoy4UWroeRqnrL7Ws=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cXP72WUb; arc=none smtp.client-ip=198.175.65.10
+	 Content-Type:Content-Disposition:In-Reply-To; b=qYQ0eDXVNmQAbv/AtHeZSlhe5eBtYNwLv2A5U/nvQR8vo4alV4WuX5aBme5jojSUjTh5VRGygbQ8P0bSAcDv0lVKFE0FY+yQ2NRbUYb9ZfRC33Sc0s+sycv0eY0Wnvf4IiMsglE8s206i4jQbRT30ljwa0+j0tVtetOILR0xV5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=E2oEuqv3; arc=none smtp.client-ip=198.175.65.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760528559; x=1792064559;
+  t=1760528638; x=1792064638;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=pFu+OWGmKrNiW7IbMpvyiGL3vcu2W3CPoANkyq6Cw98=;
-  b=cXP72WUbXrn0JhAzeUdYamEHfLbHOYxUlydlViLqmbM1Ue7rFBaG5zvg
-   Z3iKHnq0pEQwQpW6y5zbJkHO/uWjLBYOr1jM6qDoJKtXiHbN+o7d86blv
-   SJvaz3HwpeGtOn5iKQ4SVVVp7uFmRvVz8x0nCwH5Ow3AdqgTN5Npzupx5
-   XHTTrI3zrHUn6KlVwsriNZMNC33+T8WFbG3euU84sO0ILFC/wxiSqejUN
-   EHiMhxr6zkyjjbG4PwkfPJHPf577v0yhxgj9/zSDkELzQbAXXMsoztbWj
-   uW5sTMW5XsL4dVNcVTKsRwBR3jfG+TDxk3+Y7ID9eGG//u+7PhpGD7vbL
+  bh=miYSu1LPLdNXLFjYZeB5thUSy7spz6vtTLvEDGYlY9s=;
+  b=E2oEuqv3z9VkkdZn2luxbdZYiazgtAuiPOZAjhFjNPAyaxDrMQwU0CTd
+   enfnFV6XxWfhCii1oDQOonPK7EcfOundN78YO+xe+yUjwLLYdglBxu8ON
+   vDS/2TiFQ3gQ42IW9JBeuM6J/FOZ2FcyNjL8/nnKXyZMI6skqxUB2/FGI
+   xdSM2JosxXMI17EUNSlLzwaXVy9SBJkxjJSpeVsM29E8nEZdrXl7W7+IA
+   5a7IrhSaAthb8zjQfw4md0hRQiaKLjQWx6tGk6QvS5Wc+k1M3W8dOcZ6n
+   q89Hvy6wFBFSFdgKCm6orfO6CMx2jPRTs8LdhjK1ILKnWt6L58urdvxcA
    g==;
-X-CSE-ConnectionGUID: UVh8i3TiT+65nGL7R8UXQQ==
-X-CSE-MsgGUID: ewP9+BwfSNO0/keHFjYy+Q==
-X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="80137276"
-X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; 
-   d="scan'208";a="80137276"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 04:42:39 -0700
-X-CSE-ConnectionGUID: T4LwNRi7SEO7sg7l4pkAgQ==
-X-CSE-MsgGUID: x0PJqqQaSTaobOzVqfIv7Q==
+X-CSE-ConnectionGUID: p7mJ9BeoTpyDZyJxPieUBQ==
+X-CSE-MsgGUID: UNLfHWLTRtKbNFUuVJi8WA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="62629919"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="62629919"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 04:43:58 -0700
+X-CSE-ConnectionGUID: mQKUYlw3S8iaBcplvqNx3Q==
+X-CSE-MsgGUID: INuGmheQT9i7r/qyZGBLJw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,231,1754982000"; 
-   d="scan'208";a="186568667"
+   d="scan'208";a="182937528"
 Received: from rvuia-mobl.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.245.114])
-  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 04:42:32 -0700
-Date: Wed, 15 Oct 2025 13:42:24 +0200
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Oct 2025 04:43:52 -0700
+Date: Wed, 15 Oct 2025 13:43:45 +0200
 From: Mehdi Djait <mehdi.djait@linux.intel.com>
 To: michael.riesch@collabora.com
 Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>, 
@@ -74,11 +74,11 @@ Cc: Maxime Chevallier <maxime.chevallier@bootlin.com>,
 	Philipp Zabel <p.zabel@pengutronix.de>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org
-Subject: Re: [PATCH v12 11/18] media: rockchip: rkcif: add support for rk3568
- vicap dvp capture
-Message-ID: <ny6fwo7jk7wnporyrqn4cqgrmf5m7repdg3shfflr2wnv5yn5a@k5sxpmvlwxk5>
+Subject: Re: [PATCH v12 13/18] arm64: defconfig: enable rockchip camera
+ interface and mipi csi-2 receiver
+Message-ID: <cli7lpea53u3vp2jyeq2ysitv5mrspeq63im667hy5ijsxrpgs@2qdcrgsltcjd>
 References: <20240220-rk3568-vicap-v12-0-c6dbece6bb98@collabora.com>
- <20240220-rk3568-vicap-v12-11-c6dbece6bb98@collabora.com>
+ <20240220-rk3568-vicap-v12-13-c6dbece6bb98@collabora.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -87,20 +87,20 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20240220-rk3568-vicap-v12-11-c6dbece6bb98@collabora.com>
+In-Reply-To: <20240220-rk3568-vicap-v12-13-c6dbece6bb98@collabora.com>
 
 Hi Michael,
 
 Thank you for the patches!
 
-On Tue, Oct 14, 2025 at 03:01:57PM +0200, Michael Riesch via B4 Relay wrote:
+On Tue, Oct 14, 2025 at 03:01:59PM +0200, Michael Riesch via B4 Relay wrote:
 > From: Michael Riesch <michael.riesch@collabora.com>
 > 
-> The RK3568 Video Capture (VICAP) unit features a Digital Video Port
-> (DVP). Add support for it.
+> The Rockchip Camera Interface (CIF) and the Rockchip MIPI CSI-2 Receiver
+> are featured in many Rockchip SoCs in different variations.
+> Enable the drivers for them in the default configuration.
 > 
-> Tested-by: Gerald Loacker <gerald.loacker@wolfvision.net>
-> Reviewed-by: Gerald Loacker <gerald.loacker@wolfvision.net>
+> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 > Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 
 Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
@@ -108,5 +108,4 @@ Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
 --
 Kind Regards
 Mehdi Djait
- 
 
