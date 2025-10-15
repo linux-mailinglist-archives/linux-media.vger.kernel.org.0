@@ -1,147 +1,173 @@
-Return-Path: <linux-media+bounces-44579-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44580-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13ECABDE7DF
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 14:36:20 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 44F49BDE9DC
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 15:04:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB094188C46A
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 12:36:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 865F1421F3D
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 13:02:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8EF281B0439;
-	Wed, 15 Oct 2025 12:36:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D49943233EE;
+	Wed, 15 Oct 2025 13:02:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F6vp++bD"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="SsrQGATJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29C581E515
-	for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 12:36:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A5E1128816;
+	Wed, 15 Oct 2025 13:02:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760531771; cv=none; b=sy3JEvHWBKyCa0LgfsjFQJOOfsOQqDVSvGLYBYOCd1MjEGpuxIM8E54CyPABgCDSwIFNi1ok+UzXknnozQkwdSpNk57Jkgv1s4jz/BpCWmbQmP/DiuGI7ENXOVK5HjyDf8vdBVLwDL0+IkXOxQjBrLdlP9Irb9198EthMeSHhCg=
+	t=1760533331; cv=none; b=jqtEsXo+cBLiOelRWSogYOlSZNipHAgOxoulxWDwthCzL5eIdZtdpjGs0v3HET9tXbGXKP5z4EBmbBw/U7r37PM+HLPDXLI/+ZwPzpSdiinqcLWXzSrLPZZCFe2Aaadm1LKJlpAKXjGWe1XI6HVqiw+GgmEG82CMvnyZOc8U67A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760531771; c=relaxed/simple;
-	bh=mXqZCy2SyArQfSZB6+/vhy8c6RWAc9H5KTcnkJHJQFY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mrJCro7GIBaLLVJkCMoFidZFqPgnbBtcK4PUPgTtNDzRxmB+5TnDs1GxdpZDOnOlrZwUINl0+0FPaYFy1ZALc+EK0PiXP/tCPdJ9oe7C+ohmaO1eiSy5fYcyDRzt/TxNSmtQ97VA0qkTZTUf/g00a3LwPxeFBdITjxj9Ayr3PjA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F6vp++bD; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-57a8b00108fso1197883e87.3
-        for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 05:36:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760531766; x=1761136566; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mXqZCy2SyArQfSZB6+/vhy8c6RWAc9H5KTcnkJHJQFY=;
-        b=F6vp++bDYCNsRMkMommyXSVSNneZmtEPQ0FMknIosza7m6Jb/ZkaEjOE6Pj6PuFQov
-         6Jl52lZFsEJfxugvGD7f1D3tLdDHuyN+RPMr2dvU+ZneB24AVRCiOeSKvQVbNZ/6jGKz
-         Ha6duc1BktlVjgN3vsqjiozf0/EtgqXcTVs2LxZbSyTBlo0tmOpcMAQ6OPIte2z9cC5M
-         /Ww3z6hVWfjvADl3kUVwGvwr6Il2fb6hMBjE08wxf8YYtYAgf2PQyEKht65Rnt67OFtg
-         UQamiRmFmHUFTjZXo5kdyiHhYvoUcpXYtGjcche+zW/PxXS6c3IaST+mn/w8/tKpcHr7
-         tbGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760531766; x=1761136566;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mXqZCy2SyArQfSZB6+/vhy8c6RWAc9H5KTcnkJHJQFY=;
-        b=C6OJGuXKefDJ7hKoUMYDXsYns22M8jAwTH1muXbXHHQzQgotMqgj0kCkX+IkIjoZ6+
-         eoRXU/8PwyS25oRCtq92HJc5emers+i0PFwUVvCFlXpUH6cZp3jbfftjmR7tJ7PCp0C4
-         3Ysa3AsMYk5QOLj1bAs5BfK0ZraGgcKmiU+BXSgRuZedtQV3Y3fRqXp0Cv5TasSNhon0
-         Sx7fPvc29lDhfHtAdY7t+s0dKiq1BBEvLboRoPR+s84VoYw/NmkNO5aRDu20hCI68LW4
-         /OCAk6UTnuY5VgUi4bCJloYGlViIMOmVema2YqkETKh/Dpb/5yIPKneImzMWU+0a+er+
-         ydGg==
-X-Forwarded-Encrypted: i=1; AJvYcCXL35Lv885KFff/zhoLyGVnZ3SOqI/VJbKfyFMTPbwuXW7gQQxiUvNEabFHU40sKxnRdgQqYRqW02LIXg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzGBqhDUYfvTdDYakOhCkazG5rfRnFFsQrahBrHVSP1dbQXhjQl
-	1ZHW/T6S14fVzgU/9DnzPgv1Mj01IwYKcxcnzyq717k5YQGah0yvbWdDb07EBqjNFBpkbRdAV7y
-	pQXB/xB9Wm+AAiuNyVKnCeS0XGwtq7nvpIg==
-X-Gm-Gg: ASbGncvcwYEas7zXz38rtRQEmw0nMoOv579b5t5YX8PtA6LlrpCi1sJQPBGmM5jGsLR
-	3t+z1oxJI/r6G1kDmNi0CwhVHQI+nyG6Geoqk4q5kdnSkZozncoZNjYTfBlAtw/kptloN1RecOQ
-	tZt9yq9yXbBEZYcuOTdALCCi0K42Yo41waDJuetTc9+ISBklUF/4FsQpW3/OGHwebXBJReARKCK
-	+WzuzVi9CE43lWuNFPHauOGolxHrq3QMrZ+7Eu9kYTQn7N2
-X-Google-Smtp-Source: AGHT+IHpJJ3i4VE7K63V7qp2FsxwGna5n/UOWX+WqUQGecNnl4cdq5PAcjc23PWmzxHfk1E5P7xRzKbuz8NuSN92NCQ=
-X-Received: by 2002:a05:651c:f1c:b0:36d:54b3:9f75 with SMTP id
- 38308e7fff4ca-377795d5fe4mr5645081fa.2.1760531765871; Wed, 15 Oct 2025
- 05:36:05 -0700 (PDT)
+	s=arc-20240116; t=1760533331; c=relaxed/simple;
+	bh=pCuXk9UCuLUpzLZPechBf38fCqrC0RwejQlK4GvLL6U=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=LSYFl+AX0fJs0shvnKxOfbWIasRMqPUzr4Eu7G04xcj6glfrRvwk417dTuCOGzekA195BOalfIm/LE2sY/JEGc9r6ddFKMSdCXmX3vwo+7U1INg3/gbdJlHU4RKu5z77047uycZfFH58zRT+mYGssXuVnBmJJGlWIyQ2aHckp8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=SsrQGATJ; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59FAvebn010182;
+	Wed, 15 Oct 2025 13:01:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=cd+OTR7iLD5gSA426bO2fd
+	bm4l33t3cFuwRWUrbvZV4=; b=SsrQGATJ7dZY7Z8GG2QRchnqwC/Z9K3F/jj512
+	4Gr6o9oaxT41leWo+MjHTdBPEPyKKC8DdUdRHPJhUI+7t+aifIGVViQRSdq4e2n7
+	z0M17nGJ9O+AWh0QIQCnjn+VoCgfscnTIsih0U9qNztXianq163Y12YPGcD6WEh0
+	KvF+11Eo8ba0AdiNjar5kakkCuDJQ1/5XswUz9sDKGpYBhh240anl8MygcJVvIJN
+	HascBw7IRiOq/L/C1VFkwC4F415KA7tyKDLWWECGddrO5Fbu+jLa3ON9IBfMPpSU
+	vFMOrlh9yQBmLdun79apcNnu7jUz2/vjLrG89n8ApoBkNUkQ==
+Received: from nasanppmta01.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49qg0c4cve-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Oct 2025 13:01:53 +0000 (GMT)
+Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
+	by NASANPPMTA01.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 59FD1qPK017031
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 15 Oct 2025 13:01:52 GMT
+Received: from hu-vikramsa-hyd.qualcomm.com (10.80.80.8) by
+ nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.24; Wed, 15 Oct 2025 06:01:47 -0700
+From: Vikram Sharma <quic_vikramsa@quicinc.com>
+To: <bryan.odonoghue@linaro.org>, <mchehab@kernel.org>, <robh@kernel.org>,
+        <krzk+dt@kernel.org>, <conor+dt@kernel.org>, <andersson@kernel.org>,
+        <konradybcio@kernel.org>, <hverkuil-cisco@xs4all.nl>,
+        <cros-qcom-dts-watchers@chromium.org>, <catalin.marinas@arm.com>,
+        <will@kernel.org>
+CC: <linux-arm-kernel@lists.infradead.org>, <quic_svankada@quicinc.com>,
+        <quic_vikramsa@quicinc.com>, <linux-media@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 0/2] qcom: qcs8300: Add qcs8300 camss support
+Date: Wed, 15 Oct 2025 18:31:28 +0530
+Message-ID: <20251015130130.2790829-1-quic_vikramsa@quicinc.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251014083230.1181072-1-zhaoyang.huang@unisoc.com>
- <20251014083230.1181072-2-zhaoyang.huang@unisoc.com> <f807f3bf-a05d-4e0f-af4c-bb0167dde51c@redhat.com>
-In-Reply-To: <f807f3bf-a05d-4e0f-af4c-bb0167dde51c@redhat.com>
-From: Zhaoyang Huang <huangzhaoyang@gmail.com>
-Date: Wed, 15 Oct 2025 20:35:54 +0800
-X-Gm-Features: AS18NWBHy47J7vqNuZdMWmFiioMnHOdN9PsD8vuUcKjXC1NTUEoBMVAQrHP3CgE
-Message-ID: <CAGWkznG=DAXz5s1gAcs9=OKJC0v0KwB=FK=mKL-c1DSw3jGqfA@mail.gmail.com>
-Subject: Re: [PATCH 1/2] mm: call back alloc_pages_bulk_list since it is useful
-To: David Hildenbrand <david@redhat.com>
-Cc: "zhaoyang.huang" <zhaoyang.huang@unisoc.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Matthew Wilcox <willy@infradead.org>, Mel Gorman <mgorman@techsingularity.net>, 
-	Vlastimil Babka <vbabka@suse.cz>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T . J . Mercier" <tjmercier@google.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-mm@kvack.org, 
-	linux-kernel@vger.kernel.org, steve.kang@unisoc.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01b.na.qualcomm.com (10.46.141.250)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: U_E8y-gDgUuYccvmX5anEuoQQ-U6IAYd
+X-Authority-Analysis: v=2.4 cv=eaIwvrEH c=1 sm=1 tr=0 ts=68ef9b41 cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=0I1b_zmpnLY7N7-knUEA:9
+ a=TjNXssC_j7lpFel5tvFf:22 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDExMDAyMiBTYWx0ZWRfX44C7kJSzdCHx
+ oW95i0+O+ZANfxRHLSvCmZE5Phwl0Whxo2k4u2mYD5TJ7ohUu9SsvRHEDNAhPEck8KfLtTM3bjn
+ NlpfZggbLTlxnx6Ec+vKE79Y0a+0EOCfYuuamCByT0O69x6mh7qYTCu8uIX83OEafm1RFrxU7VR
+ PzGtz0RCMBdqIuVWfS/e4/lpwzML48w6UEBk5k8RdDz98B+H4i8Swal7gVBbsUhq/G129bfgWpi
+ y3bSLpEwHBIOgQuWk2zXizw0Q+7Dxo7jqL//f6rZYhErVQf4xCK8wHwZiPr29PsNlyzwCfIwdbX
+ qN+DZJyI45mwbfvw6KtcZpJIzidXzNo4tQhqoJcrw==
+X-Proofpoint-ORIG-GUID: U_E8y-gDgUuYccvmX5anEuoQQ-U6IAYd
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-15_05,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 spamscore=0 adultscore=0 phishscore=0 lowpriorityscore=0
+ suspectscore=0 malwarescore=0 classifier=typeunknown authscore=0 authtc=
+ authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2510020000 definitions=main-2510110022
 
-On Wed, Oct 15, 2025 at 8:16=E2=80=AFPM David Hildenbrand <david@redhat.com=
-> wrote:
->
-> On 14.10.25 10:32, zhaoyang.huang wrote:
-> > From: Zhaoyang Huang <zhaoyang.huang@unisoc.com>
->
-> Probably the subject should be "mm: reintroduce alloc_pages_bulk_list()"
-ok
->
-> >
-> > commit c8b979530f27 ("mm: alloc_pages_bulk_noprof: drop page_list
-> > argument") drops alloc_pages_bulk_list. This commit would like to call =
-back
-> > it since it is proved to be helpful to the drivers which allocate a bul=
-k of
-> > pages(see patch of 2 in this series ).
->
-> "Let's reintroduce it so we can us for bulk allocation in the context of
-> XXX next."
->
-> > I do notice that Matthew's comment of the time cost of iterating a list=
-.
-> > However, I also observed in our test that the extra page_array's alloca=
-tion
-> > could be more expensive than cpu iteration when direct reclaiming happe=
-ns
-> > when ram is low[1]. IMHO, could we leave the API here to have the users
-> > choose between the array or list according to their scenarios.
->
-> I'd prefer if we avoid reintroducing this interface.
->
-> How many pages are you intending to allocate? Wouldn't a smaller array
-> on the stack be sufficient?
-Actually, dma-buf is the main consumer in android which could occupy
-half of the system RAM(mainly by multimedia which passes the memory
-between GPU and display, camera driver, NPU driver etc). Dozens MB is
-quite common or maybe more. This commit is proved to be helpful in the
-scenario of camera APP cold start which allocate around 300MB memory
-in an 6GB RAM ANDROID system
-IMHO, page_list could be more efficient than page_array in memory
-perspective which is an uncertain factor than iterating the list
->
->
-> --
-> Cheers
->
-> David / dhildenb
->
+From: Vikram Sharma <vikramsa@qti.qualcomm.com>
+
+QCS8300 is a Qualcomm SoC. This series adds bindings and devicetree
+and driver changes to bring up CSIPHY, TPG, CSID, VFE/RDI interfaces
+in QCS8300.
+
+QCS8300 provides
+- 2 x VFE, 3 RDI per VFE
+- 5 x VFE Lite, 6 RDI per VFE
+- 2 x CSID
+- 5 x CSID Lite
+- 3 x TPG
+- 3 x CSIPHY
+
+Changes in v3 compared to v3:
+- Added supplies in bindings to enable camera sensor.
+  This change was earlier added as V3.1 of Binidings which was 
+  reviewed by Krzysztof and Bryan. Link to this discussion:
+  https://lore.kernel.org/all/20250910104915.1444669-1-quic_vikramsa@quicinc.com/
+- Droped the zero-prefix from the size field un DT patch - Konrad
+- Link to v3:
+  https://lore.kernel.org/all/20250813053724.232494-1-quic_vikramsa@quicinc.com/
+
+Changes in v3 compared to v2:
+- Bindings and Device Tree: Reordered csid_wrapper to appear first in the
+  register list (as suggested by Bryan).
+- CSIPHY Driver: Updated the commit message for the CSIPHY patch.
+- VFE/CSID Resource Data: Reused the same resource data as sa8775p for VFE
+  and CSID.
+- Patch Series Order: Rearranged the patch sequence and moved the DTSI
+  update to the final patch in the series.
+- Code Cleanup: Removed duplicate data structures and reused existing
+  ones.
+- Optimization: Simplified and optimized conditional checks.
+- Link to v2:
+  https://lore.kernel.org/linux-arm-msm/20250711131134.215382-1-quic_vikramsa@quicinc.com/
+
+Changes compared to v1:
+- Changed the order for register entries in bindings - Krzysztof
+- Changed the naming for interrupts for consistency - Krzysztof
+- Combined separate series for driver and dtsi into one.
+- Rebased on top of latest version of sa8775p camss patches.
+- Link to v1:
+  Driver: https://lore.kernel.org/all/20250214095611.2498950-1-quic_vikramsa@quicinc.com
+  DTSI: https://lore.kernel.org/all/20250214094747.2483058-1-quic_vikramsa@quicinc.com  
+
+We have tested this on qcs8300-ride board with 'Test Pattern Generator'
+https://lore.kernel.org/all/20250925-camss_tpg-v4-0-d2eb099902c8@oss.qualcomm.com/
+
+Used following tools for the sanity check of these changes.
+- make CHECK_DTBS=y W=1 DT_SCHEMA_FILES=media/qcom,qcs8300-camss.yaml
+  qcom/qcs8300-ride.dtb
+- make DT_CHECKER_FLAGS=-m W=1 DT_SCHEMA_FILES=media/qcom,qcs8300-camss.yaml
+  dt_binding_check
+- make -j32 W=1
+- checkpatch.pl
+
+Vikram Sharma (2):
+  dt-bindings: media: qcom,qcs8300-camss: Add missing power supplies
+  arm64: dts: qcom: qcs8300: Add support for camss
+
+ .../bindings/media/qcom,qcs8300-camss.yaml    |  13 ++
+ arch/arm64/boot/dts/qcom/qcs8300.dtsi         | 171 ++++++++++++++++++
+ 2 files changed, 184 insertions(+)
+
+-- 
+2.25.1
+
 
