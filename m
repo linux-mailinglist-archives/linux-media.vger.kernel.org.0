@@ -1,379 +1,442 @@
-Return-Path: <linux-media+bounces-44633-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44634-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 812B5BE0C06
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 23:03:27 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 75486BE0C54
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 23:14:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6C46F1A23B7C
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 21:03:26 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 94C024EA94F
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 21:14:03 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07A922D374A;
-	Wed, 15 Oct 2025 21:02:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5C6D92EBB81;
+	Wed, 15 Oct 2025 21:13:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="DfmgHPWX"
+	dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b="JPgB6con"
 X-Original-To: linux-media@vger.kernel.org
-Received: from GVXPR05CU001.outbound.protection.outlook.com (mail-swedencentralazon11013041.outbound.protection.outlook.com [52.101.83.41])
+Received: from ixit.cz (ip-94-112-25-9.bb.vodafone.cz [94.112.25.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A07E18FDAF;
-	Wed, 15 Oct 2025 21:02:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.83.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760562173; cv=fail; b=GYy26hF3Pk6DZkMP3QtwIWkbc5wffD8H7LUbhUntpTpeuqgkrTKyZdCYECBjpRj0sTzEVnEdLbnyoIvp04VVYRO7TfCo5ZJnJor0/PElGN/q81RmhMR8y2O3HBJFJYt1dMEe+/rASPOyJxPPhgCjDDH+5ZfYTKOmcYvAw3J3hik=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760562173; c=relaxed/simple;
-	bh=ens4nGgYqsoNdD+S3pHRu0xPK5RAqnGUSesLADFA0uQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=LwKhjLECRMuoCjn3Iu0902U+nIHsqYZUcOhZXGc9N/T3HIusQZrnfqkAZXs7pCc/fE0T5e//OH9YWJjl5DzdosHsSG+P+ZYr7SbntEgRJZZJ1QR7s9tzspzsJ3m9j4ONUDnd3PxlwG8VF1PNE6koEuIvQXblKYpjKX7vJ0sn5RM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=DfmgHPWX; arc=fail smtp.client-ip=52.101.83.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vkdZeEi3cst4G8VXe82Q9OlijadWodlCLBnuUyi4G5XY/lnjJzJRzdcNYwGy8M2X4r6F1BdEjrTW71t7sC87QCghyAhEP/DVrIci9Dauw7570htYzs0JsaOgSwzkm2ZnjJQnwypOKfW1TV1sh1sMUHbjsMUqfBGTgUiN++VMk2rzuHvgCcM5nm/e2Y/V04GA8H46X0yN/sug5m/O7U/QlXAuTHgxXMLbkQxlGPcXduI+qVl9MBhIUgA3mq9+mbCde9b7r18DdaphZzJLqXRPXvNT/5qkzctxEDHEyAIggGJbYbK7WubR2VsUHVHSaXMF1GR4wUBGOIcTTUV6gbffaA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=H/Wl1bDVm5BELxPoJOrWgUawbgfCVH5pe2uJL3GFyOg=;
- b=PIj3xh2l4TmvdGW1wBJlYAbIganbpXCCOJ+/55i/aoaa9s7kBgwH79iihRpjCO53P0xkfSwsaAuExGI+y5fJPVatDSOASroLagHqgDDU6S4ulm575xvpm6bWC069VSl4BcmGFqFcGmRacUuKtpwOiHHr6/MYHtdH+CfqwunQNuzW+AhpkKf48ZOg5ThqmZQQ2zrZ+O3pImyI+2DgeFLBlmGY8vxubFGUX92X1S0pHvbD+eN2pdi+0E5BTfG9Quh0bKAFkk9YSQvViApcaB+OdKppp8IhDf4i8zKc8utgRvL8WpNsWqoM1+Zv9G4Brmdc5o1VINcZiE9GKFbZKqyNFg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=H/Wl1bDVm5BELxPoJOrWgUawbgfCVH5pe2uJL3GFyOg=;
- b=DfmgHPWXi57z2raaMvnSW8FXlnNx99U8IDkxAflPzde6OpwWzjyMLGnfEJo782bkzr+g+a+gohfeNKd41sLISZ5iNaO9z830WKz9O07352J0uoPeVomsUvPaaj01zic0w9MnOtoq+RSl5847bfirTrUBQyjbJ7JPqR8RqVS21Vhi9v5ShE0XM8vgJND46cOJbI57GfPotMlNTO8MHeLgLPtfGQYHEoOkt9QLki/23L4k78aFl2Q7Qum+NUkN55jzh694oYP3mPoKkVG5NyUwZBNU/iStxKQeUjDK9fTuAuRwEjLCAXGMbogzEJqcJ5vlr2VYJbifBtpv2LrCLNYfhw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
- by DU2PR04MB9052.eurprd04.prod.outlook.com (2603:10a6:10:2e7::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.10; Wed, 15 Oct
- 2025 21:02:45 +0000
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9228.010; Wed, 15 Oct 2025
- 21:02:45 +0000
-Date: Wed, 15 Oct 2025 17:02:35 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Rob Herring <robh@kernel.org>
-Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Steven Price <steven.price@arm.com>,
-	Daniel Stone <daniel@fooishbar.org>,
-	Sui Jingfeng <sui.jingfeng@linux.dev>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 2/2] accel: Add Arm Ethos-U NPU driver
-Message-ID: <aPAL67Oct5yJv8/d@lizhi-Precision-Tower-5810>
-References: <20251015-ethos-v4-0-81025a3dcbf3@kernel.org>
- <20251015-ethos-v4-2-81025a3dcbf3@kernel.org>
- <aO/4cQ8+eLnwqFSh@lizhi-Precision-Tower-5810>
- <CAL_Jsq+L2RHgP9FaEpxzzVRybyjeNr84xgEBbU4KEyZtrz63FA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAL_Jsq+L2RHgP9FaEpxzzVRybyjeNr84xgEBbU4KEyZtrz63FA@mail.gmail.com>
-X-ClientProxiedBy: SJ0P220CA0014.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:a03:41b::22) To PAXSPRMB0053.eurprd04.prod.outlook.com
- (2603:10a6:102:23f::21)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D85223A8F7;
+	Wed, 15 Oct 2025 21:13:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=94.112.25.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760562836; cv=none; b=Zb2MiI3iNJT0ccIPwE7rk/gRdZiynxrfoPpu8I2fIjo5N7D2do8JWTSgjEqBHi8PJHk1ygslAjNRrMaeNIrps9m726qUklgK1cD+iKQxFp1j9bCFUcO2wdJftS4W+0zD1r6kt3DqomcTn3c8C2bvMlqbdqHh2uneWJk8XMkr48U=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760562836; c=relaxed/simple;
+	bh=4XmHJ079a2h1wGTRiFHriP96Hqw0FxRr5bJ3Vh4dCyQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=TATX1Q6ER/GbfnIx59ew0Ax5K2DhhqkMyfYtmfS1Zw9RRE+4j0WcQoGnLn3nAkzvzj8L/UVz6XsWPkrzMuBFUfd8tus4jfz7mamUFRjSqrnwvE/bhdioi0GltV/hsdSlHlFNyZPEAMQuShjs9CHHnpZpuwBm3d6ek9U+tM30H8A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz; spf=pass smtp.mailfrom=ixit.cz; dkim=pass (1024-bit key) header.d=ixit.cz header.i=@ixit.cz header.b=JPgB6con; arc=none smtp.client-ip=94.112.25.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ixit.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ixit.cz
+Received: from [10.0.0.200] (unknown [10.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
+	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ixit.cz (Postfix) with ESMTPSA id E6A3953407E6;
+	Wed, 15 Oct 2025 23:13:43 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ixit.cz; s=dkim;
+	t=1760562824;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
+	bh=QTRadbU1imjNcdmYmT7D4HPtx0lxXk7YgNafAlMlAZ8=;
+	b=JPgB6conl0/zfCNWbPmP197UlO5v6y/Wzzxg+3iZDoc3zIlABLAXXvn8owYKc+jS6hcIPw
+	CGppPCvzPawPyVJBxva7gfmMPGMX7RXlprPrzIp7YLaTQ/ueltC43Vge8A+mHHtzf+MRJt
+	ZkSgujePrUIpuDcUAMTB4QvDS4aEZro=
+Message-ID: <59bf8b02-71f5-45e0-aa2d-d80b6cfe9c55@ixit.cz>
+Date: Wed, 15 Oct 2025 23:13:43 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|DU2PR04MB9052:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4066fe3d-75aa-4ac0-8884-08de0c2e301a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|19092799006|52116014|376014|366016|38350700014|7053199007;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?VVZ3TTZwREFFRkhZQWdGa2c0R3prY3ZrcTFvY0l4cm1panV4RE5iKzJQNmNB?=
- =?utf-8?B?QndNYlNaajhUWkpMKzFwNHlwTHBadFFoaXVhWGJEY1V6a0cxODFXUTAza2pu?=
- =?utf-8?B?aHI4RFRaWkUveWNBeFVFRW04YWtRUFpnZWNIVm9odXllcWJVMTJZbVpoWENy?=
- =?utf-8?B?WlRCbGVnL25IT0s2TjZ4bDUzRWNOcm1nU3pQS0ZJdVlDQXpxcnZHc1VHZzlP?=
- =?utf-8?B?VHJIZVRNbWJabWRFVkI5dVZIeDVDbE15R3F1b3pqbE5DWTdFVnVKNk9iVWh5?=
- =?utf-8?B?d2lUejN0TXphTnoyNTdpV3RldFdqS2hpc29GVDlsOEtXWnpCZ3pWRC9tTW0v?=
- =?utf-8?B?Njd0TDdMQzBoQVNMRlcyNmk5aDFneXJ4dGF4eDZZSVl5NDlKUzFNTnoycWkw?=
- =?utf-8?B?NkI3aytaWVUxdkVBWTM5TXNVYmg5YTVNUjJzQnlPRXhVc2RxbEV0Qld2ZzFB?=
- =?utf-8?B?UVJheGZ3S0hZdnRhNVZRTnMzRE8veW9GRnZVRjlSRXdRZjdFZ2J5YkIyRCs3?=
- =?utf-8?B?VUFoaVczK0Z6UXg0RlZNN1hMMkNDMVo1ZnlYMXcwS2RZOHBHTy9INmtpZUNR?=
- =?utf-8?B?NTd3NDZ2ZHZ0UTJMT2hIRmdMeG9VL2pRTlY4TFJkWmh0U0ZqRXc4c0tMZEtv?=
- =?utf-8?B?NEI0aUQ1K0pDMyt4YnFXNDEzanZobUFyOTQ2ZTh1K2llMEhCSGZIN2tKdkJI?=
- =?utf-8?B?bE82S3R0ejFJSHhhMVhKTGJ0SVd1Q29hOUdFeVFrTnFaSUpQTGVwWHBDRDZJ?=
- =?utf-8?B?UHk4MkVlSnI2UDlHZm45YmxBTUl0NDZVcTRqRkVTYlU2VDNSd09xMEFQUzlZ?=
- =?utf-8?B?azh2d2x6YjZtbGVxSkhUYU45bGZ1Wno5YXVtbFQ5ZHdjSEhlOHgzMjRJRU1M?=
- =?utf-8?B?YWNiUUJoM2lkQUpHZ0wyTEtnUGc1eW9PUDY3TkcyRjdLaXRUWHQ4UGlmbHdV?=
- =?utf-8?B?L2JzVmo5RStOZXVyOWxUNENieElUZkZRMEYrOFJKWUVHMWRYYVdyQ1NZblYv?=
- =?utf-8?B?UW9lY2Y4Vyt4YzZzaHVoRXhaTUVQaHBKcVlwYTFDNUl0SnFEWnVwTjl0MnJE?=
- =?utf-8?B?KzZ3eGlTTGJmMlYxM1Z2aHZ5aXh5U0NYOW1UWVpLcEdEQWZ5WkZaMzFpSlp1?=
- =?utf-8?B?aHFsOWo0bUIvbE5vWnFycSticTNvRXVTQzJFV2JrYjNaSGdKL1NxOWpZY0pq?=
- =?utf-8?B?UWtGYXdyNG5LenpXR25jS3RPQnhxb1J0ZTB4UTBOeUlrd0hrR0NodmxUbGk1?=
- =?utf-8?B?cjFnRUpVNXZUdnpYa0M0ekdHWDg5SzdiMkJ6cS92V2pnWmpRaEoxcm1DSVA3?=
- =?utf-8?B?YTQrOTBiWXBqTVZPUEx0UlhzMC96SU1zdmdxOTA4bFBUdks0Z3o3Y0FqY2Mv?=
- =?utf-8?B?VEhjYnZ3Njk4Q0hXQ0VwaWM3THBLakV5eXRmeWZ6VVdHNzZxb3lpNFNXOUJt?=
- =?utf-8?B?bmhmOERwY0ZKQkNFZ2svRzFHUnRuS1drbGxSb3l2UWNERFR1V3o3Q2M3S05C?=
- =?utf-8?B?YkhwYkgyREMrQ2VEUEVpM0RVRktoZXBmaFVEN2VxQVhjTnI5aWoyenhaRjJj?=
- =?utf-8?B?ZU01T0dES3ZrVnoxMkR6OUJ6WlZ6SFdDKzIzVnZPdkVKOWM4QWJEaVlTZkg1?=
- =?utf-8?B?Yy9zcXZnQ0pkUC9BZkRDL21wYnVHU3NqYXVEYUdxNVlNK3MxY1ZQL1UvTUda?=
- =?utf-8?B?bDJ2aFlSMHgwcXRCYjJYTEhuZlhCWjRGR1lpYmI0RHdXcWVqQ0MzdW01TGw1?=
- =?utf-8?B?aTMzamhFS3JwT0V5QnFvOEt0NUI4aENiY0dPUDBVRnRKSXVmRFp2Uk5DK2gr?=
- =?utf-8?B?UWh5K3RlcjRGc3NTYVdaZkR4OHdWN0kxekdUMlc3WnlmTTViSVVsTGI2blhi?=
- =?utf-8?B?Uit1TGVCUUVqdDB2a0JqNUduODhuZTlKaDExYlRyWE9haVpZeDdrSFpSVWhN?=
- =?utf-8?B?NG5ERGpEcFBqNUsxNGZOZTNRNHlPd2hid0ZweVdFTVZCdXV6YkUwWXR0Qml5?=
- =?utf-8?B?RldLcE1uMitOL0IzWUdWYXdOZ1Q0dm1GYTMxR0hIdWRaZVE2ZTE5N0FwQTdm?=
- =?utf-8?Q?hWRFBd?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXSPRMB0053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(19092799006)(52116014)(376014)(366016)(38350700014)(7053199007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?VDkxKzF5cnFKTUlCTldtaGY4U3RudXhmL3hGN0pPbStSbWJhOGVNK2xMdGti?=
- =?utf-8?B?YjhPekUrOGowVktXSnFScUUyS2djY2tvSURTNUlxaXpLekdXOGZDZGp3MHRu?=
- =?utf-8?B?NXNTQng4d3Z0UzNuSHhmUThUbStrQXhBdGhnQWhxT1hxK2RWVFdxWVJxTkVt?=
- =?utf-8?B?RWYzMHlhUDFITHZJbnAxS29TUHZ2U0JXSEYxWTZWcGdHRC9md1M4aEVJWnNw?=
- =?utf-8?B?aVMzTFZ5Ym1QcVRZbkM4VjFMMlZqb2JIODdFd05aWmRxTTdkMHh3bG90eVR3?=
- =?utf-8?B?K2czbzZ2UDVEVE1mR0w5cmZGWGJwbVdQdE8ybDVOMkVQMEpOWlNBaGNFelM1?=
- =?utf-8?B?cm9XUmZ1UkVGWTRlZzNNRE41Tms3WVQ5Z0xyTUlRN1BwdDE1aG9UcTkwQU8z?=
- =?utf-8?B?Z0F5SVRVa0I0V0pENU5oTHQrck4vSk8zbGUydXhYQ2JGMEJKZG1kbWF5NUEw?=
- =?utf-8?B?L0VXYlNJSndWUWNVeEVKOUowSGJGK2V0bDZJa3JuTUdNYms2dTlNZ2pXNDJC?=
- =?utf-8?B?eTZwNEpsMFd6R1NtMXREem9WOHIxa095WnJQalF6WHd1ZEFKWlBCQjBDR0kw?=
- =?utf-8?B?VHRBTXdlYnNtOWFvd2xRZmcwSDN5WHBBa3lwQVNRUDJ4V1RjVUs4UGl2ZWhx?=
- =?utf-8?B?d09XRWx6dmYzcEszakg2eWpnRExGWWpBaVQyRHlsUlA3cHBrTDNCN2huU2hq?=
- =?utf-8?B?K3FSRHZsS2s3Wlh0dzNHamdCMStENndOclQxdHF2dC9zNGtyTm1vSzF2YnN0?=
- =?utf-8?B?V0Fva2tPc2x1b052SjBjekh0TUFRNTgzanIwa0dqdTY3bUV2NE1IWENyZ2Zk?=
- =?utf-8?B?b1hmbXBiaXZZTnVSWGtMbVYzSkFXV1FoR1VJSTBBcERKTXVuWFBGK3ZWc1Mr?=
- =?utf-8?B?N3VJb1Z4bWIwZXdSVTNqVll0Y1Z0dWpyWU5TZnEzVUVGYmhRRnpwNEYrZ0tz?=
- =?utf-8?B?ZEtjSWlKUGZJS3dHR25OT0JlVHdwK3pmSVFlUkZFbVJtYy9IOUhiQUxXaEJR?=
- =?utf-8?B?ZFlIc1ZUTWIyK0ZjdUt5aHVObHByQWpRVHdUbG5GM3VwTElFcm1saFBEb2NK?=
- =?utf-8?B?TVBjZXVCdzU1WW5zV1c5ZUpYWk5RVm1Uc00yemJNVCtRWmZQWGRURXAzQzc3?=
- =?utf-8?B?dVpaUnpmeThWK3Z3QWw2c2sxWUEwUWE5VzFhUytmV0VGT2RyZSt1WXVMNXdP?=
- =?utf-8?B?NDl4Z05nenZYa0UySUVPTDRhdFdtclppNlRXQlNrTVd3dlJRak5YbkJUM0JJ?=
- =?utf-8?B?OTRlWmxBMVlqRjZEMUhxK1BDTGhHUHhDaWJrYWMyODdGbVh1MmtMVXpENHd4?=
- =?utf-8?B?ZDh2Ym8vUGZQcUN6YUFMb2lyL1ZYbW85NEI1ZW45dzZFdUV1a292VW5vK3FV?=
- =?utf-8?B?TGZIb2t4eEJXMUZEd3FSdVJBMGprQXBJaDIzMDVqaS9VUHdQeUV0RVBtMHhD?=
- =?utf-8?B?SmhtNFlXL05XYjdQdnNLdkdrd2I3L2pSbHpQYnQrTS9DRGF1cDZDV3BpbHRK?=
- =?utf-8?B?T3pBRU84TnZZU1BoWHVGUVNVOWk5d1RsclpnZkkrTTN6dEZNU0hMazNTMWF4?=
- =?utf-8?B?SUtGenkydUw3dVRqSFFsNDR1Uk1RZG9UOVNUcE9YZ0wyU1BZcC9oUFZMZENt?=
- =?utf-8?B?RVVWalVoQVdGWHhQeGxMc1ZwdXQwZWpFSXFVK3cyZU9NK0cvcjN5WjBZY0lL?=
- =?utf-8?B?dE9ZL1ZkeWNhVFhKdk40eXJUM1V0WWJrMHo0bk5CTEczbjlSTTlpN3pyYTQ2?=
- =?utf-8?B?Ui94N1gvd1lYRTAveVFKMjkrWHRtdGJ1c0hGZkg5WlNsOUdiNEF6bnl5Tndu?=
- =?utf-8?B?MHhScFVQandrNjRXcWFBYjFPd1hIVnJGKzFYVU1sSUZnejcwa1ZSNXdoUDFn?=
- =?utf-8?B?alV5KyttTE9LRUdnWHpicTFzc0dDS2dSRXBpMFNTSE1KUkRJWEJFZXJ2UjJv?=
- =?utf-8?B?L1R5Uk8yZmpvVDlQNHg2ZDV3ZHI5SEJta2k4R2FLTC9LdVNWanhPMU1UaG9X?=
- =?utf-8?B?MHp5TEViVzlRK2FBLy9lajZlYll0RmE5MWlHRFE1WGFHMXRWRUZNVnQ4SmZC?=
- =?utf-8?B?VW9UTHE4TjY0WUJQMFRGUmNQU2llMlNLMFJTSzlHbmk3QWFxeHFqMnhCZXFG?=
- =?utf-8?Q?Es5vINSCPB16B0pPqWmq0aPXR?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4066fe3d-75aa-4ac0-8884-08de0c2e301a
-X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Oct 2025 21:02:44.9758
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yoFfea79kkdgqPfQbMgoKYQZskWLiQuPA41R9Xj5v3wh7op632fMwYXr8NOno7ZoZwWBBiU+0kXWOYG8Kexhsg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR04MB9052
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/1] dt-bindings: media: Convert ti,tvp5150.txt to yaml
+ format.
+To: Frank Li <Frank.Li@nxp.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Hans Verkuil <hverkuil@kernel.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ "open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)"
+ <linux-media@vger.kernel.org>,
+ "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS"
+ <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>
+Cc: imx@lists.linux.dev
+References: <20251014185515.2354668-1-Frank.Li@nxp.com>
+Content-Language: en-US
+From: David Heidelberg <david@ixit.cz>
+Autocrypt: addr=david@ixit.cz; keydata=
+ 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
+In-Reply-To: <20251014185515.2354668-1-Frank.Li@nxp.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Oct 15, 2025 at 03:36:05PM -0500, Rob Herring wrote:
-> On Wed, Oct 15, 2025 at 2:39 PM Frank Li <Frank.li@nxp.com> wrote:
-> >
-> > On Wed, Oct 15, 2025 at 12:47:40PM -0500, Rob Herring (Arm) wrote:
-> > > Add a driver for Arm Ethos-U65/U85 NPUs. The Ethos-U NPU has a
-> > > relatively simple interface with single command stream to describe
-> > > buffers, operation settings, and network operations. It supports up to 8
-> > > memory regions (though no h/w bounds on a region). The Ethos NPUs
-> > > are designed to use an SRAM for scratch memory. Region 2 is reserved
-> > > for SRAM (like the downstream driver stack and compiler). Userspace
-> > > doesn't need access to the SRAM.
-> > >
-> > > The h/w has no MMU nor external IOMMU and is a DMA engine which can
-> > > read and write anywhere in memory without h/w bounds checks. The user
-> > > submitted command streams must be validated against the bounds of the
-> > > GEM BOs. This is similar to the VC4 design which validates shaders.
-> > >
-> > > The job submit is based on the rocket driver for the Rockchip NPU
-> > > utilizing the GPU scheduler. It is simpler as there's only 1 core rather
-> > > than 3.
-> > >
-> > > Tested on i.MX93 platform (U65) and FVP (U85) with WIP Mesa Teflon
-> > > support.
-> > >
-> > > Acked-by: Thomas Zimmermann <tzimmermann@suse.de>
-> > > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> > > ---
-> >
-> > How to test this driver?
->
-> You need to add the DT node to i.MX93 .dts like the example, build the
-> mesa ethosu branch, and then run tflite with it pointed to the mesa
-> delegate.
->
-> I can send an i.MX93 dts patch after this is merged.
->
-> > > v4:
-> > > - Use bulk clk API
-> > > - Various whitespace fixes mostly due to ethos->ethosu rename
-> > > - Drop error check on dma_set_mask_and_coherent()
-> > > - Drop unnecessary pm_runtime_mark_last_busy() call
-> > > - Move variable declarations out of switch (a riscv/clang build failure)
-> > > - Use lowercase hex in all defines
-> > > - Drop unused ethosu_device.coherent member
-> > > - Add comments on all locks
-> > >
-> > ...
-> > > diff --git a/drivers/accel/ethosu/ethosu_device.h b/drivers/accel/ethosu/ethosu_device.h
-> > > new file mode 100644
-> > > index 000000000000..69d610c5c2d7
-> > > --- /dev/null
-> > > +++ b/drivers/accel/ethosu/ethosu_device.h
-> > > @@ -0,0 +1,190 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0-only or MIT */
-> > > +/* Copyright 2025 Arm, Ltd. */
-> > > +
-> > > +#ifndef __ETHOSU_DEVICE_H__
-> > > +#define __ETHOSU_DEVICE_H__
-> > > +
-> > > +#include <linux/types.h>
-> > > +
-> > > +#include <drm/drm_device.h>
-> > > +#include <drm/gpu_scheduler.h>
-> > > +
-> > > +#include <drm/ethosu_accel.h>
-> > > +
-> > > +struct clk;
-> > > +struct gen_pool;
-> >
-> > Supposed should include clk.h instead declear a struct.
->
-> Headers should only use a forward declaration if that's all they need.
-> It keeps the struct opaque for starters.
->
-> > ...
-> > > +
-> > > +static int ethosu_open(struct drm_device *ddev, struct drm_file *file)
-> > > +{
-> > > +     int ret = 0;
-> > > +     struct ethosu_file_priv *priv;
-> > > +
-> > > +     if (!try_module_get(THIS_MODULE))
-> > > +             return -EINVAL;
-> > > +
-> > > +     priv = kzalloc(sizeof(*priv), GFP_KERNEL);
-> > > +     if (!priv) {
-> > > +             ret = -ENOMEM;
-> > > +             goto err_put_mod;
-> > > +     }
-> > > +     priv->edev = to_ethosu_device(ddev);
-> > > +
-> > > +     ret = ethosu_job_open(priv);
-> > > +     if (ret)
-> > > +             goto err_free;
-> > > +
-> > > +     file->driver_priv = priv;
-> >
-> > slice simple.
-> >
-> > struct ethosu_file_priv __free(kfree) *priv = NULL;
-> > ...
-> > priv = kzalloc(sizeof(*priv), GFP_KERNEL);
->
-> Linus has voiced his opinion that the above should not be done. It
-> should be all one line *only*. But now we allow C99 declarations, so
-> we can move it down. We can't get rid of the goto for module_put(), so
-> it only marginally helps here.
->
-> > ...
-> >
-> > file->driver_priv = no_free_ptr(priv);
-> >
-> >
-> > > +     return 0;
-> > > +
-> > > +err_free:
-> > > +     kfree(priv);
-> > > +err_put_mod:
-> > > +     module_put(THIS_MODULE);
-> > > +     return ret;
-> > > +}
-> > > +
-> > ...
-> > > +
-> > > +
-> > > +static int ethosu_init(struct ethosu_device *ethosudev)
-> > > +{
-> > > +     int ret;
-> > > +     u32 id, config;
-> > > +
-> > > +     ret = devm_pm_runtime_enable(ethosudev->base.dev);
-> > > +     if (ret)
-> > > +             return ret;
-> > > +
-> > > +     ret = pm_runtime_resume_and_get(ethosudev->base.dev);
-> > > +     if (ret)
-> > > +             return ret;
-> > > +
-> > > +     pm_runtime_set_autosuspend_delay(ethosudev->base.dev, 50);
-> > > +     pm_runtime_use_autosuspend(ethosudev->base.dev);
-> > > +
-> > > +     /* If PM is disabled, we need to call ethosu_device_resume() manually. */
-> > > +     if (!IS_ENABLED(CONFIG_PM)) {
-> > > +             ret = ethosu_device_resume(ethosudev->base.dev);
-> > > +             if (ret)
-> > > +                     return ret;
-> > > +     }
-> >
-> > I think it should call ethosu_device_resume() unconditional before
-> > devm_pm_runtime_enable();
-> >
-> > ethosu_device_resume();
-> > pm_runtime_set_active();
-> > pm_runtime_set_autosuspend_delay(ethosudev->base.dev, 50);
-> > devm_pm_runtime_enable();
->
-> Why do you think this? Does this do a get?
->
-> I don't think it is good to call the resume hook on our own, but we
-> have no choice with !CONFIG_PM. With CONFIG_PM, we should only use the
-> pm_runtime API.
+LGTM
 
-Enable clock and do some init work at probe() is quite common. But I never
-seen IS_ENABLED(CONFIG_PM) check. It is quite weird and not necessary to
-check CONFIG_PM flags. The most CONFIG_PM is enabled, so the branch !CONFIG_PM
-almost never tested.
+Reviewed-by: David Heidelberg <david@ixit.cz>
 
-probe()
-{
-	devm_clk_bulk_get_all_enabled();
+On 14/10/2025 20:55, Frank Li wrote:
+> Convert ti,tvp5150.txt to yaml format.
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>   .../bindings/media/i2c/ti,tvp5150.txt         | 157 ------------------
+>   .../bindings/media/i2c/ti,tvp5150.yaml        | 133 +++++++++++++++
+>   2 files changed, 133 insertions(+), 157 deletions(-)
+>   delete mode 100644 Documentation/devicetree/bindings/media/i2c/ti,tvp5150.txt
+>   create mode 100644 Documentation/devicetree/bindings/media/i2c/ti,tvp5150.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,tvp5150.txt b/Documentation/devicetree/bindings/media/i2c/ti,tvp5150.txt
+> deleted file mode 100644
+> index 94b908ace53c8..0000000000000
+> --- a/Documentation/devicetree/bindings/media/i2c/ti,tvp5150.txt
+> +++ /dev/null
+> @@ -1,157 +0,0 @@
+> -* Texas Instruments TVP5150 and TVP5151 video decoders
+> -
+> -The TVP5150 and TVP5151 are video decoders that convert baseband NTSC and PAL
+> -(and also SECAM in the TVP5151 case) video signals to either 8-bit 4:2:2 YUV
+> -with discrete syncs or 8-bit ITU-R BT.656 with embedded syncs output formats.
+> -
+> -Required Properties:
+> -====================
+> -- compatible:	Value must be "ti,tvp5150".
+> -- reg:		I2C slave address.
+> -
+> -Optional Properties:
+> -====================
+> -- pdn-gpios:	Phandle for the GPIO connected to the PDN pin, if any.
+> -- reset-gpios:	Phandle for the GPIO connected to the RESETB pin, if any.
+> -
+> -The device node must contain one 'port' child node per device physical input
+> -and output port, in accordance with the video interface bindings defined in
+> -Documentation/devicetree/bindings/media/video-interfaces.txt. The port nodes
+> -are numbered as follows
+> -
+> -	  Name		Type		Port
+> -	--------------------------------------
+> -	  AIP1A		sink		0
+> -	  AIP1B		sink		1
+> -	  Y-OUT		src		2
+> -
+> -The device node must contain at least one sink port and the src port. Each input
+> -port must be linked to an endpoint defined in [1]. The port/connector layout is
+> -as follows
+> -
+> -tvp-5150 port@0 (AIP1A)
+> -	endpoint@0 -----------> Comp0-Con  port
+> -	endpoint@1 ------+----> Svideo-Con port
+> -tvp-5150 port@1 (AIP1B)  |
+> -	endpoint@1 ------+
+> -	endpoint@0 -----------> Comp1-Con  port
+> -tvp-5150 port@2
+> -	endpoint (video bitstream output at YOUT[0-7] parallel bus)
+> -
+> -Required Endpoint Properties for parallel synchronization on output port:
+> -=========================================================================
+> -
+> -- hsync-active:		Active state of the HSYNC signal. Must be <1> (HIGH).
+> -- vsync-active:		Active state of the VSYNC signal. Must be <1> (HIGH).
+> -- field-even-active:	Field signal level during the even field data
+> -			transmission. Must be <0>.
+> -
+> -Note: Do not specify any of these properties if you want to use the embedded
+> -      BT.656 synchronization.
+> -
+> -Optional Connector Properties:
+> -==============================
+> -
+> -- sdtv-standards: Set the possible signals to which the hardware tries to lock
+> -                  instead of using the autodetection mechanism. Please look at
+> -                  [1] for more information.
+> -
+> -[1] Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml.
+> -
+> -Example - three input sources:
+> -#include <dt-bindings/display/sdtv-standards.h>
+> -
+> -comp_connector_0 {
+> -	compatible = "composite-video-connector";
+> -	label = "Composite0";
+> -	sdtv-standards = <SDTV_STD_PAL_M>; /* limit to pal-m signals */
+> -
+> -	port {
+> -		composite0_to_tvp5150: endpoint {
+> -			remote-endpoint = <&tvp5150_to_composite0>;
+> -		};
+> -	};
+> -};
+> -
+> -comp_connector_1 {
+> -	compatible = "composite-video-connector";
+> -	label = "Composite1";
+> -	sdtv-standards = <SDTV_STD_NTSC_M>; /* limit to ntsc-m signals */
+> -
+> -	port {
+> -		composite1_to_tvp5150: endpoint {
+> -			remote-endpoint = <&tvp5150_to_composite1>;
+> -		};
+> -	};
+> -};
+> -
+> -svideo_connector {
+> -	compatible = "svideo-connector";
+> -	label = "S-Video";
+> -
+> -	port {
+> -		#address-cells = <1>;
+> -		#size-cells = <0>;
+> -
+> -		svideo_luma_to_tvp5150: endpoint@0 {
+> -			reg = <0>;
+> -			remote-endpoint = <&tvp5150_to_svideo_luma>;
+> -		};
+> -
+> -		svideo_chroma_to_tvp5150: endpoint@1 {
+> -			reg = <1>;
+> -			remote-endpoint = <&tvp5150_to_svideo_chroma>;
+> -		};
+> -	};
+> -};
+> -
+> -&i2c2 {
+> -	tvp5150@5c {
+> -		compatible = "ti,tvp5150";
+> -		reg = <0x5c>;
+> -		pdn-gpios = <&gpio4 30 GPIO_ACTIVE_LOW>;
+> -		reset-gpios = <&gpio6 7 GPIO_ACTIVE_LOW>;
+> -		#address-cells = <1>;
+> -		#size-cells = <0>;
+> -
+> -		port@0 {
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+> -			reg = <0>;
+> -
+> -			tvp5150_to_composite0: endpoint@0 {
+> -				reg = <0>;
+> -				remote-endpoint = <&composite0_to_tvp5150>;
+> -			};
+> -
+> -			tvp5150_to_svideo_luma: endpoint@1 {
+> -				reg = <1>;
+> -				remote-endpoint = <&svideo_luma_to_tvp5150>;
+> -			};
+> -		};
+> -
+> -		port@1 {
+> -			#address-cells = <1>;
+> -			#size-cells = <0>;
+> -			reg = <1>;
+> -
+> -			tvp5150_to_composite1: endpoint@0 {
+> -				reg = <0>;
+> -                                remote-endpoint = <&composite1_to_tvp5150>;
+> -			};
+> -
+> -			tvp5150_to_svideo_chroma: endpoint@1 {
+> -				reg = <1>;
+> -				remote-endpoint = <&svideo_chroma_to_tvp5150>;
+> -			};
+> -		};
+> -
+> -		port@2 {
+> -			reg = <2>;
+> -
+> -			tvp5150_1: endpoint {
+> -				remote-endpoint = <&ccdc_ep>;
+> -			};
+> -		};
+> -	};
+> -};
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ti,tvp5150.yaml b/Documentation/devicetree/bindings/media/i2c/ti,tvp5150.yaml
+> new file mode 100644
+> index 0000000000000..4869ba7ca0763
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/ti,tvp5150.yaml
+> @@ -0,0 +1,133 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/ti,tvp5150.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Texas Instruments TVP5150 and TVP5151 video decoders
+> +
+> +maintainers:
+> +  - Frank Li <Frank.Li@nxp.com>
+> +
+> +description:
+> +  The TVP5150 and TVP5151 are video decoders that convert baseband NTSC and PAL
+> +  (and also SECAM in the TVP5151 case) video signals to either 8-bit 4:2:2 YUV
+> +  with discrete syncs or 8-bit ITU-R BT.656 with embedded syncs output formats.
+> +
+> +properties:
+> +  compatible:
+> +    const: ti,tvp5150
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  pdn-gpios:
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    maxItems: 1
+> +
+> +  '#address-cells':
+> +    const: 1
+> +
+> +  '#size-cells':
+> +    const: 0
+> +
+> +  port@0:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    unevaluatedProperties: false
+> +    description:
+> +      sink port node, AIP1A
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +  port@1:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    unevaluatedProperties: false
+> +    description:
+> +      sink port node, AIP1B
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +  port@2:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    unevaluatedProperties: false
+> +    description:
+> +      source port node, Y-OUT
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - port@2
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/display/sdtv-standards.h>
+> +    #include <dt-bindings/gpio/gpio.h>
+> +
+> +    i2c {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
+> +
+> +        bridge@5c {
+> +            compatible = "ti,tvp5150";
+> +            reg = <0x5c>;
+> +            pdn-gpios = <&gpio4 30 GPIO_ACTIVE_LOW>;
+> +            reset-gpios = <&gpio6 7 GPIO_ACTIVE_LOW>;
+> +            #address-cells = <1>;
+> +            #size-cells = <0>;
+> +
+> +            port@0 {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                reg = <0>;
+> +
+> +                endpoint@0 {
+> +                    reg = <0>;
+> +                     remote-endpoint = <&composite0_to_tvp5150>;
+> +                };
+> +
+> +                endpoint@1 {
+> +                   reg = <1>;
+> +                   remote-endpoint = <&svideo_luma_to_tvp5150>;
+> +                };
+> +            };
+> +
+> +            port@1 {
+> +                #address-cells = <1>;
+> +                #size-cells = <0>;
+> +                reg = <1>;
+> +
+> +                endpoint@0 {
+> +                    reg = <0>;
+> +                    remote-endpoint = <&composite1_to_tvp5150>;
+> +                };
+> +
+> +                endpoint@1 {
+> +                    reg = <1>;
+> +                    remote-endpoint = <&svideo_chroma_to_tvp5150>;
+> +                };
+> +            };
+> +
+> +            port@2 {
+> +                reg = <2>;
+> +
+> +                endpoint {
+> +                    remote-endpoint = <&ccdc_ep>;
+> +                };
+> +            };
+> +        };
+> +    };
 
-	... did some init work
+-- 
+David Heidelberg
 
-	pm_runtime_set_active();
-	devm_pm_runtime_enable();
-
-	...
-	pm_runtime_put_autosuspend(ethosudev->base.dev);
-}
-
-ethosu_init() only is called by ethosu_probe(). with above pattern,
-needn't check CONFIG_PM and call resume hook ethosu_device_resume();
-
-Frank
-
->
-> Rob
 
