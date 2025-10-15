@@ -1,56 +1,57 @@
-Return-Path: <linux-media+bounces-44534-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44535-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65C50BDD3AE
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 09:54:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E514BDD3B4
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 09:54:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 0D27F3538E4
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 07:54:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1B6533B9297
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 07:54:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5CE4A314B8E;
-	Wed, 15 Oct 2025 07:54:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88324314D2D;
+	Wed, 15 Oct 2025 07:54:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ZUkfRhWn"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="ax03q2P+"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2F2B7314D3E
-	for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 07:54:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63EA0314B77;
+	Wed, 15 Oct 2025 07:54:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760514871; cv=none; b=sBhUzZv6bkfoHpQuMiOL78+p4K5QlRrH+ImmAjZW7AbVZuaQGeCywxku0kMNw6J/eXyHkyYP+BSmbZyshKPsDiRmXi0RCBxVICkB64l/vWvdR+oFgPyV1KcEtbU9ZE4CpIiWlEs8v9KAhl0GDHG7/e8vo1GgsIdRN2rM6Zjw9FI=
+	t=1760514873; cv=none; b=f94J13zjhW6+jeIzBeEzHiBv+RUcA0vsLuYsv3BvZc1Rvxm+iRxhgxO7EUxaM4bGNM8yi0mtCd9ird93ZMdebyOwJiIjBE4BO1s1DweQdFZhJaywWgLU0guVKppN4BJBhWLboSQAz4SMslLMxSeWx3YHvbrIXyu1DtSALh0JdfM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760514871; c=relaxed/simple;
-	bh=kbs1RqNJaZcy/K/4HjFLhq1ptrP5FnU877/vsgOz2Ic=;
+	s=arc-20240116; t=1760514873; c=relaxed/simple;
+	bh=1Z4OYQHH4emU6uOE1QfvhdpIUfNJotVLhDqY12WscLM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BZCVhmxDm4KlJ2WoM11TFUJIboDSlmaDSipoGHm7L+U8bVRA43HwgaLzfOgDg3C0hfCzcWYb1WE04qODfzNNbG4S4/UfzV55z6kq19BnZ31qoERdF0UbMnhbfZ6ZolSOz0mq+3aoA+dDiYxW3IIcjQ1rlNDvQWiy0e5IWk6dqCc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ZUkfRhWn; arc=none smtp.client-ip=213.167.242.64
+	 MIME-Version; b=AXvqGtD8pwTYv2IVEwnIDr8aYKR31by3JmGsxuN84ndPlVI2sBn26NDvVMwvqIXvHykzqavk9Csfh7oGwhPYXS6xphNqBNNtsQ5fqG6KISjy4E77QIpNK6S9ROCY9UKy9cTevPWV6kcf92v8RqHmp0iH8hq4JIXqfcinKZcLtjA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=ax03q2P+; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (87-94-110-32.bb.dnainternet.fi [87.94.110.32])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 45258EB7;
-	Wed, 15 Oct 2025 09:52:48 +0200 (CEST)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id DAA851E2C;
+	Wed, 15 Oct 2025 09:52:49 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1760514768;
-	bh=kbs1RqNJaZcy/K/4HjFLhq1ptrP5FnU877/vsgOz2Ic=;
+	s=mail; t=1760514770;
+	bh=1Z4OYQHH4emU6uOE1QfvhdpIUfNJotVLhDqY12WscLM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZUkfRhWnPVzRfiSVx8/NsaWw365C/fIoJ4nQh1woRwcMYM1PhIpo0ZFu9vC6xnFR7
-	 6ucCp5/rMax4ZQCyI89wnC7StJMeM8WU5+9OZrUSEoeCvDKzaDFOesoIBARE3ckO4w
-	 VnJxDmg+8PfvAjiFQo6pE8F6BrEVHctoqMgL+DOs=
+	b=ax03q2P+W9KEdMRYqckE3K+4R5yTkB6wyKinRFZE07L+/hcWwNk5Mam7XMHQXYTyE
+	 OqbewfPwE0Vw9Q6CsXQODVFBvvSa6dkVcbCOaR6Cg79+OxmpqLsvEEgjAMeZ/rAYH7
+	 pvArfwF7q6aih7HgjUF0g1A+RAheYAtuLqvxS/fQ=
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
+To: linux-media@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org
 Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Neil Armstrong <neil.armstrong@linaro.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
-Subject: [PATCH v2 14/25] media: mx2_emmaprp: Drop unneeded v4l2_m2m_get_vq() NULL check
-Date: Wed, 15 Oct 2025 10:53:37 +0300
-Message-ID: <20251015075353.22625-15-laurent.pinchart@ideasonboard.com>
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+	Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+	Abhinav Kumar <abhinav.kumar@linux.dev>,
+	"Bryan O'Donoghue" <bod@kernel.org>
+Subject: [PATCH v2 15/25] media: qcom: iris: Drop unneeded v4l2_m2m_get_vq() NULL check
+Date: Wed, 15 Oct 2025 10:53:38 +0300
+Message-ID: <20251015075353.22625-16-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251015075353.22625-1-laurent.pinchart@ideasonboard.com>
 References: <20251015075353.22625-1-laurent.pinchart@ideasonboard.com>
@@ -62,53 +63,49 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-The v4l2_m2m_get_vq() function never returns NULL.
-
-In the set format handler, the check may have been intended to catch
-invalid format types, but that's not needed as the V4L2 core picks the
-appropriate VIDIOC_S_FMT ioctl handler based on the format type, so the
-type can't be incorrect.
-
-In the get format handler, the return value is not used for any purpose
-other than the NULL check, which was therefore probably intended to
-catch invalid format types. That's not needed for the same reason as in
-the set format handler.
-
-Drop the unneeded return value checks and, as the function has no side
-effect, the unneeded function call as well.
+The v4l2_m2m_get_vq() function never returns NULL. The check may have
+been intended to catch invalid format types, but that's not needed as
+the V4L2 core picks the appropriate VIDIOC_S_FMT ioctl handler based on
+the format type, so the type can't be incorrect. Drop the unneeded
+return value check.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 ---
- drivers/media/platform/nxp/mx2_emmaprp.c | 7 -------
- 1 file changed, 7 deletions(-)
+Changes since v1:
 
-diff --git a/drivers/media/platform/nxp/mx2_emmaprp.c b/drivers/media/platform/nxp/mx2_emmaprp.c
-index 3aae8c0b690c..02d57229b9b3 100644
---- a/drivers/media/platform/nxp/mx2_emmaprp.c
-+++ b/drivers/media/platform/nxp/mx2_emmaprp.c
-@@ -431,13 +431,8 @@ static int vidioc_enum_fmt_vid_out(struct file *file, void *priv,
+- Address iris_venc_s_fmt()
+---
+ drivers/media/platform/qcom/iris/iris_vdec.c | 2 --
+ drivers/media/platform/qcom/iris/iris_venc.c | 2 --
+ 2 files changed, 4 deletions(-)
+
+diff --git a/drivers/media/platform/qcom/iris/iris_vdec.c b/drivers/media/platform/qcom/iris/iris_vdec.c
+index ae13c3e1b426..3926ed513f08 100644
+--- a/drivers/media/platform/qcom/iris/iris_vdec.c
++++ b/drivers/media/platform/qcom/iris/iris_vdec.c
+@@ -190,8 +190,6 @@ int iris_vdec_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 	u32 codec_align;
  
- static int vidioc_g_fmt(struct emmaprp_ctx *ctx, struct v4l2_format *f)
- {
--	struct vb2_queue *vq;
- 	struct emmaprp_q_data *q_data;
- 
--	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
--	if (!vq)
--		return -EINVAL;
--
- 	q_data = get_q_data(ctx, f->type);
- 
- 	f->fmt.pix.width	= q_data->width;
-@@ -540,8 +535,6 @@ static int vidioc_s_fmt(struct emmaprp_ctx *ctx, struct v4l2_format *f)
- 	int ret;
- 
- 	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
--	if (!vq)
+ 	q = v4l2_m2m_get_vq(inst->m2m_ctx, f->type);
+-	if (!q)
 -		return -EINVAL;
  
- 	q_data = get_q_data(ctx, f->type);
- 	if (!q_data)
+ 	if (vb2_is_busy(q))
+ 		return -EBUSY;
+diff --git a/drivers/media/platform/qcom/iris/iris_venc.c b/drivers/media/platform/qcom/iris/iris_venc.c
+index 099bd5ed4ae0..8a65c9cc6010 100644
+--- a/drivers/media/platform/qcom/iris/iris_venc.c
++++ b/drivers/media/platform/qcom/iris/iris_venc.c
+@@ -269,8 +269,6 @@ int iris_venc_s_fmt(struct iris_inst *inst, struct v4l2_format *f)
+ 	struct vb2_queue *q;
+ 
+ 	q = v4l2_m2m_get_vq(inst->m2m_ctx, f->type);
+-	if (!q)
+-		return -EINVAL;
+ 
+ 	if (vb2_is_busy(q))
+ 		return -EBUSY;
 -- 
 Regards,
 
