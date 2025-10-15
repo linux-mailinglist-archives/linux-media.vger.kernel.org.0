@@ -1,125 +1,186 @@
-Return-Path: <linux-media+bounces-44491-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44488-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FBEEBDC33F
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 04:46:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B2FFEBDC303
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 04:43:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 481334E273D
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 02:46:20 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 78E124226BF
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 02:43:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 45BB3204F99;
-	Wed, 15 Oct 2025 02:46:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1BFE30C61B;
+	Wed, 15 Oct 2025 02:42:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mQKQtlTr"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="UjH63oWy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F11347494;
-	Wed, 15 Oct 2025 02:46:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B272A30C340
+	for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 02:42:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760496374; cv=none; b=eoNpgN6awyjiULmtLT/iAj1Dz7SMmsB6UALMiCw6OJ6ZnVkK0j1c55hvp6fPSXTJGos37xc5QY4DST1qPB8fP7X/tQOhVCSioLGlNNpy37sVE4lXBsv8Q9taH7k+JqJG2FvcMoOYL0h4ik9KTMshyy/g/5ImtNXV818Jw5qJw1Y=
+	t=1760496163; cv=none; b=E47kiG9o70ZRbmuIrX55o3Q82Teh+zikV7ade0FFKncNx7HC4PVi/9Se1c9g8eki/56AuAm2EkmFhzcuxvD0il071G1a1K9XlXXXtuduRxPkU8iTTpK1ypfqc9V58h7DagrNYDLHJZdY1u11OoX8VKbtX0COrvGu/RiF14kFffY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760496374; c=relaxed/simple;
-	bh=BmvbppvD1Pdyn+EwwfAntWEm5YRei268VrvS7FegDfA=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=cT9y0YEwBvX52+6Stud8tyS2WyjakleYr9IIdFVV7PCmkx+nSmyczQFuks1/YOiFn3oVHcQaZFVY3UO1TioAiC8fk7gRyCgGHaUT4cGg1cMVV/Y7WUUueCKQt+ShmzYDLWyPCD1Y554Vc92Ks4KjGCwN5Buu2fpvDxzNTCHcqDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mQKQtlTr; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760496373; x=1792032373;
-  h=subject:to:cc:references:from:message-id:date:
-   mime-version:in-reply-to:content-transfer-encoding;
-  bh=BmvbppvD1Pdyn+EwwfAntWEm5YRei268VrvS7FegDfA=;
-  b=mQKQtlTroHW4l0x0S4VbDfEIBGK3AMT4rgylzdbVA0eNd/8M/PI3JlUF
-   J/ayOOqqeoT+s2IqU/9P4IaL5WP7wgtuCkgLhD4QmRyBo5U/i/SqCoUIJ
-   h5rO/xPMLBEJQkY0LqdVeHR3l/iCsZaZuF1brV3ygyB2XdBH2Hj9UYGQc
-   MYLm36rLaLE5trTl0NH2eJSVpiv4YQJiCPdmcyXmknfkfsVEESQUR50zm
-   ivan/Wl+7pWHh4lQTyMM2MgvkF/83l3vGZg8AZn2D6NvW0NXQFiFavI3h
-   qMak7ZBLGFW04F9gMMs5HrjFIodMDs5b63Dj7qCpkKbzmRg0ZSKOv3BLS
-   Q==;
-X-CSE-ConnectionGUID: mnz/334/TYiKLpwLm/hxgg==
-X-CSE-MsgGUID: wi1YKl/pTu6gKff+4iYX0g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11582"; a="88128559"
-X-IronPort-AV: E=Sophos;i="6.19,230,1754982000"; 
-   d="scan'208";a="88128559"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 19:45:37 -0700
-X-CSE-ConnectionGUID: 6zAVs3j1RUi96Ej9QNODlw==
-X-CSE-MsgGUID: t7X9mrw9QbWQX5ASZzwsmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,230,1754982000"; 
-   d="scan'208";a="181721764"
-Received: from ipu5-build.bj.intel.com (HELO [10.238.153.130]) ([10.238.153.130])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Oct 2025 19:45:35 -0700
-Subject: Re: [PATCH 04/25] media: i2c: ov01a10: Add missing
- v4l2_subdev_cleanup() calls
-To: Hans de Goede <hansg@kernel.org>, Bingbu Cao <bingbu.cao@intel.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, stable@vger.kernel.org
-References: <20251014174033.20534-1-hansg@kernel.org>
- <20251014174033.20534-5-hansg@kernel.org>
-From: Bingbu Cao <bingbu.cao@linux.intel.com>
-Message-ID: <12bce6fb-2353-1ae7-f22f-6a4efa9e12f0@linux.intel.com>
-Date: Wed, 15 Oct 2025 10:37:29 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+	s=arc-20240116; t=1760496163; c=relaxed/simple;
+	bh=/6TPoOK2H46ODoVR5vH0U3mZt/KkWJx+/Oa6plnyqHA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=qQfxLupOOwcse3ZCGcJsMJzpMJsaJDlS2+ra2KJRlGFbXynC0MNyTe5k1/2v0/DZrrTNNgleIc9qsuwdjdiBUGvVO/EHe/A50CpJ+RhGbyGPiI5dASSGEslGf86UD7apaV8uy7wvmxXsTVwh1ctW+Wa7aAG6mdzw8HPkp4Epjtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=UjH63oWy; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59F2dK2h006133
+	for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 02:42:40 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=qcppdkim1; bh=dOCcVsAuRxmu1r6muulhHh
+	87A+yiQ6uas2Eu9RO3UAg=; b=UjH63oWyXxi0phUyzS4u13zULHUEaOQm7/ETIu
+	z6wekMrqatX5BiuVYg2yEF4iF68lKCd6BvJYQh3fjnbxde809CMxKg/zZR8TpsRA
+	xFx9IUYsqc4hUPP1PpM+qmm7jU294SI+FUSrnK4oYVLdY7g5Ri27pQnPwN39NGkT
+	BWFmfwtuRgWjtFo++HSo0nkv4slxeGESa0V2rBRJHqNkQ9tArDeraaP1EOf3d4zs
+	rlC1b/0pH40t1dPuiPw+1BLWl16CBL/8Y+H0QuzZqxKz/XTho0rVguOxg7tg62mA
+	gXnNLsGEq0l2a/wlEgDwtq5LFSe4/uzZ8zng3Y+AQNIGHNhA==
+Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com [209.85.215.198])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49sua8hbmh-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 02:42:40 +0000 (GMT)
+Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-b5a013bc46dso9056256a12.1
+        for <linux-media@vger.kernel.org>; Tue, 14 Oct 2025 19:42:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760496159; x=1761100959;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=dOCcVsAuRxmu1r6muulhHh87A+yiQ6uas2Eu9RO3UAg=;
+        b=by6nr9v7bFNa6p1dZ/vWijhdRqubaTW9+V5XAYKd1gcMchNFVU2ai9d+1M1T3xoT2O
+         IsJxxJptz2aNAegZGUdUTVJzbO0XBtYn+qGNHf8xY0RZS/XtI8dkXKcUjGydWZWBbAnY
+         yvBweiQSmvML5HWHvcwI5qk/2SUXhSVoAmu6khzbWtZH4fZ/mq2EBBXaFYekp7ws3XKl
+         7VFL66KtTLc0hTkIC3/P6AxB/Ax83VFJBvmbLjKVgjo9KH5ML38+GPnWs1ofrOKMzA0e
+         sEnqFW2gMknxAPCWNj3bcWsHBwFE06poThswhOEMWW7HFY/8aP9auAnlrlQ5Ck836hdc
+         86kA==
+X-Forwarded-Encrypted: i=1; AJvYcCWfRp644y/okKqW32W1Woeir63JMwhkJIoQ22Q21xiCm1PNHM5qXRhIcHgWN88J8654IRueEf7Gl2d9bw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBDpFflq/zq34SaQ2mfoEcm9tN/gZw5h0S8/rykJ8D1lzRAaDb
+	vas06mioiQtc9UfE60R8h9tAxOAubtukrAvQwERSr8xUju3Ki8AAf04ra4MQCA4WZGLk8NVRCWr
+	FbS+HWLEdWRJNUescQjVDhTSQVzWL+/Nta4CYh5s2jKmy5TCnyG+pUAIrykLLf3iFVg==
+X-Gm-Gg: ASbGncvpkh+7JP9qMYqomOJgIxL3qF8/S+FkPo3k4m7mIouazgEUGbMoYr61WES0B9n
+	g+IEPGHCnOkT3+kP1jOxJRTGI/25MO+wOWURHvV1B6wQlajkF9IR5FUGM8IcUqWBgJreXAzGnDb
+	Z/h6QQsA5pZCO1PBdK4zHRpXcZmwdoRK9ho+ZLBOxmNz/AAYtl5kmg/g2Bh2SUK+aRGV60sWj0Q
+	/4c/O82H7jjJ2sKhBbQDuKZ+mP/RR6oZdrxdpIHzivWwuqnqqyUE8STTOMhIP69ZkbEvekdCZ76
+	/jmguifoUyokxuQTeMseeBWKEEYUWPd97DpNub0NYC24GzYd1o3eA7MhREm+cUKX3ve48sqh648
+	fq68IjnzyWPsHDGZ7AI8=
+X-Received: by 2002:a05:6a21:6d93:b0:2f5:ba02:a2a2 with SMTP id adf61e73a8af0-32da839f958mr39408108637.36.1760496159192;
+        Tue, 14 Oct 2025 19:42:39 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEVDUEuabDTwYSs9PWSrrtbuyqOQI43lG/pFTuKEjT/hk8Y2pr3EkOb62jBuR5TAFgHA/XjeA==
+X-Received: by 2002:a05:6a21:6d93:b0:2f5:ba02:a2a2 with SMTP id adf61e73a8af0-32da839f958mr39408069637.36.1760496158707;
+        Tue, 14 Oct 2025 19:42:38 -0700 (PDT)
+Received: from hu-hangxian-lv.qualcomm.com (Global_NAT1.qualcomm.com. [129.46.96.20])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b678ddcc604sm13174412a12.11.2025.10.14.19.42.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 14 Oct 2025 19:42:38 -0700 (PDT)
+From: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+Date: Tue, 14 Oct 2025 19:42:30 -0700
+Subject: [PATCH] media: qcom: camss: Use a macro to specify the initial
+ buffer count
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20251014174033.20534-5-hansg@kernel.org>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20251014-use-marco-to-denote-image-buffer-number-v1-1-f782e4cc622d@oss.qualcomm.com>
+X-B4-Tracking: v=1; b=H4sIABUK72gC/y2NSwoCMRBErzL02oYkfvEq4iLJdLQXSbSTiDDM3
+ W3UVfGKR9UCjYSpwXlaQOjFjWtRsJsJ4t2XGyHPyuCM21tjHY5GmL3Eir3iTKV2VbJXMYyUSLC
+ MHDRioGiONpx22wPo2kMo8fv7dLn+WOg59LD/y3X9AIs1TTmOAAAA
+X-Change-ID: 20251012-use-marco-to-denote-image-buffer-number-cbec071b8436
+To: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+        Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+X-Mailer: b4 0.14.3
+X-Proofpoint-GUID: ZrAsIN9YjfVS95RP83eu4XM2qjDvBWbZ
+X-Authority-Analysis: v=2.4 cv=e5MLiKp/ c=1 sm=1 tr=0 ts=68ef0a20 cx=c_pps
+ a=Qgeoaf8Lrialg5Z894R3/Q==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=z1bv0FqhIyCrtqLIgW4A:9 a=QEXdDO2ut3YA:10
+ a=x9snwWr2DeNwDh03kgHS:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE0MDEzNCBTYWx0ZWRfX5fIRO11ISNiC
+ NkWNZgalX+R0V4UJlWAFbhR1fZlCixKlW/D1fgMofnmNvl6YGO28uBvi8FadVUMWi0A1OCIF2uJ
+ HalZfjfJ5RJFpLk4nHCXFlF1R5In7y1qwNc2FD7hZt+9MjNLXLks0pCdOPGFIRoi7bPx+NxHcCd
+ iuSZ8yh2GlFmFhP2KXsXuBhJAAuURbRsVgGCPUNSeu64r9W6ViCVTtXA/H7vk50aR1D9JAQRIDk
+ lj5OSWYDLxcMr7AE9AyP+hYGDT5/N9IPrJOd8MlYPrNqGzTcQLxv9dA+BigHYZqHh0lxymxKAA/
+ jVNkQD16F84gN1Hb4i/BIjRRA9CP2l2SeekQYEQ/O/rI8CW8eJobbHmnt4v4TZqK5YOChkMH3Ph
+ EEEDm6fc57Evd3wIHIAPFTT0XeIcaw==
+X-Proofpoint-ORIG-GUID: ZrAsIN9YjfVS95RP83eu4XM2qjDvBWbZ
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-15_01,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 suspectscore=0 spamscore=0 adultscore=0 clxscore=1011
+ priorityscore=1501 impostorscore=0 malwarescore=0 bulkscore=0
+ lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
+ definitions=main-2510140134
 
-Hans,
+Replace the hardcoded buffer count value with a macro to enable
+operating on these buffers elsewhere in the CAMSS driver based on this
+count. Some of the hardware architectures require deferring the AUP and
+REG update until after the CSID configuration and this macro is expected
+to be useful in such scenarios.
 
-Thank for the patch.
-Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+---
+This change use a global macro to specify the initial buffer count. It
+meets the requirement that some hardware architectures need to defer the
+AUP and REG update to CSID configuration stage.
+---
+ drivers/media/platform/qcom/camss/camss-vfe.c | 2 +-
+ drivers/media/platform/qcom/camss/camss.h     | 1 +
+ 2 files changed, 2 insertions(+), 1 deletion(-)
 
-On 10/15/25 1:40 AM, Hans de Goede wrote:
-> Add missing v4l2_subdev_cleanup() calls to cleanup after
-> v4l2_subdev_init_finalize().
-> 
-> Fixes: 0827b58dabff ("media: i2c: add ov01a10 image sensor driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hans de Goede <hansg@kernel.org>
-> ---
->  drivers/media/i2c/ov01a10.c | 2 ++
->  1 file changed, 2 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
-> index 95d6a0f046a0..f92867f542f0 100644
-> --- a/drivers/media/i2c/ov01a10.c
-> +++ b/drivers/media/i2c/ov01a10.c
-> @@ -864,6 +864,7 @@ static void ov01a10_remove(struct i2c_client *client)
->  	struct v4l2_subdev *sd = i2c_get_clientdata(client);
->  
->  	v4l2_async_unregister_subdev(sd);
-> +	v4l2_subdev_cleanup(sd);
->  	media_entity_cleanup(&sd->entity);
->  	v4l2_ctrl_handler_free(sd->ctrl_handler);
->  
-> @@ -934,6 +935,7 @@ static int ov01a10_probe(struct i2c_client *client)
->  err_pm_disable:
->  	pm_runtime_disable(dev);
->  	pm_runtime_set_suspended(&client->dev);
-> +	v4l2_subdev_cleanup(&ov01a10->sd);
->  
->  err_media_entity_cleanup:
->  	media_entity_cleanup(&ov01a10->sd.entity);
-> 
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+index 09b29ba383f1..2753c2bb6c04 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+@@ -541,7 +541,7 @@ int vfe_enable_output_v2(struct vfe_line *line)
+ 
+ 	ops->vfe_wm_start(vfe, output->wm_idx[0], line);
+ 
+-	for (i = 0; i < 2; i++) {
++	for (i = 0; i < CAMSS_INIT_BUF_COUNT; i++) {
+ 		output->buf[i] = vfe_buf_get_pending(output);
+ 		if (!output->buf[i])
+ 			break;
+diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+index a70fbc78ccc3..901f84efaf7d 100644
+--- a/drivers/media/platform/qcom/camss/camss.h
++++ b/drivers/media/platform/qcom/camss/camss.h
+@@ -41,6 +41,7 @@
+ 	(to_camss_index(ptr_module, index)->dev)
+ 
+ #define CAMSS_RES_MAX 17
++#define CAMSS_INIT_BUF_COUNT 2
+ 
+ struct camss_subdev_resources {
+ 	char *regulators[CAMSS_RES_MAX];
 
--- 
+---
+base-commit: 59a69ef338920ca6a5bca3ec0e13ce32809cea23
+change-id: 20251012-use-marco-to-denote-image-buffer-number-cbec071b8436
+
 Best regards,
-Bingbu Cao
+-- 
+Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+
 
