@@ -1,254 +1,133 @@
-Return-Path: <linux-media+bounces-44608-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44610-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA816BDF368
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 16:58:22 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C84CBDF4B5
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 17:14:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8D78C3E4F09
-	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 14:58:11 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AC2C44E7EAF
+	for <lists+linux-media@lfdr.de>; Wed, 15 Oct 2025 15:14:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B33722F1FC2;
-	Wed, 15 Oct 2025 14:56:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C79F82DFF18;
+	Wed, 15 Oct 2025 15:14:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YSCYSFR5"
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="YBNZec5s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 115102DCF50;
-	Wed, 15 Oct 2025 14:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F272DF716
+	for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 15:14:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760540189; cv=none; b=CPEM0DMBQJRyHbrq98tBw6pR53GniWnOE/xSqj+aki4Po461cMWGIRewN2/FdybTxcUI0wFGgJCi9JIOZxzAoDCjuklTeoknjTR1dX26+1ac6bUR23YWmuhSiFiUBqqcGykoADQlJgX75nhVjkFxg+Bg2XJrH0N6nMfzQZ28iy8=
+	t=1760541255; cv=none; b=lueP+T0FOGd75eEBVYekPOBz6/a/lhzYY2WpW/xSddoLy/IDoJDQ1yR2NXlKqtEuuF+t+DbHz/Vpxj6fSJvXG67/rclTSNrtOt5boeHZuaxEsAIG7DK15iS+ghh6KlCySePpWYqMDYoOzoc/kZETl2SQBXJJSd3BX6vMSwszYQo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760540189; c=relaxed/simple;
-	bh=9TfNZFPxnfGLTRypItsxifDHxO/2W6YQvUidVKuwoLk=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=rRmM6n0il30ul1kaariJoo8TzzZBD+g+RD0Xu2GyXyJyaohW5DZboOuR1Yfc3UXVI3toZWZ8giBRTgnTGkOO8ikj+P3g5HbZtBXXU6ZTjVdsvucPYnPrh+OPUEd8rTR8hkI45sxN0grSDKWFhMFUyf6LgEqCL9rqbhenT3Q39Hw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YSCYSFR5; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C8124C19425;
-	Wed, 15 Oct 2025 14:56:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760540188;
-	bh=9TfNZFPxnfGLTRypItsxifDHxO/2W6YQvUidVKuwoLk=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=YSCYSFR5RHWlPtsb0vRBT64WHx14ek9eUxaj7Spfq/VEYRjF349zg7RHMHB3nbdo6
-	 RaYRfpgVDymm7dqk1pDCIxPmOAw5jE7iV00UqoGgCqohtSLaBGATI+Pm0MOohAkwfH
-	 lzEZjW2YAwgUfwLKbORbDAv3fMeU6G+VBzE4tsixQw5KhNfAE9arh9JnD6Ea4YXGsI
-	 rItVSW5UVN8URhbHlf7YHBoJkaYNw34ubhTQo2nhBO7/q4P1FP/Sbr5p/iCR/USx1P
-	 hZDRSZ/kRPzmQuFef/UXvD+vzTOFonOaVBOMWUs2nMIYtQmBdsxK4txbHeQgGgMRUc
-	 mb+uBRSg2WmCA==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABAA1CCD194;
-	Wed, 15 Oct 2025 14:56:28 +0000 (UTC)
-From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Wed, 15 Oct 2025 16:56:41 +0200
-Subject: [PATCH v13 18/18] arm64: dts: rockchip: add radxa camera 8m on
- rock 3a csi port
+	s=arc-20240116; t=1760541255; c=relaxed/simple;
+	bh=vIIalLX2jBXQDzgelXcqDB6pZDhnjKni+zOmpg1Apt0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=TZYiSYAYkT/2CgO3GNaPvyh4kI3HBPlFtPXDyxIok/+nGgRKYYHX42Edke3HyNKUpaXic5iu3+gh9GU0DHEwjwRv2r6y3mmWynB1EmaSDagRXGdy/ivuuPgxyclZhS/E+ULrDywzD1iOFEoO79K+b56hfmpd/hK5yO3rBqfF1s8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=YBNZec5s; arc=none smtp.client-ip=209.85.218.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-foundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-b3c2c748bc8so961023966b.2
+        for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 08:14:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linux-foundation.org; s=google; t=1760541251; x=1761146051; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=PznC/nuL3306rXw8EmSWxaCJn0QKZKxL1qK91E1ce2s=;
+        b=YBNZec5s4JwktZDza5iILJXkaUE+VXJFjgfpjbJUeiX7jGlAAmKMk+ttpO+e40jNG0
+         MhUsoGDsGzs37+pjJUc+yh6NF2OOvWwnURYcgASEbv5Tw2kaU+IPWMCH9vQhHvP+dd88
+         7EJlKVmVVMlGgO/4gQRgYzta2HvoT+gp+0SmY=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760541251; x=1761146051;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=PznC/nuL3306rXw8EmSWxaCJn0QKZKxL1qK91E1ce2s=;
+        b=TF3h+jAl6O7DbUKveyvZXuiBbb0O/sN/dNuRzo3Pj6i9UAXvq8gir8IocP3BT+XWd3
+         w1USaamlqHGIjKC0Yb6O+hLocMNvN9+e5Xa4ryLsrhpncQqa/b9KqftoEO0xEkZwUmCG
+         49ZmSUgc6j2LDW1DNCFC3ckD0FcJ1oBFYyg6bMd1lC8XR/gk5Gf/VqY55K3urt9mWrbX
+         Ef5BMWsilove5KWoBnJCmNx/GPBzNT/yJHaiUVIeIvEz3BgRZnKqy/3jIbzoH9mJbg08
+         BU1vL4jUevnK/aMeZm/IzrJvUWcYRDVBMTk0pch99rM+liVqSDjghzK9sbAjMtug0wAA
+         QyFw==
+X-Forwarded-Encrypted: i=1; AJvYcCUQX0Ao8qdhXLySJT0xK8iCoCM62+k7lib19wsPp6kTmpfJn32awZTE3c5aFfCy+NBdB4dQnQSpXiIGGw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+Dl6Mr0LIoBh5qTFqPnj5LqM2BnmBNSnd1eKQsDtiiy1wy3/l
+	qNp58PMmxoLicaxSL5yMLK5ZJpWp7BGmdHf3x9VXhMNUCWudt0yHl1OLCaPTjjNfuJ8DWcalhPK
+	CP9O7xTM=
+X-Gm-Gg: ASbGnctfsrqxhJBEYRNP4iLXqSBB53Z1QDmpkXBict6QIJ+Kf1zkdRwG/ePbXMNBlp9
+	vL8W6xaMPPTZnm1DbMgF0T2hiH7i07wvvL604xAQe+RwlO04+WCb6erXfSbBbRt2L6PMkXPn+Tx
+	HqsEchFDDHuJjiKNVEnKwlMcFb3WWskCypw4S4fnOFnalnCZXYbaWhstOnItOQEfHgAJj5VNCzm
+	EiJ+vP7JcJ3Hwy+I2I+qojQ6kRs/hOmfnXU+oH+0PRO4Vfde2son0ecHgqa0aOrX9nbTyDQseq5
+	HNKV+gtBFlIH+6GrzQCDA2VKMB3TIc8OhNWzuCy7BArKoxN65Q+Acw++pkEF3CYV58OyAQc3oGf
+	GxCaLb0FOClx+EUHdoV9jHd5lhUY7vPvvSb/eD35f55JdBGX9VNDVecetYpI10AE0rqa1vsZXWk
+	6lh7SZf/JKZw/kdErR4aP6qUoSjg==
+X-Google-Smtp-Source: AGHT+IGEVMjbNklUm1AchFH9kPSaQrRLeplGFgCRWjSWZdajZoRDjuFIszKDoI7DOy3jys8fh4qZRQ==
+X-Received: by 2002:a17:907:9409:b0:b50:893f:6fb8 with SMTP id a640c23a62f3a-b50acd2d7a7mr3104810266b.63.1760541250982;
+        Wed, 15 Oct 2025 08:14:10 -0700 (PDT)
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com. [209.85.208.41])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b5ccd6b03e8sm245872166b.75.2025.10.15.08.14.10
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 15 Oct 2025 08:14:10 -0700 (PDT)
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-6399328ff1fso11677448a12.0
+        for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 08:14:10 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUgD8YhWMHUnN1rsTj1HJocouX/yiynxW1EHIqXYKh33uORkz0kUL76h/BVt97BBwuPmCgaquT46OKETw==@vger.kernel.org
+X-Received: by 2002:a05:6402:84d:b0:618:528b:7f9b with SMTP id
+ 4fb4d7f45d1cf-639d5c514a7mr24205812a12.31.1760541247570; Wed, 15 Oct 2025
+ 08:14:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20240220-rk3568-vicap-v13-18-da164b4918fe@collabora.com>
-References: <20240220-rk3568-vicap-v13-0-da164b4918fe@collabora.com>
-In-Reply-To: <20240220-rk3568-vicap-v13-0-da164b4918fe@collabora.com>
-To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
- Maxime Chevallier <maxime.chevallier@bootlin.com>, 
- =?utf-8?q?Th=C3=A9o_Lebrun?= <theo.lebrun@bootlin.com>, 
- Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Gerald Loacker <gerald.loacker@wolfvision.net>, 
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, 
- Markus Elfring <Markus.Elfring@web.de>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Rob Herring <robh+dt@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Kever Yang <kever.yang@rock-chips.com>, 
- Nicolas Dufresne <nicolas.dufresne@collabora.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Collabora Kernel Team <kernel@collabora.com>, 
- Paul Kocialkowski <paulk@sys-base.io>, 
- Alexander Shiyan <eagle.alexander923@gmail.com>, 
- Val Packett <val@packett.cool>, Rob Herring <robh@kernel.org>, 
- Philipp Zabel <p.zabel@pengutronix.de>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, 
- Michael Riesch <michael.riesch@collabora.com>, 
- Michael Riesch <michael.riesch@collabora.com>
-X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1760540185; l=4380;
- i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=bWQQTyrmHj2T8R0YJb/80IDIFMO0lILMJZpkYBRnj/o=;
- b=76DdHcEdx4dUGs3ZgThl9xjSHh0R+tkTOaCxcMISXgqSkNLL+fURqzNIQOXZV34VbJDS0uN4h
- eqHgjJIPtshCvGOQG2rVp/4Fl9Z4yY04CbUZG2KjmKphx2bpkxJUS8H
-X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
- pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
-X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
- with auth_id=371
-X-Original-From: Michael Riesch <michael.riesch@collabora.com>
-Reply-To: michael.riesch@collabora.com
+References: <aO-cvXncl7dbnP_J@stanley.mountain>
+In-Reply-To: <aO-cvXncl7dbnP_J@stanley.mountain>
+From: Linus Torvalds <torvalds@linux-foundation.org>
+Date: Wed, 15 Oct 2025 08:13:51 -0700
+X-Gmail-Original-Message-ID: <CAHk-=wgKcf_dP0_7yTqL+JKc03mhFgqFHkN7jXLUrOy=WjWZUA@mail.gmail.com>
+X-Gm-Features: AS18NWDdPlEEBZ1MVYFnkl3KJ8oytP--YOd7-XiMvlSP6Blf7tJGYJvbcV6IMuA
+Message-ID: <CAHk-=wgKcf_dP0_7yTqL+JKc03mhFgqFHkN7jXLUrOy=WjWZUA@mail.gmail.com>
+Subject: Re: [PATCH] builtin: implement __builtin_strlen() for constants
+To: Dan Carpenter <dan.carpenter@linaro.org>
+Cc: linux-sparse@vger.kernel.org, Ricardo Ribalda <ribalda@chromium.org>, 
+	Kees Cook <kees@kernel.org>, linux-media@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Michael Riesch <michael.riesch@collabora.com>
+On Wed, 15 Oct 2025 at 06:09, Dan Carpenter <dan.carpenter@linaro.org> wrote:
+>
+> People are adding compile time asserts to check whether strings are
+> the expected length.  In GCC and Clang strlen("foo") is expanded at
+> compile time so this works, but in Sparse it triggers a "bad constant
+> expression" warning.  Implement expand_strlen() to handle string
+> literals.
 
-Add a device tree overlay for the Radxa Camera 8M (featuring the
-Sony IMX219 image sensor) to be connected to the Radxa ROCK 3A CSI
-port.
+Ack.
 
-The image sensor is connected to the RK3568 VICAP MIPI CSI-2
-port, since as at the time of writing this there is no mainline
-support for the RK3568 ISP.
+Except it's not quite right.
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
----
- arch/arm64/boot/dts/rockchip/Makefile              |   5 +
- .../dts/rockchip/rk3568-rock-3a-radxa-cam8m.dtso   | 103 +++++++++++++++++++++
- 2 files changed, 108 insertions(+)
+Try this:
 
-diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
-index ad684e3831bc..d6b969a0dab9 100644
---- a/arch/arm64/boot/dts/rockchip/Makefile
-+++ b/arch/arm64/boot/dts/rockchip/Makefile
-@@ -146,6 +146,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-qnap-ts433.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-radxa-e25.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-roc-pc.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-rock-3a.dtb
-+dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-rock-3a-radxa-cam8m.dtbo
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-rock-3b.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-wolfvision-pf5.dtb
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-wolfvision-pf5-display-vz.dtbo
-@@ -243,6 +244,10 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-rockpro64-v2-screen.dtb
- rk3399-rockpro64-v2-screen-dtbs := rk3399-rockpro64-v2.dtb \
- 	rk3399-rockpro64-screen.dtbo
- 
-+dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-rock-3a-radxa-8m-cam.dtb
-+rk3568-rock-3a-radxa-8m-cam-dtbs := rk3568-rock-3a.dtb \
-+	rk3568-rock-3a-radxa-cam8m.dtbo
-+
- dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-wolfvision-pf5-vz-2-uhd.dtb
- rk3568-wolfvision-pf5-vz-2-uhd-dtbs := rk3568-wolfvision-pf5.dtb \
- 	rk3568-wolfvision-pf5-display-vz.dtbo \
-diff --git a/arch/arm64/boot/dts/rockchip/rk3568-rock-3a-radxa-cam8m.dtso b/arch/arm64/boot/dts/rockchip/rk3568-rock-3a-radxa-cam8m.dtso
-new file mode 100644
-index 000000000000..3aa1ffdc22d8
---- /dev/null
-+++ b/arch/arm64/boot/dts/rockchip/rk3568-rock-3a-radxa-cam8m.dtso
-@@ -0,0 +1,103 @@
-+// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-+/*
-+ * Device tree overlay for the Radxa Camera 8M attached to the CSI port of
-+ * the Radxa ROCK 3A.
-+ */
-+
-+/dts-v1/;
-+/plugin/;
-+
-+#include <dt-bindings/gpio/gpio.h>
-+#include <dt-bindings/pinctrl/rockchip.h>
-+
-+&{/} {
-+	clk_camera: clock-camera {
-+		compatible = "fixed-clock";
-+		clock-frequency = <24000000>;
-+		clock-output-names = "clk_camera";
-+		#clock-cells = <0>;
-+	};
-+
-+	vana_camera: regulator-vana-camera {
-+		compatible = "regulator-fixed";
-+		regulator-min-microvolt = <2800000>;
-+		regulator-max-microvolt = <2800000>;
-+		regulator-name = "vana_camera";
-+		vin-supply = <&vcc_cam>;
-+	};
-+
-+	vddl_camera: regulator-vddl-camera {
-+		compatible = "regulator-fixed";
-+		regulator-min-microvolt = <1200000>;
-+		regulator-max-microvolt = <1200000>;
-+		regulator-name = "vddl_camera";
-+		vin-supply = <&vcc_cam>;
-+	};
-+
-+	vdig_camera: regulator-vdig-camera {
-+		compatible = "regulator-fixed";
-+		regulator-min-microvolt = <1800000>;
-+		regulator-max-microvolt = <1800000>;
-+		regulator-name = "vdig_camera";
-+		vin-supply = <&vcc_cam>;
-+	};
-+};
-+
-+&i2c5 {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+	status = "okay";
-+
-+	imx219: camera-sensor@10 {
-+		compatible = "sony,imx219";
-+		reg = <0x10>;
-+		clocks = <&clk_camera>;
-+		clock-names = "xclk";
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&camera_reset>;
-+		reset-gpios = <&gpio4 RK_PD2 GPIO_ACTIVE_HIGH>;
-+		VANA-supply = <&vana_camera>;
-+		VDDL-supply = <&vddl_camera>;
-+		VDIG-supply = <&vdig_camera>;
-+
-+		port {
-+			imx219_output: endpoint {
-+				data-lanes = <1 2>;
-+				link-frequencies = /bits/ 64 <456000000>;
-+				remote-endpoint = <&csi_input>;
-+			};
-+		};
-+	};
-+};
-+
-+&pinctrl {
-+	cam {
-+		camera_reset: camera-reset-pinctrl {
-+			rockchip,pins = <4 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>;
-+		};
-+	};
-+};
-+
-+&csi {
-+	status = "okay";
-+};
-+
-+&csi_dphy {
-+	status = "okay";
-+};
-+
-+&csi_in {
-+	csi_input: endpoint {
-+		data-lanes = <1 2>;
-+		link-frequencies = /bits/ 64 <456000000>;
-+		remote-endpoint = <&imx219_output>;
-+	};
-+};
-+
-+&vicap {
-+	status = "okay";
-+};
-+
-+&vicap_mmu {
-+	status = "okay";
-+};
+    int i(void)
+    {
+        return __builtin_strlen("hello\0hi");
+    }
 
--- 
-2.39.5
+and you'll see that it returns 8, even though the correct string length is 5.
 
+So you should add a
 
+    #include <string.h>
+
+at the top, and do something like
+
+-       expr->value = arg->string->length - 1;
++       expr->value = strlen(arg->string->data);
+
+in there instead, because constant strings can have embedded NUL characters.
+
+           Linus
 
