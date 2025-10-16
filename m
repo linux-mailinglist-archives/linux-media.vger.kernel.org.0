@@ -1,217 +1,287 @@
-Return-Path: <linux-media+bounces-44746-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44747-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0449EBE3F84
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 16:42:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BA93BE4011
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 16:50:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0542D19A7BEE
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 14:43:02 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1CEF41A6744C
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 14:49:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EC62A340DB4;
-	Thu, 16 Oct 2025 14:42:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8008A3451D4;
+	Thu, 16 Oct 2025 14:48:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="VTAD340t"
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="eI0bzSXr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from MRWPR03CU001.outbound.protection.outlook.com (mail-francesouthazon11011035.outbound.protection.outlook.com [40.107.130.35])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3050F30F933;
-	Thu, 16 Oct 2025 14:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760625748; cv=none; b=JsJZNEuLrR0xMv4PfLpfmi46dYi7R+dhsZP2up9aYXTb6BP8BwkiCurxylNxZ1sPP2edzq8l76bGw7x5DwqlNLfXJcGQP4G+nO+HOaXFnAuFpvSmfHYW4PIG4vfavXK9CZk1G31tU1ot+AJo4NkKbBaF+BW0ZGloC+xbubREeR0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760625748; c=relaxed/simple;
-	bh=jjl0am6Ty1/jZDMPoiRz5vbe7o1TNwBWQRFz2urTlFU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=BG+jJa5eR07ayeNzaVJKc6SaCAyasNAPHjf5u92dVdP6WiWyXTqmcbiSqYCAQY67uhI59rdkyrdkZYOs9XlYER9BViMaEyZtN+YkAAdFxz7NthAqu4dEN5ZZWrOIsT9KKpX/4mFLIhnHqJwIFDb48UU7cWVvF06Eo47CrxpxpYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=VTAD340t; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1760625744;
-	bh=jjl0am6Ty1/jZDMPoiRz5vbe7o1TNwBWQRFz2urTlFU=;
-	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
-	b=VTAD340tY1BwVmnfMhCJIsVuvW6/Y46pDQdugpP/XT0gWfNqbrO1uZ+aC2JfLquFk
-	 WBbIyNjK+rzQHWsSok+vclEY3RnJU45GJ0OsnYHBZiCbbQbOCfzCy+LHq7Xcu8DHcF
-	 Ihqkn/njaxWIesEmtusS8EhYfLgvPcHYs8OvmtDHLfHDE+FbyUD0ik8mX0QqXZlXtO
-	 TubExDvHADOCNmNXz5fcx38GrPEhaunjfvTaOQSRzwFCEPGuCDzVyxAzJfbkmJcVfU
-	 ffeD84/F3fE200JtXdfmEohmNZlS8BMYNK1KP70q4+4G50UQHghyBgTk+Tp+g0piPj
-	 I922IQ6O1JtEg==
-Received: from [IPv6:2606:6d00:17:ebd3::5ac] (unknown [IPv6:2606:6d00:17:ebd3::5ac])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 7BAAD17E0CF8;
-	Thu, 16 Oct 2025 16:42:21 +0200 (CEST)
-Message-ID: <eeda0221acbe0a70219fb7d87603d3dfec73f56f.camel@collabora.com>
-Subject: Re: [PATCH v4 0/8] Enable video decoder & encoder for MT8189
-From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To: Kyrie Wu <kyrie.wu@mediatek.com>, Tiffany Lin
- <tiffany.lin@mediatek.com>,  Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
- Yunfei Dong <yunfei.dong@mediatek.com>, Mauro Carvalho Chehab	
- <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Matthias Brugger	
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
- <angelogioacchino.delregno@collabora.com>, Hans Verkuil
- <hverkuil@xs4all.nl>,  Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
- Sebastian Fricke <sebastian.fricke@collabora.com>, Nathan Hebert	
- <nhebert@chromium.org>, Arnd Bergmann <arnd@arndb.de>, Irui Wang	
- <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-mediatek@lists.infradead.org
-Cc: Neil Armstrong <neil.armstrong@linaro.org>, Andrzej Pietrasiewicz
-	 <andrzejtp2010@gmail.com>
-Date: Thu, 16 Oct 2025 10:42:19 -0400
-In-Reply-To: <20251016060747.20648-1-kyrie.wu@mediatek.com>
-References: <20251016060747.20648-1-kyrie.wu@mediatek.com>
-Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
- keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
- /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
- cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
- CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
- abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
- nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
- AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
- smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
- AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
- iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
- ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
- bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
-Organization: Collabora Canada
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-AbDKkJujBZd+Yb/YkvVa"
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70FFD3451CC;
+	Thu, 16 Oct 2025 14:48:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.130.35
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760626097; cv=fail; b=hrHsa57Uxi13OSziu2EORRaiboYRUgbvm+SeH40ucr/nX5yWvPMvPimVSRHVQ5+XKWewMXVWBkmpV+QrugfJBMBUlc9ylZJGl6kevfFrcuBJOyJNZxgG/LXuVoJhMrFKYz6i7lunr7IKyeusbg18Z22mlB+hZuZpvp4ozHRD8eY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760626097; c=relaxed/simple;
+	bh=ekgL0oCbcGaOSMIgMGQsRHOcqzgE4DtakjhAnLjtxow=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=AYXEiUsXXEEc2kJuooasbNv0C+VrNNntXBqZzqZMOcYSbr26M65LjqCz5b1rIkb8Ypiztpk7axCR9ZZbcQ8prkRHn6O2sHCphhQf+VZaRCtqMF4qbhfLqvwJvEFcW+/+Xf3sSIbE0UBe2n/iwe1PXcw9/DJszMZuVIHKToTSw/4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=eI0bzSXr; arc=fail smtp.client-ip=40.107.130.35
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=KuhLxcbG/+RmC5/pNEu15KOU5Uz5PviPgMxX2b5EGVZzlAfN9PYSqxLkL1Xe0A+5CCYsLWqAaeyCSY35oX2ve0Hlr1hMv3L95ozASk5RIFHDnt23jvXE/6ZMnQuEMHVOcuJFKc6XJvU2mGXPYoY6XIKbjAKvvWlm2d1ImxMEhwHxJMxhYLFyMSc/sulEl1UImAzqxBemAzXDkpsJmeIf1jxvnoI6YyP85cpxZhhLznQJt1ryLW6Dq1fcgPmRGZg7nh4PmkvAI7X3CgaILnpFwXJEIvgukdS/JyCMxy2ZHBRqIK1wQwPsjfDas51SqNNrNSLmqCnNseR+8ELRKxWFHw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ziISQ4ihHW+Iw82LwuYtZbYgCJyXsHjarY9khGlEEXo=;
+ b=zWNPOdCUgZ80ktbsiYszzEUXRkphl7SlWQ31DaSY7GiWiX0/ueT1eCU2mVUZdp3xvOBbP52nLDe+oXQwcYalfILlu7/mmbj3VleA/p3DFNmg/fOrYkF+YZHRtqT4GUbhmIhamZahfUZa6Mc1z1lpw3v+kkfUqvYWYkJ5DXdaAPzqZddFnGg07ew6Gnaw/eYfRKzoHARHtNR7Q9x8Rx8/drdFnFw+MLTK2k9xE9Jp0yttTKi8h1ARRkMrZSb4rCttxHSoc5IkPy39C0N7YcwzIWNrX2udGIz5Pw3YD53j6a45Pf6SkxCr0PYxMygtSUlGZSCFAt/RLNlzqBVJL1zqDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ziISQ4ihHW+Iw82LwuYtZbYgCJyXsHjarY9khGlEEXo=;
+ b=eI0bzSXrN4hUi6Bfv3w8uLsXVCL0JshcPEmf4S6kIp7V7i4uO5r/K7wGX2inyGEOCWjSS4oR7bhD3L3VyFITmAlxSMtlmQ/pWsvMhwQO51kdxvgsXKK2YQBz9TWvyT7pd6eKSMuEMoc3vP+Mofmd2p3iKbT66IUIk4rnExfgi6kg3kQFuOyaW0hzTTEWagQjw91bAIH8r4+6Dy71gqxUPvBab9S0lxzyFXadISTTZ+CXyoJiXjBY/zZde9G5uo+vZXX8nhckBddrqJu/JwLHmPIWGzNqvZY8Pv0yuoGjcKhVf/bkahVHf4iK7aZIvpq/VlEMV7t498o8bIlqAKt6uw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
+ by AMBPR04MB11785.eurprd04.prod.outlook.com (2603:10a6:20b:6f6::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.11; Thu, 16 Oct
+ 2025 14:48:09 +0000
+Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
+ ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
+ ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9228.010; Thu, 16 Oct 2025
+ 14:48:09 +0000
+Date: Thu, 16 Oct 2025 10:48:00 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Rob Herring <robh@kernel.org>
+Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Oded Gabbay <ogabbay@kernel.org>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Steven Price <steven.price@arm.com>,
+	Daniel Stone <daniel@fooishbar.org>,
+	Sui Jingfeng <sui.jingfeng@linux.dev>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v4 2/2] accel: Add Arm Ethos-U NPU driver
+Message-ID: <aPEFoDrTBxH7Y2FL@lizhi-Precision-Tower-5810>
+References: <20251015-ethos-v4-0-81025a3dcbf3@kernel.org>
+ <20251015-ethos-v4-2-81025a3dcbf3@kernel.org>
+ <aO/4cQ8+eLnwqFSh@lizhi-Precision-Tower-5810>
+ <CAL_Jsq+L2RHgP9FaEpxzzVRybyjeNr84xgEBbU4KEyZtrz63FA@mail.gmail.com>
+ <aPAL67Oct5yJv8/d@lizhi-Precision-Tower-5810>
+ <CAL_Jsq+sEYztJKdD0t8uPwwv1uKk_tac3MqQMUgxfrRjRZmz4A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAL_Jsq+sEYztJKdD0t8uPwwv1uKk_tac3MqQMUgxfrRjRZmz4A@mail.gmail.com>
+X-ClientProxiedBy: PH8P223CA0030.NAMP223.PROD.OUTLOOK.COM
+ (2603:10b6:510:2db::26) To PAXSPRMB0053.eurprd04.prod.outlook.com
+ (2603:10a6:102:23f::21)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|AMBPR04MB11785:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6ffed2a9-8597-49da-3b20-08de0cc305d4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|52116014|7416014|376014|366016|19092799006|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bmt5b0VHSVRQdGhibDErUkdpd1hxZWY0VHNJbm5zWkV2WGthek5mTFZlNWg1?=
+ =?utf-8?B?RnhuZmRqb1k4eDlXZno4WFlBSVREMmoyYlR3M3BndGZrUVA2TVpTQTltR3pI?=
+ =?utf-8?B?ZFRPV3pVUXl2eWdaSjA5VG5VUjJ6WkFXa3pISS9xbTg4amZYYUdLclhZS2Nr?=
+ =?utf-8?B?Wm9UMDNnSUJsdDBKWWthQmFXYnlqMFc0cUIzN0FtY0xrdWxQSmlaZFB4Rlgr?=
+ =?utf-8?B?VjZQQ0JMcUpFVXN2ZktuZXJodXN1dTdtY2pNcHRKQjZsNmZ0RXlYT2c5cmNL?=
+ =?utf-8?B?MVNic25IL3R4cFFXaXd6eENTU0FWcjBJOGdCZDdkUm9GZlUwQklLeGFpYUpN?=
+ =?utf-8?B?ekY2UG02RFFxYWpQYnhkZUs5YkpkcHd4NThqSmp1NXlBOWh3SUl4aFAyMUFJ?=
+ =?utf-8?B?QXhES0tuQUtnMG94MnpINzQ0K2FIdjd4aENpMTJXem5UdEpkdEo0c0o2ZmNT?=
+ =?utf-8?B?MmFLbWw2czRjUzVvNGc3dnhBQk5LczFpanhCL2twZDUrNGYwcXdmb0RoQWJp?=
+ =?utf-8?B?MjYySkw1Znp4WkN2VTBWWWgrOXVudzRZSDdwNEh6a0RuQ0NBZFY1NmFDY0NJ?=
+ =?utf-8?B?UTgyam9Rcmd4QXk4SmpmYmJDMUE4dzRDLzdZWEltMUM0V1NJMlo4NzNFOUJS?=
+ =?utf-8?B?WU5DWXpyUnRHVW9NVnQzTFIxSEFEVTFTVGg0ZmdNaUhGd3BYY1hpaVpkWEFy?=
+ =?utf-8?B?d0xKbmRTUTByMU1LYUYwdTAxdXQzVm4xYjFQMmZPZElDY0ZoekxQRjRZbnhL?=
+ =?utf-8?B?WUlLeVV1bjVFTEpjVjl0UE40Z3BtVEdiOFgrZi9OTjBjb2ErV0VEL0tmRXJ3?=
+ =?utf-8?B?VHA2cTRxbXEybDhOYnlPTlRhMVR4aURBK2ZaYUkwNFVxdnhrdlVHSXI0RHg1?=
+ =?utf-8?B?cG9sUERteEdIckVkNVFoS05pc3l2T1R2c21JUUsvSVpHczhpTHg2WnBCaTlM?=
+ =?utf-8?B?a2c5Vyt3SURDQTMrSVI1VDVjRWx2dXFnZkhvd3BudVcyd1loV1c5aGZ1ZkNC?=
+ =?utf-8?B?SUZPeGw3K2lBZ3hvNXZBWkNCRlhEeDVHUCtzbXQwUEhjZVNzbzVUTjVhMGda?=
+ =?utf-8?B?RFVweGVQSFpENlFBWTNCM2VPUzEyU3QzTDgzMmhDTW9WMS9FQjZ2ak1QTXM0?=
+ =?utf-8?B?RVQwNTFudVJhSFJnWXY3WTFhc1g1UlBHMnRhMXU3TnJwRWZudXJYRVRncS9Z?=
+ =?utf-8?B?b2FlTUprRjJGajFqMUxBeEJGbkRUNkVZVTNobUEzOHJsbWpyVFEvY1NNUlRl?=
+ =?utf-8?B?eU9JNlBZN2ZicXFjbHpGMy9tL0FjVnlBMnBUZDZ0QkZhZm1HOHVMdHgxN2Np?=
+ =?utf-8?B?S3pWNDVraXBIQUN3YjkrSXh6N3VYR3ZnWEhtbGxJUVhlTHF4S0FaNmtnUWxR?=
+ =?utf-8?B?S1hRYW12SklsOXhTUkQrTVVuQTB0aEtFckI5Y3VsVDR6RXdmVjcxZmY0MG9J?=
+ =?utf-8?B?dSt3eDBtUU5MRG9CZDREUnJsSzhsV1p3WHRSWDg4RXBhVmg4ZjNjWitLN25K?=
+ =?utf-8?B?clFqelNIVS9kYzZOMW1XUWlWOFl1WGUzdGhJMm1hM2NlUU4xK0hNSzlDR0lw?=
+ =?utf-8?B?bWh3ek9YYlJmTlB0RkZzMjFqc0plNktkR1d2TWo5dnc3SGYyWjVTaW53MmVC?=
+ =?utf-8?B?cGxkaHorb0U0cmNjK0VKME5NV1NEYlI1TWN1WENiNDROc0xyVmpieXlmSTJi?=
+ =?utf-8?B?dlh6RzBTK0grMGNTSmQvSTA4QWg2QjJtdjhUUTFLdDRENmFPd1puM3pkd3NL?=
+ =?utf-8?B?VVQ5c0tRblNRd1ZnY1loWnJ2Z1A1WGVHOERxZnBTV2Q5ODVJaG0ycCs2ZVI2?=
+ =?utf-8?B?WGxsaEhVbTg2bFgwMUJ0UUJ1cG13QWNIeVdlOFo0VE5tdER5YVVnL0Z3Tkky?=
+ =?utf-8?B?bDhNRW9rSnovZm1pbkNjNUFxdS83OG00RmJrTVZocTJvVGliYXc0YTJlTkNr?=
+ =?utf-8?B?TWJBMGtIMlBQRDU2UDB5MGd5eG43cmhrbVI5RTVxUnUweHVpem01TTlKTWZE?=
+ =?utf-8?B?VXFYck5WU1ZxaGIzK2d0alhTS3NyenhXZUhNL3lqQ2E3ZzllazhNVTZnVERa?=
+ =?utf-8?Q?KB62Yr?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXSPRMB0053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(52116014)(7416014)(376014)(366016)(19092799006)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?RDlsNHlZNFdwVzJGQWJmYVlTTHhUcUdreDc5a1l3T3d4Q281SWhEV0tEUUYy?=
+ =?utf-8?B?OUlHNkhPeE1VWVh3Q0kzWGxxQnFVZmE1ZWtiL3VzTVFnczFJdFdKaGpwMXFh?=
+ =?utf-8?B?SnN2eHU3NlUyQ1Zld2pxRkFXZnBaM2J0THd1N05WZUY2VUhhVGJwblM3U2E3?=
+ =?utf-8?B?RUJTWmlRN3Rhc1hWcmpVVGFVRjl6RjZzYjk5UmUydS9IV3FTbkswTFR5MVFs?=
+ =?utf-8?B?UlYvL1VGRVZEalRIRStFdG5oQ0x6UzN3MWlXRWNwaE1pY0E5Z1gzaVFQRm1U?=
+ =?utf-8?B?dW5paDZFNUlPWGpXdGI4UDBTdmo4dDhUeENvalhTYldOVlp5NXBiSVUycTlq?=
+ =?utf-8?B?U25YdzVJTGpvb2NGVVgvZW83NkRock55VUFCYVdxeVErMCtZemVIcnhmdnJI?=
+ =?utf-8?B?cVdESG4vaWVlSC9tcTg4RU9jNGd5blJaaWU0Y1gvVnlVdDBmZXB2Wk1KaUx6?=
+ =?utf-8?B?N1BMOEl1SlJlbkpIbSt4S1VzcHdXczM4anNSZlR4eFM3S0F0dU81K0tXaUEz?=
+ =?utf-8?B?ZDBqbmtGTUZFT1ZEN2tqWmhmYTRpNUxudnFzOHBJcjJUdjFDdVBhTHdIbWJM?=
+ =?utf-8?B?Q0hXRjJ4QVh1ZHl2Y081dzJNTklHcXpNb3UrZGRDRnI5UENRVkVQa0NKTGF6?=
+ =?utf-8?B?c2VhV01Wb1Z6SFdFMm0wT3BKZ3puQjBOcXhrODNtdVI2NDkwRkF0cXhiV1h3?=
+ =?utf-8?B?Smswd0FnTW5FVDlzQWtKRzQyekxnak5iU0xIWDlGV3VXY3JOL1BGNldUWXdM?=
+ =?utf-8?B?aytrbmJ1am16UW5waktxNVJONXkvUnBMZ2p2UkowQk9qZTlHSkVZQ2NZYmVO?=
+ =?utf-8?B?MmhvNFYwQ1dlbkdBSi9pTTNPOXJvODlSMFZyT2Z0ZHNFUjVtS04vWE1iUEE3?=
+ =?utf-8?B?RDhqVFUzQk1Ba0N5bVc5VmIvNWJYbCtIbk9neENLSlNxTGN0QXF6a3BGYmpa?=
+ =?utf-8?B?RDZyaGlJNFlvMmt1dStiZjZySDJOZmsxTitVaklvQmx1WlpITktwVGRPRTZ0?=
+ =?utf-8?B?emZTV3RpVWdnVVVteGRXbDZjcFlNTytxbi9ZSGJZQzlRclZvY2I0b0RBbmdB?=
+ =?utf-8?B?dUJ5bWxjdFpoZzJTR3dicmdVaW5lSjZKcU50Sk5odVVTVUloZms3Nk14Vzl2?=
+ =?utf-8?B?eksrVnd3TlZxazN1UnRGQkZvMVo1dVJacEh0d0VGbzhDRjFEMkgwS0dGbWNy?=
+ =?utf-8?B?V2FOSHQ3QTBycHBjd2RWRi9jaERkanprTXdic2xFVG9NNDBOakJsQ2N5enhG?=
+ =?utf-8?B?U01oN1FUQUx0Q20rdWZMTlZVWHR6NVVqVVV2TzZlbGcxay9UdDJURlR3RVc1?=
+ =?utf-8?B?RXZGenljaHBnOGJIcUp6K2prRVgxQ3dCbDRkdW1jQWcrOFhiNlhvWENQREhK?=
+ =?utf-8?B?VHIzTEdVOG9OWHh3c24rNHB3Z0FqRUgySFViOWNDd3dzT1JtR0tXdEg4RWdF?=
+ =?utf-8?B?cFFnZTV4cndlWHJQdS9YRFJET1hwVG1tNVU4T2xkWnZQTnNGNXBlck9GVy9i?=
+ =?utf-8?B?QzlKZ3hMd0tUZ3lsVmRyMk5qLzhZY2loRS80UEpBUUc5am11R3k3TGtMc0Fk?=
+ =?utf-8?B?Rnlvayt0RnlhR2VuQnZxL25FT2oxc3ZZT3pLQnNHdEQwU2pWbEJoa2dGUjh0?=
+ =?utf-8?B?VVZ5VUppVWlZeFZiV1lmbnFIL0tFUndxcTlkTW9ORVpsUVVrdmx5MmNENktS?=
+ =?utf-8?B?NnlMUTdPbGZ1cWRuLzIrNTFVclBZbVlXWko0cktNV0JUUStYOUZhcjZNd2g4?=
+ =?utf-8?B?Um9aWXQxKy83b0hoQXZvdGJpcGErdUowWnFYamhsbzJ1MHpxN0FFM0llSk1p?=
+ =?utf-8?B?UXZHTU9Kd1QxYjV2ZXBRMEhDbHliRzhtWTJUVFJpd1MvaVkyMWhaM0YvMDlF?=
+ =?utf-8?B?eFl3Nm53SGRrdUxBalZXaUhISWRGWUhKRHcrbkVQb1dleUhTNVJyN3czTk9F?=
+ =?utf-8?B?L2E0UkJKejl3dDhqT1Bwa0NHNGJybURscVQwZEtsa0hMdXNpamtaT1ZJUHN5?=
+ =?utf-8?B?NTZxRU5JWi84cEpIQ2hGU1l5N1RBNENYUFBuYitDNm12UkxON0lId29yU01m?=
+ =?utf-8?B?N0tOT1Z1cVU0YjFHUUptQ3hsQStKWmQreHJ6aTJwUTBrREhyUnk1RE15UVpk?=
+ =?utf-8?Q?6hFA=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ffed2a9-8597-49da-3b20-08de0cc305d4
+X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2025 14:48:09.1005
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tCL5rn0gJyovlXf+79yQKnkCBrJm+pEuJ8Mx/KNxG9CwM5YwOKGlNG4FSI8+2k50tyZN6wTUUG1bOitdPwrxiQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR04MB11785
 
+On Thu, Oct 16, 2025 at 07:35:06AM -0500, Rob Herring wrote:
+> On Wed, Oct 15, 2025 at 4:02 PM Frank Li <Frank.li@nxp.com> wrote:
+> >
+> > On Wed, Oct 15, 2025 at 03:36:05PM -0500, Rob Herring wrote:
+> > > On Wed, Oct 15, 2025 at 2:39 PM Frank Li <Frank.li@nxp.com> wrote:
+> > > >
+> > > > On Wed, Oct 15, 2025 at 12:47:40PM -0500, Rob Herring (Arm) wrote:
+> > > > > Add a driver for Arm Ethos-U65/U85 NPUs. The Ethos-U NPU has a
+> > > > > relatively simple interface with single command stream to describe
+> > > > > buffers, operation settings, and network operations. It supports up to 8
+> > > > > memory regions (though no h/w bounds on a region). The Ethos NPUs
+> > > > > are designed to use an SRAM for scratch memory. Region 2 is reserved
+> > > > > for SRAM (like the downstream driver stack and compiler). Userspace
+> > > > > doesn't need access to the SRAM.
+>
+> > > > > +static int ethosu_init(struct ethosu_device *ethosudev)
+> > > > > +{
+> > > > > +     int ret;
+> > > > > +     u32 id, config;
+> > > > > +
+> > > > > +     ret = devm_pm_runtime_enable(ethosudev->base.dev);
+> > > > > +     if (ret)
+> > > > > +             return ret;
+> > > > > +
+> > > > > +     ret = pm_runtime_resume_and_get(ethosudev->base.dev);
+> > > > > +     if (ret)
+> > > > > +             return ret;
+> > > > > +
+> > > > > +     pm_runtime_set_autosuspend_delay(ethosudev->base.dev, 50);
+> > > > > +     pm_runtime_use_autosuspend(ethosudev->base.dev);
+> > > > > +
+> > > > > +     /* If PM is disabled, we need to call ethosu_device_resume() manually. */
+> > > > > +     if (!IS_ENABLED(CONFIG_PM)) {
+> > > > > +             ret = ethosu_device_resume(ethosudev->base.dev);
+> > > > > +             if (ret)
+> > > > > +                     return ret;
+> > > > > +     }
+> > > >
+> > > > I think it should call ethosu_device_resume() unconditional before
+> > > > devm_pm_runtime_enable();
+> > > >
+> > > > ethosu_device_resume();
+> > > > pm_runtime_set_active();
+> > > > pm_runtime_set_autosuspend_delay(ethosudev->base.dev, 50);
+> > > > devm_pm_runtime_enable();
+> > >
+> > > Why do you think this? Does this do a get?
+> > >
+> > > I don't think it is good to call the resume hook on our own, but we
+> > > have no choice with !CONFIG_PM. With CONFIG_PM, we should only use the
+> > > pm_runtime API.
+> >
+> > Enable clock and do some init work at probe() is quite common. But I never
+> > seen IS_ENABLED(CONFIG_PM) check. It is quite weird and not necessary to
+> > check CONFIG_PM flags. The most CONFIG_PM is enabled, so the branch !CONFIG_PM
+> > almost never tested.
+>
+> Okay, I get what you meant.
+>
+> >
+> > probe()
+> > {
+> >         devm_clk_bulk_get_all_enabled();
+> >
+> >         ... did some init work
+> >
+> >         pm_runtime_set_active();
+> >         devm_pm_runtime_enable();
+> >
+> >         ...
+> >         pm_runtime_put_autosuspend(ethosudev->base.dev);
+> > }
+>
+> I think we still need a pm_runtime_get_noresume() in here since we do
+> a put later on. Here's what I have now:
+>
+>     ret = ethosu_device_resume(ethosudev->base.dev);
+>     if (ret)
+>         return ret;
+>
+>     pm_runtime_set_autosuspend_delay(ethosudev->base.dev, 50);
+>     pm_runtime_use_autosuspend(ethosudev->base.dev);
+>     ret = devm_pm_runtime_set_active_enabled(ethosudev->base.dev);
+>     if (ret)
+>         return ret;
+>     pm_runtime_get_noresume(ethosudev->base.dev);
 
---=-AbDKkJujBZd+Yb/YkvVa
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Look good.
 
-Hi,
-
-Le jeudi 16 octobre 2025 =C3=A0 14:07 +0800, Kyrie Wu a =C3=A9crit=C2=A0:
-> This series have the follow changing:
-> Firstly add mt8189 video decoder compatible, profile and level to support
-> MT8189 kernel driver.
-> Secondly fix some bugs, including vp 4K profile2 and media device node
-> number bug.
-> Lastly, add mt8189 video encoder compatible.
->=20
-> This series has been tested with MT8189 tast test.
-> Encoding and decoding worked for this chip.
->=20
-> Patches 1-2 Add decoder compatible.
-> Patches 3 Add profile and level supporting.
-> Patches 4 Add core-only VP9 decoding supporting.
-> Patches 5-6 fix some bugs.
-> Patches 7-8 Adds encoder compatible.
->=20
-> ---
-> H264 test results:
-> ./fluster.py run -d GStreamer-H.264-V4L2SL-Gst1.0 -j1 -t 90
-> =C2=A0=C2=A0=C2=A0=C2=A0 JVT-AVC_V1=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 9=
-4/135
-
-Your set indicates that this SoC supports more then H.264, any reason to om=
-it
-other codecs ? Also, why not -j2, does it mean concurrent decoding is broke=
-n ?
->=20
-> v4l2-compliance test results:
-> Compliance test for mtk-vcodec-enc device /dev/video2:
-> Total for mtk-vcodec-enc device /dev/video2: 47, Succeeded: 46, Failed: 1=
-, Warnings: 0
-> Compliance test for mtk-vcodec-dec device /dev/video3:
-> Total for mtk-vcodec-dec device /dev/video3: 48, Succeeded: 48, Failed: 0=
-, Warnings: 0
->=20
-> scp upstream link:
-> https://patchwork.kernel.org/project/linux-mediatek/patch/20250811015922.=
-32680-1-huayu.zong@mediatek.com/
->=20
-> Changes compared with v3:
-> --add reviewer to commit messages
-> --Rebased on top of the latest media tree
->=20
-> Changes compared with v2:
-> --add H264 fluster test results
-> --reorder compatible string for dt-bindings
->=20
-> Changes compared with v1:
-> --add v4l2-compliance test results
-> --add scp upstream link
-> --add HW difference discriptions for dt-bindings commit messages
->=20
-> This series patches dependent on:
-> [1]
-> https://patchwork.linuxtv.org/project/linux-media/cover/20250510075357.11=
-761-1-yunfei.dong@mediatek.com/
-> [2]
-> https://patchwork.linuxtv.org/project/linux-media/cover/20250814085642.17=
-343-1-kyrie.wu@mediatek.com/
-
-It could be nice to quote the subjects, so we can decide to open the links =
-or
-not. I suppose you opted for sending the DTS separately, I don't have the H=
-W,
-but if my chances someone wanted to test that, he's need a these, can you l=
-ink
-them please ?
-
-Nicolas
-
->=20
-> Kyrie Wu (8):
-> =C2=A0 dt-bindings: media: mediatek: decoder: Add MT8189
-> =C2=A0=C2=A0=C2=A0 mediatek,vcodec-decoder
-> =C2=A0 media: mediatek: vcodec: add decoder compatible to support MT8189
-> =C2=A0 media: mediatek: vcodec: add profile and level supporting for MT81=
-89
-> =C2=A0 media: mediatek: vcodec: Add core-only VP9 decoding support for MT=
-8189
-> =C2=A0 media: mediatek: vcodec: fix vp9 4096x2176 fail for profile2
-> =C2=A0 media: mediatek: vcodec: fix media device node number
-> =C2=A0 dt-bindings: media: Add MT8189 mediatek,vcodec-encoder
-> =C2=A0 media: mediatek: encoder: Add MT8189 encoder compatible data
->=20
-> =C2=A0.../media/mediatek,vcodec-encoder.yaml=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0 |=C2=A0 2 ++
-> =C2=A0.../media/mediatek,vcodec-subdev-decoder.yaml |=C2=A0 1 +
-> =C2=A0.../vcodec/decoder/mtk_vcodec_dec_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 9 +++++-
-> =C2=A0.../vcodec/decoder/mtk_vcodec_dec_drv.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 |=C2=A0 1 +
-> =C2=A0.../vcodec/decoder/mtk_vcodec_dec_stateless.c |=C2=A0 4 +++
-> =C2=A0.../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 32 ++++++++++++----=
----
-> =C2=A0.../vcodec/encoder/mtk_vcodec_enc_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | 14 ++++++++
-> =C2=A07 files changed, 50 insertions(+), 13 deletions(-)
-
---=-AbDKkJujBZd+Yb/YkvVa
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-Content-Transfer-Encoding: 7bit
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaPEESwAKCRDZQZRRKWBy
-9MMZAP0X3arp/YBTkXCva98lZDaCapBcw7wktlkZxAITnn8/ZQEA6FRrYm+LQmxk
-nPsXbosVPXzbjXK40/SFXm7EwWdetAw=
-=UGwt
------END PGP SIGNATURE-----
-
---=-AbDKkJujBZd+Yb/YkvVa--
+Frank
+>
+>
+> Rob
 
