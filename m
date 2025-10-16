@@ -1,130 +1,156 @@
-Return-Path: <linux-media+bounces-44641-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44642-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D5E0BE1107
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 02:02:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0068ABE1198
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 02:26:55 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8E89219C1773
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 00:02:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 75A7119C7D1B
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 00:27:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F8E613B5A9;
-	Thu, 16 Oct 2025 00:01:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5FDD116E863;
+	Thu, 16 Oct 2025 00:26:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BLWjhbES"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Dj94XWJV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B771211F
-	for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 00:01:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A73F1114;
+	Thu, 16 Oct 2025 00:26:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760572918; cv=none; b=A2YrF/QsLESwnR6YK6IS6R3tqn7GsS3Rjg1NdcCYQMzkEfJiPaHzn5QI8wja3nUAcymuntszbNlIfdzzhCj0UlVisfcDhr3Xg9idF3gYjjnFaL4VQ2SU3ZM+hLNc2cDMIx/8bSwiPXD/NOs7nQ4MPs5YLm06irsXH30em+G1mS8=
+	t=1760574400; cv=none; b=HA9Da0UFZIzhK00IisNprU+BAMOJs+mtH58YOHBlU3wG6w8pj7qPVfBjxhv3ucPUGgGWhuCma/MlZvwguXs3qD9hZtOzOXjdzxxOyCmkMxmA6YmT6bbW9aie1ndMFYYb33seXJirmuR3AYlM9AyWaUyuUAnHCQBJrRKR/6O7pMU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760572918; c=relaxed/simple;
-	bh=Zrfi/VMjUvLRNlm3QRjfVIbaOCS5M7RG1lr8DfSwgF4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WTPaQ0FuEVzxrIkJb7LrlrAOQmeFtSU1r3KRKybeS7dfpA+b/0ZxEHFItMFMZKM4QnJpjE5Y05RYPaeCzNhISD9DR31acXVIMeMl8EhamPd+ITJzj+hk3EY46NC7sgTRpRP/00EaD2G/rnuTs5vCzywPh0DTerfeRD0FEk1Kuw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BLWjhbES; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-b556284db11so86886a12.0
-        for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 17:01:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760572916; x=1761177716; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Zrfi/VMjUvLRNlm3QRjfVIbaOCS5M7RG1lr8DfSwgF4=;
-        b=BLWjhbESuViax4jmUHuU1/C5sfslurZOjjWZclg5tojd0F1jYht252vvFgwbY7U9ap
-         YrCbOKrE6/TpNU+1+55xeKMyD8Bjeox/WQqAy4W6q88grrFf9j67GENnULSt9cpu/MfP
-         JUf6RjKvjEF+bKrwT3dqm2wm2aoWCZ3WJg5V/SkHCaSxqlsqChXjztjlBpaiBBLXW+AX
-         oTO5mFZy9U6HO4tjS5saeAfDo+qa4R+Nm39XRK0ujfrzHWU0oblvBBB4HQo1NKvCMOxT
-         fMupSb0BMTzkzfjcjM8f0aEMFyduTvyZ25c4S8brvRKMe7BXt1Anpl/9LbjSue+6H+WU
-         gEqg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760572916; x=1761177716;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Zrfi/VMjUvLRNlm3QRjfVIbaOCS5M7RG1lr8DfSwgF4=;
-        b=AU5lCWKKQ6bk406JuQjpobC9b9EY2TZB99UVhKwx8S0x/ulKAM/FN3WsCiVo+NPrJI
-         kB3g/2AqcMkyef89sg9HhowjVkyuFQQIl51auCwNFA8nw3H3rlKKinY3u94638rgn3Jk
-         3e7SME6akA/cZrF1E76ciyWQMFd5potQPGKMQG+WFPV7C9VKz5w1Nwr1HlPUqwnAxaWG
-         QibjwUxj2LJveza1PCua/3H/YC/v4X6dmK2ewx9/sp+PPndkgLz1DVICFxm81xVMCYvF
-         AUlw0TLhF/AkI9urktQ6EsI8hrLEww9Wdiy7nFkdOuLn+1aiJPODQOLfTbmOWj3RvVzc
-         vjhQ==
-X-Gm-Message-State: AOJu0YzWOsUBkm0EDsswHpzVQdFZ8RB2LKsyVSJk8NRNHIcHV57TgmJ/
-	9zOb5K9n6FQ42a31FUTDNziamR9m9u4wsOYyZmwzL/ruLOtJWEQT+9Y/
-X-Gm-Gg: ASbGncs5hgZM5zaKz5Hl12rDLHEcNpFBsPIR2Q6E7xiGeVr88mDmBjboBH6Rj8diw7V
-	JB5Nn/2vlp93Ag0Q9ImDb3pYBZT1Fglka+zE00RPkwvGZWk/KXo1ICCO8DH5a2itrYbitKg7uct
-	G9nn9pfDK/8qMbXwZsMmZxyDjUs1Bhw12i7LhlKI0LclcHanKERHm6AtkihxtH5PKlzTScFikui
-	epIf3bVDv+yZ/p5SWuIkt1737Ji07WoCnU539XU2PSMNG10uTJcUa2yACS9cKqkPSVghI9J/mMs
-	JEqnf9NjwfPjxQMEc0gnBQoE1RkwfHg/7eVvhnM73ZhNkDT4dUPJOa0tzaw8quFLW0R0Oh03kXL
-	vzMVwkM4rK1Xh9XDTaU0h6hHAKdz9K2Pnz++UqxAMz0pH91ezYcCsEz5oCfdCjpCnRERkLlvTgp
-	Lo74kepwKSVZ7lnw==
-X-Google-Smtp-Source: AGHT+IHWPFl3wQ4UvDVjKcFZV8JmCaZHewB/K/pGnpEkw5mCOGWpXdamSbh5/nnQLrluiU4qXrWD4A==
-X-Received: by 2002:a05:6a20:3d1c:b0:2e8:1c23:5c2d with SMTP id adf61e73a8af0-32da845fde6mr38728255637.50.1760572916459;
-        Wed, 15 Oct 2025 17:01:56 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7992bb11ca0sm20159494b3a.32.2025.10.15.17.01.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 17:01:55 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id AC288420B701; Thu, 16 Oct 2025 07:01:53 +0700 (WIB)
-Date: Thu, 16 Oct 2025 07:01:53 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Kriish Sharma <kriish.sharma2006@gmail.com>, sumit.semwal@linaro.org,
-	benjamin.gaignard@collabora.com, Brian.Starkey@arm.com,
-	jstultz@google.com, tjmercier@google.com, corbet@lwn.net
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] htmldocs: userspace-api/dma-buf-heaps.rst: fix block
- quote warning
-Message-ID: <aPA18fxQW398WHte@archie.me>
-References: <20251015183402.1649988-1-kriish.sharma2006@gmail.com>
+	s=arc-20240116; t=1760574400; c=relaxed/simple;
+	bh=U28sDA1Foqogqj0EpzymayQ1wgUPbptp/B4nVYhh2VQ=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=aDchgbxM+vX/lDpblCXYah+pDzopWQHmXEeCFprmuifDL31i6PVC4668GOdaHfA2p6QqihqxCfn2xS0yR3NTI7kryxmCPfVSCKXPhBcS7MTyvMcQJZXaJ7CM0ypIP0AWriUkoOBuBF+vOY3FMh5CQarqR22juTtbEqPW5pPOUUU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Dj94XWJV; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 90F7CC4CEF8;
+	Thu, 16 Oct 2025 00:26:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760574399;
+	bh=U28sDA1Foqogqj0EpzymayQ1wgUPbptp/B4nVYhh2VQ=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=Dj94XWJV8URBCP7eHQRkGso8jdIVf4yq32iKR936m+qK40hXECoK27b6FucGkMto0
+	 xKqWpYkuWx4UHz/896XaCHoBe6Q1JiK0Kxc00rN7K8h+LuhdBPw9dxd2mNpLuJ/PYx
+	 tzubS/ZUMVIURtzvMmnHMgnXnGMfdlqmgRAfFKecvQdGrHV4o08O4AeT2FvZxs8MR3
+	 S2oBcLETPjUKZ1Z7T+ECLUUDZZ7/de+DlhSPpNl+CJxTWzsD31NPwc+R9Fx7aH5B6+
+	 JSbYHle1X/IxBGUx/oiSimthNjSWELBTTa2mpPBZ3gOWs/hRRYtOhh7vtqt1X+IZ/X
+	 O62U8DSbcPnEw==
+Date: Wed, 15 Oct 2025 19:26:36 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="sY9Nki+MnmfjR25j"
-Content-Disposition: inline
-In-Reply-To: <20251015183402.1649988-1-kriish.sharma2006@gmail.com>
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Vladimir Oltean <olteanv@gmail.com>, 
+ Nicolas Ferre <nicolas.ferre@microchip.com>, devicetree@vger.kernel.org, 
+ Jakub Kicinski <kuba@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+ Joel Stanley <joel@jms.id.au>, Bjorn Helgaas <bhelgaas@google.com>, 
+ Andrew Jeffery <andrew@codeconstruct.com.au>, Lee Jones <lee@kernel.org>, 
+ Daire McNamara <daire.mcnamara@microchip.com>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Eric Dumazet <edumazet@google.com>, linux-iio@vger.kernel.org, 
+ Manivannan Sadhasivam <mani@kernel.org>, Andrew Lunn <andrew@lunn.ch>, 
+ Michael Hennerich <Michael.Hennerich@analog.com>, 
+ Lorenzo Pieralisi <lpieralisi@kernel.org>, Vinod Koul <vkoul@kernel.org>, 
+ Jonathan Cameron <jic23@kernel.org>, linux-phy@lists.infradead.org, 
+ Florian Fainelli <f.fainelli@gmail.com>, netdev@vger.kernel.org, 
+ Paolo Abeni <pabeni@redhat.com>, Kishon Vijay Abraham I <kishon@kernel.org>, 
+ Stephen Boyd <sboyd@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>, 
+ linux-gpio@vger.kernel.org, Bartosz Golaszewski <brgl@bgdev.pl>, 
+ linux-media@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
+ Lars-Peter Clausen <lars@metafoo.de>, 
+ Alexandre Belloni <alexandre.belloni@bootlin.com>, 
+ linux-clk@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ linux-pci@vger.kernel.org, Shawn Guo <shawnguo@kernel.org>, 
+ Claudiu Beznea <claudiu.beznea@tuxon.dev>, linux-kernel@vger.kernel.org, 
+ Geert Uytterhoeven <geert+renesas@glider.be>, 
+ Thierry Reding <thierry.reding@gmail.com>, 
+ Fabio Estevam <festevam@gmail.com>, linux-arm-kernel@lists.infradead.org, 
+ Linus Walleij <linus.walleij@linaro.org>, 
+ =?utf-8?q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+ Bjorn Andersson <andersson@kernel.org>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Tony Lindgren <tony@atomide.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+In-Reply-To: <20251015232015.846282-1-robh@kernel.org>
+References: <20251015232015.846282-1-robh@kernel.org>
+Message-Id: <176057439666.933167.2958808777480882513.robh@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Fix inconsistent quoting
 
 
---sY9Nki+MnmfjR25j
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Wed, 15 Oct 2025 18:16:24 -0500, Rob Herring (Arm) wrote:
+> yamllint has gained a new check which checks for inconsistent quoting
+> (mixed " and ' quotes within a file). Fix all the cases yamllint found
+> so we can enable the check (once the check is in a release). Use
+> whichever quoting is dominate in the file.
+> 
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+>  .../arm/altera/socfpga-clk-manager.yaml       |  4 ++--
+>  .../bindings/clock/nvidia,tegra124-car.yaml   |  8 ++++----
+>  .../bindings/clock/nvidia,tegra20-car.yaml    |  6 +++---
+>  .../devicetree/bindings/gpio/gpio-mxs.yaml    |  9 +++++----
+>  .../bindings/gpio/snps,dw-apb-gpio.yaml       |  4 ++--
+>  .../bindings/iio/temperature/adi,ltc2983.yaml | 20 +++++++++----------
+>  .../mailbox/qcom,apcs-kpss-global.yaml        | 16 +++++++--------
+>  .../mailbox/xlnx,zynqmp-ipi-mailbox.yaml      |  2 +-
+>  .../bindings/media/fsl,imx6q-vdoa.yaml        |  2 +-
+>  .../devicetree/bindings/mfd/aspeed-lpc.yaml   |  4 ++--
+>  .../devicetree/bindings/mfd/ti,twl.yaml       |  4 ++--
+>  .../bindings/net/ethernet-switch.yaml         |  2 +-
+>  .../pci/plda,xpressrich3-axi-common.yaml      |  2 +-
+>  .../bindings/phy/motorola,cpcap-usb-phy.yaml  |  4 ++--
+>  .../pinctrl/microchip,sparx5-sgpio.yaml       | 12 +++++------
+>  .../bindings/pinctrl/qcom,pmic-gpio.yaml      | 10 +++++-----
+>  .../bindings/pinctrl/qcom,pmic-mpp.yaml       |  6 +++---
+>  .../bindings/pinctrl/renesas,pfc.yaml         |  4 ++--
+>  .../bindings/pinctrl/renesas,rza1-ports.yaml  |  2 +-
+>  .../pinctrl/renesas,rzg2l-pinctrl.yaml        |  2 +-
+>  .../pinctrl/renesas,rzv2m-pinctrl.yaml        |  2 +-
+>  .../bindings/power/renesas,sysc-rmobile.yaml  |  4 ++--
+>  .../soc/microchip/atmel,at91rm9200-tcb.yaml   |  8 ++++----
+>  .../soc/tegra/nvidia,tegra20-pmc.yaml         | 12 +++++------
+>  24 files changed, 75 insertions(+), 74 deletions(-)
+> 
 
-On Wed, Oct 15, 2025 at 06:34:02PM +0000, Kriish Sharma wrote:
-> Fixes: 1fdbb3ff1233 ("Add linux-next specific files for 20251015")
+My bot found errors running 'make dt_binding_check' on your patch:
 
-The correct blamed fixes should've been:
+yamllint warnings/errors:
 
-Fixes: 507211e3c7a1 ("Documentation: dma-buf: heaps: Add naming guidelines")
+dtschema/dtc warnings/errors:
+Error: Documentation/devicetree/bindings/pinctrl/renesas,pfc.example.dts:90.36-37 syntax error
+FATAL ERROR: Unable to parse input tree
+make[2]: *** [scripts/Makefile.dtbs:132: Documentation/devicetree/bindings/pinctrl/renesas,pfc.example.dtb] Error 1
+make[2]: *** Waiting for unfinished jobs....
+make[1]: *** [/builds/robherring/dt-review-ci/linux/Makefile:1525: dt_binding_check] Error 2
+make: *** [Makefile:248: __sub-make] Error 2
 
-Thanks.
+doc reference errors (make refcheckdocs):
 
---=20
-An old man doll... just what I always wanted! - Clara
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20251015232015.846282-1-robh@kernel.org
 
---sY9Nki+MnmfjR25j
-Content-Type: application/pgp-signature; name=signature.asc
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
 
------BEGIN PGP SIGNATURE-----
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaPA18QAKCRD2uYlJVVFO
-o1mRAQD9zW96GC/QMBetvLQDoIrsCo0iDBbnK6vSUvPUFGiJBgEArGkrI0xtSD65
-ufBe3Zc3jnfHJR/WnO5dziYq1UDYjQw=
-=fHXv
------END PGP SIGNATURE-----
+pip3 install dtschema --upgrade
 
---sY9Nki+MnmfjR25j--
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
 
