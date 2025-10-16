@@ -1,63 +1,81 @@
-Return-Path: <linux-media+bounces-44696-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44697-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6591EBE241B
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 10:59:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id B30DBBE242A
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 11:00:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 260673AD8A3
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 08:59:45 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 56ECB3B013D
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 09:00:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D83930F539;
-	Thu, 16 Oct 2025 08:59:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D7E7430FC28;
+	Thu, 16 Oct 2025 08:59:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="T+FXG3CK"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="lAUdPufm"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1047630DEBB;
-	Thu, 16 Oct 2025 08:59:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4179830EF70
+	for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 08:59:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760605176; cv=none; b=HShMjD3qrDWyIytskIbCXCnKLgVRTIkOhUAPaN5w+b98J9jjOoBhefC48gRKcynYTsbazfTrDlOWnpCXIepD1+CN3VrFmkEIfOzjQtpiez2g6NOaGxp9MIjD68rgfL2IYDCepOTfrhIL312z+UgIqERBOOHJDZo6D2goj4H+Jq4=
+	t=1760605187; cv=none; b=UoMXChEf1NRiiaD68t+CFYSFGae2upVL3mAusb3hZGc7Dp9XJakW8FJRO58ApZvXXikk1IJ7XDalp1BaBs3ys+SiYTj4534dkOwGlXNhQpkhA8qj8RxR6cTnudVJvtA3CJLFSIkYkwj1IYL9Hn35AohgUU0D0bCZBBLq1JkvyR8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760605176; c=relaxed/simple;
-	bh=CT88UpQFI3HX6bNSK3aTU+q2j9WrgvX5OffmctqOo90=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=gQeWXOji56h9tMiz3sBif7bNh+wDl+GrMc+VOIg0fmlees34fHbIJzVWQTX14EX/VQB25gAKb+V3ANU/UJNXz9aWVu6JvOKn8hxy5juXKz6gw5mXhEByDsYao/hy/iY6zY1cE/ImD4dcOvl826Ajxvo6RovsHTrucitsAx7BkD4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=T+FXG3CK; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59G6kenm004423;
-	Thu, 16 Oct 2025 08:59:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	FnxBezHZ0UxBuUOJ4/hD8M12ol/OfEDLD1l8lQnE+tM=; b=T+FXG3CKhpq4JiHf
-	Lgz+M19LWqvEuGJVqribtSHhcySZWYGAodaOgUrY9NoJUViS8bwwmHs48vr/vZOx
-	CWo/QJcuh0jD6J/vkxPhSb1LGo3dsUCTnTmcrKWxJf0WqeJfQfgjLeeKYpp1Y/x0
-	TRf2bVczLZvhZ+bGgjbnqO+BOul8eTY3IM6FNtrp8hb3ls/WXpEn03/Xo/yqJQ6f
-	PG9APHIZBdmG1s7ugg0DujjHueEaC8m8txR6dh1cRMUkuO0KI0TcepAmP122mWcf
-	2XQam5tJTjzfzqJmHylvruLsTKJXFLXpl/dlO7MFzWB7Rear2RoJSuoSUCDrwi66
-	uMdo6Q==
-Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49rw1akx8n-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 Oct 2025 08:59:30 +0000 (GMT)
-Received: from nalasex01c.na.qualcomm.com (nalasex01c.na.qualcomm.com [10.47.97.35])
-	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 59G8xTTO031675
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 16 Oct 2025 08:59:29 GMT
-Received: from [10.231.216.119] (10.80.80.8) by nalasex01c.na.qualcomm.com
- (10.47.97.35) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Thu, 16 Oct
- 2025 01:59:26 -0700
-Message-ID: <7d9f8ec0-574b-4535-8064-7deb2309e74b@quicinc.com>
-Date: Thu, 16 Oct 2025 16:59:23 +0800
+	s=arc-20240116; t=1760605187; c=relaxed/simple;
+	bh=WNY5WeFs7L6NX3cz5T0OqHmpqUTkL7fyS1R5p8Y5iSo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZkD5+Cg8ocLDVh/Nr3yASz/1lmI27ykkah5TLWTyyQbM99fBz3F/cwJybyC9weCaBYFwtHM9cfTQ7RTrry2PUHFwCyGfOKwK6uMgrPayId83OwvwFAZUdExJ1RCRM60PrZo4pPCpyOWJVUefXnc7/EG9e8GOLuBab5zVn+nv5g8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=lAUdPufm; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-421851bca51so384510f8f.1
+        for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 01:59:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760605182; x=1761209982; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=39XpzXJ9mEFd6l0WFlA738sgkk7w9+rmw36TFKBRZQ0=;
+        b=lAUdPufm/bzFdgBHm+VygFSZsq4qWq+CKixUBG+mvYILhuaOhpP13XxWzb4MMY3i4H
+         Iwup/0vRYFsvoh7ELWgJARTWZTr2H+aQLfdRxkqIMdHZkrRexoJ/MzJlVweCI7JyWYEa
+         Q+o4aNqrmrJPJnYPnPqA11YpVzPnqfzVHueVUuos2r/RYLrRYPep4liuLx0Z9elFxGRn
+         o2yr5LWEfgydvx5IXbW3ytXGucp7LD0b4BpY7ZghFvY9slfrbn4QQlRfhptcxOhynQ+y
+         e1BUcjYiSeSM8dPK/IN1EgSkuj23RhENAKezLKEeQryobdFCvBRLT3VtN0cYBWiegef/
+         HOQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760605182; x=1761209982;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=39XpzXJ9mEFd6l0WFlA738sgkk7w9+rmw36TFKBRZQ0=;
+        b=mSNrKBIUrieumYTLmdTxl0Yl5N/InIxk05LCELUtL0iaNuxpjpfog3c1J4Ph1H2d4S
+         jU3ssKOis7j74i0SfWsFq+gZy76xH3PCDE7u04rTP2HIz3h4sResSp1e5lNeZ/ywNL3S
+         4gldQCgRxaY8Pelm3IotHMEPHYzM02vwr5MpAQ+e9BrA2LrJwOzDJWNP5QFQhcEAkd2N
+         FVW0r4u8JJ41sNWHEShhqnIZE/Zo8XLHsTO9Z+wQvLZZ5edBCqHNlPli7deGKL/XKUBM
+         WjnBPMs4DJnKViJHD8wCSDFoj7GbbWx0NX7IC31pR5naJxkIpE4a7J8rVtpkhGnc9jSe
+         9ieg==
+X-Forwarded-Encrypted: i=1; AJvYcCVOFl4Chgbb4JVoigOHj+kFG7t3Xl2kczYoZoAcem+ENluyVV29MPBj2XZIso7D8Al2fFAab/pWeBoiKg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMQsJL11xYpNiTGduOGbbVs57Vx6t3spCLHJJowPMc9mqX4CUi
+	i//qDLprOVHDrWB+/HjEbV71vNobyQhQJP4ycTJhMHMOyDRHoAbXgqdz34DREQoxFBg=
+X-Gm-Gg: ASbGncs3645q94v5co0vsq8KWqDFv79SvCylraQdFPhAAXHZ0V9RjXy4DB9LIBiQEBP
+	Kkf+mtdTUpuHGyBcSEGKYIH20RRcWUb2YRSaiEICnZbc4SImr36UK23UIgQW1lXSYPrjjhdv4tD
+	QPpjorjnkbWvmRdJwLLC+6I/ZIUJ4ppoKVsVTcFMfynEPI3jMd5HGpX8/gyZgRCIW1r8P23J1cg
+	mrKIyFHJ1lvF3sNgY+FMKJ9OVYSzX1hNr/4Q5Z9oioqSV8nXSU5Yd9gF/AQ7gNo4sBofHCArbe4
+	Z+KhRD3T3haN2yVMjspXkzAJc9bg0MJYaa0Lrscyby0Jfm9bUN4ja5l1JGo9D9jbrRhBGmAL3im
+	wRwj6zfSoA5UAFN1PSGS5iSnCdcFdR4Xv5ruOcDAh35dJKwrWA6Uk1pvChcJUGN0EhtnKhVBAyU
+	3VDno3cFOEY61dyeLYF/s7TgJlWbNdQvr955e8pm01rzO6nQ==
+X-Google-Smtp-Source: AGHT+IFlDPa3T8k9nbZNweReXapCFa6hlD22eFQxpHRAIGN+rHEnIzDSyZpEIEHJUDE3+zn8+EsBKA==
+X-Received: by 2002:a05:6000:4a05:b0:426:d51c:4be8 with SMTP id ffacd0b85a97d-426d51c4d09mr14927664f8f.19.1760605182530;
+        Thu, 16 Oct 2025 01:59:42 -0700 (PDT)
+Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-426ce5d0006sm33589428f8f.34.2025.10.16.01.59.41
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Oct 2025 01:59:42 -0700 (PDT)
+Message-ID: <059a2e7b-f399-44d9-9f32-cd01e573d954@linaro.org>
+Date: Thu, 16 Oct 2025 09:59:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -65,92 +83,401 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1] media: qcom: iris: Add sanity check for stop streaming
-To: Wangao Wang <wangao.wang@oss.qualcomm.com>,
-        <vikash.garodia@oss.qualcomm.com>, <dikshita.agarwal@oss.qualcomm.com>,
-        <abhinav.kumar@linux.dev>, <bod@kernel.org>, <mchehab@kernel.org>
-CC: <linux-media@vger.kernel.org>, <linux-arm-msm@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <quic_qiweil@quicinc.com>
-References: <20251016072517.4845-1-wangao.wang@oss.qualcomm.com>
+Subject: Re: [PATCH v2 4/6] media: qcom: camss: csiphy: Add support for v2.4.0
+ two-phase CSIPHY
+To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, aiqun.yu@oss.qualcomm.com,
+ tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
+ yijie.yang@oss.qualcomm.com, Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+ Atiya Kailany <atiya.kailany@oss.qualcomm.com>
+References: <20251014-add-support-for-camss-on-kaanapali-v2-0-f5745ba2dff9@oss.qualcomm.com>
+ <20251014-add-support-for-camss-on-kaanapali-v2-4-f5745ba2dff9@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-From: Renjiang Han <quic_renjiang@quicinc.com>
-In-Reply-To: <20251016072517.4845-1-wangao.wang@oss.qualcomm.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
+In-Reply-To: <20251014-add-support-for-camss-on-kaanapali-v2-4-f5745ba2dff9@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01c.na.qualcomm.com (10.47.97.35)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=K88v3iWI c=1 sm=1 tr=0 ts=68f0b3f2 cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=8kNo1vfqJQJ2e38LGaYA:9
- a=QEXdDO2ut3YA:10 a=cPQSjfK2_nFv0Q5t_7PE:22
-X-Proofpoint-GUID: _-lmbAKBUh_CH4L4AsKSeIDwjXZJt19W
-X-Proofpoint-ORIG-GUID: _-lmbAKBUh_CH4L4AsKSeIDwjXZJt19W
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEzMDAzNSBTYWx0ZWRfX+h9aob9XKnxi
- CZLK2A13cmUbr5sozJ1/C5hiXGKiUBX22IdSUazBa4DCuMeuDGi2rTjLNieEeO1QZnnFFqyxDPc
- JHrfcO6W1+OBccjDTF1FoT+2Rxf5w7SD75UKCsItcclCJGdWFrG3U34kW/rBt6kZ+XK8PvTJV3f
- MNa/TsNa9NiKtsUQYwvrnT2fNONRWAzgUrCs9ULMVd0ih3zlJUTJNfdimcqjjZTfkuSEKPPlCbH
- 3Uoaz8FMMI7Z/GrlJ8WDkm+fTokxKGDPHfLoRYOuPFnS+/EdS2Lq8XMDO28llNrXrlmmPaF4dOf
- Y8k7kvlwAFGzf4ivVAWlGDQYmNlsK6ElQVYnSJQFPraMuNnGAw9Wo3h31SJQ0wI0U8gJlCONUyp
- mug2RttbooesM4UiGB6gpuKfeqGMYg==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-16_01,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 spamscore=0 impostorscore=0 priorityscore=1501 phishscore=0
- adultscore=0 clxscore=1011 bulkscore=0 suspectscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510130035
 
-
-On 10/16/2025 3:25 PM, Wangao Wang wrote:
-> Add sanity check in iris_vb2_stop_streaming. If inst->state is
-> already IRIS_INST_ERROR, we should skip the stream_off operation
-> because it would still send packets to the firmware.
->
-> In iris_vdec_kill_session, inst->state is set to IRIS_INST_ERROR
-> and session_close is executed, which will kfree(inst_hfi_gen2->packet).
-> If stop_streaming is called afterward, it will cause a crash.
->
-> Signed-off-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
+On 15/10/2025 03:56, Hangxiang Ma wrote:
+> Add more detailed resource information for CSIPHY devices in the camss
+> driver along with the support for v2.4.0 in the 2 phase CSIPHY driver
+> that is responsible for the PHY lane register configuration, module
+> reset and interrupt handling.
+> 
+> Add 'common_status_offset' variable in 'csidphy_device_regs' structure,
+> which accommodates the offset between common registers and status
+> registers. Because this specific offset in Kaanapali registers differs
+> from other versions.
+> 
+> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
 > ---
->   drivers/media/platform/qcom/iris/iris_vb2.c | 10 +++++++---
->   1 file changed, 7 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/platform/qcom/iris/iris_vb2.c b/drivers/media/platform/qcom/iris/iris_vb2.c
-> index 139b821f7952..c1647fb4f0cc 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vb2.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vb2.c
-> @@ -231,16 +231,20 @@ void iris_vb2_stop_streaming(struct vb2_queue *q)
->   		return;
+>   .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 147 ++++++++++++++++++++-
+>   drivers/media/platform/qcom/camss/camss-csiphy.h   |   1 +
+>   drivers/media/platform/qcom/camss/camss.c          | 107 +++++++++++++++
+>   3 files changed, 249 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> index a229ba04b158..192636d02b32 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> @@ -46,7 +46,8 @@
+>   #define CSIPHY_3PH_CMN_CSI_COMMON_CTRL5_CLK_ENABLE	BIT(7)
+>   #define CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_COMMON_PWRDN_B	BIT(0)
+>   #define CSIPHY_3PH_CMN_CSI_COMMON_CTRL6_SHOW_REV_ID	BIT(1)
+> -#define CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(offset, n)	((offset) + 0xb0 + 0x4 * (n))
+> +#define CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(offset, common_status_offset, n) \
+> +	((offset) + (common_status_offset) + 0x4 * (n))
 >   
->   	mutex_lock(&inst->lock);
-> +	if (inst->state == IRIS_INST_ERROR) {
-> +		ret = -EBUSY;
-> +		goto error;
-> +	}
+>   #define CSIPHY_DEFAULT_PARAMS		0
+>   #define CSIPHY_LANE_ENABLE		1
+> @@ -587,6 +588,123 @@ csiphy_lane_regs lane_regs_sm8550[] = {
+>   	{0x0C64, 0x7F, 0x00, CSIPHY_DEFAULT_PARAMS},
+>   };
 >   
->   	if (!V4L2_TYPE_IS_OUTPUT(q->type) &&
->   	    !V4L2_TYPE_IS_CAPTURE(q->type))
-> -		goto exit;
-> +		goto error;
->   
->   	ret = iris_session_streamoff(inst, q->type);
->   	if (ret)
-> -		goto exit;
-> +		goto error;
->   
-> -exit:
-> +error:
->   	iris_helper_buffers_done(inst, q->type, VB2_BUF_STATE_ERROR);
-It is necessary to distinguish between error and normal states.
->   	if (ret)
->   		iris_inst_change_state(inst, IRIS_INST_ERROR);
+> +/* 3nm 2PH v 2.4.0 2p5Gbps 4 lane DPHY mode */
 
--- 
-Best Regards,
-Renjiang
+I'll again ask for a declaration of the process node this PHY sequence 
+is fabbed on.
+
+> +static const struct
+> +csiphy_lane_regs lane_regs_kaanapali[] = {
+> +	/* LN 0 */
+> +	{0x0094, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x00A0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0090, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0098, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0094, 0x07, 0xd1, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0030, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0000, 0x8C, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0038, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x002C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0034, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x001C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0014, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x003C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0004, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0020, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0008, 0x19, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+> +	{0x0010, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0094, 0xD7, 0x00, CSIPHY_SKEW_CAL},
+> +	{0x005C, 0x54, 0x00, CSIPHY_SKEW_CAL},
+> +	{0x0060, 0xFD, 0x00, CSIPHY_SKEW_CAL},
+> +	{0x0064, 0x7F, 0x00, CSIPHY_SKEW_CAL},
+> +
+> +	/* LN 2 */
+> +	{0x0494, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x04A0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0490, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0498, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0494, 0x07, 0xd1, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0430, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0400, 0x8C, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0438, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x042C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0434, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x041C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0414, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x043C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0404, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0420, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0408, 0x19, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+> +	{0x0410, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0494, 0xD7, 0x00, CSIPHY_SKEW_CAL},
+> +	{0x045C, 0x54, 0x00, CSIPHY_SKEW_CAL},
+> +	{0x0460, 0xFD, 0x00, CSIPHY_SKEW_CAL},
+> +	{0x0464, 0x7F, 0x00, CSIPHY_SKEW_CAL},
+> +
+> +	/* LN 4 */
+> +	{0x0894, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x08A0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0890, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0898, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0894, 0x07, 0xd1, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0830, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0800, 0x8C, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0838, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x082C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0834, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x081C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0814, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x083C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0804, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0820, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0808, 0x19, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+> +	{0x0810, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0894, 0xD7, 0x00, CSIPHY_SKEW_CAL},
+> +	{0x085C, 0x54, 0x00, CSIPHY_SKEW_CAL},
+> +	{0x0860, 0xFD, 0x00, CSIPHY_SKEW_CAL},
+> +	{0x0864, 0x7F, 0x00, CSIPHY_SKEW_CAL},
+> +
+> +	/* LN 6 */
+> +	{0x0C94, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0CA0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C90, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C98, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C94, 0x07, 0xd1, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C30, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C00, 0x8C, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C38, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C2C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C34, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C1C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C14, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C3C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C04, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C20, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C08, 0x19, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+> +	{0x0C10, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0C94, 0xD7, 0x00, CSIPHY_SKEW_CAL},
+> +	{0x0C5C, 0x54, 0x00, CSIPHY_SKEW_CAL},
+> +	{0x0C60, 0xFD, 0x00, CSIPHY_SKEW_CAL},
+> +	{0x0C64, 0x7F, 0x00, CSIPHY_SKEW_CAL},
+> +
+> +	/* LN CLK */
+> +	{0x0E94, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0EA0, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E90, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E98, 0x08, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E94, 0x07, 0xd1, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E30, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E28, 0x04, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E00, 0x80, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E0C, 0xFF, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E38, 0x1F, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E2C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E34, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E1C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E14, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E3C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E04, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E20, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +	{0x0E08, 0x19, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
+> +	{0x0E10, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
+> +};
+> +
+>   /* 4nm 2PH v 2.1.2 2p5Gbps 4 lane DPHY mode */
+>   static const struct
+>   csiphy_lane_regs lane_regs_x1e80100[] = {
+> @@ -714,13 +832,21 @@ static void csiphy_hw_version_read(struct csiphy_device *csiphy,
+>   	       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, 6));
+>   
+>   	hw_version = readl_relaxed(csiphy->base +
+> -				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 12));
+> +				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(
+> +					regs->offset,
+> +					regs->common_status_offset, 12));
+>   	hw_version |= readl_relaxed(csiphy->base +
+> -				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 13)) << 8;
+> +				    CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(
+> +					regs->offset,
+> +					regs->common_status_offset, 13)) << 8;
+>   	hw_version |= readl_relaxed(csiphy->base +
+> -				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 14)) << 16;
+> +				    CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(
+> +					regs->offset,
+> +					regs->common_status_offset, 14)) << 16;
+>   	hw_version |= readl_relaxed(csiphy->base +
+> -				   CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, 15)) << 24;
+> +				    CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(
+> +					regs->offset,
+> +					regs->common_status_offset, 15)) << 24;
+
+This change should be separated from the addition of the PHY init 
+sequence into its own patch so we can arbitrate that patch standalone on 
+its merits.
+
+I have questions like "why do this" and "how does this affect other 
+hardware" which a commit log for a change like this should spell out.
+
+>   
+>   	dev_dbg(dev, "CSIPHY 3PH HW Version = 0x%08x\n", hw_version);
+>   }
+> @@ -749,7 +875,8 @@ static irqreturn_t csiphy_isr(int irq, void *dev)
+>   	for (i = 0; i < 11; i++) {
+>   		int c = i + 22;
+>   		u8 val = readl_relaxed(csiphy->base +
+> -				       CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset, i));
+> +			CSIPHY_3PH_CMN_CSI_COMMON_STATUSn(regs->offset,
+> +							  regs->common_status_offset, i));
+>   
+>   		writel_relaxed(val, csiphy->base +
+>   			       CSIPHY_3PH_CMN_CSI_COMMON_CTRLn(regs->offset, c));
+> @@ -915,6 +1042,7 @@ static bool csiphy_is_gen2(u32 version)
+>   	case CAMSS_845:
+>   	case CAMSS_8550:
+>   	case CAMSS_8775P:
+> +	case CAMSS_KAANAPALI:
+>   	case CAMSS_X1E80100:
+>   		ret = true;
+>   		break;
+> @@ -989,6 +1117,7 @@ static int csiphy_init(struct csiphy_device *csiphy)
+>   
+>   	csiphy->regs = regs;
+>   	regs->offset = 0x800;
+> +	regs->common_status_offset = 0xb0;
+>   
+>   	switch (csiphy->camss->res->version) {
+>   	case CAMSS_845:
+> @@ -1023,6 +1152,12 @@ static int csiphy_init(struct csiphy_device *csiphy)
+>   		regs->lane_regs = &lane_regs_sa8775p[0];
+>   		regs->lane_array_size = ARRAY_SIZE(lane_regs_sa8775p);
+>   		break;
+> +	case CAMSS_KAANAPALI:
+> +		regs->lane_regs = &lane_regs_kaanapali[0];
+> +		regs->lane_array_size = ARRAY_SIZE(lane_regs_kaanapali);
+> +		regs->offset = 0x1000;
+> +		regs->common_status_offset = 0x138;
+> +		break;
+>   	default:
+>   		break;
+>   	}
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.h b/drivers/media/platform/qcom/camss/camss-csiphy.h
+> index 895f80003c44..2d5054819df7 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy.h
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.h
+> @@ -90,6 +90,7 @@ struct csiphy_device_regs {
+>   	const struct csiphy_lane_regs *lane_regs;
+>   	int lane_array_size;
+>   	u32 offset;
+> +	u32 common_status_offset;
+>   };
+>   
+>   struct csiphy_device {
+> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+> index 4a5caf54c116..542122fba825 100644
+> --- a/drivers/media/platform/qcom/camss/camss.c
+> +++ b/drivers/media/platform/qcom/camss/camss.c
+> @@ -34,6 +34,111 @@
+>   
+>   static const struct parent_dev_ops vfe_parent_dev_ops;
+>   
+> +static const struct camss_subdev_resources csiphy_res_kaanapali[] = {
+> +	/* CSIPHY0 */
+> +	{
+> +		.regulators = { "vdda-phy0", "vdda-pll" },
+> +		.clock = { "csiphy0", "csiphy0_timer",
+> +			   "cam_top_ahb", "cam_top_fast_ahb" },
+> +		.clock_rate = { { 400000000, 480000000 },
+> +				{ 400000000 },
+> +				{ 0 },
+> +				{ 0 } },
+> +		.reg = { "csiphy0" },
+> +		.interrupt = { "csiphy0" },
+> +		.csiphy = {
+> +			.id = 0,
+> +			.hw_ops = &csiphy_ops_3ph_1_0,
+> +			.formats = &csiphy_formats_sdm845
+> +		}
+> +	},
+> +	/* CSIPHY1 */
+> +	{
+> +		.regulators = { "vdda-phy1", "vdda-pll" },
+> +		.clock = { "csiphy1", "csiphy1_timer",
+> +			   "cam_top_ahb", "cam_top_fast_ahb" },
+> +		.clock_rate = { { 400000000, 480000000 },
+> +				{ 400000000 },
+> +				{ 0 },
+> +				{ 0 } },
+> +		.reg = { "csiphy1" },
+> +		.interrupt = { "csiphy1" },
+> +		.csiphy = {
+> +			.id = 1,
+> +			.hw_ops = &csiphy_ops_3ph_1_0,
+> +			.formats = &csiphy_formats_sdm845
+> +		}
+> +	},
+> +	/* CSIPHY2 */
+> +	{
+> +		.regulators = { "vdda-phy2", "vdda-pll" },
+> +		.clock = { "csiphy2", "csiphy2_timer",
+> +			   "cam_top_ahb", "cam_top_fast_ahb" },
+> +		.clock_rate = { { 400000000, 480000000 },
+> +				{ 400000000 },
+> +				{ 0 },
+> +				{ 0 } },
+> +		.reg = { "csiphy2" },
+> +		.interrupt = { "csiphy2" },
+> +		.csiphy = {
+> +			.id = 2,
+> +			.hw_ops = &csiphy_ops_3ph_1_0,
+> +			.formats = &csiphy_formats_sdm845
+> +		}
+> +	},
+> +	/* CSIPHY3 */
+> +	{
+> +		.regulators = { "vdda-phy3", "vdda-pll" },
+> +		.clock = { "csiphy3", "csiphy3_timer",
+> +			   "cam_top_ahb", "cam_top_fast_ahb" },
+> +		.clock_rate = { { 400000000, 480000000 },
+> +				{ 400000000 },
+> +				{ 0 },
+> +				{ 0 } },
+> +		.reg = { "csiphy3" },
+> +		.interrupt = { "csiphy3" },
+> +		.csiphy = {
+> +			.id = 3,
+> +			.hw_ops = &csiphy_ops_3ph_1_0,
+> +			.formats = &csiphy_formats_sdm845
+> +		}
+> +	},
+> +	/* CSIPHY4 */
+> +	{
+> +		.regulators = { "vdda-phy4", "vdda-pll" },
+> +		.clock = { "csiphy4", "csiphy4_timer",
+> +			   "cam_top_ahb", "cam_top_fast_ahb" },
+> +		.clock_rate = { { 400000000, 480000000 },
+> +				{ 400000000 },
+> +				{ 0 },
+> +				{ 0 } },
+> +		.reg = { "csiphy4" },
+> +		.interrupt = { "csiphy4" },
+> +		.csiphy = {
+> +			.id = 4,
+> +			.hw_ops = &csiphy_ops_3ph_1_0,
+> +			.formats = &csiphy_formats_sdm845
+> +		}
+> +	},
+> +	/* CSIPHY5 */
+> +	{
+> +		.regulators = { "vdda-phy5", "vdda-pll" },
+> +		.clock = { "csiphy5", "csiphy5_timer",
+> +			   "cam_top_ahb", "cam_top_fast_ahb" },
+> +		.clock_rate = { { 400000000, 480000000 },
+> +				{ 400000000 },
+> +				{ 0 },
+> +				{ 0 } },
+> +		.reg = { "csiphy5" },
+> +		.interrupt = { "csiphy5" },
+> +		.csiphy = {
+> +			.id = 5,
+> +			.hw_ops = &csiphy_ops_3ph_1_0,
+> +			.formats = &csiphy_formats_sdm845
+> +		}
+> +	},
+> +};
+> +
+>   static const struct resources_icc icc_res_kaanapali[] = {
+>   	/* Based on 4096 x 3072 30 FPS 2496 Mbps mode */
+>   	{
+> @@ -4308,8 +4413,10 @@ static void camss_remove(struct platform_device *pdev)
+>   static const struct camss_resources kaanapali_resources = {
+>   	.version = CAMSS_KAANAPALI,
+>   	.pd_name = "top",
+> +	.csiphy_res = csiphy_res_kaanapali,
+>   	.icc_res = icc_res_kaanapali,
+>   	.icc_path_num = ARRAY_SIZE(icc_res_kaanapali),
+> +	.csiphy_num = ARRAY_SIZE(csiphy_res_kaanapali),
+>   };
+>   
+>   static const struct camss_resources msm8916_resources = {
+> 
 
 
