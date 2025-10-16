@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-44680-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44681-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 736E3BE1C62
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 08:39:26 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D8C1BE1C71
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 08:39:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D030A4F9C4B
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 06:38:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2D1D719C6B64
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 06:40:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D63A82DECDE;
-	Thu, 16 Oct 2025 06:38:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4903A2DF139;
+	Thu, 16 Oct 2025 06:39:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XMMtEOsZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sEtwsKIb"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9B132DF159;
-	Thu, 16 Oct 2025 06:38:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D6532DECCB;
+	Thu, 16 Oct 2025 06:39:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760596710; cv=none; b=MsZad93z8Doz7BRYKPBrupKAxAknnzYlm/ap3aTN9zHNY3VXd4SgeVGbOyDU3xm+F4od46BzHCXISI0tfAgo5jfEUL0/O0972SIejcGf5DKNZm0i8QvwGGmheETX7o/1xWqf3WbzFuCf7waCkxVdnMZ/q5ihcNFkuO2TTQCcY4k=
+	t=1760596791; cv=none; b=eZ5qh3Y2fU/A4TEuK/Xoy35EOfYcpJ9ZM76v0S4+ZeJxfdPktNaSFdhwK3r29HJTa3QQE7WBxVk6Qeku8o9CMJkwyaZu1iPx6ytgXyHMYQopmaxRsAJ09b8+RqQqyvVegdiO72zIgWry7xcnpMlEKgD1wL+Skgrb5CZER+QqPc8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760596710; c=relaxed/simple;
-	bh=d4dwdfMkD6QgbfdJBxvnNY2nMJrmSg/B16f+uSrBE+c=;
+	s=arc-20240116; t=1760596791; c=relaxed/simple;
+	bh=qjD4cNX8IC2EA7rEjGiIZKrjj+Tbdm4iYKK470rzebs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UOMCJeCnYclif+oOinhd4R1yvydkOw5PR0JHfexe9Lmzudhq0PiX3vJkaDaPvZOcHVOo3l6LePRtCpQt7FjSTCTIyqenzc4qs5HO8k05J/CpRCVGC4JfkJJn7T7HFF0+vd5lNZ0cuzm3ey6maNdE9tJprau6LxHNRn7MmUwnATo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XMMtEOsZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A6F41C4CEF1;
-	Thu, 16 Oct 2025 06:38:27 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=bBBJpU9H8laLq2yj7PHA7i/9wmK3+tVniS4VOVA9zgJbeSKeBHPcCo6C/O4y17+vNJwkmgGTAWRrhZuQnZzMhhiF+dDWHbt+4bxZN2em5LRCM1ZdFF+k1CjPbyX8EGveLXiS25SZ3yH5aNL0zfcG5emZUFcy9W+eoW9x1W0HFT8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sEtwsKIb; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3673DC4CEF1;
+	Thu, 16 Oct 2025 06:39:48 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760596710;
-	bh=d4dwdfMkD6QgbfdJBxvnNY2nMJrmSg/B16f+uSrBE+c=;
+	s=k20201202; t=1760596790;
+	bh=qjD4cNX8IC2EA7rEjGiIZKrjj+Tbdm4iYKK470rzebs=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=XMMtEOsZvhXxZcbi+GQKU6+8uyv/vdcv1N7xOmzSBE1AMXpio8pYcx7JwNfL5x6zg
-	 x5pl7juoz30oU/MHKDKGbpJkeByfGm3zacKYcsuluqRrZ3uVO4egDoPYnAgDAu5KKG
-	 WtnzMU1Uqz/piYzKqrIoyA25h2voYwevh0qnpsuHY5YL0H681f73LZyOJU5P+lSG4T
-	 4Uv4U1GsHCKgzK1GtdO83He8fSULxKLhNYDz6ZkN9PegpS8CTGKlYriVasoIc8hN6/
-	 dirWBtMgH+cvzzX9QrbfY0jrGWLUPwW4PQRhls3OPVRI9JimkReZPQ0IDKi8AMdHka
-	 5iP2W0PF6Qywg==
-Message-ID: <97184b19-156c-4c42-ac8a-dc9800ea64af@kernel.org>
-Date: Thu, 16 Oct 2025 08:38:25 +0200
+	b=sEtwsKIbQxNx9uxEWRSNS1A1HpwO/e9Sf+KAGUJ2nnzfN55/pEQNI3s7Oh+iarzpM
+	 toiS9l0IVlzQGbheiIsFVuXu0kh+0GYYJixFN/8MUKfMMTOzH9zcoW0e23dsvsHDXG
+	 ClJF6x9EUaSINcHIwUy7Uk1tLPAgubYhQOdBMoTKUOoYNP0yDUjXwZkzO3kpfAHGYF
+	 lQpaIiy7NuzPrXIRqQnij/a5YOxSC/zeRK5S8+xnA95lCGWZvDO2PdWxGXr9SeCWeg
+	 SimkMkx4CtYvh0NojWiuSuvimqh+i4ZLyDC+TPh6xJnevj9aSK6MVJ4NFGAvjqOCz0
+	 RqX5tipIkE18w==
+Message-ID: <39c07233-e153-4453-ae27-7d6498c9a4f7@kernel.org>
+Date: Thu, 16 Oct 2025 08:39:46 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,8 +50,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 1/7] dt-bindings: media: platform: visconti: Add
- Toshiba Visconti MIPI CSI-2 Receiver
+Subject: Re: [PATCH v13 2/7] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti Video Input Interface
 To: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
  Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>,
  Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
@@ -60,7 +60,7 @@ To: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>,
 Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
 References: <20251016-visconti-viif-v13-0-ceca656b9194@toshiba.co.jp>
- <20251016-visconti-viif-v13-1-ceca656b9194@toshiba.co.jp>
+ <20251016-visconti-viif-v13-2-ceca656b9194@toshiba.co.jp>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -106,43 +106,17 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251016-visconti-viif-v13-1-ceca656b9194@toshiba.co.jp>
+In-Reply-To: <20251016-visconti-viif-v13-2-ceca656b9194@toshiba.co.jp>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 On 16/10/2025 04:24, Yuji Ishikawa wrote:
 > Adds the Device Tree binding documentation that allows to describe
-
-"Add".
-
-https://elixir.bootlin.com/linux/v6.16/source/Documentation/process/submitting-patches.rst#L94
-
-
-> the MIPI CSI-2 Receiver found in Toshiba Visconti SoCs.
-
-
-...
-
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/toshiba,tmpv770x.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    soc {
-> +        #address-cells = <2>;
-> +        #size-cells = <2>;
-> +
-> +        csi0: csi@1c008000 {
-
-I don't understand why the label appeared. It is not used and it wasn't
-here before. I did not ask to add label, but I only asked to fix the
-node name to match generic names rule.
-
-Drop the label. With these fixes:
+> the Video Input Interface found in Toshiba Visconti SoCs.
+> 
+> Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
 
 Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-
 
 Best regards,
 Krzysztof
