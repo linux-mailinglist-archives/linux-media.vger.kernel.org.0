@@ -1,201 +1,202 @@
-Return-Path: <linux-media+bounces-44645-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44646-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E1B0BE1350
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 03:57:56 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 40A76BE1368
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 04:04:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5377219A429F
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 01:58:19 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A8C0F4E4624
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 02:04:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 520721F03FB;
-	Thu, 16 Oct 2025 01:57:48 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 876621DF265;
+	Thu, 16 Oct 2025 02:04:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="Hd8BpW63"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jsDy82FF"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1856D13C8EA
-	for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 01:57:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCF61E487
+	for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 02:04:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760579867; cv=none; b=tuvHS3KAQHqioVNxn9X1HiexI4tVpsbq+U1mvAa9lOalCWtFzTCkOGvYE96We9N1hyH8aZr2BDgwhlWYPFPrkZ8Uw5wsrbn4ivPMg2Glf54rFRTrNf3MShNXSXy8TZBMaRr7L5AlED11gu6/j06x1PodtxJaEM5HFhpeKRhDtYA=
+	t=1760580268; cv=none; b=I4IvBn7N835Yz53C4JVX2c81No57Mt119USthdepm7t5/HwEbInd1Zjg9jVYO0aSFx1WAdHqiWkvzBh075i2kQmfOTSpPtLoTsIbo/d1qJ0NsgiJEPAnbvXsx2uIggtS48HP/7fBROhdPQy8p9Ugs+e2bWCg1Gb1B4INC2HGMus=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760579867; c=relaxed/simple;
-	bh=IlqfZYOkclJozio66DYG7OYgRXYQlBuKL8VU6g3WR5Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kPr3CWrroUxVnmN+YNSmdktevv9BUOMkRbfGMFJ2P8rHF0NddwuN/SZNnSiklJX8UHVNYsGyvOSuMVEtgdu6v3wFLcblY/eaQHJnthVI8iavsOKhhbkMeknna5K0ZzIqQbQSqVVNXHxJ7wlIEabKWuXQZTLjF9pk7g2nEJOAuc8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=Hd8BpW63; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59FIaL6U005001
-	for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 01:57:45 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	iFKFkzfdP4tXFi/0ymgZNK4f9HBW4SXK15XqkMQS4eg=; b=Hd8BpW63ejTcRndk
-	ioLHaXxOS69bC50fLat0MRB4ixQS80B43f6oTy2U43UJD4G/Vu1+gKLNRe4qzteP
-	zu9sp8LdFQlVH/2PddvqoIbLD12IphHiLeZsB81fXDSNNyS1sN+OGRwbz8k6gD8W
-	gQP/VnOsmH3IUdvOLXT4AxDgFoFnERYJqWgf4B/vN9+fBgk8ikzCD4lCiSf5uK2A
-	TG70lVtpBoBNjtSJJgY0l7JwRbO40/DvSKLyEA2faBv4bsx/NeKYavAP/US+jr2z
-	UyA4mE98TZUXKD0Qp6j1TBCMFBK+si1WjVAAWTy+gvQ7plOWGwTt+tnQy8rw2tg0
-	4lulvw==
-Received: from mail-pg1-f197.google.com (mail-pg1-f197.google.com [209.85.215.197])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49s6mwrv7h-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 01:57:45 +0000 (GMT)
-Received: by mail-pg1-f197.google.com with SMTP id 41be03b00d2f7-b6a2459e80dso159548a12.1
-        for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 18:57:45 -0700 (PDT)
+	s=arc-20240116; t=1760580268; c=relaxed/simple;
+	bh=Hvg6k/MME8MJglm/n6aor6UBfGLa1CTiKDRths6ZL+Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cF+q9Sk8DtyF2qVcTbhYFLb4IPU4LlUiF0rpBSCkgm+TbbSc+EBCq5U8C3gYTE+JPX3l6IJCN5D88CqO86TW4mGzCS5xD6vCr84Vs74Skf92SVrPTJOpDR8KJsCO6Tj01wCh51GH9sE/an3E8WA2jrxwot76Z/4HG8FP9sW3gvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jsDy82FF; arc=none smtp.client-ip=209.85.167.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-57e3cad25e8so43213e87.1
+        for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 19:04:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760580265; x=1761185065; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YOB8VSxcdvbD37UrkvKIHBp+WD8atI6WeU4LWquFpcA=;
+        b=jsDy82FFOoD0GHMwdG3Tuf9YZsDR9ivnIhtHCqcoxeDJN/ymhiltZS1WmpRzJhHWps
+         pgAWHjvHUUsaAj0vrJnKyyNhYmtsEOBOuuTkpnQEbAH5u5+QkE9zOrS4JGL0L7+lwq1O
+         XJxZ/X30PEDPG1CoaSOWKhB0rBvJmwUwjegWkxGamBacHG9r9PC9uB/7qtCwONG9WYX/
+         XY4+IFn0VNyOINdfUBkmr6Xgq6LWDp7OTCeuUi74v7XErOO3JDdbhmB5czn4fkIk7kHV
+         qwKieumGRuyy3TlsUufVv9cgjW6aplKFgltj33lMRyt1mlt1iwihsL46s8Zr6lYWLILI
+         5IoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760579864; x=1761184664;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=iFKFkzfdP4tXFi/0ymgZNK4f9HBW4SXK15XqkMQS4eg=;
-        b=I+Y+Un1EP1FEEcn5zXqgKwVcyHE80kfTYujYyfogrTlCRAd0skPk+42fOFJj697TIY
-         R5XjFc8t5yQXyEHD5ZtPXw7aXCYKhkiqJbZiXM6zi88g499AFlU0vJ2t7OsNvzUiH/gN
-         b4SEu4TGobhjkGhOhgA1zonNFkrPqO+rcXtmHqFtTs4ypymniFXaX5xAeCAz5dSE5vh5
-         9vlrDPFvcfqDOF8kMCJiceyMO6ozw/nF/9CPQTy8uFfZsZA2oyei74DtynII4+gRhK4O
-         tZCWCpV+nXv7SGGDNRvLl0FJFRtpUJYdOygsrDuBstGdRFWah/1K2Va/kmTNLnWSXJcH
-         S4LA==
-X-Forwarded-Encrypted: i=1; AJvYcCVxRbS0m2Fkb6lxl6I8Hu4tFtAr6a+HcVqq2m7hve+HRxKNcLziYsB1K0KaqWqK3spVC/Rw7v62oJbM/Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyu/CfGxDEzst86tS3lJf0gArb9TOdHCXnPI0nnEsqbWqKJeKJ1
-	nfxcbbFAEvNer+RU/OUoBmkxL38aWfRJkjiJ1+WkXS3jEMJLYE4haH5tfow1m1OLNhBBGIjsxcX
-	tshjhC0PFQ0rgRGhoHaLjXyvWacqSuJ27cIMB8ZLjs6cULeJuQayGnHF7uS4QjHUTkg2fDmSDyk
-	jtmO0=
-X-Gm-Gg: ASbGncv7BEE0a17t8o4Tdx0raBZunBZiJtsxThasflj5+QYwoNW8+G95Bp6Q3iE0+Vx
-	vQrEameN87fVjX+F0YCDfxQHVWGioia5O1nqgxyvGna2Zl+8VMz05fm5Pry5B/O7o++LEJ1fYji
-	DI5PC81ESW3u/7OWD9E4way7Hn7SF0qcRQbBXktRTHLT94YFfr7B9F3EoRqANcgbYTs06cUwjTi
-	barO+n8A2h79p04jp4dKE9GZaxU1CLNk6adcidsFfOX7Tq1k2msw1bLQjFyUUkdE6dWAzYi2KN2
-	oThsqbKmtZWOX4E7xHp0BeECmDeBuFhxh+eNxai81XtB2WJ7pnYjXorhnG7G6ALfbkq+aPMy9cR
-	KpV3bHfi+FT98MvaRqOExTv5CYF32Fx85Tik15rXxXhevMOGctI1qBMwrjd1P7B1NlqcNKg==
-X-Received: by 2002:a17:903:24f:b0:279:373b:407f with SMTP id d9443c01a7336-290918cbe15mr26360905ad.5.1760579864409;
-        Wed, 15 Oct 2025 18:57:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHnvLDZlV6wBkfvT/qOi99EG5lDHNY9fLIFApqLJJBI0OqJ12Q8JQrRLN+J+RuPFy68M+KAyg==
-X-Received: by 2002:a17:903:24f:b0:279:373b:407f with SMTP id d9443c01a7336-290918cbe15mr26360465ad.5.1760579863918;
-        Wed, 15 Oct 2025 18:57:43 -0700 (PDT)
-Received: from [10.133.33.56] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29099aa32c4sm10285605ad.79.2025.10.15.18.57.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 15 Oct 2025 18:57:43 -0700 (PDT)
-Message-ID: <49eaf7ec-ac71-4bf3-9a4e-25fa633d815e@oss.qualcomm.com>
-Date: Thu, 16 Oct 2025 09:56:05 +0800
+        d=1e100.net; s=20230601; t=1760580265; x=1761185065;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YOB8VSxcdvbD37UrkvKIHBp+WD8atI6WeU4LWquFpcA=;
+        b=cATz+BHUI/bN4wXmSfPzf72YxmiYX9OvwG2yB/qpPPDpHSwbzhc0m/ZePd1u5GtuZe
+         +1yZgJJCDn/F+DWIQ7j2V/hQ9PJ1CNJ+DxpKMX10eRRTLgYBxLHVzopKR9Qg3hmuvAwK
+         U/eKlLBaD0XWKA77vaWP1pxiCYaR2NL9RKcdWa65djDFqFVggG+7xwFoQFr3hQp2AhJE
+         lM1iVnxttjY6WO2rklX8s2FgiFF1c6fc4m/O5MF/YIe+QPVKNBEazpweA2UwNNt+j7XV
+         XaDll0L626M4veH3tJN0BdxAG2VNmdTE/WRboeRakTJzzXIq2XRM6Y9yfSIG34e9+h+K
+         PzyA==
+X-Forwarded-Encrypted: i=1; AJvYcCUGxXzkDyOZWWl3erd3Blwr2Oout72dTJKTFZ/81lSi6j7IedA/jw9Ar07W3XLig1QSyNot1ttfraTK/g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwkEygd/Yy8U+vWa3JWSsvNSD3sqBUiWbvprtVK2JrAsXbk//xZ
+	SdDzDgSDG0+mfk5VNQxU8heYmbGSaPe4g3t6pPcf72mgmaF808I7sbivhvLEuRNvYfQ=
+X-Gm-Gg: ASbGncsQNSMD8K8aEho03ZMoXzkfx7nZJ7z4zCdc7UDHCXmvOP8tWpr5O4SFKuIMDIp
+	b10uW6KjHPjrusCY0k6Q3Mx/m4OPMEBOnf+dMNHdLZl8XbGE879xyEiIZLB1qczV0r0gV24EVaL
+	bMlo+x8Ya8lPwgCEvImszK6uFx3XgAUH/bI1EoqMPX649Eg3Yk0GvHwJucyz1pRqPA+FapXkgkU
+	fimAij6ZvJhcCU62P7O61PrrJwCnUXMopynuROHZSkpt+Wfc7BjnClhb90mb9bi0GMkXIs0EC3R
+	F3dXhLEgpj6/ejN2SaT9ZajmMeSidMaTZr9RT6G9KxXV2rNzL4nnPjAFs6m1ns1IscEwzYUHwrp
+	S/9QKpDCozNbj2QFn9/tCP3oh1YOdf/j/YMFiHD8v3wlMolkxro0ak2yILfpErS3Xq/s+Ttl2ma
+	8+NxG7EBmDjyc4d1IRRAbGRhKK+Img2GXUapg23q20Qsc/2FbnNK0GOZVjrHspKmaL/Scj
+X-Google-Smtp-Source: AGHT+IEMqeNVUsBBLnzuxCA9tSh6jqzKLPLxLDOY1FZo4XrWjDRiznHN7UYooBcox/z+pe4NBRUoHA==
+X-Received: by 2002:a05:6512:3ca3:b0:57d:9bd4:58d5 with SMTP id 2adb3069b0e04-5906d8ec283mr5353848e87.5.1760580264963;
+        Wed, 15 Oct 2025 19:04:24 -0700 (PDT)
+Received: from thyme.. (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59088563c98sm6703951e87.74.2025.10.15.19.04.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 15 Oct 2025 19:04:24 -0700 (PDT)
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Hans de Goede <hansg@kernel.org>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v2 0/2] media: i2c: add Samsung S5KJN1 image sensor device driver
+Date: Thu, 16 Oct 2025 05:04:17 +0300
+Message-ID: <20251016020419.2137290-1-vladimir.zapolskiy@linaro.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] dt-bindings: i2c: qcom-cci: Document Kaanapali
- compatible
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Robert Foss
- <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, aiqun.yu@oss.qualcomm.com,
-        tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
-        yijie.yang@oss.qualcomm.com,
-        Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
-        Atiya Kailany <atiya.kailany@oss.qualcomm.com>
-References: <20251014-add-support-for-camss-on-kaanapali-v2-0-f5745ba2dff9@oss.qualcomm.com>
- <20251014-add-support-for-camss-on-kaanapali-v2-1-f5745ba2dff9@oss.qualcomm.com>
- <e2c43a8c-a9cc-46a1-9ddd-5d6dfc7e917b@linaro.org>
-Content-Language: en-US
-From: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
-In-Reply-To: <e2c43a8c-a9cc-46a1-9ddd-5d6dfc7e917b@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDEzMDA4MyBTYWx0ZWRfXyfuqwfdf33+c
- IinyYpHZ5zIfGdt0UvICJO4kxzgMRZN2VAt93MTpMEKRaUc89NEGwWB48/vas0DVJNSQI8G88q8
- bndBQ/Pl2ScYGP81K4d5QMiDiekyJgiW+j5mD4ineSLuPAWc4jze9mUvOtnDzOEdfAe19NqzjHG
- 2H+6TZq3PWf+SUmF6hElHsNcY+xexkDVgPQuj0oJSIexvD2nX05YRzZd+WRgVSKhF4o7jlu4dXy
- +L41x/LQ6sPPC8pWk+GKvHQq/cLTOWgct8ZeLSYUdMUDI0KNWQLHR0zAOoQBDyQIlM2oCtvgssD
- n5+s2JG6S11XrBp/90nYl4FqqGY/OhHbiLCODJX32EEORm4gdUW26Eg8k1H2VXEDpcOhNfwjs3c
- HOrcrbUxxLngLHjpr3ZGbkgKy57YrA==
-X-Authority-Analysis: v=2.4 cv=Fr4IPmrq c=1 sm=1 tr=0 ts=68f05119 cx=c_pps
- a=rz3CxIlbcmazkYymdCej/Q==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=QmC_9Nfu3_VqyKKViBAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=bFCP_H2QrGi7Okbo017w:22
-X-Proofpoint-GUID: H3vJTKvqBh8ZGPFFfmHbhw5NlkNf96Ga
-X-Proofpoint-ORIG-GUID: H3vJTKvqBh8ZGPFFfmHbhw5NlkNf96Ga
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-15_07,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 impostorscore=0 spamscore=0 phishscore=0 malwarescore=0
- adultscore=0 lowpriorityscore=0 bulkscore=0 suspectscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510130083
 
-On 10/16/2025 3:30 AM, Vladimir Zapolskiy wrote:
+Samsung S5KJN1 is a 50MP image sensor, it produces Bayer GRBG (2x2)
+frames in RAW10 output format, the maximum supported output resolution
+is 8160x6144 at 10 frames per second rate.
 
-> On 10/15/25 05:56, Hangxiang Ma wrote:
->> Add Kaanapali compatible consistent with CAMSS CCI interfaces. The list
->> of clocks for Kaanapali requires its own compat string 'cam_top_ahb',
->> aggregated into 'qcom,qcm2290-cci' node.
->>
->> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
->> ---
->>   Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml | 6 +++++-
->>   1 file changed, 5 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml 
->> b/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
->> index 9bc99d736343..0140c423f6f4 100644
->> --- a/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
->> +++ b/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
->> @@ -25,6 +25,7 @@ properties:
->>         - items:
->>             - enum:
->> +              - qcom,kaanapali-cci
->>                 - qcom,qcm2290-cci
->>                 - qcom,sa8775p-cci
->>                 - qcom,sc7280-cci
->> @@ -128,6 +129,7 @@ allOf:
->>           compatible:
->>             contains:
->>               enum:
->> +              - qcom,kaanapali-cci
->>                 - qcom,qcm2290-cci
->>       then:
->>         properties:
->> @@ -136,7 +138,9 @@ allOf:
->>             maxItems: 2
->>           clock-names:
->>             items:
->> -            - const: ahb
->> +            - enum:
->> +                - ahb
->> +                - cam_top_ahb
-> 
-> Why is not to give the clock "ahb" name like on QCM2290?
-> 
-> On QCM2290 the macro in front of the vlaue is GCC_CAMSS_TOP_AHB_CLK,
-> and name "ahb" is good for both, I believe.
-> 
->>               - const: cci
->>     - if:
->>
-> 
+Changes from v1 to v2:
+* added a collected Reviewed-by tag to the dt bindings documentation (Rob),
+* managed to get one PLL setup to cover both supported output modes,
+* vflip/hflip sensor controls swap media bus code of Bayer patterns,
+* extracted a common initialization subsequence of modes into its own array,
+* set a step to the analog gain control like it's done in downstream,
+* reworded a sequence of CCI commands in s5kjn1_enable_streams().
 
-On Kaanapali the macro has been changed to CAM_CC_CAM_TOP_AHB_CLK. GCC 
-clock domain doesn't manage the AHB clock but CAMCC does. I think it's 
-better to create a new and more complete clock name to denote the 
-differences between them.
+Link to v1:
+- https://lore.kernel.org/linux-media/20250928200956.1215285-1-vladimir.zapolskiy@linaro.org
 
----
-Hangxiang
+----8<---- V4L2 compliance results (v4l-utils-1.20.0) ----8<----
+% v4l2-compliance -d /dev/v4l-subdev28
+v4l2-compliance SHA: not available, 64 bits, 64-bit time_t
+
+Compliance test for device /dev/v4l-subdev28:
+
+Required ioctls:
+
+Allow for multiple opens:
+	test second /dev/v4l-subdev28 open: OK
+	test for unlimited opens: OK
+	test invalid ioctls: OK
+
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 12 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+
+Total for device /dev/v4l-subdev28: 41, Succeeded: 41, Failed: 0, Warnings: 0
+
+----8<----
+
+Vladimir Zapolskiy (2):
+  dt-bindings: media: i2c: Add Samsung S5KJN1 image sensor
+  media: i2c: add Samsung S5KJN1 image sensor device driver
+
+ .../bindings/media/i2c/samsung,s5kjn1.yaml    |   95 ++
+ MAINTAINERS                                   |    8 +
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/s5kjn1.c                    | 1387 +++++++++++++++++
+ 5 files changed, 1501 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml
+ create mode 100644 drivers/media/i2c/s5kjn1.c
+
+-- 
+2.49.0
+
 
