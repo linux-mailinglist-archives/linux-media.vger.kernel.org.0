@@ -1,135 +1,120 @@
-Return-Path: <linux-media+bounces-44649-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44650-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79463BE1393
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 04:11:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36747BE13A5
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 04:15:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 282A8480D40
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 02:11:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 811AC3B2903
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 02:15:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BAA4720FAAB;
-	Thu, 16 Oct 2025 02:11:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D0AEE1E5207;
+	Thu, 16 Oct 2025 02:15:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="irYzWRXl"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fT5mbzuA"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B50487260F
-	for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 02:11:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DCA26946C
+	for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 02:15:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760580703; cv=none; b=S92NkO66Aiv6W3VOpYKGEzkd5Hwp5ZGW5+D/Rh9KOvixRLhh+IePaHO+EZySiD7Vdr/j0gh9glWh6fUQhB9KGkty9gPW0g3/uo4+N6aDjuHfUMdAsO/btWl6QqQJ5Yf+WGYGnh3krBSlg+Brtgj8z8aOZA1TfVyGhbhOVhjAu8M=
+	t=1760580936; cv=none; b=oCqB+66R+1eSVjcS2UnuwB94v6vVzSqBzb5ncHR0QNo7BaV29QDWNpwyaCdqyUHByxTkeHIoP2PWqiWNVKWrfyEACoJA+MUMtsAgJ8amEVijR+ew3Jxt7eT5pB+E/Dgq/ErXb22dXxU/4IiYrXLw3NpHqWwgVCNrWSkS+2uBEb4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760580703; c=relaxed/simple;
-	bh=+XyzHt2+lndqbVro9NnPUkSykS/KdNffOJt4rBBZ3DU=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type; b=PBobGB/74qDjVUFYOT5T3d8/UW7QPBeI/nRDhgKhjQQWZzUAHMXvQH4+ocr83OyvhxSGzkaSe1c3PpDKKtC+momKme/3Ca0L5H42RXpTDiUKBw4Qi5FswA9x3ABW/RDvil83mRaOREG5FSTYAEbi1eUpsPDThq59CVrn3fGa/vw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=irYzWRXl; arc=none smtp.client-ip=209.85.215.171
+	s=arc-20240116; t=1760580936; c=relaxed/simple;
+	bh=67S2aIF/pfkOX5K2acGDT1zOvhxTeuM1fCJ9Zi55c+g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=UEUy5LCdeVbvwrHvozbEMmIhMG2fnBwv1SWECmqJxGWGupAxysw+N9/pmbbl7G9jbvswJ1ukXuC6v56Y5uGnSis0VJWXu2myOTMFMmvI1X7QFzKdPyIMdE8FJ7xNITfN2rbNbCHaVuO4xBCct9X8Ju+QHOf1PcMP829QkUNgX70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fT5mbzuA; arc=none smtp.client-ip=209.85.214.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-b551350adfaso150831a12.3
-        for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 19:11:41 -0700 (PDT)
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-27eceb38eb1so2457025ad.3
+        for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 19:15:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1760580701; x=1761185501; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=sdptM39vQ4ZC4ul+xKv7N2vDIBoFzhiZ3qTbS/fd4wk=;
-        b=irYzWRXlibNEljAZY1RizWQ0zecxxVv3XaFPy64HsuOKsUHASNn+HELJOOWn+WTypo
-         VArSfsfFDB4IoY9oeysXvQIWQdtv95KcjV1xLjoC2vU6Rdml19CA75IaQpxSXVOWMEGv
-         URgdnGs9/s4QsXozI67yhvfEnNf2MdSfBI1Qs5c48ETPMoVdlmAKInhOndgrXjRjdVPc
-         Ym+ocJ8TTtETpgeFHTxrVsdXDSJCarstBjsM4dlMvzI4TOClm8VANgXAAZ5UDcCoRbgz
-         Y6uoU4GB7sUcNIgT9hllNsFtJJBFcmlwaJcYlwOMbsdNKcN3N0V6HZZF0xqYblqOynoT
-         tMfw==
+        d=gmail.com; s=20230601; t=1760580934; x=1761185734; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=67S2aIF/pfkOX5K2acGDT1zOvhxTeuM1fCJ9Zi55c+g=;
+        b=fT5mbzuAmxD2eXvzc367v/kjGlWToe/KaxukN8gEX0JqPkCenaRG12L1Ias+sey/K/
+         eS9p8HtqLUcA1LKQMwphFi2CQefL+pFrfYZK/cJB1IYc8GZJv1mHqqhTW1s0pV5Y7Pal
+         JRbGPE0Y4GzXv+NIAB2nD0Y5tfMTbMP3QxdXpsdxtalpmtCkdb4O9EmQHvtK7vbPROBT
+         Q2Zx5wPKSxaxmR9kjrXu907pN2HAo9uL0T4eHQyoaGlyQ2objTDe5uNuWXHs9oYhKHio
+         fuA5PbI5KpHc2gGK6H4Jt4kWsG9I0iHnKaNft4N+9RCYtZcfX2SzVZfviVs2HDnSODg3
+         Qlkw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760580701; x=1761185501;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=sdptM39vQ4ZC4ul+xKv7N2vDIBoFzhiZ3qTbS/fd4wk=;
-        b=QG6FjUKHQR9Jl0KbNasTx8uL4o4sFyfJ+9LWgI2k6ZY7QuTQLlXcpCfNoo0OnmD1i4
-         CTdHGWfix0FZnKTeSl75e4MZNHAL88LPnTdYgjQBg3sx+yOVDKiwbabJoAFqcIzJWer1
-         bZ6lLIF62eQJ5LRIjS3i7hfS88w3u75t5xQgdVj+eUfzB2sB/pXYs/E4L75rra1NpVb7
-         9a/c1ZNC/ZJdZmEOeVnLdUs9xnODQu4YdcjctnUGF/uc+mZoPcW/FhqJxrkri1O3nXwm
-         IT6MnaxG2GK77DKtaJCGwFLKmKccUf9rYEHqG4qhJNknN7e4tnt1OG2edgBG3snoCR28
-         Gq4A==
-X-Gm-Message-State: AOJu0YylFixNodJtcv5BnSMS0n0c+5k1Gf2TUk1l+a34R3Gxj/GFZ9at
-	gY1RZzzszJUvDqBQJf2HyjJjARmv3syXWuTM12h5l81eoSymvu2B0XlZ
-X-Gm-Gg: ASbGncv6fpOqM34ReIm/ogqzwtqwpQmiEPji9NsCqjvkoPhCSQPwYzDFUktM/+LP7sO
-	1nH/Iiy/hBLmreuUfysXA1BEpzKztqqCz4Wi22iVh0LSaWwjk2lVJIvVXkBjzv0/L9tp3YrYwH2
-	pPTol+Tf9iGRoNbAoRtoj/5q+DeDYEmcTV21uLXg6s+cBI3OzgfpDde877/kIg8paxCNOSP0Hu+
-	+mld+jGZgjDvKsStuUnQKRYt7mGWzjyWf/NWed0yBnfwmoxV5G8HVO9X0R2Dgl3Zpjd3tjmcj2h
-	4YA2LQJK3A+oFoYRncCEsUxqnbAVnF8U8CFYJLD0Jx5ofIAnl5yQumTYCaY6IabjRyHbjSyYgZw
-	6XOHT6NXYDtmUflBfzDZFk8jJxNy2Nxy0Z4Lam87nm2wzrO4T3C7H2qq6O8Ze3jfvobLdYDl1Yd
-	GThjzqh4pemYByV06+sp1Ts6Znpa0V17RQ41BGkr8=
-X-Google-Smtp-Source: AGHT+IFbCTTdrxHYHVaVBnRH7IgNG3/mtcqYbWJHh1vVVuc/6HuS6Iye7V7sP+9RojodPULKBM28tQ==
-X-Received: by 2002:a17:902:ccc8:b0:271:49f:eaf5 with SMTP id d9443c01a7336-290273ecb42mr374140105ad.30.1760580700864;
-        Wed, 15 Oct 2025 19:11:40 -0700 (PDT)
-Received: from crl-3.node2.local ([125.63.65.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29099afdcc2sm10397715ad.115.2025.10.15.19.11.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 19:11:40 -0700 (PDT)
-From: Kriish Sharma <kriish.sharma2006@gmail.com>
-To: sumit.semwal@linaro.org,
-	benjamin.gaignard@collabora.com,
-	Brian.Starkey@arm.com,
-	jstultz@google.com,
-	tjmercier@google.com,
-	corbet@lwn.net
-Cc: linux-media@vger.kernel.org,
-	dri-devel@lists.freedesktop.org,
-	linaro-mm-sig@lists.linaro.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Kriish Sharma <kriish.sharma2006@gmail.com>,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: [PATCH v2] htmldocs: userspace-api/dma-buf-heaps.rst: fix block quote warning
-Date: Thu, 16 Oct 2025 02:09:12 +0000
-Message-Id: <20251016020912.1653230-1-kriish.sharma2006@gmail.com>
-X-Mailer: git-send-email 2.34.1
+        d=1e100.net; s=20230601; t=1760580934; x=1761185734;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=67S2aIF/pfkOX5K2acGDT1zOvhxTeuM1fCJ9Zi55c+g=;
+        b=T3RJO4JKTzYeocf/u/zlEbkz1o7enhrHp+/4CGOFDSpA/NSA8ytgr1H+n4AEpCbd4z
+         1PGFzHK4YqfABfMrHEIEk+3GPULEn7u8tTGy3JiIKwwjaMObTfZfliAkAZIToEcEjdwM
+         6sbeGalWtDPyix+RXBoGTBCedb9ZuUnDrjzECCzb3IaSM0u29tqNISY5HwyM78CJBO8o
+         5xkhWdsmlEJfBfJEMNySqMPDJ/qEmpwMFBHW/A9EjZNYGiQVrTR/pu0LqGrMylGmDEKW
+         nOsm2ltWlo+o5KscsC/5Mvf1TP7ftjLwtk0FTARBIlfSJT4Z4UdGwO5VuylRTrrhMIZU
+         2o0g==
+X-Forwarded-Encrypted: i=1; AJvYcCWK81vD5zOyYB509NvY4o4riqKEmsd+66yQEynVEr+SXkbSOaaNmBCEcq+EadCCMl8h47ycZ/CJEsXttw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxXnD6COGyzNg4RFtOH/62jIdycmwdHVrRCTqDd8SSNfVMq3gw7
+	OFa83RMAajQl/MRQqFIsg3O0P4dfj9bT6f/u0C6S2Xs9Z03zteF/e2DUJLL0T+O+gPC5H0z48tX
+	ZKSvAxdL/4GnBbzpYvGN4ptdlUnJy/J4=
+X-Gm-Gg: ASbGncuhna3TLh1nm+BKyXmQp/M1ZjVwzqjgJpmDri4RYTwCcT0RRZ9Vm4i5RALd9RL
+	vK32P0j+s5Tayj3RDvAAEO90AxAG1gNx2f/BGPn8fmQK1s/IubeVqKvMUns4J/N4z1id4WKcY0k
+	4hbn3jb5OFaScQr9r+SIHe+ZQE/kjDyK79cMxX/arJY5q1p4HIShmyvY2+No+JGUduC6B17Hldn
+	r+2UOKxNegBy2Jd5jOAvrXxERMahQ9gf6/VqpkNrR9LqF31qBvxG9keZqab
+X-Google-Smtp-Source: AGHT+IEvRoOtfZkD7JBaJ7rZGlNV110A7XDi8jf3vUgY9Fd8pd0a5HquzKeGR4HlB+RP5ldM64qTIlUt/S7CQGX+WI8=
+X-Received: by 2002:a17:903:1447:b0:248:ff5a:b768 with SMTP id
+ d9443c01a7336-29027356a2cmr375723705ad.10.1760580934134; Wed, 15 Oct 2025
+ 19:15:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20251015183402.1649988-1-kriish.sharma2006@gmail.com> <aPA18fxQW398WHte@archie.me>
+In-Reply-To: <aPA18fxQW398WHte@archie.me>
+From: Kriish Sharma <kriish.sharma2006@gmail.com>
+Date: Thu, 16 Oct 2025 07:45:22 +0530
+X-Gm-Features: AS18NWD2IGlwVYDG7C9iI2e3l9CLdrdvxxJHaMKCdoRSM9GgL7yUi4oi3QL3np4
+Message-ID: <CAL4kbRMQCMqnjLq6tXCuGXfGZWMAN+Jn-oQ0Ljzc_WLG3rUazw@mail.gmail.com>
+Subject: Re: [PATCH] htmldocs: userspace-api/dma-buf-heaps.rst: fix block
+ quote warning
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: sumit.semwal@linaro.org, benjamin.gaignard@collabora.com, 
+	Brian.Starkey@arm.com, jstultz@google.com, tjmercier@google.com, 
+	corbet@lwn.net, linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Fix the following warning encountered when running `make htmldocs`:
+Thanks for the review, Bagas.
 
-  Documentation/userspace-api/dma-buf-heaps.rst:29: WARNING: Block quote ends without a blank line; unexpected unindent
+I've sent a v2 with the corrected Fixes tag as you suggested:
+https://lore.kernel.org/all/20251016020912.1653230-1-kriish.sharma2006@gmai=
+l.com/
 
-Added a blank line before the "Naming Convention" heading to comply with reST
+Thanks,
+Kriish
 
-Fixes: 507211e3c7a1 ("Documentation: dma-buf: heaps: Add naming guidelines")
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-Tested-by: Randy Dunlap <rdunlap@infradead.org>
-Signed-off-by: Kriish Sharma <kriish.sharma2006@gmail.com>
----
-v2:
- - Corrected the Fixes tag per Bagas Sanjaya’s review.
 
-v1: https://lore.kernel.org/all/20251015183402.1649988-1-kriish.sharma2006@gmail.com/
- 
- Documentation/userspace-api/dma-buf-heaps.rst | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/Documentation/userspace-api/dma-buf-heaps.rst b/Documentation/userspace-api/dma-buf-heaps.rst
-index a0979440d2a4..c0035dc257e0 100644
---- a/Documentation/userspace-api/dma-buf-heaps.rst
-+++ b/Documentation/userspace-api/dma-buf-heaps.rst
-@@ -26,6 +26,7 @@ following heaps:
-    ``DMABUF_HEAPS_CMA_LEGACY`` Kconfig option is set, a duplicate node is
-    created following legacy naming conventions; the legacy name might be
-    ``reserved``, ``linux,cma``, or ``default-pool``.
-+
- Naming Convention
- =================
- 
--- 
-2.34.1
-
+On Thu, Oct 16, 2025 at 5:31=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
+> wrote:
+>
+> On Wed, Oct 15, 2025 at 06:34:02PM +0000, Kriish Sharma wrote:
+> > Fixes: 1fdbb3ff1233 ("Add linux-next specific files for 20251015")
+>
+> The correct blamed fixes should've been:
+>
+> Fixes: 507211e3c7a1 ("Documentation: dma-buf: heaps: Add naming guideline=
+s")
+>
+> Thanks.
+>
+> --
+> An old man doll... just what I always wanted! - Clara
 
