@@ -1,217 +1,237 @@
-Return-Path: <linux-media+bounces-44750-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44751-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5868DBE42A3
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 17:17:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id D8398BE42D9
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 17:19:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A8FA15E469C
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 15:14:28 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2740919A045B
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 15:20:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 08C9234572E;
-	Thu, 16 Oct 2025 15:14:18 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 69CDF3469F8;
+	Thu, 16 Oct 2025 15:19:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="mjcK6Ruw"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="eyMzW4rQ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from AS8PR04CU009.outbound.protection.outlook.com (mail-westeuropeazon11011041.outbound.protection.outlook.com [52.101.70.41])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 548323375BE
-	for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 15:14:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.70.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760627657; cv=fail; b=TF37xa/A8SCP8i/lW+PZScoyhmQ4hLMA7AJs5ppDHqnpEmJyQ3dq35NLsrd4XqyDpMTc9M3DF2e7raSOiYthvHGGHi2WavxzsUFS8n3jL/JNqpues9OrWHwxAgVRYGOcDXUWPkLbiq7CICAiWwfr6mgprw2UY7HeMkpeBa4LN4w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760627657; c=relaxed/simple;
-	bh=wFECzprweeBoXU8whxxq5gV2TBM6liJVj5qfRzmBzIc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=nFDESTALBPv/W46jRxTKU/ZeG3W9XQ9g0ptODlrKkC2ZXRuQWuaFZV7WWXVyO6XNQkY4o6L1kYyZI8zb+f03qxu6TEusg9IxsDlRh1cUHIGOb+vJQT0ZZfKAn3Ia0sTC125hjL2ISlzYFRaVBtYoPNbZDGM/Y9bCDASWS6ETBPY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=mjcK6Ruw; arc=fail smtp.client-ip=52.101.70.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=yfLXtolNqX1WerFmoqXiRLqgF2HrWqtmcVnVcxT2P55/RCq2sa/iq1ci0zYcO3Ek8UQLkwD5NOyV+geF9xCgZTjwvbPOYmTtjSssBQCzCVssTuD9vDOn3/rXeyZe16j6jmdSsqDqS7gCWKRuPnWoGjkwfGwW2biYj3q4l9X67Flfq1UmDUSf3OD+W2g2C11tZbNJfXw9ZcflfY9imXGfATWqm2Jxjyo65EWnKc57zv/xH1v7C6nfbx+K7RvuhlhsNCx7dUM5XWvgkFdTZY+mREUblXU/JJRiq40AyhGYQxR8l/oTrd2pzuJY8DW3hqRkiZFTO4QanNPkAdUSo0gR+A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1xZUtppHsT/cW3NlDOoDPlYSvxOdavUISY4Kguvbybo=;
- b=WqoTvMVqq6LUJlZSzcQNXADNR491BwP5Z0gJ/scvjBCkZxmObKQtICq/isKzsk8c8wF7/tGHNgOx2tVhICSI1/qGAIP5X8A0WFbwMM0abwz00rQQcDGpwaHsffFxfYCdI2QFLela2QMJ6yjIPg47YW/qGUikplOKVAiTL/QsptmRI+FCZR83gptgTr8vYhccsQIw8m96wSbjAJpu1Iv/tHqZNM52zduJ8Mp9FCQCWHEpqKGlVy2vbIUf1tpOD3fWV2NhfSrCYBk7bpc4VOuvHG7Cle0Mnaj5+yZd90Wzj0W2H+ZGEutUJSTSyFwrGPL+6NaPcroQTlMKBoQhiQwb1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1xZUtppHsT/cW3NlDOoDPlYSvxOdavUISY4Kguvbybo=;
- b=mjcK6Ruw6ha/+iiEk4JXimWBMcwLviZbAdImY46PH/rCuTzRze/gcPXOXJLok4QB6+F6djXil23Yb1y+DtNpkTSTDpI4sMoMXV1zukDaH9cORAc+uYzuhJItQZ8WGnTnR0jSijCfSSyGp52HLh6eWpoXr9P/Qjy32l0FpVS5VROqknXYAQDV82BI4fgMODywRTnLojrQXSQ1RjwH8IBTXmgc3ucrlXnLDhwEOliCQLbC41JSGtqsSPz3/1t4WeAIxW6vXPXCQtTTd6czrGZUdCoMUHkl+3cynbaaO053oUqonY/d4El8PCNEJOcIZwOweoUGOKFevhMdYqQrB04srg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com (2603:10a6:102:23f::21)
- by PAWPR04MB9960.eurprd04.prod.outlook.com (2603:10a6:102:38b::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.11; Thu, 16 Oct
- 2025 15:14:11 +0000
-Received: from PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15]) by PAXSPRMB0053.eurprd04.prod.outlook.com
- ([fe80::504f:2a06:4579:5f15%6]) with mapi id 15.20.9228.010; Thu, 16 Oct 2025
- 15:14:11 +0000
-Date: Thu, 16 Oct 2025 11:14:03 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Marek Vasut <marek.vasut@mailbox.org>
-Cc: linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Ming Qian <ming.qian@oss.nxp.com>,
-	Mirela Rabulea <mirela.rabulea@nxp.com>,
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Shawn Guo <shawnguo@kernel.org>, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v2 1/2] media: dt-bindings: nxp,imx8-jpeg: Document
- optional SRAM support
-Message-ID: <aPELu8y9jw2U8bp3@lizhi-Precision-Tower-5810>
-References: <20251011183306.163564-1-marek.vasut@mailbox.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251011183306.163564-1-marek.vasut@mailbox.org>
-X-ClientProxiedBy: SJ0PR03CA0183.namprd03.prod.outlook.com
- (2603:10b6:a03:2ef::8) To PAXSPRMB0053.eurprd04.prod.outlook.com
- (2603:10a6:102:23f::21)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D9F44C9D;
+	Thu, 16 Oct 2025 15:19:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760627966; cv=none; b=h52LeK5v58PGthjz9SEvYI7YiTkhGdvoFqKgr+ZwCqQIenip0WqdCFNJ0GMxoNikkReE1bN+EUMc4Idmf4HgyLHq2FV8AkC3Tra6lvTf1p63Qr0UHr7l+7BRbdloBAu7YQ4uXGmvOvi34orQ5+gSD2UnAqUt3ojTKHdDEbQeqB8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760627966; c=relaxed/simple;
+	bh=ati0KgDtCv8PEJWIbHhO/9CBCvu0ooHMQ92xaU79xmk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=f9+xFlAfKZSP7ZMMm+EFlePaf5vNYoUqYvcvzOA/IoUsP1S/D9aO/ttNoS9wWy9OACzdE8PnJtMTypBRM2jDPoW+PXaIvqEwrL+BRNFPDnDjuFoDTbzo9TIk+gYtZS3jQnFmXmuSKUdRK+YUg9vLG75MrO5DyR9Qjqg7WnGSnAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=eyMzW4rQ; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1760627962;
+	bh=ati0KgDtCv8PEJWIbHhO/9CBCvu0ooHMQ92xaU79xmk=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=eyMzW4rQLHVjAGqM0OkLEpY4VZFJWE3w9WApY6ZgKLoh+Q4yWD3UmKac5seip3q1G
+	 ZznepgwbmLiplpUFmhtGssykMO6LT53ekQB58MjzKaDZ0+IoIeU776UGgs+9iQ29lu
+	 rUDv5twJb29FF6pHWrGk+3H7VjxQ0PvD3OSbixH+vFLJniw72c5zLA24KKmVxGHtJv
+	 enz5u8ruG5zNpukj3DiwESj7b8UyWo/ot72UKR+f2svZEyWVU4/Nk9JzKsW5syUEnA
+	 rndPCpt6jorI5VXDLNZNIiyfv51L6idtB7ZudXXxUwtYiRImf5HIQvrnfWA/SZtrMY
+	 30i/81QAhXWzg==
+Received: from [IPv6:2606:6d00:17:ebd3::5ac] (unknown [IPv6:2606:6d00:17:ebd3::5ac])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id E50C517E10C8;
+	Thu, 16 Oct 2025 17:19:19 +0200 (CEST)
+Message-ID: <f5956178a0e5d91dabc12e89f666eac2140f141e.camel@collabora.com>
+Subject: Re: [PATCH v4 4/8] media: mediatek: vcodec: Add core-only VP9
+ decoding support for MT8189
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Kyrie Wu <kyrie.wu@mediatek.com>, Tiffany Lin
+ <tiffany.lin@mediatek.com>,  Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+ Yunfei Dong <yunfei.dong@mediatek.com>, Mauro Carvalho Chehab	
+ <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski	
+ <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Matthias Brugger	
+ <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
+ <angelogioacchino.delregno@collabora.com>, Hans Verkuil
+ <hverkuil@xs4all.nl>,  Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+ Sebastian Fricke <sebastian.fricke@collabora.com>, Nathan Hebert	
+ <nhebert@chromium.org>, Arnd Bergmann <arnd@arndb.de>, Irui Wang	
+ <irui.wang@mediatek.com>, George Sun <george.sun@mediatek.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-mediatek@lists.infradead.org
+Cc: Neil Armstrong <neil.armstrong@linaro.org>, Andrzej Pietrasiewicz
+	 <andrzejtp2010@gmail.com>
+Date: Thu, 16 Oct 2025 11:19:18 -0400
+In-Reply-To: <20251016060747.20648-5-kyrie.wu@mediatek.com>
+References: <20251016060747.20648-1-kyrie.wu@mediatek.com>
+	 <20251016060747.20648-5-kyrie.wu@mediatek.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-Rz6sMYc0nh24Zfb5X2O5"
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PAXSPRMB0053:EE_|PAWPR04MB9960:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1915cddf-ac11-499b-14af-08de0cc6a923
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|19092799006|1800799024|376014|52116014|7416014|366016|7053199007|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?QCNvrwPVg1gTXBz2KSOvNmox2qgTQ2EX5XcY4E0FHdly3kIGmFkjw4YQVoEJ?=
- =?us-ascii?Q?BNobUWNfqOlUrgaCdlRTxRQM9fu3nmh7KWQYMrHTX9rLL2I/MJFU9Xnpmq80?=
- =?us-ascii?Q?Efqf2h3Ti5PzPL5v3qNu65/bYs9tAzYiAGsSEFHKtaQCibKH0zmEdhzkHu55?=
- =?us-ascii?Q?gQjANVafVx5VfYdsIKMeb4Y1yffg1Nc05yPtfyC0D28+L23x51H6xhM4CRJj?=
- =?us-ascii?Q?grdlJrK2sJaJR1SbmXNt102Xy+ACTapnf/qMRrQuIFKZZz8oVOSljBKdUlxX?=
- =?us-ascii?Q?DA3Ywn9zQWwmb52kNjiv4kT4IrZ3SfIxwj7k6zYKo5McgbANXX6AqMntZSJ1?=
- =?us-ascii?Q?1wqoNpa2Dx8BVv+zljvon3dTSZoT2dFy+sf5kVnm5dwPvNWQvGCxDBFvRQef?=
- =?us-ascii?Q?I/paDNepGUOm28MhZ456HTWV9tVbhPJAQ7CV2wdbf9Cym0D5RvPdrXyWWg7p?=
- =?us-ascii?Q?D3NYHJkrWICUR2qpyDcFiMNhgEY0ddRYCij83Ou0b6z9bc88QzFJP725Qn2k?=
- =?us-ascii?Q?WC29PKyNUMUWYwkzdXOKgkHhJCV/qltNMFc1icUBd5Yt61p1TdR0YZFTv0JB?=
- =?us-ascii?Q?OTsQr8G3FtxZtfP012hqcblsoRcpqLeCDxECxHgyCySH+Zx5R6B3fQUYkxlr?=
- =?us-ascii?Q?CFfH/PClU6ReTTkVsFPjSTNQkitYaAuEhsCG65wxATrF+2po4L4Aa2oEc4Q1?=
- =?us-ascii?Q?IrRZ6kBav4BIn+iG/7wklBf8W6DU+LWSDz1TyiNJkz2agR24/2KZjHD47fkP?=
- =?us-ascii?Q?FXHNSmDc/sLOMCYTSs0PofS9rWTXNdBsdGA+gugJ58WT6OQbvWFafs7WpuVB?=
- =?us-ascii?Q?9Anz2QGIxtzWFNUYeBLyN7zer3e+WwbijIF/hID78mptRrWp2mbSGBduh/vN?=
- =?us-ascii?Q?0geIwVif3QejeIhNia+I0cKPz4PnzlGQy9XFoRY+bBXvm5DA0YQwmAGAxO+D?=
- =?us-ascii?Q?O3eBlm2P8M1FlXI1mtYBQ1f4ATz7XWfGaO3Sq+xUzCE72og5mYzWd5zfuhBx?=
- =?us-ascii?Q?mYpBnnVmMjlYEC1UNETRdmhZxknT3a8nH2+L+YA5oKAd2o874hlA8dtOB3Pe?=
- =?us-ascii?Q?rli/eaDPXzriRcvHn+BdpRXX+2i8SEi48fWEGGwKBcS/R9yXgqyCt9QKfh+I?=
- =?us-ascii?Q?YiseLyLdwbZAb9iI3kqCdJqipXTNLFT7rNFxkCJdFyPw9W/nNo1tTNu2wrXe?=
- =?us-ascii?Q?2RK0s1kyykTxLluFucvBu4hPzZBHfs6WeJRsbi1u5rsFH2PMtL5+ihVgBO4G?=
- =?us-ascii?Q?u+GjU2Y8KMP7knptNkNxnTAYuDAPSQqyoXx/fj+8hd1uNDLPbpeuh+UsLNqc?=
- =?us-ascii?Q?+LxfLvo5yI3OsEQHLtGB5Le7z+Rf90M7pa+cTFILcyhKp9BXsf1NUwTYLFxV?=
- =?us-ascii?Q?41VVdXmYNWo2ZziDM5aKR/GL8FN86I0yklrxSRBlmIUkxCEQ7wtMTk2dYBvn?=
- =?us-ascii?Q?48ugbgMFxhXzo59enO4tzRLBcFyXjEasFc4U1L8niZ7Vx/Z7MhHAJNLl3X36?=
- =?us-ascii?Q?3vGAW62Ciw6Gof6d8YdI40fhxcJTEgaPxn4E?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXSPRMB0053.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(19092799006)(1800799024)(376014)(52116014)(7416014)(366016)(7053199007)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?3/+N4s0pPwfs7AARCB1k53Sy6cg6iaOH3xPcDpOQvc1ak/PDjI5vcn9lNVZ4?=
- =?us-ascii?Q?Mz1avMK8udwFGkBKjMMZTTCRY07MnbOZsO8B7TwAqGl865p8+6a5gdRkIyNM?=
- =?us-ascii?Q?17owOs+9T4Pq4OS+lrk+cIqLcJrmxEuVXFwpCZ1tiJ5bRsuEG4iwIBaEs3NR?=
- =?us-ascii?Q?gfWJCF/vA2zLw6zwk1ffjFriO5AEUF9mUdTuKZxLrl9Cz9mZtn5YmpRit9wQ?=
- =?us-ascii?Q?676qvwsQ6CS8BJ7bgEwUzzI4SxUAOrKRZ7AiiT4Bxt3SGUAbPUh34+orXy7i?=
- =?us-ascii?Q?fr0cokgkZPt6f6jbMwpiYbX5RczPRZUo41i2UA3l8S2JdYgDAZlKoIL164VM?=
- =?us-ascii?Q?6WL8Q5VeH1DcU6GX/35HtQDiLhzR6cVIB/mYTVB2RazUxKkpaXayZ7lWZaLs?=
- =?us-ascii?Q?lOL9mM/Fz+rZ973cRfWE9sFcbZT2081oQ10NCw3jgu8AIokz1NrVFyINSE9R?=
- =?us-ascii?Q?kq4tWKNl+AOnBXR6B1u2hFHoxqtKJeQyMB0IjjMaHrryoPiGQklTiDLLT1IO?=
- =?us-ascii?Q?exp1FwrOb2SC8jP5Qh8aXb+Fw3+q1ZHZCXQEKLuE6bHErvVQedICKV8eFKVm?=
- =?us-ascii?Q?OgMQmG9Eg3c8u9eEi/R9qaD/XIyup98+jBNeVqjqL5/jSecFL5yfN93S3ju+?=
- =?us-ascii?Q?Yyf/8K/QXcvGL16EpYFzPLVOJBFJxHsyTX6/3xVahS2TkqFlvuCRLc9sfbCS?=
- =?us-ascii?Q?YZJJneL2cdScmQv+20FFAq8V5rZyDhShlBt+ygC3nbk+j+c/wIKfYGTJDn6Y?=
- =?us-ascii?Q?N6nfZ2JwzO9HmFeUEp9sjdC2BwyjJ8j03yJvCjuFWChDWp9gmWtzN5yOoqcL?=
- =?us-ascii?Q?aUqMKybat+QqKs1Np+s91WCpvLcINPMajSicSImqFpUtnDwxcqVN7aChhGQT?=
- =?us-ascii?Q?L43pJqQITB6f3i48xG8E2+GTqgx3YoAbRSmp1pcaL9Y4IhoPcl9yWBzj6AaF?=
- =?us-ascii?Q?dbDFn429hbot3JuSZ6HMeAg8x1hoJ970NPmx/ClshD+WPO5sBev+blAQTUB/?=
- =?us-ascii?Q?5ED40nIsjHiN+Ua/F9jrumLQXxcKohdZD920cHaDScVZ8nE2/32zhtgQICYh?=
- =?us-ascii?Q?fG9C0PzgyZnufAtrO29ww9jvbfGEcJIVH3eYYkVr8NXkaVFDizoJUH/S20ma?=
- =?us-ascii?Q?4v/9svDDP2Y2GrPNVusspSmq01kzBrOBfi2jI9eZ7nXUKwwCsSjOiCamUxsV?=
- =?us-ascii?Q?9CgIL5HsiCNjykuQkROWGD/6vPUHfz72D/1Gc8QNQkOmo5ERxZ/NJJGayX9c?=
- =?us-ascii?Q?N5H84t97RZ0/QYi7vF2Qy+3e9ZlJfycUse73HUEO2KeGWUZGgQFCwDgUs4+s?=
- =?us-ascii?Q?4Ucqn3TMfwDepYNHy+SuPe9VE/z/0gFeD/D0OBC0SKQTal3Gb5Nu6u10yvCA?=
- =?us-ascii?Q?6xhkfJDVEn2dyDWwXA2/lu60ijKnZ6C5CVx2iJElcyrmqQdD/vQW+ts71ve0?=
- =?us-ascii?Q?3AQ5yiZHf8TfFxaq3MiVCB9Z2jK/axLvob3OONOfQ0Iab+5lu8xfyuz54MpH?=
- =?us-ascii?Q?QbNJ05ud6JrYpUktPYIO7WWoEgqNPySUlqX6XZdG/OGuWa3RaDv7Qf5VQoAx?=
- =?us-ascii?Q?BxmTR25Knbgz6rVmT4aKfsZ0e7rZgAc9WDada4eN?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1915cddf-ac11-499b-14af-08de0cc6a923
-X-MS-Exchange-CrossTenant-AuthSource: PAXSPRMB0053.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Oct 2025 15:14:11.5294
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 44fR4q8AVaEoE+8j0eaBZFMoARrCfqa0OI7hSubeeYD6Ibmyk5ZAr/rzXwczcBSxJthsPxceAGUQ3n2V91qAUw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR04MB9960
 
-On Sat, Oct 11, 2025 at 08:32:25PM +0200, Marek Vasut wrote:
-> Document optional phandle to mmio-sram, which can describe an SRAM
-> region used for descriptor storage instead of regular DRAM region.
-> Use of SRAM instead of DRAM for descriptor storage may improve bus
-> access pattern and performance.
->
-> Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+
+--=-Rz6sMYc0nh24Zfb5X2O5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi,
+
+Le jeudi 16 octobre 2025 =C3=A0 14:07 +0800, Kyrie Wu a =C3=A9crit=C2=A0:
+> Implemented core-only VP9 decoding functions for MT8189.
+
+What does "core-only" means ? Did you mean single core ?
+
+>=20
+> Signed-off-by: Kyrie Wu <kyrie.wu@mediatek.com>
 > ---
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Ming Qian <ming.qian@oss.nxp.com>
-> Cc: Mirela Rabulea <mirela.rabulea@nxp.com>
-> Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: imx@lists.linux.dev
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-media@vger.kernel.org
+> =C2=A0.../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 27 +++++++++++-----=
+---
+> =C2=A01 file changed, 16 insertions(+), 11 deletions(-)
+>=20
+> diff --git
+> a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if=
+.c
+> b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if=
+.c
+> index fa0f406f7726..04197164fb82 100644
 > ---
-> V2: - New patch
-> ---
->  Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml | 6 ++++++
->  1 file changed, 6 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> index 4cba42ba7cf72..e3170647f44db 100644
-> --- a/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
-> @@ -55,6 +55,12 @@ properties:
->      minItems: 1               # Wrapper and all slots
->      maxItems: 5               # Wrapper and 4 slots
->
-> +  sram:
-> +    $ref: /schemas/types.yaml#/definitions/phandle
-> +    description: |
+> a/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if=
+.c
+> +++
+> b/drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if=
+.c
+> @@ -23,6 +23,7 @@
+> =C2=A0
+> =C2=A0#define VP9_TILE_BUF_SIZE 4096
+> =C2=A0#define VP9_PROB_BUF_SIZE 2560
+> +#define VP9_PROB_BUF_4K_SIZE 3840
+> =C2=A0#define VP9_COUNTS_BUF_SIZE 16384
+> =C2=A0
+> =C2=A0#define HDR_FLAG(x) (!!((hdr)->flags & V4L2_VP9_FRAME_FLAG_##x))
+> @@ -616,7 +617,10 @@ static int vdec_vp9_slice_alloc_working_buffer(struc=
+t
+> vdec_vp9_slice_instance *i
+> =C2=A0	}
+> =C2=A0
+> =C2=A0	if (!instance->prob.va) {
+> -		instance->prob.size =3D VP9_PROB_BUF_SIZE;
+> +		instance->prob.size =3D ((ctx->dev->chip_name =3D=3D
+> MTK_VDEC_MT8196) ||
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 (ctx->dev->chip_name =3D=3D
+> MTK_VDEC_MT8189)) ?
+> +					VP9_PROB_BUF_4K_SIZE :
+> VP9_PROB_BUF_SIZE;
 
-Needn't |
+I feel like this will keep growing, then you'll move to 8K and it will cont=
+inue.
+You already match every SoC in the driver, you should come up with SoC
+configuration data structure so you don't have to add doc check conditions =
+all
+over the place. This change is also not reflected in the commit message.
 
-Reviewed-by: Frank Li <Frank.Li@nxp.com>
-
-> +      Optional phandle to a reserved on-chip SRAM regions. The SRAM can
-> +      be used for descriptor storage, which may improve bus utilization.
 > +
->  required:
->    - compatible
->    - reg
-> --
-> 2.51.0
->
+> =C2=A0		if (mtk_vcodec_mem_alloc(ctx, &instance->prob))
+> =C2=A0			goto err;
+> =C2=A0	}
+> @@ -696,21 +700,22 @@ static int vdec_vp9_slice_tile_offset(int idx, int
+> mi_num, int tile_log2)
+> =C2=A0	return min(offset, mi_num);
+> =C2=A0}
+> =C2=A0
+> -static
+> -int vdec_vp9_slice_setup_single_from_src_to_dst(struct
+> vdec_vp9_slice_instance *instance)
+> +static int vdec_vp9_slice_setup_single_from_src_to_dst(struct
+> vdec_vp9_slice_instance *instance,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct mtk_vcodec_mem
+> *bs,
+> +						=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 struct vdec_fb *fb)
+> =C2=A0{
+> -	struct vb2_v4l2_buffer *src;
+> -	struct vb2_v4l2_buffer *dst;
+> +	struct mtk_video_dec_buf *src_buf_info;
+> +	struct mtk_video_dec_buf *dst_buf_info;
+> =C2=A0
+> -	src =3D v4l2_m2m_next_src_buf(instance->ctx->m2m_ctx);
+> -	if (!src)
+> +	src_buf_info =3D container_of(bs, struct mtk_video_dec_buf, bs_buffer);
+> +	if (!src_buf_info)
+> =C2=A0		return -EINVAL;
+> =C2=A0
+> -	dst =3D v4l2_m2m_next_dst_buf(instance->ctx->m2m_ctx);
+> -	if (!dst)
+> +	dst_buf_info =3D container_of(fb, struct mtk_video_dec_buf,
+> frame_buffer);
+> +	if (!dst_buf_info)
+> =C2=A0		return -EINVAL;
+> =C2=A0
+> -	v4l2_m2m_buf_copy_metadata(src, dst, true);
+> +	v4l2_m2m_buf_copy_metadata(&src_buf_info->m2m_buf.vb, &dst_buf_info-
+> >m2m_buf.vb, true);
+> =C2=A0
+> =C2=A0	return 0;
+> =C2=A0}
+> @@ -1800,7 +1805,7 @@ static int vdec_vp9_slice_setup_single(struct
+> vdec_vp9_slice_instance *instance,
+> =C2=A0	struct vdec_vp9_slice_vsi *vsi =3D &pfc->vsi;
+> =C2=A0	int ret;
+> =C2=A0
+> -	ret =3D vdec_vp9_slice_setup_single_from_src_to_dst(instance);
+> +	ret =3D vdec_vp9_slice_setup_single_from_src_to_dst(instance, bs, fb);
+
+This entire change is not explained in the commit message at all. Explain w=
+hy
+this is needed, what difference it makes. There is no clear indication we a=
+re in
+an MT8189 code path, so this change could have a incidence on all single co=
+re
+SoC (if any).
+
+Nicolas
+
+> =C2=A0	if (ret)
+> =C2=A0		goto err;
+> =C2=A0
+
+--=-Rz6sMYc0nh24Zfb5X2O5
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaPEM9gAKCRDZQZRRKWBy
+9AB+AQCgeocVLaEndCMfX388SHPaflaLqJbYBY0d0ZHr7NpAOAEA7g9JD1WWMOrd
+Z+Pd5ov2tTNoe3q+1HvqeNDXlNyUOQs=
+=+EQ2
+-----END PGP SIGNATURE-----
+
+--=-Rz6sMYc0nh24Zfb5X2O5--
 
