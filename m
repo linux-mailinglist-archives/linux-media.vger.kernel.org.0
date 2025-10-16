@@ -1,143 +1,155 @@
-Return-Path: <linux-media+bounces-44725-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44726-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BACEBE3266
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 13:46:48 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5722ABE32C9
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 13:50:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9F7AA19C4E19
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 11:46:57 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AE7CE5870C8
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 11:50:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E480431D73B;
-	Thu, 16 Oct 2025 11:46:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8418131A541;
+	Thu, 16 Oct 2025 11:50:15 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eVASFOd8"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="A/M7Hfdp"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349CD2D320B
-	for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 11:46:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 269052E11C6
+	for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 11:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760615177; cv=none; b=VbPiV4INpSvTvTcyr14ZRxkBUYOxvD9LnhD3oKC5x1CaHbvqos0RGA3z1CajSa6cpSbH+g0ZII4cEa3lXoUoK9eszxGvtH0weQGIc6pHD2R4ifN5/Oo/JSSjgu9dxHlEbrxirstpJSIqp0BjHwpC3UYuEzgM0/V2h36Gtjon/o0=
+	t=1760615414; cv=none; b=IiLaNfFVXIJ9buFUwULsJblZlngkA0D4MLNDjZKSkaeR9cITNYgqafIvCURN5CEFWT1YFSfIGdP9rKdh38RMvU21AlQ9WizOhuEUMLbyqf8F1l9grul2YLud5LfpVyTG/Y1orLIIYXglMnfcZ/MmztyM8Q+N9u156CRmsN9uqQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760615177; c=relaxed/simple;
-	bh=PZizulifq2HVUabPYk3xuoVBwllBTb+3Td/PKhrD1JE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ioj2mpk/CYgjomRiMXbRtUToRv5LMaIOI0XG2TrRpuNI2plOqWXl+jKTT9H5nG216kZmODGNsM1Vbgqo8T4PDtBLUwYy7Ym4MvZexua7lu5u/j/tikBGLBVrq0wudxeR2qHU/2V1qakueKKQh4+uMEJqalZG5Hg7b6CQpxLAGAQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eVASFOd8; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A93B6C2BC87
-	for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 11:46:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760615176;
-	bh=PZizulifq2HVUabPYk3xuoVBwllBTb+3Td/PKhrD1JE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=eVASFOd8Ywqe6KQNNwIc5W99wHDhxMRKImkDDotqZhGfqTqo7WZv7EpFgufnGXg98
-	 JH71O97kUeMbKxS8dK8TarWgbulGDPG/N2osi7PB/ojtJuHmlrHJipQhJK1fGQIqx8
-	 op6BUxlQydtozthCzk1GkU+Z3xEyU2pJ07NmKzV3wJgQe358X8/mJd5VrRKTvZKzl+
-	 +9FQpN9xIDocbbmTswT52JCnNKVhQThGt3s6bdIntcRH2MwGnePaTwIuWYel9QlktR
-	 HIEBISbSt0jVuOZKcib3uQCDBxbXZ82Ji+VD8qp8E1NGjRdxSMw+Et1p/mpAswLeL7
-	 3l+fyNXce0nKg==
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b5b823b4f3dso105766466b.3
-        for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 04:46:16 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWkrAuaeSaxqSwfXPmJvM55Isz0h/Bf7I1dkI9S3i0fTDqqenIg9RxQ17qcpeRMfSTL5vnekqgR46in7A==@vger.kernel.org
-X-Gm-Message-State: AOJu0YySS20H5mNHgkKcUWKkjC19kaJhUhX6bQwcRMXlinp2mdpg7uDo
-	wq/BZcH9KnFhT27jQqMrW785T5WucVNp2m+OxADAj5/kyGnMUO3xmnxuIGxkjLUg2Fwk3eoZ53Z
-	8Lypb2y0T/UDYba5G69+bQ+duZoLD1Q==
-X-Google-Smtp-Source: AGHT+IG/cukXQVGNzPUMXsg5+RoCAkU44f3RdQmcvQZOd/ZrFBQ7UEz32fqOhzDQMAOYnE1PB3ZCi0DPIcgQtV+P3zk=
-X-Received: by 2002:a17:907:7e96:b0:b3d:d6be:4cbe with SMTP id
- a640c23a62f3a-b50aa8a9063mr3962097166b.18.1760615174961; Thu, 16 Oct 2025
- 04:46:14 -0700 (PDT)
+	s=arc-20240116; t=1760615414; c=relaxed/simple;
+	bh=N2WgTs/5T5fCBqZ4ODa1es3MMlQZNO1srOLrkvYjBhU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Znw4jk9AhiP4whvlhIUuCGhwO6XoiBvB6UrCweqvae15xkBT+AuC0KXAsQqfSa1OE/v8kPJia/UttWDGtKPKFzLYjV4ohDQNSNPXt3LNo66Iscp0b4ujLz4YZXvttGEDwxHCfQCYRZy0pRLOMsgLJ7MJ6Zp891lTJnQKQNmvYyY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=A/M7Hfdp; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-b3d80891c6cso334063866b.1
+        for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 04:50:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760615411; x=1761220211; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=eEbqZZLSc+qwF2fltsWM8Kb5Qy0LiCcBgh/Rt+CAz50=;
+        b=A/M7HfdpMMCcgHIQsnEoPSfDOLdfL2GtalxzoU4elXCRSNPtciJDaOchf3uzyYuXcJ
+         9Q4RSi1JFIorxdpZeYjTRVsdT0tcX05KZw+qyCLCv+nilTnDS/hT3FRP82qBY3mBDRKh
+         Td8JdQ1ZybSR/jLzCJ8SL2SI2rDEIb8sfmEXQ4IdtTBVH9uGJZ8douDR68l1XUiNX3aV
+         KZmfuDi+SieOsm4rcmakS9CXSF9sCjmkVvKPAkUTMmnqHZRKDC/U34MQbZqI96kAVwLI
+         Xai91kaKVbgD0qcn97ay/54xnuYEaNUrAagD5uCt67eOQBADkZjAlZoy50gWhq5IteWl
+         2JYw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760615411; x=1761220211;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=eEbqZZLSc+qwF2fltsWM8Kb5Qy0LiCcBgh/Rt+CAz50=;
+        b=kUEEMvXXsOYcepbSCXmDXRfRgqJafo/M0h0oNOO0+5LYRkX+x9az4WTugauPeV3z7o
+         TDzpP9vKU4ejj5qVgDMaYTlS/hPXGVec6KiZfXt9wDCCQ/9peL499G6RyNVYfxZcKi7G
+         ZViQ9rc3aLW3L3Xg2etdPTwUvlXXs4QUW9D6F1XdVlG1hiS85Wpr/jLL+WfmfvJ5I7tH
+         rJZeDhgbfywlYJcSm7GXHghsZPpaEbsMnWHP+q9TJGh1GWNFGLBfjEaftTXjc0TDzwzD
+         EBvqoazvJSWjcZlYma18PNlA/jf5/aZv7bpiFGSGg1r/Etjws2miVZjU6snhRRDbwKhc
+         51Wg==
+X-Forwarded-Encrypted: i=1; AJvYcCXo/wbBODn5xZ/5kXXcvqD9bA8Seo/FRIsZwKs7/E06f7FB02jll2ivf2syWKbaVL8R+yDl/Y9R+a7XLA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwYo54eB7wAV3uFK4BC3PQAnNek0Hq6ErSdO6XmtBNaok5ioSNJ
+	Lsf/Ixh010YUDNbKp3/3iYeWVa5LWril8uYagkEud85GcLttdsS/op/l2ul1UoKESrw=
+X-Gm-Gg: ASbGncv65sp1vsERdIpEXuOQAt5zDDs3PFxEwhTLZlX0/1g1d9yt5YohvOkk5Hq8rnt
+	BzurgsWd8rpNFsL5EWvF9Xp/EOLXOfzZAlSXuO9W3aGiBm/48K73alce/9vmw/HkDrwDuEzEKCQ
+	4OCacVa9NyLB2Mrs8Ec8eFNFbccYcp/LAhxK6bahDsda05KlHUdCeFMXAdG7r9/tTXbpMqK67CV
+	PXEJ0GbAaoTeERnbkRaeujAnK0C/CCUvxWUdiFiexLh9lJ8Ic/33u6Ek7UZvRZCMBfSEG9+1Msw
+	zVSHDgmz/cEUZJ+PrXb5qbi0oO0Xv5t1rXkRNVtJgSNyYkVKb+XDM1Bb98RjyQWhU9uj/qJl31l
+	O/FwEu1HSFyCrvGlH7VqxnVen8on3E2UBddxkbHKwukufiQnh99uIwUZ0iuKGetCRVIqc22+Sgc
+	uQC1pZ7PnD5ipn142AiLUvtZ5uWj+IJpRs1Ntnvf5Icwgh/g==
+X-Google-Smtp-Source: AGHT+IEW+wnaN71oLRojt+JZzgYMxYoG0XidbWJwYAOsWETEDggOgPEoiox0/+MITAms2gR7IjA89A==
+X-Received: by 2002:a17:907:96a7:b0:b2f:4970:8720 with SMTP id a640c23a62f3a-b6052a71b33mr472940466b.8.1760615411486;
+        Thu, 16 Oct 2025 04:50:11 -0700 (PDT)
+Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b5cb965c35csm489533266b.8.2025.10.16.04.50.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 16 Oct 2025 04:50:11 -0700 (PDT)
+Message-ID: <c4fd6bfc-cc9a-4f37-99b3-f36466691a1e@linaro.org>
+Date: Thu, 16 Oct 2025 12:50:09 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251015232015.846282-1-robh@kernel.org> <CAMuHMdVBDN8-gWVs1f=1E2NgD6Dp4=ZFUnyzqHaQj9JWPpZepw@mail.gmail.com>
-In-Reply-To: <CAMuHMdVBDN8-gWVs1f=1E2NgD6Dp4=ZFUnyzqHaQj9JWPpZepw@mail.gmail.com>
-From: Rob Herring <robh@kernel.org>
-Date: Thu, 16 Oct 2025 06:46:02 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqL1KL4CvnxF5eQG2kN2VOxJ2Fh1yBx9=tqJEWOeg0DdzQ@mail.gmail.com>
-X-Gm-Features: AS18NWBW0tx10CGZVgmCxHc_hmn_UbUIH_yG162ZfRbVO05hKCLDAYOsOpbWm_A
-Message-ID: <CAL_JsqL1KL4CvnxF5eQG2kN2VOxJ2Fh1yBx9=tqJEWOeg0DdzQ@mail.gmail.com>
-Subject: Re: [PATCH] dt-bindings: Fix inconsistent quoting
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Stephen Boyd <sboyd@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
-	Linus Walleij <linus.walleij@linaro.org>, Bartosz Golaszewski <brgl@bgdev.pl>, 
-	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>, 
-	=?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
-	Jassi Brar <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Lee Jones <lee@kernel.org>, Joel Stanley <joel@jms.id.au>, 
-	Andrew Jeffery <andrew@codeconstruct.com.au>, Andrew Lunn <andrew@lunn.ch>, 
-	Vladimir Oltean <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Daire McNamara <daire.mcnamara@microchip.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
-	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
-	Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Vinod Koul <vkoul@kernel.org>, 
-	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
-	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
-	Florian Fainelli <f.fainelli@gmail.com>, Tony Lindgren <tony@atomide.com>, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
-	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-iio@vger.kernel.org, linux-media@vger.kernel.org, 
-	netdev@vger.kernel.org, linux-pci@vger.kernel.org, 
-	linux-phy@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: qcom: camss: Enable setting the rate to
+ camnoc_rt_axi clock
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>,
+ Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org
+References: <20251014-add-new-clock-in-vfe-matching-list-v1-1-0d965ccc8a3a@oss.qualcomm.com>
+ <9984bc23-05ef-4d46-aeb8-feb0a18e5762@kernel.org>
+ <bc0caeb8-c99b-4bef-a69e-5ce433e6b890@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <bc0caeb8-c99b-4bef-a69e-5ce433e6b890@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Oct 16, 2025 at 2:57=E2=80=AFAM Geert Uytterhoeven <geert@linux-m68=
-k.org> wrote:
->
-> Hi Rob,
->
-> On Thu, 16 Oct 2025 at 01:20, Rob Herring (Arm) <robh@kernel.org> wrote:
-> > yamllint has gained a new check which checks for inconsistent quoting
-> > (mixed " and ' quotes within a file). Fix all the cases yamllint found
-> > so we can enable the check (once the check is in a release). Use
-> > whichever quoting is dominate in the file.
-> >
-> > Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
->
-> Thanks for your patch!
->
-> Since you are mentioning mixed quotes, is one or the other preferred?
+On 16/10/2025 12:30, Konrad Dybcio wrote:
+> On 10/16/25 7:54 AM, Krzysztof Kozlowski wrote:
+>> On 15/10/2025 04:43, Hangxiang Ma wrote:
+>>> On hardware architectures where a single CAMNOC module is split into
+>>> two, one for each of the real time (RT) and non real time (NRT) modules
+>>> within camera sub system, processing VFE output over the AXI bus
+>>> requires enabling and setting the appropriate clock rate for the RT
+>>> CAMNOC. This change lays the groundwork for supporting such
+>>> configurations.
+>>>
+>>> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+>>> ---
+>>> This change lays the groundwork for supporting configurations for
+>>> hardware architectures that split a single CAMNOC module into real time
+>>> (RT) and non real time (NRT).
+>>> ---
+>>>   drivers/media/platform/qcom/camss/camss-vfe.c | 3 ++-
+>>>   1 file changed, 2 insertions(+), 1 deletion(-)
+>>>
+>>> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+>>> index ee08dbbddf88..09b29ba383f1 100644
+>>> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
+>>> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+>>> @@ -914,7 +914,8 @@ static int vfe_match_clock_names(struct vfe_device *vfe,
+>>>   	return (!strcmp(clock->name, vfe_name) ||
+>>>   		!strcmp(clock->name, vfe_lite_name) ||
+>>>   		!strcmp(clock->name, "vfe_lite") ||
+>>> -		!strcmp(clock->name, "camnoc_axi"));
+>>> +		!strcmp(clock->name, "camnoc_axi") ||
+>>> +		!strcmp(clock->name, "camnoc_rt_axi"));
+>>
+>> Just use camnoc_axi for both. Look at your bindings - why do you keep
+>> different names for same signal?
+> 
+> I think the correct question to ask is:
+> 
+> Is camnoc_axi going to represent the other (NRT) clock in this
+> setting?
+> 
+> Konrad
 
-I have a slight preference for single quotes.
+I'm - perhaps naively - assuming this clock really is required ... and 
+that both will be needed concurrently.
 
-> Shouldn't we try to be consistent across all files?
-
-I don't particularly care to change 915 files. And if the tools don't
-enforce it, I'm not going to do so in reviews.
-
-> > --- a/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-> > +++ b/Documentation/devicetree/bindings/pinctrl/renesas,pfc.yaml
-> > @@ -129,7 +129,7 @@ additionalProperties:
-> >
-> >      - type: object
-> >        additionalProperties:
-> > -        $ref: "#/additionalProperties/anyOf/0"
-> > +        $ref: '#/additionalProperties/anyOf/0'
-> >
-> >  examples:
-> >    - |
-> > @@ -190,7 +190,7 @@ examples:
-> >
-> >              sdhi0_pins: sd0 {
-> >                      groups =3D "sdhi0_data4", "sdhi0_ctrl";
-> > -                    function =3D "sdhi0";
-> > +                    function =3D "sdhi0';
->
-> Huh?
-
-One too many search and replace. Fixed.
-
-Rob
+---
+bod
 
