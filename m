@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-44710-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44711-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 64106BE2D8F
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 12:40:26 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7DABABE2DEF
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 12:43:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7152B4FFD53
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 10:40:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E4D9F481431
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 10:40:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BCB0E31961B;
-	Thu, 16 Oct 2025 10:39:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA1412E5B2A;
+	Thu, 16 Oct 2025 10:40:36 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FlokTebt"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XtoYwC2y"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DE5F2E091D;
-	Thu, 16 Oct 2025 10:39:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20161328621;
+	Thu, 16 Oct 2025 10:40:35 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760611180; cv=none; b=IinT8LDW9Xj46NeEKy6MxRmAhmVnGW76R1Sz1JtVwdPlvLVdJ8aUr3Xrw3gWSmRoikmi0CNhqm64US5X2ZfJt1yzyMhTVg1gDtJEQFnVrQQgYav1G4HlLgFNaiKR1aSJVl7ov5hgrBMOurTQ0iIYrc8anVZivGKVvvd4RuqejcU=
+	t=1760611236; cv=none; b=HdY55AQhV7jjuRhi/v7/LEU8nfzTj7W1xDsnMOdvM7N36xqmFqX6RLU1Vb4embbgwN9SyYViHCoq4+Y0vrcjTZkoQpJzgAv8TlZ1fyC6QNJuaXrUKymOl0C0D6CkLwoasxaD94q4WOZf2CJq5DvCDb93sLL4bqesLML+pR2jEtM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760611180; c=relaxed/simple;
-	bh=6A/4cU9W/5zTIgE22chfzcnwvKLqW2rXf1QX34J4BgE=;
+	s=arc-20240116; t=1760611236; c=relaxed/simple;
+	bh=wbiKwt6TS6CzkPF2AqCXyH71oW6eCePOx9EhG/BPJNk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BHGdDGARxeCpD9KUMj+5RRjsFt4oOhEn9RaTqCV4SjY+5YTLK4M8rxWFzFP3WF9T6nG6c12e7Rb+So4wVHgrHsSTWsXYduDTmUlC3hkXt12CV/fR8bGUsWSbNekWJ7Lz6wtIVXbY2I1zfEAVpR0Oasd5n7p1P0KSa1dEXStpTkg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FlokTebt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB5E7C4CEF9;
-	Thu, 16 Oct 2025 10:39:33 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=N64TcuUHgBNxezlQDcPkW6s2qcuBlfiByA0MmBDH08eJRE8JuUDCeSXHATOs+mQncvn8MrUZdgG5aS0s/Lg5osWD+jrMh3P5IblaOscXvYwlqM6JEb1s1L8kxH7lFOEMrCOpLZdfok2P/DMuhXRINUqIZmDpS2n5Q0pnao8R0c0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XtoYwC2y; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C39DAC4CEF1;
+	Thu, 16 Oct 2025 10:40:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760611178;
-	bh=6A/4cU9W/5zTIgE22chfzcnwvKLqW2rXf1QX34J4BgE=;
+	s=k20201202; t=1760611235;
+	bh=wbiKwt6TS6CzkPF2AqCXyH71oW6eCePOx9EhG/BPJNk=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=FlokTebtU9fRECB8/vQOoNiKbJug/ifJbguv7PyTO4U+ixySj+7UXtTXhbGCBcIeG
-	 TNYr9or5ay7tI+ytrTPDsidu6T4RLIHWKI20jyrWY2wW0RAAHDSoU5ZYfvNF91h/cm
-	 awWbpg2FmNqcm4lBC/GdfrwK0R17ofxs2yH8McY/em8KfS0LyIVmsMWq3mhN+HasVD
-	 1U0g4ij3Qqc7NujaoAYSQMl5jRovgSck+l2sAyHQUVbgl6rmUHdt2fo5hwKXswL6Xh
-	 cXhvN6AeW+fO/DomCifXQW6+Tg9gqOsC6kqD+HQfkbcuTgYzahdgH6JLCPZDw+Aerw
-	 B8vJvUS2wqT6A==
-Message-ID: <0aba21da-c193-4604-ab9c-7ec7b7fe92a5@kernel.org>
-Date: Thu, 16 Oct 2025 12:39:31 +0200
+	b=XtoYwC2yP21BrBlgXJrTIV7Il5/wcWdMeAvYY1LkTB1+L3DiUwwkkTuT+FWpZKeBY
+	 dMcx9Pzs/3ERTiO/FbNPJ/9l5GAD0EEeA0NfK4WfjHYMsJvmIY+jECxrtWI4EisXYS
+	 j1D8WZF2BqPn5nxJ2cXW+qBphxYdrZfvO9cq89/5pwrUp0Im8AHkHkc+/Nt2UC36lW
+	 BlFaoCJ4+dQMhDUk1KDDrcZdvhFgelquMEizJ3J4fDE3I18WOYG1riYAgI9OoDbSTs
+	 PAFDUSw/BjRDdFKWCSkVxB24DBLl45ktjBl5sTyZO2epMyuVbsQvKv3o1RdSC0QpSr
+	 CdacSaTaK8eVg==
+Message-ID: <597a5c19-163c-453d-8f89-f0589de7b23c@kernel.org>
+Date: Thu, 16 Oct 2025 12:40:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,21 +50,26 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] arm64: dts: qcom: qcs8300: Add support for camss
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Vikram Sharma <quic_vikramsa@quicinc.com>, mchehab@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
- cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
-Cc: linux-arm-kernel@lists.infradead.org, quic_svankada@quicinc.com,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+Subject: Re: [PATCH v2 1/6] dt-bindings: i2c: qcom-cci: Document Kaanapali
+ compatible
+To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, bryan.odonoghue@linaro.org
-References: <20251015130130.2790829-1-quic_vikramsa@quicinc.com>
- <20251015130130.2790829-3-quic_vikramsa@quicinc.com>
- <b4207e22-8d9c-4223-8b28-272d2650661f@linaro.org>
- <8966ddaf-9c10-4626-a4cc-36efd3fc93e2@kernel.org>
- <ad05ed96-80fb-448a-a264-f4b4befc5d30@linaro.org>
+ linux-media@vger.kernel.org, aiqun.yu@oss.qualcomm.com,
+ tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
+ yijie.yang@oss.qualcomm.com, Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+ Atiya Kailany <atiya.kailany@oss.qualcomm.com>
+References: <20251014-add-support-for-camss-on-kaanapali-v2-0-f5745ba2dff9@oss.qualcomm.com>
+ <20251014-add-support-for-camss-on-kaanapali-v2-1-f5745ba2dff9@oss.qualcomm.com>
+ <e2c43a8c-a9cc-46a1-9ddd-5d6dfc7e917b@linaro.org>
+ <49eaf7ec-ac71-4bf3-9a4e-25fa633d815e@oss.qualcomm.com>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -110,17 +115,26 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <ad05ed96-80fb-448a-a264-f4b4befc5d30@linaro.org>
+In-Reply-To: <49eaf7ec-ac71-4bf3-9a4e-25fa633d815e@oss.qualcomm.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 16/10/2025 11:52, Vladimir Zapolskiy wrote:
-
-> The same order is supposed to be kept.
+On 16/10/2025 03:56, Hangxiang Ma wrote:
+>>
+>> On QCM2290 the macro in front of the vlaue is GCC_CAMSS_TOP_AHB_CLK,
+>> and name "ahb" is good for both, I believe.
+>>
+>>>               - const: cci
+>>>     - if:
+>>>
+>>
 > 
+> On Kaanapali the macro has been changed to CAM_CC_CAM_TOP_AHB_CLK. GCC 
 
-But you do not ask to keep the same order. You asked to sort it by name.
-That's the problem.
+
+It seems you do not see the difference between GCC output clock and
+actual clock input so some other block.
+
 
 
 Best regards,
