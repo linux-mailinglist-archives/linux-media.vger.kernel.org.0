@@ -1,77 +1,79 @@
-Return-Path: <linux-media+bounces-44646-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44647-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40A76BE1368
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 04:04:36 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A6092BE136E
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 04:04:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A8C0F4E4624
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 02:04:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4A1594E50E8
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 02:04:38 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 876621DF265;
-	Thu, 16 Oct 2025 02:04:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 88ED92116E9;
+	Thu, 16 Oct 2025 02:04:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="jsDy82FF"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="y+Fw5Voz"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f52.google.com (mail-lf1-f52.google.com [209.85.167.52])
+Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com [209.85.167.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFCF61E487
-	for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 02:04:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CC2661EB1A4
+	for <linux-media@vger.kernel.org>; Thu, 16 Oct 2025 02:04:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760580268; cv=none; b=I4IvBn7N835Yz53C4JVX2c81No57Mt119USthdepm7t5/HwEbInd1Zjg9jVYO0aSFx1WAdHqiWkvzBh075i2kQmfOTSpPtLoTsIbo/d1qJ0NsgiJEPAnbvXsx2uIggtS48HP/7fBROhdPQy8p9Ugs+e2bWCg1Gb1B4INC2HGMus=
+	t=1760580272; cv=none; b=DXfiUg1sjx1QeEg45YWCSaWqKjzQxG36U0zqqxFjoeizgdAiDH0WkWHbPG3xu6HdsbAHFO6wu8Ldq/e2rsKmvWnr5AwFATyH4j90wIDX2EFfpyWNCG48UXokQF0GG+cQXRmzwtE3pwzjRc+gRV4FEin9XGkeqy7KJSTdZ/8tgZo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760580268; c=relaxed/simple;
-	bh=Hvg6k/MME8MJglm/n6aor6UBfGLa1CTiKDRths6ZL+Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cF+q9Sk8DtyF2qVcTbhYFLb4IPU4LlUiF0rpBSCkgm+TbbSc+EBCq5U8C3gYTE+JPX3l6IJCN5D88CqO86TW4mGzCS5xD6vCr84Vs74Skf92SVrPTJOpDR8KJsCO6Tj01wCh51GH9sE/an3E8WA2jrxwot76Z/4HG8FP9sW3gvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=jsDy82FF; arc=none smtp.client-ip=209.85.167.52
+	s=arc-20240116; t=1760580272; c=relaxed/simple;
+	bh=PoZl5grWD/NQZ3HMbnHj4LX4d7+4nvcz+PlDzUUThCs=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=X428SbS/H/nK3TQDkS7IWqHsh9WWdgTlAfPiYx5ve3SF/k/K8g1p7ar7Jq4jP4dzeJkz/8xD37DtNW+6ysROjsm4FmI9eP1nFA+opFqF/vx0aQYaNeP69m3logcYGb2qhRYHPY1OeFbQWmC6v4Qm8OQNf0MePRrC3v6DJ2q1Ygk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=y+Fw5Voz; arc=none smtp.client-ip=209.85.167.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-57e3cad25e8so43213e87.1
-        for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 19:04:26 -0700 (PDT)
+Received: by mail-lf1-f50.google.com with SMTP id 2adb3069b0e04-58af7f8b8b3so28790e87.1
+        for <linux-media@vger.kernel.org>; Wed, 15 Oct 2025 19:04:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760580265; x=1761185065; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=YOB8VSxcdvbD37UrkvKIHBp+WD8atI6WeU4LWquFpcA=;
-        b=jsDy82FFOoD0GHMwdG3Tuf9YZsDR9ivnIhtHCqcoxeDJN/ymhiltZS1WmpRzJhHWps
-         pgAWHjvHUUsaAj0vrJnKyyNhYmtsEOBOuuTkpnQEbAH5u5+QkE9zOrS4JGL0L7+lwq1O
-         XJxZ/X30PEDPG1CoaSOWKhB0rBvJmwUwjegWkxGamBacHG9r9PC9uB/7qtCwONG9WYX/
-         XY4+IFn0VNyOINdfUBkmr6Xgq6LWDp7OTCeuUi74v7XErOO3JDdbhmB5czn4fkIk7kHV
-         qwKieumGRuyy3TlsUufVv9cgjW6aplKFgltj33lMRyt1mlt1iwihsL46s8Zr6lYWLILI
-         5IoQ==
+        d=linaro.org; s=google; t=1760580267; x=1761185067; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=tebtNfhgAB05GsDEYtuVI6Z+mVaFmi+5+oc7dw15j5Q=;
+        b=y+Fw5VozOEiFOuPgKPBZ6wicZeyP2A8YXE1iC8E+XiQ37M4MbOlaZU3iCi/qwN7I4w
+         KvAdM3zUj1YVS30pCHkOW+dIY49iiTJVDOKYcLpVuMC3dS6lGDB6zYWaMc9C6wAaAgH3
+         /aAw2b0x5tA9aQn8kJzmYMQoLGkTKGEkbZTEKzHSSlpQX3h/B8+P2j0sWYbZnB/kjyw+
+         fDU9VDDmsgvxyy8K8NMTssq3xzeICJPxFHIWCRK1U8ROzgkpbrF7pF76YaZ/Lypc/JgE
+         Gogrv0mcUlbdPKIV/6p8svc5XAdzZvzZrkjPBY859Z7KofW0XohLPJqN2JFXNr/6po+3
+         A2FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760580265; x=1761185065;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YOB8VSxcdvbD37UrkvKIHBp+WD8atI6WeU4LWquFpcA=;
-        b=cATz+BHUI/bN4wXmSfPzf72YxmiYX9OvwG2yB/qpPPDpHSwbzhc0m/ZePd1u5GtuZe
-         +1yZgJJCDn/F+DWIQ7j2V/hQ9PJ1CNJ+DxpKMX10eRRTLgYBxLHVzopKR9Qg3hmuvAwK
-         U/eKlLBaD0XWKA77vaWP1pxiCYaR2NL9RKcdWa65djDFqFVggG+7xwFoQFr3hQp2AhJE
-         lM1iVnxttjY6WO2rklX8s2FgiFF1c6fc4m/O5MF/YIe+QPVKNBEazpweA2UwNNt+j7XV
-         XaDll0L626M4veH3tJN0BdxAG2VNmdTE/WRboeRakTJzzXIq2XRM6Y9yfSIG34e9+h+K
-         PzyA==
-X-Forwarded-Encrypted: i=1; AJvYcCUGxXzkDyOZWWl3erd3Blwr2Oout72dTJKTFZ/81lSi6j7IedA/jw9Ar07W3XLig1QSyNot1ttfraTK/g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkEygd/Yy8U+vWa3JWSsvNSD3sqBUiWbvprtVK2JrAsXbk//xZ
-	SdDzDgSDG0+mfk5VNQxU8heYmbGSaPe4g3t6pPcf72mgmaF808I7sbivhvLEuRNvYfQ=
-X-Gm-Gg: ASbGncsQNSMD8K8aEho03ZMoXzkfx7nZJ7z4zCdc7UDHCXmvOP8tWpr5O4SFKuIMDIp
-	b10uW6KjHPjrusCY0k6Q3Mx/m4OPMEBOnf+dMNHdLZl8XbGE879xyEiIZLB1qczV0r0gV24EVaL
-	bMlo+x8Ya8lPwgCEvImszK6uFx3XgAUH/bI1EoqMPX649Eg3Yk0GvHwJucyz1pRqPA+FapXkgkU
-	fimAij6ZvJhcCU62P7O61PrrJwCnUXMopynuROHZSkpt+Wfc7BjnClhb90mb9bi0GMkXIs0EC3R
-	F3dXhLEgpj6/ejN2SaT9ZajmMeSidMaTZr9RT6G9KxXV2rNzL4nnPjAFs6m1ns1IscEwzYUHwrp
-	S/9QKpDCozNbj2QFn9/tCP3oh1YOdf/j/YMFiHD8v3wlMolkxro0ak2yILfpErS3Xq/s+Ttl2ma
-	8+NxG7EBmDjyc4d1IRRAbGRhKK+Img2GXUapg23q20Qsc/2FbnNK0GOZVjrHspKmaL/Scj
-X-Google-Smtp-Source: AGHT+IEMqeNVUsBBLnzuxCA9tSh6jqzKLPLxLDOY1FZo4XrWjDRiznHN7UYooBcox/z+pe4NBRUoHA==
-X-Received: by 2002:a05:6512:3ca3:b0:57d:9bd4:58d5 with SMTP id 2adb3069b0e04-5906d8ec283mr5353848e87.5.1760580264963;
-        Wed, 15 Oct 2025 19:04:24 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760580267; x=1761185067;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=tebtNfhgAB05GsDEYtuVI6Z+mVaFmi+5+oc7dw15j5Q=;
+        b=P5QEhkzweUCqE+aB/wlNFpWiCQbtCsO0J/gIYDvsp+jJkORCHUNspoD6mnc9PwlYUR
+         cyBy5rqVcaup6zgFbZzt3zUHgavSqFuzc66UVz+H/UmttxTbbVXRtRUZkWL4F5Gr2jPw
+         PP0Oqo1aTIB3PAx1ZUpFOCzx/hB4B+pYuTTFTWB9wobtdLSZ20Psmawnuro2gQvIbn2e
+         uIOuOWA5bpK29/M2b75Yvr4WAjEi39Gx7vZaOKpeVGvxSd7xjdZxVRpAmabHyqDOOIG/
+         QIYZgmd1CqHCfhfEFtsOVcYQ1Su8fbpCsHT6kwqKBtIQyR37K8PeYTgFIGe5Vr0jC3o+
+         WjXQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWCBWHZ6as+KjsqPSYg5GDiqYX21ZSEaXY25xn8BZ3HjOYCLuf7ajzdDO1HSzCSoETGahR91c6WVHxxPQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9fKwQ7GtOBOkHJ5QP4XKTMUOs4YMAt7m88z6ie4RGzPnNEfWR
+	t6bXIlg/4VjsXbjxJy+yrU+/4ANGuNLE0DytP6DOO1ajmwdY8sBV6h3jZo7MgkISKCY=
+X-Gm-Gg: ASbGncuQdsZI9xxxxXcpQolKIGb56sbB5MaWw3CNu4CMFDs2aLK7TLjRma4UB+kbChP
+	g6Mnc8RblXb5MfnMkk//cvsdpcBFQaVu8h2IV8NZKHwmrC2LRnnHgbTCTjKaXmbsCCTfcebYgmz
+	vk73Yh2fk7ZfLdS/LNcnAxkO4OC0Tga2rBzKtlNeXY+p27PsrC/NQL8c1nXrEwaj+0jFYmIxPcE
+	e4PcGT64fLvGm1biFGCtn7ov30uOS3kBP0TDWYgCUi6YbWR5AKcBv21ADSb1dzXskhEa9fry2xc
+	5MJBRSSruB3qsk7BLHfPGK8L5NRF/MVTnKBFpTkSSsdl0VhnoEO8Nil3gckna96KqBtY396COKU
+	FZ9dMBZHvbAWt+Sf23HysTCy6QYfT35DahSL73rUIIJh7N96HD+CV6wkzBBXA/ujvwETeAMvMXs
+	ZKEenEYK3rVZxd0Wk4SODJq4EJEYiMRXast2b/m3n6RgWrFFk=
+X-Google-Smtp-Source: AGHT+IHqfMl8gv1F8rsb4SStR8YvLqcKsNJa6UUQ2bSh0cOxqdo4nDlQ0B7TUka5LMWHCixYALln3A==
+X-Received: by 2002:a05:6512:159b:b0:55f:5965:e4e5 with SMTP id 2adb3069b0e04-5906d8ed3f1mr5250959e87.6.1760580266879;
+        Wed, 15 Oct 2025 19:04:26 -0700 (PDT)
 Received: from thyme.. (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59088563c98sm6703951e87.74.2025.10.15.19.04.23
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-59088563c98sm6703951e87.74.2025.10.15.19.04.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 15 Oct 2025 19:04:24 -0700 (PDT)
+        Wed, 15 Oct 2025 19:04:26 -0700 (PDT)
 From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 To: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -82,10 +84,12 @@ Cc: Rob Herring <robh@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
 	linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org
-Subject: [PATCH v2 0/2] media: i2c: add Samsung S5KJN1 image sensor device driver
-Date: Thu, 16 Oct 2025 05:04:17 +0300
-Message-ID: <20251016020419.2137290-1-vladimir.zapolskiy@linaro.org>
+Subject: [PATCH v2 1/2] dt-bindings: media: i2c: Add Samsung S5KJN1 image sensor
+Date: Thu, 16 Oct 2025 05:04:18 +0300
+Message-ID: <20251016020419.2137290-2-vladimir.zapolskiy@linaro.org>
 X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20251016020419.2137290-1-vladimir.zapolskiy@linaro.org>
+References: <20251016020419.2137290-1-vladimir.zapolskiy@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -94,108 +98,116 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Samsung S5KJN1 is a 50MP image sensor, it produces Bayer GRBG (2x2)
-frames in RAW10 output format, the maximum supported output resolution
-is 8160x6144 at 10 frames per second rate.
+Add device tree bindings documentation for Samsung S5KJN1 image sensor.
 
-Changes from v1 to v2:
-* added a collected Reviewed-by tag to the dt bindings documentation (Rob),
-* managed to get one PLL setup to cover both supported output modes,
-* vflip/hflip sensor controls swap media bus code of Bayer patterns,
-* extracted a common initialization subsequence of modes into its own array,
-* set a step to the analog gain control like it's done in downstream,
-* reworded a sequence of CCI commands in s5kjn1_enable_streams().
-
-Link to v1:
-- https://lore.kernel.org/linux-media/20250928200956.1215285-1-vladimir.zapolskiy@linaro.org
-
-----8<---- V4L2 compliance results (v4l-utils-1.20.0) ----8<----
-% v4l2-compliance -d /dev/v4l-subdev28
-v4l2-compliance SHA: not available, 64 bits, 64-bit time_t
-
-Compliance test for device /dev/v4l-subdev28:
-
-Required ioctls:
-
-Allow for multiple opens:
-	test second /dev/v4l-subdev28 open: OK
-	test for unlimited opens: OK
-	test invalid ioctls: OK
-
-Debug ioctls:
-	test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-	Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-	Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-	test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-	test VIDIOC_QUERYCTRL: OK
-	test VIDIOC_G/S_CTRL: OK
-	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-	Standard Controls: 12 Private Controls: 0
-
-Format ioctls:
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-	test VIDIOC_G/S_PARM: OK (Not Supported)
-	test VIDIOC_G_FBUF: OK (Not Supported)
-	test VIDIOC_G_FMT: OK (Not Supported)
-	test VIDIOC_TRY_FMT: OK (Not Supported)
-	test VIDIOC_S_FMT: OK (Not Supported)
-	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-	test Cropping: OK (Not Supported)
-	test Composing: OK (Not Supported)
-	test Scaling: OK (Not Supported)
-
-Codec ioctls:
-	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
-	test VIDIOC_EXPBUF: OK (Not Supported)
-	test Requests: OK (Not Supported)
-
-Total for device /dev/v4l-subdev28: 41, Succeeded: 41, Failed: 0, Warnings: 0
-
-----8<----
-
-Vladimir Zapolskiy (2):
-  dt-bindings: media: i2c: Add Samsung S5KJN1 image sensor
-  media: i2c: add Samsung S5KJN1 image sensor device driver
-
- .../bindings/media/i2c/samsung,s5kjn1.yaml    |   95 ++
- MAINTAINERS                                   |    8 +
- drivers/media/i2c/Kconfig                     |   10 +
- drivers/media/i2c/Makefile                    |    1 +
- drivers/media/i2c/s5kjn1.c                    | 1387 +++++++++++++++++
- 5 files changed, 1501 insertions(+)
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+---
+ .../bindings/media/i2c/samsung,s5kjn1.yaml    | 95 +++++++++++++++++++
+ 1 file changed, 95 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml
- create mode 100644 drivers/media/i2c/s5kjn1.c
 
+diff --git a/Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml b/Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml
+new file mode 100644
+index 000000000000..2220b3e528d4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml
+@@ -0,0 +1,95 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/samsung,s5kjn1.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Samsung S5KJN1 Image Sensor
++
++description:
++  Samsung S5KJN1 (ISOCELL JN1) image sensor is a 50MP image sensor.
++  The sensor is controlled over a serial camera control bus protocol,
++  the widest supported output image frame size is 8160x6144 at 10 frames
++  per second rate, data output format is RAW10 transferred over 4-lane
++  MIPI D-PHY interface.
++
++maintainers:
++  - Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
++
++allOf:
++  - $ref: /schemas/media/video-interface-devices.yaml#
++
++properties:
++  compatible:
++    const: samsung,s5kjn1
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    description: MCLK supply clock.
++    maxItems: 1
++
++  reset-gpios:
++    description: Active low GPIO connected to RESET pad of the sensor.
++    maxItems: 1
++
++  afvdd-supply:
++    description: Autofocus voltage supply, 2.8-3.0 volts.
++
++  avdd-supply:
++    description: Analogue voltage supply, 2.8 volts.
++
++  dovdd-supply:
++    description: Digital I/O voltage supply, 1.8 volts.
++
++  dvdd-supply:
++    description: Digital core voltage supply, 1.05 volts.
++
++  port:
++    $ref: /schemas/graph.yaml#/$defs/port-base
++    additionalProperties: false
++
++    properties:
++      endpoint:
++        $ref: /schemas/media/video-interfaces.yaml#
++        unevaluatedProperties: false
++
++        required:
++          - link-frequencies
++
++required:
++  - compatible
++  - reg
++  - port
++
++unevaluatedProperties: false
++
++examples:
++  - |
++      #include <dt-bindings/gpio/gpio.h>
++
++      i2c {
++          #address-cells = <1>;
++          #size-cells = <0>;
++
++          camera@56 {
++              compatible = "samsung,s5kjn1";
++              reg = <0x56>;
++              clocks = <&camera_mclk 0>;
++              assigned-clocks = <&camera_mclk 0>;
++              assigned-clock-rates = <24000000>;
++              reset-gpios = <&gpio1 10 GPIO_ACTIVE_LOW>;
++              avdd-supply = <&vreg_2p8>;
++              dovdd-supply = <&vreg_1p8>;
++              dvdd-supply = <&vreg_1p05>;
++
++              port {
++                  endpoint {
++                      link-frequencies = /bits/ 64 <700000000>;
++                      remote-endpoint = <&mipi_csi2_ep>;
++                  };
++              };
++          };
++      };
++...
 -- 
 2.49.0
 
