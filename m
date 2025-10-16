@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-44668-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44669-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E117BE19A1
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 07:54:39 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A244BE19DD
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 07:59:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D8B013B36E8
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 05:54:37 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D3EE48469F
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 05:59:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D3A423A564;
-	Thu, 16 Oct 2025 05:54:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92EE2246770;
+	Thu, 16 Oct 2025 05:59:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L6QRvd1N"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iSUBroB6"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D8F23C50A;
-	Thu, 16 Oct 2025 05:54:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1FB241686;
+	Thu, 16 Oct 2025 05:59:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760594067; cv=none; b=BncyqHb8YfTB5+GSWNs2en4Eqz5Nj2LDd3nvFS/t2MiC2kYTyLcD/R02Fud5DaWg3/OY5oMnmYdv2G1IFcU0ZSU8eme3kiQB9GJvhGIXt1U9Pi+0rBb2aQ1DtrvP8ZJBtIYqw6INuSxhPzcb0BasQHw+Zy0dp7caIBrz1Mm9tfA=
+	t=1760594383; cv=none; b=jhtjpQVEGtxwvp3e84+HHy7LTRwDSuKjAGsZslKo5RxrJ/Y2V2O3f3OIuS8q9BX1qsQwmZB4StfECLXD5ZLFohCh7Fq5TuCA+ffHNZcLlXK4XrYZvVG/OGDsgI3nx2KBK7kgOrTDJclk3U82aMk3KFfGMtoJipMaiGCw3u3yKzM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760594067; c=relaxed/simple;
-	bh=D5zJnBL5OqmQt8R7sUGQUSy3OQYhwG7NjZQuwmxLEyI=;
+	s=arc-20240116; t=1760594383; c=relaxed/simple;
+	bh=8ciTShZccMAg56b4cQsrmTPZobu4kdKJ+1tp/6jLHrc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VUsjAmgJHCPb+EjIB02tT5LVlMSyef6mEhv8w/MZ3K5kN8bWInvSqt6uyxJZUvOGBtLI9wjO3nQOVYftBSqs0JP3e2iq5FeJUkOSMi+6RzZY8hwWglFdyv36lOs/EfIVT1SevsqAKyQrGU8zIvlBTU33nyFs+2APa/XVeZd1XzE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L6QRvd1N; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 585C3C4CEF1;
-	Thu, 16 Oct 2025 05:54:23 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=heKZFAfGBmS3KZiWwI+4C1TQkPPuYRXBRG5fyoYyXwCrqWmsmKax5ERunVa3EWIaBatrS7qg+e7M0Bzs66vYe+6vC0VPxvv0eQA/looSNxM4NMRUD3z0Rbxvxta+XRtwaJgE5LBIVM8A297lmcb3tnkEva7HvdRPKffsyjZBgFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iSUBroB6; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C78EC4CEF1;
+	Thu, 16 Oct 2025 05:59:38 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760594067;
-	bh=D5zJnBL5OqmQt8R7sUGQUSy3OQYhwG7NjZQuwmxLEyI=;
+	s=k20201202; t=1760594383;
+	bh=8ciTShZccMAg56b4cQsrmTPZobu4kdKJ+1tp/6jLHrc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=L6QRvd1NRXmn9QjJ2XL0i2BSpoan53Dh59S/1vFt6Q/KApARYVte8ocO3SvzFV5/i
-	 yJCTWMxYksjZy43xf9ZA7Z/ci+fA8PuG+kbB+MWrCGdTryxm15nG1bgHf6OC0diq+Z
-	 RR6Kqp9cLuBI0jhTN8dK8Mkfc1MyQPBRQKmNZWR5xYbosqRslJCz1TJhrB2PLIR1E+
-	 Uyo/kQl2gjkeRs4e0qwqW444pK4C26ieV7oAk8zNPFpTbxalbnX5pXA8X4O4UBFRtC
-	 nN7NzOdg0oL/Gg6TXgBj7mjzKnsPBBIc7nSvBlayGP9d2+pwrFc0/BbfN6D9n8++ZO
-	 ILczbiCKpIn1Q==
-Message-ID: <9984bc23-05ef-4d46-aeb8-feb0a18e5762@kernel.org>
-Date: Thu, 16 Oct 2025 07:54:21 +0200
+	b=iSUBroB6zN12uj57egK6nYeGXF+APzMzirw5wPgJ4EFDLmuWHTl7djqwdTvR7e9yW
+	 iIomQGcJ7npB5UUXK3wDA4QNY1GwrROFN1kkjByJa0JbmxhMcdoJV41DB9YB6gq6z2
+	 suzIP61mHuV7s927w8JSu3qTiK6TFLYhR+94L01R9WUcPht7GIZz9LyVaJH4A6kXZB
+	 Fi5oJZBcgl/SeXu4tfIa0huFsCHUtN7RcVz3UdNCnplrd6OlaYi9075op5RCbqOdnU
+	 kCev68BHUckZSPlUY65yz/1EfPKcEYu6G1biNv3lav79dbcW818Ee3rrmnAwFekmV+
+	 F6x1fWYerGqAA==
+Message-ID: <8966ddaf-9c10-4626-a4cc-36efd3fc93e2@kernel.org>
+Date: Thu, 16 Oct 2025 07:59:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,20 +50,19 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: qcom: camss: Enable setting the rate to
- camnoc_rt_axi clock
-To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
- <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+Subject: Re: [PATCH v4 2/2] arm64: dts: qcom: qcs8300: Add support for camss
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Vikram Sharma <quic_vikramsa@quicinc.com>, mchehab@kernel.org,
+ robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
+ andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
+ cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
+Cc: linux-arm-kernel@lists.infradead.org, quic_svankada@quicinc.com,
+ linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-References: <20251014-add-new-clock-in-vfe-matching-list-v1-1-0d965ccc8a3a@oss.qualcomm.com>
+ Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, bryan.odonoghue@linaro.org
+References: <20251015130130.2790829-1-quic_vikramsa@quicinc.com>
+ <20251015130130.2790829-3-quic_vikramsa@quicinc.com>
+ <b4207e22-8d9c-4223-8b28-272d2650661f@linaro.org>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -109,41 +108,63 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20251014-add-new-clock-in-vfe-matching-list-v1-1-0d965ccc8a3a@oss.qualcomm.com>
+In-Reply-To: <b4207e22-8d9c-4223-8b28-272d2650661f@linaro.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 15/10/2025 04:43, Hangxiang Ma wrote:
-> On hardware architectures where a single CAMNOC module is split into
-> two, one for each of the real time (RT) and non real time (NRT) modules
-> within camera sub system, processing VFE output over the AXI bus
-> requires enabling and setting the appropriate clock rate for the RT
-> CAMNOC. This change lays the groundwork for supporting such
-> configurations.
+On 15/10/2025 20:49, Vladimir Zapolskiy wrote:
+> On 10/15/25 16:01, Vikram Sharma wrote:
+>> Add changes to support the camera subsystem on the QCS8300.
+>>
+>> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+>> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+>> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
+>> ---
+>>   arch/arm64/boot/dts/qcom/qcs8300.dtsi | 171 ++++++++++++++++++++++++++
+>>   1 file changed, 171 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/qcs8300.dtsi b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
+>> index 8d78ccac411e..acd475555115 100644
+>> --- a/arch/arm64/boot/dts/qcom/qcs8300.dtsi
+>> +++ b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
+>> @@ -4769,6 +4769,177 @@ videocc: clock-controller@abf0000 {
+>>   			#power-domain-cells = <1>;
+>>   		};
+>>   
+>> +		camss: isp@ac78000 {
+>> +			compatible = "qcom,qcs8300-camss";
+>> +
+>> +			reg = <0x0 0xac78000 0x0 0x1000>,
+>> +			      <0x0 0xac7a000 0x0 0xf00>,
+>> +			      <0x0 0xac7c000 0x0 0xf00>,
+>> +			      <0x0 0xac84000 0x0 0xf00>,
+>> +			      <0x0 0xac88000 0x0 0xf00>,
+>> +			      <0x0 0xac8c000 0x0 0xf00>,
+>> +			      <0x0 0xac90000 0x0 0xf00>,
+>> +			      <0x0 0xac94000 0x0 0xf00>,
+>> +			      <0x0 0xac9c000 0x0 0x2000>,
+>> +			      <0x0 0xac9e000 0x0 0x2000>,
+>> +			      <0x0 0xaca0000 0x0 0x2000>,
+>> +			      <0x0 0xacac000 0x0 0x400>,
+>> +			      <0x0 0xacad000 0x0 0x400>,
+>> +			      <0x0 0xacae000 0x0 0x400>,
+>> +			      <0x0 0xac4d000 0x0 0xf000>,
+>> +			      <0x0 0xac60000 0x0 0xf000>,
+>> +			      <0x0 0xac85000 0x0 0xd00>,
+>> +			      <0x0 0xac89000 0x0 0xd00>,
+>> +			      <0x0 0xac8d000 0x0 0xd00>,
+>> +			      <0x0 0xac91000 0x0 0xd00>,
+>> +			      <0x0 0xac95000 0x0 0xd00>;
+>> +			reg-names = "csid_wrapper",
+>> +				    "csid0",
 > 
-> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
-> ---
-> This change lays the groundwork for supporting configurations for
-> hardware architectures that split a single CAMNOC module into real time
-> (RT) and non real time (NRT).
-> ---
->  drivers/media/platform/qcom/camss/camss-vfe.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
-> index ee08dbbddf88..09b29ba383f1 100644
-> --- a/drivers/media/platform/qcom/camss/camss-vfe.c
-> +++ b/drivers/media/platform/qcom/camss/camss-vfe.c
-> @@ -914,7 +914,8 @@ static int vfe_match_clock_names(struct vfe_device *vfe,
->  	return (!strcmp(clock->name, vfe_name) ||
->  		!strcmp(clock->name, vfe_lite_name) ||
->  		!strcmp(clock->name, "vfe_lite") ||
-> -		!strcmp(clock->name, "camnoc_axi"));
-> +		!strcmp(clock->name, "camnoc_axi") ||
-> +		!strcmp(clock->name, "camnoc_rt_axi"));
+> The list of 'reg-names' is not alphanumerically sorted, this is a newly
+> introduced sorting order pattern of CAMSS 'reg' property values.
 
-Just use camnoc_axi for both. Look at your bindings - why do you keep
-different names for same signal?
+
+Please stop inventing ad-hoc or fake rules. There is no such sorting
+pattern for this property, which I expressed multiple times. Last time
+you claimed there is some sorting by "values", now this.
 
 Best regards,
 Krzysztof
