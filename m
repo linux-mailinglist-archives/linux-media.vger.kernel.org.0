@@ -1,171 +1,164 @@
-Return-Path: <linux-media+bounces-44669-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44670-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A244BE19DD
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 07:59:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08910BE1A65
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 08:08:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0D3EE48469F
-	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 05:59:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 073D23ABEF7
+	for <lists+linux-media@lfdr.de>; Thu, 16 Oct 2025 06:08:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 92EE2246770;
-	Thu, 16 Oct 2025 05:59:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 56234256C61;
+	Thu, 16 Oct 2025 06:08:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iSUBroB6"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="c1Pf6sGU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailgw01.mediatek.com (unknown [60.244.123.138])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CD1FB241686;
-	Thu, 16 Oct 2025 05:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 902D314F125;
+	Thu, 16 Oct 2025 06:08:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=60.244.123.138
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760594383; cv=none; b=jhtjpQVEGtxwvp3e84+HHy7LTRwDSuKjAGsZslKo5RxrJ/Y2V2O3f3OIuS8q9BX1qsQwmZB4StfECLXD5ZLFohCh7Fq5TuCA+ffHNZcLlXK4XrYZvVG/OGDsgI3nx2KBK7kgOrTDJclk3U82aMk3KFfGMtoJipMaiGCw3u3yKzM=
+	t=1760594890; cv=none; b=r37DHoSbSLSd8OOYdiOTB48G2NEPh2qdOjKXREKOG3eIf5KEOHQnDSluFpJI6ciA+gxr+VWuHnVFU9IdaKHdpjUVcIYaE2fXR/ImYOb8AxxTxdWp20YDW/O2YjsK9DsVNfJGsP2Oj7yrOm4pkMbsluN9nYyMHnVq4mfZ0XJBGQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760594383; c=relaxed/simple;
-	bh=8ciTShZccMAg56b4cQsrmTPZobu4kdKJ+1tp/6jLHrc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=heKZFAfGBmS3KZiWwI+4C1TQkPPuYRXBRG5fyoYyXwCrqWmsmKax5ERunVa3EWIaBatrS7qg+e7M0Bzs66vYe+6vC0VPxvv0eQA/looSNxM4NMRUD3z0Rbxvxta+XRtwaJgE5LBIVM8A297lmcb3tnkEva7HvdRPKffsyjZBgFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iSUBroB6; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2C78EC4CEF1;
-	Thu, 16 Oct 2025 05:59:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760594383;
-	bh=8ciTShZccMAg56b4cQsrmTPZobu4kdKJ+1tp/6jLHrc=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=iSUBroB6zN12uj57egK6nYeGXF+APzMzirw5wPgJ4EFDLmuWHTl7djqwdTvR7e9yW
-	 iIomQGcJ7npB5UUXK3wDA4QNY1GwrROFN1kkjByJa0JbmxhMcdoJV41DB9YB6gq6z2
-	 suzIP61mHuV7s927w8JSu3qTiK6TFLYhR+94L01R9WUcPht7GIZz9LyVaJH4A6kXZB
-	 Fi5oJZBcgl/SeXu4tfIa0huFsCHUtN7RcVz3UdNCnplrd6OlaYi9075op5RCbqOdnU
-	 kCev68BHUckZSPlUY65yz/1EfPKcEYu6G1biNv3lav79dbcW818Ee3rrmnAwFekmV+
-	 F6x1fWYerGqAA==
-Message-ID: <8966ddaf-9c10-4626-a4cc-36efd3fc93e2@kernel.org>
-Date: Thu, 16 Oct 2025 07:59:37 +0200
+	s=arc-20240116; t=1760594890; c=relaxed/simple;
+	bh=Z6fDXfe9sNivq7h7vH3dB76b+LdUCS/JC5etUdnTrOQ=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HUKBCvBSaoibC38fZBNIMHeth0EU2VC8zjuffwQzzPMFqiIbmYBLcdjzPmEOGwVpIk5pEUgYgCP1fScjteKU88hus5anvsTz4CU2I+vs+oGsQQckJ4jTQWDcb7dCaCEuXBzV3vJSkH/moNDiTWMKJrfpNPL9u/ngYew6I6Sfh78=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=c1Pf6sGU; arc=none smtp.client-ip=60.244.123.138
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 78dc2150aa5611f0ae1e63ff8927bad3-20251016
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=Content-Type:Content-Transfer-Encoding:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=E0oquIYLrLE1amtmh63ZQhub7FekGzbBSz8gA9tAivI=;
+	b=c1Pf6sGU+JQuMdUnTwQWBiZWxCVDMZQxdn74zuyzluxVpydXgDaDcdN+VZXmVWFxKS122HZu2cYFFON/0i0o8QU8qDP+WsmzThGtQJT9VByzRWBQ7sBSr0nBT8SyGfmBRd4by/cX0fgUR3gUOMS6O8LBXVGVi2PWE9MIS7jw/Tk=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:9a7399f4-231a-4cb4-ae16-fa4ff500f27f,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:a9d874c,CLOUDID:775e3ab9-795c-4f99-91f3-c115e0d49051,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:102|836|888|898,TC:-5,Content:0|15|5
+	0,EDM:-3,IP:nil,URL:99|1,File:130,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI
+	:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR,TF_CID_SPAM_ULS
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 78dc2150aa5611f0ae1e63ff8927bad3-20251016
+Received: from mtkmbs14n2.mediatek.inc [(172.21.101.76)] by mailgw01.mediatek.com
+	(envelope-from <kyrie.wu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 275872380; Thu, 16 Oct 2025 14:08:02 +0800
+Received: from mtkmbs11n1.mediatek.inc (172.21.101.185) by
+ mtkmbs11n2.mediatek.inc (172.21.101.187) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.10; Thu, 16 Oct 2025 14:08:00 +0800
+Received: from mhfsdcap04.gcn.mediatek.inc (10.17.3.154) by
+ mtkmbs11n1.mediatek.inc (172.21.101.73) with Microsoft SMTP Server id
+ 15.2.1748.10 via Frontend Transport; Thu, 16 Oct 2025 14:07:59 +0800
+From: Kyrie Wu <kyrie.wu@mediatek.com>
+To: Tiffany Lin <tiffany.lin@mediatek.com>, Andrew-CT Chen
+	<andrew-ct.chen@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>, Mauro
+ Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+	Matthias Brugger <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>, Kyrie Wu <kyrie.wu@mediatek.com>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Nicolas Dufresne
+	<nicolas.dufresne@collabora.com>, Christophe JAILLET
+	<christophe.jaillet@wanadoo.fr>, Sebastian Fricke
+	<sebastian.fricke@collabora.com>, Nathan Hebert <nhebert@chromium.org>, Arnd
+ Bergmann <arnd@arndb.de>, Irui Wang <irui.wang@mediatek.com>, George Sun
+	<george.sun@mediatek.com>, <linux-media@vger.kernel.org>,
+	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-mediatek@lists.infradead.org>
+CC: Neil Armstrong <neil.armstrong@linaro.org>, Andrzej Pietrasiewicz
+	<andrzejtp2010@gmail.com>
+Subject: [PATCH v4 0/8] Enable video decoder & encoder for MT8189
+Date: Thu, 16 Oct 2025 14:07:38 +0800
+Message-ID: <20251016060747.20648-1-kyrie.wu@mediatek.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/2] arm64: dts: qcom: qcs8300: Add support for camss
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Vikram Sharma <quic_vikramsa@quicinc.com>, mchehab@kernel.org,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- andersson@kernel.org, konradybcio@kernel.org, hverkuil-cisco@xs4all.nl,
- cros-qcom-dts-watchers@chromium.org, catalin.marinas@arm.com, will@kernel.org
-Cc: linux-arm-kernel@lists.infradead.org, quic_svankada@quicinc.com,
- linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>, bryan.odonoghue@linaro.org
-References: <20251015130130.2790829-1-quic_vikramsa@quicinc.com>
- <20251015130130.2790829-3-quic_vikramsa@quicinc.com>
- <b4207e22-8d9c-4223-8b28-272d2650661f@linaro.org>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <b4207e22-8d9c-4223-8b28-272d2650661f@linaro.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-MTK: N
 
-On 15/10/2025 20:49, Vladimir Zapolskiy wrote:
-> On 10/15/25 16:01, Vikram Sharma wrote:
->> Add changes to support the camera subsystem on the QCS8300.
->>
->> Reviewed-by: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
->> Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
->> Signed-off-by: Vikram Sharma <quic_vikramsa@quicinc.com>
->> ---
->>   arch/arm64/boot/dts/qcom/qcs8300.dtsi | 171 ++++++++++++++++++++++++++
->>   1 file changed, 171 insertions(+)
->>
->> diff --git a/arch/arm64/boot/dts/qcom/qcs8300.dtsi b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
->> index 8d78ccac411e..acd475555115 100644
->> --- a/arch/arm64/boot/dts/qcom/qcs8300.dtsi
->> +++ b/arch/arm64/boot/dts/qcom/qcs8300.dtsi
->> @@ -4769,6 +4769,177 @@ videocc: clock-controller@abf0000 {
->>   			#power-domain-cells = <1>;
->>   		};
->>   
->> +		camss: isp@ac78000 {
->> +			compatible = "qcom,qcs8300-camss";
->> +
->> +			reg = <0x0 0xac78000 0x0 0x1000>,
->> +			      <0x0 0xac7a000 0x0 0xf00>,
->> +			      <0x0 0xac7c000 0x0 0xf00>,
->> +			      <0x0 0xac84000 0x0 0xf00>,
->> +			      <0x0 0xac88000 0x0 0xf00>,
->> +			      <0x0 0xac8c000 0x0 0xf00>,
->> +			      <0x0 0xac90000 0x0 0xf00>,
->> +			      <0x0 0xac94000 0x0 0xf00>,
->> +			      <0x0 0xac9c000 0x0 0x2000>,
->> +			      <0x0 0xac9e000 0x0 0x2000>,
->> +			      <0x0 0xaca0000 0x0 0x2000>,
->> +			      <0x0 0xacac000 0x0 0x400>,
->> +			      <0x0 0xacad000 0x0 0x400>,
->> +			      <0x0 0xacae000 0x0 0x400>,
->> +			      <0x0 0xac4d000 0x0 0xf000>,
->> +			      <0x0 0xac60000 0x0 0xf000>,
->> +			      <0x0 0xac85000 0x0 0xd00>,
->> +			      <0x0 0xac89000 0x0 0xd00>,
->> +			      <0x0 0xac8d000 0x0 0xd00>,
->> +			      <0x0 0xac91000 0x0 0xd00>,
->> +			      <0x0 0xac95000 0x0 0xd00>;
->> +			reg-names = "csid_wrapper",
->> +				    "csid0",
-> 
-> The list of 'reg-names' is not alphanumerically sorted, this is a newly
-> introduced sorting order pattern of CAMSS 'reg' property values.
+This series have the follow changing:
+Firstly add mt8189 video decoder compatible, profile and level to support
+MT8189 kernel driver.
+Secondly fix some bugs, including vp 4K profile2 and media device node
+number bug.
+Lastly, add mt8189 video encoder compatible.
 
+This series has been tested with MT8189 tast test.
+Encoding and decoding worked for this chip.
 
-Please stop inventing ad-hoc or fake rules. There is no such sorting
-pattern for this property, which I expressed multiple times. Last time
-you claimed there is some sorting by "values", now this.
+Patches 1-2 Add decoder compatible.
+Patches 3 Add profile and level supporting.
+Patches 4 Add core-only VP9 decoding supporting.
+Patches 5-6 fix some bugs.
+Patches 7-8 Adds encoder compatible.
 
-Best regards,
-Krzysztof
+---
+H264 test results:
+./fluster.py run -d GStreamer-H.264-V4L2SL-Gst1.0 -j1 -t 90
+     JVT-AVC_V1       94/135
+
+v4l2-compliance test results:
+Compliance test for mtk-vcodec-enc device /dev/video2:
+Total for mtk-vcodec-enc device /dev/video2: 47, Succeeded: 46, Failed: 1, Warnings: 0
+Compliance test for mtk-vcodec-dec device /dev/video3:
+Total for mtk-vcodec-dec device /dev/video3: 48, Succeeded: 48, Failed: 0, Warnings: 0
+
+scp upstream link:
+https://patchwork.kernel.org/project/linux-mediatek/patch/20250811015922.32680-1-huayu.zong@mediatek.com/
+
+Changes compared with v3:
+--add reviewer to commit messages
+--Rebased on top of the latest media tree
+
+Changes compared with v2:
+--add H264 fluster test results
+--reorder compatible string for dt-bindings
+
+Changes compared with v1:
+--add v4l2-compliance test results
+--add scp upstream link
+--add HW difference discriptions for dt-bindings commit messages
+
+This series patches dependent on:
+[1]
+https://patchwork.linuxtv.org/project/linux-media/cover/20250510075357.11761-1-yunfei.dong@mediatek.com/
+[2]
+https://patchwork.linuxtv.org/project/linux-media/cover/20250814085642.17343-1-kyrie.wu@mediatek.com/
+
+Kyrie Wu (8):
+  dt-bindings: media: mediatek: decoder: Add MT8189
+    mediatek,vcodec-decoder
+  media: mediatek: vcodec: add decoder compatible to support MT8189
+  media: mediatek: vcodec: add profile and level supporting for MT8189
+  media: mediatek: vcodec: Add core-only VP9 decoding support for MT8189
+  media: mediatek: vcodec: fix vp9 4096x2176 fail for profile2
+  media: mediatek: vcodec: fix media device node number
+  dt-bindings: media: Add MT8189 mediatek,vcodec-encoder
+  media: mediatek: encoder: Add MT8189 encoder compatible data
+
+ .../media/mediatek,vcodec-encoder.yaml        |  2 ++
+ .../media/mediatek,vcodec-subdev-decoder.yaml |  1 +
+ .../vcodec/decoder/mtk_vcodec_dec_drv.c       |  9 +++++-
+ .../vcodec/decoder/mtk_vcodec_dec_drv.h       |  1 +
+ .../vcodec/decoder/mtk_vcodec_dec_stateless.c |  4 +++
+ .../vcodec/decoder/vdec/vdec_vp9_req_lat_if.c | 32 ++++++++++++-------
+ .../vcodec/encoder/mtk_vcodec_enc_drv.c       | 14 ++++++++
+ 7 files changed, 50 insertions(+), 13 deletions(-)
+
+-- 
+2.45.2
+
 
