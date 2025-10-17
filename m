@@ -1,122 +1,269 @@
-Return-Path: <linux-media+bounces-44839-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44840-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8699BBE7358
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 10:38:24 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C65BE76BD
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 11:09:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5BFF84E6737
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 08:38:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6F4163A6D05
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 09:06:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 586142BDC10;
-	Fri, 17 Oct 2025 08:38:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 96E722D29CF;
+	Fri, 17 Oct 2025 09:05:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="aMsbfSx2"
+	dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b="GtOnZaic"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com (pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com [35.162.73.231])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05951296BB4
-	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 08:37:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D8026CE36;
+	Fri, 17 Oct 2025 09:05:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=35.162.73.231
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760690280; cv=none; b=LTB503YgpadcGnPpuiCGkQp60OMUtQexBg+x1AUaPxA0+mgTkZx5qaw1t90pWQOKjqkUSqRqoiu7GYsweWWQ2+6iF1nEMFTOj8crdEeo6+fmpweieEeTUHVKfPjRDTYfaWxd1enNXMAJl/v2OQGAMas4KFTZ3EPWwXUG+fngbF4=
+	t=1760691948; cv=none; b=NfDPIDBQudI5qMZwCpp3G/XeqWgS+mXzDJqgWX+8yaYLpc/gzrcDX5R/jxdhi07Cgzk2E31JhTapYewWUOQKdQIgzevlsjy95ql+TxeITBW509j/ythRag75cQuJSrUE3tFNHSBiXvELxBzxSDXX2O/HAuHtVW5aWYP3JlRvoW0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760690280; c=relaxed/simple;
-	bh=lU+1cO3Zwc0zGD7w3qerML6V2Pgt4on4weQv6NRLb7Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=f4bhN+gnmwG9StMJuFpKTcghuCfz5j9vufzmZlv2ZZhPN3YMhboh/xLAxTZF6f1ALaXRsfJZz/XfC1LHMG6aR0rmwIWq4ji+/L8VpURETjkvd0xgf3UEpz/3k6/jkFn8jmeI+iSkOZe7IA7vUAiXb+P9rWrBSQpJTAjzjAFJmis=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=aMsbfSx2; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-47112a73785so11808995e9.3
-        for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 01:37:57 -0700 (PDT)
+	s=arc-20240116; t=1760691948; c=relaxed/simple;
+	bh=r3aRMRxLlDgna5pGqlhOhcl+QTURmPg1ODwkm06HnuM=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XlZ8P735Fu5sFuXNfGLa5eZHpZfKs6pT6x1Or0dvCetv9rkzSiFBMlHthIEfHu9bKVcJJNO2nmJxdVVBnYp2RjlISi5JJFMjQ1vYhH6h2pPF35P4HbOE2zZSr891OXY7VDKK5eAYcuKEfYFXYue2WZhDyJks+a15Ss1eLJDcPr0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com; spf=pass smtp.mailfrom=amazon.com; dkim=pass (2048-bit key) header.d=amazon.com header.i=@amazon.com header.b=GtOnZaic; arc=none smtp.client-ip=35.162.73.231
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760690276; x=1761295076; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=om9V2LjmdpVk1UDFsC2kQmy7iCE3RSKHplIPxsp5GZE=;
-        b=aMsbfSx2yq9Lz6ljpzhUmmQ0rH/icVRAlrvz4o4wiI5HwIvGZvEPRtN5NotRhjiT1m
-         Ij5kNUegHtQ27tSIsJDDzgDuoxW22IR+7m/zONlVu8Ar5xEmdtC1uDEaY3UMcvzFxVkE
-         /CsW3kNHCk3m74wo9GviaF/kg6KdYKQ/0wEI+E90TnXxcm4O2eM4ugRxpfwVMjiPwE9e
-         7r/t9afbq7d5AooWuaxa3JtRWjJ/Hwbp4PovINmxSFvrDMg+Jj4zjcYHFqynk5ujsK5X
-         Ch2x3zDtjirhyRz67ilpt40evUTst24eavc+Xg0zTSbNZKKund94P/OxbKahQLRsdZFJ
-         3k6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760690276; x=1761295076;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=om9V2LjmdpVk1UDFsC2kQmy7iCE3RSKHplIPxsp5GZE=;
-        b=ELUTk6CCR5+4iR1ZBhR3KAiyAQH+zNwx0dnCAOAVjEODaN/BaZRNIj0DI49vQIzg3d
-         hUsSkb8zJEYl4+4nhGYQIEkxFAtf7iNsL3YzRjyoyN9i/nVSD4We6lVbgKfDmIcBAQxb
-         2cDOqb5+ulFim0rpl7bFLyt6xpF7IsU7yo66tOawgMRA3hbW7t5rdUKRCG5bx9YxYMoB
-         kbANZn09paWAyB3d4+ZQ0MKQDkuGIfUkL0Egt/qLfybnZQzDOmwuD/UUIYJipZwDkuom
-         MmjPdLeDvYg7mUrLBbGkfmUfinlroIrSaGBJOuxKfvRMdcXm7Gb8O8JsOn7zORjyYrgA
-         ebOA==
-X-Forwarded-Encrypted: i=1; AJvYcCXGZ9iYd5w1KYBOWoi1+8qr8yCCuffhyH/K1R/R5VrQhKapDHmYWIGnOKLPpVen7/JI38WDLUH5TvQgVQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxHsY7skkul71m26iODdXZ1fSNqWbXB9dxn+g1EplSpRqwCr4P2
-	XQVZ2XsXaXYvhw14XWcTDJwv0s7GlRpng8U0RvsgvCdvvrRnWexEpNsdiDuRNDi0Gf4=
-X-Gm-Gg: ASbGncvcNF0sxwCSprNpBz0rOSEkJw3z0DTuQIr2mtd09Gtoyk/VsZW8vH+x5wObGbS
-	2KoLmpaNye6aZvL/zSj79/shqWylSlCXltTbpBFuFQvL58O6fuMv6cOvWQsiNOVvaj3upAajvcG
-	IUUOZzvf7Yr/RhOYutPJm09vAO2T5Lb/01yg5UaflRhiNbwA9SJEXxZ2r9rD6d7UOkwmCdfyfyU
-	MlayyCFuyEjg11gCTzE6yUKjF5laQpQZmA8kG5guLVYwYfTiGVb9IiwIftRVvd1ZS9Kae+YRn2q
-	Jm+IRSl/a6cZYOexZzblrdpZDp0ZgF2Zw21d9TMhROuVozWyTULxV6bpHt6G6IB+GNOxeDQelKz
-	r3bS2OnNMncii0AHjpCO2FBYlZBZx/LptytdszAM8TbPeVWJtjoZf3PZO1pdDoRCzEGwbzqPiaN
-	cVYswOQ2jkwrdSK41RISgObDeaxum932p2qZB8NthWB7iZUSOtAaw8
-X-Google-Smtp-Source: AGHT+IEoeP6jDjWGte8b53CU1YTjsBnCCSNfMgJsOHoHblW0l/uJG1CiY59Ep03ULPmXcMaAMIM+Cw==
-X-Received: by 2002:a05:600c:3492:b0:46e:33b2:c8da with SMTP id 5b1f17b1804b1-4711791cadfmr28504945e9.32.1760690276296;
-        Fri, 17 Oct 2025 01:37:56 -0700 (PDT)
-Received: from [192.168.0.19] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4710fa76fd0sm38682415e9.11.2025.10.17.01.37.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 17 Oct 2025 01:37:55 -0700 (PDT)
-Message-ID: <41f3b22c-2882-42e7-bbf1-91e8cf93ba21@linaro.org>
-Date: Fri, 17 Oct 2025 09:37:54 +0100
+  d=amazon.com; i=@amazon.com; q=dns/txt; s=amazoncorp2;
+  t=1760691946; x=1792227946;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zbj2mTisKzioKQVYABevmwS3PD+KbTl4NbCfwfEx+Qc=;
+  b=GtOnZaicVGt0CAIJVQ+xp3gaWEamEukP3V98oU7vj6IcDxNdslbM4uCi
+   nBRS83dgbraDB4b0qfoyn3/j/Cez3ZZrF4gRgPzIrv6ENq+RCTIHVbsKl
+   RiVaNBf9VMSksFotLgDR9qGIf2EkQpAHYInScRWhEUzqaFSHJze+IKpMu
+   vh/wKCuGiF6ktSd7y621h48VURBklFvJ2vS2yHqVrUT4UxOWdmr2EyPK3
+   0WcdJICH4jxmJq9bJdsaQte6sv3ZNc1ranA1Uii4ZUxlEgJXHm2NXK2NV
+   7gHCCYWot5IJSa/r7smvYEtdFP5QoMU7hJS/HsP+jbPuWS9VjWFfwHlp4
+   g==;
+X-CSE-ConnectionGUID: sSNJqLpZTHKHoAwfMM8Y6A==
+X-CSE-MsgGUID: BK1WnszkRHiFffu8t9LkpA==
+X-IronPort-AV: E=Sophos;i="6.19,236,1754956800"; 
+   d="scan'208";a="4877932"
+Received: from ip-10-5-12-219.us-west-2.compute.internal (HELO smtpout.naws.us-west-2.prod.farcaster.email.amazon.dev) ([10.5.12.219])
+  by internal-pdx-out-012.esa.us-west-2.outbound.mail-perimeter.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 09:05:44 +0000
+Received: from EX19MTAUWB002.ant.amazon.com [205.251.233.111:26941]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.17.61:2525] with esmtp (Farcaster)
+ id 74f44794-e502-4348-a685-c94d2b887051; Fri, 17 Oct 2025 09:05:44 +0000 (UTC)
+X-Farcaster-Flow-ID: 74f44794-e502-4348-a685-c94d2b887051
+Received: from EX19D001UWA001.ant.amazon.com (10.13.138.214) by
+ EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20;
+ Fri, 17 Oct 2025 09:05:38 +0000
+Received: from dev-dsk-farbere-1a-46ecabed.eu-west-1.amazon.com
+ (172.19.116.181) by EX19D001UWA001.ant.amazon.com (10.13.138.214) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.2562.20; Fri, 17 Oct 2025
+ 09:05:23 +0000
+From: Eliav Farber <farbere@amazon.com>
+To: <gregkh@linuxfoundation.org>, <stable@vger.kernel.org>,
+	<linux@armlinux.org.uk>, <jdike@addtoit.com>, <richard@nod.at>,
+	<anton.ivanov@cambridgegreys.com>, <dave.hansen@linux.intel.com>,
+	<luto@kernel.org>, <peterz@infradead.org>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <x86@kernel.org>, <hpa@zytor.com>,
+	<tony.luck@intel.com>, <qiuxu.zhuo@intel.com>, <mchehab@kernel.org>,
+	<james.morse@arm.com>, <rric@kernel.org>, <harry.wentland@amd.com>,
+	<sunpeng.li@amd.com>, <alexander.deucher@amd.com>,
+	<christian.koenig@amd.com>, <airlied@linux.ie>, <daniel@ffwll.ch>,
+	<evan.quan@amd.com>, <james.qian.wang@arm.com>, <liviu.dudau@arm.com>,
+	<mihail.atanassov@arm.com>, <brian.starkey@arm.com>,
+	<maarten.lankhorst@linux.intel.com>, <mripard@kernel.org>,
+	<tzimmermann@suse.de>, <robdclark@gmail.com>, <sean@poorly.run>,
+	<jdelvare@suse.com>, <linux@roeck-us.net>, <fery@cypress.com>,
+	<dmitry.torokhov@gmail.com>, <agk@redhat.com>, <snitzer@redhat.com>,
+	<dm-devel@redhat.com>, <rajur@chelsio.com>, <davem@davemloft.net>,
+	<kuba@kernel.org>, <peppe.cavallaro@st.com>, <alexandre.torgue@st.com>,
+	<joabreu@synopsys.com>, <mcoquelin.stm32@gmail.com>, <malattia@linux.it>,
+	<hdegoede@redhat.com>, <mgross@linux.intel.com>, <intel-linux-scu@intel.com>,
+	<artur.paszkiewicz@intel.com>, <jejb@linux.ibm.com>,
+	<martin.petersen@oracle.com>, <sakari.ailus@linux.intel.com>, <clm@fb.com>,
+	<josef@toxicpanda.com>, <dsterba@suse.com>, <xiang@kernel.org>,
+	<chao@kernel.org>, <jack@suse.com>, <tytso@mit.edu>,
+	<adilger.kernel@dilger.ca>, <dushistov@mail.ru>,
+	<luc.vanoostenryck@gmail.com>, <rostedt@goodmis.org>, <pmladek@suse.com>,
+	<sergey.senozhatsky@gmail.com>, <andriy.shevchenko@linux.intel.com>,
+	<linux@rasmusvillemoes.dk>, <minchan@kernel.org>, <ngupta@vflare.org>,
+	<akpm@linux-foundation.org>, <kuznet@ms2.inr.ac.ru>,
+	<yoshfuji@linux-ipv6.org>, <pablo@netfilter.org>, <kadlec@netfilter.org>,
+	<fw@strlen.de>, <jmaloy@redhat.com>, <ying.xue@windriver.com>,
+	<willy@infradead.org>, <farbere@amazon.com>, <sashal@kernel.org>,
+	<ruanjinjie@huawei.com>, <David.Laight@ACULAB.COM>,
+	<herve.codina@bootlin.com>, <Jason@zx2c4.com>, <keescook@chromium.org>,
+	<kbusch@kernel.org>, <nathan@kernel.org>, <bvanassche@acm.org>,
+	<ndesaulniers@google.com>, <linux-arm-kernel@lists.infradead.org>,
+	<linux-kernel@vger.kernel.org>, <linux-um@lists.infradead.org>,
+	<linux-edac@vger.kernel.org>, <amd-gfx@lists.freedesktop.org>,
+	<dri-devel@lists.freedesktop.org>, <linux-arm-msm@vger.kernel.org>,
+	<freedreno@lists.freedesktop.org>, <linux-hwmon@vger.kernel.org>,
+	<linux-input@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <linux-stm32@st-md-mailman.stormreply.com>,
+	<platform-driver-x86@vger.kernel.org>, <linux-scsi@vger.kernel.org>,
+	<linux-staging@lists.linux.dev>, <linux-btrfs@vger.kernel.org>,
+	<linux-erofs@lists.ozlabs.org>, <linux-ext4@vger.kernel.org>,
+	<linux-sparse@vger.kernel.org>, <linux-mm@kvack.org>,
+	<netfilter-devel@vger.kernel.org>, <coreteam@netfilter.org>,
+	<tipc-discussion@lists.sourceforge.net>
+Subject: [PATCH v2 00/27 5.10.y] Backport minmax.h updates from v6.17-rc7
+Date: Fri, 17 Oct 2025 09:04:52 +0000
+Message-ID: <20251017090519.46992-1-farbere@amazon.com>
+X-Mailer: git-send-email 2.47.3
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: qcom: camss: drop unused module alias
-To: Johan Hovold <johan@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>
-Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20251017060435.8524-1-johan@kernel.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20251017060435.8524-1-johan@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: EX19D045UWA003.ant.amazon.com (10.13.139.46) To
+ EX19D001UWA001.ant.amazon.com (10.13.138.214)
 
-On 17/10/2025 07:04, Johan Hovold wrote:
-> The driver has never supported anything but OF probing so drop the
-> unused platform module alias.
-> 
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-> ---
->   drivers/media/platform/qcom/camss/camss.c | 1 -
->   1 file changed, 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> index d9d770e5e7c6..c93aeeb5ab20 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -4545,7 +4545,6 @@ static struct platform_driver qcom_camss_driver = {
->   
->   module_platform_driver(qcom_camss_driver);
->   
-> -MODULE_ALIAS("platform:qcom-camss");
->   MODULE_DESCRIPTION("Qualcomm Camera Subsystem driver");
->   MODULE_AUTHOR("Todor Tomov <todor.tomov@linaro.org>");
->   MODULE_LICENSE("GPL v2");
+This series backports 27 patches to update minmax.h in the 5.10.y
+branch, aligning it with v6.17-rc7.
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+The ultimate goal is to synchronize all long-term branches so that they
+include the full set of minmax.h changes.
+
+- 6.12.y has already been backported; the changes are included in
+  v6.12.49.
+- 6.6.y has already been backported; the changes are included in
+  v6.6.109.
+- 6.1.y has already been backported; the changes are currently in the
+  6.1-stable tree.
+- 5.15.y has already been backported; the changes are currently in the
+  5.15-stable tree.
+
+The key motivation is to bring in commit d03eba99f5bf ("minmax: allow
+min()/max()/clamp() if the arguments have the same signedness"), which
+is missing in kernel 5.10.y.
+
+In mainline, this change enables min()/max()/clamp() to accept mixed
+argument types, provided both have the same signedness. Without it,
+backported patches that use these forms may trigger compiler warnings,
+which escalate to build failures when -Werror is enabled.
+
+The first two patches in this series were added to prevent build
+failures caused by changes introduced later in minmax.h.
+
+ - Commit 92d23c6e9415 ("overflow, tracing: Define the is_signed_type()
+   macro once") is needed for commit 75ca38c1960f ("minmax: allow
+   min()/max()/clamp()").
+
+ - Commit cea628008fc8 ("btrfs: remove duplicated in_range() macro") is
+   needed for commit f9bff0e31881 ("minmax: add in_range() macro").
+
+The changes were tested using `make allyesconfig` and
+`make allmodconfig` for arm64, arm, x86_64 and i386 architectures.
+
+Changes in v2:
+The series was updated after initially backporting and approving the
+newer long-term branches.
+
+Andy Shevchenko (2):
+  minmax: deduplicate __unconst_integer_typeof()
+  minmax: fix header inclusions
+
+Bart Van Assche (1):
+  overflow, tracing: Define the is_signed_type() macro once
+
+David Laight (11):
+  minmax: allow min()/max()/clamp() if the arguments have the same
+    signedness.
+  minmax: fix indentation of __cmp_once() and __clamp_once()
+  minmax: allow comparisons of 'int' against 'unsigned char/short'
+  minmax: relax check to allow comparison between unsigned arguments and
+    signed constants
+  minmax.h: add whitespace around operators and after commas
+  minmax.h: update some comments
+  minmax.h: reduce the #define expansion of min(), max() and clamp()
+  minmax.h: use BUILD_BUG_ON_MSG() for the lo < hi test in clamp()
+  minmax.h: move all the clamp() definitions after the min/max() ones
+  minmax.h: simplify the variants of clamp()
+  minmax.h: remove some #defines that are only expanded once
+
+Herve Codina (1):
+  minmax: Introduce {min,max}_array()
+
+Jason A. Donenfeld (2):
+  minmax: sanity check constant bounds when clamping
+  minmax: clamp more efficiently by avoiding extra comparison
+
+Johannes Thumshirn (1):
+  btrfs: remove duplicated in_range() macro
+
+Linus Torvalds (8):
+  minmax: avoid overly complicated constant expressions in VM code
+  minmax: add a few more MIN_T/MAX_T users
+  minmax: simplify and clarify min_t()/max_t() implementation
+  minmax: make generic MIN() and MAX() macros available everywhere
+  minmax: don't use max() in situations that want a C constant
+    expression
+  minmax: simplify min()/max()/clamp() implementation
+  minmax: improve macro expansion and type checking
+  minmax: fix up min3() and max3() too
+
+Matthew Wilcox (Oracle) (1):
+  minmax: add in_range() macro
+
+ arch/arm/mm/pageattr.c                        |   6 +-
+ arch/um/drivers/mconsole_user.c               |   2 +
+ arch/x86/mm/pgtable.c                         |   2 +-
+ drivers/edac/sb_edac.c                        |   4 +-
+ drivers/edac/skx_common.h                     |   1 -
+ .../drm/amd/display/modules/hdcp/hdcp_ddc.c   |   2 +
+ .../drm/amd/pm/powerplay/hwmgr/ppevvmath.h    |  14 +-
+ .../drm/arm/display/include/malidp_utils.h    |   2 +-
+ .../display/komeda/komeda_pipeline_state.c    |  24 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   2 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gmu.c         |   6 -
+ drivers/gpu/drm/radeon/evergreen_cs.c         |   2 +
+ drivers/hwmon/adt7475.c                       |  24 +-
+ drivers/input/touchscreen/cyttsp4_core.c      |   2 +-
+ drivers/md/dm-integrity.c                     |   6 +-
+ drivers/media/dvb-frontends/stv0367_priv.h    |   3 +
+ .../net/ethernet/chelsio/cxgb3/cxgb3_main.c   |  18 +-
+ .../net/ethernet/stmicro/stmmac/stmmac_main.c |   2 +-
+ drivers/net/fjes/fjes_main.c                  |   4 +-
+ drivers/nfc/pn544/i2c.c                       |   2 -
+ drivers/platform/x86/sony-laptop.c            |   1 -
+ drivers/scsi/isci/init.c                      |   6 +-
+ .../pci/hive_isp_css_include/math_support.h   |   5 -
+ fs/btrfs/ctree.h                              |   2 -
+ fs/btrfs/extent_io.c                          |   1 +
+ fs/btrfs/file-item.c                          |   1 +
+ fs/btrfs/misc.h                               |   2 -
+ fs/btrfs/raid56.c                             |   1 +
+ fs/btrfs/tree-checker.c                       |   2 +-
+ fs/erofs/zdata.h                              |   2 +-
+ fs/ext2/balloc.c                              |   2 -
+ fs/ext4/ext4.h                                |   2 -
+ fs/ufs/util.h                                 |   6 -
+ include/linux/compiler.h                      |  15 +
+ include/linux/minmax.h                        | 267 ++++++++++++++----
+ include/linux/overflow.h                      |   1 -
+ include/linux/trace_events.h                  |   2 -
+ kernel/trace/preemptirq_delay_test.c          |   2 -
+ lib/btree.c                                   |   1 -
+ lib/decompress_unlzma.c                       |   2 +
+ lib/logic_pio.c                               |   3 -
+ lib/vsprintf.c                                |   2 +-
+ lib/zstd/zstd_internal.h                      |   2 -
+ mm/zsmalloc.c                                 |   1 -
+ net/ipv4/proc.c                               |   2 +-
+ net/ipv6/proc.c                               |   2 +-
+ net/netfilter/nf_nat_core.c                   |   6 +-
+ net/tipc/core.h                               |   2 +-
+ net/tipc/link.c                               |  10 +-
+ 49 files changed, 312 insertions(+), 169 deletions(-)
+
+-- 
+2.47.3
+
 
