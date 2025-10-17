@@ -1,103 +1,249 @@
-Return-Path: <linux-media+bounces-44942-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44943-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A3C2BEB715
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 22:08:51 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 01BD6BEBCB1
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 23:19:43 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2411D4E94F8
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 20:08:50 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6AE9D1AA7904
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 21:20:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9115626463A;
-	Fri, 17 Oct 2025 20:08:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 99BAD2FB0AD;
+	Fri, 17 Oct 2025 21:19:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="IOhdQb09"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="oXTApJEO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CC5333F8DB;
-	Fri, 17 Oct 2025 20:08:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DF9F354AC2
+	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 21:19:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760731723; cv=none; b=N4MSwcbUwpnJN1R99uvQFLG3BCk1VakO1Jt8mWgQkLnb+An0C8FoyQSg2cv62vnCVXSmwuXSaxE0oS+/CC4PqJsiimQqqZIFOR6wE2aft8Hm067CLy7dIPiCD1mtisu/JfVnRR3WaFekUhlfXhAkfNgl+En1jZMTO3Jg/Q87xdI=
+	t=1760735978; cv=none; b=sgEPmT5qfDLjyv/TIDyDQNaGeKqSZIIuD4KZwwZBTHaHaUEWQXtxwjCdfehqX6NzL53Llf9hz6Y+yGxjo+F4L4SufGa553n+bfCrKiKj+QwavSitkPDIsLycsGviPn51cwuXTu5nVubKmiDs8ywssjh3c6qr3+hnBqU8kz0N41Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760731723; c=relaxed/simple;
-	bh=mqgzHYNbed1bkvPNFELxeM/6jxkFoNeu/evIeYHFfEQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=p3aJJJNnQz1mb2Rbyv83AYW3O9enXnxgC8+L6c/ommGk8n2n4ITe/pRADcIY+imIXUi3egzEVK8euMbrMYWOzQFOmIG0J20vtjEwA6cNoUJIm0dvR7fve1rcGcjUrY5CoEEHTkDJCHHLhshO0KjBZNy6PkucCNKB5nwwj6yDtiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=IOhdQb09; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1110540B1D
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1760731720; bh=Eu7Efolufq4MnZu/dPzVcX1UsuGoN4glZCYwWOMEPq4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=IOhdQb09ZMx5KbybaUxCQ2hP7BAEGCwCDQs4Nlf7Z/TeHcdHwOJ28utrF9t54R5om
-	 ieg64H+PosVgN9OboSecRbnM31lS+Eot3uCUtlIN3iCDuJ3RsD4ZZybM03hj/JlQv7
-	 ujc3PXisIY79RXe54ZKdWsfyL0XF5qTOmee/eOWzS1e+ny5DO1lYwPbzdrTwpPJpXx
-	 m3os40pZSUqtWTWIA49En59TgBlTLSTuFDaySC+fLmheNjAVcjoNEezB56Vp7ChaT1
-	 Xq0gZRc24AEsWltCwzjS292+W38vCFBWAs9LGq3rcTbtQnhPxM67E3SjQ0iCzaadE1
-	 2eGDPXgJ9obbA==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 1110540B1D;
-	Fri, 17 Oct 2025 20:08:40 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org
-Subject: Re: [PATCH 00/23] Fix media uAPI cross references
-In-Reply-To: <cover.1759329363.git.mchehab+huawei@kernel.org>
-References: <cover.1759329363.git.mchehab+huawei@kernel.org>
-Date: Fri, 17 Oct 2025 14:08:39 -0600
-Message-ID: <87h5vx1ebc.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1760735978; c=relaxed/simple;
+	bh=lZMPNSf/pu+o88SbKteOk8f4CkPUG0285dQSnqMwmeQ=;
+	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=BqO5AL/WSngkiEkozrvkJCGy3M3Yvk+ljQUO/TA7PjUEgpWQfdQEJ95Fvf51B7KlN7aQWVrYgGn0D8LPeKf+1rFpStqHooNJxcvfyzCMsL16J47Md3aZWuEqLWaomPsZmsBYROucn547slTd7DmpFIzI1cP/G7BycJtm1qrrpx0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=oXTApJEO; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
+	; s=s1; h=List-ID:Content-Type:MIME-Version:Subject:References:In-Reply-To:
+	Message-ID:To:Reply-To:From:Date:Sender:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=LMBsL4CBsLTUQOthznQRsmmxh3qNjCz5U9H/yDqpidI=; b=oXTApJEOONrTJ8l0PV20wTXNya
+	s8nZAwZZI8yxzpY9rcZ0TGz2XJoX0zf3vp3FL/mmSZnoDQRfIIqzoRr/ie9cyKp1BQMP0hzhnaV4q
+	K8iIzvwY63e6c82cIv80joGrR3OdGA2GGLkGpJhLf5xwGCYE8hCDoE7MSQnhdejc38Zemrdlmhfmq
+	yg1jOlxq1ltuT1e8iBz83UdmFSYk4wML+LocLKR+uRcJUGnCTtJ8q1gDM2SgsPaFCKW54TmsvxwKE
+	3I1vNeedb2vSMb0d5wsI+YW5L2sfrGmqtT0nb9ZRwoGsiguPuROSFQppEySo8eoy6ew03hCGBS53S
+	zS1kCWvg==;
+Received: from builder.linuxtv.org ([140.211.167.10])
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1v9rrL-0006tB-1D;
+	Fri, 17 Oct 2025 21:19:35 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+	by builder.linuxtv.org with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1v9rrL-00H2zl-0v;
+	Fri, 17 Oct 2025 21:19:35 +0000
+Date: Fri, 17 Oct 2025 21:19:34 +0000 (UTC)
+From: Jenkins Builder Robot <jenkins@linuxtv.org>
+Reply-To: mchehab@kernel.org, media-committers@linuxtv.org,
+	linux-media@vger.kernel.org
+To: mchehab@kernel.org, media-committers@linuxtv.org,
+	linux-media@vger.kernel.org, hverkuil@xs4all.nl
+Message-ID: <128102591.2.1760735975289@builder.linuxtv.org>
+In-Reply-To: <1848929797.2.1760343666807@builder.linuxtv.org>
+References: <1848929797.2.1760343666807@builder.linuxtv.org>
+Subject: [Jenkins] media.git_drivers_build #439: build failed for x86_64
+ allyesconfig x86_64 allmodconfig x86_64 no PM
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_1_2072890267.1760735975074"
+X-Jenkins-Job: media.git_drivers_build
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+------=_Part_1_2072890267.1760735975074
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> In the past, media used Docbook to generate documentation, together
-> with some logic to ensure that cross-references would match the
-> actual defined uAPI.
->
-> The rationale is that we wanted to automatically check for uAPI
-> documentation gaps.
->
-> The same logic was migrated to Sphinx. Back then, broken links
-> were reported. However, recent versions of it and/or changes at
-> conf.py disabled such checks.
->
-> The result is that several symbols are now not cross-referenced,
-> and we don't get warnings anymore when something breaks.
->
-> This series consist on 2 parts:
->
-> Part 1: extra patches to parse_data_structs.py and kernel_include.py;
-> Part 2: media documentation fixes.
->
-> I'm not sure what's the best strategy to merge it, as some patches
-> belong to doc while others are media. So, they can be merged on
-> either one of the tree, or split on two series and merged in
-> separate or even being merged via a PR applied on both trees.
->
-> IMO, the latter is the better strategy.
+Some tests failed:
+	FAIL: x86_64 allyesconfig
+	FAIL: x86_64 allmodconfig
+	FAIL: x86_64 no PM
+	PASS: arm32 allmodconfig
+	PASS: arm32 allyesconfig
+	PASS: arm64 allyesconfig
+	PASS: arm64 allmodconfig
+	PASS: clang15 allmodconfig
 
-OK, this series has been applied to -rc1 and is available in my
-media-uapi branch.  I've also merged it into docs-next.
+GENERAL INFO
 
-Thanks,
+BUILD SUCCESSFUL
+Build URL: https://builder.linuxtv.org/job/media.git_drivers_build/439/
+Project: media.git_drivers_build
+Date of build: Fri, 17 Oct 2025 21:05:06 GMT
+Build duration: 14 min and counting
 
-jon
+
+CHANGE SET
+
+  	 Revision  by hverkuil: (media: dvb-usb: dtv5100: fix out-of-bounds in dtv5100_i2c_msg())
+
+	 change: edit drivers/media/usb/dvb-usb/dtv5100.c
+
+  	 Revision  by hverkuil: (media: dvb-core: dvb_ringbuffer: Fix various coding style issues)
+
+	 change: edit drivers/media/dvb-core/dvb_ringbuffer.c
+
+  	 Revision  by hverkuil: (media: dvb-core: dvb_demux: Fix assignments in if conditions)
+
+	 change: edit drivers/media/dvb-core/dvb_demux.c
+
+  	 Revision  by hverkuil: (media: av7110: Fix warning &#039;unsigned&#039; -&gt; &#039;unsigned int&#039;)
+
+	 change: edit drivers/staging/media/av7110/av7110_ca.c
+
+  	 Revision  by hverkuil: (Revert &quot;media: xc2028: avoid use-after-free in load_firmware_cb()&quot;)
+
+	 change: edit drivers/media/tuners/xc2028.c
+
+  	 Revision  by hverkuil: (media: dvb-core: use vmalloc_array to simplify code)
+
+	 change: edit drivers/media/dvb-core/dvb_demux.c
+
+	 change: edit drivers/media/dvb-core/dmxdev.c
+
+  	 Revision  by hverkuil: (media: pt1: use vmalloc_array to simplify code)
+
+	 change: edit drivers/media/pci/pt1/pt1.c
+
+  	 Revision  by hverkuil: (media: vivid: use vmalloc_array and vcalloc to simplify code)
+
+	 change: edit drivers/media/test-drivers/vivid/vivid-core.c
+
+  	 Revision  by hverkuil: (staging: media: tegra-video: Remove the use of dev_err_probe())
+
+	 change: edit drivers/staging/media/tegra-video/tegra20.c
+
+  	 Revision  by hverkuil: (MAINTAINERS: Update Synopsys HDMI RX driver entry)
+
+	 change: edit MAINTAINERS
+
+  	 Revision  by hverkuil: (media: dt-bindings: snps,dw-hdmi-rx.yaml: Updated maintainers entry)
+
+	 change: edit Documentation/devicetree/bindings/media/snps,dw-hdmi-rx.yaml
+
+  	 Revision  by hverkuil: (media: synopsys: hdmirx: media: Remove redundant ternary operators)
+
+	 change: edit drivers/media/platform/synopsys/hdmirx/snps_hdmirx.c
+
+  	 Revision  by hverkuil: (media: dvb-frontends: Remove redundant ternary operators)
+
+	 change: edit drivers/media/dvb-frontends/drx39xyj/drxj.c
+
+	 change: edit drivers/media/dvb-frontends/drxk_hard.c
+
+  	 Revision  by hverkuil: (media: dvb: Use int type to store negative error codes)
+
+	 change: edit drivers/media/dvb-frontends/cxd2841er.c
+
+	 change: edit drivers/media/dvb-frontends/lgdt330x.c
+
+  	 Revision  by hverkuil: (media: TDA1997x: Remove redundant cancel_delayed_work in probe)
+
+	 change: edit drivers/media/i2c/tda1997x.c
+
+  	 Revision  by hverkuil: (media: i2c: adv7842: Remove redundant cancel_delayed_work in probe)
+
+	 change: edit drivers/media/i2c/adv7842.c
+
+  	 Revision  by hverkuil: (media: i2c: ADV7604: Remove redundant cancel_delayed_work in probe)
+
+	 change: edit drivers/media/i2c/adv7604.c
+
+  	 Revision  by hverkuil: (media: adv7842: Avoid possible out-of-bounds array accesses in adv7842_cp_log_status())
+
+	 change: edit drivers/media/i2c/adv7842.c
+
+  	 Revision  by hverkuil: (media: msp3400: Avoid possible out-of-bounds array accesses in msp3400c_thread())
+
+	 change: edit drivers/media/i2c/msp3400-kthreads.c
+
+  	 Revision  by hverkuil: (media: pvrusb2: Fix incorrect variable used in trace message)
+
+	 change: edit drivers/media/usb/pvrusb2/pvrusb2-hdw.c
+
+  	 Revision  by hverkuil: (media: vidtv: initialize local pointers upon transfer of memory ownership)
+
+	 change: edit drivers/media/test-drivers/vidtv/vidtv_channel.c
+
+  	 Revision  by hverkuil: (media: pci: mg4b: use aligned_s64)
+
+	 change: edit drivers/media/pci/mgb4/mgb4_trigger.c
+
+  	 Revision  by hverkuil: (media: pci: mg4b: use iio_push_to_buffers_with_ts())
+
+	 change: edit drivers/media/pci/mgb4/mgb4_trigger.c
+
+  	 Revision  by hverkuil: (media: c8sectpfe: remove support of STi c8sectpfe driver)
+
+	 change: edit drivers/media/platform/st/sti/Makefile
+
+	 change: delete drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-common.c
+
+	 change: delete drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-dvb.c
+
+	 change: delete drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.c
+
+	 change: delete drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.h
+
+	 change: delete drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-debugfs.h
+
+	 change: delete drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-common.h
+
+	 change: delete drivers/media/platform/st/sti/c8sectpfe/Makefile
+
+	 change: edit drivers/media/platform/st/sti/Kconfig
+
+	 change: delete drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-core.c
+
+	 change: delete drivers/media/platform/st/sti/c8sectpfe/Kconfig
+
+	 change: delete drivers/media/platform/st/sti/c8sectpfe/c8sectpfe-dvb.h
+
+	 change: edit MAINTAINERS
+
+	 change: edit drivers/media/platform/st/Makefile
+
+  	 Revision  by hverkuil: (media: include: remove c8sectpfe header)
+
+	 change: delete include/dt-bindings/media/c8sectpfe.h
+
+  	 Revision  by hverkuil: (media: doc/dt-bindings: remove support of stih407-c8sectpfe)
+
+	 change: edit Documentation/admin-guide/media/platform-cardlist.rst
+
+	 change: delete Documentation/devicetree/bindings/media/stih407-c8sectpfe.txt
+
+  	 Revision  by hverkuil: (media: cec: Fix debugfs leak on bus_register() failure)
+
+	 change: edit drivers/media/cec/core/cec-core.c
+
+  	 Revision  by hverkuil: (media: v4l2-mem2mem: Fix outdated documentation)
+
+	 change: edit include/media/v4l2-mem2mem.h
+------=_Part_1_2072890267.1760735975074--
 
