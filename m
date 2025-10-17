@@ -1,57 +1,57 @@
-Return-Path: <linux-media+bounces-44929-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44930-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id A3C32BEAECA
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 18:57:51 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1BC7BEAF78
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 19:04:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5DBC1586CF3
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 16:50:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59390744740
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 16:56:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9BCDA2E6CC9;
-	Fri, 17 Oct 2025 16:50:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC7CF2ECD28;
+	Fri, 17 Oct 2025 16:56:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Yy3l0xgW"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KRaj5tm9"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09F9A10E3
-	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 16:49:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545882D7DCE
+	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 16:56:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760719800; cv=none; b=U7pPyr5jHsmS3G6hp5vsuOfPqX7cGvnmX2c2NM9Aefbq3jxJsW1qx95W2sdRFMqesSwYDf5hMg5u7lidtNW5If4RqhKVA6M2qTHeWKig1u89U1PcqnPpZbZlC3WVs/6ywR3DBScsfdsLBZgdOSX5oTfCY7KpMpap+ywNPHIuuI0=
+	t=1760720166; cv=none; b=fnvD4406k7Usjs+50/fGYIeutigcCt1wi+OsBKsSFMpgszlCU+B6gkd+3Dsb1OT50n5erQn+G/4pCAFJNE0SfZRuTBMfmZU2e4BcgQM5+7K1e0V4f71YJ8Y4owAh13biRDSwRQJi+fNbAPfwFnlAQWJu3qsZ/AIxDMkLrdp1SiI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760719800; c=relaxed/simple;
-	bh=gLXK9pi4A7DEwZa2HF/oxsaSQheBjtMMkJQ/g7+gdhI=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=NBAOMvcQcJu6IRoB8WakdOTj6br1poxS6J1Jm6+MOxQo/28WExgNxll/e275sSEtF2RdlgXQlT/DFideJecr2vGeiD05BEZQojUXGZEa6BLLyqUvEIeKa7E0gQP3UOenerCDm9G/4Rfif62I2qne0OqfT9jwvPQubagDDQdlu4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Yy3l0xgW; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1760720166; c=relaxed/simple;
+	bh=SgDXVXTlvwz1ckdkfQFdEAB+Hh3IaVKux7HrbYLr8IE=;
+	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=j8PwHeOkFp5RFClgj495Fum1RoikcPgUwpZfl5afU/Z7BoDs9JkGgQJjAZwuryf32+LaToUrlHgZpd+9ZRpZfk0gAsDS4q8BvG7Idhh6BCeMpfm8msE8+sHWv6W3cX5BvFzHDjQOp/yGDChZvJodd7KYOfhNCi7wtsq5Ic7r4NM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KRaj5tm9; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1760719796;
-	bh=gLXK9pi4A7DEwZa2HF/oxsaSQheBjtMMkJQ/g7+gdhI=;
+	s=mail; t=1760720160;
+	bh=SgDXVXTlvwz1ckdkfQFdEAB+Hh3IaVKux7HrbYLr8IE=;
 	h=Subject:From:To:Date:From;
-	b=Yy3l0xgWaMjWxte95/luvCu/HWOwD9ArKDjRkj1gGN8E9C0qeKOBqilvY2xtWaGwq
-	 7rc89g3zM4cwCFnP/HFiPtPezBmdLDNJMisDpicJJTmsMXaqnYrrqUjaAw9POKblAy
-	 Gg7ie2XpwO4jazpKs95vUS0yWCy+KfE7xv3LZeTs1lcTLB5lEUIUb8qLRpGFL2ljAG
-	 OMpFrXNDbYG/mV/HtO5PlGnIYs+sLIiAW02FNmXhqsQIYKBWNgDqGhKnyUXJTnWv+y
-	 FRd5/ItP1P63aD+zxx35BRCR+j3fONqkNd3fU3BhDaOZYnn8zCaTf6GLQZhtc6s9s5
-	 uOysGX7i2EnJw==
+	b=KRaj5tm9ggeefv9TTfr3w3cfl2oIprmCufbJ33NiRxEPSYi6WrKoXy6fajaasjZl4
+	 zLj96BrQPW3G8WHM4ERxLzuTEinme03Fn8m6bVABsYH8VWj41oy7YM4gXX/vmCuQHJ
+	 tFK77qSJfwpc/3V3X5UBokECBV37n6lKOgQt1nEYouoRwd083Yqka1rzLG20UEHGls
+	 W8hmc0bGuB04kyPaoe0bTZi7EUesLipfRLrsblu/yth5WcPpjep/iRWUv9ZP5h+B/D
+	 ooaghdpTvWlsdtFjNVlp1l0W9B7X5FY2z6A+WgsyTSs7dVmy7yPC8ipLCFHp+3uP5g
+	 VR1DLm88JYbUw==
 Received: from [IPv6:2606:6d00:17:ebd3::5ac] (unknown [IPv6:2606:6d00:17:ebd3::5ac])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id B8FF017E02B0
-	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 18:49:55 +0200 (CEST)
-Message-ID: <b35589145aa05c0c103d2c1d2b9758f9177327d7.camel@collabora.com>
-Subject: [GIT PULL FOR 6.19]
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3DE3717E1267
+	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 18:56:00 +0200 (CEST)
+Message-ID: <dbccf041ba384d61d9a7f048d7eaab111af85dbb.camel@collabora.com>
+Subject: [GIT PULL v2 FOR 6.19] Media CODEC Fixes 2025-10-17
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: linux-media@vger.kernel.org
-Date: Fri, 17 Oct 2025 12:49:53 -0400
+Date: Fri, 17 Oct 2025 12:55:58 -0400
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -67,7 +67,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-M0Nv+jrpRA77+gK9mulA"
+	protocol="application/pgp-signature"; boundary="=-72ALCt6cW4dZs/R7UGOa"
 User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -77,7 +77,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-M0Nv+jrpRA77+gK9mulA
+--=-72ALCt6cW4dZs/R7UGOa
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -89,6 +89,8 @@ and an improved validation of AV1 sequence parameters.
 
 cheers,
 Nicolas
+
+p.s. sorry for the previous empty subject request.
 
 ---
 
@@ -187,18 +189,22 @@ quence()
 Nicolas Dufresne
 Principal Engineer at Collabora
 
---=-M0Nv+jrpRA77+gK9mulA
+--=20
+Nicolas Dufresne
+Principal Engineer at Collabora
+
+--=-72ALCt6cW4dZs/R7UGOa
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaPJzsQAKCRDZQZRRKWBy
-9GhfAQCF2KEPh/8U0GScD01/5drsLA/32nvg1kmo+XOqNCAYcAD+Lb8/fubhQoud
-4Sy+2b3hTUF8jq5N0XMPviYSRXutiwU=
-=SxPd
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaPJ1HgAKCRDZQZRRKWBy
+9HU2AP9J+CpIwG+UST52dqg7weiM7f8WsVKl16dbF/VBlt3HKgD/Tr9K20ji5/Fo
+B7zc2erb359ePBT6nadpyzem9GvMEQA=
+=WUjo
 -----END PGP SIGNATURE-----
 
---=-M0Nv+jrpRA77+gK9mulA--
+--=-72ALCt6cW4dZs/R7UGOa--
 
