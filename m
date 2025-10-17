@@ -1,57 +1,60 @@
-Return-Path: <linux-media+bounces-44905-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44906-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FFBFBE8F79
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 15:41:13 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BDA7DBE8FCD
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 15:47:59 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2A44E19A0979
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 13:39:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 477DA1A623EC
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 13:48:23 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F03B2369966;
-	Fri, 17 Oct 2025 13:38:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0651434AAE7;
+	Fri, 17 Oct 2025 13:47:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t/a9hMIV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VjkzgWyN"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59C2D2F6922
-	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 13:38:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2B6C120;
+	Fri, 17 Oct 2025 13:47:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760708335; cv=none; b=HoqPUcf8pmkRfGXk+54ecxyQReTb97wnWFufGq7rNsqr1Jtic6gpiIlcpEsqRHrg3lwxNfg5RbqByz89bgigLjRra0CP1PfBZVeUzCOuwibW06WrrXfXM2VXMRjMYn1KkhduNfiPNLp3+dpmXlee/e0fKDUBLTqdtS4Yv+juvrM=
+	t=1760708872; cv=none; b=jZIaWUvXMo5UyZq/WsCBihaxRHPZ4jfXWSdsTlI5P0vB9k6l5+8jXL/blWWbKUJJSOf4bijeJkOz3AD6VuYGKU3mmMFDrx8pCDlbBzONlJfk1PhxJseCOfp45o8TIfyBhkCinWX7IbkG2StIm+CbF2j4P55RQBXdnmBFEmSQZqQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760708335; c=relaxed/simple;
-	bh=8rEk6o9xZqyQ3Zl3e0fsJFfr7cUj3MIT7OoBARTO6L8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=eHJrahp0tHjmoQOgIEMTFyqpFSigqf+ZqQqIuuwC0EKkBip2XhoXO30IaVjeX2REuAvDG/zRGQ2hY8Oqu14MuNWwiQvrZFUvqftpceke7Htuv1Q7rwMVE04wYoytKVkrYe2UkI7EYSDs6D7Bq8KtqTjU57nKAfnsahNg9/swqaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t/a9hMIV; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 967ABC4CEFE;
-	Fri, 17 Oct 2025 13:38:53 +0000 (UTC)
+	s=arc-20240116; t=1760708872; c=relaxed/simple;
+	bh=KKelnfCVSkqGfD/vx5rJBlReymKdSnPUEgmqAjBvnWQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VCVtsny0wZj24nETzYf4PqTb06lY4FjZs46XkyYJdIw0bPGDxNg//6DEGYbomXQtTg2a94WhXG9KoEGZHjpt42H/JT/oD5Xs8K/vk0/M15TlIpL1slSKteaRoSM2IIeZep7udLvP3Wz4VqQMTXZhLBuT5jlqGt4ZJB2FKSxRhg4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VjkzgWyN; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93C0FC4CEF9;
+	Fri, 17 Oct 2025 13:47:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760708334;
-	bh=8rEk6o9xZqyQ3Zl3e0fsJFfr7cUj3MIT7OoBARTO6L8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=t/a9hMIVDBK6VPML2p7IVqotwFcC1YSRf4aM2ZCAIs4HJYDH3tI4kh0/jKSE8l5Xt
-	 NT4S2+x6uMY/5OcDWuz/uxXO1EVqnzXjz5V6ugroT3XrX0/e8XmKC6Pdtonv/E2WUr
-	 FX6uq+6nGfAO/vYzQFiTvn/WdJhty85JNZZankPXQEuqo36M5Fhf46TCCP5Hm9fxY7
-	 oFKKfUZHEGAC5efOxWuxqfUlaM+Rk39tAqBaX79h8XJ2LK8kLAQpdwQAM01kWqGu6s
-	 aava3l97s3rFcbILBC32dIknogglovmgF9E3RJrf4GpjwzjmaSUtTE1UkXbvfVBWF2
-	 JZdEMJGWyuC/A==
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	laurent.pinchart@ideasonboard.com,
-	Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: [PATCH 14/14] DO NOT MERGE: omap3-beagle-xm.dts: add Leopard Imaging li5m03 support
-Date: Fri, 17 Oct 2025 15:26:51 +0200
-Message-ID: <b6dfd177850148da553dcd08286fd9a3787376ef.1760707611.git.hverkuil+cisco@kernel.org>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <cover.1760707611.git.hverkuil+cisco@kernel.org>
-References: <cover.1760707611.git.hverkuil+cisco@kernel.org>
+	s=k20201202; t=1760708871;
+	bh=KKelnfCVSkqGfD/vx5rJBlReymKdSnPUEgmqAjBvnWQ=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VjkzgWyN7WvWpRW4x8oP8VL3Ug4dDalsjXbaCr7N+ZNXWeybQuMzO64xxwITP0iPE
+	 O2tDxVLF+k1kf6X04+DUnehUVHkXf9J1iLK9WlCpSGYqWx5CLpMHYmkxwO41VeA9W2
+	 SEPSbwIiSW9VfFJ7UCxVwCDGECYoAfeveSk/IiBKUg23Xs2RNC3OZPYVgw1ZBMDrgz
+	 xfS2yRFxC/HvVcwUJsiTpvbRR+tkhLoaqhoExkrsUqxb4IQ/bENOwTVFGNKveMXwz2
+	 I2GlDim2ywJ7hqkxNBoqAVhkn7Ycn7VlSWpRQkTbdD3F3Mi+xPMabdUBFBmBCm4so2
+	 ZCGBv+1kN32ZA==
+From: Philipp Stanner <phasta@kernel.org>
+To: Matthew Brost <matthew.brost@intel.com>,
+	Danilo Krummrich <dakr@kernel.org>,
+	Philipp Stanner <phasta@kernel.org>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Sumit Semwal <sumit.semwal@linaro.org>
+Cc: dri-devel@lists.freedesktop.org,
+	linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org
+Subject: [PATCH 1/3] drm/sched: Remove out of place resubmit docu
+Date: Fri, 17 Oct 2025 15:47:01 +0200
+Message-ID: <20251017134716.187723-2-phasta@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -60,96 +63,45 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Adds support for the Leopard Imaging li5m03 camera for the Beagle xM board.
+The documentation for drm_sched_backend_ops.run_job() details that that
+callback can be invoked multiple times by the deprecated function
+drm_sched_resubmit_jobs(). It also contains an unresolved TODO.
 
-Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+It is not useful to document side effects of a different, deprecated
+function in the docu of run_job(): Existing users won't re-evaluate
+their usage  of the deprecated function by reading the non-deprecated
+one, and new users must not use the deprecated function in the first
+place.
+
+Remove the out of place documentation.
+
+Signed-off-by: Philipp Stanner <phasta@kernel.org>
 ---
- .../dts/ti/omap/omap3-beagle-xm-li5m03.dtsi   | 64 +++++++++++++++++++
- arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dts |  2 +
- 2 files changed, 66 insertions(+)
- create mode 100644 arch/arm/boot/dts/ti/omap/omap3-beagle-xm-li5m03.dtsi
+ include/drm/gpu_scheduler.h | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/arch/arm/boot/dts/ti/omap/omap3-beagle-xm-li5m03.dtsi b/arch/arm/boot/dts/ti/omap/omap3-beagle-xm-li5m03.dtsi
-new file mode 100644
-index 000000000000..96d637534af0
---- /dev/null
-+++ b/arch/arm/boot/dts/ti/omap/omap3-beagle-xm-li5m03.dtsi
-@@ -0,0 +1,64 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Device Tree Source for the Beagleboard-xM LI-5M03 add-on camera board
-+ *
-+ * Copyright (C) 2014 Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-+ *
-+ * This file is licensed under the terms of the GNU General Public License
-+ * version 2.  This program is licensed "as is" without any warranty of any
-+ * kind, whether express or implied.
-+ */
-+
-+&i2c2 {
-+	clock-frequency = <100000>;
-+
-+	mt9p031@48 {
-+		compatible = "aptina,mt9p031";
-+		reg = <0x48>;
-+
-+		clocks = <&isp 0>;
-+		reset-gpios = <&gpio4 2 GPIO_ACTIVE_LOW>;
-+
-+		vaa-supply = <&hsusb2_power>;
-+		vdd-supply = <&vaux3>;
-+		vdd_io-supply = <&vaux4>;
-+
-+		port {
-+			mt9p031_out: endpoint {
-+				input-clock-frequency = <21000000>;
-+				pixel-clock-frequency = <48000000>;
-+				remote-endpoint = <&ccdc_ep>;
-+			};
-+		};
-+	};
-+};
-+
-+&isp {
-+	#address-cells = <1>;
-+	#size-cells = <0>;
-+
-+	ports {
-+		port@0 {
-+			reg = <0>;
-+			ccdc_ep: endpoint {
-+				remote-endpoint = <&mt9p031_out>;
-+				bus-width = <12>;
-+				hsync-active = <1>;
-+				vsync-active = <1>;
-+				pclk-sample = <0>;
-+			};
-+		};
-+	};
-+};
-+
-+&vaux3 {
-+	regulator-name = "cam_core";
-+	regulator-min-microvolt = <1800000>;
-+	regulator-max-microvolt = <1800000>;
-+};
-+
-+&vaux4 {
-+	regulator-name = "cam_io";
-+	regulator-min-microvolt = <1800000>;
-+	regulator-max-microvolt = <1800000>;
-+};
-diff --git a/arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dts b/arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dts
-index 08ee0f8ea68f..29c1864e36a0 100644
---- a/arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dts
-+++ b/arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dts
-@@ -417,3 +417,5 @@ venc_out: endpoint {
- 		};
- 	};
- };
-+
-+#include "omap3-beagle-xm-li5m03.dtsi"
+diff --git a/include/drm/gpu_scheduler.h b/include/drm/gpu_scheduler.h
+index fb88301b3c45..9c629bbc0684 100644
+--- a/include/drm/gpu_scheduler.h
++++ b/include/drm/gpu_scheduler.h
+@@ -429,16 +429,6 @@ struct drm_sched_backend_ops {
+ 	 *
+ 	 * @sched_job: the job to run
+ 	 *
+-	 * The deprecated drm_sched_resubmit_jobs() (called by &struct
+-	 * drm_sched_backend_ops.timedout_job) can invoke this again with the
+-	 * same parameters. Using this is discouraged because it violates
+-	 * dma_fence rules, notably dma_fence_init() has to be called on
+-	 * already initialized fences for a second time. Moreover, this is
+-	 * dangerous because attempts to allocate memory might deadlock with
+-	 * memory management code waiting for the reset to complete.
+-	 *
+-	 * TODO: Document what drivers should do / use instead.
+-	 *
+ 	 * This method is called in a workqueue context - either from the
+ 	 * submit_wq the driver passed through drm_sched_init(), or, if the
+ 	 * driver passed NULL, a separate, ordered workqueue the scheduler
 -- 
-2.51.0
+2.49.0
 
 
