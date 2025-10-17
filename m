@@ -1,217 +1,309 @@
-Return-Path: <linux-media+bounces-44922-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44921-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8E67BEACEC
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 18:41:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E8E1BEABFC
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 18:33:41 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4A103961A93
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 15:58:55 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 916E7961675
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 15:58:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D5B9E32F778;
-	Fri, 17 Oct 2025 15:58:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8D113231C9F;
+	Fri, 17 Oct 2025 15:58:18 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="FLtxIBv7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CuS4zC1K"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E62B0330B20;
-	Fri, 17 Oct 2025 15:58:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760716714; cv=none; b=VItbilOda1UscBT9bfkNO8zeUTLr59sm6QtsXniJjsjh/4kfLW6C8cltA3hTumIiyu+l1FZXbw6Qp6hbJj5T5gNWTICOi8akwTyq8JIbZ9oEqNV+42Pr1CJG5zqFOWvwtHfepVRQk1gUBQ03czqQH701SJrC9qkRjw5LHWidl5g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760716714; c=relaxed/simple;
-	bh=20X28MMOWSoptgGAWTUrviJnQniEpl6Ktq66BRGKH/M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EZAofDs6tjmANaLbJ9W+e6KCrPnM+TOawvwYARgHuRjq6MrABoWQprJt+xBPk+g9pQAVbzGKMgSufSvLt+VwFee82XIfw0Abkz0K/FGDEoTvyyN4f8fsiwBKHt0Nfvh9eD+d46+gmniEvkiJAhbA4WSYn3D8E3wNnx3oynGIZxo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=FLtxIBv7; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 687B5C4CEE7;
-	Fri, 17 Oct 2025 15:58:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1760716713;
-	bh=20X28MMOWSoptgGAWTUrviJnQniEpl6Ktq66BRGKH/M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FLtxIBv7SZeCQWvR3ANCLmaMyydymZnc8EmPjl/1wQ2ZU6GZiD2nKCaUbGU/mGLlp
-	 fTOdia6A6ekGANEzH++1tbYBhBm/NR7Jy2B8blUuCuIxDXrSTaYf19VuAHrRtgTE73
-	 ZyIsy6hsoafgxjCLHqBFDNZjVm7M30+2G2ZqFt0Y=
-Date: Fri, 17 Oct 2025 17:03:02 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Eliav Farber <farbere@amazon.com>
-Cc: stable@vger.kernel.org, linux@armlinux.org.uk, jdike@addtoit.com,
-	richard@nod.at, anton.ivanov@cambridgegreys.com,
-	dave.hansen@linux.intel.com, luto@kernel.org, peterz@infradead.org,
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, x86@kernel.org,
-	hpa@zytor.com, tony.luck@intel.com, qiuxu.zhuo@intel.com,
-	mchehab@kernel.org, james.morse@arm.com, rric@kernel.org,
-	harry.wentland@amd.com, sunpeng.li@amd.com,
-	alexander.deucher@amd.com, christian.koenig@amd.com,
-	airlied@linux.ie, daniel@ffwll.ch, evan.quan@amd.com,
-	james.qian.wang@arm.com, liviu.dudau@arm.com,
-	mihail.atanassov@arm.com, brian.starkey@arm.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, robdclark@gmail.com, sean@poorly.run,
-	jdelvare@suse.com, linux@roeck-us.net, fery@cypress.com,
-	dmitry.torokhov@gmail.com, agk@redhat.com, snitzer@redhat.com,
-	dm-devel@redhat.com, rajur@chelsio.com, davem@davemloft.net,
-	kuba@kernel.org, peppe.cavallaro@st.com, alexandre.torgue@st.com,
-	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, malattia@linux.it,
-	hdegoede@redhat.com, mgross@linux.intel.com,
-	intel-linux-scu@intel.com, artur.paszkiewicz@intel.com,
-	jejb@linux.ibm.com, martin.petersen@oracle.com,
-	sakari.ailus@linux.intel.com, clm@fb.com, josef@toxicpanda.com,
-	dsterba@suse.com, xiang@kernel.org, chao@kernel.org, jack@suse.com,
-	tytso@mit.edu, adilger.kernel@dilger.ca, dushistov@mail.ru,
-	luc.vanoostenryck@gmail.com, rostedt@goodmis.org, pmladek@suse.com,
-	sergey.senozhatsky@gmail.com, andriy.shevchenko@linux.intel.com,
-	linux@rasmusvillemoes.dk, minchan@kernel.org, ngupta@vflare.org,
-	akpm@linux-foundation.org, kuznet@ms2.inr.ac.ru,
-	yoshfuji@linux-ipv6.org, pablo@netfilter.org, kadlec@netfilter.org,
-	fw@strlen.de, jmaloy@redhat.com, ying.xue@windriver.com,
-	willy@infradead.org, sashal@kernel.org, ruanjinjie@huawei.com,
-	David.Laight@aculab.com, herve.codina@bootlin.com, Jason@zx2c4.com,
-	keescook@chromium.org, kbusch@kernel.org, nathan@kernel.org,
-	bvanassche@acm.org, ndesaulniers@google.com,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-um@lists.infradead.org, linux-edac@vger.kernel.org,
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-	linux-arm-msm@vger.kernel.org, freedreno@lists.freedesktop.org,
-	linux-hwmon@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-media@vger.kernel.org, netdev@vger.kernel.org,
-	linux-stm32@st-md-mailman.stormreply.com,
-	platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-	linux-sparse@vger.kernel.org, linux-mm@kvack.org,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	tipc-discussion@lists.sourceforge.net
-Subject: Re: [PATCH v2 00/27 5.10.y] Backport minmax.h updates from v6.17-rc7
-Message-ID: <2025101704-rumble-chatroom-60b5@gregkh>
-References: <20251017090519.46992-1-farbere@amazon.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A2542D6E40
+	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 15:58:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760716697; cv=fail; b=OAWY8AC40uncPW8X/GReiHSfzNp8GC4W2DIuh1ZIgDVP/d8hjuk1Zyb2VFTDnNYrJIQ/Bq9OTfAVn0OYdJAeTjU/N3erNhCd+da4MdUjjlErGyNR92P1wMrTQ+xbfGmxtI6Bs0/wEgjD8oCw10DpXFoIa4c4PrJ00V3wkQsCuLQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760716697; c=relaxed/simple;
+	bh=qJOv2ApnVtk0uiYYxj21lElAoC8cPATcgtoA14Xmw7Y=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=iZNFC5zT4J0zobfpDGTf1RJ0xMWRF5Gpd9mRZ/BzTBndhoiMZ93DSfqXfWvI6GyqHV0MWrv1WtvQbyXFNmU9QvGD7PIGZtPVyCNoV8iknEJPpuek5GZ3K9VbiLMXfWO+wQNJYJcPQ3Qj/785JDvHQimbAAPbSzlm5Q8JAt8rUkU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CuS4zC1K; arc=fail smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760716696; x=1792252696;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=qJOv2ApnVtk0uiYYxj21lElAoC8cPATcgtoA14Xmw7Y=;
+  b=CuS4zC1KGfUqvlJeDFXIP+tB0BCoM37fjZLLIXT1OgC4jUsG1c7Q5EqD
+   dnHuaEXqtLBz0BQfa74Ppv31p3p+grEiu8VS4AwwMrot5Xe5C7+z+Wd4P
+   +AYKh9z7fpkyhXt6CU+F399iS6N1lVa2wwUX4jvtj6Cytztyb8T5EpIEf
+   kj4IFT8gJFor5hhxlXu6V+CrLWehcZ7/zvP7pbtXgyJH3yuoTyuZoCA3N
+   mMf1bQpNyNxD3/s6M+so7sSUjeJWDxMvNdu5T8u6Mu0SXwruNhFaeStf9
+   J4IfUiT0ZO3gVN0I617SMTOyWGsL0OfEBuM6CvkRtPwmGftC69y05kFop
+   g==;
+X-CSE-ConnectionGUID: Pu0CT2O4Rdm3ewZFNNFaGQ==
+X-CSE-MsgGUID: FC8uCqKqSRGcVpEjBX3nOg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="73215116"
+X-IronPort-AV: E=Sophos;i="6.19,236,1754982000"; 
+   d="scan'208";a="73215116"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 08:58:15 -0700
+X-CSE-ConnectionGUID: eE3E95fFSzOYXIjMtQW99g==
+X-CSE-MsgGUID: TzQsmI5SQ7eA4/ZOfIXpyA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,236,1754982000"; 
+   d="scan'208";a="182317365"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 08:58:15 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 17 Oct 2025 08:58:14 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Fri, 17 Oct 2025 08:58:14 -0700
+Received: from BL0PR03CU003.outbound.protection.outlook.com (52.101.53.0) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Fri, 17 Oct 2025 08:58:14 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YjLHi+oBEAiQL4WVkJINckM2w8Y7SBtOxB8XzNFmPepbWRIPujP7D4crxBsAfNatF+cpakyXMxWBIb8P5dnzAxZTIE+SGXS9FToCF/JwZaenLmnoECXbAtunlvzFbGF+gT5XIJuo63Vbjk6O0aVewOmzZ2BkcjpyiRPvb7mQluyIJXuY1jzXfDdHPtzlRPDQt2LbIK6dumHVuoV7dtZKljlsSj3o70TbZRWmmJfOrAJuEH9ogKfYHtFKRUmLU7NbzRoVNtTPPdgM4jDIxsKjfOD41rrNiXKmeT9aZAdvUbODQMzxH6K360V9msjgnrS7NSQG9lyc/J/3wa9x5/7Zag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=qJOv2ApnVtk0uiYYxj21lElAoC8cPATcgtoA14Xmw7Y=;
+ b=O8WI1MQ2bzuEkh+1Uuq6uJtU1aSsLYVW4EvjGm+Rrqz73flOV3z1FNWiAoN3D2OCQMPOrk0yP05G0cZV6pUe7Lb9dIOalHonobHvapfTlf85MUzdXqMPx3S9rIyUwDCtMk3ykYOThpziAY5JSRLsXlYzLrewPZq+7gnChwUvz5Q73QxeoWtZ+1RuM5DgAkSS7iO/COfkt4MHbsuf+2vR6HlyrsaiWbYbNZg0L1bJpYyvNs1ZOwql222iEAO17sxD3yGspCqbdHK4xLaT3Djk72dv6lhF3CqMvdy2LIm/KVMGbf/dP5p14vYVuxUdusP2IH/yMJLLI4z+Yqf9/j2WnQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
+ by CY8PR11MB7798.namprd11.prod.outlook.com (2603:10b6:930:77::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.13; Fri, 17 Oct
+ 2025 15:58:12 +0000
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b%4]) with mapi id 15.20.9228.012; Fri, 17 Oct 2025
+ 15:58:11 +0000
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>, Christian Koenig
+	<christian.koenig@amd.com>, =?utf-8?B?VGhvbWFzIEhlbGxzdHLDtm0=?=
+	<thomas.hellstrom@linux.intel.com>
+CC: Simona Vetter <simona.vetter@ffwll.ch>, Sumit Semwal
+	<sumit.semwal@linaro.org>, "dri-devel@lists.freedesktop.org"
+	<dri-devel@lists.freedesktop.org>, "intel-xe@lists.freedesktop.org"
+	<intel-xe@lists.freedesktop.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "linaro-mm-sig@lists.linaro.org"
+	<linaro-mm-sig@lists.linaro.org>
+Subject: RE: [RFC 2/8] dma-buf: Add a helper to match interconnects between
+ exporter/importer
+Thread-Topic: [RFC 2/8] dma-buf: Add a helper to match interconnects between
+ exporter/importer
+Thread-Index: AQHcPNojmJhE/YQnnkmgKBfGa9XYUrTGgzIQ
+Date: Fri, 17 Oct 2025 15:58:11 +0000
+Message-ID: <IA0PR11MB718549B6509C3DA67D0F0205F8F6A@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <20251014071243.811884-1-vivek.kasireddy@intel.com>
+ <20251014071243.811884-3-vivek.kasireddy@intel.com>
+In-Reply-To: <20251014071243.811884-3-vivek.kasireddy@intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|CY8PR11MB7798:EE_
+x-ms-office365-filtering-correlation-id: c731e6ae-c11e-4e04-46be-08de0d95f8ee
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700021;
+x-microsoft-antispam-message-info: =?utf-8?B?VlBIUlc3MXZrVmVLRHJiUkxOVDl6cEZFRURxeVlld2wwb2o0ZTRyWlIva2tp?=
+ =?utf-8?B?RHhNTlNqZy80cCtxQU5Nak9WY2w5Q1ljWUEyUmlSbXFpMjZtRG5JaVFDaW9s?=
+ =?utf-8?B?R1JZMkw0WURKcEJIVXNhWnJ2QXh6Q0NyeVh2YkpIT09jVFpOQjd5OFFZUlkr?=
+ =?utf-8?B?cVpMSm1Tb0k5OGxVVG1wVndrNGtqL1IvQXFHbDdrbTJRZi9LK240WkdCTnlZ?=
+ =?utf-8?B?c2xDUDV4UExWN0kzRG9wSHhZR1BIOUE3dE1ubHZtcGNGUDdHaHBrVlpIWVFP?=
+ =?utf-8?B?N1pNUXdYSU5BZ2dJaTFCbytLY1dzRFozZ2M4MVUzbGZNNDRoNytMOTdqRDZT?=
+ =?utf-8?B?RXRPaGl5eXRJWG1ZR2dwcHM2b1p2QktrVHF2Rk1DZVd4SjhxemttbHpLeWhS?=
+ =?utf-8?B?UG9ROWJrVDVkeHUrYURrMytTYWZCSjVGanVjRWFVVXZ1UE1EYkFsNEdIOUpP?=
+ =?utf-8?B?bXVmd3MxekxzWFg5RnY4QW5lc0J2WFg0OEhkMnRxRjgwNzVzT0VlU3Y3cHF0?=
+ =?utf-8?B?Q21CMVdvK25KYlBUM3VGSlpzWmtXa1VpQW5RL1krVDM4Wmo2bHJwZlFwL1lS?=
+ =?utf-8?B?c3IwQ09zdks1WHd4dFJ1bzB1T3VOTDlDZjA2djdHMGdEdERNNnI4NVJ4M0Vo?=
+ =?utf-8?B?M0V4NEthS1JLbkQ4OUJUY1c3ZkZJOTM5L3IwV01XWHcyMzJXd1NTcDJIZEY0?=
+ =?utf-8?B?eG14SmROTi9ZRldPYzNGZWRnN2tZY1FzMnBPRmpCTWdsamlWTEJQNWxHTStB?=
+ =?utf-8?B?K3lhZkg3TjF1c3JBSFE4NFY0RGR1UUFqSHFGcEhGUFB0eFZ0T1lEbXJaVy9T?=
+ =?utf-8?B?VWlFdThFZ1d5S01BdDZSNW5zdnh5alkyTW41Zm94c1JNKytSaWNwS1g5ZFRH?=
+ =?utf-8?B?NXQwaHZzei9GV1llZncxWC83Nm9nTGFvQ2pkZlg3R3dVam1hNUVIZUpFL0Q1?=
+ =?utf-8?B?MThPdzFCcUxuV1FuY3p1ZjVWcmlzRWhZSEQxWmJidis3NHBQUEVPZXljUG9k?=
+ =?utf-8?B?MFQ3RFVRUXQvN1cyOS9YRUxXS1ZsWTAxWmpLZU91ZnU1Q2FRT1RBNDBZU2dM?=
+ =?utf-8?B?Ry9QVXVRT1JPS0JybkZRK251MXM0b2J4N2srVjdEQlNUcklhVkl5VXdTeDYw?=
+ =?utf-8?B?K05jMEd1amREc090d3hjU0ppTWxSWlBFT05MbU1JM3FESGpra0RJOTBrakx0?=
+ =?utf-8?B?ZWcrNXBmWkVvNzg5bHlLMDB1OFBmTzJacUlCcG5iY1hyaEFJbGxGTTNmMEJz?=
+ =?utf-8?B?c01raUNLa2dtRXhrT1Y5K2IyQVpvSXErend2N2FVM1Z1cDFCTjN4cFM5VG1l?=
+ =?utf-8?B?S3U2c3I5bU5RYW9rS3dqeElvdGpkRVo3UXdFdzFkWXRWVit2azVxZTJyTFRD?=
+ =?utf-8?B?NnpXS0h1UVhpS0RWZ2ozNHptenpaZzNhY3ZoLzdSYnJlcDdaN2NhRjFnOVp3?=
+ =?utf-8?B?bGxwRFNXNFhFRzdjOTd3aXA0MWVOajNqMkQ0VU9WNjFhZWkzQnRoRk9sSzlN?=
+ =?utf-8?B?R1ZNbk1aS1ZpUjMrdkMwbndjMkZzMmRjNzdkcWZQakp1VFhoZ3htcUtXc3Jq?=
+ =?utf-8?B?M1MrVjloSDF2ckNkL0I5bjRjclFlcm1jYWpETnRuUElDdm1OUXZQT28vNkR2?=
+ =?utf-8?B?WjI1dy9zMElmV3NJTmpCZk8vbDRyeUZYcVFaMnJxWUplemJBenFyejFWdWRs?=
+ =?utf-8?B?a05KUURFV0kyQkZPOEwvTGdlR2JNbHNicXBuVkJuQ0xwSzF0SjFuc0VGYjVT?=
+ =?utf-8?B?UG0xcFAwSXJRNUtma2g2Q2pBQU10YVVUU2xzV1RZekw3Ly9ySUNvSEZNcVZJ?=
+ =?utf-8?B?amZaUFhZanBtWGpBN3hpbGJjRDhaYXZDQkhsb043NytRbkhDU1Axak1KY1JK?=
+ =?utf-8?B?OWJOUGlHY0VWa0RXb0FzN0pheDQ4aUI4MlEzTFZneVExUEFqbnFGVC9SdlU0?=
+ =?utf-8?B?OXMvd1ZKL3VMdVYxNURNUEd2akcvS1JTVzVRSjVxUGh3Ym8zMjZ0c2c2NUc5?=
+ =?utf-8?B?VXVWbkd1SGJhWE5vNUpaS0hQdVY2UDg3dkVOTXdHeFpuNXgzUVRpaS9OL2Yv?=
+ =?utf-8?Q?fz4QCH?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB7185.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Nk5IL2RtTEJaUU82U0haTkMrZVZlaG81VFpiaUVPZCtBR0l3dGJVUEVnRnF0?=
+ =?utf-8?B?UGEyR09scmQvNmNjVEJtMUEvR1J1NHFXbmFEWjRUQVlMQ2pNcVRqTEZzSTdH?=
+ =?utf-8?B?YndKSlFxRWY3VWJnQ2wxYjZ2c3NFeGFGbThUK0dYVEl5c0FtRlR0OUtBSlJv?=
+ =?utf-8?B?Rzk0b3pYRWlBZkVjRXFpMFJxb1Z2SU16emwwLzhjb3FTVHErLzhJd0pPUFBt?=
+ =?utf-8?B?UzhnTVZsOU0rYnpZRWxuVG9pNE53WXAwSFNTRUFRQW5LejhzbnZFaHNUdWJN?=
+ =?utf-8?B?eXZHb3N1S2laVGJRMk1GNk9iTjE2dG02Z3lZaWRuZHJVTnBHM2hNZktVazVT?=
+ =?utf-8?B?aGxyWms2aXcyQWk2RnRHalNRTUgrTlJ4SXNIV1lBNWkvRWU4TTNpSFRDVmI3?=
+ =?utf-8?B?UURGSjJieHQrZFFONXgrN0twUXYwTUxBd0tRZ0xMT1pKNTJ1ZEJhTVA2amR6?=
+ =?utf-8?B?d0dKdFAvNnZFNVJUbGo3Z1owWGlLUWtLUlliRUNtcENMMzdiRXB6Ums5clhN?=
+ =?utf-8?B?Mjg5Rm5wYm56K1lNSmpaYnpCaWs2WkZuc3ZSenpHcmRqS0R5Z3VoVlpqZEU0?=
+ =?utf-8?B?akZmd1kxekhEcWprTWFUbWVRYjVKQ0FCdE91THFtVzNuQXF6ZjdGeWtNL2Q2?=
+ =?utf-8?B?S0pMTTc0SEhCM3krTmdKbC9Rd0ZTTGRRSGpkTFdwMnV2RzV3d1BjRmtsakwr?=
+ =?utf-8?B?UDZaYUY5OTdLTEkrdTF6OTdGMThLKzBFOTdwNENJWk5kMkVkNmIwcmZQT01T?=
+ =?utf-8?B?V0x0WTJ2OEwwS2s0NDNhdldzaGZmek9VS1Z1U1VzZ0dZUGo5RDl6T1RkL3hX?=
+ =?utf-8?B?dU9kOE8zdnFkaVI3VHFyKytYL1pmUHA1VEZkSHlJZEMzeDZ2Y1NYTXl5R2R2?=
+ =?utf-8?B?NUtlblRKR240QmlmY2hoUnFYMVFvZHhWaCthdXNBM2VGVG1wbmxOaEhJdEdT?=
+ =?utf-8?B?VSt5SE5Ya1JlSWJtVnZDT3BrV2N5UUVTZnhTcGUzYjVDcmF4aFlUUzFLZ1p3?=
+ =?utf-8?B?OEJob3QxS29TMmFmT3JQUTZwbGswWkRLbFIrODdYbmt5dHhZNVZTalREa3hi?=
+ =?utf-8?B?a1FGQzNHczF3K0ttZ3A5VzVPWTFPLzRpM3djYTVEclgzTStWVzJRZGxXaUJN?=
+ =?utf-8?B?Rzh1WENnL21EanhESlpUakM0TGZpenFKN0tubmRKSExydVpJNzhKbXFOajBK?=
+ =?utf-8?B?TUp4a0FKUS93cTJkZkI1VUdqcHVQeWNlMVhBQ2RzdDRmaUJMclpkL2lGdHA0?=
+ =?utf-8?B?aGZpY0ErQzFjYXI0S0MxWjZ0cmRpWTgrYVlqa2JXc3A4dDVCQWMxUlFrWTBn?=
+ =?utf-8?B?ajZUL1F0NGIvS2lrYkJ2MmZKQVhxR2p6YlZneUhYSmg2NEdLdXpsK1BQNzFC?=
+ =?utf-8?B?ekpKMm9jc0YzRDNGRmM5bjB5TG5jTTJDYWdxYy9xb1VSMW1qQ2R6bWYyYW9y?=
+ =?utf-8?B?c1R1YkE2OGdZVitMSGpEYlF2Ny9ud00reFJtUjhjanhwbW1pUWFJazJicW5N?=
+ =?utf-8?B?U2RQMjh0THJNdHMwNDJPMGJKNCt1a0g5dXR4V1dMR0xZaEE5RXBGQnphMHd4?=
+ =?utf-8?B?a2R2blkvNVVNTkJvcUowQmxnbENHTkZOR2FXM1dwaDJKTlhaS01lRlVTOTJZ?=
+ =?utf-8?B?bW1aSTBSK3Q5T3NWYkNLQTVLbW5RVGV4dWc5d2xXU3k5VDkvbXYraFB3NXNw?=
+ =?utf-8?B?WlFTZkVqbFcrOHZNK1QxWHY2aDJ0NWdMMWZzN0pBd0hyM0xvQ2Q2R2cyQ1p3?=
+ =?utf-8?B?OVVEMS9hVm5sWmsrRkczZVVnSDZzVnUwVzVIR0lURksxUG1QWFUySCtpRmlY?=
+ =?utf-8?B?VzJTdmM2V3c5aVRiZGFQM1JOdlJqbUNiZDdDdWlzdlZYQm8rVDRoME13MXNi?=
+ =?utf-8?B?TmJYVGVSRTVydGxIYUVKSHRVQzNQMHpIRVAwTHVJd0pwZHNnRDhWUDJoN1Vt?=
+ =?utf-8?B?aEpEelhTNURBMHRhZFJpR1NKbXBOYzdqZDk0VlN6RlY3WUgrZ2VGYzBpTFJr?=
+ =?utf-8?B?dGYrRERXbjFPNHFsSGE4cUFuYTRnWEVMWE9CYU9Ec01vcWN1VTZLYWFZMEI3?=
+ =?utf-8?B?OG42WVFYVkcyT1ltdXJma2s1SDg2THR1d3ZJWG1zTFBOd2NpbVBHRWVvbURt?=
+ =?utf-8?Q?z64jF01PUwYOTPdR91d3tA6UB?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251017090519.46992-1-farbere@amazon.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: c731e6ae-c11e-4e04-46be-08de0d95f8ee
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Oct 2025 15:58:11.0638
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 0K8FPKA7+BBX7X4ALaRVYmpnzoULIc5uLWoQcoqDjWS2NpDRit1ucurjFRNb4VVlLw+XDumHrdNw9cof47grRcJTWh9MNjP5iSAY7kNz7bk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR11MB7798
+X-OriginatorOrg: intel.com
 
-On Fri, Oct 17, 2025 at 09:04:52AM +0000, Eliav Farber wrote:
-> This series backports 27 patches to update minmax.h in the 5.10.y
-> branch, aligning it with v6.17-rc7.
-> 
-> The ultimate goal is to synchronize all long-term branches so that they
-> include the full set of minmax.h changes.
-> 
-> - 6.12.y has already been backported; the changes are included in
->   v6.12.49.
-> - 6.6.y has already been backported; the changes are included in
->   v6.6.109.
-> - 6.1.y has already been backported; the changes are currently in the
->   6.1-stable tree.
-> - 5.15.y has already been backported; the changes are currently in the
->   5.15-stable tree.
-
-With this series applied, on an arm64 server, building 'allmodconfig', I
-get the following build error.
-
-Oddly I don't see it on my x86 server, perhaps due to different compiler
-versions?
-
-Any ideas?
-
-thanks,
-
-greg k-h
-
-------------------------
-
-In function ‘rt2800_txpower_to_dev’,
-    inlined from ‘rt2800_config_channel’ at ../drivers/net/wireless/ralink/rt2x00/rt2800lib.c:4022:25:
-./../include/linux/compiler_types.h:309:45: error: call to ‘__compiletime_assert_1168’ declared with attribute error: clamp() low limit -7 greater than high limit 15
-  309 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-      |                                             ^
-./../include/linux/compiler_types.h:290:25: note: in definition of macro ‘__compiletime_assert’
-  290 |                         prefix ## suffix();                             \
-      |                         ^~~~~~
-./../include/linux/compiler_types.h:309:9: note: in expansion of macro ‘_compiletime_assert’
-  309 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-      |         ^~~~~~~~~~~~~~~~~~~
-../include/linux/build_bug.h:39:37: note: in expansion of macro ‘compiletime_assert’
-   39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-      |                                     ^~~~~~~~~~~~~~~~~~
-../include/linux/minmax.h:188:9: note: in expansion of macro ‘BUILD_BUG_ON_MSG’
-  188 |         BUILD_BUG_ON_MSG(statically_true(ulo > uhi),                            \
-      |         ^~~~~~~~~~~~~~~~
-../include/linux/minmax.h:195:9: note: in expansion of macro ‘__clamp_once’
-  195 |         __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
-      |         ^~~~~~~~~~~~
-../include/linux/minmax.h:218:36: note: in expansion of macro ‘__careful_clamp’
-  218 | #define clamp_t(type, val, lo, hi) __careful_clamp(type, val, lo, hi)
-      |                                    ^~~~~~~~~~~~~~~
-../drivers/net/wireless/ralink/rt2x00/rt2800lib.c:3980:24: note: in expansion of macro ‘clamp_t’
- 3980 |                 return clamp_t(char, txpower, MIN_A_TXPOWER, MAX_A_TXPOWER);
-      |                        ^~~~~~~
-In function ‘rt2800_txpower_to_dev’,
-    inlined from ‘rt2800_config_channel’ at ../drivers/net/wireless/ralink/rt2x00/rt2800lib.c:4024:25:
-./../include/linux/compiler_types.h:309:45: error: call to ‘__compiletime_assert_1168’ declared with attribute error: clamp() low limit -7 greater than high limit 15
-  309 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-      |                                             ^
-./../include/linux/compiler_types.h:290:25: note: in definition of macro ‘__compiletime_assert’
-  290 |                         prefix ## suffix();                             \
-      |                         ^~~~~~
-./../include/linux/compiler_types.h:309:9: note: in expansion of macro ‘_compiletime_assert’
-  309 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-      |         ^~~~~~~~~~~~~~~~~~~
-../include/linux/build_bug.h:39:37: note: in expansion of macro ‘compiletime_assert’
-   39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-      |                                     ^~~~~~~~~~~~~~~~~~
-../include/linux/minmax.h:188:9: note: in expansion of macro ‘BUILD_BUG_ON_MSG’
-  188 |         BUILD_BUG_ON_MSG(statically_true(ulo > uhi),                            \
-      |         ^~~~~~~~~~~~~~~~
-../include/linux/minmax.h:195:9: note: in expansion of macro ‘__clamp_once’
-  195 |         __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
-      |         ^~~~~~~~~~~~
-../include/linux/minmax.h:218:36: note: in expansion of macro ‘__careful_clamp’
-  218 | #define clamp_t(type, val, lo, hi) __careful_clamp(type, val, lo, hi)
-      |                                    ^~~~~~~~~~~~~~~
-../drivers/net/wireless/ralink/rt2x00/rt2800lib.c:3980:24: note: in expansion of macro ‘clamp_t’
- 3980 |                 return clamp_t(char, txpower, MIN_A_TXPOWER, MAX_A_TXPOWER);
-      |                        ^~~~~~~
-In function ‘rt2800_txpower_to_dev’,
-    inlined from ‘rt2800_config_channel’ at ../drivers/net/wireless/ralink/rt2x00/rt2800lib.c:4028:4:
-./../include/linux/compiler_types.h:309:45: error: call to ‘__compiletime_assert_1168’ declared with attribute error: clamp() low limit -7 greater than high limit 15
-  309 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-      |                                             ^
-./../include/linux/compiler_types.h:290:25: note: in definition of macro ‘__compiletime_assert’
-  290 |                         prefix ## suffix();                             \
-      |                         ^~~~~~
-./../include/linux/compiler_types.h:309:9: note: in expansion of macro ‘_compiletime_assert’
-  309 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-      |         ^~~~~~~~~~~~~~~~~~~
-../include/linux/build_bug.h:39:37: note: in expansion of macro ‘compiletime_assert’
-   39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-      |                                     ^~~~~~~~~~~~~~~~~~
-../include/linux/minmax.h:188:9: note: in expansion of macro ‘BUILD_BUG_ON_MSG’
-  188 |         BUILD_BUG_ON_MSG(statically_true(ulo > uhi),                            \
-      |         ^~~~~~~~~~~~~~~~
-../include/linux/minmax.h:195:9: note: in expansion of macro ‘__clamp_once’
-  195 |         __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
-      |         ^~~~~~~~~~~~
-../include/linux/minmax.h:218:36: note: in expansion of macro ‘__careful_clamp’
-  218 | #define clamp_t(type, val, lo, hi) __careful_clamp(type, val, lo, hi)
-      |                                    ^~~~~~~~~~~~~~~
-../drivers/net/wireless/ralink/rt2x00/rt2800lib.c:3980:24: note: in expansion of macro ‘clamp_t’
- 3980 |                 return clamp_t(char, txpower, MIN_A_TXPOWER, MAX_A_TXPOWER);
-      |                        ^~~~~~~
-make[6]: *** [../scripts/Makefile.build:286: drivers/net/wireless/ralink/rt2x00/rt2800lib.o] Error 1
-make[5]: *** [../scripts/Makefile.build:503: drivers/net/wireless/ralink/rt2x00] Error 2
-make[4]: *** [../scripts/Makefile.build:503: drivers/net/wireless/ralink] Error 2
-make[4]: *** Waiting for unfinished jobs....
+SGkgSmFzb24sIFRob21hcywgQ2hyaXN0aWFuLA0KIA0KPiBJZiB0aGUgaW1wb3J0ZXIgcHJvdmlk
+ZXMgYW4gb3AgZm9yIHN1cHBvcnRzX2ludGVyY29ubmVjdHMoKSwgdGhlDQo+IGV4cG9ydGVyIHN0
+YXJ0cyB0aGUgbWF0Y2hpbmcgKG9yIG5lZ290aWF0aW9uKSBwcm9jZXNzIChkdXJpbmcNCj4gYXR0
+YWNoKSBieSBpbnZva2luZyB0aGUgc3VwcG9ydHNfaW50ZXJjb25uZWN0cygpIHdoaWNoIHdvdWxk
+IHRoZW4NCj4gY2FsbCB0aGlzIGhlbHBlciB0byBpZGVudGlmeSB0aGUgZmlyc3QgY29tbW9uIGlu
+dGVyY29ubmVjdA0KPiBzdXBwb3J0ZWQgYnkgYm90aCBleHBvcnRlciBhbmQgaW1wb3J0ZXIuDQo+
+IA0KPiBOb3RlIHRoYXQgd2hldGhlciBhbiBpbnRlcmNvbm5lY3QgaXMgc3VwcG9ydGVkIGJldHdl
+ZW4gYW4NCj4gZXhwb3J0ZXIvaW1wb3J0ZXIgaXMgdWx0aW1hdGVseSBkZXRlcm1pbmVkIGJ5IHRo
+ZSBleHBvcnRlciB2aWENCj4gdGhlIG1hdGNoIG9wIGl0IGlzIGV4cGVjdGVkIHRvIHByb3ZpZGUu
+DQpEb2VzIHRoaXMgZGVzaWduIGxvb2sgT0sgdG8geW91Pw0KDQpUaGFua3MsDQpWaXZlaw0KDQo+
+IA0KPiBDYzogSmFzb24gR3VudGhvcnBlIDxqZ2dAbnZpZGlhLmNvbT4NCj4gQ2M6IENocmlzdGlh
+biBLb2VuaWcgPGNocmlzdGlhbi5rb2VuaWdAYW1kLmNvbT4NCj4gQ2M6IFN1bWl0IFNlbXdhbCA8
+c3VtaXQuc2Vtd2FsQGxpbmFyby5vcmc+DQo+IENjOiBUaG9tYXMgSGVsbHN0csO2bSA8dGhvbWFz
+LmhlbGxzdHJvbUBsaW51eC5pbnRlbC5jb20+DQo+IENjOiBTaW1vbmEgVmV0dGVyIDxzaW1vbmEu
+dmV0dGVyQGZmd2xsLmNoPg0KPiBTaWduZWQtb2ZmLWJ5OiBWaXZlayBLYXNpcmVkZHkgPHZpdmVr
+Lmthc2lyZWRkeUBpbnRlbC5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9kbWEtYnVmL2RtYS1idWYu
+YyAgICAgICAgICAgIHwgNDUgKysrKysrKysrKysrKysrKysrKysrKysrKysrLQ0KPiAgaW5jbHVk
+ZS9saW51eC9kbWEtYnVmLWludGVyY29ubmVjdC5oIHwgIDYgKysrKw0KPiAgaW5jbHVkZS9saW51
+eC9kbWEtYnVmLmggICAgICAgICAgICAgIHwgIDkgKysrKysrDQo+ICAzIGZpbGVzIGNoYW5nZWQs
+IDU5IGluc2VydGlvbnMoKyksIDEgZGVsZXRpb24oLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9kcml2
+ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jIGIvZHJpdmVycy9kbWEtYnVmL2RtYS1idWYuYw0KPiBpbmRl
+eCAxNjI2NDJiZDUzZTguLmVkNDg1NDBkMWMxZCAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9kbWEt
+YnVmL2RtYS1idWYuYw0KPiArKysgYi9kcml2ZXJzL2RtYS1idWYvZG1hLWJ1Zi5jDQo+IEBAIC05
+NjUsOCArOTY1LDExIEBAIGRtYV9idWZfZHluYW1pY19hdHRhY2goc3RydWN0IGRtYV9idWYgKmRt
+YWJ1ZiwNCj4gc3RydWN0IGRldmljZSAqZGV2LA0KPiANCj4gIAlhdHRhY2gtPmRldiA9IGRldjsN
+Cj4gIAlhdHRhY2gtPmRtYWJ1ZiA9IGRtYWJ1ZjsNCj4gLQlpZiAoaW1wb3J0ZXJfb3BzKQ0KPiAr
+CWlmIChpbXBvcnRlcl9vcHMpIHsNCj4gIAkJYXR0YWNoLT5wZWVyMnBlZXIgPSBpbXBvcnRlcl9v
+cHMtPmFsbG93X3BlZXIycGVlcjsNCj4gKwkJaWYgKGltcG9ydGVyX29wcy0+c3VwcG9ydHNfaW50
+ZXJjb25uZWN0cykNCj4gKwkJCWF0dGFjaC0+YWxsb3dfaWMgPSB0cnVlOw0KPiArCX0NCj4gIAlh
+dHRhY2gtPmltcG9ydGVyX29wcyA9IGltcG9ydGVyX29wczsNCj4gIAlhdHRhY2gtPmltcG9ydGVy
+X3ByaXYgPSBpbXBvcnRlcl9wcml2Ow0KPiANCj4gQEAgLTE2ODAsNiArMTY4Myw0NiBAQCB2b2lk
+IGRtYV9idWZfdW5tYXBfaW50ZXJjb25uZWN0KHN0cnVjdA0KPiBkbWFfYnVmX2F0dGFjaG1lbnQg
+KmF0dGFjaCwNCj4gIH0NCj4gIEVYUE9SVF9TWU1CT0xfTlNfR1BMKGRtYV9idWZfdW5tYXBfaW50
+ZXJjb25uZWN0LCAiRE1BX0JVRiIpOw0KPiANCj4gK2Jvb2wgZG1hX2J1Zl9tYXRjaF9pbnRlcmNv
+bm5lY3RzKHN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaCwNCj4gKwkJCQkgY29uc3Qg
+c3RydWN0IGRtYV9idWZfaW50ZXJjb25uZWN0X21hdGNoDQo+ICpleHAsDQo+ICsJCQkJIHVuc2ln
+bmVkIGludCBleHBfaWNzLA0KPiArCQkJCSBjb25zdCBzdHJ1Y3QgZG1hX2J1Zl9pbnRlcmNvbm5l
+Y3RfbWF0Y2gNCj4gKmltcCwNCj4gKwkJCQkgdW5zaWduZWQgaW50IGltcF9pY3MpDQo+ICt7DQo+
+ICsJY29uc3Qgc3RydWN0IGRtYV9idWZfaW50ZXJjb25uZWN0ICpleHBfaWMsICppbXBfaWM7DQo+
+ICsJY29uc3Qgc3RydWN0IGRtYV9idWZfaW50ZXJjb25uZWN0X29wcyAqaWNfb3BzOw0KPiArCXN0
+cnVjdCBkbWFfYnVmICpkbWFidWYgPSBhdHRhY2gtPmRtYWJ1ZjsNCj4gKwl1bnNpZ25lZCBpbnQg
+aSwgajsNCj4gKw0KPiArCWlmICghZXhwIHx8ICFpbXApDQo+ICsJCXJldHVybiBmYWxzZTsNCj4g
+Kw0KPiArCWlmICghYXR0YWNoLT5hbGxvd19pYykNCj4gKwkJcmV0dXJuIGZhbHNlOw0KPiArDQo+
+ICsJaWNfb3BzID0gZG1hYnVmLT5vcHMtPmludGVyY29ubmVjdF9vcHM7DQo+ICsJaWYgKCFpY19v
+cHMgfHwgIWljX29wcy0+bWF0Y2hfaW50ZXJjb25uZWN0KQ0KPiArCQlyZXR1cm4gZmFsc2U7DQo+
+ICsNCj4gKwlmb3IgKGkgPSAwOyBpIDwgZXhwX2ljczsgaSsrKSB7DQo+ICsJCWZvciAoaiA9IDA7
+IGogPCBpbXBfaWNzOyBqKyspIHsNCj4gKwkJCWV4cF9pYyA9IGV4cFtpXS5pbnRlcmNvbm5lY3Q7
+DQo+ICsJCQlpbXBfaWMgPSBpbXBbal0uaW50ZXJjb25uZWN0Ow0KPiArDQo+ICsJCQlpZiAoZXhw
+X2ljLT50eXBlID09IGltcF9pYy0+dHlwZSkgew0KPiArCQkJCWlmIChpY19vcHMtPm1hdGNoX2lu
+dGVyY29ubmVjdChleHBfaWMsIGltcF9pYykpIHsNCj4gKwkJCQkJYXR0YWNoLT5pbnRlcmNvbm5l
+Y3QudHlwZSA9IGV4cF9pYy0NCj4gPnR5cGU7DQo+ICsJCQkJCXJldHVybiB0cnVlOw0KPiArCQkJ
+CX0NCj4gKwkJCX0NCj4gKwkJfQ0KPiArCX0NCj4gKw0KPiArCWF0dGFjaC0+YWxsb3dfaWMgPSBm
+YWxzZTsNCj4gKwlyZXR1cm4gZmFsc2U7DQo+ICt9DQo+ICtFWFBPUlRfU1lNQk9MX05TX0dQTChk
+bWFfYnVmX21hdGNoX2ludGVyY29ubmVjdHMsICJETUFfQlVGIik7DQo+ICsNCj4gICNpZmRlZiBD
+T05GSUdfREVCVUdfRlMNCj4gIHN0YXRpYyBpbnQgZG1hX2J1Zl9kZWJ1Z19zaG93KHN0cnVjdCBz
+ZXFfZmlsZSAqcywgdm9pZCAqdW51c2VkKQ0KPiAgew0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9s
+aW51eC9kbWEtYnVmLWludGVyY29ubmVjdC5oIGIvaW5jbHVkZS9saW51eC9kbWEtYnVmLQ0KPiBp
+bnRlcmNvbm5lY3QuaA0KPiBpbmRleCAxNzUwNGRlYTk2OTEuLmE3MmY2NWVkNDgwNiAxMDA2NDQN
+Cj4gLS0tIGEvaW5jbHVkZS9saW51eC9kbWEtYnVmLWludGVyY29ubmVjdC5oDQo+ICsrKyBiL2lu
+Y2x1ZGUvbGludXgvZG1hLWJ1Zi1pbnRlcmNvbm5lY3QuaA0KPiBAQCAtMjAsMTAgKzIwLDE2IEBA
+IHN0cnVjdCBkbWFfYnVmX2ludGVyY29ubmVjdCB7DQo+ICAJZW51bSBkbWFfYnVmX2ludGVyY29u
+bmVjdF90eXBlIHR5cGU7DQo+ICB9Ow0KPiANCj4gK3N0cnVjdCBkbWFfYnVmX2ludGVyY29ubmVj
+dF9tYXRjaCB7DQo+ICsJY29uc3Qgc3RydWN0IGRtYV9idWZfaW50ZXJjb25uZWN0ICppbnRlcmNv
+bm5lY3Q7DQo+ICt9Ow0KPiArDQo+ICBzdHJ1Y3QgZG1hX2J1Zl9pbnRlcmNvbm5lY3Rfb3BzIHsN
+Cj4gIAlpbnQgKCptYXBfaW50ZXJjb25uZWN0KShzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50ICph
+dHRhY2gsDQo+ICAJCQkJc3RydWN0IGRtYV9idWZfcmFuZ2VzICpyYW5nZXMpOw0KPiAgCXZvaWQg
+KCp1bm1hcF9pbnRlcmNvbm5lY3QpKHN0cnVjdCBkbWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaCwN
+Cj4gIAkJCQkgICBzdHJ1Y3QgZG1hX2J1Zl9yYW5nZXMgKnJhbmdlcyk7DQo+ICsJYm9vbCAoKm1h
+dGNoX2ludGVyY29ubmVjdCkoY29uc3Qgc3RydWN0IGRtYV9idWZfaW50ZXJjb25uZWN0DQo+ICpl
+eHBfaWMsDQo+ICsJCQkJICAgY29uc3Qgc3RydWN0IGRtYV9idWZfaW50ZXJjb25uZWN0ICppbXBf
+aWMpOw0KPiAgfTsNCj4gICNlbmRpZg0KPiBkaWZmIC0tZ2l0IGEvaW5jbHVkZS9saW51eC9kbWEt
+YnVmLmggYi9pbmNsdWRlL2xpbnV4L2RtYS1idWYuaA0KPiBpbmRleCBkYjkxYzY3YzAwZDYuLjNl
+NjEyNDM4N2YzYyAxMDA2NDQNCj4gLS0tIGEvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgNCj4gKysr
+IGIvaW5jbHVkZS9saW51eC9kbWEtYnVmLmgNCj4gQEAgLTQ3OSw2ICs0NzksMTAgQEAgc3RydWN0
+IGRtYV9idWZfYXR0YWNoX29wcyB7DQo+ICAJICogcG9pbnQgdG8gdGhlIG5ldyBsb2NhdGlvbiBv
+ZiB0aGUgRE1BLWJ1Zi4NCj4gIAkgKi8NCj4gIAl2b2lkICgqbW92ZV9ub3RpZnkpKHN0cnVjdCBk
+bWFfYnVmX2F0dGFjaG1lbnQgKmF0dGFjaCk7DQo+ICsNCj4gKwlib29sICgqc3VwcG9ydHNfaW50
+ZXJjb25uZWN0cykoc3RydWN0IGRtYV9idWZfYXR0YWNobWVudCAqYXR0YWNoLA0KPiArCQkJCSAg
+ICAgICBjb25zdCBzdHJ1Y3QgZG1hX2J1Zl9pbnRlcmNvbm5lY3RfbWF0Y2ggKiwNCj4gKwkJCQkg
+ICAgICAgdW5zaWduZWQgaW50IG51bV9pY3MpOw0KPiAgfTsNCj4gDQo+ICAvKioNCj4gQEAgLTU5
+OSw2ICs2MDMsMTEgQEAgdm9pZCBkbWFfYnVmX3VubWFwX2F0dGFjaG1lbnQoc3RydWN0DQo+IGRt
+YV9idWZfYXR0YWNobWVudCAqLCBzdHJ1Y3Qgc2dfdGFibGUgKiwNCj4gIHN0cnVjdCBkbWFfYnVm
+X3JhbmdlcyAqZG1hX2J1Zl9tYXBfaW50ZXJjb25uZWN0KHN0cnVjdA0KPiBkbWFfYnVmX2F0dGFj
+aG1lbnQgKik7DQo+ICB2b2lkIGRtYV9idWZfdW5tYXBfaW50ZXJjb25uZWN0KHN0cnVjdCBkbWFf
+YnVmX2F0dGFjaG1lbnQgKiwNCj4gIAkJCQlzdHJ1Y3QgZG1hX2J1Zl9yYW5nZXMgKik7DQo+ICti
+b29sIGRtYV9idWZfbWF0Y2hfaW50ZXJjb25uZWN0cyhzdHJ1Y3QgZG1hX2J1Zl9hdHRhY2htZW50
+ICphdHRhY2gsDQo+ICsJCQkJIGNvbnN0IHN0cnVjdCBkbWFfYnVmX2ludGVyY29ubmVjdF9tYXRj
+aCAqLA0KPiArCQkJCSB1bnNpZ25lZCBpbnQgZXhwX2ljcywNCj4gKwkJCQkgY29uc3Qgc3RydWN0
+IGRtYV9idWZfaW50ZXJjb25uZWN0X21hdGNoICosDQo+ICsJCQkJIHVuc2lnbmVkIGludCBpbXBf
+aWNzKTsNCj4gDQo+ICB2b2lkIGRtYV9idWZfbW92ZV9ub3RpZnkoc3RydWN0IGRtYV9idWYgKmRt
+YV9idWYpOw0KPiAgaW50IGRtYV9idWZfYmVnaW5fY3B1X2FjY2VzcyhzdHJ1Y3QgZG1hX2J1ZiAq
+ZG1hX2J1ZiwNCj4gLS0NCj4gMi41MC4xDQoNCg==
 
