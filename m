@@ -1,157 +1,293 @@
-Return-Path: <linux-media+bounces-44920-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44925-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25AEEBEA056
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 17:40:10 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F96DBEA605
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 18:00:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id C67EC35E4A6
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 15:40:09 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 96E2035DBD7
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 16:00:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A51D436CDF2;
-	Fri, 17 Oct 2025 15:37:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 98F95332914;
+	Fri, 17 Oct 2025 15:59:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="glaN3tjI"
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="IE3inkyh";
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="FhUeDa/s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout-p-101.mailbox.org (mout-p-101.mailbox.org [80.241.56.151])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03463335079;
-	Fri, 17 Oct 2025 15:37:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8ED032F12B8
+	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 15:59:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.151
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760715469; cv=none; b=IJbMOwEjWgV/zM0wz5Ew7u3RD/9eGisjWCFIVvT7H8/Gl/qsrJM0XKpywq/p5BXFJUiB4JRX4gH6zuiP0kaEqz6f8fwtvkfvmNsLud+g+fCfo5v0ev6qAh63LtIqHh0EmL00ZzZPJoJ7ijG03348eQjCmPltL+t0grmqOWVk5cI=
+	t=1760716782; cv=none; b=tPxgf9gzSVpc2mhtNK5a76okcU25065yyBsREuM3xoomxQEGGGbCFwrA5j/9b61kZ22MHY3TRtO/JWQZPg0IzvaibAj9AXDQZCrojuu+sXtqKa16I7SzTIPRO3INOAHrsnBXLcSMC8JEiqavIwcfjPq8aN6sAXxkxHA4S/Z0XCI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760715469; c=relaxed/simple;
-	bh=fMtsEtk+yymjMrBDxyIo4cPm8zug+9QHbs06gVATPdw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gKiD/tUm2YUbS67zf8Rn8fV0Xh8Vzm/UDwbwIf6aeJucFQH+jcWx1gflsM4jzAX14EyNl+YlcO4WXJsUQs5/uQ6FsU/ngceD08k4KfMIExa0hZz1iZBDrVHEHK+EgbKaufK4iIkLjWpSmJS8Mof4tHGBC15bH3Rme/0afmXKVRc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=glaN3tjI; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 517C7C4CEE7;
-	Fri, 17 Oct 2025 15:37:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760715468;
-	bh=fMtsEtk+yymjMrBDxyIo4cPm8zug+9QHbs06gVATPdw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=glaN3tjI9nSulUo1uDQTr6u/p7SSb0kvNXzx2Zp6DuspOMCnukW5J3S0lElQsi5ps
-	 NU7SnkAchBwn0irmQoYZSIpWoSv+3TbtNt64vMYO481yMyvMPzcpQx5t3VMgHBTJen
-	 yhmZRIYfVW59jRSrc/uakK1ie2xa6NeGwPCM2lcZV0luckrXKLeKBnLy5oZLoxMgeE
-	 nE8tsoajMLfPXrjbX5CC85UtPw+EVov/SnbBeW9yDHk1AvKLpY1AgL8tuGWDaqTD7R
-	 9dIbQtOT1pb+aP2DhguS+sCRD1Zm5OVChREj1YubPcGAhuLirGmqnHkQktgznRurqh
-	 J3MzLTnTQS+bw==
-Date: Fri, 17 Oct 2025 10:37:46 -0500
-From: Rob Herring <robh@kernel.org>
-To: Matthew Brost <matthew.brost@intel.com>
-Cc: Tomeu Vizoso <tomeu@tomeuvizoso.net>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Oded Gabbay <ogabbay@kernel.org>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Steven Price <steven.price@arm.com>,
-	Daniel Stone <daniel@fooishbar.org>, Frank Li <Frank.li@nxp.com>,
-	Sui Jingfeng <sui.jingfeng@linux.dev>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5 2/2] accel: Add Arm Ethos-U NPU driver
-Message-ID: <20251017153746.GA1579747-robh@kernel.org>
-References: <20251016-ethos-v5-0-ba0aece0a006@kernel.org>
- <20251016-ethos-v5-2-ba0aece0a006@kernel.org>
- <aPHhXl6qdU1mMCNt@lstrano-desk.jf.intel.com>
+	s=arc-20240116; t=1760716782; c=relaxed/simple;
+	bh=Nd8mAWkxW5amWFcLoMF+waaGuZMATpYYv3s8hI0Nfpg=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=T6ZveqKkbgQ00wK8B5FNqK8mxEFHa+wJhW5rsBWHqH+CiGMIRx/1T+i4EVV70SfxDdu+DUU5I0gHXrRY4QklTnwXH+Y3aNVGp7tH1BkWkwfeCUVRo/0P2Wa6doLWuhn8KMEF7lMpOYkKoZidRjHB6sHRgo9n8SCqLKuX/2lcziI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=IE3inkyh; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=FhUeDa/s; arc=none smtp.client-ip=80.241.56.151
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-101.mailbox.org (Postfix) with ESMTPS id 4cp8f04jmrz9t8p;
+	Fri, 17 Oct 2025 17:59:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1760716776;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f0pYqwJVWWzsYVFSkRioR45/eTDyY3UH5KaD3QRb1/M=;
+	b=IE3inkyhV0nDnClnOUMb99gUxryTt+AyRrT2nRrS8DGom8Impg/8C7ERrNHF6wHI7kbKO1
+	ZEsK9IPb2bYHBYtFI8nvIfz1pkDJgpZKlGIaR+YQlgVIDit0R3wDwSqAIkR/1YbjyabSl7
+	j5pFxZ5MRTVfjfwE/9SsL77uGn7wkT5xa/9TghLakWg6T4vKZIyOnOVcKsmryONCXsGRS+
+	MKn1aH+D3nzlTHJlSV4zHdgQzsEXSvNkUULw9+w4wT/p9kcaHVELwQftJBpPGgByhIoxbQ
+	5acHsR/V+tN8tbPWeALHd+/Gnpp0ehC/D7PoXnw9xg9J9G6KiWsjtX0b5STE0Q==
+Authentication-Results: outgoing_mbo_mout;
+	dkim=pass header.d=mailbox.org header.s=mail20150812 header.b="FhUeDa/s";
+	spf=pass (outgoing_mbo_mout: domain of marek.vasut@mailbox.org designates 2001:67c:2050:b231:465::202 as permitted sender) smtp.mailfrom=marek.vasut@mailbox.org
+From: Marek Vasut <marek.vasut@mailbox.org>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1760716774;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=f0pYqwJVWWzsYVFSkRioR45/eTDyY3UH5KaD3QRb1/M=;
+	b=FhUeDa/shTlWXd24SYP+fPccCuFqupxVYwGHW3XFF/6t3auI4lK3bjUVLYFeP569jqBeSc
+	DJ0TFZu0r9y0buD4IwUizPZXQEiYRQ9GBihGgzYj83uW7ODvWCD0qpvUN2IuTVGIYeuEa9
+	Y49JCMIxJaj2lDn6R/e0jhxTeStDwfgcHn5WkG6mytAPgCrVZO4XK06z57LhClX22Z61Vp
+	Fkn6zuBpW7oT5WYUnUrkNaLKqbIzYJDlzLxjdFYW/aEDvLivbhrJEoR1Dmq9CLspMN+Qzd
+	jJyhmZOTNiu99d0XbCB4IIWYCHzoqbbvhJygth9lbM0B+s8wYEptNuRfamSMcQ==
+To: linux-media@vger.kernel.org
+Cc: Marek Vasut <marek.vasut@mailbox.org>,
+	Ming Qian <ming.qian@oss.nxp.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Mirela Rabulea <mirela.rabulea@nxp.com>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Shawn Guo <shawnguo@kernel.org>,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org
+Subject: [PATCH v3 2/2] media: imx-jpeg: Add support for descriptor allocation from SRAM
+Date: Fri, 17 Oct 2025 17:58:38 +0200
+Message-ID: <20251017155912.109454-2-marek.vasut@mailbox.org>
+In-Reply-To: <20251017155912.109454-1-marek.vasut@mailbox.org>
+References: <20251017155912.109454-1-marek.vasut@mailbox.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <aPHhXl6qdU1mMCNt@lstrano-desk.jf.intel.com>
+X-MBO-RS-ID: 0de76c55d45f1b8f442
+X-MBO-RS-META: fcu4qcop6hfbnxiuqwbde37fppkdzmxn
+X-Rspamd-Queue-Id: 4cp8f04jmrz9t8p
 
-On Thu, Oct 16, 2025 at 11:25:34PM -0700, Matthew Brost wrote:
-> On Thu, Oct 16, 2025 at 04:06:05PM -0500, Rob Herring (Arm) wrote:
-> > Add a driver for Arm Ethos-U65/U85 NPUs. The Ethos-U NPU has a
-> > relatively simple interface with single command stream to describe
-> > buffers, operation settings, and network operations. It supports up to 8
-> > memory regions (though no h/w bounds on a region). The Ethos NPUs
-> > are designed to use an SRAM for scratch memory. Region 2 is reserved
-> > for SRAM (like the downstream driver stack and compiler). Userspace
-> > doesn't need access to the SRAM.
+Add support for optional allocation of bitstream descriptors from SRAM
+instead of DRAM. In case the encoder/decoder DT node contains 'sram'
+property which points to 'mmio-sram', the driver will attempt to use
+the SRAM instead of DRAM for descriptor allocation, which might improve
+performance.
 
-Thanks for the review.
+This also helps on i.MX95 rev.A with sporadic SLOTn_STATUS IMG_RD_ERR
+bit 11 being triggered during JPEG encoding, which is caused by a bug
+fixed on later SoC revisions. The bug occurs less often when using the
+SRAM for descriptor storage, but is not entirely mitigated. The following
+pipeline triggers the bug when descriptors get allocated from DRAM, the
+pipeline often hangs after a few seconds and the encoder driver indicates
+"timeout, cancel it":
 
-[...]
+gst-launch-1.0 videotestsrc ! \
+               video/x-raw,width=256,height=256,format=YUY2 ! \
+               queue ! v4l2jpegenc ! queue ! fakesink
 
-> > +static struct dma_fence *ethosu_job_run(struct drm_sched_job *sched_job)
-> > +{
-> > +	struct ethosu_job *job = to_ethosu_job(sched_job);
-> > +	struct ethosu_device *dev = job->dev;
-> > +	struct dma_fence *fence = NULL;
-> > +	int ret;
-> > +
-> > +	if (unlikely(job->base.s_fence->finished.error))
-> > +		return NULL;
-> > +
-> > +	fence = ethosu_fence_create(dev);
-> 
-> Another reclaim issue: ethosu_fence_create allocates memory using
-> GFP_KERNEL. Since we're already in the DMA fence signaling path
-> (reclaim), this can lead to a deadlock.
-> 
-> Without too much thought, you likely want to move this allocation to
-> ethosu_job_do_push, but before taking dev->sched_lock or calling
-> drm_sched_job_arm.
-> 
-> We really should fix the DRM scheduler work queue to be tainted with
-> reclaim. If I recall correctly, we'd need to update the work queue
-> layer. Let me look into that—I've seen this type of bug several times,
-> and lockdep should be able to catch it.
+Tested-by: Ming Qian <ming.qian@oss.nxp.com>
+Signed-off-by: Marek Vasut <marek.vasut@mailbox.org>
+---
+Cc: Fabio Estevam <festevam@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: Ming Qian <ming.qian@oss.nxp.com>
+Cc: Mirela Rabulea <mirela.rabulea@nxp.com>
+Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
+Cc: Sascha Hauer <s.hauer@pengutronix.de>
+Cc: Shawn Guo <shawnguo@kernel.org>
+Cc: imx@lists.linux.dev
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-media@vger.kernel.org
+---
+V2: - Wrap lines to 100
+    - Update commit message
+V3: Add TB from Ming
+---
+ .../media/platform/nxp/imx-jpeg/mxc-jpeg.c    | 70 +++++++++++--------
+ .../media/platform/nxp/imx-jpeg/mxc-jpeg.h    |  1 +
+ 2 files changed, 43 insertions(+), 28 deletions(-)
 
-Likely the rocket driver suffers from the same issues...
+diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+index df3ccdf767baf..a1e9878ec517f 100644
+--- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
++++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+@@ -44,6 +44,7 @@
+ #include <linux/module.h>
+ #include <linux/io.h>
+ #include <linux/clk.h>
++#include <linux/genalloc.h>
+ #include <linux/of_platform.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+@@ -783,32 +784,40 @@ static int mxc_get_free_slot(struct mxc_jpeg_slot_data *slot_data)
+ 	return -1;
+ }
+ 
++static void mxc_jpeg_free(struct mxc_jpeg_dev *jpeg, size_t size, void *addr, dma_addr_t handle)
++{
++	if (jpeg->sram_pool)
++		gen_pool_free(jpeg->sram_pool, (unsigned long)addr, size);
++	else
++		dma_free_coherent(jpeg->dev, size, addr, handle);
++}
++
+ static void mxc_jpeg_free_slot_data(struct mxc_jpeg_dev *jpeg)
+ {
+ 	/* free descriptor for decoding/encoding phase */
+-	dma_free_coherent(jpeg->dev, sizeof(struct mxc_jpeg_desc),
+-			  jpeg->slot_data.desc,
+-			  jpeg->slot_data.desc_handle);
++	mxc_jpeg_free(jpeg, sizeof(struct mxc_jpeg_desc),
++		      jpeg->slot_data.desc,
++		      jpeg->slot_data.desc_handle);
+ 	jpeg->slot_data.desc = NULL;
+ 	jpeg->slot_data.desc_handle = 0;
+ 
+ 	/* free descriptor for encoder configuration phase / decoder DHT */
+-	dma_free_coherent(jpeg->dev, sizeof(struct mxc_jpeg_desc),
+-			  jpeg->slot_data.cfg_desc,
+-			  jpeg->slot_data.cfg_desc_handle);
++	mxc_jpeg_free(jpeg, sizeof(struct mxc_jpeg_desc),
++		      jpeg->slot_data.cfg_desc,
++		      jpeg->slot_data.cfg_desc_handle);
+ 	jpeg->slot_data.cfg_desc_handle = 0;
+ 	jpeg->slot_data.cfg_desc = NULL;
+ 
+ 	/* free configuration stream */
+-	dma_free_coherent(jpeg->dev, MXC_JPEG_MAX_CFG_STREAM,
+-			  jpeg->slot_data.cfg_stream_vaddr,
+-			  jpeg->slot_data.cfg_stream_handle);
++	mxc_jpeg_free(jpeg, MXC_JPEG_MAX_CFG_STREAM,
++		      jpeg->slot_data.cfg_stream_vaddr,
++		      jpeg->slot_data.cfg_stream_handle);
+ 	jpeg->slot_data.cfg_stream_vaddr = NULL;
+ 	jpeg->slot_data.cfg_stream_handle = 0;
+ 
+-	dma_free_coherent(jpeg->dev, jpeg->slot_data.cfg_dec_size,
+-			  jpeg->slot_data.cfg_dec_vaddr,
+-			  jpeg->slot_data.cfg_dec_daddr);
++	mxc_jpeg_free(jpeg, jpeg->slot_data.cfg_dec_size,
++		      jpeg->slot_data.cfg_dec_vaddr,
++		      jpeg->slot_data.cfg_dec_daddr);
+ 	jpeg->slot_data.cfg_dec_size = 0;
+ 	jpeg->slot_data.cfg_dec_vaddr = NULL;
+ 	jpeg->slot_data.cfg_dec_daddr = 0;
+@@ -816,6 +825,15 @@ static void mxc_jpeg_free_slot_data(struct mxc_jpeg_dev *jpeg)
+ 	jpeg->slot_data.used = false;
+ }
+ 
++static struct mxc_jpeg_desc *mxc_jpeg_alloc(struct mxc_jpeg_dev *jpeg, size_t size,
++					    dma_addr_t *handle)
++{
++	if (jpeg->sram_pool)
++		return gen_pool_dma_zalloc(jpeg->sram_pool, size, handle);
++	else
++		return dma_alloc_coherent(jpeg->dev, size, handle, GFP_ATOMIC);
++}
++
+ static bool mxc_jpeg_alloc_slot_data(struct mxc_jpeg_dev *jpeg)
+ {
+ 	struct mxc_jpeg_desc *desc;
+@@ -826,37 +844,29 @@ static bool mxc_jpeg_alloc_slot_data(struct mxc_jpeg_dev *jpeg)
+ 		goto skip_alloc; /* already allocated, reuse it */
+ 
+ 	/* allocate descriptor for decoding/encoding phase */
+-	desc = dma_alloc_coherent(jpeg->dev,
+-				  sizeof(struct mxc_jpeg_desc),
+-				  &jpeg->slot_data.desc_handle,
+-				  GFP_ATOMIC);
++	desc = mxc_jpeg_alloc(jpeg, sizeof(struct mxc_jpeg_desc),
++			      &jpeg->slot_data.desc_handle);
+ 	if (!desc)
+ 		goto err;
+ 	jpeg->slot_data.desc = desc;
+ 
+ 	/* allocate descriptor for configuration phase (encoder only) */
+-	cfg_desc = dma_alloc_coherent(jpeg->dev,
+-				      sizeof(struct mxc_jpeg_desc),
+-				      &jpeg->slot_data.cfg_desc_handle,
+-				      GFP_ATOMIC);
++	cfg_desc = mxc_jpeg_alloc(jpeg, sizeof(struct mxc_jpeg_desc),
++				  &jpeg->slot_data.cfg_desc_handle);
+ 	if (!cfg_desc)
+ 		goto err;
+ 	jpeg->slot_data.cfg_desc = cfg_desc;
+ 
+ 	/* allocate configuration stream */
+-	cfg_stm = dma_alloc_coherent(jpeg->dev,
+-				     MXC_JPEG_MAX_CFG_STREAM,
+-				     &jpeg->slot_data.cfg_stream_handle,
+-				     GFP_ATOMIC);
++	cfg_stm = mxc_jpeg_alloc(jpeg, MXC_JPEG_MAX_CFG_STREAM,
++				 &jpeg->slot_data.cfg_stream_handle);
+ 	if (!cfg_stm)
+ 		goto err;
+ 	jpeg->slot_data.cfg_stream_vaddr = cfg_stm;
+ 
+ 	jpeg->slot_data.cfg_dec_size = MXC_JPEG_PATTERN_WIDTH * MXC_JPEG_PATTERN_HEIGHT * 2;
+-	jpeg->slot_data.cfg_dec_vaddr = dma_alloc_coherent(jpeg->dev,
+-							   jpeg->slot_data.cfg_dec_size,
+-							   &jpeg->slot_data.cfg_dec_daddr,
+-							   GFP_ATOMIC);
++	jpeg->slot_data.cfg_dec_vaddr = mxc_jpeg_alloc(jpeg, jpeg->slot_data.cfg_dec_size,
++						       &jpeg->slot_data.cfg_dec_daddr);
+ 	if (!jpeg->slot_data.cfg_dec_vaddr)
+ 		goto err;
+ 
+@@ -2888,6 +2898,10 @@ static int mxc_jpeg_probe(struct platform_device *pdev)
+ 	jpeg->dev = dev;
+ 	jpeg->mode = mode;
+ 
++	/* SRAM pool is optional */
++	jpeg->sram_pool = of_gen_pool_get(pdev->dev.of_node, "sram", 0);
++	dev_info(dev, "Using DMA descriptor pool in %cRAM\n", jpeg->sram_pool ? 'S' : 'D');
++
+ 	/* Get clocks */
+ 	ret = devm_clk_bulk_get_all(&pdev->dev, &jpeg->clks);
+ 	if (ret < 0) {
+diff --git a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
+index 44e46face6d1d..9c5b4f053deda 100644
+--- a/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
++++ b/drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.h
+@@ -141,6 +141,7 @@ struct mxc_jpeg_dev {
+ 	int				num_domains;
+ 	struct device			**pd_dev;
+ 	struct device_link		**pd_link;
++	struct gen_pool			*sram_pool;
+ };
+ 
+ /**
+-- 
+2.51.0
 
-> 
-> > +	if (IS_ERR(fence))
-> > +		return fence;
-> > +
-> > +	if (job->done_fence)
-> > +		dma_fence_put(job->done_fence);
-> > +	job->done_fence = dma_fence_get(fence);
-> > +
-> > +	ret = pm_runtime_get_sync(dev->base.dev);
-> 
-> I haven't looked at your PM design, but this generally looks quite
-> dangerous with respect to reclaim. For example, if your PM resume paths
-> allocate memory or take locks that allocate memory underneath, you're
-> likely to run into issues.
-> 
-> A better approach would be to attach a PM reference to your job upon
-> creation and release it upon job destruction. That would be safer and
-> save you headaches in the long run.
-
-Our PM is nothing more than clock enable/disable and register init. 
-
-If the runtime PM API doesn't work and needs special driver wrappers, 
-then I'm inclined to just not use it and manage clocks directly (as 
-that's all it is doing).
-
-> 
-> This is what we do in Xe [1] [2].
-> 
-> Also, in general, this driver has been reviewed (RB’d), but it's not
-> great that I spotted numerous issues within just five minutes. I suggest
-> taking a step back and thoroughly evaluating everything this driver is
-> doing.
-
-Well, if it is hard to get simple drivers right, then it's a problem 
-with the subsystem APIs IMO.
-
-Rob
 
