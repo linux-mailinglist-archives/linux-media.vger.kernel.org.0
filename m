@@ -1,109 +1,182 @@
-Return-Path: <linux-media+bounces-44793-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44794-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD41BE670C
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 07:33:59 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55F4CBE672D
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 07:40:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id ACA844F501E
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 05:33:56 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id BEA72622EB4
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 05:40:21 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A3FC30DEC0;
-	Fri, 17 Oct 2025 05:33:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 67FCE30DEBB;
+	Fri, 17 Oct 2025 05:40:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="t25hmaD0"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JpP2Mu5B"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F9D34204E;
-	Fri, 17 Oct 2025 05:33:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A42FD334686;
+	Fri, 17 Oct 2025 05:40:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760679224; cv=none; b=NYrjIVGrZQrdTmPLWXIuC+nJAP1adIucsbydK+sAMQpyXryduGz1E2OOHMcXzsp70m7hjUOkxBE79zf6K0kFPlS4WaudqHxTlvZCl43Rh4OoCmlpFSe5G1FQzBZwdQjonA1PbhFblk/COxbfU2IqR30oXYH+D6jauZ3cBz2TJ6w=
+	t=1760679611; cv=none; b=TSFib6nVuopUos3fObkGv+so6wxj9Ro+jRM6gHu/efW2nvH5arAt9ybkskQvRk1yrqmwtKMM86JYBl2F5eD40z8nCgWq0z0fDWOlqclbKwjP3ZIf2C357Jq+BVhsyuDIr/nPhZcuEsBtPQJjdW3QNkUJnRMlNJ5d27s9zMXWbzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760679224; c=relaxed/simple;
-	bh=T2E1D/MphmPrw6rHbqjf0FzJ6PvczskJKEsyhPn579o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=OVedmTYrEl8CtngSOQ7MsTZzR0E6QzRgl9uOj2PRzchRWcjI8zKgoCXxaBvj/6UyBbNZsuhKir5N838A9Ug8EG6m5LqetCZHWdwSrV6nECJHrDnUZ0MdKQN0e0iFDdoMr/vHYCRY+Xhad0OWpon8/TvERVmesYtuWXGegzVe33k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=t25hmaD0; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2E48BC113D0;
-	Fri, 17 Oct 2025 05:33:44 +0000 (UTC)
+	s=arc-20240116; t=1760679611; c=relaxed/simple;
+	bh=QatSK3vs5GP8c8e8mP/n3Zh7cEbbQ3Zbp2cyGT+36CI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VZ6tBGhiFWtdM1tZBil9+syboxUnuId4I7rr+jrOawfIyc+FProdN09n3QUImXu+kNjKCq7nIAEN+zYhjt6Dy6kvwc+96FaTMCFHGMSlZzkGlfR+wW4fol6Fe5Gg64e4KxXmZsqv34qBJiDn0YIFCih/JCh7ezAwF5cB0iuwsGI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JpP2Mu5B; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD16DC4CEE7;
+	Fri, 17 Oct 2025 05:40:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760679224;
-	bh=T2E1D/MphmPrw6rHbqjf0FzJ6PvczskJKEsyhPn579o=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=t25hmaD0wrlF8mvbR4esGGegxuhQA9Irby4jqcxFwekCMjglXgI690eoESyDAuQbT
-	 Ay4XoX/GZ4bUH+kFZwEgYE4Fd1qapptd8DJFivPBaW1ZPYKf5btxLi8F1CcuC2MGr6
-	 ORB8FgRKE9EN3ZTber2W4knF8Aax6VlPEhkbh0gbhJ+oJgyEsPX07PXp7B+RZfDCRK
-	 tbseuo2uUMv9bX9qA5nr+vOGD6aHCqQSzIISwPgM90vlkzdT8RfYFZ1rTwAxu/yhc6
-	 W9/VBafcgmRetcsdSpbNVpYHoaX+cRa70EOgbOB0d2GAQ4BH0fhBDpatoiA2EyBJD+
-	 XfyrbsMgX07Eg==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1v9d62-000000001cb-2oTY;
-	Fri, 17 Oct 2025 07:33:46 +0200
-From: Johan Hovold <johan@kernel.org>
-To: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Johan Hovold <johan@kernel.org>,
-	stable@vger.kernel.org
-Subject: [PATCH 2/2] media: vpif_display: fix section mismatch
-Date: Fri, 17 Oct 2025 07:33:21 +0200
-Message-ID: <20251017053321.6156-2-johan@kernel.org>
-X-Mailer: git-send-email 2.49.1
-In-Reply-To: <20251017053321.6156-1-johan@kernel.org>
-References: <20251017053321.6156-1-johan@kernel.org>
+	s=k20201202; t=1760679611;
+	bh=QatSK3vs5GP8c8e8mP/n3Zh7cEbbQ3Zbp2cyGT+36CI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=JpP2Mu5B3aLEq2tithF2l4ekoWI7PQCF+VFS8MQGgHf4eBvOc+yXOj+6j3SF1JJGp
+	 pEWPTs1ub7jCDFoztpJusE1SvuXOPIOS3EDzNJKolsvP7ynn443SDWb6+4ru7KM3Ik
+	 4j+XYNWMaoFpTvU03u3ve6ByEq+Ss1Fm2ijL//zmgS/KjrczzYtQkY9DonD8sLZBjR
+	 wAsx5V7EeXmlXZROMgB5Yk8A5L2w8KdUAli094vKeMAxXL3wpcyYeEh7KW2U9dbVP1
+	 B/DzVQ/2C+MLErckpLFiu2Jq3uo28qrca2pT6QzZpBpkxmTwNhHCgEXgkTF1WRW82g
+	 apdepzvlnSlOA==
+Date: Fri, 17 Oct 2025 08:40:07 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 9/9] vfio/pci: Add dma-buf export support for MMIO
+ regions
+Message-ID: <20251017054007.GB6199@unreal>
+References: <cover.1760368250.git.leon@kernel.org>
+ <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
+ <20251016235332.GA265079@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251016235332.GA265079@nvidia.com>
 
-Platform drivers can be probed after their init sections have been
-discarded (e.g. on probe deferral or manual rebind through sysfs) so the
-probe function must not live in init.
+On Thu, Oct 16, 2025 at 08:53:32PM -0300, Jason Gunthorpe wrote:
+> On Mon, Oct 13, 2025 at 06:26:11PM +0300, Leon Romanovsky wrote:
+> > +
+> > +static int vfio_pci_dma_buf_attach(struct dma_buf *dmabuf,
+> > +				   struct dma_buf_attachment *attachment)
+> > +{
+> > +	struct vfio_pci_dma_buf *priv = dmabuf->priv;
+> > +
+> > +	if (!attachment->peer2peer)
+> > +		return -EOPNOTSUPP;
+> > +
+> > +	if (priv->revoked)
+> > +		return -ENODEV;
+> > +
+> > +	switch (pci_p2pdma_map_type(priv->provider, attachment->dev)) {
+> > +	case PCI_P2PDMA_MAP_THRU_HOST_BRIDGE:
+> > +		break;
+> > +	case PCI_P2PDMA_MAP_BUS_ADDR:
+> > +		/*
+> > +		 * There is no need in IOVA at all for this flow.
+> > +		 * We rely on attachment->priv == NULL as a marker
+> > +		 * for this mode.
+> > +		 */
+> > +		return 0;
+> > +	default:
+> > +		return -EINVAL;
+> > +	}
+> > +
+> > +	attachment->priv = kzalloc(sizeof(struct dma_iova_state), GFP_KERNEL);
+> > +	if (!attachment->priv)
+> > +		return -ENOMEM;
+> > +
+> > +	dma_iova_try_alloc(attachment->dev, attachment->priv, 0, priv->size);
+> 
+> The lifetime of this isn't good..
+> 
+> > +	return 0;
+> > +}
+> > +
+> > +static void vfio_pci_dma_buf_detach(struct dma_buf *dmabuf,
+> > +				    struct dma_buf_attachment *attachment)
+> > +{
+> > +	kfree(attachment->priv);
+> > +}
+> 
+> If the caller fails to call map then it leaks the iova.
 
-Note that commit ffa1b391c61b ("V4L/DVB: vpif_cap/disp: Removed section
-mismatch warning") incorrectly suppressed the modpost warning.
+I'm relying on dmabuf code and documentation:
 
-Fixes: ffa1b391c61b ("V4L/DVB: vpif_cap/disp: Removed section mismatch warning")
-Fixes: e7332e3a552f ("V4L/DVB (12176): davinci/vpif_display: Add VPIF display driver")
-Cc: stable@vger.kernel.org	# 2.6.32
-Signed-off-by: Johan Hovold <johan@kernel.org>
----
- drivers/media/platform/ti/davinci/vpif_display.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+   926 /**
+   927  * dma_buf_dynamic_attach - Add the device to dma_buf's attachments list
+...   
+   932  *
+   933  * Returns struct dma_buf_attachment pointer for this attachment. Attachments
+   934  * must be cleaned up by calling dma_buf_detach().
 
-diff --git a/drivers/media/platform/ti/davinci/vpif_display.c b/drivers/media/platform/ti/davinci/vpif_display.c
-index 70c89549f4b6..1e7815e9f8e0 100644
---- a/drivers/media/platform/ti/davinci/vpif_display.c
-+++ b/drivers/media/platform/ti/davinci/vpif_display.c
-@@ -1214,7 +1214,7 @@ static int vpif_probe_complete(void)
-  * vpif_probe: This function creates device entries by register itself to the
-  * V4L2 driver and initializes fields of each channel objects
-  */
--static __init int vpif_probe(struct platform_device *pdev)
-+static int vpif_probe(struct platform_device *pdev)
- {
- 	struct vpif_subdev_info *subdevdata;
- 	struct i2c_adapter *i2c_adap;
-@@ -1390,7 +1390,7 @@ static int vpif_resume(struct device *dev)
- 
- static SIMPLE_DEV_PM_OPS(vpif_pm_ops, vpif_suspend, vpif_resume);
- 
--static __refdata struct platform_driver vpif_driver = {
-+static struct platform_driver vpif_driver = {
- 	.driver	= {
- 			.name	= VPIF_DRIVER_NAME,
- 			.pm	= &vpif_pm_ops,
--- 
-2.49.1
+Successful call to vfio_pci_dma_buf_attach() MUST be accompanied by call
+to vfio_pci_dma_buf_detach(), so as far as dmabuf implementation follows
+it, there is no leak.
 
+> 
+> > +static struct sg_table *
+> > +vfio_pci_dma_buf_map(struct dma_buf_attachment *attachment,
+> > +		     enum dma_data_direction dir)
+> > +{
+> [..]
+> 
+> 
+> > +err_unmap_dma:
+> > +	if (!i || !state)
+> > +		; /* Do nothing */
+> > +	else if (dma_use_iova(state))
+> > +		dma_iova_destroy(attachment->dev, state, mapped_len, dir,
+> > +				 attrs);
+> 
+> If we hit this error path then it is freed..
+> 
+> > +static void vfio_pci_dma_buf_unmap(struct dma_buf_attachment *attachment,
+> > +				   struct sg_table *sgt,
+> > +				   enum dma_data_direction dir)
+> > +{
+> > +	struct vfio_pci_dma_buf *priv = attachment->dmabuf->priv;
+> > +	struct dma_iova_state *state = attachment->priv;
+> > +	unsigned long attrs = DMA_ATTR_MMIO;
+> > +	struct scatterlist *sgl;
+> > +	int i;
+> > +
+> > +	if (!state)
+> > +		; /* Do nothing */
+> > +	else if (dma_use_iova(state))
+> > +		dma_iova_destroy(attachment->dev, state, priv->size, dir,
+> > +				 attrs);
+> 
+> It is freed here too, but we can call map multiple times. Every time a
+> move_notify happens can trigger another call to map.
+> 
+> I think just call unlink in those two and put dma_iova_free in detach
+
+Yes, it can work.
+
+Thanks
+
+> 
+> Jason
 
