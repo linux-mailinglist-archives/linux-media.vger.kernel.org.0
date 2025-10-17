@@ -1,106 +1,118 @@
-Return-Path: <linux-media+bounces-44890-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44891-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32D3DBE8D0F
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 15:23:31 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D1A3BE8F46
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 15:40:04 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 2FF496E2C9D
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 13:23:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id F107E1884030
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 13:39:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id ABDFB350D65;
-	Fri, 17 Oct 2025 13:23:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A5032F6909;
+	Fri, 17 Oct 2025 13:38:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="uRqb+eVM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YAxHSipC"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f74.google.com (mail-wr1-f74.google.com [209.85.221.74])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38B0E345738
-	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 13:23:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C845A2F6903
+	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 13:38:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760707390; cv=none; b=W4lLskbfANv4eWafk8PtRKDvkG7X0SbujYCZWCtFRWfkfEZoUT90nlC2DtajlPwMIeaCGjizNGQpFb+fmkxYeN2IpcKHyCLUEqD4uXJGyFdMHaxRdvP1ZT9/FmxRjJr6P7b51IzPiAI4a0DuqsDAwuWRj7StXYN/UvQbbDbkpTg=
+	t=1760708310; cv=none; b=Cwfw+74HTlr1Vdmxg2sgRwvV4te+jityPf0Giw+yPXZ6RcrSffD2BB/V7JslGJ6eWaLxEGIORpd5F0Gtf16CHTfvVX6o1NOM+h/DMz+ihXLmlRcMpOmmhvcKyCeN7V1VIvlEwzR0sKJFVTSOJpBZF1FBsXTUU3Gpe532NPdM450=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760707390; c=relaxed/simple;
-	bh=FqUJZOxa6wftUR/btW/DFFPGj7yyzJyrFIh3F2Zge3M=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=JJi/0dAG7ZZcLfK/ujRl/ohLGsms7BNB6PAFNHOfgsn0FUSQhQQmwQSs7iyGWkaSgKqTf6dJ+5VGMltFEc3SF5tG85/14fdX9BN7jdcs5fZzcos3I4h+vXklHjBrytvDyVdQJZSoaIChf8Gxjm3RemXGa4fRsJzl//75kWYob4Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=uRqb+eVM; arc=none smtp.client-ip=209.85.221.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
-Received: by mail-wr1-f74.google.com with SMTP id ffacd0b85a97d-3ee888281c3so4286164f8f.3
-        for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 06:23:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1760707385; x=1761312185; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=S5Yn8qbQoqMlqz8J8ZWtSvsw3x4TMtEW0q43wUSvDUs=;
-        b=uRqb+eVMv5CUd8vf5hIs4eCnSoZYmJ1Q3pb3+5vjLCppoRpspJGYR69zF2LGJqdI4N
-         EZczzhi7irn8HorOR3DzVfNzLCuGrND+RU/XNru2LLgN2tMtdZXg7qiJInIpiPjioLpG
-         IgtINKhXw0oZ5YEWIIEI+NwWbxBf9Qr4ilY0tVsZ6JyaO5qQOAj31yepaA8Nrlq/jcqc
-         J1o+WoeGf4QYxQKESzR1O/A1DZPaqpaHEibhKnUX8ggh07dFl5RXSXWce8l6M8ZHFIzo
-         k5tJuPECBg51cVc9YdxxvxfXn53l5PrR6zZQ3Dsl9X+mjDhBFZm6XwYt78K39x6Le1xb
-         OlOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760707385; x=1761312185;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=S5Yn8qbQoqMlqz8J8ZWtSvsw3x4TMtEW0q43wUSvDUs=;
-        b=cMIPZOAdUqGFBPu+9wXG3hQvGfJI84l1B09pNGerhoBmEiIKo0QafDW8bBT8bhmi08
-         usYZL8PgynKPsw2mIi+VfPDVCe7VIK+zFkbmsLLCOBGJrBUYzOO9dongZnSkBMrXT/DE
-         G/l2DmcI4w0XMTDfW6cPHdMtWs+XPBUgP8OHR2MyuScCjtIePadmliz2gxd8L1BiLH4c
-         KKE7xVJIX5lMOUZC9OUNvNkRhr5B+Tu46/QxK6Z/r86GwKFVvJ5hmIfeRTT0Yz8VC3k7
-         +UQf1sjtj/xfhYgTwOdfaQTaWu1nRsWaFNyJf/wakw5vfLuVeY2iPQhgVnAvc+Ocq7c9
-         eP0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCX0Iq3KloEDXghFUwVUql+B0+lFJfhpeTeCl/HGN+lDW8FH965xc3mdLeaFnBHW9Mi6Nysa+efTy57xig==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIICUI35cch3gw7UQzC6KGTtjfdP/3DcOoLh+bqVr9033vLuch
-	OV6rFmyYFnEYE1flkfIjA8wefEMi4D/stygBMPWOgi7BlzOpsTzUXFfiBGYF80V8l6hz4+DqQ7k
-	JtQCiF9qa/znWoyOU7g==
-X-Google-Smtp-Source: AGHT+IEYb4fFMQvjDzvyv+R6CQU79EQ8AAQbZcI28Pmog6TT3PGCHiGdYfpHiQEQ7liXGiI1hW8U/8CHkswY9G4=
-X-Received: from wmgb8.prod.google.com ([2002:a05:600c:1508:b0:46e:3190:9ce])
- (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:600c:811b:b0:471:13fa:1b84 with SMTP id 5b1f17b1804b1-4711787c803mr27313335e9.12.1760707385665;
- Fri, 17 Oct 2025 06:23:05 -0700 (PDT)
-Date: Fri, 17 Oct 2025 13:23:04 +0000
-In-Reply-To: <20251016210955.2813186-4-lyude@redhat.com>
+	s=arc-20240116; t=1760708310; c=relaxed/simple;
+	bh=lb5IMAkwmYyeA/aloxtFyzqaoIOWSoW+c6CHfKFA3C0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W7V/uH2Dn8D7MRFMpq5aro+1tugH5rXl7sNmev1hyFUqVuy2beG4pVE7mdOAKz1TvtdVdXMFBTMKIOgqd8hsOH33zcise1XjHKCX4eAyory3I+hEXlhMqwgsBHDvpfslsOfi/ocX3AU7EQjQrjEGcP5pfM830kTWo2gf3MUSC2w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YAxHSipC; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 42EE3C4CEE7;
+	Fri, 17 Oct 2025 13:38:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760708310;
+	bh=lb5IMAkwmYyeA/aloxtFyzqaoIOWSoW+c6CHfKFA3C0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=YAxHSipCc9Y3BOPUD914pS3CzbJUteia0oiNUgMwFr6YMaOsmcUL4wqOwwBDBbBVF
+	 8IGksLHmOddHMzehPZYjAT//pLHNaPj1oxSfv2lO1CtYaOtLOru5T4PXGQC0dVUEMv
+	 sRwZYWsQ5ydYpzFoXT3pRy+W7hptTDVJQSXvUpof2ShtQuGg+ZOPWNq0MdI53CTSc3
+	 ZM4IsqPa/JqFBykc+9FXO5Kvw1MJSDUuqD9x55LNomNU+ypmf2DdMK0m3Ehk2+BNfd
+	 8C/2zu5mVmaS/Bnzk8qmf46N8NLsxVfmPcp7opIsK5OZTclroKY5V5QJjKuM4/MhT0
+	 DoqjHL4726ehw==
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+To: linux-media@vger.kernel.org
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
+	laurent.pinchart@ideasonboard.com
+Subject: [PATCH 00/14] media: omap3isp: v4l2-compliance fixes
+Date: Fri, 17 Oct 2025 15:26:37 +0200
+Message-ID: <cover.1760707611.git.hverkuil+cisco@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20251016210955.2813186-1-lyude@redhat.com> <20251016210955.2813186-4-lyude@redhat.com>
-Message-ID: <aPJDOLvBldH_Km91@google.com>
-Subject: Re: [PATCH v4 3/9] rust: helpers: Add bindings/wrappers for dma_resv_lock
-From: Alice Ryhl <aliceryhl@google.com>
-To: Lyude Paul <lyude@redhat.com>
-Cc: dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org, 
-	Daniel Almeida <daniel.almeida@collabora.com>, Asahi Lina <lina@asahilina.net>, 
-	Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>, 
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
-	"=?utf-8?B?QmrDtnJu?= Roy Baron" <bjorn3_gh@protonmail.com>, Benno Lossin <lossin@kernel.org>, 
-	Andreas Hindborg <a.hindborg@kernel.org>, Trevor Gross <tmgross@umich.edu>, 
-	Danilo Krummrich <dakr@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	"Christian =?utf-8?B?S8O2bmln?=" <christian.koenig@amd.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>, 
-	Asahi Lina <lina+kernel@asahilina.net>, Viresh Kumar <viresh.kumar@linaro.org>, 
-	FUJITA Tomonori <fujita.tomonori@gmail.com>, Krishna Ketan Rai <prafulrai522@gmail.com>, 
-	open list <linux-kernel@vger.kernel.org>, 
-	"open list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linux-media@vger.kernel.org>, 
-	"moderated list:DMA BUFFER SHARING FRAMEWORK:Keyword:bdma_(?:buf|fence|resv)b" <linaro-mm-sig@lists.linaro.org>
-Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Thu, Oct 16, 2025 at 05:08:16PM -0400, Lyude Paul wrote:
-> From: Asahi Lina <lina@asahilina.net>
-> 
-> This is just for basic usage in the DRM shmem abstractions for implied
-> locking, not intended as a full DMA Reservation abstraction yet.
-> 
-> Signed-off-by: Asahi Lina <lina@asahilina.net>
-> Signed-off-by: Daniel Almeida <daniel.almeida@collabora.com>
-> Signed-off-by: Lyude Paul <lyude@redhat.com>
+When I worked on the patch series to remove the vb2 wait_prepare/finish
+callbacks, I had to test that series on my Beagle xM board with a
+Leopard Imaging li5m03 camera.
 
-Reviewed-by: Alice Ryhl <aliceryhl@google.com>
+Since I wanted to use v4l2-compliance to test the vb2 change, I first had
+to fix a bunch of other compliance problems in this driver so it would
+actually be able to run the streaming tests.
+
+This series contains the fixes I made to get to that point.
+
+It depends on one sensor driver fix (posted separately):
+
+https://patchwork.linuxtv.org/project/linux-media/patch/554fb9d7-374b-4868-b91b-959b8fd69b4d@kernel.org/
+
+The last two patches in this series are for reference only and not
+meant to be merged.
+
+The first patch ("configure entity functions") definitely needs to be
+reviewed: I'm not certain what all blocks did, so in a few places I had
+to guess what the entity function is.
+
+This series doesn't fix all compliance problems, but at least it is
+a lot better now.
+
+Regards,
+
+	Hans
+
+Hans Verkuil (14):
+  media: omap3isp: configure entity functions
+  media: omap3isp: add V4L2_CAP_IO_MC and don't set bus_info
+  media: omap3isp: isp_video_mbus_to_pix/pix_to_mbus fixes
+  media: omap3isp: implement enum_fmt_vid_cap/out
+  media: omap3isp: use V4L2_COLORSPACE_SRGB instead of _JPEG
+  media: omap3isp: set initial format
+  media: omap3isp: rework isp_video_try/set_format
+  media: omap3isp: implement create/prepare_bufs
+  media: omap3isp: better VIDIOC_G/S_PARM handling
+  media: omap3isp: support ctrl events for isppreview
+  media: omap3isp: ispccp2: always clamp in ccp2_try_format()
+  media: omap3isp: isppreview: always clamp in preview_try_format()
+  DO NOT MERGE: media: omap3isp: change default resolution to 864x648
+  DO NOT MERGE: omap3-beagle-xm.dts: add Leopard Imaging li5m03 support
+
+ .../dts/ti/omap/omap3-beagle-xm-li5m03.dtsi   |  64 +++++++
+ arch/arm/boot/dts/ti/omap/omap3-beagle-xm.dts |   2 +
+ drivers/media/platform/ti/omap3isp/ispccdc.c  |   1 +
+ drivers/media/platform/ti/omap3isp/ispccp2.c  |   3 +-
+ drivers/media/platform/ti/omap3isp/ispcsi2.c  |   1 +
+ .../media/platform/ti/omap3isp/isppreview.c   |  26 ++-
+ .../media/platform/ti/omap3isp/ispresizer.c   |   3 +-
+ drivers/media/platform/ti/omap3isp/ispstat.c  |   1 +
+ drivers/media/platform/ti/omap3isp/ispvideo.c | 174 +++++++++++++-----
+ 9 files changed, 216 insertions(+), 59 deletions(-)
+ create mode 100644 arch/arm/boot/dts/ti/omap/omap3-beagle-xm-li5m03.dtsi
+
+-- 
+2.51.0
+
 
