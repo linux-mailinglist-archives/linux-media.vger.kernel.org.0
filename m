@@ -1,57 +1,60 @@
-Return-Path: <linux-media+bounces-44930-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44931-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1BC7BEAF78
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 19:04:03 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F364BEAEFD
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 18:59:38 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 59390744740
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 16:56:10 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id CBB071AE2CFA
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 17:00:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CC7CF2ECD28;
-	Fri, 17 Oct 2025 16:56:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 55C902F0C64;
+	Fri, 17 Oct 2025 16:59:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="KRaj5tm9"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="cr8wEHWw"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 545882D7DCE
-	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 16:56:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3F992F12A7
+	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 16:59:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760720166; cv=none; b=fnvD4406k7Usjs+50/fGYIeutigcCt1wi+OsBKsSFMpgszlCU+B6gkd+3Dsb1OT50n5erQn+G/4pCAFJNE0SfZRuTBMfmZU2e4BcgQM5+7K1e0V4f71YJ8Y4owAh13biRDSwRQJi+fNbAPfwFnlAQWJu3qsZ/AIxDMkLrdp1SiI=
+	t=1760720367; cv=none; b=MkoXXpcdJck4+zPWu+PArKN5wuY1N+EMRe9ytN2ycvsQsz6pCHEmS2bq4akgrHEDmyLeYSjcdQ1NaK0WIvJti8jLVjt8lYeBcquesAKq0OqaEk5dxuYu8x9qoGTt3trn6wN+ga3/xFRsgZseeiq79OZpVKKeteUo+fBoZLJ6ODk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760720166; c=relaxed/simple;
-	bh=SgDXVXTlvwz1ckdkfQFdEAB+Hh3IaVKux7HrbYLr8IE=;
-	h=Message-ID:Subject:From:To:Date:Content-Type:MIME-Version; b=j8PwHeOkFp5RFClgj495Fum1RoikcPgUwpZfl5afU/Z7BoDs9JkGgQJjAZwuryf32+LaToUrlHgZpd+9ZRpZfk0gAsDS4q8BvG7Idhh6BCeMpfm8msE8+sHWv6W3cX5BvFzHDjQOp/yGDChZvJodd7KYOfhNCi7wtsq5Ic7r4NM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=KRaj5tm9; arc=none smtp.client-ip=148.251.105.195
+	s=arc-20240116; t=1760720367; c=relaxed/simple;
+	bh=feGBSH+2FPW8RiZzt5iXLfzzn3H4XfpiElBqd1MMslQ=;
+	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=TKwWhV+IBCDDLwScllQYIuN3QJ73B0bpObvWGIyXKEeITYDaCPoMWlcM/xXXe/ofp5F1bID1LFvie7GlC/PzGDtKo47DMXTvBRbWMUD187Up+cMkbtNDR+IXXj1X4ET0t0YQHqcuAFNq+Ed5O7bkLvA83ny6Bn2IKznD09JJ74A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=cr8wEHWw; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1760720160;
-	bh=SgDXVXTlvwz1ckdkfQFdEAB+Hh3IaVKux7HrbYLr8IE=;
-	h=Subject:From:To:Date:From;
-	b=KRaj5tm9ggeefv9TTfr3w3cfl2oIprmCufbJ33NiRxEPSYi6WrKoXy6fajaasjZl4
-	 zLj96BrQPW3G8WHM4ERxLzuTEinme03Fn8m6bVABsYH8VWj41oy7YM4gXX/vmCuQHJ
-	 tFK77qSJfwpc/3V3X5UBokECBV37n6lKOgQt1nEYouoRwd083Yqka1rzLG20UEHGls
-	 W8hmc0bGuB04kyPaoe0bTZi7EUesLipfRLrsblu/yth5WcPpjep/iRWUv9ZP5h+B/D
-	 ooaghdpTvWlsdtFjNVlp1l0W9B7X5FY2z6A+WgsyTSs7dVmy7yPC8ipLCFHp+3uP5g
-	 VR1DLm88JYbUw==
+	s=mail; t=1760720364;
+	bh=feGBSH+2FPW8RiZzt5iXLfzzn3H4XfpiElBqd1MMslQ=;
+	h=Subject:From:To:Date:In-Reply-To:References:From;
+	b=cr8wEHWwluzrlu8ydaKb3GDYLa9W2JOCXB95DJJixsx96FKkyqOFFH4WJQBIttEC4
+	 0EKqS7f/nCxD83gEh76P8F/mdDNJ8TfRqn3va4wgm27vPJ28gPKtfbRTiVtYpbKziD
+	 epH0a8rLj01p3+vGXrq4/TBTG8yVOejtRdQT8kjeVAU7sS1AoCI/XqjZxxENb9LptR
+	 P1N6eGej0tQr07n5/KdhU14dON5DAQlob7QUsQ29/+gy8lBkL8amHr/ODFZ1rlB2Qd
+	 aJglx+2DYJg9GDolkAQcyp89CJLrGz+QggpV2fbgcY72vNRtC8pxUF2TFjVgZd80K3
+	 b4oZ4j8q0SGow==
 Received: from [IPv6:2606:6d00:17:ebd3::5ac] (unknown [IPv6:2606:6d00:17:ebd3::5ac])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits))
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: nicolas)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 3DE3717E1267
-	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 18:56:00 +0200 (CEST)
-Message-ID: <dbccf041ba384d61d9a7f048d7eaab111af85dbb.camel@collabora.com>
-Subject: [GIT PULL v2 FOR 6.19] Media CODEC Fixes 2025-10-17
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id A771317E00AC
+	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 18:59:23 +0200 (CEST)
+Message-ID: <7bdf1daadf12eb407246f13d77cb116cdfd47536.camel@collabora.com>
+Subject: Re: [GIT PULL FOR 6.19]
 From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 To: linux-media@vger.kernel.org
-Date: Fri, 17 Oct 2025 12:55:58 -0400
+Date: Fri, 17 Oct 2025 12:59:22 -0400
+In-Reply-To: <b35589145aa05c0c103d2c1d2b9758f9177327d7.camel@collabora.com>
+References: <b35589145aa05c0c103d2c1d2b9758f9177327d7.camel@collabora.com>
 Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
  /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
@@ -67,7 +70,7 @@ Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
  bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
 Organization: Collabora Canada
 Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-72ALCt6cW4dZs/R7UGOa"
+	protocol="application/pgp-signature"; boundary="=-6IsH6iQHpFzXV8DpLemt"
 User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
@@ -77,134 +80,172 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 
 
---=-72ALCt6cW4dZs/R7UGOa
+--=-6IsH6iQHpFzXV8DpLemt
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Hi Mauro, Hans,
+Le vendredi 17 octobre 2025 =C3=A0 12:49 -0400, Nicolas Dufresne a =C3=A9cr=
+it=C2=A0:
+> Hi Mauro, Hans,
+>=20
+> This pull request contains a collection of bug fixes in various codec dri=
+vers
+> and an improved validation of AV1 sequence parameters.
 
-This pull request contains a collection of bug fixes in various codec drive=
-rs
-and an improved validation of AV1 sequence parameters.
+Sorry for the bad subject, sent a v2 with a subject, you can ignore this on=
+e.
 
-cheers,
 Nicolas
 
-p.s. sorry for the previous empty subject request.
+>=20
+> cheers,
+> Nicolas
+>=20
+> ---
+>=20
+> The following changes since commit 082b86919b7a94de01d849021b4da820a6cb89=
+dc:
+>=20
+> =C2=A0 media: v4l2-mem2mem: Fix outdated documentation (2025-10-14 15:07:=
+37 +0200)
+>=20
+> are available in the Git repository at:
+>=20
+> =C2=A0 https://gitlab.freedesktop.org/linux-media/users/ndufresne.git=C2=
+=A0tags/for-
+> 6.19-media-codec-fixes-2025-10-17
+>=20
+> for you to fetch changes up to 60d4fac49415810bd4d07b18570065999e318a7b:
+>=20
+> =C2=A0 media: allegro: fix race conditions in channel handling (2025-10-1=
+6 09:32:55
+> -0400)
+>=20
+> ----------------------------------------------------------------
+> Various CODEC bug fixes
+>=20
+> ----------------------------------------------------------------
+> Chen-Yu Tsai (1):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: mediatek: vcodec: Use spinlock for =
+context list protection lock
+>=20
+> Haoxiang Li (1):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: mediatek: vcodec: Fix a reference l=
+eak in
+> mtk_vcodec_fw_vpu_init()
+>=20
+> Johan Hovold (1):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: platform: mtk-mdp3: fix device leak=
+s at probe
+>=20
+> Matthias Fend (3):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: allegro: print warning if channel c=
+reation timeout occurs
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: allegro: process all pending status=
+ mbox messages
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: allegro: fix race conditions in cha=
+nnel handling
+>=20
+> Ming Qian (2):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: amphion: Remove vpu_vb_is_codecconf=
+ig
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: amphion: Cancel message work before=
+ releasing the VPU core
+>=20
+> Nicolas Dufresne (2):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: verisilicon: Fix CPU stalls on G2 b=
+us error
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: verisilicon: Protect G2 HEVC decode=
+r against invalid DPB index
+>=20
+> Pavan Bobba (1):
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 media: v4l2-ctrls: add full AV1 profile va=
+lidation in
+> validate_av1_sequence()
+>=20
+> =C2=A0drivers/media/platform/allegro-dvt/allegro-core.c=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 | 114
+> +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
++++++
+> +++++++++++++-----------------------
+> =C2=A0drivers/media/platform/amphion/vpu_malone.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 23
+> +++--------------------
+> =C2=A0drivers/media/platform/amphion/vpu_v4l2.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 16
+> +++-------------
+> =C2=A0drivers/media/platform/amphion/vpu_v4l2.h=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 10 ---
+> -------
+> =C2=A0drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+ |=C2=A0 14
+> ++++++++++++++
+> =C2=A0drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c=
+=C2=A0=C2=A0 |=C2=A0 14
+> +++++++++-----
+> =C2=A0drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c=
+ |=C2=A0 12
+> +++++++-----
+> =C2=A0drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h=
+ |=C2=A0=C2=A0 2 +-
+> =C2=A0drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 5
+> +++--
+> =C2=A0drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c=
+ |=C2=A0 12
+> +++++++-----
+> =C2=A0drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h=
+ |=C2=A0=C2=A0 2 +-
+> =C2=A0drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 5
+> +++--
+> =C2=A0drivers/media/platform/verisilicon/hantro_g2.c=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 88
+> +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++----=
+-----
+> ----------
+> =C2=A0drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 17
+> +++++++++++++----
+> =C2=A0drivers/media/platform/verisilicon/hantro_g2_regs.h=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0 |=C2=A0 13
+> +++++++++++++
+> =C2=A0drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=
+=C2=A0 2 --
+> =C2=A0drivers/media/platform/verisilicon/hantro_hw.h=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 1 +
+> =C2=A0drivers/media/platform/verisilicon/imx8m_vpu_hw.c=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 ++
+> =C2=A0drivers/media/v4l2-core/v4l2-ctrls-core.c=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 125
+> +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
++++++
+> ++++++++++++++++++++++-------------------------
+> =C2=A019 files changed, 340 insertions(+), 137 deletions(-)
 
----
-
-The following changes since commit 082b86919b7a94de01d849021b4da820a6cb89dc=
-:
-
-  media: v4l2-mem2mem: Fix outdated documentation (2025-10-14 15:07:37 +020=
-0)
-
-are available in the Git repository at:
-
-  https://gitlab.freedesktop.org/linux-media/users/ndufresne.git tags/for-6=
-.19-media-codec-fixes-2025-10-17
-
-for you to fetch changes up to 60d4fac49415810bd4d07b18570065999e318a7b:
-
-  media: allegro: fix race conditions in channel handling (2025-10-16 09:32=
-:55 -0400)
-
-----------------------------------------------------------------
-Various CODEC bug fixes
-
-----------------------------------------------------------------
-Chen-Yu Tsai (1):
-      media: mediatek: vcodec: Use spinlock for context list protection loc=
-k
-
-Haoxiang Li (1):
-      media: mediatek: vcodec: Fix a reference leak in mtk_vcodec_fw_vpu_in=
-it()
-
-Johan Hovold (1):
-      media: platform: mtk-mdp3: fix device leaks at probe
-
-Matthias Fend (3):
-      media: allegro: print warning if channel creation timeout occurs
-      media: allegro: process all pending status mbox messages
-      media: allegro: fix race conditions in channel handling
-
-Ming Qian (2):
-      media: amphion: Remove vpu_vb_is_codecconfig
-      media: amphion: Cancel message work before releasing the VPU core
-
-Nicolas Dufresne (2):
-      media: verisilicon: Fix CPU stalls on G2 bus error
-      media: verisilicon: Protect G2 HEVC decoder against invalid DPB index
-
-Pavan Bobba (1):
-      media: v4l2-ctrls: add full AV1 profile validation in validate_av1_se=
-quence()
-
- drivers/media/platform/allegro-dvt/allegro-core.c                   | 114 =
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-++++++++++++++++-----------------------
- drivers/media/platform/amphion/vpu_malone.c                         |  23 =
-+++--------------------
- drivers/media/platform/amphion/vpu_v4l2.c                           |  16 =
-+++-------------
- drivers/media/platform/amphion/vpu_v4l2.h                           |  10 =
-----------
- drivers/media/platform/mediatek/mdp3/mtk-mdp3-core.c                |  14 =
-++++++++++++++
- drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_fw_vpu.c   |  14 =
-+++++++++-----
- drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.c |  12 =
-+++++++-----
- drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec_drv.h |   2 =
-+-
- drivers/media/platform/mediatek/vcodec/decoder/vdec_vpu_if.c        |   5 =
-+++--
- drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.c |  12 =
-+++++++-----
- drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc_drv.h |   2 =
-+-
- drivers/media/platform/mediatek/vcodec/encoder/venc_vpu_if.c        |   5 =
-+++--
- drivers/media/platform/verisilicon/hantro_g2.c                      |  88 =
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++------=
--------------
- drivers/media/platform/verisilicon/hantro_g2_hevc_dec.c             |  17 =
-+++++++++++++----
- drivers/media/platform/verisilicon/hantro_g2_regs.h                 |  13 =
-+++++++++++++
- drivers/media/platform/verisilicon/hantro_g2_vp9_dec.c              |   2 =
---
- drivers/media/platform/verisilicon/hantro_hw.h                      |   1 =
-+
- drivers/media/platform/verisilicon/imx8m_vpu_hw.c                   |   2 =
-++
- drivers/media/v4l2-core/v4l2-ctrls-core.c                           | 125 =
-+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++=
-+++++++++++++++++++++++++-------------------------
- 19 files changed, 340 insertions(+), 137 deletions(-)
-
---=20
-Nicolas Dufresne
-Principal Engineer at Collabora
-
---=20
-Nicolas Dufresne
-Principal Engineer at Collabora
-
---=-72ALCt6cW4dZs/R7UGOa
+--=-6IsH6iQHpFzXV8DpLemt
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: This is a digitally signed message part
 Content-Transfer-Encoding: 7bit
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaPJ1HgAKCRDZQZRRKWBy
-9HU2AP9J+CpIwG+UST52dqg7weiM7f8WsVKl16dbF/VBlt3HKgD/Tr9K20ji5/Fo
-B7zc2erb359ePBT6nadpyzem9GvMEQA=
-=WUjo
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaPJ16gAKCRDZQZRRKWBy
+9Ke8AP96Y1HHDUUhNsU7/d0ORAalnEym6mIUzaUZhrrJXtVyWwEA7p6MO5XWOI3i
+g4pqRex753H2S8yDfPwW97AG76Wfvgo=
+=WjWu
 -----END PGP SIGNATURE-----
 
---=-72ALCt6cW4dZs/R7UGOa--
+--=-6IsH6iQHpFzXV8DpLemt--
 
