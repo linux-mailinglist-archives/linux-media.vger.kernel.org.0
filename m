@@ -1,133 +1,209 @@
-Return-Path: <linux-media+bounces-44837-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44838-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AF05BE712E
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 10:14:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A641BE731F
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 10:35:37 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9696A1AA00D9
-	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 08:15:15 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3DFF519C14C0
+	for <lists+linux-media@lfdr.de>; Fri, 17 Oct 2025 08:35:28 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1C56227A47F;
-	Fri, 17 Oct 2025 08:14:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 332262D0627;
+	Fri, 17 Oct 2025 08:34:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Isezijib"
+	dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b="KX+ZM8tE"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99A4272E71;
-	Fri, 17 Oct 2025 08:14:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B2E2C11C9
+	for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 08:34:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760688869; cv=none; b=OZT2EfLULVl/afTnEhSPDoWo9qk85zgTDRwoQS/9dXKhxr+UF1TeLH1QLFpm6N/29+vdaQy/fBQ5aYrgyCGHGnB+CNJTfo///Zp9K1JGqq6Yw0Ycrdoj8L/NeocB+W0eNl03hfVrK0J2CPyPyBPGcjyaA9Y89Zno25MgKDcFyl4=
+	t=1760690064; cv=none; b=TBDAZsNKXkypeL7nQVwyECwnEF5IZ3QrE8+0gQKp7qxG7h7TzxQpeCLJJmb/a9mG50auMvWmK+JKr1Zogs1kQsFUwGi1Q9kJzJseEOeFghc9LPTqF0NbjGkqROTOM5vDZ8Vh2DigaCcsKiFUjF/AvDxqfR1eS5VugUeaaHmeXVQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760688869; c=relaxed/simple;
-	bh=bLLF7pXnroAzoxCACwBuR51ZVSysgYA8p6ZxfKRG/c0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=RU4pGQ7yl1wyHTxhVnM5Ys2K18rkbu12f42KgWr4IGk8QAt3Vy9XNcZXevXAEjLn97fWtEmlgkpfjidKhyNp67VW/1rUW7YhjgRvR3SLGIwzTAef50EABGwq2HLmOgWtnrstDw7kDx1jZDdE0NUg+3JZSf9b1KjIHvGi2LwYJKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Isezijib; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c68:2112:eb18:6ce9:5a39:76a2])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id B7C6B1E33;
-	Fri, 17 Oct 2025 10:12:44 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1760688765;
-	bh=bLLF7pXnroAzoxCACwBuR51ZVSysgYA8p6ZxfKRG/c0=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
-	b=Isezijib5jCA15pS9llY+/Jjx/HQSX3bp9jQvBydKLBKBYzYn3b6vhoWl32edbRS/
-	 7lmihndSwnuZbQV+c2UMSGUn+HsxLGMGIRGLwxqn7QHOV14CxhQPSAywXzau0Tqi4p
-	 Oh0Yb3jO7uUlz4RNRBombIwMQRMvPVnkYs9JZpDc=
-From: Jai Luthra <jai.luthra@ideasonboard.com>
-Date: Fri, 17 Oct 2025 13:43:50 +0530
-Subject: [PATCH 2/2] media: i2c: imx219: Simplify imx219_get_binning()
- function
+	s=arc-20240116; t=1760690064; c=relaxed/simple;
+	bh=rXUmxrGIqOAJYZ+/gxnEEhhhSgt5g34jwsL9bWpkQsI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=He5Uq5Sh7cjIDt05uZviO0Q+9jELb/phx33FhFlJxQnJ8VfGuxY97wNrES7YHWmCyl9RcN0/DZOHx54ftswRjVZQHoxqOD8Ifbe7gGN1JwCqI1gatrPn4rvP5kHts+SS730PS2qIslr13gzz7NKapAZ8S5sbsozWN/WCBddBV5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com; spf=pass smtp.mailfrom=kerneltoast.com; dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b=KX+ZM8tE; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kerneltoast.com
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-b550eff972eso1144252a12.3
+        for <linux-media@vger.kernel.org>; Fri, 17 Oct 2025 01:34:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kerneltoast.com; s=google; t=1760690061; x=1761294861; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=zwWTDPTxdZ8sUmLlagbF37tgnT8oA3Q8eIsLoS6sVgo=;
+        b=KX+ZM8tEogSRJD2TpIDLVIrSqbhYcA+vD3yWyhHXavrTPJ50uNXZIF209RF+5KBP+c
+         vptBXmy9+ZaTFzLxMP9imLp0+Gk8dYEeYJgw2TSaiuT4rigb8T5zI8XX9Fdnqa7v50RB
+         QMT8GLrwlshe3NFEmI07o8sM2RP7JJJuecD4dBNc1tmY0svq+O8R9UU98GVOme67MBr7
+         GhPijiTiG7ncbKYQIIQpUJTaIaseHxnicwZj6UvXm3Ygc26j28tCOdHvTL+NuYpcmVjO
+         JQ7j4Dr6cQUJisLzwIo0xnaknINYr8Q8aUOx0zSIYRn348vj3YqTWcFYeEQcuhgFNYvv
+         whlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760690061; x=1761294861;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zwWTDPTxdZ8sUmLlagbF37tgnT8oA3Q8eIsLoS6sVgo=;
+        b=SMVeK3SxftPRODdQo7nsyUU2o9Clju5g18zcxr2awfxYBi8Ell03GCjA/eG7YGWzql
+         gtDJpP+0sMP031klILhI1vKzZf9dFyXupdskEHBaT9LhcZ2vae7OegCM6HhK0Oyymo37
+         FUTMJE+W8P2yoIF1bFQGAu8yJtKGmU8QmRswvj1n6aMU/uHwLDk6jSeXRFYPOWHSQU9s
+         /LvdrkIP+OfUgJwTH6hBhIxZs7LdslOJYd8yGYJWF6RpXIuyZVeqPnO2qImLxQTaQpLi
+         Fn1e1/qB8WDGZy9721QQro4Zzx8GBC44URJx1iIbFOLTGsDgDOaXUOcHl0Bj6P/jjDT9
+         E7Lg==
+X-Forwarded-Encrypted: i=1; AJvYcCVHC2ULkOKxiIDd/xPRXwR07L6RM/ppT+rnpeNbcI38233WU8cHPK9Igtn+em6aK+8h8HbtGP0AchnrqQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzN/XJqca6Mzbud7aYlIsaFTenESHLdXyU3HzMPHNI1OcI1eqb1
+	Ci5UeQhnHeQ4IOv6YsEbACKfWcO5FBPo0bpAYLuLUVSnS0xT0t75u/rUh+PF4IuqM7aD
+X-Gm-Gg: ASbGncsHQex4nfJsZAhGjzU0iv5kLP6FgYjXn8v4ACLr6OBIwZ+2/jQa00UlBVnMcgJ
+	SML9SN5iIb6ZelFqRep9YsxQn5TZOGkXOWnAkVBWKRwHDDjncBSetxlyn88CTQwS99Fw2muZgdM
+	BKbZtG/Vfc9ju1navk9/90oLDNvKMxxQ5nWjPcyuEopFAOVD4ScNkdiVxnho2zZo8rj32e6p6Qu
+	A12MtkYeXCEL6uyrYIHTgApAVOh+lHmtVY0oYk189T2XVQ1ixzHfTYUQtenvfje75jsmylsrHmK
+	LfjDzgew1potm5Z11xRNDm9kNG3v892UxR7WCPifrXVCGDJ+kE4CMp1EB79tUxkLqocOV8U5pfs
+	ARz3YjmFvKmY5geXJgBPrs2gS2a7dFxo6RqLfcQPAGcM5+CEUBwokfEeoWAlvD5P5t6P3hpxIQe
+	jWfkhtkNxpHnSv0w==
+X-Google-Smtp-Source: AGHT+IEnb6UjQcer/I5Rw31GyT+MdTerRyv2aeOuud+h9gNncxVu01d76QtKrkpwP6x0XkSdMK0XZw==
+X-Received: by 2002:a17:902:fc8e:b0:27d:c542:fe25 with SMTP id d9443c01a7336-290cb27c8e8mr37576595ad.41.1760690060687;
+        Fri, 17 Oct 2025 01:34:20 -0700 (PDT)
+Received: from sultan-box ([142.147.89.233])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-290a382a927sm51595225ad.106.2025.10.17.01.34.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 17 Oct 2025 01:34:20 -0700 (PDT)
+Date: Fri, 17 Oct 2025 01:34:16 -0700
+From: Sultan Alsawaf <sultan@kerneltoast.com>
+To: "Du, Bin" <bin.du@amd.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
+	laurent.pinchart+renesas@ideasonboard.com,
+	bryan.odonoghue@linaro.org, sakari.ailus@linux.intel.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
+	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
+	Dominic.Antony@amd.com, mario.limonciello@amd.com,
+	richard.gong@amd.com, anson.tsao@amd.com,
+	Alexey Zagorodnikov <xglooom@gmail.com>
+Subject: Re: [PATCH v4 5/7] media: platform: amd: isp4 video node and buffers
+ handling added
+Message-ID: <aPH_iHmPFWTrrOQE@sultan-box>
+References: <20250911100847.277408-1-Bin.Du@amd.com>
+ <20250911100847.277408-6-Bin.Du@amd.com>
+ <aNzP2LH0OwUkMtGb@sultan-box>
+ <c28eb905-b578-4512-aa9c-37281d3a0ee4@amd.com>
+ <51c24e3d-be89-44c9-8247-95fb776aed78@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251017-imx219-1080p-v1-2-9173d5a47a0c@ideasonboard.com>
-References: <20251017-imx219-1080p-v1-0-9173d5a47a0c@ideasonboard.com>
-In-Reply-To: <20251017-imx219-1080p-v1-0-9173d5a47a0c@ideasonboard.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Dave Stevenson <dave.stevenson@raspberrypi.com>, 
- Mauro Carvalho Chehab <mchehab@kernel.org>, 
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
- Hans Verkuil <hverkuil@kernel.org>, 
- Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>, 
- =?utf-8?q?Barnab=C3=A1s_P=C5=91cze?= <barnabas.pocze@ideasonboard.com>, 
- Jai Luthra <jai.luthra@ideasonboard.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1387;
- i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=bLLF7pXnroAzoxCACwBuR51ZVSysgYA8p6ZxfKRG/c0=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBo8frPWqQaztPUJfPqg51uYx8mzvFjGkEpByfBF
- ZNK6Wq6BGKJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaPH6zwAKCRBD3pH5JJpx
- RbAYD/9SrUJjZaryC15JIFZUaHeCH/uYMD3KPWjDC9vl9fzW3xXIeTpHd+GPUMQNFWMcr3YsI7n
- o39pKsR6K2luImh3TtNfN4xv/++Xp8DvxuZiwnwg6EK2LsFoZz1ktMSTY+AlZ7OH+qLiCVvf1Qk
- x/ZmpYO74uVeUSbGPPM/8zwa5r3CZMQYdirxFk8xCbTGJP2mw7j7NSBc0POAhpOqGgbQKjp94A9
- 1PDKEKv3tAPtCd+VheTB8nMslhk1ps1dEFoJB0HTrpqJpwYq/PTQSwGuLws+LGwys6z9DrEljtg
- PX2FJEufXJ/hWj3SCmG6e3Dhqy2zLjNn5dON950rl4eDV5TmNfvdnbgajHKbToOJcf8HZPou142
- SWY1S03oXq408s6ChsipdVanYei6yX8iTSGLOVtNR/QQRXTpIZrw/g80XwYqUDZKZvOzVSlglJE
- 6Zq8vr+swhAazr+JS+yfh5r+cr63ru/JEAWa23TOtPsTbWkMfhnTZyxilAUTThDokYk4G1UrvE/
- ED7YeLyaYfAoL08KaSBV4TB81nQwH33Ua1eLOUUkOy96YIx/qfWMW6VlSbDxBCqhuEl2z1eAA5W
- uzQYG2U+Oox9LgSSnoZyBz1fCpUwksxY3w9YhpN3uDe0/9NbjGEkyk6rHM7VUQpnCK6lJW//Utw
- 7j19DBtszu4pI+A==
-X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
- fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <51c24e3d-be89-44c9-8247-95fb776aed78@amd.com>
 
-In imx219_set_pad_format() there is now a constraint to enforce hbin ==
-vbin. So, simplify the logic in imx219_get_binning() function by
-removing dead code that handles the case where hbin != vbin.
+On Thu, Oct 16, 2025 at 04:13:47PM +0800, Du, Bin wrote:
+> On 10/11/2025 5:30 PM, Du, Bin wrote:
+> > On 10/1/2025 2:53 PM, Sultan Alsawaf wrote:
+> > > On Thu, Sep 11, 2025 at 06:08:45PM +0800, Bin Du wrote:
+> > > > +++ b/drivers/media/platform/amd/isp4/isp4.c
+> > > > @@ -178,6 +178,16 @@ static int isp4_capture_probe(struct
+> > > > platform_device *pdev)
+> > > >           goto err_isp4_deinit;
+> > > >       }
+> > > > +    ret = media_create_pad_link(&isp_dev->isp_sdev.sdev.entity,
+> > > > +                    0, &isp_dev->isp_sdev.isp_vdev.vdev.entity,
+> > > > +                    0,
+> > > > +                    MEDIA_LNK_FL_ENABLED |
+> > > > +                    MEDIA_LNK_FL_IMMUTABLE);
+> > > > +    if (ret) {
+> > > > +        dev_err(dev, "fail to create pad link %d\n", ret);
+> > > > +        goto err_isp4_deinit;
+> > > > +    }
+> > > > +
+> > > 
+> > > Two problems with this hunk:
+> > > 
+> > > 1. According to the comment in include/media/media-device.h [1],
+> > >     media_create_pad_link() should be called before
+> > > media_device_register():
+> > > 
+> > >      * So drivers need to first initialize the media device,
+> > > register any entity
+> > >      * within the media device, create pad to pad links and then
+> > > finally register
+> > >      * the media device by calling media_device_register() as a
+> > > final step.
+> > > 
+> > > 2. Missing call to media_device_unregister() on error when
+> > >     media_create_pad_link() fails.
+> > > 
+> > > Since the media_create_pad_link() will be moved before
+> > > media_device_register(),
+> > > we will need to clean up media_create_pad_link() when
+> > > media_device_register()
+> > > fails.
+> > > 
+> > > The clean-up function for media_create_pad_link() is
+> > > media_device_unregister().
+> > > According to the comment for media_device_unregister() [2], it is
+> > > safe to call
+> > > media_device_unregister() on an unregistered media device that is
+> > > initialized
+> > > (through media_device_init()).
+> > > 
+> > > In addition, this made me realize that there's no call to
+> > > media_device_cleanup()
+> > > in the entire driver too. This is the cleanup function for
+> > > media_device_init(),
+> > > so it should be called on error and on module unload.
+> > > 
+> > > To summarize, make the following changes:
+> > > 
+> > > 1. Move the media_create_pad_link() up, right before
+> > > media_device_register().
+> > > 
+> > > 2. When media_device_register() fails, clean up
+> > > media_create_pad_link() by
+> > >     calling media_device_unregister().
+> > > 
+> > > 3. Add a missing call to media_device_cleanup() on error and module
+> > > unload to
+> > >     clean up media_device_init().
+> > > 
+> > 
+> > Very clear guide, will follow your advice.
+> > 
+> > > >       platform_set_drvdata(pdev, isp_dev);
+> > > >       return 0;
+> 
+> For 2, we found when media_device_register() fails, calling
+> media_device_unregister() won't clean up media_create_pad_link() because it
+> simply returns without doing anything(see https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/mc/mc-device.c?h=v6.17-rc7#n797).
+> Therefore like other kernel drivers, we'd rather not call
+> media_device_unregister() in this scenario, it doesn't cause issues, but
+> it's not logically correct. Cleanup for media_create_pad_link() occurs
+> during error handling via isp4sd_deinit()->isp4vid_dev_deinit()->vb2_video_unregister_device()->...->media_entity_remove_link().
+> What do you think?
 
-Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
----
- drivers/media/i2c/imx219.c | 16 +++-------------
- 1 file changed, 3 insertions(+), 13 deletions(-)
+Oh, good catch! You are right about media_device_unregister() not cleaning up
+media_create_pad_link().
 
-diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-index 300935b1ef2497050fe2808e4ceedda389a75b50..48efdcd2a8f96b678f9819223e0f9895fb4025ea 100644
---- a/drivers/media/i2c/imx219.c
-+++ b/drivers/media/i2c/imx219.c
-@@ -409,24 +409,14 @@ static void imx219_get_binning(struct v4l2_subdev_state *state, u8 *bin_h,
- 	u32 hbin = crop->width / format->width;
- 	u32 vbin = crop->height / format->height;
- 
--	*bin_h = IMX219_BINNING_NONE;
--	*bin_v = IMX219_BINNING_NONE;
--
--	/*
--	 * Use analog binning only if both dimensions are binned, as it crops
--	 * the other dimension.
--	 */
- 	if (hbin == 2 && vbin == 2) {
- 		*bin_h = IMX219_BINNING_X2_ANALOG;
- 		*bin_v = IMX219_BINNING_X2_ANALOG;
--
--		return;
-+	} else {
-+		*bin_h = IMX219_BINNING_NONE;
-+		*bin_v = IMX219_BINNING_NONE;
- 	}
- 
--	if (hbin == 2)
--		*bin_h = IMX219_BINNING_X2;
--	if (vbin == 2)
--		*bin_v = IMX219_BINNING_X2;
- }
- 
- static inline u32 imx219_get_rate_factor(struct v4l2_subdev_state *state)
+But I don't see how vb2_video_unregister_device() ends up calling
+media_entity_remove_links().
 
--- 
-2.51.0
+It looks like media_create_pad_link() is actually cleaned up via
+v4l2_device_unregister_subdev()->media_device_unregister_entity()->__media_device_unregister_entity()->__media_entity_remove_links()
 
+And I mentioned before to add a missing call to v4l2_device_unregister_subdev()
+on error, so it looks like that will cover the media_create_pad_link() cleanup
+and therefore you don't need to call media_device_unregister() in this scenario.
+
+Does that look correct?
+
+Sultan
 
