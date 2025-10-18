@@ -1,316 +1,331 @@
-Return-Path: <linux-media+bounces-44946-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44947-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 828DDBEC8B2
-	for <lists+linux-media@lfdr.de>; Sat, 18 Oct 2025 08:44:09 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A26FBEC8E7
+	for <lists+linux-media@lfdr.de>; Sat, 18 Oct 2025 08:56:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 657804E4545
-	for <lists+linux-media@lfdr.de>; Sat, 18 Oct 2025 06:44:07 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 490D54E63B8
+	for <lists+linux-media@lfdr.de>; Sat, 18 Oct 2025 06:56:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB67D28469F;
-	Sat, 18 Oct 2025 06:44:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 907FB284671;
+	Sat, 18 Oct 2025 06:56:25 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XeDqVOIj"
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="khOAbZZG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6401C230996;
-	Sat, 18 Oct 2025 06:43:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760769841; cv=fail; b=gl5f8epLtk2K2JEdWCACOcYTMZLS0vXOLR3B8IZggYsHGu0Au1uL2y9B4UIOMaPJJGjL6HzvCE0AuVj6U7PjlDXdoIxbzi8iw14VR5kLAMKFAwPWVkMJ0NIBWDIad52RKNe68r/3lCgOjR2LGeNyymy3l51Vrozaka3CrClVGQQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760769841; c=relaxed/simple;
-	bh=Npo1gXF7idyxuvfjEME3zQAljc8Or3vbgbz1VQrSyfg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=j3T+w5ffUBrpOXcwxJknlzsltNjatcfO0GzYQ6/1nZx1SePLeA79r3U0WZRmcxngqScpIFMuwQN8tEOtK/rUPsh1yMax99oVZCxTlF4BkG5HANStm0nmJJK9CVfbXOjBM6QDgrUdD92BZiqsf7rkxnFSgkpfClo3dfi4et7Wkb4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XeDqVOIj; arc=fail smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1760769840; x=1792305840;
-  h=date:from:to:cc:subject:message-id:references:
-   content-transfer-encoding:in-reply-to:mime-version;
-  bh=Npo1gXF7idyxuvfjEME3zQAljc8Or3vbgbz1VQrSyfg=;
-  b=XeDqVOIjnbzhPMXP1uWGKWVLuVqKlrPVaZFQBvRrTrvGasDQWKKcsVPF
-   OURV1YqNgXtFDM2olMbTJkCppEasOi2fvXyF+yJQE6fzYPv9hyGIRl79h
-   EIYvx9zB/1EGrrKSyYy2tl+4/LVm9k7vFYmTJyFcVy5O/Y2msDq52NASc
-   k1Dbj4R5oahncpQA7y8RNLJmtlk4nmWC6MF9BdP/eduxXn07/ORz2Dhvv
-   MrxC37UjBgpML0dsFRVn5HTcnnPDjhnQSDGCbAYAO91lN4VDj5mY7hY2j
-   5UDYOFTxxw12URa/quqhMEtaCmXeK5QfNo53B1YocdWwYg6x1FN/gSDn8
-   Q==;
-X-CSE-ConnectionGUID: qrJYIrh5QQujD+eNFJzpBg==
-X-CSE-MsgGUID: s8XnL5FASDiejr84RkS6og==
-X-IronPort-AV: E=McAfee;i="6800,10657,11585"; a="73260311"
-X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="73260311"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 23:43:59 -0700
-X-CSE-ConnectionGUID: NYCunhfUSXigW5af19iNMg==
-X-CSE-MsgGUID: YUVWddj4SEClqR85QE707Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,238,1754982000"; 
-   d="scan'208";a="213876917"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Oct 2025 23:43:58 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 17 Oct 2025 23:43:57 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27 via Frontend Transport; Fri, 17 Oct 2025 23:43:57 -0700
-Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.35) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.27; Fri, 17 Oct 2025 23:43:57 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Y2E485DYCvNWja7AjXSJ9lARor5AMriIaK2YRqQI2yw+Q/uwNH79jOXgYFyrmv9LqMWlr/YOtR7jsw5znowBSYYW0QD69au02EdhkB/gMJBZYlTUWfhFgGbnA1QTsAFKeoOv8CAHkLP5Sw6pHERcY6pPDeoq4DlLrZDw/lf8lhvLp/9oB3DAzerDM8f8SS8MALL3yPFtY+oyXyQ/5Uvp9hZejUpfMEoxfxJZMoXL9x6ajUo9IXTP8j2/BRG1xS6deXsMWUmgRdga89HjJ43F1lIuSDDInH1sWmHFcql4Kx0HDah1lMgf/iga+7Nq2kENYr7kxONdhmHTN5iUOBzIOA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=MwWvnnerEnOH555biMlHMrBLBOECCiLhQaTzqSLgBUg=;
- b=exhAjNzAgYO3cqgreNAKrUe/jmaiPQAfQSHlTVzj9o07MzJVyBA8IfNo8Cd32XO92WdcC+TE1sPCRRjnEIyrfznkQLLxe0ff+BsJoFWkgoOcoXbcxm2DPfokmOkLz6+WAkBywcRnBP0M0Td5dAnJpzZX8+U2n0hpmVmRWsR9HrYbSeEjq4E/8EJO50Bihk0qEtygrqH0qVHsF1nwQs1HU/CAiild130Rca9XOP4anXsLiuZgkGgcIk2RatxDRfvitG+lsGIzbqlwfPK4n8cm0l0JLGVodw0e1zteaOP9UGe12rpgxrvV62zwnO9IpwtS9LIHrxAnYbWMEi5jmIBkBg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from BL3PR11MB6508.namprd11.prod.outlook.com (2603:10b6:208:38f::5)
- by SA1PR11MB8396.namprd11.prod.outlook.com (2603:10b6:806:38d::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9182.20; Sat, 18 Oct
- 2025 06:43:55 +0000
-Received: from BL3PR11MB6508.namprd11.prod.outlook.com
- ([fe80::53c9:f6c2:ffa5:3cb5]) by BL3PR11MB6508.namprd11.prod.outlook.com
- ([fe80::53c9:f6c2:ffa5:3cb5%5]) with mapi id 15.20.9228.010; Sat, 18 Oct 2025
- 06:43:55 +0000
-Date: Fri, 17 Oct 2025 23:43:51 -0700
-From: Matthew Brost <matthew.brost@intel.com>
-To: Rob Herring <robh@kernel.org>
-CC: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Krzysztof Kozlowski
-	<krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Oded Gabbay
-	<ogabbay@kernel.org>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Sumit
- Semwal" <sumit.semwal@linaro.org>, Christian =?iso-8859-1?Q?K=F6nig?=
-	<christian.koenig@amd.com>, Robin Murphy <robin.murphy@arm.com>, Steven Price
-	<steven.price@arm.com>, Daniel Stone <daniel@fooishbar.org>, Frank Li
-	<Frank.li@nxp.com>, Sui Jingfeng <sui.jingfeng@linux.dev>,
-	<devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
-	<linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH v5 2/2] accel: Add Arm Ethos-U NPU driver
-Message-ID: <aPM3J2jZcct7ODIp@lstrano-desk.jf.intel.com>
-References: <20251016-ethos-v5-0-ba0aece0a006@kernel.org>
- <20251016-ethos-v5-2-ba0aece0a006@kernel.org>
- <aPHhXl6qdU1mMCNt@lstrano-desk.jf.intel.com>
- <20251017153746.GA1579747-robh@kernel.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251017153746.GA1579747-robh@kernel.org>
-X-ClientProxiedBy: MW4PR04CA0254.namprd04.prod.outlook.com
- (2603:10b6:303:88::19) To BL3PR11MB6508.namprd11.prod.outlook.com
- (2603:10b6:208:38f::5)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F130C9443;
+	Sat, 18 Oct 2025 06:56:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760770585; cv=none; b=AlysDMuc0f+AJzNhlqIod7lR8DZOb8beA3fYOSDqF508PY9BhXpldVoaPor2ILOq+r8l0BevUu4Ppde9EB7289UObjWOD8ui2IMhxDQjVsUfP+bjuYgv6uTIWXHM5tbHSbi1jj//iibTZRQW/FD4wTkYMzd/22Loe/bRWt2x8Co=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760770585; c=relaxed/simple;
+	bh=c1ptQO/wDNhy8QpedubZ4P1OADYmTNYa8Zd1XvteLfw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=jZBtrNlFvd10z18Bi0KDC+9rScY6ZhgKgb0AaoI+k28KoZp+nYwy8PKFnNrZcGMX/F3HPyG5T+6bMyA1z/hjfgTR5TwMyniJhoCJZ/EMiGO4s6xTjg/+81PDRL3k2UDtH0jpJ9J/Ic7epzgsxurnsn2PtK0WylEzoIbqALZqwuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=khOAbZZG; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59I35I4Z022886;
+	Sat, 18 Oct 2025 06:56:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	Mm46bb4aLD2RIkHI1oRk/3WfHz57MEpYyd/TPCauwHw=; b=khOAbZZGwlK9AM1l
+	KZbloGw4xZ8y5vtIs1qPgP7xIdYaiId4FFXmPoEUoN+LoEjwrO06DYQ975z39cCq
+	CVGLj51GEY4ubrcVhS4neZNqlrH5xnnT+gkq07aqR5QB31t5xR3EK91ihDnV0xh8
+	YCcy5oXHuOF2Cmswjd0P0zexDy9OGMJu6T6tskHf7XnmE5Xynsh1YXqgKuSIWzn+
+	J57ucD4oA8/JhEoQB+IqmMHGSNLLYPf9Kklib9dE0t31wxE+Yc4EdCEI4ipsphnh
+	UouELSWtgBPyajTGiP5D50TH5o9QWeyxDGwbnurDhEpwzRYKqEvPtR2e/tllhbaj
+	2C4mqw==
+Received: from nalasppmta03.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v08p8jhe-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 18 Oct 2025 06:56:06 +0000 (GMT)
+Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
+	by NALASPPMTA03.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 59I6u5mT013836
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Sat, 18 Oct 2025 06:56:05 GMT
+Received: from [10.216.38.120] (10.80.80.8) by nalasex01a.na.qualcomm.com
+ (10.47.209.196) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.24; Fri, 17 Oct
+ 2025 23:56:01 -0700
+Message-ID: <86a8b2ab-2e72-fcdb-6241-6b5d0d97ecf5@quicinc.com>
+Date: Sat, 18 Oct 2025 12:25:58 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL3PR11MB6508:EE_|SA1PR11MB8396:EE_
-X-MS-Office365-Filtering-Correlation-Id: 454d8b1e-5a97-4d7c-d891-08de0e11b528
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?U3gzc21jdE5NSm5tN2pSdVFoUU1QN21rdzZuM2FrTTJOR01mdTIwWmg2NC9Y?=
- =?utf-8?B?dEhhem94VGNIRUVOZkt2b05WTmYwZyt6TURlNFZreUxkdnpWaWMxTG94cnBH?=
- =?utf-8?B?eEJEdTc4UW9hRFdwM2dGVit5elkyMDRuMnAvZTJ3dnJ6eEl3enJuN0Y2OUZO?=
- =?utf-8?B?dE8xL2I5ZUhVOTFGQno4RXdXRmc2d3pYRXI4YjhKM3oxK01mOFlKWFY5Rlh3?=
- =?utf-8?B?S1ZZRnZiWEFRMFk0dGF0VjhMcmdDNjg4L1p2SXdzRDROMUVDSmdBUFJ5RGVK?=
- =?utf-8?B?c3dwZ1o4TmxqRG5nZDYvOHdFTkExejRoeGpJNlpOcTd0ZDQ4KzVBZ29pMDN6?=
- =?utf-8?B?dlVCQ25zTEovZVVaNnRaMENiZmw4MHhnbHBnN2JEWGpNbmxjRUdQdDkwdmRq?=
- =?utf-8?B?cWc0NHBKU3Z3UkV6alBsdlRVRXhVdCtqa0lSUk1qOGVTRVBpZzN6MDdMeFYw?=
- =?utf-8?B?VDRTZkp2U2xPUkh4azhld0xrTC9GKzRPSXEwYmt4TTkvZTZqeGEvVVR6RDhq?=
- =?utf-8?B?YUdkUlJnVWFrb2RUd2M0VytSQmZIZW96YjVmOWI4c0t2VXNybGY1ZFJJVCtv?=
- =?utf-8?B?YmZ4V2tZMnA1bEZMd0E5VWd3SlpJM3FodWFwNG9MZS9kUnIyamRBS3ZlSGl2?=
- =?utf-8?B?dERsd29ON2NHSm5mM3o0U1lLR0VYT3pVZDdyVmFWa2pVYVhlUi82UkZ2V3RT?=
- =?utf-8?B?Vi9pbWVWRW5UVXN5VVNNYU8wd2VybElVL05iTWdIU05BVUl6V0tCWVpGZEh5?=
- =?utf-8?B?RmJZTWZEQ2E5YTJLS2ZSQTNVSTdmZURDYnRQaWlJM0ZuRytGRjFNSFdpUHJ3?=
- =?utf-8?B?TzY0akpzcTFEYUw5V0g2RWNNQW1TSklTYS9GY05VaDJqaUllbkxBZDJIZEFv?=
- =?utf-8?B?eTdDVktIeXIxT0F5ODFyaXB6UVE4eGthMnhBaE1veFIyb1llbU1mQWtQRlJL?=
- =?utf-8?B?Y05KQ2p1TjhYelgydW5MWmZzL0xHZkRkUWZPUUpkSDhaU3BzOVNsK0NQWjZJ?=
- =?utf-8?B?VlBBdXd0Rzdrb0JtaW5YUjRYWllHbDE2TTZoQlR5dmpScHVpaXZ2TzhzYTR4?=
- =?utf-8?B?Sjd4VElhZEMvVVZkdy9MUUNEWlVWaTZGRWlQY1liTUVPekR2RjF6Sm45SjIw?=
- =?utf-8?B?clZDcDNDT3hKV1R3ME1hMHZEVWMzRmVxTy9zYm5LaHRlQ1lKQVlqZjRhNDlB?=
- =?utf-8?B?Ujd6UnRtWXdxTTJQRm42TmNRbnNMU1hIcUFWSTNyY3ZnU1hFeFoxTlhoL241?=
- =?utf-8?B?OVFqa2t2ZDUzVUYyWFVoMjgzdlpQd21YaDk3MjltYnJsMU1nTS9mK1dsZitr?=
- =?utf-8?B?dVZSZjBzYlZCZnl2b1F4cUhYZ0J3cUErNnNwZ211V3NXYTBURDBLaVJOd3pp?=
- =?utf-8?B?Y1JKWVJmUXJ0d0h6cU1Pb2NEYkpYTnZEdkl2bHdIUE1vcnJ1cGxReE0wL0sy?=
- =?utf-8?B?NUowWFA2bk9NVUJhS2JEMExlQmhvK1VnQ3ZVTnZidEE4a01wMWJIRW52ZnQ3?=
- =?utf-8?B?OTJWai9uaTQ5Qlc5YlRVMVBMR1pOUzB0L0dKa0kyTlFMdERMSjJzREowZmtG?=
- =?utf-8?B?RmpFcXdEWU41ZDdlU3RldHN2bTVybldMWjhTbG1CSFJhZitkTElEWVZDZDEx?=
- =?utf-8?B?c1FzYU8xOFk1RkhFbTJubHh6Zkh5bC9LQ3RPQjgzeVZia1BVRkNrQXIyNGtS?=
- =?utf-8?B?N1RNQmcvWnBHREFtNUhRdWs1aUxvZ0NaVkNZU3UxclJlNWZYUGgwSHJlenk5?=
- =?utf-8?B?Zm93Q0NwTE9USnJkbzY1RC9oVjl3T3FyNHFsa0V5UHhFc2lXUEx1d2k3a2o2?=
- =?utf-8?B?MUlBVEgvUmdpOXYzNS8wUWFMcXdsa21JTUVnaENuNUdzV2JHRUNvOG5KQXN0?=
- =?utf-8?B?U1ZyRDhjSXVYMUJkNFEzWmcycVFGV1ZJREx1Y045bTNYQ2tRekVQdXlaOEVH?=
- =?utf-8?Q?1enYdlQxbHlQQKggiiz//G3fYf+deTAB?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BL3PR11MB6508.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?U0J0V2FjSll5T0thN0ppVWNXZGFOQ0NSMGwvb01wTm5hc1YyNFhGMElXcmdE?=
- =?utf-8?B?eStvbXdsbklnczh5SHJjMm50RDU0QmVCS05LRUExWGYxWDdLN3NMYjN2Y2RY?=
- =?utf-8?B?OGxTZ05Cd3JBdDdkbU5FM2t4Y2ZRaTA3Mi9tYXoxNFo0ZTlrbVMwRFd6RDZw?=
- =?utf-8?B?elNuZWorRFlTWUFSM3lCYmhpZ1NwcUxmRDRyUVB6N0VuUFN0ZDVadjFJYnhz?=
- =?utf-8?B?bWs0RVlXdXJNdFBRTERQS05UVmpGcjVVOEx4dXlQV1JPVEh6U3VSZWMxRXcv?=
- =?utf-8?B?QmFtY1hFMzRsaVUvZnIxRExEVDd3UEw4K2ZGU2c0U2NacGhLaUd5ZVBqMmZP?=
- =?utf-8?B?MHc2REsyNkU1WnVKMDk3MVhicXZ2b2o4aEtGeXR6WjZNK2xTcjNKSit0OE1F?=
- =?utf-8?B?RGJRTkJVWnFTVGpPNlo4SDZuT2RlV1Z2UVgwY2p3MC9kNHNvcnlEMS9xeEJa?=
- =?utf-8?B?NE5NMVV2c011SlR5S1B6aUNuVklyYXE4dlcrRHdwWFB6QW5kVFpjcFFzZW0r?=
- =?utf-8?B?M0JUVHVhY29xOGI4NTJXVGp2UWtwcDJtNVdqb1llRzB4cmUybXh3SHB2N1lQ?=
- =?utf-8?B?MlFoRXlmaEd3ZWMrQ25RT1JGdGl2WWwrdDdkbWEzVTU5NERPMkZGQjhRUmdH?=
- =?utf-8?B?OUVaSGNSakxTN0JPUytjZVV5SWtqV05mWXJYOGxkcDFhNzBwRFAzNzRGWXNI?=
- =?utf-8?B?K0NSOUNpb29iUkJYanFBaWk4djVraVZ0TVdmUnJ2djJJTkdNenJRa2FhQk1o?=
- =?utf-8?B?QW5xSDNnaWNKQnlyVkxQNXNEclNZYUhtNFhNd1ZtMmRlQXFZSnNRd2p3dDlR?=
- =?utf-8?B?VXp6bGJMWkE2cnhQdG8wQnFmSFllbXRSOVJYaHZkZ3BqTGdxMXBvdmVQMVVy?=
- =?utf-8?B?YmYwRWF5ODdvQmdteDdQUERoU01MSWVqSldkdUkyQUptWUM5QXA2NzRoNFho?=
- =?utf-8?B?UVllZDV4Qkt4Ujk0b0hzeDRKYkZlK08zWEFZTFNzaW13WDJ0NFZBeWMwbE5V?=
- =?utf-8?B?bWZ4V011d3IyV1RBT0wvT0tTVS9hTjVCOC8vUElVZDRWZmI5SEdmZlJLU21n?=
- =?utf-8?B?b1dSbWF1QXY2aHBTMHlXL04xNWx1UkluSW90NHBhTmlKRTRDMGoybkYzQmFs?=
- =?utf-8?B?enhuczdlOElFQ2t2Ry8xb0ttRTRGbE1tQ3BQWmd3YlhBR3JXbUl1VmJlNkto?=
- =?utf-8?B?Q00yR25RaHJBamRBcmdUb29OakZ6Q2Z5TDlCa1RaSEFNMldGellNSDRQREZ0?=
- =?utf-8?B?a1Q3V0xBc3RhTHFqMFY1WFlwU0JaNzAyVWpzdTJFZ0tuN2lMQUVQU2h1UUNC?=
- =?utf-8?B?cW1WZWNIWnY2ckVpQmM4V01jUGlsb3lNRWtjeWJ1WW5hN1FZNEI5bmhRY3ZV?=
- =?utf-8?B?aTNoZUFrUEhkS0d1d3haSktVV1JIMXFaZngxTlB5b1o5ek1nZTkzS3l1THkx?=
- =?utf-8?B?Q1ZHdlJTeUxRODMrb3pXK1k0RENFdE5Fa21nVVVwMURIQk9pTFpxRzczVHhF?=
- =?utf-8?B?dGwwWWlEb3VzcDEvZjM5SHArTmxlZVFYK0RqaWhWMmw4YzFkSlBHVEtJeEdH?=
- =?utf-8?B?b2cyUUt0MjJCOVhLcHB3T0ZDd1lPRUxVVE0zS2U2THAzUStnWW9qbVRPcjB5?=
- =?utf-8?B?WllXVjBEUUhweDlDaHpNaVA0Mkp3ZVVWSGhrL0dxOHExS0pTTzRJbDVidWR2?=
- =?utf-8?B?TjBhUkhJUWxMRkp1cGJaR1VwNmVvNVJQN1hGTnk3RldlSSthVE43d3Yybzd5?=
- =?utf-8?B?ODJzK3hpb0oyM0V3eVVmbmtPUThaSFpRMTV4UENYSGpJOXAwbDlwT2ZSWG1i?=
- =?utf-8?B?djVRM29waWZyZmo5R3JUNG1WajVUREJPalN0KzZuZHEwZUtQN0JzR3ZKS2FU?=
- =?utf-8?B?QzM2OUx5NWtrZ0g5eWVRSlFKNm9zLzdaR1M5SHJERzFQKzhreXE5ckFMeGRH?=
- =?utf-8?B?M1Iya0ZHUmJPSHB2QlJXWWs3Q2pHVFZTaUdQWnJrY0Y1cWtYU0RFbGF4Mk5t?=
- =?utf-8?B?VXMrY2R0NkJJTm9aUTVma1QreGRWS2tRdnovRWhzbEFvVGg3aEVpUTFwUW1T?=
- =?utf-8?B?dktMalA5ZTZkNlMzZ0wrMVFDbkRMcVlkSURhWnZkc1ppM0REODdWZGpsRGFG?=
- =?utf-8?B?V0ZCUXZ6TFc0K25FVGp6V2JDc0RDRlB2WHhLQWsvN1paSmo2TEd4Zktqam5C?=
- =?utf-8?B?Unc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 454d8b1e-5a97-4d7c-d891-08de0e11b528
-X-MS-Exchange-CrossTenant-AuthSource: BL3PR11MB6508.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Oct 2025 06:43:55.1859
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: wdYheQs6TdopY72aE8Y7KfQxGwwCthtdB5mHGwydmwfgg7313Y8d+V2/CX8yYQWRx/tKoCdp6tnZATio0ruyaA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8396
-X-OriginatorOrg: intel.com
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.8.0
+Subject: Re: [PATCH 8/8] media: iris: Add platform data for kaanapali
+Content-Language: en-US
+To: Bryan O'Donoghue <bod@kernel.org>,
+        Vikash Garodia
+	<vikash.garodia@oss.qualcomm.com>,
+        Dikshita Agarwal
+	<dikshita.agarwal@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+CC: <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+References: <20250925-knp_video-v1-0-e323c0b3c0cd@oss.qualcomm.com>
+ <4-Uqk007ML-Q9NW-SjN7t6kX_tmucJiWOgoCTosvL2KPNWFwQzquB-VcPUMtnHTnTIMdKSMyg7JQNpOUthu9FQ==@protonmail.internalid>
+ <20250925-knp_video-v1-8-e323c0b3c0cd@oss.qualcomm.com>
+ <a562c510-9c08-4acd-afe8-efb8aaceec66@kernel.org>
+From: Vishnu Reddy <quic_bvisredd@quicinc.com>
+In-Reply-To: <a562c510-9c08-4acd-afe8-efb8aaceec66@kernel.org>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01a.na.qualcomm.com (10.47.209.196)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAwMCBTYWx0ZWRfXzkyAUe7fcGix
+ /Dkke+OXSyvn0zZiUk4H6YQdV+ern1eAiUT6ttlGySa/mPyj4IEWhu4XsxC7xtQXP39hnZEetuF
+ zXAXWDhLcttKRhSn6m5idy+cOdV1xEsjZMfPRhBVPW9MiKEMLNoP2oM8VI2q8hdkofMVhyXOaPs
+ 2wJp2Kf7Nf0Lydv/eiKUgiIlpQIVCWzIJgIwkhtfjXNJaGo62g3RWLcKCFjpsMhHtiTFuARd8yN
+ OQz6vsyrAX796FECIYxuOsxlDpe9/IZpnfyrA6RcGxOWWthW3IwDLOeUWazNCRWapWv/gSwNznJ
+ Ag84/4FaGFuj5obpbGn5LWXY5MrcZIRsA9cRjbzLwIdigKOMqjJyugStE7PqPdhXlseEWQfd4Q3
+ fdFgd5m4mbTfsDVNxdRsx9hBspTBOw==
+X-Proofpoint-GUID: vAJpxSXWA1eyXyjZGJtl_G2HEB0VKYrh
+X-Authority-Analysis: v=2.4 cv=Up1u9uwB c=1 sm=1 tr=0 ts=68f33a06 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8
+ a=YbQGGiGDzNgachNCrOIA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=TjNXssC_j7lpFel5tvFf:22 a=cPQSjfK2_nFv0Q5t_7PE:22
+X-Proofpoint-ORIG-GUID: vAJpxSXWA1eyXyjZGJtl_G2HEB0VKYrh
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-18_02,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ lowpriorityscore=0 adultscore=0 suspectscore=0 malwarescore=0 clxscore=1015
+ impostorscore=0 bulkscore=0 priorityscore=1501 spamscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180000
 
-On Fri, Oct 17, 2025 at 10:37:46AM -0500, Rob Herring wrote:
-> On Thu, Oct 16, 2025 at 11:25:34PM -0700, Matthew Brost wrote:
-> > On Thu, Oct 16, 2025 at 04:06:05PM -0500, Rob Herring (Arm) wrote:
-> > > Add a driver for Arm Ethos-U65/U85 NPUs. The Ethos-U NPU has a
-> > > relatively simple interface with single command stream to describe
-> > > buffers, operation settings, and network operations. It supports up to 8
-> > > memory regions (though no h/w bounds on a region). The Ethos NPUs
-> > > are designed to use an SRAM for scratch memory. Region 2 is reserved
-> > > for SRAM (like the downstream driver stack and compiler). Userspace
-> > > doesn't need access to the SRAM.
-> 
-> Thanks for the review.
-> 
-> [...]
-> 
-> > > +static struct dma_fence *ethosu_job_run(struct drm_sched_job *sched_job)
-> > > +{
-> > > +	struct ethosu_job *job = to_ethosu_job(sched_job);
-> > > +	struct ethosu_device *dev = job->dev;
-> > > +	struct dma_fence *fence = NULL;
-> > > +	int ret;
-> > > +
-> > > +	if (unlikely(job->base.s_fence->finished.error))
-> > > +		return NULL;
-> > > +
-> > > +	fence = ethosu_fence_create(dev);
-> > 
-> > Another reclaim issue: ethosu_fence_create allocates memory using
-> > GFP_KERNEL. Since we're already in the DMA fence signaling path
-> > (reclaim), this can lead to a deadlock.
-> > 
-> > Without too much thought, you likely want to move this allocation to
-> > ethosu_job_do_push, but before taking dev->sched_lock or calling
-> > drm_sched_job_arm.
-> > 
-> > We really should fix the DRM scheduler work queue to be tainted with
-> > reclaim. If I recall correctly, we'd need to update the work queue
-> > layer. Let me look into that—I've seen this type of bug several times,
-> > and lockdep should be able to catch it.
-> 
-> Likely the rocket driver suffers from the same issues...
-> 
 
-I am not surprised by this statement.
 
-> > 
-> > > +	if (IS_ERR(fence))
-> > > +		return fence;
-> > > +
-> > > +	if (job->done_fence)
-> > > +		dma_fence_put(job->done_fence);
-> > > +	job->done_fence = dma_fence_get(fence);
-> > > +
-> > > +	ret = pm_runtime_get_sync(dev->base.dev);
-> > 
-> > I haven't looked at your PM design, but this generally looks quite
-> > dangerous with respect to reclaim. For example, if your PM resume paths
-> > allocate memory or take locks that allocate memory underneath, you're
-> > likely to run into issues.
-> > 
-> > A better approach would be to attach a PM reference to your job upon
-> > creation and release it upon job destruction. That would be safer and
-> > save you headaches in the long run.
+On 10/2/2025 8:59 PM, Bryan O'Donoghue wrote:
+> On 25/09/2025 00:14, Vikash Garodia wrote:
+>> Add support for the kaanapali platform by re-using the SM8550
+>> definitions and using the vpu4 ops.
+>> Move the configurations that differs in a per-SoC platform
+>> header, that will contain SoC specific data.
+>>
+>> Co-developed-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
+>> Signed-off-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
+>> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
+>> ---
+>>   .../platform/qcom/iris/iris_platform_common.h      |  1 +
+>>   .../media/platform/qcom/iris/iris_platform_gen2.c  | 86 
+>> ++++++++++++++++++++++
+>>   .../platform/qcom/iris/iris_platform_kaanapali.h   | 63 
+>> ++++++++++++++++
+>>   drivers/media/platform/qcom/iris/iris_probe.c      |  4 +
+>>   4 files changed, 154 insertions(+)
+>>
+>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_common.h 
+>> b/drivers/media/platform/qcom/iris/iris_platform_common.h
+>> index 
+>> d6d4a9fdfc189797f903dfeb56d931741b405ee2..465943db0c6671e9b564b40e31ce6ba2d645a84c 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_platform_common.h
+>> +++ b/drivers/media/platform/qcom/iris/iris_platform_common.h
+>> @@ -46,6 +46,7 @@ extern struct iris_platform_data sm8250_data;
+>>   extern struct iris_platform_data sm8550_data;
+>>   extern struct iris_platform_data sm8650_data;
+>>   extern struct iris_platform_data sm8750_data;
+>> +extern struct iris_platform_data kaanapali_data;
+>>
+>>   enum platform_clk_type {
+>>       IRIS_AXI_CLK, /* AXI0 in case of platforms with multiple AXI 
+>> clocks */
+>> diff --git a/drivers/media/platform/qcom/iris/iris_platform_gen2.c 
+>> b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>> index 
+>> 00c6b9021b98aac80612b1bb9734c8dac8146bd9..142b7d84ee00a9b65420158ac1f168515b56f4a3 100644
+>> --- a/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>> +++ b/drivers/media/platform/qcom/iris/iris_platform_gen2.c
+>> @@ -15,6 +15,7 @@
+>>   #include "iris_platform_qcs8300.h"
+>>   #include "iris_platform_sm8650.h"
+>>   #include "iris_platform_sm8750.h"
+>> +#include "iris_platform_kaanapali.h"
+>>
+>>   #define VIDEO_ARCH_LX 1
+>>   #define BITRATE_MAX                245000000
+>> @@ -1095,3 +1096,88 @@ struct iris_platform_data qcs8300_data = {
+>>       .enc_op_int_buf_tbl = sm8550_enc_op_int_buf_tbl,
+>>       .enc_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_enc_op_int_buf_tbl),
+>>   };
+>> +
+>> +struct iris_platform_data kaanapali_data = {
+>> +    .get_instance = iris_hfi_gen2_get_instance,
+>> +    .init_hfi_command_ops = iris_hfi_gen2_command_ops_init,
+>> +    .init_hfi_response_ops = iris_hfi_gen2_response_ops_init,
+>> +    .get_vpu_buffer_size = iris_vpu4x_buf_size,
+>> +    .vpu_ops = &iris_vpu4x_ops,
+>> +    .set_preset_registers = iris_set_sm8550_preset_registers,
+>> +    .icc_tbl = sm8550_icc_table,
+>> +    .icc_tbl_size = ARRAY_SIZE(sm8550_icc_table),
+>> +    .clk_rst_tbl = kaanapali_clk_reset_table,
+>> +    .clk_rst_tbl_size = ARRAY_SIZE(kaanapali_clk_reset_table),
+>> +    .bw_tbl_dec = sm8550_bw_table_dec,
+>> +    .bw_tbl_dec_size = ARRAY_SIZE(sm8550_bw_table_dec),
+>> +    .pmdomain_tbl = kaanapali_pmdomain_table,
+>> +    .pmdomain_tbl_size = ARRAY_SIZE(kaanapali_pmdomain_table),
+>> +    .opp_pd_tbl = sm8550_opp_pd_table,
+>> +    .opp_pd_tbl_size = ARRAY_SIZE(sm8550_opp_pd_table),
+>> +    .clk_tbl = kaanapali_clk_table,
+>> +    .clk_tbl_size = ARRAY_SIZE(kaanapali_clk_table),
+>> +    .opp_clk_tbl = kaanapali_opp_clk_table,
+>> +    /* Upper bound of DMA address range */
+>> +    .dma_mask = 0xe0000000 - 1,
+>> +    .fwname = "qcom/vpu/vpu40_p2.mbn",
+>> +    .pas_id = IRIS_PAS_ID,
+>> +    .inst_caps = &platform_inst_cap_sm8550,
+>> +    .inst_fw_caps_dec = inst_fw_cap_sm8550_dec,
+>> +    .inst_fw_caps_dec_size = ARRAY_SIZE(inst_fw_cap_sm8550_dec),
+>> +    .inst_fw_caps_enc = inst_fw_cap_sm8550_enc,
+>> +    .inst_fw_caps_enc_size = ARRAY_SIZE(inst_fw_cap_sm8550_enc),
+>> +    .tz_cp_config_data = tz_cp_config_kaanapali,
+>> +    .tz_cp_config_data_size = ARRAY_SIZE(tz_cp_config_kaanapali),
+>> +    .core_arch = VIDEO_ARCH_LX,
+>> +    .hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
+>> +    .ubwc_config = &ubwc_config_sm8550,
+>> +    .num_vpp_pipe = 2,
+>> +    .max_session_count = 16,
+>> +    .max_core_mbpf = NUM_MBS_8K * 2,
+>> +    .max_core_mbps = ((8192 * 4352) / 256) * 60,
+>> +    .dec_input_config_params_default =
+>> +        sm8550_vdec_input_config_params_default,
+>> +    .dec_input_config_params_default_size =
+>> +        ARRAY_SIZE(sm8550_vdec_input_config_params_default),
+>> +    .dec_input_config_params_hevc =
+>> +        sm8550_vdec_input_config_param_hevc,
+>> +    .dec_input_config_params_hevc_size =
+>> +        ARRAY_SIZE(sm8550_vdec_input_config_param_hevc),
+>> +    .dec_input_config_params_vp9 =
+>> +        sm8550_vdec_input_config_param_vp9,
+>> +    .dec_input_config_params_vp9_size =
+>> +        ARRAY_SIZE(sm8550_vdec_input_config_param_vp9),
+>> +    .dec_output_config_params =
+>> +        sm8550_vdec_output_config_params,
+>> +    .dec_output_config_params_size =
+>> +        ARRAY_SIZE(sm8550_vdec_output_config_params),
+>> +
+>> +    .enc_input_config_params =
+>> +        sm8550_venc_input_config_params,
+>> +    .enc_input_config_params_size =
+>> +        ARRAY_SIZE(sm8550_venc_input_config_params),
+>> +    .enc_output_config_params =
+>> +        sm8550_venc_output_config_params,
+>> +    .enc_output_config_params_size =
+>> +        ARRAY_SIZE(sm8550_venc_output_config_params),
+>> +
+>> +    .dec_input_prop = sm8550_vdec_subscribe_input_properties,
+>> +    .dec_input_prop_size = 
+>> ARRAY_SIZE(sm8550_vdec_subscribe_input_properties),
+>> +    .dec_output_prop_avc = sm8550_vdec_subscribe_output_properties_avc,
+>> +    .dec_output_prop_avc_size =
+>> +        ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_avc),
+>> +    .dec_output_prop_hevc = 
+>> sm8550_vdec_subscribe_output_properties_hevc,
+>> +    .dec_output_prop_hevc_size =
+>> +        ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_hevc),
+>> +    .dec_output_prop_vp9 = sm8550_vdec_subscribe_output_properties_vp9,
+>> +    .dec_output_prop_vp9_size =
+>> +        ARRAY_SIZE(sm8550_vdec_subscribe_output_properties_vp9),
+>> +
+>> +    .dec_ip_int_buf_tbl = sm8550_dec_ip_int_buf_tbl,
+>> +    .dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_ip_int_buf_tbl),
+>> +    .dec_op_int_buf_tbl = sm8550_dec_op_int_buf_tbl,
+>> +    .dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_dec_op_int_buf_tbl),
+>> +
+>> +    .enc_op_int_buf_tbl = sm8550_enc_op_int_buf_tbl,
+>> +    .enc_op_int_buf_tbl_size = ARRAY_SIZE(sm8550_enc_op_int_buf_tbl),
+>> +};
+>> diff --git 
+>> a/drivers/media/platform/qcom/iris/iris_platform_kaanapali.h 
+>> b/drivers/media/platform/qcom/iris/iris_platform_kaanapali.h
+>> new file mode 100644
+>> index 
+>> 0000000000000000000000000000000000000000..247fb9d7cb632d2e9a1e9832d087cb03ac9b7cf3
+>> --- /dev/null
+>> +++ b/drivers/media/platform/qcom/iris/iris_platform_kaanapali.h
+>> @@ -0,0 +1,63 @@
+>> +/* SPDX-License-Identifier: GPL-2.0-only */
+>> +/*
+>> + * Copyright (c) 2025 Qualcomm Innovation Center, Inc. All rights 
+>> reserved.
+>> + */
+>> +
+>> +#ifndef __IRIS_PLATFORM_KAANAPALI_H__
+>> +#define __IRIS_PLATFORM_KAANAPALI_H__
+>> +
+>> +#define VIDEO_REGION_VM0_SECURE_NP_ID        1
+>> +#define VIDEO_REGION_VM0_NONSECURE_NP_ID    5
+>> +
+>> +static const char *const kaanapali_clk_reset_table[] = {
+>> +    "bus0",
+>> +    "bus1",
+>> +    "core_freerun_reset",
+>> +    "vcodec0_core_freerun_reset",
+>> +};
+>> +
+>> +static const char *const kaanapali_pmdomain_table[] = {
+>> +    "venus",
+>> +    "vcodec0",
+>> +    "vpp0",
+>> +    "vpp1",
+>> +    "apv",
+>> +};
+>> +
+>> +static const struct platform_clk_data kaanapali_clk_table[] = {
+>> +    { IRIS_AXI_CLK, "iface" },
+>> +    { IRIS_CTRL_CLK, "core" },
+>> +    { IRIS_HW_CLK, "vcodec0_core" },
+>> +    { IRIS_AXI1_CLK, "iface1" },
+>> +    { IRIS_CTRL_FREERUN_CLK, "core_freerun" },
+>> +    { IRIS_HW_FREERUN_CLK, "vcodec0_core_freerun" },
+>> +    { IRIS_BSE_HW_CLK, "vcodec_bse" },
+>> +    { IRIS_VPP0_HW_CLK, "vcodec_vpp0" },
+>> +    { IRIS_VPP1_HW_CLK, "vcodec_vpp1" },
+>> +    { IRIS_APV_HW_CLK, "vcodec_apv" },
+>> +};
+>> +
+>> +static const char *const kaanapali_opp_clk_table[] = {
+>> +    "vcodec0_core",
+>> +    "vcodec_apv",
+>> +    "vcodec_bse",
+>> +    "core",
+>> +    NULL,
+>> +};
 > 
-> Our PM is nothing more than clock enable/disable and register init. 
+> Why are mxc and mmcx absett from this table ?
 > 
-> If the runtime PM API doesn't work and needs special driver wrappers, 
-> then I'm inclined to just not use it and manage clocks directly (as 
-> that's all it is doing).
-> 
+> ---
+> bod
 
-Yes, then you’re probably fine. More complex drivers can do all sorts of
-things during a PM wake, which is why PM wakes should generally be the
-outermost layer. I still suggest, to future-proof your code, that you
-move the PM reference to an outer layer.
+mxc and mmcx OPP power domains listed in opp_pd_table 
+(sm8550_opp_pd_table in iris_platform_gen2.c). This opp_pd_tbl list 
+attached with PD_FLAG_DEV_LINK_ON | PD_FLAG_REQUIRED_OPP when calling 
+devm_pm_domain_attach_list, while pmdomain_tbl list will be attached 
+with PD_FLAG_NO_DEV_LINK flag.
 
-> > 
-> > This is what we do in Xe [1] [2].
-> > 
-> > Also, in general, this driver has been reviewed (RB’d), but it's not
-> > great that I spotted numerous issues within just five minutes. I suggest
-> > taking a step back and thoroughly evaluating everything this driver is
-> > doing.
-> 
-> Well, if it is hard to get simple drivers right, then it's a problem 
-> with the subsystem APIs IMO.
-> 
-
-Yes, agreed. We should have assertions and lockdep annotations in place
-to catch driver-side misuses. This is the second driver I’ve randomly
-looked at over the past year that has broken DMA fencing and reclaim
-rules. I’ll take an action item to fix this in the DRM scheduler, but
-I’m afraid I’ll likely break multiple drivers in the process as misuess
-/ lockdep will complain. 
-
-Matt
-
-> Rob
+Regards,
+Vishnu Reddy
 
