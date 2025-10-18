@@ -1,277 +1,179 @@
-Return-Path: <linux-media+bounces-44953-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44954-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5A65BED35C
-	for <lists+linux-media@lfdr.de>; Sat, 18 Oct 2025 18:03:37 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E49BED7D9
+	for <lists+linux-media@lfdr.de>; Sat, 18 Oct 2025 20:34:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5CF5D189B896
-	for <lists+linux-media@lfdr.de>; Sat, 18 Oct 2025 16:04:01 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E36814EBFDF
+	for <lists+linux-media@lfdr.de>; Sat, 18 Oct 2025 18:34:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9949B23CEF9;
-	Sat, 18 Oct 2025 16:03:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8CB32777FD;
+	Sat, 18 Oct 2025 18:34:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="QKF7Si/o"
+	dkim=pass (2048-bit key) header.d=psu.edu header.i=@psu.edu header.b="ecIYSIib"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010038.outbound.protection.outlook.com [52.101.201.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB170217F33
-	for <linux-media@vger.kernel.org>; Sat, 18 Oct 2025 16:03:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760803410; cv=none; b=eQ0RHb592SpUqQ4/VND4aROw39snKC1ItzxjKlAEgd/9Jw3B1/perge/XnpuuUGCBAocfzSaBJRtY/tIXNEIGrUFtbO25HDoyvz2Mlk1MuXSSM7NKXoK6WGJO83Z3Kv9/uAZeHPun/lNtVNV0RPrEojjgRkqb4Kl7TZ+Q/VCmoQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760803410; c=relaxed/simple;
-	bh=AqHCcWojn351gM4lS2LpJMueGLu6kVYRaIe4ZTtmHj0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=s0WMYge2H8nwx4anMCN10DegUxjQF23+hh1If7zx3dgrIiuJ2DiBnhOdTgj0K+bbPN0LAJQcbDiyUlOrqWSRf2AiSKI+7VPNz6PXPuSDRSoKwAU/XsOLoN0cTjp1EeI+j5IEjFmiv+s1D2yY3EtGKAMudf/QI0pogUTu2dNRQm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=QKF7Si/o; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b3dbf11fa9eso556069366b.0
-        for <linux-media@vger.kernel.org>; Sat, 18 Oct 2025 09:03:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760803406; x=1761408206; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=3PDE1i70uMuyHnvAFVWfjyIRl/K/1UfDOKuhRPGumqU=;
-        b=QKF7Si/odLOpgeq3BmCPpvM/a9SPbdeTblMmb4wrYyrJTMY+s5Dtqqj5zqpp8bxA/c
-         g1JqMusvRWHMxG8omKmad7fwld03Sfg5fFttIhDE65K2q16NQI9QMpLIX51oXms7/HS6
-         lnyCgNaDeVNWI6Od9CqKFuC6vLVZENC3Bm2RQIbZIVscpt5dy2zBRM8oTtMjG+99cZAw
-         WoyOJXx3u6vrWVQyya40gqOsJO8rbD01HrOVGspPOk5S8vYqP837Yl2oz4trgIL+0y34
-         Q4XAGREjugN6Q3FTNkcvLVybJODK15LwDN5PZWzu1KOGxSK+bNIvXsTzy4a8XY/EIh2h
-         7SOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760803406; x=1761408206;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=3PDE1i70uMuyHnvAFVWfjyIRl/K/1UfDOKuhRPGumqU=;
-        b=gm+zcWBAIw5o8EK4nD6oxvQvx29zKI3OKLU+PQcj27cMZU3QcDGTQUQ4bQTZfxfpcT
-         k0q8FzhDYLTINT71dNPE9DFviixY7K8uOVQfdY8IpLE2aATTVSoAbu5eUdPD2CBk7VS4
-         WCbHEDOAfYASRDMcFOpE16e4XfP3tR0xTNlKvD30O2ozPTFSJ2A+nxnG4vsfTZzF/uXo
-         wAIOcEy3t6kYv/B6qmeSPY1yDZGHmizVJwNaLuXsXUCMbMigvwcJkyDaOkDpD7OYOezT
-         URGjyXik/5wEGScRa/CBeAhC0zUViYkJoLWqDgXzDa7Z1OXZvBtSKXtGaKaI/9is/iaw
-         mS+g==
-X-Forwarded-Encrypted: i=1; AJvYcCXJQdqz6ogr1f1eXKTNLKHpKxxPO+6xLha/1jVcC4pska9jTS75QxrjFzDWx9OthlCu34iQ4BCk4uQREA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvMaT8AFAIs5+5gHxxUohqFz2EKphQlCRfkikky8pfZQVU5nWg
-	nxuS6KQEgfAqBxTAAX0zlfXNxaiWt4bK0W9pV5DoIUQ1e2Xoc6F/TbCoJTSJgWe22goLNgZN7UB
-	eWxR4J2zF3Q213jdjoKguQBut7VmZkDBuQAMyUTpgWQ==
-X-Gm-Gg: ASbGnctwg4WY1bOU/iYsCUACvG2EDvfEXkPl5mgWB2zbpyTfzgry27OjzdOW7wSuTOv
-	JZe8mDmyh9cE/S/sHYHwto5fS4HiC2dn+ev6naM1r6P/4yZ/tBVGU5Wnykw5nyXAqF3zKzRHSGj
-	jd3cq2ZOKb/oceTt2OaoTZHUosQgNJGvmYLRx4+xbCZsy0cMQ1uKFzJRfI0UGQwoypu38blr+xC
-	tYi5ejrkybpy1EaJBoyPACCyp4dnNS+5TC8QeW24FFIHqdKUfkT1OO2GqqTtS4ihfAjCBWS92De
-	Lexzl1mEZXdZUfncwuLdOnfBhHI=
-X-Google-Smtp-Source: AGHT+IHexk19IgNk6IuP2jV+2x2wF7f0unp4c1GwwYyOBf/8w9heBdr+ysi7d7B9dpzKsMkgpYC1PUK3YyRIdsL9bbA=
-X-Received: by 2002:a17:907:97d4:b0:b2a:10a3:7113 with SMTP id
- a640c23a62f3a-b64725722f3mr807862966b.29.1760803406106; Sat, 18 Oct 2025
- 09:03:26 -0700 (PDT)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9727E1E00A0;
+	Sat, 18 Oct 2025 18:34:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.38
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760812468; cv=fail; b=MeqxrQBECN5c7ckpUMYMO0tQ5PuV67b9q//JlTX5ZK9MSBIbVUMzoWCMLKGVQHH0Bror7pFibiWJeK3dw9GEiFlHPg7YVaE2hy2j4r/UkOVOARTomT7CSoqqiYYn+XY4+Qyo121sPVzVb9WdcPrRphSExoBByQbOh85T1QtNNAQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760812468; c=relaxed/simple;
+	bh=Mx0VUtc3ZaLNWNAJy1FNLs4cOTxsJVUWEhJf12nDt8s=;
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=hFUc3VVHJQtiiQesGaMdcZ41fUIDT7AeoKWXsUe6eXdBMzV98jdiOPhAfnOoP8UaaXLIFU99Cz7fIDUyHgJ8XbOBD20yq6D/H5IixBlDApD5Iw0YSvYmU+nNvnhsZxxQ5LHlo32oz3Swc1ismbk+W8T1H28X5TNzMhtaYUGNBwk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=PSU.EDU; spf=pass smtp.mailfrom=PSU.EDU; dkim=pass (2048-bit key) header.d=psu.edu header.i=@psu.edu header.b=ecIYSIib; arc=fail smtp.client-ip=52.101.201.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=PSU.EDU
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=PSU.EDU
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=UlVNypHTk5i3+wwY+xN11n0M700NyDMRF7XwjS+qf0s2FMBq9eXRHNhWUmTUZzNcFMbU/+csdDl3gS48+mh9CU2dApkgPJLMhav3ImPs0BC5EngIsPdJb8qrIQPiTn1VpqohPBNZrKgS110G1XSolWPOzK7hih2YGtoBplYe56/2+Z2seX7lmJLW/E7M2QrXlzd/JvL2sQNVG3K9d4br5Wa9Lr6V1htDwU4PYbdAnsnE6j4rjuJM66mnECE77lNWBfE6Sgr4RA3SwOw9E6GNBiTmCqg4CidZ7hXUiUjllUr0Twr5xhhZKn36VNYDXWS0MY2h2cDlqWGqBf65JZsJ0g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Mx0VUtc3ZaLNWNAJy1FNLs4cOTxsJVUWEhJf12nDt8s=;
+ b=Hv6BsKiNJ2WCZUrpAR4j7Nbm3ZHARe6BRjU+yIkBFlm+/BSVWbDKT6VF8xlvvnhBtLeE6cI+q/jMDyZhHwUwBeO2uLhuFuQpy0dmyl5yczp2YAsaiQZhRsXnaq6GpTf++g4WXVsRduzbyOstje9LR5jKfqPSUvcVWtiL3skfl6H9CfNpD8U90OL6aGTamb9Fx5ixWBs74AFNbCbAJWThXzet3rD8zAQyWMWLoYnmbypz5Vfqo/VIPTMCDQtsjvKgXZVh500+WTyytP2TnAGTnS/3cGi4Qwqc6DESCa6iu9vgnmskwerHebqGc+GbvUOJruSs0Ag6o/D39k3VZthX8g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=psu.edu; dmarc=pass action=none header.from=psu.edu; dkim=pass
+ header.d=psu.edu; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=psu.edu; s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Mx0VUtc3ZaLNWNAJy1FNLs4cOTxsJVUWEhJf12nDt8s=;
+ b=ecIYSIibs7EmHSZKUCJPYwNGxms2kbM13kxsAUm4m880g1cxXikwKNTLocLmq5+mXTmA2Ov7YWCmylzw1ZoGKmkV5xckkl1y1Weu+Y6mXku3wyIzBtdlFe6WJkpYznoLS3O2JEm9vb/Ni/h7BBAmEAWFf4fRmOuoGv8U2wcAgvkEilOKm7FOwBLrUYaIJBcqJAmua8xNYIf7VDdLJUKpmcO68oUpZn8QyUcj5qCI1dvBkmO8femyMFIYbclbslWtPLXlV6EPr8t9d/ntBS/nD77AvOJk7JQYS3inbUzAm0fVoSLtedb6gzFoLmadY9cGMKoLlsee1PEV+95QzSAjcQ==
+Received: from SA0PR02MB7276.namprd02.prod.outlook.com (2603:10b6:806:e6::17)
+ by MW4PR02MB7444.namprd02.prod.outlook.com (2603:10b6:303:77::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.13; Sat, 18 Oct
+ 2025 18:34:24 +0000
+Received: from SA0PR02MB7276.namprd02.prod.outlook.com
+ ([fe80::e6ab:3830:2755:fa66]) by SA0PR02MB7276.namprd02.prod.outlook.com
+ ([fe80::e6ab:3830:2755:fa66%7]) with mapi id 15.20.9228.011; Sat, 18 Oct 2025
+ 18:34:24 +0000
+From: "Bai, Shuangpeng" <SJB7183@PSU.EDU>
+To: "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>
+CC: "benjamin.gaignard@collabora.com" <benjamin.gaignard@collabora.com>,
+	"g.liakhovetski@gmx.de" <g.liakhovetski@gmx.de>, "hverkuil@kernel.org"
+	<hverkuil@kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>,
+	"stable@vger.kernel.org" <stable@vger.kernel.org>, "tfiga@chromium.org"
+	<tfiga@chromium.org>
+Subject: Re: [PATCH] media: videobuf2: forbid create_bufs/remove_bufs when
+ legacy fileio is active
+Thread-Topic: [PATCH] media: videobuf2: forbid create_bufs/remove_bufs when
+ legacy fileio is active
+Thread-Index: AQHcQF3TAAksCghiO0iL2O9nMkjYtA==
+Date: Sat, 18 Oct 2025 18:34:24 +0000
+Message-ID: <5317B590-AAB4-4F17-8EA1-621965886D49@psu.edu>
+Accept-Language: en-US, zh-CN
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=PSU.EDU;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SA0PR02MB7276:EE_|MW4PR02MB7444:EE_
+x-ms-office365-filtering-correlation-id: bfc4fdb2-80e5-4ecf-6ed7-08de0e74f64f
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|366016|1800799024|376014|10070799003|38070700021;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?VMd+r6dVc3AnLKP8hUBHg5Q00Hq14ky3cgjlUdvD2b7YLlaMRRjcbyC2d27w?=
+ =?us-ascii?Q?W10QINGHDPc6XQ+21UyJwKAh8QiAmxyQnozYH4V37liETVFWP90YuTWEKyR1?=
+ =?us-ascii?Q?mHCX8PiqpRFku/dTZJRq6lCGZvrn2pauZxMlKs42DcItnDcWFc6MZgzfiLoG?=
+ =?us-ascii?Q?IcQot1L8AdyACKlMHJhSEzRpvZsv9906sEvpAZucd6C8Ga3LPRFKxpyu3hyi?=
+ =?us-ascii?Q?78x8j6gUcSOztn0+GjmeqHv3qVkVd7DyHopzSrlehsIvmuQnkOnnObDwJg4a?=
+ =?us-ascii?Q?qWkKUHesuGVpiOnmgk64ZRcrxfT33DIR+0zDP8QhgGqUxOoajlRT34BTifhX?=
+ =?us-ascii?Q?yaNhHPXjkqthSdDfhAnSCyLnOj7gf9Lbc8+wPWWCcIutRlmNFS4RkOAgSAY9?=
+ =?us-ascii?Q?fGyUq/VbrOSaKyTlxESXFMS2QLAcDLg1n0lC6B8MVYzedboMpdkgXnK/Kve2?=
+ =?us-ascii?Q?anMzxlVAHd2WOm4J0HkSysP/LXuqIAO9QvjUrcnqR83Ct/P0aZNiqeiv3aVa?=
+ =?us-ascii?Q?ji3J3plsjUPafeS96MyL0VQ3hdHbaE6wlQJFSq+y0E1QSRth+p11GRCeOZ1l?=
+ =?us-ascii?Q?RVkjU0EhBBUFlVlieEbLwdhGI9UcEy9FOGQgS0Zgq97Vkr4hxptFraDVfw/v?=
+ =?us-ascii?Q?6u6SF6FP8b+xTNPwcIVpOaMWlQvmc3J8LwzQJCpmR8P7HECnmCXaj0OcZaeH?=
+ =?us-ascii?Q?skdXUQwq95gSqPmxpVjP21l2Q6NORlDdn1QXucJOW4szrZX8xNJuiBmxuKkE?=
+ =?us-ascii?Q?e1Yy8RZAgpxU34YIamKrQdD2eXPqt2pK2XL9gYGM4kUARkTY02yR4504qGC7?=
+ =?us-ascii?Q?kgUST+M6FXKhxTs9cd+Z0/xE5H1mhzIPg+hkgXRab8Bxr/ayinHIJLmVYZCD?=
+ =?us-ascii?Q?Lc2HboVAEw6d7popiUdqOldfwvyB8Ji2ghT16daYCzAMMeIB+6VS4K3BEQXj?=
+ =?us-ascii?Q?+CZoSpv9y5AvCL1NSCgKVNRKdcMbZqgg7hyYKEBXMDiGIu7IPvOnY3Gwjpz1?=
+ =?us-ascii?Q?s1op+Rv09gebJrsWr5c82I9DG945Z0KuNka9XIgsyHABwe58SPBJEg1qvZo/?=
+ =?us-ascii?Q?jfFvSy0843O/cVLG+Z+9DEEgtPmsQNYwBVPM7oYF8Ywj/OAttOTIibQj0i+z?=
+ =?us-ascii?Q?2XlmnECrzyGd2nr93+tSlNavGQ3Bdd6OUvHElxZpmFXGjyusxQw6/3tMUSYE?=
+ =?us-ascii?Q?2IXHgJwCiAgm63oYXhZgGkJ34Plqwo6gvgFlN/qwDLyj+4amp4GhkXRriiF8?=
+ =?us-ascii?Q?JJW+78674HdzPahf02KoyXH/aNzlgojW6r3j2TC6xgVo0R+aZLaWpRB6HbTZ?=
+ =?us-ascii?Q?0yEgARg5pRg9PZwzIxTLT5P4UrG9jGOrJhz8iAndTTa2/9OkjFrV6HyXQ+TD?=
+ =?us-ascii?Q?dR4Jcsb5r2YAcblApF11e7G0WHQPqkdFWpL6b3G8gzwHB4JGjt+yyUPTYIT5?=
+ =?us-ascii?Q?om0EKVwakfIedQCPJf8EdxYpJqsglts9tJgiRiwsB3wfWjI+DaeurzoZEFKn?=
+ =?us-ascii?Q?v3vHgnZjluUH4ijO3nbUFOjoTHyoh4omVEXX?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SA0PR02MB7276.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(10070799003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?o/blzfXRjdvMana3RDj1wuSA9Lcl+XTg8vmrCIC0c07YI4usFqd0loLSonFs?=
+ =?us-ascii?Q?GMqFrk2UCCuMSHihsdp4cClUJsjcprGisL6wmXCsmvWFusWKAMu0m4PWqijh?=
+ =?us-ascii?Q?CeYA+E0RPWDO0Dejy0xXihgHu2RXMNw3id+SzWjs/NslL+2zEINygRkLCyNa?=
+ =?us-ascii?Q?fqlEIUNGVsnmAJrfK+De33RUQPr5BKagwzZkMMRZe6SrYGHT9oieQV5pERuz?=
+ =?us-ascii?Q?jbEE5B94XxQH/vzqtwN9tX470oP+43T2xXoW7swQ6aEiTU8bC65t37/YM5OL?=
+ =?us-ascii?Q?jyWXCXcyIlQbtKt9/7Y/O60eS4ESFh+8Mlijjp0xDCXGh5wnBKyTjzlccZbB?=
+ =?us-ascii?Q?0cT/PEVLOl1M9ID++WXv7EHlnSBalA9/6Jloqff+qmfppeFTV6Bf/zN4s1rD?=
+ =?us-ascii?Q?aOkrNFjzU/J1sYqyHc0dtiqBRwSgFW3ZxYSKHbg1qUFRir1GVv+4KdQ2HWJk?=
+ =?us-ascii?Q?zBHH/+mGWMdH/RFp4kPrCNED0NwiQYCZ9L09rNDLb+mHBjIp+Edxyu3obhV7?=
+ =?us-ascii?Q?NmEatLfoYaV0p2kyC0XgJ91kTtmWvlIp98K7H6XqqWFreY/khxbc2ShHvbHv?=
+ =?us-ascii?Q?Kkwjg6IffnPysu5EqURZFlmb8CDpRJzyApxmWHqN+0JWvTNuar0MeSxQrfz/?=
+ =?us-ascii?Q?txZC7D/nXtUXOtMMER7WO8o1VMswW8eM+7jy+O476JlBF69mCtGfrOCHVePz?=
+ =?us-ascii?Q?XW0dYoIGYHapIUvhJ33sgy/0pZFA5jo/XoerzAdensPJd0gQ8P0awqZV+4f2?=
+ =?us-ascii?Q?yOs9A1skvdfZOk/wpvqCyTRGVjTi3i8BgxDJTLaU8n26u3mJeRyvzN4vasjL?=
+ =?us-ascii?Q?cUrrUczjyO5rze1JHGCM8gKwCimdTZOZ7ApGKZipDnXIEPfcbIdfpghTxwxO?=
+ =?us-ascii?Q?kfNU0BpG+X22nN2KHjdfAWjeEi1VSAaK2kkJwqpc7Z5WhQcK32kXlQwfTwxu?=
+ =?us-ascii?Q?f0Xtu7j2JXynlqI7TqlSzKT4GhZ6lJ3R/JWtFmOSFRz33S19JeXO6xnWWvOz?=
+ =?us-ascii?Q?uTDCUqS1i+t16mT77+anW/gxb8WulYGpggAoJaaUVQ6778E/ros60vIi168H?=
+ =?us-ascii?Q?s2286/6MpSKxTEZf9kmxdBnPfIIIkVrTZ0PXxugi6qKmWg6chiPjy3OqpAKM?=
+ =?us-ascii?Q?awjDbiVrBD8sFkK7ZkP29LVRaEJHEkRLIHxwVokgDGyK3T/dp3HXEk1evYzM?=
+ =?us-ascii?Q?nFu8Y+YlwLwjXU1dhpkvCzXMw+5KEtlLrTO7fAsWeZBTqHEEq0ubQcGbSvPB?=
+ =?us-ascii?Q?WwPqVsiDlWSw1usnZz/EIIqSXsQAftHQxJtk3AHS9VjBP2XUI9DLSNf2xh5V?=
+ =?us-ascii?Q?3HRX2Hm2DRVyn1H7K4W5QIaI3D4bbaDUw35l/YFRgsXqVfw1RMCr1X0HrYB9?=
+ =?us-ascii?Q?gJFJigb6b2bX9STswlA6ue9fZAQ+j2FfAb806FEBhD1HGrqPFz1oUe9szEW+?=
+ =?us-ascii?Q?fXF9fHfOP7u9TGceNseKJIKCrBqu/jLta3BGubLLrJpmPTGOqoPfl/3wa2pc?=
+ =?us-ascii?Q?Vqy7nk6GKxxcCQEKEIMScnZ2Bft4DI6s0qyGLRDZjvOwokWLHDjRy7l51Jfd?=
+ =?us-ascii?Q?sFrFXOgHBi/NX6cy+XO5OxHjeKPkz1A7V/IJIAdFFJ5uRk3IRyHta+ZcbKxu?=
+ =?us-ascii?Q?aqaXal8FnpNsBg2IvcR6wfIWj5u3VdUb9jSkAKbdIWox?=
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <AE429BAEE46B294F97CD0FE5321F4BF5@namprd02.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251013-dma-buf-ecc-heap-v8-0-04ce150ea3d9@kernel.org> <CAO_48GGD8sCoQt_qWKqcbg6v7Cyi5U9QsxsvNOcqfkLRqHS7_w@mail.gmail.com>
-In-Reply-To: <CAO_48GGD8sCoQt_qWKqcbg6v7Cyi5U9QsxsvNOcqfkLRqHS7_w@mail.gmail.com>
-From: Sumit Semwal <sumit.semwal@linaro.org>
-Date: Sat, 18 Oct 2025 21:33:14 +0530
-X-Gm-Features: AS18NWCxIWZfRS3hG4C_yzteaWS7C2gP5_aCiLwTRjHCdW6sGbeW-DvFPRdxwEc
-Message-ID: <CAO_48GEXC0FDkeRN57e5Yc=4WCwjh=9pDpZXjowZzEaPPsAd-w@mail.gmail.com>
-Subject: Re: [PATCH v8 0/5] dma-buf: heaps: Create a CMA heap for each CMA
- reserved region
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Benjamin Gaignard <benjamin.gaignard@collabora.com>, Brian Starkey <Brian.Starkey@arm.com>, 
-	John Stultz <jstultz@google.com>, "T.J. Mercier" <tjmercier@google.com>, 
-	Jonathan Corbet <corbet@lwn.net>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Andrew Davis <afd@ti.com>, Jared Kangas <jkangas@redhat.com>, 
-	Mattijs Korpershoek <mkorpershoek@kernel.org>, linux-media@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-OriginatorOrg: psu.edu
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SA0PR02MB7276.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bfc4fdb2-80e5-4ecf-6ed7-08de0e74f64f
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Oct 2025 18:34:24.4273
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 7cf48d45-3ddb-4389-a9c1-c115526eb52e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: RRm/VDKpJRqfquy9NvkDqnjxCKaoRyiR9rnCT3dRxZgAfE72JF2EcFeBtlnHv3xq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR02MB7444
 
-On Wed, 15 Oct 2025 at 13:53, Sumit Semwal <sumit.semwal@linaro.org> wrote:
->
-> Hi Maxime,
->
-> On Mon, 13 Oct 2025 at 14:05, Maxime Ripard <mripard@kernel.org> wrote:
-> >
-> > Hi,
-> >
-> > Here's another attempt at supporting user-space allocations from a
-> > specific carved-out reserved memory region.
->
->
-> Thank you for the series - I think it looks pretty decent, and with
-> Marek's Acked-by for the cma patch [1], I'm inclined to merge it.
->
-> I'll wait till today evening, in case there are any more comments, and
-> then go ahead and merge it.
+Hi Marek,
 
+Thank you very much for fixing this bug and for your contribution.
 
-Thank you; it's merged to drm-misc-next now.
->
->
-> Best,
-> Sumit.
->
-> >
-> > The initial problem we were discussing was that I'm currently working o=
-n
-> > a platform which has a memory layout with ECC enabled. However, enablin=
-g
-> > the ECC has a number of drawbacks on that platform: lower performance,
-> > increased memory usage, etc. So for things like framebuffers, the
-> > trade-off isn't great and thus there's a memory region with ECC disable=
-d
-> > to allocate from for such use cases.
-> >
-> > After a suggestion from John, I chose to first start using heap
-> > allocations flags to allow for userspace to ask for a particular ECC
-> > setup. This is then backed by a new heap type that runs from reserved
-> > memory chunks flagged as such, and the existing DT properties to specif=
-y
-> > the ECC properties.
-> >
-> > After further discussion, it was considered that flags were not the
-> > right solution, and relying on the names of the heaps would be enough t=
-o
-> > let userspace know the kind of buffer it deals with.
-> >
-> > Thus, even though the uAPI part of it had been dropped in this second
-> > version, we still needed a driver to create heaps out of carved-out mem=
-ory
-> > regions. In addition to the original usecase, a similar driver can be
-> > found in BSPs from most vendors, so I believe it would be a useful
-> > addition to the kernel.
-> >
-> > Some extra discussion with Rob Herring [1] came to the conclusion that
-> > some specific compatible for this is not great either, and as such an
-> > new driver probably isn't called for either.
-> >
-> > Some other discussions we had with John [2] also dropped some hints tha=
-t
-> > multiple CMA heaps might be a good idea, and some vendors seem to do
-> > that too.
-> >
-> > So here's another attempt that doesn't affect the device tree at all an=
-d
-> > will just create a heap for every CMA reserved memory region.
-> >
-> > It also falls nicely into the current plan we have to support cgroups i=
-n
-> > DRM/KMS and v4l2, which is an additional benefit.
-> >
-> > Let me know what you think,
-> > Maxime
-> >
-> > 1: https://lore.kernel.org/all/20250707-cobalt-dingo-of-serenity-dbf92c=
-@houat/
-> > 2: https://lore.kernel.org/all/CANDhNCroe6ZBtN_o=3Dc71kzFFaWK-fF5rCdnr9=
-P5h1sgPOWSGSw@mail.gmail.com/
-> >
-> > Let me know what you think,
-> > Maxime
-> >
-> > Signed-off-by: Maxime Ripard <mripard@kernel.org>
-> > ---
-> > Changes in v8:
-> > - Rebased on top of 6.18-rc1
-> > - Added TJ R-b
-> > - Link to v7: https://lore.kernel.org/r/20250721-dma-buf-ecc-heap-v7-0-=
-031836e1a942@kernel.org
-> >
-> > Changes in v7:
-> > - Invert the logic and register CMA heap from the reserved memory /
-> >   dma contiguous code, instead of iterating over them from the CMA heap=
-.
-> > - Link to v6: https://lore.kernel.org/r/20250709-dma-buf-ecc-heap-v6-0-=
-dac9bf80f35d@kernel.org
-> >
-> > Changes in v6:
-> > - Drop the new driver and allocate a CMA heap for each region now
-> > - Dropped the binding
-> > - Rebased on 6.16-rc5
-> > - Link to v5: https://lore.kernel.org/r/20250617-dma-buf-ecc-heap-v5-0-=
-0abdc5863a4f@kernel.org
-> >
-> > Changes in v5:
-> > - Rebased on 6.16-rc2
-> > - Switch from property to dedicated binding
-> > - Link to v4: https://lore.kernel.org/r/20250520-dma-buf-ecc-heap-v4-1-=
-bd2e1f1bb42c@kernel.org
-> >
-> > Changes in v4:
-> > - Rebased on 6.15-rc7
-> > - Map buffers only when map is actually called, not at allocation time
-> > - Deal with restricted-dma-pool and shared-dma-pool
-> > - Reword Kconfig options
-> > - Properly report dma_map_sgtable failures
-> > - Link to v3: https://lore.kernel.org/r/20250407-dma-buf-ecc-heap-v3-0-=
-97cdd36a5f29@kernel.org
-> >
-> > Changes in v3:
-> > - Reworked global variable patch
-> > - Link to v2: https://lore.kernel.org/r/20250401-dma-buf-ecc-heap-v2-0-=
-043fd006a1af@kernel.org
-> >
-> > Changes in v2:
-> > - Add vmap/vunmap operations
-> > - Drop ECC flags uapi
-> > - Rebase on top of 6.14
-> > - Link to v1: https://lore.kernel.org/r/20240515-dma-buf-ecc-heap-v1-0-=
-54cbbd049511@kernel.org
-> >
-> > ---
-> > Maxime Ripard (5):
-> >       doc: dma-buf: List the heaps by name
-> >       dma-buf: heaps: cma: Register list of CMA regions at boot
-> >       dma: contiguous: Register reusable CMA regions at boot
-> >       dma: contiguous: Reserve default CMA heap
-> >       dma-buf: heaps: cma: Create CMA heap for each CMA reserved region
-> >
-> >  Documentation/userspace-api/dma-buf-heaps.rst | 24 ++++++++------
-> >  MAINTAINERS                                   |  1 +
-> >  drivers/dma-buf/heaps/Kconfig                 | 10 ------
-> >  drivers/dma-buf/heaps/cma_heap.c              | 47 +++++++++++++++++--=
---------
-> >  include/linux/dma-buf/heaps/cma.h             | 16 +++++++++
-> >  kernel/dma/contiguous.c                       | 11 +++++++
-> >  6 files changed, 72 insertions(+), 37 deletions(-)
-> > ---
-> > base-commit: 47633099a672fc7bfe604ef454e4f116e2c954b1
-> > change-id: 20240515-dma-buf-ecc-heap-28a311d2c94e
-> > prerequisite-message-id: <20250610131231.1724627-1-jkangas@redhat.com>
-> > prerequisite-patch-id: bc44be5968feb187f2bc1b8074af7209462b18e7
-> > prerequisite-patch-id: f02a91b723e5ec01fbfedf3c3905218b43d432da
-> > prerequisite-patch-id: e944d0a3e22f2cdf4d3b3906e5603af934696deb
-> >
-> > Best regards,
-> > --
-> > Maxime Ripard <mripard@kernel.org>
-> >
->
->
-> --
-> Thanks and regards,
->
-> Sumit Semwal (he / him)
-> Senior Tech Lead - Android, Platforms and Virtualisation
-> Linaro.org =E2=94=82 Arm Solutions at Light Speed
+Since my original report was not posted to a public mailing list, I would
+appreciate it if you could add the following credit to this patch:
 
+Reported-by: Shuangpeng Bai <SJB7183@psu.edu>
 
+Thanks again!
 
---=20
-Thanks and regards,
+Best regards,
+Shuangpeng
 
-Sumit Semwal (he / him)
-Senior Tech Lead - Android, Platforms and Virtualisation
-Linaro.org =E2=94=82 Arm Solutions at Light Speed
 
