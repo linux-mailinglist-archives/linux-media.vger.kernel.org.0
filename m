@@ -1,173 +1,413 @@
-Return-Path: <linux-media+bounces-44970-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44971-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F295BEE51B
-	for <lists+linux-media@lfdr.de>; Sun, 19 Oct 2025 14:39:00 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0173FBEED12
+	for <lists+linux-media@lfdr.de>; Sun, 19 Oct 2025 23:14:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 43ACF4E94AE
-	for <lists+linux-media@lfdr.de>; Sun, 19 Oct 2025 12:38:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF0933B91D1
+	for <lists+linux-media@lfdr.de>; Sun, 19 Oct 2025 21:14:07 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 73F862E8B98;
-	Sun, 19 Oct 2025 12:38:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D09723817E;
+	Sun, 19 Oct 2025 21:14:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nPSmMhj3"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="dqdsdPtD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1822E336E;
-	Sun, 19 Oct 2025 12:38:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119F51EC01B
+	for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 21:14:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760877510; cv=none; b=bcjS0jweRihx2DjZbolATQybB5BSRMmn1b1u6FQkfLOMMtZnXvGzbBXct7/FSpmupDxhoNd8GFIH9wF0iYnua2DIvFXiEQBl8he2CqDb/63CnxRohSlvfKiVFWGyNlDaXFqpxLhg5vU6xxEeHKwqmOYs8caKfB3jEu+vB2D353U=
+	t=1760908443; cv=none; b=NW4yhjfeLYlukpWlacn1EsCO8e9uujpXrUx7wLy0AxFDg9/rGm3pxkWCTfCtWgO2MCoYN5azsFhKDxL7Ixw8xCaZwtiBrbDA3RJ1B6src2gA+sifcz1eDC/mM5CRmkAjk66aqHTgeX8QWxkZviZst+ktJRJUFTbvo25L8nWxj8k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760877510; c=relaxed/simple;
-	bh=oGwiDB09ge0ciPiwd9WRh3Y/M8CeD9dHfclvYoY7FBA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mRJ58PzKI1hJFwjIWXBgQw47vz38Xs8nHwZkEL/YTLAbWFSh+7UYLEGhJvz/fJ+yoFwNwtXZmxvpcz3vSaHly/w+KAPUXGv+srBW+IkmS8abBm8VT1xPaZ334tkrgSsGAG3O29AtxbLnxki8XI4e40tmD9YZ1QGFbylD9qnIA90=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nPSmMhj3; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2363C4CEE7;
-	Sun, 19 Oct 2025 12:38:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1760877510;
-	bh=oGwiDB09ge0ciPiwd9WRh3Y/M8CeD9dHfclvYoY7FBA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nPSmMhj3TEXZoJrVWpARUkUyuGqk5lSFTPPoq1ZLeK3fCa9fne3RGlMO8KN1UE5lj
-	 ujRuOzzKq00FxR8F6wzbmtZQ/5O3ZNw8lG3lB3NfHxm+YwEDzwS2JsXmf0Ca6p4Frl
-	 ca5FOfnjYZ+gRAebgpsYtYTlOl8nww3/qAlyQSN0=
-Date: Sun, 19 Oct 2025 14:38:26 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Nathan Chancellor <nathan@kernel.org>
-Cc: Eliav Farber <farbere@amazon.com>, stable@vger.kernel.org,
-	linux@armlinux.org.uk, jdike@addtoit.com, richard@nod.at,
-	anton.ivanov@cambridgegreys.com, dave.hansen@linux.intel.com,
-	luto@kernel.org, peterz@infradead.org, tglx@linutronix.de,
-	mingo@redhat.com, bp@alien8.de, x86@kernel.org, hpa@zytor.com,
-	tony.luck@intel.com, qiuxu.zhuo@intel.com, mchehab@kernel.org,
-	james.morse@arm.com, rric@kernel.org, harry.wentland@amd.com,
-	sunpeng.li@amd.com, alexander.deucher@amd.com,
-	christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
-	evan.quan@amd.com, james.qian.wang@arm.com, liviu.dudau@arm.com,
-	mihail.atanassov@arm.com, brian.starkey@arm.com,
-	maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-	tzimmermann@suse.de, robdclark@gmail.com, sean@poorly.run,
-	jdelvare@suse.com, linux@roeck-us.net, fery@cypress.com,
-	dmitry.torokhov@gmail.com, agk@redhat.com, snitzer@redhat.com,
-	dm-devel@redhat.com, rajur@chelsio.com, davem@davemloft.net,
-	kuba@kernel.org, peppe.cavallaro@st.com, alexandre.torgue@st.com,
-	joabreu@synopsys.com, mcoquelin.stm32@gmail.com, malattia@linux.it,
-	hdegoede@redhat.com, mgross@linux.intel.com,
-	intel-linux-scu@intel.com, artur.paszkiewicz@intel.com,
-	jejb@linux.ibm.com, martin.petersen@oracle.com,
-	sakari.ailus@linux.intel.com, clm@fb.com, josef@toxicpanda.com,
-	dsterba@suse.com, xiang@kernel.org, chao@kernel.org, jack@suse.com,
-	tytso@mit.edu, adilger.kernel@dilger.ca, dushistov@mail.ru,
-	luc.vanoostenryck@gmail.com, rostedt@goodmis.org, pmladek@suse.com,
-	sergey.senozhatsky@gmail.com, andriy.shevchenko@linux.intel.com,
-	linux@rasmusvillemoes.dk, minchan@kernel.org, ngupta@vflare.org,
-	akpm@linux-foundation.org, kuznet@ms2.inr.ac.ru,
-	yoshfuji@linux-ipv6.org, pablo@netfilter.org, kadlec@netfilter.org,
-	fw@strlen.de, jmaloy@redhat.com, ying.xue@windriver.com,
-	willy@infradead.org, sashal@kernel.org, ruanjinjie@huawei.com,
-	David.Laight@aculab.com, herve.codina@bootlin.com, Jason@zx2c4.com,
-	keescook@chromium.org, kbusch@kernel.org, bvanassche@acm.org,
-	ndesaulniers@google.com, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org, linux-um@lists.infradead.org,
-	linux-edac@vger.kernel.org, amd-gfx@lists.freedesktop.org,
-	dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-	freedreno@lists.freedesktop.org, linux-hwmon@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-media@vger.kernel.org,
-	netdev@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
-	platform-driver-x86@vger.kernel.org, linux-scsi@vger.kernel.org,
-	linux-staging@lists.linux.dev, linux-btrfs@vger.kernel.org,
-	linux-erofs@lists.ozlabs.org, linux-ext4@vger.kernel.org,
-	linux-sparse@vger.kernel.org, linux-mm@kvack.org,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	tipc-discussion@lists.sourceforge.net
-Subject: Re: [PATCH v2 00/27 5.10.y] Backport minmax.h updates from v6.17-rc7
-Message-ID: <2025101905-matter-freezable-39e5@gregkh>
-References: <20251017090519.46992-1-farbere@amazon.com>
- <2025101704-rumble-chatroom-60b5@gregkh>
- <20251017160924.GA2728735@ax162>
+	s=arc-20240116; t=1760908443; c=relaxed/simple;
+	bh=XedO90ypOdggAFyBaulxnXgess3PoQWn3O7RimdfMYw=;
+	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
+	 MIME-Version:Content-Type; b=i2XMHIg+cirEGD0tD38gq4ZxkzyxevPnY0ya3zs4fQgWRZ86jSxQN+hXF/mJIoa9O0FamzD5fErC49hBT/9Qdbnu4x6okNAmeinio/lq5vwwsNSda4V3WPGiIgyVhVBU+O0BGGXCbYFPQ1Oo40EV/9e6MOFTqJS45aE4/XxO1dE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=dqdsdPtD; arc=none smtp.client-ip=140.211.166.241
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
+	; s=s1; h=List-ID:Content-Type:MIME-Version:Subject:References:In-Reply-To:
+	Message-ID:To:Reply-To:From:Date:Sender:Cc:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=/kDO+5ZO4hRTfNgdDh5d4cF5ZueAwUHkF1XsXa3SfYI=; b=dqdsdPtDhUu6s1+X8iBzruezhY
+	wZbYGNTIKVowe5+0wimq/2T05leDIr6o8XhrSpW4w8/AYX+AWItF3ud7GxBHSfbbReXnkTtwj8+wA
+	7O2sB7LpF8439fSs9IhMvh58awaOG2oCQc5MUSIH6EAWLQtn+myGtx/f/0r/MAzngCKBvAKUIECZL
+	MtKTPHFfWu+AIyLRoz1YhUFLHCcZrD3fHGCSFT5aOFASeyeg5oxiU9pN1cUBN01SPbb9wNLGy/Gfs
+	XhzOcBJzTwTYCTWC/ZT3pLquZaVgQ/AfqV9NOxpoVKTACD7RJAqzPBpdvkuY1ktJ7mxtCzcVoPFYM
+	mv4KEQwA==;
+Received: from builder.linuxtv.org ([140.211.167.10])
+	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1vAaj3-0006GB-0U;
+	Sun, 19 Oct 2025 21:14:01 +0000
+Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
+	by builder.linuxtv.org with esmtp (Exim 4.96)
+	(envelope-from <jenkins@linuxtv.org>)
+	id 1vAaj2-00HMtL-18;
+	Sun, 19 Oct 2025 21:14:01 +0000
+Date: Sun, 19 Oct 2025 21:13:59 +0000 (UTC)
+From: Jenkins Builder Robot <jenkins@linuxtv.org>
+Reply-To: mchehab@kernel.org, media-committers@linuxtv.org,
+	linux-media@vger.kernel.org
+To: mchehab@kernel.org, media-committers@linuxtv.org,
+	linux-media@vger.kernel.org, hverkuil@xs4all.nl
+Message-ID: <2136340073.2.1760908440353@builder.linuxtv.org>
+In-Reply-To: <128102591.2.1760735975289@builder.linuxtv.org>
+References: <128102591.2.1760735975289@builder.linuxtv.org>
+Subject: [Jenkins] media.git_drivers_build #440: build failed for x86_64
+ allyesconfig x86_64 allmodconfig x86_64 no PM
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251017160924.GA2728735@ax162>
+Content-Type: multipart/mixed; 
+	boundary="----=_Part_1_1162964637.1760908440097"
+X-Jenkins-Job: media.git_drivers_build
 
-On Fri, Oct 17, 2025 at 05:09:24PM +0100, Nathan Chancellor wrote:
-> On Fri, Oct 17, 2025 at 05:03:02PM +0200, Greg KH wrote:
-> > On Fri, Oct 17, 2025 at 09:04:52AM +0000, Eliav Farber wrote:
-> > > This series backports 27 patches to update minmax.h in the 5.10.y
-> > > branch, aligning it with v6.17-rc7.
-> > > 
-> > > The ultimate goal is to synchronize all long-term branches so that they
-> > > include the full set of minmax.h changes.
-> > > 
-> > > - 6.12.y has already been backported; the changes are included in
-> > >   v6.12.49.
-> > > - 6.6.y has already been backported; the changes are included in
-> > >   v6.6.109.
-> > > - 6.1.y has already been backported; the changes are currently in the
-> > >   6.1-stable tree.
-> > > - 5.15.y has already been backported; the changes are currently in the
-> > >   5.15-stable tree.
-> > 
-> > With this series applied, on an arm64 server, building 'allmodconfig', I
-> > get the following build error.
-> > 
-> > Oddly I don't see it on my x86 server, perhaps due to different compiler
-> > versions?
-> > 
-> > Any ideas?
-> > 
-> > thanks,
-> > 
-> > greg k-h
-> > 
-> > ------------------------
-> > 
-> > In function ‘rt2800_txpower_to_dev’,
-> >     inlined from ‘rt2800_config_channel’ at ../drivers/net/wireless/ralink/rt2x00/rt2800lib.c:4022:25:
-> > ./../include/linux/compiler_types.h:309:45: error: call to ‘__compiletime_assert_1168’ declared with attribute error: clamp() low limit -7 greater than high limit 15
-> >   309 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-> >       |                                             ^
-> > ./../include/linux/compiler_types.h:290:25: note: in definition of macro ‘__compiletime_assert’
-> >   290 |                         prefix ## suffix();                             \
-> >       |                         ^~~~~~
-> > ./../include/linux/compiler_types.h:309:9: note: in expansion of macro ‘_compiletime_assert’
-> >   309 |         _compiletime_assert(condition, msg, __compiletime_assert_, __COUNTER__)
-> >       |         ^~~~~~~~~~~~~~~~~~~
-> > ../include/linux/build_bug.h:39:37: note: in expansion of macro ‘compiletime_assert’
-> >    39 | #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-> >       |                                     ^~~~~~~~~~~~~~~~~~
-> > ../include/linux/minmax.h:188:9: note: in expansion of macro ‘BUILD_BUG_ON_MSG’
-> >   188 |         BUILD_BUG_ON_MSG(statically_true(ulo > uhi),                            \
-> >       |         ^~~~~~~~~~~~~~~~
-> > ../include/linux/minmax.h:195:9: note: in expansion of macro ‘__clamp_once’
-> >   195 |         __clamp_once(type, val, lo, hi, __UNIQUE_ID(v_), __UNIQUE_ID(l_), __UNIQUE_ID(h_))
-> >       |         ^~~~~~~~~~~~
-> > ../include/linux/minmax.h:218:36: note: in expansion of macro ‘__careful_clamp’
-> >   218 | #define clamp_t(type, val, lo, hi) __careful_clamp(type, val, lo, hi)
-> >       |                                    ^~~~~~~~~~~~~~~
-> > ../drivers/net/wireless/ralink/rt2x00/rt2800lib.c:3980:24: note: in expansion of macro ‘clamp_t’
-> >  3980 |                 return clamp_t(char, txpower, MIN_A_TXPOWER, MAX_A_TXPOWER);
-> >       |                        ^~~~~~~
-> 
-> Missing commit 3bc753c06dd0 ("kbuild: treat char as always unsigned")?
+------=_Part_1_1162964637.1760908440097
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-That's going to be messy to backport, it's not even in 6.1.y, so let's
-leave that alone if at all possible.
+Some tests failed:
+	FAIL: x86_64 allyesconfig
+	FAIL: x86_64 allmodconfig
+	PASS: arm32 allmodconfig
+	FAIL: x86_64 no PM
+	PASS: arm32 allyesconfig
+	PASS: arm64 allyesconfig
+	PASS: arm64 allmodconfig
+	PASS: clang15 allmodconfig
 
-thanks,
+GENERAL INFO
 
-greg k-h
+BUILD SUCCESSFUL
+Build URL: https://builder.linuxtv.org/job/media.git_drivers_build/440/
+Project: media.git_drivers_build
+Date of build: Sun, 19 Oct 2025 21:05:06 GMT
+Build duration: 8 min 53 sec and counting
+
+
+CHANGE SET
+
+  	 Revision  by hverkuil: (media: v4l2-mem2mem: Document that v4l2_m2m_get_vq() never returns NULL)
+
+	 change: edit include/media/v4l2-mem2mem.h
+
+	 change: edit drivers/media/v4l2-core/v4l2-mem2mem.c
+
+  	 Revision  by hverkuil: (media: allgro-dvt: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/allegro-dvt/allegro-core.c
+
+  	 Revision  by hverkuil: (media: meson-g2d: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/amlogic/meson-ge2d/ge2d.c
+
+  	 Revision  by hverkuil: (media: amphion: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/amphion/vdec.c
+
+	 change: edit drivers/media/platform/amphion/venc.c
+
+  	 Revision  by hverkuil: (media: coda: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/chips-media/coda/coda-common.c
+
+  	 Revision  by hverkuil: (media: imagination: e5010: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/imagination/e5010-jpeg-enc.c
+
+  	 Revision  by hverkuil: (media: m2m-deinterlace: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/m2m-deinterlace.c
+
+  	 Revision  by hverkuil: (media: mediatek: jpeg: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+
+  	 Revision  by hverkuil: (media: mediatek: vcodec: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
+
+	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+
+	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
+
+	 change: edit drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
+
+  	 Revision  by hverkuil: (media: dw100: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/nxp/dw100/dw100.c
+
+  	 Revision  by hverkuil: (media: imx-jpeg: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+
+  	 Revision  by hverkuil: (media: imx-pxp: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/nxp/imx-pxp.c
+
+  	 Revision  by hverkuil: (media: nxp: imx8-isi: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+
+  	 Revision  by hverkuil: (media: mx2_emmaprp: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/nxp/mx2_emmaprp.c
+
+  	 Revision  by hverkuil: (media: qcom: iris: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/qcom/iris/iris_venc.c
+
+	 change: edit drivers/media/platform/qcom/iris/iris_vdec.c
+
+  	 Revision  by hverkuil: (media: qcom: venus: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/qcom/venus/venc.c
+
+	 change: edit drivers/media/platform/qcom/venus/vdec.c
+
+  	 Revision  by hverkuil: (media: renesas: fdp1: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/renesas/rcar_fdp1.c
+
+  	 Revision  by hverkuil: (media: rcar_jpu: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/renesas/rcar_jpu.c
+
+  	 Revision  by hverkuil: (media: platform: rga: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/rockchip/rga/rga.c
+
+  	 Revision  by hverkuil: (media: samsung: s5p-g2d: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/samsung/s5p-g2d/g2d.c
+
+  	 Revision  by hverkuil: (media: samsung: s5p-jpeg: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
+
+  	 Revision  by hverkuil: (media: stm32: dma2d: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/st/stm32/dma2d/dma2d.c
+
+  	 Revision  by hverkuil: (media: ti: vpe: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/platform/ti/vpe/vpe.c
+
+  	 Revision  by hverkuil: (media: vicodec: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/test-drivers/vicodec/vicodec-core.c
+
+  	 Revision  by hverkuil: (media: vim2m: Drop unneeded v4l2_m2m_get_vq() NULL check)
+
+	 change: edit drivers/media/test-drivers/vim2m.c
+
+  	 Revision  by hverkuil: (media: dvbdev: Use %pe format specifier)
+
+	 change: edit drivers/media/dvb-core/dvbdev.c
+
+  	 Revision  by hverkuil: (media: mn88443x: Use %pe format specifier)
+
+	 change: edit drivers/media/dvb-frontends/mn88443x.c
+
+  	 Revision  by hverkuil: (media: adv7842: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/adv7842.c
+
+  	 Revision  by hverkuil: (media: ar0521: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/ar0521.c
+
+  	 Revision  by hverkuil: (media: ccs: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/ccs/ccs-core.c
+
+  	 Revision  by hverkuil: (media: i2c: ds90ub913: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/ds90ub913.c
+
+  	 Revision  by hverkuil: (media: i2c: ds90ub953: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/ds90ub953.c
+
+  	 Revision  by hverkuil: (media: i2c: imx274: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/imx274.c
+
+  	 Revision  by hverkuil: (media: i2c: imx335: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/imx335.c
+
+  	 Revision  by hverkuil: (media: i2c: imx412: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/imx412.c
+
+  	 Revision  by hverkuil: (media: i2c: max9286: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/max9286.c
+
+  	 Revision  by hverkuil: (media: i2c: max96717: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/max96717.c
+
+  	 Revision  by hverkuil: (media: i2c: mt9m111: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/mt9m111.c
+
+  	 Revision  by hverkuil: (media: i2c: mt9v111: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/mt9v111.c
+
+  	 Revision  by hverkuil: (media: i2c: ov5675: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/ov5675.c
+
+  	 Revision  by hverkuil: (media: i2c: ov5693: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/ov5693.c
+
+  	 Revision  by hverkuil: (media: i2c: ov9282: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/ov9282.c
+
+  	 Revision  by hverkuil: (media: rj54n1cb0c: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/rj54n1cb0c.c
+
+  	 Revision  by hverkuil: (media: i2c: st-mipid02: Use %pe format specifier)
+
+	 change: edit drivers/media/i2c/st-mipid02.c
+
+  	 Revision  by hverkuil: (media: ipu-bridge: Use %pe format specifier)
+
+	 change: edit drivers/media/pci/intel/ipu-bridge.c
+
+  	 Revision  by hverkuil: (media: ipu3-cio2: Use %pe format specifier)
+
+	 change: edit drivers/media/pci/intel/ipu3/ipu3-cio2.c
+
+  	 Revision  by hverkuil: (media: ipu6: isys: Use %pe format specifier)
+
+	 change: edit drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
+
+  	 Revision  by hverkuil: (media: mediatek: vcodec: Use %pe format specifier)
+
+	 change: edit drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_dbgfs.c
+
+  	 Revision  by hverkuil: (media: imx8mq-mipi-csi2: Use %pe format specifier)
+
+	 change: edit drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+
+  	 Revision  by hverkuil: (media: platform: rzg2l-cru: Use %pe format specifier)
+
+	 change: edit drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
+
+  	 Revision  by hverkuil: (media: renesas: vsp1: Use %pe format specifier)
+
+	 change: edit drivers/media/platform/renesas/vsp1/vsp1_drv.c
+
+  	 Revision  by hverkuil: (media: rkisp1: Use %pe format specifier)
+
+	 change: edit drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+
+	 change: edit drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
+
+  	 Revision  by hverkuil: (media: samsung: exynos4-is: Use %pe format specifier)
+
+	 change: edit drivers/media/platform/samsung/exynos4-is/media-dev.c
+
+  	 Revision  by hverkuil: (media: ti: cal Use %pe format specifier)
+
+	 change: edit drivers/media/platform/ti/cal/cal.c
+
+  	 Revision  by hverkuil: (media: staging: ipu3-imgu: Use %pe format specifier)
+
+	 change: edit drivers/staging/media/ipu3/ipu3.c
+
+  	 Revision  by hverkuil: (media: staging/ipu7: Use %pe format specifier)
+
+	 change: edit drivers/staging/media/ipu7/ipu7-isys-csi2.c
+
+	 change: edit drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
+
+  	 Revision  by hverkuil: (media: v4l2-mem2mem: Don&#039;t copy frame flags in v4l2_m2m_buf_copy_metadata())
+
+	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
+
+	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
+
+	 change: edit drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
+
+	 change: edit drivers/media/platform/rockchip/rkvdec/rkvdec.c
+
+	 change: edit drivers/media/platform/amphion/vdec.c
+
+	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c
+
+	 change: edit drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
+
+	 change: edit drivers/staging/media/imx/imx-media-csc-scaler.c
+
+	 change: edit drivers/media/v4l2-core/v4l2-mem2mem.c
+
+	 change: edit drivers/media/platform/chips-media/coda/coda-jpeg.c
+
+	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
+
+	 change: edit drivers/media/platform/allegro-dvt/allegro-core.c
+
+	 change: edit drivers/media/platform/amphion/venc.c
+
+	 change: edit drivers/media/test-drivers/visl/visl-dec.c
+
+	 change: edit drivers/media/platform/st/stm32/dma2d/dma2d.c
+
+	 change: edit drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
+
+	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
+
+	 change: edit drivers/media/platform/verisilicon/hantro_drv.c
+
+	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_if.c
+
+	 change: edit drivers/media/platform/rockchip/rga/rga.c
+
+	 change: edit drivers/media/platform/chips-media/coda/coda-bit.c
+
+	 change: edit drivers/staging/media/sunxi/cedrus/cedrus_dec.c
+
+	 change: edit drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
+
+	 change: edit drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
+
+	 change: edit drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
+
+	 change: edit drivers/media/platform/nxp/dw100/dw100.c
+
+	 change: edit drivers/media/platform/nvidia/tegra-vde/h264.c
+
+	 change: edit drivers/media/test-drivers/vim2m.c
+
+	 change: edit drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
+
+	 change: edit drivers/media/platform/imagination/e5010-jpeg-enc.c
+
+	 change: edit include/media/v4l2-mem2mem.h
+
+	 change: edit drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
+
+	 change: edit drivers/media/test-drivers/vicodec/vicodec-core.c
+------=_Part_1_1162964637.1760908440097--
 
