@@ -1,413 +1,271 @@
-Return-Path: <linux-media+bounces-44971-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44972-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0173FBEED12
-	for <lists+linux-media@lfdr.de>; Sun, 19 Oct 2025 23:14:09 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id C12C0BEEE01
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 00:11:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF0933B91D1
-	for <lists+linux-media@lfdr.de>; Sun, 19 Oct 2025 21:14:07 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 13779188E14E
+	for <lists+linux-media@lfdr.de>; Sun, 19 Oct 2025 22:11:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D09723817E;
-	Sun, 19 Oct 2025 21:14:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E6DD23EAAF;
+	Sun, 19 Oct 2025 22:11:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b="dqdsdPtD"
+	dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b="JcLWKVJX"
 X-Original-To: linux-media@vger.kernel.org
-Received: from linuxtv.org (140-211-166-241-openstack.osuosl.org [140.211.166.241])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 119F51EC01B
-	for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 21:14:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=140.211.166.241
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6D7223DE8
+	for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 22:11:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760908443; cv=none; b=NW4yhjfeLYlukpWlacn1EsCO8e9uujpXrUx7wLy0AxFDg9/rGm3pxkWCTfCtWgO2MCoYN5azsFhKDxL7Ixw8xCaZwtiBrbDA3RJ1B6src2gA+sifcz1eDC/mM5CRmkAjk66aqHTgeX8QWxkZviZst+ktJRJUFTbvo25L8nWxj8k=
+	t=1760911880; cv=none; b=DB7eL+gs3Q/KXMLsUOnhlup7MXI71XTuA49T7b+KzwoOi2mgET4iSKSaLmt4a0j+/kH5a/E8WK/nCG0z53JOlo0TVVv32DJuVjj/yTVFeEjCWkneRf+8LPonNgNSsIyOQisoKdavqrd9I97BH9Lgq+Edn1iX1FaZpSWbaZQPoVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760908443; c=relaxed/simple;
-	bh=XedO90ypOdggAFyBaulxnXgess3PoQWn3O7RimdfMYw=;
-	h=Date:From:To:Message-ID:In-Reply-To:References:Subject:
-	 MIME-Version:Content-Type; b=i2XMHIg+cirEGD0tD38gq4ZxkzyxevPnY0ya3zs4fQgWRZ86jSxQN+hXF/mJIoa9O0FamzD5fErC49hBT/9Qdbnu4x6okNAmeinio/lq5vwwsNSda4V3WPGiIgyVhVBU+O0BGGXCbYFPQ1Oo40EV/9e6MOFTqJS45aE4/XxO1dE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org; spf=pass smtp.mailfrom=linuxtv.org; dkim=pass (2048-bit key) header.d=linuxtv.org header.i=@linuxtv.org header.b=dqdsdPtD; arc=none smtp.client-ip=140.211.166.241
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxtv.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxtv.org
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=linuxtv.org
-	; s=s1; h=List-ID:Content-Type:MIME-Version:Subject:References:In-Reply-To:
-	Message-ID:To:Reply-To:From:Date:Sender:Cc:Content-Transfer-Encoding:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=/kDO+5ZO4hRTfNgdDh5d4cF5ZueAwUHkF1XsXa3SfYI=; b=dqdsdPtDhUu6s1+X8iBzruezhY
-	wZbYGNTIKVowe5+0wimq/2T05leDIr6o8XhrSpW4w8/AYX+AWItF3ud7GxBHSfbbReXnkTtwj8+wA
-	7O2sB7LpF8439fSs9IhMvh58awaOG2oCQc5MUSIH6EAWLQtn+myGtx/f/0r/MAzngCKBvAKUIECZL
-	MtKTPHFfWu+AIyLRoz1YhUFLHCcZrD3fHGCSFT5aOFASeyeg5oxiU9pN1cUBN01SPbb9wNLGy/Gfs
-	XhzOcBJzTwTYCTWC/ZT3pLquZaVgQ/AfqV9NOxpoVKTACD7RJAqzPBpdvkuY1ktJ7mxtCzcVoPFYM
-	mv4KEQwA==;
-Received: from builder.linuxtv.org ([140.211.167.10])
-	by linuxtv.org with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1vAaj3-0006GB-0U;
-	Sun, 19 Oct 2025 21:14:01 +0000
-Received: from localhost ([127.0.0.1] helo=builder.linuxtv.org)
-	by builder.linuxtv.org with esmtp (Exim 4.96)
-	(envelope-from <jenkins@linuxtv.org>)
-	id 1vAaj2-00HMtL-18;
-	Sun, 19 Oct 2025 21:14:01 +0000
-Date: Sun, 19 Oct 2025 21:13:59 +0000 (UTC)
-From: Jenkins Builder Robot <jenkins@linuxtv.org>
-Reply-To: mchehab@kernel.org, media-committers@linuxtv.org,
-	linux-media@vger.kernel.org
-To: mchehab@kernel.org, media-committers@linuxtv.org,
-	linux-media@vger.kernel.org, hverkuil@xs4all.nl
-Message-ID: <2136340073.2.1760908440353@builder.linuxtv.org>
-In-Reply-To: <128102591.2.1760735975289@builder.linuxtv.org>
-References: <128102591.2.1760735975289@builder.linuxtv.org>
-Subject: [Jenkins] media.git_drivers_build #440: build failed for x86_64
- allyesconfig x86_64 allmodconfig x86_64 no PM
+	s=arc-20240116; t=1760911880; c=relaxed/simple;
+	bh=CFji2GBxIwTjwBWzEkBa3boskHVWwJ0yj1rRtqjDE5M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Pp3XQn8EOD1cLeWxeqG8BPw/ObkprN2pbqozJBmJwnhQ/0pF9wLhatAU8guMsvH6CLjEzd82UF9ncN2F9LOx5kfl86zNrYGkhyjC7nOKuhP6Tp6vSvE8msPfzw9mrI7GQoWmQa0OcHYlZdKeDfPeNTsyMH2grRPebZ/DJz06cHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com; spf=pass smtp.mailfrom=kerneltoast.com; dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b=JcLWKVJX; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kerneltoast.com
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7a226a0798cso1839054b3a.2
+        for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 15:11:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=kerneltoast.com; s=google; t=1760911878; x=1761516678; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=7ITotXCHgCqdxM2m7biNFUouN5fBGEv3mYrcjHpAyWU=;
+        b=JcLWKVJX6HWIfdft0VnYdqYXCAqY+c1ZMwCqO6yVD91650zWLwHq5rEHmTnm2yIU/C
+         U9XNC1zsDUMBB4TqfVXws9iTOK++f5HDYiCpdiAjTk6JMdftkTN8PDBJ/E8o6tUpF2Td
+         qgzgU4RA6zJOcZRGH9RXpeRelVkcS3QuPuDxXBWhOD4OH2Jl8Ik/WbNLnEqUzaLurZAq
+         sr7qfWtzhBPbiclx87Jqbu26KFE5E7z/koQ2nvaVLkytvQKrOQLm2RbrIfjzNfWndfMM
+         sJc7OjhePbKKaKSqb5e4NHVI/JSH4SbcUm0hNl9d5jc0Q5f6+s4IlpbNmV33haI1eESb
+         Ey6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760911878; x=1761516678;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7ITotXCHgCqdxM2m7biNFUouN5fBGEv3mYrcjHpAyWU=;
+        b=Gdffk5w8Bos8fhsWfTxtDtqobmWfiFBrYuX6aKiNLyfbWt8sHqcsS2s/+HtiU6Z+Sz
+         typkwqPXJbV8ehOq1DKxnBOQplx4kC6KMxDJMhV6Ta3jbyH8eUWfs4V/lpxBB66mUyMJ
+         at5a1rkBV9czwxl54jQWacEnog6rnhgigCqL9cWAmxRnfOzammp3ykegD5/fNbLvhqii
+         llPsf/0Kxy0av1LzNT6hejxFXGeuiuBcX1Ubp3yfZbBZ4SqU9kK4BqLTExzdom1yZh1V
+         +nQAaw1F/pUyIP3HdTfcir7SKt3tclFVJb3JLnjtASpw0B93Ut0cTuLm6HsyQUyDYKPX
+         NjVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWUzgQgF4wSUuO3D/BTxeEdcvjk67Z+gvJ7cSDyJ/xGk/Z2aKIJ8tyzV3LxKiYGPHvelrX8x45WXJogHw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw1yySMXg+4DGQc8CW0zRh/DSBytUTj40uLZKmjlL/SYoCDT36O
+	Q4fHofXPRRNNx9g3nqp2QAHLFyRsCjldZMEsJ7IsJmkRhhMVXSIMRzpBWo9XRhZmSROH
+X-Gm-Gg: ASbGnctkdw9jH6q86NgrRSfuRnrrIj+FMmIl/z3zmxgBIImzaHCsbu+KbgHFNQxW0S0
+	DtgSkJnGdp+6afM+fVqWBlUT+9DtUN/aLZCbxX1w6x3gQ3/uoYFa6g0hHfblHKPBRTosZ5ACnXA
+	qzj/LmLpep6JExvS1Kf1icuUzjOpSKTxFdbLIIF0b3BMM9VRYeAqCZZNIGO+eUEDQvo0bnThykS
+	KVmiNhbAaqUdUp/NExwqk/VLckdarHwHcl3CXkkUxMzblpcEf3qh9eS1P9X2sLXs6XMFPZOl2sW
+	Dhu16wekJfAGpz8mAErueAjwENystHVJbDk7oQHrCjWiHeg/d8h/lmeBMk0CstgME1U2BjpjGhH
+	ZEKOJ2WR1yOd1o8Fyro6vTdeBXYTBQMcaNNoWqMPGBvGGnjxf4aXE8Xia9GI6Ds4GAlBdaFKvPS
+	DPoFUwA1kPgi1J1g==
+X-Google-Smtp-Source: AGHT+IHB11KabbcI+ZPShYZBM6U1vgBV9SjX9/XOJTl0fi6uGEKwcUfbZUV6/aX8A3ri1gJR8OXPGg==
+X-Received: by 2002:a05:6a00:1783:b0:77f:2dc4:4c16 with SMTP id d2e1a72fcca58-7a220acb8fcmr11428639b3a.21.1760911878008;
+        Sun, 19 Oct 2025 15:11:18 -0700 (PDT)
+Received: from sultan-box ([142.147.89.222])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a23011084csm6376643b3a.58.2025.10.19.15.11.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 19 Oct 2025 15:11:17 -0700 (PDT)
+Date: Sun, 19 Oct 2025 15:11:13 -0700
+From: Sultan Alsawaf <sultan@kerneltoast.com>
+To: "Du, Bin" <bin.du@amd.com>
+Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
+	laurent.pinchart+renesas@ideasonboard.com,
+	bryan.odonoghue@linaro.org, sakari.ailus@linux.intel.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
+	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
+	Dominic.Antony@amd.com, mario.limonciello@amd.com,
+	richard.gong@amd.com, anson.tsao@amd.com,
+	Alexey Zagorodnikov <xglooom@gmail.com>
+Subject: Re: [PATCH v4 5/7] media: platform: amd: isp4 video node and buffers
+ handling added
+Message-ID: <aPViAdn4Z8OAO1lj@sultan-box>
+References: <20250911100847.277408-1-Bin.Du@amd.com>
+ <20250911100847.277408-6-Bin.Du@amd.com>
+ <aNzP2LH0OwUkMtGb@sultan-box>
+ <c28eb905-b578-4512-aa9c-37281d3a0ee4@amd.com>
+ <51c24e3d-be89-44c9-8247-95fb776aed78@amd.com>
+ <aPH_iHmPFWTrrOQE@sultan-box>
+ <3ff43351-9236-43a6-aea8-ab492cc86699@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; 
-	boundary="----=_Part_1_1162964637.1760908440097"
-X-Jenkins-Job: media.git_drivers_build
-
-------=_Part_1_1162964637.1760908440097
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-
-Some tests failed:
-	FAIL: x86_64 allyesconfig
-	FAIL: x86_64 allmodconfig
-	PASS: arm32 allmodconfig
-	FAIL: x86_64 no PM
-	PASS: arm32 allyesconfig
-	PASS: arm64 allyesconfig
-	PASS: arm64 allmodconfig
-	PASS: clang15 allmodconfig
-
-GENERAL INFO
-
-BUILD SUCCESSFUL
-Build URL: https://builder.linuxtv.org/job/media.git_drivers_build/440/
-Project: media.git_drivers_build
-Date of build: Sun, 19 Oct 2025 21:05:06 GMT
-Build duration: 8 min 53 sec and counting
-
-
-CHANGE SET
-
-  	 Revision  by hverkuil: (media: v4l2-mem2mem: Document that v4l2_m2m_get_vq() never returns NULL)
-
-	 change: edit include/media/v4l2-mem2mem.h
-
-	 change: edit drivers/media/v4l2-core/v4l2-mem2mem.c
-
-  	 Revision  by hverkuil: (media: allgro-dvt: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/allegro-dvt/allegro-core.c
-
-  	 Revision  by hverkuil: (media: meson-g2d: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/amlogic/meson-ge2d/ge2d.c
-
-  	 Revision  by hverkuil: (media: amphion: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/amphion/vdec.c
-
-	 change: edit drivers/media/platform/amphion/venc.c
-
-  	 Revision  by hverkuil: (media: coda: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/chips-media/coda/coda-common.c
-
-  	 Revision  by hverkuil: (media: imagination: e5010: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/imagination/e5010-jpeg-enc.c
-
-  	 Revision  by hverkuil: (media: m2m-deinterlace: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/m2m-deinterlace.c
-
-  	 Revision  by hverkuil: (media: mediatek: jpeg: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-
-  	 Revision  by hverkuil: (media: mediatek: vcodec: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/mediatek/vcodec/decoder/mtk_vcodec_dec.c
-
-	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-
-	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
-
-	 change: edit drivers/media/platform/mediatek/vcodec/encoder/mtk_vcodec_enc.c
-
-  	 Revision  by hverkuil: (media: dw100: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/nxp/dw100/dw100.c
-
-  	 Revision  by hverkuil: (media: imx-jpeg: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-
-  	 Revision  by hverkuil: (media: imx-pxp: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/nxp/imx-pxp.c
-
-  	 Revision  by hverkuil: (media: nxp: imx8-isi: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-
-  	 Revision  by hverkuil: (media: mx2_emmaprp: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/nxp/mx2_emmaprp.c
-
-  	 Revision  by hverkuil: (media: qcom: iris: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/qcom/iris/iris_venc.c
-
-	 change: edit drivers/media/platform/qcom/iris/iris_vdec.c
-
-  	 Revision  by hverkuil: (media: qcom: venus: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/qcom/venus/venc.c
-
-	 change: edit drivers/media/platform/qcom/venus/vdec.c
-
-  	 Revision  by hverkuil: (media: renesas: fdp1: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/renesas/rcar_fdp1.c
-
-  	 Revision  by hverkuil: (media: rcar_jpu: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/renesas/rcar_jpu.c
-
-  	 Revision  by hverkuil: (media: platform: rga: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/rockchip/rga/rga.c
-
-  	 Revision  by hverkuil: (media: samsung: s5p-g2d: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/samsung/s5p-g2d/g2d.c
-
-  	 Revision  by hverkuil: (media: samsung: s5p-jpeg: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/samsung/s5p-jpeg/jpeg-core.c
-
-  	 Revision  by hverkuil: (media: stm32: dma2d: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/st/stm32/dma2d/dma2d.c
-
-  	 Revision  by hverkuil: (media: ti: vpe: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/platform/ti/vpe/vpe.c
-
-  	 Revision  by hverkuil: (media: vicodec: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/test-drivers/vicodec/vicodec-core.c
-
-  	 Revision  by hverkuil: (media: vim2m: Drop unneeded v4l2_m2m_get_vq() NULL check)
-
-	 change: edit drivers/media/test-drivers/vim2m.c
-
-  	 Revision  by hverkuil: (media: dvbdev: Use %pe format specifier)
-
-	 change: edit drivers/media/dvb-core/dvbdev.c
-
-  	 Revision  by hverkuil: (media: mn88443x: Use %pe format specifier)
-
-	 change: edit drivers/media/dvb-frontends/mn88443x.c
-
-  	 Revision  by hverkuil: (media: adv7842: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/adv7842.c
-
-  	 Revision  by hverkuil: (media: ar0521: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/ar0521.c
-
-  	 Revision  by hverkuil: (media: ccs: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/ccs/ccs-core.c
-
-  	 Revision  by hverkuil: (media: i2c: ds90ub913: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/ds90ub913.c
-
-  	 Revision  by hverkuil: (media: i2c: ds90ub953: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/ds90ub953.c
-
-  	 Revision  by hverkuil: (media: i2c: imx274: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/imx274.c
-
-  	 Revision  by hverkuil: (media: i2c: imx335: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/imx335.c
-
-  	 Revision  by hverkuil: (media: i2c: imx412: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/imx412.c
-
-  	 Revision  by hverkuil: (media: i2c: max9286: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/max9286.c
-
-  	 Revision  by hverkuil: (media: i2c: max96717: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/max96717.c
-
-  	 Revision  by hverkuil: (media: i2c: mt9m111: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/mt9m111.c
-
-  	 Revision  by hverkuil: (media: i2c: mt9v111: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/mt9v111.c
-
-  	 Revision  by hverkuil: (media: i2c: ov5675: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/ov5675.c
-
-  	 Revision  by hverkuil: (media: i2c: ov5693: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/ov5693.c
-
-  	 Revision  by hverkuil: (media: i2c: ov9282: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/ov9282.c
-
-  	 Revision  by hverkuil: (media: rj54n1cb0c: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/rj54n1cb0c.c
-
-  	 Revision  by hverkuil: (media: i2c: st-mipid02: Use %pe format specifier)
-
-	 change: edit drivers/media/i2c/st-mipid02.c
-
-  	 Revision  by hverkuil: (media: ipu-bridge: Use %pe format specifier)
-
-	 change: edit drivers/media/pci/intel/ipu-bridge.c
-
-  	 Revision  by hverkuil: (media: ipu3-cio2: Use %pe format specifier)
-
-	 change: edit drivers/media/pci/intel/ipu3/ipu3-cio2.c
-
-  	 Revision  by hverkuil: (media: ipu6: isys: Use %pe format specifier)
-
-	 change: edit drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-
-  	 Revision  by hverkuil: (media: mediatek: vcodec: Use %pe format specifier)
-
-	 change: edit drivers/media/platform/mediatek/vcodec/common/mtk_vcodec_dbgfs.c
-
-  	 Revision  by hverkuil: (media: imx8mq-mipi-csi2: Use %pe format specifier)
-
-	 change: edit drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-
-  	 Revision  by hverkuil: (media: platform: rzg2l-cru: Use %pe format specifier)
-
-	 change: edit drivers/media/platform/renesas/rzg2l-cru/rzg2l-csi2.c
-
-  	 Revision  by hverkuil: (media: renesas: vsp1: Use %pe format specifier)
-
-	 change: edit drivers/media/platform/renesas/vsp1/vsp1_drv.c
-
-  	 Revision  by hverkuil: (media: rkisp1: Use %pe format specifier)
-
-	 change: edit drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-
-	 change: edit drivers/media/platform/rockchip/rkisp1/rkisp1-csi.c
-
-  	 Revision  by hverkuil: (media: samsung: exynos4-is: Use %pe format specifier)
-
-	 change: edit drivers/media/platform/samsung/exynos4-is/media-dev.c
-
-  	 Revision  by hverkuil: (media: ti: cal Use %pe format specifier)
-
-	 change: edit drivers/media/platform/ti/cal/cal.c
-
-  	 Revision  by hverkuil: (media: staging: ipu3-imgu: Use %pe format specifier)
-
-	 change: edit drivers/staging/media/ipu3/ipu3.c
-
-  	 Revision  by hverkuil: (media: staging/ipu7: Use %pe format specifier)
-
-	 change: edit drivers/staging/media/ipu7/ipu7-isys-csi2.c
-
-	 change: edit drivers/staging/media/ipu7/ipu7-isys-csi-phy.c
-
-  	 Revision  by hverkuil: (media: v4l2-mem2mem: Don&#039;t copy frame flags in v4l2_m2m_buf_copy_metadata())
-
-	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_hevc_req_multi_if.c
-
-	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_av1_req_lat_if.c
-
-	 change: edit drivers/media/platform/sunxi/sun8i-rotate/sun8i_rotate.c
-
-	 change: edit drivers/media/platform/rockchip/rkvdec/rkvdec.c
-
-	 change: edit drivers/media/platform/amphion/vdec.c
-
-	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp8_req_if.c
-
-	 change: edit drivers/media/platform/sunxi/sun8i-di/sun8i-di.c
-
-	 change: edit drivers/staging/media/imx/imx-media-csc-scaler.c
-
-	 change: edit drivers/media/v4l2-core/v4l2-mem2mem.c
-
-	 change: edit drivers/media/platform/chips-media/coda/coda-jpeg.c
-
-	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_vp9_req_lat_if.c
-
-	 change: edit drivers/media/platform/allegro-dvt/allegro-core.c
-
-	 change: edit drivers/media/platform/amphion/venc.c
-
-	 change: edit drivers/media/test-drivers/visl/visl-dec.c
-
-	 change: edit drivers/media/platform/st/stm32/dma2d/dma2d.c
-
-	 change: edit drivers/media/platform/mediatek/mdp3/mtk-mdp3-m2m.c
-
-	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_multi_if.c
-
-	 change: edit drivers/media/platform/verisilicon/hantro_drv.c
-
-	 change: edit drivers/media/platform/mediatek/vcodec/decoder/vdec/vdec_h264_req_if.c
-
-	 change: edit drivers/media/platform/rockchip/rga/rga.c
-
-	 change: edit drivers/media/platform/chips-media/coda/coda-bit.c
-
-	 change: edit drivers/staging/media/sunxi/cedrus/cedrus_dec.c
-
-	 change: edit drivers/media/platform/nxp/imx-jpeg/mxc-jpeg.c
-
-	 change: edit drivers/media/platform/mediatek/jpeg/mtk_jpeg_enc_hw.c
-
-	 change: edit drivers/media/platform/nxp/imx8-isi/imx8-isi-m2m.c
-
-	 change: edit drivers/media/platform/nxp/dw100/dw100.c
-
-	 change: edit drivers/media/platform/nvidia/tegra-vde/h264.c
-
-	 change: edit drivers/media/test-drivers/vim2m.c
-
-	 change: edit drivers/media/platform/mediatek/jpeg/mtk_jpeg_core.c
-
-	 change: edit drivers/media/platform/imagination/e5010-jpeg-enc.c
-
-	 change: edit include/media/v4l2-mem2mem.h
-
-	 change: edit drivers/media/platform/mediatek/jpeg/mtk_jpeg_dec_hw.c
-
-	 change: edit drivers/media/test-drivers/vicodec/vicodec-core.c
-------=_Part_1_1162964637.1760908440097--
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <3ff43351-9236-43a6-aea8-ab492cc86699@amd.com>
+
+On Fri, Oct 17, 2025 at 05:53:27PM +0800, Du, Bin wrote:
+> On 10/17/2025 4:34 PM, Sultan Alsawaf wrote:
+> > On Thu, Oct 16, 2025 at 04:13:47PM +0800, Du, Bin wrote:
+> > > On 10/11/2025 5:30 PM, Du, Bin wrote:
+> > > > On 10/1/2025 2:53 PM, Sultan Alsawaf wrote:
+> > > > > On Thu, Sep 11, 2025 at 06:08:45PM +0800, Bin Du wrote:
+> > > > > > +++ b/drivers/media/platform/amd/isp4/isp4.c
+> > > > > > @@ -178,6 +178,16 @@ static int isp4_capture_probe(struct
+> > > > > > platform_device *pdev)
+> > > > > >            goto err_isp4_deinit;
+> > > > > >        }
+> > > > > > +    ret = media_create_pad_link(&isp_dev->isp_sdev.sdev.entity,
+> > > > > > +                    0, &isp_dev->isp_sdev.isp_vdev.vdev.entity,
+> > > > > > +                    0,
+> > > > > > +                    MEDIA_LNK_FL_ENABLED |
+> > > > > > +                    MEDIA_LNK_FL_IMMUTABLE);
+> > > > > > +    if (ret) {
+> > > > > > +        dev_err(dev, "fail to create pad link %d\n", ret);
+> > > > > > +        goto err_isp4_deinit;
+> > > > > > +    }
+> > > > > > +
+> > > > > 
+> > > > > Two problems with this hunk:
+> > > > > 
+> > > > > 1. According to the comment in include/media/media-device.h [1],
+> > > > >      media_create_pad_link() should be called before
+> > > > > media_device_register():
+> > > > > 
+> > > > >       * So drivers need to first initialize the media device,
+> > > > > register any entity
+> > > > >       * within the media device, create pad to pad links and then
+> > > > > finally register
+> > > > >       * the media device by calling media_device_register() as a
+> > > > > final step.
+> > > > > 
+> > > > > 2. Missing call to media_device_unregister() on error when
+> > > > >      media_create_pad_link() fails.
+> > > > > 
+> > > > > Since the media_create_pad_link() will be moved before
+> > > > > media_device_register(),
+> > > > > we will need to clean up media_create_pad_link() when
+> > > > > media_device_register()
+> > > > > fails.
+> > > > > 
+> > > > > The clean-up function for media_create_pad_link() is
+> > > > > media_device_unregister().
+> > > > > According to the comment for media_device_unregister() [2], it is
+> > > > > safe to call
+> > > > > media_device_unregister() on an unregistered media device that is
+> > > > > initialized
+> > > > > (through media_device_init()).
+> > > > > 
+> > > > > In addition, this made me realize that there's no call to
+> > > > > media_device_cleanup()
+> > > > > in the entire driver too. This is the cleanup function for
+> > > > > media_device_init(),
+> > > > > so it should be called on error and on module unload.
+> > > > > 
+> > > > > To summarize, make the following changes:
+> > > > > 
+> > > > > 1. Move the media_create_pad_link() up, right before
+> > > > > media_device_register().
+> > > > > 
+> > > > > 2. When media_device_register() fails, clean up
+> > > > > media_create_pad_link() by
+> > > > >      calling media_device_unregister().
+> > > > > 
+> > > > > 3. Add a missing call to media_device_cleanup() on error and module
+> > > > > unload to
+> > > > >      clean up media_device_init().
+> > > > > 
+> > > > 
+> > > > Very clear guide, will follow your advice.
+> > > > 
+> > > > > >        platform_set_drvdata(pdev, isp_dev);
+> > > > > >        return 0;
+> > > 
+> > > For 2, we found when media_device_register() fails, calling
+> > > media_device_unregister() won't clean up media_create_pad_link() because it
+> > > simply returns without doing anything(see https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/mc/mc-device.c?h=v6.17-rc7#n797).
+> > > Therefore like other kernel drivers, we'd rather not call
+> > > media_device_unregister() in this scenario, it doesn't cause issues, but
+> > > it's not logically correct. Cleanup for media_create_pad_link() occurs
+> > > during error handling via isp4sd_deinit()->isp4vid_dev_deinit()->vb2_video_unregister_device()->...->media_entity_remove_link().
+> > > What do you think?
+> > 
+> > Oh, good catch! You are right about media_device_unregister() not cleaning up
+> > media_create_pad_link().
+> > 
+> > But I don't see how vb2_video_unregister_device() ends up calling
+> > media_entity_remove_links().
+> > 
+> > It looks like media_create_pad_link() is actually cleaned up via
+> > v4l2_device_unregister_subdev()->media_device_unregister_entity()->__media_device_unregister_entity()->__media_entity_remove_links()
+> > 
+> > And I mentioned before to add a missing call to v4l2_device_unregister_subdev()
+> > on error, so it looks like that will cover the media_create_pad_link() cleanup
+> > and therefore you don't need to call media_device_unregister() in this scenario.
+> > 
+> > Does that look correct?
+> > 
+> 
+> Yes, Sultan, we moved v4l2_device_unregister_subdev to isp4sd_deinit as you
+> suggested, so current isp4sd_deinit() looks like this
+> void isp4sd_deinit(struct isp4_subdev *isp_subdev)
+> {
+> 	struct isp4_interface *ispif = &isp_subdev->ispif;
+> 
+> 	isp4vid_dev_deinit(&isp_subdev->isp_vdev);
+> 	v4l2_device_unregister_subdev(&isp_subdev->sdev);
+> 	media_entity_cleanup(&isp_subdev->sdev.entity);
+> 	isp4if_deinit(ispif);
+> 	isp4sd_module_enable(isp_subdev, false);
+> 
+> 	ispif->status = ISP4IF_STATUS_PWR_OFF;
+> }
+
+Right, and v4l2_device_unregister_subdev() is *also* needed inside isp4sd_init()
+to handle cleanup on error when isp4sd_init() doesn't complete successfully.
+That's what I meant in our last few emails, since isp4sd_deinit() won't be
+called in that scenario. Sorry that wasn't clear.
+
+> 
+> You are correct and I believe both isp4vid_dev_deinit and
+> v4l2_device_unregister_subdev can cause media_create_pad_link() being
+> cleaned up. Because isp4vid_dev_deinit is called first, so the link will be
+> cleaned by it, here is the call stack FYI, does it make sense?
+> [    5.198328] Call Trace:
+> [    5.198329]  <TASK>
+> [    5.198331]  dump_stack_lvl+0x76/0xa0
+> [    5.198336]  dump_stack+0x10/0x20
+> [    5.198338]  __media_entity_remove_link+0xdf/0x1f0 [mc]
+> [    5.198342]  __media_entity_remove_links+0x31/0x70 [mc]
+> [    5.198344]  __media_device_unregister_entity+0x93/0xf0 [mc]
+> [    5.198346]  media_device_unregister_entity+0x2f/0x50 [mc]
+> [    5.198348]  v4l2_device_release+0x112/0x190 [videodev]
+> [    5.198355]  device_release+0x38/0xa0
+> [    5.198358]  kobject_put+0x9e/0x200
+> [    5.198359]  put_device+0x13/0x30
+> [    5.198359]  vb2_video_unregister_device+0x8e/0xd0 [videobuf2_v4l2]
+> [    5.198362]  isp4vid_dev_deinit+0xe/0x20 [amd_capture]
+> [    5.198364]  isp4sd_deinit+0x25/0x80 [amd_capture]
+> [    5.198366]  isp4_capture_probe+0x1ec/0x2f0 [amd_capture]
+> [    5.198368]  platform_probe+0x3f/0xb0
+> [    5.198370]  really_probe+0xf4/0x3b0
+
+Thanks for clarifying! I was wondering where vdev.entity gets cleaned up, and it
+looks like that is where it happens. And the subdev entity, sdev.entity, gets
+cleaned up by v4l2_device_unregister_subdev().
+
+To summarize: Assuming all of my other advice is implemented, the cleanup for
+media_create_pad_link() will already be handled on error and device removal. So
+the only action you should take is to disregard this advice from me:
+
+ "2. When media_device_register() fails, clean up media_create_pad_link() by
+     calling media_device_unregister()."
+
+And that is all. :)
+
+Sultan
 
