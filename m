@@ -1,258 +1,340 @@
-Return-Path: <linux-media+bounces-44967-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44968-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EE2FBEE03B
-	for <lists+linux-media@lfdr.de>; Sun, 19 Oct 2025 10:02:45 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1104BEE499
+	for <lists+linux-media@lfdr.de>; Sun, 19 Oct 2025 14:13:36 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9CEE7402551
-	for <lists+linux-media@lfdr.de>; Sun, 19 Oct 2025 08:02:33 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 927794E4755
+	for <lists+linux-media@lfdr.de>; Sun, 19 Oct 2025 12:13:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0661F230BCB;
-	Sun, 19 Oct 2025 08:02:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 092FE2E4247;
+	Sun, 19 Oct 2025 12:13:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="jNbM4sh7"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="U4IhH/Qx"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E390C2309AA
-	for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 08:02:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D97AF2877D7
+	for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 12:13:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760860941; cv=none; b=fNXb2wq2yJ5ud813+y+lAhKIQi7lbmkSd9yBc/dZlZcr+YmIoGS4VHaP6uC9La0A8vkcfxqFPntBgd35vwp3Ua9yUiQAiGFfJZaAEHnv72JMY2tvx7drtLFi7tJbMI7p11c46k6EOKu2WQUDYEhbjrX6ChkGZzkHJLEce+euZ+E=
+	t=1760876006; cv=none; b=PXMpR4L3Mqw6fN6pMtvMKWMP8MxeAUlh8CNIxYTrM5DJ0rnQwYF8I9bOPhYtaChhxJE1Vg8DOWPqqPYcpeA9RWLQxZN+o3HwDr4zMu/nCd3zyJtZ0h6Yu6tJlOD94iV2y8rzCYdtwJx5VMj4IPLZ1A6PT2jm//11xWRHg80MwE0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760860941; c=relaxed/simple;
-	bh=GaGviXQd1BmdQPJXtm3IcR1CGQVbHCroCtuSPzMiyZM=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=hwjWunNvEmiKkCfeZrQbA/J37k0s6S14JsAHhflXhflDBhOy2X1sdOysX9E9otvxhPBH4DS9cnEZJX8damwxqxecTFLdextyfw6o4tTKebx6SOGPx24LfvATh5SFq1evEMLRA4dA1cfIhyakjnkG6xX8o+Awt12rmEwS80YbSG4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=jNbM4sh7; arc=none smtp.client-ip=205.220.168.131
+	s=arc-20240116; t=1760876006; c=relaxed/simple;
+	bh=HSQA+Pd76pKK16Rnlbrdl2QZ+5IMbABb8mM/skpID+s=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ctVa8LRp8MdsXYhd940Zku4IsZq6PHzg/uIvFGGi/0Qdo97v2OUO3TcWgncnlmLehgYVACSnLUZZbNA9QN6R2PMYvy4qo5m/0b2L4dFhHAGmRpyXTvw6/+vk/zIPEzX8wtB7fBUfDr3XEc6aXQu2tMVF3/ALcc5WI+aOXIdsoxc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=U4IhH/Qx; arc=none smtp.client-ip=205.220.168.131
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59J3OOou029335
-	for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 08:02:19 GMT
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59JBZZD1016388
+	for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 12:13:24 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=BwC8FmuoUnU
-	oxcHFn7z7n4laBB5CxBLWjXPUGBg9F7s=; b=jNbM4sh7ncRMuYWt7JhkzzLwrqZ
-	n7EdPrOBV6R5IrgLpRoMWbLStWIjD0jSzoZYbv3eUXScE4/g69PIcjBQADuukvBt
-	SCL3uF90CBPhOHrO10FnXYieiVTV+qFUaoMmepcl93VYClHyo8mTbYPmqND5Xy3y
-	AoP0UB5JLyTJXmA2rr2sN0E3abZYjP7gltFxZ/EOSr6xp8F/OBjnEqPv7QFQQ6vv
-	sP+esU9H4vVYZutjuzEq0Y/4f9M6y0nGLGDsfyJ88T9C2T0OYIjknA1KQn/E2zhn
-	gpwc2/QsbDh82bQgyQ5zp9XNdtvmjpcTjLwuNLy5UtWlIB76Vdnaod3WTuw==
-Received: from mail-qv1-f71.google.com (mail-qv1-f71.google.com [209.85.219.71])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v343t05m-1
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	sLjMakJS7ssq/syc/5Yvc6UyrE0zE/sWbLAaJ/RVke4=; b=U4IhH/QxRsqwWpIR
+	8Y7+FuRQRBqAX19fHyn8fkE93Mji5Wsc6hQ5zd0GnE/TBn9PqtB0IHFejlwbMgMX
+	UsfPEIFO2m/CZEvfMTeUOj9FhtkEnaqQZfffhSQrKmf5IhyEZC0kQ8/DBK3SLl1o
+	pOH2B5ZUqOBA7xKl2cYnrKYiF0dKMYex8jIGL2WbmMBLeFj1Eg324W9Ksv48B6nI
+	TaIpFEyr49Ow4xpM9pzk6gefkEbsBvLrm+vDlh5Blm4wwZW7AwwCBpF5vvSM0wwt
+	3zRTVks4lCdOMcrto4/m4QrEUgV7XTLqbdglELQ7ASNv9oOz8pGQZBimaBglsKvI
+	tgtjMg==
+Received: from mail-qk1-f199.google.com (mail-qk1-f199.google.com [209.85.222.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v469a8t6-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 08:02:19 +0000 (GMT)
-Received: by mail-qv1-f71.google.com with SMTP id 6a1803df08f44-78e30eaca8eso159163516d6.2
-        for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 01:02:19 -0700 (PDT)
+	for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 12:13:23 +0000 (GMT)
+Received: by mail-qk1-f199.google.com with SMTP id af79cd13be357-88f3c733d98so1375606085a.0
+        for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 05:13:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760860938; x=1761465738;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BwC8FmuoUnUoxcHFn7z7n4laBB5CxBLWjXPUGBg9F7s=;
-        b=WUIY2+LWdBsmCzY02/FlSVkN1kcln/wDJeKFDFVNjMAnLSvDmKc3WRlM3cUwXzVgWo
-         uh2jLvC2+BVU5RrqQAjRJjW9JW/zlc3mW9UfhgG+CVfLJUcrno7KjeTr/v8XQ7xQQ+Qw
-         kaIxG1HDBrtI+0abkCEU/F6yaYiTZnrU3hk0mEwt1Q0us9xiX4lpGz8lE+Cg95wmFyrY
-         nkCBzf2yhC9vynI/JDprUinUSkt0VnpLj0ss9h0FXV9R94k85sGsyWfYiRmyLr2vhegK
-         snZXpeqrZj5+KCuzflUZJfrAC9Peu4RGU5rMB4kaXNSQNj9kSnnNdaEIkjk5R3/cPVDe
-         xSWw==
-X-Forwarded-Encrypted: i=1; AJvYcCW1CXeQtLIVuShZE/l3pjECGOIpUrRt2vxbAlTDRNxbT03f8+chpe8P+viOZODyzo/XTGsU6zBJqrkl0A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzlv2nem3xq96z8fvtVtsVbEVusuDhKy1A+XuRlK+ja7RyFaftr
-	5HZPkN4VF3lHPFcq6errDEqQGLgFBcRjSgH0o7o8orVwMfHGShwGTvTKYoNLKn/o4pjpBjBQaoP
-	OhlaeJP+NvnVIehYTdkYPfgE+vpsXYO4u3S40+N12bsK0eTDBs2olWZU4XlK6yTbJOw==
-X-Gm-Gg: ASbGncsxPRG2L3N8Ui4n1nOAn5gPZNE471n7SPg6b98ygdQY+uqvY02xMyahD2MNMF5
-	MDShmk1zwYw7kiiO31i87dShegMy8FC62R+kXZ4ju61BU8AXcSuhNmHsyPLpn0ADJVycpRDAQS9
-	qhKNhJq+b5Nmy+pNN6CiGBrr1NESPWGgBggIe0mRHKxrKLf8NE8peG4jlU1vW7XraiIHIS+FUlJ
-	+YNuTFUeDoxwSQxuFfuP0PbdQ2F3302FMkgtdB1gcOglov7X4FVmo/BApkJMHzvRrmPtHmEbz2p
-	pdL4p1G5SJPKqH032cPayH+0h7wpqp3nxy5EWqXGcJaEK/sYp6HXkimVv2CnB0hH3t6JshazBwR
-	SjMLaI+zpFpbKCjFQu8TH5VXOEitfiyHd4ShBl7MeUQB/+p2qLN5As8rq670RygaEEPj/MeAzJn
-	uUoijcXcJUwgk=
-X-Received: by 2002:a05:622a:1105:b0:4e8:bb14:d974 with SMTP id d75a77b69052e-4e8bb14db56mr14028241cf.79.1760860937729;
-        Sun, 19 Oct 2025 01:02:17 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEFgROKJadVhIUNVMF01hU3nVkXc/7jxLb8qkxJ3NF/RnkVk/qap4lUw3OWoXvUlCtfMQ2i+Q==
-X-Received: by 2002:a05:622a:1105:b0:4e8:bb14:d974 with SMTP id d75a77b69052e-4e8bb14db56mr14027871cf.79.1760860937290;
-        Sun, 19 Oct 2025 01:02:17 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1760876003; x=1761480803;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=sLjMakJS7ssq/syc/5Yvc6UyrE0zE/sWbLAaJ/RVke4=;
+        b=R5pzYnVuHxMTMPbyAdMGMFrX7RY2cvK5Z2iomtWxUgiBWZY5KPuqS8NvZCzCprnJcM
+         A2yGrwzlHVKgaR2LrkY/lpr5Xw64w3qOck0X2HD7Z4+HV/VWbSq3BIzS6FCPidMUm33R
+         4gbj04V15Vz366tygDD0/vG9o0fdftnKzksjb3QONg+kZOYktkOGfz0WpooCrQdgrLOL
+         zQUaeljNCMcGitVYB4s5VkEqR4XX/cGX385F2KTcbmr2iTJPhDE9aNHYBh7NiSdEenG8
+         dS+hg3HAPgKB6sOawnw7W0s7MgOA0Si0UfyODGEuNn2zzV11aDHdqNT/MybI10Y45O0l
+         dFXw==
+X-Forwarded-Encrypted: i=1; AJvYcCUada7T1kSfXnyBZxKvRZnnn9bHNg2XeS1ASkenUZEoMVQzRoz92IvLZSEF5lfkizv3e4pxBlXXkTtucQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YygUNAU1tmTZ98iMHX0FXnZAtqY28jBD5NEcMwEXgLBle4jTn4s
+	h+TqCJBm3BZKlUOMuc2/X5AeaB8+aH3BFA8ESd2UxHXl1qrFNqMbPZhxUeTm+OZvjteMEuTwCRF
+	lhGPjcq5BUwKWC+z70WBUwdnMBXsy4tJXOURTCdzbfcTwwqFlmY2AwtG3XAZFzkzS2g==
+X-Gm-Gg: ASbGncvPU+gbjm5vSi6X0/BvrIX/OJ2lwJFRKYt/zCWR1qr8rSbMoKMxmmT9mYxhuno
+	UPiAcTzeteDM2BrlO2y0gD3iagax55Lbb6wq3Wzag1MnICxsvFwdfmwHaUAnj7UinEJGOBNgdpk
+	eqFi4HAOaNtvGUHa/trU1+Ud6p022+Q+pl+sgB1Y0Juvi6+8oOYvSxT2+NyKvxgCjktU7HROE4F
+	CqagshRh33hoV+cpq9fQijr0JJmH5NJk87o3ncQbsP9Zv0Yd68iBLlPbiutIPSjx6OYqrTa2azh
+	KeEw5I3T3Nh9nlgkBJ1LdS1+ADiBgyW76++6jQw6736aYxSVmAUwxKH1pFijUEoOG7dA6vMTrW3
+	0PrJIDOB8TQoRGoegrVzV4e3Dl6r/oblYJRPXk6fKyLr/ahYX2YGbRgHungbnyhlNW0BU/8YqUl
+	7ZWYvA+Dsxmq8=
+X-Received: by 2002:a05:622a:2c2:b0:4e8:a696:386 with SMTP id d75a77b69052e-4e8a6960b70mr83928711cf.12.1760876002496;
+        Sun, 19 Oct 2025 05:13:22 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGIxrvYE1Mmu01UNr8hJKcsKXWXAX8Kw6fsxCn/jB3654Qx/Q1k+3HFFgrbRnEygIt/TWeH6Q==
+X-Received: by 2002:a05:622a:2c2:b0:4e8:a696:386 with SMTP id d75a77b69052e-4e8a6960b70mr83928261cf.12.1760876001928;
+        Sun, 19 Oct 2025 05:13:21 -0700 (PDT)
 Received: from umbar.lan (2001-14ba-a0c3-3a00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a0c3:3a00:264b:feff:fe8b:be8a])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-591def1695fsm1353170e87.61.2025.10.19.01.02.15
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-591def26992sm1517277e87.103.2025.10.19.05.13.18
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Oct 2025 01:02:16 -0700 (PDT)
+        Sun, 19 Oct 2025 05:13:19 -0700 (PDT)
+Date: Sun, 19 Oct 2025 15:13:17 +0300
 From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-To: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+To: Charan Teja Kalla <charan.kalla@oss.qualcomm.com>
+Cc: Robin Murphy <robin.murphy@arm.com>, joro@8bytes.org, will@kernel.org,
+        saravanak@google.com, conor+dt@kernel.org, robh@kernel.org,
+        mchehab@kernel.org, bod@kernel.org, krzk+dt@kernel.org,
+        abhinav.kumar@linux.dev, vikash.garodia@oss.qualcomm.com,
+        dikshita.agarwal@oss.qualcomm.com,
         Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vishnu Reddy <quic_bvisredd@quicinc.com>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-Subject: [PATCH 2/2] media: iris: move more common register definitions to the header
-Date: Sun, 19 Oct 2025 10:59:02 +0300
-Message-ID: <20251019080212.142623-4-dmitry.baryshkov@oss.qualcomm.com>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <20251019080212.142623-3-dmitry.baryshkov@oss.qualcomm.com>
-References: <0251017-knp_video-v2-5-f568ce1a4be3@oss.qualcomm.com>
- <20251019080212.142623-3-dmitry.baryshkov@oss.qualcomm.com>
+        bjorn.andersson@oss.qualcomm.com, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, iommu@lists.linux.dev
+Subject: Re: [RFC PATCH 0/3] Introduce iommu-map-masked for platform devices
+Message-ID: <k76davhj2ojqrccfdzx5csvyfm2cwz2xgnxxzwcuiy44k7zwyh@bsnw3ny6uydz>
+References: <aec0f40a-8346-4194-8b18-1022fe3366bb@arm.com>
+ <0d0560cc-9757-4c7b-8de4-170148d99481@oss.qualcomm.com>
+ <ead7cf8b-fbc4-4242-a9da-b313dded1abc@arm.com>
+ <nzqte4glwtpjs5bhkxz43yhdufelxvqvzmg5tepudxwetimir3@bvlw5csjizsh>
+ <9d3eeb9f-b8ea-48e5-a1d9-0865f63ef991@arm.com>
+ <fhb4woejzh3r6v5dxvdiopnsbuwstucfuuzbiymxg4wrxrjc7t@dt3z3utq6lwd>
+ <8d88cd9d-16e8-43f9-8eb3-89862da1d0c1@arm.com>
+ <zcgn4xw2xghyna2eysavujbzbiydyki7p7upzzv7one5mdyjy6@sj7f75kc4vwu>
+ <58790287-4787-4763-a979-69df60de9263@arm.com>
+ <3394e094-ffb5-4503-adde-7c382e3f2f6e@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: roFwhnGsDC5HGzUtt8u6hTp_dFwnHMeG
-X-Proofpoint-ORIG-GUID: roFwhnGsDC5HGzUtt8u6hTp_dFwnHMeG
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMyBTYWx0ZWRfX9Zq/roOL8Osv
- Q/xoDC0MXBQRTNTieiCf4xHMS+abOhv542t55T+Uomqw7GnWyGPUEZYyvGRRfllZxwKAXVq0Go+
- jLecNM+kVZ7aHNeI5I5e1D75IGSclUD4eOaEqAkz4pEkgQz3+aAc8sI4OiA4uQJjNOmJy4Dv0dX
- kybs2UHb8c0iEJbL9obkQvuPJpYsxT/N7ihy78b64c9ts5cVxXw77+2SBAfGlhigxQnbETTAaZ6
- FYKQtcS2kJFBcJXpscswTF2xQ9OGeElgK/tuINUpvidUjE0TlOh5v3gY5lbd4tZBaqTxe0biP/y
- hmwZ+tw5i7mIClt6ta1iML2Xme2Lumrju9o6nAZx5qUtAxlWcKobvyKbhmYkI7rsSiwz4pWWCxN
- y22Y1ZqZrFpy6+sae44/12qH1hClcQ==
-X-Authority-Analysis: v=2.4 cv=E/vAZKdl c=1 sm=1 tr=0 ts=68f49b0b cx=c_pps
- a=UgVkIMxJMSkC9lv97toC5g==:117 a=xqWC_Br6kY4A:10 a=x6icFKpwvdMA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=q6RJ1b41Wj0UoLORaoAA:9
- a=1HOtulTD9v-eNWfpl4qZ:22
+In-Reply-To: <3394e094-ffb5-4503-adde-7c382e3f2f6e@oss.qualcomm.com>
+X-Proofpoint-ORIG-GUID: AdSGRnBoBKoFRHdNbgS7_-6lBttRz5c0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAzMiBTYWx0ZWRfXyVYdB9Q4tDDm
+ ntyX68+UQY5VZOWHJ80Z+xVQ0letcEYmbUW9VHmBS1QuXJJLMBcyJH6IsNIhb9DUingJiMGTzg+
+ K+YcIZ0G2r0X847ZpHXyy+Yff6R7Awc32S9qdDSGdDdSEOQ1Ija3stfawO7nr0kZmmj3iJHjsHY
+ SnXjsw6vzqE9HLdq3IVTRAYejtNIEr6kDkwTg8V1Dm7UXJ2cTSbto9evtrj/o/V34qkkjGG/1Kl
+ /j5ysmU4t03wucIuj/g/PpZ499pUdffxQ0SUa21LWjVCNQbsCOlLXVbXrDHrufsyiWmy6vWFSI9
+ O0t5QG18QH8QDbeqq8c8bDiOE1ozcOMPLoYqZXxuHq7a866hrFiy6UISDQgd13x/aXBLY0dY3TT
+ QWlALVsJOghA7oDEuyOh1OwvCkfOww==
+X-Authority-Analysis: v=2.4 cv=U8qfzOru c=1 sm=1 tr=0 ts=68f4d5e4 cx=c_pps
+ a=HLyN3IcIa5EE8TELMZ618Q==:117 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8
+ a=tL-A2WhEFdlIpSB3ntkA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=bTQJ7kPSJx9SKPbeHEYW:22 a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: AdSGRnBoBKoFRHdNbgS7_-6lBttRz5c0
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-19_03,2025-10-13_01,2025-03-28_01
+ definitions=2025-10-19_05,2025-10-13_01,2025-03-28_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 priorityscore=1501 bulkscore=0 suspectscore=0
- lowpriorityscore=0 clxscore=1015 adultscore=0 phishscore=0 malwarescore=0
+ impostorscore=0 adultscore=0 bulkscore=0 malwarescore=0 priorityscore=1501
+ spamscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0 suspectscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180023
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180032
 
-Simplify adding new platforms by moving common registers definitions
-from VPU 3.x and "common" file to the header with other register
-defines.
+On Wed, Oct 15, 2025 at 02:02:10PM +0530, Charan Teja Kalla wrote:
+> 
+> 
+> On 10/14/2025 7:37 PM, Robin Murphy wrote:
+> > On 2025-10-13 1:31 pm, Dmitry Baryshkov wrote:
+> >> On Mon, Oct 13, 2025 at 12:20:54PM +0100, Robin Murphy wrote:
+> >>> On 2025-10-09 7:25 pm, Dmitry Baryshkov wrote:
+> >>>> On Thu, Oct 09, 2025 at 06:03:29PM +0100, Robin Murphy wrote:
+> >>>>> On 2025-10-09 2:19 pm, Dmitry Baryshkov wrote:
+> >>>>>> On Thu, Oct 09, 2025 at 11:46:55AM +0100, Robin Murphy wrote:
+> >>>>>>> On 2025-10-08 8:10 pm, Charan Teja Kalla wrote:
+> >>>>>>>>
+> >>>>>>>> On 9/29/2025 3:50 PM, Robin Murphy wrote:
+> >>>>>>>>>> USECASE [1]:
+> >>>>>>>>>> -----------
+> >>>>>>>>>> Video IP, 32bit, have 2 hardware sub blocks(or can be called as
+> >>>>>>>>>> functions) called as pixel and nonpixel blocks, that does
+> >>>>>>>>>> decode and
+> >>>>>>>>>> encode of the video stream. These sub blocks are
+> >>>>>>>>>> __configured__ to
+> >>>>>>>>>> generate different stream IDs.
+> >>>>>>>>>
+> >>>>>>>>> So please clarify why you can't:
+> >>>>>>>>>
+> >>>>>>>>> a) Describe the sub-blocks as individual child nodes each with
+> >>>>>>>>> their own
+> >>>>>>>>> distinct "iommus" property
+> >>>>>>>>>
+> >>>>>>>>
+> >>>>>>>> Thanks Robin for your time. Sorry for late reply as I really
+> >>>>>>>> didn't have
+> >>>>>>>> concrete answer for this question.
+> >>>>>>>>
+> >>>>>>>> First let me clarify the word "sub blocks" -- This is just the
+> >>>>>>>> logical
+> >>>>>>>> separation with no separate address space to really able to
+> >>>>>>>> define them
+> >>>>>>>> as sub devices. Think of it like a single video IP with 2 dma
+> >>>>>>>> engines(used for pixel and non-pixel purpose).
+> >>>>>>>>
+> >>>>>>>> I should agree that the child-nodes in the device tree is the
+> >>>>>>>> easy one
+> >>>>>>>> and infact, it is how being used in downstream.
+> >>>>>>>>
+> >>>>>>>> For upstream -- Since there is no real address space to interact
+> >>>>>>>> with
+> >>>>>>>> these sub-blocks(or logical blocks), does it really qualify to
+> >>>>>>>> define as
+> >>>>>>>> child nodes in the device tree? I see there is some push back[1].
+> >>>>>>>
+> >>>>>>> Who says you need an address space? Child nodes without "reg"
+> >>>>>>> properties,
+> >>>>>>> referenced by name, compatible or phandle, exist all over the
+> >>>>>>> place for all
+> >>>>>>> manner of reasons. If there are distinct logical functions with
+> >>>>>>> their own
+> >>>>>>> distinct hardware properties, then I would say having child nodes to
+> >>>>>>> describe and associate those properties with their respective
+> >>>>>>> functions is
+> >>>>>>> entirely natural and appropriate. The first example that comes to
+> >>>>>>> mind of
+> >>>>>>> where this is a well-established practice is PMICs - to pick one
+> >>>>>>> at random:
+> >>>>>>> Documentation/devicetree/bindings/regulator/qcom,rpmh-regulator.yaml
+> >>>>>>
+> >>>>>> Logical function, that's correct. And also note, for PMICs that
+> >>>>>> practice
+> >>>>>> has bitten us back. For PM8008 we switched back to a non-subdevice
+> >>>>>> representation.
+> >>>>>>
+> >>>>>>> For bonus irony, you can't take the other approaches without
+> >>>>>>> inherently
+> >>>>>>> *introducing* a notional address space in the form of your
+> >>>>>>> logical function
+> >>>>>>> IDs anyway.
+> >>>>>>>
+> >>>>>>>>       > or:
+> >>>>>>>>>
+> >>>>>>>>> b) Use standard "iommu-map" which already supports mapping a
+> >>>>>>>>> masked
+> >>>>>>>>> input ID to an arbitrary IOMMU specifier
+> >>>>>>>>>
+> >>>>>>>>
+> >>>>>>>> I think clients is also required to program non-zero smr mask,
+> >>>>>>>> where as
+> >>>>>>>> iommu-map just maps the id to an IOMMU specifier(sid). Please
+> >>>>>>>> LMK if I
+> >>>>>>>> am unable to catch your thought here.
+> >>>>>>> An IOMMU specifier is whatever the target IOMMU node's #iommu-
+> >>>>>>> cells says it
+> >>>>>>> is. The fact that Linux's parsing code only works properly for
+> >>>>>>> #iommu-cells
+> >>>>>>> = 1 is not really a DT binding problem (other than it stemming
+> >>>>>>> from a loose
+> >>>>>>> assumption stated in the PCI binding's use of the property).
+> >>>>>>
+> >>>>>> I really don't like the idea of extending the #iommu-cells. The
+> >>>>>> ARM SMMU
+> >>>>>> has only one cell, which is correct even for our platforms. The fact
+> >>>>>> that we need to identify different IOMMU SIDs (and handle them in a
+> >>>>>> differnt ways) is internal to the video device (and several other
+> >>>>>> devices). There is nothing to be handled on the ARM SMMU side.
+> >>>>>
+> >>>>> Huh? So if you prefer not to change anything, are you suggesting
+> >>>>> this series
+> >>>>> doesn't need to exist at all? Now I'm thoroughly confused...
+> >>>>
+> >>>> Hmm. We need changes, but I don't feel like adding the FUNCTION_ID to
+> >>>> #iommu-cells is the best idea.
+> >>>
+> >>> What? No, any function ID would be an *input* to a map, not part of the
+> >>> output specifier; indeed it should never go anywhere near the IOMMU,
+> >>> I don't
+> >>> think anyone suggested that.
+> >>
+> >> It was Bryan, https://lore.kernel.org/linux-arm-
+> >> msm/9bae595a-597e-46e6-8eb2-44424fe21db6@linaro.org
+> > 
+> > Ah, I wasn't on that thread. But indeed, as I hopefully explained
+> > before, that whole idea is a non-starter anyway due to who the consumers
+> > of "iommus" actually are.
+> > 
+> >>>>> If you want to use SMR masks, then you absolutely need #iommu-cells
+> >>>>> = 2,
+> >>>>> because that is the SMMU binding for using SMR masks. It would
+> >>>>> definitely
+> >>>>
+> >>>> I'm sorry. Yes, we have #iommu-cells = <2>.
+> >>>>
+> >>>>> not be OK to have some magic property trying to smuggle
+> >>>>> IOMMU-driver-specific data contrary to what the IOMMU node itself
+> >>>>> says. As
+> >>>>> for iommu-map, I don't see what would be objectionable about
+> >>>>> improving the
+> >>>>> parsing to respect a real #iommu-cells value rather than hard-
+> >>>>> coding an
+> >>>>> assumption. Yes, we'd probably need to forbid entries with length > 1
+> >>>>> targeting IOMMUs with #iommu-cells > 1, since the notion of a linear
+> >>>>
+> >>>> This will break e.g. PCIe on Qualcomm platforms:
+> >>>>
+> >>>>                           iommu-map = <0x0   &apps_smmu 0x1400 0x1>,
+> >>>>                                       <0x100 &apps_smmu 0x1401 0x1>;
+> >>>>
+> >>>>
+> >>>> But this seems unlogical anyway wrt. apps_smmu having #iommu-cells =
+> >>>> <2>. It depends on ARM SMMU ignoring the second cell when it's not
+> >>>> present.
+> >>>
+> >>> Urgh, yes, that's just broken already 🙁
+> >>>
+> >>> At least they all seem to be a sufficiently consistent pattern that a
+> >>> targeted workaround to detect old DTBs looks feasible (I'm thinking, if
+> >>> iommu-map size % 4 == 0 and cells n*4 + 3 are all 1 and cells n*4 + 1
+> >>> are
+> >>> all the same phandle to an IOMMU with #iommu-cells == 2, then parse
+> >>> as if
+> >>> #iommu-cells == 1)
+> >>
+> >> How do we handle the case of #iommu-cells = <2>? I.e. what should be the
+> >> "fixed" representation of the map above? Should we have usual cells and
+> >> one extra "length" just for the sake of it?
+> > 
+> > It's not really "for the sake of it", it is the defined format of the
+> > "iommu-map" binding - IMO it would be far more horrible if each entry
+> > did or didn't include a length cell depending on the size of the
+> > preceding IOMMU specifier. It's also far from infeasible to have *some*
+> > well-defined relationship between a non-singular input ID range and a
+> > multi-cell base IOMMU specifier, it just needs more IOMMU-specific
+> > interpretation in the consumer than Linux cares to bother with. Thus it
+> > is appropriate for the binding to be able to describe that even though
+> > Linux as a consumer continues to refuse to support it. The binding does
+> > not describe Linux, or the property would be named "linux,iommu-map".
+> > 
+> >>                 iommu-map = <0x0   &apps_smmu 0x1400 0x0 0x1>,
+> >>                             <0x100 &apps_smmu 0x1401 0x0 0x1>;
+> >>
+> Dmitry,  Wanted to understand if you did consider to include additional
+> #iommu-map-cells in the above representation? or it is just based on the
+> #iommu-cells?
 
-Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- drivers/media/platform/qcom/iris/iris_vpu3x.c |  6 -----
- .../platform/qcom/iris/iris_vpu_common.c      | 20 ----------------
- .../qcom/iris/iris_vpu_register_defines.h     | 23 +++++++++++++++++++
- 3 files changed, 23 insertions(+), 26 deletions(-)
+Just #iommu-cells, as suggested by Robin.
 
-diff --git a/drivers/media/platform/qcom/iris/iris_vpu3x.c b/drivers/media/platform/qcom/iris/iris_vpu3x.c
-index 0ac6373c33b7..cd53bcda3b3e 100644
---- a/drivers/media/platform/qcom/iris/iris_vpu3x.c
-+++ b/drivers/media/platform/qcom/iris/iris_vpu3x.c
-@@ -11,12 +11,6 @@
- #include "iris_vpu_common.h"
- #include "iris_vpu_register_defines.h"
- 
--#define CORE_CLK_RUN				0x0
--/* VPU v3.5 */
--#define WRAPPER_IRIS_VCODEC_VPU_WRAPPER_SPARE_0	(WRAPPER_BASE_OFFS + 0x78)
--
--#define VIDEO_NOC_RESET_REQ			(BIT(0) | BIT(1))
--
- #define AON_WRAPPER_MVP_NOC_CORE_SW_RESET	(AON_BASE_OFFS + 0x18)
- #define SW_RESET				BIT(0)
- #define AON_WRAPPER_MVP_NOC_CORE_CLK_CONTROL	(AON_BASE_OFFS + 0x20)
-diff --git a/drivers/media/platform/qcom/iris/iris_vpu_common.c b/drivers/media/platform/qcom/iris/iris_vpu_common.c
-index 4dc7aac78553..2d6548e47d47 100644
---- a/drivers/media/platform/qcom/iris/iris_vpu_common.c
-+++ b/drivers/media/platform/qcom/iris/iris_vpu_common.c
-@@ -11,10 +11,6 @@
- #include "iris_vpu_common.h"
- #include "iris_vpu_register_defines.h"
- 
--#define CPU_IC_BASE_OFFS			(CPU_BASE_OFFS)
--
--#define CPU_CS_A2HSOFTINTCLR			(CPU_CS_BASE_OFFS + 0x1C)
--#define CLEAR_XTENSA2HOST_INTR			BIT(0)
- 
- #define CTRL_INIT				(CPU_CS_BASE_OFFS + 0x48)
- #define CTRL_STATUS				(CPU_CS_BASE_OFFS + 0x4C)
-@@ -32,22 +28,6 @@
- #define UC_REGION_ADDR				(CPU_CS_BASE_OFFS + 0x64)
- #define UC_REGION_SIZE				(CPU_CS_BASE_OFFS + 0x68)
- 
--#define CPU_CS_H2XSOFTINTEN			(CPU_CS_BASE_OFFS + 0x148)
--#define HOST2XTENSA_INTR_ENABLE			BIT(0)
--
--#define CPU_IC_SOFTINT				(CPU_IC_BASE_OFFS + 0x150)
--#define CPU_IC_SOFTINT_H2A_SHFT			0x0
--
--#define WRAPPER_INTR_STATUS			(WRAPPER_BASE_OFFS + 0x0C)
--#define WRAPPER_INTR_STATUS_A2HWD_BMSK		BIT(3)
--#define WRAPPER_INTR_STATUS_A2H_BMSK		BIT(2)
--
--#define WRAPPER_INTR_MASK			(WRAPPER_BASE_OFFS + 0x10)
--#define WRAPPER_INTR_MASK_A2HWD_BMSK		BIT(3)
--#define WRAPPER_INTR_MASK_A2HCPU_BMSK		BIT(2)
--
--#define WRAPPER_TZ_CPU_STATUS			(WRAPPER_TZ_BASE_OFFS + 0x10)
--
- static void iris_vpu_interrupt_init(struct iris_core *core)
- {
- 	u32 mask_val;
-diff --git a/drivers/media/platform/qcom/iris/iris_vpu_register_defines.h b/drivers/media/platform/qcom/iris/iris_vpu_register_defines.h
-index 1c3ff6cab343..72168b9ffa73 100644
---- a/drivers/media/platform/qcom/iris/iris_vpu_register_defines.h
-+++ b/drivers/media/platform/qcom/iris/iris_vpu_register_defines.h
-@@ -16,10 +16,21 @@
- #define VCODEC_SS_IDLE_STATUSN			(VCODEC_BASE_OFFS + 0x70)
- 
- #define AON_WRAPPER_MVP_NOC_RESET_REQ		(AON_MVP_NOC_RESET + 0x000)
-+#define VIDEO_NOC_RESET_REQ			(BIT(0) | BIT(1))
- 
- #define AON_WRAPPER_MVP_NOC_RESET_ACK		(AON_MVP_NOC_RESET + 0x004)
- 
- #define CPU_CS_BASE_OFFS			(CPU_BASE_OFFS)
-+#define CPU_IC_BASE_OFFS			(CPU_BASE_OFFS)
-+
-+#define CPU_CS_A2HSOFTINTCLR			(CPU_CS_BASE_OFFS + 0x1C)
-+#define CLEAR_XTENSA2HOST_INTR			BIT(0)
-+
-+#define CPU_CS_H2XSOFTINTEN			(CPU_CS_BASE_OFFS + 0x148)
-+#define HOST2XTENSA_INTR_ENABLE			BIT(0)
-+
-+#define CPU_IC_SOFTINT				(CPU_IC_BASE_OFFS + 0x150)
-+#define CPU_IC_SOFTINT_H2A_SHFT			0x0
- 
- #define CPU_CS_AHB_BRIDGE_SYNC_RESET		(CPU_CS_BASE_OFFS + 0x160)
- #define CORE_BRIDGE_SW_RESET			BIT(0)
-@@ -29,6 +40,14 @@
- #define MSK_SIGNAL_FROM_TENSILICA		BIT(0)
- #define MSK_CORE_POWER_ON			BIT(1)
- 
-+#define WRAPPER_INTR_STATUS			(WRAPPER_BASE_OFFS + 0x0C)
-+#define WRAPPER_INTR_STATUS_A2HWD_BMSK		BIT(3)
-+#define WRAPPER_INTR_STATUS_A2H_BMSK		BIT(2)
-+
-+#define WRAPPER_INTR_MASK			(WRAPPER_BASE_OFFS + 0x10)
-+#define WRAPPER_INTR_MASK_A2HWD_BMSK		BIT(3)
-+#define WRAPPER_INTR_MASK_A2HCPU_BMSK		BIT(2)
-+
- #define WRAPPER_DEBUG_BRIDGE_LPI_CONTROL	(WRAPPER_BASE_OFFS + 0x54)
- #define WRAPPER_DEBUG_BRIDGE_LPI_STATUS		(WRAPPER_BASE_OFFS + 0x58)
- #define WRAPPER_IRIS_CPU_NOC_LPI_CONTROL	(WRAPPER_BASE_OFFS + 0x5C)
-@@ -39,8 +58,12 @@
- #define NOC_LPI_STATUS_DENY			BIT(1) /* Indicates the NOC handshake is denied */
- #define NOC_LPI_STATUS_ACTIVE			BIT(2) /* Indicates the NOC is active */
- 
-+#define WRAPPER_IRIS_VCODEC_VPU_WRAPPER_SPARE_0	(WRAPPER_BASE_OFFS + 0x78)
- #define WRAPPER_CORE_POWER_STATUS		(WRAPPER_BASE_OFFS + 0x80)
- #define WRAPPER_CORE_CLOCK_CONFIG		(WRAPPER_BASE_OFFS + 0x88)
-+#define CORE_CLK_RUN				0x0
-+
-+#define WRAPPER_TZ_CPU_STATUS			(WRAPPER_TZ_BASE_OFFS + 0x10)
- 
- #define WRAPPER_TZ_CTL_AXI_CLOCK_CONFIG		(WRAPPER_TZ_BASE_OFFS + 0x14)
- #define CTL_AXI_CLK_HALT			BIT(0)
+> 
+> And this is the same representation for PCI devices as well or it is
+> still parsed as if #iommu-cells = 1 just for old dtbs based on the
+> workaround by Robin above?
+> 
+> so, it will be like:
+> iommu-map = <rid/func-id phandler sid_base <mask> len>;  and if mask is
+> not defined, treat this as if #iommu-cell = 1.
+
+Yes.
+
+
 -- 
-2.47.3
-
+With best wishes
+Dmitry
 
