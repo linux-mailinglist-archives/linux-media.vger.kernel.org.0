@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-45091-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45092-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 249CABF37C0
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 22:45:07 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C1C8FBF37D2
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 22:46:07 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 951C918A501C
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 20:45:30 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 52E114F4DC3
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 20:46:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 71EB02DFA27;
-	Mon, 20 Oct 2025 20:44:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A1F32E1C4E;
+	Mon, 20 Oct 2025 20:45:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="a+fWBEvX"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ONzd7KUQ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B59042E090C;
-	Mon, 20 Oct 2025 20:44:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D74231F37A1;
+	Mon, 20 Oct 2025 20:45:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760993095; cv=none; b=LMjPM3cehQvxuLGvtTN3frMSAqK5NvvCymy3FW28v4ro1qB7vEbrqRYsWc4t0CiGe5FVrkmpF7tNVjTR/P7tpj//ERZ/x9DwuzhH8ovXYeL+KZwADBBSf8XhRY5WyGFxPBN7qh48D0gmekqbWfb4G3Yf1RuDGqdI9i0XLmrLCdY=
+	t=1760993157; cv=none; b=TS603coGDcpAxmww04oxS2lRcIBj7LflhX9Os/RlhzAFsq+9rClVtxhDvQa1JXjyYy6qdWVIHsrLnEUdli15c8GSOj1jy/BDb57pElr1hKQsNjVkXVF3WxokY1um4SDQCCRiTJapzKOF4Xq7YGyYKOV7dy+la8ZtIx+twecni18=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760993095; c=relaxed/simple;
-	bh=jsADbGFPwpIEm3CtocwDFbKnclX1oF8+uRhUlGUfYRA=;
+	s=arc-20240116; t=1760993157; c=relaxed/simple;
+	bh=ZC/LAi2mfn0ZuBTt+JdXTs9sIAMXNl0Kyouiljs+7HI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n+KAMGdZCuoeWEg3gsBzeS6TB2612iXCS5YULJ5wHbkrjvoO0pNX8LNc3JQaD76NsHRN77Ac7KUIfYFnVss0a/vgzVpPdENHALFsq94H1viffllKQaPENCsCOHVb+S+tEvrHMnvEQJECHE4NDXEEKm1m9THr1xaZkLoWy0S03cc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=a+fWBEvX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31301C113D0;
-	Mon, 20 Oct 2025 20:44:51 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=CCej2Kwf2SKwYd5KFqf9WCdozxEQr27mscRhQsaE1gNQAlQnxBCjlXKnBDNWrf1KbzxdqgIOaA76rBhThTfNo+kUnrIeRc6h0MFn+fSmyI64f/cGBtGhc5t01uyR6+YW1Jg7XJJv2g1hXDrdDtxnRB8VZjSiN9CSqhUC9ENdqpI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ONzd7KUQ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 52825C116D0;
+	Mon, 20 Oct 2025 20:45:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760993095;
-	bh=jsADbGFPwpIEm3CtocwDFbKnclX1oF8+uRhUlGUfYRA=;
+	s=k20201202; t=1760993156;
+	bh=ZC/LAi2mfn0ZuBTt+JdXTs9sIAMXNl0Kyouiljs+7HI=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=a+fWBEvXeUU0G0qPOGIRqhqMKEu0N73GqEqJBpyOMxVqbHSwjNhrc53P6T+D4bt1b
-	 1wClEWqL08CPuryHNGMh+L9gsYDZ0fVAA5Zuqhc0uHpem0vEiGBA9j0aG6vhdF6TJd
-	 faxzCFXfTRUqsMVfn4aJCpIge1oNCanxBOgeJ0NcWT/izftD4KoRO6Je+lvyzq8JJe
-	 QIcS1fMPaVsrRRz/B3qbJQ1DflilosUWo3Ora9FK1WyWnTjQi8GRWxYhpbJTj/w1v/
-	 eng0WcCJT+8QBJ1/gTzcbwskV4j2dR2/aKF2WjXskcVBTsDBxFzJZ5nvGX9ltiJgWA
-	 CdwIImcCJrIdA==
-Message-ID: <e1b845a5-9cb9-4843-9285-2b14efd290a4@kernel.org>
-Date: Mon, 20 Oct 2025 22:44:50 +0200
+	b=ONzd7KUQPfxzk6woMRVdyTsnpflntARlRd291duvSy8ZSDEb2WmUB1sRnfyEfMZpY
+	 coK933HBu0i+1AtplJiU2dworwFLIbU63pp9n4zXSgCH+DUR6ss05s54Cj+Mz+3Gy5
+	 UKP3IPIZTedosy7V3B4EuY4plyf/TGqK9JSt4mbMHEig221iHapK4EBb8BFqDXTaU0
+	 v6INYFkSyg24YZ0zfbPT1GX+Hv7HvA2CP9Yk7cqtBlZs0S6pW2dwoDbGYIlwoos6fe
+	 LPNqUEKnT51b9jG1klkL1SEkHaK3FsbzsqYaCFZlF2GTY8bK9X6iPzMS7xy3LeOMr2
+	 uWYD5Mqvi6rPA==
+Message-ID: <750398e8-1781-47be-bccd-e2679a58d449@kernel.org>
+Date: Mon, 20 Oct 2025 22:45:51 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,18 +50,19 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/8] dt-bindings: media: i2c: Add DW9718S, DW9719 and
- DW9761 VCM
-To: git@apitzsch.eu, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, devicetree@vger.kernel.org,
+Subject: Re: [PATCH v2 0/8] media: i2c: dw9719: add DT compatible and DW9718S
+ support
+To: =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, devicetree@vger.kernel.org,
  Sakari Ailus <sakari.ailus@linux.intel.com>,
  Daniel Scally <djrscally@gmail.com>
 Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  Val Packett <val@packett.cool>
 References: <20250920-dw9719-v2-0-028cdaa156e5@apitzsch.eu>
- <20250920-dw9719-v2-1-028cdaa156e5@apitzsch.eu>
+ <790fd7d05fa03f788f0a628a99b2e127db824207.camel@apitzsch.eu>
 From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
 Autocrypt: addr=krzk@kernel.org; keydata=
@@ -107,29 +108,25 @@ Autocrypt: addr=krzk@kernel.org; keydata=
  jWt87ecuHlpL3uuQ0ZZNWqHgZoQLXoqC2ZV5KrtKWb/jyiFX/sxSrodALf0zf+tfHv0FZWT2
  zHjUqd0t4njD/UOsuIMOQn4Ig0SdivYPfZukb5cdasKJukG1NOpbW7yRNivaCnfZz6dTawXw
  XRIV/KDsHQiyVxKvN73bThKhONkcX2LWuD928tAR6XMM2G5ovxLe09vuOzzfTWQDsm++9UKF a/A=
-In-Reply-To: <20250920-dw9719-v2-1-028cdaa156e5@apitzsch.eu>
+In-Reply-To: <790fd7d05fa03f788f0a628a99b2e127db824207.camel@apitzsch.eu>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 20/09/2025 14:03, André Apitzsch via B4 Relay wrote:
-> From: André Apitzsch <git@apitzsch.eu>
+On 20/10/2025 22:40, André Apitzsch wrote:
+>>  .../bindings/media/i2c/dongwoon,dw9719.yaml        |  88
+>> +++++++++++++++++
+>>  drivers/media/i2c/dw9719.c                         | 110
+>> +++++++++++++++++----
+>>  2 files changed, 178 insertions(+), 20 deletions(-)
+>> ---
+>> base-commit: 846bd2225ec3cfa8be046655e02b9457ed41973e
+>> change-id: 20250709-dw9719-8a8822efc1b1
+>>
 > 
-> Document Dongwoon DW9718S, DW9719 and DW9761 VCM devicetree bindings.
-> 
-> Signed-off-by: André Apitzsch <git@apitzsch.eu>
-> 
-> --
+> Gentle ping.
 
-This is not a correct separator, making the patch corrupted.
-
-Try it yourself - apply this patch and check the result with checkpatch.
-
-> 
-> The possible values for sac-mode and vcm-prescale of DW9719 and DW9761
-> are missing because there is no documentation available.
-> ---
-
-
+Please apply the patch and run checkpatch. Probably you received
+checkpatch warnings from media patchwork, no?
 
 Best regards,
 Krzysztof
