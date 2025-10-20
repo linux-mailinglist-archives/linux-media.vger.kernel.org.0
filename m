@@ -1,296 +1,108 @@
-Return-Path: <linux-media+bounces-45080-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45081-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8034BBF34E2
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 21:59:10 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id ABF46BF34EB
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 21:59:33 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1407F18840F4
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 19:59:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 69B8C4F23D5
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 19:59:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8387133030A;
-	Mon, 20 Oct 2025 19:59:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C487D2C327C;
+	Mon, 20 Oct 2025 19:59:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="RsCpfzkU"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WkeJBh/G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB4DA2627F9
-	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 19:59:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63255332EBD
+	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 19:59:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760990344; cv=none; b=W0CKqvi07JPjUFs3G84sphRuvd34U5rpH6wJ6wyL4gu5DVUMpDr2x/KDKCSt26ZsC0yQCAxIrRFOsC8PocRZxtuA+EPm6BtVDkO2yDgymTvldFQJWuAtmFLny7i1tQcoGG3gPB+xGnKPHsoJR3fziiT6EhARVY1od+dz6vbFmK4=
+	t=1760990352; cv=none; b=N9M5m++S8/4fOIbtggxHgT44QzN5vpxS5U4pqAULH5F+5P96k9XcmfJVSoy9MRFOC+k3aF3gQveAFCimxx8U3RTrxb+MWzlHErglZApc0AwayUDgTMoB1cfHdLQestYP57MTtgGgA1t800DrNKxdO+GelJ8QkEONkkWruNdhr2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760990344; c=relaxed/simple;
-	bh=wYdxk58ArImvpS6riD80SDAnDf3kWnvorDlWtwXdgus=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PduFWA2qljrxkfygyg8vfCJYq1NoyyfdqyIwjpkyPrCffzq6v+B3BcHZMkTZQ+xGDVTegNU3+i+8HmJ7+b0CFErm8HW2lxQ3/DDt0cVp8U9eEXX3wG/WFk0FIsBoJR/g+HeqLlYW6+DMIlbyjLE8YAmJU4WLwYa0bHAv4R9no0Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=RsCpfzkU; arc=none smtp.client-ip=209.85.208.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-375eff817a3so52848191fa.1
-        for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 12:59:02 -0700 (PDT)
+	s=arc-20240116; t=1760990352; c=relaxed/simple;
+	bh=RGfpAN5rzMHTTLTFD3Loxuaxwb3861xuxa5WQkx+zXw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fj6pVXIHMOXifpWayngl02kmNRWPL+ZcbvLKhNPQ5S3f1QeZg9IgT9NU7dTluEEJVLXkwW1V69PoalWGJygzgPbqlOLgBoLjDymaKbMLt8hHY6jU7iji2l+AnISCWs0Uu64KFpUtcI6xg1PJoHNil7/FUks9kub87zQGB9mU52g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WkeJBh/G; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-471b80b994bso28354135e9.3
+        for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 12:59:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1760990341; x=1761595141; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZqJXKRaXTsONzkFldwqCiRpv/FJUXtPHGWU4YzhiyOY=;
-        b=RsCpfzkUzSo2ddI/kem9eoB98RgKXgo1xlFuyTPJtUmxKvwotk59c1Fq2etNF8TJAX
-         +98qcH8wGTSycfyaUaUmNCJuVdW8uQ0aJGSuBrXaZQtyB5eU4byNfRp0VRX4f3pB/C8O
-         6StO5vM55CkeUp0KZXfiK8+z+8YGO5DoiSmQc=
+        d=linaro.org; s=google; t=1760990349; x=1761595149; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RGfpAN5rzMHTTLTFD3Loxuaxwb3861xuxa5WQkx+zXw=;
+        b=WkeJBh/GhWNSApkJsZAVMbPiFNLpdO876HgkWJdzb9VP2jbuW1zwgZglrrkN6KYALG
+         BCtVRlA5lRrBgZg+Rtw0CxE8iy0/x/spNUHaOkXaueLrK4wBDNG0l0LRP6BiSHOl+W9Q
+         1Zq5SzvKF6E9GI+zsojA72FKsiOjlLF77Me90JIkujGAZVkuxGB2MgVKdXtppKQJa34M
+         LqprURPuLU3hhqGO3LXlQHYyLX1DvUZMOp8/A5FLRgunTmc816GkVlHXjm/jnTAUVsox
+         2mAHrqOXwcyiaFc036goSvI/yg4benKqGINRMrrv2IxbM6xM5kkRudprrL/G5fKQycDq
+         7jPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760990341; x=1761595141;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZqJXKRaXTsONzkFldwqCiRpv/FJUXtPHGWU4YzhiyOY=;
-        b=Qb5RToRRc/Qqdeq7mgHz+Pa45CRMfCfRelu3vIm2gsrsPUOC9/IRxr6xK7YYDSr10N
-         GbGPLbF2YObp4wwsz/76WcMBovKdoQLc127iEg0hhctDMa4j5RegU6zOVjY3qQQXfSWz
-         4F7ex6GAWAjMYAKqIvyYVeOnCfU3LaedH+jCPk7DIVolYDaMdowks5ufAp5YahSmAxA+
-         AZqs8aZQx4Q/P1aACf60uOfaQeGM3Q8BIAziugnE2wIu4pIfmjMvqpjocD7lDtRNxKBg
-         6/Ebgokm4Ji/5VLZKLsvwFRCPUDUMOHTJd2IZs2XTTHN0p/4Ajo0a9hTEDO0fDmzDT+q
-         biFg==
-X-Forwarded-Encrypted: i=1; AJvYcCUO9tEg3Wrp2J9Gllt3360L72RRBqqmY/vScaiYPV8s22b/jfhpjCHTA0MaqV08c5mJefXnKPEND4GqiQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1b4U3vA1V9jna9FjzD0W5kQfGG9c3wEY8f6pWuZtc7x5g0YEl
-	n6Rxa1VEfIzlheoaiLQwmZyy39KlhwJHj99wG0tfSIx1CdNXcvjebs5X7jgB4AKw4JNvkot2zHH
-	rPs0=
-X-Gm-Gg: ASbGncsB08NrcBPyO9a3RNILBUSqVeyps7fqKWkDOTCQjkf1AOmHuOG8aa/hnnkJ5O5
-	jKK1Q96++VseSNei7kwvNYsNeXoeFGKvc+vD9l1H6IJGXWIHPnrsmL9LnnJ2AVn1kfAfEs73uBc
-	FdaDM0lX/J9aHXKLdi4TiHynVy1qcZo9tKe7b3ef8EFfpEnbK18nSat1Vvcms973hy9G8flERPw
-	b/B+PtPnqPJDFlujKHT2GW0qU4vP8lITROqwY9gjBXvPv9yiSV3XXFSO58bwJQfhYZL2/0GYtxt
-	T+g2Fjz/lxkY2tmhVe06dv0XlRiT4TfGjvI5AL0QxmEKZzO9B7iaHm7OiRnsSLERqWicoZ1+B5o
-	qNbaDcJgebLxSgNLJXA9eEZoLfaq0GVp6DebFrTmYJolkRGiAILlFsSHgS1zGbVwSf8OTTIzKJQ
-	oVRpNCJ2tmuQaItE7izorHioxvnq2RBAKQ8lFVBBNb5ZuBZ+Iv
-X-Google-Smtp-Source: AGHT+IFH1oiUeIH432FsYNBQpF/GT1nopsTc2S9C6LWCnYD4LaLoLc/JF07gYRMJRD24Ia17wlr2oQ==
-X-Received: by 2002:a05:651c:501:b0:337:e5fc:d2d with SMTP id 38308e7fff4ca-37797a0fb97mr46777821fa.24.1760990340843;
-        Mon, 20 Oct 2025 12:59:00 -0700 (PDT)
-Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com. [209.85.167.44])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-377a91b70cbsm22753891fa.11.2025.10.20.12.59.00
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1760990349; x=1761595149;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RGfpAN5rzMHTTLTFD3Loxuaxwb3861xuxa5WQkx+zXw=;
+        b=mICLF3xgEP/lnwgYbuK2QRobqe4U+BieUuiN0xJjLSZTKL9iQIkqJ5pwTq5lLzw8JX
+         bAjF2WJjC6q4DG3wADCi55KS+cVVyJRZvXyXMHPicqQnf5N0P5SpFK7eevfERfRy82V1
+         /e3y1bamsZv4RA99NOKOhafjPhJjc8CIufqdlFbj9wOUoXbW4VVwZCBjwEmSIX2cllCS
+         jngdZwwl/FxSc2Yxn4mneI8EDJoIOAdkB2Vm3D8L4sye8wM1+JxIM6lXWevzoO3H1+NE
+         Yw+dH0t3O4TwWOtp4nqi2ToXNT00ATAVq3rSWKvHEc5j4ntPskCzpGM/M9L7QJU8JaQy
+         C4ig==
+X-Forwarded-Encrypted: i=1; AJvYcCWYRlN0rvZLs1xiqmVwZS9ARFT6gFKrXblT4MWoiTjPqGrtvWVE+1OZgVS4lfKtyQtJVioeJRKpyW8PoA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLeN+H21OgcwDShgklI4HIK9mKLRpPexjm8V19GPelAuzvtk4R
+	RvetA6sZGnzgJqzpewR7JXJjsnQi9F5g7nkAQ0TL4xir/IFMbngB0leIP4V+MkODPhQ=
+X-Gm-Gg: ASbGnctt1MO2YqWkbOMIvTmhxNCr0Pxz4xWRPXzGxrqr/KPyxy0FlbWySe40EFK28Z7
+	99oZq3HZFJj/P8NbDE6hED/aaE9tyOEccu2dGZwj1ee8k9ADrwsRLzC0eMg58UHQCWcnCxakx5o
+	k6KEmVim4457tb4+0vs4MqXR7+k2aXRIkfnLzLWu+FOdkncF9G/cufUQcVeECSkRLNzlS0FrTrR
+	9mMWl/xzsVczEkX7/tu+Jt7NBv0h1awcYIiEXZDtc1bhmTIiZXl2lsjr74WnoHW+AF1nJWPiDq6
+	oNB6+R/rifQnGw+PsgdSkmOJ5PP31TbMsrdTgefCJgwxttk8OfUEwZ1k/JpE8/8Ffx2FZ4LJzQ9
+	y7mt3Tsx1lWJroLa2PqgM7mAyKCPKpxAYyveMpxy5vVmWHlQ7JHg8br1pUkqb7PUnfIfTiKqX3G
+	cM9/fBoShcNAl1pA9LI8bJo9IWJJ3/TmN6nfhhzmF6O7zi/QCqPyxV1g==
+X-Google-Smtp-Source: AGHT+IGvccbSI11XJaSMgNlpFHKrVHSLfRMXa/L8Zy3VVZh4FfZmD5f/hOBseLwrd7XiHIRl8wNufg==
+X-Received: by 2002:a05:600c:5298:b0:46e:432f:32ab with SMTP id 5b1f17b1804b1-4711791d1e3mr108234665e9.33.1760990348602;
+        Mon, 20 Oct 2025 12:59:08 -0700 (PDT)
+Received: from [192.168.0.163] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-471144c900asm247164875e9.16.2025.10.20.12.59.07
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Oct 2025 12:59:00 -0700 (PDT)
-Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-57b35e176dbso5916440e87.1
-        for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 12:59:00 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWENKqXHEIu3OliGgTlcmKGvgRdWATmQYWYNRMuq9HU7RisxwspdW96zHuU5Dge5XDo2QvvHSLZP9smDA==@vger.kernel.org
-X-Received: by 2002:a05:6512:1309:b0:57e:54ab:56a9 with SMTP id
- 2adb3069b0e04-591d84ef681mr4340152e87.20.1760990339501; Mon, 20 Oct 2025
- 12:58:59 -0700 (PDT)
+        Mon, 20 Oct 2025 12:59:08 -0700 (PDT)
+Message-ID: <c1fae486-ee56-41bf-b3e9-e2e2a9338d1f@linaro.org>
+Date: Mon, 20 Oct 2025 20:59:07 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251014-imx214-smatch-v2-1-04218043086d@chromium.org>
- <aPZ_YRwpDNPFjePX@valkosipuli.retiisi.eu> <CANiDSCt+E+Ogr9+Y4_4KA_vBOYyTNZgwZVBD2wLMJirQE+PS3Q@mail.gmail.com>
- <aPaOxb9DyQfnU7_Q@valkosipuli.retiisi.eu>
-In-Reply-To: <aPaOxb9DyQfnU7_Q@valkosipuli.retiisi.eu>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 20 Oct 2025 21:58:47 +0200
-X-Gmail-Original-Message-ID: <CANiDSCvS3gnrQ0sPrdhiQxY47rHHrvVMq_wDDBYa_L=Y-VZwAg@mail.gmail.com>
-X-Gm-Features: AS18NWC84SZZl_qh5nIXYoQU5trCa2_3LnB2YMD5cBGR5J9qgedZa51in2-p0vs
-Message-ID: <CANiDSCvS3gnrQ0sPrdhiQxY47rHHrvVMq_wDDBYa_L=Y-VZwAg@mail.gmail.com>
-Subject: Re: [PATCH v2] media: i2c: imx214: Exit early on control init errors
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Dan Carpenter <dan.carpenter@linaro.org>, Ricardo Ribalda <ribalda@kernel.org>, 
-	Hans Verkuil <hverkuil+cisco@kernel.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/3] media: qcom: camss: Add common TPG support
+To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org
+References: <20251017-camss_tpg-v5-0-cafe3ad42163@oss.qualcomm.com>
+ <20251017-camss_tpg-v5-1-cafe3ad42163@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20251017-camss_tpg-v5-1-cafe3ad42163@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Sakai
+On 17/10/2025 06:06, Wenmeng Liu wrote:
+> + * Rreturn 0 on success
 
-On Mon, 20 Oct 2025 at 21:34, Sakari Ailus <sakari.ailus@iki.fi> wrote:
->
-> Hi Ricardo,
->
-> On Mon, Oct 20, 2025 at 08:51:44PM +0200, Ricardo Ribalda wrote:
-> > Hi Sakari
-> >
-> > On Mon, 20 Oct 2025 at 20:28, Sakari Ailus <sakari.ailus@iki.fi> wrote:
-> > >
-> > > Hi Ricardo,
-> > >
-> > > On Tue, Oct 14, 2025 at 11:00:17AM +0000, Ricardo Ribalda wrote:
-> > > > Now we try to initialize all the controls and at the very end check
-> > > > ctrl_hdlr->error to check if one of them has failed.
-> > > >
-> > > > This confuses smatch, who do not know how to track the state of
-> > > > imx214->link_freq.
-> > > >
-> > > > drivers/media/i2c/imx214.c:1109 imx214_ctrls_init() error: we previ=
-ously assumed 'imx214->link_freq' could be null (see line 1017)
-> > > >
-> > > > Fix this by exiting early on control initialization errors.
-> > > >
-> > > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > > ---
-> > > > Right now we are handling this with a quirk in media-ci, if Dan can=
-not
-> > > > fix smatch in a kernel cycle we should merge this patch.
-> > > > ---
-> > > > Changes in v2:
-> > > > - Fix typo in commit message commit
-> > > > - Move error tag where it belongs (Thanks Hans!)
-> > > > - Link to v1: https://lore.kernel.org/r/20250829-imx214-smatch-v1-1=
--f3d1653b48e4@chromium.org
-> > > > ---
-> > > >  drivers/media/i2c/imx214.c | 7 +++++--
-> > > >  1 file changed, 5 insertions(+), 2 deletions(-)
-> > > >
-> > > > diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.=
-c
-> > > > index 94ebe625c9e6ee0fb67fe1d89b48b2f1bf58ffc6..c66f0e18726c3fc15df=
-91c37888a797bcea82134 100644
-> > > > --- a/drivers/media/i2c/imx214.c
-> > > > +++ b/drivers/media/i2c/imx214.c
-> > > > @@ -1014,8 +1014,10 @@ static int imx214_ctrls_init(struct imx214 *=
-imx214)
-> > > >                                                  V4L2_CID_LINK_FREQ=
-,
-> > > >                                                  imx214->bus_cfg.nr=
-_of_link_frequencies - 1,
-> > > >                                                  0, imx214->bus_cfg=
-.link_frequencies);
-> > > > -     if (imx214->link_freq)
-> > > > -             imx214->link_freq->flags |=3D V4L2_CTRL_FLAG_READ_ONL=
-Y;
-> > > > +     if (!imx214->link_freq)
-> > > > +             goto err_init_ctrl;
-> > > > +
-> > > > +     imx214->link_freq->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-> > >
-> > > You could do this cleaner by simply moving the assignment after the h=
-andler
-> > > error check. Some drivers do that already.
-> > >
-> > > I wonder why this seems to be a problem for smatch in the imx214 driv=
-er as
-> > > the pattern is widely used across the sensor drivers.
-> >
-> > Smatch thinks that there could be case where
-> >
-> > imx->link_freq =3D NULL, and imx214_pll_update returns 0.
-> >
-> > That is not solved by moving the assignment `imx214->link_freq->flags
-> > |=3D` after if (ret)
->
-> Did you test this? The smatch message suggests otherwise (but of course
-> this could just turn into a different smatch error).
+You might as well zap this too since you're v6ing.
 
-Actually smatch do not hate it :)
-
-ribalda@ribalda:~/work/linux$ make -i W=3D1 C=3D1
-CHECK=3D"../media-ci/third_party/smatch/smatch -p=3Dkernel"
-KCFLAGS=3D"-Wmaybe-uninitialized" drivers/media/i2c/imx214.o
-  CC      kernel/sched/rq-offsets.s
-In file included from kernel/sched/rq-offsets.c:5:
-kernel/sched/sched.h: In function =E2=80=98mm_cid_get=E2=80=99:
-kernel/sched/sched.h:3743:25: error: variable =E2=80=98cpumask=E2=80=99 set=
- but not
-used [-Werror=3Dunused-but-set-variable]
- 3743 |         struct cpumask *cpumask;
-      |                         ^~~~~~~
-cc1: all warnings being treated as errors
-make[2]: [scripts/Makefile.build:182: kernel/sched/rq-offsets.s] Error
-1 (ignored)
-/bin/sh: line 1: kernel/sched/rq-offsets.s: No such file or directory
-make[2]: [Kbuild:46: include/generated/rq-offsets.h] Error 1 (ignored)
-  CALL    scripts/checksyscalls.sh
-  DESCEND objtool
-  INSTALL libsubcmd_headers
-  CC      drivers/media/i2c/imx214.o
-  CHECK   drivers/media/i2c/imx214.c
-
-
-ribalda@ribalda:~/work/linux$ git diff
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index 94ebe625c9e6..a21461b55923 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -1014,8 +1014,6 @@ static int imx214_ctrls_init(struct imx214 *imx214)
-                                                   V4L2_CID_LINK_FREQ,
-
-imx214->bus_cfg.nr_of_link_frequencies - 1,
-                                                   0,
-imx214->bus_cfg.link_frequencies);
--       if (imx214->link_freq)
--               imx214->link_freq->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-
-        /*
-         * WARNING!
-@@ -1038,9 +1036,6 @@ static int imx214_ctrls_init(struct imx214 *imx214)
-        imx214->hblank =3D v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
-                                           V4L2_CID_HBLANK, hblank, hblank,
-                                           1, hblank);
--       if (imx214->hblank)
--               imx214->hblank->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
--
-        exposure_max =3D mode->vts_def - IMX214_EXPOSURE_OFFSET;
-        exposure_def =3D min(exposure_max, IMX214_EXPOSURE_DEFAULT);
-        imx214->exposure =3D v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
-@@ -1060,13 +1055,9 @@ static int imx214_ctrls_init(struct imx214 *imx214)
-
-        imx214->hflip =3D v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
-                                          V4L2_CID_HFLIP, 0, 1, 1, 0);
--       if (imx214->hflip)
--               imx214->hflip->flags |=3D V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-
-        imx214->vflip =3D v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
-                                          V4L2_CID_VFLIP, 0, 1, 1, 0);
--       if (imx214->vflip)
--               imx214->vflip->flags |=3D V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-
-        v4l2_ctrl_cluster(2, &imx214->hflip);
-
-@@ -1106,6 +1097,11 @@ static int imx214_ctrls_init(struct imx214 *imx214)
-                return ret;
-        }
-
-+       imx214->link_freq->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-+       imx214->hblank->flags |=3D V4L2_CTRL_FLAG_READ_ONLY;
-+       imx214->hflip->flags |=3D V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-+       imx214->vflip->flags |=3D V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-+
-        ret =3D imx214_pll_update(imx214);
-        if (ret < 0) {
-                v4l2_ctrl_handler_free(ctrl_hdlr);
-
-
->
-> >
-> > I believe Dan is already flagged about this, but I do not think that
-> > it will be super simple to fix in his code.
-> >
-> > If smatch can handle this case before rc5 I will delete this patch.
->
-> There are other options, too, such as storing the link frequency index (t=
-he
-> driver won't even support setting it) or the frequency itself.
-
-There are plenty of options :) But I am still failing to see what is
-wrong with this patch.
-
-We exit early when there is an error instead of continuing doing work
-that will be useless.
-
-If you really prefer your way I can send a v3... but we have probably
-more fun work to do :P
-
-Regards!
-
->
-> --
-> Regards,
->
-> Sakari Ailus
-
-
-
---=20
-Ricardo Ribalda
+---
+bod
 
