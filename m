@@ -1,223 +1,183 @@
-Return-Path: <linux-media+bounces-45031-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45032-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70CADBF0F52
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 13:57:27 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 07D0DBF1028
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 14:12:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 79B434F3799
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 11:57:14 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D76B54E25E5
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 12:12:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E4BEF311C21;
-	Mon, 20 Oct 2025 11:56:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BF86530506F;
+	Mon, 20 Oct 2025 12:12:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LuosinnC"
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=erick.setubal@gmx.de header.b="Pngf5yUv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.20])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B4C830595A;
-	Mon, 20 Oct 2025 11:56:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FBA625FA0A;
+	Mon, 20 Oct 2025 12:12:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760961416; cv=none; b=KOG39T/ZU3UoTVs0YJu29Od/6setiv5N+VH8c+hhm7EjsZLbM2KO1/3RuAyyFJRPd27pqV3Ldpt+lkNhe41YKBkLMx5NLXu7dsX9B/uLCrwTHYy5OgK2Z7oBxLleXO2XO+ftM39FZvxXDPRk7nPDClDbXMyo0DWE8EAXmrt/JTo=
+	t=1760962347; cv=none; b=IF3InIgzH2Oq6pd+jd6JCcVaxUbH5PUr3pzHQNvNbG3PRDTZRQNVGkVE5xvlWdCwN02g7zvm8ymhaOcC891pRZXgT+R0BaogxsBGfA/cG+zpLb1IVKJumu7vi/0KtbtLjK2hpV8Jg2vgy6kdj04s70/QmBDatnV9o8EI8otOXAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760961416; c=relaxed/simple;
-	bh=ZcmJIfsB4LChHE03FyuLCzwTi7dkvnBS3aWOnxBGojg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E2lc6i+Oex8fjzJ0uTYkhWziGNe9IVmnamEM3JU1fotPSjQHhRQG7a6szALZYWD3BeM62B2PnstIYL/DuK5GMkbwSLGXBeGKHRFRHt7qNwYvaqLofxjHraz6IcOk9hFkfmMp+a4KvDTYGqf7fEGshIH2YYaDXDUQfrkkk4HOHz4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LuosinnC; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4DD59C113D0;
-	Mon, 20 Oct 2025 11:56:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760961415;
-	bh=ZcmJIfsB4LChHE03FyuLCzwTi7dkvnBS3aWOnxBGojg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=LuosinnCXLWb731Ac8RPagWrD082efqHx0geawEzhfsppoChEdah3buWDcIzNFMvP
-	 dBjhbVF1FICX76U3U+smpICUiJLSKAtDF2j1RXc2InKv8KlPtOQ5xABWTneGPbfOIT
-	 ZKbaex0+GtRGAsloox3PuttpCqBcZktL2E/9n8/v2SVhzl7hs94CebygnaJ0Obx7FV
-	 2RGbjJ89+o/UXEom/8NOTLYDw0b+9zxX60pUV30BG6U6mSeyexURsFGm+eO+7F/as1
-	 XAvqfjHE38OEQO6gvtF3Ta+OoJ4Rbf6iAS02EkuIBwoFE5NPCxdM8fDOkASx6slZqD
-	 b53gQhd+bnhJQ==
-Date: Mon, 20 Oct 2025 08:56:43 -0300
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH 02/23] tools: docs: parse_data_structs.py: output a line
- number
-Message-ID: <20251020085643.14007a29@sal.lan>
-In-Reply-To: <1507fe55-d756-46bb-abf1-0d1fb7f9bee0@kernel.org>
-References: <cover.1759329363.git.mchehab+huawei@kernel.org>
-	<dcffa6844dede00052f5fb851a857991468f22b5.1759329363.git.mchehab+huawei@kernel.org>
-	<1507fe55-d756-46bb-abf1-0d1fb7f9bee0@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	s=arc-20240116; t=1760962347; c=relaxed/simple;
+	bh=sRJE63HfLX8PFsK9yU+kQYMGEML2Dx1sORfe6+DgQI8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T8J6Gpt5TyBjXwsp+Ou7jjBnB9+ISLjo9S6XWL3golE/9KY52hgzc5QU1wNFFMGNAH8yefFDlrTH+FA+QwLWLXFE8MYhndrnx7tS345JFshAlTOXYShY83lPB5v5kfRDAhJHGNM0PghmroiEqHYqqW1IzwwnhKounphA6k90P0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=erick.setubal@gmx.de header.b=Pngf5yUv; arc=none smtp.client-ip=212.227.17.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1760962321; x=1761567121; i=erick.setubal@gmx.de;
+	bh=xK9cZNOEO/GZXxOsWVqr+Cv29qsxOBBA2kPhT65U7Ck=;
+	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-ID:
+	 MIME-Version:Content-Transfer-Encoding:cc:
+	 content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=Pngf5yUvwEYHdpuDcf0XIjzifBASAWiyovQnntHxNYL09mVxb0mvee09bjxYjxz+
+	 CAHWWBM8wfO+VDqWbAVhyojzev/MHPA5r4KSU9E9EZe2Cx2YMHYNPhRl7GJiWo29o
+	 JcMeiM7wFXmiwg3mpT48omC3zXp9kSlt+MZIS/8v2z8pgPp8pnAi38lVtO9lObqrA
+	 LpqK5iHuC19VcAB/3kN2UMZ/Y8HYOlefb9wTzLcR1qPcOVCNNuZjHvv0dIanBuLVu
+	 372YXe3PWviyJnZi8w8x0AsE5Lap3/iprCw1qUpw3QYVhJfvnypAR0B94oE3656N3
+	 lzWJCbpGUxjg4pguoQ==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from zolxn00301.speedport.ip ([84.145.119.168]) by mail.gmx.net
+ (mrgmx104 [212.227.17.168]) with ESMTPSA (Nemesis) id
+ 1N1Obb-1uDKB93NZj-00wPEx; Mon, 20 Oct 2025 14:12:00 +0200
+From: Erick Setubal Bacurau <erick.setubal@gmx.de>
+To: mchehab@kernel.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	shawnguo@kernel.org,
+	s.hauer@pengutronix.de,
+	kernel@pengutronix.de,
+	festevam@gmail.com,
+	Frank.Li@nxp.com,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	david.hunter.linux@gmail.com,
+	linux-kernel-mentees@lists.linuxfoundation.org,
+	skhan@linuxfoundation.org
+Cc: Erick Setubal Bacurau <erick.setubal@gmx.de>
+Subject: [PATCH] dt-bindings: fix redundant quotes on fsl,imx6q-vdoa.yaml
+Date: Mon, 20 Oct 2025 14:11:45 +0200
+Message-ID: <20251020121145.190020-1-erick.setubal@gmx.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:Ud0Ywg0PFxpV1uDULxVWXqq67gwg0KOWfiadAQBr3EmQdgUAtms
+ zyUHQSmGxbjav9rIsicYZkVoId5t6GX3YooxLC9aBDJ2RSyDiszjNISppKM26OLja9cJ1NT
+ 3IJcjF6p8SR1MFRTGcLliQr0+E3UB3evopVL+Zu3/8tR4cFEgZe0PKzWwQdtzG4th5w85w+
+ BTzGy810qJBsMua9OAxuQ==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:GMT/1JwuHGQ=;RjqVBilX3taRAv0Om5ToNnEWsog
+ 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
+ FYoQA==
 
-Em Mon, 20 Oct 2025 12:46:50 +0200
-Hans Verkuil <hverkuil+cisco@kernel.org> escreveu:
+Fix a dt-schema error: `fsl,imx6q-vdoa.yaml:19:12: [error] string value is
+redundantly quoted with any quotes (quoted-strings)`
 
-> On 01/10/2025 16:49, Mauro Carvalho Chehab wrote:
-> 
-> Missing commit message!
+Signed-off-by: Erick Setubal Bacurau <erick.setubal@gmx.de>
+=2D--
+ Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Weird, I'm almost sure I filled some description.
+diff --git a/Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml b=
+/Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml
+index 511ac0d67a7f..988a5b3a62bd 100644
+=2D-- a/Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml
++++ b/Documentation/devicetree/bindings/media/fsl,imx6q-vdoa.yaml
+@@ -16,7 +16,7 @@ maintainers:
+=20
+ properties:
+   compatible:
+-    const: "fsl,imx6q-vdoa"
++    const: fsl,imx6q-vdoa
+=20
+   reg:
+     maxItems: 1
+=2D-=20
+2.43.0
 
-> 
-> I'm less concerned about the missing message (it's clear what is happening here),
-> than I am about the fact that checkpatch wasn't run.
-
-My mailbomb script does run checkpatch for each patch, but I probably
-missed the warnings(*).
-
-(*) By the time I sent this series, I was playing with a new version
-    written in Python. It had several issues, however, mostly because I
-    was unable to find a way for Python to read an e-mail formatted with
-    git format-patch without mangling with content encoding. I got problems
-    on translations, with binary file patches and even with \n at the code.
-
-    On my original script, written in 2015, it was easy to lose checkpatch 
-    messages in the crowd on big series. I did several improvements on
-    it, like running checkpatch in parallel and re-ordering warnings to
-    avoid losing them, but it was done only after sending this series.
-
-In any case, checkpatch currently doesn't have any logic for Python
-or ReST files. It only reports patch descriptions issues like this.
-IMO what it is needed for checkpatch to be more useful for tools is:
-
-1. to define a coding style for Python;
-2. to add some code at checkpatch to handle Python as well.
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> > ---
-> >  tools/docs/lib/parse_data_structs.py | 29 ++++++++++++++--------------
-> >  1 file changed, 15 insertions(+), 14 deletions(-)
-> > 
-> > diff --git a/tools/docs/lib/parse_data_structs.py b/tools/docs/lib/parse_data_structs.py
-> > index 6c868f84f029..d28471a045f1 100755
-> > --- a/tools/docs/lib/parse_data_structs.py
-> > +++ b/tools/docs/lib/parse_data_structs.py
-> > @@ -143,7 +143,7 @@ class ParseDataStructs:
-> >          for symbol_type in self.DEF_SYMBOL_TYPES:
-> >              self.symbols[symbol_type] = {}
-> >  
-> > -    def store_type(self, symbol_type: str, symbol: str,
-> > +    def store_type(self, ln, symbol_type: str, symbol: str,
-> >                     ref_name: str = None, replace_underscores: bool = True):
-> >          """
-> >          Stores a new symbol at self.symbols under symbol_type.
-> > @@ -172,7 +172,7 @@ class ParseDataStructs:
-> >          else:
-> >              ref_link = symbol
-> >  
-> > -        self.symbols[symbol_type][symbol] = f"{prefix}{ref_link}{suffix}"
-> > +        self.symbols[symbol_type][symbol] = (f"{prefix}{ref_link}{suffix}", ln)
-> >  
-> >      def store_line(self, line):
-> >          """Stores a line at self.data, properly indented"""
-> > @@ -240,20 +240,20 @@ class ParseDataStructs:
-> >                  if is_enum:
-> >                      match = re.match(r"^\s*([_\w][\w\d_]+)\s*[\,=]?", line)
-> >                      if match:
-> > -                        self.store_type("symbol", match.group(1))
-> > +                        self.store_type(line_no, "symbol", match.group(1))
-> >                      if "}" in line:
-> >                          is_enum = False
-> >                      continue
-> >  
-> >                  match = re.match(r"^\s*#\s*define\s+([\w_]+)\s+_IO", line)
-> >                  if match:
-> > -                    self.store_type("ioctl", match.group(1),
-> > +                    self.store_type(line_no, "ioctl", match.group(1),
-> >                                      replace_underscores=False)
-> >                      continue
-> >  
-> >                  match = re.match(r"^\s*#\s*define\s+([\w_]+)(\s+|$)", line)
-> >                  if match:
-> > -                    self.store_type("define", match.group(1))
-> > +                    self.store_type(line_no, "define", match.group(1))
-> >                      continue
-> >  
-> >                  match = re.match(r"^\s*typedef\s+([_\w][\w\d_]+)\s+(.*)\s+([_\w][\w\d_]+);",
-> > @@ -261,20 +261,20 @@ class ParseDataStructs:
-> >                  if match:
-> >                      name = match.group(2).strip()
-> >                      symbol = match.group(3)
-> > -                    self.store_type("typedef", symbol, ref_name=name)
-> > +                    self.store_type(line_no, "typedef", symbol, ref_name=name)
-> >                      continue
-> >  
-> >                  for re_enum in self.RE_ENUMS:
-> >                      match = re_enum.match(line)
-> >                      if match:
-> > -                        self.store_type("enum", match.group(1))
-> > +                        self.store_type(line_no, "enum", match.group(1))
-> >                          is_enum = True
-> >                          break
-> >  
-> >                  for re_struct in self.RE_STRUCTS:
-> >                      match = re_struct.match(line)
-> >                      if match:
-> > -                        self.store_type("struct", match.group(1))
-> > +                        self.store_type(line_no, "struct", match.group(1))
-> >                          break
-> >  
-> >      def process_exceptions(self, fname: str):
-> > @@ -342,7 +342,8 @@ class ParseDataStructs:
-> >  
-> >                  # Change self.symbols to use the replacement rule
-> >                  if old in self.symbols[c_type]:
-> > -                    self.symbols[c_type][old] = new_ref
-> > +                    (_, ln) = self.symbols[c_type][old]
-> > +                    self.symbols[c_type][old] = (new_ref, ln)
-> >                  else:
-> >                      print(f"{name}:{ln}: Warning: can't find {old} {c_type}")
-> >  
-> > @@ -360,8 +361,8 @@ class ParseDataStructs:
-> >  
-> >              print(f"{c_type}:")
-> >  
-> > -            for symbol, ref in sorted(refs.items()):
-> > -                print(f"  {symbol} -> {ref}")
-> > +            for symbol, (ref, ln) in sorted(refs.items()):
-> > +                print(f"  #{ln:<5d} {symbol} -> {ref}")
-> >  
-> >              print()
-> >  
-> > @@ -384,7 +385,7 @@ class ParseDataStructs:
-> >  
-> >          # Process all reference types
-> >          for ref_dict in self.symbols.values():
-> > -            for symbol, replacement in ref_dict.items():
-> > +            for symbol, (replacement, _) in ref_dict.items():
-> >                  symbol = re.escape(re.sub(r"([\_\`\*\<\>\&\\\\:\/])", r"\\\1", symbol))
-> >                  text = re.sub(fr'{start_delim}{symbol}{end_delim}',
-> >                                fr'\1{replacement}\2', text)
-> > @@ -420,8 +421,8 @@ class ParseDataStructs:
-> >              text.append("")
-> >  
-> >              # Sort symbols alphabetically
-> > -            for symbol, ref in sorted(refs.items()):
-> > -                text.append(f"* :{ref}:")
-> > +            for symbol, (ref, ln) in sorted(refs.items()):
-> > +                text.append(f"* {ref}: line #{ln}")
-> >  
-> >              text.append("")  # Add empty line between categories
-> >    
-> 
 
