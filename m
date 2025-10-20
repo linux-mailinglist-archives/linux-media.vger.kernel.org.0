@@ -1,95 +1,329 @@
-Return-Path: <linux-media+bounces-45029-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45030-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74C1EBF0C6E
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 13:16:16 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id B250FBF0C93
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 13:18:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F11D84F20AB
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 11:16:14 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3263618A0C58
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 11:18:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A855246783;
-	Mon, 20 Oct 2025 11:16:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A3AD725393C;
+	Mon, 20 Oct 2025 11:18:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PlwDYxDL"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lRvnvoH+"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A681F5825;
-	Mon, 20 Oct 2025 11:16:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760958968; cv=none; b=RdiOjGynddaAaB8Mf5PSl1pKTWVz82FkQ4lXgJn6+Li7+p/BNOb66dBowbImXwThNVUO7NMLtId0mt8TzpmTT3TSzlOGUJv+68Bq7NEQZhnaU+9/Pgf43dQcxPIOqPIHxVBv/nodRF1z2QKu9ybpuurLq4TlIs5VqxtVnNc12VU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760958968; c=relaxed/simple;
-	bh=X0eKZdFlSWj/hHX4OYGh6yBB3JhcwwktgIYdMBCdF7M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CCWPb18Vq5DUq7C5+Zzy9K7yeCEUObSZKz/p7nC92UPBxpmanrPo5pX7878JTluOxOmPL88w+O4g3UiHihuGMrE42kMvFsdCiYRiiLQYa0qBOrR2lLQQyC86swdVUOTDi00LsxwWevB+CDWFtgcZetee7Qaezp7WU7ALF84lvC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PlwDYxDL; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EDDEC4CEF9;
-	Mon, 20 Oct 2025 11:16:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760958967;
-	bh=X0eKZdFlSWj/hHX4OYGh6yBB3JhcwwktgIYdMBCdF7M=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PlwDYxDLexHxuJDjsT8XRWxCtS0pSUGKNFz94TlQjAMaDGnqwlhisoJn3hON91lQO
-	 A1Vli/NxJi66rFDpFrj38VobB1qI8W6KaEJAFuh8Mxg7Sif4UqfIPGvbh4Stb3viEA
-	 gYVQr5zvgexIP0l9QqyInkJDC1sU3V8OHDwZhD6y5a2cpX59zJCi10pby8bJK5W5Zq
-	 lvAdkiE83Ajrg/CgkpS5X6M0aIqJ/Rsegbz1rBnev/nJXTbPU1gfsfISaJhY4a1a1o
-	 6PJO39w3sVjgOdqXMh+BDq2Z5jLgr47YchSGybYwQbk7HV7s0KH/gaKauob9fxJtRB
-	 q3EL/1llhA2MQ==
-Date: Mon, 20 Oct 2025 13:16:05 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
-	Conor Dooley <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
-	"open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" <linux-media@vger.kernel.org>, 
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
-Subject: Re: [PATCH 1/1] media: dt-bindings: video-interfaces: add
- video-interfaces.h information
-Message-ID: <20251020-majestic-warm-barracuda-06acb3@kuoka>
-References: <20251014170043.2341146-1-Frank.Li@nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 275FC208D0;
+	Mon, 20 Oct 2025 11:18:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760959096; cv=fail; b=euqHGUHQ5/qlr5hlAYzbOLsIAd8buwVLoNUN6IzeH1bl1ToVf3l7gYOFnIPy9orRL+wY71bRi5XhH7HAeR6S92kylcpV111xHsiA7Lfb9WgJGDfqvQmWaMbvOBV0VcKrtjG42I+TnmP0ftT2v0p+dJdk3Jq4pnUK9e1tZfzrXhw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760959096; c=relaxed/simple;
+	bh=tJlP/1SmtzGuxb3pn0TonGqBh6HeMmqe2bxSm8w60M4=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=reqdW3eymQIcHLKVci+pgnWu70vOTtiwDM06ePsScrQazsz4YwVZ0H6aT7Uo94+vBfgqEB0+0wjT79i/timJZxn0mOR/YGaZNvPBxMbKxvlA79ap8K/NXqbULjS1wbV2OGruw6HShZZyDxi7hy7DEfFyrsECaiKy11P/Lk7+H64=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lRvnvoH+; arc=fail smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760959094; x=1792495094;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=tJlP/1SmtzGuxb3pn0TonGqBh6HeMmqe2bxSm8w60M4=;
+  b=lRvnvoH+dIjv4Uv8fLBhA+govPSs8bgr4MH02hTovXhs9s87DFrFNHXf
+   EbMupx6xMslrO1lak/sDuncOct823GCORH12Oxe/I5atYdZmpsu/4nkMg
+   KAahnQmWMst8KPFLpCmQEjuF4LxudCmEhGuusv+JCe4SGa3SWimsgKvWK
+   GTd2HpFl5o5Tzl9vTFuZTARaxt8VHfhG5L0n9gBJRM21cqDMasJ5b5lVW
+   qFVF9S2XL5X9C5hpPQ6B8kcxSC3QPZ/z0kXp1r19uvaLQJ+VmErkKyrak
+   0WNRj3yqgS2StUy0bwSuwSjwh9CF7GVAnZhJUFtAyVoHRwHsGhXj8IWx6
+   Q==;
+X-CSE-ConnectionGUID: DStn6yXgSCWiRvffLw6BsQ==
+X-CSE-MsgGUID: zV5e1stNQvmeemjUy618UQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62280820"
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="62280820"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 04:18:12 -0700
+X-CSE-ConnectionGUID: m/PNvKcKQYyg9skVd+wqVQ==
+X-CSE-MsgGUID: pJqfwN+aTySYvMumsmAIkQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="213921487"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 04:18:12 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 20 Oct 2025 04:18:11 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Mon, 20 Oct 2025 04:18:11 -0700
+Received: from SN4PR2101CU001.outbound.protection.outlook.com (40.93.195.24)
+ by edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 20 Oct 2025 04:18:10 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ae3vpWLi+8wu6y/2zjKVjissynAOqPwE8UyxQVXH00oJBiK4JlStQDZGdpPxqucX6Y88222wBZhDQv1dVQVd2QWwkrUG82hTW3uiSzfjnGalWDHw/L8XTCPpSasH3VwiD2sZmfnQxremjdMEtSsGu0bzvjNDeX4H6wLm+zZY67Dhf0BYE4HPUtk6MgIqtpwhne0R52FhBUJ1cEbiWp0rNzdUMcH09ZuD3dNdwI08Ete5Q2rXM1N1QCSVbnb6v+bgwBPvdqB4G0bmXMV6PEn0ioZV8xf0C97OTU1vNqI+oWUskTNQ1SLjuWblBpAj9fyWaJtubC9VWuL8CzpC+v6PaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=DH6R0/yM3PXZ4BTKkOSqTKbAdFE/cs7K8r44mtDzLCc=;
+ b=Kt6AZNzjPlD3K4NbPSjKt8RtWZ/x8wzhSBjk4q308wM2Lyr2V0UAvWBtXjvdvzg+VHsaqMaGqYOORjQqk+vY2R0b6sq3ZP/EKDA1b7IT4V+jAqCrJjUt/hJFZ43cwuSDXHyYe4YtRz2jk+laIdTpSVmwZ52GdCVjROAyrj2SrNcU2i+NgOO8HFzKrMUaI9erw5/hKVomuDz3nLxMKmM4UkuAcc2tCm6cDhutCAalVxmaB2YEBVkCbK87J/q/Y7zWrdVb+cxdhD9AUnKQ9YDSIaWevMwDxoNevPJNyPNHGbdoJRDWeGLmp3Zmxa9hyVm3lLAbj452mMU8EG7mhRNQWA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com (2603:10b6:510:212::12)
+ by CY5PR11MB6368.namprd11.prod.outlook.com (2603:10b6:930:38::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.16; Mon, 20 Oct
+ 2025 11:18:09 +0000
+Received: from PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332]) by PH7PR11MB6522.namprd11.prod.outlook.com
+ ([fe80::9e94:e21f:e11a:332%3]) with mapi id 15.20.9228.014; Mon, 20 Oct 2025
+ 11:18:09 +0000
+Date: Mon, 20 Oct 2025 04:18:06 -0700
+From: Matthew Brost <matthew.brost@intel.com>
+To: <phasta@kernel.org>
+CC: Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
+	<gustavo@padovan.org>, Christian =?iso-8859-1?Q?K=F6nig?=
+	<christian.koenig@amd.com>, <tursulin@ursulin.net>,
+	<linux-media@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+	<linaro-mm-sig@lists.linaro.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [RFC PATCH] dma-fence: Remove 64-bit flag
+Message-ID: <aPYabivOBSJ1UChg@lstrano-desk.jf.intel.com>
+References: <20251017093146.169996-2-phasta@kernel.org>
+ <aPK04r1E7IbAZ9QY@lstrano-desk.jf.intel.com>
+ <7b53f502aa0eaee4ffe4350621ddbcbfaafcad06.camel@mailbox.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <7b53f502aa0eaee4ffe4350621ddbcbfaafcad06.camel@mailbox.org>
+X-ClientProxiedBy: MW4PR04CA0367.namprd04.prod.outlook.com
+ (2603:10b6:303:81::12) To PH7PR11MB6522.namprd11.prod.outlook.com
+ (2603:10b6:510:212::12)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251014170043.2341146-1-Frank.Li@nxp.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH7PR11MB6522:EE_|CY5PR11MB6368:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3c1eef38-019b-4cf4-c88b-08de0fca5972
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?TDcxRlFvNUxIRStSL3VhOGRHejNETm13dy9FUVVwT0Q5OWJSV1dZYytNQ09H?=
+ =?utf-8?B?UjlpejhGb3Evem8rd09mUFBlcDY0c3VGK0xUeGJHaWhrSzZQYm5mdjFzejdn?=
+ =?utf-8?B?bGlOaHpPNCtqK1VxeGQ4bGJWOXdQdmU5ZktZc0M5Z3RvYnp2YnhTeHpDR29X?=
+ =?utf-8?B?NVBVcnVkSWIwTG4ydlFYVE02SE1oOUVOcGpUc0FYYk1kYUFib3ZER20yRTlm?=
+ =?utf-8?B?MDkveDZVbkRpN3RidVloZXVCYTJTMDhKYzZZYUg0UG9vQ3RQWW40SmZNaEtK?=
+ =?utf-8?B?R3VFUXN5YXdreGx2ZGFZKzZlVjl0Ti9KbVRJd3d6VUVBa1M3Z3ZJalpnc1N6?=
+ =?utf-8?B?bkF2c1lNV09QQ1IzMzhCcUNaMEJGNVZCaXE1TzNJSzF3K3ZTd3U4L2JmWllE?=
+ =?utf-8?B?UVlnQlE2KzN5UzJWM3RRNXd6Vm1qdmhVbjdsZEI0NWxhVDluZmozL2QwNlB5?=
+ =?utf-8?B?VzkyRERtdldyaWI3SDFkSjlPUnQ5cTArSVp5aUdVR2ozUlJLYWtFTXFubnMz?=
+ =?utf-8?B?cHpmYUZsZ0U4NG5qVG40MDB2djFwQTdnOGpva2k3a2NBa0hzaVRRYllSUU51?=
+ =?utf-8?B?QjVHS2J6YzZ2cnJQdmovTDdwbElkK0dzZ0pTNlZVS2p1SStCMGV6alFBMUJx?=
+ =?utf-8?B?UUJHSzg4bGxRald5T2Vmd1Y3Yzc2K0ZXRDVZR1FIMkRWVW9JR0RLWXdNRVhK?=
+ =?utf-8?B?a0cvWDRGZ1pMOVhnUFdpOEtTWit0YWc1RTRFbTBJY1ZoZTE3UGMxcW05Smd2?=
+ =?utf-8?B?V1cydU96SDJyOGZLVlkvOEkxT0tDYnZXTG5Zb0VXR3NmRExkTkp1NU5IeEJP?=
+ =?utf-8?B?WU9CQXhaY0NtMnZtR0tVVUtEVUl1WHNTa2w0QXdEalduaW9oYWU2UVFveUpG?=
+ =?utf-8?B?bUxaZ2hmU0N4TkViTDZCU0c3Rlo2VklDYlo0V2R4T0l0eE0xY3o2ek1YNWpX?=
+ =?utf-8?B?Q1lNRnhNZGRiVDE5d04yZTlVMHFsQ3JVd2hEUzQya0psbDJxZXlNbklxYUd1?=
+ =?utf-8?B?cE9UeEZ1ay9FNzRqeW5LczRDTEU2cmdOTTdVbmNSU1owS3pTaW15Z2Jxc0pM?=
+ =?utf-8?B?TU8xSlBJYXBERVhITGVCWEhYQkpQOTZXWWdpZEIwSWtYWnRhNldvUVlUUUlp?=
+ =?utf-8?B?ZEs0YXBpTlhKbER1TVo0T3dRUkZsME9UN2xzZ0VRdHdWb3RKcCtqV2tPcXM5?=
+ =?utf-8?B?UEhTWHM5Nk5DVDlYVWN5cy9JaE85YWpzUUVpbmQwMllObFh6MDFSY3NraXdO?=
+ =?utf-8?B?NkRteVJ5NzYxNnMyZ2MzbW1iUWVPMWlUZkQzSkN5NmFsK2JJT2pEUGJ1U3A3?=
+ =?utf-8?B?TGRVMDNRL0NuMUpJUUdoRlJxeEtWaW91clZ2akp6R2IvamsvQ2lpVU9mOXVS?=
+ =?utf-8?B?eVJCcjlmaFZvT2ZMSUpGVHhacXFlaFBLbWNZZkk4QnpMWlNXbkZBZ05ZcXA5?=
+ =?utf-8?B?VHhxNVpINmtTQ1NIeTN3TFJDL1IyZTFueS9YbFV0SFowcVEvc252NWdiZitj?=
+ =?utf-8?B?NkI0b2FrWWZENURCMlZWbWpMNTFaVEIyTW9PTmZFVkV0WHZyU05GQWwyRnBK?=
+ =?utf-8?B?c3REWjdLWGcwZHo1MGNsRWtpVlBhZkJ5Z0c4dG1VRWVLZ0U1cHFmbitrS1pk?=
+ =?utf-8?B?ai9XQS9xUG1yRUtoL0g2WmUrN3pCcjFpU1Nnblg4a08xbGRETXRKcDQrQWFm?=
+ =?utf-8?B?SU9VZkhOYW9reW0ySnFua2xvbUlORjllblBndStCclN3VVNPQ1NBTUJUT0lV?=
+ =?utf-8?B?cXltdENnZjZxV2FaMVN5T2VLSmMrOTN6TDR0cjBsRFZhSUhCRHZLS1Bsb0t2?=
+ =?utf-8?B?RVc4QTFLeHpteUJ0U1RmWXUzeXk3THR3b1FXSm5qUWxLRmVySWFwRkpvMGRy?=
+ =?utf-8?B?MVBjRE81T25rSjlJc3VVb0txN2NjS1JtdXUyYTdEL1M4R3Z6aGUrQndudGI5?=
+ =?utf-8?Q?NIsXnlfLFRQ=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH7PR11MB6522.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?UmF1YXlSeWVoYUxHL2hDRktieXRWVzdrRUZCaWFHTS93SW5JVGVQZHF6VXlQ?=
+ =?utf-8?B?NWFsZnhvU2NMVkVaMGQ4Z3Fxc0ZTdUtTOERDK25IaXlpOXFVckRsZ3FWMXZI?=
+ =?utf-8?B?TVJxbThLSnFCVThtajh4c3JFdjdWY2JxVDc4SlFZNkxPZXNDcEVRZXRQdUNH?=
+ =?utf-8?B?L1FjRlBHUVlRS2NGUHh5R3kyZXBGR1dXOExobDYvWHJta1FXMzRKZ0dQM1pW?=
+ =?utf-8?B?RVlWVkQrSVMwc0ZUUlgwbkNrMmRud0s4SkpYWFEyRnNVdTl5N0psYzVJRUsr?=
+ =?utf-8?B?MGJidG5jQkpVWVhFWDR2K0xFTWRTODJWQXJnbG94ZnRBbkZnKzNoZmRHdEY4?=
+ =?utf-8?B?RmlOSDN6cUxaS1FNZWlJbjNFMUtGamsrV2k4cldJa0hjVnpHYUJ5Wk12OUR6?=
+ =?utf-8?B?Q2lZYnVOWmJieXMzcVdIZXUvaFhMeTZQMCt5MDEyQ2FGMm9wYmJlZFBkVTNM?=
+ =?utf-8?B?bjczTitUZVRBZTFWdG1rNkhuWllrT0lmK1VEdExGdzlsWHlvaXIvdGUzVXhK?=
+ =?utf-8?B?WUZIYVpXWnNmTTNWVTI4YVNmalJDb2VKOHFnU3NnTUtQWGJCVWJGa0VtVGlU?=
+ =?utf-8?B?OWl2dHk2bUNHSHNSK1pNWDNNcTRxaTVVNVpQMm9CMEFDZ2dJcXI1clZEK25Q?=
+ =?utf-8?B?VGdHOE5OcXZsU0llaHBWV3NSUEUvYzVBQUJaV2laZFRwTVVKRVliOXdvcDg0?=
+ =?utf-8?B?WUF0WWZrelJTenE0b2hUT2JmcDJaRkU4a1laVUlsRS8ySEFaTGxKR2xQYTZ3?=
+ =?utf-8?B?TDVJTG0rVk5pUXNNQVI1SitDd2lFbFIxV09uc0owUWZTTWU1TDVvNTh5R3VU?=
+ =?utf-8?B?WlJFdTZRNXVmaHEyM1FERG9TWFEvcVZnOU1wWmZ0SDdZSmhHVXJ5NzdQR3dH?=
+ =?utf-8?B?bUpoU1VubzFDOVU0Wm13MkVOY3k5endRK2xUK2Z4M3BrTHM3LzN6b25UdU5j?=
+ =?utf-8?B?amxkSVFJNG5RZTJucUNDcGVyem5nRldoQjFIL3hLcjFyOFlJM1lvK25zVlUr?=
+ =?utf-8?B?SS8xb2syamQ5aE45UE5CVXE0Q2ZmR0hrZm1GY1pEa1pTSE9FMnUvRmNJcE5Z?=
+ =?utf-8?B?MVZQQnFDS3poN3RPdDR0ODRSZjdTNjRHSmI5UzhMZXdrMGdDMXBhMDlyOVoy?=
+ =?utf-8?B?VVRoTWJIU3pJNXZIU3ErZDhZWFB6M1U0ZktZZ29TMVN2R3l3aFUxRlVQWWh2?=
+ =?utf-8?B?QmhCTGpPeEZNaGJNMlZxQVA0VHZPQW5FUmRNTm5iNStyUGdIeVlJQzM4VFlp?=
+ =?utf-8?B?RkNZN2U4ZjVwWkJ5TnRiZk1yYm5ndHk3Y2xyMzZKRjJ3cWFCc3lXS0w1cXRl?=
+ =?utf-8?B?OXJBSEd2SXZqZCt2Y1hwRGNNU1BWRHBQeWRZSEZ3ZEp6VWpZd1IrWXBOdEZF?=
+ =?utf-8?B?Ync3b1NZaXRWMS9DVUl4MFdEd0RhdTFSejZPRldyWEcwb2pNM000Z3JROHUz?=
+ =?utf-8?B?UDRSaW8wRTNjMlc4elJ0dnNrVnQ5dE1Zcnp1MVFGMzBYM2djOHVYa1R0NGk4?=
+ =?utf-8?B?dTZaVFc4aDArUjQwNjI2RmorQnJqeFZMUXBJQUxkY3pCWEN4Nkd4TFIwYnR3?=
+ =?utf-8?B?QllMRXVwbGlHd3hwUGptbkNaQ0t6azFHdjhlMHZCME95TzVnNGxPa0IxL2Rx?=
+ =?utf-8?B?cDZCWW1NSTkreTR3bE9DTGd0T2JpL2xJN0E4dzVoNHU2Y24wMUw0Rmd2UlRh?=
+ =?utf-8?B?VTNYVGF2SW54c1h4ZDJqZFlZMDhwaytQT3ZnSkh0OUVTYmtybndNYjRpNTVv?=
+ =?utf-8?B?bUVqRmJQREthSGhSOXV3MDRqS3dqVjZ2L2F5bGJCQjFWbXdQRnh3bWhpOFRL?=
+ =?utf-8?B?S0ZQbmpkMjEyK1FIdWY1V0wyMm0rY0NLSXVhaEZ1K0lqTUVpd1VoTSt6bDVv?=
+ =?utf-8?B?RjU0SGRmbmNKMEdRMkFjM3U0bFZmS0NpNVNUaithSUhXbEt1S3AyeS9DdHRy?=
+ =?utf-8?B?d0d2QjJzQ0FyZXpkdHpoNFc4c1kySGgrZFlSUHpPNXJpYmkxY3JGWVRyVlZa?=
+ =?utf-8?B?eTliOE56K0Nib2ErdFkzRHlScmhvY0I5WFNRV2M2YVZPN3NVVmdRQkRaOWdz?=
+ =?utf-8?B?S1VKMWJZZFFFVVFkQklTZlZ0aC9PUjVCcEhrc0hxVDRqTTUzRE5IVm94L3Rn?=
+ =?utf-8?B?R0MzWDMybWJxWmdxZkNQTlFCSWk2VWUyaTBHVmxkeTdPNmVsRXNtbUN4Yncw?=
+ =?utf-8?B?L0E9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3c1eef38-019b-4cf4-c88b-08de0fca5972
+X-MS-Exchange-CrossTenant-AuthSource: PH7PR11MB6522.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2025 11:18:09.2841
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VKXAqV+TBQy2MtSDNjQBJSTRa7o6LJ9apafNQXIfk8DZWN8SIsezNKS0MZZk4g6Z0uGw3gKH0dkn8zfFDZAw/g==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR11MB6368
+X-OriginatorOrg: intel.com
 
-On Tue, Oct 14, 2025 at 01:00:43PM -0400, Frank Li wrote:
-> Add dt-bindings/media/video-interfaces.h informations to help avoid use
-
-"Mention dt-bindings/media/video-interfaces.h in descriptions to help..."
-
-> hardcode in dts.
+On Mon, Oct 20, 2025 at 10:16:23AM +0200, Philipp Stanner wrote:
+> On Fri, 2025-10-17 at 14:28 -0700, Matthew Brost wrote:
+> > On Fri, Oct 17, 2025 at 11:31:47AM +0200, Philipp Stanner wrote:
+> > > It seems that DMA_FENCE_FLAG_SEQNO64_BIT has no real effects anymore,
+> > > since seqno is a u64 everywhere.
+> > > 
+> > > Remove the unneeded flag.
+> > > 
+> > > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > > ---
+> > > Seems to me that this flag doesn't really do anything anymore?
+> > > 
+> > > I *suspect* that it could be that some drivers pass a u32 to
+> > > dma_fence_init()? I guess they could be ported, couldn't they.
+> > > 
+> > 
+> > Xe uses 32-bit hardware fence sequence numbers—see [1] and [2]. We could
+> > switch to 64-bit hardware fence sequence numbers, but that would require
+> > changes on the driver side. If you sent this to our CI, I’m fairly
+> > certain we’d see a bunch of failures. I suspect this would also break
+> > several other drivers.
 > 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
->  Documentation/devicetree/bindings/media/video-interfaces.yaml | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> What exactly breaks? Help me out here; if you pass a u32 for a u64,
+
+Seqno wraps.
+
+> doesn't the C standard guarantee that the higher, unused 32 bits will
+> be 0?
+
+	return (int)(lower_32_bits(f1) - lower_32_bits(f2)) > 0;
+
+Look at the above logic.
+
+f1 = 0x0;
+f2 = 0xffffffff; /* -1 */
+
+The above statement will correctly return true.
+
+Compared to the below statement which returns false.
+
+	return f1 > f2;
+
+We test seqno wraps in Xe by setting our initial seqno to -127, again if
+you send this patch to our CI any test which sends more than 127 job on
+queue will likely fail.
+
+Matt
+
 > 
-> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> index 038e85b45befa..f96cc0e403ddd 100644
-> --- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> @@ -95,7 +95,7 @@ properties:
->        - 6 # BT.656
->        - 7 # DPI
->      description:
-> -      Data bus type.
-> +      Data bus type. See dt-bindings/media/video-interfaces.h.
-
-Please use full path, so it can be validated by tools.
-
-Best regards,
-Krzysztof
-
+> Because the only thing the flag still does is do this lower_32 check in
+> fence_is_later.
+> 
+> P.
+> 
+> > 
+> > As I mentioned, all Xe-supported platforms could be updated since their
+> > rings support 64-bit store instructions. However, I suspect that very
+> > old i915 platforms don’t support such instructions in the ring. I agree
+> > this is a legacy issue, and we should probably use 64-bit sequence
+> > numbers in Xe. But again, platforms and drivers that are decades old
+> > might break as a result.
+> > 
+> > Matt
+> > 
+> > [1] https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/xe/xe_hw_fence.c#L264
+> > [2] https://elixir.bootlin.com/linux/v6.17.1/source/drivers/gpu/drm/xe/xe_hw_fence_types.h#L51
+> > 
+> > > P.
+> > > ---
+> > >  drivers/dma-buf/dma-fence.c |  3 +--
+> > >  include/linux/dma-fence.h   | 10 +---------
+> > >  2 files changed, 2 insertions(+), 11 deletions(-)
+> > > 
+> > > diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> > > index 3f78c56b58dc..24794c027813 100644
+> > > --- a/drivers/dma-buf/dma-fence.c
+> > > +++ b/drivers/dma-buf/dma-fence.c
+> > > @@ -1078,8 +1078,7 @@ void
+> > >  dma_fence_init64(struct dma_fence *fence, const struct dma_fence_ops *ops,
+> > >  		 spinlock_t *lock, u64 context, u64 seqno)
+> > >  {
+> > > -	__dma_fence_init(fence, ops, lock, context, seqno,
+> > > -			 BIT(DMA_FENCE_FLAG_SEQNO64_BIT));
+> > > +	__dma_fence_init(fence, ops, lock, context, seqno, 0);
+> > >  }
+> > >  EXPORT_SYMBOL(dma_fence_init64);
+> > >  
+> > > diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> > > index 64639e104110..4eca2db28625 100644
+> > > --- a/include/linux/dma-fence.h
+> > > +++ b/include/linux/dma-fence.h
+> > > @@ -98,7 +98,6 @@ struct dma_fence {
+> > >  };
+> > >  
+> > >  enum dma_fence_flag_bits {
+> > > -	DMA_FENCE_FLAG_SEQNO64_BIT,
+> > >  	DMA_FENCE_FLAG_SIGNALED_BIT,
+> > >  	DMA_FENCE_FLAG_TIMESTAMP_BIT,
+> > >  	DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
+> > > @@ -470,14 +469,7 @@ dma_fence_is_signaled(struct dma_fence *fence)
+> > >   */
+> > >  static inline bool __dma_fence_is_later(struct dma_fence *fence, u64 f1, u64 f2)
+> > >  {
+> > > -	/* This is for backward compatibility with drivers which can only handle
+> > > -	 * 32bit sequence numbers. Use a 64bit compare when the driver says to
+> > > -	 * do so.
+> > > -	 */
+> > > -	if (test_bit(DMA_FENCE_FLAG_SEQNO64_BIT, &fence->flags))
+> > > -		return f1 > f2;
+> > > -
+> > > -	return (int)(lower_32_bits(f1) - lower_32_bits(f2)) > 0;
+> > > +	return f1 > f2;
+> > >  }
+> > >  
+> > >  /**
+> > > -- 
+> > > 2.49.0
+> > > 
+> 
 
