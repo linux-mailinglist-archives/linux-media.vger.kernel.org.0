@@ -1,204 +1,95 @@
-Return-Path: <linux-media+bounces-45028-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45029-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FA4EBF0B06
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 12:56:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 74C1EBF0C6E
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 13:16:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8DE8E4F270B
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 10:56:17 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F11D84F20AB
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 11:16:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C0072253F11;
-	Mon, 20 Oct 2025 10:56:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A855246783;
+	Mon, 20 Oct 2025 11:16:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="uBhbmlaS"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PlwDYxDL"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 136902561D1
-	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 10:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7A681F5825;
+	Mon, 20 Oct 2025 11:16:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760957771; cv=none; b=govlG9Pp3MjvFrtmVAeiwdeBUXygSttORBUf+UBB5tz3P+70plsjmkLi11GsUbR5mua13kg5YW9uKk6I+uAR3c1lSCSJrIC4GywxsyDzwvhtDZ2GwRIFiaae39J9Z4vvfjQKdazR6uP1IcRGVs9Z4FsjlDg2NTJImB2gsOOwsFY=
+	t=1760958968; cv=none; b=RdiOjGynddaAaB8Mf5PSl1pKTWVz82FkQ4lXgJn6+Li7+p/BNOb66dBowbImXwThNVUO7NMLtId0mt8TzpmTT3TSzlOGUJv+68Bq7NEQZhnaU+9/Pgf43dQcxPIOqPIHxVBv/nodRF1z2QKu9ybpuurLq4TlIs5VqxtVnNc12VU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760957771; c=relaxed/simple;
-	bh=IydQHlopurRsMIlFXXQnBsVqX59j3tYYZ9wp3B4KoGw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=qYEeDxUC9CdoJD5OU2eQkAFJ3JoUA47EDVEYEPE8wZLibwGts0fEhC641c3Y2k7nujiK3E9n7CkpTOOLTjNBU33tRBfr4nC9QUyB+2S+F98HRg8D83VM8pM5Vl6DHU2F9ureZR240TGNDm4Wek5aoJY4tb9550vnfQSAfxc8btM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=uBhbmlaS; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-426ed6f4db5so2783713f8f.0
-        for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 03:56:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760957767; x=1761562567; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=O50PUVrDxE9ib0IbMfL05smlWaDICzzt8kT2K5/ErZQ=;
-        b=uBhbmlaSfddAoMrlIpZt99EKU4O+QzROEHKWlEWVOhpxCcHpRkv8nGt+Y5c6WPzV4O
-         Ol1gyPNixSQGIIbgldDyhQcmbCTP1shIv9qiScdknkmRQ217UZGu6jTtMJoORQ0XKzoD
-         T+5xbOh8wSiGQutwtzoEABqZYK8C2/MbM57QU7+lmbf7sHUAR6Mw6SEWV7dE78JpYlsq
-         8XQqm+3k2JV6XqGP9uS8wmlKDgBAIApSOziEQ8np6CfKWrIBJ1L94zj+gddnFf2WxKim
-         qT5konw3qIMntlha4nYJMt1ei7UWkhFmRhJf7RnKwAR8lcQT3OPy4O1Qml8FtGi4FFme
-         Pa2A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760957767; x=1761562567;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=O50PUVrDxE9ib0IbMfL05smlWaDICzzt8kT2K5/ErZQ=;
-        b=mp2cbvYaBhQuF325wEWHAuPPTJuArVaPEZSP8fXIzhB8aAElPDgFeD1n9oSMJmMGTd
-         5Italn//s+m0EQX2yneEsLihmiKyJj3/MXw2dHsBBd9NqbRRgDAwI1H1tyCkNd1Bx1V3
-         v+l0HjjzdUgwgd/QfxNws1RJquacXy+HF5+xpSVmN88ZGXroV/UNF/eowxnwnpn+zZ8r
-         JmQHiTs6AoA+FxoRU0Fteqvd8MM2ODRRtsR4pJ6R8tq2Mk/5PkJmCiH5/sTa8+fVQ7F2
-         scVbI58qj+XCzRdV1zMfJBX7Uhx5eG/crvrfjVLk5/nfeAkaybJ2W58ro1XG/oes3fnw
-         Pj9Q==
-X-Forwarded-Encrypted: i=1; AJvYcCVj8nfbyZTVhgLNxJwWCDqpGfRfVvnFZSNco/q+63+wHy23/rQF7RT7jaKMaj50L1LHLXPCsqLaBVPb7g==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTT0frKiw0K9VlHuY+RJ6sKpgj5elZI7XFdEc7x+woQvWuC0mz
-	amLY6eMq/PJzVgo08v3RejNKy/joPmO3FtgFBxXc9Rqrpa5jt1TXy23l7fkcrtAbQPg=
-X-Gm-Gg: ASbGncsaPfo7QmUSuKSTSpUttllQ5vu8LuN+SJShC5Wf1Mx/aE96TBxAOXN7IZw5vFW
-	9Cna6VcDjgK5UrKV9q0C7Nu9Gkv3iSRafuDF8F+TO51AIPdjDDSKo/z4XB8qJFRvMZjVbLWgE/j
-	1QTxUPnwNc42mwRCR4CDmGWDmZxaJElzQl3V91QwqknYMi+en7NEa6cgUYHkt7P0NgJ38+9a5UT
-	BUuiRECkGWAw24+8QO2s65ixb16XrIQwMEfueKPF1P/PMIqscVvGF48IiFfVkj4r+YsJEkXpXFq
-	hr/4mMQFs2he8hUMH1x5KbdcjB6CgPRgiI5s/gpW0eyZGXwL7o0KWXE6cVlxedOHNvCIRlGQ0AM
-	p8UUNGImYZx4d4cpA9B5qgylRTxRuYYV1WP3lQ3iuuo5pxaJnEBotVFj9QB6sauZ3Gs5jt10L3o
-	JFd6wWfXAUu0lT94jaVqm2GjS4iAMHRewiFr5zu2ae3Mo=
-X-Google-Smtp-Source: AGHT+IEnxRa9WBYZ/xihOvJBRUTwTryLwgmhlm6XUxYYKxvIXYWvfiDdFtfoAj1aZpKnj7X7vI055g==
-X-Received: by 2002:a5d:588b:0:b0:427:1ae:abc7 with SMTP id ffacd0b85a97d-42701aeaffemr10842435f8f.2.1760957767322;
-        Mon, 20 Oct 2025 03:56:07 -0700 (PDT)
-Received: from [192.168.0.163] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f00ce06bsm14495252f8f.45.2025.10.20.03.56.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Oct 2025 03:56:06 -0700 (PDT)
-Message-ID: <f5a1076f-f06c-404d-88d4-fef4f7694c82@linaro.org>
-Date: Mon, 20 Oct 2025 11:56:05 +0100
+	s=arc-20240116; t=1760958968; c=relaxed/simple;
+	bh=X0eKZdFlSWj/hHX4OYGh6yBB3JhcwwktgIYdMBCdF7M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CCWPb18Vq5DUq7C5+Zzy9K7yeCEUObSZKz/p7nC92UPBxpmanrPo5pX7878JTluOxOmPL88w+O4g3UiHihuGMrE42kMvFsdCiYRiiLQYa0qBOrR2lLQQyC86swdVUOTDi00LsxwWevB+CDWFtgcZetee7Qaezp7WU7ALF84lvC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PlwDYxDL; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1EDDEC4CEF9;
+	Mon, 20 Oct 2025 11:16:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760958967;
+	bh=X0eKZdFlSWj/hHX4OYGh6yBB3JhcwwktgIYdMBCdF7M=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PlwDYxDLexHxuJDjsT8XRWxCtS0pSUGKNFz94TlQjAMaDGnqwlhisoJn3hON91lQO
+	 A1Vli/NxJi66rFDpFrj38VobB1qI8W6KaEJAFuh8Mxg7Sif4UqfIPGvbh4Stb3viEA
+	 gYVQr5zvgexIP0l9QqyInkJDC1sU3V8OHDwZhD6y5a2cpX59zJCi10pby8bJK5W5Zq
+	 lvAdkiE83Ajrg/CgkpS5X6M0aIqJ/Rsegbz1rBnev/nJXTbPU1gfsfISaJhY4a1a1o
+	 6PJO39w3sVjgOdqXMh+BDq2Z5jLgr47YchSGybYwQbk7HV7s0KH/gaKauob9fxJtRB
+	 q3EL/1llhA2MQ==
+Date: Mon, 20 Oct 2025 13:16:05 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+	"open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" <linux-media@vger.kernel.org>, 
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>, open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
+Subject: Re: [PATCH 1/1] media: dt-bindings: video-interfaces: add
+ video-interfaces.h information
+Message-ID: <20251020-majestic-warm-barracuda-06acb3@kuoka>
+References: <20251014170043.2341146-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/6] dt-bindings: media: camss: Add qcom,kaanapali-camss
- binding
-To: Krzysztof Kozlowski <krzk@kernel.org>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>
-Cc: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
- Jingyi Wang <jingyi.wang@oss.qualcomm.com>, Robert Foss <rfoss@kernel.org>,
- Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bryan O'Donoghue <bod@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, linux-i2c@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
- trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com
-References: <20250924-knp-cam-v1-0-b72d6deea054@oss.qualcomm.com>
- <20250924-knp-cam-v1-2-b72d6deea054@oss.qualcomm.com>
- <CAFEp6-1o11B9o3HjdJY-xQhDXquOTknXo0JeW=HfpTxXcEaK3g@mail.gmail.com>
- <a7be3a42-bd4f-46dc-b6de-2b0c0320cb0d@oss.qualcomm.com>
- <d8dfe11f-c55a-4eb2-930a-bfa31670bef0@kernel.org>
- <CAFEp6-1zpobZNLHt1192Ahtn2O7bV+As0P1YvVHrkRsORyH_Aw@mail.gmail.com>
- <ac96922e-d2a3-4a99-8f34-a822c3dd2d02@kernel.org>
- <7140b8a8-1380-4859-84a3-681b3f1ce505@kernel.org>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <7140b8a8-1380-4859-84a3-681b3f1ce505@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251014170043.2341146-1-Frank.Li@nxp.com>
 
-On 20/10/2025 11:16, Krzysztof Kozlowski wrote:
-> On 16/10/2025 12:43, Krzysztof Kozlowski wrote:
->> On 16/10/2025 10:47, Loic Poulain wrote:
->>> On Thu, Oct 16, 2025 at 7:52 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
->>>>
->>>> On 15/10/2025 05:21, Hangxiang Ma wrote:
->>>>>>> +      - const: csiphy4
->>>>>>> +      - const: csiphy5
->>>>>>> +      - const: vfe0
->>>>>>> +      - const: vfe1
->>>>>>> +      - const: vfe2
->>>>>>> +      - const: vfe_lite0
->>>>>>> +      - const: vfe_lite1
->>>>>> Wouldn't it make sense to simplify this and have different camss nodes
->>>>>> for the 'main' and 'lite' paths?
->>>>>>
->>>>>> [...]
->>>>> No such plan till now. Other series may take this into consideration.
->>>>
->>>> We don't care much about your plan. You are expected to send correct
->>>> hardware description.
->>>
->>> To be fair, other platforms like sc8280xp-camss already have the
->>> all-in big camss node.
->>> Point is that if Lite and Main blocks are distinct enough we could
->>> have two simpler nodes.
->>> Would it make things any better from a dts and camss perspective?
->>>
->>>   camss: isp@9253000 {
->>>      compatible = "qcom,kaanapali-camss";
->>>      [...]
->>> }
->>>
->>> camss-lite:ips@9273000 {
->>>     compatible = "qcom,kaanapali-lite-camss";
->>>      [...]
->>> }
->>>
->>> That approach would create two distinct CAMSS instances and separate
->>> media pipelines.
->>> However, it may not work with the current implementation, as the CSI
->>> PHYs would need to be shared between them.
->>>
->>> I guess this should be part of the broader discussion around
->>> splitting/busifying CAMSS.
->>
->> And this discussion CAN happen now, stopping this camss and any future
->> camss till we conclude the discussion. Whatever internal plans of that
->> teams are, rejecting technical discussion based on "no plans for that"
->> is a really bad argument, only stalling this patchset and raising eyebrows.
+On Tue, Oct 14, 2025 at 01:00:43PM -0400, Frank Li wrote:
+> Add dt-bindings/media/video-interfaces.h informations to help avoid use
+
+"Mention dt-bindings/media/video-interfaces.h in descriptions to help..."
+
+> hardcode in dts.
 > 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+>  Documentation/devicetree/bindings/media/video-interfaces.yaml | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> To be clear, I expect Loic's comment to be fully and technically
-> addressed, not with "no plan for that".
-> 
-> This blocks this patchset and any new versions.
-> 
-> Best regards,
-> Krzysztof
+> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> index 038e85b45befa..f96cc0e403ddd 100644
+> --- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> @@ -95,7 +95,7 @@ properties:
+>        - 6 # BT.656
+>        - 7 # DPI
+>      description:
+> -      Data bus type.
+> +      Data bus type. See dt-bindings/media/video-interfaces.h.
 
-I think we should stick with the existing bindings.
+Please use full path, so it can be validated by tools.
 
-There is no "lite" ISP there are so-called lite blocks within the CAMSS 
-block.
-
-It makes sense to split out the PHYs from this block as they have their 
-own power-rails but, if you look at the block diagrams for this IP there 
-is no specific ISP lite, there are merely blocks within the camera 
-called lite.
-
-It might be nice to structure things like this 
-arch/arm64/boot/dts/rockchip/rk356x-base.dtsi with each component 
-separated out into its own node with its own compat string but, I'd have 
-a hard time justifying changing up the bindings we already have for that 
-reason - aside from anything else - all of those components in CAMSS 
-live inside of the TITAN_TOP_GDSC which is the power-domain for the 
-whole camera system.
-
-So not meaning to answer for Hangxiang but, I think the compelling logic 
-here is to stick to and extend the existing bindings.
-
-So in fact I have no problem with the bindings as submitted - not 
-including the regular fixups these types of submissions entail.
-
----
-bod
-
+Best regards,
+Krzysztof
 
 
