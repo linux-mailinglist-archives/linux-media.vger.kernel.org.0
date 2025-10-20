@@ -1,181 +1,218 @@
-Return-Path: <linux-media+bounces-45084-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45085-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31B28BF35D7
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 22:18:37 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 03E7CBF371B
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 22:28:22 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 864E4408651
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 20:18:23 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id A677718C4497
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 20:28:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9B3412D9499;
-	Mon, 20 Oct 2025 20:18:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A0B8C2E6CBE;
+	Mon, 20 Oct 2025 20:23:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="QoTuRiFH"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GT0Np3+s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 278D2286D63
-	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 20:18:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C419F338933;
+	Mon, 20 Oct 2025 20:23:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760991501; cv=none; b=dz4ekGOMF8YOJI/Yw1uhBwUP/3trg/bfqjrGEqIb30bZ9ou5vKjLMJcNfOeTr/ByKTqwB3YoRmXorCTpMJOgXitjpiv6UtUvXqaRxUGESK9wNL1aIfaf5uoCP4alJ2npwv7mdtdqomLzvrB5JpCj0//zCNJ/X/OLdInltC7Enqk=
+	t=1760991799; cv=none; b=SQNCWneccdAYLF+B0JPwWNRP0FGuRFnYEDe0r5bRktnNkEdmqmhPrcWYxs0A+/yl/W00KjwuM/WmF4mBaLtVmN020pz/O+E5CoH0RqpTt+D+owLPSbdzzQsVGLwKX4Qc9xMBzKbR3FOJdd4v2rygKhrnteplidPysdZl35yZgiw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760991501; c=relaxed/simple;
-	bh=EWAMQZDJQxduT4rtJbL/Q1SO+4wZ+3sUMZ2oQUIjKx4=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Qdt1XlBZwa25kih1zHY72qqKtQ/76nhuOQXndQk49zffsY8Rh4mg1EbcmLbd/7QWp3xmX37pqyMbKOsTAs1VNKeTN9CQ7m5tqjfQ5TgqlLJZrFoCdUg1eatEBhldcXGnk4U1n1e2NjjrnBB5Fhz0RkDWY2mDOjQOraZL8YMv/18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=QoTuRiFH; arc=none smtp.client-ip=209.85.208.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-376466f1280so49908451fa.0
-        for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 13:18:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1760991497; x=1761596297; darn=vger.kernel.org;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=r56O9mvxtSY5qJpEf4fOIaAUlYt5/4uKLCNd8pJLXy4=;
-        b=QoTuRiFHj0y/OGRQE1uenVss+8Mghtxi3mptzQa3/otOOTov3XQvx+rO3KSF+E635L
-         7Gw4QiY91kkBxo2EHfYHdIHwm5h2uBYF1T4LWS+/IdGpcH+1ydvUZBVhx8KTG1lQqyfa
-         V+0W+VPlUW3z3YbkSPWikpR1LflbjJVxsqbIk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760991497; x=1761596297;
-        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
-         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=r56O9mvxtSY5qJpEf4fOIaAUlYt5/4uKLCNd8pJLXy4=;
-        b=cPqMZsusweiQ7y2KeDe6IpJ2hQX5bZLvLKpjS8ld4GGdRIwAW0LoGFPUa/nGDmKy6V
-         VxOS48inaZMXzqjPviK9mesvbos2Y3Om1Tz7FWKHOyb0WcjNb4MyOm6KIGZwODE12rxA
-         w9MLVrSDY4BAETXXecK3dCbgKTBNgA7dclu+xiruTHb/KjjG9InsmReOm8hU7VAB20ys
-         VwJkRE/rM+oSDp+5fmrmODSjf7OOd22LF2Cnjb8DYEhna/mneaO2ZjN/t38V8WkI9NTf
-         fk8an2chOvgcm2/v6B8VBzyYsU+rQl1SvoLFhJFLDeMIDeUGrdm3YLXHxLfXU4VL43zp
-         qSCg==
-X-Gm-Message-State: AOJu0YzoxqBdV5vYAaAERPgaY3kcheBT34VCXu+5JRZFljI0fyPCZlIl
-	IY7VHVSpAICMelR07cxTmETd2j1S07HoyJH5I0RsM18I4ndT+P/gp4ZO28O4sEJV5g==
-X-Gm-Gg: ASbGncvaC405q3PNSx1ZBFnJ1O3lBbY32uGE6+cG4c47dBJcr71SY7jHqLwevCYkFNc
-	LrQhGKZ7jue2aP/hcgEteWZOT8/R/L5JELDFC7W5XuIuQJqt4lMk0fh6OOxqZkugt/E/LazhpMX
-	3ykMNG5Wvs7bC9bSWO1iVy0QlVXofAZcYSQotcbMgfKhbcj8S/NYMGAoRNfa8Jf1wLIbWSLtT6k
-	2FIj8w5MbX7DX60AO37CoUjDUn1ejT7yOcurItqSs65fpJ9p6O/hXUTb/V9CjuwCNcahc2Hwpk5
-	xCekZkUr7Xk4ezONR9sIAnb2e1awUjYv7K/1kvQMEpxAAyIypWmDntbIphv2zzuY9u29uy+g5pI
-	dhBpSCSv6g0p00Hci034oGss3mZK8wIubqx5zo87fmDym9CaOgz6xjXgf4LMBv5B1uPB6VnakMP
-	pwHRgn6yB3fMIcFpZ5+mPVTIbgmm5z6W/lj3GeqYOnF09a69GUwqTJQ1qgveMpqoEBJg==
-X-Google-Smtp-Source: AGHT+IHETxJ6w1KzieigKaMEPUVnnKpx42BSC9i3WPVemUmwa4hzCCWJYg4zCDNafpV2HQvagTU4TQ==
-X-Received: by 2002:a2e:be88:0:b0:352:b6c0:d33e with SMTP id 38308e7fff4ca-3779777cf98mr42861861fa.11.1760991497146;
-        Mon, 20 Oct 2025 13:18:17 -0700 (PDT)
-Received: from ribalda.c.googlers.com (166.141.88.34.bc.googleusercontent.com. [34.88.141.166])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-377a91f3008sm22940341fa.15.2025.10.20.13.18.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 13:18:16 -0700 (PDT)
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Mon, 20 Oct 2025 20:18:13 +0000
-Subject: [PATCH v3] media: i2c: imx214: Rearrange control initialization
+	s=arc-20240116; t=1760991799; c=relaxed/simple;
+	bh=Fk3blhMUdnslSk00RCdDdWYZRmiP9vzB+Pv8XKEG820=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BDumDlfW6weW2MPNthbQyOPvvsMI7pNYSi0omXZN27bo1IhHFpKeh60isdOFaQAUm11bFmL/qDJ1jXBZh+RKJ3hNZ/W8Ht/8xN6+MPRkSiX+Z3zc3XIH5/9ulKXb7n5ihKo0OcdaRuZ9AJYo7h9wYkSVwIwt/AbA7UwYLE6G6NY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GT0Np3+s; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760991797; x=1792527797;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Fk3blhMUdnslSk00RCdDdWYZRmiP9vzB+Pv8XKEG820=;
+  b=GT0Np3+sjrKaBgmojVg8evTqN4zf81pgF/UZxa9Iw/E9LteWs7D8vB6E
+   DNODp4RS7UVR+3WGmuK1O0aA1kKsCdu9OuAAJbJUr1M/e8SmcxGO3kCEs
+   Co8a1t4IiKesoHI8o8IV8cDX0m6mG2RBnBMk0yAz40CdkTaoVlf/RPZBn
+   +eqbhFW9/+c7cNVPU3LzoNu1odV6D3fLgUFHtbE4GroaO1coFBiUGpPek
+   roqDEgSaQ06rqDgobC25VcmsHij3922Mb/vHYjUNhe8jiwhTcct4BWG/7
+   lQfmGuh5/H7FilJWKJvGmOPKMwrtDXeBRrLgv3euAqCbdgmdernCvsRTX
+   w==;
+X-CSE-ConnectionGUID: UPq6kbPGRf+dWxS0CUC3Ww==
+X-CSE-MsgGUID: NWwd0E91SiOUGbCk3f1CJQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62323749"
+X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
+   d="scan'208";a="62323749"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 13:23:14 -0700
+X-CSE-ConnectionGUID: 6+NcgifSS9KuptaaHy14QQ==
+X-CSE-MsgGUID: RuACaNA2TM+oAgGvYg3/qA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,243,1754982000"; 
+   d="scan'208";a="187826386"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.104])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 13:23:12 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 87A0D120BF8;
+	Mon, 20 Oct 2025 23:23:09 +0300 (EEST)
+Date: Mon, 20 Oct 2025 23:23:09 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Hans de Goede <hansg@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: Add Samsung S5KJN1 image
+ sensor
+Message-ID: <aPaaLZoLMH3TfyJl@kekkonen.localdomain>
+References: <20251016020419.2137290-1-vladimir.zapolskiy@linaro.org>
+ <20251016020419.2137290-2-vladimir.zapolskiy@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20251020-imx214-smatch-v3-1-2c9999efc97c@chromium.org>
-X-B4-Tracking: v=1; b=H4sIAASZ9mgC/3XMsQ6DIBDG8VcxzKWBAy3t1PdoOlhAuQExYImN8
- d2LDh1Mmpv+l3y/hSQb0SZyqxYSbcaEYSghThXRrh16S9GUJsCgZgquFP0MXNLk20k7qqUpd5G
- gTE3KZoy2w3n3Hs/SDtMU4mfnM9++/6TMKaedMLypxUsqK+/axeDx7c8h9mTDMvwAzsryAEABm
- ASumBRMNeYArOv6BZlh8UHuAAAA
-X-Change-ID: 20250829-imx214-smatch-c4d4d47428d5
-To: Ricardo Ribalda <ribalda@kernel.org>, 
- Hans Verkuil <hverkuil+cisco@kernel.org>, 
- Sakari Ailus <sakari.ailus@linux.intel.com>, 
- Dan Carpenter <dan.carpenter@linaro.org>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- Ricardo Ribalda <ribalda@chromium.org>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251016020419.2137290-2-vladimir.zapolskiy@linaro.org>
 
-Smatch is confused by the control initialization logic. It assumes that
-there can be a case where imx214->link_freq can be NULL and ctrls_init
-returns 0.
+Hi Vladimir,
 
-Re-arrage the function to make smatch happy.
+Thanks for the set.
 
-This patch fixes this smatch error:
-drivers/media/i2c/imx214.c:1109 imx214_ctrls_init() error: we previously assumed 'imx214->link_freq' could be null (see line 1017)
+On Thu, Oct 16, 2025 at 05:04:18AM +0300, Vladimir Zapolskiy wrote:
+> Add device tree bindings documentation for Samsung S5KJN1 image sensor.
+> 
+> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> ---
+>  .../bindings/media/i2c/samsung,s5kjn1.yaml    | 95 +++++++++++++++++++
+>  1 file changed, 95 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml b/Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml
+> new file mode 100644
+> index 000000000000..2220b3e528d4
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml
+> @@ -0,0 +1,95 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/samsung,s5kjn1.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Samsung S5KJN1 Image Sensor
+> +
+> +description:
+> +  Samsung S5KJN1 (ISOCELL JN1) image sensor is a 50MP image sensor.
+> +  The sensor is controlled over a serial camera control bus protocol,
+> +  the widest supported output image frame size is 8160x6144 at 10 frames
+> +  per second rate, data output format is RAW10 transferred over 4-lane
+> +  MIPI D-PHY interface.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
-Right now we are handling this with a quirk in media-ci, if Dan cannot
-fix smatch in a kernel cycle we should merge this patch.
----
-Changes in v3:
-- Rearrange init function. Thanks Sakari
-- Link to v2: https://lore.kernel.org/r/20251014-imx214-smatch-v2-1-04218043086d@chromium.org
+Can the sensor work with fewer lanes? This is almost always the case. In
+this case you'd need data-lanes property but feel free to make 4 the
+default if you like.
 
-Changes in v2:
-- Fix typo in commit message commit
-- Move error tag where it belongs (Thanks Hans!)
-- Link to v1: https://lore.kernel.org/r/20250829-imx214-smatch-v1-1-f3d1653b48e4@chromium.org
----
- drivers/media/i2c/imx214.c | 15 ++++++---------
- 1 file changed, 6 insertions(+), 9 deletions(-)
+> +
+> +maintainers:
+> +  - Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> +
+> +allOf:
+> +  - $ref: /schemas/media/video-interface-devices.yaml#
+> +
+> +properties:
+> +  compatible:
+> +    const: samsung,s5kjn1
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    description: MCLK supply clock.
+> +    maxItems: 1
+> +
+> +  reset-gpios:
+> +    description: Active low GPIO connected to RESET pad of the sensor.
+> +    maxItems: 1
+> +
+> +  afvdd-supply:
+> +    description: Autofocus voltage supply, 2.8-3.0 volts.
 
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index 94ebe625c9e6ee0fb67fe1d89b48b2f1bf58ffc6..d4945b192776bc76f4645ec9ddf047088934d3c5 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -1014,8 +1014,6 @@ static int imx214_ctrls_init(struct imx214 *imx214)
- 						   V4L2_CID_LINK_FREQ,
- 						   imx214->bus_cfg.nr_of_link_frequencies - 1,
- 						   0, imx214->bus_cfg.link_frequencies);
--	if (imx214->link_freq)
--		imx214->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- 
- 	/*
- 	 * WARNING!
-@@ -1038,9 +1036,6 @@ static int imx214_ctrls_init(struct imx214 *imx214)
- 	imx214->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
- 					   V4L2_CID_HBLANK, hblank, hblank,
- 					   1, hblank);
--	if (imx214->hblank)
--		imx214->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
--
- 	exposure_max = mode->vts_def - IMX214_EXPOSURE_OFFSET;
- 	exposure_def = min(exposure_max, IMX214_EXPOSURE_DEFAULT);
- 	imx214->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
-@@ -1060,13 +1055,9 @@ static int imx214_ctrls_init(struct imx214 *imx214)
- 
- 	imx214->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
- 					  V4L2_CID_HFLIP, 0, 1, 1, 0);
--	if (imx214->hflip)
--		imx214->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
- 
- 	imx214->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &imx214_ctrl_ops,
- 					  V4L2_CID_VFLIP, 0, 1, 1, 0);
--	if (imx214->vflip)
--		imx214->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
- 
- 	v4l2_ctrl_cluster(2, &imx214->hflip);
- 
-@@ -1106,6 +1097,12 @@ static int imx214_ctrls_init(struct imx214 *imx214)
- 		return ret;
- 	}
- 
-+	/* Now that the controls have been properly created, set their flags. */
-+	imx214->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	imx214->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+	imx214->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-+	imx214->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
-+
- 	ret = imx214_pll_update(imx214);
- 	if (ret < 0) {
- 		v4l2_ctrl_handler_free(ctrl_hdlr);
+The driver doesn't seem to support this. I suppose the driver could be
+amended with the usual controls (e.g. FOCUS_ABSOLUTE)?
 
----
-base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-change-id: 20250829-imx214-smatch-c4d4d47428d5
+> +
+> +  avdd-supply:
+> +    description: Analogue voltage supply, 2.8 volts.
+> +
+> +  dovdd-supply:
+> +    description: Digital I/O voltage supply, 1.8 volts.
+> +
+> +  dvdd-supply:
+> +    description: Digital core voltage supply, 1.05 volts.
+> +
+> +  port:
+> +    $ref: /schemas/graph.yaml#/$defs/port-base
+> +    additionalProperties: false
+> +
+> +    properties:
+> +      endpoint:
+> +        $ref: /schemas/media/video-interfaces.yaml#
+> +        unevaluatedProperties: false
+> +
+> +        required:
+> +          - link-frequencies
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - port
+> +
+> +unevaluatedProperties: false
+> +
+> +examples:
+> +  - |
+> +      #include <dt-bindings/gpio/gpio.h>
+> +
+> +      i2c {
+> +          #address-cells = <1>;
+> +          #size-cells = <0>;
+> +
+> +          camera@56 {
+> +              compatible = "samsung,s5kjn1";
+> +              reg = <0x56>;
+> +              clocks = <&camera_mclk 0>;
+> +              assigned-clocks = <&camera_mclk 0>;
+> +              assigned-clock-rates = <24000000>;
+> +              reset-gpios = <&gpio1 10 GPIO_ACTIVE_LOW>;
+> +              avdd-supply = <&vreg_2p8>;
+> +              dovdd-supply = <&vreg_1p8>;
+> +              dvdd-supply = <&vreg_1p05>;
+> +
+> +              port {
+> +                  endpoint {
+> +                      link-frequencies = /bits/ 64 <700000000>;
+> +                      remote-endpoint = <&mipi_csi2_ep>;
+> +                  };
+> +              };
+> +          };
+> +      };
+> +...
 
-Best regards,
 -- 
-Ricardo Ribalda <ribalda@chromium.org>
+Kind regards,
 
+Sakari Ailus
 
