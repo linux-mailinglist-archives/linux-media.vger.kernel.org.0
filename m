@@ -1,271 +1,290 @@
-Return-Path: <linux-media+bounces-44972-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44973-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id C12C0BEEE01
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 00:11:30 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id EFC86BEF17F
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 04:34:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 13779188E14E
-	for <lists+linux-media@lfdr.de>; Sun, 19 Oct 2025 22:11:54 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 754633482FC
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 02:34:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E6DD23EAAF;
-	Sun, 19 Oct 2025 22:11:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 463A029AB1D;
+	Mon, 20 Oct 2025 02:34:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b="JcLWKVJX"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Gkk0oiRt"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from PH7PR06CU001.outbound.protection.outlook.com (mail-westus3azon11010066.outbound.protection.outlook.com [52.101.201.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED6D7223DE8
-	for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 22:11:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760911880; cv=none; b=DB7eL+gs3Q/KXMLsUOnhlup7MXI71XTuA49T7b+KzwoOi2mgET4iSKSaLmt4a0j+/kH5a/E8WK/nCG0z53JOlo0TVVv32DJuVjj/yTVFeEjCWkneRf+8LPonNgNSsIyOQisoKdavqrd9I97BH9Lgq+Edn1iX1FaZpSWbaZQPoVY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760911880; c=relaxed/simple;
-	bh=CFji2GBxIwTjwBWzEkBa3boskHVWwJ0yj1rRtqjDE5M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pp3XQn8EOD1cLeWxeqG8BPw/ObkprN2pbqozJBmJwnhQ/0pF9wLhatAU8guMsvH6CLjEzd82UF9ncN2F9LOx5kfl86zNrYGkhyjC7nOKuhP6Tp6vSvE8msPfzw9mrI7GQoWmQa0OcHYlZdKeDfPeNTsyMH2grRPebZ/DJz06cHo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com; spf=pass smtp.mailfrom=kerneltoast.com; dkim=pass (2048-bit key) header.d=kerneltoast.com header.i=@kerneltoast.com header.b=JcLWKVJX; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=kerneltoast.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kerneltoast.com
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-7a226a0798cso1839054b3a.2
-        for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 15:11:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kerneltoast.com; s=google; t=1760911878; x=1761516678; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=7ITotXCHgCqdxM2m7biNFUouN5fBGEv3mYrcjHpAyWU=;
-        b=JcLWKVJX6HWIfdft0VnYdqYXCAqY+c1ZMwCqO6yVD91650zWLwHq5rEHmTnm2yIU/C
-         U9XNC1zsDUMBB4TqfVXws9iTOK++f5HDYiCpdiAjTk6JMdftkTN8PDBJ/E8o6tUpF2Td
-         qgzgU4RA6zJOcZRGH9RXpeRelVkcS3QuPuDxXBWhOD4OH2Jl8Ik/WbNLnEqUzaLurZAq
-         sr7qfWtzhBPbiclx87Jqbu26KFE5E7z/koQ2nvaVLkytvQKrOQLm2RbrIfjzNfWndfMM
-         sJc7OjhePbKKaKSqb5e4NHVI/JSH4SbcUm0hNl9d5jc0Q5f6+s4IlpbNmV33haI1eESb
-         Ey6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760911878; x=1761516678;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=7ITotXCHgCqdxM2m7biNFUouN5fBGEv3mYrcjHpAyWU=;
-        b=Gdffk5w8Bos8fhsWfTxtDtqobmWfiFBrYuX6aKiNLyfbWt8sHqcsS2s/+HtiU6Z+Sz
-         typkwqPXJbV8ehOq1DKxnBOQplx4kC6KMxDJMhV6Ta3jbyH8eUWfs4V/lpxBB66mUyMJ
-         at5a1rkBV9czwxl54jQWacEnog6rnhgigCqL9cWAmxRnfOzammp3ykegD5/fNbLvhqii
-         llPsf/0Kxy0av1LzNT6hejxFXGeuiuBcX1Ubp3yfZbBZ4SqU9kK4BqLTExzdom1yZh1V
-         +nQAaw1F/pUyIP3HdTfcir7SKt3tclFVJb3JLnjtASpw0B93Ut0cTuLm6HsyQUyDYKPX
-         NjVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWUzgQgF4wSUuO3D/BTxeEdcvjk67Z+gvJ7cSDyJ/xGk/Z2aKIJ8tyzV3LxKiYGPHvelrX8x45WXJogHw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1yySMXg+4DGQc8CW0zRh/DSBytUTj40uLZKmjlL/SYoCDT36O
-	Q4fHofXPRRNNx9g3nqp2QAHLFyRsCjldZMEsJ7IsJmkRhhMVXSIMRzpBWo9XRhZmSROH
-X-Gm-Gg: ASbGnctkdw9jH6q86NgrRSfuRnrrIj+FMmIl/z3zmxgBIImzaHCsbu+KbgHFNQxW0S0
-	DtgSkJnGdp+6afM+fVqWBlUT+9DtUN/aLZCbxX1w6x3gQ3/uoYFa6g0hHfblHKPBRTosZ5ACnXA
-	qzj/LmLpep6JExvS1Kf1icuUzjOpSKTxFdbLIIF0b3BMM9VRYeAqCZZNIGO+eUEDQvo0bnThykS
-	KVmiNhbAaqUdUp/NExwqk/VLckdarHwHcl3CXkkUxMzblpcEf3qh9eS1P9X2sLXs6XMFPZOl2sW
-	Dhu16wekJfAGpz8mAErueAjwENystHVJbDk7oQHrCjWiHeg/d8h/lmeBMk0CstgME1U2BjpjGhH
-	ZEKOJ2WR1yOd1o8Fyro6vTdeBXYTBQMcaNNoWqMPGBvGGnjxf4aXE8Xia9GI6Ds4GAlBdaFKvPS
-	DPoFUwA1kPgi1J1g==
-X-Google-Smtp-Source: AGHT+IHB11KabbcI+ZPShYZBM6U1vgBV9SjX9/XOJTl0fi6uGEKwcUfbZUV6/aX8A3ri1gJR8OXPGg==
-X-Received: by 2002:a05:6a00:1783:b0:77f:2dc4:4c16 with SMTP id d2e1a72fcca58-7a220acb8fcmr11428639b3a.21.1760911878008;
-        Sun, 19 Oct 2025 15:11:18 -0700 (PDT)
-Received: from sultan-box ([142.147.89.222])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a23011084csm6376643b3a.58.2025.10.19.15.11.16
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 19 Oct 2025 15:11:17 -0700 (PDT)
-Date: Sun, 19 Oct 2025 15:11:13 -0700
-From: Sultan Alsawaf <sultan@kerneltoast.com>
-To: "Du, Bin" <bin.du@amd.com>
-Cc: mchehab@kernel.org, hverkuil@xs4all.nl,
-	laurent.pinchart+renesas@ideasonboard.com,
-	bryan.odonoghue@linaro.org, sakari.ailus@linux.intel.com,
-	prabhakar.mahadev-lad.rj@bp.renesas.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
-	gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com,
-	Dominic.Antony@amd.com, mario.limonciello@amd.com,
-	richard.gong@amd.com, anson.tsao@amd.com,
-	Alexey Zagorodnikov <xglooom@gmail.com>
-Subject: Re: [PATCH v4 5/7] media: platform: amd: isp4 video node and buffers
- handling added
-Message-ID: <aPViAdn4Z8OAO1lj@sultan-box>
-References: <20250911100847.277408-1-Bin.Du@amd.com>
- <20250911100847.277408-6-Bin.Du@amd.com>
- <aNzP2LH0OwUkMtGb@sultan-box>
- <c28eb905-b578-4512-aa9c-37281d3a0ee4@amd.com>
- <51c24e3d-be89-44c9-8247-95fb776aed78@amd.com>
- <aPH_iHmPFWTrrOQE@sultan-box>
- <3ff43351-9236-43a6-aea8-ab492cc86699@amd.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBB0378F5D;
+	Mon, 20 Oct 2025 02:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.201.66
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760927660; cv=fail; b=F3nbXLTip09KwnQZKK1c1uRmLZ26njCj/1kRhQt3sbqPbqj5ojw8nVT/pWPbFV1aoyM+ywecrIDmaFr2tOD8beI/8LZTb6qTQXkHbGSdN8xym9EGWToSLtXW86bdtXf+K9DWam8p8wj4DCW+cZuv9wDV5Hm2uhWgqgjnQL06TPA=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760927660; c=relaxed/simple;
+	bh=p+8psK/RRzGQx3qkuUnFqu3uT5rAblld5u7hbdTs47k=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jLvxnB3ubnXIka6If3GNpscyR9Fir25jq3JvQ6pXYjT84KWEt01ELy85LOUEg0n+CcO6qfC2N6mY95kZBi+Rqn2DZLDGDQ958oykAqZZu5kE9h9Xy7a9dDSLysv5SzSbVz+6hcdtmOiQIAC/UBAjVEyywaNBiJwRIXfhSUJhJ30=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Gkk0oiRt; arc=fail smtp.client-ip=52.101.201.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Z+G8SQGy06nDmjEURaWneL18D+Jq5JbP6oZtXOUMjT6RTHydX+XIw717hjXaFFyBGQNZIL2ij9quxZzXyv0nJZh7Gac5SBTKCKvSucC8Hw7G/YKV0iTvSKRqRL0aeM9w/OG7RQF0SRC0CdSeIYfH02/O/IHOX4z6BQdI2GLfxMfwi8t0BHmtWaChqkiI7avkLQFUuRxyLmu3A+rc7FLL55WEXFred7B6HPakvLnXQDM06Q3ohOKjOqp7DuQoLRY3vK8CmNYDSqDeB9cA2sAzXzqh2bZEjwcFOBmnNHQKlmvFnX0irkiWBo9oPqWxsbTC/vMuFvbwBfy9fF0JGpVVYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=UGZ1UcGc64i/UbZLRWrOU3lWPFpSAiHbrYTe4fBsuwo=;
+ b=gfOL1iWfssqb0hShSo9OEu1D74rYLU0THbzOX6g8B4BBIWDrvhTFl7e+hwKgAG8ugAY95Xi5j94OG++/yHZrWdMQZk9kg1adzrq2cjza7Tfb2ugPdphgvOQ1Vbw3LqC6MrvVlHgiywVjjpbVgoLBwnWQ49nVU5o+UxpoMezZ6gPoaKSSg6wdOQu1evMrUIRrHDTbMUs42eHXx8OYrZQooV3J5gFAOSzunP9DRypVHkXeiilDAi03fnvOpq2rcFDJgZdUSXRuBxT75i5UXMKr5DhM1iT1/wZOXX4hAF+SR6UDeI4gA/tLOhASvbBUoX02R0gl3IlAqgbbG+UHdXuYwA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=UGZ1UcGc64i/UbZLRWrOU3lWPFpSAiHbrYTe4fBsuwo=;
+ b=Gkk0oiRtIZeAfryRcmSnsPQEMyz4c1og5MRVGUGcvC4l39Y5mbDhLOTxo7Xq9NIC7HaIdjCUs/61RJczdZxc91EFpeOgfWD4pxtRGI0G8GeVjZHXuwnYCT586CMMnO3qSffoIQIA/ofouJ7gOgsp17Ff0pw/WVNdt3jE9CC75gyquVwksV7xTDY5moigyiP7BN4b9HiesnyCd/MlbkAJEkVytLCilDlEMyNhz/l1sBp4ZcrWA5Uf6DAc/HXSe02R7gwHKDOudik2h7vMTB5sojotMIeXWYu+EGrT4ZXz0jRPtVPDVetK2dN7FjhFLqipk0Zm620GlYHospWy66wDhQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com (2603:10b6:8:ba::19) by
+ CY5PR12MB6345.namprd12.prod.outlook.com (2603:10b6:930:22::21) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9228.15; Mon, 20 Oct 2025 02:34:15 +0000
+Received: from DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11]) by DM4PR12MB6494.namprd12.prod.outlook.com
+ ([fe80::346b:2daf:d648:2e11%6]) with mapi id 15.20.9228.012; Mon, 20 Oct 2025
+ 02:34:15 +0000
+From: Mikko Perttunen <mperttunen@nvidia.com>
+To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>,
+ Thierry Reding <thierry.reding@gmail.com>,
+ Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd <sboyd@kernel.org>,
+ Linus Walleij <linus.walleij@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ Svyatoslav Ryhel <clamor95@gmail.com>,
+ Jonas =?UTF-8?B?U2Nod8O2YmVs?= <jonasschwoebel@yahoo.de>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>,
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
+ Aaron Kling <webgeek1234@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-gpio@vger.kernel.org, linux-staging@lists.linux.dev
+Subject:
+ Re: [PATCH v4 17/24] staging: media: tegra-video: tegra20: adjust format
+ align calculations
+Date: Mon, 20 Oct 2025 11:34:08 +0900
+Message-ID: <2442650.GKX7oQKdZx@senjougahara>
+In-Reply-To: <20251008073046.23231-18-clamor95@gmail.com>
+References:
+ <20251008073046.23231-1-clamor95@gmail.com>
+ <20251008073046.23231-18-clamor95@gmail.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+X-ClientProxiedBy: TYCP286CA0262.JPNP286.PROD.OUTLOOK.COM
+ (2603:1096:400:455::9) To DM4PR12MB6494.namprd12.prod.outlook.com
+ (2603:10b6:8:ba::19)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3ff43351-9236-43a6-aea8-ab492cc86699@amd.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6494:EE_|CY5PR12MB6345:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6ccf9fad-1c19-4fc5-88e5-08de0f812911
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|10070799003|1800799024|366016|7416014|376014|921020;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?UlNKQ05PRVA2a1JLdHp1U1RlZjJ0L3M3QTZvVk5QQmdrY1JpVnFMb21lVEla?=
+ =?utf-8?B?VGVVdXJtQ1NPRHROQkJneUxwV2M2Qi9jVm1hRk84UHpJR2l0M294eEtHSm5p?=
+ =?utf-8?B?LzA1U29sKys3OFZmaFdTaXY1eWJBSW50ZjVFYWp1OExMT1JQREFFVWZGU0FK?=
+ =?utf-8?B?RTRiOWtSQmFRN3lYNzNZalZrREE1VEljcUpqTWFrVXdIL0RzMW92RXhhbmtF?=
+ =?utf-8?B?RTcvVHJCZ2VCb3ZnVTM0OGZJM1BjMkdqeU10Q293VmpDTVl0YmJ6czBLek5M?=
+ =?utf-8?B?M2l5V0RRREJuMlo4ellpV05CZ3ZnVnJCdWJtMU5oUGIzYlJlWXVHSUlMMlNX?=
+ =?utf-8?B?TlZsM251ejE4aWtkOEpGbktDcmNRVVNBNitwcDlxdFYzWWZIWE90djZ2dFFi?=
+ =?utf-8?B?eW5MSTVRbE5jdENXemxxVmY1czEyNkhhSDRpVjM3T2hkV3pHNEFwSzBpZTZt?=
+ =?utf-8?B?L0VZdktyaXNISnRHTVg3R1p6azVrTlFjS3hDMDZIM2xMZDAzbExlZWQzaDhR?=
+ =?utf-8?B?WlNueXB6cW52ZjZqL2hSejlYVndFcE1FWkRqVElZY1BYeTZjZzZxTW5VeWhJ?=
+ =?utf-8?B?d2I0VW5lVGh6ak02SGhDSzlrUlhJd2VxN2tRZWpkam56b1V1VmtHZjRXZ3h0?=
+ =?utf-8?B?UDlUL3N1S2xUVXpNQnlxQzZ4RVo1TEwwSldxcXVxZ1lCcGthSGlGNDNZZXY0?=
+ =?utf-8?B?Q3NmN25KQXhFdTN3MGh6MGZrN3ZvNVQ4MEJlMVZzNnJGZHh2RFpBWUtwU3pH?=
+ =?utf-8?B?MEZubXI0ZVp2YXNEdVhNQUFNSUFXUUtwT1RYZHpoRjN1eE5NTU5EcklRWnN5?=
+ =?utf-8?B?aGlOb1paQWVBdFVOWVF5cEh4NW5xTGdIb05NR2lSd2dydDNKaVRobTF3QVZy?=
+ =?utf-8?B?a1h0eWFsODltc1I4SDViMUFoK2E3L1VkNDJvaC9NTWZlZ2RrK014Y3NrdUZj?=
+ =?utf-8?B?TXVVbERrWFVCZFdra1pwd2kyYmNtN2hTaDlmYXVuUG1EUlN4NjJMdmU5YkYy?=
+ =?utf-8?B?U2kySnRXYWRYemltMWx5Q3ZYVnV6aHBOMExZL2dRWlI3SjhFZWhSdlJnQ0dM?=
+ =?utf-8?B?TEw1bE9xaE5uRGZvbEF5VzFkS3hQSno5UnZOQmM4eFdHSVB6T3htckJGcjB5?=
+ =?utf-8?B?Z3NRMzFieG45Y2lwRERhM0Z5czVZQzhFb2RPdVBhczVFWWFZSSs4WjFYVkFy?=
+ =?utf-8?B?T2laM01Ta3B2YUsxTWc2OE12ZDRZV0FhcWVWZXgyeVlMcWwxdWUwN0dSR2Zs?=
+ =?utf-8?B?bmwzblh3dXNHdVEwN2xXOFY4cnRVdmZwY1pmejBaOExRS01lS0FxMWl1RGpQ?=
+ =?utf-8?B?WklPSXlydHRoZDV0cEpyWVpuZzVXczEzMmdqNnRqYWVIakRnSXZESkZnVnlo?=
+ =?utf-8?B?Wk1HcHVmZUd5WDk4MlMrY2xoV3JadlBKQ1FVMFFFTUtJRHB0ajErbXk0Smhs?=
+ =?utf-8?B?VEpaSHptU0sraUZ3cEwvMFl6enF2NDl5aHM5VXNYSzZ2SDhHSVZwN01GVElW?=
+ =?utf-8?B?NG1nSVovbWNtb3hFYkhkUjhQYU1oN1RUQjdhQkEvTTBjaGlFaUxUM2lzK290?=
+ =?utf-8?B?ckpURnZTVGxlUGxBMXpWSjE3V2NYTlRVL21QN1dLK2N5VVJ4ZTgxSHhxT2FT?=
+ =?utf-8?B?ckVQd1NVa0xrSmV1eGJDWW1KY2NmNGQzOHlwR0FSOWovbndqaFdueWlxUStQ?=
+ =?utf-8?B?ZWQwZjJUZlk1NUhYc0hiVWMyNC91eXJaeWl5UDR5NkVhTlpYQnhuK0dacDY1?=
+ =?utf-8?B?NmVQL2NLd2x4aHlQckRRZUptcFVzSHBWMEFQZDBBSlIrRWJsSDk2RFN1Znl5?=
+ =?utf-8?B?MDBwdHhjanhFWHRPcm5uajRabWdYY1Q5L0ROQkMyOXQ1WjFPTUJURjZId1h1?=
+ =?utf-8?B?V2NYSVhKWEV6UUVaVEc2WmFjV2JlS3VjejgxUHpsQUtSS25GUGlMV3ZHeDFH?=
+ =?utf-8?B?NTkwK1NnU3BaYVZpaTJ3SDBNR1BIYXd1TExsd3RBL1JSUkR6WExEWGpSbDBX?=
+ =?utf-8?Q?jAkWtRRtLVxTD2CKSVkKZHqDOiKB/c=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6494.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(1800799024)(366016)(7416014)(376014)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cGlsWDVFTjZjb053Y3FINko3L1ZlOEQxWXpxaSt6bmtKM2dnTXR0bU01ZUwr?=
+ =?utf-8?B?R2R0NkViVDRmTUpNZWJPSnNycjVUekFnd2cyQkxMS3NCQmxEVkttc2xIcmwv?=
+ =?utf-8?B?NmNnMCtrN2dGNkFQWkxZb3p1YkJOUmdSMWcwbHVFQTlSZkVENEhaTkxtRDZZ?=
+ =?utf-8?B?cTZoZE1nWldxa1RIZ2p5dkxnMnA3dlJLVWxURER2OEJHVFhta29JdUd3RUtx?=
+ =?utf-8?B?czNCMnNDcmlGVi8rT0xYcWRCSkwrN08zR0wzbHRoWUVhOXpVbjlyK0c0RUNu?=
+ =?utf-8?B?cVhMVzVpdldsM1JrWDVaTG1FaVhHVHJkUG8wZlBrMzNBU0RzMThyVkNiVEpv?=
+ =?utf-8?B?Y1VCSWZNYXdpT3NTNG93L05YZVA1TjRhR2REbnUrb1lHdXJoamVmR2hucmw0?=
+ =?utf-8?B?UXFwbU5hb1JRY2xzSEtlaHhMQ2lzdmxuUUZrNmZwckpIblJhWWpLaEpTNVNY?=
+ =?utf-8?B?Q3ZOeDVJQmN6VzN5aExSZUlaREZrVkFvWUxkSG1mRVg3YTNheWNoZWxHS2tU?=
+ =?utf-8?B?cXpjWlZFSHJzNjFqQWdzWC9lVmdyUDk4ajgvWVRuMXhvMXl0QjNDa1M4YXFY?=
+ =?utf-8?B?a3k3VjlLU2tGalliVFNKejdkNUMzandhOVQwcTRHNlh6bG9STDZuOFpJc2Qy?=
+ =?utf-8?B?a3pSZk1NZm1yWHFqQWttbVVLeWNZU3oxbGxSOTNEelVqRFRyTzNFYUlkYUpH?=
+ =?utf-8?B?Mm96di9WVkdVWGkyc1B1YjN0Tm9zR3lHQVR1b3FTaTJsSWVKQWpNSlkrcER0?=
+ =?utf-8?B?aTRqT01aOXNUMmlQcVlyNDJOaEM0QTJmL09BM3htWlVGRkVuSWFQM2YzQk1N?=
+ =?utf-8?B?M1c1NVg3NTRoVzRBSWhrQTE5TXp2a1c0ZzF3TmU3cnRlbGJuL0dlS3JtUXR2?=
+ =?utf-8?B?bkNGekRVcTRGZFN5SkVSanZrWnpybTdsK1NRd29GMUVZTXJUWWpIajMzNGNO?=
+ =?utf-8?B?a3d0cFNSanM2bENPNk1Wc2pTY2hWK2lsaHAxQkFiamFxaC9mSmdqdjgxNWFC?=
+ =?utf-8?B?ZkpMNTN0Wm1GUlIxNzZtRmNZVTAwbUd3OTEycFFCa1prOFJpbk5GT2VleGlm?=
+ =?utf-8?B?Y3VWSjEvRjhjT09IMm0rOE54dVE2bUNtSmlpQjNleEZERVFHMHRpMGdjOUZm?=
+ =?utf-8?B?TFpKYXRmTzJzQnpDb2VBRHlzR1ZUR2pJY05yMW9ncDBlUmN2ZGJsS3ZKSlBQ?=
+ =?utf-8?B?cHA4dE1iUFFqYm1uekUyb1l3bHpHcWxUeDlUZ0NOWVpDWXcrdldkZ1g4MGlX?=
+ =?utf-8?B?RU9SVGdad2J4QnR1L0ZWcVAyM2VpdWwvUy9GNG1qdmt5MHBYVC9KMjh1QVVn?=
+ =?utf-8?B?elMrVW1pRmg4RmFlRzdwSTZ2TzBMQkVxU3cyY0tJdWpKU0lTV2V6aGNVUEdi?=
+ =?utf-8?B?OFdjRGxGbm1zUzUrQjZML1d3VnRrZDFDTzNLa3AwSUdvcnJQSFBrVGdPaGtq?=
+ =?utf-8?B?MTBScDBGb084Qi9ocHVtdUpENEg2R1dZVGhLeW9jTVB1aFo2bGRYOWtlS2NU?=
+ =?utf-8?B?REQ4ckN2RmZPWldLZTB1dVRibXZEejJaZHRWd04xNmFNMlByVWliUUVGdSt3?=
+ =?utf-8?B?V1FlTitQeVlLYjVFWkZLRGg2V3pySzNzQWUzbmdaUVlhdm1Odzg4TVhBSWly?=
+ =?utf-8?B?dTAwY3hraWV3dVByS24vS2p2QjEvTmEzaUhDTjE3K25sWDlKUTdSWGhWMzBJ?=
+ =?utf-8?B?cGp2UFpKZngyY0YxajdRZ0t2VC92SWRHVUJQaFY2L25YTUNBQVJmcU11ZU5K?=
+ =?utf-8?B?VEJNdkFQQldMNk92eUJQbFl4OHAvYVYxSWNiSlJMNGJEajAvcHBRZENyUEp6?=
+ =?utf-8?B?ZGlldFh6NkZEYmZnenZ4aVRDWmtpeHJLUGpNRkVRSmhmU0luVm1TMmFXcTMx?=
+ =?utf-8?B?ZDJla21CU3IzeVBpd0cza1hoY3ZZaE5lNUV6UUxRMzhjU2lNc1RvSFEvanRC?=
+ =?utf-8?B?czlaeG5FNlhpcXRlNGZWbE56TEFwTDUwbC9pL2lCc0lXR3RlMnZYV2h6bVl3?=
+ =?utf-8?B?bFB3NmFhcHU4dGRnQjRJNit2MnNna1kybDVqSzVUTVpyOWZFczBDTGh1dDlQ?=
+ =?utf-8?B?WFBMd0ZBTnlIdjBaN1hZbXYxS0M1cEM5NUU3NzVTU2w5N25tdlFyTndKT2xn?=
+ =?utf-8?B?OHZMY0VnL2RWUG90R1hMUzlrcElrclBQdnBpZjVrVzVwQnlhZTM1bWxIS1Jm?=
+ =?utf-8?B?K3lLc0JUblEvWXhkNGYrWm5nLzJIRnZCUldEZ2dGekhWWVNxcHFsUnZLdDRa?=
+ =?utf-8?B?R1N0dXIxcFB0VEd5dVhReVVnSkZnPT0=?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6ccf9fad-1c19-4fc5-88e5-08de0f812911
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6494.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2025 02:34:14.9929
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: WS4utXThfm3ALf5KE8OyJV8ISy2FRRlPrqQ0oB/YawxatCK3pu/WC+g+mDu7y8DIf0KYMwGCfZw0MV2HDwzr7A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6345
 
-On Fri, Oct 17, 2025 at 05:53:27PM +0800, Du, Bin wrote:
-> On 10/17/2025 4:34 PM, Sultan Alsawaf wrote:
-> > On Thu, Oct 16, 2025 at 04:13:47PM +0800, Du, Bin wrote:
-> > > On 10/11/2025 5:30 PM, Du, Bin wrote:
-> > > > On 10/1/2025 2:53 PM, Sultan Alsawaf wrote:
-> > > > > On Thu, Sep 11, 2025 at 06:08:45PM +0800, Bin Du wrote:
-> > > > > > +++ b/drivers/media/platform/amd/isp4/isp4.c
-> > > > > > @@ -178,6 +178,16 @@ static int isp4_capture_probe(struct
-> > > > > > platform_device *pdev)
-> > > > > >            goto err_isp4_deinit;
-> > > > > >        }
-> > > > > > +    ret = media_create_pad_link(&isp_dev->isp_sdev.sdev.entity,
-> > > > > > +                    0, &isp_dev->isp_sdev.isp_vdev.vdev.entity,
-> > > > > > +                    0,
-> > > > > > +                    MEDIA_LNK_FL_ENABLED |
-> > > > > > +                    MEDIA_LNK_FL_IMMUTABLE);
-> > > > > > +    if (ret) {
-> > > > > > +        dev_err(dev, "fail to create pad link %d\n", ret);
-> > > > > > +        goto err_isp4_deinit;
-> > > > > > +    }
-> > > > > > +
-> > > > > 
-> > > > > Two problems with this hunk:
-> > > > > 
-> > > > > 1. According to the comment in include/media/media-device.h [1],
-> > > > >      media_create_pad_link() should be called before
-> > > > > media_device_register():
-> > > > > 
-> > > > >       * So drivers need to first initialize the media device,
-> > > > > register any entity
-> > > > >       * within the media device, create pad to pad links and then
-> > > > > finally register
-> > > > >       * the media device by calling media_device_register() as a
-> > > > > final step.
-> > > > > 
-> > > > > 2. Missing call to media_device_unregister() on error when
-> > > > >      media_create_pad_link() fails.
-> > > > > 
-> > > > > Since the media_create_pad_link() will be moved before
-> > > > > media_device_register(),
-> > > > > we will need to clean up media_create_pad_link() when
-> > > > > media_device_register()
-> > > > > fails.
-> > > > > 
-> > > > > The clean-up function for media_create_pad_link() is
-> > > > > media_device_unregister().
-> > > > > According to the comment for media_device_unregister() [2], it is
-> > > > > safe to call
-> > > > > media_device_unregister() on an unregistered media device that is
-> > > > > initialized
-> > > > > (through media_device_init()).
-> > > > > 
-> > > > > In addition, this made me realize that there's no call to
-> > > > > media_device_cleanup()
-> > > > > in the entire driver too. This is the cleanup function for
-> > > > > media_device_init(),
-> > > > > so it should be called on error and on module unload.
-> > > > > 
-> > > > > To summarize, make the following changes:
-> > > > > 
-> > > > > 1. Move the media_create_pad_link() up, right before
-> > > > > media_device_register().
-> > > > > 
-> > > > > 2. When media_device_register() fails, clean up
-> > > > > media_create_pad_link() by
-> > > > >      calling media_device_unregister().
-> > > > > 
-> > > > > 3. Add a missing call to media_device_cleanup() on error and module
-> > > > > unload to
-> > > > >      clean up media_device_init().
-> > > > > 
-> > > > 
-> > > > Very clear guide, will follow your advice.
-> > > > 
-> > > > > >        platform_set_drvdata(pdev, isp_dev);
-> > > > > >        return 0;
-> > > 
-> > > For 2, we found when media_device_register() fails, calling
-> > > media_device_unregister() won't clean up media_create_pad_link() because it
-> > > simply returns without doing anything(see https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/media/mc/mc-device.c?h=v6.17-rc7#n797).
-> > > Therefore like other kernel drivers, we'd rather not call
-> > > media_device_unregister() in this scenario, it doesn't cause issues, but
-> > > it's not logically correct. Cleanup for media_create_pad_link() occurs
-> > > during error handling via isp4sd_deinit()->isp4vid_dev_deinit()->vb2_video_unregister_device()->...->media_entity_remove_link().
-> > > What do you think?
-> > 
-> > Oh, good catch! You are right about media_device_unregister() not cleaning up
-> > media_create_pad_link().
-> > 
-> > But I don't see how vb2_video_unregister_device() ends up calling
-> > media_entity_remove_links().
-> > 
-> > It looks like media_create_pad_link() is actually cleaned up via
-> > v4l2_device_unregister_subdev()->media_device_unregister_entity()->__media_device_unregister_entity()->__media_entity_remove_links()
-> > 
-> > And I mentioned before to add a missing call to v4l2_device_unregister_subdev()
-> > on error, so it looks like that will cover the media_create_pad_link() cleanup
-> > and therefore you don't need to call media_device_unregister() in this scenario.
-> > 
-> > Does that look correct?
-> > 
-> 
-> Yes, Sultan, we moved v4l2_device_unregister_subdev to isp4sd_deinit as you
-> suggested, so current isp4sd_deinit() looks like this
-> void isp4sd_deinit(struct isp4_subdev *isp_subdev)
-> {
-> 	struct isp4_interface *ispif = &isp_subdev->ispif;
-> 
-> 	isp4vid_dev_deinit(&isp_subdev->isp_vdev);
-> 	v4l2_device_unregister_subdev(&isp_subdev->sdev);
-> 	media_entity_cleanup(&isp_subdev->sdev.entity);
-> 	isp4if_deinit(ispif);
-> 	isp4sd_module_enable(isp_subdev, false);
-> 
-> 	ispif->status = ISP4IF_STATUS_PWR_OFF;
-> }
+On Wednesday, October 8, 2025 4:30=E2=80=AFPM Svyatoslav Ryhel wrote:
+> Expand supported formats structure with data_type and bit_width fields
+> required for CSI support. Adjust tegra20_fmt_align by factoring out commo=
+n
+> bytesperline and sizeimage calculation logic shared by supported planar
+> and non-planar formats and leaving planar-related correction under a
+> switch.
+>=20
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  drivers/staging/media/tegra-video/tegra20.c | 39 ++++++++++-----------
+>  1 file changed, 19 insertions(+), 20 deletions(-)
+>=20
+> diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/stagin=
+g/media/tegra-video/tegra20.c
+> index 7c3ff843235d..ffaaa2bb8269 100644
+> --- a/drivers/staging/media/tegra-video/tegra20.c
+> +++ b/drivers/staging/media/tegra-video/tegra20.c
+> @@ -280,18 +280,13 @@ static void tegra20_fmt_align(struct v4l2_pix_forma=
+t *pix, unsigned int bpp)
+>  	pix->width  =3D clamp(pix->width,  TEGRA20_MIN_WIDTH,  TEGRA20_MAX_WIDT=
+H);
+>  	pix->height =3D clamp(pix->height, TEGRA20_MIN_HEIGHT, TEGRA20_MAX_HEIG=
+HT);
+> =20
+> +	pix->bytesperline =3D roundup(pix->width, 8) * bpp;
+> +	pix->sizeimage =3D pix->bytesperline * pix->height;
+> +
+>  	switch (pix->pixelformat) {
+> -	case V4L2_PIX_FMT_UYVY:
+> -	case V4L2_PIX_FMT_VYUY:
+> -	case V4L2_PIX_FMT_YUYV:
+> -	case V4L2_PIX_FMT_YVYU:
+> -		pix->bytesperline =3D roundup(pix->width, 2) * 2;
+> -		pix->sizeimage =3D roundup(pix->width, 2) * 2 * pix->height;
+> -		break;
+>  	case V4L2_PIX_FMT_YUV420:
+>  	case V4L2_PIX_FMT_YVU420:
+> -		pix->bytesperline =3D roundup(pix->width, 8);
+> -		pix->sizeimage =3D roundup(pix->width, 8) * pix->height * 3 / 2;
+> +		pix->sizeimage =3D pix->sizeimage * 3 / 2;
+>  		break;
+>  	}
+>  }
+> @@ -576,20 +571,24 @@ static const struct tegra_vi_ops tegra20_vi_ops =3D=
+ {
+>  	.vi_stop_streaming =3D tegra20_vi_stop_streaming,
+>  };
+> =20
+> -#define TEGRA20_VIDEO_FMT(MBUS_CODE, BPP, FOURCC)	\
+> -{							\
+> -	.code    =3D MEDIA_BUS_FMT_##MBUS_CODE,		\
+> -	.bpp     =3D BPP,					\
+> -	.fourcc  =3D V4L2_PIX_FMT_##FOURCC,		\
+> +#define TEGRA20_VIDEO_FMT(DATA_TYPE, BIT_WIDTH, MBUS_CODE, BPP, FOURCC)	=
+\
+> +{									\
+> +	.img_dt		=3D TEGRA_IMAGE_DT_##DATA_TYPE,			\
+> +	.bit_width	=3D BIT_WIDTH,					\
+> +	.code		=3D MEDIA_BUS_FMT_##MBUS_CODE,			\
+> +	.bpp		=3D BPP,						\
+> +	.fourcc		=3D V4L2_PIX_FMT_##FOURCC,			\
+>  }
+> =20
+>  static const struct tegra_video_format tegra20_video_formats[] =3D {
+> -	TEGRA20_VIDEO_FMT(UYVY8_2X8, 2, UYVY),
+> -	TEGRA20_VIDEO_FMT(VYUY8_2X8, 2, VYUY),
+> -	TEGRA20_VIDEO_FMT(YUYV8_2X8, 2, YUYV),
+> -	TEGRA20_VIDEO_FMT(YVYU8_2X8, 2, YVYU),
+> -	TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YUV420),
+> -	TEGRA20_VIDEO_FMT(UYVY8_2X8, 1, YVU420),
+> +	/* YUV422 */
+> +	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 2, UYVY),
+> +	TEGRA20_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 2, VYUY),
+> +	TEGRA20_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 2, YUYV),
+> +	TEGRA20_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 2, YVYU),
+> +	/* YUV420P */
+> +	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 1, YUV420),
+> +	TEGRA20_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 1, YVU420),
+>  };
+> =20
+>  const struct tegra_vi_soc tegra20_vi_soc =3D {
+>=20
 
-Right, and v4l2_device_unregister_subdev() is *also* needed inside isp4sd_init()
-to handle cleanup on error when isp4sd_init() doesn't complete successfully.
-That's what I meant in our last few emails, since isp4sd_deinit() won't be
-called in that scenario. Sorry that wasn't clear.
+Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
 
-> 
-> You are correct and I believe both isp4vid_dev_deinit and
-> v4l2_device_unregister_subdev can cause media_create_pad_link() being
-> cleaned up. Because isp4vid_dev_deinit is called first, so the link will be
-> cleaned by it, here is the call stack FYI, does it make sense?
-> [    5.198328] Call Trace:
-> [    5.198329]  <TASK>
-> [    5.198331]  dump_stack_lvl+0x76/0xa0
-> [    5.198336]  dump_stack+0x10/0x20
-> [    5.198338]  __media_entity_remove_link+0xdf/0x1f0 [mc]
-> [    5.198342]  __media_entity_remove_links+0x31/0x70 [mc]
-> [    5.198344]  __media_device_unregister_entity+0x93/0xf0 [mc]
-> [    5.198346]  media_device_unregister_entity+0x2f/0x50 [mc]
-> [    5.198348]  v4l2_device_release+0x112/0x190 [videodev]
-> [    5.198355]  device_release+0x38/0xa0
-> [    5.198358]  kobject_put+0x9e/0x200
-> [    5.198359]  put_device+0x13/0x30
-> [    5.198359]  vb2_video_unregister_device+0x8e/0xd0 [videobuf2_v4l2]
-> [    5.198362]  isp4vid_dev_deinit+0xe/0x20 [amd_capture]
-> [    5.198364]  isp4sd_deinit+0x25/0x80 [amd_capture]
-> [    5.198366]  isp4_capture_probe+0x1ec/0x2f0 [amd_capture]
-> [    5.198368]  platform_probe+0x3f/0xb0
-> [    5.198370]  really_probe+0xf4/0x3b0
 
-Thanks for clarifying! I was wondering where vdev.entity gets cleaned up, and it
-looks like that is where it happens. And the subdev entity, sdev.entity, gets
-cleaned up by v4l2_device_unregister_subdev().
 
-To summarize: Assuming all of my other advice is implemented, the cleanup for
-media_create_pad_link() will already be handled on error and device removal. So
-the only action you should take is to disregard this advice from me:
 
- "2. When media_device_register() fails, clean up media_create_pad_link() by
-     calling media_device_unregister()."
-
-And that is all. :)
-
-Sultan
 
