@@ -1,55 +1,67 @@
-Return-Path: <linux-media+bounces-45050-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45051-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E31F1BF2246
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 17:38:31 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5129CBF247B
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 18:02:18 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 72BCC4274D4
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 15:37:48 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 51EF84F6B15
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 16:01:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6445D26C3BF;
-	Mon, 20 Oct 2025 15:37:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C34EF283683;
+	Mon, 20 Oct 2025 16:01:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ITxXyToD"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="diCbvMxy"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C35F3266581
-	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 15:37:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23DA3283FCE
+	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 16:01:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760974664; cv=none; b=dcGEdDzJNWNoFIdygbsyU4IPQBst4jf4BClQEQcm0lOdCEj3XKtQCeM0eQlJbHQhKkDfDKWS8+ncBDYfCjnQLLWK8HG4dHfjqMCehY6UQ3z8PEmT1AkJmCpEDXnLrsfa74JgTv9NXequDRz+VQWub2oZzp/brUcRmyyFSFf/P/o=
+	t=1760976100; cv=none; b=ah8h3jZppB2WVdcr8KNIRT3//2TjtsgFUSddgVR5YpK++3u2l69c4gk9sqQuTZMLTWZpeu1CeVcyo2ltFGvawGIDzIww58sLs9IFzwnQ6C77gB6YBNE4Hfzmn3Z2LO/OIeg4ZMdJXpBDd2xVdHWCqBwMmMjnt9sBJV/94JQDz1c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760974664; c=relaxed/simple;
-	bh=dbYDWVlRtGri7Jl+JmIYCKCV/yHDSqG4bnvcpD+Nj7M=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SJnOcpovnMPbIiTotYBzW9ltIbBL3LOdJBKQ505MITQjrAlGXQd5RMwiYXWb1n5I0XThGM2qKSCYJiPx2OD/bwYCZ+qkO25MeNe5E8x6CQOtn18sWVSpIrOEfMyRi68V+9t8O4onR8H6b2GB1nng7dFL9qeTjfuoCJdTUxYEqMQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ITxXyToD; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 283EFC4CEF9;
-	Mon, 20 Oct 2025 15:37:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760974664;
-	bh=dbYDWVlRtGri7Jl+JmIYCKCV/yHDSqG4bnvcpD+Nj7M=;
-	h=From:To:Cc:Subject:Date:From;
-	b=ITxXyToDULYRfVcIGhLA2aERDovZQ/RX4anls20lJUtyHY1hmtlqXX75VQ0EeOI5V
-	 jRbkRO9A5P5Lz8gvnlnCIWaclQm/7F8mednFGQ7PRq/4tspk5FTfVOeqJyHSNudm9V
-	 9vLp4gBfMMqz5nYrUGgMx4kooXMqf5dwgZ10PsAsxb0gtRfczRipRIQfyBey6kSwpv
-	 uvFbU+tQ1dhD7GRzwTTNc1HLwn/xspeDoxL1PonssDPVeeNCAbROED2YLVVUK69PxH
-	 hYhnYwyud7f7M4Itn3M0wdeLwS/FZo9Yjw81BT1oKHuUhjfPlFy/fKc7jpB9nxlZmp
-	 5/0ZMM0qo0SUA==
-From: Hans de Goede <hansg@kernel.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>,
-	Tianshu Qiu <tian.shu.qiu@intel.com>
-Cc: Hans de Goede <hansg@kernel.org>,
-	linux-media@vger.kernel.org
-Subject: [PATCH] media: ipu6: isys: Add support for monochrome media bus formats
-Date: Mon, 20 Oct 2025 17:37:41 +0200
-Message-ID: <20251020153741.55404-1-hansg@kernel.org>
-X-Mailer: git-send-email 2.51.0
+	s=arc-20240116; t=1760976100; c=relaxed/simple;
+	bh=lY512ww2GgxRIYZ3nYvRoncqZSBQoFPXtRikl+duERA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
+	 References; b=YLWzcJuw2pX+zg9aHfdcpLhiXlufo63+Buz9I4Z6wdvf0hvX+T7UU00VhNwafbEwuUsg/PWr24J3e6/yilOhpPB/5w8nH+OohiK45yoT+HH36Qg4WVy6q8qGWNv7H0cJvsayaLeEMaV9kl8kVJvxo9hnKUWTvhP0d4e0AjoYn64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=diCbvMxy; arc=none smtp.client-ip=210.118.77.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20251020160135euoutp0230d7749ecb1e4abd43ac21dbbe449783~wPm29iV-w1220612206euoutp02d
+	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 16:01:35 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20251020160135euoutp0230d7749ecb1e4abd43ac21dbbe449783~wPm29iV-w1220612206euoutp02d
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+	s=mail20170921; t=1760976095;
+	bh=Vz2ne046ZdvV+eht6cashAps0Hu4TwK9pfYylzXhh4I=;
+	h=From:To:Cc:Subject:Date:References:From;
+	b=diCbvMxyv6VHxaci38HRs6zoXY8d96RdjS2RPZsMICSvRkrneyUnNJQK/LZ/Uaw6L
+	 xKhKEh8hsY4h4LpLmmaQp2FgwMXXjvAaQ23ZKKXp/q88v7+QlSN/0+UZVzpoTvouWD
+	 rh/u5PEM7yXEQ2eTmgVRTObDe6WtX1W6+z/UzZLo=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
+	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+	20251020160135eucas1p29eb8517e240f188f102e77713f85e29d~wPm2qtRxi1568615686eucas1p2V;
+	Mon, 20 Oct 2025 16:01:35 +0000 (GMT)
+Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
+	eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+	20251020160134eusmtip28bdd46101f68866229b0150d21bad517~wPm2Mo_TP1636616366eusmtip2o;
+	Mon, 20 Oct 2025 16:01:34 +0000 (GMT)
+From: Marek Szyprowski <m.szyprowski@samsung.com>
+To: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Tomasz Figa
+	<tfiga@chromium.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Guennadi
+	Liakhovetski <g.liakhovetski@gmx.de>, Benjamin Gaignard
+	<benjamin.gaignard@collabora.com>, Hans Verkuil <hverkuil@kernel.org>,
+	stable@vger.kernel.org, Shuangpeng Bai <SJB7183@psu.edu>
+Subject: [PATCH v2] media: videobuf2: forbid remove_bufs when legacy fileio
+ is active
+Date: Mon, 20 Oct 2025 18:01:21 +0200
+Message-Id: <20251020160121.1985354-1-m.szyprowski@samsung.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,152 +69,56 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-CMS-MailID: 20251020160135eucas1p29eb8517e240f188f102e77713f85e29d
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20251020160135eucas1p29eb8517e240f188f102e77713f85e29d
+X-EPHeader: CA
+X-CMS-RootMailID: 20251020160135eucas1p29eb8517e240f188f102e77713f85e29d
+References: <CGME20251020160135eucas1p29eb8517e240f188f102e77713f85e29d@eucas1p2.samsung.com>
 
-Add support for monochrome media bus formats, for use with monochrome/IR
-camera sensors.
+vb2_ioctl_remove_bufs() call manipulates queue internal buffer list,
+potentially overwriting some pointers used by the legacy fileio access
+mode. Add a vb2_verify_memory_type() check symmetrical to
+vb2_ioctl_create_bufs() to forbid that ioctl when fileio is active to
+protect internal queue state between subsequent read/write calls.
 
-This has been tested on a Dell XPS 13 9320 with OV1A1B IR sensor.
-
-Signed-off-by: Hans de Goede <hansg@kernel.org>
+CC: stable@vger.kernel.org
+Fixes: a3293a85381e ("media: v4l2: Add REMOVE_BUFS ioctl")
+Reported-by: Shuangpeng Bai<SJB7183@psu.edu>
+Suggested-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
+Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
 ---
- drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c |  4 +++
- .../media/pci/intel/ipu6/ipu6-isys-subdev.c   | 34 ++++++++++++++-----
- .../media/pci/intel/ipu6/ipu6-isys-video.c    | 14 ++++++++
- 3 files changed, 43 insertions(+), 9 deletions(-)
+v2:
+- dropped a change to vb2_ioctl_create_bufs(), as it is already handled
+  by the vb2_verify_memory_type() call
+- replaced queue->type check in vb2_ioctl_remove_bufs() by a call to
+  vb2_verify_memory_type() which covers all cases
 
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-index d1fece6210ab..daec6b865bda 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
-@@ -42,6 +42,10 @@ static const u32 csi2_supported_codes[] = {
- 	MEDIA_BUS_FMT_SGBRG8_1X8,
- 	MEDIA_BUS_FMT_SGRBG8_1X8,
- 	MEDIA_BUS_FMT_SRGGB8_1X8,
-+	MEDIA_BUS_FMT_Y8_1X8,
-+	MEDIA_BUS_FMT_Y10_1X10,
-+	MEDIA_BUS_FMT_Y12_1X12,
-+	MEDIA_BUS_FMT_Y16_1X16,
- 	MEDIA_BUS_FMT_META_8,
- 	MEDIA_BUS_FMT_META_10,
- 	MEDIA_BUS_FMT_META_12,
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
-index 463a0adf9e13..869e7d4ba572 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
-@@ -25,24 +25,28 @@ unsigned int ipu6_isys_mbus_code_to_bpp(u32 code)
- 	case MEDIA_BUS_FMT_RGB565_1X16:
- 	case MEDIA_BUS_FMT_UYVY8_1X16:
- 	case MEDIA_BUS_FMT_YUYV8_1X16:
-+	case MEDIA_BUS_FMT_Y16_1X16:
- 	case MEDIA_BUS_FMT_META_16:
- 		return 16;
- 	case MEDIA_BUS_FMT_SBGGR12_1X12:
- 	case MEDIA_BUS_FMT_SGBRG12_1X12:
- 	case MEDIA_BUS_FMT_SGRBG12_1X12:
- 	case MEDIA_BUS_FMT_SRGGB12_1X12:
-+	case MEDIA_BUS_FMT_Y12_1X12:
- 	case MEDIA_BUS_FMT_META_12:
- 		return 12;
- 	case MEDIA_BUS_FMT_SBGGR10_1X10:
- 	case MEDIA_BUS_FMT_SGBRG10_1X10:
- 	case MEDIA_BUS_FMT_SGRBG10_1X10:
- 	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+	case MEDIA_BUS_FMT_Y10_1X10:
- 	case MEDIA_BUS_FMT_META_10:
- 		return 10;
- 	case MEDIA_BUS_FMT_SBGGR8_1X8:
- 	case MEDIA_BUS_FMT_SGBRG8_1X8:
- 	case MEDIA_BUS_FMT_SGRBG8_1X8:
- 	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	case MEDIA_BUS_FMT_Y8_1X8:
- 	case MEDIA_BUS_FMT_META_8:
- 		return 8;
- 	default:
-@@ -65,21 +69,25 @@ unsigned int ipu6_isys_mbus_code_to_mipi(u32 code)
- 	case MEDIA_BUS_FMT_SGBRG16_1X16:
- 	case MEDIA_BUS_FMT_SGRBG16_1X16:
- 	case MEDIA_BUS_FMT_SRGGB16_1X16:
-+	case MEDIA_BUS_FMT_Y16_1X16:
- 		return MIPI_CSI2_DT_RAW16;
- 	case MEDIA_BUS_FMT_SBGGR12_1X12:
- 	case MEDIA_BUS_FMT_SGBRG12_1X12:
- 	case MEDIA_BUS_FMT_SGRBG12_1X12:
- 	case MEDIA_BUS_FMT_SRGGB12_1X12:
-+	case MEDIA_BUS_FMT_Y12_1X12:
- 		return MIPI_CSI2_DT_RAW12;
- 	case MEDIA_BUS_FMT_SBGGR10_1X10:
- 	case MEDIA_BUS_FMT_SGBRG10_1X10:
- 	case MEDIA_BUS_FMT_SGRBG10_1X10:
- 	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+	case MEDIA_BUS_FMT_Y10_1X10:
- 		return MIPI_CSI2_DT_RAW10;
- 	case MEDIA_BUS_FMT_SBGGR8_1X8:
- 	case MEDIA_BUS_FMT_SGBRG8_1X8:
- 	case MEDIA_BUS_FMT_SGRBG8_1X8:
- 	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	case MEDIA_BUS_FMT_Y8_1X8:
- 		return MIPI_CSI2_DT_RAW8;
- 	case MEDIA_BUS_FMT_META_8:
- 	case MEDIA_BUS_FMT_META_10:
-@@ -96,15 +104,23 @@ unsigned int ipu6_isys_mbus_code_to_mipi(u32 code)
- 
- bool ipu6_isys_is_bayer_format(u32 code)
+v1: https://lore.kernel.org/all/20251016111154.993949-1-m.szyprowski@samsung.com/
+---
+ drivers/media/common/videobuf2/videobuf2-v4l2.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+index d911021c1bb0..0de7490292fe 100644
+--- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
++++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+@@ -1000,9 +1000,11 @@ int vb2_ioctl_remove_bufs(struct file *file, void *priv,
+ 			  struct v4l2_remove_buffers *d)
  {
--	switch (ipu6_isys_mbus_code_to_mipi(code)) {
--	case MIPI_CSI2_DT_RAW8:
--	case MIPI_CSI2_DT_RAW10:
--	case MIPI_CSI2_DT_RAW12:
--	case MIPI_CSI2_DT_RAW14:
--	case MIPI_CSI2_DT_RAW16:
--	case MIPI_CSI2_DT_RAW20:
--	case MIPI_CSI2_DT_RAW24:
--	case MIPI_CSI2_DT_RAW28:
-+	switch (code) {
-+	case MEDIA_BUS_FMT_SBGGR8_1X8:
-+	case MEDIA_BUS_FMT_SGBRG8_1X8:
-+	case MEDIA_BUS_FMT_SGRBG8_1X8:
-+	case MEDIA_BUS_FMT_SRGGB8_1X8:
-+	case MEDIA_BUS_FMT_SBGGR10_1X10:
-+	case MEDIA_BUS_FMT_SGBRG10_1X10:
-+	case MEDIA_BUS_FMT_SGRBG10_1X10:
-+	case MEDIA_BUS_FMT_SRGGB10_1X10:
-+	case MEDIA_BUS_FMT_SBGGR12_1X12:
-+	case MEDIA_BUS_FMT_SGBRG12_1X12:
-+	case MEDIA_BUS_FMT_SGRBG12_1X12:
-+	case MEDIA_BUS_FMT_SRGGB12_1X12:
-+	case MEDIA_BUS_FMT_SRGGB16_1X16:
-+	case MEDIA_BUS_FMT_SGRBG16_1X16:
-+	case MEDIA_BUS_FMT_SGBRG16_1X16:
-+	case MEDIA_BUS_FMT_SBGGR16_1X16:
- 		return true;
- 	default:
- 		return false;
-diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-index f3f3bc0615e5..dec8f5ffcfa5 100644
---- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-+++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
-@@ -77,6 +77,20 @@ const struct ipu6_isys_pixelformat ipu6_isys_pfmts[] = {
- 	  IPU6_FW_ISYS_FRAME_FORMAT_RAW10 },
- 	{ V4L2_PIX_FMT_SRGGB10P, 10, 10, MEDIA_BUS_FMT_SRGGB10_1X10,
- 	  IPU6_FW_ISYS_FRAME_FORMAT_RAW10 },
-+
-+	{ V4L2_PIX_FMT_GREY, 8, 8, MEDIA_BUS_FMT_Y8_1X8,
-+	  IPU6_FW_ISYS_FRAME_FORMAT_RAW8 },
-+	{ V4L2_PIX_FMT_Y10, 16, 10, MEDIA_BUS_FMT_Y10_1X10,
-+	  IPU6_FW_ISYS_FRAME_FORMAT_RAW16 },
-+	{ V4L2_PIX_FMT_Y12, 16, 12, MEDIA_BUS_FMT_Y12_1X12,
-+	  IPU6_FW_ISYS_FRAME_FORMAT_RAW16 },
-+	{ V4L2_PIX_FMT_Y16, 16, 16, MEDIA_BUS_FMT_Y16_1X16,
-+	  IPU6_FW_ISYS_FRAME_FORMAT_RAW16 },
-+	{ V4L2_PIX_FMT_Y10P, 10, 10, MEDIA_BUS_FMT_Y10_1X10,
-+	  IPU6_FW_ISYS_FRAME_FORMAT_RAW10 },
-+	{ V4L2_PIX_FMT_Y12P, 12, 12, MEDIA_BUS_FMT_Y12_1X12,
-+	  IPU6_FW_ISYS_FRAME_FORMAT_RAW12 },
-+
- 	{ V4L2_PIX_FMT_UYVY, 16, 16, MEDIA_BUS_FMT_UYVY8_1X16,
- 	  IPU6_FW_ISYS_FRAME_FORMAT_UYVY},
- 	{ V4L2_PIX_FMT_YUYV, 16, 16, MEDIA_BUS_FMT_YUYV8_1X16,
+ 	struct video_device *vdev = video_devdata(file);
++	int res;
+ 
+-	if (vdev->queue->type != d->type)
+-		return -EINVAL;
++	res = vb2_verify_memory_type(vdev->queue, vdev->queue->memory, d->type);
++	if (res)
++		return res;
+ 
+ 	if (d->count == 0)
+ 		return 0;
 -- 
-2.51.0
+2.34.1
 
 
