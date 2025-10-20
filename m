@@ -1,322 +1,179 @@
-Return-Path: <linux-media+bounces-45074-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45075-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CB83BF3349
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 21:29:58 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 438CFBF3371
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 21:33:50 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id C45B23A80D1
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 19:29:56 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2B48F4E4C20
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 19:33:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4877D3148BB;
-	Mon, 20 Oct 2025 19:29:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8C16A2D7802;
+	Mon, 20 Oct 2025 19:33:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Map30f33"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="N9ftvfTI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E9F32C0268;
-	Mon, 20 Oct 2025 19:29:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC21219A86;
+	Mon, 20 Oct 2025 19:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760988586; cv=none; b=TrzvKlzmwLc+9Ljj1JnN3PHR3bF7EQfU0nZmqIV6r9i3Y4ILu/kChdXZ9A8r8Rn1IIKq3/ZVoPOTDGoD5HlBr1IXKWrJCmNRe9+KjTALmmnPHMUtwuSnEtbZKJajOPwRBQhamZXm+eo3iCEjhZ+VPOdd+6PpQcLPFbK5mlq4SYg=
+	t=1760988821; cv=none; b=iDJ918yA1d0FHTso66Aenky+oByeOgUBZj3QC3prCE9owxWKbxUqAz5BvfbRPBOUDYeHfnB7KVm768uwG2tTfn5omu29MWRWVsnKV/9cWm/Zq2YPHSlaus+PgYULmORyiiTKkrAP9NWfMn7EQ2zVwJnDPf6RZJ76yRa4AWVLc1w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760988586; c=relaxed/simple;
-	bh=24pjMusfqXK/ZFMzf4J8378emXyJcIaZpRhLK2I3LBo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=r7nfRu4AqcsQPoZqbY6+1E3AKUXeIyK8/U5j0Uj8gkx7vQ9rSkc1Do9i5CFxaaIS5wM01VjtSA+T5fPYnazZAtGt3xGZ0h5Z05APp23lOGgZwt8VDGiCYBbuQned8zL/ZHpg0KrMBaouTbEDmGG4tlChoG1Ctd//IA7zYtfjJJs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Map30f33; arc=none smtp.client-ip=198.47.23.235
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59KJTV4p3067010;
-	Mon, 20 Oct 2025 14:29:31 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1760988571;
-	bh=qyKwmzguvn8OepZ+GiGPYMTWq6LubaMtWkC4xy/16sM=;
-	h=Date:Subject:To:CC:References:From:In-Reply-To;
-	b=Map30f33dLThJqzVXeWjXysLeX/Hx0HaGFLJft2cTd8MRDYBDvXpsxI4yWdQpzdiR
-	 CyBV3HPIOZN5xxhWN8etz3g8qbew8lofJZdEj+BLmA2KY3j/xfTxAD97PJbTXWS9lO
-	 tO5UZuCp2FixFWKm1DKSnKJ/pZQ93QSomOgKvDLE=
-Received: from DFLE205.ent.ti.com (dfle205.ent.ti.com [10.64.6.63])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59KJTVuC660754
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 20 Oct 2025 14:29:31 -0500
-Received: from DFLE205.ent.ti.com (10.64.6.63) by DFLE205.ent.ti.com
- (10.64.6.63) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 20 Oct
- 2025 14:29:31 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE205.ent.ti.com
- (10.64.6.63) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 20 Oct 2025 14:29:31 -0500
-Received: from [10.247.21.203] (lt5cg2132ltw.dhcp.ti.com [10.247.21.203])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59KJTVHx2494367;
-	Mon, 20 Oct 2025 14:29:31 -0500
-Message-ID: <e8ca48e2-264d-462b-89a6-0c788a58ce77@ti.com>
-Date: Mon, 20 Oct 2025 14:29:31 -0500
+	s=arc-20240116; t=1760988821; c=relaxed/simple;
+	bh=PkFoyVqTYJPVX0d9XsVCFhOxPHX3dsEmwGcy6ZBb+vo=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=GrWWGHp23cDd481ZkIR6U55yylQVB65tPErwJyVW9X41ZcnJISqfjd/zzreRBPYuLv6tEy2oeWEn3x8W1AsUpO5o/9SV95OxJzWcXW178bCJlrgmSdPsmkVesiWLuW0zWsJTZWpaVTAi5UC9oTn6G22V5ehK5V4bghl76dfx5Y8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=N9ftvfTI; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3F0D5C113D0;
+	Mon, 20 Oct 2025 19:33:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1760988820;
+	bh=PkFoyVqTYJPVX0d9XsVCFhOxPHX3dsEmwGcy6ZBb+vo=;
+	h=From:Subject:Date:To:Cc:From;
+	b=N9ftvfTIeA0viVT31Y2ZDvVS2mbmMwBF5NTOFK/atMt1gb1Dddjejz5NpFXzP3imq
+	 1fDy2kFuucFfSK3XkDEsUzp0ongrE4nqY7AI90d+2nn7WLNeYgzI/BhyXqZDYqZq9E
+	 CftmreZomQbgNrpzVutGspFq2Krj5vfJ+Vj9+QHL4tPw80lDbJl2N6FOFL8IqaHjNA
+	 TOACSGxUueRa2k0XgvAxEP1qRtTMqNV8JvGmnRM8ZvEmJKlV2L67qwMYAhUzF47cVv
+	 9F1nGfwhKHcBL77dmZjw5sCaJouUsk264rKWH5QBHZBJLF530izVMkwCrcIqUwKkjE
+	 /Ro9xcKGOlJ3A==
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Subject: [PATCH v6 0/2] accel: Add Arm Ethos-U NPU
+Date: Mon, 20 Oct 2025 14:33:26 -0500
+Message-Id: <20251020-ethos-v6-0-ecebc383c4b7@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: chips-media: wave5: Fix Hang in Encoder
-To: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Nas Chung
-	<nas.chung@chipsnmedia.com>,
-        Jackson Lee <jackson.lee@chipsnmedia.com>,
-        Mauro
- Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC: Darren Etheridge <detheridge@ti.com>
-References: <20251020173332.2271145-1-b-brnich@ti.com>
- <351e25ea533c440e3fa5131fe44796f66bc4ff82.camel@collabora.com>
-Content-Language: en-US
-From: Brandon Brnich <b-brnich@ti.com>
-In-Reply-To: <351e25ea533c440e3fa5131fe44796f66bc4ff82.camel@collabora.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAIaO9mgC/2XPTU4DMQwF4KtUWRNkO5O0YcU9EIv8OJ0INIOSK
+ gJVc3fSqp2CZvksf8/yWVQumat42Z1F4ZZrnqcezNNOhNFNR5Y59iwISMMeteTTOFepUozKcjI
+ Jrei7X4VT/r72vL33POZ6msvPtbbhZXprILo1NJQgQ8CgHQTvk3/94DLx5/NcjuJS0ejBDoh3R
+ p05QpuCJmf1lqkHs2TuTHVmfKRB7RUPSW/YsDKE9c02dHbAPnQqBp/Uhum/bL2mO/MOHAcGB2D
+ +sWVZfgGREJZjdwEAAA==
+X-Change-ID: 20250715-ethos-3fdd39ef6f19
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Robin Murphy <robin.murphy@arm.com>, Steven Price <steven.price@arm.com>, 
+ Daniel Stone <daniel@fooishbar.org>, Frank Li <Frank.li@nxp.com>, 
+ Sui Jingfeng <sui.jingfeng@linux.dev>, 
+ Matthew Brost <matthew.brost@intel.com>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org, 
+ linaro-mm-sig@lists.linaro.org, 
+ Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, 
+ Frank Li <Frank.Li@nxp.com>
+X-Mailer: b4 0.15-dev
 
-Hi Nicolas,
+The Arm Ethos-U65/85 NPUs are designed for edge AI inference 
+applications[0].
 
-On 10/20/2025 1:41 PM, Nicolas Dufresne wrote:
-> Hi Brandon,
-> 
-> 
-> Le lundi 20 octobre 2025 à 12:33 -0500, Brandon Brnich a écrit :
->> Wave5 encoder driver only changed states to PIC_RUN in start streaming by
->> making the assumption that VIDIOC STREAMON call has already been called.
->> In frameworks like FFMPEG, this condition has not been met when in the
->> start streaming function resulting in the application hanging. Therefore,
->> job_ready and device_run need to be extended to have support for this case.
-> 
-> I'm afraid you will have to rework that commit message in V2, I could not make
-> much sense out of it. See comments below, but by spliting your patch, it might
-> get easier to explain what you are trying to fix.
+The driver works with Mesa Teflon. The Ethos support was merged on 
+10/15. The UAPI should also be compatible with the downstream (open 
+source) driver stack[2] and Vela compiler though that has not been 
+implemented.
 
-Understood, I provide a better explanation in next patch. I can see how 
-some of the below can be confusing.
+Testing so far has been on i.MX93 boards with Ethos-U65 and a FVP model 
+with Ethos-U85. More work is needed in mesa for handling U85 command 
+stream differences, but that doesn't affect the UAPI.
 
-> 
->>
->> Signed-off-by: Brandon Brnich <b-brnich@ti.com>
->> ---
->>   .../chips-media/wave5/wave5-vpu-enc.c         | 74 +++++++++++++------
->>   1 file changed, 51 insertions(+), 23 deletions(-)
->>
->> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->> index a02853d42d61..3a3b585ceb8e 100644
->> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
->> @@ -705,6 +705,11 @@ static int wave5_vpu_enc_encoder_cmd(struct file *file, void *fh, struct v4l2_en
->>   
->>   		m2m_ctx->last_src_buf = v4l2_m2m_last_src_buf(m2m_ctx);
->>   		m2m_ctx->is_draining = true;
->> +
->> +		if (v4l2_m2m_num_dst_bufs_ready(m2m_ctx) > 0) {
-> 
-> Its job_ready callback and framework task to check this, I think you can go
-> directly to try to schedule.
-> 
->> +			dev_dbg(inst->dev->dev, "Forcing job run for draining\n");
->> +			v4l2_m2m_try_schedule(m2m_ctx);
-> 
-> This is fair, and the decoder does the same. Though, it has nothing to do with
-> the transition from OPEN -> SEQ_INIT -> PIC_RUN. Do this in its own commit with
-> its own explanation.
+A git tree is here[3].
 
-Understood
+Rob
 
-> 
->> +		}
->>   		break;
->>   	case V4L2_ENC_CMD_START:
->>   		break;
->> @@ -1411,6 +1416,34 @@ static int prepare_fb(struct vpu_instance *inst)
->>   	return ret;
->>   }
->>   
->> +static int wave5_vpu_enc_prepare_cap_seq(struct vpu_instance *inst)
->> +{
-> 
-> Factor-out in its own commit, with a message this is preparation work and with
-> no function changes. Its really hard to review code that moves around and may
-> have changes in it.
+[0] https://www.arm.com/products/silicon-ip-cpu?families=ethos%20npus
+[2] https://gitlab.arm.com/artificial-intelligence/ethos-u/
+[3] git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git ethos-v6
 
-Might not be important to do anymore if your suggestions on the 
-conditional at the bottom of this patch work. I only moved this code to 
-it's own function since I updated device_run to have capability to 
-support the same state change if it was not achieved in start_streaming.
+Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+---
+Changes in v6:
+- Rework job submit to avoid potential deadlocks with allocations/reclaim
+  in the fence signaling paths. ethosu_acquire_object_fences() and the job
+  done_fence allocation are moved earlier. The runtime-pm resume now before
+  the job is pushed and autosuspend is done when the job is freed.
+- Drop unused ethosu_job_is_idle()
+- Link to v5: https://lore.kernel.org/r/20251016-ethos-v5-0-ba0aece0a006@kernel.org
 
-> 
->> +	int ret = 0;
->> +
->> +	ret = initialize_sequence(inst);
->> +	if (ret) {
->> +		dev_warn(inst->dev->dev, "Sequence not found: %d\n", ret);
->> +		return ret;
->> +	}
->> +	ret = switch_state(inst, VPU_INST_STATE_INIT_SEQ);
->> +	if (ret)
->> +		return ret;
->> +
->> +	/*
->> +	 * The sequence must be analyzed first to calculate the proper
->> +	 * size of the auxiliary buffers.
->> +	 */
->> +	ret = prepare_fb(inst);
->> +	if (ret) {
->> +		dev_warn(inst->dev->dev, "Framebuffer preparation, fail: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	ret = switch_state(inst, VPU_INST_STATE_PIC_RUN);
->> +
->> +	return ret;
->> +}
->> +
->>   static int wave5_vpu_enc_start_streaming(struct vb2_queue *q, unsigned int count)
->>   {
->>   	struct vpu_instance *inst = vb2_get_drv_priv(q);
->> @@ -1453,27 +1486,8 @@ static int wave5_vpu_enc_start_streaming(struct vb2_queue *q, unsigned int count
->>   		if (ret)
->>   			goto return_buffers;
->>   	}
->> -	if (inst->state == VPU_INST_STATE_OPEN && m2m_ctx->cap_q_ctx.q.streaming) {
->> -		ret = initialize_sequence(inst);
->> -		if (ret) {
->> -			dev_warn(inst->dev->dev, "Sequence not found: %d\n", ret);
->> -			goto return_buffers;
->> -		}
->> -		ret = switch_state(inst, VPU_INST_STATE_INIT_SEQ);
->> -		if (ret)
->> -			goto return_buffers;
->> -		/*
->> -		 * The sequence must be analyzed first to calculate the proper
->> -		 * size of the auxiliary buffers.
->> -		 */
->> -		ret = prepare_fb(inst);
->> -		if (ret) {
->> -			dev_warn(inst->dev->dev, "Framebuffer preparation, fail: %d\n", ret);
->> -			goto return_buffers;
->> -		}
->> -
->> -		ret = switch_state(inst, VPU_INST_STATE_PIC_RUN);
->> -	}
->> +	if (inst->state == VPU_INST_STATE_OPEN && m2m_ctx->cap_q_ctx.q.streaming)
->> +		ret = wave5_vpu_enc_prepare_cap_seq(inst);
->>   	if (ret)
->>   		goto return_buffers;
->>   
->> @@ -1598,6 +1612,14 @@ static void wave5_vpu_enc_device_run(void *priv)
->>   
->>   	pm_runtime_resume_and_get(inst->dev->dev);
->>   	switch (inst->state) {
->> +	case VPU_INST_STATE_OPEN:
->> +		ret = wave5_vpu_enc_prepare_cap_seq(inst);
->> +		if (ret) {
->> +			dev_warn(inst->dev->dev, "Framebuffer preparation, fail: %d\n", ret);
->> +			switch_state(inst, VPU_INST_STATE_STOP);
->> +			break;
->> +		}
->> +		fallthrough;
->>   	case VPU_INST_STATE_PIC_RUN:
->>   		ret = start_encode(inst, &fail_res);
->>   		if (ret) {
->> @@ -1633,6 +1655,12 @@ static int wave5_vpu_enc_job_ready(void *priv)
->>   	case VPU_INST_STATE_NONE:
->>   		dev_dbg(inst->dev->dev, "Encoder must be open to start queueing M2M jobs!\n");
->>   		return false;
->> +	case VPU_INST_STATE_OPEN:
->> +		if (wave5_vpu_both_queues_are_streaming(inst)) {
->> +			dev_dbg(inst->dev->dev, "Both queues have been turned on now, M2M job can occur\n");
->> +			return true;
->> +		}
->> +		return false;
->>   	case VPU_INST_STATE_PIC_RUN:
->>   		if (m2m_ctx->is_draining || v4l2_m2m_num_src_bufs_ready(m2m_ctx)) {
->>   			dev_dbg(inst->dev->dev, "Encoder ready for a job, state: %s\n",
->> @@ -1642,9 +1670,9 @@ static int wave5_vpu_enc_job_ready(void *priv)
->>   		fallthrough;
->>   	default:
->>   		dev_dbg(inst->dev->dev,
->> -			"Encoder not ready for a job, state: %s, %s draining, %d src bufs ready\n",
->> +			"Encoder not ready for a job, state: %s, %s draining, %d src bufs ready, %d dst bufs ready\n",
->>   			state_to_str(inst->state), m2m_ctx->is_draining ? "is" : "is not",
->> -			v4l2_m2m_num_src_bufs_ready(m2m_ctx));
->> +			v4l2_m2m_num_src_bufs_ready(m2m_ctx), v4l2_m2m_num_dst_bufs_ready(m2m_ctx));
->>   		break;
->>   	}
->>   	return false;
-> 
-> Perhaps its going to be clear with proper commit message, but I'm still not
-> clear how you can endup with both queues streaming without two calls to
-> wave5_vpu_enc_start_streaming(). I don't deny the condition might be broken
-> then, but the intent is for this code to bring the driver to PIC_RUN on the
-> second call.>
->  From VPU_INST_STATE_NONE:
-> 
-> Case 1:
->     STREAMON(CAP)
->     	- bring it to OPEN state
+Changes in v5:
+- Rework Runtime PM init in probe
+- Use __free() cleanups where possible
+- Use devm_mutex_init()
+- Handle U85 NPU_SET_WEIGHT2_BASE and NPU_SET_WEIGHT2_LENGTH
+- Link to v4: https://lore.kernel.org/r/20251015-ethos-v4-0-81025a3dcbf3@kernel.org
 
-Wouldn't this be the no-op and cause no state change? VPU only goes to 
-OPEN when start_streaming is called on the OUTPUT plane.
+Changes in v4:
+- Use bulk clk API
+- Various whitespace fixes mostly due to ethos->ethosu rename
+- Drop error check on dma_set_mask_and_coherent()
+- Drop unnecessary pm_runtime_mark_last_busy() call
+- Move variable declarations out of switch (a riscv/clang build failure)
+- Use lowercase hex in all defines
+- Drop unused ethosu_device.coherent member
+- Add comments on all locks
+- Link to v3: https://lore.kernel.org/r/20250926-ethos-v3-0-6bd24373e4f5@kernel.org
 
->     STREAMON(OUT)
->     	- Initialize the sequence and prepare the FB
->     	- Leaving with PIC_RUN state
+Changes in v3:
+- Rework and improve job submit validation                                                            
+- Rename ethos to ethosu. There was an Ethos-Nxx that's unrelated.
+- Add missing init for sched_lock mutex
+- Drop some prints to debug level          
+- Fix i.MX93 SRAM accesses (AXI config)
+- Add U85 AXI configuration and test on FVP with U85
+- Print the current cmd value on timeout                                                              
+- Link to v2: https://lore.kernel.org/r/20250811-ethos-v2-0-a219fc52a95b@kernel.org
 
-So this state would be opening and leaving in state OPEN, but since CAP 
-was called first, it should be streaming so check would happen.
+Changes in v2:
+- Rebase on v6.17-rc1 adapting to scheduler changes
+- scheduler: Drop the reset workqueue. According to the scheduler docs,
+  we don't need it since we have a single h/w queue.
+- scheduler: Rework the timeout handling to continue running if we are
+  making progress. Fixes timeouts on larger jobs.
+- Reset the NPU on resume so it's in a known state
+- Add error handling on clk_get() calls
+- Fix drm_mm splat on module unload. We were missing a put on the
+  cmdstream BO in the scheduler clean-up.
+- Fix 0-day report needing explicit bitfield.h include
+- Link to v1: https://lore.kernel.org/r/20250722-ethos-v1-0-cc1c5a0cbbfb@kernel.org
 
-> 
-> 
-> Case 2:
->     STREAMON(OUT)
->     	- no-op
-This would put into state open.
+---
+Rob Herring (Arm) (2):
+      dt-bindings: npu: Add Arm Ethos-U65/U85
+      accel: Add Arm Ethos-U NPU driver
 
->     STREAMON(CAP)
->     	- To OPEN
+ .../devicetree/bindings/npu/arm,ethos.yaml         |  79 +++
+ MAINTAINERS                                        |   9 +
+ drivers/accel/Kconfig                              |   1 +
+ drivers/accel/Makefile                             |   1 +
+ drivers/accel/ethosu/Kconfig                       |  10 +
+ drivers/accel/ethosu/Makefile                      |   4 +
+ drivers/accel/ethosu/ethosu_device.h               | 195 ++++++
+ drivers/accel/ethosu/ethosu_drv.c                  | 403 ++++++++++++
+ drivers/accel/ethosu/ethosu_drv.h                  |  15 +
+ drivers/accel/ethosu/ethosu_gem.c                  | 704 +++++++++++++++++++++
+ drivers/accel/ethosu/ethosu_gem.h                  |  46 ++
+ drivers/accel/ethosu/ethosu_job.c                  | 496 +++++++++++++++
+ drivers/accel/ethosu/ethosu_job.h                  |  40 ++
+ include/uapi/drm/ethosu_accel.h                    | 261 ++++++++
+ 14 files changed, 2264 insertions(+)
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20250715-ethos-3fdd39ef6f19
 
-It would already be in state open since STREAMON(OUT) put it there.
-
->     	- To INIT_SEQ
->     	- To PIC_RUN
-Then the above two don't happen due to below condition failing.
-
->     
-> 
-> So in case 2, the code fails this condition:
-> 
-> 	if (inst->state == VPU_INST_STATE_OPEN && m2m_ctx->cap_q_ctx.q.streaming) {>
-> 
-> Basically type == CAP, and vb2 won't be setting the .streaming state before this
-> function returns. A possible solution would be:
-> 
-> 	if (inst->state == VPU_INST_STATE_OPEN &&
-> 	    (m2m_ctx->cap_q_ctx.q.streaming || type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)) {
-
-I can test this and I'm sure it will work because this would force it to 
-enter that code block to regardless on the 2nd start_streaming case. 
-This appears to be the cleaner solution without messing around with the 
-state's in job_ready and device_run. So this patch becomes much simpler. 
-I will split into two: 1. updating this conditional (assuming it works) 
-and 2. updating cmd_stop to go directly to try_schedule. Both patches 
-with better commit messages.
-
-Best,
-Brandon
-
-> 
-> cheers,
-> Nicolas
+Best regards,
+--  
+Rob Herring (Arm) <robh@kernel.org>
 
 
