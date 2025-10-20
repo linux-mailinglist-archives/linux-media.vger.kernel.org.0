@@ -1,299 +1,164 @@
-Return-Path: <linux-media+bounces-45069-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45070-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4F80BF2FD6
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 20:46:41 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id AA26BBF303F
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 20:51:11 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 69ED834E567
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 18:46:41 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B3F98401D5F
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 18:51:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E581A2D5C6C;
-	Mon, 20 Oct 2025 18:46:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F0EB2D23BC;
+	Mon, 20 Oct 2025 18:51:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="n8wVGJLG"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aTrEjI5f"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32DB81C3314;
-	Mon, 20 Oct 2025 18:46:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA86F23A9AC
+	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 18:51:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760985992; cv=none; b=VuXyabzlSHVP4sWpevg/T58j2q8kxDKPdefZpyUKeXHzzm73GLs6xr2F3z8dSlwa25F9mUnmWKxZL8OMTzVamTSaBHZi3G6rFXNtHy3UiXphNU2x21TPgZXlNLiv71Kl1q7glhhaFgvCThqOTuBGGX7UFBF5IrfK9XJG2iylWNU=
+	t=1760986266; cv=none; b=HPyYWR24pneWHUWVv5CkeGRykUNmWDfpcxAK5P2aXIq+uqrUmkZefEk9biUrjKAVTQU1jbzXqrZ5+mgyPCX4AP0jDadckKTaLsS5AwD5QldI7YCgJiOd2T1HASH+HNsM/rSnZSYE7R9y+DGP2BVNMsOV6bGw8IwyY8rLp/ARz7M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760985992; c=relaxed/simple;
-	bh=Y6cCYtHS8ljGWK/XNbrYzLPntPrCQKewobnH6mUBAbg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=T+2t9Bqu11LnyNnc2+fKMwB4yINU48f1rL/X1eHiN2y7GYjHWSfiLpmSJyfi13fLyUasZYo9FhGNJ1E9t+nqHzmd/A/Q/oh62nQTtHR4fsnxptj4/FxSIF7231hB1p1dvhdqJmpxrLI+LKl7PHlnVJcxDNz5OHLVnEg0yYQN5IY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=n8wVGJLG; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0ED6AC113D0;
-	Mon, 20 Oct 2025 18:46:29 +0000 (UTC)
+	s=arc-20240116; t=1760986266; c=relaxed/simple;
+	bh=gkyxqD+fLEFbnOckkoG6Fjp8MGOpS4c0+zOPRAHVCEA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qXSQnE14szY388tDc7aPtgIpD7WGzIMLdh+lyVoVbrvXNnOsofocmvI1ZVVJP2qw3cZKYONU7kYEdHIb7+oejGquI+pm462D7mCsffbSrF7NEN7ccC+5RHX/vU3eG30KEUe6TGuDvkaYpqyvcUuj1HByva8nEEnIuAcHuHV9W3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aTrEjI5f; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2CE87C113D0;
+	Mon, 20 Oct 2025 18:51:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1760985991;
-	bh=Y6cCYtHS8ljGWK/XNbrYzLPntPrCQKewobnH6mUBAbg=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=n8wVGJLG2E60McizrptQi/R56kCAf0GLTZypmdPsMl7E2jpJF04r+RGYqnhqzlc7b
-	 zp87lTVXZ9suWJkqap2ZQdy1/i4B6Rz5bt9uepZUGS1dOAeitt48+iFPXqXB7jDQKz
-	 vUFCpIe/+0kh2ysIoxsvnaAcusDpwh1GIXlIFNJPzQ43J4rYyyP/+botHbxL+Kfz+d
-	 MzzkjholaxVQWWkXUiWq5yGcLVgc1Ds+j0S9ct6ONPbAA0MkgWvD0diqI/0stBJ2HY
-	 RLu0shG8/3txeeEVR7AsHQRUCX786YqH++K5FvRB3Ru6Ixi9uyiU/rq05mj21VdraL
-	 nczc6KPd1O/Cw==
-Message-ID: <79a4bc8a-18e4-4b38-ab7e-53e34d0e8dbb@kernel.org>
-Date: Mon, 20 Oct 2025 19:46:28 +0100
+	s=k20201202; t=1760986266;
+	bh=gkyxqD+fLEFbnOckkoG6Fjp8MGOpS4c0+zOPRAHVCEA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=aTrEjI5fVWP02LowTus33xDiH7DP8ln52MfCOFcM7/1z0waCTIl+Pojy4ymIIwfuE
+	 ahHALEWaQyzjSC5PkNEz0UOn7sczofr+SIhz7hssc2L6Txgwg/1W9yGh3G4sxHC+qz
+	 qJ22m2GHMvt13090VjZL36+mRVBkqK87yeThVzCZLKTQ5lwcCXx3XNekXX/W/RK7OL
+	 VzXHa1OIn891VgyXCdAtwCDSvMOwaId6cvXY0e7bVEMf+DQqtrDbCYSQioIfcF3gGl
+	 4+obR/9cEjc2Dy7zI9K0E6Yj0PXVFoWd4KI5u/6i0Sil8GwiEcl/HERLGSyQbtMjUi
+	 04Vx5w8aOWq1w==
+Date: Mon, 20 Oct 2025 11:51:05 -0700
+From: Kees Cook <kees@kernel.org>
+To: Ricardo Ribalda <ribalda@chromium.org>
+Cc: Dan Carpenter <dan.carpenter@linaro.org>, linux-media@vger.kernel.org,
+	Patchwork Integration <patchwork@media-ci.org>
+Subject: Re: [v2,0/3] module: Add compile-time check for embedded NUL
+ characters
+Message-ID: <202510201146.F12EA92@keescook>
+References: <20251010030348.it.784-kees@kernel.org>
+ <68ed624c.050a0220.3ba739.64ea@mx.google.com>
+ <D1CBCBE2-3A54-410A-B15C-F1C621F9F56B@kernel.org>
+ <CANiDSCu6xZAuSF5_M-4BMRc52hbSh_1QfDQqaeGR4iD5fdQjQg@mail.gmail.com>
+ <202510141344.E0ABCD2C7@keescook>
+ <CANiDSCsBAq3Yx4ybarUb_1NkQ-bvfXvWqb-DfqXatkiYJFZWiQ@mail.gmail.com>
+ <202510201127.D97BCF2@keescook>
+ <CANiDSCtbrM4Fg_p56EdV09ts_j8HnMCc1hGH31-BZvv03Z0DjQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 2/3] media: qcom: camss: Add link support for TPG
-To: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>, Robert Foss
- <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- linux-arm-msm@vger.kernel.org
-References: <20251017-camss_tpg-v5-0-cafe3ad42163@oss.qualcomm.com>
- <20251017-camss_tpg-v5-2-cafe3ad42163@oss.qualcomm.com>
-From: Bryan O'Donoghue <bod@kernel.org>
-Content-Language: en-US
-In-Reply-To: <20251017-camss_tpg-v5-2-cafe3ad42163@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CANiDSCtbrM4Fg_p56EdV09ts_j8HnMCc1hGH31-BZvv03Z0DjQ@mail.gmail.com>
 
-On 17/10/2025 06:06, Wenmeng Liu wrote:
-> TPG is connected to the csid as an entity, the link
-> needs to be adapted.
+On Mon, Oct 20, 2025 at 08:35:53PM +0200, Ricardo Ribalda wrote:
+> Hi Kees
 > 
-> Signed-off-by: Wenmeng Liu <wenmeng.liu@oss.qualcomm.com>
-> ---
->   drivers/media/platform/qcom/camss/camss-csid.c   | 43 +++++++++++++-------
->   drivers/media/platform/qcom/camss/camss-csiphy.c |  1 +
->   drivers/media/platform/qcom/camss/camss-csiphy.h |  2 +
->   drivers/media/platform/qcom/camss/camss.c        | 52 ++++++++++++++++++++++++
->   4 files changed, 84 insertions(+), 14 deletions(-)
+> On Mon, 20 Oct 2025 at 20:29, Kees Cook <kees@kernel.org> wrote:
+> >
+> > On Wed, Oct 15, 2025 at 09:33:40AM +0200, Ricardo Ribalda wrote:
+> > > Hi Dan
+> > >
+> > > On Tue, 14 Oct 2025 at 22:45, Kees Cook <kees@kernel.org> wrote:
+> > > >
+> > > > On Tue, Oct 14, 2025 at 08:24:00AM +0200, Ricardo Ribalda wrote:
+> > > > > Hi Kees
+> > > > >
+> > > > > Thanks for the report.
+> > > > >
+> > > > >
+> > > > > On Tue, 14 Oct 2025 at 07:41, Kees Cook <kees@kernel.org> wrote:
+> > > > > >
+> > > > > >
+> > > > > >
+> > > > > > On October 13, 2025 1:34:20 PM PDT, Patchwork Integration <patchwork@media-ci.org> wrote:
+> > > > > > >Dear Kees Cook:
+> > > > > > >
+> > > > > > >Thanks for your patches! Unfortunately the Media CI robot detected some
+> > > > > > >issues:
+> > > > > > >
+> > > > > > ># Test static:test-smatch
+> > > > > > >
+> > > > > > >drivers/media/usb/usbtv/usbtv-core.c:157:1: error: bad constant expression
+> > > > > >
+> > > > > > Where can I find what this test actually does?
+> > > > > >
+> > > > > > >For more details, check the full report at:
+> > > > > > >https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/85913402/artifacts/report.htm .
+> > > > > >
+> > > > > > This webserver appears to be misconfigured to send compressed output without the right headers? I can't actually view this URL.
+> > > > >
+> > > > > I will follow-up with fdo maintainers to figure out what happened.
+> > > > > there. On the meantime you can use these url that seems to work:
+> > > > > https://linux-media.pages.freedesktop.org/-/users/patchwork/-/jobs/85913402/artifacts/report.txt
+> > > > > https://gitlab.freedesktop.org/linux-media/users/patchwork/-/jobs/85913398
+> > > > >
+> > > > > Basically sparse/smatch do not seem to understand the constant.
+> > > >
+> > > > Yeah, I managed to find the actual scripts that are run for the
+> > > > static-sparse/smatch tests. It looks like those tools aren't correctly
+> > > > handling string literals for __builtin_strlen(), which is a constant for
+> > > > constant arguments.
+> > > >
+> > > > So, that's a C parsing bug in those tools (GCC and Clang are fine).
+> > >
+> > > Could you take a look at this patch:
+> > > https://patchwork.linuxtv.org/project/linux-media/patch/20251010030610.3032147-3-kees@kernel.org/
+> > >
+> > > Seems that sparse/smatch are not very happy about __builtin_strlen()
+> > >
+> > > Could you fix support for __builtin_strlen() in your tool?
+> > >
+> > > Once Kees lands his patch it will break all the CIs using
+> > > sparse/smatch, including media-ci.
+> > >
+> > > Eg:
+> > >
+> > > drivers/media/pci/zoran/zr36060.c:33:1: error: bad constant expression
+> > > drivers/media/usb/pvrusb2/pvrusb2-dvb.c:19:1: error: bad constant expression
+> > > drivers/media/usb/pvrusb2/pvrusb2-dvb.c:19:1: error: bad constant expression
+> >
+> > We've waited a decade to get the embedded-NUL check into the modinfo
+> > macros, so I'm happy to wait until we can get the CI tooling updated.
 > 
-> diff --git a/drivers/media/platform/qcom/camss/camss-csid.c b/drivers/media/platform/qcom/camss/camss-csid.c
-> index 5284b5857368c37c202cd89dad6ae8042b637537..196cbc0b60e9bf95a06b053c69c967e345ffcd4b 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csid.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csid.c
-> @@ -35,6 +35,8 @@
->   #define		HW_VERSION_REVISION	16
->   #define		HW_VERSION_GENERATION	28
->   
-> +#define LANE_CFG_BITWIDTH 4
-> +
->   #define MSM_CSID_NAME "msm_csid"
->   
->   const char * const csid_testgen_modes[] = {
-> @@ -1227,18 +1229,22 @@ void msm_csid_get_csid_id(struct media_entity *entity, u8 *id)
->   }
->   
->   /*
-> - * csid_get_lane_assign - Calculate CSI2 lane assign configuration parameter
-> - * @lane_cfg - CSI2 lane configuration
-> + * csid_get_lane_assign - Calculate lane assign by csiphy/tpg lane num
-> + * @num: lane num
-> + * @pos_array: Array of lane positions
->    *
->    * Return lane assign
->    */
-> -static u32 csid_get_lane_assign(struct csiphy_lanes_cfg *lane_cfg)
-> +static u32 csid_get_lane_assign(int num, struct csiphy_lanes_cfg *lane_cfg)
-
-ah semantic commnet
-
-add your parameter to the end, not to the start please and give the "int 
-num" are more meaningful name - num_lanes ? Decided for yourself what 
-that name should be.
-
->   {
->   	u32 lane_assign = 0;
-> +	int pos;
->   	int i;
->   
-> -	for (i = 0; i < lane_cfg->num_data; i++)
-> -		lane_assign |= lane_cfg->data[i].pos << (i * 4);
-> +	for (i = 0; i < num; i++) {
-> +		pos = lane_cfg ? lane_cfg->data[i].pos : i;
-> +		lane_assign |= pos << (i * LANE_CFG_BITWIDTH);
-> +	}
->   
->   	return lane_assign;
->   }
-> @@ -1266,6 +1272,7 @@ static int csid_link_setup(struct media_entity *entity,
->   		struct csid_device *csid;
->   		struct csiphy_device *csiphy;
->   		struct csiphy_lanes_cfg *lane_cfg;
-> +		struct tpg_device *tpg;
->   
->   		sd = media_entity_to_v4l2_subdev(entity);
->   		csid = v4l2_get_subdevdata(sd);
-> @@ -1277,18 +1284,26 @@ static int csid_link_setup(struct media_entity *entity,
->   			return -EBUSY;
->   
->   		sd = media_entity_to_v4l2_subdev(remote->entity);
-> -		csiphy = v4l2_get_subdevdata(sd);
-> +		if (sd->grp_id == TPG_GUP_ID) {
-> +			tpg = v4l2_get_subdevdata(sd);
->   
-> -		/* If a sensor is not linked to CSIPHY */
-> -		/* do no allow a link from CSIPHY to CSID */
-> -		if (!csiphy->cfg.csi2)
-> -			return -EPERM;
-> +			csid->phy.lane_cnt = tpg->res->lane_cnt;
-> +			csid->phy.csiphy_id = tpg->id;
-> +			csid->phy.lane_assign = csid_get_lane_assign(csid->phy.lane_cnt, NULL);
-> +		} else {
-> +			csiphy = v4l2_get_subdevdata(sd);
->   
-> -		csid->phy.csiphy_id = csiphy->id;
-> +			/* If a sensor is not linked to CSIPHY */
-> +			/* do no allow a link from CSIPHY to CSID */
-> +			if (!csiphy->cfg.csi2)
-> +				return -EPERM;
->   
-> -		lane_cfg = &csiphy->cfg.csi2->lane_cfg;
-> -		csid->phy.lane_cnt = lane_cfg->num_data;
-> -		csid->phy.lane_assign = csid_get_lane_assign(lane_cfg);
-> +			csid->phy.csiphy_id = csiphy->id;
-> +
-> +			lane_cfg = &csiphy->cfg.csi2->lane_cfg;
-> +			csid->phy.lane_cnt = lane_cfg->num_data;
-> +			csid->phy.lane_assign = csid_get_lane_assign(lane_cfg->num_data, lane_cfg);
-> +		}
->   	}
->   	/* Decide which virtual channels to enable based on which source pads are enabled */
->   	if (local->flags & MEDIA_PAD_FL_SOURCE) {
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> index 2de97f58f9ae4f91e8bba39dcadf92bea8cf6f73..680580d7fe46a215777f3fa1b347f4297deea024 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-> @@ -799,6 +799,7 @@ int msm_csiphy_register_entity(struct csiphy_device *csiphy,
->   	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
->   	snprintf(sd->name, ARRAY_SIZE(sd->name), "%s%d",
->   		 MSM_CSIPHY_NAME, csiphy->id);
-> +	sd->grp_id = CSIPHY_GUP_ID;
->   	v4l2_set_subdevdata(sd, csiphy);
->   
->   	ret = csiphy_init_formats(sd, NULL);
-> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.h b/drivers/media/platform/qcom/camss/camss-csiphy.h
-> index 895f80003c441dcacf98435f91567f90afa29279..b7bcf2bdd2124f77b5354b15b33aa1e0983143e8 100644
-> --- a/drivers/media/platform/qcom/camss/camss-csiphy.h
-> +++ b/drivers/media/platform/qcom/camss/camss-csiphy.h
-> @@ -21,6 +21,8 @@
->   #define MSM_CSIPHY_PAD_SRC 1
->   #define MSM_CSIPHY_PADS_NUM 2
->   
-> +#define CSIPHY_GUP_ID 1
-> +
->   struct csiphy_lane {
->   	u8 pos;
->   	u8 pol;
-> diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-> index 2fbcd0e343aac9620a5a30719c42e1b887cf34ed..2ede19e1347ae32f2f6919905b535352bcd134be 100644
-> --- a/drivers/media/platform/qcom/camss/camss.c
-> +++ b/drivers/media/platform/qcom/camss/camss.c
-> @@ -3691,6 +3691,19 @@ static int camss_init_subdevices(struct camss *camss)
->   		}
->   	}
->   
-> +	if (camss->tpg) {
-> +		for (i = 0; i < camss->res->tpg_num; i++) {
-> +			ret = msm_tpg_subdev_init(camss, &camss->tpg[i],
-> +						  &res->tpg_res[i], i);
-> +			if (ret < 0) {
-> +				dev_err(camss->dev,
-> +					"Failed to init tpg%d sub-device: %d\n",
-> +					i, ret);
-> +				return ret;
-> +			}
-> +		}
-> +	}
-> +
->   	/* note: SM8250 requires VFE to be initialized before CSID */
->   	for (i = 0; i < camss->res->vfe_num; i++) {
->   		ret = msm_vfe_subdev_init(camss, &camss->vfe[i],
-> @@ -3779,6 +3792,23 @@ static int camss_link_entities(struct camss *camss)
->   		}
->   	}
->   
-> +	for (i = 0; i < camss->res->tpg_num; i++) {
-> +		for (j = 0; j < camss->res->csid_num; j++) {
-> +			ret = media_create_pad_link(&camss->tpg[i].subdev.entity,
-> +						    MSM_TPG_PAD_SRC,
-> +						    &camss->csid[j].subdev.entity,
-> +						    MSM_CSID_PAD_SINK,
-> +						    0);
-> +			if (ret < 0) {
-> +				camss_link_err(camss,
-> +					       camss->tpg[i].subdev.entity.name,
-> +					       camss->csid[j].subdev.entity.name,
-> +					       ret);
-> +				return ret;
-> +			}
-> +		}
-> +	}
-> +
->   	if (camss->ispif) {
->   		for (i = 0; i < camss->res->csid_num; i++) {
->   			for (j = 0; j < camss->ispif->line_num; j++) {
-> @@ -3883,6 +3913,19 @@ static int camss_register_entities(struct camss *camss)
->   		}
->   	}
->   
-> +	if (camss->tpg) {
-> +		for (i = 0; i < camss->res->tpg_num; i++) {
-> +			ret = msm_tpg_register_entity(&camss->tpg[i],
-> +						      &camss->v4l2_dev);
-> +			if (ret < 0) {
-> +				dev_err(camss->dev,
-> +					"Failed to register tpg%d entity: %d\n",
-> +					i, ret);
-> +				goto err_reg_tpg;
-> +			}
-> +		}
-> +	}
-> +
->   	for (i = 0; i < camss->res->csid_num; i++) {
->   		ret = msm_csid_register_entity(&camss->csid[i],
->   					       &camss->v4l2_dev);
-> @@ -3926,6 +3969,10 @@ static int camss_register_entities(struct camss *camss)
->   	for (i--; i >= 0; i--)
->   		msm_csid_unregister_entity(&camss->csid[i]);
->   
-> +	i = camss->res->tpg_num;
-
-\n
-
-> +err_reg_tpg:
-> +	for (i--; i >= 0; i--)
-> +		msm_tpg_unregister_entity(&camss->tpg[i]);
-
-This is broken for non-TPG cases - for example it is possible to jump to 
-err_reg_csid when camss->tpg == NULL and then to dereference &camss->tpg[i];
-
-Please fix.
-
->   	i = camss->res->csiphy_num;
->   err_reg_csiphy:
->   	for (i--; i >= 0; i--)
-> @@ -3947,6 +3994,11 @@ static void camss_unregister_entities(struct camss *camss)
->   	for (i = 0; i < camss->res->csiphy_num; i++)
->   		msm_csiphy_unregister_entity(&camss->csiphy[i]);
->   
-> +	if (camss->tpg) {
-> +		for (i = 0; i < camss->res->tpg_num; i++)
-> +			msm_tpg_unregister_entity(&camss->tpg[i]);
-> +	}
-> +
->   	for (i = 0; i < camss->res->csid_num; i++)
->   		msm_csid_unregister_entity(&camss->csid[i]);
->   
+> For media-ci. It will probably be after 6.19rc1
 > 
+> Basically, when
+> https://lore.kernel.org/linux-sparse/CACePvbVG2KrGQq4cNKV=wbO5h=jp3M0RO1SdfX8kV4OukjPG8A@mail.gmail.com/T/#t
+> lands in media-committers.
 
+That's external to Linux, though; it's a patch for sparse and smatch. How
+often does the CI rebuild sparse and smatch?
+
+> How did you plan to land this series? via which tree?
+
+I assume it would go either via the modules tree or the hardening tree.
+(Again, no rush.)
+
+> if Chris have not landed his fix yet, maybe you can include that patch
+> in your series as 1/X.... That will make every ci happy
+
+Since it's a patch for a separate project, I don't think that will work.
+(Maybe I'm misunderstanding something?)
+
+-Kees
+
+-- 
+Kees Cook
 
