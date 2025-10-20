@@ -1,252 +1,325 @@
-Return-Path: <linux-media+bounces-45067-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45068-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id B319ABF2F76
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 20:39:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 515D6BF2F9A
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 20:41:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C7F734F7318
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 18:39:08 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9D1F94F89B7
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 18:41:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B69762C0280;
-	Mon, 20 Oct 2025 18:39:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 582212D0C70;
+	Mon, 20 Oct 2025 18:41:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="L5a5tW1P"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="TigGdDv5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C1151F3BA4
-	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 18:39:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7C11DE4E0;
+	Mon, 20 Oct 2025 18:41:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760985545; cv=none; b=oidt3utsGdAfNKQAQ5OSNRpmq4ibo7mb3GSyy0RGtCvqT6y/5no3B1MDbG7sIcU8nurD09j7cjBw+Nh/H75EEpeQ+bvAGVoNz5V9hmlrfxATaGiG3ksG50hMLB7yXZoE/VWdyQj6JMbiGARyRFH5irvJmnVp45cyVRBS03JA+W8=
+	t=1760985686; cv=none; b=SAJiM6uKQeXuEo3bYl60ZEMOQZJiBasqbSSkkIQhCMkY1OxzsuAi1qNfNg5VF9CmA/3b3mMbxuO6UlqWKk9u3FJUVPNT4PlKtZnJUptvQJWqXQt8SESJfw7V/9c09Oyx6qqgJ/C/wfYuA9NydJKPSrY+vQ5YOw1DAzyiQ0en1JE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760985545; c=relaxed/simple;
-	bh=yulSoibBDiWX6jmpP3Ns1uXrdkIcA9BOI6Zi04OhpfU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gf4n7kXZbVMLrnbgE3lni9jIXg+57nsYP1X2wHPIEwVdbbKewLDDrTT0qxB5LmJLtl/NTHO76Q6F19w8usCtILv+mbyJCea4X2Z/UNtqp/GrfII8hBrVEiiwEFUre3vdTPvdwHrgs/ILklfUUIB9rvT79tCVahhF39tRcTVBWsY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=L5a5tW1P; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279867.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59KHukZq009985
-	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 18:39:02 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	fcmR2kO0kprkS+hm2HYcnN1OE+DeFwRjnQPZTNVK23s=; b=L5a5tW1PBrgMDnbQ
-	86ykVpx576xBLHDMIL1J2G1cas1zjehYpfvjWU0c5sbhTqajZXcaFfopgW4KqmM8
-	A/Q7gf228qOx0umNVcSmWhaxW/golnCh69NgO5mlEIW8LpSPz+vLI6G/B9sOXTYE
-	oPAWDEAw2wNHJzJW1i2X7h4FIsfXfT61oKTn15naaxjGQnI2AUPosw6hpag+2f+O
-	nBoNHODh7MnLVM0R1Yq0dKqAY1hXCSkVbX3Q3i3Jyf4DMszQg07tIfVBW+3p2nlA
-	dMKoqqwC02rAvFzRnzD/f88bSCEmjx3rRR9XrftMyBuTreLelMfHHwY+89o19reb
-	HjXKkw==
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com [209.85.210.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49wswnr3p1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 18:39:02 +0000 (GMT)
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-780f9cc532bso4384246b3a.0
-        for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 11:39:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760985542; x=1761590342;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fcmR2kO0kprkS+hm2HYcnN1OE+DeFwRjnQPZTNVK23s=;
-        b=U7+UyKLW+AzHwk/WRD3ZKeaooGUMFRtNsJJPRyJYpX9bRZ/hELT9WoErHBL9oqf7yZ
-         texJSYTc+yMsxoaXBiChpNub1jfOhryJ8MYThmUNvMlbcgoiOMg+/IvniQBd5EnidgEC
-         QrmcippNXhlY/PE0h9qPpGSjRLEdr2sZ8rKCu1QT7+TcRiaahaB56xCQQ5S0HaylLQEI
-         pB8ruVCASeqspTIVWJLfuNLxEYAQlfRe+I688Od966HynpTbw0cTRdgc094riKiKw/Zl
-         v42EpLYpqrzBEr8TaRsqAfig0GWJ14t7/NP2er0zu8rCH2GVrTABXHP+NAesLvVZ3p1o
-         LasA==
-X-Forwarded-Encrypted: i=1; AJvYcCX2e4jEE2zPAPuOp3PYnYOJAdX25ZbrMlTeLojhLfNtHxVt2DrUdxBeWzyge+O93domUE3ox5sxYUKPOw==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzbrh20bv8emZxYiWvcubJfXOMOFvvt6h001z0WyWKU7BqyTKxa
-	aWCgqG/Q1WGiSJIzNlDG865TgFM/+cWyZCNkGrJ2UkVifRGqNDS8aYAnPxUDtCajSyY0ULZCKjL
-	58yfK2BgsFuIrud7AKwz66q4GWigmn3oP23s/WKb1+ooIhM2ns9sbJYAmF/kj+ROZfg==
-X-Gm-Gg: ASbGnctxtBoPlx814eisAT8Thfr7TuFXeNR53ClthlS4M2DGRHgRpZ1cV1EPcYq4M4o
-	UPqG9+SqX6Z8toN0raUsy0iXPto1OzObC9TtA3jxlEGceiLv1dUrh3Lh6AnU4rOBksxdEj6p9sW
-	oeNymfkxVl6Pv3cprPywcTuhsMsYrgY/oCCl5pCWA35bJqBQgob5ZVH3+vl/HgqZtL6yf7fyGXY
-	jnmlZyrToupT4YPsm9eyBjesG5wruzgfVJASgcirofG+S18Z9v8f37fYda+9bXYHBZfP/3SaSYq
-	75S/pbeEcqm6yzY366gdGOZ5AmrOVOvLfBZ9gK+oX57i58knNI301DPbK8SdkYK6hbh45UFm9Jt
-	rjPQ936tneuoYvhntXBStqnxFlt+l5UHI3o9NuQPGT/IZl1CfGne91A==
-X-Received: by 2002:a05:6a00:1ad1:b0:783:44b9:cbc9 with SMTP id d2e1a72fcca58-7a210f59a7dmr21228049b3a.9.1760985541778;
-        Mon, 20 Oct 2025 11:39:01 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGd531l029AZFQSWcfW9dfoCX2M4tkX+bVgsI6Qgj1PP+Mt6uKXHJbY5qWihEk2UM8XaRvFog==
-X-Received: by 2002:a05:6a00:1ad1:b0:783:44b9:cbc9 with SMTP id d2e1a72fcca58-7a210f59a7dmr21228013b3a.9.1760985541129;
-        Mon, 20 Oct 2025 11:39:01 -0700 (PDT)
-Received: from [10.62.37.19] (i-global254.qualcomm.com. [199.106.103.254])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a22ff1599dsm9006920b3a.4.2025.10.20.11.38.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 20 Oct 2025 11:39:00 -0700 (PDT)
-Message-ID: <9d6b7e9d-1656-408d-ae8b-4b3dc95ba905@oss.qualcomm.com>
-Date: Mon, 20 Oct 2025 11:38:58 -0700
+	s=arc-20240116; t=1760985686; c=relaxed/simple;
+	bh=hZJILtLteSj2LepuA0aJL6fLxq6as3qlJoh2rFNSNdk=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=NPT8KOi26obzi/RkLK2H1j72CRJxU8D95hZQl0pz8IrRfIcScEXOVx6QSEYIJsDvbW4Tv466SixH2hFYb7Nl3GatyoY0GRz5ynyK01ITTQ6OgXzHLk0Pf6VPjqAlYIOGbrGQyY0pwQphBAuINkfcliCJ2vjDKZ2D55sFWATmWVg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=TigGdDv5; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1760985681;
+	bh=hZJILtLteSj2LepuA0aJL6fLxq6as3qlJoh2rFNSNdk=;
+	h=Subject:From:To:Cc:Date:In-Reply-To:References:From;
+	b=TigGdDv5uIgv0Cp8Hftxt+zbovjBpqStpxJD59gDL4pi0UaKcv+mx5TJBfOU5WqG/
+	 sKli5Ocek7Y7kwSdP3xIiIiz2sbW4IXhVlllUlA64yoEFxplfFTvAy5+NE199d++D1
+	 IMDYf/7/JBcKBqKMmrhWZJszq1GBdtOQaSYnupP3f6KBpiJudllSI1MSnD9nO5Hsxk
+	 OzAHawHg+plRJdtm7ytX5AqLFPsJgqeE32I7Cx/HLhyKYvm65DaDm/uIKy1Rrli6e5
+	 Yz+J2gBBg0Tjl9PvKPDmTVsjjxSVUVwD2PM8CQ43qYayVDc/MHCBJqLTgMJ7p+RkKS
+	 2TT1BtNau4QfA==
+Received: from [IPv6:2606:6d00:17:ebd3::c41] (unknown [IPv6:2606:6d00:17:ebd3::c41])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nicolas)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id E726817E1278;
+	Mon, 20 Oct 2025 20:41:20 +0200 (CEST)
+Message-ID: <351e25ea533c440e3fa5131fe44796f66bc4ff82.camel@collabora.com>
+Subject: Re: [PATCH] media: chips-media: wave5: Fix Hang in Encoder
+From: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+To: Brandon Brnich <b-brnich@ti.com>, Nas Chung <nas.chung@chipsnmedia.com>,
+  Jackson Lee <jackson.lee@chipsnmedia.com>, Mauro Carvalho Chehab
+ <mchehab@kernel.org>, 	linux-media@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Cc: Darren Etheridge <detheridge@ti.com>
+Date: Mon, 20 Oct 2025 14:41:18 -0400
+In-Reply-To: <20251020173332.2271145-1-b-brnich@ti.com>
+References: <20251020173332.2271145-1-b-brnich@ti.com>
+Autocrypt: addr=nicolas.dufresne@collabora.com; prefer-encrypt=mutual;
+ keydata=mDMEaCN2ixYJKwYBBAHaRw8BAQdAM0EHepTful3JOIzcPv6ekHOenE1u0vDG1gdHFrChD
+ /e0J05pY29sYXMgRHVmcmVzbmUgPG5pY29sYXNAbmR1ZnJlc25lLmNhPoicBBMWCgBEAhsDBQsJCA
+ cCAiICBhUKCQgLAgQWAgMBAh4HAheABQkJZfd1FiEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrjo
+ CGQEACgkQ2UGUUSlgcvQlQwD/RjpU1SZYcKG6pnfnQ8ivgtTkGDRUJ8gP3fK7+XUjRNIA/iXfhXMN
+ abIWxO2oCXKf3TdD7aQ4070KO6zSxIcxgNQFtDFOaWNvbGFzIER1ZnJlc25lIDxuaWNvbGFzLmR1Z
+ nJlc25lQGNvbGxhYm9yYS5jb20+iJkEExYKAEECGwMFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4
+ AWIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaCyyxgUJCWX3dQAKCRDZQZRRKWBy9ARJAP96pFmLffZ
+ smBUpkyVBfFAf+zq6BJt769R0al3kHvUKdgD9G7KAHuioxD2v6SX7idpIazjzx8b8rfzwTWyOQWHC
+ AAS0LU5pY29sYXMgRHVmcmVzbmUgPG5pY29sYXMuZHVmcmVzbmVAZ21haWwuY29tPoiZBBMWCgBBF
+ iEE7w1SgRXEw8IaBG8S2UGUUSlgcvQFAmibrGYCGwMFCQll93UFCwkIBwICIgIGFQoJCAsCBBYCAw
+ ECHgcCF4AACgkQ2UGUUSlgcvRObgD/YnQjfi4+L8f4fI7p1pPMTwRTcaRdy6aqkKEmKsCArzQBAK8
+ bRLv9QjuqsE6oQZra/RB4widZPvphs78H0P6NmpIJ
+Organization: Collabora Canada
+Content-Type: multipart/signed; micalg="pgp-sha512";
+	protocol="application/pgp-signature"; boundary="=-dC5SmXZi2xGvk8PfdOmS"
+User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] dt-bindings: i2c: qcom-cci: Document Kaanapali
- compatible
-To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Robert Foss
- <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, aiqun.yu@oss.qualcomm.com,
-        tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
-        yijie.yang@oss.qualcomm.com,
-        Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
-        Atiya Kailany <atiya.kailany@oss.qualcomm.com>
-References: <20251014-add-support-for-camss-on-kaanapali-v2-0-f5745ba2dff9@oss.qualcomm.com>
- <20251014-add-support-for-camss-on-kaanapali-v2-1-f5745ba2dff9@oss.qualcomm.com>
- <e2c43a8c-a9cc-46a1-9ddd-5d6dfc7e917b@linaro.org>
- <49eaf7ec-ac71-4bf3-9a4e-25fa633d815e@oss.qualcomm.com>
- <abc9d825-1e98-4838-9e9c-ca18ba191e11@oss.qualcomm.com>
- <22d47da0-4912-4880-8a42-f6d4e61e094c@oss.qualcomm.com>
-Content-Language: en-US
-From: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>
-In-Reply-To: <22d47da0-4912-4880-8a42-f6d4e61e094c@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 3WsMM5Uf9m5KI4JG72UwZ8A5_kXyBW_m
-X-Authority-Analysis: v=2.4 cv=Maxhep/f c=1 sm=1 tr=0 ts=68f681c6 cx=c_pps
- a=m5Vt/hrsBiPMCU0y4gIsQw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=xzpADP0L3AAWVpYwfikA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=IoOABgeZipijB_acs4fv:22
-X-Proofpoint-ORIG-GUID: 3WsMM5Uf9m5KI4JG72UwZ8A5_kXyBW_m
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDIwMDE0OCBTYWx0ZWRfX6wYxysoNclM9
- +30+9+YKTjdUGdz9/kwX6QJq12/Ysx6i5vmc72AYEdK3fgcCk1GDMi2yU/cvY2A3HS/IpNF/tnG
- GEYlCFfDow7m3ai8A9PrlcAzBgp+SMk9RwJkrbBNYG0L6R2+2h772t5jfvzkcEp8nyEUI087jD7
- in6rClij+qWM+lr3RQgLXGvvsHwYI0aUtJ6CrXjzM1zIYJ0v9inod8GsqRmD0L/LqjvzwfdW2X2
- Mp7uuZyb6/ll7bGdcIx1P32JeXUEvnO8xzUw+WrgLDk42ZKTkgfnUMm5NPxP5ZLmIOBZC2DSqqZ
- uoCWs6wMsP9cKb9KlLEESspQmSDrc4B/aHleT6ZIRjlmB+yRmdKagAIO8QNYjRPLqoSojQekCfC
- Z2ymDdTG+6CZ/ULs23KkgoAaZIt2Ag==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-20_05,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 adultscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
- suspectscore=0 impostorscore=0 clxscore=1015 malwarescore=0 bulkscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510200148
 
 
-On 10/19/2025 9:13 PM, Hangxiang Ma wrote:
-> On 10/16/2025 3:56 PM, Konrad Dybcio wrote:
->> On 10/16/25 3:56 AM, Hangxiang Ma wrote:
->>> On 10/16/2025 3:30 AM, Vladimir Zapolskiy wrote:
->>>
->>>> On 10/15/25 05:56, Hangxiang Ma wrote:
->>>>> Add Kaanapali compatible consistent with CAMSS CCI interfaces. The 
->>>>> list
->>>>> of clocks for Kaanapali requires its own compat string 'cam_top_ahb',
->>>>> aggregated into 'qcom,qcm2290-cci' node.
->>>>>
->>>>> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
->>>>> ---
->>>>>    Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml | 6 +++++-
->>>>>    1 file changed, 5 insertions(+), 1 deletion(-)
->>>>>
->>>>> diff --git 
->>>>> a/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml 
->>>>> b/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
->>>>> index 9bc99d736343..0140c423f6f4 100644
->>>>> --- a/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
->>>>> +++ b/Documentation/devicetree/bindings/i2c/qcom,i2c-cci.yaml
->>>>> @@ -25,6 +25,7 @@ properties:
->>>>>          - items:
->>>>>              - enum:
->>>>> +              - qcom,kaanapali-cci
->>>>>                  - qcom,qcm2290-cci
->>>>>                  - qcom,sa8775p-cci
->>>>>                  - qcom,sc7280-cci
->>>>> @@ -128,6 +129,7 @@ allOf:
->>>>>            compatible:
->>>>>              contains:
->>>>>                enum:
->>>>> +              - qcom,kaanapali-cci
->>>>>                  - qcom,qcm2290-cci
->>>>>        then:
->>>>>          properties:
->>>>> @@ -136,7 +138,9 @@ allOf:
->>>>>              maxItems: 2
->>>>>            clock-names:
->>>>>              items:
->>>>> -            - const: ahb
->>>>> +            - enum:
->>>>> +                - ahb
->>>>> +                - cam_top_ahb
->>>>
->>>> Why is not to give the clock "ahb" name like on QCM2290?
->>>>
->>>> On QCM2290 the macro in front of the vlaue is GCC_CAMSS_TOP_AHB_CLK,
->>>> and name "ahb" is good for both, I believe.
->>>>
->>>>>                - const: cci
->>>>>      - if:
->>>>>
->>>>
->>>
->>> On Kaanapali the macro has been changed to CAM_CC_CAM_TOP_AHB_CLK. 
->>> GCC clock domain doesn't manage the AHB clock but CAMCC does. I 
->>> think it's better to create a new and more complete clock name to 
->>> denote the differences between them.
->>
->> Are there any other "AHB" clocks going to this block?
->>
->> If not, then this is more confusing instead
->>
->> Konrad
->
-> On 10/16/2025 6:40 PM, Krzysztof Kozlowski wrote:
->> On 16/10/2025 03:56, Hangxiang Ma wrote:
->>>>
->>>> On QCM2290 the macro in front of the vlaue is GCC_CAMSS_TOP_AHB_CLK,
->>>> and name "ahb" is good for both, I believe.
->>>>
->>>>>                - const: cci
->>>>>      - if:
->>>>>
->>>>
->>>
->>> On Kaanapali the macro has been changed to CAM_CC_CAM_TOP_AHB_CLK. GCC
->>
->>
->> It seems you do not see the difference between GCC output clock and
->> actual clock input so some other block.
->>
->>
->>
->> Best regards,
->> Krzysztof
->
-> No more clocks will be added, at least for KNP. And I acknowledge the 
-> substance of AHB clock doesn't change. I will update and keep AHB 
-> clock name the same as QCM2290. Thanks for both of you. @Konrad 
-> @Krzysztof
->
+--=-dC5SmXZi2xGvk8PfdOmS
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Brandon,
+
+
+Le lundi 20 octobre 2025 =C3=A0 12:33 -0500, Brandon Brnich a =C3=A9crit=C2=
+=A0:
+> Wave5 encoder driver only changed states to PIC_RUN in start streaming by
+> making the assumption that VIDIOC STREAMON call has already been called.
+> In frameworks like FFMPEG, this condition has not been met when in the
+> start streaming function resulting in the application hanging. Therefore,
+> job_ready and device_run need to be extended to have support for this cas=
+e.
+
+I'm afraid you will have to rework that commit message in V2, I could not m=
+ake
+much sense out of it. See comments below, but by spliting your patch, it mi=
+ght
+get easier to explain what you are trying to fix.
+
+>=20
+> Signed-off-by: Brandon Brnich <b-brnich@ti.com>
 > ---
-> Hangxiang
-There are several AHB clocks into the Titan subsystem, TOP AHB, core 
-(TFE, OFE, IPE, IFE Lit etc.)level AHBs and fast and / or slow AHB 
-variants of some of those, AHBs to the firmwares etc. It should be 
-similar for any architecture, if I am not wrong. So should we consider 
-using "cam_top_ahb" for it to be clear commonly for both Kaanapali and 
-2290? Thanks.
->
->
+> =C2=A0.../chips-media/wave5/wave5-vpu-enc.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 | 74 +++++++++++++------
+> =C2=A01 file changed, 51 insertions(+), 23 deletions(-)
+>=20
+> diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/d=
+rivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> index a02853d42d61..3a3b585ceb8e 100644
+> --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
+> @@ -705,6 +705,11 @@ static int wave5_vpu_enc_encoder_cmd(struct file *fi=
+le, void *fh, struct v4l2_en
+> =C2=A0
+> =C2=A0		m2m_ctx->last_src_buf =3D v4l2_m2m_last_src_buf(m2m_ctx);
+> =C2=A0		m2m_ctx->is_draining =3D true;
+> +
+> +		if (v4l2_m2m_num_dst_bufs_ready(m2m_ctx) > 0) {
+
+Its job_ready callback and framework task to check this, I think you can go
+directly to try to schedule.
+
+> +			dev_dbg(inst->dev->dev, "Forcing job run for draining\n");
+> +			v4l2_m2m_try_schedule(m2m_ctx);
+
+This is fair, and the decoder does the same. Though, it has nothing to do w=
+ith
+the transition from OPEN -> SEQ_INIT -> PIC_RUN. Do this in its own commit =
+with
+its own explanation.
+
+> +		}
+> =C2=A0		break;
+> =C2=A0	case V4L2_ENC_CMD_START:
+> =C2=A0		break;
+> @@ -1411,6 +1416,34 @@ static int prepare_fb(struct vpu_instance *inst)
+> =C2=A0	return ret;
+> =C2=A0}
+> =C2=A0
+> +static int wave5_vpu_enc_prepare_cap_seq(struct vpu_instance *inst)
+> +{
+
+Factor-out in its own commit, with a message this is preparation work and w=
+ith
+no function changes. Its really hard to review code that moves around and m=
+ay
+have changes in it.
+
+> +	int ret =3D 0;
+> +
+> +	ret =3D initialize_sequence(inst);
+> +	if (ret) {
+> +		dev_warn(inst->dev->dev, "Sequence not found: %d\n", ret);
+> +		return ret;
+> +	}
+> +	ret =3D switch_state(inst, VPU_INST_STATE_INIT_SEQ);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/*
+> +	 * The sequence must be analyzed first to calculate the proper
+> +	 * size of the auxiliary buffers.
+> +	 */
+> +	ret =3D prepare_fb(inst);
+> +	if (ret) {
+> +		dev_warn(inst->dev->dev, "Framebuffer preparation, fail: %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	ret =3D switch_state(inst, VPU_INST_STATE_PIC_RUN);
+> +
+> +	return ret;
+> +}
+> +
+> =C2=A0static int wave5_vpu_enc_start_streaming(struct vb2_queue *q, unsig=
+ned int count)
+> =C2=A0{
+> =C2=A0	struct vpu_instance *inst =3D vb2_get_drv_priv(q);
+> @@ -1453,27 +1486,8 @@ static int wave5_vpu_enc_start_streaming(struct vb=
+2_queue *q, unsigned int count
+> =C2=A0		if (ret)
+> =C2=A0			goto return_buffers;
+> =C2=A0	}
+> -	if (inst->state =3D=3D VPU_INST_STATE_OPEN && m2m_ctx->cap_q_ctx.q.stre=
+aming) {
+> -		ret =3D initialize_sequence(inst);
+> -		if (ret) {
+> -			dev_warn(inst->dev->dev, "Sequence not found: %d\n", ret);
+> -			goto return_buffers;
+> -		}
+> -		ret =3D switch_state(inst, VPU_INST_STATE_INIT_SEQ);
+> -		if (ret)
+> -			goto return_buffers;
+> -		/*
+> -		 * The sequence must be analyzed first to calculate the proper
+> -		 * size of the auxiliary buffers.
+> -		 */
+> -		ret =3D prepare_fb(inst);
+> -		if (ret) {
+> -			dev_warn(inst->dev->dev, "Framebuffer preparation, fail: %d\n", ret);
+> -			goto return_buffers;
+> -		}
+> -
+> -		ret =3D switch_state(inst, VPU_INST_STATE_PIC_RUN);
+> -	}
+> +	if (inst->state =3D=3D VPU_INST_STATE_OPEN && m2m_ctx->cap_q_ctx.q.stre=
+aming)
+> +		ret =3D wave5_vpu_enc_prepare_cap_seq(inst);
+> =C2=A0	if (ret)
+> =C2=A0		goto return_buffers;
+> =C2=A0
+> @@ -1598,6 +1612,14 @@ static void wave5_vpu_enc_device_run(void *priv)
+> =C2=A0
+> =C2=A0	pm_runtime_resume_and_get(inst->dev->dev);
+> =C2=A0	switch (inst->state) {
+> +	case VPU_INST_STATE_OPEN:
+> +		ret =3D wave5_vpu_enc_prepare_cap_seq(inst);
+> +		if (ret) {
+> +			dev_warn(inst->dev->dev, "Framebuffer preparation, fail: %d\n", ret);
+> +			switch_state(inst, VPU_INST_STATE_STOP);
+> +			break;
+> +		}
+> +		fallthrough;
+> =C2=A0	case VPU_INST_STATE_PIC_RUN:
+> =C2=A0		ret =3D start_encode(inst, &fail_res);
+> =C2=A0		if (ret) {
+> @@ -1633,6 +1655,12 @@ static int wave5_vpu_enc_job_ready(void *priv)
+> =C2=A0	case VPU_INST_STATE_NONE:
+> =C2=A0		dev_dbg(inst->dev->dev, "Encoder must be open to start queueing M=
+2M jobs!\n");
+> =C2=A0		return false;
+> +	case VPU_INST_STATE_OPEN:
+> +		if (wave5_vpu_both_queues_are_streaming(inst)) {
+> +			dev_dbg(inst->dev->dev, "Both queues have been turned on now, M2M job=
+ can occur\n");
+> +			return true;
+> +		}
+> +		return false;
+> =C2=A0	case VPU_INST_STATE_PIC_RUN:
+> =C2=A0		if (m2m_ctx->is_draining || v4l2_m2m_num_src_bufs_ready(m2m_ctx))=
+ {
+> =C2=A0			dev_dbg(inst->dev->dev, "Encoder ready for a job, state: %s\n",
+> @@ -1642,9 +1670,9 @@ static int wave5_vpu_enc_job_ready(void *priv)
+> =C2=A0		fallthrough;
+> =C2=A0	default:
+> =C2=A0		dev_dbg(inst->dev->dev,
+> -			"Encoder not ready for a job, state: %s, %s draining, %d src bufs rea=
+dy\n",
+> +			"Encoder not ready for a job, state: %s, %s draining, %d src bufs rea=
+dy, %d dst bufs ready\n",
+> =C2=A0			state_to_str(inst->state), m2m_ctx->is_draining ? "is" : "is not=
+",
+> -			v4l2_m2m_num_src_bufs_ready(m2m_ctx));
+> +			v4l2_m2m_num_src_bufs_ready(m2m_ctx), v4l2_m2m_num_dst_bufs_ready(m2m=
+_ctx));
+> =C2=A0		break;
+> =C2=A0	}
+> =C2=A0	return false;
+
+Perhaps its going to be clear with proper commit message, but I'm still not
+clear how you can endup with both queues streaming without two calls to
+wave5_vpu_enc_start_streaming(). I don't deny the condition might be broken
+then, but the intent is for this code to bring the driver to PIC_RUN on the
+second call.
+
+=46rom VPU_INST_STATE_NONE:
+
+Case 1:
+   STREAMON(CAP)
+   	- bring it to OPEN state
+   STREAMON(OUT)
+   	- Initialize the sequence and prepare the FB
+   	- Leaving with PIC_RUN state
+
+
+Case 2:
+   STREAMON(OUT)
+   	- no-op
+   STREAMON(CAP)
+   	- To OPEN
+   	- To INIT_SEQ
+   	- To PIC_RUN
+  =20
+
+So in case 2, the code fails this condition:
+
+	if (inst->state =3D=3D VPU_INST_STATE_OPEN && m2m_ctx->cap_q_ctx.q.streami=
+ng) {
+
+
+Basically type =3D=3D CAP, and vb2 won't be setting the .streaming state be=
+fore this
+function returns. A possible solution would be:
+
+	if (inst->state =3D=3D VPU_INST_STATE_OPEN &&
+	    (m2m_ctx->cap_q_ctx.q.streaming || type =3D=3D V4L2_BUF_TYPE_VIDEO_CAP=
+TURE_MPLANE)) {
+
+cheers,
+Nicolas
+
+--=-dC5SmXZi2xGvk8PfdOmS
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: This is a digitally signed message part
+Content-Transfer-Encoding: 7bit
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaPaCTgAKCRDZQZRRKWBy
+9BHtAP9wT6pGfGQmbY9ahgneq9FbK3McmyJAS5GoT47mauO2fAEA3P6WiOBPSjWU
+3twsNYiTWc9kFvrNgVLjzwwBYolwQQ0=
+=Pxcs
+-----END PGP SIGNATURE-----
+
+--=-dC5SmXZi2xGvk8PfdOmS--
 
