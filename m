@@ -1,138 +1,285 @@
-Return-Path: <linux-media+bounces-45046-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45047-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id D241FBF1B6F
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 16:05:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id AC239BF1E52
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 16:43:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D5FD54F6D82
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 14:02:44 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 506E318A7C6E
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 14:43:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0BEE22FE06D;
-	Mon, 20 Oct 2025 14:02:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3135A22A7E0;
+	Mon, 20 Oct 2025 14:42:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="H81aqAeA"
+	dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b="s2HNL6C0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f177.google.com (mail-lj1-f177.google.com [209.85.208.177])
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9D401D5170
-	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 14:02:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25250227E95
+	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 14:42:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760968959; cv=none; b=owcLgGSs6IiWQizDXBjmuOHHis8o/cammIelJq1Fg6HcZEKnxWbYoaOJushCWhrMDnLzQrR5g9pd48o1tp6/yH6K9MPJcyzJ+0a5L3GAc+Ma3tFb00sbZjt6CqMcgFGmkLmgcXrP+XCjQUluSfI7wVjRRn6CxueYFl1aXXKBJRQ=
+	t=1760971357; cv=none; b=cQuZLa1nExhuYV7iL2us0ixmm9ptLcJbZVx8+n4xAooIJgx0lHDks1jCdTDXYpq9z2RDePICcIfuAKJ/Cw3HDDa4JPQLizsAr3xKaCYpdSXSaNc62PIskt/t/YQ1DmvwcPuH61skxBHNiMu2/YesD/yO+6Veuav3Qp0bQ9ZJZl4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760968959; c=relaxed/simple;
-	bh=IYen4mKaE/kpKiZVRAkWmTZYn1urfQk7brDzCsv319k=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Qc+QSVpleYz7tf59vBSPEdhErrmy0u//FPFzOJ/tT6ro8jIXXIrlXSQjQEGNs2BaB6FnzaZ+s/7A3bWC+y3j+E7lup+4UA8TdRVZTeZNTCPTUoQrY4EQKRCdURJtPumtEI18ae8ji8IJPqQFJdHFUsSgUf4STQa96x5MS/8WhUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=H81aqAeA; arc=none smtp.client-ip=209.85.208.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f177.google.com with SMTP id 38308e7fff4ca-3628a233510so6367781fa.3
-        for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 07:02:36 -0700 (PDT)
+	s=arc-20240116; t=1760971357; c=relaxed/simple;
+	bh=gg0F6uv1jeMF1qGBpzoPJcGtYmwODKN40aKnEkcpuzQ=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QecKTRnMVyxJp9VKghxpQRBvDdOyF2Ia7Qfj5SM30lUQ3dg0zu7hB7R33D0ZUc8PXicl87SaBt2xV0TQPd/aC7bFZU5PDbuEmf2yuwZ0tRnqWkCSQNcTySe0D3Wf+zTUVrRBih3H9TG1SOmjAsp7wK33Tbm8OY2Le4MuTVqo48Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com; spf=pass smtp.mailfrom=raspberrypi.com; dkim=pass (2048-bit key) header.d=raspberrypi.com header.i=@raspberrypi.com header.b=s2HNL6C0; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=raspberrypi.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=raspberrypi.com
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-87c1f3f4373so88707916d6.2
+        for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 07:42:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1760968955; x=1761573755; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=gJp2fBpcjCusutwlkqxT9oQcDrmYwLlKVvwo/QslnqE=;
-        b=H81aqAeAfinwSthPoonv2Sh07WUvAm0Rxlfpzf8pKBiKjYEoQlRw8Hete9721uSY8I
-         4T8QufPmQIeifh3YN7g7kmk+bd3ujHC2S8T0dOll42413B/qCChdiNEPJDqaQznmAA5Z
-         TuU/tGo4Vv1i4DHYrXv9cqjgCX8ybx7ZBatE/59kDi4M4UwYU/VfwynWHvG0/OQQ9ii7
-         UHDVQqO8QtuCXM+Y9H3KYf3HjPMXaZp7jATwPShOb/EvowowZq27r/by4MbeMzzf/nWh
-         VtaoGEkBFOQwvWcK8hvVloV154Aa8Kyv/6+Dat7NURvizgEvpbFiCHOGpYgtsseNKl3k
-         AU9g==
+        d=raspberrypi.com; s=google; t=1760971354; x=1761576154; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=kc7bkmSvhcp803J5T0JiNLXVvrL8DfJHEYv7Isk6irg=;
+        b=s2HNL6C0+gyXz6Op1KQ2DomkxRg7aeDeI0rRe0gvROij+EfzTuHENHwCJXjUiTQCKu
+         AEJ6SBW7p2aKa2aTMex/J8xe9cBUyv6XI/nAZm1orbBB6KCXpMFZhSWpoVp+SXG0iZua
+         GtxSYOwHkStiXArkrlf/OEq4BBd2HGRt4I4ha+PRn2Ky1oG+yqHL/Y31r8+J0A/5TsPy
+         0pFCWQlZ6WElSfh5/gm16kYy+o31XJwFLImZ6vCIIxEUVDcbDTSSARbbFFg4ITUIe4EB
+         33gWeYa7Uo2N+DtYJl0U3dRg2E2mObNHcHASed5bo+6XiXf39klgxs6Xa+I9n0OZHxDA
+         ZiTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760968955; x=1761573755;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1760971354; x=1761576154;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=gJp2fBpcjCusutwlkqxT9oQcDrmYwLlKVvwo/QslnqE=;
-        b=oNe+nKDksX/JA+RgYUgLTRhlK3CB5pGsT3dsVC2hCQZ7IvJDXvweRqJuIkG1iZl3QX
-         UhxWbdAVE3Y7hOKxnXtDEtib58ZXQywtPaQO8af6dBovulPhAwT+MUOKbtD5GNIjJR7j
-         mZxcX/4UwDxA18m6CQd+aP9SsWmNZ0ARCk+p381YaMn5iShhFeaGJQ3NyJAKVPhjJ9EI
-         HKaHj9rPsFPY9Krr/sFu0ij0AcYujgJw88rHMGv2TO1ZhQ7UxXCGeg38rQpvurgDsfLP
-         Ox6GoG1514K3XXMpxfcsSYklQkmx4TeCU2BbRk7ME0ZAwtcxxB3qaAm57YPWd1aQrYZ2
-         nLhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWtp9Ol4GYaTP1PSgoWaPSykuRldEWa1e2UK41Z9GJlIHxBY4IVziLrAT3pwQNdIFv/GdAXLO6LUQPEw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzV4v4ht1gfiXfD/LzEX8jTnO3Yk7H00SEquWZwwFsYh3JY+urx
-	qApDt8gjytWRPcvp04giIq/g8zlHfO33Jl2Zze6YKEY874bQeoR6oZuxJh988KLIpLc=
-X-Gm-Gg: ASbGncsYq1SH/Am5jR3cK2yMbtyk0gPreI2LHymLtCT9u6/HGQ8nKDY8QHFC3DuYJCR
-	H8uvUxCAJVBxaBzkYMWUmoLKSpGvcq6sda71R6mjLVpsf2ks4MEJ+Tqh/iPV434OiMBCOOhy79v
-	Jurp6/QV3vKEAKAC695K2kf9zsOWreTaAKNhRns8EuKoptXyw9M3WVINbt496ZkmNlqzyJ/WUD2
-	jyD2aSvcuhCFR66XpVUD/G+7v8OmYpwOK+zICG2ctIc3A8SNyR2TI+jbItUAsKn6dWj3up/dXEF
-	RIefttaP8nIc8dQsmB4KzmAgOLrN31FxrvqIsq+DpmsnxGX0O7Y+XjOhYfc95WxjqrThwsmG+JY
-	e+dX5wPEYRvb/Hco9+BFOig8Bkcjh/1LOQgj/DrWo7iSBjpBi6aQJm+vOjT9Pq6EMH7LqwvCP+3
-	rjWzvstYU+BmW/diavTc8VNzLxemLNKznpTbKgdGdWI6Y=
-X-Google-Smtp-Source: AGHT+IFjvGE/DY31KxTNTTPZ0VENUkE1XZO+/yrsdWZupnyulVF2s0a5bxHOzsTH96wXwt3npeo5Xw==
-X-Received: by 2002:a2e:be83:0:b0:337:e43b:655b with SMTP id 38308e7fff4ca-37797767e73mr23794181fa.2.1760968954070;
-        Mon, 20 Oct 2025 07:02:34 -0700 (PDT)
-Received: from thyme.. (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-377a9508d89sm22639131fa.37.2025.10.20.07.02.31
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 20 Oct 2025 07:02:33 -0700 (PDT)
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-To: Robert Foss <rfoss@kernel.org>,
-	Todor Tomov <todor.too@gmail.com>,
-	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	linux-media@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org
-Subject: [PATCH] media: qcom: camss: Do not enable cpas fast ahb clock for SM8550 VFE lite
-Date: Mon, 20 Oct 2025 17:02:27 +0300
-Message-ID: <20251020140227.2264634-1-vladimir.zapolskiy@linaro.org>
-X-Mailer: git-send-email 2.49.0
+        bh=kc7bkmSvhcp803J5T0JiNLXVvrL8DfJHEYv7Isk6irg=;
+        b=nJUV+qzU4z1P+4GWvkQ/ZxYbyhtjMZ5Ue2SWLoXhidKRFOkNUYoKUOD7MHFFEBDRdD
+         alrm7LekpvNvS/BG9u35yhSZyHO7lrsRkHliMfsVaHE57zvEO8gO2v7hoRPFUyhdWMT/
+         PkwbKHWMg++DKgpxgpveIfyE43JhFogruss0dgpl9i8d30yrd+7oKx1o9sTR6QOTQlfT
+         ZkK6r7PDW2P7L4/NX7OFr5Wf5JNbOMeJeRbUokfMFLZPB3RFpb3r7RQoKillrvfNczww
+         kJxSIHTQWssX/dRScf3pkWbSK8urCqsOfonoSiSrgBeSdawcF4JB/sxcFYTUzZabRn+q
+         pK1g==
+X-Forwarded-Encrypted: i=1; AJvYcCUGhCHl7T5/VlECAHr2Uc4MFlx4zYFxuXA6jwd0FVQHDst5F4M5LH8mVxhv6wyMGijWCzOXREPdwhxf4g==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeCERP6I36IwtUCIEE7e8Va+p68NziSrkan9aDDCFeVJYBxnND
+	dqY3U67Dr/vSuTPZn8ObtD8m3dh1DtN4VmBeXykhkzcj17dgnHkCPFpWsnhA+2w32aHszi+Or2a
+	rhyJLPMQjp3FnrxD884rc2gHM9Ti1IPMn4NfAA8jPCw==
+X-Gm-Gg: ASbGncszIuJyzE6nP7kvhGw77z0KgYwNFxNo1w0uo5V+5dO1Az+C2GAzs6IZZGyTHQh
+	0YxVRnmFPWHB0+5qOyHZpj87q0Cr5RfPScmuJG8sS/Fd9pRBu3wWoE9v3+uhAkj/3/hvLP33lnN
+	0mZOQ9EQ4tf6rN/WHyT/cudgvHYHLykf25bzzkOTxG7i2XGt1RLW2hTXifyHC12K+nfUexcZEWg
+	x2d7TcWVxJdn2jEAMgeBxwzCVemDHazmTH6SNdIhFHph3vzaO/MmDx5bvmtT0j+ObigzIsKyFVp
+	STrQjc15RvKdBecdzu3r9sFS7fn0svGo17um0TJ2yUbdYhtPAKMMvNQ45rn2JMehWBH3tXqr1H+
+	b/raothmuXrmd
+X-Google-Smtp-Source: AGHT+IGXRDsjL1B/LvjtexZI5O1GDVXxNLCQ6ZStx0O5Geb772/yObnoN+agtuagMjxZOAP3qNLnixwX1jF0bkryJDc=
+X-Received: by 2002:a05:622a:f:b0:4e8:9a7d:90f8 with SMTP id
+ d75a77b69052e-4e89d335eeemr173875711cf.47.1760971353743; Mon, 20 Oct 2025
+ 07:42:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250825095107.1332313-1-sakari.ailus@linux.intel.com>
+ <20250825095107.1332313-44-sakari.ailus@linux.intel.com> <176009169065.211618.2319574445990293219@localhost>
+In-Reply-To: <176009169065.211618.2319574445990293219@localhost>
+From: David Plowman <david.plowman@raspberrypi.com>
+Date: Mon, 20 Oct 2025 15:42:22 +0100
+X-Gm-Features: AS18NWDRnRIxesa1LJ3KMoPEhfbvIj7oocstMRl7AWBDSvlVp6gZF061_cDg3qQ
+Message-ID: <CAHW6GY+JA_9DZub88RJq4UDC9KgzkQsFO=MtDFBySxhTySXVYQ@mail.gmail.com>
+Subject: Re: [PATCH v11 43/66] media: uapi: Add V4L2_CID_BINNING control for
+ binning configuration
+To: Stefan Klug <stefan.klug@ideasonboard.com>
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, 
+	hans@jjverkuil.nl, laurent.pinchart@ideasonboard.com, 
+	Prabhakar <prabhakar.csengg@gmail.com>, Kate Hsuan <hpa@redhat.com>, 
+	Alexander Shiyan <eagle.alexander923@gmail.com>, 
+	Dave Stevenson <dave.stevenson@raspberrypi.com>, Tommaso Merciai <tomm.merciai@gmail.com>, 
+	Umang Jain <umang.jain@ideasonboard.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>, Julien Massot <julien.massot@collabora.com>, 
+	Naushir Patuck <naush@raspberrypi.com>, "Yan, Dongcheng" <dongcheng.yan@intel.com>, 
+	"Cao, Bingbu" <bingbu.cao@intel.com>, "Qiu, Tian Shu" <tian.shu.qiu@intel.com>, 
+	"Wang, Hongju" <hongju.wang@intel.com>, Mirela Rabulea <mirela.rabulea@nxp.com>, 
+	=?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, 
+	Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>, 
+	Mehdi Djait <mehdi.djait@linux.intel.com>, Ricardo Ribalda Delgado <ribalda@kernel.org>, 
+	Hans de Goede <hdegoede@redhat.com>, Jacopo Mondi <jacopo.mondi@ideasonboard.com>, 
+	Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
 
-The clock is needed to stream images over a full VFE IP on SM8550 CAMSS,
-and it should not be enabled, when an image stream is routed over any of
-two lite VFE IPs on the SoC.
+Hi Sakari, Stefan and everyone!
 
-Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
----
- drivers/media/platform/qcom/camss/camss.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+On Fri, 10 Oct 2025 at 11:21, Stefan Klug <stefan.klug@ideasonboard.com> wrote:
+>
+> Hi Sakari,
+>
+> Quoting Sakari Ailus (2025-08-25 11:50:44)
+> > Add V4L2_CID_BINNING control for configuring binning and enumerating a
+> > camera sensor's binning capabilities. The control combines horizontal and
+> > vertical binning into a single control as the two are generally related.
+> >
+> > New drivers should use this control to configure binning.
+> >
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Reviewed-by: Tomi Valkeinen <tomi.valkeinen@ideasonboard.com>
+> > ---
+> >  .../media/drivers/camera-sensor.rst           | 12 ++++++++
+> >  .../media/v4l/ext-ctrls-camera.rst            | 29 +++++++++++++++++++
+> >  drivers/media/v4l2-core/v4l2-ctrls-defs.c     |  2 ++
+> >  include/uapi/linux/v4l2-controls.h            |  1 +
+> >  4 files changed, 44 insertions(+)
+> >
+> > diff --git a/Documentation/userspace-api/media/drivers/camera-sensor.rst b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > index 39f3f91c6733..ef1f51862980 100644
+> > --- a/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > +++ b/Documentation/userspace-api/media/drivers/camera-sensor.rst
+> > @@ -120,6 +120,18 @@ values programmed by the register sequences. The default values of these
+> >  controls shall be 0 (disabled). Especially these controls shall not be inverted,
+> >  independently of the sensor's mounting rotation.
+> >
+> > +Binning
+> > +-------
+> > +
+> > +Binning has traditionally been configured using :ref:`the compose selection
+> > +rectangle <v4l2-selection-targets-table>`. The :ref:`V4L2_CID_BINNING
+> > +<v4l2-cid-camera-sensor-binning>` is also available for binning configuration and
+> > +users should use it when it's available. Drivers supporting the control shall
+> > +also support the compose rectangle, albeit the rectangle may be read-only when
+> > +the control is present.
+> > +
+> > +Binning isn't affected by flipping.
+> > +
+> >  .. _media_using_camera_sensor_drivers_embedded_data:
+> >
+> >  Embedded data
+> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > index cdc515c60468..18b484ff5d75 100644
+> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-camera.rst
+> > @@ -672,3 +672,32 @@ enum v4l2_scene_mode -
+> >
+> >      As modes differ for each sensor, menu items are not standardized by this
+> >      control and are left to the programmer.
+> > +
+> > +.. _v4l2-cid-camera-sensor-binning:
+> > +
+> > +``V4L2_CID_BINNING_FACTORS (integer menu)``
+> > +
+> > +    Horizontal and vertical binning factors. Binning combines several
+> > +    horizontal, vertical or both pixel values into a single pixel. It is a way
+> > +    to scale an image. Binning typically produces fairly good quality output.
+> > +
+> > +    Determines both horizontal and vertical binning factors for a camera
+> > +    sensor. The values are encoded in the following way:
+> > +
+> > +.. flat-table::
+> > +    :header-rows:  1
+> > +    :stub-columns: 0
+> > +
+> > +    * - Bits
+> > +      - Synopsis
+> > +    * - 48--63
+> > +      - Horizontal binning numerator.
+> > +    * - 32--47
+> > +      - Horizontal binning denominator.
+> > +    * - 16--31
+> > +      - Vertical binning numerator.
+> > +    * - 0--15
+> > +      - Vertical binning denominator.
+>
+> I know I'm late to the game, but I'd like to mention it anyways. I
 
-diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
-index 2fbcd0e343aa..fc838b3d2203 100644
---- a/drivers/media/platform/qcom/camss/camss.c
-+++ b/drivers/media/platform/qcom/camss/camss.c
-@@ -2561,12 +2561,11 @@ static const struct camss_subdev_resources vfe_res_8550[] = {
- 	/* VFE3 lite */
- 	{
- 		.regulators = {},
--		.clock = { "gcc_axi_hf", "cpas_ahb", "cpas_fast_ahb_clk", "vfe_lite_ahb",
-+		.clock = { "gcc_axi_hf", "cpas_ahb", "vfe_lite_ahb",
- 			   "vfe_lite", "cpas_ife_lite", "camnoc_axi" },
- 		.clock_rate = {	{ 0 },
- 				{ 80000000 },
- 				{ 300000000, 400000000 },
--				{ 300000000, 400000000 },
- 				{ 400000000, 480000000 },
- 				{ 300000000, 400000000 },
- 				{ 300000000, 400000000 } },
-@@ -2583,12 +2582,11 @@ static const struct camss_subdev_resources vfe_res_8550[] = {
- 	/* VFE4 lite */
- 	{
- 		.regulators = {},
--		.clock = { "gcc_axi_hf", "cpas_ahb", "cpas_fast_ahb_clk", "vfe_lite_ahb",
-+		.clock = { "gcc_axi_hf", "cpas_ahb", "vfe_lite_ahb",
- 			   "vfe_lite", "cpas_ife_lite", "camnoc_axi" },
- 		.clock_rate = {	{ 0 },
- 				{ 80000000 },
- 				{ 300000000, 400000000 },
--				{ 300000000, 400000000 },
- 				{ 400000000, 480000000 },
- 				{ 300000000, 400000000 },
- 				{ 300000000, 400000000 } },
--- 
-2.49.0
+Even later to the party, for which my apologies!
 
+> expect there will be usecases where we'd like to distinguish between
+> different binning strategies (e.g. summing to increase SNR and
+> weighting). But I believe it will be difficult to actually standardize
+> on specific binning strategies as these are very sensor specific. On the
+> other hand the available strategies will be tied to the binning modes.
+> What about sparing some bits to encode the binning strategy in a sensor
+> specific manner?
+
+I'd like to second the notion that we should give summing/averaging
+some thought. We (Raspberry Pi in this context!) already have user
+space code that tries to guess this information from only obliquely
+related information from the driver. It would clearly be nice to know
+this unambiguously across all sensors.
+
+The case in point is the IMX708 (as found in the Raspberry Pi Camera
+Module 3). Here there are two versions of the "2x2 binning mode".
+
+There is the "summation" mode, in which pixels have 4x the level of
+the full resolution mode, as I think you would expect. This means you
+have to use 1/4 the combined exposure * gain value in the full
+resolution mode to get an equivalently bright image.
+
+Then there's the "averaging" mode. In this mode we get 2x the level of
+the full resolution mode. You might infer that one of the dimensions
+(either horizontal or vertical) always sums, and on the other you have
+a choice - though the datasheet doesn't explicitly confirm that
+anywhere so far as I can see.
+
+A different but related observation is that I have a feeling I've come
+across sensors that may do both averaging and summation in a single
+dimension. So you'd get 1/4 the output width (or height), but 2x the
+pixel level because one factor of two sums, and the other averages.
+Perhaps someone else can confirm whether I'm just imagining that...?
+
+>
+> I don't think we'll ever need more than 1 byte per
+> numerator/denominator. We could even spend 12 bits per value, and would
+> still have 16 bits left for additional information.
+>
+> What do you think?
+
+Likewise, interested to hear other people's thoughts.
+
+Best regards
+
+David
+
+>
+> Best regards,
+> Stefan
+>
+> > +
+> > +For instance, a value of ``0x0001000300020003`` indicates binning by 3
+> > +(horizontally) * 3/2 (vertically).
+> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > index a7ea380de5ee..5e1c28850e87 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+> > @@ -1087,6 +1087,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+> >         case V4L2_CID_CAMERA_ORIENTATION:       return "Camera Orientation";
+> >         case V4L2_CID_CAMERA_SENSOR_ROTATION:   return "Camera Sensor Rotation";
+> >         case V4L2_CID_HDR_SENSOR_MODE:          return "HDR Sensor Mode";
+> > +       case V4L2_CID_BINNING_FACTORS:          return "Binning Factors";
+> >
+> >         /* FM Radio Modulator controls */
+> >         /* Keep the order of the 'case's the same as in v4l2-controls.h! */
+> > @@ -1427,6 +1428,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+> >         case V4L2_CID_HDR_SENSOR_MODE:
+> >                 *type = V4L2_CTRL_TYPE_MENU;
+> >                 break;
+> > +       case V4L2_CID_BINNING_FACTORS:
+> >         case V4L2_CID_LINK_FREQ:
+> >                 *type = V4L2_CTRL_TYPE_INTEGER_MENU;
+> >                 break;
+> > diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> > index e25c9d669687..90f47f4780e5 100644
+> > --- a/include/uapi/linux/v4l2-controls.h
+> > +++ b/include/uapi/linux/v4l2-controls.h
+> > @@ -1101,6 +1101,7 @@ enum v4l2_auto_focus_range {
+> >  #define V4L2_CID_CAMERA_SENSOR_ROTATION                (V4L2_CID_CAMERA_CLASS_BASE+35)
+> >
+> >  #define V4L2_CID_HDR_SENSOR_MODE               (V4L2_CID_CAMERA_CLASS_BASE+36)
+> > +#define V4L2_CID_BINNING_FACTORS               (V4L2_CID_CAMERA_CLASS_BASE+37)
+> >
+> >  /* FM Modulator class control IDs */
+> >
+> > --
+> > 2.47.2
+> >
+> >
+>
 
