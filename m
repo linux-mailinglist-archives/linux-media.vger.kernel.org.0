@@ -1,270 +1,305 @@
-Return-Path: <linux-media+bounces-45008-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45009-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3237BF0140
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 11:03:05 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28ADCBF0331
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 11:36:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F31073A64C5
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 09:02:50 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E168A4F102D
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 09:35:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A40CA2EE5FD;
-	Mon, 20 Oct 2025 09:02:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68B282EACE9;
+	Mon, 20 Oct 2025 09:35:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Sq2ZDYeJ"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HDpT+Neb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8BD042EDD7D;
-	Mon, 20 Oct 2025 09:02:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8401238171
+	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 09:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760950947; cv=none; b=b57FylK214UIxW+6L930AlsGKlO4P2uA/IHQk2qVbG1Fh2nwO8U9NhUtCQgRyCYlKw2OBjOWV++0t1lh1Hm0HtTj9Ur30OcX5PBRATmWQW0qKeagSqY3SpVPpFyBM+yx3NTP/x2/bo4bxd+EYb2uyGm+z5H+2ESuRiWm8FzNJ24=
+	t=1760952913; cv=none; b=jD0xyqCOydcBqbsbjyNn6Dhd2H329IxdsZZyX+ZcGgr97iggSNM7XBecL4koIxB488SxYXYu6Nzz5pDUsfzyxCq9E+HTqUeDg6VdtLLfjhPtkrVjJKNygX3KXzlWX926RUH9jUYqN0exXDhoWrnOwfti++JrefaJFqjiFl0WDlA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760950947; c=relaxed/simple;
-	bh=YgW7RNRwW3S6WCQfv24k0K5SqHiGiIgg9OudwDYb5iA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aZkDgO2MMaCDxLJxoyRkHp5B5H4QjWP9JkLnfnjXRqfSY8vdB3AVr/EK1zghW1LtTsdxXnbTLIrbnWRxqLg0lsmBSgj/eT0zveoxKA1bU2t1kuhb9+7T6v8YBNqVVVH2iLAblmpxyDezFtZ/uG7qlXvuYFH+eia+VOu399qwzdI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Sq2ZDYeJ; arc=none smtp.client-ip=148.251.105.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1760950936;
-	bh=YgW7RNRwW3S6WCQfv24k0K5SqHiGiIgg9OudwDYb5iA=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=Sq2ZDYeJHtu0a0w2PkpJpIiSAucFLbJgMlfcm76ReK44WnIthkxc9/6e3hcjvBnjX
-	 wFD2BUrEpKjgnPrcuSlob6ClrT8xJVtNy0ma9u17UNqlzgTo4P95RsZ4m8fNyJ/dZV
-	 BzTj5CNEG+WF/7RZ6So6VeS29HidWmHYIg1iQ24uGrAD5sLtDFwejy2SQoJ3u5o/sJ
-	 XnvqZQHg9LKc2A1M8ZvU2AGZ5GOidoY0jeaZ6Y1M9/f3+1Kayc22MwY8wDCEl6BoHb
-	 SzmUEqVsVSs6303MQXk/xG/4Kj+cMfNUlMI0pCP5ClqMzRmOMavmOv/Qb62AFt3h0U
-	 q+UiQv1O7oRjQ==
-Received: from [10.40.0.100] (185-67-175-126.lampert.tv [185.67.175.126])
-	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: mriesch)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6457C17E055D;
-	Mon, 20 Oct 2025 11:02:16 +0200 (CEST)
-Message-ID: <f5df8dfd-4bd4-412b-b5e7-a7fba7885c1a@collabora.com>
-Date: Mon, 20 Oct 2025 11:02:15 +0200
+	s=arc-20240116; t=1760952913; c=relaxed/simple;
+	bh=ZlAhWnMzThFErNs6nj61N00dMsX9TgSzAylKsKkopb0=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=u/6PQuQWG4xq8w8GltSw+zqTKryNhHBfDNFcwDZEs45PD35Bgj5p/wqI41oGpH9zC232BqQfoXcolpXyVWpwhPWn/P1OZsPvZYUii44Xl0RRT0ejAiqtJJlI9d8FkSYB+tuiQ6No3xJ0HfCxGI/n3sSg+GhXTZQpUwmOF3kgALI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HDpT+Neb; arc=none smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1760952911; x=1792488911;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=ZlAhWnMzThFErNs6nj61N00dMsX9TgSzAylKsKkopb0=;
+  b=HDpT+NebncV9tYkbD/ACbFf9hJQPgFamp+3IwVWjHj13vZQ7vUAW4AwV
+   TwaszsJtFchBbcT3+KLR2DgwSh+Ml6EpMeHuUDOXkrjvfy8pa3/XThncf
+   2iPPeMx2IM1SFk2Q2XzwqJkGxC9UqqrrouSj9XZBzJR6kHfx5EuoP7n3s
+   BPJqsMLEUvUiAZgRjfi58PLWNy42+5q/6PFttJ5mVTNuEVqhlvflm/dk6
+   /zZP+u8Y8rfHKeb9I7VSbV9srWFTpuHBoq7NmKBadMBAq3C1oi6nQjQpc
+   zgh5ywmPbNNo9XjP1NeeYGqP//iJU8p7nDb+5bGawl7023RHKAm9hTi5L
+   Q==;
+X-CSE-ConnectionGUID: LWjfLzoXSqir6IvOpV//QA==
+X-CSE-MsgGUID: 6LrsZFoqTTqxzO3ueLRAWA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11587"; a="73737598"
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="73737598"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 02:35:10 -0700
+X-CSE-ConnectionGUID: Q4n8AAvzSYWm97MU4u4bdA==
+X-CSE-MsgGUID: rPbaYQ+ZQTS74dknrzS4JA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,242,1754982000"; 
+   d="scan'208";a="182475944"
+Received: from fdefranc-mobl3.ger.corp.intel.com (HELO [10.245.245.4]) ([10.245.245.4])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 02:35:07 -0700
+Message-ID: <9d32258381ef46807e599e8e85e8ab94244c9a67.camel@linux.intel.com>
+Subject: Re: [RFC 1/8] dma-buf: Add support for map/unmap APIs for
+ interconnects
+From: Thomas =?ISO-8859-1?Q?Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>
+To: Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+	dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Cc: Jason Gunthorpe <jgg@nvidia.com>, Christian Koenig
+	 <christian.koenig@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>, Simona
+ Vetter <simona.vetter@ffwll.ch>
+Date: Mon, 20 Oct 2025 11:34:52 +0200
+In-Reply-To: <20251014071243.811884-2-vivek.kasireddy@intel.com>
+References: <20251014071243.811884-1-vivek.kasireddy@intel.com>
+	 <20251014071243.811884-2-vivek.kasireddy@intel.com>
+Organization: Intel Sweden AB, Registration Number: 556189-6027
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-2.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 4/8] media: Documentation: uapi: Add V4L2 ISP
- documentation
-To: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-Cc: Dafna Hirschfeld <dafna@fastmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Keke Li <keke.li@amlogic.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- Heiko Stuebner <heiko@sntech.de>, Dan Scally <dan.scally@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- Antoine Bouyer <antoine.bouyer@nxp.com>, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org
-References: <20251014-extensible-parameters-validation-v7-0-6628bed5ca98@ideasonboard.com>
- <20251014-extensible-parameters-validation-v7-4-6628bed5ca98@ideasonboard.com>
- <e82e7c1d-b4ac-49a0-9b76-d101395c7040@collabora.com>
- <bprg66hg3xoetosl7dwt2rcs6mpcksfalymmyidla6qvdrnm7u@fpn6237j25ir>
-Content-Language: en-US
-From: Michael Riesch <michael.riesch@collabora.com>
-In-Reply-To: <bprg66hg3xoetosl7dwt2rcs6mpcksfalymmyidla6qvdrnm7u@fpn6237j25ir>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
 
-Hi Jacopo,
+Hi, Vivek,
 
-On 10/20/25 10:09, Jacopo Mondi wrote:
-> Hi Michael
-> 
->   thanks for review. I took all comments in but..
+On Tue, 2025-10-14 at 00:08 -0700, Vivek Kasireddy wrote:
+> For the map operation, the dma-buf core will create an xarray but
+> the exporter is expected to populate it with the interconnect
+> specific addresses. And, similarly for unmap, the exporter is
+> expected to cleanup the individual entries of the xarray.
+>=20
+> Cc: Jason Gunthorpe <jgg@nvidia.com>
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Thomas Hellstr=C3=B6m <thomas.hellstrom@linux.intel.com>
+> Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> ---
+> =C2=A0drivers/dma-buf/dma-buf.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0 | 68
+> ++++++++++++++++++++++++++++
+> =C2=A0include/linux/dma-buf-interconnect.h | 29 ++++++++++++
+> =C2=A0include/linux/dma-buf.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 11 +++++
+> =C2=A03 files changed, 108 insertions(+)
+> =C2=A0create mode 100644 include/linux/dma-buf-interconnect.h
+>=20
+> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> index 2bcf9ceca997..162642bd53e8 100644
+> --- a/drivers/dma-buf/dma-buf.c
+> +++ b/drivers/dma-buf/dma-buf.c
+> @@ -1612,6 +1612,74 @@ void dma_buf_vunmap_unlocked(struct dma_buf
+> *dmabuf, struct iosys_map *map)
+> =C2=A0}
+> =C2=A0EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, "DMA_BUF");
+> =C2=A0
+> +struct dma_buf_ranges *
+> +dma_buf_map_interconnect(struct dma_buf_attachment *attach)
 
-Cool, thanks!
+Even if this is an RFC, please add kerneldoc so that the way the
+interface is intended to be used becomes completely clear. Both for
+functions and structs.
 
-> 
-> 
-> On Tue, Oct 14, 2025 at 11:23:29AM +0200, Michael Riesch wrote:
->> Hi Jacopo,
->>
->> Thanks for your efforts!
->>
->> On 10/14/25 10:00, Jacopo Mondi wrote:
->>> [...]
->>> +
->>> +The uAPI/ABI problem
->>> +--------------------
->>> +
->>> +By upstreaming the metadata formats that describe the parameters and statistics
->>> +buffers layout, driver developers make them part of the Linux kernel ABI. As it
->>> +sometimes happens for most peripherals in Linux, ISP drivers development is
->>> +often an iterative process, where sometimes not all the hardware features are
->>> +supported in the first version that lands in the kernel, and some parts of the
->>> +interface have to later be modified for bug-fixes or improvements.
->>
->> Suggestion:
->>
->> As for most peripherals, ISP driver development in Linux is often an
->> iterative process, in which not all of the hardware features are
->> supported in the first version. The support for them and/or bug fixes
->> may land in the kernel at a later stage.
->>
->>> +
->>> +If any later bug-fix/improvement requires changes to the metadata formats,
->>
->> s/bug-fix/bug fix
->>
->>> +this is considered an ABI-breakage that is strictly forbidden by the Linux
->>
->> s/ABI-breakage/ABI breakage
->>
->>> +kernel policies. For this reason, any change in the ISP parameters and
->>> +statistics buffer layout would require defining a new metadata format.
->>> +
->>> +For these reasons Video4Linux2 has introduced support for generic ISP parameters
->>> +and statistics data types, designed with the goal of being:
->>> +
->>> +- Extensible: new features can be added later on without breaking the existing
->>> +  interface
->>> +- Versioned: different versions of the format can be defined without
->>> +  breaking the existing interface
->>> +
->>> +ISP configuration
->>> +=================
->>> +
->>> +Before the introduction of generic formats
->>> +------------------------------------------
->>> +
->>> +Metadata cature formats that describe ISP configuration parameters were most
->>
->> s/cature/capture
->>
->> s/most the time/"most of the time" or "typically" or "usually" or
->> "normally"?
->>
->>> +the time realized by defining C structures that reflect the ISP registers layout
->>> +and gets populated by userspace before queueing the buffer to the ISP. Each
->>
->> s/gets/get
->>
->>> +C structure usually corresponds to one ISP *processing block*, with each block
->>> +implementing one of the ISP supported features.
->>> +
->>> +The number of supported ISP blocks, the layout of their configuration data are
->>> +fixed by the format definition, incurring the in the above described uAPI/uABI
->>> +problems.
->>
->> incurring the described uAPI/ABI problems described above.
->>
-> 
-> .. this one, for which I think the correct form is
-> 
->  > +The number of supported ISP blocks, the layout of their configuration data are
->  > +fixed by the format definition, incurring in the above described uAPI/uABI
->  > +problem.
 
-Maybe it's just me, but the sentence still does not sound correct to my
-ears. First, you enumerate two items, so they should be joined with
-"and", right? And then I understand that the two items have the
-uAPI/uABI problem as consequence, correct? "to result in" or "to lead
-to" seem to be better choices.
+> +{
+> +	const struct dma_buf_interconnect_ops *ic_ops;
+> +	struct dma_buf *dmabuf =3D attach->dmabuf;
+> +	struct dma_buf_ranges *ranges;
+> +	int ret;
+> +
+> +	might_sleep();
+> +
+> +	if (WARN_ON(!attach || !attach->dmabuf))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	if (!dma_buf_attachment_is_dynamic(attach))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	if (!attach->allow_ic)
+> +		return ERR_PTR(-EOPNOTSUPP);
+> +
+> +	dma_resv_assert_held(attach->dmabuf->resv);
+> +
+> +	ic_ops =3D dmabuf->ops->interconnect_ops;
+> +	if (!ic_ops || !ic_ops->map_interconnect)
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	ranges =3D kzalloc(sizeof(*ranges), GFP_KERNEL);
+> +	if (!ranges)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	xa_init(&ranges->ranges);
+> +	ret =3D ic_ops->map_interconnect(attach, ranges);
+> +	if (ret)
+> +		goto err_free_ranges;
+> +
+> +	return ranges;
+> +
+> +err_free_ranges:
+> +	xa_destroy(&ranges->ranges);
+> +	kfree(ranges);
+> +	return ERR_PTR(ret);
+> +}
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_map_interconnect, "DMA_BUF");
+> +
+> +void dma_buf_unmap_interconnect(struct dma_buf_attachment *attach,
+> +				struct dma_buf_ranges *ranges)
+> +{
+> +	const struct dma_buf_interconnect_ops *ic_ops;
+> +	struct dma_buf *dmabuf =3D attach->dmabuf;
+> +
+> +	if (WARN_ON(!attach || !attach->dmabuf || !ranges))
+> +		return;
+> +
+> +	if (!attach->allow_ic)
+> +		return;
+> +
+> +	ic_ops =3D dmabuf->ops->interconnect_ops;
+> +	if (!ic_ops || !ic_ops->unmap_interconnect)
+> +		return;
+> +
+> +	dma_resv_assert_held(attach->dmabuf->resv);
+> +
+> +	ic_ops->unmap_interconnect(attach, ranges);
+> +
+> +	xa_destroy(&ranges->ranges);
+> +	kfree(ranges);
+> +}
+> +EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_interconnect, "DMA_BUF");
+> +
+> =C2=A0#ifdef CONFIG_DEBUG_FS
+> =C2=A0static int dma_buf_debug_show(struct seq_file *s, void *unused)
+> =C2=A0{
+> diff --git a/include/linux/dma-buf-interconnect.h
+> b/include/linux/dma-buf-interconnect.h
+> new file mode 100644
+> index 000000000000..17504dea9691
+> --- /dev/null
+> +++ b/include/linux/dma-buf-interconnect.h
+> @@ -0,0 +1,29 @@
+> +/* SPDX-License-Identifier: MIT */
+> +
+> +#ifndef __DMA_BUF_INTERCONNECT_H__
+> +#define __DMA_BUF_INTERCONNECT_H__
+> +
+> +#include <linux/xarray.h>
+> +
+> +struct dma_buf_attachment;
+> +
+> +struct dma_buf_ranges {
+> +	struct xarray ranges;
+> +	unsigned int nranges;
 
-That said, don't hesitate to point out things that I misunderstood.
+IIUC this would replace the sg-table right? I guess Jason or Christian
+would need to comment on whether this is generic enough or whether it
+needs to be interconnect-dependent.
 
-Best regards,
-Michael
+> +};
+> +
+> +enum dma_buf_interconnect_type {
+> +	DMA_BUF_INTERCONNECT_NONE =3D 0,
+> +};
 
-> 
-> Thanks
->   j
-> 
->>> +
->>> +Generic ISP parameters
->>> +----------------------
->>> +
->>> +The generic ISP configuration parameters format is realized by a defining a
->>> +single C structure that contains an header, followed by a binary buffer where
->>
->> s/an header/a header
->>
->>> +userspace programs a variable number of ISP configuration data block, one for
->>> +each supported ISP feature.
->>> +
->>> +The :c:type:`v4l2_isp_params_buffer` structure defines the parameters buffer
->>> +header which is followed by a binary buffer of ISP configuration parameters.
->>> +Userspace shall correctly populate the buffer header with the versioning
->>> +information and with the size (in bytes) of the binary data buffer where it will
->>> +store the ISP blocks configuration.
->>> +
->>> +Each *ISP configuration block* is preceded by an header implemented by the
->>> +:c:type:`v4l2_isp_params_block_header` structure, followed by the configuration
->>> +parameters for that specific block, defined by the ISP driver specific data
->>> +types.
->>> +
->>> +Userspace applications are responsible for correctly populating each block's
->>> +header fields (type, flags and size) and the block-specific parameters.
->>> +
->>> +ISP Block enabling, disabling and configuration
->>> +-----------------------------------------------
->>> +
->>> +When userspace wants to configure and enable an ISP block it shall fully
->>> +populate the block configuration and set the V4L2_ISP_PARAMS_FL_BLOCK_ENABLE
->>> +bit in the block header's `flags` field.
->>> +
->>> +When userspace simply wants to disable an ISP block the
->>> +V4L2_ISP_PARAMS_FL_BLOCK_DISABLE bit should be set in block header's `flags`
->>> +field. Drivers accept a configuration parameters block with no additional
->>> +data after the header in this case.
->>> +
->>> +If the configuration of an already active ISP block has to be updated,
->>> +userspace shall fully populate the ISP block parameters and omit setting the
->>> +V4L2_ISP_PARAMS_FL_BLOCK_ENABLE and V4L2_ISP_PARAMS_FL_BLOCK_DISABLE bits in the
->>> +header's `flags` field.
->>> +
->>> +Setting both the V4L2_ISP_PARAMS_FL_BLOCK_ENABLE and
->>> +V4L2_ISP_PARAMS_FL_BLOCK_DISABLE bits in the flags field is not allowed and not
->>> +accepted.
->>> +
->>> +Any further extension to the parameters layout that happens after the ISP driver
->>> +has been merged in Linux can be implemented by adding new blocks definition
->>> +without invalidating the existing ones.
->>> +
->>> +ISP statistics
->>> +==============
->>> +
->>> +Support for generic statistics format is not yet implemented in Video4Linux2.
->>> +
->>> +V4L2 ISP uAPI data types
->>> +========================
->>> +
->>> +.. kernel-doc:: include/uapi/linux/media/v4l2-isp.h
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index e9ac834d212f88222437e8d806800b2516d44f01..340353334299cd5eebf1f72132b7e91b6f5fdbfe 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -26857,6 +26857,7 @@ V4L2 GENERIC ISP PARAMETERS AND STATISTIC FORMATS
->>>  M:	Jacopo Mondi <jacopo.mondi@ideasonboard.com>
->>>  L:	linux-media@vger.kernel.org
->>>  S:	Maintained
->>> +F:	Documentation/userspace-api/media/v4l/v4l2-isp.rst
->>>  F:	include/uapi/linux/media/v4l2-isp.h
->>>
->>>  VF610 NAND DRIVER
->>>
->>
->>
->> With the comments above addressed,
->>
->> Reviewed-by: Michael Riesch <michael.riesch@collabora.com>
->>
->> Thanks and best regards,
->> Michael
->>
->>
+This calls for registering all known interconnects with the dma-buf
+layer even if the interconnects are completely driver-private. I'd
+suggest using a pointer to identify interconnect and whatever entity
+defines the interconnect provides a unique pointer. For globally
+visible interconnects this could be done in dma-buf.c or a dma-buf-
+interconnect.c
+
+> +
+> +struct dma_buf_interconnect {
+> +	enum dma_buf_interconnect_type type;
+> +};
+> +
+> +struct dma_buf_interconnect_ops {
+> +	int (*map_interconnect)(struct dma_buf_attachment *attach,
+> +				struct dma_buf_ranges *ranges);
+> +	void (*unmap_interconnect)(struct dma_buf_attachment
+> *attach,
+> +				=C2=A0=C2=A0 struct dma_buf_ranges *ranges);
+> +};
+> +#endif
+> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> index d58e329ac0e7..db91c67c00d6 100644
+> --- a/include/linux/dma-buf.h
+> +++ b/include/linux/dma-buf.h
+> @@ -23,6 +23,8 @@
+> =C2=A0#include <linux/dma-fence.h>
+> =C2=A0#include <linux/wait.h>
+> =C2=A0
+> +#include <linux/dma-buf-interconnect.h>
+> +
+> =C2=A0struct device;
+> =C2=A0struct dma_buf;
+> =C2=A0struct dma_buf_attachment;
+> @@ -276,6 +278,8 @@ struct dma_buf_ops {
+> =C2=A0
+> =C2=A0	int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+> =C2=A0	void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map
+> *map);
+> +
+> +	const struct dma_buf_interconnect_ops *interconnect_ops;
+> =C2=A0};
+> =C2=A0
+> =C2=A0/**
+> @@ -502,7 +506,9 @@ struct dma_buf_attachment {
+> =C2=A0	struct device *dev;
+> =C2=A0	struct list_head node;
+> =C2=A0	bool peer2peer;
+> +	bool allow_ic;
+> =C2=A0	const struct dma_buf_attach_ops *importer_ops;
+> +	struct dma_buf_interconnect interconnect;
+
+Hmm. Could we have a pointer to the interconnect here? Let's say the
+interconnect implementation would want to subclass with additional
+information?
+
+
+> =C2=A0	void *importer_priv;
+> =C2=A0	void *priv;
+> =C2=A0};
+> @@ -589,6 +595,11 @@ struct sg_table *dma_buf_map_attachment(struct
+> dma_buf_attachment *,
+> =C2=A0					enum dma_data_direction);
+> =C2=A0void dma_buf_unmap_attachment(struct dma_buf_attachment *, struct
+> sg_table *,
+> =C2=A0				enum dma_data_direction);
+> +
+> +struct dma_buf_ranges *dma_buf_map_interconnect(struct
+> dma_buf_attachment *);
+> +void dma_buf_unmap_interconnect(struct dma_buf_attachment *,
+> +				struct dma_buf_ranges *);
+> +
+> =C2=A0void dma_buf_move_notify(struct dma_buf *dma_buf);
+> =C2=A0int dma_buf_begin_cpu_access(struct dma_buf *dma_buf,
+> =C2=A0			=C2=A0=C2=A0=C2=A0=C2=A0 enum dma_data_direction dir);
+
+Thanks,
+Thomas
+
 
 
