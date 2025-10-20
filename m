@@ -1,174 +1,373 @@
-Return-Path: <linux-media+bounces-44977-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44978-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15C34BEF61B
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 07:59:43 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id C4530BEF71E
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 08:18:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C03284E1876
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 05:59:41 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4FAC21897145
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 06:18:26 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 07B832D0C84;
-	Mon, 20 Oct 2025 05:59:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F0A872D6624;
+	Mon, 20 Oct 2025 06:17:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="AwvQAiHN"
+	dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=yuji2.ishikawa@toshiba.co.jp header.b="DfcpnFey"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mo-csw.securemx.jp (mo-csw1120.securemx.jp [210.130.202.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C10772D0636
-	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 05:59:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760939969; cv=none; b=IpeXpll4zMIc140gm9h0FH4U+IXuq7IlI1PMcgeQmjoFjWHTILjTBVB4D5fg3RBtrygglv2LSGZcwRT8CnlplwWvTVPOE/OvK2inC+aZNOx5qmITuCGYTIw97xT1cwLN2+Vf152q/hBPyOt+UWz1LvJjRoc3FHgBNqdJ1NOm0rc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760939969; c=relaxed/simple;
-	bh=DfgQhDV2FB+r3jXdeQjlELojhkZCzkVAxCp7ukCYBp4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SqzNvYa+3TqxZiQea1gnmD9L44zg+qmfS41j5apwitIEEVEeDfTr0+5ZsdcxInANXFJYfphN/tl31+9cVMBee8YPcIU1bcQjoHPtizk7DtZlvF1xTkMUzzZwwHuvulf1tfbYU4seFCX1QuwRh/Nb/RttDHrqwhiXpFkiWhPc01M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=AwvQAiHN; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279870.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59JNNGO3010042
-	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 05:59:26 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	nM+18YfZG3eJcSFCMfzYrqy29nlqANkrqIV1DISydfs=; b=AwvQAiHNZfptJ/sS
-	i5WDMuP2gRVCoBZ68zEz05L2Ju3az2ItKHRmAT6DUhiNLKy8s8ozHmuBu8Kz9ULM
-	eWNZgonQhV+lfmHKBPfDj5xeYC+GMPa0DpRsnba3F3U2YJQS2J6HRTvOb237+m72
-	xQNCGieEZs+l5Bx58+CB37AkYupNbQLU0pB1yJ0kF9GTWwWs6QFjNEIdk8fxxG8s
-	PSeBCIDMqhmWo8KbJx7ayULn/eurVcduffgVD5Rz/MeseGjoQT+7BCLsBtGMefND
-	M7EPR0uxZd/Lh94X7BLvG8Sgw205tdyhip21CZYDrW9OrIItFDnAod1MQ5q6UpYJ
-	8NvWHA==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v2yv3qk9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 05:59:26 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-7a153ba0009so7416098b3a.1
-        for <linux-media@vger.kernel.org>; Sun, 19 Oct 2025 22:59:26 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1760939965; x=1761544765;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=nM+18YfZG3eJcSFCMfzYrqy29nlqANkrqIV1DISydfs=;
-        b=pVbeiidTofHXCmBxLtQ5qrS9uOiKrRwZjDaY1xxDbGDJvzQ3t0FtMlIf8JFzFmLzZl
-         0GeiukS9qjr0EQ6AJyT/u5tPkw1I/6/+e3lBrbNTlkmsXCP56+8jrluo5M+Y4nftGGFn
-         j3HSX1HeAg9redd+cpWrrvXNsmyu+TV38WXtaOyG4PKFjr7Lwk2m+tcZjZ3NRoPWeRTU
-         Yvhp7fe0SxqdQvtHlaq28srh9ikengkmhcYamJuu5fAy1sqIk5+wkXrpj9/PT1trgkkI
-         lmNnBx33WJDfnqjUYHPEi0jAItFHM/eALYF1Kw3Xxvviaae7xcfzDogBlvLnmKUl4T65
-         oGrA==
-X-Forwarded-Encrypted: i=1; AJvYcCX8ToEy9kkaZpGb5r9wts6Yr5onGhUAe7eBZ/HL9j/ZVYZ3pJfJoRg+nyhQ/sykIxqaCzSk/isy5uI13Q==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOWNRETUdvHNlWCRtIwof1YInWlbiE1uAzG2hM8eHvOsB7O2Oh
-	oUVgjLw3AfVIgj2HdZBRTZKNFjBJ6acqPLHbN/OF0ilCTodwn7KZeWj2FUaMEL6pwJ85nTDAscQ
-	s9F9VifFFHcMm/Fi5peQuuFxFhodOApej8YJ03Pl6RBetpHOXW2IM3Rw0tndt8apaeg==
-X-Gm-Gg: ASbGnct6XCAvkUtadLGCW754h6HPu3TfxdudQIyNwHjPZEX7GcDJ0KLudk4SrU8BF/g
-	ux0TmXrzhi+Hi16XFvgn5sKoeNsIlSn0n4QnsM3xXHUu1vJgkrlhQM0Eef8vXmrRta844zmUMrc
-	Hyz2wJZLfKKoA+VY21bRbTC5CZYMCUUbFq/hcoI7/JdzyhMaDVF6bgdkAKAjIM1f9A/cQHAbKMG
-	q7gqaCxzPGKcr+TJxttqQVhbBVZ80OjUdmEwydYJJYp6up/scGtGFoHy3Ex7v4xXl7p2deBGcEl
-	v6Ez2618MdcNww6DfMJrO5cvwEfcFcAadV1tKFPZDi/Oj7wn+s6tP1yENkNDTCdclb0Gzy2ZGRy
-	s4tx7ai0qGAaIKOgq1bn57038BEVJ1RoQX5TN4edQyf6ozS6cIzb+bLGKrwPI4KWj2jBhug==
-X-Received: by 2002:a05:6a00:21c4:b0:772:45ee:9b9e with SMTP id d2e1a72fcca58-7a220aa8c36mr12648436b3a.9.1760939965331;
-        Sun, 19 Oct 2025 22:59:25 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFOnIQKmKM4/wBe+q3U4Vl91ebk6gizKnC7NhQP4NZOp+sNVTSvIrGb+vHkb3XE0F6V5ZNQSg==
-X-Received: by 2002:a05:6a00:21c4:b0:772:45ee:9b9e with SMTP id d2e1a72fcca58-7a220aa8c36mr12648411b3a.9.1760939964922;
-        Sun, 19 Oct 2025 22:59:24 -0700 (PDT)
-Received: from [10.133.33.90] (tpe-colo-wan-fw-bordernet.qualcomm.com. [103.229.16.4])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a22ff34ba6sm7240595b3a.18.2025.10.19.22.59.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 19 Oct 2025 22:59:24 -0700 (PDT)
-Message-ID: <bc9f58db-c0b2-4c97-8ae6-ee01a5bf49e7@oss.qualcomm.com>
-Date: Mon, 20 Oct 2025 13:59:16 +0800
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 882EB2D2388;
+	Mon, 20 Oct 2025 06:17:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=210.130.202.131
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760941074; cv=fail; b=i5D/6Amedui0QgkmTNkHxO/SozTeAJCPAbh2NNa9GCxUrcUhTfpgAjZLBTSbr4xj4XIvJf5/b1ADfx1y8DW0zisKmNehOndHrVfMMP3XwH18jMdnr6TwLfQMQCzO46r8ULA/AYxvvzf5P70rTzUl2hIwAOFuvx/7xDzlHm+H4YY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760941074; c=relaxed/simple;
+	bh=SDvQIhKrfohicwMynsRhWpFsVnal382ZF+vGg4vMJSU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=Bu7cqRJHSzlN3YGgcrCMgikO8Kmq91cNIPkFlp+AnKYg2kA5Vgza+Qs9pNRsp0snuZouNb0HW3WaCWF8ujMTgTLFbgiHL9/uAt5rmJh9c3z3Bjh8Cfq/HpZNK6SjQJwUtjmWqPWDZ3aZP3YCYYR/x9PF6rOVpMdlwPHlIBdmok8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp; spf=pass smtp.mailfrom=toshiba.co.jp; dkim=pass (2048-bit key) header.d=toshiba.co.jp header.i=yuji2.ishikawa@toshiba.co.jp header.b=DfcpnFey; arc=fail smtp.client-ip=210.130.202.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=toshiba.co.jp
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=toshiba.co.jp
+DKIM-Signature: v=1;a=rsa-sha256;c=relaxed/simple;d=toshiba.co.jp;h=From:To:CC
+	:Subject:Date:Message-ID:References:In-Reply-To:Content-Type:
+	Content-Transfer-Encoding:MIME-Version;i=yuji2.ishikawa@toshiba.co.jp;s=
+	key1.smx;t=1760941025;x=1762150625;bh=SDvQIhKrfohicwMynsRhWpFsVnal382ZF+vGg4v
+	MJSU=;b=DfcpnFeyndLDgJgr3MYeUDS+ivJ72iWkp7xwNjm6zyWXIme2zsiBxsAep4LB2vgIif1vl
+	jMxOxe756ctOU2U6M0QZ1G2vu7TavG7xD4tly46zr446SLVLkH/SIC2i+DaS+hcRWfd47EfD0XQVg
+	j2CV90Dek5oanfuEFOrFAYefjGV3Xx/ENlULOFeth1XkIdVJqkQSJgox9xGlXaleWm4baKjtcsbSA
+	G0PBAjdkgcei3l+91WSvtTqyjxN4L5Met/kbq5g5iNWvSagOvwlw++XqRESXvvR9HDKF2rgKWOKYr
+	R5yPq7fs8IrzK+3XAczk0Tnb2una0D0AN4kKS/x+tA==;
+Received: by mo-csw.securemx.jp (mx-mo-csw1120) id 59K6H3J01937090; Mon, 20 Oct 2025 15:17:03 +0900
+X-Iguazu-Qid: 2rWhejjBIfnzAhpUKb
+X-Iguazu-QSIG: v=2; s=0; t=1760941023; q=2rWhejjBIfnzAhpUKb; m=WukTqRTZzxcsjPw9N3RgzkbMpPciMYIXEdurTbjtIDQ=
+Received: from imx12-a.toshiba.co.jp (unknown [38.106.60.135])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	 id 4cqlZN16r3z1xnZ; Mon, 20 Oct 2025 15:17:00 +0900 (JST)
+X-SA-MID: 54177326
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ekN8/rX/iDCEcdEnS+gJ/mgfZPbnnIsja6ivF83yzYHv91BAunmez2KnFma9RIQJWVq/xkq48BaVRTNd1z18FjN1Del2U39pDA7lRRfGRBMNMQqAVjUik5vXpZqm3UuQxfe6P7J1+NJMRdy15grsvidyPbEf+5w02Nu84A1WkqTVn/PvCvk9SR9VxSAc5RV/1gzPr88et/SKVR/IEVeEJRH6tbjoTsDK6tAg2NuyvQUyWLyUJXddQD22Rzc40EEkCgZm5oEvwX3HuV9GcjoaxS1YvduJ+1B/rVKPPVFkKtIjR/O9b/l3wPTRXVREgBc691SAbWsRJCHowh5z8syEIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=p0xbg0JHsI2vvH0kU7KzsVB+gknvdZWJDxUmveOxODU=;
+ b=NKZWS1IKoy40kDXGWGqvCM4YvS55GaBhya9y+ii5X+OxcW66vqN/QvyIjNPBRrUk4HulpYuSJ3iUP5BWHE6+UW0UaOKBXACp335ixGaoVUHH0Cqgu0Z+hw4PI3hNLkkCSF5pDujhbB3wAkat+effYvh8pcjQyCOPDxOaHwztJolRyEnwnu9BOzHju9il6/QMTgc22Tt7bOs527qF+na+lCyCDcLN+HQl/ICYSQKhnUD6x2tPVoWdpUS7enGe7m+HA5OCxohwePn4/6TNnpF3p8KYTnRXMS/aEgMRQEtdEaxK2BqQwqFAnMwVRSUE19lQII6cUD8TrknVyg6PQ0L9HQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=toshiba.co.jp; dmarc=pass action=none
+ header.from=toshiba.co.jp; dkim=pass header.d=toshiba.co.jp; arc=none
+From: <yuji2.ishikawa@toshiba.co.jp>
+To: <Frank.li@nxp.com>
+CC: <nobuhiro.iwamatsu.x90@mail.toshiba>, <mchehab@kernel.org>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>, <conor+dt@kernel.org>,
+        <p.zabel@pengutronix.de>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH v13 1/7] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti MIPI CSI-2 Receiver
+Thread-Topic: [PATCH v13 1/7] dt-bindings: media: platform: visconti: Add
+ Toshiba Visconti MIPI CSI-2 Receiver
+Thread-Index: AQHcPkQbXtm1ltyMo0OHvBqVNSatRrTEL+GAgAZj7xA=
+Date: Mon, 20 Oct 2025 06:11:52 +0000
+X-TSB-HOP2: ON
+Message-ID: 
+ <TY3PR01MB99823396DFFF60DCF661011192F5A@TY3PR01MB9982.jpnprd01.prod.outlook.com>
+References: <20251016-visconti-viif-v13-0-ceca656b9194@toshiba.co.jp>
+ <20251016-visconti-viif-v13-1-ceca656b9194@toshiba.co.jp>
+ <aPB16VqrMZrMNDSq@lizhi-Precision-Tower-5810>
+In-Reply-To: <aPB16VqrMZrMNDSq@lizhi-Precision-Tower-5810>
+Accept-Language: ja-JP, en-US
+Content-Language: ja-JP
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=toshiba.co.jp;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: TY3PR01MB9982:EE_|OS7PR01MB11700:EE_
+x-ms-office365-filtering-correlation-id: 6fa27c6f-1486-4132-f0cc-08de0f9f9042
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|376014|7416014|1800799024|366016|38070700021;
+x-microsoft-antispam-message-info: 
+ =?iso-2022-jp?B?RURHbkV3RGJCME1BaFpTTEZicU1rRlRZUlhoSGVHc1Q5VjIzUFVmcnVU?=
+ =?iso-2022-jp?B?T1p2UDB4ZkZvTjBaNGEzc21GQTNOYk51a3AzdWFlYngzK0Q2TjZXK2tn?=
+ =?iso-2022-jp?B?WE52b0k1VXRJSDhMekgzM2MzblBhRFlRRlNVbmZweXkxcmNGWFRtcGVl?=
+ =?iso-2022-jp?B?TXQ2SUtHTTVXWGNkWUhwdWZVQkJsTE5vMm5Pbm00SzNVRTc1TEp2emVC?=
+ =?iso-2022-jp?B?VTJSUTJxTXRPaEVhdHlETEZLYytHNkkrZllQeW5JdUQ3R0k0OEcwRnIx?=
+ =?iso-2022-jp?B?b0cwSldweDhzek1CTFl4ZWxHMFlTTXc1MGZLOTZIdnNTYXRxcW9UTHQz?=
+ =?iso-2022-jp?B?Q2VuMlFFQUU3MUdwMkNlTklaVkxDSStEeDZZUWltMjVIVFJCYyswVkta?=
+ =?iso-2022-jp?B?d3BVYVd0YTNXeDlVSEpMRzdGUHNCS1BFM1hEdXBnYjRQZVFkd21XMjgw?=
+ =?iso-2022-jp?B?N2hkVll6MGhqNWg2YWxmSUw2ZjRzUHZON2JGWTlKNWZkM1RTVkR5Njc5?=
+ =?iso-2022-jp?B?cWVuaFNYWURPQ3lSQ0M1ak1YandXM2ltQk94N1g1dEV2V3BscnFKbmNB?=
+ =?iso-2022-jp?B?L3A5SkwrcHhWTnk5OTc0M3V3ZjR6Qm5wMkMrbW16c2h0UFR5elo1c0Vu?=
+ =?iso-2022-jp?B?c1ZJQXJzcUdZalQwaVkrRFlYNkxEUjNleDkzeXMrSEMraStiUDFzbUxF?=
+ =?iso-2022-jp?B?RUxzWTdmWm9Oa1hRWGNLYjZYdGxqY201OGl6UXlxc3o5VEswQmNQaG1h?=
+ =?iso-2022-jp?B?cVA3dUwyWEZ2aVE0Mjh3SzN3MkhiQUo5NnJFOWJMUDdaQUhMWDFJNlhn?=
+ =?iso-2022-jp?B?V3FUWTJjaVlrT21WQ2xkOHE0a2grQ1JUQmRDUnlWWXgyRFg2VGxZSUhU?=
+ =?iso-2022-jp?B?Z0VGL2RiN3RNcWpLMlFIcXhDenUzaCtMVDJRUXlESWZUV2pVUGxlcmw5?=
+ =?iso-2022-jp?B?QnRtRjVEYUZWRUYwYWpEamIxQXl6MFd4YlMxd2dkemtHYnNqRUppQ3hz?=
+ =?iso-2022-jp?B?YTlTZy8vNDlJK0k1YnZUT25hUjFENU1yRHBsSTdVVGxnTFRUS05OR04x?=
+ =?iso-2022-jp?B?ZCtqV1BpQSswTFZGblZLajRyVlp6N3M3WkhjNGRIWkhvd3IyK2s5Yytp?=
+ =?iso-2022-jp?B?NGlIMGZtajhqQS9XaVp4dEJkejdOYzk3WmJ1UUVxdmdwenloMFhKNS94?=
+ =?iso-2022-jp?B?T0xCWlVtblk4UElkaTBvaHpsOHRaUHA5L0FrbzdZMFp4RzZiYXQrQ0ND?=
+ =?iso-2022-jp?B?NHFZMmRmTGtvSmFYZkFzc1U5eTBZYnY3VEw0N3ViSm50S2x3L1FFbDNj?=
+ =?iso-2022-jp?B?QUl0OW0yMXkrZVNTTjFoZXRBYmh5cWlkZGdLOHR0OWN1ejVrRUZkSTBW?=
+ =?iso-2022-jp?B?c2lmbzJxR1RidGpwSFpMODNwVVhva2g3WVJnaWVUZEhxNXJFVFRXbEEw?=
+ =?iso-2022-jp?B?aFQ3K2NGaHVXWjhncU9JeDdFcWtjSWZENHhvNGdSYklPMUNGamJaUmRI?=
+ =?iso-2022-jp?B?SHVEa3NCdEQ2UkZyUThCRGFud1dKNmlYQzh1WU55ZHBpQmN3bSttRTkw?=
+ =?iso-2022-jp?B?WFBIS1dBd2IzTHFYRi9hcXRNVEErcEhmaGNLZXRFdDBiaHRSS1VHL0VQ?=
+ =?iso-2022-jp?B?NENWeTJOMTJlS2ZUY2l3WUNEKy9vUzJYYk90TVc5dmV4NmlZL2ZmdTdx?=
+ =?iso-2022-jp?B?TnNsMnVsNmdMMFl5K3pRakVyUGtsakxwTXBKbE9WMmNHU0hoUVA1dzEr?=
+ =?iso-2022-jp?B?NHJzZ05Xb0x6S0tkMVY3Y2Y3WEk5aFpZcDJ4dnE5TWl4a0M5d1NpQnRI?=
+ =?iso-2022-jp?B?UVd3Y3Q2Ry9kWENwc2Z6b0VMelFueVpMb1p1Q1BFM3VKM0k4R3RnNXRw?=
+ =?iso-2022-jp?B?U04xSjdsQS9PTlViV2tFWFd2eE8wMlB0ckM1VWpLOGUvaEVVOFl1aURq?=
+ =?iso-2022-jp?B?cTdLQk9VYXpNUE5OVUJLY0RKYkwvV1NGdlhtYldGSUUvR29aTDZlandv?=
+ =?iso-2022-jp?B?eTVhdnA4NWlyNDFDVFMveDZBTHQ4UE5YL0N4c0lQU2hGSCtteU5XQVBW?=
+ =?iso-2022-jp?B?ZkJzY0pNcWxZS0ZBdWpxZ0pZOHBsaHIzNlNCeU00LzFZTitrYjdqWnRD?=
+ =?iso-2022-jp?B?OTE=?=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY3PR01MB9982.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?iso-2022-jp?B?Wis0dFdGVHgvTTJydmY1RGFsNTVUMzVlNEVSekFmbzhUZGI2S2s1cWI1?=
+ =?iso-2022-jp?B?aWYwa3JTNEdYTlRjemI3TEJmMEZHLzFDVVhBdDJibjl0anJaRjJDNzFQ?=
+ =?iso-2022-jp?B?WlAyUXFXWCsrM3pUTGxjbmVIMmE2V2psbG55SkZwUGtwVmY4T0Nwa1dC?=
+ =?iso-2022-jp?B?RGlhVU9uTzBXSTd0Q1ZlVnV0SXh6aHJEZHpUblhDc2w3RW1HRXlENk12?=
+ =?iso-2022-jp?B?SFptdFFnaGgxa3VKaldSMi9SN2hudzZ1dUk5Sjd4VlBFZFRGbU5iRzBP?=
+ =?iso-2022-jp?B?bmdYcTJlcWQzd0tld3ZrUEUxbFNVcXI2bTBKODlyc3B2blN0R0pLRVFr?=
+ =?iso-2022-jp?B?bTNTait4ajVoOE9sMVZPWEdIZStjZWRvTWdrc0V3K3VrZytQdHNsM2xo?=
+ =?iso-2022-jp?B?NTdpNTBHRlh0SjhsS2hXMkxuOFlCbUxhelNGVjVvYnhseTFsNnM4ZDF6?=
+ =?iso-2022-jp?B?WVA0MFJWK20rRFVOT2szZ2xWQkFRZjNLT0tTZ0tFRlJRc05UM2JrS2g4?=
+ =?iso-2022-jp?B?L0xOUVNwTGhoVGFWUzMzSS9jRmErZGdzWUkwM2o0a0lES0xOczMveUx3?=
+ =?iso-2022-jp?B?N2tSNWdGY0tzdGtGVlhKenByU3p3RS9HUENpTEJVOHZvT1RsK2pRcytu?=
+ =?iso-2022-jp?B?aURYbFl0amgzbmsrdHMwUWpLY1IrL3ZRbkVHZ25WMkFNMnluM2puSmZ6?=
+ =?iso-2022-jp?B?WHc1N2lhZEZuVDJoV2tSck90WFFLamIwcytIblFxdFh5d1RVUmo5MzlS?=
+ =?iso-2022-jp?B?QWNIejk0d0JiamxwTE5MMCtsM2Vpak91azFRSEErdFEvM3U4aWROT0hy?=
+ =?iso-2022-jp?B?Vmdlc2FmTzJWa0xBZHdZeGJRYmovNnE2aVhWWGd0S2FqaVg0ZURESllB?=
+ =?iso-2022-jp?B?bXZxWVFkNSt0NFNDejV1VXlVeXB5V3pKK01FejdKc05GWTF5NS93aU1k?=
+ =?iso-2022-jp?B?eHludGk2MnYzQy9MaGJZVzJSYzBEY01lVnEvTjdpVTlQUTlIYjVSYmhs?=
+ =?iso-2022-jp?B?Smh2SnlEajFxcE1WSU1BTUJGeVk5QnpjdDdqV2tkeE9VYjMrZWFQQzNE?=
+ =?iso-2022-jp?B?bGNOK0VoVGw3aUNJcXB1QmlSN0JSbmg0MHo4VGtlZkh4N1hIazliNEJi?=
+ =?iso-2022-jp?B?UjE4OFBEYnAxNTJtVFI1Q1ZwUnZQaTcvS0JJSlhSRnNFc0U3MEVuT2NQ?=
+ =?iso-2022-jp?B?UFY1QzZLZTdKSXJzZ0tFYmNsZitaL1l3YWk5aUpSd2UyZ3ZQMVpqdkNt?=
+ =?iso-2022-jp?B?N1gvbkRUTnFoaS9uZ2NUZy9Ba2R6cjRGVlVneE9NSmpjWXlnRmJnNDUv?=
+ =?iso-2022-jp?B?dVo3WGdUcERRZUxHQzlKT1U0Zlh4RTFMaDJkRVFrZXNHR016TTlEUGZy?=
+ =?iso-2022-jp?B?ZlppKzJBN3NWZEtRelF5ZkRMYmF4WXZYTzc0VElmbERZek40MGd0dTda?=
+ =?iso-2022-jp?B?N0pVMnhWZzV3QUZPOW1UZGRmT25TZ21sSTF1SktPQUdqdnhodW1QSEpH?=
+ =?iso-2022-jp?B?TUtMNDBhMSt6YVBVTnBKRUFhNzlIS1IzUlpMb00vWVlTUTZFS1JQZFhP?=
+ =?iso-2022-jp?B?OWZUdUpvNlRya0xlY2daKzI1SnhjMnBKdWNlZ1g5RHNEaUNDSHVXU1gw?=
+ =?iso-2022-jp?B?bDVrL2JsNFUyeDhJM1hzMmg2V3I0U2dPVndZQm9RTkRwdUFMaGh3MjUw?=
+ =?iso-2022-jp?B?cDllRlp3RS9JUDY1RGtiYzQyU1Eyc1lGbkhKUHdYMjNHZ3piSkR0QUlj?=
+ =?iso-2022-jp?B?cC96VXJ6bWlhOU9aM2VaY3NsM0VMMXRsY0M4RnZRdlRMTlRNVzlsUVdu?=
+ =?iso-2022-jp?B?cWcvM08vTHBLYlZTZFBELzl4MGxOL3l1d1RIbWZ1RXdJM3M4TUxRcDhm?=
+ =?iso-2022-jp?B?U05zVFUzVzllcXc5NFlpMmJoYXc2QWcwb1ZrVnJHZWhqbUxzRnBhZVd0?=
+ =?iso-2022-jp?B?eG9rZ3UvOHBPTUlRV0tjN0pYVzhNbitUODJ3V2RrYWR3RmxmRUwzRDZs?=
+ =?iso-2022-jp?B?UjZ1MVEvbVBkSUR2UFVHaUZ3Zk1HdS9iQ1RHTTBSWThWT0UrSWh1SUhX?=
+ =?iso-2022-jp?B?aEpvK2t1Vm1GdUNHTnlGenBzdEx6TXRNd0ZkS0Z6SG4xK1FZV0hDeGc4?=
+ =?iso-2022-jp?B?Vk5xQjlHVFVrZGdSUG5JWFRBZlM5enF5Y3g0NDJmV0FHaTZibGhWYitV?=
+ =?iso-2022-jp?B?MStpNTlJMUZKRTJUUUJnZjRYU2JmRmVDSGhNeDBMcDZVQ29SK041NVdz?=
+ =?iso-2022-jp?B?QngxUEgwYlBCS2FJNDBMcnczbkFGc3d5ZE9qcE5SZFUvOWdjNWprSFVY?=
+ =?iso-2022-jp?B?VHhRTVNVN1ZwbFJDOFhWdmxWTG1aaTdSZWc9PQ==?=
+Content-Type: text/plain; charset="iso-2022-jp"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/6] media: qcom: camss: csid: Add support for CSID
- 1080
-To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
-        Loic Poulain <loic.poulain@oss.qualcomm.com>,
-        Robert Foss
- <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
-        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, aiqun.yu@oss.qualcomm.com,
-        tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
-        yijie.yang@oss.qualcomm.com,
-        Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
-        Atiya Kailany <atiya.kailany@oss.qualcomm.com>
-References: <20251014-add-support-for-camss-on-kaanapali-v2-0-f5745ba2dff9@oss.qualcomm.com>
- <20251014-add-support-for-camss-on-kaanapali-v2-5-f5745ba2dff9@oss.qualcomm.com>
- <f64bc46b-9c21-49a8-b5d8-3e21614b6695@linaro.org>
-Content-Language: en-US
-From: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
-In-Reply-To: <f64bc46b-9c21-49a8-b5d8-3e21614b6695@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-ORIG-GUID: oqxVNWhpKhjo2D9_9YdV55f-u2UrS4S1
-X-Proofpoint-GUID: oqxVNWhpKhjo2D9_9YdV55f-u2UrS4S1
-X-Authority-Analysis: v=2.4 cv=f+5FxeyM c=1 sm=1 tr=0 ts=68f5cfbe cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=AXp2hmqOj5kKvFkYXygA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=zc0IvFSfCIW2DFIPzwfm:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyMyBTYWx0ZWRfX/SwGApCwlwp8
- 8YPc/cgbNXvKXxooQjbKZiEExOfBUZKwwU5q41F+Msl+L7260vM9+Aj8T+79Ddhp6rh8KXaWJsf
- TZVZ//zAUsxoLJmDRA3CTM+eE2PPhMpBCnaoi+h4r6dE2gI44+SB7nveOQgHyyyHsDljoPjVFjT
- aAaygCGzH0dQ2WBZGuolIJzXj06Ru2C4JzotI8qUoUpwDfPMc9PB/JzjSOB0AQkHrC3RPyWm4w9
- WXazUXbl9djwGa2T2iEfgUeh4yPPgve7ZaecLOUnmjt2bNJkx7lL+nWOWHI1bbXrz7Sb+JsO+Ne
- cKc6bc1t1ofsYx/yKonVXCDRhTtJf7Hu/zRr+JDTtGOluaqFuOwg8nDD3HjrcAlulhQaa0rF11E
- 9Vqe4nTzUrWW66EzaF9Tz0AgIpA8CA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-20_02,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 priorityscore=1501 impostorscore=0 suspectscore=0
- adultscore=0 phishscore=0 bulkscore=0 clxscore=1015 spamscore=0
- malwarescore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2510020000
- definitions=main-2510180023
+X-OriginatorOrg: toshiba.co.jp
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: TY3PR01MB9982.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6fa27c6f-1486-4132-f0cc-08de0f9f9042
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Oct 2025 06:11:52.7242
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: f109924e-fb71-4ba0-b2cc-65dcdf6fbe4f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 742jwgQWIM04H1D2fP9k6saf6IguDs9J8G1e9QywODWNKMTj3gwg1YK6lAoefrmGFRlAVcWFWMt1Vaa38dN4caFNgdfmAsptlfYkUZh1KWY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OS7PR01MB11700
 
-On 10/16/2025 5:12 PM, Bryan O'Donoghue wrote:
-> On 15/10/2025 03:56, Hangxiang Ma wrote:
->> +    for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS_1080; i++)
->> +        if (csid->phy.en_vc & BIT(i)) {
->> +            val = readl(csid->base + CSID_CSI2_RDIN_IRQ_STATUS(i));
->> +            writel(val, csid->base + CSID_CSI2_RDIN_IRQ_CLEAR(i));
->> +
->> +            if (buf_done_val & BIT(BUF_DONE_IRQ_STATUS_RDI_OFFSET + 
->> i)) {
->> +                /*
->> +                 * buf done and RUP IRQ have been moved to CSID from 
->> VFE.
->> +                 * Once CSID received buf done, need notify VFE of this
->> +                 * event and trigger VFE to handle buf done process.
->> +                 */
->> +                camss_buf_done(csid->camss, csid->id, i);
->> +            }
->> +        }
->> +
-> A multi-liner like this should be
-> 
-> for (i = 0; i < MSM_CSID_MAX_SRC_STREAMS_1080; i++) {
->      /* etc */
-> }
-> 
-> in fact csid_reset_1080() does the right thing, please replicate.
-> 
-Ack. Thanks.
+Hello Frank
 
----
-Hangxiang
+Thank you for review comments.
+
+> -----Original Message-----
+> From: Frank Li <Frank.li@nxp.com>
+> Sent: Thursday, October 16, 2025 1:35 PM
+> To: ishikawa yuji(=1B$B@P@n=1B(B =1B$BM*;J=1B(B =1B$B""#A#I#D#C!{#E#A3+=
+=1B(B)
+> <yuji2.ishikawa@toshiba.co.jp>
+> Cc: iwamatsu nobuhiro(=1B$B4d>>=1B(B =1B$B?.MN=1B(B =1B$B""#D#I#T#C!{#C#P=
+#T=1B(B)
+> <nobuhiro.iwamatsu.x90@mail.toshiba>; Mauro Carvalho Chehab
+> <mchehab@kernel.org>; Rob Herring <robh@kernel.org>; Krzysztof Kozlowski
+> <krzk+dt@kernel.org>; Conor Dooley <conor+dt@kernel.org>; Philipp Zabel
+> <p.zabel@pengutronix.de>; linux-media@vger.kernel.org;
+> devicetree@vger.kernel.org; linux-arm-kernel@lists.infradead.org;
+> linux-kernel@vger.kernel.org
+> Subject: Re: [PATCH v13 1/7] dt-bindings: media: platform: visconti: Add
+> Toshiba Visconti MIPI CSI-2 Receiver
+>=20
+> On Thu, Oct 16, 2025 at 11:24:38AM +0900, Yuji Ishikawa wrote:
+> > Adds the Device Tree binding documentation that allows to describe the
+> > MIPI CSI-2 Receiver found in Toshiba Visconti SoCs.
+> >
+> > Signed-off-by: Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+> > ---
+> > Changelog v12:
+> > - Newly add bindings for CSI2RX driver
+> >
+> > Changelog v13:
+> > - add entries to MAINTAINERS file.
+> > - update email address of Nobuhiro Iwamatsu in /maintainers
+> > - add Yuji Ishikawa to /maintainers
+> > - change /properties/compatible: toshiba,visconti5-csi2rx ->
+> > toshiba,visconti5-csi2
+> > - change bindings file name: toshiba,visconti5-csi2rx ->
+> > toshiba,visconti5-csi2
+> > - change node name in sample DTS: csi2rx -> csi
+> > - remove "|-" from /description
+> > - update /description
+> > - add definitions of clock and reset
+> > - update /properties/ports/properties/port@0/description for better
+> > comment
+> > - update /properties/ports/properties/port@0/$ref to specify full
+> > pathname
+> > - remove
+> /properties/ports/properties/port@0/properties/endpoint/properties/data-l=
+a
+> nes/description because the default text provides enough information.
+> > - update sample dts
+> > ---
+> >  .../bindings/media/toshiba,visconti5-csi2.yaml     | 125
+> +++++++++++++++++++++
+> >  MAINTAINERS                                        |   7 ++
+> >  2 files changed, 132 insertions(+)
+> >
+> > diff --git
+> > a/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2.yaml
+> > b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2.yaml
+> > new file mode 100644
+> > index 000000000000..21fb46de5b6e
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/toshiba,visconti5-csi2.y
+> > +++ aml
+> > @@ -0,0 +1,125 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) %YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/toshiba,visconti5-csi2.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Toshiba Visconti5 SoC MIPI CSI-2 receiver
+> > +
+> > +maintainers:
+> > +  - Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>
+> > +  - Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+> > +
+> > +description:
+> > +  Toshiba Visconti5 SoC MIPI CSI-2 receiver device receives MIPI
+> > +CSI-2 video
+> > +  stream. The obtained video stream is used as input for the Visconti5=
+ VIIF.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: toshiba,visconti5-csi2
+> > +
+>=20
+> ...
+>=20
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/toshiba,tmpv770x.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +
+> > +    soc {
+> > +        #address-cells =3D <2>;
+> > +        #size-cells =3D <2>;
+> > +
+> > +        csi0: csi@1c008000 {
+>=20
+> Needn't label csi0
+>=20
+
+I'll drop the label.
+
+> > +            compatible =3D "toshiba,visconti5-csi2";
+> > +            reg =3D <0 0x1c008000 0 0x400>;
+> > +            interrupts =3D <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
+> > +            clocks =3D <&pismu TMPV770X_CLK_VIIFBS0_CFG>,
+> > +                     <&pismu TMPV770X_CLK_VIIFBS0_APB>;
+> > +            clock-names =3D "cfg", "apb";
+> > +            resets =3D <&pismu TMPV770X_RESET_VIIFBS0_APB>;
+> > +
+> > +            ports {
+> > +                #address-cells =3D <1>;
+> > +                #size-cells =3D <0>;
+>=20
+> need empty line here.
+
+I'll add empty line before blocks.
+
+> > +                port@0 {
+> > +                    reg =3D <0>;
+>=20
+> empty line here
+>=20
+> > +                    csi0_in: endpoint {
+> > +                        data-lanes =3D <1 2>;
+> > +                        remote-endpoint =3D <&imx219_out>;
+> > +                    };
+> > +                };
+>=20
+> empty line here
+>=20
+> Frank
+> > +                port@1 {
+> > +                    reg =3D <1>;
+> > +                    csi0_out: endpoint {
+> > +                        remote-endpoint =3D <&video0_in>;
+> > +                    };
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > diff --git a/MAINTAINERS b/MAINTAINERS index
+> > 46126ce2f968..e4634a0aad74 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -25979,6 +25979,13 @@ F:
+> 	Documentation/devicetree/bindings/media/i2c/toshiba,tc358743.txt
+> >  F:	drivers/media/i2c/tc358743*
+> >  F:	include/media/i2c/tc358743.h
+> >
+> > +TOSHIBA VISCONTI VIIF DRIVER
+> > +M:	Nobuhiro Iwamatsu <nobuhiro.iwamatsu.x90@mail.toshiba>
+> > +M:	Yuji Ishikawa <yuji2.ishikawa@toshiba.co.jp>
+> > +L:	linux-media@vger.kernel.org
+> > +S:	Maintained
+> > +F:
+> 	Documentation/devicetree/bindings/media/toshiba,visconti5-csi2.ya
+> ml
+> > +
+> >  TOSHIBA WMI HOTKEYS DRIVER
+> >  M:	Azael Avalos <coproscefalo@gmail.com>
+> >  L:	platform-driver-x86@vger.kernel.org
+> >
+> > --
+> > 2.34.1
+> >
+> >
+
+Regards,
+
+Yuji Ishikawa
+
 
