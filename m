@@ -1,216 +1,267 @@
-Return-Path: <linux-media+bounces-45059-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45060-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32B11BF2BA8
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 19:34:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90823BF2C86
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 19:45:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 724054F71D6
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 17:34:09 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D41C24FAFC0
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 17:42:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5EF6B331A44;
-	Mon, 20 Oct 2025 17:34:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EB315278779;
+	Mon, 20 Oct 2025 17:42:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="AKd49trd"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="WHyLNtPh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7533B1A76DE;
-	Mon, 20 Oct 2025 17:34:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D61743321BC
+	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 17:42:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760981645; cv=none; b=f6Feg0eugCF/+qynIkUsSKLKaNysc+twm9umpm6kxeGepd4U71jpEpFQbutFraVLlR7Tv5VYZk14nkk/5aALRuq0duxWog01374TTKSaUZ2XXtJ/wupTiqFtllwjeX537t2YWKDS07K9AU0rdYllC1/QmoV/OdYgG2MDCKaGpTs=
+	t=1760982137; cv=none; b=joc8W18bXJRTq0Cnf0blnTGPidmCGabEcq8tVaHgqsjkK8bypwczYnmZxdKq9qKXDdQHGPNicinfeJPcHK7kpkpUtZo5Zi3Khr4PT40tvguSwUzYlFUyrZ6y8Bu9go/Jy2SHjpE4beyNQNjgJIqffCztRwGda7F7IK8WJFY7W10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760981645; c=relaxed/simple;
-	bh=WrcLLsevre49EQ0btGi5c5kmIsNinR52iJvOFiiE/y8=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Q9V0b//EMhGUYX+E9JHcXRuK8fkZB0qD3Ve99n2B2iwevQ9MaHeIufKtIynkYxUqktMIfEbLcxxDaZ0fT1qJ9FzIarITgxlMIK3ECmU6RKQE8o6ckbFGsqQ9sGL/N8zinT+BFSyo7aPVYiWrbRgsUS1Q1wUyIc0XwvAsFrQHPuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=AKd49trd; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from lelvem-sh02.itg.ti.com ([10.180.78.226])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59KHXgEs956103;
-	Mon, 20 Oct 2025 12:33:42 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1760981622;
-	bh=rLjE0Z9lF6b5OCry45qjoNtx5ZnUiLXTvbwpxFFdjmQ=;
-	h=From:To:CC:Subject:Date;
-	b=AKd49trduT2UvETQByjuow2qwQpcETk92d8wHq+6Ps+1mK6qVB5sUpvhEyeCPgtt0
-	 QolJOMJVzTfCoXiO8MFPtRacK0DZueys5a1xFakMAM0LybfmYciat6hLVZbptm+TP7
-	 iRsVDSM65jiW3M+V/a1HO+PlgavrhYcOS0FiKRns=
-Received: from DLEE206.ent.ti.com (dlee206.ent.ti.com [157.170.170.90])
-	by lelvem-sh02.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59KHXgAH958244
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 20 Oct 2025 12:33:42 -0500
-Received: from DLEE203.ent.ti.com (157.170.170.78) by DLEE206.ent.ti.com
- (157.170.170.90) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Mon, 20 Oct
- 2025 12:33:42 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE203.ent.ti.com
- (157.170.170.78) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Mon, 20 Oct 2025 12:33:42 -0500
-Received: from udba0500997.dhcp.ti.com (udba0500997.dhcp.ti.com [128.247.81.190])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59KHXgp92350546;
-	Mon, 20 Oct 2025 12:33:42 -0500
-From: Brandon Brnich <b-brnich@ti.com>
-To: Nas Chung <nas.chung@chipsnmedia.com>,
-        Jackson Lee
-	<jackson.lee@chipsnmedia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Nicolas
- Dufresne <nicolas.dufresne@collabora.com>
-CC: Darren Etheridge <detheridge@ti.com>, Brandon Brnich <b-brnich@ti.com>
-Subject: [PATCH] media: chips-media: wave5: Fix Hang in Encoder
-Date: Mon, 20 Oct 2025 12:33:32 -0500
-Message-ID: <20251020173332.2271145-1-b-brnich@ti.com>
-X-Mailer: git-send-email 2.34.1
+	s=arc-20240116; t=1760982137; c=relaxed/simple;
+	bh=9qA6BuFeIx5fHAIGIw0nel7ZY5DQlvVmFai+iklLtRI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=p+9k5WfqNMOjDiRXYXd/QZrdwzyBzkfL3i/Njh1otR+uUP9CcwJK9lb7SgsjB1h7XOxI/fZUXuSrvgfOsIW/IOqznsX3P4igRdXcACawFdjdhwS33EjDhiRKzGyjzwhjZT9cIIDgXnYRAeTE3fDQCtwZI9K/B1WnZTl/iL0MyZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=WHyLNtPh; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59KBjJQ6025582
+	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 17:42:15 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	wuH6NKm3t0y7yTW2TM5liGhGfdwbrDlainmDiWhRs0g=; b=WHyLNtPhuwLKPt2f
+	l46aPJiAmy9GaLuPuLg5rUH09NC/JYrKTf3gQsiHkIlVhN55/kld2WCIKBYKHNpm
+	Rs9K4+PfLVVqWabGUAtVhwz6kjve4f1/FLjAe3+OVS8HEJYuWGXPJ/5rKELh2/hI
+	yY25V/ZuSq0YqmFF9z92HgAgxufq+Y5wHofNqdIrcsae9rbrRHuu8OFcbEQGnWLq
+	pOnVrr2qltSfiVIf+B8sL16AOd0QX2hsJtYedIafB6EQLsxcx7DJdF7y4RwJrXeF
+	JmVl/2zpMFPrCcwKpXfY3HbTSTgF70yZrQqzL17Usu842Ma7+0YPgNVx2Z4OdjmP
+	7s/XRg==
+Received: from mail-pl1-f197.google.com (mail-pl1-f197.google.com [209.85.214.197])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v3nfdjtr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 17:42:15 +0000 (GMT)
+Received: by mail-pl1-f197.google.com with SMTP id d9443c01a7336-28a5b8b12bbso115611245ad.2
+        for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 10:42:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760982134; x=1761586934;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=wuH6NKm3t0y7yTW2TM5liGhGfdwbrDlainmDiWhRs0g=;
+        b=gj8peo/JokXNvLelaxdRlXOpKHPiF5A5V91A7EzySmQ2UL5WyDBnxHfYasGF4EdOI/
+         /vSTdLAKjlGfQr8Ip7eDwOIT61XgWre5Pc3p1n3U661QEy3mbXp/LmdGUvliYOGWrCri
+         aS+F4H4brHPQyD+wb0QKIcONfwQEOWs6GnasDDGNrdXkt9n3MOnwgPojcCU2FF0FYNh8
+         LkqMLpv3ymkRvDd9cQwxOCEJTsydVfjUMVk5d+umN/OC9GB75tzKLa/CKa1veLeSCQF/
+         wr5y+a4vhYZ1InR9bOJ59mhllMKOZr4ZzxWQZrHz9JcNblGCL2ehaWPdCfsaRbGfIE46
+         XHgg==
+X-Forwarded-Encrypted: i=1; AJvYcCXpYPPvm3hYuTwPIYFM75QurrrvS/nOgKbs4gHJJTQOfvNCDV+iOTdL11N95aD8MCaX8PtuvAngYsfgyQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfuixTVjBjAA3COiEpBtfFQe8blQ+JY34gM1RXyTxsSMB+MF4s
+	QmFj1kqKG11p6RmAJFJ5nXvqHVYtc/JE17SimkQOyYGf2mM7ol39ZNV8E/rzs2BsvQziUZI9d9H
+	/+fOdVEvjbOYcwo6w1rbTmfM1qJfwGqeMp2i3691+Oxy6tN3kXKtbZLluDX9nzxueVQ==
+X-Gm-Gg: ASbGncuMXFEu0KbNy6BZKDgzui4pGyMuzyMJjNXfvjA4SMw0FqA90geS45mFc1bHKPe
+	9mi1AsG/Mxnv53a76gMCeQMerpG+eHpTINANGZvxl7ftoxl1Elldk4neu2XdDi6M0slUkqlCBQ0
+	W2rErpt3K9KrgbaUPJvXrCgZoCpBL7Mi1Jiw74Zm5QAp71E7xyZ8LWt2MIgiaWHg7uyZuA6qsy5
+	+VMPYi4kRCuHd9DIHy6CAvNHJ6ebJkJx0nQbJD2NzDc1jQbbJDr033M7Zs4/9qCDjLIJElZuuL3
+	zNvljlB4VzQ+jukJ5zC0A93wqmcICc3ihvZUp8vVuuRztqHW+prEniFm+IN3RDlNq/LtS30jZvy
+	QU7WOPB7bmIWtl3r6FrXSyAj3sxjqvO3X/o8e8KP0muuK80BuBfsMNg==
+X-Received: by 2002:a17:902:d4c4:b0:269:9ae5:26af with SMTP id d9443c01a7336-290c9d1b4d0mr172936105ad.13.1760982133862;
+        Mon, 20 Oct 2025 10:42:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGmgh6tUXTbf1pGfo1ASimL2b+7pT6kMnii6yInuvVAI5pWnTr0w6G4M9GWEUp4lc/J1jtUyQ==
+X-Received: by 2002:a17:902:d4c4:b0:269:9ae5:26af with SMTP id d9443c01a7336-290c9d1b4d0mr172935595ad.13.1760982133165;
+        Mon, 20 Oct 2025 10:42:13 -0700 (PDT)
+Received: from [10.62.37.19] (i-global254.qualcomm.com. [199.106.103.254])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29246ebcf67sm85874235ad.15.2025.10.20.10.42.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Oct 2025 10:42:12 -0700 (PDT)
+Message-ID: <63d9252c-77d5-4405-a395-d7664c35ea12@oss.qualcomm.com>
+Date: Mon, 20 Oct 2025 10:42:09 -0700
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/6] dt-bindings: media: camss: Add qcom,kaanapali-camss
+ binding
+To: Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+        Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+        Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>, Bryan O'Donoghue <bod@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>, linux-i2c@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+        trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com
+References: <20250924-knp-cam-v1-0-b72d6deea054@oss.qualcomm.com>
+ <20250924-knp-cam-v1-2-b72d6deea054@oss.qualcomm.com>
+ <CAFEp6-1o11B9o3HjdJY-xQhDXquOTknXo0JeW=HfpTxXcEaK3g@mail.gmail.com>
+ <a7be3a42-bd4f-46dc-b6de-2b0c0320cb0d@oss.qualcomm.com>
+ <d8dfe11f-c55a-4eb2-930a-bfa31670bef0@kernel.org>
+ <CAFEp6-1zpobZNLHt1192Ahtn2O7bV+As0P1YvVHrkRsORyH_Aw@mail.gmail.com>
+ <ac96922e-d2a3-4a99-8f34-a822c3dd2d02@kernel.org>
+ <7140b8a8-1380-4859-84a3-681b3f1ce505@kernel.org>
+ <f5a1076f-f06c-404d-88d4-fef4f7694c82@linaro.org>
+Content-Language: en-US
+From: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>
+In-Reply-To: <f5a1076f-f06c-404d-88d4-fef4f7694c82@linaro.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+X-Proofpoint-ORIG-GUID: Vbf76_ScrRbaWHvQRBNHB44HGsorctw8
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAyNyBTYWx0ZWRfXyNponr3ySppF
+ EcfTjfzl2gUm3cZYSsHG50GVbc9xx+ZchGHRa3113NJe5tQK+NSxUYzB1KRX/5xsgIizm/joIeR
+ kroKL8BjPO8izr9upjAWAZPLhO+Czt4iF4sVumKjxmaGuQgPLmD2ndkgmJFGQpZqVst87rb4Cqm
+ B/QHr6VYvAZAiQE7Cs3PvLTlkvUzIqQyBD+nZS+c352IUvwVeW7gchwkdnaEdct0vqeG72Qkl3F
+ 8hX68BPmp8hWpzrQZHD2bpAUz2f4EO9b809ZdgR5f9at/UPPFNtKmP4LrcHF51a3joVjGkCK0ke
+ QKNy4M1jOjZ4xUNoxdmtvQ6ZF9gR1wS4SaULskdQmoVT1ZYJmpU0Fb6iXr7veZdI4v5X0rockPe
+ 0hG+6jwZFrxvouPu75Ig/7q5vHo+Lw==
+X-Proofpoint-GUID: Vbf76_ScrRbaWHvQRBNHB44HGsorctw8
+X-Authority-Analysis: v=2.4 cv=EYjFgfmC c=1 sm=1 tr=0 ts=68f67477 cx=c_pps
+ a=cmESyDAEBpBGqyK7t0alAg==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=VwQbUJbxAAAA:8 a=_kPCHQoBruyNaNDuvIAA:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=1OuFwYUASf3TG4hYMiVC:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-20_05,2025-10-13_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 spamscore=0 malwarescore=0 lowpriorityscore=0
+ priorityscore=1501 impostorscore=0 phishscore=0 adultscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180027
 
-Wave5 encoder driver only changed states to PIC_RUN in start streaming by
-making the assumption that VIDIOC STREAMON call has already been called.
-In frameworks like FFMPEG, this condition has not been met when in the
-start streaming function resulting in the application hanging. Therefore,
-job_ready and device_run need to be extended to have support for this case.
 
-Signed-off-by: Brandon Brnich <b-brnich@ti.com>
----
- .../chips-media/wave5/wave5-vpu-enc.c         | 74 +++++++++++++------
- 1 file changed, 51 insertions(+), 23 deletions(-)
+On 10/20/2025 3:56 AM, Bryan O'Donoghue wrote:
+> On 20/10/2025 11:16, Krzysztof Kozlowski wrote:
+>> On 16/10/2025 12:43, Krzysztof Kozlowski wrote:
+>>> On 16/10/2025 10:47, Loic Poulain wrote:
+>>>> On Thu, Oct 16, 2025 at 7:52 AM Krzysztof Kozlowski 
+>>>> <krzk@kernel.org> wrote:
+>>>>>
+>>>>> On 15/10/2025 05:21, Hangxiang Ma wrote:
+>>>>>>>> +      - const: csiphy4
+>>>>>>>> +      - const: csiphy5
+>>>>>>>> +      - const: vfe0
+>>>>>>>> +      - const: vfe1
+>>>>>>>> +      - const: vfe2
+>>>>>>>> +      - const: vfe_lite0
+>>>>>>>> +      - const: vfe_lite1
+>>>>>>> Wouldn't it make sense to simplify this and have different camss 
+>>>>>>> nodes
+>>>>>>> for the 'main' and 'lite' paths?
+>>>>>>>
+>>>>>>> [...]
+>>>>>> No such plan till now. Other series may take this into 
+>>>>>> consideration.
+>>>>>
+>>>>> We don't care much about your plan. You are expected to send correct
+>>>>> hardware description.
+>>>>
+>>>> To be fair, other platforms like sc8280xp-camss already have the
+>>>> all-in big camss node.
+>>>> Point is that if Lite and Main blocks are distinct enough we could
+>>>> have two simpler nodes.
+>>>> Would it make things any better from a dts and camss perspective?
+>>>>
+>>>>   camss: isp@9253000 {
+>>>>      compatible = "qcom,kaanapali-camss";
+>>>>      [...]
+>>>> }
+>>>>
+>>>> camss-lite:ips@9273000 {
+>>>>     compatible = "qcom,kaanapali-lite-camss";
+>>>>      [...]
+>>>> }
+>>>>
+>>>> That approach would create two distinct CAMSS instances and separate
+>>>> media pipelines.
+>>>> However, it may not work with the current implementation, as the CSI
+>>>> PHYs would need to be shared between them.
+>>>>
+>>>> I guess this should be part of the broader discussion around
+>>>> splitting/busifying CAMSS.
+>>>
+>>> And this discussion CAN happen now, stopping this camss and any future
+>>> camss till we conclude the discussion. Whatever internal plans of that
+>>> teams are, rejecting technical discussion based on "no plans for that"
+>>> is a really bad argument, only stalling this patchset and raising 
+>>> eyebrows.
+>>
+>>
+>> To be clear, I expect Loic's comment to be fully and technically
+>> addressed, not with "no plan for that".
+>>
+>> This blocks this patchset and any new versions.
+>>
+>> Best regards,
+>> Krzysztof
+>
+> I think we should stick with the existing bindings.
+>
+> There is no "lite" ISP there are so-called lite blocks within the 
+> CAMSS block.
+>
+> It makes sense to split out the PHYs from this block as they have 
+> their own power-rails but, if you look at the block diagrams for this 
+> IP there is no specific ISP lite, there are merely blocks within the 
+> camera called lite.
+>
+> It might be nice to structure things like this 
+> arch/arm64/boot/dts/rockchip/rk356x-base.dtsi with each component 
+> separated out into its own node with its own compat string but, I'd 
+> have a hard time justifying changing up the bindings we already have 
+> for that reason - aside from anything else - all of those components 
+> in CAMSS live inside of the TITAN_TOP_GDSC which is the power-domain 
+> for the whole camera system.
+>
+> So not meaning to answer for Hangxiang but, I think the compelling 
+> logic here is to stick to and extend the existing bindings.
+>
+> So in fact I have no problem with the bindings as submitted - not 
+> including the regular fixups these types of submissions entail.
+>
+> ---
+> bod
+>
+Hi @Bryan, @Krzysztof, just my two cents. I think we should consider 
+separating CSIPHY, CSID, IFE and IFE Lite into distinct DT nodes. Having 
+a modular DT structure brings in several advantages,
 
-diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-index a02853d42d61..3a3b585ceb8e 100644
---- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-+++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-@@ -705,6 +705,11 @@ static int wave5_vpu_enc_encoder_cmd(struct file *file, void *fh, struct v4l2_en
- 
- 		m2m_ctx->last_src_buf = v4l2_m2m_last_src_buf(m2m_ctx);
- 		m2m_ctx->is_draining = true;
-+
-+		if (v4l2_m2m_num_dst_bufs_ready(m2m_ctx) > 0) {
-+			dev_dbg(inst->dev->dev, "Forcing job run for draining\n");
-+			v4l2_m2m_try_schedule(m2m_ctx);
-+		}
- 		break;
- 	case V4L2_ENC_CMD_START:
- 		break;
-@@ -1411,6 +1416,34 @@ static int prepare_fb(struct vpu_instance *inst)
- 	return ret;
- }
- 
-+static int wave5_vpu_enc_prepare_cap_seq(struct vpu_instance *inst)
-+{
-+	int ret = 0;
-+
-+	ret = initialize_sequence(inst);
-+	if (ret) {
-+		dev_warn(inst->dev->dev, "Sequence not found: %d\n", ret);
-+		return ret;
-+	}
-+	ret = switch_state(inst, VPU_INST_STATE_INIT_SEQ);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * The sequence must be analyzed first to calculate the proper
-+	 * size of the auxiliary buffers.
-+	 */
-+	ret = prepare_fb(inst);
-+	if (ret) {
-+		dev_warn(inst->dev->dev, "Framebuffer preparation, fail: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = switch_state(inst, VPU_INST_STATE_PIC_RUN);
-+
-+	return ret;
-+}
-+
- static int wave5_vpu_enc_start_streaming(struct vb2_queue *q, unsigned int count)
- {
- 	struct vpu_instance *inst = vb2_get_drv_priv(q);
-@@ -1453,27 +1486,8 @@ static int wave5_vpu_enc_start_streaming(struct vb2_queue *q, unsigned int count
- 		if (ret)
- 			goto return_buffers;
- 	}
--	if (inst->state == VPU_INST_STATE_OPEN && m2m_ctx->cap_q_ctx.q.streaming) {
--		ret = initialize_sequence(inst);
--		if (ret) {
--			dev_warn(inst->dev->dev, "Sequence not found: %d\n", ret);
--			goto return_buffers;
--		}
--		ret = switch_state(inst, VPU_INST_STATE_INIT_SEQ);
--		if (ret)
--			goto return_buffers;
--		/*
--		 * The sequence must be analyzed first to calculate the proper
--		 * size of the auxiliary buffers.
--		 */
--		ret = prepare_fb(inst);
--		if (ret) {
--			dev_warn(inst->dev->dev, "Framebuffer preparation, fail: %d\n", ret);
--			goto return_buffers;
--		}
--
--		ret = switch_state(inst, VPU_INST_STATE_PIC_RUN);
--	}
-+	if (inst->state == VPU_INST_STATE_OPEN && m2m_ctx->cap_q_ctx.q.streaming)
-+		ret = wave5_vpu_enc_prepare_cap_seq(inst);
- 	if (ret)
- 		goto return_buffers;
- 
-@@ -1598,6 +1612,14 @@ static void wave5_vpu_enc_device_run(void *priv)
- 
- 	pm_runtime_resume_and_get(inst->dev->dev);
- 	switch (inst->state) {
-+	case VPU_INST_STATE_OPEN:
-+		ret = wave5_vpu_enc_prepare_cap_seq(inst);
-+		if (ret) {
-+			dev_warn(inst->dev->dev, "Framebuffer preparation, fail: %d\n", ret);
-+			switch_state(inst, VPU_INST_STATE_STOP);
-+			break;
-+		}
-+		fallthrough;
- 	case VPU_INST_STATE_PIC_RUN:
- 		ret = start_encode(inst, &fail_res);
- 		if (ret) {
-@@ -1633,6 +1655,12 @@ static int wave5_vpu_enc_job_ready(void *priv)
- 	case VPU_INST_STATE_NONE:
- 		dev_dbg(inst->dev->dev, "Encoder must be open to start queueing M2M jobs!\n");
- 		return false;
-+	case VPU_INST_STATE_OPEN:
-+		if (wave5_vpu_both_queues_are_streaming(inst)) {
-+			dev_dbg(inst->dev->dev, "Both queues have been turned on now, M2M job can occur\n");
-+			return true;
-+		}
-+		return false;
- 	case VPU_INST_STATE_PIC_RUN:
- 		if (m2m_ctx->is_draining || v4l2_m2m_num_src_bufs_ready(m2m_ctx)) {
- 			dev_dbg(inst->dev->dev, "Encoder ready for a job, state: %s\n",
-@@ -1642,9 +1670,9 @@ static int wave5_vpu_enc_job_ready(void *priv)
- 		fallthrough;
- 	default:
- 		dev_dbg(inst->dev->dev,
--			"Encoder not ready for a job, state: %s, %s draining, %d src bufs ready\n",
-+			"Encoder not ready for a job, state: %s, %s draining, %d src bufs ready, %d dst bufs ready\n",
- 			state_to_str(inst->state), m2m_ctx->is_draining ? "is" : "is not",
--			v4l2_m2m_num_src_bufs_ready(m2m_ctx));
-+			v4l2_m2m_num_src_bufs_ready(m2m_ctx), v4l2_m2m_num_dst_bufs_ready(m2m_ctx));
- 		break;
- 	}
- 	return false;
--- 
-2.34.1
+     1. Simple to manage with much better readability.
+     2. Better control to disable certain HW modules from DT.
+     3. Less error prone as we don't need to maintain long lists of 
+clocks or other resources against their names. Accordingly, easy to review.
+     4. No need to maintain resource lists within the CAMSS driver to 
+identify the resources specific to the HW block. Offers centralized 
+control for the HW resources.
+     5. Allows re use between the platforms when a same version of a 
+subset of HW modules is carried over to future chip sets.
+     6. Is more scalable when we add more functionality to the CAMSS driver.
+     7. Finally, it brings in parallel development ability with 
+engineers (within the local teams) working on different HW modules 
+within camera subsystem.
 
+If not for the current patches in the pipeline, if you are comfortable 
+with this approach, we will try to push the changes for the future chip 
+sets with the modular bindings, leaving the existing SOC drivers and 
+bindings untouched (if that's recommended). Please let us know your 
+thoughts. Thanks.
+>
+>
 
