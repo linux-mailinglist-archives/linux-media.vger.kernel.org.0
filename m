@@ -1,209 +1,204 @@
-Return-Path: <linux-media+bounces-45042-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45043-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFE32BF17B7
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 15:14:41 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id CD80ABF18E3
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 15:36:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7B92018947AF
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 13:15:04 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 3B9A118A491B
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 13:36:04 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E30763191B5;
-	Mon, 20 Oct 2025 13:14:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4515331A54C;
+	Mon, 20 Oct 2025 13:35:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="I9TDiMKW"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="IbqcSJt/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from BL2PR02CU003.outbound.protection.outlook.com (mail-eastusazon11011068.outbound.protection.outlook.com [52.101.52.68])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f44.google.com (mail-lf1-f44.google.com [209.85.167.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9CE5B2D2391;
-	Mon, 20 Oct 2025 13:14:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.52.68
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760966064; cv=fail; b=a0sQb7sq17uX90mfBXBPAuCAQ+n3FYU9CklH5qbNuT65URapt8U/nmTbQZfYWgBai/4xn8EbPq0VmqLMr25GLZrixf2gymdOM1VC2OOmDg1VqfLQwBSeBDmthgaH5EFm5PecYMZu6FCq8LGZEV4HrfazB4NFmR6LYlSyhS0NuTs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760966064; c=relaxed/simple;
-	bh=kOSuUbY76fkHiubFdTQZ+ya9FcSTnc1Hsx00J1FXeAQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=okAdylIhbhFUJT2Q3p7Y4rSPO3pUkd5FMp7q1/vbrvzqi1uFt/oEx2Gg/PglDkKWlKRNupRVe77pkakrJuWxI3tFyskI+5tskfy7feDnx+ZaqAg1RgPAjHn3/b6pnhbRrDvJPH/ztIINg0kQyXlgxGNVZEO+KLqwjrS6mqwMPVA=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=I9TDiMKW; arc=fail smtp.client-ip=52.101.52.68
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=MrzpPA5i94EvEyx60neIius7leKRgL5pF8QF3bOo5TB/FU1zJZGUxP4zNHD+Y/7u3wqbZkk79VjyDf1uSVEkf2nT9CzZCE8hspF+BgWcFb7KsKTNDKFCDAK962uh9IBWlozCISS9BF6OVefN58MtXUHz/Hgjk9HJsMoZhghBrQzeORzDXZiKdIhpNeYXrtPWwhE5R4BWvVOTivm0X+lb00U1fOwZDePgNNjESudoyQLr/HnJbhBadUr+F9LodiJcQsEip664tt+UzPrr8v8vgPxPEAol+HSDiSAHWrMolTvhW36E95u9IjX0a2j6W9taDUSYOpRro1IA2yWJWBWS3Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=g/xAhEPdrCK7JzGGZ23ruMt4w7fGstjGlW1v3WB/k4s=;
- b=Ap5O4/YAq/QqFmvo11OWHzVr7CtneIkGolo40xMEQFx+zPYp8SMoO6ff84Y+CpmqVIPBY8O0j81Ov7wVnIOF16C30ZNwnHo62C4NCR7SoEw0FH2stLNXOA0JqABQLzQ7/dyMRnMhlJaLHSmuZU01FIZvrEr21PKerOnBcmlY0ixRY2XUL+jsBwLrYY+YSCA4qLlndynlzT4fPXBNE/iOe6OQIxaBcH+yaAOT3hIO6OJnSoQCQYqbk+vovFlU+rCAUwWwg0mT618v3CYfzwTU0jO+Q4a+dnh7YNP5pMwO08ukSwUf7jsf0iUwZUksJDYJCr5P877fJBR6/Vi537FxRQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=g/xAhEPdrCK7JzGGZ23ruMt4w7fGstjGlW1v3WB/k4s=;
- b=I9TDiMKW7HA+TWyHbqwbSfxrSgrHWKtbtznvfCm4jIpPSAyF5tuLlU5+Q7flcPZ695SHyewl/1DFXvWsKAbXScrHXJsSJYCDhWk/E9bf1HblK2Se9MsYxl52CjzZdzBUF/qfWsOoPqcbNBAcfybu3TUys49BsWn8mEnxR1v7Gfy0Bkmrdlmr3+vN6AFvSlSxQd5XEGDVDDsVlNKYvHMKr8Kbf8sjPNOenelxd+cX8CvRaFx91TyyBdJFof2jYy7T1p9orfRE57Gf2fRaHJqPjTYmsFTt9QnMX6btPzlBHbx1o4VTpa2kAPSXYtlbi0sJDMsn4HDiVQ6k3UHFPztTqQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
- by MN2PR12MB4334.namprd12.prod.outlook.com (2603:10b6:208:1d1::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.17; Mon, 20 Oct
- 2025 13:14:19 +0000
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9228.015; Mon, 20 Oct 2025
- 13:14:19 +0000
-Date: Mon, 20 Oct 2025 10:14:17 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Leon Romanovsky <leon@kernel.org>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	Leon Romanovsky <leonro@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
-	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 4/9] PCI/P2PDMA: Export pci_p2pdma_map_type() function
-Message-ID: <20251020131417.GN316284@nvidia.com>
-References: <cover.1760368250.git.leon@kernel.org>
- <0fa715706e1adf5e26199dc3eaa3b1ff3b14db67.1760368250.git.leon@kernel.org>
- <aPHi2c2BQNB4eqm_@infradead.org>
- <20251017121447.GH3901471@nvidia.com>
- <aPYrEroyWVOvAu-5@infradead.org>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aPYrEroyWVOvAu-5@infradead.org>
-X-ClientProxiedBy: SA9PR13CA0093.namprd13.prod.outlook.com
- (2603:10b6:806:24::8) To MN2PR12MB3613.namprd12.prod.outlook.com
- (2603:10b6:208:c1::17)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 61B313191DA
+	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 13:35:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1760967322; cv=none; b=pYB9w+np3r0kT/4CwRb/YpA70MUKl232npDJetz1+3l+6p/CGGNdoK6UHhZ3CkM9fd7hHWHdP8KJE+oRz6DuhXxSDT46NBVVAwN4ssjQxf4f1E2HgLmHOTX81KkvqvdUYct4QVQKyGAQ1CGUz88aiarqlQb7G7k6pVpLg9OjLYo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1760967322; c=relaxed/simple;
+	bh=yFCAkB4FB/szNXHuo+qfIpsxub94n/l/Rq5RMCliHyw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CeChIO2RfJeAOZ1I6T6rbjR//Fp7qDrKkIT2x312y7oPfBDmsB2fdQOslJ83ublS7H1yIgMq6sXpuhepE1OvrE54xPDbNEM4c6PAnxSk1mf7Ou3TsGCkHim7kHK9p8bZlYiu9nfP7ow2LaG93PBgX3akUJq4ZKfJmS2eSrW7fP4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=IbqcSJt/; arc=none smtp.client-ip=209.85.167.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f44.google.com with SMTP id 2adb3069b0e04-58d8c50080cso267657e87.3
+        for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 06:35:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760967318; x=1761572118; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=iTVK75Z+r3PeIEvAgwCwXV8zi1kuAXvJOmtFkcbSutM=;
+        b=IbqcSJt/arMlK+CQRgURM01/b1wEZwbctCsp7AlNxM1ub0ulaYQaCvLolVH4pkLjeO
+         xslc/PPtkPm6VM92SzPxYWbt847q+gDTv5qV6+hd7waNQwbf+IuT1UrVaY1M+QMrDcRW
+         r3/XvhvcLKFy0ZgBEY+I/0JWRp+oR8huaWWxw4Qv6zQL64lXXdYqIWPsUWsXUlYd+Wb4
+         p69VCQ0SzQY0yv0Trwp++y2/JiLVG4Keom3uPg3R7OChmyeeAuCDjUw6XL8JadKxin8e
+         Ejf4UWrDn2t0bq1GKGuTmuCJnhvDexbLMkEjvI7WK1VcUWS2oNKLKCeN2AYHfKsLQBhD
+         ttPQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760967318; x=1761572118;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=iTVK75Z+r3PeIEvAgwCwXV8zi1kuAXvJOmtFkcbSutM=;
+        b=fRTXXfrw8vXfB83Dt5Fxlvjez3vXaBavCnvHNQJmSrBblIdLeKukNkJakpNV805Eq6
+         D5lLyAHKDiM8CUuW4aSTJJJHoe+RKdOEC51WMtvIN8oXDdHCpaCZS2EbmtnDXQMz9HTw
+         vin4aLbWSvuRuRkiGck7AiRSR21xt0lk2qEXdJKe5zCohY56PMYcPeRgMmOpIAzP+sfu
+         VYnt2b+q1POmd1iykV/Xh01tH3PgcRcx9d4PlU6rhv/b0T8vZ5aokP6RP5TJcge0iz4D
+         WxOX6ui0+zYJoFemMp9z18Vxk4E0MB3KcACdArMWi3IWoU3oQPBZnusjgIqKugGh9ZB0
+         aBDA==
+X-Forwarded-Encrypted: i=1; AJvYcCVVMtc5cFB+9atFIjuYLYYzEEutWX2JTj2AKMRpj6dzypEwLxP/X3ED8H0UrSIcfbWuZ/tbK03hO1daBQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLLfLjkA2bwy5TODOyWChmYphlxEaAzaGMe4K1vkQVvxnlZJT3
+	dR0Y3rFq3REwwRFLejC4hIezaT1hdkrlMKThfC2PATUaTKc5hBEA/056EsrhTODneek=
+X-Gm-Gg: ASbGnctnOIal1kNPfWygMryo13mPgOTys8XYdAuHW3FrYfHxGR8rFLk4FU0tAV8LEZn
+	k14n4oybyXL+zMJr5hX1zM3FDOmhZX1Qkl2aVx6eQqlPHzWHLUxjGin6XCrjNmIteNDDSSmU0Ls
+	qUY4+iEQb2c3xFTijejt4Ai3ayWEYuiz61ldYTllbz464kNcPNcfC0+TgK7wRSAccgliAXIY597
+	wK+sBngxpR8VLfVBQxyG7vfiNvX7u2no863obZY3zBSq5YRYJ3jpSlXSL8ykSNmS8RG/AY03xwj
+	ow4ExIMgVqTbQxowxRh62OjDVuIg7U6pRRVwF1XJg8zRkaJuO3wh45tf1xglvU6rjVVBKYDgIsz
+	ppH9HLkrXHCmFbSV2Qo8co9h3uW3tj/EyffMQHzaXKqRrT1O1qiZPuaCFbH1lXCnT09qug8+ufe
+	JM1lnCW6C47rzQxW7FgpU3cKKGMIuhzrDGCxmRqg1zLqt6qFT1GD3BRW4gN6nqtPgdHA==
+X-Google-Smtp-Source: AGHT+IHxso0ndVx6nhne45HeaNnUTTO1Vb73T80rCMDSgu7AycOnXxALJ3Jl5Ih4atbNPxHYTXnnHw==
+X-Received: by 2002:a05:6512:2303:b0:57a:d649:9702 with SMTP id 2adb3069b0e04-591d84f2d58mr2640895e87.1.1760967318390;
+        Mon, 20 Oct 2025 06:35:18 -0700 (PDT)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-591deeaf6e2sm2522385e87.32.2025.10.20.06.35.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 20 Oct 2025 06:35:17 -0700 (PDT)
+Message-ID: <48bede40-584a-409a-9bca-7ae3cc420667@linaro.org>
+Date: Mon, 20 Oct 2025 16:35:16 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|MN2PR12MB4334:EE_
-X-MS-Office365-Filtering-Correlation-Id: 70f5d0ca-0780-4bc8-e865-08de0fda93b8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?b8joZkN0/h9N0cTScTXpGlY+QCxIzckVOo2+SUUfCzclXooinPWxlpPD5y+Q?=
- =?us-ascii?Q?E/7ayuHiKwr+ke38/IJFK8Iuwc9HASoLkYnSGw0/RR2b6IYpq8sGWq1uucCS?=
- =?us-ascii?Q?7IFSpGqjGNzpKegd2gm9Z1NLMsjJdn1EVoT/qYf+3GJywLIZI7Hb0KtG8CtK?=
- =?us-ascii?Q?EulAgrq9kEEpOeAI3uCSmodlBPgVJZ8jgcASaBbVF7+FeDtqU4NQBAsZoSx6?=
- =?us-ascii?Q?Sv+xER1A0++imaYoSic5PKEy7r9MpxJCL6X4BcrdM+QjRO5xZGhhr+SmepkL?=
- =?us-ascii?Q?oLejVPK39wzuOTpBtfhtC4GWdg0VjrKZVe2i3XmXuhFMM89kUGbTdBZuLmgg?=
- =?us-ascii?Q?kaMGahdxrRs1Z1MYZgtpcmpFuD89CcxDA5tZYVO/7cH9w5Pqj3zCtHtBmFuJ?=
- =?us-ascii?Q?Tk3xNCpUepuHEy/foPy5HiG9qiZGe3DOIfGxkOgcJmUre7ttOqDRLL/U05jC?=
- =?us-ascii?Q?Qy8uWjjhYTttRlbnGlhHiq1Orp1Kn/9zMj8HnUsNSW4dvxuegdsgL7TN7Hut?=
- =?us-ascii?Q?SrGdF9QjjoRRZpBZcUqnHTndChbgKKsjhDRGQ+GOVIbv2LW95FjbEOdlT5TE?=
- =?us-ascii?Q?Zp4pBAQBuPSkzWAugGEphtgHvIQ3I04gzpNB6iz7YfVaypj+kby8e4fS+TY4?=
- =?us-ascii?Q?dRjWnKB0gusi84OGSWHzxjwLZM6TscsOhnq7F7LGAx4YJU4a5ZX6EhUuCRwK?=
- =?us-ascii?Q?KEoG8V/YtP/2r655u2eaS2YcfGngmOLnd6AjFhVtzYGy6+vdpqiSBy1x2AaT?=
- =?us-ascii?Q?lMb5nhLBa01J2QB9K2W+Y//M/t8Tv+qBuiTORmN+NcOyvJAlCKbF3MEdVCPe?=
- =?us-ascii?Q?VK6CkzUxkIBA20UzLtU/bpYHVIe/4rD9w5cLiFWoCxsoLkaB8dyPJXm+TXgZ?=
- =?us-ascii?Q?1A1BI/zT65q2xMocseJbdnp7iYI5tpYVR2Vw8vsHCXEULH4GoRwHqAZDwkwd?=
- =?us-ascii?Q?uiUTyieVDHZv2PyC2wzBQEiCYm+u0+/LGuYdK4a3lCD9S58veoljfM21ZVju?=
- =?us-ascii?Q?GW0AgnuFLcIgFFE0ThDFXM5tNV7rzGWTxk30cpXmnbvkZpT1xX/gSXGu99yl?=
- =?us-ascii?Q?3ffOf7PcxTNSb6qWsLU4LDrw04ncDxuCTMAdQ9hz/GpAXBFXt3ounjVBg+e5?=
- =?us-ascii?Q?hFVEwj6YutYz9U3ylHRCw0z1/WwUF3uIc6P+dRSH0JMslqusS4KuIulHQJr2?=
- =?us-ascii?Q?3VJbWp2SyjSGiVcaYrOUcOmBd/J0Jt3+GgEDViEFZb94Zdb2nXaXp0Z95qKR?=
- =?us-ascii?Q?ZRskr0i+jwOTI9XWH+Ly2rbYjlVsc3GROwRvLLTz7gz3WvBylQk86GC0jcHd?=
- =?us-ascii?Q?FELno61k61GZDTih8xKq3dnb1nQxoDfqk5cuBQtxjhT7BHlbF5BjR97HQTbu?=
- =?us-ascii?Q?S21LgNt7QROouxx3cpy10uBx912TUXABICySUgwAITtRDZrvA3ZTps/ap5Fp?=
- =?us-ascii?Q?/4Xp5D2bNdeNg3ohDUZVuVrAVRTeaq6Va0c+QgQuKqWBKicrd0rYIw=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?5/FCbxZF3EcF6IVjezMmolqCLTK8l+FzsfT1KSHSMtBbKcAVMXkIj0eewVqD?=
- =?us-ascii?Q?TuKqv4QVURMbUgnRhjswyaTL1EDdzBq5XYIcQbXyuBYSOBQG76n2Jhe+7zVs?=
- =?us-ascii?Q?qTJmy6B5hynEUr3WIcLE1oDJuFGIeBg2QCweYLzGAv0+ONg2OBoBdFtAiOoD?=
- =?us-ascii?Q?SxKy3lZIdxCLUaXhm32fI7rKwWUv1DRycG82SQNAFRDGXgies+fyDl/FPbP2?=
- =?us-ascii?Q?riyWjuGmdPgGMrUhZ67/5A0zG8sjsia3vIhonnMpIxNuSIy97MYQ294uSNnY?=
- =?us-ascii?Q?viAgjJc0RMYw8stUHDtf+rp5yashs5GhW3sSql5z7Pe3hvYvODlzNv/nuGvB?=
- =?us-ascii?Q?koM7doslwd4LjLayTyGiyPF5+ZFWdcN5LjuWp7Tfv490Nbs/alMjv95YWjQj?=
- =?us-ascii?Q?ISE0/2JstBDXlrZsCixD2RLfEmWzwlsik055Kbt+wEP5SwkWLP+QpSTjEpty?=
- =?us-ascii?Q?Ssu24jFJkwgFLfKXId8fR1Ms4O/0I/VP/aLcewOXb251LhHfyYq4lkdsw9K3?=
- =?us-ascii?Q?C2htt4JkbPSjqasKuluNWZ54m7rVeuOtosL+NcrnKYPVYTaKJpV8iEx+Z6Qp?=
- =?us-ascii?Q?s0+QHYoEyvL184nJVPWyp5yRS6fBBMWtiXW5KT47aIpSIZWL0/ElgZh8kB5q?=
- =?us-ascii?Q?x9q8iEq25fVtbpOzS4hM2NWNCdTqhqzNLz6QMjAqnCeXZazgoCjkFaKs3J0P?=
- =?us-ascii?Q?GxlT61CDVi7VE3+rnR0Q/lLjjbt/iv4dP2+uH9nGwFBWXio94ZCY3cryFobZ?=
- =?us-ascii?Q?ZSGz7oy2oE+B95PUtmfFq9T2/EL+TUSlwkwgkc2Xfg51iMkxxd7UvPbgS/Z5?=
- =?us-ascii?Q?x1oGKJS7s1fNiJJUEVGj10cxWCWFsUPTJAkjm4xAIIYVq2FuG9eMSq/VjQGd?=
- =?us-ascii?Q?slaNqbIEg/H4/p5wXqNnhGCmfFxpwyy+BxZBEoEnAEQXJNQPbxbBkHH4oS72?=
- =?us-ascii?Q?ctEes0Rui37zVQV3d6Sq44Laj/m35uplqDEetwNZvLeEvUU+12TZggjyctJH?=
- =?us-ascii?Q?oDywnv+Y4+KDsa3KBD0AYluNgZySfwIUz0Ee277UnaIjBp7KrxEQNpQV7+j5?=
- =?us-ascii?Q?Xaif1cmsqUb4dda15OL996Rq76Pghgu0/VvLK80VuU/Ow9tncnI6uqEge4LG?=
- =?us-ascii?Q?Ae4pl31CTYkmX+Kzxqo6oMrPGy6mYMMeuyk9wPfGLaDB0+74ahgcKrmgwclI?=
- =?us-ascii?Q?QDVvt026JIW7Air+tkLA3nMwC3xr2oDbktuOZt1BD7zl3CbaQ1pkhhxcrnVe?=
- =?us-ascii?Q?YG3AuuLIITdALZfXQwak8hhnHiufAc0q9dqjx8gXSf6sk+R/y7S6NarpFEFv?=
- =?us-ascii?Q?q6OzmlVVnTJ2ND0Lmrba5ZpWTjMUdaSRbEarHpd5YresbVp0HyZflajkx5Vt?=
- =?us-ascii?Q?hUyclZetKzcCGiBzOxDd0PPmyhMw+fxC9HsnyuVCtzXedq5TKder6miJeKaX?=
- =?us-ascii?Q?lctUHx1hDM+NYDNwSvI6fwVKcrtT8cPbk1+WynSwGNNh12NwHkAlcn0W/j3x?=
- =?us-ascii?Q?UYEVAIpH7PLzIxuVfyupOQjOJTqawc9IaUWiZCiYXpSMfk98sZGg+dNoUOja?=
- =?us-ascii?Q?DLN39+Kkytck41uWAINLYPpYHF2n6ADRaSXTkxEJ?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 70f5d0ca-0780-4bc8-e865-08de0fda93b8
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Oct 2025 13:14:19.2031
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: V9sVEPkJmgkdE09DNOGndubxcCIH7wcoFoZoRf01i6x4VsEMvvKi6RXUISyr/NGs
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4334
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] media: qcom: camss: Enable setting the rate to
+ camnoc_rt_axi clock
+To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+ Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Andi Shyti <andi.shyti@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, linux-i2c@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ Bryan O'Donoghue <bod@kernel.org>
+References: <20251014-add-new-clock-in-vfe-matching-list-v1-1-0d965ccc8a3a@oss.qualcomm.com>
+ <9984bc23-05ef-4d46-aeb8-feb0a18e5762@kernel.org>
+ <bc0caeb8-c99b-4bef-a69e-5ce433e6b890@oss.qualcomm.com>
+ <c4fd6bfc-cc9a-4f37-99b3-f36466691a1e@linaro.org>
+ <CAFEp6-2=GJL-gc+PSyAL4=prp_sXdZJS=Ewg5nP2kcp_Gu85Fw@mail.gmail.com>
+ <33513b43-f6d1-4c76-887b-39611a75e1f4@kernel.org>
+ <WnfCknsSyJK68PQZkE2q7COZHRpsLOFlr3dcbwiVR6SBWtF9iRQ4MGzp_9q31O0kyhZwoncQWfHjJQvpz7nyfw==@protonmail.internalid>
+ <ab43c5c9-edc5-459e-8ef7-2aa8bec559c0@oss.qualcomm.com>
+ <0e6e1b8a-d9ae-42d1-b1ad-4314e0d76ab7@kernel.org>
+ <2c0011d3-a692-457c-9ac0-a445fc82df37@oss.qualcomm.com>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <2c0011d3-a692-457c-9ac0-a445fc82df37@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 20, 2025 at 05:29:06AM -0700, Christoph Hellwig wrote:
-> On Fri, Oct 17, 2025 at 09:14:47AM -0300, Jason Gunthorpe wrote:
-> > On Thu, Oct 16, 2025 at 11:31:53PM -0700, Christoph Hellwig wrote:
-> > > 
-> > > Nacked-by: Christoph Hellwig <hch@lst.de>
-> > > 
-> > > As explained to you multiple times, pci_p2pdma_map_type is a low-level
-> > > helper that absolutely MUST be wrapper in proper accessors. 
-> > 
-> > You never responded to the discussion:
-> > 
-> > https://lore.kernel.org/all/20250727190252.GF7551@nvidia.com/
-> > 
-> > What is the plan here? Is the new DMA API unusable by modules? That
-> > seems a little challenging.
+Hi Hangxiang.
+
+On 10/20/25 06:23, Hangxiang Ma wrote:
+> On 10/17/2025 7:41 PM, Bryan O'Donoghue wrote:
+>> On 16/10/2025 21:53, Vijay Kumar Tumati wrote:
+>>>
+>>> On 10/16/2025 8:31 AM, Bryan O'Donoghue wrote:
+>>>> On 16/10/2025 13:22, Loic Poulain wrote:
+>>>>>> I'm - perhaps naively - assuming this clock really is required ... and
+>>>>>> that both will be needed concurrently.
+>>>>> AFAIU, the NRT clock is not in use for the capture part, and only
+>>>>> required for the offline processing engine (IPE, OPE), which will
+>>>>> likely be described as a separated node.
+>>>>
+>>>> Maybe yeah though we already have bindings.
+>>>>
+>>>> @Hangxiang I thought we had discussed this clock was required for your
+>>>> setup.
+>>>>
+>>>> Can you confirm with a test and then
+>>>>
+>>>> 1. Repost with my RB - I assume you included this on purpose
+>>>> 2. Respond that you can live without it.
+>>>>
+>>>> ---
+>>>> bod
+>>>>
+>>> @Bryan and others, sorry, I am just trying to understand the exact ask
+>>> here. Just to add a bit more detail here, On certain architectures,
+>>> there is one CAMNOC module that connects all of the camera modules (RT
+>>> and NRT) to MMNOC. In these, there is one 'camnoc_axi' clock that needs
+>>> to be enabled for it's operation. However, on the newer architectures,
+>>> this single CAMNOC is split into two, one for RT modules (TFEs and IFE
+>>> Lites) and the other for NRT (IPE and OFE). So, on a given architecture,
+>>> we either require 'camnoc_axi' or 'camnoc_rt_axi' for RT operation, not
+>>> both. And yes, one of them is a must. As you know, adding the support
+>>> for the newer clock in "vfe_match_clock_names" will only enable the
+>>> newer chip sets to define this in it's resource information and set the
+>>> rate to it based on the pixel clock. In kaanapali vfe resources, we do
+>>> not give the 'camnoc_axi_clk'. Hopefully we are all on the same page
+>>> now, is it the suggestion to use 'camnoc_axi_clk' name for
+>>> CAM_CC_CAMNOC_RT_AXI_CLK ? We thought it would be clearer to use the
+>>> name the matches the exact clock. Please advise and thank you.
+>>
+>> The ask is to make sure this clock is needed @ the same time as the
+>> other camnoc clock.
+>>
+>> If so then update the commit log on v2 to address the concerns given
+>> that it may not be necessary.
+>>
+>> If not then just pining back to this patch "we checked and its not
+>> needed" will do.
+>>
+>> ---
+>> bod
 > 
-> Yes.  These are only intended to be wrapped by subsystems.
+> @Bryan, I test two scenarios individually that also consider @Vladimir's
+> concern. I confirm this clock rate setting is necessary.
+> 1. Remove 'camnoc_rt_axi' from the vfe clock matching function.
+> 2. Remove 'camnoc_nrt_axi' from the vfe clock resources in camss.c.
+> Both of them block the image buffer write operation. More clearly, we
+> will stuck at the stage when all buffers acquired but CAMSS takes no action.
+> 
+> I agree with @Vijay to keep 'camnoc_rt_axi' to distinguish between the
+> new one and 'camnoc_axi'. The disagreement concerns how to standardize
+> the camnoc clock name or how to differentiate between RT and NRT clock
+> names if a new RT clock name is introduced. Other chips like sm8550,
+> sm8775p depend on 'camnoc_axi'. Meanwhile, 'camnoc_rt_axi' and
+> 'camnoc_nrt_axi' are both necessary for QCM2290 and X1E80100. But chips
+> like QCM2290 and X1E80100 may not need to set the clock rate but
+> Kaanapali needs. @Vladimir
 
-Sure, but many subsystems are fully modular too.. RDMA for example.
+Thank you so much for performing the tests.
 
-Well, lets see what comes in the future..
+I would want to add that I've made right the same tests for SM8650 CAMSS,
+which also has two 'camnoc_rt_axi' and 'camnoc_nrt_axi' clocks, and due
+to my tests the latter one is not needed for the raw image producing, you
+may notice that I've excluded it from the v3 series sent for review:
 
-> Yes, that sounds much better.  And dmabuf in general could use some
-> deduplicating of their dma mapping patterns (and eventual fixing).
+https://lore.kernel.org/linux-media/20251017031131.2232687-2-vladimir.zapolskiy@linaro.org
 
-Yes, it certainly could, but I wanted to tackle this later..
+> We now prefer to add 'camnoc_rt_axi' (Right?). Maybe its better to add
+> comment lines to remove the ambiguity whether 'camnoc_axi' denotes to RT
+> or NRT. Please advise and correct me. Willing to receive feedback and
+> suggestions. Thanks you for all.
 
-I think adding some 'dmabuf create a map for this list of phys on this
-provider' is a good simplifed primitive. Simple drivers like VFIO that
-only want to expose MMIO can just call it directly.
-
-Once this is settled I want to have RDMA wrap some of its MMIO VMAs in
-DMABUF as well, so I can see at least two users of the helper.
-
-Jason
+-- 
+Best wishes,
+Vladimir
 
