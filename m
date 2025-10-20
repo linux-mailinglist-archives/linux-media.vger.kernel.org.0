@@ -1,136 +1,133 @@
-Return-Path: <linux-media+bounces-44986-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-44987-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5B1DBEFB0F
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 09:36:57 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D852CBEFB12
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 09:37:16 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 7838C4ED1CB
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 07:36:47 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 83A243B7ECF
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 07:37:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0AC592DECD3;
-	Mon, 20 Oct 2025 07:36:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A99CC2DC79D;
+	Mon, 20 Oct 2025 07:37:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="KhfaRwUI"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="HxlqG6JV"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 607DA2BFC70
-	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 07:36:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6088C2DC77F
+	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 07:37:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760945802; cv=none; b=tdwqhW7Sot2glOZGwhT5eeIKGkFLyT1sNsR4SeOC0eZxsZXitQ7m45dInlxwsOUJ6nDu2R4B9cmItZjJNzJRr8AypmUUsBLC4m8xEv/89piQS+6r02Q1auc6HJVlfCbxLHUnvlsbmYk2duWpyO1M5Ilxu7WZ1tg01MgKSZAWGmQ=
+	t=1760945832; cv=none; b=sZ4GfWnBh2SWlU0FjAnng50zzoq1ZfoESmu4Lbr1zRIfCC+0XdC5oDfueBc/RiEl/CI8hWiJh6cTSBDd0138yN6W5sspdodS4HBgroqAIsvVcW/4S7oVHMS3+6OegixEqJGTcnOlluR+ql4PhoPBIIFq3xSv1GPiQCVi5Z46kHs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760945802; c=relaxed/simple;
-	bh=x0j7qAAZyh1TUxJ815tp8gjcfVHO9OYxjegCdiMyRIc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:From:In-Reply-To:
-	 Content-Type:References; b=faqrQOpiM+fc1G6DaopUPcoR0Dx717Ytpz9zdzvobwlyswQE532hVe+fD5erKcfxT8+mLT7S73MS7eh8fyEXjBTEtfvOpnfEBFYcGFXLX3+nkoYlrwpqnST5P5DZdYJFU+dkSvqE8581BbueeT/5+w7cO9381MuD1F9q8qlkPNo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=KhfaRwUI; arc=none smtp.client-ip=210.118.77.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
-Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20251020073638euoutp02bd9636af72fd2636da23fe04bc68e175~wIt_5FGIE1119711197euoutp02W
-	for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 07:36:38 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20251020073638euoutp02bd9636af72fd2636da23fe04bc68e175~wIt_5FGIE1119711197euoutp02W
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1760945798;
-	bh=GoL5kOGHdEjPxsTc7d/4NSIxvA8/Iprxh8LI8sTxaYw=;
-	h=Date:Subject:To:Cc:From:In-Reply-To:References:From;
-	b=KhfaRwUIsmFMl1LfdDBzzDv1NA9rpA8sOshWTXV29bKkobXHmauAhK2oyZr3351Tf
-	 lY4ENMQTd6rkXyeAnjtVSeELG7rQeuSMIFjJJzHWpfAFbMF6Rgjrqfw+NvD2G8ZXcS
-	 JjRzf7p1NwXNMpYPyOqjfL8HjvlYFDKy3PNDTPdw=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
-	eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
-	20251020073638eucas1p25a7cedcf3cbbb94479447587e4e717ca~wIt_hCm552197321973eucas1p2Y;
-	Mon, 20 Oct 2025 07:36:38 +0000 (GMT)
-Received: from [106.210.134.192] (unknown [106.210.134.192]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20251020073637eusmtip10f52564bb702e0dc07850c778d7ac13e~wIt9sSHtr0650706507eusmtip1M;
-	Mon, 20 Oct 2025 07:36:37 +0000 (GMT)
-Message-ID: <8f4131c1-5a3e-4e67-af86-009005b39540@samsung.com>
-Date: Mon, 20 Oct 2025 09:36:36 +0200
+	s=arc-20240116; t=1760945832; c=relaxed/simple;
+	bh=VQoaozExOmqioacf5/q3vnaqih0NQ4fstgfjAkmu8vA=;
+	h=From:Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:To:
+	 References:In-Reply-To; b=NETiaqGDTCINHedHVul2iK5wKDlTTHLi6YLPBzYIUJy220AjxHd0EZVzWa/rVJ/S35UNEwQdszQVNpwu4zy3h0MZxiyjEqldhWMYph+wYdJzcRxGLWU0avK7vnAJU9hnRKYafTqWLf7oeVgLSYof5IFWgP2A+R52Jl2LEAD9jDw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=HxlqG6JV; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-426ed6f4db5so2679722f8f.0
+        for <linux-media@vger.kernel.org>; Mon, 20 Oct 2025 00:37:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1760945827; x=1761550627; darn=vger.kernel.org;
+        h=in-reply-to:references:to:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z4ILWPeza03QIvY2XtFV8lZT4kG8ISpnp8pogSjcHDw=;
+        b=HxlqG6JVEnLwfo6yTqBTak/0XQ79b6KoCfC5tqUeA1XCau0BuRHBp0o2QdMUn4595O
+         j3yxX3ztY8YiFPGmPTVUk9vOlf5fe7dxduRdpk/7qhr7Gfpea3E2v1vW0OZM6miuqoKv
+         SKiL8AbAN8Ji3mqr7ICjEuSfwUL5HSEXCm8D+N0PSOk3KmVdONWxvQXF0atiGR2Q4qAT
+         9d+NkGbemCZXZSYJXTPB+iKxlPJudFItl4swvXEiln+pbClefpkqSlNZpfXQ1RVA3tr4
+         isMVsAZny0AWON7VSiHaxOR7lE5uX/iJSIgFGtwIWv3iVkIQR9MocG8hRAsprk8GTtzc
+         pTdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1760945827; x=1761550627;
+        h=in-reply-to:references:to:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=Z4ILWPeza03QIvY2XtFV8lZT4kG8ISpnp8pogSjcHDw=;
+        b=nDfOhROKonYfkp7SU57QrCzT8RQ0rSc/YiR74RiD9XEa0cHagnf0cBSg3iCYwqt7sN
+         O0elaAUIo0/c8caVLGNwLpcE3DTZlm0Dhs02g9oJYIBzOk1NyVWcNLQk59ZKPB/RUVyT
+         57/UOUuDJeyV7iRb308WT+Rt/eJ0QIwzkCyYuDWuuz5UtjhnrZ6BySuGLCx0xn7PjjVY
+         0yXYYyy0JySGD+HalInWIWEbLkB4VIkteb+aaznn0mEL0czN2xupbvAD2jD+uPdoa+87
+         o1kIAXXHvUe4FxNcmhXK6sr4NsPUPkBHPTk0CR4PhP5G+Z9KilPU+tRK1pSh6UEzwBHw
+         OPLw==
+X-Forwarded-Encrypted: i=1; AJvYcCWyXMKmphDRjj8BCEuMzsE8UWc2DWL3E6e37wAFJ0o9drRV+lzYL8uow7m1PXzpjWx7KJ+e2fO5IRvtxQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwL4KG6HkUII1Vp+o1afttglJbJgnLYUXjTC1qVLjK0O6uM2fQF
+	3+Thhw8QGPdvF32TYteBe5ip6piuXku/Hj3AcVRYy45M8lY6nvsKYx/iYMrKskrEhwk=
+X-Gm-Gg: ASbGnctQ2Efip1YXI6pna1ycIZltvx7e/oTDt+wjf2bSbcog5J/HINmQrZMkNjprXPt
+	ywpnkYHEmv3x4K8pYZ3yajvCfIpH6X4Q2kDCv+zBHExuEYnX45PywAwpRWMfNlJId7hM4aRFzht
+	93epDkISzdU17MGzTxvx/QrJzaVyivxz1V2AzQ+4+qSd74pUbGfG7Khj+tQ1kaQ2Oy3Wi9BwlHr
+	ww/OhrrjXnhglPxHi/xbaQWjCu4vtx6JoKRZDSIiEVSvYBK/KtcEEZSkSo9S0sf3gMdh7691P8G
+	ThU6c7ed01yBOdFu8TK+rSDfp1FclmqEJIj2DBRUolaGmZr1AuZqpbcZyya9zqdkpJ/2E+ON02s
+	v/aK7INjen896/pPW0910APCEl77ia5sbyMihQd6X8XlUn8+GaRmdBmyuUGxmzOapa7qjLcVTW+
+	ekIDBCeM6UqATCWJgMfuUbj1GoRmCihGBTlSckPuI=
+X-Google-Smtp-Source: AGHT+IFruxApxCltSmU/r+PckQq1O1zM1pHRQoakcvOeekeeFen0XIHT681Gzcv841mSlTj/NhYjSw==
+X-Received: by 2002:a5d:5f95:0:b0:3f4:5bda:2710 with SMTP id ffacd0b85a97d-426fb6a7461mr10296981f8f.9.1760945827270;
+        Mon, 20 Oct 2025 00:37:07 -0700 (PDT)
+Received: from localhost (a95-94-245-170.cpe.netcabo.pt. [95.94.245.170])
+        by smtp.gmail.com with UTF8SMTPSA id ffacd0b85a97d-4283e7804f4sm11716854f8f.10.2025.10.20.00.37.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 20 Oct 2025 00:37:07 -0700 (PDT)
+From: Rui Miguel Silva <rui.silva@linaro.org>
+X-Google-Original-From: "Rui Miguel Silva" <rui.silva@linaro.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Betterbird (Windows)
-Subject: Re: [PATCH] media: videobuf2: forbid create_bufs/remove_bufs when
- legacy fileio is active
-To: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Tomasz Figa <tfiga@chromium.org>, Mauro Carvalho Chehab
-	<mchehab@kernel.org>, Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
-	Benjamin Gaignard <benjamin.gaignard@collabora.com>, Hans Verkuil
-	<hverkuil@kernel.org>, stable@vger.kernel.org
-Content-Language: en-US
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-In-Reply-To: <20251016111154.993949-1-m.szyprowski@samsung.com>
-Content-Transfer-Encoding: 7bit
-X-CMS-MailID: 20251020073638eucas1p25a7cedcf3cbbb94479447587e4e717ca
-X-Msg-Generator: CA
-Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20251016111208eucas1p24cd8cc1e952a8cdf73fbadea704b499d
-X-EPHeader: CA
-X-CMS-RootMailID: 20251016111208eucas1p24cd8cc1e952a8cdf73fbadea704b499d
-References: <CGME20251016111208eucas1p24cd8cc1e952a8cdf73fbadea704b499d@eucas1p2.samsung.com>
-	<20251016111154.993949-1-m.szyprowski@samsung.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 20 Oct 2025 08:37:06 +0100
+Message-Id: <DDMZ74PREAED.3H70WMNYIA0KJ@linaro.com>
+Cc: "Purism Kernel Team" <kernel@puri.sm>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>, <linux-media@vger.kernel.org>
+Subject: Re: [PATCH 2/3] media: imx7-media-csi: drop unused module alias
+To: "Johan Hovold" <johan@kernel.org>, "Rui Miguel Silva"
+ <rmfrfs@gmail.com>, "Laurent Pinchart" <laurent.pinchart@ideasonboard.com>,
+ "Martin Kepplinger" <martink@posteo.de>
+References: <20251017060051.8204-1-johan@kernel.org>
+ <20251017060051.8204-2-johan@kernel.org>
+In-Reply-To: <20251017060051.8204-2-johan@kernel.org>
 
-On 16.10.2025 13:11, Marek Szyprowski wrote:
-> create_bufs and remove_bufs ioctl calls manipulate queue internal buffer
-> list, potentially overwriting some pointers used by the legacy fileio
-> access mode. Simply forbid those calls when fileio is active to protect
-> internal queue state between subsequent read/write calls.
+Hey Johan,
+Thanks for this.
+
+On Fri Oct 17, 2025 at 7:00 AM WEST, Johan Hovold wrote:
+
+> The driver has never supported anything but OF probing so drop the
+> unused platform module alias.
 >
-> CC: stable@vger.kernel.org
-> Fixes: 2d86401c2cbf ("[media] V4L: vb2: add support for buffers of different sizes on a single queue")
-> Fixes: a3293a85381e ("media: v4l2: Add REMOVE_BUFS ioctl")
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
+> Signed-off-by: Johan Hovold <johan@kernel.org>
 
-Just for completeness, as I forgot to add in the initial patch:
+Acked-by: Rui Miguel Silva <rui.silva@linaro.org>
 
-Reported-by: Shuangpeng Bai<SJB7183@psu.edu>
-
+Cheers,
+    Rui
 
 > ---
->   drivers/media/common/videobuf2/videobuf2-v4l2.c | 10 ++++++++++
->   1 file changed, 10 insertions(+)
+>  drivers/media/platform/nxp/imx7-media-csi.c | 1 -
+>  1 file changed, 1 deletion(-)
 >
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index d911021c1bb0..f4104d5971dd 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -751,6 +751,11 @@ int vb2_create_bufs(struct vb2_queue *q, struct v4l2_create_buffers *create)
->   	int ret = vb2_verify_memory_type(q, create->memory, f->type);
->   	unsigned i;
->   
-> +	if (vb2_fileio_is_active(q)) {
-> +		dprintk(q, 1, "file io in progress\n");
-> +		return -EBUSY;
-> +	}
-> +
->   	create->index = vb2_get_num_buffers(q);
->   	vb2_set_flags_and_caps(q, create->memory, &create->flags,
->   			       &create->capabilities, &create->max_num_buffers);
-> @@ -1010,6 +1015,11 @@ int vb2_ioctl_remove_bufs(struct file *file, void *priv,
->   	if (vb2_queue_is_busy(vdev->queue, file))
->   		return -EBUSY;
->   
-> +	if (vb2_fileio_is_active(vdev->queue)) {
-> +		dprintk(vdev->queue, 1, "file io in progress\n");
-> +		return -EBUSY;
-> +	}
-> +
->   	return vb2_core_remove_bufs(vdev->queue, d->index, d->count);
->   }
->   EXPORT_SYMBOL_GPL(vb2_ioctl_remove_bufs);
+> diff --git a/drivers/media/platform/nxp/imx7-media-csi.c b/drivers/media/=
+platform/nxp/imx7-media-csi.c
+> index 34a92642bbfe..933a5f39f9f4 100644
+> --- a/drivers/media/platform/nxp/imx7-media-csi.c
+> +++ b/drivers/media/platform/nxp/imx7-media-csi.c
+> @@ -2290,4 +2290,3 @@ module_platform_driver(imx7_csi_driver);
+>  MODULE_DESCRIPTION("i.MX7 CSI subdev driver");
+>  MODULE_AUTHOR("Rui Miguel Silva <rui.silva@linaro.org>");
+>  MODULE_LICENSE("GPL v2");
+> -MODULE_ALIAS("platform:imx7-csi");
+> --=20
+> 2.49.1
 
-Best regards
--- 
-Marek Szyprowski, PhD
-Samsung R&D Institute Poland
+
 
 
