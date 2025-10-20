@@ -1,55 +1,55 @@
-Return-Path: <linux-media+bounces-45018-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45019-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310C7BF06AD
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 12:07:55 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7812BF06B9
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 12:08:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9760D3A6D8A
-	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 10:05:50 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A0A153A832B
+	for <lists+linux-media@lfdr.de>; Mon, 20 Oct 2025 10:06:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 323C92F999F;
-	Mon, 20 Oct 2025 10:04:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E9972FB094;
+	Mon, 20 Oct 2025 10:04:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="UZpHQW33"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="g2rBO0NM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1AD02F83AE;
-	Mon, 20 Oct 2025 10:04:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E99E2FAC1C;
+	Mon, 20 Oct 2025 10:04:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1760954676; cv=none; b=qunIfrS7M884VCnzgZsnwnckpoMgzHr0Wx7fXiOIOm8+7LpLoh28IL5kTbnkVcp/k8MPRsNDR6z3PocrriL/lkJYRRY1aik6DBKpIpLw9T85mc3hbXB3+TZ6o/Qnw3kxL7YUFxtSdasvYgkf6wiOS8zNGIZfUGCDXVXPERleBDg=
+	t=1760954681; cv=none; b=BKs3H2VBunAAD1gJoqnvzF8dA8zlhBLtUMpM+Q9//q6Ut5R8sgrvdeeLz6KDkBP+Gs2sHOE1CR+v9+xflAJHh3LwZOBbIgRhsA3PlDc3f/UxTPLv1wPK+HtRTfHqT4bt2/rDQsFrDbxPFjicWtn4htqd/SxIg9mqFpjj0ZwJstk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1760954676; c=relaxed/simple;
-	bh=h3N0Gm87ALyNcMBnk14h1KKNXe9sbhc0PNDBK6yXbfU=;
+	s=arc-20240116; t=1760954681; c=relaxed/simple;
+	bh=x2mWF27zYDCpuMWgQWiHXG23FvxacWyah9lAcsG8EKc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KeyWc62+4yn0j2+PyhHMfRPeMdsehv2MAaQw7WYuaCaGkyTQZsYkqreROsQgPmhnuIIERK0m9JWH/uqIlJAxWfdEXhZaPeE8jB5hcRbYF2iXcoj+rQeoEfhCmwSvDWGqs+EXvgBQT++US6LaG/+CB7Eh5jf+7f+r+ThzesbtvLE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=UZpHQW33; arc=none smtp.client-ip=148.251.105.195
+	 In-Reply-To:Content-Type; b=q6xaYXQv8rfGm80Y9SXO1qJ+ymsSB0Q0dykNWQkKVZb6nlZDKTYnCo4ve05+oFFC9hULhQUVx/YPc6HaT8sboDwPp1gytDFW3nB6y4KU4AewwxYhUU0tczUHLuMID/wwQ7EQUWU/TyfM+LM9UsY8abgAtdrzEaW+KNbYyUFqpP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=g2rBO0NM; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1760954673;
-	bh=h3N0Gm87ALyNcMBnk14h1KKNXe9sbhc0PNDBK6yXbfU=;
+	s=mail; t=1760954677;
+	bh=x2mWF27zYDCpuMWgQWiHXG23FvxacWyah9lAcsG8EKc=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=UZpHQW33ZW2yMdrw+jf9iIk/dEEIrtba/DdToyFk+k5pA+T78Z/DdZQAHjTbGoJX5
-	 YttNV59CQ1DBx10iPVo+BaVOKjXQ7Vc2WUPRxPQxkhwKTOsQRBEImPfb1NKxvvVI+t
-	 jgTHaf/Wg1UYDlfBp3cZyhlbxVp7hNPp6KinhjUVmL0a9/Awts4aVRvpjJq+S92YuR
-	 1M135gTH7zV75y/WKxrYQ+evqiLqm0XZPx3mdrOo2C5jHsdz/C5DDrfHZtFiGjR9+a
-	 Q0irX2k8l3ES8/gySgnuN8yccLqR8GkPiec1CreRONBzl0HPQCeLX7esVrL1fcF28t
-	 6pn1zf97lIiRA==
+	b=g2rBO0NMHkK12kQUBh2/MnJcHSUsh7lgw5QWOV+xgsnebkOZih6VBCXL5zzG19MLI
+	 iSNorhpODz3CLPibaT0EJ7HBGNlun+xrfOi+1sQkJO1cImEtv+329Sf9OI1+vjHZ4O
+	 OLRAy32YUeWHalsEc1F5zVmicF9CAPtqIruVKPzv2aEmMZz1593P2RXgj6ushgb1jF
+	 xK5NoGNoEY6IdFNBaByYjwhJ9Yic+oMVBGVQP0wK+t8xdHmYrRv1V6ygr0Ht6jqqpx
+	 89HhIVA7BTRQiAvzbMQukFK0BdFqPx5VFf1c30g2CdDGPxRHL/IyvnyUFgme/ZlQOJ
+	 i6tM5ozWapRzw==
 Received: from [192.168.1.100] (2-237-20-237.ip236.fastwebnet.it [2.237.20.237])
 	(using TLSv1.3 with cipher TLS_AES_128_GCM_SHA256 (128/128 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: kholk11)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 731F217E108C;
-	Mon, 20 Oct 2025 12:04:32 +0200 (CEST)
-Message-ID: <9258e1ca-56b2-4fb6-bf17-40c86b8c05b6@collabora.com>
-Date: Mon, 20 Oct 2025 12:04:32 +0200
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id B25EF17E0FAD;
+	Mon, 20 Oct 2025 12:04:36 +0200 (CEST)
+Message-ID: <336e7154-b618-466c-a9b5-cc15f0f62a27@collabora.com>
+Date: Mon, 20 Oct 2025 12:04:36 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -57,8 +57,8 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v8 14/20] media: platform: mtk-mdp3: Refactor CMDQ writes
- for CMDQ API change
+Subject: Re: [PATCH v8 07/20] mailbox: mtk-cmdq: Add mminfra_offset
+ configuration for DRAM transaction
 To: Jason-JH Lin <jason-jh.lin@mediatek.com>, Rob Herring <robh@kernel.org>,
  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
  <conor+dt@kernel.org>, Jassi Brar <jassisinghbrar@gmail.com>,
@@ -76,23 +76,41 @@ Cc: Matthias Brugger <matthias.bgg@gmail.com>,
  dri-devel@lists.freedesktop.org, linux-mediatek@lists.infradead.org,
  linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
 References: <20251017065028.1676930-1-jason-jh.lin@mediatek.com>
- <20251017065028.1676930-15-jason-jh.lin@mediatek.com>
+ <20251017065028.1676930-8-jason-jh.lin@mediatek.com>
 From: AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>
 Content-Language: en-US
-In-Reply-To: <20251017065028.1676930-15-jason-jh.lin@mediatek.com>
+In-Reply-To: <20251017065028.1676930-8-jason-jh.lin@mediatek.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 Il 17/10/25 08:44, Jason-JH Lin ha scritto:
-> Update CMDQ register writes to use subsys-aware APIs,
-> cmdq_pkt_write_subsys() and cmdq_pkt_write_mask_subsys().
-> This conforms to recent CMDQ API changes that split access by
-> subsys ID support.
+> The GCE in MT8196 is placed in MMINFRA and requires all addresses
+> in GCE instructions for DRAM transactions to be IOVA.
 > 
-> Since all current MDP SoCs support subsys ID, and future MDP
-> deployments will not run on SoCs without subsys ID, only
-> subsys-specific API calls are needed. No logic for non-subsys ID
-> hardware is required.
+> Due to MMIO, if the GCE needs to access a hardware register at
+> 0x1000_0000, but the SMMU is also mapping a DRAM block at 0x1000_0000,
+> the MMINFRA will not know whether to write to the hardware register or
+> the DRAM.
+> To solve this, MMINFRA treats addresses greater than 2G as data paths
+> and those less than 2G as config paths because the DRAM start address
+> is currently at 2G (0x8000_0000). On the data path, MMINFRA remaps
+> DRAM addresses by subtracting 2G, allowing SMMU to map DRAM addresses
+> less than 2G.
+> For example, if the DRAM start address 0x8000_0000 is mapped to
+> IOVA=0x0, when GCE accesses IOVA=0x0, it must add a 2G offset to
+> the address in the GCE instruction. MMINFRA will then see it as a
+> data path (IOVA >= 2G) and subtract 2G, allowing GCE to access IOVA=0x0.
+> 
+> Since the MMINFRA remap subtracting 2G is done in hardware and cannot
+> be configured by software, the address of DRAM in GCE instruction must
+> always add 2G to ensure proper access. After that, the shift functions
+> do more than just shift addresses, so the APIs were renamed to
+> cmdq_convert_gce_addr() and cmdq_revert_gce_addr().
+> 
+> This 2G adjustment is referred to as mminfra_offset in the CMDQ driver.
+> CMDQ helper can get the mminfra_offset from the cmdq_mbox_priv of
+> cmdq_pkt and add the mminfra_offset to the DRAM address in GCE
+> instructions.
 > 
 > Signed-off-by: Jason-JH Lin <jason-jh.lin@mediatek.com>
 
