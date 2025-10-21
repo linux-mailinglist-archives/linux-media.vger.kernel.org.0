@@ -1,34 +1,34 @@
-Return-Path: <linux-media+bounces-45112-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45113-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C165BF551D
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 10:43:38 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id A1830BF5625
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 11:00:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 44E2135089A
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 08:43:37 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id AA4F835243E
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 09:00:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BF26320390;
-	Tue, 21 Oct 2025 08:43:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4880A2E11CB;
+	Tue, 21 Oct 2025 09:00:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="uRN1/4/r"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="Afhm0J56"
 X-Original-To: linux-media@vger.kernel.org
 Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD62F291C13;
-	Tue, 21 Oct 2025 08:43:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7C3A0329C76;
+	Tue, 21 Oct 2025 09:00:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761036210; cv=pass; b=hYo+BnPguTmeXVzAeKAqF8ywpxzBzX33650KgBCP88vwz9SkhBkAVR9J2+1Qy+ZqrM76UMX8PxAfy9aWjbslIs0cLKoNGsJCQg2kNfWJ+akqNJE61kCgtXO2M2MyaYe5CDcIW1rK038WPkkyHA3WnNoDSqUcL2QaWQd2Jmy8FTc=
+	t=1761037219; cv=pass; b=VPBt5P7BuJcPzY7khQEEM9kidItTq8z3ps2Xs/7chEyOFY/f9GMduiu/UeRQLBcqtZMbcPIMBdM4rerSQRmuRXkibeMdcyAiD0VzjNpcARUy3RDwVDb6SBGBdGBwzUOlZ5imC0kWS5bDW7AX0PMTJa8DckWtg5KP/Q/ZaGmJQwM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761036210; c=relaxed/simple;
-	bh=QNnCBOcY3yHr19UPu3nZg7aYzp3w9guPQWqSaxqQ3l4=;
+	s=arc-20240116; t=1761037219; c=relaxed/simple;
+	bh=Ery3wCWKUyPGPwDNSyS3Pks0jJfbeTvhsm/cOUBQB6U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J1nvJa51VkkUGv49ONMieX1b64vpCZD0GN8cQnA+Y4MOEjRnmQ7a4a+cKLAr+spjdoUyrPTvxMffFQPhAgwOavCAgMlkkkHKXivO+bCAF3gAc1CDapXx6FyuImWL913F6dWhqq17GyGtqVLMijinluHcwn38ytEgSWanNRL0BIQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=uRN1/4/r; arc=pass smtp.client-ip=185.185.170.37
+	 Content-Type:Content-Disposition:In-Reply-To; b=rRQTczcGsVm6vl7my0gKR9YvhXrVy7mFftq5pDZz8mqRGNfNseFSFjjpj8+3IK4JM4sLEp0hGveHa4JL5ZauGEy9wCsbAxWSP/jZX40PivZNovr2xy0tT3IXepJJgVespTNcZT++9/vm6EmG2U/eGhak9a4GHvc7D1ZRwLeobiA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=Afhm0J56; arc=pass smtp.client-ip=185.185.170.37
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
 Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
@@ -36,63 +36,61 @@ Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.15
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: sailus)
-	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4crQmn2H8Dz49PvY;
-	Tue, 21 Oct 2025 11:43:21 +0300 (EEST)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4crR8B2lPgz49Q3N;
+	Tue, 21 Oct 2025 12:00:10 +0300 (EEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
-	t=1761036201;
+	t=1761037210;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JyUGRQ6PJ1u2Lm1BLA85pJa1fVlOswvc3tUZzsrCrdg=;
-	b=uRN1/4/rGbbNYgdk2xKnZYZA7mcA4+7atkPJgSc1Wog6ZV5fbnOB7YjCo+cHd/MLQV2Usl
-	U3smYEFr8gsnU4z4Cbvo+U7oLR47YYu8tlgbVSHYEOnr+YUOW8vjpu9/f5R4rScV3Ld965
-	12v3Q46Py9nZx+iUn/pSqcUTthx73KeVuw9x41eccEVzd2Rwao3O9I82qklA/vNyUWCnTI
-	BiJqkq7bol51sugtl4YVRoaORXw8z8LUl7qHMv8pfWwuxV36wMnCGz43vJYWXVwOwxPKbL
-	6CyLARtxUfVh8bJNb2/+O0sZcVxt6RYT5XDpo+NvNdILcsgSm9itd0vTMI1SIg==
-ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1761036201; a=rsa-sha256;
+	bh=piJWpdhM1u4toBOe7fZrGYz+sw0Os5Sq1JWEfMVwKy0=;
+	b=Afhm0J56blq6WOxEWdpqMJj8z2Bu3vxCY36jgycDJJifiEEXFaOvT4ziEK9j5aeRa4bpd6
+	iwOtHdNfS21Uly7lOHFAu7wtGbq4hZHwLvNLrAh2R0geP0hxU0fZQXC+0ZEGuYg/3MeOZE
+	pOeNx05/n/miyCqzGlvlzMecKdXQKsEp0O4zVO0qOxw5V5lJq95qciOdL281eNEShV8lA2
+	HlRUQz/MQZ+DaUdaSwsaqxtllZd5h3SicPQj1LJUIPxyZsvayrgLyUF07fXxW7DHD4PBE/
+	Gy0bpvrtlp5zVwVKiZV2YCoaAZ23gBQubpTk6qdsqfv5IDc8bBAx+bPQgntpTQ==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1761037210; a=rsa-sha256;
 	cv=none;
-	b=iIph07gtLHPqINNfeZGDQZfYhC1XYF4a8OVJ488t1pef7vpCbWqxKz/cSZpT48EGB90PqM
-	rNRI8ZVBwG6NqyO+j8j0bDcs2NiRAPqxYAcQYD2gCogwVYdYzMXgUWBLGuxur5GzY6xQaP
-	BXhdKIM7SUJ2qARVEw7ls4v7Ohw15S67yBT5qBh9/IvmYxnOF8+rryT+xMKaAZhTT3q4SN
-	ECLphayXZJPmDQN+XmbhMO8WRW5ad1BWG6tGebCIYLPW/XGNCbJB/Ewn4w/EbqQxB9Ygjp
-	G83CXq8ER5zKynn7K2gxlLO1DrQRdsF3nB4BuVkCbbXUJDHc6v7DqxX0xcGjFg==
+	b=Q/ghmEWI+UT6uAQO1tR5PJpcRSmhr2P9Y9QxiR839K7B1mOn26QxpsdmEAWxc7th1/JRHv
+	b316LtxhN/snPuT0ZsPBaMI8Phateb1fGXjQcqouk0kTR288s/WWGWjvgBjE6UmECNgy4S
+	ZY63vuG2sjiOcMai9wT6GdyD4uG1Wpz/NJsNpepbzPU9dVAZBgPdL8Zg6XVIbNjcyesP7T
+	51KuF6eHgRbXrbIX+zIE407rbiffqcd0z8oMqcN7XVvRYsHT0uQ8gy6BWOkvSyyq7EeTHl
+	gNGU5r21zEAwjWqtBrNoRiovuhGYOVsrXoYxc80Ant6fFrjaPGjnB2jsd8r4TA==
 ARC-Authentication-Results: i=1;
 	ORIGINATING;
 	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=lahtoruutu; t=1761036201;
+	s=lahtoruutu; t=1761037210;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 in-reply-to:in-reply-to:references:references;
-	bh=JyUGRQ6PJ1u2Lm1BLA85pJa1fVlOswvc3tUZzsrCrdg=;
-	b=I4H/OSphBn5ICfI4SkGBg/37ZrU31t8CKZbnPpQByqm8vaDSWQXb9fVoDYjL3heuFHKHyE
-	3DOv232zwYqknNUVNx+2FMf4zxBu1H8Ulc4x6g7sZ0qrMb7nn3bAF+GefCBIIhqt6tegP+
-	7Oin7MWqWQZ/ZAS/S42fEMggsC6sGytPJqMI/Fl/LywSb9YwaQATZogdxcHm08/itSBlcR
-	ELaF543Y3FOM9FT1VQbeW4NEHd8+HVHSqsiNyZZny+I5iUVHx1egW56gtM2bvBhhAPRTik
-	RcwdM9NjOyEBhsZNXQXD3p/etB6p3/TwMeowOW3syIC+wn8WXDzLH+DoSv5hqw==
+	bh=piJWpdhM1u4toBOe7fZrGYz+sw0Os5Sq1JWEfMVwKy0=;
+	b=l0Wor7q9EfhpGTe/atzTtxJ79Kxu2o78QPbmol2nlUdweNm7uiNMs8uadSsPzDe7HpsKbr
+	Bddabdu7Mc9ga7vCiyC0YA9fuq9Vl+w7XANi107iBLDhDfdV6dzkOGVhDQqLWqFosrIRk0
+	kLWIYFycNu7jCMhuN5zHgrd+ztTCqlLkamgW/LSUqmrFqvMzGixi9SSvwl1bALY14uQ2hj
+	0ndmPZ1j8cPpvZe2S0Dedugb3FcGfE0UP6d/nzkxw7SBtyLQc6P/o5m44JC17lRp8BdF15
+	iwDof96I17ZCfyxMnOBIUbitfD21n41NEjF8DKR0RmGdoVXIVOm2Q4+bHhd85A==
 Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C42C7634C50;
-	Tue, 21 Oct 2025 11:43:20 +0300 (EEST)
-Date: Tue, 21 Oct 2025 11:43:20 +0300
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 266D7634C50;
+	Tue, 21 Oct 2025 12:00:10 +0300 (EEST)
+Date: Tue, 21 Oct 2025 12:00:09 +0300
 From: Sakari Ailus <sakari.ailus@iki.fi>
 To: Frank Li <Frank.Li@nxp.com>
-Cc: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>,
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>, Hans de Goede <hansg@kernel.org>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Rob Herring <robh@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>,
-	Jacopo Mondi <jacopo.mondi@ideasonboard.com>,
-	Nicholas Roth <nicholas@rothemail.net>,
-	"open list:OV2659 OMNIVISION SENSOR DRIVER" <linux-media@vger.kernel.org>,
+	"open list:OMNIVISION OV2680 SENSOR DRIVER" <linux-media@vger.kernel.org>,
 	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
 	open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
-Subject: Re: [PATCH 1/1] media: dt-bindings: move ovti,ov2659.txt into
- ovti,ov8858.yaml
-Message-ID: <aPdHqCWNdmVkch7S@valkosipuli.retiisi.eu>
-References: <20250912183003.1115957-1-Frank.Li@nxp.com>
+Subject: Re: [PATCH 1/1] media: dt-bindings: ovti,ov2680: Use
+ unevaluatedProperties for endpoint
+Message-ID: <aPdLmWM8a_ikhJfK@valkosipuli.retiisi.eu>
+References: <20250827194919.82725-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -101,108 +99,43 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250912183003.1115957-1-Frank.Li@nxp.com>
+In-Reply-To: <20250827194919.82725-1-Frank.Li@nxp.com>
 
 Hi Frank,
 
-Thanks for the patch.
-
-On Fri, Sep 12, 2025 at 02:30:02PM -0400, Frank Li wrote:
-> The properties in ovti,ov2659.txt are the same as ovti,ov8858. So move it
-> to this yaml file.
+On Wed, Aug 27, 2025 at 03:49:18PM -0400, Frank Li wrote:
+> The endpoint ref to /schemas/media/video-interfaces.yaml#, so replace
+> additionalProperties with unevaluatedProperties to allow use common
+> properties.
+> 
+> Fix below CHECK_DTBS warnings:
+>   arch/arm/boot/dts/nxp/imx/imx7s-warp.dtb: camera@36 (ovti,ov2680): port:endpoint: 'clock-lanes', 'data-lanes' do not match any of the regexes: '^pinctrl-[0-9]+$'
+> 	from schema $id: http://devicetree.org/schemas/media/i2c/ovti,ov2680.yaml
 > 
 > Signed-off-by: Frank Li <Frank.Li@nxp.com>
 > ---
->  .../bindings/media/i2c/ovti,ov2659.txt        | 47 -------------------
->  .../bindings/media/i2c/ovti,ov8858.yaml       |  4 +-
->  2 files changed, 3 insertions(+), 48 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov2659.txt
+>  Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov2659.txt b/Documentation/devicetree/bindings/media/i2c/ovti,ov2659.txt
-> deleted file mode 100644
-> index 92989a619f292..0000000000000
-> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov2659.txt
-> +++ /dev/null
-> @@ -1,47 +0,0 @@
-> -* OV2659 1/5-Inch 2Mp SOC Camera
-> -
-> -The Omnivision OV2659 is a 1/5-inch SOC camera, with an active array size of
-> -1632H x 1212V. It is programmable through a SCCB. The OV2659 sensor supports
-> -multiple resolutions output, such as UXGA, SVGA, 720p. It also can support
-> -YUV422, RGB565/555 or raw RGB output formats.
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
+> index 634d3b821b8c7..ec5c40684b6bd 100644
+> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
+> @@ -58,7 +58,7 @@ properties:
+>      properties:
+>        endpoint:
+>          $ref: /schemas/media/video-interfaces.yaml#
+> -        additionalProperties: false
+> +        unevaluatedProperties: false
 
-I don't object merging this with the ov8858 bindings as such but the
-differences between the sensors should be taken into account. Something
-like the text above should be added to those bindings, which now describe
-the ov8858 only. Also, the number of lanes is probably different between
-the two.
+There are a lot more than just data-lanes in video-interfaces.yaml.
 
-What about the regulators? The ov2659 doesn't control any right now, but
-that's probably an oversight (and whatever regulators connected on the
-platform used were hard-wired).
+Could you instead drop data-lanes and clock-lanes from the bindings? They
+are redundant.
 
-Overall, it might be easier to keep the two bindings separate rather than
-have some number of ifs in the bindings.
-
-You can drop clock-names as there's just a single clock (the same goes for
-the driver naturally).
-
-> -
-> -Required Properties:
-> -- compatible: Must be "ovti,ov2659"
-> -- reg: I2C slave address
-> -- clocks: reference to the xvclk input clock.
-> -- clock-names: should be "xvclk".
-> -- link-frequencies: target pixel clock frequency.
-> -
-> -Optional Properties:
-> -- powerdown-gpios: reference to the GPIO connected to the pwdn pin, if any.
-> -  Active high with internal pull down resistor.
-> -- reset-gpios: reference to the GPIO connected to the resetb pin, if any.
-> -  Active low with internal pull up resistor.
-> -
-> -For further reading on port node refer to
-> -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> -
-> -Example:
-> -
-> -	i2c0@1c22000 {
-> -		...
-> -		...
-> -		 ov2659@30 {
-> -			compatible = "ovti,ov2659";
-> -			reg = <0x30>;
-> -
-> -			clocks = <&clk_ov2659 0>;
-> -			clock-names = "xvclk";
-> -
-> -			powerdown-gpios = <&gpio6 14 GPIO_ACTIVE_HIGH>;
-> -			reset-gpios = <&gpio6 15 GPIO_ACTIVE_LOW>;
-> -
-> -			port {
-> -				ov2659_0: endpoint {
-> -					remote-endpoint = <&vpfe_ep>;
-> -					link-frequencies = /bits/ 64 <70000000>;
-> -				};
-> -			};
-> -		};
-> -		...
-> -	};
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
-> index 491f2931e6bcd..d7059dbee7fca 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8858.yaml
-> @@ -19,7 +19,9 @@ $ref: /schemas/media/video-interface-devices.yaml#
 >  
->  properties:
->    compatible:
-> -    const: ovti,ov8858
-> +    enum:
-> +      - ovti,ov2659
-> +      - ovti,ov8858
->  
->    reg:
->      maxItems: 1
+>          properties:
+>            link-frequencies: true
 
 -- 
 Kind regards,
