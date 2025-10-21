@@ -1,238 +1,193 @@
-Return-Path: <linux-media+bounces-45149-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45150-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3097BF7D28
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 19:07:02 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D5D9BF8199
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 20:34:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 2A424353A0A
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 17:07:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 35B713AD4AE
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 18:34:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B68132E6CA2;
-	Tue, 21 Oct 2025 17:06:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9B5134D924;
+	Tue, 21 Oct 2025 18:34:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VGia5uql"
+	dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b="FH603vwr"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mout.web.de (mout.web.de [212.227.17.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E2D4347BD8;
-	Tue, 21 Oct 2025 17:06:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BDDF834D902;
+	Tue, 21 Oct 2025 18:34:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761066413; cv=none; b=E0S+0HzGTZo15vgyTqMqprNZ2eUE/743BnTkuylvCqIQo2qA0LfGcEshhmcw+uz9LCdyZnzXjQvf1FgIc1xniC7wtXNiEHQXjrSGyvN9lHzaaOOIuohy5H2SiRhx9xbDzBO2l83zBs/XH/3B/udwSF/EIxHRELtCNZtN5PvHXDM=
+	t=1761071668; cv=none; b=Movaf6G3CbqFWrcsIHR1uqtTcsjmZcX4SUb8j4QoOTYcNlU6ugioccpf315YVxiVdSLDgiRRzakeAFQ4XueLiOh/8K5dyJG2aPgV2sQ7L/5jJvkP91XKlCclVQy3ayqqDzCc4l5fcwwd9gk5rzGb4qdxyiDMwbdPIzeKe3u6ToA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761066413; c=relaxed/simple;
-	bh=eX+scB9gmnElV1r0mt35p3dZqokHw8IeE1qKw2G1dX0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fs4yYrfjx5ZpPqXOLDaJg1Ez6ixPyBXsUCEtwoxV7CWP8eB/xGahIyIowxNqAgv82/FMMGnkt6rSc2HUrFPE5LvwwfWHfSi0VNkg/NQoqnpg+N6VyLxRgVsRoBE8ucTrGGqEDb+ukAJpArEYFx9piwUzzHGjS316ogie5UH3N6A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VGia5uql; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (87-94-110-32.bb.dnainternet.fi [87.94.110.32])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id F3A336F9;
-	Tue, 21 Oct 2025 19:05:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761066304;
-	bh=eX+scB9gmnElV1r0mt35p3dZqokHw8IeE1qKw2G1dX0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VGia5uqlaRtMK1MdEFpuaXEQbd0Amx7OTANqzUuEAH1iw7GGpAcF3FdnepmGI7bA2
-	 y7rdP+AMDIDQit2ooFwLvYhKTLMtFqgLaKFfF31YVYP+7JoffHLWLBldLvXKj8TWOe
-	 KYAsa6iRoIGg6Bpb5/0uN7Nk2agVI9GB4cdwMF6k=
-Date: Tue, 21 Oct 2025 20:06:35 +0300
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Hans de Goede <hansg@kernel.org>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
-	Angel4005 <ooara1337@gmail.com>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] media: uvcvideo: Use heuristic to find stream entity
-Message-ID: <20251021170635.GC727@pendragon.ideasonboard.com>
-References: <20251021-uvc-grandstream-v2-1-6a74a44f4419@chromium.org>
- <20251021164443.GA727@pendragon.ideasonboard.com>
- <CANiDSCsC6SgYJ-jSswPaeAw8RkxjZN4n23X35XbntNGcUsuRJQ@mail.gmail.com>
+	s=arc-20240116; t=1761071668; c=relaxed/simple;
+	bh=o7KZQoS3Gd0pEWOeSJgHQDMBFnLTvt8KVyrnG2lW43A=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=MkPBKx2xl0ATgXq7g435hCgGpe7KAzrOzjK8Ch6o3SITuzEtleXxRRO07y8qNuXAt8ngUktXNnYi3RAD4RGxC4sRhCAi4eKsHDejdXZ9Epy12dGgEDWaAAr0xCmzefGjybc9WA4GJQMVwFGyJFM1vWNo4dT4adD0ZzfElkoe2Aw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=markus.elfring@web.de header.b=FH603vwr; arc=none smtp.client-ip=212.227.17.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
+	s=s29768273; t=1761071640; x=1761676440; i=markus.elfring@web.de;
+	bh=6FRJssbtVPmOjx0o5zga2S5Cuou84TRsQ7XPGOO4XBs=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:To:Cc:References:
+	 Subject:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+	 cc:content-transfer-encoding:content-type:date:from:message-id:
+	 mime-version:reply-to:subject:to;
+	b=FH603vwrqiDlmj5zVIDWLT6uSJkMCBL99djcXx3wGqQrhYoGKvk8XSQzLA5M1F7I
+	 a/0uYOdVKIEKWFp5HStH9+r0dHt3onc0/VTWLCY+q+XSu4IhoSHMVfMarsCi2WqnR
+	 MaftWX5+jb6FPwizIVRXEuhL7wu+2Z5BTRtDCpKLmCJFZkVW4kqp/ZKkl9NF5bo9i
+	 Gaq0rfm/zO2IltMtqw3tcmKgPHrhEuM25jIsswsY3BEK3rtmXqtdUMdLAd+aKEKYI
+	 6qkfRNisn89Pg7ncnWRo4rvz0VwV3gkVo9byklIFejuATKzvwnbwRIsnyb5gf0dlN
+	 p0WF8QhuU7htXLBmtA==
+X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
+Received: from [192.168.178.29] ([94.31.69.255]) by smtp.web.de (mrweb105
+ [213.165.67.124]) with ESMTPSA (Nemesis) id 1MVrg7-1ujTTB175R-00HzqL; Tue, 21
+ Oct 2025 20:34:00 +0200
+Message-ID: <2638dc88-a6e7-4b3c-8783-629bcfcd7d4b@web.de>
+Date: Tue, 21 Oct 2025 20:33:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CANiDSCsC6SgYJ-jSswPaeAw8RkxjZN4n23X35XbntNGcUsuRJQ@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+To: Biancaa Ramesh <biancaa2210329@ssn.edu.in>, linux-media@vger.kernel.org,
+ Andy Walls <awalls@md.metrocast.net>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-kernel@vger.kernel.org
+References: <20251021175711.49252-1-biancaa2210329@ssn.edu.in>
+Subject: Re: [PATCH] media: cx18: kernel memory safety check in a block
+Content-Language: en-GB, de-DE
+From: Markus Elfring <Markus.Elfring@web.de>
+In-Reply-To: <20251021175711.49252-1-biancaa2210329@ssn.edu.in>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:YEtOp7WJQhO8phDiZ/dDdjhLKTlwVb92JnYhcV/5nS5UWmwnEHW
+ BKhy5WmG2etW04QnZ1U6owbjjVBTDrh3aDwfbGCJ/Q86BDnzXdH0DrFFn3YhG2nJGSDYIE9
+ a8CYt10UJ+7m5tJyeSE/IFnVBPqT92xcZmZzVMSgdByheMo6rgLurXO/5JSbq3o3O6o6KAu
+ rhCYe8PA0ecZeG7LjOAJw==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:1vpL5lorpTA=;ES7GIEhH8WpP75ohic0YfNxyLR5
+ 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
+ 6nR83MYexgFXWhi3Bnsm3qQ7uM=
 
-On Tue, Oct 21, 2025 at 06:57:00PM +0200, Ricardo Ribalda wrote:
-> On Tue, 21 Oct 2025 at 18:44, Laurent Pinchart wrote:
-> > On Tue, Oct 21, 2025 at 10:36:17AM +0000, Ricardo Ribalda wrote:
-> > > Some devices, like the Grandstream GUV3100 webcam, have an invalid UVC
-> > > descriptor where multiple entities share the same ID, this is invalid
-> > > and makes it impossible to make a proper entity tree without heuristics.
-> > >
-> > > We have recently introduced a change in the way that we handle invalid
-> > > entities that has caused a regression on broken devices.
-> > >
-> > > Implement a new heuristic to handle these devices properly.
-> > >
-> > > Reported-by: Angel4005 <ooara1337@gmail.com>
-> > > Closes: https://lore.kernel.org/linux-media/CAOzBiVuS7ygUjjhCbyWg-KiNx+HFTYnqH5+GJhd6cYsNLT=DaA@mail.gmail.com/
-> > > Fixes: 0e2ee70291e6 ("media: uvcvideo: Mark invalid entities with id UVC_INVALID_ENTITY_ID")
-> > > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > > ---
-> > > I have managed to get my hands into a Grandstream GUV3100 and
-> > > implemented a new heuristics. (Thanks Yunke and Hidenori!).
-> > >
-> > > With this heuristics we can use this camera again (see the /dev/video0
-> > > in the topology).
-> > >
-> > > I have tested this change in a 6.6 kernel. Because the notebook that I
-> > > used for testing has some issues running master. But for the purpose of
-> > > this change this test should work.
-> > >
-> > > ~ # media-ctl --print-topology
-> > > Media controller API version 6.6.99
-> > >
-> > > Media device information
-> > > ------------------------
-> > > driver          uvcvideo
-> > > model           GRANDSTREAM GUV3100: GRANDSTREA
-> > > serial
-> > > bus info        usb-0000:00:14.0-9
-> > > hw revision     0x409
-> > > driver version  6.6.99
-> > >
-> > > Device topology
-> > > - entity 1: GRANDSTREAM GUV3100: GRANDSTREA (1 pad, 1 link)
-> > >             type Node subtype V4L flags 1
-> > >             device node name /dev/video0
-> > >         pad0: SINK
-> > >                 <- "Extension 3":1 [ENABLED,IMMUTABLE]
-> > >
-> > > - entity 4: GRANDSTREAM GUV3100: GRANDSTREA (0 pad, 0 link)
-> > >             type Node subtype V4L flags 0
-> > >             device node name /dev/video1
-> > >
-> > > - entity 8: Extension 3 (2 pads, 2 links, 0 routes)
-> > >             type V4L2 subdev subtype Unknown flags 0
-> > >         pad0: SINK
-> > >                 <- "Processing 2":1 [ENABLED,IMMUTABLE]
-> > >         pad1: SOURCE
-> > >                 -> "GRANDSTREAM GUV3100: GRANDSTREA":0 [ENABLED,IMMUTABLE]
-> > >
-> > > - entity 11: Processing 2 (2 pads, 3 links, 0 routes)
-> > >              type V4L2 subdev subtype Unknown flags 0
-> > >         pad0: SINK
-> > >                 <- "Camera 1":0 [ENABLED,IMMUTABLE]
-> > >         pad1: SOURCE
-> > >                 -> "Extension 3":0 [ENABLED,IMMUTABLE]
-> > >                 -> "Extension 4":0 [ENABLED,IMMUTABLE]
-> > >
-> > > - entity 14: Extension 4 (2 pads, 1 link, 0 routes)
-> > >              type V4L2 subdev subtype Unknown flags 0
-> > >         pad0: SINK
-> > >                 <- "Processing 2":1 [ENABLED,IMMUTABLE]
-> > >         pad1: SOURCE
-> > >
-> > > - entity 17: Camera 1 (1 pad, 1 link, 0 routes)
-> > >              type V4L2 subdev subtype Sensor flags 0
-> > >         pad0: SOURCE
-> > >                 -> "Processing 2":0 [ENABLED,IMMUTABLE]
-> > > ---
-> > > Changes in v2:
-> > > - Fix : invalid reference to the index variable of the iterator.
-> > > - Link to v1: https://lore.kernel.org/r/20251021-uvc-grandstream-v1-1-801e3d08b271@chromium.org
-> > > ---
-> > >  drivers/media/usb/uvc/uvc_driver.c | 15 ++++++++++++++-
-> > >  1 file changed, 14 insertions(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> > > index fb6afb8e84f00961f86fd8f840fba48d706d7a9a..ee4f54d6834962414979a046afc59c5036455124 100644
-> > > --- a/drivers/media/usb/uvc/uvc_driver.c
-> > > +++ b/drivers/media/usb/uvc/uvc_driver.c
-> > > @@ -167,13 +167,26 @@ static struct uvc_entity *uvc_entity_by_reference(struct uvc_device *dev,
-> > >
-> > >  static struct uvc_streaming *uvc_stream_by_id(struct uvc_device *dev, int id)
-> > >  {
-> > > -     struct uvc_streaming *stream;
-> > > +     struct uvc_streaming *stream, *last_stream;
-> > > +     unsigned int count = 0;
-> > >
-> > >       list_for_each_entry(stream, &dev->streams, list) {
-> > > +             count += 1;
-> > > +             last_stream = stream;
-> > >               if (stream->header.bTerminalLink == id)
-> > >                       return stream;
-> > >       }
-> > >
-> > > +     /*
-> > > +      * If the streaming entity is referenced by an invalid ID, notify the
-> > > +      * user and use heuristics to guess the correct entity.
-> > > +      */
-> > > +     if (count == 1 && id == UVC_INVALID_ENTITY_ID) {
-> > > +             dev_warn(&dev->intf->dev,
-> > > +                      "UVC non compliance: Invalid USB header. The streaming entity has an invalid ID, guessing the correct one.");
-> > > +             return last_stream;
-> > > +     }
-> >
-> > As far as I understand, the reason why we can't find the streaming
-> > interface here is because we have set the streaming output terminal ID
-> > to UVC_INVALID_ENTITY_ID, due to the extension unit being previously
-> > registered with the same ID. We're therefore adding a workaround on top
-> > of another workaround.
-> >
-> > Looking at the UVC descriptors for this camera, ID 4 is shared between
-> > an extension unit with GUID ffe52d21-8030-4e2c-82d9-f587d00540bd and the
-> > streaming output terminal. That GUID is apparently a Logitech GUID
-> > (according to https://github.com/soyersoyer/cameractrls/blob/c920e/cameractrls.py).
-> > I don't know if the XU actually works in that camera, but it could be
-> > useful to keep it functional.
-> >
-> > I think we could make the handling of non-unique IDs more clever. If an
-> > output streaming terminal and a unit share the same ID, we could
-> > allocate an unused ID for the output streaming terminal, and patch the
-> > bTerminalLink of the stream headers accordingly. The ID remapping should
-> > not cause other issues, as
-> >
-> > - streaming output terminals have no controls, so the ID isn't used to
-> >   reference controls
-> >
-> > - the units graph is build from sink to source, with UVC descriptors
-> >   containing the IDs of source units, so streaming output terminals are
-> >   never referenced by ID from descriptors except for the bTerminalLink.
-> >
-> > This would produce a valid graph without duplicated IDs in this case.
-> 
-> I will try to work on a solution like you propose in this kernel
-> cycle, but I do not feel very confident about landing that big change
-> in "fixes" without being in linux-next for a couple of weeks. I'd
-> rather go for a simple solution that fixes the regression.
-> 
-> With this fix, the media controller topology looks identical as before
-> we introduce the bug, so we do not lose any functionality.
-> 
-> So if you agree I think the safest path is to land this fix in fixes
-> now. And try to get a better logic landed in next in this kernel
-> cycle.
-> 
-> What do you think?
+=E2=80=A6
+> ---
+>  drivers/media/pci/cx18/cx18-queue.c | 11 +++++++++--
+=E2=80=A6
 
-I'm fine with that timelie. Thanks for agreeing to try and implement the
-above proposal.
+Thanks for your try to improve the implementation of the function =E2=80=
+=9Ccx18_stream_alloc=E2=80=9D.
+https://elixir.bootlin.com/linux/v6.18-rc2/source/drivers/media/pci/cx18/c=
+x18-queue.c#L332-L408
 
-> > > +
-> > >       return NULL;
-> > >  }
-> > >
-> > >
-> > > ---
-> > > base-commit: ea299a2164262ff787c9d33f46049acccd120672
-> > > change-id: 20251021-uvc-grandstream-05ecf0288f62
+I miss some information so far.
 
--- 
+1. Helpful change description
+   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/Documentation/process/submitting-patches.rst?h=3Dv6.18-rc2#n45
+
+2. Subsystem specification
+   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/Documentation/process/submitting-patches.rst?h=3Dv6.18-rc2#n646
+   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/log=
+/drivers/media/pci/cx18/cx18-queue.c
+
+3. More appropriate recipient selection
+   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/Documentation/process/submitting-patches.rst?h=3Dv6.18-rc2#n231
+
+
+=E2=80=A6
+> --=20
+> ::DISCLAIMER::
+=E2=80=A6
+> The=20
+> contents of this e-mail and any attachment(s) are confidential and
+=E2=80=A6
+
+Such hints are probably misplaced for communication by the means of public=
+ mailing lists.
+
+See also once more:
+https://subspace.kernel.org/etiquette.html#do-not-include-confidentiality-=
+disclaimers
+
 Regards,
-
-Laurent Pinchart
+Markus
 
