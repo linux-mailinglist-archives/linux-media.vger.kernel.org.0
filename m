@@ -1,77 +1,81 @@
-Return-Path: <linux-media+bounces-45116-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45117-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37174BF5764
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 11:18:15 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C2CD2BF57DC
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 11:25:56 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id F3D6018A754E
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 09:18:38 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 65E843510A7
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 09:25:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86FAC30596D;
-	Tue, 21 Oct 2025 09:18:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1B39D329C50;
+	Tue, 21 Oct 2025 09:25:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="T0MwssBb"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GOpUeXjn"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29A272FB0BC;
-	Tue, 21 Oct 2025 09:18:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1606221F0C;
+	Tue, 21 Oct 2025 09:25:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761038287; cv=none; b=QG4Qlof5pvHGkmuBqa8++F9XQ650IQjnh4oLgWaedjE1nkqleN+zCAXweDb8tnLI+Mhz8sDBLbrUF+sRcjWiIuwJObzlVi5ZdBIwypp/xMo2H6EKzocJkIuNzenyB4tdbhy27BWzWEjHAeCnI6OnB9c7OS9HFIb5Eyxaz8HYQUc=
+	t=1761038750; cv=none; b=fYYIM2yR+vwowBr8CvgtqygU3jH73zBddhC89pxqHht+U7lEPGIUsbWqaKk8OUYgFmVlG8Z2iDxzQGtdew2Ygou3KeeZAgluh9vHU0w/9blfMKXKR+gUIYsxlOlNS9nW1BQPd72sp4dMqDxBYXg8MWK5Zg4d5c3ciRhVocm0xnU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761038287; c=relaxed/simple;
-	bh=UuBuv44gNzyj1+yUJap8HHMxkyOwxw2EgIgQnSBwTI0=;
+	s=arc-20240116; t=1761038750; c=relaxed/simple;
+	bh=1/VK7hhoLILt5AJ4kRlkTSbhWrjSipFmR4OK9HdA9Bw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WrBQ43sfDi9Ab5yBjEpqJeV9LGak5QDRUGxl0ym6ZufkaHp4uF0msjnnBjPQ7pRALT5C6KNpM4XuIF9bFAiOySh1kPZ4xCAd8Z9YpYJ7OfNy5DazkoyNK68APB15BFdZE2kzT9thn9UCPjByxRYRBa1E7SSPlCW8XU6qVZznq6k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=T0MwssBb; arc=none smtp.client-ip=192.198.163.7
+	 Content-Type:Content-Disposition:In-Reply-To; b=HPWJSMBjz2qA6to4LYDgpmMdacRoNMhx7eop/1KJJ3ospFK9/+5UqgLn0Qs7bGwjlDns3l+/RlT0+fJt8CqdfPMFb15bxUs6dUoV9DeX1QePVVgWWtN4tFCncTnA7OJrygNE27G05eUEznkdTPQNO2pRKmYCDNORr81O99HuJqo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GOpUeXjn; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761038286; x=1792574286;
+  t=1761038749; x=1792574749;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=UuBuv44gNzyj1+yUJap8HHMxkyOwxw2EgIgQnSBwTI0=;
-  b=T0MwssBbsCN3WsR2TApPm/xujNaOD1PnKbfU3vJFkdgbm52vQ/kh8mp3
-   wsGyivC/Tne154KQ/7MqIwjk5ut0F8zChJGN8VYitXGV9bAxS+c+Kzj50
-   NNUUek7XHYIbePqRg0pL6/Q5HtQKGAonhVErRShTIqRD6teXCCG/C8ea4
-   WXJ+ZENuc/W0RB8EIOglXjOTvYPuH1LflqnAQXW+x8jhApxfx1sfnrShD
-   99IuFVa+Kw3Y5cCoZyux9ul7WA/v4ExSTRrx0RkG1vVp7fveO2H+j+FD0
-   2SyNjlnhiWRLSvG5Ekg25RqwdFFM933Qw4VjYsmpaNcvpuEhIuCW1YhBC
-   Q==;
-X-CSE-ConnectionGUID: HpZSDNspRYurUv4fwfjSDA==
-X-CSE-MsgGUID: jQPH9pDMQnmxPwTZSP14VQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="88627838"
+  bh=1/VK7hhoLILt5AJ4kRlkTSbhWrjSipFmR4OK9HdA9Bw=;
+  b=GOpUeXjnA1zU+KveMPSHOqEdBQ+OGr3PokskRMo/rNxZhYtZow9sszqH
+   CPr7RfmTXyswsjkXqkz5+3OkdgCHbXTXXXvV7Rh+a0Xfq9C4PzUzovkmd
+   0MkK2G60rCny/xKm/rJb/dHRD6ytY+KykfJGEWTFBQt5339L7bwCbbNNq
+   zVLtaO34lJIK+qGNcvucB5les91DUm6BrH0oOesUbSx+bwEM8gfBC3gVl
+   8DJiXbIbvrEoOesvcpWzyvngh5/a2CFH0Adk8kHKY8Cq1S3gY6YVMuLZj
+   nwmy1I1DuRYbZEefmvEPkMmshufUHpOl5qDIfr52Feunm6EdfHGgFITbc
+   A==;
+X-CSE-ConnectionGUID: 3fkBPCdBQM26Md3Tt5WZXA==
+X-CSE-MsgGUID: MPOAbBDDSXea+3GPlO92ZQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="66801751"
 X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
-   d="scan'208";a="88627838"
-Received: from fmviesa001.fm.intel.com ([10.60.135.141])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 02:18:06 -0700
-X-CSE-ConnectionGUID: mDuXJpdKSTqo8OBCWx1+TA==
-X-CSE-MsgGUID: TtcfR3JkRTaQOgzl1jDMMQ==
+   d="scan'208";a="66801751"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 02:25:48 -0700
+X-CSE-ConnectionGUID: RRKuRbnZSkaaiJwRZuVHzA==
+X-CSE-MsgGUID: By8zqz4IRp+Lxhn3sRgNQA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
-   d="scan'208";a="214505506"
+   d="scan'208";a="183949410"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.134])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 02:18:03 -0700
+  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2025 02:25:46 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 499B31202B5;
-	Tue, 21 Oct 2025 12:18:01 +0300 (EEST)
-Date: Tue, 21 Oct 2025 12:18:01 +0300
+	by kekkonen.fi.intel.com (Postfix) with SMTP id E54681202B5;
+	Tue, 21 Oct 2025 12:25:43 +0300 (EEST)
+Date: Tue, 21 Oct 2025 12:25:43 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Ricardo Ribalda <ribalda@chromium.org>
-Cc: Ricardo Ribalda <ribalda@kernel.org>,
-	Hans Verkuil <hverkuil+cisco@kernel.org>,
-	Dan Carpenter <dan.carpenter@linaro.org>,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] media: i2c: imx214: Rearrange control initialization
-Message-ID: <aPdPyc6Lasmp3EzC@kekkonen.localdomain>
-References: <20251020-imx214-smatch-v3-1-2c9999efc97c@chromium.org>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Hans de Goede <hansg@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: i2c: add Samsung S5KJN1 image sensor
+ device driver
+Message-ID: <aPdRlygxV1TCCUU3@kekkonen.localdomain>
+References: <20251016020419.2137290-1-vladimir.zapolskiy@linaro.org>
+ <20251016020419.2137290-3-vladimir.zapolskiy@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -80,26 +84,61 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251020-imx214-smatch-v3-1-2c9999efc97c@chromium.org>
+In-Reply-To: <20251016020419.2137290-3-vladimir.zapolskiy@linaro.org>
 
-Hi Ricardo,
+Hi Vladimir,
 
-Thank you for the update.
+On Thu, Oct 16, 2025 at 05:04:19AM +0300, Vladimir Zapolskiy wrote:
+> +	{ S5KJN1_REG_X_ADDR_START,  0x0000 },
+> +	{ S5KJN1_REG_Y_ADDR_START,  0x0000 },
+> +	{ S5KJN1_REG_X_ADDR_END,    0x1fff },
+> +	{ S5KJN1_REG_Y_ADDR_END,    0x181f },
+> +	{ S5KJN1_REG_X_OUTPUT_SIZE, 0x0ff0 },
+> +	{ S5KJN1_REG_Y_OUTPUT_SIZE, 0x0c00 },
+> +	{ CCI_REG16(0x0350), 0x0008 },
+> +	{ CCI_REG16(0x0352), 0x0008 },
+> +	{ CCI_REG16(0x0900), 0x0122 },
+> +	{ CCI_REG16(0x0380), 0x0002 },
+> +	{ CCI_REG16(0x0382), 0x0002 },
+> +	{ CCI_REG16(0x0384), 0x0002 },
+> +	{ CCI_REG16(0x0386), 0x0002 },
+> +	{ CCI_REG16(0x0110), 0x1002 },
+> +	{ CCI_REG16(0x0114), 0x0301 },
+> +	{ CCI_REG16(0x0116), 0x3000 },
+> +
+> +	/* Clock settings */
+> +	{ CCI_REG16(0x0136), 0x1800 },
+> +	{ CCI_REG16(0x013e), 0x0000 },
+> +	{ CCI_REG16(0x0300), 0x0006 },
+> +	{ CCI_REG16(0x0302), 0x0001 },
+> +	{ CCI_REG16(0x0304), 0x0004 },
+> +	{ CCI_REG16(0x0306), 0x008c },
+> +	{ CCI_REG16(0x0308), 0x0008 },
+> +	{ CCI_REG16(0x030a), 0x0001 },
+> +	{ CCI_REG16(0x030c), 0x0000 },
+> +	{ CCI_REG16(0x030e), 0x0004 },
+> +	{ CCI_REG16(0x0310), 0x0092 },
+> +	{ CCI_REG16(0x0312), 0x0000 },
+> +
+> +	{ CCI_REG16(0x080e), 0x0000 },
+> +	{ S5KJN1_REG_VTS,    0x10c0 },
+> +	{ S5KJN1_REG_HTS,    0x1100 },
+> +	{ CCI_REG16(0x0702), 0x0000 },
+> +	{ S5KJN1_REG_EXPOSURE, 0x0100 },
+> +	{ CCI_REG16(0x0200), 0x0100 },
+> +	{ CCI_REG16(0x0d00), 0x0101 },
+> +	{ CCI_REG16(0x0d02), 0x0101 },
+> +	{ CCI_REG16(0x0d04), 0x0102 },
+> +	{ CCI_REG16(0x6226), 0x0000 },
+> +	{ CCI_REG16(0x0816), 0x1c00 },
 
-On Mon, Oct 20, 2025 at 08:18:13PM +0000, Ricardo Ribalda wrote:
-> Smatch is confused by the control initialization logic. It assumes that
-> there can be a case where imx214->link_freq can be NULL and ctrls_init
-> returns 0.
-> 
-> Re-arrage the function to make smatch happy.
-> 
-> This patch fixes this smatch error:
-> drivers/media/i2c/imx214.c:1109 imx214_ctrls_init() error: we previously assumed 'imx214->link_freq' could be null (see line 1017)
-> 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+This looks interestingly CCS compliant. It might be worth taking the MSRs
+and trying with the CCS driver.
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Where is this sensor found?
 
 -- 
+Kind regards,
+
 Sakari Ailus
 
