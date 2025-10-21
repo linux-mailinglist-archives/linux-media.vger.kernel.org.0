@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-45141-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45143-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id C2DF4BF77E9
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 17:51:09 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 471D3BF7958
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 18:08:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 6EC5535663F
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 15:51:09 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 33ECB4E4D7F
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 16:08:09 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C7686345CBC;
-	Tue, 21 Oct 2025 15:49:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B189C345CB2;
+	Tue, 21 Oct 2025 16:07:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cXMrDyH9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VEB55zFM"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29F543451C1;
-	Tue, 21 Oct 2025 15:49:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 177533431F5;
+	Tue, 21 Oct 2025 16:07:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761061774; cv=none; b=GWBkYxEwKC9fkSvB07xVVBW0CKl9D0ihwC7xtLtpDvC6mVkoaKjTjzp1MRtD3ZqZBj9dWPza1qEMK8bLlSmu9bqwIs7Uj7R33EVHpYM07p0LWQsOBKvsaft7Mxuh9IXeqdLNtsGX0ViMYf1w69RaVENOh275PyYf3XxEK8VLs+4=
+	t=1761062874; cv=none; b=EvoUaUPAeNaFlzzbhsNptRD3LYQigwfUiO2t5aK8g74SssaiPFvr9h9zRMlAnrsxOmrzs4G4ETMYbtQtL6iJ5snPNNQi2p0IMQ25RXlMaOuOgK+ws5+ZnZIh8DYZBaIr0RsAROX9UVnNzC8x6TIe03tWZNVnDT0PvGTejcDCqrs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761061774; c=relaxed/simple;
-	bh=7mxg1xQod38wQEI4CXVSAADkgWs7WH+NuH4jrC7MOak=;
+	s=arc-20240116; t=1761062874; c=relaxed/simple;
+	bh=phzVeN8JZqKv0wjezRAZHMETLGOABIP7cx5lHSdF9jE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JuFloQMV3TYZbs3+WRojDQRRtYmybpWF1DR8IWaIy1qT7PJipth75EAL9yRSrApgptBap9T+sAh0IciTf7KvFPf7a+7ZJ+9nXpO41wC0ibZoCprd5mgNNXSQt8n/Lc7Ra7rY7rLt+ifZz/axxdP8Po6Avm22oa+zSOfUCSYX0uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cXMrDyH9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0D828C4CEF1;
-	Tue, 21 Oct 2025 15:49:29 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=R8/bD/d5OIPgVK8ZHpn0cBb7L6uXlVJuXjhe4k5Ng6hQp68/E6u20SvqbzUI/0YdKi/Sct+7abkvHv2xT8IDvUJUBjImLasVTbVFZRNuyGnT0QQ5kMU/Ml56nm35iBGpmngAF0VBd1Z72uMY3QxMl/HdGR3YTUFDone1Mx4nUhQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VEB55zFM; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD869C4CEF1;
+	Tue, 21 Oct 2025 16:07:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761061771;
-	bh=7mxg1xQod38wQEI4CXVSAADkgWs7WH+NuH4jrC7MOak=;
+	s=k20201202; t=1761062873;
+	bh=phzVeN8JZqKv0wjezRAZHMETLGOABIP7cx5lHSdF9jE=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=cXMrDyH9/wMYjhbk7LieUtG65ffuApqJ/9UqNq1f1qddifADj8SCu8TZND0bi1yEM
-	 hDPIEr7vvpuMJNPgrErFWPLDDDco0kwYkBSgBn2WRVg5vTyJQgTX0xEwklHGhXVlFB
-	 CPO1PRY3W6azAaLuJOVebIFWBe4/+tZq1G3G5I8riIzm2/a8P//zCUN7eu1J28kfXd
-	 b6msOZBy1kH0rC4vgk1wok8O8XB3lSFsBaZLLZzMpEUkjQzJ8fCNdACRlqrrgXGx36
-	 dx7qlaONgzR8ClnpHaDhPeeSuuE2IcdBMUozkjmMtxwETvw/G4/ausfbziJhT+JlSj
-	 D2L2JNnul/RFg==
-Message-ID: <c6b73659-bf0f-4967-ae21-c9f1a1401edb@kernel.org>
-Date: Tue, 21 Oct 2025 17:49:27 +0200
+	b=VEB55zFMSCjNcVaK9OxeWda6dja3YhGL+XA9903YnU4kVpR8iZPJgZ3d62g4tsgF2
+	 VSEH+sY0UMtf+kuVrxnlTHvzpBN2a1c2XUIPJyeGl6FbELZy0tXfqMimEKlf4RcZaW
+	 a2r+LT4NltF6WeSjY10SNO/SadKVGs+0vk8xAqs1z3H4EZ9yQoYsK7UtG4knK39y6t
+	 HIfXfAJP/zMwRnn0LbpeJxCKGdiI7NQEEPYZmZWk9wyZjMHaQ/mEfdm5B8N7JXu5ZK
+	 4USlm+D488xU21y4zUuojJdKWNzBdg4SOpK+Q30kn12jJqGHIJsgZW5XaZ403OLEOQ
+	 00H2DqPGgVGNg==
+Message-ID: <b282f6ef-fd91-44ea-bf51-187cf2c56fc6@kernel.org>
+Date: Tue, 21 Oct 2025 18:07:49 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,30 +50,37 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: ov13b10: Add ACPI ID for ASUS Z13 Flow laptop
-To: "Adam J. Sypniewski" <ajsyp@syptech.net>,
- Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Arec Kao <arec.kao@intel.com>, Mauro Carvalho Chehab
- <mchehab@kernel.org>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <aPecNTw6RHzprJ6e@garrus> <aPeeuSdxRL_JXfE9@kekkonen.localdomain>
- <aPeqy11m-TxwbzJV@garrus>
+Subject: Re: [PATCH v2] media: uvcvideo: Use heuristic to find stream entity
+To: Ricardo Ribalda <ribalda@chromium.org>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil+cisco@kernel.org>,
+ Thadeu Lima de Souza Cascardo <cascardo@igalia.com>,
+ Angel4005 <ooara1337@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251021-uvc-grandstream-v2-1-6a74a44f4419@chromium.org>
 From: Hans de Goede <hansg@kernel.org>
 Content-Language: en-US, nl
-In-Reply-To: <aPeqy11m-TxwbzJV@garrus>
+In-Reply-To: <20251021-uvc-grandstream-v2-1-6a74a44f4419@chromium.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
 Hi,
 
-On 21-Oct-25 17:46, Adam J. Sypniewski wrote:
-> The ASUS ROG Flow Z13 2025 (GZ302) laptop uses an OV13B10 sensor with a
-> non-standard ACPI ID of OMNI13B1 instead of the expected OVTI13B1.
+On 21-Oct-25 12:36, Ricardo Ribalda wrote:
+> Some devices, like the Grandstream GUV3100 webcam, have an invalid UVC
+> descriptor where multiple entities share the same ID, this is invalid
+> and makes it impossible to make a proper entity tree without heuristics.
 > 
-> Add this ACPI ID to the driver to make the front-facing camera work on
-> these laptops.
+> We have recently introduced a change in the way that we handle invalid
+> entities that has caused a regression on broken devices.
 > 
-> Signed-off-by: Adam J. Sypniewski <ajsyp@syptech.net>
+> Implement a new heuristic to handle these devices properly.
+> 
+> Reported-by: Angel4005 <ooara1337@gmail.com>
+> Closes: https://lore.kernel.org/linux-media/CAOzBiVuS7ygUjjhCbyWg-KiNx+HFTYnqH5+GJhd6cYsNLT=DaA@mail.gmail.com/
+> Fixes: 0e2ee70291e6 ("media: uvcvideo: Mark invalid entities with id UVC_INVALID_ENTITY_ID")
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 
 Thanks, patch looks good to me:
 
@@ -86,25 +93,109 @@ Hans
 
 
 > ---
+> I have managed to get my hands into a Grandstream GUV3100 and
+> implemented a new heuristics. (Thanks Yunke and Hidenori!).
+> 
+> With this heuristics we can use this camera again (see the /dev/video0
+> in the topology).
+> 
+> I have tested this change in a 6.6 kernel. Because the notebook that I
+> used for testing has some issues running master. But for the purpose of
+> this change this test should work.
+> 
+> ~ # media-ctl --print-topology
+> Media controller API version 6.6.99
+> 
+> Media device information
+> ------------------------
+> driver          uvcvideo
+> model           GRANDSTREAM GUV3100: GRANDSTREA
+> serial
+> bus info        usb-0000:00:14.0-9
+> hw revision     0x409
+> driver version  6.6.99
+> 
+> Device topology
+> - entity 1: GRANDSTREAM GUV3100: GRANDSTREA (1 pad, 1 link)
+>             type Node subtype V4L flags 1
+>             device node name /dev/video0
+>         pad0: SINK
+>                 <- "Extension 3":1 [ENABLED,IMMUTABLE]
+> 
+> - entity 4: GRANDSTREAM GUV3100: GRANDSTREA (0 pad, 0 link)
+>             type Node subtype V4L flags 0
+>             device node name /dev/video1
+> 
+> - entity 8: Extension 3 (2 pads, 2 links, 0 routes)
+>             type V4L2 subdev subtype Unknown flags 0
+>         pad0: SINK
+>                 <- "Processing 2":1 [ENABLED,IMMUTABLE]
+>         pad1: SOURCE
+>                 -> "GRANDSTREAM GUV3100: GRANDSTREA":0 [ENABLED,IMMUTABLE]
+> 
+> - entity 11: Processing 2 (2 pads, 3 links, 0 routes)
+>              type V4L2 subdev subtype Unknown flags 0
+>         pad0: SINK
+>                 <- "Camera 1":0 [ENABLED,IMMUTABLE]
+>         pad1: SOURCE
+>                 -> "Extension 3":0 [ENABLED,IMMUTABLE]
+>                 -> "Extension 4":0 [ENABLED,IMMUTABLE]
+> 
+> - entity 14: Extension 4 (2 pads, 1 link, 0 routes)
+>              type V4L2 subdev subtype Unknown flags 0
+>         pad0: SINK
+>                 <- "Processing 2":1 [ENABLED,IMMUTABLE]
+>         pad1: SOURCE
+> 
+> - entity 17: Camera 1 (1 pad, 1 link, 0 routes)
+>              type V4L2 subdev subtype Sensor flags 0
+>         pad0: SOURCE
+>                 -> "Processing 2":0 [ENABLED,IMMUTABLE]
+> ---
 > Changes in v2:
->  - Added comment explaining the ASUS-specific ACPI ID (Sakari)
+> - Fix : invalid reference to the index variable of the iterator.
+> - Link to v1: https://lore.kernel.org/r/20251021-uvc-grandstream-v1-1-801e3d08b271@chromium.org
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 15 ++++++++++++++-
+>  1 file changed, 14 insertions(+), 1 deletion(-)
 > 
->  drivers/media/i2c/ov13b10.c | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/drivers/media/i2c/ov13b10.c b/drivers/media/i2c/ov13b10.c
-> index 869bc78ed792..5421874732bc 100644
-> --- a/drivers/media/i2c/ov13b10.c
-> +++ b/drivers/media/i2c/ov13b10.c
-> @@ -1693,6 +1693,7 @@ static DEFINE_RUNTIME_DEV_PM_OPS(ov13b10_pm_ops, ov13b10_suspend,
->  static const struct acpi_device_id ov13b10_acpi_ids[] = {
->  	{"OVTIDB10"},
->  	{"OVTI13B1"},
-> +	{"OMNI13B1"},   /* ASUS ROG Flow Z13 (GZ302) uses this ACPI ID */
->  	{ /* sentinel */ }
->  };
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index fb6afb8e84f00961f86fd8f840fba48d706d7a9a..ee4f54d6834962414979a046afc59c5036455124 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -167,13 +167,26 @@ static struct uvc_entity *uvc_entity_by_reference(struct uvc_device *dev,
+>  
+>  static struct uvc_streaming *uvc_stream_by_id(struct uvc_device *dev, int id)
+>  {
+> -	struct uvc_streaming *stream;
+> +	struct uvc_streaming *stream, *last_stream;
+> +	unsigned int count = 0;
+>  
+>  	list_for_each_entry(stream, &dev->streams, list) {
+> +		count += 1;
+> +		last_stream = stream;
+>  		if (stream->header.bTerminalLink == id)
+>  			return stream;
+>  	}
+>  
+> +	/*
+> +	 * If the streaming entity is referenced by an invalid ID, notify the
+> +	 * user and use heuristics to guess the correct entity.
+> +	 */
+> +	if (count == 1 && id == UVC_INVALID_ENTITY_ID) {
+> +		dev_warn(&dev->intf->dev,
+> +			 "UVC non compliance: Invalid USB header. The streaming entity has an invalid ID, guessing the correct one.");
+> +		return last_stream;
+> +	}
+> +
+>  	return NULL;
+>  }
 >  
 > 
-> base-commit: 1fdb55ed40fa5ebe6934bd6b93036c714ebb5ef8
+> ---
+> base-commit: ea299a2164262ff787c9d33f46049acccd120672
+> change-id: 20251021-uvc-grandstream-05ecf0288f62
+> 
+> Best regards,
 
 
