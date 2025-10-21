@@ -1,60 +1,61 @@
-Return-Path: <linux-media+bounces-45164-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45163-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FB5BBF8C29
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 22:47:03 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B3ABBF8C26
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 22:46:51 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5D0184E13DC
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 20:47:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 43AA93BFABB
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 20:46:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2FBFE2820AC;
-	Tue, 21 Oct 2025 20:46:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AD32227F163;
+	Tue, 21 Oct 2025 20:46:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="Bt2URJXI"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="r//dQ98D"
 X-Original-To: linux-media@vger.kernel.org
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFC2E25C6EE;
-	Tue, 21 Oct 2025 20:46:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A4BC350A19;
+	Tue, 21 Oct 2025 20:46:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761079608; cv=none; b=eKlkFNybH0EoT+uNgtuS6WOFAcEOANili6q5lNunANtVBYgA06JCCMtL07oQCvSVwkrRt2JIX1RV1gi21QTG15rHuabrDtleeYWWad8q9KAZJ3ma8WAZTElSVBms+85q4SmzUrPAoblcO+BR35hh06TSwFnZ8YxwBulZdWLl8vE=
+	t=1761079603; cv=none; b=jW61DO3+FQSa/2FH8yPNiq1JrNvvZxU8a9f9yyNwVOhhVIA9Wr7hAsff+AXD2M6gUJHgWlQ+hkbUdS9dyiJWeytimfezlukljxa0bliPolsLvvl9HLK36iDtAaH/3GA3WlBU1Se4FeuHbsmUuMyocevdxBR17eZq2hRekDmYveE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761079608; c=relaxed/simple;
-	bh=hxoUGzw7ETeIvgYoFvUBa+elRqVmf1UtxvpnhOkiJxk=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UwfLjUQArhdKifywq+qQgEctt5FewCEUZfDmuizfrXfSpF+6AZY0d07GU88D+Yn7a+Ys3VnsZXr19JXnkezu1TJskyaiscv6R2mGIUIYI7WaCXdfYGfZGYgfOYw3ZcSQ8+pRhiDPFYrzLUq+m4vT4LziWYXVbBlJkkk9DfIeYAE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=Bt2URJXI; arc=none smtp.client-ip=198.47.23.234
+	s=arc-20240116; t=1761079603; c=relaxed/simple;
+	bh=g8txWwMN/Rz5kR8tRDpRkFlN929hs3Yj1mRDSwWBnxE=;
+	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=HP3ywomiUllVofykAUMGJQQ1HG89xI7GBOT/ilOqUtDSMIqpo+Ec2Ye/4ODq8INYZZYo8z1SS3XxwpB0WYfTnB2Cy+rTHm+oFe9c6K7cila/hPlw0R4of1tREMn4931VJG+JLFnJ9Oc/7gNhSdBZxCbw1UImFxgngLuck+99SO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=r//dQ98D; arc=none smtp.client-ip=198.47.23.235
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllvem-sh03.itg.ti.com ([10.64.41.86])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59LKkRIX1244879;
-	Tue, 21 Oct 2025 15:46:27 -0500
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59LKkUeN099262;
+	Tue, 21 Oct 2025 15:46:30 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1761079587;
-	bh=QBP3QfRnfIamzhwaxwbtj1LkpxU7f5gKMVd3rl/TpKI=;
-	h=From:To:CC:Subject:Date;
-	b=Bt2URJXI0LsfgNa8zMrNeUyz/tW/yN5wVUIg8J1t3wVIboezqWwQVkOv2e51F2voJ
-	 MikCOoQq3Nq1v/F0xCAxe27DfD3ZgSBz7g/BzClpxH4lhRRzH5dJAZbsnyWSBDNVdb
-	 tmvD2Wiy++ZazQsye9Tr40rcoQGfwVq2pwDPSF6A=
-Received: from DLEE206.ent.ti.com (dlee206.ent.ti.com [157.170.170.90])
-	by fllvem-sh03.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59LKkQB51491540
+	s=ti-com-17Q1; t=1761079590;
+	bh=lRvmrxTunZ/iPqAJOmWYTU3iSMQVGNfJCPqDgSkGQDU=;
+	h=From:To:CC:Subject:Date:In-Reply-To:References;
+	b=r//dQ98DlD/9rT+w/3J/TQ2Hfvj1SZLiCcdZahMiaBHLP6ExUBWn5CAQ0tlzu7nz/
+	 pO0q1ralCGXxoPbwrnhYsLpCJx1rx/YZh5ak8/sVs8H0YKIZAQ+HmcKQAXUOdKvqas
+	 joLzk4maxyhwvKhk4p4Y4QQT5XcHo/fWGSR0da+E=
+Received: from DFLE202.ent.ti.com (dfle202.ent.ti.com [10.64.6.60])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59LKkULh1069044
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 21 Oct 2025 15:46:27 -0500
-Received: from DLEE206.ent.ti.com (157.170.170.90) by DLEE206.ent.ti.com
- (157.170.170.90) with Microsoft SMTP Server (version=TLS1_2,
+	Tue, 21 Oct 2025 15:46:30 -0500
+Received: from DFLE204.ent.ti.com (10.64.6.62) by DFLE202.ent.ti.com
+ (10.64.6.60) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Tue, 21 Oct
- 2025 15:46:26 -0500
-Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DLEE206.ent.ti.com
- (157.170.170.90) with Microsoft SMTP Server (version=TLS1_2,
+ 2025 15:46:30 -0500
+Received: from lelvem-mr05.itg.ti.com (10.180.75.9) by DFLE204.ent.ti.com
+ (10.64.6.62) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Tue, 21 Oct 2025 15:46:26 -0500
+ Transport; Tue, 21 Oct 2025 15:46:30 -0500
 Received: from udba0500997.dhcp.ti.com (udba0500997.dhcp.ti.com [128.247.81.190])
-	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59LKkQ9C113737;
-	Tue, 21 Oct 2025 15:46:26 -0500
+	by lelvem-mr05.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59LKkQ9D113737;
+	Tue, 21 Oct 2025 15:46:30 -0500
 From: Brandon Brnich <b-brnich@ti.com>
 To: Nas Chung <nas.chung@chipsnmedia.com>,
         Jackson Lee
@@ -64,10 +65,12 @@ To: Nas Chung <nas.chung@chipsnmedia.com>,
         Nicolas
  Dufresne <nicolas.dufresne@collabora.com>
 CC: Darren Etheridge <detheridge@ti.com>, Brandon Brnich <b-brnich@ti.com>
-Subject: [PATCH v2 1/2] media: chips-media: wave5: Fix conditional in start_streaming
-Date: Tue, 21 Oct 2025 15:46:17 -0500
-Message-ID: <20251021204618.2441939-1-b-brnich@ti.com>
+Subject: [PATCH v2 2/2] media: chips-media: wave5: Process ready frames when CMD_STOP sent to Encoder
+Date: Tue, 21 Oct 2025 15:46:18 -0500
+Message-ID: <20251021204618.2441939-2-b-brnich@ti.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20251021204618.2441939-1-b-brnich@ti.com>
+References: <20251021204618.2441939-1-b-brnich@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -78,33 +81,28 @@ Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
 X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
-When STREAMON(CAP) is called after STREAMON(OUT), the driver was failing to
-switch states from VPU_INST_STATE_OPEN to VPU_INST_STATE_INIT_SEQ and
-VPU_INST_STATE_PIC_RUN because the capture queue streaming boolean had not
-yet been set to true. This led to a hang in the encoder since the state
-was stuck in VPU_INST_STATE_OPEN. During the second call to
-start_streaming, the sequence initialization and frame buffer allocation
-should occur.
+CMD_STOP being sent to encoder before last job is executed by device_run
+can lead to an occasional dropped frame. Ensure that remaining ready
+buffers are drained by making a call to v4l2_m2m_try_schedule.
 
 Signed-off-by: Brandon Brnich <b-brnich@ti.com>
 ---
- drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-index 1978551a28fa..0a2eab372913 100644
+index 0a2eab372913..7ee77c9a30c0 100644
 --- a/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
 +++ b/drivers/media/platform/chips-media/wave5/wave5-vpu-enc.c
-@@ -1367,7 +1367,8 @@ static int wave5_vpu_enc_start_streaming(struct vb2_queue *q, unsigned int count
- 		if (ret)
- 			goto return_buffers;
- 	}
--	if (inst->state == VPU_INST_STATE_OPEN && m2m_ctx->cap_q_ctx.q.streaming) {
-+	if (inst->state == VPU_INST_STATE_OPEN && (m2m_ctx->cap_q_ctx.q.streaming ||
-+		q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)) {
- 		ret = initialize_sequence(inst);
- 		if (ret) {
- 			dev_warn(inst->dev->dev, "Sequence not found: %d\n", ret);
+@@ -649,6 +649,8 @@ static int wave5_vpu_enc_encoder_cmd(struct file *file, void *fh, struct v4l2_en
+ 
+ 		m2m_ctx->last_src_buf = v4l2_m2m_last_src_buf(m2m_ctx);
+ 		m2m_ctx->is_draining = true;
++
++		v4l2_m2m_try_schedule(m2m_ctx);
+ 		break;
+ 	case V4L2_ENC_CMD_START:
+ 		break;
 -- 
 2.34.1
 
