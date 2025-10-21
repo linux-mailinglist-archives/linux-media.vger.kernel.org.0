@@ -1,199 +1,218 @@
-Return-Path: <linux-media+bounces-45120-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45121-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C6EFBF5C1E
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 12:23:44 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66534BF5CFC
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 12:38:19 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3260A3A5828
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 10:23:43 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 143B4425D58
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 10:37:56 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 41C292EC541;
-	Tue, 21 Oct 2025 10:23:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AFDAD32D431;
+	Tue, 21 Oct 2025 10:36:23 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="iWBddjNw"
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ewrOJUn6"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+Received: from mail-lf1-f46.google.com (mail-lf1-f46.google.com [209.85.167.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF2C1F1538
-	for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 10:23:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9622D8DA8
+	for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 10:36:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761042217; cv=none; b=evnPCU9mF20m2rtzktJ7TCj6mfDaL6vrPg5FYxpnShBfGZNizrL6jfMkUDVqIeEXd1mL87ZZ2fzW4awpmE6lsZyreBhP445kUVPEi4cpJegqmzMujcWAvZu1iY5qnCCwzy1pNPSX6cXb/MQDIhYvdwSJnywvnAbCDKGTK5Yq3O4=
+	t=1761042983; cv=none; b=mzBrTTKd8r+k66FpFqpP/IR5KOHFaRs7/mzxOSEFikfJfEI0V6M02el4ydwFz2Et5xjE6k3k25jvzSyVAoJz+Mmyfjaw3KusOcMccC8sCZKde070KVeItQfIjP6cLlTCjmtEagpLhtRwRkNV0lWZ3y5BluZg0DFWyQAjuNdTpKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761042217; c=relaxed/simple;
-	bh=X6IIhRe0Q9eNfiS+uuiP44nevUMCv7gW+vko/Kql2Gs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=afwas8Bbyl+rF+GtVyQilNEq4pw7hUUmLDL7/W7PoWx1a0f1KT+aSgRoEOCTmr7pM7G4a9zeoEGqHHVFAp+/KlyQNKbyiXLmGopkfhNRe+FDXV+gO3vp+faF5LBb1BHMUvyWnymbkyzxqL+ght/lOh8EfxUpfP7P1N5YBhQRv/k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=iWBddjNw; arc=none smtp.client-ip=209.85.208.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lj1-f171.google.com with SMTP id 38308e7fff4ca-37645b8c09bso8489141fa.2
-        for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 03:23:35 -0700 (PDT)
+	s=arc-20240116; t=1761042983; c=relaxed/simple;
+	bh=mu/cr0ccCQhZG4HUcvVpPbQl30IkLO8o/gI0SvZrpZ4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Qr/R/TeSWd+v+lDXSXFcurrzPtE3AaqsetMCGvWWwuR1AcK6Z5Dh/u0iwEmxZF8woNFYOGFLGzf8JiJ/E2bKHx72ubnJsGRVIE40/0i7StEPE1C/X+xFC/HHCMqa6Q4EYZJvKTDtDVZZd1aGzsmg7OCwmkLeKO0Xjblwhg3qpeY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ewrOJUn6; arc=none smtp.client-ip=209.85.167.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+Received: by mail-lf1-f46.google.com with SMTP id 2adb3069b0e04-57a960fe78fso7049689e87.2
+        for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 03:36:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761042214; x=1761647014; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=LUXq1wMCFkLfNEQhg7BlbcPT5IjdyWTTFBn75zMt1J8=;
-        b=iWBddjNwgL1E0AB1E2aG0/nJrHpJnYoyMNCBrqXKlLzKEE8kwFLnkopJonIICQ7Qig
-         PUlbmMctH6g0gBPVbjoGv1O3aSUHKE1fApmYKMhrZCrHDcVYQZiJoIgNeoF219c+gfYT
-         24pEE49ZMVZkDdF0vWqB2YHvYVt7HBQsJ5ONddHao6S4jO66p2xPDWfieilc0YOQQEew
-         y+jVnmEqAvBXmMXZdw9zcdCSS5F7M7uUfcP+be9Sc0K7jICtcQjpyc8LNmA6QEcLa8vY
-         ud9p8JO2iS6cRHSDnjkkrK/AN1E30KW7Ql1pvj2CzuArkoUUARG3rg6B2dpEJAA7uZw8
-         LQkA==
+        d=chromium.org; s=google; t=1761042979; x=1761647779; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=/TafpqYvz7n63SFC71twwiYhEsv21pktmNXXlISP5Ho=;
+        b=ewrOJUn6MwR5+0lFAAMHA8o9z9Liz6JolyrjOxVFtAf9V8SKaldjSf16KsNjDHYM0Z
+         rIkxT9nW5lFYjylWHgyObBOQUGonvviQa+Ft2Hmkjd7/nrY+p3lpZF9SI0x4BYySS+FY
+         pTY+wnD5muAqx+MTYMKqtKMg+cWenyiMw61j0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761042214; x=1761647014;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=LUXq1wMCFkLfNEQhg7BlbcPT5IjdyWTTFBn75zMt1J8=;
-        b=YNDQFovFA+B4861m/CNE9JMAAAR0+geoIldn6ACAmzPBCsvVh6v7C8UKVfVn+1r/bH
-         KkhbEBLM3a0n/8uHWAAL098mrJWhBj034hN7QeFn145FL//l4Pfdl5GcCoUSVpm3P5ET
-         2u0F+GAYOu0t6/pLPTp6TaEDNnUUSTdZClz11H48m+96FUYRjUYmeMr5rZU5mfDwvBL2
-         KLKlAvt1FzQw32KuWLpn2K8qomecG2+gDDub5+p0mx4s1mOGPHYLsY8velXzFNkHSJNG
-         SXiBpUnmbeFd9Z1XyDczkcYevE5tlc9V7XVvqpqppIgwhb5M9UrrEkCJvmFzLW2VBP0S
-         oZng==
-X-Forwarded-Encrypted: i=1; AJvYcCViG/3DIiz/IFCbNcZDYTD9r2orDiymTSGrXk5mgQp+q/fUHeA4l+riVT/UXtIOdI+DaOiujkDbqYkhZA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqLhf6H4W7qJAUdggzFjthQ6OkvEgXF6JQaYf7HaEWmyhKoZat
-	XihrWhcahO9vvlzaJaMXg6q1li8JwzUwok0U5Cw02nyjnlbgqbAOAg/V7DYoHt4SQHE=
-X-Gm-Gg: ASbGncsK3sodn5z4DI1n00ItUD0Ru1UPRU+b/NCazV6NxS2LToEHfzJcjV6AJMne6Dn
-	VgHRiZRxtIQpqnUwCEKldLjCM4rDoxp6pq0+pgFIfW+CDGeulEpxHFP1VMWGqJqGaYb2/u2mGaG
-	30F3zzpM2MO57XZmPqg08qVtqfPVTLMvX02oVxVoMJIQM5iqJs90QfupK4YCHljgb1N1ti4leBG
-	yDe3dp9TaR3+mpMck4SCdIZMs8vBi4xK+nCfxtfUJJe83FKsxKIHEsoNj2tyx9ZOyZXcYsMWe2r
-	739G5wZJN0my3zM1vPqc1GZjIdGYvddSKa8Yj/eiOOKj5i38awNmbfn0SC/zhYh+UWvg2x4EsgL
-	scv6Hu5VN7FYs0KC/c+aB6zqrNhVuNSW7hGZJEhKmsaqpMIKqflzIbmgHr+vJWIiTVYAbEPd0Uv
-	RAScYDyVC+2Vacn4G+cai5/zvXP2/UKtMe8ea6Ykt46XlWgSt1aJDJxcocQFJsyKgQcA==
-X-Google-Smtp-Source: AGHT+IEmPJoxY08aLmDM49o2ysU16rKo0CM7DE9R2OnTtCJfVmyvlQ+fs6BweAM4cs7iO7W0+JAWDg==
-X-Received: by 2002:a05:6512:3181:b0:581:8db3:d5fe with SMTP id 2adb3069b0e04-591ea2eef26mr526688e87.2.1761042213800;
-        Tue, 21 Oct 2025 03:23:33 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-591def1b261sm3492866e87.85.2025.10.21.03.23.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Oct 2025 03:23:33 -0700 (PDT)
-Message-ID: <f3e66a7e-873b-4299-9ec9-be3aa7e100d6@linaro.org>
-Date: Tue, 21 Oct 2025 13:23:31 +0300
+        d=1e100.net; s=20230601; t=1761042979; x=1761647779;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=/TafpqYvz7n63SFC71twwiYhEsv21pktmNXXlISP5Ho=;
+        b=f6A3m6G8QzHJXTz2EIgcbYzdyJjb5t7qJLBjri6C2Ys9LJfjFqcHOYrJC5Yl5n+LGT
+         vaS+dtMGa6ByPu4NkRyoGKmFOTiNdt0P+uwlGc4Wlmg8GMUgGrVEsF0Dr9ysV/yWcy5M
+         Tam6K/utP97khoD1zPdHbSA+AHhTTbrPShN4LrqB0qXiCLDTlPeR7yHwc0+KHiy8dcW7
+         5aEAiiLJe+7IjpWWbXXcgB/37G/ZKHztGfK9ITiJK18VovwQ0Y4OMu43znp+sijZKrzT
+         zDRSj+LtJYsIE4GkBzRzp3BwbMv1A3Q4ii7e0eDLE+JE24ko1YLT17MUFKFZVAr6ZrWb
+         8g4A==
+X-Gm-Message-State: AOJu0YyR1Ee+UIb3jSmpYx2AW82Q/c1LbIOl3npJzWcn82MUQTj+a9sK
+	c9cn29KC30i7FwyP13r1dbJJTu3b91RZw5ibAYDcyMblLb4cQlT2BGnnb/rzcDNTIA==
+X-Gm-Gg: ASbGncszrqYzaws0rPFETJYt1Ouo7waosomXSErO811frZuOYPyDU8LyWavGUDKxRN2
+	H0O3Xs9s0J2VvX3kZ9z11bYwR8f3nyxKWrc8H/729i8wSMTL85NcLjMIr2V+9DwDh7vFDRnKXbJ
+	UcQyCB+RErJVzGxvynVsdJLjTdIjNdz+RPH0nPDQm5Xp0iXgBaqAFZgNDhJ0Uf8iJ2X+GeyTGpY
+	AMh4eB76Bu+n2Q+DveA4hHUpkXxgU25wdrXSK2udaEe02gYnXhPjXs0g9b9tjVFvSP/zOvxbk3h
+	exrGPH02Dy+MNYzlHlYtUtVPe4QBa64HX1B9IdGfGxcIO4zvRnFcxWcQvCZ1QYONT8nCTrRTif0
+	sJEkI0gQAgQfhchljkl6f1dWoJ9Z7qMz9P+4/SqFN2lmRUKO20/XkLAjqk9kPx7ph2m8d5tMWqw
+	q1W7VUlWJ8lY89DGuwj+4ThTEwk2S/Dv/1mnQfi6sGA6Fq+LWV6glkFTYVnLuDkEKnhg==
+X-Google-Smtp-Source: AGHT+IFY8+5yWsF2/+yXKzUgKDznuSxR53YAociIJKjxctfTBbridZE9yYWajB+gH0DDhnuJ0uI+6g==
+X-Received: by 2002:a05:651c:b2c:b0:36f:77e6:d25a with SMTP id 38308e7fff4ca-37797a8fa40mr51550211fa.43.1761042978949;
+        Tue, 21 Oct 2025 03:36:18 -0700 (PDT)
+Received: from ribalda.c.googlers.com (166.141.88.34.bc.googleusercontent.com. [34.88.141.166])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-377a950635csm27946251fa.30.2025.10.21.03.36.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 03:36:18 -0700 (PDT)
+From: Ricardo Ribalda <ribalda@chromium.org>
+Date: Tue, 21 Oct 2025 10:36:17 +0000
+Subject: [PATCH v2] media: uvcvideo: Use heuristic to find stream entity
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: Add Samsung S5KJN1 image
- sensor
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@kernel.org>, Hans de Goede <hansg@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20251016020419.2137290-1-vladimir.zapolskiy@linaro.org>
- <20251016020419.2137290-2-vladimir.zapolskiy@linaro.org>
- <aPaaLZoLMH3TfyJl@kekkonen.localdomain>
- <060938d1-9c9e-4a0b-a4ca-838b4b9cfa1d@linaro.org>
- <aPdOICr8bqP5a-EM@kekkonen.localdomain>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <aPdOICr8bqP5a-EM@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20251021-uvc-grandstream-v2-1-6a74a44f4419@chromium.org>
+X-B4-Tracking: v=1; b=H4sIACBi92gC/3WNQQ6CMBBFr0JmbU1nDNq48h6ERS0DzAJqptBoC
+ He3snf5XvLf3yCxCie4VxsoZ0kS5wJ0qiCMfh7YSFcYyFKNltCsOZhB/dylRdlPxtYcekvO9Ve
+ Csnop9/I+ik1beJS0RP0cBxl/9n8ro0HjLPKls+5JN3yEUeMk63SOOkC77/sXXAG6MrEAAAA=
+X-Change-ID: 20251021-uvc-grandstream-05ecf0288f62
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Hans de Goede <hansg@kernel.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>, 
+ Hans Verkuil <hverkuil+cisco@kernel.org>, 
+ Thadeu Lima de Souza Cascardo <cascardo@igalia.com>, 
+ Angel4005 <ooara1337@gmail.com>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Ricardo Ribalda <ribalda@chromium.org>
+X-Mailer: b4 0.14.2
 
-On 10/21/25 12:10, Sakari Ailus wrote:
-> Hi Vladimir,
-> 
-> On Tue, Oct 21, 2025 at 11:00:35AM +0300, Vladimir Zapolskiy wrote:
->> Hi Sakari.
->>
->> On 10/20/25 23:23, Sakari Ailus wrote:
->>> Hi Vladimir,
->>>
->>> Thanks for the set.
->>>
->>> On Thu, Oct 16, 2025 at 05:04:18AM +0300, Vladimir Zapolskiy wrote:
->>>> Add device tree bindings documentation for Samsung S5KJN1 image sensor.
->>>>
->>>> Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
->>>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
->>>> ---
->>>>    .../bindings/media/i2c/samsung,s5kjn1.yaml    | 95 +++++++++++++++++++
->>>>    1 file changed, 95 insertions(+)
->>>>    create mode 100644 Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml
->>>>
->>>> diff --git a/Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml b/Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml
->>>> new file mode 100644
->>>> index 000000000000..2220b3e528d4
->>>> --- /dev/null
->>>> +++ b/Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml
->>>> @@ -0,0 +1,95 @@
->>>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>>> +%YAML 1.2
->>>> +---
->>>> +$id: http://devicetree.org/schemas/media/i2c/samsung,s5kjn1.yaml#
->>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>> +
->>>> +title: Samsung S5KJN1 Image Sensor
->>>> +
->>>> +description:
->>>> +  Samsung S5KJN1 (ISOCELL JN1) image sensor is a 50MP image sensor.
->>>> +  The sensor is controlled over a serial camera control bus protocol,
->>>> +  the widest supported output image frame size is 8160x6144 at 10 frames
->>>> +  per second rate, data output format is RAW10 transferred over 4-lane
->>>> +  MIPI D-PHY interface.
->>>
->>> Can the sensor work with fewer lanes? This is almost always the case. In
->>> this case you'd need data-lanes property but feel free to make 4 the
->>> default if you like.
->>
->> As usual I don't have access to the sensor datasheet, what is known to me
->> is that
->>
->> 1) there is no examples in the downstream, when MIPI CSI interface is
->> configured in any other mode but 4 lanes D-PHY RAW10,
->>
->> 2) right the same information is given in the official scarce booklet:
->>
->> https://semiconductor.samsung.com/image-sensor/mobile-image-sensor/isocell-jn1/
->>
->> The same reasoning as above is directly applicable to the second sent
->> sensor driver of Samsung S5K3M5.
->>
->> There is a known practical pattern that if it happens to be of necessity
->> any new properties can be added to device's dt bindings later on, thus
->> it should be safe to omit any presumably non-configurable hardware
->> properties from the description on an early stage.
-> 
-> Even if the driver supports four lanes only, it's very unlikely the sensor
+Some devices, like the Grandstream GUV3100 webcam, have an invalid UVC
+descriptor where multiple entities share the same ID, this is invalid
+and makes it impossible to make a proper entity tree without heuristics.
 
-Well, the second point given above is not about the driver, but it leads
-to the shortest possible sensor hardware spec:
+We have recently introduced a change in the way that we handle invalid
+entities that has caused a regression on broken devices.
 
-https://semiconductor.samsung.com/image-sensor/mobile-image-sensor/isocell-jn1/
+Implement a new heuristic to handle these devices properly.
 
-If you scroll right to the bottom, it says
+Reported-by: Angel4005 <ooara1337@gmail.com>
+Closes: https://lore.kernel.org/linux-media/CAOzBiVuS7ygUjjhCbyWg-KiNx+HFTYnqH5+GJhd6cYsNLT=DaA@mail.gmail.com/
+Fixes: 0e2ee70291e6 ("media: uvcvideo: Mark invalid entities with id UVC_INVALID_ENTITY_ID")
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
+I have managed to get my hands into a Grandstream GUV3100 and
+implemented a new heuristics. (Thanks Yunke and Hidenori!).
 
-Interface: 4 lanes (2.15 Gbps per lane)
+With this heuristics we can use this camera again (see the /dev/video0
+in the topology).
 
-It does not completely or clearly exclude 1 or 2 lane configuration,
-I know, but "exclusions" are not documented anyway, only something
-presenting gets documented.
+I have tested this change in a 6.6 kernel. Because the notebook that I
+used for testing has some issues running master. But for the purpose of
+this change this test should work.
 
-> is limited to this. There are two options here:
-> 
-> 1. make data-lanes mandatory or
-> 
-> 2. add data-lanes as optional with default of four, which the driver
->     supports and which is known to function.
+~ # media-ctl --print-topology
+Media controller API version 6.6.99
 
-If you ask, I'd rather prefer to implement the second option in the dt
-binding documentation and driver, let me know if there are any other
-asked changes to be done in a bulk.
+Media device information
+------------------------
+driver          uvcvideo
+model           GRANDSTREAM GUV3100: GRANDSTREA
+serial
+bus info        usb-0000:00:14.0-9
+hw revision     0x409
+driver version  6.6.99
 
-Thank you for review!
+Device topology
+- entity 1: GRANDSTREAM GUV3100: GRANDSTREA (1 pad, 1 link)
+            type Node subtype V4L flags 1
+            device node name /dev/video0
+        pad0: SINK
+                <- "Extension 3":1 [ENABLED,IMMUTABLE]
 
+- entity 4: GRANDSTREAM GUV3100: GRANDSTREA (0 pad, 0 link)
+            type Node subtype V4L flags 0
+            device node name /dev/video1
+
+- entity 8: Extension 3 (2 pads, 2 links, 0 routes)
+            type V4L2 subdev subtype Unknown flags 0
+        pad0: SINK
+                <- "Processing 2":1 [ENABLED,IMMUTABLE]
+        pad1: SOURCE
+                -> "GRANDSTREAM GUV3100: GRANDSTREA":0 [ENABLED,IMMUTABLE]
+
+- entity 11: Processing 2 (2 pads, 3 links, 0 routes)
+             type V4L2 subdev subtype Unknown flags 0
+        pad0: SINK
+                <- "Camera 1":0 [ENABLED,IMMUTABLE]
+        pad1: SOURCE
+                -> "Extension 3":0 [ENABLED,IMMUTABLE]
+                -> "Extension 4":0 [ENABLED,IMMUTABLE]
+
+- entity 14: Extension 4 (2 pads, 1 link, 0 routes)
+             type V4L2 subdev subtype Unknown flags 0
+        pad0: SINK
+                <- "Processing 2":1 [ENABLED,IMMUTABLE]
+        pad1: SOURCE
+
+- entity 17: Camera 1 (1 pad, 1 link, 0 routes)
+             type V4L2 subdev subtype Sensor flags 0
+        pad0: SOURCE
+                -> "Processing 2":0 [ENABLED,IMMUTABLE]
+---
+Changes in v2:
+- Fix : invalid reference to the index variable of the iterator.
+- Link to v1: https://lore.kernel.org/r/20251021-uvc-grandstream-v1-1-801e3d08b271@chromium.org
+---
+ drivers/media/usb/uvc/uvc_driver.c | 15 ++++++++++++++-
+ 1 file changed, 14 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+index fb6afb8e84f00961f86fd8f840fba48d706d7a9a..ee4f54d6834962414979a046afc59c5036455124 100644
+--- a/drivers/media/usb/uvc/uvc_driver.c
++++ b/drivers/media/usb/uvc/uvc_driver.c
+@@ -167,13 +167,26 @@ static struct uvc_entity *uvc_entity_by_reference(struct uvc_device *dev,
+ 
+ static struct uvc_streaming *uvc_stream_by_id(struct uvc_device *dev, int id)
+ {
+-	struct uvc_streaming *stream;
++	struct uvc_streaming *stream, *last_stream;
++	unsigned int count = 0;
+ 
+ 	list_for_each_entry(stream, &dev->streams, list) {
++		count += 1;
++		last_stream = stream;
+ 		if (stream->header.bTerminalLink == id)
+ 			return stream;
+ 	}
+ 
++	/*
++	 * If the streaming entity is referenced by an invalid ID, notify the
++	 * user and use heuristics to guess the correct entity.
++	 */
++	if (count == 1 && id == UVC_INVALID_ENTITY_ID) {
++		dev_warn(&dev->intf->dev,
++			 "UVC non compliance: Invalid USB header. The streaming entity has an invalid ID, guessing the correct one.");
++		return last_stream;
++	}
++
+ 	return NULL;
+ }
+ 
+
+---
+base-commit: ea299a2164262ff787c9d33f46049acccd120672
+change-id: 20251021-uvc-grandstream-05ecf0288f62
+
+Best regards,
 -- 
-Best wishes,
-Vladimir
+Ricardo Ribalda <ribalda@chromium.org>
+
 
