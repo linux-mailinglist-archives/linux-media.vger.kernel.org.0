@@ -1,222 +1,444 @@
-Return-Path: <linux-media+bounces-45103-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45104-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5058BBF4A89
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 07:44:11 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id DECFBBF4A92
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 07:47:06 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id D8B0118C3C66
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 05:44:34 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 6E8653514D9
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 05:47:06 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2771B258EDE;
-	Tue, 21 Oct 2025 05:44:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5072D2561A7;
+	Tue, 21 Oct 2025 05:47:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=web.de header.i=michaelestner@web.de header.b="S9D+2WUt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="D6AZ/VNb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mout.web.de (mout.web.de [212.227.17.12])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364AB2AD16;
-	Tue, 21 Oct 2025 05:44:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761025443; cv=none; b=Ukgn3gqAG3YEoSOrqEM+KHZj858srgNW1UtuIqxV46hTBs2b6Cpi19rYEpueApEXCvD2/mHNwYbBAUPm3kOzZODA55cuDrbznuFQwyEeBdQXu4TI9qKQk1VGbNTfOrlbeYFOYCBJuCu/NwHfjTgdYsvgH3r2jyd0pcUHfeW0lGw=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761025443; c=relaxed/simple;
-	bh=2jMSVJTF1poRh0K19N7YblJFrFzergqpXQmoiiRaqds=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ahl4JyCvHLmq7iUCDew35d6azvVtgWw9T9ojBzyQqiiXc1T9QiXiokXEEuuYeRvsfWbngAN+nvwOGeOoVf6f/batfZZkEvY/yNtz7+PattFvg+NEQkUfxfqfHnXBDPdPr3NPIt0umFvuRVWX2QaIEFkGI/sNaOI8gIYnCqUQoEs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de; spf=pass smtp.mailfrom=web.de; dkim=pass (2048-bit key) header.d=web.de header.i=michaelestner@web.de header.b=S9D+2WUt; arc=none smtp.client-ip=212.227.17.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=web.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=web.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=web.de;
-	s=s29768273; t=1761025433; x=1761630233; i=michaelestner@web.de;
-	bh=53b3mHSERYf36/M5MmU49S1ikzeUcWhVTXTyu7ud/eo=;
-	h=X-UI-Sender-Class:From:To:Cc:Subject:Date:Message-Id:
-	 MIME-Version:Content-Transfer-Encoding:cc:
-	 content-transfer-encoding:content-type:date:from:message-id:
-	 mime-version:reply-to:subject:to;
-	b=S9D+2WUtGhBIWTqIs6tMD5+RJggAkiCiCju4syU17Cv7yjAUhangpHNeQvhVaeE8
-	 hiEsR3u0XhA5TOXS0iPYq+v4lzqw0sl/kGkZtg1vTTY1ulZNwI4sfBds5E/jC0ric
-	 ZLoLjQ1921fwlcT7g12T6kdyJCxwyHDSjlbiHbVXTtdE29CB4YnHsS5BeMjlr3ALg
-	 qhccjJ7iGDBuGxdOhWP+AZyJjFhK6ozMz65u9SSp3S/Oj75RXdRulwu4MyWyON5y5
-	 IaQil16tz397Z07dyg2aLHKfLQtVdBGmm+hhnmE/kVbsv5+hyrvmyqA743ct4vnzC
-	 NUlXaj914fqXdtg2Ng==
-X-UI-Sender-Class: 814a7b36-bfc1-4dae-8640-3722d8ec6cd6
-Received: from del01453.ebgroup.elektrobit.com ([213.95.148.172]) by
- smtp.web.de (mrweb105 [213.165.67.124]) with ESMTPSA (Nemesis) id
- 1N7gXQ-1u6lIZ2s8w-00x5Sa; Tue, 21 Oct 2025 07:43:53 +0200
-From: Michael Estner <michaelestner@web.de>
-To: linux-media@vger.kernel.org
-Cc: Michael Estner <michaelestner@web.de>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Colin Ian King <colin.i.king@gmail.com>,
-	"Dr. David Alan Gilbert" <linux@treblig.org>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH]: media: USB cx231xx: Remove unused var assignment
-Date: Tue, 21 Oct 2025 07:42:15 +0200
-Message-Id: <20251021054217.16005-1-michaelestner@web.de>
-X-Mailer: git-send-email 2.34.1
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E114C1C68F
+	for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 05:46:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761025619; cv=fail; b=AKoddSeE741nImEeBVzbwRY8e0SplkGRGGcUQVYZo+ZpaYUUYkqtg5JFlIIKzS6QJd97GXwaJHLvJ75BjFNSx71coIrbPbxIUga43nHtZeowIPUT3MgihN3wSTKVlK6IuuqaMAOhWfbJUSO8djOgJ+hTJSiKuEgVqoGebJ+HEhM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761025619; c=relaxed/simple;
+	bh=3yStUlJC1KfEJatCIVtl226mUZGnMu9eJNc6ChN7rgU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=jKfHMI871KAfzkTA7b1NY3S3CUi04FtKa8UEimyrjFexrx3+BfAxgjyvieXq6d+A0zogV0LFbxNTDJVE2vNUy7E7b8/ju0ll9isn8ttO4PrT5X8StguqozdLKBcDE1oYWSuvLv6jJNVToZyaHkvKkVHquVxjuAdEeIxnw3C3zbg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=D6AZ/VNb; arc=fail smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761025618; x=1792561618;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=3yStUlJC1KfEJatCIVtl226mUZGnMu9eJNc6ChN7rgU=;
+  b=D6AZ/VNbeRdB+xEQ3v0CUPa5v5c7XFj8A/Jyl3vvdWFYKxFY068ktrka
+   RcuRqvMeOgwqsF7BHb6jB1lRBBJ8l/lxSFCWVEmsHAOMiOLG6NpKlOIqR
+   XU7lOX0blylcrYeg2PauiW7uQpeRjsWW7XMISGmM1VT6IT/bvZnbFjn02
+   oBz3xitDYGxP8//uK4X9vGoKO9QTcx4T7RYD3Vju7+G0vC7TfOhPuG2f0
+   JBVfNKxP/BRfcoam/z68X3qLZYM3UBZx3LUTo05qMRjosC8vgkRxsUwFs
+   DOCoPSXn3qSjSuH7avbCkqjVOb8szVRlIfP/Nrzc05/zcym6Cyazntu8T
+   Q==;
+X-CSE-ConnectionGUID: 50Gcg+inSpWj3ksudZnEBA==
+X-CSE-MsgGUID: 8X6/UyriSte1VuPZk0iihA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74264103"
+X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
+   d="scan'208";a="74264103"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 22:46:22 -0700
+X-CSE-ConnectionGUID: cYqkFEjoRieiK/lRdwgyVQ==
+X-CSE-MsgGUID: pnB8QVLURCeYHOkOyMfXaw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,244,1754982000"; 
+   d="scan'208";a="187916136"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2025 22:45:50 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 20 Oct 2025 22:45:50 -0700
+Received: from fmsedg903.ED.cps.intel.com (10.1.192.145) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Mon, 20 Oct 2025 22:45:50 -0700
+Received: from CH4PR04CU002.outbound.protection.outlook.com (40.107.201.51) by
+ edgegateway.intel.com (192.55.55.83) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 20 Oct 2025 22:45:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Zojjub71bg22LXzA9BpAX6ghW+0SAItkk33ItcpH4J2SAnRduAJuEyfHu0fUM87Ar2MItWhkScDDiXpCDqJGDRyLUHwpAAj/zPi09iJNgj9gBeXnY0sXVy2KmjGhHj3CqYP+U11TEJHioji3D2u3/WO8sBbvR17+IQzSBlHlO8XyK9R9ypKCpMqgE65eMzUnl/f6oCbzXx8Uhq9iWlpQWP+IxdE2FrCF7wEyjrRIa3zZTUN68v9Nmki2OTevAY9O8BQxOfiOS1kghYtBJgVUXVIL6Lwa0unRqvQDuIPSaY7XUTHVBw2ySoinZhezFAEPJrH2oq3ol8zRpHGAGrlrKA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=sCj1z2jrSNWDL1SuScf5AN828EJAyVl9KCv+lRHRXn4=;
+ b=JXP5GDU8JoJlhfNvxu9kykWaB0rqtxbuylUXOj0h1Sni0qF/RGUyeshMTbVLQplOO7YeQ1uuAMijh3LUZ1RFuo53VT6dNqqTmE2pcXliLYud/e52nUxJWls5bsvip7oyLhr0i/UObNfi80Zu9sR5zb0tOo0EAGfU9uIVDznchA23No0DgnaLOK5d76X6i4d3KYBw8htJpjXhNEJcA6j9P8dDGlwROUu8cjZazezAv0ZaUQkr8amtZzpDqI1uTDzZcrZqRtUJvVgt5f9hNfV5YNmOHyw4ABYOl4+POVXDLdTtbUWGAncvf4tvCU41cKH2ekq1H1IOJXQ3azSyBas1QQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
+ by SJ5PPFBC9025319.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::84e) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9228.16; Tue, 21 Oct
+ 2025 05:45:47 +0000
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b%4]) with mapi id 15.20.9228.016; Tue, 21 Oct 2025
+ 05:45:47 +0000
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: =?iso-8859-1?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>, Christian Koenig
+	<christian.koenig@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>, "Simona
+ Vetter" <simona.vetter@ffwll.ch>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>
+Subject: RE: [RFC 1/8] dma-buf: Add support for map/unmap APIs for
+ interconnects
+Thread-Topic: [RFC 1/8] dma-buf: Add support for map/unmap APIs for
+ interconnects
+Thread-Index: AQHcPNojyM5Ag60JRke2zNGq0ekHDLTKz94AgACy/yA=
+Date: Tue, 21 Oct 2025 05:45:47 +0000
+Message-ID: <IA0PR11MB7185F43DA66980266377755DF8F2A@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <20251014071243.811884-1-vivek.kasireddy@intel.com>
+	 <20251014071243.811884-2-vivek.kasireddy@intel.com>
+ <9d32258381ef46807e599e8e85e8ab94244c9a67.camel@linux.intel.com>
+In-Reply-To: <9d32258381ef46807e599e8e85e8ab94244c9a67.camel@linux.intel.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|SJ5PPFBC9025319:EE_
+x-ms-office365-filtering-correlation-id: 4ed6f275-0575-4553-23a2-08de106515c1
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|366016|376014|1800799024|38070700021;
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?ExSEQVq3WHj4J70y0EmMMlEMvJZHfxyPgxGhpsKkxIS+ETepEFON/vDNDV?=
+ =?iso-8859-1?Q?Kcn54qGfz7GLWwunRIv1m2N7g/4QhtgnttMtEM1TujB/Rla/X4lNFLi2SJ?=
+ =?iso-8859-1?Q?+8osWze++pcqZW1yMRbcl+h9v2rZ9t+c8rbSk+co8xHtaVjBz5/BBRML0f?=
+ =?iso-8859-1?Q?ZnaFHe/oI3bY1umSM1O9mTg/0KqKZC+F3pkKisD1kPKmr0EnZRkOj1NSAn?=
+ =?iso-8859-1?Q?IvxoJcz4CeBHfqXjpmI48sl6jpmWYUVlPcQZ80RHkz0oq9WU5vuZNtHYD2?=
+ =?iso-8859-1?Q?HoW24ByQ6qaUacD8Pl3/7EsHOdzSa6++5cZF96HG2GygCoh3L/7t76rlJa?=
+ =?iso-8859-1?Q?U3CyIyJbsTVZa6Zg9GtJc0bucreERou5KQ8O0WpU8GkbNAj0ykt09WJZ4U?=
+ =?iso-8859-1?Q?r+BjXXFVx2Q7ksDkFtKFw7em1FKYJL3KSnsHxqfSKHwF6wZfGoG6edEXKI?=
+ =?iso-8859-1?Q?v7YRmJulsMlxIWbVjlIcbn3kEhTkalenkl5HSWTLpe8MzBWNGThf036Yn1?=
+ =?iso-8859-1?Q?jW8W4tn+bnb3irDQpS50Uv30KDwhnVhiaQT3mG/Ni4UhwTjIyMFeyaQQ4G?=
+ =?iso-8859-1?Q?8S8h6T2QiK3LCXa7u79tSuHyObABNEmz94qOHcQAU9tBNb1rxEzNQEs5yU?=
+ =?iso-8859-1?Q?NQXFMEETL6ZL6gQDSaU16hlYbObwXLeWuk84uCFp4L+jN4NGQJCbMZ/jMN?=
+ =?iso-8859-1?Q?7ELRGTJcsxzK/SJcPpe1nG8QFbsuV1ewSWdGSZPAxqwe284o110A1hyr8H?=
+ =?iso-8859-1?Q?NIWL6Slgq1h64r0WtaybOUnas9onSleuscfyxmwHj8OodtrkRY1rcyYWgA?=
+ =?iso-8859-1?Q?lYsZ5lpFPQ7d/chyT2fR0Mbl381C3l1wOUBueYoVrcVwWVXaheAf8HhOJN?=
+ =?iso-8859-1?Q?Hqia7pRNqTS4US6+eB+0ee+8f6+DTTNRSjMOPZbKYZRu7ckxAyt+cWoNYB?=
+ =?iso-8859-1?Q?3t1x1jA9ymg0mzmI0zRxcFEpgq8C3f9c2s/PJI187XdyhZCo7zy7eAStkV?=
+ =?iso-8859-1?Q?t1qxigaT1+S4PLmgMGrBN0GnJuPJYLqH22kz1stIgG0C9MsbzAhTtRiC1P?=
+ =?iso-8859-1?Q?kJoix1ASTZXDiuOHXO5RuPFLWjCGs1Cv4yFqglJnqdoknei0Gt9lsG5VYe?=
+ =?iso-8859-1?Q?SFUC9u0so7PK5RI3aV/1vb2UBPkW1M+0amT5f32LQZbmjOfO7URd6RGrn1?=
+ =?iso-8859-1?Q?8KTHMON/tRXAZyfnnEJLJl0po4hsu4bwMe15it45gaqX56Id8BNE8Gku/2?=
+ =?iso-8859-1?Q?6vW+djnIBI5ohlpunyt4EjoKVafOPXVwrsPjWGjPAYJYRsY0HpP9vhH+5t?=
+ =?iso-8859-1?Q?RV5O5aOvCmQWHKM5fNQKKg4G91oO9OB/IRxMzYckj8Q2IXqo7VMENeYshL?=
+ =?iso-8859-1?Q?D0M/m/MyndgTVqybcyNRBylk2brZ/wmscXTCx6izl4Act8N771/Ck46WqJ?=
+ =?iso-8859-1?Q?bbwUuihhxzZfSNsbXYJDDhYYZ6Yta9kWBJ7dnW8qKIBPtFsk2dZGdhNTxU?=
+ =?iso-8859-1?Q?+QO9WOLFvf6ySXLPyySyScr63xwkvy+wGW5wbqrC/UJ6WAvV+0dVh7Z6h2?=
+ =?iso-8859-1?Q?ViUQdDOAhq3EsCQjHVpM2M4bQ+gi?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB7185.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?8klo6LWNgI070VSKN1EfDeFxX+GQWMYlT5jPPCUsmU7x5jzk+8m3mf9Ym9?=
+ =?iso-8859-1?Q?tDRREnY4RRFJQAzK3RPXiJ3svLZ775cwbZeVM+h7ArBjbdFtv0NwKcYw/Z?=
+ =?iso-8859-1?Q?c8aaFZsSV1Zpj1tMncQcZwcNKqG4iv2J71AM7QixZOf2B/6WO19aGPsKGD?=
+ =?iso-8859-1?Q?z7wqZH8thYcYXgpOG9r3mycQncDvYLizUyTt5WF5cvGLzd2STYG2MWVxqh?=
+ =?iso-8859-1?Q?MrxeqdoaffTmi5wK5bG6bW5KyanJG2mObxxuIPRMFXaG0AGBqzuMBxsf8n?=
+ =?iso-8859-1?Q?8KfZmGwbmumo1VRVygcJDizVeAA6x/5abAN6rEsaBB5ulIWOjsNLutkkFB?=
+ =?iso-8859-1?Q?GsOifHr1tlisXoaSyMaHfVJrMgUuU92kaOcMmIYJDgmJHYvrvRz2VU4RxM?=
+ =?iso-8859-1?Q?sAOJuXgYcTJ7jEO950bMhRJnL1wQoulrfMQ0gc1KLlURdaLjDDVk4bhtco?=
+ =?iso-8859-1?Q?2qZxNgQYTIh9Xz1+9bWwXwSt7mNhpuGHaI3NoWt6R80wYjc+QS3OglzXJF?=
+ =?iso-8859-1?Q?3ly/3DTjfQZIKaKvnD8GwxMNYaszRy4tuhPpfgxCTb9aPAa1bx0Dj59eW1?=
+ =?iso-8859-1?Q?ffimlY/U+Y85iC6C/sc73LYuPaBP3qyNdbV+a9BRaiS6jiTwXHl5F33yG/?=
+ =?iso-8859-1?Q?D88/B7QQZ2Mv1UQA1A5DNhxnSpRxLxxVYGOwfDERftQYNU9NvaAhonvS9B?=
+ =?iso-8859-1?Q?5gXdDiYqFZqlDnN0Jpnp6lFxWSYDjhqFFxHnx+J1kMiRNIf+RJjVYNO5cU?=
+ =?iso-8859-1?Q?g8HBnHwn5FI/jwyVqWhrqHXLgM/gXI27LOTvgHQ4GoEN7g18epb+oq18Ec?=
+ =?iso-8859-1?Q?4aMX8OD5VH+zem6KMma1AYEDBgRwwibb8hNBIw8h67PbGGyIAqZh8b51+f?=
+ =?iso-8859-1?Q?pMZaDAPVGvMfBuqnnv06J89WbNimuWiNCrizkvc2slAaovcchrTCOkOAJ5?=
+ =?iso-8859-1?Q?gXPWtHrmyuKy4ocCQMWNzvN/qdcf2rG4JygIlOAXPRXPiFQjqLBZhKBXH2?=
+ =?iso-8859-1?Q?aiard6AfmZ9NcJfL/5OWfTRHAXnC3bU4F2p3Z0e2RLFaO4MeyZ7mFkAq4m?=
+ =?iso-8859-1?Q?QTuyqbq94ISdoUbYpC11GylACRcI3h2hih+NHsZBbRHJJlEhiEezGaMNul?=
+ =?iso-8859-1?Q?RQVX63eL+ylcITJ5gciHeVXXrPPzHYmWBaHTgdSse0+mAXfSH4TSIXYpFc?=
+ =?iso-8859-1?Q?Fy6f3L/SmkV4MnMb5KNwPeHBTx+XTn+eBz83xWF/0UpZeUYkSopKV+uWRh?=
+ =?iso-8859-1?Q?XbPOKn8sBojdJ4B/AN+Qp+g2NRha1NfvRPJPANJ7MHHkyebQhbetHvXMEi?=
+ =?iso-8859-1?Q?UtPKiuk32hxXknSoh4szGb0mxQ9eYxvgd7h9q6yJXUgWpslg7p9j2q0s3L?=
+ =?iso-8859-1?Q?zUbHoYhC8Zi3DYi2IJ/jchs9VC/AZBVdajTzDsiRKDwmvcBPuO+wB7bDcs?=
+ =?iso-8859-1?Q?69hGAvcuhaf6OcxYEJDVCTcnrDbp4AliiN1qmXko1BjfNfqs7fXMopApHz?=
+ =?iso-8859-1?Q?VRoJVcPINvBJpgbA5UBIG+kfB3ybOZxktFkd0HYKrBLjGPPj5w8Mtq8bNN?=
+ =?iso-8859-1?Q?76eguaO3HBvl6KY/+ToX7T9pbHon99SUBvX9mZk52a1u34k/V1itaznfM7?=
+ =?iso-8859-1?Q?aUmyWffM3wCjEmhbv+mvtvYvtdetyuiOmL?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:tyJKk6qGhgGqBY8H74Bhzc6GasI3Tudg9mgGOnn4QLICYajj1zQ
- TDIpeFhcH3xQFva1+zOymR5jgZptPrbaaMu+qlU80Dsig6Va/BlZ6PmqZQ0dD+XkjdDIlQK
- dFh3HhAUW6xyTw2VFsdZcRlJ1aJ4K9a+pzx5rWeELFtO1sixemYUzyb4utxuSfRDQOSHTLT
- ZDdaB0993yTYLKAMjwgpA==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:XNW2pNEfipo=;/BlYl9YNqbNpZThjrirzjt2XsbD
- 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
- ckQGWNKcBWaqWHFbHNGxflnLf4=
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4ed6f275-0575-4553-23a2-08de106515c1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 Oct 2025 05:45:47.5328
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: g1xitQrq7QGs/4EBpvZXmhE7avqbKvczF1OYxiE9FzvJSIOy10DwVMZUs+iXIMPn+ouO9xjAXtO25KgJImKSQnkZTLCULqyXtj0/pRkVugg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPFBC9025319
+X-OriginatorOrg: intel.com
 
-* Remove unused variable assignments.
-  The status variable has multiple assignments which are overwritten
-  before used once. With this patch this unnecessary variable assignments
-  get removed.
+Hi Thomas,
 
-* I got the issues out of the report from:
-  https://scan7.scan.coverity.com/#/project-view/55309/11354
-  The exact findings are:
-  * Issue=3D1226885
-  * Issue=3D1226861
-  * Issue=3D1226879
-  * Issue=3D1226878
-  * Issue=3D1226866
+> Subject: Re: [RFC 1/8] dma-buf: Add support for map/unmap APIs for
+> interconnects
+>=20
+> Hi, Vivek,
+>=20
+> On Tue, 2025-10-14 at 00:08 -0700, Vivek Kasireddy wrote:
+> > For the map operation, the dma-buf core will create an xarray but
+> > the exporter is expected to populate it with the interconnect
+> > specific addresses. And, similarly for unmap, the exporter is
+> > expected to cleanup the individual entries of the xarray.
+> >
+> > Cc: Jason Gunthorpe <jgg@nvidia.com>
+> > Cc: Christian Koenig <christian.koenig@amd.com>
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Thomas Hellstr=F6m <thomas.hellstrom@linux.intel.com>
+> > Cc: Simona Vetter <simona.vetter@ffwll.ch>
+> > Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
+> > ---
+> > =A0drivers/dma-buf/dma-buf.c=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 | 68
+> > ++++++++++++++++++++++++++++
+> > =A0include/linux/dma-buf-interconnect.h | 29 ++++++++++++
+> > =A0include/linux/dma-buf.h=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0=A0 | 11 =
++++++
+> > =A03 files changed, 108 insertions(+)
+> > =A0create mode 100644 include/linux/dma-buf-interconnect.h
+> >
+> > diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+> > index 2bcf9ceca997..162642bd53e8 100644
+> > --- a/drivers/dma-buf/dma-buf.c
+> > +++ b/drivers/dma-buf/dma-buf.c
+> > @@ -1612,6 +1612,74 @@ void dma_buf_vunmap_unlocked(struct
+> dma_buf
+> > *dmabuf, struct iosys_map *map)
+> > =A0}
+> > =A0EXPORT_SYMBOL_NS_GPL(dma_buf_vunmap_unlocked, "DMA_BUF");
+> >
+> > +struct dma_buf_ranges *
+> > +dma_buf_map_interconnect(struct dma_buf_attachment *attach)
+>=20
+> Even if this is an RFC, please add kerneldoc so that the way the
+> interface is intended to be used becomes completely clear. Both for
+> functions and structs.
+Ok, will add documentation in the next version.
 
-Signed-off-by: Michael Estner <michaelestner@web.de>
-=2D--
- drivers/media/usb/cx231xx/cx231xx-avcore.c | 8 --------
- 1 file changed, 8 deletions(-)
+>=20
+>=20
+> > +{
+> > +	const struct dma_buf_interconnect_ops *ic_ops;
+> > +	struct dma_buf *dmabuf =3D attach->dmabuf;
+> > +	struct dma_buf_ranges *ranges;
+> > +	int ret;
+> > +
+> > +	might_sleep();
+> > +
+> > +	if (WARN_ON(!attach || !attach->dmabuf))
+> > +		return ERR_PTR(-EINVAL);
+> > +
+> > +	if (!dma_buf_attachment_is_dynamic(attach))
+> > +		return ERR_PTR(-EINVAL);
+> > +
+> > +	if (!attach->allow_ic)
+> > +		return ERR_PTR(-EOPNOTSUPP);
+> > +
+> > +	dma_resv_assert_held(attach->dmabuf->resv);
+> > +
+> > +	ic_ops =3D dmabuf->ops->interconnect_ops;
+> > +	if (!ic_ops || !ic_ops->map_interconnect)
+> > +		return ERR_PTR(-EINVAL);
+> > +
+> > +	ranges =3D kzalloc(sizeof(*ranges), GFP_KERNEL);
+> > +	if (!ranges)
+> > +		return ERR_PTR(-ENOMEM);
+> > +
+> > +	xa_init(&ranges->ranges);
+> > +	ret =3D ic_ops->map_interconnect(attach, ranges);
+> > +	if (ret)
+> > +		goto err_free_ranges;
+> > +
+> > +	return ranges;
+> > +
+> > +err_free_ranges:
+> > +	xa_destroy(&ranges->ranges);
+> > +	kfree(ranges);
+> > +	return ERR_PTR(ret);
+> > +}
+> > +EXPORT_SYMBOL_NS_GPL(dma_buf_map_interconnect, "DMA_BUF");
+> > +
+> > +void dma_buf_unmap_interconnect(struct dma_buf_attachment *attach,
+> > +				struct dma_buf_ranges *ranges)
+> > +{
+> > +	const struct dma_buf_interconnect_ops *ic_ops;
+> > +	struct dma_buf *dmabuf =3D attach->dmabuf;
+> > +
+> > +	if (WARN_ON(!attach || !attach->dmabuf || !ranges))
+> > +		return;
+> > +
+> > +	if (!attach->allow_ic)
+> > +		return;
+> > +
+> > +	ic_ops =3D dmabuf->ops->interconnect_ops;
+> > +	if (!ic_ops || !ic_ops->unmap_interconnect)
+> > +		return;
+> > +
+> > +	dma_resv_assert_held(attach->dmabuf->resv);
+> > +
+> > +	ic_ops->unmap_interconnect(attach, ranges);
+> > +
+> > +	xa_destroy(&ranges->ranges);
+> > +	kfree(ranges);
+> > +}
+> > +EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_interconnect, "DMA_BUF");
+> > +
+> > =A0#ifdef CONFIG_DEBUG_FS
+> > =A0static int dma_buf_debug_show(struct seq_file *s, void *unused)
+> > =A0{
+> > diff --git a/include/linux/dma-buf-interconnect.h
+> > b/include/linux/dma-buf-interconnect.h
+> > new file mode 100644
+> > index 000000000000..17504dea9691
+> > --- /dev/null
+> > +++ b/include/linux/dma-buf-interconnect.h
+> > @@ -0,0 +1,29 @@
+> > +/* SPDX-License-Identifier: MIT */
+> > +
+> > +#ifndef __DMA_BUF_INTERCONNECT_H__
+> > +#define __DMA_BUF_INTERCONNECT_H__
+> > +
+> > +#include <linux/xarray.h>
+> > +
+> > +struct dma_buf_attachment;
+> > +
+> > +struct dma_buf_ranges {
+> > +	struct xarray ranges;
+> > +	unsigned int nranges;
+>=20
+> IIUC this would replace the sg-table right?
+Yes, that is the intended goal.=20
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-avcore.c b/drivers/media/us=
-b/cx231xx/cx231xx-avcore.c
-index 1cfec76b72f3..d268d988123e 100644
-=2D-- a/drivers/media/usb/cx231xx/cx231xx-avcore.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-avcore.c
-@@ -760,7 +760,6 @@ int cx231xx_set_decoder_video_input(struct cx231xx *de=
-v,
-=20
- 		status =3D vid_blk_write_word(dev, AFE_CTRL, value);
-=20
--		status =3D cx231xx_afe_set_mode(dev, AFE_MODE_BASEBAND);
- 		break;
- 	case CX231XX_VMUX_TELEVISION:
- 	case CX231XX_VMUX_CABLE:
-@@ -910,8 +909,6 @@ int cx231xx_set_decoder_video_input(struct cx231xx *de=
-v,
- 			if (dev->tuner_type =3D=3D TUNER_NXP_TDA18271) {
- 				status =3D vid_blk_read_word(dev, PIN_CTRL,
- 				 &value);
--				status =3D vid_blk_write_word(dev, PIN_CTRL,
--				 (value & 0xFFFFFFEF));
- 			}
-=20
- 			break;
-@@ -1092,7 +1089,6 @@ int cx231xx_set_audio_input(struct cx231xx *dev, u8 =
-input)
- 		ainput =3D AUDIO_INPUT_TUNER_TV;
- 		break;
- 	case CX231XX_AMUX_LINE_IN:
--		status =3D cx231xx_i2s_blk_set_audio_input(dev, input);
- 		ainput =3D AUDIO_INPUT_LINE;
- 		break;
- 	default:
-@@ -1865,8 +1861,6 @@ int cx231xx_dif_set_standard(struct cx231xx *dev, u3=
-2 standard)
- 						0x1befbf06);
- 		status =3D vid_blk_write_word(dev, DIF_SRC_GAIN_CONTROL,
- 						0x000035e8);
--		status =3D vid_blk_write_word(dev, DIF_SOFT_RST_CTRL_REVB,
--						0x00000000);
- 		/* Save the Spec Inversion value */
- 		dif_misc_ctrl_value &=3D FLD_DIF_SPEC_INV;
- 		dif_misc_ctrl_value |=3D 0x3A0A3F10;
-@@ -2702,8 +2696,6 @@ int cx231xx_set_gpio_value(struct cx231xx *dev, int =
-pin_number, int pin_value)
- 		/* It was in input mode */
- 		value =3D dev->gpio_dir | (1 << pin_number);
- 		dev->gpio_dir =3D value;
--		status =3D cx231xx_set_gpio_bit(dev, dev->gpio_dir,
--					      dev->gpio_val);
- 	}
-=20
- 	if (pin_value =3D=3D 0)
-=2D-=20
-2.34.1
+> I guess Jason or Christian
+> would need to comment on whether this is generic enough or whether it
+> needs to be interconnect-dependent.
+AFAIU, the individual entries of the xarray could be of any type that is
+interconnect-specific and shared between exporter and importer.
+For example, for IOV interconnect, I have picked struct range as the
+type (to represent individual entries of the xarray) to share addresses
+between exporter and importer.
+
+>=20
+> > +};
+> > +
+> > +enum dma_buf_interconnect_type {
+> > +	DMA_BUF_INTERCONNECT_NONE =3D 0,
+> > +};
+>=20
+> This calls for registering all known interconnects with the dma-buf
+> layer even if the interconnects are completely driver-private. I'd
+> suggest using a pointer to identify interconnect and whatever entity
+> defines the interconnect provides a unique pointer. For globally
+> visible interconnects this could be done in dma-buf.c or a dma-buf-
+> interconnect.c
+Thank you for your suggestion. I'll explore the idea in more detail.
+
+>=20
+> > +
+> > +struct dma_buf_interconnect {
+> > +	enum dma_buf_interconnect_type type;
+> > +};
+> > +
+> > +struct dma_buf_interconnect_ops {
+> > +	int (*map_interconnect)(struct dma_buf_attachment *attach,
+> > +				struct dma_buf_ranges *ranges);
+> > +	void (*unmap_interconnect)(struct dma_buf_attachment
+> > *attach,
+> > +				=A0=A0 struct dma_buf_ranges *ranges);
+> > +};
+> > +#endif
+> > diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> > index d58e329ac0e7..db91c67c00d6 100644
+> > --- a/include/linux/dma-buf.h
+> > +++ b/include/linux/dma-buf.h
+> > @@ -23,6 +23,8 @@
+> > =A0#include <linux/dma-fence.h>
+> > =A0#include <linux/wait.h>
+> >
+> > +#include <linux/dma-buf-interconnect.h>
+> > +
+> > =A0struct device;
+> > =A0struct dma_buf;
+> > =A0struct dma_buf_attachment;
+> > @@ -276,6 +278,8 @@ struct dma_buf_ops {
+> >
+> > =A0	int (*vmap)(struct dma_buf *dmabuf, struct iosys_map *map);
+> > =A0	void (*vunmap)(struct dma_buf *dmabuf, struct iosys_map
+> > *map);
+> > +
+> > +	const struct dma_buf_interconnect_ops *interconnect_ops;
+> > =A0};
+> >
+> > =A0/**
+> > @@ -502,7 +506,9 @@ struct dma_buf_attachment {
+> > =A0	struct device *dev;
+> > =A0	struct list_head node;
+> > =A0	bool peer2peer;
+> > +	bool allow_ic;
+> > =A0	const struct dma_buf_attach_ops *importer_ops;
+> > +	struct dma_buf_interconnect interconnect;
+>=20
+> Hmm. Could we have a pointer to the interconnect here? Let's say the
+> interconnect implementation would want to subclass with additional
+> information?
+Sure. I was going to do that in the next version.
+
+Thanks,
+Vivek
+
+>=20
+>=20
+> > =A0	void *importer_priv;
+> > =A0	void *priv;
+> > =A0};
+> > @@ -589,6 +595,11 @@ struct sg_table
+> *dma_buf_map_attachment(struct
+> > dma_buf_attachment *,
+> > =A0					enum dma_data_direction);
+> > =A0void dma_buf_unmap_attachment(struct dma_buf_attachment *, struct
+> > sg_table *,
+> > =A0				enum dma_data_direction);
+> > +
+> > +struct dma_buf_ranges *dma_buf_map_interconnect(struct
+> > dma_buf_attachment *);
+> > +void dma_buf_unmap_interconnect(struct dma_buf_attachment *,
+> > +				struct dma_buf_ranges *);
+> > +
+> > =A0void dma_buf_move_notify(struct dma_buf *dma_buf);
+> > =A0int dma_buf_begin_cpu_access(struct dma_buf *dma_buf,
+> > =A0			=A0=A0=A0=A0 enum dma_data_direction dir);
+>=20
+> Thanks,
+> Thomas
+>=20
 
 
