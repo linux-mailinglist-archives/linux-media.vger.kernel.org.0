@@ -1,141 +1,164 @@
-Return-Path: <linux-media+bounces-45122-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45123-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97687BF5D44
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 12:39:06 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id E97BABF5DE6
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 12:48:05 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id AB8E118836BA
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 10:39:27 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 07A2A4EFE0C
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 10:47:59 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 584D432F766;
-	Tue, 21 Oct 2025 10:37:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B14E82ED848;
+	Tue, 21 Oct 2025 10:47:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fI4IDXhU"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VWqLQRTh"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1898B32E738;
-	Tue, 21 Oct 2025 10:37:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C5F8261B9A
+	for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 10:47:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761043047; cv=none; b=QzcFhGsASQc9nzvRx9cXcam9kfQjkOGYcy8mGMjNjZsiFvRgWzprgS6R+awvVgtTQWu1kCJjk57L0WBJq9t9QYSraG2O0ee9eDh+BUTE71r0KLl+Fi5+uwZF7TtiZCZV5qRRH8+uEMLFHuKBIBJ8w8qmWwT18gKPWl6O/b3fEP8=
+	t=1761043662; cv=none; b=LkGKVxLMXqzYyBUX+8IdDubN3lA9P2dsLFWY0MrkHuUp0SmQaezjz5UOolomf5LCysfYlH//hiNtJyI9r58XHFbUJdiB+FItPdZQsW9inxzxhZxXCrfSLhwuQxPq+RQRIXy4+eoo5dphGjQNrWVhMRm0zthtoekNdOmWGhnRA/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761043047; c=relaxed/simple;
-	bh=Wv4YlboMbpQNw6u3IhV6GaaoBps8Bfhjrkcb7CsF0xc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QwN9+4WRr8nEq4io0ByWR4qsfw6CKco9Xn8xcdaKBkrrtCQDfDQQNObfHHhTr28snuPXuVmEPms/TOOxJ4ThF8pebBvF5gu/8zeEfkcelWbBjku/oDf5fZtCSJ/S3kEtA7XZAnz2/uFJqUo6T5Ehf2raz8qoAHJG9Xd4JEY9CTw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fI4IDXhU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 27116C19421;
-	Tue, 21 Oct 2025 10:37:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761043046;
-	bh=Wv4YlboMbpQNw6u3IhV6GaaoBps8Bfhjrkcb7CsF0xc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fI4IDXhUCP7sgAbKQnnlEnGS+mH6+q/DVxfBVgsj499VkGJQLro2SipZv+UsgT+zu
-	 8B9BQ/N8PLADF+mv0npm2WR18SHOSCTkY6IIWB+/4KWxdz0HaqNaCd+VpwNF+jRHei
-	 3ov8wsowSbIjE7ehwZJQCM5XDSZ8yb88yR9ym4/iD1GrsxZuohsf4L75d3zn6Oo8ZL
-	 n/EM6KAHijRdlgGUc7o7fjyhsti167l3ftZbDgbosTZ+9qyXpVrt8OKaPBS6REela5
-	 1PzcamUK2QhpQhPmKuhJ64ytVkT/HOGaF6eImS7MwUdj0xA7m9KQpsd53N7fkQp+0Z
-	 1s/kfAndNZ8Fg==
-Date: Tue, 21 Oct 2025 11:37:15 +0100
-From: Lee Jones <lee@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Shawn Guo <shawnguo@kernel.org>, Fabio Estevam <festevam@gmail.com>,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Andy Shevchenko <andy@kernel.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Joel Stanley <joel@jms.id.au>,
-	Andrew Jeffery <andrew@codeconstruct.com.au>,
-	Andrew Lunn <andrew@lunn.ch>, Vladimir Oltean <olteanv@gmail.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Daire McNamara <daire.mcnamara@microchip.com>,
-	Lorenzo Pieralisi <lpieralisi@kernel.org>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Bjorn Andersson <andersson@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Nicolas Ferre <nicolas.ferre@microchip.com>,
-	Alexandre Belloni <alexandre.belloni@bootlin.com>,
-	Claudiu Beznea <claudiu.beznea@tuxon.dev>,
-	Florian Fainelli <f.fainelli@gmail.com>,
-	Tony Lindgren <tony@atomide.com>, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org,
-	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-iio@vger.kernel.org, linux-media@vger.kernel.org,
-	netdev@vger.kernel.org, linux-pci@vger.kernel.org,
-	linux-phy@lists.infradead.org
-Subject: Re: [PATCH] dt-bindings: Fix inconsistent quoting
-Message-ID: <20251021103715.GA475031@google.com>
-References: <20251015232015.846282-1-robh@kernel.org>
+	s=arc-20240116; t=1761043662; c=relaxed/simple;
+	bh=KY8k4nF64QEkqmy8wovcrxZNfcYQnDFhLdMboWwvqjA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qGoydqShj6Mjq5d8VkxmgIrXbVjAov3BwZh8CHugXjX7t9RvboSC1ADXfsRM6mK4cAgi9GsUGdv2RhOodolK5zL2sRiNPXcthMdv6GdS1KEpySCHeJHLT8M/7Inb0wmvs+03IboR6v7Glr+UCatT669hxwt28TxhSK1DEpzRsbI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VWqLQRTh; arc=none smtp.client-ip=209.85.222.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-89018e9f902so3158321241.0
+        for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 03:47:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761043659; x=1761648459; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=+Xs/eUdQtWZwGGmABaXwPLNP+gh3Pns6jIW82WHCxmU=;
+        b=VWqLQRTh3voCfdAX76sAVEwunYGgmbfB8xaI6uDcnyBci7jRsTmoWSZ8dD0+5bEthS
+         0eIQUPPHKcnyKGI2qBhyGhOMsZNkJn83CpIt24COjehxE/fuMTVucHLDjt4ZJM4bK1Yq
+         +eRayaWhfO8MmuBupZdaJ6AB+bqxM+1HfgynUkDoqXd3RuTDS2uXQ2pX2hm2+3onj0s2
+         XLSixj0phHFR0wkjq/b9cU3kjDjOKdVuejoHjAdc6bDfymnmoYl7KaphK3hRKNNqzb5o
+         9EkKPeTWP/L3783fpkNBOBw5vx1d6vXigvN7VSr9LhtJt+qsTxWciDe7Q4wU/blPozK+
+         sHRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761043659; x=1761648459;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=+Xs/eUdQtWZwGGmABaXwPLNP+gh3Pns6jIW82WHCxmU=;
+        b=haOsHFNdpI0cJsxTLJSybehqnKcj87kWd9p9Nx4ZWTyphh/DShL2P/yFHsz/zCoOXF
+         jcFm7leqz0LzWVpYV77+SzZvXqOJCyTLhZaITAZshxCb9UCIWnC2lMxrfhKtIOQ0pplK
+         6qKlhiwxKZk9R/wi7/7RrABL2fhPp+Ht+7NtLw3zWBNavTTrWRl9IPSyP5ndirxQ2GcM
+         70zjMK+wqsNveIkaa22kuDrTuEEOEbOBYp/Ghhx2KROu3B5nTt7xJ/kGtntsSb476E32
+         jz/NtGGnF7zSppTy1GIjNIIUoikYe/6d12EUvYLZSE1Kmh1r2FVo0w1qLL9uJoLQSASG
+         GeiA==
+X-Forwarded-Encrypted: i=1; AJvYcCWUuln9o5NnFeYni5uKGqr9lxGbjcEu9RVID0vPY13Inz+OZ+5q9ENTAKZl5jsVXIFfBKYnuF9pPR/0rA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy9Uh5QB6ERoBKRF1F4a/Jqih8R6ScBfpoJdIrQCsaD6TEvfhNG
+	N/hwNje7sn4WjS+2LhpJs+/uPTf86JDH1p/Wj2o2amgBTlOilU+FpIkMsw/gvoNkxD5zQMc1Yev
+	fBxIsFd4No7H3uPgLe0lECkQ5kUZSluI=
+X-Gm-Gg: ASbGncswbv4xIEKmkfMUwzzJuNFeiuV28+ORamockZEOOBip2HEFqhQW3/hvAzweQhA
+	OGGBw/ChIs2L2d01W0NEN98r36+ZAzb3vfmbJS3BQF/1AlSdbjjVlLVgkv1abzilJmuRnhHPuBw
+	ncxUb0vxVJAWHq3irF3as+JJ4Hi6anAdexxJoN2Ax0eYOhs/oU39hhdTsMDj3viJM1fyUl8/ATA
+	GIi7ohrrx+a0HSnvAw6L1NSO24i1LiDsQty8LZfEKgqF+fcua2srQioZTxAiE+/sSIAQPJ66uLj
+	YcciR3zlbjjE0pj4OxqJz/mfyeGIB2FToH02Xtks9hLbwlM=
+X-Google-Smtp-Source: AGHT+IHjOFVe1O3tzFMP0gIYtx24HziWgzB3Gjmf9Kpo5gAt5z3gqUWF8osLugzeNby1AvQDK8RZVGBJJaUvMp2ukaM=
+X-Received: by 2002:a05:6102:3e8e:b0:5ba:4f5c:874e with SMTP id
+ ada2fe7eead31-5d7dd6d6684mr5462466137.31.1761043659295; Tue, 21 Oct 2025
+ 03:47:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20251015232015.846282-1-robh@kernel.org>
+References: <20251015133642.3dede646.michal.pecio@gmail.com>
+In-Reply-To: <20251015133642.3dede646.michal.pecio@gmail.com>
+From: Ricardo Ribalda Delgado <ricardo.ribalda@gmail.com>
+Date: Tue, 21 Oct 2025 12:47:23 +0200
+X-Gm-Features: AS18NWBtKNtvNmDcTFIqNnPFoGF6drRttrc9akQyRbVQmrOOvK9ecsEJNzeSKcQ
+Message-ID: <CAPybu_0O10SsPp4G8SfcsbCP5k1gXQJ5Hmhw4kMFTZguEZ7iBQ@mail.gmail.com>
+Subject: Re: [PATCH] media: uvcvideo: Return queued buffers on
+ start_streaming() failure
+To: Michal Pecio <michal.pecio@gmail.com>
+Cc: Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Hans de Goede <hansg@kernel.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Hans Verkuil <hverkuil@kernel.org>, 
+	Ricardo Ribalda <ribalda@chromium.org>, linux-media@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 15 Oct 2025, Rob Herring (Arm) wrote:
+Hi Michal
 
-> yamllint has gained a new check which checks for inconsistent quoting
-> (mixed " and ' quotes within a file). Fix all the cases yamllint found
-> so we can enable the check (once the check is in a release). Use
-> whichever quoting is dominate in the file.
-> 
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+It seems that the device was disconnected while doing streamon. That
+caused uvc_pm_get() to fail and exit without returning the buffers.
+
+Your patch is not going to help to fix:
+xhci_hcd 0000:09:00.0: HC died; cleaning up
+usb 13-2: USB disconnect, device number 2
+
+But it is fixing an issue. thanks :)
+
+On Wed, Oct 15, 2025 at 1:36=E2=80=AFPM Michal Pecio <michal.pecio@gmail.co=
+m> wrote:
+>
+> Return buffers if streaming fails to start due to uvc_pm_get() error.
+>
+> This bug may be responsible for a warning I got running
+>
+>     while :; do yavta -c3 /dev/video0; done
+>
+> on an xHCI controller which failed under this workload.
+> I had no luck reproducing this warning again to confirm.
+>
+> xhci_hcd 0000:09:00.0: HC died; cleaning up
+> usb 13-2: USB disconnect, device number 2
+> WARNING: CPU: 2 PID: 29386 at drivers/media/common/videobuf2/videobuf2-co=
+re.c:1803 vb2_start_streaming+0xac/0x120
+>
+> Fixes: 7dd56c47784a ("media: uvcvideo: Remove stream->is_streaming field"=
+)
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Michal Pecio <michal.pecio@gmail.com>
+Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+
 > ---
->  .../arm/altera/socfpga-clk-manager.yaml       |  4 ++--
->  .../bindings/clock/nvidia,tegra124-car.yaml   |  8 ++++----
->  .../bindings/clock/nvidia,tegra20-car.yaml    |  6 +++---
->  .../devicetree/bindings/gpio/gpio-mxs.yaml    |  9 +++++----
->  .../bindings/gpio/snps,dw-apb-gpio.yaml       |  4 ++--
->  .../bindings/iio/temperature/adi,ltc2983.yaml | 20 +++++++++----------
->  .../mailbox/qcom,apcs-kpss-global.yaml        | 16 +++++++--------
->  .../mailbox/xlnx,zynqmp-ipi-mailbox.yaml      |  2 +-
->  .../bindings/media/fsl,imx6q-vdoa.yaml        |  2 +-
+>  drivers/media/usb/uvc/uvc_queue.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_queue.c b/drivers/media/usb/uvc/uv=
+c_queue.c
+> index 790184c9843d..f49c538618bc 100644
+> --- a/drivers/media/usb/uvc/uvc_queue.c
+> +++ b/drivers/media/usb/uvc/uvc_queue.c
+> @@ -177,7 +177,7 @@ static int uvc_start_streaming_video(struct vb2_queue=
+ *vq, unsigned int count)
+>
+>         ret =3D uvc_pm_get(stream->dev);
+>         if (ret)
+> -               return ret;
+> +               goto return_buffers;
+>
+>         queue->buf_used =3D 0;
+>
+> @@ -187,6 +187,7 @@ static int uvc_start_streaming_video(struct vb2_queue=
+ *vq, unsigned int count)
+>
+>         uvc_pm_put(stream->dev);
+>
+> +return_buffers:
+>         uvc_queue_return_buffers(queue, UVC_BUF_STATE_QUEUED);
+>
+>         return ret;
+> --
+> 2.48.1
+>
 
->  .../devicetree/bindings/mfd/aspeed-lpc.yaml   |  4 ++--
->  .../devicetree/bindings/mfd/ti,twl.yaml       |  4 ++--
 
-Acked-by: Lee Jones <lee@kernel.org>
-
->  .../bindings/net/ethernet-switch.yaml         |  2 +-
->  .../pci/plda,xpressrich3-axi-common.yaml      |  2 +-
->  .../bindings/phy/motorola,cpcap-usb-phy.yaml  |  4 ++--
->  .../pinctrl/microchip,sparx5-sgpio.yaml       | 12 +++++------
->  .../bindings/pinctrl/qcom,pmic-gpio.yaml      | 10 +++++-----
->  .../bindings/pinctrl/qcom,pmic-mpp.yaml       |  6 +++---
->  .../bindings/pinctrl/renesas,pfc.yaml         |  4 ++--
->  .../bindings/pinctrl/renesas,rza1-ports.yaml  |  2 +-
->  .../pinctrl/renesas,rzg2l-pinctrl.yaml        |  2 +-
->  .../pinctrl/renesas,rzv2m-pinctrl.yaml        |  2 +-
->  .../bindings/power/renesas,sysc-rmobile.yaml  |  4 ++--
->  .../soc/microchip/atmel,at91rm9200-tcb.yaml   |  8 ++++----
->  .../soc/tegra/nvidia,tegra20-pmc.yaml         | 12 +++++------
->  24 files changed, 75 insertions(+), 74 deletions(-)
-
-[...]
-
--- 
-Lee Jones [李琼斯]
+--
+Ricardo Ribalda
 
