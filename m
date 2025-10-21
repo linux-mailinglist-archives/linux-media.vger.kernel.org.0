@@ -1,117 +1,151 @@
-Return-Path: <linux-media+bounces-45126-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45127-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AFB7BF6055
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 13:28:02 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B64EBF67C1
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 14:41:15 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B2C8718C6509
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 11:28:25 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 40A5E4F1139
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 12:41:11 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA31232C922;
-	Tue, 21 Oct 2025 11:27:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BE1D932ED5C;
+	Tue, 21 Oct 2025 12:41:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dRNc9TcY"
+	dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b="IXuFI9KG"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB8F32B994
-	for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 11:27:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B43D32E73C
+	for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 12:41:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761046074; cv=none; b=KxnLbXhiwKZhCM3uRGqDBYo4fzpONWQrmyZPsgAPfkxf8YFJSQ/nEeYSMa368IDqEYUVh+4p8T0MCSKmSSqQa0n9is5Qeh/CqX4i0IHK+3Y7Cf9aFYvXaIMMLM09ysx12ahiK26MCHNVuAoY/RIWzCVrai6H6cNuz+XgalEMVzc=
+	t=1761050463; cv=none; b=obkyKccCCjiCQ54+K8OrSvYNW8S+oSuinKvA3R4PONy1+8CaJebCwfhK5WMceIlSNwt+ZqC/fVlephIpjqzRLr1Ih2QWUIGn4/lI5OpyqVefV3oW2ky1WyTbeqiCcmM5JB9RPCSrFRzgK4RiVKgpJS2w+D8UShlNGrq88FnB3FQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761046074; c=relaxed/simple;
-	bh=XwK3B4eFqi6bqCPYWqhOCbr8BhBcCJQPVuxdp+E6HLI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CaQNNveZi1V83oeRxiEmG1FcTCO9OL3O9T6LFiMvCDIYgTNRRPCb3PLVzkN01ER5+iuVul4cOrvsJp4gIqIJ44rPtJgEdrlT5fiSt3g7TgC8+awKtDf1DD+RsoabRxh/0/O9hncam72kc/748tb3AspezfFfZ13i2iIj62PmLLk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dRNc9TcY; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3ee15b5435bso5449355f8f.0
-        for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 04:27:52 -0700 (PDT)
+	s=arc-20240116; t=1761050463; c=relaxed/simple;
+	bh=yuVQZTDGjvvcPalMUgTg4epkdUaGdD4g6/GxObBxEI0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YAIgK9+17jF2pN1RqtMrTsixrCbw7DczcT4YANzpoDt+SqghEopnkfkmd2gYA6v39rvODuVVDGwBmQcsgJ+29prBbCCW+3QXNuG5q5RsF3zHDrFB/v8Cdd4N7FCxAMBCj9/JajaepGM5dSHRFL3PbPIqS5ZPUN7EJT/bAfQjaQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl; spf=none smtp.mailfrom=bgdev.pl; dkim=pass (2048-bit key) header.d=bgdev-pl.20230601.gappssmtp.com header.i=@bgdev-pl.20230601.gappssmtp.com header.b=IXuFI9KG; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bgdev.pl
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bgdev.pl
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-57edfeaa05aso6341738e87.0
+        for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 05:41:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761046071; x=1761650871; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=4sFpzlVevSmJgUzGev8ONEttz1Yf2GX70+x9wdfvUro=;
-        b=dRNc9TcYSN8QzpABLT503/Wn3fgyLWxoIX/Lx0HzWXV6cLmvM08qk1us94Qr3gatuO
-         l6lJQJsrmEtfmVRJYryYAJqdXa0gS0lTip0UfJw7//Tcf/A9ykBQyySakyDSZ7XH1qfR
-         duu1tNMLzTbqY9zEGLI662ZuFlX/s9fPnE+KJbOG5Gx7T6NKW5wiyNxBXtZWil50V9Qn
-         RtwsneBImVBWt0FBYWUbrset6K33+RFlvlJAFzcgRpVDH7zQdFZwd0D7slg8wAL+Klng
-         s+KI/0bH2ERsz1awpgOs52b5Wvz8dLSmzPzwNYSBbaxSHxqIm1rP6bMNT+U3xtjYVNXg
-         WCBA==
+        d=bgdev-pl.20230601.gappssmtp.com; s=20230601; t=1761050459; x=1761655259; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=NWb3L2HC5GL7gJV88qPeFIZPSp/OKkdc2F2PK/9kqwo=;
+        b=IXuFI9KG4A3E4U5Fibyo6SAZNeh861N5dZ2edgvOUXsjhDgufvCVHz/9zsQZEjK3BW
+         MjdzfFJgfVaycKMJmwOmMDVjWwXkD7nlGV67Jf8zvmtPIwiJnQ2Hi16/68lWT3XbNX0q
+         7UCzdCkaXSC/d6+2uyK1aPWErerdzs6Igm9Tb1vs/sYCNuAVd6bEm8yBMPW3HV7o+6lR
+         oKyQWdMb9O1alofphP99ZmDTFd+Qzv6AnI2dCfLRhj8HNObmEMBPQTn+FgswF+1mdw56
+         trf8UoHLlB9JpJl1xWI4L0iPsJJXVTFXUuRVtCxZ3EA8ysrGASRUvQ/StiZWJHbSyx4X
+         GBuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761046071; x=1761650871;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=4sFpzlVevSmJgUzGev8ONEttz1Yf2GX70+x9wdfvUro=;
-        b=vvjWEzDW75GWulhuevxfv0p2Jx3Vnu9bhUNWKJiUE9eSHX3sruHrv5LUsDyx771X9v
-         a7zR0mqPKdmieaWnhIj6MZjFVjSzqXdCHhz5H2qUGelyYCG06JZRSkzV1bNQYTQNdSTf
-         m50+2PZsn0xdbb7bVuRVvhVUC9xcRaWiR6QcrdoOeA2mdAoGuq9s3McqURDeXE2ng6aa
-         ony6GrACF0r7GWU/nv4JQ7HpgxCyrBvUnavLufk72WPuKAWWKLdyail37aMHWv194T8V
-         UvywJxxvGDo0ZCS5aKmFBGsRgXfz0H1pYbofCmuKZwZ1hTgTaRMXMSy5TE8V2YBxDLaq
-         bBhQ==
-X-Gm-Message-State: AOJu0YzXmO9xlp/5mlRoHsTAEPzHe1bwp2T1ClIHNqvmYxvlRattSYvP
-	oRCkLszECqDTbbgMc/R/pGwYPEdVFM2uNokASKUvMGX5sdWDgK7LetAATnkiS3zihgk=
-X-Gm-Gg: ASbGncuHOBGXnsWR8zR6e3EnNY5EJQ3IWhAKIsMt/ZaEnMGLeqf9fmWNFpBnZ12HfPj
-	W4ldChgK7L1SSReh5YHFO+wvSv7rn1bDt0OJzxgAgi8zqoNRP0jvBBMyPMBuUEpSnL2cn1L0oWY
-	qLnpc58crteOyy4pjy0ROq0sE4rGu2+qmfZB0fRjgWIRvUQx9yJP98t8f4a6Qxj9my6P9HORiG3
-	9Y1qgSbKcaPEfcYJHUH2RGLveLiHTx/4tUoRYRgWMGkE9kL5hvHJGfeNDZfgE/gQ3iPYcxvIznY
-	os3luHP1X/UQZYFcyDxUGP/ThjNvZb67S7haYS+Upb9528+35+PIEeFko3skNz3/Jh9Jqh02yAm
-	CpLr2xAPwIkIHWPGWjbm+bQcnY/y1vVCTLBzI9cw+XA6Orn7vmCN1FxVAiSZw07Vqns9kWQKeAm
-	fQ2m+loVAXHRJBRr0F36JqIBCHgyugO6T7w2JYHl5iNGhR0ZP0qDaZamIO56fCWoL0
-X-Google-Smtp-Source: AGHT+IGV/ABVqWV8MsAww0waMr7MTa0bjI7NdLpLREyhUO0GVPuR0EgaD4ahBwL15tOIyvx1SltTMA==
-X-Received: by 2002:a05:6000:400e:b0:427:9d7:8720 with SMTP id ffacd0b85a97d-42709d78893mr9365897f8f.24.1761046070736;
-        Tue, 21 Oct 2025 04:27:50 -0700 (PDT)
-Received: from [192.168.0.163] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f00ce178sm19861570f8f.46.2025.10.21.04.27.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Oct 2025 04:27:50 -0700 (PDT)
-Message-ID: <c80e6d85-e1a7-4b04-9e84-7f0cf1a983b8@linaro.org>
-Date: Tue, 21 Oct 2025 12:27:49 +0100
+        d=1e100.net; s=20230601; t=1761050459; x=1761655259;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=NWb3L2HC5GL7gJV88qPeFIZPSp/OKkdc2F2PK/9kqwo=;
+        b=TXURPzra5WhuKrggeU16uZx+7nSrqS0DrCGwFVB/V45e2eDDQq4T0Nt5d1uNfFaUVY
+         N3r/HvAuIo1yNp0KB2xdzoBj8taiYJLIffmqSZ84c73uY+rKT4CkFEe8Kelkr/RyWMFU
+         O9muiqmNw0XjA+APnh1hkuhU9Z5ls0+KBToZq9vrWrcjnOSGmUld+rC2AB8pbavM4Oa5
+         M13dDXanuhpbV3EEwbzT6Y0m+uH+qAL8dHmXi3NdxngTTpaJG85j3U6yRuH5FotuEinq
+         OHDnXYEgJr0ZYgeBQtThkuGZ60b5FGSk9RrRT7tUeHmsk3NStRrBO+qYOwsVRG7Vhy4b
+         Vy5Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWpL7auGrM3N8TC4BfJnClFMJliIBSuTYie9SvheduBF4ozdtNImVak5HnGe7GH4xcXkXmtE4LNN5FOaQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzbwUAyJ50wM9gfF734Lr1zIGUahy2ygdIwv9RdfAgNjV+YIU0a
+	/tc07LkRUnzaNW8lqreQDzuoO3GkttlmzVc/Va9V3mUUb7iosH7WldbH3K1AvnvWI4BQxs5oC0z
+	EPSZwVvnAMIk6deeFxcGHRcOlDVQkmcArF9hZZjWS6w==
+X-Gm-Gg: ASbGnctwkegTgI6s9QAWrMMPsH1ifYxnNYqpqZlVflsFmgk96n2ituqahlmqhWtWvPr
+	fOaDjJSp7hzYTJcmLggKfzwvmdhdR+OeExe0DOAkjLjuxmJlrSHXsRCwzRA6LGxSl3wfM6joKdP
+	ZtBzjNHjZPtH2zd90j3hbQp7cPWyLOFUlYAWue6JVDtAatsEyf9TalIQBRh+pmU6cBAxm7zmbDI
+	+BDd4927qn3ScpPj7BrUWH9XXWq8T73q45MR3lcLItESFJ1cvk4kz70HjZDoi7XjMgOIcUuRz/E
+	i9xZfiMww/AfpMGD53/mYcHW+LE=
+X-Google-Smtp-Source: AGHT+IHJJi40QO2j+AEEIXG+FSVZbH+WW1DwyjfojmvqVA8OuBIji8cOMNjvhsKfbFVOj/fVZy/UensL3Bqq96jG85U=
+X-Received: by 2002:a05:6512:3b0c:b0:57a:310:66a8 with SMTP id
+ 2adb3069b0e04-591d85773ffmr5098755e87.55.1761050459418; Tue, 21 Oct 2025
+ 05:40:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] media: qcom: iris: Add sanity check for stop streaming
-To: Wangao Wang <wangao.wang@oss.qualcomm.com>,
- Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
- Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
- Abhinav Kumar <abhinav.kumar@linux.dev>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-kernel@vger.kernel.org, quic_qiweil@quicinc.com,
- quic_renjiang@quicinc.com
-References: <akmAGosBEsOFS3HpzbJdYH2z103MndEu9B6T4EBnkbPiuBpzCzjn8LtnVr-lJ0PHOqR0jYiIXbnPTwJR0B3L0g==@protonmail.internalid>
- <20251021-iris_add_sanity_check-v2-1-476b3107a8ef@oss.qualcomm.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <20251021-iris_add_sanity_check-v2-1-476b3107a8ef@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20251015232015.846282-1-robh@kernel.org>
+In-Reply-To: <20251015232015.846282-1-robh@kernel.org>
+From: Bartosz Golaszewski <brgl@bgdev.pl>
+Date: Tue, 21 Oct 2025 14:40:47 +0200
+X-Gm-Features: AS18NWCQWmhq7gNfZEHIkGW0O-gEdDRZh4gksyliLmXKxwOZhptAVz-Dcd8I0sA
+Message-ID: <CAMRc=Mf++cYPVrFH5_1KggTQi2Tew_MaeHMHSiczkVfM+=Y4rg@mail.gmail.com>
+Subject: Re: [PATCH] dt-bindings: Fix inconsistent quoting
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Stephen Boyd <sboyd@kernel.org>, Thierry Reding <thierry.reding@gmail.com>, 
+	Linus Walleij <linus.walleij@linaro.org>, Shawn Guo <shawnguo@kernel.org>, 
+	Fabio Estevam <festevam@gmail.com>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Andy Shevchenko <andy@kernel.org>, 
+	Jassi Brar <jassisinghbrar@gmail.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Lee Jones <lee@kernel.org>, Joel Stanley <joel@jms.id.au>, 
+	Andrew Jeffery <andrew@codeconstruct.com.au>, Andrew Lunn <andrew@lunn.ch>, 
+	Vladimir Oltean <olteanv@gmail.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Daire McNamara <daire.mcnamara@microchip.com>, Lorenzo Pieralisi <lpieralisi@kernel.org>, 
+	=?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>, 
+	Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas <bhelgaas@google.com>, Vinod Koul <vkoul@kernel.org>, 
+	Kishon Vijay Abraham I <kishon@kernel.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Geert Uytterhoeven <geert+renesas@glider.be>, Nicolas Ferre <nicolas.ferre@microchip.com>, 
+	Alexandre Belloni <alexandre.belloni@bootlin.com>, Claudiu Beznea <claudiu.beznea@tuxon.dev>, 
+	Florian Fainelli <f.fainelli@gmail.com>, Tony Lindgren <tony@atomide.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-clk@vger.kernel.org, 
+	linux-gpio@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-iio@vger.kernel.org, linux-media@vger.kernel.org, 
+	netdev@vger.kernel.org, linux-pci@vger.kernel.org, 
+	linux-phy@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 21/10/2025 09:15, Wangao Wang wrote:
-> Add sanity check in iris_vb2_stop_streaming. If inst->state is
-> already IRIS_INST_ERROR, we should skip the stream_off operation
-> because it would still send packets to the firmware.
-> 
-> In iris_vdec_kill_session, inst->state is set to IRIS_INST_ERROR
-> and session_close is executed, which will kfree(inst_hfi_gen2->packet).
-> If stop_streaming is called afterward, it will cause a crash.
-> 
-> Signed-off-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
-Requires a Fixes: tag
+On Thu, Oct 16, 2025 at 1:20=E2=80=AFAM Rob Herring (Arm) <robh@kernel.org>=
+ wrote:
+>
+> yamllint has gained a new check which checks for inconsistent quoting
+> (mixed " and ' quotes within a file). Fix all the cases yamllint found
+> so we can enable the check (once the check is in a release). Use
+> whichever quoting is dominate in the file.
+>
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+>  .../arm/altera/socfpga-clk-manager.yaml       |  4 ++--
+>  .../bindings/clock/nvidia,tegra124-car.yaml   |  8 ++++----
+>  .../bindings/clock/nvidia,tegra20-car.yaml    |  6 +++---
+>  .../devicetree/bindings/gpio/gpio-mxs.yaml    |  9 +++++----
+>  .../bindings/gpio/snps,dw-apb-gpio.yaml       |  4 ++--
+>  .../bindings/iio/temperature/adi,ltc2983.yaml | 20 +++++++++----------
+>  .../mailbox/qcom,apcs-kpss-global.yaml        | 16 +++++++--------
+>  .../mailbox/xlnx,zynqmp-ipi-mailbox.yaml      |  2 +-
+>  .../bindings/media/fsl,imx6q-vdoa.yaml        |  2 +-
+>  .../devicetree/bindings/mfd/aspeed-lpc.yaml   |  4 ++--
+>  .../devicetree/bindings/mfd/ti,twl.yaml       |  4 ++--
+>  .../bindings/net/ethernet-switch.yaml         |  2 +-
+>  .../pci/plda,xpressrich3-axi-common.yaml      |  2 +-
+>  .../bindings/phy/motorola,cpcap-usb-phy.yaml  |  4 ++--
+>  .../pinctrl/microchip,sparx5-sgpio.yaml       | 12 +++++------
+>  .../bindings/pinctrl/qcom,pmic-gpio.yaml      | 10 +++++-----
+>  .../bindings/pinctrl/qcom,pmic-mpp.yaml       |  6 +++---
+>  .../bindings/pinctrl/renesas,pfc.yaml         |  4 ++--
+>  .../bindings/pinctrl/renesas,rza1-ports.yaml  |  2 +-
+>  .../pinctrl/renesas,rzg2l-pinctrl.yaml        |  2 +-
+>  .../pinctrl/renesas,rzv2m-pinctrl.yaml        |  2 +-
+>  .../bindings/power/renesas,sysc-rmobile.yaml  |  4 ++--
+>  .../soc/microchip/atmel,at91rm9200-tcb.yaml   |  8 ++++----
+>  .../soc/tegra/nvidia,tegra20-pmc.yaml         | 12 +++++------
 
-Then add
+For GPIO:
 
-Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Acked-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
 
