@@ -1,139 +1,117 @@
-Return-Path: <linux-media+bounces-45125-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45126-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0FC2BF5E13
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 12:50:19 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0AFB7BF6055
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 13:28:02 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 9A5DA189F793
-	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 10:50:43 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B2C8718C6509
+	for <lists+linux-media@lfdr.de>; Tue, 21 Oct 2025 11:28:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0D349329C7A;
-	Tue, 21 Oct 2025 10:50:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA31232C922;
+	Tue, 21 Oct 2025 11:27:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="UMMTqj9H"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dRNc9TcY"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pf1-f176.google.com (mail-pf1-f176.google.com [209.85.210.176])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C85F2EA72C
-	for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 10:50:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CB8F32B994
+	for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 11:27:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761043812; cv=none; b=onCVAd8ePcFnuYEpnOHShDr7WgPgfivuWDgrOf8CwKgDApyyjjM8XbkXBid26TYzVNf964CRwZAzdfK6+A1ywc3GmhMVimi/gu6KcoUodPGK5Ybe4FopI8wN4cU0JNhMU48DKOSL5EjgKo1DNzQgtuoACq5vPepFYIGtURPAJKM=
+	t=1761046074; cv=none; b=KxnLbXhiwKZhCM3uRGqDBYo4fzpONWQrmyZPsgAPfkxf8YFJSQ/nEeYSMa368IDqEYUVh+4p8T0MCSKmSSqQa0n9is5Qeh/CqX4i0IHK+3Y7Cf9aFYvXaIMMLM09ysx12ahiK26MCHNVuAoY/RIWzCVrai6H6cNuz+XgalEMVzc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761043812; c=relaxed/simple;
-	bh=tibOHuElsdn98IyG9GdCHJwfonoWwofOLVF9QyGZnAE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rj9r2iNuizQ+1YDenFjJDfDjVEWHhJIA9hkoxMi94mzQLZ41+YqVULv2Dqe2Kj0t8QqMZJkc4OzPOLVZzmY/vltkN17IKeYozK3XK39r6Ih8iMNrkzOzozfX/vp42+EvaXpRHTARezivyPHD/xfYAWBXcU9Z8r2lFr6ZkgYbAPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=UMMTqj9H; arc=none smtp.client-ip=209.85.210.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
-Received: by mail-pf1-f176.google.com with SMTP id d2e1a72fcca58-781206cce18so5533002b3a.0
-        for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 03:50:10 -0700 (PDT)
+	s=arc-20240116; t=1761046074; c=relaxed/simple;
+	bh=XwK3B4eFqi6bqCPYWqhOCbr8BhBcCJQPVuxdp+E6HLI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CaQNNveZi1V83oeRxiEmG1FcTCO9OL3O9T6LFiMvCDIYgTNRRPCb3PLVzkN01ER5+iuVul4cOrvsJp4gIqIJ44rPtJgEdrlT5fiSt3g7TgC8+awKtDf1DD+RsoabRxh/0/O9hncam72kc/748tb3AspezfFfZ13i2iIj62PmLLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dRNc9TcY; arc=none smtp.client-ip=209.85.221.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-3ee15b5435bso5449355f8f.0
+        for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 04:27:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1761043810; x=1761648610; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=5mx/neDnkeSOkePEkm6VBEHII9lIyY01G34R6H9ZvHM=;
-        b=UMMTqj9Hy7W/mc9pJK+Er3vEJEMR0TZ6k5cZyTAAx58xGM1Xk3K+iUzqcJST3qBpJJ
-         onR6q1TZVpSSU7SQItNbmNTls0MH7vkvSunbU9k0bFNsoZo82AYnOGzEk3inXo9ykQDR
-         qlMA+4ntnG1aHbmgEvgOFapQAoH1zsOe57PY8=
+        d=linaro.org; s=google; t=1761046071; x=1761650871; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=4sFpzlVevSmJgUzGev8ONEttz1Yf2GX70+x9wdfvUro=;
+        b=dRNc9TcYSN8QzpABLT503/Wn3fgyLWxoIX/Lx0HzWXV6cLmvM08qk1us94Qr3gatuO
+         l6lJQJsrmEtfmVRJYryYAJqdXa0gS0lTip0UfJw7//Tcf/A9ykBQyySakyDSZ7XH1qfR
+         duu1tNMLzTbqY9zEGLI662ZuFlX/s9fPnE+KJbOG5Gx7T6NKW5wiyNxBXtZWil50V9Qn
+         RtwsneBImVBWt0FBYWUbrset6K33+RFlvlJAFzcgRpVDH7zQdFZwd0D7slg8wAL+Klng
+         s+KI/0bH2ERsz1awpgOs52b5Wvz8dLSmzPzwNYSBbaxSHxqIm1rP6bMNT+U3xtjYVNXg
+         WCBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761043810; x=1761648610;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=5mx/neDnkeSOkePEkm6VBEHII9lIyY01G34R6H9ZvHM=;
-        b=GCxRtW6X/UuAbmf7EzYbMsumHhtnw04j62Ys62HzFn/2w0eMV4yK5WZLpKduLHo2M8
-         zDnw+Yn/SwWkeUz96rooxivNIPmfb5zb88+BhKocBZmHh6mUfmFMHTOuidBzoFdKC69n
-         6tU6QVcURE/pxQx/iDOyeHau5jGtVyJ831EiFOpjF63TLomqNhs7yX+6O5qfSEWEPzme
-         SawcxuXm34eFW18jcUKUg+epKEfqqf2UhjNac1CVL6BOE+xanmh0dGsDfisR8TA/P0Qa
-         9rUQ5m/GF3TnGg785zED3FxBjBJrqO6bjFSlPZIWD281w9C9C09M3Tcj1qONPfWkqTL/
-         Ma2g==
-X-Forwarded-Encrypted: i=1; AJvYcCXjZ3oQY8g8N79jS+kF0rgwFqaOGC3IyrMucIecK9OYti70IN8GTuxR+OlTv135yNKawn+8e08maxM+zg==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzJcIVTRTCdKMHHFnnrG39xq2xExT7KrANW+USaOfCC9zHQHd0M
-	I1v5j7uUlf+GTp7cd3I0Eks8dMPcQ5yv3XWfJMZyazCeoRuQEGloOGf2D3QvpZQG/R587Rnj4+n
-	tSo0=
-X-Gm-Gg: ASbGncvk+A3X6ioBojWb0gFqm/5ABxu+WMhVdlRsl8qP62PtjeRAL3LpFTli6HBfYaP
-	u3qGUgywYT76BCjwayS3r8pZ62Lv1tDEmRh5rbU1thO/SbmUxKsEJo5O0u6I/CsvXGvKw9nKTr3
-	DWYx/9u//uqFvD4oA33bjWO2gvObvra/FoIjXA2TnUSSwuQdkOI4xmE//cxKhPGtnjacUHK6Igw
-	D56hNx9hc8DSeeqwDrcx727gFbIlDOSOgMrXsvIFT63226SfsEUb2Kt1hrVVXJv41mIwwEapOtt
-	a5aF18vW0dFe3I22VXZ2v6y0llfasmHmvIqYjBpr/BP4JkcV9Bd+9qIyZMoh6FbHqzdHzPKYeV8
-	KFDb5NLuK/XNkT8VQY6UqyTvaJE5i7NMw3z8l1DCCcBdaHwuxNX42NYq/geExxrzeQdN+JYNf3s
-	0BOAo+tRE9Jtz06Vzpnkk0bOVajdZtOxLnKzgFpLeusQ==
-X-Google-Smtp-Source: AGHT+IE/zp/PuGXhXW+ucVRVsKjUeL31G1Je/nbAG9BSsKADaWaoT/fMzOm9QTLITC9zmyAv913u7Q==
-X-Received: by 2002:a05:6a20:939d:b0:243:78a:82d0 with SMTP id adf61e73a8af0-334a7a4cb6fmr20464885637.29.1761043810098;
-        Tue, 21 Oct 2025 03:50:10 -0700 (PDT)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com. [209.85.214.176])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a23010e211sm10877573b3a.62.2025.10.21.03.50.09
-        for <linux-media@vger.kernel.org>
+        d=1e100.net; s=20230601; t=1761046071; x=1761650871;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=4sFpzlVevSmJgUzGev8ONEttz1Yf2GX70+x9wdfvUro=;
+        b=vvjWEzDW75GWulhuevxfv0p2Jx3Vnu9bhUNWKJiUE9eSHX3sruHrv5LUsDyx771X9v
+         a7zR0mqPKdmieaWnhIj6MZjFVjSzqXdCHhz5H2qUGelyYCG06JZRSkzV1bNQYTQNdSTf
+         m50+2PZsn0xdbb7bVuRVvhVUC9xcRaWiR6QcrdoOeA2mdAoGuq9s3McqURDeXE2ng6aa
+         ony6GrACF0r7GWU/nv4JQ7HpgxCyrBvUnavLufk72WPuKAWWKLdyail37aMHWv194T8V
+         UvywJxxvGDo0ZCS5aKmFBGsRgXfz0H1pYbofCmuKZwZ1hTgTaRMXMSy5TE8V2YBxDLaq
+         bBhQ==
+X-Gm-Message-State: AOJu0YzXmO9xlp/5mlRoHsTAEPzHe1bwp2T1ClIHNqvmYxvlRattSYvP
+	oRCkLszECqDTbbgMc/R/pGwYPEdVFM2uNokASKUvMGX5sdWDgK7LetAATnkiS3zihgk=
+X-Gm-Gg: ASbGncuHOBGXnsWR8zR6e3EnNY5EJQ3IWhAKIsMt/ZaEnMGLeqf9fmWNFpBnZ12HfPj
+	W4ldChgK7L1SSReh5YHFO+wvSv7rn1bDt0OJzxgAgi8zqoNRP0jvBBMyPMBuUEpSnL2cn1L0oWY
+	qLnpc58crteOyy4pjy0ROq0sE4rGu2+qmfZB0fRjgWIRvUQx9yJP98t8f4a6Qxj9my6P9HORiG3
+	9Y1qgSbKcaPEfcYJHUH2RGLveLiHTx/4tUoRYRgWMGkE9kL5hvHJGfeNDZfgE/gQ3iPYcxvIznY
+	os3luHP1X/UQZYFcyDxUGP/ThjNvZb67S7haYS+Upb9528+35+PIEeFko3skNz3/Jh9Jqh02yAm
+	CpLr2xAPwIkIHWPGWjbm+bQcnY/y1vVCTLBzI9cw+XA6Orn7vmCN1FxVAiSZw07Vqns9kWQKeAm
+	fQ2m+loVAXHRJBRr0F36JqIBCHgyugO6T7w2JYHl5iNGhR0ZP0qDaZamIO56fCWoL0
+X-Google-Smtp-Source: AGHT+IGV/ABVqWV8MsAww0waMr7MTa0bjI7NdLpLREyhUO0GVPuR0EgaD4ahBwL15tOIyvx1SltTMA==
+X-Received: by 2002:a05:6000:400e:b0:427:9d7:8720 with SMTP id ffacd0b85a97d-42709d78893mr9365897f8f.24.1761046070736;
+        Tue, 21 Oct 2025 04:27:50 -0700 (PDT)
+Received: from [192.168.0.163] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427f00ce178sm19861570f8f.46.2025.10.21.04.27.49
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Oct 2025 03:50:09 -0700 (PDT)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-292322d10feso29088495ad.0
-        for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 03:50:09 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUGcoCe/weLrVKhih+0VeRLYMaA5WxLTiJ7eUvAmVnbIN2oHAGXZhPKToGg0IwL1RcVLOSaN7SpqQpi7Q==@vger.kernel.org
-X-Received: by 2002:a17:903:8c8:b0:269:b2e5:900d with SMTP id
- d9443c01a7336-290c66da7c7mr197621385ad.5.1761043808846; Tue, 21 Oct 2025
- 03:50:08 -0700 (PDT)
+        Tue, 21 Oct 2025 04:27:50 -0700 (PDT)
+Message-ID: <c80e6d85-e1a7-4b04-9e84-7f0cf1a983b8@linaro.org>
+Date: Tue, 21 Oct 2025 12:27:49 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251020-imx214-smatch-v3-1-2c9999efc97c@chromium.org> <aPdPyc6Lasmp3EzC@kekkonen.localdomain>
-In-Reply-To: <aPdPyc6Lasmp3EzC@kekkonen.localdomain>
-From: Ricardo Ribalda <ribalda@chromium.org>
-Date: Tue, 21 Oct 2025 12:49:36 +0200
-X-Gmail-Original-Message-ID: <CANiDSCukjH51Gi5S3ra6Jm_kPWhkrsTPGf42DurC1Mvrd3XMnA@mail.gmail.com>
-X-Gm-Features: AS18NWDdcIC1YbprgDnT_wuE3AKXtOoVu1iUuwaBxos__XTSpHjlvHJQCCjcNjc
-Message-ID: <CANiDSCukjH51Gi5S3ra6Jm_kPWhkrsTPGf42DurC1Mvrd3XMnA@mail.gmail.com>
-Subject: Re: [PATCH v3] media: i2c: imx214: Rearrange control initialization
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Ricardo Ribalda <ribalda@kernel.org>, Hans Verkuil <hverkuil+cisco@kernel.org>, 
-	Dan Carpenter <dan.carpenter@linaro.org>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2] media: qcom: iris: Add sanity check for stop streaming
+To: Wangao Wang <wangao.wang@oss.qualcomm.com>,
+ Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+ Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
+ Abhinav Kumar <abhinav.kumar@linux.dev>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ linux-kernel@vger.kernel.org, quic_qiweil@quicinc.com,
+ quic_renjiang@quicinc.com
+References: <akmAGosBEsOFS3HpzbJdYH2z103MndEu9B6T4EBnkbPiuBpzCzjn8LtnVr-lJ0PHOqR0jYiIXbnPTwJR0B3L0g==@protonmail.internalid>
+ <20251021-iris_add_sanity_check-v2-1-476b3107a8ef@oss.qualcomm.com>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Content-Language: en-US
+In-Reply-To: <20251021-iris_add_sanity_check-v2-1-476b3107a8ef@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Sakari
+On 21/10/2025 09:15, Wangao Wang wrote:
+> Add sanity check in iris_vb2_stop_streaming. If inst->state is
+> already IRIS_INST_ERROR, we should skip the stream_off operation
+> because it would still send packets to the firmware.
+> 
+> In iris_vdec_kill_session, inst->state is set to IRIS_INST_ERROR
+> and session_close is executed, which will kfree(inst_hfi_gen2->packet).
+> If stop_streaming is called afterward, it will cause a crash.
+> 
+> Signed-off-by: Wangao Wang <wangao.wang@oss.qualcomm.com>
+Requires a Fixes: tag
 
-On Tue, 21 Oct 2025 at 11:18, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
->
-> Hi Ricardo,
->
-> Thank you for the update.
-Thanks for the prompt review
+Then add
 
-
->
-> On Mon, Oct 20, 2025 at 08:18:13PM +0000, Ricardo Ribalda wrote:
-> > Smatch is confused by the control initialization logic. It assumes that
-> > there can be a case where imx214->link_freq can be NULL and ctrls_init
-> > returns 0.
-> >
-> > Re-arrage the function to make smatch happy.
-Re-arrange the function to make Sakari and Smatch happy :P
-
-Best regards!
-
-> xhci_hcd 0000:09:00.0: HC died; cleaning up
-> usb 13-2: USB disconnect, device number 2
-> >
-> > This patch fixes this smatch error:
-> > drivers/media/i2c/imx214.c:1109 imx214_ctrls_init() error: we previously assumed 'imx214->link_freq' could be null (see line 1017)
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
->
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->
-> --
-> Sakari Ailus
-
-
-
--- 
-Ricardo Ribalda
+Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 
