@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-45286-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45287-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 46DE5BFD557
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 18:47:45 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 92E63BFD728
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 19:05:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D20815632DF
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 16:38:48 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B3C5A3B3953
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 16:39:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E9BD8357726;
-	Wed, 22 Oct 2025 16:25:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4894E357A42;
+	Wed, 22 Oct 2025 16:26:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="P0t+K76h"
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="Qv36012g"
 X-Original-To: linux-media@vger.kernel.org
 Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D27A3570D4;
-	Wed, 22 Oct 2025 16:25:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E93B0357725;
+	Wed, 22 Oct 2025 16:25:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761150356; cv=none; b=RCkG/NKxmaU2peLz7Lwt3aipiIWIs8XoShwEQUOsVLLPiFO5SEXK6i9/GSxAOk8IHotT130McYMO++Km0USf161YG31ic+40uwuygR84e5l1nKWjInh0x+GmGaMTYYzPeoFcN2JYZHQN/arOMgIkPfxTEzzsedBQSqSf3gtoWyQ=
+	t=1761150359; cv=none; b=FAHYPWuOvUeOZx/BSk7NhCcdvBj1bT19cvhGxVZqDZvkpMBhYtil5Hx4ZgTe6TtL26ttkG+m27GsuSb+JwgrfGGYvq6ieovEYVCckxFzxzF3re2lhEjDh6HOKm66jJG72lDMY2w4+nOF0ar4EDFylBDkLaoWkLmhBv3/uvm6mj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761150356; c=relaxed/simple;
-	bh=5XepCE8oQ4CfIylcFNZHUx5cQS3sUUTvzh5DlZ/N4/Y=;
+	s=arc-20240116; t=1761150359; c=relaxed/simple;
+	bh=3DNL3ewdtZ7oUDJlJifx6EL8cleCbSj+6x/r1+VSu7E=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pS2cjvLfAUlzbzs3zr4o1Gfr76R75dLpRrIzMevsqUdjitlIg0U3yzRtfJmvai+rKRAjfCQ6psXUkQSLzVEvopuuo0OeLyE8rno7OvCd7tiViQixh19+KSWdVpLo++EF5US4scvhJPDcDF6zletQxpEMr3jye36dpgNVK1xe7HQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=P0t+K76h; arc=none smtp.client-ip=148.251.105.195
+	 MIME-Version; b=A2tGGEHgeOEGpG8mb4Kw9PI6VE/addZNH29wx9clIMnYNfUZ3pZNY5idND/5P8VNiOtYO0Lj8Vyi0j6C0p8rKADpiLgm6PV6zV1hcnKeFHo3sObiLPynMbHO2fH4jITHrXH/wSDNdqlnHYieDLw6/xhy5FAoo0/FktTQHpJzKzc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=Qv36012g; arc=none smtp.client-ip=148.251.105.195
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
-	s=mail; t=1761150352;
-	bh=5XepCE8oQ4CfIylcFNZHUx5cQS3sUUTvzh5DlZ/N4/Y=;
+	s=mail; t=1761150355;
+	bh=3DNL3ewdtZ7oUDJlJifx6EL8cleCbSj+6x/r1+VSu7E=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=P0t+K76hJcGBebSmfvjK9UEbNi++7UBmpAvQW/+8AF78GkTIhMMq6StOEC7V/evEZ
-	 xw/KvtT/owMWWVqWo6zwoBZgd9Dc27m2niz1y5H6AIZPayww+e5zFjiAZZPGlBWgMN
-	 Xb1JyLyvPKqFiIaT3FLAmI5JMhMO1F0lJ432D3OGxUriIUZ6k8+qi2O+Zk8gyP9EGr
-	 AhDXukGy1Ara2VyuZK9ExXGjLC83Bp2k/w8kpNouLnqI0Ioc+o+O0rVR8aGQ4wKsgG
-	 2gEUg3h1C+Sx8qNzhqo82DXpCRsYP28f/jY95xnIgYv07m14tzDF0X1LBIOK7hKzj2
-	 BMJVcJMxrW+MQ==
+	b=Qv36012g4JiPgUqkP7c9MLqg0KEwzGzml7wTbPT7z8Jz9Zr0khSsV5bg2kXucCiF5
+	 DI/Ukm30orSah7TT6ogJJj0ukSvAcepfknsrx9XQ42EoVF7UKymac8RmbTegSFKl6p
+	 81X4fPUpwVseUqTqLOZGblGgWaoiCRS7E1APLUrjkZiVAxiXgKyNWKgZWoIe80/t6x
+	 XaOyp78u2xBbQknKQXkPYnZkvkYTInG2o4S91KNNrLnIe9AsASSC2sqz+7RDjqZ0wo
+	 fD6xZR8o52ycHvumCT/r4QJnLBg+k0i1nSgUrhPMcGFlkUhvwIyrw9DfZJFv8dmqsN
+	 EfIfiUDVpFmmQ==
 Received: from trenzalore (unknown [23.233.251.139])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
 	(No client certificate requested)
 	(Authenticated sender: detlev)
-	by bali.collaboradmins.com (Postfix) with ESMTPSA id 1B90E17E108C;
-	Wed, 22 Oct 2025 18:25:50 +0200 (CEST)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D596117E1404;
+	Wed, 22 Oct 2025 18:25:52 +0200 (CEST)
 From: Detlev Casanova <detlev.casanova@collabora.com>
 To: linux-kernel@vger.kernel.org
 Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -68,9 +68,9 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	kernel@collabora.com,
 	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
 	Diederik de Haas <didi.debian@cknow.org>
-Subject: [PATCH v3 08/15] media: rkvdec: Add generic configuration for variants
-Date: Wed, 22 Oct 2025 12:22:07 -0400
-Message-ID: <20251022162459.271603-9-detlev.casanova@collabora.com>
+Subject: [PATCH v3 09/15] media: rkvdec: Add RCB and SRAM support
+Date: Wed, 22 Oct 2025 12:22:08 -0400
+Message-ID: <20251022162459.271603-10-detlev.casanova@collabora.com>
 X-Mailer: git-send-email 2.51.1.dirty
 In-Reply-To: <20251022162459.271603-1-detlev.casanova@collabora.com>
 References: <20251022162459.271603-1-detlev.casanova@collabora.com>
@@ -82,140 +82,416 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-This is to prepare for adding new versions of the decoder and
-support specific formats and ops per version.
+The RCB (Rows and Cols Buffers) are a set of buffers used by other
+variations of the decoder to store temporary data.
 
-Different rkvdec_variant instances will be able to share generic
-decoder configs.
+Those variation come with a dedicated SRAM area used to store those
+buffers for better performances.
+
+The buffer sizes are either the width or height of the frame being
+decoded multiplied by a documented factor and can be stored either
+in SRAM or RAM.
+A fallback to RAM is provided if the SRAM is full (e.g.: multiple
+streams are being decoded at the same time).
+
+To manage the different kind of allocation, an enum is added to the
+rkvdec_aux_buf struct to specify how the buffer was allocated, and
+so, how to free it.
+
+This commit is in preparation of other variants support.
 
 Tested-by: Diederik de Haas <didi.debian@cknow.org>  # Rock 5B
 Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 ---
- .../media/platform/rockchip/rkvdec/rkvdec.c   | 37 ++++++++++++-------
- .../media/platform/rockchip/rkvdec/rkvdec.h   |  6 +++
- 2 files changed, 30 insertions(+), 13 deletions(-)
+ .../media/platform/rockchip/rkvdec/Makefile   |   1 +
+ .../platform/rockchip/rkvdec/rkvdec-rcb.c     | 173 ++++++++++++++++++
+ .../platform/rockchip/rkvdec/rkvdec-rcb.h     |  29 +++
+ .../media/platform/rockchip/rkvdec/rkvdec.c   |  27 ++-
+ .../media/platform/rockchip/rkvdec/rkvdec.h   |  13 ++
+ 5 files changed, 241 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.c
+ create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.h
 
+diff --git a/drivers/media/platform/rockchip/rkvdec/Makefile b/drivers/media/platform/rockchip/rkvdec/Makefile
+index 1b4bc44be23e..3d75103e536d 100644
+--- a/drivers/media/platform/rockchip/rkvdec/Makefile
++++ b/drivers/media/platform/rockchip/rkvdec/Makefile
+@@ -7,4 +7,5 @@ rockchip-vdec-y += \
+ 		   rkvdec-h264-common.o \
+ 		   rkvdec-hevc.o \
+ 		   rkvdec-hevc-common.o \
++		   rkvdec-rcb.o \
+ 		   rkvdec-vp9.o
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.c b/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.c
+new file mode 100644
+index 000000000000..5a4959c239e3
+--- /dev/null
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.c
+@@ -0,0 +1,173 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Rockchip video decoder Rows and Cols Buffers manager
++ *
++ * Copyright (C) 2025 Collabora, Ltd.
++ *  Detlev Casanova <detlev.casanova@collabora.com>
++ */
++
++#include "rkvdec.h"
++#include "rkvdec-rcb.h"
++
++#include <linux/types.h>
++#include <linux/iommu.h>
++#include <linux/genalloc.h>
++
++struct rkvdec_rcb_config {
++	struct rkvdec_aux_buf *rcb_bufs;
++	size_t rcb_count;
++};
++
++static size_t rkvdec_rcb_size(const struct rcb_size_info *size_info,
++			      unsigned int width, unsigned int height)
++{
++	return size_info->multiplier * (size_info->axis == PIC_HEIGHT ? height : width);
++}
++
++dma_addr_t rkvdec_rcb_buf_dma_addr(struct rkvdec_ctx *ctx, int id)
++{
++	return ctx->rcb_config->rcb_bufs[id].dma;
++}
++
++size_t rkvdec_rcb_buf_size(struct rkvdec_ctx *ctx, int id)
++{
++	return ctx->rcb_config->rcb_bufs[id].size;
++}
++
++int rkvdec_rcb_buf_count(struct rkvdec_ctx *ctx)
++{
++	return ctx->rcb_config->rcb_count;
++}
++
++void rkvdec_free_rcb(struct rkvdec_ctx *ctx)
++{
++	struct rkvdec_dev *dev = ctx->dev;
++	struct rkvdec_rcb_config *cfg = ctx->rcb_config;
++	unsigned long virt_addr;
++	int i;
++
++	if (!cfg)
++		return;
++
++	for (i = 0; i < cfg->rcb_count; i++) {
++		size_t rcb_size = cfg->rcb_bufs[i].size;
++
++		if (!cfg->rcb_bufs[i].cpu)
++			continue;
++
++		switch (cfg->rcb_bufs[i].type) {
++		case RKVDEC_ALLOC_SRAM:
++			virt_addr = (unsigned long)cfg->rcb_bufs[i].cpu;
++
++			if (dev->iommu_domain)
++				iommu_unmap(dev->iommu_domain, virt_addr, rcb_size);
++			gen_pool_free(dev->sram_pool, virt_addr, rcb_size);
++			break;
++		case RKVDEC_ALLOC_DMA:
++			dma_free_coherent(dev->dev,
++					  rcb_size,
++					  cfg->rcb_bufs[i].cpu,
++					  cfg->rcb_bufs[i].dma);
++			break;
++		}
++	}
++
++	if (cfg->rcb_bufs)
++		devm_kfree(dev->dev, cfg->rcb_bufs);
++
++	devm_kfree(dev->dev, cfg);
++}
++
++int rkvdec_allocate_rcb(struct rkvdec_ctx *ctx,
++			const struct rcb_size_info *size_info,
++			size_t rcb_count)
++{
++	int ret, i;
++	u32 width, height;
++	struct rkvdec_dev *rkvdec = ctx->dev;
++	struct rkvdec_rcb_config *cfg;
++
++	ctx->rcb_config = devm_kzalloc(rkvdec->dev, sizeof(*ctx->rcb_config), GFP_KERNEL);
++	if (!ctx->rcb_config)
++		return -ENOMEM;
++
++	cfg = ctx->rcb_config;
++
++	cfg->rcb_bufs = devm_kzalloc(rkvdec->dev, sizeof(*cfg->rcb_bufs) * rcb_count, GFP_KERNEL);
++	if (!cfg->rcb_bufs) {
++		ret = -ENOMEM;
++		goto err_alloc;
++	}
++
++	width = ctx->decoded_fmt.fmt.pix_mp.width;
++	height = ctx->decoded_fmt.fmt.pix_mp.height;
++
++	for (i = 0; i < rcb_count; i++) {
++		void *cpu = NULL;
++		dma_addr_t dma;
++		size_t rcb_size = rkvdec_rcb_size(&size_info[i], width, height);
++		enum rkvdec_alloc_type alloc_type = RKVDEC_ALLOC_SRAM;
++
++		/* Try allocating an SRAM buffer */
++		if (ctx->dev->sram_pool) {
++			if (rkvdec->iommu_domain)
++				rcb_size = ALIGN(rcb_size, 0x1000);
++
++			cpu = gen_pool_dma_zalloc_align(ctx->dev->sram_pool,
++							rcb_size,
++							&dma,
++							0x1000);
++		}
++
++		/* If an IOMMU is used, map the SRAM address through it */
++		if (cpu && rkvdec->iommu_domain) {
++			unsigned long virt_addr = (unsigned long)cpu;
++			phys_addr_t phys_addr = dma;
++
++			ret = iommu_map(rkvdec->iommu_domain, virt_addr, phys_addr,
++					rcb_size, IOMMU_READ | IOMMU_WRITE, 0);
++			if (ret) {
++				gen_pool_free(ctx->dev->sram_pool,
++					      (unsigned long)cpu,
++					      rcb_size);
++				cpu = NULL;
++				goto ram_fallback;
++			}
++
++			/*
++			 * The registers will be configured with the virtual
++			 * address so that it goes through the IOMMU
++			 */
++			dma = virt_addr;
++		}
++
++ram_fallback:
++		/* Fallback to RAM */
++		if (!cpu) {
++			cpu = dma_alloc_coherent(ctx->dev->dev,
++						 rcb_size,
++						 &dma,
++						 GFP_KERNEL);
++			alloc_type = RKVDEC_ALLOC_DMA;
++		}
++
++		if (!cpu) {
++			ret = -ENOMEM;
++			goto err_alloc;
++		}
++
++		cfg->rcb_bufs[i].cpu = cpu;
++		cfg->rcb_bufs[i].dma = dma;
++		cfg->rcb_bufs[i].size = rcb_size;
++		cfg->rcb_bufs[i].type = alloc_type;
++
++		cfg->rcb_count += 1;
++	}
++
++	return 0;
++
++err_alloc:
++	rkvdec_free_rcb(ctx);
++
++	return ret;
++}
+diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.h b/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.h
+new file mode 100644
+index 000000000000..30e8002555c8
+--- /dev/null
++++ b/drivers/media/platform/rockchip/rkvdec/rkvdec-rcb.h
+@@ -0,0 +1,29 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Rockchip video decoder Rows and Cols Buffers manager
++ *
++ * Copyright (C) 2025 Collabora, Ltd.
++ *  Detlev Casanova <detlev.casanova@collabora.com>
++ */
++
++#include <linux/types.h>
++
++struct rkvdec_ctx;
++
++enum rcb_axis {
++	PIC_WIDTH = 0,
++	PIC_HEIGHT = 1
++};
++
++struct rcb_size_info {
++	u8 multiplier;
++	enum rcb_axis axis;
++};
++
++int rkvdec_allocate_rcb(struct rkvdec_ctx *ctx,
++			const struct rcb_size_info *size_info,
++			size_t rcb_count);
++dma_addr_t rkvdec_rcb_buf_dma_addr(struct rkvdec_ctx *ctx, int id);
++size_t rkvdec_rcb_buf_size(struct rkvdec_ctx *ctx, int id);
++int rkvdec_rcb_buf_count(struct rkvdec_ctx *ctx);
++void rkvdec_free_rcb(struct rkvdec_ctx *ctx);
 diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-index 776149f871b0..a7af1e3fdebd 100644
+index a7af1e3fdebd..5dd486edd64d 100644
 --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
 +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
-@@ -373,15 +373,16 @@ static bool rkvdec_is_capable(struct rkvdec_ctx *ctx, unsigned int capability)
- static const struct rkvdec_coded_fmt_desc *
- rkvdec_enum_coded_fmt_desc(struct rkvdec_ctx *ctx, int index)
+@@ -10,6 +10,7 @@
+  */
+ 
+ #include <linux/clk.h>
++#include <linux/genalloc.h>
+ #include <linux/interrupt.h>
+ #include <linux/iommu.h>
+ #include <linux/module.h>
+@@ -28,6 +29,7 @@
+ 
+ #include "rkvdec.h"
+ #include "rkvdec-regs.h"
++#include "rkvdec-rcb.h"
+ 
+ static bool rkvdec_image_fmt_match(enum rkvdec_image_fmt fmt1,
+ 				   enum rkvdec_image_fmt fmt2)
+@@ -771,6 +773,7 @@ static int rkvdec_start_streaming(struct vb2_queue *q, unsigned int count)
  {
+ 	struct rkvdec_ctx *ctx = vb2_get_drv_priv(q);
+ 	const struct rkvdec_coded_fmt_desc *desc;
 +	const struct rkvdec_config *cfg = ctx->dev->variant->config;
- 	int fmt_idx = -1;
- 	unsigned int i;
- 
--	for (i = 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++) {
--		if (!rkvdec_is_capable(ctx, rkvdec_coded_fmts[i].capability))
-+	for (i = 0; i < cfg->coded_fmts_num; i++) {
-+		if (!rkvdec_is_capable(ctx, cfg->coded_fmts[i].capability))
- 			continue;
- 		fmt_idx++;
- 		if (index == fmt_idx)
--			return &rkvdec_coded_fmts[i];
-+			return &cfg->coded_fmts[i];
- 	}
- 
- 	return NULL;
-@@ -390,12 +391,13 @@ rkvdec_enum_coded_fmt_desc(struct rkvdec_ctx *ctx, int index)
- static const struct rkvdec_coded_fmt_desc *
- rkvdec_find_coded_fmt_desc(struct rkvdec_ctx *ctx, u32 fourcc)
- {
-+	const struct rkvdec_config *cfg = ctx->dev->variant->config;
- 	unsigned int i;
- 
--	for (i = 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++) {
--		if (rkvdec_is_capable(ctx, rkvdec_coded_fmts[i].capability) &&
--		    rkvdec_coded_fmts[i].fourcc == fourcc)
--			return &rkvdec_coded_fmts[i];
-+	for (i = 0; i < cfg->coded_fmts_num; i++) {
-+		if (rkvdec_is_capable(ctx, cfg->coded_fmts[i].capability) &&
-+		    cfg->coded_fmts[i].fourcc == fourcc)
-+			return &cfg->coded_fmts[i];
- 	}
- 
- 	return NULL;
-@@ -1014,18 +1016,19 @@ static int rkvdec_add_ctrls(struct rkvdec_ctx *ctx,
- 
- static int rkvdec_init_ctrls(struct rkvdec_ctx *ctx)
- {
-+	const struct rkvdec_config *cfg = ctx->dev->variant->config;
- 	unsigned int i, nctrls = 0;
  	int ret;
  
--	for (i = 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++)
--		if (rkvdec_is_capable(ctx, rkvdec_coded_fmts[i].capability))
--			nctrls += rkvdec_coded_fmts[i].ctrls->num_ctrls;
-+	for (i = 0; i < cfg->coded_fmts_num; i++)
-+		if (rkvdec_is_capable(ctx, cfg->coded_fmts[i].capability))
-+			nctrls += cfg->coded_fmts[i].ctrls->num_ctrls;
+ 	if (V4L2_TYPE_IS_CAPTURE(q->type))
+@@ -780,13 +783,22 @@ static int rkvdec_start_streaming(struct vb2_queue *q, unsigned int count)
+ 	if (WARN_ON(!desc))
+ 		return -EINVAL;
  
- 	v4l2_ctrl_handler_init(&ctx->ctrl_hdl, nctrls);
- 
--	for (i = 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++) {
--		if (rkvdec_is_capable(ctx, rkvdec_coded_fmts[i].capability)) {
--			ret = rkvdec_add_ctrls(ctx, rkvdec_coded_fmts[i].ctrls);
-+	for (i = 0; i < cfg->coded_fmts_num; i++) {
-+		if (rkvdec_is_capable(ctx, cfg->coded_fmts[i].capability)) {
-+			ret = rkvdec_add_ctrls(ctx, cfg->coded_fmts[i].ctrls);
- 			if (ret)
- 				goto err_free_handler;
- 		}
-@@ -1240,13 +1243,20 @@ static void rkvdec_watchdog_func(struct work_struct *work)
++	ret = rkvdec_allocate_rcb(ctx, cfg->rcb_size_info, cfg->rcb_num);
++	if (ret)
++		return ret;
++
+ 	if (desc->ops->start) {
+ 		ret = desc->ops->start(ctx);
+ 		if (ret)
+-			return ret;
++			goto err_ops_start;
  	}
+ 
+ 	return 0;
++
++err_ops_start:
++	rkvdec_free_rcb(ctx);
++
++	return ret;
  }
  
-+static const struct rkvdec_config config_rkvdec = {
-+	.coded_fmts = rkvdec_coded_fmts,
-+	.coded_fmts_num = ARRAY_SIZE(rkvdec_coded_fmts),
-+};
+ static void rkvdec_queue_cleanup(struct vb2_queue *vq, u32 state)
+@@ -822,6 +834,8 @@ static void rkvdec_stop_streaming(struct vb2_queue *q)
+ 
+ 		if (desc->ops->stop)
+ 			desc->ops->stop(ctx);
 +
- static const struct rkvdec_variant rk3288_rkvdec_variant = {
- 	.num_regs = 68,
-+	.config = &config_rkvdec,
- 	.capabilities = RKVDEC_CAPABILITY_HEVC,
- };
++		rkvdec_free_rcb(ctx);
+ 	}
  
- static const struct rkvdec_variant rk3328_rkvdec_variant = {
- 	.num_regs = 109,
-+	.config = &config_rkvdec,
- 	.capabilities = RKVDEC_CAPABILITY_HEVC |
- 			RKVDEC_CAPABILITY_H264 |
- 			RKVDEC_CAPABILITY_VP9,
-@@ -1255,6 +1265,7 @@ static const struct rkvdec_variant rk3328_rkvdec_variant = {
+ 	rkvdec_queue_cleanup(q, VB2_BUF_STATE_ERROR);
+@@ -1350,6 +1364,10 @@ static int rkvdec_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
  
- static const struct rkvdec_variant rk3399_rkvdec_variant = {
- 	.num_regs = 78,
-+	.config = &config_rkvdec,
- 	.capabilities = RKVDEC_CAPABILITY_HEVC |
- 			RKVDEC_CAPABILITY_H264 |
- 			RKVDEC_CAPABILITY_VP9,
++	rkvdec->sram_pool = of_gen_pool_get(pdev->dev.of_node, "sram", 0);
++	if (!rkvdec->sram_pool && rkvdec->variant->config->rcb_num > 0)
++		dev_info(&pdev->dev, "No sram node, RCB will be stored in RAM\n");
++
+ 	pm_runtime_set_autosuspend_delay(&pdev->dev, 100);
+ 	pm_runtime_use_autosuspend(&pdev->dev);
+ 	pm_runtime_enable(&pdev->dev);
+@@ -1358,7 +1376,8 @@ static int rkvdec_probe(struct platform_device *pdev)
+ 	if (ret)
+ 		goto err_disable_runtime_pm;
+ 
+-	if (iommu_get_domain_for_dev(&pdev->dev)) {
++	rkvdec->iommu_domain = iommu_get_domain_for_dev(&pdev->dev);
++	if (rkvdec->iommu_domain) {
+ 		rkvdec->empty_domain = iommu_paging_domain_alloc(rkvdec->dev);
+ 
+ 		if (IS_ERR(rkvdec->empty_domain)) {
+@@ -1372,6 +1391,10 @@ static int rkvdec_probe(struct platform_device *pdev)
+ err_disable_runtime_pm:
+ 	pm_runtime_dont_use_autosuspend(&pdev->dev);
+ 	pm_runtime_disable(&pdev->dev);
++
++	if (rkvdec->sram_pool)
++		gen_pool_destroy(rkvdec->sram_pool);
++
+ 	return ret;
+ }
+ 
 diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-index f35f6e80ea2e..3b1cc511412e 100644
+index 3b1cc511412e..74f71542e031 100644
 --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
 +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
-@@ -71,6 +71,7 @@ vb2_to_rkvdec_decoded_buf(struct vb2_buffer *buf)
+@@ -19,6 +19,7 @@
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ioctl.h>
++#include <media/v4l2-mem2mem.h>
+ #include <media/videobuf2-core.h>
+ #include <media/videobuf2-dma-contig.h>
  
- struct rkvdec_variant {
- 	unsigned int num_regs;
-+	const struct rkvdec_config *config;
- 	unsigned int capabilities;
- 	unsigned int quirks;
- };
-@@ -113,6 +114,11 @@ struct rkvdec_coded_fmt_desc {
- 	unsigned int capability;
+@@ -29,6 +30,7 @@
+ #define RKVDEC_QUIRK_DISABLE_QOS	BIT(0)
+ 
+ struct rkvdec_ctx;
++struct rkvdec_rcb_config;
+ 
+ struct rkvdec_ctrl_desc {
+ 	struct v4l2_ctrl_config cfg;
+@@ -117,6 +119,8 @@ struct rkvdec_coded_fmt_desc {
+ struct rkvdec_config {
+ 	const struct rkvdec_coded_fmt_desc *coded_fmts;
+ 	size_t coded_fmts_num;
++	const struct rcb_size_info *rcb_size_info;
++	size_t rcb_num;
  };
  
-+struct rkvdec_config {
-+	const struct rkvdec_coded_fmt_desc *coded_fmts;
-+	size_t coded_fmts_num;
+ struct rkvdec_dev {
+@@ -129,6 +133,8 @@ struct rkvdec_dev {
+ 	void __iomem *regs;
+ 	struct mutex vdev_lock; /* serializes ioctls */
+ 	struct delayed_work watchdog_work;
++	struct gen_pool *sram_pool;
++	struct iommu_domain *iommu_domain;
+ 	struct iommu_domain *empty_domain;
+ 	const struct rkvdec_variant *variant;
+ };
+@@ -141,6 +147,7 @@ struct rkvdec_ctx {
+ 	struct v4l2_ctrl_handler ctrl_hdl;
+ 	struct rkvdec_dev *dev;
+ 	enum rkvdec_image_fmt image_fmt;
++	struct rkvdec_rcb_config *rcb_config;
+ 	void *priv;
+ };
+ 
+@@ -149,10 +156,16 @@ static inline struct rkvdec_ctx *file_to_rkvdec_ctx(struct file *filp)
+ 	return container_of(file_to_v4l2_fh(filp), struct rkvdec_ctx, fh);
+ }
+ 
++enum rkvdec_alloc_type {
++	RKVDEC_ALLOC_DMA  = 0,
++	RKVDEC_ALLOC_SRAM = 1,
 +};
 +
- struct rkvdec_dev {
- 	struct v4l2_device v4l2_dev;
- 	struct media_device mdev;
+ struct rkvdec_aux_buf {
+ 	void *cpu;
+ 	dma_addr_t dma;
+ 	size_t size;
++	enum rkvdec_alloc_type type;
+ };
+ 
+ void rkvdec_run_preamble(struct rkvdec_ctx *ctx, struct rkvdec_run *run);
 -- 
 2.51.1.dirty
 
