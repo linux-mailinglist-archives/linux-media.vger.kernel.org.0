@@ -1,156 +1,186 @@
-Return-Path: <linux-media+bounces-45210-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45211-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81B27BFAE7A
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 10:31:58 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id EDC59BFAE6E
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 10:31:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D2A9F5076AB
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 08:31:22 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 710A8354217
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 08:31:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DF40E309F1E;
-	Wed, 22 Oct 2025 08:31:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91828309EE3;
+	Wed, 22 Oct 2025 08:31:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dUN0WsRX"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cr9876m1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 31F39126F0A;
-	Wed, 22 Oct 2025 08:31:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F0D30B524;
+	Wed, 22 Oct 2025 08:31:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761121877; cv=none; b=sX0Z1h6KGNbo0pG9/Bj5wYQvruvryLqS9rm3zK8lZqeWfZR7zHKEb6kqvJky87dvV/N/RFMUMMJDWABFWBBYfpu3INFj3k80zyhQiVAGWk9i49hCi1AyO3mpbQBZLHlLGrqvSziDAklLFDG+yflsRRynPwFtkuCl4V7w6VJEIBs=
+	t=1761121882; cv=none; b=dF65nLUdqJLttd/yObyxzPGAgKXHOhGRgoHZfzjKrIfnPy4m10eF1Y6VXc6HZOKmyt7WF4yTegU16orKI8+AnkcpIwu0E8dzfwJtAq5sFbL0CWhoVKEcinthlnSD/ACkvUQc0f5h2LRsbsMWkCOzRI8k6cb5vZnJ2vbpOie7b8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761121877; c=relaxed/simple;
-	bh=3+/HLrw1SCNs4U9DqgD5kDSKST1TFoMmIW77ansJP68=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Zwk3qnZQIqEOQ6VNZczaDJfYOElqNJ0Z922gdLACg2ZIYgzhceXHUzZ8HTa9fXManQM3J7j0mTQXKxUkYTrqBUx4q0yPeX6C5zUn0hCe1+Ydvkmao0y0NZZBDFmcLBUai1/04AxDOJ5BD2Lz59KZZVJY9nbQQXTWB+ixPhc6OQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dUN0WsRX; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B3A1C4CEE7;
-	Wed, 22 Oct 2025 08:31:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761121876;
-	bh=3+/HLrw1SCNs4U9DqgD5kDSKST1TFoMmIW77ansJP68=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=dUN0WsRXikX9eLLYBlVZZ8BqxmRSlDoK6FwoVETQq/zyqsq2PTWiDPKpDjLFOJRgv
-	 WfF8V/0VOK51JiC0VNtKYqubMnTA3kEEln6qZZkxLX3dal2p/PJoKQmUDmZ+4Y6Wpc
-	 1L+wwjXXRSVChTe8KqfAGLhpWE2Od2fZix4IW/fHAyD9WnloFMF6Ba0edIuOMbyLtc
-	 3O9izHLg1in4qmkm1CUKCTKnkT0sc/GlUIR0aFpJmJHITQOX7mXMGhRBRqDlxLADRE
-	 qgOqvOJS7sY9keSk7/uZCKR6p1h7u2sVkKjAxqcDYVwRdcWM6Q0PSUl5ZrybIfZGdO
-	 VirjRMdMqu+Cw==
-Message-ID: <8b420cd2-9549-4033-b82f-a2bc145b7280@kernel.org>
-Date: Wed, 22 Oct 2025 10:31:11 +0200
+	s=arc-20240116; t=1761121882; c=relaxed/simple;
+	bh=uM3DPtDP/NXToqPWcEqARm1yWCJXGsekG9NFgcQe/FI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Jkzto5NRwHFmlz7A0MpKwVM3rhwhC3Avm5H+E7Xz0C0ZcinSfEmFWTl7SyIldlNQ1xjHSkiwPDHQdoVnFhGGNSzCfw1nYfMl3hDlBFZmEQSoasJNAYPS9ZbdEL3vr7QXTzudKR3VHSgnPg7fSK80vkSajVPTrhlaJSFAggOuMYM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cr9876m1; arc=none smtp.client-ip=198.175.65.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761121881; x=1792657881;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=uM3DPtDP/NXToqPWcEqARm1yWCJXGsekG9NFgcQe/FI=;
+  b=Cr9876m1y16k6mckus+Wxot2yOUkvLMR0A2tOoOMNsTQtjuYI7v8KIqt
+   dDOXJtqm8Ki3jCLk3x2tSOWS6hmf+OpYG09WJooLEBSZ/M/gkbY+V6joh
+   LtCS2uPEzUe4q1sfc8UgYT0Ck20cSZ9C0vpw5yD/fgTHU/akK1Fzc7OsW
+   zU+AGwpDWxrJOU/h3FBTnAJIXEaqEpaaJdR78W/tMEIYgXd/te9Mvcff0
+   65s0SW2t1UajYB9bBBdQnlXzy8Q5QnKQcr7hw8qOKTHN1fPu16uocUAy8
+   emf+LJadKF3UaiVgB5q+Kr6UkPAvhEiUNMMX1OqPrN0WcSJroiLEppEV5
+   Q==;
+X-CSE-ConnectionGUID: dC8YjrxzRleCdCj4mPu3ZQ==
+X-CSE-MsgGUID: ru2iPVW6SS64hB0HP5qPCA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63158021"
+X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
+   d="scan'208";a="63158021"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 01:31:20 -0700
+X-CSE-ConnectionGUID: tioCZsunS5ygGxtBNbwpWg==
+X-CSE-MsgGUID: uPwzrafqRg2g13cz0wpRBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
+   d="scan'208";a="183516841"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.28])
+  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 01:31:18 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 72CCA11F87B;
+	Wed, 22 Oct 2025 11:31:15 +0300 (EEST)
+Date: Wed, 22 Oct 2025 11:31:15 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Hans de Goede <hansg@kernel.org>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: i2c: add Samsung S5KJN1 image sensor
+ device driver
+Message-ID: <aPiWUxVMXUvOgY_O@kekkonen.localdomain>
+References: <20251016020419.2137290-1-vladimir.zapolskiy@linaro.org>
+ <20251016020419.2137290-3-vladimir.zapolskiy@linaro.org>
+ <aPdRlygxV1TCCUU3@kekkonen.localdomain>
+ <33d9eaad-1043-4816-9620-d7625556bc65@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/9] dt-bindings: media: nxp: Add Wave6 video codec
- device
-To: Nas Chung <nas.chung@chipsnmedia.com>, mchehab@kernel.org,
- hverkuil@xs4all.nl, robh@kernel.org, krzk+dt@kernel.org,
- conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-imx@nxp.com,
- linux-arm-kernel@lists.infradead.org, jackson.lee@chipsnmedia.com,
- lafley.kim@chipsnmedia.com, marek.vasut@mailbox.org
-References: <20251022074710.575-1-nas.chung@chipsnmedia.com>
- <20251022074710.575-3-nas.chung@chipsnmedia.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251022074710.575-3-nas.chung@chipsnmedia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <33d9eaad-1043-4816-9620-d7625556bc65@linaro.org>
 
-On 22/10/2025 09:47, Nas Chung wrote:
-> Add documentation for the Chips&Media Wave6 video codec on
-> NXP i.MX SoCs.
+Hi Vladimir,
+
+On Tue, Oct 21, 2025 at 01:16:09PM +0300, Vladimir Zapolskiy wrote:
+> Hi Sakari,
 > 
-> The Wave6 video codec functionality is split between a VPU
-> control region and VPU core regions.
-> The VPU control region is represented as the parent node and
-> manages shared resources such as firmware memory. Each VPU
-> core region is represented as a child node and provides the
-> actual encoding and decoding capabilities.
+> On 10/21/25 12:25, Sakari Ailus wrote:
+> > Hi Vladimir,
+> > 
+> > On Thu, Oct 16, 2025 at 05:04:19AM +0300, Vladimir Zapolskiy wrote:
+> > > +	{ S5KJN1_REG_X_ADDR_START,  0x0000 },
+> > > +	{ S5KJN1_REG_Y_ADDR_START,  0x0000 },
+> > > +	{ S5KJN1_REG_X_ADDR_END,    0x1fff },
+> > > +	{ S5KJN1_REG_Y_ADDR_END,    0x181f },
+> > > +	{ S5KJN1_REG_X_OUTPUT_SIZE, 0x0ff0 },
+> > > +	{ S5KJN1_REG_Y_OUTPUT_SIZE, 0x0c00 },
+> > > +	{ CCI_REG16(0x0350), 0x0008 },
+> > > +	{ CCI_REG16(0x0352), 0x0008 },
+> > > +	{ CCI_REG16(0x0900), 0x0122 },
+> > > +	{ CCI_REG16(0x0380), 0x0002 },
+> > > +	{ CCI_REG16(0x0382), 0x0002 },
+> > > +	{ CCI_REG16(0x0384), 0x0002 },
+> > > +	{ CCI_REG16(0x0386), 0x0002 },
+> > > +	{ CCI_REG16(0x0110), 0x1002 },
+> > > +	{ CCI_REG16(0x0114), 0x0301 },
+> > > +	{ CCI_REG16(0x0116), 0x3000 },
+> > > +
+> > > +	/* Clock settings */
+> > > +	{ CCI_REG16(0x0136), 0x1800 },
+> > > +	{ CCI_REG16(0x013e), 0x0000 },
+> > > +	{ CCI_REG16(0x0300), 0x0006 },
+> > > +	{ CCI_REG16(0x0302), 0x0001 },
+> > > +	{ CCI_REG16(0x0304), 0x0004 },
+> > > +	{ CCI_REG16(0x0306), 0x008c },
+> > > +	{ CCI_REG16(0x0308), 0x0008 },
+> > > +	{ CCI_REG16(0x030a), 0x0001 },
+> > > +	{ CCI_REG16(0x030c), 0x0000 },
+> > > +	{ CCI_REG16(0x030e), 0x0004 },
+> > > +	{ CCI_REG16(0x0310), 0x0092 },
+> > > +	{ CCI_REG16(0x0312), 0x0000 },
+> > > +
+> > > +	{ CCI_REG16(0x080e), 0x0000 },
+> > > +	{ S5KJN1_REG_VTS,    0x10c0 },
+> > > +	{ S5KJN1_REG_HTS,    0x1100 },
+> > > +	{ CCI_REG16(0x0702), 0x0000 },
+> > > +	{ S5KJN1_REG_EXPOSURE, 0x0100 },
+> > > +	{ CCI_REG16(0x0200), 0x0100 },
+> > > +	{ CCI_REG16(0x0d00), 0x0101 },
+> > > +	{ CCI_REG16(0x0d02), 0x0101 },
+> > > +	{ CCI_REG16(0x0d04), 0x0102 },
+> > > +	{ CCI_REG16(0x6226), 0x0000 },
+> > > +	{ CCI_REG16(0x0816), 0x1c00 },
+> > 
+> > This looks interestingly CCS compliant. It might be worth taking the MSRs
+> > and trying with the CCS driver.
 > 
-> Both the control and core regions may be assigned IOMMU
-> stream IDs for DMA isolation.
+> The register map is similar to CCS (and it's explicitly mentioned in a comment
+> withing the driver), but it is not compatible due to a known number of
+> registers, for instance 0x0310 register is not a CCS_R_PLL_MODE, but a PLL
+> setting etc.
+> 
+> The same reasoning is applicable to the second sensor driver Samsung S5K3M5,
+> moreover even these two sensors have different interfaces to registers,
+> e.g. it's not possible to separately configure HLIP/VFLIP settings for the
+> latter one, while it's working nicely, and even a "stream on" control bit
+> in 0x100 (CCS_R_MODE_SELECT) register are different...
+> 
+> So, I believe it would be more tedious and unclean to add a number of
+> exceptions to the CSS driver rather than to add a sensor specific driver.
 
+CCS has a mechanism (via CCS static data) to cover cases such as this
+albeit it wasn't intended for standard registers. Perhaps it should be
+extended. Either way, that's for another time.
 
-Please wrap commit message according to Linux coding style / submission
-process (neither too early nor over the limit):
-https://elixir.bootlin.com/linux/v6.4-rc1/source/Documentation/process/submitting-patches.rst#L597
+I'll review the rest of the driver soon.
 
 > 
+> > Where is this sensor found?
+> > 
+> 
+> For a while I work on Qualcomm ISP support, and these Samsung sensors are
+> found on SM8x50-HDK and SM8x50-QRD boards:
+> 
+> https://lore.kernel.org/linux-arm-msm/20251013235500.1883847-1-vladimir.zapolskiy@linaro.org/
+> 
+> If you ask about the downstream code, there is a multitude of downstream
+> Android drivers of these Samsung sensors found on github.com, the init
+> sequence for modes is taken from these drivers and the driver is tested
+> on the boards in my access.
 
+Ack.
 
-> +
-> +  ranges: true
-> +
-> +patternProperties:
-> +  "^video-core@[0-9a-f]+$":
-> +    type: object
-> +    description:
-> +      A VPU core region within the Chips&Media Wave6 codec IP.
-> +      Each core provides encoding and decoding capabilities and operates
-> +      under the control of the VPU control region.
+-- 
+Kind regards,
 
-
-You explained more in previous email than in this description. Are these
-independent? Can they be independently used?
-
-But you also said there is one processing engine, so I do not understand
-why these are separate. If you have one engine, there is no such thing
-as separate cores.
-
-Best regards,
-Krzysztof
+Sakari Ailus
 
