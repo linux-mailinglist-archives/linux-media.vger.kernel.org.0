@@ -1,48 +1,54 @@
-Return-Path: <linux-media+bounces-45191-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45192-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 836DDBFA7D0
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 09:14:21 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id CCB6FBFA7E8
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 09:16:49 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CC7D93B4238
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 07:14:15 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 15A5F50395B
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 07:16:43 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0A22D2ECD11;
-	Wed, 22 Oct 2025 07:14:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F376025A324;
+	Wed, 22 Oct 2025 07:16:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VYY35DvQ"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="X/e4Yd8G"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57DB233F3;
-	Wed, 22 Oct 2025 07:14:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B591C25BF1B;
+	Wed, 22 Oct 2025 07:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761117250; cv=none; b=SihQUgjEGBqSXNWF+SYCDJHlDGhBL/TNjlyM6ZL1yJY4vX3H2CSJkS5YdTfaccrhfJijeA0IeOL/eDQwDEZQkc3puXNSkNNkM1mdm93ddiQ10dapkgxYRq4y4HLC1ZixVPBB7oIWR26fG891gUv6G/rcEP+X/f12wJpRydOdnR8=
+	t=1761117394; cv=none; b=EXClAfoEGTVabHsMuohfyfkP9oqjniYFYjQOh/mjqVHNt8WdGu+bfdmO9gVIyr6vdgPtmbyC31z17zdSKynjyFfwURAUG8vz7xAc7gGkZ/QVt69DUcnY1kX7kkFkW8Y+A9tRNwsZHyzIOH5TNsrNCfcCS6ECnLA1gq8iF09mIH8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761117250; c=relaxed/simple;
-	bh=iymUx0nL06xQvGEiSAX6GeNOgkgj8lUvwGDVcpoO4CA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=oPMiReOkYc6rcbpdU8CZ6uZWwQKzQ5E/n/p8uq0TcEGvb5YeUhrlkRDFPD2C03Csm19GqEGOKWXxk2S0M/uxI7I5Gxem3NU0UXaqx2Bx1KwmTGmiat5seKjT7KxxBe/xUw8//wN2MSg0GYbQHKmcAgHhZ1C+E8YMtGPhasHjZII=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VYY35DvQ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id ECD6BC4CEE7;
-	Wed, 22 Oct 2025 07:14:05 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761117247;
-	bh=iymUx0nL06xQvGEiSAX6GeNOgkgj8lUvwGDVcpoO4CA=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=VYY35DvQqqWm2q1iIPOYOX4o+xGPH85nzH8stGoLLCUR9/WfEMgh7C9Xd0hc07/qY
-	 oMV0OQAzFi6FuaTP6DQgwmgjr8Onc33/yf2f5CxJ5axrKAMWifMYKAcw6IFOkRBQ3I
-	 xcQxM4WqmHGIsdGbZP3C2FuZkRuoErO5BjhOsBcE+EdKglC8kdI68aRapbB4V7WXdu
-	 new+WM8tjS96jdWtJ91Vs+e8NdMMSGEA2NDsWePKF8iDeuLSg3/pw1oofdRPWu04Qh
-	 bj2dk98y8JI+ZKNgvCNv/+9ixXxYtBla92k/5eKaxpzes56eK8ydcRyrVB4hZjHJZf
-	 YtB35eHqIk+Uw==
-Message-ID: <8199bec4-b9e1-4d6e-98da-a4d7eb667437@kernel.org>
-Date: Wed, 22 Oct 2025 09:14:03 +0200
+	s=arc-20240116; t=1761117394; c=relaxed/simple;
+	bh=O6lby/cI64Lq+octibPJOj31e2GUH4yGv6XbSm9XSIQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DMkVnDdB9jBm6tOrQuLsTuajQesLf+e3IdgCqS55cx2CVa7nwkC1nFts7rSjO797URpDKHd8v/Xcl5TMHxUBm73YYpw05HrN3r1ceLAq2pyz2CmZeGpEj20lwIL1fDUygVCwZnwBkKhjyQ4xUSCpSa1cDHJA7HpfeMcJKvn6UJI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=X/e4Yd8G; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=qBPPrGjT8YjeRj+4gw66VAsO2oG7+WPqHJ1JsvWkV3c=; b=X/e4Yd8G4wX14S0SFmYh0cA6rw
+	3O0Kx9GPQLUDpdcwA/9rWkEK70E9mbJImFmRLN1+NqsZ5/Q1+ntjiZskg3LYtHb6sTaFqIvvhjEOr
+	DKag0PzF2EjVmdW1D8KENU7BOs5P9DheO8LDWj/9qCZxSrmm2GYvdBr15JgxliAsKE278vWIOmZXz
+	3KbdaLDy3NKQl6250ZJGJkZXggGKhqU3lYxBEA+valFgRG9a5lZhkbcoqfvknbfzjcQ+T5cm0OOA7
+	gs/tXPbgCN2fe2UVW20oYXgiiAqewy77/86ndJo3OsBwXbKHDOfJ1gF5ukPMXB4Av4uBHQ+JJOL3f
+	Edq2eOTA==;
+Received: from [90.242.12.242] (helo=[192.168.0.101])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1vBT4w-00CseB-6l; Wed, 22 Oct 2025 09:16:14 +0200
+Message-ID: <26eef700-7997-42e5-b0b9-c03361e05814@igalia.com>
+Date: Wed, 22 Oct 2025 08:16:13 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,220 +56,75 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v3] media: v4l2-ctrls: add full AV1 profile validation in
- validate_av1_sequence()
-To: Pavan Bobba <opensource206@gmail.com>, mchehab@kernel.org,
- hverkuil@kernel.org, ribalda@chromium.org,
- laurent.pinchart@ideasonboard.com, yunkec@google.com,
- sakari.ailus@linux.intel.com, james.cowgill@blaize.com,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250913105252.26886-1-opensource206@gmail.com>
-Content-Language: en-US, nl
-In-Reply-To: <20250913105252.26886-1-opensource206@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] drm/sched: Fix race in drm_sched_entity_select_rq()
+To: Philipp Stanner <phasta@kernel.org>,
+ Matthew Brost <matthew.brost@intel.com>, Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, stable@vger.kernel.org
+References: <20251022063402.87318-2-phasta@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <20251022063402.87318-2-phasta@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Pavan,
 
-On 13/09/2025 12:52, Pavan Bobba wrote:
-> Complete the "TODO: PROFILES" by enforcing profile-specific and
-> monochrome constraints as defined by the AV1 specification
-> (Section 5.5.2, "Color config syntax").
+On 22/10/2025 07:34, Philipp Stanner wrote:
+> In a past bug fix it was forgotten that entity access must be protected
+> by the entity lock. That's a data race and potentially UB.
 > 
-> The validator now checks:
+> Move the spin_unlock() to the appropriate position.
 > 
->  - Flags: reject any unknown bits set in sequence->flags
->  - Profile range: only profiles 0..2 are valid
->  - Profile 0: 8/10-bit only, subsampling must be 4:2:0 (sx=1, sy=1),
->    monochrome allowed
->  - Profile 1: 8/10-bit only, subsampling must be 4:4:4 (sx=0, sy=0),
->    monochrome forbidden
->  - Profile 2:
->     * 8/10-bit: only 4:2:2 allowed (sx=1, sy=0)
->     * 12-bit: 4:4:4 (sx=0, sy=0), 4:2:2 (sx=1, sy=0), or 4:2:0 (sx=1, sy=1)
->       allowed
->  - Monochrome path (all profiles except 1): forces subsampling_x=1,
->    subsampling_y=1, separate_uv_delta_q=0
+> Cc: stable@vger.kernel.org # v5.13+
+> Fixes: ac4eb83ab255 ("drm/sched: select new rq even if there is only one v3")
+> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> ---
+>   drivers/gpu/drm/scheduler/sched_entity.c | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
 > 
-> These checks prevent userspace from providing invalid AV1 sequence
-> headers that would otherwise be accepted, leading to undefined driver
-> or hardware behavior.
+> diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm/scheduler/sched_entity.c
+> index 5a4697f636f2..aa222166de58 100644
+> --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> @@ -552,10 +552,11 @@ void drm_sched_entity_select_rq(struct drm_sched_entity *entity)
+>   		drm_sched_rq_remove_entity(entity->rq, entity);
+>   		entity->rq = rq;
+>   	}
+> -	spin_unlock(&entity->lock);
+>   
+>   	if (entity->num_sched_list == 1)
+>   		entity->sched_list = NULL;
+> +
+> +	spin_unlock(&entity->lock);
+>   }
+>   
+>   /**
 
-This patch was merged in our media-committers next branch, but I noticed that
-it now fails the v4l2-compliance test for the visl driver.
+Agreed, unlock at the end is correct.
 
-The cause is that the new validation now fails with the default values for
-this control as set in std_init_compound().
+Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-You can test this yourself by loading the visl driver and then running
-v4l2-compliance -d /dev/videoX -E --verbose
-(-E stops at the first error)
+Luckily only amdgpu calls drm_sched_entity_modify_sched(), and I am not 
+sure if with hypothetical multi-threaded submit it could be possible to 
+hit it or not.
 
-Can you provide a patch to initialize this control with sane values?
+One thread would have to clear the sched_list, while another would have 
+to have passed the !sched_list at the beginning of the function, and the 
+job_queue count and last_scheduled completed guards. Which would mean 
+job has to get completed between the unlock and clearing the pointer.
 
-Apologies for not noticing this before: there are some issues with the automatic
-regression tests in our CI, so the tests weren't run.
+Also, take a look at this when you can please:
+
+https://lore.kernel.org/dri-devel/20240719094730.55301-1-tursulin@igalia.com/
+
+This would also have fixed this issue by removing clearing of 
+entity->sched_list. Latter being just a hack to work around the issue of 
+confused container ownership rules.
 
 Regards,
 
-	Hans
-
-> 
-> Signed-off-by: Pavan Bobba <opensource206@gmail.com>
-> ---
-> v1 -> v2 : Added more checks for subsampling combinations per profile.
->          : Added a TODO note in the function header for checks to be implemented later.
-> 
-> v2 -> v3 : Patch generated properly with all the changes
-> 
->  drivers/media/v4l2-core/v4l2-ctrls-core.c | 125 +++++++++++++++++-----
->  1 file changed, 100 insertions(+), 25 deletions(-)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> index 98b960775e87..fa03341588e4 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -827,39 +827,114 @@ static int validate_av1_frame(struct v4l2_ctrl_av1_frame *f)
->  	return 0;
->  }
->  
-> +/**
-> + * validate_av1_sequence - validate AV1 sequence header fields
-> + * @s: control struct from userspace
-> + *
-> + * Implements AV1 spec §5.5.2 color_config() checks that are
-> + * possible with the current v4l2_ctrl_av1_sequence definition.
-> + *
-> + * TODO: extend validation once additional fields such as
-> + *       color_primaries, transfer_characteristics,
-> + *       matrix_coefficients, and chroma_sample_position
-> + *       are added to the uAPI.
-> + *
-> + * Returns 0 if valid, -EINVAL otherwise.
-> + */
->  static int validate_av1_sequence(struct v4l2_ctrl_av1_sequence *s)
->  {
-> -	if (s->flags &
-> -	~(V4L2_AV1_SEQUENCE_FLAG_STILL_PICTURE |
-> -	 V4L2_AV1_SEQUENCE_FLAG_USE_128X128_SUPERBLOCK |
-> -	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_FILTER_INTRA |
-> -	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_INTRA_EDGE_FILTER |
-> -	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_INTERINTRA_COMPOUND |
-> -	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_MASKED_COMPOUND |
-> -	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_WARPED_MOTION |
-> -	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_DUAL_FILTER |
-> -	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_ORDER_HINT |
-> -	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_JNT_COMP |
-> -	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_REF_FRAME_MVS |
-> -	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_SUPERRES |
-> -	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_CDEF |
-> -	 V4L2_AV1_SEQUENCE_FLAG_ENABLE_RESTORATION |
-> -	 V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME |
-> -	 V4L2_AV1_SEQUENCE_FLAG_COLOR_RANGE |
-> -	 V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_X |
-> -	 V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_Y |
-> -	 V4L2_AV1_SEQUENCE_FLAG_FILM_GRAIN_PARAMS_PRESENT |
-> -	 V4L2_AV1_SEQUENCE_FLAG_SEPARATE_UV_DELTA_Q))
-> -		return -EINVAL;
-> +	const bool mono  = s->flags & V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME;
-> +	const bool sx    = s->flags & V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_X;
-> +	const bool sy    = s->flags & V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_Y;
-> +	const bool uv_dq = s->flags & V4L2_AV1_SEQUENCE_FLAG_SEPARATE_UV_DELTA_Q;
->  
-> -	if (s->seq_profile == 1 && s->flags & V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME)
-> +	/* 1. Reject unknown flags */
-> +	if (s->flags &
-> +	    ~(V4L2_AV1_SEQUENCE_FLAG_STILL_PICTURE |
-> +	      V4L2_AV1_SEQUENCE_FLAG_USE_128X128_SUPERBLOCK |
-> +	      V4L2_AV1_SEQUENCE_FLAG_ENABLE_FILTER_INTRA |
-> +	      V4L2_AV1_SEQUENCE_FLAG_ENABLE_INTRA_EDGE_FILTER |
-> +	      V4L2_AV1_SEQUENCE_FLAG_ENABLE_INTERINTRA_COMPOUND |
-> +	      V4L2_AV1_SEQUENCE_FLAG_ENABLE_MASKED_COMPOUND |
-> +	      V4L2_AV1_SEQUENCE_FLAG_ENABLE_WARPED_MOTION |
-> +	      V4L2_AV1_SEQUENCE_FLAG_ENABLE_DUAL_FILTER |
-> +	      V4L2_AV1_SEQUENCE_FLAG_ENABLE_ORDER_HINT |
-> +	      V4L2_AV1_SEQUENCE_FLAG_ENABLE_JNT_COMP |
-> +	      V4L2_AV1_SEQUENCE_FLAG_ENABLE_REF_FRAME_MVS |
-> +	      V4L2_AV1_SEQUENCE_FLAG_ENABLE_SUPERRES |
-> +	      V4L2_AV1_SEQUENCE_FLAG_ENABLE_CDEF |
-> +	      V4L2_AV1_SEQUENCE_FLAG_ENABLE_RESTORATION |
-> +	      V4L2_AV1_SEQUENCE_FLAG_MONO_CHROME |
-> +	      V4L2_AV1_SEQUENCE_FLAG_COLOR_RANGE |
-> +	      V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_X |
-> +	      V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_Y |
-> +	      V4L2_AV1_SEQUENCE_FLAG_FILM_GRAIN_PARAMS_PRESENT |
-> +	      V4L2_AV1_SEQUENCE_FLAG_SEPARATE_UV_DELTA_Q))
->  		return -EINVAL;
->  
-> -	/* reserved */
-> +	/* 2. Profile range */
->  	if (s->seq_profile > 2)
->  		return -EINVAL;
->  
-> -	/* TODO: PROFILES */
-> +	/* 3. Monochrome shortcut */
-> +	if (mono) {
-> +		/* Profile 1 forbids monochrome */
-> +		if (s->seq_profile == 1)
-> +			return -EINVAL;
-> +
-> +		/* Mono → subsampling must look like 4:0:0: sx=1, sy=1 */
-> +		if (!sx || !sy)
-> +			return -EINVAL;
-> +
-> +		/* separate_uv_delta_q must be 0 */
-> +		if (uv_dq)
-> +			return -EINVAL;
-> +
-> +		return 0;
-> +	}
-> +
-> +	/* 4. Profile-specific rules */
-> +	switch (s->seq_profile) {
-> +	case 0:
-> +		/* Profile 0: only 8/10-bit, subsampling=4:2:0 (sx=1, sy=1) */
-> +		if (s->bit_depth != 8 && s->bit_depth != 10)
-> +			return -EINVAL;
-> +		if (!(sx && sy))
-> +			return -EINVAL;
-> +		break;
-> +
-> +	case 1:
-> +		/* Profile 1: only 8/10-bit, subsampling=4:4:4 (sx=0, sy=0) */
-> +		if (s->bit_depth != 8 && s->bit_depth != 10)
-> +			return -EINVAL;
-> +		if (sx || sy)
-> +			return -EINVAL;
-> +		break;
-> +
-> +	case 2:
-> +		/* Profile 2: 8/10/12-bit allowed */
-> +		if (s->bit_depth != 8 && s->bit_depth != 10 &&
-> +		    s->bit_depth != 12)
-> +			return -EINVAL;
-> +
-> +		if (s->bit_depth == 12) {
-> +			if (!sx) {
-> +				/* 4:4:4 → sy must be 0 */
-> +				if (sy)
-> +					return -EINVAL;
-> +			} else {
-> +				/* sx=1 → sy=0 (4:2:2) or sy=1 (4:2:0) */
-> +				if (sy != 0 && sy != 1)
-> +					return -EINVAL;
-> +			}
-> +		} else {
-> +			/* 8/10-bit → only 4:2:2 allowed (sx=1, sy=0) */
-> +			if (!(sx && !sy))
-> +				return -EINVAL;
-> +		}
-> +		break;
-> +	}
-> +
->  	return 0;
->  }
->  
+Tvrtko
 
 
