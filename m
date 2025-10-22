@@ -1,78 +1,79 @@
-Return-Path: <linux-media+bounces-45256-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45258-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD647BFC804
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 16:26:15 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 38D22BFC912
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 16:35:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2462219C0FC1
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 14:25:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 998246E0AD5
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 14:26:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5907E35029D;
-	Wed, 22 Oct 2025 14:21:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DB77E35504E;
+	Wed, 22 Oct 2025 14:22:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="c2hL1pfD"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="U0iDgEC4"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5805E34EEF7
-	for <linux-media@vger.kernel.org>; Wed, 22 Oct 2025 14:21:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DF7C34F27D
+	for <linux-media@vger.kernel.org>; Wed, 22 Oct 2025 14:21:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761142912; cv=none; b=bzfgMYsAXFXnNjmhW8HUEAlHX+WkQ1JvZSftbwDreaiCSuCMFoXlo6IoKJXIuAtB9GWe7f1ILzE0CsZp3EHHToGUXLKyAsgDc+Sue8bEGh1eLOQQCZfCSDDmb9GA9ZV8Tf5PGYJyrP2V5YhqHminG6ygAR0ChZCXHLgq4bnKJfs=
+	t=1761142917; cv=none; b=AdV/XlVg7tipDLAFmxZasVBp641onUNM2Y+RDpgKH8ATLE8Ji2GqbS/398wVwRuQFjvnnKRWWfLmhp6Ujgzm6v/FNuIn4Qu1m9bqu8M3N+VviaKt4OSHiKZg+LySfnwRcCnELfdSnTeG0sNcjrNjv5qyZazYcr16PjafVNmOO7s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761142912; c=relaxed/simple;
-	bh=r7b9miz+zGlUHxIqeITYi2Gi+cySbUCD1AnY1/8Oj/g=;
+	s=arc-20240116; t=1761142917; c=relaxed/simple;
+	bh=RyMqVUMoRxnLE2+LH/uDoKbsjsXYMu268PiHdfObUHs=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=SKbuztci5ALcUsjwGiBhoGW0CtR39oDCTlUl6dwkLW/efPlaQ2GFiFxyOdeRhaRQ5/RksADaPoXvAJXrm5lDxC7qdWa/oH+VrGI4764jkZVaESWpShMxCRj4f3+xvYCeV5otoqKTg5q/vmvtVfqw/QbHOp6LSPucLudYLXr0sKs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=c2hL1pfD; arc=none smtp.client-ip=209.85.221.46
+	 MIME-Version; b=AKYlImQp74ASz01kF5dw4bS93LlIb1vMwbnGHm/FVeqNLxRByKYHe9XMuN6pASghdX9MA7mxxd92QSjoBS8nf1Rm+ch2OcbZe0Xprk6VCcqQUs7jsAZ+WEkS5AvKdgsz2K5FzKFRdYzYZU+wpLwslGTtVfzoVjPbnOfS7gJZAb4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=U0iDgEC4; arc=none smtp.client-ip=209.85.221.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3ed20bdfdffso6338670f8f.2
-        for <linux-media@vger.kernel.org>; Wed, 22 Oct 2025 07:21:48 -0700 (PDT)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-421851bca51so5745874f8f.1
+        for <linux-media@vger.kernel.org>; Wed, 22 Oct 2025 07:21:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761142907; x=1761747707; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1761142908; x=1761747708; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=WXtaPkh3GXutadYrt9/amMN99qvUxpYxHtsBwRH0BwI=;
-        b=c2hL1pfDXaQ7BMjEDgI+CWfh1L/rZ+C1/hq8BbB/F5WSf1qIKQoA77SV7hC+sVTuQl
-         IJSZCBqQbU8EmkcXQPdAcZFloz0X2sSKAxrkpiDdY360s/7SfKGywmNkZhVI/zYii9SQ
-         BV/DfoaXlrOtZS1R9LadVGp8hjA1eDj+BZqzmoixM/zFS3Ir9fow8gvQmZKvB77s9Cja
-         82D5L9fwEo7c7Law/gDpzKzx+EgUtNbjlqHR896YMWjsvYWx/o5nvUNGDP0GSgl8+ZE8
-         31xNtKXkJX2O4X3epyG63+VG+UHAmkKSRNhS9ttio+e3d1c70PRYCzDJk0GnHWlTVFun
-         +eCg==
+        bh=hswO6VHAbXRS9t5lyAgR5F2WC+ilzEfgsXiR8FyXf7w=;
+        b=U0iDgEC4ll1KzUailgHGuGg2dvZyYCcri8Ik2xZvDn4/tK8FExWCzrToiAITWWja5V
+         4jA3X4YERXMM9ose00DPofRZvynA0plLfBdirZ+SLHMXJDhxw038TC+K4JWDaExEV8fZ
+         fE9zZoLkSlqs6q9fItnenRl5Yfz6XTV5qf3ZY1Hhfuk6ufYWP0V1hvxwFN207DqgjV7s
+         FVrvLOEccT6+4RkEzP4SfokwquimM/ZnYXqIjE3zKrKNaaeAVprEYqS+0GdE/gFxgJd+
+         YzSmsWK+zrVU2RpXgH8LYJ1C5rkqUWt4hgBjFrOyBIFg4rYhMu9vxk804vRtX4fXX5i+
+         xbvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761142907; x=1761747707;
+        d=1e100.net; s=20230601; t=1761142908; x=1761747708;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=WXtaPkh3GXutadYrt9/amMN99qvUxpYxHtsBwRH0BwI=;
-        b=bQuXYkMeR/f8Ndm78H3ZEThgW4feMp2EpBjDcA/fIi6W8UW/Hj1rGOywmNzwfFi1Lb
-         PPUpQjsRyYfFNRriJGZ8kSWiqGA1u8PU+YV0/02rB+honf0QgTJjDs/dUIPD+Qynv70E
-         uIXtIyE7h0ob6UHPXxOXTMcfgc3MWG3ZxWavDXgDKc6VdgSMnIJrWnCRDzmvTQzULzuh
-         GrPuZiF7Bq8ez+O6vTmRYn+DsMEYxw0q5hlnA8c6B8EN/RZmgKVCCZYHrmX3LBZU3GAp
-         /PjefZ0PoI8bDVXWYFSk1tqJY+uOAU7/ADdJ4/JSvO5lBHuBLNqskZFaVR8Wpp/W05MK
-         Ct4Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWJSzplWVyldEjDC6Bm/epk+McTXULQRsMX4lzNMwgPebkV9GAt4s7AlGq0iR/y71OfynFSmTfrRB+50A==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzb7WSHeiUWsJgJuah1KzO0CbhHZ57vfI8IEO/MJru5KW+jjx55
-	XiBpntiQC6e5cxFdOlu/FqZEwy5xzR2Mr8VlOXsNqdm5X5ffQ1h65ZAG
-X-Gm-Gg: ASbGncuzuhqPxHHX6FZnN+gOR7l+54okwQFcUiofc8dlfbMYaB2cVkhXDHCAfXiOg0e
-	s4G3izdfqCQljEJAzVPMCJWsdVAtfKPNAsiEMiO7yc/J76VoHR0p0oSrA2+kk8C/BD03Li1Mdwu
-	M6sAR61U4JMVcD3o6UkthsMy08hBDRM+WOxyQGmGjYc6O6xxW4KW8syaeDS31xFE7EC80Mtpg2S
-	pDRK3kA1e+FBYPz6Q0v0wTChR09TXp4F8Nk4XqmNPlKmWamUvAHCiwuLQNaQmeUDoA96SV9Q+rt
-	L7kvc7rsf7Xzs9DU9imPgofaXwPkN5E5PIzqhnQHnU9oqdCbCRQEf8GyVVgkO7mn1eHsnDnzB5i
-	SrXadKVhZVOHKuw9/RLeP7TUpEWtHHo1h6MQ18GnIm+2J7/NbNKWEhbiwat/4vsRpF9E=
-X-Google-Smtp-Source: AGHT+IFuKTY+6VlzlctM2Ho4Y6ooXPbr1OkVqVQk/ddAnkBtDFDjaUEYC7CuSZMpeeIzVLphs/KiOA==
-X-Received: by 2002:a05:6000:1a8a:b0:428:3f7c:bcf8 with SMTP id ffacd0b85a97d-4283f7cbeefmr11118870f8f.29.1761142906649;
-        Wed, 22 Oct 2025 07:21:46 -0700 (PDT)
+        bh=hswO6VHAbXRS9t5lyAgR5F2WC+ilzEfgsXiR8FyXf7w=;
+        b=Kj7muPas3EuJ8Uc7sptV1RZZ9sOrC4Xmsg4NuNSj8BvTj9PmZoXGXs8h2RxDsyXTxK
+         90Wh/lEHazU9iF3oXGcdA9ZD3tg37AzTWpUOl4/uwFb9KYcChbRQSP1fYQ7gQdx8W0De
+         gBPG8FlAHy3dPFXHwfgPT71MGUVpmsgagO7iBizPXCZk54wseoQ5OLvKktTZXo7jOJgc
+         OktozXrXAfGLbmmXVzRjqkVrEad4hWaS7YJsU6cX0f74FpCnIzzUDP76LxgTZVTKITzP
+         Jm/Z5UHNi5is7ZTA59yuS7DWeKXHMqlS+F6FItalYbR8VCnS0tVNwZqkHjvd7Zb8OE0S
+         fNqg==
+X-Forwarded-Encrypted: i=1; AJvYcCX24lhWZ1k/ZiFPOm3Lp43sDRo/R/qcmx8PXEMhkP8vJXnB2NSCYBSX/0J9heo4lQiNq1M6jy6DbVw8JQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC8WZAFPNzjwyHYN5G8gmVc32nMa85Ryp6xTViQc3AqDD3EKiH
+	Nkd1U0SO86CYiKJ4b4t8/a+XfSzzARWt66XkVK65SOE24BC86UTR7I9+
+X-Gm-Gg: ASbGncvDkCd+ve557OA9AXKd2Vo1z0VlC0Im6eR6nQYZRT0LHbKZx4VH/SdDsCIIo67
+	Gjih51kuDdlcm+/OyvLTNuRfgUM6fuDRsHzbPYdx5MMw4cYWUqo/F1Oz7K5MXVA4USjmBPACxl3
+	oUNGzxIcIDj2Qm0wLC7DgHRHLEBDae1VKxLAxTw+Yw8EKOuUnrhUDCdi01R3H4toEM1WdaTnzJd
+	LiJm17EMz1UTnjiNktXlYTzPQi5K/Y1iZy08zMbGEOpQxNtYN3uXRADdcxOzAI6TFI78FuzlBrU
+	KkJBqKlVYz6S6oJQ5tfxTV4zcvrwFOLx1/VaPbb5+VYyv7cZHSss16pJIgqc3WEzoSznB+S8mBz
+	l/JpDuS+fui2gTHXhDXzvefdG2BSHKVTN55dIQ14KoN0h6BZr+fw1i8TbdmmffxY+yXS8aDeFBc
+	5X7A==
+X-Google-Smtp-Source: AGHT+IFq9V87Zw7qGeTmSRrPB3JwZR7jtskG/uf8ikZdxsnRyJSInvVy1UaH8yLg4G5ahmvQ9XgogQ==
+X-Received: by 2002:a05:6000:186f:b0:3f9:6657:d05 with SMTP id ffacd0b85a97d-42704d7eb23mr14938377f8f.12.1761142908345;
+        Wed, 22 Oct 2025 07:21:48 -0700 (PDT)
 Received: from xeon.. ([188.163.112.61])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427ea5b3d4csm24803518f8f.19.2025.10.22.07.21.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-427ea5b3d4csm24803518f8f.19.2025.10.22.07.21.46
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 22 Oct 2025 07:21:46 -0700 (PDT)
+        Wed, 22 Oct 2025 07:21:47 -0700 (PDT)
 From: Svyatoslav Ryhel <clamor95@gmail.com>
 To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Maxime Ripard <mripard@kernel.org>,
@@ -106,9 +107,9 @@ Cc: dri-devel@lists.freedesktop.org,
 	linux-media@vger.kernel.org,
 	linux-clk@vger.kernel.org,
 	linux-staging@lists.linux.dev
-Subject: [PATCH v5 13/23] arm64: tegra: move avdd-dsi-csi-supply into CSI node
-Date: Wed, 22 Oct 2025 17:20:41 +0300
-Message-ID: <20251022142051.70400-14-clamor95@gmail.com>
+Subject: [PATCH v5 14/23] staging: media: tegra-video: tegra20: set correct maximum width and height
+Date: Wed, 22 Oct 2025 17:20:42 +0300
+Message-ID: <20251022142051.70400-15-clamor95@gmail.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20251022142051.70400-1-clamor95@gmail.com>
 References: <20251022142051.70400-1-clamor95@gmail.com>
@@ -120,49 +121,34 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-avdd-dsi-csi-supply belongs in CSI node, not VI.
+Maximum width and height for Tegra20 and Tegra30 is determined by
+respective register field, rounded down to factor of 2, which is 8191U
+rounded down to 8190U.
 
 Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 Reviewed-by: Mikko Perttunen <mperttunen@nvidia.com>
 ---
- arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi     | 4 ++--
- arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/staging/media/tegra-video/tegra20.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-index 584461f3a619..4a64fe510f03 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p2597.dtsi
-@@ -20,10 +20,10 @@ dpaux@54040000 {
- 		vi@54080000 {
- 			status = "okay";
+diff --git a/drivers/staging/media/tegra-video/tegra20.c b/drivers/staging/media/tegra-video/tegra20.c
+index 7b8f8f810b35..3e2d746638b6 100644
+--- a/drivers/staging/media/tegra-video/tegra20.c
++++ b/drivers/staging/media/tegra-video/tegra20.c
+@@ -23,11 +23,10 @@
  
--			avdd-dsi-csi-supply = <&vdd_dsi_csi>;
--
- 			csi@838 {
- 				status = "okay";
-+
-+				avdd-dsi-csi-supply = <&vdd_dsi_csi>;
- 			};
- 		};
+ #define TEGRA_VI_SYNCPT_WAIT_TIMEOUT			msecs_to_jiffies(200)
  
-diff --git a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-index ec0e84cb83ef..f1d2606d9808 100644
---- a/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-+++ b/arch/arm64/boot/dts/nvidia/tegra210-p3450-0000.dts
-@@ -64,10 +64,10 @@ dpaux@54040000 {
- 		vi@54080000 {
- 			status = "okay";
+-/* This are just good-sense numbers. The actual min/max is not documented. */
+ #define TEGRA20_MIN_WIDTH	32U
++#define TEGRA20_MAX_WIDTH	8190U
+ #define TEGRA20_MIN_HEIGHT	32U
+-#define TEGRA20_MAX_WIDTH	2048U
+-#define TEGRA20_MAX_HEIGHT	2048U
++#define TEGRA20_MAX_HEIGHT	8190U
  
--			avdd-dsi-csi-supply = <&vdd_sys_1v2>;
--
- 			csi@838 {
- 				status = "okay";
-+
-+				avdd-dsi-csi-supply = <&vdd_sys_1v2>;
- 			};
- 		};
- 
+ /* --------------------------------------------------------------------------
+  * Registers
 -- 
 2.48.1
 
