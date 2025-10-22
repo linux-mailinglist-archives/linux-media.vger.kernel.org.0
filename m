@@ -1,100 +1,181 @@
-Return-Path: <linux-media+bounces-45178-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45179-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC7D3BF9D2D
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 05:25:12 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63109BF9F16
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 06:31:26 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9570F4EB9E3
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 03:25:10 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id DED64353FC3
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 04:31:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E3F6272810;
-	Wed, 22 Oct 2025 03:25:06 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id ADC3E2D0601;
+	Wed, 22 Oct 2025 04:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ssn.edu.in header.i=@ssn.edu.in header.b="Qmka0NpI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f195.google.com (mail-pl1-f195.google.com [209.85.214.195])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C84D7271458;
-	Wed, 22 Oct 2025 03:25:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 644581F5437
+	for <linux-media@vger.kernel.org>; Wed, 22 Oct 2025 04:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761103506; cv=none; b=DJnvTcZBrdzdk+7oPIulEm/urpw7e8adgpxf36h2nSwrtbdMR14seJY0p3w9gxtRizVINgqHuYIUXZmOdefznwsJeO4fssagSX/tu12gac7dJUQboaiXJlSVvnZN2H9IblYpxTm0a6Yk/6evwIOpW6PTnIs5iJ8yezjWajDLJ8Q=
+	t=1761107481; cv=none; b=MLMbZ+4lUCP2OIdltBeDMYM3/uRa8oaSE+lczjvqcT9wa2dnlMMqG6J3ilaH1YGHJEPAdW2UruRSt+Qhwba5sYkOF6wUOZHPgvdJgBksgDWNVy0UO0xqV29ge6zwR8helKW/LjKrTdxSbsuD00haPluL3w+Jx+whga4xd6OiSEc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761103506; c=relaxed/simple;
-	bh=nq1BmCZzwaI9iWfYthh/XYVEhOkI38BNR+gxJIGpmlk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nojR+yZIetHy96vCWaxiE3e6Z6yZvshYZ6gpodZvIXQjgWKax7ji1uuhH7EIc/hYU3uXzzcCdu8LGo7RNXe5nRGHCeqqidhjmz1YSJot45DmBkRNCoYWB9aPeeabVC5SY/Y0mLM9kO0G6k8+DT4q+UAUHS0TyYIe4I1UQt+xHm0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
-X-UUID: af66b34eaef611f0a38c85956e01ac42-20251022
-X-CID-P-RULE: Release_Ham
-X-CID-O-INFO: VERSION:1.3.6,REQID:f19686ca-8295-4d86-acf9-8f41c45aa5bc,IP:0,UR
-	L:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:
-	release,TS:-5
-X-CID-META: VersionHash:a9d874c,CLOUDID:8386071e5ffd10f2470400b41dcad4d5,BulkI
-	D:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102,TC:nil,Content:0|52,EDM:
-	-3,IP:nil,URL:99|1,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA
-	:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
-X-CID-BVR: 2,SSN|SDN
-X-CID-BAS: 2,SSN|SDN,0,_
-X-CID-FACTOR: TF_CID_SPAM_ULS,TF_CID_SPAM_SNR
-X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
-X-UUID: af66b34eaef611f0a38c85956e01ac42-20251022
-X-User: tanze@kylinos.cn
-Received: from [10.42.20.57] [(10.44.16.150)] by mailgw.kylinos.cn
-	(envelope-from <tanze@kylinos.cn>)
-	(Generic MTA with TLSv1.3 TLS_AES_128_GCM_SHA256 128/128)
-	with ESMTP id 480093162; Wed, 22 Oct 2025 11:24:57 +0800
-Message-ID: <5d9f8a49-1188-40db-9c1b-be0e71ea7d60@kylinos.cn>
-Date: Wed, 22 Oct 2025 11:24:55 +0800
+	s=arc-20240116; t=1761107481; c=relaxed/simple;
+	bh=aF9X/USAXc7qJxOd6+H5SsC0CuGg8nY892TtxEL+zRE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=tJ7zR4FMjL8QR9NErXkqZto7ZtsP5j+4dQc9dZ7UlRjyBO5lYcDnHRnzCXxqF08fuLqK4rFSaNFnbmLbi42EnIkFQxpzRjm3quDy3YKvaIDKj+4PZgO0ZUfnZXCQh9K20n3EWBueb+CxxDY9ctBzy8pPaN8B/iOSGbQV+uSPrRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ssn.edu.in; spf=pass smtp.mailfrom=ssn.edu.in; dkim=pass (1024-bit key) header.d=ssn.edu.in header.i=@ssn.edu.in header.b=Qmka0NpI; arc=none smtp.client-ip=209.85.214.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ssn.edu.in
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ssn.edu.in
+Received: by mail-pl1-f195.google.com with SMTP id d9443c01a7336-29226bc4bafso45418945ad.0
+        for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 21:31:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ssn.edu.in; s=ssn; t=1761107476; x=1761712276; darn=vger.kernel.org;
+        h=mime-version:message-id:date:subject:cc:to:from:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=9f3uvbf2qrrt/ziC3rimn8Y/fAQpzGjeRz5deOCQI/U=;
+        b=Qmka0NpI1URT7mhySqWYrcROD/IQj+OdjUBusXVqq5hK4jZmsWZNwtk2OG6W2kn0H9
+         pCfaa0fTUJje61/C4WMTWmJOo3zDohMxHnf05+iXoWHjnIVpAhGU9a34jw//SP19mpgW
+         nsrxQxgJ0h+ZLTmwgKr7koC4KqqRuzMpZ2vTw=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761107476; x=1761712276;
+        h=mime-version:message-id:date:subject:cc:to:from:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=9f3uvbf2qrrt/ziC3rimn8Y/fAQpzGjeRz5deOCQI/U=;
+        b=b77ZuxZyF97NnXA958y5R4TAzl+ZQxRWIYVpzBUzin6UG8drQStzVgYG2j/9+ez0D2
+         fM1VUG0vyurq4KKRSjU0WrnU66xokTgCEyUSy640Lz5rn2EHLjm7/VExcxaKZ8K5y0UW
+         kRxHw24ipwXaHT6kKtVTUcgztxdrz86pPBZ5LvOPc/h/OKD4G2XVgu83OPf2JdX4iiRb
+         4H+gzG2rGye3t7FinCE2c2f9tnbo6fGFjVFFk9e8YrDj9comLpCbGW7lhzhc4N5BlhEp
+         AA0ztZS/7+bq7FU64+jg0oisW48GL/TQcPWZ8at21LZyLD/w+6VfAt77IGa7xR/bFKMd
+         8HGA==
+X-Forwarded-Encrypted: i=1; AJvYcCXe8TQTOguSlOof8I3KfQTukS5+U8tbvCKjn0ACXxeBmg2OjN//0JNW+bWSIzROWoJWVJE8eL5t1uIXcg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeKd3GS0QHtYQYK/afZDWrh6cB9rcAlgq5mrY6cBr1ZkuIFTiz
+	xjz8RW6e8o5PmwtzpQhRc2aKtl1MKvOWqxZEQkW2AnWkUoULaaQQLn+Q/QeT40ydR8c2AJEAnAQ
+	h058eNlGmAG6vR+e9OmNod7K4SOO0toGxc2ismOUmwV963lp+5BHnGsGcsjQtlW1HFrYutvrnKm
+	7cNA0=
+X-Gm-Gg: ASbGncsC+SuEOa2N8ABCaX1hM2StCwPYy2k9q1rxK56JnkYXVog+KfMHYU9H8JllRJb
+	7nNf5sbo/eyzV0PeN88WHqTVV0CurqD2gyGk8qxQQl17kJxoxIDPtMrd5ePK2VlZDJHVa7u1au6
+	V/69BzEUak1pZIkRwU2oenwwvl9HXTKVo53gNAehcRHQuaBkrzKyPREgO9P9oQP5BItNLnRmY2h
+	6tFuLRFH0yEv+CdJHU1XQqnDyHMgl74zjR3CfB7btgEbp52mjyqNvCjWwaaChS2n1LCXUhw94uL
+	7b9sr8wiqhhDis+UX5EUTznEgpk3lgKSx4Ezs5SUQegxqgNOAtPe9d0euvnN3FN8WI6c+57ey/U
+	ooFu0BvGyLXjC9S0AQ7q8YdQs+03UEK/FEIYvrguYPJxuYZ6KCbJXxVtjFy7AUEDVJsqBVeMvGV
+	frEGoUGR/zav4R8CPPH7+EBivVJtrfUb09txbyBS0stiVcte4iETCUefZZNg0Np1tUVU898jShC
+	uOgcqa2wMZh3AI=
+X-Google-Smtp-Source: AGHT+IEd+bNYS6vl4w16DgOMSV/S7pPkiZN6xIuC+GDZaXXvAtfmV3zwE5YULJyf3rlJMlDMMOTqoQ==
+X-Received: by 2002:a17:902:ce0e:b0:273:c463:7b2c with SMTP id d9443c01a7336-290c9c89680mr216879095ad.3.1761107476259;
+        Tue, 21 Oct 2025 21:31:16 -0700 (PDT)
+Received: from biancaa-HP-Pavilion-Laptop-15-eg2xxx.. ([2406:7400:1c3:33f3:2f80:d146:31b0:93aa])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-293113c1f4fsm2240455ad.116.2025.10.21.21.31.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 21 Oct 2025 21:31:15 -0700 (PDT)
+From: Biancaa Ramesh <biancaa2210329@ssn.edu.in>
+To: sumit.semwal@linaro.org
+Cc: christian.koenig@amd.com,
+	linux-media@vger.kernel.org,
+	dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org,
+	linux-kernel@vger.kernel.org,
+	lkp@intel.com,
+	Biancaa Ramesh <biancaa2210329@ssn.edu.in>
+Subject: [PATCH v2] Signed-off-by: Biancaa Ramesh <biancaa2210329@ssn.edu.in>
+Date: Wed, 22 Oct 2025 10:01:07 +0530
+Message-ID: <20251022043108.7197-1-biancaa2210329@ssn.edu.in>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 0/3] media: Optimize the code using vmalloc_array
-To: mchehab@kernel.org, mingo@kernel.org, hverkuil@kernel.org,
- tskd08@gmail.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251021143122.268730-1-tanze@kylinos.cn>
-Content-Language: en-US
-From: tanze <tanze@kylinos.cn>
-In-Reply-To: <20251021143122.268730-1-tanze@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="US-ASCII"
 
-Hi, dear maintainer
+dma-buf: improve dma_buf_show_fdinfo output
 
-These patches have had their v2 versions sent because the CI robot 
-detected some issues.
+Improve the readability of /proc/<pid>/fdinfo output for DMA-BUF by
+including file flags and ensuring consistent format specifiers for size
+and other fields.
 
-https://lore.kernel.org/all/20251022032038.422230-1-tanze@kylinos.cn/
+This patch also fixes incorrect format specifiers and removes references
+to obsolete struct members (num_attachments and num_mappings) that no
+longer exist in the DMA-BUF framework.
 
+Reported-by: kernel test robot <lkp@intel.com>
+Closes: https://lore.kernel.org/oe-kbuild-all/202510220802.svbgdYsJ-lkp@intel.com/
+---
+ drivers/dma-buf/dma-buf.c | 26 ++++++++++++--------------
+ 1 file changed, 12 insertions(+), 14 deletions(-)
 
-在 2025/10/21 22:31, tanze 写道:
-> Change array_size() to vmalloc_array(), Due to vmalloc_array() is optimized better,
-> uses fewer instructions, and handles overflow more concisely
-> 
-> 
-> tanze (3):
->    media: dvb-core: Optimize the code using vmalloc_array
->    media: vivid: Optimize the code using vmalloc_array
->    media: pt1: Optimize the code using vmalloc_array
-> 
->   drivers/media/dvb-core/dmxdev.c               | 4 ++--
->   drivers/media/dvb-core/dvb_demux.c            | 9 +++++----
->   drivers/media/pci/pt1/pt1.c                   | 2 +-
->   drivers/media/test-drivers/vivid/vivid-core.c | 2 +-
->   4 files changed, 9 insertions(+), 8 deletions(-)
-> 
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index 1c0035601c4f..4541f8ec5d62 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -571,24 +571,22 @@ static long dma_buf_ioctl(struct file *file,
+ 	}
+ }
+ 
+-static void dma_buf_show_fdinfo(struct seq_file *s, struct file *f)
++static void dma_buf_show_fdinfo(struct seq_file *s, struct file *file)
+ {
+-    struct dma_buf *dmabuf = f->private_data;
++	struct dma_buf *dmabuf;
+ 
+-    if (!dmabuf)
+-        return;
++	dmabuf = file->private_data;
++	if (!dmabuf)
++		return;
+ 
+-    seq_printf(s, "flags:\t%lu\n", f->f_flags);
+-    seq_printf(s, "size:\t%llu\n", dmabuf->size);
+-    seq_printf(s, "count:\t%ld\n", file_count(dmabuf->file) - 1);
+-    seq_printf(s, "attachments:\t%d\n", atomic_read(&dmabuf->num_attachments));
+-    seq_printf(s, "mappings:\t%d\n", atomic_read(&dmabuf->num_mappings));
+-    seq_printf(s, "exp_name:\t%s\n", dmabuf->exp_name ? dmabuf->exp_name : "N/A");
++	seq_printf(s, "size:\t%zu\n", dmabuf->size);
++	seq_printf(s, "count:\t%ld\n", file_count(dmabuf->file) - 1);
++	seq_printf(s, "exp_name:\t%s\n", dmabuf->exp_name ? dmabuf->exp_name : "N/A");
+ 
+-    spin_lock(&dmabuf->name_lock);
+-    if (dmabuf->name)
+-        seq_printf(s, "name:\t%s\n", dmabuf->name);
+-    spin_unlock(&dmabuf->name_lock);
++	spin_lock(&dmabuf->name_lock);
++	if (dmabuf->name)
++		seq_printf(s, "name:\t%s\n", dmabuf->name);
++	spin_unlock(&dmabuf->name_lock);
+ }
+ 
+ 
+-- 
+2.43.0
+
 
 -- 
---
-Thanks,
-Ze Tan
+::DISCLAIMER::
+
+---------------------------------------------------------------------
+The 
+contents of this e-mail and any attachment(s) are confidential and
+intended 
+for the named recipient(s) only. Views or opinions, if any,
+presented in 
+this email are solely those of the author and may not
+necessarily reflect 
+the views or opinions of SSN Institutions (SSN) or its
+affiliates. Any form 
+of reproduction, dissemination, copying, disclosure,
+modification, 
+distribution and / or publication of this message without the
+prior written 
+consent of authorized representative of SSN is strictly
+prohibited. If you 
+have received this email in error please delete it and
+notify the sender 
+immediately.
+---------------------------------------------------------------------
+Header of this mail should have a valid DKIM signature for the domain 
+ssn.edu.in <http://www.ssn.edu.in/>
 
