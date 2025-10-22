@@ -1,457 +1,324 @@
-Return-Path: <linux-media+bounces-45180-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45181-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6990ABFA19C
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 07:46:18 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CDC1BFA1AE
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 07:46:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 655951A0310B
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 05:45:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 28E43404208
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 05:46:40 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4CB492EFD9E;
-	Wed, 22 Oct 2025 05:44:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 256702EF67F;
+	Wed, 22 Oct 2025 05:45:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="RUdX5aP2"
+	dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b="E0tikdAB";
+	dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b="uZnrbAG0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from mailgw02.mediatek.com (unknown [210.61.82.184])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DA1C2ECE8C
-	for <linux-media@vger.kernel.org>; Wed, 22 Oct 2025 05:44:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761111873; cv=none; b=gKkrdcCObK422PjJDyI2UsOIUeSWXZ0izozPCRnDGxt/lNhPARYbTkt63vKXs4EPaIBoH5hU3BZS+FK9MS1lPAjyp4iD8HPkWe0lp/p9vsyQVzn50pOhLvHLDOS2cMIYK64PN+c9PcOQV2TF9o6a5EavDbdydzF9c7w6gx7O2ZM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761111873; c=relaxed/simple;
-	bh=tcUD4EQbeOiixehNpu7v0H7oPtKBd/AJWusjJ5KewBo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eaujCRXDj2nrSbJXC+oLHI5Kk5yah99ioYmMIWsa6wyaH4tPC7VFcljjjpNosOMioVBkKfIsEFnTDXANyKJ+TZ1kOrJSeNW1sRq9ckKgkfgUNBGXZIyDoWdoMj1fFFHSctTAULJKhOfqN6uMETBfqd3Xaoa0P00Ls5hGkG3LRfM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=RUdX5aP2; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59M3FpLR031059
-	for <linux-media@vger.kernel.org>; Wed, 22 Oct 2025 05:44:30 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	XezIXwm2kvsHwv+azWqD5hEZ5XYPnRLDHsouMeElX18=; b=RUdX5aP2h91hc5KQ
-	pAhdRM3pNmVrzv0EKAyr59cBqWjN27YY3ctHl1+acUDC+ll10bBm+rU2VnURgC5f
-	ff+8EAQRQ4aCEs6vtpr6E/T4wUrdR/qYd7JyM29SHq0Z4xbXEgNtb4AIV4zdxpAx
-	vte7CW6fXIjhosvfS4/IqlMl6lOgTyg1YcWPYeew6oRH+EgylQKE7AoFs455rcrd
-	D4YIQ4gLMn4Ej/ILHvHRLDlE4E3Kr7kaUAvGXkQUPT0qHtgA7PQVkZx9ptJMUT07
-	gcPmABscEDJd9qBfGJ0xDhFz2a3AsyoL1LKl+pXsHbNW3X4TUaoh3hmgdd3f3Ht7
-	0RBtRw==
-Received: from mail-pg1-f199.google.com (mail-pg1-f199.google.com [209.85.215.199])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v42kb6w8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Wed, 22 Oct 2025 05:44:30 +0000 (GMT)
-Received: by mail-pg1-f199.google.com with SMTP id 41be03b00d2f7-b522037281bso4119409a12.3
-        for <linux-media@vger.kernel.org>; Tue, 21 Oct 2025 22:44:30 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761111869; x=1761716669;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XezIXwm2kvsHwv+azWqD5hEZ5XYPnRLDHsouMeElX18=;
-        b=fg/lMyyr/I5IeJP0R3WgrTT7KCVaEkjOBMB7+dBfMbjJ/Qkw9VyGk3TdWZILgNeZhN
-         9G0zj2s4J5CFIIlXn0ao0+F4cKRTJNyRklVGiW2uXY0Bey+ga8fky6m9kK+yH8fetehP
-         T9jXO1ZQXLcoFDHQ+4msroQ5P+rGtj8jBwRN0R22nSDjKBpG1PPaqqmvg9K7YsRagpaw
-         CqOkBvCKn3w+HLPVcX9MpyCT20uBR83bsGX2gY/yAvL0Ei4SkdFR+tlSpyegClF2ghOY
-         181LbSKMn7C5xPZCCSC3Eh9aq/kLtZ49VBsKBLrVHVi9ttIwglg1wHyn6iO0Lc0THvx/
-         yiVA==
-X-Forwarded-Encrypted: i=1; AJvYcCWDSLU8h1MUkNwTTgWocnM41GQyIj2D/A8WCj1PeOdXPwyQsR41TpsU3CeF3FG8qMWt1ZnCK0SlQ/GbyA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxIb4NepDGy1GPRGDXI5j/hrbOkhE7AH3fVWt9A1ZjACoaWDfxd
-	yp39imWpzA8OHfHyBL2zk7g1K+M6hexKHhVIhu6sR0j6mbAXQwV/hSIc7aiyPBcnv6H/Oa+NDGW
-	k+SrndR/O6LplRODxxGrPb01gDhKSucDGPUeTJYBW5iEilTBpHgwKcTIa51gl2ttkFQ==
-X-Gm-Gg: ASbGncv5/M9CotZJFZneWPIE7igadLSk9yuGNrY9Prj3pwTo/ET4WkODW8ZWKX/HjWF
-	T4JNkSyiRmp/VAr1/s2sY8RTwfsSHbVNVBqutzFTZI9iy8CV/2CFsEIzWggn0BHPAc6JYUGhcU3
-	AVLQc0wARHHcYtYlkH+WokrAHrTrNdQAMlxBdIy6IS2BXNpzqJNWn3NNbrzBZbpBablNzKf6zGZ
-	7Kug/fRGuAMfZON56ju/82fXxjEwhRBhEao4Nz/2U/Q5/FAkakA0OPELwjTGytYfepwAqsPVzma
-	f4NIxaMKseDvx9S1ef7dq/a9pzSlW0K9E0LyA4gI1tRlQtHdwBITJRbSxt0z1FEvESpwOOizqb1
-	ILHavtRMvdO49gr/62QNRWzAU9N7kCS5HZg==
-X-Received: by 2002:a17:903:2381:b0:240:3b9e:dd65 with SMTP id d9443c01a7336-290cba4ec0fmr239924365ad.38.1761111869578;
-        Tue, 21 Oct 2025 22:44:29 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEDeFeUhNgJlMZ6PwfKKhhegiNwtt0fceM9zAQnEkRyWJLeZgcOtimZJB7SIgd1LwiVmKXeoQ==
-X-Received: by 2002:a17:903:2381:b0:240:3b9e:dd65 with SMTP id d9443c01a7336-290cba4ec0fmr239924195ad.38.1761111869101;
-        Tue, 21 Oct 2025 22:44:29 -0700 (PDT)
-Received: from [192.168.0.166] ([49.205.252.226])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29246ffeec3sm127923005ad.52.2025.10.21.22.44.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 21 Oct 2025 22:44:28 -0700 (PDT)
-Message-ID: <ae4c7968-f593-6c8d-2c10-f7a2b31318e2@oss.qualcomm.com>
-Date: Wed, 22 Oct 2025 11:14:22 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52B082EDD51;
+	Wed, 22 Oct 2025 05:45:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=210.61.82.184
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761111956; cv=fail; b=K4qWkZf45UeaOmRbYVfcDmQqsjItouUGeYh85uNRgAzOIgWF01g5XJrBEXjKrBHfo06Tq4L8qMPXYiC7HyKdJpcp1QA4vp7U0tO6KsFGYsrvPsU+A/P2neoybYlUKvvkudLvHy2ocgjpWLRIBgpIN2jovnk6g/iAHAhwtE5Mkp4=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761111956; c=relaxed/simple;
+	bh=IVXQOAoez2xRYFETg/dUSQMMy5y2cEhSqBEugysUH/U=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=rT0iOlLlSVdgNFOfaTlC2s2hYF0ijDD3EcitT/vJDheFF+mGXhkyu7zmroZA9zWp/Xy+5CkwwbiNMPUbdQc9DdKaPa+VyFpAz1bOKrUgYh2z039z/LbTKy2ert3Ba4i2/e3CWooX4JPyflzDpBPC9GHvwoTGNTXlmXjZ+Oj9N1w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com; spf=pass smtp.mailfrom=mediatek.com; dkim=pass (1024-bit key) header.d=mediatek.com header.i=@mediatek.com header.b=E0tikdAB; dkim=pass (1024-bit key) header.d=mediateko365.onmicrosoft.com header.i=@mediateko365.onmicrosoft.com header.b=uZnrbAG0; arc=fail smtp.client-ip=210.61.82.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=mediatek.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mediatek.com
+X-UUID: 5c65f290af0a11f0b33aeb1e7f16c2b6-20251022
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+	h=MIME-Version:Content-Transfer-Encoding:Content-ID:Content-Type:In-Reply-To:References:Message-ID:Date:Subject:CC:To:From; bh=IVXQOAoez2xRYFETg/dUSQMMy5y2cEhSqBEugysUH/U=;
+	b=E0tikdABXE/YH1LH/R36Lt9dc6meMZITOredTboLlBs18zCRadqAFB8KLKi0TEj8Rtno0Z8kwfqtNjUUhC4V/fpWhhrc/pdnLyiV2z2xDx+RtZ3nJe/iNxZxneDR7vcwKNIG0C+bgSzx2Op3EOa1cMIzeLM1pDqw/EMwGC3g2wo=;
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.3.6,REQID:d93c353a-e6a4-4c97-bda6-277491ca0f51,IP:0,UR
+	L:0,TC:0,Content:0,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION:r
+	elease,TS:0
+X-CID-META: VersionHash:a9d874c,CLOUDID:1ef5b258-98d8-4d0a-b903-bc96efd77f78,B
+	ulkID:nil,BulkQuantity:0,Recheck:0,SF:80|81|82|83|102|110|111|836|888|898,
+	TC:-5,Content:0|15|50,EDM:-3,IP:nil,URL:0,File:130,RT:nil,Bulk:nil,QS:nil,
+	BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,SPR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 2,SSN|SDN
+X-CID-BAS: 2,SSN|SDN,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-CID-RHF: D41D8CD98F00B204E9800998ECF8427E
+X-UUID: 5c65f290af0a11f0b33aeb1e7f16c2b6-20251022
+Received: from mtkmbs09n1.mediatek.inc [(172.21.101.35)] by mailgw02.mediatek.com
+	(envelope-from <kyrie.wu@mediatek.com>)
+	(Generic MTA with TLSv1.2 ECDHE-RSA-AES256-GCM-SHA384 256/256)
+	with ESMTP id 408767108; Wed, 22 Oct 2025 13:45:48 +0800
+Received: from mtkmbs10n1.mediatek.inc (172.21.101.34) by
+ mtkmbs10n2.mediatek.inc (172.21.101.183) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1748.26; Wed, 22 Oct 2025 13:45:46 +0800
+Received: from SG2PR04CU009.outbound.protection.outlook.com (172.21.101.237)
+ by mtkmbs10n1.mediatek.inc (172.21.101.34) with Microsoft SMTP Server id
+ 15.2.1748.26 via Frontend Transport; Wed, 22 Oct 2025 13:45:46 +0800
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=zEaE/8bnVI7aoBNqVx76pdWKulYwLMaNZqskQBNCIKYNzsY8/PFQSoo408BB81eU+z3XA8VCRBNuoMyKgElUwkvOmEYZuvtSCIrQfC/4tCrw2iH1JKxaVHrr7CGFY6u+zFRZDipQUOR7Qq6sidzaW6965wiBf9hHJf47Gmjutt5/Dpb7D9zElQ8F51c4l4SKPneQQ91X8o/Qo/aCICEhGjEqCBoEHwzrvQEQO0drOyukkbT56mY1dESUIOUJwsMHQYxTW2luwRDn2g3kPGTBx/gO0PJA6/qtvRl+grdcNMW96DrQoT4fSdEaEIt/BED5bg7ej9+Irp5oycQd2xLcqg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=IVXQOAoez2xRYFETg/dUSQMMy5y2cEhSqBEugysUH/U=;
+ b=chOHaTqeeVG/2UEQyUfPbO+Is/Q1Mi5Y+jTwBRbU0gGfUfl7OkJ0DXMfawBWyJUoWFROdTWi2dY6kPmuLdRx+GsxWj56G1L0DfaQSnu4sbw3LTb5a0OTBA4eFKiwno4T1GwzOBofgmildGgesaBcnbdqWEvw/atoE5L1ekoctdxrUEFiNXbdo/giuNy8uFu8b+wCrqhJZUkJ3JpufTJ2AIPL35PRdvnoF2jwbLaueojOCZrYIxJyRiWRXfbcUw/2ri5LJBRih6nNqU0wIPPsrtcSebg+a3W7v+v83AQMndTnGOsX94X4ApkMdOq04sk3qI0v4D6XNAUIWSq39LiRyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=mediatek.com; dmarc=pass action=none header.from=mediatek.com;
+ dkim=pass header.d=mediatek.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=mediateko365.onmicrosoft.com; s=selector2-mediateko365-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=IVXQOAoez2xRYFETg/dUSQMMy5y2cEhSqBEugysUH/U=;
+ b=uZnrbAG0nqV2SdrbfJqho5btHY3yP1T8jp0PRl0p+7lyN06NCIjHPf+ZrO153+Ugrh4xHRIoTUZgdQ1LNeDk+L/C2HyAak3aRvrkIzH8S+9OAX+ugGbu7PKgXIgC4LJgvtNywFA/2+4J9vMB5bBBL0q8T1kkty6fdexqCZJ4pE8=
+Received: from PUZPR03MB6186.apcprd03.prod.outlook.com (2603:1096:301:b9::5)
+ by TYSPR03MB8084.apcprd03.prod.outlook.com (2603:1096:400:473::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Wed, 22 Oct
+ 2025 05:45:43 +0000
+Received: from PUZPR03MB6186.apcprd03.prod.outlook.com
+ ([fe80::a013:f3b3:a461:8ece]) by PUZPR03MB6186.apcprd03.prod.outlook.com
+ ([fe80::a013:f3b3:a461:8ece%4]) with mapi id 15.20.9253.011; Wed, 22 Oct 2025
+ 05:45:43 +0000
+From: =?utf-8?B?S3lyaWUgV3UgKOWQtOaZlyk=?= <Kyrie.Wu@mediatek.com>
+To: "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-mediatek@lists.infradead.org" <linux-mediatek@lists.infradead.org>,
+	=?utf-8?B?R2VvcmdlIFN1biAo5a2Z5p6XKQ==?= <George.Sun@mediatek.com>,
+	=?utf-8?B?VGlmZmFueSBMaW4gKOael+aFp+ePiik=?= <tiffany.lin@mediatek.com>,
+	"nhebert@chromium.org" <nhebert@chromium.org>, "linux-media@vger.kernel.org"
+	<linux-media@vger.kernel.org>, "devicetree@vger.kernel.org"
+	<devicetree@vger.kernel.org>, "mchehab@kernel.org" <mchehab@kernel.org>,
+	"nicolas.dufresne@collabora.com" <nicolas.dufresne@collabora.com>,
+	"hverkuil@xs4all.nl" <hverkuil@xs4all.nl>,
+	=?utf-8?B?S3lyaWUgV3UgKOWQtOaZlyk=?= <Kyrie.Wu@mediatek.com>,
+	=?utf-8?B?WXVuZmVpIERvbmcgKOiRo+S6kemjnik=?= <Yunfei.Dong@mediatek.com>,
+	"conor+dt@kernel.org" <conor+dt@kernel.org>,
+	=?utf-8?B?SXJ1aSBXYW5nICjnjovnkZ4p?= <Irui.Wang@mediatek.com>,
+	"robh@kernel.org" <robh@kernel.org>, "sebastian.fricke@collabora.com"
+	<sebastian.fricke@collabora.com>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "matthias.bgg@gmail.com"
+	<matthias.bgg@gmail.com>, "christophe.jaillet@wanadoo.fr"
+	<christophe.jaillet@wanadoo.fr>, "krzk+dt@kernel.org" <krzk+dt@kernel.org>,
+	"arnd@arndb.de" <arnd@arndb.de>,
+	=?utf-8?B?QW5kcmV3LUNUIENoZW4gKOmZs+aZuui/qik=?=
+	<Andrew-CT.Chen@mediatek.com>, AngeloGioacchino Del Regno
+	<angelogioacchino.delregno@collabora.com>
+CC: "andrzejtp2010@gmail.com" <andrzejtp2010@gmail.com>,
+	"neil.armstrong@linaro.org" <neil.armstrong@linaro.org>
+Subject: Re: [PATCH v4 4/8] media: mediatek: vcodec: Add core-only VP9
+ decoding support for MT8189
+Thread-Topic: [PATCH v4 4/8] media: mediatek: vcodec: Add core-only VP9
+ decoding support for MT8189
+Thread-Index: AQHcPmNfBWj8l4JPK0i5y6CfXPi1jLTE47QAgAjNuQA=
+Date: Wed, 22 Oct 2025 05:45:43 +0000
+Message-ID: <0106493ff42524553e4a953757afd21766215e5a.camel@mediatek.com>
+References: <20251016060747.20648-1-kyrie.wu@mediatek.com>
+	 <20251016060747.20648-5-kyrie.wu@mediatek.com>
+	 <f5956178a0e5d91dabc12e89f666eac2140f141e.camel@collabora.com>
+In-Reply-To: <f5956178a0e5d91dabc12e89f666eac2140f141e.camel@collabora.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=mediatek.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PUZPR03MB6186:EE_|TYSPR03MB8084:EE_
+x-ms-office365-filtering-correlation-id: f0fa6500-2c8f-4948-1024-08de112e3d8a
+x-ld-processed: a7687ede-7a6b-4ef6-bace-642f677fbe31,ExtAddr
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016|38070700021|921020;
+x-microsoft-antispam-message-info: =?utf-8?B?OHd5TzBIUkUwSU95MXEwQ2F5UkpoUUZqczh4aXpzRThrNlpiUkJWTk9uNVlT?=
+ =?utf-8?B?QjVVVVJrMWpNV2FxaGFrSVlqdW50OHR2Sjd0bWxnSEN2L25KODJuaFdMZm1W?=
+ =?utf-8?B?ZzB1N2xsM2tlUzVVanJQV1B0YVpxaG42QXVqZWRFNS9KVkRRZzV1dk9oYVJ1?=
+ =?utf-8?B?RHlKTGQ4dnpObWEyZzZYODZkRUgrWm5nYnYyWFlQV05YWk1MUThiZDV0K1B1?=
+ =?utf-8?B?S3REakFXVW5pV1pUeDBvZndEUUNOYkFiOHBxbU14VWRjd2t0bkJ3bVZQY3pw?=
+ =?utf-8?B?Ty8vRUJnTUhjZG5RKzh5VmZENWxRSnlVRVpodStodVFTNG1Xc2hPSG9oT0xu?=
+ =?utf-8?B?dDhpa1RlK2JSYk1TVTRSVkpKb1o2Sjg4MWlFZlpNUUJmZHNaRDUrVVlqRmR6?=
+ =?utf-8?B?WjZYdnpxY2Z5WFhucG10d0hibXU4bkp0UFV5ZW9XanhiQ3JVVW1tYloxOXJ0?=
+ =?utf-8?B?T3F1K1JtUlRaL20zaDduS1BlcUhhb3lWRHU4elRmYWZkYi9PUFlhVG45eDVm?=
+ =?utf-8?B?SG5VV2hMOXlIS0Z4dEJ0c2NSaVErY1Y2SkZUN0ZoNzA5d0xTcVEwVjVjeVVB?=
+ =?utf-8?B?aVFmV0UyZjYreU5RdnRsbkxzYVZGakZxTFhRZnVxMzhjeDZvTFlKL3ZYT1Vh?=
+ =?utf-8?B?ZFl1cXhsaE5oK2NlZmdCSmtiMlBuT2VNbllMTWhHOWs1eDVTSThJa3RtWlh3?=
+ =?utf-8?B?bWtQYVpOM3duSnlBR0JOOTZ6UXlXVERsOEwyc2hNUlM0QzBMdDl4MVNPaHY3?=
+ =?utf-8?B?bDBUNnhFeVlSSG5ZK3dDQ3lyeXlrbUFER3d5YllZYW9ocjkzSnJ2djhQdWNz?=
+ =?utf-8?B?eTh0SFBMV1lnUUtVRk5oM2RnbVROSjlFN1hoWWpVZk85aTMyUi9YWG5sRjVJ?=
+ =?utf-8?B?VXRSWHNDVHVqZ1VQb1BmdWxmUzZTSGV6ZUd3bFlaVlB2bC9XZXVFbGVDU1FC?=
+ =?utf-8?B?azR6NWQxUTZvQ2xldElnUVczOTdRenZrUjZqamJFMmQrRGhTZWt4RWFiUHRT?=
+ =?utf-8?B?anlCWlAvUlhsQitXUDA1UndxTlB1ZVQxczRlODhlemlhZ1Iwb21OQm9YaHBp?=
+ =?utf-8?B?Sjkya1V2QjNWRjRoK0YxZ1ZXWms3Qmx4OWpVTHJYaC9veVpjTXI1YnhSVzND?=
+ =?utf-8?B?Qm9HNHQ0cXBUaGU5SFpFQjk2ZXUzemJSaHJhQUdnTzk3andXcVNIYkJFbHJL?=
+ =?utf-8?B?K3hRNGZZaDZ5R3VzcnZzalJKcy9WbnBNcjVXRm1wKzEvMjYvRjZadEZ6N0xF?=
+ =?utf-8?B?UnNqTlRkdStNM0EyUFlUYWRLTzI0cE5kNWJyK3B2cVZLK1RZQS9CRGE4dTEx?=
+ =?utf-8?B?L0JubnhLWmdFWGxDQXNhTEY1ZzA2dU42ck5uY3p4SG1pUThOSWtVQ0MwV3Q4?=
+ =?utf-8?B?WllXRTNDR0podDA2YVUvdzBFcVJ0M2lqbTJGb252ajh5UCsyczB5Zi96NWNq?=
+ =?utf-8?B?RFkyWVdmMVh3MWVWdVA1N3FwalptaGNSZkdWQTgzQlIvZTdpNDRVby9DZ01Q?=
+ =?utf-8?B?eHhJNUQzNEpqdUJNV1dlVXlLQkdFN0pEZllDSTZvVkpNNHhTVGN4Zi9OVzcw?=
+ =?utf-8?B?NUEzVzdoYUZ1dWEvbnRyczk2Um95QmdvdG9MeWNzOEdRWHEzNjN1SXZ4UUtv?=
+ =?utf-8?B?U2Z4ejJhOGNSc3luY3RCN0phdmkwUlppYTJXdWd6NUZZdFFuRmlUeE5SRU1z?=
+ =?utf-8?B?VUlxMVlkRnVXUGZESmM2bGNKSU85L3h2eUg4djl5K1FtQkpGeG1lK0o4NmU4?=
+ =?utf-8?B?ZkdpRWk1S0tZMWgyWlJSSW5EQkNWdG5kSXZEWTZKVTBRdXJMc3lKR3BGOXN3?=
+ =?utf-8?B?aGJ3RWVwWnhUVlZBbVcveG5zajBiVUMyWDJyNHVBMS9nMEN3clk1OVY3OHFk?=
+ =?utf-8?B?dGRmQkRUR3N3ajhyVlp1cGRYVkdyb0NQSktWMkhNUkRiVGc4VU9PZ0tKVkJk?=
+ =?utf-8?B?RDVSeFdBNkFZOWNwaWxMM3dEby9HYzIxOUN1WmsyWFNkMkttSnJuUitUaHFR?=
+ =?utf-8?B?R2lLTC9DT2ptRHQwVVIyK2toWDh0Vk9GVFE2aVArSEhYQVhvd0VqMVpuOWJX?=
+ =?utf-8?B?NHBGZkFleWk2V1FJTVBEMm04SGVNb0gvbGxMUT09?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PUZPR03MB6186.apcprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(38070700021)(921020);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?utf-8?B?SnovZFZmeHlwQWdtS2hmWUtxblJpYnJNUlBqendlZStXa1RiK1V5c05QZUt6?=
+ =?utf-8?B?d0hHdTQ5TGdJaGlLZlpkM3F2eVdINE9XdVE5Q3VSbW51QXNkNm4zdVNxQUpP?=
+ =?utf-8?B?NHlpWWdRZU1EaUhqc3ZiZkkrQVc2d1BYbVcxWWNuaTg2VUN5TndwbCsrdnZW?=
+ =?utf-8?B?Rjc0d2lETHM3Q1FTclhFU3djTjRteEZodCtETW1KcGN3SWppT0xtSmhNaEN2?=
+ =?utf-8?B?am55em5adjE5TVFTd01GRVJNN1FNMm5ZZUVUbGRjb2F4MGhoTnlWZFlUVWta?=
+ =?utf-8?B?R3RmelRGQVArNkFvVldRRUMzQVA5SS9hWXEwaTRsUnk3U0NBZGJWV3p3bDg5?=
+ =?utf-8?B?WjB0dDU2Ykg5UDJXTEFqeCs0U213YlFnd1BzMkdqdlRRMzd4MGVubEkrUlQw?=
+ =?utf-8?B?YmtFTVZDbWNKYStkL1FJaWlGUnVUQ3k4cFRKY2pTeXdkdU9EK25scmlTV1Np?=
+ =?utf-8?B?QkdQckV6R29zQUtSSk5QVFdpRllCdk5OVXRXOWpGV0ZQZDZnM1ljeG1ac2N6?=
+ =?utf-8?B?OVcySEU5Ym9vY25EL1dpdGFmbDluWjdaSStid1ozaGdna1ZPUWFaUUdFQjFu?=
+ =?utf-8?B?emwvaWllUjhXSXBtVWU5UElTM0NnWHVFMFl4UFQ3K0ZTaU5jdkx4cWh6Z2M2?=
+ =?utf-8?B?citlNWY4aEpNMEo2MnRjekJWcENub0NKTlVscDZlaWhuZkN2RzV3d1JxTzRT?=
+ =?utf-8?B?WDhLYjV5OXdSMFZWQit0QjVTUXNmaXAxZjdKYURqdTcwRUFoSXdRbndnSnFv?=
+ =?utf-8?B?Q0c2ZGY0QmZqR2NCRXA4NUFKYUtQT1o5cVQzRkRjR2EzTkg4c2w4MVYrTzNC?=
+ =?utf-8?B?ZmcyTnFjSnRvOFJhcnRrazl0YlVLM21KSWRweG9McjBXK25ZSm1oRGRvRWFO?=
+ =?utf-8?B?OGN2R1kvK1J0T1Zjd2NzeVBSZGRWQXlmWkFXQmV3bGw4Q0RkNU5xQnMrSWFq?=
+ =?utf-8?B?SFdacWZlRzZaaXAvRTZRcDI0MytnRzVSQitabWFMYkx0cGVnelNRMldxVjRQ?=
+ =?utf-8?B?Rlhqa2hvdDBENVpaNWxpRVUvR2lmYTB1K3JZVG9lMktLcmFJMGwvVll5QUJv?=
+ =?utf-8?B?dTBncUNPelk2Q1kvc0xMczEvM3hNNThxUzhoaWhqS0s1bmNDWmpuVDBCTGxN?=
+ =?utf-8?B?VHpWeGhiL1NJTDNGVU5EK2g2U3Rzd3NjbjVBWStmaklMOXZBc3IwQU10cmpB?=
+ =?utf-8?B?OUIyK0xLVXNXQ0N2YXF4c3NrSXZZdk1wTFVBTUpjSWRoa3g4aWJ6NTNCY2tP?=
+ =?utf-8?B?dEQzdmNaWE1rNDZaL0dKT25mZE9ybFhtSU1objZBTzYxY2hRL3JKNHNwRk9G?=
+ =?utf-8?B?Tnd0T3dsSU1wWWhLalNGYzRXb2Rzb05KdXhOQWlVamd0a0hqRjdua014ZzVC?=
+ =?utf-8?B?WG8ra1ZHcU1kRWVwVVdKQjl1aDZtR21tN3JOamdoZi9CSnd2d055TENpRjlR?=
+ =?utf-8?B?V0c5TzZzck1uL09YOFJBaGhxRnRwRFJ6SmdtNkZuWml2dUE4NDBYTWxoZTNq?=
+ =?utf-8?B?VEN4K1l6Rm1PdENtS0wxd2RuV2Y2Q2dXSUdyc3A4TGNhYnhwSlVjVm9QZzRo?=
+ =?utf-8?B?U2Jxb0JsMmpEOGlYRmZKcFJCV3dZT2JHL1ZZSGdTYmtyeDVraDVialQxNjU2?=
+ =?utf-8?B?bGk2azhUbUtGRE1SSGI5NmcxcHZaS3lTZld0Z2xLSWpXSm5tejJtR28rZ25j?=
+ =?utf-8?B?bDdaeEJJbkIzdUdoNDB5YjdvYlFjVGhlb0dzWU51V0pNeEVkVmhob3NNVUox?=
+ =?utf-8?B?OHBVSmkxYmY5OHhjVFdPSkhLeUhYRjQ5SnA0bU55M0lvcDFWMy95aWFrMFhv?=
+ =?utf-8?B?bndxRTE3RnY4U1B0NFhaZkV2KzluZTduN2N2QW15Qkc0UDFQdjNreFNnbkNG?=
+ =?utf-8?B?OTQ0M09ra1dLem5lWXphM2M0cjRsNExlcE5TUlhqcUNRQW8wa0tuem1JMjdw?=
+ =?utf-8?B?TnZQTGNWempOSmwxTE1sWDhYZER2NVBGSkFGVU1zTC9zclhHZlpzdk9RUExO?=
+ =?utf-8?B?TWQ4US9iYWZMUjdlYzFwblk5dFhET3lzTkdxandyQlFVbzExSDRlV29rSmRy?=
+ =?utf-8?B?a0tqOTBBS0JHeEZBOXovUytacWFsKzlHV2thcDdyODF3Nkl2UEQrK3QxRWJJ?=
+ =?utf-8?Q?GI7pkppXJ6xz9PUSfEn99bUDH?=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <40457C2D9A455847B63B77153894B6C2@apcprd03.prod.outlook.com>
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v2 4/8] media: iris: Introduce buffer size calculations
- for vpu4
-Content-Language: en-US
-To: Bryan O'Donoghue <bod@kernel.org>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
- <conor+dt@kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vishnu Reddy <quic_bvisredd@quicinc.com>
-References: <20251017-knp_video-v2-0-f568ce1a4be3@oss.qualcomm.com>
- <GTpef7Aus-RX4JTIPiuyzDI3BJc-uy2KS2_iCt9iA5vLn1uSC4euaEJSsHiAkdYfbyDe1qV7d4unrSJ5gXQPgw==@protonmail.internalid>
- <20251017-knp_video-v2-4-f568ce1a4be3@oss.qualcomm.com>
- <eb8bca50-5e11-48c0-8c1c-0e639928e089@kernel.org>
-From: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
-In-Reply-To: <eb8bca50-5e11-48c0-8c1c-0e639928e089@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: 7sqxwowEZJe44w02OsftOi14vZwehNhN
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAzMSBTYWx0ZWRfX+/G0L8tLNaq1
- jYzmeWBynqFo7osa+hgIDDw9PM5JXfM+ATyl5q8irZ1BaOIx996OJArKizVo1n6LjjUdif2ZSia
- asPYQqMeHOFr63wqiB2OYAvhR6gIVer+K+shPOdUlX52EsgAxj1Cd7JS5suive73SMNxFgcnkbW
- d7PuHYx9gj0pmmdHP261sbaQJPO+T+q+36+2n0VWRL//CDPKRaFpEi21Xtl7/Jt7qgN1N4gxsPW
- 1WRrjYcw/igxHIfROaVqNJaCvVem5b8mYat5X4hMjCNTEZaNuLLS0FgDP70LH+ZzeOoCMnyZEBQ
- j5Dp0FxP29DemJqFsKFOFr95tOXCKBU6EZGoXxRTvTrJVaKdDcy194/Coc5/W2x9dc8C5HwNCkO
- U1AGeoiYazt/qwjuv2J1UZd+5KxQTg==
-X-Authority-Analysis: v=2.4 cv=QYNrf8bv c=1 sm=1 tr=0 ts=68f86f3e cx=c_pps
- a=Oh5Dbbf/trHjhBongsHeRQ==:117 a=FoPg1IWog9mqHsjG+aRTFA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=COk6AnOGAAAA:8 a=EUspDBNiAAAA:8 a=EynWgtm1Wqj_ObTU-tcA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=_Vgx9l1VpLgwpw_dHYaR:22 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: 7sqxwowEZJe44w02OsftOi14vZwehNhN
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-22_02,2025-10-13_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 phishscore=0 malwarescore=0 clxscore=1015 impostorscore=0
- spamscore=0 bulkscore=0 suspectscore=0 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180031
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PUZPR03MB6186.apcprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0fa6500-2c8f-4948-1024-08de112e3d8a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 22 Oct 2025 05:45:43.0810
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: a7687ede-7a6b-4ef6-bace-642f677fbe31
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: lgtA1JYG/j2fF0zcHzDbchagsto9O256JIQvDg+IRpu28+0oOsgl+1lCTB4lVLrQccdMF/L2l1ZmMGZ9PYv38A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: TYSPR03MB8084
 
-
-On 10/22/2025 4:55 AM, Bryan O'Donoghue wrote:
-> On 17/10/2025 15:16, Vikash Garodia wrote:
->> Introduces vp4 buffer size calculation for both encoder and decoder.
->> Reuse the buffer size calculation which are common, while adding the
->> vpu4 ones separately.
->>
->> Co-developed-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
->> Signed-off-by: Vishnu Reddy <quic_bvisredd@quicinc.com>
->> Signed-off-by: Vikash Garodia <vikash.garodia@oss.qualcomm.com>
->> ---
->>   drivers/media/platform/qcom/iris/iris_vpu_buffer.c | 345 +++++++++++++++++++++
->>   drivers/media/platform/qcom/iris/iris_vpu_buffer.h |  15 +
->>   2 files changed, 360 insertions(+)
->>
->> diff --git a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
->> b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
->> index
->> 4463be05ce165adef6b152eb0c155d2e6a7b3c36..8cc52d7aba3ffb968191519c1a1a10e326403205 100644
->> --- a/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
->> +++ b/drivers/media/platform/qcom/iris/iris_vpu_buffer.c
->> @@ -1408,6 +1408,307 @@ static u32 iris_vpu_enc_vpss_size(struct iris_inst *inst)
->>       return hfi_buffer_vpss_enc(width, height, ds_enable, 0, 0);
->>   }
->>
->> +static inline u32 size_dpb_opb(u32 height, u32 lcu_size)
->> +{
->> +    u32 max_tile_height = ((height + lcu_size - 1) / lcu_size) * lcu_size + 8;
->> +    u32 dpb_opb = 3 * ((max_tile_height >> 3) * DMA_ALIGNMENT);
->> +    u32 num_luma_chrome_plane = 2;
->> +
->> +    return dpb_opb = num_luma_chrome_plane * ALIGN(dpb_opb, DMA_ALIGNMENT);
-> 
-> return thing = someother-thing.
-> 
-> You must mean
-> 
-> return (num_luma_chrome_plane * ALIGN(dpb_opb, DMA_ALIGNMENT));
-
-Ack
-
-> 
->> +}
->> +
->> +static u32 hfi_vpu4x_vp9d_lb_size(u32 frame_width, u32 frame_height, u32
->> num_vpp_pipes)
->> +{
->> +    u32 vp9_top_lb, vp9_fe_left_lb, vp9_se_left_lb, dpb_opb, vp9d_qp,
->> num_lcu_per_pipe;
->> +    u32 lcu_size = 64, fe_top_ctrl_line_numbers = 3,
->> fe_top_data_luma_line_numbers = 2,
->> +        fe_top_data_chroma_line_numbers = 3, fe_lft_ctrl_line_numbers = 4,
->> +        fe_lft_db_data_line_numbers = 2, fe_lft_lr_data_line_numbers = 4;
-> 
-> You can reduce this very long variable list to macro constants.
-> 
-> For example fe_lft_db_data_line_numbers doesn't vary so it shouldn't be a variable.
-> 
-
-Ack
-
->> +
->> +    vp9_top_lb = ALIGN(size_vp9d_lb_vsp_top(frame_width, frame_height),
->> DMA_ALIGNMENT);
->> +    vp9_top_lb += ALIGN(size_vpxd_lb_se_top_ctrl(frame_width, frame_height),
->> DMA_ALIGNMENT);
->> +    vp9_top_lb += max3(DIV_ROUND_UP(frame_width, BUFFER_ALIGNMENT_16_BYTES) *
->> +               MAX_PE_NBR_DATA_LCU16_LINE_BUFFER_SIZE,
->> +               DIV_ROUND_UP(frame_width, BUFFER_ALIGNMENT_32_BYTES) *
->> +               MAX_PE_NBR_DATA_LCU32_LINE_BUFFER_SIZE,
->> +               DIV_ROUND_UP(frame_width, BUFFER_ALIGNMENT_64_BYTES) *
->> +               MAX_PE_NBR_DATA_LCU64_LINE_BUFFER_SIZE);
->> +    vp9_top_lb = ALIGN(vp9_top_lb, DMA_ALIGNMENT);
->> +    vp9_top_lb += ALIGN((DMA_ALIGNMENT * DIV_ROUND_UP(frame_width, lcu_size)),
->> +                DMA_ALIGNMENT) * fe_top_ctrl_line_numbers;
->> +    vp9_top_lb += ALIGN(DMA_ALIGNMENT * 8 * DIV_ROUND_UP(frame_width, lcu_size),
->> +                DMA_ALIGNMENT) * (fe_top_data_luma_line_numbers +
->> +                fe_top_data_chroma_line_numbers);
->> +
->> +    num_lcu_per_pipe = (DIV_ROUND_UP(frame_height, lcu_size) / num_vpp_pipes) +
->> +                  (DIV_ROUND_UP(frame_height, lcu_size) % num_vpp_pipes);
->> +    vp9_fe_left_lb = ALIGN((DMA_ALIGNMENT * num_lcu_per_pipe), DMA_ALIGNMENT) *
->> +                fe_lft_ctrl_line_numbers;
->> +    vp9_fe_left_lb += ((ALIGN((DMA_ALIGNMENT * 8 * num_lcu_per_pipe),
->> DMA_ALIGNMENT) *
->> +                fe_lft_db_data_line_numbers) +
->> +                ALIGN((DMA_ALIGNMENT * 3 * num_lcu_per_pipe), DMA_ALIGNMENT) +
->> +                ALIGN((DMA_ALIGNMENT * 4 * num_lcu_per_pipe), DMA_ALIGNMENT) +
->> +                (ALIGN((DMA_ALIGNMENT * 24 * num_lcu_per_pipe), DMA_ALIGNMENT) *
->> +                fe_lft_lr_data_line_numbers));
->> +    vp9_fe_left_lb = vp9_fe_left_lb * num_vpp_pipes;
->> +
->> +    vp9_se_left_lb = ALIGN(size_vpxd_lb_se_left_ctrl(frame_width, frame_height),
->> +                   DMA_ALIGNMENT);
->> +    dpb_opb = size_dpb_opb(frame_height, lcu_size);
->> +    vp9d_qp = ALIGN(size_vp9d_qp(frame_width, frame_height), DMA_ALIGNMENT);
->> +
->> +    return vp9_top_lb + vp9_fe_left_lb + (vp9_se_left_lb * num_vpp_pipes) +
->> +            (dpb_opb * num_vpp_pipes) + vp9d_qp;
->> +}
->> +
->> +static u32 hfi_vpu4x_buffer_line_vp9d(u32 frame_width, u32 frame_height, u32
->> _yuv_bufcount_min,
->> +                      bool is_opb, u32 num_vpp_pipes)
->> +{
->> +    u32 lb_size = hfi_vpu4x_vp9d_lb_size(frame_width, frame_height,
->> num_vpp_pipes);
->> +    u32 dpb_obp_size = 0, lcu_size = 64;
->> +
->> +    if (is_opb)
->> +        dpb_obp_size = size_dpb_opb(frame_height, lcu_size) * num_vpp_pipes;
->> +
->> +    return lb_size + dpb_obp_size;
->> +}
->> +
->> +static u32 iris_vpu4x_dec_line_size(struct iris_inst *inst)
->> +{
->> +    u32 num_vpp_pipes = inst->core->iris_platform_data->num_vpp_pipe;
->> +    u32 out_min_count = inst->buffers[BUF_OUTPUT].min_count;
->> +    struct v4l2_format *f = inst->fmt_src;
->> +    u32 height = f->fmt.pix_mp.height;
->> +    u32 width = f->fmt.pix_mp.width;
->> +    bool is_opb = false;
->> +
->> +    if (iris_split_mode_enabled(inst))
->> +        is_opb = true;
->> +
->> +    if (inst->codec == V4L2_PIX_FMT_H264)
->> +        return hfi_buffer_line_h264d(width, height, is_opb, num_vpp_pipes);
->> +    else if (inst->codec == V4L2_PIX_FMT_HEVC)
->> +        return hfi_buffer_line_h265d(width, height, is_opb, num_vpp_pipes);
->> +    else if (inst->codec == V4L2_PIX_FMT_VP9)
->> +        return hfi_vpu4x_buffer_line_vp9d(width, height, out_min_count, is_opb,
->> +                          num_vpp_pipes);
->> +
->> +    return 0;
->> +}
->> +
->> +static u32 hfi_vpu4x_buffer_persist_h265d(u32 rpu_enabled)
->> +{
->> +    return ALIGN((SIZE_SLIST_BUF_H265 * NUM_SLIST_BUF_H265 + H265_NUM_FRM_INFO *
->> +        H265_DISPLAY_BUF_SIZE + (H265_NUM_TILE * sizeof(u32)) +
->> (NUM_HW_PIC_BUF *
->> +        (SIZE_SEI_USERDATA + SIZE_H265D_ARP + SIZE_THREE_DIMENSION_USERDATA)) +
->> +        rpu_enabled * NUM_HW_PIC_BUF * SIZE_DOLBY_RPU_METADATA), DMA_ALIGNMENT);
->> +}
->> +
->> +static u32 hfi_vpu4x_buffer_persist_vp9d(void)
->> +{
->> +    return ALIGN(VP9_NUM_PROBABILITY_TABLE_BUF * VP9_PROB_TABLE_SIZE,
->> DMA_ALIGNMENT) +
->> +        (ALIGN(hfi_iris3_vp9d_comv_size(), DMA_ALIGNMENT) * 2) +
->> +        ALIGN(MAX_SUPERFRAME_HEADER_LEN, DMA_ALIGNMENT) +
->> +        ALIGN(VP9_UDC_HEADER_BUF_SIZE, DMA_ALIGNMENT) +
->> +        ALIGN(VP9_NUM_FRAME_INFO_BUF * CCE_TILE_OFFSET_SIZE, DMA_ALIGNMENT) +
->> +        ALIGN(VP9_NUM_FRAME_INFO_BUF * VP9_FRAME_INFO_BUF_SIZE_VPU4X,
->> DMA_ALIGNMENT) +
->> +        HDR10_HIST_EXTRADATA_SIZE;
->> +}
->> +
->> +static u32 iris_vpu4x_dec_persist_size(struct iris_inst *inst)
->> +{
->> +    if (inst->codec == V4L2_PIX_FMT_H264)
->> +        return hfi_buffer_persist_h264d();
->> +    else if (inst->codec == V4L2_PIX_FMT_HEVC)
->> +        return hfi_vpu4x_buffer_persist_h265d(0);
->> +    else if (inst->codec == V4L2_PIX_FMT_VP9)
->> +        return hfi_vpu4x_buffer_persist_vp9d();
->> +
->> +    return 0;
->> +}
->> +
->> +static u32 size_se_lb(u32 standard, u32 num_vpp_pipes_enc,
->> +              u32 frame_width_coded, u32 frame_height_coded)
->> +{
->> +    u32 se_tlb_size = ALIGN(frame_width_coded, DMA_ALIGNMENT);
->> +    u32 se_llb_size = (standard == HFI_CODEC_ENCODE_HEVC) ?
->> +               ((frame_height_coded + BUFFER_ALIGNMENT_32_BYTES - 1) /
->> +                BUFFER_ALIGNMENT_32_BYTES) * LOG2_16 * LLB_UNIT_SIZE :
->> +               ((frame_height_coded + BUFFER_ALIGNMENT_16_BYTES - 1) /
->> +                BUFFER_ALIGNMENT_16_BYTES) * LOG2_32 * LLB_UNIT_SIZE;
->> +
->> +    se_llb_size = ALIGN(se_llb_size, BUFFER_ALIGNMENT_32_BYTES);
->> +
->> +    if (num_vpp_pipes_enc > 1)
->> +        se_llb_size = ALIGN(se_llb_size + BUFFER_ALIGNMENT_512_BYTES,
->> +                    DMA_ALIGNMENT) * num_vpp_pipes_enc;
->> +
->> +    return ALIGN(se_tlb_size + se_llb_size, DMA_ALIGNMENT);
->> +}
->> +
->> +static u32 size_te_lb(bool is_ten_bit, u32 num_vpp_pipes_enc, u32 width_in_lcus,
->> +              u32 frame_height_coded, u32 frame_width_coded)
->> +{
->> +    u32 num_pixel_10_bit = 3, num_pixel_8_bit = 2, num_pixel_te_llb = 3;
->> +    u32 te_llb_col_rc_size = ALIGN(32 * width_in_lcus / num_vpp_pipes_enc,
->> +                       DMA_ALIGNMENT) * num_vpp_pipes_enc;
->> +    u32 te_tlb_recon_data_size = ALIGN((is_ten_bit ? num_pixel_10_bit :
->> num_pixel_8_bit) *
->> +                    frame_width_coded, DMA_ALIGNMENT);
->> +    u32 te_llb_recon_data_size = ((1 + is_ten_bit) * num_pixel_te_llb *
->> frame_height_coded +
->> +                      num_vpp_pipes_enc - 1) / num_vpp_pipes_enc;
->> +    te_llb_recon_data_size = ALIGN(te_llb_recon_data_size, DMA_ALIGNMENT) *
->> num_vpp_pipes_enc;
->> +
->> +    return ALIGN(te_llb_recon_data_size + te_llb_col_rc_size +
->> te_tlb_recon_data_size,
->> +             DMA_ALIGNMENT);
->> +}
->> +
->> +static inline u32 calc_fe_tlb_size(u32 size_per_lcu, bool is_ten_bit)
->> +{
->> +    u32 num_pixels_fe_tlb_10_bit = 128, num_pixels_fe_tlb_8_bit = 64;
->> +
->> +    return is_ten_bit ? (num_pixels_fe_tlb_10_bit * (size_per_lcu + 1)) :
->> +            (size_per_lcu * num_pixels_fe_tlb_8_bit);
->> +}
->> +
->> +static u32 size_fe_lb(bool is_ten_bit, u32 standard, u32 num_vpp_pipes_enc,
->> +              u32 frame_height_coded, u32 frame_width_coded)
->> +{
->> +    u32 log2_lcu_size, num_cu_in_height_pipe, num_cu_in_width,
->> +        fb_llb_db_ctrl_size, fb_llb_db_luma_size, fb_llb_db_chroma_size,
->> +        fb_tlb_db_ctrl_size, fb_tlb_db_luma_size, fb_tlb_db_chroma_size,
->> +        fb_llb_sao_ctrl_size, fb_llb_sao_luma_size, fb_llb_sao_chroma_size,
->> +        fb_tlb_sao_ctrl_size, fb_tlb_sao_luma_size, fb_tlb_sao_chroma_size,
->> +        fb_lb_top_sdc_size, fb_lb_se_ctrl_size, fe_tlb_size, size_per_lcu;
->> +    u32 fe_sdc_data_per_block = 16, se_ctrl_data_per_block = 2020;
-> 
-> Again you can reduce this - at least a little bit
-> 
-> fe_sdc_data_per_block
-> se_ctrl_data_per_block
-> 
-> are const
-
-Ack
-
-> 
->> +
->> +    log2_lcu_size = (standard == HFI_CODEC_ENCODE_HEVC) ? 5 : 4;
->> +    num_cu_in_height_pipe = ((frame_height_coded >> log2_lcu_size) +
->> num_vpp_pipes_enc - 1) /
->> +                 num_vpp_pipes_enc;
->> +    num_cu_in_width = frame_width_coded >> log2_lcu_size;
->> +
->> +    size_per_lcu = 2;
->> +    fe_tlb_size = calc_fe_tlb_size(size_per_lcu, 1);
->> +    fb_llb_db_ctrl_size = ALIGN(fe_tlb_size, DMA_ALIGNMENT) *
->> num_cu_in_height_pipe;
->> +    fb_llb_db_ctrl_size = ALIGN(fb_llb_db_ctrl_size, DMA_ALIGNMENT) *
->> num_vpp_pipes_enc;
->> +
->> +    size_per_lcu = (1 << (log2_lcu_size - 3));
->> +    fe_tlb_size = calc_fe_tlb_size(size_per_lcu, is_ten_bit);
->> +    fb_llb_db_luma_size = ALIGN(fe_tlb_size, DMA_ALIGNMENT) *
->> num_cu_in_height_pipe;
->> +    fb_llb_db_luma_size = ALIGN(fb_llb_db_luma_size, DMA_ALIGNMENT) *
->> num_vpp_pipes_enc;
->> +
->> +    size_per_lcu = ((1 << (log2_lcu_size - 4)) * 2);
->> +    fe_tlb_size = calc_fe_tlb_size(size_per_lcu, is_ten_bit);
->> +    fb_llb_db_chroma_size = ALIGN(fe_tlb_size, DMA_ALIGNMENT) *
->> num_cu_in_height_pipe;
->> +    fb_llb_db_chroma_size = ALIGN(fb_llb_db_chroma_size, DMA_ALIGNMENT) *
->> num_vpp_pipes_enc;
->> +
->> +    size_per_lcu = 1;
->> +    fe_tlb_size = calc_fe_tlb_size(size_per_lcu, 1);
->> +    fb_tlb_db_ctrl_size = ALIGN(fe_tlb_size, DMA_ALIGNMENT) * num_cu_in_width;
->> +    fb_llb_sao_ctrl_size = ALIGN(fe_tlb_size, DMA_ALIGNMENT) *
->> num_cu_in_height_pipe;
->> +    fb_llb_sao_ctrl_size = fb_llb_sao_ctrl_size * num_vpp_pipes_enc;
->> +    fb_tlb_sao_ctrl_size = ALIGN(fe_tlb_size, DMA_ALIGNMENT) * num_cu_in_width;
->> +
->> +    size_per_lcu = ((1 << (log2_lcu_size - 3)) + 1);
->> +    fe_tlb_size = calc_fe_tlb_size(size_per_lcu, is_ten_bit);
->> +    fb_tlb_db_luma_size = ALIGN(fe_tlb_size, DMA_ALIGNMENT) * num_cu_in_width;
->> +
->> +    size_per_lcu = (2 * ((1 << (log2_lcu_size - 4)) + 1));
->> +    fe_tlb_size = calc_fe_tlb_size(size_per_lcu, is_ten_bit);
->> +    fb_tlb_db_chroma_size = ALIGN(fe_tlb_size, DMA_ALIGNMENT) * num_cu_in_width;
->> +
->> +    fb_llb_sao_luma_size = BUFFER_ALIGNMENT_256_BYTES * num_vpp_pipes_enc;
->> +    fb_llb_sao_chroma_size = BUFFER_ALIGNMENT_256_BYTES * num_vpp_pipes_enc;
->> +    fb_tlb_sao_luma_size = BUFFER_ALIGNMENT_256_BYTES;
->> +    fb_tlb_sao_chroma_size = BUFFER_ALIGNMENT_256_BYTES;
->> +    fb_lb_top_sdc_size = ALIGN((fe_sdc_data_per_block * (frame_width_coded >>
->> 5)),
->> +                   DMA_ALIGNMENT);
->> +    fb_lb_se_ctrl_size = ALIGN((se_ctrl_data_per_block * (frame_width_coded
->> >> 5)),
->> +                   DMA_ALIGNMENT);
-> 
-> On the one hand lots of variables.
-> 
-> On the other hand I think the code is more readable with assigned names instead
-> of a big morass of return ALIGN(stuff) + ALIGN(other stuff).
-
-Good to know its better now interms of readability.
-
-> 
-> Anyway I think you can reduce this enormomous variable list by at lest two.
-> 
-> u32 fe_sdc_data_per_block = 16, se_ctrl_data_per_block = 2020;
-> ->
-> #define FE_SDC_DATA_PER_BLOCK    16
-> #define SE_CTRL_DATA_PER_BLOCK    2020
-> 
-
-Ack
-
-Regards,
-Vikash
+T24gVGh1LCAyMDI1LTEwLTE2IGF0IDExOjE5IC0wNDAwLCBOaWNvbGFzIER1ZnJlc25lIHdyb3Rl
+Og0KPiBIaSwNCj4gDQo+IExlIGpldWRpIDE2IG9jdG9icmUgMjAyNSDDoCAxNDowNyArMDgwMCwg
+S3lyaWUgV3UgYSDDqWNyaXQgOg0KPiA+IEltcGxlbWVudGVkIGNvcmUtb25seSBWUDkgZGVjb2Rp
+bmcgZnVuY3Rpb25zIGZvciBNVDgxODkuDQo+IA0KPiBXaGF0IGRvZXMgImNvcmUtb25seSIgbWVh
+bnMgPyBEaWQgeW91IG1lYW4gc2luZ2xlIGNvcmUgPw0KRGVhciBOaWNvbGFzLA0KDQpZZXMsIGl0
+J3MgYSByaWdodCB0aGlua2luZy4gSSB3aWxsIGNoYW5nZSB0byAic2luZ2xlIGNvcmUiIHRvIHJl
+bW92ZQ0KdGhlIG1pc3NpbmcgdW5kZXJzdGFuZGluZy4NCg0KVGhhbmtzLg0KPiANCj4gPiANCj4g
+PiBTaWduZWQtb2ZmLWJ5OiBLeXJpZSBXdSA8a3lyaWUud3VAbWVkaWF0ZWsuY29tPg0KPiA+IC0t
+LQ0KPiA+ICAuLi4vdmNvZGVjL2RlY29kZXIvdmRlYy92ZGVjX3ZwOV9yZXFfbGF0X2lmLmMgfCAy
+NyArKysrKysrKysrKy0tDQo+ID4gLS0tLS0tDQo+ID4gIDEgZmlsZSBjaGFuZ2VkLCAxNiBpbnNl
+cnRpb25zKCspLCAxMSBkZWxldGlvbnMoLSkNCj4gPiANCj4gPiBkaWZmIC0tZ2l0DQo+ID4gYS9k
+cml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL3Zjb2RlYy9kZWNvZGVyL3ZkZWMvdmRlY192
+cDlfcmVxXw0KPiA+IGxhdF9pZi5jDQo+ID4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlh
+dGVrL3Zjb2RlYy9kZWNvZGVyL3ZkZWMvdmRlY192cDlfcmVxXw0KPiA+IGxhdF9pZi5jDQo+ID4g
+aW5kZXggZmEwZjQwNmY3NzI2Li4wNDE5NzE2NGZiODIgMTAwNjQ0DQo+ID4gLS0tDQo+ID4gYS9k
+cml2ZXJzL21lZGlhL3BsYXRmb3JtL21lZGlhdGVrL3Zjb2RlYy9kZWNvZGVyL3ZkZWMvdmRlY192
+cDlfcmVxXw0KPiA+IGxhdF9pZi5jDQo+ID4gKysrDQo+ID4gYi9kcml2ZXJzL21lZGlhL3BsYXRm
+b3JtL21lZGlhdGVrL3Zjb2RlYy9kZWNvZGVyL3ZkZWMvdmRlY192cDlfcmVxXw0KPiA+IGxhdF9p
+Zi5jDQo+ID4gQEAgLTIzLDYgKzIzLDcgQEANCj4gPiAgDQo+ID4gICNkZWZpbmUgVlA5X1RJTEVf
+QlVGX1NJWkUgNDA5Ng0KPiA+ICAjZGVmaW5lIFZQOV9QUk9CX0JVRl9TSVpFIDI1NjANCj4gPiAr
+I2RlZmluZSBWUDlfUFJPQl9CVUZfNEtfU0laRSAzODQwDQo+ID4gICNkZWZpbmUgVlA5X0NPVU5U
+U19CVUZfU0laRSAxNjM4NA0KPiA+ICANCj4gPiAgI2RlZmluZSBIRFJfRkxBRyh4KSAoISEoKGhk
+ciktPmZsYWdzICYgVjRMMl9WUDlfRlJBTUVfRkxBR18jI3gpKQ0KPiA+IEBAIC02MTYsNyArNjE3
+LDEwIEBAIHN0YXRpYyBpbnQNCj4gPiB2ZGVjX3ZwOV9zbGljZV9hbGxvY193b3JraW5nX2J1ZmZl
+cihzdHJ1Y3QNCj4gPiB2ZGVjX3ZwOV9zbGljZV9pbnN0YW5jZSAqaQ0KPiA+ICAJfQ0KPiA+ICAN
+Cj4gPiAgCWlmICghaW5zdGFuY2UtPnByb2IudmEpIHsNCj4gPiAtCQlpbnN0YW5jZS0+cHJvYi5z
+aXplID0gVlA5X1BST0JfQlVGX1NJWkU7DQo+ID4gKwkJaW5zdGFuY2UtPnByb2Iuc2l6ZSA9ICgo
+Y3R4LT5kZXYtPmNoaXBfbmFtZSA9PQ0KPiA+IE1US19WREVDX01UODE5NikgfHwNCj4gPiArCQkJ
+CSAgICAgICAoY3R4LT5kZXYtPmNoaXBfbmFtZSA9PQ0KPiA+IE1US19WREVDX01UODE4OSkpID8N
+Cj4gPiArCQkJCQlWUDlfUFJPQl9CVUZfNEtfU0laRSA6DQo+ID4gVlA5X1BST0JfQlVGX1NJWkU7
+DQo+IA0KPiBJIGZlZWwgbGlrZSB0aGlzIHdpbGwga2VlcCBncm93aW5nLCB0aGVuIHlvdSdsbCBt
+b3ZlIHRvIDhLIGFuZCBpdA0KPiB3aWxsIGNvbnRpbnVlLg0KPiBZb3UgYWxyZWFkeSBtYXRjaCBl
+dmVyeSBTb0MgaW4gdGhlIGRyaXZlciwgeW91IHNob3VsZCBjb21lIHVwIHdpdGgNCj4gU29DDQo+
+IGNvbmZpZ3VyYXRpb24gZGF0YSBzdHJ1Y3R1cmUgc28geW91IGRvbid0IGhhdmUgdG8gYWRkIGRv
+YyBjaGVjaw0KPiBjb25kaXRpb25zIGFsbA0KPiBvdmVyIHRoZSBwbGFjZS4gVGhpcyBjaGFuZ2Ug
+aXMgYWxzbyBub3QgcmVmbGVjdGVkIGluIHRoZSBjb21taXQNCj4gbWVzc2FnZS4NCg0KVGhlIHBy
+b2Igc2l6ZSBpcyBpbmRlcGVuZGVudCB3aXRoIHJlc29sdXRpb24uIEJhc2VkIG9uIGZlZWRiYWNr
+IGZyb20NCmhhcmR3YXJlIGRlc2lnbmVyLCB0aGlzIHNpemUgd29uJ3QgaW5jcmVhc2UuIERpZmZl
+cmVudCBJQ3Mgd2lsbCBvbmx5DQpjaG9vc2UgYmV0d2VlbiA0MDk2IGFuZCAyNTYwLiBIb3dldmVy
+LCBhcyBtb3JlIElDcyBhcmUgYWRkZWQsIHJlZHVuZGFudA0KY29kZSB3aWxsIGJlY29tZSBpbmNy
+ZWFzaW5nbHkgY29tbW9uLiBJJ20gY29uc2lkZXJpbmcgYWRkaW5nIGEgZnVuY3Rpb24NCnRvIGhh
+bmRsZSB0aGlzLCBhcyBzaG93biBiZWxvdzoNCg0Kc3RhdGljIGludCBtdGtfdmNvZGVjX2dldF92
+cDlfcHJvYl9zaXplKGludCBjaGlwX25hbWUpDQp7DQoJc3dpdGNoIChjaGlwX25hbWUpIHsNCgkJ
+Y2FzZSBNVEtfVkRFQ19NVDgxODk6DQoJCWNhc2UgTVRLX1ZERUNfTVQ4MTg5Og0KCQkJcmV0dXJu
+IFZQOV9QUk9CX0JVRl80S19TSVpFOw0KCQlkZWZhdWx0Og0KCQkJcmV0dXJuIFZQOV9QUk9CX0JV
+Rl9TSVpFOw0KCX0NCn0NCg0KdGhlIHByb2Igc2l6ZSBpcyBzZXQgbGlrZSB0aGF0Og0KaW5zdGFu
+Y2UtPnByb2Iuc2l6ZSA9DQptdGtfdmNvZGVjX2dldF92cDlfcHJvYl9zaXplKC4uLikNCg0KQ291
+bGQgeW91IHBsZWFzZSBnaXZlIGZ1cnRoZXIgY29tbWVudHMgZm9yIGFib3ZlIHNvbHV0aW9uPw0K
+DQpUaGFua3MuDQoNCj4gDQo+ID4gKw0KPiA+ICAJCWlmIChtdGtfdmNvZGVjX21lbV9hbGxvYyhj
+dHgsICZpbnN0YW5jZS0+cHJvYikpDQo+ID4gIAkJCWdvdG8gZXJyOw0KPiA+ICAJfQ0KPiA+IEBA
+IC02OTYsMjEgKzcwMCwyMiBAQCBzdGF0aWMgaW50IHZkZWNfdnA5X3NsaWNlX3RpbGVfb2Zmc2V0
+KGludA0KPiA+IGlkeCwgaW50DQo+ID4gbWlfbnVtLCBpbnQgdGlsZV9sb2cyKQ0KPiA+ICAJcmV0
+dXJuIG1pbihvZmZzZXQsIG1pX251bSk7DQo+ID4gIH0NCj4gPiAgDQo+ID4gLXN0YXRpYw0KPiA+
+IC1pbnQgdmRlY192cDlfc2xpY2Vfc2V0dXBfc2luZ2xlX2Zyb21fc3JjX3RvX2RzdChzdHJ1Y3QN
+Cj4gPiB2ZGVjX3ZwOV9zbGljZV9pbnN0YW5jZSAqaW5zdGFuY2UpDQo+ID4gK3N0YXRpYyBpbnQg
+dmRlY192cDlfc2xpY2Vfc2V0dXBfc2luZ2xlX2Zyb21fc3JjX3RvX2RzdChzdHJ1Y3QNCj4gPiB2
+ZGVjX3ZwOV9zbGljZV9pbnN0YW5jZSAqaW5zdGFuY2UsDQo+ID4gKwkJCQkJCSAgICAgICBzdHJ1
+Y3QNCj4gPiBtdGtfdmNvZGVjX21lbQ0KPiA+ICpicywNCj4gPiArCQkJCQkJICAgICAgIHN0cnVj
+dCB2ZGVjX2ZiDQo+ID4gKmZiKQ0KPiA+ICB7DQo+ID4gLQlzdHJ1Y3QgdmIyX3Y0bDJfYnVmZmVy
+ICpzcmM7DQo+ID4gLQlzdHJ1Y3QgdmIyX3Y0bDJfYnVmZmVyICpkc3Q7DQo+ID4gKwlzdHJ1Y3Qg
+bXRrX3ZpZGVvX2RlY19idWYgKnNyY19idWZfaW5mbzsNCj4gPiArCXN0cnVjdCBtdGtfdmlkZW9f
+ZGVjX2J1ZiAqZHN0X2J1Zl9pbmZvOw0KPiA+ICANCj4gPiAtCXNyYyA9IHY0bDJfbTJtX25leHRf
+c3JjX2J1ZihpbnN0YW5jZS0+Y3R4LT5tMm1fY3R4KTsNCj4gPiAtCWlmICghc3JjKQ0KPiA+ICsJ
+c3JjX2J1Zl9pbmZvID0gY29udGFpbmVyX29mKGJzLCBzdHJ1Y3QgbXRrX3ZpZGVvX2RlY19idWYs
+DQo+ID4gYnNfYnVmZmVyKTsNCj4gPiArCWlmICghc3JjX2J1Zl9pbmZvKQ0KPiA+ICAJCXJldHVy
+biAtRUlOVkFMOw0KPiA+ICANCj4gPiAtCWRzdCA9IHY0bDJfbTJtX25leHRfZHN0X2J1ZihpbnN0
+YW5jZS0+Y3R4LT5tMm1fY3R4KTsNCj4gPiAtCWlmICghZHN0KQ0KPiA+ICsJZHN0X2J1Zl9pbmZv
+ID0gY29udGFpbmVyX29mKGZiLCBzdHJ1Y3QgbXRrX3ZpZGVvX2RlY19idWYsDQo+ID4gZnJhbWVf
+YnVmZmVyKTsNCj4gPiArCWlmICghZHN0X2J1Zl9pbmZvKQ0KPiA+ICAJCXJldHVybiAtRUlOVkFM
+Ow0KPiA+ICANCj4gPiAtCXY0bDJfbTJtX2J1Zl9jb3B5X21ldGFkYXRhKHNyYywgZHN0LCB0cnVl
+KTsNCj4gPiArCXY0bDJfbTJtX2J1Zl9jb3B5X21ldGFkYXRhKCZzcmNfYnVmX2luZm8tPm0ybV9i
+dWYudmIsDQo+ID4gJmRzdF9idWZfaW5mby0NCj4gPiA+IG0ybV9idWYudmIsIHRydWUpOw0KPiA+
+IA0KPiA+ICANCj4gPiAgCXJldHVybiAwOw0KPiA+ICB9DQo+ID4gQEAgLTE4MDAsNyArMTgwNSw3
+IEBAIHN0YXRpYyBpbnQgdmRlY192cDlfc2xpY2Vfc2V0dXBfc2luZ2xlKHN0cnVjdA0KPiA+IHZk
+ZWNfdnA5X3NsaWNlX2luc3RhbmNlICppbnN0YW5jZSwNCj4gPiAgCXN0cnVjdCB2ZGVjX3ZwOV9z
+bGljZV92c2kgKnZzaSA9ICZwZmMtPnZzaTsNCj4gPiAgCWludCByZXQ7DQo+ID4gIA0KPiA+IC0J
+cmV0ID0gdmRlY192cDlfc2xpY2Vfc2V0dXBfc2luZ2xlX2Zyb21fc3JjX3RvX2RzdChpbnN0YW5j
+ZSk7DQo+ID4gKwlyZXQgPSB2ZGVjX3ZwOV9zbGljZV9zZXR1cF9zaW5nbGVfZnJvbV9zcmNfdG9f
+ZHN0KGluc3RhbmNlLCBicywNCj4gPiBmYik7DQo+IA0KPiBUaGlzIGVudGlyZSBjaGFuZ2UgaXMg
+bm90IGV4cGxhaW5lZCBpbiB0aGUgY29tbWl0IG1lc3NhZ2UgYXQgYWxsLg0KPiBFeHBsYWluIHdo
+eQ0KPiB0aGlzIGlzIG5lZWRlZCwgd2hhdCBkaWZmZXJlbmNlIGl0IG1ha2VzLiBUaGVyZSBpcyBu
+byBjbGVhcg0KPiBpbmRpY2F0aW9uIHdlIGFyZSBpbg0KPiBhbiBNVDgxODkgY29kZSBwYXRoLCBz
+byB0aGlzIGNoYW5nZSBjb3VsZCBoYXZlIGEgaW5jaWRlbmNlIG9uIGFsbA0KPiBzaW5nbGUgY29y
+ZQ0KPiBTb0MgKGlmIGFueSkuDQo+IA0KPiBOaWNvbGFzDQoNCkluIHRoZSBkZWNvZGluZyBzb2Z0
+d2FyZSBmbG93LCB0aGUgYXBwIHF1ZXVlIHNyYyBvciBkc3QgYnVmZmVyIHRvIHRoZQ0KZHJpdmVy
+IHdpbGwgdHJ5IHRvIHNjaGVkdWxlIHRoZSBkZWNvZGluZyBzb2Z0d2FyZSBmbG93IGJ5IHF1ZXVp
+bmcgdGhlDQp3b3JrIHF1ZXVlLiBBdCB0aGlzIHRpbWUsIG9ubHkgb25lIG9mIHRoZSBzcmMgb3Ig
+ZHN0IGJ1ZmZlciBjYW4gYmUNCm9idGFpbmVkLiBIb3dldmVyLCBpbiB0aGUgb3JpZ2luYWwgc29m
+dHdhcmUgZmxvdywgY2FsbGluZyB0aGUNCnZkZWNfdnA5X3NsaWNlX3NldHVwX3NpbmdsZV9mcm9t
+X3NyY190b19kc3QgZnVuY3Rpb24gdXNpbmcNCnY0bDJfbTJtX25leHRfc3JjX2J1ZiB0byBnZXQg
+dGhlIHNyYyBhbmQgZHN0IGJ1ZmZlcnMgd2lsbCByZXR1cm4NCi1FSU5WQUwsIGludGVycnVwdGlu
+ZyB0aGUgZGVjb2RpbmcgcGlwZWxpbmUuIFRoZXJlZm9yZSwgdGhpcyBpbnRlcmZhY2UNCm5lZWRz
+IHRvIGJlIG1vZGlmaWVkIHRvIHNldCBib3RoIHNyYyBhbmQgZHN0IGJ1ZmZlciB0byBzZXQgbWV0
+YWRhdGEuDQoNClRoYW5rcy4NCg0KUmVnYXJkcywNCkt5cmllLg0KPiANCj4gPiAgCWlmIChyZXQp
+DQo+ID4gIAkJZ290byBlcnI7DQo+ID4gIA0K
 
