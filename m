@@ -1,67 +1,67 @@
-Return-Path: <linux-media+bounces-45211-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45212-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDC59BFAE6E
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 10:31:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E041BFAE89
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 10:32:54 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 710A8354217
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 08:31:35 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 80E353B61D2
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 08:32:44 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 91828309EE3;
-	Wed, 22 Oct 2025 08:31:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EA42D309F1F;
+	Wed, 22 Oct 2025 08:32:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cr9876m1"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ANgRhvPR"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66F0D30B524;
-	Wed, 22 Oct 2025 08:31:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB5663081B4;
+	Wed, 22 Oct 2025 08:32:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761121882; cv=none; b=dF65nLUdqJLttd/yObyxzPGAgKXHOhGRgoHZfzjKrIfnPy4m10eF1Y6VXc6HZOKmyt7WF4yTegU16orKI8+AnkcpIwu0E8dzfwJtAq5sFbL0CWhoVKEcinthlnSD/ACkvUQc0f5h2LRsbsMWkCOzRI8k6cb5vZnJ2vbpOie7b8E=
+	t=1761121958; cv=none; b=MFfvgGsm67CFrqn4vHpN0ZlIQDUtslRITtrK+arlwOcls8O5kGMTD5L5QSzQRyIJinNS0bhrKbCrxCa0xYZwz2KzauXgtfmkhu3l5+0339xxT4POExxlDqiCSr3u4hObX0Lcm8ETB+6dN1L4rdbso6rjze5Rqxg63ObDr9ubjx4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761121882; c=relaxed/simple;
-	bh=uM3DPtDP/NXToqPWcEqARm1yWCJXGsekG9NFgcQe/FI=;
+	s=arc-20240116; t=1761121958; c=relaxed/simple;
+	bh=eIj7ouvu+yaBu+SJvq2aGfX1xYQei+UMFInFjdhbYS4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jkzto5NRwHFmlz7A0MpKwVM3rhwhC3Avm5H+E7Xz0C0ZcinSfEmFWTl7SyIldlNQ1xjHSkiwPDHQdoVnFhGGNSzCfw1nYfMl3hDlBFZmEQSoasJNAYPS9ZbdEL3vr7QXTzudKR3VHSgnPg7fSK80vkSajVPTrhlaJSFAggOuMYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cr9876m1; arc=none smtp.client-ip=198.175.65.19
+	 Content-Type:Content-Disposition:In-Reply-To; b=QZdMG2yb4BvYtSOHKFY2cc86j2VmpHUHNHMqBKwx+C8ntk9EK6Vuy31A+nZdf+aMWBW1uA7Wm5mh810+XK+Lhl9YDlMhC8WkWU64Unl5jyH8GqZVaRVAFPqwXIo736IG6FK8gWfnLHhrUnVvwKfdKFlyCcMdK2QeNEYl+NHT3fU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ANgRhvPR; arc=none smtp.client-ip=192.198.163.19
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761121881; x=1792657881;
+  t=1761121957; x=1792657957;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=uM3DPtDP/NXToqPWcEqARm1yWCJXGsekG9NFgcQe/FI=;
-  b=Cr9876m1y16k6mckus+Wxot2yOUkvLMR0A2tOoOMNsTQtjuYI7v8KIqt
-   dDOXJtqm8Ki3jCLk3x2tSOWS6hmf+OpYG09WJooLEBSZ/M/gkbY+V6joh
-   LtCS2uPEzUe4q1sfc8UgYT0Ck20cSZ9C0vpw5yD/fgTHU/akK1Fzc7OsW
-   zU+AGwpDWxrJOU/h3FBTnAJIXEaqEpaaJdR78W/tMEIYgXd/te9Mvcff0
-   65s0SW2t1UajYB9bBBdQnlXzy8Q5QnKQcr7hw8qOKTHN1fPu16uocUAy8
-   emf+LJadKF3UaiVgB5q+Kr6UkPAvhEiUNMMX1OqPrN0WcSJroiLEppEV5
+  bh=eIj7ouvu+yaBu+SJvq2aGfX1xYQei+UMFInFjdhbYS4=;
+  b=ANgRhvPRSLroQNu1H5kbkm0gaNPgwWW2Z37JM1QpBHOtMbaZp8Y+nQXq
+   MqE6o3jUB+nEuXxA1vxtWDCy86U+Iyl7peYN3BlLHFpWYZWs2iTEtLt5/
+   96FSN+4KjNzpwArrd+kqrF4UXG1Qkhg8MCGM+iUKDn+N1WLVSoRpewW9N
+   M/097MuPB7nCkrJWHqkmTQZYrG6HhyTtLZEreujemt9rukCvM3R+XsDXm
+   Qv6654Paa7caUpbKKBsbuXXICoWL7kjDjI8no+lr4xK4OgQEUYiROVcsd
+   NWlOAs14ZTPW5pQ3oBDMA2cWpYHf0RhWuQz9yklre1gxaJvIc7OO89O46
    Q==;
-X-CSE-ConnectionGUID: dC8YjrxzRleCdCj4mPu3ZQ==
-X-CSE-MsgGUID: ru2iPVW6SS64hB0HP5qPCA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63158021"
+X-CSE-ConnectionGUID: MT3SacrwRGCvaRbaWS+4Fg==
+X-CSE-MsgGUID: xBLpv/CMSBCF7ZZUvtHcRQ==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62292824"
 X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="63158021"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 01:31:20 -0700
-X-CSE-ConnectionGUID: tioCZsunS5ygGxtBNbwpWg==
-X-CSE-MsgGUID: uPwzrafqRg2g13cz0wpRBA==
+   d="scan'208";a="62292824"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 01:32:36 -0700
+X-CSE-ConnectionGUID: KZUB0IjgQyCT31mM4TGoFw==
+X-CSE-MsgGUID: FAu8/8bvRTOtRTqkG8g5Mw==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="183516841"
+   d="scan'208";a="183751869"
 Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.28])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 01:31:18 -0700
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 01:32:34 -0700
 Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 72CCA11F87B;
-	Wed, 22 Oct 2025 11:31:15 +0300 (EEST)
-Date: Wed, 22 Oct 2025 11:31:15 +0300
+	by kekkonen.fi.intel.com (Postfix) with SMTP id D1D7F11F87B;
+	Wed, 22 Oct 2025 11:32:31 +0300 (EEST)
+Date: Wed, 22 Oct 2025 11:32:31 +0300
 Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
 From: Sakari Ailus <sakari.ailus@linux.intel.com>
 To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
@@ -71,13 +71,15 @@ Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
 	Krzysztof Kozlowski <krzk+dt@kernel.org>,
 	Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
 	devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/2] media: i2c: add Samsung S5KJN1 image sensor
- device driver
-Message-ID: <aPiWUxVMXUvOgY_O@kekkonen.localdomain>
+Subject: Re: [PATCH v2 1/2] dt-bindings: media: i2c: Add Samsung S5KJN1 image
+ sensor
+Message-ID: <aPiWn81ekgdyoRX-@kekkonen.localdomain>
 References: <20251016020419.2137290-1-vladimir.zapolskiy@linaro.org>
- <20251016020419.2137290-3-vladimir.zapolskiy@linaro.org>
- <aPdRlygxV1TCCUU3@kekkonen.localdomain>
- <33d9eaad-1043-4816-9620-d7625556bc65@linaro.org>
+ <20251016020419.2137290-2-vladimir.zapolskiy@linaro.org>
+ <aPaaLZoLMH3TfyJl@kekkonen.localdomain>
+ <060938d1-9c9e-4a0b-a4ca-838b4b9cfa1d@linaro.org>
+ <aPdOICr8bqP5a-EM@kekkonen.localdomain>
+ <f3e66a7e-873b-4299-9ec9-be3aa7e100d6@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -86,101 +88,109 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <33d9eaad-1043-4816-9620-d7625556bc65@linaro.org>
+In-Reply-To: <f3e66a7e-873b-4299-9ec9-be3aa7e100d6@linaro.org>
 
 Hi Vladimir,
 
-On Tue, Oct 21, 2025 at 01:16:09PM +0300, Vladimir Zapolskiy wrote:
-> Hi Sakari,
-> 
-> On 10/21/25 12:25, Sakari Ailus wrote:
+On Tue, Oct 21, 2025 at 01:23:31PM +0300, Vladimir Zapolskiy wrote:
+> On 10/21/25 12:10, Sakari Ailus wrote:
 > > Hi Vladimir,
 > > 
-> > On Thu, Oct 16, 2025 at 05:04:19AM +0300, Vladimir Zapolskiy wrote:
-> > > +	{ S5KJN1_REG_X_ADDR_START,  0x0000 },
-> > > +	{ S5KJN1_REG_Y_ADDR_START,  0x0000 },
-> > > +	{ S5KJN1_REG_X_ADDR_END,    0x1fff },
-> > > +	{ S5KJN1_REG_Y_ADDR_END,    0x181f },
-> > > +	{ S5KJN1_REG_X_OUTPUT_SIZE, 0x0ff0 },
-> > > +	{ S5KJN1_REG_Y_OUTPUT_SIZE, 0x0c00 },
-> > > +	{ CCI_REG16(0x0350), 0x0008 },
-> > > +	{ CCI_REG16(0x0352), 0x0008 },
-> > > +	{ CCI_REG16(0x0900), 0x0122 },
-> > > +	{ CCI_REG16(0x0380), 0x0002 },
-> > > +	{ CCI_REG16(0x0382), 0x0002 },
-> > > +	{ CCI_REG16(0x0384), 0x0002 },
-> > > +	{ CCI_REG16(0x0386), 0x0002 },
-> > > +	{ CCI_REG16(0x0110), 0x1002 },
-> > > +	{ CCI_REG16(0x0114), 0x0301 },
-> > > +	{ CCI_REG16(0x0116), 0x3000 },
-> > > +
-> > > +	/* Clock settings */
-> > > +	{ CCI_REG16(0x0136), 0x1800 },
-> > > +	{ CCI_REG16(0x013e), 0x0000 },
-> > > +	{ CCI_REG16(0x0300), 0x0006 },
-> > > +	{ CCI_REG16(0x0302), 0x0001 },
-> > > +	{ CCI_REG16(0x0304), 0x0004 },
-> > > +	{ CCI_REG16(0x0306), 0x008c },
-> > > +	{ CCI_REG16(0x0308), 0x0008 },
-> > > +	{ CCI_REG16(0x030a), 0x0001 },
-> > > +	{ CCI_REG16(0x030c), 0x0000 },
-> > > +	{ CCI_REG16(0x030e), 0x0004 },
-> > > +	{ CCI_REG16(0x0310), 0x0092 },
-> > > +	{ CCI_REG16(0x0312), 0x0000 },
-> > > +
-> > > +	{ CCI_REG16(0x080e), 0x0000 },
-> > > +	{ S5KJN1_REG_VTS,    0x10c0 },
-> > > +	{ S5KJN1_REG_HTS,    0x1100 },
-> > > +	{ CCI_REG16(0x0702), 0x0000 },
-> > > +	{ S5KJN1_REG_EXPOSURE, 0x0100 },
-> > > +	{ CCI_REG16(0x0200), 0x0100 },
-> > > +	{ CCI_REG16(0x0d00), 0x0101 },
-> > > +	{ CCI_REG16(0x0d02), 0x0101 },
-> > > +	{ CCI_REG16(0x0d04), 0x0102 },
-> > > +	{ CCI_REG16(0x6226), 0x0000 },
-> > > +	{ CCI_REG16(0x0816), 0x1c00 },
+> > On Tue, Oct 21, 2025 at 11:00:35AM +0300, Vladimir Zapolskiy wrote:
+> > > Hi Sakari.
+> > > 
+> > > On 10/20/25 23:23, Sakari Ailus wrote:
+> > > > Hi Vladimir,
+> > > > 
+> > > > Thanks for the set.
+> > > > 
+> > > > On Thu, Oct 16, 2025 at 05:04:18AM +0300, Vladimir Zapolskiy wrote:
+> > > > > Add device tree bindings documentation for Samsung S5KJN1 image sensor.
+> > > > > 
+> > > > > Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+> > > > > Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> > > > > ---
+> > > > >    .../bindings/media/i2c/samsung,s5kjn1.yaml    | 95 +++++++++++++++++++
+> > > > >    1 file changed, 95 insertions(+)
+> > > > >    create mode 100644 Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml
+> > > > > 
+> > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml b/Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml
+> > > > > new file mode 100644
+> > > > > index 000000000000..2220b3e528d4
+> > > > > --- /dev/null
+> > > > > +++ b/Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml
+> > > > > @@ -0,0 +1,95 @@
+> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > > > +%YAML 1.2
+> > > > > +---
+> > > > > +$id: http://devicetree.org/schemas/media/i2c/samsung,s5kjn1.yaml#
+> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > > > +
+> > > > > +title: Samsung S5KJN1 Image Sensor
+> > > > > +
+> > > > > +description:
+> > > > > +  Samsung S5KJN1 (ISOCELL JN1) image sensor is a 50MP image sensor.
+> > > > > +  The sensor is controlled over a serial camera control bus protocol,
+> > > > > +  the widest supported output image frame size is 8160x6144 at 10 frames
+> > > > > +  per second rate, data output format is RAW10 transferred over 4-lane
+> > > > > +  MIPI D-PHY interface.
+> > > > 
+> > > > Can the sensor work with fewer lanes? This is almost always the case. In
+> > > > this case you'd need data-lanes property but feel free to make 4 the
+> > > > default if you like.
+> > > 
+> > > As usual I don't have access to the sensor datasheet, what is known to me
+> > > is that
+> > > 
+> > > 1) there is no examples in the downstream, when MIPI CSI interface is
+> > > configured in any other mode but 4 lanes D-PHY RAW10,
+> > > 
+> > > 2) right the same information is given in the official scarce booklet:
+> > > 
+> > > https://semiconductor.samsung.com/image-sensor/mobile-image-sensor/isocell-jn1/
+> > > 
+> > > The same reasoning as above is directly applicable to the second sent
+> > > sensor driver of Samsung S5K3M5.
+> > > 
+> > > There is a known practical pattern that if it happens to be of necessity
+> > > any new properties can be added to device's dt bindings later on, thus
+> > > it should be safe to omit any presumably non-configurable hardware
+> > > properties from the description on an early stage.
 > > 
-> > This looks interestingly CCS compliant. It might be worth taking the MSRs
-> > and trying with the CCS driver.
+> > Even if the driver supports four lanes only, it's very unlikely the sensor
 > 
-> The register map is similar to CCS (and it's explicitly mentioned in a comment
-> withing the driver), but it is not compatible due to a known number of
-> registers, for instance 0x0310 register is not a CCS_R_PLL_MODE, but a PLL
-> setting etc.
+> Well, the second point given above is not about the driver, but it leads
+> to the shortest possible sensor hardware spec:
 > 
-> The same reasoning is applicable to the second sensor driver Samsung S5K3M5,
-> moreover even these two sensors have different interfaces to registers,
-> e.g. it's not possible to separately configure HLIP/VFLIP settings for the
-> latter one, while it's working nicely, and even a "stream on" control bit
-> in 0x100 (CCS_R_MODE_SELECT) register are different...
+> https://semiconductor.samsung.com/image-sensor/mobile-image-sensor/isocell-jn1/
 > 
-> So, I believe it would be more tedious and unclean to add a number of
-> exceptions to the CSS driver rather than to add a sensor specific driver.
+> If you scroll right to the bottom, it says
+> 
+> Interface: 4 lanes (2.15 Gbps per lane)
+> 
+> It does not completely or clearly exclude 1 or 2 lane configuration,
+> I know, but "exclusions" are not documented anyway, only something
+> presenting gets documented.
 
-CCS has a mechanism (via CCS static data) to cover cases such as this
-albeit it wasn't intended for standard registers. Perhaps it should be
-extended. Either way, that's for another time.
-
-I'll review the rest of the driver soon.
+Indeed, such brochures only describe the hardware capability, not so much
+its configuration in detail.
 
 > 
-> > Where is this sensor found?
+> > is limited to this. There are two options here:
 > > 
+> > 1. make data-lanes mandatory or
+> > 
+> > 2. add data-lanes as optional with default of four, which the driver
+> >     supports and which is known to function.
 > 
-> For a while I work on Qualcomm ISP support, and these Samsung sensors are
-> found on SM8x50-HDK and SM8x50-QRD boards:
-> 
-> https://lore.kernel.org/linux-arm-msm/20251013235500.1883847-1-vladimir.zapolskiy@linaro.org/
-> 
-> If you ask about the downstream code, there is a multitude of downstream
-> Android drivers of these Samsung sensors found on github.com, the init
-> sequence for modes is taken from these drivers and the driver is tested
-> on the boards in my access.
+> If you ask, I'd rather prefer to implement the second option in the dt
+> binding documentation and driver, let me know if there are any other
+> asked changes to be done in a bulk.
 
-Ack.
+Sounds good.
 
 -- 
-Kind regards,
+Regards,
 
 Sakari Ailus
 
