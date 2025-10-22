@@ -1,118 +1,144 @@
-Return-Path: <linux-media+bounces-45217-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45218-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9ECC8BFB510
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 12:09:12 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 24564BFB610
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 12:21:40 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D10B7508138
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 10:08:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 14F8C507C91
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 10:21:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D9555320CB2;
-	Wed, 22 Oct 2025 10:08:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 988C1320CC0;
+	Wed, 22 Oct 2025 10:21:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="H1LAxPRJ"
+	dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b="q1SYJcrD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
+Received: from lahtoruutu.iki.fi (lahtoruutu.iki.fi [185.185.170.37])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6EF0031B80D;
-	Wed, 22 Oct 2025 10:07:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761127681; cv=none; b=BApMuhIRlXMIKxJJe5n3RPSef1Oq3iZ7mpm/FzuChwo/NFfCBTr+SZoD4Mx/7DQwnWmw/oe9ZLD3YgQ1ZgRgP5kVzPEjJzudvyHrrBSDXtkqyJwcB6arSTAqGl0jZ4NG8wwMelDJCU5bIuXcxr2CKrLBKMvljOqX8FrLX+QrO9U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761127681; c=relaxed/simple;
-	bh=2gWgs3JtkqrQlNaMUerxSTz5OsBLRFl9X1Eoptbmj+U=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Tf/tchjgvFF0dgwmFQjO1/hi41YSUCmB0CJCWJtH5X01aoa8AWjAFomZx+oHpxvOSqENdh+wbaPL/Ntiu9T0igy9ihNSzwSvN2x2P39NCb1kXaB2Pb/bODmsxIiCeCFFaPLLKfCHwz/5hGsfjqJAnb5oMZ2IxtiAdRtxT1DYreU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=H1LAxPRJ; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761127677; x=1792663677;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=2gWgs3JtkqrQlNaMUerxSTz5OsBLRFl9X1Eoptbmj+U=;
-  b=H1LAxPRJbvAmfCA9Y1z1+PvYuM+QwgjaHg/qujkxFwxcRE7YIlD8vyLK
-   qQh2agpfwI/XVlwUgQlxBsljJw9f9qRbG/I4yYK8J/CNmKT5QjVA++t3t
-   rREYOON1kkwpgnljFSwLlFcp/VAT8GXB9atxK1lmTdWx1mF+U4oygsDjB
-   1TMkIkOL6r0NJURx9+DFMLYSJoe8Lib6I3UhZ+/QWisDfwQFGgn+z7qGe
-   NhfdiEjpgbau/bGPwNfN01UytuaxTDpU3e7ndjiBJeFWuSuj0YyCxen5G
-   m3k0CYJnuqMhfnI9syEg3vsBDt9PhjO8HSb/myqufMmacYWpGdNRjzQOD
-   w==;
-X-CSE-ConnectionGUID: KTHn7FDMRVq7yU0SiLopSw==
-X-CSE-MsgGUID: Y5j1jEWITZCNfYCxK+jebA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63173597"
-X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
-   d="scan'208";a="63173597"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 03:07:56 -0700
-X-CSE-ConnectionGUID: sOQyO88fRPmnmtVCeanZ6w==
-X-CSE-MsgGUID: waVFlqmcTgeaiFoWUxhojg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,246,1754982000"; 
-   d="scan'208";a="207506486"
-Received: from fdefranc-mobl3.ger.corp.intel.com (HELO localhost) ([10.245.246.104])
-  by fmviesa002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 03:07:53 -0700
-From: Jani Nikula <jani.nikula@linux.intel.com>
-To: Biancaa Ramesh <biancaa2210329@ssn.edu.in>, sumit.semwal@linaro.org
-Cc: christian.koenig@amd.com, linux-media@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
- linux-kernel@vger.kernel.org, lkp@intel.com, Biancaa Ramesh
- <biancaa2210329@ssn.edu.in>
-Subject: Re: [PATCH v2] Signed-off-by: Biancaa Ramesh
- <biancaa2210329@ssn.edu.in>
-In-Reply-To: <20251022043108.7197-1-biancaa2210329@ssn.edu.in>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
-References: <20251022043108.7197-1-biancaa2210329@ssn.edu.in>
-Date: Wed, 22 Oct 2025 13:07:51 +0300
-Message-ID: <bc4356efa91d65d5a2407ea8a2cfd54bb697cf4b@intel.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D99BD3112B4;
+	Wed, 22 Oct 2025 10:20:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=185.185.170.37
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761128462; cv=pass; b=PfmOBDt6xmSVX7/nNagdgLrXTVKARywNro9jEkgviZkIxckqWCMht/qUb2bUGKdOQuaHlblzSW+sQjAsH0x1Ga+hFXQQUP6AQ6NFvNAh1UwCuSUaZbXE9Fn7ZUFHLnsnKDYxNZC1ymxr/RFCHJrwKbx8xUpmohMxjsdrLksm8xg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761128462; c=relaxed/simple;
+	bh=WcfCzMLF8yV2yEQ6rPDAP/t771wdXiySU/gL/myOyPc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Az6SZtbU86jmYb9X69ju/WDcTdA2pZMdXZ/mBnNC/5AkRwGvvch1YbLp++B26eRaM0yjX+J/piMtMrIFur9oIsEsukgeyopy2LCU2BH2i5JblFESXrU75XajEy9Wtd2mjzFkUVSq/5gXHJeKvJoJI9tUfOzhddh9tvaTMWFcHHo=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (2048-bit key) header.d=iki.fi header.i=@iki.fi header.b=q1SYJcrD; arc=pass smtp.client-ip=185.185.170.37
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by lahtoruutu.iki.fi (Postfix) with ESMTPSA id 4cs4tr6GKKz49Q6J;
+	Wed, 22 Oct 2025 13:20:52 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=lahtoruutu;
+	t=1761128453;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pn7qKP8Rpk5Pgq16U+bd7DU5EUgj2YSuSsmwYajklnI=;
+	b=q1SYJcrD/B/ahKHshzu27S3V5xQHi01Q0NuSFa/2VCMSLOKjdQGyBzdU71tDo8wQCTA8AI
+	2VMUWhwHowhEuQrASr8dF2mFjlj8cCOugblnJQNyF7ULVSkfUEgnYEUbGcRBvugnmmtGAL
+	LJEl+x3MrZsTIAVtZnF5goWjNJQzlHhQ7+bz9O6G4Wi3JKkzQwS/+0AxTb0RYOfnMqyGoa
+	VgLk3SOJRPRjx3N3bIhg44QqHd5TyVTJONYwThGFl1fcpyGuvBSFa8NsiDs+PPHF6b9nLf
+	9+jY+qis0j1in6LoZ3hCY9hWNqaQREZ6hqGdKT7+/idXccHVGqf+4ZtOGnu4Ug==
+ARC-Seal: i=1; s=lahtoruutu; d=iki.fi; t=1761128453; a=rsa-sha256;
+	cv=none;
+	b=i1kE/TeqbInP7eLcIo8elgAtVBQERXIz2iRP7kYtU1hgxtiYKFcutgDsbhS6iXhXfvnSnS
+	Qei0AwkGVI+AN8UzlK3tpNRbWJMD2sKOWi4cbbW8XQl81O1IvAq1EAP38l+pLlkUUxx3zY
+	zSJd+/d582b074pm6BVKk1uAa6wJCL9y3mT1bxPN3EgNzjIQm9VZTgVIwO3iTaVPK6egrm
+	O+jlF1psKi4ZcEexP6h1yQ37zYcm8dKDShOoU4PwxWqXDbARlh74qEeP0OIagm1gxNkaxE
+	u577BbhCK/YYo+Lmr5Ix7mbZp/8xfnfXC1DHH7PjIW3SdyCzrgzfk9Qdf1eddQ==
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=lahtoruutu; t=1761128453;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pn7qKP8Rpk5Pgq16U+bd7DU5EUgj2YSuSsmwYajklnI=;
+	b=msEtWGvgAWssFw44DGFf/CvsAMqKV9Viy6jjbtFa0t3uZq9Uc5fRAEQFu3+wKkEwBCA1+/
+	atxBG7cukuauvptvq8FaWTqN2MPaJvMPzsF5OihLsFW2IbL0XtMzCGlNMA3iEF0M3qiqR5
+	PZPgwU7opztlpI+30dlRfUyjCt5cloLnaFcUU0eJbIiZf5M0BFPx2nYpYTOWcbEc8i2I0H
+	9SKDLIjfEAiI5/HErPKIcbHV2opi2NQliTmgUOscvsD54n3xD9yaPeoGq9tVjwCnxvLkjz
+	3FrRrbJHJT42I8ziDzqzWSr2rBYuM/pHTc2vZpUIus7vmIoezv1PYiqAq9Jevg==
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 95B93634C50;
+	Wed, 22 Oct 2025 13:20:52 +0300 (EEST)
+Date: Wed, 22 Oct 2025 13:20:52 +0300
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Biancaa Ramesh <biancaa2210329@ssn.edu.in>
+Cc: linux-kernel@vger.kernel.org, awalls@md.metrocast.net,
+	mchehab@kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] kernel memory safety check in a block
+Message-ID: <aPiwBG0Iusmy3jeZ@valkosipuli.retiisi.eu>
+References: <20251021201704.178535-1-biancaa2210329@ssn.edu.in>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251021201704.178535-1-biancaa2210329@ssn.edu.in>
 
-On Wed, 22 Oct 2025, Biancaa Ramesh <biancaa2210329@ssn.edu.in> wrote:
-> -- 
-> ::DISCLAIMER::
+Hi Biancaa,
+
+On Wed, Oct 22, 2025 at 01:47:04AM +0530, Biancaa Ramesh wrote:
+> Signed-off-by: Biancaa Ramesh <biancaa2210329@ssn.edu.in>
+> [PATCH] media: cx18: fix potential double free in cx18_stream_alloc
 > 
-> ---------------------------------------------------------------------
-> The 
-> contents of this e-mail and any attachment(s) are confidential and
-> intended 
-> for the named recipient(s) only. Views or opinions, if any,
-> presented in 
-> this email are solely those of the author and may not
-> necessarily reflect 
-> the views or opinions of SSN Institutions (SSN) or its
-> affiliates. Any form 
-> of reproduction, dissemination, copying, disclosure,
-> modification, 
-> distribution and / or publication of this message without the
-> prior written 
-> consent of authorized representative of SSN is strictly
-> prohibited. If you 
-> have received this email in error please delete it and
-> notify the sender 
-> immediately.
+> The function cx18_stream_alloc() may free buf->buf and buf multiple times
+> if dma_mapping_error() occurs. This patch:
+> 
+> - Adds checks before kfree() to avoid double free
+> - Sets pointers to NULL after free to make accidental double free less likely
+> - Improves overall memory safety and robustness in error paths
+> ---
+>  drivers/media/pci/cx18/cx18-queue.c | 11 +++++++++--
+>  1 file changed, 9 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/pci/cx18/cx18-queue.c b/drivers/media/pci/cx18/cx18-queue.c
+> index eeb5513b1d52..025ba4e6e4be 100644
+> --- a/drivers/media/pci/cx18/cx18-queue.c
+> +++ b/drivers/media/pci/cx18/cx18-queue.c
+> @@ -383,9 +383,16 @@ int cx18_stream_alloc(struct cx18_stream *s)
+>  						 buf->buf, s->buf_size,
+>  						 s->dma);
+>  		if (dma_mapping_error(&s->cx->pci_dev->dev, buf->dma_handle)) {
+> -			kfree(buf->buf);
+> +			if (buf) {
+> +        		if (buf->buf){
+> +            	kfree(buf->buf);
+> +				buf->buf =NULL;
+> +				}
+> +        		kfree(buf);
+> +				buf=NULL;
+> +    		}
+>  			kfree(mdl);
+> -			kfree(buf);
+> +			//makes accidental double free less possible
+>  			break;
+>  		}
+>  
 
-There are some obvious issues in the patch itself, but please do figure
-out how to send patches and generally list email without disclaimers
-like this first. Or use the b4 web submission endpoint [1].
-
-BR,
-Jani.
-
-
-[1] https://b4.docs.kernel.org/en/latest/contributor/send.html
+Please read Documentation/process/submitting-patches.rst before submitting
+further patches.
 
 -- 
-Jani Nikula, Intel
+Kind regards,
+
+Sakari Ailus
 
