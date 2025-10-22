@@ -1,249 +1,254 @@
-Return-Path: <linux-media+bounces-45236-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45237-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0AFCABFBFAE
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 14:56:23 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id DA47EBFBFA2
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 14:56:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5D09420DF2
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 12:53:21 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1EFE91A60D7B
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 12:54:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 16067343D87;
-	Wed, 22 Oct 2025 12:50:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 12C61313E00;
+	Wed, 22 Oct 2025 12:50:45 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S2KVUbGd"
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="WZefTqbs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from DM1PR04CU001.outbound.protection.outlook.com (mail-centralusazon11010064.outbound.protection.outlook.com [52.101.61.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EECA344046
-	for <linux-media@vger.kernel.org>; Wed, 22 Oct 2025 12:50:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761137413; cv=none; b=k5TU5/L3UfqaK8la4HTtKCi3UjA3fArD29UPUxG9/8gJioZeqFQb6N3RefK3R9Ryc3LyYheCTSSdrJV+Sx2m1+FnXrh9eI6drlJIFjHb+g27UNrg1DVScVQQF/7s7nL/f0/e5q8P+u5omnTkwB04X5Byaw2S3Ry2Vxsb2o9AoJ8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761137413; c=relaxed/simple;
-	bh=d+E1tz1juGaCDt6viSUVY2x3/1O080/pAx8WbrXe2X4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=BGomCnfslaYelVU2t+LVNQ53JQCw13Ah0w9VGcKFQKcVBOB++HXDkRAiDL00j06R0tl461Ey7I6NnSGJZdBqQ+JBmenpI+R1BTe6WG5Wbqgg9iqCmDH2DfxXSjuIWt92VfdSgA399wdrqCylFjvyHDu8SGgz1S72A2TYjWcgmRQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S2KVUbGd; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3180CC4CEFF;
-	Wed, 22 Oct 2025 12:50:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761137412;
-	bh=d+E1tz1juGaCDt6viSUVY2x3/1O080/pAx8WbrXe2X4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=S2KVUbGdBwDF8VJKmXP2Ntf5qYG6wG2XFAOCy90md+gG00AYqgdHnWZL4rqeeOk6t
-	 yzA0/G/+9Pem3JDs4tBDBTOD7wYNhxe5T23hhgtSWmPntrS7AwcJOyErjFXApT8Clw
-	 hDZkWAVqQVzoN+pOZDW4VI3qiBoG/p1pX0At8n383HabBsx5tj1JsFPHwnDBaaqEMX
-	 Ito9l0vdP7bIaACxOPhXMdgRDq+gxaGdOkjcY2B3IKC+ZX3iY8GJ34wpIhJ3IUVysE
-	 w5rtm73DVhI59tSB/EIt6fc/7Wfpz6bIJI9Ss7PLaF9CRDA6VHHliH2p6N4X4qAcud
-	 NGAtwgaboyvyA==
-Message-ID: <fe4dd180-a925-44bd-8d10-02a6c80989ef@kernel.org>
-Date: Wed, 22 Oct 2025 14:50:08 +0200
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E213C345CAE;
+	Wed, 22 Oct 2025 12:50:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.61.64
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761137432; cv=fail; b=RsZGIHTxKqONPFQMQGUvf6OaIL/QwdYTZ8Zhzt9SJRP+HdowG/b/m3f3hSsxsDVmJ9GAa5Su4AD5xOCpYOVP5LBEkMOSNf7r6HJAk/WoVjANFO/p2Fw/qr+ta3cGXoF0AgotkzBLONkhBwdOTq/mhSjKyg2mLdrGD40/6qB+0e0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761137432; c=relaxed/simple;
+	bh=EbFaPZqVfWxI31bbf2tcTMZ0L/mhWYrTKCzZeIhkUzA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=erO/Z8Qc+xbSKp3DpHhoJie+V9vK/hqYRf6FPCwsvzg/G1qsZwjqRR1cwhMvhVKPNLo+QsUl8McXmjq45ycQarynRy9tkJ4e/1tYTBaM/MlmjLPSDBZFvFLqnnDZ9aF880h0vj8CPcNtwrFciBaFj1iCwjjZFGG9j5qWEzdn9e8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=WZefTqbs; arc=fail smtp.client-ip=52.101.61.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=eRs/9gD8sGy1PscV8K6D/4XwiVVU24mj5H/G1hdnyIMkInu9Ntf7eWtlcWJd6yli1cRjsKTNI0xtBAmrICx3GXB2cSNWJH2qoiT8wsigWOUNn9+OennCe4Urni0ZYESD63kUvOCWPZLcUSKJRq/UQImHKn+qMGTTigqYUk0sU0wW1rgM4NPXUA7VAJ1WhaMZdaIOVvGFgBOVRa0hGXAx5KV55MJDmn3wtbNlUO43iBYvT/5k+Ae4f4TXFnKOaO8M99Z1bSegNE4DowYOXuw5ubh2VHTTmKJGOMzJdlUhyvkIQq2qWLvoYFi91XwPuvzQavXuof1+Mud/K/bZKJnvNA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rJ6Dp09PtYyxGhFWuYW+ZMJMH/IsIpalnb0uRHyEvWs=;
+ b=QU3hCR0TAumTBf5wzyxpPZTaiZIQwu0Ep+QdL6M6Dev11/zuRnTujD/IGK9Bazj2fj3l4jMcZCazFn2TNroLQhSwovEmbOVZRukEuZKCOk3Vs6QUC9nE2zQrD122v/ykR5NXXjJ8U7tCTGOu5N8Aua7bWlbRm7tzD3G++b+HDpT+2X7iWp+F4TxQZvqkxzFluEA8SyiYXPKTJe2t/0mgUnuVLOY3TtmH3nIFc5UjKMMWGAnilUSiyAZoPwfLVsIoRPl21Fxdv4QPfoawDQsN4TNRY31itJKRqNMnPLmCAaaRgEXxJ6yLR8dm2RynXaasPoKW5aUrVE5ZLUicN/Ueqg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=rJ6Dp09PtYyxGhFWuYW+ZMJMH/IsIpalnb0uRHyEvWs=;
+ b=WZefTqbsXkcluMVy9qWvbNwaTPQZtgsSnqJyFtqnvrPwvWooUuQ6z91ryqF53g12ZuovYNiJm1W6VtVT9aKARIVZPSxbmjTClNC7y1qAqTdFa98vIT2SWhPJVKR21mZlt9pOvZQWUKuL0jaghTxetq+AzEt9ms7ktH5+k87z7eVNufRLqwsoOruxlbvm9DQx+j0zJppWZI5tKoZ6Wy6FTDfLZ2Y806w/rPOM9bpgbcLGd6k9ALBfPVHqO7DhnI5bakkwTM4u2fPZy0OD0ZRuc1bV8qZZlGRM14aPEDKIUv7j+tSLNYA5pJCizHV0wKCKw823TzgGVwhNo/4tsDdEqQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
+ by SJ0PR12MB6760.namprd12.prod.outlook.com (2603:10b6:a03:44c::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.12; Wed, 22 Oct
+ 2025 12:50:14 +0000
+Received: from MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
+ ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9253.011; Wed, 22 Oct 2025
+ 12:50:14 +0000
+Date: Wed, 22 Oct 2025 09:50:12 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+	kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mm@kvack.org,
+	linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Will Deacon <will@kernel.org>
+Subject: Re: [PATCH v5 9/9] vfio/pci: Add dma-buf export support for MMIO
+ regions
+Message-ID: <20251022125012.GB244727@nvidia.com>
+References: <cover.1760368250.git.leon@kernel.org>
+ <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
+X-ClientProxiedBy: BL0PR02CA0046.namprd02.prod.outlook.com
+ (2603:10b6:207:3d::23) To MN2PR12MB3613.namprd12.prod.outlook.com
+ (2603:10b6:208:c1::17)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] media: ipu6: isys: Add support for monochrome media bus
- formats
-To: Sakari Ailus <sakari.ailus@linux.intel.com>,
- Bingbu Cao <bingbu.cao@linux.intel.com>
-Cc: Bingbu Cao <bingbu.cao@intel.com>, Tianshu Qiu <tian.shu.qiu@intel.com>,
- linux-media@vger.kernel.org
-References: <20251020153741.55404-1-hansg@kernel.org>
- <0d13a805-fc50-b8dc-4f5f-b4c9d24ea77a@linux.intel.com>
- <aPeQMFCNEniNjC5_@kekkonen.localdomain>
-From: Hans de Goede <hansg@kernel.org>
-Content-Language: en-US, nl
-In-Reply-To: <aPeQMFCNEniNjC5_@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|SJ0PR12MB6760:EE_
+X-MS-Office365-Filtering-Correlation-Id: b4ef060f-373a-4e1b-403d-08de11698b25
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?4Dr1raJ0jMRFHbOTlSMzM808tvA/ZGbNcIskyJqhB85rctD6/A1r22oS2AKf?=
+ =?us-ascii?Q?ChsGvYJ2eC5DHCWbdNTOiWXPG3U5K+0nKc8XDScLTyxPPWHfOkGQf5NrBxzn?=
+ =?us-ascii?Q?SDxqiBDuVwdHrhA6faHYCeIVwwZU/R1VxW9B5sj1ttjPOp5oD7KVd5feZ7gq?=
+ =?us-ascii?Q?qOYHf93SW6QJGXC2VzLUPTi2cqmYWvWsfBtKzNlBfsQom0HFg51cVPmwmK6/?=
+ =?us-ascii?Q?tmmIKR3dgcwKqNm//4JwHsm3ptue2/KVX30xSWZ8taLohg4+r1zXWxuCxJPt?=
+ =?us-ascii?Q?ATkGucwP+DjVU5rBvQ4DNgFzAqnWK4g/x6w3U5cDAieblWYgKw8jVfKE7i1h?=
+ =?us-ascii?Q?umbGOmvahlSisZxrplj+NQ5HVAJBWOB/XEjwlH956dHLBI0sMQ/yJg0sca9e?=
+ =?us-ascii?Q?qI5HDhvKwhu3g4dWZ7kJ/8UTVC1STKA3MYtwJy6KXhoZuluxuQ3YJs4NZif2?=
+ =?us-ascii?Q?T6k1rDTRnjJzftavWrpc1yc2B1+g8S2WNDVRLSjDEFLtGiZHgsmK8ZeE+KOX?=
+ =?us-ascii?Q?iQsarndqR/8xWd0DGS6VPz0q+BWu/5t5ou5vGGBsK69Mt+z45Vrrps1TN7vD?=
+ =?us-ascii?Q?Ch6K5cAY3o+kD6aPXF8YD8Aoj2qRVg4uodd1bqbxa6VdUYFymRb6EPzYgxaa?=
+ =?us-ascii?Q?SLqYgCaEehDT+0KqnAB1eEc19vPA4Z8yZMvXJVz6ODPADfYFnmAbNjHacn9M?=
+ =?us-ascii?Q?BPl9tT+TWxCgMd85vgUuvDAol6RvkCckIp7VEfryjWtoqcFm5r4dMEc3t9td?=
+ =?us-ascii?Q?/UAdMZ5n09zrNbHUIJnU/2qqAiAZqRCAaqGkGj2QVSWfYsql0Qc8rrX6Mp08?=
+ =?us-ascii?Q?oZm29xOFQ1ipUStdVR5isiiyj4AruDRUGhJZ4j/eZp7EQWp2Lq4JmTMcYEt4?=
+ =?us-ascii?Q?bqovA1slMXmDAkz/bVEucLdiKybaw3Ath6PgIA2tSsdgpYn9SX1e7T5cCBOO?=
+ =?us-ascii?Q?P6dKTGUXzEdMQZ1ohT871Gu7bcG/r8vyssiJqr2gPvYqY6TJcI1ob+Pxg4GZ?=
+ =?us-ascii?Q?MlKtSRU0SCzB0m0+UNxp7wTVqhfwraikcunVFd2DZrOb3Xty+hUnRzmeL/lz?=
+ =?us-ascii?Q?G2OpMiWhmozCOlmhZwLjpbxgEuLZwuKs456yusNS6i8mSSSgzMhbV0QKbXwE?=
+ =?us-ascii?Q?nnWL9EkQWyMQCRZKHON7Gijs/qJ9FhXiV4jgioiqQGlQlG1Syx71NnZolHMA?=
+ =?us-ascii?Q?OVBBRYny7frBKmsGcK+FRKpgXIQ0PCm6Ta4/EbnyVKMADHobM9bY6MmHKvsH?=
+ =?us-ascii?Q?tAczfCzsKqU3sxgG2RPuFzqaggRuKJVVhZaa9gB0d7I/S7MsIYn9gZw/ROpg?=
+ =?us-ascii?Q?MOlUk0uHJPRDLz8zGBroTtdJft+XNA5Ivev3FtK+Wi+fCp9nnMWAlKWPYWK9?=
+ =?us-ascii?Q?dk4BznlpIzDMTeR7e4aNSwg6exmMSeBY4N73RmtQmv9byEme07cTmxo3gjDx?=
+ =?us-ascii?Q?NS9xYjJqMXe7A1sB2wIFht32A245TOUY?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?EnM6hkcIrT7K6L2RWJQ2aopUSQfyoIeYeU6MxjjHupEN6yOYMCT+AVTueMFt?=
+ =?us-ascii?Q?mbfavNZpPcj+l61hIcsvOrQpbjXcf+WI8RgAADLKCYfl3Clq0ptQw5f2t73p?=
+ =?us-ascii?Q?1Jt0SpeYXR+HSgAa+hypMAzfOlk0/LLU4tclKLsRwC7v4Ja9bCDV8KueGS0k?=
+ =?us-ascii?Q?QLhvc07lCaFc3awtdN59Os6BUM6eJNMEjAZczYqOM8xE59VwTWQXD6rsgQ5H?=
+ =?us-ascii?Q?U4XEx+IyePnasIW67ZsXoRNxO8/u1J+Ybp/93itYmH2r3nJmNnq2OBChuOGi?=
+ =?us-ascii?Q?ncLTW3LD+wT4pv3UjCjMx4RKKBcshpTooFEsW3z77IjnUbkzCkXaOoHsn1Bu?=
+ =?us-ascii?Q?XrMwReg6BhaXzOGPW4MSEEEVFEAdAETcOGx14oD2/yYMwG8qa6B6U/SWRHge?=
+ =?us-ascii?Q?iY1Yfd1A885+iVMj9vrOGbaVTE6ltB3IaBI7e3e3oICvp+AVgsIIlpZuYKv/?=
+ =?us-ascii?Q?X/B/wWk+vfc+9zBGvhn8pvuWEdPY3Ym4QAUxP4bolxl79ioWcuTjirHDz89r?=
+ =?us-ascii?Q?st++LKF8qnpD5hzVnLzTN1r4NQ3j8Y7aQrxhEl7tQUhdWY5zvFT/pEpcD9rM?=
+ =?us-ascii?Q?Xwh0baGRuAl0rejkpqH1mUa9vpktGULWbm93NOoZl6RtzycfgaYVj7YDV+x9?=
+ =?us-ascii?Q?xEtrZTJ7D5HB4vR0c5N169fKfjGiJi2QBcOuzqNX9lIXrH8LNyaWRBXJ/lVx?=
+ =?us-ascii?Q?NzlNl98YOPslGl2kuUV1yAqEIbzTLlUxmaAO7YMazk1BshUxAesb2XQAW5BY?=
+ =?us-ascii?Q?8Ed9J2psE9X6zUdnGfBzG2UE99jYKJAnKqXfCUSvHleO6IGqvzN7/RNQpOvL?=
+ =?us-ascii?Q?hZofElNnQabHbkdfFGHKSOBQ/C2PIyb69AErAq6jDsDaN8p8My0oydvGY3ZC?=
+ =?us-ascii?Q?IgjN08IBgWVABd+w5bOb5g6OTZkPREGZLnPyNVz/ZnY/89GMozf6BePk9B0t?=
+ =?us-ascii?Q?ibb8+vBxfFE9al4XMxRwgp2eM/J+E0BCWFYsKG68tJgrqOEqLieuivynLkPs?=
+ =?us-ascii?Q?dRaPCKhgpvHTikIlz0M8NCkYhil77VpuN1NZr4rrVdR2JG08Tn1848i+TjBR?=
+ =?us-ascii?Q?BXGx0ZaQXCEnVIimR1s6TtZ4JhtrG7GRlrO6+G3jZz0xOklC1UCTjBLJ4N/p?=
+ =?us-ascii?Q?0JebwIAITWbPUGsaM/O4f/yNtbBFlb5izNfbjEkf1Scvi4BNux+ToO+++zcx?=
+ =?us-ascii?Q?unac9xwqRmvKsDUA0LHYjSYi1+FoMDqpPLTa1ASXNJvxpRL/eBMsuh01pj8Z?=
+ =?us-ascii?Q?e+FAZ7oX8K1qKJnR7XWt5vqu00YWyTJBQ5VkGvcEk0PLXaPMFvjU2i0/C4Du?=
+ =?us-ascii?Q?V5JYExN/W1XcZGfVJfe5TaLECxUP8xs14B0zh/FSb2L8ud54nrZCH5Aq8gQG?=
+ =?us-ascii?Q?1eiFjJzo8AVPBw9A8VEIxZADos5TBG2EDz7MFnr9c6U8EkZLbOXRRN7iPkq6?=
+ =?us-ascii?Q?drThfOjWTYUuYCdWe+tsxkx/PtK3DQkppCsR4uPvI502mkrN57gCDKSF87Ws?=
+ =?us-ascii?Q?Pn+m2u1/PIRN9NRtM0yc6bKkw2p8PrX+rJPaHEWWGkNIR6sI+uDj+e5s78Fl?=
+ =?us-ascii?Q?hEIr3MF3I9XpwkDOWVc=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b4ef060f-373a-4e1b-403d-08de11698b25
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Oct 2025 12:50:13.9646
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jQBni5vEIKi49NXEFASv7X8GFia5leP6Ri4ele2pz6Jl3HTB2Jv1ubaPT+/EvqG4
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6760
 
-Hi Bingbu, Sakari,
-
-On 21-Oct-25 3:52 PM, Sakari Ailus wrote:
-> Hi Bingbu, Hans,
+On Mon, Oct 13, 2025 at 06:26:11PM +0300, Leon Romanovsky wrote:
+> From: Leon Romanovsky <leonro@nvidia.com>
 > 
-> On Tue, Oct 21, 2025 at 04:10:19PM +0800, Bingbu Cao wrote:
->>
->> Hans,
->>
->> Thanks for the patch.
->>
->> On 10/20/25 11:37 PM, Hans de Goede wrote:
->>> Add support for monochrome media bus formats, for use with monochrome/IR
->>> camera sensors.
->>>
->>> This has been tested on a Dell XPS 13 9320 with OV1A1B IR sensor.
->>>
->>> Signed-off-by: Hans de Goede <hansg@kernel.org>
->>> ---
->>>  drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c |  4 +++
->>>  .../media/pci/intel/ipu6/ipu6-isys-subdev.c   | 34 ++++++++++++++-----
->>>  .../media/pci/intel/ipu6/ipu6-isys-video.c    | 14 ++++++++
->>>  3 files changed, 43 insertions(+), 9 deletions(-)
->>>
->>> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
->>> index d1fece6210ab..daec6b865bda 100644
->>> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
->>> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-csi2.c
->>> @@ -42,6 +42,10 @@ static const u32 csi2_supported_codes[] = {
->>>  	MEDIA_BUS_FMT_SGBRG8_1X8,
->>>  	MEDIA_BUS_FMT_SGRBG8_1X8,
->>>  	MEDIA_BUS_FMT_SRGGB8_1X8,
->>> +	MEDIA_BUS_FMT_Y8_1X8,
->>> +	MEDIA_BUS_FMT_Y10_1X10,
->>> +	MEDIA_BUS_FMT_Y12_1X12,
->>> +	MEDIA_BUS_FMT_Y16_1X16,
->>>  	MEDIA_BUS_FMT_META_8,
->>>  	MEDIA_BUS_FMT_META_10,
->>>  	MEDIA_BUS_FMT_META_12,
->>> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
->>> index 463a0adf9e13..869e7d4ba572 100644
->>> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
->>> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
->>> @@ -25,24 +25,28 @@ unsigned int ipu6_isys_mbus_code_to_bpp(u32 code)
->>>  	case MEDIA_BUS_FMT_RGB565_1X16:
->>>  	case MEDIA_BUS_FMT_UYVY8_1X16:
->>>  	case MEDIA_BUS_FMT_YUYV8_1X16:
->>> +	case MEDIA_BUS_FMT_Y16_1X16:
->>>  	case MEDIA_BUS_FMT_META_16:
->>>  		return 16;
->>>  	case MEDIA_BUS_FMT_SBGGR12_1X12:
->>>  	case MEDIA_BUS_FMT_SGBRG12_1X12:
->>>  	case MEDIA_BUS_FMT_SGRBG12_1X12:
->>>  	case MEDIA_BUS_FMT_SRGGB12_1X12:
->>> +	case MEDIA_BUS_FMT_Y12_1X12:
->>>  	case MEDIA_BUS_FMT_META_12:
->>>  		return 12;
->>>  	case MEDIA_BUS_FMT_SBGGR10_1X10:
->>>  	case MEDIA_BUS_FMT_SGBRG10_1X10:
->>>  	case MEDIA_BUS_FMT_SGRBG10_1X10:
->>>  	case MEDIA_BUS_FMT_SRGGB10_1X10:
->>> +	case MEDIA_BUS_FMT_Y10_1X10:
->>>  	case MEDIA_BUS_FMT_META_10:
->>>  		return 10;
->>>  	case MEDIA_BUS_FMT_SBGGR8_1X8:
->>>  	case MEDIA_BUS_FMT_SGBRG8_1X8:
->>>  	case MEDIA_BUS_FMT_SGRBG8_1X8:
->>>  	case MEDIA_BUS_FMT_SRGGB8_1X8:
->>> +	case MEDIA_BUS_FMT_Y8_1X8:
->>>  	case MEDIA_BUS_FMT_META_8:
->>>  		return 8;
->>>  	default:
->>> @@ -65,21 +69,25 @@ unsigned int ipu6_isys_mbus_code_to_mipi(u32 code)
->>>  	case MEDIA_BUS_FMT_SGBRG16_1X16:
->>>  	case MEDIA_BUS_FMT_SGRBG16_1X16:
->>>  	case MEDIA_BUS_FMT_SRGGB16_1X16:
->>> +	case MEDIA_BUS_FMT_Y16_1X16:
->>>  		return MIPI_CSI2_DT_RAW16;
->>>  	case MEDIA_BUS_FMT_SBGGR12_1X12:
->>>  	case MEDIA_BUS_FMT_SGBRG12_1X12:
->>>  	case MEDIA_BUS_FMT_SGRBG12_1X12:
->>>  	case MEDIA_BUS_FMT_SRGGB12_1X12:
->>> +	case MEDIA_BUS_FMT_Y12_1X12:
->>>  		return MIPI_CSI2_DT_RAW12;
->>>  	case MEDIA_BUS_FMT_SBGGR10_1X10:
->>>  	case MEDIA_BUS_FMT_SGBRG10_1X10:
->>>  	case MEDIA_BUS_FMT_SGRBG10_1X10:
->>>  	case MEDIA_BUS_FMT_SRGGB10_1X10:
->>> +	case MEDIA_BUS_FMT_Y10_1X10:
->>>  		return MIPI_CSI2_DT_RAW10;
->>>  	case MEDIA_BUS_FMT_SBGGR8_1X8:
->>>  	case MEDIA_BUS_FMT_SGBRG8_1X8:
->>>  	case MEDIA_BUS_FMT_SGRBG8_1X8:
->>>  	case MEDIA_BUS_FMT_SRGGB8_1X8:
->>> +	case MEDIA_BUS_FMT_Y8_1X8:
->>>  		return MIPI_CSI2_DT_RAW8;
->>>  	case MEDIA_BUS_FMT_META_8:
->>>  	case MEDIA_BUS_FMT_META_10:
->>> @@ -96,15 +104,23 @@ unsigned int ipu6_isys_mbus_code_to_mipi(u32 code)
->>>  
->>>  bool ipu6_isys_is_bayer_format(u32 code)
->>>  {
->>> -	switch (ipu6_isys_mbus_code_to_mipi(code)) {
->>> -	case MIPI_CSI2_DT_RAW8:
->>> -	case MIPI_CSI2_DT_RAW10:
->>> -	case MIPI_CSI2_DT_RAW12:
->>> -	case MIPI_CSI2_DT_RAW14:
->>> -	case MIPI_CSI2_DT_RAW16:
->>> -	case MIPI_CSI2_DT_RAW20:
->>> -	case MIPI_CSI2_DT_RAW24:
->>> -	case MIPI_CSI2_DT_RAW28:
->>> +	switch (code) {
->>> +	case MEDIA_BUS_FMT_SBGGR8_1X8:
->>> +	case MEDIA_BUS_FMT_SGBRG8_1X8:
->>> +	case MEDIA_BUS_FMT_SGRBG8_1X8:
->>> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
->>> +	case MEDIA_BUS_FMT_SBGGR10_1X10:
->>> +	case MEDIA_BUS_FMT_SGBRG10_1X10:
->>> +	case MEDIA_BUS_FMT_SGRBG10_1X10:
->>> +	case MEDIA_BUS_FMT_SRGGB10_1X10:
->>> +	case MEDIA_BUS_FMT_SBGGR12_1X12:
->>> +	case MEDIA_BUS_FMT_SGBRG12_1X12:
->>> +	case MEDIA_BUS_FMT_SGRBG12_1X12:
->>> +	case MEDIA_BUS_FMT_SRGGB12_1X12:
->>> +	case MEDIA_BUS_FMT_SRGGB16_1X16:
->>> +	case MEDIA_BUS_FMT_SGRBG16_1X16:
->>> +	case MEDIA_BUS_FMT_SGBRG16_1X16:
->>> +	case MEDIA_BUS_FMT_SBGGR16_1X16:
->>>  		return true;
->>>  	default:
->>>  		return false;
->>> diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
->>> index f3f3bc0615e5..dec8f5ffcfa5 100644
->>> --- a/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
->>> +++ b/drivers/media/pci/intel/ipu6/ipu6-isys-video.c
->>> @@ -77,6 +77,20 @@ const struct ipu6_isys_pixelformat ipu6_isys_pfmts[] = {
->>>  	  IPU6_FW_ISYS_FRAME_FORMAT_RAW10 },
->>>  	{ V4L2_PIX_FMT_SRGGB10P, 10, 10, MEDIA_BUS_FMT_SRGGB10_1X10,
->>>  	  IPU6_FW_ISYS_FRAME_FORMAT_RAW10 },
->>> +
->>> +	{ V4L2_PIX_FMT_GREY, 8, 8, MEDIA_BUS_FMT_Y8_1X8,
->>> +	  IPU6_FW_ISYS_FRAME_FORMAT_RAW8 },
->>> +	{ V4L2_PIX_FMT_Y10, 16, 10, MEDIA_BUS_FMT_Y10_1X10,
->>> +	  IPU6_FW_ISYS_FRAME_FORMAT_RAW16 },
->>> +	{ V4L2_PIX_FMT_Y12, 16, 12, MEDIA_BUS_FMT_Y12_1X12,
->>> +	  IPU6_FW_ISYS_FRAME_FORMAT_RAW16 },
->>> +	{ V4L2_PIX_FMT_Y16, 16, 16, MEDIA_BUS_FMT_Y16_1X16,
->>> +	  IPU6_FW_ISYS_FRAME_FORMAT_RAW16 },
->>> +	{ V4L2_PIX_FMT_Y10P, 10, 10, MEDIA_BUS_FMT_Y10_1X10,
->>> +	  IPU6_FW_ISYS_FRAME_FORMAT_RAW10 },
->>> +	{ V4L2_PIX_FMT_Y12P, 12, 12, MEDIA_BUS_FMT_Y12_1X12,
->>> +	  IPU6_FW_ISYS_FRAME_FORMAT_RAW12 },
->>
->> The code looks fine for me. I am wondering which sensor to test these
->> packed format for IPU6.
+> Add support for exporting PCI device MMIO regions through dma-buf,
+> enabling safe sharing of non-struct page memory with controlled
+> lifetime management. This allows RDMA and other subsystems to import
+> dma-buf FDs and build them into memory regions for PCI P2P operations.
 > 
-> Such packed formats appear to be defined for Bayer formats, too, so I'd
-> expect them to work as the Bayer equivalents that are already supported.
+> The implementation provides a revocable attachment mechanism using
+> dma-buf move operations. MMIO regions are normally pinned as BARs
+> don't change physical addresses, but access is revoked when the VFIO
+> device is closed or a PCI reset is issued. This ensures kernel
+> self-defense against potentially hostile userspace.
 
-Right, on the CSI side this is e.g. always 10 bits / pixel but
-then the isys can be configured to either store this in the in
-memory framebuffer either sparse using 16 bits / pixel or packed
-with std mipi packing.
+Let's enhance this:
 
-Both paths (sparse + packed) have been tested with bayer patterns
-since the softISP supports both memory buffer formats.
+Currently VFIO can take MMIO regions from the device's BAR and map
+them into a PFNMAP VMA with special PTEs. This mapping type ensures
+the memory cannot be used with things like pin_user_pages(), hmm, and
+so on. In practice only the user process CPU and KVM can safely make
+use of these VMA. When VFIO shuts down these VMAs are cleaned by
+unmap_mapping_range() to prevent any UAF of the MMIO beyond driver
+unbind.
 
-For the monochrome support I've tested with the libcamera "cam" app
-using 16 bpp sparse + imagemagick to convert the raw Y buffers to
-png-s to look at the result:
+However, VFIO type 1 has an insecure behavior where it uses
+follow_pfnmap_*() to fish a MMIO PFN out of a VMA and program it back
+into the IOMMU. This has a long history of enabling P2P DMA inside
+VMs, but has serious lifetime problems by allowing a UAF of the MMIO
+after the VFIO driver has been unbound.
 
-magick -depth 16 -size 1312x816 gray:XXXXXXXX.bin -auto-level result.png
+Introduce DMABUF as a new safe way to export a FD based handle for the
+MMIO regions. This can be consumed by existing DMABUF importers like
+RDMA or DRM without opening an UAF. A following series will add an
+importer to iommufd to obsolete the type 1 code and allow safe
+UAF-free MMIO P2P in VM cases.
 
-Note the 1312 is necessary because the stride for 1296x816 is 1312
-bytes/line.
+DMABUF has a built in synchronous invalidation mechanism called
+move_notify. VFIO keeps track of all drivers importing its MMIO and
+can invoke a synchronous invalidation callback to tell the importing
+drivers to DMA unmap and forget about the MMIO pfns. This process is
+being called revoke. This synchronous invalidation fully prevents any
+lifecycle problems. VFIO will do this before unbinding its driver
+ensuring there is no UAF of the MMIO beyond the driver lifecycle.
 
-Regards,
+Further, VFIO has additional behavior to block access to the MMIO
+during things like Function Level Reset. This is because some poor
+platforms may experience a MCE type crash when touching MMIO of a PCI
+device that is undergoing a reset. Today this is done by using
+unmap_mapping_range() on the VMAs. Extend that into the DMABUF world
+and temporarily revoke the MMIO from the DMABUF importers during FLR
+as well. This will more robustly prevent an errant P2P from possibly
+upsetting the platform.
 
-Hans
+A DMABUF FD is a prefered handle for MMIO compared to using something
+like a pgmap because:
+ - VFIO is supported, including its P2P feature, on archs that don't
+   support pgmap
+ - PCI devices have all sorts of BAR sizes, including ones smaller
+   than a section so a pgmap cannot always be created
+ - It is undesirable to waste alot of memory for struct pages,
+   especially for a case like a GPU with ~100GB of BAR size
+ - We want a synchronous revoke semantic to support FLR with light
+   hardware requirements
 
+Use the P2P subsystem to help generate the DMA mapping. This is a
+significant upgrade over the abuse of dma_map_resource() that has
+historically been used by DMABUF exporters. Experience with an OOT
+version of this patch shows that real systems do need this. This
+approach deals with all the P2P scenarios:
+ - Non-zero PCI bus_offset
+ - ACS flags routing traffic to the IOMMU
+ - ACS flags that bypass the IOMMU - though vfio noiommu is required
+   to hit this.
 
+There will be further work to formalize the revoke semantic in
+DMABUF. For now this acts like a move_notify dynamic exporter where
+importer fault handling will get a failure when they attempt to map.
+This means that only fully restartable fault capable importers can
+import the VFIO DMABUFs. A future revoke semantic should open this up
+to more HW as the HW only needs to invalidate, not handle restartable
+faults.
+
+Jason
 
