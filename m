@@ -1,238 +1,231 @@
-Return-Path: <linux-media+bounces-45318-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45319-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id E113ABFE26E
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 22:24:35 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AB77BFE3C4
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 22:57:52 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B187F1A082DF
-	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 20:24:59 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 64E3B3A2D69
+	for <lists+linux-media@lfdr.de>; Wed, 22 Oct 2025 20:57:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 68CCB2FB09E;
-	Wed, 22 Oct 2025 20:24:23 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E7AE29405;
+	Wed, 22 Oct 2025 20:57:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NblNpqAl"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="g5HhySgO"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 839262FAC0A;
-	Wed, 22 Oct 2025 20:24:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 967C915E8B
+	for <linux-media@vger.kernel.org>; Wed, 22 Oct 2025 20:57:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761164662; cv=none; b=MKRBBAdar+koMIPdc/pZuwS9WnQAtY0ljN5zpxTdmN8iYRAD7ueyfYMa2G39YLRHPOrXRPy0Crx+B3jzFLU7vTT5DDbsGTER5ertK7ts82BuBaUqQ/pBtfOd9Px4iezuNpnPp3gS1JY7znzrxH9RXH3hKKIjCkIAs/RMgMnbx6A=
+	t=1761166661; cv=none; b=Q5jBVW6SglFGCCktdFpKZ0ZD/HuMQZno/fIHQgCpEVtMOt1QFkbXUM+qqAcP8dqPI63MHZFCseBDXDy107FsEBwrdKhZ8+gf9wKH77+Byfj6d8S6FiZIB27ntlNRu6IpqfeRYmiye2l+al7lzKBnhkr7Mig8Bo8UVonnpWbhH/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761164662; c=relaxed/simple;
-	bh=/29y36gsV1TiadjcFWyffNJHdhWqvc81cPPVdLkzjVw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TBWCQTe2f6dnPxkBxEFPbZ/8OQIRq3HPeVCvHoMAa6YUs0Emes/YuXXGoYvaLkiCMGXdJXmZkH63OL8GHqGOYEt2cKdQVbDRGlDQhyAcMyiRg++OPBSbwwmzjgqrxk5VyGqOcKDCnhBSPqZl1CPmMC6tcttAjZl1wpLGVpmaMu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NblNpqAl; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761164661; x=1792700661;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/29y36gsV1TiadjcFWyffNJHdhWqvc81cPPVdLkzjVw=;
-  b=NblNpqAlmc23fyuDGA5aujJMJHuYE23peQnYKqT0n+A0B8K8xFlrPdAp
-   GFbCMRoTN2iaR8QI6UZAboFWu8C5I/ascoP9R3E1TZsVsE2oHX+NWclVP
-   GhAx1U9pr4N19OKZhsKltWAIcidDCDPELq6vYBe79CxYcs5gBdQMdh5MM
-   8icYoBtdIjgwRhK76oT8C5KZrI6AUlN6tc12O/iK4ph0PdUyAkky93Aeo
-   U92VcOnXBhVr7knPG1r6rgOobwgSxNXn50wD14zusWrtbXPtd99TbpVx7
-   vzXlDjh0yE+jxxyL2nPw2bIfbfYN2l2kqGYSp5jJ/w3PkxdbopgqiunSm
-   g==;
-X-CSE-ConnectionGUID: vceb0yE8Q4ehGjUgRqW1Cg==
-X-CSE-MsgGUID: oTgbHW5fThW8Y2n5qXQhjA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="50902560"
-X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="50902560"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 13:24:20 -0700
-X-CSE-ConnectionGUID: 0lC9f6hTQqe217GyqchCwg==
-X-CSE-MsgGUID: GcqEz40bSKmDS/AQ36mebA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,247,1754982000"; 
-   d="scan'208";a="184742672"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa010.fm.intel.com with ESMTP; 22 Oct 2025 13:24:14 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vBfNU-000ChR-00;
-	Wed, 22 Oct 2025 20:24:12 +0000
-Date: Thu, 23 Oct 2025 04:24:01 +0800
-From: kernel test robot <lkp@intel.com>
-To: Biancaa Ramesh <biancaa2210329@ssn.edu.in>, linux-media@vger.kernel.org
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	awalls@md.metrocast.net, mchehab@kernel.org,
-	linux-kernel@vger.kernel.org,
-	Biancaa Ramesh <biancaa2210329@ssn.edu.in>
-Subject: Re: [PATCH] pcmcia/parport_cs: Refactor probe function and improve
- error logging
-Message-ID: <202510230450.v2a33A8Z-lkp@intel.com>
-References: <20251021190021.173748-1-biancaa2210329@ssn.edu.in>
+	s=arc-20240116; t=1761166661; c=relaxed/simple;
+	bh=s5zHL3JeW8tjYv9ZHT4cVhmdFxP9v5iEn7jJE/tWsl4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=tMaKuyyMmIbQK7J9X7W7RPV/nm/Yh6dVP6YJoaWJQFRy4sL2s/EcadmrucweAY3/l7YzAJULOYT4i4g6kw9DtL3gRODGQIyw8ladE9NM7Z52Lm0so9s/Xg0JxC+H46vTeSAsqYrLlc1sBq4S0Q61jjxvcnlbbDpIr919pgKB9YY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=g5HhySgO; arc=none smtp.client-ip=121.127.44.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1761166653;
+ bh=S0wz2Pp5BKXToP4WWrNmtTLcJUcbxzUiav7sBmIskes=;
+ b=g5HhySgOMIRIQQ+gf8ng3KwLd8Hnbq5lJKl8omwtsClBZEWES/zKYr3ZJlElu66QVQtwnKgb+
+ fboug6CMUHLJTHiD60b8p4DXEt7Xr3h9h3hiGtFkesWWaGJRt/LYzAH00TYoHVNw9D2xGdrivpN
+ yrYp9JSkGEXphaC+Jx644Y5KuRpi/xQ+P3hIy8Cg2RoKa55KSVpAtVqP8u84h41f4UwXS4kg+cF
+ /1+GuGmJ0wtbWX5dKCFQ1FA5WOdzOB2PCAZTJ/rfXZwJ8AlHgHgToh1GMqqet9qX1AnkJGJ6Cxf
+ 3JbeaVxEnSlRz7OIWS0m8HND6b7ruXf3TS5CSeGj8WLA==
+X-Forward-Email-ID: 68f945387ffe5c5c38c08363
+X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 121.127.44.73
+X-Forward-Email-Version: 1.3.0
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+Message-ID: <5d2f3b9c-3d1a-47a5-93f1-1a6d6ce540f3@kwiboo.se>
+Date: Wed, 22 Oct 2025 22:57:22 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251021190021.173748-1-biancaa2210329@ssn.edu.in>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 08/15] media: rkvdec: Add generic configuration for
+ variants
+To: Detlev Casanova <detlev.casanova@collabora.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Heiko Stuebner <heiko@sntech.de>, Ricardo Ribalda <ribalda@chromium.org>,
+ Hans Verkuil <hverkuil@kernel.org>, Hans de Goede <hansg@kernel.org>,
+ Yunke Cao <yunkec@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ James Cowgill <james.cowgill@blaize.com>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com, Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Diederik de Haas <didi.debian@cknow.org>, linux-kernel@vger.kernel.org
+References: <20251022174508.284929-1-detlev.casanova@collabora.com>
+ <20251022174508.284929-9-detlev.casanova@collabora.com>
+Content-Language: en-US
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <20251022174508.284929-9-detlev.casanova@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Biancaa,
+Hi Detlev,
 
-kernel test robot noticed the following build errors:
+On 10/22/2025 7:45 PM, Detlev Casanova wrote:
+> This is to prepare for adding new versions of the decoder and
+> support specific formats and ops per version.
+> 
+> Different rkvdec_variant instances will be able to share generic
+> decoder configs.
+> 
+> Tested-by: Diederik de Haas <didi.debian@cknow.org>  # Rock 5B
+> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+> ---
+>  .../media/platform/rockchip/rkvdec/rkvdec.c   | 37 ++++++++++++-------
+>  .../media/platform/rockchip/rkvdec/rkvdec.h   |  6 +++
+>  2 files changed, 30 insertions(+), 13 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> index 776149f871b0..a7af1e3fdebd 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> @@ -373,15 +373,16 @@ static bool rkvdec_is_capable(struct rkvdec_ctx *ctx, unsigned int capability)
+>  static const struct rkvdec_coded_fmt_desc *
+>  rkvdec_enum_coded_fmt_desc(struct rkvdec_ctx *ctx, int index)
+>  {
+> +	const struct rkvdec_config *cfg = ctx->dev->variant->config;
+>  	int fmt_idx = -1;
+>  	unsigned int i;
+>  
+> -	for (i = 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++) {
+> -		if (!rkvdec_is_capable(ctx, rkvdec_coded_fmts[i].capability))
+> +	for (i = 0; i < cfg->coded_fmts_num; i++) {
+> +		if (!rkvdec_is_capable(ctx, cfg->coded_fmts[i].capability))
+>  			continue;
+>  		fmt_idx++;
+>  		if (index == fmt_idx)
+> -			return &rkvdec_coded_fmts[i];
+> +			return &cfg->coded_fmts[i];
+>  	}
+>  
+>  	return NULL;
+> @@ -390,12 +391,13 @@ rkvdec_enum_coded_fmt_desc(struct rkvdec_ctx *ctx, int index)
+>  static const struct rkvdec_coded_fmt_desc *
+>  rkvdec_find_coded_fmt_desc(struct rkvdec_ctx *ctx, u32 fourcc)
+>  {
+> +	const struct rkvdec_config *cfg = ctx->dev->variant->config;
+>  	unsigned int i;
+>  
+> -	for (i = 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++) {
+> -		if (rkvdec_is_capable(ctx, rkvdec_coded_fmts[i].capability) &&
+> -		    rkvdec_coded_fmts[i].fourcc == fourcc)
+> -			return &rkvdec_coded_fmts[i];
+> +	for (i = 0; i < cfg->coded_fmts_num; i++) {
+> +		if (rkvdec_is_capable(ctx, cfg->coded_fmts[i].capability) &&
+> +		    cfg->coded_fmts[i].fourcc == fourcc)
+> +			return &cfg->coded_fmts[i];
+>  	}
+>  
+>  	return NULL;
+> @@ -1014,18 +1016,19 @@ static int rkvdec_add_ctrls(struct rkvdec_ctx *ctx,
+>  
+>  static int rkvdec_init_ctrls(struct rkvdec_ctx *ctx)
+>  {
+> +	const struct rkvdec_config *cfg = ctx->dev->variant->config;
+>  	unsigned int i, nctrls = 0;
+>  	int ret;
+>  
+> -	for (i = 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++)
+> -		if (rkvdec_is_capable(ctx, rkvdec_coded_fmts[i].capability))
+> -			nctrls += rkvdec_coded_fmts[i].ctrls->num_ctrls;
+> +	for (i = 0; i < cfg->coded_fmts_num; i++)
+> +		if (rkvdec_is_capable(ctx, cfg->coded_fmts[i].capability))
+> +			nctrls += cfg->coded_fmts[i].ctrls->num_ctrls;
+>  
+>  	v4l2_ctrl_handler_init(&ctx->ctrl_hdl, nctrls);
+>  
+> -	for (i = 0; i < ARRAY_SIZE(rkvdec_coded_fmts); i++) {
+> -		if (rkvdec_is_capable(ctx, rkvdec_coded_fmts[i].capability)) {
+> -			ret = rkvdec_add_ctrls(ctx, rkvdec_coded_fmts[i].ctrls);
+> +	for (i = 0; i < cfg->coded_fmts_num; i++) {
+> +		if (rkvdec_is_capable(ctx, cfg->coded_fmts[i].capability)) {
+> +			ret = rkvdec_add_ctrls(ctx, cfg->coded_fmts[i].ctrls);
+>  			if (ret)
+>  				goto err_free_handler;
+>  		}
+> @@ -1240,13 +1243,20 @@ static void rkvdec_watchdog_func(struct work_struct *work)
+>  	}
+>  }
+>  
+> +static const struct rkvdec_config config_rkvdec = {
+> +	.coded_fmts = rkvdec_coded_fmts,
+> +	.coded_fmts_num = ARRAY_SIZE(rkvdec_coded_fmts),
+> +};
+> +
+>  static const struct rkvdec_variant rk3288_rkvdec_variant = {
+>  	.num_regs = 68,
+> +	.config = &config_rkvdec,
+>  	.capabilities = RKVDEC_CAPABILITY_HEVC,
+>  };
+>  
+>  static const struct rkvdec_variant rk3328_rkvdec_variant = {
+>  	.num_regs = 109,
+> +	.config = &config_rkvdec,
+>  	.capabilities = RKVDEC_CAPABILITY_HEVC |
+>  			RKVDEC_CAPABILITY_H264 |
+>  			RKVDEC_CAPABILITY_VP9,
+> @@ -1255,6 +1265,7 @@ static const struct rkvdec_variant rk3328_rkvdec_variant = {
+>  
+>  static const struct rkvdec_variant rk3399_rkvdec_variant = {
+>  	.num_regs = 78,
+> +	.config = &config_rkvdec,
+>  	.capabilities = RKVDEC_CAPABILITY_HEVC |
+>  			RKVDEC_CAPABILITY_H264 |
+>  			RKVDEC_CAPABILITY_VP9,
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.h b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+> index f35f6e80ea2e..3b1cc511412e 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.h
+> @@ -71,6 +71,7 @@ vb2_to_rkvdec_decoded_buf(struct vb2_buffer *buf)
+>  
+>  struct rkvdec_variant {
+>  	unsigned int num_regs;
+> +	const struct rkvdec_config *config;
+>  	unsigned int capabilities;
+>  	unsigned int quirks;
+>  };
+> @@ -113,6 +114,11 @@ struct rkvdec_coded_fmt_desc {
+>  	unsigned int capability;
+>  };
+>  
+> +struct rkvdec_config {
+> +	const struct rkvdec_coded_fmt_desc *coded_fmts;
+> +	size_t coded_fmts_num;
+> +};
 
-[auto build test ERROR on sailus-media-tree/master]
-[also build test ERROR on linus/master sailus-media-tree/streams v6.18-rc2 next-20251022]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+Do we really need a separate config struct? This chould/should me merged
+with the variant struct.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Biancaa-Ramesh/pcmcia-parport_cs-Refactor-probe-function-and-improve-error-logging/20251022-030324
-base:   git://linuxtv.org/sailus/media_tree.git master
-patch link:    https://lore.kernel.org/r/20251021190021.173748-1-biancaa2210329%40ssn.edu.in
-patch subject: [PATCH] pcmcia/parport_cs: Refactor probe function and improve error logging
-config: x86_64-buildonly-randconfig-001-20251022 (https://download.01.org/0day-ci/archive/20251023/202510230450.v2a33A8Z-lkp@intel.com/config)
-compiler: clang version 20.1.8 (https://github.com/llvm/llvm-project 87f0227cb60147a26a1eeb4fb06e3b505e9c7261)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510230450.v2a33A8Z-lkp@intel.com/reproduce)
+Using a two layer variant/config mostly seem to complicate things based
+on an initial review.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510230450.v2a33A8Z-lkp@intel.com/
+Regards,
+Jonas
 
-All errors (new ones prefixed by >>):
+> +
+>  struct rkvdec_dev {
+>  	struct v4l2_device v4l2_dev;
+>  	struct media_device mdev;
 
-   drivers/parport/parport_cs.c:137:21: warning: unused variable 'info' [-Wunused-variable]
-     137 |     parport_info_t *info = link->priv;
-         |                     ^~~~
->> drivers/parport/parport_cs.c:148:11: error: use of undeclared label 'failed'
-     148 |             goto failed;
-         |                  ^
->> drivers/parport/parport_cs.c:169:5: error: unknown type name 'p'
-     169 |     p->modes |= PARPORT_MODE_PCSPP;
-         |     ^
->> drivers/parport/parport_cs.c:169:6: error: expected identifier or '('
-     169 |     p->modes |= PARPORT_MODE_PCSPP;
-         |      ^
-   drivers/parport/parport_cs.c:170:5: error: expected identifier or '('
-     170 |     if (epp_mode)
-         |     ^
->> drivers/parport/parport_cs.c:172:5: error: unknown type name 'info'
-     172 |     info->ndev = 1;
-         |     ^
-   drivers/parport/parport_cs.c:172:9: error: expected identifier or '('
-     172 |     info->ndev = 1;
-         |         ^
-   drivers/parport/parport_cs.c:173:5: error: unknown type name 'info'
-     173 |     info->port = p;
-         |     ^
-   drivers/parport/parport_cs.c:173:9: error: expected identifier or '('
-     173 |     info->port = p;
-         |         ^
-   drivers/parport/parport_cs.c:175:5: error: expected identifier or '('
-     175 |     return 0;
-         |     ^
->> drivers/parport/parport_cs.c:177:1: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     177 | failed:
-         | ^
-         | int
->> drivers/parport/parport_cs.c:177:7: error: expected ';' after top level declarator
-     177 | failed:
-         |       ^
-         |       ;
-   drivers/parport/parport_cs.c:178:2: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     178 |         parport_cs_release(link);
-         |         ^
-         |         int
->> drivers/parport/parport_cs.c:178:21: error: a parameter list without types is only allowed in a function definition
-     178 |         parport_cs_release(link);
-         |                            ^
->> drivers/parport/parport_cs.c:179:8: error: unknown type name 'link'
-     179 |         kfree(link->priv);
-         |               ^
->> drivers/parport/parport_cs.c:179:12: error: expected ')'
-     179 |         kfree(link->priv);
-         |                   ^
-   drivers/parport/parport_cs.c:179:7: note: to match this '('
-     179 |         kfree(link->priv);
-         |              ^
-   drivers/parport/parport_cs.c:179:2: error: type specifier missing, defaults to 'int'; ISO C99 and later do not support implicit int [-Wimplicit-int]
-     179 |         kfree(link->priv);
-         |         ^
-         |         int
-   drivers/parport/parport_cs.c:180:5: error: unknown type name 'link'
-     180 |     link->priv = NULL;
-         |     ^
-   drivers/parport/parport_cs.c:180:9: error: expected identifier or '('
-     180 |     link->priv = NULL;
-         |         ^
-   drivers/parport/parport_cs.c:181:2: error: expected identifier or '('
-     181 |         return -ENODEV;
-         |         ^
-   fatal error: too many errors emitted, stopping now [-ferror-limit=]
-   1 warning and 20 errors generated.
-
-
-vim +/failed +148 drivers/parport/parport_cs.c
-
-84e2d34004dcd0 Dominik Brodowski 2008-07-29  134  
-15b99ac1729503 Dominik Brodowski 2006-03-31  135  static int parport_config(struct pcmcia_device *link)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  136  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  137      parport_info_t *info = link->priv;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  138      struct parport *p;
-9b44de2015ff4a Dominik Brodowski 2009-10-24  139      int ret;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  140  
-9b44de2015ff4a Dominik Brodowski 2009-10-24  141      dev_dbg(&link->dev, "parport_config\n");
-^1da177e4c3f41 Linus Torvalds    2005-04-16  142  
-00990e7ce0b0e5 Dominik Brodowski 2010-07-30  143      if (epp_mode)
-00990e7ce0b0e5 Dominik Brodowski 2010-07-30  144  	    link->config_index |= FORCE_EPP_MODE;
-00990e7ce0b0e5 Dominik Brodowski 2010-07-30  145  
-9b44de2015ff4a Dominik Brodowski 2009-10-24  146      ret = pcmcia_loop_config(link, parport_config_check, NULL);
-9b44de2015ff4a Dominik Brodowski 2009-10-24  147      if (ret)
-84e2d34004dcd0 Dominik Brodowski 2008-07-29 @148  	    goto failed;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  149  
-eb14120f743d29 Dominik Brodowski 2010-03-07  150      if (!link->irq)
-9b44de2015ff4a Dominik Brodowski 2009-10-24  151  	    goto failed;
-1ac71e5a35eebe Dominik Brodowski 2010-07-29  152      ret = pcmcia_enable_device(link);
-9b44de2015ff4a Dominik Brodowski 2009-10-24  153      if (ret)
-9b44de2015ff4a Dominik Brodowski 2009-10-24  154  	    goto failed;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  155  
-9a017a910346af Dominik Brodowski 2010-07-24  156      p = parport_pc_probe_port(link->resource[0]->start,
-9a017a910346af Dominik Brodowski 2010-07-24  157  			      link->resource[1]->start,
-eb14120f743d29 Dominik Brodowski 2010-03-07  158  			      link->irq, PARPORT_DMA_NONE,
-51dcdfec6a274a Alan Cox          2009-04-07  159  			      &link->dev, IRQF_SHARED);
-fac3d7d7b11c82 Biancaa Ramesh    2025-10-22  160      if (!p) {
-fac3d7d7b11c82 Biancaa Ramesh    2025-10-22  161          dev_err(&link->dev,
-fac3d7d7b11c82 Biancaa Ramesh    2025-10-22  162              "parport_pc_probe_port() failed at 0x%03x, irq %u\n",
-decf26f6ec25da Joe Perches       2020-04-03  163              (unsigned int)link->resource[0]->start, link->irq);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  164          goto failed;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  165      }   
-^1da177e4c3f41 Linus Torvalds    2005-04-16  166  
-fac3d7d7b11c82 Biancaa Ramesh    2025-10-22  167      }
-fac3d7d7b11c82 Biancaa Ramesh    2025-10-22  168  
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @169      p->modes |= PARPORT_MODE_PCSPP;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  170      if (epp_mode)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  171  	p->modes |= PARPORT_MODE_TRISTATE | PARPORT_MODE_EPP;
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @172      info->ndev = 1;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  173      info->port = p;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  174  
-15b99ac1729503 Dominik Brodowski 2006-03-31  175      return 0;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  176  
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @177  failed:
-^1da177e4c3f41 Linus Torvalds    2005-04-16 @178  	parport_cs_release(link);
-21c75ad65f8e52 YueHaibing        2019-03-21 @179  	kfree(link->priv);
-fac3d7d7b11c82 Biancaa Ramesh    2025-10-22  180      link->priv = NULL;
-15b99ac1729503 Dominik Brodowski 2006-03-31  181  	return -ENODEV;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  182  } /* parport_config */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  183  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
 
