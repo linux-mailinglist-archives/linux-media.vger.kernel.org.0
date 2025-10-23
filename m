@@ -1,48 +1,81 @@
-Return-Path: <linux-media+bounces-45337-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45338-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A85FBFFC4F
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 10:05:05 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id EBDFFBFFF61
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 10:38:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CE85B1A017C5
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 08:05:28 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0B4964E8E00
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 08:38:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 200AB2EB5AF;
-	Thu, 23 Oct 2025 08:04:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7C38E301487;
+	Thu, 23 Oct 2025 08:37:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HW4mvy2X"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="r7AZYcWu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7050A2EAB76;
-	Thu, 23 Oct 2025 08:04:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE6B42DEA89
+	for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 08:37:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761206697; cv=none; b=jGy1GxNrGwXo3BQsdlZ5hnu1yGy1sQX7q6Wg8+v+NqR6EN4ho2xTxzuJdyLtZElSodpN1TvFV1TcjeOHQ+Uo0rUeCstkTJb+IjY1Vy0U/hmjj8NArGoLz4UQp5yFLA1V1nAv6xS0ROFU4+rRa4ms/4gdelIm1IsVfwNcHNVg9Bg=
+	t=1761208674; cv=none; b=dabm4PEgRQIeFUD1+pkyvVS32pqyklPaxc9F+unBKTG2uf1xY4v39asLeX9VeA0SaD56RbVad2rX3ZFczTUeeO46ZGQRFkAA89kfTpgHTacDBzdYyPaX1OKPzYvdZD0/TAiouVQQugE++WPV2KhjRFlzXKdOv7g4Dlomw03gYso=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761206697; c=relaxed/simple;
-	bh=WfJFIxtce+9xda6N2ampDStpps8m/5H2BCZ1d13rOhU=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=SNPksMTGyOGadqtG0sQ/xYqJRtsGxn6GO8NSeOwYe346/XGSdwsnGkSKpO+ViQDbcVWbSBHUDFCHhLXYYjBW204uzYaenL76emv8wh5WBnW1a2CGOT+YhQ18yU0mfPQWN4irD0XLPjtvF/iR2Sxwtj2LUxcZhJbSFyyD15zpbl8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HW4mvy2X; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 03E46C4CEFB;
-	Thu, 23 Oct 2025 08:04:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761206697;
-	bh=WfJFIxtce+9xda6N2ampDStpps8m/5H2BCZ1d13rOhU=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=HW4mvy2XrZdL9KAQZhCKOcpMG+SiRNU7LOpFpYyHKBd3zME3AB3bJbqFf8KPFrK1F
-	 7mM89wgT2j/3Filu/vN4Ly3fyvqS9oJiKmGfbpzRDkEaUFy0t6MlnGhnrW8xSNRwCs
-	 uwXyEcCjOQ+99tOSigj3P0gCfvQbW9cL8zvC40fnsM0qCkiS85HIMTc7kByUEeFl9b
-	 A0eHl2EVqEw8wjsRccX2Tf76aBuEmT1qiXozGd07ftqpib/LR2VxsmAN0/OoPuuuTK
-	 sJ9SIuXNnyyFUI4qDLlvpGmhhpXR4vrZiac9x3ftPpc4ikXUQp7RfnBJwDe7DinPAR
-	 VRrOvYA6DeILg==
-Message-ID: <6eaa8b26-edab-4bfa-9c6a-1fbb54c36b4e@kernel.org>
-Date: Thu, 23 Oct 2025 10:04:52 +0200
+	s=arc-20240116; t=1761208674; c=relaxed/simple;
+	bh=VZznkxUfOBBjwHVbcPT69mPGH8TLJ3qlknTOpaEzyh8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YnftiOGXy7iMmfqxHaU0gIymgkLucFhbV+i88sQP1lxTK3sSHmhjT3GZeFhmV8HsxpRISgQ8dJdEkW4vEqDbvFS0bT/c885BJNQBimJ7S0m3ve86IkZZyEbQZO08Nim5DjtVRiBvxPA/PE8w5UsFsXckQRF8aYLzC3H7xO9cdqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=r7AZYcWu; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-63c2d72582cso947445a12.1
+        for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 01:37:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1761208671; x=1761813471; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=kylES56a95Zr7XFZY/19713ISQDXB6XnworKEnMUaPo=;
+        b=r7AZYcWuK1BvlxQDGTIu2Y2lA+oWbUQPvEX42vMD+1hP2Si5AzoVdZm5lvwXlZq47C
+         MfdxUCGIGORJZIZ+AECc18BXtmkazScbzkYG10K4ELSvvOHf/wP0Ixf8vGf/m6jy4Rs9
+         va9OFzrytZgALeeK473tWrn9a9KYXjx3o1konxcmBCrZ1DOQHRNaU+1OGmffKCJe2xOF
+         5KV51PECPj6wf34HvyMVL+Z8k2d8nf0qNzi181NsNfr70uAy0GvJvnlU4au9jtAjzUYh
+         XSx+PDRJccKZmUidcSmCCjDYtHNkV7FzWg0q6Bx2abuURC99Jl/NZcvGzgDTbeJ8EZVJ
+         Jd2A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761208671; x=1761813471;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=kylES56a95Zr7XFZY/19713ISQDXB6XnworKEnMUaPo=;
+        b=rqFUT65rBGpoxoK3BT7YCJAmLsOTVrGdrmP+DOqjL0FWHj0qpvz9g3B3/D5dlW/Msd
+         Je0oUubPwjlDtHD0zN0zJPd6XCaJw9vr6Lq5L9axBLk0YBdslz2Gw3KcSUSjkfv7kXI2
+         aJF1oqPuRZzDFqcuFSmvPhyRTvaIyHmd+DssYhzwn90Wxbi8xHBL7cbyIEmZly3OkTNx
+         p7PzoCvKlQYRlGMgAMdR0bl+Crs6x+F7pYY92O9VNmkGzrid07YFSsGoiO/eUyIedgUr
+         MrIZ19sT2Gxk0mbEGWmAtpgfu6aPqA+PDvcfkcuC2rFLLlIdHDzOFnB7LOluTzqmvNv9
+         Sw4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUkz5T3tl/LMG/Is0Vh8KpfpjfZeNQBIdDWcAHSoFSFVb1O7qlfo8UPSWPsl3YhxKktebPYvjSGW8z60w==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw6+tY2ytdoJnKU2Rd/HxYvOX1y2sB6zbFigTvE2FhvJRK4y2bP
+	WhCHnXRwO6ckPEv0AS+KG4b6PSh6X8sspKj67t1xxwwOWotxNk0bPxEQ4FwN2AS4vv0=
+X-Gm-Gg: ASbGncsuQ8d/Lv1x7hlcm3lXvIDoyEfiJZj/BwIg4+/WwGNIS59xh3Yfl6UkiYknNvi
+	TSvXO+EviAjXQ6nJhTSAGIpSfNCUMYgq1HGVoRcByrD8ek/TADZTkefHPp5xB7jvIJ8wLK/QVdE
+	6H4RKc3OBBgShaeyWEtJmrFh3DemBqMB+lKDvYwltU7fY6TvfZbu+VEFbxpXSTm1PSjj9mqOfLf
+	qWkdZEBsrk1Xr7TR5c1jE8IZOIY2KIFonpmMvH5r5LHacFFZx+UGXHyYYo4lIiOtxwF6XFKz2EM
+	S/M+dWaQPI3BN2CATMx8gMF2/HaecrH45x0Bek0mgqDI3BSgo+UWPJELfsm3fPsMaP+SX16cqL2
+	L94QDM3H7lXE2cQU61bRR1HqCEXmj5BbkR97M3k3oBcYjXgUjucwyMEhKAX7Rekcst/S1NZDR0x
+	XHsHytoh+OZVjtQ7OqRPxegoSRjOautBp95IDNbbsu+47HBCDfKra7Q8xsFw==
+X-Google-Smtp-Source: AGHT+IEF207BQMo0Dq88FSaSGXgKTLyR81jf+3IPYp4cFuUOJkWkUOJ0k7niMWfu/ZSG5bxpQZi0ZQ==
+X-Received: by 2002:a17:906:c2d0:b0:b6d:2c92:a5f with SMTP id a640c23a62f3a-b6d2c920ademr642397266b.3.1761208671128;
+        Thu, 23 Oct 2025 01:37:51 -0700 (PDT)
+Received: from [172.16.220.227] (144-178-202-139.static.ef-service.nl. [144.178.202.139])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d5144e4acsm151529866b.63.2025.10.23.01.37.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 23 Oct 2025 01:37:50 -0700 (PDT)
+Message-ID: <cd083217-27b1-4959-b80d-0189f178208d@fairphone.com>
+Date: Thu, 23 Oct 2025 10:37:50 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,223 +83,66 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v4 02/15] media: v4l2-ctrls: Add hevc_ext_sps_[ls]t_rps
- controls
-To: Detlev Casanova <detlev.casanova@collabora.com>,
- linux-kernel@vger.kernel.org
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
- Heiko Stuebner <heiko@sntech.de>, Ricardo Ribalda <ribalda@chromium.org>,
- Hans Verkuil <hverkuil@kernel.org>, Hans de Goede <hansg@kernel.org>,
- Yunke Cao <yunkec@google.com>, Jonathan Corbet <corbet@lwn.net>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Sakari Ailus <sakari.ailus@linux.intel.com>,
- James Cowgill <james.cowgill@blaize.com>, linux-media@vger.kernel.org,
- linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
- kernel@collabora.com, Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20251022174508.284929-1-detlev.casanova@collabora.com>
- <20251022174508.284929-3-detlev.casanova@collabora.com>
-Content-Language: en-US, nl
-In-Reply-To: <20251022174508.284929-3-detlev.casanova@collabora.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH RFC 3/3] arm64: dts: qcom: qcm6490-fairphone-fp5: Add cam
+ actuator
+To: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+ Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Tianshu Qiu <tian.shu.qiu@intel.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Luca Weiss <luca.weiss@fairphone.com>
+Cc: linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+References: <20251009-ak7377-driver-v1-0-29e4f6e16ed3@fairphone.com>
+ <20251009-ak7377-driver-v1-3-29e4f6e16ed3@fairphone.com>
+ <c1d09672-e8a4-473a-88dd-fc91e81aea52@oss.qualcomm.com>
+Content-Language: en-US
+From: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
+In-Reply-To: <c1d09672-e8a4-473a-88dd-fc91e81aea52@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 22/10/2025 19:44, Detlev Casanova wrote:
-> The vdpu381 decoder found on newer Rockchip SoC need the information
-> from the long term and short term ref pic sets from the SPS.
+Hi Konrad
+On 10/22/25 19:29, Konrad Dybcio wrote:
+> On 10/9/25 2:23 PM, Griffin Kroah-Hartman wrote:
+>> Add a node for Asahi Kasei AK7377 actuator, used for focus of the main
+>> back camera sensor.
+>>
+>> Signed-off-by: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
+>> ---
+>>   arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts | 7 +++++++
+>>   1 file changed, 7 insertions(+)
+>>
+>> diff --git a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+>> index e115b6a52b299ef663ccfb614785f8f89091f39d..49654f0f914fbe18080d2f55bb6877c8ab7baf0e 100644
+>> --- a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+>> +++ b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+>> @@ -616,6 +616,13 @@ &cci0 {
+>>   };
+>>   
+>>   &cci0_i2c0 {
+>> +	camera_imx800_ak7377: actuator@c {
+>> +		compatible = "asahi-kasei,ak7377";
+>> +		reg = <0x0c>;
+>> +		vdd-supply = <&vreg_l7p>;
+>> +		vio-supply = <&vreg_l7p>;
 > 
-> So far, it wasn't included in the v4l2 API, so add it with new dynamic
-> sized controls.
-> 
-> Each element of the hevc_ext_sps_lt_rps array contains the long term ref
-> pic set at that index.
-> Each element of the hevc_ext_sps_st_rps contains the short term ref pic
-> set at that index, as the raw data.
-> It is the role of the drivers to calculate the reference sets values.
-> 
-> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
-> ---
->  drivers/media/v4l2-core/v4l2-ctrls-core.c | 18 +++++++
->  drivers/media/v4l2-core/v4l2-ctrls-defs.c | 10 ++++
->  include/uapi/linux/v4l2-controls.h        | 61 +++++++++++++++++++++++
->  include/uapi/linux/videodev2.h            |  2 +
->  4 files changed, 91 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> index 7c660cd61e48..b330bd7719e9 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -418,6 +418,12 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
->  	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
->  		pr_cont("HEVC_SLICE_PARAMS");
->  		break;
-> +	case V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS:
-> +		pr_cont("HEVC_EXT_SPS_ST_RPS");
-> +		break;
-> +	case V4L2_CTRL_TYPE_HEVC_EXT_SPS_LT_RPS:
-> +		pr_cont("HEVC_EXT_SPS_LT_RPS");
-> +		break;
->  	case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
->  		pr_cont("HEVC_SCALING_MATRIX");
->  		break;
-> @@ -1248,6 +1254,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->  	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
->  		break;
->  
-> +	case V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS:
-> +		break;
-> +
-> +	case V4L2_CTRL_TYPE_HEVC_EXT_SPS_LT_RPS:
-> +		break;
-> +
+> The dt-bindings suggest vdd is 2.8 V and vio is 1.8 V (at least
+> on AK7375, although this isn't stated explicitly..)
 
-There is nothing to validate here? Any value is fine? Just checking...
+This AK7377 is integrated into a JHS-M15342-A2, which only takes in VDD 
+as a power supply. VIO was only added to satisfy the dt-bindings, as we 
+are not sure what the exact pin layout the AK7377 has.
 
-Is this something that should be added to the visl driver so it is tested during regression
-tests? Or does this not apply to visl?
+> L7P on FP5 is 2.7 V (default) - 3.0 V (which you should probably
+> tighten to the actual operating value), please double-check this
 
-I haven't looked in-depth into this, but I wondered about it.
+I can confirm that L7P is supposed to be 2.8V on the FP5, I will update 
+the dts in my next patchset.
 
-Regards,
+> Konrad
 
-	Hans
-
->  	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
->  		break;
->  
-> @@ -2000,6 +2012,12 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->  	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
->  		elem_size = sizeof(struct v4l2_ctrl_hevc_slice_params);
->  		break;
-> +	case V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS:
-> +		elem_size = sizeof(struct v4l2_ctrl_hevc_ext_sps_st_rps);
-> +		break;
-> +	case V4L2_CTRL_TYPE_HEVC_EXT_SPS_LT_RPS:
-> +		elem_size = sizeof(struct v4l2_ctrl_hevc_ext_sps_lt_rps);
-> +		break;
->  	case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
->  		elem_size = sizeof(struct v4l2_ctrl_hevc_scaling_matrix);
->  		break;
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> index ad41f65374e2..167286c9e424 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
-> @@ -1233,6 +1233,8 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
->  	case V4L2_CID_STATELESS_HEVC_START_CODE:		return "HEVC Start Code";
->  	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return "HEVC Entry Point Offsets";
-> +	case V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS:		return "HEVC Short Term Ref Sets";
-> +	case V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS:		return "HEVC Long Term Ref Sets";
->  	case V4L2_CID_STATELESS_AV1_SEQUENCE:			return "AV1 Sequence Parameters";
->  	case V4L2_CID_STATELESS_AV1_TILE_GROUP_ENTRY:		return "AV1 Tile Group Entry";
->  	case V4L2_CID_STATELESS_AV1_FRAME:			return "AV1 Frame Parameters";
-> @@ -1578,6 +1580,14 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  		*type = V4L2_CTRL_TYPE_U32;
->  		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
->  		break;
-> +	case V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS:
-> +		*type = V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS;
-> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-> +		break;
-> +	case V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS:
-> +		*type = V4L2_CTRL_TYPE_HEVC_EXT_SPS_LT_RPS;
-> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
-> +		break;
->  	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
->  		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
->  		break;
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 2d30107e047e..dd9e29afa155 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -2093,6 +2093,8 @@ struct v4l2_ctrl_mpeg2_quantisation {
->  #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_STATELESS_BASE + 405)
->  #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_STATELESS_BASE + 406)
->  #define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_STATELESS_BASE + 407)
-> +#define V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS  (V4L2_CID_CODEC_STATELESS_BASE + 408)
-> +#define V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS  (V4L2_CID_CODEC_STATELESS_BASE + 409)
->  
->  enum v4l2_stateless_hevc_decode_mode {
->  	V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
-> @@ -2548,6 +2550,65 @@ struct v4l2_ctrl_hevc_scaling_matrix {
->  	__u8	scaling_list_dc_coef_32x32[2];
->  };
->  
-> +#define V4L2_HEVC_EXT_SPS_ST_RPS_FLAG_INTER_REF_PIC_SET_PRED	0x1
-> +
-> +/*
-> + * struct v4l2_ctrl_hevc_ext_sps_st_rps - HEVC short term RPS parameters
-> + *
-> + * Dynamic size 1-dimension array for short term RPS. The number of elements
-> + * is v4l2_ctrl_hevc_sps::num_short_term_ref_pic_sets. It can contain up to 65 elements.
-> + *
-> + * @delta_idx_minus1: Specifies the delta compare to the index. See details in section 7.4.8
-> + *                    "Short-term reference picture set semantics" of the specification.
-> + * @delta_rps_sign: Sign of the delta as specified in section 7.4.8 "Short-term reference picture
-> + *                  set semantics" of the specification.
-> + * @abs_delta_rps_minus1: Absolute delta RPS as specified in section 7.4.8 "Short-term reference
-> + *                        picture set semantics" of the specification.
-> + * @num_negative_pics: Number of short-term RPS entries that have picture order count values less
-> + *                     than the picture order count value of the current picture.
-> + * @num_positive_pics: Number of short-term RPS entries that have picture order count values
-> + *                     greater than the picture order count value of the current picture.
-> + * @used_by_curr_pic: Bit j specifies if short-term RPS j is used by the current picture.
-> + * @use_delta_flag: Bit j equals to 1 specifies that the j-th entry in the source candidate
-> + *                  short-term RPS is included in this candidate short-term RPS.
-> + * @delta_poc_s0_minus1: Specifies the negative picture order count delta for the i-th entry in
-> + *                       the short-term RPS. See details in section 7.4.8 "Short-term reference
-> + *                       picture set semantics" of the specification.
-> + * @delta_poc_s1_minus1: Specifies the positive picture order count delta for the i-th entry in
-> + *                       the short-term RPS. See details in section 7.4.8 "Short-term reference
-> + *                       picture set semantics" of the specification.
-> + * @flags: See V4L2_HEVC_EXT_SPS_ST_RPS_FLAG_{}
-> + */
-> +struct v4l2_ctrl_hevc_ext_sps_st_rps {
-> +	__u8	delta_idx_minus1;
-> +	__u8	delta_rps_sign;
-> +	__u16	abs_delta_rps_minus1;
-> +	__u8	num_negative_pics;
-> +	__u8	num_positive_pics;
-> +	__u32	used_by_curr_pic;
-> +	__u32	use_delta_flag;
-> +	__u16	delta_poc_s0_minus1[16];
-> +	__u16	delta_poc_s1_minus1[16];
-> +	__u8	flags;
-> +};
-> +
-> +#define V4L2_HEVC_EXT_SPS_LT_RPS_FLAG_USED_LT		0x1
-> +
-> +/*
-> + * struct v4l2_ctrl_hevc_ext_sps_lt_rps - HEVC long term RPS parameters
-> + *
-> + * Dynamic size 1-dimension array for long term RPS. The number of elements
-> + * is v4l2_ctrl_hevc_sps::num_long_term_ref_pics_sps. It can contain up to 65 elements.
-> + *
-> + * @lt_ref_pic_poc_lsb_sps: picture order count modulo MaxPicOrderCntLsb of the i-th candidate
-> + *                          long-term reference picture.
-> + * @flags: See V4L2_HEVC_EXT_SPS_LT_RPS_FLAG_{}
-> + */
-> +struct v4l2_ctrl_hevc_ext_sps_lt_rps {
-> +	__u16	lt_ref_pic_poc_lsb_sps;
-> +	__u8	flags;
-> +};
-> +
->  /* Stateless VP9 controls */
->  
->  #define V4L2_VP9_LOOP_FILTER_FLAG_DELTA_ENABLED	0x1
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index becd08fdbddb..ae1d33fd37b7 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -1981,6 +1981,8 @@ enum v4l2_ctrl_type {
->  	V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS	= 0x0272,
->  	V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX	= 0x0273,
->  	V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS	= 0x0274,
-> +	V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS	= 0x0275,
-> +	V4L2_CTRL_TYPE_HEVC_EXT_SPS_LT_RPS	= 0x0276,
->  
->  	V4L2_CTRL_TYPE_AV1_SEQUENCE	    = 0x280,
->  	V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY = 0x281,
-
+Griffin
 
