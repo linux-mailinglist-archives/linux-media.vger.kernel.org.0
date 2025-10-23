@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-45410-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45411-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03BD9C0216A
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 17:23:49 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D87BC02206
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 17:32:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 769523A29BF
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 15:18:08 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 239C73AEFB7
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 15:25:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6A6EB30CD8A;
-	Thu, 23 Oct 2025 15:18:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E71F93385BA;
+	Thu, 23 Oct 2025 15:25:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ix54ZzdF"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s86T8EFh"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A33FC334C0F;
-	Thu, 23 Oct 2025 15:18:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C3ED33711B;
+	Thu, 23 Oct 2025 15:25:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761232681; cv=none; b=PbjnmFdohenspzl6+Vj4KxVWZihPw7PTI27DpJnCr5FuFGT7qRs+Z226wdfyZLH7LHOYx3xY1NRIeJG7C5tVSR4ET3kDol2DQgGlyzDOcJ8PJORot9PmckFGbQQIFuMwtyqlfkMhPLIPYLvjUqrsmgs6jeEKKdinivjKQMZYQL4=
+	t=1761233103; cv=none; b=jfUyBVGH2n4NOqMdgyX2cBPybLrW5BQYsqqNr3vWzYZaF437+n5COuyOzOT3zwCs1ugpeKZJOg0Tc4SS/7cFXxLs77oTuQd29MMHqDjHN86eXO6NbOa5FsyW1Xagydig4LGRu4zTfMX+YR48S1djKkSALQg/Zggly9YqB+j1uGo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761232681; c=relaxed/simple;
-	bh=R1WCx2SmzsY8sZqdBiLN3BTgIZdYm4JkudaKgOezh6k=;
+	s=arc-20240116; t=1761233103; c=relaxed/simple;
+	bh=c0Ecb9W5wfVFnq1RzoxHPXPGZkX8equV3asyENLGYx4=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=is8EFKMKaqPXek7AqSUaroyDzn6YaTZbZ4WXa6LbVLasqR0koZZNbMTH745VBwDupBWNW7b9XZyLqW2nhboqfl+YMm2wOcx5SwI8+U52CxcNnT6BChTROzRb77aSXYfLVRfHcFYwvy4pOaotM3J1fzyZtdOQBOixJIwrzQ3aiZM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ix54ZzdF; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 88EB1C4CEE7;
-	Thu, 23 Oct 2025 15:17:58 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=o2olSqUfmnw9pMw3KzThJJzn1U3ycQ5iT5ofb6HGTIF2MVNB1Ic8aXkIUF2sKTOfsRFPnT1CtRqqCdWyRcRJbF2nXsfmq6rWZ/OqJU/DrwCSy6obd/r28xV//y7+KhxdeSQ/5VbebLOdNKOluH5HaLVw/xFJUmWi8e++g0iod5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s86T8EFh; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 02E9CC4CEF7;
+	Thu, 23 Oct 2025 15:24:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761232681;
-	bh=R1WCx2SmzsY8sZqdBiLN3BTgIZdYm4JkudaKgOezh6k=;
+	s=k20201202; t=1761233102;
+	bh=c0Ecb9W5wfVFnq1RzoxHPXPGZkX8equV3asyENLGYx4=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=ix54ZzdFJaM7TEl0WohUnVqeKNChmzJteYBERpB7nAVkfxdmPwcoCsXSVWmQbmYEG
-	 w/gb3LMllaK7cSt28Oj1j2rT5eKLVTg1l/+ylVXpIzza1nfgiugWYh90+VVpSJveNc
-	 GSs+213QCAm227wyC2prc+ikyJMOuZAOn3ms6lfCAuI2NVzbLs2KqbmXLdQhe0e9pq
-	 eUngypAHv8xCxpcDYpzcFXFlhYUCPuiusgMclOdfYQEgBairGCDvmi9sdXPAdUUW3R
-	 z2fnf+cBBZGcFPdH6fIzMpUGbx0TDtnJ9xkW/vb8m6+e5ylbE1Ncmk5LyiSmo81lCH
-	 APcqA3vCiP6eA==
-Message-ID: <15cb5975-6192-4104-b41f-7b887c6f17ee@kernel.org>
-Date: Thu, 23 Oct 2025 16:17:56 +0100
+	b=s86T8EFh+TjANy91aoBOSuJfPEcWwGiqZwZWa+/ErcSOxShkIAdK6wEUqAVS1lclJ
+	 aYpM2Fr9L4nj1FeDEFnIk5dVmWASBGPnjFrtVvoLsGIRvISho7xeHcaDAFkf0Hm5oR
+	 +8RsdU9BuZKrisjOfGBVXRfDUiVv2yBqUDyIbCF8oeC/JxqvtqQ27QoWwTZVMwylgK
+	 YLHmRkk4IchflHDmi9v89MKgHDT3pxevKdNCvkiy34avOZUS54VxxLfZk3TPlnKZFS
+	 nij1mxZc3KjkjPqY2+n/xxZIJt2xWcPpJ+UrZdQqhEYgQzeAdX7+dxdMYwMcOGAZeN
+	 CTVZ+X/mQUM/A==
+Message-ID: <aad7ce22-9c82-44b2-809c-7d8711ff4e26@kernel.org>
+Date: Thu, 23 Oct 2025 17:24:56 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,91 +50,81 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] arm64: dts: qcom: sm8650: Add CAMSS device tree
- node
-To: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>
-Cc: Neil Armstrong <neil.armstrong@linaro.org>,
- linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20251017031131.2232687-1-vladimir.zapolskiy@linaro.org>
- <zeprC_Bvr6DKjBA2nbWUqZYDZNApjKlnFRCY88zj6hoKM-bpbNSdSYovLJW8Ilf4v4rYwzIXUISfm-Bn7PqLFg==@protonmail.internalid>
- <20251017031131.2232687-5-vladimir.zapolskiy@linaro.org>
-From: Bryan O'Donoghue <bod@kernel.org>
+Subject: Re: [PATCH v3 1/6] dt-bindings: i2c: qcom-cci: Document Kaanapali
+ compatible
+To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
+ Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
+ <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, aiqun.yu@oss.qualcomm.com,
+ tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
+ yijie.yang@oss.qualcomm.com, Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+ Atiya Kailany <atiya.kailany@oss.qualcomm.com>
+References: <20251023-add-support-for-camss-on-kaanapali-v3-0-02abc9a107bf@oss.qualcomm.com>
+ <20251023-add-support-for-camss-on-kaanapali-v3-1-02abc9a107bf@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
 Content-Language: en-US
-In-Reply-To: <20251017031131.2232687-5-vladimir.zapolskiy@linaro.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <20251023-add-support-for-camss-on-kaanapali-v3-1-02abc9a107bf@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 17/10/2025 04:11, Vladimir Zapolskiy wrote:
-> Add Qualcomm SM8650 CAMSS device tree node to the platform dtsi file,
-> the SM8650 CAMSS IP contains
-> * 6 x CSIPHY,
-> * 3 x CSID, 2 x CSID Lite,
-> * 3 x IFE, 2 x IFE Lite.
+On 23/10/2025 11:14, Hangxiang Ma wrote:
+> Add Kaanapali compatible consistent with CAMSS CCI interfaces.
 > 
-> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
 > ---
->   arch/arm64/boot/dts/qcom/sm8650.dtsi | 180 +++++++++++++++++++++++++++
->   1 file changed, 180 insertions(+)
-> 
-> diff --git a/arch/arm64/boot/dts/qcom/sm8650.dtsi b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-> index ebf1971b1bfb..555305c1c70d 100644
-> --- a/arch/arm64/boot/dts/qcom/sm8650.dtsi
-> +++ b/arch/arm64/boot/dts/qcom/sm8650.dtsi
-> @@ -5343,6 +5343,186 @@ cci2_i2c1: i2c-bus@1 {
->   			};
->   		};
-> 
-> +		camss: isp@acb6000 {
-> +			compatible = "qcom,sm8650-camss";
-> +			reg = <0 0x0acb6000 0 0x1000>,
-> +			      <0 0x0acb8000 0 0x1000>,
-> +			      <0 0x0acba000 0 0x1000>,
-> +			      <0 0x0acbc000 0 0x1000>,
-> +			      <0 0x0accb000 0 0x1000>,
-> +			      <0 0x0acd0000 0 0x1000>,
-> +			      <0 0x0ace4000 0 0x2000>,
-> +			      <0 0x0ace6000 0 0x2000>,
-> +			      <0 0x0ace8000 0 0x2000>,
-> +			      <0 0x0acea000 0 0x2000>,
-> +			      <0 0x0acec000 0 0x2000>,
-> +			      <0 0x0acee000 0 0x2000>,
-> +			      <0 0x0ac62000 0 0xf000>,
-> +			      <0 0x0ac71000 0 0xf000>,
-> +			      <0 0x0ac80000 0 0xf000>,
-> +			      <0 0x0accc000 0 0x2000>,
-> +			      <0 0x0acd1000 0 0x2000>;
-> +			reg-names = "csid_wrapper",
-> +				    "csid0",
-> +				    "csid1",
-> +				    "csid2",
-> +				    "csid_lite0",
-> +				    "csid_lite1",
-> +				    "csiphy0",
-> +				    "csiphy1",
-> +				    "csiphy2",
-> +				    "csiphy3",
-> +				    "csiphy4",
-> +				    "csiphy5",
-> +				    "vfe0",
-> +				    "vfe1",
-> +				    "vfe2",
-> +				    "vfe_lite0",
-> +				    "vfe_lite1";
 
-So I don't believe the squashing down of node - subtracting newlines is 
-consistent with other entries in this dtsi.
+Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
 
-It doesn't matter in the example but, here it should be consistent with 
-other nodes already here.
-
-Think it should be updated/changed to match the rest.
-
----
-bod
+Best regards,
+Krzysztof
 
