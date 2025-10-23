@@ -1,160 +1,85 @@
-Return-Path: <linux-media+bounces-45369-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45370-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92598C0086A
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 12:36:34 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7B0BC0088E
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 12:38:30 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 0BC3F501E65
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 10:35:16 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 66BB4342D9A
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 10:38:30 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0783F30DEB9;
-	Thu, 23 Oct 2025 10:33:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5AD972FABE7;
+	Thu, 23 Oct 2025 10:38:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nPvhA6rW"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="Uc7Ar9hk"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A3A4830DEAD
-	for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 10:33:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4371E2DA75A
+	for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 10:38:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761215589; cv=none; b=fyDHknXd4z9M2wy/L0LyZ3tb2ESYdKguDuE+eWZ56Plm+0OL3GLhOLNWOgD4kgnUoOcN1ptmfhH/FK0G7kJeV63g2gV7bGHOS2SaacmrJEIwVovYjHLyTGQdJ1rBPVFtp9TyD5ScXz0WXNaENfgD3FPNsyaquCQA4l4/lvlt2gQ=
+	t=1761215900; cv=none; b=iwuyDH9MogfLOe/sDZtaYuul0eeHywoz6qEB6HC0wz5xjow7yOgmh6nQWoq4WYXHadhE+tW6oPzIJobm1+Q3Ps/u2w8/8wfruPRwxhYorIB+TFCtwLkz0CyOl/oQ8iGCCxKqUmrIrvSFR1lGScn8Y2GJhGIa1crDRoTNiUqZfiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761215589; c=relaxed/simple;
-	bh=dZnKR/a/pDH/CB8DnfAtKqRDaLhcZVhuKSlMbnnqq90=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=FkvA4NJ6yl90v706e8f0nq7PtEBPAudQI76WAxXQRG1OGoekHvjRhspVWqIe/w1viqJlRFs1T2tWU4a76y5uttTCpwNXhZFjncq/ZVbqvDAq6Xvn1m7eRTU+SrSO+RLhSmgDpLKj7M9SsQY7AwF1bTyESkspyQXrD8AXf+caThw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nPvhA6rW; arc=none smtp.client-ip=209.85.215.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-b5579235200so430928a12.3
-        for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 03:33:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761215586; x=1761820386; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=7aCzwSR2QayqVcdDXwHXvwD07lQU3kcAPJzjXfbUAOI=;
-        b=nPvhA6rWBH87cdrJw9idX647l8Y9oOEK0qWh/bOgpXmxQi87eshBl4wvH5qow2a6Lm
-         CM0n/siqlSVqD3W64OYysxG3psYZfKg0d8Sl4WwrgAs4uUchx/XtuCNLHpqsP5GH1VI5
-         iBoehdkdYMWEpZPbxs2UjSndlg8EgcvIdss28xq7wBeeQzC55w6wNHzwRJ2RfqIg7LO9
-         3SliXSJav08Rxc+kzog7khPboY2TPh2aAC0jK3JeYtlR7aqoBv1qtWH+KBPqAUvuTiVU
-         kmYgipJQo6p5ejtcsdTgWnKJ4FbPwRLxi1sYthVG3b/UuzTytWsGlVYuL6dt6m+DQ4il
-         BP/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761215586; x=1761820386;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7aCzwSR2QayqVcdDXwHXvwD07lQU3kcAPJzjXfbUAOI=;
-        b=CYE8IPkhVGCex17IzY8pD6FWENqRImt51Q1xTQ0LsZoTkuYKxM8SfgzutH4TwEXbdk
-         RGsJmNxsfb8p6f+pc90qpRJEyt2CQdtHTWZSJkY4xN7DUeeHgKyG7HUy+POVmbXHP36b
-         QbFyEratZIMoJuPqTo62McVn8x55zpbg5kScHHNXKMEOjd7tuVYM1fVfPLGrxVyhusF0
-         iySK4md3w/qCYjK2wG9XpPPSZzvgLt8da739kj93lJIxCK3YJrUvyryUSVT9+2bh9yha
-         dIk2cMPwLGuwAmwjZDB5I4ymkXhxmGPgmLa95LWXqyV8N/1ILn5aJCP4tHfn2deP4AQb
-         R2qQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVC14+6yDDYBf31ZA65auR0y6+pa2UBMuJ1mOkhavzFdSqvdcCvPYTfwNbQ6KFJdR4HkQIURsk27zuAIw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyLjvyyPIMAIQ6usP6ttxaK4+kr0CcAXNvnGT/nEC/HHDJT+at/
-	91TQNNa86Rsu7Su0wnfcAwMtLO8eagojRDPocXR3oDs25Lt6pOSCnetKmOF42mFG1uqCnp9ek/e
-	hx/kGtzC6hD3rCYE3YxGysEGoBun2yMU=
-X-Gm-Gg: ASbGncsnhI4PRkIHHFoewf+qp2XujYCzstMO+E6AjR7M0ta9sN7WqhyMgiFTbyH90jS
-	t/chdgajxRZj+qX1ULyR84unzcOKE96ahK7i2dDt5+oe1OVbb4OVjtSXJ8/SzDVchw7Gn1uE5bw
-	Ig5CJv+p82l6JWBuIbyYHjr4wXlpWiDyQN+xKOAjNRlWLTsOVgqmhvHagejXEdtudqwRduh2Hiw
-	dNC+jnhbbBG2m5NPVh3hNe3iT2P7rm3ZODSpZyn55D//DiSLvW1c03h4R8E1r2d4WG64pb2RWEq
-	9Yy4pT5roNCmCMycYEpyKGNSKn1Yi64SC0kt3mO2Dvzv85i/2MmVzOlXShRRWVfEmuZT/SewMuE
-	thCFYuprxsLA4EtsxKqr4hI2H
-X-Google-Smtp-Source: AGHT+IHsVcEJWnjTOcRm6kFFDy//zI+E6pFS+QqeNfX+0JG9e5gfDnfkAhZ3l+gYEusuaLmHBHf70Dl2/e/vWAz5ugA=
-X-Received: by 2002:a17:903:1a67:b0:24b:11c8:2d05 with SMTP id
- d9443c01a7336-2946e23029fmr26514085ad.45.1761215585733; Thu, 23 Oct 2025
- 03:33:05 -0700 (PDT)
+	s=arc-20240116; t=1761215900; c=relaxed/simple;
+	bh=GLp1Y2oKZKnRqhEGtyXEI+XsVwpcYKLLCOe0wsnWOzg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RRe+0eaAzFI3fxO3XARzmboyti2xiFw2pUTrqRfDx+bdJoknnEdo6FBBQuWOhai9PC/jS9bIT8bu6FwLUCGPW4LqyhABWnCtuRwCmUL2TVeh5GPxR2QLd4NnZxCjDGd8WdIg2e3Wdw4ZWYezqs8sDye6Ae2m+lF5tu9VemKLypY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=Uc7Ar9hk; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (82-203-161-16.bb.dnainternet.fi [82.203.161.16])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 673EAEFE;
+	Thu, 23 Oct 2025 12:36:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1761215791;
+	bh=GLp1Y2oKZKnRqhEGtyXEI+XsVwpcYKLLCOe0wsnWOzg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Uc7Ar9hkKaFl0Ce54ULvB+j3YKzZ4i99+L9vZMAJ5Crwy7fEzLQQEC50+W8qf5pNt
+	 N9lx07w0REMi3+o4NDvkT3JdvEEiUCX58QOejcVltk0/fNNeCz7uG1YANb9RRj+HFH
+	 3rjsv0lPL4k/OgFUtYmb6Cp0HXmUaKfyeR0hQB6g=
+Date: Thu, 23 Oct 2025 13:38:04 +0300
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Lili Orosz <lily@floofy.city>
+Cc: hansg@kernel.org, mchehab@kernel.org, linux-media@vger.kernel.org
+Subject: Re: PROBLEM: regression in commit 0e2ee70291e64 breaks
+ non-spec-compliant webcams
+Message-ID: <20251023103804.GH19043@pendragon.ideasonboard.com>
+References: <dd1c8e46-5616-4395-baac-56fdc4a67be2@floofy.city>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250913105252.26886-1-opensource206@gmail.com> <8199bec4-b9e1-4d6e-98da-a4d7eb667437@kernel.org>
-In-Reply-To: <8199bec4-b9e1-4d6e-98da-a4d7eb667437@kernel.org>
-From: opensource india <opensource206@gmail.com>
-Date: Thu, 23 Oct 2025 16:02:54 +0530
-X-Gm-Features: AS18NWAg0QSyYQsw_O7gJY62YSwJ5TkGKjIiCvVi1yEvwsZR1T95LHjrV-YNDLA
-Message-ID: <CAKPKb8-s96v+Nh29Z5E0wgyXYgoFHJT2SHA_WpZshXspo0WY0w@mail.gmail.com>
-Subject: Re: [PATCH v3] media: v4l2-ctrls: add full AV1 profile validation in validate_av1_sequence()
-To: Hans Verkuil <hverkuil+cisco@kernel.org>
-Cc: mchehab@kernel.org, hverkuil@kernel.org, ribalda@chromium.org, 
-	laurent.pinchart@ideasonboard.com, yunkec@google.com, 
-	sakari.ailus@linux.intel.com, james.cowgill@blaize.com, 
-	Nicolas Dufresne <nicolas.dufresne@collabora.com>, linux-media@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <dd1c8e46-5616-4395-baac-56fdc4a67be2@floofy.city>
 
-On Wed, Oct 22, 2025 at 12:44=E2=80=AFPM Hans Verkuil <hverkuil+cisco@kerne=
-l.org> wrote:
->
-> Hi Pavan,
->
-> On 13/09/2025 12:52, Pavan Bobba wrote:
-> > Complete the "TODO: PROFILES" by enforcing profile-specific and
-> > monochrome constraints as defined by the AV1 specification
-> > (Section 5.5.2, "Color config syntax").
-> >
-> > The validator now checks:
-> >
-> >  - Flags: reject any unknown bits set in sequence->flags
-> >  - Profile range: only profiles 0..2 are valid
-> >  - Profile 0: 8/10-bit only, subsampling must be 4:2:0 (sx=3D1, sy=3D1)=
-,
-> >    monochrome allowed
-> >  - Profile 1: 8/10-bit only, subsampling must be 4:4:4 (sx=3D0, sy=3D0)=
-,
-> >    monochrome forbidden
-> >  - Profile 2:
-> >     * 8/10-bit: only 4:2:2 allowed (sx=3D1, sy=3D0)
-> >     * 12-bit: 4:4:4 (sx=3D0, sy=3D0), 4:2:2 (sx=3D1, sy=3D0), or 4:2:0 =
-(sx=3D1, sy=3D1)
-> >       allowed
-> >  - Monochrome path (all profiles except 1): forces subsampling_x=3D1,
-> >    subsampling_y=3D1, separate_uv_delta_q=3D0
-> >
-> > These checks prevent userspace from providing invalid AV1 sequence
-> > headers that would otherwise be accepted, leading to undefined driver
-> > or hardware behavior.
->
-> This patch was merged in our media-committers next branch, but I noticed =
-that
-> it now fails the v4l2-compliance test for the visl driver.
->
-> The cause is that the new validation now fails with the default values fo=
-r
-> this control as set in std_init_compound().
->
-> You can test this yourself by loading the visl driver and then running
-> v4l2-compliance -d /dev/videoX -E --verbose
-> (-E stops at the first error)
->
-> Can you provide a patch to initialize this control with sane values?
->
-> Apologies for not noticing this before: there are some issues with the au=
-tomatic
-> regression tests in our CI, so the tests weren't run.
->
-> Regards,
->
->         Hans
->
+Hi Lili,
 
-Hi Hans Verkuil,
+On Thu, Oct 23, 2025 at 12:12:23PM +0200, Lili Orosz wrote:
+> Hello,
+> 
+> The change in commit 0e2ee70291e64 reintroduces an issue that was 
+> reverted once before. It prevents webcams that do not follow the spec 
+> and have non-unique unit IDs from being usable. This issue is present 
+> both in 6.12.54 (LTS) as well as mainline.
+> 
+> The camera I tested with and can confirm is affected: LSK Meeting Eye 
+> for Business & Home. It's very likely that this is not the only 
+> non-compliant webcam out there.
 
-Thank you so much for the review.
-yes, v4l2-compliance expected to fail indeed since it is sending
-default values which, our newly added code rejects as per
-specification
+Could you please share the full `lsusb -v` output for your device ?
 
-when you say patch, you mean patch for v4l2-compliance tool with
-proper values so that v4l2 core driver can accept?
+> If I build the kernel with that commit reverted, my webcam begins to 
+> function as intended again.
+
+-- 
+Regards,
+
+Laurent Pinchart
 
