@@ -1,121 +1,143 @@
-Return-Path: <linux-media+bounces-45378-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45379-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97381C00D05
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 13:41:21 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A8A14C00D2F
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 13:43:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DB3F13ACE78
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 11:36:28 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 195A23B39E0
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 11:37:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1025930AAD4;
-	Thu, 23 Oct 2025 11:36:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 267832FF668;
+	Thu, 23 Oct 2025 11:36:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tHccZPGt"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JKG+lK/c"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 66730279DC9;
-	Thu, 23 Oct 2025 11:36:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A5298304BBC;
+	Thu, 23 Oct 2025 11:36:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761219383; cv=none; b=i4vDBhBFGzETyA454kJis0kPeOic4GY/MtCy3FCYeX6cNjVcSHSNer+PknKiIRbomGz/E0ygKrUdDmEVWnc1V/GcHQ8vMyWlsWqiH74c0k8+L49WjbDl17LQ9cP+9mI0qi1VIpH0Uk9f6Yrh1VCYNEP1VqO7cXJWUN3e7bvLEOA=
+	t=1761219408; cv=none; b=rrWRArYJ2BnQbxvRZGmfXdxXbDAE4MDsbk2HNTG+f8RsBwcz2jhHKftK2u6Oq3B5yx5JUyKnm1/yPdg+tIjsirWugIL0JL25rcV/mahF1+xcYoeJidDCCy6WiGPQP/NKBx7RaC1Y6deLUWVLL+8ahvLv0kLUdQufEMNUhxN2V8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761219383; c=relaxed/simple;
-	bh=rbVZpONuC8MAzupUoRy17aoUqpMr4UX2Bqwco3pg+hA=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=d3yfh02g8jkhFE0nWdt+qds6kmja3xMkYAMJbB9AAnRjkaWOZN4QItlP2iwZDQ1Rz09ozjKbTjc2j/zM0SZCEC2iZpi10TVAorV446QhJgSlobNOOK11SR+Rf9kBqv7vQ2bOnm4aqdDwz/3bG2mr6JzEr1dH9dvP4qn6z33Tcls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tHccZPGt; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CE95C4CEE7;
-	Thu, 23 Oct 2025 11:36:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761219383;
-	bh=rbVZpONuC8MAzupUoRy17aoUqpMr4UX2Bqwco3pg+hA=;
-	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=tHccZPGtr8HRLVzd2BxtGWKiMvNQLtneFAtXPK0MIohfsOYOy9L2YWlczBAKDFeXJ
-	 puuQGSWMrKiKfnlw6EdXU2roj5Ew5UB663PNBBKyZmxQ8Fk3iGMNJNg5XMAIPMHqia
-	 ScI3i1jl9CibU7sJhGXoMxoI4ZJWm1oPYytPZi3XS/0UpnW4Q5fvowkx7+xq9IMxqc
-	 hq8EkgitZ9caxAb3tldpXCHIVgvOGho757w191gTWU3D9If30Hdfy4gNSHkTUqhQoe
-	 WS2PdPzkRLQf2c0tnUTxeocWpB/iB1NCzklkn8+4d0CCYXrrNtbbw8OXG0R++hgGMh
-	 CAjPEfTAXQ5Lw==
-Message-ID: <81a46647-c666-4475-893b-d4af043c90ea@kernel.org>
-Date: Thu, 23 Oct 2025 13:36:19 +0200
+	s=arc-20240116; t=1761219408; c=relaxed/simple;
+	bh=APuVVTKUgSdf8N76cjQz8KE4z+xjKZgYpTJmhOolDfg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VvJg+m00tdbQ2l3PgGsBGl5beQsdKvOCCSg0UfgSV82y5Gtaki+YGA74HiyG0qTPKYmqGY2YlX8MFsngzyD7XdXGYtay2Owm6FmljFOW4IfMnyZQdQE6mo/SdAn/SiLCFECdT1fXSaj6SAQwd6ui6wJrv8ouam9sxA8Tqt/a2/4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JKG+lK/c; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761219406; x=1792755406;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=APuVVTKUgSdf8N76cjQz8KE4z+xjKZgYpTJmhOolDfg=;
+  b=JKG+lK/cQE7RxO3MCkpbgssQiRlx71V8a8NuFjBohSRr4YkRmUsadVjO
+   sIDL0K3XDfcUqsL6TR+qv21bcu05U5xOksSya/ff6bATj/pDYnEGDAZIM
+   0JH5ajqARzzECRJOR6RlKPWtY4CqxVK8jrzt4yOoNYZwFiFvs05gICniS
+   zXS9KkAmMuZefqaOcPEz9dvRULpMdIToeGwsY64IWAkvA4gtQBdPRHaXX
+   SmoErQoZiE08G96E309FWE8QrmSFp+UpptKAKYVLSlfIUIi/V4l59uRio
+   6Az92N7IEBkuQn0hETMJ2wNkKTJdDADB5zhVBBwO0wWJVYL9peBG4KhFd
+   w==;
+X-CSE-ConnectionGUID: t8xe+PG5ToiTAzNui+f57g==
+X-CSE-MsgGUID: MklU9/uqSMmrBbbLRDTvqg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="66000964"
+X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
+   d="scan'208";a="66000964"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 04:36:46 -0700
+X-CSE-ConnectionGUID: oNPmcWm+T9qr3ClJyjH0zw==
+X-CSE-MsgGUID: BHhGeKTiQ9eott8yQW/MTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,249,1754982000"; 
+   d="scan'208";a="189267977"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.193])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2025 04:36:43 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with SMTP id 691AD1209C8;
+	Thu, 23 Oct 2025 14:36:40 +0300 (EEST)
+Date: Thu, 23 Oct 2025 14:36:40 +0300
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
+Cc: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Tianshu Qiu <tian.shu.qiu@intel.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Luca Weiss <luca.weiss@fairphone.com>,
+	linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH RFC 3/3] arm64: dts: qcom: qcm6490-fairphone-fp5: Add cam
+ actuator
+Message-ID: <aPoTSKCTfFmA9QFJ@kekkonen.localdomain>
+References: <20251009-ak7377-driver-v1-0-29e4f6e16ed3@fairphone.com>
+ <20251009-ak7377-driver-v1-3-29e4f6e16ed3@fairphone.com>
+ <c1d09672-e8a4-473a-88dd-fc91e81aea52@oss.qualcomm.com>
+ <cd083217-27b1-4959-b80d-0189f178208d@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v3] media: videobuf2: forbid remove_bufs when legacy
- fileio is active
-To: Marek Szyprowski <m.szyprowski@samsung.com>, linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Cc: Tomasz Figa <tfiga@chromium.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
- Benjamin Gaignard <benjamin.gaignard@collabora.com>,
- Hans Verkuil <hverkuil@kernel.org>, stable@vger.kernel.org,
- Shuangpeng Bai <SJB7183@psu.edu>
-References: <CGME20251023113101eucas1p2c227985b0198d888564cab00aeb94f01@eucas1p2.samsung.com>
- <20251023113052.1303082-1-m.szyprowski@samsung.com>
-Content-Language: en-US, nl
-In-Reply-To: <20251023113052.1303082-1-m.szyprowski@samsung.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cd083217-27b1-4959-b80d-0189f178208d@fairphone.com>
 
-On 23/10/2025 13:30, Marek Szyprowski wrote:
-> vb2_ioctl_remove_bufs() call manipulates queue internal buffer list,
-> potentially overwriting some pointers used by the legacy fileio access
-> mode. Add a vb2_verify_memory_type() check symmetrical to
-> vb2_ioctl_create_bufs() to forbid that ioctl when fileio is active to
-> protect internal queue state between subsequent read/write calls.
+Hi Griffin,
+
+On Thu, Oct 23, 2025 at 10:37:50AM +0200, Griffin Kroah-Hartman wrote:
+> Hi Konrad
+> On 10/22/25 19:29, Konrad Dybcio wrote:
+> > On 10/9/25 2:23 PM, Griffin Kroah-Hartman wrote:
+> > > Add a node for Asahi Kasei AK7377 actuator, used for focus of the main
+> > > back camera sensor.
+> > > 
+> > > Signed-off-by: Griffin Kroah-Hartman <griffin.kroah@fairphone.com>
+> > > ---
+> > >   arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts | 7 +++++++
+> > >   1 file changed, 7 insertions(+)
+> > > 
+> > > diff --git a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> > > index e115b6a52b299ef663ccfb614785f8f89091f39d..49654f0f914fbe18080d2f55bb6877c8ab7baf0e 100644
+> > > --- a/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> > > +++ b/arch/arm64/boot/dts/qcom/qcm6490-fairphone-fp5.dts
+> > > @@ -616,6 +616,13 @@ &cci0 {
+> > >   };
+> > >   &cci0_i2c0 {
+> > > +	camera_imx800_ak7377: actuator@c {
+> > > +		compatible = "asahi-kasei,ak7377";
+> > > +		reg = <0x0c>;
+> > > +		vdd-supply = <&vreg_l7p>;
+> > > +		vio-supply = <&vreg_l7p>;
+> > 
+> > The dt-bindings suggest vdd is 2.8 V and vio is 1.8 V (at least
+> > on AK7375, although this isn't stated explicitly..)
 > 
-> CC: stable@vger.kernel.org
-> Fixes: a3293a85381e ("media: v4l2: Add REMOVE_BUFS ioctl")
-> Reported-by: Shuangpeng Bai<SJB7183@psu.edu>
-> Suggested-by: Benjamin Gaignard <benjamin.gaignard@collabora.com>
-> Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
-> ---
->  drivers/media/common/videobuf2/videobuf2-v4l2.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
+> This AK7377 is integrated into a JHS-M15342-A2, which only takes in VDD as a
+> power supply. VIO was only added to satisfy the dt-bindings, as we are not
+> sure what the exact pin layout the AK7377 has.
 > 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index d911021c1bb0..a8a5b42a42d0 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -1000,13 +1000,15 @@ int vb2_ioctl_remove_bufs(struct file *file, void *priv,
->  			  struct v4l2_remove_buffers *d)
->  {
->  	struct video_device *vdev = video_devdata(file);
-> -
-> -	if (vdev->queue->type != d->type)
-> -		return -EINVAL;
-> +	int res;
->  
->  	if (d->count == 0)
->  		return 0;
+> > L7P on FP5 is 2.7 V (default) - 3.0 V (which you should probably
+> > tighten to the actual operating value), please double-check this
+> 
+> I can confirm that L7P is supposed to be 2.8V on the FP5, I will update the
+> dts in my next patchset.
 
-Ah, no. This should still check d->type. So:
+This seems to be unrelated to the DTB/driver patches, which I presume I
+could take from this version while you'd post an updated DTS only?
 
-	if (d->count == 0)
-		return d->type == vdev->queue->type ? 0 : -EINVAL;
-
+-- 
 Regards,
 
-	Hans
-
->  
-> +	res = vb2_verify_memory_type(vdev->queue, vdev->queue->memory, d->type);
-> +	if (res)
-> +		return res;
-> +
->  	if (vb2_queue_is_busy(vdev->queue, file))
->  		return -EBUSY;
->  
-
+Sakari Ailus
 
