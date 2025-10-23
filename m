@@ -1,129 +1,104 @@
-Return-Path: <linux-media+bounces-45394-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45395-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F79CC01CA1
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 16:32:53 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EF49C01CBF
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 16:33:57 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 9DA7E3A5471
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 14:27:12 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 1A3003A2948
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 14:28:29 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7823E32D0CA;
-	Thu, 23 Oct 2025 14:26:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6216232B99C;
+	Thu, 23 Oct 2025 14:28:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="igX4e8dg"
+	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="LMnlLslJ"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mailout2.w1.samsung.com (mailout2.w1.samsung.com [210.118.77.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70C173093AB
-	for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 14:26:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FB8030277F
+	for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 14:28:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=210.118.77.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761229611; cv=none; b=VoTgJZDXIGas8nbg047dgIyOF+DnLFBoyTlCPeFFCSDPMeL3GT3DB+A+kcZhz3KrW28XDb6NYrxcA3a/mL7q0cXBcwzHZcpNFFkAdRTsFyLtgWf+/8498OJyFHY72rTbPUwWq8bbwFcxHB8VSM/p5jSHwIbWhW3K+0esAyLl50k=
+	t=1761229703; cv=none; b=uKIVL7QjGRzSnNAWxLLaH2Qt9tjWrlWrxb7VNTInX+5S7SXqWXDf8ECmo2X7EA7JdvLx70mJSPNTHOZQ9yV6Y8XyU5hbQhdlK6yMOO4BFH+GEUV0gnVtXoT0oVlnJFn+wux22M2iTaK8jWauf1LIlpTzzppithI/0KTkcSV4RRI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761229611; c=relaxed/simple;
-	bh=YI68EKFU9TffrHd/D7HWgGIjlN8nwL7+yudUSckbKA8=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version:Content-Type:
-	 References; b=GFlpJNB+zBZsZGzL3mA4+DaNsAQmQCijioYpw3+dhyI/Abu0X5ZmtgaZeNeOaqjqpz/8Ikiy6lm7CzYi/TGHQeg6Q5sQ8z9F+ut2d6wg/v4J1BlXH9rTaRsZzIHF9xT4x9/9TYzGwSPOVYrUxBPcsjVVG0YnWn3fty6fcmMyQZ4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=igX4e8dg; arc=none smtp.client-ip=210.118.77.12
+	s=arc-20240116; t=1761229703; c=relaxed/simple;
+	bh=8h2Y5tzs8lm8JSD+iNd3kT7mxqqZE3JVyKr5IzMkGqE=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:Message-ID:MIME-Version:
+	 Content-Type:References; b=qKP5KpS4VOk5QvSk8pA7jB9887NC7XEhMqim813mcY66R2c0xK3R3PyhF8lHQexDr3jagmh7AH/o9yNSouIs1ypPfb9ZOz9e7ZdF/3TBLKnV2OTEwYUn5HWahtcbSb2GYdjujc5sL8y5a4slC13A4wHigNxcwQP4hVN5Xsy81hU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=LMnlLslJ; arc=none smtp.client-ip=210.118.77.12
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
 Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
-	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20251023142647euoutp0232f32005bf27d1cab52eeb958dcbef31~xJP8mUoJx1897818978euoutp02k
-	for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 14:26:47 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20251023142647euoutp0232f32005bf27d1cab52eeb958dcbef31~xJP8mUoJx1897818978euoutp02k
+	by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20251023142820euoutp023113cc25cb6757f11636ad4d5ea96c83~xJRTS-EDO2072320723euoutp02U
+	for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 14:28:20 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20251023142820euoutp023113cc25cb6757f11636ad4d5ea96c83~xJRTS-EDO2072320723euoutp02U
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1761229607;
-	bh=o0EkiVKNDKSUvha+9OqEAkQuyqaVZO0R6kPtgT+LbmI=;
-	h=From:To:Cc:Subject:Date:References:From;
-	b=igX4e8dg4LC1f+TjPWEChHJunKIUPmmbrKPKkPiQfQ5TGmMOND6hoB+W0ITh6e70L
-	 aY9+x8Xm28OHTao1AS+xRpz9v3Ka7ArtAGLb0v+I5LhcxBZEzbOGgK5bMbMl2DsGRL
-	 rJxLvIkWjJygKnvvsC//vJChmskY3kDNs/IrjRuc=
-Received: from eusmtip1.samsung.com (unknown [203.254.199.221]) by
+	s=mail20170921; t=1761229700;
+	bh=8h2Y5tzs8lm8JSD+iNd3kT7mxqqZE3JVyKr5IzMkGqE=;
+	h=From:To:Cc:In-Reply-To:Subject:Date:References:From;
+	b=LMnlLslJShQDEbu7UH6+A2n6+S//Wy/qg+Tt05XFlu9lR8w/nqM0eKaQsf1+oC9yl
+	 x6ohSUqxMY325KVJLXwyVpfJ7Jo/KxR8Tqe2b3xCxudv3WblTUVx6Sii+JX5KXOyWL
+	 5kKkqtehQHzJrve85JBwcc2ne2yVR9xwaGQE1g0g=
+Received: from eusmtip2.samsung.com (unknown [203.254.199.222]) by
 	eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
-	20251023142646eucas1p1d963e56756c927f37cba10c7a6250002~xJP7sG-za2140321403eucas1p1N;
-	Thu, 23 Oct 2025 14:26:46 +0000 (GMT)
-Received: from AMDC4653.digital.local (unknown [106.120.51.32]) by
-	eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
-	20251023142646eusmtip137f5fdc97e2bdc2816f4d3c4b24f84e0~xJP7MykQW0194901949eusmtip1N;
-	Thu, 23 Oct 2025 14:26:46 +0000 (GMT)
-From: Marek Szyprowski <m.szyprowski@samsung.com>
-To: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>, Tomasz Figa
-	<tfiga@chromium.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, Guennadi
-	Liakhovetski <g.liakhovetski@gmx.de>, Benjamin Gaignard
-	<benjamin.gaignard@collabora.com>, Hans Verkuil <hverkuil@kernel.org>,
-	stable@vger.kernel.org, Shuangpeng Bai <SJB7183@psu.edu>
-Subject: [PATCH v4] media: videobuf2: forbid remove_bufs when legacy fileio
- is active
-Date: Thu, 23 Oct 2025 16:26:34 +0200
-Message-Id: <20251023142634.1642093-1-m.szyprowski@samsung.com>
-X-Mailer: git-send-email 2.34.1
+	20251023142820eucas1p18c21cf74b55cc23af644218310ce7be7~xJRS0V26k1482414824eucas1p1h;
+	Thu, 23 Oct 2025 14:28:20 +0000 (GMT)
+Received: from AMDN5751 (unknown [106.210.134.141]) by eusmtip2.samsung.com
+	(KnoxPortal) with ESMTPA id
+	20251023142819eusmtip2637d91e6f5c3c9d671fa9b396e5c4fd3~xJRSdmq-R0468304683eusmtip2d;
+	Thu, 23 Oct 2025 14:28:19 +0000 (GMT)
+From: "Sylwester Nawrocki" <s.nawrocki@samsung.com>
+To: "'Marek Szyprowski'" <m.szyprowski@samsung.com>,
+	<linux-media@vger.kernel.org>, <linux-samsung-soc@vger.kernel.org>
+Cc: "'Hans Verkuil'" <hverkuil@xs4all.nl>, "'Mauro Carvalho	Chehab'"
+	<mchehab@kernel.org>, "'Krzysztof Kozlowski'" <krzk@kernel.org>, "'Alim
+ Akhtar'" <alim.akhtar@samsung.com>
+In-Reply-To: <20251014104643.1884897-1-m.szyprowski@samsung.com>
+Subject: RE: [PATCH] media: samsung: exynos4-is: fix potential ABBA deadlock
+ on init
+Date: Thu, 23 Oct 2025 16:28:19 +0200
+Message-ID: <000001dc4429$479ea740$d6dbf5c0$@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMS-MailID: 20251023142646eucas1p1d963e56756c927f37cba10c7a6250002
+Content-Transfer-Encoding: quoted-printable
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQKxLUKFwsAvvR3nlKruHoza89U2fwI4JDD5sxQzxSA=
+Content-Language: pl
+X-CMS-MailID: 20251023142820eucas1p18c21cf74b55cc23af644218310ce7be7
 X-Msg-Generator: CA
 Content-Type: text/plain; charset="utf-8"
-X-RootMTR: 20251023142646eucas1p1d963e56756c927f37cba10c7a6250002
+X-RootMTR: 20251014104654eucas1p19b0f4c8c17c0d5fca76ba1e12f74fbe4
 X-EPHeader: CA
-X-CMS-RootMailID: 20251023142646eucas1p1d963e56756c927f37cba10c7a6250002
-References: <CGME20251023142646eucas1p1d963e56756c927f37cba10c7a6250002@eucas1p1.samsung.com>
+X-CMS-RootMailID: 20251014104654eucas1p19b0f4c8c17c0d5fca76ba1e12f74fbe4
+References: <CGME20251014104654eucas1p19b0f4c8c17c0d5fca76ba1e12f74fbe4@eucas1p1.samsung.com>
+	<20251014104643.1884897-1-m.szyprowski@samsung.com>
 
-vb2_ioctl_remove_bufs() call manipulates queue internal buffer list,
-potentially overwriting some pointers used by the legacy fileio access
-mode. Forbid that ioctl when fileio is active to protect internal queue
-state between subsequent read/write calls.
-
-CC: stable@vger.kernel.org
-Fixes: a3293a85381e ("media: v4l2: Add REMOVE_BUFS ioctl")
-Reported-by: Shuangpeng Bai <SJB7183@psu.edu>
-Signed-off-by: Marek Szyprowski <m.szyprowski@samsung.com>
----
-v4:
-- got back to simple vb2_fileio_is_active() check as in v1, as relying on
-  vb2_verify_memory_type() misses some corner cases important to v4l2
-  compliance
-
-v3: https://lore.kernel.org/all/20251023113052.1303082-1-m.szyprowski@samsung.com/
-- moved vb2_verify_memory_type() check after (d->count == 0) check to pass v4l2
- compliance
-
-v2: https://lore.kernel.org/all/20251020160121.1985354-1-m.szyprowski@samsung.com/
-- dropped a change to vb2_ioctl_create_bufs(), as it is already handled
-  by the vb2_verify_memory_type() call
-- replaced queue->type check in vb2_ioctl_remove_bufs() by a call to
-  vb2_verify_memory_type() which covers all cases
-
-v1: https://lore.kernel.org/all/20251016111154.993949-1-m.szyprowski@samsung.com/
----
- drivers/media/common/videobuf2/videobuf2-v4l2.c | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-index d911021c1bb0..83862d57b126 100644
---- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-+++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-@@ -1010,6 +1010,11 @@ int vb2_ioctl_remove_bufs(struct file *file, void *priv,
- 	if (vb2_queue_is_busy(vdev->queue, file))
- 		return -EBUSY;
- 
-+	if (vb2_fileio_is_active(vdev->queue)) {
-+		dprintk(vdev->queue, 1, "file io in progress\n");
-+		return -EBUSY;
-+	}
-+
- 	return vb2_core_remove_bufs(vdev->queue, d->index, d->count);
- }
- EXPORT_SYMBOL_GPL(vb2_ioctl_remove_bufs);
--- 
-2.34.1
-
+> -----Original Message-----
+> From: Marek Szyprowski <m.szyprowski=40samsung.com>
+> Sent: wtorek, 14 pa=C5=BAdziernika=202025=2012:47=0D=0A>=20To:=20linux-me=
+dia=40vger.kernel.org;=20linux-samsung-soc=40vger.kernel.org=0D=0A>=20Cc:=
+=20Marek=20Szyprowski=20<m.szyprowski=40samsung.com>;=20Sylwester=20Nawrock=
+i=0D=0A>=20<s.nawrocki=40samsung.com>;=20Hans=20Verkuil=20<hverkuil=40xs4al=
+l.nl>;=20Mauro=0D=0A>=20Carvalho=20Chehab=20<mchehab=40kernel.org>;=20Krzys=
+ztof=20Kozlowski=0D=0A>=20<krzk=40kernel.org>;=20Alim=20Akhtar=20<alim.akht=
+ar=40samsung.com>=0D=0A>=20Subject:=20=5BPATCH=5D=20media:=20samsung:=20exy=
+nos4-is:=20fix=20potential=20ABBA=20deadlock=0D=0A>=20on=20init=0D=0A>=20=
+=0D=0A>=20v4l2_device_register_subdev_nodes()=20must=20called=20without=20t=
+aking=0D=0A>=20media_dev->graph_mutex=20to=20avoid=20potential=20AB-BA=20de=
+adlock=20on=20further=0D=0A>=20subdevice=20driver=20initialization.=0D=0A>=
+=20=0D=0A>=20Fixes:=20fa91f1056f17=20(=22=5Bmedia=5D=20exynos4-is:=20Add=20=
+support=20for=20asynchronous=0D=0A>=20subdevices=20registration=22)=0D=0A>=
+=20Signed-off-by:=20Marek=20Szyprowski=20<m.szyprowski=40samsung.com>=0D=0A=
+=0D=0AAcked-by:=20Sylwester=20Nawrocki=20<s.nawrocki=40samsung.com>=0D=0A=
+=0D=0A>=20This=20fixes=20a=20long=20standing=20bug=20that=20happens=20somet=
+imes=20during=20driver=0D=0A>=20intialization.=20This=20issue=20has=20been=
+=20finally=20captured=20by=20the=20lock=0D=0A>=20dependency=20tracker=20wit=
+h=20the=20following=20log:=0D=0A=0D=0A=0D=0A
 
