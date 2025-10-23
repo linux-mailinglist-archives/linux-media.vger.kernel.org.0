@@ -1,250 +1,446 @@
-Return-Path: <linux-media+bounces-45327-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45328-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1CB5BFEAAE
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 02:05:00 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 18758BFEB86
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 02:13:34 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B35061A009B7
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 00:05:22 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E71B44EE53F
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 00:13:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 30CA114386D;
-	Thu, 23 Oct 2025 00:04:35 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01FD51D6AA;
+	Thu, 23 Oct 2025 00:13:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="n11PsEs5"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yIxY6JjS"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7491979F2;
-	Thu, 23 Oct 2025 00:04:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208F879F2
+	for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 00:13:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761177874; cv=none; b=Q13uD5Qp9gUAIs+RHtHGdEjsAjSg7FfKnwivV7TEV6o9KpEf3PSkoY1k/tBA0ViIbCZtn4C+2k9gGuR8n4r0EFtaVpOtInyCjxACMqszTiw+6Wcga7bZql0/eiCv/Xv3Pe+EGVOJfU21as5pHBNoJj7D09l0zEyEHDpxGGIpJh4=
+	t=1761178409; cv=none; b=Zhp9nxnRQvEq0f5p+CnZEwbf/jqcqosuNzf4rcMkBLtJHnQGfAsLwGCOOIo9V2xb0IS18qCmFp1CPPlGF86c181n28GGICHKE94u2GNXQyr/znSdliN3NBnw3hy9IND+3VW41aLA2mjW3rhysvbn9fqkd4EONRa3g0/yjmrHytU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761177874; c=relaxed/simple;
-	bh=YaRWa+4fXlNlEgTLkC8isNnjxO4623M91te5nEqafqo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X2/3PqM+3VNSTkyaaOZ8ojJHZh07XpinFWul6ZbVJJi6QqIfKDT/Vcp/0qDoBHZ92GGVGxF9px3IeTe0m4jhwbjojh336CCAYUn2R/VNDFyfHrV0zGGMZTSCAL+YTYo78FkXe2NJvOdR2hf9tw1l6mCt76OQkAjsreAhgHSpChw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=n11PsEs5; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761177873; x=1792713873;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=YaRWa+4fXlNlEgTLkC8isNnjxO4623M91te5nEqafqo=;
-  b=n11PsEs5oAuZkqjuK+PcBaMQcOs8kgMHgy1k1WqIfjXsW8K3RAiReL5B
-   HmrT7WZ4+UWHfpMESqbr/7ahGFxyV1vVTbVWGNNgJz5ft2wNqUGCgjtuC
-   QWLm15u53TZxELBygQAsjk6TdsAS4e7GaqnfNOd/PbodYC+8FGo7ccDC5
-   rrxM+ZlSUKoHBlHU27BCXRUqBj4N7UMmfQl3n5iQLI3eFXA9VCHLiIMeY
-   vJd0zGz820ezGCffYdFoXAJQquyVMyYJt23ICroXW7BEoSl0yNYkVhbOa
-   MsACWtv22LIxMD8UTyIY74sAQtqLfYQXDoTCN6F37/owVdrk6sMUUxhVq
-   A==;
-X-CSE-ConnectionGUID: plzlXApBRwGI5dtdnQ1bFg==
-X-CSE-MsgGUID: 92Xed883T4Ogxkkrf4PcCQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="62368584"
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="62368584"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2025 17:04:32 -0700
-X-CSE-ConnectionGUID: +5yiHp4sRtiauTeU9tiIGA==
-X-CSE-MsgGUID: zY4nswJCRleBt+pnFqLVpQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,248,1754982000"; 
-   d="scan'208";a="184491032"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by fmviesa009.fm.intel.com with ESMTP; 22 Oct 2025 17:04:28 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vBiob-000Cqb-2F;
-	Thu, 23 Oct 2025 00:04:25 +0000
-Date: Thu, 23 Oct 2025 08:03:54 +0800
-From: kernel test robot <lkp@intel.com>
-To: Nas Chung <nas.chung@chipsnmedia.com>, mchehab@kernel.org,
-	hverkuil@xs4all.nl, robh@kernel.org, krzk+dt@kernel.org,
-	conor+dt@kernel.org, shawnguo@kernel.org, s.hauer@pengutronix.de
-Cc: oe-kbuild-all@lists.linux.dev, linux-media@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-imx@nxp.com, linux-arm-kernel@lists.infradead.org,
-	jackson.lee@chipsnmedia.com, lafley.kim@chipsnmedia.com,
-	marek.vasut@mailbox.org, Nas Chung <nas.chung@chipsnmedia.com>,
-	Ming Qian <ming.qian@oss.nxp.com>
-Subject: Re: [PATCH v4 8/9] media: chips-media: wave6: Add Wave6 control
- driver
-Message-ID: <202510230756.m2qLZNJc-lkp@intel.com>
-References: <20251022074710.575-9-nas.chung@chipsnmedia.com>
+	s=arc-20240116; t=1761178409; c=relaxed/simple;
+	bh=0EJJBUuoblpxllEQvsK3AW3gauaFZCUO3RTJeM88igY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=mEA58eNKzaGCoizfBwpUirXfbf3/14DvvcuBEAGZ4hmAFQccjyrNg96eKRAOMuJtW1XV6wNl55L5yxaFdw3lM0Wdy/aylamm0hi/652dwXuU4vDN7+KvsXfv2FExfoTakwJkiUd/gUwVHWPschcJXROGcwFIKch8ahFZ/1xvEPk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yIxY6JjS; arc=none smtp.client-ip=209.85.167.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-592f2f08168so28086e87.0
+        for <linux-media@vger.kernel.org>; Wed, 22 Oct 2025 17:13:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761178405; x=1761783205; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=OSrmswZgOkp9iNb6nYZNxv+LWDm9UmX2oNypTSoFLlc=;
+        b=yIxY6JjSkNDWeA0DjSw5Q545Euy4F/5D9MISjBCA7foBvTkziQVMyD1oPfRZ/e/C0U
+         Flr1y9sXFjH3BUYQE9AcrFbcSCb9xHdsJArO/7rTFR5t5LCdofnMkCXoAULZ+ZqijAKm
+         /ZWICK/cI5BFwtwGU6NVkmIdMrSHyqlNggD2QOkU3ktfBLfXvtw+9/Ikhx5J1452Jm6E
+         9E5ZW2WIHDVWcfE7Z5x13t1+epWIMfklGVdV1fWij2IDnnalBFpMvRLlULTJTEj5WGMZ
+         AF9LXGDDegcJN0hR5y35UA1oViBBP4HbLxwPEHwGmiDin7sDblfuOuaHIEMmgSoU1pvd
+         nIjQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761178405; x=1761783205;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
+         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=OSrmswZgOkp9iNb6nYZNxv+LWDm9UmX2oNypTSoFLlc=;
+        b=mTOJ4C3L7okct6yiAkJDe0afDtnV3HE+hkHWwfz9B4DANZIbii/30QEV4kqxYBzrGK
+         +DdGRNoYxFGBLNGqlX1wmxm7cY8O1mqa69nGNEJLyrHAXVC66A0s4ljkE2NOSJRGnIz9
+         +WfnubLYhTnakgLmzj5LQLznsm289nZtQF1F0DUuWofI8H54C5FOuJe8bxOmavICs6ar
+         Qrr36M04El+gKd0iN0y6UFolYaLZZOE+y4BbPsYy6d1ocw+rmtxzSgSekh5JDt1S2rQ7
+         ExE7g/3T4+BZvB24F6KG6amoU/y2cz3Vk+coJe9ZhYMPaSBiNePB5aHx46kC0TcdXpju
+         ZC4g==
+X-Forwarded-Encrypted: i=1; AJvYcCXo5tPIU+M7DkDSmb7dPc4wQ0IIf307RzNc/PDpBMF3AtRhKY+shk8B79OtpRa5MMq0uAh2ynqDyxG+NA==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwXjqaLoFtl2AyuApn3q6ztScPo6oMKLptWJYboJIenKW7AToLO
+	jHXH2ga8L4nBLNwdOnVkH3GIMfbNv8fIk0QAQuMrPbVJvPedyM5qkq2SPRa2I+rgK0E=
+X-Gm-Gg: ASbGnctcjAQMGJAcB81PD+VPkIzPAqf17R44G/WzzLfet846nvjTwDZus927tRE72q2
+	LI3licalZOidRVOx6sGiXGxO66rkM5QO/wJ/jKxdQvGP02rsStchYD50ffEWHo9DhXhPHHFDXtm
+	2nloCiMhYOC8/3OB0EGg5dS9b4GEEAwRAZ3GGf5WHrFEftXJ0bHp/Y9XSDoYevv2t0XeFmDrNDG
+	Shq7c/g9dl4MWzsg9q7QbotPddEvVFLEcn8opQsX81q4poSxlNTBKgU5vLzhTZY40rMVy6cuqLd
+	1X1jM1+fRAm+uaFItpxbqZbzvI1dOZPxISAaDA4aAsW2HA4K0uOJDtTfJhNvwyokMh3IDnkSxxn
+	M6U0DI9e4KDFajcJkTUeyF+KZ6kIXsQu/RM4xoH+jhLU0KUUQ3yDMCOJMiG0uhwPFFWfs8OTXLD
+	gAtiFCw+J0jLksQLajnRU1bffvuQt4jzOxrRzlo3uHGHflO1ENSZj3PWh7IP/eCpuwEg==
+X-Google-Smtp-Source: AGHT+IEqIfSFwj9f4EseY7eoTB9jQBbe33t0LJN5WLJ8WdAP5d7bxCnGjL5ogRZVJ1bdof4IV4Oyrw==
+X-Received: by 2002:a05:6512:2352:b0:57b:517c:bf0b with SMTP id 2adb3069b0e04-591ea41930cmr1971505e87.4.1761178405111;
+        Wed, 22 Oct 2025 17:13:25 -0700 (PDT)
+Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-592f4cd1a99sm243510e87.45.2025.10.22.17.13.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 22 Oct 2025 17:13:24 -0700 (PDT)
+Message-ID: <9f4c0032-39c7-4d78-b24f-2d85cb93734b@linaro.org>
+Date: Thu, 23 Oct 2025 03:13:15 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251022074710.575-9-nas.chung@chipsnmedia.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/2] media: i2c: add Samsung S5KJN1 image sensor device
+ driver
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Hans Verkuil <hverkuil@kernel.org>, Hans de Goede <hansg@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org
+References: <20251016020419.2137290-1-vladimir.zapolskiy@linaro.org>
+ <20251016020419.2137290-3-vladimir.zapolskiy@linaro.org>
+ <aPiZjiXp8-uuPjjX@kekkonen.localdomain>
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+In-Reply-To: <aPiZjiXp8-uuPjjX@kekkonen.localdomain>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Nas,
+Hi Sakari,
 
-kernel test robot noticed the following build errors:
+thank you so much for review!
 
-[auto build test ERROR on shawnguo/for-next]
-[also build test ERROR on linuxtv-media-pending/master robh/for-next linus/master v6.18-rc2 next-20251022]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+On 10/22/25 11:45, Sakari Ailus wrote:
+> Hi Vladimir,
+> 
+> On Thu, Oct 16, 2025 at 05:04:19AM +0300, Vladimir Zapolskiy wrote:
+>> Samsung S5KJN1 is a 50MP image sensor, it produces Bayer GRBG (2x2)
+>> frames in RAW10 output format, the maximum supported output resolution
+>> is 8160x6144 at 10 frames per second rate.
+>>
+>> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Nas-Chung/media-v4l2-common-Add-YUV24-format-info/20251022-155246
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git for-next
-patch link:    https://lore.kernel.org/r/20251022074710.575-9-nas.chung%40chipsnmedia.com
-patch subject: [PATCH v4 8/9] media: chips-media: wave6: Add Wave6 control driver
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20251023/202510230756.m2qLZNJc-lkp@intel.com/config)
-compiler: m68k-linux-gcc (GCC) 15.1.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20251023/202510230756.m2qLZNJc-lkp@intel.com/reproduce)
+<snip>
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202510230756.m2qLZNJc-lkp@intel.com/
+>> +
+>> +#define S5KJN1_NUM_SUPPLIES	ARRAY_SIZE(s5kjn1_supply_names)
+> 
+> Please use ARRAY_SIZE() directly where you need this.
+> 
 
-All errors (new ones prefixed by >>):
+There are 6 places of the macro usage in the driver, but will do it.
 
-   In file included from drivers/media/platform/chips-media/wave6/wave6-vpu.c:25:
-   drivers/media/platform/chips-media/wave6/wave6-vpu.c: In function 'wave6_vpu_remap_code_buf':
->> drivers/media/platform/chips-media/wave6/wave6-regdefine.h:83:57: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-      83 | #define         REMAP_CTRL_INDEX(x)                     FIELD_PREP(GENMASK(15, 12), (x))
-         |                                                         ^~~~~~~~~~
-   drivers/media/platform/chips-media/wave6/wave6-vpu.c:131:27: note: in expansion of macro 'REMAP_CTRL_INDEX'
-     131 |                           REMAP_CTRL_INDEX(i) |
-         |                           ^~~~~~~~~~~~~~~~
---
-   In file included from drivers/media/platform/chips-media/wave6/wave6-vpu-core.h:18,
-                    from drivers/media/platform/chips-media/wave6/wave6-vpu-core.c:17:
-   drivers/media/platform/chips-media/wave6/wave6-vpu-core.c: In function 'wave6_vpu_core_check_state':
->> drivers/media/platform/chips-media/wave6/wave6-vpuapi.h:125:33: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     125 | #define FW_VERSION_MAJOR(x)     FIELD_GET(FW_VERSION_MAJOR_MASK, (x))
-         |                                 ^~~~~~~~~
-   include/linux/dynamic_debug.h:224:29: note: in expansion of macro 'FW_VERSION_MAJOR'
-     224 |                 func(&id, ##__VA_ARGS__);                       \
-         |                             ^~~~~~~~~~~
-   include/linux/dynamic_debug.h:248:9: note: in expansion of macro '__dynamic_func_call_cls'
-     248 |         __dynamic_func_call_cls(__UNIQUE_ID(ddebug), cls, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:250:9: note: in expansion of macro '_dynamic_func_call_cls'
-     250 |         _dynamic_func_call_cls(_DPRINTK_CLASS_DFLT, fmt, func, ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dynamic_debug.h:273:9: note: in expansion of macro '_dynamic_func_call'
-     273 |         _dynamic_func_call(fmt, __dynamic_dev_dbg,              \
-         |         ^~~~~~~~~~~~~~~~~~
-   include/linux/dev_printk.h:165:9: note: in expansion of macro 'dynamic_dev_dbg'
-     165 |         dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-         |         ^~~~~~~~~~~~~~~
-   drivers/media/platform/chips-media/wave6/wave6-vpu-core.c:133:9: note: in expansion of macro 'dev_dbg'
-     133 |         dev_dbg(core->dev, "product 0x%x, fw_ver %d.%d.%d(r%d), hw_ver 0x%x\n",
-         |         ^~~~~~~
---
-   In file included from drivers/media/platform/chips-media/wave6/wave6-vpu-core.h:18,
-                    from drivers/media/platform/chips-media/wave6/wave6-vpu-dbg.c:10:
-   drivers/media/platform/chips-media/wave6/wave6-vpu-dbg.c: In function 'wave6_vpu_dbg_instance':
->> drivers/media/platform/chips-media/wave6/wave6-vpuapi.h:125:33: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     125 | #define FW_VERSION_MAJOR(x)     FIELD_GET(FW_VERSION_MAJOR_MASK, (x))
-         |                                 ^~~~~~~~~
-   drivers/media/platform/chips-media/wave6/wave6-vpu-dbg.c:34:25: note: in expansion of macro 'FW_VERSION_MAJOR'
-      34 |                         FW_VERSION_MAJOR(inst->dev->attr.fw_version),
-         |                         ^~~~~~~~~~~~~~~~
---
-   In file included from drivers/media/platform/chips-media/wave6/wave6-hw.c:11:
-   drivers/media/platform/chips-media/wave6/wave6-hw.c: In function 'wave6_send_command':
-   drivers/media/platform/chips-media/wave6/wave6-regdefine.h:99:57: error: implicit declaration of function 'FIELD_PREP' [-Wimplicit-function-declaration]
-      99 | #define         INSTANCE_INFO_CODEC_STD(x)              FIELD_PREP(GENMASK(31, 16), (x))
-         |                                                         ^~~~~~~~~~
-   drivers/media/platform/chips-media/wave6/wave6-hw.c:237:27: note: in expansion of macro 'INSTANCE_INFO_CODEC_STD'
-     237 |                 reg_val = INSTANCE_INFO_CODEC_STD(std);
-         |                           ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/chips-media/wave6/wave6-hw.c: In function 'wave6_vpu_get_version':
->> drivers/media/platform/chips-media/wave6/wave6-regdefine.h:125:57: error: implicit declaration of function 'FIELD_GET' [-Wimplicit-function-declaration]
-     125 | #define         STD_DEF1_HEVC_DEC(x)                    FIELD_GET(GENMASK(2, 2), (x))
-         |                                                         ^~~~~~~~~
-   drivers/media/platform/chips-media/wave6/wave6-hw.c:308:35: note: in expansion of macro 'STD_DEF1_HEVC_DEC'
-     308 |         attr->support_decoders |= STD_DEF1_HEVC_DEC(std_def1) << W_HEVC_DEC;
-         |                                   ^~~~~~~~~~~~~~~~~
+<snip>
 
+>> +
+>> +static u64 s5kjn1_mode_to_pixel_rate(const struct s5kjn1_mode *mode)
+>> +{
+>> +	u64 pixel_rate;
+>> +
+>> +	pixel_rate = s5kjn1_link_freq_menu[0] * 2 * S5KJN1_DATA_LANES;
+>> +	do_div(pixel_rate, 10);			/* bits per pixel */
+> 
+> You could also use div_u64().
+> 
 
-vim +/FIELD_PREP +83 drivers/media/platform/chips-media/wave6/wave6-regdefine.h
+Right, also it would make sense to change the argument from mode to freq,
+that's what I notice.
 
-2fef07d3bbe662 Nas Chung 2025-10-22   71  
-2fef07d3bbe662 Nas Chung 2025-10-22   72  #define W6_VPU_VCPU_CUR_PC				(W6_REG_BASE + 0x0004)
-2fef07d3bbe662 Nas Chung 2025-10-22   73  #define W6_VPU_VINT_REASON_CLEAR			(W6_REG_BASE + 0x0034)
-2fef07d3bbe662 Nas Chung 2025-10-22   74  #define W6_VPU_HOST_INT_REQ				(W6_REG_BASE + 0x0038)
-2fef07d3bbe662 Nas Chung 2025-10-22   75  #define		HOST_INT_REQ_ON				BIT(0)
-2fef07d3bbe662 Nas Chung 2025-10-22   76  #define W6_VPU_VINT_CLEAR				(W6_REG_BASE + 0x003C)
-2fef07d3bbe662 Nas Chung 2025-10-22   77  #define		VINT_CLEAR				BIT(0)
-2fef07d3bbe662 Nas Chung 2025-10-22   78  #define W6_VPU_VPU_INT_STS				(W6_REG_BASE + 0x0044)
-2fef07d3bbe662 Nas Chung 2025-10-22   79  #define W6_VPU_VINT_ENABLE				(W6_REG_BASE + 0x0048)
-2fef07d3bbe662 Nas Chung 2025-10-22   80  #define W6_VPU_VINT_REASON				(W6_REG_BASE + 0x004C)
-2fef07d3bbe662 Nas Chung 2025-10-22   81  #define W6_VPU_REMAP_CTRL_GB				(W6_REG_BASE + 0x0060)
-2fef07d3bbe662 Nas Chung 2025-10-22   82  #define		REMAP_CTRL_ON				BIT(31)
-2fef07d3bbe662 Nas Chung 2025-10-22  @83  #define		REMAP_CTRL_INDEX(x)			FIELD_PREP(GENMASK(15, 12), (x))
-2fef07d3bbe662 Nas Chung 2025-10-22   84  #define		REMAP_CTRL_PAGE_SIZE_ON			BIT(11)
-2fef07d3bbe662 Nas Chung 2025-10-22   85  #define		REMAP_CTRL_PAGE_SIZE(x)			FIELD_PREP(GENMASK(8, 0), ((x) >> 12))
-2fef07d3bbe662 Nas Chung 2025-10-22   86  #define W6_VPU_REMAP_VADDR_GB				(W6_REG_BASE + 0x0064)
-2fef07d3bbe662 Nas Chung 2025-10-22   87  #define W6_VPU_REMAP_PADDR_GB				(W6_REG_BASE + 0x0068)
-2fef07d3bbe662 Nas Chung 2025-10-22   88  #define W6_VPU_REMAP_CORE_START_GB			(W6_REG_BASE + 0x006C)
-2fef07d3bbe662 Nas Chung 2025-10-22   89  #define		REMAP_CORE_START_ON			BIT(0)
-2fef07d3bbe662 Nas Chung 2025-10-22   90  #define W6_VPU_BUSY_STATUS				(W6_REG_BASE + 0x0070)
-2fef07d3bbe662 Nas Chung 2025-10-22   91  #define		BUSY_STATUS_SET				BIT(0)
-2fef07d3bbe662 Nas Chung 2025-10-22   92  #define W6_VPU_RET_PRODUCT_CODE				(W6_REG_BASE + 0x0094)
-2fef07d3bbe662 Nas Chung 2025-10-22   93  
-2fef07d3bbe662 Nas Chung 2025-10-22   94  /* COMMON */
-2fef07d3bbe662 Nas Chung 2025-10-22   95  #define W6_COMMAND_GB					(W6_REG_BASE + 0x104)
-2fef07d3bbe662 Nas Chung 2025-10-22   96  #define W6_COMMAND					(W6_REG_BASE + 0x200)
-2fef07d3bbe662 Nas Chung 2025-10-22   97  #define W6_QUERY_OPTION					(W6_REG_BASE + 0x204)
-2fef07d3bbe662 Nas Chung 2025-10-22   98  #define W6_CMD_INSTANCE_INFO				(W6_REG_BASE + 0x210)
-2fef07d3bbe662 Nas Chung 2025-10-22   99  #define		INSTANCE_INFO_CODEC_STD(x)		FIELD_PREP(GENMASK(31, 16), (x))
-2fef07d3bbe662 Nas Chung 2025-10-22  100  #define		INSTANCE_INFO_ID(x)			FIELD_PREP(GENMASK(15, 0), (x))
-2fef07d3bbe662 Nas Chung 2025-10-22  101  #define W6_CMD_INIT_VPU_SEC_AXI_BASE_CORE0		(W6_REG_BASE + 0x364)
-2fef07d3bbe662 Nas Chung 2025-10-22  102  #define W6_CMD_INIT_VPU_SEC_AXI_SIZE_CORE0		(W6_REG_BASE + 0x368)
-2fef07d3bbe662 Nas Chung 2025-10-22  103  #define W6_CMD_SET_WORK_BUF_ADDR			(W6_REG_BASE + 0x5F0)
-2fef07d3bbe662 Nas Chung 2025-10-22  104  #define W6_CMD_SET_WORK_BUF_SIZE			(W6_REG_BASE + 0x5F4)
-2fef07d3bbe662 Nas Chung 2025-10-22  105  #define		SET_WORK_BUF_SIZE_ACK			0
-2fef07d3bbe662 Nas Chung 2025-10-22  106  #define W6_RET_SUCCESS					(W6_REG_BASE + 0x208)
-2fef07d3bbe662 Nas Chung 2025-10-22  107  #define W6_RET_FAIL_REASON				(W6_REG_BASE + 0x20C)
-2fef07d3bbe662 Nas Chung 2025-10-22  108  #define W6_RET_INT_INSTANCE_INFO			(W6_REG_BASE + 0x21C)
-2fef07d3bbe662 Nas Chung 2025-10-22  109  #define		INT_INSTANCE_INFO_CLEAR			0
-2fef07d3bbe662 Nas Chung 2025-10-22  110  #define W6_RET_INSTANCE_ID				(W6_REG_BASE + 0x220)
-2fef07d3bbe662 Nas Chung 2025-10-22  111  #define W6_RET_CQ_IN_TICK				(W6_REG_BASE + 0x23C)
-2fef07d3bbe662 Nas Chung 2025-10-22  112  #define W6_RET_FW_RUN_TICK				(W6_REG_BASE + 0x240)
-2fef07d3bbe662 Nas Chung 2025-10-22  113  #define W6_RET_HW_RUN_TICK				(W6_REG_BASE + 0x244)
-2fef07d3bbe662 Nas Chung 2025-10-22  114  #define W6_RET_HW_DONE_TICK				(W6_REG_BASE + 0x248)
-2fef07d3bbe662 Nas Chung 2025-10-22  115  #define W6_RET_FW_DONE_TICK				(W6_REG_BASE + 0x24C)
-2fef07d3bbe662 Nas Chung 2025-10-22  116  #define W6_RET_RQ_OUT_TICK				(W6_REG_BASE + 0x250)
-2fef07d3bbe662 Nas Chung 2025-10-22  117  
-2fef07d3bbe662 Nas Chung 2025-10-22  118  /* COMMON - QUERY : GET_VPU_INFO */
-2fef07d3bbe662 Nas Chung 2025-10-22  119  #define W6_RET_FW_VERSION				(W6_REG_BASE + 0x300)
-2fef07d3bbe662 Nas Chung 2025-10-22  120  #define W6_RET_PRODUCT_NAME				(W6_REG_BASE + 0x304)
-2fef07d3bbe662 Nas Chung 2025-10-22  121  #define W6_RET_PRODUCT_VERSION				(W6_REG_BASE + 0x308)
-2fef07d3bbe662 Nas Chung 2025-10-22  122  #define W6_RET_STD_DEF0					(W6_REG_BASE + 0x30C)
-2fef07d3bbe662 Nas Chung 2025-10-22  123  #define W6_RET_STD_DEF1					(W6_REG_BASE + 0x310)
-2fef07d3bbe662 Nas Chung 2025-10-22  124  #define		STD_DEF1_AVC_DEC(x)			FIELD_GET(GENMASK(3, 3), (x))
-2fef07d3bbe662 Nas Chung 2025-10-22 @125  #define		STD_DEF1_HEVC_DEC(x)			FIELD_GET(GENMASK(2, 2), (x))
-2fef07d3bbe662 Nas Chung 2025-10-22  126  #define		STD_DEF1_AVC_ENC(x)			FIELD_GET(GENMASK(1, 1), (x))
-2fef07d3bbe662 Nas Chung 2025-10-22  127  #define		STD_DEF1_HEVC_ENC(x)			FIELD_GET(GENMASK(0, 0), (x))
-2fef07d3bbe662 Nas Chung 2025-10-22  128  #define W6_RET_CONF_FEATURE				(W6_REG_BASE + 0x314)
-2fef07d3bbe662 Nas Chung 2025-10-22  129  #define		CONF_FEATURE_AVC10BIT_ENC(x)		FIELD_GET(GENMASK(11, 11), (x))
-2fef07d3bbe662 Nas Chung 2025-10-22  130  #define		CONF_FEATURE_AVC10BIT_DEC(x)		FIELD_GET(GENMASK(9, 9), (x))
-2fef07d3bbe662 Nas Chung 2025-10-22  131  #define		CONF_FEATURE_HEVC10BIT_ENC(x)		FIELD_GET(GENMASK(3, 3), (x))
-2fef07d3bbe662 Nas Chung 2025-10-22  132  #define		CONF_FEATURE_HEVC10BIT_DEC(x)		FIELD_GET(GENMASK(1, 1), (x))
-2fef07d3bbe662 Nas Chung 2025-10-22  133  #define W6_RET_CONF_DATE				(W6_REG_BASE + 0x318)
-2fef07d3bbe662 Nas Chung 2025-10-22  134  #define W6_RET_CONF_HW_VERSION				(W6_REG_BASE + 0x31C)
-2fef07d3bbe662 Nas Chung 2025-10-22  135  #define W6_RET_CONF_TYPE				(W6_REG_BASE + 0x320)
-2fef07d3bbe662 Nas Chung 2025-10-22  136  #define W6_RET_FW_API_VERSION				(W6_REG_BASE + 0x32C)
-2fef07d3bbe662 Nas Chung 2025-10-22  137  #define W6_RET_SHA_ID					(W6_REG_BASE + 0x330)
-2fef07d3bbe662 Nas Chung 2025-10-22  138  
+>> +
+>> +	return pixel_rate;
+>> +}
+>> +
+>> +static int s5kjn1_init_controls(struct s5kjn1 *s5kjn1)
+>> +{
+>> +	struct v4l2_ctrl_handler *ctrl_hdlr = &s5kjn1->ctrl_handler;
+>> +	const struct s5kjn1_mode *mode = s5kjn1->mode;
+>> +	s64 pixel_rate, hblank, vblank, exposure_max;
+>> +	struct v4l2_fwnode_device_properties props;
+>> +	int ret;
+>> +
+>> +	v4l2_ctrl_handler_init(ctrl_hdlr, 9);
+>> +
+>> +	s5kjn1->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, &s5kjn1_ctrl_ops,
+>> +					V4L2_CID_LINK_FREQ,
+>> +					ARRAY_SIZE(s5kjn1_link_freq_menu) - 1,
+>> +					0, s5kjn1_link_freq_menu);
+>> +	if (s5kjn1->link_freq)
+>> +		s5kjn1->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>> +
+>> +	pixel_rate = s5kjn1_mode_to_pixel_rate(mode);
+>> +	s5kjn1->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &s5kjn1_ctrl_ops,
+>> +					       V4L2_CID_PIXEL_RATE,
+>> +					       0, pixel_rate, 1, pixel_rate);
+>> +
+>> +	hblank = mode->hts - mode->width;
+>> +	s5kjn1->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &s5kjn1_ctrl_ops,
+>> +					   V4L2_CID_HBLANK, hblank,
+>> +					   hblank, 1, hblank);
+>> +	if (s5kjn1->hblank)
+>> +		s5kjn1->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+>> +
+>> +	vblank = mode->vts - mode->height;
+>> +	s5kjn1->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &s5kjn1_ctrl_ops,
+>> +					   V4L2_CID_VBLANK, vblank,
+>> +					   S5KJN1_VTS_MAX - mode->height, 1,
+>> +					   vblank);
+>> +
+>> +	v4l2_ctrl_new_std(ctrl_hdlr, &s5kjn1_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
+>> +			  S5KJN1_AGAIN_MIN, S5KJN1_AGAIN_MAX,
+>> +			  S5KJN1_AGAIN_STEP, S5KJN1_AGAIN_DEFAULT);
+>> +
+>> +	exposure_max = mode->vts - mode->exposure_margin;
+>> +	s5kjn1->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &s5kjn1_ctrl_ops,
+>> +					     V4L2_CID_EXPOSURE,
+>> +					     S5KJN1_EXPOSURE_MIN,
+>> +					     exposure_max,
+>> +					     S5KJN1_EXPOSURE_STEP,
+>> +					     mode->exposure);
+>> +
+>> +	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &s5kjn1_ctrl_ops,
+>> +				     V4L2_CID_TEST_PATTERN,
+>> +				     ARRAY_SIZE(s5kjn1_test_pattern_menu) - 1,
+>> +				     0, 0, s5kjn1_test_pattern_menu);
+>> +
+>> +	s5kjn1->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &s5kjn1_ctrl_ops,
+>> +					  V4L2_CID_HFLIP, 0, 1, 1, 0);
+>> +	if (s5kjn1->hflip)
+>> +		s5kjn1->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+>> +
+>> +	s5kjn1->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &s5kjn1_ctrl_ops,
+>> +					  V4L2_CID_VFLIP, 0, 1, 1, 0);
+>> +	if (s5kjn1->vflip)
+>> +		s5kjn1->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+>> +
+>> +	if (ctrl_hdlr->error)
+> 
+> You're missing freeing the control handler here. But you can just omit the
+> error check here as v4l2_ctrl_new_fwnode_properties() does it anyway below.
+> 
+
+Right, thank you for the catch, I'll remove the check then.
+
+>> +		return ctrl_hdlr->error;
+>> +
+>> +	ret = v4l2_fwnode_device_parse(s5kjn1->dev, &props);
+>> +	if (ret)
+>> +		goto error_free_hdlr;
+>> +
+>> +	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &s5kjn1_ctrl_ops,
+>> +					      &props);
+>> +	if (ret)
+>> +		goto error_free_hdlr;
+>> +
+>> +	s5kjn1->sd.ctrl_handler = ctrl_hdlr;
+>> +
+>> +	return 0;
+>> +
+>> +error_free_hdlr:
+>> +	v4l2_ctrl_handler_free(ctrl_hdlr);
+>> +
+>> +	return ret;
+>> +}
+>> +
+
+<snip>
+
+>> +static int s5kjn1_set_pad_format(struct v4l2_subdev *sd,
+>> +				 struct v4l2_subdev_state *state,
+>> +				 struct v4l2_subdev_format *fmt)
+>> +{
+>> +	struct s5kjn1 *s5kjn1 = to_s5kjn1(sd);
+>> +	s64 hblank, vblank, exposure_max;
+>> +	const struct s5kjn1_mode *mode;
+>> +
+>> +	mode = v4l2_find_nearest_size(s5kjn1_supported_modes,
+>> +				      ARRAY_SIZE(s5kjn1_supported_modes),
+>> +				      width, height,
+>> +				      fmt->format.width, fmt->format.height);
+>> +
+>> +	s5kjn1_update_pad_format(s5kjn1, mode, &fmt->format);
+>> +
+>> +	/* Format code can be updated with respect to flip controls */
+>> +	*v4l2_subdev_state_get_format(state, 0) = fmt->format;
+>> +
+>> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+>> +		return 0;
+>> +
+>> +	if (s5kjn1->mode == mode)
+>> +		return 0;
+>> +
+>> +	s5kjn1->mode = mode;
+>> +
+>> +	/* Update limits and set FPS and exposure to default values */
+>> +	hblank = mode->hts - mode->width;
+>> +	__v4l2_ctrl_modify_range(s5kjn1->hblank, hblank, hblank, 1, hblank);
+>> +
+>> +	vblank = mode->vts - mode->height;
+>> +	__v4l2_ctrl_modify_range(s5kjn1->vblank, vblank,
+>> +				 S5KJN1_VTS_MAX - mode->height, 1, vblank);
+>> +	__v4l2_ctrl_s_ctrl(s5kjn1->vblank, vblank);
+>> +
+>> +	exposure_max = mode->vts - mode->exposure_margin;
+>> +	__v4l2_ctrl_modify_range(s5kjn1->exposure, S5KJN1_EXPOSURE_MIN,
+>> +				 exposure_max, S5KJN1_EXPOSURE_STEP,
+>> +				 mode->exposure);
+>> +	__v4l2_ctrl_s_ctrl(s5kjn1->exposure, mode->exposure);
+> 
+> Note that these can also fail. Assigning the format to the state should
+> thus be done as last.
+
+Likely it could happen due to some obscure reasons, but it is not expected
+to happen due to the new applied mode settings, because the settings are
+the default ones for the selected mode. Anyway, I agree that in general
+an error could appear, I'll add the next check before changing the state:
+
+         if (s5kjn1->sd.ctrl_handler->error)
+                 return s5kjn1->sd.ctrl_handler->error;
+
+>> +
+>> +	return 0;
+>> +}
+>> +
+
+<snip>
+
+>> +
+>> +static const struct v4l2_subdev_pad_ops s5kjn1_pad_ops = {
+>> +	.set_fmt = s5kjn1_set_pad_format,
+>> +	.get_fmt = v4l2_subdev_get_fmt,
+>> +	.enum_mbus_code = s5kjn1_enum_mbus_code,
+>> +	.enum_frame_size = s5kjn1_enum_frame_size,
+>> +	.enable_streams = s5kjn1_enable_streams,
+>> +	.disable_streams = s5kjn1_disable_streams,
+> 
+> Could you also add selections support, even if they're all read-only?
+> 
+
+Will it be sufficient to set
+
+         sel->r.top = 0;
+         sel->r.left = 0;
+         sel->r.width = fmt->width;
+         sel->r.height = fmt->height;
+
+for the crop selection targets like it's done in ov2640 case for instance?
+
+>> +};
+>> +
+
+<snip>
+
+>> +static int s5kjn1_probe(struct i2c_client *client)
+>> +{
+>> +	struct s5kjn1 *s5kjn1;
+>> +	unsigned long freq;
+>> +	unsigned int i;
+>> +	int ret;
+>> +
+>> +	s5kjn1 = devm_kzalloc(&client->dev, sizeof(*s5kjn1), GFP_KERNEL);
+>> +	if (!s5kjn1)
+>> +		return -ENOMEM;
+>> +
+>> +	s5kjn1->dev = &client->dev;
+>> +	v4l2_i2c_subdev_init(&s5kjn1->sd, client, &s5kjn1_subdev_ops);
+>> +
+>> +	s5kjn1->regmap = devm_cci_regmap_init_i2c(client, 16);
+>> +	if (IS_ERR(s5kjn1->regmap))
+>> +		return dev_err_probe(s5kjn1->dev, PTR_ERR(s5kjn1->regmap),
+>> +				     "failed to init CCI\n");
+>> +
+>> +	s5kjn1->mclk = devm_v4l2_sensor_clk_get(s5kjn1->dev, NULL);
+>> +	if (IS_ERR(s5kjn1->mclk))
+>> +		return dev_err_probe(s5kjn1->dev, PTR_ERR(s5kjn1->mclk),
+>> +				     "failed to get MCLK clock\n");
+>> +
+>> +	freq = clk_get_rate(s5kjn1->mclk);
+>> +	if (freq && freq != S5KJN1_MCLK_FREQ_24MHZ)
+> 
+> freq should never be 0, I'd remove checking for that case.
+> 
+
+Agreed.
+
+>> +		return dev_err_probe(s5kjn1->dev, -EINVAL,
+>> +				     "MCLK clock frequency %lu is not supported\n",
+>> +				     freq);
+>> +
+>> +	ret = s5kjn1_check_hwcfg(s5kjn1);
+>> +	if (ret)
+>> +		return dev_err_probe(s5kjn1->dev, ret,
+>> +				     "failed to check HW configuration\n");
+>> +
+>> +	s5kjn1->reset_gpio = devm_gpiod_get_optional(s5kjn1->dev, "reset",
+>> +						     GPIOD_OUT_HIGH);
+>> +	if (IS_ERR(s5kjn1->reset_gpio))
+>> +		return dev_err_probe(s5kjn1->dev, PTR_ERR(s5kjn1->reset_gpio),
+>> +				     "cannot get reset GPIO\n");
+>> +
+>> +	for (i = 0; i < S5KJN1_NUM_SUPPLIES; i++)
+>> +		s5kjn1->supplies[i].supply = s5kjn1_supply_names[i];
+>> +
+>> +	ret = devm_regulator_bulk_get(s5kjn1->dev, S5KJN1_NUM_SUPPLIES,
+>> +				      s5kjn1->supplies);
+>> +	if (ret)
+>> +		return dev_err_probe(s5kjn1->dev, ret,
+>> +				     "failed to get supply regulators\n");
+>> +
+>> +	/* The sensor must be powered on to read the CHIP_ID register */
+>> +	ret = s5kjn1_power_on(s5kjn1->dev);
+>> +	if (ret)
+>> +		return ret;
+>> +
+>> +	ret = s5kjn1_identify_sensor(s5kjn1);
+>> +	if (ret) {
+>> +		dev_err_probe(s5kjn1->dev, ret, "failed to find sensor\n");
+>> +		goto power_off;
+>> +	}
+>> +
+>> +	s5kjn1->mode = &s5kjn1_supported_modes[0];
+>> +	ret = s5kjn1_init_controls(s5kjn1);
+>> +	if (ret) {
+>> +		dev_err_probe(s5kjn1->dev, ret, "failed to init controls\n");
+>> +		goto power_off;
+>> +	}
+>> +
+>> +	s5kjn1->sd.state_lock = s5kjn1->ctrl_handler.lock;
+>> +	s5kjn1->sd.internal_ops = &s5kjn1_internal_ops;
+>> +	s5kjn1->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+>> +	s5kjn1->sd.entity.ops = &s5kjn1_subdev_entity_ops;
+>> +	s5kjn1->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
+>> +	s5kjn1->pad.flags = MEDIA_PAD_FL_SOURCE;
+>> +
+>> +	ret = media_entity_pads_init(&s5kjn1->sd.entity, 1, &s5kjn1->pad);
+>> +	if (ret) {
+>> +		dev_err_probe(s5kjn1->dev, ret,
+>> +			      "failed to init media entity pads\n");
+>> +		goto v4l2_ctrl_handler_free;
+>> +	}
+>> +
+>> +	ret = v4l2_subdev_init_finalize(&s5kjn1->sd);
+>> +	if (ret < 0) {
+>> +		dev_err_probe(s5kjn1->dev, ret,
+>> +			      "failed to init media entity pads\n");
+>> +		goto media_entity_cleanup;
+>> +	}
+>> +
+>> +	pm_runtime_set_active(s5kjn1->dev);
+>> +	pm_runtime_enable(s5kjn1->dev);
+>> +
+>> +	ret = v4l2_async_register_subdev_sensor(&s5kjn1->sd);
+>> +	if (ret < 0) {
+>> +		dev_err_probe(s5kjn1->dev, ret,
+>> +			      "failed to register V4L2 subdev\n");
+>> +		goto subdev_cleanup;
+>> +	}
+>> +
+>> +	/* Enable runtime PM and turn off the device */
+>> +	pm_runtime_idle(s5kjn1->dev);
+>> +	pm_runtime_set_autosuspend_delay(s5kjn1->dev, 1000);
+>> +	pm_runtime_use_autosuspend(s5kjn1->dev);
+> 
+> I'd put the idle call as last unless the intent is to power it off right
+> now.
+> 
+
+Agreed.
+
+Thank you for review!
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Best wishes,
+Vladimir
 
