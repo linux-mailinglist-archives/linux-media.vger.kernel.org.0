@@ -1,446 +1,215 @@
-Return-Path: <linux-media+bounces-45328-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45329-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 18758BFEB86
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 02:13:34 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F64ABFEF5E
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 04:54:12 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E71B44EE53F
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 00:13:32 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id B2DCB18C199B
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 02:54:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01FD51D6AA;
-	Thu, 23 Oct 2025 00:13:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8A9ED2045AD;
+	Thu, 23 Oct 2025 02:54:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="yIxY6JjS"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KLa311u4"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-lf1-f51.google.com (mail-lf1-f51.google.com [209.85.167.51])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 208F879F2
-	for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 00:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 182B147F4A
+	for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 02:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761178409; cv=none; b=Zhp9nxnRQvEq0f5p+CnZEwbf/jqcqosuNzf4rcMkBLtJHnQGfAsLwGCOOIo9V2xb0IS18qCmFp1CPPlGF86c181n28GGICHKE94u2GNXQyr/znSdliN3NBnw3hy9IND+3VW41aLA2mjW3rhysvbn9fqkd4EONRa3g0/yjmrHytU=
+	t=1761188044; cv=none; b=C8DSMM3MyikbwpyyXoE5GpFooD8iVPJxGtlP8TyFDGkEJuLfbgQKobahB/epW945almO5LdfFXKRNQHoxl6ATvwNcAXjW7F/SoEt7jX5g56OOYmJmg4fJJ/j0JHYBzgXZRdRUKvXH1T6oPBJvEZ0micc1Wgq4i55kI4oGE4HVrI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761178409; c=relaxed/simple;
-	bh=0EJJBUuoblpxllEQvsK3AW3gauaFZCUO3RTJeM88igY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mEA58eNKzaGCoizfBwpUirXfbf3/14DvvcuBEAGZ4hmAFQccjyrNg96eKRAOMuJtW1XV6wNl55L5yxaFdw3lM0Wdy/aylamm0hi/652dwXuU4vDN7+KvsXfv2FExfoTakwJkiUd/gUwVHWPschcJXROGcwFIKch8ahFZ/1xvEPk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=yIxY6JjS; arc=none smtp.client-ip=209.85.167.51
+	s=arc-20240116; t=1761188044; c=relaxed/simple;
+	bh=LTmKjJbA1n/wtPmo+T/n+bhndG69uYTXrNMP2lZsbg4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ShUVEI+15JdYJomN3ZvIh4AeLkVQlOCjIbQ9GPa5Jjjm5F3LXlY/ruEqEJgfyBbd6clZwJ59nzjYonWi6Ko24QM52Gru8Qp56TAQ0QQvMgt8yy112Vw0Kwwcb8vMIY0s8G+nXn7jkA9XmhhzVVWiatkusHDRrN8u8UeMB0d4Hv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KLa311u4; arc=none smtp.client-ip=209.85.167.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-lf1-f51.google.com with SMTP id 2adb3069b0e04-592f2f08168so28086e87.0
-        for <linux-media@vger.kernel.org>; Wed, 22 Oct 2025 17:13:26 -0700 (PDT)
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-591b99cb0c4so40657e87.2
+        for <linux-media@vger.kernel.org>; Wed, 22 Oct 2025 19:54:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761178405; x=1761783205; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OSrmswZgOkp9iNb6nYZNxv+LWDm9UmX2oNypTSoFLlc=;
-        b=yIxY6JjSkNDWeA0DjSw5Q545Euy4F/5D9MISjBCA7foBvTkziQVMyD1oPfRZ/e/C0U
-         Flr1y9sXFjH3BUYQE9AcrFbcSCb9xHdsJArO/7rTFR5t5LCdofnMkCXoAULZ+ZqijAKm
-         /ZWICK/cI5BFwtwGU6NVkmIdMrSHyqlNggD2QOkU3ktfBLfXvtw+9/Ikhx5J1452Jm6E
-         9E5ZW2WIHDVWcfE7Z5x13t1+epWIMfklGVdV1fWij2IDnnalBFpMvRLlULTJTEj5WGMZ
-         AF9LXGDDegcJN0hR5y35UA1oViBBP4HbLxwPEHwGmiDin7sDblfuOuaHIEMmgSoU1pvd
-         nIjQ==
+        d=linaro.org; s=google; t=1761188040; x=1761792840; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=t6DRCxslgheKjuwQ6b7p22t18pwk6dfTdi7SUdxUpSM=;
+        b=KLa311u4iGmouBw6UpTQCIrfOR4+WZJvB5pqeHnLnXzNPm21NY9exVBPNJ34DHV7OB
+         bxKo43hAByomJih74z2Y30cAGZUgvalQjSuL/hlNeJDWWUI2t//qwAuhFlerq18D+LrQ
+         n9NEFCJLnuV17A3HDCIedmyvS26uye+zEcTk/zRSXZzRO70uL/oDapWfISch4KNs5N36
+         z9oZBFKemVZ090+M4TP7Yy89lKIShvwMri8MJnNrYKWyGD179RdqFPxemkgcXMDgAA8a
+         r5IdoWhXk29m+SsHN4bd5VWflfcOrjcEG2fTJS2mf5gYLfxNaYh6KCiFSwIkVfrc4kfV
+         HCBw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761178405; x=1761783205;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to:subject
-         :user-agent:mime-version:date:message-id:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=OSrmswZgOkp9iNb6nYZNxv+LWDm9UmX2oNypTSoFLlc=;
-        b=mTOJ4C3L7okct6yiAkJDe0afDtnV3HE+hkHWwfz9B4DANZIbii/30QEV4kqxYBzrGK
-         +DdGRNoYxFGBLNGqlX1wmxm7cY8O1mqa69nGNEJLyrHAXVC66A0s4ljkE2NOSJRGnIz9
-         +WfnubLYhTnakgLmzj5LQLznsm289nZtQF1F0DUuWofI8H54C5FOuJe8bxOmavICs6ar
-         Qrr36M04El+gKd0iN0y6UFolYaLZZOE+y4BbPsYy6d1ocw+rmtxzSgSekh5JDt1S2rQ7
-         ExE7g/3T4+BZvB24F6KG6amoU/y2cz3Vk+coJe9ZhYMPaSBiNePB5aHx46kC0TcdXpju
-         ZC4g==
-X-Forwarded-Encrypted: i=1; AJvYcCXo5tPIU+M7DkDSmb7dPc4wQ0IIf307RzNc/PDpBMF3AtRhKY+shk8B79OtpRa5MMq0uAh2ynqDyxG+NA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwXjqaLoFtl2AyuApn3q6ztScPo6oMKLptWJYboJIenKW7AToLO
-	jHXH2ga8L4nBLNwdOnVkH3GIMfbNv8fIk0QAQuMrPbVJvPedyM5qkq2SPRa2I+rgK0E=
-X-Gm-Gg: ASbGnctcjAQMGJAcB81PD+VPkIzPAqf17R44G/WzzLfet846nvjTwDZus927tRE72q2
-	LI3licalZOidRVOx6sGiXGxO66rkM5QO/wJ/jKxdQvGP02rsStchYD50ffEWHo9DhXhPHHFDXtm
-	2nloCiMhYOC8/3OB0EGg5dS9b4GEEAwRAZ3GGf5WHrFEftXJ0bHp/Y9XSDoYevv2t0XeFmDrNDG
-	Shq7c/g9dl4MWzsg9q7QbotPddEvVFLEcn8opQsX81q4poSxlNTBKgU5vLzhTZY40rMVy6cuqLd
-	1X1jM1+fRAm+uaFItpxbqZbzvI1dOZPxISAaDA4aAsW2HA4K0uOJDtTfJhNvwyokMh3IDnkSxxn
-	M6U0DI9e4KDFajcJkTUeyF+KZ6kIXsQu/RM4xoH+jhLU0KUUQ3yDMCOJMiG0uhwPFFWfs8OTXLD
-	gAtiFCw+J0jLksQLajnRU1bffvuQt4jzOxrRzlo3uHGHflO1ENSZj3PWh7IP/eCpuwEg==
-X-Google-Smtp-Source: AGHT+IEqIfSFwj9f4EseY7eoTB9jQBbe33t0LJN5WLJ8WdAP5d7bxCnGjL5ogRZVJ1bdof4IV4Oyrw==
-X-Received: by 2002:a05:6512:2352:b0:57b:517c:bf0b with SMTP id 2adb3069b0e04-591ea41930cmr1971505e87.4.1761178405111;
-        Wed, 22 Oct 2025 17:13:25 -0700 (PDT)
-Received: from [192.168.1.100] (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-592f4cd1a99sm243510e87.45.2025.10.22.17.13.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 22 Oct 2025 17:13:24 -0700 (PDT)
-Message-ID: <9f4c0032-39c7-4d78-b24f-2d85cb93734b@linaro.org>
-Date: Thu, 23 Oct 2025 03:13:15 +0300
+        d=1e100.net; s=20230601; t=1761188040; x=1761792840;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=t6DRCxslgheKjuwQ6b7p22t18pwk6dfTdi7SUdxUpSM=;
+        b=X2MB9d4iGttGWib3NaHsfI0lxHklRsEvuaNnyMoO6cvtlgQCZO2IWmzvAvg2cHpbwa
+         yw7+baMybezEnG3hTYDHxn88AgHPEoTyIlzPTrxv/WYp1wh6De19qZCvnLBimkS4W7tv
+         MrzP7EuzX6i6y6ltPrrP4YMvlJm78Q/tWqLSusC/mT/ugcHuJe7u/0WWBj7LwikJGXmb
+         Gt+zx8XWGm5EouR2naSX+3daJmGzTaTjhqUbyizjZU/YNuGQiI/j6oYiNmfTmNu+/O1D
+         i2C0+qezDWb3ICfwLz8NVbAXaNOOfSknvNR8gmd88zhGv0Afz2+/C6WfHHrcvTjwJdn7
+         yWsA==
+X-Forwarded-Encrypted: i=1; AJvYcCU/cFSNGHbCQQ9v7YOzBGCHSjaHyDcmaUgoT936r+e8nsyxY+eO0I8GegG2eKR0nojq5ZXHyrp+SkFWiw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YztPuNMTC/0nG2T+qcErVOpLvdnXhljnogqotowFDK0aeadlzb/
+	KiiJUlYJveGH5HPetVoETROv9RnkXpcH5SGB2yTBUYnFurtgvFbKT0mUvoQV1mFOINM=
+X-Gm-Gg: ASbGncsDUJugfH9lJXLuIFTmSeEJHyM8uqfslF6eDHDViDOhMWrMqKPFsbjxmKRQCKx
+	oxsr5RstWFGBP9ErOT0A4L4hFkNo8Do+tpcxIVki1gjtFRRR3jfueyu8q6C6hNxQ2kLHBIUtft0
+	owdJ1gSquAWPslGFsNAva0z+MjE5rmwNttTlogNrFFjknVCpErR3vG0AmlDSMwfGbzYKUl6JeFZ
+	cPFCZzCsB5QlWXztn4J5Mi8MUXC2CivRHNl8Dk1YfihQ55vYdl682mo+0ohLCyDU8RvOouzHE0o
+	Qfaq5C+RK0NXctDg35cgjAb5ubMorN0Wp/TgGZf1821Qr4Tnw3S/sX+YtFuJ5a61QORHZztC+K4
+	j+YyHl6Wg6bM5P/uR+hrG1M2KgYa10JgwiY9YueSNZppPLj3uavOw8WmqrO541z8yDvn3JaaHmd
+	5WUxcTmw9xIZMlDXYkOuVK8/K0rAlZRRL9gx7ObkQJ5TQ=
+X-Google-Smtp-Source: AGHT+IHH4oV3M7SKzw7m3Q/81rIVaPIQiJSEUcw6JkpXNeaUSU9AePOT738Wdt0WUL3wtTQ0qTpnoA==
+X-Received: by 2002:a05:6512:684:b0:585:805b:e3b0 with SMTP id 2adb3069b0e04-591d85ae86fmr4502083e87.9.1761188040065;
+        Wed, 22 Oct 2025 19:54:00 -0700 (PDT)
+Received: from thyme.. (91-159-24-186.elisa-laajakaista.fi. [91.159.24.186])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-592f4d1f26bsm346957e87.77.2025.10.22.19.53.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 22 Oct 2025 19:53:58 -0700 (PDT)
+From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+To: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>,
+	Hans de Goede <hansg@kernel.org>
+Cc: Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	linux-media@vger.kernel.org,
+	devicetree@vger.kernel.org
+Subject: [PATCH v3 0/2] media: i2c: add Samsung S5KJN1 image sensor device driver
+Date: Thu, 23 Oct 2025 05:53:54 +0300
+Message-ID: <20251023025356.2421327-1-vladimir.zapolskiy@linaro.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] media: i2c: add Samsung S5KJN1 image sensor device
- driver
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
- Hans Verkuil <hverkuil@kernel.org>, Hans de Goede <hansg@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org
-References: <20251016020419.2137290-1-vladimir.zapolskiy@linaro.org>
- <20251016020419.2137290-3-vladimir.zapolskiy@linaro.org>
- <aPiZjiXp8-uuPjjX@kekkonen.localdomain>
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-In-Reply-To: <aPiZjiXp8-uuPjjX@kekkonen.localdomain>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Sakari,
+Samsung S5KJN1 is a 50MP image sensor, it produces Bayer GRBG (2x2)
+frames in RAW10 output format, the maximum supported output resolution
+is 8160x6144 at 10 frames per second rate.
 
-thank you so much for review!
+Changes from v2 to v3:
+* made data-lanes property optional and described its supported value (Sakari),
+* removed a macro over a number of supply regulators (Sakari),
+* simplified a function to calculate pixel rate from lane frequency (Sakari),
+* added a error check in s5kjn1_set_pad_format() (Sakari)
+* added a trivial function to get crop rectangles (Sakari),
+* minor changes in s5kjn1_probe() function (Sakari).
 
-On 10/22/25 11:45, Sakari Ailus wrote:
-> Hi Vladimir,
-> 
-> On Thu, Oct 16, 2025 at 05:04:19AM +0300, Vladimir Zapolskiy wrote:
->> Samsung S5KJN1 is a 50MP image sensor, it produces Bayer GRBG (2x2)
->> frames in RAW10 output format, the maximum supported output resolution
->> is 8160x6144 at 10 frames per second rate.
->>
->> Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+Link to v2:
+- https://lore.kernel.org/linux-media/20251016020419.2137290-1-vladimir.zapolskiy@linaro.org/
 
-<snip>
+Changes from v1 to v2:
+* added a collected Reviewed-by tag to the dt bindings documentation (Rob),
+* managed to get one PLL setup to cover both supported output modes,
+* vflip/hflip sensor controls swap media bus code of Bayer patterns,
+* extracted a common initialization subsequence of modes into its own array,
+* set a step to the analog gain control like it's done in downstream,
+* reworded a sequence of CCI commands in s5kjn1_enable_streams().
 
->> +
->> +#define S5KJN1_NUM_SUPPLIES	ARRAY_SIZE(s5kjn1_supply_names)
-> 
-> Please use ARRAY_SIZE() directly where you need this.
-> 
+Link to v1:
+- https://lore.kernel.org/linux-media/20250928200956.1215285-1-vladimir.zapolskiy@linaro.org
 
-There are 6 places of the macro usage in the driver, but will do it.
+----8<---- V4L2 compliance results (v4l-utils-1.20.0) ----8<----
 
-<snip>
+% v4l2-compliance -d /dev/v4l-subdev28
+v4l2-compliance SHA: not available, 64 bits, 64-bit time_t
 
->> +
->> +static u64 s5kjn1_mode_to_pixel_rate(const struct s5kjn1_mode *mode)
->> +{
->> +	u64 pixel_rate;
->> +
->> +	pixel_rate = s5kjn1_link_freq_menu[0] * 2 * S5KJN1_DATA_LANES;
->> +	do_div(pixel_rate, 10);			/* bits per pixel */
-> 
-> You could also use div_u64().
-> 
+Compliance test for device /dev/v4l-subdev28:
 
-Right, also it would make sense to change the argument from mode to freq,
-that's what I notice.
+Required ioctls:
 
->> +
->> +	return pixel_rate;
->> +}
->> +
->> +static int s5kjn1_init_controls(struct s5kjn1 *s5kjn1)
->> +{
->> +	struct v4l2_ctrl_handler *ctrl_hdlr = &s5kjn1->ctrl_handler;
->> +	const struct s5kjn1_mode *mode = s5kjn1->mode;
->> +	s64 pixel_rate, hblank, vblank, exposure_max;
->> +	struct v4l2_fwnode_device_properties props;
->> +	int ret;
->> +
->> +	v4l2_ctrl_handler_init(ctrl_hdlr, 9);
->> +
->> +	s5kjn1->link_freq = v4l2_ctrl_new_int_menu(ctrl_hdlr, &s5kjn1_ctrl_ops,
->> +					V4L2_CID_LINK_FREQ,
->> +					ARRAY_SIZE(s5kjn1_link_freq_menu) - 1,
->> +					0, s5kjn1_link_freq_menu);
->> +	if (s5kjn1->link_freq)
->> +		s5kjn1->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->> +
->> +	pixel_rate = s5kjn1_mode_to_pixel_rate(mode);
->> +	s5kjn1->pixel_rate = v4l2_ctrl_new_std(ctrl_hdlr, &s5kjn1_ctrl_ops,
->> +					       V4L2_CID_PIXEL_RATE,
->> +					       0, pixel_rate, 1, pixel_rate);
->> +
->> +	hblank = mode->hts - mode->width;
->> +	s5kjn1->hblank = v4l2_ctrl_new_std(ctrl_hdlr, &s5kjn1_ctrl_ops,
->> +					   V4L2_CID_HBLANK, hblank,
->> +					   hblank, 1, hblank);
->> +	if (s5kjn1->hblank)
->> +		s5kjn1->hblank->flags |= V4L2_CTRL_FLAG_READ_ONLY;
->> +
->> +	vblank = mode->vts - mode->height;
->> +	s5kjn1->vblank = v4l2_ctrl_new_std(ctrl_hdlr, &s5kjn1_ctrl_ops,
->> +					   V4L2_CID_VBLANK, vblank,
->> +					   S5KJN1_VTS_MAX - mode->height, 1,
->> +					   vblank);
->> +
->> +	v4l2_ctrl_new_std(ctrl_hdlr, &s5kjn1_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
->> +			  S5KJN1_AGAIN_MIN, S5KJN1_AGAIN_MAX,
->> +			  S5KJN1_AGAIN_STEP, S5KJN1_AGAIN_DEFAULT);
->> +
->> +	exposure_max = mode->vts - mode->exposure_margin;
->> +	s5kjn1->exposure = v4l2_ctrl_new_std(ctrl_hdlr, &s5kjn1_ctrl_ops,
->> +					     V4L2_CID_EXPOSURE,
->> +					     S5KJN1_EXPOSURE_MIN,
->> +					     exposure_max,
->> +					     S5KJN1_EXPOSURE_STEP,
->> +					     mode->exposure);
->> +
->> +	v4l2_ctrl_new_std_menu_items(ctrl_hdlr, &s5kjn1_ctrl_ops,
->> +				     V4L2_CID_TEST_PATTERN,
->> +				     ARRAY_SIZE(s5kjn1_test_pattern_menu) - 1,
->> +				     0, 0, s5kjn1_test_pattern_menu);
->> +
->> +	s5kjn1->hflip = v4l2_ctrl_new_std(ctrl_hdlr, &s5kjn1_ctrl_ops,
->> +					  V4L2_CID_HFLIP, 0, 1, 1, 0);
->> +	if (s5kjn1->hflip)
->> +		s5kjn1->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
->> +
->> +	s5kjn1->vflip = v4l2_ctrl_new_std(ctrl_hdlr, &s5kjn1_ctrl_ops,
->> +					  V4L2_CID_VFLIP, 0, 1, 1, 0);
->> +	if (s5kjn1->vflip)
->> +		s5kjn1->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
->> +
->> +	if (ctrl_hdlr->error)
-> 
-> You're missing freeing the control handler here. But you can just omit the
-> error check here as v4l2_ctrl_new_fwnode_properties() does it anyway below.
-> 
+Allow for multiple opens:
+	test second /dev/v4l-subdev28 open: OK
+	test for unlimited opens: OK
+	test invalid ioctls: OK
 
-Right, thank you for the catch, I'll remove the check then.
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
 
->> +		return ctrl_hdlr->error;
->> +
->> +	ret = v4l2_fwnode_device_parse(s5kjn1->dev, &props);
->> +	if (ret)
->> +		goto error_free_hdlr;
->> +
->> +	ret = v4l2_ctrl_new_fwnode_properties(ctrl_hdlr, &s5kjn1_ctrl_ops,
->> +					      &props);
->> +	if (ret)
->> +		goto error_free_hdlr;
->> +
->> +	s5kjn1->sd.ctrl_handler = ctrl_hdlr;
->> +
->> +	return 0;
->> +
->> +error_free_hdlr:
->> +	v4l2_ctrl_handler_free(ctrl_hdlr);
->> +
->> +	return ret;
->> +}
->> +
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
 
-<snip>
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
 
->> +static int s5kjn1_set_pad_format(struct v4l2_subdev *sd,
->> +				 struct v4l2_subdev_state *state,
->> +				 struct v4l2_subdev_format *fmt)
->> +{
->> +	struct s5kjn1 *s5kjn1 = to_s5kjn1(sd);
->> +	s64 hblank, vblank, exposure_max;
->> +	const struct s5kjn1_mode *mode;
->> +
->> +	mode = v4l2_find_nearest_size(s5kjn1_supported_modes,
->> +				      ARRAY_SIZE(s5kjn1_supported_modes),
->> +				      width, height,
->> +				      fmt->format.width, fmt->format.height);
->> +
->> +	s5kjn1_update_pad_format(s5kjn1, mode, &fmt->format);
->> +
->> +	/* Format code can be updated with respect to flip controls */
->> +	*v4l2_subdev_state_get_format(state, 0) = fmt->format;
->> +
->> +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
->> +		return 0;
->> +
->> +	if (s5kjn1->mode == mode)
->> +		return 0;
->> +
->> +	s5kjn1->mode = mode;
->> +
->> +	/* Update limits and set FPS and exposure to default values */
->> +	hblank = mode->hts - mode->width;
->> +	__v4l2_ctrl_modify_range(s5kjn1->hblank, hblank, hblank, 1, hblank);
->> +
->> +	vblank = mode->vts - mode->height;
->> +	__v4l2_ctrl_modify_range(s5kjn1->vblank, vblank,
->> +				 S5KJN1_VTS_MAX - mode->height, 1, vblank);
->> +	__v4l2_ctrl_s_ctrl(s5kjn1->vblank, vblank);
->> +
->> +	exposure_max = mode->vts - mode->exposure_margin;
->> +	__v4l2_ctrl_modify_range(s5kjn1->exposure, S5KJN1_EXPOSURE_MIN,
->> +				 exposure_max, S5KJN1_EXPOSURE_STEP,
->> +				 mode->exposure);
->> +	__v4l2_ctrl_s_ctrl(s5kjn1->exposure, mode->exposure);
-> 
-> Note that these can also fail. Assigning the format to the state should
-> thus be done as last.
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
 
-Likely it could happen due to some obscure reasons, but it is not expected
-to happen due to the new applied mode settings, because the settings are
-the default ones for the selected mode. Anyway, I agree that in general
-an error could appear, I'll add the next check before changing the state:
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 12 Private Controls: 0
 
-         if (s5kjn1->sd.ctrl_handler->error)
-                 return s5kjn1->sd.ctrl_handler->error;
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
 
->> +
->> +	return 0;
->> +}
->> +
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
 
-<snip>
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
 
->> +
->> +static const struct v4l2_subdev_pad_ops s5kjn1_pad_ops = {
->> +	.set_fmt = s5kjn1_set_pad_format,
->> +	.get_fmt = v4l2_subdev_get_fmt,
->> +	.enum_mbus_code = s5kjn1_enum_mbus_code,
->> +	.enum_frame_size = s5kjn1_enum_frame_size,
->> +	.enable_streams = s5kjn1_enable_streams,
->> +	.disable_streams = s5kjn1_disable_streams,
-> 
-> Could you also add selections support, even if they're all read-only?
-> 
+Total for device /dev/v4l-subdev28: 41, Succeeded: 41, Failed: 0, Warnings: 0
 
-Will it be sufficient to set
+----8<----
 
-         sel->r.top = 0;
-         sel->r.left = 0;
-         sel->r.width = fmt->width;
-         sel->r.height = fmt->height;
 
-for the crop selection targets like it's done in ov2640 case for instance?
+Vladimir Zapolskiy (2):
+  dt-bindings: media: i2c: Add Samsung S5KJN1 image sensor
+  media: i2c: add Samsung S5KJN1 image sensor device driver
 
->> +};
->> +
-
-<snip>
-
->> +static int s5kjn1_probe(struct i2c_client *client)
->> +{
->> +	struct s5kjn1 *s5kjn1;
->> +	unsigned long freq;
->> +	unsigned int i;
->> +	int ret;
->> +
->> +	s5kjn1 = devm_kzalloc(&client->dev, sizeof(*s5kjn1), GFP_KERNEL);
->> +	if (!s5kjn1)
->> +		return -ENOMEM;
->> +
->> +	s5kjn1->dev = &client->dev;
->> +	v4l2_i2c_subdev_init(&s5kjn1->sd, client, &s5kjn1_subdev_ops);
->> +
->> +	s5kjn1->regmap = devm_cci_regmap_init_i2c(client, 16);
->> +	if (IS_ERR(s5kjn1->regmap))
->> +		return dev_err_probe(s5kjn1->dev, PTR_ERR(s5kjn1->regmap),
->> +				     "failed to init CCI\n");
->> +
->> +	s5kjn1->mclk = devm_v4l2_sensor_clk_get(s5kjn1->dev, NULL);
->> +	if (IS_ERR(s5kjn1->mclk))
->> +		return dev_err_probe(s5kjn1->dev, PTR_ERR(s5kjn1->mclk),
->> +				     "failed to get MCLK clock\n");
->> +
->> +	freq = clk_get_rate(s5kjn1->mclk);
->> +	if (freq && freq != S5KJN1_MCLK_FREQ_24MHZ)
-> 
-> freq should never be 0, I'd remove checking for that case.
-> 
-
-Agreed.
-
->> +		return dev_err_probe(s5kjn1->dev, -EINVAL,
->> +				     "MCLK clock frequency %lu is not supported\n",
->> +				     freq);
->> +
->> +	ret = s5kjn1_check_hwcfg(s5kjn1);
->> +	if (ret)
->> +		return dev_err_probe(s5kjn1->dev, ret,
->> +				     "failed to check HW configuration\n");
->> +
->> +	s5kjn1->reset_gpio = devm_gpiod_get_optional(s5kjn1->dev, "reset",
->> +						     GPIOD_OUT_HIGH);
->> +	if (IS_ERR(s5kjn1->reset_gpio))
->> +		return dev_err_probe(s5kjn1->dev, PTR_ERR(s5kjn1->reset_gpio),
->> +				     "cannot get reset GPIO\n");
->> +
->> +	for (i = 0; i < S5KJN1_NUM_SUPPLIES; i++)
->> +		s5kjn1->supplies[i].supply = s5kjn1_supply_names[i];
->> +
->> +	ret = devm_regulator_bulk_get(s5kjn1->dev, S5KJN1_NUM_SUPPLIES,
->> +				      s5kjn1->supplies);
->> +	if (ret)
->> +		return dev_err_probe(s5kjn1->dev, ret,
->> +				     "failed to get supply regulators\n");
->> +
->> +	/* The sensor must be powered on to read the CHIP_ID register */
->> +	ret = s5kjn1_power_on(s5kjn1->dev);
->> +	if (ret)
->> +		return ret;
->> +
->> +	ret = s5kjn1_identify_sensor(s5kjn1);
->> +	if (ret) {
->> +		dev_err_probe(s5kjn1->dev, ret, "failed to find sensor\n");
->> +		goto power_off;
->> +	}
->> +
->> +	s5kjn1->mode = &s5kjn1_supported_modes[0];
->> +	ret = s5kjn1_init_controls(s5kjn1);
->> +	if (ret) {
->> +		dev_err_probe(s5kjn1->dev, ret, "failed to init controls\n");
->> +		goto power_off;
->> +	}
->> +
->> +	s5kjn1->sd.state_lock = s5kjn1->ctrl_handler.lock;
->> +	s5kjn1->sd.internal_ops = &s5kjn1_internal_ops;
->> +	s5kjn1->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
->> +	s5kjn1->sd.entity.ops = &s5kjn1_subdev_entity_ops;
->> +	s5kjn1->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
->> +	s5kjn1->pad.flags = MEDIA_PAD_FL_SOURCE;
->> +
->> +	ret = media_entity_pads_init(&s5kjn1->sd.entity, 1, &s5kjn1->pad);
->> +	if (ret) {
->> +		dev_err_probe(s5kjn1->dev, ret,
->> +			      "failed to init media entity pads\n");
->> +		goto v4l2_ctrl_handler_free;
->> +	}
->> +
->> +	ret = v4l2_subdev_init_finalize(&s5kjn1->sd);
->> +	if (ret < 0) {
->> +		dev_err_probe(s5kjn1->dev, ret,
->> +			      "failed to init media entity pads\n");
->> +		goto media_entity_cleanup;
->> +	}
->> +
->> +	pm_runtime_set_active(s5kjn1->dev);
->> +	pm_runtime_enable(s5kjn1->dev);
->> +
->> +	ret = v4l2_async_register_subdev_sensor(&s5kjn1->sd);
->> +	if (ret < 0) {
->> +		dev_err_probe(s5kjn1->dev, ret,
->> +			      "failed to register V4L2 subdev\n");
->> +		goto subdev_cleanup;
->> +	}
->> +
->> +	/* Enable runtime PM and turn off the device */
->> +	pm_runtime_idle(s5kjn1->dev);
->> +	pm_runtime_set_autosuspend_delay(s5kjn1->dev, 1000);
->> +	pm_runtime_use_autosuspend(s5kjn1->dev);
-> 
-> I'd put the idle call as last unless the intent is to power it off right
-> now.
-> 
-
-Agreed.
-
-Thank you for review!
+ .../bindings/media/i2c/samsung,s5kjn1.yaml    |  103 ++
+ MAINTAINERS                                   |    8 +
+ drivers/media/i2c/Kconfig                     |   10 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/s5kjn1.c                    | 1407 +++++++++++++++++
+ 5 files changed, 1529 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/samsung,s5kjn1.yaml
+ create mode 100644 drivers/media/i2c/s5kjn1.c
 
 -- 
-Best wishes,
-Vladimir
+2.49.0
+
 
