@@ -1,49 +1,58 @@
-Return-Path: <linux-media+bounces-45392-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45393-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 551A9C019D6
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 16:03:03 +0200 (CEST)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CC78C01A3C
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 16:08:13 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 4929E566230
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 13:56:25 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id D4EC734A524
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 14:08:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4F5EC3370F5;
-	Thu, 23 Oct 2025 13:53:59 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E27D831D377;
+	Thu, 23 Oct 2025 14:08:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="not an e-mail key" (0-bit key) header.d=floofy.city header.i=@floofy.city header.b="hyT28eXG"
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b="AP8SnN0s"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail.automatia.nl (mail.automatia.nl [178.251.229.115])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE816333736
-	for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 13:53:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.115
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761227638; cv=none; b=q5bvgtcJlAgYrdO2JeGCkQDKFfPyuIxjhQk2dcX8FOLwn+T1cIt7VIkxiKzE4zjyL4wByrYplnlHV/rM+QzUVnnJtQEFtgT0++ipV4vSgpLmw+VO3AHgP3jsV/KNyyi0bA3xuZAkmVTjw3lPNrB4M9o2GBh7z8JpvYHMKgCqBaI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761227638; c=relaxed/simple;
-	bh=f+/s7pELxhlGZnhLV4tm3ztZo71KbADEEPi5VF6KZxk=;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38D7531BCB8;
+	Thu, 23 Oct 2025 14:08:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761228486; cv=pass; b=WirUK0WcLfrTMizc2CLBidNo/s5vcEWZuzA2As19Re7JyS6Tl0yJ4y2PO2uWONQiKkC4jOPTro/UIXd7IyhT/u7ZFOdI8DrY2of06AskjOn4nxusuTfrelNuQprwGUk/RfyHBo/6Flk66FP+NSXFOcNiRhcOuQk2jLqt2QAqdkk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761228486; c=relaxed/simple;
+	bh=GGx8e8MdSqy28KUToPNYLFH73/gYVKUsFzMFF8jI71E=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OezZMquDbo/GHUaNEztYn3xo2zKp4aLJMddMAbjTi6yWMs0CRDp6AxGQ5Xut530dLJwoFksayT+QMGAvsvImInJWqQW5sdlV1Wgu8XmAA5I5q0dkWlY58PNu2tf3OOXVHxmcigBJGNqHVXghtPFOe+G2/oqEJXVKAJTs/1qpawk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=floofy.city; spf=pass smtp.mailfrom=floofy.city; dkim=fail (0-bit key) header.d=floofy.city header.i=@floofy.city header.b=hyT28eXG reason="not an e-mail key"; arc=none smtp.client-ip=178.251.229.115
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=floofy.city
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=floofy.city
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 4EB7E9FADB;
-	Thu, 23 Oct 2025 15:53:53 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=floofy.city; s=mail;
-	t=1761227633; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:content-language:in-reply-to:references;
-	bh=GFWbJACA9DaL3H0hI4zDY7BBCf3dd0OUMOM0oE2eYVo=;
-	b=hyT28eXG9IhmlUjH3ceSyfj8E1v/XCNAGYKxEFlH0oizS9bfi9Aa5S/NFEs7wIgqZpeMKW
-	Xmlh1SszwYm6iRoy2f5zWBIHOa7Afn2Y7lM8VBXGpZFytxxqLosK/j+1QMnd80mCWo/PO6
-	//rzrywLQcjgne/klAQILxBtzCIydpKFchB7lYQgtKHGG8G6LNchb2Wgyo8qp8mKUXLJ9L
-	wrhJoZKpqDJTjNkTMl5lrfsDGmqscpoMqHL3uf6BeVZEyRYsqN1ZcMvRgKXs49cEb1Wid+
-	JLnUqQZrSVuKpMXadceHGQX7zI+/W5d0Vxy1P0HUgJNNL93dJJp/nkynxFmD6Q==
-Message-ID: <a4c69323-e606-410e-8a63-02621980a326@floofy.city>
-Date: Thu, 23 Oct 2025 15:53:52 +0200
+	 In-Reply-To:Content-Type; b=KRboo0betGiwt4vaa4WZ/YgkARmYyKJ+247658WzeYm/nwuXbuxRdnuQ5lWMkZEk7ONZAiOIOuoza+wTA2J8hMCeZrnJzxeCtfdYeVzGCxGjD5LGCCUlkJ4v8xDH0fOOdybSMVwcJB71ri/UXXWHhRNugus9I+tXLfN2kFIS82w=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=detlev.casanova@collabora.com header.b=AP8SnN0s; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+ARC-Seal: i=1; a=rsa-sha256; t=1761228452; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=QJTDz73q9ULElSJbe3UBcx+2Lh0bvt0HNsiJran5Vx51osYjS85rMDSnSIQ3D8wy4/5jWxUFB33nEv6gyOwj3VXh8p8BOzgzdIsQLkL2bgHCAcrqnBurjZdf9P7ar8l9Z18pFsADQr4gUEobSTfCMDZfk34f+CEs91kZGRTU20M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1761228452; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=Zn87WStNUu8QnMPbdDiRsUi5A/QpkGCBEl8yDwMULUg=; 
+	b=LTpLW0BGhziv59wBl4U/yI/p/C7UWo1UnC0ZolcyfF7kM0SRjzxJpGPW1m0xAS/bNuMDSKdyjiqo5nCsc65riPiGB/oSsy7l4FaYkrsbgdOQgCq9fZwLMYyCAGU8hFgVW0XO/Zck5R2/XKbG1cEqQysrz3X3suS5DPMf8/a9JTg=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=detlev.casanova@collabora.com;
+	dmarc=pass header.from=<detlev.casanova@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1761228452;
+	s=zohomail; d=collabora.com; i=detlev.casanova@collabora.com;
+	h=Message-ID:Date:Date:MIME-Version:Subject:Subject:To:To:Cc:Cc:References:From:From:In-Reply-To:Content-Type:Content-Transfer-Encoding:Message-Id:Reply-To;
+	bh=Zn87WStNUu8QnMPbdDiRsUi5A/QpkGCBEl8yDwMULUg=;
+	b=AP8SnN0sy9jK6LmZJPJ5zgN9OdYE/1DvKHCdkQNCHLsPQ1DZN3s027C/aUb+l4Wd
+	UhbHHc0zrptRAa8zRgFvAy5gpjv1rdRrdNbyqHYsX3MK8TbMgjBaNvH8/40DNlqtZwy
+	ZyStghdS8G1krBgZ694sxhxkSAyL0v2DCAYevoVI=
+Received: by mx.zohomail.com with SMTPS id 1761228449352726.4571148367125;
+	Thu, 23 Oct 2025 07:07:29 -0700 (PDT)
+Message-ID: <c7ea2422-cff3-46ad-8c46-20aa651a18d4@collabora.com>
+Date: Thu, 23 Oct 2025 10:07:27 -0400
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,146 +60,244 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: PROBLEM: regression in commit 0e2ee70291e64 breaks
- non-spec-compliant webcams
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc: hansg@kernel.org, mchehab@kernel.org, linux-media@vger.kernel.org,
- Ricardo Ribalda <ribalda@chromium.org>
-References: <dd1c8e46-5616-4395-baac-56fdc4a67be2@floofy.city>
- <20251023103804.GH19043@pendragon.ideasonboard.com>
- <7dc01c6e-d9d7-4645-bd17-d0fc0f8b596d@floofy.city>
- <20251023112312.GG727@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v4 02/15] media: v4l2-ctrls: Add hevc_ext_sps_[ls]t_rps
+ controls
+To: Hans Verkuil <hverkuil+cisco@kernel.org>, linux-kernel@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Heiko Stuebner <heiko@sntech.de>, Ricardo Ribalda <ribalda@chromium.org>,
+ Hans Verkuil <hverkuil@kernel.org>, Hans de Goede <hansg@kernel.org>,
+ Yunke Cao <yunkec@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ James Cowgill <james.cowgill@blaize.com>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com, Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20251022174508.284929-1-detlev.casanova@collabora.com>
+ <20251022174508.284929-3-detlev.casanova@collabora.com>
+ <6eaa8b26-edab-4bfa-9c6a-1fbb54c36b4e@kernel.org>
 Content-Language: en-US
-From: Lili Orosz <lily@floofy.city>
-In-Reply-To: <20251023112312.GG727@pendragon.ideasonboard.com>
+From: Detlev Casanova <detlev.casanova@collabora.com>
+In-Reply-To: <6eaa8b26-edab-4bfa-9c6a-1fbb54c36b4e@kernel.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 7bit
+X-ZohoMailClient: External
 
-Hi Laurent,
+Hi Hans,
 
-After applying only the patch you sent, the webcam seems to function, 
-though I get the following message in dmesg:
-
-```
-[    3.373083] uvcvideo 1-5:1.0: Found multiple Units with ID 4
-```
-
-Kind regards,
-Lili Orosz
-
-On 2025. 10. 23. 13:23, Laurent Pinchart wrote:
-> On Thu, Oct 23, 2025 at 01:07:49PM +0200, Lili Orosz wrote:
->> Hi Laurent,
+On 10/23/25 04:04, Hans Verkuil wrote:
+> On 22/10/2025 19:44, Detlev Casanova wrote:
+>> The vdpu381 decoder found on newer Rockchip SoC need the information
+>> from the long term and short term ref pic sets from the SPS.
 >>
->> Thank you for the quick reply.
+>> So far, it wasn't included in the v4l2 API, so add it with new dynamic
+>> sized controls.
 >>
->> Below is the output of the lsusb command:
-> Thank you.
+>> Each element of the hevc_ext_sps_lt_rps array contains the long term ref
+>> pic set at that index.
+>> Each element of the hevc_ext_sps_st_rps contains the short term ref pic
+>> set at that index, as the raw data.
+>> It is the role of the drivers to calculate the reference sets values.
+>>
+>> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
+>> ---
+>>   drivers/media/v4l2-core/v4l2-ctrls-core.c | 18 +++++++
+>>   drivers/media/v4l2-core/v4l2-ctrls-defs.c | 10 ++++
+>>   include/uapi/linux/v4l2-controls.h        | 61 +++++++++++++++++++++++
+>>   include/uapi/linux/videodev2.h            |  2 +
+>>   4 files changed, 91 insertions(+)
+>>
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>> index 7c660cd61e48..b330bd7719e9 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
+>> @@ -418,6 +418,12 @@ void v4l2_ctrl_type_op_log(const struct v4l2_ctrl *ctrl)
+>>   	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
+>>   		pr_cont("HEVC_SLICE_PARAMS");
+>>   		break;
+>> +	case V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS:
+>> +		pr_cont("HEVC_EXT_SPS_ST_RPS");
+>> +		break;
+>> +	case V4L2_CTRL_TYPE_HEVC_EXT_SPS_LT_RPS:
+>> +		pr_cont("HEVC_EXT_SPS_LT_RPS");
+>> +		break;
+>>   	case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
+>>   		pr_cont("HEVC_SCALING_MATRIX");
+>>   		break;
+>> @@ -1248,6 +1254,12 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>>   	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
+>>   		break;
+>>   
+>> +	case V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS:
+>> +		break;
+>> +
+>> +	case V4L2_CTRL_TYPE_HEVC_EXT_SPS_LT_RPS:
+>> +		break;
+>> +
+> There is nothing to validate here? Any value is fine? Just checking...
+
+I don't think we can really validate anything here without more context: 
+e.g.: Cannot validate that a referenced frame is valid
+
+Even the num_negative_pics and num_positive_pics range ([0 16]) can't be 
+validated here without reconstructing the information, as it is done in 
+the driver (and I don't think that should be done twice).
+
+Maybe just the flags could be validated though.
+
+> Is this something that should be added to the visl driver so it is tested during regression
+> tests? Or does this not apply to visl?
+
+This could be added to visl indeed. Currently, the data is constructed 
+in the rkvdec driver as it is the only one using it, but if added to 
+visl, I'd add some v4l2 function to do the work and use it in rkvdec and 
+visl.
+
+Also, I think this should be part of another patchset, once this lands.
+
 >
->> ```
->> Bus 001 Device 002: ID 1d6b:0105 Linux Foundation FunctionFS Gadget
->> Negotiated speed: High Speed (480Mbps)
->> Device Descriptor:
->>     bLength                18
->>     bDescriptorType         1
->>     bcdUSB               2.00
->>     bDeviceClass          239 Miscellaneous Device
->>     bDeviceSubClass         2 [unknown]
->>     bDeviceProtocol         1 Interface Association
->>     bMaxPacketSize0        64
->>     idVendor           0x1d6b Linux Foundation
->>     idProduct          0x0105 FunctionFS Gadget
-> That's a lovely one :-)
+> I haven't looked in-depth into this, but I wondered about it.
+Detlev.
 >
->>     bcdDevice            4.09
->>     iManufacturer           4 LSK Meeting Eye for Business & Home
->>     iProduct                5 LSK Meeting Eye for Business & Home
->>     iSerial                 0
->>     bNumConfigurations      1
->>     Configuration Descriptor:
->>       bLength                 9
->>       bDescriptorType         2
->>       wTotalLength       0x0b33
->>       bNumInterfaces          4
->>       bConfigurationValue     1
->>       iConfiguration          7 video
->>       bmAttributes         0xc0
->>         Self Powered
->>       MaxPower                2mA
->>       Interface Association:
->>         bLength                 8
->>         bDescriptorType        11
->>         bFirstInterface         0
->>         bInterfaceCount         2
->>         bFunctionClass         14 Video
->>         bFunctionSubClass       3 Video Interface Collection
->>         bFunctionProtocol       0
->>         iFunction               8 LSK Meeting Eye for Business & Home
->>       Interface Descriptor:
->>         bLength                 9
->>         bDescriptorType         4
->>         bInterfaceNumber        0
->>         bAlternateSetting       0
->>         bNumEndpoints           0
->>         bInterfaceClass        14 Video
->>         bInterfaceSubClass      1 Video Control
->>         bInterfaceProtocol      0
->>         iInterface              8 LSK Meeting Eye for Business & Home
-> [snip]
+>>   	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
+>>   		break;
+>>   
+>> @@ -2000,6 +2012,12 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>>   	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
+>>   		elem_size = sizeof(struct v4l2_ctrl_hevc_slice_params);
+>>   		break;
+>> +	case V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS:
+>> +		elem_size = sizeof(struct v4l2_ctrl_hevc_ext_sps_st_rps);
+>> +		break;
+>> +	case V4L2_CTRL_TYPE_HEVC_EXT_SPS_LT_RPS:
+>> +		elem_size = sizeof(struct v4l2_ctrl_hevc_ext_sps_lt_rps);
+>> +		break;
+>>   	case V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX:
+>>   		elem_size = sizeof(struct v4l2_ctrl_hevc_scaling_matrix);
+>>   		break;
+>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-defs.c b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>> index ad41f65374e2..167286c9e424 100644
+>> --- a/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>> +++ b/drivers/media/v4l2-core/v4l2-ctrls-defs.c
+>> @@ -1233,6 +1233,8 @@ const char *v4l2_ctrl_get_name(u32 id)
+>>   	case V4L2_CID_STATELESS_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
+>>   	case V4L2_CID_STATELESS_HEVC_START_CODE:		return "HEVC Start Code";
+>>   	case V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS:	return "HEVC Entry Point Offsets";
+>> +	case V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS:		return "HEVC Short Term Ref Sets";
+>> +	case V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS:		return "HEVC Long Term Ref Sets";
+>>   	case V4L2_CID_STATELESS_AV1_SEQUENCE:			return "AV1 Sequence Parameters";
+>>   	case V4L2_CID_STATELESS_AV1_TILE_GROUP_ENTRY:		return "AV1 Tile Group Entry";
+>>   	case V4L2_CID_STATELESS_AV1_FRAME:			return "AV1 Frame Parameters";
+>> @@ -1578,6 +1580,14 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>>   		*type = V4L2_CTRL_TYPE_U32;
+>>   		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+>>   		break;
+>> +	case V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS:
+>> +		*type = V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS;
+>> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+>> +		break;
+>> +	case V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS:
+>> +		*type = V4L2_CTRL_TYPE_HEVC_EXT_SPS_LT_RPS;
+>> +		*flags |= V4L2_CTRL_FLAG_DYNAMIC_ARRAY;
+>> +		break;
+>>   	case V4L2_CID_STATELESS_VP9_COMPRESSED_HDR:
+>>   		*type = V4L2_CTRL_TYPE_VP9_COMPRESSED_HDR;
+>>   		break;
+>> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+>> index 2d30107e047e..dd9e29afa155 100644
+>> --- a/include/uapi/linux/v4l2-controls.h
+>> +++ b/include/uapi/linux/v4l2-controls.h
+>> @@ -2093,6 +2093,8 @@ struct v4l2_ctrl_mpeg2_quantisation {
+>>   #define V4L2_CID_STATELESS_HEVC_DECODE_MODE	(V4L2_CID_CODEC_STATELESS_BASE + 405)
+>>   #define V4L2_CID_STATELESS_HEVC_START_CODE	(V4L2_CID_CODEC_STATELESS_BASE + 406)
+>>   #define V4L2_CID_STATELESS_HEVC_ENTRY_POINT_OFFSETS (V4L2_CID_CODEC_STATELESS_BASE + 407)
+>> +#define V4L2_CID_STATELESS_HEVC_EXT_SPS_ST_RPS  (V4L2_CID_CODEC_STATELESS_BASE + 408)
+>> +#define V4L2_CID_STATELESS_HEVC_EXT_SPS_LT_RPS  (V4L2_CID_CODEC_STATELESS_BASE + 409)
+>>   
+>>   enum v4l2_stateless_hevc_decode_mode {
+>>   	V4L2_STATELESS_HEVC_DECODE_MODE_SLICE_BASED,
+>> @@ -2548,6 +2550,65 @@ struct v4l2_ctrl_hevc_scaling_matrix {
+>>   	__u8	scaling_list_dc_coef_32x32[2];
+>>   };
+>>   
+>> +#define V4L2_HEVC_EXT_SPS_ST_RPS_FLAG_INTER_REF_PIC_SET_PRED	0x1
+>> +
+>> +/*
+>> + * struct v4l2_ctrl_hevc_ext_sps_st_rps - HEVC short term RPS parameters
+>> + *
+>> + * Dynamic size 1-dimension array for short term RPS. The number of elements
+>> + * is v4l2_ctrl_hevc_sps::num_short_term_ref_pic_sets. It can contain up to 65 elements.
+>> + *
+>> + * @delta_idx_minus1: Specifies the delta compare to the index. See details in section 7.4.8
+>> + *                    "Short-term reference picture set semantics" of the specification.
+>> + * @delta_rps_sign: Sign of the delta as specified in section 7.4.8 "Short-term reference picture
+>> + *                  set semantics" of the specification.
+>> + * @abs_delta_rps_minus1: Absolute delta RPS as specified in section 7.4.8 "Short-term reference
+>> + *                        picture set semantics" of the specification.
+>> + * @num_negative_pics: Number of short-term RPS entries that have picture order count values less
+>> + *                     than the picture order count value of the current picture.
+>> + * @num_positive_pics: Number of short-term RPS entries that have picture order count values
+>> + *                     greater than the picture order count value of the current picture.
+>> + * @used_by_curr_pic: Bit j specifies if short-term RPS j is used by the current picture.
+>> + * @use_delta_flag: Bit j equals to 1 specifies that the j-th entry in the source candidate
+>> + *                  short-term RPS is included in this candidate short-term RPS.
+>> + * @delta_poc_s0_minus1: Specifies the negative picture order count delta for the i-th entry in
+>> + *                       the short-term RPS. See details in section 7.4.8 "Short-term reference
+>> + *                       picture set semantics" of the specification.
+>> + * @delta_poc_s1_minus1: Specifies the positive picture order count delta for the i-th entry in
+>> + *                       the short-term RPS. See details in section 7.4.8 "Short-term reference
+>> + *                       picture set semantics" of the specification.
+>> + * @flags: See V4L2_HEVC_EXT_SPS_ST_RPS_FLAG_{}
+>> + */
+>> +struct v4l2_ctrl_hevc_ext_sps_st_rps {
+>> +	__u8	delta_idx_minus1;
+>> +	__u8	delta_rps_sign;
+>> +	__u16	abs_delta_rps_minus1;
+>> +	__u8	num_negative_pics;
+>> +	__u8	num_positive_pics;
+>> +	__u32	used_by_curr_pic;
+>> +	__u32	use_delta_flag;
+>> +	__u16	delta_poc_s0_minus1[16];
+>> +	__u16	delta_poc_s1_minus1[16];
+>> +	__u8	flags;
+>> +};
+>> +
+>> +#define V4L2_HEVC_EXT_SPS_LT_RPS_FLAG_USED_LT		0x1
+>> +
+>> +/*
+>> + * struct v4l2_ctrl_hevc_ext_sps_lt_rps - HEVC long term RPS parameters
+>> + *
+>> + * Dynamic size 1-dimension array for long term RPS. The number of elements
+>> + * is v4l2_ctrl_hevc_sps::num_long_term_ref_pics_sps. It can contain up to 65 elements.
+>> + *
+>> + * @lt_ref_pic_poc_lsb_sps: picture order count modulo MaxPicOrderCntLsb of the i-th candidate
+>> + *                          long-term reference picture.
+>> + * @flags: See V4L2_HEVC_EXT_SPS_LT_RPS_FLAG_{}
+>> + */
+>> +struct v4l2_ctrl_hevc_ext_sps_lt_rps {
+>> +	__u16	lt_ref_pic_poc_lsb_sps;
+>> +	__u8	flags;
+>> +};
+>> +
+>>   /* Stateless VP9 controls */
+>>   
+>>   #define V4L2_VP9_LOOP_FILTER_FLAG_DELTA_ENABLED	0x1
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index becd08fdbddb..ae1d33fd37b7 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -1981,6 +1981,8 @@ enum v4l2_ctrl_type {
+>>   	V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS	= 0x0272,
+>>   	V4L2_CTRL_TYPE_HEVC_SCALING_MATRIX	= 0x0273,
+>>   	V4L2_CTRL_TYPE_HEVC_DECODE_PARAMS	= 0x0274,
+>> +	V4L2_CTRL_TYPE_HEVC_EXT_SPS_ST_RPS	= 0x0275,
+>> +	V4L2_CTRL_TYPE_HEVC_EXT_SPS_LT_RPS	= 0x0276,
+>>   
+>>   	V4L2_CTRL_TYPE_AV1_SEQUENCE	    = 0x280,
+>>   	V4L2_CTRL_TYPE_AV1_TILE_GROUP_ENTRY = 0x281,
 >
->>         VideoControl Interface Descriptor:
->>           bLength                31
->>           bDescriptorType        36
->>           bDescriptorSubtype      6 (EXTENSION_UNIT)
->>           bUnitID                 4
->>           guidExtensionCode  {ffe52d21-8030-4e2c-82d9-f587d00540bd}
->>           bNumControls           48
->>           bNrInPins               1
->>           baSourceID( 0)          2
->>           bControlSize            6
->>           bmControls( 0)       0xff
->>           bmControls( 1)       0xff
->>           bmControls( 2)       0xff
->>           bmControls( 3)       0xff
->>           bmControls( 4)       0xff
->>           bmControls( 5)       0xff
->>           iExtension              0
->>         VideoControl Interface Descriptor:
->>           bLength                 9
->>           bDescriptorType        36
->>           bDescriptorSubtype      3 (OUTPUT_TERMINAL)
->>           bTerminalID             4
->>           wTerminalType      0x0101 USB Streaming
->>           bAssocTerminal          0
->>           bSourceID               3
->>           iTerminal               0
-> These are the two units that share the same ID. The ID duplication is
-> identical to the one reported in [1]. Ricardo has posted a patch in [2],
-> would you be able to test it ? It should be tested on top of a kernel
-> that exhibits the issue, without reverting 0e2ee70291e64.
->
-> [1] https://lore.kernel.org/r/CAOzBiVuS7ygUjjhCbyWg-KiNx+HFTYnqH5+GJhd6cYsNLT=DaA@mail.gmail.com
-> [2] https://lore.kernel.org/r/20251022-uvc-grandstream-laurent-v2-1-8c5c20d6c571@chromium.org
->
->> I don't think it makes a difference, but this output is from a system
->> running the patched kernel (where the webcam works).
-> It should make no difference.
->
->> On 2025. 10. 23. 12:38, Laurent Pinchart wrote:
->>> On Thu, Oct 23, 2025 at 12:12:23PM +0200, Lili Orosz wrote:
->>>> Hello,
->>>>
->>>> The change in commit 0e2ee70291e64 reintroduces an issue that was
->>>> reverted once before. It prevents webcams that do not follow the spec
->>>> and have non-unique unit IDs from being usable. This issue is present
->>>> both in 6.12.54 (LTS) as well as mainline.
->>>>
->>>> The camera I tested with and can confirm is affected: LSK Meeting Eye
->>>> for Business & Home. It's very likely that this is not the only
->>>> non-compliant webcam out there.
->>> Could you please share the full `lsusb -v` output for your device ?
->>>
->>>> If I build the kernel with that commit reverted, my webcam begins to
->>>> function as intended again.
+> _______________________________________________
+> Linux-rockchip mailing list
+> Linux-rockchip@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-rockchip
 
