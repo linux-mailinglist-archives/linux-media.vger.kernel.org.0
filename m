@@ -1,258 +1,175 @@
-Return-Path: <linux-media+bounces-45447-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45448-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7AC64C039D5
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 23:50:27 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 78327C03B93
+	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 00:54:03 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 899C14F51C5
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 21:50:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E86193AAFF0
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 22:53:51 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDABA2566F5;
-	Thu, 23 Oct 2025 21:50:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 05D3C2BDC1B;
+	Thu, 23 Oct 2025 22:53:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F1SEwrjh"
+	dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b="Ld0msfZ0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from smtp.forwardemail.net (smtp.forwardemail.net [121.127.44.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 05E523D3B3
-	for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 21:50:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8804F29C326
+	for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 22:53:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=121.127.44.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761256220; cv=none; b=F5puOQDUZYf4Gbs/fSgtlxm8CNqDVfvK+LpkzrYaDLBKk49+pVFzpIELUYVVZVqFo6pjy60/RLx0piazZjaNjWdK9K9myRqJuoTJ+jsX/Gv4TF4/FTxdgq09ummvejaPbJJNoNnAWL8agpY1xku8idA3alCQAH66HoCSmW1/gOQ=
+	t=1761260023; cv=none; b=ILURwobiFjsElyxpN3fuHMLRUWa2t2soAAaGvC+Gm09CTgG2TzcT+XC8w6muREK9qs9Opm5up+1gntRz8wyVTNvkvleMiaWKPCKMIrisUuNT3TSy6dv6IR8bjPowTymkjuAmGnPNeF8vv7r4e9JFDbL50RxGaHEn9RaMNzsJRBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761256220; c=relaxed/simple;
-	bh=0crdkRWL2i52N8DjaLjPGWqZ+qR9vnRSb8AxmG3G5jk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JI3vtKdaJytOTnQokzje/w3TAZpjmZPi1Gf0vuJZBHivcCccXEhKVddRLrb4Z43KmsBh96M8yiApJk1NW54sNdW/HGYj0jXhYwsjdECvUAx2HRsVfaVJYHbrVQgn/ASbKis1D3K2wIkm6lD4CKipXMrkx990CU3P9oHnWr3xof8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F1SEwrjh; arc=none smtp.client-ip=209.85.208.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-63bf76fc9faso2550803a12.2
-        for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 14:50:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761256216; x=1761861016; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=mTxd0N4ykd7gve6I0VI6xvQpfS9jPjV5mFGiKktW21o=;
-        b=F1SEwrjh3GuuKfLFMQdbvKrV+ETF04xlvaypgRB84tFPaVh24wshsL4yLG9sLLj1uq
-         K4Ca+UWdrgvxQuLcu8SApM1nfHdHWQdUuqMiEnDKKVUf5CezdyIn75Rqb4qd3MRUBRox
-         wUKLDbT8b+hxUSourq2iAL/4ergYPhH2+s9WrxRhhM3+B4UtXjdrMcoBv2EsVxgncfvV
-         YXuBylJFcF7b7oti0WAGzv9UIXgp3p5jhR3hNDk4wOUJgB2eINVFvRd0jTvFbp+C/OgA
-         jDIMCWVaWfVhFGtIdPK66ZzzSl6tEM0pXOLE795FW+Aava05xgsLBkEQvQHz5zwCI2Js
-         ZGEA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761256216; x=1761861016;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=mTxd0N4ykd7gve6I0VI6xvQpfS9jPjV5mFGiKktW21o=;
-        b=uPeuZ2KekBxfucVSzNuFAWBoErk25ZpD40btG89WRtWpHJjfBCMnQE7lWgbK1CBrvg
-         /mdux8GDVA7yBXvjJYuLV3F+GqsnSTC6ZP9inX04t2o78AgXZeKZ9/xhtOS7hdcdygTe
-         VBCPv2vl7a2hll0Ew4fr18ISOjU3OpKitLGSrnpDF4ai5HQT4aPF01gK5uZSp1dgoViW
-         O03fI2Q7BouK1XDG2nb7BYiNnzw+27K7imjm0aMAHR364Ktrq9b8VGgZq+cu7A5oHzS1
-         NpZH387aob4vJX1Mv2Lw2akg7zIwvj/XCgFDBzMEl9LoulCCGlOoG5mgegwQJgSPV3vJ
-         31fQ==
-X-Gm-Message-State: AOJu0YyRsUnELXQz6AHqtLbRxzhFa+LvUalEfmW6fJaGe0+Y54QnT19A
-	fdFFoNRuSkDMyelREcimmiIQPX8MUVLoJyru0Mw3gGpwpabth23OMwLTs3IJHKDrN0xTZs8/qnP
-	L5/mxcttpd9Jb8ICTq0+yW5t49jGmnvM=
-X-Gm-Gg: ASbGnctY5VCfDCMLKmwWTpdc39Oa0rdlJ8Blg3BcldgqzY7z3R3uRB+DGL6bFKdz1Ul
-	aXnfQ2eOppsL5Byle3xLapnEqmUtY70ahtnfM1YH6Tfhpb+62Hjvsh3JA/k2WQ71oq+Hy3kpKKW
-	cHIr7irZjVcB5OT8E08EjVx4qzSJdirv44RIlGlre4OjdJ5yHfe9aBSTmrTPd2QciTR9zYgC6z3
-	fX51Plo1jkvzS5V9kesz7Vi39IjVroifkAPYLDvQQYdRlRaH19c9w893xr/TA==
-X-Google-Smtp-Source: AGHT+IE6DRq0G5t3WynJX8AdK871ej0FvwPBp17WZkIlAW429pCOMu5FAtpCqnXjVceYtZYEL30EdgTdYQqDcgDyYOw=
-X-Received: by 2002:a05:6402:2787:b0:637:ab6d:71c0 with SMTP id
- 4fb4d7f45d1cf-63c1f62af92mr23616460a12.7.1761256216068; Thu, 23 Oct 2025
- 14:50:16 -0700 (PDT)
+	s=arc-20240116; t=1761260023; c=relaxed/simple;
+	bh=DCAF7TtHftTvDj1OSSV058dCzxlVEwOr29KkxAHMvfQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Tz7vauCEi1sW+BOubK/EXPaAzRcuIUJ9ZNbLec52yma8k23+3824sFtj57PihUWOfKway47mhqVAtbiQbS4QvCvbNWHSE5YQfFASWqXUQP6rdPKk+HUMkJSOwijeh1ut01v6XIUCp5Ni5/wGloY5duLqNjaoR/R1rO9xV8caZss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se; dkim=pass (2048-bit key) header.d=kwiboo.se header.i=@kwiboo.se header.b=Ld0msfZ0; arc=none smtp.client-ip=121.127.44.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=kwiboo.se
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fe-bounces.kwiboo.se
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
+ h=Content-Transfer-Encoding: Content-Type: In-Reply-To: From: References:
+ Cc: To: Subject: MIME-Version: Date: Message-ID; q=dns/txt;
+ s=fe-e1b5cab7be; t=1761260013;
+ bh=AG2rFEpBv1gq95qUgCmaFP4trd4HB0CSXHRiD4voN58=;
+ b=Ld0msfZ0tariHjuUPM5iQccX9hPHoj14dldgEM2PlnTKI8nVXvhZie8IjcLikHgbnEstYJ394
+ foawQkYy7GfJ0e6hHa6Uf85bf7hSUOJXEz3pHY3YhYjhTA2zCFLdnIGEIK3jHW+PFIDQjTIxgzH
+ B7rUxCOUJMaVty1rOLt5lIxDar4FgF8Z7UJ9oV36u/fpMh1i3UJOlBU+AK5sUvC4NkrZb5MxnUE
+ RztFEhIqdUQdvzaugZHS9+0hZE07AWiemB4lFv/wTxviRYZOlMofnRdnFPt4Y6K+kt4dcj7waDy
+ 4h5C3bmt7/9UfNpvlgQaRQDyFIXFI18nq8xExlJ5OX+A==
+X-Forward-Email-ID: 68fab1e82a3297951990cdf1
+X-Forward-Email-Sender: rfc822; jonas@kwiboo.se, smtp.forwardemail.net,
+ 121.127.44.73
+X-Forward-Email-Version: 1.3.0
+X-Forward-Email-Website: https://forwardemail.net
+X-Complaints-To: abuse@forwardemail.net
+X-Report-Abuse: abuse@forwardemail.net
+X-Report-Abuse-To: abuse@forwardemail.net
+Message-ID: <d28c81b0-3d50-46f7-876e-d634bcab2cd0@kwiboo.se>
+Date: Fri, 24 Oct 2025 00:53:20 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251002-ivc-v5-0-192c663fa70b@ideasonboard.com> <20251002-ivc-v5-1-192c663fa70b@ideasonboard.com>
-In-Reply-To: <20251002-ivc-v5-1-192c663fa70b@ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Thu, 23 Oct 2025 22:49:49 +0100
-X-Gm-Features: AWmQ_blarlbB60Z8ciGxdUOyDe13AFqtYqI4foOh96GGz7YXVmq0KoeyJzdQ_-4
-Message-ID: <CA+V-a8sCvhepEL1RnsemN_84U9gcLLoGBnOUtY0zLsZO+kcu7Q@mail.gmail.com>
-Subject: Re: [PATCH v5 1/3] dt-bindings: media: Add bindings for the RZ/V2H(P)
- IVC block
-To: Daniel Scally <dan.scally@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-renesas-soc@vger.kernel.org, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Geert Uytterhoeven <geert+renesas@glider.be>, Magnus Damm <magnus.damm@gmail.com>, 
-	Philipp Zabel <p.zabel@pengutronix.de>, jacopo.mondi@ideasonboard.com, 
-	biju.das.jz@bp.renesas.com, laurent.pinchart@ideasonboard.com, 
-	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 12/15] media: rkvdec: Add H264 support for the VDPU381
+ variant
+To: Detlev Casanova <detlev.casanova@collabora.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
+ Heiko Stuebner <heiko@sntech.de>, Ricardo Ribalda <ribalda@chromium.org>,
+ Hans Verkuil <hverkuil@kernel.org>, Hans de Goede <hansg@kernel.org>,
+ Yunke Cao <yunkec@google.com>, Jonathan Corbet <corbet@lwn.net>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ James Cowgill <james.cowgill@blaize.com>, linux-media@vger.kernel.org,
+ linux-rockchip@lists.infradead.org, linux-arm-kernel@lists.infradead.org,
+ kernel@collabora.com, Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Diederik de Haas <didi.debian@cknow.org>, linux-kernel@vger.kernel.org
+References: <20251023214247.459931-1-detlev.casanova@collabora.com>
+ <20251023214247.459931-13-detlev.casanova@collabora.com>
+Content-Language: en-US
+From: Jonas Karlman <jonas@kwiboo.se>
+In-Reply-To: <20251023214247.459931-13-detlev.casanova@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Daniel,
+Hi Detlev,
 
-Thank you for the patch.
-
-On Thu, Oct 2, 2025 at 11:38=E2=80=AFAM Daniel Scally
-<dan.scally@ideasonboard.com> wrote:
->
-> The RZ/V2H(P) SoC has a block called the Input Video Control block which
-> feeds image data into the Image Signal Processor. Add dt bindings to
-> describe the IVC.
->
-> Reviewed-by: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
-> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+On 10/23/2025 11:42 PM, Detlev Casanova wrote:
+> This decoder variant is found in Rockchip RK3588 SoC family.
+> 
+> Like for rkvdec on rk3399, it supports the NV12, NV15, NV16 and NV20
+> output formats and level up to 5.1.
+> 
+> The maximum width and height have been significantly increased
+> supporting up to 65520 pixels for both.
+> 
+> Also make sure to only expose the first core and ignore the other
+> until mutli-core is supported.
+> 
+> Fluster score for JVT-AVC_V1 is 129/135.
+> 
+> Tested-by: Diederik de Haas <didi.debian@cknow.org>  # Rock 5B
+> Signed-off-by: Detlev Casanova <detlev.casanova@collabora.com>
 > ---
-> Changes in v5:
->
->         - Rename RZ/V2H to RZ/V2H(P)
->
-> Changes in v3:
->
->         - Rename from rzv2h-ivc.yaml to r9a09g057-ivc.yaml
->         - Update clock and reset names
->
-> Changes in v2:
->
->         - compatible matches filename
->         - Added power-domains
->         - Aligned clock and reset entries on opening "<"
->         - Removed status =3D "okay"; from example
-> ---
->  .../bindings/media/renesas,r9a09g057-ivc.yaml      | 103 +++++++++++++++=
-++++++
->  1 file changed, 103 insertions(+)
->
-> diff --git a/Documentation/devicetree/bindings/media/renesas,r9a09g057-iv=
-c.yaml b/Documentation/devicetree/bindings/media/renesas,r9a09g057-ivc.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..8e236e46882668b2660d175e8=
-b2cffe204aa781c
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/renesas,r9a09g057-ivc.yaml
-> @@ -0,0 +1,103 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/renesas,r9a09g057-ivc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Renesas RZ/V2H(P) Input Video Control Block
-> +
-> +maintainers:
-> +  - Daniel Scally <dan.scally@ideasonboard.com>
-> +
-> +description:
-> +  The IVC block is a module that takes video frames from memory and feed=
-s them
-> +  to the Image Signal Processor for processing.
-> +
-> +properties:
-> +  compatible:
-> +    const: renesas,r9a09g057-ivc
-Nit, `const: renesas,r9a09g057-ivc # RZ/V2H(P)` as done for the rest
-of the Renesas bindings.
+>  .../media/platform/rockchip/rkvdec/Makefile   |   1 +
+>  .../rockchip/rkvdec/rkvdec-h264-common.h      |   2 +
+>  .../rockchip/rkvdec/rkvdec-vdpu381-h264.c     | 469 ++++++++++++++++++
+>  .../rockchip/rkvdec/rkvdec-vdpu381-regs.h     | 427 ++++++++++++++++
+>  .../media/platform/rockchip/rkvdec/rkvdec.c   | 127 +++++
+>  .../media/platform/rockchip/rkvdec/rkvdec.h   |   4 +
+>  6 files changed, 1030 insertions(+)
+>  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-h264.c
+>  create mode 100644 drivers/media/platform/rockchip/rkvdec/rkvdec-vdpu381-regs.h
 
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Input Video Control block register access clock
-> +      - description: Video input data AXI bus clock
-> +      - description: ISP system clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: reg
-> +      - const: axi
-> +      - const: isp
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  resets:
-> +    items:
-> +      - description: Input Video Control block register access reset
-> +      - description: Video input data AXI bus reset
-> +      - description: ISP core reset
-> +
-> +  reset-names:
-> +    items:
-> +      - const: reg
-> +      - const: axi
-> +      - const: isp
-> +
-> +  port:
-> +    $ref: /schemas/graph.yaml#/properties/port
-> +    description: Output parallel video bus
-> +
-> +    properties:
-> +      endpoint:
-> +        $ref: /schemas/graph.yaml#/properties/endpoint
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - power-domains
-> +  - resets
-> +  - reset-names
-> +  - port
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/renesas,r9a09g057-cpg.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +
-> +    isp-input@16040000 {
-> +      compatible =3D "renesas,r9a09g057-ivc";
-> +      reg =3D <0x16040000 0x230>;
-> +
-> +      clocks =3D <&cpg CPG_MOD 0xe3>,
-> +               <&cpg CPG_MOD 0xe4>,
-> +               <&cpg CPG_MOD 0xe5>;
-> +      clock-names =3D "reg", "axi", "isp";
-> +
-> +      power-domains =3D <&cpg>;
-> +
-> +      resets =3D <&cpg 0xd4>,
-> +               <&cpg 0xd1>,
-> +               <&cpg 0xd3>;
-> +      reset-names =3D "reg", "axi", "isp";
-> +
-> +      interrupts =3D <GIC_SPI 861 IRQ_TYPE_EDGE_RISING>;
-I understand we split this up from ISP, there are other interrupts for
-ISP for example 860 which is similar to 861 where it outputs signal on
-rising instead of falling. Do you foresee this interrupt being used
-for IVC?  Rest LGTM.
+[snip]
 
-Cheers,
-Prabhakar
+> diff --git a/drivers/media/platform/rockchip/rkvdec/rkvdec.c b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> index f043b07c8e7d..bc3e35b82a11 100644
+> --- a/drivers/media/platform/rockchip/rkvdec/rkvdec.c
+> +++ b/drivers/media/platform/rockchip/rkvdec/rkvdec.c
 
+[snip]
+
+> +/*
+> + * Some SoCs, like RK3588 have multiple identical VDPU cores, but the
+> + * kernel is currently missing support for multi-core handling. Exposing
+> + * separate devices for each core to userspace is bad, since that does
+> + * not allow scheduling tasks properly (and creates ABI). With this workaround
+> + * the driver will only probe for the first core and early exit for the other
+> + * cores. Once the driver gains multi-core support, the same technique
+> + * for detecting the first core can be used to cluster all cores together.
+> + */
+> +static int rkvdec_disable_multicore(struct rkvdec_dev *rkvdec)
+> +{
+> +	struct device_node *node = NULL;
+> +	const char *compatible;
+> +	bool is_first_core;
+> +	int ret;
 > +
-> +      port {
-> +        ivc_out: endpoint {
-> +          remote-endpoint =3D <&isp_in>;
-> +        };
-> +      };
-> +    };
-> +...
->
-> --
-> 2.43.0
->
->
+> +	/* Intentionally ignores the fallback strings */
+> +	ret = of_property_read_string(rkvdec->dev->of_node, "compatible", &compatible);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* The first compatible and available node found is considered the main core */
+> +	do {
+> +		node = of_find_compatible_node(node, NULL, compatible);
+> +		if (of_device_is_available(node))
+> +			break;
+> +	} while (node);
+> +
+> +	if (!node)
+> +		return -EINVAL;
+> +
+> +	is_first_core = (rkvdec->dev->of_node == node);
+> +
+> +	of_node_put(node);
+> +
+> +	if (!is_first_core) {
+> +		dev_info(rkvdec->dev, "missing multi-core support, ignoring this instance\n");
+> +		return -ENODEV;
+> +	}
+> +
+> +	return 0;
+> +}
+
+The addition of rkvdec_disable_multicore should probably be split into a
+separate patch.
+
+Please leave some more time for review before sending next version. I
+will try to do a more in depth review of this series this weekend, more
+feedback will follow.
+
+Regards,
+Jonas
+
+[snip]
 
