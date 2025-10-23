@@ -1,119 +1,80 @@
-Return-Path: <linux-media+bounces-45364-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45368-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id E41C0C0051D
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 11:42:34 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FFCDC006FC
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 12:20:35 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CE2BF3AB37B
-	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 09:41:42 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5B1494FF339
+	for <lists+linux-media@lfdr.de>; Thu, 23 Oct 2025 10:20:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B83430BB8F;
-	Thu, 23 Oct 2025 09:40:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C9EEB30AD1E;
+	Thu, 23 Oct 2025 10:19:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="EyGFcKj/"
+	dkim=fail reason="not an e-mail key" (0-bit key) header.d=floofy.city header.i=@floofy.city header.b="T5fytIfW"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from mail.automatia.nl (mail.automatia.nl [178.251.229.115])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E963309EF3;
-	Thu, 23 Oct 2025 09:40:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF9E33019DA
+	for <linux-media@vger.kernel.org>; Thu, 23 Oct 2025 10:19:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.251.229.115
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761212432; cv=none; b=fzAOqpXC9LPBnhackmwmOmtotdjtZ2QHP5bzEWuE+zDzlRfICUc6M2BzUaw1VsllLQQ71M2KvaIdgnpfdrEMUq2wV9Nmlo7Lw+h8VvIHYL64qxwlGHAf1x3tuAGzrWWLJqFHNbjwwiuxJwnrQrT8cSv0mB4fJPQpX3/MFO0EVpQ=
+	t=1761214795; cv=none; b=pWlez0OHOW+RRhZa74lKpM7MIpz4Gt2lhLh+p1Bom5PxEGsB4IUpNrhbI2c2WPg1kV1rWMfL7xOMlI1KikuEV7oY/RoYgl22Tcd+UaEhRVpIS8Z0t+U/CiJXLkEYWAmyShHI90xR4bJuFRMFzKZBHonsN41h5zO5Z5AdS6VQ5LM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761212432; c=relaxed/simple;
-	bh=ntFlFmnT+saS4lHI7iTBGKUIbeA1hFcksyPOGRcjAsY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ReBBNHntuC6FPuos56kYRrJq4ozxTXmuGmnIwdT1fMziCSqrTbwZufWu3z7ml1bPMT/KWHYillmuoSj04OzvuZaK5CsrIz2qVixgQSwVl7Eyze+4PX8OkpLKB/kfsuaUxdPqjqQ8Couz1s014qyrdGVktA3mH6C1CrNPB/abDMk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=EyGFcKj/; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
-Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59N9drvH496873;
-	Thu, 23 Oct 2025 04:39:53 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1761212393;
-	bh=jmSCzhQKvGeGnlyR78QWHTBOf5UIhs76QhMxp1+lLS0=;
-	h=From:To:CC:Subject:Date:In-Reply-To:References;
-	b=EyGFcKj/sDTaa8P2NoUrC7ZUi/b58ATCC2rGyvEX2kYkTWkoimUqOhfv5NzKqc7ip
-	 f5SsdH9ufcPYfUb2e+/eeiRNFGKlAweOZwSQDJi12jttN1JD+s7ILt0efmFs5X7A1/
-	 JAj22xjdT+TwpnlLlbdF4krwv+l4m8EyiKCG5oQ0=
-Received: from DFLE211.ent.ti.com (dfle211.ent.ti.com [10.64.6.69])
-	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59N9drI12304343
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 23 Oct 2025 04:39:53 -0500
-Received: from DFLE209.ent.ti.com (10.64.6.67) by DFLE211.ent.ti.com
- (10.64.6.69) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Thu, 23 Oct
- 2025 04:39:53 -0500
-Received: from fllvem-mr08.itg.ti.com (10.64.41.88) by DFLE209.ent.ti.com
- (10.64.6.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
- Transport; Thu, 23 Oct 2025 04:39:53 -0500
-Received: from fllv0122.itg.ti.com (fllv0122.itg.ti.com [10.247.120.72])
-	by fllvem-mr08.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59N9dqC8166235;
-	Thu, 23 Oct 2025 04:39:52 -0500
-Received: from localhost (meghana-pc.dhcp.ti.com [10.24.69.13] (may be forged))
-	by fllv0122.itg.ti.com (8.14.7/8.14.7) with ESMTP id 59N9dpcq014049;
-	Thu, 23 Oct 2025 04:39:52 -0500
-From: Meghana Malladi <m-malladi@ti.com>
-To: <horms@kernel.org>, <namcao@linutronix.de>, <vadim.fedorenko@linux.dev>,
-        <jacob.e.keller@intel.com>, <m-malladi@ti.com>,
-        <christian.koenig@amd.com>, <sumit.semwal@linaro.org>,
-        <sdf@fomichev.me>, <john.fastabend@gmail.com>, <hawk@kernel.org>,
-        <daniel@iogearbox.net>, <ast@kernel.org>, <pabeni@redhat.com>,
-        <kuba@kernel.org>, <edumazet@google.com>, <davem@davemloft.net>,
-        <andrew+netdev@lunn.ch>
-CC: <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
-        <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>,
-        Vignesh Raghavendra
-	<vigneshr@ti.com>,
-        Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
-Subject: [PATCH net-next v4 6/6] net: ti: icssg-prueth: Enable zero copy in XDP features
-Date: Thu, 23 Oct 2025 15:09:27 +0530
-Message-ID: <20251023093927.1878411-7-m-malladi@ti.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20251023093927.1878411-1-m-malladi@ti.com>
-References: <20251023093927.1878411-1-m-malladi@ti.com>
+	s=arc-20240116; t=1761214795; c=relaxed/simple;
+	bh=rYpq5CIoRppf3gr2KfBKmmIzaLdYUA2ZqOUf+mTRYBk=;
+	h=Message-ID:Date:MIME-Version:To:Cc:From:Subject:Content-Type; b=u1YPe/5SXb210S+cpMREmNvGqN/6KDSWtgsYEMVZUwz8Br1LgRAhCW0ZHau8cMMT9oeR8PjYz8G1CJp7TpauHOO5qRuHOC8NdvdBM+ps2+wT0jHBqmX06s3uvHWXfJFUA+F6+SS0qV5KbXraJ/UE+H8N/R6bUWCqCNEKJ8WFfCo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=floofy.city; spf=pass smtp.mailfrom=floofy.city; dkim=fail (0-bit key) header.d=floofy.city header.i=@floofy.city header.b=T5fytIfW reason="not an e-mail key"; arc=none smtp.client-ip=178.251.229.115
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=floofy.city
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=floofy.city
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EAD0D9FADF;
+	Thu, 23 Oct 2025 12:12:28 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=floofy.city; s=mail;
+	t=1761214349; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language;
+	bh=jvPXd8Rs5eSyGX46xz+Bd3GAjD38htcqi1A7wPNfbzc=;
+	b=T5fytIfWahIDpZPO2UzP88aJaMquLEyy7xXFjrcwjYXWAb28vDuQ6214ymqI0D1yxZLZie
+	YvsBbm5crBlvzSjRYHXBW7xKM89CuSgPL/OiNGQXK/KBLyaTTOOSUcCf5vZcK/cdEUdx6/
+	ag5JQNgIniTo8c+Oj2hW4nb7u7ZakOagpSI/Dd0usMbebaq7MN9WKKDOlHYjkXwRfvLJaa
+	xrJb6IHIHG+0v53Bz6InpR7WDICbInn2X8ZoxhaNC6LaxRg1nqdT23xG1+xf3c66BTyF3F
+	OsYNjVG+EcW166L037rj04EL19Z0Jhc4tP+1yJBPPThhHrgh6HQSx3gCoJRdfw==
+Message-ID: <dd1c8e46-5616-4395-baac-56fdc4a67be2@floofy.city>
+Date: Thu, 23 Oct 2025 12:12:23 +0200
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+User-Agent: Mozilla Thunderbird
+Content-Language: en-US
+To: laurent.pinchart@ideasonboard.com, hansg@kernel.org, mchehab@kernel.org
+Cc: linux-media@vger.kernel.org
+From: Lili Orosz <lily@floofy.city>
+Subject: PROBLEM: regression in commit 0e2ee70291e64 breaks non-spec-compliant
+ webcams
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Enable the zero copy feature flag in xdp_set_features_flag()
-for a given ndev to get the AF-XDP zero copy support running
-for both Tx and Rx.
+Hello,
 
-Signed-off-by: Meghana Malladi <m-malladi@ti.com>
----
- drivers/net/ethernet/ti/icssg/icssg_prueth.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+The change in commit 0e2ee70291e64 reintroduces an issue that was 
+reverted once before. It prevents webcams that do not follow the spec 
+and have non-unique unit IDs from being usable. This issue is present 
+both in 6.12.54 (LTS) as well as mainline.
 
-diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.c b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
-index 57a98ac0d303..c63970581332 100644
---- a/drivers/net/ethernet/ti/icssg/icssg_prueth.c
-+++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.c
-@@ -1555,7 +1555,8 @@ static int prueth_netdev_init(struct prueth *prueth,
- 	xdp_set_features_flag(ndev,
- 			      NETDEV_XDP_ACT_BASIC |
- 			      NETDEV_XDP_ACT_REDIRECT |
--			      NETDEV_XDP_ACT_NDO_XMIT);
-+			      NETDEV_XDP_ACT_NDO_XMIT |
-+			      NETDEV_XDP_ACT_XSK_ZEROCOPY);
- 
- 	netif_napi_add(ndev, &emac->napi_rx, icssg_napi_rx_poll);
- 	hrtimer_setup(&emac->rx_hrtimer, &emac_rx_timer_callback, CLOCK_MONOTONIC,
--- 
-2.43.0
+The camera I tested with and can confirm is affected: LSK Meeting Eye 
+for Business & Home. It's very likely that this is not the only 
+non-compliant webcam out there.
+
+If I build the kernel with that commit reverted, my webcam begins to 
+function as intended again.
+
+Kind regards,
+Lily
 
 
