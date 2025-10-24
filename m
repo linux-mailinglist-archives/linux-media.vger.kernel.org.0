@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-45531-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45532-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3989DC06B9F
-	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 16:37:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB9F1C06D5E
+	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 17:00:20 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 2BD564EE7E2
-	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 14:36:47 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id F2797507D41
+	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 14:59:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54240315D31;
-	Fri, 24 Oct 2025 14:36:41 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 47D5A322A0A;
+	Fri, 24 Oct 2025 14:59:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="oQPRiweH"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I/4F9kA1"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AB294246793;
-	Fri, 24 Oct 2025 14:36:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F732E1C55;
+	Fri, 24 Oct 2025 14:59:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761316600; cv=none; b=B7/PsPZQ8Ojqx/ectXbO30+i8M+QgeR90v6CFpWsbyMJ/UD4PYmuwqPJk1BJWZ8YdFiFSEvQ8hD6NjeCv48C/VlUkC6wYUxqbLSVQS06aoTWlysiL0eAbRw/w273inqcFf5VCraiq6eUJd+30UkZFB/U3ukOLw58PshihVH5inM=
+	t=1761317973; cv=none; b=aE5HtBcdPD4ZohYRmj1owoLxSn9yAltCjL5zDOPFFKMZhzhThQi8CLc5RsUOPStvkOii/QLgyxrrs2UgsoExiQng9cuHJs5cMrhpNYqk+/A2PRATjdy0TwLvc9tKFlnljaInD8HcG6dWn1fr3sTjJegZl+8H/zylSJaftCvrKZc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761316600; c=relaxed/simple;
-	bh=dAwvJ61kT4ula3oy4h+pw30yXKe3R4m8XcTn2QIYR2c=;
+	s=arc-20240116; t=1761317973; c=relaxed/simple;
+	bh=YlGEYTT5nrHovfloLOOpUQRYN+fXsCYG2LixOaa5378=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IWjQBtxQOXUGVImmcE/b1SV7O5kZCVmNN4MInHmTDnwwJmBYSSTYG0Sz6J+BvW+lsUppR6LdjBZ2dYq3BUoMUSNaw51Ag/fiySmEQfdXIYHoBnJGgXUgnoJsvGU2PB3Yi2D4iC+KqMRgeawaC2r+PX4macq5dWZHKFngYMp/ay0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=oQPRiweH; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 824E8C4CEF1;
-	Fri, 24 Oct 2025 14:36:38 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=rxr7yr+o1I/wnT4Rr+hBymoEhbTryPj+01ueS5mfguJisANNXPG6y/dGx+kszEnGzwHwRiaXCz/kBZNJbtByo9Hc1vIJbJfdzoc8k1oZ6OiSLURQ94hWizKYi2gvLMucQziFiNdx8DbWxPKcyGjAu57oPUXTXTlPQ2Io1qhFhWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I/4F9kA1; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AB6A2C4CEF1;
+	Fri, 24 Oct 2025 14:59:10 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761316600;
-	bh=dAwvJ61kT4ula3oy4h+pw30yXKe3R4m8XcTn2QIYR2c=;
+	s=k20201202; t=1761317972;
+	bh=YlGEYTT5nrHovfloLOOpUQRYN+fXsCYG2LixOaa5378=;
 	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=oQPRiweHpKRyJbHzsmtAwsmNfIaHfkRpKJtEXZz+CXgwOLVOtSqEyPTBV/3VoUNIe
-	 FsiKBDyhc9M3WcN6ee4V3Mpolo0Svns4Uh5n+ExMZesdvcYiFpcK3MrtQYTHMGzJXw
-	 ZbK7LgT96X6duFHadhaDh2UPlhNML0H3xIaOZDuSLAPPVRmfxF6yxeLzoQ95T5fN3n
-	 l4pvZO5qFfMXgiI66yUg/A7vJzIvMvaWy7i3RijjpVBvf4OP/ukanhCHqyzQEe9mxe
-	 HAlDXOEgKB4thbP5M/wSGYBLbqD5z8NEbXhml/8GbRWujB6I3I1MUYsS0vQzElZFcg
-	 mmu3zNuRkYyBQ==
-Message-ID: <02b7cdce-95fe-475f-a346-b41fd5615695@kernel.org>
-Date: Fri, 24 Oct 2025 16:36:36 +0200
+	b=I/4F9kA1e7P2p4l5Kvey8Q2WS1TGvL+gAQgqglnM7cmRBIbBVx1y0KF3FxqlHN3hw
+	 DgUerun10okT687v2FNFL1mveKVGAuMBci/DNS7IeNQx4dHxCN0LMvEmYDSzUSJTwu
+	 gUY+8uEjZe4tu24kb84PL0W6wXuKbAvKH4nxG++v9LyeMh0H4C3ueJByez8hbGKbS6
+	 xqXi3KAU0karokUs3nlG9tBvMchWD6lkMGi3JAGU/AYT1rog8Vem1Xs7Tu1xe8NjIV
+	 loFh9k/M45Xg8oOhyvuELi7rogTRTE+/JFOTfxl9M529IWpSCrO4/yVB5ofkwHPO1f
+	 K+WsCVS+PAmZQ==
+Message-ID: <d87ac82b-0ca9-417d-a239-c68cfdfa4c78@kernel.org>
+Date: Fri, 24 Oct 2025 17:59:06 +0300
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -50,40 +50,66 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-fence: Correct return of dma_fence_driver_name()
-To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-Cc: phasta@kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
- linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org
-References: <20251024075019.162351-2-phasta@kernel.org>
- <11b7a8a5-170f-4815-a8ac-5dba2d8e67a1@igalia.com>
- <5de88e79575e06c053f2d61f7bb58bf9cf5b556e.camel@mailbox.org>
- <1d0bbdcf-f4d6-49c0-bbdf-364c2af80868@igalia.com>
- <89812f66-25a6-4f9e-aa4f-74adbf116db8@kernel.org>
- <5640fbf1-7b8d-4537-9f1a-b401a7a4934b@igalia.com>
- <8cba66d2-9608-4a5c-a2af-6cc91f46a49f@kernel.org>
- <cefe8f07-68a3-4c93-ae46-ebb01ff6fa2c@igalia.com>
- <b21ba8b4-a31f-44e5-a2da-ba585a93d3a6@kernel.org>
- <66f066b0-a8bb-40b2-bdd8-7cbcf114cde1@igalia.com>
-From: Danilo Krummrich <dakr@kernel.org>
+Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
+To: "Rob Herring (Arm)" <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Thomas Zimmermann <tzimmermann@suse.de>,
+ Andrzej Hajda <andrzej.hajda@intel.com>, Robert Foss <rfoss@kernel.org>,
+ Vinod Koul <vkoul@kernel.org>, Moritz Fischer <mdf@kernel.org>,
+ Xu Yilun <yilun.xu@intel.com>, Bartosz Golaszewski <brgl@bgdev.pl>,
+ Guenter Roeck <linux@roeck-us.net>, Andi Shyti <andi.shyti@kernel.org>,
+ Jonathan Cameron <jic23@kernel.org>,
+ Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Joerg Roedel <joro@8bytes.org>,
+ Jassi Brar <jassisinghbrar@gmail.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Lee Jones <lee@kernel.org>,
+ Miquel Raynal <miquel.raynal@bootlin.com>,
+ Richard Weinberger <richard@nod.at>, Vignesh Raghavendra <vigneshr@ti.com>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Johannes Berg <johannes@sipsolutions.net>,
+ =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
+ Manivannan Sadhasivam <mani@kernel.org>, Bjorn Helgaas
+ <bhelgaas@google.com>, Kishon Vijay Abraham I <kishon@kernel.org>,
+ Sebastian Reichel <sre@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, Mark Brown <broonie@kernel.org>,
+ Mathieu Poirier <mathieu.poirier@linaro.org>,
+ Philipp Zabel <p.zabel@pengutronix.de>, Olivia Mackall <olivia@selenic.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>,
+ Daniel Lezcano <daniel.lezcano@linaro.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc: devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-fbdev@vger.kernel.org, dmaengine@vger.kernel.org,
+ linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
+ linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+ linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+ linux-pm@vger.kernel.org, iommu@lists.linux.dev,
+ linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
+ netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
+ linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
+ linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-sound@vger.kernel.org,
+ linux-usb@vger.kernel.org
+References: <20251023143957.2899600-1-robh@kernel.org>
+From: Georgi Djakov <djakov@kernel.org>
 Content-Language: en-US
-In-Reply-To: <66f066b0-a8bb-40b2-bdd8-7cbcf114cde1@igalia.com>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20251023143957.2899600-1-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 10/24/25 4:28 PM, Tvrtko Ursulin wrote:
-> On 24/10/2025 15:17, Danilo Krummrich wrote:
->> On 10/24/25 3:37 PM, Tvrtko Ursulin wrote:
->>> How about "unknown-driver", would that satisfy you?
->>
->> Honestly, the most accurate thing to say would be "fence-signaled", because
->> that's the actual condition which causes the change.
-> Hm, ->get_driver_name() returning "fence-signaled" is not great, and debugfs
-> output in the form of "kernel fence: fence-signaled timeline-signaled seq 1234
-> signaled" feels a bit redundant. :shrug:
+On 10/23/25 5:37 PM, Rob Herring (Arm) wrote:
+> Generally at most 1 blank line is the standard style for DT schema
+> files. Remove the few cases with more than 1 so that the yamllint check
+> for this can be enabled.
+> 
+> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+> ---
+[..]>   .../devicetree/bindings/interconnect/qcom,rpmh.yaml          | 1 -
+Acked-by: Georgi Djakov <djakov@kernel.org>
 
-Indeed, what about "retired-driver"? Still implying that it's not just unknown,
-but that some process has finished. But without the ambiguity of "detached-driver".
 
