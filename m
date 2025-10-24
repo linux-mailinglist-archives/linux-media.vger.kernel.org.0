@@ -1,82 +1,82 @@
-Return-Path: <linux-media+bounces-45496-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45497-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67035C063AF
-	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 14:24:52 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 85338C063BB
+	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 14:25:01 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A085519A1BC0
-	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 12:25:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 3F5D23BAE33
+	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 12:25:00 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6E50A316912;
-	Fri, 24 Oct 2025 12:24:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC55A31814A;
+	Fri, 24 Oct 2025 12:24:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="TzSfyC0P"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="mN+fhDLv"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f65.google.com (mail-ej1-f65.google.com [209.85.218.65])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D881DA60F
-	for <linux-media@vger.kernel.org>; Fri, 24 Oct 2025 12:24:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.65
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D17E03164C3
+	for <linux-media@vger.kernel.org>; Fri, 24 Oct 2025 12:24:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761308667; cv=none; b=Rs5Ah/EcoPDlKNXhdbHXs9GgtjouNZy6ICnBSbwvzgU53UAfFd1zDSPsMAD4zHnqmNZWUxBNzkVumwhhx99MoeA5Ong8Xg4oTsEWdr9k432IorsPSnaFhRA9vJM4DGHLujYCsQVIKtzMZAnCmupPud5TykVqWj2859Kt9I6wICw=
+	t=1761308669; cv=none; b=EbYz1R/vG/5LRzyGCA+b5PCV2yfDv0VIJcCEdT8ViH4Eg0tx79h80V/Bj+soG4WdbxQ8fL6tPCKxB7sEBp8OY2BxL7A96b/YUgQfFwVJCvIIyEp4WwaWM0/ZMVfFcr+qkZ9nJph4xqgiHs7Im0+J/K7G/Q7EuGk8kc9VuJy56Rw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761308667; c=relaxed/simple;
-	bh=u2qTN4Dfvh+diwWu8Rv5j/aOUo5k5MfxJT0vwIyS/Io=;
+	s=arc-20240116; t=1761308669; c=relaxed/simple;
+	bh=vGTb3BL1J9thwTvI0MrCHJROdyGcGXv+mxWeuGtI9Bs=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=l06rnAORlcQKFBe6m7h8XQ4kZnNEVNTpf1BvC/o8ovKFJ2swvUlUZcKFPu5dqA5slxIVV10Roctl51eDBGpgmt4SnQIPoprSv8ZWFbMQDzFFFjBnuBkjHvGfJ2jNy4ec421lANgz3c0//NgaUXeS9nCxf4NZkfmLNKI8GDPE9TY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=TzSfyC0P; arc=none smtp.client-ip=209.85.218.65
+	 In-Reply-To:To:Cc; b=tmbNgO1NrZBhpFRTx3D9n1wmWeOrwon4FRIOlzgOC0KEpnXxpLFZ5/UE/tIU+f1kUJx+5+vUZO4u3vxPlqbAmmlA+eaIcAXJyuZAPQO5vaEnCCV77ljM8Cy3x3GJXxDlH0FWO1zBO+50aHZm5ka3vlAd0R2Uqh05dU0Y/XKURPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=mN+fhDLv; arc=none smtp.client-ip=209.85.218.47
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
-Received: by mail-ej1-f65.google.com with SMTP id a640c23a62f3a-b3b3a6f4dd4so406482866b.0
-        for <linux-media@vger.kernel.org>; Fri, 24 Oct 2025 05:24:24 -0700 (PDT)
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-b3b3a6f4dd4so406493866b.0
+        for <linux-media@vger.kernel.org>; Fri, 24 Oct 2025 05:24:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=fairphone.com; s=fair; t=1761308663; x=1761913463; darn=vger.kernel.org;
+        d=fairphone.com; s=fair; t=1761308665; x=1761913465; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=MmR9GkysiOgq7enX2b6+tUGLrWm7BFK29ZIOIaZVmUU=;
-        b=TzSfyC0P/UzvAecOd7GyiYJl0PWIRVUamhyEf5MPy179MzuwJFcilmrITdbZh5OH3o
-         id1dSzwRXfJhpswf41x/3kbaMGYxDMplDjtpFizgSbPDZpG9lNm1YHfS1XpoPXLhjrar
-         c9FHArTG/0RK0kcMcw4wyl1zUgGq5drM50phvD876dKMjpXJOOs+3+cme8Ar8TMapPqS
-         E7VfK/sbTRvdbPOV3NujvNz7AQVMGbh2n3i3+PtwDi4TwfmTfxxVnpT29U4HiApLuqLJ
-         Hl7U5VlS0MLyz9yU7HLx83CY+7MZadmWm3b5m3dC19b4alw3eKTd3qUB1MQjwWGZbVrp
-         88Mw==
+        bh=5pJmy4lVL9gGRUhGQQf0c/GKuCgm0PZANnLIGInO6iw=;
+        b=mN+fhDLv/AIjiqsBFaX+54BFnYWK2owt7E9xSdZOduV4r41JESovutOlIPlON5XcRP
+         6+1sXVnz5XDdN6KKhmarTut2axVCdE7KuLusC5WgF9ix8VGjPQZ8mgjc37VKShE889rO
+         WkX1L96vZWtCN5EC8oDXrwUEf1G23vT9erFsLbNFzZkKq5EfLAWUqWAmF9dRNz7Z0HKV
+         oDhBHthW+CfEc55aTk5TCu9qlqS7HJh0MPZl6qlcXMVQJ+cBYB1e9pQi9VhQoMI7MFdD
+         F/LJEACK27D03h3ftE0HHepZ7L27LLMlQaStG9LmpmIGX7JmtYYsFqE+4HHYmupJ89VH
+         9dMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761308663; x=1761913463;
+        d=1e100.net; s=20230601; t=1761308665; x=1761913465;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=MmR9GkysiOgq7enX2b6+tUGLrWm7BFK29ZIOIaZVmUU=;
-        b=WqX7RHRUzuYp17j0djMUGBQ5EMFPieo4RpIR951SuH8vSeENgw0QDRdN2Ru71oXoPz
-         hKRXrSmAJq7bvUADeZf+Brj0hZF7Hgw48w8ztOHIn/K6tvf2WwUJew4K/6ThtZG3WVbT
-         cCwkMQfsU2W4djSwnHJSwgjRybcPE/ask8rlmCRNIcvLNjMuJedrkSOUvL8ZBYVfgZ77
-         gz1LSysUhwoR8gsYf+9MGnoHQiz/zRpoK568wVddQca4uh8ccegmnmSdeMq1i+U95ex+
-         sQzkQGydJ0G9FKOujUswTu55oSuBmmLKgsgh8NSt9n0ksUwRiY9N+siGiWkh9bjNkl70
-         RVMQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVFk6Xw2WlALORDGYRfvpiEGWTBb1grMXjryJCUIo0k+ymIf7KSIu9sGV5N7bjXvGDji/PSQSyBmO00tQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJbbzN8dNYClw7QaWwaUhxsO1FdQdZFj8ZAhTg0UH2LIkPrqbT
-	htXTFRQN02l/SFpZrpMomoylxWKKTwunx4/WQ+bAlKrapidWHI9zKYm/9ZCgrIwhfWo=
-X-Gm-Gg: ASbGnctiSIUMc1Fd4RXK3UQ2V0RmjKwgHi/ahjggK3G4MeEx4C4+0Jh6dhRhmzUHSyw
-	+9HE5+lCy/cxaHAjRqV+FG4tnjenPxxFUV5mM5kU3USZuktsoKdtM0RKRle+grDQ0MFH//PA4Wr
-	IU8mDq3lidIjlxEjo0YMY0sh6wCJXPVbnWrtPE5eDIVt8PMHaS3SiuxIQA2w4l++FreeCi5WoLA
-	HEMshQCCxHM79f9B00aE5DoNEDby2Fzb/u/UD4b8FeJmVnKBQgN3++QQsVIpLP8mbrtrY7XsHkn
-	2HmCA3fEz1Zu9YgtjeKvTSA++kvA+ishq2H1ydhtOY5nVto98QUSx43VQCjR7tZoUZ5ohX2Oczr
-	Oldsm7Turef/m5E5iBc9i4sJ9riJxzPtVs0GBg17+s/wSaNzF/+MF5HDzfvu+IkO7cCUthqtIRe
-	uM51aDGHCe65lQJO9ZdLFx9nK/H/NHC3v5RZ/0uKMCmnq4XD7ax6gzRvSTGsyKzW+feTw=
-X-Google-Smtp-Source: AGHT+IF4B76Li9/9IxqQkEqaQSlQkhNs4Qzks18AR2dqvONXvycFMOdtBvrJWsw9P7ywu3UA8SsX9g==
-X-Received: by 2002:a17:906:d555:b0:b6d:5a98:d351 with SMTP id a640c23a62f3a-b6d6fe935c5mr228111666b.25.1761308662930;
-        Fri, 24 Oct 2025 05:24:22 -0700 (PDT)
+        bh=5pJmy4lVL9gGRUhGQQf0c/GKuCgm0PZANnLIGInO6iw=;
+        b=ErWkZ/6OddHXkOzxxVw1lfY1Vv06sBbWC1+JL5VFFxgKl/GsMFuVOVti9wzPmW5xxS
+         vxPjx2r80wOoYR3E8EuNJt9syR7xaz2v2L0YFUzhKkwDixDvRwsO1cnsAdD1K9pyvx5l
+         zTGVJcsWE2fMqPa1L515KknbSxVrUP1cZPVs5YNNTl58P0OLr9CKP6z062vMVxtD3qGZ
+         RaPS9woxMRxgnOrhI9M2mQG1OqOuXRkOsRDLR4QDgiTmlQpJzDDqBtuy7ImRCeVm/qxL
+         znxrm6jZVH5nFW9HewHo0ZP1MQmYDkUsO/xLYuaN2nA+8Wu1bdLaM6wZX8g4l1BjDMlr
+         DKEg==
+X-Forwarded-Encrypted: i=1; AJvYcCWfMDD/r9PDjuFjALIMKE43Mr1kkvG4Q5FznUDx7xU8TvHS4OwoVmZq9+plMPQoUZsoYwoOYv/qxB/s+Q==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yze6ilOzHrJfsMy93d+0AOtQbSa2XX9Znu+MkkdOAID6hCHw85E
+	uxQ0pZsfZL0ggkEB94P++WN63tpUzfvltKlKfGyCW/F5HHodtLnnv9o2JN9TbNqzhYQ=
+X-Gm-Gg: ASbGncsgCm2CckkZyJxl4pvfT7VdSeCXKPK/A56wZfqRB6GNNiBj/oGij254fI1O/tp
+	e9LHSI1CWToW+d1/ANDgYHkptUAlvsSIo1mbGvMm7e3LAcEhf2mwpArAoFBiJSLsFzEOUZWyoEk
+	vvvT5rhp7O5B0E45MqV0o2QXScDhbufls8WcjvTi6vJAETDAtejhznZswSg1IqqzgYLef6o8XQC
+	9VoAxVzJ5IXyNKA+1gsu14IanErrShYKOCtzEVAwexO5xlTJJklDD5W9fdY/2KNFqMRezBSw9Ty
+	TjpPn49uL5xNTGClLyoWDrliyYa6PcwsAoW7kc97BjwcN4frWQFE6uz6nWlSbTEAC/LIUkWfxHx
+	+q+4WlyBJy/vuerGEHyZYcT5qtBqQhbLS7MsxhAGMDpsfpg1SbFKgLlctOtJw6yeAkm+fiejfxt
+	lVSC3aXwmqAROrXE3psdWdfKLoSKdKsklUjpEy1Pf3uH8eFg==
+X-Google-Smtp-Source: AGHT+IEcfM7Lwhh3CoV+X4Ghm5UxddAsitfxAwhxFQ2GUci4UIxjSX5aRxfdczEp+5lUqfYkcS5iMg==
+X-Received: by 2002:a17:907:2687:b0:b49:2021:793f with SMTP id a640c23a62f3a-b6d6ffed170mr225840366b.53.1761308664852;
+        Fri, 24 Oct 2025 05:24:24 -0700 (PDT)
 Received: from [192.168.178.36] (213162084087.public.t-mobile.at. [213.162.84.87])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d513199d0sm507233366b.37.2025.10.24.05.24.21
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d513199d0sm507233366b.37.2025.10.24.05.24.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Oct 2025 05:24:22 -0700 (PDT)
+        Fri, 24 Oct 2025 05:24:24 -0700 (PDT)
 From: Luca Weiss <luca.weiss@fairphone.com>
-Date: Fri, 24 Oct 2025 14:23:59 +0200
-Subject: [PATCH 1/3] dt-bindings: media: camss: Add qcom,sm6350-camss
+Date: Fri, 24 Oct 2025 14:24:00 +0200
+Subject: [PATCH 2/3] media: qcom: camss: Add SM6350 support
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -85,7 +85,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20251024-sm6350-camss-v1-1-63d626638add@fairphone.com>
+Message-Id: <20251024-sm6350-camss-v1-2-63d626638add@fairphone.com>
 References: <20251024-sm6350-camss-v1-0-63d626638add@fairphone.com>
 In-Reply-To: <20251024-sm6350-camss-v1-0-63d626638add@fairphone.com>
 To: Bryan O'Donoghue <bod@kernel.org>, Robert Foss <rfoss@kernel.org>, 
@@ -102,376 +102,480 @@ Cc: ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
  devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
  Luca Weiss <luca.weiss@fairphone.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761308659; l=12349;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1761308659; l=15863;
  i=luca.weiss@fairphone.com; s=20250611; h=from:subject:message-id;
- bh=u2qTN4Dfvh+diwWu8Rv5j/aOUo5k5MfxJT0vwIyS/Io=;
- b=dT3Wtr+lh/dXScSbPgpk2f/w9VHk2DE9sH/L5WGcqjW27Zx1QishsQ2tTx2KueplHSYJdech1
- eD3uBs7CyBPAVwoR+FXXHuJ6FbIWAMa67lVBWRQSwcDmlYKQ3IVW1J5
+ bh=vGTb3BL1J9thwTvI0MrCHJROdyGcGXv+mxWeuGtI9Bs=;
+ b=Qx5f5b1QiaPJJ+AnGHibYlLL/oYl5ibBTJlW7DuIslO4S5C5dnEgZpC1KtgCstARJkktueL0h
+ 0dhkTnOoNbADvHuLfpHmYWC4GNG89F041HIsVhDskBpSGVBM0mxeXhv
 X-Developer-Key: i=luca.weiss@fairphone.com; a=ed25519;
  pk=O1aw+AAust5lEmgrNJ1Bs7PTY0fEsJm+mdkjExA69q8=
 
-Add bindings for the Camera Subsystem on the SM6350 SoC.
+Add the necessary support for CAMSS on the SM6350 SoC.
 
 Signed-off-by: Luca Weiss <luca.weiss@fairphone.com>
 ---
- .../bindings/media/qcom,sm6350-camss.yaml          | 349 +++++++++++++++++++++
- 1 file changed, 349 insertions(+)
+ .../platform/qcom/camss/camss-csiphy-3ph-1-0.c     | 125 +++++++++++
+ drivers/media/platform/qcom/camss/camss-vfe.c      |   2 +
+ drivers/media/platform/qcom/camss/camss.c          | 249 +++++++++++++++++++++
+ drivers/media/platform/qcom/camss/camss.h          |   1 +
+ 4 files changed, 377 insertions(+)
 
-diff --git a/Documentation/devicetree/bindings/media/qcom,sm6350-camss.yaml b/Documentation/devicetree/bindings/media/qcom,sm6350-camss.yaml
-new file mode 100644
-index 000000000000..e816986c8d84
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/qcom,sm6350-camss.yaml
-@@ -0,0 +1,349 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/qcom,sm6350-camss.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
+diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+index a229ba04b158..3e44b0c8298d 100644
+--- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
++++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+@@ -398,6 +398,126 @@ csiphy_lane_regs lane_regs_sm8250[] = {
+ 	{0x0884, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
+ };
+ 
++/* GEN2 1.2.3 2PH */
++static const struct
++csiphy_lane_regs lane_regs_sm6350[] = {
++	{0x0030, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0904, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0910, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0900, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0908, 0x06, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0904, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x002C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0034, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0010, 0x50, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x001C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0014, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0028, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x003C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0000, 0x91, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0004, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0020, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0008, 0x10, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++	{0x0010, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0038, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x005C, 0xC0, 0x00, CSIPHY_SKEW_CAL},
++	{0x0060, 0x0D, 0x00, CSIPHY_SKEW_CAL},
++	{0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0000, 0x00, 0x00, CSIPHY_DNP_PARAMS},
++	{0x0730, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C84, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C90, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C80, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C88, 0x06, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C84, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x072C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0734, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0710, 0x50, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x071C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0714, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0728, 0x04, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x073C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0700, 0x80, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0704, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0720, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0708, 0x04, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++	{0x070c, 0xFF, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0710, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0738, 0x1F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0000, 0x00, 0x00, CSIPHY_DNP_PARAMS},
++	{0x0000, 0x00, 0x00, CSIPHY_DNP_PARAMS},
++	{0x0230, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0A04, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0A10, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0A00, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0A08, 0x06, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0A04, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x022C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0234, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0210, 0x50, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x021C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0214, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0228, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x023C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0200, 0x91, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0204, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0220, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0208, 0x04, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++	{0x0210, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0238, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x025C, 0xC0, 0x00, CSIPHY_SKEW_CAL},
++	{0x0260, 0x0D, 0x00, CSIPHY_SKEW_CAL},
++	{0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0000, 0x00, 0x00, CSIPHY_DNP_PARAMS},
++	{0x0430, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0B04, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0B10, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0B00, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0B08, 0x06, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0B04, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x042C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0434, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0410, 0x50, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x041C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0414, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0428, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x043C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0400, 0x91, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0404, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0420, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0408, 0x04, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++	{0x0410, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0438, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x045C, 0xC0, 0x00, CSIPHY_SKEW_CAL},
++	{0x0460, 0x0D, 0x00, CSIPHY_SKEW_CAL},
++	{0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0000, 0x00, 0x00, CSIPHY_DNP_PARAMS},
++	{0x0630, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C04, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C10, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C00, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C08, 0x06, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0C04, 0x07, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x062C, 0x01, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0634, 0x0F, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0610, 0x50, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x061C, 0x0A, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0614, 0x60, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0628, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x063C, 0xB8, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0600, 0x91, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0604, 0x0C, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0620, 0x00, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0608, 0x04, 0x00, CSIPHY_SETTLE_CNT_LOWER_BYTE},
++	{0x0610, 0x52, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0638, 0xFE, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x065C, 0xC0, 0x00, CSIPHY_SKEW_CAL},
++	{0x0660, 0x0D, 0x00, CSIPHY_SKEW_CAL},
++	{0x0800, 0x02, 0x00, CSIPHY_DEFAULT_PARAMS},
++	{0x0000, 0x00, 0x00, CSIPHY_DNP_PARAMS},
++};
 +
-+title: Qualcomm SM6350 Camera Subsystem (CAMSS)
+ /* 14nm 2PH v 2.0.1 2p5Gbps 4 lane DPHY mode */
+ static const struct
+ csiphy_lane_regs lane_regs_qcm2290[] = {
+@@ -908,6 +1028,7 @@ static bool csiphy_is_gen2(u32 version)
+ 
+ 	switch (version) {
+ 	case CAMSS_2290:
++	case CAMSS_6350:
+ 	case CAMSS_7280:
+ 	case CAMSS_8250:
+ 	case CAMSS_8280XP:
+@@ -999,6 +1120,10 @@ static int csiphy_init(struct csiphy_device *csiphy)
+ 		regs->lane_regs = &lane_regs_qcm2290[0];
+ 		regs->lane_array_size = ARRAY_SIZE(lane_regs_qcm2290);
+ 		break;
++	case CAMSS_6350:
++		regs->lane_regs = &lane_regs_sm6350[0];
++		regs->lane_array_size = ARRAY_SIZE(lane_regs_sm6350);
++		break;
+ 	case CAMSS_7280:
+ 	case CAMSS_8250:
+ 		regs->lane_regs = &lane_regs_sm8250[0];
+diff --git a/drivers/media/platform/qcom/camss/camss-vfe.c b/drivers/media/platform/qcom/camss/camss-vfe.c
+index dff8d0a1e8c2..336838b1340b 100644
+--- a/drivers/media/platform/qcom/camss/camss-vfe.c
++++ b/drivers/media/platform/qcom/camss/camss-vfe.c
+@@ -339,6 +339,7 @@ static u32 vfe_src_pad_code(struct vfe_line *line, u32 sink_code,
+ 			return sink_code;
+ 		}
+ 		break;
++	case CAMSS_6350:
+ 	case CAMSS_660:
+ 	case CAMSS_2290:
+ 	case CAMSS_7280:
+@@ -1989,6 +1990,7 @@ static int vfe_bpl_align(struct vfe_device *vfe)
+ 	int ret = 8;
+ 
+ 	switch (vfe->camss->res->version) {
++	case CAMSS_6350:
+ 	case CAMSS_7280:
+ 	case CAMSS_8250:
+ 	case CAMSS_8280XP:
+diff --git a/drivers/media/platform/qcom/camss/camss.c b/drivers/media/platform/qcom/camss/camss.c
+index 2fbcd0e343aa..3f6515d07af9 100644
+--- a/drivers/media/platform/qcom/camss/camss.c
++++ b/drivers/media/platform/qcom/camss/camss.c
+@@ -1318,6 +1318,241 @@ static const struct camss_subdev_resources vfe_res_845[] = {
+ 	}
+ };
+ 
++static const struct camss_subdev_resources csiphy_res_6350[] = {
++	/* CSIPHY0 */
++	{
++		.regulators = { "vdda-0.9", "vdda-1.25" },
++		.clock = { "csiphy0", "csiphy0_timer" },
++		.clock_rate = { { 300000000, 384000000, 400000000 },
++				{ 300000000 } },
++		.reg = { "csiphy0" },
++		.interrupt = { "csiphy0" },
++		.csiphy = {
++			.id = 0,
++			.hw_ops = &csiphy_ops_3ph_1_0,
++			.formats = &csiphy_formats_sdm845
++		}
++	},
++	/* CSIPHY1 */
++	{
++		.regulators = { "vdda-0.9", "vdda-1.25" },
++		.clock = { "csiphy1", "csiphy1_timer" },
++		.clock_rate = { { 300000000, 384000000, 400000000 },
++				{ 300000000 } },
++		.reg = { "csiphy1" },
++		.interrupt = { "csiphy1" },
++		.csiphy = {
++			.id = 1,
++			.hw_ops = &csiphy_ops_3ph_1_0,
++			.formats = &csiphy_formats_sdm845
++		}
++	},
++	/* CSIPHY2 */
++	{
++		.regulators = { "vdda-0.9", "vdda-1.25" },
++		.clock = { "csiphy2", "csiphy2_timer" },
++		.clock_rate = { { 300000000, 384000000, 400000000 },
++				{ 300000000 } },
++		.reg = { "csiphy2" },
++		.interrupt = { "csiphy2" },
++		.csiphy = {
++			.id = 2,
++			.hw_ops = &csiphy_ops_3ph_1_0,
++			.formats = &csiphy_formats_sdm845
++		}
++	},
++	/* CSIPHY3 */
++	{
++		.regulators = { "vdda-0.9", "vdda-1.25" },
++		.clock = { "csiphy3", "csiphy3_timer" },
++		.clock_rate = { { 300000000, 384000000, 400000000 },
++				{ 300000000 } },
++		.reg = { "csiphy3" },
++		.interrupt = { "csiphy3" },
++		.csiphy = {
++			.id = 3,
++			.hw_ops = &csiphy_ops_3ph_1_0,
++			.formats = &csiphy_formats_sdm845
++		}
++	}
++};
 +
-+maintainers:
-+  - Luca Weiss <luca.weiss@fairphone.com>
++static const struct camss_subdev_resources csid_res_6350[] = {
++	/* CSID0 */
++	{
++		.regulators = {},
++		.clock = { "vfe0_csid", "vfe0_cphy_rx", "vfe0" },
++		.clock_rate = { { 300000000, 384000000, 400000000 },
++				{ 0 },
++				{ 320000000, 404000000, 480000000, 600000000 } },
++		.reg = { "csid0" },
++		.interrupt = { "csid0" },
++		.csid = {
++			.hw_ops = &csid_ops_gen2,
++			.parent_dev_ops = &vfe_parent_dev_ops,
++			.formats = &csid_formats_gen2
++		}
++	},
++	/* CSID1 */
++	{
++		.regulators = {},
++		.clock = { "vfe1_csid", "vfe1_cphy_rx", "vfe1" },
++		.clock_rate = { { 300000000, 384000000, 400000000 },
++				{ 0 },
++				{ 320000000, 404000000, 480000000, 600000000 } },
++		.reg = { "csid1" },
++		.interrupt = { "csid1" },
++		.csid = {
++			.hw_ops = &csid_ops_gen2,
++			.parent_dev_ops = &vfe_parent_dev_ops,
++			.formats = &csid_formats_gen2
++		}
++	},
++	/* CSID2 */
++	{
++		.regulators = {},
++		.clock = { "vfe2_csid", "vfe2_cphy_rx", "vfe2" },
++		.clock_rate = { { 300000000, 384000000, 400000000 },
++				{ 0 },
++				{ 320000000, 404000000, 480000000, 600000000 } },
++		.reg = { "csid2" },
++		.interrupt = { "csid2" },
++		.csid = {
++			.hw_ops = &csid_ops_gen2,
++			.parent_dev_ops = &vfe_parent_dev_ops,
++			.formats = &csid_formats_gen2
++		}
++	},
++	/* CSID3 (lite) */
++	{
++		.regulators = {},
++		.clock = { "vfe_lite_csid", "vfe_lite_cphy_rx", "vfe_lite" },
++		.clock_rate = { { 300000000, 384000000, 400000000 },
++				{ 0 },
++				{ 400000000, 480000000 } },
++		.reg = { "csid_lite" },
++		.interrupt = { "csid_lite" },
++		.csid = {
++			.is_lite = true,
++			.hw_ops = &csid_ops_gen2,
++			.parent_dev_ops = &vfe_parent_dev_ops,
++			.formats = &csid_formats_gen2
++		}
++	}
++};
 +
-+description:
-+  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
++static const struct camss_subdev_resources vfe_res_6350[] = {
++	/* VFE0 */
++	{
++		.regulators = {},
++		.clock = { "slow_ahb_src", "cpas_ahb",
++			   "camnoc_axi", "vfe0", "vfe0_axi", "cam_axi", "soc_ahb" },
++		.clock_rate = { { 19200000, 80000000 },
++				{ 19200000 },
++				{ 0 },
++				{ 320000000, 404000000, 480000000, 600000000 },
++				{ 0 },
++				{ 0 } },
++		.reg = { "vfe0" },
++		.interrupt = { "vfe0" },
++		.vfe = {
++			.line_num = 3,
++			.has_pd = true,
++			.pd_name = "ife0",
++			.hw_ops = &vfe_ops_170,
++			.formats_rdi = &vfe_formats_rdi_845,
++			.formats_pix = &vfe_formats_pix_845
++		}
++	},
++	/* VFE1 */
++	{
++		.regulators = {},
++		.clock = { "slow_ahb_src", "cpas_ahb",
++			   "camnoc_axi", "vfe1", "vfe1_axi", "cam_axi", "soc_ahb" },
++		.clock_rate = { { 19200000, 80000000 },
++				{ 19200000 },
++				{ 0 },
++				{ 320000000, 404000000, 480000000, 600000000 },
++				{ 0 },
++				{ 0 } },
++		.reg = { "vfe1" },
++		.interrupt = { "vfe1" },
++		.vfe = {
++			.line_num = 3,
++			.has_pd = true,
++			.pd_name = "ife1",
++			.hw_ops = &vfe_ops_170,
++			.formats_rdi = &vfe_formats_rdi_845,
++			.formats_pix = &vfe_formats_pix_845
++		}
++	},
++	/* VFE2 */
++	{
++		.regulators = {},
++		.clock = { "slow_ahb_src", "cpas_ahb",
++			   "camnoc_axi", "vfe2", "vfe2_axi", "cam_axi", "soc_ahb" },
++		.clock_rate = { { 19200000, 80000000 },
++				{ 19200000 },
++				{ 0 },
++				{ 320000000, 404000000, 480000000, 600000000 },
++				{ 0 },
++				{ 0 } },
++		.reg = { "vfe2" },
++		.interrupt = { "vfe2" },
++		.vfe = {
++			.line_num = 3,
++			.has_pd = true,
++			.pd_name = "ife2",
++			.hw_ops = &vfe_ops_170,
++			.formats_rdi = &vfe_formats_rdi_845,
++			.formats_pix = &vfe_formats_pix_845
++		}
++	},
++	/* VFE3 (lite) */
++	{
++		.regulators = {},
++		.clock = { "slow_ahb_src", "cpas_ahb",
++			   "camnoc_axi", "vfe_lite", "cam_axi", "soc_ahb" },
++		.clock_rate = { { 19200000, 80000000 },
++				{ 19200000 },
++				{ 0 },
++				{ 400000000, 480000000 },
++				{ 0 } },
++		.reg = { "vfe_lite" },
++		.interrupt = { "vfe_lite" },
++		.vfe = {
++			.is_lite = true,
++			.line_num = 4,
++			.hw_ops = &vfe_ops_170,
++			.formats_rdi = &vfe_formats_rdi_845,
++			.formats_pix = &vfe_formats_pix_845
++		}
++	},
++};
 +
-+properties:
-+  compatible:
-+    const: qcom,sm6350-camss
++static const struct resources_icc icc_res_sm6350[] = {
++	{
++		.name = "cam_ahb",
++		.icc_bw_tbl.avg = 0,
++		.icc_bw_tbl.peak = 300000,
++	},
++	{
++		.name = "cam_hf_0_mnoc",
++		.icc_bw_tbl.avg = 2097152,
++		.icc_bw_tbl.peak = 2097152,
++	},
++	{
++		.name = "cam_sf_0_mnoc",
++		.icc_bw_tbl.avg = 2097152,
++		.icc_bw_tbl.peak = 2097152,
++	},
++	{
++		.name = "cam_sf_icp_mnoc",
++		.icc_bw_tbl.avg = 2097152,
++		.icc_bw_tbl.peak = 2097152,
++	},
++};
 +
-+  reg:
-+    maxItems: 12
+ static const struct camss_subdev_resources csiphy_res_8250[] = {
+ 	/* CSIPHY0 */
+ 	{
+@@ -4398,6 +4633,19 @@ static const struct camss_resources sdm845_resources = {
+ 	.vfe_num = ARRAY_SIZE(vfe_res_845),
+ };
+ 
++static const struct camss_resources sm6350_resources = {
++	.version = CAMSS_6350,
++	.pd_name = "top",
++	.csiphy_res = csiphy_res_6350,
++	.csid_res = csid_res_6350,
++	.vfe_res = vfe_res_6350,
++	.icc_res = icc_res_sm6350,
++	.icc_path_num = ARRAY_SIZE(icc_res_sm6350),
++	.csiphy_num = ARRAY_SIZE(csiphy_res_6350),
++	.csid_num = ARRAY_SIZE(csid_res_6350),
++	.vfe_num = ARRAY_SIZE(vfe_res_6350),
++};
 +
-+  reg-names:
-+    items:
-+      - const: csid0
-+      - const: csid1
-+      - const: csid2
-+      - const: csid_lite
-+      - const: csiphy0
-+      - const: csiphy1
-+      - const: csiphy2
-+      - const: csiphy3
-+      - const: vfe0
-+      - const: vfe1
-+      - const: vfe2
-+      - const: vfe_lite
-+
-+  clocks:
-+    maxItems: 30
-+
-+  clock-names:
-+    items:
-+      - const: cam_ahb_clk
-+      - const: cam_axi
-+      - const: soc_ahb
-+      - const: camnoc_axi
-+      - const: core_ahb
-+      - const: cpas_ahb
-+      - const: csiphy0
-+      - const: csiphy0_timer
-+      - const: csiphy1
-+      - const: csiphy1_timer
-+      - const: csiphy2
-+      - const: csiphy2_timer
-+      - const: csiphy3
-+      - const: csiphy3_timer
-+      - const: slow_ahb_src
-+      - const: vfe0_axi
-+      - const: vfe0
-+      - const: vfe0_cphy_rx
-+      - const: vfe0_csid
-+      - const: vfe1_axi
-+      - const: vfe1
-+      - const: vfe1_cphy_rx
-+      - const: vfe1_csid
-+      - const: vfe2_axi
-+      - const: vfe2
-+      - const: vfe2_cphy_rx
-+      - const: vfe2_csid
-+      - const: vfe_lite
-+      - const: vfe_lite_cphy_rx
-+      - const: vfe_lite_csid
-+
-+  interrupts:
-+    maxItems: 12
-+
-+  interrupt-names:
-+    items:
-+      - const: csid0
-+      - const: csid1
-+      - const: csid2
-+      - const: csid_lite
-+      - const: csiphy0
-+      - const: csiphy1
-+      - const: csiphy2
-+      - const: csiphy3
-+      - const: vfe0
-+      - const: vfe1
-+      - const: vfe2
-+      - const: vfe_lite
-+
-+  interconnects:
-+    maxItems: 4
-+
-+  interconnect-names:
-+    items:
-+      - const: cam_ahb
-+      - const: cam_hf_0_mnoc
-+      - const: cam_sf_0_mnoc
-+      - const: cam_sf_icp_mnoc
-+
-+  iommus:
-+    maxItems: 4
-+
-+  power-domains:
-+    items:
-+      - description: IFE0 GDSC - Image Front End, Global Distributed Switch Controller.
-+      - description: IFE1 GDSC - Image Front End, Global Distributed Switch Controller.
-+      - description: IFE2 GDSC - Image Front End, Global Distributed Switch Controller.
-+      - description: Titan Top GDSC - Titan ISP Block, Global Distributed Switch Controller.
-+
-+  power-domain-names:
-+    items:
-+      - const: ife0
-+      - const: ife1
-+      - const: ife2
-+      - const: top
-+
-+  vdda-0.9-supply:
-+    description:
-+      Phandle to a 0.9V regulator supply to a PHY.
-+
-+  vdda-1.25-supply:
-+    description:
-+      Phandle to a 1.25V regulator supply to a PHY.
-+
-+  ports:
-+    $ref: /schemas/graph.yaml#/properties/ports
-+
-+    description:
-+      CSI input ports.
-+
-+    patternProperties:
-+      "^port@[0-3]$":
-+        $ref: /schemas/graph.yaml#/$defs/port-base
-+        unevaluatedProperties: false
-+
-+        description:
-+          Input port for receiving CSI data from a CSIPHY.
-+
-+        properties:
-+          endpoint:
-+            $ref: video-interfaces.yaml#
-+            unevaluatedProperties: false
-+
-+            properties:
-+              data-lanes:
-+                minItems: 1
-+                maxItems: 4
-+
-+              bus-type:
-+                enum:
-+                  - 1 # MEDIA_BUS_TYPE_CSI2_CPHY
-+                  - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
-+
-+            required:
-+              - data-lanes
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - clocks
-+  - clock-names
-+  - interrupts
-+  - interrupt-names
-+  - interconnects
-+  - interconnect-names
-+  - iommus
-+  - power-domains
-+  - power-domain-names
-+  - vdda-0.9-supply
-+  - vdda-1.25-supply
-+  - ports
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/qcom,gcc-sm6350.h>
-+    #include <dt-bindings/clock/qcom,sm6350-camcc.h>
-+    #include <dt-bindings/interconnect/qcom,icc.h>
-+    #include <dt-bindings/interconnect/qcom,sm6350.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/media/video-interfaces.h>
-+    #include <dt-bindings/power/qcom-rpmpd.h>
-+
-+    soc {
-+        #address-cells = <2>;
-+        #size-cells = <2>;
-+
-+        isp@acb3000 {
-+            compatible = "qcom,sm6350-camss";
-+
-+            reg = <0x0 0x0acb3000 0x0 0x1000>,
-+                  <0x0 0x0acba000 0x0 0x1000>,
-+                  <0x0 0x0acc1000 0x0 0x1000>,
-+                  <0x0 0x0acc8000 0x0 0x1000>,
-+                  <0x0 0x0ac65000 0x0 0x1000>,
-+                  <0x0 0x0ac66000 0x0 0x1000>,
-+                  <0x0 0x0ac67000 0x0 0x1000>,
-+                  <0x0 0x0ac68000 0x0 0x1000>,
-+                  <0x0 0x0acaf000 0x0 0x4000>,
-+                  <0x0 0x0acb6000 0x0 0x4000>,
-+                  <0x0 0x0acbd000 0x0 0x4000>,
-+                  <0x0 0x0acc4000 0x0 0x4000>;
-+            reg-names = "csid0",
-+                        "csid1",
-+                        "csid2",
-+                        "csid_lite",
-+                        "csiphy0",
-+                        "csiphy1",
-+                        "csiphy2",
-+                        "csiphy3",
-+                        "vfe0",
-+                        "vfe1",
-+                        "vfe2",
-+                        "vfe_lite";
-+
-+            clocks = <&gcc GCC_CAMERA_AHB_CLK>,
-+                     <&gcc GCC_CAMERA_AXI_CLK>,
-+                     <&camcc CAMCC_SOC_AHB_CLK>,
-+                     <&camcc CAMCC_CAMNOC_AXI_CLK>,
-+                     <&camcc CAMCC_CORE_AHB_CLK>,
-+                     <&camcc CAMCC_CPAS_AHB_CLK>,
-+                     <&camcc CAMCC_CSIPHY0_CLK>,
-+                     <&camcc CAMCC_CSI0PHYTIMER_CLK>,
-+                     <&camcc CAMCC_CSIPHY1_CLK>,
-+                     <&camcc CAMCC_CSI1PHYTIMER_CLK>,
-+                     <&camcc CAMCC_CSIPHY2_CLK>,
-+                     <&camcc CAMCC_CSI2PHYTIMER_CLK>,
-+                     <&camcc CAMCC_CSIPHY3_CLK>,
-+                     <&camcc CAMCC_CSI3PHYTIMER_CLK>,
-+                     <&camcc CAMCC_SLOW_AHB_CLK_SRC>,
-+                     <&camcc CAMCC_IFE_0_AXI_CLK>,
-+                     <&camcc CAMCC_IFE_0_CLK>,
-+                     <&camcc CAMCC_IFE_0_CPHY_RX_CLK>,
-+                     <&camcc CAMCC_IFE_0_CSID_CLK>,
-+                     <&camcc CAMCC_IFE_1_AXI_CLK>,
-+                     <&camcc CAMCC_IFE_1_CLK>,
-+                     <&camcc CAMCC_IFE_1_CPHY_RX_CLK>,
-+                     <&camcc CAMCC_IFE_1_CSID_CLK>,
-+                     <&camcc CAMCC_IFE_2_AXI_CLK>,
-+                     <&camcc CAMCC_IFE_2_CLK>,
-+                     <&camcc CAMCC_IFE_2_CPHY_RX_CLK>,
-+                     <&camcc CAMCC_IFE_2_CSID_CLK>,
-+                     <&camcc CAMCC_IFE_LITE_CLK>,
-+                     <&camcc CAMCC_IFE_LITE_CPHY_RX_CLK>,
-+                     <&camcc CAMCC_IFE_LITE_CSID_CLK>;
-+            clock-names = "cam_ahb_clk",
-+                          "cam_axi",
-+                          "soc_ahb",
-+                          "camnoc_axi",
-+                          "core_ahb",
-+                          "cpas_ahb",
-+                          "csiphy0",
-+                          "csiphy0_timer",
-+                          "csiphy1",
-+                          "csiphy1_timer",
-+                          "csiphy2",
-+                          "csiphy2_timer",
-+                          "csiphy3",
-+                          "csiphy3_timer",
-+                          "slow_ahb_src",
-+                          "vfe0_axi",
-+                          "vfe0",
-+                          "vfe0_cphy_rx",
-+                          "vfe0_csid",
-+                          "vfe1_axi",
-+                          "vfe1",
-+                          "vfe1_cphy_rx",
-+                          "vfe1_csid",
-+                          "vfe2_axi",
-+                          "vfe2",
-+                          "vfe2_cphy_rx",
-+                          "vfe2_csid",
-+                          "vfe_lite",
-+                          "vfe_lite_cphy_rx",
-+                          "vfe_lite_csid";
-+
-+            interrupts = <GIC_SPI 464 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 466 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 717 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 473 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 477 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 478 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 479 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 461 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 465 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 467 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 718 IRQ_TYPE_LEVEL_HIGH>,
-+                         <GIC_SPI 472 IRQ_TYPE_LEVEL_HIGH>;
-+            interrupt-names = "csid0",
-+                              "csid1",
-+                              "csid2",
-+                              "csid_lite",
-+                              "csiphy0",
-+                              "csiphy1",
-+                              "csiphy2",
-+                              "csiphy3",
-+                              "vfe0",
-+                              "vfe1",
-+                              "vfe2",
-+                              "vfe_lite";
-+
-+            interconnects = <&gem_noc MASTER_AMPSS_M0 QCOM_ICC_TAG_ACTIVE_ONLY
-+                             &config_noc SLAVE_CAMERA_CFG QCOM_ICC_TAG_ACTIVE_ONLY>,
-+                            <&mmss_noc MASTER_CAMNOC_HF QCOM_ICC_TAG_ALWAYS
-+                             &clk_virt SLAVE_EBI_CH0 QCOM_ICC_TAG_ALWAYS>,
-+                            <&mmss_noc MASTER_CAMNOC_SF QCOM_ICC_TAG_ALWAYS
-+                             &clk_virt SLAVE_EBI_CH0 QCOM_ICC_TAG_ALWAYS>,
-+                            <&mmss_noc MASTER_CAMNOC_ICP QCOM_ICC_TAG_ALWAYS
-+                             &clk_virt SLAVE_EBI_CH0 QCOM_ICC_TAG_ALWAYS>;
-+            interconnect-names = "cam_ahb",
-+                                 "cam_hf_0_mnoc",
-+                                 "cam_sf_0_mnoc",
-+                                 "cam_sf_icp_mnoc";
-+
-+            iommus = <&apps_smmu 0x820 0xc0>,
-+                     <&apps_smmu 0x840 0x0>,
-+                     <&apps_smmu 0x860 0xc0>,
-+                     <&apps_smmu 0x880 0x0>;
-+
-+            power-domains = <&camcc IFE_0_GDSC>,
-+                            <&camcc IFE_1_GDSC>,
-+                            <&camcc IFE_2_GDSC>,
-+                            <&camcc TITAN_TOP_GDSC>;
-+            power-domain-names = "ife0",
-+                                 "ife1",
-+                                 "ife2",
-+                                 "top";
-+
-+            vdda-0.9-supply = <&vreg_l18a>;
-+            vdda-1.25-supply = <&vreg_l22a>;
-+
-+            ports {
-+                #address-cells = <1>;
-+                #size-cells = <0>;
-+
-+                port@0 {
-+                    reg = <0>;
-+                    csiphy0_ep: endpoint {
-+                        data-lanes = <0 1 2 3>;
-+                        bus-type = <MEDIA_BUS_TYPE_CSI2_DPHY>;
-+                        remote-endpoint = <&sensor_ep>;
-+                    };
-+                };
-+            };
-+        };
-+    };
+ static const struct camss_resources sm8250_resources = {
+ 	.version = CAMSS_8250,
+ 	.pd_name = "top",
+@@ -4478,6 +4726,7 @@ static const struct of_device_id camss_dt_match[] = {
+ 	{ .compatible = "qcom,sdm660-camss", .data = &sdm660_resources },
+ 	{ .compatible = "qcom,sdm670-camss", .data = &sdm670_resources },
+ 	{ .compatible = "qcom,sdm845-camss", .data = &sdm845_resources },
++	{ .compatible = "qcom,sm6350-camss", .data = &sm6350_resources },
+ 	{ .compatible = "qcom,sm8250-camss", .data = &sm8250_resources },
+ 	{ .compatible = "qcom,sm8550-camss", .data = &sm8550_resources },
+ 	{ .compatible = "qcom,x1e80100-camss", .data = &x1e80100_resources },
+diff --git a/drivers/media/platform/qcom/camss/camss.h b/drivers/media/platform/qcom/camss/camss.h
+index a70fbc78ccc3..ae456ff4e612 100644
+--- a/drivers/media/platform/qcom/camss/camss.h
++++ b/drivers/media/platform/qcom/camss/camss.h
+@@ -77,6 +77,7 @@ enum pm_domain {
+ };
+ 
+ enum camss_version {
++	CAMSS_6350,
+ 	CAMSS_660,
+ 	CAMSS_2290,
+ 	CAMSS_7280,
 
 -- 
 2.51.1
