@@ -1,53 +1,53 @@
-Return-Path: <linux-media+bounces-45517-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45518-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47867C065BE
-	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 14:53:51 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id E27D9C065A2
+	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 14:53:14 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 12C303B7E25
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id AC2394F91F8
 	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 12:53:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3A64E32143C;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CBA332143D;
 	Fri, 24 Oct 2025 12:51:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="S6y2vPzM"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NzVtNQfd"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57CE431B805;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B87131B823;
 	Fri, 24 Oct 2025 12:51:37 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761310297; cv=none; b=Ks01gHLZYWNd4DJWbJIKNNnxDXCXIS1o3LUaO/56LjbfYF8XNOcNSv+AhyRL5i6mC36Ya3YsafAS4xHQKkqdHDIwFY0MI6tF1GjClLr/LJ5rR+yvPzUqHkaYvYEoW1OlofAXoO3O4WwsfbKveF9rHFBhUJFYLhfNl6XDCFVIoOc=
+	t=1761310297; cv=none; b=RaKnAQdor/korkfUPrj3vCXA3OGnRbqJCF6DDfvckxHzQ8f6UfTFOCFzJHuBYWXdADu/V18Xt2d5nvO038z53JH2zLW0BgC4QHPsC8/IYJ/9K3SiFiO8WZBfi8v1hup+zVHbDHCyzowK9G4tW0lrMcaU3/+sfWReoEFMHFwcA+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761310297; c=relaxed/simple;
-	bh=Zl4Mel46TcR7AjpUnvtEjIgKxbaBwJflcYSmq34rCyA=;
+	bh=D9NOQFttLM44MLx09Zex9E0ZU1bSnzyvmGIvjIHg3PU=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=WW/aZs71+SfPNINm0Kf2fuN5pKyeuYT8w0dqSGH8PMS06lUU9nx6fdBzr4JD827AqrlEqUoRP8Yhwk5Utq70HcTrSecfLW7331FE2URUeP6O13dnsbg+LPMfrDcp4W/Rt3i0y8ksqoNgQkXv/pA/sqwAXn4c+3+Rs9hJGMGNojo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=S6y2vPzM; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPS id 28393C19421;
+	 In-Reply-To:To:Cc; b=Y1TFVKx/AEjDFGX7hwT5FxI+0Fd11UhkonJo0zK8VKtOnZN9mX6fQEB9qPx9xSEc9NuNaYYST2hwU6OBrKna0BAE1HqApAVZ2n3D1gtZ4KY/Qm7X3ktZ9EVUbMElmWMBnRj2TxzBOkjhsCtTEAFcVA0+UfsWIKaC2sZYTK6Q6ng=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NzVtNQfd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 3C46DC116D0;
 	Fri, 24 Oct 2025 12:51:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1761310297;
-	bh=Zl4Mel46TcR7AjpUnvtEjIgKxbaBwJflcYSmq34rCyA=;
+	bh=D9NOQFttLM44MLx09Zex9E0ZU1bSnzyvmGIvjIHg3PU=;
 	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=S6y2vPzM9u89T3r9B97NnyQUDfPpSQSc2vXuWi50glAJvrcDELVjvU6jtrbCQwS6s
-	 rD0ClAPqtSL59o3iQkGdrJOxNRMN5RW8KICZa+Hm3RX3seVStX8XN5K7NgSKhgt9bl
-	 PO8fzAp0r9of7mpDqUezYrR1CeVgZXdGl04GkcjM70aZJiMQq+JZdIpo37YP1RDjTm
-	 9qKv2Zv1M8gqAaMB6X9YlfeN7gdnAubBzBvusOnNLNJ8I3WSIZbhDGxR2B7L3hpCwJ
-	 M9UDynPBTybOuB6HZJ5Zo0u029DrowwZLRppK647bd1vZ3XC5W3liVx9RJlphwOPSy
-	 us8umkS5g94NA==
+	b=NzVtNQfdU4U5WsCNPN5cRDnQX5SqAvT6oe3v9i2qF0cTmJaW18BphDvxD3nKBYlHW
+	 61qNxslkIIMyKV8YveixWl4zP4fAe+t93KZFBlgQJQm7clBdtWnWP2OurrmZJru36y
+	 yBiKKCG5PXZ6hwK8/Ho6Ph++wdkaLuvEFVzFozfrOsz/B9PGFlMh2kyIa9w5WQiWi3
+	 1+M4+7C6E+5p+hb3DKoD4zl7TyuIKED4d1hz85ZKruBEgN7yhK/lonDPQ97DsLIoUc
+	 AckVBMk6zhI0adAD40I+aNAvvD9WClXrRLBfI9+pB+cPmUV5YDdo4rLugZpnbSwiMj
+	 FXn7UU/oZHK9w==
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C5AECCF9E3;
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 302DFCCF9E0;
 	Fri, 24 Oct 2025 12:51:37 +0000 (UTC)
 From: Michael Riesch via B4 Relay <devnull+michael.riesch.collabora.com@kernel.org>
-Date: Fri, 24 Oct 2025 14:51:46 +0200
-Subject: [PATCH v14 17/18] arm64: dts: rockchip: enable vicap dvp on
- wolfvision pf5 io expander
+Date: Fri, 24 Oct 2025 14:51:47 +0200
+Subject: [PATCH v14 18/18] arm64: dts: rockchip: add radxa camera 8m on
+ rock 3a csi port
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,7 +56,7 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20240220-rk3568-vicap-v14-17-b38b6da0fc80@collabora.com>
+Message-Id: <20240220-rk3568-vicap-v14-18-b38b6da0fc80@collabora.com>
 References: <20240220-rk3568-vicap-v14-0-b38b6da0fc80@collabora.com>
 In-Reply-To: <20240220-rk3568-vicap-v14-0-b38b6da0fc80@collabora.com>
 To: Mehdi Djait <mehdi.djait@linux.intel.com>, 
@@ -83,13 +83,13 @@ Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
  linux-rockchip@lists.infradead.org, 
  Michael Riesch <michael.riesch@collabora.com>, 
- Michael Riesch <michael.riesch@collabora.com>
+ Michael Riesch <michael.riesch@collabora.com>, Chen-Yu Tsai <wens@csie.org>
 X-Mailer: b4 0.12.0
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1761310293; l=1721;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1761310293; l=4423;
  i=michael.riesch@collabora.com; s=20250410; h=from:subject:message-id;
- bh=0H9SWagLsWuudSJ0hjW87B9xG48FbT9CuvPeqAKM5fI=;
- b=x+S403z7b18uVqjBl1EzkdmEG+NVtjV6Igd9PykmQGhVdOnCu2bPiajC+b47DKRl0zgEZA6NU
- X5vlAK7s5jaAi8K3bj5n6KEfVCM3oQDv2cqp1Z7/R7yhQt6DZmj/gS/
+ bh=8+gsoG6dBtp0EaQEhGBr2hG0N8BoIt7Rya8dykcaVJk=;
+ b=QkRDoMhQXlaFfrn9H71B3EP+aJ/ZFPGMPArrb0cZaFufBhfhco4GYIEBu49GXqLJFY4wL0S/t
+ PDmNnpkWsOTAw30EHsw4FTe/oYnr3pBtVS8aiMB9hBhAcr/1fSkeQwf
 X-Developer-Key: i=michael.riesch@collabora.com; a=ed25519;
  pk=+MWX1fffLFZtTPG/I6XdYm/+OSvpRE8D9evQaWbiN04=
 X-Endpoint-Received: by B4 Relay for michael.riesch@collabora.com/20250410
@@ -99,50 +99,149 @@ Reply-To: michael.riesch@collabora.com
 
 From: Michael Riesch <michael.riesch@collabora.com>
 
-The Digital Video Port (DVP, the 16-bit variant) of the RK3568 VICAP
-is broken out to the PF5 mainboard expansion header.
-Enable it in the device tree overlay for the WolfVision PF5 IO
-Expander board.
+Add a device tree overlay for the Radxa Camera 8M (featuring the
+Sony IMX219 image sensor) to be connected to the Radxa ROCK 3A CSI
+port.
 
-Signed-off-by: Michael Riesch <michael.riesch@wolfvision.net>
-Reviewed-by: Gerald Loacker <gerald.loacker@wolfvision.net>
-Tested-by: Gerald Loacker <gerald.loacker@wolfvision.net>
+The image sensor is connected to the RK3568 VICAP MIPI CSI-2
+port, since as at the time of writing this there is no mainline
+support for the RK3568 ISP.
+
 Reviewed-by: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Reviewed-by: Chen-Yu Tsai <wens@csie.org>
 Signed-off-by: Michael Riesch <michael.riesch@collabora.com>
 ---
- .../rockchip/rk3568-wolfvision-pf5-io-expander.dtso  | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
+ arch/arm64/boot/dts/rockchip/Makefile              |   5 +
+ .../dts/rockchip/rk3568-rock-3a-radxa-cam8m.dtso   | 103 +++++++++++++++++++++
+ 2 files changed, 108 insertions(+)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso b/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-index 048933de2943..8cfce71dd318 100644
---- a/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-+++ b/arch/arm64/boot/dts/rockchip/rk3568-wolfvision-pf5-io-expander.dtso
-@@ -11,6 +11,7 @@
- #include <dt-bindings/clock/rk3568-cru.h>
- #include <dt-bindings/gpio/gpio.h>
- #include <dt-bindings/interrupt-controller/irq.h>
-+#include <dt-bindings/media/video-interfaces.h>
- #include <dt-bindings/pinctrl/rockchip.h>
+diff --git a/arch/arm64/boot/dts/rockchip/Makefile b/arch/arm64/boot/dts/rockchip/Makefile
+index ad684e3831bc..d6b969a0dab9 100644
+--- a/arch/arm64/boot/dts/rockchip/Makefile
++++ b/arch/arm64/boot/dts/rockchip/Makefile
+@@ -146,6 +146,7 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-qnap-ts433.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-radxa-e25.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-roc-pc.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-rock-3a.dtb
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-rock-3a-radxa-cam8m.dtbo
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-rock-3b.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-wolfvision-pf5.dtb
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-wolfvision-pf5-display-vz.dtbo
+@@ -243,6 +244,10 @@ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3399-rockpro64-v2-screen.dtb
+ rk3399-rockpro64-v2-screen-dtbs := rk3399-rockpro64-v2.dtb \
+ 	rk3399-rockpro64-screen.dtbo
  
- &{/} {
-@@ -134,3 +135,22 @@ &usb2phy0_host {
- 	phy-supply = <&usb_host_vbus>;
- 	status = "okay";
- };
++dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-rock-3a-radxa-8m-cam.dtb
++rk3568-rock-3a-radxa-8m-cam-dtbs := rk3568-rock-3a.dtb \
++	rk3568-rock-3a-radxa-cam8m.dtbo
 +
-+&vicap {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&cif_clk &cif_dvp_clk &cif_dvp_bus16>;
+ dtb-$(CONFIG_ARCH_ROCKCHIP) += rk3568-wolfvision-pf5-vz-2-uhd.dtb
+ rk3568-wolfvision-pf5-vz-2-uhd-dtbs := rk3568-wolfvision-pf5.dtb \
+ 	rk3568-wolfvision-pf5-display-vz.dtbo \
+diff --git a/arch/arm64/boot/dts/rockchip/rk3568-rock-3a-radxa-cam8m.dtso b/arch/arm64/boot/dts/rockchip/rk3568-rock-3a-radxa-cam8m.dtso
+new file mode 100644
+index 000000000000..3aa1ffdc22d8
+--- /dev/null
++++ b/arch/arm64/boot/dts/rockchip/rk3568-rock-3a-radxa-cam8m.dtso
+@@ -0,0 +1,103 @@
++// SPDX-License-Identifier: (GPL-2.0+ OR MIT)
++/*
++ * Device tree overlay for the Radxa Camera 8M attached to the CSI port of
++ * the Radxa ROCK 3A.
++ */
++
++/dts-v1/;
++/plugin/;
++
++#include <dt-bindings/gpio/gpio.h>
++#include <dt-bindings/pinctrl/rockchip.h>
++
++&{/} {
++	clk_camera: clock-camera {
++		compatible = "fixed-clock";
++		clock-frequency = <24000000>;
++		clock-output-names = "clk_camera";
++		#clock-cells = <0>;
++	};
++
++	vana_camera: regulator-vana-camera {
++		compatible = "regulator-fixed";
++		regulator-min-microvolt = <2800000>;
++		regulator-max-microvolt = <2800000>;
++		regulator-name = "vana_camera";
++		vin-supply = <&vcc_cam>;
++	};
++
++	vddl_camera: regulator-vddl-camera {
++		compatible = "regulator-fixed";
++		regulator-min-microvolt = <1200000>;
++		regulator-max-microvolt = <1200000>;
++		regulator-name = "vddl_camera";
++		vin-supply = <&vcc_cam>;
++	};
++
++	vdig_camera: regulator-vdig-camera {
++		compatible = "regulator-fixed";
++		regulator-min-microvolt = <1800000>;
++		regulator-max-microvolt = <1800000>;
++		regulator-name = "vdig_camera";
++		vin-supply = <&vcc_cam>;
++	};
++};
++
++&i2c5 {
++	#address-cells = <1>;
++	#size-cells = <0>;
++	status = "okay";
++
++	imx219: camera-sensor@10 {
++		compatible = "sony,imx219";
++		reg = <0x10>;
++		clocks = <&clk_camera>;
++		clock-names = "xclk";
++		pinctrl-names = "default";
++		pinctrl-0 = <&camera_reset>;
++		reset-gpios = <&gpio4 RK_PD2 GPIO_ACTIVE_HIGH>;
++		VANA-supply = <&vana_camera>;
++		VDDL-supply = <&vddl_camera>;
++		VDIG-supply = <&vdig_camera>;
++
++		port {
++			imx219_output: endpoint {
++				data-lanes = <1 2>;
++				link-frequencies = /bits/ 64 <456000000>;
++				remote-endpoint = <&csi_input>;
++			};
++		};
++	};
++};
++
++&pinctrl {
++	cam {
++		camera_reset: camera-reset-pinctrl {
++			rockchip,pins = <4 RK_PD2 RK_FUNC_GPIO &pcfg_pull_none>;
++		};
++	};
++};
++
++&csi {
 +	status = "okay";
 +};
 +
-+&vicap_dvp {
-+	vicap_dvp_input: endpoint {
-+		bus-type = <MEDIA_BUS_TYPE_BT656>;
-+		bus-width = <16>;
-+		pclk-sample = <MEDIA_PCLK_SAMPLE_DUAL_EDGE>;
-+		rockchip,dvp-clk-delay = <10>;
++&csi_dphy {
++	status = "okay";
++};
++
++&csi_in {
++	csi_input: endpoint {
++		data-lanes = <1 2>;
++		link-frequencies = /bits/ 64 <456000000>;
++		remote-endpoint = <&imx219_output>;
 +	};
++};
++
++&vicap {
++	status = "okay";
 +};
 +
 +&vicap_mmu {
