@@ -1,229 +1,73 @@
-Return-Path: <linux-media+bounces-45490-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45491-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id DFABFC0609A
-	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 13:41:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF3F2C060F1
+	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 13:44:32 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 19341580367
-	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 11:35:59 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 3B11C5657CF
+	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 11:36:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B3311314B6C;
-	Fri, 24 Oct 2025 11:32:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D6166313E29;
+	Fri, 24 Oct 2025 11:34:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="Ho0I65ut"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hds0sijd"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77903314A82;
-	Fri, 24 Oct 2025 11:31:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 326AD3128DC;
+	Fri, 24 Oct 2025 11:34:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761305523; cv=none; b=Y/uIDa9KGvzQw30FfTWG7Doog2bAbBsFJL+qs5eKHGglXAe8ag9N7eCl7kyCtcFvC+FvRRWNsjVlVJ5ASZwFJCPPHdPEhteIFYPxL6NJvgtsWBMLk3Dgw4xc6yFjlA1AABGb9qr4eMP2J4MfMCmUhU6t+6t7QgAZmjDOQftiO6M=
+	t=1761305670; cv=none; b=ZujbkTrnuXGzIV8uH0LLDYk9GDk2cjcJi8LPrAWUsNM8RlR3DXxiKBpKBIHyXOZza9qIETxV5lSywAaq+eIVLiyp3DW8HKkiNR9Xp4luHp0qSPmwLlaOPlp4P+GS1+MpjeZHbhLlfaMuZcYNYOLyz2MpmY+7u6kEg1vdp8W+KJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761305523; c=relaxed/simple;
-	bh=hV1nJqozJ5JjghVzIfvAZogefJrPMrDnouKAXYBBSrM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OKNCRlaiY3IoRyD6uX9C65m+3NUD8iIVTLQzYt2KiPCb4gZr2k7Vrv+CaRSGEvm3t6YWfL9VJWLpD9AvmwCCL1XReBR5p5qW2lu36SVhFtq7lSC3EkWg0rXV/lymFVzE4QesX3TvnHDMKo3l2mg4UeFlsMlYCEJi3H7fEQn+kIA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=Ho0I65ut; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=QqHW3yMFcjwfPzpNx2BqQpjJugfHcrhEo5Fz0PdAwsI=; b=Ho0I65utGc9K2PJiNt05C+7tGf
-	wSCAdNtVi99CWy6jXqM51hgkaWfdDq3JBO/D4S3n+b1i4HshGxyWE6e6JrkFU5kUkFxTh3SdnmURK
-	r5a8DrCAXENYN7CJ412a+eES1hxhYtalqPxiaK5ks8uTUWKw8iXOxGVCXl8Kx5QPE5sxg8fcVMOw4
-	Vkwu+zrS9bso5UfdX+4JNiSlXbelwcjKrnV0hGYjmZt8AJ/MLKXPu8bSbAphA4lbdovsEJCRxfeb9
-	5DNI0VxqvDCXSOUSCmUoDSrRFK1S/3uqxn19Fbiwdhv/3D1K0t1a3mbidodh2LmVd2mc8ACuQrO4f
-	yovBjw4g==;
-Received: from [90.242.12.242] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1vCG1C-00Ejiy-3A; Fri, 24 Oct 2025 13:31:38 +0200
-Message-ID: <1d0bbdcf-f4d6-49c0-bbdf-364c2af80868@igalia.com>
-Date: Fri, 24 Oct 2025 12:31:37 +0100
+	s=arc-20240116; t=1761305670; c=relaxed/simple;
+	bh=C2071/4y7/j52Jeu+ERq03SVVMZ5dIN9u1f1mb/b9vQ=;
+	h=Message-ID:Date:From:To:Subject:In-Reply-To:References:Cc; b=R9stG/lmXJdsXHGgKia+oTkvUI4izzLltEX1pw82UMgWBX3jOp4SYKyGSPeP/65vIbg8ObE+Pv/PU000ZJl0YndCG5mvIRdT3H/PBILDTauoRp4+YrHnXDG5epK09GXTNH1CrQdrHLj6so0+8bcCUNLh7XGSRUN5VSLxOt4KfbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hds0sijd; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5A9BEC4CEF1;
+	Fri, 24 Oct 2025 11:34:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761305669;
+	bh=C2071/4y7/j52Jeu+ERq03SVVMZ5dIN9u1f1mb/b9vQ=;
+	h=Date:From:To:Subject:In-Reply-To:References:Cc:From;
+	b=hds0sijd3DpmsMZEdqENMgI9IkUzM1SysXUOE7+1iSLj3LZQowSCdwya7THigUfFN
+	 jCj6J3zgN7FDNy2936BUyuVb2acinCRajGsjPfkEnBVpmggk5F3AGlBPHyV1tZMKMS
+	 +a8P8ozie7oz7NLosPF2bPbIV//61MVzzMkVsN1RfBiaH8u9/ZRc7sDHc/NxpxLYTL
+	 VrJZBPR3347TWkt1m4xXZXabk+7cOQrYi6HSv8XuqkNJuEkH6f7O218k+iBn92f+0I
+	 tGi2Dw1pMnR/SacbDyl+BatQJMM6+pHyvtq5VapgyZn7Bhwkr+EZremykwk8sE7Xf6
+	 oqJk4HDV9OvCQ==
+Message-ID: <51b0a361379b26ff14dd2f5b0aa4d6df@kernel.org>
+Date: Fri, 24 Oct 2025 11:34:26 +0000
+From: "Maxime Ripard" <mripard@kernel.org>
+To: "Barry Song" <21cnbao@gmail.com>
+Subject: Re: [PATCH v2] dma-buf: system_heap: use larger contiguous mappings
+ instead of per-page mmap
+In-Reply-To: <20251021042022.47919-1-21cnbao@gmail.com>
+References: <20251021042022.47919-1-21cnbao@gmail.com>
+Cc: 21cnbao@gmail.com, Brian.Starkey@arm.com, benjamin.gaignard@collabora.com, christian.koenig@amd.com, dri-devel@lists.freedesktop.org, jstultz@google.com, linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, sumit.semwal@linaro.org, tjmercier@google.com, v-songbaohua@oppo.com, zhengtangquan@oppo.com, "Maxime
+ Ripard" <mripard@kernel.org>
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-fence: Correct return of dma_fence_driver_name()
-To: phasta@kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
- Gustavo Padovan <gustavo@padovan.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
-References: <20251024075019.162351-2-phasta@kernel.org>
- <11b7a8a5-170f-4815-a8ac-5dba2d8e67a1@igalia.com>
- <5de88e79575e06c053f2d61f7bb58bf9cf5b556e.camel@mailbox.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <5de88e79575e06c053f2d61f7bb58bf9cf5b556e.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
 
-
-On 24/10/2025 11:59, Philipp Stanner wrote:
-> On Fri, 2025-10-24 at 09:31 +0100, Tvrtko Ursulin wrote:
->>
->> On 24/10/2025 08:50, Philipp Stanner wrote:
->>> To decouple the dma_fence_ops lifetime from dma_fences lifetime RCU
->>> support was added to said function, coupled with using the signaled bit
->>> to detect whether the fence_ops might be gone already.
->>>
->>> When implementing that a wrong string was set as a default return
->>> parameter, indicating that every driver whose fence is already signalled
->>> must be detached, which is frankly wrong.
->>
->> Depends on how you look at it. After being signaled fence has to be
->> detached from the driver. Ie. nothing belonging to this driver must be
->> accessed via the fence.
+On Tue, 21 Oct 2025 17:20:22 +1300, Barry Song wrote:
+> From: Barry Song <v-songbaohua@oppo.com>
 > 
-> Is that even documented btw? Many of the mysterious "dma fence rules"
-> are often only obtainable by asking Christian & Co
-
-I tried to document it in the very patch which added it. Both in the 
-commit message and in the large sticky-outy comments added to these helpers:
-
-"""
-  * dma_fence_driver_name - Access the driver name
-  * @fence: the fence to query
-  *
-  * Returns a driver name backing the dma-fence implementation.
-  *
-  * IMPORTANT CONSIDERATION:
-  * Dma-fence contract stipulates that access to driver provided data 
-(data not
-  * directly embedded into the object itself), such as the 
-&dma_fence.lock and
-  * memory potentially accessed by the &dma_fence.ops functions, is 
-forbidden
-  * after the fence has been signalled. Drivers are allowed to free that 
-data,
-  * and some do.
-  *
-  * To allow safe access drivers are mandated to guarantee a RCU grace 
-period
-  * between signalling the fence and freeing said data.
-  *
-  * As such access to the driver name is only valid inside a RCU locked 
-section.
-  * The pointer MUST be both queried and USED ONLY WITHIN a SINGLE block 
-guarded
-  * by the &rcu_read_lock and &rcu_read_unlock pair.
-"""
-
+> We can allocate high-order pages, but mapping them one by
+> one is inefficient. This patch changes the code to map
+> as large a chunk as possible. The code looks somewhat
 > 
->>
->> I started with names and Christian has recently continued with ops.
->>
->>> Reported-by: Danilo Krummrich <dakr@kernel.org>
->>> Fixes: 506aa8b02a8d ("dma-fence: Add safe access helpers and document the rules")
->>> Signed-off-by: Philipp Stanner <phasta@kernel.org>
->>> ---
->>> When this was merged, it sadly slipped by me. I think this entire RCU
->>> mechanism was / is an overengineered idea.
->>>
->>> If we look at who actually uses dma_fence_driver_name() and
->>> dma_fence_timeline_name() – functions from which the largest share of
->>> the fence_ops vs. fence lifetime issue stems from – we discover that
->>> there is a single user:
->>>
->>> i915.
->>
-> 
-> […]
-> 
->>
->>
->> That would be nice, I also do not see much value in exporting names to
->> userspace. But first more conversation around breaking the sync file ABI
->> needs to happen. I think we had a little bit of it when changing the
->> names of signalled fences and thinking was existing tools which look at
->> the names will mostly survive it. Not sure if they would if unsignalled
->> names would change.
-> 
-> I mean, what you and Christian are addressing in recent weeks are real
-> problems, and I was / am about to write similar solutions for our Rust
-> dma_fence.
-> 
-> In the case of those names, however, I'll likely just not support that
-> in Rust, saving me from adding those RCU guards and delivering output
-> of questionable use to users.
-> (could ofc be added later by someone who really needs it…)
+> [ ... ]
 
-Sounds like a good plan to start without the problematic parts whenever 
-possible. More than that I cannot comment since I have no idea how rust 
-stuff will work and interact with the existing uapi entry points such as 
-the sync file.
+Reviewed-by: Maxime Ripard <mripard@kernel.org>
 
->>> P.
->>> ---
->>>    drivers/dma-buf/dma-fence.c | 2 +-
->>>    1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
->>> index 3f78c56b58dc..1875a0abebd3 100644
->>> --- a/drivers/dma-buf/dma-fence.c
->>> +++ b/drivers/dma-buf/dma-fence.c
->>> @@ -1111,7 +1111,7 @@ const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
->>>    	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->>>    		return fence->ops->get_driver_name(fence);
->>>    	else
->>> -		return "detached-driver";
->>> +		return "driver-whose-fence-is-already-signalled";
->>
->> IMHO unnecessarily verbose and whether or not changing it to anything
->> different warrants a Fixes: tag is debatable.
-> 
-> IMO the output is just wrong and confusing. It's easy to imagine that
-> some user starts wondering and searching why his driver has been
-> unloaded, opening support tickets and so on.
-> 
-> Could be less verbose, though. Dunno. I let the maintainer decide.
-
-Driver and timeline usually come together so the signalled info is 
-already there ie. "detached-driver signaled-timeline". For example in 
-debugfs via dma_fence_describe().
-
-So changing that to "driver-whose-fence-is-already-signalled 
-signaled-timeline" still looks too much.
-
-Also, the short name can be reduced from a verbose starting point 
-similar to yours:
-
-  "unknown-driver-is-detached-from-the-signaled-fence"
-  "driver-detached-from-the-fence"
-  "driver-detached"
-
-Or keep "detached-driver" as good enough. Mea culpa for typing it up 
-transposed. :)
-
-Regards,
-
-Tvrtko
-
-> 
-> P.
-> 
->>
->> Regards,
->>
->> Tvrtko
->>
->>>    }
->>>    EXPORT_SYMBOL(dma_fence_driver_name);
->>>    
->>
-> 
-
+Thanks!
+Maxime
 
