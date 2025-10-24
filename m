@@ -1,54 +1,63 @@
-Return-Path: <linux-media+bounces-45459-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45460-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id C27E5C050F2
-	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 10:33:52 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id AB2FFC0523B
+	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 10:46:10 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 939EC3A595D
-	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 08:31:55 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4D28E1AE6307
+	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 08:46:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 315C11A5B9D;
-	Fri, 24 Oct 2025 08:31:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 46A2B307AE5;
+	Fri, 24 Oct 2025 08:44:49 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="rpxNnSPy"
+	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="PIAWQ+3k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+Received: from lelvem-ot02.ext.ti.com (lelvem-ot02.ext.ti.com [198.47.23.235])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1142C302756;
-	Fri, 24 Oct 2025 08:31:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DC333074AF;
+	Fri, 24 Oct 2025 08:44:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.235
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761294709; cv=none; b=uhwwJxn3x5cg50IeYcjfUHOKeCtn88mGQCClPhA4o35slwwB1lK0WgOd9Xi78EnBnvwrpAPvHqRP3YKbMercayca14rDRVarsYzhhOFh6zysoSWt893sI1Dfp9xpg7CN6GnexxrL5K5cZW+ZNluEhFmFr4vfb76tbxNf1nquOac=
+	t=1761295488; cv=none; b=KRPEM8hYcWXQbr4sZ152Ox4u8VabUOnSVlHmZKHeDS9YJSn49RY+Xr9k5QNv1otsm/0amBT/b1aV/ajhSo+zfONFLMAtL46fGP+vFAlco29efEkFT76W6WlnDtrZMBlxbG5L05p8tc9D/hSPAYqzuZiWUvqPnEbgXboKZK8k0wE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761294709; c=relaxed/simple;
-	bh=+oFZVMNkPuoa6IuZjQ7ty+59p6L1PyezFKfOjWlo0+A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cUwIHmcMEV2xHKoBV3/R3OHwju6VZIH9pshq7SGsoUtIdad4ChQ2l5oOJ5zYUeV9TlfP7A4auC/X5Z4/hh5pxSvfcu103ON9qdrPM9PlGy4v1DGV/wP2CRNIRUn3e/In0M1HhyIVsgOK/kCVcP2f5vzS5JiNTsG09u+oBRFOqXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=rpxNnSPy; arc=none smtp.client-ip=213.97.179.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
-	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=bJJRxoLah8YqjPp5kr+nq6nQT696ZsDy3XRzsti8eP0=; b=rpxNnSPyYUNP1sXUlZ8n1iTraX
-	2nukbWaid2abuQnlUjoQRC+fTPeA4ZtlpVdj2AJlnGXmvI5pOUM5BOTFLcQGvc5eiw6IlWQg4ikbs
-	nkTPXoRJ7L9RqWmhuiXXe3tKbmhYLXdWaYMHZM6PIGjTUyQd//UtQoqpfiSWz0zM7fGexrT1QFq6F
-	I5CCfi5xzRx0N3oO6BdodcvnoUMnQUTvKAu/OXip4NcdNfnvFGxmLIt4Coi0KRIk+eencm/o7bm0q
-	tCToe4JjMrvsHropl5zwtxy8OlUBB+NU/lMvm5fU689/MOC0LZyYMTAqStKqftO0n85beFvTGzWi1
-	0sIX6thg==;
-Received: from [90.242.12.242] (helo=[192.168.0.101])
-	by fanzine2.igalia.com with esmtpsa 
-	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
-	id 1vCDCp-00Eg9q-SQ; Fri, 24 Oct 2025 10:31:27 +0200
-Message-ID: <11b7a8a5-170f-4815-a8ac-5dba2d8e67a1@igalia.com>
-Date: Fri, 24 Oct 2025 09:31:26 +0100
+	s=arc-20240116; t=1761295488; c=relaxed/simple;
+	bh=RUBNPB3AtMD0d3mNB+/CT5Me4yU+FU3u7SnGmbBeVas=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=peVoLt2OAU8wpE0NcbM26rRY5jTUKfLcx0sYX6ugTyfsSD9GiY1EER9lsxbVy1oa5RHQnQ7SDsOmBZ56wFIu90OepZ1KwJFZQLQKu7wk9A2ABdW/dYYkvCkuXiPWgLDVionwLcOQAHuygntKAzR4PA/f4UARFvZWS5sk4a6N9dc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=PIAWQ+3k; arc=none smtp.client-ip=198.47.23.235
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+Received: from fllvem-sh04.itg.ti.com ([10.64.41.54])
+	by lelvem-ot02.ext.ti.com (8.15.2/8.15.2) with ESMTP id 59O8hquH723152;
+	Fri, 24 Oct 2025 03:43:52 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+	s=ti-com-17Q1; t=1761295432;
+	bh=ZvFR30qFwvZDHVGLed7EJCdp64TbpYruso0PUk2iDPA=;
+	h=Date:Subject:To:CC:References:From:In-Reply-To;
+	b=PIAWQ+3ks1HLabNDuXtiE78yWF1Uy6I+QQ2OkdKTByw0Uee5iZvpFkK5lpy/M/Srk
+	 sfQiJnsMDw0SokScbRv4/s79+iin2u0XXE3AYVHEMwHjQn1aIbysLrxcOh/9OT+7UR
+	 eJKocEi9lwikTjSAbuD3jH+NKsbwJPuRqrYR5Hi0=
+Received: from DFLE201.ent.ti.com (dfle201.ent.ti.com [10.64.6.59])
+	by fllvem-sh04.itg.ti.com (8.18.1/8.18.1) with ESMTPS id 59O8hq7m3046177
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+	Fri, 24 Oct 2025 03:43:52 -0500
+Received: from DFLE213.ent.ti.com (10.64.6.71) by DFLE201.ent.ti.com
+ (10.64.6.59) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20; Fri, 24 Oct
+ 2025 03:43:51 -0500
+Received: from lelvem-mr06.itg.ti.com (10.180.75.8) by DFLE213.ent.ti.com
+ (10.64.6.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.20 via Frontend
+ Transport; Fri, 24 Oct 2025 03:43:51 -0500
+Received: from [172.24.18.185] (lt9560gk3.dhcp.ti.com [172.24.18.185])
+	by lelvem-mr06.itg.ti.com (8.18.1/8.18.1) with ESMTP id 59O8hipM077707;
+	Fri, 24 Oct 2025 03:43:45 -0500
+Message-ID: <dc82e53c-c565-460d-b268-26d0d5a9ed68@ti.com>
+Date: Fri, 24 Oct 2025 14:13:43 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -56,105 +65,66 @@ List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] dma-fence: Correct return of dma_fence_driver_name()
-To: Philipp Stanner <phasta@kernel.org>,
- Sumit Semwal <sumit.semwal@linaro.org>, Gustavo Padovan
- <gustavo@padovan.org>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>
-References: <20251024075019.162351-2-phasta@kernel.org>
-Content-Language: en-GB
-From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
-In-Reply-To: <20251024075019.162351-2-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net-next v4 0/6] Add AF_XDP zero copy support
+To: Jacob Keller <jacob.e.keller@intel.com>, <horms@kernel.org>,
+        <namcao@linutronix.de>, <vadim.fedorenko@linux.dev>,
+        <christian.koenig@amd.com>, <sumit.semwal@linaro.org>,
+        <sdf@fomichev.me>, <john.fastabend@gmail.com>, <hawk@kernel.org>,
+        <daniel@iogearbox.net>, <ast@kernel.org>, <pabeni@redhat.com>,
+        <kuba@kernel.org>, <edumazet@google.com>, <davem@davemloft.net>,
+        <andrew+netdev@lunn.ch>
+CC: <linaro-mm-sig@lists.linaro.org>, <dri-devel@lists.freedesktop.org>,
+        <linux-media@vger.kernel.org>, <bpf@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <netdev@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>, <srk@ti.com>,
+        Vignesh Raghavendra
+	<vigneshr@ti.com>,
+        Roger Quadros <rogerq@kernel.org>, <danishanwar@ti.com>
+References: <20251023093927.1878411-1-m-malladi@ti.com>
+ <def1cb92-c0cd-440f-933a-55a5be71251b@intel.com>
+Content-Language: en-US
+From: "Malladi, Meghana" <m-malladi@ti.com>
+In-Reply-To: <def1cb92-c0cd-440f-933a-55a5be71251b@intel.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
 
+Hi Jacob,
 
-On 24/10/2025 08:50, Philipp Stanner wrote:
-> To decouple the dma_fence_ops lifetime from dma_fences lifetime RCU
-> support was added to said function, coupled with using the signaled bit
-> to detect whether the fence_ops might be gone already.
+On 10/24/2025 6:26 AM, Jacob Keller wrote:
 > 
-> When implementing that a wrong string was set as a default return
-> parameter, indicating that every driver whose fence is already signalled
-> must be detached, which is frankly wrong.
-
-Depends on how you look at it. After being signaled fence has to be 
-detached from the driver. Ie. nothing belonging to this driver must be 
-accessed via the fence.
-
-I started with names and Christian has recently continued with ops.
-
-> Reported-by: Danilo Krummrich <dakr@kernel.org>
-> Fixes: 506aa8b02a8d ("dma-fence: Add safe access helpers and document the rules")
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
-> ---
-> When this was merged, it sadly slipped by me. I think this entire RCU
-> mechanism was / is an overengineered idea.
 > 
-> If we look at who actually uses dma_fence_driver_name() and
-> dma_fence_timeline_name() – functions from which the largest share of
-> the fence_ops vs. fence lifetime issue stems from – we discover that
-> there is a single user:
+> On 10/23/2025 2:39 AM, Meghana Malladi wrote:
+>> This series adds AF_XDP zero coppy support to icssg driver.
+>>
+>> Tests were performed on AM64x-EVM with xdpsock application [1].
+>>
+>> A clear improvement is seen Transmit (txonly) and receive (rxdrop)
+>> for 64 byte packets. 1500 byte test seems to be limited by line
+>> rate (1G link) so no improvement seen there in packet rate
+>>
+>> Having some issue with l2fwd as the benchmarking numbers show 0
+>> for 64 byte packets after forwading first batch packets and I am
+>> currently looking into it.
+>>
 > 
-> i915.
-
-Not quite. The trigger event for fixing this was actually xe where use 
-after free was achievable with a trivial set of userspace steps. See 
-reproducer at:
-
-https://lore.kernel.org/igt-dev/20250312131835.83983-1-tvrtko.ursulin@igalia.com/
-
-Essentially any fence exporter whose fence can be exported either 
-directly via sync file, or via syncobj to sync file export, and has 
-state accessible via the fence ops which may be freed after the fence is 
-signalled, or if the driver can be unbound from the device and unloaded, 
-is vulnerable.
-
-> Isn't that driver even deprecated?
-Not exactly. It is not getting support for new hardware generations, 
-while the new driver is not supporting old. There is a cut off point and 
-an overlap of around one generation. Although I am not even sure this 
-overlap is officially supported by Intel.
-
-> I think the better thing to do is: remove these functions alltogether,
-> or at least deprecate them. Then the only lifetime issue left so solve
-> is the callback functions.
-
-That would be nice, I also do not see much value in exporting names to 
-userspace. But first more conversation around breaking the sync file ABI 
-needs to happen. I think we had a little bit of it when changing the 
-names of signalled fences and thinking was existing tools which look at 
-the names will mostly survive it. Not sure if they would if unsignalled 
-names would change.
-
+> Do you think this means there is an issue with the patches or your test
+> setup?
 > 
-> P.
-> ---
->   drivers/dma-buf/dma-fence.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
+> I didn't see anything stand out as a problem to me when reading the series:
 > 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 3f78c56b58dc..1875a0abebd3 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -1111,7 +1111,7 @@ const char __rcu *dma_fence_driver_name(struct dma_fence *fence)
->   	if (!test_bit(DMA_FENCE_FLAG_SIGNALED_BIT, &fence->flags))
->   		return fence->ops->get_driver_name(fence);
->   	else
-> -		return "detached-driver";
-> +		return "driver-whose-fence-is-already-signalled";
+> Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
+> 
 
-IMHO unnecessarily verbose and whether or not changing it to anything 
-different warrants a Fixes: tag is debatable.
+The setup is quite simple. I send broadcast traffic to the dut on which 
+I run l2fwd (with xdpsock) and expect the stats to increase. But after 
+4096 packets, the stats stop incrementing. And I see this issue only 
+with 64 byte packet and not with 1500 byte packets. I am suspecting 
+could be some race condition or some bug in our dma controller. I am 
+tracking this issue and post a fix for this separately.
 
-Regards,
-
-Tvrtko
-
->   }
->   EXPORT_SYMBOL(dma_fence_driver_name);
->   
+-- 
+Thanks,
+Meghana Malladi
 
 
