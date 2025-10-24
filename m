@@ -1,545 +1,141 @@
-Return-Path: <linux-media+bounces-45461-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45462-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 807AFC0534C
-	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 10:57:50 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 45CDAC053B8
+	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 11:04:39 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D61F35428F4
-	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 08:50:22 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 77AD84E3389
+	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 09:04:31 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F28C0306B3B;
-	Fri, 24 Oct 2025 08:50:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AA203090D2;
+	Fri, 24 Oct 2025 09:04:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="LfHJXPb8"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="IIPDBXJu"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2A955306D37
-	for <linux-media@vger.kernel.org>; Fri, 24 Oct 2025 08:49:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3CAC3081DE
+	for <linux-media@vger.kernel.org>; Fri, 24 Oct 2025 09:04:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761295804; cv=none; b=OqGkgpbysS2AvZcLF5rpEh0fw9AGQzp1FMRqs6A2RxZmbQEyYGF+gupbg0iFzIybnEXWPqW4k9q2tUL3HsJozOEkLQqUMCPRmqWSu9dZIlrlxXfXp8leAiXa+Rp6q2bjjAaBummrVq9CX7OwlOlLe+7O2W1l76Ts7flCZYPha2A=
+	t=1761296660; cv=none; b=n55BOLpA+YNcH9sICtku187r8sr09kKhoNI4I5IR/qPSB3aEaITWHHHZnqBYac5iKJHlfDGfcXc9B5GEl0huUu7q6zT9qSMNKvu0G4UIZ7RZ2ZiWQa1HEhkmqHVeg4dKG0lF+0xG9HHDi8SI01mU8ubiZ/OA8CXKkQnlKJr7L7Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761295804; c=relaxed/simple;
-	bh=KtRac23q+Mvk/wLRj7uEy/AxuYkTBqJwtlm3KoBllVE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ktJtHxn0jJYxhKWrGrWfTvHAlxijUjQlcUtuw+8Ku835PJ+3WHdPbu/aP1SAHXWs0s3045TFcho3AeWVgXS6aU3nTmX2CmjlzEtyTZsJW+H8dEPxP0IcKpCuTmvY9eIwq+qOO0JvRyTcO1qsOM3y7CfhLqtmgt28l3rDMQJVn2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=LfHJXPb8; arc=none smtp.client-ip=209.85.128.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-475ca9237c2so9800845e9.3
-        for <linux-media@vger.kernel.org>; Fri, 24 Oct 2025 01:49:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761295798; x=1761900598; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=0GNoQ9b+pWMKGwp1LvkwJ2AQeblm+m7kH1bOa6ZimqA=;
-        b=LfHJXPb8+RLVH+vxSzk4i8T6bXocvQ9mJ22/jx2KFuVK/UYckA1cD9ZKDT7OYV0QEZ
-         LTkZzyxrZFO4kcFHB7TzlgfksRjCrNQZYVnja+pEf5QhW4LjqCT4dBhK88KeIQV1Gs9N
-         kYrGI8wdurtmCx90ICpsii+Yob4ZhPI0YMUI82svwghAPvfqgd0sTP4CtKXafabt19BY
-         lThSj2fLfxLT3IJF+7MOl87r21lqm/xJxZv8CB6sUTbN/zGUOKV1MENkcA4R/YwBy7Vx
-         8QF8L1gqOGHv28p2/s1gMn7DkHmE9vqj10q5aWosD3cz5HNvvTByJhAyezm1OhrO03z5
-         jjaQ==
+	s=arc-20240116; t=1761296660; c=relaxed/simple;
+	bh=g0gHpOAw3zIMj/1wPF3opcMcNJQ2q+c7c2Rj1F54Z2o=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pZUuAQYSGblLcVAPoi702UuvBthP8puatpvW2GB4KTR4eewz/jDLtthdmiHy/Q5/IsQrAyDn3XuTIJ4dLuNi/ATEqe1WspJVB+NFfNsLZ1WavTTl8pt7NYHmTEECMk4jogJHm92qFtY00SA+YeFBIkuN8XEDQMSOgpsIx85lZOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=IIPDBXJu; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 59O3FVLs021578
+	for <linux-media@vger.kernel.org>; Fri, 24 Oct 2025 09:04:16 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	g0gHpOAw3zIMj/1wPF3opcMcNJQ2q+c7c2Rj1F54Z2o=; b=IIPDBXJuu4Wv4fTO
+	BP0/CSW3yBaanAXa1ednNtDx193YunyIBOTP20xwJDrvYpfEVnRs8KRkyOsddfS6
+	iPjv5ZgBFQKhxDAYe/knDFL4S2vx5eMxfpU3lLYEolUl9WIjTvgcey4iBHYz6Cqr
+	PL6NXQdHKX9Tpcy4thmetomie/ra7ok2ckj9hS4g6stKsLilRJ8Unzpeoj7B9K1c
+	V9YNoeNvO65iEcsRnZTq90Jas7nIZBHA+AyhJ5r+1ruDywoCvvmTfJhJBnsTcxIt
+	yICX+/CC6H5gjaLlsI1zBVlmH//qMi73kUmhQNxDg3CVwR284C4ps9GJ6bd455s7
+	+WOH1w==
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com [209.85.222.200])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 49v1w8be2g-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Fri, 24 Oct 2025 09:04:16 +0000 (GMT)
+Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-891504015e5so515956985a.3
+        for <linux-media@vger.kernel.org>; Fri, 24 Oct 2025 02:04:16 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761295798; x=1761900598;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=0GNoQ9b+pWMKGwp1LvkwJ2AQeblm+m7kH1bOa6ZimqA=;
-        b=FN892T1rN52pWnTrr2TYsU2XtWnzTb5zQ4EiuASo2xlUTupa7vvYnSNbW4okufXHhJ
-         9ZpH31PdPRWdSAJSBdA2JM61VJqSOV29RYd4BLu4YwPVTuBNMg4s++dxOtvCnmrMFT6n
-         U7Sux3c0o+D12zkLWMf9FtfCJAx0AjIYrSDytkJ4IjywUPPikZMG21/lfbDzwNE10eVr
-         u7tahetiprZ4q/VSUx2gNYErVM7PQiPh8BAJO+l/TyIjicmKYD2pSvEe1SmaH0HfXpJl
-         wVYULA1tTT9M/fSLmYUUqWw0Ao7szC7g6RABcveawT3qFFHAaFmEqPgaKgOAwxyRZem1
-         R8Kw==
-X-Forwarded-Encrypted: i=1; AJvYcCWisHuvZ7N0AgRsae5GFO1mia30pLNUs2OAAde4x/kSTYXd93AjNsJng4mZ3wtNqRDgmX1NCFdbtoBlcQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxv8Fs8l7Ri/KdK/m9u28Z3Y3aWxkXiKlVZfMoSAlMjZzOxeZaM
-	K0qHlt3T1sTf1BBG39eANpQaYuZVF6V5xpl5e+r48hfbPY0UcVbsG4UaS1So7/w8MM8=
-X-Gm-Gg: ASbGncvKysiC84V+kZDYHJSgyRGurlOS16A0Cx9nL15ArbUdJk+DVxc2aa0dKkiQEG6
-	Hs8ZA3FEPQ7Ce9UA6ep0ygS6kTkF0ir/je3UsjtbKlPvUzqeJI1nMbTKJBpN/MBCh+iTeMYBMwI
-	oSbr6MtP7DAi4E+hn/ZOxp+pe5/r20VlPiE74xv9pjacZHPnv4SU6+AZb2a7twvEaYyYAe5ZHkH
-	rAPNQ/zxNbRmPGyC7yDVbgQA2N16AqinXKaEuaq4PsQHhlnROkvYULGiNnDjC82UjR6OzMlMp97
-	+fp3JEssyO8USgjU0Gbnek/SZykd3bV7VtyudoV8WonNsXuV+Z6LOy0P4Zahx+bpHQg+Lgr6LvN
-	2syAb0JSqjXmGEGbbq05G+f5rUzidmNkZonfEuLpS8rTdxwDIgKjZj0HCjD4pUEzkZr/cGtZgji
-	MZG1TouQFSOHDBuHBa29QcYUlhLiWxTwR963DXIPawsaY=
-X-Google-Smtp-Source: AGHT+IH6BoknCNbTRxa0hJNqxLusjjl5noKRKOxTTYlUG8gRhKc1SJOuFb018eJXk3c/J5bbYpmP6g==
-X-Received: by 2002:a05:600c:8b6e:b0:45d:d505:a1c3 with SMTP id 5b1f17b1804b1-475d30cecbemr10974045e9.37.1761295798327;
-        Fri, 24 Oct 2025 01:49:58 -0700 (PDT)
-Received: from [192.168.0.163] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475d8a38038sm1911025e9.16.2025.10.24.01.49.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 24 Oct 2025 01:49:57 -0700 (PDT)
-Message-ID: <207072d6-4eb5-49d9-b678-e9572411b8ad@linaro.org>
-Date: Fri, 24 Oct 2025 09:49:56 +0100
+        d=1e100.net; s=20230601; t=1761296655; x=1761901455;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=g0gHpOAw3zIMj/1wPF3opcMcNJQ2q+c7c2Rj1F54Z2o=;
+        b=HBQZLnj7dgX/+0X9SrNlDqAVAqv14o9FLLwdWSaD4zz3eLhXpBrYE1Ksg30WpfRoD6
+         9uEjqophKWmJiJnjupGbo3MLac47Rf2gzbThy+Nr1HtoFtbkKL6U6tCpcaS4K5pl3h4g
+         dgPkCQ8UfN6ykOfEEH+YD+3KOpdSAzZjElkFUSNMGJm9HNWFFYZJW/qJaevKFvMYsVNy
+         Kkv0B4pbQkuJ1vtEzmm8uwnOo+jYv48j4EJRfS4kfaP1c1VtCETJrcLkyNoQ6s70KAs9
+         CuI32Gq6NtvNhU4hJfYStGI165WI0DQg62AD8VyYnJIr1s7lUa8GrUh5936QHH5iSFXo
+         f4AQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUKROccepiBHx3KjK/QdW6+iqf92sSFxQscQ3J/LnXMsQw0CpNTJGzZR8YN6doYfzUr6JnSS6HyEj9OiA==@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyul1Lv3j5NyaB4KwdG2bjOP3eCR0MKWu/c4V/44ZJ/pbNwr4rk
+	P054GIKUnr79GtqrjrElbjGfTTlE+gxG1CEJ9sRHbZAuo4eBdvc5vhMeV6/8V1YgLDhXbzULTB9
+	93i0WD0Cs/qJkfLIapjj/VNuJIW3tbP/YpqW0Mix0tgjvpjQUh87Wk4UXERWDe/xgu6MlSEtVVl
+	OjoA26Yicku0eitJPZcmstgsJH4p5K+X+GLuhCDbUR
+X-Gm-Gg: ASbGncvXvB+dsEwX+m+/+tW3c01Tx/it4S7q7zklgwvC+l22Esj0P/fpPy4xGWc5H4N
+	U9u/CwpAKhghzs4KvZzEz4j6/XdVJ+VtBPMImC41ga+1/jK0J38PURyic4au70LPtpoOmRvkqJq
+	bPl7z788bShb/WTDjLAgPvgGUj8NeXQXszcWuuqMoOjrp98k+Igo76S/VjUrzUUzApFdYFNEWN6
+	yt6lAZ06ZlYSau2PVMVw9QT7tySoC622ynB8HGZtNITJw==
+X-Received: by 2002:a05:620a:701b:b0:85d:3c32:c404 with SMTP id af79cd13be357-89070cd842cmr3029024885a.85.1761296655461;
+        Fri, 24 Oct 2025 02:04:15 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHcH7X9I3oq3A8xpwU4zFj0woURu/t1UEGWZ4WrgfA2Vy8Iz3Rekx75D5h0egBppJT6eu7llttNgC/cYYRxzYQ=
+X-Received: by 2002:a05:620a:701b:b0:85d:3c32:c404 with SMTP id
+ af79cd13be357-89070cd842cmr3029010485a.85.1761296653367; Fri, 24 Oct 2025
+ 02:04:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/6] dt-bindings: media: camss: Add
- qcom,kaanapali-camss binding
-To: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>,
- Loic Poulain <loic.poulain@oss.qualcomm.com>, Robert Foss
- <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, aiqun.yu@oss.qualcomm.com,
- tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
- yijie.yang@oss.qualcomm.com, Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
- Atiya Kailany <atiya.kailany@oss.qualcomm.com>
-References: <20251014-add-support-for-camss-on-kaanapali-v2-0-f5745ba2dff9@oss.qualcomm.com>
- <20251014-add-support-for-camss-on-kaanapali-v2-2-f5745ba2dff9@oss.qualcomm.com>
- <dce1018c-6165-407c-8f3d-40859cb36b11@linaro.org>
- <1d6a20d8-b011-4608-a722-a1996b366a56@oss.qualcomm.com>
- <b18fc946-a249-481a-b727-7d3e49d47f8e@linaro.org>
- <d4b8cd74-0b0a-4fc8-8ed0-a9023a516b58@oss.qualcomm.com>
- <24b6ce21-aaff-4ecd-8cd7-42df71cfd222@linaro.org>
- <c9f5dc86-3e48-44e3-8796-104e0434bbdc@oss.qualcomm.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <c9f5dc86-3e48-44e3-8796-104e0434bbdc@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20251023-add-support-for-camss-on-kaanapali-v3-0-02abc9a107bf@oss.qualcomm.com>
+ <20251023-add-support-for-camss-on-kaanapali-v3-1-02abc9a107bf@oss.qualcomm.com>
+In-Reply-To: <20251023-add-support-for-camss-on-kaanapali-v3-1-02abc9a107bf@oss.qualcomm.com>
+From: Loic Poulain <loic.poulain@oss.qualcomm.com>
+Date: Fri, 24 Oct 2025 11:04:02 +0200
+X-Gm-Features: AS18NWBkyZO4ADCwbuPSpZ8_0D23U3UYy4lbimK41M10tmzNwaNW7w3WqyAgoBI
+Message-ID: <CAFEp6-06bubGxeNqf0rK7Oe3+YDS7f0_wHPCDTBnXmT7taw7Fw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] dt-bindings: i2c: qcom-cci: Document Kaanapali compatible
+To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+Cc: Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>,
+        linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, aiqun.yu@oss.qualcomm.com,
+        tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com,
+        yijie.yang@oss.qualcomm.com,
+        Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+        Atiya Kailany <atiya.kailany@oss.qualcomm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDE4MDAxNSBTYWx0ZWRfX97BnOhSJ1Bay
+ vMhVtWTzCtp9oTCIRH3exY1vc6QS6okwK9vI+/NWOi0+by9I4CBYZcodEdehVJvCvT+PdZmpMcg
+ NdDjam/xE+EDJzc7XUdomBqnlTlRJbAhfMi5Q/Ilqfrosf+fKNkV1XpN9/rI4WxWMgjrZHcdZDs
+ mfdkOqL19ezLA/vS83SeqkDNT/cFkkb1llP8xZ9/RTyz9rLFDCNMbIYWaL00C6FIgFxPgiv8uS7
+ oSUovjtiI4dBhp8DIRBkzdllBDBAeqH/OS115N3vwEH1SX7GS2bXkA6C5BI2tzj5XUbpbeJmVS5
+ yE4zYoe2KYaU1bv+WGIPXNgSmwhz88MMh3I0hKA6nymGCG6B+dm4/kHNbGcvU+VKz5KIc55QtIF
+ lQr4UdKZW6hPbz6WTzzV2CHCx2h3vg==
+X-Authority-Analysis: v=2.4 cv=bNUb4f+Z c=1 sm=1 tr=0 ts=68fb4110 cx=c_pps
+ a=hnmNkyzTK/kJ09Xio7VxxA==:117 a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=EUspDBNiAAAA:8 a=XIB30I8Fq4NfyXnsoAUA:9
+ a=QEXdDO2ut3YA:10 a=PEH46H7Ffwr30OY-TuGO:22
+X-Proofpoint-GUID: hGjF39q2l-HeJP4car73e3faWQjB11Ii
+X-Proofpoint-ORIG-GUID: hGjF39q2l-HeJP4car73e3faWQjB11Ii
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-23_03,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 phishscore=0 malwarescore=0 lowpriorityscore=0 clxscore=1015
+ priorityscore=1501 suspectscore=0 adultscore=0 spamscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2510020000 definitions=main-2510180015
 
-On 23/10/2025 19:06, Vijay Kumar Tumati wrote:
-> 
-> On 10/23/2025 4:13 AM, Vladimir Zapolskiy wrote:
->> Hi Vijay.
->>
->> On 10/23/25 07:52, Vijay Kumar Tumati wrote:
->>>
->>> On 10/16/2025 5:27 PM, Vladimir Zapolskiy wrote:
->>>> On 10/17/25 02:53, Vijay Kumar Tumati wrote:
->>>>>
->>>>> On 10/15/2025 12:45 PM, Vladimir Zapolskiy wrote:
->>>>>> On 10/15/25 05:56, Hangxiang Ma wrote:
->>>>>>> Add bindings for qcom,kaanapali-camss in order to support the camera
->>>>>>> subsystem for Kaanapali.
->>>>>>>
->>>>>>> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
->>>>>>> ---
->>>>>>>     .../bindings/media/qcom,kaanapali-camss.yaml       | 494
->>>>>>> +++++++++++++++++++++
->>>>>>>     1 file changed, 494 insertions(+)
->>>>>>>
->>>>>>> diff --git
->>>>>>> a/Documentation/devicetree/bindings/media/qcom,kaanapali-camss.yaml
->>>>>>> b/Documentation/devicetree/bindings/media/qcom,kaanapali-camss.yaml
->>>>>>> new file mode 100644
->>>>>>> index 000000000000..d04c21103cfd
->>>>>>> --- /dev/null
->>>>>>> +++
->>>>>>> b/Documentation/devicetree/bindings/media/qcom,kaanapali-camss.yaml
->>>>>>> @@ -0,0 +1,494 @@
->>>>>>> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
->>>>>>> +%YAML 1.2
->>>>>>> +---
->>>>>>> +$id: http://devicetree.org/schemas/media/qcom,kaanapali-camss.yaml#
->>>>>>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>>>>>> +
->>>>>>> +title: Qualcomm Kaanapali Camera Subsystem (CAMSS)
->>>>>>> +
->>>>>>> +maintainers:
->>>>>>> +  - Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
->>>>>>> +
->>>>>>> +description:
->>>>>>> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm
->>>>>>> platforms.
->>>>>>> +
->>>>>>> +properties:
->>>>>>> +  compatible:
->>>>>>> +    const: qcom,kaanapali-camss
->>>>>>> +
->>>>>>> +  reg:
->>>>>>> +    maxItems: 16
->>>>>>> +
->>>>>>> +  reg-names:
->>>>>>> +    items:
->>>>>>> +      - const: csid0
->>>>>>> +      - const: csid1
->>>>>>> +      - const: csid2
->>>>>>> +      - const: csid_lite0
->>>>>>> +      - const: csid_lite1
->>>>>>> +      - const: csiphy0
->>>>>>> +      - const: csiphy1
->>>>>>> +      - const: csiphy2
->>>>>>> +      - const: csiphy3
->>>>>>> +      - const: csiphy4
->>>>>>> +      - const: csiphy5
->>>>>>> +      - const: vfe0
->>>>>>> +      - const: vfe1
->>>>>>> +      - const: vfe2
->>>>>>> +      - const: vfe_lite0
->>>>>>> +      - const: vfe_lite1
->>>>>>> +
->>>>>>> +  clocks:
->>>>>>> +    maxItems: 34
->>>>>>> +
->>>>>>> +  clock-names:
->>>>>>> +    items:
->>>>>>> +      - const: camnoc_nrt_axi
->>>>>>> +      - const: camnoc_rt_axi
->>>>>>> +      - const: camnoc_rt_vfe0
->>>>>>> +      - const: camnoc_rt_vfe1
->>>>>>> +      - const: camnoc_rt_vfe2
->>>>>>> +      - const: camnoc_rt_vfe_lite
->>>>>>> +      - const: cam_top_ahb
->>>>>>> +      - const: cam_top_fast_ahb
->>>>>>> +      - const: csid
->>>>>>> +      - const: csid_csiphy_rx
->>>>>>> +      - const: csiphy0
->>>>>>> +      - const: csiphy0_timer
->>>>>>> +      - const: csiphy1
->>>>>>> +      - const: csiphy1_timer
->>>>>>> +      - const: csiphy2
->>>>>>> +      - const: csiphy2_timer
->>>>>>> +      - const: csiphy3
->>>>>>> +      - const: csiphy3_timer
->>>>>>> +      - const: csiphy4
->>>>>>> +      - const: csiphy4_timer
->>>>>>> +      - const: csiphy5
->>>>>>> +      - const: csiphy5_timer
->>>>>>> +      - const: gcc_hf_axi
->>>>>>> +      - const: qdss_debug_xo
->>>>>>> +      - const: vfe0
->>>>>>> +      - const: vfe0_fast_ahb
->>>>>>> +      - const: vfe1
->>>>>>> +      - const: vfe1_fast_ahb
->>>>>>> +      - const: vfe2
->>>>>>> +      - const: vfe2_fast_ahb
->>>>>>> +      - const: vfe_lite
->>>>>>> +      - const: vfe_lite_ahb
->>>>>>> +      - const: vfe_lite_cphy_rx
->>>>>>> +      - const: vfe_lite_csid
->>>>>>
->>>>>> The list of 'clock-names' values is not alphanumerically sorted.
->>>>>>
->>>>>>> +
->>>>>>> +  interrupts:
->>>>>>> +    maxItems: 16
->>>>>>> +  interrupt-names:
->>>>>>
->>>>>> Missing empty line to separate properties.
->>>>>>
->>>>>>> +    items:
->>>>>>> +      - const: csid0
->>>>>>> +      - const: csid1
->>>>>>> +      - const: csid2
->>>>>>> +      - const: csid_lite0
->>>>>>> +      - const: csid_lite1
->>>>>>> +      - const: csiphy0
->>>>>>> +      - const: csiphy1
->>>>>>> +      - const: csiphy2
->>>>>>> +      - const: csiphy3
->>>>>>> +      - const: csiphy4
->>>>>>> +      - const: csiphy5
->>>>>>> +      - const: vfe0
->>>>>>> +      - const: vfe1
->>>>>>> +      - const: vfe2
->>>>>>> +      - const: vfe_lite0
->>>>>>> +      - const: vfe_lite1
->>>>>>> +
->>>>>>> +  interconnects:
->>>>>>> +    maxItems: 2
->>>>>>> +
->>>>>>> +  interconnect-names:
->>>>>>> +    items:
->>>>>>> +      - const: ahb
->>>>>>> +      - const: hf_0_mnoc
->>>>>>
->>>>>> Please rename "hf_0_mnoc" to "hf_mnoc", see qcom,qcm2290-camss.yaml
->>>>>> etc.
->>>>>>
->>>>>>> +
->>>>>>> +  iommus:
->>>>>>> +    maxItems: 1
->>>>>>> +
->>>>>>> +  power-domains:
->>>>>>> +    items:
->>>>>>> +      - description:
->>>>>>> +          TFE0 GDSC - Thin Front End, Global Distributed Switch
->>>>>>> Controller.
->>>>>>> +      - description:
->>>>>>> +          TFE1 GDSC - Thin Front End, Global Distributed Switch
->>>>>>> Controller.
->>>>>>> +      - description:
->>>>>>> +          TFE2 GDSC - Thin Front End, Global Distributed Switch
->>>>>>> Controller.
->>>>>>> +      - description:
->>>>>>> +          Titan GDSC - Titan ISP Block Global Distributed Switch
->>>>>>> Controller.
->>>>>>> +
->>>>>>> +  power-domain-names:
->>>>>>> +    items:
->>>>>>> +      - const: tfe0
->>>>>>> +      - const: tfe1
->>>>>>> +      - const: tfe2
->>>>>>
->>>>>> Please remove all 'tfeX' power domains, they are not going to be
->>>>>> utilized
->>>>>> any time soon.
->>>>>>
->>>>>> When 'power-domains' list is just a single Titan GDSC,
->>>>>> 'power-domain-names'
->>>>>> property is not needed.
->>>>>>
->>>>>>> +      - const: top
->>>>>>> +
->>>>>>> +  vdda-pll-supply:
->>>>>>> +    description:
->>>>>>> +      Phandle to 1.2V regulator supply to PHY refclk pll block.
->>>>>>> +
->>>>>>> +  vdda-phy0-supply:
->>>>>>> +    description:
->>>>>>> +      Phandle to 0.8V regulator supply to PHY core block.
->>>>>>> +
->>>>>>> +  vdda-phy1-supply:
->>>>>>> +    description:
->>>>>>> +      Phandle to 0.8V regulator supply to PHY core block.
->>>>>>> +
->>>>>>> +  vdda-phy2-supply:
->>>>>>> +    description:
->>>>>>> +      Phandle to 0.8V regulator supply to PHY core block.
->>>>>>> +
->>>>>>> +  vdda-phy3-supply:
->>>>>>> +    description:
->>>>>>> +      Phandle to 0.8V regulator supply to PHY core block.
->>>>>>> +
->>>>>>> +  vdda-phy4-supply:
->>>>>>> +    description:
->>>>>>> +      Phandle to 0.8V regulator supply to PHY core block.
->>>>>>> +
->>>>>>> +  vdda-phy5-supply:
->>>>>>> +    description:
->>>>>>> +      Phandle to 0.8V regulator supply to PHY core block.
->>>>>>
->>>>>> What is the difference between vdda-phyX-supply properties, why do 
->>>>>> you
->>>>>> need so many of them, when their descriptions say they are all the
->>>>>> same?
->>>>> Each of these supply power to a specific CSIPHY and could be different
->>>>> based on the board architecture. But I agree that the description 
->>>>> should
->>>>> probably capture that than just relying on the name.
->>>>>>
->>>>>>> +  ports:
->>>>>>> +    $ref: /schemas/graph.yaml#/properties/ports
->>>>>>> +
->>>>>>> +    description:
->>>>>>> +      CSI input ports.
->>>>>>> +
->>>>>>> +    properties:
->>>>>>> +      port@0:
->>>>>>
->>>>>> Please use
->>>>>>
->>>>>>       patternProperties:
->>>>>>         "^port@[0-3]$":
->>>>>>
->>>>>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
->>>>>>> +        unevaluatedProperties: false
->>>>>>> +        description:
->>>>>>> +          Input port for receiving CSI data on CSI0.
->>>>>>> +
->>>>>>> +        properties:
->>>>>>> +          endpoint:
->>>>>>> +            $ref: video-interfaces.yaml#
->>>>>>> +            unevaluatedProperties: false
->>>>>>> +
->>>>>>> +            properties:
->>>>>>> +              clock-lanes:
->>>>>>> +                maxItems: 1
->>>>>>
->>>>>> Please remove 'clock-lanes' property, it is non-configurable, 
->>>>>> redundant
->>>>>> and tends to store some irrelevant value.
->>>>>>
->>>>>>> +
->>>>>>> +              data-lanes:
->>>>>>> +                minItems: 1
->>>>>>> +                maxItems: 4
->>>>>>> +
->>>>>>> +              bus-type:
->>>>>>> +                enum:
->>>>>>> +                  - 1  # MEDIA_BUS_TYPE_CSI2_CPHY
->>>>>>> +                  - 4  # MEDIA_BUS_TYPE_CSI2_DPHY
->>>>>>> +
->>>>>>> +            required:
->>>>>>> +              - clock-lanes
->>>>>>
->>>>>> The 'clock-lanes' property is expected to be removed.
->>>>>>
->>>>>>> +              - data-lanes
->>>>>>> +
->>>>>>> +      port@1:
->>>>>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
->>>>>>> +        unevaluatedProperties: false
->>>>>>> +        description:
->>>>>>> +          Input port for receiving CSI data on CSI1.
->>>>>>> +
->>>>>>> +        properties:
->>>>>>> +          endpoint:
->>>>>>> +            $ref: video-interfaces.yaml#
->>>>>>> +            unevaluatedProperties: false
->>>>>>> +
->>>>>>> +            properties:
->>>>>>> +              clock-lanes:
->>>>>>> +                maxItems: 1
->>>>>>> +
->>>>>>> +              data-lanes:
->>>>>>> +                minItems: 1
->>>>>>> +                maxItems: 4
->>>>>>> +
->>>>>>> +              bus-type:
->>>>>>> +                enum:
->>>>>>> +                  - 1  # MEDIA_BUS_TYPE_CSI2_CPHY
->>>>>>> +                  - 4  # MEDIA_BUS_TYPE_CSI2_DPHY
->>>>>>> +
->>>>>>> +            required:
->>>>>>> +              - clock-lanes
->>>>>>> +              - data-lanes
->>>>>>> +
->>>>>>> +      port@2:
->>>>>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
->>>>>>> +        unevaluatedProperties: false
->>>>>>> +        description:
->>>>>>> +          Input port for receiving CSI data on CSI2.
->>>>>>> +
->>>>>>> +        properties:
->>>>>>> +          endpoint:
->>>>>>> +            $ref: video-interfaces.yaml#
->>>>>>> +            unevaluatedProperties: false
->>>>>>> +
->>>>>>> +            properties:
->>>>>>> +              clock-lanes:
->>>>>>> +                maxItems: 1
->>>>>>> +
->>>>>>> +              data-lanes:
->>>>>>> +                minItems: 1
->>>>>>> +                maxItems: 4
->>>>>>> +
->>>>>>> +              bus-type:
->>>>>>> +                enum:
->>>>>>> +                  - 1  # MEDIA_BUS_TYPE_CSI2_CPHY
->>>>>>> +                  - 4  # MEDIA_BUS_TYPE_CSI2_DPHY
->>>>>>> +
->>>>>>> +            required:
->>>>>>> +              - clock-lanes
->>>>>>> +              - data-lanes
->>>>>>> +
->>>>>>> +      port@3:
->>>>>>> +        $ref: /schemas/graph.yaml#/$defs/port-base
->>>>>>> +        unevaluatedProperties: false
->>>>>>> +        description:
->>>>>>> +          Input port for receiving CSI data on CSI3.
->>>>>>> +
->>>>>>> +        properties:
->>>>>>> +          endpoint:
->>>>>>> +            $ref: video-interfaces.yaml#
->>>>>>> +            unevaluatedProperties: false
->>>>>>> +
->>>>>>> +            properties:
->>>>>>> +              clock-lanes:
->>>>>>> +                maxItems: 1
->>>>>>> +
->>>>>>> +              data-lanes:
->>>>>>> +                minItems: 1
->>>>>>> +                maxItems: 4
->>>>>>> +
->>>>>>> +              bus-type:
->>>>>>> +                enum:
->>>>>>> +                  - 1  # MEDIA_BUS_TYPE_CSI2_CPHY
->>>>>>> +                  - 4  # MEDIA_BUS_TYPE_CSI2_DPHY
->>>>>>> +
->>>>>>> +            required:
->>>>>>> +              - clock-lanes
->>>>>>> +              - data-lanes
->>>>>>> +
->>>>>>> +required:
->>>>>>> +  - compatible
->>>>>>> +  - reg
->>>>>>> +  - reg-names
->>>>>>> +  - clocks
->>>>>>> +  - clock-names
->>>>>>> +  - interrupts
->>>>>>> +  - interrupt-names
->>>>>>> +  - interconnects
->>>>>>> +  - interconnect-names
->>>>>>> +  - iommus
->>>>>>> +  - power-domains
->>>>>>> +  - power-domain-names
->>>>>>> +  - vdda-pll-supply
->>>>>>> +  - vdda-phy0-supply
->>>>>>> +  - vdda-phy1-supply
->>>>>>> +  - vdda-phy2-supply
->>>>>>> +  - vdda-phy3-supply
->>>>>>> +  - vdda-phy4-supply
->>>>>>> +  - vdda-phy5-supply
->>>>>>
->>>>>> Please exclude supplies from the list of required properties.
->>>>> One of these supplies is required based which PHY the use case is 
->>>>> being
->>>>> run. Can you please advise how to handle that? Thanks.
->>>>
->>>> 1. Please rename all of them, reference to qcom,x1e80100-camss.yaml,
->>>> qcom,qcm2290-camss.yaml or published on linux-media
->>>> qcom,sm8650-camss.yaml
->>>>
->>>> 2. Remove all of them from the list of required properties, and in a
->>>> board
->>>> specific dts file add only the neccesary ones, that's it.
->>>>
->>> Thanks. We will try to follow the same for rev3. Just a caveat though.
->>> If, for instance, two CSIPHYs have different 1.2 supplies and they are
->>> required to be operated concurrently, it may be is a problem? as we can
->>
->> It should not be a problem, you can add two regulators, and it's fine,
->> anyway all of them shall be optional properties, because it's unknown in
->> advance which ones are actually needed.
->>
->>> put only one of those in the board specific DTS for the 1.2 supply node
->>> (ex: vdd-csiphy-1p2 in SM2290). Is it not? However, if we don't have
->>> such a use case requirement on the upstream may be it's OK. Thank you.
->>
->> Link to the published SM8650 CAMSS dt bindings, please follow this model:
->> https://lore.kernel.org/linux-media/20251017031131.2232687-2- 
->> vladimir.zapolskiy@linaro.org/
->>
->> Please note the chosen naming scheme, when the supply property names
->> follow the SoC pad namings one to one.
->>
-> Thanks @Vladimir. Yes, this make sense if all of the reference and 
-> customer boards follow the internal power grid design. But agreed that 
-> this is all board specific. Please let us know your thoughts on the v3 
-> bindings for KNP. They mimic the existing 2290 and x1e80100 bindings. 
-> Thank you.
+On Thu, Oct 23, 2025 at 11:14=E2=80=AFAM Hangxiang Ma
+<hangxiang.ma@oss.qualcomm.com> wrote:
+>
+> Add Kaanapali compatible consistent with CAMSS CCI interfaces.
+>
+> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
 
-I'd expect to see both the 1p2 and 0p8 for each PHY listed in your bindings.
-
-Without looking at the KNP docs it would be very strange to find the 
-PHYs share one of these power-rails as an external input from the PCB.
-
-Even if they do, the established pattern for bindings is to describe 
-each as an individual rail.
-
-Also including the voltage level is
-
-- More consistent with other PHY bindings
-- Information that is actually useful when reading a binding
-   or aligning a binding to a schematic.
-
----
-bod
+Reviewed-by: Loic Poulain <loic.poulain@oss.qualcomm.com>
 
