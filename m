@@ -1,145 +1,105 @@
-Return-Path: <linux-media+bounces-45533-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45534-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 50660C06DB5
-	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 17:03:26 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9E0E8C07231
+	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 18:06:46 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 601C31A07932
-	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 15:02:07 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1976A506167
+	for <lists+linux-media@lfdr.de>; Fri, 24 Oct 2025 16:06:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3BCF5324B38;
-	Fri, 24 Oct 2025 15:01:16 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0E331332EA3;
+	Fri, 24 Oct 2025 16:06:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="eapkqcC3"
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b="ATCY1k9l"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fanzine2.igalia.com (fanzine2.igalia.com [213.97.179.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E1262580E4
-	for <linux-media@vger.kernel.org>; Fri, 24 Oct 2025 15:01:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED4ABA3D;
+	Fri, 24 Oct 2025 16:06:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.97.179.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761318075; cv=none; b=W5AD/rEsDQPy0rN6DrhmIINJ+5NdDr8v/ExDu6dtV4+NOI9B5Fr9NQa8ZLb7W87oURcGYgij0dg2vi20o1/wLxze1spPV7UPLo8NI2v7j55CPgGx/0QC+CKFZF48T77N+VTvaGIH9KGhFOMfIvq0wXMqKn9HpXfdntjbXrJogiQ=
+	t=1761321980; cv=none; b=sd5W408nXbwmk7eR6sajg3EGOsBVApdIGEVGV0Y3adc9iEu5BEngFsHN6wb5p68ycZGYjAFcJ10xdq0tTWikU8SZS/DsRV4fGUNeJMkCqOHBY92UCyPQ5qbO9ixI+HjqonHupYJV4vFY25eLrTYLgwkTxSICljdVURLK35orNwg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761318075; c=relaxed/simple;
-	bh=Ipd+fJKM54dwFhjqVqY2/vt0B0gPimIr32J295wlB+M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QZk2/7lvHAt827TA98jSOHaRjBFH7YvvAMnOC+GdyEw7S7saZTmnox/q+SU2TENwOHMGwFSqZMQlEIHLU1vJHeK1a7/13Ol+u55LTgD0MWxXZRrMCHr6+y9dPDBd7aGQYej+xAiIKcZ/eqfSYIEHtFsUVD2mtV8Kx5olrUiOTFk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=eapkqcC3; arc=none smtp.client-ip=209.85.215.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-b67ae7e76abso1609758a12.3
-        for <linux-media@vger.kernel.org>; Fri, 24 Oct 2025 08:01:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761318071; x=1761922871; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Ipd+fJKM54dwFhjqVqY2/vt0B0gPimIr32J295wlB+M=;
-        b=eapkqcC3gDLEE0fjFzXqlUpmKvq26CySDN96HJfNC9kv7HhsNAtnUBRYeLKEIXbAn8
-         YpOyEvQjCfQqLXG+3AqChnWMtVXL/diT3BurH2Zn/GeJulkqZMzRJpiuxH87jI6ypO4A
-         oHiC2s2yTaPotu4xCvggyAwl+uMapNTq8fzLTNMT2P9YgB5b8+VnRU74JGrCCXUQ3K48
-         ujKlTu6HCge7RYxJ6Fa1VzZehJHT1IwzdKhr+ZX4bOX+Ax97uIeYdwgv7jmgUUZs4ZsA
-         /QWidY+fOpUplPG7CXpWIjQHF7bKNjHU1npOH6gc5sgpAxtau9u2Gj35C3JziPlBeVJE
-         jmHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761318071; x=1761922871;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ipd+fJKM54dwFhjqVqY2/vt0B0gPimIr32J295wlB+M=;
-        b=hRluNPdHItbtAQytHU4tstU88cwFDHVf54c0YOWunA6D+Y+hec2ndcRTMRDEx8Sjnd
-         nU7Q5yZVZvi8xv0+qcO/cLu6Zw/6FsBymTSoyeqwf3Bc8CTalXN3YdrNvZlyVBsI2bqr
-         iokuAnPzVVSCDSblHLZn3YAivzVnPYZSkZ9fngiAGHl9Ffsk8g5B1jJtV8+4W/DRItHM
-         /ga1p34+YtHPncDZy+kdiOY6K9fLmfDzRPaGMp5Z2ixlTjQN2OI6mM/VxMKXJa/NHsh4
-         /fFL8jNXT6x1ysnCDgUWxaOBDzC89kzgHOnAp90j0Jkaae7BeRGSKOMGUHjjjiJMRK0c
-         cXzA==
-X-Forwarded-Encrypted: i=1; AJvYcCUcbzonzOm14l1jwXO5O7uF1eduDt+KqjX0RkLXnbS3gsG0UTStlGKYH/HwAx3xF9bbj3D8TukAABFtBQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwVRxB3g+TW6fWqrgg7WCcn4FC6UmMzU8cXXqK427gxi667IgC1
-	1ADpEOWWNCVM5gMNAsvjmhFIcoFkzVyWfmPjczh22SceRy2MikqJNk2O4YsBsokh2nQ=
-X-Gm-Gg: ASbGnctd5BPVQTc+HRa+7a8H9BAV35Yx6sLyWrA0h48OABmRy/O+E2T6uoXVmXGcfEC
-	Ku9+EhrvzOmH6vX4LHdIITPlawHs9o/n2nELVDO/7WgAP2AyBIQkYLav4BBzPSYdoMOMrY69bCx
-	N4lLOPeEK8x9LfR2zGNOScpv1vm9gxKvcY64enwrmA0dyOZsGEhicjQ1Qnk+66w+X4jW+P01Es+
-	9eba1V4VPg4TXX1LEAH2yhgEEtyvE3QW6SDPuNCmlnDI4C4ELBkxP7HrBs9jO/SzTBLQ/ehComE
-	o2sGJjJAQiZqB6MtxmLFnOlXIqE+ISJHwCvW3lpZ+xvHQn5HDPvaUygciILCvXJKs5XUcALvmHL
-	LC1K12Y6dB0aUQRQWzzsBnNxpkMkMFxXgOJBHzrNiVEwsyf6TszMdPgdhwCfJUfOiyL6pMzViLC
-	FnH90=
-X-Google-Smtp-Source: AGHT+IHuDfyfb1rJHT8ZJBZDENWXEuZEgoATFw7kevTr6Wui6O5rdZfaFJ1o7hmkdy/EeXDSX0H8pg==
-X-Received: by 2002:a17:903:8c6:b0:28d:18fb:bb93 with SMTP id d9443c01a7336-290c9c8968cmr381787975ad.7.1761318070419;
-        Fri, 24 Oct 2025 08:01:10 -0700 (PDT)
-Received: from p14s ([2604:3d09:148c:c800:c4aa:f655:2dba:5bb5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2946e0f3794sm59537715ad.88.2025.10.24.08.01.06
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 24 Oct 2025 08:01:09 -0700 (PDT)
-Date: Fri, 24 Oct 2025 09:01:05 -0600
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>, Stephen Boyd <sboyd@kernel.org>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Andrzej Hajda <andrzej.hajda@intel.com>,
-	Robert Foss <rfoss@kernel.org>, Vinod Koul <vkoul@kernel.org>,
-	Moritz Fischer <mdf@kernel.org>, Xu Yilun <yilun.xu@intel.com>,
-	Bartosz Golaszewski <brgl@bgdev.pl>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Jonathan Cameron <jic23@kernel.org>,
-	Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-	Georgi Djakov <djakov@kernel.org>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Joerg Roedel <joro@8bytes.org>,
-	Jassi Brar <jassisinghbrar@gmail.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Lee Jones <lee@kernel.org>,
-	Miquel Raynal <miquel.raynal@bootlin.com>,
-	Richard Weinberger <richard@nod.at>,
-	Vignesh Raghavendra <vigneshr@ti.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Johannes Berg <johannes@sipsolutions.net>,
-	Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kwilczynski@kernel.org>,
-	Manivannan Sadhasivam <mani@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Sebastian Reichel <sre@kernel.org>,
-	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
-	Mark Brown <broonie@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Olivia Mackall <olivia@selenic.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Daniel Lezcano <daniel.lezcano@linaro.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
-	linux-fbdev@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-fpga@vger.kernel.org, linux-gpio@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
-	linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-pm@vger.kernel.org, iommu@lists.linux.dev,
-	linux-media@vger.kernel.org, linux-mtd@lists.infradead.org,
-	netdev@vger.kernel.org, linux-wireless@vger.kernel.org,
-	linux-pci@vger.kernel.org, linux-phy@lists.infradead.org,
-	linux-pwm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
-	linux-crypto@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-usb@vger.kernel.org
-Subject: Re: [PATCH] dt-bindings: Remove extra blank lines
-Message-ID: <aPuUseub-Z60hrOx@p14s>
-References: <20251023143957.2899600-1-robh@kernel.org>
+	s=arc-20240116; t=1761321980; c=relaxed/simple;
+	bh=XP0xgKYL8Ca1s01fuTHXcj3nh0jQ0oXKtwdsaZC8Ubw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=QFQtEYSnIqqHdyrt+IUB7vxNMcUdXUJbbcB75qUP507y47UmFTNDEK70d/UXaH5GHAFXqcCF66AdaSBmoQh9Wr3MJ9vEGXDw+PgTwHvMqZh4t/gTed0w0ALJ4Hj5q0D89c/hbJgkLfVzvhfuCCzJxlsLH0POnKuSiQnuQR+f9YA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com; spf=pass smtp.mailfrom=igalia.com; dkim=pass (2048-bit key) header.d=igalia.com header.i=@igalia.com header.b=ATCY1k9l; arc=none smtp.client-ip=213.97.179.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=igalia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=igalia.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:From:
+	References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=JzsWkVI8qD4VvRgYZM6Q6s9mOVUzFUE3TdY3Qk/PUlk=; b=ATCY1k9lKNLJ60m+Rp+byJ1Vxi
+	kXR5/sbFdMcE6EzEIIg5iyP1cWGOaoNa9wLCMBTjjeJksY9MgmdhZQSq9pzWxYUoXH6WAYvz3ywmf
+	m8C+Ipd7AKnip8T/7Yn9J82S5fUPLkSNygsYjvEx03CJV0br8/4ZoGaZ7MmZbBaOKbDOHmbjxSC2T
+	JpYoXc0GMPKw0b2JyWKowWtFJJOBFzUFUYJ5cIj9IG4voM+t2xeLjj8pXzN3zt1/v+bLVzGiX1pMI
+	cDuuLGHc5cSOBbIx4Vtfb3RUSVWwpmLkcZ/uRmnDf6Bu+5IvauEEQ0niloghL2rkFBl/Dw8J4IolM
+	Yz1Bmw2A==;
+Received: from [90.242.12.242] (helo=[192.168.0.101])
+	by fanzine2.igalia.com with esmtpsa 
+	(Cipher TLS1.3:ECDHE_X25519__RSA_PSS_RSAE_SHA256__AES_128_GCM:128) (Exim)
+	id 1vCKIn-00Ep37-F0; Fri, 24 Oct 2025 18:06:05 +0200
+Message-ID: <5b828e1e-bebd-4730-8866-7a650c1f724f@igalia.com>
+Date: Fri, 24 Oct 2025 17:06:04 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251023143957.2899600-1-robh@kernel.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH] dma-fence: Correct return of dma_fence_driver_name()
+To: Danilo Krummrich <dakr@kernel.org>
+Cc: phasta@kernel.org, Sumit Semwal <sumit.semwal@linaro.org>,
+ Gustavo Padovan <gustavo@padovan.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-kernel@vger.kernel.org
+References: <20251024075019.162351-2-phasta@kernel.org>
+ <11b7a8a5-170f-4815-a8ac-5dba2d8e67a1@igalia.com>
+ <5de88e79575e06c053f2d61f7bb58bf9cf5b556e.camel@mailbox.org>
+ <1d0bbdcf-f4d6-49c0-bbdf-364c2af80868@igalia.com>
+ <89812f66-25a6-4f9e-aa4f-74adbf116db8@kernel.org>
+ <5640fbf1-7b8d-4537-9f1a-b401a7a4934b@igalia.com>
+ <8cba66d2-9608-4a5c-a2af-6cc91f46a49f@kernel.org>
+ <cefe8f07-68a3-4c93-ae46-ebb01ff6fa2c@igalia.com>
+ <b21ba8b4-a31f-44e5-a2da-ba585a93d3a6@kernel.org>
+ <66f066b0-a8bb-40b2-bdd8-7cbcf114cde1@igalia.com>
+ <02b7cdce-95fe-475f-a346-b41fd5615695@kernel.org>
+Content-Language: en-GB
+From: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
+In-Reply-To: <02b7cdce-95fe-475f-a346-b41fd5615695@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Reviewed-by: Mathieu Poirier <mathieu.poirier@linaro.org> # remoteproc
+
+On 24/10/2025 15:36, Danilo Krummrich wrote:
+> On 10/24/25 4:28 PM, Tvrtko Ursulin wrote:
+>> On 24/10/2025 15:17, Danilo Krummrich wrote:
+>>> On 10/24/25 3:37 PM, Tvrtko Ursulin wrote:
+>>>> How about "unknown-driver", would that satisfy you?
+>>>
+>>> Honestly, the most accurate thing to say would be "fence-signaled", because
+>>> that's the actual condition which causes the change.
+>> Hm, ->get_driver_name() returning "fence-signaled" is not great, and debugfs
+>> output in the form of "kernel fence: fence-signaled timeline-signaled seq 1234
+>> signaled" feels a bit redundant. :shrug:
+> 
+> Indeed, what about "retired-driver"? Still implying that it's not just unknown,
+> but that some process has finished. But without the ambiguity of "detached-driver".
+
+Maybe "decoupled-driver"?
+
+Regards,
+
+Tvrtko
+
 
