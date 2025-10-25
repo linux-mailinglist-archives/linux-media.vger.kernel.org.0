@@ -1,57 +1,59 @@
-Return-Path: <linux-media+bounces-45560-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45561-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F788C09CE6
-	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 19:00:28 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4CFFFC099B6
+	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 18:40:45 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 976024F14F3
-	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 16:33:27 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 588FF427CB4
+	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 16:33:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 36AB730F94C;
-	Sat, 25 Oct 2025 16:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 434043164BC;
+	Sat, 25 Oct 2025 16:26:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="OBGfeDcn"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dj4l3Loy"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F08F303A1E;
-	Sat, 25 Oct 2025 16:26:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9997D30F950;
+	Sat, 25 Oct 2025 16:26:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761409562; cv=none; b=TmUjxySngiaplkzUsi7twDrCEWwQVSxjv2/UqGXdJe1Nrwa+QAl0tXN09USVVcAlg2I7f6AiWARty9rbfcHyeXrLrAbwOLyPd69X3lSDeYR/4Mp+MVyzf35Ta4DzRwkHtmUl3hCt7G+rFl4Gu5XPDuOyKbGUmaj7ARtvj6clOo4=
+	t=1761409566; cv=none; b=UtjdEh4eUbsVZmOifXi2iDMOO+FUglKQrSoxXRRlCx72HmwFS8kxcauhEKTayvH8oi7c2YpfF2rTQB7GadUMibrFwzPIKRV7TMWQP1rdgADhHQZSyrsRaH/21X8RHHcbOb7aVojys8YPVxC1EeSAby2sTGiOWTWX7OXymjUTQeI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761409562; c=relaxed/simple;
-	bh=+4nRBMjzRvhju8F56vVrgQsretnLSSG21867TLrJj8c=;
+	s=arc-20240116; t=1761409566; c=relaxed/simple;
+	bh=T+P8aP/MJDLtAYuz4yzvFBJwLE3cCjZgG34WXLuja3s=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=IPS2S37DVhfGIWMofFp0bvQytgvNmb9XeMJbVex6Q1Hc9I9TLovbbdMWX0480aFu1nEtU5UF+s14IoV4ae1WHVFkYYeAWetOTQOEhu26b+LXVHRdBEBi/e/mcH0qiaEU1MSoxSH90V4ui0zyZr5s1o5wu0o4fMJ+j6SpB7A5xFA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=OBGfeDcn; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 93A11C4CEFB;
-	Sat, 25 Oct 2025 16:26:01 +0000 (UTC)
+	 MIME-Version:Content-Type; b=MdyTpoHRp6hL9pSdTNxTjDi6vY0mSK+L3UN+Rz0klvUtyEB04mrNGVM+XG8ThbfwA200OOAaJtr10KKJHphxLcnUInOWf+pyB7+C0FhsNw64+PpXsY/ejZDxoIHgoFyPIb9b+HeXRJiw8Ck4su5R7OU1xIG4bnWxj9KwxVwYF18=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dj4l3Loy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7D4DCC113D0;
+	Sat, 25 Oct 2025 16:26:05 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761409562;
-	bh=+4nRBMjzRvhju8F56vVrgQsretnLSSG21867TLrJj8c=;
+	s=k20201202; t=1761409566;
+	bh=T+P8aP/MJDLtAYuz4yzvFBJwLE3cCjZgG34WXLuja3s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=OBGfeDcnNrU/AzZmjEzIlVQyBWEeuqQ/RiU+e4gulaSNNzvrCw0jfJZ38oYtV0V4U
-	 +nqZPg3yv3ot6x6DrRN813Vr4F8IqdUc5ANN0X+hpDpPr8DN71rzbzx2sUF9Tg1Rs5
-	 mN7EP5m7JEp2XEvYBFdR9eZ34+stAAuQhtpIhXvIb9y/q0BeAU60nRIC3zW8XX3aNy
-	 rnsMV7sORH613eAZGIl8dFRPX1xtI28a+f5VkvvnJMYL2F5nlfY1ljfBR39wh1C3wY
-	 rE9NJhJ64cq99UrOSbtPDGvLatJ4WxmBg3oqbKrRcunh0K+I0hBEaUvl+pkrRVXgbO
-	 4ndlqqfqx2VlA==
+	b=dj4l3Loy/hRT9QEvMWJnlsDkX2nZQtEWijE/x6zlD47OEYtlVP/fDKLecwzj/vtmj
+	 zwW4FfGI1jMQwexufJQDME+ugLL7JflDCDo6bKzc5gIOJpi1uH6jWgfuguw8zcD80b
+	 MHMTMdRQ1WeQ15E/ADFOIaDASjVfX4KP1mazafjPqCgeWmhYijzj4gZnOB/uoRwnsU
+	 UALI8cf1LDO4dFeCwth6ynJJtpMw2LqXcFoitYBqem6BUCZ0JpjdAfzVNmh9ngBhZe
+	 vGQb41r/lMw6HL71DU1UOCBXmnuvLMgsfuipvS01StS3RZIkE0aSJMhb7cXsViWly4
+	 A7iR4tYAn0N/Q==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+	Ming Qian <ming.qian@oss.nxp.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	ming.qian@nxp.com,
+	eagle.zhou@nxp.com,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.17-6.1] media: i2c: og01a1b: Specify monochrome media bus format instead of Bayer
-Date: Sat, 25 Oct 2025 11:59:58 -0400
-Message-ID: <20251025160905.3857885-367-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.17-6.1] media: amphion: Delete v4l2_fh synchronously in .release()
+Date: Sat, 25 Oct 2025 12:00:01 -0400
+Message-ID: <20251025160905.3857885-370-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
 References: <20251025160905.3857885-1-sashal@kernel.org>
@@ -67,19 +69,51 @@ X-stable-base: Linux 6.17.5
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-[ Upstream commit bfbd5aa5347fbd11ade188b316b800bfb27d9e22 ]
+[ Upstream commit 19fb9c5b815f70eb90d5b545f65b83bc9c490ecd ]
 
-The OmniVision OG01A1B image sensor is a monochrome sensor, it supports
-8-bit and 10-bit RAW output formats only.
+The v4l2_fh initialized and added in vpu_v4l2_open() is delete and
+cleaned up when the last reference to the vpu_inst is released. This may
+happen later than at vpu_v4l2_close() time.
 
-That said the planar greyscale Y8/Y10 media formats are more appropriate
-for the sensor instead of the originally and arbitrary selected SGRBG one,
-since there is no red, green or blue color components.
+Not deleting and cleaning up the v4l2_fh when closing the file handle to
+the video device is not ideal, as the v4l2_fh will still be present in
+the video device's fh_list, and will store a copy of events queued to
+the video device. There may also be other side effects of keeping alive
+an object that represents an open file handle after the file handle is
+closed.
 
-Signed-off-by: Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+The v4l2_fh instance is embedded in the vpu_inst structure, and is
+accessed in two different ways:
+
+- in vpu_notify_eos() and vpu_notify_source_change(), to queue V4L2
+  events to the file handle ; and
+
+- through the driver to access the v4l2_fh.m2m_ctx pointer.
+
+The v4l2_fh.m2m_ctx pointer is not touched by v4l2_fh_del() and
+v4l2_fh_exit(). It is set to NULL by the driver when closing the file
+handle, in vpu_v4l2_close().
+
+The vpu_notify_eos() and vpu_notify_source_change() functions are called
+in vpu_set_last_buffer_dequeued() and vdec_handle_resolution_change()
+respectively, only if the v4l2_fh.m2m_ctx pointer is not NULL. There is
+therefore a guarantee that no new event will be queued to the v4l2_fh
+after vpu_v4l2_close() destroys the m2m_ctx.
+
+The vpu_notify_eos() function is also called from vpu_vb2_buf_finish(),
+which is guaranteed to be called for all queued buffers when
+vpu_v4l2_close() calls v4l2_m2m_ctx_release(), and will not be called
+later.
+
+It is therefore safe to assume that the driver will not touch the
+v4l2_fh, except to check the m2m_ctx pointer, after vpu_v4l2_close()
+destroys the m2m_ctx. We can safely delete and cleanup the v4l2_fh
+synchronously in vpu_v4l2_close().
+
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Reviewed-by: Ming Qian <ming.qian@oss.nxp.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -88,75 +122,132 @@ LLM Generated explanations, may be completely bogus:
 
 YES
 
-- Problem fixed: The sensor is monochrome, but the driver advertised a
-  Bayer RAW10 bus code. This is incorrect and can cause wrong pipeline
-  negotiation and processing (e.g., debayering on a non-CFA stream).
-- Precise fix: Three small, contained changes switch the media bus code
-  from Bayer to monochrome:
-  - Default pad format: `fmt->code = MEDIA_BUS_FMT_Y10_1X10;` in
-    `og01a1b_update_pad_format` (drivers/media/i2c/og01a1b.c:685).
-  - Advertised code enumeration: `code->code = MEDIA_BUS_FMT_Y10_1X10;`
-    in `og01a1b_enum_mbus_code` (drivers/media/i2c/og01a1b.c:827).
-  - Frame-size enumeration input check: `fse->code !=
-    MEDIA_BUS_FMT_Y10_1X10` (drivers/media/i2c/og01a1b.c:839).
-- Scope and risk: The changes are limited to format reporting in this
-  sensor subdev; no register programming, timing, or streaming logic is
-  touched. The on-wire MIPI CSI-2 data type remains RAW10; this is a
-  representational fix, not a hardware/protocol change.
-- User impact: Correctly reporting monochrome Y10 avoids erroneous color
-  processing and enables proper link validation with components that
-  expect grayscale formats. Many bridge/ISP drivers already support
-  `MEDIA_BUS_FMT_Y10_1X10`, minimizing regression risk.
-- Compatibility: The driver’s single supported mode is 10-bit, and the
-  code already reflects 10-bit depth, so Y10 is consistent with current
-  capabilities. There’s no API/ABI change visible to V4L2 capture nodes;
-  this is subdev pad-format metadata.
-- Stable criteria alignment:
-  - Important bug fix (wrong format reported for a monochrome sensor).
-  - Small, surgical change (three lines).
-  - No architectural or cross-subsystem churn.
-  - Low regression risk; aligns with established handling of monochrome
-    sensors.
-  - Confined to one i2c/media driver file
-    (`drivers/media/i2c/og01a1b.c`).
+- What it fixes
+  - Today the driver deletes the `v4l2_fh` only when the last reference
+    to the instance is put, not when the file is closed. In current
+    code, `v4l2_fh_del()` and `v4l2_fh_exit()` are called from the
+    instance release path `vpu_v4l2_release()`
+    (drivers/media/platform/amphion/vpu_v4l2.c:712-713), not from the
+    file `.release()` (close) path
+    (drivers/media/platform/amphion/vpu_v4l2.c:786-804).
+  - That means after a user closes the device file, the `v4l2_fh` object
+    still remains on the `video_device`’s `fh_list` and can accumulate
+    device events until the last kref is dropped. This is undesirable
+    (stale file-handle state, latent memory consumption and confusing
+    semantics), and it also diverges from how most V4L2 mem2mem drivers
+    behave and from the documented expectation that `v4l2_fh_del/exit`
+    are called in the v4l2 file `.release()`.
 
-Given the correctness improvement, minimal scope, and low risk, this is
-a good candidate for stable backport.
+- What changes and why it’s safe
+  - The patch moves `v4l2_fh_del()`/`v4l2_fh_exit()` out of the instance
+    release path and into the file `.release()` (`vpu_v4l2_close()`),
+    and also adds them to the open error path:
+    - Remove from instance release: currently called in
+      `vpu_v4l2_release()` at
+      drivers/media/platform/amphion/vpu_v4l2.c:712-713.
+    - Add to close path: after the driver releases the mem2mem context
+      in `vpu_v4l2_close()`
+      (drivers/media/platform/amphion/vpu_v4l2.c:793-799), it will now
+      call `v4l2_fh_del()`/`v4l2_fh_exit()` and only then proceed to
+      unregister and put the instance.
+    - Add to the open error label: currently the `error:` path lacks
+      `v4l2_fh_del/exit`
+      (drivers/media/platform/amphion/vpu_v4l2.c:781-783); the patch
+      adds them there to avoid leaving an fh briefly on the device list
+      after a failed open.
+  - Safety argument (from code):
+    - After close, `vpu_v4l2_close()` already destroys the mem2mem
+      context (`v4l2_m2m_ctx_release`) before anything else of interest
+      (drivers/media/platform/amphion/vpu_v4l2.c:793-799). This is
+      critical: it ensures the driver no longer queues new events to the
+      `v4l2_fh`.
+    - Calls that queue events check `m2m_ctx` first:
+      - `vpu_set_last_buffer_dequeued()` returns if `inst->fh.m2m_ctx ==
+        NULL` (drivers/media/platform/amphion/vpu_v4l2.c:110).
+      - The decoder’s resolution-change path
+        (`vdec_handle_resolution_change()`) also returns early if
+        `inst->fh.m2m_ctx == NULL`
+        (drivers/media/platform/amphion/vdec.c:357-366) before calling
+        `vpu_notify_source_change()`.
+      - `vpu_vb2_buf_finish()` may call `vpu_notify_eos(inst)`, but
+        buffer-finish callbacks are guaranteed to flush during
+        `v4l2_m2m_ctx_release()` and not after it returns, so there are
+        no post-close event queues to an already exited `fh`.
+    - With `m2m_ctx` destroyed first, no code path will call
+      `v4l2_event_queue_fh()` after `v4l2_fh_exit()` sets `fh->vdev =
+      NULL`. This avoids the risk of dereferencing a NULL `fh->vdev` in
+      the core event code (see
+      drivers/media/v4l2-core/v4l2-event.c:173-179 and
+      drivers/media/v4l2-core/v4l2-fh.c:87-114).
 
- drivers/media/i2c/og01a1b.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+- Why this is a good stable backport
+  - Bug fix that affects users: prevents stale `fh` objects from staying
+    on the device’s `fh_list` after close, which can accumulate events
+    and resources and misrepresent the state of “open” file handles.
+  - Small and contained: only changes
+    `drivers/media/platform/amphion/vpu_v4l2.c`, moving two calls and
+    adding them to an error path. No API or architectural changes.
+  - Aligns with V4L2 expectations and common driver practice: many V4L2
+    mem2mem drivers delete and exit the `v4l2_fh` in their file
+    `.release()`; the V4L2 API documentation for `v4l2_fh_del/exit`
+    indicates they should be called in the `.release()` handler (see
+    include/media/v4l2-fh.h).
+  - Low regression risk: the mem2mem context is released at close time
+    already (drivers/media/platform/amphion/vpu_v4l2.c:793-799), and all
+    event-queuing paths are guarded by `m2m_ctx != NULL`, ensuring no
+    events are queued after `fh` is deleted/exited.
+  - Extra robustness: adding `v4l2_fh_del/exit` to the open error path
+    ensures no transient fhs linger on the device list if open fails
+    after `v4l2_fh_add`.
 
-diff --git a/drivers/media/i2c/og01a1b.c b/drivers/media/i2c/og01a1b.c
-index 78d5d406e4b72..b7d0b677975d5 100644
---- a/drivers/media/i2c/og01a1b.c
-+++ b/drivers/media/i2c/og01a1b.c
-@@ -682,7 +682,7 @@ static void og01a1b_update_pad_format(const struct og01a1b_mode *mode,
- {
- 	fmt->width = mode->width;
- 	fmt->height = mode->height;
--	fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
-+	fmt->code = MEDIA_BUS_FMT_Y10_1X10;
- 	fmt->field = V4L2_FIELD_NONE;
- }
+- Preconditions for backporting
+  - Ensure the target stable branch matches the current behavior where
+    `vpu_v4l2_close()` releases `inst->fh.m2m_ctx`
+    (drivers/media/platform/amphion/vpu_v4l2.c:793-799). Earlier
+    versions temporarily released `m2m_ctx` in the instance release
+    path; this patch’s safety relies on doing it in `.close()`. If the
+    branch still releases `m2m_ctx` in the instance release routine,
+    this patch should be combined with or preceded by the change that
+    moves `m2m_ctx` release into `.close()`.
+
+Given the above, this change is a clear, minimal correctness fix with
+low risk and should be backported.
+
+ drivers/media/platform/amphion/vpu_v4l2.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/media/platform/amphion/vpu_v4l2.c b/drivers/media/platform/amphion/vpu_v4l2.c
+index 74668fa362e24..1c3740baf6942 100644
+--- a/drivers/media/platform/amphion/vpu_v4l2.c
++++ b/drivers/media/platform/amphion/vpu_v4l2.c
+@@ -718,8 +718,6 @@ static int vpu_v4l2_release(struct vpu_inst *inst)
  
-@@ -828,7 +828,7 @@ static int og01a1b_enum_mbus_code(struct v4l2_subdev *sd,
- 	if (code->index > 0)
- 		return -EINVAL;
+ 	v4l2_ctrl_handler_free(&inst->ctrl_handler);
+ 	mutex_destroy(&inst->lock);
+-	v4l2_fh_del(&inst->fh);
+-	v4l2_fh_exit(&inst->fh);
  
--	code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
-+	code->code = MEDIA_BUS_FMT_Y10_1X10;
+ 	call_void_vop(inst, cleanup);
+ 
+@@ -788,6 +786,8 @@ int vpu_v4l2_open(struct file *file, struct vpu_inst *inst)
  
  	return 0;
+ error:
++	v4l2_fh_del(&inst->fh);
++	v4l2_fh_exit(&inst->fh);
+ 	vpu_inst_put(inst);
+ 	return ret;
  }
-@@ -840,7 +840,7 @@ static int og01a1b_enum_frame_size(struct v4l2_subdev *sd,
- 	if (fse->index >= ARRAY_SIZE(supported_modes))
- 		return -EINVAL;
+@@ -807,6 +807,9 @@ int vpu_v4l2_close(struct file *file)
+ 	call_void_vop(inst, release);
+ 	vpu_inst_unlock(inst);
  
--	if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
-+	if (fse->code != MEDIA_BUS_FMT_Y10_1X10)
- 		return -EINVAL;
++	v4l2_fh_del(&inst->fh);
++	v4l2_fh_exit(&inst->fh);
++
+ 	vpu_inst_unregister(inst);
+ 	vpu_inst_put(inst);
  
- 	fse->min_width = supported_modes[fse->index].width;
 -- 
 2.51.0
 
