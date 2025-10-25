@@ -1,57 +1,60 @@
-Return-Path: <linux-media+bounces-45556-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45557-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7285C0992F
-	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 18:37:21 +0200 (CEST)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id E3A01C09950
+	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 18:38:29 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 13B943BFE35
-	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 16:29:30 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7DF531A639EB
+	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 16:30:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5951630C628;
-	Sat, 25 Oct 2025 16:23:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 951BC3148A0;
+	Sat, 25 Oct 2025 16:23:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dcRAZTAZ"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HIvvAotu"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B298E30148D;
-	Sat, 25 Oct 2025 16:23:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE8D4309F14;
+	Sat, 25 Oct 2025 16:23:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761409383; cv=none; b=fteJtisDjN0aavcYGvrXHVYbXkq0as25k9RIs2ZMLqWvRZrQx+vT8An3i3dMVGIg5deOes/KAT1Y7V4aMKbCMdEunAmmKYsPfNbhZ6XKaPUcnVnn1vcpLPQEqg2FRLQ7PrQAZtKdpPF1bUIXRj3PAb01OH28ntkZFnpkK/PcRtU=
+	t=1761409414; cv=none; b=cxH2uPWB5s1QDtRTqhU+J636WPBCT+x58+v7z4DxRxVhHtFJwtkp5tcwbQhBCMHoWt1qqI0NWtW6qwcLo1dt3j7A4VXita95KXhjewwFJU/17a+CXbyl4oIcbBhoktT7gUTmZwYxKQa4qizLgM6hEi/ZY+WgFYJOIJPAQMf9LB8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761409383; c=relaxed/simple;
-	bh=/eMEpdDt6AQ/dFpZTPlpt3W+VQN5MZlG/maBZ89HImY=;
+	s=arc-20240116; t=1761409414; c=relaxed/simple;
+	bh=mM0EykjC/LGpqCHiluc0tn7P9aVGNkhW/8wTR3iWL88=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LCHS+fj8t8W6KD1i4kMmb2lXoLD+THsF46m12SI66Ac8VjI/5/VcI3LYvfQV9ppdenEQ0NTa11sU/GKOCy3ItMW1TQSUxaeWhyUL5E3qHL4m5sm7ANSoYcIl/4ED7hVf4EahYPPKyOBUccLJpu3u0iMF9LjE64Pa1tW5AdWiHBs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dcRAZTAZ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7E1DAC4CEFF;
-	Sat, 25 Oct 2025 16:23:02 +0000 (UTC)
+	 MIME-Version:Content-Type; b=oVMrAStJTl2DQypgpRkW9eq/28XTYv+4/WpvO8LFGqWKXlHlJDtFDeeNK+10PSr0ZCpzSu74UWzhVmEGWiZblX+lh1vMFU88VfnP0lJnJtMDM803RxwabCVapt7m11YR3GGda/SyWxO2pKex71jBDzFajxehV+vNMc01mSu3HAs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HIvvAotu; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A78F1C4CEFB;
+	Sat, 25 Oct 2025 16:23:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761409383;
-	bh=/eMEpdDt6AQ/dFpZTPlpt3W+VQN5MZlG/maBZ89HImY=;
+	s=k20201202; t=1761409413;
+	bh=mM0EykjC/LGpqCHiluc0tn7P9aVGNkhW/8wTR3iWL88=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=dcRAZTAZneJ0H2CNQOfcW8JRnadj50Z15Klu7HFuT3Tpu4zdN15JSYSeVFr8MOqko
-	 e8l0XWg+ZGXmLqrSt4cqzX7nFWTWZC8Nj26T7rJIzXH05jiC7BwoP2Q00e/l1OC/FS
-	 udy+9Ui/ZqLNAybOPJOFZL8ZUVHzvGqOSzaRsWBZOuYrVy4xtTZDEQ/xA8OM/bYrqA
-	 tuRykEt2WP/5Ip/C8zN8KyPEjgw3nlGHT9Y05CNNgEXFcdANy4NTE9aMsVucXB2oKr
-	 ZcHMWPeg1Bww5Y10O+OAft9tzYv5GFOXMej+MTKQRFTAQ/gQhfNCSfVI2KIjWBjBCC
-	 DSbLqaIeuDYfQ==
+	b=HIvvAotu7AmjQ6CVyJeQ9n6smt3wh/NPZwKUeWQp1CGel1uWwCwfVGg/NQj3FE4m+
+	 GrsT9lrFIV3OUwdwNRCpgslUseR7MUM5V8zyRp8wwNO9DA7KfDacZ75qGx18X3T7To
+	 q9X1q7SqWM3jfSEdB3MuudZtIBhdJlnhcQT3AcAkAZJQZxNliIpFue2HBQFd2FQstO
+	 3cDcvIaPY7d37duSlfTTX5dPeXM6U+gSMO2L5CuSEXdi1Q9af+yyjv2zpOMoO/QEYA
+	 5GSV/0qtpkZL+1MEjU0QimZyI3fBYTLa9er/i6zT23bpeOlyJT0mkqDGhcgfnI40ie
+	 KoYNLEG1N5L6Q==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+Cc: Paul Kocialkowski <paulk@sys-base.io>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	lars@metafoo.de,
-	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.17-5.15] media: adv7180: Add missing lock in suspend callback
-Date: Sat, 25 Oct 2025 11:58:49 -0400
-Message-ID: <20251025160905.3857885-298-sashal@kernel.org>
+	benjamin.gaignard@collabora.com,
+	p.zabel@pengutronix.de,
+	linux-media@vger.kernel.org,
+	linux-rockchip@lists.infradead.org
+Subject: [PATCH AUTOSEL 6.17-6.1] media: verisilicon: Explicitly disable selection api ioctls for decoders
+Date: Sat, 25 Oct 2025 11:59:03 -0400
+Message-ID: <20251025160905.3857885-312-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
 References: <20251025160905.3857885-1-sashal@kernel.org>
@@ -61,21 +64,23 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.17.5
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+From: Paul Kocialkowski <paulk@sys-base.io>
 
-[ Upstream commit 878c496ac5080f94a93a9216a8f70cfd67ace8c9 ]
+[ Upstream commit 73d50aa92f28ee8414fbfde011974fce970b82cc ]
 
-The adv7180_set_power() utilizes adv7180_write() which in turn requires
-the state mutex to be held, take it before calling adv7180_set_power()
-to avoid tripping a lockdep_assert_held().
+Call the dedicated v4l2_disable_ioctl helper instead of manually
+checking whether the current context is an encoder for the selection
+api ioctls.
 
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Signed-off-by: Paul Kocialkowski <paulk@sys-base.io>
+Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Signed-off-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -84,85 +89,110 @@ LLM Generated explanations, may be completely bogus:
 
 YES
 
-- Bug fixed: adv7180_set_power() calls adv7180_write(), which asserts
-  the device mutex must be held. See the assertion in
-  `drivers/media/i2c/adv7180.c:246`
-  (`lockdep_assert_held(&state->mutex)`) and the write from
-  adv7180_set_power() in `drivers/media/i2c/adv7180.c:286`. Without
-  holding the mutex, callers can trip lockdep and risk racy register
-  writes.
-- Missing lock covered in suspend: The change adds
-  `guard(mutex)(&state->mutex);` before powering down in the PM suspend
-  callback, ensuring the lockdep requirement is satisfied when calling
-  adv7180_set_power(false). In this tree that guard is present at
-  `drivers/media/i2c/adv7180.c:1555`, matching the intent of the commit
-  you’re evaluating.
-- Missing lock covered in resume: Similarly, the resume path takes the
-  mutex before calling adv7180_set_power() to restore power state. In
-  this tree that guard is present at `drivers/media/i2c/adv7180.c:1566`.
-  This avoids unprotected register writes during resume, when
-  concurrency is common.
-- Missing lock in set_pad_format when changing field: The diff also adds
-  the mutex guard around the active-format case where `state->field`
-  changes and the code power-cycles the device and calls
-  adv7180_set_field_mode(). Since that sequence invokes
-  adv7180_set_power(), it must hold the mutex to satisfy the lockdep
-  assertion. Protecting this block is consistent with the rest of the
-  driver, which already guards other adv7180_set_power() call sites
-  (e.g., `drivers/media/i2c/adv7180.c:933`,
-  `drivers/media/i2c/adv7180.c:939`, `drivers/media/i2c/adv7180.c:948`).
-- Scope and risk: The change is small, localized to the adv7180 driver’s
-  state mutex usage, and does not alter interfaces or architecture. It
-  enforces an existing locking contract rather than introducing new
-  behavior.
-- User impact: Without this fix, users can hit lockdep warnings and
-  potential races during suspend/resume or when changing the field mode
-  through pad format. With the fix, register accesses are serialized as
-  intended, preventing subtle resume/configuration issues.
-- Stable criteria: It’s a clear bug fix, minimal and self-contained,
-  with low regression risk in a single driver. While the commit message
-  doesn’t include a Stable tag, it meets stable backport rules
-  (correctness fix, no new features).
+**Why This Fix Matters**
+- Correctly hides unsupported ioctls on decoder nodes: Previously, the
+  driver exposed `VIDIOC_G_SELECTION`/`VIDIOC_S_SELECTION` to decoders
+  but rejected them at runtime with `-EINVAL`. This incorrectly
+  advertised capability and confused userspace and core heuristics. With
+  this change, those ioctls are explicitly disabled and return
+  `-ENOTTY`, which is the correct “not supported” error and matches V4L2
+  expectations (drivers/media/v4l2-core/v4l2-ioctl.c:3073, 3111).
+- Avoids misleading legacy crop exposure: V4L2 core auto-enables legacy
+  crop ioctls if selection is available. Disabling selection for
+  decoders prevents the core from enabling `VIDIOC_G_CROP/CROPCAP` on
+  decoder nodes (drivers/media/v4l2-core/v4l2-dev.c:657,
+  drivers/media/v4l2-core/v4l2-dev.c:659,
+  drivers/media/v4l2-core/v4l2-dev.c:662,
+  drivers/media/v4l2-core/v4l2-dev.c:663,
+  drivers/media/v4l2-core/v4l2-dev.c:664,
+  drivers/media/v4l2-core/v4l2-dev.c:665). This fixes a user-visible API
+  correctness issue.
 
-Note: Older stable trees that lack the `guard(mutex)` helper will need a
-trivial adaptation to explicit
-`mutex_lock(&state->mutex)`/`mutex_unlock(&state->mutex)` at the same
-points.
+**Change Details**
+- Disables selection ioctls for decoder device nodes using the standard
+  helper, before registration:
+  - `v4l2_disable_ioctl(vfd, VIDIOC_G_SELECTION);`
+  - `v4l2_disable_ioctl(vfd, VIDIOC_S_SELECTION);`
+  - Location: drivers/media/platform/verisilicon/hantro_drv.c:918,
+    drivers/media/platform/verisilicon/hantro_drv.c:919
+  - Called before `video_register_device`, as required
+    (drivers/media/platform/verisilicon/hantro_drv.c:924).
+- Simplifies selection handlers to only enforce buffer type, removing
+  runtime checks on context role:
+  - Dropped `!ctx->is_encoder` checks; now only `sel->type !=
+    V4L2_BUF_TYPE_VIDEO_OUTPUT` is validated.
+  - `vidioc_g_selection`:
+    drivers/media/platform/verisilicon/hantro_v4l2.c:666–667
+  - `vidioc_s_selection`:
+    drivers/media/platform/verisilicon/hantro_v4l2.c:698–699
+  - Effect: No functional change for encoders (where `ctx->is_encoder`
+    is always true), and decoders won’t reach these handlers since the
+    ioctls are disabled.
 
- drivers/media/i2c/adv7180.c | 6 ++++++
- 1 file changed, 6 insertions(+)
+**Risk and Side Effects**
+- Behavior change is limited to decoders for selection ioctls: return
+  code changes from `-EINVAL` to `-ENOTTY` via core gating
+  (`is_valid_ioctl()` fails, `ret` remains `-ENOTTY`,
+  drivers/media/v4l2-core/v4l2-ioctl.c:3073, 3111–3113). This is the
+  correct semantics for “unsupported ioctl” and improves userspace
+  detection.
+- No architectural changes; confined to the Verisilicon Hantro driver.
+  Encoder behavior is unchanged.
+- Very small, contained patch; unlikely to introduce regressions. Aligns
+  with common media driver practice of disabling non-applicable ioctls
+  for a given node.
 
-diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index 5d90b8ab9b6df..84600fa75ae8a 100644
---- a/drivers/media/i2c/adv7180.c
-+++ b/drivers/media/i2c/adv7180.c
-@@ -813,6 +813,8 @@ static int adv7180_set_pad_format(struct v4l2_subdev *sd,
+**Stable Backport Fit**
+- Fixes a user-visible API bug (misadvertised capability and wrong
+  errno) with minimal, localized changes.
+- No new features or interfaces; follows stable rules for correctness
+  fixes.
+- Touches a non-core subsystem (media, platform driver), minimizing
+  cross-subsystem risk.
+
+Given the above, this commit is a good candidate for stable backporting.
+
+ drivers/media/platform/verisilicon/hantro_drv.c  | 2 ++
+ drivers/media/platform/verisilicon/hantro_v4l2.c | 6 ++----
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/media/platform/verisilicon/hantro_drv.c b/drivers/media/platform/verisilicon/hantro_drv.c
+index fa972effd4a2c..9d5e50fedae1f 100644
+--- a/drivers/media/platform/verisilicon/hantro_drv.c
++++ b/drivers/media/platform/verisilicon/hantro_drv.c
+@@ -917,6 +917,8 @@ static int hantro_add_func(struct hantro_dev *vpu, unsigned int funcid)
+ 		vpu->decoder = func;
+ 		v4l2_disable_ioctl(vfd, VIDIOC_TRY_ENCODER_CMD);
+ 		v4l2_disable_ioctl(vfd, VIDIOC_ENCODER_CMD);
++		v4l2_disable_ioctl(vfd, VIDIOC_G_SELECTION);
++		v4l2_disable_ioctl(vfd, VIDIOC_S_SELECTION);
+ 	}
  
- 	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE) {
- 		if (state->field != format->format.field) {
-+			guard(mutex)(&state->mutex);
-+
- 			state->field = format->format.field;
- 			adv7180_set_power(state, false);
- 			adv7180_set_field_mode(state);
-@@ -1549,6 +1551,8 @@ static int adv7180_suspend(struct device *dev)
- 	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct adv7180_state *state = to_state(sd);
+ 	video_set_drvdata(vfd, vpu);
+diff --git a/drivers/media/platform/verisilicon/hantro_v4l2.c b/drivers/media/platform/verisilicon/hantro_v4l2.c
+index 7c3515cf7d64a..4598f9b4bd21c 100644
+--- a/drivers/media/platform/verisilicon/hantro_v4l2.c
++++ b/drivers/media/platform/verisilicon/hantro_v4l2.c
+@@ -663,8 +663,7 @@ static int vidioc_g_selection(struct file *file, void *priv,
+ 	struct hantro_ctx *ctx = fh_to_ctx(priv);
  
-+	guard(mutex)(&state->mutex);
-+
- 	return adv7180_set_power(state, false);
- }
+ 	/* Crop only supported on source. */
+-	if (!ctx->is_encoder ||
+-	    sel->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
++	if (sel->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+ 		return -EINVAL;
  
-@@ -1562,6 +1566,8 @@ static int adv7180_resume(struct device *dev)
- 	if (ret < 0)
- 		return ret;
+ 	switch (sel->target) {
+@@ -696,8 +695,7 @@ static int vidioc_s_selection(struct file *file, void *priv,
+ 	struct vb2_queue *vq;
  
-+	guard(mutex)(&state->mutex);
-+
- 	ret = adv7180_set_power(state, state->powered);
- 	if (ret)
- 		return ret;
+ 	/* Crop only supported on source. */
+-	if (!ctx->is_encoder ||
+-	    sel->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
++	if (sel->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+ 		return -EINVAL;
+ 
+ 	/* Change not allowed if the queue is streaming. */
 -- 
 2.51.0
 
