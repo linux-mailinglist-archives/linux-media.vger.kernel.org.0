@@ -1,56 +1,57 @@
-Return-Path: <linux-media+bounces-45558-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45559-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8994CC09A19
-	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 18:42:13 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A704C09A28
+	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 18:42:25 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF6A1424AC3
-	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 16:31:29 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A3ADE42739E
+	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 16:33:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B33B314D37;
-	Sat, 25 Oct 2025 16:24:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 269D730AD04;
+	Sat, 25 Oct 2025 16:25:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F/hzdYLp"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YSOyGfof"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5B8D3090CB;
-	Sat, 25 Oct 2025 16:24:08 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F901305960;
+	Sat, 25 Oct 2025 16:25:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761409448; cv=none; b=jNnTqJ80LHepGENkLzCMjkB1nSNq64epUmo8Rlh1vuMYj+qQVcGK8EMW7+Qc4t752nZ3G+Cdcv+ZuLqi0T5fz9TfLwv2PhOkjPPRxcjBsZ/Ax+j77DtP82ZeGRe9M04+XCkUCcxgSlpNtPHxx4IzBMyJkVtFZjlB63rRqUw43jk=
+	t=1761409556; cv=none; b=oEdokBuqz4JvOGPX7C7m0geNyRaULfuP8L0lbb3puNQfkSjeQUmiQM++C/PMLjaLjhL6DF88m6oTBwcMnLHQn04BvYR8DnWhUOQCjWqBmgU32Q/bBJYtUOvFldNYcaeA+HjvvEUkY+sIqdjtUVOw9b/QTqVJCPIo6xd1CPVx6pA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761409448; c=relaxed/simple;
-	bh=ugSdH9QCXo2bv2Sl3q38DrYXhlgFdvbAmgjiA0Qmc7Q=;
+	s=arc-20240116; t=1761409556; c=relaxed/simple;
+	bh=dulCYm1PbxKSibR4bEJrQmC5RZs08G9Vd7f6mLSA1jc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GlJrpzCztOWcaAPL1g0Bp++PL0OLKVA03zlT8XE5WwCSEzCiKDu9Ia5WgQjKhYKCl+AJBYcHimvpznEnH/5cGxvYeDRulelHp5Ccnhv+WnCO43ifecfDOywGMMZytjL/K7GovWzzToCTElZxVFydZBMvbqqrwoogsYYALLuoG7c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F/hzdYLp; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E01FEC4CEF5;
-	Sat, 25 Oct 2025 16:24:07 +0000 (UTC)
+	 MIME-Version:Content-Type; b=jclO1DlfPCr/LHjUq3XtZmfusZU3kQWlG8j9CyCVyQOiMoCeT0Dxvj70J7ahlfxTqsfCza3qjqFLMLSo/sKADKI7xh4BSf7W0afdzDFXOof6S5Ksrwj7XYDExWe6uFusiPpZr2Kc89gVhzbjQrwOS7N23KT9NLrZVW5zsrsbkQY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YSOyGfof; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 43E76C4CEF5;
+	Sat, 25 Oct 2025 16:25:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761409448;
-	bh=ugSdH9QCXo2bv2Sl3q38DrYXhlgFdvbAmgjiA0Qmc7Q=;
+	s=k20201202; t=1761409556;
+	bh=dulCYm1PbxKSibR4bEJrQmC5RZs08G9Vd7f6mLSA1jc=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=F/hzdYLpKN9Din/oVnpLlYns6sykx5AZx8uk+FcLmzntPOjXbAL9be60tP1aqS0dd
-	 SJdG0Zub4oi2sOKPRqBPNMkB490/QWe0+xVgJ+GkYbNXE4cqlBG9gOPXCkcuuwp845
-	 +Ovpc3zE8BKay2h7HMlDnb4mVav9OOIQPyPY21dNBYRnVT02bkugGkRLdbpYJzU5DE
-	 MWMb2Slzj+tiL8zL54OIIUG9BKdepK7ES4njQoKFfqPFVAYLFadG5VQIsp8qhoJKam
-	 Wtts7Mg8yy6yZBA2nmjJwVBhD3O788Dhj9rS83X+dItVcp/mwTykR5uASnAZTHV/RO
-	 YHR9Mo0/jDgnw==
+	b=YSOyGfof1Z0cLB1rvoF3BWg3tvaVBFeZXMaHpMsAdzsH0OvnrDLwMy+e+dd63qapc
+	 XPb1+yb7sZPP+PcIRH0fQCUoVH2LAcrLyRlYXM9eTKGvcnlZlQT+Y3M7aPfGZdmXQe
+	 CDSrSJ9JvCavE/QHrDBlDSZi80790W3bXCT86PYdP+nCXRgigPpMnVhW19qEOQcpsO
+	 qOLJkz+8+3z1bmHnTWdoXWJkyRkyFO+Gy8JM8XN5GUN298nm0B4fx0uIpwXkufkrle
+	 LL9dVzLJkNNat9elbXqAoZK8EBfY9hmpkorduG+TGkZFSDvySSfrEYStXyuWHd7UH0
+	 ZhLlUcozV7O0g==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Martin=20T=C5=AFma?= <martin.tuma@digiteqautomotive.com>,
+Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
+	bingbu.cao@intel.com,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.17-6.12] media: pci: mgb4: Fix timings comparison in VIDIOC_S_DV_TIMINGS
-Date: Sat, 25 Oct 2025 11:59:21 -0400
-Message-ID: <20251025160905.3857885-330-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.17-6.12] media: ipu6: isys: Set embedded data type correctly for metadata formats
+Date: Sat, 25 Oct 2025 11:59:54 -0400
+Message-ID: <20251025160905.3857885-363-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
 References: <20251025160905.3857885-1-sashal@kernel.org>
@@ -60,87 +61,191 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.17.5
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Martin Tůma <martin.tuma@digiteqautomotive.com>
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-[ Upstream commit 0750649b528ff18d1d68aecb45b34ec22d5ab778 ]
+[ Upstream commit f5a2826cd50c6fd1af803812d1d910a64ae8e0a1 ]
 
-Compare the whole v4l2_bt_timings struct, not just the width/height when
-setting new timings. Timings with the same resolution and different
-pixelclock can now be properly set.
+The IPU6 ISYS driver supported metadata formats but was missing correct
+embedded data type in the receiver configuration. Add it now.
 
-Signed-off-by: Martin Tůma <martin.tuma@digiteqautomotive.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
 
 LLM Generated explanations, may be completely bogus:
 
-YES
+## **BACKPORT RECOMMENDATION: YES**
 
-- What it fixes: Prevents a real functional bug where setting DV timings
-  with the same width/height but different pixelclock (or other BT
-  fields) was treated as “no change” and ignored. This blocked valid
-  timing changes (e.g., framerate changes at the same resolution).
-- Code change: Replaces a narrow equality check on resolution with a
-  full DV timings comparison:
-  - New check: `v4l2_match_dv_timings(timings, &vindev->timings, 0,
-    false)` in `drivers/media/pci/mgb4/mgb4_vin.c:613`.
-  - Old behavior (implicit from the diff): only compared `width` and
-    `height`, causing false “match” for differing
-    pixelclock/porches/polarities/etc.
-- Correct behavior when busy: With the fix, if the queue is streaming
-  and the requested timings differ in any BT field,
-  `vidioc_s_dv_timings` returns `-EBUSY` instead of silently returning 0
-  while not applying the change (see `vb2_is_busy` branch right after
-  the match check in `drivers/media/pci/mgb4/mgb4_vin.c:615`).
-- Scope and risk: Minimal and contained (one-line logic change in a
-  single driver). No API/ABI change, no architectural impact, only
-  affects `VIDIOC_S_DV_TIMINGS` behavior in the MGB4 capture driver.
-- Uses a proven helper: `v4l2_match_dv_timings` is the standard V4L2
-  helper that compares the full `v4l2_bt_timings` including
-  width/height, interlaced, polarities, pixelclock (with tolerance),
-  porches, vsync, flags, and interlaced-specific fields; see
-  implementation at `drivers/media/v4l2-core/v4l2-dv-timings.c:267`.
-  This pattern is used across other drivers.
-- User impact: Enables setting legitimate timings that share resolution
-  but differ in pixelclock (and other BT parameters). Previously such
-  requests were incorrectly treated as no-ops.
-- Stable criteria fit:
-  - Important bugfix affecting real use (DV timings changes ignored).
-  - Small, localized change with low regression risk.
-  - No new features or interface changes.
-  - Touches only a non-core driver
-    (`drivers/media/pci/mgb4/mgb4_vin.c`).
-- Backport note: Apply to stable kernels that include the MGB4 driver;
-  the helper `v4l2_match_dv_timings` is long-standing in V4L2 and does
-  not introduce dependencies.
+After conducting an exhaustive analysis of this commit, I strongly
+recommend backporting it to stable kernel trees (v6.10+).
 
-Overall, this is a low-risk, clear bug fix that improves correctness and
-user experience when changing DV timings; it should be backported.
+---
 
- drivers/media/pci/mgb4/mgb4_vin.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+## **DETAILED ANALYSIS**
 
-diff --git a/drivers/media/pci/mgb4/mgb4_vin.c b/drivers/media/pci/mgb4/mgb4_vin.c
-index 989e93f67f75b..42c327bc50e10 100644
---- a/drivers/media/pci/mgb4/mgb4_vin.c
-+++ b/drivers/media/pci/mgb4/mgb4_vin.c
-@@ -610,8 +610,7 @@ static int vidioc_s_dv_timings(struct file *file, void *fh,
- 	    timings->bt.height < video_timings_cap.bt.min_height ||
- 	    timings->bt.height > video_timings_cap.bt.max_height)
- 		return -EINVAL;
--	if (timings->bt.width == vindev->timings.bt.width &&
--	    timings->bt.height == vindev->timings.bt.height)
-+	if (v4l2_match_dv_timings(timings, &vindev->timings, 0, false))
- 		return 0;
- 	if (vb2_is_busy(&vindev->queue))
- 		return -EBUSY;
+### **The Bug Identified**
+
+This commit fixes a **genuine implementation bug** in the IPU6 ISYS
+driver's metadata format support:
+
+1. **Incomplete Feature Implementation**: Commit `d3bd039cd2a00`
+   (January 31, 2024) added "line-based metadata capture support" to the
+   IPU6 driver in v6.10. However, the implementation was incomplete:
+   - The function `ipu6_isys_mbus_code_to_bpp()` at lines 19-52
+     correctly handles metadata formats (META_8, META_10, META_12,
+     META_16, META_24)
+   - The function `ipu6_isys_mbus_code_to_mipi()` at lines 54-89 **does
+     not** handle metadata formats
+
+2. **Consequences of the Bug**:
+   - When metadata formats are used, `ipu6_isys_mbus_code_to_mipi()`
+     falls through to the default case (line 84-87)
+   - This triggers `WARN_ON(1)` causing kernel warning messages in dmesg
+   - Returns 0x3f (an invalid MIPI data type) instead of the correct
+     `MIPI_CSI2_DT_EMBEDDED_8B` (0x12)
+   - The invalid data type gets propagated to firmware at
+     `drivers/media/pci/intel/ipu6/ipu6-isys-video.c:477` where
+     `input_pin->dt = av->dt`
+   - Result: **Metadata capture doesn't work correctly** and hardware is
+     misconfigured
+
+3. **Evidence of the Bug**:
+   - The driver advertises support for metadata formats in CSI2 receiver
+     (`ipu6-isys-csi2.c:45-49`)
+   - Maps metadata formats to V4L2 pixel formats (`ipu6-isys-
+     video.c:88-95`)
+   - But fails to provide correct MIPI data type conversion for these
+     formats
+
+### **The Fix Evaluation**
+
+**Technical Correctness:**
+- Adds 6 case statements for `MEDIA_BUS_FMT_META_*` formats
+- Returns `MIPI_CSI2_DT_EMBEDDED_8B` (0x12), which is the **correct MIPI
+  CSI-2 data type** per the MIPI CSI-2 specification
+  (`include/media/mipi-csi2.h:21`)
+- Aligns with standard V4L2/media subsystem conventions for embedded
+  data
+
+**Code Changes Analysis:**
+```c
+// Added lines 85-90:
+case MEDIA_BUS_FMT_META_8:
+case MEDIA_BUS_FMT_META_10:
+case MEDIA_BUS_FMT_META_12:
+case MEDIA_BUS_FMT_META_16:
+case MEDIA_BUS_FMT_META_24:
+    return MIPI_CSI2_DT_EMBEDDED_8B;
+```
+
+**Risk Assessment: VERY LOW**
+1. **Minimal Scope**: Only 6 lines added to a switch statement
+2. **No Regression Risk**: Only affects formats that were **completely
+   broken** before (triggering WARN_ON and returning invalid data type)
+3. **Self-Contained**: No dependencies, no side effects on existing
+   working formats (RGB, YUV, Bayer patterns)
+4. **Trivial to Verify**: Basic functional testing would immediately
+   confirm correctness
+
+### **Stable Tree Rules Compliance**
+
+Evaluating against Documentation/process/stable-kernel-rules.rst:
+
+✅ **Fixes an important bug**: Metadata capture is advertised but doesn't
+work
+✅ **Small and obviously correct**: 6 lines, trivial logic
+✅ **No complex dependencies**: Self-contained change
+✅ **Not theoretical**: Real bug with observable symptoms (WARN_ON,
+hardware misconfiguration)
+✅ **Affects stable kernels**: Bug present since v6.10
+
+### **Impact Assessment**
+
+**Who is Affected:**
+- Users of Intel IPU6 hardware (Tiger Lake, Alder Lake, and newer
+  platforms)
+- Applications requiring metadata capture (e.g., camera statistics,
+  embedded data from sensors)
+- Professional camera software and development tools
+
+**Why Low User Reports:**
+- **Specialized Feature**: Metadata capture is a niche feature used
+  mainly by professional camera applications
+- **Recent Addition**: Feature added in v6.10 (2024), relatively new
+- **Hardware Availability**: IPU6 hardware is in newer Intel platforms
+- **Professional Users**: May have workarounds or simply disabled
+  metadata capture
+
+**Note**: Absence of user bug reports does **NOT** mean the bug should
+be ignored. The driver claims to support a feature that is fundamentally
+broken.
+
+### **Research Findings**
+
+Using the search-specialist agent, I found:
+- **No specific user bug reports** for this WARN_ON issue
+- **No CVE or security implications**
+- **No related fixes or reverts** in the codebase
+- The code clearly shows the bug exists and the fix is correct
+
+### **Comparison with Similar Commits**
+
+This commit is similar to other stable-worthy commits that:
+- Fix incomplete driver implementations
+- Have minimal code changes
+- Fix bugs in specialized features
+- Prevent kernel warnings (WARN_ON)
+- Correct hardware configuration issues
+
+---
+
+## **FINAL RECOMMENDATION**
+
+**YES - This commit SHOULD be backported to stable kernel trees
+(v6.10+)**
+
+**Justification:**
+1. Fixes a **real, verifiable bug** with observable symptoms
+2. Extremely **low risk** - only affects broken functionality
+3. **Simple and contained** - 6 lines in a switch statement
+4. Provides **correct hardware configuration** per MIPI CSI-2
+   specification
+5. Eliminates **kernel warnings** (WARN_ON)
+6. Completes the metadata format support that was partially implemented
+7. No known side effects or regression risks
+
+The fix is so simple, correct, and low-risk that there is no compelling
+reason NOT to backport it. Even if metadata capture is a specialized
+feature with few current users, having broken functionality in the
+kernel is unacceptable when the fix is this straightforward.
+
+ drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
+index 0a06de5c739c7..463a0adf9e131 100644
+--- a/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
++++ b/drivers/media/pci/intel/ipu6/ipu6-isys-subdev.c
+@@ -81,6 +81,12 @@ unsigned int ipu6_isys_mbus_code_to_mipi(u32 code)
+ 	case MEDIA_BUS_FMT_SGRBG8_1X8:
+ 	case MEDIA_BUS_FMT_SRGGB8_1X8:
+ 		return MIPI_CSI2_DT_RAW8;
++	case MEDIA_BUS_FMT_META_8:
++	case MEDIA_BUS_FMT_META_10:
++	case MEDIA_BUS_FMT_META_12:
++	case MEDIA_BUS_FMT_META_16:
++	case MEDIA_BUS_FMT_META_24:
++		return MIPI_CSI2_DT_EMBEDDED_8B;
+ 	default:
+ 		/* return unavailable MIPI data type - 0x3f */
+ 		WARN_ON(1);
 -- 
 2.51.0
 
