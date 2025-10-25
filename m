@@ -1,57 +1,60 @@
-Return-Path: <linux-media+bounces-45547-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45548-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C6B1C093EA
-	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 18:15:46 +0200 (CEST)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id E2CB5C093F9
+	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 18:16:09 +0200 (CEST)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 7D894189E89B
-	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 16:13:06 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 291AF4210DA
+	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 16:13:24 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id CE963303A0E;
-	Sat, 25 Oct 2025 16:12:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EBA3D304980;
+	Sat, 25 Oct 2025 16:13:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="imxlmeIk"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HrFLzfm8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34E192FF168;
-	Sat, 25 Oct 2025 16:12:05 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4912E3043B4;
+	Sat, 25 Oct 2025 16:13:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761408725; cv=none; b=Ce77XRH9FBoSXHB0diqyv1YW9CrKeFHK/KoVPhmi2s9H1aDCuMzjwTkJ5bx2JngPDM4eF/LLdL3EIi7IOgrPWZBGs/a2lyq1Q3eXhC94iSs25/3Uu3Wi7PjAdKuVu5iMDyou2ySyewP4I3iCGxkMVtOYo7YPHGQCR5cq/w1iEiI=
+	t=1761408785; cv=none; b=jJnUVXlgr5SRqEQfOvNxAirYoFwtoZES1j6QFEb7yN8CnYxq6GSLt99tDlKgPZDgx6/l3hHtrqS6vqB8OSc+tufELUf0FJahNcv12J5ktAdQxyjaItIG013pt9IGYjJGkG0hBEfa37PljRh9GAXkUAyz+/9d0H/0+kFv/TGFa+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761408725; c=relaxed/simple;
-	bh=JlEQJWHGmaGrcwOo1WVQA5/NAEd98onIIlKymUC1R80=;
+	s=arc-20240116; t=1761408785; c=relaxed/simple;
+	bh=5SzTLdKlW/im13PYmd9glXPYlnj0ulJWHw2nvQB0mLk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Zeb8muLjuYrLMET1Fr8ZTQBH2deDa1TrcU/VoRxhmMPiUJ6hhMS17JgYF7U5TcimM0+z4udSnlRnY3AAoCooGtGK+DOBl6W4SJvU58+1W/zIHO0cP8cnumujmxlL4IgNL9x7BoX2GtQ/FJuzl1GMuUZYMOfse2O76OFaJQGh9y4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=imxlmeIk; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 473B2C4CEF5;
-	Sat, 25 Oct 2025 16:12:04 +0000 (UTC)
+	 MIME-Version:Content-Type; b=EPbr7bV/QW3HLd694sSwutLeKhZaxL6L0x6C2AcwLntJrG9aXah5xH2zvsaCGavTcEqCYTYiv/s7OUL7DMB7+aQx4/tgWdUGdqkOEY85shz0PG8Hpbed25twxBNi5YbDS32Ft7F3kf1gfCdz9QYOL7D6CDPWQxLJvIZVUyeAQmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HrFLzfm8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id F2161C4CEFF;
+	Sat, 25 Oct 2025 16:13:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761408725;
-	bh=JlEQJWHGmaGrcwOo1WVQA5/NAEd98onIIlKymUC1R80=;
+	s=k20201202; t=1761408785;
+	bh=5SzTLdKlW/im13PYmd9glXPYlnj0ulJWHw2nvQB0mLk=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=imxlmeIkL2s8eZIc2of2iJxRZtThpuU012lCeR4v1ZDGibA3NwTTgcf/1g2RkRCyX
-	 ioGYdXF5rQm78feD4YhUqL4IqzM0qq7Owh98G784eU3mCf/oi9ljvRxpN971UbCAgm
-	 JF5LLNaPbuIYrRLpfbP6LoszuhO4sm54fqpClbexNtxUPZKDPV2T4J+pSu72kb1zr4
-	 D9hCbZoDsu0q8bPDQer9HO301nWDBVKpxoF4RViHO0MwZ20qrp+6hEcO3HHik7MA+v
-	 hWOGn+cjcGLoEx1JYJfyfBbFeFUmiqrTNYRCDxD+6JZyP5YBbXXEZZCioJdse6NN0/
-	 MphLrqZyn0ItA==
+	b=HrFLzfm8pVzue40gEq8fagiPGa/tXRtMlmWFRCKzmO1LXcIh05KgAVKuRDqTXKx9u
+	 Eq5x++fuWPRM33oW2Iu5ZYgaFNKSLqu9RW6SsIcVRCXWPGag0XKpJIvt+orN7drSGL
+	 WTu/cuTls00+dPluhuV0QUQ9TUmTM5krCodO+3GrdUCPfNWsByzBz3SO/26VuRA/6U
+	 XBIoNx0aJbj5vNiUpto+tErSWn8xgCNZliXsy99E2b7omRvTqKG6LAXBn7mw/wIytX
+	 ykDZ9EB3EIrngvE4B0W4168Ue9kMIDKMqAkcmaflbDO41WHoNXJZ1msJrMQ8K3BZ+N
+	 eNyDix14Sngag==
 From: Sasha Levin <sashal@kernel.org>
 To: patches@lists.linux.dev,
 	stable@vger.kernel.org
-Cc: =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund+renesas@ragnatech.se>,
+Cc: Hao Yao <hao.yao@intel.com>,
+	Hans de Goede <hansg@kernel.org>,
+	Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Hans Verkuil <hverkuil+cisco@kernel.org>,
 	Sasha Levin <sashal@kernel.org>,
-	lars@metafoo.de,
+	jason.z.chen@intel.com,
 	linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.17-5.15] media: adv7180: Only validate format in querystd
-Date: Sat, 25 Oct 2025 11:54:46 -0400
-Message-ID: <20251025160905.3857885-55-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.17-6.6] media: ov08x40: Fix the horizontal flip control
+Date: Sat, 25 Oct 2025 11:54:59 -0400
+Message-ID: <20251025160905.3857885-68-sashal@kernel.org>
 X-Mailer: git-send-email 2.51.0
 In-Reply-To: <20251025160905.3857885-1-sashal@kernel.org>
 References: <20251025160905.3857885-1-sashal@kernel.org>
@@ -61,27 +64,24 @@ List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-stable: review
 X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.17.5
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-From: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+From: Hao Yao <hao.yao@intel.com>
 
-[ Upstream commit 91c5d7c849273d14bc4bae1b92666bdb5409294a ]
+[ Upstream commit c7df6f339af94689fdc433887f9fbb480bf8a4ed ]
 
-The .querystd callback should not program the device with the detected
-standard, it should only report the standard to user-space. User-space
-may then use .s_std to set the standard, if it wants to use it.
+The datasheet of ov08x40 doesn't match the hardware behavior.
+0x3821[2] == 1 is the original state and 0 the horizontal flip enabled.
 
-All that is required of .querystd is to setup the auto detection of
-standards and report its findings.
-
-While at it add some documentation on why this can't happen while
-streaming and improve the error handling using a scoped guard.
-
-Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+Signed-off-by: Hao Yao <hao.yao@intel.com>
+Reviewed-by: Hans de Goede <hansg@kernel.org>
+Tested-by: Hans de Goede <hansg@kernel.org> # ThinkPad X1 Carbon Gen 12 & Gen 13
+Reviewed-by: Stanislaw Gruszka <stanislaw.gruszka@linux.intel.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
@@ -90,128 +90,63 @@ LLM Generated explanations, may be completely bogus:
 
 YES
 
-- What it fixes
-  - Removes unintended device reprogramming in `.querystd`: Previously,
-    after enabling autodetection and sampling, the code reprogrammed the
-    decoder using the configured `curr_norm` instead of leaving hardware
-    untouched. If userspace had never called `.s_std`, `curr_norm`
-    defaults to NTSC (drivers/media/i2c/adv7180.c:1463), so a simple
-    `.querystd` could force NTSC regardless of the detected standard.
-    The new code stops doing that and only reports the detected
-    standard.
-  - Aligns with V4L2 semantics: `.querystd` should detect and report,
-    not change the active standard. Userspace can call `.s_std` to set
-    it.
+- What it fixes: The horizontal flip (HFLIP) control polarity was wrong
+  for the OV08X40 sensor. Hardware enables H-mirror when bit 2 of
+  register 0x3821 is cleared, but the driver treated setting the bit as
+  “flip on”. The fix inverts this polarity so V4L2_CID_HFLIP now matches
+  actual hardware behavior.
+- Precise change: In `ov08x40_set_ctrl_hflip()`, the write toggling
+  `OV08X40_REG_MIRROR` bit 2 is flipped:
+  - Before: `ctrl_val ? val | BIT(2) : val & ~BIT(2)`
+  - After: `ctrl_val ? val & ~BIT(2) : val | BIT(2)`
+  - Location: drivers/media/i2c/ov08x40.c:1651
+- Scope and containment:
+  - Only one line in a single driver file is changed:
+    `drivers/media/i2c/ov08x40.c`.
+  - The function reads the current register value first and only changes
+    bit 2, preserving other bits (drivers/media/i2c/ov08x40.c:1646,
+    1651).
+  - Vertical flip handling remains unchanged and continues to set bit 2
+    of 0x3820 when enabled (drivers/media/i2c/ov08x40.c:1666), showing
+    the change is isolated to HFLIP.
+  - The HFLIP control is wired through the standard control path
+    (`ov08x40_set_ctrl()` case V4L2_CID_HFLIP →
+    `ov08x40_set_ctrl_hflip()`, drivers/media/i2c/ov08x40.c:1735) and
+    HFLIP is created as a standard V4L2 control
+    (drivers/media/i2c/ov08x40.c:2153).
+- User impact: Without this fix, user-space sees inverted behavior for
+  HFLIP (enabling the control does not produce the expected mirror),
+  which is a clear functional bug affecting image orientation and any
+  applications relying on correct orientation metadata/control.
+- Risk assessment:
+  - Minimal risk: a single-bit polarity correction in a register write,
+    no ABI/API change, no architectural changes, and constrained to the
+    ov08x40 driver.
+  - Safe behavior: other bits are preserved; change is applied only when
+    the device is powered/streaming via existing PM checks.
+  - Real-world validation: Reviewed and Tested-by are present, including
+    testing on ThinkPad X1 Carbon Gen 12/13, which reduces regression
+    risk.
 
-- Key code changes
-  - adv7180_querystd only sets autodetect, waits, and reports the
-    detected standard:
-    - Sets autodetect: drivers/media/i2c/adv7180.c:388
-    - Returns detection result directly: drivers/media/i2c/adv7180.c:388
-    - Adds clear rationale comment about not running during streaming
-      since it touches VID_SEL: drivers/media/i2c/adv7180.c:388
-  - Removes the reprogramming step via
-    `v4l2_std_to_adv7180(state->curr_norm)` and the second
-    `adv7180_set_video_standard(...)` (these were in the old body and
-    are now gone), eliminating side effects of `.querystd`.
-  - Improves error handling and robustness by using a scoped guard for
-    the mutex (auto-unlock on all paths) and by returning the result of
-    `__adv7180_status()` instead of ignoring it
-    (drivers/media/i2c/adv7180.c:388).
+This is a small, targeted, and user-visible bugfix that aligns with
+stable backporting rules and should be backported.
 
-- Why it’s safe and minimal
-  - Localized change: confined to `adv7180_querystd` only
-    (drivers/media/i2c/adv7180.c:388).
-  - No ABI or architectural changes; just corrects behavior to be read-
-    only.
-  - Streaming safety preserved: returns `-EBUSY` while streaming to
-    avoid touching VID_SEL mid-capture
-    (drivers/media/i2c/adv7180.c:388).
-  - Consistent control flow: `.s_std` now only validates and stores the
-    intended standard in `curr_norm` (drivers/media/i2c/adv7180.c:463),
-    and actual programming is done at stream start via
-    `adv7180_program_std()` (drivers/media/i2c/adv7180.c:449) called by
-    initialization/streaming code paths. Leaving the device in
-    autodetect after `.querystd` does not affect users because streaming
-    is off (enforced by `-EBUSY`) and streaming will reprogram from
-    `curr_norm` anyway.
+ drivers/media/i2c/ov08x40.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-- User-visible impact addressed
-  - Prevents `.querystd` from changing hardware state (e.g., enforcing
-    NTSC because `curr_norm` defaults to NTSC at probe:
-    drivers/media/i2c/adv7180.c:1463), which could break subsequent
-    expectations if userspace hasn’t explicitly called `.s_std`.
-
-- Backport considerations
-  - The `guard(mutex)` scoped guard may not exist in older stable
-    series. That’s trivial to adapt to explicit
-    `mutex_lock_interruptible()`/`mutex_unlock()` with identical
-    behavior. No other dependencies or refactors are required.
-
-- Subsystem and risk profile
-  - Touches a single V4L2 i2c decoder driver; small, self-contained
-    change with clear behavioral bugfix and minimal regression risk.
-  - Follows stable rules: bugfix, no new features, no architectural
-    churn, and limited scope.
-
-Given these points, this is a good candidate for stable backporting.
-
- drivers/media/i2c/adv7180.c | 37 ++++++++++++++++---------------------
- 1 file changed, 16 insertions(+), 21 deletions(-)
-
-diff --git a/drivers/media/i2c/adv7180.c b/drivers/media/i2c/adv7180.c
-index 8100fe6b0f1d4..5accf3020e076 100644
---- a/drivers/media/i2c/adv7180.c
-+++ b/drivers/media/i2c/adv7180.c
-@@ -357,32 +357,27 @@ static inline struct adv7180_state *to_state(struct v4l2_subdev *sd)
- static int adv7180_querystd(struct v4l2_subdev *sd, v4l2_std_id *std)
- {
- 	struct adv7180_state *state = to_state(sd);
--	int err = mutex_lock_interruptible(&state->mutex);
--	if (err)
--		return err;
--
--	if (state->streaming) {
--		err = -EBUSY;
--		goto unlock;
--	}
-+	int ret;
+diff --git a/drivers/media/i2c/ov08x40.c b/drivers/media/i2c/ov08x40.c
+index e0094305ca2ab..90887fc54fb0e 100644
+--- a/drivers/media/i2c/ov08x40.c
++++ b/drivers/media/i2c/ov08x40.c
+@@ -1648,7 +1648,7 @@ static int ov08x40_set_ctrl_hflip(struct ov08x40 *ov08x, u32 ctrl_val)
  
--	err = adv7180_set_video_standard(state,
--			ADV7180_STD_AD_PAL_BG_NTSC_J_SECAM);
--	if (err)
--		goto unlock;
-+	guard(mutex)(&state->mutex);
- 
--	msleep(100);
--	__adv7180_status(state, NULL, std);
-+	/*
-+	 * We can't sample the standard if the device is streaming as that would
-+	 * interfere with the capture session as the VID_SEL reg is touched.
-+	 */
-+	if (state->streaming)
-+		return -EBUSY;
- 
--	err = v4l2_std_to_adv7180(state->curr_norm);
--	if (err < 0)
--		goto unlock;
-+	/* Set the standard to autodetect PAL B/G/H/I/D, NTSC J or SECAM */
-+	ret = adv7180_set_video_standard(state,
-+					 ADV7180_STD_AD_PAL_BG_NTSC_J_SECAM);
-+	if (ret)
-+		return ret;
- 
--	err = adv7180_set_video_standard(state, err);
-+	/* Allow some time for the autodetection to run. */
-+	msleep(100);
- 
--unlock:
--	mutex_unlock(&state->mutex);
--	return err;
-+	return __adv7180_status(state, NULL, std);
+ 	return ov08x40_write_reg(ov08x, OV08X40_REG_MIRROR,
+ 				 OV08X40_REG_VALUE_08BIT,
+-				 ctrl_val ? val | BIT(2) : val & ~BIT(2));
++				 ctrl_val ? val & ~BIT(2) : val | BIT(2));
  }
  
- static int adv7180_s_routing(struct v4l2_subdev *sd, u32 input,
+ static int ov08x40_set_ctrl_vflip(struct ov08x40 *ov08x, u32 ctrl_val)
 -- 
 2.51.0
 
