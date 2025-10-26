@@ -1,99 +1,131 @@
-Return-Path: <linux-media+bounces-45575-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45576-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D9A9C0AFE6
-	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 19:13:00 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BE7BC0B096
+	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 19:50:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 680A73A7EEE
-	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 18:12:58 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 92545344825
+	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 18:50:01 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 48D5B2E8DFE;
-	Sun, 26 Oct 2025 18:12:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E35A82FD1D4;
+	Sun, 26 Oct 2025 18:49:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nhFqgK9e"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KAEKu/pz"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01DA26290
-	for <linux-media@vger.kernel.org>; Sun, 26 Oct 2025 18:12:52 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B39F3248F69;
+	Sun, 26 Oct 2025 18:49:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761502374; cv=none; b=CaRaISXhUHZta/EaI9qM5CX6Ud4yXqMtWY79ViEWw0JIxlZ/eAxjj0bmy3OKHRxegOpkHqtPUlzfbilxLPaiXYQ7COZya0hHtetKgkdCRphfgXD0icBnI5oqNG0LS7uX3pvJKiEjDPCBFTzkz2zfvAjS73hGxuXeQAYXTxZlpxQ=
+	t=1761504593; cv=none; b=hYT5YRWOBqONQunFd0TNh+Ag+BOwQJ3uMgvEd0yqc3QdJJiRgUAs1UMcXQT2wWwNsPzXPLOBmoLPL8KZV6LWXvWU7Ebytr52lnyhOfWZsZjLAqm1z6pFPAsuTmGjJQM2KHxFgYYvde0RcLHih+sfPGOw5hf7Ak8RjBmSm4dNZls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761502374; c=relaxed/simple;
-	bh=abwDLIXYuQaIlCNwYScYD5MWUz+NkpBpLnE2OhMS/qU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=c2pbPMfRvQSViRD72GaznJ0tmpX8qk4HmzvMZkRZ0sn8m0rq5Veic5J85sU8aCI4eIQe0rJEgL25V5accoOcYxZoNZVaonep8qSQ4eP76UOnDRCBh+mj0FPCmcbykLQitzMaeiZ92eHIZK+F3x3ncyaL+Dk2Flp3bFj7SQ9SGKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nhFqgK9e; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1761504593; c=relaxed/simple;
+	bh=SBAlHQr01XhpEUC4KPUxRR+yFK/fqz9GLMF8BAiidW0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ix7WyKRr1hEWtIbdEGO7pMhBMfHYbhEsg8O0W7lczPjlTt0qv06vzeibqRaFrMsim3O/v+7/bP22tY5eFI2LD54ThaZNHYI1qOgyP1YT4paHGZ/OD8QGZuHGALUzgdVwgXVNVt+FpDjjRm+7m7hTLM4j+jPq6xekrFCelE7Xtl0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KAEKu/pz; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (82-203-161-16.bb.dnainternet.fi [82.203.161.16])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 050851E39;
-	Sun, 26 Oct 2025 19:11:03 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9F9C51BA0;
+	Sun, 26 Oct 2025 19:48:00 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761502264;
-	bh=abwDLIXYuQaIlCNwYScYD5MWUz+NkpBpLnE2OhMS/qU=;
-	h=From:To:Cc:Subject:Date:From;
-	b=nhFqgK9e7Wp56w63sRjXLzBn0yiAwyVUQkwCjQTtpIkKjzeIgNIF4m9uqNN3I09yT
-	 SDrx3i/tKmy3np/yIZmh/KszXTM9DbWW1mTsLFoI+Tt3rV4olMnZ0pcOrAZVB+Qqip
-	 kA4FwukN3Ll5dU64FssAl6onCHtg11yEkDjo3t6A=
+	s=mail; t=1761504480;
+	bh=SBAlHQr01XhpEUC4KPUxRR+yFK/fqz9GLMF8BAiidW0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=KAEKu/pzrR2WdA3jwWhEjVL5n1ck+bdI13daW2T+hf2IXSz4lp7mK6bjk87D95lTY
+	 ojJ51hPyK2y5agMIOYGPVh3hZZYDdsKJZXbwSbvFUSECqEWIJpbHKYKhM8SQHlzmEP
+	 mTa3Ie507Yen15YtA1S2ELcEXk7ASSQn0EhXFrZM=
+Date: Sun, 26 Oct 2025 20:49:33 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>,
-	Bingbu Cao <bingbu.cao@intel.com>
-Subject: [PATCH] media: staging: ipu7: isys: Drop video_open() function
-Date: Sun, 26 Oct 2025 20:12:37 +0200
-Message-ID: <20251026181237.13565-1-laurent.pinchart@ideasonboard.com>
-X-Mailer: git-send-email 2.51.0
+To: Frank Li <Frank.Li@nxp.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	"open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" <linux-media@vger.kernel.org>,
+	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
+Subject: Re: [PATCH v2 1/1] media: dt-bindings: video-interfaces: add
+ video-interfaces.h information
+Message-ID: <20251026184933.GB1025@pendragon.ideasonboard.com>
+References: <20251021154922.2874390-1-Frank.Li@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251021154922.2874390-1-Frank.Li@nxp.com>
 
-The video_open() function is just a wrapper around v4l2_fh_open().
-Replace it by the latter in the v4l2_file_operations.
+Hi Frank,
 
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
----
- drivers/staging/media/ipu7/ipu7-isys-video.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
+Thank you for the patch.
 
-diff --git a/drivers/staging/media/ipu7/ipu7-isys-video.c b/drivers/staging/media/ipu7/ipu7-isys-video.c
-index 1a7c8a91fffb..8c6730833f24 100644
---- a/drivers/staging/media/ipu7/ipu7-isys-video.c
-+++ b/drivers/staging/media/ipu7/ipu7-isys-video.c
-@@ -88,11 +88,6 @@ const struct ipu7_isys_pixelformat ipu7_isys_pfmts[] = {
- 	 IPU_INSYS_FRAME_FORMAT_RGBA888},
- };
- 
--static int video_open(struct file *file)
--{
--	return v4l2_fh_open(file);
--}
--
- const struct ipu7_isys_pixelformat *ipu7_isys_get_isys_format(u32 pixelformat)
- {
- 	unsigned int i;
-@@ -867,7 +862,7 @@ static const struct v4l2_file_operations isys_fops = {
- 	.poll = vb2_fop_poll,
- 	.unlocked_ioctl = video_ioctl2,
- 	.mmap = vb2_fop_mmap,
--	.open = video_open,
-+	.open = v4l2_fh_open,
- 	.release = vb2_fop_release,
- };
- 
+On Tue, Oct 21, 2025 at 11:49:22AM -0400, Frank Li wrote:
+> Mention include/dt-bindings/media/video-interfaces.h in descriptions to
+> help avoid use hardcode in dts.
+> 
+> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> ---
+> changes in v2
+> - update commit message "mention ..."
+> - use full path include/dt-bindings/media/video-interfaces.h
+> ---
+>  Documentation/devicetree/bindings/media/video-interfaces.yaml | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> index 038e85b45befa..6ed4695cacf7e 100644
+> --- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
+> @@ -95,7 +95,7 @@ properties:
+>        - 6 # BT.656
+>        - 7 # DPI
 
-base-commit: ea299a2164262ff787c9d33f46049acccd120672
+I wondered if we should reference the macros here as well:
+
+    enum:
+      - 1 # MEDIA_BUS_TYPE_CSI2_CPHY
+      - 2 # MEDIA_BUS_TYPE_CSI1
+      - 3 # MEDIA_BUS_TYPE_CCP2
+      - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
+      - 5 # MEDIA_BUS_TYPE_PARALLEL
+      - 6 # MEDIA_BUS_TYPE_BT656
+      - 7 # DPI
+
+(Annoyingly we don't have a macro for DPI.)
+
+This can be done separately if desired, so
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>      description:
+> -      Data bus type.
+> +      Data bus type. See include/dt-bindings/media/video-interfaces.h.
+>  
+>    bus-width:
+>      $ref: /schemas/types.yaml#/definitions/uint32
+> @@ -229,7 +229,7 @@ properties:
+>        Imaging. The length of the array must be the same length as the
+>        data-lanes property. If the line-orders property is omitted, the value
+>        shall be interpreted as 0 (ABC). This property is valid for CSI-2 C-PHY
+> -      busses only.
+> +      busses only. See include/dt-bindings/media/video-interfaces.h.
+>  
+>    strobe:
+>      $ref: /schemas/types.yaml#/definitions/uint32
+
 -- 
 Regards,
 
 Laurent Pinchart
-
 
