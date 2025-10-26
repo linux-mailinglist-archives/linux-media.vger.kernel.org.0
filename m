@@ -1,131 +1,100 @@
-Return-Path: <linux-media+bounces-45576-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45577-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3BE7BC0B096
-	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 19:50:02 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id D22B7C0B0BE
+	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 20:06:11 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 92545344825
-	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 18:50:01 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 89B0E3B5B06
+	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 19:06:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E35A82FD1D4;
-	Sun, 26 Oct 2025 18:49:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A743F24A079;
+	Sun, 26 Oct 2025 19:06:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="KAEKu/pz"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="vygLbYo9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B39F3248F69;
-	Sun, 26 Oct 2025 18:49:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6115326CE11
+	for <linux-media@vger.kernel.org>; Sun, 26 Oct 2025 19:06:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761504593; cv=none; b=hYT5YRWOBqONQunFd0TNh+Ag+BOwQJ3uMgvEd0yqc3QdJJiRgUAs1UMcXQT2wWwNsPzXPLOBmoLPL8KZV6LWXvWU7Ebytr52lnyhOfWZsZjLAqm1z6pFPAsuTmGjJQM2KHxFgYYvde0RcLHih+sfPGOw5hf7Ak8RjBmSm4dNZls=
+	t=1761505564; cv=none; b=jIdVh6S4JWDPaR8BSWNiSz6D8I12Tk5eqKLlTDA4R9hncqWz0OvJcJ9psLVCQ2/PiEEcbG0vnZobutInzmyiPxmLWnWNLTMmO+z/GG7pd5hjOQVb5K8uExrQ8WW7j9RUqcQvVU9Jls40XiU3hDGJx/i+HoBEVoEckS9W7H9di5g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761504593; c=relaxed/simple;
-	bh=SBAlHQr01XhpEUC4KPUxRR+yFK/fqz9GLMF8BAiidW0=;
+	s=arc-20240116; t=1761505564; c=relaxed/simple;
+	bh=th1ZtWlZtq2jND3L9Um4As08DGJhTXtwGc5UK83poPo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ix7WyKRr1hEWtIbdEGO7pMhBMfHYbhEsg8O0W7lczPjlTt0qv06vzeibqRaFrMsim3O/v+7/bP22tY5eFI2LD54ThaZNHYI1qOgyP1YT4paHGZ/OD8QGZuHGALUzgdVwgXVNVt+FpDjjRm+7m7hTLM4j+jPq6xekrFCelE7Xtl0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=KAEKu/pz; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (82-203-161-16.bb.dnainternet.fi [82.203.161.16])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9F9C51BA0;
-	Sun, 26 Oct 2025 19:48:00 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761504480;
-	bh=SBAlHQr01XhpEUC4KPUxRR+yFK/fqz9GLMF8BAiidW0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=KAEKu/pzrR2WdA3jwWhEjVL5n1ck+bdI13daW2T+hf2IXSz4lp7mK6bjk87D95lTY
-	 ojJ51hPyK2y5agMIOYGPVh3hZZYDdsKJZXbwSbvFUSECqEWIJpbHKYKhM8SQHlzmEP
-	 mTa3Ie507Yen15YtA1S2ELcEXk7ASSQn0EhXFrZM=
-Date: Sun, 26 Oct 2025 20:49:33 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Sakari Ailus <sakari.ailus@linux.intel.com>,
-	"open list:MEDIA INPUT INFRASTRUCTURE (V4L/DVB)" <linux-media@vger.kernel.org>,
-	"open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" <devicetree@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>, imx@lists.linux.dev
-Subject: Re: [PATCH v2 1/1] media: dt-bindings: video-interfaces: add
- video-interfaces.h information
-Message-ID: <20251026184933.GB1025@pendragon.ideasonboard.com>
-References: <20251021154922.2874390-1-Frank.Li@nxp.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=WfTpiHUG+v2g+dnd/TGMq4yl1v5w+E+amimXpt8y6Q1HABeeh0sA+jHlEJtAGFEl36+lCQh+RIZ7o1E8kHYximyWHO0luluqoiGDLtqbgamK0hWfkyInpgH1pKlgUmfhSXtAK9yMpxJBrR/Dzj9vZbZ6WNEx0OjZUT8xuAdg0JU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=vygLbYo9; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-42966ce6dbdso2848807f8f.0
+        for <linux-media@vger.kernel.org>; Sun, 26 Oct 2025 12:06:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761505560; x=1762110360; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=JxAGfxDoeTCVa/M6rSIz3dTSkpIo2EUGND46i603cvA=;
+        b=vygLbYo9RuTtsydonAk3pa6QyocI/vTsRURycwkfqGi4nXKoE2m2lv7zwuzAEpr/G+
+         7Ppr+SCWUfXh/bzCMZngMvkBald0p9Yde6u01S9PiwcHGXgUBN6sFHAi9kNfn1DSBzdH
+         h655HWHq/gYTGeqMpJwi3oesqZIIlzCd//OhLXkZd+ChGEsEhtBlDj2HzWbibWDtCthe
+         sILA2hAdqoi+xBLFm7R1ZzSmZV/ULVRi1A+E6+6vauXjWjOCfJP1a0eXwCrtPJxaumwr
+         rWVmis4bDz9sUa6Tp5whhgTOLAITvfRrP3WBpqR3N8/aghMvnWWjhnTYISuz1QXENisP
+         hwRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761505560; x=1762110360;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=JxAGfxDoeTCVa/M6rSIz3dTSkpIo2EUGND46i603cvA=;
+        b=Vri0pQDTZKu4TmoPghnOYypQ9Nfc+a91069QTsvLFMOfo2yJnv2Vb0PMbeTELwNeAk
+         qMQDsWmyhSeHPhTee92lrPBTcG0HSkglDQJWflHXlPshordoSbzCG/qHa+h4i+rdXOFn
+         Wd6cNumjiboh+jszOuqhqxwtzU5aVHcyQV+BKHfcqsG3N5pQXo3jtfiIEqgGRGSeZaQF
+         3iqlKrfKd6nQ5YajId1OpyqQvN363HdsT0vjYXYfwrkO+sbIc79VzyoeDHBA2+RJv9gV
+         dNHxyPl+zd5U4/Mnb76y/mMeJgxJqJAbQpNUoFRafNqqQrSJBeJRc3JbymaFimK4k2EM
+         wRhg==
+X-Gm-Message-State: AOJu0Yw4F0dHFXAc5t/ci5P/1bE2sRdX9hlDc8xXFAgIYh17MuYgRbQC
+	vPI6ADIQr433YEO7P/E2X4NS5gM3OWFeYfGem21v/EsbcnwEecoXxjigcBTi00aq8no=
+X-Gm-Gg: ASbGnctXYzSjwKLv8lw4RlOf6eE1IoSEI7B42BTcBB+jQI2yPLBZG4BPPJctIAeh/Gh
+	lWRwIBZtLuuSuz3sz2+oa7uggGnd4nAb+ZDgkhf8bknnkmn75Lu3gRnCyocsmZMkAqY/QIbxGbT
+	WBk7jKzrrM41RgXzvgOQkTJqwTRMJ+p9sFg1V1csodUJsjfQMWU0AbIOqxq03V382q31/ahjDeB
+	aOnlggWDETjOUQVLKd/pPsOTyXiDjnyVLis8FI0ywI2AIQDR6aaiA5Davn0Fh5GtQcHw5OaHc/K
+	7MEE7Mgu/nw8zENURVnL30P5iOOAX/hSPSAl4yb5nvjFH6XPidwIJMKDLDx6PAnMiw3TaPEtYII
+	AI3egKPm5A0lYliKNFdq5y4eiuXRcMqfVgPvYDdQULAzoXUfKuXUpYzqnRd3AiSLguD+q8Wup/t
+	9KjzYKiLY=
+X-Google-Smtp-Source: AGHT+IE8SiE2nOPWBT1SDIBvc0CB5GW5Usu9sWArZFnGhC0jdaaIBNtRWS4NERHC5dfjGaaI02Jlfg==
+X-Received: by 2002:a05:6000:18ab:b0:429:8d0a:8108 with SMTP id ffacd0b85a97d-4298d0a8213mr9705765f8f.24.1761505560384;
+        Sun, 26 Oct 2025 12:06:00 -0700 (PDT)
+Received: from linaro.org ([86.121.7.169])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952df473sm9985453f8f.42.2025.10.26.12.05.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 26 Oct 2025 12:05:59 -0700 (PDT)
+Date: Sun, 26 Oct 2025 21:05:58 +0200
+From: Abel Vesa <abel.vesa@linaro.org>
+To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	Vikash Garodia <vikash.garodia@oss.qualcomm.com>, Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>, 
+	Abhinav Kumar <abhinav.kumar@linux.dev>, Bryan O'Donoghue <bod@kernel.org>
+Subject: Re: [PATCH] media: qcom: iris: Constify iris_v4l2_file_ops
+Message-ID: <q3gfnoogax4hzzamk3hn5mc562ub44thzy4rfytbehzfjbguxv@wlwnclakophi>
+References: <20251026181138.13387-1-laurent.pinchart@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251021154922.2874390-1-Frank.Li@nxp.com>
+In-Reply-To: <20251026181138.13387-1-laurent.pinchart@ideasonboard.com>
 
-Hi Frank,
-
-Thank you for the patch.
-
-On Tue, Oct 21, 2025 at 11:49:22AM -0400, Frank Li wrote:
-> Mention include/dt-bindings/media/video-interfaces.h in descriptions to
-> help avoid use hardcode in dts.
+On 25-10-26 20:11:38, Laurent Pinchart wrote:
+> The iris_v4l2_file_ops structure is never modified. Make it const.
 > 
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> ---
-> changes in v2
-> - update commit message "mention ..."
-> - use full path include/dt-bindings/media/video-interfaces.h
-> ---
->  Documentation/devicetree/bindings/media/video-interfaces.yaml | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/video-interfaces.yaml b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> index 038e85b45befa..6ed4695cacf7e 100644
-> --- a/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> +++ b/Documentation/devicetree/bindings/media/video-interfaces.yaml
-> @@ -95,7 +95,7 @@ properties:
->        - 6 # BT.656
->        - 7 # DPI
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-I wondered if we should reference the macros here as well:
-
-    enum:
-      - 1 # MEDIA_BUS_TYPE_CSI2_CPHY
-      - 2 # MEDIA_BUS_TYPE_CSI1
-      - 3 # MEDIA_BUS_TYPE_CCP2
-      - 4 # MEDIA_BUS_TYPE_CSI2_DPHY
-      - 5 # MEDIA_BUS_TYPE_PARALLEL
-      - 6 # MEDIA_BUS_TYPE_BT656
-      - 7 # DPI
-
-(Annoyingly we don't have a macro for DPI.)
-
-This can be done separately if desired, so
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
->      description:
-> -      Data bus type.
-> +      Data bus type. See include/dt-bindings/media/video-interfaces.h.
->  
->    bus-width:
->      $ref: /schemas/types.yaml#/definitions/uint32
-> @@ -229,7 +229,7 @@ properties:
->        Imaging. The length of the array must be the same length as the
->        data-lanes property. If the line-orders property is omitted, the value
->        shall be interpreted as 0 (ABC). This property is valid for CSI-2 C-PHY
-> -      busses only.
-> +      busses only. See include/dt-bindings/media/video-interfaces.h.
->  
->    strobe:
->      $ref: /schemas/types.yaml#/definitions/uint32
-
--- 
-Regards,
-
-Laurent Pinchart
+Reviewed-by: Abel Vesa <abel.vesa@linaro.org>
 
