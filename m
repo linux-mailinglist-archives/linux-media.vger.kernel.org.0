@@ -1,126 +1,90 @@
-Return-Path: <linux-media+bounces-45588-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45589-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id BCC69C0B5E4
-	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 23:28:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E867C0B6D7
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 00:11:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 33D62189AF60
-	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 22:29:17 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E13193B7E9C
+	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 23:11:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F239D2FDC3F;
-	Sun, 26 Oct 2025 22:28:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 864213002CE;
+	Sun, 26 Oct 2025 23:11:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="razqeGsB"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o9/FvevJ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F8F1F4CAE;
-	Sun, 26 Oct 2025 22:28:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6A52FFF98
+	for <linux-media@vger.kernel.org>; Sun, 26 Oct 2025 23:11:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761517726; cv=none; b=iTVy+trKzmx32QFpJROOf+FTlyByB5MJ5nLYP/wXhANDu9vBqiwcK/O8NB+6b7TXA2Yla++TKvXIfszg1ILVg5KMAtSlII5rqLmUXfQ+j98bBLcUGay9TbAvwjPJ4f/SNR/5gz9Tv5XbLYUvEXJ3bZb8skz1R8B/ltsiJy36SSQ=
+	t=1761520290; cv=none; b=MEqdycmUkJri8OYZhQAGfHRsLyAFOWCH7bDI3dprpDPg2m2frVuKnOBfiF7/7hqQi5YwqcNCPK2tNakZ+gLGXDZfedQnHsX3g+CYoIZN6VGWLhq24jOjALMRRE7+4sqxFVEghd117OFJl8tvGimez9Dmk1aKUDU9W8iIOnln8Dg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761517726; c=relaxed/simple;
-	bh=VKQFo2wPNIL18CuB3qiB0jANg2tkXXNSpvhyiVgRsMc=;
+	s=arc-20240116; t=1761520290; c=relaxed/simple;
+	bh=PQiu9cLeLdsiFpP6SIwyX5ZuYcqXvNTx0kq0NeQta1Y=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YzC0ZZwAg4kOL3eLSj0+s8QBycapg1Q77Al0c+Wu0QVFAj1gNxVvbAYv+slIagB9GtbzxIMgPVFeahWYepU3aJQLSFRVDz4pRX4sQBixKXJPcqlNgAVr4UlCeB6xTmvZMVoS7nbvbX0XNVSUer2pDztnffT2EIW8ZAmSq8edUW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=razqeGsB; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (82-203-161-16.bb.dnainternet.fi [82.203.161.16])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C0CFF1F0E;
-	Sun, 26 Oct 2025 23:26:53 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761517614;
-	bh=VKQFo2wPNIL18CuB3qiB0jANg2tkXXNSpvhyiVgRsMc=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=DbFGTm7bN+culylZBjf4IINEwfRV6BrNVmTaC+fh2mCKUFcCW+IqAIIMGcKh2hfBRqKG9uMWrwPjr8dfJopZkNIH6/Q5/jArkE75OZb9KrvKHk4+oHE5d5PRnXgh+mQDm29dQVq3ZVWBI21Jl0jp78EoyBOppvEwsbG6z1KjGqI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o9/FvevJ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EF58C4CEE7;
+	Sun, 26 Oct 2025 23:11:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761520289;
+	bh=PQiu9cLeLdsiFpP6SIwyX5ZuYcqXvNTx0kq0NeQta1Y=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=razqeGsBxSglcceb1F4Gdb98xf7ZRp6vHkqCOab9W65FnNoegiSim+m2Fk8fj/49C
-	 MrM6YyoR7BoGpLT0pWLToks4e4XLehxL1gMaMbf2ifuo7vwxdXtfqEk5x0cK7Xt1FF
-	 Th5s1naHJYqOzkVLYsfVdGGHKcErOyyYxSKhqZ8U=
-Date: Mon, 27 Oct 2025 00:28:26 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Guoniu Zhou <guoniu.zhou@nxp.com>, Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v5 2/4] media: imx8mq-mipi-csi2: Add output filed in
- csi2_pix_format
-Message-ID: <20251026222826.GJ13023@pendragon.ideasonboard.com>
-References: <20250820-csi2_imx8mq-v5-0-e04a6fc593bd@nxp.com>
- <20250820-csi2_imx8mq-v5-2-e04a6fc593bd@nxp.com>
- <aKXcPVQnQzCx6C5z@lizhi-Precision-Tower-5810>
+	b=o9/FvevJoclOTUoTMqCbCi109iMUyUQN0FwGZjuBdmQcEi0Dc3INBM/YW2Oy0jtOD
+	 jAOHE6orIDuJGdtB11YCtGiuUndrmmfx7fzeZ/bMqxqWufYCKSdusxWjnq3iEZZjRg
+	 F0It6pV85WWWAOkWqQEDJbKqMHhZ14pOeewZfmwK/kbcalSRaD+sH0a35iqDDWf5t3
+	 fLTStE56YF4/qc5UDITkp7nt7H2MvQ2JMvyhlE0OUA/NmsgP2yIJPmiCb/QKvPFa4f
+	 n9goj45yu0ejk6UFecM7HfN/+IY13WpVp8T5jLNAyYLi563g2GryZloRdi5to/2ZOg
+	 n57q2tSFStH5A==
+Received: by venus (Postfix, from userid 1000)
+	id 9B4141811F4; Mon, 27 Oct 2025 00:11:24 +0100 (CET)
+Date: Mon, 27 Oct 2025 00:11:24 +0100
+From: Sebastian Reichel <sre@kernel.org>
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: linux-media@vger.kernel.org
+Subject: Re: [PATCH 0/2] media: ov02c10: fix orientation on Thinkpad T14s
+ Gen6 (Snapdragon)
+Message-ID: <7ppmabganml4pwpwphvufwazek7b65dz3wchmln56luxe2duhn@adqkhld2klrv>
+References: <20250820-ov02c10-fix-v1-0-3fcca2cfbfbf@kernel.org>
+ <qn6vtfm42jqtheqbd4vlkrdekea5ntk2hvd7bl4jfxf4chjood@7wrvzmtnfiv7>
+ <aP0wP3adzgPcIcXY@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aKXcPVQnQzCx6C5z@lizhi-Precision-Tower-5810>
+In-Reply-To: <aP0wP3adzgPcIcXY@kekkonen.localdomain>
 
-On Wed, Aug 20, 2025 at 10:31:25AM -0400, Frank Li wrote:
-> On Wed, Aug 20, 2025 at 07:04:57PM +0800, Guoniu Zhou wrote:
-> > Add output filed in csi2_pix_format since the format on the
-> > source pad might change due to unpacking.
+Hi,
+
+On Sat, Oct 25, 2025 at 11:17:03PM +0300, Sakari Ailus wrote:
+> On Sat, Oct 25, 2025 at 12:34:18AM +0200, Sebastian Reichel wrote:
+> > On Wed, Aug 20, 2025 at 02:13:18AM +0200, Sebastian Reichel wrote:
+> > > When testing the camera patches for Snapdragon X1E I noticed the
+> > > image is upside-down on my T14s Gen6. After some investigation
+> > > it looks like issues with the sensor driver have recently been
+> > > reported, but not yet been fixed. It seems sensible to do this
+> > > ASAP (while the driver is not yet used much) to avoid potential
+> > > regressions when changing the VFLIP default.
+> > 
+> > Can you take a look / merge this series? It has been over two months
+> > already and I hoped this would be handled quite quickly considering
+> > this is a not very complicated simple fix.
 > 
-> Nit: wrap at 75 chars position
-> 
-> Add output filed in csi2_pix_format since the format on the source pad
+> Thanks for the ping. I thought this was already merged but apparently not.
+> Either way, it's in my tree now.
 
-s/filed/field/
+Thanks!
 
-> might change due to unpacking.
-> 
-> Treat 0 as meaning the output uses the same format as the input.
-> 
-> Reviewed-by: Frank Li <Frank.Li@nxp.com>
-> 
-> > Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
-> > ---
-> >  drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 4 ++++
-> >  1 file changed, 4 insertions(+)
-> >
-> > diff --git a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> > index 85700655ecad334c61e9b5f9f073e10b6db2618f..ad7adc677e389e0f35b0cf63195279e197907f8c 100644
-> > --- a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> > +++ b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> > @@ -139,6 +139,7 @@ struct csi_state {
-> >
+Greetings,
 
-A kerneldoc block would be good here to document the fields, it's not
-very clear from the name what the output field is.
-
-> >  struct csi2_pix_format {
-> >  	u32 code;
-> > +	u32 output;
-> >  };
-> >
-> >  /* -----------------------------------------------------------------------------
-> > @@ -634,6 +635,9 @@ static int imx8mq_mipi_csi_set_fmt(struct v4l2_subdev *sd,
-> >  	fmt = v4l2_subdev_state_get_format(sd_state, MIPI_CSI2_PAD_SOURCE);
-> >  	*fmt = sdformat->format;
-> >
-> > +	/* The format on the source pad might change due to unpacking. */
-> > +	fmt->code = csi2_fmt->output ? : csi2_fmt->code;
-> > +
-> >  	return 0;
-> >  }
-> >
-
--- 
-Regards,
-
-Laurent Pinchart
+-- Sebastian
 
