@@ -1,108 +1,126 @@
-Return-Path: <linux-media+bounces-45564-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45565-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9DB34C09F90
-	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 22:17:14 +0200 (CEST)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5039AC0A44B
+	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 08:55:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 4CE933AF693
-	for <lists+linux-media@lfdr.de>; Sat, 25 Oct 2025 20:17:13 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 21C474E5C69
+	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 07:55:32 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EF7992E093B;
-	Sat, 25 Oct 2025 20:17:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0F9262765F5;
+	Sun, 26 Oct 2025 07:55:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U9FmfB20"
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="w1EvaNvl"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from out30-118.freemail.mail.aliyun.com (out30-118.freemail.mail.aliyun.com [115.124.30.118])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 668EC1E1C22
-	for <linux-media@vger.kernel.org>; Sat, 25 Oct 2025 20:17:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 050E722F386;
+	Sun, 26 Oct 2025 07:55:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.118
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761423429; cv=none; b=b0sBJurzHzrBm+YQTrRWnCpHZtaW4SQnHiIEehAziCU4qm5JrbzvwY24qia1YX7ygLT8aHy/UJ2Mhxs/vJBPhwn6EcNXocF6KNENhadaFru/nyvTnsiiA183+nvU+O3cH+2pocYmjdSPaurmW6wu2wvEMdR7A5aoGF1firefTLU=
+	t=1761465320; cv=none; b=en3Ugy9s//nS8mX1w5xmoojCYFWWMUG4a+ZK7f3S3eUT8BFXMYH6FnNtY+UdFablghvTyYmalhZaXPnWmVWJnCy271oAo3aKEBjM7N7dULbXOEYZUoEZQiYqnH8SDjGpYGYtYpGSri8+QXGeYg2UMoft8+ofutcK5JsBRdq5TB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761423429; c=relaxed/simple;
-	bh=FztDRHz91KVVz9TyDRcaUviqr87MkQnOI91fjHBfc6c=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PVIXEYZWIaTIvlxjXGbgS9cqMfv8EGGrw1pARHnFtcfx6lSE1Fo/ulOrzQxepbskTJWBj2UcEeBWGiZo0evIS+uZ6AzAChRr/mjj1wMozvqBov+0OzxZJSnmAr14Z0CIeYSABjeAb2dJkNl96uBL4oULSWAbu69iTjSZZXTz3GQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U9FmfB20; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761423428; x=1792959428;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=FztDRHz91KVVz9TyDRcaUviqr87MkQnOI91fjHBfc6c=;
-  b=U9FmfB204zT9LIXE7e1RcmsbEt5wSiGMF1lOdToRgb0jdMTiJ1ms4R/6
-   ga4mdWOcj+Hu5FwWf75EAALZ/CAUYyH89YPUjxm4Dauo/lC6K8Qk+Orbb
-   j9yuzRwybV6hG+an7AjvQzoS+U+Wgg+S1Njl0493rEG9WtUt6G3NHptep
-   0xZ7u9A6B/5wsNOGsNoiBcGzvpvr46TxTSYF2CpmljGfPyqmO/rBzxPjj
-   SVDBGqmnKSdFNAApIpe2l9pyNuZLUTVrOaHucsLCZhrpKciTLKDQNFbA/
-   6yzQqtKx1uh7lS+sSWK3N6RU/5UYy6wcSrvP3OtkMGsFFpNIcCYBhfUYb
-   Q==;
-X-CSE-ConnectionGUID: Q41j5w2STt20qiysCcq5sQ==
-X-CSE-MsgGUID: czeF8IXHSG6yJKb5QO+3LA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="66177364"
-X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
-   d="scan'208";a="66177364"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 13:17:07 -0700
-X-CSE-ConnectionGUID: SmifMYsTRD2tvs5ZQ728ew==
-X-CSE-MsgGUID: UI/Sj+dwQMORGErmUDimcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,255,1754982000"; 
-   d="scan'208";a="188753278"
-Received: from klitkey1-mobl1.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.245.178])
-  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Oct 2025 13:17:06 -0700
-Received: from kekkonen.localdomain (localhost [IPv6:::1])
-	by kekkonen.fi.intel.com (Postfix) with SMTP id 4DB5211FC72;
-	Sat, 25 Oct 2025 23:17:03 +0300 (EEST)
-Date: Sat, 25 Oct 2025 23:17:03 +0300
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
-From: Sakari Ailus <sakari.ailus@linux.intel.com>
-To: Sebastian Reichel <sre@kernel.org>
-Cc: linux-media@vger.kernel.org
-Subject: Re: [PATCH 0/2] media: ov02c10: fix orientation on Thinkpad T14s
- Gen6 (Snapdragon)
-Message-ID: <aP0wP3adzgPcIcXY@kekkonen.localdomain>
-References: <20250820-ov02c10-fix-v1-0-3fcca2cfbfbf@kernel.org>
- <qn6vtfm42jqtheqbd4vlkrdekea5ntk2hvd7bl4jfxf4chjood@7wrvzmtnfiv7>
+	s=arc-20240116; t=1761465320; c=relaxed/simple;
+	bh=6gQ0b96ksH6i06Ro3IgrAKOKydTsy37oius49iYhX08=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=heeYJLX3O+Dt0L/nrsVZaxWIGr4aGqurxxxFpD53kpuFHu7l26CW5iFMW8sQSb41lvrt2tVSRB5tf40kQz58QfJFAoJtm1hZiiTsNAXgHHXMTUwvNBlScb2aSrO3kesdmKfDdTt/+rymfXhK988G4NG6Payi7sR8KApfQ3D0yZc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=w1EvaNvl; arc=none smtp.client-ip=115.124.30.118
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1761465308; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=gbW6lsAeQnITBSvhA7va7FPK1N1OCTuc7ZM09ubMnwE=;
+	b=w1EvaNvl6VFnpLbbIhM9EH3J+k5X0NviL/4AMSLRUIkIBb+piVyJkusnscjydLGVvKu8spPiicc04LDecNvsFhKSVDF04tSt5ysDuE6zx/nxRA6UgIWJq00z4h8gD83xtiiQbxddnm0/V0kAPbJPASglw5DenO0U0CUmqenwv14=
+Received: from 30.246.176.102(mailfrom:xueshuai@linux.alibaba.com fp:SMTPD_---0Wqyle5w_1761465304 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Sun, 26 Oct 2025 15:55:06 +0800
+Message-ID: <3db524e7-b6ce-4652-8420-fdb4639ac73a@linux.alibaba.com>
+Date: Sun, 26 Oct 2025 15:55:04 +0800
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <qn6vtfm42jqtheqbd4vlkrdekea5ntk2hvd7bl4jfxf4chjood@7wrvzmtnfiv7>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 9/9] vfio/pci: Add dma-buf export support for MMIO
+ regions
+To: Jason Gunthorpe <jgg@nvidia.com>, Leon Romanovsky <leon@kernel.org>
+Cc: Alex Williamson <alex.williamson@redhat.com>,
+ Leon Romanovsky <leonro@nvidia.com>,
+ Andrew Morton <akpm@linux-foundation.org>,
+ Bjorn Helgaas <bhelgaas@google.com>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
+ Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
+ kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-mm@kvack.org, linux-pci@vger.kernel.org,
+ Logan Gunthorpe <logang@deltatee.com>,
+ Marek Szyprowski <m.szyprowski@samsung.com>,
+ Robin Murphy <robin.murphy@arm.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Vivek Kasireddy <vivek.kasireddy@intel.com>, Will Deacon <will@kernel.org>
+References: <cover.1760368250.git.leon@kernel.org>
+ <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
+ <20251022125012.GB244727@nvidia.com>
+From: Shuai Xue <xueshuai@linux.alibaba.com>
+In-Reply-To: <20251022125012.GB244727@nvidia.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Hi Sebastian,
 
-On Sat, Oct 25, 2025 at 12:34:18AM +0200, Sebastian Reichel wrote:
-> Hi Sakari,
+
+在 2025/10/22 20:50, Jason Gunthorpe 写道:
+> On Mon, Oct 13, 2025 at 06:26:11PM +0300, Leon Romanovsky wrote:
+>> From: Leon Romanovsky <leonro@nvidia.com>
+>>
+>> Add support for exporting PCI device MMIO regions through dma-buf,
+>> enabling safe sharing of non-struct page memory with controlled
+>> lifetime management. This allows RDMA and other subsystems to import
+>> dma-buf FDs and build them into memory regions for PCI P2P operations.
+>>
+>> The implementation provides a revocable attachment mechanism using
+>> dma-buf move operations. MMIO regions are normally pinned as BARs
+>> don't change physical addresses, but access is revoked when the VFIO
+>> device is closed or a PCI reset is issued. This ensures kernel
+>> self-defense against potentially hostile userspace.
 > 
-> On Wed, Aug 20, 2025 at 02:13:18AM +0200, Sebastian Reichel wrote:
-> > When testing the camera patches for Snapdragon X1E I noticed the
-> > image is upside-down on my T14s Gen6. After some investigation
-> > it looks like issues with the sensor driver have recently been
-> > reported, but not yet been fixed. It seems sensible to do this
-> > ASAP (while the driver is not yet used much) to avoid potential
-> > regressions when changing the VFLIP default.
+> Let's enhance this:
 > 
-> Can you take a look / merge this series? It has been over two months
-> already and I hoped this would be handled quite quickly considering
-> this is a not very complicated simple fix.
+> Currently VFIO can take MMIO regions from the device's BAR and map
+> them into a PFNMAP VMA with special PTEs. This mapping type ensures
+> the memory cannot be used with things like pin_user_pages(), hmm, and
+> so on. In practice only the user process CPU and KVM can safely make
+> use of these VMA. When VFIO shuts down these VMAs are cleaned by
+> unmap_mapping_range() to prevent any UAF of the MMIO beyond driver
+> unbind.
+> 
+> However, VFIO type 1 has an insecure behavior where it uses
+> follow_pfnmap_*() to fish a MMIO PFN out of a VMA and program it back
+> into the IOMMU. This has a long history of enabling P2P DMA inside
+> VMs, but has serious lifetime problems by allowing a UAF of the MMIO
+> after the VFIO driver has been unbound.
 
-Thanks for the ping. I thought this was already merged but apparently not.
-Either way, it's in my tree now.
+Hi, Jason,
 
--- 
-Kind regards,
+Can you elaborate on this more?
 
-Sakari Ailus
+ From my understanding of the VFIO type 1 implementation:
+
+- When a device is opened through VFIO type 1, it increments the
+   device->refcount
+- During unbind, the driver waits for this refcount to drop to zero via
+   wait_for_completion(&device->comp)
+- This should prevent the unbind() from completing while the device is
+   still in use
+
+Given this refcount mechanism, I do not figure out how the UAF can
+occur.
+
+Thanks.
 
