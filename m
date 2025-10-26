@@ -1,60 +1,61 @@
-Return-Path: <linux-media+bounces-45582-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45583-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CD9AC0B3D8
-	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 22:07:50 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4076DC0B3F3
+	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 22:11:35 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 95BFA189706E
-	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 21:08:14 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D619E4E7233
+	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 21:11:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 27FB8207A09;
-	Sun, 26 Oct 2025 21:07:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E665283FE3;
+	Sun, 26 Oct 2025 21:11:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="OcSMQaL2"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="lVMYW7vs"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED9971D514B;
-	Sun, 26 Oct 2025 21:07:42 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133BB72633;
+	Sun, 26 Oct 2025 21:11:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761512864; cv=none; b=qsdszR94CgyWuexc/HSlbLotI5f0vTXgU926evMZeFa3CVuWzZ5YKkPR22jtPbJ0JT2CLY/9Xm6sFx6f1GDgWRyVvq2s7rcFzb1KEQtjcQnSY304mfq3R99fcSrDry9Xy1u+zftgnEo0ephyGV7mlWsVhYxLXjpCuSWfvQI++sg=
+	t=1761513089; cv=none; b=ZbzuLD4sQ+UGvWNcS+/KjVTR6ps+TKzgI6O3+oh8oo8OpvC50byku/D+8ITSF/hEoGraQpodJRQxUvG3tvIdOQ7yJuFWZXGpqwhBUoQ2mVJORuBY7zs4YLK8WhbKcCufl72SQMAUtf14tOt9zrOOmZtO6Cphi8f89LFJxzIWp3A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761512864; c=relaxed/simple;
-	bh=FX3PJZ4Zx7AunoIvtIIT5LbQdAgzbExv6kJ6VBmjW8M=;
+	s=arc-20240116; t=1761513089; c=relaxed/simple;
+	bh=ObOOH9WDscvwAqkjW2Oryk+fDasfzz/CdPqG1NC+8vo=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OkTlI6/GbAC9RoXSft/ySS50a+y6Rkv9xv21H9VNgIXst8PFWqKinF9S2CTzsds2W94/x7JM7816ZD6HPw+jYHCmx/BZQWnxe49zR6cj6yPgEEwybkxbBEfCexZuNARL66hoH5seex5Mkiam7DenvTDO9LjSvwrjJqkAwq4PMqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=OcSMQaL2; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=Sr49LjboAkKZfo0hvg5BrwZtiqJ1qNd155eUiSdqBO8J+bESMvyYMq0U+BRbRCn5yCkWXtR1sZn/8eHs7twmWsv9ZSTpdLEgDQ+S6D7dWlYhBUm/PAglgu07qLPck93EFcy3/M1cilUJtWycaSlRX+mp3LXWE0V/gOsWkZ/WHEk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=lVMYW7vs; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (82-203-161-16.bb.dnainternet.fi [82.203.161.16])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 96811129;
-	Sun, 26 Oct 2025 22:05:51 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id CAC8F21B1;
+	Sun, 26 Oct 2025 22:09:34 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761512751;
-	bh=FX3PJZ4Zx7AunoIvtIIT5LbQdAgzbExv6kJ6VBmjW8M=;
+	s=mail; t=1761512975;
+	bh=ObOOH9WDscvwAqkjW2Oryk+fDasfzz/CdPqG1NC+8vo=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OcSMQaL2aTruoSuT8i+ItTMMlx5+YuMA01qolWkx56SEliWHlNkl2R0pUC2imvG7m
-	 HF5VieJN/VQqu0Jv9+qJcgVdeK07SgxVcaRYUG2k7qlpzucdyV8Dzy5s8rvO1mWFuy
-	 8trOxSaexrIuaxpwQ+bwHlUD61vKOimvBvz6F2x8=
-Date: Sun, 26 Oct 2025 23:07:24 +0200
+	b=lVMYW7vswqx2wA3X+nZlRRw/8m2pGFWq22EnlY7+9HV9FFhGjUxF8DtUc70y1Djyn
+	 xE5Y1qiRWUglDb4wfE4pVM5+P5cgPqrA4Gh4LlOOLEJFdbOXQAJfkM9iRENIUQ8/yu
+	 zPBeAvHwSrBBFc+FAF9WCJKSyf5OyDPrFwJ/W32I=
+Date: Sun, 26 Oct 2025 23:11:07 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Isaac Scott <isaac.scott@ideasonboard.com>
-Cc: mchehab@kernel.org, rmfrfs@gmail.com, martink@posteo.de, kernel@puri.sm,
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Isaac Scott <isaac.scott@ideasonboard.com>, mchehab@kernel.org,
+	rmfrfs@gmail.com, martink@posteo.de, kernel@puri.sm,
 	shawnguo@kernel.org, s.hauer@pengutronix.de, kernel@pengutronix.de,
-	festevam@gmail.com, sakari.ailus@linux.intel.com,
-	linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	Frank.Li@nxp.com
-Subject: Re: [PATCH v5 3/4] media: imx-mipi-csis: Add num_data_lanes to
- mipi_csis_device
-Message-ID: <20251026210724.GE1025@pendragon.ideasonboard.com>
+	festevam@gmail.com, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, Frank.Li@nxp.com
+Subject: Re: [PATCH v5 4/4] media: imx-mipi-csis: Support active data lanes
+ differing from maximum
+Message-ID: <20251026211107.GF1025@pendragon.ideasonboard.com>
 References: <20251022102228.275627-1-isaac.scott@ideasonboard.com>
- <20251022102228.275627-4-isaac.scott@ideasonboard.com>
+ <20251022102228.275627-5-isaac.scott@ideasonboard.com>
+ <aPi8RXHVBMB7vHQ2@kekkonen.localdomain>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -63,79 +64,46 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251022102228.275627-4-isaac.scott@ideasonboard.com>
+In-Reply-To: <aPi8RXHVBMB7vHQ2@kekkonen.localdomain>
 
-Hi Isaac,
-
-Thank you for the patch.
-
-On Wed, Oct 22, 2025 at 11:22:27AM +0100, Isaac Scott wrote:
-> Add the num_data_lanes field to the mipi_csis_device struct, and set it
-> equal to csis->bus.num_data_lanes. This is in preparation to support
-> cases when the data lanes actively used differs from the maximum
-> supported data lanes.
+On Wed, Oct 22, 2025 at 02:13:09PM +0300, Sakari Ailus wrote:
+> On Wed, Oct 22, 2025 at 11:22:28AM +0100, Isaac Scott wrote:
+> > Call on v4l2_get_active_data_lanes() to check if the driver reports that
+> > the number of lanes actively used by the MIPI CSI transmitter differs to
+> > the maximum defined in device tree.
+> > 
+> > If the number of active data lanes reported by the driver is invalid, or
+> > the operation is not supported, fall back to the number of allowed data
+> > lanes.
+> > 
+> > Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
+> > ---
+> >  drivers/media/platform/nxp/imx-mipi-csis.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> > 
+> > diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
+> > index 838a1ad123b5..637ef6e614fa 100644
+> > --- a/drivers/media/platform/nxp/imx-mipi-csis.c
+> > +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
+> > @@ -1034,6 +1034,10 @@ static int mipi_csis_s_stream(struct v4l2_subdev *sd, int enable)
+> >  	format = v4l2_subdev_state_get_format(state, CSIS_PAD_SINK);
+> >  	csis_fmt = find_csis_format(format->code);
+> >  
+> > +	ret = v4l2_get_active_data_lanes(csis->source.pad,
+> > +					 csis->bus.num_data_lanes);
+> > +	csis->num_data_lanes = ret < 0 ? csis->bus.num_data_lanes : ret;
 > 
-> No functional changes intended by this commit.
+> I guess this works but should we return an error here instead?
 > 
-> Signed-off-by: Isaac Scott <isaac.scott@ideasonboard.com>
+> Alternatively, the function could always return some number of lanes as
+> well (with a printed warning on error). I think I'd do the former though.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Agreed, I would return an error.
 
-> ---
->  drivers/media/platform/nxp/imx-mipi-csis.c | 11 +++++++----
->  1 file changed, 7 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/nxp/imx-mipi-csis.c b/drivers/media/platform/nxp/imx-mipi-csis.c
-> index 7c2a679dca2e..838a1ad123b5 100644
-> --- a/drivers/media/platform/nxp/imx-mipi-csis.c
-> +++ b/drivers/media/platform/nxp/imx-mipi-csis.c
-> @@ -351,6 +351,8 @@ struct mipi_csis_device {
->  	u32 hs_settle;
->  	u32 clk_settle;
->  
-> +	unsigned int num_data_lanes;
-> +
->  	spinlock_t slock;	/* Protect events */
->  	struct mipi_csis_event events[MIPI_CSIS_NUM_EVENTS];
->  	struct dentry *debugfs_root;
-> @@ -573,7 +575,7 @@ static void mipi_csis_system_enable(struct mipi_csis_device *csis, int on)
->  	val = mipi_csis_read(csis, MIPI_CSIS_DPHY_CMN_CTRL);
->  	val &= ~MIPI_CSIS_DPHY_CMN_CTRL_ENABLE;
->  	if (on) {
-> -		mask = (1 << (csis->bus.num_data_lanes + 1)) - 1;
-> +		mask = (1 << (csis->num_data_lanes + 1)) - 1;
->  		val |= (mask & MIPI_CSIS_DPHY_CMN_CTRL_ENABLE);
->  	}
->  	mipi_csis_write(csis, MIPI_CSIS_DPHY_CMN_CTRL, val);
-> @@ -623,7 +625,7 @@ static int mipi_csis_calculate_params(struct mipi_csis_device *csis,
->  
->  	/* Calculate the line rate from the pixel rate. */
->  	link_freq = v4l2_get_link_freq(csis->source.pad, csis_fmt->width,
-> -				       csis->bus.num_data_lanes * 2);
-> +				       csis->num_data_lanes * 2);
->  	if (link_freq < 0) {
->  		dev_err(csis->dev, "Unable to obtain link frequency: %d\n",
->  			(int)link_freq);
-> @@ -668,7 +670,7 @@ static void mipi_csis_set_params(struct mipi_csis_device *csis,
->  				 const struct v4l2_mbus_framefmt *format,
->  				 const struct csis_pix_format *csis_fmt)
->  {
-> -	int lanes = csis->bus.num_data_lanes;
-> +	int lanes = csis->num_data_lanes;
->  	u32 val;
->  
->  	val = mipi_csis_read(csis, MIPI_CSIS_CMN_CTRL);
-> @@ -1366,8 +1368,9 @@ static int mipi_csis_async_register(struct mipi_csis_device *csis)
->  	}
->  
->  	csis->bus = vep.bus.mipi_csi2;
-> +	csis->num_data_lanes = csis->bus.num_data_lanes;
->  
-> -	dev_dbg(csis->dev, "data lanes: %d\n", csis->bus.num_data_lanes);
-> +	dev_dbg(csis->dev, "max data lanes: %d\n", csis->bus.num_data_lanes);
->  	dev_dbg(csis->dev, "flags: 0x%08x\n", csis->bus.flags);
->  
->  	asd = v4l2_async_nf_add_fwnode_remote(&csis->notifier, ep,
+> > +
+> >  	ret = mipi_csis_calculate_params(csis, csis_fmt);
+> >  	if (ret < 0)
+> >  		goto err_unlock;
 
 -- 
 Regards,
