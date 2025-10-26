@@ -1,105 +1,126 @@
-Return-Path: <linux-media+bounces-45587-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45588-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F862C0B59B
-	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 23:24:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id BCC69C0B5E4
+	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 23:28:53 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A2EA3189845F
-	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 22:24:52 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 33D62189AF60
+	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 22:29:17 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D4A5C2EBDF4;
-	Sun, 26 Oct 2025 22:24:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F239D2FDC3F;
+	Sun, 26 Oct 2025 22:28:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NVU2GwNf"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="razqeGsB"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24A6D48CFC;
-	Sun, 26 Oct 2025 22:24:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7F8F1F4CAE;
+	Sun, 26 Oct 2025 22:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761517459; cv=none; b=KI8+aw5gU9LLxeSfrpHnUtwCD2wthHdJczB+3cuXYowru3npdAip7noo4BAz87SvROwYn0nrkt0RwwF54HyNNyrRmH26+8b+9qkrrjQVxr4C22jOvdMIhAYSbd+FtjrKpsGVO2HRAnpLD61beOBIrNz/H0RNxeyCVMj5g/HgoIc=
+	t=1761517726; cv=none; b=iTVy+trKzmx32QFpJROOf+FTlyByB5MJ5nLYP/wXhANDu9vBqiwcK/O8NB+6b7TXA2Yla++TKvXIfszg1ILVg5KMAtSlII5rqLmUXfQ+j98bBLcUGay9TbAvwjPJ4f/SNR/5gz9Tv5XbLYUvEXJ3bZb8skz1R8B/ltsiJy36SSQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761517459; c=relaxed/simple;
-	bh=wqfmqPUYrqaRfBk+poDFpcrAq8e0x45EHLFsjGjVWiU=;
+	s=arc-20240116; t=1761517726; c=relaxed/simple;
+	bh=VKQFo2wPNIL18CuB3qiB0jANg2tkXXNSpvhyiVgRsMc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aHr1zruGlW8aUEbqO1NeRDgDRA5FbOC02bolRypxUTNLW4+IPjmYOpbaqxUX3wQgt7TpFJl6subQm5w5dY6217g1QIku3Ljq4AT/8o95Dn43WoA7rp8hbAK4hdG1UAfqpVOgzAnCtT6jks/pY2bvTZpcIPl+CzKwvo6dUFtAGQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NVU2GwNf; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44B8EC4CEE7;
-	Sun, 26 Oct 2025 22:24:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761517458;
-	bh=wqfmqPUYrqaRfBk+poDFpcrAq8e0x45EHLFsjGjVWiU=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=YzC0ZZwAg4kOL3eLSj0+s8QBycapg1Q77Al0c+Wu0QVFAj1gNxVvbAYv+slIagB9GtbzxIMgPVFeahWYepU3aJQLSFRVDz4pRX4sQBixKXJPcqlNgAVr4UlCeB6xTmvZMVoS7nbvbX0XNVSUer2pDztnffT2EIW8ZAmSq8edUW4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=razqeGsB; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (82-203-161-16.bb.dnainternet.fi [82.203.161.16])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id C0CFF1F0E;
+	Sun, 26 Oct 2025 23:26:53 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1761517614;
+	bh=VKQFo2wPNIL18CuB3qiB0jANg2tkXXNSpvhyiVgRsMc=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NVU2GwNfwtpx6wq6fJoFqVxektGKFDqprTLRqK+JcoZhnNmRQOwGSocBBNOPG3vTT
-	 81Z3JqDVJdPT4zAxd4RYatkBjpj1wpCqiQL1Rn96e/JWPTDs4o87LztNG8XNWi9jnP
-	 fRmenZlr9UI4z20bq4qbXEJpgQyySlAoEOrIR96Tl4c8Dqro03eHVatK771aa42f25
-	 klcYgzV/pv/C/DB7flPJM/stVHiCeNWugqRjMESyhlzRlJpgnx+2/0FfT1Yo6u0F6X
-	 KVCRG1mGSsasXw8BNa6IRATUkusP7e9W3RB+5jgszjawGRCtUxSRNf+4imwJR/X30o
-	 5hKdFern7DJxA==
-Date: Sun, 26 Oct 2025 17:24:16 -0500
-From: "Rob Herring (Arm)" <robh@kernel.org>
-To: Svyatoslav Ryhel <clamor95@gmail.com>
-Cc: Sowjanya Komatineni <skomatineni@nvidia.com>,
-	Jonas =?iso-8859-1?Q?Schw=F6bel?= <jonasschwoebel@yahoo.de>,
-	Thierry Reding <thierry.reding@gmail.com>,
-	Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>,
-	Luca Ceresoli <luca.ceresoli@bootlin.com>,
-	Dmitry Osipenko <digetx@gmail.com>,
+	b=razqeGsBxSglcceb1F4Gdb98xf7ZRp6vHkqCOab9W65FnNoegiSim+m2Fk8fj/49C
+	 MrM6YyoR7BoGpLT0pWLToks4e4XLehxL1gMaMbf2ifuo7vwxdXtfqEk5x0cK7Xt1FF
+	 Th5s1naHJYqOzkVLYsfVdGGHKcErOyyYxSKhqZ8U=
+Date: Mon, 27 Oct 2025 00:28:26 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Guoniu Zhou <guoniu.zhou@nxp.com>, Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Jonathan Hunter <jonathanh@nvidia.com>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>, dri-devel@lists.freedesktop.org,
-	linux-staging@lists.linux.dev, linux-tegra@vger.kernel.org,
-	Conor Dooley <conor+dt@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-clk@vger.kernel.org, Aaron Kling <webgeek1234@gmail.com>,
-	Mikko Perttunen <mperttunen@nvidia.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	linux-media@vger.kernel.org, David Airlie <airlied@gmail.com>,
-	Charan Pedumuru <charan.pedumuru@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Prashant Gaikwad <pgaikwad@nvidia.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Maxime Ripard <mripard@kernel.org>, devicetree@vger.kernel.org,
-	Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v5 21/23] dt-bindings: display: tegra: document Tegra20
- and Tegra30 CSI
-Message-ID: <176151745413.3041982.13183037303437786159.robh@kernel.org>
-References: <20251022144930.73272-1-clamor95@gmail.com>
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-media@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 2/4] media: imx8mq-mipi-csi2: Add output filed in
+ csi2_pix_format
+Message-ID: <20251026222826.GJ13023@pendragon.ideasonboard.com>
+References: <20250820-csi2_imx8mq-v5-0-e04a6fc593bd@nxp.com>
+ <20250820-csi2_imx8mq-v5-2-e04a6fc593bd@nxp.com>
+ <aKXcPVQnQzCx6C5z@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251022144930.73272-1-clamor95@gmail.com>
+In-Reply-To: <aKXcPVQnQzCx6C5z@lizhi-Precision-Tower-5810>
 
-
-On Wed, 22 Oct 2025 17:49:28 +0300, Svyatoslav Ryhel wrote:
-> Document CSI HW block found in Tegra20 and Tegra30 SoC.
+On Wed, Aug 20, 2025 at 10:31:25AM -0400, Frank Li wrote:
+> On Wed, Aug 20, 2025 at 07:04:57PM +0800, Guoniu Zhou wrote:
+> > Add output filed in csi2_pix_format since the format on the
+> > source pad might change due to unpacking.
 > 
-> The #nvidia,mipi-calibrate-cells is not an introduction of property, such
-> property already exists in nvidia,tegra114-mipi.yaml and is used in
-> multiple device trees. In case of Tegra30 and Tegra20 CSI block combines
-> mipi calibration function and CSI function, in Tegra114+ mipi calibration
-> got a dedicated hardware block which is already supported. This property
-> here is used to align with mipi-calibration logic used by Tegra114+.
+> Nit: wrap at 75 chars position
 > 
-> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
-> ---
->  .../display/tegra/nvidia,tegra20-csi.yaml     | 138 ++++++++++++++++++
->  1 file changed, 138 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+> Add output filed in csi2_pix_format since the format on the source pad
+
+s/filed/field/
+
+> might change due to unpacking.
 > 
+> Treat 0 as meaning the output uses the same format as the input.
+> 
+> Reviewed-by: Frank Li <Frank.Li@nxp.com>
+> 
+> > Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
+> > ---
+> >  drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 4 ++++
+> >  1 file changed, 4 insertions(+)
+> >
+> > diff --git a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> > index 85700655ecad334c61e9b5f9f073e10b6db2618f..ad7adc677e389e0f35b0cf63195279e197907f8c 100644
+> > --- a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> > +++ b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
+> > @@ -139,6 +139,7 @@ struct csi_state {
+> >
 
-Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+A kerneldoc block would be good here to document the fields, it's not
+very clear from the name what the output field is.
 
+> >  struct csi2_pix_format {
+> >  	u32 code;
+> > +	u32 output;
+> >  };
+> >
+> >  /* -----------------------------------------------------------------------------
+> > @@ -634,6 +635,9 @@ static int imx8mq_mipi_csi_set_fmt(struct v4l2_subdev *sd,
+> >  	fmt = v4l2_subdev_state_get_format(sd_state, MIPI_CSI2_PAD_SOURCE);
+> >  	*fmt = sdformat->format;
+> >
+> > +	/* The format on the source pad might change due to unpacking. */
+> > +	fmt->code = csi2_fmt->output ? : csi2_fmt->code;
+> > +
+> >  	return 0;
+> >  }
+> >
+
+-- 
+Regards,
+
+Laurent Pinchart
 
