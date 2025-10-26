@@ -1,90 +1,139 @@
-Return-Path: <linux-media+bounces-45589-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45590-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E867C0B6D7
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 00:11:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77291C0B6DD
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 00:12:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E13193B7E9C
-	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 23:11:33 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0FE323B7DDB
+	for <lists+linux-media@lfdr.de>; Sun, 26 Oct 2025 23:12:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 864213002CE;
-	Sun, 26 Oct 2025 23:11:31 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3E9B73002C1;
+	Sun, 26 Oct 2025 23:12:42 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="o9/FvevJ"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="VBCCWUzq"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6D6A52FFF98
-	for <linux-media@vger.kernel.org>; Sun, 26 Oct 2025 23:11:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6B0A2FFF95;
+	Sun, 26 Oct 2025 23:12:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761520290; cv=none; b=MEqdycmUkJri8OYZhQAGfHRsLyAFOWCH7bDI3dprpDPg2m2frVuKnOBfiF7/7hqQi5YwqcNCPK2tNakZ+gLGXDZfedQnHsX3g+CYoIZN6VGWLhq24jOjALMRRE7+4sqxFVEghd117OFJl8tvGimez9Dmk1aKUDU9W8iIOnln8Dg=
+	t=1761520361; cv=none; b=o1h6DKyZSmEfwrBU/QSfakl4M0Glj7eAp5lqSHdgkx/t678709h76En/Xr4/m7tAOmRlu1VI3GDqBTosRaYi2ry3oJUsZYNsxot5o2P8flCkmFpiP/PQUPnUWEp7Ix+V9dVVJ2txAIQpSUEdSQG1dzF4ktQfruwjNeZ8nbA10+Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761520290; c=relaxed/simple;
-	bh=PQiu9cLeLdsiFpP6SIwyX5ZuYcqXvNTx0kq0NeQta1Y=;
+	s=arc-20240116; t=1761520361; c=relaxed/simple;
+	bh=ICLjiDhsn73eXnFpFDS6pKCZTB2u0DspfKsmlJxdMxQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DbFGTm7bN+culylZBjf4IINEwfRV6BrNVmTaC+fh2mCKUFcCW+IqAIIMGcKh2hfBRqKG9uMWrwPjr8dfJopZkNIH6/Q5/jArkE75OZb9KrvKHk4+oHE5d5PRnXgh+mQDm29dQVq3ZVWBI21Jl0jp78EoyBOppvEwsbG6z1KjGqI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=o9/FvevJ; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6EF58C4CEE7;
-	Sun, 26 Oct 2025 23:11:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761520289;
-	bh=PQiu9cLeLdsiFpP6SIwyX5ZuYcqXvNTx0kq0NeQta1Y=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=Kc0nsmzYDnxF6kcIiG1J34htODIuuMesMpbLs8Nl+YBgNeiBFexSEZ+di/iGD2HrZ1wUHtpwq36+PMTpVLyoPgTmJINhogmLNBYWN8xrsLuO8Txw+OIxp3TALlBpkQt9T32o+jV7mVwXy2XPVcXNH9gPrF+TN0A+6lhZ9dS0A2M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=VBCCWUzq; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (82-203-161-16.bb.dnainternet.fi [82.203.161.16])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 12C837E0;
+	Mon, 27 Oct 2025 00:10:46 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1761520247;
+	bh=ICLjiDhsn73eXnFpFDS6pKCZTB2u0DspfKsmlJxdMxQ=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=o9/FvevJoclOTUoTMqCbCi109iMUyUQN0FwGZjuBdmQcEi0Dc3INBM/YW2Oy0jtOD
-	 jAOHE6orIDuJGdtB11YCtGiuUndrmmfx7fzeZ/bMqxqWufYCKSdusxWjnq3iEZZjRg
-	 F0It6pV85WWWAOkWqQEDJbKqMHhZ14pOeewZfmwK/kbcalSRaD+sH0a35iqDDWf5t3
-	 fLTStE56YF4/qc5UDITkp7nt7H2MvQ2JMvyhlE0OUA/NmsgP2yIJPmiCb/QKvPFa4f
-	 n9goj45yu0ejk6UFecM7HfN/+IY13WpVp8T5jLNAyYLi563g2GryZloRdi5to/2ZOg
-	 n57q2tSFStH5A==
-Received: by venus (Postfix, from userid 1000)
-	id 9B4141811F4; Mon, 27 Oct 2025 00:11:24 +0100 (CET)
-Date: Mon, 27 Oct 2025 00:11:24 +0100
-From: Sebastian Reichel <sre@kernel.org>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: Re: [PATCH 0/2] media: ov02c10: fix orientation on Thinkpad T14s
- Gen6 (Snapdragon)
-Message-ID: <7ppmabganml4pwpwphvufwazek7b65dz3wchmln56luxe2duhn@adqkhld2klrv>
-References: <20250820-ov02c10-fix-v1-0-3fcca2cfbfbf@kernel.org>
- <qn6vtfm42jqtheqbd4vlkrdekea5ntk2hvd7bl4jfxf4chjood@7wrvzmtnfiv7>
- <aP0wP3adzgPcIcXY@kekkonen.localdomain>
+	b=VBCCWUzqmGw0dzInn348Ts/Iek+pCR5R7wGhrAHiVwgoamXaPznNAvQM63LNZ1SKN
+	 qSx0k03AwmwNTZ8uOHjCkTzG4jxpnWYRjksh6V4LbkhkowwdtazJRImtu5KtQCwFzD
+	 PdxQTl7mQtmzm1GgFbiNXkxCA7UrHj1LHix5wLS0=
+Date: Mon, 27 Oct 2025 01:12:18 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Mats Randgaard <matrandg@cisco.com>,
+	Alain Volmat <alain.volmat@foss.st.com>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Hans Verkuil <hverkuil@kernel.org>, linux-media@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Hans Verkuil <hans.verkuil@cisco.com>,
+	Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: Re: [PATCH v4 1/4] media: uapi: Clarify MBUS color component order
+ for serial buses
+Message-ID: <20251026231218.GA9719@pendragon.ideasonboard.com>
+References: <20251013-csi-bgr-rgb-v4-0-55eab2caa69f@kernel.org>
+ <20251013-csi-bgr-rgb-v4-1-55eab2caa69f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aP0wP3adzgPcIcXY@kekkonen.localdomain>
+In-Reply-To: <20251013-csi-bgr-rgb-v4-1-55eab2caa69f@kernel.org>
 
-Hi,
+Hi Maxime,
 
-On Sat, Oct 25, 2025 at 11:17:03PM +0300, Sakari Ailus wrote:
-> On Sat, Oct 25, 2025 at 12:34:18AM +0200, Sebastian Reichel wrote:
-> > On Wed, Aug 20, 2025 at 02:13:18AM +0200, Sebastian Reichel wrote:
-> > > When testing the camera patches for Snapdragon X1E I noticed the
-> > > image is upside-down on my T14s Gen6. After some investigation
-> > > it looks like issues with the sensor driver have recently been
-> > > reported, but not yet been fixed. It seems sensible to do this
-> > > ASAP (while the driver is not yet used much) to avoid potential
-> > > regressions when changing the VFLIP default.
-> > 
-> > Can you take a look / merge this series? It has been over two months
-> > already and I hoped this would be handled quite quickly considering
-> > this is a not very complicated simple fix.
+Thank you for the patch.
+
+On Mon, Oct 13, 2025 at 01:01:33PM +0200, Maxime Ripard wrote:
+> The subdev format documentation has a subsection describing how to use
+> the media bus pixel codes for serial buses. While it describes the
+> sampling part well, it doesn't really describe the current convention
+> used for the components order.
 > 
-> Thanks for the ping. I thought this was already merged but apparently not.
-> Either way, it's in my tree now.
+> Let's improve that.
 
-Thanks!
+A long due improvement, thanks for working on it.
 
-Greetings,
+> Signed-off-by: Maxime Ripard <mripard@kernel.org>
+> ---
+>  Documentation/userspace-api/media/v4l/subdev-formats.rst | 14 ++++++++------
+>  1 file changed, 8 insertions(+), 6 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index 2a94371448dc07e5c7097421bd82f42dcd7e21aa..8e92f784abd8123f9ea950f954a60af56ee76dbe 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -158,16 +158,18 @@ formats in memory (a raw Bayer image won't be magically converted to
+>  JPEG just by storing it to memory), there is no one-to-one
+>  correspondence between them.
+>  
+>  The media bus pixel codes document parallel formats. Should the pixel data be
+>  transported over a serial bus, the media bus pixel code that describes a
+> -parallel format that transfers a sample on a single clock cycle is used. For
+> -instance, both MEDIA_BUS_FMT_BGR888_1X24 and MEDIA_BUS_FMT_BGR888_3X8 are used
+> -on parallel busses for transferring an 8 bits per sample BGR data, whereas on
+> -serial busses the data in this format is only referred to using
+> -MEDIA_BUS_FMT_BGR888_1X24. This is because there is effectively only a single
+> -way to transport that format on the serial busses.
+> +parallel format that transfers a sample on a single clock cycle is used. The
+> +color component order used is the same used on the serial bus. For instance,
+> +both MEDIA_BUS_FMT_BGR888_1X24 and MEDIA_BUS_FMT_BGR888_3X8 are used on parallel
+> +busses for transferring an 8 bits per sample BGR data, whereas on serial busses
+> +the data in this format is only referred to using MEDIA_BUS_FMT_BGR888_1X24,
+> +with BGR meaning that the blue component is transmitted first, then green, then
+> +red. This is because there is effectively only a single way to transport that
+> +format on the serial busses.
 
--- Sebastian
+I find this confusing. The text says that on serial buses
+MEDIA_BUS_FMT_BGR888_1X24 is used, without mentioning this is an example
+specific to CSI-2. Here's an attempt at improving the paragraph:
+
+
+While the media bus pixel codes are named based on how pixels are transmitted on
+parallel buses, serial buses do not define separate codes. By convention, they
+use the codes that transfer a sample on a single clock cycle. and whose names
+correspond to the order in which colour components are transmitted on the serial
+bus. For instance, the MIPI CSI-2 24-bit RGB (RGB888) format uses the
+MEDIA_BUS_FMT_BGR888_1X24 media bus code because CSI-2 transmits the blue colour
+component first, followed by green and red. While used for 24-bit RGB data on
+parallel buses, the MEDIA_BUS_FMT_BGR888_3X8 or MEDIA_BUS_FMT_RGB888_1X24 codes
+must not be used for CSI-2.
+
+>  
+>  Packed RGB Formats
+>  ^^^^^^^^^^^^^^^^^^
+>  
+>  Those formats transfer pixel data as red, green and blue components. The
+> 
+
+-- 
+Regards,
+
+Laurent Pinchart
 
