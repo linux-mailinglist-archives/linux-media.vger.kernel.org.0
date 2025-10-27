@@ -1,47 +1,47 @@
-Return-Path: <linux-media+bounces-45597-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45598-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2915FC0B891
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 01:43:06 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id B7AFAC0B8BB
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 01:45:15 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 677714E5BD7
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 00:43:04 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 67AB63B9587
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 00:44:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3284F30E0F3;
-	Mon, 27 Oct 2025 00:42:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 37B9C258CF0;
+	Mon, 27 Oct 2025 00:44:24 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="G6xa5BwV"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="WbMhkCGB"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015CE1E5018;
-	Mon, 27 Oct 2025 00:42:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CA3E2A8C1;
+	Mon, 27 Oct 2025 00:44:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761525777; cv=none; b=KIIy6lGeB53j1i1GQuYqjZNrW65bM1iTzmjrkMDRmLmRjAvDDOjIuHCnzWXoTSyhniOeloj4YseZsGbNrj+FgaDFi2NY9GLBMlSxOjZ8fceWi7PQ7XAQgcTsgt/HYC5bvtPxBEBvCW/8eL0ueZ0xsE6LsFfLumnv6Nf2D3kC3mQ=
+	t=1761525863; cv=none; b=qCfv54V6ix1Z6jtrBsEh2kkfWR5b5PCtg7o0pkP6q/s09lVZ8de79IFdonNeslhyXZdtOD6+IprcaA8SZnNdCA4MJJXU37+iL+/zsOHeyZCspALULgNEuFRJUUxFQFHt+S+z2yDiEFGEaOH1eNR7njIReJZnwisqHBYr/i8fwOo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761525777; c=relaxed/simple;
-	bh=ql+9l2OIUe012ZMtNpJEMb1HFYAsPP+D4QtZAHzeetA=;
+	s=arc-20240116; t=1761525863; c=relaxed/simple;
+	bh=oGBJ70fWGuRrs7V1TNX5HTXmxCDYsiN9FlE25l3M+Bg=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZQxpTp0YQ809PfcWj1xtTVvBo6c+Tnby//TM3HqYm5DGS68yxSauu8agJ0dOd+3/uKiUBLW8rrBdukVway5speSYXLAF41/Mq7PEwkp9dPTROvkeR7uuV4gWcKEypqVTY3OprWVcsm5vDwTS4HVwwJzq4TKSdnYfEZTrlbIEwYM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=G6xa5BwV; arc=none smtp.client-ip=213.167.242.64
+	 Content-Type:Content-Disposition:In-Reply-To; b=OxrevwApeQFwIfcHBxqnQaak6ScboFGFMQzmLz76pVwDeF1d2gDgAV/iQDVd3AVknBmsR+7huyJQCQUPNrmkNHUneEclBaiK5iLaMzXrwM1Hw/QqiFSgTSb52AsxgNPTXmNVrcVr2YXNM/O2VBuH6aHj7WiYvItCck5FkmjPscI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=WbMhkCGB; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from pendragon.ideasonboard.com (82-203-161-16.bb.dnainternet.fi [82.203.161.16])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 50D9F177B;
-	Mon, 27 Oct 2025 01:41:06 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 9014D16AE;
+	Mon, 27 Oct 2025 01:42:32 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761525666;
-	bh=ql+9l2OIUe012ZMtNpJEMb1HFYAsPP+D4QtZAHzeetA=;
+	s=mail; t=1761525752;
+	bh=oGBJ70fWGuRrs7V1TNX5HTXmxCDYsiN9FlE25l3M+Bg=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=G6xa5BwVhhNpPPy76K2KrkE0H4OMjorlFTUcqeMi17nbo7fdC4ihgfpkRkCteqi/a
-	 HH01nziHav5NKjZT+Ap0VGM0KoCh40OV9KUxZfoSNAexvnf+ceNeoi/kj4hLKBh/Vt
-	 wq8SVBvvCprQS5fK8uFfj24V2wL/n3ME6tpFgJ5Q=
-Date: Mon, 27 Oct 2025 02:42:39 +0200
+	b=WbMhkCGBzud5YNDDtv2InQzvhXDW+1cRob5q2lKZbeYAgBbenRdiU09GHOzZNeyh9
+	 yjVcx/S4Sbt/1cq2UWOh4BGcQoMD6yeraACi8w2RX2YzYdJrmRI0a9GenptR6hN9RW
+	 QTS2l7Mqa/no3gJcRHSJM2Phb/9zwWnpTfvgx4Ds=
+Date: Mon, 27 Oct 2025 02:44:06 +0200
 From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To: Guoniu Zhou <guoniu.zhou@oss.nxp.com>
 Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
@@ -58,10 +58,10 @@ Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
 	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
 	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
 	linux-kernel@vger.kernel.org, Guoniu Zhou <guoniu.zhou@nxp.com>
-Subject: Re: [PATCH v7 3/5] media: imx8mq-mipi-csi2: Explicitly release reset
-Message-ID: <20251027004239.GO13023@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v7 4/5] media: imx8mq-mipi-csi2: Add support for i.MX8ULP
+Message-ID: <20251027004406.GP13023@pendragon.ideasonboard.com>
 References: <20251023-csi2_imx8ulp-v7-0-5ecb081ce79b@nxp.com>
- <20251023-csi2_imx8ulp-v7-3-5ecb081ce79b@nxp.com>
+ <20251023-csi2_imx8ulp-v7-4-5ecb081ce79b@nxp.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -70,14 +70,14 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20251023-csi2_imx8ulp-v7-3-5ecb081ce79b@nxp.com>
+In-Reply-To: <20251023-csi2_imx8ulp-v7-4-5ecb081ce79b@nxp.com>
 
-On Thu, Oct 23, 2025 at 05:19:44PM +0800, Guoniu Zhou wrote:
+On Thu, Oct 23, 2025 at 05:19:45PM +0800, Guoniu Zhou wrote:
 > From: Guoniu Zhou <guoniu.zhou@nxp.com>
 > 
-> Call reset_control_deassert() to explicitly release reset to make sure
-> reset bits are cleared since platform like i.MX8ULP can't clear reset
-> bits automatically.
+> The CSI-2 receiver in i.MX8ULP is almost same as i.MX8QXP/QM except
+> clocks and resets, so add compatible string for i.MX8ULP to handle
+> the difference and reuse platform data of i.MX8QXP/QM.
 > 
 > Reviewed-by: Frank Li <Frank.Li@nxp.com>
 > Signed-off-by: Guoniu Zhou <guoniu.zhou@nxp.com>
@@ -85,34 +85,21 @@ On Thu, Oct 23, 2025 at 05:19:44PM +0800, Guoniu Zhou wrote:
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 8 ++------
->  1 file changed, 2 insertions(+), 6 deletions(-)
+>  drivers/media/platform/nxp/imx8mq-mipi-csi2.c | 1 +
+>  1 file changed, 1 insertion(+)
 > 
 > diff --git a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> index fd202601d401145da8be23df4451f6af660642c5..fd788a7f48e5feeff658e3d2347db6fefca5d0cf 100644
+> index fd788a7f48e5feeff658e3d2347db6fefca5d0cf..d8fadb0f1b6b670110ee98a74cffd56a6c96592b 100644
 > --- a/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
 > +++ b/drivers/media/platform/nxp/imx8mq-mipi-csi2.c
-> @@ -337,18 +337,14 @@ static int imx8mq_mipi_csi_sw_reset(struct csi_state *state)
->  {
->  	int ret;
->  
-> -	/*
-> -	 * these are most likely self-clearing reset bits. to make it
-> -	 * more clear, the reset-imx7 driver should implement the
-> -	 * .reset() operation.
-> -	 */
->  	ret = reset_control_assert(state->rst);
->  	if (ret < 0) {
->  		dev_err(state->dev, "Failed to assert resets: %d\n", ret);
->  		return ret;
->  	}
->  
-> -	return 0;
-> +	/* Explicitly release reset to make sure reset bits are cleared. */
-> +	return reset_control_deassert(state->rst);
->  }
->  
->  static void imx8mq_mipi_csi_set_params(struct csi_state *state)
+> @@ -1069,6 +1069,7 @@ static void imx8mq_mipi_csi_remove(struct platform_device *pdev)
+>  static const struct of_device_id imx8mq_mipi_csi_of_match[] = {
+>  	{ .compatible = "fsl,imx8mq-mipi-csi2", .data = &imx8mq_data },
+>  	{ .compatible = "fsl,imx8qxp-mipi-csi2", .data = &imx8qxp_data },
+> +	{ .compatible = "fsl,imx8ulp-mipi-csi2", .data = &imx8qxp_data },
+>  	{ /* sentinel */ },
+>  };
+>  MODULE_DEVICE_TABLE(of, imx8mq_mipi_csi_of_match);
 
 -- 
 Regards,
