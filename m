@@ -1,121 +1,275 @@
-Return-Path: <linux-media+bounces-45718-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45719-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479BEC114C5
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 21:01:25 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id C8657C11706
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 21:51:37 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id CA724465689
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 19:59:00 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B1A245664C0
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 20:51:33 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DEE9C31B836;
-	Mon, 27 Oct 2025 19:58:50 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5B014315789;
+	Mon, 27 Oct 2025 20:51:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="cYXtKJHs"
+	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="LKPxbNso"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF4F63195F4
-	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 19:58:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761595130; cv=none; b=S+6OX++XSbTEzhDJGYwtsTHwoZcxxfzCDUHORB6AZYf0MXKDjAQ7ET6qGlI77Fz4O+3fJfrdtP+86dx6sHXQITG5E//YXAsSysoU4CYdQK+1K089Azo2fumkgGe7bQSGpoy3/DggG/6q39DeRYesZDyOrGK5e1nVfYgnUmD6DbI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761595130; c=relaxed/simple;
-	bh=BZAMu1oHu0FAo/JjzkXlFAe2wQUjaV1a3CnBnCROdY0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=qAaBErJbrIpPox2prQvf6Sy8BWGdVNB58dwnlUs6YNtzvSP9xfCHdEkbLw13A2OH5DZAxjiKWTa/6Wtyd1t0PVwdFW85efPQ790Nhlu0H7TIeYsP8guuptIXN5lx4deZMc2CYMTe2HiE0G84rNaGWZ/WkAjyWVcXxpjUV8cVDBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=cYXtKJHs; arc=none smtp.client-ip=209.85.166.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-430d7638d27so52307805ab.3
-        for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 12:58:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761595128; x=1762199928; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wYatPSd64HPpUGouUUXNhRGsgX4uRfvZpmNrkJocNvw=;
-        b=cYXtKJHs6ldQtGoW8EYO1JAH0UjOaoObpgxymdkIvjN3szuqkYD6+7hM2LGrrEBce4
-         poGaoEAeafC9gphJTT7zwe0YVoeRojLaSvCpKiZJsra/4Era62j/uuBQh8DTLkt6BrOM
-         ray4e3vRa92jYbGazlQbarQDVefXHicCeCxrJKixg7lkjmxrG0ABui1gifjxeUgTrr3L
-         U9L8oqpy7CdfOXFu2CBh9htZtKCs7vromQXJkXDxBTutRb4FNxzgGt0tRxfe08ZZ0ac/
-         6LAv08K7DED2gxX6PZ7GQLxMfoHD0IK28/94sINQ712KbwFd9XbbRM5dqLU1v2C/Bpra
-         hgKA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761595128; x=1762199928;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wYatPSd64HPpUGouUUXNhRGsgX4uRfvZpmNrkJocNvw=;
-        b=AWwhPxqoArTNqP8lJCyYlG+D7MrZbcPO54vn0NOBkrR9AzOIbWRngS+CmkwmENOjzl
-         nFuE1nJOPlWg/cqjtHU2y96MZ5GtwoRj/RtUiqy6RnanfXm36NzWvA6waGIKC/797AOT
-         gZxnp3j9bkRchxYe8NquPprP1j8dCwxMEuVIEYsOSMc9aM9kKoblnBoC7A5tb1unBHoP
-         0H+9bQo8Yr54FWrhNftV8KwtldK8C7uSk5YKGTaBJvNwRxCQULht2q3qlMu17gnQtp3Q
-         iXa9W0Xv2UhFyrXlx/aEFzGex9YfZQa9IkzF3/oeEjvgYVmoxONnoxDFecqM8nooccMD
-         /q6w==
-X-Gm-Message-State: AOJu0YzBqdS3vCavEfev0JsVm3JCbkYRDEwJh4EBNiA9N0Re1m6GPBn2
-	xxIyAoVnzXabGaTu16y4WENEWTCip7B7cHIV4HCKPmQIAkhnoFyBu0waw+MtSG0QFRg=
-X-Gm-Gg: ASbGncu3ckp2NE1vp3Gh9V9kJR3VexFY79TRF7Yna+YLSq3ZMBO0zkwDnrFkJF7CNCT
-	PNvzizxfDt+BVwwkOP3NYUk3n+dFWbAmT2akTJd/OW3lVPx5Wa25YmB0sKuLjGgBIch6tkp4S5Y
-	e1z3AaWWXhHvzJk601oBRCN17i/yf0qopMIe5vjbY4HcrzOyhlQs7eegIyirWxiWIAaDrd3vrds
-	qd7fP6XgUsfZ3K+W/u0iCBa+3kntsuzZy3P8Wrr7EeHNLnwiaqi67FFbL4AwLhOimiTxx45BuQT
-	SHNxYBCgT68vnHlVELw3hrZ+aJLvJl2CiWfQ+KKGxPKphq4I3LGMWMN3+bUxuPFK2gbXPzpxDCU
-	ivumPEzAlVmHnkBPNTE9jv54w6unLDSLD/W1MVhdAXABFz749ft6iNuX3nWojCZz1nj49H+kFEY
-	sutIG7GScUYp6MOSfGgJy+Ry6WcJvhU0x4xH57YU0Xjt0gM+zT6wEt1FBjgeDWu3Q=
-X-Google-Smtp-Source: AGHT+IEkTfSZCn7CNOjQuB1y9+Tg4K2UtnkiV7xpyYLiudbMJCZ6ETdnYK6ETtCF4JjQpHvmSwYWPQ==
-X-Received: by 2002:a92:ca0c:0:b0:430:afe4:6a4b with SMTP id e9e14a558f8ab-4320f77080cmr18452315ab.19.1761595127885;
-        Mon, 27 Oct 2025 12:58:47 -0700 (PDT)
-Received: from princess (76-224-4-192.lightspeed.clmboh.sbcglobal.net. [76.224.4.192])
-        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-5aea9e37cd4sm3482853173.60.2025.10.27.12.58.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Oct 2025 12:58:46 -0700 (PDT)
-From: Ben Hoff <hoff.benjamin.k@gmail.com>
-To: linux-media@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	mchehab@kernel.org,
-	hverkuil@kernel.org,
-	lukas.bulwahn@redhat.com,
-	hoff.benjamin.k@gmail.com
-Subject: [RFC PATCH v1 2/2] MAINTAINERS: add entry for AVMatrix HWS driver
-Date: Mon, 27 Oct 2025 15:56:37 -0400
-Message-ID: <20251027195638.481129-4-hoff.benjamin.k@gmail.com>
-X-Mailer: git-send-email 2.51.0
-In-Reply-To: <20251027195638.481129-1-hoff.benjamin.k@gmail.com>
-References: <20251027195638.481129-1-hoff.benjamin.k@gmail.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A0592D8377;
+	Mon, 27 Oct 2025 20:51:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761598289; cv=pass; b=G7leLNArcyK9UiZUP3H9hVpjIF4ygXaxrBsFbySHGQBfWCsOHV5RrqlChE9SLSlZDTN2oTb6VrRsapIfTqBT8Chzov/nqSUgOpSfHwwLh86K4pA1Ay/7BNFZ8LVTdKBZiUH1w8dwek974Rhc/9ABq2/qGVvRCmZJabqAwMWzDVE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761598289; c=relaxed/simple;
+	bh=lhAHUj5bxXShVg5mBPT4K+s1waC5K/onTf9I+kANIjg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rgF3up66gC6lozUoHdUDlwLv2OHqM/C9M0FbfIUAqdNVckk0Oq6lE9/xJDTrZlfCY3s9frZagzrVmCac8w2v4qXGn9qwdHmrM0QcNd7drqS71mvAdcDkbsedpyFzLEYpdB8Vi79/t9ofXPtS6fVeYcshl5f/fl+DyqgtEefo4JM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=LKPxbNso; arc=pass smtp.client-ip=195.140.195.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
+Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: sailus)
+	by meesny.iki.fi (Postfix) with ESMTPSA id 4cwQf25Mg0zyRb;
+	Mon, 27 Oct 2025 22:51:22 +0200 (EET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
+	t=1761598283;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0UzmCaPVoiS1w/FUaOytewjvTtIauYLev6TJBsSgl38=;
+	b=LKPxbNsoEvumyCTzXvaXlwgGq7tpa8L6cRk3TshEApKiWUUsZkFYI/+VQenMjQqJOdm7Bk
+	PtVOG5iOsJT+7gFJk9fGny3dcD89o6QQf2ZDypYDlOs2JyGN1Zn6p4yLr8WHbRBjKfseu0
+	AITo0O6gJ1Yv1ew1ARkHQ/SDbJhc2Og=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
+	s=meesny; t=1761598283;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0UzmCaPVoiS1w/FUaOytewjvTtIauYLev6TJBsSgl38=;
+	b=yrFxCASLbHlVMhaVYYeTZrnnylCerNggsiAtDRErJ8QL/KVVJot4XfqITy0TMSlwsFhfeU
+	HoyMvf5HSVu6SwAbEpA176RblHLEe/y9HDCoygdUUNiftb24i+RYb843ONWvBOgZX80iuB
+	a4Pl4QDq78Hk6LjgaKmF3GiyuPpzRyk=
+ARC-Authentication-Results: i=1;
+	ORIGINATING;
+	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
+ARC-Seal: i=1; s=meesny; d=iki.fi; t=1761598283; a=rsa-sha256; cv=none;
+	b=LjaE/ud729xDvyU4alpwesfOqW8/XoXctkMEPWaona1Io78nhyPB7/ACsEOOXsMT+Nqdz1
+	SmR/ML3OGn/P18BkwFNPCHE+MXzs66/09La6yPfZMOI1G/2WSUKpdLRDgi1zKMdSlBraMr
+	v7r0bJcB3NFx5Y+Bv0dSOyidef24giI=
+Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id AF27B634C51;
+	Mon, 27 Oct 2025 22:51:21 +0200 (EET)
+Date: Mon, 27 Oct 2025 22:51:21 +0200
+From: Sakari Ailus <sakari.ailus@iki.fi>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Eugen Hristev <eugen.hristev@linaro.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
+	linux-staging@lists.linux.dev, Luis Oliveira <lolivei@synopsys.com>
+Subject: Re: [PATCH v3 01/31] dt-bindings: media: add DW MIPI CSI-2 Host
+ support
+Message-ID: <aP_bSQUIle_9-L-7@valkosipuli.retiisi.eu>
+References: <20250821-95_cam-v3-0-c9286fbb34b9@nxp.com>
+ <20250821-95_cam-v3-1-c9286fbb34b9@nxp.com>
+ <aP8t3YClrZxOnHea@valkosipuli.retiisi.eu>
+ <aP+enPOHPkvZAkzS@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aP+enPOHPkvZAkzS@lizhi-Precision-Tower-5810>
 
----
- MAINTAINERS | 6 ++++++
- 1 file changed, 6 insertions(+)
+Hi Frank,
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3da2c26a796b..313ac53f647d 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4128,6 +4128,12 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml
- F:	drivers/iio/adc/hx711.c
- 
-+AVMATRIX HWS CAPTURE DRIVER
-+M:	Ben Hoff <hoff.benjamin.k@gmail.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	drivers/media/pci/hws/
-+
- AX.25 NETWORK LAYER
- L:	linux-hams@vger.kernel.org
- S:	Orphan
+On Mon, Oct 27, 2025 at 12:32:28PM -0400, Frank Li wrote:
+> On Mon, Oct 27, 2025 at 10:31:25AM +0200, Sakari Ailus wrote:
+> > Hei Eugen,
+> >
+> > On Thu, Aug 21, 2025 at 04:15:36PM -0400, Frank Li wrote:
+> > > From: Eugen Hristev <eugen.hristev@linaro.org>
+> > >
+> > > Add bindings for Synopsys DesignWare MIPI CSI-2 host, which used at i.MX93
+> > > and i.MX95 platform.
+> > >
+> > > Signed-off-by: Luis Oliveira <lolivei@synopsys.com>
+> > > Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
+> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > > ---
+> > > Change in v3
+> > > - drop remote-endpoint: true
+> > > - drop clock-lanes
+> > >
+> > > Change in v2
+> > > - remove Eugen Hristev <eugen.hristev@microchip.com> from mantainer.
+> > > - update ugen Hristev's s-o-b tag to align original author's email address
+> > > - remove single snps,dw-mipi-csi2-v150 compatible string
+> > > - move additionalProperties after required
+> > > ---
+> > >  .../bindings/media/snps,dw-mipi-csi2-v150.yaml     | 151 +++++++++++++++++++++
+> > >  MAINTAINERS                                        |   1 +
+> > >  2 files changed, 152 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml b/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml
+> > > new file mode 100644
+> > > index 0000000000000000000000000000000000000000..d950daa4ee9cfd504ef84b83271b2a1b710ffd6b
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml
+> > > @@ -0,0 +1,151 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/snps,dw-mipi-csi2-v150.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: Synopsys DesignWare CSI-2 Host controller (csi2host)
+> > > +
+> > > +maintainers:
+> > > +  - Frank Li <Frank.Li@nxp.com>
+> > > +
+> > > +description:
+> > > +  CSI2HOST is used to receive image coming from an MIPI CSI-2 compatible
+> > > +  camera. It will convert the incoming CSI-2 stream into a dedicated
+> > > +  interface called the Synopsys IDI (Image Data Interface).
+> > > +  This interface is a 32-bit SoC internal only, and can be assimilated
+> > > +  with a CSI-2 interface.
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    items:
+> > > +      - enum:
+> > > +          - fsl,imx93-mipi-csi2
+> > > +      - const: snps,dw-mipi-csi2-v150
+> > > +
+> > > +  reg:
+> > > +    items:
+> > > +      - description: MIPI CSI-2 core register
+> > > +
+> > > +  reg-names:
+> > > +    items:
+> > > +      - const: core
+> > > +
+> > > +  clocks:
+> > > +    maxItems: 2
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: per
+> > > +      - const: pixel
+> > > +
+> > > +  phys:
+> > > +    maxItems: 1
+> > > +    description: MIPI D-PHY
+> > > +
+> > > +  phy-names:
+> > > +    items:
+> > > +      - const: rx
+> > > +
+> > > +  resets:
+> > > +    maxItems: 1
+> > > +
+> > > +  interrupts:
+> > > +    maxItems: 1
+> > > +
+> > > +  power-domains:
+> > > +    maxItems: 1
+> > > +
+> > > +  ports:
+> > > +    $ref: /schemas/graph.yaml#/properties/ports
+> > > +
+> > > +    properties:
+> > > +      port@0:
+> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +        unevaluatedProperties: false
+> > > +        description:
+> > > +          Input port node, single endpoint describing the input port.
+> > > +
+> > > +        properties:
+> > > +          endpoint:
+> > > +            $ref: video-interfaces.yaml#
+> > > +            unevaluatedProperties: false
+> > > +            description: Endpoint connected to input device
+> > > +
+> > > +            properties:
+> > > +              bus-type:
+> > > +                const: 4
+> >
+> > If 4 is the only value supported, you can drop the property altogether.
+> 
+> Sorry, What's your means here? There are more options in video-interfaces.yaml.
+> here just add restriction for bus-type. otherwise other value can be
+> provide in dts file.
+
+It could, but wouldn't any other value be incorrect?
+
+In other words, this property is redundant and should be dropped.
+
+> 
+> >
+> > > +
+> > > +              data-lanes:
+> > > +                minItems: 1
+> > > +                maxItems: 4
+> > > +                items:
+> > > +                  maximum: 4
+> > > +
+> > > +      port@1:
+> > > +        $ref: /schemas/graph.yaml#/$defs/port-base
+> > > +        unevaluatedProperties: false
+> > > +        description:
+> > > +          Output port node, single endpoint describing the output port.
+> > > +
+> > > +        properties:
+> > > +          endpoint:
+> > > +            unevaluatedProperties: false
+> > > +            $ref: video-interfaces.yaml#
+> > > +            description: Endpoint connected to output device
+> > > +
+> > > +            properties:
+> > > +              bus-type:
+> > > +                const: 4
+> >
+> > Are both input and output of this block CSI-2 with D-PHY?
+> 
+> Yes, input from camera sensor, output to others image processors to do data
+> transfer or format convert.
+
+The description appears to be saying this is "Synopsys IDI", not CSI-2 with
+D-PHY. We don't have a bus-type for IDI. Couldn't you simply drop it?
+
 -- 
-2.51.0
+Regards,
 
+Sakari Ailus
 
