@@ -1,150 +1,112 @@
-Return-Path: <linux-media+bounces-45662-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45665-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FE66C0DF36
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 14:15:54 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [213.196.21.55])
+	by mail.lfdr.de (Postfix) with ESMTPS id 09454C0E29F
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 14:51:38 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 579423B4FC6
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 13:11:00 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id A987034E44A
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 13:51:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6166C25C821;
-	Mon, 27 Oct 2025 13:10:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7F2382309BE;
+	Mon, 27 Oct 2025 13:51:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f097X8kx"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ObWpbPOS"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE1C52580FB;
-	Mon, 27 Oct 2025 13:10:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03CC236A70
+	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 13:51:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761570650; cv=none; b=LsK+cgWdtUGecXGuicSS+ThwXZgbkxgYcSQvHxHfZtkZdAB16hNZvQx2pVSh7XwCK0Cj5C0HUPO6pC+n8okPJ7EsLGu3ijnzQy7Y1DIglVVCNWChqh8UpPYxLreUccaGk12D7QTtZz7g8nnVNCJtegTEcuUr8oLxq7RU3XZuLh4=
+	t=1761573094; cv=none; b=Fd7WacI0fvpF/lfD8kXDWYdYqdb8Yd0Jjc6rKHhJfQ8k55ZbPQG3ir9Cv+ca1pSVcAQI3FUgE7BYFfcM4SUO1cH9uFSaom60vHp+qnWx5D6VdhVuKsELc/FLHIhTCQfGZNH0Rw0JBJlhJg0V4K36PQd2WCC5OhncRweM77byc/k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761570650; c=relaxed/simple;
-	bh=f9IEcVfP2kRCqxut50nXsL8UsN+mLFg9FFXWZh9r9Ac=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Udun/wBOZ9FTxbgjnQleYxRCcaQZZZsixj1s+WqlbaViaYhB9YMBEtJ8XiSuYhFIMfRTU/LuF+rjZSJT80pe6S3/D5csRusvmh1H82vWtjyq3953ig3Z0+fT1evet4e6WiCeCy7Bi+pH32boWWBP0igLt7x0XiEQF7X/UMhDvfo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f097X8kx; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B4C89C4CEF1;
-	Mon, 27 Oct 2025 13:10:43 +0000 (UTC)
+	s=arc-20240116; t=1761573094; c=relaxed/simple;
+	bh=sefvxqrKFmegZe01RiXa4C75hWl3Eg3to1YMe6HlL1E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=f4tQjsMNltfFappc2LM5rOjspRIqudw6rw9YSQczeq07wRkgtuX9w/VnWnkI3FO+PTHqQlTPC/nhcdn8NYxwulzjO90OW8ggqSIwDKWY5t0BXutjgnwRa+i47TcZ+M//tm7128oKgcWO2rKbVpirREWfMfbVXa+FSVrbESd94es=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ObWpbPOS; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6C969C4CEF1;
+	Mon, 27 Oct 2025 13:51:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761570649;
-	bh=f9IEcVfP2kRCqxut50nXsL8UsN+mLFg9FFXWZh9r9Ac=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=f097X8kxQ29rBIOYCXwgi0kQSgxeowPnkNwptbuTFkWy5FIvO+TtOaiMB3B0MSjpY
-	 sjORIp3f0qoAe+JsuojLKEnx6JO+n/Nr1ZOFOufKlh/hEzgFjapssLK65EGCDPx4vo
-	 VHi4eN8IRC8f+9Sn6Ef3m7aKs3wtxMkE/CrrCu2+iLqmjZR3cmYOX0tb9SPDXQDgW7
-	 NPItTTT8vcyYhsn4qqKB8sA+l2khRCMBP0SzIHokzipz6fN/09xyFJIPd9BbCh1+XV
-	 DIP9JNlraKIPn3wI42gEnOq279jGDTGK7/etbVSzdmpjmiazpTWI+8y3Z8Yvm1N5/R
-	 a+fsXXfRX6NdQ==
-Date: Mon, 27 Oct 2025 13:10:40 +0000
-From: Mark Brown <broonie@kernel.org>
-To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>
-Cc: Linus Torvalds <torvalds@linux-foundation.org>,
-	Linus Walleij <linus.walleij@linaro.org>,
-	Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
-	Sandy Huang <hjc@rock-chips.com>,
-	Heiko =?iso-8859-1?Q?St=FCbner?= <heiko@sntech.de>,
-	Andy Yan <andy.yan@rock-chips.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Shreeya Patel <shreeya.patel@collabora.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Jaehoon Chung <jh80.chung@samsung.com>,
-	Ulf Hansson <ulf.hansson@linaro.org>,
-	Nicolas Frattaroli <frattaroli.nicolas@gmail.com>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-	dri-devel@lists.freedesktop.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, kernel@collabora.com,
-	linux-mmc@vger.kernel.org, linux-sound@vger.kernel.org,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH 11/21] drivers: don't use GENMASK() in FIELD_PREP_WM16()
-Message-ID: <432db4d2-1f36-4531-b0b3-2a06ae682fd1@sirena.org.uk>
-References: <20251025164023.308884-1-yury.norov@gmail.com>
- <20251025164023.308884-12-yury.norov@gmail.com>
+	s=k20201202; t=1761573092;
+	bh=sefvxqrKFmegZe01RiXa4C75hWl3Eg3to1YMe6HlL1E=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ObWpbPOSNw7RMt8TmCLyRGIGNlDw1zenzitNtX+GZeWCcg5xlW4aijZwhX7iTHAcJ
+	 T7KUh7hyI7xjfWapzTksZQb/fpxxxD2Wntkx/7EFiekAAOX+4IsbnRGAcL64NTsOCz
+	 guX9DiCg4OQKyA7E6RQGCDPU+Otvz7EpX4eW+Oo/s8C0NIgkGyVhVZq0eqKstVRyFV
+	 pXjEqmMKdeC6pfRr0bIrKl8X6NWIUNlsUbU1LWTXJ8T3+G6VFoU8UHT0v7Oe7QThiz
+	 3lqlEy+LKgtRWO8QMtslnN79hYEN0d6B/ozbcUXMdpIFyAKXn92AeIKeJh8k4i1wjb
+	 ILGxxfkSN47nw==
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+To: linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Sean Young <sean@mess.org>,
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>
+Subject: [PATCHv6 0/3] docs: media: multicommitters model documentation
+Date: Mon, 27 Oct 2025 14:28:30 +0100
+Message-ID: <cover.1761571713.git.hverkuil+cisco@kernel.org>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="tcUV2s8VfPxXlH7h"
-Content-Disposition: inline
-In-Reply-To: <20251025164023.308884-12-yury.norov@gmail.com>
-X-Cookie: How do I get HOME?
+Content-Transfer-Encoding: 8bit
 
+I finally had time to continue Mauro's work on documenting the
+multicommitter model.
 
---tcUV2s8VfPxXlH7h
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It is a fairly big overhaul of v5. The most significant change is
+that I extended the maintainer profile substantially. A lot of
+the committer requirements from the v5 of media-committer.rst were
+actually maintainer requirements, so I moved those over to the
+maintainer profile.
 
-On Sat, Oct 25, 2025 at 12:40:10PM -0400, Yury Norov (NVIDIA) wrote:
+Patch 1/3 updates maintainer-entry-profile.rst: it introduces the
+three Media maintainer levels (Media Maintainer, Media Core Maintainer
+and Media Subsystem Maintainer) and what the responsibilities are.
 
-> Recently added FIELD_PREP_WM16() in a few places uses GENMASK. It's
-> confusing and may mislead readers. Switch to BITS() or FIRST_BITS()
-> as appropriate.
+Patch 2/3 adds media-committer.rst: that focusses on the additional
+commit rights that can be granted to a Media Maintainer.
 
-This doesn't seem to line up with the actual change, you're not altering
-FIELD_PREP_WM16() at all but rather altering things that use it.
+Patch 3/3 adds back and updates the list of Media Maintainers that
+disappeared in patch 1/3. Please verify this whether the email
+addresses are the correct ones, and verify that the areas of responsibility
+are correct and that nothing is missing.
 
-As mentioned in submitting-patches.rst when submitting a patch series
-you should supply a cover letter for that patch series which describes
-the overall content of the series.  This helps people understand what
-they are looking at and how things fit together.
+It feels much more consistent to me, I'm looking forward to the
+review comments.
 
-> ---
->  drivers/gpu/drm/rockchip/rockchip_lvds.h             | 2 +-
->  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c         | 4 ++--
->  drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h | 4 ++--
->  drivers/mmc/host/dw_mmc-rockchip.c                   | 4 ++--
->  drivers/soc/rockchip/grf.c                           | 4 ++--
->  sound/soc/rockchip/rockchip_i2s_tdm.h                | 2 +-
->  6 files changed, 10 insertions(+), 10 deletions(-)
+I have uploaded the documentation with these patches here:
 
-It doesn't help to send changes to unrelated subsystems in one patch
-either...
+https://hverkuil.home.xs4all.nl/spec/driver-api/maintainer-entry-profile.html
+https://hverkuil.home.xs4all.nl/spec/driver-api/media-committer.html
 
-> --- a/sound/soc/rockchip/rockchip_i2s_tdm.h
-> +++ b/sound/soc/rockchip/rockchip_i2s_tdm.h
-> @@ -287,7 +287,7 @@ enum {
->  #define I2S_TDM_RXCR	(0x0034)
->  #define I2S_CLKDIV	(0x0038)
-> =20
-> -#define HIWORD_UPDATE(v, h, l)	(FIELD_PREP_WM16_CONST(GENMASK((h), (l)),=
- (v)))
-> +#define HIWORD_UPDATE(v, h, l)	(FIELD_PREP_WM16_CONST(BITS((l), (h)), (v=
-)))
+Regards,
 
-This is adjusting the implementation of something that takes in h, l to
-use l, h which if anything seems likely to introduce confusion, and
-definitely feels well into bikeshed territory.  I don't *super* care but
-I'm having a hard time seeing the benefit.
+	Hans
 
---tcUV2s8VfPxXlH7h
-Content-Type: application/pgp-signature; name="signature.asc"
+Hans Verkuil (1):
+  docs: media: document Media Maintainers
 
------BEGIN PGP SIGNATURE-----
+Mauro Carvalho Chehab (2):
+  docs: media: update maintainer-entry-profile for multi-committers
+  docs: media: document media multi-committers rules and process
 
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmj/b08ACgkQJNaLcl1U
-h9BrOgf/WZesOvGZkIjzC0cgXcITxYU+d0wJLcf0GA0ADyZjEl0v5GWiIXwSKFZ2
-96/4KlYfP+QnWypd7OPgmCe0w8QeJJAea7lmFwnE8sqRkjyYikoRC318PN1ywNB1
-Pyuh/mtAE5cQ+9UzI7j4nKoW3MTx2p2/bulGH1TQs5DyOO9iQK1jeaVwrD3k+ZdI
-mEER+xUO2NH09agCTqrQQONeRG9S0Sfs/PstH4X744VpErUsWyuYu794BxrtC8Un
-U18ljABlmQfvRVjCV9pDq73C4qwAqAlpsW/X+bTBa0JmLo/1n84hOjdI7Fobo6Kw
-cyxDW3840JcPzrlIo2WKdbrXXVH/xw==
-=OWcQ
------END PGP SIGNATURE-----
+ Documentation/driver-api/media/index.rst      |   1 +
+ .../media/maintainer-entry-profile.rst        | 407 +++++++++++++++---
+ .../driver-api/media/media-committer.rst      | 196 +++++++++
+ 3 files changed, 548 insertions(+), 56 deletions(-)
+ create mode 100644 Documentation/driver-api/media/media-committer.rst
 
---tcUV2s8VfPxXlH7h--
+-- 
+2.51.0
+
 
