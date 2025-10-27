@@ -1,137 +1,160 @@
-Return-Path: <linux-media+bounces-45715-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45716-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 90314C113CF
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 20:45:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 6731BC11493
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 20:57:42 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D7B414FF607
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 19:32:25 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id DBA454214E1
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 19:56:54 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 082043277B4;
-	Mon, 27 Oct 2025 19:30:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 769DD30E825;
+	Mon, 27 Oct 2025 19:56:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G4wgkenP"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bqdsHKOg"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-io1-f42.google.com (mail-io1-f42.google.com [209.85.166.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D553277A4
-	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 19:30:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E03D1F94A
+	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 19:56:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761593439; cv=none; b=XEsAshM4NJzPbaiAA5ppuBcfj85UmERHqe2LH6d3ZSJWPXQx0Q0Vtu39/zzhoeVgkQdITU8ZK64vqzFyvpr/hGTSUgea+4GpeJaI5d3hN6I49WMtUFZzqTzg5jllqp0PkP6Sq+UdIpLO4Yic6Gxuhh++yoQmy1I8cxLqrV6/vks=
+	t=1761595007; cv=none; b=keHN7pba/Ksek1hcn+QOzTEaMyM+ONRKaWkin+HJFcROYoey40qDZ+hCh2J5Wpp42f+oCfkDgQwrljRx5t9VoB128QrVW/5yYyatLL8S3SRz4IuZwHM9IwZwM8TsCZr81oRrfhaOL/1yPK7MClog9iyV7b0Uh/Svsk37Jy8fJkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761593439; c=relaxed/simple;
-	bh=Nw/EC4BDxEdLzlg8/9tOSmc+lQtWTOG1wUVvZBCUOO4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Qlv7o49hA85mtVGqbwe+owiBPqPcMqIwJP+GetImvlO6YuQvq4ZDef6rwr55D2mpDv6gUI64qAYxz4ldrLYHE6vDw3sxUqBBizbg9DFtLdhD3oyA84NiK1QVcCy/iFr5KZ3m3lS25MCvbFy6fLOay8xjhqchiwZxXBchlVRxqaU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G4wgkenP; arc=none smtp.client-ip=209.85.221.53
+	s=arc-20240116; t=1761595007; c=relaxed/simple;
+	bh=UZZhAbmAkKv+FTP5GhIDbZHPDxG4xE0BfY9TmDHhbOs=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VdgttTtqPUT4RUtv+BAUYELowmfbO3ok7edqtxZpEsvrrUceQYeijWowhpyISUS2IrgkjytQp8WyiPAG5HOR0W8gHJR1p0x0BCbn1iNDnX4GZ4LdmjwR+c7itNQB+9wTedQokTL1bYIutc/m2C3JHVEYOAcmWYAnjWsjJIwwZd8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bqdsHKOg; arc=none smtp.client-ip=209.85.166.42
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3ecde0be34eso3985049f8f.1
-        for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 12:30:37 -0700 (PDT)
+Received: by mail-io1-f42.google.com with SMTP id ca18e2360f4ac-945a2c8e52cso84188539f.3
+        for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 12:56:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761593436; x=1762198236; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sfEgFrMFSQT2jieK7pepMP8G7R1y/5//r9L5wGXCKUI=;
-        b=G4wgkenP75PGAi8cLTJP3agdhbsxhk0wYjAT7KAV8TjgUr1b/TEg0bXlM5xWvLbm5l
-         rDO6Bqe1W0PvuOIO8+313PmUZoVoghSYubLpX5ZPhFQk7YTbIhmoWnSBsgC0+p1lM96R
-         Slhw8kvcUA4Vtxm9jRd1YE2cKXSULwmPg9dCqyjQGFMrudxFqmlkk/sOrey7J3xLo15u
-         v+Hbza8EYWdiLGIkEpS7xs/yTqkzXsCFj41+3bTbzGYfXH1o5zegsC9j0YnK7rlfGLmz
-         MOpsm28h+L0iJHfkCiwGlJv0T1JRauOkMl8QXD8smPTE2F1FJgWe3dWxjKZPqemd53dT
-         i+Kg==
+        d=gmail.com; s=20230601; t=1761595005; x=1762199805; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=hLhpczMr/qRNQs1RGJCHlSNtk+HMp4BppJDnLUYfVFc=;
+        b=bqdsHKOgsbb9uMVYJyDBRfsNwR1bNCUznTlOLW6TlPn7ilViEIiEkOYZrEkbgEjuFV
+         /0jSAKraXz9FZtlEjM4dyy6QfuadfYPSXV1epLh0YTwc+y4OMmJOvKj4qxvployBaXlL
+         L4m3URglKZt3LVHDbDaG+CKfC0Ix4OBE18S9ga8Dq/SnOkiwZG3PLN+Lp0lnE/cwMrcX
+         fUtg7bnt8c6V9CtyeSo7yrRBUt7RUUXh+wuVdzG00tglLFVKlZ2hNsVKYpfG2jrigD4o
+         4hSibgzK2dOqCpgT8oyn3Xh96cD4vdQfFQRTyaB2R4T4kQn9nddYSuPGpawuObpkNLlf
+         ntLw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761593436; x=1762198236;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=sfEgFrMFSQT2jieK7pepMP8G7R1y/5//r9L5wGXCKUI=;
-        b=t/F1ooCwfMES6X6pIP7Iv5VoJEHfwBDZpdjnrGjKy8ceJ4UqWQa2FeoYt/DcU9Xzwr
-         zKuHFDjxAGVtScjI1WeAQELn69/oeWIptyKl0HOkEV7TXYMhUR2gl1gtfPcXOHmtLiWk
-         D1eTvm+C8cvssFJ1azYTQIDSSTMzVnZRxN6iqGLsd6FzyBjEbl7ITfStQDg8VCuhSg2Y
-         VEw6zgu/oTF/VUJpTYwUQrD6Daq/78Fe0rDM7TOnDTbt7vm0kmkMur3y8T7+5IPdNyNd
-         SIkKpxzKpKEvW66ij2/e7ol+SoISnp7+jE3u3TZ1rnNh9GaozfTiCv0fGfE8rHRdzf6E
-         +jzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCULUaaZBP35ayZL8Pbhl3Y8rIdubBmDwlJaQGjKyK+q8W6TDXXYA6oUmfKBdKo4qrXAemLQz/qSfFthFQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPAo5nWPgBYv9+9nN83/YLVceKFQIdAU6c+RoGXCdYyVdLjv9w
-	8FeP5AdW+AlkR4LQQvYjTC3Y83xmq9npIXgQiMtjeNK636sV2I6xj6+7
-X-Gm-Gg: ASbGncu7OoctAx/2pGmKg43Cv4XDDQF2Ju29WB0Hxe8LLX9ZRAwWaGNHulPOZXo2Udv
-	DN0okwe7mPNEK3NavnG8B9olXrmx7xOWg4fv+g6FWsDK/pjgqEW5a4KaMpda3ZhExdd4vN0M2H4
-	Gl5RqUaWWCgTUVxerhyAQgipqfZcbnGW83SDACY5D6MY9D+z+GiiLL3CppxsQX492BFtykZrVJb
-	G4e0sL/IVCMxQlZOg3t3eXhgsZ1b36kLnu53myvxTClPyYJ4nSsOKvDXuMmxNfJetsqERKmuSB5
-	1nYwyf/LDcBQ/CLqtcYK+Fkz/hiy6fZkfODqlvbTha0jkoDSByuuhlEu4oBCadI9dATdGCdaQ1L
-	AUQpRWD12MYPEPSvFt/P6Y+M+JQQyOGmCryvZVC884NTFpeQBhmRAcj3fz0FrgTCkLH6cW9o/k2
-	za8lKAktlO8wJBlh+RYsN0AOBNB3FHt7nkcCHo6c/b73kJChk5N8li
-X-Google-Smtp-Source: AGHT+IGtEr+9CIcpzVVArHnTXR3tT6CiV2LiHYXcwwmfckLKMvIkaTwS1E1UtslWxI222jO5QieSoQ==
-X-Received: by 2002:a5d:5f54:0:b0:425:70cb:9ba8 with SMTP id ffacd0b85a97d-429a81b1f42mr540100f8f.1.1761593435800;
-        Mon, 27 Oct 2025 12:30:35 -0700 (PDT)
-Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952e3201sm15950022f8f.47.2025.10.27.12.30.35
+        d=1e100.net; s=20230601; t=1761595005; x=1762199805;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=hLhpczMr/qRNQs1RGJCHlSNtk+HMp4BppJDnLUYfVFc=;
+        b=BvIVshHuT/aj+Hf8vlVd6Px3QGLxNQyETYpcVOCtsUiy/Po/tg7epRFuc1bSY6stry
+         ySUq9KEJw0l7k/wyH1dAZJoyNeJewPym0BmwU+w2tRnJcS6wvyQmUZbRYrQr7nD2Bt8t
+         weRYcLD5vNdoCf3fdTuN8xnS30vHnBXvjHxgYatGQU73DnZNzuQU1luaa0dccKeG/lgj
+         DSrzpYSGOSRl4GqB94e4uLxQv+JofWmCEBhjVCVPjHnuMQBl+V5U84MeDOOKqRy03CpL
+         NO+AUy40MYB4jRTupURUApTuwiaq1ftpbdgNEDRMNt+o9q37d61OSqRlrVwbR1RXMWgE
+         fkcA==
+X-Gm-Message-State: AOJu0YyU0m53g755VbcnOH8DrQ4KWmTEGIF+ng8uavD+gpkVltfRU3cl
+	TMTrBXdupwQwTgN39NGFqI7953bsE9TEVBVVXqOrYNSxMkVwuhLuGmDBB6DMI1DSb2k=
+X-Gm-Gg: ASbGnct8ERShkl4zo4lj12m83udB/FgZoZmPhwWlc+IFs2avyFV++dZo4c4Uy1VdCyM
+	IOerGbEmMsOMUOgSYcISDKWHRYPevdpPRHRATi1N+gC+AdYtHz2ReSzn8Ig23Z/hzjOzCvODvmA
+	Ut4Xb/AIYC+JwB0zmTb/3W6VXMnGRQbyB3S58XajWOyplHy2SVbxry6LOSyG452RYAk60sWDolA
+	PxXQdS3iAjUy/xXA4DJAFdTxTUZ8HS8fwsv1swYXJcH7y/YG9EhINXZ7pKY1sJY33/K6fJZOlPG
+	01caE4pBENifCxbsdgocuDe9TfIVPzPupYPVOik5C1nUNL/5p38oZWy63tTHfjUOsH2a8qHZ1z7
+	FZMSfAC/iA5UezLDLztnQsuqCog62MXVIvxgY7NcRqJTlMbDlBmPEbSNUSZrqK76p0OgpdN9gwt
+	8vGMtoizbPMzraG7k/iWgukG+ekJc9aDJUcgXx5cJ59B+M8iLiAjUYtmd/YUffFy4=
+X-Google-Smtp-Source: AGHT+IHH+n6qnh06CjvonKm65cHZGMxYdSEgMYDvgDnSsw6DnedswB1L838R+C1gHzhYrTwaneJdHQ==
+X-Received: by 2002:a05:6e02:2488:b0:431:d95c:83d6 with SMTP id e9e14a558f8ab-4320f6ccafemr20938425ab.11.1761595005094;
+        Mon, 27 Oct 2025 12:56:45 -0700 (PDT)
+Received: from princess (76-224-4-192.lightspeed.clmboh.sbcglobal.net. [76.224.4.192])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-5aea9e37cd4sm3482853173.60.2025.10.27.12.56.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Oct 2025 12:30:35 -0700 (PDT)
-Date: Mon, 27 Oct 2025 19:30:33 +0000
-From: David Laight <david.laight.linux@gmail.com>
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, Jonathan Cameron
- <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
- =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
- Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
- "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Subject: Re: [PATCH v1 2/6] units: Add value of =?UTF-8?B?z4A=?= *
- =?UTF-8?B?MTDigbk=?=
-Message-ID: <20251027193033.69728215@pumpkin>
-In-Reply-To: <20251027143850.2070427-3-andriy.shevchenko@linux.intel.com>
-References: <20251027143850.2070427-1-andriy.shevchenko@linux.intel.com>
-	<20251027143850.2070427-3-andriy.shevchenko@linux.intel.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
+        Mon, 27 Oct 2025 12:56:44 -0700 (PDT)
+From: Ben Hoff <hoff.benjamin.k@gmail.com>
+To: linux-media@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	mchehab@kernel.org,
+	hverkuil@kernel.org,
+	lukas.bulwahn@redhat.com,
+	hoff.benjamin.k@gmail.com
+Subject: [RFC PATCH v1 0/2] media: pci: AVMatrix HWS capture driver refresh
+Date: Mon, 27 Oct 2025 15:56:34 -0400
+Message-ID: <20251027195638.481129-1-hoff.benjamin.k@gmail.com>
+X-Mailer: git-send-email 2.51.0
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, 27 Oct 2025 15:34:51 +0100
-Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
+Hi all,
 
-> There are a few drivers that want to have this value, and at least one
-> known to come soon. Let's define a value for them.
->=20
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  include/linux/units.h | 3 +++
->  1 file changed, 3 insertions(+)
->=20
-> diff --git a/include/linux/units.h b/include/linux/units.h
-> index f626e212d4ca..82bdc2041328 100644
-> --- a/include/linux/units.h
-> +++ b/include/linux/units.h
-> @@ -21,6 +21,9 @@
->  #define PICO	1000000000000ULL
->  #define FEMTO	1000000000000000ULL
-> =20
-> +/* Value of =CF=80 * 10=E2=81=B9 */
-> +#define PI	3141592653LL
+This RFC series significantly refactors the downstream AVMatrix HWS PCIe
+capture driver so it is maintainable in-tree and aligns with upstream
+media driver expectations. The new implementation follows V4L2 and ALSA
+subsystem patterns, splits the hardware plumbing across focused source
+files, and introduces proper runtime PM and interrupt handling. The goal
+is to keep future maintenance manageable while providing a direct path for
+existing users of the vendor tree.
 
-Is that the right value?
-IIRC the next digits are 58979 (I used to know the next few as well)
-which means it should be rounded up.
+Current status / open items:
+  - Audio capture paths have been refactored from the vendor driver but have
+    not yet been validated on real hardware. I would appreciate guidance
+    on whether you would prefer that I drop the ALSA pieces from the
+    initial submission and stage them as a follow-up once I finish
+    validation.
+  - `v4l2-compliance` passes for each video node, and I have exercised
+    basic capture in OBS. I still plan to do heavier soak testing across
+    all inputs and audio channels, as well as cover the suspend/resume
+    paths.
 
-	David
+Any feedback on the overall structure, subsystem integration, and in
+particular the best way to stage the audio support would be very welcome.
+Once I hear back on the preferred direction I will respin this as a
+formal v1 submission.
 
-> +
->  /* Hz based multipliers */
->  #define NANOHZ_PER_HZ		1000000000UL
->  #define MICROHZ_PER_HZ		1000000UL
+Thanks for taking a look!
 
+Ben
+
+Ben Hoff (2):
+  media: pci: add AVMatrix HWS capture driver
+  MAINTAINERS: add entry for AVMatrix HWS driver
+
+ MAINTAINERS                            |    6 +
+ drivers/media/pci/Kconfig              |    1 +
+ drivers/media/pci/Makefile             |    1 +
+ drivers/media/pci/hws/Kconfig          |   13 +
+ drivers/media/pci/hws/Makefile         |    4 +
+ drivers/media/pci/hws/hws.h            |  194 +++
+ drivers/media/pci/hws/hws_audio.c      |  571 +++++++++
+ drivers/media/pci/hws/hws_audio.h      |   22 +
+ drivers/media/pci/hws/hws_irq.c        |  281 +++++
+ drivers/media/pci/hws/hws_irq.h        |   12 +
+ drivers/media/pci/hws/hws_pci.c        |  708 +++++++++++
+ drivers/media/pci/hws/hws_reg.h        |  142 +++
+ drivers/media/pci/hws/hws_v4l2_ioctl.c |  576 +++++++++
+ drivers/media/pci/hws/hws_v4l2_ioctl.h |   32 +
+ drivers/media/pci/hws/hws_video.c      | 1542 ++++++++++++++++++++++++
+ drivers/media/pci/hws/hws_video.h      |   24 +
+ 16 files changed, 4129 insertions(+)
+ create mode 100644 drivers/media/pci/hws/Kconfig
+ create mode 100644 drivers/media/pci/hws/Makefile
+ create mode 100644 drivers/media/pci/hws/hws.h
+ create mode 100644 drivers/media/pci/hws/hws_audio.c
+ create mode 100644 drivers/media/pci/hws/hws_audio.h
+ create mode 100644 drivers/media/pci/hws/hws_irq.c
+ create mode 100644 drivers/media/pci/hws/hws_irq.h
+ create mode 100644 drivers/media/pci/hws/hws_pci.c
+ create mode 100644 drivers/media/pci/hws/hws_reg.h
+ create mode 100644 drivers/media/pci/hws/hws_v4l2_ioctl.c
+ create mode 100644 drivers/media/pci/hws/hws_v4l2_ioctl.h
+ create mode 100644 drivers/media/pci/hws/hws_video.c
+ create mode 100644 drivers/media/pci/hws/hws_video.h
+
+-- 
+2.51.0
 
