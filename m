@@ -1,105 +1,153 @@
-Return-Path: <linux-media+bounces-45656-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45657-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9F0C0DB8D
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 13:57:06 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id E987EC0DBB1
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 13:59:10 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5C821405CF3
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 12:50:57 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8EE6650149F
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 12:51:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DAD1524BC07;
-	Mon, 27 Oct 2025 12:50:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E48A125CC79;
+	Mon, 27 Oct 2025 12:50:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="bvnrc8GI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-io1-f69.google.com (mail-io1-f69.google.com [209.85.166.69])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A934C23BCEE
-	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 12:50:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.69
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90869243956;
+	Mon, 27 Oct 2025 12:50:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761569427; cv=none; b=Js0njblEKQOCm0eqWmvXVQehNGRqktiDK2XtpJVx3n8LMIJq28rApbSd575xYY6TN3pdEapn/fK+5YHWGSugbAXIeS8Wz+f+wUisKRLwQAGI7b0uoMTbAH15IiXsy8apNXm7D19fXo40GvraaVp0fhBh/7wBvQ16pRkOgHnmzuI=
+	t=1761569443; cv=none; b=Fb6c3l1F58eoK9OyDhau6yAQbT+T+hQw6lt/bFo9tLd8sOrzHqVi9xt0iUC0qpwNY6DZdNpon71CknRogSlULowJ9ARvr6m64ciU6kUGkP0EgzWkFPVYLFI591P79+wKUMQQaq3ujizfFaARLZIINqqR8Rz701FWRVjk9tk0Tuw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761569427; c=relaxed/simple;
-	bh=tVpd9K6lsAmTNM0IHM0UDIhya3STuvqamyLbLmC5K0M=;
-	h=MIME-Version:Date:Message-ID:Subject:From:To:Content-Type; b=gn0zjJyeptvOEUGlR696h8A6PuWAOrhPwpkyVkWEIh/hDzZkWtdiMkaOIlhmFWmuqenAQqZ1ltBsLsxtCKwbuKyoJNUC5oZyqsZyWGYYMWcoFt+mjWzehLfvaCtllbhOTBlcpXnyumDJwecQjmxW+EI3bAFZBkDQEjivfXBsPgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com; arc=none smtp.client-ip=209.85.166.69
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=syzkaller.appspotmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=M3KW2WVRGUFZ5GODRSRYTGD7.apphosting.bounces.google.com
-Received: by mail-io1-f69.google.com with SMTP id ca18e2360f4ac-940dc0d7a38so598399839f.0
-        for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 05:50:25 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761569424; x=1762174224;
-        h=to:from:subject:message-id:date:mime-version:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lm8kK1+CNj81hpim3niy1QHqxI0Nn9TggtZMdd95srw=;
-        b=lGCsF7voCG+cQuNdiwozJdKD2pkkYOPlkcKfKt7P7fhACvBWgyOyN+MiGlKXo325r0
-         KldaK1raG7/BuW/hWy9siA6JtE4f/4C6n3aX+5VHvtY7g3ytjvOnRbAd98R9tgsJ8fAK
-         4MltJ75dsMS75qB+bBnZQaaIYWq+YJcYPJqL1tC/ZoQaDvisEY7o8YK/56PQEFGvH91X
-         uSn46YJcVALRjz54HWQExniiJbrkamowAyRw77tF9euPmyIZrRHj2AJ0Kt4KuPbLRkwi
-         dsSOP/O8fD77GG0G982PHMbhgtogtSBhA3MoJYRmXWcZ0nDOkliS3ed0ggs0dGdz0cSX
-         gTwg==
-X-Forwarded-Encrypted: i=1; AJvYcCVK5DWYk2k3VCc0T1aBMggurJuUP+12KSIkxHuLh5MynapkWXmuh5UioVI9UlpQxedtl4C2zF47ll6zWA==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw5WWwj/O6CFA610cT17nkWSvkg7TDeXduqcPyYb2bIM0XDdSQC
-	p9pK131AsFSqEH1gg3h7QHYsm0pHw4KtZmno/1rU0EP/PCJ9xI1HEJz5Acs7b8anHtPK37igNmQ
-	fFAvPWV2+SAMgOlNIqrWgpi78e2r+z3OQpiRBIPjOu5rQRYe/wwViMd1XVkI=
-X-Google-Smtp-Source: AGHT+IGiL4rBnV7PYaIposPTlpOgvUQvCmFsOmIdNScae9rJMfLB84IHKqvXTGXCeNCAbH2WIOij5A52YLm5KyXvlNv16eWlLVSf
+	s=arc-20240116; t=1761569443; c=relaxed/simple;
+	bh=0JjotIZCc+V6m9L82dNlypasORKHXE2YpABpYKkWXy4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=Pb6V6omk4ljw3Q+nxv5nAKpp04FP0xHGIVlMlQpTj5OqfFUlXbmCYHPbVCKFcibDdXOkzZSpJtdS9vK1BK4WnngHC/BBirmQxf6bJqxDnHhNpMzJwF0eR2oZjnoX/GwfX5tWxQGgArS3yh4X9bVvdAYJYlxGGD0ep1BlSOLMC+s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=bvnrc8GI; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4cwCzD20qkz9t55;
+	Mon, 27 Oct 2025 13:50:32 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
+	t=1761569432; h=from:from:reply-to:reply-to:subject:subject:date:date:
+	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
+	 content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=/2I23fNm6Em+ctcxbQMJZKQTH8OTHmjmStiPodBpgGs=;
+	b=bvnrc8GIxDY0DiOz7djBKG2iILJBXISfM3GS+Zy4gm/Rto4icOyGMsA/LpMkukPbthdsAY
+	NK/IHVQCUfJnxQ1ZUdYP2P9u1fkxK38wdOb+VkIIkZ2N9MdhacBfZPonOOOO4MR7aHcNk4
+	ef7mYf008NLUGDJa/e6/xPma7bLQuNvNA/UZqwLeg/a494AIU8NXRzFZ4hXZzuexCiEZ1J
+	MCUQyFQbQBFn0GZet8wWBvBbGuvjtKQPi9/T34m9V6j5BYZPRb/fiNnn4BjhjED2wWyvaU
+	pAOrTe0W3ALs9GjUmSftFdDyTuflsp/2NNVN9Ozp1+JkBC0wcBHAMhaOz09EFg==
+Message-ID: <19a92d6d0ee730074139a36c38cc2fe16c72c588.camel@mailbox.org>
+Subject: Re: [PATCH] drm/sched: Fix race in drm_sched_entity_select_rq()
+From: Philipp Stanner <phasta@mailbox.org>
+Reply-To: phasta@kernel.org
+To: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>, Philipp Stanner
+ <phasta@kernel.org>, Matthew Brost <matthew.brost@intel.com>, Danilo
+ Krummrich <dakr@kernel.org>, Christian =?ISO-8859-1?Q?K=F6nig?=
+ <ckoenig.leichtzumerken@gmail.com>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, stable@vger.kernel.org
+Date: Mon, 27 Oct 2025 13:50:28 +0100
+In-Reply-To: <26eef700-7997-42e5-b0b9-c03361e05814@igalia.com>
+References: <20251022063402.87318-2-phasta@kernel.org>
+	 <26eef700-7997-42e5-b0b9-c03361e05814@igalia.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Received: by 2002:a05:6e02:460e:b0:431:f39e:6bd8 with SMTP id
- e9e14a558f8ab-431f39e6e29mr115805785ab.5.1761569424689; Mon, 27 Oct 2025
- 05:50:24 -0700 (PDT)
-Date: Mon, 27 Oct 2025 05:50:24 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <68ff6a90.050a0220.3344a1.0394.GAE@google.com>
-Subject: [syzbot] Monthly media report (Oct 2025)
-From: syzbot <syzbot+listd6f341b8c90a4c1bdad0@syzkaller.appspotmail.com>
-To: linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
-	syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+X-MBO-RS-META: g5fne6skcrqj8jyzt6atkcpbxyy5t5cu
+X-MBO-RS-ID: 5e63914fdaa7d966411
 
-Hello media maintainers/developers,
+On Wed, 2025-10-22 at 08:16 +0100, Tvrtko Ursulin wrote:
+>=20
+> On 22/10/2025 07:34, Philipp Stanner wrote:
+> > In a past bug fix it was forgotten that entity access must be protected
+> > by the entity lock. That's a data race and potentially UB.
+> >=20
+> > Move the spin_unlock() to the appropriate position.
+> >=20
+> > Cc: stable@vger.kernel.org=C2=A0# v5.13+
+> > Fixes: ac4eb83ab255 ("drm/sched: select new rq even if there is only on=
+e v3")
+> > Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> > ---
+> > =C2=A0 drivers/gpu/drm/scheduler/sched_entity.c | 3 ++-
+> > =C2=A0 1 file changed, 2 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/drivers/gpu/drm/scheduler/sched_entity.c b/drivers/gpu/drm=
+/scheduler/sched_entity.c
+> > index 5a4697f636f2..aa222166de58 100644
+> > --- a/drivers/gpu/drm/scheduler/sched_entity.c
+> > +++ b/drivers/gpu/drm/scheduler/sched_entity.c
+> > @@ -552,10 +552,11 @@ void drm_sched_entity_select_rq(struct drm_sched_=
+entity *entity)
+> > =C2=A0=C2=A0		drm_sched_rq_remove_entity(entity->rq, entity);
+> > =C2=A0=C2=A0		entity->rq =3D rq;
+> > =C2=A0=C2=A0	}
+> > -	spin_unlock(&entity->lock);
+> > =C2=A0=20
+> > =C2=A0=C2=A0	if (entity->num_sched_list =3D=3D 1)
+> > =C2=A0=C2=A0		entity->sched_list =3D NULL;
+> > +
+> > +	spin_unlock(&entity->lock);
+> > =C2=A0 }
+> > =C2=A0=20
+> > =C2=A0 /**
+>=20
+> Agreed, unlock at the end is correct.
+>=20
+> Reviewed-by: Tvrtko Ursulin <tvrtko.ursulin@igalia.com>
 
-This is a 31-day syzbot report for the media subsystem.
-All related reports/information can be found at:
-https://syzkaller.appspot.com/upstream/s/media
+Applied to drm-misc-fixes.
 
-During the period, 2 new issues were detected and 0 were fixed.
-In total, 22 issues are still open and 97 have already been fixed.
+Thx
+P.
 
-Some of the still happening issues:
 
-Ref Crashes Repro Title
-<1> 394     No    KASAN: slab-use-after-free Read in em28xx_release_resources
-                  https://syzkaller.appspot.com/bug?extid=16062f26c6480975e5ed
-<2> 392     Yes   KASAN: slab-use-after-free Read in dvb_device_open
-                  https://syzkaller.appspot.com/bug?extid=1eb177ecc3943b883f0a
-<3> 84      Yes   general protection fault in su3000_i2c_transfer
-                  https://syzkaller.appspot.com/bug?extid=d99f3a288cc7d8ef60fb
-<4> 57      Yes   general protection fault in dvb_usbv2_generic_write
-                  https://syzkaller.appspot.com/bug?extid=f9f5333782a854509322
-<5> 53      No    KASAN: vmalloc-out-of-bounds Write in tpg_fill_plane_buffer (4)
-                  https://syzkaller.appspot.com/bug?extid=dac8f5eaa46837e97b89
-<6> 3       No    WARNING in dtv5100_i2c_msg
-                  https://syzkaller.appspot.com/bug?extid=a83ee2dae0e6cc6cd3aa
+>=20
+> Luckily only amdgpu calls drm_sched_entity_modify_sched(), and I am not=
+=20
+> sure if with hypothetical multi-threaded submit it could be possible to=
+=20
+> hit it or not.
+>=20
+> One thread would have to clear the sched_list, while another would have=
+=20
+> to have passed the !sched_list at the beginning of the function, and the=
+=20
+> job_queue count and last_scheduled completed guards. Which would mean
+> job has to get completed between the unlock and clearing the pointer.
+>=20
+> Also, take a look at this when you can please:
+>=20
+> https://lore.kernel.org/dri-devel/20240719094730.55301-1-tursulin@igalia.=
+com/
+>=20
+> This would also have fixed this issue by removing clearing of=20
+> entity->sched_list. Latter being just a hack to work around the issue of=
+=20
+> confused container ownership rules.
+>=20
+> Regards,
+>=20
+> Tvrtko
+>=20
 
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-To disable reminders for individual bugs, reply with the following command:
-#syz set <Ref> no-reminders
-
-To change bug's subsystems, reply with:
-#syz set <Ref> subsystems: new-subsystem
-
-You may send multiple commands in a single email message.
 
