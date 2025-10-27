@@ -1,160 +1,364 @@
-Return-Path: <linux-media+bounces-45619-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45620-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id E192AC0BD44
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 06:34:53 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A0BCC0BD53
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 06:38:43 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D05F54E65FD
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 05:34:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id AF4803BA216
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 05:38:35 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3076F2D4B5F;
-	Mon, 27 Oct 2025 05:34:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C57FE2D6401;
+	Mon, 27 Oct 2025 05:38:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="oLrLLA04"
+	dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b="UC3cfHhi"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from PUWP216CU001.outbound.protection.outlook.com (mail-koreasouthazon11020107.outbound.protection.outlook.com [52.101.156.107])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 307FF198A11
-	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 05:34:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761543284; cv=none; b=EvnIYuAMRv0q2P1sJZdipHlV489ROTSAGxbI0kAYd0O3qnDmpkBVBckzdkd1Ej/RGO/8Mkx7KxeEDA3mUqSJCDKq3VUuRSVtc1ZA0nIR83gN234lpG+BIibzVxc0C9KdiUfHbgh2Nnalh26lMeKi2hptAuaVoDLcB9MY7v/q2OU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761543284; c=relaxed/simple;
-	bh=TpwCVWhyQJkTI7nenZ633M2sn0NC+Uz9kQnNDboTU3Q=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DiJCSK4qiyu9ZFZVSERC4L435/Pxgk02kf98zB2XOuTESso8L8RbcKenfQJTayDdIzkxtNLtRVmsPZP7408rhMeKEVsXZT5xwO/3WySjSl7mYnlECH2oaddJSJHzOCrXZsbVJegIeHg8YSs57yigRYJGwBvS9Ylmw7h5hA6fUHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=oLrLLA04; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59QNh87f1130618
-	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 05:34:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	PDIEKrvO3DowKo435wUZPP80lHdzqRLWRnZPmnjleSY=; b=oLrLLA04TCdy6UQS
-	YGPo2ammUm3wbnY3C7RMbwFwkDisjamfWSRWyFPcPgeTkgs1bmpZN2jidzVy8fZf
-	+uHofYu51uho88tXASjHN9Ff8NadUvM4qxlh7o3kyBrX5Csa2ZZM1ZgJA3NhI94l
-	uBK7KGimcZVo8nzrJwmDE8hV3zoxbp3dZY0J8XxbeBKDSptSDvyHzCOHtFfk7bb+
-	Bc5Q5F/bUmf+qUKqqvDG7Scc833NOowsdIHQAfzkq8aexyXzJDYTnlg0SukSQpGe
-	T1hRZZ4iTtCDdvcArApufVy0h271NM+QVXbtG3/Zx6uBoY5QmKXb0WMQa/cXuyZm
-	RNIArQ==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a1uc58rq5-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 05:34:42 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-7a43210187cso393808b3a.3
-        for <linux-media@vger.kernel.org>; Sun, 26 Oct 2025 22:34:42 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761543281; x=1762148081;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=PDIEKrvO3DowKo435wUZPP80lHdzqRLWRnZPmnjleSY=;
-        b=aLBDly9W+MhKBRt8DNGzQoWMR7pzHLpwegMFY8HCtnGfPShVCOgkFB8lVM4ufG35u+
-         KUKps6mQgp6Yjme+mxT6ZmxWM4Uzp8AH7OSpo1Liskgnkw+HYggioosOC/dWg6PuQDVI
-         F5gLXW+0e/6Zmk7ictAc0pjIyoHJjp74wpvJKzZKPs6+IBYK9vpJhvcZQpUI9hsfneiL
-         dA9RmmblJgzHvQEshcqX4gmoYt7efSQMhuOAAWZWEpxmuoiJVzeLLxrVM6XOSaTGTQtb
-         za34hLoDTTzMKUEWC4Pz5apkIQj1FSdrtcgvR4DJif+MNCXuccEs2Ht0cl4t9lSu9iOz
-         AC5w==
-X-Forwarded-Encrypted: i=1; AJvYcCVW/5M0qGJo24j/gP2ihX0JaoNsfZs+JqeA8vAE87axuwBenmIHU4HVtQQ0xNFEOUMnsyNunmz23w4CZw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxkUJLPkS8NvNiF3MHDmitrtYsmg3TahHzM+RfuvD2nZTgOa6wP
-	Dl2ps0bLcDV+eonAj5LAviaL67jYh2Qy+YLjkF/nEqt4m/jjJqinqJCbD90kK9gPJsEOVBYHA3j
-	CIdn7rtJRALhcRYTKZ0Ss9QPbk6rWpSyohUipUWrpW5rslESTVG6QinoYQKYpeRFVBg==
-X-Gm-Gg: ASbGncsfKo4uY0/3ppmRnyV6Je6f4pr+l2EdvCbI57Tjrxi+jddbYsmZkv/1Dp4aoBw
-	L1COP9eiqvt36ZZWcSX2SVXNYv+BYt+m7qKPQGK7tvF/vPwp5ib57pAdm2QGK3QqdBVM3983vR4
-	zPf7eCKUweuVyZ8VNYsFhCTDnmBnlk8f1a1Zf0H3MT+bUDqyhWq17tQL7i6dg5y5SA3W8c9CRZp
-	ACCHNjA26ormmK01A4NKLaXpGsz10kLVJnQUzH239E4agEj97qagEmNiGQ0q3t8up2GxKF4VXqv
-	1q78U2XBbyrIbYpyVxzRELq/QmyTli1Op4md5yNfVZafEy2V1Arkl9cu3sL8rv1DWtFCdrpsEfn
-	3+1wFH/yXqjP7MfnhPGxIlcc2GgrfQ9A=
-X-Received: by 2002:a05:6a00:88f:b0:77f:2978:30b0 with SMTP id d2e1a72fcca58-7a28678f6e3mr11579282b3a.11.1761543281275;
-        Sun, 26 Oct 2025 22:34:41 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGsIO7GRXzKhtowLGxLS5LBUo3hlx5I4P7Z0DOgENX3Uogg441FvmN1zhp7iRNv2vxDxvPtpw==
-X-Received: by 2002:a05:6a00:88f:b0:77f:2978:30b0 with SMTP id d2e1a72fcca58-7a28678f6e3mr11579250b3a.11.1761543280776;
-        Sun, 26 Oct 2025 22:34:40 -0700 (PDT)
-Received: from [10.0.0.3] ([106.222.229.252])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a414087d2asm6877609b3a.63.2025.10.26.22.34.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 26 Oct 2025 22:34:40 -0700 (PDT)
-Message-ID: <29e4ddb7-0ed3-74e6-78d0-396eeb201fc3@oss.qualcomm.com>
-Date: Mon, 27 Oct 2025 11:04:36 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E294221A421;
+	Mon, 27 Oct 2025 05:38:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.156.107
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761543509; cv=fail; b=h2W2MbJp1ourS+1abxGkzJIjBSPs7jSoipdYR0QIeHuxaJsHltfGqogfqea/9GW67R5bCeBAVgvN7UPt+x7x8xAWnO72c7xFLOHSphC4NZ8ezBeO8K1dJ3DO6VQ+Ahbc1L7YzkzGlxRy+w6ny3lbGtJTFIKI1cLX5amTZTGONHw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761543509; c=relaxed/simple;
+	bh=gxR8c7kCZ6bsUIxFHih92B0WALxfM4e6KC2Ps8piIkU=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=caoetr24Ul2zyI+ua/sXP7f4Qh199XJAPKYeraNnc/0DzUihkUbBCJjKCN9PJzWFagH11P5D/5Tgs2xM2DN5NulZtfa7YBvaklQhF73QPObxINOD9VNLPja83bv78Fr1CYGgnoFCQ9qfr8BggnlWAlK17datnhskRnNWErL7ikI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com; spf=fail smtp.mailfrom=chipsnmedia.com; dkim=pass (1024-bit key) header.d=chipsnmedia.com header.i=@chipsnmedia.com header.b=UC3cfHhi; arc=fail smtp.client-ip=52.101.156.107
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=chipsnmedia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=chipsnmedia.com
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=t6oCzT/BHMm1qHwW86Ic81dVKMmAbSl7GnAba5PeYGPRapfhe1+pZ1e/WxHkBTGD2za9VyNJqzGYLIvqrEJg5uuFHrvQmBzgE+OXTXLPXgzxNBLDOTd5tgl17eLkmYwcaFlFPkm81CD3KxffqX9ik1qXffCPGqRN833zlpYbE9kR7tptoNYTeY6B3a25JBgMgLZ4ydvObHjyPrlDJ2CmfasZ5JhmFj3wMHvpbBxHDgovE3WvvEEyug3Q/lm4AfOdYAMGrJZveHq7Pm9WiHe4BmhYNn82DIA1AGWGsDc4bWW5QPDUPkDWEvWkiTJ7b6RfhTfnqecmhdiyDfUCaVy9/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=cQWBEGKKsy41kdmYoXVap89dHR0T0ZAjHi+0jx7+JZs=;
+ b=RT9I7DTAlEqdhwyJIVQiuAu2ptf6Woe42WxGvZAYNIpGcrM1HQX8/sS4OIyMY+iiAetb1rObKVkNuHqA4jFpLjamMkT3iNCu6n9AwV79bjgB9zab6MM03jpcrpQHLk1DOmg0LRAMCnJPnWSUyRd6nzxugGZa2nTIZkdrst+vwPzG9y0NCSkQTjVMHm7byYsMN6h0qmZp0gek0Lwd6nXoVdRpP7seflyoodcMDVEZKx7hM4FljBrmbaH/W8e/HvUCPEipWTGbQfQ/HMyoZB3m3lYxpA+HHDEjc7WyBcMU+o4dut844mbYe1DR9x+0ZwH6JjBxRQnuP8rj059KauhKRQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=chipsnmedia.com; dmarc=pass action=none
+ header.from=chipsnmedia.com; dkim=pass header.d=chipsnmedia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=chipsnmedia.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=cQWBEGKKsy41kdmYoXVap89dHR0T0ZAjHi+0jx7+JZs=;
+ b=UC3cfHhiNSc7TiBfVmfrmppsQJpjxVgisi4EAOdxkE7wWv4IpE4Jt2MZkM37VK2ot/cnU8Jd/QoYu4GVAnONQxHOPksrzTqVf62y/r5LiVCjm7Zg4oOchoELw6mYDGmNGzmuM47AqfDkbdNu87v9fZzvJhxP7ZZDTYIf8/8krf0=
+Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM (2603:1096:101:f::14) by
+ SL2P216MB1564.KORP216.PROD.OUTLOOK.COM (2603:1096:101:32::9) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9253.18; Mon, 27 Oct 2025 05:38:22 +0000
+Received: from SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
+ ([fe80::6dcd:ad0b:394c:954f]) by SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
+ ([fe80::6dcd:ad0b:394c:954f%4]) with mapi id 15.20.9253.017; Mon, 27 Oct 2025
+ 05:38:22 +0000
+From: jackson.lee <jackson.lee@chipsnmedia.com>
+To: "mchehab@kernel.org" <mchehab@kernel.org>, "hverkuil-cisco@xs4all.nl"
+	<hverkuil-cisco@xs4all.nl>, "nicolas.dufresne@collabora.com"
+	<nicolas.dufresne@collabora.com>, "bob.beckett@collabora.com"
+	<bob.beckett@collabora.com>
+CC: "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, lafley.kim
+	<lafley.kim@chipsnmedia.com>, "b-brnich@ti.com" <b-brnich@ti.com>,
+	"hverkuil@xs4all.nl" <hverkuil@xs4all.nl>, Nas Chung
+	<nas.chung@chipsnmedia.com>
+Subject: RE: [PATCH v5 0/4] Performance improvement of decoder
+Thread-Topic: [PATCH v5 0/4] Performance improvement of decoder
+Thread-Index: AQHcK4Uq5Adj45JGQkK/LL36ZY6Fr7TVsJOw
+Date: Mon, 27 Oct 2025 05:38:22 +0000
+Message-ID:
+ <SLXP216MB1148585540E13A1886964E37EDFCA@SLXP216MB1148.KORP216.PROD.OUTLOOK.COM>
+References: <20250922055255.116-1-jackson.lee@chipsnmedia.com>
+In-Reply-To: <20250922055255.116-1-jackson.lee@chipsnmedia.com>
+Accept-Language: ko-KR, en-US
+Content-Language: ko-KR
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=chipsnmedia.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SLXP216MB1148:EE_|SL2P216MB1564:EE_
+x-ms-office365-filtering-correlation-id: 377ce592-a233-4a8a-6dce-08de151b0b13
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam:
+ BCL:0;ARA:13230040|376014|1800799024|366016|38070700021|7053199007;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?zqmlDw1c/jdTJgnxR4w8WQ1mYKjLHFAPxM0QRg2XnsGBXQLun/MIcYX6rEb4?=
+ =?us-ascii?Q?N+DKxHK2qSeWV+/+o5/S7F20/pQ1BZ4qVrOaUGKzKFBCoSm0Xop9wruCxjL4?=
+ =?us-ascii?Q?izASdLWWBRxCIrTKqImG6W/lyE49+wbPo9XJk1NnmM/H83eMbYR1cerGgJLZ?=
+ =?us-ascii?Q?2NSsmSR3DEkYBBAgIebTGhUqj2hvAwveUk5XO3Jpu/MZNhV3CoubfYSPPe6p?=
+ =?us-ascii?Q?UVfMyDV7Bu8FX5gC1PY0p5M3BiJi8rxwIxFIasxhN4CP7TKJOr3rTyra1pbr?=
+ =?us-ascii?Q?iwHXOs4LxFCdJOa0CGYu2yF/5U9yGc2NbhPsW6xBIlQIJKjfS2gCDRlwuUg8?=
+ =?us-ascii?Q?u+OlaGYEQhLZoqTb0EpMESmbAKh6y00Lpnqys/oVNt7bENHhnyjA401Emn9D?=
+ =?us-ascii?Q?+PTYj+deHUj9b09VadhjrIaBGEClR9Fch//CIEqTXBS0iBdbmUXyHMOv0Q7g?=
+ =?us-ascii?Q?DmuI/tD+tMHU8gmtqe+CDGPff0rPfOR4tAhWan1SP70YCCgxbqjXmM8luBtp?=
+ =?us-ascii?Q?/t9fJdm12ldrUmFHqOXF22FF2g1MADDM+aYUd4KKBksr/eAOstsxo4JapCsU?=
+ =?us-ascii?Q?zXFfQZueCGp/2fgMzKbpGR9huOD8s953N+3JyRqO070SwbX7XH9MNok1QCuM?=
+ =?us-ascii?Q?lsnItWGYRcH3jLMdZogxSfUMGT8eVHWd47TkkctRgb3Ya8g1nnBU5x1md7ib?=
+ =?us-ascii?Q?mX+KOhPGJqo3i6UnT5Jhb9yHeWJCFntuEyjxF+Xh8wCb4iFgjN/LUAyUeMbH?=
+ =?us-ascii?Q?nbCFQRF+E71HfCCVwPFUVkn9mUNa5C8Z11TI87wP2HdtWIl2pbMhJ01b4I5c?=
+ =?us-ascii?Q?T+Gy8iTmsravnUawONGN+vh+DnVhS5cNjOI2BEgSQeU/iCsArGZv25nqjMUS?=
+ =?us-ascii?Q?36Sy9H+NNdblBIDO49OURPV6/oZri5g1lT4GMpUKK1q4EC0kul3p44koJLmW?=
+ =?us-ascii?Q?Rgv/WdpaLLmrOinSU7gqPaIKe+q708xjd7RElWAOX0Gg8YeC04/lXUIsBnhV?=
+ =?us-ascii?Q?L4kEsGjnS+OR0PnAk3UgGqvK0TCQZhrCAHu5OJTauTr7imI4S5aWJcj0Xyxc?=
+ =?us-ascii?Q?7Pb7QYOWuLzMM2M1+ABQYYs22qVwpWiou+Jay6hDickATzK3pikFfmCNJ9Zf?=
+ =?us-ascii?Q?3ZJAJ6jihqSzUKzqwufW7qR8mjOccVSl6eRHa+XCbrTopaYL5b6VJtcGjK4b?=
+ =?us-ascii?Q?bTzbGY8wfX8P2fWXlYrRUtsIrJ8dJSp1+q/q+KzzGqciaYA/VNFeW0mRAQLz?=
+ =?us-ascii?Q?nkbkgciT0lJVIjg/LkCM6Hjv7xzruGiAhurGD0iRSxWk1LwCWOTnYTuNv55H?=
+ =?us-ascii?Q?v9kHBfF+Rc+kEh47HxH6ljuzkNjDqRLW4YMzONi/z+QgWLdGR0ycnrte6sjM?=
+ =?us-ascii?Q?tdqbh7e7/Pb+Xr+hLVMz4MmMgkW2nQ5o4tiLWrXAebNFy+sKv93Rnn8H4jsI?=
+ =?us-ascii?Q?p9WSa9j8O7d1NbkG/PGBBbtbdwXMeE9cjcugHafz0IVjZbt5IIYhFkvzaFsp?=
+ =?us-ascii?Q?7p43tk1ciwj8VWL/vegcPbU8EyLsedh3s/pA?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SLXP216MB1148.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700021)(7053199007);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?z0iYXgkUVHIKHrAtpnuWfqUyL0ytgoGGO9UYoj7OBWU2qCDrqFOMaAvn6BFE?=
+ =?us-ascii?Q?9hHBtBHvEZkaoKoh/aPoOOkDBdFDGxm/20FZ+IjmDRkpvlsPhuhha+sB5Ik5?=
+ =?us-ascii?Q?OUU6XUtEAAGPPwF7UhNMI15Og/j2SSlV9kZ7yTnBt0x4S6CV6ByXi7esysy+?=
+ =?us-ascii?Q?KsewWk5LYROMR4trnVkSfhZ64N7sDTN46sZR/v7r+s1vboHFeDxX0ALeypKI?=
+ =?us-ascii?Q?+6tAYeaJiGY2ecn30FBIFRBTB8pQNKbdEeDdu0YdZgQh8wxU8dmfD8UyCqba?=
+ =?us-ascii?Q?NeRZAmTrbbx0nWzgMDaC+HpGSYz6pP/xEfM1bPwdzj+7BgAseFGZ2e0UEwy7?=
+ =?us-ascii?Q?XevXdx0U8JTz2CWNMsQQ8Ea9KqsgIHED0Hcq2LNwi6IUvhN9cDQWCLpKvjHN?=
+ =?us-ascii?Q?yw5c8ZsfNYskSGXlYm7zQk+n5BnGtVmnLBGaVQCfb8sWch8orXxc21Fi7qg1?=
+ =?us-ascii?Q?/hHWVoWc/8nlTPniE7rWbRKX0DyWbsmyQAy+k7e0AkEheY8K9jbN7Pqp2b62?=
+ =?us-ascii?Q?YHuAH+vNAuJ1tD9uVR2cUug8UVWq+GgUVVsgdjZyyfTW1A/UJ7iPMplcBhlt?=
+ =?us-ascii?Q?+2FJIsElNL7Ma9CYefc61g0uQNS/CAko3Hi0yMwu0cI8l+0CRKGiq4ZuA/e8?=
+ =?us-ascii?Q?A/3HcQrk2GNVI9V4x634o+eWvm5JwAW9uzzoUJs3CqD4NBzUALjI2UcfUYrO?=
+ =?us-ascii?Q?fpMRSOkEu89K6hY0yHkqhq1pF5Aq9dQeoa0zKEKpXYHpTLe4h6JXfbtyNpBk?=
+ =?us-ascii?Q?BUhzr5IDEep0JzsjDy0AANFdSnEF6LYlwxeq3DG8H2ZnPSL5V40P/8ap4fP/?=
+ =?us-ascii?Q?gbLlCAYVLva9JNT+b2BKfMiLic81Y306733Ai8Pw9BvENphwrY4CXpXu2aqV?=
+ =?us-ascii?Q?JQJr52ghTRqmhV6SKHvJa+StYUsLzxRyePIGDWh4mjjAjmtshegSVfeMZ1BH?=
+ =?us-ascii?Q?xfGY/EKEr6YO1v77ZlaT+444hER6yX6uXNjKMb05ycJPSjB43ziFUq2WxTIC?=
+ =?us-ascii?Q?8fs+y5Uq74sw88c49mpsD/CMqlOJosz5V+FtRko+axUfgjZ2K/d+Nf9sz3LI?=
+ =?us-ascii?Q?ZNLiJoabBI6zs9Pp5pxLQyyl2KISFCGFVflqoBVMyE7VN+/G3US4CsxalTQ3?=
+ =?us-ascii?Q?7UM5RP+JbGrMMWZ0QPMZZ4G2Qk3XC4UA+7AC2d24Mg88xRhUO/NuMNiN3dmc?=
+ =?us-ascii?Q?qu+ZGfGZLDZ1bqID/PPpOXVF87Y5I0bf3qu0B7/6mE5TjyD5a5VKJrzo52NL?=
+ =?us-ascii?Q?wl48VOatveoV8ONpKyaQG81V81SaSxM7ouJ5j0boEf837To6PSyoXFZ3j1r3?=
+ =?us-ascii?Q?hU98aUgSTMehpMP5OuFGYKlGLl1gFXgZl27qtgWYc2F3ChmpDdxLlD7q/PNR?=
+ =?us-ascii?Q?GHL2PMUJarbeR1Cln2ukYUQd2ZgKsjjrDDzHJrG6iP7oTXvQVrlUU5as6RMC?=
+ =?us-ascii?Q?7IiMEHctOPjqeDXIuXhNkyEyxWc3Y/V6s7EgWjMNnJHoyCqL/lASlIoHcLqP?=
+ =?us-ascii?Q?xVgoMFXgzqnw5ZUUondzv0qEP6Qhy/ygpCnAZ7/UepZ/vJHJHFHwysVScLOr?=
+ =?us-ascii?Q?coI+m5vwh5ScviFdjsaXeqs1elh5prROpaZfgWLQ?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] media: qcom: iris: Constify iris_v4l2_file_ops
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc: linux-arm-msm@vger.kernel.org,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>
-References: <20251026181138.13387-1-laurent.pinchart@ideasonboard.com>
-Content-Language: en-US
-From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-In-Reply-To: <20251026181138.13387-1-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: tQDQQROmR0IzXoE9dGmtCfLFzTzBjLCp
-X-Proofpoint-ORIG-GUID: tQDQQROmR0IzXoE9dGmtCfLFzTzBjLCp
-X-Authority-Analysis: v=2.4 cv=Z4Dh3XRA c=1 sm=1 tr=0 ts=68ff0472 cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=L4UNg9I9cQSOxNpRiiGXlA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=P1BnusSwAAAA:8 a=EUspDBNiAAAA:8 a=3tk5DILjExYhGTJMbPgA:9 a=QEXdDO2ut3YA:10
- a=zc0IvFSfCIW2DFIPzwfm:22 a=D0XLA9XvdZm18NrgonBM:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI3MDA0OCBTYWx0ZWRfX/xiJiLCii3I9
- NAy+lDHsuHd3tIMNUmbIX4WxvEXRp3IzAGD3rVl9Oe5T/7Dfidoec826uqTjeEXUQ+sxrDIWKTp
- +8RHjiHi8NECLWA4muD/3bVSOi6gj/butbr1CgcbLwJ4cpxTJQULQGqhzjURoL55dQCoM2VMB0r
- UMKlOdpNXJwF0bYbazWwriRbl+Al+gIu5kdPDZ9CudLOyA1eyaRW0leoGVhDES3+COCMhmccMBM
- 9yuME+qsy3RqNlzCtiTl8EZj3ZQ7Op8pAZklCG+GpGOLarX+9flBm+eA7lG9O05L/V2okof2dia
- pNlsrupAQaVtF7o8YlD9jVq/dNiyRDou92LnQQ9fJC0KySHW3x7iGKsbXLCifdzP3gnppxCrbhI
- TNqPxMK+0lxdCioAcFrKM+7UXynOtQ==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-27_02,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 phishscore=0 spamscore=0 priorityscore=1501 malwarescore=0
- bulkscore=0 adultscore=0 suspectscore=0 lowpriorityscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510270048
+X-OriginatorOrg: chipsnmedia.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: SLXP216MB1148.KORP216.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 377ce592-a233-4a8a-6dce-08de151b0b13
+X-MS-Exchange-CrossTenant-originalarrivaltime: 27 Oct 2025 05:38:22.7152
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 4d70c8e9-142b-4389-b7f2-fa8a3c68c467
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: EARPrMIIf5GXmrmTrCZS6A6sjJ2XYC247UzgDlWAkWQuo/+9FUO4WQHz1RkWUDyHfXoEW3v+kZVkr2cb1mf24hQYcJWQcyWIu9/fPgLqYE0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SL2P216MB1564
 
+Hi Nicolas
 
+Can you review these patch series ?
 
-On 10/26/2025 11:41 PM, Laurent Pinchart wrote:
-> The iris_v4l2_file_ops structure is never modified. Make it const.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/media/platform/qcom/iris/iris_vidc.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/iris/iris_vidc.c b/drivers/media/platform/qcom/iris/iris_vidc.c
-> index d38d0f6961cd..c9b881923ef1 100644
-> --- a/drivers/media/platform/qcom/iris/iris_vidc.c
-> +++ b/drivers/media/platform/qcom/iris/iris_vidc.c
-> @@ -630,7 +630,7 @@ static int iris_enc_cmd(struct file *filp, void *fh,
->  	return ret;
->  }
->  
-> -static struct v4l2_file_operations iris_v4l2_file_ops = {
-> +static const struct v4l2_file_operations iris_v4l2_file_ops = {
->  	.owner                          = THIS_MODULE,
->  	.open                           = iris_open,
->  	.release                        = iris_close,
-> 
-> base-commit: ea299a2164262ff787c9d33f46049acccd120672
+Thanks
+Jackson Lee
 
-Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+> -----Original Message-----
+> From: jackson.lee <jackson.lee@chipsnmedia.com>
+> Sent: Monday, September 22, 2025 2:53 PM
+> To: mchehab@kernel.org; hverkuil-cisco@xs4all.nl;
+> nicolas.dufresne@collabora.com; bob.beckett@collabora.com
+> Cc: linux-media@vger.kernel.org; linux-kernel@vger.kernel.org; jackson.le=
+e
+> <jackson.lee@chipsnmedia.com>; lafley.kim <lafley.kim@chipsnmedia.com>; b=
+-
+> brnich@ti.com; hverkuil@xs4all.nl; Nas Chung <nas.chung@chipsnmedia.com>
+> Subject: [PATCH v5 0/4] Performance improvement of decoder
+>=20
+> From: Jackson Lee <jackson.lee@chipsnmedia.com>
+>=20
+> v4l2-compliance results:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> v4l2-compliance 1.28.1-5233, 64 bits, 64-bit time_t
+>=20
+> Buffer ioctls:
+>                 warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not
+> supported
+>                 warn: v4l2-test-buffers.cpp(693): VIDIOC_CREATE_BUFS not
+> supported
+>         test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+>         test CREATE_BUFS maximum buffers: OK
+>         test VIDIOC_EXPBUF: OK
+>         test Requests: OK (Not Supported)
+>=20
+> Total for wave5-dec device /dev/video0: 46, Succeeded: 46, Failed: 0,
+> Warnings: 2 Total for wave5-enc device /dev/video1: 46, Succeeded: 46,
+> Failed: 0, Warnings: 0
+>=20
+> Fluster test results:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>=20
+> Running test suite JCT-VC-HEVC_V1 with decoder GStreamer-H.265-V4L2-Gst1.=
+0
+> Using 3 parallel job(s)
+> Ran 133/147 tests successfully               in 40.122 secs
+>=20
+> (1 test fails because of not supporting to parse multi frames, 1 test
+> fails because of a missing frame and slight corruption,
+>  2 tests fail because of sizes which are incompatible with the IP, 11
+> tests fail because of unsupported 10 bit format)
+>=20
+>=20
+> Running test suite JVT-AVC_V1 with decoder GStreamer-H.264-V4L2-Gst1.0
+> Using 3 parallel job(s)
+> Ran 78/135 tests successfully               in 43.354 secs
+>=20
+> (57 fail because the hardware is unable to decode  MBAFF / FMO / Field /
+> Extended profile streams.)
+>=20
+> Running test suite JVT-FR-EXT with decoder GStreamer-H.264-V4L2-Gst1.0
+> Using 3 parallel job(s)
+> Ran 25/69 tests successfully               in 40.413 secs
+>=20
+> (44 fail because the hardware does not support field encoded and 422
+> encoded stream)
+>=20
+> Seek test
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> 1. gst-play-1.0 seek.264
+> 2. this will use waylandsink since gst-play-1.0 uses playbin.
+>    if you don't want to hook up display,
+>    you can run gst-play-1.0 seek.264 --videosink=3Dfakevideosink instead =
+3.
+> Let pipeline run for 2-3 seconds 4. press SPACE key to pause 5. press 0 t=
+o
+> reset press SPACE to start again
+>=20
+> gst-play-1.0 seek.264 --videosink=3Dfakevideosink Press 'k' to see a list=
+ of
+> keyboard shortcuts.
+> Now playing /root/seek.264
+> Redistribute latency...
+> Redistribute latency...
+> Redistribute latency...
+> Redistribute latency...
+> Redistribute latency...aused
+> 0:00:09.9 / 0:00:09.7
+> Reached end of play list.
+>=20
+> Sequence Change test
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> gst-launch-1.0 filesrc location=3D./drc.h264 ! h264parse ! v4l2h264dec !
+> filesink location=3D./h264_output_420.yuv Setting pipeline to PAUSED ...
+> Pipeline is PREROLLING ...
+> Redistribute latency...
+> Pipeline is PREROLLED ...
+> Setting pipeline to PLAYING ...
+> New clock: GstSystemClock
+> Redistribute latency...
+> Got EOS from element "pipeline0".
+> Execution ended after 0:00:00.113620590
+> Setting pipeline to NULL ...
+> Freeing pipeline ...
+>=20
+> Change since v4:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> * For [PATCH v5 4/4] media: chips-media: wave5: Improve performance of
+> decoder
+>  - fix the error which the Media CI rebot reported
+>=20
+> * For [PATCH v5 2/4] media: chips-media: wave5: Fix Null reference while
+> testing fluster
+>  - fix the error which the Media CI rebot reported
+>=20
+> Change since v3:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> * For [PATCH v4 4/4] media: chips-media: wave5: Improve performance of
+> decoder
+>  - fix crash and dead lock while testing seek
+>=20
+> * For [PATCH v4 3/4] media: chips-media: wave5: Add WARN_ON to check if
+> dec_output_info is NULL
+>  - update commit message
+>=20
+> * For [PATCH v4 2/4] media: chips-media: wave5: Fix Null reference while
+> testing fluster
+>  - add thread irq logic
+>=20
+> * For [PATCH v4 1/4] media: chips-media: wave5: Fix SError of kernel pani=
+c
+> when closed
+>  - add Reviewed-by tag
+>=20
+> Change since v2:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> * For [PATCH v3 4/4] media: chips-media: wave5: Improve performance of
+> decoder
+>  - squash v2's #3~#6 to #4 patch of v3
+>=20
+> Change since v1:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> * For [PATCH v2 2/7] media: chips-media: wave5: Improve performance of
+> decoder
+>  - change log to dbg level
+>=20
+> Change since v0:
+> =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> * For [PATCH v1 2/7] media: chips-media: wave5: Improve performance of
+> decoder
+>  - separates the previous patch to a few patches
+>=20
+> * For [PATCH v1 3/7] media: chips-media: wave5: Fix not to be closed
+>  - separated from the previous patch of performance improvement of
+>    decoder
+>=20
+> * For [PATCH v1 4/7] media: chips-media: wave5: Use spinlock whenever
+> state is changed
+>  - separated from the previous patch of performance improvement of
+>    decoder
+>=20
+> * For [PATCH v1 5/7] media: chips-media: wave5: Fix not to free resources
+> normally when
+>     instance was destroyed
+>  - separated from the previous patch of performance improvement of
+>    decoder
+>=20
+> * For [PATCH v1 7/7] media: chips-media: wave5: Fix SError of kernel pani=
+c
+> when closed
+>  - separated from the previous patch of performance improvement of
+>    decoder
+>=20
+>=20
+>=20
+> Jackson Lee (4):
+>   media: chips-media: wave5: Fix SError of kernel panic when closed
+>   media: chips-media: wave5: Fix Null reference while testing fluster
+>   media: chips-media: wave5: Add WARN_ON to check if dec_output_info is
+>     NULL
+>   media: chips-media: wave5: Improve performance of decoder
+>=20
+>  .../platform/chips-media/wave5/wave5-helper.c |  28 ++-
+>  .../platform/chips-media/wave5/wave5-helper.h |   1 +
+>  .../platform/chips-media/wave5/wave5-hw.c     |   2 +-
+>  .../chips-media/wave5/wave5-vpu-dec.c         | 174 ++++++++++++------
+>  .../chips-media/wave5/wave5-vpu-enc.c         |   8 +-
+>  .../platform/chips-media/wave5/wave5-vpu.c    |  98 ++++++++--
+>  .../platform/chips-media/wave5/wave5-vpu.h    |   2 +-
+>  .../platform/chips-media/wave5/wave5-vpuapi.c |  61 +++---
+>   .../platform/chips-media/wave5/wave5-vpuapi.h |  12 ++
+>  .../chips-media/wave5/wave5-vpuconfig.h       |   1 +
+>  10 files changed, 285 insertions(+), 102 deletions(-)
+>=20
+> --
+> 2.43.0
 
-Thanks,
-Dikshita
 
