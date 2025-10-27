@@ -1,230 +1,95 @@
-Return-Path: <linux-media+bounces-45706-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45707-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7A65C0FBFC
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 18:47:53 +0100 (CET)
+Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id D9CEEC0FD29
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 19:01:50 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id F07F0461F75
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 17:47:33 +0000 (UTC)
+	by ams.mirrors.kernel.org (Postfix) with ESMTPS id F318F350593
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 18:01:41 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 63CF127CB02;
-	Mon, 27 Oct 2025 17:47:30 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C149531AF34;
+	Mon, 27 Oct 2025 18:01:21 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="NECCMqgV"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uGfwz6+0"
 X-Original-To: linux-media@vger.kernel.org
-Received: from MW6PR02CU001.outbound.protection.outlook.com (mail-westus2azon11012002.outbound.protection.outlook.com [52.101.48.2])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 639321E32D7
-	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 17:47:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.48.2
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761587249; cv=fail; b=qT57dl2LCuySKZUnRpqlUye1q3VQLp2HNcg7ZV7ytxK6bJUhj3Ye6FHnyc/G5Wm4x1u/y8a/ZuzN1EB3KoAr6Pc6HfHUYFE0nU1gsQ3AlkUakzOTA3IrbrgWoomJERAYF9kBVIfGjAaRehACjFjRsglOwlPQuX1oQOT6ruv8lLw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761587249; c=relaxed/simple;
-	bh=sBZH9f0hsyCivRbxd7Q/9qkZUL2RbBfPez/j2rGRL4U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=lAQY4O/a2aKWtHHagZYUL/mYJlD1h4EgjvWbwCpqELiBSmmUupduwOhjkGUxuRhaMQ39FK54Qc12NO9Ix1AsNOQ08kSDOFYghwUdiWCpPfxUYe2vUE6ITbmSgRV1hc77NgjazilJvWoU68cIOBEXyLqKl2I2JQq81Oc9CapE1Ws=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=NECCMqgV; arc=fail smtp.client-ip=52.101.48.2
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=oRdKXe7F4QJG8UlmzD4kdjTILiXA6hXEmciWHLGjFDOlbmopGigdVZRj/Ulx59f2dAzhnkFJMrUHiFBBYk1wDlRlQvTqNDA+3DEbjUvZtRhy6crtVofxp0f4ao1+vc19ptPWnAbjwHvTvt+xOeO3UkqleAIY4mATGFeboER8X60KDExmP/i+/2yaZPj0BZX7fG1jV6HVi/Trd2MqLi2fNEbfVjrB4EIYDY+Z5TC+SzF+4RucIB4WrPfK2GlPia2ilY9qj5ZNdOXkIKGyDnbbzJ+IphoGnEAi7LbxTKSwDOAh+uMSWMsV6eki4ZB/BzrLgZZqG/7VZoIaWVdfDoQwjA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4krFBzPsFpV6pLov/ll7JYDmQskZIAPmeddOjUQ0VLU=;
- b=bGSKLDQCtUJaR/Px1ZjdqQihleaXhtwNmA0AzneFPyjFq6O+zZMtz781+nS5Dvjb3JoRfXMFr04huJOvciGoyTFjmKlrpsXrogLjvb0wRB4Uux5B1BCAFx12fL5l6QZxE5l1D8Th6hrHvECQFrQRM5SL/7gzfS0lbrljUbi1wGgZnbVktENuR58dCOG9is0OMXdERAgyQffYD9Q2arZP1nv1HZ0yyRzmvGHSG/hkgYW6QltzPKcvMNYwWiM1xm0G+/VHxicM1Rutn8Ij6Ia8BER8Izd9VwkNhrsNklbUIUMOsbby8grAXxtDtcekc+O/mubG4WEu0gGp3x5W+jpFbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4krFBzPsFpV6pLov/ll7JYDmQskZIAPmeddOjUQ0VLU=;
- b=NECCMqgVrQFpw8SSMIF0xSleoQst36F6Kws3DpWDGY1bHQkCsznm4MhnT4vPMfz+8fFTqGEciEKB3/Drog206qNLkLN3IjJD0n4628i6XQqIB8pKEImBidBi8BSqWJxiwv3sApWed7MD0oEca+b0OKuhVBi6Vm930GP3SdPUL73M56qGWzMYlpdpUE1zVTWX1b+LnY+ZzmyzGfzRdbJY7C38VFXEt1sAL06NnVBj0MiLIArkciVexHGZTZ2lw5FbjM0ZSYbNb67zeq72fd7SmQ2Qx4XNGezCN9oCi4v7+ExFMNQTC+rObomNkDCFZ2hL+zsHF/YhcN5DsBwTLBibMw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com (2603:10b6:208:c1::17)
- by MN0PR12MB5931.namprd12.prod.outlook.com (2603:10b6:208:37e::7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.17; Mon, 27 Oct
- 2025 17:47:25 +0000
-Received: from MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b]) by MN2PR12MB3613.namprd12.prod.outlook.com
- ([fe80::1b3b:64f5:9211:608b%4]) with mapi id 15.20.9253.017; Mon, 27 Oct 2025
- 17:47:24 +0000
-Date: Mon, 27 Oct 2025 14:47:23 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Vivek Kasireddy <vivek.kasireddy@intel.com>
-Cc: dri-devel@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	Christian Koenig <christian.koenig@amd.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Thomas =?utf-8?Q?Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
-	Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [RFC v2 1/8] dma-buf: Add support for map/unmap APIs for
- interconnects
-Message-ID: <20251027174723.GB1018328@nvidia.com>
-References: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
- <20251027044712.1676175-2-vivek.kasireddy@intel.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251027044712.1676175-2-vivek.kasireddy@intel.com>
-X-ClientProxiedBy: MN0P220CA0025.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:208:52e::33) To MN2PR12MB3613.namprd12.prod.outlook.com
- (2603:10b6:208:c1::17)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21A1F25DB12;
+	Mon, 27 Oct 2025 18:01:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761588081; cv=none; b=fSdsKyNXJQyQiasSHLNHbTQwSzmPjCCTlXsMkSBzMuXOIlbsf6i+wlQZq2G4jFAc4A+O8x9S/VnU2RPD+JkucQn0rO5sghbemL6IyYq1yWRv7NmPUlcXHIbCUPjQU4DWvct6nfVHoi/1lnjULMyX/u+Kb/BHqvAIqz110b7TOj0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761588081; c=relaxed/simple;
+	bh=9jM1AyAjLgTLzGDPG1KyrYzLoMQUACPXx/AJXSYKCR8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=g2++W1OltW3kszweIUkGJXR2hXCqbPlHbfpQXGRUDG7RXUMFXv/zMbwlszlB1PVWJLD7yP/TemZZBYjzI15jXR49gU/NE13BocnFNa2QCbKM2Ssv9vgBRKQ+Rd1+N8FDdcoe6E6ipLBCpajVwxoFJ1l79EJnNvG4hrc5W+MxsR4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uGfwz6+0; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4B5F1C4CEF1;
+	Mon, 27 Oct 2025 18:01:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761588080;
+	bh=9jM1AyAjLgTLzGDPG1KyrYzLoMQUACPXx/AJXSYKCR8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uGfwz6+04+lKKSGIgJAX4Bj6rEpXWa0ZZmr/m04gLJCYeRf3xtu8z7+eiWlEKIKNk
+	 RBQS7TcAR0AKwibjHenjEiMjFMThvZ6hvMlzHKzPFQ3OL0vkV6NzVuP1JHcgVXFzYT
+	 6Zg2WXJL3Fh7p9SGEP8O5SLc5f2V0fe2TYPfl4zBFhL4rHaTwVN5Vozj+friwzaHCM
+	 NzegOTSsZB+WugVobmY78QPEKBWGXCMwHWtBNfPnwKN8QzoSlGs1DOVfsMAR7ai5gV
+	 3Ud6ZaanLvuOsWFI4Vamcj8axRLFGouGi9x6nYHCDawwz/hNQSrPxtB4/4V+/z0gFT
+	 MtDS49A2H7nLQ==
+Date: Mon, 27 Oct 2025 13:01:18 -0500
+From: "Rob Herring (Arm)" <robh@kernel.org>
+To: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+Cc: Sukrut Bellary <sbellary@baylibre.com>, hverkuil+cisco@kernel.org,
+	u-kumar1@ti.com, jai.luthra@ideasonboard.com,
+	linux-kernel@vger.kernel.org, mchehab@kernel.org,
+	sakari.ailus@linux.intel.com, devicetree@vger.kernel.org,
+	krzk+dt@kernel.org, bparrot@ti.com, linux-media@vger.kernel.org,
+	dale@farnsworth.org, conor+dt@kernel.org
+Subject: Re: [PATCH V5 3/4] dt-bindings: media: ti: vpe: Add support for
+ Video Input Port
+Message-ID: <176158807606.1250661.5992100889957757703.robh@kernel.org>
+References: <20251024094452.549186-1-y-abhilashchandra@ti.com>
+ <20251024094452.549186-4-y-abhilashchandra@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3613:EE_|MN0PR12MB5931:EE_
-X-MS-Office365-Filtering-Correlation-Id: 06206041-0d64-4064-5d7f-08de1580e2eb
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?xyil4kC3SXf/ACaJWD/zlMjG7ukNRVLTWUA0FYPYKcf+QU9/xJuQcFFrO0Bo?=
- =?us-ascii?Q?8vJ42GwKjjhobEYpkPxdL9b2cmJq19yFH3qa2tlommuznAPo/cD2NdTicKMu?=
- =?us-ascii?Q?hiKuw/eHyt5HRlaz5OJ7Kek+BJlGSisrK+VvtIAuRYFuCxKyYPEwNylIxlKW?=
- =?us-ascii?Q?y2JzVcjVxgEQ5yEkasVBxapAjRxtnQ8MkJjt+2Z6ATiMVKzvoRvbDvd6qKSW?=
- =?us-ascii?Q?FiilRevcif6SZJgOlb3s7zHWkQyZ1RjvxMTBgO7whthxs/FEs+o7GDzhybYH?=
- =?us-ascii?Q?K5Auvu/JLSAMXAkweQloR+lU9OKrlnuddh29ScRvz5B9sinGgyP8XDpwMryc?=
- =?us-ascii?Q?hDMqGsIfqlkx06VJKpHLFQie3PxWqL5/WEBoX/0IL4BYXqlUtjQOAEtAmCRm?=
- =?us-ascii?Q?kziTgqsfyBxWEBKxxTQ6XnybQlN0+orjIUNLL/mYsTaUvK2+ok9iIsQdaAJC?=
- =?us-ascii?Q?MvBWqL/ZhNQpkMdY1zKhKh8qK4w3psCVYZo9DRI+8/aDq4P1AHBcTt5rS4Tm?=
- =?us-ascii?Q?pP3StvMkvTP7A1uh3+ePoJTfeaVyBUAJeEap0CVMApsOgrsBdoLHB5BdXZP5?=
- =?us-ascii?Q?Tx2HTDfbP30m3/ChjAh4f4ApKyQkAGD4CM0BbhH9M+PtHtzCb3KdZj01YWlv?=
- =?us-ascii?Q?D988OqGuzQnhM7kEvYrM1tgJsYgsX3x42VhnJg+TLF3Y25JFF1yzrT5Zqc4p?=
- =?us-ascii?Q?cMgnDaw000InOHoVr+wIod3k55bW/zfH5CW65ZlqVqPxirP5K3KO99Db93eN?=
- =?us-ascii?Q?vRvkZGvg1ZBeDMvSOM1qeEi5D2yuK1T2AB+qN3xsgCo+hIUtservFdYOKX5J?=
- =?us-ascii?Q?QBke9Uo6mYKSTjz5nFu9Dmx/YnAAvdV3Danimh/ier1gLMsN3sa1bBBhFinZ?=
- =?us-ascii?Q?crBPUDR2h2znKbZsG5V6KeMZ72G3RgMNkRA633g1yN6dqg8dGSfWGXQhyBb3?=
- =?us-ascii?Q?1CMQceUNHLtXBnWHqp+NFmCMu2LNxOeQpoghN7DIBxySknNTXKH83ZU9oQAJ?=
- =?us-ascii?Q?GxDZCruc58V5KdhBANI0sdaZijFrl8g83JChq9lI4Iug28t+q65g6q740o5U?=
- =?us-ascii?Q?XG7ZvGSEa5KF7ZnlIPX6Lsdo9H7+a26m/ZPaLY+1dk/D8xtpiXKjfpCnemAa?=
- =?us-ascii?Q?YdhRLtGQspMQ7SBq6x/X5U2D2efvUTsgZrKMU3R3UxoNs9B4tOrXzokuzm/y?=
- =?us-ascii?Q?x6vVzly/bo8zJ042udWRdyg5E8Nc2dTbmN3SnD931ojMa5DfaW6QtuF8SEt7?=
- =?us-ascii?Q?tlmyMpZLszaMcdkOX/BoVLU3nABftEXQJ7oiJ8Lad2H5GWS1wymRRdxxN9C5?=
- =?us-ascii?Q?n7XvXzjfxS/X/WyoDlxLifZ0hQL9bcF9FmngpGy4zRHOKiMGqhcYcfApmnYE?=
- =?us-ascii?Q?YdTxugy9uVWgKLB42l+vNgvAa6HH6QmtCbampoLf8Xbi1Mb3pDU1RkU4eNhZ?=
- =?us-ascii?Q?qA8oS5drP5ecCxN9fRmu/VOOSRk3xo40?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3613.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?PQI2U8IghAKVHdIkHxpUIBWXURnpNrNy91n5eg6MTYNomUvypE0QOe0JkrhR?=
- =?us-ascii?Q?8HD7FxWLp05rl87K9TgeqI+E12nsqIllAH00hzNCdAFvGOMKSsj69QTePQ8q?=
- =?us-ascii?Q?mdV9os++y1ponWAuRE/R06FCMjGCAsy7ShptVY1slXonjEqthqAeUreL5Uc0?=
- =?us-ascii?Q?Y1Xy5zgGqq/lErfDmB9K1IoitifkWqWgJ3TamwifZLGKj5m1HnYOwPOYnPdn?=
- =?us-ascii?Q?YMgZmjYXqLrimYScc18Os36VRnRn6WNZr0nyK7WMYxMkfbtsk5Bxg0mBM3YC?=
- =?us-ascii?Q?in8AtOG1qwWdfUkVveVgVBJl+FqW1pp+540hxqyM2KcKv2LFLk6D6aUJZTyx?=
- =?us-ascii?Q?VI9xEw7fHed735punDDcifGpr/a2uEXVvMMl9tMPaxh+W7NeJFlTdjZojgL4?=
- =?us-ascii?Q?tPomj5y1NjKRjNyUW1z7vI5OeZWILEZudB5aC64stsOzxJ9RkO8P7DuQ0lP4?=
- =?us-ascii?Q?WAp63Y1G2VhqJHP2AemW/C57+eXVwFpN27LmOy1pumSuzSKZliri4JmE+WQV?=
- =?us-ascii?Q?MBX7YXX/1Mh7SUSxttmLf7xauz2hlGeA9J0OlMaUKjTMiDH617KGDn39TxCq?=
- =?us-ascii?Q?Q3AvcZNmGaG0qCmV7OCeEigekE/bweGUMKsbW8Jlsn21QXKOuj+LOyKWtdLY?=
- =?us-ascii?Q?EcTMOA0ffiIh0SxhDyfk3gqTP6I2u6vfrVW4UxicRl+SP42c+G0dcDhnR4eX?=
- =?us-ascii?Q?TSpoD7eyMUheqrJxZil8+0An5lthilXeH1y11W8ujzqjqQak8nCmPfevUC85?=
- =?us-ascii?Q?R/7akOsAJ3+VJGT2Vj5BOvxXHX+iYWujE8KOW1Ax5HvHYQW5pkZOk868CPuz?=
- =?us-ascii?Q?AzxnwCUbSbQkfTQmiOAhJVXxcEQQnqEIPIgEHpWZgjVA25/l2qdf7sJSW7ey?=
- =?us-ascii?Q?7c6z9u91qUFY3nqNiiPibyXo8vbuM/ADV8saIymlb+G6/3XyZRrVVg74LlSH?=
- =?us-ascii?Q?fHpvpMcIk8ks2eAD52p0cKhHp7O7zfNp5dJd+Ynrcc9OV3HJcNnB6G/9VE5t?=
- =?us-ascii?Q?Tt448E7du10N/ho1AMoaAhSZX/1TwUi5DQD6HEdzaMVKy8HgUtzmmho+oEkK?=
- =?us-ascii?Q?6OhjIXQjQt2ZU3Ow6VaUYT5eyN6oc4DeO5H/Z0VqxnSrnKZEL1ivBrYe2pYU?=
- =?us-ascii?Q?2aUsFSXlPQ+Gx1f5yJqR5I2yt/W1YIHurtwSe+M6Ia3jfp4Gell4btqsCpMV?=
- =?us-ascii?Q?a+PPqg9irtWIW9M+ogYS1aRDLr9kdUlqkJ3HGCfZDhBflqm26STuk/ISlK4Y?=
- =?us-ascii?Q?l3kkJWIVjbw/rC0shLeEiKob30FXYCdESLf9SWqiFFP2iQ0D5U26475ZViEA?=
- =?us-ascii?Q?h/vHuUihldwOUpinE+myc+cCdo2Iqcw8H/kay9HPoqirIpGPOKgXvroHviP6?=
- =?us-ascii?Q?X21o0OQPFuh3HkFKpVuZ0dyf153oitrhsWnB++hYA/c0gjSLSKjKq69tHEBD?=
- =?us-ascii?Q?Aq26UOqGSYcF1saGEyxVC3/dduHmBh8uVOSt3maP1g4TUgPr/y+I42CvVk0q?=
- =?us-ascii?Q?jf7WCMEkWQc1BWOBF1I5yzHDcvjkEZCGY6uXPjlCZ4uuzGcp/TChr7kRv3pU?=
- =?us-ascii?Q?gZl9Fol4d0QG+0Oi6F4=3D?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 06206041-0d64-4064-5d7f-08de1580e2eb
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3613.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2025 17:47:24.3230
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: zJ8WN9pBjBSwLLni8oSawo5SZddhxf2cvKcqzdPCQGpzlXQJu9ADtPxgZ2c/yM6V
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5931
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251024094452.549186-4-y-abhilashchandra@ti.com>
 
-On Sun, Oct 26, 2025 at 09:44:13PM -0700, Vivek Kasireddy wrote:
-> For the map operation, the dma-buf core will create an xarray but
-> the exporter needs to populate it with the interconnect specific
-> addresses. And, similarly for unmap, the exporter is expected to
-> cleanup the individual entries of the xarray.
 
-I don't think we should limit this to xarrays, nor do I think it is a
-great datastructure for what is usually needed here..
+On Fri, 24 Oct 2025 15:14:51 +0530, Yemike Abhilash Chandra wrote:
+> From: Dale Farnsworth <dale@farnsworth.org>
+> 
+> Add device tree bindings for the Video Input Port. Video Input Port (VIP)
+> can be found on devices such as DRA7xx and provides a parallel interface
+> to a video source such as a sensor or TV decoder.
+> 
+> Signed-off-by: Dale Farnsworth <dale@farnsworth.org>
+> Signed-off-by: Benoit Parrot <bparrot@ti.com>
+> Signed-off-by: Sukrut Bellary <sbellary@baylibre.com>
+> Signed-off-by: Yemike Abhilash Chandra <y-abhilashchandra@ti.com>
+> ---
+> Changelog:
+> Changes in v5:
+> Krzysztof:
+> - Drop VIP node's label from the example
+> - Fix indentation of the example
+> 
+>  .../devicetree/bindings/media/ti,vip.yaml     | 152 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 153 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/ti,vip.yaml
+> 
 
-I just posted the patches showing what iommufd needs, and it wants
-something like
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
 
-struct mapping {
-   struct p2p_provider *provider;
-   size_t nelms;
-   struct phys_vec *phys;
-};
-
-Which is not something that make sense as an xarray.
-
-I think the interconnect should have its own functions for map/unmap,
-ie instead of trying to have them as a commmon
-dma_buf_interconnect_ops do something like
-
-struct dma_buf_interconnect_ops {
-        const char *name;
-        bool (*supports_interconnects)(struct dma_buf_attachment *attach,
-                                      const struct dma_buf_interconnect_match *,
-                                      unsigned int num_ics);
-};
-
-struct dma_buf_iov_interconnect_ops {
-     struct dma_buf_interconnect_ops ic_ops;
-     struct xx *(*map)(struct dma_buf_attachment *attach,
-     	 		   unsigned int *bar_number,
-			   size_t *nelms);
-     // No unmap for iov
-};
-
-static inline struct xx *dma_buf_iov_map(struct dma_buf_attachment *attach,
-     	 		   unsigned int *bar_number,
-			   size_t *nelms)
-{
-     return container_of(attach->ic_ops, struct dma_buf_iov_interconnect_ops, ic_ops)->map(
-                 attach, bar_number, nelms));
-}
-
-> +/**
-> + * dma_buf_attachment_is_dynamic - check if the importer can handle move_notify.
-> + * @attach: the attachment to check
-> + *
-> + * Returns true if a DMA-buf importer has indicated that it can handle dmabuf
-> + * location changes through the move_notify callback.
-> + */
-> +static inline bool
-> +dma_buf_attachment_is_dynamic(struct dma_buf_attachment *attach)
-> +{
-> +	return !!attach->importer_ops;
-> +}
-
-Why is this in this patch?
-
-I also think this patch should be second in the series, it makes more
-sense to figure out how to attach with an interconnect then show how
-to map/unmap with that interconnect
-
-Like I'm not sure why this introduces allow_ic?
-
-Jason
 
