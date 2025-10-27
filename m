@@ -1,48 +1,48 @@
-Return-Path: <linux-media+bounces-45685-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45686-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBB45C0F28B
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 17:05:58 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 21CADC0F2D9
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 17:10:40 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 47418501337
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 15:59:24 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 56E401893C4C
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 16:09:13 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id B480E314B8F;
-	Mon, 27 Oct 2025 15:54:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DDA07310777;
+	Mon, 27 Oct 2025 16:08:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ApZqaUo9"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bg1mmsGy"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1271C3128C8;
-	Mon, 27 Oct 2025 15:54:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E8BA30C60C;
+	Mon, 27 Oct 2025 16:08:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761580487; cv=none; b=DFuZ5KpkwyVFX3MWYdsN7u3c+6sAMEQ+yam9on18fkdtDTTpG2yfPXRqHevZIl/UdKus3w7opwdyIEt/qzBHLuQvTFJ2iGIYEpJXG1w2/D6lsJEYF4wY1WJ2rqDG8DQOXAlEzsbI6RKvMr5DdZr0RlEXn6oHYN65kemNLDn+15s=
+	t=1761581320; cv=none; b=X4NoJUruUn2xtnDSALVBtSs2yBgH4dLo6w0QWXYEA2Oa+UMJeqMw29EgVXfexLfm+IDuAx1vtE1x5uD5bPnawT0D4dTMHdQbqhxWQG9nePRuUZUZeNFqDY5Hgw5omtr1A6UVB8x4TNedaV06shJrcvNT9663+eit9C5IJ9R+gQA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761580487; c=relaxed/simple;
-	bh=PC/Key79mxSwwFYItT5YNmVyruW8yPwSdYrSrBB7DY4=;
+	s=arc-20240116; t=1761581320; c=relaxed/simple;
+	bh=0qurQEcCeZYwnzmNk0lbdUhOqCeujh+OZZ7pr7d4vWA=;
 	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=Jfy+7KMV8GBNw3A/TdHPG2Wb/eQKz8im+QEld1+/5so5X0i6Fpvi/LVgm/Oyr2KsPR/PsY/dywvflp0Y8KZjafHtsvve2ehK4Yco+ypEpt98Fy9gTrG+OSSckP3zs5ilaZ5vSAuYWxTHl3k5RsABilWbqZxaueG7G75rWs9yFxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ApZqaUo9; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFDB9C4CEF1;
-	Mon, 27 Oct 2025 15:54:43 +0000 (UTC)
+	 In-Reply-To:Content-Type; b=YLyDRQMNWTeM6dO25cRGNlHZsqx/zW+ntLdrwp46ZicULLMc93GCxxnGAiYvFQehaqvxzCbt3yf3I/dtptFoF2CLOJiO49QxRSaCBxH4frLxDvoYsQIPsmahFOx/AE4s9zttkG0Qiy6WTo9ZBLP8XwANHTaTiJhcaZ2p1hyZk4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bg1mmsGy; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 73763C4CEF1;
+	Mon, 27 Oct 2025 16:08:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761580486;
-	bh=PC/Key79mxSwwFYItT5YNmVyruW8yPwSdYrSrBB7DY4=;
+	s=k20201202; t=1761581319;
+	bh=0qurQEcCeZYwnzmNk0lbdUhOqCeujh+OZZ7pr7d4vWA=;
 	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
-	b=ApZqaUo9L25GA8s/FDGqyMbTH+5YIOXSOAWerWPYho5MTuMWFcQ7Urg8Io97zW13m
-	 JtBn30Lt/3wYf98gTdzaYPzfHfNHc8vSk8JCUxTAXEN3FVI09cyrVjfq0cqE+TXDLD
-	 BfDq6rxsy+a/FCQPbTuOVbZ327TFMNP+xXf24B2dm2o3/s0RASuU4g5cxslJO7sGhc
-	 pf/nDp/iETMB51U1AbsSUxKwPwNSBJ7sf65YB01Kr+QzqNB76fhEaKlc4PloJjicuw
-	 PfUgYzJmKrzrjX8Eha7cLmM9iegdNPMmqqkLQFlMHy3rIad7ZN2n+hZkrjbpoYegUM
-	 e/wEABfWy2cVw==
-Message-ID: <3a565e1b-4d73-4d7d-a6bd-1dd8b7b973b3@kernel.org>
-Date: Mon, 27 Oct 2025 16:54:42 +0100
+	b=bg1mmsGyeYPsovM1F0Tq4nEw20gfWYynK3MHZ7jxJuJY17d7vtN6CIx7db4Q3pvu5
+	 puDkrsmy7UcPEk9/YB9PY1gbwXT9eHUKLt4fqTnuARzUokgMvBXp2IvGAA4vzj5Sjn
+	 ggpK0qqihbpjmlAHkS/EKn6i9xM7FjMcUh8ZH9w6ID6+7zhXwRu/w4riSqFJIp5FRJ
+	 4c7MNB+jl1JZX2epbGuIhYgMCi/XcJC60t7eXSh355R7OW0zbj/JHyr8tZ8eEKvTfn
+	 XI+W5Dl/UOIJ8BCWaWyuRpmuNy65UCSNiIDMfZNNOkm3rPwdCSkAxCcrGp9djd/z++
+	 66WZ+4huDCMXw==
+Message-ID: <7c5a1a6e-cad2-46c3-b5cd-3e92ca6d99a7@kernel.org>
+Date: Mon, 27 Oct 2025 17:08:31 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -51,216 +51,181 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 From: Hans Verkuil <hverkuil+cisco@kernel.org>
-Subject: Re: [PATCH v3] media: v4l2-ctrls: add full AV1 profile validation in
- validate_av1_sequence()
-To: opensource india <opensource206@gmail.com>
-Cc: jc@kynesim.co.uk, mchehab@kernel.org, hverkuil@kernel.org,
- ribalda@chromium.org, laurent.pinchart@ideasonboard.com, yunkec@google.com,
- sakari.ailus@linux.intel.com, james.cowgill@blaize.com,
- Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250913105252.26886-1-opensource206@gmail.com>
- <8199bec4-b9e1-4d6e-98da-a4d7eb667437@kernel.org>
- <CAKPKb8-s96v+Nh29Z5E0wgyXYgoFHJT2SHA_WpZshXspo0WY0w@mail.gmail.com>
- <f9001f98-80d6-49d5-8665-d42fcef7b07d@kernel.org>
- <CAFyCYyOFFMrDetScx_8_VgRpCVyTq_O0PGn1hDt7+UwMygqeXw@mail.gmail.com>
- <7fc65c85-f75e-419c-aa1b-0c85376373d4@kernel.org>
- <CAKPKb88Tov27+c227p8k0KAuZtm_LNNxDkf=5YBfDYw94afFPw@mail.gmail.com>
+Subject: Re: [PATCH v5 00/23] tegra-video: add CSI support for Tegra20 and
+ Tegra30
+To: Svyatoslav Ryhel <clamor95@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>,
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling
+ <webgeek1234@gmail.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20251022142051.70400-1-clamor95@gmail.com>
 Content-Language: en-US, nl
-In-Reply-To: <CAKPKb88Tov27+c227p8k0KAuZtm_LNNxDkf=5YBfDYw94afFPw@mail.gmail.com>
+In-Reply-To: <20251022142051.70400-1-clamor95@gmail.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 27/10/2025 16:36, opensource india wrote:
-> 
-> 
-> On Thu, Oct 23, 2025 at 6:44 PM Hans Verkuil <hverkuil+cisco@kernel.org <mailto:hverkuil%2Bcisco@kernel.org>> wrote:
->>
->> On 23/10/2025 15:03, John Cox wrote:
->> > On Thu, 23 Oct 2025 at 11:44, Hans Verkuil <hverkuil+cisco@kernel.org <mailto:hverkuil%2Bcisco@kernel.org>> wrote:
->> >>
->> >> On 23/10/2025 12:32, opensource india wrote:
->> >>> On Wed, Oct 22, 2025 at 12:44 PM Hans Verkuil <hverkuil+cisco@kernel.org <mailto:hverkuil%2Bcisco@kernel.org>> wrote:
->> >>>>
->> >>>> Hi Pavan,
->> >>>>
->> >>>> On 13/09/2025 12:52, Pavan Bobba wrote:
->> >>>>> Complete the "TODO: PROFILES" by enforcing profile-specific and
->> >>>>> monochrome constraints as defined by the AV1 specification
->> >>>>> (Section 5.5.2, "Color config syntax").
->> >>>>>
->> >>>>> The validator now checks:
->> >>>>>
->> >>>>>  - Flags: reject any unknown bits set in sequence->flags
->> >>>>>  - Profile range: only profiles 0..2 are valid
->> >>>>>  - Profile 0: 8/10-bit only, subsampling must be 4:2:0 (sx=1, sy=1),
->> >>>>>    monochrome allowed
->> >>>>>  - Profile 1: 8/10-bit only, subsampling must be 4:4:4 (sx=0, sy=0),
->> >>>>>    monochrome forbidden
->> >>>>>  - Profile 2:
->> >>>>>     * 8/10-bit: only 4:2:2 allowed (sx=1, sy=0)
->> >>>>>     * 12-bit: 4:4:4 (sx=0, sy=0), 4:2:2 (sx=1, sy=0), or 4:2:0 (sx=1, sy=1)
->> >>>>>       allowed
->> >>>>>  - Monochrome path (all profiles except 1): forces subsampling_x=1,
->> >>>>>    subsampling_y=1, separate_uv_delta_q=0
->> >>>>>
->> >>>>> These checks prevent userspace from providing invalid AV1 sequence
->> >>>>> headers that would otherwise be accepted, leading to undefined driver
->> >>>>> or hardware behavior.
->> >>>>
->> >>>> This patch was merged in our media-committers next branch, but I noticed that
->> >>>> it now fails the v4l2-compliance test for the visl driver.
->> >>>>
->> >>>> The cause is that the new validation now fails with the default values for
->> >>>> this control as set in std_init_compound().
->> >>>>
->> >>>> You can test this yourself by loading the visl driver and then running
->> >>>> v4l2-compliance -d /dev/videoX -E --verbose
->> >>>> (-E stops at the first error)
->> >>>>
->> >>>> Can you provide a patch to initialize this control with sane values?
->> >>>>
->> >>>> Apologies for not noticing this before: there are some issues with the automatic
->> >>>> regression tests in our CI, so the tests weren't run.
->> >>>>
->> >>>> Regards,
->> >>>>
->> >>>>         Hans
->> >>>>
->> >>>
->> >>> Hi Hans Verkuil,
->> >>>
->> >>> Thank you so much for the review.
->> >>> yes, v4l2-compliance expected to fail indeed since it is sending
->> >>> default values which, our newly added code rejects as per
->> >>> specification
->> >>>
->> >>> when you say patch, you mean patch for v4l2-compliance tool with
->> >>> proper values so that v4l2 core driver can accept?
->> >>
->> >> No, std_init_compound() in the kernel needs to be patched so the initial
->> >> value of this control passes the new validation tests. The initial control
->> >> values should always be sane.
->> >
->> > Whilst that is a good principle it makes almost no sense in this
->> > context. There is almost no chance that a given bitstream will decode
->> > against a default sequence header and failing to set it explicitly is
->> > going to be a mistake on the users part. It seems to me that it is
->> > better to have something that is detectable as unset rather than
->> > something that is valid but wrong.
->> >
->> > I accept that it is the V4L2 way to require "valid" default values for
->> > all supported ctrls, but it seems to me to be actively unhelpful for
->> > things like SPS / VPS / Tile Group Entry where if not set correctly
->> > from bits of the bitstream that the kernel doesn't get to see they
->> > will break the stream decode.
->>
->> I agree, but the V4L2 design (not just controls, but also formats etc.) is
->> that they have valid values, even if it makes no sense in the bigger picture.
->>
->> Now, is that the right design or not? You could argue either way, but the
->> fact is that that's how it was designed many years ago.
->>
->> Changing this for just a single control is worse than just initing with the
->> minimum you can get away with. Bonus points if it is somewhat sane :-)
->>
->> The advantage of always reporting valid values is that the application never
->> has to explicitly check if the format/control/etc. has invalid values.
->>
->> Regards,
->>
->>         Hans
->>
->> >
->> > I'm not going to argue this point but I felt that I wanted to make it.
->> >
->> > Regards
->> >
->> > John Cox
->> >> Regards,
->> >>
->> >>         Hans
->> >>
->> >
->>
-> Thank you Hans and John.
-> 
-> actually i have tested with v4l2-compliance tool of version - 1.31
+Hi Svyatoslav,
 
-Always compile v4l2-compliance from the git repo https://git.linuxtv.org/v4l-utils.git/
-1.31 is old, and it is important to test with the latest version since it will be kept
-in sync with the head of the media-committers git repo.
+On 22/10/2025 16:20, Svyatoslav Ryhel wrote:
+> Add support for MIPI CSI device found in Tegra20 and Tegra30 SoC along
+> with a set of changes required for that.
 
-> 
-> i can see below log
-> 
-> info: checking v4l2_query_ext_ctrl of control 'HEVC Decode Mode' (0x00a40a95)
-> info: checking v4l2_query_ext_ctrl of control 'HEVC Start Code' (0x00a40a96)
-> info: checking v4l2_query_ext_ctrl of control 'HEVC Entry Point Offsets' (0x00a40a97)
-> info: checking v4l2_query_ext_ctrl of control 'AV1 Sequence Parameters' (0x00a40af4)
-> info: checking v4l2_query_ext_ctrl of control 'AV1 Tile Group Entry' (0x00a40af5)
-> info: checking v4l2_query_ext_ctrl of control 'AV1 Frame Parameters' (0x00a40af6)
-> info: checking v4l2_query_ext_ctrl of control 'AV1 Film Grain' (0x00a40af9)
-> test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-> test VIDIOC_QUERYCTRL: OK
-> info: checking control 'Stateless Codec Controls' (0x00a40001)
-> info: checking control 'H264 Decode Mode' (0x00a40900)
-> info: checking control 'H264 Start Code' (0x00a40901)
-> info: checking control 'HEVC Decode Mode' (0x00a40a95)
-> info: checking control 'HEVC Start Code' (0x00a40a96)
-> test VIDIOC_G/S_CTRL: OK
-> info: checking extended control 'Stateless Codec Controls' (0x00a40001)
-> info: VIDIOC_TRY_EXT_CTRLS1 on node:
-> *fail: v4l2-test-controls.cpp(971): invalid error index read only control*
-> 
-> AV1 Sequence Parameters test is passing(this is where api has our patch invoked).
-> 
-> std_init_compound() is assigning profile 0 with bit depth 8, which is acceptable as per specification.
+Other than patch 06/23 that looked iffy (although the original code was iffy as
+already), for which I posted a review, this series looks almost ready.
 
-Testing with visl and v4l2-compliance -E --verbose gives me:
+Should the clk patches be merged together with the media patches? Or can those
+go in via the clk subsystem? If it is the latter, then I'll need an Acked-by from the
+clk subsystem maintainer.
 
-test VIDIOC_G/S_CTRL: OK
-info: checking extended control 'Stateless Codec Controls' (0x00a40001)
-info: checking extended control 'H264 Decode Mode' (0x00a40900)
-info: checking extended control 'H264 Start Code' (0x00a40901)
-info: checking extended control 'H264 Sequence Parameter Set' (0x00a40902)
-info: checking extended control 'H264 Picture Parameter Set' (0x00a40903)
-info: checking extended control 'H264 Scaling Matrix' (0x00a40904)
-info: checking extended control 'H264 Prediction Weight Table' (0x00a40905)
-info: checking extended control 'H264 Slice Parameters' (0x00a40906)
-info: checking extended control 'H264 Decode Parameters' (0x00a40907)
-info: checking extended control 'FWHT Stateless Parameters' (0x00a40964)
-info: checking extended control 'VP8 Frame Parameters' (0x00a409c8)
-info: checking extended control 'MPEG-2 Sequence Header' (0x00a409dc)
-info: checking extended control 'MPEG-2 Picture Header' (0x00a409dd)
-info: checking extended control 'MPEG-2 Quantisation Matrices' (0x00a409de)
-info: checking extended control 'VP9 Frame Decode Parameters' (0x00a40a2c)
-info: checking extended control 'VP9 Probabilities Updates' (0x00a40a2d)
-info: checking extended control 'HEVC Sequence Parameter Set' (0x00a40a90)
-info: checking extended control 'HEVC Picture Parameter Set' (0x00a40a91)
-info: checking extended control 'HEVC Slice Parameters' (0x00a40a92)
-info: checking extended control 'HEVC Scaling Matrix' (0x00a40a93)
-info: checking extended control 'HEVC Decode Parameters' (0x00a40a94)
-info: checking extended control 'HEVC Decode Mode' (0x00a40a95)
-info: checking extended control 'HEVC Start Code' (0x00a40a96)
-info: checking extended control 'HEVC Entry Point Offsets' (0x00a40a97)
-info: checking extended control 'AV1 Sequence Parameters' (0x00a40af4)
-fail: v4l2-test-controls.cpp(939): try_ext_ctrls returned an error (22)
+Regarding the bindings: all except 21/23 are Acked.
 
-Debugging a bit in validate_av1_sequence() shows it fails here:
+I have one question regarding testing: in the past I tested this driver with a
+Jetson TX1 devkit and a camera sensor. One of the main reasons this driver is still
+in staging is that I never got that to work reliably: after 10-30 minutes it would
+lose sync and streaming would stop.
 
-        /* 4. Profile-specific rules */
-        switch (s->seq_profile) {
-        case 0:
-                /* Profile 0: only 8/10-bit, subsampling=4:2:0 (sx=1, sy=1) */
-                if (s->bit_depth != 8 && s->bit_depth != 10)
-                        return -EINVAL;
-                if (!(sx && sy))
-                        return -EINVAL;
-		^^^^^^^^^^^^^^^^ This is the test that fails the validation
-                break;
+Unfortunately I never had the time to dig deeper into that.
+
+So have you tested this with a camera sensor? And if so, does it stream reliably?
+I.e. just let it stream for 24 hours and see if that works.
+
+If it is reliable for you, then I think this driver should be moved to drivers/media.
 
 Regards,
 
 	Hans
+
+> 
+> ---
+> Changes in v2:
+> - vi_sensor gated through csus
+> - TEGRA30_CLK_CLK_MAX moved to clk-tegra30
+> - adjusted commit titles and messages
+> - clk_register_clkdev dropped from pad clock registration
+> - removed tegra30-vi/vip and used tegra20 fallback
+> - added separate csi schema for tegra20-csi and tegra30-csi
+> - fixet number of VI channels
+> - adjusted tegra_vi_out naming
+> - fixed yuv_input_format to main_input_format
+> - MIPI calibration refsctored for Tegra114+ and added support for
+>   pre-Tegra114 to use CSI as a MIPI calibration device
+> - switched ENOMEM to EBUSY
+> - added check into tegra_channel_get_remote_csi_subdev
+> - moved avdd-dsi-csi-supply into CSI
+> - next_fs_sp_idx > next_fs_sp_value
+> - removed host1x_syncpt_incr from framecounted syncpoint
+> - csi subdev request moved before frame cycle
+> 
+> Changes in v3:
+> - tegra20 and tegra30 csi schema merged
+> - removed unneeded properties and requirements from schema
+> - improved vendor specific properties description
+> - added tegra20 csus parent mux
+> - improved commit descriptions
+> - redesigned MIPI-calibration to expose less SoC related data into header
+> - commit "staging: media: tegra-video: csi: add support for SoCs with integrated
+>   MIPI calibration" dropped as unneeded
+> - improved tegra_channel_get_remote_device_subdev logic
+> - avdd-dsi-csi-supply moved from vi to csi for p2597 and p3450-0000
+> - software syncpoint counters switched to direct reading
+> - adjusted planar formats offset calculation
+> 
+> Changes in v4:
+> - removed ifdefs from tegra_mipi_driver
+> - document Tegra132 MIPI calibration device
+> - switched to use BIT macro in tegra114-mipi
+> - pinctrl changes moved to a separate patch
+> - ERESTARTSYS workaround preserved for now
+> - tegra_mipi_add_provider replaced with devm_tegra_mipi_add_provider
+> - reworked bytesperline and sizeimage calculaion
+> 
+> Changes in v5:
+> - dropped patch 1/24 of v4 since it was picked to pinctrl tree
+> - added reasoning for tegra132 comaptible into commit desctiption
+> - moved clocks into common section in tegra20-csi schema
+> - added note regarding ERESTARTSYS
+> ---
+> 
+> Svyatoslav Ryhel (23):
+>   clk: tegra: set CSUS as vi_sensor's gate for Tegra20, Tegra30 and
+>     Tegra114
+>   dt-bindings: clock: tegra30: Add IDs for CSI pad clocks
+>   clk: tegra30: add CSI pad clock gates
+>   dt-bindings: display: tegra: document Tegra30 VI and VIP
+>   staging: media: tegra-video: expand VI and VIP support to Tegra30
+>   staging: media: tegra-video: vi: adjust get_selection op check
+>   staging: media: tegra-video: vi: add flip controls only if no source
+>     controls are provided
+>   staging: media: tegra-video: csi: move CSI helpers to header
+>   gpu: host1x: convert MIPI to use operation function pointers
+>   dt-bindings: display: tegra: document Tegra132 MIPI calibration device
+>   staging: media: tegra-video: vi: improve logic of source requesting
+>   staging: media: tegra-video: csi: move avdd-dsi-csi-supply from VI to
+>     CSI
+>   arm64: tegra: move avdd-dsi-csi-supply into CSI node
+>   staging: media: tegra-video: tegra20: set correct maximum width and
+>     height
+>   staging: media: tegra-video: tegra20: add support for second output of
+>     VI
+>   staging: media: tegra-video: tegra20: adjust format align calculations
+>   staging: media: tegra-video: tegra20: set VI HW revision
+>   staging: media: tegra-video: tegra20: increase maximum VI clock
+>     frequency
+>   staging: media: tegra-video: tegra20: expand format support with
+>     RAW8/10 and YUV422/YUV420p 1X16
+>   staging: media: tegra-video: tegra20: adjust luma buffer stride
+>   dt-bindings: display: tegra: document Tegra20 and Tegra30 CSI
+>   ARM: tegra: add CSI nodes for Tegra20 and Tegra30
+>   staging: media: tegra-video: add CSI support for Tegra20 and Tegra30
+> 
+>  .../display/tegra/nvidia,tegra114-mipi.yaml   |   1 +
+>  .../display/tegra/nvidia,tegra20-csi.yaml     | 138 +++
+>  .../display/tegra/nvidia,tegra20-vi.yaml      |  19 +-
+>  .../display/tegra/nvidia,tegra20-vip.yaml     |   9 +-
+>  arch/arm/boot/dts/nvidia/tegra20.dtsi         |  19 +-
+>  arch/arm/boot/dts/nvidia/tegra30.dtsi         |  24 +-
+>  .../arm64/boot/dts/nvidia/tegra210-p2597.dtsi |   4 +-
+>  .../boot/dts/nvidia/tegra210-p3450-0000.dts   |   4 +-
+>  drivers/clk/tegra/clk-tegra114.c              |   7 +-
+>  drivers/clk/tegra/clk-tegra20.c               |  20 +-
+>  drivers/clk/tegra/clk-tegra30.c               |  21 +-
+>  drivers/gpu/drm/tegra/dsi.c                   |   1 +
+>  drivers/gpu/host1x/Makefile                   |   1 +
+>  drivers/gpu/host1x/mipi.c                     | 525 ++---------
+>  drivers/gpu/host1x/tegra114-mipi.c            | 483 +++++++++++
+>  drivers/staging/media/tegra-video/Makefile    |   1 +
+>  drivers/staging/media/tegra-video/csi.c       |  70 +-
+>  drivers/staging/media/tegra-video/csi.h       |  16 +
+>  drivers/staging/media/tegra-video/tegra20.c   | 820 +++++++++++++++---
+>  drivers/staging/media/tegra-video/vi.c        |  56 +-
+>  drivers/staging/media/tegra-video/vi.h        |   6 +-
+>  drivers/staging/media/tegra-video/video.c     |   8 +-
+>  drivers/staging/media/tegra-video/vip.c       |   4 +-
+>  include/dt-bindings/clock/tegra30-car.h       |   3 +-
+>  include/linux/host1x.h                        |  10 -
+>  include/linux/tegra-mipi-cal.h                |  57 ++
+>  26 files changed, 1657 insertions(+), 670 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/display/tegra/nvidia,tegra20-csi.yaml
+>  create mode 100644 drivers/gpu/host1x/tegra114-mipi.c
+>  create mode 100644 include/linux/tegra-mipi-cal.h
+> 
+
 
