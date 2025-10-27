@@ -1,348 +1,558 @@
-Return-Path: <linux-media+bounces-45721-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45722-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7074C1178B
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 22:05:35 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 0162AC11A66
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 23:16:56 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id CD6131A220D0
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 21:05:59 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 8A7734F26FD
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 22:16:02 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5371228313D;
-	Mon, 27 Oct 2025 21:05:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 54CBC25F7B9;
+	Mon, 27 Oct 2025 22:15:59 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="D6K5bCx3"
+	dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b="NkU6S3lD"
 X-Original-To: linux-media@vger.kernel.org
-Received: from DU2PR03CU002.outbound.protection.outlook.com (mail-northeuropeazon11011057.outbound.protection.outlook.com [52.101.65.57])
+Received: from gofer.mess.org (gofer.mess.org [88.97.38.141])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A9BA1F7586;
-	Mon, 27 Oct 2025 21:05:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.65.57
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761599125; cv=fail; b=b6FGKv5jvp26Bij6xE5bbR1SKwao3mMK48vTf6UU/AlmxVxdO7vyoKh2M0g4NQMO4ZGG9HGwMGqLPxOQhzmUpF8k4PkROaQ3HDosCXQKzp34kp0fy09ajmPoz8By6ZnV0HJYnEYORH4eXu9VsziX9UWc4Kd31ri7Gtr3tVqeY+s=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761599125; c=relaxed/simple;
-	bh=QQcGyuaXyEqUqNFNxKJzvh1Jjv2gzD5/HY4pXfW4Ajg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=d8Q555TanrTxPxBtWUbBsV00A+6o7ITPTf4Gub8JDdB3IpJVJVctxFAch+mp1rRIE1yD+BmVrmO40vlfMO2Q3EVc0zj7yeoUqOt1Ei6iy0B7xjMhrd9z8RCznhfDgpHgIz/Yx+OhX0kJ2TOwFt7prhcrK+qE2QtLlo7CVLerRY0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=D6K5bCx3; arc=fail smtp.client-ip=52.101.65.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jiCrKiE6XQrTWlUEImg0qML82h3Qi1jc97CzUeIpe33UwVN/6eJsrjB4thuXe/fxni82j31isV2ouC1ElH1g/Zhm5i/vDmnBmLpjhou1DKSU7xqAxqmT9oWYX8gALPE8RPaUQTxzYFu5XUwY16/+rEsvhDGZO05wn3PYjeyQJ6wvVb55niOKIhcojr3unCyTWiyLv4xEj90t18tyTCEfbCVczV5k4emS281uCnPs5FILBkVbll/xgAnXx5UalzNTqqd4PEt1hZ/0QbkqQ31mAoq6sLi3AFby+SUcmi62Y1Ec9oab8whazPN6VaR0Cv6vNpwP1dUm6Y29i9FGO4ybuQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YpkGnmsDt+sAteJ7KbmPqnTO3sF2VoJTgvSPjt4Xk+U=;
- b=LZT7L8zSQLNcIzIXoJEYwgK+mLJ6fOih2zC4Uxv8L4sacrHijA8ARJFU/v/8mo1SGN1WqrN93pETjE3OuGirRgc0P29xVdAlLujgbA8rPrPkY01Ys+2Ui+3TWsSiE4S4xs8+J/1ui/qZBfMsVVam7sBwFTfu+Vm54yaBtv13P6VhEyhV2DcJ+r/F4CyF9XK07Wu/+uQmS9xo0uZ49WlI1n/Wj8UqBgzMbV1CVQ8VZdRojmh1UAfM7/0aOMd46DtY2XcH+frKHW6ut5rUUCDX+c4aI3rO7t1KoC6zSyIV97MiSTKrX0mFpKFJTDcOdlBLC0DbPIPQsQ140qk4nKoOcQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YpkGnmsDt+sAteJ7KbmPqnTO3sF2VoJTgvSPjt4Xk+U=;
- b=D6K5bCx3NgfpQzuC+QVKu+ekPyFjh4nyklFv+0U5K5tgzbEk47IQIKEH/aCk+3jmP84/uIdypK42VAIjJ9odylbEIUYdPF4dyDDCVMTUWLZKAH2NuN/7b4+v0ESSmD82svlPuFz9MsLcRCYjjuXEUu6w5zv0U+/BOEWKQS7UepTXJVBT6zj9ulCv9xwoEm5NTbLwiwLtIagRY1Ivnr7m7E8iJenqtv6YHOEi3MBg5ZNDW5h+Ch1QPyMJu6+TrPAK558cB2jQk1H4TdrH09AXzhegTXnj2PWrnhZRlieTYTuyW/3q6DgNI+oyVmHhSXB7X/0jKPDQtvwCw6x/rxvUEQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nxp.com;
-Received: from AS4PR04MB9621.eurprd04.prod.outlook.com (2603:10a6:20b:4ff::22)
- by AM9PR04MB8649.eurprd04.prod.outlook.com (2603:10a6:20b:43c::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.19; Mon, 27 Oct
- 2025 21:05:19 +0000
-Received: from AS4PR04MB9621.eurprd04.prod.outlook.com
- ([fe80::a84d:82bf:a9ff:171e]) by AS4PR04MB9621.eurprd04.prod.outlook.com
- ([fe80::a84d:82bf:a9ff:171e%4]) with mapi id 15.20.9253.017; Mon, 27 Oct 2025
- 21:05:19 +0000
-Date: Mon, 27 Oct 2025 17:05:09 -0400
-From: Frank Li <Frank.li@nxp.com>
-To: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33C2A2857CD
+	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 22:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=88.97.38.141
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761603358; cv=none; b=XM9OFn8DdIStrBhz1bhZGf/12MRQcIgXsY+aVjxZ+oqt98dbt/WV6RVVXxowXX19vzWLrxKE94BQOsba5VmgdD3EOVkfXz/fWAIXWgTbJx/9IIsbCVLS0jUuzH+29Z+9TDsrgltjrgg0N4xzmmqKMVtKvjVIPSwYfsY6SaZrcPU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761603358; c=relaxed/simple;
+	bh=gBNiyt6/z2YtpA51LuQ3iCVGawOxxAEpQ0W1OkajoUw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iYjRcIGvTvxX+KP3bMpYVGcDiTv5mmQtQyfC8LFJbtKj3iVvShqTUCjwY5WEkCwEkQFcXcUFg7coyF9UCMg+3x73DxT2bypNVGyq9HGLPwn7SaPfdxLKuqXMlmDEN5XUgvcvDQ9QYXBNhMynGtmSETdiqA93cJH+vDxCKTFgE3c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org; spf=pass smtp.mailfrom=mess.org; dkim=pass (2048-bit key) header.d=mess.org header.i=@mess.org header.b=NkU6S3lD; arc=none smtp.client-ip=88.97.38.141
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=mess.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mess.org
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mess.org; s=2020;
+	t=1761602800; bh=gBNiyt6/z2YtpA51LuQ3iCVGawOxxAEpQ0W1OkajoUw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=NkU6S3lDLL03m4PmTaKFVBRBjcloTii345U6wgv+x2abW0TXcnTbJkyLhgHKRS0Y5
+	 5jKO5/HeBPA5h+x7qRXhOR4AyKn427DaUFov3YZfk/o61gIMA6QQ4LTHYDhBpvgPGa
+	 knT1Jibnipf/npHhy6OP6txPVFDBEnqxMYnCsrMq03DAsofNqiy/RTlzMrVmmyOEJL
+	 Po2SCQfZuPEUZW1EKNdGCsfML4EnUiK41aqmd+3uFyP4hFY8TzUlD5yn7dyhbf7Hcs
+	 D+BLGAV26quwp8YfZZ9a8L7IIPx/RuRHfHL2buqQMgdx1aYAmrx5kpXmQYSYQHAzGT
+	 /aec7lpif7ABw==
+Received: by gofer.mess.org (Postfix, from userid 1000)
+	id DD0251003DC; Mon, 27 Oct 2025 22:06:40 +0000 (GMT)
+Date: Mon, 27 Oct 2025 22:06:40 +0000
+From: Sean Young <sean@mess.org>
+To: Hans Verkuil <hverkuil+cisco@kernel.org>
+Cc: linux-media@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Sakari Ailus <sakari.ailus@linux.intel.com>,
 	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Eugen Hristev <eugen.hristev@linaro.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
-	linux-staging@lists.linux.dev, Luis Oliveira <lolivei@synopsys.com>
-Subject: Re: [PATCH v3 01/31] dt-bindings: media: add DW MIPI CSI-2 Host
- support
-Message-ID: <aP/ehdkppeVr5G6H@lizhi-Precision-Tower-5810>
-References: <20250821-95_cam-v3-0-c9286fbb34b9@nxp.com>
- <20250821-95_cam-v3-1-c9286fbb34b9@nxp.com>
- <aP8t3YClrZxOnHea@valkosipuli.retiisi.eu>
- <aP+enPOHPkvZAkzS@lizhi-Precision-Tower-5810>
- <aP_bSQUIle_9-L-7@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aP_bSQUIle_9-L-7@valkosipuli.retiisi.eu>
-X-ClientProxiedBy: PH1PEPF000132E6.NAMP220.PROD.OUTLOOK.COM
- (2603:10b6:518:1::26) To AS4PR04MB9621.eurprd04.prod.outlook.com
- (2603:10a6:20b:4ff::22)
+	Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+	Ricardo Ribalda <ribalda@chromium.org>
+Subject: Re: [PATCHv6 1/3] docs: media: update maintainer-entry-profile for
+ multi-committers
+Message-ID: <aP_s8D35617s6JWU@gofer.mess.org>
+References: <cover.1761571713.git.hverkuil+cisco@kernel.org>
+ <1495ec4ccdcdfab788fa9d02e11a6028a455e31b.1761571713.git.hverkuil+cisco@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS4PR04MB9621:EE_|AM9PR04MB8649:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0b8b7c6a-3dfe-4814-e70b-08de159c894f
-X-LD-Processed: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
- BCL:0;ARA:13230040|1800799024|366016|19092799006|7416014|376014|52116014|38350700014;
-X-Microsoft-Antispam-Message-Info:
- =?us-ascii?Q?aEY0PqVyMyapEXH79Pn3S5ZOk0LMvS6cE4x0bUntGEMgszJawdbXijAgpDQG?=
- =?us-ascii?Q?A2eUGoXQOmKKJj3EHEaBQDp/DpjcZIGRPNaThHH/Kw3wOEmxEnlT5k4ysA5H?=
- =?us-ascii?Q?AUo7Dl6dLf/+vOW2AMZ9BssJEw10ao1rfAbq2N83NlP8XuMjdedVv3LMzMtI?=
- =?us-ascii?Q?C4s0jkfvUbrQVdvEBXsW10pkodkmpD8iy6f9SN9mV8TBCpS2dV1SyKtYbgpO?=
- =?us-ascii?Q?RC1Z+MHHBSAyxn9wFu5ZDpIUnJQdcKVKwnhS4rxyQEIOWjsKhlZcStI8h8pQ?=
- =?us-ascii?Q?kvvJYzWA5M3gRLw+EXX7V6f80gmedm04/AEYfNd8vmU00ulNTTvy3CJP0V+A?=
- =?us-ascii?Q?wOjZ6P5cqkl1jJaS1Yh40ph/Fi0+Fhb5bW50E0DK6gpW5knqxUxJLXR46zz+?=
- =?us-ascii?Q?W5ye67UxYAKGbc+q9Gi9k5PbJjzLK6RfbX5KlEYzgCJz/j5TULfJZp7BvuAr?=
- =?us-ascii?Q?aQ1iV79hKsjFxELEZ/1TZJqjIeIz5tRvSxMIXji2UJTZw8FH0IAWZAxy3ohv?=
- =?us-ascii?Q?vOeH0WP6G183PkLjLEQMI5Yfj+iLADRaXK/HCNL2hwj9Yviqm5lW6SW5E6cx?=
- =?us-ascii?Q?+5N4MVDPDLZy7NU2BVK0+eh/KQMh/K+wzNyFAra68HQaks4E8WNVG2HVhzQk?=
- =?us-ascii?Q?5/XKGLuhrVhCnCwbnOrnTs6lt9qmtzbwOtwC4xleHa/zJIZdRScghgWJBTSQ?=
- =?us-ascii?Q?G+lYC0jmugIXtChq17hANGTIbT6KvO1pYlIJU1VhUx1xGVF2eQPIn0KfKck8?=
- =?us-ascii?Q?/Lk9Phy+46EE6A9FUQ3dVQbfTb2EnVpnfXelyB6AA9cO4GbNH1WBTUwJKjtq?=
- =?us-ascii?Q?nc2VgpFmt3QxnWaS0B6s9L9XwcBlPD8HKrlV5j0prM3h2EGjIXzFkRq2TS++?=
- =?us-ascii?Q?4CCw97qmsf75fN3abFbrXzM3N7i2zmiSTnCFQxThYXIYQZy2yAG/YZwRg3Qg?=
- =?us-ascii?Q?+ASUw09NbzQd62eryJpJJIk24YoVqg2z6xp0DtQUObP4DNETc4u8Lj6hBAMz?=
- =?us-ascii?Q?vKtgngl278tUwL8WFgeG573VQNFndKI00fFWv1AFZLggXXrRkQiuohnPzzNb?=
- =?us-ascii?Q?2S1T7bqi2crbY58zRBcImllfyRCdotVtgqoSvXuR4aOLbNEtna43EhgvtfVs?=
- =?us-ascii?Q?nEDuopeKRMIcNV4prL1ebPEDPOFwIH5DG74RB1KqXfI416pGM6pa3x6vRGdr?=
- =?us-ascii?Q?sZir6x2/VL8Jg7Mj5izvX26ZZTd3FHnMpGBb/aAk5b2mEtnXlu4N3Cud6j8D?=
- =?us-ascii?Q?Z9Fjwsu1Nl0rSZjpzoBgpR8L5+jepyAQnmPDAWKgMoIINPhR/HTbF3jbYNeN?=
- =?us-ascii?Q?CvIhu+1F4/H2Zizb26X2KJbUZNIyjWwzU2k54vJHblCrDdXnK4wRqCHjPFUo?=
- =?us-ascii?Q?TDzIXRTH9m0g01A0amcyG9mqS3pt1UnLkm5uuM/NFTxvVUSlOJSxuHpAmTbR?=
- =?us-ascii?Q?/VdWlTNoRklzs8YRBHAANjkbYQHrKWK1gnwOpVH2r9Fz0sH6EaHNGg=3D=3D?=
-X-Forefront-Antispam-Report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS4PR04MB9621.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(19092799006)(7416014)(376014)(52116014)(38350700014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
- =?us-ascii?Q?WVAH0VOUQuUWwoazSAX8tlrHT0nCTjgPvWXCd22xJVSCg9pxgMplGHvpMNXm?=
- =?us-ascii?Q?SXabkecnN9hYbClSS5uKozFvwxq5jgLBwoQBMRT9xqmtSvULJ99VWO1yYsVN?=
- =?us-ascii?Q?2EMiAGGMkpolnSn+fjZJN5M9ezSocIdBubrpzkk19PpF7haCHGsIDX+kmhL4?=
- =?us-ascii?Q?f6Rfv6r3avKbrhSBF3qXET9p3wfkJPOwPouBNkIAnAIlJrpYSZ5uPRPwUz6V?=
- =?us-ascii?Q?+0gS1G5nu694pxeNadfF+LGQSRwifAiH0H2yhPCkCGuQ+fjn5WKMAy5QSiqe?=
- =?us-ascii?Q?uNW6hkxDWr/p49A7XK5MGvhXWYFOrdTOadVfc/xUbj/zsDamP7KHli2q2egs?=
- =?us-ascii?Q?bn7ETfFoIY4XVEigjObRh4n5brfefbgGgx8olcsXmB3g4D6kydYlrJ9Hl7u3?=
- =?us-ascii?Q?gQyX1CnGmc+AoVHBjK3mq1GZYI0qNQTUY/YwvsOi2+eMK/hxz9em+KDOUGAk?=
- =?us-ascii?Q?Zj33P8HW82sWNpKlb4VPvUuC7VPJaGD8leO5yWlNi6VQxREPohdgGRTXnsvv?=
- =?us-ascii?Q?edv16wErfSLlqQZxmvVFm0qSYhy+/sqPQqG1oyvHzIrlzj2vmo+zAVuRCt8H?=
- =?us-ascii?Q?0G4orI43Y6Q0jAMSlUWC6/3fc2rZ/6Iw8BQ4hBQW+Z/8Y0tNggIUwFC4Dbo3?=
- =?us-ascii?Q?kfL1l76NVSypaxyGuCNYzk6mu9IISi7yev1bOQwxDMr0cAstY9EUXNKTc/1N?=
- =?us-ascii?Q?T2F0PkvMjePMldsFGpzHHCZnjXU2SRaqsWfpOSTmwYtkT1PgVSBeF2xAH5y1?=
- =?us-ascii?Q?KKrNJiS2FksWf4JprI0GqB/94t2u9ntSLjBHlUkyI2XPKpuHe8NZcg1lQsB4?=
- =?us-ascii?Q?7OVmcL666miiAIOJMrG/O4jw3sv4mMhcz+lvJajRtxBO57l5AVgYI2QV9VLq?=
- =?us-ascii?Q?V5u7W9gW7Wd2D+VUgn5k+nv1/rVATWf2T8UwGWfrWLe/ycHnQw3MGTwVcx8i?=
- =?us-ascii?Q?PCallBuIsIRF7ggPCj4o2Fx9uEhSDPgItFRi1HTVS243GEMowxiPEqJ28ds/?=
- =?us-ascii?Q?G5ehy6wfBTJMNIeeBJNtqbXiY0mcRk6oGxwkPnLfJlifSvzlCBLWbIb9CmDI?=
- =?us-ascii?Q?pTSEqiyUSsl736i35lP36uZr6wRoZJrzBicTjbvc65iU8YgDfAllN85LQJ8V?=
- =?us-ascii?Q?b9darl7oxILhyn8i5FlT5BXxoxXiqNzomvPXla1gfT2TZOtR1j9pccF20gW/?=
- =?us-ascii?Q?jVQ5ECp74GMVzP737kIFpn1ZT/jKYvMQQUN0JlKAxPlRm9st3jNW6qtmcyfj?=
- =?us-ascii?Q?iO/sEuvefQFdUDanlnKXz9YoIYLvAh/IHPipo9Sp7yvssjoyE82SPP/jK/hv?=
- =?us-ascii?Q?+e0TMVOE9zV4qT7VuU8g+oLyu6aB4nXRnHFsmwvZoDZB/kprvaLrXS/nVUXl?=
- =?us-ascii?Q?qBwyCeeXOpoKNUFTlyL9hNxZ9iX0zci5a8bb2pBNZZach6m+CNYmg+zSSDb7?=
- =?us-ascii?Q?YLmfdoFdsnXMausUr1+krASOhqGJgZIEQ4l/UE5HSGAOHqb2+/w5lJLv/K4v?=
- =?us-ascii?Q?Qw1md442ePqQvR4j80MpSJLxBB84AFG4fEAyzR7X4nIP1jYrrkPcdvlEhrAF?=
- =?us-ascii?Q?TPanF7F6gO6S7fHjEQO+jreqeoAGb3hYGPHMi1aF?=
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0b8b7c6a-3dfe-4814-e70b-08de159c894f
-X-MS-Exchange-CrossTenant-AuthSource: AS4PR04MB9621.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Oct 2025 21:05:19.8471
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: KuvCgokffKVRRM03Y7RpBJ56yWawDBt5ujlAUDfeZL0YX9pgZQSJoFUgG+j5dWmMFOXCBlIJ9ln6RLRDaQbJog==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR04MB8649
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1495ec4ccdcdfab788fa9d02e11a6028a455e31b.1761571713.git.hverkuil+cisco@kernel.org>
 
-On Mon, Oct 27, 2025 at 10:51:21PM +0200, Sakari Ailus wrote:
-> Hi Frank,
->
-> On Mon, Oct 27, 2025 at 12:32:28PM -0400, Frank Li wrote:
-> > On Mon, Oct 27, 2025 at 10:31:25AM +0200, Sakari Ailus wrote:
-> > > Hei Eugen,
-> > >
-> > > On Thu, Aug 21, 2025 at 04:15:36PM -0400, Frank Li wrote:
-> > > > From: Eugen Hristev <eugen.hristev@linaro.org>
-> > > >
-> > > > Add bindings for Synopsys DesignWare MIPI CSI-2 host, which used at i.MX93
-> > > > and i.MX95 platform.
-> > > >
-> > > > Signed-off-by: Luis Oliveira <lolivei@synopsys.com>
-> > > > Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
-> > > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > > > ---
-> > > > Change in v3
-> > > > - drop remote-endpoint: true
-> > > > - drop clock-lanes
-> > > >
-> > > > Change in v2
-> > > > - remove Eugen Hristev <eugen.hristev@microchip.com> from mantainer.
-> > > > - update ugen Hristev's s-o-b tag to align original author's email address
-> > > > - remove single snps,dw-mipi-csi2-v150 compatible string
-> > > > - move additionalProperties after required
-> > > > ---
-> > > >  .../bindings/media/snps,dw-mipi-csi2-v150.yaml     | 151 +++++++++++++++++++++
-> > > >  MAINTAINERS                                        |   1 +
-> > > >  2 files changed, 152 insertions(+)
-> > > >
-> > > > diff --git a/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml b/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml
-> > > > new file mode 100644
-> > > > index 0000000000000000000000000000000000000000..d950daa4ee9cfd504ef84b83271b2a1b710ffd6b
-> > > > --- /dev/null
-> > > > +++ b/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml
-> > > > @@ -0,0 +1,151 @@
-> > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > +%YAML 1.2
-> > > > +---
-> > > > +$id: http://devicetree.org/schemas/media/snps,dw-mipi-csi2-v150.yaml#
-> > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > +
-> > > > +title: Synopsys DesignWare CSI-2 Host controller (csi2host)
-> > > > +
-> > > > +maintainers:
-> > > > +  - Frank Li <Frank.Li@nxp.com>
-> > > > +
-> > > > +description:
-> > > > +  CSI2HOST is used to receive image coming from an MIPI CSI-2 compatible
-> > > > +  camera. It will convert the incoming CSI-2 stream into a dedicated
-> > > > +  interface called the Synopsys IDI (Image Data Interface).
-> > > > +  This interface is a 32-bit SoC internal only, and can be assimilated
-> > > > +  with a CSI-2 interface.
-> > > > +
-> > > > +properties:
-> > > > +  compatible:
-> > > > +    items:
-> > > > +      - enum:
-> > > > +          - fsl,imx93-mipi-csi2
-> > > > +      - const: snps,dw-mipi-csi2-v150
-> > > > +
-> > > > +  reg:
-> > > > +    items:
-> > > > +      - description: MIPI CSI-2 core register
-> > > > +
-> > > > +  reg-names:
-> > > > +    items:
-> > > > +      - const: core
-> > > > +
-> > > > +  clocks:
-> > > > +    maxItems: 2
-> > > > +
-> > > > +  clock-names:
-> > > > +    items:
-> > > > +      - const: per
-> > > > +      - const: pixel
-> > > > +
-> > > > +  phys:
-> > > > +    maxItems: 1
-> > > > +    description: MIPI D-PHY
-> > > > +
-> > > > +  phy-names:
-> > > > +    items:
-> > > > +      - const: rx
-> > > > +
-> > > > +  resets:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  interrupts:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  power-domains:
-> > > > +    maxItems: 1
-> > > > +
-> > > > +  ports:
-> > > > +    $ref: /schemas/graph.yaml#/properties/ports
-> > > > +
-> > > > +    properties:
-> > > > +      port@0:
-> > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > > +        unevaluatedProperties: false
-> > > > +        description:
-> > > > +          Input port node, single endpoint describing the input port.
-> > > > +
-> > > > +        properties:
-> > > > +          endpoint:
-> > > > +            $ref: video-interfaces.yaml#
-> > > > +            unevaluatedProperties: false
-> > > > +            description: Endpoint connected to input device
-> > > > +
-> > > > +            properties:
-> > > > +              bus-type:
-> > > > +                const: 4
-> > >
-> > > If 4 is the only value supported, you can drop the property altogether.
-> >
-> > Sorry, What's your means here? There are more options in video-interfaces.yaml.
-> > here just add restriction for bus-type. otherwise other value can be
-> > provide in dts file.
->
-> It could, but wouldn't any other value be incorrect?
+On Mon, Oct 27, 2025 at 02:28:31PM +0100, Hans Verkuil wrote:
+> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> 
+> As the media subsystem will experiment with a multi-committers model,
+> update the Maintainer's entry profile to the new rules.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
 
-at least that 5 # Parallel doesn't make sense for CSI2's input.
+I've read it and I only have some tiny nits, looks great.
 
-Frank
+Reviewed-by: Sean Young <sean@mess.org>
 
->
-> In other words, this property is redundant and should be dropped.
->
-> >
-> > >
-> > > > +
-> > > > +              data-lanes:
-> > > > +                minItems: 1
-> > > > +                maxItems: 4
-> > > > +                items:
-> > > > +                  maximum: 4
-> > > > +
-> > > > +      port@1:
-> > > > +        $ref: /schemas/graph.yaml#/$defs/port-base
-> > > > +        unevaluatedProperties: false
-> > > > +        description:
-> > > > +          Output port node, single endpoint describing the output port.
-> > > > +
-> > > > +        properties:
-> > > > +          endpoint:
-> > > > +            unevaluatedProperties: false
-> > > > +            $ref: video-interfaces.yaml#
-> > > > +            description: Endpoint connected to output device
-> > > > +
-> > > > +            properties:
-> > > > +              bus-type:
-> > > > +                const: 4
-> > >
-> > > Are both input and output of this block CSI-2 with D-PHY?
-> >
-> > Yes, input from camera sensor, output to others image processors to do data
-> > transfer or format convert.
->
-> The description appears to be saying this is "Synopsys IDI", not CSI-2 with
-> D-PHY. We don't have a bus-type for IDI. Couldn't you simply drop it?
->
-> --
-> Regards,
->
-> Sakari Ailus
+> ---
+>  .../media/maintainer-entry-profile.rst        | 368 +++++++++++++++---
+>  1 file changed, 308 insertions(+), 60 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/media/maintainer-entry-profile.rst b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> index 2127e5b15e8f..af499e79b23e 100644
+> --- a/Documentation/driver-api/media/maintainer-entry-profile.rst
+> +++ b/Documentation/driver-api/media/maintainer-entry-profile.rst
+> @@ -4,19 +4,25 @@ Media Subsystem Profile
+>  Overview
+>  --------
+>  
+> -The media subsystem covers support for a variety of devices: stream
+> -capture, analog and digital TV streams, cameras, remote controllers, HDMI CEC
+> -and media pipeline control.
+> +The Linux Media Community (aka: the LinuxTV Community) is formed of
+> +developers working on Linux Kernel Media Subsystem, together with users
+> +who also play an important role in testing the code.
+>  
+> -It covers, mainly, the contents of those directories:
+> +The Media Subsystem has code to support a wide variety of media-related
+> +devices: stream capture, analog and digital TV streams, cameras,
+> +video codecs, video processing (resizers, etc.), radio, remote controllers,
+> +HDMI CEC and media pipeline control.
+> +
+> +The Media Subsystem consists of the following directories in the kernel
+> +tree:
+>  
+>    - drivers/media
+>    - drivers/staging/media
+> +  - include/media
+> +  - Documentation/devicetree/bindings/media/\ [1]_
+>    - Documentation/admin-guide/media
+>    - Documentation/driver-api/media
+>    - Documentation/userspace-api/media
+> -  - Documentation/devicetree/bindings/media/\ [1]_
+> -  - include/media
+>  
+>  .. [1] Device tree bindings are maintained by the
+>         OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS maintainers
+> @@ -27,19 +33,264 @@ It covers, mainly, the contents of those directories:
+>  Both media userspace and Kernel APIs are documented and the documentation
+>  must be kept in sync with the API changes. It means that all patches that
+>  add new features to the subsystem must also bring changes to the
+> -corresponding API files.
+> +corresponding API documentation.
+>  
+> -Due to the size and wide scope of the media subsystem, media's
+> -maintainership model is to have sub-maintainers that have a broad
+> -knowledge of a specific aspect of the subsystem. It is the sub-maintainers'
+> -task to review the patches, providing feedback to users if the patches are
+> -following the subsystem rules and are properly using the media kernel and
+> -userspace APIs.
+> +A small subsystem will typically consist of driver maintainers (as listed
+> +in the MAINTAINERS file) and one or two subsystem maintainers who merge
+> +the patches when ready, maintain the subsystem core code and make the pull
+> +requests to Linus. Due to the size and wide scope of the Media Subsystem
+> +this does not scale and more maintainance layers are needed.
+>  
+> -Patches for the media subsystem must be sent to the media mailing list
+> -at linux-media@vger.kernel.org as plain text only e-mail. Emails with
+> -HTML will be automatically rejected by the mail server. It could be wise
+> -to also copy the sub-maintainer(s).
+> +Media Maintainers
+> +-----------------
+> +
+> +The media subsystem has three layers of media maintainers:
+> +
+> +- Media Maintainer:
+> +    Responsible for a group of drivers within the Media Subsystem. Typically
+> +    these are all drivers that have something in common, e.g. codec drivers
+> +    or drivers from the same vendor. Media Maintainers provide feedback if the
+> +    patches are not following the subsystem rules, or are not using the
+> +    media kernel or userspace APIs correctly, or have poor code quality. They
+> +    also keep patchwork up to date, decide when patches are ready for merging,
+> +    and create Pull Requests for the Media Subsystem Maintainers to merge.
+> +
+> +    A Media Maintainer is not just someone who is capable of creating code, but
+> +    someone who has demonstrated their ability to collaborate with the team, get
+> +    the most knowledgeable people to review code, contribute high-quality code,
+> +    and follow through to fix issues (in code or tests).
+> +
+> +- Media Core Maintainer:
+> +    Media Maintainers who are also responsible for one or more media core
+> +    frameworks.
+> +
+> +    Core framework changes are done via consensus between the relevant Media
+> +    Core Maintainers. Media Maintainers may include core framework changes in
+> +    their Pull Requests if they are signed off by the relevant Media Core
+> +    Maintainers.
+> +
+> +- Media Subsystem Maintainers:
+> +    Responsible for the subsystem as a whole, with access to the
+> +    entire subsystem. Responsible for merging Pull Requests from other
+> +    Media Maintainers.
+> +
+> +    Userspace API/ABI changes are done via consensus between Media Subsystem
+> +    Maintainers\ [2]_. Media (Core) Maintainers may include API/ABI changes in
+> +    their Pull Requests if they are signed off by the all Media Subsystem
+> +    Maintainers.
+> +
+> +All Media Maintainers shall explicitly agree with the Kernel development process
+> +as described at Documentation/process/index.rst and to the Kernel
+> +development rules inside the Kernel documentation, including its code of
+> +conduct.
+> +
+> +All Media Maintainers shall ensure that patchwork will reflect the current
+
+How about making patchwork a link to our patchwork. Note that patchwork is
+mentioned a few times in this file, all of them could be a link.
+
+> +status, e.g. patches shall be delegated to the Media Maintainer who is
+> +handling them and the patch status shall be updated according to these rules:
+> +
+> +- ``Under Review``: Used if the patch requires a second opinion
+> +  or when it is part of a pull request;
+> +- ``Accepted``: Once a patch is merged in the multi-committer tree.
+> +- ``Superseded``: There is a newer version of the patch posted to the
+> +  mailing list.
+> +- ``Duplicated``: There was another patch doing the same thing from someone
+> +  else that was accepted.
+> +- ``Not Applicable``: Use for patch series that are not merged at media.git
+> +  tree (e.g. drm, dmabuf, upstream merge, etc.) but were cross-posted to the
+> +  linux-media mailing list.
+> +
+> +If the Media Maintainer decides not to accept a patch, then reply by email to
+> +the patch authors, explaining why it is not accepted, and patchwork shall be
+> +updated accordingly with either:
+> +
+> +- ``Changes Requested``: if a new revision was requested;
+> +- ``Rejected``: if the proposed change is not acceptable at all.
+> +
+> +.. Note::
+> +
+> +   Patchwork supports a couple of clients to help semi-automating
+> +   status updates via its REST interface:
+> +
+> +   https://patchwork.readthedocs.io/en/latest/usage/clients/
+> +
+> +Media Maintainers are reachable via the #linux-media IRC channel at OFTC.
+> +
+> +.. [2] Everything that would break backward compatibility with existing
+> +       non-kernel code are API/ABI changes. This includes ioctl and sysfs
+> +       interfaces, v4l2 controls, and their behaviors.
+> +
+> +Becoming a Media Maintainer
+> +---------------------------
+> +
+> +The most important aspect of volunteering to be a Media Maintainer is that you
+> +have demonstrated the ability to give good code reviews. So we are looking for
+> +whether or not we think you will be good at doing that.
+> +
+> +As such, potential maintainers must earn enough credibility and trust from the
+> +Linux Media Community. To do that, developers shall be familiar with the open
+> +source model and have been active in the Linux Kernel community for some time,
+> +and, in particular, in the media subsystem.
+> +
+> +In addition to actually making the code changes, you are basically
+> +demonstrating your:
+> +
+> +- commitment to the project;
+> +- ability to collaborate with the team and communicate well;
+> +- understand of how upstream and the Linux Media Community work
+> +  (policies, processes for testing, code review, ...)
+> +- reasonable knowledge about:
+> +
+> +  - the Kernel development process:
+> +    Documentation/process/index.rst
+> +
+> +  - the Media development profile:
+> +    Documentation/driver-api/media/maintainer-entry-profile.rst
+> +
+> +- understanding of the projects' code base and coding style;
+> +- ability to provide feedback to the patch authors;
+> +- ability to judge when a patch might be ready for review and to submit;
+> +- ability to write good code (last but certainly not least).
+> +
+> +Developers that desire to become maintainers are encouraged to participate
+> +at the yearly Linux Media Summit, typically co-located with a Linux related
+> +conference. These summits will be announced at the linux-media mailing list.
+
+These summits are announced on the linux-media mailing list.
+
+
+> +
+> +If you are doing such tasks and have become a valued developer, an
+> +existing Media Maintainer can nominate you to the Media Subsystem Maintainers.
+> +
+> +The ultimate responsibility for accepting a nominated maintainer is up to
+> +the subsystem's maintainers. The nominated maintainer must have earned a trust
+> +relationship with all Media Subsystem Maintainers, as, by becoming Media
+> +Maintainer, you will take over part of their maintenance tasks.
+> +
+> +Media Committers
+> +----------------
+> +
+> +Experienced and trusted Media (Core) Maintainers may be granted commit rights
+> +which allow them to directly push patches to the media development tree instead
+> +of posting a Pull Request for the Media Subsystem Maintainers. This helps
+> +offloading some of the work of the Media Subsystem Maintainers.
+> +
+> +Media development tree
+> +----------------------
+> +
+> +The main development tree used by the media subsystem is hosted at
+> +gitlab.freedesktop.org. LinuxTV.org hosts news about the subsystem, wiki pages
+> +and a patchwork instance where we track patches though their lifetime.
+
+Should all be links (LinuxTV.org, patchwork, wiki, gitlab.freedesktop.org).
+
+> +
+> +The main tree used by media developers is at:
+> +
+> +https://gitlab.freedesktop.org/linux-media/media-committers.git
+> +
+> +Please note that this tree can be rebased, although only as a last resort.
+> +
+> +.. _Media development workflow:
+> +
+> +Media development workflow
+> +++++++++++++++++++++++++++
+> +
+> +All changes for the media subsystem shall be sent first as e-mails to the
+> +media mailing list, following the process documented at
+> +Documentation/process/index.rst.
+> +
+> +It means that patches shall be submitted as plain text only via e-mail to
+> +linux-media@vger.kernel.org (aka: LMML). While subscription is not mandatory,
+> +you can find details about how to subscribe to it and to see its archives at:
+> +
+> +  https://subspace.kernel.org/vger.kernel.org.html
+> +
+> +Emails with HTML will be automatically rejected by the mail server.
+> +
+> +It could be wise to also copy the Media Maintainer(s). You should use
+> +``scripts/get_maintainers.pl`` to identify whom else needs to be copied.
+> +Please always copy driver's authors and maintainers.
+
+git config for using scripts/get_maintainers.pl is useful
+
+> +
+> +To minimize the chance of merge conflicts for your patch series, and make
+> +easier to backport patches to stable Kernels, we recommend that you use the
+> +following baseline for your patch series:
+> +
+> +1. Features for the next mainline release:
+> +
+> +   - baseline shall be the media-committers.git ``next`` branch;
+> +
+> +2. Bug fixes for the next mainline release:
+> +
+> +   - baseline shall be the media-committers.git ``next`` branch. If the
+> +     changes depend on a fix from the media-committers.git
+> +     ``fixes`` branch, then you can use that as baseline.
+> +
+> +3. Bug fixes for the current mainline release (-rcX):
+> +
+> +   - baseline shall be the latest mainline -rcX release or the
+> +     media-committers.git ``fixes`` branch if changes depend on a mainline
+> +     fix that is not yet merged;
+> +
+> +.. Note::
+> +
+> +   See https://www.kernel.org/category/releases.html for an overview
+> +   about Kernel release types.
+> +
+> +Patches with fixes shall have:
+> +
+> +- a ``Fixes:`` tag pointing to the first commit that introduced the bug;
+> +- when applicable, a ``Cc: stable@vger.kernel.org``.
+> +
+> +Patches that were fixing bugs publicly reported by someone at the
+> +linux-media@vger.kernel.org mailing list shall have:
+> +
+> +- a ``Reported-by:`` tag immediately followed by a ``Closes:`` tag.
+> +
+> +Patches that change API shall update documentation accordingly at the
+> +same patch series.
+> +
+> +See Documentation/process/index.rst for more details about e-mail submission.
+> +
+> +Once a patch is submitted, it may follow either one of the following
+> +workflows:
+> +
+> +a. Media Maintainers' workflow: Media Maintainers post the PRs, which
+> +   are handled by the Media Subsystem Maintainers::
+> +
+> +     +-------+   +------------+   +------+   +-------+   +----------------------------+
+> +     |e-mail |-->|picked up by|-->|code  |-->|pull   |-->|Subsystem Maintainers merge |
+> +     |to LMML|   |patchwork   |   |review|   |request|   |in media-committers.git     |
+> +     +-------+   +------------+   +------+   +-------+   +----------------------------+
+> +
+> +   For this workflow, pull requests are generated by Media Maintainers.
+> +   If you are not a Media Maintainer, then please don't submit pull requests,
+> +   as they will not be processed.
+> +
+> +b. Media Committers' workflow: patches are handled by Media Maintainers with
+> +   commit rights::
+> +
+> +     +-------+   +------------+   +------+   +--------------------------+
+> +     |e-mail |-->|picked up by|-->|code  |-->|Media Committers merge in |
+> +     |to LMML|   |patchwork   |   |review|   |media-committers.git      |
+> +     +-------+   +------------+   +------+   +--------------------------+
+> +
+> +When patches are picked up by patchwork and when merged at media-committers,
+> +Media CI bots will check for errors and may provide e-mail feedback about
+> +patch problems. When this happens, the patch submitter must fix them or
+> +explain why the errors are false positives.
+> +
+> +Patches will only be moved to the next stage in these two workflows if they
+> +pass on Media CI or if there are false-positives in the Media CI reports.
+> +
+> +For both workflows, all patches shall be properly reviewed at
+> +linux-media@vger.kernel.org (LMML) before being merged in media-committers.git.
+> +Media patches will be reviewed in a timely manner by the maintainers and
+> +reviewers as listed in the MAINTAINERS file.
+> +
+> +Media Maintainers shall request reviews from other Media Maintainers and
+> +developers where applicable, i.e. because those developers have more
+> +knowledge about some areas that are changed by a patch.
+> +
+> +There shall be no open issues or unresolved or conflicting feedback
+> +from anyone. Clear them up first. Defer to the Media Subsystem
+> +Maintainers if needed.
+> +
+> +Failures during e-mail submission
+> ++++++++++++++++++++++++++++++++++
+>  
+>  Media's workflow is heavily based on Patchwork, meaning that, once a patch
+>  is submitted, the e-mail will first be accepted by the mailing list
+> @@ -47,51 +298,49 @@ server, and, after a while, it should appear at:
+>  
+>     - https://patchwork.linuxtv.org/project/linux-media/list/
+>  
+> -If it doesn't automatically appear there after a few minutes, then
+> +If it doesn't automatically appear there after some time [3]_, then
+>  probably something went wrong on your submission. Please check if the
+> -email is in plain text\ [2]_ only and if your emailer is not mangling
+> +email is in plain text\ [4]_ only and if your emailer is not mangling
+>  whitespaces before complaining or submitting them again.
+>  
+> -You can check if the mailing list server accepted your patch, by looking at:
+> +To troubleshoot problems, you should first check if the mailing list
+> +server has accepted your patch, by looking at:
+>  
+>     - https://lore.kernel.org/linux-media/
+>  
+> -.. [2] If your email contains HTML, the mailing list server will simply
+> +If the patch is there and not at patchwork, it is likely that your e-mailer
+> +mangled the patch. Patchwork internally has logic that checks if the
+> +received e-mail contains a valid patch. Any whitespace and new line
+> +breakages mangling the patch won't be recognized by patchwork, thus such
+> +patch will be rejected.
+> +
+> +.. [3] It usually takes a few minutes for the patch to arrive, but
+> +       the e-mail server may be busy, so it may take up a longer time
+> +       for a patch to be picked by patchwork.
+> +
+> +.. [4] If your email contains HTML, the mailing list server will simply
+>         drop it, without any further notice.
+>  
+> +.. _media-developers-gpg:
+>  
+> -Media maintainers
+> -+++++++++++++++++
+> +Authentication for pull and merge requests
+> +++++++++++++++++++++++++++++++++++++++++++
+>  
+> -At the media subsystem, we have a group of senior developers that
+> -are responsible for doing the code reviews at the drivers (also known as
+> -sub-maintainers), and another senior developer responsible for the
+> -subsystem as a whole. For core changes, whenever possible, multiple
+> -media maintainers do the review.
+> +The authenticity of developers submitting pull requests and merge requests
+> +shall be validated by using PGP signing at some moment.
+> +See: :ref:`kernel_org_trust_repository`.
+>  
+> -The media maintainers that work on specific areas of the subsystem are:
+> +With the pull request workflow, pull requests shall use PGP-signed tags.
+>  
+> -- Remote Controllers (infrared):
+> -    Sean Young <sean@mess.org>
+> +For more details about PGP sign, please read
+> +Documentation/process/maintainer-pgp-guide.rst.
+>  
+> -- HDMI CEC:
+> -    Hans Verkuil <hverkuil@kernel.org>
+> +Subsystem Media Maintainers
+> +---------------------------
+>  
+> -- Media controller drivers:
+> -    Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> -
+> -- ISP, v4l2-async, v4l2-fwnode, v4l2-flash-led-class and Sensor drivers:
+> -    Sakari Ailus <sakari.ailus@linux.intel.com>
+> -
+> -- V4L2 drivers and core V4L2 frameworks:
+> -    Hans Verkuil <hverkuil@kernel.org>
+> -
+> -The subsystem maintainer is:
+> -  Mauro Carvalho Chehab <mchehab@kernel.org>
+> -
+> -Media maintainers may delegate a patch to other media maintainers as needed.
+> -On such case, checkpatch's ``delegate`` field indicates who's currently
+> -responsible for reviewing a patch.
+> +The subsystem maintainers are:
+> +  - Mauro Carvalho Chehab <mchehab@kernel.org>
+> +  - Hans Verkuil <hverkuil@kernel.org>
+>  
+>  Submit Checklist Addendum
+>  -------------------------
+> @@ -106,18 +355,15 @@ that should be used in order to check if the drivers are properly
+>  implementing the media APIs:
+>  
+>  ====================	=======================================================
+> -Type			Tool
+> +Type			Utility
+>  ====================	=======================================================
+> -V4L2 drivers\ [3]_	``v4l2-compliance``
+> +V4L2 drivers\ [5]_	``v4l2-compliance``
+>  V4L2 virtual drivers	``contrib/test/test-media``
+>  CEC drivers		``cec-compliance``
+>  ====================	=======================================================
+>  
+> -.. [3] The ``v4l2-compliance`` also covers the media controller usage inside
+> -       V4L2 drivers.
+> -
+> -Other compliance tools are under development to check other parts of the
+> -subsystem.
+> +.. [5] The ``v4l2-compliance`` utility also covers the media controller usage
+> +       inside V4L2 drivers.
+>  
+>  Those tests need to pass before the patches go upstream.
+>  
+> @@ -134,6 +380,8 @@ Where the check script is::
+>  Be sure to not introduce new warnings on your patches without a
+>  very good reason.
+>  
+> +Please see `Media development workflow`_ for e-mail submission rules.
+> +
+>  Style Cleanup Patches
+>  +++++++++++++++++++++
+>  
+> @@ -183,23 +431,23 @@ In particular, we accept lines with more than 80 columns:
+>  Key Cycle Dates
+>  ---------------
+>  
+> -New submissions can be sent at any time, but if they intend to hit the
+> +New submissions can be sent at any time, but if they are intended to hit the
+>  next merge window they should be sent before -rc5, and ideally stabilized
+>  in the linux-media branch by -rc6.
+>  
+>  Review Cadence
+>  --------------
+>  
+> -Provided that your patch is at https://patchwork.linuxtv.org, it should
+> +Provided that your patch has landed in https://patchwork.linuxtv.org, it should
+>  be sooner or later handled, so you don't need to re-submit a patch.
+>  
+> -Except for bug fixes, we don't usually add new patches to the development
+> -tree between -rc6 and the next -rc1.
+> +Except for important bug fixes, we don't usually add new patches to the
+> +development tree between -rc6 and the next -rc1.
+>  
+>  Please notice that the media subsystem is a high traffic one, so it
+>  could take a while for us to be able to review your patches. Feel free
+>  to ping if you don't get a feedback in a couple of weeks or to ask
+> -other developers to publicly add Reviewed-by and, more importantly,
+> +other developers to publicly add ``Reviewed-by:`` and, more importantly,
+>  ``Tested-by:`` tags.
+>  
+>  Please note that we expect a detailed description for ``Tested-by:``,
+> -- 
+> 2.51.0
 
