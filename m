@@ -1,119 +1,147 @@
-Return-Path: <linux-media+bounces-45724-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45725-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CB04C11EBD
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 23:58:22 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id B6F86C11F25
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 00:14:20 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id E9ED94F87EC
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 22:57:17 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 2215E189AD28
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 23:14:12 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF8FD301037;
-	Mon, 27 Oct 2025 22:57:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3CB1E32D0EE;
+	Mon, 27 Oct 2025 23:13:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b="GPS73RO4"
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="o4thHGD1"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
+Received: from mail-lf1-f49.google.com (mail-lf1-f49.google.com [209.85.167.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 359F92D97AA
-	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 22:57:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ED6332AAD4
+	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 23:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761605835; cv=none; b=a8+Ew0SM+ReCjquApcdK6tfKRZSqB3puVc0HWCQV8EjK7HtiIY/0Kz2h7B/vThXeQRxijEzR2q/JnEu1/iBtme+OzdFpM7FLCMPTorm6WSy3aLWRZvaWq395VsfciQ2y/biVcwEpzJ5sV5NlCpa2ISTpyTlvfr7zmboGz2kB3vc=
+	t=1761606817; cv=none; b=qCifDBN/HTKL4boQJu0pNJVzbjINDp39+EyZTuL3ZZ3fBZajfjDjk9atxmdFDdvO9Pos1kOiWKYzHtE/FFl+5RM7Y4g+gdKJ4jKbReMS17GE2snXYuC/0J9LWZnUvLKrdl7q7TWmNjFyte3Su4EpVAPg/hfjsCYY5sMBPZzbwdg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761605835; c=relaxed/simple;
-	bh=RbgbmRKiII5Ao0R77HENK2nhkZb2TNN+Mr7QeadAS6E=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=klwVNOvsavQ8r5U3kYp/5daY3Xkm3+HZfLMQlgWCd8dduzQuUkCRaqFPhOeYbfcJIZSnb+Qr+9/Eix7Jw32neFu+KKEUUP7ktGDZWOXxcNTx8e9N8UC0bts/yI5DrqCxybZ4TBFg69oFRyMP4j696WEHlD3C19qdzn+fWUSQufo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com; spf=pass smtp.mailfrom=cogentembedded.com; dkim=pass (2048-bit key) header.d=cogentembedded-com.20230601.gappssmtp.com header.i=@cogentembedded-com.20230601.gappssmtp.com header.b=GPS73RO4; arc=none smtp.client-ip=209.85.208.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=cogentembedded.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cogentembedded.com
-Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-63c09ff13aeso9047120a12.0
-        for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 15:57:11 -0700 (PDT)
+	s=arc-20240116; t=1761606817; c=relaxed/simple;
+	bh=Mox7WVrx2nsqFbNnAMpCHXjsIB1mhexPun4YkmTSVd8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Zqd8aumsNiFObzBSG71NJIp/g8UFSBsOiesNZhsyLIOr5QmU1XaXYS49ppPMl8SnpsQz4qZEQrerAf9OI1CZAZAE5xwuQCmAR6dXhbqyU7no01o60PI83wowoC5T3BMBP1vRV9dxPtOWFG01At4NehabbBqG22wFn3UHciexuyc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=o4thHGD1; arc=none smtp.client-ip=209.85.167.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+Received: by mail-lf1-f49.google.com with SMTP id 2adb3069b0e04-592fd97c03eso4559086e87.1
+        for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 16:13:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=cogentembedded-com.20230601.gappssmtp.com; s=20230601; t=1761605830; x=1762210630; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=fFdl4ZmTWATcoFU8X+kQFEdA63hl2cxFFo3h5RSrR3U=;
-        b=GPS73RO48st2zL9tAmUneLaI0A2tr9N8nX+Ys5qCW1ieaMffJPUX/eY/1+jTjovzrV
-         YE68FuT1gpEwMV5SfnMzVkDuzbjYWUz687gMw0dYw5Nr2oNXuIgcz78ftEULwXUhEQkc
-         YZcNS7Gb28LxPb7k1Ugu+FPoBeEwo+aYJMa67CWuAs+o+OncfpjBFt9LsBUMBs/4SYUx
-         z2VOitgNSOICn9kBixteJwY1vMXfVB0Ns3KWWX9/GgAXb1XM0diJ61Zilbfcjm7oB+SZ
-         zcjdKtHhseCa+yP9YoqXL4TkqF5CosXQ+6GmEibSsXD5dL0mNlJfUjYa1K+yK/qZEB7b
-         6u3A==
+        d=google.com; s=20230601; t=1761606814; x=1762211614; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cVb3sBQg3S7kfhJuRLHfxPiQ08+Bc1FaH34bvysQgyo=;
+        b=o4thHGD1/OUIjggnndqTnwnlW10eAEpX/HB4h+bHLKvOx8B1TxlHznc4je/pXuHVJb
+         KUWtUQR1veipMr2Rmi2ifY0nHaQJE4SOZsgGUYvgroxjQaBNPA4fc8tIJjVWU+P5ydbN
+         NMUJ0wQsP36BKbBPsDSPRE7pBO2mpYQgI0W6TZleqsHMtObXMIq70gyxPDxYUJwNLxh8
+         XlEkLw2+Qf2apLB06O5B0unQU9dZVLF2iZhswvxbkKJ9L9OijIDYQO/dP7G6zUwDGVKX
+         XkCJBuLbYSDWcFoYhBoM28SI/CUXMs1s/NHilUSaIj2p9npeD+I+8mm5i9UUiERiMfDH
+         VQCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761605830; x=1762210630;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=fFdl4ZmTWATcoFU8X+kQFEdA63hl2cxFFo3h5RSrR3U=;
-        b=CXjajVhlJeLsR1B1sqdRT7Vx5xkW0aYAg5zeylZ/Bf7lh+lq02IGgZvYuJzTFQRsfI
-         hTuQIpuSJ/Ee0EB21i+XIzN0HG6wd4UrT6BkOXpFoUo3+u7f4TK6xZ/IAeX2LrtgII+/
-         isEBmOKeAbgb56Nr1HAn0+rS1ecoOUIRz5c9E3mj03WhpqPec2ZDKqChbltipjKtnKnF
-         vTPWhqxfXZpqb9EVYqYH6SZYzkmvm8pbCKJrgDb0jxaO7ls8q+r3BrdjgCg8ZtA/Z/Be
-         9w4QC9e7FoQduOGaxXXpDBp6RMyTZsee99r4ZgMdXE5zQFkGEBcPghJH0MSnV3Esv+T1
-         5aKg==
-X-Forwarded-Encrypted: i=1; AJvYcCVMEiWHN9t+EBRCCHRcEc82AnY8t+y8MYXdC0Oq0R/yOvTcfUzLVR7ENgmcrJjsghhgdrBKIUAFg38dzQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzy1OkuQwpxs6cTRCYqQnC7L8tcJrvsnKJlb8ZXlldVTmB8vt9p
-	NMd+nW2T1zeHnqkRbQLx88sMfl6nIhYHazwMHEiUGzo2ynT/Msar/ZWfiYrnG/eybUU=
-X-Gm-Gg: ASbGnctXQcD/zfHFMIsWYX9vFdxxervXYk1AqxAkrjp7jgptsp1LSlIdJNhOW/EYu+v
-	6M4FnOHZKXAD0Wc7sPfVDmjAruw1Q8+B/CrwDeacP+1BR4LpDyCi0TZjGTwzFjJQ5aa4Im1e8d9
-	DJseV3LReGO2hVAW6wlMHvthrWSOBVNvdqgHUzv4aXc1zvcLEufwcKNCQjnLoYvMDGPLjahCJR8
-	ZtMzAWDu15vgg6neC/rCF2CfJukt+JjGt9H915peYKaLCseE6C5jXDEzJm0O8LpQko4KB6Tz0B9
-	1s5LQ6MmwldVBTuPq2iVa8YRQ0thj0uaEYcK5b2rn03vuKZUp9bUw3Mv4iadxklleprufmzhWPA
-	4P6r+5E+hDfJNRHwUHFnUHct67OEp5qKguY4L4bmvwqHqT1+AgX6pKqA3AgzibwYTQzdfTE+duH
-	KDjLO1VxrUJG/xNYmZRC2L3SXjJRBkQnUfYg==
-X-Google-Smtp-Source: AGHT+IGbQFjuStndCCaKR4261I4iaoz/JO8/XzOkp528toduF4S7yedYyO+RXOpk7sO39YsAF2rxfQ==
-X-Received: by 2002:a05:6402:34cb:b0:63c:3efe:d970 with SMTP id 4fb4d7f45d1cf-63ed84dcd85mr1490392a12.31.1761605830413;
-        Mon, 27 Oct 2025 15:57:10 -0700 (PDT)
-Received: from ?IPV6:2a02:810a:b98:a000::b25? ([2a02:810a:b98:a000::b25])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-63e7ef95b7asm7465709a12.18.2025.10.27.15.57.09
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Oct 2025 15:57:10 -0700 (PDT)
-Message-ID: <4f517225-3850-4a83-b05a-eff08c88691d@cogentembedded.com>
-Date: Mon, 27 Oct 2025 23:57:08 +0100
+        d=1e100.net; s=20230601; t=1761606814; x=1762211614;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=cVb3sBQg3S7kfhJuRLHfxPiQ08+Bc1FaH34bvysQgyo=;
+        b=eBEkulXIlzKGJop6KfGcHFsR57z3axca/lNEZf68mFPt1A8icUTYibLAL5mnfGgmVr
+         V9mbFBDWLCIvAoGLXiyCw39FCuRdVIUl2AeM1XzD1U/VEMcmJ0hn5XNWbg44tuHh2uvB
+         PdY0ySTrKAcI5qz/VYHwyHFIQnJmkRAL6lDZwqw8xXWx3+XC8YzzEA5BdMFsAvEiMcnn
+         1jZ4EhCwcTQnB0wDriK7m6/hawD6n2JUgKNG2kgrcJTfS/zdZJn4BkgUY8erLtf5KtHi
+         ImlXiphjb8PVpBL3/WPGujWY0mV8rHVILe2bsrjbauiQz8usvUvrYvRWhHNQIP4zzUCN
+         Qcdg==
+X-Forwarded-Encrypted: i=1; AJvYcCU/DJtSs34zz6tITsAS+qLpSQoTD0w8MHu0rijPgYgzj6LJ+2JjfNDTWcor8vqvajeLF8MyZyDya9n9wQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzfKhvn4CRXY3ohl+aKptBIYCnBhJVnz3IhRFrXKgHa7qYO2ihf
+	YoKBLxGMptfQSAcPeaCet6QtoCgRKGy6jpCorpGBCQhRIfE/9tBmmXTt0+ZjUIwfnvhzMDnoEFj
+	F/aLRMix8w5qpxKzQF0Qj5kq/2BDSQiLs8v/jlO4P
+X-Gm-Gg: ASbGncuc3vfjvbjxS9uwL4qQuHRFluoEHoLO87/Qg/0h0TyoaoqJhalS+LxdzAQJiVn
+	jKl/JNeihdVts0+zuRoeBKCXjqhRr1fEowS0PuyLEku/mrFJXD0LBVmRMDwjkVSV8MCT/kwjtbe
+	wV4zjdCyJKIvYONsdOlHfMv/jkoWuNv6/9EM3CGkVlkbQV2oS6yL+ZdbCXqxJyURHTOJEkaar2D
+	kkNnEXzeIp+23FMYARl6mZw78+D3+AoucRwB5eL3xnPxWd4u3YBVrajNgfbtFDL3WdBYm0=
+X-Google-Smtp-Source: AGHT+IGl3ca765JSYQeeeNWnOc4ez61Rh9cYHuTu2Z8wbfu4++aeMX3ejm6+mpCGbnxLweY96XJw4Qd/Jsw/gJioL2Q=
+X-Received: by 2002:a05:6512:39ce:b0:585:c51e:e99d with SMTP id
+ 2adb3069b0e04-5930e98f2bbmr555951e87.3.1761606813913; Mon, 27 Oct 2025
+ 16:13:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 18/25] media: rcar_jpu: Drop unneeded v4l2_m2m_get_vq()
- NULL check
-To: Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc: Nicolas Dufresne <nicolas.dufresne@collabora.com>,
- Geert Uytterhoeven <geert+renesas@glider.be>,
- Magnus Damm <magnus.damm@gmail.com>
-References: <20251015075353.22625-1-laurent.pinchart@ideasonboard.com>
- <20251015075353.22625-19-laurent.pinchart@ideasonboard.com>
-Content-Language: en-US, ru-RU
-From: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
-In-Reply-To: <20251015075353.22625-19-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <cover.1760368250.git.leon@kernel.org> <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
+In-Reply-To: <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
+From: David Matlack <dmatlack@google.com>
+Date: Mon, 27 Oct 2025 16:13:05 -0700
+X-Gm-Features: AWmQ_blG76O58dB2_ktM5H7ZDlww5WUOcPernLo2oZm94nuYAfy2S9NihsUA1rg
+Message-ID: <CALzav=cj_g8ndvbWdm=dukW+37cDh04k1n7ssFrDG+dN3D+cbw@mail.gmail.com>
+Subject: Re: [PATCH v5 9/9] vfio/pci: Add dma-buf export support for MMIO regions
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Alex Williamson <alex.williamson@redhat.com>, Leon Romanovsky <leonro@nvidia.com>, 
+	Jason Gunthorpe <jgg@nvidia.com>, Andrew Morton <akpm@linux-foundation.org>, 
+	Bjorn Helgaas <bhelgaas@google.com>, =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev, 
+	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>, kvm@vger.kernel.org, 
+	linaro-mm-sig@lists.linaro.org, linux-block@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, linux-mm@kvack.org, 
+	linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>, 
+	Marek Szyprowski <m.szyprowski@samsung.com>, Robin Murphy <robin.murphy@arm.com>, 
+	Sumit Semwal <sumit.semwal@linaro.org>, Vivek Kasireddy <vivek.kasireddy@intel.com>, 
+	Will Deacon <will@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-> The v4l2_m2m_get_vq() function never returns NULL.
-> 
-> In the set format handler, the check may have been intended to catch
-> invalid format types, but that's not needed as the V4L2 core picks the
-> appropriate VIDIOC_S_FMT ioctl handler based on the format type, so the
-> type can't be incorrect.
-> 
-> In the get and try format handlers, the return value is not used for any
-> purpose other than the NULL check, which was therefore probably intended
-> to catch invalid format types. That's not needed for the same reason as
-> in the set format handler.
-> 
-> Drop the unneeded return value check and, as the function has no side
-> effect, the unneeded function calls as well.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+On Mon, Oct 13, 2025 at 8:44=E2=80=AFAM Leon Romanovsky <leon@kernel.org> w=
+rote:
+>
+> From: Leon Romanovsky <leonro@nvidia.com>
+>
+> Add support for exporting PCI device MMIO regions through dma-buf,
+> enabling safe sharing of non-struct page memory with controlled
+> lifetime management. This allows RDMA and other subsystems to import
+> dma-buf FDs and build them into memory regions for PCI P2P operations.
 
-Reviewed-by: Nikita Yushchenko <nikita.yoush@cogentembedded.com>
+> +/**
+> + * Upon VFIO_DEVICE_FEATURE_GET create a dma_buf fd for the
+> + * regions selected.
+> + *
+> + * open_flags are the typical flags passed to open(2), eg O_RDWR, O_CLOE=
+XEC,
+> + * etc. offset/length specify a slice of the region to create the dmabuf=
+ from.
+> + * nr_ranges is the total number of (P2P DMA) ranges that comprise the d=
+mabuf.
+> + *
+> + * Return: The fd number on success, -1 and errno is set on failure.
+> + */
+> +#define VFIO_DEVICE_FEATURE_DMA_BUF 11
+> +
+> +struct vfio_region_dma_range {
+> +       __u64 offset;
+> +       __u64 length;
+> +};
+> +
+> +struct vfio_device_feature_dma_buf {
+> +       __u32   region_index;
+> +       __u32   open_flags;
+> +       __u32   flags;
+> +       __u32   nr_ranges;
+> +       struct vfio_region_dma_range dma_ranges[];
+> +};
+
+This uAPI would be a good candidate for a VFIO selftest. You can test
+that it returns an error when it's supposed to, and a valid fd when
+it's supposed to. And once the iommufd importer side is ready, we can
+extend the test and verify that the fd can be mapped into iommufd.
+
+It will probably be challenging to meaningfully exercise device P2P
+through a selftest, I haven't thought about how to extend the driver
+framework for that yet... But you can at least test that all the
+ioctls behave like they should.
 
