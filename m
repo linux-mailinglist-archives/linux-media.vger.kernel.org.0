@@ -1,319 +1,228 @@
-Return-Path: <linux-media+bounces-45635-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45636-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id AEB04C0C51C
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 09:34:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4C07C0C849
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 10:03:41 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A69D24F24DE
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 08:32:39 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9F1F34F290F
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 08:59:18 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A73152F0C7C;
-	Mon, 27 Oct 2025 08:31:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A25AD30F7E2;
+	Mon, 27 Oct 2025 08:50:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b="SVci1QMI"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fJD1tXv/"
 X-Original-To: linux-media@vger.kernel.org
-Received: from meesny.iki.fi (meesny.iki.fi [195.140.195.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C9961C84B9;
-	Mon, 27 Oct 2025 08:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=195.140.195.201
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761553900; cv=pass; b=L8M4YoFhvhBJOslX/qKaNc0aiXdg4R1UruKcOSW9Q0ZL3dim7NUrdm2KP4EeJH/yTj0zriM1f3Jt8VBRIddSn7dh2KpmggKy/XHSV99G+/znm7y34CWh5kmmMqfV6uSnwbCs9PxpKLmLixWZ1iYz/M0SAuEM4g4k4WlAoq6cdLs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761553900; c=relaxed/simple;
-	bh=McrhOuzhrnLYLJ3Yd+2aPpk7WDKuLddjS6Ppo7mJKKc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DXu/bC0xy3U2lPv9BV2FusP2dg+UI2twURTHg6s5y7purKMJl8rTmaVT9ORsCs3UJ/IEnSegTqlllirmFZXllVbVh9ysUbSGScvR2+dwcaMOtaT4SYsS/5yYzf7s4gm8Fi2ALIdXC+h2/DpzWBwXc1+dcZmWfTo6bDxInU4wROE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi; spf=pass smtp.mailfrom=iki.fi; dkim=pass (1024-bit key) header.d=iki.fi header.i=@iki.fi header.b=SVci1QMI; arc=pass smtp.client-ip=195.140.195.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=iki.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=iki.fi
-Received: from hillosipuli.retiisi.eu (91-158-51-183.elisa-laajakaista.fi [91.158.51.183])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	(Authenticated sender: sailus)
-	by meesny.iki.fi (Postfix) with ESMTPSA id 4cw6DG3ZVczyS8;
-	Mon, 27 Oct 2025 10:31:26 +0200 (EET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi; s=meesny;
-	t=1761553888;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0vcpvhF5urzAN7K3wpgk7xwaAxcma2kFDIrKQc/Gknc=;
-	b=SVci1QMIf6DQF3QJGG6IvxwWPCCbeqZpjSffOVgw1knI3OfEpMa+G6gdxdn2Yzy9prXKlg
-	4raZJXlHxv1qKxzaZRr/UGPh/FRPZnDXRB1Vta9BvD/O5DZLotO3ffjLskNvHNu+getjJh
-	xomqgH/huEHMNVf9Xy3nng+mq+sUZeQ=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=iki.fi;
-	s=meesny; t=1761553888;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0vcpvhF5urzAN7K3wpgk7xwaAxcma2kFDIrKQc/Gknc=;
-	b=OgulRCt6/GZcUbYBPfcrCRPu+lmQT1TxrG7z/LT4wj+NJisiYYy1d/gbKmn+2qOwBGr6wW
-	OIb9jJlAeQSyjfmf3aQEJBs1Y+jimmhzgLgUDp6P4pYpRRQvA14BlF3pZYLcz5qFoH0gjQ
-	9AwvIj8IXmsmpEnxa6Z0rjCPN78fJkk=
-ARC-Authentication-Results: i=1;
-	ORIGINATING;
-	auth=pass smtp.auth=sailus smtp.mailfrom=sakari.ailus@iki.fi
-ARC-Seal: i=1; s=meesny; d=iki.fi; t=1761553888; a=rsa-sha256; cv=none;
-	b=Z6M5vn5d0QQk5z/e5iYJ7DRxmHK4SMNRhbBubBTvj2QrecRm7CrcadKe+bud7GW1yetIvu
-	VFDSbnEv4nI353DHC8Unb92tNPpPiCc/rJ4n2nUdS8IYLhbFQGtWNQWVdA10QP4wlhL4Nm
-	g/G84m8AW/FJogYPDXDBuy7847tmU9o=
-Received: from valkosipuli.retiisi.eu (valkosipuli.local [192.168.4.2])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange secp256r1 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by hillosipuli.retiisi.eu (Postfix) with ESMTPS id A06EA634C5E;
-	Mon, 27 Oct 2025 10:31:25 +0200 (EET)
-Date: Mon, 27 Oct 2025 10:31:25 +0200
-From: Sakari Ailus <sakari.ailus@iki.fi>
-To: Frank Li <Frank.Li@nxp.com>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Eugen Hristev <eugen.hristev@linaro.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
-	linux-staging@lists.linux.dev, Luis Oliveira <lolivei@synopsys.com>
-Subject: Re: [PATCH v3 01/31] dt-bindings: media: add DW MIPI CSI-2 Host
- support
-Message-ID: <aP8t3YClrZxOnHea@valkosipuli.retiisi.eu>
-References: <20250821-95_cam-v3-0-c9286fbb34b9@nxp.com>
- <20250821-95_cam-v3-1-c9286fbb34b9@nxp.com>
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF4B32E3B1C;
+	Mon, 27 Oct 2025 08:50:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761555010; cv=none; b=jI8bf5q7lPkA1jLtvd+NeHg/hDNb1bc1M4eyQfqHdyx/wULAe2AQSx8SFtHGxCZcFlKMxyuavhLorR7ascoYMsNBv42uHiBdyZREfrq0AOfy9CBhDff04vrqVhdrqL86+cVBPLW3ePo6vM6vviBhKW0cjb9L9YNUrG1G0h+eQ6g=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761555010; c=relaxed/simple;
+	bh=lQFP5i4h0NhDRiG8WGVwpbu31fE0ocV55y7NMexkC28=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=TyCKIgqCRxiiSo86vRg8fPUOXoinpIec23jvO8/qLZR7yJ0mLx6ZNV93cBWxLfCccTAyKGzrOpA224seix0h1E6I+ty+DPE2Mu0fK4szljG20FAhB51j2tTjCtxyHf8dWfMY1ndbeN5NQ7Xf+81ENulJE22tYtfktLWER/gkjPs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fJD1tXv/; arc=none smtp.client-ip=198.175.65.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761555008; x=1793091008;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=lQFP5i4h0NhDRiG8WGVwpbu31fE0ocV55y7NMexkC28=;
+  b=fJD1tXv/L4aclYX8pE9TgIEVOUmexMmzSGSxHpOCrO0ZvXGtl1TW38jy
+   Cu4K59nr2QuOkEQbNS6XJoPylX2vzwBxsGafr4yZjMJzwB2iFvmv+77PE
+   +tlbewZXnhKbRfc0KJkwXCch9PZ+2glSutGOgFrSwbhv0PflJzSqeeaC0
+   YPlFsvZGtKRG84xL5ElToy2fpLZDSHxzzjc7V8KTt66rH+UBp3OJK7JtI
+   /Tos+OeHHXh1NWl960nWITylTl+8Adb3fBGYmvYB+slVICPHG+2uJsBOS
+   Wt7GRCtAh/lHczT1FbVeLgl4r6FOVByvy3T6tP8xv2H9wih/L/eIOTmX2
+   A==;
+X-CSE-ConnectionGUID: eFiuKwb4S8GRxqzVHufOfg==
+X-CSE-MsgGUID: UrGItXdoS8Wy5+0h3FK6og==
+X-IronPort-AV: E=McAfee;i="6800,10657,11531"; a="63530072"
+X-IronPort-AV: E=Sophos;i="6.17,312,1747724400"; 
+   d="scan'208";a="63530072"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 01:50:08 -0700
+X-CSE-ConnectionGUID: RWdTYCHBRXaBnyFA3fxD1Q==
+X-CSE-MsgGUID: hFLDCByJQnS1Drk++R66Ew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
+   d="scan'208";a="184216145"
+Received: from slindbla-desk.ger.corp.intel.com (HELO localhost) ([10.245.246.35])
+  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 01:49:59 -0700
+From: Jani Nikula <jani.nikula@linux.intel.com>
+To: "Yury Norov (NVIDIA)" <yury.norov@gmail.com>, Linus Torvalds
+ <torvalds@linux-foundation.org>, Linus Walleij <linus.walleij@linaro.org>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, Sandy Huang
+ <hjc@rock-chips.com>, Heiko =?utf-8?Q?St=C3=BCbner?= <heiko@sntech.de>,
+ Andy Yan
+ <andy.yan@rock-chips.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>,
+ Simona Vetter <simona@ffwll.ch>, Shreeya Patel
+ <shreeya.patel@collabora.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Jaehoon Chung <jh80.chung@samsung.com>, Ulf Hansson
+ <ulf.hansson@linaro.org>, Nicolas Frattaroli
+ <frattaroli.nicolas@gmail.com>, Liam Girdwood <lgirdwood@gmail.com>, Mark
+ Brown <broonie@kernel.org>, Jaroslav Kysela <perex@perex.cz>, Takashi Iwai
+ <tiwai@suse.com>, "Yury Norov (NVIDIA)" <yury.norov@gmail.com>,
+ dri-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, kernel@collabora.com,
+ linux-mmc@vger.kernel.org, linux-sound@vger.kernel.org
+Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH 11/21] drivers: don't use GENMASK() in FIELD_PREP_WM16()
+In-Reply-To: <20251025164023.308884-12-yury.norov@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20251025164023.308884-1-yury.norov@gmail.com>
+ <20251025164023.308884-12-yury.norov@gmail.com>
+Date: Mon, 27 Oct 2025 10:49:56 +0200
+Message-ID: <6e82c656573d436b6c53d242a0ed45007e5849ad@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250821-95_cam-v3-1-c9286fbb34b9@nxp.com>
+Content-Type: text/plain
 
-Hei Eugen,
+On Sat, 25 Oct 2025, "Yury Norov (NVIDIA)" <yury.norov@gmail.com> wrote:
+> Recently added FIELD_PREP_WM16() in a few places uses GENMASK. It's
+> confusing and may mislead readers. Switch to BITS() or FIRST_BITS()
+> as appropriate.
 
-On Thu, Aug 21, 2025 at 04:15:36PM -0400, Frank Li wrote:
-> From: Eugen Hristev <eugen.hristev@linaro.org>
-> 
-> Add bindings for Synopsys DesignWare MIPI CSI-2 host, which used at i.MX93
-> and i.MX95 platform.
-> 
-> Signed-off-by: Luis Oliveira <lolivei@synopsys.com>
-> Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
-> Signed-off-by: Frank Li <Frank.Li@nxp.com>
+GENMASK argument order matches how most specs I've ever looked at define
+bits. It's high:low. I, for one, think it's silly to add another set of
+macros purely to swap the argument order.
+
+> Suggested-by: Linus Torvalds <torvalds@linux-foundation.org>
+> Link: https://lore.kernel.org/all/CAHk-=whoOUsqPKb7OQwhQf9H_3=5sXGPJrDbfQfwLB3Bi13tcQ@mail.gmail.com/
+> Signed-off-by: Yury Norov (NVIDIA) <yury.norov@gmail.com>
 > ---
-> Change in v3
-> - drop remote-endpoint: true
-> - drop clock-lanes
-> 
-> Change in v2
-> - remove Eugen Hristev <eugen.hristev@microchip.com> from mantainer.
-> - update ugen Hristev's s-o-b tag to align original author's email address
-> - remove single snps,dw-mipi-csi2-v150 compatible string
-> - move additionalProperties after required
-> ---
->  .../bindings/media/snps,dw-mipi-csi2-v150.yaml     | 151 +++++++++++++++++++++
->  MAINTAINERS                                        |   1 +
->  2 files changed, 152 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml b/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..d950daa4ee9cfd504ef84b83271b2a1b710ffd6b
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml
-> @@ -0,0 +1,151 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/snps,dw-mipi-csi2-v150.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Synopsys DesignWare CSI-2 Host controller (csi2host)
-> +
-> +maintainers:
-> +  - Frank Li <Frank.Li@nxp.com>
-> +
-> +description:
-> +  CSI2HOST is used to receive image coming from an MIPI CSI-2 compatible
-> +  camera. It will convert the incoming CSI-2 stream into a dedicated
-> +  interface called the Synopsys IDI (Image Data Interface).
-> +  This interface is a 32-bit SoC internal only, and can be assimilated
-> +  with a CSI-2 interface.
-> +
-> +properties:
-> +  compatible:
-> +    items:
-> +      - enum:
-> +          - fsl,imx93-mipi-csi2
-> +      - const: snps,dw-mipi-csi2-v150
-> +
-> +  reg:
-> +    items:
-> +      - description: MIPI CSI-2 core register
-> +
-> +  reg-names:
-> +    items:
-> +      - const: core
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    items:
-> +      - const: per
-> +      - const: pixel
-> +
-> +  phys:
-> +    maxItems: 1
-> +    description: MIPI D-PHY
-> +
-> +  phy-names:
-> +    items:
-> +      - const: rx
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  power-domains:
-> +    maxItems: 1
-> +
-> +  ports:
-> +    $ref: /schemas/graph.yaml#/properties/ports
-> +
-> +    properties:
-> +      port@0:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Input port node, single endpoint describing the input port.
-> +
-> +        properties:
-> +          endpoint:
-> +            $ref: video-interfaces.yaml#
-> +            unevaluatedProperties: false
-> +            description: Endpoint connected to input device
-> +
-> +            properties:
-> +              bus-type:
-> +                const: 4
+>  drivers/gpu/drm/rockchip/rockchip_lvds.h             | 2 +-
+>  drivers/gpu/drm/rockchip/rockchip_vop2_reg.c         | 4 ++--
+>  drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h | 4 ++--
+>  drivers/mmc/host/dw_mmc-rockchip.c                   | 4 ++--
+>  drivers/soc/rockchip/grf.c                           | 4 ++--
+>  sound/soc/rockchip/rockchip_i2s_tdm.h                | 2 +-
+>  6 files changed, 10 insertions(+), 10 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_lvds.h b/drivers/gpu/drm/rockchip/rockchip_lvds.h
+> index 2d92447d819b..e79e6031be59 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_lvds.h
+> +++ b/drivers/gpu/drm/rockchip/rockchip_lvds.h
+> @@ -115,7 +115,7 @@
+>  #define   PX30_LVDS_INVERT_DCLK(val)		FIELD_PREP_WM16(BIT(5), (val))
+>  
+>  #define PX30_LVDS_GRF_PD_VO_CON1		0x438
+> -#define   PX30_LVDS_FORMAT(val)			FIELD_PREP_WM16(GENMASK(14, 13), (val))
+> +#define   PX30_LVDS_FORMAT(val)			FIELD_PREP_WM16(BITS(13, 14), (val))
 
-If 4 is the only value supported, you can drop the property altogether.
+IMO this change would make more sense in defining register contents:
 
-> +
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +                items:
-> +                  maximum: 4
-> +
-> +      port@1:
-> +        $ref: /schemas/graph.yaml#/$defs/port-base
-> +        unevaluatedProperties: false
-> +        description:
-> +          Output port node, single endpoint describing the output port.
-> +
-> +        properties:
-> +          endpoint:
-> +            unevaluatedProperties: false
-> +            $ref: video-interfaces.yaml#
-> +            description: Endpoint connected to output device
-> +
-> +            properties:
-> +              bus-type:
-> +                const: 4
++#define   PX30_LVDS_FORMAT_MASK			GENMASK(14, 13)
+-#define   PX30_LVDS_FORMAT(val)			FIELD_PREP_WM16(GENMASK(14, 13), (val))
++#define   PX30_LVDS_FORMAT(val)			FIELD_PREP_WM16(PX30_LVDS_FORMAT_MASK, (val))
 
-Are both input and output of this block CSI-2 with D-PHY?
 
-> +
-> +    required:
-> +      - port@0
-> +      - port@1
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - reg-names
-> +  - interrupts
-> +  - ports
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    csi@3000 {
-> +        compatible = "fsl,imx93-mipi-csi2", "snps,dw-mipi-csi2-v150";
-> +        reg = <0x03000 0x1000>;
-> +        reg-names = "core";
-> +        phys = <&mipi_dphy_rx 0>;
-> +        phy-names = "rx";
-> +        resets = <&dw_rst 1>;
-> +        interrupts = <2>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            port@0 {
-> +                reg = <0>;
-> +
-> +                endpoint {
-> +                    bus-type = <4>; /* MIPI CSI2 D-PHY */
-> +                    remote-endpoint = <&camera_1>;
-> +                    data-lanes = <1 2>;
-> +                    clock-lanes = <0>;
-> +                };
-> +            };
-> +
-> +            port@1 {
-> +                reg = <1>;
-> +
-> +                endpoint {
-> +                    remote-endpoint = <&idi_receiver>;
-> +                    bus-type = <4>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 9d9d2be7be8037dfa96f1c9edd24a0cf997b9393..ecb7bc7cc8ad797f43173075ca8973804bf335f7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -15334,6 +15334,7 @@ F:	Documentation/devicetree/bindings/media/fsl,imx93-parallel-csi.yaml
->  F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
->  F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
->  F:	Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
-> +F:	Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml
->  F:	drivers/media/platform/nxp/imx-mipi-csis.c
->  F:	drivers/media/platform/nxp/imx-parallel-csi.c
->  F:	drivers/media/platform/nxp/imx7-media-csi.c
-> 
+BR,
+Jani.
+
+
+>  #define   PX30_LVDS_MODE_EN(val)		FIELD_PREP_WM16(BIT(12), (val))
+>  #define   PX30_LVDS_MSBSEL(val)			FIELD_PREP_WM16(BIT(11), (val))
+>  #define   PX30_LVDS_P2S_EN(val)			FIELD_PREP_WM16(BIT(6), (val))
+> diff --git a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> index 38c49030c7ab..438fea5f6f6d 100644
+> --- a/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> +++ b/drivers/gpu/drm/rockchip/rockchip_vop2_reg.c
+> @@ -1698,7 +1698,7 @@ static unsigned long rk3588_set_intf_mux(struct vop2_video_port *vp, int id, u32
+>  		val = rk3588_get_hdmi_pol(polflags);
+>  		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, FIELD_PREP_WM16(BIT(1), 1));
+>  		regmap_write(vop2->vo1_grf, RK3588_GRF_VO1_CON0,
+> -			     FIELD_PREP_WM16(GENMASK(6, 5), val));
+> +			     FIELD_PREP_WM16(BITS(5, 6), val));
+>  		break;
+>  	case ROCKCHIP_VOP2_EP_HDMI1:
+>  		div &= ~RK3588_DSP_IF_EDP_HDMI1_DCLK_DIV;
+> @@ -1711,7 +1711,7 @@ static unsigned long rk3588_set_intf_mux(struct vop2_video_port *vp, int id, u32
+>  		val = rk3588_get_hdmi_pol(polflags);
+>  		regmap_write(vop2->vop_grf, RK3588_GRF_VOP_CON2, FIELD_PREP_WM16(BIT(4), 1));
+>  		regmap_write(vop2->vo1_grf, RK3588_GRF_VO1_CON0,
+> -			     FIELD_PREP_WM16(GENMASK(8, 7), val));
+> +			     FIELD_PREP_WM16(BITS(7, 8), val));
+>  		break;
+>  	case ROCKCHIP_VOP2_EP_EDP0:
+>  		div &= ~RK3588_DSP_IF_EDP_HDMI0_DCLK_DIV;
+> diff --git a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
+> index b13f58e31944..14df3f53ff8f 100644
+> --- a/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
+> +++ b/drivers/media/platform/synopsys/hdmirx/snps_hdmirx.h
+> @@ -12,8 +12,8 @@
+>  #include <linux/bitops.h>
+>  #include <linux/hw_bitfield.h>
+>  
+> -#define UPDATE(x, h, l)		FIELD_PREP(GENMASK((h), (l)), (x))
+> -#define HIWORD_UPDATE(v, h, l)	FIELD_PREP_WM16(GENMASK((h), (l)), (v))
+> +#define UPDATE(x, h, l)		FIELD_PREP(BITS((l), (h)), (x))
+> +#define HIWORD_UPDATE(v, h, l)	FIELD_PREP_WM16(BITS((l), (h)), (v))
+>  
+>  /* SYS_GRF */
+>  #define SYS_GRF_SOC_CON1			0x0304
+> diff --git a/drivers/mmc/host/dw_mmc-rockchip.c b/drivers/mmc/host/dw_mmc-rockchip.c
+> index 82dd906bb002..7fac1a7281bf 100644
+> --- a/drivers/mmc/host/dw_mmc-rockchip.c
+> +++ b/drivers/mmc/host/dw_mmc-rockchip.c
+> @@ -148,10 +148,10 @@ static int rockchip_mmc_set_internal_phase(struct dw_mci *host, bool sample, int
+>  
+>  	if (sample)
+>  		mci_writel(host, TIMING_CON1,
+> -			   FIELD_PREP_WM16(GENMASK(11, 1), raw_value));
+> +			   FIELD_PREP_WM16(BITS(1, 11), raw_value));
+>  	else
+>  		mci_writel(host, TIMING_CON0,
+> -			   FIELD_PREP_WM16(GENMASK(11, 1), raw_value));
+> +			   FIELD_PREP_WM16(BITS(1, 11), raw_value));
+>  
+>  	dev_dbg(host->dev, "set %s_phase(%d) delay_nums=%u actual_degrees=%d\n",
+>  		sample ? "sample" : "drv", degrees, delay_num,
+> diff --git a/drivers/soc/rockchip/grf.c b/drivers/soc/rockchip/grf.c
+> index 344870da7675..89fd4a4c69eb 100644
+> --- a/drivers/soc/rockchip/grf.c
+> +++ b/drivers/soc/rockchip/grf.c
+> @@ -125,8 +125,8 @@ static const struct rockchip_grf_info rk3566_pipegrf __initconst = {
+>  #define RK3576_SYSGRF_SOC_CON1		0x0004
+>  
+>  static const struct rockchip_grf_value rk3576_defaults_sys_grf[] __initconst = {
+> -	{ "i3c0 weakpull", RK3576_SYSGRF_SOC_CON1, FIELD_PREP_WM16_CONST(GENMASK(7, 6), 3) },
+> -	{ "i3c1 weakpull", RK3576_SYSGRF_SOC_CON1, FIELD_PREP_WM16_CONST(GENMASK(9, 8), 3) },
+> +	{ "i3c0 weakpull", RK3576_SYSGRF_SOC_CON1, FIELD_PREP_WM16_CONST(BITS(6, 7), 3) },
+> +	{ "i3c1 weakpull", RK3576_SYSGRF_SOC_CON1, FIELD_PREP_WM16_CONST(BITS(8, 9), 3) },
+>  };
+>  
+>  static const struct rockchip_grf_info rk3576_sysgrf __initconst = {
+> diff --git a/sound/soc/rockchip/rockchip_i2s_tdm.h b/sound/soc/rockchip/rockchip_i2s_tdm.h
+> index 0171e05ee886..eee6db372ee7 100644
+> --- a/sound/soc/rockchip/rockchip_i2s_tdm.h
+> +++ b/sound/soc/rockchip/rockchip_i2s_tdm.h
+> @@ -287,7 +287,7 @@ enum {
+>  #define I2S_TDM_RXCR	(0x0034)
+>  #define I2S_CLKDIV	(0x0038)
+>  
+> -#define HIWORD_UPDATE(v, h, l)	(FIELD_PREP_WM16_CONST(GENMASK((h), (l)), (v)))
+> +#define HIWORD_UPDATE(v, h, l)	(FIELD_PREP_WM16_CONST(BITS((l), (h)), (v)))
+>  
+>  /* PX30 GRF CONFIGS */
+>  #define PX30_I2S0_CLK_IN_SRC_FROM_TX		HIWORD_UPDATE(1, 13, 12)
 
 -- 
-Regards,
-
-Sakari Ailus
+Jani Nikula, Intel
 
