@@ -1,333 +1,148 @@
-Return-Path: <linux-media+bounces-45642-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45643-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F81FC0CA5A
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 10:28:22 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AC40C0CA7B
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 10:30:18 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 138E33AD86C
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 09:23:05 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 0BD283B36A0
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 09:25:27 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8E20B2E5418;
-	Mon, 27 Oct 2025 09:22:57 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5128A2E8E1F;
+	Mon, 27 Oct 2025 09:25:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ky8e1dnd"
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="bpHDlK+e";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="z5kx0sue"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F9CE2EF64C
-	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 09:22:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4892C2F068F;
+	Mon, 27 Oct 2025 09:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.147
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761556976; cv=none; b=AlcyF8eXUsSZI3WR8AikeWbihMBP1guol3SaoGq8PucltBz1J/eIrOHJllAPbwPZTu1zgzDwxOWQskFH/zJcAW3GlDb8NT2FjvZRMhBgkjOmOb7WccTvBRxw/6Eo8kgACa0PdwTykOA1GyKcraEB9KE3leZaSqC5esGpW0fI96k=
+	t=1761557113; cv=none; b=fcIQhbzUyfAbE45BMqIBJx34aXZTTJGvW1hcfRt7eYAocVLcJW+LpjbCvUEF2fRjMA9TEv8/2yRhKw/Lr3goo9KGoEQbsrkeKRNipHFb8xEmr9jYT2diotI1Kwam7bFmcJmqH+nRHpchXKviPCsmUiJzB+mtQ8rFAW+mceMDdjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761556976; c=relaxed/simple;
-	bh=fxDesR92Xwhzeu84eJzm6w44tjPoXglJapFmerEbwME=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ipn6MC75/Q1W1lSO2Bir3G047SUHq2BaVx1jWVbcb6GLSvgKtNzhhHv6y7jKZ+ljrfUDmUzaVGbDwAuJj3devDxyElxVMAGaOxVmtE6tPqA1zIGbOxbmLz0tFpDZvYt5gNQFvraDUac5d2MS9YnKkhXIssKjQLOpxaPAzZsTax4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ky8e1dnd; arc=none smtp.client-ip=209.85.218.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-b6d5e04e0d3so692383766b.2
-        for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 02:22:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761556972; x=1762161772; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=idLQEGHawEowPnMFpADe7JKEtzSuZ6zkkitTWQDADFM=;
-        b=ky8e1dndF7dQqxPPfxlYUxrHVn7o18SwU6bie45obaI/wx4EeP2K16CpcjLOQbmzWt
-         iR/FACtdzWt0utqG0vIn3b4eAbYPvR7CnvVJVKyBekwBMOOY0dFumiF0Kz4UIVukFvAj
-         iLI0pCFmk6EKbCioADk+/bn56h1r5nQ537gsjTeWTe2xDSJxCDod6UJP+V/LP7f9J7hS
-         sHu9Z9WSEpGm20exjDWLViNx2s1siDlilYUJNUQ/B/rmDc9T32+mB26hL2Ye/iNzq9f+
-         wrn6BJIhXJjZ6EfHiVXAFt59KI1SrN+tutqpkq6jtY7btrM9Fa86mj3Cqvi4QGwHik2M
-         xrIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761556972; x=1762161772;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=idLQEGHawEowPnMFpADe7JKEtzSuZ6zkkitTWQDADFM=;
-        b=u92YUeO0nNac2F5hwCU6TfogUb9sc57BV5Y93mwupNGLP1TUHQANLI9HD0d4HRqUxm
-         BEo9YOIDtYjQcuACobz28JCkaG4Rd/CRU3Ivn6uN2ZxLnOe6rIddiTDvHe06a/w6JC9Y
-         qP5bC5KBnam8BEou2tbBz61f270VP80IGIYPVveuNR5xE3DW2moVtt/vL7nnWtesFMC0
-         oW3y+uUwh+fF/ZPREL398dmies209XfjSCMZWlWAPjzJlfZlNUajxzk0QvpOUQYVp3OW
-         NwyGDZxCJhY3VzMWcjMpoNfS7ovq0N75OvMylQAFKVxFiuOxivF8+9b781hocWToxerY
-         YqKw==
-X-Forwarded-Encrypted: i=1; AJvYcCWWeGH2aQrCSQSSWHQJ082Xo3R8gyrsNPkmYT5ccaL1IeuteOPkcQYHJh4Im+Z72jgRsb71gcd5nD9REw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWyEz5IoPMJwYnNAe0hVXLHO1CKXpZYZiU6iTRQgIf5xGe6tgW
-	urY1xSE+1/12axA1MTqAUpfDtWizFEKiDwcy/3UF+fzvcp8N7+E6MVL51sWbTc7L/Ms=
-X-Gm-Gg: ASbGnct/CVh+C2XWzSleKBAFf1iww0185roqBwyVu0nGu5oABzpCgXbKpP3ghuF1vfo
-	P7rzh+wapBxOM1ufEY3FlSD2cAMwdzeWRQcbXTYjWQ9sk8y0P9gulALulcRS6BYleC2UPYKNMQD
-	tMxDpsNET8xLQv8p2zRbogiB+oVEnMPEV/ob9lsy3DkQMpL7F9H8kUluQ3Cd6W2ZIyYBLlpv9Qz
-	KvwUorArotiLO+7GE5r0Bm53IHbk/+RJrY2FzpywooX7BhdsDf09w5f9/61JCvGFxpdO+fI9bK5
-	fzS6AR8miuOKnQd1ge6liLeaJOvnJO7fvhs1rc2qFU8Dt8zYo1d4O7jxlmNezskt4jcViUV2YSJ
-	Vv6itcmc/VgqC3oWhur69BR2tAGIZJY2maFmb5oAaMKwewf7UA+3HYXn9PiAYnuloK21Xth4gFf
-	WPC6DIPiLPIi6MqjkqYQ==
-X-Google-Smtp-Source: AGHT+IFgheBk8plPZFOvo1Fh8CqMw+IDlX5zjqqJtiHnOJ15bA0846Akm4ZoeAvbvhHYf1Mdb/gfzw==
-X-Received: by 2002:a17:907:6d20:b0:b6d:6a35:99a0 with SMTP id a640c23a62f3a-b6d6a359c49mr1253713666b.33.1761556971534;
-        Mon, 27 Oct 2025 02:22:51 -0700 (PDT)
-Received: from [192.168.0.39] ([82.76.24.202])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d853c549fsm708029666b.37.2025.10.27.02.22.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Oct 2025 02:22:51 -0700 (PDT)
-Message-ID: <56a13c84-7d8b-42f1-97f6-c338b931f205@linaro.org>
-Date: Mon, 27 Oct 2025 11:22:48 +0200
+	s=arc-20240116; t=1761557113; c=relaxed/simple;
+	bh=2kNSuTrjCgbC9sjJyzFtLI/aV32xV70+Q2oAydZo2tU=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=KdAuatOw0Tnp+daZsEcs/UX9+JIOph2BT1snxMJHnFCA4KK2L6A+EkNoxwUHLWPlRn6AUjrxlIxhbFIlGjndDRvmBFuE9AxAkWFdqc5w77PaeRncWV7oTaPKFPPKx5DNdcWgIgd7TPUXGDDuSuG9Q37qdulpWwe8qWw0iCDyQk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=bpHDlK+e; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=z5kx0sue; arc=none smtp.client-ip=202.12.124.147
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfout.stl.internal (Postfix) with ESMTP id 3F80B1D0019D;
+	Mon, 27 Oct 2025 05:25:09 -0400 (EDT)
+Received: from phl-imap-02 ([10.202.2.81])
+  by phl-compute-05.internal (MEProxy); Mon, 27 Oct 2025 05:25:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1761557109;
+	 x=1761643509; bh=ZYSCNPujoeIiPWnOTZjTYJpArRoI/1XTQNC5cifNrY8=; b=
+	bpHDlK+e2BQpLKdubW02HncVR8ATSomqcnFO5m8zqXyhyzDX+V//nziPsVsdKugs
+	UEFPnjzGiFq/wUnVjOoj88jCACHeD13Y4bzQs1OaRHujmeVvXLk3i8WM8GUAp9BS
+	+pcQ1G5denRN/zapsqmHaqZIkjk5+fNjTPoSEULCai0GyhB8Q7rtM5c5cbc2CXHw
+	YLQJB9B3/Dyg3BU/PYo2SnsIbWQib2wXBMsPlsBzFjEt7FLWsWju/WWiW7OJBR+t
+	dlNFl/h7tZYhJij4nHn/3HPdGKJsc/KSQqAErLEbwMDo06vbTPianmx1/H+gGJyM
+	uXZySzwLiCuvPumZ8ZjsRg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1761557109; x=
+	1761643509; bh=ZYSCNPujoeIiPWnOTZjTYJpArRoI/1XTQNC5cifNrY8=; b=z
+	5kx0sueU92/8ZB4Y1+So2NtvVpd0RzT2/XFY+8G/TKAC+r2oPNuM82UaE5Ozdd1Q
+	qgGAw1zsBzn3xhBDEKi4Mi6NkHEzL5YyWx6qUqXGSL3PhhBhgRyyRPHDmBZtciFh
+	wvKkmS++NeqHyABuyOqUVInsT023Z/y72Q8U8MKs9eQWBsw54NA7FszK/idpVSB0
+	Or3JjQK7l8Eth8wIck/tLfoeINdS+FepoDUW6Vevjg5CjtSTk9QeAzs3KmdTkFLm
+	KQZ6w1/u9rRtx98HYNY6y9oDOEXrjju+9nELa1yd4G0EpoxQUKVRUt/RsTEW3/w9
+	CZEeKiy+7BpSPbwz8X8aQ==
+X-ME-Sender: <xms:dDr_aAAspsxFdYagS9g1uY1_gt0AqI7hkzJ0edM5kLjVNtoz9Qs7zA>
+    <xme:dDr_aNWP19nnB0b_J1ShTguNywZN876J9nNYijDVy4et8vff34CsVHzIGFHqwVyAO
+    GE2IkMZDcxXfXiTLcdAEsERlbS7lIkLrcV-XHJXyA4D7zuMOb6Webg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtdeggdduheejiedtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfurfetoffkrfgpnffqhgenuceu
+    rghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujf
+    gurhepofggfffhvfevkfgjfhfutgfgsehtjeertdertddtnecuhfhrohhmpedftehrnhgu
+    uceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnuggsrdguvgeqnecuggftrfgrthhtvg
+    hrnhephfdthfdvtdefhedukeetgefggffhjeeggeetfefggfevudegudevledvkefhvdei
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnh
+    gusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepledpmhhouggvpehsmhhtphhouhht
+    pdhrtghpthhtohepsghrghhlsegsghguvghvrdhplhdprhgtphhtthhopehhvhgvrhhkuh
+    hilhdotghishgtoheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgthhgvhhgrsges
+    khgvrhhnvghlrdhorhhgpdhrtghpthhtohepshgrshhhrghlsehkvghrnhgvlhdrohhrgh
+    dprhgtphhtthhopehlihhnuhhsrdifrghllhgvihhjsehlihhnrghrohdrohhrghdprhgt
+    phhtthhopehprghttghhvghssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoh
+    eplhhinhhugidqghhpihhosehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtohep
+    lhhinhhugidqmhgvughirgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhope
+    hsthgrsghlvgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:dDr_aLhPGMKNkWUV57WN_ZtZ6siWhauizoBDd04LyzGN40gVDc00hQ>
+    <xmx:dDr_aLFCDro3aQH8HctY4QY7R0N-cS02TwnM2aIpZE-aayb3Yq_D4w>
+    <xmx:dDr_aFtDR13vGNTG08ovVXCQnjvUzeRLvpcGthbD3Umkxk2GVHZ8vQ>
+    <xmx:dDr_aEfnwZiTSSB8NYUfZGnZpSl5_V0vKg4-2YsSxqNU5uogejvZFw>
+    <xmx:dTr_aMbpvIiTl54Oox5j49mvDHVSx9YSoTLNP_RaZipaHXJwD-7k63X4>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id BE7C1700054; Mon, 27 Oct 2025 05:25:08 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 01/31] dt-bindings: media: add DW MIPI CSI-2 Host
- support
-To: Sakari Ailus <sakari.ailus@iki.fi>, Frank Li <Frank.Li@nxp.com>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
- Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
- Martin Kepplinger <martink@posteo.de>, Purism Kernel Team <kernel@puri.sm>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
- Sascha Hauer <s.hauer@pengutronix.de>,
- Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
- Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
- Kishon Vijay Abraham I <kishon@kernel.org>,
- Philipp Zabel <p.zabel@pengutronix.de>,
- Steve Longerbeam <slongerbeam@gmail.com>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- linux-media@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
- linux-staging@lists.linux.dev, Luis Oliveira <lolivei@synopsys.com>
-References: <20250821-95_cam-v3-0-c9286fbb34b9@nxp.com>
- <20250821-95_cam-v3-1-c9286fbb34b9@nxp.com>
- <aP8t3YClrZxOnHea@valkosipuli.retiisi.eu>
-From: Eugen Hristev <eugen.hristev@linaro.org>
-Content-Language: en-US
-In-Reply-To: <aP8t3YClrZxOnHea@valkosipuli.retiisi.eu>
-Content-Type: text/plain; charset=UTF-8
+X-ThreadId: AcW5hAlZpVq3
+Date: Mon, 27 Oct 2025 10:24:47 +0100
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Sasha Levin" <sashal@kernel.org>, patches@lists.linux.dev,
+ stable@vger.kernel.org
+Cc: "Hans Verkuil" <hverkuil+cisco@kernel.org>,
+ "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+ "Linus Walleij" <linus.walleij@linaro.org>,
+ "Bartosz Golaszewski" <brgl@bgdev.pl>, linux-media@vger.kernel.org,
+ "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>
+Message-Id: <d08ad8bb-d94a-41c7-8bfd-9c4e8c054785@app.fastmail.com>
+In-Reply-To: <20251025160905.3857885-118-sashal@kernel.org>
+References: <20251025160905.3857885-1-sashal@kernel.org>
+ <20251025160905.3857885-118-sashal@kernel.org>
+Subject: Re: [PATCH AUTOSEL 6.17-5.15] media: em28xx: add special case for legacy
+ gpiolib interface
+Content-Type: text/plain
 Content-Transfer-Encoding: 7bit
 
+On Sat, Oct 25, 2025, at 17:55, Sasha Levin wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+>
+> [ Upstream commit d5d299e7e7f6b4ead31383d4abffca34e4296df0 ]
+>
+> The em28xx driver uses the old-style gpio_request_one() interface to
+> switch the lna on the PCTV 290E card.
+>
+> This interface is becoming optional and should no longer be called by
+> portable drivers. As I could not figure out an obvious replacement,
+> select the new GPIOLIB_LEGACY symbol as a workaround.
+>
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+> Signed-off-by: Sasha Levin <sashal@kernel.org>
+> ---
+>
+> LLM Generated explanations, may be completely bogus:
+>
+> YES
+>
+> - What it fixes: Prevents build breakage when `GPIOLIB=y` but the legacy
+>   GPIO consumer API is disabled. `gpio_request_one()` is only declared
+>   when `CONFIG_GPIOLIB_LEGACY` is enabled (see
+>   `include/linux/gpio.h:88`), so compiling code guarded only by
+>   `CONFIG_GPIOLIB` fails if legacy support is off.
 
+It's not needed for stable and has no effect in 6.17. This is
+only a preparation for a later change.
 
-On 10/27/25 10:31, Sakari Ailus wrote:
-> Hei Eugen,
-> 
-> On Thu, Aug 21, 2025 at 04:15:36PM -0400, Frank Li wrote:
->> From: Eugen Hristev <eugen.hristev@linaro.org>
-
-Hi everyone,
-
-While I originally wrote this patch, and Frank keeping me as author, I
-have not contributed more to it, so, I think you can drop me as author
-and Frank you can put your name to it.
-
-Thanks for continuing the work on it.
-
-Eugen
->>
->> Add bindings for Synopsys DesignWare MIPI CSI-2 host, which used at i.MX93
->> and i.MX95 platform.
->>
->> Signed-off-by: Luis Oliveira <lolivei@synopsys.com>
->> Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
->> Signed-off-by: Frank Li <Frank.Li@nxp.com>
->> ---
->> Change in v3
->> - drop remote-endpoint: true
->> - drop clock-lanes
->>
->> Change in v2
->> - remove Eugen Hristev <eugen.hristev@microchip.com> from mantainer.
->> - update ugen Hristev's s-o-b tag to align original author's email address
->> - remove single snps,dw-mipi-csi2-v150 compatible string
->> - move additionalProperties after required
->> ---
->>  .../bindings/media/snps,dw-mipi-csi2-v150.yaml     | 151 +++++++++++++++++++++
->>  MAINTAINERS                                        |   1 +
->>  2 files changed, 152 insertions(+)
->>
->> diff --git a/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml b/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml
->> new file mode 100644
->> index 0000000000000000000000000000000000000000..d950daa4ee9cfd504ef84b83271b2a1b710ffd6b
->> --- /dev/null
->> +++ b/Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml
->> @@ -0,0 +1,151 @@
->> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->> +%YAML 1.2
->> +---
->> +$id: http://devicetree.org/schemas/media/snps,dw-mipi-csi2-v150.yaml#
->> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->> +
->> +title: Synopsys DesignWare CSI-2 Host controller (csi2host)
->> +
->> +maintainers:
->> +  - Frank Li <Frank.Li@nxp.com>
->> +
->> +description:
->> +  CSI2HOST is used to receive image coming from an MIPI CSI-2 compatible
->> +  camera. It will convert the incoming CSI-2 stream into a dedicated
->> +  interface called the Synopsys IDI (Image Data Interface).
->> +  This interface is a 32-bit SoC internal only, and can be assimilated
->> +  with a CSI-2 interface.
->> +
->> +properties:
->> +  compatible:
->> +    items:
->> +      - enum:
->> +          - fsl,imx93-mipi-csi2
->> +      - const: snps,dw-mipi-csi2-v150
->> +
->> +  reg:
->> +    items:
->> +      - description: MIPI CSI-2 core register
->> +
->> +  reg-names:
->> +    items:
->> +      - const: core
->> +
->> +  clocks:
->> +    maxItems: 2
->> +
->> +  clock-names:
->> +    items:
->> +      - const: per
->> +      - const: pixel
->> +
->> +  phys:
->> +    maxItems: 1
->> +    description: MIPI D-PHY
->> +
->> +  phy-names:
->> +    items:
->> +      - const: rx
->> +
->> +  resets:
->> +    maxItems: 1
->> +
->> +  interrupts:
->> +    maxItems: 1
->> +
->> +  power-domains:
->> +    maxItems: 1
->> +
->> +  ports:
->> +    $ref: /schemas/graph.yaml#/properties/ports
->> +
->> +    properties:
->> +      port@0:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description:
->> +          Input port node, single endpoint describing the input port.
->> +
->> +        properties:
->> +          endpoint:
->> +            $ref: video-interfaces.yaml#
->> +            unevaluatedProperties: false
->> +            description: Endpoint connected to input device
->> +
->> +            properties:
->> +              bus-type:
->> +                const: 4
-> 
-> If 4 is the only value supported, you can drop the property altogether.
-> 
->> +
->> +              data-lanes:
->> +                minItems: 1
->> +                maxItems: 4
->> +                items:
->> +                  maximum: 4
->> +
->> +      port@1:
->> +        $ref: /schemas/graph.yaml#/$defs/port-base
->> +        unevaluatedProperties: false
->> +        description:
->> +          Output port node, single endpoint describing the output port.
->> +
->> +        properties:
->> +          endpoint:
->> +            unevaluatedProperties: false
->> +            $ref: video-interfaces.yaml#
->> +            description: Endpoint connected to output device
->> +
->> +            properties:
->> +              bus-type:
->> +                const: 4
-> 
-> Are both input and output of this block CSI-2 with D-PHY?
-> 
->> +
->> +    required:
->> +      - port@0
->> +      - port@1
->> +
->> +required:
->> +  - compatible
->> +  - reg
->> +  - reg-names
->> +  - interrupts
->> +  - ports
->> +
->> +additionalProperties: false
->> +
->> +examples:
->> +  - |
->> +    csi@3000 {
->> +        compatible = "fsl,imx93-mipi-csi2", "snps,dw-mipi-csi2-v150";
->> +        reg = <0x03000 0x1000>;
->> +        reg-names = "core";
->> +        phys = <&mipi_dphy_rx 0>;
->> +        phy-names = "rx";
->> +        resets = <&dw_rst 1>;
->> +        interrupts = <2>;
->> +
->> +        ports {
->> +            #address-cells = <1>;
->> +            #size-cells = <0>;
->> +
->> +            port@0 {
->> +                reg = <0>;
->> +
->> +                endpoint {
->> +                    bus-type = <4>; /* MIPI CSI2 D-PHY */
->> +                    remote-endpoint = <&camera_1>;
->> +                    data-lanes = <1 2>;
->> +                    clock-lanes = <0>;
->> +                };
->> +            };
->> +
->> +            port@1 {
->> +                reg = <1>;
->> +
->> +                endpoint {
->> +                    remote-endpoint = <&idi_receiver>;
->> +                    bus-type = <4>;
->> +                };
->> +            };
->> +        };
->> +    };
->> +
->> +...
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 9d9d2be7be8037dfa96f1c9edd24a0cf997b9393..ecb7bc7cc8ad797f43173075ca8973804bf335f7 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -15334,6 +15334,7 @@ F:	Documentation/devicetree/bindings/media/fsl,imx93-parallel-csi.yaml
->>  F:	Documentation/devicetree/bindings/media/nxp,imx-mipi-csi2.yaml
->>  F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
->>  F:	Documentation/devicetree/bindings/media/nxp,imx8mq-mipi-csi2.yaml
->> +F:	Documentation/devicetree/bindings/media/snps,dw-mipi-csi2-v150.yaml
->>  F:	drivers/media/platform/nxp/imx-mipi-csis.c
->>  F:	drivers/media/platform/nxp/imx-parallel-csi.c
->>  F:	drivers/media/platform/nxp/imx7-media-csi.c
->>
-> 
-
+         Arnd
 
