@@ -1,140 +1,137 @@
-Return-Path: <linux-media+bounces-45714-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45715-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2BA6C1120A
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 20:36:11 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 90314C113CF
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 20:45:47 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id E109A3B0289
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 19:31:40 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D7B414FF607
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 19:32:25 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9CB9F3164A8;
-	Mon, 27 Oct 2025 19:29:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 082043277B4;
+	Mon, 27 Oct 2025 19:30:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="1/zEhpUu"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G4wgkenP"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FA582F4A14
-	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 19:29:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1D553277A4
+	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 19:30:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761593386; cv=none; b=ModcX1G3FmBYIVUjX/0E3gq/GApCkiq01x7nvM1VNO8OIlYH5DsXx4sB3CPDuMuHXlOSbbpWtSm06D3vOIymKAKj9obhNoDFA2oFFPMPSQwbELeiA+mXPQ0cTLwPqKhIfYfjayGJ3lBsvEfQM/Z2ylI1SkP7aZJV/RKwz3SrViE=
+	t=1761593439; cv=none; b=XEsAshM4NJzPbaiAA5ppuBcfj85UmERHqe2LH6d3ZSJWPXQx0Q0Vtu39/zzhoeVgkQdITU8ZK64vqzFyvpr/hGTSUgea+4GpeJaI5d3hN6I49WMtUFZzqTzg5jllqp0PkP6Sq+UdIpLO4Yic6Gxuhh++yoQmy1I8cxLqrV6/vks=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761593386; c=relaxed/simple;
-	bh=f9EDrPJeYdZjLKyR1XWnZR+LIS5FB0S1PQr/AgxT/ps=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=NmpL0cgXBaBI3NGpV14rrh9mPs4FHnmmT5McZ8STOjVMbH/kExthOkz1RnAyvzbE8sAI+IIGM+nV9crtXxYncwGZDBkO9vvtnrzOrs0OkdO8bcU+d3mjqzmy3s9+ysTapOU35QgfzF0hT8T5DTd/87FqYr7NrloeTAgGxgvs5qg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=1/zEhpUu; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4710a1f9e4cso41926735e9.0
-        for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 12:29:43 -0700 (PDT)
+	s=arc-20240116; t=1761593439; c=relaxed/simple;
+	bh=Nw/EC4BDxEdLzlg8/9tOSmc+lQtWTOG1wUVvZBCUOO4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Qlv7o49hA85mtVGqbwe+owiBPqPcMqIwJP+GetImvlO6YuQvq4ZDef6rwr55D2mpDv6gUI64qAYxz4ldrLYHE6vDw3sxUqBBizbg9DFtLdhD3oyA84NiK1QVcCy/iFr5KZ3m3lS25MCvbFy6fLOay8xjhqchiwZxXBchlVRxqaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G4wgkenP; arc=none smtp.client-ip=209.85.221.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-3ecde0be34eso3985049f8f.1
+        for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 12:30:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1761593382; x=1762198182; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=f9EDrPJeYdZjLKyR1XWnZR+LIS5FB0S1PQr/AgxT/ps=;
-        b=1/zEhpUuYHUCZOXKXvvecOV/35SE4ug1NgCujTNtmfrEE/SV5yaMie34lTL+asQD5U
-         U4hbvbzBnXdxLzrQ5f/0mwXf8YVF/iP57GH57pgvwTOiKC1mxLchP4UTdNlJSeN7Eljh
-         WDXcKYAToEF66ub6wxoJzcWkhHCkwCZ4VFc+9fRloSylJWB0/KEL0klKrZhNZpq1zfeB
-         FUe3kG82jdlB+ZVrr4CArv4JcX0FjO8clJcvvt9xS4WfDalgFzDx+ST6R9YJh8morAff
-         hqC2Wwdf7vd9w1HnesG0z+WmEFz09tmHIDkU5pwalInNtrznn6DAuibNDcDdvYbYbWoz
-         dnMw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761593382; x=1762198182;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1761593436; x=1762198236; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=f9EDrPJeYdZjLKyR1XWnZR+LIS5FB0S1PQr/AgxT/ps=;
-        b=J6KMM+31eFhOcyCntm5ivP9UoqoJtMTDPDRoCPgbO1ZjQPpKaJAW9kFhd4v3YC9xif
-         63Z0oUEdO8zN2kFxbgv6icv4+PSEZixWlNe50v6Q6BPtgjcOedqYv45W9Bl8hcouBip8
-         l6on5EVSB5V//YrP6ZXiUZFKPpX0Rg820WytBK8kxZ4sBTmdW+10ANMgzQ2VkwY4vsAS
-         98z/zZEQ+dZcgnf16beimbxdjREy2CXMWYsut8F5XZKevIJBDeZCDGUly6U3NozKjk+W
-         ZaENr08JLb0XUIr3tpbtG2zByDw0D/IZ5zHZV8fHi5Xyuxta/JtTLJ24KAQFkxDjVytc
-         tHyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVquj+K1Y9ZTHonW61PSHD5F0KkS9VRt3N1HbQrs46GqpZnl8gmJvmp2cem3XlxGwdqwVedKjrATz9VTQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw9OXk2lqi4U5MKxG315dvPstw6ZDxU/OR+zFuZGukxLcQKiN5t
-	6dNcnIjzzDjEvpNx3SS3WgTjr9q8FqBmg0uJ6SbhibkR9E4LYYP4XZodm9n/V1AF9iU=
-X-Gm-Gg: ASbGncspxAeVh7nCoPjSoXmON2SWg0lpgNMrUdaoLY0I9LOS3i7hUhGYqsQ7nCNS694
-	pYOmOb+4Zz08iuEzafGUsY7KKOtGnJB7APndyVZHnU8lldVV+sCm+A08fpqqcUwyVPfMaYO7F2M
-	VGVdidrMSrRm6rWAMepsEsIM2bmz/rNU3Swsv47bvaq9KjZZDkTRhLVAORxqVgpk24RIy8oafwR
-	ShzIDQdRUKNmELSL7VRbNIFrqs54xak0NoDMwgZfuPUc7m10TXfeQwoBFEwuz/DS0oky9s0eKF2
-	RWqLAwu58CZJKq8jFywpYsf1go3VtmrAKbISx7b+FpmloBVdrI/d5BwplXrjmOWZSM1rLvbOgj0
-	Id3MWjEYevuU+F166nQDQ4BFvZ6jDFhBRKISK4kktmHAImuODCRGQSrckD22rn/rkx4qmYFZV4b
-	WV2H8TJAv5J2HBPks=
-X-Google-Smtp-Source: AGHT+IGocaODkva4Vi+tf+oBbjpK958/QSI3Hxe2akrbLW5jasCr9HasaaEHo3kz7/sJopvmcF8bNw==
-X-Received: by 2002:a05:600c:8488:b0:477:bb0:7528 with SMTP id 5b1f17b1804b1-47717e4df87mr6180765e9.22.1761593381986;
-        Mon, 27 Oct 2025 12:29:41 -0700 (PDT)
-Received: from [192.168.4.57] ([79.79.193.116])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952b7b6fsm16002057f8f.1.2025.10.27.12.29.40
+        bh=sfEgFrMFSQT2jieK7pepMP8G7R1y/5//r9L5wGXCKUI=;
+        b=G4wgkenP75PGAi8cLTJP3agdhbsxhk0wYjAT7KAV8TjgUr1b/TEg0bXlM5xWvLbm5l
+         rDO6Bqe1W0PvuOIO8+313PmUZoVoghSYubLpX5ZPhFQk7YTbIhmoWnSBsgC0+p1lM96R
+         Slhw8kvcUA4Vtxm9jRd1YE2cKXSULwmPg9dCqyjQGFMrudxFqmlkk/sOrey7J3xLo15u
+         v+Hbza8EYWdiLGIkEpS7xs/yTqkzXsCFj41+3bTbzGYfXH1o5zegsC9j0YnK7rlfGLmz
+         MOpsm28h+L0iJHfkCiwGlJv0T1JRauOkMl8QXD8smPTE2F1FJgWe3dWxjKZPqemd53dT
+         i+Kg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761593436; x=1762198236;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=sfEgFrMFSQT2jieK7pepMP8G7R1y/5//r9L5wGXCKUI=;
+        b=t/F1ooCwfMES6X6pIP7Iv5VoJEHfwBDZpdjnrGjKy8ceJ4UqWQa2FeoYt/DcU9Xzwr
+         zKuHFDjxAGVtScjI1WeAQELn69/oeWIptyKl0HOkEV7TXYMhUR2gl1gtfPcXOHmtLiWk
+         D1eTvm+C8cvssFJ1azYTQIDSSTMzVnZRxN6iqGLsd6FzyBjEbl7ITfStQDg8VCuhSg2Y
+         VEw6zgu/oTF/VUJpTYwUQrD6Daq/78Fe0rDM7TOnDTbt7vm0kmkMur3y8T7+5IPdNyNd
+         SIkKpxzKpKEvW66ij2/e7ol+SoISnp7+jE3u3TZ1rnNh9GaozfTiCv0fGfE8rHRdzf6E
+         +jzQ==
+X-Forwarded-Encrypted: i=1; AJvYcCULUaaZBP35ayZL8Pbhl3Y8rIdubBmDwlJaQGjKyK+q8W6TDXXYA6oUmfKBdKo4qrXAemLQz/qSfFthFQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzPAo5nWPgBYv9+9nN83/YLVceKFQIdAU6c+RoGXCdYyVdLjv9w
+	8FeP5AdW+AlkR4LQQvYjTC3Y83xmq9npIXgQiMtjeNK636sV2I6xj6+7
+X-Gm-Gg: ASbGncu7OoctAx/2pGmKg43Cv4XDDQF2Ju29WB0Hxe8LLX9ZRAwWaGNHulPOZXo2Udv
+	DN0okwe7mPNEK3NavnG8B9olXrmx7xOWg4fv+g6FWsDK/pjgqEW5a4KaMpda3ZhExdd4vN0M2H4
+	Gl5RqUaWWCgTUVxerhyAQgipqfZcbnGW83SDACY5D6MY9D+z+GiiLL3CppxsQX492BFtykZrVJb
+	G4e0sL/IVCMxQlZOg3t3eXhgsZ1b36kLnu53myvxTClPyYJ4nSsOKvDXuMmxNfJetsqERKmuSB5
+	1nYwyf/LDcBQ/CLqtcYK+Fkz/hiy6fZkfODqlvbTha0jkoDSByuuhlEu4oBCadI9dATdGCdaQ1L
+	AUQpRWD12MYPEPSvFt/P6Y+M+JQQyOGmCryvZVC884NTFpeQBhmRAcj3fz0FrgTCkLH6cW9o/k2
+	za8lKAktlO8wJBlh+RYsN0AOBNB3FHt7nkcCHo6c/b73kJChk5N8li
+X-Google-Smtp-Source: AGHT+IGtEr+9CIcpzVVArHnTXR3tT6CiV2LiHYXcwwmfckLKMvIkaTwS1E1UtslWxI222jO5QieSoQ==
+X-Received: by 2002:a5d:5f54:0:b0:425:70cb:9ba8 with SMTP id ffacd0b85a97d-429a81b1f42mr540100f8f.1.1761593435800;
+        Mon, 27 Oct 2025 12:30:35 -0700 (PDT)
+Received: from pumpkin (82-69-66-36.dsl.in-addr.zen.co.uk. [82.69.66.36])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-429952e3201sm15950022f8f.47.2025.10.27.12.30.35
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 27 Oct 2025 12:29:40 -0700 (PDT)
-Message-ID: <ac27d9b1da68746c62c03047fd7896e2303ef1fd.camel@ndufresne.ca>
-Subject: Re: [PATCH 0/3] media: mediatek: fix VPU device leaks on probe
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Johan Hovold <johan@kernel.org>, Minghsiu Tsai
- <minghsiu.tsai@mediatek.com>,  Houlong Wei <houlong.wei@mediatek.com>,
- Andrew-CT Chen <andrew-ct.chen@mediatek.com>, Tiffany Lin	
- <tiffany.lin@mediatek.com>, Yunfei Dong <yunfei.dong@mediatek.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Matthias Brugger	
- <matthias.bgg@gmail.com>, AngeloGioacchino Del Regno	
- <angelogioacchino.delregno@collabora.com>, Hans Verkuil
- <hans.verkuil@cisco.com>, 	linux-media@vger.kernel.org,
- linux-mediatek@lists.infradead.org, 	linux-kernel@vger.kernel.org
-Date: Mon, 27 Oct 2025 19:29:39 +0000
-In-Reply-To: <aP91nfnpShIhXcVQ@hovoldconsulting.com>
-References: <20250924133552.28841-1-johan@kernel.org>
-	 <aP91nfnpShIhXcVQ@hovoldconsulting.com>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-D/OargbqI2TIFLsZob0G"
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+        Mon, 27 Oct 2025 12:30:35 -0700 (PDT)
+Date: Mon, 27 Oct 2025 19:30:33 +0000
+From: David Laight <david.laight.linux@gmail.com>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: linux-iio@vger.kernel.org, chrome-platform@lists.linux.dev,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, Jonathan Cameron
+ <jic23@kernel.org>, David Lechner <dlechner@baylibre.com>, Nuno
+ =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko <andy@kernel.org>,
+ Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+ Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Mauro Carvalho Chehab <mchehab@kernel.org>,
+ "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Subject: Re: [PATCH v1 2/6] units: Add value of =?UTF-8?B?z4A=?= *
+ =?UTF-8?B?MTDigbk=?=
+Message-ID: <20251027193033.69728215@pumpkin>
+In-Reply-To: <20251027143850.2070427-3-andriy.shevchenko@linux.intel.com>
+References: <20251027143850.2070427-1-andriy.shevchenko@linux.intel.com>
+	<20251027143850.2070427-3-andriy.shevchenko@linux.intel.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; arm-unknown-linux-gnueabihf)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-
-
---=-D/OargbqI2TIFLsZob0G
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Mon, 27 Oct 2025 15:34:51 +0100
+Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
 
-Le lundi 27 octobre 2025 =C3=A0 14:37 +0100, Johan Hovold a =C3=A9crit=C2=
-=A0:
-> On Wed, Sep 24, 2025 at 03:35:49PM +0200, Johan Hovold wrote:
-> > This series fixes VPU device leaks during probe of the mdp and two code=
-c
-> > drivers.
-> >=20
-> > Included is also a minor documentation update to make it clear that the
-> > VPU lookup helper returns the device with an incremented refcount.
+> There are a few drivers that want to have this value, and at least one
+> known to come soon. Let's define a value for them.
 >=20
-> Can these be picked up for 6.19?
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  include/linux/units.h | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/include/linux/units.h b/include/linux/units.h
+> index f626e212d4ca..82bdc2041328 100644
+> --- a/include/linux/units.h
+> +++ b/include/linux/units.h
+> @@ -21,6 +21,9 @@
+>  #define PICO	1000000000000ULL
+>  #define FEMTO	1000000000000000ULL
+> =20
+> +/* Value of =CF=80 * 10=E2=81=B9 */
+> +#define PI	3141592653LL
 
-They are picked already, please check in the tree,
+Is that the right value?
+IIRC the next digits are 58979 (I used to know the next few as well)
+which means it should be rounded up.
 
-https://gitlab.freedesktop.org/linux-media/media-committers/-/commits/next
+	David
 
-Nicolas
+> +
+>  /* Hz based multipliers */
+>  #define NANOHZ_PER_HZ		1000000000UL
+>  #define MICROHZ_PER_HZ		1000000UL
 
---=-D/OargbqI2TIFLsZob0G
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaP/IIwAKCRDZQZRRKWBy
-9Fc7AQCPNa5G9ciLazzEbjeyVuuoqH63GaI8a209fxcD9GMEFwD/eiCo3UjnKnEv
-ruFn5dSHzalVI5zJt+gwoMAc3YEJuw4=
-=8nKN
------END PGP SIGNATURE-----
-
---=-D/OargbqI2TIFLsZob0G--
 
