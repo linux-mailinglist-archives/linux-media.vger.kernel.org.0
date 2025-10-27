@@ -1,233 +1,200 @@
-Return-Path: <linux-media+bounces-45609-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45610-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBA66C0BB64
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 03:50:29 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id A9042C0BC9E
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 05:49:14 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id EE510189B85A
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 02:50:51 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 18F823BA944
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 04:48:42 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DA6E1299931;
-	Mon, 27 Oct 2025 02:50:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B138423EA98;
+	Mon, 27 Oct 2025 04:48:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="nWjKipRh"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Cw6bxD4J"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A68FE1553AA
-	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 02:50:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2EC1A1C1F0C
+	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 04:48:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761533421; cv=none; b=eiMa978O6LZjp1LG1uvsLYbuAh4WBuyH6wYTabvutUEplPGJO06KMmeLDRvuKvvPoUPjJnbWbkP4AxI9OAA4q+MBdGC1fsC4y1jpo+K2OCi8HnV+BP94OLiIUbmaYgSOXLXXmB8s/k/49YnRv6Df0EVAJ/BbZV52nMu/vL1XHEY=
+	t=1761540519; cv=none; b=NwoXAdKlquf6h0e/bBhWsLUtAmX0OA/TumdhefWeL3eUHzPQuopRHqD+H7pd/NEybRdyl3uHcDaulxy/bAlYtWfKvuHQN3sCuFDf9XUNRLDHORxH1NwOlyYAtKA/tqCA7+8Heo7bp2movFuyRzPwtDGfvHZ1qegGdWNaGAzaf/A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761533421; c=relaxed/simple;
-	bh=dtjnf9YFb0r3ce/kQbLmu0hTWx92Kl/PbvHdzWHSPTE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uJD+QKOVGegHGjoafkWR6++apNKzffFWNJTbwujFZ7NpwVnMX3mYZ9xY9F7SZTxEmQrrbz89xMMF11O4n4fdPSZg1tPRIPoI9Ui41ekeG93ONdbSN5F2EH1xKiqFO1GFmOUrnIyGV/yHkh+FvxQQKQsc2uunJBxJZrxrwSu2K1k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=nWjKipRh; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (82-203-161-16.bb.dnainternet.fi [82.203.161.16])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id D67B97FA;
-	Mon, 27 Oct 2025 03:48:29 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761533310;
-	bh=dtjnf9YFb0r3ce/kQbLmu0hTWx92Kl/PbvHdzWHSPTE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nWjKipRhX0fM75l9olsNeuKBMUFJybrp3B+GuKWrw2SYpyY5jFSnAR1eq5QfnPSPG
-	 IKeArpw1fNLlpIOYrs6u3IKL6FAhzHEadu2XihHbtjNZOGgUgvgrJfyTEt+6eJhz5N
-	 NM+tq3vIbLKbcgicX/ZJcsCEYUe0T5qcjJT1CV3U=
-Date: Mon, 27 Oct 2025 04:50:02 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: linux-media@vger.kernel.org
-Cc: Ricardo Ribalda <ribalda@chromium.org>,
-	Hans Verkuil <hans@jjverkuil.nl>, Hans de Goede <hansg@kernel.org>
-Subject: Re: [PATCH v3] media: uvcvideo: Create an ID namespace for streaming
- output terminals
-Message-ID: <20251027025002.GA7552@pendragon.ideasonboard.com>
-References: <20251027024640.7205-1-laurent.pinchart@ideasonboard.com>
+	s=arc-20240116; t=1761540519; c=relaxed/simple;
+	bh=dcJfrfbbJKLgDXeqgyiqrwlYVG99j0yxZuYFoxzr9/s=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hbzCoHfjI/Kq7BblO3NQj9KPGsdEageXGfvnr+/3UKNEp1BGb1hR5KNBovqs+fVhxbweKQG4dvQObF5WqT7lnl5mxnhZQ3A0Q5v+NgjQJPIhRKcmNoA/NnsA/oGwVwV8gOvGyi2K5TQjD/iPT6V6dy76sGC9OaoQ/4lzn+Xe0zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Cw6bxD4J; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761540517; x=1793076517;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=dcJfrfbbJKLgDXeqgyiqrwlYVG99j0yxZuYFoxzr9/s=;
+  b=Cw6bxD4JCdJsY3nrCSH0ZioTIzXoqQKbn46RVixeQ9LMBTeU2uZZp3Xz
+   I9HGlGRwCK0x1KYS53awENBodVbA3hWwHmHAhqXSQgqYVZYEG7Egob3Kl
+   MD6BY857Akiqu0xeLKllTTcgWPH+McS1R+o7iJKsSMv5aPSPEUbUZxNEi
+   r3NHoWeyjOAbY6CHpi5xv+hnGyrMxwQT/wsVA14OjuZnet/ZLscstyvFy
+   jKrzNJ1BSwDBRH+RRuZsa6aESgw/M1gLNN0ZpF0kd4u5EA5Vb0kAFWkwe
+   HrnfgJiv8liS4acxWAc9Z7B5LD5r2J9OSrE1EpAWiRmLS7NoDKHRlCgHv
+   A==;
+X-CSE-ConnectionGUID: Kds9X0SSSlCEwFoHjsUptA==
+X-CSE-MsgGUID: Uhwhqp+WTviD9Adwz20yAg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63521065"
+X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
+   d="scan'208";a="63521065"
+Received: from orviesa003.jf.intel.com ([10.64.159.143])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 21:48:36 -0700
+X-CSE-ConnectionGUID: zDv0DU/CS7OgJV32f0q+Lw==
+X-CSE-MsgGUID: Lh+c1ypASha8wGWpxj+JBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
+   d="scan'208";a="188992972"
+Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
+  by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 21:48:36 -0700
+From: Vivek Kasireddy <vivek.kasireddy@intel.com>
+To: dri-devel@lists.freedesktop.org,
+	intel-xe@lists.freedesktop.org,
+	linux-media@vger.kernel.org,
+	linaro-mm-sig@lists.linaro.org
+Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
+	Jason Gunthorpe <jgg@nvidia.com>,
+	Leon Romanovsky <leonro@nvidia.com>,
+	Christian Koenig <christian.koenig@amd.com>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>,
+	Matthew Brost <matthew.brost@intel.com>,
+	Dongwon Kim <dongwon.kim@intel.com>
+Subject: [RFC v2 0/8] dma-buf: Add support for mapping dmabufs via interconnects
+Date: Sun, 26 Oct 2025 21:44:12 -0700
+Message-ID: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
+X-Mailer: git-send-email 2.50.1
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20251027024640.7205-1-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-This should have been [PATCH v3], sorry about the missing version.
+In a typical dma-buf use case, a dmabuf exporter makes its buffer
+buffer available to an importer by mapping it using DMA APIs
+such as dma_map_sgtable() or dma_map_resource(). However, this
+is not desirable in some cases where the exporter and importer
+are directly connected via a physical or virtual link (or
+interconnect) and the importer can access the buffer without
+having it DMA mapped.
 
-On Mon, Oct 27, 2025 at 04:46:40AM +0200, Laurent Pinchart wrote:
-> From: Ricardo Ribalda <ribalda@chromium.org>
-> 
-> Some devices, such as the Grandstream GUV3100 and the LSK Meeting Eye
-> for Business & Home, exhibit entity ID collisions between units and
-> streaming output terminals.
-> 
-> The UVC specification requires unit and terminal IDs to be unique, and
-> uses the ID to reference entities:
-> 
-> - In control requests, to identify the target entity
-> - In the UVC units and terminals descriptors' bSourceID field, to
->   identify source entities
-> - In the UVC input header descriptor's bTerminalLink, to identify the
->   terminal associated with a streaming interface
-> 
-> Entity ID collisions break accessing controls and make the graph
-> description in the UVC descriptors ambiguous. However, collisions where
-> one of the entities is a streaming output terminal and the other entity
-> is not a streaming terminal are less severe. Streaming output terminals
-> have no controls, and, as they are the final entity in pipelines, they
-> are never referenced in descriptors as source entities. They are
-> referenced by ID only from innput header descriptors, which by
-> definition only reference streaming terminals.
-> 
-> For these reasons, we can work around the collision by giving streaming
-> output terminals their own ID namespace. Do so by setting bit
-> UVC_TERM_OUTPUT (15) in the uvc_entity.id field, which is normally never
-> set as the ID is a 8-bit value.
-> 
-> This ID change doesn't affect the entity name in the media controller
-> graph as the name isn't constructed from the ID, so there should not be
-> any impact on the uAPI.
-> 
-> Although this change handles some ID collisions automagically, keep
-> printing an error in uvc_alloc_new_entity() when a camera has invalid
-> descriptors. Hopefully this message will help vendors fix their invalid
-> descriptors.
-> 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Co-developed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> This patch should be merged on top of a revert of commit 758dbc756aad
-> ("media: uvcvideo: Use heuristic to find stream entity"), once that
-> commit is merged in the -next branch of the media tree.
-> 
-> Changes since v2:
-> 
-> - Improve commit message and comment block
-> 
-> Changes in v2:
-> 
-> - Change Macro name
-> - Apply quirk only to TT_STEAMING
-> - Add missing suggested by
-> - uvc_stream_for_terminal
-> - Note, v2 has not been tested yet in real hardware, only v1.
-> - Link to v1: https://lore.kernel.org/r/20251022-uvc-grandstream-laurent-v1-1-0925738a3484@chromium.org
-> ---
->  drivers/media/usb/uvc/uvc_driver.c | 39 ++++++++++++++++++++++++------
->  drivers/media/usb/uvc/uvcvideo.h   |  3 ++-
->  2 files changed, 34 insertions(+), 8 deletions(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> index fb6afb8e84f0..aa3e8d295e0f 100644
-> --- a/drivers/media/usb/uvc/uvc_driver.c
-> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> @@ -165,8 +165,10 @@ static struct uvc_entity *uvc_entity_by_reference(struct uvc_device *dev,
->  	return NULL;
->  }
->  
-> -static struct uvc_streaming *uvc_stream_by_id(struct uvc_device *dev, int id)
-> +static struct uvc_streaming *uvc_stream_for_terminal(struct uvc_device *dev,
-> +						     struct uvc_entity *term)
->  {
-> +	u16 id = UVC_HARDWARE_ENTITY_ID(term->id);
->  	struct uvc_streaming *stream;
->  
->  	list_for_each_entry(stream, &dev->streams, list) {
-> @@ -810,10 +812,12 @@ static struct uvc_entity *uvc_alloc_new_entity(struct uvc_device *dev, u16 type,
->  	}
->  
->  	/* Per UVC 1.1+ spec 3.7.2, the ID is unique. */
-> -	if (uvc_entity_by_id(dev, id)) {
-> -		dev_err(&dev->intf->dev, "Found multiple Units with ID %u\n", id);
-> +	if (uvc_entity_by_id(dev, UVC_HARDWARE_ENTITY_ID(id)))
-> +		dev_err(&dev->intf->dev, "Found multiple Units with ID %u\n",
-> +			UVC_HARDWARE_ENTITY_ID(id));
-> +
-> +	if (uvc_entity_by_id(dev, id))
->  		id = UVC_INVALID_ENTITY_ID;
-> -	}
->  
->  	extra_size = roundup(extra_size, sizeof(*entity->pads));
->  	if (num_pads)
-> @@ -969,6 +973,7 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
->  	struct usb_host_interface *alts = dev->intf->cur_altsetting;
->  	unsigned int i, n, p, len;
->  	const char *type_name;
-> +	unsigned int id;
->  	u16 type;
->  
->  	switch (buffer[2]) {
-> @@ -1107,8 +1112,28 @@ static int uvc_parse_standard_control(struct uvc_device *dev,
->  			return 0;
->  		}
->  
-> +		id = buffer[3];
-> +
-> +		/*
-> +		 * Some devices, such as the Grandstream GUV3100, exhibit entity
-> +		 * ID collisions between units and streaming output terminals.
-> +		 * Move streaming output terminals to their own ID namespace by
-> +		 * setting bit UVC_TERM_OUTPUT (15), above the ID's 8-bit value.
-> +		 * The bit is ignored in uvc_stream_for_terminal() when looking
-> +		 * up the streaming interface for the terminal.
-> +		 *
-> +		 * This hack is safe to enable unconditionally, as the ID is not
-> +		 * used for any other purpose (streaming output terminals have
-> +		 * no controls and are never referenced as sources in UVC
-> +		 * descriptors). Other types output terminals can have controls,
-> +		 * so limit usage of this separate namespace to streaming output
-> +		 * terminals.
-> +		 */
-> +		if (type & UVC_TT_STREAMING)
-> +			id |= UVC_TERM_OUTPUT;
-> +
->  		term = uvc_alloc_new_entity(dev, type | UVC_TERM_OUTPUT,
-> -					    buffer[3], 1, 0);
-> +					    id, 1, 0);
->  		if (IS_ERR(term))
->  			return PTR_ERR(term);
->  
-> @@ -2105,8 +2130,8 @@ static int uvc_register_terms(struct uvc_device *dev,
->  		if (UVC_ENTITY_TYPE(term) != UVC_TT_STREAMING)
->  			continue;
->  
-> -		stream = uvc_stream_by_id(dev, term->id);
-> -		if (stream == NULL) {
-> +		stream = uvc_stream_for_terminal(dev, term);
-> +		if (!stream) {
->  			dev_info(&dev->intf->dev,
->  				 "No streaming interface found for terminal %u.",
->  				 term->id);
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index ed7bad31f75c..3f2e832025e7 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -41,7 +41,8 @@
->  #define UVC_EXT_GPIO_UNIT		0x7ffe
->  #define UVC_EXT_GPIO_UNIT_ID		0x100
->  
-> -#define UVC_INVALID_ENTITY_ID          0xffff
-> +#define UVC_HARDWARE_ENTITY_ID(id)	((id) & 0xff)
-> +#define UVC_INVALID_ENTITY_ID		0xffff
->  
->  /* ------------------------------------------------------------------------
->   * Driver specific constants.
-> 
-> base-commit: ea299a2164262ff787c9d33f46049acccd120672
+So, to address this scenario, this patch series adds APIs to map/
+unmap dmabufs via interconnects and also provides a helper to
+identify the first common interconnect between the exporter and
+importer. Furthermore, this patch series also adds support for
+IOV interconnect in the vfio-pci driver and Intel Xe driver.
+
+The IOV interconnect is a virtual interconnect between an SRIOV
+physical function (PF) and its virtual functions (VFs). And, for
+the IOV interconnect, the addresses associated with a buffer are
+shared using an xarray (instead of an sg_table) that is populated
+with entries of type struct range. 
+
+The dma-buf patches in this series are based on ideas/suggestions
+provided by Jason Gunthorpe, Christian Koenig and Thomas Hellström.
+
+Changelog:
+RFC -> RFCv2:
+- Add documentation for the new dma-buf APIs and types (Thomas)
+- Change the interconnect type from enum to unique pointer (Thomas)
+- Moved the new dma-buf APIs to a separate file
+- Store a copy of the interconnect matching data in the attachment
+- Simplified the macros to create and match interconnects
+- Use struct device instead of struct pci_dev in match data
+- Replace DRM_INTERCONNECT_DRIVER with XE_INTERCONNECT_VRAM during
+  address encoding (Matt, Thomas)
+- Drop is_devmem_external and instead rely on bo->dma_data.dma_addr
+  to check for imported VRAM BOs (Matt)
+- Pass XE_PAGE_SIZE as the last parameter to xe_bo_addr (Matt)
+- Add a check to prevent malicious VF from accessing other VF's
+  addresses (Thomas)
+- Fallback to legacy (map_dma_buf) mapping method if mapping via
+  interconnect fails
+
+Patchset overview:
+Patch 1-3: Add dma-buf APIs to map/unmap and match
+Patch 4: Add support for IOV interconnect in vfio-pci driver
+Patch 5: Add support for IOV interconnect in Xe driver
+Patch 6-8: Create and use a new dma_addr array for LMEM based
+           dmabuf BOs to store translated addresses (DPAs)
+
+This series is rebased on top of the following repo:
+https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/log/?h=dmabuf-vfio-v5
+
+Associated Qemu patch series:
+https://lore.kernel.org/qemu-devel/20251003234138.85820-1-vivek.kasireddy@intel.com/
+Associated vfio-pci patch series:
+https://lore.kernel.org/dri-devel/cover.1760368250.git.leon@kernel.org/
+
+This series is tested using the following method:
+- Run Qemu with the following relevant options:
+  qemu-system-x86_64 -m 4096m ....
+  -device ioh3420,id=root_port1,bus=pcie.0
+  -device x3130-upstream,id=upstream1,bus=root_port1
+  -device xio3130-downstream,id=downstream1,bus=upstream1,chassis=9
+  -device xio3130-downstream,id=downstream2,bus=upstream1,chassis=10
+  -device vfio-pci,host=0000:03:00.1,bus=downstream1
+  -device virtio-gpu,max_outputs=1,blob=true,xres=1920,yres=1080,bus=downstream2
+  -display gtk,gl=on
+  -object memory-backend-memfd,id=mem1,size=4096M
+  -machine q35,accel=kvm,memory-backend=mem1 ...
+- Run Gnome Wayland with the following options in the Guest VM:
+  # cat /usr/lib/udev/rules.d/61-mutter-primary-gpu.rules
+  ENV{DEVNAME}=="/dev/dri/card1", TAG+="mutter-device-preferred-primary", TAG+="mutter-device-disable-kms-modifiers"
+  # XDG_SESSION_TYPE=wayland dbus-run-session -- /usr/bin/gnome-shell --wayland --no-x11 &
+
+Cc: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Leon Romanovsky <leonro@nvidia.com>
+Cc: Christian Koenig <christian.koenig@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
+Cc: Simona Vetter <simona.vetter@ffwll.ch>
+Cc: Matthew Brost <matthew.brost@intel.com>
+Cc: Dongwon Kim <dongwon.kim@intel.com>
+
+Vivek Kasireddy (8):
+  dma-buf: Add support for map/unmap APIs for interconnects
+  dma-buf: Add a helper to match interconnects between exporter/importer
+  dma-buf: Create and expose IOV interconnect to all exporters/importers
+  vfio/pci/dmabuf: Add support for IOV interconnect
+  drm/xe/dma_buf: Add support for IOV interconnect
+  drm/xe/pf: Add a helper function to get a VF's backing object in LMEM
+  drm/xe/bo: Create new dma_addr array for dmabuf BOs associated with
+    VFs
+  drm/xe/pt: Add an additional check for dmabuf BOs while doing bind
+
+ drivers/dma-buf/Makefile                   |   2 +-
+ drivers/dma-buf/dma-buf-interconnect.c     | 164 +++++++++++++++++++++
+ drivers/dma-buf/dma-buf.c                  |  12 +-
+ drivers/gpu/drm/xe/xe_bo.c                 | 162 ++++++++++++++++++--
+ drivers/gpu/drm/xe/xe_bo_types.h           |   6 +
+ drivers/gpu/drm/xe/xe_dma_buf.c            |  17 ++-
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.c |  24 +++
+ drivers/gpu/drm/xe/xe_gt_sriov_pf_config.h |   1 +
+ drivers/gpu/drm/xe/xe_pt.c                 |   8 +
+ drivers/gpu/drm/xe/xe_sriov_pf_types.h     |  19 +++
+ drivers/vfio/pci/vfio_pci_dmabuf.c         | 135 ++++++++++++++++-
+ include/linux/dma-buf-interconnect.h       | 122 +++++++++++++++
+ include/linux/dma-buf.h                    |  41 ++++++
+ 13 files changed, 691 insertions(+), 22 deletions(-)
+ create mode 100644 drivers/dma-buf/dma-buf-interconnect.c
+ create mode 100644 include/linux/dma-buf-interconnect.h
 
 -- 
-Regards,
+2.50.1
 
-Laurent Pinchart
 
