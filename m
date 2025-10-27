@@ -1,61 +1,61 @@
-Return-Path: <linux-media+bounces-45611-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45613-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from ams.mirrors.kernel.org (ams.mirrors.kernel.org [IPv6:2a01:60a::1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FCD7C0BC84
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 05:48:47 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 84A1AC0BCA5
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 05:49:30 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by ams.mirrors.kernel.org (Postfix) with ESMTPS id 5CD4C349311
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 04:48:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 08A193BB636
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 04:48:47 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA01F29A9FA;
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E94EE2D46B3;
 	Mon, 27 Oct 2025 04:48:41 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aFZBG6j7"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="huK8YFtT"
 X-Original-To: linux-media@vger.kernel.org
 Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C8CE23315A
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BEBC5243367
 	for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 04:48:39 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761540521; cv=none; b=rqfxAuAlnvl995sYCnNkGysjBahKlSriQgmmMlIX4oSmpDVTHathvxHDPaSIc+ChGOXioetBaT+mCdhrxfxlu0JQL7tzIQpNLezEXXMudwBZR4bkScRFRiYy55CW6lwBPaNQ55hwdc1gjNaMMzvzk7RlSaoGug6TqqKwWcQXEuU=
+	t=1761540521; cv=none; b=pXOGNaSDPYV29yIm1Y2M2tf/Kui7rIb+9R0ykQ7dzofmidx9F2Rg0REvvi259GcHWt6lrdTEMQgTcE/EiOTZUSE3Mx9BYKc7bpBqYJk/DuVDc0aCDV9b7I6t3tvoE8N1P3spo9aNjYi6M/l1Ism0Z2TMtr/N8zXhO4o4uyJksiE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1761540521; c=relaxed/simple;
-	bh=QETQnNUHOrX+XZtSdp00GyTPV7Kexn8FoUz2kcKVaxI=;
+	bh=lxFUsUvyr1966bGCJMZqZqmUE971d/cX9NW4srJNETE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ffcUGaspyrHv1qJSpndK6gFVyb3jhdy33TJHQpMiL5JMTXo/NblxURyG3PbKlPi/XO6oFLnsDbpWv1ANoDlcQzhz4JNM3bmvIvkJxsOSahOcDnPlPbX45KbneIQ7vu7UBhCT8YDxzMyC6FcCY/AhQkX/LPoKbD8cOrafFuoJZPg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aFZBG6j7; arc=none smtp.client-ip=192.198.163.17
+	 MIME-Version:Content-Type; b=m0CIs3xl/JemXd/pgSJmp4D44Flz4WPD1OBFfAtNqHZl9q5vUNC7s7oLpRGJm1kV7i3P/Iji+kd2Amqf4RP25HtM3NSaxHnKV822wbXEe5xRs2AkglQKuN6o3ZGWdnu9rhEPhrIke7BQwnVktoqQHOZUWjwfrCreWo2slDS4lu0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=huK8YFtT; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761540519; x=1793076519;
+  t=1761540520; x=1793076520;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=QETQnNUHOrX+XZtSdp00GyTPV7Kexn8FoUz2kcKVaxI=;
-  b=aFZBG6j7Np/Nme9s0uWbXTGD0ap6iWOAlxdH2nNZwsw1WTtmbnf1R288
-   kD5Z6VoXFavMcRqMAI73hRTgeGRAfyZPZvXu+oadSQNA7yCubdQs3Hmxv
-   7KTaYTegi/qqZkPIKVIakLjOl8faixq+i2120E6XUY5IqqLz7q+yqcfxO
-   lwyCCtjG4i3gDl6fvvDLkw5M+OyyefsZiE2eYM4UKAZ2jMSeCpKIkNj3a
-   LvXvvf0STE7UD2rECwQJyvxB0xhVTruORCj3Q3L0GbpSqInDTyyw07GJ2
-   P2lerEisq0VJIrnMVwNFtGqUx6EYP/Lf409YpzEXSNtfkwsj+vnSTOMly
-   Q==;
-X-CSE-ConnectionGUID: lAnZML1qTiqHa2EBl/+3UA==
-X-CSE-MsgGUID: zi6IJLjkTlCDH/GJCs6USA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63521067"
+  bh=lxFUsUvyr1966bGCJMZqZqmUE971d/cX9NW4srJNETE=;
+  b=huK8YFtTQsq6/K9ShyoL6UWxpFzt3zyz7h4fV/OnOACTml/IB1TQyNvx
+   t/sXfuH/+8/QMig/3JmKnQO9PlKFgRR4FqkvMpA3qvPvM8qdYLSPzaxNS
+   x2YfkXUaFQihQ4j9dM+cFGOtL3yKWpTEM+R3u8jL+TtX8uU2oftaVHpzY
+   7Dort6CPXQjbQBl56yhz3RNt7YfgziRHpmZ2ATtHIiH5Yb6em5SjTmtfx
+   Rx5PFwoSJ6ol6hJbQmyMUat76FfozhJBxEutNbwdYGwkZjS6QPo3rFbra
+   +3Hnhze7oc0QOAMM1c0h3OBd2H4RT78eV/iWJjJlMLIse+cdwr2fW1jEK
+   w==;
+X-CSE-ConnectionGUID: tL/e2YUTSdm/MmtBQjlEyg==
+X-CSE-MsgGUID: WF0JbJLlQ2ujxAlDFh61hg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63521068"
 X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
-   d="scan'208";a="63521067"
+   d="scan'208";a="63521068"
 Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 21:48:36 -0700
-X-CSE-ConnectionGUID: XJDM61bORkWP9ITsC2pStw==
-X-CSE-MsgGUID: pVnkcjWXQ5eFzJyVBt4aRQ==
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 21:48:37 -0700
+X-CSE-ConnectionGUID: aRLkuwB+QhWyDXjLM6KugQ==
+X-CSE-MsgGUID: Eu1wa7rlS/CvUy5lYRXnjQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,258,1754982000"; 
-   d="scan'208";a="188992979"
+   d="scan'208";a="188992982"
 Received: from vkasired-desk2.fm.intel.com ([10.105.128.132])
   by ORVIESA003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Oct 2025 21:48:37 -0700
 From: Vivek Kasireddy <vivek.kasireddy@intel.com>
@@ -69,9 +69,9 @@ Cc: Vivek Kasireddy <vivek.kasireddy@intel.com>,
 	Sumit Semwal <sumit.semwal@linaro.org>,
 	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
 	Simona Vetter <simona.vetter@ffwll.ch>
-Subject: [RFC v2 2/8] dma-buf: Add a helper to match interconnects between exporter/importer
-Date: Sun, 26 Oct 2025 21:44:14 -0700
-Message-ID: <20251027044712.1676175-3-vivek.kasireddy@intel.com>
+Subject: [RFC v2 3/8] dma-buf: Create and expose IOV interconnect to all exporters/importers
+Date: Sun, 26 Oct 2025 21:44:15 -0700
+Message-ID: <20251027044712.1676175-4-vivek.kasireddy@intel.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
 References: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
@@ -84,15 +84,10 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-If the importer provides a callback for supports_interconnects(),
-the exporter starts the matching (or negotiation) process (during
-attach) by invoking the supports_interconnects() callback which
-would then call this helper to identify the first common
-interconnect supported by both exporter and importer.
-
-Note that whether an interconnect is supported between an
-exporter/importer is ultimately determined by the exporter via
-the match callback it is expected to provide.
+The IOV interconnect is a virtual interconnect between an SRIOV
+physical function (PF) and its virtual functions (VFs). In order
+for negotiation (or match) to succeed, the exporter is expected
+to be a VF while the importer is expected to be the PF.
 
 Cc: Jason Gunthorpe <jgg@nvidia.com>
 Cc: Christian Koenig <christian.koenig@amd.com>
@@ -101,215 +96,39 @@ Cc: Thomas Hellström <thomas.hellstrom@linux.intel.com>
 Cc: Simona Vetter <simona.vetter@ffwll.ch>
 Signed-off-by: Vivek Kasireddy <vivek.kasireddy@intel.com>
 ---
- drivers/dma-buf/dma-buf-interconnect.c | 65 ++++++++++++++++++++++++++
- drivers/dma-buf/dma-buf.c              |  6 ++-
- include/linux/dma-buf-interconnect.h   | 36 ++++++++++++++
- include/linux/dma-buf.h                | 14 ++++++
- 4 files changed, 120 insertions(+), 1 deletion(-)
+ drivers/dma-buf/dma-buf-interconnect.c | 3 +++
+ include/linux/dma-buf-interconnect.h   | 7 +++++++
+ 2 files changed, 10 insertions(+)
 
 diff --git a/drivers/dma-buf/dma-buf-interconnect.c b/drivers/dma-buf/dma-buf-interconnect.c
-index 690423b6682f..12db77e6b9f1 100644
+index 12db77e6b9f1..492e4d3fe4c8 100644
 --- a/drivers/dma-buf/dma-buf-interconnect.c
 +++ b/drivers/dma-buf/dma-buf-interconnect.c
-@@ -94,3 +94,68 @@ void dma_buf_unmap_interconnect(struct dma_buf_attachment *attach,
- 	kfree(ranges);
+@@ -159,3 +159,6 @@ bool dma_buf_match_interconnects(struct dma_buf_attachment *attach,
+ 	return false;
  }
- EXPORT_SYMBOL_NS_GPL(dma_buf_unmap_interconnect, "DMA_BUF");
+ EXPORT_SYMBOL_NS_GPL(dma_buf_match_interconnects, "DMA_BUF");
 +
-+/**
-+ * dma_buf_match_interconnects - determine if there is a specific interconnect
-+ * that is supported by both exporter and importer.
-+ * @attach:	[in]	attachment to populate ic_match field
-+ * @exp:	[in]	array of interconnects supported by exporter
-+ * @exp_ics:	[in]	number of interconnects supported by exporter
-+ * @imp:	[in]	array of interconnects supported by importer
-+ * @imp_ics:	[in]	number of interconnects supported by importer
-+ *
-+ * This helper function iterates through the list interconnects supported by
-+ * both exporter and importer to find a match. A successful match means that
-+ * a common interconnect type is supported by both parties and the exporter's
-+ * match_interconnect() callback also confirms that the importer is compatible
-+ * with the exporter for that interconnect type.
-+ *
-+ * If a match is found, the attach->ic_match field is populated with a copy
-+ * of the exporter's match data.
-+ * Return: true if a match is found, false otherwise.
-+ */
-+bool dma_buf_match_interconnects(struct dma_buf_attachment *attach,
-+				 const struct dma_buf_interconnect_match *exp,
-+				 unsigned int exp_ics,
-+				 const struct dma_buf_interconnect_match *imp,
-+				 unsigned int imp_ics)
-+{
-+	const struct dma_buf_interconnect_ops *ic_ops;
-+	struct dma_buf_interconnect_match *ic_match;
-+	struct dma_buf *dmabuf = attach->dmabuf;
-+	unsigned int i, j;
-+
-+	if (!exp || !imp)
-+		return false;
-+
-+	if (!attach->allow_ic)
-+		return false;
-+
-+	ic_ops = dmabuf->ops->interconnect_ops;
-+	if (!ic_ops || !ic_ops->match_interconnect)
-+		return false;
-+
-+	ic_match = kzalloc(sizeof(*ic_match), GFP_KERNEL);
-+	if (!ic_match)
-+		return false;
-+
-+	for (i = 0; i < exp_ics; i++) {
-+		for (j = 0; j < imp_ics; j++) {
-+			if (exp[i].type == imp[j].type) {
-+				if (ic_ops->match_interconnect(&exp[i],
-+							       &imp[j])) {
-+					memcpy(ic_match, &exp[i],
-+					       sizeof(*ic_match));
-+
-+					attach->ic_match = ic_match;
-+					return true;
-+				}
-+			}
-+		}
-+	}
-+
-+	attach->allow_ic = false;
-+	kfree(ic_match);
-+	return false;
-+}
-+EXPORT_SYMBOL_NS_GPL(dma_buf_match_interconnects, "DMA_BUF");
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index daa993503052..a6977375f11e 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -959,8 +959,11 @@ dma_buf_dynamic_attach(struct dma_buf *dmabuf, struct device *dev,
- 
- 	attach->dev = dev;
- 	attach->dmabuf = dmabuf;
--	if (importer_ops)
-+	if (importer_ops) {
- 		attach->peer2peer = importer_ops->allow_peer2peer;
-+		if (importer_ops->supports_interconnects)
-+			attach->allow_ic = true;
-+	}
- 	attach->importer_ops = importer_ops;
- 	attach->importer_priv = importer_priv;
- 
-@@ -1017,6 +1020,7 @@ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
- 	if (dmabuf->ops->detach)
- 		dmabuf->ops->detach(dmabuf, attach);
- 
-+	kfree(attach->ic_match);
- 	kfree(attach);
- }
- EXPORT_SYMBOL_NS_GPL(dma_buf_detach, "DMA_BUF");
++CREATE_INTERCONNECT(iov)
++EXPORT_SYMBOL_NS_GPL(iov_interconnect, "DMA_BUF");
 diff --git a/include/linux/dma-buf-interconnect.h b/include/linux/dma-buf-interconnect.h
-index 50fc7a8272ce..efe3ca1c354a 100644
+index efe3ca1c354a..37dee1a26f24 100644
 --- a/include/linux/dma-buf-interconnect.h
 +++ b/include/linux/dma-buf-interconnect.h
-@@ -3,8 +3,14 @@
- #ifndef __DMA_BUF_INTERCONNECT_H__
- #define __DMA_BUF_INTERCONNECT_H__
+@@ -20,6 +20,13 @@
  
-+#include <linux/device.h>
- #include <linux/xarray.h>
- 
-+#define MATCH_INTERCONNECT(interconnect, ...)				\
-+	((const struct dma_buf_interconnect_match) {			\
-+		.type = interconnect __VA_OPT__(, __VA_ARGS__)		\
-+	})								\
-+
- #define CREATE_INTERCONNECT(type)					       \
- 	static const struct dma_buf_interconnect __##type##_interconnect = {   \
- 		.name = #type"_interconnect",				       \
-@@ -25,6 +31,22 @@ struct dma_buf_interconnect {
- 	const char *name;
- };
+ struct dma_buf_attachment;
  
 +/**
-+ * struct dma_buf_interconnect_match - holds data used to match interconnects
-+ * @type: pointer to the interconnect instance
-+ * @dev: the device associated with a given exporter or importer
-+ * @bar: the BAR index associated with the device
-+ *
-+ * The exporter and importer are expected to populate this structure with
-+ * their respective device and BAR information for each interconnect type they
-+ * support. This data is used to determine if a match exists between them.
++ * The iov interconnect instance would be created and exported out of
++ * dma-buf-interconnect.c as it is a global interconnect that is expected
++ * to be supported by different exporters and importers.
 + */
-+struct dma_buf_interconnect_match {
-+	const struct dma_buf_interconnect *type;
-+	struct device *dev;
-+	unsigned int bar;
-+};
++extern const struct dma_buf_interconnect *iov_interconnect;
 +
  /**
-  * struct dma_buf_ranges - holds info about interconnect address ranges
-  * @ranges: xarray that contains the address ranges
-@@ -71,9 +93,23 @@ struct dma_buf_interconnect_ops {
- 	 */
- 	void (*unmap_interconnect)(struct dma_buf_attachment *attach,
- 				   struct dma_buf_ranges *ranges);
-+	/**
-+	 * @match_interconnect:
-+	 *
-+	 * This is called by dma_buf_match_interconnects() and is used by
-+	 * the exporter to determine if the importer is compatible for a
-+	 * given interconnect type.
-+	 */
-+	bool (*match_interconnect)(const struct dma_buf_interconnect_match *,
-+				   const struct dma_buf_interconnect_match *);
- };
- 
- struct dma_buf_ranges *dma_buf_map_interconnect(struct dma_buf_attachment *);
- void dma_buf_unmap_interconnect(struct dma_buf_attachment *,
- 				struct dma_buf_ranges *);
-+bool dma_buf_match_interconnects(struct dma_buf_attachment *attach,
-+				 const struct dma_buf_interconnect_match *,
-+				 unsigned int exp_ics,
-+				 const struct dma_buf_interconnect_match *,
-+				 unsigned int imp_ics);
- #endif
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index a675bc89a69c..f7d0b0dbcb24 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -487,6 +487,18 @@ struct dma_buf_attach_ops {
- 	 * point to the new location of the DMA-buf.
- 	 */
- 	void (*move_notify)(struct dma_buf_attachment *attach);
-+
-+	/**
-+	 * @supports_interconnects: [optional] indicate interconnect support
-+	 *
-+	 * If this callback is provided, it means that the importer would
-+	 * provide a list of interconnects that it supports and would
-+	 * invoke dma_buf_match_interconnects() to identify a match with the
-+	 * exporter's interconnects.
-+	 */
-+	bool (*supports_interconnects)(struct dma_buf_attachment *attach,
-+				       const struct dma_buf_interconnect_match *,
-+				       unsigned int num_ics);
- };
- 
- /**
-@@ -498,6 +510,7 @@ struct dma_buf_attach_ops {
-  * @allow_ic: true if the importer is allowed to use interconnect ops.
-  * @priv: exporter specific attachment data.
-  * @importer_ops: importer operations for this attachment, if provided
-+ * @ic_match: copy of exporter's interconnect match data.
-  * dma_buf_map/unmap_attachment() must be called with the dma_resv lock held.
-  * @importer_priv: importer specific attachment data.
-  *
-@@ -517,6 +530,7 @@ struct dma_buf_attachment {
- 	bool peer2peer;
- 	bool allow_ic;
- 	const struct dma_buf_attach_ops *importer_ops;
-+	struct dma_buf_interconnect_match *ic_match;
- 	void *importer_priv;
- 	void *priv;
- };
+  * struct dma_buf_interconnect - holds info associated with an interconnect
+  * @name: name of the interconnect.
 -- 
 2.50.1
 
