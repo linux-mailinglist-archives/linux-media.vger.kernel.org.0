@@ -1,88 +1,135 @@
-Return-Path: <linux-media+bounces-45683-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45684-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26182C0F02D
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 16:41:16 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id A7F6EC0F0D5
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 16:51:45 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 672F8405B3C
-	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 15:36:21 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 002C64E92B0
+	for <lists+linux-media@lfdr.de>; Mon, 27 Oct 2025 15:46:50 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E612F3101A2;
-	Mon, 27 Oct 2025 15:35:04 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 033753128A9;
+	Mon, 27 Oct 2025 15:44:40 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TK8FXR/Y"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cfetCQx8"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 392BF30DEC0;
-	Mon, 27 Oct 2025 15:35:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D2A43126DF;
+	Mon, 27 Oct 2025 15:44:38 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761579304; cv=none; b=B1GMathwLXVFJaOUz3ITuWWHdYnbDMVBshLElNGHeTegJGPxpOuhs1XYW5nzzWYma7MrvBTOlA1AIUs5Dp6HeFyJfQOR+/+OuvD5u3QFJjxgA+epI3ON7FtQgY1mhZLNCGTLZ34V7cnolUJOXtdyi8qo/aYzVzO4jK7tWzYPCdw=
+	t=1761579879; cv=none; b=mTbIUIM7xmYPhWpeiaN5H/KXscQUohKlOYoJ4gcgCo7leRmqTvebiOVEGUuA0bTy/U7VmLhVG0dyXO6ggqGPpBjyj9FWGmP4rNzK/w1tv/F3NofbCZJ3jpKHlT3BW3LEg1HUiY92zeKz9bX+w8SrS+rU/HnQ6o0LVaLNKVgD6Sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761579304; c=relaxed/simple;
-	bh=SPlI2EZARTa+512LejXq1waPtkaEetiuqdFs5jbL/ss=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ptJGuPqWedvb0iFFcGqeiPyQxjRUOJWzNGF+JNWCozbFs1fAtqFg4VOtd3RwG+4N9DSmjyoRvoaD7wKlyLVJm08V8+vbMLIu3dHSJBY1ZLZpg7/lLLjPHaVyjmOOx5tUZr0haVo3UvVLWNM8px4tgLwx534zsNwtrcaPSp335LE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TK8FXR/Y; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6B16C4CEF1;
-	Mon, 27 Oct 2025 15:35:03 +0000 (UTC)
+	s=arc-20240116; t=1761579879; c=relaxed/simple;
+	bh=irqrm6uQuxnVppFGPRLF54t+DGlSHlPLRooV9JCjiDQ=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kHUp+S5ZR7qAOcKCXMUpp3bv4lpMUeEI+ZY9WXk9se/Y6olALgJ8qsDboHC4ocrx2Ou5tdgUrKK5kK3aP/jlYeI3g3E6Ya9IkvzLegnfWN4JW+JF/UrAiVyHt5lYEH/5cQc05sH/HrbQNATvYWsfyxJmeQGuQ5z8v4sg+dZQqPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cfetCQx8; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 772A3C4CEF1;
+	Mon, 27 Oct 2025 15:44:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761579303;
-	bh=SPlI2EZARTa+512LejXq1waPtkaEetiuqdFs5jbL/ss=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TK8FXR/Yx20ezp0gb+qc97oBpI5Iybq+2PPTOTVgzSOkkGmG19qpM5URLowQFrJeC
-	 oTfrgNypbztOP3nwqeVqQHftLS3aWg8wBs6Edmsrw/K0VALpoEnDS4l+eWzaHuamIe
-	 eOodCz6UG1bFzdWHJ+iqXXx3Ufyi17d8Zgg50kc7HL4bungfBZAzwSFx1iHKgR9Y1U
-	 IG8tqQJGM8hhkpAzlU+ddVTGHNyLiR1bD0PyBTzl9kHtNBVeXcpr//Lwm50mMEqh9T
-	 svmzaLjFVRQGFKvrsBXzdSU2N3/MRFnsBFhHxIDmfpzZhKWXGucDVCVk4qZ7WnrpAN
-	 QtBmZtZBEsgdQ==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vDPFS-000000001zo-37a4;
-	Mon, 27 Oct 2025 16:35:07 +0100
-Date: Mon, 27 Oct 2025 16:35:06 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Patrice CHOTARD <patrice.chotard@foss.st.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-	linux-kernel@vger.kernel.org, stable@vger.kernel.org,
-	Peter Griffin <peter.griffin@linaro.org>
-Subject: Re: [PATCH] media: c8sectpfe: fix probe device leaks
-Message-ID: <aP-RKjqX36TtT5n9@hovoldconsulting.com>
-References: <20250923151605.17689-1-johan@kernel.org>
- <aP91OoGkrSxxpsf1@hovoldconsulting.com>
- <8487acd9-3c8f-4eba-99e4-6a937618aa55@foss.st.com>
+	s=k20201202; t=1761579878;
+	bh=irqrm6uQuxnVppFGPRLF54t+DGlSHlPLRooV9JCjiDQ=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=cfetCQx8JQRMhmIHEBzrut79SMh/LybtoUNESImySCl7bpvPebEdWExqAU9utDIcP
+	 X+2whTajAST3e+zKA79i59PzYOmSOf4DPFQLPYV3f8sVr0CErTzqjJkBwbgAMlZMR5
+	 LTZWdv5h4L+HwMLvr4tM0n9avVnL4JwpUP+LtIDsRNTq99YLISW8vdBWbfUkjtGJto
+	 ncnL1ag8wQa7zB+Ey6BTPsCUgh7xVQsaCW1IFKOiLJ3GBNm3R0enr7EKKaDOdC7aQf
+	 KlRDC0kBM10OWUzN3COVPVf9LA2dqO3zwCETrcgd/ETa3X4aeqhw6lEA6owWPlP2nL
+	 ot8Yg9ZrNSixw==
+Message-ID: <bd6262c6-a31c-43a6-8ec5-2735fb2fe0d2@kernel.org>
+Date: Mon, 27 Oct 2025 16:44:30 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8487acd9-3c8f-4eba-99e4-6a937618aa55@foss.st.com>
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCH v5 06/23] staging: media: tegra-video: vi: adjust
+ get_selection op check
+To: Svyatoslav Ryhel <clamor95@gmail.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Thierry Reding
+ <thierry.reding@gmail.com>, Jonathan Hunter <jonathanh@nvidia.com>,
+ Sowjanya Komatineni <skomatineni@nvidia.com>,
+ Luca Ceresoli <luca.ceresoli@bootlin.com>,
+ Prashant Gaikwad <pgaikwad@nvidia.com>,
+ Michael Turquette <mturquette@baylibre.com>, Stephen Boyd
+ <sboyd@kernel.org>, Mikko Perttunen <mperttunen@nvidia.com>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+ =?UTF-8?Q?Jonas_Schw=C3=B6bel?= <jonasschwoebel@yahoo.de>,
+ Dmitry Osipenko <digetx@gmail.com>,
+ Charan Pedumuru <charan.pedumuru@gmail.com>,
+ Diogo Ivo <diogo.ivo@tecnico.ulisboa.pt>, Aaron Kling
+ <webgeek1234@gmail.com>, Arnd Bergmann <arnd@arndb.de>
+Cc: dri-devel@lists.freedesktop.org, devicetree@vger.kernel.org,
+ linux-tegra@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linux-clk@vger.kernel.org,
+ linux-staging@lists.linux.dev
+References: <20251022142051.70400-1-clamor95@gmail.com>
+ <20251022142051.70400-7-clamor95@gmail.com>
+Content-Language: en-US, nl
+In-Reply-To: <20251022142051.70400-7-clamor95@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Oct 27, 2025 at 03:28:57PM +0100, Patrice CHOTARD wrote:
-> On 10/27/25 14:35, Johan Hovold wrote:
-> > On Tue, Sep 23, 2025 at 05:16:05PM +0200, Johan Hovold wrote:
-> >> Make sure to drop the references taken to the I2C adapters during probe
-> >> on probe failure (e.g. probe deferral) and on driver unbind.
-> >>
-> >> Fixes: c5f5d0f99794 ("[media] c8sectpfe: STiH407/10 Linux DVB demux support")
-> >> Cc: stable@vger.kernel.org	# 4.3
-> >> Cc: Peter Griffin <peter.griffin@linaro.org>
-> >> Signed-off-by: Johan Hovold <johan@kernel.org>
-> >> ---
-> > 
-> > Can this one be picked up for 6.19?
+Hi Svyatoslav,
 
-> The removal of c8sectpfe driver has been initiated see https://lore.kernel.org/linux-media/c3a35ad6-c4f6-46ad-9b5b-1fe43385ecc5@foss.st.com/
+On 22/10/2025 16:20, Svyatoslav Ryhel wrote:
+> Get_selection operation may be implemented only for sink pad and may
+> return error code. Set try_crop to 0 instead of returning error.
 
-Ah, ok, thanks.
+Can you mention why try_crop is set to 0 instead of returning an error?
 
-Johan
+That would be good to have in the commit log. And in fact, it's not
+clear to me either why you want this.
+
+> 
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
+> ---
+>  drivers/staging/media/tegra-video/vi.c | 8 ++------
+>  1 file changed, 2 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+> index 7c44a3448588..856b7c18b551 100644
+> --- a/drivers/staging/media/tegra-video/vi.c
+> +++ b/drivers/staging/media/tegra-video/vi.c
+> @@ -476,15 +476,11 @@ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
+>  	fse.code = fmtinfo->code;
+>  	ret = v4l2_subdev_call(subdev, pad, enum_frame_size, sd_state, &fse);
+>  	if (ret) {
+> -		if (!v4l2_subdev_has_op(subdev, pad, get_selection)) {
+> +		if (!v4l2_subdev_has_op(subdev, pad, get_selection) ||
+> +		    v4l2_subdev_call(subdev, pad, get_selection, NULL, &sdsel)) {
+>  			try_crop->width = 0;
+>  			try_crop->height = 0;
+
+This looks all a bit magical. Which subdev is queried here? I.e. what is the corresponding
+subdev driver that implements get_selection?
+
+>  		} else {
+> -			ret = v4l2_subdev_call(subdev, pad, get_selection,
+> -					       NULL, &sdsel);
+> -			if (ret)
+> -				return -EINVAL;
+> -
+>  			try_crop->width = sdsel.r.width;
+>  			try_crop->height = sdsel.r.height;
+>  		}
+
+It looks odd (esp. setting try_crop to 0), and I wonder if this code path has been tested.
+
+Regards,
+
+	Hans
 
