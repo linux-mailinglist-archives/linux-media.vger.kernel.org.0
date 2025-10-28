@@ -1,50 +1,49 @@
-Return-Path: <linux-media+bounces-45738-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45739-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53405C13490
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 08:28:12 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 08272C134AB
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 08:29:48 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9E9374F2EC9
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 07:28:08 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id E957A1AA0726
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 07:28:45 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D77C42512F5;
-	Tue, 28 Oct 2025 07:28:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 1E6F526FDBF;
+	Tue, 28 Oct 2025 07:28:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jsZuXJxN"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="s/fwEuaj"
 X-Original-To: linux-media@vger.kernel.org
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506F6239E63;
-	Tue, 28 Oct 2025 07:27:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B08221714;
+	Tue, 28 Oct 2025 07:28:02 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761636480; cv=none; b=QlfdMKGu2vjb+S1yY8yG2+cqfL92axtntyINmlZMicpKIYOH4Cmiq42pn3u3Tp5CFdSqXSdboTSTvut22YAMA9KfgJRr65FGdawUXIpBWOUEAXf6Xxy/+TaFUV3CuUXoBFiLCU9pebtBLXjvG7CmB2hwNCDTXIyh54g6rNBu2y8=
+	t=1761636484; cv=none; b=m1Vs7Uw29uU+5AcApIVWaFHVdq+Qaj7N6+EhoXoJcJWRxEuKJRIqWXFPYah0cItcvc94b636Ss5wXCP/ceGTVvi+3JxUqzIDf0KUp/EnI+IF4VJ77/jQNGDlXwkJoztAJLXAm0MD02BoPR8IphiTxv70WSM/DED/x+foSfDFass=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761636480; c=relaxed/simple;
-	bh=2jeuwD+92Ty8xl8EjL6u5v1fH1GF4t7XvbCzvRoygtU=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=EsTrxCtTLh/Ah8ThemDBLl4tQHe4u52g6KwsN+/KL4gdEiOieyQgyuAzCATMFv7RNSRXOu8pSzPahnVtPIENijZRDAL1vpYRHwKxIRS4JkMIIMjQ75PLNHhTt77MR7bvzLX4aBiJfJAugIOzZHdjrU6SrKbnja+XEEodY5Y+DUc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jsZuXJxN; arc=none smtp.client-ip=213.167.242.64
+	s=arc-20240116; t=1761636484; c=relaxed/simple;
+	bh=og8LkaaN/yOnabmGm0NkoOn9PcLr++/M9jUek2uOYnc=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=udonouW9YVxSQTdL1fCxCvBSripVGdluBCAzxVgfe5ZvPOPD6CD4oOjPE5/SRmw25mjFuAwTJzmr/xcLSjF2l5W/U/teZ6gMC63qRmZYfq+pLpJhO1Pg+fDhES0tMIQ10x5e8uxzzdLwjKGAGtFvsGd5z4weS4XbfzsezZ8vk0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=s/fwEuaj; arc=none smtp.client-ip=213.167.242.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
 Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c69:314e:ee86:ae6e:30:9d13])
-	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9176416CD;
-	Tue, 28 Oct 2025 08:26:07 +0100 (CET)
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 66ACD176B;
+	Tue, 28 Oct 2025 08:26:12 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761636368;
-	bh=2jeuwD+92Ty8xl8EjL6u5v1fH1GF4t7XvbCzvRoygtU=;
-	h=From:Subject:Date:To:Cc:From;
-	b=jsZuXJxN7pibm7CapdyEsg3MohHfvDdEsE9/5MJEW7xL/je55JnJ2o713PwtJxr9J
-	 JiAF3AfUPeswx7yK4IUDjZ5Hiu4KE70fkqX8FPZVxMShDgABjKgqNzLgkWvO5QHpWe
-	 HdNH3UXZXVu8hx+15de2ZJKbknpJR+jbrCioPAgM=
+	s=mail; t=1761636372;
+	bh=og8LkaaN/yOnabmGm0NkoOn9PcLr++/M9jUek2uOYnc=;
+	h=From:Date:Subject:References:In-Reply-To:To:Cc:From;
+	b=s/fwEuaj7SGDlDOLE14TYeHILm+XVuvCrfoB2fRjhhIkJMUMwAqFRSPYbga/7YvrI
+	 zgOwmWCOeke8F5xS0CwYs1y8I2LoeO3fm+SnaiwGBSpDQ5mf1f0EFhj86/skg/eaPx
+	 H/CiUyYoLUYXlNAfdY2IZ8ULhnQbh7cVynTf3vDM=
 From: Jai Luthra <jai.luthra@ideasonboard.com>
-Subject: [PATCH 00/13] media: i2c: Miscellaneous features and fixes for
- OV5647
-Date: Tue, 28 Oct 2025 12:57:11 +0530
-Message-Id: <20251028-b4-rpi-ov5647-v1-0-098413454f5e@ideasonboard.com>
+Date: Tue, 28 Oct 2025 12:57:12 +0530
+Subject: [PATCH 01/13] media: i2c: ov5647: Parse and register properties
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -53,10 +52,9 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAE9wAGkC/x3MPQqAMAxA4auUzAbS0h/xKuJgNWoWLS0UQby7x
- fEb3nugcBYuMKgHMlcpcp0NulOwHPO5M8raDIaM02QsRos5CV7VeRuQXPREwfXBG2hNyrzJ/f/
- G6X0/ZXlcU18AAAA=
-X-Change-ID: 20251024-b4-rpi-ov5647-05b600758762
+Message-Id: <20251028-b4-rpi-ov5647-v1-1-098413454f5e@ideasonboard.com>
+References: <20251028-b4-rpi-ov5647-v1-0-098413454f5e@ideasonboard.com>
+In-Reply-To: <20251028-b4-rpi-ov5647-v1-0-098413454f5e@ideasonboard.com>
 To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
  Dave Stevenson <dave.stevenson@raspberrypi.com>, 
  Jacopo Mondi <jacopo@jmondi.org>, 
@@ -70,61 +68,75 @@ Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
  "Ivan T. Ivanov" <iivanov@suse.de>, 
  Jai Luthra <jai.luthra@ideasonboard.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1627;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1646;
  i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
- bh=2jeuwD+92Ty8xl8EjL6u5v1fH1GF4t7XvbCzvRoygtU=;
- b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpAHBfgmEmSBJUHo9bTK0bgElGntxNlnjbMR+9Q
- i+eJRFSO3SJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaQBwXwAKCRBD3pH5JJpx
- RV5/D/9uWxbp4Sjh81IiZWOxLMC1ZRF5gqhNfDC8YiWC71DnDmsO/RfMjzGEEvyM4hBuCgN100L
- WVRtskizruUbGxtV2Od7FfcqgEk+IW8HTaA4XoMrjHQFWe/r7GfZMwia64QlBAc1o51NCqzNNKM
- nufV6phW9nFWAnYhDcvsWTNSIdq27p8gvA7wEkYnuYKsSS6Y6TqpJr57B8PyBScpa9YbdGaGj6f
- U/mAR4jZwSEvZ9b9Y+8bH8T5aPJCZz8g4d7jRs2tERZhM3nCr4K9BJGSKxzjoekVPAZ5bgzGZ5k
- U34HUAF+mPiImtZtFhkRuc4G7Q2INw1BfpRYGmtzlNtAjEdyBQ4TQTCJiM74d80HDli8lofQnNq
- wygMTRrnO0TEfc0X0mfwSLAqwweQ35xRJtEmutXPJmsH6NqGWvv8slzZFYYcGNc+tMUnMqHaj3q
- GePW/kXda4+FBiow0dnHeQW1uhCFCSXItIET45+5kJJyyPcIouyMrKhUpMcQ8wSN1M81fTUXFzL
- Dx2vD4FkswE7zHXOaTQQdDx8vt+w3Vw59UGD2mMAiJbNCymhAJnNbB8apNuWs1ablZQ4d0EkHyv
- ZDHL5hv5bFyPCg2XDjEQ/lfiBaT2g26UaX1dEX9nsjYuxjOogcgTuszOaKfLJ0dVCy0+2juvS06
- CfBirRxpjGPhajQ==
+ bh=3k/xCjZp6XqE/F7ObaCjn7FHHU/2F9CezCuQyktY/ds=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpAHBqPqb/GpQ5KhEjgfqKCxGc5EiwzXEbhVtgf
+ fgrhoujWgqJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaQBwagAKCRBD3pH5JJpx
+ RSoXD/9ceKCWv1LttIPTTeKrjZO+CEbkICWbVKVFvfJHfXuzRWWrNCiD5hvIY/SdAJAEhheUV5b
+ NFlw2knVae0dmcSyg5MEQNweaU+He70bqErTXqNqcpf+FmLGXdnhnxUnHnYVFFfU0vqpNJ4WAFD
+ ddQCKgByIEN5XJlTTJyv3WzHojBp6DmHy3/6CKyp0+uqJDrOQ/694auM3hdWb+7ZTFupZ+vr7OR
+ CXsvsPNFdX9vTSjthf8RO8w0LHclUatteyhFLB5cxovxrbTIw1FfjblWC8pic1d35finp/HIpZl
+ fR8wPUc8DYY2WJ2mLdBFzR3grh52ZT5m3zPke8IGOKOX3aZFJv6YG1ECZzVCtCBp4qiu4p0cBmM
+ sZOSD2RyGLSzcYnO0CP851rooc+HN3bnvf+rOhe1mXFrQb7PUbqxQQk2C3EwSN7P+XV9vMRnabu
+ aI8sQeFb55fqUR4ddESXIBJLQcD2ov+raoQHSb1YbOh7SaGCyfUN1Gg5seVItfnLNNdd/bV01n0
+ 9M6dfu/3UlJDgTU/iA7TEOAbf47Liuc+rX1gsoqg4rohflqvvrirtL6nqenJSG/LnOkiMEO1hN2
+ K6WssNtM5+atKFq2SxvQ06NZxyt6ba8LXRrYsd6MOJ4Mldqxx/fnlZWX9V8yMqgiDpaqOfpOjE5
+ 8fue0Ie3OHgvlpg==
 X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
  fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-This series adds support for some important features, like controls for
-H/VFLIP, horizontal blanking, regulator controls etc. that are present
-in the downstream raspberry pi kernel, to support their v1 camera
-module.
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-Additionally, it also fixes some known issues with streaming lockups,
-wrong pixel array size and compliance tests.
+Parse device properties and register controls for them using the V4L2
+fwnode properties helpers.
 
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
-Dave Stevenson (7):
-      media: i2c: ov5647: Add support for regulator control.
-      media: i2c: ov5647: Use v4l2_async_register_subdev_sensor for lens binding
-      media: i2c: ov5647: Add control of V4L2_CID_HBLANK
-      media: i2c: ov5647: Tidy up mode registers to make the order common
-      media: i2c: ov5647: Separate out the common registers.
-      media: i2c: ov5647: Use the same PLL config for full, 1080p, and binned modes
-      media: i2c: ov5647: Add V4L2_CID_LINK_FREQUENCY control
+ drivers/media/i2c/ov5647.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-David Plowman (5):
-      media: i2c: ov5647: Correct pixel array offset
-      media: i2c: ov5647: Correct minimum VBLANK value
-      media: i2c: ov5647: Fix v4l2-compliance failure subscribing to events
-      media: i2c: ov5647: Sensor should report RAW color space
-      media: i2c: ov5647: Support HFLIP and VFLIP
+diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+index e193fef4fcedf4661564c032cd7dbd80a9fd30a6..985a8e81529d2f88cb38ccb8c94f8605026a28a9 100644
+--- a/drivers/media/i2c/ov5647.c
++++ b/drivers/media/i2c/ov5647.c
+@@ -1284,10 +1284,11 @@ static const struct v4l2_ctrl_ops ov5647_ctrl_ops = {
+ 	.s_ctrl = ov5647_s_ctrl,
+ };
+ 
+-static int ov5647_init_controls(struct ov5647 *sensor)
++static int ov5647_init_controls(struct ov5647 *sensor, struct device *dev)
+ {
+ 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->sd);
+ 	int hblank, exposure_max, exposure_def;
++	struct v4l2_fwnode_device_properties props;
+ 
+ 	v4l2_ctrl_handler_init(&sensor->ctrls, 9);
+ 
+@@ -1338,6 +1339,11 @@ static int ov5647_init_controls(struct ov5647 *sensor)
+ 				     ARRAY_SIZE(ov5647_test_pattern_menu) - 1,
+ 				     0, 0, ov5647_test_pattern_menu);
+ 
++	v4l2_fwnode_device_parse(dev, &props);
++
++	v4l2_ctrl_new_fwnode_properties(&sensor->ctrls, &ov5647_ctrl_ops,
++					&props);
++
+ 	if (sensor->ctrls.error)
+ 		goto handler_free;
+ 
+@@ -1420,7 +1426,7 @@ static int ov5647_probe(struct i2c_client *client)
+ 
+ 	sensor->mode = OV5647_DEFAULT_MODE;
+ 
+-	ret = ov5647_init_controls(sensor);
++	ret = ov5647_init_controls(sensor, dev);
+ 	if (ret)
+ 		goto mutex_destroy;
+ 
 
-Laurent Pinchart (1):
-      media: i2c: ov5647: Parse and register properties
-
- drivers/media/i2c/ov5647.c | 447 ++++++++++++++++++++++-----------------------
- 1 file changed, 216 insertions(+), 231 deletions(-)
----
-base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
-change-id: 20251024-b4-rpi-ov5647-05b600758762
-
-Best regards,
 -- 
-Jai Luthra <jai.luthra@ideasonboard.com>
+2.51.0
 
 
