@@ -1,188 +1,144 @@
-Return-Path: <linux-media+bounces-45792-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45793-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 32865C14312
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 11:51:28 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D577C143A6
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 12:00:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 0BCE21A2164E
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 10:48:39 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id D6E3D1A6876C
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 10:54:49 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C75BF30EF8B;
-	Tue, 28 Oct 2025 10:44:07 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id EDAA130EF90;
+	Tue, 28 Oct 2025 10:50:27 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="In3PHz1J"
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="BF563+/k"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85755304BC8
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 10:44:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A1EE30C614
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 10:50:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761648247; cv=none; b=osTsgKeI1iFgDZpsxfhwa+aK00pABOZcJhfV/fcd7VD//PpBDqaFny62TDIT7Vh9bLq+AsYg7vEJlRNEnVGHQMx+9Umi/9mYDfI0a4+5uo7qSR1GWz3L03mL3CDOcdv2x/6w/j6yzXomI6fwP3fGVyOzEdLJYaGAClB+4H6Tj+Y=
+	t=1761648627; cv=none; b=J4CkC2Da8hfOiL2QDYY7SHEpQYIQ5PAFtQiZ7MFnV+ITCA2R04XB43ykxCGZtX12a7wfaMAoad4WMxfvef7ncXQfaIJnwQdv0Gtsy7RlG8sF3IWCDDstNPjXwYULbuNaQuCd7gP41L/ZeEnk/sRbRpqDPe1LXQxrh57UfDBrKMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761648247; c=relaxed/simple;
-	bh=GeeaYYIAWxjBOaNlUKtLMdjCRhALVgNgHDnuskwW7V4=;
+	s=arc-20240116; t=1761648627; c=relaxed/simple;
+	bh=BCtbbIefRxl8ETsCXIFJF+wlsHm3vUU5KSEZnsuKlYw=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=J4+l/B4hvUJwG1BD8wy9bXC/jpqVlSBEDLsTGEd4PCp2/Mp7FWN8MMHgkWiGRo+xTlWw4LfHkphr3ozHdWl6JEo0GdrjU8EeYw0RUxKmYIqsv1Bnw8/UpoHb5/m6DJR6YfNb3qusAoo8U68h/UPWzJnSa6xMWTd8TqxQwovKGwY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=In3PHz1J; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59S7ceqc2753176
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 10:44:04 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	18D1Tvhsg2h3c4pitUQmQV+w/N7Gc+UGs5zUrp/01x8=; b=In3PHz1Jx7EYAyrO
-	mOn0ZnY22pwzTJFXsnIYFx9zPlAzTgOVtoh9cgqrNAT+PtioJ5ylS/CurUmcj/bg
-	WveWHmN6itNn4WxQs39kLzGZ386nX5WHOVfirE1m2MiG27/SbV0OGBubSjyILLJq
-	on7Wlq/sAQ4a25Zh3gNZmVVr9K3a2GVyom5RrGGCvS4pPP63I8e17PonpXSx/0C8
-	oGYaZ7Hi1Kf67OLcLzYSS1fbNRQjNv4lZpvhs6m3kgG1sDkyUIteuedUBUv00l4c
-	KXGzZqx7uOba0pj5lSzdiWgsCW5yUhkHyfV7IUts169sm2EJoy3Qc9HxNrlIBc72
-	AJEmOg==
-Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com [209.85.210.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a28nsupnn-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 10:44:04 +0000 (GMT)
-Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-7a26485fc5dso4370280b3a.1
-        for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 03:44:04 -0700 (PDT)
+	 In-Reply-To:Content-Type; b=A1afXutZs05feSnXsaB4ItR/IIDQqGBXeNxBrq2Hh5AID3T20CDnemErei8oLSXqFLRvkNkxqvsXB4H8ZQENH0+TSxJ5CZ+mm4wAc9kj91clMDbJcNT8FUf33Wxgvanlc2h/k073YY58RyOLemdpkGcSTOkCzNyMVQbY10ggS7c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=BF563+/k; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4770c34ca8eso21724195e9.0
+        for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 03:50:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1761648623; x=1762253423; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nmrMQdnFbXTRUvWSj6UdlngxWpZlUvtP+bCbfxielbc=;
+        b=BF563+/kLFb3HWB/fBQR9NxO9fHkMUD0suIKa66ZBSA4qe6gJ8x/ktXlB/qeA0Bu6N
+         1w8sxbd+cb5Elugj0ibkHMUM+oMfODpX1YXziu/AZg1+IHMtdrUFtf7u4nSvYMYG2wzT
+         /hHR7zdhUabN2YhHutwMioF58VPMknth118aiDmr+RUyyE1d63C+bfk1msPyVT7nYc8/
+         xdC0G8Z9CAERV50z4eq9frfz288a/fHvAV1P57SOk+4CvqTnzV2Hs1sw/WTUsHd++7Xv
+         ziZAo4b2JSEChQ+1liHRsROOCuQXoEM0QQwdK3wRkkaPY1rj5w9gXBV7z+tBj4kA/avc
+         kUJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761648244; x=1762253044;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
+        d=1e100.net; s=20230601; t=1761648623; x=1762253423;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=18D1Tvhsg2h3c4pitUQmQV+w/N7Gc+UGs5zUrp/01x8=;
-        b=mwSwxtMOs6DVgNiidehtWkNLL03RpzJv5noBE64X7V8bHKpbt7bNQ/06UUjYOx8JKE
-         ZyVdl7EXpzGY8ZoSMt4mNQllP6w433HdXbybKZJtfBsvlUNhI0gQMQemz9v9cXj7Fy90
-         68/EPVjRqTKBplziEWDso/dDTN/1Z8iq7Kw8ceyzrSF6K+cWyzHZwFT8y5AzW/7gjFUJ
-         797OaCyLqLkAMN8IGcToHAjfOxMYvIfclG3je01ZvgvLlAHWtaArX+55H8Ju0I3u9fl2
-         CFSAb3FhYUwR8/oj+CKcsWHK4khTt/O4W6adOeKaIeAzm9nATRJVAux10/PYRcTElRy3
-         5+Ag==
-X-Forwarded-Encrypted: i=1; AJvYcCXXFQq8CIEmlnRSkLhH/kXIWBKcm4mJbaGwsrnE6AtstBuCTnsT3FTT8TuuzrqgYPKn8DGoioTi2koSew==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOEMWo4Y7Ok9r26Ufr6DoQv4ZuPvoqG0tIL3lfOpSN8ndTA744
-	+JK+HWjB3iN7bejRRB0cJY7DBmulBfc0vwHpeOa5g/rNpBXdqAyPl6gRCoLYXJ9CRUH/fTvw0xU
-	kyNI0xZ3WaWc6glOF1qLJsVUZ7Lq/C0Go89J8mFB6b91AEUCBLQlT01BPFzOkqf7fxw==
-X-Gm-Gg: ASbGncvACm2hpS8Uzh5Jea3B9ubuXFeRIWD+B3ZTItBps2SNPHRmzfIqToUp9eZT8oQ
-	Y8PUcT43t+x4KYqYVdySHwLed63EdMI70RR5KO+BciPPlf2UBZ/RoeOJ7HQN8cmjP+eYtv07zYT
-	u6Pw91P/gd8zcAEdIkTL3GgHro92WQKr2YVdc3XiGe5LJoXRRS/VtlYBVmMXhT6xWFKMeA6SKCW
-	A/HzZ2J/byMXRWAvSHp+TaXKhzUGqew8/TSDaLxMTMS7oQcY6L+Aw34nCIe3sGJo5ir2clyeEN9
-	Z+bJiiTr1drXW8hNHTgf9Hea2A3Zo/9j/Ab6FBwjtjezTP22JxM4lq4bfDEa/gkIeDDcIud6Io/
-	WFZhVKaJdcrhEMRLZyqY7k2qvmoghQiE=
-X-Received: by 2002:a05:6a20:431f:b0:2dd:5de9:537d with SMTP id adf61e73a8af0-344cf47453dmr3622889637.0.1761648244090;
-        Tue, 28 Oct 2025 03:44:04 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFv0M4w0uW2ohoIR2GHVf4JumJDZiUUaI5rrLa/broLDpgfzcIyJB09BzOHTB5iQW4PvotWtg==
-X-Received: by 2002:a05:6a20:431f:b0:2dd:5de9:537d with SMTP id adf61e73a8af0-344cf47453dmr3622857637.0.1761648243587;
-        Tue, 28 Oct 2025 03:44:03 -0700 (PDT)
-Received: from [10.0.0.3] ([106.222.229.252])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b71268bdb1fsm10094723a12.2.2025.10.28.03.44.00
+        bh=nmrMQdnFbXTRUvWSj6UdlngxWpZlUvtP+bCbfxielbc=;
+        b=mTa1GoWff6m3Nyb/qybUHQ6F+h9BqtYXK0zPivMaJ4PxrgrJRAVtARha1e1Wc6mS5/
+         cC54GEbbLcWGx3f3xmcNGI/eRQo8B95AuC4cSBXfOuCrVqMjHmQ6PI73RwoewBaJyJWf
+         Aq2I9cv9cNvu20Yv8RxkX+fjrXI4tLj6MijA4dgKGiRjpZk4aSW8p0Q+J9AGZWSiG9Y3
+         eo+iF883aN71SHP2nljTI93YfOXHBDNN3fO3APAVAeCogZy51ySaf5gGbqGH+3fXAf2j
+         TlidhcgEmGuiAaTLSzSyKKdQGaggdSrifg7Si3g3JGGH4sQdMhSLBWo+cEQmxvI7Dq7U
+         d7ag==
+X-Forwarded-Encrypted: i=1; AJvYcCXGiH/uqXacCn1SS0GcTG7ETQjuwobx1PG5PCTL4KmK/sffxsuzeOENXu3NI3AS/9qY+UoLgjmMK39Ywg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YyW9whXKAKzu4/PcMZzVboIV3SbnGZ2P1Q27pLK5zWtYmPh7c3N
+	6Pcnw1Mn1sq5MyyaQWyogQBOZ7f4SICSlcCLmV8pqREjux0gqdjCmZm5iTQG7t84N30=
+X-Gm-Gg: ASbGncuP/Gww8rnywrSHYMc7qahj07GioUDuui1SRqOpCcENeg5GiODXIJdeq1bTHUI
+	aGtNiYROZGRYey8pQCXB6G1Xe9Y6C2EREQFzQ5VwsuCjUjeqJHvbsOqn/7lwh7t6bm0yFRBu0y7
+	i6nfPUk7zpl6ZtBXx1N+UHmBo5ByPLoGKr4Yg1c+DJh/Gf5YTqrNvtgOBV+Xvmkq+FXH5e4e4of
+	h69z8Y6LBhbob+JPxqkMdTnwZ/UqPA5y5b5zq75ImaLFteoTr1POKwvB7lxjjIup2Ug20iy9ZAq
+	8Na2J2OPuYNgUdSg4RjQiTYj6JEI5uyUT1Qw2lI1rj6swakHuN5R4fYSSRXvOiljzkgTF5X363d
+	zYP/Kp6CtnbC7B7K5ATaA3KEhAUAWfJgpyKDX/kuB3mWFIddeueT8C7Hg+BI76h6E1VpzogCBrR
+	P/f4LnaVwjygshT1iD5a2pUCnEYH2Zx6mtiO+lfhsUBjs=
+X-Google-Smtp-Source: AGHT+IEW5Xn6pgsIVIQmh1ZteaU6fBGYQzaGzmRov8RIVgUKjWNp6avGgGE1oXye0/BWbWfHNJ1oGw==
+X-Received: by 2002:a05:600c:5492:b0:477:c37:2ea7 with SMTP id 5b1f17b1804b1-47717e37274mr21925335e9.21.1761648623445;
+        Tue, 28 Oct 2025 03:50:23 -0700 (PDT)
+Received: from [192.168.0.163] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd47793fsm191912885e9.3.2025.10.28.03.50.22
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Oct 2025 03:44:02 -0700 (PDT)
-Message-ID: <7b7f9642-2bcc-1cb3-8926-fa129456172a@oss.qualcomm.com>
-Date: Tue, 28 Oct 2025 16:13:59 +0530
+        Tue, 28 Oct 2025 03:50:22 -0700 (PDT)
+Message-ID: <56633bc4-5ef3-475a-9749-a6f455aad9c4@linaro.org>
+Date: Tue, 28 Oct 2025 10:50:21 +0000
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH] media: venus: drop bogus probe deferrals
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: media: camss: Add qcom,sm6350-camss
+To: Krzysztof Kozlowski <krzk@kernel.org>,
+ Luca Weiss <luca.weiss@fairphone.com>
+Cc: Bryan O'Donoghue <bod@kernel.org>, Robert Foss <rfoss@kernel.org>,
+ Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
+ Konrad Dybcio <konradybcio@kernel.org>,
+ ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251024-sm6350-camss-v1-0-63d626638add@fairphone.com>
+ <20251024-sm6350-camss-v1-1-63d626638add@fairphone.com>
+ <20251028-defiant-visionary-rottweiler-f97cda@kuoka>
+ <DDTUHFIN3IEK.3FY5IS9S73ASO@fairphone.com>
+ <0bf4ab2e-9846-4f8b-ad72-e9db6fb7d08e@kernel.org>
+ <936ecaf4-8b48-4c93-a666-153a13ee9e16@linaro.org>
+ <b8550097-76c5-4843-9b05-0802f3a4e3e6@kernel.org>
+From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
 Content-Language: en-US
-To: Johan Hovold <johan@kernel.org>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>,
-        Bryan ODonoghue <bod@kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20251017055809.8037-1-johan@kernel.org>
-From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-In-Reply-To: <20251017055809.8037-1-johan@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <b8550097-76c5-4843-9b05-0802f3a4e3e6@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI4MDA5MCBTYWx0ZWRfXyf0dcNni1ao3
- aweyRd3+D//mAl+llbL+Cm6gxWkONrZgFwA5qNfxl1d14zb6UJPb4GFWdO1Q2yKnDztTpedXALA
- KPmagYoQg8ZIeSuL5rZqwwEVjMnE1fnXHU2Fzp8PX6BYG5yza2qGNlVS/qZsWcSQVlexMA8ZHj5
- lAq63KXBvPoIrUHIhOgdDNFx69/HrhpnMvaTDes/LYPgqA9CavUIKanwQYyYuyLL/OILNnn7aY6
- KZKbomhWDZphk6uKH1D3mONICYJqo7dY2CiiZ4EECkMXtUOUNlpYonJG7f2G3JnX1Oj6VeGSSa7
- ZP1xYrxBeMMWf2FPSRYihtvyNWG4UhOHvomejAQd58fluX5AG1jGfsc/j7i6wAQ89sm7C6WdEel
- 6HPl/aqB6CgS1QgR1VJZME5L2So/FQ==
-X-Authority-Analysis: v=2.4 cv=RIW+3oi+ c=1 sm=1 tr=0 ts=69009e74 cx=c_pps
- a=mDZGXZTwRPZaeRUbqKGCBw==:117 a=L4UNg9I9cQSOxNpRiiGXlA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=VwQbUJbxAAAA:8 a=EUspDBNiAAAA:8 a=HlSd1kt9n31nswzQv1QA:9 a=QEXdDO2ut3YA:10
- a=zc0IvFSfCIW2DFIPzwfm:22
-X-Proofpoint-ORIG-GUID: S2fIzxIAe-kMEdfby5davOtl7CiL-Y-u
-X-Proofpoint-GUID: S2fIzxIAe-kMEdfby5davOtl7CiL-Y-u
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-28_04,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 spamscore=0 impostorscore=0 adultscore=0 priorityscore=1501
- malwarescore=0 clxscore=1015 bulkscore=0 phishscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510280090
 
-
-
-On 10/17/2025 11:28 AM, Johan Hovold wrote:
-> The encoder and decoder platform devices are registered by the venus
-> driver as children of the venus device, but even if someone were to mess
-> this up no amount of probe deferring is going to conjure up a parent.
+On 28/10/2025 10:39, Krzysztof Kozlowski wrote:
+> On 28/10/2025 11:24, Bryan O'Donoghue wrote:
+>> On 28/10/2025 09:46, Krzysztof Kozlowski wrote:
+>>>>>> +  power-domain-names:
+>>>>>> +    items:
+>>>>>> +      - const: ife0
+>>>>>> +      - const: ife1
+>>>>>> +      - const: ife2
+>>>>>> +      - const: top
+>>>>> Uh, not your fault, but who came with this list in previous generations?
+>>>>> Instead of simple and obvious "top+ifeX" which allows growing/shrinking,
+>>>>> someone put "top" at the end which means this cannot follow same order
+>>>>> as X1E for example... Heh, it follows at least sm8550.
+>>>> Shall we put top as first power-domain? I don't think it's an issue to
+>>>> change the order.
+>>> Well, it matches sm8550, so I am just grumpy complaining. It's fine.
+>>
+>> The provenance here is "top" was required to be added last because the
+>> code depended on magic indexing in dtb to know which was the TOP GDSC.
 > 
-> Relatedly, the venus driver sets its driver data before registering the
-> child devices and if this ever breaks we want to learn about it by
-> failing probe.
 > 
-> Signed-off-by: Johan Hovold <johan@kernel.org>
-> ---
->  drivers/media/platform/qcom/venus/vdec.c | 5 +----
->  drivers/media/platform/qcom/venus/venc.c | 5 +----
->  2 files changed, 2 insertions(+), 8 deletions(-)
+> That's silly, because if it was first element would be much easier.
 > 
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index 55c27345b7d8..2d822ad86dce 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -1778,12 +1778,9 @@ static int vdec_probe(struct platform_device *pdev)
->  	struct venus_core *core;
->  	int ret;
->  
-> -	if (!dev->parent)
-> -		return -EPROBE_DEFER;
-> -
->  	core = dev_get_drvdata(dev->parent);
->  	if (!core)
-> -		return -EPROBE_DEFER;
-> +		return -EINVAL;
->  
->  	platform_set_drvdata(pdev, core);
->  
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index fba07557a399..f1abd2bdce6b 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -1560,12 +1560,9 @@ static int venc_probe(struct platform_device *pdev)
->  	struct venus_core *core;
->  	int ret;
->  
-> -	if (!dev->parent)
-> -		return -EPROBE_DEFER;
-> -
->  	core = dev_get_drvdata(dev->parent);
->  	if (!core)
-> -		return -EPROBE_DEFER;
-> +		return -EINVAL;
->  
->  	platform_set_drvdata(pdev, core);
->  
+> Best regards,
+> Krzysztof
 
-Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+I'm sure it was an accident. A bug, we fixed it.
 
-Thanks,
-Dikshita
+Anyway that's why.
+
+---
+bod
 
