@@ -1,184 +1,130 @@
-Return-Path: <linux-media+bounces-45737-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45738-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B4EFC13472
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 08:24:35 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 53405C13490
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 08:28:12 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 4DE8F1890883
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 07:24:59 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 9E9374F2EC9
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 07:28:08 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 6525A221F20;
-	Tue, 28 Oct 2025 07:24:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D77C42512F5;
+	Tue, 28 Oct 2025 07:28:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="jsZuXJxN"
 X-Original-To: linux-media@vger.kernel.org
-Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazon11020092.outbound.protection.outlook.com [52.101.225.92])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4615D1799F;
-	Tue, 28 Oct 2025 07:24:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.101.225.92
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761636268; cv=fail; b=tEIZU/ExPYa3FPZwzebdy/Slbo6dflLjAYg9AJGgvly+BRW6Mh30sy3cd66u8iHTMITyLsciXY/bcSESuecAkF3/swv+2sL98FaVFc7qjZp+y8CWkmYb9AfrgouPj75BZ2hmgfHbjSvK7UPd2n8/ZtENwV+/e1MQnTiMKOYH3t4=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761636268; c=relaxed/simple;
-	bh=Cxwh3U4U1qJ5LfMJ3NyMGhVExPxOchfSxWYVHKN6kDI=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=R6hW4+9sbMI8NZuvoFEhwiujG2A/xYIKeMrHODufQy/8EkFivo9CJxFwVbkEN+QKjx3hKieKGsn70abpBy/sCLaExNbVxQJISZJnIAsg9i/8LQR+IwGOIJjdGdBC9eDCLIRl7k0nrMD3WoJsQfXYdJeFPx6ve8FZBOsWEIawD+A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io; spf=fail smtp.mailfrom=siliconsignals.io; arc=fail smtp.client-ip=52.101.225.92
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=siliconsignals.io
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=siliconsignals.io
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wShFMzCDWMz8VQx9GDMCeJAdWPEIlVKDyfXuJhW5mL2KVLy7Hh3l42EM/+7wnMo3AoW3ImxLM1w5PQgay7QhDliyK2p8sQOaXcq0wS/PGV80yT1wftHugJz9SLQuF940cRWAH1VQ7m/vwszsLotn1anuf/bLAm76lOUcy5XzOE2j7Jac/aszvhu4jgE85WUB/QelAa9JXElaK9abor6YGBdhStDR/1+4Xlaw08NAI4OKz++MBC1MoCVvNtDAM158jUbWOe3cJfq6+xHkNHT+/CWwAHXTNcYqq52DzUwWSWeVbFgsxKwQUYFk0b3xQ5QmPIaG8LZS9jYfvblf0i7Q5A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PI0G5lyTSSjlWva1BamUM3ztLVpkiOjqdkZeAZytsMc=;
- b=IGBTm/tu0E5v7bt6obBu6kpVA7GkBxlZqnwoG1O+DNyVFN+nJuwrHFmTeaF6PNoziDNDTO/TC79JFiSM+fVEMZv7Hkl+yYym0xi62B2Iv4TVr7yoTS/0yrXnuMGcgr+hfZNx+u3xAug5una3lQqwqgL09ysXrOVcbgaG51W+h2fbFuZYvgBsPFP06zOT/xNM9wTTUfrSZvVPpqBbgFxicVqpyohAIic4AvPAGiy9BvRWrdQRiprwZyEtRTLfn6OycG8+pP30nJ/Zvf3WsCBR2ANFQLDpb5bhhj9POEHnCfuKKg6DUPXp2YBhB6w+iS1KtMMTVSHZ/DViTwHJIznTbA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siliconsignals.io; dmarc=pass action=none
- header.from=siliconsignals.io; dkim=pass header.d=siliconsignals.io; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siliconsignals.io;
-Received: from MA0P287MB2178.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:11e::14)
- by MAYP287MB3886.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:14d::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.19; Tue, 28 Oct
- 2025 07:24:21 +0000
-Received: from MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
- ([fe80::f8da:c075:cde1:e167]) by MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
- ([fe80::f8da:c075:cde1:e167%4]) with mapi id 15.20.9253.017; Tue, 28 Oct 2025
- 07:24:21 +0000
-From: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
-To: linux-media@vger.kernel.org,
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Hans Verkuil <hverkuil@kernel.org>,
-	Hans de Goede <hansg@kernel.org>,
-	Mehdi Djait <mehdi.djait@linux.intel.com>,
-	=?UTF-8?q?Andr=C3=A9=20Apitzsch?= <git@apitzsch.eu>,
-	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
-	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-	Sylvain Petinot <sylvain.petinot@foss.st.com>,
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
-	Dongcheng Yan <dongcheng.yan@intel.com>,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH] media: i2c: Fix vendor name typo in OV2735 Kconfig help text
-Date: Tue, 28 Oct 2025 12:53:00 +0530
-Message-Id: <20251028072302.5047-1-elgin.perumbilly@siliconsignals.io>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PN4P287CA0012.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:26a::11) To MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
- (2603:1096:a01:11e::14)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 506F6239E63;
+	Tue, 28 Oct 2025 07:27:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761636480; cv=none; b=QlfdMKGu2vjb+S1yY8yG2+cqfL92axtntyINmlZMicpKIYOH4Cmiq42pn3u3Tp5CFdSqXSdboTSTvut22YAMA9KfgJRr65FGdawUXIpBWOUEAXf6Xxy/+TaFUV3CuUXoBFiLCU9pebtBLXjvG7CmB2hwNCDTXIyh54g6rNBu2y8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761636480; c=relaxed/simple;
+	bh=2jeuwD+92Ty8xl8EjL6u5v1fH1GF4t7XvbCzvRoygtU=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=EsTrxCtTLh/Ah8ThemDBLl4tQHe4u52g6KwsN+/KL4gdEiOieyQgyuAzCATMFv7RNSRXOu8pSzPahnVtPIENijZRDAL1vpYRHwKxIRS4JkMIIMjQ75PLNHhTt77MR7bvzLX4aBiJfJAugIOzZHdjrU6SrKbnja+XEEodY5Y+DUc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=jsZuXJxN; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from mail.ideasonboard.com (unknown [IPv6:2401:4900:1c69:314e:ee86:ae6e:30:9d13])
+	by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9176416CD;
+	Tue, 28 Oct 2025 08:26:07 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1761636368;
+	bh=2jeuwD+92Ty8xl8EjL6u5v1fH1GF4t7XvbCzvRoygtU=;
+	h=From:Subject:Date:To:Cc:From;
+	b=jsZuXJxN7pibm7CapdyEsg3MohHfvDdEsE9/5MJEW7xL/je55JnJ2o713PwtJxr9J
+	 JiAF3AfUPeswx7yK4IUDjZ5Hiu4KE70fkqX8FPZVxMShDgABjKgqNzLgkWvO5QHpWe
+	 HdNH3UXZXVu8hx+15de2ZJKbknpJR+jbrCioPAgM=
+From: Jai Luthra <jai.luthra@ideasonboard.com>
+Subject: [PATCH 00/13] media: i2c: Miscellaneous features and fixes for
+ OV5647
+Date: Tue, 28 Oct 2025 12:57:11 +0530
+Message-Id: <20251028-b4-rpi-ov5647-v1-0-098413454f5e@ideasonboard.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MA0P287MB2178:EE_|MAYP287MB3886:EE_
-X-MS-Office365-Filtering-Correlation-Id: 57cf6450-b53d-48b9-ed94-08de15f30381
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|7416014|52116014|366016|1800799024|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?dEbqALQIGbMTq4JUDSBOBM/7GvLhWOZNkorVcHxyoK7hxZdQgLpHAmwiWQLf?=
- =?us-ascii?Q?du0T5O3dM6rKTjqR30YVyrG8D4nuR5BKMSG7qdZzp53+Y3iS31T8FBeycZDV?=
- =?us-ascii?Q?YSUYDi6Ki0erhXqzlogtsM3OJz+znpOqCDZD7FCesWZjy5Mf7mYp3ze1CGDs?=
- =?us-ascii?Q?Z7UcQP1a+J4yIxxo7dbipsJuju4nmDe2ljGB/pVV4Lr0q0yAVn0OSlr/KIwp?=
- =?us-ascii?Q?UoNC3suuBkPr0NRlDpBW0DKVeHAV4hG0jpGa5t+vDMD4Oi9/X7XKrgvMRZ42?=
- =?us-ascii?Q?kVABqynzdVTO5NUwXiQEIMFrPqI2SJqGqzNIOsnht/jeBAFunyzN6u680gEF?=
- =?us-ascii?Q?aZ1Oh6inEbSDW6TJODBe4H6z0VblBnylRUV3EwSoClUWKi7MTO9e2OowXxdn?=
- =?us-ascii?Q?rrJr7TxnLz/x7qjmDSNEq09Ewy7tV8DLyupopWJnC1xht5zWvScHZy5b7O+o?=
- =?us-ascii?Q?akY9ZvpHo0XzbCBVEkDQxPugRXpt0gp1p/6C5j0alBjHbOVVil5jCAjxsuRg?=
- =?us-ascii?Q?30b6S10RSW/HYGqxU2hYX4GwkqCML1YqiM5Y29XXD4JDvUTleY33Hu4VtRKC?=
- =?us-ascii?Q?hPmTuMgl+2IHL88a/u3fcUW6yqzDRGHgPvjnwCXsViY7tjIklrJa1GMnqxdc?=
- =?us-ascii?Q?5HxyvYjn0h1Y7Br2pFrpwxgoF2inVxaBCMSeKF+aUOOiRKBFpWDFlwk/knAC?=
- =?us-ascii?Q?TD0a9z5ANI3lL0FEk4L1JpMO+BoRN3iD/EDXKd+95cN0MF6McJtmuPeu9ome?=
- =?us-ascii?Q?ZcO+WWWCRJT3L9FXk/zVhnBHoSz4uPd74JIQhBDes5Ai15n+pMnedr2qoUdv?=
- =?us-ascii?Q?M0MAw7T4lcm40i1XbHqACCSRSFRZ00IWhg1e52pgtdGuh/Wxf4GqyKH2SI02?=
- =?us-ascii?Q?L24d4CNnMXcnfXmYWKHZqNuj7QnqTxxuGeX9mvVcCORrAmUMk+lxvz0pT73G?=
- =?us-ascii?Q?pOAZplp0AIe7RDJw4IOBIsJq6qz+IVJiFo6nK4HaBThMf79N9SUCnshoTCeg?=
- =?us-ascii?Q?Ehz/XvBiEnuRgT554Rv9GfJ1seVl0aP1/4qRUX/yaqtbgwhXwhln6IRv/wMF?=
- =?us-ascii?Q?FiuxgRMTmnW4mYAqtRjTgVj3PjGlwfkmP3Dl3eXOW+LXEVHy+BuZbGWy9hPx?=
- =?us-ascii?Q?Ut/nU0lbLAVlmbxUnRa+0U2Gmssz9muC3F13MczG7NbcM+B+ESos8ZWhxbuh?=
- =?us-ascii?Q?NLhA0Sk793UyozSNVeeRpF/o7XbuDifiw02mbqEFxeipoDZ+F1uVjOFScZqh?=
- =?us-ascii?Q?zkiVv8GfgEOC3Hz/nyLAuW4VUnL30pW6UIKtQraFhSa9ARpvJqiLCGWD9zEX?=
- =?us-ascii?Q?SSif/nS8HcBcfKNL2YiukK7lbikUS5stE6xfxA4eEASgSoRZByiK+zI4cAfj?=
- =?us-ascii?Q?2ECsRxArnB2oUjhUQmv4pa21Wqi3/tTYFo9YIi6vUq2QdyQn7KhCllqTt1lR?=
- =?us-ascii?Q?4hVJz/+pgn2/poh2ffw9bHlrlHlnUMGzngNo5mmPlTuPhs4iOL2ODmCzCPlY?=
- =?us-ascii?Q?flyK7O5JHxTOTplm5a9mL9HONhIvpn5YRPbt?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MA0P287MB2178.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(52116014)(366016)(1800799024)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?R6icl6weve4St4Il9i2L6UrJa+RSh30+6EoYVfrglveXt+htJlZqy1VbpPxj?=
- =?us-ascii?Q?aTzM50eit1+CfP6iF1D3GykZvDd53I1XXVZNvVVqfPHQ3BGFuFgoOzDNylJG?=
- =?us-ascii?Q?6xk9ZJTR1SucV3ceENDCcwaRNka6mRgoYKfLyEYLS4/oWzsME18FPE5ida6z?=
- =?us-ascii?Q?PokS9QRgm22Cdys+v2uykIouvEVA1SoH4oRqXgk2foSpGs9ijSKR/ItDmzoC?=
- =?us-ascii?Q?ipKLN7XY8EWvkC0TYYGnr4u0H1taxwYSTN/WUjBtOR3clG9RQkgXzhca5bc0?=
- =?us-ascii?Q?tSSulPjmaQx32HGmdjDtNLXD+nAjloU6Fc0MHx+bvgTPftrEZFOmJA9QUdrN?=
- =?us-ascii?Q?GKsv0+5TwRbkp1f16Fm5dokAUDjZN4/45AoIMQrLwTFfwreZf23VMtMNHE7t?=
- =?us-ascii?Q?cBup7waQ0tdP9vYsEdfL+/q/0YVt0YUjGqhGbPC2uOGTtT3ayey78142lSx2?=
- =?us-ascii?Q?m6UQDyLr4XFoduPhOozBgfu/SrF4tJJ4lEdU+e1JkA+RoC4xXiybKJgKudUj?=
- =?us-ascii?Q?dEUpBFE7d2pxZtXQrwpOaJsaqJFXDPfxs7W4ybSFv7iO1krpw3G2ShP4uYgI?=
- =?us-ascii?Q?wvEkDr+tFECz7L/K1X06TS183EaIRSMaZ9iGclTGbJOGdVqGsPnZZg73UiXQ?=
- =?us-ascii?Q?o0xNMgC/XvZDPqWuTnufxL5JHzAG3py3pcGJEyHv0k6ct5Xab07+Hf6OPgZm?=
- =?us-ascii?Q?Sge7pR8pKRyrw+Uppz1/tMPKmInNOXHUGSzpc0xRBYUpoDGQqIP116+/4QxV?=
- =?us-ascii?Q?Zin4x57uLZnXtT1F+jyhUO2WLI4upgdpNaLrvCB5gWNrCeuu3dsIS9UU0qHI?=
- =?us-ascii?Q?+4HCC1XbSxpXRBYh9MKpQGNQgffE35h4Ss3/kwJ2Ef+1tHIhE+Yz/EAhaMoY?=
- =?us-ascii?Q?PM+OmI+5cxPnCV3dlsTYFktIbxAvT4iCADJA3rmQzHuRoYqClMj5ny/9cwj4?=
- =?us-ascii?Q?3Onynv2fRALavf6f6PgA4are3gMaL6JM3K22zjC6H6WJKJn/3ipjXCgxfn0z?=
- =?us-ascii?Q?r6zva3EkNROQM2KyL6WGr/wDdizYVQVpZFyRJ4T6DUGh5vtij98S4gfubkgr?=
- =?us-ascii?Q?ioAA/XfPOFcwTrV3myiKxQQE9BixHUDbjS/1adnEk/isX3JPS+FyYIB4HRzD?=
- =?us-ascii?Q?UD3PxBSzxh6xYtczJQFwPQGvkc0wj7y+yHZ0FvyVG7r5OFIbE7DG7zApQ2T5?=
- =?us-ascii?Q?4KBSzkg4oCQ9Ufbxxfr3ei6wOjZR5AuBZvAgPSxAcsgaFS4YYk/OENP3E4kQ?=
- =?us-ascii?Q?Odh94KYmxDuC1b9z20n78V39NNokxESW852NdzkkomXKBkS3ix3H4Dy2/RRV?=
- =?us-ascii?Q?vIkPnmo6QSyfq9OfOWFyS9UOtLxcDZE7TDgAwGLHunbCP5iOOFkwIvHf6y8F?=
- =?us-ascii?Q?X9bCTx2unjifZRFTVBritpjbya4dHEwAtzRPmTmaVtMXJl6Gf5hUa1cMXDhU?=
- =?us-ascii?Q?ilm71OFpHPfzc3590+r00oDo9lOFSjaoDGUBib7fhabY8/vt9ZtthVqcSzNQ?=
- =?us-ascii?Q?Za5uLE/XP0IL2IOc0o4Yzxd8rlxFGzOsIlK3j+8o3TphKTfUpb1shh5hLRru?=
- =?us-ascii?Q?BjHHJBdm1CsL3EyJtf8os823X/+/NKN/Kt2xQ+4I1ilNUWf/s7oLo0N74MI/?=
- =?us-ascii?Q?HxrUESmA6XjETUft5rI0Ca4=3D?=
-X-OriginatorOrg: siliconsignals.io
-X-MS-Exchange-CrossTenant-Network-Message-Id: 57cf6450-b53d-48b9-ed94-08de15f30381
-X-MS-Exchange-CrossTenant-AuthSource: MA0P287MB2178.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Oct 2025 07:24:21.5567
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 7ec5089e-a433-4bd1-a638-82ee62e21d37
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 3O5yq5yx84LT90CoDXnd+TXB7Mtc4Z8Q6F6M/Rah1sMxaj98uD9KazqGl8AkN3xnlOPatjiliVG6IBbzo91Cp/R99uJ2vB+Zmt5QiO+mEi/zJItQrAt29T/x+VutLG6V
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAYP287MB3886
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAE9wAGkC/x3MPQqAMAxA4auUzAbS0h/xKuJgNWoWLS0UQby7x
+ fEb3nugcBYuMKgHMlcpcp0NulOwHPO5M8raDIaM02QsRos5CV7VeRuQXPREwfXBG2hNyrzJ/f/
+ G6X0/ZXlcU18AAAA=
+X-Change-ID: 20251024-b4-rpi-ov5647-05b600758762
+To: Sakari Ailus <sakari.ailus@linux.intel.com>, 
+ Dave Stevenson <dave.stevenson@raspberrypi.com>, 
+ Jacopo Mondi <jacopo@jmondi.org>, 
+ Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, 
+ Kieran Bingham <kieran.bingham@ideasonboard.com>, 
+ David Plowman <david.plowman@raspberrypi.com>, 
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>, 
+ Peter Robinson <pbrobinson@gmail.com>, Stefan Wahren <wahrenst@gmx.net>, 
+ "Ivan T. Ivanov" <iivanov@suse.de>, 
+ Jai Luthra <jai.luthra@ideasonboard.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1627;
+ i=jai.luthra@ideasonboard.com; h=from:subject:message-id;
+ bh=2jeuwD+92Ty8xl8EjL6u5v1fH1GF4t7XvbCzvRoygtU=;
+ b=owEBbQKS/ZANAwAKAUPekfkkmnFFAcsmYgBpAHBfgmEmSBJUHo9bTK0bgElGntxNlnjbMR+9Q
+ i+eJRFSO3SJAjMEAAEKAB0WIQRN4NgY5dV16NRar8VD3pH5JJpxRQUCaQBwXwAKCRBD3pH5JJpx
+ RV5/D/9uWxbp4Sjh81IiZWOxLMC1ZRF5gqhNfDC8YiWC71DnDmsO/RfMjzGEEvyM4hBuCgN100L
+ WVRtskizruUbGxtV2Od7FfcqgEk+IW8HTaA4XoMrjHQFWe/r7GfZMwia64QlBAc1o51NCqzNNKM
+ nufV6phW9nFWAnYhDcvsWTNSIdq27p8gvA7wEkYnuYKsSS6Y6TqpJr57B8PyBScpa9YbdGaGj6f
+ U/mAR4jZwSEvZ9b9Y+8bH8T5aPJCZz8g4d7jRs2tERZhM3nCr4K9BJGSKxzjoekVPAZ5bgzGZ5k
+ U34HUAF+mPiImtZtFhkRuc4G7Q2INw1BfpRYGmtzlNtAjEdyBQ4TQTCJiM74d80HDli8lofQnNq
+ wygMTRrnO0TEfc0X0mfwSLAqwweQ35xRJtEmutXPJmsH6NqGWvv8slzZFYYcGNc+tMUnMqHaj3q
+ GePW/kXda4+FBiow0dnHeQW1uhCFCSXItIET45+5kJJyyPcIouyMrKhUpMcQ8wSN1M81fTUXFzL
+ Dx2vD4FkswE7zHXOaTQQdDx8vt+w3Vw59UGD2mMAiJbNCymhAJnNbB8apNuWs1ablZQ4d0EkHyv
+ ZDHL5hv5bFyPCg2XDjEQ/lfiBaT2g26UaX1dEX9nsjYuxjOogcgTuszOaKfLJ0dVCy0+2juvS06
+ CfBirRxpjGPhajQ==
+X-Developer-Key: i=jai.luthra@ideasonboard.com; a=openpgp;
+ fpr=4DE0D818E5D575E8D45AAFC543DE91F9249A7145
 
-Fix incorrect vendor name for OV2735 sensor (Sony -> OmniVision) in
-Kconfig help text.
+This series adds support for some important features, like controls for
+H/VFLIP, horizontal blanking, regulator controls etc. that are present
+in the downstream raspberry pi kernel, to support their v1 camera
+module.
 
-Signed-off-by: Elgin Perumbilly <elgin.perumbilly@siliconsignals.io>
+Additionally, it also fixes some known issues with streaming lockups,
+wrong pixel array size and compliance tests.
+
+Signed-off-by: Jai Luthra <jai.luthra@ideasonboard.com>
 ---
- drivers/media/i2c/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Dave Stevenson (7):
+      media: i2c: ov5647: Add support for regulator control.
+      media: i2c: ov5647: Use v4l2_async_register_subdev_sensor for lens binding
+      media: i2c: ov5647: Add control of V4L2_CID_HBLANK
+      media: i2c: ov5647: Tidy up mode registers to make the order common
+      media: i2c: ov5647: Separate out the common registers.
+      media: i2c: ov5647: Use the same PLL config for full, 1080p, and binned modes
+      media: i2c: ov5647: Add V4L2_CID_LINK_FREQUENCY control
 
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index cdd7ba5da0d5..4c1eb4279dc3 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -471,7 +471,7 @@ config VIDEO_OV2735
- 	tristate "OmniVision OV2735 sensor support"
- 	select V4L2_CCI_I2C
- 	help
--	  This is a Video4Linux2 sensor driver for the Sony
-+	  This is a Video4Linux2 sensor driver for the OmniVision
- 	  OV2735 camera.
- 
- 	  To compile this driver as a module, choose M here: the
+David Plowman (5):
+      media: i2c: ov5647: Correct pixel array offset
+      media: i2c: ov5647: Correct minimum VBLANK value
+      media: i2c: ov5647: Fix v4l2-compliance failure subscribing to events
+      media: i2c: ov5647: Sensor should report RAW color space
+      media: i2c: ov5647: Support HFLIP and VFLIP
+
+Laurent Pinchart (1):
+      media: i2c: ov5647: Parse and register properties
+
+ drivers/media/i2c/ov5647.c | 447 ++++++++++++++++++++++-----------------------
+ 1 file changed, 216 insertions(+), 231 deletions(-)
+---
+base-commit: 3a8660878839faadb4f1a6dd72c3179c1df56787
+change-id: 20251024-b4-rpi-ov5647-05b600758762
+
+Best regards,
 -- 
-2.34.1
+Jai Luthra <jai.luthra@ideasonboard.com>
 
 
