@@ -1,210 +1,163 @@
-Return-Path: <linux-media+bounces-45845-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45846-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9284BC15DF8
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 17:40:37 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
+	by mail.lfdr.de (Postfix) with ESMTPS id 63BA4C15E10
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 17:41:54 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 6483140636C
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 16:32:53 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id A10C342430E
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 16:34:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id AF81C293B5F;
-	Tue, 28 Oct 2025 16:32:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 8AE7728850C;
+	Tue, 28 Oct 2025 16:34:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BNLmGhcQ"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MIFfoUe3"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E1162853EE
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 16:32:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57279257852
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 16:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761669160; cv=none; b=WJrI5Ig2ZIq9bYXfYk3aQ4MgGNrV6B/rruj5a7037ac8W+9jklCi57DdMlqn9FXRXzpFrLKBE6AgQQNVKh8QVc2rhAMWGyz6QXd+SxmnY2NobPLGfImyW1OfkUNaSMaxcZNA+x5OSylX/gCJkoKasYU5DfaA7Fhu4rXlpn29xUs=
+	t=1761669270; cv=none; b=fkRzjIzZLXsb0FUvqLcHbIEygWuARpvjQz7/42vtP+HB0Nlt8Ntd843OrC9r3skwhGG839tSgJfxNFdPuBd+Se0w73puUjXIMrdKpfWjTMBf6taDpZIdvb9nrYjQ0hz6Vs6Ejp3q2sSben6ZebAerX3jK96f4GADR4pLksz6pu0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761669160; c=relaxed/simple;
-	bh=SO0GptUcBEKRhR/PBjMcZAQXQFUUYeEc1o2SHD+XbbY=;
-	h=Date:From:To:Cc:Subject:Message-ID; b=l0VS4ZKY76CPoYGyTvwO1lfMOXCUI75KSwIayESuH0iyxAd6gUmbZzueLAnYTZ56uhJ/vBQXJKkvyAcqqRpazWkvHaZUx91lxFB7RFCAWbbOFZMJftaYAhwdYTQ/uueTtuSptqiq+EhC4uPB7+m1btaMXwT2ISynHpOhIXpuKkk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BNLmGhcQ; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761669159; x=1793205159;
-  h=date:from:to:cc:subject:message-id;
-  bh=SO0GptUcBEKRhR/PBjMcZAQXQFUUYeEc1o2SHD+XbbY=;
-  b=BNLmGhcQphER6nJb2IeJOJg8t3Btqn+L+1lSEM+CSdeScU7DEKVNHeuh
-   CxdUqFir9INlP2KlYtYxTXJQRmfvM3ACQnbYWkAMVbx0QuCWrXR4OqB3E
-   leNXHFvsgrRyygULBcX3F0jxYFRd9UW5y6oP351qHeZ07Mji1dW70X1CJ
-   j3eBOBzD7eaOrkgbo1YfyaJHdADL2UYn401YiaWc0hSS4dee9KqLPLz6n
-   r2SOEV1NBczZtgfk/j0rLydpqAVe1crr81b+ar3FRopHyCgKBIQ5aLXEr
-   Yt5IrprUA/JYawkMZI0mmtG9aSNSD2KzRKdEmpqy8x2a5ZEMDFvyOwmt3
-   w==;
-X-CSE-ConnectionGUID: jl5mC7nBRKC9BANUILvjTw==
-X-CSE-MsgGUID: I/9qCDdVQz+ml5ugAuLEaA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="67418127"
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="67418127"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 09:32:37 -0700
-X-CSE-ConnectionGUID: 5BvantR8RO6CdAeA4sNpTw==
-X-CSE-MsgGUID: /SCSqA/+Ql2KJdJiC2wOEg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="189713615"
-Received: from lkp-server02.sh.intel.com (HELO 66d7546c76b2) ([10.239.97.151])
-  by orviesa004.jf.intel.com with ESMTP; 28 Oct 2025 09:32:36 -0700
-Received: from kbuild by 66d7546c76b2 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1vDmca-000JQn-2y;
-	Tue, 28 Oct 2025 16:32:33 +0000
-Date: Wed, 29 Oct 2025 00:32:19 +0800
-From: kernel test robot <lkp@intel.com>
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: linux-media@vger.kernel.org
-Subject: [sailus-media-tree:cleanup] BUILD SUCCESS
- 85a797fcfacb01e3db6456256576135a3aa08617
-Message-ID: <202510290014.CD5SIaId-lkp@intel.com>
-User-Agent: s-nail v14.9.25
+	s=arc-20240116; t=1761669270; c=relaxed/simple;
+	bh=nLZzVqWT6437i+lJrFUuAfOcJrVuFxvGMvdzSvdoTpw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=RPgkYs3DwbJc12q6MYetf6Ja90bPtt73hpHZ0k3G+emWdxETzNY2h9xlVlq4qv+oJnH702GPJKaPHr3DRvBcBHhOQ5L5Vha8Er/RMqYMm8Lh86VAot7ogTfiYC2mGR1A0AajnIBQsVlElBidSE4LXhyr9KTABkL0NedrwuT0K/w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MIFfoUe3; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-427007b1fe5so5204035f8f.1
+        for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 09:34:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1761669267; x=1762274067; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nLZzVqWT6437i+lJrFUuAfOcJrVuFxvGMvdzSvdoTpw=;
+        b=MIFfoUe3YkNgZB/ItjGc9q3Q+rTHu71cy3EhjXaexpCr15d1VZ0wsibH/1iwZ2G2O1
+         zWKVZMP28F23VPghgBBX1w3wJ7Ld2NHJU44cV2pU+ngFRuPzA7Ohcl0b0l6G/Vylf+eR
+         XBEzHUyikG7VaI8eTXDrmbRaJGBW/Y6V7lpn22tLJgO3MsrvwZE6SBMuz6VGVvAEqtct
+         fJYj++OKQMpKRue8PlWBopsQ4WICdlORRJ+rmdskbCo6zaGcjnJflyfdQ6V3ZmKhaUwX
+         IHKUjLGz0PzvOtGyEqtKw2kKJdoxu57Pi1NBJzab9rUglJ3PwCJnoA5UTsfQsOaiEm6i
+         7Q/A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761669267; x=1762274067;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nLZzVqWT6437i+lJrFUuAfOcJrVuFxvGMvdzSvdoTpw=;
+        b=Zd/6BH3OT+ml0/4VCV88MxbLiI24VGfOVap5yWbb0JRCwMFzyCaKu/m8pEfZlZnJ7C
+         zQQXAozEms3KoZzJ0svyKCrtBkNyl0qo+LlOPtADuN7gPVVLohmTqV++sUe1yM4pI9Yq
+         lLx5oBANJsV/S3HsVhg8clXBG9ltP73WQBpeghpI6PREx+YNH5T8bNMMlSbHKpqzYXpv
+         du3bFHWsNS9Aa/v1k+P0q+WYS+rF0f1edObbVcsDeymVTF4Q8IkYiMIjk6aloQDEWM3+
+         R0nTRKkpP4ccmacnf6MOXTiVy44vqcQp8LRv+0IUfx96hVGyoRaQL6b5bvqa+F9LEh0H
+         3g8g==
+X-Forwarded-Encrypted: i=1; AJvYcCVNdSE/veTbugRkTxRSO2jC5Me/KO1WDMmwaETld9H3XF0Ldaeq2u8TxdKd9I2KEK9YmAdfeRK//+cAdg==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzRK2W/Hdq6eFSNUkdE2/vZ3czEjJ2/JGGeVR2bs/4naLyfF6zU
+	mF+7FqEDFHA4VwbDopL48ewubC1sUYHC9mlWEKIoml2bXsjqO5vVeuyUEt0G0Zfg56/QH2tbhAU
+	N5Y7A6LGC6SbXG+2LAUQ6dUVAaXaPGM4=
+X-Gm-Gg: ASbGnctOokDUtxPXHcdRDbu8DxtCTmoMjpnr94mIySESYEMYYf/RNEjjQd3HgPT3QqI
+	xEZSLNDRvBJPdM3wjG8KQQR0gzX03CuDMKUvYzBeMPyUgiyMImuAMcUjRWTlLbDEDNyU9e3n324
+	IJNf4iveO99wGuLA/NTehSV4PmfTmmTnj1vCH238gb5yrLBY1BSbmB2SU0LsCrFO5ZBjjc+82CG
+	Kj9hrENXjhhyY+Tdhqu/IN+O3KNf2qrplwHW745LF8Tr8AaJsEGH/MUiuK91A==
+X-Google-Smtp-Source: AGHT+IEX5I591QpXv8WTQPRJrzjSy/1s0cdBzyA4QwuuXgbqMKHbqocUwStacqp8C/ZXIRb1NGu5PNOX+zqArLn1ZQE=
+X-Received: by 2002:a05:6000:290d:b0:429:974f:2293 with SMTP id
+ ffacd0b85a97d-429a7e92b11mr3503317f8f.52.1761669266519; Tue, 28 Oct 2025
+ 09:34:26 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
+MIME-Version: 1.0
+References: <20250819120428.83437-1-clamor95@gmail.com> <aLB_7YS9HsfzfadI@kekkonen.localdomain>
+ <CAPVz0n1mXvdyzshei8Mbw7KVYCkQjziBA95ton4MKXPnPd0kbQ@mail.gmail.com>
+ <aQDuOSUYbuoLoFbf@kekkonen.localdomain> <aQDvzKMXhVlR2G3J@kekkonen.localdomain>
+In-Reply-To: <aQDvzKMXhVlR2G3J@kekkonen.localdomain>
+From: Svyatoslav Ryhel <clamor95@gmail.com>
+Date: Tue, 28 Oct 2025 18:34:15 +0200
+X-Gm-Features: AWmQ_bnFGdWWBG17RWYmTg8zrcdshLMPtCGqnVmjwv2gZfkw3zNr1YgO_-hVcMw
+Message-ID: <CAPVz0n3E08Ft1q5QS-aT8WUQNmTe5uOs=d2VHovNH1BbdQWVRQ@mail.gmail.com>
+Subject: Re: [PATCH v1 0/2] media: i2c: add Sony IMX111 CMOS camera sensor driver
+To: Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
+	Dongcheng Yan <dongcheng.yan@intel.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
+	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Jingjing Xiong <jingjing.xiong@intel.com>, 
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-tree/branch: git://linuxtv.org/sailus/media_tree.git cleanup
-branch HEAD: 85a797fcfacb01e3db6456256576135a3aa08617  media: staging: ipu7: isys: Drop video_open() function
+=D0=B2=D1=82, 28 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 18:3=
+1 Sakari Ailus <sakari.ailus@linux.intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
+>
+> On Tue, Oct 28, 2025 at 06:24:25PM +0200, Sakari Ailus wrote:
+> > Hi Svyatoslav,
+> >
+> > On Fri, Aug 29, 2025 at 09:20:10PM +0300, Svyatoslav Ryhel wrote:
+> > > =D1=87=D1=82, 28 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =D0=
+=BE 19:12 Sakari Ailus <sakari.ailus@linux.intel.com> =D0=BF=D0=B8=D1=88=D0=
+=B5:
+> > > >
+> > > > Hi Svyatoslaw,
+> > > >
+> > > > On Tue, Aug 19, 2025 at 03:04:25PM +0300, Svyatoslav Ryhel wrote:
+> > > > > Add driver for Sony IMX111 CMOS sensor found in LG Optimus 4X and=
+ Vu
+> > > > > smartphones.
+> > > >
+> > > > Thanks for the set.
+> > > >
+> > > > I wonder how would the sensor work with the CCS driver. The registe=
+r layout
+> > > > appears to be very much aligned with that (I haven't checked whethe=
+r there
+> > > > are MSRs that depend on the mode).
+> > > >
+> > >
+> > > After deeper testing I have found that imx111 may be nokia,smia
+> > > compatible, at least most of general registers and CCS logic is
+> > > applicable. Some of registers may cause issues, for example,
+> > > "phy_ctrl_capability" =3D 0, 0x0 and some insane pll ranges. Maybe th=
+at
+> > > can be addressed with a firmware patch idk. The trickiest part is tha=
+t
+> > > each mode requires non-standard and non-common manufacturer code
+> > > (0x3xxx ranges). If you can explain how to address these issues, I
+> > > would love to add imx111 and a few other modules into list of CCS
+> > > supported devices.
+> >
+> > On a closer look, only the image size related configuration and a littl=
+e
+> > more appears to be CCS-like. That's not enough to configure the sensor;
+> > this is conveyed in the MSR space which indeed makes the sensor difficu=
+lt
+> > to control using the CCS driver, unfortunately.
+>
+> Ok, the driver appears to be doing quite a bit of register writes outside
+> the register lists, which is good, and what's there appears indeed largel=
+y
+> CCS compliant. The MSRs remain an issue; it'd take quite a bit of reverse
+> engineering to figure out what the registers are and how to configure the=
+m
+> in a generic way. I think that's doable but I'm not sure it is justifiabl=
+e
+> considering the expected effort.
+>
 
-elapsed time: 1503m
+I have deciphered a lot already since downstream provides only
+register writing sequences. Everything that left is 0x3xxx which seems
+to refer a vendor region and it is not documented anywhere.
 
-configs tested: 117
-configs skipped: 1
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-tested configs:
-alpha                             allnoconfig    clang-22
-alpha                             allnoconfig    gcc-15.1.0
-alpha                            allyesconfig    gcc-15.1.0
-arc                              allmodconfig    gcc-15.1.0
-arc                               allnoconfig    clang-22
-arc                               allnoconfig    gcc-15.1.0
-arc                              allyesconfig    gcc-15.1.0
-arc                        nsimosci_defconfig    clang-22
-arc                   randconfig-001-20251028    gcc-8.5.0
-arc                   randconfig-002-20251028    gcc-13.4.0
-arm                              allmodconfig    gcc-15.1.0
-arm                               allnoconfig    clang-22
-arm                               allnoconfig    gcc-15.1.0
-arm                   randconfig-001-20251028    clang-22
-arm                   randconfig-002-20251028    clang-22
-arm                   randconfig-003-20251028    clang-22
-arm                   randconfig-004-20251028    gcc-8.5.0
-arm64                             allnoconfig    clang-22
-arm64                             allnoconfig    gcc-15.1.0
-arm64                 randconfig-001-20251028    clang-22
-arm64                 randconfig-002-20251028    clang-22
-arm64                 randconfig-003-20251028    gcc-11.5.0
-arm64                 randconfig-004-20251028    gcc-8.5.0
-csky                             allmodconfig    gcc-15.1.0
-csky                              allnoconfig    clang-22
-csky                              allnoconfig    gcc-15.1.0
-csky                             allyesconfig    gcc-15.1.0
-csky                  randconfig-001-20251028    gcc-15.1.0
-csky                  randconfig-002-20251028    gcc-15.1.0
-hexagon                          allmodconfig    clang-17
-hexagon                           allnoconfig    clang-22
-hexagon                           allnoconfig    gcc-15.1.0
-hexagon                          allyesconfig    clang-22
-hexagon               randconfig-001-20251028    clang-22
-hexagon               randconfig-002-20251028    clang-17
-i386                              allnoconfig    gcc-14
-i386                              allnoconfig    gcc-15.1.0
-i386        buildonly-randconfig-001-20251028    gcc-14
-i386        buildonly-randconfig-002-20251028    gcc-14
-i386        buildonly-randconfig-003-20251028    gcc-14
-i386        buildonly-randconfig-004-20251028    gcc-14
-i386        buildonly-randconfig-005-20251028    gcc-14
-i386        buildonly-randconfig-006-20251028    gcc-14
-i386                  randconfig-001-20251028    clang-20
-i386                  randconfig-002-20251028    clang-20
-i386                  randconfig-003-20251028    clang-20
-i386                  randconfig-004-20251028    clang-20
-i386                  randconfig-005-20251028    clang-20
-i386                  randconfig-006-20251028    clang-20
-i386                  randconfig-007-20251028    clang-20
-loongarch                        allmodconfig    clang-19
-loongarch                         allnoconfig    clang-22
-loongarch             randconfig-001-20251028    gcc-12.5.0
-loongarch             randconfig-002-20251028    clang-22
-m68k                             allmodconfig    gcc-15.1.0
-m68k                              allnoconfig    gcc-15.1.0
-m68k                             allyesconfig    gcc-15.1.0
-m68k                           sun3_defconfig    clang-22
-microblaze                       allmodconfig    gcc-15.1.0
-microblaze                        allnoconfig    gcc-15.1.0
-microblaze                       allyesconfig    gcc-15.1.0
-mips                              allnoconfig    gcc-15.1.0
-mips                      maltaaprp_defconfig    clang-22
-nios2                             allnoconfig    gcc-11.5.0
-nios2                 randconfig-001-20251028    gcc-8.5.0
-nios2                 randconfig-002-20251028    gcc-9.5.0
-openrisc                          allnoconfig    clang-22
-openrisc                          allnoconfig    gcc-15.1.0
-parisc                            allnoconfig    clang-22
-parisc                            allnoconfig    gcc-15.1.0
-parisc                randconfig-001-20251028    gcc-9.5.0
-parisc                randconfig-002-20251028    gcc-8.5.0
-powerpc                           allnoconfig    clang-22
-powerpc                           allnoconfig    gcc-15.1.0
-powerpc                 mpc8313_rdb_defconfig    clang-22
-powerpc               randconfig-001-20251028    gcc-15.1.0
-powerpc               randconfig-002-20251028    gcc-11.5.0
-powerpc               randconfig-003-20251028    gcc-8.5.0
-powerpc                    socrates_defconfig    clang-22
-powerpc                     tqm8541_defconfig    clang-22
-powerpc64             randconfig-001-20251028    clang-22
-powerpc64             randconfig-002-20251028    clang-22
-powerpc64             randconfig-003-20251028    gcc-13.4.0
-riscv                             allnoconfig    clang-22
-riscv                             allnoconfig    gcc-15.1.0
-s390                             allmodconfig    clang-18
-s390                              allnoconfig    clang-22
-s390                             allyesconfig    gcc-15.1.0
-sh                               allmodconfig    gcc-15.1.0
-sh                                allnoconfig    gcc-15.1.0
-sh                               allyesconfig    gcc-15.1.0
-sh                          r7785rp_defconfig    clang-22
-sparc                            alldefconfig    clang-22
-sparc                            allmodconfig    gcc-15.1.0
-sparc                             allnoconfig    gcc-15.1.0
-um                               allmodconfig    clang-19
-um                                allnoconfig    clang-22
-um                               allyesconfig    gcc-14
-x86_64                            allnoconfig    clang-20
-x86_64                            allnoconfig    clang-22
-x86_64      buildonly-randconfig-001-20251028    clang-20
-x86_64      buildonly-randconfig-001-20251028    gcc-14
-x86_64      buildonly-randconfig-002-20251028    clang-20
-x86_64      buildonly-randconfig-002-20251028    gcc-14
-x86_64      buildonly-randconfig-003-20251028    clang-20
-x86_64      buildonly-randconfig-004-20251028    clang-20
-x86_64      buildonly-randconfig-005-20251028    clang-20
-x86_64      buildonly-randconfig-006-20251028    clang-20
-x86_64                                  kexec    clang-20
-x86_64                               rhel-9.4    clang-20
-x86_64                           rhel-9.4-bpf    gcc-14
-x86_64                          rhel-9.4-func    clang-20
-x86_64                    rhel-9.4-kselftests    clang-20
-x86_64                         rhel-9.4-kunit    gcc-14
-x86_64                           rhel-9.4-ltp    gcc-14
-xtensa                            allnoconfig    clang-22
-xtensa                            allnoconfig    gcc-15.1.0
-
---
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+> --
+> Sakari Ailus
 
