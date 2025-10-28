@@ -1,124 +1,149 @@
-Return-Path: <linux-media+bounces-45818-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45819-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id CAB1DC1481A
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 13:03:23 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 66A38C14840
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 13:05:25 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 5B7974FBF8C
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 12:02:34 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6198919814F6
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 12:05:46 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E167C32ABE1;
-	Tue, 28 Oct 2025 12:02:15 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 86CE2329C7E;
+	Tue, 28 Oct 2025 12:05:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SwZX30kq"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="D+F+Uw9R"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFA80328617;
-	Tue, 28 Oct 2025 12:02:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00281302178
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 12:05:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761652934; cv=none; b=tFlJd6m5qCI/+fVZ5nVK+91PnCj9ALCDNHW6jbOiBqyJI143p3x1ry2QzizxiFPFpmqVIEudp4AqavLaA3WhTD4VkbthhPdklyZ5EnnZPIdBJjwQvQ6HSxs3XzQ7PJPafNLMWVT53npdfBS1QQxggj2xGZqhIzmpv9vzzMXbHNk=
+	t=1761653111; cv=none; b=GURJ6yx4tY9bQD4dbvNaRAmnDSLRF1t6ff59Cm+RRPmK6U23tUtUI8qhrmg5sX7tVzb/yu5Qe5eCPn9eOJTFq21x3Hsdmo4qCKfHv70OAnlps99wu73pTEglFvNfibKAD0ZapkdXoi9pdZv9xeZM/jZPaO7H+k45ljfExBfixaI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761652934; c=relaxed/simple;
-	bh=mZf/YKmsAob1fECJczEmiCct9PI3ELB+8/2Zjo1x01o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DyShAmpB1sV1LVad2AisW335Gq33qdq7SEzXH5pLBPojMUQhZ75sk6z8gq0FAOSpBj9U6QfP6tKFR4cdGXq2J5E6ZKu53sxtjCphaYERhSG7Se5vYx9JTxTIEb/9LCTMNzifmvEMCd/4juNeiKG3C4Iuym8si4bIHZrE//oWKKY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SwZX30kq; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9F27C4CEE7;
-	Tue, 28 Oct 2025 12:02:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761652933;
-	bh=mZf/YKmsAob1fECJczEmiCct9PI3ELB+8/2Zjo1x01o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SwZX30kqTRxKywW3JAgQpZq9YEFkCs4mbYnsls8E10OCO8sCik7skaC6kTTCKlfog
-	 IAGPeflZVG4EU9joGw/E4TiGl7RA8FEFNbJr5eZDvYRVR5AqDOAKiVBJ3RW9NglqMt
-	 YrKtMpdU8ZM7ej9CU2ASIMTiUtmkgbi/4YlElhPAm8ukENsd2Q5yb9qGC57bQdTv87
-	 kSyfTWb41F+rhshf2CL1q0957AOwBmoHWs/npuXlrXKWFgxS/IeSKCP1J/gK/MKvkJ
-	 lcPBPR7SnFgSuuCKpUntaxB+uWX3d7haPhR2st8URjXBigR+NbHjYiQJL0WRxmtmiQ
-	 /cOOFozsC/eiA==
-Date: Tue, 28 Oct 2025 14:02:07 +0200
-From: Leon Romanovsky <leon@kernel.org>
-To: David Matlack <dmatlack@google.com>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
-	Jason Gunthorpe <jgg@nvidia.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-	dri-devel@lists.freedesktop.org, iommu@lists.linux.dev,
-	Jens Axboe <axboe@kernel.dk>, Joerg Roedel <joro@8bytes.org>,
-	kvm@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org, linux-mm@kvack.org,
-	linux-pci@vger.kernel.org, Logan Gunthorpe <logang@deltatee.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Sumit Semwal <sumit.semwal@linaro.org>,
-	Vivek Kasireddy <vivek.kasireddy@intel.com>,
-	Will Deacon <will@kernel.org>
-Subject: Re: [PATCH v5 9/9] vfio/pci: Add dma-buf export support for MMIO
- regions
-Message-ID: <20251028120207.GQ12554@unreal>
-References: <cover.1760368250.git.leon@kernel.org>
- <72ecaa13864ca346797e342d23a7929562788148.1760368250.git.leon@kernel.org>
- <CALzav=cj_g8ndvbWdm=dukW+37cDh04k1n7ssFrDG+dN3D+cbw@mail.gmail.com>
+	s=arc-20240116; t=1761653111; c=relaxed/simple;
+	bh=rbCKjKedGn3lNL5DA8iywRojNwxcHHuGUb+g62HXVcA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=k6RNcioRijTXBtSS/+QkFCWpMHPqkIEZhI1H29P8R+skZpsiesarNkwLHZYeirhtP3H6Zk0brydwbef7mg5TiqS8WGno823egv6E4LsgRwf3DlrqXTmNWKiqWARoK6mNX91saxahAr7g233HYreblwC29m5ajrZ/Cr1cPj6/+iM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=D+F+Uw9R; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59S9q5KP353700
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 12:05:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	AVeMj8aHmAOBLYyWb2kA3eC/uoHRmImo3B+A0gZx0OM=; b=D+F+Uw9RQtOpaPag
+	SjSKLaGuMU9gWg4SymJiIdoqnj+A0TFfrU0nWxiHlbhNGoJPPXu53pulvzPAvf1o
+	2zG+znbSIP4u1MINv9V89dFII+Ce0oEhf1yNJZy+bYwOgxqvKDHhxe1REvw9Lqm+
+	FyEtL214nKq3YzoUnSMl1rHqvmfej/eydAs6W3heDXZ+lhZ8YEflk46L7rqTXnjd
+	dxpAIH7kihgHDKfKk/S6sHalqS7w8Mx8A4YSYn+HWOCmITt6Ecej6k21qkHBRxPD
+	9V5c67iltDqxn3Revod7BzHKEllQRhVy1+DjsLIdHJGXfQptBovbDJzRc91RE1UW
+	SayCww==
+Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com [209.85.210.199])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a2njrsh84-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 12:05:08 +0000 (GMT)
+Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-78105c10afdso5278839b3a.1
+        for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 05:05:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761653108; x=1762257908;
+        h=content-transfer-encoding:in-reply-to:from:references:cc:to
+         :content-language:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=AVeMj8aHmAOBLYyWb2kA3eC/uoHRmImo3B+A0gZx0OM=;
+        b=kVWhedjP7opjXfje56Hfzjk+MmODtKSrDP8peHPLwGpBx1viL5T2K3oBN5IUSRzTVW
+         sAI2BKrvjFvRQq/nteRdBzhfWdQ0nq5vptg5KWYJh7sRUi48chlloJeRKo0mBFhj7fzs
+         s7EaUmmOpGxKjMNyT27yIhORWAIB0H/pkbckXwzJpmLdKIH/B+4zciVJAT/QVogfhZoj
+         1gQd/37DCOudQdUhxcLukmauK9EQLGgcFqxn2xXN+nY8VKv31GawoAtYStpVV92pyqFu
+         kgKGNRLmvOaydjOMNNDtI6wHqh7wTRqgCyR9l+Ff46G2bL6+nvp/xYsdoeC49eafo1o2
+         wWtw==
+X-Gm-Message-State: AOJu0Yy1qBT7cN3k6PubY1znClpDtnU/nRHHKdFmHI320JaBV1udAl3x
+	WIf7l3rYDxYCTbmPZLixQRzFM6AasWPQ269u1fsVVpDDaRagqF6lrB1W1D/HuOtSoyQK96LLjFm
+	eZfij4IkDa9dq0v6Q3Kxgf0DMnM4NpkeWblsE+njmmHuThTNEDh9V4p+OUYDOEyELgw==
+X-Gm-Gg: ASbGncujLvm0P8ErmANtsjN14rrrrhetMtotNK9z/zrJcRGGr3LEP0QpB8u4GejyFNr
+	qiGCu4pmJpTXuTOS8fv/g7KbHrIiWetXSFUCLLd42QkbC0xrxx5AsvAy8ROJQ/Ges80Fs4ZuoFg
+	uMbHfg5A0cO8xyFY4vEghkDh9zD1Ge+EfEzkV+g+YJzEb5BQqkEa9cGqSIPkOa6QAoPnl10lKK2
+	9kok4iWemBn/AlJ68Wh7439wDgpF2IGoSM17CPg/6Uu7MiofHMNs3MQOvN3G9XG4P1zi6wWl6IV
+	I0hMGQop+mOprd4EJq2BLKNssmoaQTHe9Fx898oYeX6+3LAjJ5A56c6eVOqQe+Rw/yo5EdPcQsZ
+	YFdcCGKbgIvvvTLB7nUKDvq9N01rLNec=
+X-Received: by 2002:a05:6a00:391a:b0:7a2:81fe:b748 with SMTP id d2e1a72fcca58-7a441a92cf9mr3968319b3a.0.1761653107352;
+        Tue, 28 Oct 2025 05:05:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHIeqxVp1SuLasX8Q2uSFeqD+JQjMYiarT/vEc4wmKhKICAmfDvlDsrfzm0Vj71rwWg7P7V7w==
+X-Received: by 2002:a05:6a00:391a:b0:7a2:81fe:b748 with SMTP id d2e1a72fcca58-7a441a92cf9mr3968276b3a.0.1761653106869;
+        Tue, 28 Oct 2025 05:05:06 -0700 (PDT)
+Received: from [10.0.0.3] ([106.222.229.252])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7a41408757csm11411627b3a.59.2025.10.28.05.05.03
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Oct 2025 05:05:06 -0700 (PDT)
+Message-ID: <d1e665bf-9e94-b078-c984-fa2fb1392a32@oss.qualcomm.com>
+Date: Tue, 28 Oct 2025 17:35:02 +0530
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CALzav=cj_g8ndvbWdm=dukW+37cDh04k1n7ssFrDG+dN3D+cbw@mail.gmail.com>
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
+ Thunderbird/102.13.0
+Subject: Re: [PATCH v6 6/6] media: iris: enable support for SC7280 platform
+Content-Language: en-US
+To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
+        Abhinav Kumar <abhinav.kumar@linux.dev>,
+        Bryan O'Donoghue <bod@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20251028-iris-sc7280-v6-0-48b1ea9169f6@oss.qualcomm.com>
+ <20251028-iris-sc7280-v6-6-48b1ea9169f6@oss.qualcomm.com>
+From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
+In-Reply-To: <20251028-iris-sc7280-v6-6-48b1ea9169f6@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Authority-Analysis: v=2.4 cv=dqvWylg4 c=1 sm=1 tr=0 ts=6900b174 cx=c_pps
+ a=WW5sKcV1LcKqjgzy2JUPuA==:117 a=L4UNg9I9cQSOxNpRiiGXlA==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=EUspDBNiAAAA:8 a=fr3eplbp6RILtt3BeFwA:9 a=QEXdDO2ut3YA:10
+ a=OpyuDcXvxspvyRM73sMx:22
+X-Proofpoint-GUID: yoU1owsFqnFSI6OE8sUSSB0KmLHlY9Td
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI4MDEwMiBTYWx0ZWRfXy/DNizQj4c+0
+ imi1/o7cwEBTN4F3sH9LtsdV6ZrsibBNCABQUnYNsGu5OsY2g4CZHA2qMyorL48VeguU/M8JDuB
+ 3lQk6b8AUARm88la3O9vIGVaQLe4Nvhz8s9tLJv3CfRwtOdMv+EQkjLD9WtNRbpwU9zF1AbHAFK
+ V6zn6ny+fbAp8ztelYOObrFDoCtNZf9InksRj6TDLSeNNlkWlNZoJg75v4MQfQcRClZwp23RFZh
+ 0Rh75hEA8XstqmHyB7v6VSdAAwu6XZA0C9INBXGo4EdRUdy9epOmM9SBq0OoH3BjPjgdkGM4SXF
+ yHXQNGaEQKiHyoiOcVqRyv+rpQcNoqWVVT4etnyrEfG2T+fPGgJ22N7IjDmvzmqHlu7Zx2Dg+hV
+ QnsQdTQu7viqiUpipj9Sa5us7qo39w==
+X-Proofpoint-ORIG-GUID: yoU1owsFqnFSI6OE8sUSSB0KmLHlY9Td
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-28_04,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 clxscore=1015 impostorscore=0 priorityscore=1501
+ lowpriorityscore=0 bulkscore=0 spamscore=0 suspectscore=0 malwarescore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
+ definitions=main-2510280102
 
-On Mon, Oct 27, 2025 at 04:13:05PM -0700, David Matlack wrote:
-> On Mon, Oct 13, 2025 at 8:44 AM Leon Romanovsky <leon@kernel.org> wrote:
-> >
-> > From: Leon Romanovsky <leonro@nvidia.com>
-> >
-> > Add support for exporting PCI device MMIO regions through dma-buf,
-> > enabling safe sharing of non-struct page memory with controlled
-> > lifetime management. This allows RDMA and other subsystems to import
-> > dma-buf FDs and build them into memory regions for PCI P2P operations.
+
+
+On 10/28/2025 5:16 PM, Dmitry Baryshkov wrote:
+> As a part of migrating code from the old Venus driver to the new Iris
+> one, add support for the SC7280 platform. It is very similar to SM8250,
+> but it (currently) uses no reset controls (there is an optional
+> GCC-generated reset, it will be added later) and no AON registers
+> region. Extend the VPU ops to support optional clocks and skip the AON
+> shutdown for this platform.
 > 
-> > +/**
-> > + * Upon VFIO_DEVICE_FEATURE_GET create a dma_buf fd for the
-> > + * regions selected.
-> > + *
-> > + * open_flags are the typical flags passed to open(2), eg O_RDWR, O_CLOEXEC,
-> > + * etc. offset/length specify a slice of the region to create the dmabuf from.
-> > + * nr_ranges is the total number of (P2P DMA) ranges that comprise the dmabuf.
-> > + *
-> > + * Return: The fd number on success, -1 and errno is set on failure.
-> > + */
-> > +#define VFIO_DEVICE_FEATURE_DMA_BUF 11
-> > +
-> > +struct vfio_region_dma_range {
-> > +       __u64 offset;
-> > +       __u64 length;
-> > +};
-> > +
-> > +struct vfio_device_feature_dma_buf {
-> > +       __u32   region_index;
-> > +       __u32   open_flags;
-> > +       __u32   flags;
-> > +       __u32   nr_ranges;
-> > +       struct vfio_region_dma_range dma_ranges[];
-> > +};
-> 
-> This uAPI would be a good candidate for a VFIO selftest. You can test
-> that it returns an error when it's supposed to, and a valid fd when
-> it's supposed to. And once the iommufd importer side is ready, we can
-> extend the test and verify that the fd can be mapped into iommufd.
+> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 
-No problem, I'll add such test, but let's focus on making sure that this
-series is accepted first.
+Reviewed-by: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
 
-Thanks
+Thanks,
+Dikshita
 
