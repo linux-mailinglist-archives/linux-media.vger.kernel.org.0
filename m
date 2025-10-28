@@ -1,129 +1,103 @@
-Return-Path: <linux-media+bounces-45757-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45758-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28CD9C13861
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:24:34 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 390BEC13891
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:28:02 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D42815861DB
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 08:21:34 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id D6B384F1C27
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 08:25:37 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80AAE2D8393;
-	Tue, 28 Oct 2025 08:21:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E8DDB2D7D42;
+	Tue, 28 Oct 2025 08:25:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zm3Ko8xU"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lGyAmb+J"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D750035B13C;
-	Tue, 28 Oct 2025 08:21:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 521D124C068
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 08:25:33 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761639681; cv=none; b=QvWM0ZhVvyojznYMB8CXsZY5ujYaRLbMDJ61JmrTSEBmnFafrJfmMAVZ/3V+R+v+PGBJSYhE2c9S4hArZaagHULT2qyEwAHxUYK7b4JBhEq3HKDq0M7QB+7wbduyEFeRZe/JxO+3QDRjgdLUeIXUy6H1pjU/b1fZFIzGAI9RtKw=
+	t=1761639933; cv=none; b=I9P/RIXy3kvfxO99HW0G2QdS2QKGpy06KWf/ZOoGj+MmvGxUv/RzSIGdx59327sjVYMqmC3iNCLiwXuqqBYV0xiGkvhyN4hP7fgCPCY+6+kgsLRJO5RnqyGcZw5viSnmKs0bJ1BbM0HrgSPALuPz1tyhJ9xXaMgrwfcyz8sHAqI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761639681; c=relaxed/simple;
-	bh=xq6vPTE5D8vp9z0Ik6OcuXF3IvLLXrGywxNTTZownOA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Ox4GqjF4KFATAp040/IcnJcxB8zQ/pfSSSlcEf1D2IvALy0Z2gj3f6nbzhZEipXR0MHpPyJ4DclYztUDHqQYLpVI1dqgyQodAxlRWy3pCmLyszjZXsNDUMyPjVx3daJ/ICRHYolHmMsYjjGl/Dvlo3R1id9J4S4l+JVjny1QiFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zm3Ko8xU; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53C53C4CEE7;
-	Tue, 28 Oct 2025 08:21:21 +0000 (UTC)
+	s=arc-20240116; t=1761639933; c=relaxed/simple;
+	bh=FFEInrUMaePu0fUKsZqyBiQiSIQ0iyJM6skPoIHq5tw=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
+	 In-Reply-To:Content-Type; b=NXoofXLqcb1mcuGwGeZVmXKFWVXQMJJITffTGjK/hrrkAOJODifdge4gJ5oIgbaC45IV6ukZ2R+s7mRn27i583lvXWChec8Qs5t6usC34aRDtgWkZvQp7SoiiFb+2OAmLpDdtwBXyOdGF1DrHD3z+Pp+5yY2KFjmw/2z/qV4Hbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lGyAmb+J; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A935C4CEFF;
+	Tue, 28 Oct 2025 08:25:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761639681;
-	bh=xq6vPTE5D8vp9z0Ik6OcuXF3IvLLXrGywxNTTZownOA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Zm3Ko8xUw6mz5bmJKElBxZZnc515gBzgYlexGEXTV7+8ewILjEH/LGcGkouyx29SR
-	 wgIfheQtmzQZPBzeMQA2eWORMrkBs9m0HrYfCROHmTyILF1+bbZoHEIZXVoy5PXZX5
-	 ncD4rqLHmbW7bpY/lDmLZu5yXkcabWXCoUoxX8oGHzp3GxsJZfV6gj51xGK17R6186
-	 8gcSsdp1Nqf1mrclcD63+PtKgC0q19fR4qYh455JA+OkFPZBqkvBuyA59a6lS+gwlh
-	 hKsn1BnpMBoBUoQIGX/w9AduHALhdmjlzaQFG+GiazcDX90tjtSiPXq0arK56IDgg7
-	 v61HDSTvPTwCQ==
-Received: from johan by xi.lan with local (Exim 4.98.2)
-	(envelope-from <johan@kernel.org>)
-	id 1vDexI-000000007wt-2LbI;
-	Tue, 28 Oct 2025 09:21:24 +0100
-Date: Tue, 28 Oct 2025 09:21:24 +0100
-From: Johan Hovold <johan@kernel.org>
-To: Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc: Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
-	Houlong Wei <houlong.wei@mediatek.com>,
-	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-	Tiffany Lin <tiffany.lin@mediatek.com>,
-	Yunfei Dong <yunfei.dong@mediatek.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Matthias Brugger <matthias.bgg@gmail.com>,
-	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
-	Hans Verkuil <hans.verkuil@cisco.com>, linux-media@vger.kernel.org,
-	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] media: mediatek: fix VPU device leaks on probe
-Message-ID: <aQB9BIjXEOHpIy3_@hovoldconsulting.com>
-References: <20250924133552.28841-1-johan@kernel.org>
- <aP91nfnpShIhXcVQ@hovoldconsulting.com>
- <ac27d9b1da68746c62c03047fd7896e2303ef1fd.camel@ndufresne.ca>
+	s=k20201202; t=1761639932;
+	bh=FFEInrUMaePu0fUKsZqyBiQiSIQ0iyJM6skPoIHq5tw=;
+	h=Date:From:Subject:To:Cc:References:In-Reply-To:From;
+	b=lGyAmb+JJSlf0Ci2T29Fob32l+Pbx1Dyy38Cy4fy/gO1SZWqg5bPi1lT+k+12dmMR
+	 acpevjdThDNke63lm6RkAXK2uifP0b1bt56mUhXg/2mCb4ufhhQ60nOzYs9CWpCC7i
+	 HfEdQYxzKnfl5xfXoY2yqA0C09H/V0Yw2tWvWXBfzp5PE7RA3B9ke1jFYGKdBLmRBc
+	 4RfBG1GiQHqcrulsAiRSSTnT2euPKcmjKUvwjCTgfpsJxgw4mJGbHL6DQVIX+Nc6iz
+	 ca3azpsG17zKdoKxzAD8wxttgM/JHrnLpVO+GrgnhVowSfM0CJ9BIX0FwpZR5ASYOL
+	 3v+OIo98mV1mQ==
+Message-ID: <8bc5196e-9a40-44da-941b-f5f42608c74f@kernel.org>
+Date: Tue, 28 Oct 2025 09:25:29 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="Ha2fucMgPiStiQXJ"
-Content-Disposition: inline
-In-Reply-To: <ac27d9b1da68746c62c03047fd7896e2303ef1fd.camel@ndufresne.ca>
+User-Agent: Mozilla Thunderbird
+From: Hans Verkuil <hverkuil+cisco@kernel.org>
+Subject: Re: [PATCHv6 1/3] docs: media: update maintainer-entry-profile for
+ multi-committers
+To: Sean Young <sean@mess.org>
+Cc: linux-media@vger.kernel.org,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Sakari Ailus <sakari.ailus@linux.intel.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+ Ricardo Ribalda <ribalda@chromium.org>
+References: <cover.1761571713.git.hverkuil+cisco@kernel.org>
+ <1495ec4ccdcdfab788fa9d02e11a6028a455e31b.1761571713.git.hverkuil+cisco@kernel.org>
+ <aP_s8D35617s6JWU@gofer.mess.org>
+Content-Language: en-US, nl
+In-Reply-To: <aP_s8D35617s6JWU@gofer.mess.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 27/10/2025 23:06, Sean Young wrote:
+> On Mon, Oct 27, 2025 at 02:28:31PM +0100, Hans Verkuil wrote:
+>> From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>>
+>> As the media subsystem will experiment with a multi-committers model,
+>> update the Maintainer's entry profile to the new rules.
+>>
+>> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>> Reviewed-by: Ricardo Ribalda <ribalda@chromium.org>
+>> Signed-off-by: Hans Verkuil <hverkuil+cisco@kernel.org>
+> 
+> I've read it and I only have some tiny nits, looks great.
 
---Ha2fucMgPiStiQXJ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Thank you!
 
-On Mon, Oct 27, 2025 at 07:29:39PM +0000, Nicolas Dufresne wrote:
-> Le lundi 27 octobre 2025 =C3=A0 14:37 +0100, Johan Hovold a =C3=A9crit=C2=
-=A0:
-> > On Wed, Sep 24, 2025 at 03:35:49PM +0200, Johan Hovold wrote:
-> > > This series fixes VPU device leaks during probe of the mdp and two co=
-dec
-> > > drivers.
-> > >=20
-> > > Included is also a minor documentation update to make it clear that t=
-he
-> > > VPU lookup helper returns the device with an incremented refcount.
-> >=20
-> > Can these be picked up for 6.19?
->=20
-> They are picked already, please check in the tree,
->=20
-> https://gitlab.freedesktop.org/linux-media/media-committers/-/commits/next
+> 
+> Reviewed-by: Sean Young <sean@mess.org>
+> 
 
-I can't seem to find them in that branch either, and they are not in
-linux-next.=20
+<snip>
 
-(I seem to have trimmed my original message too much so that the patch
-summaries were not included in my reminder. Perhaps you are thinking of
-the related mtk-mdp3 fix?)
+>> +It could be wise to also copy the Media Maintainer(s). You should use
+>> +``scripts/get_maintainers.pl`` to identify whom else needs to be copied.
+>> +Please always copy driver's authors and maintainers.
+> 
+> git config for using scripts/get_maintainers.pl is useful
+I'm not sure I understand what you meant with this.
 
-But I do see an incomplete attempt at a fix of the reference leak in
-that branch by someone else in commit cdd0f118ef87 ("media: mediatek:
-vcodec: Fix a reference leak in mtk_vcodec_fw_vpu_init()")
+Regards,
 
-Can that commit be dropped in favour of this series or shall I rebase on
-top of it?
-
-Johan
-
---Ha2fucMgPiStiQXJ
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCaQB8/wAKCRALxc3C7H1l
-COHPAP4o5c3CdMjYcKPhRiv7y0Mt/SbQoTayD4O2ysNuNFLRCAEA3yz1kO0nlCQA
-6lld/IVLC+92XTeC/aq295ogntl20g8=
-=y1OE
------END PGP SIGNATURE-----
-
---Ha2fucMgPiStiQXJ--
+	Hans
 
