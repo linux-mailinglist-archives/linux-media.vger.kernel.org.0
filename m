@@ -1,170 +1,168 @@
-Return-Path: <linux-media+bounces-45778-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45779-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 13486C13E9F
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 10:51:34 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E4B9C13EC6
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 10:53:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 760DB4FD9CB
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:47:42 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id B5A023ABC44
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:48:10 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D31992D7392;
-	Tue, 28 Oct 2025 09:47:38 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 492BB2F49FB;
+	Tue, 28 Oct 2025 09:48:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b="SxpPySr/"
+	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="CaBvbMT7"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4DF367405A
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 09:47:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DDB829E0E7
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 09:47:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761644858; cv=none; b=dIkMKdtZ8b8D4npeN68KEq74oMWkVnP7CBqLMw4sYjlNPGt2OQgPMFXnZDmKdnC7XYr6xxguRJXBU9Fe1+LLeyjqO+gvS8JJ+rKIPeTzPEQKbN86P9Xdfp+a1Yq5lLBDU2ebj9NzvLgxQLltqEqyl1XSU/484NMZovE/AcewamE=
+	t=1761644880; cv=none; b=lE5qynZdi0PI+fLnd6XBQmWTrs3SRBHw0oE84f7/SgRkXUIAolJQ9lBsMdL9Hx0VUCg2d1yhmvoEMlg7QbJfK+oRwQ4VcB6qs/lWDZwnKK7ype5j1Y/MOd0gNi8BKFCRTq4qwMS90ze3dLIxj7VxrzDZ5jlmCr4BX64PPbGE7ww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761644858; c=relaxed/simple;
-	bh=fGcN/mnc+npBuOP7cFZCpYdNMDGQEaN2qai4gWsr0CI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=fkLYgclDLr/UM9+XCMa9xmRm4CBYfI8GMzfOCq/ty6GED6o+g8dU7zXmkXq3DwkR/P9GAPR78pmlxdEx3tIB+1Gdqe2qoLbHstWks3UGUDy2ozCa5gxj4O7UGYtx9qQwj1cGsauS39yjY6h5LI1B+vtp1ox1MD1k2wGN4xn9V0g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca; spf=pass smtp.mailfrom=ndufresne.ca; dkim=pass (2048-bit key) header.d=ndufresne-ca.20230601.gappssmtp.com header.i=@ndufresne-ca.20230601.gappssmtp.com header.b=SxpPySr/; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ndufresne.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ndufresne.ca
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-474975af41dso39137565e9.2
-        for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 02:47:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20230601.gappssmtp.com; s=20230601; t=1761644855; x=1762249655; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=768yZp3cA3mcqTuMW9me8j/QG9lDuH2jp1SmYQqm0eQ=;
-        b=SxpPySr/zFrB7ady2cnI+rHVCk019fL+7VzAKVAzRl56oHRKQXfWns0+hgu+ZxMfZE
-         FWkpsHReI5nZv354E54WkgtM3xahm7gOFHzSoHbrCzz5uQpCIGIqvsIn6OP+HQc4+bKF
-         Daf6KG6uP/ENTmUqij9kUDJQZj5AAxrBwuU0DO39GzM3aE8XC7+96B5mtvugzO8eeBIP
-         6OLdco3wb9WCrcXyJiGrSRzA3bYeeiLrImCVcZhFabJq3y0tQl9RHf5W+7aIl38TpnBR
-         YRdS+SJePdkQ3sZ8LhBqfsM4mX3IXTYFG70YHJsQ130w8JItiSK9UQ4qXubhTYNGM31a
-         xSJg==
+	s=arc-20240116; t=1761644880; c=relaxed/simple;
+	bh=92ximMM3HrtCvYomgPsBKCGxl0j5JEsmTo0RRYmUmfc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=G3bmwQt7VuEFIe6xyBxrjtaYqFD+4YSu3P9nFgNjXXI1Up8FGHSUyrLW64vDJn7dnE7ggmyYzbiO29AlwctD+dZNycduD7ghR/84jxmRawEu6IPFOyX4dUfVrmvCPVfVFmSizsqicOSlfJP6njKBaj5XVKubQJEzWrybjAQQeLA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=CaBvbMT7; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+Received: from pps.filterd (m0279866.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59S8rjw72881785
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 09:47:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	w8fQgACQUdMVIbkMW+bOZbTopCm7jhlY2sNnMiKhK4Y=; b=CaBvbMT71qxdRcLc
+	/tz0Ll8hiP/C4lCb0tkRv0LTvExtU5Vfl92yFHyMNi4gRU5iL0DA6N8yrICdUKv/
+	ll8HxKdkND/zSkjn0RJ4erPzzzVnmCRt21NutpPpeq/T7rREzI0MIxdEQcvIGS+r
+	0tEvcdPJnJFFVF0e6rGChUrd3jeXCu+ZxkQu+j8VUHbyD/RnXamqkl4rWJd2amaX
+	u7e+thsL1dhZhP5SXFT37CUPQSanRVmHra4B6cwvFa3smO4qS8hvhclvvgTmOgRx
+	8h/kQvKVk4FKS+yhEB7tuWLv40Ja0muWHhC8SEdY7P6D3BpCED35+C6GGMTZA0Qv
+	Jzy1hw==
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com [209.85.219.70])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a29uhbavm-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 09:47:58 +0000 (GMT)
+Received: by mail-qv1-f70.google.com with SMTP id 6a1803df08f44-87c1c70f1faso25303166d6.3
+        for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 02:47:58 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761644855; x=1762249655;
-        h=mime-version:user-agent:references:in-reply-to:date:cc:to:from
-         :subject:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=768yZp3cA3mcqTuMW9me8j/QG9lDuH2jp1SmYQqm0eQ=;
-        b=NiNPBvwWNrsDAh9BixRkLBuJDOwjQ+AYvFqa9yfHvpmhewuO4rAeKpIsBOC2nqfUmy
-         ocDBZL0TOosHQUeVnEQDYcYjDM3MY2raa5x7ixOP5wnmgn54dB7QffRnQbNqRupWFs/g
-         RGQPPDWX3IQHZAIzQQP3NhVJRBufSwqOOMEWEYeF41x7Q71tfgHm6AgYRaiRlXwY54ST
-         j7Q2Hq35NdJjmMgn7DGSS/7hoWdxMuc2V/W8seYYedUAxPFacjKfZ4iTQKYX7Eqx99th
-         g+7gELuGO67S0EqUVipjJUlbPxxYf5RECnwG2r0K8zXreP0vKZ0e7hN5ktRDfiifeDnF
-         p3bA==
-X-Gm-Message-State: AOJu0Yw+mRc+x08bYEP9ycclO0NCjyKWaOai1sSWDcqk334XjtxByxeB
-	4nyjdC1xt6/oZD343S5P41YVDkGWttUvctbrypL/W3SQFY9h4rkHbXGZBt/yn5jWlh8=
-X-Gm-Gg: ASbGncsyDJtLTs3b+ccZ6dyokbD3mNA4g+KRJ7+afUixDeeSayXrPQXo3B17KhXa4bZ
-	K/HMD8GN6rLRohHaaAwxYZ2suYc1OlM2MjBANsGlu/nzaXej+2n86wgWHy+DDpNv0UsZX5EkzvW
-	oci59jfsiJegEci80NQ18yPYfsFvOLR6W+MsbizDw59BFeyu6zRG3a6/BPaqqa9eOyUK0jCBIYd
-	XfzY1TGu940mj2Lx2P+tbV19OfK3Yb2cXyO+01Tlm+GzXhAvxKNZxPru03jmv4gcgEvkKqT8UbA
-	LAQEiJMNoxAyI+76TV4NCNSZ9uBe9ZyZmOkj67tpcRtKhgSk2m6nFj9a1p5KhSRfuVnIVDvfQYm
-	Y0r3t5KqwAHOL0puc6HESbzjNT7C8Z0WDxb4Gn/+FUFnUFPtfhLF4rw+gWhhAzpTapxCU2NZuiR
-	P9YfT+
-X-Google-Smtp-Source: AGHT+IFWHLGEgecjsi14d17d8QJAN0DfHwsjIZ3qxpUH1YdvcBO32/JOe3vpDKUGwmEPQRfYE+sNaw==
-X-Received: by 2002:a05:600c:6290:b0:46e:3d41:6001 with SMTP id 5b1f17b1804b1-47717e6d477mr28815885e9.34.1761644854176;
-        Tue, 28 Oct 2025 02:47:34 -0700 (PDT)
-Received: from [192.168.4.57] ([79.79.193.116])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd477c92sm184692565e9.2.2025.10.28.02.47.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 28 Oct 2025 02:47:33 -0700 (PDT)
-Message-ID: <3a603410869cf876e7693880e0f6ca8ced27be7b.camel@ndufresne.ca>
-Subject: Re: [PATCH] media: v4l2-ctrls: set AV1 sequence flags for testing
-From: Nicolas Dufresne <nicolas@ndufresne.ca>
-To: Pavan Bobba <opensource206@gmail.com>, mchehab@kernel.org, 
-	hverkuil@kernel.org, ribalda@chromium.org,
- laurent.pinchart@ideasonboard.com, 	hansg@kernel.org, yunkec@google.com,
- sakari.ailus@linux.intel.com, 	james.cowgill@blaize.com
-Cc: linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Date: Tue, 28 Oct 2025 09:47:32 +0000
-In-Reply-To: <20251028062623.12700-1-opensource206@gmail.com>
-References: <20251028062623.12700-1-opensource206@gmail.com>
-Content-Type: multipart/signed; micalg="pgp-sha512";
-	protocol="application/pgp-signature"; boundary="=-kxVl3pXhlxWcSMfpspLf"
-User-Agent: Evolution 3.56.2 (3.56.2-2.fc42) 
+        d=1e100.net; s=20230601; t=1761644877; x=1762249677;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=w8fQgACQUdMVIbkMW+bOZbTopCm7jhlY2sNnMiKhK4Y=;
+        b=EESWQkMRbCNov16JNv5Ss4Anwh4B5LVtHPUYnynLLuINLWxcpitQKYWzYikdH3hum2
+         DqhVaGKCwJhxCy4dfIypcNY/OthwHbVU9x+K10pXEncsHdoIezmAG4uOaG7aY6CNN/57
+         WM4zIaampqWMZ9scEwyNz7oRTaQqBdYI6SrEcuwSMR3pivwr+mYyDwf22LmAmqWil9Vj
+         mXDNHs7xJ4Fau0jedN82TeuigS/brlaA4+IcxjN1wYZSwagWIT4H6PHGxqCy3R7ibyJr
+         gNoUNhFxUNkIiLmFo9GOQ9+vqYsgtWdTliKUWYopFLzzwB0omCN7lc/mfLEnOxkU5D/w
+         DUFg==
+X-Forwarded-Encrypted: i=1; AJvYcCUd19U4Nj0f9N5pENXwl0SX34c/2zOHAlB+t8YnbRzx3cPw8NiV1JMFkWHAifpPynbjAciCBwVBDXHoEw==@vger.kernel.org
+X-Gm-Message-State: AOJu0YxFDxlzXk/z9ss65RL8nfjpQmHVfNaF0EdN2BGfieTywl4VQxKZ
+	fSAelA8RCo9yV25NvAkJlXJzqWEMXgbUD0idAtB44GWUOasP//Yg0hsN1MnHwCWRrmYcZEuxdVR
+	J5lODBkSBsKOxMcw2ckv43Z40kmx6AlYr2mBiZcUETGfosBGUJ7lYb5WSJwCJ3kxqUCcFE9oHiw
+	==
+X-Gm-Gg: ASbGncu8ynX25OCa0YfXY6N917aLvg+WmiSxSXTsQuoGmllJIGZIWn7zC3DofoDdlvi
+	BRgAUA9s7NtQ2BwvUL+ujtUvsrQbtsulio7pWE4cyWnVrSe6/ijUXTouIjqyE/tZfkD1OopxkBF
+	gIw7bpyxUVGSnvOwOJggE8T1wMlUcBYzdoROzYN8gY/uwsMmtgKmLfLlddNARsDwDODdj5cushs
+	D0XLAafpqhc7r/OUdPCvyypRwhQdubg9uGMBGY6AeZlbWhIYTqHNbnICUKmO1uEZjPrHUTZBE3r
+	bs89tRyX0bquWCoN6N3/yUDLdaV8gKtEU+S1a72G3ZDP1SqBTFAMU1MoAkO4gTzCjvRIKHwnbmR
+	tyo6baCLmfd4fGy+Tv8cplRo7EkxazqB8Vvn2vC2hPwouwPSHsPTEZTy+
+X-Received: by 2002:a05:6214:2245:b0:7d0:8b28:aaa4 with SMTP id 6a1803df08f44-87ffb1059c5mr21687336d6.6.1761644877298;
+        Tue, 28 Oct 2025 02:47:57 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGOS8rCxBapT8jvuZGeFUYuC27SOQS9JehyH0lmgObjPrvYaSPzNW1Ksfgu1G8QPT0mdat+BQ==
+X-Received: by 2002:a05:6214:2245:b0:7d0:8b28:aaa4 with SMTP id 6a1803df08f44-87ffb1059c5mr21687266d6.6.1761644876903;
+        Tue, 28 Oct 2025 02:47:56 -0700 (PDT)
+Received: from [192.168.119.202] (078088045245.garwolin.vectranet.pl. [78.88.45.245])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d853f97f7sm1026780966b.51.2025.10.28.02.47.54
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Oct 2025 02:47:56 -0700 (PDT)
+Message-ID: <63f3d1af-8620-465d-8dd0-30a42a36305d@oss.qualcomm.com>
+Date: Tue, 28 Oct 2025 10:47:53 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/3] dt-bindings: media: camss: Add qcom,sm6350-camss
+To: Luca Weiss <luca.weiss@fairphone.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Bryan O'Donoghue <bod@kernel.org>, Robert Foss <rfoss@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>,
+        Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Krzysztof Kozlowski <krzk+dt@kernel.org>,
+        Conor Dooley
+ <conor+dt@kernel.org>,
+        Bryan O'Donoghue <bryan.odonoghue@linaro.org>,
+        Bjorn Andersson <andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20251024-sm6350-camss-v1-0-63d626638add@fairphone.com>
+ <20251024-sm6350-camss-v1-1-63d626638add@fairphone.com>
+ <20251028-defiant-visionary-rottweiler-f97cda@kuoka>
+ <DDTUHFIN3IEK.3FY5IS9S73ASO@fairphone.com>
+Content-Language: en-US
+From: Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
+In-Reply-To: <DDTUHFIN3IEK.3FY5IS9S73ASO@fairphone.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Proofpoint-ORIG-GUID: kJqhxh3QPB1lU17KG-QWM3p39Z8CsVEm
+X-Proofpoint-GUID: kJqhxh3QPB1lU17KG-QWM3p39Z8CsVEm
+X-Authority-Analysis: v=2.4 cv=QuFTHFyd c=1 sm=1 tr=0 ts=6900914e cx=c_pps
+ a=oc9J++0uMp73DTRD5QyR2A==:117 a=FpWmc02/iXfjRdCD7H54yg==:17
+ a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=As_Xg-pERP707GV__uoA:9 a=QEXdDO2ut3YA:10 a=iYH6xdkBrDN1Jqds4HTS:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI4MDA4MyBTYWx0ZWRfX9zhwNsq0PhmK
+ OF4CmQdCPft5TkjSGNoinIQsjFUFY+hplhFgaWzLcWtWlV/4VjD6VIk4+Pty4Rb0M0lUWfOSF43
+ ODMEZ94TGvcud0Br+a1FUPGkfWeXkt/gXyTigCg2mSr1UPras2SR8Q1fJkPQM23zFxFy1fERhuG
+ jScD/DGw35VUSXrB/OtpYnkVYMCgwwJbDHMbG+tzxmlPTlUM3OTSQWyRPGXFVw5Dq5dHh7BnrDb
+ hULLGJVZil5UEgVNyzdol4GqwbqYF6lLb4Bb3NiEQSSbH5IULyffuclY1juGs5VOIJtwvAbwe5B
+ xA6qwDY+Hq3/NnROKoVAFL7gFgmhLpLincLRAIJsfuqdE1RB2wWzZCXPY3T6ptOYWJFGZvvddtL
+ 2EXdhprS3a6Ihp85pLaYTXjw2NUA4w==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
+ definitions=2025-10-28_03,2025-10-22_01,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0 spamscore=0 lowpriorityscore=0 bulkscore=0
+ phishscore=0 clxscore=1015 priorityscore=1501 suspectscore=0 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2510020000 definitions=main-2510280083
 
+On 10/28/25 10:24 AM, Luca Weiss wrote:
+> Hi Krzysztof,
+> 
+> On Tue Oct 28, 2025 at 9:54 AM CET, Krzysztof Kozlowski wrote:
+>> On Fri, Oct 24, 2025 at 02:23:59PM +0200, Luca Weiss wrote:
 
---=-kxVl3pXhlxWcSMfpspLf
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+[...]
 
-Hi,
+>> There are no dots in property names. Are you sure these are called
+>> VDDA_0.9 in the device datasheet (not schematics)? Please look at other
+>> bindings how this is being named, depending whether this is PHY or PLL
+>> supply (or only PHY).
+> 
+> The following power supplies are mentioned:
+> 
+> * VDD_CAMSS_PLL_0P9 - Camera SS PLL 0.9 V circuits
+>     (not referenced in downstream kernel, connected to vreg_s5a in
+>     schematics)
+> * VDD_A_CSI_x_0P9 - MIPI CSIx 0.9 V circuits
+>     With pad names VDD_A_CSI_0_0P9 to VDD_A_CSI_3_0P9
+> * VDD_A_CSI_x_1P25 - MIPI CSIx 1.25 V circuits
+>     With pad names VDD_A_CSI_0_1P25 to VDD_A_CSI_3_1P25
 
-Le mardi 28 octobre 2025 =C3=A0 11:56 +0530, Pavan Bobba a =C3=A9crit=C2=A0=
-:
-> Initialize additional AV1 sequence parameters in std_init_compound()
-> to make the default AV1 sequence control compatible with compliance
-> and userspace testing tools.
->=20
-> Specifically, set:
-> =C2=A0- enable both SUBSAMPLING_X and SUBSAMPLING_Y flags
->=20
-> These defaults help ensure that V4L2_CID_AV1_SEQUENCE behaves
-> consistently during validation and v4l2-compliance tests.
->=20
-> Signed-off-by: Pavan Bobba <opensource206@gmail.com>
-> ---
-> =C2=A0drivers/media/v4l2-core/v4l2-ctrls-core.c | 6 ++++++
-> =C2=A01 file changed, 6 insertions(+)
->=20
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls-core.c b/drivers/media/v4=
-l2-core/v4l2-ctrls-core.c
-> index fa03341588e4..8809912797d2 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls-core.c
-> @@ -160,7 +160,13 @@ static void std_init_compound(const struct v4l2_ctrl=
- *ctrl, u32 idx,
-> =C2=A0		break;
-> =C2=A0	case V4L2_CTRL_TYPE_AV1_SEQUENCE:
-> =C2=A0		p_av1_sequence =3D p;
-> +		/*
-> +		 *setting below parameters to make AV1 sequence compatible
-> +		 *for the testing
-> +		 */
-> =C2=A0		p_av1_sequence->bit_depth =3D 8;
-> +		p_av1_sequence->flags |=3D V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_X |
-> +			V4L2_AV1_SEQUENCE_FLAG_SUBSAMPLING_Y;
+I can corroborate this
 
-There is a bit of a lack of clarity upon why we do this. I would comment on
-that.
-
-/**
- * The initial profile is 0 which only allows YUV 420 subsampled data. Set =
-the =C2=A0
- * subsampling flags accordingly.
- */
-
-With the correction:
-Reviewed-by: Nicolas Dufresne <nicolas.dufresne@collabora.com>
-
-cheers,
-Nicolas
-
-> =C2=A0		break;
-> =C2=A0	case V4L2_CTRL_TYPE_FWHT_PARAMS:
-> =C2=A0		p_fwht_params =3D p;
-
---=-kxVl3pXhlxWcSMfpspLf
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: This is a digitally signed message part
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQTvDVKBFcTDwhoEbxLZQZRRKWBy9AUCaQCRNAAKCRDZQZRRKWBy
-9AlJAQD/1RfF7gfX/ljsf3B9plPP0YJ2UE8a+X8pA4lJofOB9AEA7h73+bcEcBvf
-1DaAHAJAnIPGp6p8vGgGrEp6sZffvwc=
-=zBmI
------END PGP SIGNATURE-----
-
---=-kxVl3pXhlxWcSMfpspLf--
+Konrad
 
