@@ -1,370 +1,1862 @@
-Return-Path: <linux-media+bounces-45860-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45861-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8D6AC165C5
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 19:01:39 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
+	by mail.lfdr.de (Postfix) with ESMTPS id 55DD1C165E9
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 19:02:46 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id B33091C603BD
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 17:59:18 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C805B505AA3
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 17:58:58 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 937B034C9B5;
-	Tue, 28 Oct 2025 17:58:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 690A126E6E5;
+	Tue, 28 Oct 2025 17:58:54 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AdSmRumo"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EC0cOlzb"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 265FA34402F
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 17:58:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCB7619E82A;
+	Tue, 28 Oct 2025 17:58:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761674323; cv=none; b=fMY5T85VHuExdU6aWSIvecIas0Qb7Ps+3rxrCnQfJ1Cd/mbnCd+TLD/BYfhjmaA55kff3SGE/Cm+6JFtUPx5sAQ4pkJMKiymOvyEL3tbBNQTTetWkjr7SBjI0oM6cTV+ddM5IG+x+CLhefl8eQH1UNhoai9BrvpW+2UK1D5vdHo=
+	t=1761674333; cv=none; b=fjAxsDCvI53RWFnv/ex2EK7i8+fKd+CRmf8e/H3XUN5vNQZnySDcIhwIH3Uyw/UkXLjJffiUnoBJHo/InJBXBlqebF8wc+Zwl1D6JAIyVIEjL2ePdbaF91fcGis0BMl0csSbGxomhxJLh1mlNWUXtaeA4LLih26GME1g6rjWPTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761674323; c=relaxed/simple;
-	bh=EjYv/KMdk5hwRo5zg+2N0tGtkmyPoh/BoLUacmiYuIM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ZYoEmsFQWiI5yeF3TF8s0WNfM92vpQ0nsHPXUgdcqk2BXI3lDUHBzHGXJtpuJn9IT4ZrsyYCknZLoIC/SaqYu60cbZ2i6zk/L2bwzvrgbGxEsY8sOZvj+c6ouZHVUN2jpV43bhOgJ62PYybu5u8Jg0Bdw+1wxWQoGSeeAfWn3gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AdSmRumo; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-427091cd4fdso3655277f8f.1
-        for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 10:58:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761674319; x=1762279119; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=chOqt8RmvPjENMZLrKMXMx23a0j+hi9Mh5r2D2HF49A=;
-        b=AdSmRumohlsWJw6Clklh1vdrr0i1SLeTJDtmFitVb167CaNkub8top/BvG8U1I1q+I
-         Nce9ywsgxNaxAEbObXIroMvI+5lJATHhH39thPXKIL59x4RHiGlh7vzf47BDmauea2Bx
-         E8dLTOHQKaYO3Hh4ckVXyxbmFlQZKVwUS+fmWT9kjrxaKcPfN4cq8B/7FAxGyMWo0gZE
-         vLY/CRlom7htvEmEh4HMKtTUJ9728IUb1Vfjyj4FmriLSgUmiHwlQvJ+t2xFqUGuD/gN
-         FdKYmOWw4kuAnrwev+fLS3ugJNUQRWwN/IKmUaQwzSkMhKw7CWdfAzCM61qFrDZzjrjA
-         c3cA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761674319; x=1762279119;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=chOqt8RmvPjENMZLrKMXMx23a0j+hi9Mh5r2D2HF49A=;
-        b=UFs6gAOQenITnBoiPE57PV93y5xhvWhbaf74GITWrek9YWqnFvIZrK/pYE0hDkaNha
-         OXex8Zroj4rimVeaeu2pMbmT/eMfzxYSMLBKQscZ4sU/yEzSUO0plAdcjfMTJ1tTnNHZ
-         5jFfBh5E0YqWk2iLgbdof+Wzp90xFb33NzH6p6Ncd/WwRt+ZVG0k5uTcJvQjoqhchDJj
-         NM8lA+eBXaXgtCutWcdufktP1E6Hd17i5sTAGFMq667GS66uRISb/+xDqshj8MfyqFOr
-         d8zHqOrFnt0IMx4IBWHCV1JF1U8dgMnwdQRGvKLsE/uE7as1e7CczQyRfOAgPStlDxNG
-         4olQ==
-X-Gm-Message-State: AOJu0YznFnOeLEDQUrVsd5BJB60DmbX/ahFBMKewM6t5fi4ak3dL/Wqa
-	QqHgKr6XtGWnMH2wWhkc4N+zdd8SkN0M0rwL/88+LKdyb/kvGefO5AU+wvFJElQTiUJc0OD7/v6
-	+jhpTpHI6EGcXYGYtuLkTy021obx6coM=
-X-Gm-Gg: ASbGnctoX8qYjJiBT1ve5wMi/PfOiC2/YRI4ZVvAbAFJZCyDADMbXYQRrn3ck+VIMkP
-	0+lEu1WuP7ULdBkITEgIYt1IUfgoS05Ivyr55wAmxc54pyQzkI+hCoCuJDGwM7j6OOnMtPeVtZd
-	RACRtdqTdgs1pAiHc7ui67CP2ri6iZAdLEgeZzQcFRzJnd5qLaDSB2Atvp0MlafIa0dZRWrmUCc
-	XaXQVOOXWPvSruo/Q8SKZlUmF+6TtRwJyysviQLC2DFES2f63GSwN5+/dUL
-X-Google-Smtp-Source: AGHT+IHh8T3ykEJ2k+SqnqUv99coirZbdgdMUPaGxgoPsKTmKd/b9zWs5bZFLuATTAQlif0eT61G09zLSddJRKJYc3M=
-X-Received: by 2002:a05:6000:2905:b0:427:854:773 with SMTP id
- ffacd0b85a97d-429a7e76c0bmr3243802f8f.37.1761674319174; Tue, 28 Oct 2025
- 10:58:39 -0700 (PDT)
+	s=arc-20240116; t=1761674333; c=relaxed/simple;
+	bh=ZnNp2yBJnTkhfViBDFKfASqLnOn/xu8PNj11cPqGAw0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=q4ayEHUmCF5ZfqsnCSA559Yqo0ZrCcHEuaCE034MqjtsetsbflpTxeJS0uDn1W3tIvpsyhkS6YxYjpoHPU0Y6VX/I6i9mVEqLmY3FCypfPYkK5g0c1XYfGdg9qQdeWKATxmklOr8pl3yP2qbaw9XnqxDHVT0n3W6wYyGvegXi8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EC0cOlzb; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761674329; x=1793210329;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=ZnNp2yBJnTkhfViBDFKfASqLnOn/xu8PNj11cPqGAw0=;
+  b=EC0cOlzbYGb5vMYamYuKh+Np+Q56u9zp20+AIIUh1kA6keR/AE2Bgy9Y
+   FX8o8wNAcyY/Mm0jvImc6pOT4ICujhIqX9VPC/fR0MFpalx8nSwO5Fpw4
+   YCmBLkfTwqI4GSU0rPM5XbmkagslFr/PX4pUfVoCTyZRFXiI+AiVpzM/G
+   ywPZ6he18epkOPmhu5KmCitiiO8JRzkFmsBXR/6yXMgCNKt3FYwnc5MrD
+   5nuJLiSpLPlAchui4jwao2c/SR0ClxeQcWE8Cqk9FfCb8aJtO4fRXJ0Hn
+   SLgQ0r2QLXmh2BMjAAKSEfgddunFYJjGmBk0l3wo5bqqsK6u9rLcpHtux
+   g==;
+X-CSE-ConnectionGUID: +2QMq9SgQ6ywaI6pjtT+zw==
+X-CSE-MsgGUID: iEDp2oU4TOSaLt1w/P3IXw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="51358577"
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
+   d="scan'208";a="51358577"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 10:58:49 -0700
+X-CSE-ConnectionGUID: JSFb+a3mQtS83HKsO8tksw==
+X-CSE-MsgGUID: OcXSxgAsRSq4MB8XqmCjLw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
+   d="scan'208";a="189773874"
+Received: from egrumbac-mobl6.ger.corp.intel.com (HELO kekkonen.fi.intel.com) ([10.245.244.104])
+  by fmviesa005-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 10:58:45 -0700
+Received: from kekkonen.localdomain (localhost [IPv6:::1])
+	by kekkonen.fi.intel.com (Postfix) with ESMTP id D584D1206DE;
+	Tue, 28 Oct 2025 19:58:42 +0200 (EET)
+Date: Tue, 28 Oct 2025 19:58:42 +0200
+Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6 krs, Bertel Jungin Aukio 5, 02600 Espoo
+From: Sakari Ailus <sakari.ailus@linux.intel.com>
+To: Svyatoslav Ryhel <clamor95@gmail.com>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hansg@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Dongcheng Yan <dongcheng.yan@intel.com>,
+	=?iso-8859-1?Q?Andr=E9?= Apitzsch <git@apitzsch.eu>,
+	Sylvain Petinot <sylvain.petinot@foss.st.com>,
+	Benjamin Mugnier <benjamin.mugnier@foss.st.com>,
+	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2 RESEND] media: i2c: add Sony IMX111 CMOS camera
+ sensor driver
+Message-ID: <aQEEUpgW8nmZ3ZCl@kekkonen.localdomain>
+References: <20251028092200.7003-1-clamor95@gmail.com>
+ <20251028092200.7003-3-clamor95@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20251002-c55-v12-0-3eda2dba9554@ideasonboard.com> <20251002-c55-v12-1-3eda2dba9554@ideasonboard.com>
-In-Reply-To: <20251002-c55-v12-1-3eda2dba9554@ideasonboard.com>
-From: "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date: Tue, 28 Oct 2025 17:58:12 +0000
-X-Gm-Features: AWmQ_bkHVf79naQHjwnfJ41qc93yuL_ZI4xCKXD8yt892ICcC21tOdZ_3oQLbqc
-Message-ID: <CA+V-a8suSo-dFNBs=VzwXpJ3XkQjZAMHx71y5ozhZQX1ui=3qw@mail.gmail.com>
-Subject: Re: [PATCH v12 01/15] media: uapi: Add MEDIA_BUS_FMT_RGB202020_1X60
- format code
-To: Daniel Scally <dan.scally@ideasonboard.com>
-Cc: linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, Anthony.McGivern@arm.com, 
-	jacopo.mondi@ideasonboard.com, nayden.kanchev@arm.com, robh+dt@kernel.org, 
-	mchehab@kernel.org, krzysztof.kozlowski+dt@linaro.org, conor+dt@kernel.org, 
-	jerome.forissier@linaro.org, kieran.bingham@ideasonboard.com, 
-	laurent.pinchart@ideasonboard.com, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20251028092200.7003-3-clamor95@gmail.com>
 
-On Thu, Oct 2, 2025 at 11:18=E2=80=AFAM Daniel Scally
-<dan.scally@ideasonboard.com> wrote:
->
-> The Mali-C55 ISP by ARM requires 20-bits per colour channel input on
-> the bus. Add a new media bus format code to represent it.
->
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Acked-by: Nayden Kanchev <nayden.kanchev@arm.com>
-> Co-developed-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Signed-off-by: Jacopo Mondi <jacopo.mondi@ideasonboard.com>
-> Signed-off-by: Daniel Scally <dan.scally@ideasonboard.com>
+Hi Svyatoslav,
+
+Btw. there's no need to resend media patches; just ping for reviews
+instead.
+
+On Tue, Oct 28, 2025 at 11:22:00AM +0200, Svyatoslav Ryhel wrote:
+> Add a v4l2 sub-device driver for the Sony IMX111 image sensor. This is a
+> camera sensor using the i2c bus for control and the csi-2 bus for data.
+> 
+> The following features are supported:
+> - manual exposure, digital and analog gain control support
+> - pixel rate/link freq control support
+> - supported resolution up to 3280x2464 for single shot capture
+> - supported resolution up to 1920x1080 @ 30fps for video
+> - supported bayer order output SGBRG10 and SGBRG8
+> 
+> Camera module seems to be partially compatible with Nokia SMIA but it
+> lacks a few registers required for clock calculations and has different
+> vendor-specific per-mode configurations which makes it incompatible with
+> existing CCS driver.
+> 
+> Signed-off-by: Svyatoslav Ryhel <clamor95@gmail.com>
 > ---
-> Changes in v10:
->
->         - None
->
-> Changes in v9:
->
->         - None
->
-> Changes in v8:
->
->         - None
->
-> Changes in v7:
->
->         - None
->
-> Changes in v6:
->
->         - Fixed the table formatting
->
-> Changes in v5:
->
->         - none
->
-> Changes in v4:
->
->         - None
->
-> Changes in v3:
->
->         - None
->
-> Changes in v2:
->
->         - none
-> ---
->  .../userspace-api/media/v4l/subdev-formats.rst     | 168 +++++++++++++++=
-++++++
->  include/uapi/linux/media-bus-format.h              |   3 +-
->  2 files changed, 170 insertions(+), 1 deletion(-)
->
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+>  drivers/media/i2c/Kconfig  |   10 +
+>  drivers/media/i2c/Makefile |    1 +
+>  drivers/media/i2c/imx111.c | 1614 ++++++++++++++++++++++++++++++++++++
+>  3 files changed, 1625 insertions(+)
+>  create mode 100644 drivers/media/i2c/imx111.c
+> 
+> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
+> index e68202954a8f..8ec1f369f043 100644
+> --- a/drivers/media/i2c/Kconfig
+> +++ b/drivers/media/i2c/Kconfig
+> @@ -127,6 +127,16 @@ config VIDEO_HI847
+>            To compile this driver as a module, choose M here: the
+>            module will be called hi847.
+>  
+> +config VIDEO_IMX111
+> +	tristate "Sony IMX111 sensor support"
+> +	select V4L2_CCI_I2C
+> +	help
+> +	  This is a V4L2 sensor driver for the Sony IMX111 camera
+> +	  sensors.
+> +
+> +	  To compile this driver as a module, choose M here: the
+> +	  module will be called imx111.
+> +
+>  config VIDEO_IMX208
+>  	tristate "Sony IMX208 sensor support"
+>  	help
+> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
+> index 5873d29433ee..67b810c91870 100644
+> --- a/drivers/media/i2c/Makefile
+> +++ b/drivers/media/i2c/Makefile
+> @@ -45,6 +45,7 @@ obj-$(CONFIG_VIDEO_HI556) += hi556.o
+>  obj-$(CONFIG_VIDEO_HI846) += hi846.o
+>  obj-$(CONFIG_VIDEO_HI847) += hi847.o
+>  obj-$(CONFIG_VIDEO_I2C) += video-i2c.o
+> +obj-$(CONFIG_VIDEO_IMX111) += imx111.o
+>  obj-$(CONFIG_VIDEO_IMX208) += imx208.o
+>  obj-$(CONFIG_VIDEO_IMX214) += imx214.o
+>  obj-$(CONFIG_VIDEO_IMX219) += imx219.o
+> diff --git a/drivers/media/i2c/imx111.c b/drivers/media/i2c/imx111.c
+> new file mode 100644
+> index 000000000000..814c557d9e96
+> --- /dev/null
+> +++ b/drivers/media/i2c/imx111.c
+> @@ -0,0 +1,1614 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/i2c.h>
+> +#include <linux/kernel.h>
+> +#include <linux/media.h>
+> +#include <linux/module.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/ratelimit.h>
+> +#include <linux/regmap.h>
+> +#include <linux/regulator/consumer.h>
+> +#include <linux/slab.h>
+> +#include <linux/string.h>
+> +#include <linux/types.h>
+> +#include <linux/videodev2.h>
+> +#include <linux/units.h>
+> +
+> +#include <media/media-entity.h>
+> +#include <media/v4l2-async.h>
+> +#include <media/v4l2-cci.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-fwnode.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-image-sizes.h>
+> +#include <media/v4l2-subdev.h>
+> +#include <media/v4l2-mediabus.h>
+> +
+> +/* product information registers */
+> +#define IMX111_PRODUCT_ID			CCI_REG16(0x0000)
+> +#define   IMX111_CHIP_ID			0x111
+> +#define IMX111_REVISION				CCI_REG8(0x0002)
+> +#define IMX111_MANUFACTURER_ID			CCI_REG8(0x0003)
+> +#define IMX111_SMIA_VER				CCI_REG8(0x0004)
+> +#define IMX111_FRAME_COUNTER			CCI_REG8(0x0005)
+> +#define IMX111_PIXEL_ORDER			CCI_REG8(0x0006)
+> +
+> +/* general configuration registers */
+> +#define IMX111_STREAMING_MODE			CCI_REG8(0x0100)
+> +#define   IMX111_MODE_STANDBY			0
+> +#define   IMX111_MODE_STREAMING			1
+> +#define IMX111_IMAGE_ORIENTATION		CCI_REG8(0x0101)
+> +#define   IMX111_IMAGE_HFLIP			BIT(0)
+> +#define   IMX111_IMAGE_VFLIP			BIT(1)
+> +#define IMX111_SOFTWARE_RESET			CCI_REG8(0x0103)
+> +#define   IMX111_RESET_ON			1
+> +#define IMX111_GROUP_WRITE			CCI_REG8(0x0104)
+> +#define   IMX111_GROUP_WRITE_ON			1
+> +#define IMX111_FRAME_DROP			CCI_REG8(0x0105)
+> +#define   IMX111_FRAME_DROP_ON			1
+> +#define IMX111_CHANNEL_ID			CCI_REG8(0x0110)
+> +#define IMX111_SIGNALLING_MODE			CCI_REG8(0x0111)
+> +#define IMX111_DATA_DEPTH			CCI_REG16(0x0112)
+> +#define   IMX111_DATA_DEPTH_RAW8		0x08
+> +#define   IMX111_DATA_DEPTH_RAW10		0x0a
+> +
+> +/* integration time registers */
+> +#define IMX111_INTEGRATION_TIME			CCI_REG16(0x0202)
+> +#define IMX111_INTEGRATION_TIME_MIN		0x1
+> +#define IMX111_INTEGRATION_TIME_MAX		0xffff
+> +#define IMX111_INTEGRATION_TIME_STEP		1
+> +
+> +/* analog gain control */
+> +#define IMX111_REG_ANALOG_GAIN			CCI_REG8(0x0205)
+> +#define IMX111_ANA_GAIN_MIN			0
+> +#define IMX111_ANA_GAIN_MAX			240
+> +#define IMX111_ANA_GAIN_STEP			1
+> +#define IMX111_ANA_GAIN_DEFAULT			0
+> +
+> +/* digital gain control */
+> +#define IMX111_REG_DIG_GAIN_GREENR		CCI_REG16(0x020e)
+> +#define IMX111_REG_DIG_GAIN_RED			CCI_REG16(0x0210)
+> +#define IMX111_REG_DIG_GAIN_BLUE		CCI_REG16(0x0212)
+> +#define IMX111_REG_DIG_GAIN_GREENB		CCI_REG16(0x0214)
+> +#define IMX111_DGTL_GAIN_MIN			0x0100
+> +#define IMX111_DGTL_GAIN_MAX			0x0fff
+> +#define IMX111_DGTL_GAIN_DEFAULT		0x0100
+> +#define IMX111_DGTL_GAIN_STEP			1
+> +
+> +/* clock configuration registers */
+> +#define IMX111_PIXEL_CLK_DIVIDER_PLL1		CCI_REG8(0x0301) /* fixed to 10 */
+> +#define IMX111_SYSTEM_CLK_DIVIDER_PLL1		CCI_REG8(0x0303) /* fixed to 1 */
+> +#define IMX111_PRE_PLL_CLK_DIVIDER_PLL1		CCI_REG8(0x0305)
+> +#define IMX111_PLL_MULTIPLIER_PLL1		CCI_REG8(0x0307)
+> +#define IMX111_PLL_SETTLING_TIME		CCI_REG8(0x303c)
+> +#define   IMX111_PLL_SETTLING_TIME_DEFAULT	200
+> +#define IMX111_POST_DIVIDER			CCI_REG8(0x30a4)
+> +#define   IMX111_POST_DIVIDER_DIV1		2
+> +#define   IMX111_POST_DIVIDER_DIV2		0
+> +#define   IMX111_POST_DIVIDER_DIV4		1
+> +
+> +/* frame timing registers */
+> +#define IMX111_VERTICAL_TOTAL_LENGTH		CCI_REG16(0x0340)
+> +#define IMX111_HORIZONTAL_TOTAL_LENGTH		CCI_REG16(0x0342)
+> +
+> +/* image size registers */
+> +#define IMX111_HORIZONTAL_START			CCI_REG16(0x0344)
+> +#define IMX111_VERTICAL_START			CCI_REG16(0x0346)
+> +#define IMX111_HORIZONTAL_END			CCI_REG16(0x0348)
+> +#define IMX111_VERTICAL_END			CCI_REG16(0x034a)
+> +#define IMX111_IMAGE_WIDTH			CCI_REG16(0x034c)
+> +#define IMX111_IMAGE_HEIGHT			CCI_REG16(0x034e)
+> +
+> +/* test pattern registers */
+> +#define IMX111_TEST_PATTERN			CCI_REG8(0x0601)
+> +#define   IMX111_TEST_PATTERN_NONE		0
+> +#define   IMX111_TEST_PATTERN_SOLID		1
+> +#define   IMX111_TEST_PATTERN_BARS		2
+> +#define   IMX111_TEST_PATTERN_FADE		3
+> +#define   IMX111_TEST_PATTERN_PN9		4
+> +#define IMX111_SOLID_COLOR_RED			CCI_REG16(0x0602)
+> +#define IMX111_SOLID_COLOR_GR			CCI_REG16(0x0604)
+> +#define IMX111_SOLID_COLOR_BLUE			CCI_REG16(0x0606)
+> +#define IMX111_SOLID_COLOR_GB			CCI_REG16(0x0608)
+> +#define IMX111_TESTP_COLOUR_MIN			0
+> +#define IMX111_TESTP_COLOUR_MAX			0x03ff
+> +#define IMX111_TESTP_COLOUR_STEP		1
+> +
+> +#define IMX111_FRAME_RATE_STEP			5
+> +
+> +#define IMX111_PIXEL_ARRAY_WIDTH		3280U
+> +#define IMX111_PIXEL_ARRAY_HEIGHT		2464U
+> +
+> +enum {
+> +	IMX111_MODE_3280x2464,
+> +	IMX111_MODE_3280x1848,
+> +	IMX111_MODE_3280x1098,
+> +	IMX111_MODE_2100x1200,
+> +	IMX111_MODE_1952x1098,
+> +	IMX111_MODE_1920x1080,
+> +	IMX111_MODE_1640x1232,
+> +	IMX111_MODE_1440x1080,
+> +	IMX111_MODE_1640x924,
+> +	IMX111_MODE_1308x736,
+> +	IMX111_MODE_1280x720,
+> +	IMX111_MODE_820x614,
+> +	IMX111_MODE_640x480,
+> +};
+> +
+> +struct imx111_mode {
+> +	u32 width;
+> +	u32 height;
+> +	struct {
+> +		const struct cci_reg_sequence *regs;
+> +		u32 num_of_regs;
+> +	} reg_list;
+> +};
+> +
+> +struct imx111_pll {
+> +	u64 extclk_rate;
+> +	u8 pre_div;
+> +	u8 mult;
+> +};
+> +
+> +struct imx111 {
+> +	struct regmap *regmap;
+> +
+> +	struct clk *extclk;
+> +	struct gpio_desc *reset;
+> +	struct regulator_bulk_data supplies[3];
+> +
+> +	struct v4l2_fwnode_endpoint bus_cfg;
+> +	struct v4l2_subdev sd;
+> +	struct media_pad pad;
+> +
+> +	/* V4L2 Controls */
+> +	struct v4l2_ctrl_handler hdl;
+> +	struct v4l2_ctrl *pixel_rate;
+> +	struct v4l2_ctrl *link_freq;
+> +	struct v4l2_ctrl *exposure;
+> +	struct v4l2_ctrl *hflip;
+> +	struct v4l2_ctrl *vflip;
+> +
+> +	/* Current mode */
+> +	const struct imx111_mode *cur_mode;
+> +	const struct imx111_pll *pll;
+> +	u32 data_depth;
+> +
+> +	u64 pixel_clk_raw;
+> +	s64 default_link_freq;
+> +};
+> +
+> +static const struct imx111_pll imx111_pll[] = {
+> +	{
+> +		.extclk_rate =  6000000, .pre_div = 1, .mult = 113,
 
-Cheers,
-Prabhakar
+Could you write this as:
 
-> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/D=
-ocumentation/userspace-api/media/v4l/subdev-formats.rst
-> index 2a94371448dc07e5c7097421bd82f42dcd7e21aa..57194180fe42f31f88aa0aeb4=
-a4650bf4fb32bcc 100644
-> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> @@ -2224,6 +2224,174 @@ The following table list existing packed 48bit wi=
-de RGB formats.
->
->      \endgroup
->
-> +The following table list existing packed 60bit wide RGB formats.
+	{ .extclk_rate = 6000000, .pre_div = 1, .mult = 113, },
+
+etc.
+
+> +	}, {
+> +		.extclk_rate = 12000000, .pre_div = 2, .mult = 113,
+> +	}, {
+> +		.extclk_rate = 13500000, .pre_div = 1, .mult = 50,
+> +	}, {
+> +		.extclk_rate = 18000000, .pre_div = 2, .mult = 75,
+> +	}, {
+> +		.extclk_rate = 24000000, .pre_div = 4, .mult = 113,
+> +	}, {
+> +		.extclk_rate = 27000000, .pre_div = 2, .mult = 50,
+> +	}, {
+> +		.extclk_rate = 36000000, .pre_div = 4, .mult = 75,
+> +	}, {
+> +		.extclk_rate = 54000000, .pre_div = 4, .mult = 50,
+> +	},
+> +};
 > +
-> +.. tabularcolumns:: |p{4.0cm}|p{0.7cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0=
-.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm=
-}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0=
-.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm=
-}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|p{0.22cm}|
+> +/*
+> + * This table MUST contain 4 entries per format, to cover the various flip
+> + * combinations in the order
+> + * - no flip
+> + * - h flip
+> + * - v flip
+> + * - h&v flips
+> + */
+> +static const u32 imx111_mbus_formats[] = {
+> +	MEDIA_BUS_FMT_SGBRG10_1X10,
+> +	MEDIA_BUS_FMT_SBGGR10_1X10,
+> +	MEDIA_BUS_FMT_SRGGB10_1X10,
+> +	MEDIA_BUS_FMT_SGRBG10_1X10,
 > +
-> +.. _v4l2-mbus-pixelcode-rgb-60:
+> +	MEDIA_BUS_FMT_SGBRG8_1X8,
+> +	MEDIA_BUS_FMT_SBGGR8_1X8,
+> +	MEDIA_BUS_FMT_SRGGB8_1X8,
+> +	MEDIA_BUS_FMT_SGRBG8_1X8,
+> +};
 > +
-> +.. raw:: latex
+> +static const struct cci_reg_sequence imx111_global_init[] = {
+> +	{ CCI_REG8(0x3080), 0x50 },
+> +	{ CCI_REG8(0x3087), 0x53 },
+> +	{ CCI_REG8(0x309d), 0x94 },
+> +	{ CCI_REG8(0x30b1), 0x03 },
+> +	{ CCI_REG8(0x30c6), 0x00 },
+> +	{ CCI_REG8(0x30c7), 0x00 },
+> +	{ CCI_REG8(0x3115), 0x0b },
+> +	{ CCI_REG8(0x3118), 0x30 },
+> +	{ CCI_REG8(0x311d), 0x25 },
+> +	{ CCI_REG8(0x3121), 0x0a },
+> +	{ CCI_REG8(0x3212), 0xf2 },
+> +	{ CCI_REG8(0x3213), 0x0f },
+> +	{ CCI_REG8(0x3215), 0x0f },
+> +	{ CCI_REG8(0x3217), 0x0b },
+> +	{ CCI_REG8(0x3219), 0x0b },
+> +	{ CCI_REG8(0x321b), 0x0d },
+> +	{ CCI_REG8(0x321d), 0x0d },
+> +	{ CCI_REG8(0x32aa), 0x11 },
+> +	{ CCI_REG8(0x3032), 0x40 },
+> +};
 > +
-> +    \begingroup
-> +    \tiny
-> +    \setlength{\tabcolsep}{2pt}
+> +static const struct cci_reg_sequence mode_820x614[] = {
+> +	{ CCI_REG8(0x0340), 0x04 },	{ CCI_REG8(0x0341), 0xec },
+> +	{ CCI_REG8(0x0342), 0x0d },	{ CCI_REG8(0x0343), 0xd0 },
+> +	{ CCI_REG8(0x0344), 0x00 },	{ CCI_REG8(0x0345), 0x08 },
+> +	{ CCI_REG8(0x0346), 0x00 },	{ CCI_REG8(0x0347), 0x34 },
+> +	{ CCI_REG8(0x0348), 0x0c },	{ CCI_REG8(0x0349), 0xd7 },
+> +	{ CCI_REG8(0x034a), 0x09 },	{ CCI_REG8(0x034b), 0xcb },
+> +	{ CCI_REG8(0x034c), 0x03 },	{ CCI_REG8(0x034d), 0x34 },
+> +	{ CCI_REG8(0x034e), 0x02 },	{ CCI_REG8(0x034f), 0x66 },
+> +	{ CCI_REG8(0x0381), 0x05 },	{ CCI_REG8(0x0383), 0x03 },
+> +	{ CCI_REG8(0x0385), 0x05 },	{ CCI_REG8(0x0387), 0x03 },
+> +	{ CCI_REG8(0x3033), 0x00 },	{ CCI_REG8(0x303d), 0x10 },
+> +	{ CCI_REG8(0x303e), 0x40 },	{ CCI_REG8(0x3040), 0x08 },
+> +	{ CCI_REG8(0x3041), 0x97 },	{ CCI_REG8(0x3048), 0x01 },
+> +	{ CCI_REG8(0x304c), 0x6f },	{ CCI_REG8(0x304d), 0x03 },
+> +	{ CCI_REG8(0x3064), 0x12 },	{ CCI_REG8(0x3073), 0x00 },
+> +	{ CCI_REG8(0x3074), 0x11 },	{ CCI_REG8(0x3075), 0x11 },
+> +	{ CCI_REG8(0x3076), 0x11 },	{ CCI_REG8(0x3077), 0x11 },
+> +	{ CCI_REG8(0x3079), 0x00 },	{ CCI_REG8(0x307a), 0x00 },
+> +	{ CCI_REG8(0x309b), 0x28 },	{ CCI_REG8(0x309c), 0x13 },
+> +	{ CCI_REG8(0x309e), 0x00 },	{ CCI_REG8(0x30a0), 0x14 },
+> +	{ CCI_REG8(0x30a1), 0x09 },	{ CCI_REG8(0x30aa), 0x03 },
+> +	{ CCI_REG8(0x30b2), 0x03 },	{ CCI_REG8(0x30d5), 0x09 },
+> +	{ CCI_REG8(0x30d6), 0x00 },	{ CCI_REG8(0x30d7), 0x00 },
+> +	{ CCI_REG8(0x30d8), 0x00 },	{ CCI_REG8(0x30d9), 0x00 },
+> +	{ CCI_REG8(0x30de), 0x04 },	{ CCI_REG8(0x30df), 0x20 },
+> +	{ CCI_REG8(0x3102), 0x08 },	{ CCI_REG8(0x3103), 0x22 },
+> +	{ CCI_REG8(0x3104), 0x20 },	{ CCI_REG8(0x3105), 0x00 },
+> +	{ CCI_REG8(0x3106), 0x87 },	{ CCI_REG8(0x3107), 0x00 },
+> +	{ CCI_REG8(0x3108), 0x03 },	{ CCI_REG8(0x3109), 0x02 },
+> +	{ CCI_REG8(0x310a), 0x03 },	{ CCI_REG8(0x315c), 0x9c },
+> +	{ CCI_REG8(0x315d), 0x9b },	{ CCI_REG8(0x316e), 0x9d },
+> +	{ CCI_REG8(0x316f), 0x9c },	{ CCI_REG8(0x3318), 0x7a },
+> +	{ CCI_REG8(0x3348), 0xe0 },
+> +};
 > +
-> +.. flat-table:: 60bit RGB formats
-> +    :header-rows:  3
-> +    :stub-columns: 0
-> +    :widths: 36 7 3 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 2 =
-2 2 2 2 2 2
+> +static const struct cci_reg_sequence mode_1308x736[] = {
+> +	{ CCI_REG8(0x0340), 0x09 },	{ CCI_REG8(0x0341), 0x41 },
+> +	{ CCI_REG8(0x0342), 0x07 },	{ CCI_REG8(0x0343), 0x68 },
+> +	{ CCI_REG8(0x0344), 0x01 },	{ CCI_REG8(0x0345), 0x54 },
+> +	{ CCI_REG8(0x0346), 0x02 },	{ CCI_REG8(0x0347), 0x20 },
+> +	{ CCI_REG8(0x0348), 0x0b },	{ CCI_REG8(0x0349), 0x8b },
+> +	{ CCI_REG8(0x034a), 0x07 },	{ CCI_REG8(0x034b), 0xdf },
+> +	{ CCI_REG8(0x034c), 0x05 },	{ CCI_REG8(0x034d), 0x1c },
+> +	{ CCI_REG8(0x034e), 0x02 },	{ CCI_REG8(0x034f), 0xe0 },
+> +	{ CCI_REG8(0x0381), 0x01 },	{ CCI_REG8(0x0383), 0x01 },
+> +	{ CCI_REG8(0x0385), 0x01 },	{ CCI_REG8(0x0387), 0x03 },
+> +	{ CCI_REG8(0x3033), 0x84 },	{ CCI_REG8(0x303d), 0x10 },
+> +	{ CCI_REG8(0x303e), 0x40 },	{ CCI_REG8(0x3040), 0x08 },
+> +	{ CCI_REG8(0x3041), 0x97 },	{ CCI_REG8(0x3048), 0x01 },
+> +	{ CCI_REG8(0x304c), 0xd7 },	{ CCI_REG8(0x304d), 0x01 },
+> +	{ CCI_REG8(0x3064), 0x12 },	{ CCI_REG8(0x3073), 0x00 },
+> +	{ CCI_REG8(0x3074), 0x11 },	{ CCI_REG8(0x3075), 0x11 },
+> +	{ CCI_REG8(0x3076), 0x11 },	{ CCI_REG8(0x3077), 0x11 },
+> +	{ CCI_REG8(0x3079), 0x00 },	{ CCI_REG8(0x307a), 0x00 },
+> +	{ CCI_REG8(0x309b), 0x48 },	{ CCI_REG8(0x309c), 0x12 },
+> +	{ CCI_REG8(0x309e), 0x04 },	{ CCI_REG8(0x30a0), 0x14 },
+> +	{ CCI_REG8(0x30a1), 0x0a },	{ CCI_REG8(0x30aa), 0x01 },
+> +	{ CCI_REG8(0x30b2), 0x05 },	{ CCI_REG8(0x30d5), 0x04 },
+> +	{ CCI_REG8(0x30d6), 0x85 },	{ CCI_REG8(0x30d7), 0x2a },
+> +	{ CCI_REG8(0x30d8), 0x64 },	{ CCI_REG8(0x30d9), 0x89 },
+> +	{ CCI_REG8(0x30de), 0x00 },	{ CCI_REG8(0x30df), 0x20 },
+> +	{ CCI_REG8(0x3102), 0x08 },	{ CCI_REG8(0x3103), 0x22 },
+> +	{ CCI_REG8(0x3104), 0x20 },	{ CCI_REG8(0x3105), 0x00 },
+> +	{ CCI_REG8(0x3106), 0x87 },	{ CCI_REG8(0x3107), 0x00 },
+> +	{ CCI_REG8(0x3108), 0x03 },	{ CCI_REG8(0x3109), 0x02 },
+> +	{ CCI_REG8(0x310a), 0x03 },	{ CCI_REG8(0x315c), 0x42 },
+> +	{ CCI_REG8(0x315d), 0x41 },	{ CCI_REG8(0x316e), 0x43 },
+> +	{ CCI_REG8(0x316f), 0x42 },	{ CCI_REG8(0x3318), 0x62 },
+> +	{ CCI_REG8(0x3348), 0xe0 },
+> +};
 > +
-> +    * - Identifier
-> +      - Code
-> +      -
-> +      - :cspan:`31` Data organization
-> +    * -
-> +      -
-> +      - Bit
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - 59
-> +      - 58
-> +      - 57
-> +      - 56
-> +      - 55
-> +      - 54
-> +      - 53
-> +      - 52
-> +      - 51
-> +      - 50
-> +      - 49
-> +      - 48
-> +      - 47
-> +      - 46
-> +      - 45
-> +      - 44
-> +      - 43
-> +      - 42
-> +      - 41
-> +      - 40
-> +      - 39
-> +      - 38
-> +      - 37
-> +      - 36
-> +      - 35
-> +      - 34
-> +      - 33
-> +      - 32
-> +    * -
-> +      -
-> +      -
-> +      - 31
-> +      - 30
-> +      - 29
-> +      - 28
-> +      - 27
-> +      - 26
-> +      - 25
-> +      - 24
-> +      - 23
-> +      - 22
-> +      - 21
-> +      - 20
-> +      - 19
-> +      - 18
-> +      - 17
-> +      - 16
-> +      - 15
-> +      - 14
-> +      - 13
-> +      - 12
-> +      - 11
-> +      - 10
-> +      - 9
-> +      - 8
-> +      - 7
-> +      - 6
-> +      - 5
-> +      - 4
-> +      - 3
-> +      - 2
-> +      - 1
-> +      - 0
-> +    * .. _MEDIA-BUS-FMT-RGB202020-1X60:
+> +static const struct cci_reg_sequence mode_1640x924[] = {
+> +	{ CCI_REG8(0x0340), 0x03 },	{ CCI_REG8(0x0341), 0xb2 },
+> +	{ CCI_REG8(0x0342), 0x0d },	{ CCI_REG8(0x0343), 0xd0 },
+> +	{ CCI_REG8(0x0344), 0x00 },	{ CCI_REG8(0x0345), 0x08 },
+> +	{ CCI_REG8(0x0346), 0x01 },	{ CCI_REG8(0x0347), 0x64 },
+> +	{ CCI_REG8(0x0348), 0x0c },	{ CCI_REG8(0x0349), 0xd7 },
+> +	{ CCI_REG8(0x034a), 0x08 },	{ CCI_REG8(0x034b), 0x9b },
+> +	{ CCI_REG8(0x034c), 0x06 },	{ CCI_REG8(0x034d), 0x68 },
+> +	{ CCI_REG8(0x034e), 0x03 },	{ CCI_REG8(0x034f), 0x9c },
+> +	{ CCI_REG8(0x0381), 0x01 },	{ CCI_REG8(0x0383), 0x03 },
+> +	{ CCI_REG8(0x0385), 0x01 },	{ CCI_REG8(0x0387), 0x03 },
+> +	{ CCI_REG8(0x3033), 0x00 },	{ CCI_REG8(0x303d), 0x10 },
+> +	{ CCI_REG8(0x303e), 0x40 },	{ CCI_REG8(0x3040), 0x08 },
+> +	{ CCI_REG8(0x3041), 0x97 },	{ CCI_REG8(0x3048), 0x01 },
+> +	{ CCI_REG8(0x304c), 0x6f },	{ CCI_REG8(0x304d), 0x03 },
+> +	{ CCI_REG8(0x3064), 0x12 },	{ CCI_REG8(0x3073), 0x00 },
+> +	{ CCI_REG8(0x3074), 0x11 },	{ CCI_REG8(0x3075), 0x11 },
+> +	{ CCI_REG8(0x3076), 0x11 },	{ CCI_REG8(0x3077), 0x11 },
+> +	{ CCI_REG8(0x3079), 0x00 },	{ CCI_REG8(0x307a), 0x00 },
+> +	{ CCI_REG8(0x309b), 0x28 },	{ CCI_REG8(0x309c), 0x13 },
+> +	{ CCI_REG8(0x309e), 0x00 },	{ CCI_REG8(0x30a0), 0x14 },
+> +	{ CCI_REG8(0x30a1), 0x09 },	{ CCI_REG8(0x30aa), 0x03 },
+> +	{ CCI_REG8(0x30b2), 0x05 },	{ CCI_REG8(0x30d5), 0x09 },
+> +	{ CCI_REG8(0x30d6), 0x01 },	{ CCI_REG8(0x30d7), 0x01 },
+> +	{ CCI_REG8(0x30d8), 0x64 },	{ CCI_REG8(0x30d9), 0x89 },
+> +	{ CCI_REG8(0x30de), 0x02 },	{ CCI_REG8(0x30df), 0x20 },
+> +	{ CCI_REG8(0x3102), 0x08 },	{ CCI_REG8(0x3103), 0x22 },
+> +	{ CCI_REG8(0x3104), 0x20 },	{ CCI_REG8(0x3105), 0x00 },
+> +	{ CCI_REG8(0x3106), 0x87 },	{ CCI_REG8(0x3107), 0x00 },
+> +	{ CCI_REG8(0x3108), 0x03 },	{ CCI_REG8(0x3109), 0x02 },
+> +	{ CCI_REG8(0x310a), 0x03 },	{ CCI_REG8(0x315c), 0x9c },
+> +	{ CCI_REG8(0x315d), 0x9b },	{ CCI_REG8(0x316e), 0x9d },
+> +	{ CCI_REG8(0x316f), 0x9c },	{ CCI_REG8(0x3318), 0x72 },
+> +	{ CCI_REG8(0x3348), 0xe0 },
+> +};
 > +
-> +      - MEDIA_BUS_FMT_RGB202020_1X60
-> +      - 0x1026
-> +      -
-> +      -
-> +      -
-> +      -
-> +      -
-> +      - r\ :sub:`19`
-> +      - r\ :sub:`18`
-> +      - r\ :sub:`17`
-> +      - r\ :sub:`16`
-> +      - r\ :sub:`15`
-> +      - r\ :sub:`14`
-> +      - r\ :sub:`13`
-> +      - r\ :sub:`12`
-> +      - r\ :sub:`11`
-> +      - r\ :sub:`10`
-> +      - r\ :sub:`9`
-> +      - r\ :sub:`8`
-> +      - r\ :sub:`7`
-> +      - r\ :sub:`6`
-> +      - r\ :sub:`5`
-> +      - r\ :sub:`4`
-> +      - r\ :sub:`3`
-> +      - r\ :sub:`2`
-> +      - r\ :sub:`1`
-> +      - r\ :sub:`0`
-> +      - g\ :sub:`19`
-> +      - g\ :sub:`18`
-> +      - g\ :sub:`17`
-> +      - g\ :sub:`16`
-> +      - g\ :sub:`15`
-> +      - g\ :sub:`14`
-> +      - g\ :sub:`13`
-> +      - g\ :sub:`12`
-> +    * -
-> +      -
-> +      -
-> +      - g\ :sub:`11`
-> +      - g\ :sub:`10`
-> +      - g\ :sub:`9`
-> +      - g\ :sub:`8`
-> +      - g\ :sub:`7`
-> +      - g\ :sub:`6`
-> +      - g\ :sub:`5`
-> +      - g\ :sub:`4`
-> +      - g\ :sub:`3`
-> +      - g\ :sub:`2`
-> +      - g\ :sub:`1`
-> +      - g\ :sub:`0`
-> +      - b\ :sub:`19`
-> +      - b\ :sub:`18`
-> +      - b\ :sub:`17`
-> +      - b\ :sub:`16`
-> +      - b\ :sub:`15`
-> +      - b\ :sub:`14`
-> +      - b\ :sub:`13`
-> +      - b\ :sub:`12`
-> +      - b\ :sub:`11`
-> +      - b\ :sub:`10`
-> +      - b\ :sub:`9`
-> +      - b\ :sub:`8`
-> +      - b\ :sub:`7`
-> +      - b\ :sub:`6`
-> +      - b\ :sub:`5`
-> +      - b\ :sub:`4`
-> +      - b\ :sub:`3`
-> +      - b\ :sub:`2`
-> +      - b\ :sub:`1`
-> +      - b\ :sub:`0`
+> +static const struct cci_reg_sequence mode_1640x1232[] = {
+> +	{ CCI_REG8(0x0340), 0x04 },	{ CCI_REG8(0x0341), 0xe6 },
+> +	{ CCI_REG8(0x0342), 0x0d },	{ CCI_REG8(0x0343), 0xd0 },
+> +	{ CCI_REG8(0x0344), 0x00 },	{ CCI_REG8(0x0345), 0x08 },
+> +	{ CCI_REG8(0x0346), 0x00 },	{ CCI_REG8(0x0347), 0x30 },
+> +	{ CCI_REG8(0x0348), 0x0c },	{ CCI_REG8(0x0349), 0xd7 },
+> +	{ CCI_REG8(0x034a), 0x09 },	{ CCI_REG8(0x034b), 0xcf },
+> +	{ CCI_REG8(0x034c), 0x06 },	{ CCI_REG8(0x034d), 0x68 },
+> +	{ CCI_REG8(0x034e), 0x04 },	{ CCI_REG8(0x034f), 0xd0 },
+> +	{ CCI_REG8(0x0381), 0x01 },	{ CCI_REG8(0x0383), 0x03 },
+> +	{ CCI_REG8(0x0385), 0x01 },	{ CCI_REG8(0x0387), 0x03 },
+> +	{ CCI_REG8(0x3033), 0x00 },	{ CCI_REG8(0x303d), 0x10 },
+> +	{ CCI_REG8(0x303e), 0x40 },	{ CCI_REG8(0x3040), 0x08 },
+> +	{ CCI_REG8(0x3041), 0x97 },	{ CCI_REG8(0x3048), 0x01 },
+> +	{ CCI_REG8(0x304c), 0x6f },	{ CCI_REG8(0x304d), 0x03 },
+> +	{ CCI_REG8(0x3064), 0x12 },	{ CCI_REG8(0x3073), 0x00 },
+> +	{ CCI_REG8(0x3074), 0x11 },	{ CCI_REG8(0x3075), 0x11 },
+> +	{ CCI_REG8(0x3076), 0x11 },	{ CCI_REG8(0x3077), 0x11 },
+> +	{ CCI_REG8(0x3079), 0x00 },	{ CCI_REG8(0x307a), 0x00 },
+> +	{ CCI_REG8(0x309b), 0x28 },	{ CCI_REG8(0x309c), 0x13 },
+> +	{ CCI_REG8(0x309e), 0x00 },	{ CCI_REG8(0x30a0), 0x14 },
+> +	{ CCI_REG8(0x30a1), 0x09 },	{ CCI_REG8(0x30aa), 0x03 },
+> +	{ CCI_REG8(0x30b2), 0x05 },	{ CCI_REG8(0x30d5), 0x09 },
+> +	{ CCI_REG8(0x30d6), 0x01 },	{ CCI_REG8(0x30d7), 0x01 },
+> +	{ CCI_REG8(0x30d8), 0x64 },	{ CCI_REG8(0x30d9), 0x89 },
+> +	{ CCI_REG8(0x30de), 0x02 },	{ CCI_REG8(0x30df), 0x20 },
+> +	{ CCI_REG8(0x3102), 0x08 },	{ CCI_REG8(0x3103), 0x22 },
+> +	{ CCI_REG8(0x3104), 0x20 },	{ CCI_REG8(0x3105), 0x00 },
+> +	{ CCI_REG8(0x3106), 0x87 },	{ CCI_REG8(0x3107), 0x00 },
+> +	{ CCI_REG8(0x3108), 0x03 },	{ CCI_REG8(0x3109), 0x02 },
+> +	{ CCI_REG8(0x310a), 0x03 },	{ CCI_REG8(0x315c), 0x9c },
+> +	{ CCI_REG8(0x315d), 0x9b },	{ CCI_REG8(0x316e), 0x9d },
+> +	{ CCI_REG8(0x316f), 0x9c },	{ CCI_REG8(0x3318), 0x72 },
+> +	{ CCI_REG8(0x3348), 0xe0 },
+> +};
 > +
-> +.. raw:: latex
+> +static const struct cci_reg_sequence mode_1952x1098[] = {
+> +	{ CCI_REG8(0x0340), 0x07 },	{ CCI_REG8(0x0341), 0x5c },
+> +	{ CCI_REG8(0x0342), 0x0d },	{ CCI_REG8(0x0343), 0xac },
+> +	{ CCI_REG8(0x0344), 0x00 },	{ CCI_REG8(0x0345), 0x16 },
+> +	{ CCI_REG8(0x0346), 0x01 },	{ CCI_REG8(0x0347), 0x6e },
+> +	{ CCI_REG8(0x0348), 0x0c },	{ CCI_REG8(0x0349), 0xcb },
+> +	{ CCI_REG8(0x034a), 0x08 },	{ CCI_REG8(0x034b), 0x93 },
+> +	{ CCI_REG8(0x034c), 0x07 },	{ CCI_REG8(0x034d), 0xa0 },
+> +	{ CCI_REG8(0x034e), 0x04 },	{ CCI_REG8(0x034f), 0x4a },
+> +	{ CCI_REG8(0x0381), 0x01 },	{ CCI_REG8(0x0383), 0x01 },
+> +	{ CCI_REG8(0x0385), 0x01 },	{ CCI_REG8(0x0387), 0x01 },
+> +	{ CCI_REG8(0x3033), 0x00 },	{ CCI_REG8(0x303d), 0x10 },
+> +	{ CCI_REG8(0x303e), 0x00 },	{ CCI_REG8(0x3040), 0x08 },
+> +	{ CCI_REG8(0x3041), 0x91 },	{ CCI_REG8(0x3048), 0x00 },
+> +	{ CCI_REG8(0x304c), 0x67 },	{ CCI_REG8(0x304d), 0x03 },
+> +	{ CCI_REG8(0x3064), 0x10 },	{ CCI_REG8(0x3073), 0xa0 },
+> +	{ CCI_REG8(0x3074), 0x12 },	{ CCI_REG8(0x3075), 0x12 },
+> +	{ CCI_REG8(0x3076), 0x12 },	{ CCI_REG8(0x3077), 0x11 },
+> +	{ CCI_REG8(0x3079), 0x0a },	{ CCI_REG8(0x307a), 0x0a },
+> +	{ CCI_REG8(0x309b), 0x60 },	{ CCI_REG8(0x309e), 0x04 },
+> +	{ CCI_REG8(0x30a0), 0x15 },	{ CCI_REG8(0x30a1), 0x08 },
+> +	{ CCI_REG8(0x30aa), 0x03 },	{ CCI_REG8(0x30b2), 0x05 },
+> +	{ CCI_REG8(0x30d5), 0x20 },	{ CCI_REG8(0x30d6), 0x85 },
+> +	{ CCI_REG8(0x30d7), 0x2a },	{ CCI_REG8(0x30d8), 0x64 },
+> +	{ CCI_REG8(0x30d9), 0x89 },	{ CCI_REG8(0x30de), 0x00 },
+> +	{ CCI_REG8(0x30df), 0x21 },	{ CCI_REG8(0x3102), 0x08 },
+> +	{ CCI_REG8(0x3103), 0x1d },	{ CCI_REG8(0x3104), 0x1e },
+> +	{ CCI_REG8(0x3105), 0x00 },	{ CCI_REG8(0x3106), 0x74 },
+> +	{ CCI_REG8(0x3107), 0x00 },	{ CCI_REG8(0x3108), 0x03 },
+> +	{ CCI_REG8(0x3109), 0x02 },	{ CCI_REG8(0x310a), 0x03 },
+> +	{ CCI_REG8(0x315c), 0x37 },	{ CCI_REG8(0x315d), 0x36 },
+> +	{ CCI_REG8(0x316e), 0x38 },	{ CCI_REG8(0x316f), 0x37 },
+> +	{ CCI_REG8(0x3318), 0x63 },	{ CCI_REG8(0x3348), 0xA0 },
+> +};
 > +
-> +    \endgroup
+> +static const struct cci_reg_sequence mode_2100x1200[] = {
+> +	{ CCI_REG8(0x0340), 0x04 },	{ CCI_REG8(0x0341), 0xec },
+> +	{ CCI_REG8(0x0342), 0x0d },	{ CCI_REG8(0x0343), 0xd0 },
+> +	{ CCI_REG8(0x0344), 0x02 },	{ CCI_REG8(0x0345), 0x56 },
+> +	{ CCI_REG8(0x0346), 0x02 },	{ CCI_REG8(0x0347), 0xa8 },
+> +	{ CCI_REG8(0x0348), 0x0a },	{ CCI_REG8(0x0349), 0x89 },
+> +	{ CCI_REG8(0x034a), 0x07 },	{ CCI_REG8(0x034b), 0x57 },
+> +	{ CCI_REG8(0x034c), 0x08 },	{ CCI_REG8(0x034d), 0x34 },
+> +	{ CCI_REG8(0x034e), 0x04 },	{ CCI_REG8(0x034f), 0xb0 },
+> +	{ CCI_REG8(0x0381), 0x01 },	{ CCI_REG8(0x0383), 0x01 },
+> +	{ CCI_REG8(0x0385), 0x01 },	{ CCI_REG8(0x0387), 0x01 },
+> +	{ CCI_REG8(0x3033), 0x00 },	{ CCI_REG8(0x303d), 0x10 },
+> +	{ CCI_REG8(0x303e), 0x40 },	{ CCI_REG8(0x3040), 0x08 },
+> +	{ CCI_REG8(0x3041), 0x97 },	{ CCI_REG8(0x3048), 0x00 },
+> +	{ CCI_REG8(0x304c), 0x6f },	{ CCI_REG8(0x304d), 0x03 },
+> +	{ CCI_REG8(0x3064), 0x12 },	{ CCI_REG8(0x3073), 0x00 },
+> +	{ CCI_REG8(0x3074), 0x11 },	{ CCI_REG8(0x3075), 0x11 },
+> +	{ CCI_REG8(0x3076), 0x11 },	{ CCI_REG8(0x3077), 0x11 },
+> +	{ CCI_REG8(0x3079), 0x00 },	{ CCI_REG8(0x307a), 0x00 },
+> +	{ CCI_REG8(0x309b), 0x20 },	{ CCI_REG8(0x309c), 0x13 },
+> +	{ CCI_REG8(0x309e), 0x00 },	{ CCI_REG8(0x30a0), 0x14 },
+> +	{ CCI_REG8(0x30a1), 0x08 },	{ CCI_REG8(0x30aa), 0x03 },
+> +	{ CCI_REG8(0x30b2), 0x07 },	{ CCI_REG8(0x30d5), 0x00 },
+> +	{ CCI_REG8(0x30d6), 0x85 },	{ CCI_REG8(0x30d7), 0x2a },
+> +	{ CCI_REG8(0x30d8), 0x64 },	{ CCI_REG8(0x30d9), 0x89 },
+> +	{ CCI_REG8(0x30de), 0x00 },	{ CCI_REG8(0x30df), 0x20 },
+> +	{ CCI_REG8(0x3102), 0x08 },	{ CCI_REG8(0x3103), 0x22 },
+> +	{ CCI_REG8(0x3104), 0x20 },	{ CCI_REG8(0x3105), 0x00 },
+> +	{ CCI_REG8(0x3106), 0x87 },	{ CCI_REG8(0x3107), 0x00 },
+> +	{ CCI_REG8(0x3108), 0x03 },	{ CCI_REG8(0x3109), 0x02 },
+> +	{ CCI_REG8(0x310a), 0x03 },	{ CCI_REG8(0x315c), 0x9c },
+> +	{ CCI_REG8(0x315d), 0x9b },	{ CCI_REG8(0x316e), 0x9d },
+> +	{ CCI_REG8(0x316f), 0x9c },	{ CCI_REG8(0x3318), 0x62 },
+> +	{ CCI_REG8(0x3348), 0xe0 },
+> +};
 > +
->  On LVDS buses, usually each sample is transferred serialized in seven
->  time slots per pixel clock, on three (18-bit) or four (24-bit) or five (=
-30-bit)
->  differential data pairs at the same time. The remaining bits are used
-> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/m=
-edia-bus-format.h
-> index ff62056feed5b6588bfcfdff178f5b68eecd3a26..62ad82fd285a8ce24bd16c207=
-c51c0e75ea95070 100644
-> --- a/include/uapi/linux/media-bus-format.h
-> +++ b/include/uapi/linux/media-bus-format.h
-> @@ -34,7 +34,7 @@
->
->  #define MEDIA_BUS_FMT_FIXED                    0x0001
->
-> -/* RGB - next is       0x1028 */
-> +/* RGB - next is       0x1029 */
->  #define MEDIA_BUS_FMT_RGB444_1X12              0x1016
->  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE      0x1001
->  #define MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE      0x1002
-> @@ -74,6 +74,7 @@
->  #define MEDIA_BUS_FMT_RGB888_1X36_CPADLO       0x1021
->  #define MEDIA_BUS_FMT_RGB121212_1X36           0x1019
->  #define MEDIA_BUS_FMT_RGB161616_1X48           0x101a
-> +#define MEDIA_BUS_FMT_RGB202020_1X60           0x1028
->
->  /* YUV (including grey) - next is      0x202f */
->  #define MEDIA_BUS_FMT_Y8_1X8                   0x2001
->
-> --
-> 2.43.0
->
->
+> +static const struct cci_reg_sequence mode_3280x1098[] = {
+> +	{ CCI_REG8(0x0340), 0x04 },	{ CCI_REG8(0x0341), 0x6a },
+> +	{ CCI_REG8(0x0342), 0x0d },	{ CCI_REG8(0x0343), 0xac },
+> +	{ CCI_REG8(0x0344), 0x00 },	{ CCI_REG8(0x0345), 0x08 },
+> +	{ CCI_REG8(0x0346), 0x01 },	{ CCI_REG8(0x0347), 0xf6 },
+> +	{ CCI_REG8(0x0348), 0x0c },	{ CCI_REG8(0x0349), 0xd7 },
+> +	{ CCI_REG8(0x034a), 0x08 },	{ CCI_REG8(0x034b), 0x0b },
+> +	{ CCI_REG8(0x034c), 0x0c },	{ CCI_REG8(0x034d), 0xd0 },
+> +	{ CCI_REG8(0x034e), 0x04 },	{ CCI_REG8(0x034f), 0x4a },
+> +	{ CCI_REG8(0x0381), 0x01 },	{ CCI_REG8(0x0383), 0x01 },
+> +	{ CCI_REG8(0x0385), 0x01 },	{ CCI_REG8(0x0387), 0x01 },
+> +	{ CCI_REG8(0x3033), 0x00 },	{ CCI_REG8(0x303d), 0x10 },
+> +	{ CCI_REG8(0x303e), 0x40 },	{ CCI_REG8(0x3040), 0x08 },
+> +	{ CCI_REG8(0x3041), 0x93 },	{ CCI_REG8(0x3048), 0x00 },
+> +	{ CCI_REG8(0x304c), 0x67 },	{ CCI_REG8(0x304d), 0x03 },
+> +	{ CCI_REG8(0x3064), 0x12 },	{ CCI_REG8(0x3073), 0xe0 },
+> +	{ CCI_REG8(0x3074), 0x12 },	{ CCI_REG8(0x3075), 0x12 },
+> +	{ CCI_REG8(0x3076), 0x12 },	{ CCI_REG8(0x3077), 0x12 },
+> +	{ CCI_REG8(0x3079), 0x2a },	{ CCI_REG8(0x307a), 0x0a },
+> +	{ CCI_REG8(0x309b), 0x60 },	{ CCI_REG8(0x309e), 0x04 },
+> +	{ CCI_REG8(0x30a0), 0x15 },	{ CCI_REG8(0x30a1), 0x08 },
+> +	{ CCI_REG8(0x30aa), 0x03 },	{ CCI_REG8(0x30b2), 0x05 },
+> +	{ CCI_REG8(0x30d5), 0x00 },	{ CCI_REG8(0x30d6), 0x85 },
+> +	{ CCI_REG8(0x30d7), 0x2a },	{ CCI_REG8(0x30d8), 0x64 },
+> +	{ CCI_REG8(0x30d9), 0x89 },	{ CCI_REG8(0x30de), 0x00 },
+> +	{ CCI_REG8(0x30df), 0x20 },	{ CCI_REG8(0x3102), 0x08 },
+> +	{ CCI_REG8(0x3103), 0x1d },	{ CCI_REG8(0x3104), 0x1e },
+> +	{ CCI_REG8(0x3105), 0x00 },	{ CCI_REG8(0x3106), 0x74 },
+> +	{ CCI_REG8(0x3107), 0x00 },	{ CCI_REG8(0x3108), 0x03 },
+> +	{ CCI_REG8(0x3109), 0x02 },	{ CCI_REG8(0x310a), 0x03 },
+> +	{ CCI_REG8(0x315c), 0x37 },	{ CCI_REG8(0x315d), 0x36 },
+> +	{ CCI_REG8(0x316e), 0x38 },	{ CCI_REG8(0x316f), 0x37 },
+> +	{ CCI_REG8(0x3318), 0x63 },	{ CCI_REG8(0x3348), 0xe0 },
+> +};
+> +
+> +static const struct cci_reg_sequence mode_3280x1848[] = {
+> +	{ CCI_REG8(0x0340), 0x07 },	{ CCI_REG8(0x0341), 0x52 },
+> +	{ CCI_REG8(0x0342), 0x0d },	{ CCI_REG8(0x0343), 0xd0 },
+> +	{ CCI_REG8(0x0344), 0x00 },	{ CCI_REG8(0x0345), 0x08 },
+> +	{ CCI_REG8(0x0346), 0x01 },	{ CCI_REG8(0x0347), 0x64 },
+> +	{ CCI_REG8(0x0348), 0x0c },	{ CCI_REG8(0x0349), 0xd7 },
+> +	{ CCI_REG8(0x034a), 0x08 },	{ CCI_REG8(0x034b), 0x9b },
+> +	{ CCI_REG8(0x034c), 0x0c },	{ CCI_REG8(0x034d), 0xd0 },
+> +	{ CCI_REG8(0x034e), 0x07 },	{ CCI_REG8(0x034f), 0x38 },
+> +	{ CCI_REG8(0x0381), 0x01 },	{ CCI_REG8(0x0383), 0x01 },
+> +	{ CCI_REG8(0x0385), 0x01 },	{ CCI_REG8(0x0387), 0x01 },
+> +	{ CCI_REG8(0x3033), 0x00 },	{ CCI_REG8(0x303d), 0x00 },
+> +	{ CCI_REG8(0x303e), 0x41 },	{ CCI_REG8(0x3040), 0x08 },
+> +	{ CCI_REG8(0x3041), 0x97 },	{ CCI_REG8(0x3048), 0x00 },
+> +	{ CCI_REG8(0x304c), 0x6f },	{ CCI_REG8(0x304d), 0x03 },
+> +	{ CCI_REG8(0x3064), 0x12 },	{ CCI_REG8(0x3073), 0x00 },
+> +	{ CCI_REG8(0x3074), 0x11 },	{ CCI_REG8(0x3075), 0x11 },
+> +	{ CCI_REG8(0x3076), 0x11 },	{ CCI_REG8(0x3077), 0x11 },
+> +	{ CCI_REG8(0x3079), 0x00 },	{ CCI_REG8(0x307a), 0x00 },
+> +	{ CCI_REG8(0x309b), 0x20 },	{ CCI_REG8(0x309c), 0x13 },
+> +	{ CCI_REG8(0x309e), 0x00 },	{ CCI_REG8(0x30a0), 0x14 },
+> +	{ CCI_REG8(0x30a1), 0x08 },	{ CCI_REG8(0x30aa), 0x03 },
+> +	{ CCI_REG8(0x30b2), 0x07 },	{ CCI_REG8(0x30d5), 0x00 },
+> +	{ CCI_REG8(0x30d6), 0x85 },	{ CCI_REG8(0x30d7), 0x2a },
+> +	{ CCI_REG8(0x30d8), 0x64 },	{ CCI_REG8(0x30d9), 0x89 },
+> +	{ CCI_REG8(0x30de), 0x00 },	{ CCI_REG8(0x30df), 0x20 },
+> +	{ CCI_REG8(0x3102), 0x10 },	{ CCI_REG8(0x3103), 0x44 },
+> +	{ CCI_REG8(0x3104), 0x40 },	{ CCI_REG8(0x3105), 0x00 },
+> +	{ CCI_REG8(0x3106), 0x0d },	{ CCI_REG8(0x3107), 0x01 },
+> +	{ CCI_REG8(0x3108), 0x09 },	{ CCI_REG8(0x3109), 0x08 },
+> +	{ CCI_REG8(0x310a), 0x0f },	{ CCI_REG8(0x315c), 0x5d },
+> +	{ CCI_REG8(0x315d), 0x5c },	{ CCI_REG8(0x316e), 0x5e },
+> +	{ CCI_REG8(0x316f), 0x5d },	{ CCI_REG8(0x3318), 0x60 },
+> +	{ CCI_REG8(0x3348), 0xe0 },
+> +};
+> +
+> +static const struct cci_reg_sequence mode_3280x2464[] = {
+> +	{ CCI_REG8(0x0340), 0x09 },	{ CCI_REG8(0x0341), 0xba },
+> +	{ CCI_REG8(0x0342), 0x0d },	{ CCI_REG8(0x0343), 0xd0 },
+> +	{ CCI_REG8(0x0344), 0x00 },	{ CCI_REG8(0x0345), 0x08 },
+> +	{ CCI_REG8(0x0346), 0x00 },	{ CCI_REG8(0x0347), 0x30 },
+> +	{ CCI_REG8(0x0348), 0x0c },	{ CCI_REG8(0x0349), 0xd7 },
+> +	{ CCI_REG8(0x034a), 0x09 },	{ CCI_REG8(0x034b), 0xcf },
+> +	{ CCI_REG8(0x034c), 0x0c },	{ CCI_REG8(0x034d), 0xd0 },
+> +	{ CCI_REG8(0x034e), 0x09 },	{ CCI_REG8(0x034f), 0xa0 },
+> +	{ CCI_REG8(0x0381), 0x01 },	{ CCI_REG8(0x0383), 0x01 },
+> +	{ CCI_REG8(0x0385), 0x01 },	{ CCI_REG8(0x0387), 0x01 },
+> +	{ CCI_REG8(0x3033), 0x00 },	{ CCI_REG8(0x303d), 0x00 },
+> +	{ CCI_REG8(0x303e), 0x41 },	{ CCI_REG8(0x3040), 0x08 },
+> +	{ CCI_REG8(0x3041), 0x97 },	{ CCI_REG8(0x3048), 0x00 },
+> +	{ CCI_REG8(0x304c), 0x6f },	{ CCI_REG8(0x304d), 0x03 },
+> +	{ CCI_REG8(0x3064), 0x12 },	{ CCI_REG8(0x3073), 0x00 },
+> +	{ CCI_REG8(0x3074), 0x11 },	{ CCI_REG8(0x3075), 0x11 },
+> +	{ CCI_REG8(0x3076), 0x11 },	{ CCI_REG8(0x3077), 0x11 },
+> +	{ CCI_REG8(0x3079), 0x00 },	{ CCI_REG8(0x307a), 0x00 },
+> +	{ CCI_REG8(0x309b), 0x20 },	{ CCI_REG8(0x309c), 0x13 },
+> +	{ CCI_REG8(0x309e), 0x00 },	{ CCI_REG8(0x30a0), 0x14 },
+> +	{ CCI_REG8(0x30a1), 0x08 },	{ CCI_REG8(0x30aa), 0x03 },
+> +	{ CCI_REG8(0x30b2), 0x07 },	{ CCI_REG8(0x30d5), 0x00 },
+> +	{ CCI_REG8(0x30d6), 0x85 },	{ CCI_REG8(0x30d7), 0x2a },
+> +	{ CCI_REG8(0x30d8), 0x64 },	{ CCI_REG8(0x30d9), 0x89 },
+> +	{ CCI_REG8(0x30de), 0x00 },	{ CCI_REG8(0x30df), 0x20 },
+> +	{ CCI_REG8(0x3102), 0x10 },	{ CCI_REG8(0x3103), 0x44 },
+> +	{ CCI_REG8(0x3104), 0x40 },	{ CCI_REG8(0x3105), 0x00 },
+> +	{ CCI_REG8(0x3106), 0x0d },	{ CCI_REG8(0x3107), 0x01 },
+> +	{ CCI_REG8(0x3108), 0x09 },	{ CCI_REG8(0x3109), 0x08 },
+> +	{ CCI_REG8(0x310a), 0x0f },	{ CCI_REG8(0x315c), 0x5d },
+> +	{ CCI_REG8(0x315d), 0x5c },	{ CCI_REG8(0x316e), 0x5e },
+> +	{ CCI_REG8(0x316f), 0x5d },	{ CCI_REG8(0x3318), 0x60 },
+> +	{ CCI_REG8(0x3348), 0xe0 },
+> +};
+> +
+> +static const struct imx111_mode imx111_modes[] = {
+> +	[IMX111_MODE_3280x2464] = {
+> +		.width = 3280,
+> +		.height = 2464,
+> +		.reg_list = {
+> +			.regs = mode_3280x2464,
+> +			.num_of_regs = ARRAY_SIZE(mode_3280x2464),
+> +		},
+> +	},
+> +	[IMX111_MODE_3280x1848] = {
+> +		.width = 3280,
+> +		.height = 1848,
+> +		.reg_list = {
+> +			.regs = mode_3280x1848,
+> +			.num_of_regs = ARRAY_SIZE(mode_3280x1848),
+> +		},
+> +	},
+> +	[IMX111_MODE_3280x1098] = {
+> +		.width = 3280,
+> +		.height = 1098,
+> +		.reg_list = {
+> +			.regs = mode_3280x1098,
+> +			.num_of_regs = ARRAY_SIZE(mode_3280x1098),
+> +		},
+> +	},
+> +	[IMX111_MODE_2100x1200] = {
+> +		.width = 2100,
+> +		.height = 1200,
+> +		.reg_list = {
+> +			.regs = mode_2100x1200,
+> +			.num_of_regs = ARRAY_SIZE(mode_2100x1200),
+> +		},
+> +	},
+> +	[IMX111_MODE_1952x1098] = {
+> +		.width = 1952,
+> +		.height = 1098,
+> +		.reg_list = {
+> +			.regs = mode_1952x1098,
+> +			.num_of_regs = ARRAY_SIZE(mode_1952x1098),
+> +		},
+> +	},
+> +	[IMX111_MODE_1920x1080] = {
+> +		.width = 1920,
+> +		.height = 1080,
+> +		.reg_list = {
+> +			.regs = mode_1952x1098,
+> +			.num_of_regs = ARRAY_SIZE(mode_1952x1098),
+> +		},
+> +	},
+> +	[IMX111_MODE_1640x1232] = {
+> +		.width = 1640,
+> +		.height = 1232,
+> +		.reg_list = {
+> +			.regs = mode_1640x1232,
+> +			.num_of_regs = ARRAY_SIZE(mode_1640x1232),
+> +		},
+> +	},
+> +	[IMX111_MODE_1440x1080] = {
+> +		.width = 1440,
+> +		.height = 1080,
+> +		.reg_list = {
+> +			.regs = mode_1640x1232,
+> +			.num_of_regs = ARRAY_SIZE(mode_1640x1232),
+> +		},
+> +	},
+> +	[IMX111_MODE_1640x924] = {
+> +		.width = 1640,
+> +		.height = 924,
+> +		.reg_list = {
+> +			.regs = mode_1640x924,
+> +			.num_of_regs = ARRAY_SIZE(mode_1640x924),
+> +		},
+> +	},
+> +	[IMX111_MODE_1308x736] = {
+> +		.width = 1308,
+> +		.height = 736,
+> +		.reg_list = {
+> +			.regs = mode_1308x736,
+> +			.num_of_regs = ARRAY_SIZE(mode_1308x736),
+> +		},
+> +	},
+> +	[IMX111_MODE_1280x720] = {
+> +		.width = 1280,
+> +		.height = 720,
+> +		.reg_list = {
+> +			.regs = mode_1308x736,
+> +			.num_of_regs = ARRAY_SIZE(mode_1308x736),
+> +		},
+> +	},
+> +	[IMX111_MODE_820x614] = {
+> +		.width = 820,
+> +		.height = 614,
+> +		.reg_list = {
+> +			.regs = mode_820x614,
+> +			.num_of_regs = ARRAY_SIZE(mode_820x614),
+> +		},
+> +	},
+> +	[IMX111_MODE_640x480] = {
+> +		.width = 640,
+> +		.height = 480,
+> +		.reg_list = {
+> +			.regs = mode_820x614,
+> +			.num_of_regs = ARRAY_SIZE(mode_820x614),
+> +		},
+> +	},
+> +};
+> +
+> +static inline struct imx111 *sd_to_imx111(struct v4l2_subdev *sd)
+> +{
+> +	return container_of(sd, struct imx111, sd);
+
+container_of_const(), please.
+
+> +}
+> +
+> +static inline struct imx111 *ctrl_to_imx111(struct v4l2_ctrl *ctrl)
+> +{
+> +	return container_of(ctrl->handler, struct imx111, hdl);
+> +}
+> +
+> +static u8 to_settle_delay(u64 extclk_rate)
+> +{
+> +	u64 extclk_mhz = div_u64(extclk_rate, MEGA);
+> +
+> +	return DIV_ROUND_UP(IMX111_PLL_SETTLING_TIME_DEFAULT * extclk_mhz - 63, 64);
+> +}
+> +
+> +static u32 imx111_get_format_code(struct imx111 *sensor, u32 code, bool test)
+> +{
+> +	u32 i;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(imx111_mbus_formats); i++)
+> +		if (imx111_mbus_formats[i] == code)
+> +			break;
+> +
+> +	if (i >= ARRAY_SIZE(imx111_mbus_formats))
+> +		i = 0;
+> +
+> +	if (test)
+> +		return imx111_mbus_formats[i];
+> +
+> +	i = (i & ~3) | (sensor->vflip->val ? 2 : 0) |
+> +	    (sensor->hflip->val ? 1 : 0);
+> +
+> +	return imx111_mbus_formats[i];
+> +}
+> +
+> +static u32 imx111_get_format_bpp(const struct v4l2_mbus_framefmt *format)
+> +{
+> +	switch (format->code) {
+> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> +	case MEDIA_BUS_FMT_SGRBG8_1X8:
+> +	case MEDIA_BUS_FMT_SGBRG8_1X8:
+> +	case MEDIA_BUS_FMT_SBGGR8_1X8:
+> +		return 8;
+> +
+> +	case MEDIA_BUS_FMT_SRGGB10_1X10:
+> +	case MEDIA_BUS_FMT_SGRBG10_1X10:
+> +	case MEDIA_BUS_FMT_SGBRG10_1X10:
+> +	case MEDIA_BUS_FMT_SBGGR10_1X10:
+> +	default:
+> +		return 10;
+> +	}
+> +}
+> +
+> +static int imx111_update_digital_gain(struct imx111 *sensor, u32 val)
+> +{
+> +	int ret = 0;
+> +
+> +	cci_update_bits(sensor->regmap, IMX111_GROUP_WRITE, IMX111_GROUP_WRITE_ON,
+> +			IMX111_GROUP_WRITE_ON, NULL);
+
+Missing error handling.
+
+> +
+> +	cci_write(sensor->regmap, IMX111_REG_DIG_GAIN_GREENR, val, &ret);
+> +	cci_write(sensor->regmap, IMX111_REG_DIG_GAIN_RED, val, &ret);
+> +	cci_write(sensor->regmap, IMX111_REG_DIG_GAIN_BLUE, val, &ret);
+> +	cci_write(sensor->regmap, IMX111_REG_DIG_GAIN_GREENB, val, &ret);
+> +
+> +	cci_update_bits(sensor->regmap, IMX111_GROUP_WRITE, IMX111_GROUP_WRITE_ON,
+> +			0, NULL);
+
+Ditto.
+
+> +
+> +	return ret;
+> +}
+> +
+> +static int imx111_set_ctrl(struct v4l2_ctrl *ctrl)
+> +{
+> +	struct imx111 *sensor = ctrl_to_imx111(ctrl);
+> +	struct device *dev = regmap_get_device(sensor->regmap);
+> +	int ret = 0;
+> +
+> +	/*
+> +	 * Applying V4L2 control value only happens
+> +	 * when power is up for streaming
+> +	 */
+> +	if (!pm_runtime_get_if_in_use(dev))
+> +		return 0;
+> +
+> +	switch (ctrl->id) {
+> +	case V4L2_CID_ANALOGUE_GAIN:
+> +		cci_write(sensor->regmap, IMX111_REG_ANALOG_GAIN, ctrl->val, &ret);
+> +		break;
+> +	case V4L2_CID_DIGITAL_GAIN:
+> +		ret = imx111_update_digital_gain(sensor, ctrl->val);
+> +		break;
+> +	case V4L2_CID_EXPOSURE:
+> +		cci_update_bits(sensor->regmap, IMX111_GROUP_WRITE, IMX111_GROUP_WRITE_ON,
+> +				IMX111_GROUP_WRITE_ON, NULL);
+> +		cci_write(sensor->regmap, IMX111_INTEGRATION_TIME, ctrl->val, NULL);
+> +		cci_update_bits(sensor->regmap, IMX111_GROUP_WRITE, IMX111_GROUP_WRITE_ON,
+> +				0, NULL);
+> +		break;
+> +	case V4L2_CID_HFLIP:
+> +	case V4L2_CID_VFLIP:
+> +		cci_write(sensor->regmap, IMX111_IMAGE_ORIENTATION,
+> +			  sensor->hflip->val | sensor->vflip->val << 1, &ret);
+> +		break;
+> +	case V4L2_CID_TEST_PATTERN:
+> +		cci_write(sensor->regmap, IMX111_TEST_PATTERN, ctrl->val, &ret);
+> +		break;
+> +	case V4L2_CID_TEST_PATTERN_RED:
+> +		cci_update_bits(sensor->regmap, IMX111_GROUP_WRITE, IMX111_GROUP_WRITE_ON,
+> +				IMX111_GROUP_WRITE_ON, NULL);
+> +		cci_write(sensor->regmap, IMX111_SOLID_COLOR_RED, ctrl->val, &ret);
+> +		cci_update_bits(sensor->regmap, IMX111_GROUP_WRITE, IMX111_GROUP_WRITE_ON,
+> +				0, NULL);
+> +		break;
+> +	case V4L2_CID_TEST_PATTERN_GREENR:
+> +		cci_update_bits(sensor->regmap, IMX111_GROUP_WRITE, IMX111_GROUP_WRITE_ON,
+> +				IMX111_GROUP_WRITE_ON, NULL);
+> +		cci_write(sensor->regmap, IMX111_SOLID_COLOR_GR, ctrl->val, &ret);
+> +		cci_update_bits(sensor->regmap, IMX111_GROUP_WRITE, IMX111_GROUP_WRITE_ON,
+> +				0, NULL);
+> +		break;
+> +	case V4L2_CID_TEST_PATTERN_BLUE:
+> +		cci_update_bits(sensor->regmap, IMX111_GROUP_WRITE, IMX111_GROUP_WRITE_ON,
+> +				IMX111_GROUP_WRITE_ON, NULL);
+> +		cci_write(sensor->regmap, IMX111_SOLID_COLOR_BLUE, ctrl->val, &ret);
+> +		cci_update_bits(sensor->regmap, IMX111_GROUP_WRITE, IMX111_GROUP_WRITE_ON,
+> +				0, NULL);
+> +		break;
+> +	case V4L2_CID_TEST_PATTERN_GREENB:
+> +		cci_update_bits(sensor->regmap, IMX111_GROUP_WRITE, IMX111_GROUP_WRITE_ON,
+> +				IMX111_GROUP_WRITE_ON, NULL);
+> +		cci_write(sensor->regmap, IMX111_SOLID_COLOR_GB, ctrl->val, &ret);
+> +		cci_update_bits(sensor->regmap, IMX111_GROUP_WRITE, IMX111_GROUP_WRITE_ON,
+> +				0, NULL);
+> +		break;
+> +	default:
+> +		ret = -EINVAL;
+> +	}
+> +
+> +	pm_runtime_mark_last_busy(dev);
+
+You can drop this now (and elsewhere in driver code, too).
+
+> +	pm_runtime_put_autosuspend(dev);
+> +
+> +	return ret;
+> +}
+> +
+> +static const struct v4l2_ctrl_ops imx111_ctrl_ops = {
+> +	.s_ctrl = imx111_set_ctrl,
+> +};
+> +
+> +static const char * const test_pattern_menu[] = {
+> +	"Disabled",
+> +	"Solid Color Fill",
+> +	"Standard Color Bars",
+> +	"Fade To Grey Color Bars",
+> +	"Pseudorandom data",
+> +};
+> +
+> +static int imx111_init_controls(struct imx111 *sensor)
+> +{
+> +	const struct v4l2_ctrl_ops *ops = &imx111_ctrl_ops;
+> +	struct device *dev = regmap_get_device(sensor->regmap);
+> +	struct v4l2_fwnode_device_properties props;
+> +	struct v4l2_subdev *sd = &sensor->sd;
+> +	struct v4l2_ctrl_handler *hdl = &sensor->hdl;
+> +	s64 pixel_rate_min, pixel_rate_max;
+> +	int i, ret;
+> +
+> +	ret = v4l2_fwnode_device_parse(dev, &props);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = v4l2_ctrl_handler_init(hdl, 13);
+> +	if (ret)
+> +		return ret;
+> +
+> +	pixel_rate_min = div_u64(sensor->pixel_clk_raw, 2 * IMX111_DATA_DEPTH_RAW10);
+> +	pixel_rate_max = div_u64(sensor->pixel_clk_raw, 2 * IMX111_DATA_DEPTH_RAW8);
+> +	sensor->pixel_rate = v4l2_ctrl_new_std(hdl, NULL, V4L2_CID_PIXEL_RATE,
+> +					       pixel_rate_min, pixel_rate_max,
+> +					       1, div_u64(sensor->pixel_clk_raw,
+> +					       2 * sensor->data_depth));
+> +
+> +	sensor->link_freq = v4l2_ctrl_new_int_menu(hdl, NULL, V4L2_CID_LINK_FREQ,
+> +						   0, 0, &sensor->default_link_freq);
+> +	if (sensor->link_freq)
+> +		sensor->link_freq->flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> +
+> +	v4l2_ctrl_new_std(hdl, ops, V4L2_CID_ANALOGUE_GAIN,
+> +			  IMX111_ANA_GAIN_MIN, IMX111_ANA_GAIN_MAX,
+> +			  IMX111_ANA_GAIN_STEP, IMX111_ANA_GAIN_DEFAULT);
+> +
+> +	v4l2_ctrl_new_std(hdl, ops, V4L2_CID_DIGITAL_GAIN,
+> +			  IMX111_DGTL_GAIN_MIN, IMX111_DGTL_GAIN_MAX,
+> +			  IMX111_DGTL_GAIN_STEP, IMX111_DGTL_GAIN_DEFAULT);
+> +
+> +	sensor->hflip = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_HFLIP, 0, 1, 1, 0);
+> +	if (sensor->hflip)
+> +		sensor->hflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+> +
+> +	sensor->vflip = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_VFLIP, 0, 1, 1, 0);
+> +	if (sensor->vflip)
+> +		sensor->vflip->flags |= V4L2_CTRL_FLAG_MODIFY_LAYOUT;
+
+Could you also add VBLANK and HBLANK controls, please?
+
+> +
+> +	/*
+> +	 * The maximum coarse integration time is the frame length in lines
+> +	 * minus five.
+> +	 */
+> +	sensor->exposure = v4l2_ctrl_new_std(hdl, ops, V4L2_CID_EXPOSURE,
+> +					     IMX111_INTEGRATION_TIME_MIN,
+> +					     IMX111_PIXEL_ARRAY_HEIGHT - 5,
+> +					     IMX111_INTEGRATION_TIME_STEP,
+> +					     IMX111_PIXEL_ARRAY_HEIGHT - 5);
+> +
+> +	v4l2_ctrl_new_fwnode_properties(hdl, ops, &props);
+> +
+> +	v4l2_ctrl_new_std_menu_items(hdl, ops, V4L2_CID_TEST_PATTERN,
+> +				     ARRAY_SIZE(test_pattern_menu) - 1, 0, 0,
+> +				     test_pattern_menu);
+> +	for (i = 0; i < 4; i++) {
+> +		/*
+> +		 * The assumption is that
+> +		 * V4L2_CID_TEST_PATTERN_GREENR == V4L2_CID_TEST_PATTERN_RED + 1
+> +		 * V4L2_CID_TEST_PATTERN_BLUE   == V4L2_CID_TEST_PATTERN_RED + 2
+> +		 * V4L2_CID_TEST_PATTERN_GREENB == V4L2_CID_TEST_PATTERN_RED + 3
+> +		 */
+> +		v4l2_ctrl_new_std(hdl, ops, V4L2_CID_TEST_PATTERN_RED + i,
+> +				  IMX111_TESTP_COLOUR_MIN, IMX111_TESTP_COLOUR_MAX,
+> +				  IMX111_TESTP_COLOUR_STEP, IMX111_TESTP_COLOUR_MAX);
+> +		/* The "Solid color" pattern is white by default */
+> +	}
+> +
+> +	if (hdl->error)
+> +		return hdl->error;
+> +
+> +	sd->ctrl_handler = hdl;
+> +
+> +	return 0;
+> +};
+> +
+> +static int imx111_start_streaming(struct imx111 *sensor)
+> +{
+> +	struct device *dev = regmap_get_device(sensor->regmap);
+> +	const struct imx111_mode *mode = sensor->cur_mode;
+> +	int ret;
+> +
+> +	/* Apply default values of current mode */
+> +	ret = cci_multi_reg_write(sensor->regmap, mode->reg_list.regs,
+> +				  mode->reg_list.num_of_regs, NULL);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to initialize the sensor\n");
+> +		return ret;
+> +	}
+> +
+> +	cci_update_bits(sensor->regmap, IMX111_GROUP_WRITE, IMX111_GROUP_WRITE_ON,
+> +			IMX111_GROUP_WRITE_ON, NULL);
+
+Please add error handling for group write register access, too. Errors
+aren't supposed to happen here anyway unless something is definitely wrong.
+
+> +	cci_write(sensor->regmap, IMX111_DATA_DEPTH,
+> +		  sensor->data_depth | sensor->data_depth << 8, NULL);
+> +	cci_update_bits(sensor->regmap, IMX111_GROUP_WRITE, IMX111_GROUP_WRITE_ON,
+> +			0, NULL);
+> +
+> +	ret = __v4l2_ctrl_handler_setup(&sensor->hdl);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = cci_write(sensor->regmap, IMX111_STREAMING_MODE, IMX111_MODE_STREAMING, NULL);
+> +	if (ret)
+> +		dev_err(dev, "failed to start stream");
+> +
+> +	/* vflip and hflip cannot change during streaming */
+> +	__v4l2_ctrl_grab(sensor->vflip, true);
+> +	__v4l2_ctrl_grab(sensor->hflip, true);
+> +
+> +	msleep(30);
+
+Why the msleep()?
+
+> +
+> +	return ret;
+> +}
+> +
+> +static void imx111_stop_streaming(struct imx111 *sensor)
+> +{
+> +	struct device *dev = regmap_get_device(sensor->regmap);
+> +
+> +	if (cci_write(sensor->regmap, IMX111_STREAMING_MODE, IMX111_MODE_STANDBY, NULL))
+> +		dev_err(dev, "failed to stop stream");
+> +
+> +	__v4l2_ctrl_grab(sensor->vflip, false);
+> +	__v4l2_ctrl_grab(sensor->hflip, false);
+> +}
+> +
+> +static int imx111_initialize(struct imx111 *sensor)
+> +{
+> +	struct device *dev = regmap_get_device(sensor->regmap);
+> +	int ret;
+> +
+> +	imx111_stop_streaming(sensor);
+> +	msleep(30);
+> +
+> +	/* Configure the PLL. */
+> +	cci_write(sensor->regmap, IMX111_PRE_PLL_CLK_DIVIDER_PLL1,
+> +		  sensor->pll->pre_div, &ret);
+> +	cci_write(sensor->regmap, IMX111_PLL_MULTIPLIER_PLL1, sensor->pll->mult, &ret);
+> +	cci_write(sensor->regmap, IMX111_POST_DIVIDER, IMX111_POST_DIVIDER_DIV1, &ret);
+> +	cci_write(sensor->regmap, IMX111_PLL_SETTLING_TIME,
+> +		  to_settle_delay(sensor->pll->extclk_rate), &ret);
+> +
+> +	ret = cci_multi_reg_write(sensor->regmap, imx111_global_init,
+> +				  ARRAY_SIZE(imx111_global_init), NULL);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to initialize the sensor\n");
+> +		return ret;
+> +	}
+> +
+> +	return ret;
+
+	return 0;
+
+> +}
+> +
+> +static int imx111_set_stream(struct v4l2_subdev *sd, int enable)
+
+Could you use {en,dis}able_streams() pad ops instead?
+
+> +{
+> +	struct imx111 *sensor = sd_to_imx111(sd);
+> +	struct device *dev = regmap_get_device(sensor->regmap);
+> +	struct v4l2_subdev_state *state;
+> +	int ret = 0;
+> +
+> +	state = v4l2_subdev_lock_and_get_active_state(sd);
+> +
+> +	if (enable) {
+> +		ret = pm_runtime_resume_and_get(dev);
+> +		if (ret)
+> +			goto finish_unlock;
+> +
+> +		ret = imx111_start_streaming(sensor);
+> +		if (!ret)
+> +			goto finish_unlock;
+> +
+> +		dev_err(dev, "Failed to start stream: %d\n", ret);
+> +		enable = 0;
+> +	}
+> +
+> +	imx111_stop_streaming(sensor);
+> +	pm_runtime_mark_last_busy(dev);
+> +	pm_runtime_put_autosuspend(dev);
+> +
+> +finish_unlock:
+> +	v4l2_subdev_unlock_state(state);
+> +
+> +	return ret;
+> +}
+> +
+> +/* -----------------------------------------------------------------------------
+> + * IMX111 Pad Subdev Init and Operations
+> + */
+> +static int imx111_enum_mbus_code(struct v4l2_subdev *sd,
+> +				 struct v4l2_subdev_state *sd_state,
+> +				 struct v4l2_subdev_mbus_code_enum *code)
+> +{
+> +	struct imx111 *sensor = sd_to_imx111(sd);
+> +
+> +	if (code->index >= (ARRAY_SIZE(imx111_mbus_formats) / 4))
+
+Redundant parentheses.
+
+> +		return -EINVAL;
+> +
+> +	code->code = imx111_get_format_code(sensor, imx111_mbus_formats[code->index * 4], false);
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx111_enum_frame_size(struct v4l2_subdev *sd,
+> +				  struct v4l2_subdev_state *sd_state,
+> +				  struct v4l2_subdev_frame_size_enum *fse)
+> +{
+> +	struct imx111 *sensor = sd_to_imx111(sd);
+> +	u32 code;
+> +
+> +	if (fse->index >= ARRAY_SIZE(imx111_modes))
+> +		return -EINVAL;
+> +
+> +	code = imx111_get_format_code(sensor, fse->code, true);
+> +	if (fse->code != code)
+> +		return -EINVAL;
+> +
+> +	fse->min_width = imx111_modes[fse->index].width;
+> +	fse->max_width = fse->min_width;
+> +	fse->min_height = imx111_modes[fse->index].height;
+> +	fse->max_height = fse->min_height;
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx111_enum_frame_interval(struct v4l2_subdev *sd,
+> +				      struct v4l2_subdev_state *state,
+> +				      struct v4l2_subdev_frame_interval_enum *fie)
+> +{
+> +	struct imx111 *sensor = sd_to_imx111(sd);
+> +	const struct imx111_mode *mode;
+> +	u32 framerate, code;
+> +
+> +	if (fie->index > 0)
+> +		return -EINVAL;
+> +
+> +	code = imx111_get_format_code(sensor, fie->code, true);
+> +	if (fie->code != code)
+> +		return -EINVAL;
+> +
+> +	mode = v4l2_find_nearest_size(imx111_modes, ARRAY_SIZE(imx111_modes),
+> +				      width, height,
+> +				      fie->width, fie->height);
+> +	if (fie->width > mode->width || fie->height > mode->height)
+> +		return -EINVAL;
+> +
+> +	framerate = div_u64(sensor->pixel_clk_raw, mode->width * mode->height *
+> +			    2 * sensor->data_depth);
+> +
+> +	fie->interval.numerator = 1;
+> +	fie->interval.denominator = rounddown(framerate, IMX111_FRAME_RATE_STEP);
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx111_set_format(struct v4l2_subdev *sd,
+> +			     struct v4l2_subdev_state *state,
+> +			     struct v4l2_subdev_format *format)
+> +{
+> +	struct imx111 *sensor = sd_to_imx111(sd);
+> +	struct v4l2_mbus_framefmt *mbus_fmt = &format->format;
+> +	struct v4l2_mbus_framefmt *fmt;
+> +	struct v4l2_fract *interval;
+> +	const struct imx111_mode *mode;
+> +	u32 framerate;
+> +
+> +	mode = v4l2_find_nearest_size(imx111_modes, ARRAY_SIZE(imx111_modes),
+> +				      width, height,
+> +				      mbus_fmt->width, mbus_fmt->height);
+> +	framerate = div_u64(sensor->pixel_clk_raw, mode->width * mode->height *
+> +			    2 * sensor->data_depth);
+> +
+> +	fmt = v4l2_subdev_state_get_format(state, format->pad);
+> +
+> +	fmt->code = imx111_get_format_code(sensor, mbus_fmt->code, false);
+> +	fmt->width = mode->width;
+> +	fmt->height = mode->height;
+> +	fmt->colorspace = V4L2_COLORSPACE_RAW;
+> +
+> +	*mbus_fmt = *fmt;
+> +
+> +	interval = v4l2_subdev_state_get_interval(state, format->pad);
+> +	interval->numerator = 1;
+> +	interval->denominator = rounddown(framerate, IMX111_FRAME_RATE_STEP);
+
+Frame rate configuration should be done using VBLANK/HBLANK controls, not
+the SUBDEV_S_FRAME_INTERVAL IOCTL. Please see
+<URL:https://www.linuxtv.org/downloads/v4l-dvb-apis-new/userspace-api/drivers/camera-sensor.html#raw-camera-sensors>.
+
+> +
+> +	if (format->which == V4L2_SUBDEV_FORMAT_ACTIVE)	{
+> +		sensor->cur_mode = mode;
+> +		sensor->data_depth = imx111_get_format_bpp(fmt);
+> +		__v4l2_ctrl_s_ctrl_int64(sensor->pixel_rate,
+> +					 div_u64(sensor->pixel_clk_raw, 2 * sensor->data_depth));
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx111_set_frame_interval(struct v4l2_subdev *sd,
+> +				     struct v4l2_subdev_state *state,
+> +				     struct v4l2_subdev_frame_interval *fi)
+> +{
+> +	struct imx111 *sensor = sd_to_imx111(sd);
+> +	const struct imx111_mode *mode;
+> +	const struct v4l2_mbus_framefmt *mbus_fmt;
+> +	struct v4l2_fract *interval;
+> +	u32 framerate;
+> +
+> +	mbus_fmt = v4l2_subdev_state_get_format(state, fi->pad);
+> +
+> +	mode = v4l2_find_nearest_size(imx111_modes, ARRAY_SIZE(imx111_modes),
+> +				      width, height,
+> +				      mbus_fmt->width, mbus_fmt->height);
+> +	framerate = div_u64(sensor->pixel_clk_raw, mode->width * mode->height *
+> +			    2 * sensor->data_depth);
+> +
+> +	interval = v4l2_subdev_state_get_interval(state, fi->pad);
+> +
+> +	interval->numerator = 1;
+> +	interval->denominator = rounddown(framerate, IMX111_FRAME_RATE_STEP);
+> +
+> +	fi->interval = *interval;
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx111_init_state(struct v4l2_subdev *sd,
+> +			     struct v4l2_subdev_state *sd_state)
+> +{
+> +	struct imx111 *sensor = sd_to_imx111(sd);
+> +	const struct imx111_mode *mode = sensor->cur_mode;
+> +	struct v4l2_mbus_framefmt *fmt;
+> +	struct v4l2_fract *interval;
+> +	u32 framerate;
+> +
+> +	fmt = v4l2_subdev_state_get_format(sd_state, 0);
+> +	interval = v4l2_subdev_state_get_interval(sd_state, 0);
+> +
+> +	fmt->code = MEDIA_BUS_FMT_SGBRG10_1X10;
+> +	fmt->width = mode->width;
+> +	fmt->height = mode->height;
+> +	fmt->field = V4L2_FIELD_NONE;
+> +	fmt->colorspace = V4L2_COLORSPACE_RAW;
+> +	fmt->ycbcr_enc = V4L2_YCBCR_ENC_601;
+> +	fmt->quantization = V4L2_QUANTIZATION_FULL_RANGE;
+> +	fmt->xfer_func = V4L2_XFER_FUNC_NONE;
+> +
+> +	framerate = div_u64(sensor->pixel_clk_raw, mode->width * mode->height *
+> +			    2 * sensor->data_depth);
+> +
+> +	interval->numerator = 1;
+> +	interval->denominator = rounddown(framerate, IMX111_FRAME_RATE_STEP);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct v4l2_subdev_video_ops imx111_video_ops = {
+> +	.s_stream = imx111_set_stream,
+> +};
+> +
+> +static const struct v4l2_subdev_pad_ops imx111_pad_ops = {
+> +	.enum_mbus_code = imx111_enum_mbus_code,
+> +	.enum_frame_size = imx111_enum_frame_size,
+> +	.enum_frame_interval = imx111_enum_frame_interval,
+> +	.get_fmt = v4l2_subdev_get_fmt,
+> +	.set_fmt = imx111_set_format,
+> +	.get_frame_interval = v4l2_subdev_get_frame_interval,
+> +	.set_frame_interval = imx111_set_frame_interval,
+> +};
+> +
+> +static const struct v4l2_subdev_ops imx111_subdev_ops = {
+> +	.video = &imx111_video_ops,
+> +	.pad = &imx111_pad_ops,
+> +};
+> +
+> +static const struct media_entity_operations imx111_subdev_entity_ops = {
+> +	.link_validate = v4l2_subdev_link_validate,
+> +};
+> +
+> +static const struct v4l2_subdev_internal_ops imx111_internal_ops = {
+> +	.init_state = imx111_init_state,
+> +};
+> +
+> +static int imx111_init_subdev(struct imx111 *sensor, struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct v4l2_subdev *sd = &sensor->sd;
+> +	struct media_pad *pad = &sensor->pad;
+> +	struct v4l2_ctrl_handler *hdl = &sensor->hdl;
+> +	int ret;
+> +
+> +	/* Initialize the subdev. */
+> +	v4l2_i2c_subdev_init(sd, client, &imx111_subdev_ops);
+> +
+> +	sd->flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> +	sd->internal_ops = &imx111_internal_ops;
+> +
+> +	/* Initialize the media entity. */
+> +	sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
+> +	sd->entity.ops = &imx111_subdev_entity_ops;
+> +	pad->flags = MEDIA_PAD_FL_SOURCE;
+> +
+> +	ret = media_entity_pads_init(&sd->entity, 1, pad);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to init entity pads: %d", ret);
+> +		return ret;
+> +	}
+> +
+> +	/* Initialize the control handler. */
+> +	ret = imx111_init_controls(sensor);
+> +	if (ret)
+> +		goto error;
+> +
+> +	return 0;
+> +error:
+> +	v4l2_ctrl_handler_free(hdl);
+> +	media_entity_cleanup(&sd->entity);
+> +	return ret;
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Power Management
+> + */
+> +
+> +static int imx111_power_on(struct imx111 *sensor)
+> +{
+> +	int ret;
+> +
+> +	if (sensor->reset)
+> +		gpiod_set_value(sensor->reset, 1);
+> +
+> +	ret = regulator_bulk_enable(ARRAY_SIZE(sensor->supplies),
+> +				    sensor->supplies);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	usleep_range(500, 600);
+> +
+> +	if (sensor->reset)
+> +		gpiod_set_value(sensor->reset, 0);
+> +
+> +	usleep_range(200, 250);
+> +
+> +	ret = clk_prepare_enable(sensor->extclk);
+> +	if (ret < 0)
+> +		goto error_regulator;
+> +
+> +	usleep_range(200, 250);
+> +
+> +	return 0;
+> +
+> +error_regulator:
+> +	regulator_bulk_disable(ARRAY_SIZE(sensor->supplies), sensor->supplies);
+> +	return ret;
+> +}
+> +
+> +static void imx111_power_off(struct imx111 *sensor)
+> +{
+> +	if (sensor->reset)
+> +		gpiod_set_value(sensor->reset, 1);
+> +	usleep_range(1000, 2000);
+> +
+> +	clk_disable_unprepare(sensor->extclk);
+> +	regulator_bulk_disable(ARRAY_SIZE(sensor->supplies), sensor->supplies);
+> +}
+> +
+> +static int __maybe_unused imx111_pm_runtime_resume(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct imx111 *sensor = sd_to_imx111(sd);
+> +	int ret;
+> +
+> +	ret = imx111_power_on(sensor);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = imx111_initialize(sensor);
+> +	if (ret) {
+> +		imx111_power_off(sensor);
+> +		return ret;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused imx111_pm_runtime_suspend(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct imx111 *sensor = sd_to_imx111(sd);
+> +
+> +	imx111_power_off(sensor);
+> +
+> +	return 0;
+> +}
+> +
+> +static const struct dev_pm_ops imx111_pm_ops = {
+> +	SET_RUNTIME_PM_OPS(imx111_pm_runtime_suspend,
+> +			   imx111_pm_runtime_resume, NULL)
+> +};
+> +
+> +/* -----------------------------------------------------------------------------
+> + * Probe & Remove
+> + */
+> +
+> +static int imx111_identify_module(struct imx111 *sensor)
+> +{
+> +	struct device *dev = regmap_get_device(sensor->regmap);
+> +	u64 value, revision, manufacturer;
+> +	int ret;
+> +
+> +	ret = cci_read(sensor->regmap, IMX111_PRODUCT_ID, &value, NULL);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (value != IMX111_CHIP_ID) {
+> +		dev_err(dev, "chip id mismatch: %x!=%04llx", IMX111_CHIP_ID, value);
+> +		return -ENXIO;
+> +	}
+> +
+> +	cci_read(sensor->regmap, IMX111_REVISION, &revision, NULL);
+> +	cci_read(sensor->regmap, IMX111_MANUFACTURER_ID, &manufacturer, NULL);
+> +
+> +	dev_dbg(dev, "module IMX%03llx rev. %llu manufacturer %llu\n",
+> +		value, revision, manufacturer);
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx111_clk_init(struct imx111 *sensor)
+> +{
+> +	struct device *dev = regmap_get_device(sensor->regmap);
+> +	u32 ndata_lanes = sensor->bus_cfg.bus.mipi_csi2.num_data_lanes;
+> +	u64 extclk_rate, system_clk;
+> +	int i;
+
+unsigned int, please (and you could declare it for the loop only).
+
+> +
+> +	extclk_rate = clk_get_rate(sensor->extclk);
+> +	if (!extclk_rate)
+> +		return dev_err_probe(dev, -EINVAL, "EXTCLK rate unknown\n");
+> +
+> +	for (i = 0; i < ARRAY_SIZE(imx111_pll); i++) {
+> +		if (clk_get_rate(sensor->extclk) == imx111_pll[i].extclk_rate) {
+> +			sensor->pll = &imx111_pll[i];
+> +			break;
+> +		}
+> +	}
+> +	if (!sensor->pll)
+> +		return dev_err_probe(dev, -EINVAL, "Unsupported EXTCLK rate %llu\n", extclk_rate);
+> +
+> +	system_clk = div_u64(extclk_rate, sensor->pll->pre_div) * sensor->pll->mult;
+> +
+> +	/*
+> +	 * Pixel clock or Logic clock is used for internal image processing is
+> +	 * generated by dividing into 1/10 or 1/8 frequency according to the
+> +	 * word length of the CSI2 interface. This clock is designating the pixel
+> +	 * rate and used as the base of integration time, frame rate etc.
+> +	 */
+
+Can you run
+
+	/scripts/checkpatch.pl --strict --max-line-length=80
+
+on the patch, please?
+
+> +	sensor->pixel_clk_raw = system_clk * ndata_lanes;
+> +
+> +	/*
+> +	 * The CSI-2 bus is clocked for 16-bit per pixel, transmitted in DDR over n lanes
+> +	 * for RAW10 default format.
+> +	 */
+> +	sensor->default_link_freq = div_u64(sensor->pixel_clk_raw * 8,
+> +					    ndata_lanes *
+> +					    2 * IMX111_DATA_DEPTH_RAW10);
+
+This looks a bit odd; I'm not sure the bit depth should make a difference
+here. Why is pixel_clk_raw multiplied by 8?
+
+> +
+> +	if (sensor->bus_cfg.nr_of_link_frequencies != 1 ||
+> +	    sensor->bus_cfg.link_frequencies[0] != sensor->default_link_freq)
+> +		return dev_err_probe(dev, -EINVAL,
+> +				     "Unsupported DT link-frequencies, expected %llu\n",
+> +				     sensor->default_link_freq);
+> +
+> +	return 0;
+> +}
+> +
+> +static int imx111_parse_dt(struct imx111 *sensor)
+> +{
+> +	struct device *dev = regmap_get_device(sensor->regmap);
+> +	struct fwnode_handle *fwnode = dev_fwnode(dev);
+> +	struct fwnode_handle *ep;
+> +	int ret;
+> +
+> +	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+> +	if (!ep) {
+> +		dev_err(dev, "No endpoint found\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	sensor->bus_cfg.bus_type = V4L2_MBUS_UNKNOWN;
+
+This should be V4L2_MBUS_CSI2_DPHY.
+
+> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &sensor->bus_cfg);
+> +	fwnode_handle_put(ep);
+> +	if (ret < 0) {
+> +		dev_err(dev, "Failed to parse endpoint\n");
+> +		goto error;
+> +	}
+> +
+> +	switch (sensor->bus_cfg.bus_type) {
+
+And then you can omit this check.
+
+> +	case V4L2_MBUS_CSI2_DPHY:
+> +		break;
+> +
+> +	default:
+> +		dev_err(dev, "unsupported bus type %u\n", sensor->bus_cfg.bus_type);
+> +		ret = -EINVAL;
+> +		goto error;
+> +	}
+> +
+> +	/* Check the number of MIPI CSI2 data lanes */
+> +	if (sensor->bus_cfg.bus.mipi_csi2.num_data_lanes > 2) {
+> +		dev_err(dev, "number of lanes is more than 2\n");
+> +		ret = -EINVAL;
+> +		goto error;
+> +	}
+> +
+> +	return 0;
+> +
+> +error:
+> +	v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
+> +	return ret;
+> +}
+> +
+> +static int imx111_probe(struct i2c_client *client)
+> +{
+> +	struct device *dev = &client->dev;
+> +	struct imx111 *sensor;
+> +	int ret;
+> +
+> +	sensor = devm_kzalloc(dev, sizeof(*sensor), GFP_KERNEL);
+> +	if (!sensor)
+> +		return -ENOMEM;
+> +
+> +	sensor->regmap = devm_cci_regmap_init_i2c(client, 16);
+> +	if (IS_ERR(sensor->regmap))
+> +		return dev_err_probe(dev, PTR_ERR(sensor->regmap),
+> +				     "Failed to allocate register map\n");
+> +
+> +	sensor->extclk = devm_clk_get(dev, NULL);
+
+Could you use devm_v4l2_sensor_clk_get() instead, please?
+
+> +	if (IS_ERR(sensor->extclk))
+> +		return dev_err_probe(dev, PTR_ERR(sensor->extclk), "Failed to get clock\n");
+> +
+> +	sensor->reset = devm_gpiod_get_optional(dev, "reset", GPIOD_OUT_LOW);
+> +	if (IS_ERR(sensor->reset))
+> +		return dev_err_probe(dev, PTR_ERR(sensor->reset), "Failed to get reset GPIO\n");
+> +
+> +	sensor->supplies[0].supply = "iovdd";
+> +	sensor->supplies[1].supply = "dvdd";
+> +	sensor->supplies[2].supply = "avdd";
+> +
+> +	ret = devm_regulator_bulk_get(dev, ARRAY_SIZE(sensor->supplies), sensor->supplies);
+> +	if (ret < 0)
+> +		return dev_err_probe(dev, ret, "Failed to get regulators\n");
+> +
+> +	ret = imx111_parse_dt(sensor);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	ret = imx111_clk_init(sensor);
+> +	if (ret < 0)
+> +		goto error_ep_free;
+> +
+> +	ret = imx111_power_on(sensor);
+> +	if (ret < 0) {
+> +		dev_err_probe(dev, ret, "Could not power on the device\n");
+> +		goto error_ep_free;
+> +	}
+> +
+> +	ret = imx111_identify_module(sensor);
+> +	if (ret < 0) {
+> +		dev_err_probe(dev, ret, "Could not identify module\n");
+> +		goto error_power_off;
+> +	}
+> +
+> +	sensor->cur_mode = &imx111_modes[IMX111_MODE_3280x2464];
+> +	sensor->data_depth = IMX111_DATA_DEPTH_RAW10;
+> +
+> +	ret = imx111_initialize(sensor);
+> +	if (ret < 0)
+> +		goto error_power_off;
+> +
+> +	ret = imx111_init_subdev(sensor, client);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to init controls: %d", ret);
+> +		goto error_v4l2_ctrl_handler_free;
+> +	}
+> +
+> +	ret = v4l2_subdev_init_finalize(&sensor->sd);
+> +	if (ret)
+> +		goto error_v4l2_ctrl_handler_free;
+> +
+> +	/*
+> +	 * Enable runtime PM with autosuspend. As the device has been powered
+> +	 * manually, mark it as active, and increase the usage count without
+> +	 * resuming the device.
+> +	 */
+> +	pm_runtime_set_active(dev);
+> +	pm_runtime_get_noresume(dev);
+> +	pm_runtime_enable(dev);
+> +	pm_runtime_set_autosuspend_delay(dev, 1000);
+> +	pm_runtime_use_autosuspend(dev);
+
+Also disable autosuspend at driver unbind (or probe failure).
+
+> +
+> +	ret = v4l2_async_register_subdev_sensor(&sensor->sd);
+> +	if (ret < 0) {
+> +		dev_err(dev, "failed to register V4L2 subdev: %d", ret);
+> +		goto error_pm;
+> +	}
+> +
+> +	/*
+> +	 * Decrease the PM usage count. The device will get suspended after the
+> +	 * autosuspend delay, turning the power off.
+> +	 */
+> +	pm_runtime_mark_last_busy(dev);
+> +	pm_runtime_put_autosuspend(dev);
+
+	pm_runtime_idle(dev);
+
+And you can drop pm_runtime_get_noresume() above (also error handling will
+be affected).
+
+> +
+> +	return 0;
+> +
+> +error_pm:
+> +	pm_runtime_disable(dev);
+> +	pm_runtime_put_noidle(dev);
+> +	v4l2_subdev_cleanup(&sensor->sd);
+> +
+> +error_v4l2_ctrl_handler_free:
+> +	v4l2_ctrl_handler_free(&sensor->hdl);
+> +	media_entity_cleanup(&sensor->sd.entity);
+> +
+> +error_power_off:
+> +	imx111_power_off(sensor);
+> +
+> +error_ep_free:
+> +	v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
+> +
+> +	return ret;
+> +}
+> +
+> +static void imx111_remove(struct i2c_client *client)
+> +{
+> +	struct v4l2_subdev *sd = i2c_get_clientdata(client);
+> +	struct imx111 *sensor = sd_to_imx111(sd);
+> +
+> +	v4l2_async_unregister_subdev(&sensor->sd);
+> +	v4l2_subdev_cleanup(sd);
+> +	media_entity_cleanup(&sensor->sd.entity);
+> +	v4l2_ctrl_handler_free(&sensor->hdl);
+> +	v4l2_fwnode_endpoint_free(&sensor->bus_cfg);
+> +
+> +	/*
+> +	 * Disable runtime PM. In case runtime PM is disabled in the kernel,
+> +	 * make sure to turn power off manually.
+> +	 */
+> +	pm_runtime_disable(&client->dev);
+> +	if (!pm_runtime_status_suspended(&client->dev)) {
+> +		imx111_power_off(sensor);
+> +		pm_runtime_set_suspended(&client->dev);
+> +	}
+> +}
+> +
+> +static const struct i2c_device_id imx111_id[] = {
+> +	{ "imx111" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(i2c, imx111_id);
+
+Do you need the I²C ID table still?
+
+> +
+> +static const struct of_device_id imx111_of_match[] = {
+> +	{ .compatible = "sony,imx111" },
+> +	{ /* sentinel */ }
+> +};
+> +MODULE_DEVICE_TABLE(of, imx111_of_match);
+> +
+> +static struct i2c_driver imx111_i2c_driver = {
+> +	.driver = {
+> +		.name = "imx111",
+> +		.of_match_table = imx111_of_match,
+> +		.pm = &imx111_pm_ops,
+> +	},
+> +	.id_table = imx111_id,
+> +	.probe = imx111_probe,
+> +	.remove = imx111_remove,
+> +};
+> +module_i2c_driver(imx111_i2c_driver);
+> +
+> +MODULE_AUTHOR("Svyatoslav Ryhel <clamor95@gmail.com>");
+> +MODULE_DESCRIPTION("Sony IMX111 CMOS Image Sensor driver");
+> +MODULE_LICENSE("GPL");
+
+-- 
+Kind regards,
+
+Sakari Ailus
 
