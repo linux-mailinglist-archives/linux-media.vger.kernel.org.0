@@ -1,73 +1,72 @@
-Return-Path: <linux-media+bounces-45872-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45873-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D886C168F2
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 20:03:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73B4FC16940
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 20:13:55 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 5FDB8188941A
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 19:02:29 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6989F1C250E1
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 19:13:48 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2A1AB21FF23;
-	Tue, 28 Oct 2025 19:02:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5005A34EEF5;
+	Tue, 28 Oct 2025 19:13:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="FN9oLFJ6"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lsN3AIK9"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B31215E8B
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 19:01:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DA7221FF23
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 19:13:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761678119; cv=none; b=jkn/mUwCj6OZGd4fQV/IU1yacSZW8IT3pR7QQhr5dVWbJ336FbmtlZJI4PqinrBHy+yQ8TtQSQdCuQY5u4WX4GwM/qyIfu5c2EBg/FJ5mgbcZTox++wAzEW/GbjUJIhMTCzZBsreRep2NWyQcdMyVMimKDbmAJclMAG9YmqSZuM=
+	t=1761678798; cv=none; b=oC0kApv3weXQVJAOL3DGRx3Rrxh6Zi+CkFb5QYHhvkn8F2sgsilrXJ2+4MEV1iiWhOXVFt98/GVwBnRrNGrrul+GAqq4BQcPm/cRN+kcVsyKNVru821lhNuZposjHi9QGlfvK2PHb2I4U/sir9JwG+MdZkHOBPz6kBhc7+fcebM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761678119; c=relaxed/simple;
-	bh=hGNGFuPw4a8eOOixzNFYWf+hgOLBh++oTY1iuWgA3FA=;
+	s=arc-20240116; t=1761678798; c=relaxed/simple;
+	bh=D3vQgKvmvyriHv9uII6CzLEu9smg6LDh8pXp0hCrHGE=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=bcyDxzEclm8U7zvP3DPAuZf2xWe686zXicdgAUDawzTQ6ah7MceIBA+pI4Q0qW+cWV6EHS3RSjMhIU6BEDdhWcR8++/NAZiua4UvCvreTk55WnDSsyiyOfDdhCpf80JKn5/9B6XjBKVzygamD/OMaRnIGlgeklqrB9VyMKvtWSM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=FN9oLFJ6; arc=none smtp.client-ip=192.198.163.11
+	 Content-Type:Content-Disposition:In-Reply-To; b=kDPVE0WjSdBbTRknUsxcKg58xb90BZLQs4Jm9sGzIz5zehI1eokhfc2UxphP78wUEZT2XvqD5cETLzMoyEKgtr9KKO0xywqBCsGEJ//AIY5zHbqUzabeZz1Zgyas38cE6MDS+3V8nRiN0X7Sf9mNIHKKEzNCL+CW7wf2OQ4vCss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lsN3AIK9; arc=none smtp.client-ip=198.175.65.11
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761678117; x=1793214117;
+  t=1761678798; x=1793214798;
   h=date:from:to:cc:subject:message-id:references:
    mime-version:in-reply-to;
-  bh=hGNGFuPw4a8eOOixzNFYWf+hgOLBh++oTY1iuWgA3FA=;
-  b=FN9oLFJ6x8YvLIXML0LsRHnRr5s2Gish+B8nNAER48aZ4IU/xnH+1uIm
-   gk7ARO1s42ApejdwOeO9xVY7KE1jxX8IMRQ/edoCwFvH3d73QkD9CKNic
-   +S26HZ64fujZTHLs15Qht4LqLNdDdYB/kTYEioDapuhUncW+vJfzXfTuM
-   4sgPMUwngdlgMdAEKvrTc/dAKzJGiCRh2IRoqLM/K3YYW0+CPiRi0HKbf
-   yTTyi3qsLeOolYKpncvjaWgQ6CAJfB4wI6WPsYBhQmswCBG6ZY1YZ6BZ0
-   VC8UEeOXEUma+Ijo20Q5Cv+NdayE0EKGJJxSp4/RySn4mHqSnXNHBXV16
-   A==;
-X-CSE-ConnectionGUID: ZN+Zw/OFQaqOdETz/ju9Qg==
-X-CSE-MsgGUID: csE2KdVARMO4cv+s12wVeA==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74389740"
+  bh=D3vQgKvmvyriHv9uII6CzLEu9smg6LDh8pXp0hCrHGE=;
+  b=lsN3AIK9Km4u6sQgE5k0lpqVFzQP7juzrH4gN01b9+lbZeJfKhHXcFT+
+   XlQWkaQh2HM5rFjXpPQGY1ZE3L3k/KxduLeNSVRhn+OH0c4Bh30e1/byR
+   IT3DuGm7ygyLRvnDUEaEJmiT4K2AjKP4twcqve1lIAjx9tfwIoWZ61SXp
+   7VFm35OglUc/Lej+eDhVT43Yyi4dHyosGWK99mGRdJrC0LXq5VrAn/Sw7
+   lUIvORXPzJOscoYPlSf+HsP47qwJ1dIpGKQAVaZ9pBIC6rTZluPW8rcS2
+   Oeg0r/9t/SXf37boBsiGHMKHpn53WukLxF8hQtaDIYBWzhryCxGyixe8K
+   w==;
+X-CSE-ConnectionGUID: KyVy9A/kTViCn5qAKOSTnw==
+X-CSE-MsgGUID: pQQvuRPoSLaYBZ3TSD4Gyw==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="74080663"
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="74389740"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 12:01:56 -0700
-X-CSE-ConnectionGUID: QRHy7zYiT/CMxZieEWhObA==
-X-CSE-MsgGUID: i8pGlj6LRiqJZnvAYBzRxQ==
+   d="scan'208";a="74080663"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 12:13:17 -0700
+X-CSE-ConnectionGUID: jw5UCi8+TlKJVflvhUrZnw==
+X-CSE-MsgGUID: IBgvx1gtR2u2qF0esS0cYQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="185355372"
+   d="scan'208";a="186191209"
 Received: from jkrzyszt-mobl2.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.190])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 12:01:55 -0700
-Date: Tue, 28 Oct 2025 20:01:47 +0100
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 12:13:15 -0700
+Date: Tue, 28 Oct 2025 20:13:07 +0100
 From: Mehdi Djait <mehdi.djait@linux.intel.com>
 To: Hans de Goede <hansg@kernel.org>
 Cc: Bingbu Cao <bingbu.cao@intel.com>, 
 	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org
-Subject: Re: [PATCH 15/25] media: i2c: ov01a10: Use native and default for
- pixel-array size names
-Message-ID: <vkghoohncxnmnuy3zitob62huopp5hpklefgknmc2iuz672hct@f3eebr4emy3n>
+Subject: Re: [PATCH 17/25] media: i2c: ov01a10: Remove struct ov01a10_reg_list
+Message-ID: <oy2jde3tam3kgcfwtcca4ay2ho7rzdbs5ne63zn2dkpz5p3f35@2jm46wtj65yx>
 References: <20251014174033.20534-1-hansg@kernel.org>
- <20251014174033.20534-16-hansg@kernel.org>
+ <20251014174033.20534-18-hansg@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
@@ -76,62 +75,22 @@ List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20251014174033.20534-16-hansg@kernel.org>
+In-Reply-To: <20251014174033.20534-18-hansg@kernel.org>
 
 Hi Hans,
 
-On Tue, Oct 14, 2025 at 07:40:23PM +0200, Hans de Goede wrote:
-> According to the OV01A10 product-brief PDF the OV01A10 has an active pixel
-> array size of 1296x816. In otherwords the native and active sizes are
-> the same.
+Thank you for the patches!
 
-Isn't that an error in the product-brief ?
-
-I understood the following:
-
-The native pixel array size is 1296x816
-The active pixel array size is 1280x800 = these are the active pixels that can
-be output.
-
-1296x816 is not lised under the supported image sizes, so it
-is not the active pixel array size.
-
-I think in most sensors the active pixel array size is smaller than the
-native one.
-
-Or am I confused here ?
-
+On Tue, Oct 14, 2025 at 07:40:25PM +0200, Hans de Goede wrote:
+> After the conversion to the CCI register access helpers, struct
+> ov01a10_reg_list is only used inside struct ov01a10_link_freq_config.
 > 
-> Replace the (misspelled) ACTIVE defines for the default resolution of
-> 1280x800 with DEFAULT to avoid giving the impression that the active pixel
-> array size is only 1280x800.
-> 
-> And replace PIXEL_ARRAY with NATIVE to make clear this is the native pixel
-> array size / to match the V4L2_SEL_TGT_NATIVE_SIZE naming.
-> 
+> Simplify things by embedding the ov01a10_reg_list members directly into
+> struct ov01a10_link_freq_config.
+>
+
+Tested-by: Mehdi Djait <mehdi.djait@linux.intel.com> # Dell XPS 9315
+Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com> 
+
 > Signed-off-by: Hans de Goede <hansg@kernel.org>
-> ---
->  drivers/media/i2c/ov01a10.c | 32 ++++++++++++++++----------------
->  1 file changed, 16 insertions(+), 16 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov01a10.c b/drivers/media/i2c/ov01a10.c
-> index d0153e606c9a..f3bcb61c88dd 100644
-> --- a/drivers/media/i2c/ov01a10.c
-> +++ b/drivers/media/i2c/ov01a10.c
-> @@ -34,10 +34,10 @@
->  #define OV01A10_MODE_STREAMING		0x01
->  
->  /* pixel array */
-> -#define OV01A10_PIXEL_ARRAY_WIDTH	1296
-> -#define OV01A10_PIXEL_ARRAY_HEIGHT	816
-> -#define OV01A10_ACITVE_WIDTH		1280
-> -#define OV01A10_ACITVE_HEIGHT		800
-> +#define OV01A10_NATIVE_WIDTH		1296
-> +#define OV01A10_NATIVE_HEIGHT		816
-> +#define OV01A10_DEFAULT_WIDTH		1280
-> +#define OV01A10_DEFAULT_HEIGHT		800
-
---
-Kind Regards
-Mehdi Djait
 
