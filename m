@@ -1,133 +1,98 @@
-Return-Path: <linux-media+bounces-45820-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45821-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [IPv6:2604:1380:4601:e00::3])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AF99C14878
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 13:08:41 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C407C148C0
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 13:12:09 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 1470E1A685F7
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 12:08:49 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 54C4948336A
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 12:08:53 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 110CA32ABC6;
-	Tue, 28 Oct 2025 12:08:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 21CCE316912;
+	Tue, 28 Oct 2025 12:08:48 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="K2i9Sqhv"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="emKbS9/i"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546A232A3FB
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 12:08:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBF932A3E1;
+	Tue, 28 Oct 2025 12:08:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761653295; cv=none; b=CyWaWUg4gPEwMznGqn7W2C8nn6PKUwFGOi21JEUAmzC0YMOG/S1jnjp/ClYa4gMR2sKv8z8IPaB4kOvyw/JuBovA30hxsbrEgpGSKTCbaNLbmRW0iURXHTvTrDX7MEiebCnEtGPV2xhMWLh263KOEq/RdF5yJBnEogIH/tM9BpU=
+	t=1761653326; cv=none; b=q0j/n/5TPO1iegid4ETU83OF8+kYKnrYE2WAhM5jOjxJ90JUfXdyzv3AuU3kHq1YFTZFLZMAg81PtFXBwgNEVMdByhgN6UlUhS6UJQUq6VcCTDVwevDMNDOZOfRRIh7JXV5KVfiWIccpO1tXl+A/HIwV4tM07A9GEis4rGvU5Sg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761653295; c=relaxed/simple;
-	bh=FFZIhW7dPQduoS7KNYpmAufTpW86vs1zECIWDOcIxOM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b/O7dAKKmrB/n795yudPx4p4zzqmOqL5y00uM7el3v/cEabInQq4UjgJWchHf4cjXlA9LgIgNleqyI8FmRQSsAZg2c7pX6RkcRjWCICuWUOpB1GEkcygdT8VX3DjuQI+ahJhReJR2OtrqjoIFq1Og4F2irQh+DPnNZAcT+5JU/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=K2i9Sqhv; arc=none smtp.client-ip=209.85.128.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-475c9881821so36321445e9.0
-        for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 05:08:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1761653291; x=1762258091; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=OjjiZbIUuyLAf493CLwJMzPeawzS5Hi7KDfcQ8XqHPU=;
-        b=K2i9SqhvhcTFN5t8WVdPFenAzKDJnwsKubl9rZC8x3Htax5UES0T2I6SAZjZy2k4yo
-         O4G9ltAZ3OB/iV92UmlooAkR14Fj3hmqb87CAR05EO2Wb3SmOh38eHCy7rqE3YpIzany
-         H+sGzx7SITrsa+PpzgXqFnSwb0g+7YYkQhtqDKvWrBdvRbl9FTt23CcdxOxpWuEZWrIl
-         ySzV/OzpKWLiaEjkklTX0TIhV9U6CNVK81+yvhMxxSJCKKt3T3QlcgHuPjUjwPjiWM+B
-         P0sLoRg39JShhSg0CcnljL4qtJOXUZnVpOV+Fu8vWKOUvTYfdnbGkK5lS3TuZI1aA0Jn
-         7anQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761653291; x=1762258091;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=OjjiZbIUuyLAf493CLwJMzPeawzS5Hi7KDfcQ8XqHPU=;
-        b=B5gPIdkAU8yB4ktBl8Hyk6qNSC2VjHhvXrmHO1uyTtR2VMfnN5/OnqMFN2gHokFgiI
-         pafeN04NDDB6LDOvx2vJB9JgQ+Ur8w+X/YMEGoY40ruhhxQCLQRh4dE9fD+XdT56PXUL
-         VvrCuRtiRCGEGZYr/mftrIMpCYYw0woKhJ57Nl4CjvYyHygKHGfMFAiOTXlMFALanlSw
-         nTtD0sk/O0s90BwoDDOf46Y8X707Rt1pEvTJBbO1mHFGZMZ/bbvYc6tPtV9VtpUIwGA4
-         hfG7DE9zo5grxk70BS4WePi+Foa02oc0AfHE7qUbmlfvvG9Y5um1dXQa/u4WIh0OdguI
-         +wCQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX9DaRlDXtvQ5H47Dyi25yafyyXe6iFdOSypOV35efQ22/4po7PBSlH1QllEPHvvQ7eigwGaGf7vldedQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0YyTQ8/HlvpyBq2czZwz3zHloLywTGMjEpA5CtyLXvFfuUK00/kI
-	g1uUd8qS2/ZJ4MQsHL5z1tr0w3oM92MaUb2F26VQbC/xZIv/Q6tSua1XrTnwollO1I8=
-X-Gm-Gg: ASbGnctXsaDwPadqC5YQOJAD1ms3j+6sFTZX5Bxs2lV7MYnSz77V39hlHNNQtfdb4fa
-	DLqppnY+VxKmwL6lELU8gXwl/9Sb95XSuvciFShB+XbiQ8YE82Jm6BXYoOLrllOwqjFW1b6mQ0I
-	dTTgdSgivsGPMZ6UaYAtYD6TeWho9kxWwhytnXNhSAcRFiOHfvWGC6B6vkg/7ZUj1fG8QF8UWhZ
-	l3OAAHItxkr2kqTAwa2I0U4XLYg4dqhUx5A3Gny3LMHlFnwNNLjzMj846F1lXdkQ8CwSRd0ZFSH
-	DbFky0P/wXaxP0b21Atni1MyU9ojz6bJtCquwavUvwAY5/6BDVbfeUheeOIEUtkH1SCfH0Mwi3W
-	Uva4xKlgQuzLliy5nE/kA8TZLgzdzUWPvQ+daqs3dFdbw3hGUmvk95Yjy6H5+6iIjQZ/cz+PRKs
-	Cgpv3x9XYFO5wbOvZGFNqBMNyTN0B+JWNptTT+hAhk8A==
-X-Google-Smtp-Source: AGHT+IGFpjPN8Cn5YgLMJOAQI6Ro/JGJGzDgKuY2HvqITluVdL/i2A10CTxri2/CVAdNVkSLxXekrg==
-X-Received: by 2002:a05:600c:a08b:b0:477:c68:b4da with SMTP id 5b1f17b1804b1-47718176e5amr27234325e9.20.1761653291379;
-        Tue, 28 Oct 2025 05:08:11 -0700 (PDT)
-Received: from [192.168.0.21] (188-141-3-146.dynamic.upc.ie. [188.141.3.146])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-475dd4a36easm193604505e9.10.2025.10.28.05.08.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 28 Oct 2025 05:08:10 -0700 (PDT)
-Message-ID: <aaa361f7-6ada-4347-8bc6-3820cfc9feb4@linaro.org>
-Date: Tue, 28 Oct 2025 12:08:09 +0000
+	s=arc-20240116; t=1761653326; c=relaxed/simple;
+	bh=ytKe3aKJsEHa3Tfbht51N9IlsKHgY3cgoOtKT6K+kDc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RtFmpxFh7s2cGKYbYJvFn5yQ0Fy6cJe7Rdx92oNRDgcAk9jmoVBReCFjnEBfxswPQTtxREs7qeHmI8BbLp5aGg6NNspGT+cPjKiS/T5jWU6+r4XvW3KtC7/8JVdmIsdCdhFDFuxKiAGeCQzwl85Q5BH3pk0S6dsroi25yQxoNQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=emKbS9/i; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761653324; x=1793189324;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=ytKe3aKJsEHa3Tfbht51N9IlsKHgY3cgoOtKT6K+kDc=;
+  b=emKbS9/irfTnsjcrqaF5EhJ755jYde/0qSJ05sniBCFfbElFGqtz5JOm
+   56+Oi5dRljMsNn4N0z8cMF1xEA6w66pzfBkULW9MdnwIHhgVJenkze2zB
+   CPPh1328MJoVxaozZQqKUyIwmmPoYQyl38dGhudvG3niMxQ6U4FU2BYsB
+   dJY9iqSHhQbCKS+XvCY7vbK/DJUDHHQUPJR/B69vdGBWk8WhUaZK9Bku5
+   f++QJXrt0Ug04pK5ZD8mIy4q76hdvmj2leM78UtgytDjMApdz94OSZchs
+   b4TIPp5naFneKBT6vcRbEUi65GJkcq7HFhalQAJcLpznh+pjAZB6lBvjb
+   A==;
+X-CSE-ConnectionGUID: AqvMdWVJS7qqgdK4PkLWwQ==
+X-CSE-MsgGUID: KjQprbrcS6mJdlJ6Hok9oA==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="51324427"
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
+   d="scan'208";a="51324427"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 05:08:42 -0700
+X-CSE-ConnectionGUID: MRl5Ix9iS0+qGHcKiBFDKQ==
+X-CSE-MsgGUID: BWy4UT7WQFyOj/9g81NtTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
+   d="scan'208";a="184957708"
+Received: from pgcooper-mobl3.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.131])
+  by orviesa009-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 05:08:40 -0700
+Date: Tue, 28 Oct 2025 13:08:32 +0100
+From: Mehdi Djait <mehdi.djait@linux.intel.com>
+To: Hans de Goede <hansg@kernel.org>
+Cc: Bingbu Cao <bingbu.cao@intel.com>, 
+	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, stable@vger.kernel.org
+Subject: Re: [PATCH 06/25] media: i2c: ov01a10: Fix test-pattern disabling
+Message-ID: <rywqbh2ku7aexskohujwsiv7yzgn7lipgdqol3rqtkcvqrmn3q@c6oe7wc45hti>
+References: <20251014174033.20534-1-hansg@kernel.org>
+ <20251014174033.20534-7-hansg@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/3] dt-bindings: media: camss: Add qcom,sm6350-camss
-To: Luca Weiss <luca.weiss@fairphone.com>,
- Krzysztof Kozlowski <krzk@kernel.org>
-Cc: Bryan O'Donoghue <bod@kernel.org>, Robert Foss <rfoss@kernel.org>,
- Todor Tomov <todor.too@gmail.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Bjorn Andersson <andersson@kernel.org>,
- Konrad Dybcio <konradybcio@kernel.org>,
- ~postmarketos/upstreaming@lists.sr.ht, phone-devel@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20251024-sm6350-camss-v1-0-63d626638add@fairphone.com>
- <20251024-sm6350-camss-v1-1-63d626638add@fairphone.com>
- <20251028-defiant-visionary-rottweiler-f97cda@kuoka>
- <DDTUHFIN3IEK.3FY5IS9S73ASO@fairphone.com>
- <0bf4ab2e-9846-4f8b-ad72-e9db6fb7d08e@kernel.org>
- <DDTVUXIIQQUS.2UUJ9BS4JCZ0V@fairphone.com>
-From: Bryan O'Donoghue <bryan.odonoghue@linaro.org>
-Content-Language: en-US
-In-Reply-To: <DDTVUXIIQQUS.2UUJ9BS4JCZ0V@fairphone.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20251014174033.20534-7-hansg@kernel.org>
 
-On 28/10/2025 10:28, Luca Weiss wrote:
->> So that's vdda-pll-supply
-> Just noticed, this S5A regulator is the MX power-domain, so we cannot
-> add it as vdda-pll-supply.
-> 
->  From what I can see, so far no other camss bindings take in an rpmhpd
-> power domain, and given it's not referenced in downstream kernel, it
-> doesn't look like it's necessary to control it, from camss.
-> 
-> Maybe it should be added to camcc though? Still not quite sure how
-> downstream vdd_class should translate to upstream...
-> 
-> Thanks for helping with the other points, those are clear.
-> 
-> Regards
-> Luca
+Hi Hans,
 
-Standard practice here is for MX and MMXC in newer parts. MX certain 
-pertains to the clock-controller in this case.
+Thank you for the patches!
 
----
-bod
+On Tue, Oct 14, 2025 at 07:40:14PM +0200, Hans de Goede wrote:
+> When the test-pattern control gets set to 0 (Disabled) 0 should be written
+> to the test-pattern register, rather then doing nothing.
+> 
+
+A small question: Do you see any difference between test_pattern 1 and
+test_pattern 2 or I did not look hard enough at the screen ?
+
+Tested-by: Mehdi Djait <mehdi.djait@linux.intel.com> # Dell XPS 9315
+Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+
+> Fixes: 0827b58dabff ("media: i2c: add ov01a10 image sensor driver")
+> Cc: stable@vger.kernel.org
+> Signed-off-by: Hans de Goede <hansg@kernel.org>
 
