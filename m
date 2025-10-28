@@ -1,403 +1,129 @@
-Return-Path: <linux-media+bounces-45756-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45757-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7C1EC13888
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:26:08 +0100 (CET)
+Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [IPv6:2604:1380:45e3:2400::1])
+	by mail.lfdr.de (Postfix) with ESMTPS id 28CD9C13861
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:24:34 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 97BE74F2161
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 08:21:15 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id D42815861DB
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 08:21:34 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 769D1241691;
-	Tue, 28 Oct 2025 08:21:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 80AAE2D8393;
+	Tue, 28 Oct 2025 08:21:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PA5YjWEI"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Zm3Ko8xU"
 X-Original-To: linux-media@vger.kernel.org
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB0D2D73AB;
-	Tue, 28 Oct 2025 08:21:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D750035B13C;
+	Tue, 28 Oct 2025 08:21:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761639670; cv=none; b=X/wBgx9qsDp3f2nMvRj5xnd5Chu5OkjG7o8xy8Te1leB4KBnk2DKEitXl6swydUH6f1BrYwAcJJaJXIB26kq/FYN/bN9sdSO+VwHTXtdW0t09wqc1PN65coJnaYS9Hax4CMy6IxcbtdV7IxsX7ytjFmH3kbcqsGq/85xbww1jkE=
+	t=1761639681; cv=none; b=QvWM0ZhVvyojznYMB8CXsZY5ujYaRLbMDJ61JmrTSEBmnFafrJfmMAVZ/3V+R+v+PGBJSYhE2c9S4hArZaagHULT2qyEwAHxUYK7b4JBhEq3HKDq0M7QB+7wbduyEFeRZe/JxO+3QDRjgdLUeIXUy6H1pjU/b1fZFIzGAI9RtKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761639670; c=relaxed/simple;
-	bh=it5d+s+qFjiygrtw3yR/GLsBerISGax/FU8vTHZyhGc=;
+	s=arc-20240116; t=1761639681; c=relaxed/simple;
+	bh=xq6vPTE5D8vp9z0Ik6OcuXF3IvLLXrGywxNTTZownOA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NUAIqXcPKjWmZdWU9xo5CwlZb90OsEZagMYxta4CiY8TTdYgDYneT+kVBetKMGXOlgS+RtAJCWQOGnh5uxC8JANpQztaNV+JCHAKDmu0CLZCBNW+9J0XwQrulnprY/uk9mkyzabbgm5kukdNLy5NYzIanYO5OIJe9jBH54Yf2tE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PA5YjWEI; arc=none smtp.client-ip=213.167.242.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
-Received: from pendragon.ideasonboard.com (unknown [193.209.96.36])
-	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 725C016CD;
-	Tue, 28 Oct 2025 09:19:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-	s=mail; t=1761639556;
-	bh=it5d+s+qFjiygrtw3yR/GLsBerISGax/FU8vTHZyhGc=;
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ox4GqjF4KFATAp040/IcnJcxB8zQ/pfSSSlcEf1D2IvALy0Z2gj3f6nbzhZEipXR0MHpPyJ4DclYztUDHqQYLpVI1dqgyQodAxlRWy3pCmLyszjZXsNDUMyPjVx3daJ/ICRHYolHmMsYjjGl/Dvlo3R1id9J4S4l+JVjny1QiFo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Zm3Ko8xU; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 53C53C4CEE7;
+	Tue, 28 Oct 2025 08:21:21 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761639681;
+	bh=xq6vPTE5D8vp9z0Ik6OcuXF3IvLLXrGywxNTTZownOA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PA5YjWEIc1E634AtmZrZhNB7x2BtiYuUqs+pgEmkQA7VlGVK10i+/JBKsSW9ZcmRt
-	 P2WRluXFHxeEUv8rCcZEt5k/jZwM3ZxYUencFIJBcdXyBtM6uyr4TyxqyK9Y3R1JIz
-	 LMSUxgIQDHYn1wNp8psDJp3NWFPDQm40OZSuxZJA=
-Date: Tue, 28 Oct 2025 10:20:51 +0200
-From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To: Frank Li <Frank.li@nxp.com>
-Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
-	Martin Kepplinger <martink@posteo.de>,
-	Purism Kernel Team <kernel@puri.sm>,
+	b=Zm3Ko8xUw6mz5bmJKElBxZZnc515gBzgYlexGEXTV7+8ewILjEH/LGcGkouyx29SR
+	 wgIfheQtmzQZPBzeMQA2eWORMrkBs9m0HrYfCROHmTyILF1+bbZoHEIZXVoy5PXZX5
+	 ncD4rqLHmbW7bpY/lDmLZu5yXkcabWXCoUoxX8oGHzp3GxsJZfV6gj51xGK17R6186
+	 8gcSsdp1Nqf1mrclcD63+PtKgC0q19fR4qYh455JA+OkFPZBqkvBuyA59a6lS+gwlh
+	 hKsn1BnpMBoBUoQIGX/w9AduHALhdmjlzaQFG+GiazcDX90tjtSiPXq0arK56IDgg7
+	 v61HDSTvPTwCQ==
+Received: from johan by xi.lan with local (Exim 4.98.2)
+	(envelope-from <johan@kernel.org>)
+	id 1vDexI-000000007wt-2LbI;
+	Tue, 28 Oct 2025 09:21:24 +0100
+Date: Tue, 28 Oct 2025 09:21:24 +0100
+From: Johan Hovold <johan@kernel.org>
+To: Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc: Minghsiu Tsai <minghsiu.tsai@mediatek.com>,
+	Houlong Wei <houlong.wei@mediatek.com>,
+	Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+	Tiffany Lin <tiffany.lin@mediatek.com>,
+	Yunfei Dong <yunfei.dong@mediatek.com>,
 	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Eugen Hristev <eugen.hristev@linaro.org>,
-	Shawn Guo <shawnguo@kernel.org>,
-	Sascha Hauer <s.hauer@pengutronix.de>,
-	Pengutronix Kernel Team <kernel@pengutronix.de>,
-	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
-	Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
-	Kishon Vijay Abraham I <kishon@kernel.org>,
-	Philipp Zabel <p.zabel@pengutronix.de>,
-	Steve Longerbeam <slongerbeam@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
-	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
-	linux-staging@lists.linux.dev
-Subject: Re: [PATCH v3 03/31] media: v4l2-common: Add helper function
- media_bus_fmt_to_csi2_(bpp|dt)()
-Message-ID: <20251028082051.GY13023@pendragon.ideasonboard.com>
-References: <20250821-95_cam-v3-0-c9286fbb34b9@nxp.com>
- <20250821-95_cam-v3-3-c9286fbb34b9@nxp.com>
- <20251027013204.GT13023@pendragon.ideasonboard.com>
- <aP+lAoHwQ5L3qmt2@lizhi-Precision-Tower-5810>
+	Matthias Brugger <matthias.bgg@gmail.com>,
+	AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
+	Hans Verkuil <hans.verkuil@cisco.com>, linux-media@vger.kernel.org,
+	linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] media: mediatek: fix VPU device leaks on probe
+Message-ID: <aQB9BIjXEOHpIy3_@hovoldconsulting.com>
+References: <20250924133552.28841-1-johan@kernel.org>
+ <aP91nfnpShIhXcVQ@hovoldconsulting.com>
+ <ac27d9b1da68746c62c03047fd7896e2303ef1fd.camel@ndufresne.ca>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="Ha2fucMgPiStiQXJ"
+Content-Disposition: inline
+In-Reply-To: <ac27d9b1da68746c62c03047fd7896e2303ef1fd.camel@ndufresne.ca>
+
+
+--Ha2fucMgPiStiQXJ
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <aP+lAoHwQ5L3qmt2@lizhi-Precision-Tower-5810>
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, Oct 27, 2025 at 12:59:46PM -0400, Frank Li wrote:
-> On Mon, Oct 27, 2025 at 03:32:04AM +0200, Laurent Pinchart wrote:
-> > On Thu, Aug 21, 2025 at 04:15:38PM -0400, Frank Li wrote:
-> > > Add helper function media_bus_fmt_to_csi2_bpp() to get media bus fmt's bpp
-> > > to reduce codes such as
-> > >
-> > > 	static const struct imx7_csi_pixfmt pixel_formats[] = {
-> > >         {
-> > >                 .fourcc = V4L2_PIX_FMT_UYVY,
-> > >                 .codes  = IMX_BUS_FMTS(
-> > >                         MEDIA_BUS_FMT_UYVY8_2X8,
-> > >                         MEDIA_BUS_FMT_UYVY8_1X16
-> > >                 ),
-> > >                 .yuv    = true,
-> > >                 .bpp    = 16,
-> > >         },
-> > > 	....
-> > >
-> > > .bpp can be removed from pixel_formats with this helper function.
-> > >
-> > > CSI2 data type is defined by MIPI Camera Serial Interface 2 Spec Ver4.1.
-> > > See section 9.4.
-> > >
-> > > Add helper function media_bus_fmt_to_csi2_dt() to convert media bus fmt to
-> > > MIPI defined data type and avoid below duplicated static array in each CSI2
+On Mon, Oct 27, 2025 at 07:29:39PM +0000, Nicolas Dufresne wrote:
+> Le lundi 27 octobre 2025 =C3=A0 14:37 +0100, Johan Hovold a =C3=A9crit=C2=
+=A0:
+> > On Wed, Sep 24, 2025 at 03:35:49PM +0200, Johan Hovold wrote:
+> > > This series fixes VPU device leaks during probe of the mdp and two co=
+dec
 > > > drivers.
-> > >
-> > > 	{
-> > > 		.code = MEDIA_BUS_FMT_UYVY8_1X16,
-> > > 		.data_type = MIPI_CSI2_DT_YUV422_8B,
-> > > 	}
-> > >
-> > > Only add known map for dt type. Need update media_bus_fmt_info when new
-> > > mapping used.
-> > >
-> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
-> > > ---
-> > > Change in v3:
-> > > - squash two help function patch to one.
-> > > - use media_bus_fmt_info to do map.
-> > > ---
-> > >  drivers/media/v4l2-core/v4l2-common.c | 149 ++++++++++++++++++++++++++++++++++
-> > >  include/media/mipi-csi2.h             |  30 +++++++
-> > >  2 files changed, 179 insertions(+)
-> > >
-> > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
-> > > index a5334aa35992e5f57fb228c33d40c51fdafdc135..a75987aa5fc69d6368709b7d521bede666da9513 100644
-> > > --- a/drivers/media/v4l2-core/v4l2-common.c
-> > > +++ b/drivers/media/v4l2-core/v4l2-common.c
-> > > @@ -46,6 +46,7 @@
-> > >  #include <linux/uaccess.h>
-> > >  #include <asm/io.h>
-> > >  #include <asm/div64.h>
-> > > +#include <media/mipi-csi2.h>
-> > >  #include <media/v4l2-common.h>
-> > >  #include <media/v4l2-device.h>
-> > >  #include <media/v4l2-ctrls.h>
-> > > @@ -757,3 +758,151 @@ struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
-> > >  	return clk_hw->clk;
-> > >  }
-> > >  EXPORT_SYMBOL_GPL(devm_v4l2_sensor_clk_get);
-> > > +
-> > > +static const struct media_bus_fmt_info media_bus_fmt_info[] = {
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB444_1X12, .bpp = 12},
-> >
-> > Missing space before }.
-> >
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB565_1X16, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_BGR565_2X8_BE, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16},
-> >
-> > Let's not specify .dt for formats that must not be used with CSI-2
-> > buses.
-> 
-> Do you know which not used CSI-2 bus, or where I can get such information?
+> > >=20
+> > > Included is also a minor documentation update to make it clear that t=
+he
+> > > VPU lookup helper returns the device with an incremented refcount.
+> >=20
+> > Can these be picked up for 6.19?
+>=20
+> They are picked already, please check in the tree,
+>=20
+> https://gitlab.freedesktop.org/linux-media/media-committers/-/commits/next
 
-The discussion is ongoing, see
-https://lore.kernel.org/linux-media/20251013-csi-bgr-rgb-v4-0-55eab2caa69f@kernel.org/.
+I can't seem to find them in that branch either, and they are not in
+linux-next.=20
 
-I think we can safely assume that we won't change the policy of using a
-media bus code that transmits a pixel in a single sample. That means
-we'll use _1X16 codes but never _2X8. For the colour components order,
-we need to wait for a conclusion in the above mail thread.
+(I seem to have trimmed my original message too much so that the patch
+summaries were not included in my reminder. Perhaps you are thinking of
+the related mtk-mdp3 fix?)
 
-> > > +	{ .fmt = MEDIA_BUS_FMT_BGR565_2X8_LE, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB565_2X8_BE, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB565_2X8_LE, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB666_1X18, .bpp = 18},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB666_2X9_BE, .bpp = 18},
-> > > +	{ .fmt = MEDIA_BUS_FMT_BGR666_1X18, .bpp = 18},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RBG888_1X24, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB666_1X24_CPADHI, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_BGR666_1X24_CPADHI, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB565_1X24_CPADHI, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG, .bpp = 21},
-> > > +	{ .fmt = MEDIA_BUS_FMT_BGR888_1X24, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_BGR888_3X8, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_GBR888_1X24, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_1X24, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_2X12_BE, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_2X12_LE, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_3X8, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_3X8_DELTA, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG, .bpp = 28},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA, .bpp = 28},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB666_1X30_CPADLO, .bpp = 30},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_1X30_CPADLO, .bpp = 30},
-> > > +	{ .fmt = MEDIA_BUS_FMT_ARGB8888_1X32, .bpp = 32},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_1X32_PADHI, .bpp = 32},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB101010_1X30, .bpp = 30},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB101010_1X7X5_SPWG, .bpp = 35},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB101010_1X7X5_JEIDA, .bpp = 35},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB666_1X36_CPADLO, .bpp = 36},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_1X36_CPADLO, .bpp = 36},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB121212_1X36, .bpp = 36},
-> > > +	{ .fmt = MEDIA_BUS_FMT_RGB161616_1X48, .bpp = 48},
-> > > +
-> > > +	{ .fmt = MEDIA_BUS_FMT_Y8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_UV8_1X8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_UYVY8_1_5X8, .bpp = 40},
-> >
-> > This doesn't seem correct.
-> 
-> I add by surfix <m>X<n>, Is my understand about <m>X<n> wrong?  or
-> MEDIA_BUS_FMT_UYVY8_1_5X8 itself is wrong?
+But I do see an incomplete attempt at a fix of the reference leak in
+that branch by someone else in commit cdd0f118ef87 ("media: mediatek:
+vcodec: Fix a reference leak in mtk_vcodec_fw_vpu_init()")
 
+Can that commit be dropped in favour of this series or shall I rebase on
+top of it?
 
-1_5X8 means 1.5 * 8.
+Johan
 
-> > > +	{ .fmt = MEDIA_BUS_FMT_VYUY8_1_5X8, .bpp = 40},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YUYV8_1_5X8, .bpp = 40},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YVYU8_1_5X8, .bpp = 40},
-> > > +	{ .fmt = MEDIA_BUS_FMT_UYVY8_2X8, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_VYUY8_2X8, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YUYV8_2X8, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YVYU8_2X8, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_Y10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10},
-> > > +	{ .fmt = MEDIA_BUS_FMT_Y10_2X8_PADHI_LE, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_UYVY10_2X10, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
-> > > +	{ .fmt = MEDIA_BUS_FMT_VYUY10_2X10, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YUYV10_2X10, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YVYU10_2X10, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
-> > > +	{ .fmt = MEDIA_BUS_FMT_Y12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12},
-> > > +	{ .fmt = MEDIA_BUS_FMT_UYVY12_2X12, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_VYUY12_2X12, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YUYV12_2X12, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YVYU12_2X12, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_Y14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14},
-> > > +	{ .fmt = MEDIA_BUS_FMT_Y16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_UYVY8_1X16, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_VYUY8_1X16, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YUYV8_1X16, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YVYU8_1X16, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YDYUYDYV8_1X16, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_UYVY10_1X20, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
-> > > +	{ .fmt = MEDIA_BUS_FMT_VYUY10_1X20, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YUYV10_1X20, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YVYU10_1X20, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
-> > > +	{ .fmt = MEDIA_BUS_FMT_VUY8_1X24, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YUV8_1X24, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_UYYVYY8_0_5X24, .dt = MIPI_CSI2_DT_YUV420_8B, .bpp = 120},
-> > > +	{ .fmt = MEDIA_BUS_FMT_UYVY12_1X24, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_VYUY12_1X24, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YUYV12_1X24, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YVYU12_1X24, .bpp = 24},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YUV10_1X30, .bpp = 30},
-> > > +	{ .fmt = MEDIA_BUS_FMT_UYYVYY10_0_5X30, .bpp = 150},
-> > > +	{ .fmt = MEDIA_BUS_FMT_AYUV8_1X32, .bpp = 32},
-> > > +	{ .fmt = MEDIA_BUS_FMT_UYYVYY12_0_5X36, .bpp = 180},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YUV12_1X36, .bpp = 36},
-> > > +	{ .fmt = MEDIA_BUS_FMT_YUV16_1X48, .bpp = 48},
-> > > +	{ .fmt = MEDIA_BUS_FMT_UYYVYY16_0_5X48, .bpp = 240},
-> > > +
-> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SGBRG8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SGRBG8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SRGGB8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR10_ALAW8_1X8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SGBRG10_ALAW8_1X8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SGRBG10_ALAW8_1X8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SRGGB10_ALAW8_1X8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_BE, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_LE, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR10_2X8_PADLO_BE, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR10_2X8_PADLO_LE, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SGBRG10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SGRBG10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SRGGB10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SGBRG12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SGRBG12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SRGGB12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SGBRG14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SGRBG14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SRGGB14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SGBRG16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SGRBG16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_SRGGB16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16},
-> > > +
-> > > +	{ .fmt = MEDIA_BUS_FMT_JPEG_1X8, .bpp = 8},
-> > > +
-> > > +	{ .fmt = MEDIA_BUS_FMT_S5C_UYVY_JPEG_1X8, .bpp = 8},
-> > > +
-> > > +	{ .fmt = MEDIA_BUS_FMT_AHSV8888_1X32, .bpp = 8},
-> > > +
-> > > +	{ .fmt = MEDIA_BUS_FMT_META_8, .bpp = 8},
-> > > +	{ .fmt = MEDIA_BUS_FMT_META_10, .bpp = 10},
-> > > +	{ .fmt = MEDIA_BUS_FMT_META_12, .bpp = 12},
-> > > +	{ .fmt = MEDIA_BUS_FMT_META_14, .bpp = 14},
-> > > +	{ .fmt = MEDIA_BUS_FMT_META_16, .bpp = 16},
-> > > +	{ .fmt = MEDIA_BUS_FMT_META_20, .bpp = 20},
-> > > +	{ .fmt = MEDIA_BUS_FMT_META_24, .bpp = 24},
-> > > +};
-> > > +
-> > > +const struct media_bus_fmt_info *media_bus_fmt_info_get(u32 bus_fmt)
-> > > +{
-> > > +	int i;
-> >
-> > unsigned
-> >
-> > > +
-> > > +	for (i = 0; i < ARRAY_SIZE(media_bus_fmt_info); i++)
-> > > +		if (media_bus_fmt_info[i].fmt == bus_fmt)
-> > > +			return &media_bus_fmt_info[i];
-> >
-> > Add curly braces for the "for" statement.
-> >
-> > > +
-> > > +	return NULL;
-> > > +}
-> > > +EXPORT_SYMBOL_GPL(media_bus_fmt_info_get);
-> > > diff --git a/include/media/mipi-csi2.h b/include/media/mipi-csi2.h
-> > > index 40fc0264250d779ab5dfa7d2fe16e6f1382c07d4..3227d28224b7c32ef2745548391da9e792cfa559 100644
-> > > --- a/include/media/mipi-csi2.h
-> > > +++ b/include/media/mipi-csi2.h
-> > > @@ -8,6 +8,8 @@
-> > >  #ifndef _MEDIA_MIPI_CSI2_H
-> > >  #define _MEDIA_MIPI_CSI2_H
-> > >
-> > > +/* DT value ref to MIPI Camera Serial Interface 2 Spec Ver4.1 section 9.4 */
-> > > +
-> > >  /* Short packet data types */
-> > >  #define MIPI_CSI2_DT_FS			0x00
-> > >  #define MIPI_CSI2_DT_FE			0x01
-> > > @@ -44,4 +46,32 @@
-> > >  #define MIPI_CSI2_DT_RAW20		0x2f
-> > >  #define MIPI_CSI2_DT_USER_DEFINED(n)	(0x30 + (n))	/* 0..7 */
-> > >
-> > > +/**
-> > > + * struct media_bus_fmt_info - information about a media bus format
-> > > + * @fmt: media bus format identifier (MEDIA_BUS_FMT_*)
-> >
-> > We usually name this "code".
-> >
-> > > + * @dt: data type define in MIPI spec (MIPI_CSI2_DT *)
-> > > + * @bpp: bit width per pixel
-> >
-> > You will need to define this much more precisely. In particular, how is
-> > padding handled ? How about compressed formats such as JPEG ? How about
-> > the LVDS formats, how are the control bits accounted for ?
-> >
-> > I understand you're trying to share code between two drivers, but I'm
-> > not sure we will be able to come up with a standard definition of bpp
-> > that will match the needs of all drivers. It feels that this information
-> > would be better stored in driver-specific tables.
-> 
-> 80% is duplicated codes if stored in driver-specific tables. If driver use
-> difference defination, they can create customerized table. This one at
-> least cover more than 80% case.
+--Ha2fucMgPiStiQXJ
+Content-Type: application/pgp-signature; name=signature.asc
 
-In that case we need a clear and precise definition of the 'bpp' field.
+-----BEGIN PGP SIGNATURE-----
 
-> > > + */
-> > > +struct media_bus_fmt_info {
-> > > +	u32 fmt;
-> > > +	u32 dt;
-> > > +	u8 bpp;
-> > > +};
-> > > +
-> > > +const struct media_bus_fmt_info *media_bus_fmt_info_get(u32 bus_fmt);
-> > > +
-> > > +static inline int media_bus_fmt_to_csi2_dt(int bus_fmt)
-> > > +{
-> > > +	const struct media_bus_fmt_info *info = media_bus_fmt_info_get(bus_fmt);
-> > > +
-> > > +	return info ? info->dt : 0;
-> > > +}
-> > > +
-> > > +static inline int media_bus_fmt_to_csi2_bpp(int bus_fmt)
-> > > +{
-> > > +	const struct media_bus_fmt_info *info = media_bus_fmt_info_get(bus_fmt);
-> > > +
-> > > +	return info ? info->bpp : 0;
-> > > +}
-> > > +
-> >
-> > These are not specific to CSI-2, they belong to a different header.
-> > v4l2-common.h is an option, given that the implementation goes to
-> > v4l2-common.c.
-> >
-> > >  #endif /* _MEDIA_MIPI_CSI2_H */
-> > >
-> > >
+iHUEABYKAB0WIQQHbPq+cpGvN/peuzMLxc3C7H1lCAUCaQB8/wAKCRALxc3C7H1l
+COHPAP4o5c3CdMjYcKPhRiv7y0Mt/SbQoTayD4O2ysNuNFLRCAEA3yz1kO0nlCQA
+6lld/IVLC+92XTeC/aq295ogntl20g8=
+=y1OE
+-----END PGP SIGNATURE-----
 
--- 
-Regards,
-
-Laurent Pinchart
+--Ha2fucMgPiStiQXJ--
 
