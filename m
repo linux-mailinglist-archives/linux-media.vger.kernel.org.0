@@ -1,144 +1,403 @@
-Return-Path: <linux-media+bounces-45755-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45756-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [142.0.200.124])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56244C137B5
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:16:31 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id C7C1EC13888
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:26:08 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id C34C3544CB7
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 08:10:56 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 97BE74F2161
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 08:21:15 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BA7BD2D7DDA;
-	Tue, 28 Oct 2025 08:10:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 769D1241691;
+	Tue, 28 Oct 2025 08:21:11 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TsPj+uH2"
+	dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b="PA5YjWEI"
 X-Original-To: linux-media@vger.kernel.org
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [213.167.242.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 946352D5950;
-	Tue, 28 Oct 2025 08:10:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFB0D2D73AB;
+	Tue, 28 Oct 2025 08:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.167.242.64
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761639046; cv=none; b=Ms92MUU1n0Rf9dANMZRdkSSIfkAZzxfUvkDi512Tiuxd6M1phLk5fG/JALG641ent5W6mjiMVqLM/FGXLztXGsZRvHWj/RA4mdpiLuXC9MPQZ9E2HqoGznaFsqtn6U+Rb0bIg7OzCEzny1P562ZlXdAX4KmZifhQUUTNDy7nZmw=
+	t=1761639670; cv=none; b=X/wBgx9qsDp3f2nMvRj5xnd5Chu5OkjG7o8xy8Te1leB4KBnk2DKEitXl6swydUH6f1BrYwAcJJaJXIB26kq/FYN/bN9sdSO+VwHTXtdW0t09wqc1PN65coJnaYS9Hax4CMy6IxcbtdV7IxsX7ytjFmH3kbcqsGq/85xbww1jkE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761639046; c=relaxed/simple;
-	bh=zBgb5f1WtkDg56Ox0V9GSaoKy0zGZLbaoISlecrexow=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=LiY7oyqBJv8ZcthuQKzrTf7KhXtGx0VrVonYByEl8u4ugQEO4qkxwe/nnmd8EG5y6OidGWiphOzgie6DCCupKVYtRdLVry2nXZZHLSC4Jyv8iyXHO56DneqpBOOg1hnparY8sqdJzYeyjiOie7EaZdZxFiYc+KYt3Q7g/kUVQLs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TsPj+uH2; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7B5D4C4CEE7;
-	Tue, 28 Oct 2025 08:10:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761639046;
-	bh=zBgb5f1WtkDg56Ox0V9GSaoKy0zGZLbaoISlecrexow=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=TsPj+uH26dczDXE7oXv27W0SY9W+B5oYJv1PGJDZbhbBjeoRxAiQqLRgi+lnAQrp7
-	 3gDI1b3QrcTr0Znv6ufEaEJJ4dbxyFSOM0msgbwv6JHHioWZl10DBI+SuY2vD4mioT
-	 IDr7N3iVU85sEgWV+hutydtmcSuT2lzc+zxWq60g4ZHmqKGKKONz7uranjY0DqOOrW
-	 R4JdJQxxrVp13hr6a4JCnR5kh+qlZjqk9qlDXuJ1o7XZcjvrXUGZ8jRTAijjLwnRNN
-	 KSC3k07DPR0iPm8NdyB/91/U1ncZ8JQoPg1bkiqr4z/9thLmKWjvS9s3XN1lgliyty
-	 hDT3XqNEuhXxg==
-Message-ID: <84ae4280-d0f0-42a2-acfd-e85e0263be1d@kernel.org>
-Date: Tue, 28 Oct 2025 09:10:39 +0100
+	s=arc-20240116; t=1761639670; c=relaxed/simple;
+	bh=it5d+s+qFjiygrtw3yR/GLsBerISGax/FU8vTHZyhGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=NUAIqXcPKjWmZdWU9xo5CwlZb90OsEZagMYxta4CiY8TTdYgDYneT+kVBetKMGXOlgS+RtAJCWQOGnh5uxC8JANpQztaNV+JCHAKDmu0CLZCBNW+9J0XwQrulnprY/uk9mkyzabbgm5kukdNLy5NYzIanYO5OIJe9jBH54Yf2tE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com; spf=pass smtp.mailfrom=ideasonboard.com; dkim=pass (1024-bit key) header.d=ideasonboard.com header.i=@ideasonboard.com header.b=PA5YjWEI; arc=none smtp.client-ip=213.167.242.64
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ideasonboard.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ideasonboard.com
+Received: from pendragon.ideasonboard.com (unknown [193.209.96.36])
+	by perceval.ideasonboard.com (Postfix) with UTF8SMTPSA id 725C016CD;
+	Tue, 28 Oct 2025 09:19:16 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+	s=mail; t=1761639556;
+	bh=it5d+s+qFjiygrtw3yR/GLsBerISGax/FU8vTHZyhGc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PA5YjWEIc1E634AtmZrZhNB7x2BtiYuUqs+pgEmkQA7VlGVK10i+/JBKsSW9ZcmRt
+	 P2WRluXFHxeEUv8rCcZEt5k/jZwM3ZxYUencFIJBcdXyBtM6uyr4TyxqyK9Y3R1JIz
+	 LMSUxgIQDHYn1wNp8psDJp3NWFPDQm40OZSuxZJA=
+Date: Tue, 28 Oct 2025 10:20:51 +0200
+From: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To: Frank Li <Frank.li@nxp.com>
+Cc: Rui Miguel Silva <rmfrfs@gmail.com>,
+	Martin Kepplinger <martink@posteo.de>,
+	Purism Kernel Team <kernel@puri.sm>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Eugen Hristev <eugen.hristev@linaro.org>,
+	Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, Peng Fan <peng.fan@nxp.com>,
+	Alice Yuan <alice.yuan@nxp.com>, Vinod Koul <vkoul@kernel.org>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Philipp Zabel <p.zabel@pengutronix.de>,
+	Steve Longerbeam <slongerbeam@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org, linux-phy@lists.infradead.org,
+	linux-staging@lists.linux.dev
+Subject: Re: [PATCH v3 03/31] media: v4l2-common: Add helper function
+ media_bus_fmt_to_csi2_(bpp|dt)()
+Message-ID: <20251028082051.GY13023@pendragon.ideasonboard.com>
+References: <20250821-95_cam-v3-0-c9286fbb34b9@nxp.com>
+ <20250821-95_cam-v3-3-c9286fbb34b9@nxp.com>
+ <20251027013204.GT13023@pendragon.ideasonboard.com>
+ <aP+lAoHwQ5L3qmt2@lizhi-Precision-Tower-5810>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/6] dt-bindings: media: camss: Add
- qcom,kaanapali-camss binding
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
-Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>,
- Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
- Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
- Mauro Carvalho Chehab <mchehab@kernel.org>,
- Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-i2c@vger.kernel.org,
- linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
- aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
- trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
- Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
- Atiya Kailany <atiya.kailany@oss.qualcomm.com>
-References: <20251023-add-support-for-camss-on-kaanapali-v3-0-02abc9a107bf@oss.qualcomm.com>
- <20251023-add-support-for-camss-on-kaanapali-v3-2-02abc9a107bf@oss.qualcomm.com>
- <20251028-wonderful-olive-muskox-77f98d@kuoka>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <20251028-wonderful-olive-muskox-77f98d@kuoka>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <aP+lAoHwQ5L3qmt2@lizhi-Precision-Tower-5810>
 
-On 28/10/2025 09:09, Krzysztof Kozlowski wrote:
-> On Thu, Oct 23, 2025 at 02:14:34AM -0700, Hangxiang Ma wrote:
->> Add bindings for qcom,kaanapali-camss in order to support the camera
+On Mon, Oct 27, 2025 at 12:59:46PM -0400, Frank Li wrote:
+> On Mon, Oct 27, 2025 at 03:32:04AM +0200, Laurent Pinchart wrote:
+> > On Thu, Aug 21, 2025 at 04:15:38PM -0400, Frank Li wrote:
+> > > Add helper function media_bus_fmt_to_csi2_bpp() to get media bus fmt's bpp
+> > > to reduce codes such as
+> > >
+> > > 	static const struct imx7_csi_pixfmt pixel_formats[] = {
+> > >         {
+> > >                 .fourcc = V4L2_PIX_FMT_UYVY,
+> > >                 .codes  = IMX_BUS_FMTS(
+> > >                         MEDIA_BUS_FMT_UYVY8_2X8,
+> > >                         MEDIA_BUS_FMT_UYVY8_1X16
+> > >                 ),
+> > >                 .yuv    = true,
+> > >                 .bpp    = 16,
+> > >         },
+> > > 	....
+> > >
+> > > .bpp can be removed from pixel_formats with this helper function.
+> > >
+> > > CSI2 data type is defined by MIPI Camera Serial Interface 2 Spec Ver4.1.
+> > > See section 9.4.
+> > >
+> > > Add helper function media_bus_fmt_to_csi2_dt() to convert media bus fmt to
+> > > MIPI defined data type and avoid below duplicated static array in each CSI2
+> > > drivers.
+> > >
+> > > 	{
+> > > 		.code = MEDIA_BUS_FMT_UYVY8_1X16,
+> > > 		.data_type = MIPI_CSI2_DT_YUV422_8B,
+> > > 	}
+> > >
+> > > Only add known map for dt type. Need update media_bus_fmt_info when new
+> > > mapping used.
+> > >
+> > > Signed-off-by: Frank Li <Frank.Li@nxp.com>
+> > > ---
+> > > Change in v3:
+> > > - squash two help function patch to one.
+> > > - use media_bus_fmt_info to do map.
+> > > ---
+> > >  drivers/media/v4l2-core/v4l2-common.c | 149 ++++++++++++++++++++++++++++++++++
+> > >  include/media/mipi-csi2.h             |  30 +++++++
+> > >  2 files changed, 179 insertions(+)
+> > >
+> > > diff --git a/drivers/media/v4l2-core/v4l2-common.c b/drivers/media/v4l2-core/v4l2-common.c
+> > > index a5334aa35992e5f57fb228c33d40c51fdafdc135..a75987aa5fc69d6368709b7d521bede666da9513 100644
+> > > --- a/drivers/media/v4l2-core/v4l2-common.c
+> > > +++ b/drivers/media/v4l2-core/v4l2-common.c
+> > > @@ -46,6 +46,7 @@
+> > >  #include <linux/uaccess.h>
+> > >  #include <asm/io.h>
+> > >  #include <asm/div64.h>
+> > > +#include <media/mipi-csi2.h>
+> > >  #include <media/v4l2-common.h>
+> > >  #include <media/v4l2-device.h>
+> > >  #include <media/v4l2-ctrls.h>
+> > > @@ -757,3 +758,151 @@ struct clk *devm_v4l2_sensor_clk_get(struct device *dev, const char *id)
+> > >  	return clk_hw->clk;
+> > >  }
+> > >  EXPORT_SYMBOL_GPL(devm_v4l2_sensor_clk_get);
+> > > +
+> > > +static const struct media_bus_fmt_info media_bus_fmt_info[] = {
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB444_1X12, .bpp = 12},
+> >
+> > Missing space before }.
+> >
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB444_2X8_PADHI_BE, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB444_2X8_PADHI_LE, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB565_1X16, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_BGR565_2X8_BE, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16},
+> >
+> > Let's not specify .dt for formats that must not be used with CSI-2
+> > buses.
 > 
-> What is qcom,kaanapali-camss? Sounds like a compatible and you cannot
-> add bindings for a compatible. Instead add bindings for hardware, so
-> explain here hardware.
+> Do you know which not used CSI-2 bus, or where I can get such information?
+
+The discussion is ongoing, see
+https://lore.kernel.org/linux-media/20251013-csi-bgr-rgb-v4-0-55eab2caa69f@kernel.org/.
+
+I think we can safely assume that we won't change the policy of using a
+media bus code that transmits a pixel in a single sample. That means
+we'll use _1X16 codes but never _2X8. For the colour components order,
+we need to wait for a conclusion in the above mail thread.
+
+> > > +	{ .fmt = MEDIA_BUS_FMT_BGR565_2X8_LE, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB565_2X8_BE, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB565_2X8_LE, .dt = MIPI_CSI2_DT_RGB565, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB666_1X18, .bpp = 18},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB666_2X9_BE, .bpp = 18},
+> > > +	{ .fmt = MEDIA_BUS_FMT_BGR666_1X18, .bpp = 18},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RBG888_1X24, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB666_1X24_CPADHI, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_BGR666_1X24_CPADHI, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB565_1X24_CPADHI, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB666_1X7X3_SPWG, .bpp = 21},
+> > > +	{ .fmt = MEDIA_BUS_FMT_BGR888_1X24, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_BGR888_3X8, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_GBR888_1X24, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_1X24, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_2X12_BE, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_2X12_LE, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_3X8, .dt = MIPI_CSI2_DT_RGB888, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_3X8_DELTA, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_1X7X4_SPWG, .bpp = 28},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_1X7X4_JEIDA, .bpp = 28},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB666_1X30_CPADLO, .bpp = 30},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_1X30_CPADLO, .bpp = 30},
+> > > +	{ .fmt = MEDIA_BUS_FMT_ARGB8888_1X32, .bpp = 32},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_1X32_PADHI, .bpp = 32},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB101010_1X30, .bpp = 30},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB101010_1X7X5_SPWG, .bpp = 35},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB101010_1X7X5_JEIDA, .bpp = 35},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB666_1X36_CPADLO, .bpp = 36},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB888_1X36_CPADLO, .bpp = 36},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB121212_1X36, .bpp = 36},
+> > > +	{ .fmt = MEDIA_BUS_FMT_RGB161616_1X48, .bpp = 48},
+> > > +
+> > > +	{ .fmt = MEDIA_BUS_FMT_Y8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_UV8_1X8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_UYVY8_1_5X8, .bpp = 40},
+> >
+> > This doesn't seem correct.
 > 
-> You could easily use `git log` to see how such commits are written
-> instead of pasting here your downstream practice.
+> I add by surfix <m>X<n>, Is my understand about <m>X<n> wrong?  or
+> MEDIA_BUS_FMT_UYVY8_1_5X8 itself is wrong?
+
+
+1_5X8 means 1.5 * 8.
+
+> > > +	{ .fmt = MEDIA_BUS_FMT_VYUY8_1_5X8, .bpp = 40},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YUYV8_1_5X8, .bpp = 40},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YVYU8_1_5X8, .bpp = 40},
+> > > +	{ .fmt = MEDIA_BUS_FMT_UYVY8_2X8, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_VYUY8_2X8, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YUYV8_2X8, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YVYU8_2X8, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_Y10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10},
+> > > +	{ .fmt = MEDIA_BUS_FMT_Y10_2X8_PADHI_LE, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_UYVY10_2X10, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
+> > > +	{ .fmt = MEDIA_BUS_FMT_VYUY10_2X10, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YUYV10_2X10, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YVYU10_2X10, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
+> > > +	{ .fmt = MEDIA_BUS_FMT_Y12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12},
+> > > +	{ .fmt = MEDIA_BUS_FMT_UYVY12_2X12, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_VYUY12_2X12, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YUYV12_2X12, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YVYU12_2X12, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_Y14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14},
+> > > +	{ .fmt = MEDIA_BUS_FMT_Y16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_UYVY8_1X16, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_VYUY8_1X16, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YUYV8_1X16, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YVYU8_1X16, .dt = MIPI_CSI2_DT_YUV422_8B, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YDYUYDYV8_1X16, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_UYVY10_1X20, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
+> > > +	{ .fmt = MEDIA_BUS_FMT_VYUY10_1X20, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YUYV10_1X20, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YVYU10_1X20, .dt = MIPI_CSI2_DT_YUV422_10B, .bpp = 20},
+> > > +	{ .fmt = MEDIA_BUS_FMT_VUY8_1X24, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YUV8_1X24, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_UYYVYY8_0_5X24, .dt = MIPI_CSI2_DT_YUV420_8B, .bpp = 120},
+> > > +	{ .fmt = MEDIA_BUS_FMT_UYVY12_1X24, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_VYUY12_1X24, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YUYV12_1X24, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YVYU12_1X24, .bpp = 24},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YUV10_1X30, .bpp = 30},
+> > > +	{ .fmt = MEDIA_BUS_FMT_UYYVYY10_0_5X30, .bpp = 150},
+> > > +	{ .fmt = MEDIA_BUS_FMT_AYUV8_1X32, .bpp = 32},
+> > > +	{ .fmt = MEDIA_BUS_FMT_UYYVYY12_0_5X36, .bpp = 180},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YUV12_1X36, .bpp = 36},
+> > > +	{ .fmt = MEDIA_BUS_FMT_YUV16_1X48, .bpp = 48},
+> > > +	{ .fmt = MEDIA_BUS_FMT_UYYVYY16_0_5X48, .bpp = 240},
+> > > +
+> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SGBRG8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SGRBG8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SRGGB8_1X8, .dt = MIPI_CSI2_DT_RAW8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR10_ALAW8_1X8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SGBRG10_ALAW8_1X8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SGRBG10_ALAW8_1X8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SRGGB10_ALAW8_1X8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR10_DPCM8_1X8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SGBRG10_DPCM8_1X8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SGRBG10_DPCM8_1X8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SRGGB10_DPCM8_1X8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_BE, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR10_2X8_PADHI_LE, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR10_2X8_PADLO_BE, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR10_2X8_PADLO_LE, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SGBRG10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SGRBG10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SRGGB10_1X10, .dt = MIPI_CSI2_DT_RAW10, .bpp = 10},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SGBRG12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SGRBG12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SRGGB12_1X12, .dt = MIPI_CSI2_DT_RAW12, .bpp = 12},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SGBRG14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SGRBG14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SRGGB14_1X14, .dt = MIPI_CSI2_DT_RAW14, .bpp = 14},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SBGGR16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SGBRG16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SGRBG16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_SRGGB16_1X16, .dt = MIPI_CSI2_DT_RAW16, .bpp = 16},
+> > > +
+> > > +	{ .fmt = MEDIA_BUS_FMT_JPEG_1X8, .bpp = 8},
+> > > +
+> > > +	{ .fmt = MEDIA_BUS_FMT_S5C_UYVY_JPEG_1X8, .bpp = 8},
+> > > +
+> > > +	{ .fmt = MEDIA_BUS_FMT_AHSV8888_1X32, .bpp = 8},
+> > > +
+> > > +	{ .fmt = MEDIA_BUS_FMT_META_8, .bpp = 8},
+> > > +	{ .fmt = MEDIA_BUS_FMT_META_10, .bpp = 10},
+> > > +	{ .fmt = MEDIA_BUS_FMT_META_12, .bpp = 12},
+> > > +	{ .fmt = MEDIA_BUS_FMT_META_14, .bpp = 14},
+> > > +	{ .fmt = MEDIA_BUS_FMT_META_16, .bpp = 16},
+> > > +	{ .fmt = MEDIA_BUS_FMT_META_20, .bpp = 20},
+> > > +	{ .fmt = MEDIA_BUS_FMT_META_24, .bpp = 24},
+> > > +};
+> > > +
+> > > +const struct media_bus_fmt_info *media_bus_fmt_info_get(u32 bus_fmt)
+> > > +{
+> > > +	int i;
+> >
+> > unsigned
+> >
+> > > +
+> > > +	for (i = 0; i < ARRAY_SIZE(media_bus_fmt_info); i++)
+> > > +		if (media_bus_fmt_info[i].fmt == bus_fmt)
+> > > +			return &media_bus_fmt_info[i];
+> >
+> > Add curly braces for the "for" statement.
+> >
+> > > +
+> > > +	return NULL;
+> > > +}
+> > > +EXPORT_SYMBOL_GPL(media_bus_fmt_info_get);
+> > > diff --git a/include/media/mipi-csi2.h b/include/media/mipi-csi2.h
+> > > index 40fc0264250d779ab5dfa7d2fe16e6f1382c07d4..3227d28224b7c32ef2745548391da9e792cfa559 100644
+> > > --- a/include/media/mipi-csi2.h
+> > > +++ b/include/media/mipi-csi2.h
+> > > @@ -8,6 +8,8 @@
+> > >  #ifndef _MEDIA_MIPI_CSI2_H
+> > >  #define _MEDIA_MIPI_CSI2_H
+> > >
+> > > +/* DT value ref to MIPI Camera Serial Interface 2 Spec Ver4.1 section 9.4 */
+> > > +
+> > >  /* Short packet data types */
+> > >  #define MIPI_CSI2_DT_FS			0x00
+> > >  #define MIPI_CSI2_DT_FE			0x01
+> > > @@ -44,4 +46,32 @@
+> > >  #define MIPI_CSI2_DT_RAW20		0x2f
+> > >  #define MIPI_CSI2_DT_USER_DEFINED(n)	(0x30 + (n))	/* 0..7 */
+> > >
+> > > +/**
+> > > + * struct media_bus_fmt_info - information about a media bus format
+> > > + * @fmt: media bus format identifier (MEDIA_BUS_FMT_*)
+> >
+> > We usually name this "code".
+> >
+> > > + * @dt: data type define in MIPI spec (MIPI_CSI2_DT *)
+> > > + * @bpp: bit width per pixel
+> >
+> > You will need to define this much more precisely. In particular, how is
+> > padding handled ? How about compressed formats such as JPEG ? How about
+> > the LVDS formats, how are the control bits accounted for ?
+> >
+> > I understand you're trying to share code between two drivers, but I'm
+> > not sure we will be able to come up with a standard definition of bpp
+> > that will match the needs of all drivers. It feels that this information
+> > would be better stored in driver-specific tables.
 > 
+> 80% is duplicated codes if stored in driver-specific tables. If driver use
+> difference defination, they can create customerized table. This one at
+> least cover more than 80% case.
 
+In that case we need a clear and precise definition of the 'bpp' field.
 
-And of course standard comment:
+> > > + */
+> > > +struct media_bus_fmt_info {
+> > > +	u32 fmt;
+> > > +	u32 dt;
+> > > +	u8 bpp;
+> > > +};
+> > > +
+> > > +const struct media_bus_fmt_info *media_bus_fmt_info_get(u32 bus_fmt);
+> > > +
+> > > +static inline int media_bus_fmt_to_csi2_dt(int bus_fmt)
+> > > +{
+> > > +	const struct media_bus_fmt_info *info = media_bus_fmt_info_get(bus_fmt);
+> > > +
+> > > +	return info ? info->dt : 0;
+> > > +}
+> > > +
+> > > +static inline int media_bus_fmt_to_csi2_bpp(int bus_fmt)
+> > > +{
+> > > +	const struct media_bus_fmt_info *info = media_bus_fmt_info_get(bus_fmt);
+> > > +
+> > > +	return info ? info->bpp : 0;
+> > > +}
+> > > +
+> >
+> > These are not specific to CSI-2, they belong to a different header.
+> > v4l2-common.h is an option, given that the implementation goes to
+> > v4l2-common.c.
+> >
+> > >  #endif /* _MEDIA_MIPI_CSI2_H */
+> > >
+> > >
 
-A nit, subject: drop second/last, redundant "binding". The "dt-bindings"
-prefix is already stating that these are bindings.
-See also:
-https://elixir.bootlin.com/linux/v6.17-rc3/source/Documentation/devicetree/bindings/submitting-patches.rst#L18
+-- 
+Regards,
 
-
-Best regards,
-Krzysztof
+Laurent Pinchart
 
