@@ -1,191 +1,179 @@
-Return-Path: <linux-media+bounces-45849-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45850-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DD85C16039
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 18:00:21 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id 3D37AC15FDB
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 17:57:17 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id 6F5081A60C4A
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 16:56:02 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1EF494E2AA8
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 16:57:16 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id F25F728A3EF;
-	Tue, 28 Oct 2025 16:55:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id D1F3434574B;
+	Tue, 28 Oct 2025 16:57:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="afwzdFN5"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SfPj5uxZ"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A083A2D0611
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 16:55:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2956D2882B4;
+	Tue, 28 Oct 2025 16:57:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761670526; cv=none; b=mFk+Fv5nMa5Qe2c+ch23oLlBbJ1oqoI0wX2mzvHRmTrhvNOsFqe1x3mB1ANDXiKe/UhBDmZxOVmxwZfBkehZX1VFozTqcEIcdRql4Wdx4KAJfgd8feEwpdNYJqslKd736s4hjsVgQ57WSRdP2NgciIEWnbRHHBeRBgRNtiyYTMg=
+	t=1761670623; cv=none; b=Q1nnLWi7ukmD9X9po/Yn8OB8ImfYpyaSmCb8bpDalkdqG4nYz/oG+PTqSbB1QKTOZRJisZtZaBeysaVTO1+mTxTBbcPXduIAyKiLtkWq0SmQKWoGW3j5LPfziExIzeKqMdGTSf2MxpfPByVkm/2IRRQcHGeVYQlxI6eF6QAM8Gc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761670526; c=relaxed/simple;
-	bh=1lNH7T0PILTID+kDI3qtSiK0ORHRtuJtQXANKLw0Nzw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Ozc+cGfh4aFQDBldvY1NEfLO+l+jV7AZmuyQCOKDF8PABb3OZ5dUC6gVCtPx0fpNPOTQPfIqz6/kuLJeeyi06XZI/u50Ek+LzozrWfdqFMwHXzL2L5noFrxTy9LQ8LBR7cOD/Hu8Gg7KN2EDUbIV1T6kNA/FMkJqh/ypvfeW8sk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=afwzdFN5; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4270a3464bcso4793947f8f.2
-        for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 09:55:24 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1761670523; x=1762275323; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1lNH7T0PILTID+kDI3qtSiK0ORHRtuJtQXANKLw0Nzw=;
-        b=afwzdFN5fn8CgbfH+u0BKj/3clEdYp1Rq15jHxbDeD0hSBwkZ8WTcvulP9wqQ/SqTl
-         m8AkAwzTb8vI8aOwYLIDpVx/1lMlm1GYddnArN8lEG3YYLEjnoTW9FnJC+4PL+KkfK2m
-         AKIrnL6KKCN1jh1Yk2laRzoQpFObVKaDIICz99JmqYMcJtpWoCCU3ZNp877dvBccr2j4
-         uUzT4a4dVEV3PttKusMNhnKtQ2eRT9Da9Z5X9WMRczTEj/rboeW1fjaMYeM1HWmL2e6j
-         sbzmEfVWNGu/6xDS+GsywRJ2XRp3KFlKJndmeTKe2dPWKeYCi6X1mspMrAaHN+KwmI0w
-         GEDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761670523; x=1762275323;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1lNH7T0PILTID+kDI3qtSiK0ORHRtuJtQXANKLw0Nzw=;
-        b=Odw8R66bOk/twsU131AXyFPJWYbSQxvV/EPyxjum1jvNgovK0+hZuyE+dtFD+u4N8O
-         qXgshuDwpThYUEAersgs4wfFeWvg8UTMMd8cFTA55QNiK+1Mj+XXNBRCqg8bRnOrAqxF
-         P8zUtvKuBufpaSg902grIHnnNDPa2iEfDo1yR4AzhCPFHmysnTCHhEZIMjtrv4mEk7VO
-         RjKJXh5iq/tTqQlAQF5kkE1uGhhUWenl4CuxX6K6fTynnjLTn4LTtMgsXEXvLfqWQT1U
-         NxUo9BNrSbhsebZT/f529qJVGyHwrXI90r2Di2IMa9KSS0YfiL/YwCW6pP8aHmwmNvwa
-         fkqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUn3IuBm9Q3dYg/Hs468wM3LxhX7KF5w5D8JnQX7zwU2NJHlH/ByLWmx1zOKREBTYT8frIYIvVeWcLHRA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YzhYw9RmT4J1nBZu0cSt9EREmwdODNGDf8Jiw1sMIaLrTeU+6ws
-	uOodM1bn45+kkDfpV6n4tFsQ7qasFuO8pOpngefK2MBrc5CS0uA6Psh/IAEAMbAg9trUTVdGLau
-	4f51hNnUf0q8CLFYJbbvvUW5CbSS00jU=
-X-Gm-Gg: ASbGncsISq5vQabh80BoYug3/SAfhkPEfrm9yptwDlKxepTCN+96awhlcbAOSueg9nM
-	+ujtyUOG0S75uGmyOSnUMtrf3Nr5DT19TqaweZNo/gr7iU3MFHhiPkOkbibCtSwQMJFTnB0nl+h
-	6r3uZrS5OCiv2/7loGFbpv7OCq19scGIIkMwySSUkOQFHgk2wY8HUrHn15TmqxVFGWcl/rEWRIo
-	TrFBi0ng7/PEDi5tlg3OLyYnAtshvRFE1o8SwpXu9o2QCE+zcsa3y2HJ7bpRA==
-X-Google-Smtp-Source: AGHT+IGuT5rDPP7pBF0lH7KLD51Bwkf91eAhkAk46Umuzlb9bzaVKJCxGGTByCLo4f1fcUqJMKvnrtXeSYHxAWjXkfk=
-X-Received: by 2002:a5d:5f94:0:b0:425:7406:d298 with SMTP id
- ffacd0b85a97d-429a7e35cf6mr4661170f8f.5.1761670522624; Tue, 28 Oct 2025
- 09:55:22 -0700 (PDT)
+	s=arc-20240116; t=1761670623; c=relaxed/simple;
+	bh=jL+q+hX5pgclGqLhztaAcUV7Iu4y5c7/CXWShf0neD8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=IxPsOXZ+uAB9v7Y+gltNUfnbhqEsOBgjVVlTvxcVuUljl+Ql3noBwYtXC8CW7sztAsZbtuqihUrqxH4xt/m6Oa/vLrqRsXMoIVOwZyXDx93ydNf/6aJ23gOAqVVOv8Clp5lgoPS/fyHaSM/v9vZZTYKKoWnM1pLs2VnILBD/V4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SfPj5uxZ; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CDCB3C4CEE7;
+	Tue, 28 Oct 2025 16:56:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761670622;
+	bh=jL+q+hX5pgclGqLhztaAcUV7Iu4y5c7/CXWShf0neD8=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=SfPj5uxZTYeiNSCgD2N5QwJpnla587u0XK1spznO96mYoPO7vEMlH2urQbBREBVeJ
+	 M3Z9ub0LaIw3KyVGKmgT758C9UXOo1GfXSYKI7VYTUn2vJgQhOEGVUBGfK0vh7v2kv
+	 JxsmmGa4scR4Iprl0rTeEhKuf4/i/eovCZINXJvU4uAGqmq1gD0c93feU/TfA3sAsP
+	 iFMWQcdUgbMKc/DQjvdUI9GzTtMDY045kkHu1RUDTCnJTCT17ZYxZiOqvg9PV/l0ek
+	 KmT9XgwLfMOXYAgc1+jcsXzXhG3kmLwYlFuuDMDYAJgWrIXSOcDEyeIGfcoMwuw2Qv
+	 qdtiyFwX0jYdw==
+Message-ID: <7efc63ed-9c84-43c0-b524-f7e9e60b2846@kernel.org>
+Date: Tue, 28 Oct 2025 17:56:55 +0100
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250819120428.83437-1-clamor95@gmail.com> <aLB_7YS9HsfzfadI@kekkonen.localdomain>
- <CAPVz0n1mXvdyzshei8Mbw7KVYCkQjziBA95ton4MKXPnPd0kbQ@mail.gmail.com>
- <aQDuOSUYbuoLoFbf@kekkonen.localdomain> <aQDvzKMXhVlR2G3J@kekkonen.localdomain>
- <CAPVz0n3E08Ft1q5QS-aT8WUQNmTe5uOs=d2VHovNH1BbdQWVRQ@mail.gmail.com> <aQDxeXV37IHpKeKX@kekkonen.localdomain>
-In-Reply-To: <aQDxeXV37IHpKeKX@kekkonen.localdomain>
-From: Svyatoslav Ryhel <clamor95@gmail.com>
-Date: Tue, 28 Oct 2025 18:55:11 +0200
-X-Gm-Features: AWmQ_bneDRcfVAMTu_XZQmORGNufJK8Rg55m2bX5Zib7AOKSUA93LeLJ_p1DYkg
-Message-ID: <CAPVz0n2UzvivdUdX5QapduYZ=+LbZp+LPJnSKJmd3WRe35BwaQ@mail.gmail.com>
-Subject: Re: [PATCH v1 0/2] media: i2c: add Sony IMX111 CMOS camera sensor driver
-To: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Hans Verkuil <hverkuil@xs4all.nl>, Hans de Goede <hansg@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Dongcheng Yan <dongcheng.yan@intel.com>, =?UTF-8?Q?Andr=C3=A9_Apitzsch?= <git@apitzsch.eu>, 
-	Sylvain Petinot <sylvain.petinot@foss.st.com>, 
-	Benjamin Mugnier <benjamin.mugnier@foss.st.com>, 
-	Heimir Thor Sverrisson <heimir.sverrisson@gmail.com>, Jingjing Xiong <jingjing.xiong@intel.com>, 
-	linux-media@vger.kernel.org, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 2/6] dt-bindings: media: camss: Add
+ qcom,kaanapali-camss binding
+To: Vijay Kumar Tumati <vijay.tumati@oss.qualcomm.com>,
+ Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>,
+ Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>,
+ Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>,
+ Mauro Carvalho Chehab <mchehab@kernel.org>,
+ Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-i2c@vger.kernel.org,
+ linux-arm-msm@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com,
+ trilok.soni@oss.qualcomm.com, yijie.yang@oss.qualcomm.com,
+ Jingyi Wang <jingyi.wang@oss.qualcomm.com>,
+ Atiya Kailany <atiya.kailany@oss.qualcomm.com>
+References: <20251023-add-support-for-camss-on-kaanapali-v3-0-02abc9a107bf@oss.qualcomm.com>
+ <20251023-add-support-for-camss-on-kaanapali-v3-2-02abc9a107bf@oss.qualcomm.com>
+ <20251028-wonderful-olive-muskox-77f98d@kuoka>
+ <ac126c63-f40c-4159-87c9-1b3d7a8dec63@oss.qualcomm.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <ac126c63-f40c-4159-87c9-1b3d7a8dec63@oss.qualcomm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-=D0=B2=D1=82, 28 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE 18:3=
-8 Sakari Ailus <sakari.ailus@linux.intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
->
-> On Tue, Oct 28, 2025 at 06:34:15PM +0200, Svyatoslav Ryhel wrote:
-> > =D0=B2=D1=82, 28 =D0=B6=D0=BE=D0=B2=D1=82. 2025=E2=80=AF=D1=80. =D0=BE =
-18:31 Sakari Ailus <sakari.ailus@linux.intel.com> =D0=BF=D0=B8=D1=88=D0=B5:
-> > >
-> > > On Tue, Oct 28, 2025 at 06:24:25PM +0200, Sakari Ailus wrote:
-> > > > Hi Svyatoslav,
-> > > >
-> > > > On Fri, Aug 29, 2025 at 09:20:10PM +0300, Svyatoslav Ryhel wrote:
-> > > > > =D1=87=D1=82, 28 =D1=81=D0=B5=D1=80=D0=BF. 2025=E2=80=AF=D1=80. =
-=D0=BE 19:12 Sakari Ailus <sakari.ailus@linux.intel.com> =D0=BF=D0=B8=D1=88=
-=D0=B5:
-> > > > > >
-> > > > > > Hi Svyatoslaw,
-> > > > > >
-> > > > > > On Tue, Aug 19, 2025 at 03:04:25PM +0300, Svyatoslav Ryhel wrot=
-e:
-> > > > > > > Add driver for Sony IMX111 CMOS sensor found in LG Optimus 4X=
- and Vu
-> > > > > > > smartphones.
-> > > > > >
-> > > > > > Thanks for the set.
-> > > > > >
-> > > > > > I wonder how would the sensor work with the CCS driver. The reg=
-ister layout
-> > > > > > appears to be very much aligned with that (I haven't checked wh=
-ether there
-> > > > > > are MSRs that depend on the mode).
-> > > > > >
-> > > > >
-> > > > > After deeper testing I have found that imx111 may be nokia,smia
-> > > > > compatible, at least most of general registers and CCS logic is
-> > > > > applicable. Some of registers may cause issues, for example,
-> > > > > "phy_ctrl_capability" =3D 0, 0x0 and some insane pll ranges. Mayb=
-e that
-> > > > > can be addressed with a firmware patch idk. The trickiest part is=
- that
-> > > > > each mode requires non-standard and non-common manufacturer code
-> > > > > (0x3xxx ranges). If you can explain how to address these issues, =
-I
-> > > > > would love to add imx111 and a few other modules into list of CCS
-> > > > > supported devices.
-> > > >
-> > > > On a closer look, only the image size related configuration and a l=
-ittle
-> > > > more appears to be CCS-like. That's not enough to configure the sen=
-sor;
-> > > > this is conveyed in the MSR space which indeed makes the sensor dif=
-ficult
-> > > > to control using the CCS driver, unfortunately.
-> > >
-> > > Ok, the driver appears to be doing quite a bit of register writes out=
-side
-> > > the register lists, which is good, and what's there appears indeed la=
-rgely
-> > > CCS compliant. The MSRs remain an issue; it'd take quite a bit of rev=
-erse
-> > > engineering to figure out what the registers are and how to configure=
- them
-> > > in a generic way. I think that's doable but I'm not sure it is justif=
-iable
-> > > considering the expected effort.
-> > >
-> >
-> > I have deciphered a lot already since downstream provides only
-> > register writing sequences. Everything that left is 0x3xxx which seems
-> > to refer a vendor region and it is not documented anywhere.
->
-> That's what I'd expect, too, with the possible exception of the datasheet=
-,
-> but even sensor datasheets often omit a lot of information.
->
+On 28/10/2025 16:22, Vijay Kumar Tumati wrote:
+>>> +  interconnects:
+>>> +    maxItems: 2
+>>> +
+>>> +  interconnect-names:
+>>> +    items:
+>>> +      - const: ahb
+>>> +      - const: hf_mnoc
+>> Why previously this was called hf_0 but now hf?
+> Hi Krzysztof, the interconnect driver exposes only one node 'camnoc_hf' 
 
-There is no commonly available datasheet for this model. From what I
-have seen from similar models, 0x3xxx is vendor region and as you said
-"datasheets often omit a lot of information" which is the case.
+Drivers don't matter. Interconnect driver does not matter here. You
+describe this hardware, not interconnect driver.
 
-> I believe you're already aware of
-> <URL:https://www.mipi.org/specifications/camera-command-set>?
->
+Keep it consistent with previous devices, whichever these are.
 
-Yes, but since this module is from pre-CCS era or was created right
-before this standard was introduced, the module lacks a quite a bit of
-registers and configurations required by CCS. Keep in mind that sensor
-is used in the phone from 2012.
+> to the camera driver, with it internally managing the voting on hf_0 and 
+> hf_1 clients. The traffic from the Real Time blocks in camera go through 
+> both HF_0 and HF_1, with the former being the primary. This change 
+> correctly represents that the BW voting is for the whole of the HF 
+> client. Please let me know if you have any further questions and we 
+> would be happy to answer. Thank you.
+>>> +
+>>> +  iommus:
+>>> +    maxItems: 1
+>>> +
+>>> +  power-domains:
+>>> +    items:
+>>> +      - description:
+>>> +          TFE0 GDSC - Thin Front End, Global Distributed Switch Controller.
+>>> +      - description:
+>>> +          TFE1 GDSC - Thin Front End, Global Distributed Switch Controller.
+>>> +      - description:
+>>> +          TFE2 GDSC - Thin Front End, Global Distributed Switch Controller.
+>>> +      - description:
+>>> +          Titan GDSC - Titan ISP Block Global Distributed Switch Controller.
+>>> +
+>>> +  power-domain-names:
+>>> +    items:
+>>> +      - const: tfe0
+>>> +      - const: tfe1
+>>> +      - const: tfe2
+>> Why not using the same names as before? It really does not matter that
+>> it is thin or image, all of them are the same because only the
+>> difference against top matters.
+> Right, this is done to maintain the consistency with the clock driver on 
 
-> --
-> Sakari Ailus
+Sorry, this makes no sense. This device has nothing to do with clock
+driver. Don't ever use clock drivers as arguments for doing something in
+completely different place.
+
+Not mentioning that drivers don't matter much for the bindings, so I
+really do not get what you try to explain here.
+
+Best regards,
+Krzysztof
 
