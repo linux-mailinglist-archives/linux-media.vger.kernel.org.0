@@ -1,246 +1,328 @@
-Return-Path: <linux-media+bounces-45729-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45730-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88CA5C12EE5
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 06:24:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08CD5C12FD5
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 06:40:04 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 10AD242773F
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 05:24:46 +0000 (UTC)
+	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 5481C400FD8
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 05:39:55 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7524A2989BF;
-	Tue, 28 Oct 2025 05:24:37 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7928E285CBC;
+	Tue, 28 Oct 2025 05:39:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="ddQtWmgl"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KUrnXAh5"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 614D727E076
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 05:24:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761629076; cv=none; b=UU1u2Z6qbIP+KTcbHMnADjotlOVuxPAvSG4pZjYZHVJ6JqVURQioo4+9TrnF1cqxyYPAMKWAti/IxAC29Jm8a8+Dd0r28geve8er/5ymTQzsJW36IFp/AiJTN6hZUadpkFm+WbT6/g0dRGvGGXagXzFaBpjreARkzZ0/JEUBYuU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761629076; c=relaxed/simple;
-	bh=I89tJGzHcfRbnf+TZbfEmL4g1nkwlHvwalRd1egTt7Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Bt3NcH88ofzfOQ4esURLHajjyDD5yABBGSYiWmRD42XsOSr8WElWeA1lDgfJ8GSZ2aXHBNdWFVnK7QdaylSZs+FqKDPAeLCrLtuuBRIpZU1zFh5/xScQz0BvJ31RYJ8aMDsilbnlWwqVUVHL43kw8AiyZ7lWYPGaJJBwdAA7+So=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=ddQtWmgl; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
-Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 59S2wYDE2232337
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 05:24:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	U687IvC9NqsMop9catDTnZXFwDB7Yeaf6lB08LXZaaU=; b=ddQtWmglEv+Qg02H
-	WwTdPjapZd9oG1lqimcFQrUS3zyxjvpY7kpBFSXptJrgPp0DOKHu3TS8dJpMLkwJ
-	PV+BMIMS5bzTXGlCuGuz6IsYMUampX0kjkzoohs9XOcFRn7kRXFlgxRjp4v3ld4m
-	GbvdX0WRjTue9xxkfu59f24MqtFXhyHCNObeWC005rOF+hCoR/daq0oHyqFAMQhk
-	aRHFJoQE8H4F9qoOU1irvZHFUa0Y6Q6WqttMk997NH5alIqIegMkV7HagpTj7I53
-	HVqqxqH94RbK3VEtADsDtYVVxgdMlnZrUohz9VTMHjbT8fBR9SyAtH4p+DkTVQuY
-	P81Lkw==
-Received: from mail-pj1-f69.google.com (mail-pj1-f69.google.com [209.85.216.69])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4a24wnbfjj-1
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
-	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 05:24:34 +0000 (GMT)
-Received: by mail-pj1-f69.google.com with SMTP id 98e67ed59e1d1-33bb3b235ebso11649782a91.1
-        for <linux-media@vger.kernel.org>; Mon, 27 Oct 2025 22:24:34 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1761629073; x=1762233873;
-        h=content-transfer-encoding:in-reply-to:from:references:cc:to
-         :content-language:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=U687IvC9NqsMop9catDTnZXFwDB7Yeaf6lB08LXZaaU=;
-        b=crPbthl3eJfTEx9WVpldE7YkHZYZCKiUt00vo66CsV/YOht7JtnB8HdSUBlpnRHf5X
-         cof7fmlAsmTA/Zg8rMOO+w59P6Z3epoOqpWBwI7Po07iN2Hc31NICALs4TtMfj7fSDvw
-         tmwJUpwb80kGSxKEuv7HUW9yPpcQ5ZN29LR1gC2Hja5NzEEIXBcFcYkF8VOh13lz4PDI
-         M4UaOqu15+gWUY9WjlumFhM3pGmebbnFtTEns/9Gu7B2R3X3bQM2QyS1+QbTLI9X0mcd
-         +7YdT/wkZHOUrrcW1VYGqvX7HDdwDIOA3AiOKAXuZkpHoHfoRxxkM75Hrp/1kFdjAKUT
-         YvFg==
-X-Gm-Message-State: AOJu0YyrqLskxu+nRhdqa0fZrOq90KvKKUXclSeGv7cMJfAJFTzzdecp
-	C7IDqVfwnInFG90q7ZGOPDpdY7p2FtN3phqEeRRiVLeJq4j+SojC5j+uic/UZLHZzT6AEZhwvdr
-	20eN/lg99r8xCQlNjvbv6jGnNzhVIkpfddqA2A7MA2GFDOdTnRcF1CrtqnzQSFBkJ7g==
-X-Gm-Gg: ASbGncvi2kfT39mgd3a6n/YRh/Ahw3LHSi7MH35HTCzf1ltZ8eWx4n45Iw6Hr/cu5Ye
-	l6HUN+xagq32bvNTfe4pd1GS+jC4lLNR7mt7Hz62cCNhvijHicMa04Om81QZihxWjLWfnNula90
-	bW7ZcMxcYN3Vu2WShwKp+yEdHWUPWGcjscvleqBbq9X1LObdic/qV7fFIR0wtF3rzmWefYUUq5a
-	WXU+Wo+a3QwMXNR5nE1XJnS1QwONpSQwbeQSvE4h6V4CePJuR+mekDpJacCvsko8Rg6A/Xfu4ru
-	i9Bz9SrPblvVoO6H4d+JjK77htmZXsCVPUoIh0P0/ZD0zB/+qi+TspHwDt4QRSPv6UolhjjzzrA
-	nTEqfzeZWrzN05WNLV4HomCFb64V30a8=
-X-Received: by 2002:a17:902:e746:b0:290:cd9c:1229 with SMTP id d9443c01a7336-294cb3baf4cmr25543345ad.19.1761629073155;
-        Mon, 27 Oct 2025 22:24:33 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFoDxeTAbDgjbaa5VLkv2GSbMcsl42sVjQq0NOWa2O/1phRcDcCRPSBpWF/Z6IVKKlq6l2h+w==
-X-Received: by 2002:a17:902:e746:b0:290:cd9c:1229 with SMTP id d9443c01a7336-294cb3baf4cmr25543095ad.19.1761629072624;
-        Mon, 27 Oct 2025 22:24:32 -0700 (PDT)
-Received: from [10.0.0.3] ([106.222.229.252])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-29498d23226sm103101915ad.49.2025.10.27.22.24.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 27 Oct 2025 22:24:32 -0700 (PDT)
-Message-ID: <b5bb5cdb-643a-73f9-bac6-0d2876756bb6@oss.qualcomm.com>
-Date: Tue, 28 Oct 2025 10:54:28 +0530
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A8BF2641C6
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 05:39:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1761629991; cv=fail; b=GO3QEuxTdzFSbhT4vw4Wr/W2PjYwYuLWO5xi4Xtz8Gp/afTFRjGukRtYqRpjEFR3LuuD2qDLkKRbxlnrqRGw+qUa9kUOZXQTEhEfKK3rMZaH5uuESMQEthT2ZyU8ZP5niEshIbnp4Hxvioal9qury1F9/k+hEVc5GNW5e/Mdw7E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1761629991; c=relaxed/simple;
+	bh=mgZWfv0dBV5vpGB/xKP2NVK240PBEDIhsX5sXCUL29k=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=NPTfyqfN2upDgDUVTk1YTj2/f/VWRneEzFx6cSAImHLkx2fcmODlc6DIMzsjtzLz3QIiBnAxwPinnwrW1rZtg22QEOJmS5JqWZTxyEkmbtoWrBpesmoNbFT0Q4UWte7D5EIVgMlzgSbIkvaD8ATYJ2oENxXuWcqDCQWvefcoSZE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KUrnXAh5; arc=fail smtp.client-ip=192.198.163.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1761629991; x=1793165991;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=mgZWfv0dBV5vpGB/xKP2NVK240PBEDIhsX5sXCUL29k=;
+  b=KUrnXAh5TuC0565oAIS5v19F4mPO5ypbwEgPDesU/XsMfAQiWR060CeS
+   aGT6cNpv1QmK+oUdE4uGT3tZTtXcuMMm4I/kNfbDWNS/cEoTQIJqvSWSd
+   ppWnhjDKgDLfEig7xvpXmiFxQItak6wgj0eMRpsQDPrZiaBaKsvYgelaK
+   A6Y+anhdc4uZ7rKsVhUdSxQfqeFhVG4pwxQuk9gV02PXZcQFH/C+Yp/nQ
+   ACse8bMu3WKx/YYY5oi/9/W1X0e2tB112iVGBRqt93DoBxsGEqRQG0Fog
+   moi1zDN9yb3faq0Mgq8u5kM6vCsOSBo+2u2kLh/tpVeZ6brhUL7X8VTAk
+   g==;
+X-CSE-ConnectionGUID: YyfLMIcMRQmRqqtWrrEsRg==
+X-CSE-MsgGUID: EHPQbVTnQzqHT9UIbfRkRg==
+X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="89190237"
+X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
+   d="scan'208";a="89190237"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 22:39:50 -0700
+X-CSE-ConnectionGUID: ggseUyW8SV2Dx+02BT0qcg==
+X-CSE-MsgGUID: dRokDA1SQU+gfXvxZFFbEw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.19,260,1754982000"; 
+   d="scan'208";a="189561782"
+Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2025 22:39:49 -0700
+Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
+ fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 27 Oct 2025 22:39:48 -0700
+Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
+ FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27 via Frontend Transport; Mon, 27 Oct 2025 22:39:48 -0700
+Received: from SN4PR0501CU005.outbound.protection.outlook.com (40.93.194.5) by
+ edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.27; Mon, 27 Oct 2025 22:39:48 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EcgOOR8YWvjMnMrprx3UNLMx9+jVDgT2HNa09Q6+CGklqb3lMRiH39+OyEC16yP++sSKLmUuYOAOWvVTt72oNQxkdQSte86JD3+rMVNYg+7goc1VI8QyIUDpzgeBNiHy58ZCe4yPK+EqDByeoneibUjX/TsEECJ9TyGiHIM6fqaIh2bmF73z2vp23nm3wJjZaYHWR9stlFJqQ/j9FRAP1PFLdGZM7NhGK/X8wOAfkOz8oYk/GFRMTydwBWNM+r+ItZXo6jgnYpJY0kqopxEQ8V8wvG5M3A8w6ac7f8PRHqZ7Sp5VUpnOOtTmVOk51urb2CUNh3sEfKga7xfuBvzA/A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5ztxa87lvzfiNy48TErR/exv1TMWPy1g61daXbYiM5k=;
+ b=CtdHlLi++9UEj10jaLCj9oO6rmoV1gcZZkQbIMiWorKM3llaY4TqpDazu5u/m0sTabKC2X2ZpnobqRQuI6dmQdgzeZedreyTFGn9W4pqODu4sGxPgm47g9DkfNKq9OFTCZYNXVcZDanp9T+xZh7M1Ed3RvFZGeuGzJS41vSEU04HkMX1ljpVHg+b2cD3rBpNFB84Jm5JpSWc+/NQRm9hCfTvUWEznZGzypXwqSiZ190rgr3Imu0LspAIOahgHgqUiKboMSz+NAbBluabxjLrKMpisQrYZiD190D0hlvkw+ruN/UNZGInqrAz/WlQEzzIq5iTP6jVgeAjOMKvNZTcOg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com (2603:10b6:208:432::20)
+ by IA0PR11MB7380.namprd11.prod.outlook.com (2603:10b6:208:430::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9253.18; Tue, 28 Oct
+ 2025 05:39:39 +0000
+Received: from IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b]) by IA0PR11MB7185.namprd11.prod.outlook.com
+ ([fe80::dd3b:ce77:841a:722b%4]) with mapi id 15.20.9253.017; Tue, 28 Oct 2025
+ 05:39:39 +0000
+From: "Kasireddy, Vivek" <vivek.kasireddy@intel.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+	"intel-xe@lists.freedesktop.org" <intel-xe@lists.freedesktop.org>,
+	"linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+	"linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>, "Christian
+ Koenig" <christian.koenig@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+	=?iso-8859-1?Q?Thomas_Hellstr=F6m?= <thomas.hellstrom@linux.intel.com>,
+	Simona Vetter <simona.vetter@ffwll.ch>
+Subject: RE: [RFC v2 1/8] dma-buf: Add support for map/unmap APIs for
+ interconnects
+Thread-Topic: [RFC v2 1/8] dma-buf: Add support for map/unmap APIs for
+ interconnects
+Thread-Index: AQHcRvz5XpQuDeF4ak2URy3/E7CD9LTWRYWAgACfLqA=
+Date: Tue, 28 Oct 2025 05:39:39 +0000
+Message-ID: <IA0PR11MB718509D24638796FCAFACF79F8FDA@IA0PR11MB7185.namprd11.prod.outlook.com>
+References: <20251027044712.1676175-1-vivek.kasireddy@intel.com>
+ <20251027044712.1676175-2-vivek.kasireddy@intel.com>
+ <20251027174723.GB1018328@nvidia.com>
+In-Reply-To: <20251027174723.GB1018328@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PR11MB7185:EE_|IA0PR11MB7380:EE_
+x-ms-office365-filtering-correlation-id: d6db7d1a-1534-446e-425d-08de15e4634c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|376014|366016|38070700021;
+x-microsoft-antispam-message-info: =?iso-8859-1?Q?nyDaRwE2aR1L1ejSfmUZMn0qDsnBMqOABn2FWdvM+UAZFgoDMuYDE3nXiE?=
+ =?iso-8859-1?Q?X1ZpH6K4nUjEXOmziSi/J8pBw7yn4P6ODDMrObtyzR1mzmYB9VS4BkOhoP?=
+ =?iso-8859-1?Q?R5a3fTIjA+rvmfJHe2cI+RxR2ayWxVho9ajCYnI4h0IaRsF3uue6+OYALX?=
+ =?iso-8859-1?Q?NhKCrAyetzy78yJczp4zpDtqtGm9zT1sb4+g6evY3PLpvYapJXieZEGnuI?=
+ =?iso-8859-1?Q?MFmSMkplts/0zM0uIOSTz1v+bF2DTw+LsEb8GxEDQPJZVMNiqTt2eVAg5L?=
+ =?iso-8859-1?Q?D78TNZUzhGFr/+PsuyQmoQwwzu9k8JMi1xZFwu4CoGG8R88b10WPAH2ikl?=
+ =?iso-8859-1?Q?gZtlm0vkN6d9k3TNojt+dfe7zN9loBJPaO2ZUHmPtLneh7IL/QRe2VfdLM?=
+ =?iso-8859-1?Q?jBxHGOpzXj7u7Q5Eqp4Ode8uxv5zpAr1VCGpf1pzL7l1WgA3tXeV6tYSs+?=
+ =?iso-8859-1?Q?NbqB26594E8EoWeztbDGMzIIwn4TNo1j1yjQ76YquSXKgjy7gHCKRUngws?=
+ =?iso-8859-1?Q?gQBWRNyFxC1Nss8CJHyruM1DfQXH8tilpFiSa78AG1zzej+jUMBMF/VNT1?=
+ =?iso-8859-1?Q?mwyfaUVfPJ875cFCuUnlWsY1GQQESdlL4VUgSB8Pbq68v1zhiVd7XpSdah?=
+ =?iso-8859-1?Q?srJVhgPCnReX/IiXL1mrPFumvIstOIYka4te2yogbC7ZBb3og3zrrccUpY?=
+ =?iso-8859-1?Q?8PMbYyOg3p+3aS4rWpzozJGauMNSFECclIQaag3kxV6yN5i2ZTvVf69D9C?=
+ =?iso-8859-1?Q?zC7rzCrB+Qzb8M6JAAG3Fu0DKOm5a78c77Sc9iZ5phhSYdowK+LNfkUII7?=
+ =?iso-8859-1?Q?PC9Hqnv0xRyAGC9kwZ5w2aYk9Nq+cUIj/8aJIspkCkdk3xyqJDZaiTCxEJ?=
+ =?iso-8859-1?Q?5hoN3/rqojd2Ga/3qCqs8EC46zATS7S8A3sQpUIdJ4Xth0QvT4fy10OKvR?=
+ =?iso-8859-1?Q?tpxalDYJeQKAj/TWjMd/oPb3gMyi3SqiVKzI0Kei52QN0XSRPOBU9dJjIU?=
+ =?iso-8859-1?Q?tqAe99XvW5bIA353WG/6l2MG0fDhxzC7NAjfwXgmMwVh777DD0iQ8FbFSL?=
+ =?iso-8859-1?Q?8OyeL9jGiO0eKDMbtkl/0+g3n7MbCVed2mrGMEX4OOJTEEtJIC+ax+U04y?=
+ =?iso-8859-1?Q?CfkDkM9dnz/9iN7/6+IK2Bjn5ulc9cp2k+fpE+Abs8QNoJiMfT9bzBYYuq?=
+ =?iso-8859-1?Q?FYVttWlXwxFQQ4JKvkpJYu2jgaICIIy6nfoAWnoxqQecXh4Iyc/xla+h4N?=
+ =?iso-8859-1?Q?WISON8dTT9vTUneIMvNfR8lYR7P9KK/jsSywDou4zRlUzhhVWvuFjp0jWo?=
+ =?iso-8859-1?Q?MganzlNRi3Za2c1K1w6Fw0Nk7Y+aypZRtNLeVEsikunZu65bQvFs7XtWbO?=
+ =?iso-8859-1?Q?zglM0NDMxbHKDsCWjA5TzG6hcHTv0oDXnH4zLs8mdRmrj8eCNc59ZblAeR?=
+ =?iso-8859-1?Q?CoFczsGM7kb2INqxCmJ5sGdEDpsWJ7yaIK75+vKb/4XEbezD/OPO5Q4QJe?=
+ =?iso-8859-1?Q?AeYFrB8Sy/gPWhSpWW9xNXSfA5+uBrjKt1orrHR8eERyACrBeVbzyWRmR6?=
+ =?iso-8859-1?Q?h4bo7irvsv6SBop6NklE7Mj+PTip?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PR11MB7185.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?iso-8859-1?Q?fQqcM9ziQ9Hfmzx29NoyGA9ey/0wNMq49y2tga1GVqKhs5rDgxAwXjS1Di?=
+ =?iso-8859-1?Q?xIOcCaaGwHozXRprL8AVbXn3wEXo2jQEC25pleVvf3M84KabYqXT9HEDfc?=
+ =?iso-8859-1?Q?08RP9UQC/BSuyCN4DQn8uXGuw5eLyKV/xKw4uVUTV+61/Unhg/NUspw67x?=
+ =?iso-8859-1?Q?Z8gh4sXQleRgrDFlOBW+ThmC1FC770LbZdfhlmWOFoJ3ZOgDlLHcPofCTE?=
+ =?iso-8859-1?Q?Q+o2Ri3pS8jeRZ7N1igEL3HtAvDo4ZJbHRfHhiGHLZCAu43AVk82bX+ux7?=
+ =?iso-8859-1?Q?AbGzfbpqKdebj53bJS2GxsnniYKAmLYyb2poGTYqroqYV/a3noeUOo1ORV?=
+ =?iso-8859-1?Q?p/FvoDyVmeLhVRqcHRRc1Mog87RRMCXHxteEF50PbWFPU1TqFM5AHniO3/?=
+ =?iso-8859-1?Q?l2s+x7y+0rhq18SD0y8ISgrCMC6BPLY288SMuE7XyNFiqp9Kum5xgxS/EO?=
+ =?iso-8859-1?Q?GEk3wdIYU4jo+w5b8hsaXvuQK9iKqvAYM0IR0cBUigf1VexyqrtOICnJAX?=
+ =?iso-8859-1?Q?eWo00rZH5xYU/d64jNTpReZgmIpScae7o3rgbU6wTFtKDj+QmYqypEOnJ6?=
+ =?iso-8859-1?Q?3ZOrviT596ANEyacB4yKmH8ePhvuUlBfN9SadIl/qSpH7hGAklYyiCxMul?=
+ =?iso-8859-1?Q?Sgixvc0vfnVTkKSc01o2q5lFOH5meMq+TDccY5MC6RAgnZUVJLaIEy078t?=
+ =?iso-8859-1?Q?TZk57SiDmBSF7qT8OHvfDYX2Fjv7PONDlbw36JFSTufyUP94ldEl5kU0q/?=
+ =?iso-8859-1?Q?u/Cg0XXAgQ/2NTXQ1s9LmqUUwblFARtOwOmNI0SAA2qxf7g7gJWA5/Amer?=
+ =?iso-8859-1?Q?ixVChnJtWLU/2H8z79p0wpyNCjGzVgYVbZq4fb5rk37UEBAuSBY1TYogQB?=
+ =?iso-8859-1?Q?O68WB+DRiTGCPzPnfdsGJvWX6FL41m6GFKJF6GTXsT5kuHsSR2Hf6x2OjV?=
+ =?iso-8859-1?Q?u7G2dgXhpZe93j0d0rDS67Rc0OaHUax+OopZrlFMS+543QHCXh1fES2rvR?=
+ =?iso-8859-1?Q?ZpiaDubImCSutUAHect/6e8YeP7njl6E7BJzXzLJ0NZaNhFA0tJTYj6aXw?=
+ =?iso-8859-1?Q?ln4IWhGZOBYopP5iGYB/5ZPtweq5hp+trjYwkg9JWtU197dgonUnIyp0mv?=
+ =?iso-8859-1?Q?4Ai61beIZ6xEOGY56ZJdoqS2xF3cAUuulMV+M6XhSJtPNBBrlcXmIoVjz6?=
+ =?iso-8859-1?Q?oht4wKKEehWxNDBmB1A5nLIDeNMfaNlgS7+POrw9ibi79Audrg3i4y7Eiq?=
+ =?iso-8859-1?Q?lnP2WF4FJcoRQvY72fu9MX0+UIFfeC0+UiGBI73bw9uTGZwkmvcAVcjiXI?=
+ =?iso-8859-1?Q?zaVpFoKmmQL2cua4py/D0x53IvEVhfQ2A8+6SMhUU3Xg0F63QZPdUA+a87?=
+ =?iso-8859-1?Q?HTMUHKv1jKNqVkRzMbEA/qwXxuV2d5F298nE6u1BMjK64VfG5PNJuarZCW?=
+ =?iso-8859-1?Q?q2X9UC8YC2rPVNoDuNzK6MRoHyepmKftaoJLFIobs+qHrwe10gujN1w2ZJ?=
+ =?iso-8859-1?Q?lcattehCC9xGf0v6siE3EGLK6oYvvL/oOBYe3Bqgd8YoyHipjNxc4kiotp?=
+ =?iso-8859-1?Q?09a1+GOd2ytX3/z2baQfn9YqdUi6UEAd2pKNi1Ew0vRVpjctKPJWSOKhyy?=
+ =?iso-8859-1?Q?Hv42mvXrj90k16L41Eg1vfhFsu+d49tv2B?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.13.0
-Subject: Re: [PATCH v5 6/6] media: iris: enable support for SC7280 platform
-Content-Language: en-US
-To: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-        Vikash Garodia <vikash.garodia@oss.qualcomm.com>,
-        Abhinav Kumar <abhinav.kumar@linux.dev>,
-        Bryan O'Donoghue <bod@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Konrad Dybcio <konrad.dybcio@oss.qualcomm.com>
-Cc: linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20251027-iris-sc7280-v5-0-5eeab5670e4b@oss.qualcomm.com>
- <20251027-iris-sc7280-v5-6-5eeab5670e4b@oss.qualcomm.com>
-From: Dikshita Agarwal <dikshita.agarwal@oss.qualcomm.com>
-In-Reply-To: <20251027-iris-sc7280-v5-6-5eeab5670e4b@oss.qualcomm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Authority-Analysis: v=2.4 cv=XIY9iAhE c=1 sm=1 tr=0 ts=69005392 cx=c_pps
- a=vVfyC5vLCtgYJKYeQD43oA==:117 a=L4UNg9I9cQSOxNpRiiGXlA==:17
- a=IkcTkHD0fZMA:10 a=x6icFKpwvdMA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=EUspDBNiAAAA:8 a=53nKSqg9CZMqh-_UtzYA:9 a=QEXdDO2ut3YA:10
- a=rl5im9kqc5Lf4LNbBjHf:22
-X-Proofpoint-GUID: _8oqeCnlA3qeMh66TuEFOYcywQ0c7QLd
-X-Proofpoint-ORIG-GUID: _8oqeCnlA3qeMh66TuEFOYcywQ0c7QLd
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUxMDI4MDA0NSBTYWx0ZWRfXws7QvpJxMK1t
- +5sYoVg3XcQ2h2VJ5b2Vc0VAvP1TeNMzVn5whstWfgFdI29YEgX15J4Wd/w+01Y+BvOj85+Od+m
- swwnrO1xpGUcwu2x0T37TCvJC7CRNIDR22CIIlmU9ixBapP6fhVq2wk7MQF1FaxuncEPava8P3h
- XOQlnrKEkuyeL1YsRm4DeztBV9VncLppSw+c+Cn0e7toveJzEwT4yn1NkDtIJH9cjmPvJMPfd2B
- aPAEsG4UwZyqNsPAdToiBlEBFytkfk2goi+e3FKoYdLT46VuM5Lyu/CmozvQt1zsa+uufugtthA
- EDmNpZrdeetQFfvW0MZ2U0zEMToR06d/lCWGuZfdSpC1WlbONHNC9PHVCWOK6VwPR8flJYGO4ZS
- 9QouQ332O/yIMcVW08a8nJl1zSRxQA==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1121,Hydra:6.1.9,FMLib:17.12.80.40
- definitions=2025-10-28_02,2025-10-22_01,2025-03-28_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- lowpriorityscore=0 suspectscore=0 priorityscore=1501 bulkscore=0
- clxscore=1015 impostorscore=0 adultscore=0 spamscore=0 malwarescore=0
- phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2510020000
- definitions=main-2510280045
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PR11MB7185.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d6db7d1a-1534-446e-425d-08de15e4634c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Oct 2025 05:39:39.5823
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: NmrlX4qrBm1n/pBMHd8FlgUqZREZIEbXVKtvmgclUBb29KI0EAdyqpvNboJeKRAl/iZyURkU3WDuUlbmb4Jn77TxbkHV9MzLZqZgoqOJxUo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7380
+X-OriginatorOrg: intel.com
 
+Hi Jason,
 
+> Subject: Re: [RFC v2 1/8] dma-buf: Add support for map/unmap APIs for
+> interconnects
+>=20
+> On Sun, Oct 26, 2025 at 09:44:13PM -0700, Vivek Kasireddy wrote:
+> > For the map operation, the dma-buf core will create an xarray but
+> > the exporter needs to populate it with the interconnect specific
+> > addresses. And, similarly for unmap, the exporter is expected to
+> > cleanup the individual entries of the xarray.
+>=20
+> I don't think we should limit this to xarrays, nor do I think it is a
+> great datastructure for what is usually needed here..
+One of the goals (as suggested by Christian) is to have a container that
+can be used with an iterator. So, instead of creating a new data structure,
+I figured using an xarray would make sense here. And, since the entries
+of an xarray can be of any type, I think another advantage is that the
+dma-buf core only needs to be aware of the xarray but the exporter can
+use an interconnect specific type to populate the entries that the importer
+would be aware of.
 
-On 10/27/2025 5:57 PM, Dmitry Baryshkov wrote:
-> As a part of migrating code from the old Venus driver to the new Iris
-> one, add support for the SC7280 platform. It is very similar to SM8250,
-> but it (currently) uses no reset controls (there is an optional
-> GCC-generated reset, it will be added later) and no AON registers
-> region. Extend the VPU ops to support optional clocks and skip the AON
-> shutdown for this platform.
-> 
-> Signed-off-by: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
-> ---
->  .../platform/qcom/iris/iris_platform_common.h      |  4 ++
->  .../media/platform/qcom/iris/iris_platform_gen1.c  | 53 ++++++++++++++++++++++
->  .../platform/qcom/iris/iris_platform_sc7280.h      | 27 +++++++++++
->  drivers/media/platform/qcom/iris/iris_probe.c      |  4 ++
->  drivers/media/platform/qcom/iris/iris_resources.c  |  2 +-
->  drivers/media/platform/qcom/iris/iris_vpu2.c       |  6 +++
->  drivers/media/platform/qcom/iris/iris_vpu_common.c | 34 ++++++++++----
->  7 files changed, 120 insertions(+), 10 deletions(-)
-> 
+>=20
+> I just posted the patches showing what iommufd needs, and it wants
+> something like
+>=20
+> struct mapping {
+>    struct p2p_provider *provider;
+>    size_t nelms;
+>    struct phys_vec *phys;
+> };
+>=20
+> Which is not something that make sense as an xarray.
+If we do not want to use an xarray, I guess we can try to generalize the
+struct that holds the addresses and any additional info (such as provider).
+Would any of the following look OK to you:
+struct dma_buf_mapping {
+        struct phys_vec *phys;
+        unsigned int nents;
+        void *map_data;
+};
 
-<Snip>
+Or
 
-> +
-> +const struct iris_platform_data sc7280_data = {
-> +	.get_instance = iris_hfi_gen1_get_instance,
-> +	.init_hfi_command_ops = &iris_hfi_gen1_command_ops_init,
-> +	.init_hfi_response_ops = iris_hfi_gen1_response_ops_init,
-> +	.get_vpu_buffer_size = iris_vpu_buf_size,
-> +	.vpu_ops = &iris_vpu2_ops,
-> +	.set_preset_registers = iris_set_sm8250_preset_registers,
-> +	.icc_tbl = sm8250_icc_table,
-> +	.icc_tbl_size = ARRAY_SIZE(sm8250_icc_table),
-> +	.bw_tbl_dec = sc7280_bw_table_dec,
-> +	.bw_tbl_dec_size = ARRAY_SIZE(sc7280_bw_table_dec),
-> +	.pmdomain_tbl = sm8250_pmdomain_table,
-> +	.pmdomain_tbl_size = ARRAY_SIZE(sm8250_pmdomain_table),
-> +	.opp_pd_tbl = sc7280_opp_pd_table,
-> +	.opp_pd_tbl_size = ARRAY_SIZE(sc7280_opp_pd_table),
-> +	.clk_tbl = sc7280_clk_table,
-> +	.clk_tbl_size = ARRAY_SIZE(sc7280_clk_table),
-> +	/* Upper bound of DMA address range */
-> +	.dma_mask = 0xe0000000 - 1,
-> +	.fwname = "qcom/vpu/vpu20_p1.mbn",
-> +	.pas_id = IRIS_PAS_ID,
-> +	.inst_caps = &platform_inst_cap_sm8250,
-> +	.inst_fw_caps_dec = inst_fw_cap_sm8250_dec,
-> +	.inst_fw_caps_dec_size = ARRAY_SIZE(inst_fw_cap_sm8250_dec),
-> +	.inst_fw_caps_enc = inst_fw_cap_sm8250_enc,
-> +	.inst_fw_caps_enc_size = ARRAY_SIZE(inst_fw_cap_sm8250_enc),
-> +	.tz_cp_config_data = &tz_cp_config_sm8250,
-> +	.hw_response_timeout = HW_RESPONSE_TIMEOUT_VALUE,
-> +	.num_vpp_pipe = 1,
-> +	.no_aon = true,
-> +	.max_session_count = 16,
-> +	.max_core_mbpf = NUM_MBS_8K,
-May be I wasn't clear in previous comments, what I menat was.
+struct dma_buf_ranges {
+        struct range *ranges;
+        unsigned int nranges;
+        void *ranges_data;
+};
 
-max_core_mbpf = ((4096x2176)/256) x 2 + (1920x1088)/256
+>=20
+> I think the interconnect should have its own functions for map/unmap,
+> ie instead of trying to have them as a commmon
+> dma_buf_interconnect_ops do something like
+In my current design, the exporter would call the interconnect specific
+map/unmap functions from its common map() callback. But I guess I can
+try to implement and test your suggestions to see if they are more robust/e=
+legant.
 
-> +	/* max spec for SC7280 is 4096x2176@60fps */
-> +	.max_core_mbps = (4096 * 2176 * 2 + 1920 * 1088) / 256 * 60,
+>=20
+> struct dma_buf_interconnect_ops {
+>         const char *name;
+>         bool (*supports_interconnects)(struct dma_buf_attachment *attach,
+I have this as part of dma_buf_attach_ops for the importer but I'll explore=
+ your
+idea in more detail.
 
-max_core_mbps = ((4096x2176)/256 ) * 60 fps
+>                                       const struct dma_buf_interconnect_m=
+atch *,
+>                                       unsigned int num_ics);
+> };
+>=20
+> struct dma_buf_iov_interconnect_ops {
+>      struct dma_buf_interconnect_ops ic_ops;
+>      struct xx *(*map)(struct dma_buf_attachment *attach,
+Do we want each specific interconnect to have its own return type for map?
 
-> +	.dec_input_config_params_default =
-> +		sm8250_vdec_input_config_param_default,
-> +	.dec_input_config_params_default_size =
-> +		ARRAY_SIZE(sm8250_vdec_input_config_param_default),
-> +	.enc_input_config_params = sm8250_venc_input_config_param,
-> +	.enc_input_config_params_size =
-> +		ARRAY_SIZE(sm8250_venc_input_config_param),
-> +
-> +	.dec_ip_int_buf_tbl = sm8250_dec_ip_int_buf_tbl,
-> +	.dec_ip_int_buf_tbl_size = ARRAY_SIZE(sm8250_dec_ip_int_buf_tbl),
-> +	.dec_op_int_buf_tbl = sm8250_dec_op_int_buf_tbl,
-> +	.dec_op_int_buf_tbl_size = ARRAY_SIZE(sm8250_dec_op_int_buf_tbl),
-> +
-> +	.enc_ip_int_buf_tbl = sm8250_enc_ip_int_buf_tbl,
-> +	.enc_ip_int_buf_tbl_size = ARRAY_SIZE(sm8250_enc_ip_int_buf_tbl),
-> +};
+>      	 		   unsigned int *bar_number,
+> 			   size_t *nelms);
+>      // No unmap for iov
+> };
+>=20
+> static inline struct xx *dma_buf_iov_map(struct dma_buf_attachment
+> *attach,
+>      	 		   unsigned int *bar_number,
+> 			   size_t *nelms)
+> {
+>      return container_of(attach->ic_ops, struct dma_buf_iov_interconnect_=
+ops,
+> ic_ops)->map(
+>                  attach, bar_number, nelms));
+> }
+>=20
+> > +/**
+> > + * dma_buf_attachment_is_dynamic - check if the importer can handle
+> move_notify.
+> > + * @attach: the attachment to check
+> > + *
+> > + * Returns true if a DMA-buf importer has indicated that it can handle
+> dmabuf
+> > + * location changes through the move_notify callback.
+> > + */
+> > +static inline bool
+> > +dma_buf_attachment_is_dynamic(struct dma_buf_attachment *attach)
+> > +{
+> > +	return !!attach->importer_ops;
+> > +}
+>=20
+> Why is this in this patch?
+I figured it makes sense to limit map/unmap interconnect ops to dynamic
+importers (that register a move_notify callback) only. I guess I could move=
+ the
+above change into a separate patch.
 
-<Snip>
-
-> @@ -318,13 +328,19 @@ int iris_vpu_power_on_hw(struct iris_core *core)
->  	if (ret)
->  		goto err_disable_power;
->  
-> +	ret = iris_prepare_enable_clock(core, IRIS_HW_AHB_CLK);
-> +	if (ret && ret != -ENOENT)
-> +		goto err_disable_hw_clock;
-> +
->  	ret = dev_pm_genpd_set_hwmode(core->pmdomain_tbl->pd_devs[IRIS_HW_POWER_DOMAIN], true);
->  	if (ret)
-> -		goto err_disable_clock;
-> +		goto err_disable_hw_axi_clock;
->  
->  	return 0;
->  
-> -err_disable_clock:
-> +err_disable_hw_axi_clock:
-
-Seems you missed this comment,
-This label needs an update s/err_disable_hw_axi_clock/err_disable_hw_ahb_clock
+>=20
+> I also think this patch should be second in the series, it makes more
+> sense to figure out how to attach with an interconnect then show how
+> to map/unmap with that interconnect
+>=20
+> Like I'm not sure why this introduces allow_ic?
+Ok, I'll move it to the other patch that introduces dma_buf_match_interconn=
+ects().
 
 Thanks,
-Dikshita
-> +	iris_disable_unprepare_clock(core, IRIS_HW_AHB_CLK);> +err_disable_hw_clock:
->  	iris_disable_unprepare_clock(core, IRIS_HW_CLK);
->  err_disable_power:
->  	iris_disable_power_domains(core, core->pmdomain_tbl->pd_devs[IRIS_HW_POWER_DOMAIN]);
-> 
+Vivek
+
+>=20
+> Jason
 
