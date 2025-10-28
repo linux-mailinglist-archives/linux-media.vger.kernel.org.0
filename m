@@ -1,96 +1,127 @@
-Return-Path: <linux-media+bounces-45803-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45802-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from sv.mirrors.kernel.org (sv.mirrors.kernel.org [139.178.88.99])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15F1AC14563
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 12:25:06 +0100 (CET)
+Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B898C14569
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 12:25:27 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by sv.mirrors.kernel.org (Postfix) with ESMTPS id 8750A3B3AAB
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 11:25:01 +0000 (UTC)
+	by am.mirrors.kernel.org (Postfix) with ESMTPS id 8619C1A660DC
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 11:25:19 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C05B7308F3B;
-	Tue, 28 Oct 2025 11:24:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id F1E223081BE;
+	Tue, 28 Oct 2025 11:24:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="BwdkSgrS"
+	dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b="BgGXWr1L"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 489C83074AB;
-	Tue, 28 Oct 2025 11:24:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A82202EB10
+	for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 11:24:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761650685; cv=none; b=Mv0ouH1OXFdGeajCdH1U3rbMKqNzFiQ9ouVpKMrvsD3qYHTaJyTBW+BbxznUnb0DAJiV2OjeO7GDDn/u+iAY6QiB5OcCWYo/hEYYWYOAPt/QJ03AMQlYJdvCZnTZo9Ll027P1jnpuyAN9JBtBzcMnqAoimi7h8kzHhgmUF5tHZw=
+	t=1761650684; cv=none; b=AF1S0f+m+ZpBDmUERWporXcdc9NstP25uglb62rc536P16QRzRT0GGff4NdZD9D+z/MLXXKRNTB5EIFA9L9PmqrJzok+xRLdpBodC+YAg48F1WBPgUevCU2Hly852P4VBCZWuDbQznwLO8HiFHpj4pT/tyhXXXcOIaIn0+nsFt4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761650685; c=relaxed/simple;
-	bh=a3dYZw3hSHsuKeW9iMVUClSJO5iZtjCsxNOwoawsinw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DwV7AC30hgQTs0whihPC8xTUW1jD+WgCP1uIF4+4F/WLumWqM1fBgb/zbJ2+xvFddM3ewvcMs1fsAlSjjdPpDgeJ30OON3cKckrkjFlIulLREQJ8tDB7wkJgcsYSUod20B5Y2zPGepxHRKsCIzgaJ70Lj5vbCbIF1r+VAOFKRwc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=BwdkSgrS; arc=none smtp.client-ip=192.198.163.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761650683; x=1793186683;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=a3dYZw3hSHsuKeW9iMVUClSJO5iZtjCsxNOwoawsinw=;
-  b=BwdkSgrSmSUFkXxoIuTmnAuFgmxu67gGgiplOcQsVISlyCFRKt3ws+iG
-   sfRktXKY/dLI6yyb1+jptwCPNlTx6MsnQeYgzGvPSQfVEgYzNRrR2ZBrT
-   uQalSTb9LM30EE64ORyXFMtHZ4qghU5PNDZmUu6m+lU/l/fB8kx0b3TSA
-   Ktu8XRi5JVozDg4uqCMyA+UNM9XFojJdqeySa6E/F1yS/aAt+eZLwb6sh
-   bmzk9gP/D5z7yn1aC02IJ1p/s9SfUwnFIO7gVrmWBosNLzvmr0LRrW1sF
-   q9gDRiUi/CPOXzMB0JtayVuUJlyZL+IQbTangiq0qwtYEBmUd06XF3YW6
-   g==;
-X-CSE-ConnectionGUID: gc3SzPJqRX2t3K9XuQ7whw==
-X-CSE-MsgGUID: kvSdyuHbTLSV4aftG7X+/g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63654602"
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="63654602"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 04:24:43 -0700
-X-CSE-ConnectionGUID: IfxjK9TbSm2m6+UT483w6g==
-X-CSE-MsgGUID: m9gzeIr9SWGY5GheAijFOQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="185019793"
-Received: from pgcooper-mobl3.ger.corp.intel.com (HELO mdjait-mobl) ([10.245.244.131])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 04:24:41 -0700
-Date: Tue, 28 Oct 2025 12:24:32 +0100
-From: Mehdi Djait <mehdi.djait@linux.intel.com>
-To: Hans de Goede <hansg@kernel.org>
-Cc: Bingbu Cao <bingbu.cao@intel.com>, 
-	Sakari Ailus <sakari.ailus@linux.intel.com>, linux-media@vger.kernel.org, stable@vger.kernel.org
-Subject: Re: [PATCH 04/25] media: i2c: ov01a10: Add missing
- v4l2_subdev_cleanup() calls
-Message-ID: <n6i6bzhype4ncepdlrcdvlrfhe5ssemaokkfievo5voibhnaqd@i5kfv54gsqwu>
-References: <20251014174033.20534-1-hansg@kernel.org>
- <20251014174033.20534-5-hansg@kernel.org>
+	s=arc-20240116; t=1761650684; c=relaxed/simple;
+	bh=ZS8D7YevM68kueG73PP38JtCM4/TbPTO+FFQtYA36Xk=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:Subject:From:To:
+	 References:In-Reply-To; b=YPaatva8rcghyfuIVqjZwI174FSs25z7iD0gwv9lQDdf4RUCipjHAALoOgKTAEVg1gUD1lOQbKTNEzQi4sDe1fUGuHuGEOfA0AhBNs341M1sDmgskH2005gjyJLCME7YV23EOfFZoNL3V+OgnHQHvdBBtJVGcSk90iyW51JI0Gs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com; spf=pass smtp.mailfrom=fairphone.com; dkim=pass (2048-bit key) header.d=fairphone.com header.i=@fairphone.com header.b=BgGXWr1L; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=fairphone.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fairphone.com
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-b6d70df0851so863586666b.1
+        for <linux-media@vger.kernel.org>; Tue, 28 Oct 2025 04:24:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=fairphone.com; s=fair; t=1761650681; x=1762255481; darn=vger.kernel.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=1X0JyiHF22wejOgofms7G80j8gK+WhQgjSa7+ha7gyo=;
+        b=BgGXWr1LwuQwdmscGN2R6zsTMYKLiPURTF+5Y4Q8H7w3aRU4OEgoqnpYEGXfYh5gZq
+         G3lC6sY0p/BcxJYZZug2Ddmu9t+WdYb+iU1/ib/oesOx9hgET9sEfUN4byOL9oglw8GU
+         KKcvmTr/JisJLD56M0RcYg7vq9zp5E2YzqhxCq2rqueuVk2O5UqYY+f4ZdWE3KPBW3QK
+         MJQm/SK3L97THbOmhMhNFO7icuodMEIM4bNt2cOH2Y81kBQZAznbmpKzlvPIABvtqb15
+         OeQptLrD5PuyllwRoHMzO1qwUO0qyFg8FCDSfnzcmhnYPq5XxCnBsFKJ/OdTGM7UvjAA
+         XR/w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1761650681; x=1762255481;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=1X0JyiHF22wejOgofms7G80j8gK+WhQgjSa7+ha7gyo=;
+        b=KRqIG+JjhbvB9Blu9o2RUPCsCNs+PItN96oARyJk+exdWe6LRWOwzbtccAu+VAeKB2
+         I5L7ZhsNfdmgvtf4F+ON6wZmaz85Z2wK0+plzmnTFdBWccqKjf4rJtMHBWa2DsozPlDB
+         f8Kzgsp4qLabz0ngMgwfI2occ2Oc7R6vV9anJa0hOnBGxkKyf34vURtjMGk+LVD2tqLs
+         /HnOikcdMpkPGgR0v/roXHoLTVihHa11Gmbsrp/sdU+XgA+F7kXAEgZW1/cu/rmyBW+0
+         MiJAP+6fSdLdebptoEiu8tU6b6em/RHx1z2IzZ/JiGNVT8RI+Olk/55G7mt1QNvfcPd2
+         hL4Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWgCkMsxoX+q0BRAEARpnoPbqhGpk8e89qkWxqnadHHuMJiaJSgdiZa3ALxZiMRhj+t4XD5kc3XpvGRiQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGHRvXX+uFEnLY75J+giSVMzJ501WDa31iUP1aLAMyktJXNonI
+	SARbpLjnDwMdGqOKNIcSd9u5DOdE178e43wGX1JdQAVy3+zNuFs2yTq9LDFDmV/7Lsc=
+X-Gm-Gg: ASbGncvwYxFELH++M1JdrniO4lc7/vbEeZ6lfJgIdvQ3VzjZ/hGOobt5eOPNRd0m48/
+	DzpiOkxwk6goPsDK1Pqnu/UEYTYwkEq2JIg8m2+oWN9TeUQ4CTUs1dwB3GdxWrYizech2+aAUp2
+	t3eexIzvgJ95uw21RqL5HDDXURixSdZg0lX6lL4ZclNv3Ep47uWnfareFFPKhLYDV2o0C8LvB5L
+	FxlDWd+ywd2P17iswkSx+N/2ZYk/3GrOi2AhD4FNj9K4hlZWdVAhMh7mVmtzTSdx6gsDO/uQZsG
+	LRfoJ24qY8ie8OPmrdAGeH26JZfwroAfS52Y0BIRZYdsmTSmm1dAdlU66nKoI9JPgfWFZE3DuFa
+	Y0JrIM+NxVsxjenqr3646MHO+Q5X08FtbzD5yxy1QKzvO5TvPy5NZgtQM41lG8I3EDMAvTaezV/
+	WqlfWTno1vUQceI2v+Xf4SKnyGaRlcyIBSYcuvDsj3bbEBDhvwwKQipNWufy8M5W+QFtUVoYpvr
+	qqDDP9gY9Bo5qRp
+X-Google-Smtp-Source: AGHT+IFncZEIG2aB8fskoYH1N8Pf/o+3C4t3kr4xMiHMDpXB3GXPV+hTSqwVR4PFYW4I2LOJqiq/XA==
+X-Received: by 2002:a17:907:7205:b0:b45:b1f2:fac0 with SMTP id a640c23a62f3a-b6dba4a8d87mr344374766b.29.1761650680970;
+        Tue, 28 Oct 2025 04:24:40 -0700 (PDT)
+Received: from localhost (2a02-8388-6584-6400-d322-7350-96d2-429d.cable.dynamic.v6.surfer.at. [2a02:8388:6584:6400:d322:7350:96d2:429d])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-b6d853077d2sm1068327966b.3.2025.10.28.04.24.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 28 Oct 2025 04:24:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20251014174033.20534-5-hansg@kernel.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 28 Oct 2025 12:24:39 +0100
+Message-Id: <DDTX1PP2BBSX.WS61ZEATB649@fairphone.com>
+Cc: <~postmarketos/upstreaming@lists.sr.ht>, <phone-devel@vger.kernel.org>,
+ <linux-arm-msm@vger.kernel.org>, <linux-media@vger.kernel.org>,
+ <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH 2/3] media: qcom: camss: Add SM6350 support
+From: "Luca Weiss" <luca.weiss@fairphone.com>
+To: "Bryan O'Donoghue" <bryan.odonoghue@linaro.org>, "Luca Weiss"
+ <luca.weiss@fairphone.com>, "Bryan O'Donoghue" <bod@kernel.org>, "Robert
+ Foss" <rfoss@kernel.org>, "Todor Tomov" <todor.too@gmail.com>, "Vladimir
+ Zapolskiy" <vladimir.zapolskiy@linaro.org>, "Mauro Carvalho Chehab"
+ <mchehab@kernel.org>, "Rob Herring" <robh@kernel.org>, "Krzysztof
+ Kozlowski" <krzk+dt@kernel.org>, "Conor Dooley" <conor+dt@kernel.org>,
+ "Bjorn Andersson" <andersson@kernel.org>, "Konrad Dybcio"
+ <konradybcio@kernel.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20251024-sm6350-camss-v1-0-63d626638add@fairphone.com>
+ <20251024-sm6350-camss-v1-2-63d626638add@fairphone.com>
+ <7e7e35f3-82b6-4757-bbcd-38e0e867b184@linaro.org>
+In-Reply-To: <7e7e35f3-82b6-4757-bbcd-38e0e867b184@linaro.org>
 
-Hello Hans,
-
-Thank you for the patches.
-
-On Tue, Oct 14, 2025 at 07:40:12PM +0200, Hans de Goede wrote:
-> Add missing v4l2_subdev_cleanup() calls to cleanup after
-> v4l2_subdev_init_finalize().
+On Tue Oct 28, 2025 at 10:26 AM CET, Bryan O'Donoghue wrote:
+> On 24/10/2025 13:24, Luca Weiss wrote:
+>> +		.regulators =3D { "vdda-0.9", "vdda-1.25" },
 >
+> I'd like a little bit more consistency with the regulator names.
+>
+> 0p9 1p2 instead of 0.9 and 1.25
 
-Tested-by: Mehdi Djait <mehdi.djait@linux.intel.com> # Dell XPS 9315
-Reviewed-by: Mehdi Djait <mehdi.djait@linux.intel.com>
+Based on the dt-bindings discussion, this will be updated in v2:
 
-> Fixes: 0827b58dabff ("media: i2c: add ov01a10 image sensor driver")
-> Cc: stable@vger.kernel.org
-> Signed-off-by: Hans de Goede <hansg@kernel.org>
+-          .regulators =3D { "vdda-0.9", "vdda-1.25" },
++          .regulators =3D { "vdd-csiphy-0p9", "vdd-csiphy-1p25" },
+
+Regards
+Luca
+
+>
+> ---
+> bod
+
 
