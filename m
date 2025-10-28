@@ -1,125 +1,311 @@
-Return-Path: <linux-media+bounces-45753-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45754-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
-Received: from am.mirrors.kernel.org (am.mirrors.kernel.org [147.75.80.249])
-	by mail.lfdr.de (Postfix) with ESMTPS id BC404C13738
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:09:31 +0100 (CET)
+Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
+	by mail.lfdr.de (Postfix) with ESMTPS id F0078C1379A
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:15:59 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by am.mirrors.kernel.org (Postfix) with ESMTPS id A91331898E29
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 08:09:55 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 771D754199C
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 08:10:22 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2BF9C2D73A5;
-	Tue, 28 Oct 2025 08:09:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F1782D8376;
+	Tue, 28 Oct 2025 08:10:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="k9O+pVQb"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TdPk3YGs"
 X-Original-To: linux-media@vger.kernel.org
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F1C062AE8E;
-	Tue, 28 Oct 2025 08:09:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2B222D595F;
+	Tue, 28 Oct 2025 08:10:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761638958; cv=none; b=Y4g0SZh2yq0X1nyUUmnRMhVvB95IimllWw+ntbKPliMpv7XAHU2JfAKAbg6qaiosZalXDpvd4zWglKrN4M4Om8vkD3/G9dvB3B7Vlw1kCY3vNoYxw8bnw8IvG8J9A9z8CuvnCxjcSd3Me6mt/nIo0mK74QIUoLf9SynE+Wm5RWw=
+	t=1761639002; cv=none; b=XFpVKy5Mv7X1t3mwVzwIIbzESGSjDDQ8W54EdIqWpJiXwa75KkxaVqFuFClfVSLpBGfG0t7Z9kVlILevgSwCUVgS7HccKX2BkwZ6EA7I/ZJwwKkeAK2BLTJkz10dxTi8I45KqM5eROEisMnYtk8kWQHbEFF6ZTdpWMLyaXvsmzU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761638958; c=relaxed/simple;
-	bh=7z/1gXzlcZ6ipm71AwPYEiMUwyR4gAvf8U8KsM3aVVY=;
+	s=arc-20240116; t=1761639002; c=relaxed/simple;
+	bh=NGu5Zpot/BG4U7gSUgi6aoPy0LHfrm2D+G3A/4Yp3cI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VSNNjaBgF8Uju635agIlSaoF23QGdxYojzdczAbxjnerOMprxrqErOomTSvuA+6Y71dq34L3GYEAWhmbsXqN8EqnMzO/3bQ0ViqiUUHp4YnlbSzxjpEi2VJpwmKXTcrCAl2CcguRd1rtkmtHQes01MOn/43i4zzJyfSLoiAqDZs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=pass smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=k9O+pVQb; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.intel.com
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1761638957; x=1793174957;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=7z/1gXzlcZ6ipm71AwPYEiMUwyR4gAvf8U8KsM3aVVY=;
-  b=k9O+pVQb1DHN0wu9UpyNqRqK+M56vSJCtYKFkmxV0tj3vnYUegAqUxpM
-   9097kmZsa5yriHKbDCAJDivuUXW6eRr8FAMgXTQfQhSK7zTf0aFgzROGM
-   wOuU/x05I+aZcdNZu/IFc5CNZLFUwb0toQw7tfWgtjlat9IKdlxgmg5F/
-   O4668NdRM/Nmekq+rSWQUsXxC0hFKMlBSb0Vw30FEMGfySLFwPtKPzgZ+
-   EYnJ7bxn9CMjSg1pVXSW80Gh63i8oH/2x1K6QhUIxdiCXbgt7BtvFWD5u
-   OaXTu6fIuoJx0lpQOXvkROBxNHiYrydnTjEg/T8tyFNI++TQPsFJphRpI
-   g==;
-X-CSE-ConnectionGUID: 0IwPRJ6GQ9uwlWciR86DOQ==
-X-CSE-MsgGUID: AF7MK445R0CjoymHlwKiSQ==
-X-IronPort-AV: E=McAfee;i="6800,10657,11586"; a="63767813"
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="63767813"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 01:09:16 -0700
-X-CSE-ConnectionGUID: t5vVe9UuTEq2SveKnIcwng==
-X-CSE-MsgGUID: q2VaOrUDT/WqwGq3tF2ATw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.19,261,1754982000"; 
-   d="scan'208";a="185610959"
-Received: from dalessan-mobl3.ger.corp.intel.com (HELO ashevche-desk.local) ([10.245.244.136])
-  by fmviesa008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Oct 2025 01:09:13 -0700
-Received: from andy by ashevche-desk.local with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1vDelS-00000003FGw-0pnx;
-	Tue, 28 Oct 2025 10:09:10 +0200
-Date: Tue, 28 Oct 2025 10:09:09 +0200
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, linux-iio@vger.kernel.org,
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org,
-	linux-media@vger.kernel.org,
-	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
-	Andy Shevchenko <andy@kernel.org>,
-	Benson Leung <bleung@chromium.org>,
-	Guenter Roeck <groeck@chromium.org>,
-	Lars-Peter Clausen <lars@metafoo.de>,
-	Michael Hennerich <Michael.Hennerich@analog.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	"Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-Subject: Re: [PATCH v1 2/6] units: Add =?utf-8?Q?va?=
- =?utf-8?B?bHVlIG9mIM+AICogMTDigbk=?=
-Message-ID: <aQB6JdePRUuegGxn@smile.fi.intel.com>
-References: <20251027143850.2070427-1-andriy.shevchenko@linux.intel.com>
- <20251027143850.2070427-3-andriy.shevchenko@linux.intel.com>
- <20251027145213.7c93a3e2@jic23-huawei>
- <66c8f410-6bba-41d2-88e2-46dbe133adaa@baylibre.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=mQutGiXUQSJ568rxyxmPtrhOBovIASbu43942RujP1f1BnJfi9mFZbXwPom5MLbbey6zKR7ll8v/4cGuSFk3C+GEWa4VmVmHLnjHDhftFgn7wWVc32aY1J/OlJ6uBD8Q2LJq4/fiyJoxBZPnUOESTBt9Pf3H6MqeGshC6PWV9hA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TdPk3YGs; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A911FC4CEE7;
+	Tue, 28 Oct 2025 08:10:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1761639002;
+	bh=NGu5Zpot/BG4U7gSUgi6aoPy0LHfrm2D+G3A/4Yp3cI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TdPk3YGszQ3DVFbaQjgzT4DIcdcXClDuEL4vcFLMwyQtVwveAN6KXSaMthYrmqXlq
+	 UlFqBDCFqP9u6Scp/KzogioFz9TAvfYgJYltgF6Yb0UJ86k3MEQJLHp8H43forHxg/
+	 VN6wmCOrPKLhz0sgCp8+eWa5VcqkRdQE7qmHK4fOAnHb7ayBI8otnO6F2TycQ2zE4H
+	 /9HcyPBNDMoPbrDer+ZeaJ169LJo1yT1SbuWEKGi5xSa7Me2NhsT1rxt0tZ08heKrm
+	 0CBLPMq984o79wcuxspap23UUwpNcOBhqSUX5vnyYd//nlKRFMYgikNYc1cfYSQKDM
+	 kBje0ylONmXaA==
+Date: Tue, 28 Oct 2025 09:09:59 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+Cc: Loic Poulain <loic.poulain@oss.qualcomm.com>, 
+	Robert Foss <rfoss@kernel.org>, Andi Shyti <andi.shyti@kernel.org>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+	Conor Dooley <conor+dt@kernel.org>, Todor Tomov <todor.too@gmail.com>, 
+	Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, Mauro Carvalho Chehab <mchehab@kernel.org>, 
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, linux-i2c@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-media@vger.kernel.org, 
+	aiqun.yu@oss.qualcomm.com, tingwei.zhang@oss.qualcomm.com, trilok.soni@oss.qualcomm.com, 
+	yijie.yang@oss.qualcomm.com, Jingyi Wang <jingyi.wang@oss.qualcomm.com>, 
+	Atiya Kailany <atiya.kailany@oss.qualcomm.com>
+Subject: Re: [PATCH v3 2/6] dt-bindings: media: camss: Add
+ qcom,kaanapali-camss binding
+Message-ID: <20251028-wonderful-olive-muskox-77f98d@kuoka>
+References: <20251023-add-support-for-camss-on-kaanapali-v3-0-02abc9a107bf@oss.qualcomm.com>
+ <20251023-add-support-for-camss-on-kaanapali-v3-2-02abc9a107bf@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <66c8f410-6bba-41d2-88e2-46dbe133adaa@baylibre.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - c/o Alberga Business Park, 6
- krs, Bertel Jungin Aukio 5, 02600 Espoo
+In-Reply-To: <20251023-add-support-for-camss-on-kaanapali-v3-2-02abc9a107bf@oss.qualcomm.com>
 
-On Mon, Oct 27, 2025 at 09:59:10AM -0500, David Lechner wrote:
-> On 10/27/25 9:52 AM, Jonathan Cameron wrote:
-> > On Mon, 27 Oct 2025 15:34:51 +0100
-> > Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> > 
-> >> There are a few drivers that want to have this value, and at least one
-> >> known to come soon. Let's define a value for them.
-> > 
-> > Is there any way we can make the x10^9 bit obvious in the naming?  Or do
-> > something a bit nasty like defining a macro along the lines of
-> > 
-> > PI(scale)?
-> > e.g. PI(NANO), PI(10000) 
-> > 
-> This was my first thought when looking at this as well.
+On Thu, Oct 23, 2025 at 02:14:34AM -0700, Hangxiang Ma wrote:
+> Add bindings for qcom,kaanapali-camss in order to support the camera
+
+What is qcom,kaanapali-camss? Sounds like a compatible and you cannot
+add bindings for a compatible. Instead add bindings for hardware, so
+explain here hardware.
+
+You could easily use `git log` to see how such commits are written
+instead of pasting here your downstream practice.
+
+> subsystem for Kaanapali.
 > 
-> Or something like PI_x10(6).
+> Signed-off-by: Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+> ---
+>  .../bindings/media/qcom,kaanapali-camss.yaml       | 369 +++++++++++++++++++++
+>  1 file changed, 369 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/qcom,kaanapali-camss.yaml b/Documentation/devicetree/bindings/media/qcom,kaanapali-camss.yaml
+> new file mode 100644
+> index 000000000000..82f427bd036b
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/qcom,kaanapali-camss.yaml
+> @@ -0,0 +1,369 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/qcom,kaanapali-camss.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Qualcomm Kaanapali Camera Subsystem (CAMSS)
+> +
+> +maintainers:
+> +  - Hangxiang Ma <hangxiang.ma@oss.qualcomm.com>
+> +
+> +description:
+> +  The CAMSS IP is a CSI decoder and ISP present on Qualcomm platforms.
+> +
+> +properties:
+> +  compatible:
+> +    const: qcom,kaanapali-camss
+> +
+> +  reg:
+> +    maxItems: 16
+> +
+> +  reg-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csid_lite0
+> +      - const: csid_lite1
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: csiphy3
+> +      - const: csiphy4
+> +      - const: csiphy5
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe2
+> +      - const: vfe_lite0
+> +      - const: vfe_lite1
+> +
+> +  clocks:
+> +    maxItems: 34
+> +
+> +  clock-names:
+> +    items:
+> +      - const: camnoc_nrt_axi
+> +      - const: camnoc_rt_axi
+> +      - const: camnoc_rt_vfe0
+> +      - const: camnoc_rt_vfe1
+> +      - const: camnoc_rt_vfe2
+> +      - const: camnoc_rt_vfe_lite
+> +      - const: cam_top_ahb
+> +      - const: cam_top_fast_ahb
+> +      - const: csid
+> +      - const: csid_csiphy_rx
+> +      - const: csiphy0
+> +      - const: csiphy0_timer
+> +      - const: csiphy1
+> +      - const: csiphy1_timer
+> +      - const: csiphy2
+> +      - const: csiphy2_timer
+> +      - const: csiphy3
+> +      - const: csiphy3_timer
+> +      - const: csiphy4
+> +      - const: csiphy4_timer
+> +      - const: csiphy5
+> +      - const: csiphy5_timer
+> +      - const: gcc_hf_axi
+> +      - const: qdss_debug_xo
 
-We need a good macro that may _at compile-time_ convert 64-bit input to 32-bit
-value that may be suitable for 32-bit arithmetics / architectures.
+No, I told many times you are supposed to use same order as last
+generation. Stop doing this alphabetical ordering or ordering by value.
+The previous generation has here vfe0.
 
+> +      - const: vfe0
+> +      - const: vfe0_fast_ahb
+> +      - const: vfe1
+> +      - const: vfe1_fast_ahb
+> +      - const: vfe2
+> +      - const: vfe2_fast_ahb
+> +      - const: vfe_lite
+> +      - const: vfe_lite_ahb
+> +      - const: vfe_lite_cphy_rx
+> +      - const: vfe_lite_csid
+> +
+> +  interrupts:
+> +    maxItems: 16
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csid_lite0
+> +      - const: csid_lite1
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: csiphy3
+> +      - const: csiphy4
+> +      - const: csiphy5
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe2
+> +      - const: vfe_lite0
+> +      - const: vfe_lite1
+> +
+> +  interconnects:
+> +    maxItems: 2
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: ahb
+> +      - const: hf_mnoc
 
--- 
-With Best Regards,
-Andy Shevchenko
+Why previously this was called hf_0 but now hf?
 
+> +
+> +  iommus:
+> +    maxItems: 1
+> +
+> +  power-domains:
+> +    items:
+> +      - description:
+> +          TFE0 GDSC - Thin Front End, Global Distributed Switch Controller.
+> +      - description:
+> +          TFE1 GDSC - Thin Front End, Global Distributed Switch Controller.
+> +      - description:
+> +          TFE2 GDSC - Thin Front End, Global Distributed Switch Controller.
+> +      - description:
+> +          Titan GDSC - Titan ISP Block Global Distributed Switch Controller.
+> +
+> +  power-domain-names:
+> +    items:
+> +      - const: tfe0
+> +      - const: tfe1
+> +      - const: tfe2
+
+Why not using the same names as before? It really does not matter that
+it is thin or image, all of them are the same because only the
+difference against top matters.
+
+> +      - const: top
+> +
+> +  vdd-csiphy-0p8-supply:
+> +    description:
+> +      Phandle to a 0.8V regulator supply to CSI PHYs core block.
+> +
+> +  vdd-csiphy-1p2-supply:
+> +    description:
+> +      Phandle to 1.2V regulator supply to CSI PHYs pll block.
+> +
+> +  ports:
+> +    $ref: /schemas/graph.yaml#/properties/ports
+> +
+> +    description:
+> +      CSI input ports.
+> +
+> +    patternProperties:
+> +      "^port@[0-3]$":
+> +        $ref: /schemas/graph.yaml#/$defs/port-base
+> +        unevaluatedProperties: false
+> +        description:
+> +          Input port for receiving CSI data on CSI0.
+> +
+> +        properties:
+> +          endpoint:
+> +            $ref: video-interfaces.yaml#
+> +            unevaluatedProperties: false
+> +
+> +            properties:
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - data-lanes
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - reg-names
+> +  - clocks
+> +  - clock-names
+> +  - interrupts
+> +  - interrupt-names
+> +  - interconnects
+> +  - interconnect-names
+> +  - iommus
+> +  - power-domains
+> +  - power-domain-names
+> +  - vdd-csiphy-0p8-supply
+> +  - vdd-csiphy-1p2-supply
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interconnect/qcom,icc.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/qcom,rpmhpd.h>
+> +
+> +    soc {
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +
+> +        camss: isp@9253000 {
+
+Drop unused label
+
+> +            compatible = "qcom,kaanapali-camss";
+
+Best regards,
+Krzysztof
 
 
