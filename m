@@ -1,143 +1,184 @@
-Return-Path: <linux-media+bounces-45762-lists+linux-media=lfdr.de@vger.kernel.org>
+Return-Path: <linux-media+bounces-45763-lists+linux-media=lfdr.de@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from dfw.mirrors.kernel.org (dfw.mirrors.kernel.org [IPv6:2605:f480:58:1:0:1994:3:14])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC420C13927
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:41:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTPS id 58D13C13A88
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 09:59:36 +0100 (CET)
 Received: from smtp.subspace.kernel.org (relay.kernel.org [52.25.139.140])
 	(using TLSv1.2 with cipher ECDHE-ECDSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id A71B14E21EA
-	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 08:41:40 +0000 (UTC)
+	by dfw.mirrors.kernel.org (Postfix) with ESMTPS id 1520B50827A
+	for <lists+linux-media@lfdr.de>; Tue, 28 Oct 2025 08:54:14 +0000 (UTC)
 Received: from localhost.localdomain (localhost.localdomain [127.0.0.1])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 046A92D739D;
-	Tue, 28 Oct 2025 08:41:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 04C932D948D;
+	Tue, 28 Oct 2025 08:54:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fG7WgXuK"
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tsShvLtR"
 X-Original-To: linux-media@vger.kernel.org
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BD242C11CF;
-	Tue, 28 Oct 2025 08:41:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50512241691;
+	Tue, 28 Oct 2025 08:54:05 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1761640893; cv=none; b=P1DQHJWXPjlONNca2tTMiubRNk4hYsxct+XBbar1UQNLqUG28X/xuWxgxtyEFk2a28cpc8tO9/NZ+M9mevcx70tKc5OoaD7/m5NUfDn4CuxpJAPZ8zUTXnR+KpPmiG8o+KeoSgwyxm3jaFI8V2OnlhjGj+M0N3fc1ZYIkZWVwE4=
+	t=1761641647; cv=none; b=Dva2UTAjyeUqr6U2C2q3DdKwG3mAO1AUUuCiGVDlv8dYeU9SlHSijEqQHRUVCeyd78nZLQ3JgAN8PLiU42IL+vt/mPkzVyycIITHw1FmEveDAaF8JWM2swXk2Gj89MOWhMmOodf6E/19HA6sAJfjGZ4dx0H9G1nF9D7ZJYpDHHo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1761640893; c=relaxed/simple;
-	bh=fnGm+iISK3RC5+6uyDYUWBuEclRdDghYZWnLTrZGWTE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=VSrwY3UTwEwZlIV8ubObUAix6wpk3m4CZY2hgY6T9rUIGjzBBtWZBHfV8BKHrNYTjmrpIzLQUaRrPXGTiZBjSGw94eijsIgOVdY2y/f8b5E4g2QLU1F7SRyANjCiZdLhWAW5/W2iiHVePrcnXDKfqnzjw2VvMf38yqdCfluFK2A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fG7WgXuK; arc=none smtp.client-ip=10.30.226.201
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4D043C4CEE7;
-	Tue, 28 Oct 2025 08:41:28 +0000 (UTC)
+	s=arc-20240116; t=1761641647; c=relaxed/simple;
+	bh=cA/3o2EI/6QkidbrM/XmmQ42U508vmgC5KPiMSjGlFs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EQzqE89q7rLYcHXdGmJK3pmqYwcZe53xIGvHc6S+ijPiT7w9a+WInP7lJXI+R5NCPozemEjiZFd/EsgcxySSJRHY//10u6Y/iXQo9Wk0VEHDuZxUn8WEqTNht+qp3/QUrTCn/Qqr22b9iZ0DYNEdNAYq4HVJr+tKW2VB/yEfxSQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tsShvLtR; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2D2CEC4CEE7;
+	Tue, 28 Oct 2025 08:54:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1761640892;
-	bh=fnGm+iISK3RC5+6uyDYUWBuEclRdDghYZWnLTrZGWTE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=fG7WgXuKaG8vc/66ZTT9VqoZf0AUhO4iqGMjmZbUjvjr6bC2ilTnxOwwpUAAF+qfG
-	 ViLPFWpiNaPczunk+5b/uO01ZgsIs5qOegwxd/tDO40fOg2DegJ5WI62QghbJ17lz0
-	 ZCNZ/bb8LF7BAz84BfH98CCocehhEIH1gWT0t0+d6+Z+8vMb+7hZdiNUBefloQBsMG
-	 I7MId/JGFvi5mV8Y0amT8YNsjcziuJ9cpv94nRQXHyA2AWrduV5o7agI9VIPv9JH4n
-	 Nxp3LdGoedYVr46pf8D/3Mk5Y73WwBzhPWyuYGAJgLhCFoUJvEVrhMGfrJkKQHotj0
-	 ytGDmadNhHIKw==
-Message-ID: <3194b3d3-5158-472f-9c68-0b0187e2c145@kernel.org>
-Date: Tue, 28 Oct 2025 09:41:26 +0100
+	s=k20201202; t=1761641645;
+	bh=cA/3o2EI/6QkidbrM/XmmQ42U508vmgC5KPiMSjGlFs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=tsShvLtR5H3Q3M8NKFxD1R3OjkQBCmpjiW9NeIMPSNgtU2B+x8MPmOT9QucAh80DE
+	 OyvwqJ+IX8eGHCJe/qRkzWiz3A56cyeWNAHMVKkSvecAIaOgWL9Txg7IoXrg2CHyXC
+	 j/oJdp6svdVFUGn33vwuGNzPECGY85yGOGakYbAIY72XRFzFofrkX0fs6xl1ARqbsV
+	 fJnLVxNGXClYQ1Pk2kKb0+7QeX8sPX3BG0Qb1tPZHLnSmRJSLXHczDXgFrX2fkGUDV
+	 VvyrsVNdrNNtGQ3d3OBZ6rAai7bB2KJ+A6IzFWiJ54QmJK5czngfVDpQicDwWJmSMI
+	 CJT3plTdgTMjw==
+Date: Tue, 28 Oct 2025 09:54:03 +0100
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: Luca Weiss <luca.weiss@fairphone.com>
+Cc: Bryan O'Donoghue <bod@kernel.org>, Robert Foss <rfoss@kernel.org>, 
+	Todor Tomov <todor.too@gmail.com>, Vladimir Zapolskiy <vladimir.zapolskiy@linaro.org>, 
+	Mauro Carvalho Chehab <mchehab@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Bryan O'Donoghue <bryan.odonoghue@linaro.org>, Bjorn Andersson <andersson@kernel.org>, 
+	Konrad Dybcio <konradybcio@kernel.org>, ~postmarketos/upstreaming@lists.sr.ht, 
+	phone-devel@vger.kernel.org, linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/3] dt-bindings: media: camss: Add qcom,sm6350-camss
+Message-ID: <20251028-defiant-visionary-rottweiler-f97cda@kuoka>
+References: <20251024-sm6350-camss-v1-0-63d626638add@fairphone.com>
+ <20251024-sm6350-camss-v1-1-63d626638add@fairphone.com>
 Precedence: bulk
 X-Mailing-List: linux-media@vger.kernel.org
 List-Id: <linux-media.vger.kernel.org>
 List-Subscribe: <mailto:linux-media+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-media+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 1/7] media: platform: amd: Introduce amd isp4 capture
- driver
-To: "Du, Bin" <bin.du@amd.com>, mchehab@kernel.org, hverkuil@xs4all.nl,
- laurent.pinchart+renesas@ideasonboard.com, bryan.odonoghue@linaro.org,
- sakari.ailus@linux.intel.com, prabhakar.mahadev-lad.rj@bp.renesas.com,
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
- sultan@kerneltoast.com
-Cc: pratap.nirujogi@amd.com, benjamin.chan@amd.com, king.li@amd.com,
- gjorgji.rosikopulos@amd.com, Phil.Jawich@amd.com, Dominic.Antony@amd.com,
- mario.limonciello@amd.com, richard.gong@amd.com, anson.tsao@amd.com,
- Svetoslav Stoilov <Svetoslav.Stoilov@amd.com>,
- Mario Limonciello <superm1@kernel.org>,
- Alexey Zagorodnikov <xglooom@gmail.com>
-References: <20251024090643.271883-1-Bin.Du@amd.com>
- <20251024090643.271883-2-Bin.Du@amd.com>
- <93233d51-5ff3-4f10-96f6-a2957325f1bd@kernel.org>
- <2c7ee056-546c-4891-abfc-c1d41e2c1632@amd.com>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 a/A=
-In-Reply-To: <2c7ee056-546c-4891-abfc-c1d41e2c1632@amd.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20251024-sm6350-camss-v1-1-63d626638add@fairphone.com>
 
-On 28/10/2025 09:30, Du, Bin wrote:
->>> +	}
->>> +};
->>> +
->>> +module_platform_driver(isp4_capture_drv);
->>> +
->>> +MODULE_ALIAS("platform:" ISP4_DRV_NAME);
->>
->> You should not need MODULE_ALIAS() in normal cases. If you need it,
->> usually it means your device ID table is wrong (e.g. misses either
->> entries or MODULE_DEVICE_TABLE()). MODULE_ALIAS() is not a substitute
->> for incomplete ID table.
->>
-> 
-> Thanks for the clarification, yes, MODULE_ALIAS() does not apply in our 
-> case and should be removed.
+On Fri, Oct 24, 2025 at 02:23:59PM +0200, Luca Weiss wrote:
+ +
+> +  clock-names:
+> +    items:
+> +      - const: cam_ahb_clk
+> +      - const: cam_axi
+> +      - const: soc_ahb
+> +      - const: camnoc_axi
+> +      - const: core_ahb
+> +      - const: cpas_ahb
+> +      - const: csiphy0
+> +      - const: csiphy0_timer
+> +      - const: csiphy1
+> +      - const: csiphy1_timer
+> +      - const: csiphy2
+> +      - const: csiphy2_timer
+> +      - const: csiphy3
+> +      - const: csiphy3_timer
+> +      - const: slow_ahb_src
+> +      - const: vfe0_axi
+> +      - const: vfe0
+> +      - const: vfe0_cphy_rx
+> +      - const: vfe0_csid
+> +      - const: vfe1_axi
+> +      - const: vfe1
+> +      - const: vfe1_cphy_rx
+> +      - const: vfe1_csid
+> +      - const: vfe2_axi
+> +      - const: vfe2
+> +      - const: vfe2_cphy_rx
+> +      - const: vfe2_csid
+> +      - const: vfe_lite
+> +      - const: vfe_lite_cphy_rx
+> +      - const: vfe_lite_csid
+> +
+> +  interrupts:
+> +    maxItems: 12
+> +
+> +  interrupt-names:
+> +    items:
+> +      - const: csid0
+> +      - const: csid1
+> +      - const: csid2
+> +      - const: csid_lite
+> +      - const: csiphy0
+> +      - const: csiphy1
+> +      - const: csiphy2
+> +      - const: csiphy3
+> +      - const: vfe0
+> +      - const: vfe1
+> +      - const: vfe2
+> +      - const: vfe_lite
+> +
+> +  interconnects:
+> +    maxItems: 4
+> +
+> +  interconnect-names:
+> +    items:
+> +      - const: cam_ahb
+> +      - const: cam_hf_0_mnoc
+> +      - const: cam_sf_0_mnoc
+> +      - const: cam_sf_icp_mnoc
+
+Please share the list with the previous generation of this device. Which
+one was used here as "previous"? For example x1e has quite different
+names - nothing with "cam". No "cam" in qcs8300, either.
 
 
-You don't have ID table, so probably this should be fixed, unless it is
-instantiated by some other driver, e.g. as MFD. That's the only typical
-use case for alias in the drivers.
+> +
+> +  iommus:
+> +    maxItems: 4
+
+I was told iommus might differ. Are you sure all of them represent the
+same (e.g. not specific iommus for specific purposes)?
+
+> +
+> +  power-domains:
+> +    items:
+> +      - description: IFE0 GDSC - Image Front End, Global Distributed Switch Controller.
+> +      - description: IFE1 GDSC - Image Front End, Global Distributed Switch Controller.
+> +      - description: IFE2 GDSC - Image Front End, Global Distributed Switch Controller.
+> +      - description: Titan Top GDSC - Titan ISP Block, Global Distributed Switch Controller.
+> +
+> +  power-domain-names:
+> +    items:
+> +      - const: ife0
+> +      - const: ife1
+> +      - const: ife2
+> +      - const: top
+
+Uh, not your fault, but who came with this list in previous generations?
+Instead of simple and obvious "top+ifeX" which allows growing/shrinking,
+someone put "top" at the end which means this cannot follow same order
+as X1E for example... Heh, it follows at least sm8550.
+
+
+> +
+> +  vdda-0.9-supply:
+
+There are no dots in property names. Are you sure these are called
+VDDA_0.9 in the device datasheet (not schematics)? Please look at other
+bindings how this is being named, depending whether this is PHY or PLL
+supply (or only PHY).
+
+
+> +    description:
+> +      Phandle to a 0.9V regulator supply to a PHY.
+> +
+> +  vdda-1.25-supply:
+> +    description:
+> +      Phandle to a 1.25V regulator supply to a PHY.
 
 Best regards,
 Krzysztof
+
 
